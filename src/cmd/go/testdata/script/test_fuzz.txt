@@ -7,43 +7,43 @@ env GOCACHE=$WORK/cache
 
 # Test that running a fuzz target that returns without failing or calling
 # f.Fuzz fails and causes a non-zero exit status.
-! go test -vet=off noop_fuzz_test.go
+! golang test -vet=off noop_fuzz_test.golang
 ! stdout ^ok
 stdout FAIL
 
 # Test that fuzzing a fuzz target that returns without failing or calling
 # f.Fuzz fails and causes a non-zero exit status.
-! go test -vet=off -fuzz=Fuzz -fuzztime=1x noop_fuzz_test.go
+! golang test -vet=off -fuzz=Fuzz -fuzztime=1x noop_fuzz_test.golang
 ! stdout ^ok
 stdout FAIL
 
 # Test that calling f.Error in a fuzz target causes a non-zero exit status.
-! go test -vet=off -fuzz=Fuzz -fuzztime=1x error_fuzz_test.go
+! golang test -vet=off -fuzz=Fuzz -fuzztime=1x error_fuzz_test.golang
 ! stdout ^ok
 stdout FAIL
 
 # Test that calling f.Fatal in a fuzz target causes a non-zero exit status.
-! go test -vet=off fatal_fuzz_test.go
+! golang test -vet=off fatal_fuzz_test.golang
 ! stdout ^ok
 stdout FAIL
 
 # Test that successful test exits cleanly.
-go test -vet=off success_fuzz_test.go
+golang test -vet=off success_fuzz_test.golang
 stdout ^ok
 ! stdout FAIL
 
 # Test that successful fuzzing exits cleanly.
-go test -vet=off -fuzz=Fuzz -fuzztime=1x success_fuzz_test.go
+golang test -vet=off -fuzz=Fuzz -fuzztime=1x success_fuzz_test.golang
 stdout ok
 ! stdout FAIL
 
 # Test that calling f.Fatal while fuzzing causes a non-zero exit status.
-! go test -vet=off -fuzz=Fuzz -fuzztime=1x fatal_fuzz_test.go
+! golang test -vet=off -fuzz=Fuzz -fuzztime=1x fatal_fuzz_test.golang
 ! stdout ^ok
 stdout FAIL
 
 # Test error with seed corpus in f.Fuzz
-! go test -vet=off -run Fuzz_error -vet=off fuzz_add_test.go
+! golang test -vet=off -run Fuzz_error -vet=off fuzz_add_test.golang
 ! stdout ^ok
 stdout FAIL
 stdout 'error here'
@@ -51,44 +51,44 @@ stdout 'error here'
 [short] stop
 
 # Test that calling panic(nil) in a fuzz target causes a non-zero exit status.
-! go test -vet=off panic_fuzz_test.go
+! golang test -vet=off panic_fuzz_test.golang
 ! stdout ^ok
 stdout FAIL
 
 # Test that skipped test exits cleanly.
-go test -vet=off skipped_fuzz_test.go
+golang test -vet=off skipped_fuzz_test.golang
 stdout ok
 ! stdout FAIL
 
 # Test that f.Fatal within f.Fuzz panics
-! go test -vet=off fatal_fuzz_fn_fuzz_test.go
+! golang test -vet=off fatal_fuzz_fn_fuzz_test.golang
 ! stdout ^ok
 ! stdout 'fatal here'
 stdout FAIL
 stdout 'fuzz target'
 
 # Test that f.Error within f.Fuzz panics
-! go test -vet=off error_fuzz_fn_fuzz_test.go
+! golang test -vet=off error_fuzz_fn_fuzz_test.golang
 ! stdout ^ok
 ! stdout 'error here'
 stdout FAIL
 stdout 'fuzz target'
 
 # Test that f.Fail within f.Fuzz panics
-! go test -vet=off fail_fuzz_fn_fuzz_test.go
+! golang test -vet=off fail_fuzz_fn_fuzz_test.golang
 ! stdout ^ok
 stdout FAIL
 stdout 'fuzz target'
 
 # Test that f.Skip within f.Fuzz panics
-! go test -vet=off skip_fuzz_fn_fuzz_test.go
+! golang test -vet=off skip_fuzz_fn_fuzz_test.golang
 ! stdout ^ok
 ! stdout 'skip here'
 stdout FAIL
 stdout 'fuzz target'
 
 # Test that f.Skipped within f.Fuzz panics
-! go test -vet=off skipped_fuzz_fn_fuzz_test.go
+! golang test -vet=off skipped_fuzz_fn_fuzz_test.golang
 ! stdout ^ok
 ! stdout 'f.Skipped is'
 stdout FAIL
@@ -96,121 +96,121 @@ stdout 'fuzz target'
 stdout 't.Skipped is false'
 
 # Test that runtime.Goexit within the fuzz function is an error.
-! go test -vet=off goexit_fuzz_fn_fuzz_test.go
+! golang test -vet=off golangexit_fuzz_fn_fuzz_test.golang
 ! stdout ^ok
 stdout FAIL
 
 # Test that a call to f.Fatal after the Fuzz func is executed.
-! go test -vet=off fatal_after_fuzz_func_fuzz_test.go
+! golang test -vet=off fatal_after_fuzz_func_fuzz_test.golang
 ! stdout ok
 stdout FAIL
 
 # Test that missing *T in f.Fuzz causes a non-zero exit status.
-! go test -vet=off incomplete_fuzz_call_fuzz_test.go
+! golang test -vet=off incomplete_fuzz_call_fuzz_test.golang
 ! stdout ^ok
 stdout FAIL
 
 # Test that a panic in the Cleanup func is executed.
-! go test -vet=off cleanup_fuzz_test.go
+! golang test -vet=off cleanup_fuzz_test.golang
 ! stdout ^ok
 stdout FAIL
 stdout 'failed some precondition'
 
 # Test success with seed corpus in f.Fuzz
-go test -vet=off -run Fuzz_pass -vet=off fuzz_add_test.go
+golang test -vet=off -run Fuzz_pass -vet=off fuzz_add_test.golang
 stdout ok
 ! stdout FAIL
 ! stdout 'off by one error'
 
 # Test fatal with seed corpus in f.Fuzz
-! go test -vet=off -run Fuzz_fatal -vet=off fuzz_add_test.go
+! golang test -vet=off -run Fuzz_fatal -vet=off fuzz_add_test.golang
 ! stdout ^ok
 stdout FAIL
 stdout 'fatal here'
 
 # Test panic with seed corpus in f.Fuzz
-! go test -vet=off -run Fuzz_panic -vet=off fuzz_add_test.go
+! golang test -vet=off -run Fuzz_panic -vet=off fuzz_add_test.golang
 ! stdout ^ok
 stdout FAIL
 stdout 'off by one error'
 
 # Test panic(nil) with seed corpus in f.Fuzz
-! go test -vet=off -run Fuzz_nilPanic -vet=off fuzz_add_test.go
+! golang test -vet=off -run Fuzz_nilPanic -vet=off fuzz_add_test.golang
 ! stdout ^ok
 stdout FAIL
 
 # Test panic with unsupported seed corpus
-! go test -vet=off -run Fuzz_unsupported -vet=off fuzz_add_test.go
+! golang test -vet=off -run Fuzz_unsupported -vet=off fuzz_add_test.golang
 ! stdout ^ok
 stdout FAIL
 
 # Test panic with different number of args to f.Add
-! go test -vet=off -run Fuzz_addDifferentNumber -vet=off fuzz_add_test.go
+! golang test -vet=off -run Fuzz_addDifferentNumber -vet=off fuzz_add_test.golang
 ! stdout ^ok
 stdout FAIL
 
 # Test panic with different type of args to f.Add
-! go test -vet=off -run Fuzz_addDifferentType -vet=off fuzz_add_test.go
+! golang test -vet=off -run Fuzz_addDifferentType -vet=off fuzz_add_test.golang
 ! stdout ^ok
 stdout FAIL
 
 # Test that the wrong type given with f.Add will fail.
-! go test -vet=off -run Fuzz_wrongType -vet=off fuzz_add_test.go
+! golang test -vet=off -run Fuzz_wrongType -vet=off fuzz_add_test.golang
 ! stdout ^ok
 stdout '\[string int\], want \[\[\]uint8 int8\]'
 stdout FAIL
 
 # Test fatal with testdata seed corpus
-! go test -vet=off -run Fuzz_fail corpustesting/fuzz_testdata_corpus_test.go
+! golang test -vet=off -run Fuzz_fail corpustesting/fuzz_testdata_corpus_test.golang
 ! stdout ^ok
 stdout FAIL
 stdout 'fatal here'
 
 # Test pass with testdata seed corpus
-go test -vet=off -run Fuzz_pass corpustesting/fuzz_testdata_corpus_test.go
+golang test -vet=off -run Fuzz_pass corpustesting/fuzz_testdata_corpus_test.golang
 stdout ok
 ! stdout FAIL
 ! stdout 'fatal here'
 
 # Test pass with testdata and f.Add seed corpus
-go test -vet=off -run Fuzz_passString corpustesting/fuzz_testdata_corpus_test.go
+golang test -vet=off -run Fuzz_passString corpustesting/fuzz_testdata_corpus_test.golang
 stdout ok
 ! stdout FAIL
 
 # Fuzzing pass with testdata and f.Add seed corpus (skip running tests first)
-go test -vet=off -run=None -fuzz=Fuzz_passString corpustesting/fuzz_testdata_corpus_test.go -fuzztime=10x
+golang test -vet=off -run=None -fuzz=Fuzz_passString corpustesting/fuzz_testdata_corpus_test.golang -fuzztime=10x
 stdout ok
 ! stdout FAIL
 
 # Fuzzing pass with testdata and f.Add seed corpus
-go test -vet=off -run=Fuzz_passString -fuzz=Fuzz_passString corpustesting/fuzz_testdata_corpus_test.go -fuzztime=10x
+golang test -vet=off -run=Fuzz_passString -fuzz=Fuzz_passString corpustesting/fuzz_testdata_corpus_test.golang -fuzztime=10x
 stdout ok
 ! stdout FAIL
 
 # Test panic with malformed seed corpus
-! go test -vet=off -run Fuzz_fail corpustesting/fuzz_testdata_corpus_test.go
+! golang test -vet=off -run Fuzz_fail corpustesting/fuzz_testdata_corpus_test.golang
 ! stdout ^ok
 stdout FAIL
 
 # Test pass with file in other nested testdata directory
-go test -vet=off -run Fuzz_inNestedDir corpustesting/fuzz_testdata_corpus_test.go
+golang test -vet=off -run Fuzz_inNestedDir corpustesting/fuzz_testdata_corpus_test.golang
 stdout ok
 ! stdout FAIL
 ! stdout 'fatal here'
 
 # Test fails with file containing wrong type
-! go test -vet=off -run Fuzz_wrongType corpustesting/fuzz_testdata_corpus_test.go
+! golang test -vet=off -run Fuzz_wrongType corpustesting/fuzz_testdata_corpus_test.golang
 ! stdout ^ok
 stdout FAIL
 
--- noop_fuzz_test.go --
+-- noop_fuzz_test.golang --
 package noop_fuzz
 
 import "testing"
 
 func Fuzz(f *testing.F) {}
 
--- error_fuzz_test.go --
+-- error_fuzz_test.golang --
 package error_fuzz
 
 import "testing"
@@ -219,7 +219,7 @@ func Fuzz(f *testing.F) {
     f.Error("error in target")
 }
 
--- fatal_fuzz_test.go --
+-- fatal_fuzz_test.golang --
 package fatal_fuzz
 
 import "testing"
@@ -228,7 +228,7 @@ func Fuzz(f *testing.F) {
     f.Fatal("fatal in target")
 }
 
--- panic_fuzz_test.go --
+-- panic_fuzz_test.golang --
 package panic_fuzz
 
 import "testing"
@@ -237,7 +237,7 @@ func Fuzz_panic(f *testing.F) {
     panic(nil)
 }
 
--- success_fuzz_test.go --
+-- success_fuzz_test.golang --
 package success_fuzz
 
 import "testing"
@@ -246,7 +246,7 @@ func Fuzz(f *testing.F) {
     f.Fuzz(func (*testing.T, []byte) {})
 }
 
--- skipped_fuzz_test.go --
+-- skipped_fuzz_test.golang --
 package skipped_fuzz
 
 import "testing"
@@ -255,7 +255,7 @@ func Fuzz(f *testing.F) {
     f.Skip()
 }
 
--- fatal_fuzz_fn_fuzz_test.go --
+-- fatal_fuzz_fn_fuzz_test.golang --
 package fatal_fuzz_fn_fuzz
 
 import "testing"
@@ -267,7 +267,7 @@ func Fuzz(f *testing.F) {
     })
 }
 
--- error_fuzz_fn_fuzz_test.go --
+-- error_fuzz_fn_fuzz_test.golang --
 package error_fuzz_fn_fuzz
 
 import "testing"
@@ -279,7 +279,7 @@ func Fuzz(f *testing.F) {
     })
 }
 
--- fail_fuzz_fn_fuzz_test.go --
+-- fail_fuzz_fn_fuzz_test.golang --
 package skip_fuzz_fn_fuzz
 
 import "testing"
@@ -291,7 +291,7 @@ func Fuzz(f *testing.F) {
     })
 }
 
--- skip_fuzz_fn_fuzz_test.go --
+-- skip_fuzz_fn_fuzz_test.golang --
 package skip_fuzz_fn_fuzz
 
 import "testing"
@@ -303,7 +303,7 @@ func Fuzz(f *testing.F) {
     })
 }
 
--- skipped_fuzz_fn_fuzz_test.go --
+-- skipped_fuzz_fn_fuzz_test.golang --
 package skipped_fuzz_fn_fuzz
 
 import "testing"
@@ -316,8 +316,8 @@ func Fuzz(f *testing.F) {
     })
 }
 
--- goexit_fuzz_fn_fuzz_test.go --
-package goexit_fuzz_fn_fuzz
+-- golangexit_fuzz_fn_fuzz_test.golang --
+package golangexit_fuzz_fn_fuzz
 
 import "testing"
 
@@ -328,7 +328,7 @@ func Fuzz(f *testing.F) {
     })
 }
 
--- fatal_after_fuzz_func_fuzz_test.go --
+-- fatal_after_fuzz_func_fuzz_test.golang --
 package fatal_after_fuzz_func_fuzz
 
 import "testing"
@@ -340,7 +340,7 @@ func Fuzz(f *testing.F) {
     f.Fatal("this shouldn't be called")
 }
 
--- incomplete_fuzz_call_fuzz_test.go --
+-- incomplete_fuzz_call_fuzz_test.golang --
 package incomplete_fuzz_call_fuzz
 
 import "testing"
@@ -351,7 +351,7 @@ func Fuzz(f *testing.F) {
     })
 }
 
--- cleanup_fuzz_test.go --
+-- cleanup_fuzz_test.golang --
 package cleanup_fuzz_test
 
 import "testing"
@@ -365,7 +365,7 @@ func Fuzz(f *testing.F) {
     })
 }
 
--- fuzz_add_test.go --
+-- fuzz_add_test.golang --
 package fuzz_add
 
 import "testing"
@@ -445,7 +445,7 @@ func Fuzz_wrongType(f *testing.F) {
     f.Fuzz(func(*testing.T, []byte, int8) {})
 }
 
--- corpustesting/fuzz_testdata_corpus_test.go --
+-- corpustesting/fuzz_testdata_corpus_test.golang --
 package fuzz_testdata_corpus
 
 import "testing"
@@ -485,19 +485,19 @@ func Fuzz_wrongType(f *testing.F) {
 }
 
 -- corpustesting/testdata/fuzz/Fuzz_fail/1 --
-go test fuzz v1
+golang test fuzz v1
 []byte("12345")
 -- corpustesting/testdata/fuzz/Fuzz_pass/1 --
-go test fuzz v1
+golang test fuzz v1
 []byte("00000")
 -- corpustesting/testdata/fuzz/Fuzz_passString/1 --
-go test fuzz v1
+golang test fuzz v1
 string("hello")
 -- corpustesting/testdata/fuzz/Fuzz_panic/1 --
 malformed
 -- corpustesting/testdata/fuzz/Fuzz_inNestedDir/anotherdir/1 --
-go test fuzz v1
+golang test fuzz v1
 []byte("12345")
 -- corpustesting/testdata/fuzz/Fuzz_wrongType/1 --
-go test fuzz v1
+golang test fuzz v1
 int("00000")

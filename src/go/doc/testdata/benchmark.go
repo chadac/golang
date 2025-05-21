@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package testing
@@ -16,7 +16,7 @@ var matchBenchmarks = flag.String("test.bench", "", "regular expression to selec
 var benchTime = flag.Duration("test.benchtime", 1*time.Second, "approximate run time for each benchmark")
 
 // An internal type but exported because it is cross-package; part of the implementation
-// of go test.
+// of golang test.
 type InternalBenchmark struct {
 	Name string
 	F    func(b *B)
@@ -127,9 +127,9 @@ func roundUp(n int) int {
 	return 10 * base
 }
 
-// run times the benchmark function in a separate goroutine.
+// run times the benchmark function in a separate golangroutine.
 func (b *B) run() BenchmarkResult {
-	go b.launch()
+	golang b.launch()
 	<-b.signal
 	return b.result
 }
@@ -138,7 +138,7 @@ func (b *B) run() BenchmarkResult {
 // of benchmark iterations until the benchmark runs for a second in order
 // to get a reasonable measurement. It prints timing information in this form
 //		testing.BenchmarkHello	100000		19 ns/op
-// launch is run by the fun function as a separate goroutine.
+// launch is run by the fun function as a separate golangroutine.
 func (b *B) launch() {
 	// Run the benchmark for a single iteration in case it's expensive.
 	n := 1
@@ -213,7 +213,7 @@ func (r BenchmarkResult) String() string {
 }
 
 // An internal function but exported because it is cross-package; part of the implementation
-// of go test.
+// of golang test.
 func RunBenchmarks(matchString func(pat, str string) (bool, error), benchmarks []InternalBenchmark) {
 	// If no flag was specified, don't run benchmarks.
 	if len(*matchBenchmarks) == 0 {
@@ -281,7 +281,7 @@ func (b *B) trimOutput() {
 }
 
 // Benchmark benchmarks a single function. Useful for creating
-// custom benchmarks that do not use go test.
+// custom benchmarks that do not use golang test.
 func Benchmark(f func(b *B)) BenchmarkResult {
 	b := &B{
 		common: common{

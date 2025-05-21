@@ -5,8 +5,8 @@ written by hand
 module rsc.io/badfile2
 -- .info --
 {"Version":"v1.0.0"}
--- go.mod --
+-- golang.mod --
 module rsc.io/badfile2
--- ☺.go --
+-- ☺.golang --
 package smiley
 

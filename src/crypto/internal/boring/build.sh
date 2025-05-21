@@ -1,20 +1,20 @@
 #!/bin/bash
 # Copyright 2022 The Go Authors. All rights reserved.
-# Use of this source code is governed by a BSD-style
+# Use of this source code is golangverned by a BSD-style
 # license that can be found in the LICENSE file.
 
-# This shell script uses Docker to run build-boring.sh and build-goboring.sh,
-# which build goboringcrypto_linux_$GOARCH.syso according to the Security Policy.
+# This shell script uses Docker to run build-boring.sh and build-golangboring.sh,
+# which build golangboringcrypto_linux_$GOARCH.syso according to the Security Policy.
 # Currently, amd64 and arm64 are permitted.
 
 set -e
 set -o pipefail
 
-GOARCH=${GOARCH:-$(go env GOARCH)}
-echo "# Building goboringcrypto_linux_$GOARCH.syso. Set GOARCH to override." >&2
+GOARCH=${GOARCH:-$(golang env GOARCH)}
+echo "# Building golangboringcrypto_linux_$GOARCH.syso. Set GOARCH to override." >&2
 
 if ! which docker >/dev/null; then
-	echo "# Docker not found. Inside Google, see go/installdocker." >&2
+	echo "# Docker not found. Inside Google, see golang/installdocker." >&2
 	exit 1
 fi
 
@@ -45,8 +45,8 @@ arm64)
 	exit 2
 esac
 
-docker build $platform $buildargs --build-arg GOARCH=$GOARCH -t goboring:$GOARCH .
-id=$(docker create $platform goboring:$GOARCH)
-docker cp $id:/boring/godriver/goboringcrypto_linux_$GOARCH.syso ./syso
+docker build $platform $buildargs --build-arg GOARCH=$GOARCH -t golangboring:$GOARCH .
+id=$(docker create $platform golangboring:$GOARCH)
+docker cp $id:/boring/golangdriver/golangboringcrypto_linux_$GOARCH.syso ./syso
 docker rm $id
-ls -l ./syso/goboringcrypto_linux_$GOARCH.syso
+ls -l ./syso/golangboringcrypto_linux_$GOARCH.syso

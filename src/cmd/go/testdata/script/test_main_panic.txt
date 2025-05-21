@@ -1,9 +1,9 @@
 [short] skip
 [!race] skip
 
-! go test -v -race main_panic/testmain_parallel_sub_panic_test.go
+! golang test -v -race main_panic/testmain_parallel_sub_panic_test.golang
 ! stdout 'DATA RACE'
--- main_panic/testmain_parallel_sub_panic_test.go --
+-- main_panic/testmain_parallel_sub_panic_test.golang --
 package testmain_parallel_sub_panic_test
 
 import "testing"

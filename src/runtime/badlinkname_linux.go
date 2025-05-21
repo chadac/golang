@@ -1,8 +1,8 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build amd64 || arm64
+//golang:build amd64 || arm64
 
 package runtime
 
@@ -14,4 +14,4 @@ import _ "unsafe"
 // This may change in the future. Please do not depend on them
 // in new code.
 
-//go:linkname vdsoClockgettimeSym
+//golang:linkname vdsoClockgettimeSym

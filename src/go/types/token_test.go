@@ -1,14 +1,14 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file checks invariants of token.Token ordering that we rely on
-// since package go/token doesn't provide any guarantees at the moment.
+// since package golang/token doesn't provide any guarantees at the moment.
 
 package types
 
 import (
-	"go/token"
+	"golang/token"
 	"testing"
 )
 
@@ -38,10 +38,10 @@ func TestAssignOp(t *testing.T) {
 	// there are fewer than 256 tokens
 	for i := 0; i < 256; i++ {
 		tok := token.Token(i)
-		got := assignOp(tok)
+		golangt := assignOp(tok)
 		want := assignOps[tok]
-		if got != want {
-			t.Errorf("for assignOp(%s): got %s; want %s", tok, got, want)
+		if golangt != want {
+			t.Errorf("for assignOp(%s): golangt %s; want %s", tok, golangt, want)
 		}
 	}
 }

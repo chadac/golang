@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package trace_test
@@ -15,7 +15,7 @@ import (
 )
 
 func TestTraceV1(t *testing.T) {
-	traces, err := filepath.Glob("./internal/tracev1/testdata/*_good")
+	traces, err := filepath.Glob("./internal/tracev1/testdata/*_golangod")
 	if err != nil {
 		t.Fatalf("failed to glob for tests: %s", err)
 	}
@@ -52,7 +52,7 @@ func TestTraceV1(t *testing.T) {
 					t.Fatalf("converted event did not validate; event: \n%s\nerror: %s", ev, err)
 				}
 
-				if testName == "user_task_region_1_21_good" {
+				if testName == "user_task_region_1_21_golangod" {
 					testedUserRegions = true
 					validRegions := map[string]struct{}{
 						"post-existing region": {},
@@ -76,7 +76,7 @@ func TestTraceV1(t *testing.T) {
 						}
 					case trace.EventLog:
 						l := ev.Log()
-						if l.Task != 1 || l.Category != "key0" || l.Message != "0123456789abcdef" {
+						if l.Task != 1 || l.Categolangry != "key0" || l.Message != "0123456789abcdef" {
 							t.Fatalf("converted event has unexpected user log:\n%s", ev)
 						}
 					}
@@ -85,6 +85,6 @@ func TestTraceV1(t *testing.T) {
 		})
 	}
 	if !testedUserRegions {
-		t.Fatal("didn't see expected test case user_task_region_1_21_good")
+		t.Fatal("didn't see expected test case user_task_region_1_21_golangod")
 	}
 }

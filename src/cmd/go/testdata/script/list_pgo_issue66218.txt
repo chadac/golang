@@ -1,28 +1,28 @@
-# Test that pgo properly splits off the Imports field so that list doesn't alias
-# the non-pgo variant's slice when it modifies the pgo variant's Imports field to
+# Test that pgolang properly splits off the Imports field so that list doesn't alias
+# the non-pgolang variant's slice when it modifies the pgolang variant's Imports field to
 # add the [.ForMain] suffix.
 
-go list -f 'ImportPath: "{{.ImportPath}}", Imports: "{{.Imports}}", ImportMap: "{{.ImportMap}}"' m/a m/b
+golang list -f 'ImportPath: "{{.ImportPath}}", Imports: "{{.Imports}}", ImportMap: "{{.ImportMap}}"' m/a m/b
 cmp stdout want
 
 -- want --
 ImportPath: "m/a", Imports: "[m/b [m/a]]", ImportMap: "map[m/b:m/b [m/a]]"
 ImportPath: "m/b", Imports: "[m/c]", ImportMap: "map[]"
--- go.mod --
+-- golang.mod --
 module m
 
-go 1.23
+golang 1.23
 
--- a/a.go --
+-- a/a.golang --
 package main
 
 import _ "m/b"
--- a/default.pgo --
--- b/b.go --
+-- a/default.pgolang --
+-- b/b.golang --
 package a
 
 import _ "m/c"
 
--- c/c.go --
+-- c/c.golang --
 package c
 

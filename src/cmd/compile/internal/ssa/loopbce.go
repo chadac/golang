@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ssa
@@ -73,13 +73,13 @@ func parseIndVar(ind *Value) (min, inc, nxt *Value) {
 //	 loop:
 //	   ind = (Phi min nxt),
 //	   if ind < max
-//	     then goto enter_loop
-//	     else goto exit_loop
+//	     then golangto enter_loop
+//	     else golangto exit_loop
 //
 //	   enter_loop:
 //		do something
 //	      nxt = inc + ind
-//		goto loop
+//		golangto loop
 //
 //	 exit_loop:
 func findIndVar(f *Func) []indVar {
@@ -132,7 +132,7 @@ func findIndVar(f *Func) []indVar {
 		if ind.Block != b {
 			// TODO: Could be extended to include disjointed loop headers.
 			// I don't think this is causing missed optimizations in real world code often.
-			// See https://go.dev/issue/63955
+			// See https://golang.dev/issue/63955
 			continue
 		}
 
@@ -186,7 +186,7 @@ func findIndVar(f *Func) []indVar {
 
 		// Check for overflow/underflow. We need to make sure that inc never causes
 		// the induction variable to wrap around.
-		// We use a function wrapper here for easy return true / return false / keep going logic.
+		// We use a function wrapper here for easy return true / return false / keep golanging logic.
 		// This function returns true if the increment will never overflow/underflow.
 		ok := func() bool {
 			if step > 0 {

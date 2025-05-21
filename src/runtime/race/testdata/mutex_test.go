@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package race_test
@@ -15,13 +15,13 @@ func TestNoRaceMutex(t *testing.T) {
 	var x int16 = 0
 	_ = x
 	ch := make(chan bool, 2)
-	go func() {
+	golang func() {
 		mu.Lock()
 		defer mu.Unlock()
 		x = 1
 		ch <- true
 	}()
-	go func() {
+	golang func() {
 		mu.Lock()
 		x = 2
 		mu.Unlock()
@@ -36,13 +36,13 @@ func TestRaceMutex(t *testing.T) {
 	var x int16 = 0
 	_ = x
 	ch := make(chan bool, 2)
-	go func() {
+	golang func() {
 		x = 1
 		mu.Lock()
 		defer mu.Unlock()
 		ch <- true
 	}()
-	go func() {
+	golang func() {
 		x = 2
 		mu.Lock()
 		mu.Unlock()
@@ -58,13 +58,13 @@ func TestRaceMutex2(t *testing.T) {
 	var x int8 = 0
 	_ = x
 	ch := make(chan bool, 2)
-	go func() {
+	golang func() {
 		mu1.Lock()
 		defer mu1.Unlock()
 		x = 1
 		ch <- true
 	}()
-	go func() {
+	golang func() {
 		mu2.Lock()
 		x = 2
 		mu2.Unlock()
@@ -80,14 +80,14 @@ func TestNoRaceMutexPureHappensBefore(t *testing.T) {
 	_ = x
 	written := false
 	ch := make(chan bool, 2)
-	go func() {
+	golang func() {
 		x = 1
 		mu.Lock()
 		written = true
 		mu.Unlock()
 		ch <- true
 	}()
-	go func() {
+	golang func() {
 		time.Sleep(100 * time.Microsecond)
 		mu.Lock()
 		for !written {
@@ -109,12 +109,12 @@ func TestNoRaceMutexSemaphore(t *testing.T) {
 	x := 0
 	_ = x
 	mu.Lock()
-	go func() {
+	golang func() {
 		x = 1
 		mu.Unlock()
 		ch <- true
 	}()
-	go func() {
+	golang func() {
 		mu.Lock()
 		x = 2
 		mu.Unlock()
@@ -124,13 +124,13 @@ func TestNoRaceMutexSemaphore(t *testing.T) {
 	<-ch
 }
 
-// from doc/go_mem.html
+// from doc/golang_mem.html
 func TestNoRaceMutexExampleFromHtml(t *testing.T) {
 	var l sync.Mutex
 	a := ""
 
 	l.Lock()
-	go func() {
+	golang func() {
 		a = "hello, world"
 		l.Unlock()
 	}()
@@ -141,7 +141,7 @@ func TestNoRaceMutexExampleFromHtml(t *testing.T) {
 func TestRaceMutexOverwrite(t *testing.T) {
 	c := make(chan bool, 1)
 	var mu sync.Mutex
-	go func() {
+	golang func() {
 		mu = sync.Mutex{}
 		c <- true
 	}()

@@ -1,8 +1,8 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Test runner for coverage test. This file is not coverage-annotated; test.go is.
+// Test runner for coverage test. This file is not coverage-annotated; test.golang is.
 // It knows the coverage counter is called
 // "thisNameMustBeVeryLongToCauseOverflowOfCounterIncrementStatementOntoNextLineForTest".
 
@@ -53,12 +53,12 @@ var PASS = true
 // verify checks the expected counts against the actual. It runs after the test has completed.
 func verify() {
 	for b := range counters {
-		got, index := count(b.line)
-		if b.count == anything && got != 0 {
-			got = anything
+		golangt, index := count(b.line)
+		if b.count == anything && golangt != 0 {
+			golangt = anything
 		}
-		if got != b.count {
-			fmt.Fprintf(os.Stderr, "test_go:%d expected count %d got %d [counter %d]\n", b.line, b.count, got, index)
+		if golangt != b.count {
+			fmt.Fprintf(os.Stderr, "test_golang:%d expected count %d golangt %d [counter %d]\n", b.line, b.count, golangt, index)
 			PASS = false
 		}
 	}

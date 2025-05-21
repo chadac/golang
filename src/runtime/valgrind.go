@@ -1,8 +1,8 @@
 // Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build valgrind && linux && (arm64 || amd64)
+//golang:build valgrind && linux && (arm64 || amd64)
 
 package runtime
 
@@ -20,7 +20,7 @@ const valgrindenabled = true
 //
 // Valgrind provides headers (valgrind/valgrind.h, valgrind/memcheck.h) with
 // macros that emit the correct assembly for these requests. Instead of copying
-// these headers into the tree and using cgo to call the macros, we implement
+// these headers into the tree and using cgolang to call the macros, we implement
 // the client request assembly ourselves. Since both the magic instruction
 // sequences, and the request uint's are stable, it is safe for us to implement.
 //
@@ -66,52 +66,52 @@ const (
 
 //
 
-//go:noescape
+//golang:noescape
 func valgrindClientRequest(uintptr, uintptr, uintptr, uintptr, uintptr, uintptr) uintptr
 
-//go:nosplit
+//golang:nosplit
 func valgrindRegisterStack(start, end unsafe.Pointer) uintptr {
 	// VALGRIND_STACK_REGISTER
 	return valgrindClientRequest(vg_userreq__stack_register, uintptr(start), uintptr(end), 0, 0, 0)
 }
 
-//go:nosplit
+//golang:nosplit
 func valgrindDeregisterStack(id uintptr) {
 	// VALGRIND_STACK_DEREGISTER
 	valgrindClientRequest(vg_userreq__stack_deregister, id, 0, 0, 0, 0)
 }
 
-//go:nosplit
+//golang:nosplit
 func valgrindChangeStack(id uintptr, start, end unsafe.Pointer) {
 	// VALGRIND_STACK_CHANGE
 	valgrindClientRequest(vg_userreq__stack_change, id, uintptr(start), uintptr(end), 0, 0)
 }
 
-//go:nosplit
+//golang:nosplit
 func valgrindMalloc(addr unsafe.Pointer, size uintptr) {
 	// VALGRIND_MALLOCLIKE_BLOCK
 	valgrindClientRequest(vg_userreq__malloclike_block, uintptr(addr), size, 0, 1, 0)
 }
 
-//go:nosplit
+//golang:nosplit
 func valgrindFree(addr unsafe.Pointer) {
 	// VALGRIND_FREELIKE_BLOCK
 	valgrindClientRequest(vg_userreq__freelike_block, uintptr(addr), 0, 0, 0, 0)
 }
 
-//go:nosplit
+//golang:nosplit
 func valgrindCreateMempool(addr unsafe.Pointer) {
 	// VALGRIND_CREATE_MEMPOOL_EXT
 	valgrindClientRequest(vg_userreq__create_mempool, uintptr(addr), 0, 1, valgrind_mempool_auto_free|valgrind_mempool_metapool, 0)
 }
 
-//go:nosplit
+//golang:nosplit
 func valgrindMempoolMalloc(pool, addr unsafe.Pointer, size uintptr) {
 	// VALGRIND_MEMPOOL_ALLOC
 	valgrindClientRequest(vg_userreq__mempool_alloc, uintptr(pool), uintptr(addr), size, 0, 0)
 }
 
-//go:nosplit
+//golang:nosplit
 func valgrindMempoolFree(pool, addr unsafe.Pointer) {
 	// VALGRIND_MEMPOOL_FREE
 	valgrindClientRequest(vg_userreq__mempool_free, uintptr(pool), uintptr(addr), 0, 0, 0)
@@ -119,19 +119,19 @@ func valgrindMempoolFree(pool, addr unsafe.Pointer) {
 
 // Memcheck client requests, copied from valgrind/memcheck.h
 
-//go:nosplit
+//golang:nosplit
 func valgrindMakeMemUndefined(addr unsafe.Pointer, size uintptr) {
 	// VALGRIND_MAKE_MEM_UNDEFINED
 	valgrindClientRequest(vg_userreq__make_mem_undefined, uintptr(addr), size, 0, 0, 0)
 }
 
-//go:nosplit
+//golang:nosplit
 func valgrindMakeMemDefined(addr unsafe.Pointer, size uintptr) {
 	// VALGRIND_MAKE_MEM_DEFINED
 	valgrindClientRequest(vg_userreq__make_mem_defined, uintptr(addr), size, 0, 0, 0)
 }
 
-//go:nosplit
+//golang:nosplit
 func valgrindMakeMemNoAccess(addr unsafe.Pointer, size uintptr) {
 	// VALGRIND_MAKE_MEM_NOACCESS
 	valgrindClientRequest(vg_userreq__make_mem_noaccess, uintptr(addr), size, 0, 0, 0)

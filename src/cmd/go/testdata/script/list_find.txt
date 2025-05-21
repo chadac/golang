@@ -1,22 +1,22 @@
 env GO111MODULE=off
 
-# go list -find should not report imports
+# golang list -find should not report imports
 
-go list -f {{.Incomplete}} x/y/z...  # should probably exit non-zero but never has
+golang list -f {{.Incomplete}} x/y/z...  # should probably exit non-zero but never has
 stdout true
-go list -find -f '{{.Incomplete}} {{.Imports}}' x/y/z...
+golang list -find -f '{{.Incomplete}} {{.Imports}}' x/y/z...
 stdout '^false \[\]'
 
-# go list -find -compiled should use cached sources the second time it's run.
-# It might not find the same cached sources as "go build", but the sources
-# should be identical. "go build" derives action IDs (which are used as cache
-# keys) from dependencies' action IDs. "go list -find" won't know what the
+# golang list -find -compiled should use cached sources the second time it's run.
+# It might not find the same cached sources as "golang build", but the sources
+# should be identical. "golang build" derives action IDs (which are used as cache
+# keys) from dependencies' action IDs. "golang list -find" won't know what the
 # dependencies are, so it's can't construct the same action IDs.
 [short] skip
-go list -find -compiled net
-go list -find -compiled -x net
-! stderr 'cgo'
+golang list -find -compiled net
+golang list -find -compiled -x net
+! stderr 'cgolang'
 
--- x/y/z/z.go --
+-- x/y/z/z.golang --
 package z
 import "does/not/exist"

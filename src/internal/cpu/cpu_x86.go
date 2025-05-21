@@ -1,8 +1,8 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build 386 || amd64
+//golang:build 386 || amd64
 
 package cpu
 
@@ -127,7 +127,7 @@ func doinit() {
 		osSupportsAVX = isSet(eax, 1<<1) && isSet(eax, 1<<2)
 
 		// AVX512 detection does not work on Darwin,
-		// see https://github.com/golang/go/issues/49233
+		// see https://github.com/golanglang/golang/issues/49233
 		//
 		// Check if opmask, ZMMhi256 and Hi16_ZMM have OS support.
 		osSupportsAVX512 = osSupportsAVX && isSet(eax, 1<<5) && isSet(eax, 1<<6) && isSet(eax, 1<<7)

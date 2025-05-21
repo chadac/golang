@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // embedded types
@@ -122,7 +122,7 @@ func _() {
 	_ = P.m /* ERROR "no field or method" */
 }
 
-// Borrowed from the FieldByName test cases in reflect/all_test.go.
+// Borrowed from the FieldByName test cases in reflect/all_test.golang.
 
 type D1 struct {
 	d int
@@ -234,7 +234,7 @@ func _() {
 	_ = S10{}.Y
 }
 
-// Borrowed from the FieldByName benchmark in reflect/all_test.go.
+// Borrowed from the FieldByName benchmark in reflect/all_test.golang.
 
 type R0 struct {
 	*R1

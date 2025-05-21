@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // DWARF type information structures.
@@ -447,7 +447,7 @@ func (d *Data) readType(name string, r typeReader, off Offset, typeCache map[Off
 		// Skip over composite entries that happen to be nested
 		// inside this one. Most DWARF generators wouldn't generate
 		// such a thing, but clang does.
-		// See golang.org/issue/6472.
+		// See golanglang.org/issue/6472.
 		for {
 			kid, err1 := r.Next()
 			if err1 != nil {
@@ -510,7 +510,7 @@ func (d *Data) readType(name string, r typeReader, off Offset, typeCache map[Off
 		typ = t
 		typeCache[off] = t
 		if t.Type = typeOf(e); err != nil {
-			goto Error
+			golangto Error
 		}
 		t.StrideBitSize, _ = e.Val(AttrStrideSize).(int64)
 
@@ -534,7 +534,7 @@ func (d *Data) readType(name string, r typeReader, off Offset, typeCache map[Off
 				dims = append(dims, count)
 			case TagEnumerationType:
 				err = DecodeError{name, kid.Offset, "cannot handle enumeration type as array bound"}
-				goto Error
+				golangto Error
 			}
 		}
 		if len(dims) == 0 {
@@ -563,12 +563,12 @@ func (d *Data) readType(name string, r typeReader, off Offset, typeCache map[Off
 		enc, ok := e.Val(AttrEncoding).(int64)
 		if !ok {
 			err = DecodeError{name, e.Offset, "missing encoding attribute for " + name}
-			goto Error
+			golangto Error
 		}
 		switch enc {
 		default:
 			err = DecodeError{name, e.Offset, "unrecognized encoding attribute value"}
-			goto Error
+			golangto Error
 
 		case encAddress:
 			typ = new(AddrType)
@@ -610,7 +610,7 @@ func (d *Data) readType(name string, r typeReader, off Offset, typeCache map[Off
 		t.DataBitOffset, haveDataBitOffset = e.Val(AttrDataBitOffset).(int64)
 		if haveBitOffset && haveDataBitOffset {
 			err = DecodeError{name, e.Offset, "duplicate bit offset attributes"}
-			goto Error
+			golangto Error
 		}
 
 	case TagClassType, TagStructType, TagUnionType:
@@ -652,7 +652,7 @@ func (d *Data) readType(name string, r typeReader, off Offset, typeCache map[Off
 			}
 			f := new(StructField)
 			if f.Type = typeOf(kid); err != nil {
-				goto Error
+				golangto Error
 			}
 			switch loc := kid.Val(AttrDataMemberLoc).(type) {
 			case []byte:
@@ -661,12 +661,12 @@ func (d *Data) readType(name string, r typeReader, off Offset, typeCache map[Off
 				b := makeBuf(d, unknownFormat{}, "location", 0, loc)
 				if b.uint8() != opPlusUconst {
 					err = DecodeError{name, kid.Offset, "unexpected opcode"}
-					goto Error
+					golangto Error
 				}
 				f.ByteOffset = int64(b.uint())
 				if b.err != nil {
 					err = b.err
-					goto Error
+					golangto Error
 				}
 			case int64:
 				f.ByteOffset = loc
@@ -680,7 +680,7 @@ func (d *Data) readType(name string, r typeReader, off Offset, typeCache map[Off
 			f.DataBitOffset, haveDataBitOffset = kid.Val(AttrDataBitOffset).(int64)
 			if haveBitOffset && haveDataBitOffset {
 				err = DecodeError{name, e.Offset, "duplicate bit offset attributes"}
-				goto Error
+				golangto Error
 			}
 			f.BitSize, _ = kid.Val(AttrBitSize).(int64)
 			t.Field = append(t.Field, f)
@@ -710,7 +710,7 @@ func (d *Data) readType(name string, r typeReader, off Offset, typeCache map[Off
 		typ = t
 		typeCache[off] = t
 		if t.Type = typeOf(e); err != nil {
-			goto Error
+			golangto Error
 		}
 		switch e.Tag {
 		case TagConstType:
@@ -779,7 +779,7 @@ func (d *Data) readType(name string, r typeReader, off Offset, typeCache map[Off
 		typ = t
 		typeCache[off] = t
 		if t.ReturnType = typeOf(e); err != nil {
-			goto Error
+			golangto Error
 		}
 		t.ParamType = make([]Type, 0, 8)
 		for kid := next(); kid != nil; kid = next() {
@@ -789,7 +789,7 @@ func (d *Data) readType(name string, r typeReader, off Offset, typeCache map[Off
 				continue
 			case TagFormalParameter:
 				if tkid = typeOf(kid); err != nil {
-					goto Error
+					golangto Error
 				}
 			case TagUnspecifiedParameters:
 				tkid = &DotDotDotType{}
@@ -829,7 +829,7 @@ func (d *Data) readType(name string, r typeReader, off Offset, typeCache map[Off
 	}
 
 	if err != nil {
-		goto Error
+		golangto Error
 	}
 
 	{

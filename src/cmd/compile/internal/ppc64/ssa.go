@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ppc64
@@ -7,7 +7,7 @@ package ppc64
 import (
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/ir"
-	"cmd/compile/internal/logopt"
+	"cmd/compile/internal/logolangpt"
 	"cmd/compile/internal/objw"
 	"cmd/compile/internal/ssa"
 	"cmd/compile/internal/ssagen"
@@ -835,9 +835,9 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 		// and used as the new base register and the offset field in the instruction
 		// can be set to zero.
 
-		// This same problem can happen with gostrings since the final offset is not
+		// This same problem can happen with golangstrings since the final offset is not
 		// known yet, but could be unaligned after the relocation is resolved.
-		// So gostrings are handled the same way.
+		// So golangstrings are handled the same way.
 
 		// This allows the MOVDload and MOVWload to be generated in more cases and
 		// eliminates some offset and alignment checking in the rules file.
@@ -849,10 +849,10 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 
 		switch fromAddr.Name {
 		case obj.NAME_EXTERN, obj.NAME_STATIC:
-			// Special case for a rule combines the bytes of gostring.
+			// Special case for a rule combines the bytes of golangstring.
 			// The v alignment might seem OK, but we don't want to load it
 			// using an offset because relocation comes later.
-			genAddr = strings.HasPrefix(fromAddr.Sym.Name, "go:string") || v.Type.Alignment()%4 != 0 || fromAddr.Offset%4 != 0
+			genAddr = strings.HasPrefix(fromAddr.Sym.Name, "golang:string") || v.Type.Alignment()%4 != 0 || fromAddr.Offset%4 != 0
 		default:
 			genAddr = fromAddr.Offset%4 != 0
 		}
@@ -1412,7 +1412,7 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 		srcReg := v.Args[1].Reg()
 
 		// The set of registers used here, must match the clobbered reg list
-		// in PPC64Ops.go.
+		// in PPC64Ops.golang.
 		offset := int64(0)
 
 		// top of the loop
@@ -1959,8 +1959,8 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 			p.To.Type = obj.TYPE_REG
 			p.To.Reg = ppc64.REGTMP
 		}
-		if logopt.Enabled() {
-			logopt.LogOpt(v.Pos, "nilcheck", "genssa", v.Block.Func.Name)
+		if logolangpt.Enabled() {
+			logolangpt.LogOpt(v.Pos, "nilcheck", "genssa", v.Block.Func.Name)
 		}
 		if base.Debug.Nil != 0 && v.Pos.Line() > 1 { // v.Pos.Line()==1 in generated wrappers
 			base.WarnfAt(v.Pos, "generated nil check")

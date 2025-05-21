@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Type conversions for Scan.
@@ -77,8 +77,8 @@ func (c ccChecker) CheckNamedValue(nv *driver.NamedValue) error {
 	// example, drivers might use this to make sure that
 	// an int64 values being inserted into a 16-bit
 	// integer field is in range (before getting
-	// truncated), or that a nil can't go into a NOT NULL
-	// column before going across the network to get the
+	// truncated), or that a nil can't golang into a NOT NULL
+	// column before golanging across the network to get the
 	// same error.
 	var err error
 	arg := nv.Value
@@ -191,7 +191,7 @@ func driverArgsConnLocked(ci driver.Conn, ds *driverStmt, args []any) ([]driver.
 			} else {
 				checker = defaultCheckNamedValue
 			}
-			goto nextCheck
+			golangto nextCheck
 		default:
 			return nil, fmt.Errorf("sql: converting argument %s type: %w", describeNamedValue(nv), err)
 		}
@@ -200,7 +200,7 @@ func driverArgsConnLocked(ci driver.Conn, ds *driverStmt, args []any) ([]driver.
 	// Check the length of arguments after conversion to allow for omitted
 	// arguments.
 	if want != -1 && len(nvargs) != want {
-		return nil, fmt.Errorf("sql: expected %d arguments, got %d", want, len(nvargs))
+		return nil, fmt.Errorf("sql: expected %d arguments, golangt %d", want, len(nvargs))
 	}
 
 	return nvargs, nil
@@ -215,9 +215,9 @@ func driverArgsConnLocked(ci driver.Conn, ds *driverStmt, args []any) ([]driver.
 //   - ariga.io/entcache
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname convertAssign
+//golang:linkname convertAssign
 func convertAssign(dest, src any) error {
 	return convertAssignRows(dest, src, nil)
 }
@@ -581,7 +581,7 @@ func callValuerValue(vr driver.Valuer) (v driver.Value, err error) {
 // Implementations must return an error if a NaN or Infinity is attempted to be set while neither
 // are supported.
 //
-// NOTE(kardianos): This is an experimental interface. See https://golang.org/issue/30870
+// NOTE(kardianos): This is an experimental interface. See https://golanglang.org/issue/30870
 type decimal interface {
 	decimalDecompose
 	decimalCompose

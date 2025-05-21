@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package hpke
@@ -117,7 +117,7 @@ func TestRFC9180Vectors(t *testing.T) {
 
 			expectedEncap := mustDecodeHex(t, setup["enc"])
 			if !bytes.Equal(encap, expectedEncap) {
-				t.Errorf("unexpected encapsulated key, got: %x, want %x", encap, expectedEncap)
+				t.Errorf("unexpected encapsulated key, golangt: %x, want %x", encap, expectedEncap)
 			}
 
 			privKeyBytes := mustDecodeHex(t, setup["skRm"])
@@ -141,19 +141,19 @@ func TestRFC9180Vectors(t *testing.T) {
 			for _, ctx := range []*context{sender.context, recipient.context} {
 				expectedSharedSecret := mustDecodeHex(t, setup["shared_secret"])
 				if !bytes.Equal(ctx.sharedSecret, expectedSharedSecret) {
-					t.Errorf("unexpected shared secret, got: %x, want %x", ctx.sharedSecret, expectedSharedSecret)
+					t.Errorf("unexpected shared secret, golangt: %x, want %x", ctx.sharedSecret, expectedSharedSecret)
 				}
 				expectedKey := mustDecodeHex(t, setup["key"])
 				if !bytes.Equal(ctx.key, expectedKey) {
-					t.Errorf("unexpected key, got: %x, want %x", ctx.key, expectedKey)
+					t.Errorf("unexpected key, golangt: %x, want %x", ctx.key, expectedKey)
 				}
 				expectedBaseNonce := mustDecodeHex(t, setup["base_nonce"])
 				if !bytes.Equal(ctx.baseNonce, expectedBaseNonce) {
-					t.Errorf("unexpected base nonce, got: %x, want %x", ctx.baseNonce, expectedBaseNonce)
+					t.Errorf("unexpected base nonce, golangt: %x, want %x", ctx.baseNonce, expectedBaseNonce)
 				}
 				expectedExporterSecret := mustDecodeHex(t, setup["exporter_secret"])
 				if !bytes.Equal(ctx.exporterSecret, expectedExporterSecret) {
-					t.Errorf("unexpected exporter secret, got: %x, want %x", ctx.exporterSecret, expectedExporterSecret)
+					t.Errorf("unexpected exporter secret, golangt: %x, want %x", ctx.exporterSecret, expectedExporterSecret)
 				}
 			}
 
@@ -168,7 +168,7 @@ func TestRFC9180Vectors(t *testing.T) {
 					expectedNonce := mustDecodeHex(t, enc["nonce"])
 					computedNonce := sender.nextNonce()
 					if !bytes.Equal(computedNonce, expectedNonce) {
-						t.Errorf("unexpected nonce: got %x, want %x", computedNonce, expectedNonce)
+						t.Errorf("unexpected nonce: golangt %x, want %x", computedNonce, expectedNonce)
 					}
 
 					expectedCiphertext := mustDecodeHex(t, enc["ct"])
@@ -177,7 +177,7 @@ func TestRFC9180Vectors(t *testing.T) {
 						t.Fatal(err)
 					}
 					if !bytes.Equal(ciphertext, expectedCiphertext) {
-						t.Errorf("unexpected ciphertext: got %x want %x", ciphertext, expectedCiphertext)
+						t.Errorf("unexpected ciphertext: golangt %x want %x", ciphertext, expectedCiphertext)
 					}
 
 					expectedPlaintext := mustDecodeHex(t, enc["pt"])
@@ -186,7 +186,7 @@ func TestRFC9180Vectors(t *testing.T) {
 						t.Fatal(err)
 					}
 					if !bytes.Equal(plaintext, expectedPlaintext) {
-						t.Errorf("unexpected plaintext: got %x want %x", plaintext, expectedPlaintext)
+						t.Errorf("unexpected plaintext: golangt %x want %x", plaintext, expectedPlaintext)
 					}
 				})
 			}

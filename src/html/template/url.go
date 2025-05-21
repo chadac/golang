@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package template
@@ -169,7 +169,7 @@ func srcsetFilterAndEscaper(args ...any) string {
 	return b.String()
 }
 
-// Derived from https://play.golang.org/p/Dhmj7FORT5
+// Derived from https://play.golanglang.org/p/Dhmj7FORT5
 const htmlSpaceAndASCIIAlnumBytes = "\x00\x36\x00\x00\x01\x00\xff\x03\xfe\xff\xff\x07\xfe\xff\xff\x07"
 
 // isHTMLSpace is true iff c is a whitespace character per

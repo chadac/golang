@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
@@ -43,7 +43,7 @@ type mOS struct{}
 
 func osyield()
 
-//go:nosplit
+//golang:nosplit
 func osyield_no_g() {
 	osyield()
 }
@@ -57,25 +57,25 @@ func mpreinit(mp *m) {
 	mp.gsignal.m = mp
 }
 
-//go:nosplit
+//golang:nosplit
 func usleep_no_g(usec uint32) {
 	usleep(usec)
 }
 
-//go:nosplit
+//golang:nosplit
 func sigsave(p *sigset) {
 }
 
-//go:nosplit
+//golang:nosplit
 func msigrestore(sigmask sigset) {
 }
 
-//go:nosplit
-//go:nowritebarrierrec
+//golang:nosplit
+//golang:nowritebarrierrec
 func clearSignalHandlers() {
 }
 
-//go:nosplit
+//golang:nosplit
 func sigblock(exiting bool) {
 }
 
@@ -109,23 +109,23 @@ func initsig(preinit bool) {
 
 // May run with m.p==nil, so write barriers are not allowed.
 //
-//go:nowritebarrier
+//golang:nowritebarrier
 func newosproc(mp *m) {
 	throw("newosproc: not implemented")
 }
 
 // Do nothing on WASM platform, always return EPIPE to caller.
 //
-//go:linkname os_sigpipe os.sigpipe
+//golang:linkname os_sigpipe os.sigpipe
 func os_sigpipe() {}
 
-//go:linkname syscall_now syscall.now
+//golang:linkname syscall_now syscall.now
 func syscall_now() (sec int64, nsec int32) {
 	sec, nsec, _ = time_now()
 	return
 }
 
-//go:nosplit
+//golang:nosplit
 func cputicks() int64 {
 	// runtime·nanotime() is a poor approximation of CPU ticks that is enough for the profiler.
 	return nanotime()

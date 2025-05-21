@@ -1,8 +1,8 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:generate go run mknode.go
+//golang:generate golang run mknode.golang
 
 package ir
 
@@ -10,7 +10,7 @@ import (
 	"cmd/compile/internal/types"
 	"cmd/internal/src"
 	"fmt"
-	"go/constant"
+	"golang/constant"
 )
 
 // A miniNode is a minimal node implementation,

@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package types2_test
@@ -36,10 +36,10 @@ func BenchmarkCheck(b *testing.B) {
 
 	for _, p := range []string{
 		filepath.Join("src", "net", "http"),
-		filepath.Join("src", "go", "parser"),
-		filepath.Join("src", "go", "constant"),
+		filepath.Join("src", "golang", "parser"),
+		filepath.Join("src", "golang", "constant"),
 		filepath.Join("src", "runtime"),
-		filepath.Join("src", "go", "internal", "gcimporter"),
+		filepath.Join("src", "golang", "internal", "gcimporter"),
 	} {
 		b.Run(path.Base(p), func(b *testing.B) {
 			path := filepath.Join(runtime.GOROOT(), p)
@@ -100,7 +100,7 @@ func runbench(b *testing.B, path string, ignoreFuncBodies, writeInfo bool) {
 }
 
 func pkgFiles(path string) ([]*syntax.File, error) {
-	filenames, err := pkgFilenames(path, true) // from stdlib_test.go
+	filenames, err := pkgFilenames(path, true) // from stdlib_test.golang
 	if err != nil {
 		return nil, err
 	}

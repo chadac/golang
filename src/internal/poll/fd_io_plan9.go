@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package poll
@@ -14,7 +14,7 @@ import (
 // asyncIO implements asynchronous cancelable I/O.
 // An asyncIO represents a single asynchronous Read or Write
 // operation. The result is returned on the result channel.
-// The undergoing I/O system call can either complete or be
+// The undergolanging I/O system call can either complete or be
 // interrupted by a note.
 type asyncIO struct {
 	res chan result
@@ -41,8 +41,8 @@ func newAsyncIO(fn func([]byte) (int, error), b []byte) *asyncIO {
 		res: make(chan result, 0),
 	}
 	aio.mu.Lock()
-	go func() {
-		// Lock the current goroutine to its process
+	golang func() {
+		// Lock the current golangroutine to its process
 		// and store the pid in io so that Cancel can
 		// interrupt it. We ignore the "hangup" signal,
 		// so the signal does not take down the entire

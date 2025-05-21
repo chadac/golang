@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package os
@@ -7,7 +7,7 @@ package os
 import (
 	"errors"
 	"internal/filepathlite"
-	"internal/godebug"
+	"internal/golangdebug"
 	"internal/poll"
 	"internal/syscall/windows"
 	"runtime"
@@ -17,7 +17,7 @@ import (
 	"unsafe"
 )
 
-// This matches the value in syscall/syscall_windows.go.
+// This matches the value in syscall/syscall_windows.golang.
 const _UTIME_OMIT = -1
 
 // file is the real representation of *File.
@@ -96,7 +96,7 @@ func newFileFromNewFile(fd uintptr, name string) *File {
 // This is used so that the File.pfd.close method calls [syscall.Closesocket]
 // instead of [syscall.CloseHandle].
 //
-//go:linkname net_newWindowsFile net.newWindowsFile
+//golang:linkname net_newWindowsFile net.newWindowsFile
 func net_newWindowsFile(h syscall.Handle, name string) *File {
 	if h == syscall.InvalidHandle {
 		panic("invalid FD")
@@ -367,7 +367,7 @@ func openSymlink(path string) (syscall.Handle, error) {
 	return h, nil
 }
 
-var winreadlinkvolume = godebug.New("winreadlinkvolume")
+var winreadlinkvolume = golangdebug.New("winreadlinkvolume")
 
 // normaliseLinkPath converts absolute paths returned by
 // DeviceIoControl(h, FSCTL_GET_REPARSE_POINT, ...)

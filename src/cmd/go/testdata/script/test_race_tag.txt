@@ -3,19 +3,19 @@
 [short] skip 'links a test binary'
 [!race] skip
 
-go mod tidy
-go test -c -o=$devnull -race .
+golang mod tidy
+golang test -c -o=$devnull -race .
 
 ! stderr 'cannot find package'
 
--- go.mod --
+-- golang.mod --
 module testrace
 
-go 1.18
+golang 1.18
 
 require rsc.io/sampler v1.0.0
--- race_test.go --
-//go:build race
+-- race_test.golang --
+//golang:build race
 
 package testrace
 

@@ -1,12 +1,12 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 #include "textflag.h"
 
 // ChaCha8 is ChaCha with 8 rounds.
 // See https://cr.yp.to/chacha/chacha-20080128.pdf.
-// See chacha8_generic.go for additional details.
+// See chacha8_generic.golang for additional details.
 
 // ROL rotates the uint32s in register R left by N bits, using temporary T.
 #define ROL(N, R, T) \

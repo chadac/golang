@@ -1,16 +1,16 @@
 # Test to ensure runtime/debug.ReadBuildInfo parses
-# the modinfo embedded in a binary by the go tool
+# the modinfo embedded in a binary by the golang tool
 # when module is enabled.
 env GO111MODULE=on
 
 cd x
-go mod edit -require=rsc.io/quote@v1.5.2
-go mod edit -replace=rsc.io/quote@v1.5.2=rsc.io/quote@v1.0.0
-go mod tidy # populate go.sum
+golang mod edit -require=rsc.io/quote@v1.5.2
+golang mod edit -replace=rsc.io/quote@v1.5.2=rsc.io/quote@v1.0.0
+golang mod tidy # populate golang.sum
 
 # Build a binary and ensure that it can output its own debug info.
-# The debug info should be accessible before main starts (golang.org/issue/29628).
-go build
+# The debug info should be accessible before main starts (golanglang.org/issue/29628).
+golang build
 exec ./x$GOEXE
 stderr 'mod\s+x\s+\(devel\)'
 stderr 'dep\s+rsc.io/quote\s+v1.5.2\s+'
@@ -21,15 +21,15 @@ stderr 'Hello, world.'
 
 # Build a binary that accesses its debug info by reading the binary directly
 # (rather than through debug.ReadBuildInfo).
-# The debug info should still be present (golang.org/issue/28753).
+# The debug info should still be present (golanglang.org/issue/28753).
 cd unused
-go build
+golang build
 exec ./unused$GOEXE
 
--- x/go.mod --
+-- x/golang.mod --
 module x
 
--- x/lib/lib.go --
+-- x/lib/lib.golang --
 // Package lib accesses runtime/debug.modinfo before package main's init
 // functions have run.
 package lib
@@ -50,7 +50,7 @@ func init() {
 	}
 }
 
--- x/main.go --
+-- x/main.golang --
 package main
 
 import (
@@ -62,7 +62,7 @@ func main() {
 	println(quote.Hello())
 }
 
--- x/unused/main.go --
+-- x/unused/main.golang --
 // The unused binary does not access runtime/debug.modinfo.
 package main
 

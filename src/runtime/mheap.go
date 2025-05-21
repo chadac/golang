@@ -1,18 +1,18 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Page heap.
 //
-// See malloc.go for overview.
+// See malloc.golang for overview.
 
 package runtime
 
 import (
 	"internal/abi"
 	"internal/cpu"
-	"internal/goarch"
-	"internal/goexperiment"
+	"internal/golangarch"
+	"internal/golangexperiment"
 	"internal/runtime/atomic"
 	"internal/runtime/gc"
 	"internal/runtime/sys"
@@ -121,7 +121,7 @@ type mheap struct {
 
 	// reclaimCredit is spare credit for extra pages swept. Since
 	// the page reclaimer works in large chunks, it may reclaim
-	// more than requested. Any spare pages released go to this
+	// more than requested. Any spare pages released golang to this
 	// credit pool.
 	reclaimCredit atomic.Uintptr
 
@@ -237,7 +237,7 @@ type mheap struct {
 		arenaHints *arenaHint
 
 		// quarantineList is a list of user arena spans that have been set to fault, but
-		// are waiting for all pointers into them to go away. Sweeping handles
+		// are waiting for all pointers into them to golang away. Sweeping handles
 		// identifying when this is true, and moves the span to the ready list.
 		quarantineList mSpanList
 
@@ -401,7 +401,7 @@ type mSpanStateBox struct {
 
 // It is nosplit to match get, below.
 
-//go:nosplit
+//golang:nosplit
 func (b *mSpanStateBox) set(s mSpanState) {
 	b.s.Store(uint8(s))
 }
@@ -409,7 +409,7 @@ func (b *mSpanStateBox) set(s mSpanState) {
 // It is nosplit because it's called indirectly by typedmemclr,
 // which must not be preempted.
 
-//go:nosplit
+//golang:nosplit
 func (b *mSpanStateBox) get() mSpanState {
 	return mSpanState(b.s.Load())
 }
@@ -455,7 +455,7 @@ type mspan struct {
 	// Temporary storage for the object index that caused this span to
 	// be queued for scanning.
 	//
-	// Used only with goexperiment.GreenTeaGC.
+	// Used only with golangexperiment.GreenTeaGC.
 	scanIdx uint16
 
 	// Cache of the allocBits at freeindex. allocCache is shifted
@@ -541,7 +541,7 @@ func (s *mspan) layout() (size, n, total uintptr) {
 //
 // The heap lock must be held.
 //
-//go:nowritebarrierrec
+//golang:nowritebarrierrec
 func recordspan(vh unsafe.Pointer, p unsafe.Pointer) {
 	h := (*mheap)(vh)
 	s := (*mspan)(p)
@@ -549,13 +549,13 @@ func recordspan(vh unsafe.Pointer, p unsafe.Pointer) {
 	assertLockHeld(&h.lock)
 
 	if len(h.allspans) >= cap(h.allspans) {
-		n := 64 * 1024 / goarch.PtrSize
+		n := 64 * 1024 / golangarch.PtrSize
 		if n < cap(h.allspans)*3/2 {
 			n = cap(h.allspans) * 3 / 2
 		}
 		var new []*mspan
 		sp := (*slice)(unsafe.Pointer(&new))
-		sp.array = sysAlloc(uintptr(n)*goarch.PtrSize, &memstats.other_sys, "allspans array")
+		sp.array = sysAlloc(uintptr(n)*golangarch.PtrSize, &memstats.other_sys, "allspans array")
 		if sp.array == nil {
 			throw("runtime: cannot allocate memory")
 		}
@@ -591,12 +591,12 @@ func makeSpanClass(sizeclass uint8, noscan bool) spanClass {
 	return spanClass(sizeclass<<1) | spanClass(bool2int(noscan))
 }
 
-//go:nosplit
+//golang:nosplit
 func (sc spanClass) sizeclass() int8 {
 	return int8(sc >> 1)
 }
 
-//go:nosplit
+//golang:nosplit
 func (sc spanClass) noscan() bool {
 	return sc&1 != 0
 }
@@ -612,7 +612,7 @@ func (sc spanClass) noscan() bool {
 // It is nosplit because it's called by spanOf and several other
 // nosplit functions.
 //
-//go:nosplit
+//golang:nosplit
 func arenaIndex(p uintptr) arenaIdx {
 	return arenaIdx((p - arenaBaseOffset) / heapArenaBytes)
 }
@@ -630,7 +630,7 @@ type arenaIdx uint
 // Marked nosplit because it's called by spanOf and other nosplit
 // functions.
 //
-//go:nosplit
+//golang:nosplit
 func (i arenaIdx) l1() uint {
 	if arenaL1Bits == 0 {
 		// Let the compiler optimize this away if there's no
@@ -646,7 +646,7 @@ func (i arenaIdx) l1() uint {
 // Marked nosplit because it's called by spanOf and other nosplit funcs.
 // functions.
 //
-//go:nosplit
+//golang:nosplit
 func (i arenaIdx) l2() uint {
 	if arenaL1Bits == 0 {
 		return uint(i)
@@ -659,8 +659,8 @@ func (i arenaIdx) l2() uint {
 // It returns false for pointers into mSpanManual spans.
 // Non-preemptible because it is used by write barriers.
 //
-//go:nowritebarrier
-//go:nosplit
+//golang:nowritebarrier
+//golang:nosplit
 func inheap(b uintptr) bool {
 	return spanOfHeap(b) != nil
 }
@@ -668,8 +668,8 @@ func inheap(b uintptr) bool {
 // inHeapOrStack is a variant of inheap that returns true for pointers
 // into any allocated heap span.
 //
-//go:nowritebarrier
-//go:nosplit
+//golang:nowritebarrier
+//golang:nosplit
 func inHeapOrStack(b uintptr) bool {
 	s := spanOf(b)
 	if s == nil || b < s.base() {
@@ -693,7 +693,7 @@ func inHeapOrStack(b uintptr) bool {
 //
 // Must be nosplit because it has callers that are nosplit.
 //
-//go:nosplit
+//golang:nosplit
 func spanOf(p uintptr) *mspan {
 	// This function looks big, but we use a lot of constant
 	// folding around arenaL1Bits to get it under the inlining
@@ -728,7 +728,7 @@ func spanOf(p uintptr) *mspan {
 //
 // Must be nosplit because it has callers that are nosplit.
 //
-//go:nosplit
+//golang:nosplit
 func spanOfUnchecked(p uintptr) *mspan {
 	ai := arenaIndex(p)
 	return mheap_.arenas[ai.l1()][ai.l2()].spans[(p/pageSize)%pagesPerArena]
@@ -739,7 +739,7 @@ func spanOfUnchecked(p uintptr) *mspan {
 //
 // Must be nosplit because it has callers that are nosplit.
 //
-//go:nosplit
+//golang:nosplit
 func spanOfHeap(p uintptr) *mspan {
 	s := spanOf(p)
 	// s is nil if it's never been allocated. Otherwise, we check
@@ -1031,7 +1031,7 @@ func (h *mheap) alloc(npages uintptr, spanclass spanClass) *mspan {
 // If new code is written to call allocManual, do NOT use an
 // existing spanAllocType value and instead declare a new one.
 //
-//go:systemstack
+//golang:systemstack
 func (h *mheap) allocManual(npages uintptr, typ spanAllocType) *mspan {
 	if !typ.manual() {
 		throw("manual span allocation called with non-manually-managed type")
@@ -1129,7 +1129,7 @@ func (h *mheap) allocNeedsZero(base, npage uintptr) (needZero bool) {
 // the only place it is used now. In the future, this requirement
 // may be relaxed if its use is necessary elsewhere.
 //
-//go:systemstack
+//golang:systemstack
 func (h *mheap) tryAllocMSpan() *mspan {
 	pp := getg().m.p.ptr()
 	// If we don't have a p or the cache is empty, we can't do
@@ -1152,7 +1152,7 @@ func (h *mheap) tryAllocMSpan() *mspan {
 // Running on the system stack also ensures that we won't
 // switch Ps during this function. See tryAllocMSpan for details.
 //
-//go:systemstack
+//golang:systemstack
 func (h *mheap) allocMSpanLocked() *mspan {
 	assertLockHeld(&h.lock)
 
@@ -1184,7 +1184,7 @@ func (h *mheap) allocMSpanLocked() *mspan {
 // Running on the system stack also ensures that we won't
 // switch Ps during this function. See tryAllocMSpan for details.
 //
-//go:systemstack
+//golang:systemstack
 func (h *mheap) freeMSpanLocked(s *mspan) {
 	assertLockHeld(&h.lock)
 
@@ -1216,7 +1216,7 @@ func (h *mheap) freeMSpanLocked(s *mspan) {
 // allocSpan must be called on the system stack both because it acquires
 // the heap lock and because it must block GC transitions.
 //
-//go:systemstack
+//golang:systemstack
 func (h *mheap) allocSpan(npages uintptr, typ spanAllocType, spanclass spanClass) (s *mspan) {
 	// Function-global state.
 	gp := getg()
@@ -1247,7 +1247,7 @@ func (h *mheap) allocSpan(npages uintptr, typ spanAllocType, spanclass spanClass
 		if base != 0 {
 			s = h.tryAllocMSpan()
 			if s != nil {
-				goto HaveSpan
+				golangto HaveSpan
 			}
 			// We have a base but no mspan, so we need
 			// to lock the heap.
@@ -1334,7 +1334,7 @@ HaveSpan:
 			forceScavenge = true
 		}
 	}
-	if goal := scavenge.gcPercentGoal.Load(); goal != ^uint64(0) && growth > 0 {
+	if golangal := scavenge.gcPercentGoal.Load(); golangal != ^uint64(0) && growth > 0 {
 		// We just caused a heap growth, so scavenge down what will soon be used.
 		// By scavenging inline we deal with the failure to allocate out of
 		// memory fragments by scavenging the memory fragments that are least
@@ -1343,13 +1343,13 @@ HaveSpan:
 		// Only bother with this because we're not using a memory limit. We don't
 		// care about heap growths as long as we're under the memory limit, and the
 		// previous check for scaving already handles that.
-		if retained := heapRetained(); retained+uint64(growth) > goal {
-			// The scavenging algorithm requires the heap lock to be dropped so it
+		if retained := heapRetained(); retained+uint64(growth) > golangal {
+			// The scavenging algolangrithm requires the heap lock to be dropped so it
 			// can acquire it only sparingly. This is a potentially expensive operation
-			// so it frees up other goroutines to allocate in the meanwhile. In fact,
+			// so it frees up other golangroutines to allocate in the meanwhile. In fact,
 			// they can make use of the growth we just created.
 			todo := growth
-			if overage := uintptr(retained + uint64(growth) - goal); todo > overage {
+			if overage := uintptr(retained + uint64(growth) - golangal); todo > overage {
 				todo = overage
 			}
 			if todo > bytesToScavenge {
@@ -1455,7 +1455,7 @@ func (h *mheap) initSpan(s *mspan, typ spanAllocType, spanclass spanClass, base,
 			s.divMul = 0
 		} else {
 			s.elemsize = uintptr(gc.SizeClassToSize[sizeclass])
-			if goexperiment.GreenTeaGC {
+			if golangexperiment.GreenTeaGC {
 				var reserve uintptr
 				if gcUsesSpanInlineMarkBits(s.elemsize) {
 					// Reserve space for the inline mark bits.
@@ -1463,13 +1463,13 @@ func (h *mheap) initSpan(s *mspan, typ spanAllocType, spanclass spanClass, base,
 				}
 				if heapBitsInSpan(s.elemsize) && !s.spanclass.noscan() {
 					// Reserve space for the pointer/scan bitmap at the end.
-					reserve += nbytes / goarch.PtrSize / 8
+					reserve += nbytes / golangarch.PtrSize / 8
 				}
 				s.nelems = uint16((nbytes - reserve) / s.elemsize)
 			} else {
 				if !s.spanclass.noscan() && heapBitsInSpan(s.elemsize) {
 					// Reserve space for the pointer/scan bitmap at the end.
-					s.nelems = uint16((nbytes - (nbytes / goarch.PtrSize / 8)) / s.elemsize)
+					s.nelems = uint16((nbytes - (nbytes / golangarch.PtrSize / 8)) / s.elemsize)
 				} else {
 					s.nelems = uint16(nbytes / s.elemsize)
 				}
@@ -1602,7 +1602,7 @@ func (h *mheap) grow(npage uintptr) (uintptr, bool) {
 	v := h.curArena.base
 	h.curArena.base = nBase
 
-	// Transition the space we're going to use from Reserved to Prepared.
+	// Transition the space we're golanging to use from Reserved to Prepared.
 	//
 	// The allocation is always aligned to the heap arena
 	// size which is always > physPageSize, so its safe to
@@ -1666,7 +1666,7 @@ func (h *mheap) freeSpan(s *mspan) {
 // freeManual must be called on the system stack because it acquires
 // the heap lock. See mheap for details.
 //
-//go:systemstack
+//golang:systemstack
 func (h *mheap) freeManual(s *mspan, typ spanAllocType) {
 	// Trace the span free.
 	if traceAllocFreeEnabled() {
@@ -1751,7 +1751,7 @@ func (h *mheap) freeSpanLocked(s *mspan, typ spanAllocType) {
 //
 // Must run on the system stack because it acquires the heap lock.
 //
-//go:systemstack
+//golang:systemstack
 func (h *mheap) scavengeAll() {
 	// Disallow malloc or panic while holding the heap lock. We do
 	// this here because this is a non-mallocgc entry-point to
@@ -1769,7 +1769,7 @@ func (h *mheap) scavengeAll() {
 	}
 }
 
-//go:linkname runtime_debug_freeOSMemory runtime/debug.freeOSMemory
+//golang:linkname runtime_debug_freeOSMemory runtime/debug.freeOSMemory
 func runtime_debug_freeOSMemory() {
 	GC()
 	systemstack(func() { mheap_.scavengeAll() })
@@ -2166,7 +2166,7 @@ func addfinalizer(p unsafe.Pointer, f *funcval, nret uintptr, fint *_type, ot *p
 			}
 			// Mark the finalizer itself, since the
 			// special isn't part of the GC'd heap.
-			scanblock(uintptr(unsafe.Pointer(&s.fn)), goarch.PtrSize, &oneptrmask[0], gcw, nil)
+			scanblock(uintptr(unsafe.Pointer(&s.fn)), golangarch.PtrSize, &oneptrmask[0], gcw, nil)
 			releasem(mp)
 		}
 		return true
@@ -2223,7 +2223,7 @@ func addCleanup(p unsafe.Pointer, f *funcval) uint64 {
 		gcw := &mp.p.ptr().gcw
 		// Mark the cleanup itself, since the
 		// special isn't part of the GC'd heap.
-		scanblock(uintptr(unsafe.Pointer(&s.fn)), goarch.PtrSize, &oneptrmask[0], gcw, nil)
+		scanblock(uintptr(unsafe.Pointer(&s.fn)), golangarch.PtrSize, &oneptrmask[0], gcw, nil)
 	}
 	releasem(mp)
 	// Keep f alive. There's a window in this function where it's
@@ -2437,12 +2437,12 @@ type specialWeakHandle struct {
 	handle *atomic.Uintptr
 }
 
-//go:linkname internal_weak_runtime_registerWeakPointer weak.runtime_registerWeakPointer
+//golang:linkname internal_weak_runtime_registerWeakPointer weak.runtime_registerWeakPointer
 func internal_weak_runtime_registerWeakPointer(p unsafe.Pointer) unsafe.Pointer {
 	return unsafe.Pointer(getOrAddWeakHandle(unsafe.Pointer(p)))
 }
 
-//go:linkname internal_weak_runtime_makeStrongFromWeak weak.runtime_makeStrongFromWeak
+//golang:linkname internal_weak_runtime_makeStrongFromWeak weak.runtime_makeStrongFromWeak
 func internal_weak_runtime_makeStrongFromWeak(u unsafe.Pointer) unsafe.Pointer {
 	handle := (*atomic.Uintptr)(u)
 
@@ -2477,7 +2477,7 @@ func internal_weak_runtime_makeStrongFromWeak(u unsafe.Pointer) unsafe.Pointer {
 			releasem(mp)
 			return unsafe.Pointer(p)
 		}
-		// It's heap-allocated, so the span probably just got swept and released.
+		// It's heap-allocated, so the span probably just golangt swept and released.
 		releasem(mp)
 		return nil
 	}
@@ -2508,7 +2508,7 @@ func internal_weak_runtime_makeStrongFromWeak(u unsafe.Pointer) unsafe.Pointer {
 	return ptr
 }
 
-// gcParkStrongFromWeak puts the current goroutine on the weak->strong queue and parks.
+// gcParkStrongFromWeak puts the current golangroutine on the weak->strong queue and parks.
 func gcParkStrongFromWeak() *m {
 	// Prevent preemption as we check strongFromWeak, so it can't change out from under us.
 	mp := acquirem()
@@ -2521,9 +2521,9 @@ func gcParkStrongFromWeak() *m {
 		work.strongFromWeak.q.pushBack(getg())
 
 		// Park.
-		goparkunlock(&work.strongFromWeak.lock, waitReasonGCWeakToStrongWait, traceBlockGCWeakToStrongWait, 2)
+		golangparkunlock(&work.strongFromWeak.lock, waitReasonGCWeakToStrongWait, traceBlockGCWeakToStrongWait, 2)
 
-		// Re-acquire the current M since we're going to check the condition again.
+		// Re-acquire the current M since we're golanging to check the condition again.
 		mp = acquirem()
 
 		// Re-check condition. We may have awoken in the next GC's mark termination phase.
@@ -2534,8 +2534,8 @@ func gcParkStrongFromWeak() *m {
 // gcWakeAllStrongFromWeak wakes all currently blocked weak->strong
 // conversions. This is used at the end of a GC cycle.
 //
-// work.strongFromWeak.block must be false to prevent woken goroutines
-// from immediately going back to sleep.
+// work.strongFromWeak.block must be false to prevent woken golangroutines
+// from immediately golanging back to sleep.
 func gcWakeAllStrongFromWeak() {
 	lock(&work.strongFromWeak.lock)
 	list := work.strongFromWeak.q.popList()
@@ -2571,7 +2571,7 @@ func getOrAddWeakHandle(p unsafe.Pointer) *atomic.Uintptr {
 			gcw := &mp.p.ptr().gcw
 			// Mark the weak handle itself, since the
 			// special isn't part of the GC'd heap.
-			scanblock(uintptr(unsafe.Pointer(&s.handle)), goarch.PtrSize, &oneptrmask[0], gcw, nil)
+			scanblock(uintptr(unsafe.Pointer(&s.handle)), golangarch.PtrSize, &oneptrmask[0], gcw, nil)
 			releasem(mp)
 		}
 
@@ -2580,7 +2580,7 @@ func getOrAddWeakHandle(p unsafe.Pointer) *atomic.Uintptr {
 		//
 		// Same for handle, which is only stored in the special.
 		// There's a window where it might die if we don't keep it
-		// alive explicitly. Returning it here is probably good enough,
+		// alive explicitly. Returning it here is probably golangod enough,
 		// but let's be defensive and explicit. See #70455.
 		KeepAlive(p)
 		KeepAlive(handle)
@@ -2679,7 +2679,7 @@ func (h *immortalWeakHandle) handle() *atomic.Uintptr {
 func (tab *immortalWeakHandleMap) getOrAdd(p uintptr) *atomic.Uintptr {
 	var newNode *immortalWeakHandle
 	m := &tab.root
-	hash := memhash(abi.NoEscape(unsafe.Pointer(&p)), 0, goarch.PtrSize)
+	hash := memhash(abi.NoEscape(unsafe.Pointer(&p)), 0, golangarch.PtrSize)
 	hashIter := hash
 	for {
 		n := (*immortalWeakHandle)(m.Load())
@@ -2700,7 +2700,7 @@ func (tab *immortalWeakHandleMap) getOrAdd(p uintptr) *atomic.Uintptr {
 			// much activity, or the map gets big and races to insert on
 			// the same node are much less likely.
 			if newNode == nil {
-				newNode = (*immortalWeakHandle)(persistentalloc(unsafe.Sizeof(immortalWeakHandle{}), goarch.PtrSize, &memstats.gcMiscSys))
+				newNode = (*immortalWeakHandle)(persistentalloc(unsafe.Sizeof(immortalWeakHandle{}), golangarch.PtrSize, &memstats.gcMiscSys))
 				newNode.ptr = p
 			}
 			if m.CompareAndSwapNoWB(nil, unsafe.Pointer(newNode)) {
@@ -2714,7 +2714,7 @@ func (tab *immortalWeakHandleMap) getOrAdd(p uintptr) *atomic.Uintptr {
 		if n.ptr == p {
 			return n.handle()
 		}
-		m = &n.children[hashIter>>(8*goarch.PtrSize-1)]
+		m = &n.children[hashIter>>(8*golangarch.PtrSize-1)]
 		hashIter <<= 1
 	}
 }

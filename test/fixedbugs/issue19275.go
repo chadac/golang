@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -18,7 +18,7 @@ type SI struct {
 	M map[string]*PI
 }
 
-//go:noinline
+//golang:noinline
 func (s *SI) test(name string) (*int, error) {
 	n := new(int)
 	*n = 99
@@ -29,7 +29,7 @@ func (s *SI) test(name string) (*int, error) {
 	return n, nil
 }
 
-//go:noinline
+//golang:noinline
 func addUpdate(n *int, in interface{}, s ...string) error {
 	if *n != 99 {
 		println("FAIL, *n should be 99, not", *n)
@@ -43,7 +43,7 @@ func main1() {
 	s.test("dog")
 }
 
-//go:noinline
+//golang:noinline
 func g(b *byte, i interface{}) error {
 	if *b != 17 {
 		println("FAIL, *b should be 17, not", *b)
@@ -51,7 +51,7 @@ func g(b *byte, i interface{}) error {
 	return nil
 }
 
-//go:noinline
+//golang:noinline
 func f(x *byte, m map[string]*bool) {
 	if err := g(x, *m["hello"]); err != nil { // this was miscompiled
 		return

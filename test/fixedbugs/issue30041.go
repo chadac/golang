@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Issue 30041: copying results of a reflect-generated
@@ -42,7 +42,7 @@ func main() {
 	fn = reflect.MakeFunc(reflect.TypeOf(fn), rf).Interface().(ft)
 
 	// Keep running GC so the write barrier is on.
-	go func() {
+	golang func() {
 		for i := 0; i < N; i++ {
 			runtime.GC()
 		}
@@ -59,5 +59,5 @@ func main() {
 	}
 }
 
-//go:noinline
+//golang:noinline
 func use([10]uintptr) {}

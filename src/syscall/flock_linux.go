@@ -1,5 +1,5 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package syscall
@@ -7,7 +7,7 @@ package syscall
 import "unsafe"
 
 // fcntl64Syscall is usually SYS_FCNTL, but is overridden on 32-bit Linux
-// systems by flock_linux_32bit.go to be SYS_FCNTL64.
+// systems by flock_linux_32bit.golang to be SYS_FCNTL64.
 var fcntl64Syscall uintptr = SYS_FCNTL
 
 // FcntlFlock performs a fcntl syscall for the [F_GETLK], [F_SETLK] or [F_SETLKW] command.

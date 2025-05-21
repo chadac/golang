@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package user
@@ -11,7 +11,7 @@ import (
 )
 
 var (
-	hasCgo  = false
+	hasCgolang  = false
 	hasUSER = os.Getenv("USER") != ""
 	hasHOME = os.Getenv("HOME") != ""
 )
@@ -31,8 +31,8 @@ func TestCurrent(t *testing.T) {
 	userBuffer = 1 // force use of retry code
 	u, err := Current()
 	if err != nil {
-		if hasCgo || (hasUSER && hasHOME) {
-			t.Fatalf("Current: %v (got %#v)", err, u)
+		if hasCgolang || (hasUSER && hasHOME) {
+			t.Fatalf("Current: %v (golangt %#v)", err, u)
 		} else {
 			t.Skipf("skipping: %v", err)
 		}
@@ -52,21 +52,21 @@ func BenchmarkCurrent(b *testing.B) {
 	}
 }
 
-func compare(t *testing.T, want, got *User) {
-	if want.Uid != got.Uid {
-		t.Errorf("got Uid=%q; want %q", got.Uid, want.Uid)
+func compare(t *testing.T, want, golangt *User) {
+	if want.Uid != golangt.Uid {
+		t.Errorf("golangt Uid=%q; want %q", golangt.Uid, want.Uid)
 	}
-	if want.Username != got.Username {
-		t.Errorf("got Username=%q; want %q", got.Username, want.Username)
+	if want.Username != golangt.Username {
+		t.Errorf("golangt Username=%q; want %q", golangt.Username, want.Username)
 	}
-	if want.Name != got.Name {
-		t.Errorf("got Name=%q; want %q", got.Name, want.Name)
+	if want.Name != golangt.Name {
+		t.Errorf("golangt Name=%q; want %q", golangt.Name, want.Name)
 	}
-	if want.HomeDir != got.HomeDir {
-		t.Errorf("got HomeDir=%q; want %q", got.HomeDir, want.HomeDir)
+	if want.HomeDir != golangt.HomeDir {
+		t.Errorf("golangt HomeDir=%q; want %q", golangt.HomeDir, want.HomeDir)
 	}
-	if want.Gid != got.Gid {
-		t.Errorf("got Gid=%q; want %q", got.Gid, want.Gid)
+	if want.Gid != golangt.Gid {
+		t.Errorf("golangt Gid=%q; want %q", golangt.Gid, want.Gid)
 	}
 }
 
@@ -75,7 +75,7 @@ func TestLookup(t *testing.T) {
 
 	want, err := Current()
 	if err != nil {
-		if hasCgo || (hasUSER && hasHOME) {
+		if hasCgolang || (hasUSER && hasHOME) {
 			t.Fatalf("Current: %v", err)
 		} else {
 			t.Skipf("skipping: %v", err)
@@ -84,12 +84,12 @@ func TestLookup(t *testing.T) {
 
 	// TODO: Lookup() has a fast path that calls Current() and returns if the
 	// usernames match, so this test does not exercise very much. It would be
-	// good to try and test finding a different user than the current user.
-	got, err := Lookup(want.Username)
+	// golangod to try and test finding a different user than the current user.
+	golangt, err := Lookup(want.Username)
 	if err != nil {
 		t.Fatalf("Lookup: %v", err)
 	}
-	compare(t, want, got)
+	compare(t, want, golangt)
 }
 
 func TestLookupId(t *testing.T) {
@@ -97,18 +97,18 @@ func TestLookupId(t *testing.T) {
 
 	want, err := Current()
 	if err != nil {
-		if hasCgo || (hasUSER && hasHOME) {
+		if hasCgolang || (hasUSER && hasHOME) {
 			t.Fatalf("Current: %v", err)
 		} else {
 			t.Skipf("skipping: %v", err)
 		}
 	}
 
-	got, err := LookupId(want.Uid)
+	golangt, err := LookupId(want.Uid)
 	if err != nil {
 		t.Fatalf("LookupId: %v", err)
 	}
-	compare(t, want, got)
+	compare(t, want, golangt)
 }
 
 func checkGroup(t *testing.T) {
@@ -128,7 +128,7 @@ func TestLookupGroup(t *testing.T) {
 
 	user, err := Current()
 	if err != nil {
-		if hasCgo || (hasUSER && hasHOME) {
+		if hasCgolang || (hasUSER && hasHOME) {
 			t.Fatalf("Current: %v", err)
 		} else {
 			t.Skipf("skipping: %v", err)
@@ -168,7 +168,7 @@ func TestGroupIds(t *testing.T) {
 
 	user, err := Current()
 	if err != nil {
-		if hasCgo || (hasUSER && hasHOME) {
+		if hasCgolang || (hasUSER && hasHOME) {
 			t.Fatalf("Current: %v", err)
 		} else {
 			t.Skipf("skipping: %v", err)

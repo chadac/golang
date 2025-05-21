@@ -1,11 +1,11 @@
-[!cgo] skip
+[!cgolang] skip
 
 env GO111MODULE=on
 
-go get rsc.io/CGO
+golang get rsc.io/CGO
 [short] stop
 
-go build rsc.io/CGO
+golang build rsc.io/CGO
 
--- go.mod --
+-- golang.mod --
 module x

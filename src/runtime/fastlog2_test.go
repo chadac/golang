@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime_test
@@ -29,6 +29,6 @@ func TestFastLog2(t *testing.T) {
 	e = math.Sqrt(e)
 
 	if e > 1.0 {
-		t.Fatalf("imprecision on fastlog2 implementation, want <=1.0, got %f", e)
+		t.Fatalf("imprecision on fastlog2 implementation, want <=1.0, golangt %f", e)
 	}
 }

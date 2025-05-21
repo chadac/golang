@@ -9,9 +9,9 @@ require (
 )
 -- .info --
 {"Version":"v0.0.0-20180710144737-5d9f230bcfba","Name":"5d9f230bcfbae514bb6c2215694c2ce7273fc604","Short":"5d9f230bcfba","Time":"2018-07-10T14:47:37Z"}
--- buggy/buggy_test.go --
+-- buggy/buggy_test.golang --
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package buggy
@@ -21,16 +21,16 @@ import "testing"
 func Test(t *testing.T) {
 	t.Fatal("buggy!")
 }
--- go.mod --
+-- golang.mod --
 module rsc.io/quote
 
 require (
 	rsc.io/quote/v3 v3.0.0
 	rsc.io/sampler v1.3.0
 )
--- quote.go --
+-- quote.golang --
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package quote collects pithy sayings.
@@ -59,9 +59,9 @@ func Opt() string {
 	// Wisdom from ken.
 	return quote.OptV3()
 }
--- quote_test.go --
+-- quote_test.golang --
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package quote
@@ -90,9 +90,9 @@ func TestGlass(t *testing.T) {
 }
 
 func TestGo(t *testing.T) {
-	go1 := "Don't communicate by sharing memory, share memory by communicating."
-	if out := Go(); out != go1 {
-		t.Errorf("Go() = %q, want %q", out, go1)
+	golang1 := "Don't communicate by sharing memory, share memory by communicating."
+	if out := Go(); out != golang1 {
+		t.Errorf("Go() = %q, want %q", out, golang1)
 	}
 }
 

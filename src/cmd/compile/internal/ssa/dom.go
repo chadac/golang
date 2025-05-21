@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ssa
@@ -63,7 +63,7 @@ func dominators(f *Func) []*Block {
 
 // dominatorsLTOrig runs Lengauer-Tarjan to compute a dominator tree starting at entry.
 func (f *Func) dominatorsLTOrig(entry *Block) []*Block {
-	// Adapted directly from the original TOPLAS article's "simple" algorithm
+	// Adapted directly from the original TOPLAS article's "simple" algolangrithm
 
 	maxBlockID := entry.Func.NumBlocks()
 	scratch := f.Cache.allocIDSlice(7 * maxBlockID)
@@ -140,7 +140,7 @@ func (f *Func) dominatorsLTOrig(entry *Block) []*Block {
 // dfsOrig performs a depth first search over the blocks starting at entry block
 // (in arbitrary order).  This is a de-recursed version of dfs from the
 // original Tarjan-Lengauer TOPLAS article.  It's important to return the
-// same values for parent as the original algorithm.
+// same values for parent as the original algolangrithm.
 func (f *Func) dfsOrig(entry *Block, semi, vertex, label, parent []ID) ID {
 	n := ID(0)
 	s := make([]*Block, 0, 256)
@@ -200,7 +200,7 @@ func linkOrig(v, w ID, ancestor []ID) {
 // which maps block ID to the immediate dominator of that block.
 // Unreachable blocks map to nil. The entry block maps to nil.
 func dominatorsSimple(f *Func) []*Block {
-	// A simple algorithm for now
+	// A simple algolangrithm for now
 	// Cooper, Harvey, Kennedy
 	idom := make([]*Block, f.NumBlocks())
 

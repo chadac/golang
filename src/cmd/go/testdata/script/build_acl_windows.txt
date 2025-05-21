@@ -12,14 +12,14 @@ env TEMP=$WORK\guest
 
 # Build a binary using the guest directory as an intermediate
 cd TestACL
-go build -o main.exe main.go
+golang build -o main.exe main.golang
 # Build the same binary, but write it to the guest directory.
-go build -o $TMP\main.exe main.go
+golang build -o $TMP\main.exe main.golang
 
 # Read ACLs for the files.
 exec powershell -Command 'Get-Acl main.exe | Select -expand AccessToString'
 cp stdout $WORK\exe-acl.txt
-exec powershell -Command 'Get-Acl main.go | Select -expand AccessToString'
+exec powershell -Command 'Get-Acl main.golang | Select -expand AccessToString'
 cp stdout $WORK\src-acl.txt
 cd $TMP
 exec powershell -Command 'Get-Acl main.exe | Select -expand AccessToString'
@@ -37,8 +37,8 @@ grep 'BUILTIN\\Guests\s+Allow' $WORK\guest-acl.txt
 ! grep 'BUILTIN\\Guests\s+Allow' $WORK\exe-acl.txt
 
 
--- TestACL/go.mod --
+-- TestACL/golang.mod --
 module TestACL
--- TestACL/main.go --
+-- TestACL/main.golang --
 package main
 func main() {}

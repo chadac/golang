@@ -1,8 +1,8 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !purego
+//golang:build !puregolang
 
 package sha3
 
@@ -49,7 +49,7 @@ const (
 // src is absorbed into the sponge state a.
 // len(src) must be a multiple of the rate for the given function code.
 //
-//go:noescape
+//golang:noescape
 func kimd(function code, a *[200]byte, src []byte)
 
 // klmd is a wrapper for the 'compute last message digest' instruction.
@@ -61,7 +61,7 @@ func kimd(function code, a *[200]byte, src []byte)
 // permutation is not applied. If the nopad bit of function is set and len(src)
 // is zero, only squeezing is performed.
 //
-//go:noescape
+//golang:noescape
 func klmd(function code, a *[200]byte, dst, src []byte)
 
 func (d *Digest) write(p []byte) (n int, err error) {

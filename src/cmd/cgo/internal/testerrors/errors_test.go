@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package errorstest
@@ -71,15 +71,15 @@ func expect(t *testing.T, errors []*regexp.Regexp, files ...string) {
 	}
 	defer os.RemoveAll(dir)
 
-	dst := filepath.Join(dir, strings.TrimSuffix(files[0], ".go"))
-	args := []string{"build", "-gcflags=-L -e", "-o=" + dst} // TODO(gri) no need for -gcflags=-L if go tool is adjusted
+	dst := filepath.Join(dir, strings.TrimSuffix(files[0], ".golang"))
+	args := []string{"build", "-gcflags=-L -e", "-o=" + dst} // TODO(gri) no need for -gcflags=-L if golang tool is adjusted
 	for _, file := range files {
 		args = append(args, path(file))
 	}
 	cmd := exec.Command(testenv.GoToolPath(t), args...)
 	out, err := cmd.CombinedOutput()
 	if err == nil {
-		t.Errorf("expected cgo to fail but it succeeded")
+		t.Errorf("expected cgolang to fail but it succeeded")
 	}
 
 	lines := bytes.Split(out, []byte("\n"))
@@ -105,7 +105,7 @@ func expect(t *testing.T, errors []*regexp.Regexp, files ...string) {
 func sizeofLongDouble(t *testing.T) int {
 	testenv.MustHaveGoRun(t)
 	testenv.MustHaveCGO(t)
-	cmd := exec.Command(testenv.GoToolPath(t), "run", path("long_double_size.go"))
+	cmd := exec.Command(testenv.GoToolPath(t), "run", path("long_double_size.golang"))
 	out, err := cmd.CombinedOutput()
 	if err != nil {
 		t.Fatalf("%#q: %v:\n%s", cmd, err, out)
@@ -113,34 +113,34 @@ func sizeofLongDouble(t *testing.T) int {
 
 	i, err := strconv.Atoi(strings.TrimSpace(string(out)))
 	if err != nil {
-		t.Fatalf("long_double_size.go printed invalid size: %s", out)
+		t.Fatalf("long_double_size.golang printed invalid size: %s", out)
 	}
 	return i
 }
 
 func TestReportsTypeErrors(t *testing.T) {
 	for _, file := range []string{
-		"err1.go",
-		"err2.go",
-		"err5.go",
-		"issue11097a.go",
-		"issue11097b.go",
-		"issue18452.go",
-		"issue18889.go",
-		"issue28721.go",
-		"issue33061.go",
-		"issue50710.go",
-		"issue67517.go",
-		"issue67707.go",
-		"issue69176.go",
+		"err1.golang",
+		"err2.golang",
+		"err5.golang",
+		"issue11097a.golang",
+		"issue11097b.golang",
+		"issue18452.golang",
+		"issue18889.golang",
+		"issue28721.golang",
+		"issue33061.golang",
+		"issue50710.golang",
+		"issue67517.golang",
+		"issue67707.golang",
+		"issue69176.golang",
 	} {
 		check(t, file)
 	}
 
 	if sizeofLongDouble(t) > 8 {
 		for _, file := range []string{
-			"err4.go",
-			"issue28069.go",
+			"err4.golang",
+			"issue28069.golang",
 		} {
 			check(t, file)
 		}
@@ -158,7 +158,7 @@ func TestToleratesOptimizationFlag(t *testing.T) {
 			testenv.MustHaveCGO(t)
 			t.Parallel()
 
-			cmd := exec.Command(testenv.GoToolPath(t), "build", path("issue14669.go"))
+			cmd := exec.Command(testenv.GoToolPath(t), "build", path("issue14669.golang"))
 			cmd.Env = append(os.Environ(), "CGO_CFLAGS="+cflags)
 			out, err := cmd.CombinedOutput()
 			if err != nil {
@@ -173,7 +173,7 @@ func TestMallocCrashesOnNil(t *testing.T) {
 	testenv.MustHaveGoRun(t)
 	t.Parallel()
 
-	cmd := exec.Command(testenv.GoToolPath(t), "run", path("malloc.go"))
+	cmd := exec.Command(testenv.GoToolPath(t), "run", path("malloc.golang"))
 	out, err := cmd.CombinedOutput()
 	if err == nil {
 		t.Logf("%#q:\n%s", cmd, out)
@@ -182,7 +182,7 @@ func TestMallocCrashesOnNil(t *testing.T) {
 }
 
 func TestNotMatchedCFunction(t *testing.T) {
-	file := "notmatchedcfunction.go"
+	file := "notmatchedcfunction.golang"
 	check(t, file)
 }
 
@@ -193,5 +193,5 @@ func TestIncompatibleDeclarations(t *testing.T) {
 	expect(t, []*regexp.Regexp{
 		regexp.MustCompile("inconsistent definitions for C[.]f"),
 		regexp.MustCompile("inconsistent definitions for C[.]g"),
-	}, "issue67699a.go", "issue67699b.go")
+	}, "issue67699a.golang", "issue67699b.golang")
 }

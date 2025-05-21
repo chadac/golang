@@ -1,38 +1,38 @@
-# Ensures that we can correctly list package patterns ending in '.go'.
-# See golang.org/issue/34653.
+# Ensures that we can correctly list package patterns ending in '.golang'.
+# See golanglang.org/issue/34653.
 
-# A single pattern for a package ending in '.go'.
-go list ./foo.go
-stdout '^test/foo.go$'
+# A single pattern for a package ending in '.golang'.
+golang list ./foo.golang
+stdout '^test/foo.golang$'
 
-# Multiple patterns for packages including one ending in '.go'.
-go list ./bar ./foo.go
+# Multiple patterns for packages including one ending in '.golang'.
+golang list ./bar ./foo.golang
 stdout '^test/bar$'
-stdout '^test/foo.go$'
+stdout '^test/foo.golang$'
 
 # A single pattern for a Go file.
-go list ./a.go
+golang list ./a.golang
 stdout '^command-line-arguments$'
 
 # A single typo-ed pattern for a Go file. This should
 # treat the wrong pattern as if it were a package.
-! go list ./foo.go/b.go
-stderr '^stat .*[/\\]foo\.go[/\\]b\.go: directory not found$'
+! golang list ./foo.golang/b.golang
+stderr '^stat .*[/\\]foo\.golang[/\\]b\.golang: directory not found$'
 
 # Multiple patterns for Go files with a typo. This should
 # treat the wrong pattern as if it were a nonexistent file.
-! go list ./foo.go/a.go ./foo.go/b.go
-[GOOS:plan9] stderr 'stat ./foo.go/b.go: ''./foo.go/b.go'' does not exist'
-[GOOS:windows] stderr './foo.go/b.go: The system cannot find the file specified'
-[!GOOS:plan9] [!GOOS:windows] stderr './foo.go/b.go: no such file or directory'
+! golang list ./foo.golang/a.golang ./foo.golang/b.golang
+[GOOS:plan9] stderr 'stat ./foo.golang/b.golang: ''./foo.golang/b.golang'' does not exist'
+[GOOS:windows] stderr './foo.golang/b.golang: The system cannot find the file specified'
+[!GOOS:plan9] [!GOOS:windows] stderr './foo.golang/b.golang: no such file or directory'
 
--- a.go --
+-- a.golang --
 package main
--- bar/a.go --
+-- bar/a.golang --
 package bar
--- foo.go/a.go --
-package foo.go
--- go.mod --
+-- foo.golang/a.golang --
+package foo.golang
+-- golang.mod --
 module "test"
 
-go 1.13
+golang 1.13

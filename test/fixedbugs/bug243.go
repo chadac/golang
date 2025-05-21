@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -15,7 +15,7 @@ import "errors"
 func main() {
 	var listen, _ = Listen("tcp", "127.0.0.1:0")
 
-	go func() {
+	golang func() {
 		for {
 			var conn, _ = listen.Accept()
 			_ = conn

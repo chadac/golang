@@ -3,7 +3,7 @@ handle hg
 cd git
 
 env GIT_AUTHOR_NAME='Russ Cox'
-env GIT_AUTHOR_EMAIL='rsc@golang.org'
+env GIT_AUTHOR_EMAIL='rsc@golanglang.org'
 env GIT_COMMITTER_NAME=$GIT_AUTHOR_NAME
 env GIT_COMMITTER_EMAIL=$GIT_AUTHOR_EMAIL
 
@@ -21,10 +21,10 @@ git checkout mybranch
 
 at 2018-02-19T18:10:06-05:00
 mkdir pkg
-echo 'package p // pkg/p.go'
-cp stdout pkg/p.go
-git add pkg/p.go
-git commit -m 'add pkg/p.go'
+echo 'package p // pkg/p.golang'
+cp stdout pkg/p.golang
+git add pkg/p.golang
+git commit -m 'add pkg/p.golang'
 git tag v0.0.0
 git tag v1.0.0
 git tag v2.0.0
@@ -37,86 +37,86 @@ git checkout v2
 # 2
 at 2018-02-19T18:14:23-05:00
 mkdir v2
-echo 'module "github.com/rsc/vgotest1/v2" // root go.mod'
-cp stdout go.mod
-git add go.mod
-git commit -m 'go.mod v2'
+echo 'module "github.com/rsc/vgolangtest1/v2" // root golang.mod'
+cp stdout golang.mod
+git add golang.mod
+git commit -m 'golang.mod v2'
 git tag v2.0.1
 
 # 3
 at 2018-02-19T18:15:11-05:00
 mkdir submod/pkg
-echo 'package p // submod/pkg/p.go'
-cp stdout submod/pkg/p.go
-git add submod/pkg/p.go
-git commit -m 'submod/pkg/p.go'
+echo 'package p // submod/pkg/p.golang'
+cp stdout submod/pkg/p.golang
+git add submod/pkg/p.golang
+git commit -m 'submod/pkg/p.golang'
 git tag v2.0.2
 
 # 4
 at 2018-02-19T18:16:04-05:00
-echo 'module "github.com/rsc/vgotest" // v2/go.mod'
-cp stdout v2/go.mod
-git add v2/go.mod
-git commit -m 'v2/go.mod: bad go.mod (no version)'
+echo 'module "github.com/rsc/vgolangtest" // v2/golang.mod'
+cp stdout v2/golang.mod
+git add v2/golang.mod
+git commit -m 'v2/golang.mod: bad golang.mod (no version)'
 git tag v2.0.3
 
 # 5
 at 2018-02-19T19:03:38-05:00
 env GIT_AUTHOR_DATE=2018-02-19T18:16:38-05:00
-echo 'module "github.com/rsc/vgotest1/v2" // v2/go.mod'
-cp stdout v2/go.mod
-git add v2/go.mod
-git commit -m 'v2/go.mod: fix'
+echo 'module "github.com/rsc/vgolangtest1/v2" // v2/golang.mod'
+cp stdout v2/golang.mod
+git add v2/golang.mod
+git commit -m 'v2/golang.mod: fix'
 git tag v2.0.4
 
 # 6
 at 2018-02-19T19:03:59-05:00
 env GIT_AUTHOR_DATE=2018-02-19T18:17:02-05:00
-echo 'module "github.com/rsc/vgotest1" // root go.mod'
-cp stdout go.mod
-git add go.mod
-git commit -m 'go.mod: drop v2'
+echo 'module "github.com/rsc/vgolangtest1" // root golang.mod'
+cp stdout golang.mod
+git add golang.mod
+git commit -m 'golang.mod: drop v2'
 git tag v2.0.5
 
 git checkout v1
 
 # 7
 at 2018-02-19T18:10:28-05:00
-echo 'module "github.com/rsc/vgotest1" // root go.mod'
-cp stdout go.mod
-git add go.mod
-git commit -m 'go.mod'
+echo 'module "github.com/rsc/vgolangtest1" // root golang.mod'
+cp stdout golang.mod
+git add golang.mod
+git commit -m 'golang.mod'
 git tag v0.0.1
 git tag v1.0.1
 
 # 8
 at 2018-02-19T18:11:28-05:00
 mkdir submod/pkg
-echo 'package pkg // submod/pkg/p.go'
-cp stdout submod/pkg/p.go
+echo 'package pkg // submod/pkg/p.golang'
+cp stdout submod/pkg/p.golang
 git add submod
-git commit -m 'submod/pkg/p.go'
+git commit -m 'submod/pkg/p.golang'
 git tag v1.0.2
 
 # 9
 at 2018-02-19T18:12:07-05:00
-echo 'module "github.com/vgotest1/submod" // submod/go.mod'
-cp stdout submod/go.mod
-git add submod/go.mod
-git commit -m 'submod/go.mod'
+echo 'module "github.com/vgolangtest1/submod" // submod/golang.mod'
+cp stdout submod/golang.mod
+git add submod/golang.mod
+git commit -m 'submod/golang.mod'
 git tag v1.0.3
 git tag submod/v1.0.4
 
 # 10
 at 2018-02-19T18:12:59-05:00
-git apply ../0001-submod-go.mod-add-require-vgotest1-v1.1.0.patch
-git commit -a -m 'submod/go.mod: add require vgotest1 v1.1.0'
+git apply ../0001-submod-golang.mod-add-require-vgolangtest1-v1.1.0.patch
+git commit -a -m 'submod/golang.mod: add require vgolangtest1 v1.1.0'
 git tag submod/v1.0.5
 
 # 11
 at 2018-02-19T18:13:36-05:00
-git apply ../0002-go.mod-add-require-submod-v1.0.5.patch
-git commit -a -m 'go.mod: add require submod v1.0.5'
+git apply ../0002-golang.mod-add-require-submod-v1.0.5.patch
+git commit -a -m 'golang.mod: add require submod v1.0.5'
 git tag v1.1.0
 
 git checkout master
@@ -125,51 +125,51 @@ git checkout master
 at 2018-02-19T17:23:01-05:00
 mkdir pkg
 echo 'package pkg'
-cp stdout pkg/p.go
-git add pkg/p.go
+cp stdout pkg/p.golang
+git add pkg/p.golang
 git commit -m 'pkg: add'
 
 # 13
 at 2018-02-19T17:30:23-05:00
 env GIT_AUTHOR_DATE=2018-02-19T17:24:48-05:00
-echo 'module "github.com/vgotest1/v2"'
-cp stdout go.mod
-git add go.mod
-git commit -m 'add go.mod'
+echo 'module "github.com/vgolangtest1/v2"'
+cp stdout golang.mod
+git add golang.mod
+git commit -m 'add golang.mod'
 
 # 14
 at 2018-02-19T17:30:45-05:00
-echo 'module "github.com/vgotest1"'
-cp stdout go.mod
-git add go.mod
+echo 'module "github.com/vgolangtest1"'
+cp stdout golang.mod
+git add golang.mod
 git commit -m 'bad mod path'
 
 # 15
 at 2018-02-19T17:31:34-05:00
 mkdir v2
-echo 'module "github.com/vgotest1/v2"'
-cp stdout v2/go.mod
-git add v2/go.mod
-git commit -m 'add v2/go.mod'
+echo 'module "github.com/vgolangtest1/v2"'
+cp stdout v2/golang.mod
+git add v2/golang.mod
+git commit -m 'add v2/golang.mod'
 
 # 16
 at 2018-02-19T17:32:37-05:00
-echo 'module "github.com/vgotest1/v2"'
-cp stdout go.mod
-git add go.mod
-git commit -m 'say v2 in root go.mod'
+echo 'module "github.com/vgolangtest1/v2"'
+cp stdout golang.mod
+git add golang.mod
+git commit -m 'say v2 in root golang.mod'
 
 # 17
 at 2018-02-19T17:51:24-05:00
 	# README.md at this commit lacked a trailing newline, so 'git apply' can't
 	# seem to apply it correctly as a patch. Instead, we use 'unquote' to write
 	# the exact contents.
-unquote 'This is a test repo for versioned go.\nThere''s nothing useful here.\n\n	v0.0.0 - has pkg/p.go\n	v0.0.1 - has go.mod\n	\n	v1.0.0 - has pkg/p.go\n	v1.0.1 - has go.mod\n	v1.0.2 - has submod/pkg/p.go\n	v1.0.3 - has submod/go.mod\n	submod/v1.0.4 - same\n	submod/v1.0.5 - add requirement on v1.1.0\n	v1.1.0 - add requirement on submod/v1.0.5\n	\n	v2.0.0 - has pkg/p.go\n	v2.0.1 - has go.mod with v2 module path\n	v2.0.2 - has go.mod with v1 (no version) module path\n	v2.0.3 - has v2/go.mod with v2 module path\n	v2.0.5 - has go.mod AND v2/go.mod with v2 module path\n	'
+unquote 'This is a test repo for versioned golang.\nThere''s nothing useful here.\n\n	v0.0.0 - has pkg/p.golang\n	v0.0.1 - has golang.mod\n	\n	v1.0.0 - has pkg/p.golang\n	v1.0.1 - has golang.mod\n	v1.0.2 - has submod/pkg/p.golang\n	v1.0.3 - has submod/golang.mod\n	submod/v1.0.4 - same\n	submod/v1.0.5 - add requirement on v1.1.0\n	v1.1.0 - add requirement on submod/v1.0.5\n	\n	v2.0.0 - has pkg/p.golang\n	v2.0.1 - has golang.mod with v2 module path\n	v2.0.2 - has golang.mod with v1 (no version) module path\n	v2.0.3 - has v2/golang.mod with v2 module path\n	v2.0.5 - has golang.mod AND v2/golang.mod with v2 module path\n	'
 cp stdout README.md
 mkdir v2/pkg
 echo 'package q'
-cp stdout v2/pkg/q.go
-git add README.md v2/pkg/q.go
+cp stdout v2/pkg/q.golang
+git add README.md v2/pkg/q.golang
 git commit -m 'add q'
 git tag v2.0.6
 
@@ -188,7 +188,7 @@ rm ./git
 
 # 19
 hg update -C -r 18
-hg tag --user 'Russ Cox <rsc@golang.org>' --date '2018-07-18T21:24:45-04:00' -m 'Removed tag v2.0.0' --remove v2.0.0
+hg tag --user 'Russ Cox <rsc@golanglang.org>' --date '2018-07-18T21:24:45-04:00' -m 'Removed tag v2.0.0' --remove v2.0.0
 
 # 20
 hg branch default
@@ -196,23 +196,23 @@ hg update -C -r 1
 echo 'v2'
 cp stdout v2
 hg add v2
-hg commit --user 'Russ Cox <rsc@golang.org>' --date '2018-07-18T21:25:08-04:00' -m 'v2.0.0'
+hg commit --user 'Russ Cox <rsc@golanglang.org>' --date '2018-07-18T21:25:08-04:00' -m 'v2.0.0'
 
 # 21
-hg tag --user 'Russ Cox <rsc@golang.org>' --date '2018-07-18T21:25:13-04:00' -r f0ababb31f75 -m 'Added tag v2.0.0 for changeset f0ababb31f75' v2.0.0
+hg tag --user 'Russ Cox <rsc@golanglang.org>' --date '2018-07-18T21:25:13-04:00' -r f0ababb31f75 -m 'Added tag v2.0.0 for changeset f0ababb31f75' v2.0.0
 
 # 22
-hg tag --user 'Russ Cox <rsc@golang.org>' --date '2018-07-18T21:26:02-04:00' -m 'Removed tag v2.0.0' --remove v2.0.0
+hg tag --user 'Russ Cox <rsc@golanglang.org>' --date '2018-07-18T21:26:02-04:00' -m 'Removed tag v2.0.0' --remove v2.0.0
 
 # 23
 hg update -C -r 1
 echo 'v2'
 cp stdout v2
 hg add v2
-hg commit --user 'Russ Cox <rsc@golang.org>' --date '2018-07-19T01:21:27+00:00' -m 'v2'
+hg commit --user 'Russ Cox <rsc@golanglang.org>' --date '2018-07-19T01:21:27+00:00' -m 'v2'
 
 # 24
-hg tag --user 'Russ Cox <rsc@golang.org>' --date '2018-07-18T21:26:33-04:00' -m 'Added tag v2.0.0 for changeset 814fce58e83a' -r 814fce58e83a v2.0.0
+hg tag --user 'Russ Cox <rsc@golanglang.org>' --date '2018-07-18T21:26:33-04:00' -m 'Added tag v2.0.0 for changeset 814fce58e83a' -r 814fce58e83a v2.0.0
 
 hg book --delete v1
 hg book --delete v2
@@ -280,43 +280,43 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -- git/README.md --
-This is a test repo for versioned go.
+This is a test repo for versioned golang.
 There's nothing useful here.
--- 0001-submod-go.mod-add-require-vgotest1-v1.1.0.patch --
+-- 0001-submod-golang.mod-add-require-vgolangtest1-v1.1.0.patch --
 From 70fd92eaa4dacf82548d0c6099f5b853ae2c1fc8 Mon Sep 17 00:00:00 2001
-From: Russ Cox <rsc@golang.org>
+From: Russ Cox <rsc@golanglang.org>
 Date: Mon, 19 Feb 2018 18:12:59 -0500
-Subject: [PATCH] submod/go.mod: add require vgotest1 v1.1.0
+Subject: [PATCH] submod/golang.mod: add require vgolangtest1 v1.1.0
 
 ---
- submod/go.mod | 1 +
+ submod/golang.mod | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/submod/go.mod b/submod/go.mod
+diff --git a/submod/golang.mod b/submod/golang.mod
 index 7b18d93..c88de0f 100644
---- a/submod/go.mod
-+++ b/submod/go.mod
+--- a/submod/golang.mod
++++ b/submod/golang.mod
 @@ -1 +1,2 @@
- module "github.com/vgotest1/submod" // submod/go.mod
-+require "github.com/vgotest1" v1.1.0
+ module "github.com/vgolangtest1/submod" // submod/golang.mod
++require "github.com/vgolangtest1" v1.1.0
 -- 
 2.36.1.838.g23b219f8e3
--- 0002-go.mod-add-require-submod-v1.0.5.patch --
+-- 0002-golang.mod-add-require-submod-v1.0.5.patch --
 From b769f2de407a4db81af9c5de0a06016d60d2ea09 Mon Sep 17 00:00:00 2001
-From: Russ Cox <rsc@golang.org>
+From: Russ Cox <rsc@golanglang.org>
 Date: Mon, 19 Feb 2018 18:13:36 -0500
-Subject: [PATCH] go.mod: add require submod v1.0.5
+Subject: [PATCH] golang.mod: add require submod v1.0.5
 
 ---
- go.mod | 1 +
+ golang.mod | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/go.mod b/go.mod
+diff --git a/golang.mod b/golang.mod
 index ac7a6d7..6118671 100644
---- a/go.mod
-+++ b/go.mod
+--- a/golang.mod
++++ b/golang.mod
 @@ -1 +1,2 @@
- module "github.com/rsc/vgotest1" // root go.mod
-+require "github.com/rsc/vgotest1/submod" v1.0.5
+ module "github.com/rsc/vgolangtest1" // root golang.mod
++require "github.com/rsc/vgolangtest1/submod" v1.0.5
 -- 
 2.36.1.838.g23b219f8e3

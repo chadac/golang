@@ -1,8 +1,8 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build solaris
+//golang:build solaris
 
 package unix_test
 
@@ -20,9 +20,9 @@ func TestSupportSockNonblockCloexec(t *testing.T) {
 		syscall.Close(s)
 	}
 	wantSock := err != syscall.EPROTONOSUPPORT && err != syscall.EINVAL
-	gotSock := unix.SupportSockNonblockCloexec()
-	if wantSock != gotSock {
-		t.Fatalf("SupportSockNonblockCloexec, got %t; want %t", gotSock, wantSock)
+	golangtSock := unix.SupportSockNonblockCloexec()
+	if wantSock != golangtSock {
+		t.Fatalf("SupportSockNonblockCloexec, golangt %t; want %t", golangtSock, wantSock)
 	}
 
 	// Test that SupportAccept4 returns true if accept4 is available.
@@ -33,26 +33,26 @@ func TestSupportSockNonblockCloexec(t *testing.T) {
 		}
 	}
 	wantAccept4 := err != syscall.ENOSYS
-	gotAccept4 := unix.SupportAccept4()
-	if wantAccept4 != gotAccept4 {
-		t.Fatalf("SupportAccept4, got %t; want %t", gotAccept4, wantAccept4)
+	golangtAccept4 := unix.SupportAccept4()
+	if wantAccept4 != golangtAccept4 {
+		t.Fatalf("SupportAccept4, golangt %t; want %t", golangtAccept4, wantAccept4)
 	}
 
 	// Test that the version returned by KernelVersion matches expectations.
 	major, minor := unix.KernelVersion()
 	t.Logf("Kernel version: %d.%d", major, minor)
 	if runtime.GOOS == "illumos" {
-		if gotSock && gotAccept4 && (major < 5 || (major == 5 && minor < 11)) {
+		if golangtSock && golangtAccept4 && (major < 5 || (major == 5 && minor < 11)) {
 			t.Fatalf("SupportSockNonblockCloexec and SupportAccept4 are true, but kernel version is older than 5.11, SunOS version: %d.%d", major, minor)
 		}
-		if !gotSock && !gotAccept4 && (major > 5 || (major == 5 && minor >= 11)) {
+		if !golangtSock && !golangtAccept4 && (major > 5 || (major == 5 && minor >= 11)) {
 			t.Errorf("SupportSockNonblockCloexec and SupportAccept4 are false, but kernel version is 5.11 or newer, SunOS version: %d.%d", major, minor)
 		}
 	} else { // Solaris
-		if gotSock && gotAccept4 && (major < 11 || (major == 11 && minor < 4)) {
+		if golangtSock && golangtAccept4 && (major < 11 || (major == 11 && minor < 4)) {
 			t.Fatalf("SupportSockNonblockCloexec and SupportAccept4 are true, but kernel version is older than 11.4, Solaris version: %d.%d", major, minor)
 		}
-		if !gotSock && !gotAccept4 && (major > 11 || (major == 11 && minor >= 4)) {
+		if !golangtSock && !golangtAccept4 && (major > 11 || (major == 11 && minor >= 4)) {
 			t.Errorf("SupportSockNonblockCloexec and SupportAccept4 are false, but kernel version is 11.4 or newer, Solaris version: %d.%d", major, minor)
 		}
 	}

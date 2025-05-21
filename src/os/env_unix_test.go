@@ -1,8 +1,8 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build unix
+//golang:build unix
 
 package os_test
 
@@ -49,8 +49,8 @@ func TestExpandEnvShellSpecialVar(t *testing.T) {
 
 		argRaw := fmt.Sprintf("$%s", tt.k)
 		argWithBrace := fmt.Sprintf("${%s}", tt.k)
-		if gotRaw, gotBrace := ExpandEnv(argRaw), ExpandEnv(argWithBrace); gotRaw != gotBrace {
-			t.Errorf("ExpandEnv(%q) = %q, ExpandEnv(%q) = %q; expect them to be equal", argRaw, gotRaw, argWithBrace, gotBrace)
+		if golangtRaw, golangtBrace := ExpandEnv(argRaw), ExpandEnv(argWithBrace); golangtRaw != golangtBrace {
+			t.Errorf("ExpandEnv(%q) = %q, ExpandEnv(%q) = %q; expect them to be equal", argRaw, golangtRaw, argWithBrace, golangtBrace)
 		}
 	}
 }

@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test to make sure that equality functions (and hash
@@ -23,35 +23,35 @@ type A2 [2]byte // eq uses a 2-byte load
 type A4 [4]byte // eq uses a 4-byte load
 type A8 [8]byte // eq uses an 8-byte load
 
-//go:noinline
+//golang:noinline
 func cmpT1(p, q *T1) {
 	if *p != *q {
 		panic("comparison test wrong")
 	}
 }
 
-//go:noinline
+//golang:noinline
 func cmpT2(p, q *T2) {
 	if *p != *q {
 		panic("comparison test wrong")
 	}
 }
 
-//go:noinline
+//golang:noinline
 func cmpA2(p, q *A2) {
 	if *p != *q {
 		panic("comparison test wrong")
 	}
 }
 
-//go:noinline
+//golang:noinline
 func cmpA4(p, q *A4) {
 	if *p != *q {
 		panic("comparison test wrong")
 	}
 }
 
-//go:noinline
+//golang:noinline
 func cmpA8(p, q *A8) {
 	if *p != *q {
 		panic("comparison test wrong")

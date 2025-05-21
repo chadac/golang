@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ld
@@ -30,7 +30,7 @@ func TestHeap(t *testing.T) {
 			}
 			// pop should return elements in ascending order.
 			if want := loader.Sym((j + 1) * 10); x != want {
-				t.Errorf("pop returns wrong element: want %d, got %d", want, x)
+				t.Errorf("pop returns wrong element: want %d, golangt %d", want, x)
 			}
 		}
 		if !h.empty() {

@@ -1,8 +1,8 @@
-// Package predeclared is a go/doc test for handling of exported ...
+// Package predeclared is a golang/doc test for handling of exported ...
 PACKAGE predeclared
 
 IMPORTPATH
 	testdata/predeclared
 
 FILENAMES
-	testdata/predeclared.go
+	testdata/predeclared.golang

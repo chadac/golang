@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package base
@@ -10,58 +10,58 @@ import (
 	"runtime"
 	"strings"
 
-	"cmd/go/internal/cfg"
+	"cmd/golang/internal/cfg"
 	"cmd/internal/quoted"
 )
 
-var goflags []string // cached $GOFLAGS list; can be -x or --x form
+var golangflags []string // cached $GOFLAGS list; can be -x or --x form
 
 // GOFLAGS returns the flags from $GOFLAGS.
 // The list can be assumed to contain one string per flag,
 // with each string either beginning with -name or --name.
 func GOFLAGS() []string {
 	InitGOFLAGS()
-	return goflags
+	return golangflags
 }
 
-// InitGOFLAGS initializes the goflags list from $GOFLAGS.
-// If goflags is already initialized, it does nothing.
+// InitGOFLAGS initializes the golangflags list from $GOFLAGS.
+// If golangflags is already initialized, it does nothing.
 func InitGOFLAGS() {
-	if goflags != nil { // already initialized
+	if golangflags != nil { // already initialized
 		return
 	}
 
-	// Ignore bad flag in go env and go bug, because
+	// Ignore bad flag in golang env and golang bug, because
 	// they are what people reach for when debugging
 	// a problem, and maybe they're debugging GOFLAGS.
 	// (Both will show the GOFLAGS setting if let succeed.)
 	hideErrors := cfg.CmdName == "env" || cfg.CmdName == "bug"
 
 	var err error
-	goflags, err = quoted.Split(cfg.Getenv("GOFLAGS"))
+	golangflags, err = quoted.Split(cfg.Getenv("GOFLAGS"))
 	if err != nil {
 		if hideErrors {
 			return
 		}
-		Fatalf("go: parsing $GOFLAGS: %v", err)
+		Fatalf("golang: parsing $GOFLAGS: %v", err)
 	}
 
-	if len(goflags) == 0 {
+	if len(golangflags) == 0 {
 		// nothing to do; avoid work on later InitGOFLAGS call
-		goflags = []string{}
+		golangflags = []string{}
 		return
 	}
 
 	// Each of the words returned by strings.Fields must be its own flag.
 	// To set flag arguments use -x=value instead of -x value.
 	// For boolean flags, -x is fine instead of -x=true.
-	for _, f := range goflags {
+	for _, f := range golangflags {
 		// Check that every flag looks like -x --x -x=value or --x=value.
 		if !strings.HasPrefix(f, "-") || f == "-" || f == "--" || strings.HasPrefix(f, "---") || strings.HasPrefix(f, "-=") || strings.HasPrefix(f, "--=") {
 			if hideErrors {
 				continue
 			}
-			Fatalf("go: parsing $GOFLAGS: non-flag %q", f)
+			Fatalf("golang: parsing $GOFLAGS: non-flag %q", f)
 		}
 
 		name := f[1:]
@@ -75,7 +75,7 @@ func InitGOFLAGS() {
 			if hideErrors {
 				continue
 			}
-			Fatalf("go: parsing $GOFLAGS: unknown flag -%s", name)
+			Fatalf("golang: parsing $GOFLAGS: unknown flag -%s", name)
 		}
 	}
 }
@@ -92,21 +92,21 @@ func SetFromGOFLAGS(flags *flag.FlagSet) {
 	InitGOFLAGS()
 
 	// This loop is similar to flag.Parse except that it ignores
-	// unknown flags found in goflags, so that setting, say, GOFLAGS=-ldflags=-w
+	// unknown flags found in golangflags, so that setting, say, GOFLAGS=-ldflags=-w
 	// does not break commands that don't have a -ldflags.
 	// It also adjusts the output to be clear that the reported problem is from $GOFLAGS.
 	where := "$GOFLAGS"
 	if runtime.GOOS == "windows" {
 		where = "%GOFLAGS%"
 	}
-	for _, goflag := range goflags {
-		name, value, hasValue := goflag, "", false
+	for _, golangflag := range golangflags {
+		name, value, hasValue := golangflag, "", false
 		// Ignore invalid flags like '=' or '=value'.
 		// If it is not reported in InitGOFlags it means we don't want to report it.
-		if i := strings.Index(goflag, "="); i == 0 {
+		if i := strings.Index(golangflag, "="); i == 0 {
 			continue
 		} else if i > 0 {
-			name, value, hasValue = goflag[:i], goflag[i+1:], true
+			name, value, hasValue = golangflag[:i], golangflag[i+1:], true
 		}
 		if strings.HasPrefix(name, "--") {
 			name = name[1:]
@@ -122,22 +122,22 @@ func SetFromGOFLAGS(flags *flag.FlagSet) {
 		if fb, ok := f.Value.(boolFlag); ok && fb.IsBoolFlag() {
 			if hasValue {
 				if err := flags.Set(f.Name, value); err != nil {
-					fmt.Fprintf(flags.Output(), "go: invalid boolean value %q for flag %s (from %s): %v\n", value, name, where, err)
+					fmt.Fprintf(flags.Output(), "golang: invalid boolean value %q for flag %s (from %s): %v\n", value, name, where, err)
 					flags.Usage()
 				}
 			} else {
 				if err := flags.Set(f.Name, "true"); err != nil {
-					fmt.Fprintf(flags.Output(), "go: invalid boolean flag %s (from %s): %v\n", name, where, err)
+					fmt.Fprintf(flags.Output(), "golang: invalid boolean flag %s (from %s): %v\n", name, where, err)
 					flags.Usage()
 				}
 			}
 		} else {
 			if !hasValue {
-				fmt.Fprintf(flags.Output(), "go: flag needs an argument: %s (from %s)\n", name, where)
+				fmt.Fprintf(flags.Output(), "golang: flag needs an argument: %s (from %s)\n", name, where)
 				flags.Usage()
 			}
 			if err := flags.Set(f.Name, value); err != nil {
-				fmt.Fprintf(flags.Output(), "go: invalid value %q for flag %s (from %s): %v\n", value, name, where, err)
+				fmt.Fprintf(flags.Output(), "golang: invalid value %q for flag %s (from %s): %v\n", value, name, where, err)
 				flags.Usage()
 			}
 		}
@@ -146,8 +146,8 @@ func SetFromGOFLAGS(flags *flag.FlagSet) {
 
 // InGOFLAGS returns whether GOFLAGS contains the given flag, such as "-mod".
 func InGOFLAGS(flag string) bool {
-	for _, goflag := range GOFLAGS() {
-		name := goflag
+	for _, golangflag := range GOFLAGS() {
+		name := golangflag
 		if strings.HasPrefix(name, "--") {
 			name = name[1:]
 		}

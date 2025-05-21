@@ -1,8 +1,8 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build unix || (js && wasm) || wasip1 || windows
+//golang:build unix || (js && wasm) || wasip1 || windows
 
 package os
 
@@ -72,7 +72,7 @@ func syscallMode(i FileMode) (o uint32) {
 	return
 }
 
-// See docs in file.go:Chmod.
+// See docs in file.golang:Chmod.
 func chmod(name string, mode FileMode) error {
 	longName := fixLongPath(name)
 	e := ignoringEINTR(func() error {
@@ -84,7 +84,7 @@ func chmod(name string, mode FileMode) error {
 	return nil
 }
 
-// See docs in file.go:(*File).Chmod.
+// See docs in file.golang:(*File).Chmod.
 func (f *File) chmod(mode FileMode) error {
 	if err := f.checkValid("chmod"); err != nil {
 		return err

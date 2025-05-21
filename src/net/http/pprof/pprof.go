@@ -1,5 +1,5 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package pprof serves via its HTTP server runtime profiling data
@@ -18,7 +18,7 @@
 // need to start one. Add "net/http" and "log" to your imports and
 // the following code to your main function:
 //
-//	go func() {
+//	golang func() {
 //		log.Println(http.ListenAndServe("localhost:6060", nil))
 //	}()
 //
@@ -34,40 +34,40 @@
 //
 //   - debug=N (all profiles): response format: N = 0: binary (default), N > 0: plaintext
 //   - gc=N (heap profile): N > 0: run a garbage collection cycle before profiling
-//   - seconds=N (allocs, block, goroutine, heap, mutex, threadcreate profiles): return a delta profile
+//   - seconds=N (allocs, block, golangroutine, heap, mutex, threadcreate profiles): return a delta profile
 //   - seconds=N (cpu (profile), trace profiles): profile for the given duration
 //
 // # Usage examples
 //
 // Use the pprof tool to look at the heap profile:
 //
-//	go tool pprof http://localhost:6060/debug/pprof/heap
+//	golang tool pprof http://localhost:6060/debug/pprof/heap
 //
 // Or to look at a 30-second CPU profile:
 //
-//	go tool pprof http://localhost:6060/debug/pprof/profile?seconds=30
+//	golang tool pprof http://localhost:6060/debug/pprof/profile?seconds=30
 //
-// Or to look at the goroutine blocking profile, after calling
+// Or to look at the golangroutine blocking profile, after calling
 // [runtime.SetBlockProfileRate] in your program:
 //
-//	go tool pprof http://localhost:6060/debug/pprof/block
+//	golang tool pprof http://localhost:6060/debug/pprof/block
 //
 // Or to look at the holders of contended mutexes, after calling
 // [runtime.SetMutexProfileFraction] in your program:
 //
-//	go tool pprof http://localhost:6060/debug/pprof/mutex
+//	golang tool pprof http://localhost:6060/debug/pprof/mutex
 //
 // The package also exports a handler that serves execution trace data
-// for the "go tool trace" command. To collect a 5-second execution trace:
+// for the "golang tool trace" command. To collect a 5-second execution trace:
 //
 //	curl -o trace.out http://localhost:6060/debug/pprof/trace?seconds=5
-//	go tool trace trace.out
+//	golang tool trace trace.out
 //
 // To view all available profiles, open http://localhost:6060/debug/pprof/
 // in your browser.
 //
 // For a study of the facility in action, visit
-// https://blog.golang.org/2011/06/profiling-go-programs.html.
+// https://blog.golanglang.org/2011/06/profiling-golang-programs.html.
 package pprof
 
 import (
@@ -76,7 +76,7 @@ import (
 	"context"
 	"fmt"
 	"html"
-	"internal/godebug"
+	"internal/golangdebug"
 	"internal/profile"
 	"io"
 	"log"
@@ -94,7 +94,7 @@ import (
 
 func init() {
 	prefix := ""
-	if godebug.New("httpmuxgo121").Value() != "1" {
+	if golangdebug.New("httpmuxgolang121").Value() != "1" {
 		prefix = "GET "
 	}
 	http.HandleFunc(prefix+"/debug/pprof/", Index)
@@ -305,7 +305,7 @@ func (name handler) serveDeltaProfile(w http.ResponseWriter, r *http.Request, p 
 		err := r.Context().Err()
 		if err == context.DeadlineExceeded {
 			serveError(w, http.StatusRequestTimeout, err.Error())
-		} else { // TODO: what's a good status code for canceled requests? 400?
+		} else { // TODO: what's a golangod status code for canceled requests? 400?
 			serveError(w, http.StatusInternalServerError, err.Error())
 		}
 		return
@@ -353,7 +353,7 @@ func collectProfile(p *pprof.Profile) (*profile.Profile, error) {
 var profileSupportsDelta = map[handler]bool{
 	"allocs":       true,
 	"block":        true,
-	"goroutine":    true,
+	"golangroutine":    true,
 	"heap":         true,
 	"mutex":        true,
 	"threadcreate": true,
@@ -363,13 +363,13 @@ var profileDescriptions = map[string]string{
 	"allocs":       "A sampling of all past memory allocations",
 	"block":        "Stack traces that led to blocking on synchronization primitives",
 	"cmdline":      "The command line invocation of the current program",
-	"goroutine":    "Stack traces of all current goroutines. Use debug=2 as a query parameter to export in the same format as an unrecovered panic.",
+	"golangroutine":    "Stack traces of all current golangroutines. Use debug=2 as a query parameter to export in the same format as an unrecovered panic.",
 	"heap":         "A sampling of memory allocations of live objects. You can specify the gc GET parameter to run GC before taking the heap sample.",
 	"mutex":        "Stack traces of holders of contended mutexes",
-	"profile":      "CPU profile. You can specify the duration in the seconds GET parameter. After you get the profile file, use the go tool pprof command to investigate the profile.",
+	"profile":      "CPU profile. You can specify the duration in the seconds GET parameter. After you get the profile file, use the golang tool pprof command to investigate the profile.",
 	"symbol":       "Maps given program counters to function names. Counters can be specified in a GET raw query or POST body, multiple counters are separated by '+'.",
 	"threadcreate": "Stack traces that led to the creation of new OS threads",
-	"trace":        "A trace of execution of the current program. You can specify the duration in the seconds GET parameter. After you get the trace file, use the go tool trace command to investigate the trace.",
+	"trace":        "A trace of execution of the current program. You can specify the duration in the seconds GET parameter. After you get the trace file, use the golang tool trace command to investigate the trace.",
 }
 
 type profileEntry struct {
@@ -450,7 +450,7 @@ Types of profiles available:
 	}
 
 	b.WriteString(`</table>
-<a href="goroutine?debug=2">full goroutine stack dump</a>
+<a href="golangroutine?debug=2">full golangroutine stack dump</a>
 <br>
 <p>
 Profile Descriptions:

@@ -2,11 +2,11 @@
 
 env GO111MODULE=on
 
-go mod init golang.org/issue/27584
+golang mod init golanglang.org/issue/27584
 
-go build .
+golang build .
 
--- main.go --
+-- main.golang --
 package main
 
 type string = []int

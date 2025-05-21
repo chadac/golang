@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package modcmd
@@ -13,27 +13,27 @@ import (
 	"os"
 	"runtime"
 
-	"cmd/go/internal/base"
-	"cmd/go/internal/gover"
-	"cmd/go/internal/modfetch"
-	"cmd/go/internal/modload"
+	"cmd/golang/internal/base"
+	"cmd/golang/internal/golangver"
+	"cmd/golang/internal/modfetch"
+	"cmd/golang/internal/modload"
 
-	"golang.org/x/mod/module"
-	"golang.org/x/mod/sumdb/dirhash"
+	"golanglang.org/x/mod/module"
+	"golanglang.org/x/mod/sumdb/dirhash"
 )
 
 var cmdVerify = &base.Command{
-	UsageLine: "go mod verify",
+	UsageLine: "golang mod verify",
 	Short:     "verify dependencies have expected content",
 	Long: `
 Verify checks that the dependencies of the current module,
 which are stored in a local downloaded source cache, have not been
 modified since being downloaded. If all the modules are unmodified,
 verify prints "all modules verified." Otherwise it reports which
-modules have been changed and causes 'go mod' to exit with a
+modules have been changed and causes 'golang mod' to exit with a
 non-zero status.
 
-See https://golang.org/ref/mod#go-mod-verify for more about 'go mod verify'.
+See https://golanglang.org/ref/mod#golang-mod-verify for more about 'golang mod verify'.
 	`,
 	Run: runVerify,
 }
@@ -48,7 +48,7 @@ func runVerify(ctx context.Context, cmd *base.Command, args []string) {
 
 	if len(args) != 0 {
 		// NOTE(rsc): Could take a module pattern.
-		base.Fatalf("go: verify takes no arguments")
+		base.Fatalf("golang: verify takes no arguments")
 	}
 	modload.ForceUseModules = true
 	modload.RootMode = modload.NeedRoot
@@ -70,7 +70,7 @@ func runVerify(ctx context.Context, cmd *base.Command, args []string) {
 		errsc := make(chan []error, 1)
 		errsChans[i] = errsc
 		mod := mod // use a copy to avoid data races
-		go func() {
+		golang func() {
 			errsc <- verifyMod(ctx, mod)
 			<-sem
 		}()
@@ -90,8 +90,8 @@ func runVerify(ctx context.Context, cmd *base.Command, args []string) {
 }
 
 func verifyMod(ctx context.Context, mod module.Version) []error {
-	if gover.IsToolchain(mod.Path) {
-		// "go" and "toolchain" have no disk footprint; nothing to verify.
+	if golangver.IsToolchain(mod.Path) {
+		// "golang" and "toolchain" have no disk footprint; nothing to verify.
 		return nil
 	}
 	if modload.MainModules.Contains(mod.Path) {

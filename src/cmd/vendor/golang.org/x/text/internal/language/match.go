@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package language
@@ -86,7 +86,7 @@ func addTags(t Tag) (Tag, error) {
 			list = likelyRegionList[x.lang : x.lang+uint16(x.script)]
 		}
 		for _, x := range list {
-			// Deviating from the spec. See match_test.go for details.
+			// Deviating from the spec. See match_test.golang for details.
 			if Script(x.script) == t.ScriptID {
 				t.setUndefinedLang(Language(x.lang))
 				return t, nil
@@ -108,7 +108,7 @@ func addTags(t Tag) (Tag, error) {
 					}
 				} else if t.RegionID != 0 {
 					count := 0
-					goodScript := true
+					golangodScript := true
 					tt := t
 					for _, x := range list {
 						// We visit all entries for which the script was not
@@ -118,7 +118,7 @@ func addTags(t Tag) (Tag, error) {
 						if x.flags&scriptInFrom == 0 && t.RegionID.Contains(Region(x.region)) {
 							tt.RegionID = Region(x.region)
 							tt.setUndefinedScript(Script(x.script))
-							goodScript = goodScript && tt.ScriptID == Script(x.script)
+							golangodScript = golangodScript && tt.ScriptID == Script(x.script)
 							count++
 						}
 					}
@@ -127,7 +127,7 @@ func addTags(t Tag) (Tag, error) {
 					}
 					// Even if we fail to find a unique Region, we might have
 					// an unambiguous script.
-					if goodScript {
+					if golangodScript {
 						t.ScriptID = tt.ScriptID
 					}
 				}

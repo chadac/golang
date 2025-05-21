@@ -1,8 +1,8 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build windows
+//golang:build windows
 
 // Package registry provides access to the Windows registry.
 //
@@ -20,7 +20,7 @@
 //	}
 //	fmt.Printf("Windows system root is %q\n", s)
 //
-// NOTE: This package is a copy of golang.org/x/sys/windows/registry
+// NOTE: This package is a copy of golanglang.org/x/sys/windows/registry
 // with KeyInfo.ModTime removed to prevent dependency cycles.
 package registry
 
@@ -91,7 +91,7 @@ func OpenKey(k Key, path string, access uint32) (Key, error) {
 // ReadSubKeyNames returns the names of subkeys of key k.
 func (k Key) ReadSubKeyNames() ([]string, error) {
 	// RegEnumKeyEx must be called repeatedly and to completion.
-	// During this time, this goroutine cannot migrate away from
+	// During this time, this golangroutine cannot migrate away from
 	// its current thread. See #49320.
 	runtime.LockOSThread()
 	defer runtime.UnlockOSThread()

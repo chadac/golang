@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package crc32
@@ -18,13 +18,13 @@ var hasVX = cpu.S390X.HasVX
 // vectorizedCastagnoli implements CRC32 using vector instructions.
 // It is defined in crc32_s390x.s.
 //
-//go:noescape
+//golang:noescape
 func vectorizedCastagnoli(crc uint32, p []byte) uint32
 
 // vectorizedIEEE implements CRC32 using vector instructions.
 // It is defined in crc32_s390x.s.
 //
-//go:noescape
+//golang:noescape
 func vectorizedIEEE(crc uint32, p []byte) uint32
 
 func archAvailableCastagnoli() bool {

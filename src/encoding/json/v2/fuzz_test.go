@@ -1,8 +1,8 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build goexperiment.jsonv2
+//golang:build golangexperiment.jsonv2
 
 package json
 
@@ -30,10 +30,10 @@ func FuzzEqualFold(f *testing.F) {
 
 	f.Fuzz(func(t *testing.T, s1, s2 []byte) {
 		// Compare the optimized and simplified implementations.
-		got := equalFold(s1, s2)
+		golangt := equalFold(s1, s2)
 		want := equalFoldSimple(s1, s2)
-		if got != want {
-			t.Errorf("equalFold(%q, %q) = %v, want %v", s1, s2, got, want)
+		if golangt != want {
+			t.Errorf("equalFold(%q, %q) = %v, want %v", s1, s2, golangt, want)
 		}
 	})
 }

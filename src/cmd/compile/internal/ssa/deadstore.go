@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ssa
@@ -24,7 +24,7 @@ func dse(f *Func) {
 	// localAddrs maps from a local variable (the Aux field of a LocalAddr value) to an instance of a LocalAddr value for that variable in the current block.
 	localAddrs := map[any]*Value{}
 	for _, b := range f.Blocks {
-		// Find all the stores in this block. Categorize their uses:
+		// Find all the stores in this block. Categolangrize their uses:
 		//  loadUse contains stores which are used by a subsequent load.
 		//  storeUse contains stores which are used by a subsequent store.
 		loadUse.clear()
@@ -148,7 +148,7 @@ func dse(f *Func) {
 		for _, a := range v.Args {
 			if a.Block == b && a.Type.IsMemory() {
 				v = a
-				goto walkloop
+				golangto walkloop
 			}
 		}
 	}

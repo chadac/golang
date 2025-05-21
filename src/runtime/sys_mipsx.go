@@ -1,8 +1,8 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build mips || mipsle
+//golang:build mips || mipsle
 
 package runtime
 
@@ -10,9 +10,9 @@ import "unsafe"
 
 // adjust Gobuf as if it executed a call to fn with context ctxt
 // and then did an immediate Gosave.
-func gostartcall(buf *gobuf, fn, ctxt unsafe.Pointer) {
+func golangstartcall(buf *golangbuf, fn, ctxt unsafe.Pointer) {
 	if buf.lr != 0 {
-		throw("invalid use of gostartcall")
+		throw("invalid use of golangstartcall")
 	}
 	buf.lr = buf.pc
 	buf.pc = uintptr(fn)

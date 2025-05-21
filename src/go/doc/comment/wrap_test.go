@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package comment
@@ -94,7 +94,7 @@ func TestWrap(t *testing.T) {
 // It is OK if wrap returns a different sequence as long as that
 // sequence has the same score.
 func wrapSlow(words []string, max int) (seq []int, score int64) {
-	// Quadratic dynamic programming algorithm for line wrapping problem.
+	// Quadratic dynamic programming algolangrithm for line wrapping problem.
 	// best[i] tracks the best score possible for words[:i],
 	// assuming that for i < len(words) the line breaks after those words.
 	// bestleft[i] tracks the previous line break for best[i].

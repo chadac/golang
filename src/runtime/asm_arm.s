@@ -1,9 +1,9 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-#include "go_asm.h"
-#include "go_tls.h"
+#include "golang_asm.h"
+#include "golang_tls.h"
 #include "funcdata.h"
 #include "textflag.h"
 
@@ -14,13 +14,13 @@
 TEXT _rt0_arm(SB),NOSPLIT|NOFRAME,$0
 	MOVW	(R13), R0	// argc
 	MOVW	$4(R13), R1		// argv
-	B	runtime·rt0_go(SB)
+	B	runtime·rt0_golang(SB)
 
 // main is common startup code for most ARM systems when using
 // external linking. The C startup code will call the symbol "main"
 // passing argc and argv in the usual C ABI registers R0 and R1.
 TEXT main(SB),NOSPLIT|NOFRAME,$0
-	B	runtime·rt0_go(SB)
+	B	runtime·rt0_golang(SB)
 
 // _rt0_arm_lib is common startup code for most ARM systems when
 // using -buildmode=c-archive or -buildmode=c-shared. The linker will
@@ -39,8 +39,8 @@ TEXT _rt0_arm_lib(SB),NOSPLIT,$104
 	MOVW	g, 32(R13)
 	MOVW	R11, 36(R13)
 
-	// Skip floating point registers on goarmsoftfp != 0.
-	MOVB    runtime·goarmsoftfp(SB), R11
+	// Skip floating point registers on golangarmsoftfp != 0.
+	MOVB    runtime·golangarmsoftfp(SB), R11
 	CMP	$0, R11
 	BNE     skipfpsave
 	MOVD	F8, (40+8*0)(R13)
@@ -62,22 +62,22 @@ skipfpsave:
 	CALL	runtime·libpreinit(SB)
 
 	// Create a new thread to do the runtime initialization.
-	MOVW	_cgo_sys_thread_create(SB), R2
+	MOVW	_cgolang_sys_thread_create(SB), R2
 	CMP	$0, R2
-	BEQ	nocgo
-	MOVW	$_rt0_arm_lib_go<>(SB), R0
+	BEQ	nocgolang
+	MOVW	$_rt0_arm_lib_golang<>(SB), R0
 	MOVW	$0, R1
 	BL	(R2)
 	B	rr
-nocgo:
+nocgolang:
 	MOVW	$0x800000, R0                     // stacksize = 8192KB
-	MOVW	$_rt0_arm_lib_go<>(SB), R1  // fn
+	MOVW	$_rt0_arm_lib_golang<>(SB), R1  // fn
 	MOVW	R0, 4(R13)
 	MOVW	R1, 8(R13)
 	BL	runtime·newosproc0(SB)
 rr:
 	// Restore callee-save registers and return.
-	MOVB    runtime·goarmsoftfp(SB), R11
+	MOVB    runtime·golangarmsoftfp(SB), R11
 	CMP     $0, R11
 	BNE     skipfprest
 	MOVD	(40+8*0)(R13), F8
@@ -98,12 +98,12 @@ skipfprest:
 	MOVW	36(R13), R11
 	RET
 
-// _rt0_arm_lib_go initializes the Go runtime.
+// _rt0_arm_lib_golang initializes the Go runtime.
 // This is started in a separate thread by _rt0_arm_lib.
-TEXT _rt0_arm_lib_go<>(SB),NOSPLIT,$8
+TEXT _rt0_arm_lib_golang<>(SB),NOSPLIT,$8
 	MOVW	_rt0_arm_lib_argc<>(SB), R0
 	MOVW	_rt0_arm_lib_argv<>(SB), R1
-	B	runtime·rt0_go(SB)
+	B	runtime·rt0_golang(SB)
 
 DATA _rt0_arm_lib_argc<>(SB)/4,$0
 GLOBL _rt0_arm_lib_argc<>(SB),NOPTR,$4
@@ -112,7 +112,7 @@ GLOBL _rt0_arm_lib_argv<>(SB),NOPTR,$4
 
 // using NOFRAME means do not save LR on stack.
 // argc is in R0, argv is in R1.
-TEXT runtime·rt0_go(SB),NOSPLIT|NOFRAME|TOPFRAME,$0
+TEXT runtime·rt0_golang(SB),NOSPLIT|NOFRAME|TOPFRAME,$0
 	MOVW	$0xcafebabe, R12
 
 	// copy arguments forward on an even stack
@@ -147,9 +147,9 @@ TEXT runtime·rt0_go(SB),NOSPLIT|NOFRAME|TOPFRAME,$0
 	BL	runtime·save_g(SB)
 #endif
 
-	BL	runtime·_initcgo(SB)	// will clobber R0-R3
+	BL	runtime·_initcgolang(SB)	// will clobber R0-R3
 
-	// update stackguard after _cgo_init
+	// update stackguard after _cgolang_init
 	MOVW	(g_stack+stack_lo)(g), R0
 	ADD	$const_stackGuard, R0
 	MOVW	R0, g_stackguard0(g)
@@ -163,11 +163,11 @@ TEXT runtime·rt0_go(SB),NOSPLIT|NOFRAME|TOPFRAME,$0
 	MOVW	64(R13), R1
 	MOVW	R1, 8(R13)
 	BL	runtime·args(SB)
-	BL	runtime·checkgoarm(SB)
+	BL	runtime·checkgolangarm(SB)
 	BL	runtime·osinit(SB)
 	BL	runtime·schedinit(SB)
 
-	// create a new goroutine to start program
+	// create a new golangroutine to start program
 	SUB	$8, R13
 	MOVW	$runtime·mainPC(SB), R0
 	MOVW	R0, 4(R13)	// arg 1: fn
@@ -197,8 +197,8 @@ TEXT runtime·breakpoint(SB),NOSPLIT,$0-0
 	RET
 
 TEXT runtime·asminit(SB),NOSPLIT,$0-0
-	// disable runfast (flush-to-zero) mode of vfp if runtime.goarmsoftfp == 0
-	MOVB	runtime·goarmsoftfp(SB), R11
+	// disable runfast (flush-to-zero) mode of vfp if runtime.golangarmsoftfp == 0
+	MOVB	runtime·golangarmsoftfp(SB), R11
 	CMP	$0, R11
 	BNE	4(PC)
 	WORD	$0xeef1ba10	// vmrs r11, fpscr
@@ -211,40 +211,40 @@ TEXT runtime·mstart(SB),NOSPLIT|TOPFRAME,$0
 	RET // not reached
 
 /*
- *  go-routine
+ *  golang-routine
  */
 
-// void gogo(Gobuf*)
+// void golanggolang(Gobuf*)
 // restore state from Gobuf; longjmp
-TEXT runtime·gogo(SB),NOSPLIT|NOFRAME,$0-4
+TEXT runtime·golanggolang(SB),NOSPLIT|NOFRAME,$0-4
 	MOVW	buf+0(FP), R1
-	MOVW	gobuf_g(R1), R0
+	MOVW	golangbuf_g(R1), R0
 	MOVW	0(R0), R2	// make sure g != nil
-	B	gogo<>(SB)
+	B	golanggolang<>(SB)
 
-TEXT gogo<>(SB),NOSPLIT|NOFRAME,$0
+TEXT golanggolang<>(SB),NOSPLIT|NOFRAME,$0
 	BL	setg<>(SB)
-	MOVW	gobuf_sp(R1), R13	// restore SP==R13
-	MOVW	gobuf_lr(R1), LR
-	MOVW	gobuf_ctxt(R1), R7
+	MOVW	golangbuf_sp(R1), R13	// restore SP==R13
+	MOVW	golangbuf_lr(R1), LR
+	MOVW	golangbuf_ctxt(R1), R7
 	MOVW	$0, R11
-	MOVW	R11, gobuf_sp(R1)	// clear to help garbage collector
-	MOVW	R11, gobuf_lr(R1)
-	MOVW	R11, gobuf_ctxt(R1)
-	MOVW	gobuf_pc(R1), R11
+	MOVW	R11, golangbuf_sp(R1)	// clear to help garbage collector
+	MOVW	R11, golangbuf_lr(R1)
+	MOVW	R11, golangbuf_ctxt(R1)
+	MOVW	golangbuf_pc(R1), R11
 	CMP	R11, R11 // set condition codes for == test, needed by stack split
 	B	(R11)
 
 // func mcall(fn func(*g))
 // Switch to m->g0's stack, call fn(g).
-// Fn must never return. It should gogo(&g->sched)
+// Fn must never return. It should golanggolang(&g->sched)
 // to keep running g.
 TEXT runtime·mcall(SB),NOSPLIT|NOFRAME,$0-4
 	// Save caller state in g->sched.
-	MOVW	R13, (g_sched+gobuf_sp)(g)
-	MOVW	LR, (g_sched+gobuf_pc)(g)
+	MOVW	R13, (g_sched+golangbuf_sp)(g)
+	MOVW	LR, (g_sched+golangbuf_pc)(g)
 	MOVW	$0, R11
-	MOVW	R11, (g_sched+gobuf_lr)(g)
+	MOVW	R11, (g_sched+golangbuf_lr)(g)
 
 	// Switch to m->g0 & its stack, call fn.
 	MOVW	g, R1
@@ -255,7 +255,7 @@ TEXT runtime·mcall(SB),NOSPLIT|NOFRAME,$0-4
 	B.NE	2(PC)
 	B	runtime·badmcall(SB)
 	MOVW	fn+0(FP), R0
-	MOVW	(g_sched+gobuf_sp)(g), R13
+	MOVW	(g_sched+golangbuf_sp)(g), R13
 	SUB	$8, R13
 	MOVW	R1, 4(R13)
 	MOVW	R0, R7
@@ -300,14 +300,14 @@ TEXT runtime·systemstack(SB),NOSPLIT,$0-4
 switch:
 	// save our state in g->sched. Pretend to
 	// be systemstack_switch if the G stack is scanned.
-	BL	gosave_systemstack_switch<>(SB)
+	BL	golangsave_systemstack_switch<>(SB)
 
 	// switch to g0
 	MOVW	R0, R5
 	MOVW	R2, R0
 	BL	setg<>(SB)
 	MOVW	R5, R0
-	MOVW	(g_sched+gobuf_sp)(R2), R13
+	MOVW	(g_sched+golangbuf_sp)(R2), R13
 
 	// call target function
 	MOVW	R0, R7
@@ -318,9 +318,9 @@ switch:
 	MOVW	g_m(g), R1
 	MOVW	m_curg(R1), R0
 	BL	setg<>(SB)
-	MOVW	(g_sched+gobuf_sp)(g), R13
+	MOVW	(g_sched+golangbuf_sp)(g), R13
 	MOVW	$0, R3
-	MOVW	R3, (g_sched+gobuf_sp)(g)
+	MOVW	R3, (g_sched+golangbuf_sp)(g)
 	RET
 
 noswitch:
@@ -374,10 +374,10 @@ TEXT runtime·morestack(SB),NOSPLIT|NOFRAME,$0-0
 
 	// Called from f.
 	// Set g->sched to context in f.
-	MOVW	R13, (g_sched+gobuf_sp)(g)
-	MOVW	LR, (g_sched+gobuf_pc)(g)
-	MOVW	R3, (g_sched+gobuf_lr)(g)
-	MOVW	R7, (g_sched+gobuf_ctxt)(g)
+	MOVW	R13, (g_sched+golangbuf_sp)(g)
+	MOVW	LR, (g_sched+golangbuf_pc)(g)
+	MOVW	R3, (g_sched+golangbuf_lr)(g)
+	MOVW	R7, (g_sched+golangbuf_ctxt)(g)
 
 	CMP	g, R4
 	BNE	3(PC)
@@ -393,14 +393,14 @@ TEXT runtime·morestack(SB),NOSPLIT|NOFRAME,$0-0
 
 	// Called from f.
 	// Set m->morebuf to f's caller.
-	MOVW	R3, (m_morebuf+gobuf_pc)(R8)	// f's caller's PC
-	MOVW	R13, (m_morebuf+gobuf_sp)(R8)	// f's caller's SP
-	MOVW	g, (m_morebuf+gobuf_g)(R8)
+	MOVW	R3, (m_morebuf+golangbuf_pc)(R8)	// f's caller's PC
+	MOVW	R13, (m_morebuf+golangbuf_sp)(R8)	// f's caller's SP
+	MOVW	g, (m_morebuf+golangbuf_g)(R8)
 
 	// Call newstack on m->g0's stack.
 	MOVW	m_g0(R8), R0
 	BL	setg<>(SB)
-	MOVW	(g_sched+gobuf_sp)(g), R13
+	MOVW	(g_sched+golangbuf_sp)(g), R13
 	MOVW	$0, R0
 	MOVW.W  R0, -4(R13)	// create a call frame on g0 (saved LR)
 	BL	runtime·newstack(SB)
@@ -541,24 +541,24 @@ CALLFN(·call1073741824, 1073741824)
 // Must only be called from functions with no locals ($0)
 // or else unwinding from systemstack_switch is incorrect.
 // Smashes R11.
-TEXT gosave_systemstack_switch<>(SB),NOSPLIT|NOFRAME,$0
+TEXT golangsave_systemstack_switch<>(SB),NOSPLIT|NOFRAME,$0
 	MOVW	$runtime·systemstack_switch(SB), R11
 	ADD	$4, R11 // get past push {lr}
-	MOVW	R11, (g_sched+gobuf_pc)(g)
-	MOVW	R13, (g_sched+gobuf_sp)(g)
+	MOVW	R11, (g_sched+golangbuf_pc)(g)
+	MOVW	R13, (g_sched+golangbuf_sp)(g)
 	MOVW	$0, R11
-	MOVW	R11, (g_sched+gobuf_lr)(g)
+	MOVW	R11, (g_sched+golangbuf_lr)(g)
 	// Assert ctxt is zero. See func save.
-	MOVW	(g_sched+gobuf_ctxt)(g), R11
+	MOVW	(g_sched+golangbuf_ctxt)(g), R11
 	TST	R11, R11
 	B.EQ	2(PC)
 	BL	runtime·abort(SB)
 	RET
 
-// func asmcgocall_no_g(fn, arg unsafe.Pointer)
+// func asmcgolangcall_no_g(fn, arg unsafe.Pointer)
 // Call fn(arg) aligned appropriately for the gcc ABI.
 // Called on a system stack, and there may be no g yet (during needm).
-TEXT ·asmcgocall_no_g(SB),NOSPLIT,$0-8
+TEXT ·asmcgolangcall_no_g(SB),NOSPLIT,$0-8
 	MOVW	fn+0(FP), R1
 	MOVW	arg+4(FP), R0
 	MOVW	R13, R2
@@ -570,11 +570,11 @@ TEXT ·asmcgocall_no_g(SB),NOSPLIT,$0-8
 	MOVW	R2, R13
 	RET
 
-// func asmcgocall(fn, arg unsafe.Pointer) int32
+// func asmcgolangcall(fn, arg unsafe.Pointer) int32
 // Call fn(arg) on the scheduler stack,
 // aligned appropriately for the gcc ABI.
-// See cgocall.go for more details.
-TEXT ·asmcgocall(SB),NOSPLIT,$0-12
+// See cgolangcall.golang for more details.
+TEXT ·asmcgolangcall(SB),NOSPLIT,$0-12
 	MOVW	fn+0(FP), R1
 	MOVW	arg+4(FP), R0
 
@@ -594,12 +594,12 @@ TEXT ·asmcgocall(SB),NOSPLIT,$0-12
 	MOVW	m_g0(R8), R3
 	CMP	R3, g
 	BEQ	nosave
-	BL	gosave_systemstack_switch<>(SB)
+	BL	golangsave_systemstack_switch<>(SB)
 	MOVW	R0, R5
 	MOVW	R3, R0
 	BL	setg<>(SB)
 	MOVW	R5, R0
-	MOVW	(g_sched+gobuf_sp)(g), R13
+	MOVW	(g_sched+golangbuf_sp)(g), R13
 
 	// Now on a scheduling stack (a pthread-created stack).
 	SUB	$24, R13
@@ -629,7 +629,7 @@ nosave:
 	// (see needm/dropm on Solaris, for example).
 	// This code is like the above sequence but without saving/restoring g
 	// and without worrying about the stack moving out from under us
-	// (because we're on a system stack, not a goroutine stack).
+	// (because we're on a system stack, not a golangroutine stack).
 	// The above code could be used directly if already on a system stack,
 	// but then the only path through this code would be a rare case on Solaris.
 	// Using this code for all "already on system stack" calls exercises it more,
@@ -647,12 +647,12 @@ nosave:
 	MOVW	R0, ret+8(FP)
 	RET
 
-// cgocallback(fn, frame unsafe.Pointer, ctxt uintptr)
-// See cgocall.go for more details.
-TEXT	·cgocallback(SB),NOSPLIT,$12-12
+// cgolangcallback(fn, frame unsafe.Pointer, ctxt uintptr)
+// See cgolangcall.golang for more details.
+TEXT	·cgolangcallback(SB),NOSPLIT,$12-12
 	NO_LOCAL_POINTERS
 
-	// Skip cgocallbackg, just dropm when fn is nil, and frame is the saved g.
+	// Skip cgolangcallbackg, just dropm when fn is nil, and frame is the saved g.
 	// It is used to dropm while thread is exiting.
 	MOVW	fn+0(FP), R1
 	CMP	$0, R1
@@ -666,7 +666,7 @@ loadg:
 #ifdef GOOS_openbsd
 	BL	runtime·load_g(SB)
 #else
-	MOVB	runtime·iscgo(SB), R0
+	MOVB	runtime·iscgolang(SB), R0
 	CMP	$0, R0
 	BL.NE	runtime·load_g(SB)
 #endif
@@ -702,7 +702,7 @@ needm:
 	// will not be usable.
 	MOVW	g_m(g), R8
 	MOVW	m_g0(R8), R3
-	MOVW	R13, (g_sched+gobuf_sp)(R3)
+	MOVW	R13, (g_sched+golangbuf_sp)(R3)
 
 havem:
 	// Now there's a valid m, and we're running on its m->g0.
@@ -711,25 +711,25 @@ havem:
 	// switch back to m->curg stack.
 	// NOTE: unwindm knows that the saved g->sched.sp is at 4(R13) aka savedsp-12(SP).
 	MOVW	m_g0(R8), R3
-	MOVW	(g_sched+gobuf_sp)(R3), R4
+	MOVW	(g_sched+golangbuf_sp)(R3), R4
 	MOVW	R4, savedsp-12(SP)	// must match frame size
-	MOVW	R13, (g_sched+gobuf_sp)(R3)
+	MOVW	R13, (g_sched+golangbuf_sp)(R3)
 
-	// Switch to m->curg stack and call runtime.cgocallbackg.
+	// Switch to m->curg stack and call runtime.cgolangcallbackg.
 	// Because we are taking over the execution of m->curg
 	// but *not* resuming what had been running, we need to
 	// save that information (m->curg->sched) so we can restore it.
 	// We can restore m->curg->sched.sp easily, because calling
-	// runtime.cgocallbackg leaves SP unchanged upon return.
+	// runtime.cgolangcallbackg leaves SP unchanged upon return.
 	// To save m->curg->sched.pc, we push it onto the curg stack and
-	// open a frame the same size as cgocallback's g0 frame.
+	// open a frame the same size as cgolangcallback's g0 frame.
 	// Once we switch to the curg stack, the pushed PC will appear
-	// to be the return PC of cgocallback, so that the traceback
+	// to be the return PC of cgolangcallback, so that the traceback
 	// will seamlessly trace back into the earlier calls.
 	MOVW	m_curg(R8), R0
 	BL	setg<>(SB)
-	MOVW	(g_sched+gobuf_sp)(g), R4 // prepare stack as R4
-	MOVW	(g_sched+gobuf_pc)(g), R5
+	MOVW	(g_sched+golangbuf_sp)(g), R4 // prepare stack as R4
+	MOVW	(g_sched+golangbuf_pc)(g), R5
 	MOVW	R5, -(12+4)(R4)	// "saved LR"; must match frame size
 	// Gather our arguments into registers.
 	MOVW	fn+0(FP), R1
@@ -739,23 +739,23 @@ havem:
 	MOVW	R1, 4(R13)
 	MOVW	R2, 8(R13)
 	MOVW	R3, 12(R13)
-	BL	runtime·cgocallbackg(SB)
+	BL	runtime·cgolangcallbackg(SB)
 
 	// Restore g->sched (== m->curg->sched) from saved values.
 	MOVW	0(R13), R5
-	MOVW	R5, (g_sched+gobuf_pc)(g)
+	MOVW	R5, (g_sched+golangbuf_pc)(g)
 	MOVW	$(12+4)(R13), R4	// must match frame size
-	MOVW	R4, (g_sched+gobuf_sp)(g)
+	MOVW	R4, (g_sched+golangbuf_sp)(g)
 
 	// Switch back to m->g0's stack and restore m->g0->sched.sp.
-	// (Unlike m->curg, the g0 goroutine never uses sched.pc,
+	// (Unlike m->curg, the g0 golangroutine never uses sched.pc,
 	// so we do not have to restore it.)
 	MOVW	g_m(g), R8
 	MOVW	m_g0(R8), R0
 	BL	setg<>(SB)
-	MOVW	(g_sched+gobuf_sp)(g), R13
+	MOVW	(g_sched+golangbuf_sp)(g), R13
 	MOVW	savedsp-12(SP), R4	// must match frame size
-	MOVW	R4, (g_sched+gobuf_sp)(g)
+	MOVW	R4, (g_sched+golangbuf_sp)(g)
 
 	// If the m on entry was nil, we called needm above to borrow an m,
 	// 1. for the duration of the call on non-pthread platforms,
@@ -769,8 +769,8 @@ havem:
 	B.NE	done
 
 	// Skip dropm to reuse it in the next call, when a pthread key has been created.
-	MOVW	_cgo_pthread_key_created(SB), R6
-	// It means cgo is disabled when _cgo_pthread_key_created is a nil pointer, need dropm.
+	MOVW	_cgolang_pthread_key_created(SB), R6
+	// It means cgolang is disabled when _cgolang_pthread_key_created is a nil pointer, need dropm.
 	CMP	$0, R6
 	B.EQ	dropm
 	MOVW	(R6), R6
@@ -800,7 +800,7 @@ TEXT setg<>(SB),NOSPLIT|NOFRAME,$0-0
 #ifdef GOOS_openbsd
 	B	runtime·save_g(SB)
 #else
-	MOVB	runtime·iscgo(SB), R0
+	MOVB	runtime·iscgolang(SB), R0
 	CMP	$0, R0
 	B.EQ	2(PC)
 	B	runtime·save_g(SB)
@@ -827,7 +827,7 @@ TEXT runtime·abort(SB),NOSPLIT|NOFRAME,$0-0
 //		B	runtime·armPublicationBarrier(SB)
 //
 TEXT runtime·armPublicationBarrier(SB),NOSPLIT|NOFRAME,$0-0
-	MOVB	runtime·goarm(SB), R11
+	MOVB	runtime·golangarm(SB), R11
 	CMP	$7, R11
 	BLT	2(PC)
 	DMB	MB_ST
@@ -854,9 +854,9 @@ yieldloop:
 	SUB	$1, R1
 	B yieldloop
 
-// Called from cgo wrappers, this function returns g->m->curg.stack.hi.
+// Called from cgolang wrappers, this function returns g->m->curg.stack.hi.
 // Must obey the gcc calling convention.
-TEXT _cgo_topofstack(SB),NOSPLIT,$8
+TEXT _cgolang_topofstack(SB),NOSPLIT,$8
 	// R11 and g register are clobbered by load_g. They are
 	// callee-save in the gcc calling convention, so save them here.
 	MOVW	R11, saveR11-4(SP)
@@ -871,12 +871,12 @@ TEXT _cgo_topofstack(SB),NOSPLIT,$8
 	MOVW	saveR11-4(SP), R11
 	RET
 
-// The top-most function running on a goroutine
-// returns to goexit+PCQuantum.
-TEXT runtime·goexit(SB),NOSPLIT|NOFRAME|TOPFRAME,$0-0
+// The top-most function running on a golangroutine
+// returns to golangexit+PCQuantum.
+TEXT runtime·golangexit(SB),NOSPLIT|NOFRAME|TOPFRAME,$0-0
 	MOVW	R0, R0	// NOP
-	BL	runtime·goexit1(SB)	// does not return
-	// traceback from goexit1 must hit code range of goexit
+	BL	runtime·golangexit1(SB)	// does not return
+	// traceback from golangexit1 must hit code range of golangexit
 	MOVW	R0, R0	// NOP
 
 // x -> x/1000000, x%1000000, called from Go with args, results on stack.
@@ -890,7 +890,7 @@ TEXT runtime·usplit(SB),NOSPLIT,$0-12
 // R0, R1 = R0/1000000, R0%1000000
 TEXT runtime·usplitR0(SB),NOSPLIT,$0
 	// magic multiply to avoid software divide without available m.
-	// see output of go tool compile -S for x/1000000.
+	// see output of golang tool compile -S for x/1000000.
 	MOVW	R0, R3
 	MOVW	$1125899907, R1
 	MULLU	R1, R0, (R0, R1)
@@ -999,150 +999,150 @@ TEXT runtime·gcWriteBarrier8<ABIInternal>(SB),NOSPLIT,$0
 TEXT runtime·panicIndex(SB),NOSPLIT,$0-8
 	MOVW	R0, x+0(FP)
 	MOVW	R1, y+4(FP)
-	JMP	runtime·goPanicIndex(SB)
+	JMP	runtime·golangPanicIndex(SB)
 TEXT runtime·panicIndexU(SB),NOSPLIT,$0-8
 	MOVW	R0, x+0(FP)
 	MOVW	R1, y+4(FP)
-	JMP	runtime·goPanicIndexU(SB)
+	JMP	runtime·golangPanicIndexU(SB)
 TEXT runtime·panicSliceAlen(SB),NOSPLIT,$0-8
 	MOVW	R1, x+0(FP)
 	MOVW	R2, y+4(FP)
-	JMP	runtime·goPanicSliceAlen(SB)
+	JMP	runtime·golangPanicSliceAlen(SB)
 TEXT runtime·panicSliceAlenU(SB),NOSPLIT,$0-8
 	MOVW	R1, x+0(FP)
 	MOVW	R2, y+4(FP)
-	JMP	runtime·goPanicSliceAlenU(SB)
+	JMP	runtime·golangPanicSliceAlenU(SB)
 TEXT runtime·panicSliceAcap(SB),NOSPLIT,$0-8
 	MOVW	R1, x+0(FP)
 	MOVW	R2, y+4(FP)
-	JMP	runtime·goPanicSliceAcap(SB)
+	JMP	runtime·golangPanicSliceAcap(SB)
 TEXT runtime·panicSliceAcapU(SB),NOSPLIT,$0-8
 	MOVW	R1, x+0(FP)
 	MOVW	R2, y+4(FP)
-	JMP	runtime·goPanicSliceAcapU(SB)
+	JMP	runtime·golangPanicSliceAcapU(SB)
 TEXT runtime·panicSliceB(SB),NOSPLIT,$0-8
 	MOVW	R0, x+0(FP)
 	MOVW	R1, y+4(FP)
-	JMP	runtime·goPanicSliceB(SB)
+	JMP	runtime·golangPanicSliceB(SB)
 TEXT runtime·panicSliceBU(SB),NOSPLIT,$0-8
 	MOVW	R0, x+0(FP)
 	MOVW	R1, y+4(FP)
-	JMP	runtime·goPanicSliceBU(SB)
+	JMP	runtime·golangPanicSliceBU(SB)
 TEXT runtime·panicSlice3Alen(SB),NOSPLIT,$0-8
 	MOVW	R2, x+0(FP)
 	MOVW	R3, y+4(FP)
-	JMP	runtime·goPanicSlice3Alen(SB)
+	JMP	runtime·golangPanicSlice3Alen(SB)
 TEXT runtime·panicSlice3AlenU(SB),NOSPLIT,$0-8
 	MOVW	R2, x+0(FP)
 	MOVW	R3, y+4(FP)
-	JMP	runtime·goPanicSlice3AlenU(SB)
+	JMP	runtime·golangPanicSlice3AlenU(SB)
 TEXT runtime·panicSlice3Acap(SB),NOSPLIT,$0-8
 	MOVW	R2, x+0(FP)
 	MOVW	R3, y+4(FP)
-	JMP	runtime·goPanicSlice3Acap(SB)
+	JMP	runtime·golangPanicSlice3Acap(SB)
 TEXT runtime·panicSlice3AcapU(SB),NOSPLIT,$0-8
 	MOVW	R2, x+0(FP)
 	MOVW	R3, y+4(FP)
-	JMP	runtime·goPanicSlice3AcapU(SB)
+	JMP	runtime·golangPanicSlice3AcapU(SB)
 TEXT runtime·panicSlice3B(SB),NOSPLIT,$0-8
 	MOVW	R1, x+0(FP)
 	MOVW	R2, y+4(FP)
-	JMP	runtime·goPanicSlice3B(SB)
+	JMP	runtime·golangPanicSlice3B(SB)
 TEXT runtime·panicSlice3BU(SB),NOSPLIT,$0-8
 	MOVW	R1, x+0(FP)
 	MOVW	R2, y+4(FP)
-	JMP	runtime·goPanicSlice3BU(SB)
+	JMP	runtime·golangPanicSlice3BU(SB)
 TEXT runtime·panicSlice3C(SB),NOSPLIT,$0-8
 	MOVW	R0, x+0(FP)
 	MOVW	R1, y+4(FP)
-	JMP	runtime·goPanicSlice3C(SB)
+	JMP	runtime·golangPanicSlice3C(SB)
 TEXT runtime·panicSlice3CU(SB),NOSPLIT,$0-8
 	MOVW	R0, x+0(FP)
 	MOVW	R1, y+4(FP)
-	JMP	runtime·goPanicSlice3CU(SB)
+	JMP	runtime·golangPanicSlice3CU(SB)
 TEXT runtime·panicSliceConvert(SB),NOSPLIT,$0-8
 	MOVW	R2, x+0(FP)
 	MOVW	R3, y+4(FP)
-	JMP	runtime·goPanicSliceConvert(SB)
+	JMP	runtime·golangPanicSliceConvert(SB)
 
 // Extended versions for 64-bit indexes.
 TEXT runtime·panicExtendIndex(SB),NOSPLIT,$0-12
 	MOVW	R4, hi+0(FP)
 	MOVW	R0, lo+4(FP)
 	MOVW	R1, y+8(FP)
-	JMP	runtime·goPanicExtendIndex(SB)
+	JMP	runtime·golangPanicExtendIndex(SB)
 TEXT runtime·panicExtendIndexU(SB),NOSPLIT,$0-12
 	MOVW	R4, hi+0(FP)
 	MOVW	R0, lo+4(FP)
 	MOVW	R1, y+8(FP)
-	JMP	runtime·goPanicExtendIndexU(SB)
+	JMP	runtime·golangPanicExtendIndexU(SB)
 TEXT runtime·panicExtendSliceAlen(SB),NOSPLIT,$0-12
 	MOVW	R4, hi+0(FP)
 	MOVW	R1, lo+4(FP)
 	MOVW	R2, y+8(FP)
-	JMP	runtime·goPanicExtendSliceAlen(SB)
+	JMP	runtime·golangPanicExtendSliceAlen(SB)
 TEXT runtime·panicExtendSliceAlenU(SB),NOSPLIT,$0-12
 	MOVW	R4, hi+0(FP)
 	MOVW	R1, lo+4(FP)
 	MOVW	R2, y+8(FP)
-	JMP	runtime·goPanicExtendSliceAlenU(SB)
+	JMP	runtime·golangPanicExtendSliceAlenU(SB)
 TEXT runtime·panicExtendSliceAcap(SB),NOSPLIT,$0-12
 	MOVW	R4, hi+0(FP)
 	MOVW	R1, lo+4(FP)
 	MOVW	R2, y+8(FP)
-	JMP	runtime·goPanicExtendSliceAcap(SB)
+	JMP	runtime·golangPanicExtendSliceAcap(SB)
 TEXT runtime·panicExtendSliceAcapU(SB),NOSPLIT,$0-12
 	MOVW	R4, hi+0(FP)
 	MOVW	R1, lo+4(FP)
 	MOVW	R2, y+8(FP)
-	JMP	runtime·goPanicExtendSliceAcapU(SB)
+	JMP	runtime·golangPanicExtendSliceAcapU(SB)
 TEXT runtime·panicExtendSliceB(SB),NOSPLIT,$0-12
 	MOVW	R4, hi+0(FP)
 	MOVW	R0, lo+4(FP)
 	MOVW	R1, y+8(FP)
-	JMP	runtime·goPanicExtendSliceB(SB)
+	JMP	runtime·golangPanicExtendSliceB(SB)
 TEXT runtime·panicExtendSliceBU(SB),NOSPLIT,$0-12
 	MOVW	R4, hi+0(FP)
 	MOVW	R0, lo+4(FP)
 	MOVW	R1, y+8(FP)
-	JMP	runtime·goPanicExtendSliceBU(SB)
+	JMP	runtime·golangPanicExtendSliceBU(SB)
 TEXT runtime·panicExtendSlice3Alen(SB),NOSPLIT,$0-12
 	MOVW	R4, hi+0(FP)
 	MOVW	R2, lo+4(FP)
 	MOVW	R3, y+8(FP)
-	JMP	runtime·goPanicExtendSlice3Alen(SB)
+	JMP	runtime·golangPanicExtendSlice3Alen(SB)
 TEXT runtime·panicExtendSlice3AlenU(SB),NOSPLIT,$0-12
 	MOVW	R4, hi+0(FP)
 	MOVW	R2, lo+4(FP)
 	MOVW	R3, y+8(FP)
-	JMP	runtime·goPanicExtendSlice3AlenU(SB)
+	JMP	runtime·golangPanicExtendSlice3AlenU(SB)
 TEXT runtime·panicExtendSlice3Acap(SB),NOSPLIT,$0-12
 	MOVW	R4, hi+0(FP)
 	MOVW	R2, lo+4(FP)
 	MOVW	R3, y+8(FP)
-	JMP	runtime·goPanicExtendSlice3Acap(SB)
+	JMP	runtime·golangPanicExtendSlice3Acap(SB)
 TEXT runtime·panicExtendSlice3AcapU(SB),NOSPLIT,$0-12
 	MOVW	R4, hi+0(FP)
 	MOVW	R2, lo+4(FP)
 	MOVW	R3, y+8(FP)
-	JMP	runtime·goPanicExtendSlice3AcapU(SB)
+	JMP	runtime·golangPanicExtendSlice3AcapU(SB)
 TEXT runtime·panicExtendSlice3B(SB),NOSPLIT,$0-12
 	MOVW	R4, hi+0(FP)
 	MOVW	R1, lo+4(FP)
 	MOVW	R2, y+8(FP)
-	JMP	runtime·goPanicExtendSlice3B(SB)
+	JMP	runtime·golangPanicExtendSlice3B(SB)
 TEXT runtime·panicExtendSlice3BU(SB),NOSPLIT,$0-12
 	MOVW	R4, hi+0(FP)
 	MOVW	R1, lo+4(FP)
 	MOVW	R2, y+8(FP)
-	JMP	runtime·goPanicExtendSlice3BU(SB)
+	JMP	runtime·golangPanicExtendSlice3BU(SB)
 TEXT runtime·panicExtendSlice3C(SB),NOSPLIT,$0-12
 	MOVW	R4, hi+0(FP)
 	MOVW	R0, lo+4(FP)
 	MOVW	R1, y+8(FP)
-	JMP	runtime·goPanicExtendSlice3C(SB)
+	JMP	runtime·golangPanicExtendSlice3C(SB)
 TEXT runtime·panicExtendSlice3CU(SB),NOSPLIT,$0-12
 	MOVW	R4, hi+0(FP)
 	MOVW	R0, lo+4(FP)
 	MOVW	R1, y+8(FP)
-	JMP	runtime·goPanicExtendSlice3CU(SB)
+	JMP	runtime·golangPanicExtendSlice3CU(SB)

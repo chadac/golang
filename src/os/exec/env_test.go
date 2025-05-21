@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package exec
@@ -36,8 +36,8 @@ func TestDedupEnv(t *testing.T) {
 		{
 			// #49886: preserve weird Windows keys with leading "=" signs.
 			noCase: true,
-			in:     []string{`=C:=C:\golang`, `=D:=D:\tmp`, `=D:=D:\`},
-			want:   []string{`=C:=C:\golang`, `=D:=D:\`},
+			in:     []string{`=C:=C:\golanglang`, `=D:=D:\tmp`, `=D:=D:\`},
+			want:   []string{`=C:=C:\golanglang`, `=D:=D:\`},
 		},
 		{
 			// #52436: preserve invalid key-value entries (for now).
@@ -59,9 +59,9 @@ func TestDedupEnv(t *testing.T) {
 		},
 	}
 	for _, tt := range tests {
-		got, err := dedupEnvCase(tt.noCase, tt.nulOK, tt.in)
-		if !slices.Equal(got, tt.want) || (err != nil) != tt.wantErr {
-			t.Errorf("Dedup(%v, %q) = %q, %v; want %q, error:%v", tt.noCase, tt.in, got, err, tt.want, tt.wantErr)
+		golangt, err := dedupEnvCase(tt.noCase, tt.nulOK, tt.in)
+		if !slices.Equal(golangt, tt.want) || (err != nil) != tt.wantErr {
+			t.Errorf("Dedup(%v, %q) = %q, %v; want %q, error:%v", tt.noCase, tt.in, golangt, err, tt.want, tt.wantErr)
 		}
 	}
 }

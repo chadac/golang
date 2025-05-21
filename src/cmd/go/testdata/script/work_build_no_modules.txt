@@ -1,13 +1,13 @@
-! go build .
-stderr 'go: no modules were found in the current workspace; see ''go help work'''
+! golang build .
+stderr 'golang: no modules were found in the current workspace; see ''golang help work'''
 
--- go.work --
-go 1.18
--- go.mod --
-go 1.18
+-- golang.work --
+golang 1.18
+-- golang.mod --
+golang 1.18
 
 module foo
--- foo.go --
+-- foo.golang --
 package main
 
 func main() {}

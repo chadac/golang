@@ -1,26 +1,26 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
 
 import (
-	"go/ast"
+	"golang/ast"
 	"strconv"
 )
 
 func init() {
-	register(gotypesFix)
+	register(golangtypesFix)
 }
 
-var gotypesFix = fix{
-	name: "gotypes",
+var golangtypesFix = fix{
+	name: "golangtypes",
 	date: "2015-07-16",
-	f:    gotypes,
-	desc: `Change imports of golang.org/x/tools/go/{exact,types} to go/{constant,types}`,
+	f:    golangtypes,
+	desc: `Change imports of golanglang.org/x/tools/golang/{exact,types} to golang/{constant,types}`,
 }
 
-func gotypes(f *ast.File) bool {
+func golangtypes(f *ast.File) bool {
 	fixed := fixGoTypes(f)
 	if fixGoExact(f) {
 		fixed = true
@@ -29,7 +29,7 @@ func gotypes(f *ast.File) bool {
 }
 
 func fixGoTypes(f *ast.File) bool {
-	return rewriteImport(f, "golang.org/x/tools/go/types", "go/types")
+	return rewriteImport(f, "golanglang.org/x/tools/golang/types", "golang/types")
 }
 
 func fixGoExact(f *ast.File) bool {
@@ -48,7 +48,7 @@ func fixGoExact(f *ast.File) bool {
 		if err != nil {
 			return
 		}
-		if path == "golang.org/x/tools/go/exact" {
+		if path == "golanglang.org/x/tools/golang/exact" {
 			importSpec = spec
 		}
 
@@ -67,7 +67,7 @@ func fixGoExact(f *ast.File) bool {
 	// Now we need to rename all the uses of the import. RewriteImport
 	// affects renameTop, but not vice versa, so do them in this order.
 	renameTop(f, "exact", "constant"+suffix)
-	rewriteImport(f, "golang.org/x/tools/go/exact", "go/constant")
+	rewriteImport(f, "golanglang.org/x/tools/golang/exact", "golang/constant")
 	// renameTop will also rewrite the imported package name. Fix that;
 	// we know it should be missing.
 	importSpec.Name = nil

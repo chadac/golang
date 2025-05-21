@@ -1,8 +1,8 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build aix || darwin || dragonfly || freebsd || linux || netbsd || openbsd || solaris
+//golang:build aix || darwin || dragolangnfly || freebsd || linux || netbsd || openbsd || solaris
 
 package unix
 
@@ -573,7 +573,7 @@ func SetNonblock(fd int, nonblocking bool) (err error) {
 // tree. argv0 should be the full path to an executable ("/bin/ls") and the
 // executable name should also be the first argument in argv (["ls", "-l"]).
 // envv are the environment variables that should be passed to the new
-// process (["USER=go", "PWD=/tmp"]).
+// process (["USER=golang", "PWD=/tmp"]).
 func Exec(argv0 string, argv []string, envv []string) error {
 	return syscall.Exec(argv0, argv, envv)
 }

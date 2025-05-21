@@ -6,28 +6,28 @@
 
 [short] skip
 [!exec:clang] [!exec:gcc] skip
-[!cgo] skip
+[!cgolang] skip
 
-env GOENV=$WORK/go.env
+env GOENV=$WORK/golang.env
 mkdir 'program files'
-go build -o 'program files' './which cc/which cc.go'
+golang build -o 'program files' './which cc/which cc.golang'
 [exec:clang] env CC='"'$PWD${/}program' 'files${/}which' 'cc"' 'clang
 [!exec:clang] env CC='"'$PWD${/}program' 'files${/}which' 'cc"' 'gcc
-go env CC
+golang env CC
 stdout 'program files[/\\]which cc" (clang|gcc)$'
-go env -w CC=$CC
+golang env -w CC=$CC
 env CC=
-go env CC
+golang env CC
 stdout 'program files[/\\]which cc" (clang|gcc)$'
 
-go run .
+golang run .
 stdout 1
 
--- go.mod --
+-- golang.mod --
 module test
 
-go 1.17
--- which cc/which cc.go --
+golang 1.17
+-- which cc/which cc.golang --
 package main
 
 import (
@@ -46,7 +46,7 @@ func main() {
 		os.Exit(1)
 	}
 }
--- hello.go --
+-- hello.golang --
 package main
 
 // int x = WRAPPER_WAS_USED;

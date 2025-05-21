@@ -1,5 +1,5 @@
 # Run chatty tests. Assert on CONT lines.
-go test chatty_test.go -v -bench . chatty_bench
+golang test chatty_test.golang -v -bench . chatty_bench
 
 # Sanity check that output happens. We don't provide -count because the amount
 # of output is variable.
@@ -10,7 +10,7 @@ stdout 'this is sub-2'
 # Benchmarks should not print CONT.
 ! stdout CONT
 
--- chatty_test.go --
+-- chatty_test.golang --
 package chatty_bench
 
 import (

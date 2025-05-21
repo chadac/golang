@@ -1,42 +1,42 @@
-# Regression test for https://go.dev/issue/51125:
+# Regression test for https://golang.dev/issue/51125:
 # Relative import paths (a holdover from GOPATH) were accidentally allowed in module mode.
 
 cd $WORK
 
-# Relative imports should not be allowed with a go.mod file.
+# Relative imports should not be allowed with a golang.mod file.
 
-! go run driver.go
-stderr '^driver.go:3:8: "./mypkg" is relative, but relative import paths are not supported in module mode$'
+! golang run driver.golang
+stderr '^driver.golang:3:8: "./mypkg" is relative, but relative import paths are not supported in module mode$'
 
-go list -e -f '{{with .Error}}{{.}}{{end}}' -deps driver.go
-stdout '^driver.go:3:8: "./mypkg" is relative, but relative import paths are not supported in module mode$'
+golang list -e -f '{{with .Error}}{{.}}{{end}}' -deps driver.golang
+stdout '^driver.golang:3:8: "./mypkg" is relative, but relative import paths are not supported in module mode$'
 ! stderr .
 
 
-# Relative imports should not be allowed in module mode even without a go.mod file.
-rm go.mod
+# Relative imports should not be allowed in module mode even without a golang.mod file.
+rm golang.mod
 
-! go run driver.go
-stderr '^driver.go:3:8: "./mypkg" is relative, but relative import paths are not supported in module mode$'
+! golang run driver.golang
+stderr '^driver.golang:3:8: "./mypkg" is relative, but relative import paths are not supported in module mode$'
 
-go list -e -f '{{with .Error}}{{.}}{{end}}' -deps driver.go
-stdout '^driver.go:3:8: "./mypkg" is relative, but relative import paths are not supported in module mode$'
+golang list -e -f '{{with .Error}}{{.}}{{end}}' -deps driver.golang
+stdout '^driver.golang:3:8: "./mypkg" is relative, but relative import paths are not supported in module mode$'
 ! stderr .
 
 
 # In GOPATH mode, they're still allowed (but only outside of GOPATH/src).
 env GO111MODULE=off
 
-[!short] go run driver.go
+[!short] golang run driver.golang
 
-go list -deps driver.go
+golang list -deps driver.golang
 
 
--- $WORK/go.mod --
+-- $WORK/golang.mod --
 module example
 
-go 1.17
--- $WORK/driver.go --
+golang 1.17
+-- $WORK/driver.golang --
 package main
 
 import "./mypkg"
@@ -44,7 +44,7 @@ import "./mypkg"
 func main() {
 	mypkg.MyFunc()
 }
--- $WORK/mypkg/code.go --
+-- $WORK/mypkg/code.golang --
 package mypkg
 
 import "fmt"

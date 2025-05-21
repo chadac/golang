@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package unix
@@ -10,10 +10,10 @@ import (
 	"unsafe"
 )
 
-//go:linkname syscall_syscall syscall.syscall
+//golang:linkname syscall_syscall syscall.syscall
 func syscall_syscall(fn, a1, a2, a3 uintptr) (r1, r2 uintptr, err syscall.Errno)
 
-//go:cgo_import_dynamic libc_arc4random_buf arc4random_buf "libc.so"
+//golang:cgolang_import_dynamic libc_arc4random_buf arc4random_buf "libc.so"
 
 func libc_arc4random_buf_trampoline()
 

@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 /*
@@ -147,7 +147,7 @@ how {{.}} appears when used in the context to the left.
 If used in an unsafe context, then the value might be filtered out:
 
 	Context                          {{.}} After
-	<a href="{{.}}">                 #ZgotmplZ
+	<a href="{{.}}">                 #ZgolangtmplZ
 
 since "O'Reilly:" is not an allowed protocol like "http:".
 
@@ -190,7 +190,7 @@ plain text string in the appropriate context.
 When a data value is not plain text, you can make sure it is not over-escaped
 by marking it with its type.
 
-Types HTML, JS, URL, and others from content.go can carry safe content that is
+Types HTML, JS, URL, and others from content.golang can carry safe content that is
 exempted from escaping.
 
 The template
@@ -213,7 +213,7 @@ that would have been produced if {{.}} was a regular string.
 
 # Security Model
 
-https://web.archive.org/web/20160501113828/http://js-quasis-libraries-and-repl.googlecode.com/svn/trunk/safetemplate.html#problem_definition defines "safe" as used by this package.
+https://web.archive.org/web/20160501113828/http://js-quasis-libraries-and-repl.golangoglecode.com/svn/trunk/safetemplate.html#problem_definition defines "safe" as used by this package.
 
 This package assumes that template authors are trusted, that Execute's data
 parameter is not, and seeks to preserve the properties below in the face

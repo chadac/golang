@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -40,43 +40,43 @@ func M2() int {
 }
 
 func main() {
-	// Use different goroutines to force stack growth.
+	// Use different golangroutines to force stack growth.
 	var wg sync.WaitGroup
 	wg.Add(4)
 	c := make(chan bool, 4)
 
-	go func() {
+	golang func() {
 		defer wg.Done()
 		b := F1()
 		if b != 42 {
-			fmt.Printf("F1: got %d, expected 42\n", b)
+			fmt.Printf("F1: golangt %d, expected 42\n", b)
 			c <- false
 		}
 	}()
 
-	go func() {
+	golang func() {
 		defer wg.Done()
 		b := F2()
 		if b != 42 {
-			fmt.Printf("F2: got %d, expected 42\n", b)
+			fmt.Printf("F2: golangt %d, expected 42\n", b)
 			c <- false
 		}
 	}()
 
-	go func() {
+	golang func() {
 		defer wg.Done()
 		b := M1()
 		if b != 42 {
-			fmt.Printf("M1: got %d, expected 42\n", b)
+			fmt.Printf("M1: golangt %d, expected 42\n", b)
 			c <- false
 		}
 	}()
 
-	go func() {
+	golang func() {
 		defer wg.Done()
 		b := M2()
 		if b != 42 {
-			fmt.Printf("M2: got %d, expected 42\n", b)
+			fmt.Printf("M2: golangt %d, expected 42\n", b)
 			c <- false
 		}
 	}()

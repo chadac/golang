@@ -5,30 +5,30 @@
 [short] skip
 
 # Build with random layout using one seed, then run ...
-go build -o prog123.exe -ldflags=-randlayout=123
+golang build -o prog123.exe -ldflags=-randlayout=123
 exec ./prog123.exe
 
 # ... now build with a different seed and run.
-go build -x -o prog456.exe -ldflags=-randlayout=456
+golang build -x -o prog456.exe -ldflags=-randlayout=456
 exec ./prog456.exe
 
 # Capture symbols (sorted by address)
-go tool nm prog123.exe
+golang tool nm prog123.exe
 cp stdout syms123.txt
 
 # Capture symbols (sorted by address)
-go tool nm prog456.exe
+golang tool nm prog456.exe
 cp stdout syms456.txt
 
 # Output should be different.
 ! cmp syms123.txt syms456.txt
 
--- go.mod --
+-- golang.mod --
 module main
 
-go 1.20
+golang 1.20
 
--- mymain.go --
+-- mymain.golang --
 package main
 
 func main() {

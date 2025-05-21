@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package types2
@@ -27,7 +27,7 @@ type Signature struct {
 	scope    *Scope         // function scope for package-local and non-instantiated signatures; nil otherwise
 	recv     *Var           // nil if not a method
 	params   *Tuple         // (incoming) parameters from left to right; or nil
-	results  *Tuple         // (outgoing) results from left to right; or nil
+	results  *Tuple         // (outgolanging) results from left to right; or nil
 	variadic bool           // true if the last parameter's type is of the form ...T (or string, for append built-in only)
 }
 
@@ -65,7 +65,7 @@ func NewSignatureType(recv *Var, recvTypeParams, typeParams []*TypeParam, params
 			return true
 		})
 		if S == nil {
-			panic(fmt.Sprintf("got %s, want variadic parameter of unnamed slice or string type", last))
+			panic(fmt.Sprintf("golangt %s, want variadic parameter of unnamed slice or string type", last))
 		}
 	}
 	sig := &Signature{recv: recv, params: params, results: results, variadic: variadic}
@@ -175,7 +175,7 @@ func (check *Checker) collectRecv(rparam *syntax.Field, scopePos syntax.Pos) (*V
 		// If that is a generic type, varType will complain.
 		// Further receiver constraints will be checked later, with validRecv.
 		// We use rparam.Type (rather than base) to correctly record pointer
-		// and parentheses in types2.Info (was bug, see go.dev/issue/68639).
+		// and parentheses in types2.Info (was bug, see golang.dev/issue/68639).
 		recvType = check.varType(rparam.Type)
 		// Defining new methods on instantiated (alias or defined) types is not permitted.
 		// Follow literal pointer/alias type chain and check.
@@ -208,7 +208,7 @@ func (check *Checker) collectRecv(rparam *syntax.Field, scopePos syntax.Pos) (*V
 					check.errorf(rbase, InvalidRecv, "cannot define new methods on generic alias type %s", t)
 				}
 				// Ok to continue but do not set basetype in this case so that
-				// recvType remains invalid (was bug, see go.dev/issue/70417).
+				// recvType remains invalid (was bug, see golang.dev/issue/70417).
 			default:
 				panic("unreachable")
 			}
@@ -222,14 +222,14 @@ func (check *Checker) collectRecv(rparam *syntax.Field, scopePos syntax.Pos) (*V
 		// Collect the type parameters declared by the receiver (see also
 		// Checker.collectTypeParams). The scope of the type parameter T in
 		// "func (r T[T]) f() {}" starts after f, not at r, so we declare it
-		// after typechecking rbase (see go.dev/issue/52038).
+		// after typechecking rbase (see golang.dev/issue/52038).
 		recvTParams := make([]*TypeParam, len(rtparams))
 		for i, rparam := range rtparams {
 			tpar := check.declareTypeParam(rparam, scopePos)
 			recvTParams[i] = tpar
 			// For historic reasons, type parameters in receiver type expressions
 			// are considered both definitions and uses and thus must be recorded
-			// in the Info.Uses and Info.Types maps (see go.dev/issue/68670).
+			// in the Info.Uses and Info.Types maps (see golang.dev/issue/68670).
 			check.recordUse(rparam, tpar.obj)
 			check.recordTypeAndValue(rparam, typexpr, tpar, nil)
 		}
@@ -250,13 +250,13 @@ func (check *Checker) collectRecv(rparam *syntax.Field, scopePos syntax.Pos) (*V
 					recvTPar.bound = check.subst(recvTPar.obj.pos, baseTPar.bound, smap, nil, check.context())
 				}
 			} else {
-				got := measure(len(recvTParams), "type parameter")
-				check.errorf(rbase, BadRecv, "receiver declares %s, but receiver base type declares %d", got, len(baseTParams))
+				golangt := measure(len(recvTParams), "type parameter")
+				check.errorf(rbase, BadRecv, "receiver declares %s, but receiver base type declares %d", golangt, len(baseTParams))
 			}
 
 			// The type parameters declared by the receiver also serve as
 			// type arguments for the receiver type. Instantiate the receiver.
-			check.verifyVersionf(rbase, go1_18, "type instantiation")
+			check.verifyVersionf(rbase, golang1_18, "type instantiation")
 			targs := make([]Type, len(recvTParams))
 			for i, targ := range recvTParams {
 				targs[i] = targ
@@ -289,7 +289,7 @@ func (check *Checker) collectRecv(rparam *syntax.Field, scopePos syntax.Pos) (*V
 	}
 
 	// Delay validation of receiver type as it may cause premature expansion of types
-	// the receiver type is dependent on (see go.dev/issue/51232, go.dev/issue/51233).
+	// the receiver type is dependent on (see golang.dev/issue/51232, golang.dev/issue/51233).
 	check.later(func() {
 		check.validRecv(rbase, recv)
 	}).describef(recv, "validRecv(%s)", recv)
@@ -463,8 +463,8 @@ func (check *Checker) validRecv(pos poser, recv *Var) {
 	}
 }
 
-// isCGoTypeObj reports whether the given type name was created by cgo.
+// isCGoTypeObj reports whether the given type name was created by cgolang.
 func isCGoTypeObj(obj *TypeName) bool {
 	return strings.HasPrefix(obj.name, "_Ctype_") ||
-		strings.HasPrefix(filepath.Base(obj.pos.FileBase().Filename()), "_cgo_")
+		strings.HasPrefix(filepath.Base(obj.pos.FileBase().Filename()), "_cgolang_")
 }

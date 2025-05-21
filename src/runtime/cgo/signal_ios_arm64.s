@@ -1,20 +1,20 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 #include "textflag.h"
 
-// xx_cgo_panicmem is the entrypoint for SIGSEGV as intercepted via a
+// xx_cgolang_panicmem is the entrypoint for SIGSEGV as intercepted via a
 // mach thread port as EXC_BAD_ACCESS. As the segfault may have happened
-// in C code, we first need to load_g then call xx_cgo_panicmem.
+// in C code, we first need to load_g then call xx_cgolang_panicmem.
 //
 //	R1 - LR at moment of fault
 //	R2 - PC at moment of fault
-TEXT xx_cgo_panicmem(SB),NOSPLIT|NOFRAME,$0
+TEXT xx_cgolang_panicmem(SB),NOSPLIT|NOFRAME,$0
 	// If in external C code, we need to load the g register.
 	BL  runtime·load_g(SB)
 	CMP $0, g
-	BNE ongothread
+	BNE ongolangthread
 
 	// On a foreign thread.
 	// TODO(crawshaw): call badsignal
@@ -23,12 +23,12 @@ TEXT xx_cgo_panicmem(SB),NOSPLIT|NOFRAME,$0
 	MOVW R1, 8(RSP)
 	B    runtime·exit(SB)
 
-ongothread:
+ongolangthread:
 	// Trigger a SIGSEGV panic.
 	//
-	// The goal is to arrange the stack so it looks like the runtime
+	// The golangal is to arrange the stack so it looks like the runtime
 	// function sigpanic was called from the PC that faulted. It has
-	// to be sigpanic, as the stack unwinding code in traceback.go
+	// to be sigpanic, as the stack unwinding code in traceback.golang
 	// looks explicitly for it.
 	//
 	// To do this we call into runtime·setsigsegv, which sets the

@@ -1,64 +1,64 @@
 [short] skip
 
-go test -c -o mainpanic.exe ./mainpanic &
-go test -c -o mainexit0.exe ./mainexit0 &
-go test -c -o testpanic.exe ./testpanic &
-go test -c -o testbgpanic.exe ./testbgpanic &
+golang test -c -o mainpanic.exe ./mainpanic &
+golang test -c -o mainexit0.exe ./mainexit0 &
+golang test -c -o testpanic.exe ./testpanic &
+golang test -c -o testbgpanic.exe ./testbgpanic &
 wait
 
 # Test binaries that panic in TestMain should be marked as failing.
 
-! go test -json ./mainpanic
+! golang test -json ./mainpanic
 stdout '"Action":"fail"'
 ! stdout '"Action":"pass"'
 
-! go tool test2json ./mainpanic.exe
+! golang tool test2json ./mainpanic.exe
 stdout '"Action":"fail"'
 ! stdout '"Action":"pass"'
 
 # Test binaries that exit with status 0 should be marked as passing.
 
-go test -json ./mainexit0
+golang test -json ./mainexit0
 stdout '"Action":"pass"'
 ! stdout '"Action":"fail"'
 
-go tool test2json ./mainexit0.exe
+golang tool test2json ./mainexit0.exe
 stdout '"Action":"pass"'
 ! stdout '"Action":"fail"'
 
 # Test functions that panic should never be marked as passing
-# (https://golang.org/issue/40132).
+# (https://golanglang.org/issue/40132).
 
-! go test -json ./testpanic
+! golang test -json ./testpanic
 stdout '"Action":"fail"'
 ! stdout '"Action":"pass"'
 
-! go tool test2json ./testpanic.exe -test.v
+! golang tool test2json ./testpanic.exe -test.v
 stdout '"Action":"fail"'
 ! stdout '"Action":"pass"'
 
-! go tool test2json ./testpanic.exe
+! golang tool test2json ./testpanic.exe
 stdout '"Action":"fail"'
 ! stdout '"Action":"pass"'
 
-# Tests that panic in a background goroutine should be marked as failing.
+# Tests that panic in a background golangroutine should be marked as failing.
 
-! go test -json ./testbgpanic
+! golang test -json ./testbgpanic
 stdout '"Action":"fail"'
 ! stdout '"Action":"pass"'
 
-! go tool test2json ./testbgpanic.exe -test.v
+! golang tool test2json ./testbgpanic.exe -test.v
 stdout '"Action":"fail"'
 ! stdout '"Action":"pass"'
 
-! go tool test2json ./testbgpanic.exe
+! golang tool test2json ./testbgpanic.exe
 stdout '"Action":"fail"'
 ! stdout '"Action":"pass"'
 
--- go.mod --
+-- golang.mod --
 module m
-go 1.14
--- mainpanic/mainpanic_test.go --
+golang 1.14
+-- mainpanic/mainpanic_test.golang --
 package mainpanic_test
 
 import "testing"
@@ -66,7 +66,7 @@ import "testing"
 func TestMain(m *testing.M) {
 	panic("haha no")
 }
--- mainexit0/mainexit0_test.go --
+-- mainexit0/mainexit0_test.golang --
 package mainexit0_test
 
 import (
@@ -79,7 +79,7 @@ func TestMain(m *testing.M) {
 	fmt.Println("nothing to do")
 	os.Exit(0)
 }
--- testpanic/testpanic_test.go --
+-- testpanic/testpanic_test.golang --
 package testpanic_test
 
 import "testing"
@@ -87,14 +87,14 @@ import "testing"
 func TestPanic(*testing.T) {
 	panic("haha no")
 }
--- testbgpanic/testbgpanic_test.go --
+-- testbgpanic/testbgpanic_test.golang --
 package testbgpanic_test
 
 import "testing"
 
 func TestPanicInBackground(*testing.T) {
 	c := make(chan struct{})
-	go func() {
+	golang func() {
 		panic("haha no")
 		close(c)
 	}()

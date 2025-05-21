@@ -1,8 +1,8 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !goexperiment.jsonv2
+//golang:build !golangexperiment.jsonv2
 
 package json_test
 
@@ -29,7 +29,7 @@ func (a *Animal) UnmarshalJSON(b []byte) error {
 	switch strings.ToLower(s) {
 	default:
 		*a = Unknown
-	case "gopher":
+	case "golangpher":
 		*a = Gopher
 	case "zebra":
 		*a = Zebra
@@ -44,7 +44,7 @@ func (a Animal) MarshalJSON() ([]byte, error) {
 	default:
 		s = "unknown"
 	case Gopher:
-		s = "gopher"
+		s = "golangpher"
 	case Zebra:
 		s = "zebra"
 	}
@@ -53,7 +53,7 @@ func (a Animal) MarshalJSON() ([]byte, error) {
 }
 
 func Example_customMarshalJSON() {
-	blob := `["gopher","armadillo","zebra","unknown","gopher","bee","gopher","zebra"]`
+	blob := `["golangpher","armadillo","zebra","unknown","golangpher","bee","golangpher","zebra"]`
 	var zoo []Animal
 	if err := json.Unmarshal([]byte(blob), &zoo); err != nil {
 		log.Fatal(err)

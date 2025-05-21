@@ -1,19 +1,19 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package time
 
 import (
-	"internal/godebug"
+	"internal/golangdebug"
 	"unsafe"
 )
 
-// Sleep pauses the current goroutine for at least the duration d.
+// Sleep pauses the current golangroutine for at least the duration d.
 // A negative or zero duration causes Sleep to return immediately.
 func Sleep(d Duration)
 
-var asynctimerchan = godebug.New("asynctimerchan")
+var asynctimerchan = golangdebug.New("asynctimerchan")
 
 // syncTimer returns c as an unsafe.Pointer, for passing to newTimer.
 // If the GODEBUG asynctimerchan has disabled the async timer chan
@@ -68,13 +68,13 @@ func when(d Duration) int64 {
 // so we use a pointer here too. This keeps some tools that aggressively
 // compare linknamed symbol definitions happier.
 //
-//go:linkname newTimer
+//golang:linkname newTimer
 func newTimer(when, period int64, f func(any, uintptr, int64), arg any, cp unsafe.Pointer) *Timer
 
-//go:linkname stopTimer
+//golang:linkname stopTimer
 func stopTimer(*Timer) bool
 
-//go:linkname resetTimer
+//golang:linkname resetTimer
 func resetTimer(t *Timer, when, period int64) bool
 
 // Note: The runtime knows the layout of struct Timer, since newTimer allocates it.
@@ -97,7 +97,7 @@ type Timer struct {
 //
 // For a func-based timer created with [AfterFunc](d, f),
 // if t.Stop returns false, then the timer has already expired
-// and the function f has been started in its own goroutine;
+// and the function f has been started in its own golangroutine;
 // Stop does not wait for f to complete before returning.
 // If the caller needs to know whether f is completed,
 // it must coordinate with f explicitly.
@@ -156,7 +156,7 @@ func NewTimer(d Duration) *Timer {
 // to run again, in which case it returns false.
 // When Reset returns false, Reset neither waits for the prior f to
 // complete before returning nor does it guarantee that the subsequent
-// goroutine running f does not run concurrently with the prior
+// golangroutine running f does not run concurrently with the prior
 // one. If the caller needs to know whether the prior execution of
 // f is completed, it must coordinate with f explicitly.
 //
@@ -178,10 +178,10 @@ func (t *Timer) Reset(d Duration) bool {
 
 // sendTime does a non-blocking send of the current time on c.
 func sendTime(c any, seq uintptr, delta int64) {
-	// delta is how long ago the channel send was supposed to happen.
+	// delta is how long agolang the channel send was supposed to happen.
 	// The current time can be arbitrarily far into the future, because the runtime
-	// can delay a sendTime call until a goroutine tries to receive from
-	// the channel. Subtract delta to go back to the old time that we
+	// can delay a sendTime call until a golangroutine tries to receive from
+	// the channel. Subtract delta to golang back to the old time that we
 	// used to send.
 	select {
 	case c.(chan Time) <- Now().Add(Duration(-delta)):
@@ -204,13 +204,13 @@ func After(d Duration) <-chan Time {
 }
 
 // AfterFunc waits for the duration to elapse and then calls f
-// in its own goroutine. It returns a [Timer] that can
+// in its own golangroutine. It returns a [Timer] that can
 // be used to cancel the call using its Stop method.
 // The returned Timer's C field is not used and will be nil.
 func AfterFunc(d Duration, f func()) *Timer {
-	return (*Timer)(newTimer(when(d), 0, goFunc, f, nil))
+	return (*Timer)(newTimer(when(d), 0, golangFunc, f, nil))
 }
 
-func goFunc(arg any, seq uintptr, delta int64) {
-	go arg.(func())()
+func golangFunc(arg any, seq uintptr, delta int64) {
+	golang arg.(func())()
 }

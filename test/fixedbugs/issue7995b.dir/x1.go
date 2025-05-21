@@ -4,7 +4,7 @@ import "fmt"
 
 var P int
 
-//go:noinline
+//golang:noinline
 func F(x *int) string {
 	P = 50
 	*x = 100

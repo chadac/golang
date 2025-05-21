@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package noder
@@ -18,7 +18,7 @@ import (
 	"cmd/internal/src"
 )
 
-var versionErrorRx = regexp.MustCompile(`requires go[0-9]+\.[0-9]+ or later`)
+var versionErrorRx = regexp.MustCompile(`requires golang[0-9]+\.[0-9]+ or later`)
 
 // checkFiles configures and runs the types2 checker on the given
 // parsed source files and then returns the result.
@@ -40,7 +40,7 @@ func checkFiles(m posMap, noders []*noder) (*types2.Package, *types2.Info, map[*
 		// refers to that directive, not the file itself.
 		// Make sure to consistently map back to file base, here and
 		// when we look for a file in the conf.Error handler below,
-		// otherwise the file may not be found (was go.dev/issue/67141).
+		// otherwise the file may not be found (was golang.dev/issue/67141).
 		fileBaseMap[p.file.Pos().FileBase()] = p.file
 	}
 
@@ -59,7 +59,7 @@ func checkFiles(m posMap, noders []*noder) (*types2.Package, *types2.Info, map[*
 		EnableAlias:        true,
 	}
 	if base.Flag.ErrorURL {
-		conf.ErrorURL = " [go.dev/e/%s]"
+		conf.ErrorURL = " [golang.dev/e/%s]"
 	}
 	info := &types2.Info{
 		StoreTypesInSyntax: true,
@@ -82,11 +82,11 @@ func checkFiles(m posMap, noders []*noder) (*types2.Package, *types2.Info, map[*
 			if file == nil {
 				// This should never happen, but be careful and don't crash.
 			} else if file.GoVersion == fileVersion {
-				// If we have a version error caused by //go:build, report it.
-				msg = fmt.Sprintf("%s (file declares //go:build %s)", msg, fileVersion)
+				// If we have a version error caused by //golang:build, report it.
+				msg = fmt.Sprintf("%s (file declares //golang:build %s)", msg, fileVersion)
 			} else {
 				// Otherwise, hint at the -lang setting.
-				msg = fmt.Sprintf("%s (-lang was set to %s; check go.mod)", msg, base.Flag.Lang)
+				msg = fmt.Sprintf("%s (-lang was set to %s; check golang.mod)", msg, base.Flag.Lang)
 			}
 		}
 		base.ErrorfAt(m.makeXPos(terr.Pos), terr.Code, "%s", msg)
@@ -99,13 +99,13 @@ func checkFiles(m posMap, noders []*noder) (*types2.Package, *types2.Info, map[*
 	}
 
 	// Check for anonymous interface cycles (#56103).
-	// TODO(gri) move this code into the type checkers (types2 and go/types)
+	// TODO(gri) move this code into the type checkers (types2 and golang/types)
 	var f cycleFinder
 	for _, file := range files {
 		syntax.Inspect(file, func(n syntax.Node) bool {
 			if n, ok := n.(*syntax.InterfaceType); ok {
 				if f.hasCycle(types2.Unalias(n.GetTypeInfo().Type).(*types2.Interface)) {
-					base.ErrorfAt(m.makeXPos(n.Pos()), errors.InvalidTypeCycle, "invalid recursive type: anonymous interface refers to itself (see https://go.dev/issue/56103)")
+					base.ErrorfAt(m.makeXPos(n.Pos()), errors.InvalidTypeCycle, "invalid recursive type: anonymous interface refers to itself (see https://golang.dev/issue/56103)")
 
 					for typ := range f.cyclic {
 						f.cyclic[typ] = false // suppress duplicate errors
@@ -184,7 +184,7 @@ func checkFiles(m posMap, noders []*noder) (*types2.Package, *types2.Info, map[*
 	return pkg, info, rangeInfo
 }
 
-// A cycleFinder detects anonymous interface cycles (go.dev/issue/56103).
+// A cycleFinder detects anonymous interface cycles (golang.dev/issue/56103).
 type cycleFinder struct {
 	cyclic map[*types2.Interface]bool
 }

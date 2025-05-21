@@ -1,5 +1,5 @@
-//go:test2
+//golang:test2
 
 package p
 
-//go:ignored
+//golang:ignored

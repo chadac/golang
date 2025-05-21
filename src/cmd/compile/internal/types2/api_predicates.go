@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file implements exported type predicates.
@@ -81,7 +81,7 @@ func Satisfies(V Type, T *Interface) bool {
 // involved at most one call to [NewPackage](P, ...).
 // To ensure consistency, use a single [Importer] for
 // all loaded packages and their dependencies.
-// For more information, see https://github.com/golang/go/issues/57497.
+// For more information, see https://github.com/golanglang/golang/issues/57497.
 func Identical(x, y Type) bool {
 	var c comparer
 	return c.identical(x, y, nil)

@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ecdh
@@ -194,7 +194,7 @@ func NewPrivateKey[P Point[P]](c *Curve[P], key []byte) (*PrivateKey, error) {
 	// Rev. 3, Section 5.6.2.1.4 acknowledges that, and doesn't require it.
 	// However, ISO 19790:2012, Section 7.10.3.3 has a blanket requirement for a
 	// PCT for all generated keys (AS10.35) and FIPS 140-3 IG 10.3.A, Additional
-	// Comment 1 goes out of its way to say that "the PCT shall be performed
+	// Comment 1 golanges out of its way to say that "the PCT shall be performed
 	// consistent [...], even if the underlying standard does not require a
 	// PCT". So we do it. And make ECDH nearly 50% slower (only) in FIPS mode.
 	if err := fips140.PCT("ECDH PCT", func() error {

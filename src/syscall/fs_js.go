@@ -1,8 +1,8 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build js && wasm
+//golang:build js && wasm
 
 package syscall
 
@@ -291,7 +291,7 @@ func Lchown(path string, uid, gid int) error {
 }
 
 func UtimesNano(path string, ts []Timespec) error {
-	// UTIME_OMIT value must match internal/syscall/unix/at_js.go
+	// UTIME_OMIT value must match internal/syscall/unix/at_js.golang
 	const UTIME_OMIT = -0x2
 	if err := checkPath(path); err != nil {
 		return err

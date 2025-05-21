@@ -1,8 +1,8 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build darwin || (openbsd && !mips64)
+//golang:build darwin || (openbsd && !mips64)
 
 package unix
 
@@ -23,11 +23,11 @@ func Fstatat(dirfd int, path string, stat *syscall.Stat_t, flags int) error {
 	return fstatat(dirfd, path, stat, flags)
 }
 
-//go:linkname unlinkat syscall.unlinkat
+//golang:linkname unlinkat syscall.unlinkat
 func unlinkat(dirfd int, path string, flags int) error
 
-//go:linkname openat syscall.openat
+//golang:linkname openat syscall.openat
 func openat(dirfd int, path string, flags int, perm uint32) (int, error)
 
-//go:linkname fstatat syscall.fstatat
+//golang:linkname fstatat syscall.fstatat
 func fstatat(dirfd int, path string, stat *syscall.Stat_t, flags int) error

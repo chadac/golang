@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -12,8 +12,8 @@ import (
 
 type argvalues struct {
 	osargs []string
-	goos   string
-	goarch string
+	golangos   string
+	golangarch string
 }
 
 type argstate struct {
@@ -30,11 +30,11 @@ func (a *argstate) Merge(state argvalues) {
 	if !slices.Equal(a.state.osargs, state.osargs) {
 		a.state.osargs = nil
 	}
-	if state.goos != a.state.goos {
-		a.state.goos = ""
+	if state.golangos != a.state.golangos {
+		a.state.golangos = ""
 	}
-	if state.goarch != a.state.goarch {
-		a.state.goarch = ""
+	if state.golangarch != a.state.golangarch {
+		a.state.golangarch = ""
 	}
 }
 
@@ -46,11 +46,11 @@ func (a *argstate) ArgsSummary() map[string]string {
 			m[fmt.Sprintf("argv%d", k)] = a
 		}
 	}
-	if a.state.goos != "" {
-		m["GOOS"] = a.state.goos
+	if a.state.golangos != "" {
+		m["GOOS"] = a.state.golangos
 	}
-	if a.state.goarch != "" {
-		m["GOARCH"] = a.state.goarch
+	if a.state.golangarch != "" {
+		m["GOARCH"] = a.state.golangarch
 	}
 	return m
 }

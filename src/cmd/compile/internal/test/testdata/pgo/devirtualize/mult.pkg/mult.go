@@ -1,9 +1,9 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // WARNING: Please avoid updating this file.
-// See the warning in ../devirt.go for more details.
+// See the warning in ../devirt.golang for more details.
 
 package mult
 
@@ -48,7 +48,7 @@ func NegMultFn(a, b int64) int64 {
 	return -1 * a * b
 }
 
-//go:noinline
+//golang:noinline
 func MultClosure() MultFunc {
 	// Explicit closure to differentiate from AddClosure.
 	c := 1
@@ -60,7 +60,7 @@ func MultClosure() MultFunc {
 	}
 }
 
-//go:noinline
+//golang:noinline
 func NegMultClosure() MultFunc {
 	c := 1
 	return func(a, b int64) int64 {

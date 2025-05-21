@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package windows_test
@@ -19,13 +19,13 @@ func TestSupportUnixSocket(t *testing.T) {
 	defer syscall.WSACleanup()
 
 	// Test that SupportUnixSocket returns true if WSASocket succeeds with AF_UNIX.
-	got := windows.SupportUnixSocket()
+	golangt := windows.SupportUnixSocket()
 	s, err := windows.WSASocket(syscall.AF_UNIX, syscall.SOCK_STREAM, 0, nil, 0, windows.WSA_FLAG_NO_HANDLE_INHERIT)
 	if err == nil {
 		syscall.Closesocket(s)
 	}
 	want := !errors.Is(err, windows.WSAEAFNOSUPPORT) && !errors.Is(err, windows.WSAEINVAL)
-	if want != got {
-		t.Errorf("SupportUnixSocket = %v; want %v", got, want)
+	if want != golangt {
+		t.Errorf("SupportUnixSocket = %v; want %v", golangt, want)
 	}
 }

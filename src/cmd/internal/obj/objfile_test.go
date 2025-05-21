@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package obj
@@ -12,7 +12,7 @@ import (
 	"testing"
 	"unsafe"
 
-	"cmd/internal/goobj"
+	"cmd/internal/golangobj"
 	"cmd/internal/sys"
 )
 
@@ -49,7 +49,7 @@ func TestContentHash(t *testing.T) {
 	}
 	for _, s := range syms {
 		s.Set(AttrContentAddressable, true)
-		s.PkgIdx = goobj.PkgIdxHashed
+		s.PkgIdx = golangobj.PkgIdxHashed
 	}
 	// s3 references s0
 	syms[3].R = []Reloc{{Sym: syms[0]}}
@@ -61,7 +61,7 @@ func TestContentHash(t *testing.T) {
 	syms[6].R = []Reloc{{Sym: syms[2]}}
 
 	// compute hashes
-	h := make([]goobj.HashType, len(syms))
+	h := make([]golangobj.HashType, len(syms))
 	w := &writer{}
 	for i := range h {
 		h[i] = w.contentHash(syms[i])
@@ -96,7 +96,7 @@ func TestSymbolTooLarge(t *testing.T) { // Issue 42054
 
 	tmpdir := t.TempDir()
 
-	src := filepath.Join(tmpdir, "p.go")
+	src := filepath.Join(tmpdir, "p.golang")
 	err := os.WriteFile(src, []byte("package p; var x [1<<32]byte"), 0666)
 	if err != nil {
 		t.Fatalf("failed to write source file: %v\n", err)
@@ -109,7 +109,7 @@ func TestSymbolTooLarge(t *testing.T) { // Issue 42054
 	}
 	const want = "symbol too large"
 	if !bytes.Contains(out, []byte(want)) {
-		t.Errorf("unexpected error message: want: %q, got: %s", want, out)
+		t.Errorf("unexpected error message: want: %q, golangt: %s", want, out)
 	}
 }
 
@@ -119,7 +119,7 @@ func TestNoRefName(t *testing.T) {
 
 	tmpdir := t.TempDir()
 
-	src := filepath.Join(tmpdir, "x.go")
+	src := filepath.Join(tmpdir, "x.golang")
 	err := os.WriteFile(src, []byte("package main; import \"fmt\"; func main() { fmt.Println(123) }\n"), 0666)
 	if err != nil {
 		t.Fatalf("failed to write source file: %v\n", err)

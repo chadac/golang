@@ -1,5 +1,5 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main_test
@@ -15,7 +15,7 @@ import (
 )
 
 func TestAbsolutePath(t *testing.T) {
-	tg := testgo(t)
+	tg := testgolang(t)
 	defer tg.cleanup()
 	tg.parallel()
 
@@ -25,7 +25,7 @@ func TestAbsolutePath(t *testing.T) {
 	}
 	defer robustio.RemoveAll(tmp)
 
-	file := filepath.Join(tmp, "a.go")
+	file := filepath.Join(tmp, "a.golang")
 	err = os.WriteFile(file, []byte{}, 0644)
 	if err != nil {
 		t.Fatal(err)
@@ -38,7 +38,7 @@ func TestAbsolutePath(t *testing.T) {
 
 	noVolume := file[len(filepath.VolumeName(file)):]
 	wrongPath := filepath.Join(dir, noVolume)
-	cmd := testenv.Command(t, tg.goTool(), "build", noVolume)
+	cmd := testenv.Command(t, tg.golangTool(), "build", noVolume)
 	cmd.Dir = dir
 	output, err := cmd.CombinedOutput()
 	if err == nil {

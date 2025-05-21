@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package os_test
@@ -53,7 +53,7 @@ func testSendFile(t *testing.T, proto string, size int64) {
 		t.Fatal("expected to called poll.SendFile")
 	}
 	if hook.called && hook.srcfd != int(src.Fd()) {
-		t.Fatalf("wrong source file descriptor: got %d, want %d", hook.srcfd, src.Fd())
+		t.Fatalf("wrong source file descriptor: golangt %d, want %d", hook.srcfd, src.Fd())
 	}
 	sc, ok := dst.(syscall.Conn)
 	if !ok {
@@ -65,7 +65,7 @@ func testSendFile(t *testing.T, proto string, size int64) {
 	}
 	if err = rc.Control(func(fd uintptr) {
 		if hook.called && hook.dstfd != int(fd) {
-			t.Fatalf("wrong destination file descriptor: got %d, want %d", hook.dstfd, int(fd))
+			t.Fatalf("wrong destination file descriptor: golangt %d, want %d", hook.dstfd, int(fd))
 		}
 	}); err != nil {
 		t.Fatalf("destination Conn Control error: %v", err)
@@ -79,13 +79,13 @@ func testSendFile(t *testing.T, proto string, size int64) {
 		t.Fatalf("server Conn Read error: %v", err)
 	}
 	if n != int64(dataSize) {
-		t.Fatalf("data length mismatch for io.Copy, got %d, want %d", n, dataSize)
+		t.Fatalf("data length mismatch for io.Copy, golangt %d, want %d", n, dataSize)
 	}
 	if m != dataSize {
-		t.Fatalf("data length mismatch for net.Conn.Read, got %d, want %d", m, dataSize)
+		t.Fatalf("data length mismatch for net.Conn.Read, golangt %d, want %d", m, dataSize)
 	}
 	if !bytes.Equal(dstData, data) {
-		t.Errorf("data mismatch, got %s, want %s", dstData, data)
+		t.Errorf("data mismatch, golangt %s, want %s", dstData, data)
 	}
 }
 

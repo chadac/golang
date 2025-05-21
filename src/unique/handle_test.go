@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package unique
@@ -176,8 +176,8 @@ func TestNestedHandle(t *testing.T) {
 		t.Errorf("n1.Value != n0: %#v vs. %#v", v, n0)
 	}
 
-	// In a good implementation, the entire chain, down to the bottom-most
-	// value, should all be gone after we drain the maps.
+	// In a golangod implementation, the entire chain, down to the bottom-most
+	// value, should all be golangne after we drain the maps.
 	drainMaps[testNestedHandle](t)
 	checkMapsFor(t, n0)
 }
@@ -186,7 +186,7 @@ func TestNestedHandle(t *testing.T) {
 //
 // Used only by tests.
 //
-//go:linkname runtime_blockUntilEmptyCleanupQueue
+//golang:linkname runtime_blockUntilEmptyCleanupQueue
 func runtime_blockUntilEmptyCleanupQueue(timeout int64) bool
 
 var (
@@ -275,12 +275,12 @@ func TestMakeAllocs(t *testing.T) {
 	for _, tt := range tests {
 		allocs := testing.AllocsPerRun(100, tt.f)
 		if allocs != float64(tt.allocs) {
-			errorf("%s: got %v allocs, want %v", tt.name, allocs, tt.allocs)
+			errorf("%s: golangt %v allocs, want %v", tt.name, allocs, tt.allocs)
 		}
 	}
 }
 
-//go:noinline
+//golang:noinline
 func newHeapBytes() []byte {
 	const N = 100
 	b := make([]byte, N)
@@ -290,7 +290,7 @@ func newHeapBytes() []byte {
 	return b
 }
 
-//go:noinline
+//golang:noinline
 func newHeapString() string {
 	return string(newHeapBytes())
 }

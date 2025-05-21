@@ -1,23 +1,23 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build openbsd && mips64
+//golang:build openbsd && mips64
 
 package runtime
 
 import (
 	"internal/abi"
-	"internal/goarch"
+	"internal/golangarch"
 	"unsafe"
 )
 
-//go:noescape
+//golang:noescape
 func tfork(param *tforkt, psize uintptr, mm *m, gg *g, fn uintptr) int32
 
 // May run with m.p==nil, so write barriers are not allowed.
 //
-//go:nowritebarrier
+//golang:nowritebarrier
 func newosproc(mp *m) {
 	stk := unsafe.Pointer(mp.g0.stack.hi)
 	if false {
@@ -29,7 +29,7 @@ func newosproc(mp *m) {
 	param := tforkt{
 		tf_tcb:   unsafe.Pointer(&mp.tls[0]),
 		tf_tid:   nil, // minit will record tid
-		tf_stack: uintptr(stk) - goarch.PtrSize,
+		tf_stack: uintptr(stk) - golangarch.PtrSize,
 	}
 
 	var oset sigset

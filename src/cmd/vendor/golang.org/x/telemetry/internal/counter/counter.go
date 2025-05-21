@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package internal/counter implements the internals of the public counter package.
@@ -16,7 +16,7 @@ import (
 )
 
 var (
-	// Note: not using internal/godebug, so that internal/godebug can use
+	// Note: not using internal/golangdebug, so that internal/golangdebug can use
 	// internal/counter.
 	debugCounter = strings.Contains(os.Getenv("GODEBUG"), "countertrace=1")
 	CrashOnBugs  = false // for testing; if set, exit on fatal log messages
@@ -44,7 +44,7 @@ func debugFatalf(format string, args ...any) {
 }
 
 // A Counter is a single named event counter.
-// A Counter is safe for use by multiple goroutines simultaneously.
+// A Counter is safe for use by multiple golangroutines simultaneously.
 //
 // Counters should typically be created using New
 // and stored as global variables, like:
@@ -252,8 +252,8 @@ func (c *Counter) releaseLock(state counterStateBits) {
 
 		// Took care of refreshing ptr and flushing extra.
 		// Now we can release the lock, unless of course
-		// another goroutine cleared havePtr or added to extra,
-		// in which case we go around again.
+		// another golangroutine cleared havePtr or added to extra,
+		// in which case we golang around again.
 		if !c.state.update(&state, state.clearLocked()) {
 			continue
 		}

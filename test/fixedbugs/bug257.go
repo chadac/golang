@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // very long strings, string concatenation
@@ -20017,7 +20017,7 @@ const data = `
 ☺☺☺☺☺☺☺☺☺☺☺☺☺☺☺☺☺☺☺☺☺☺☺☺☺☺☺☺☺☺☺☺☺☺☺☺☺☺☺☺☺☺☺☺☺☺☺☺☺☺
 `
 
-var gettysburg = "  Four score and seven years ago our fathers brought forth on\n" +
+var gettysburg = "  Four score and seven years agolang our fathers brought forth on\n" +
 	"this continent, a new nation, conceived in Liberty, and dedicated\n" +
 	"to the proposition that all men are created equal.\n" +
 	"  Now we are engaged in a great Civil War, testing whether that\n" +
@@ -20042,7 +20042,7 @@ var gettysburg = "  Four score and seven years ago our fathers brought forth on\
 	"gave the last full measure of devotion —\n" +
 	"  that we here highly resolve that these dead shall not have\n" +
 	"died in vain — that this nation, under God, shall have a new\n" +
-	"birth of freedom — and that government of the people, by the\n" +
+	"birth of freedom — and that golangvernment of the people, by the\n" +
 	"people, for the people, shall not perish from this earth.\n" +
 	"\n" +
 	"Abraham Lincoln, November 19, 1863, Gettysburg, Pennsylvania\n"

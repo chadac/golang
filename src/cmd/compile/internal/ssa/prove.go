@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ssa
@@ -1307,13 +1307,13 @@ func prove(f *Func) {
 		//	loop:
 		//		ind = (Phi (Const [x]) nxt),
 		//		if ind < end
-		//		then goto enter_loop
-		//		else goto exit_loop
+		//		then golangto enter_loop
+		//		else golangto exit_loop
 		//
 		//	enter_loop:
 		//		do something without using ind nor nxt
 		//		nxt = inc + ind
-		//		goto loop
+		//		golangto loop
 		//
 		//	exit_loop:
 		//
@@ -1322,13 +1322,13 @@ func prove(f *Func) {
 		//	loop:
 		//		ind = (Phi end nxt)
 		//		if (Const [x]) < ind
-		//		then goto enter_loop
-		//		else goto exit_loop
+		//		then golangto enter_loop
+		//		else golangto exit_loop
 		//
 		//	enter_loop:
 		//		do something without using ind nor nxt
 		//		nxt = ind - inc
-		//		goto loop
+		//		golangto loop
 		//
 		//	exit_loop:
 		//
@@ -1370,7 +1370,7 @@ func prove(f *Func) {
 			}
 
 			check.SetArg(i, start)
-			goto replacedEnd
+			golangto replacedEnd
 		}
 		panic(fmt.Sprintf("unreachable, ind: %v, start: %v, end: %v", ind, start, end))
 	replacedEnd:
@@ -1381,7 +1381,7 @@ func prove(f *Func) {
 			}
 
 			ind.SetArg(i, end)
-			goto replacedStart
+			golangto replacedStart
 		}
 		panic(fmt.Sprintf("unreachable, ind: %v, start: %v, end: %v", ind, start, end))
 	replacedStart:
@@ -1482,7 +1482,7 @@ func prove(f *Func) {
 	// incoming branches and accumulate conditions that uniquely
 	// dominate the current block. If we discover a contradiction,
 	// we can eliminate the entire block and all of its children.
-	// On the way back up, we consider outgoing branches that
+	// On the way back up, we consider outgolanging branches that
 	// haven't already been considered. This way we consider each
 	// branch condition only once.
 	for len(work) > 0 {
@@ -1811,10 +1811,10 @@ func (ft *factsTable) flowLimit(v *Value) bool {
 
 	case OpPhi:
 		{
-			// Work around for go.dev/issue/68857, look for min(x, y) and max(x, y).
+			// Work around for golang.dev/issue/68857, look for min(x, y) and max(x, y).
 			b := v.Block
 			if len(b.Preds) != 2 {
-				goto notMinNorMax
+				golangto notMinNorMax
 			}
 			// FIXME: this code searches for the following losange pattern
 			// because that what ssagen produce for min and max builtins:
@@ -1826,17 +1826,17 @@ func (ft *factsTable) flowLimit(v *Value) bool {
 			// conditionBlock → (v.Block, v.Block)
 			firstBlock, secondBlock := b.Preds[0].b, b.Preds[1].b
 			if firstBlock.Kind != BlockPlain || secondBlock.Kind != BlockPlain {
-				goto notMinNorMax
+				golangto notMinNorMax
 			}
 			if len(firstBlock.Preds) != 1 || len(secondBlock.Preds) != 1 {
-				goto notMinNorMax
+				golangto notMinNorMax
 			}
 			conditionBlock := firstBlock.Preds[0].b
 			if conditionBlock != secondBlock.Preds[0].b {
-				goto notMinNorMax
+				golangto notMinNorMax
 			}
 			if conditionBlock.Kind != BlockIf {
-				goto notMinNorMax
+				golangto notMinNorMax
 			}
 
 			less := conditionBlock.Controls[0]
@@ -1848,7 +1848,7 @@ func (ft *factsTable) flowLimit(v *Value) bool {
 			case OpLess64, OpLess32, OpLess16, OpLess8,
 				OpLeq64, OpLeq32, OpLeq16, OpLeq8:
 			default:
-				goto notMinNorMax
+				golangto notMinNorMax
 			}
 			small, big := less.Args[0], less.Args[1]
 			truev, falsev := v.Args[0], v.Args[1]
@@ -1870,7 +1870,7 @@ func (ft *factsTable) flowLimit(v *Value) bool {
 						return ft.signedMinMax(v, minimum, maximum)
 					}
 				} else {
-					goto notMinNorMax
+					golangto notMinNorMax
 				}
 			} else if truev == small {
 				if falsev == big {
@@ -1885,10 +1885,10 @@ func (ft *factsTable) flowLimit(v *Value) bool {
 						return ft.signedMinMax(v, minimum, maximum)
 					}
 				} else {
-					goto notMinNorMax
+					golangto notMinNorMax
 				}
 			} else {
-				goto notMinNorMax
+				golangto notMinNorMax
 			}
 		}
 	notMinNorMax:
@@ -2141,7 +2141,7 @@ func addLocalFacts(ft *factsTable, b *Block) {
 
 	// Add facts about individual operations.
 	for _, v := range b.Values {
-		// FIXME(go.dev/issue/68857): this loop only set up limits properly when b.Values is in topological order.
+		// FIXME(golang.dev/issue/68857): this loop only set up limits properly when b.Values is in topological order.
 		// flowLimit can also depend on limits given by this loop which right now is not handled.
 		switch v.Op {
 		case OpAnd64, OpAnd32, OpAnd16, OpAnd8:
@@ -2366,7 +2366,7 @@ func simplifyBlock(sdom SparseTree, ft *factsTable, b *Block) {
 			divd := v.Args[0]
 			divdLim := ft.limits[divd.ID]
 			if divrLim.max < -1 || divrLim.min > -1 || divdLim.min > mostNegativeDividend[v.Op] {
-				// See DivisionNeedsFixUp in rewrite.go.
+				// See DivisionNeedsFixUp in rewrite.golang.
 				// v.AuxInt = 1 means we have proved both that the divisor is not -1
 				// and that the dividend is not the most negative integer,
 				// so we do not need to add fix-up code.
@@ -2432,7 +2432,7 @@ func simplifyBlock(sdom SparseTree, ft *factsTable, b *Block) {
 		return
 	}
 
-	// Consider outgoing edges from this block.
+	// Consider outgolanging edges from this block.
 	parent := b
 	for i, branch := range [...]branch{positive, negative} {
 		child := parent.Succs[i].b

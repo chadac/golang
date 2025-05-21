@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime_test
@@ -48,16 +48,16 @@ func TestGCCPULimiter(t *testing.T) {
 		l.Update(advance(1 * time.Second))
 		l.Update(advance(1 * time.Hour))
 		if l.Fill() != 0 {
-			t.Fatalf("expected empty bucket from only accumulating mutator time, got fill of %d cpu-ns", l.Fill())
+			t.Fatalf("expected empty bucket from only accumulating mutator time, golangt fill of %d cpu-ns", l.Fill())
 		}
 
 		// Test needUpdate.
 
 		if l.NeedUpdate(advance(GCCPULimiterUpdatePeriod / 2)) {
-			t.Fatal("need update even though updated half a period ago")
+			t.Fatal("need update even though updated half a period agolang")
 		}
 		if !l.NeedUpdate(advance(GCCPULimiterUpdatePeriod)) {
-			t.Fatal("doesn't need update even though updated 1.5 periods ago")
+			t.Fatal("doesn't need update even though updated 1.5 periods agolang")
 		}
 		l.Update(advance(0))
 		if l.NeedUpdate(advance(0)) {
@@ -70,7 +70,7 @@ func TestGCCPULimiter(t *testing.T) {
 		l.FinishGCTransition(advance(2*time.Millisecond + 1*time.Microsecond))
 
 		if expect := uint64((2*time.Millisecond + 1*time.Microsecond) * procs); l.Fill() != expect {
-			t.Fatalf("expected fill of %d, got %d cpu-ns", expect, l.Fill())
+			t.Fatalf("expected fill of %d, golangt %d cpu-ns", expect, l.Fill())
 		}
 
 		// Test passing time without assists during a GC. Specifically, just enough to drain the bucket to
@@ -89,27 +89,27 @@ func TestGCCPULimiter(t *testing.T) {
 		fill := (2*time.Millisecond + 1*time.Microsecond) * procs
 		l.Update(advance(time.Duration(factor * float64(fill-procs) / procs)))
 		if l.Fill() != procs {
-			t.Fatalf("expected fill %d cpu-ns from draining after a GC started, got fill of %d cpu-ns", procs, l.Fill())
+			t.Fatalf("expected fill %d cpu-ns from draining after a GC started, golangt fill of %d cpu-ns", procs, l.Fill())
 		}
 
 		// Drain to zero for the rest of the test.
 		l.Update(advance(2 * procs * CapacityPerProc))
 		if l.Fill() != 0 {
-			t.Fatalf("expected empty bucket from draining, got fill of %d cpu-ns", l.Fill())
+			t.Fatalf("expected empty bucket from draining, golangt fill of %d cpu-ns", l.Fill())
 		}
 
 		// Test filling up the bucket with 50% total GC work (so, not moving the bucket at all).
 		l.AddAssistTime(assistTime(10*time.Millisecond, 0.5-GCBackgroundUtilization))
 		l.Update(advance(10 * time.Millisecond))
 		if l.Fill() != 0 {
-			t.Fatalf("expected empty bucket from 50%% GC work, got fill of %d cpu-ns", l.Fill())
+			t.Fatalf("expected empty bucket from 50%% GC work, golangt fill of %d cpu-ns", l.Fill())
 		}
 
 		// Test adding to the bucket overall with 100% GC work.
 		l.AddAssistTime(assistTime(time.Millisecond, 1.0-GCBackgroundUtilization))
 		l.Update(advance(time.Millisecond))
 		if expect := uint64(procs * time.Millisecond); l.Fill() != expect {
-			t.Errorf("expected %d fill from 100%% GC CPU, got fill of %d cpu-ns", expect, l.Fill())
+			t.Errorf("expected %d fill from 100%% GC CPU, golangt fill of %d cpu-ns", expect, l.Fill())
 		}
 		if l.Limiting() {
 			t.Errorf("limiter is enabled after filling bucket but shouldn't be")
@@ -122,7 +122,7 @@ func TestGCCPULimiter(t *testing.T) {
 		l.AddAssistTime(assistTime(CapacityPerProc-time.Millisecond, 1.0-GCBackgroundUtilization))
 		l.Update(advance(CapacityPerProc - time.Millisecond))
 		if l.Fill() != l.Capacity() {
-			t.Errorf("expected bucket filled to capacity %d, got %d", l.Capacity(), l.Fill())
+			t.Errorf("expected bucket filled to capacity %d, golangt %d", l.Capacity(), l.Fill())
 		}
 		if !l.Limiting() {
 			t.Errorf("limiter is not enabled after filling bucket but should be")
@@ -139,7 +139,7 @@ func TestGCCPULimiter(t *testing.T) {
 		l.AddAssistTime(assistTime(1*time.Second, 0.5-GCBackgroundUtilization))
 		l.Update(advance(1 * time.Second))
 		if l.Fill() != l.Capacity() {
-			t.Errorf("expected bucket filled to capacity %d, got %d", l.Capacity(), l.Fill())
+			t.Errorf("expected bucket filled to capacity %d, golangt %d", l.Capacity(), l.Fill())
 		}
 		if !l.Limiting() {
 			t.Errorf("limiter is not enabled after filling bucket but should be")
@@ -155,7 +155,7 @@ func TestGCCPULimiter(t *testing.T) {
 		l.AddAssistTime(assistTime(CapacityPerProc, 0))
 		l.Update(advance(CapacityPerProc))
 		if expect := l.Capacity() / 2; l.Fill() != expect {
-			t.Errorf("failed to drain to %d, got fill %d", expect, l.Fill())
+			t.Errorf("failed to drain to %d, golangt fill %d", expect, l.Fill())
 		}
 		if l.Limiting() {
 			t.Errorf("limiter is enabled after draining bucket but shouldn't be")
@@ -168,7 +168,7 @@ func TestGCCPULimiter(t *testing.T) {
 		l.AddAssistTime(assistTime(CapacityPerProc, 1.0-GCBackgroundUtilization))
 		l.Update(advance(CapacityPerProc))
 		if l.Fill() != l.Capacity() {
-			t.Errorf("failed to fill to capacity %d, got fill %d", l.Capacity(), l.Fill())
+			t.Errorf("failed to fill to capacity %d, golangt fill %d", l.Capacity(), l.Fill())
 		}
 		if !l.Limiting() {
 			t.Errorf("limiter is not enabled after overfill but should be")
@@ -184,7 +184,7 @@ func TestGCCPULimiter(t *testing.T) {
 		l.AddAssistTime(assistTime(1*time.Millisecond, 1.0-GCBackgroundUtilization))
 		l.StartGCTransition(false, advance(1*time.Millisecond))
 		if l.Fill() != l.Capacity() {
-			t.Errorf("failed to maintain fill to capacity %d, got fill %d", l.Capacity(), l.Fill())
+			t.Errorf("failed to maintain fill to capacity %d, golangt fill %d", l.Capacity(), l.Fill())
 		}
 		if !l.Limiting() {
 			t.Errorf("limiter is not enabled after overfill but should be")
@@ -199,7 +199,7 @@ func TestGCCPULimiter(t *testing.T) {
 		// Make sure the STW adds to the bucket.
 		l.FinishGCTransition(advance(5 * time.Millisecond))
 		if l.Fill() != l.Capacity() {
-			t.Errorf("failed to maintain fill to capacity %d, got fill %d", l.Capacity(), l.Fill())
+			t.Errorf("failed to maintain fill to capacity %d, golangt fill %d", l.Capacity(), l.Fill())
 		}
 		if !l.Limiting() {
 			t.Errorf("limiter is not enabled after overfill but should be")
@@ -215,7 +215,7 @@ func TestGCCPULimiter(t *testing.T) {
 		expectFill := l.Capacity()
 		l.ResetCapacity(advance(0), procs+10)
 		if l.Fill() != expectFill {
-			t.Errorf("failed to maintain fill at old capacity %d, got fill %d", expectFill, l.Fill())
+			t.Errorf("failed to maintain fill at old capacity %d, golangt fill %d", expectFill, l.Fill())
 		}
 		if l.Limiting() {
 			t.Errorf("limiter is enabled after resetting capacity higher")
@@ -234,7 +234,7 @@ func TestGCCPULimiter(t *testing.T) {
 		// CPU resources now.
 		l.ResetCapacity(advance(0), procs-10)
 		if l.Fill() != l.Capacity() {
-			t.Errorf("failed lower fill to new capacity %d, got fill %d", l.Capacity(), l.Fill())
+			t.Errorf("failed lower fill to new capacity %d, golangt fill %d", l.Capacity(), l.Fill())
 		}
 		if !l.Limiting() {
 			t.Errorf("limiter is disabled after resetting capacity lower")

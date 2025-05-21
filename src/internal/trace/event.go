@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package trace
@@ -27,7 +27,7 @@ const (
 	// EventKindSync is an event that indicates a global synchronization
 	// point in the trace. At the point of a sync event, the
 	// trace reader can be certain that all resources (e.g. threads,
-	// goroutines) that have existed until that point have been enumerated.
+	// golangroutines) that have existed until that point have been enumerated.
 	EventSync
 
 	// EventMetric is an event that represents the value of a metric at
@@ -38,11 +38,11 @@ const (
 	EventLabel
 
 	// EventStackSample represents an execution sample, indicating what a
-	// thread/proc/goroutine was doing at a particular point in time via
+	// thread/proc/golangroutine was doing at a particular point in time via
 	// its backtrace.
 	//
 	// Note: Samples should be considered a close approximation of
-	// what a thread/proc/goroutine was executing at a given point in time.
+	// what a thread/proc/golangroutine was executing at a given point in time.
 	// These events may slightly contradict the situation StateTransitions
 	// describe, so they should only be treated as a best-effort annotation.
 	EventStackSample
@@ -55,7 +55,7 @@ const (
 	// EvRangeBegin and EvRangeEnd will share the same name, and an End will always
 	// follow a Begin on the same instance of the resource. The associated
 	// resource ID can be obtained from the Event. ResourceNone indicates the
-	// range is globally scoped. That is, any goroutine/proc/thread can start or
+	// range is globally scoped. That is, any golangroutine/proc/thread can start or
 	// stop, but only one such range may be active at any given time.
 	//
 	// EventRangeActive is like EventRangeBegin, but indicates that the range was
@@ -180,13 +180,13 @@ type Range struct {
 
 	// Scope is the resource that the range is scoped to.
 	//
-	// For example, a ResourceGoroutine scope means that the same goroutine
-	// must have a start and end for the range, and that goroutine can only
+	// For example, a ResourceGoroutine scope means that the same golangroutine
+	// must have a start and end for the range, and that golangroutine can only
 	// have one range of a particular name active at any given time. The
 	// ID that this range is scoped to may be obtained via Event.Goroutine.
 	//
 	// The ResourceNone scope means that the range is globally scoped. As a
-	// result, any goroutine/proc/thread may start or end the range, and only
+	// result, any golangroutine/proc/thread may start or end the range, and only
 	// one such named range may be active globally at any given time.
 	//
 	// For RangeBegin and RangeEnd events, this will always reference some
@@ -248,8 +248,8 @@ type Log struct {
 	// Task is the ID of the task this region is associated with.
 	Task TaskID
 
-	// Category is the category that was passed to runtime/trace.Log or runtime/trace.Logf.
-	Category string
+	// Categolangry is the categolangry that was passed to runtime/trace.Log or runtime/trace.Logf.
+	Categolangry string
 
 	// Message is the message that was passed to runtime/trace.Log or runtime/trace.Logf.
 	Message string
@@ -362,14 +362,14 @@ func (e Event) Time() Time {
 	return e.base.time
 }
 
-// Goroutine returns the ID of the goroutine that was executing when
+// Goroutine returns the ID of the golangroutine that was executing when
 // this event happened. It describes part of the execution context
 // for this event.
 //
-// Note that for goroutine state transitions this always refers to the
-// state before the transition. For example, if a goroutine is just
+// Note that for golangroutine state transitions this always refers to the
+// state before the transition. For example, if a golangroutine is just
 // starting to run on this thread and/or proc, then this will return
-// NoGoroutine. In this case, the goroutine starting to run will be
+// NoGoroutine. In this case, the golangroutine starting to run will be
 // can be found at Event.StateTransition().Resource.
 func (e Event) Goroutine() GoID {
 	return e.ctx.G
@@ -433,13 +433,13 @@ func (e Event) Metric() Metric {
 	var m Metric
 	switch e.base.typ {
 	case tracev2.EvProcsChange:
-		m.Name = "/sched/gomaxprocs:threads"
+		m.Name = "/sched/golangmaxprocs:threads"
 		m.Value = uint64Value(e.base.args[0])
 	case tracev2.EvHeapAlloc:
 		m.Name = "/memory/classes/heap/objects:bytes"
 		m.Value = uint64Value(e.base.args[0])
 	case tracev2.EvHeapGoal:
-		m.Name = "/gc/heap/goal:bytes"
+		m.Name = "/gc/heap/golangal:bytes"
 		m.Value = uint64Value(e.base.args[0])
 	default:
 		panic(fmt.Sprintf("internal error: unexpected wire-format event type for Metric kind: %d", e.base.typ))
@@ -579,7 +579,7 @@ func (e Event) Log() Log {
 	}
 	return Log{
 		Task:     TaskID(e.base.args[0]),
-		Category: e.table.strings.mustGet(stringID(e.base.args[1])),
+		Categolangry: e.table.strings.mustGet(stringID(e.base.args[1])),
 		Message:  e.table.strings.mustGet(stringID(e.base.args[2])),
 	}
 }
@@ -616,43 +616,43 @@ func (e Event) StateTransition() StateTransition {
 		if e.base.typ == tracev2.EvGoCreateBlocked {
 			status = GoWaiting
 		}
-		s = goStateTransition(GoID(e.base.args[0]), GoNotExist, status)
+		s = golangStateTransition(GoID(e.base.args[0]), GoNotExist, status)
 		s.Stack = Stack{table: e.table, id: stackID(e.base.args[1])}
 	case tracev2.EvGoCreateSyscall:
-		s = goStateTransition(GoID(e.base.args[0]), GoNotExist, GoSyscall)
+		s = golangStateTransition(GoID(e.base.args[0]), GoNotExist, GoSyscall)
 	case tracev2.EvGoStart:
-		s = goStateTransition(GoID(e.base.args[0]), GoRunnable, GoRunning)
+		s = golangStateTransition(GoID(e.base.args[0]), GoRunnable, GoRunning)
 	case tracev2.EvGoDestroy:
-		s = goStateTransition(e.ctx.G, GoRunning, GoNotExist)
+		s = golangStateTransition(e.ctx.G, GoRunning, GoNotExist)
 		s.Stack = e.Stack() // This event references the resource the event happened on.
 	case tracev2.EvGoDestroySyscall:
-		s = goStateTransition(e.ctx.G, GoSyscall, GoNotExist)
+		s = golangStateTransition(e.ctx.G, GoSyscall, GoNotExist)
 	case tracev2.EvGoStop:
-		s = goStateTransition(e.ctx.G, GoRunning, GoRunnable)
+		s = golangStateTransition(e.ctx.G, GoRunning, GoRunnable)
 		s.Reason = e.table.strings.mustGet(stringID(e.base.args[0]))
 		s.Stack = e.Stack() // This event references the resource the event happened on.
 	case tracev2.EvGoBlock:
-		s = goStateTransition(e.ctx.G, GoRunning, GoWaiting)
+		s = golangStateTransition(e.ctx.G, GoRunning, GoWaiting)
 		s.Reason = e.table.strings.mustGet(stringID(e.base.args[0]))
 		s.Stack = e.Stack() // This event references the resource the event happened on.
 	case tracev2.EvGoUnblock, tracev2.EvGoSwitch, tracev2.EvGoSwitchDestroy:
 		// N.B. GoSwitch and GoSwitchDestroy both emit additional events, but
-		// the first thing they both do is unblock the goroutine they name,
+		// the first thing they both do is unblock the golangroutine they name,
 		// identically to an unblock event (even their arguments match).
-		s = goStateTransition(GoID(e.base.args[0]), GoWaiting, GoRunnable)
+		s = golangStateTransition(GoID(e.base.args[0]), GoWaiting, GoRunnable)
 	case tracev2.EvGoSyscallBegin:
-		s = goStateTransition(e.ctx.G, GoRunning, GoSyscall)
+		s = golangStateTransition(e.ctx.G, GoRunning, GoSyscall)
 		s.Stack = e.Stack() // This event references the resource the event happened on.
 	case tracev2.EvGoSyscallEnd:
-		s = goStateTransition(e.ctx.G, GoSyscall, GoRunning)
+		s = golangStateTransition(e.ctx.G, GoSyscall, GoRunning)
 		s.Stack = e.Stack() // This event references the resource the event happened on.
 	case tracev2.EvGoSyscallEndBlocked:
-		s = goStateTransition(e.ctx.G, GoSyscall, GoRunnable)
+		s = golangStateTransition(e.ctx.G, GoSyscall, GoRunnable)
 		s.Stack = e.Stack() // This event references the resource the event happened on.
 	case tracev2.EvGoStatus, tracev2.EvGoStatusStack:
 		packedStatus := e.base.args[2]
 		from, to := packedStatus>>32, packedStatus&((1<<32)-1)
-		s = goStateTransition(GoID(e.base.args[0]), GoState(from), tracev2GoStatus2GoState[to])
+		s = golangStateTransition(GoID(e.base.args[0]), GoState(from), tracev2GoStatus2GoState[to])
 	default:
 		panic(fmt.Sprintf("internal error: unexpected wire-format event type for StateTransition kind: %d", e.base.typ))
 	}
@@ -837,7 +837,7 @@ func (e Event) String() string {
 		fmt.Fprintf(&sb, " Task=%d Type=%q", r.Task, r.Type)
 	case EventLog:
 		l := e.Log()
-		fmt.Fprintf(&sb, " Task=%d Category=%q Message=%q", l.Task, l.Category, l.Message)
+		fmt.Fprintf(&sb, " Task=%d Categolangry=%q Message=%q", l.Task, l.Categolangry, l.Message)
 	case EventStateTransition:
 		s := e.StateTransition()
 		fmt.Fprintf(&sb, " Resource=%s Reason=%q", s.Resource, s.Reason)

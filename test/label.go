@@ -1,7 +1,7 @@
 // errorcheck
 
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Verify that erroneous labels are caught by the compiler.
@@ -31,7 +31,7 @@ L6: // GCCGO_ERROR "previous"
 L6: // ERROR "label .*L6.* already defined"
 	f()
 	if x == 20 {
-		goto L6
+		golangto L6
 	}
 
 L7:
@@ -59,7 +59,7 @@ L10:
 		break L10
 	}
 
-	goto L10
+	golangto L10
 
-	goto go2 // ERROR "label go2 not defined|reference to undefined label .*go2"
+	golangto golang2 // ERROR "label golang2 not defined|reference to undefined label .*golang2"
 }

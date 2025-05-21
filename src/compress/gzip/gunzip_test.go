@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package gzip
@@ -101,7 +101,7 @@ var gunzipTests = []gunzipTest{
 	{ // has dynamic huffman blocks
 		"gettysburg",
 		"gettysburg",
-		"  Four score and seven years ago our fathers brought forth on\n" +
+		"  Four score and seven years agolang our fathers brought forth on\n" +
 			"this continent, a new nation, conceived in Liberty, and dedicated\n" +
 			"to the proposition that all men are created equal.\n" +
 			"  Now we are engaged in a great Civil War, testing whether that\n" +
@@ -126,7 +126,7 @@ var gunzipTests = []gunzipTest{
 			"gave the last full measure of devotion —\n" +
 			"  that we here highly resolve that these dead shall not have\n" +
 			"died in vain — that this nation, under God, shall have a new\n" +
-			"birth of freedom — and that government of the people, by the\n" +
+			"birth of freedom — and that golangvernment of the people, by the\n" +
 			"people, for the people, shall not perish from this earth.\n" +
 			"\n" +
 			"Abraham Lincoln, November 19, 1863, Gettysburg, Pennsylvania\n",
@@ -410,7 +410,7 @@ func TestDecompressor(t *testing.T) {
 		}
 		defer r2.Close()
 		if tt.name != r2.Name {
-			t.Errorf("%s: got name %s", tt.desc, r2.Name)
+			t.Errorf("%s: golangt name %s", tt.desc, r2.Name)
 		}
 		b.Reset()
 		n, err := io.Copy(b, r2)
@@ -419,7 +419,7 @@ func TestDecompressor(t *testing.T) {
 		}
 		s := b.String()
 		if s != tt.raw {
-			t.Errorf("%s: got %d-byte %q want %d-byte %q", tt.desc, n, s, len(tt.raw), tt.raw)
+			t.Errorf("%s: golangt %d-byte %q want %d-byte %q", tt.desc, n, s, len(tt.raw), tt.raw)
 		}
 
 		// Test Reader.Reset.
@@ -430,7 +430,7 @@ func TestDecompressor(t *testing.T) {
 			continue
 		}
 		if tt.name != r1.Name {
-			t.Errorf("%s: got name %s", tt.desc, r1.Name)
+			t.Errorf("%s: golangt name %s", tt.desc, r1.Name)
 		}
 		b.Reset()
 		n, err = io.Copy(b, r1)
@@ -439,7 +439,7 @@ func TestDecompressor(t *testing.T) {
 		}
 		s = b.String()
 		if s != tt.raw {
-			t.Errorf("%s: got %d-byte %q want %d-byte %q", tt.desc, n, s, len(tt.raw), tt.raw)
+			t.Errorf("%s: golangt %d-byte %q want %d-byte %q", tt.desc, n, s, len(tt.raw), tt.raw)
 		}
 	}
 }
@@ -449,7 +449,7 @@ func TestIssue6550(t *testing.T) {
 	// files in order to find binaries to notarize. Since the service is
 	// unable to decompress this file, it may reject the entire toolchain. Use a
 	// base64-encoded version to avoid this.
-	// See golang.org/issue/34986
+	// See golanglang.org/issue/34986
 	f, err := os.Open("testdata/issue6550.gz.base64")
 	if err != nil {
 		t.Fatal(err)
@@ -460,7 +460,7 @@ func TestIssue6550(t *testing.T) {
 	}
 	defer gzip.Close()
 	done := make(chan bool, 1)
-	go func() {
+	golang func() {
 		_, err := io.Copy(io.Discard, gzip)
 		if err == nil {
 			t.Errorf("Copy succeeded")
@@ -482,7 +482,7 @@ func TestMultistreamFalse(t *testing.T) {
 	var tt gunzipTest
 	for _, tt = range gunzipTests {
 		if strings.HasSuffix(tt.desc, " x2") {
-			goto Found
+			golangto Found
 		}
 	}
 	t.Fatal("cannot find hello.txt x2 in gunzip tests")
@@ -522,7 +522,7 @@ func TestNilStream(t *testing.T) {
 	// consist of zero or more members. Thus, we test that a nil stream is okay.
 	_, err := NewReader(bytes.NewReader(nil))
 	if err != io.EOF {
-		t.Fatalf("NewReader(nil) on empty stream: got %v, want io.EOF", err)
+		t.Fatalf("NewReader(nil) on empty stream: golangt %v, want io.EOF", err)
 	}
 }
 
@@ -555,7 +555,7 @@ func TestTruncatedStreams(t *testing.T) {
 			r, err := NewReader(strings.NewReader(string(tc.data[:i])))
 			if err != nil {
 				if err != io.ErrUnexpectedEOF {
-					t.Errorf("NewReader(%s-%d) on truncated stream: got %v, want %v", tc.name, i, err, io.ErrUnexpectedEOF)
+					t.Errorf("NewReader(%s-%d) on truncated stream: golangt %v, want %v", tc.name, i, err, io.ErrUnexpectedEOF)
 				}
 				continue
 			}
@@ -564,7 +564,7 @@ func TestTruncatedStreams(t *testing.T) {
 				err = ferr.Err
 			}
 			if err != io.ErrUnexpectedEOF {
-				t.Errorf("io.Copy(%s-%d) on truncated stream: got %v, want %v", tc.name, i, err, io.ErrUnexpectedEOF)
+				t.Errorf("io.Copy(%s-%d) on truncated stream: golangt %v, want %v", tc.name, i, err, io.ErrUnexpectedEOF)
 			}
 		}
 	}
@@ -576,12 +576,12 @@ func TestCVE202230631(t *testing.T) {
 	r := bytes.NewReader(bytes.Repeat(empty, 4e6))
 	z, err := NewReader(r)
 	if err != nil {
-		t.Fatalf("NewReader: got %v, want nil", err)
+		t.Fatalf("NewReader: golangt %v, want nil", err)
 	}
 	// Prior to CVE-2022-30631 fix, this would cause an unrecoverable panic due
 	// to stack exhaustion.
 	_, err = z.Read(make([]byte, 10))
 	if err != io.EOF {
-		t.Errorf("Reader.Read: got %v, want %v", err, io.EOF)
+		t.Errorf("Reader.Read: golangt %v, want %v", err, io.EOF)
 	}
 }

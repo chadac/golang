@@ -1,19 +1,19 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !windows && !static && !(darwin && internal)
+//golang:build !windows && !static && !(darwin && internal)
 
 // Excluded in darwin internal linking PIE (which is the default) mode,
 // as dynamic export is not supported.
 
-package cgotest
+package cgolangtest
 
 /*
 #include <stdint.h>
 #include <stdlib.h>
 #include <dlfcn.h>
-#cgo linux LDFLAGS: -ldl
+#cgolang linux LDFLAGS: -ldl
 
 extern uintptr_t dlopen4029(char*, int);
 extern uintptr_t dlsym4029(uintptr_t, char*);
@@ -56,7 +56,7 @@ func test4029(t *testing.T) {
 	loadThySelf(t, "IMPInitWithFrame")
 	loadThySelf(t, "IMPIsOpaque")
 	if callbacks != 4 {
-		t.Errorf("got %d callbacks, expected 4", callbacks)
+		t.Errorf("golangt %d callbacks, expected 4", callbacks)
 	}
 }
 

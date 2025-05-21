@@ -1,8 +1,8 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build darwin || dragonfly || freebsd || netbsd || openbsd
+//golang:build darwin || dragolangnfly || freebsd || netbsd || openbsd
 
 package routebsd
 
@@ -95,7 +95,7 @@ func TestParseAddrs(t *testing.T) {
 		}
 		as = as[:8] // the list varies between operating systems
 		if !reflect.DeepEqual(as, tt.as) {
-			t.Errorf("#%d: got %+v; want %+v", i, as, tt.as)
+			t.Errorf("#%d: golangt %+v; want %+v", i, as, tt.as)
 			continue
 		}
 	}

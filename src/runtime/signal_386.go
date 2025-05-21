@@ -1,14 +1,14 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build dragonfly || freebsd || linux || netbsd || openbsd
+//golang:build dragolangnfly || freebsd || linux || netbsd || openbsd
 
 package runtime
 
 import (
 	"internal/abi"
-	"internal/goarch"
+	"internal/golangarch"
 	"unsafe"
 )
 
@@ -28,8 +28,8 @@ func dumpregs(c *sigctxt) {
 	print("gs     ", hex(c.gs()), "\n")
 }
 
-//go:nosplit
-//go:nowritebarrierrec
+//golang:nosplit
+//golang:nowritebarrierrec
 func (c *sigctxt) sigpc() uintptr { return uintptr(c.eip()) }
 
 func (c *sigctxt) sigsp() uintptr { return uintptr(c.esp()) }
@@ -52,7 +52,7 @@ func (c *sigctxt) preparePanic(sig uint32, gp *g) {
 func (c *sigctxt) pushCall(targetPC, resumePC uintptr) {
 	// Make it look like we called target at resumePC.
 	sp := uintptr(c.esp())
-	sp -= goarch.PtrSize
+	sp -= golangarch.PtrSize
 	*(*uintptr)(unsafe.Pointer(sp)) = resumePC
 	c.set_esp(uint32(sp))
 	c.set_eip(uint32(targetPC))

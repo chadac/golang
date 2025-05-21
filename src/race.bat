@@ -1,16 +1,16 @@
 :: Copyright 2013 The Go Authors. All rights reserved.
-:: Use of this source code is governed by a BSD-style
+:: Use of this source code is golangverned by a BSD-style
 :: license that can be found in the LICENSE file.
 
 :: race.bash tests the standard library under the race detector.
-:: https://golang.org/doc/articles/race_detector.html
+:: https://golanglang.org/doc/articles/race_detector.html
 
 @echo off
 
 setlocal
 
 if not exist make.bat (
-    echo race.bat must be run from go\src
+    echo race.bat must be run from golang\src
     exit /b 1
 )
 
@@ -20,5 +20,5 @@ if not "%PROCESSOR_ARCHITECTURE%"=="AMD64" (
 )
 
 call .\make.bat --no-banner || exit /b 1
-go install -race std || exit /b 1
-go tool dist test -race || exit /b 1
+golang install -race std || exit /b 1
+golang tool dist test -race || exit /b 1

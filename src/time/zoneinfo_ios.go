@@ -1,8 +1,8 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build ios
+//golang:build ios
 
 package time
 
@@ -12,14 +12,14 @@ import (
 
 var platformZoneSources []string // none on iOS
 
-func gorootZoneSource(goroot string) (string, bool) {
+func golangrootZoneSource(golangroot string) (string, bool) {
 	// The working directory at initialization is the root of the
 	// app bundle: "/private/.../bundlename.app". That's where we
 	// keep zoneinfo.zip for tethered iOS builds.
 	// For self-hosted iOS builds, the zoneinfo.zip is in GOROOT.
 	var roots []string
-	if goroot != "" {
-		roots = append(roots, goroot+"/lib/time")
+	if golangroot != "" {
+		roots = append(roots, golangroot+"/lib/time")
 	}
 	wd, err := syscall.Getwd()
 	if err == nil {

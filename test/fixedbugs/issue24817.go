@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Check all ways to compare a non-constant string to the empty string.
@@ -55,7 +55,7 @@ func main() {
 	}
 }
 
-//go:noinline
+//golang:noinline
 func want(b bool, have bool, msg string) {
 	if b != have {
 		fmt.Println(msg)

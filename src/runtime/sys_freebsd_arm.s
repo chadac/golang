@@ -1,13 +1,13 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 //
 // System calls and other sys.stuff for ARM, FreeBSD
 // /usr/src/sys/kern/syscalls.master for syscall numbers.
 //
 
-#include "go_asm.h"
-#include "go_tls.h"
+#include "golang_asm.h"
+#include "golang_tls.h"
 #include "textflag.h"
 
 // for EABI, as we don't support OABI
@@ -241,13 +241,13 @@ TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME,$0
 	// where g is not set.
 	// first save R0, because runtime·load_g will clobber it
 	MOVW	R0, 4(R13) // signum
-	MOVB	runtime·iscgo(SB), R0
+	MOVB	runtime·iscgolang(SB), R0
 	CMP 	$0, R0
 	BL.NE	runtime·load_g(SB)
 
 	MOVW	R1, 8(R13)
 	MOVW	R2, 12(R13)
-	BL	runtime·sigtrampgo(SB)
+	BL	runtime·sigtrampgolang(SB)
 
 	// Restore callee-save registers.
 	ADD	$16, R13
@@ -427,7 +427,7 @@ TEXT runtime·cpuset_getaffinity(SB), NOSPLIT, $0-28
 
 // func getCntxct(physical bool) uint32
 TEXT runtime·getCntxct(SB),NOSPLIT|NOFRAME,$0-8
-	MOVB	runtime·goarm(SB), R11
+	MOVB	runtime·golangarm(SB), R11
 	CMP	$7, R11
 	BLT	2(PC)
 	DMB

@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package types2
@@ -86,7 +86,7 @@ func parseUnion(check *Checker, uexpr syntax.Expr) Type {
 
 	// Check validity of terms.
 	// Do this check later because it requires types to be set up.
-	// Note: This is a quadratic algorithm, but unions tend to be short.
+	// Note: This is a quadratic algolangrithm, but unions tend to be short.
 	check.later(func() {
 		for i, t := range terms {
 			if !isValid(t.typ) {
@@ -143,7 +143,7 @@ func parseTilde(check *Checker, tx syntax.Expr) *Term {
 		tilde = true
 	}
 	typ := check.typ(x)
-	// Embedding stand-alone type parameters is not permitted (go.dev/issue/47127).
+	// Embedding stand-alone type parameters is not permitted (golang.dev/issue/47127).
 	// We don't need this restriction anymore if we make the underlying type of a type
 	// parameter its constraint interface: if we embed a lone type parameter, we will
 	// simply use its underlying type (like we do for other named, embedded interfaces),

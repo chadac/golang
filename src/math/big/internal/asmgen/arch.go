@@ -1,5 +1,5 @@
 // Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package asmgen
@@ -10,7 +10,7 @@ import (
 )
 
 // Note: Exported fields and methods are expected to be used
-// by function generators (like the ones in add.go and so on).
+// by function generators (like the ones in add.golang and so on).
 // Unexported fields and methods should not be.
 
 // An Arch defines how to generate assembly for a specific architecture.

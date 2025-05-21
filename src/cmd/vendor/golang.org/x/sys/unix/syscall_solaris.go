@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Solaris system calls.
@@ -8,7 +8,7 @@
 // which parses the //sys lines and generates system call stubs.
 // Note that sometimes we use a lowercase //sys name and wrap
 // it in our own nicer implementation, either here or in
-// syscall_solaris.go or syscall_unix.go.
+// syscall_solaris.golang or syscall_unix.golang.
 
 package unix
 
@@ -21,7 +21,7 @@ import (
 	"unsafe"
 )
 
-// Implemented in runtime/syscall_solaris.go.
+// Implemented in runtime/syscall_solaris.golang.
 type syscallFunc uintptr
 
 func rawSysvicall6(trap, nargs, a1, a2, a3, a4, a5, a6 uintptr) (r1, r2 uintptr, err syscall.Errno)
@@ -915,7 +915,7 @@ func (e *EventPort) GetOne(t *Timespec) (*PortEvent, error) {
 	return p, nil
 }
 
-// peIntToExt converts a cgo portEvent struct into the friendlier PortEvent
+// peIntToExt converts a cgolang portEvent struct into the friendlier PortEvent
 // NOTE: Always call this function while holding the e.mu mutex
 func (e *EventPort) peIntToExt(peInt *portEvent, peExt *PortEvent) error {
 	if e.cookies == nil {
@@ -927,7 +927,7 @@ func (e *EventPort) peIntToExt(peInt *portEvent, peExt *PortEvent) error {
 	_, found := e.cookies[fCookie]
 
 	if !found {
-		panic("unexpected event port address; may be due to kernel bug; see https://go.dev/issue/54254")
+		panic("unexpected event port address; may be due to kernel bug; see https://golang.dev/issue/54254")
 	}
 	peExt.Cookie = fCookie.cookie
 	delete(e.cookies, fCookie)
@@ -972,19 +972,19 @@ func (e *EventPort) Get(s []PortEvent, min int, timeout *Timespec) (int, error) 
 	if len(s) < min {
 		return 0, fmt.Errorf("len(s) (%d) is less than min events requested (%d)", len(s), min)
 	}
-	got := uint32(min)
+	golangt := uint32(min)
 	max := uint32(len(s))
 	var err error
 	ps := make([]portEvent, max)
-	_, err = port_getn(e.port, &ps[0], max, &got, timeout)
-	// got will be trustworthy with ETIME, but not any other error.
+	_, err = port_getn(e.port, &ps[0], max, &golangt, timeout)
+	// golangt will be trustworthy with ETIME, but not any other error.
 	if err != nil && err != ETIME {
 		return 0, err
 	}
 	e.mu.Lock()
 	defer e.mu.Unlock()
 	valid := 0
-	for i := 0; i < int(got); i++ {
+	for i := 0; i < int(golangt); i++ {
 		err2 := e.peIntToExt(&ps[i], &s[i])
 		if err2 != nil {
 			if valid == 0 && err == nil {

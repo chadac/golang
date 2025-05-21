@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package scanner provides a scanner and tokenizer for UTF-8-encoded text.
@@ -718,7 +718,7 @@ redo:
 				if s.Mode&SkipComments != 0 {
 					s.tokPos = -1 // don't collect token text
 					ch = s.scanComment(ch)
-					goto redo
+					golangto redo
 				}
 				ch = s.scanComment(ch)
 				tok = Comment

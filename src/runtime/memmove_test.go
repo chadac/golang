@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime_test
@@ -243,7 +243,7 @@ func TestMemmoveAtomicity(t *testing.T) {
 				clear(dst)
 
 				var ready atomic.Uint32
-				go func() {
+				golang func() {
 					sp := unsafe.Pointer(&src[0])
 					dp := unsafe.Pointer(&dst[0])
 					ready.Store(1)
@@ -262,7 +262,7 @@ func TestMemmoveAtomicity(t *testing.T) {
 					for i := range dst {
 						p := dst[i]
 						if p != nil && p != &x {
-							t.Fatalf("got partially updated pointer %p at dst[%d], want either nil or %p", p, i, &x)
+							t.Fatalf("golangt partially updated pointer %p at dst[%d], want either nil or %p", p, i, &x)
 						}
 					}
 				}

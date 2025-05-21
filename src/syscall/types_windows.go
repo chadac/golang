@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package syscall
@@ -413,7 +413,7 @@ type win32finddata1 struct {
 	// not needed for binaries built for Windows.
 	//
 	// ¹ https://docs.microsoft.com/en-us/windows/win32/api/minwinbase/ns-minwinbase-win32_find_dataw
-	// ² https://golang.org/issue/42637#issuecomment-760715755
+	// ² https://golanglang.org/issue/42637#issuecomment-760715755
 }
 
 func copyFindData(dst *Win32finddata, src *win32finddata1) {

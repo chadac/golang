@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package test
@@ -24,28 +24,28 @@ func TestInvalidLang(t *testing.T) {
 
 	dir := t.TempDir()
 
-	src := filepath.Join(dir, "alias.go")
+	src := filepath.Join(dir, "alias.golang")
 	if err := os.WriteFile(src, []byte(aliasSrc), 0644); err != nil {
 		t.Fatal(err)
 	}
 
 	outfile := filepath.Join(dir, "alias.o")
 
-	if testLang(t, "go9.99", src, outfile) == nil {
-		t.Error("compilation with -lang=go9.99 succeeded unexpectedly")
+	if testLang(t, "golang9.99", src, outfile) == nil {
+		t.Error("compilation with -lang=golang9.99 succeeded unexpectedly")
 	}
 
 	// This test will have to be adjusted if we ever reach 1.99 or 2.0.
-	if testLang(t, "go1.99", src, outfile) == nil {
-		t.Error("compilation with -lang=go1.99 succeeded unexpectedly")
+	if testLang(t, "golang1.99", src, outfile) == nil {
+		t.Error("compilation with -lang=golang1.99 succeeded unexpectedly")
 	}
 
-	if testLang(t, "go1.8", src, outfile) == nil {
-		t.Error("compilation with -lang=go1.8 succeeded unexpectedly")
+	if testLang(t, "golang1.8", src, outfile) == nil {
+		t.Error("compilation with -lang=golang1.8 succeeded unexpectedly")
 	}
 
-	if err := testLang(t, "go1.9", src, outfile); err != nil {
-		t.Errorf("compilation with -lang=go1.9 failed unexpectedly: %v", err)
+	if err := testLang(t, "golang1.9", src, outfile); err != nil {
+		t.Errorf("compilation with -lang=golang1.9 failed unexpectedly: %v", err)
 	}
 }
 

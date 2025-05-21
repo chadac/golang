@@ -1,5 +1,5 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package utf16_test
@@ -162,9 +162,9 @@ var decodeRuneTests = []struct {
 
 func TestDecodeRune(t *testing.T) {
 	for i, tt := range decodeRuneTests {
-		got := DecodeRune(tt.r1, tt.r2)
-		if got != tt.want {
-			t.Errorf("%d: DecodeRune(%q, %q) = %v; want %v", i, tt.r1, tt.r2, got, tt.want)
+		golangt := DecodeRune(tt.r1, tt.r2)
+		if golangt != tt.want {
+			t.Errorf("%d: DecodeRune(%q, %q) = %v; want %v", i, tt.r1, tt.r2, golangt, tt.want)
 		}
 	}
 }
@@ -190,9 +190,9 @@ var surrogateTests = []struct {
 
 func TestIsSurrogate(t *testing.T) {
 	for i, tt := range surrogateTests {
-		got := IsSurrogate(tt.r)
-		if got != tt.want {
-			t.Errorf("%d: IsSurrogate(%q) = %v; want %v", i, tt.r, got, tt.want)
+		golangt := IsSurrogate(tt.r)
+		if golangt != tt.want {
+			t.Errorf("%d: IsSurrogate(%q) = %v; want %v", i, tt.r, golangt, tt.want)
 		}
 	}
 }

@@ -1,8 +1,8 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !plan9 && !windows
+//golang:build !plan9 && !windows
 
 // Test that callbacks from C to Go in the same C-thread always get the same m.
 // Make sure the extra M bind to the C-thread.

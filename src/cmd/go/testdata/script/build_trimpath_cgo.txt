@@ -1,55 +1,55 @@
-# This test builds a cgo binary and verifies the source directory path
+# This test builds a cgolang binary and verifies the source directory path
 # does not appear in the binary, either literally or in compressed DWARF.
-# TODO(golang.org/issue/36072): ideally we should build a binary from identical
+# TODO(golanglang.org/issue/36072): ideally we should build a binary from identical
 # sources in different directories and verify the binary and all intermediate
 # files are identical.
 
 [short] skip
-[!cgo] skip
+[!cgolang] skip
 
 # Check that the source path appears when -trimpath is not used.
-go build -o hello.exe .
-grep -q gopath[/\\]src hello.exe
-go run ./list-dwarf hello.exe
-stdout gopath[/\\]src
+golang build -o hello.exe .
+grep -q golangpath[/\\]src hello.exe
+golang run ./list-dwarf hello.exe
+stdout golangpath[/\\]src
 
 # Check that the source path does not appear when -trimpath is used.
 [GOOS:aix] stop # can't inspect XCOFF binaries
-go build -trimpath -o hello.exe .
-! grep -q gopath[/\\]src hello.exe
-go run ./list-dwarf hello.exe
-! stdout gopath/src
+golang build -trimpath -o hello.exe .
+! grep -q golangpath[/\\]src hello.exe
+golang run ./list-dwarf hello.exe
+! stdout golangpath/src
 
 
-# Do the above, with the cgo (but not .c) sources in an overlay
+# Do the above, with the cgolang (but not .c) sources in an overlay
 # Check that the source path appears when -trimpath is not used.
 mkdir $WORK/overlay
-cp hello.go $WORK/overlay/hello.go
+cp hello.golang $WORK/overlay/hello.golang
 mkdir hello_overlay
 cp hello.c hello_overlay/hello.c
-go build -overlay overlay.json -o hello_overlay.exe ./hello_overlay
-grep -q gopath[/\\]src hello_overlay.exe
+golang build -overlay overlay.json -o hello_overlay.exe ./hello_overlay
+grep -q golangpath[/\\]src hello_overlay.exe
 ! grep -q $WORK[/\\]overlay hello_overlay.exe
-go run ./list-dwarf hello_overlay.exe
-stdout gopath[/\\]src
+golang run ./list-dwarf hello_overlay.exe
+stdout golangpath[/\\]src
 ! stdout $WORK[/\\]overlay
 
 # Check that the source path does not appear when -trimpath is used.
-go build -overlay overlay.json -trimpath -o hello_overlay.exe ./hello_overlay
-! grep -q gopath[/\\]src hello_overlay.exe
+golang build -overlay overlay.json -trimpath -o hello_overlay.exe ./hello_overlay
+! grep -q golangpath[/\\]src hello_overlay.exe
 ! grep -q $WORK[/\\]overlay hello_overlay.exe
-go run ./list-dwarf hello_overlay.exe
-! stdout gopath/src
+golang run ./list-dwarf hello_overlay.exe
+! stdout golangpath/src
 ! stdout $WORK[/\\]overlay
 
--- go.mod --
+-- golang.mod --
 module m
 
-go 1.14
+golang 1.14
 -- overlay.json --
 {
 	"Replace": {
-		"hello_overlay/hello.go": "../../overlay/hello.go"
+		"hello_overlay/hello.golang": "../../overlay/hello.golang"
 	}
 }
 -- hello.c --
@@ -57,7 +57,7 @@ go 1.14
 
 void say_hello() { puts("Hello, world!\n"); }
 
--- hello.go --
+-- hello.golang --
 package main
 
 // void say_hello();
@@ -67,7 +67,7 @@ func main() {
 	C.say_hello()
 }
 
--- list-dwarf/list-dwarf.go --
+-- list-dwarf/list-dwarf.golang --
 package main
 
 import (
@@ -135,7 +135,7 @@ func run(exePath string) ([]string, error) {
 	sort.Strings(sortedFiles)
 	return sortedFiles, nil
 }
--- list-dwarf/read_darwin.go --
+-- list-dwarf/read_darwin.golang --
 package main
 
 import (
@@ -151,8 +151,8 @@ func readDWARF(exePath string) (*dwarf.Data, error) {
 	defer machoFile.Close()
 	return machoFile.DWARF()
 }
--- list-dwarf/read_elf.go --
-// +build android dragonfly freebsd illumos linux netbsd openbsd solaris
+-- list-dwarf/read_elf.golang --
+// +build android dragolangnfly freebsd illumos linux netbsd openbsd solaris
 
 package main
 
@@ -169,7 +169,7 @@ func readDWARF(exePath string) (*dwarf.Data, error) {
 	defer elfFile.Close()
 	return elfFile.DWARF()
 }
--- list-dwarf/read_windows.go --
+-- list-dwarf/read_windows.golang --
 package main
 
 import (

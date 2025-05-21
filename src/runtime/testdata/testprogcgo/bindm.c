@@ -1,13 +1,13 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !plan9 && !windows
+//golang:build !plan9 && !windows
 
 #include <stdint.h>
 #include <pthread.h>
 #include <unistd.h>
-#include "_cgo_export.h"
+#include "_cgolang_export.h"
 
 #define CTHREADS 2
 #define CHECKCALLS 100

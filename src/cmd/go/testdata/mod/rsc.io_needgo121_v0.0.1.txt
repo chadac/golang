@@ -1,17 +1,17 @@
-rsc.io/needgo121 0.0.1
+rsc.io/needgolang121 0.0.1
 written by hand
 
 -- .mod --
-module rsc.io/needgo121
-go 1.21
+module rsc.io/needgolang121
+golang 1.21
 
--- go.mod --
-module rsc.io/needgo121
-go 1.21
+-- golang.mod --
+module rsc.io/needgolang121
+golang 1.21
 
 -- .info --
 {"Version":"v0.0.1"}
--- p.go --
+-- p.golang --
 package p
 
 func F() {}

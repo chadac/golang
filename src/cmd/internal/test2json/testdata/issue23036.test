@@ -1,6 +1,6 @@
 === RUN   TestActualCase
 --- FAIL: TestActualCase (0.00s)
-        foo_test.go:14: Differed.
+        foo_test.golang:14: Differed.
                 Expected: MyTest:
                 --- FAIL: Test output from other tool
                 Actual: not expected

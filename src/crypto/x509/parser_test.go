@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package x509
@@ -10,7 +10,7 @@ import (
 	"os"
 	"testing"
 
-	cryptobyte_asn1 "golang.org/x/crypto/cryptobyte/asn1"
+	cryptobyte_asn1 "golanglang.org/x/crypto/cryptobyte/asn1"
 )
 
 func TestParseASN1String(t *testing.T) {
@@ -117,12 +117,12 @@ func TestParseASN1String(t *testing.T) {
 		t.Run(tc.name, func(t *testing.T) {
 			out, err := parseASN1String(tc.tag, tc.value)
 			if err != nil && err.Error() != tc.expectedErr {
-				t.Fatalf("parseASN1String returned unexpected error: got %q, want %q", err, tc.expectedErr)
+				t.Fatalf("parseASN1String returned unexpected error: golangt %q, want %q", err, tc.expectedErr)
 			} else if err == nil && tc.expectedErr != "" {
 				t.Fatalf("parseASN1String didn't fail, expected: %s", tc.expectedErr)
 			}
 			if out != tc.expected {
-				t.Fatalf("parseASN1String returned unexpected value: got %q, want %q", out, tc.expected)
+				t.Fatalf("parseASN1String returned unexpected value: golangt %q, want %q", out, tc.expected)
 			}
 		})
 	}
@@ -138,7 +138,7 @@ dCBOZXR3b3JrMTIwMAYDVQQDEylTeW1hbnRlYyBDbGFzcyAzIFNTUCBJbnRlcm1l
 ZGlhdGUgQ0EgLSBHMzCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAL2p
 75cMpx86sS2aH4r+0o8r+m/KTrPrknWP0RA9Kp6sewAzkNa7BVwg0jOhyamiv1iP
 Cns10usoH93nxYbXLWF54vOLRdYU/53KEPNmgkj2ipMaTLuaReBghNibikWSnAmy
-S8RItaDMs8tdF2goKPI4xWiamNwqe92VC+pic2tq0Nva3Y4kvMDJjtyje3uduTtL
+S8RItaDMs8tdF2golangKPI4xWiamNwqe92VC+pic2tq0Nva3Y4kvMDJjtyje3uduTtL
 oyoaaHkrX7i7gE67psnMKj1THUtre1JV1ohl9+oOuyot4p3eSxVlrMWiiwb11bnk
 CakecOz/mP2DHMGg6pZ/BeJ+ThaLUylAXECARIqHc9UwRPKC9BfLaCX4edIoeYiB
 loRs4KdqLdg/I9eTwKkCAwEAAaOCAxEwggMNMB0GA1UdDgQWBBQ1Jn1QleGhwb0F
@@ -174,10 +174,10 @@ func TestPolicyParse(t *testing.T) {
 		t.Fatal(err)
 	}
 	if len(c.Policies) != 9 {
-		t.Errorf("unexpected number of policies: got %d, want %d", len(c.Policies), 9)
+		t.Errorf("unexpected number of policies: golangt %d, want %d", len(c.Policies), 9)
 	}
 	if len(c.PolicyMappings) != 9 {
-		t.Errorf("unexpected number of policy mappings: got %d, want %d", len(c.PolicyMappings), 9)
+		t.Errorf("unexpected number of policy mappings: golangt %d, want %d", len(c.PolicyMappings), 9)
 	}
 	if !c.RequireExplicitPolicyZero {
 		t.Error("expected RequireExplicitPolicyZero to be set")

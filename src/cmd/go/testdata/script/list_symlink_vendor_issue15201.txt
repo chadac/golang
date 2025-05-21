@@ -1,21 +1,21 @@
 [!symlink] skip
 env GO111MODULE=off
 
-mkdir $WORK/tmp/gopath/src/x/y/_vendor/src/x
-symlink $WORK/tmp/gopath/src/x/y/_vendor/src/x/y -> ../../..
-mkdir $WORK/tmp/gopath/src/x/y/_vendor/src/x/y/w
-cp w.go $WORK/tmp/gopath/src/x/y/w/w.go
-symlink $WORK/tmp/gopath/src/x/y/w/vendor -> ../_vendor/src
-mkdir $WORK/tmp/gopath/src/x/y/_vendor/src/x/y/z
-cp z.go $WORK/tmp/gopath/src/x/y/z/z.go
+mkdir $WORK/tmp/golangpath/src/x/y/_vendor/src/x
+symlink $WORK/tmp/golangpath/src/x/y/_vendor/src/x/y -> ../../..
+mkdir $WORK/tmp/golangpath/src/x/y/_vendor/src/x/y/w
+cp w.golang $WORK/tmp/golangpath/src/x/y/w/w.golang
+symlink $WORK/tmp/golangpath/src/x/y/w/vendor -> ../_vendor/src
+mkdir $WORK/tmp/golangpath/src/x/y/_vendor/src/x/y/z
+cp z.golang $WORK/tmp/golangpath/src/x/y/z/z.golang
 
-env GOPATH=$WORK/tmp/gopath/src/x/y/_vendor${:}$WORK/tmp/gopath
-cd $WORK/tmp/gopath/src
-go list ./...
+env GOPATH=$WORK/tmp/golangpath/src/x/y/_vendor${:}$WORK/tmp/golangpath
+cd $WORK/tmp/golangpath/src
+golang list ./...
 
--- w.go --
+-- w.golang --
 package w
 
 import "x/y/z"
--- z.go --
+-- z.golang --
 package z

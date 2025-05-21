@@ -1,8 +1,8 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build dragonfly || freebsd || linux
+//golang:build dragolangnfly || freebsd || linux
 
 package runtime
 
@@ -13,7 +13,7 @@ import (
 
 // We use the uintptr mutex.key and note.key as a uint32.
 //
-//go:nosplit
+//golang:nosplit
 func key32(p *uintptr) *uint32 {
 	return (*uint32)(unsafe.Pointer(p))
 }
@@ -38,15 +38,15 @@ func notesleep(n *note) {
 		throw("notesleep not on g0")
 	}
 	ns := int64(-1)
-	if *cgo_yield != nil {
+	if *cgolang_yield != nil {
 		// Sleep for an arbitrary-but-moderate interval to poll libc interceptors.
 		ns = 10e6
 	}
 	for atomic.Load(key32(&n.key)) == 0 {
 		gp.m.blocked = true
 		futexsleep(key32(&n.key), 0, ns)
-		if *cgo_yield != nil {
-			asmcgocall(*cgo_yield, nil)
+		if *cgolang_yield != nil {
+			asmcgolangcall(*cgolang_yield, nil)
 		}
 		gp.m.blocked = false
 	}
@@ -55,21 +55,21 @@ func notesleep(n *note) {
 // May run with m.p==nil if called from notetsleep, so write barriers
 // are not allowed.
 //
-//go:nosplit
-//go:nowritebarrier
+//golang:nosplit
+//golang:nowritebarrier
 func notetsleep_internal(n *note, ns int64) bool {
 	gp := getg()
 
 	if ns < 0 {
-		if *cgo_yield != nil {
+		if *cgolang_yield != nil {
 			// Sleep for an arbitrary-but-moderate interval to poll libc interceptors.
 			ns = 10e6
 		}
 		for atomic.Load(key32(&n.key)) == 0 {
 			gp.m.blocked = true
 			futexsleep(key32(&n.key), 0, ns)
-			if *cgo_yield != nil {
-				asmcgocall(*cgo_yield, nil)
+			if *cgolang_yield != nil {
+				asmcgolangcall(*cgolang_yield, nil)
 			}
 			gp.m.blocked = false
 		}
@@ -82,13 +82,13 @@ func notetsleep_internal(n *note, ns int64) bool {
 
 	deadline := nanotime() + ns
 	for {
-		if *cgo_yield != nil && ns > 10e6 {
+		if *cgolang_yield != nil && ns > 10e6 {
 			ns = 10e6
 		}
 		gp.m.blocked = true
 		futexsleep(key32(&n.key), 0, ns)
-		if *cgo_yield != nil {
-			asmcgocall(*cgo_yield, nil)
+		if *cgolang_yield != nil {
+			asmcgolangcall(*cgolang_yield, nil)
 		}
 		gp.m.blocked = false
 		if atomic.Load(key32(&n.key)) != 0 {
@@ -132,10 +132,10 @@ func beforeIdle(int64, int64) (*g, bool) {
 
 func checkTimeouts() {}
 
-//go:nosplit
+//golang:nosplit
 func semacreate(mp *m) {}
 
-//go:nosplit
+//golang:nosplit
 func semasleep(ns int64) int32 {
 	mp := getg().m
 
@@ -154,7 +154,7 @@ func semasleep(ns int64) int32 {
 	}
 }
 
-//go:nosplit
+//golang:nosplit
 func semawakeup(mp *m) {
 	v := atomic.Xadd(&mp.waitsema, 1)
 	if v == 0 {

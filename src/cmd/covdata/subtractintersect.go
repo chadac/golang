@@ -1,11 +1,11 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
 
 // This file contains functions and apis to support the "subtract" and
-// "intersect" subcommands of "go tool covdata".
+// "intersect" subcommands of "golang tool covdata".
 
 import (
 	"flag"
@@ -49,14 +49,14 @@ func (s *sstate) Usage(msg string) {
 	if len(msg) > 0 {
 		fmt.Fprintf(os.Stderr, "error: %s\n", msg)
 	}
-	fmt.Fprintf(os.Stderr, "usage: go tool covdata %s -i=dir1,dir2 -o=<dir>\n\n", s.mode)
+	fmt.Fprintf(os.Stderr, "usage: golang tool covdata %s -i=dir1,dir2 -o=<dir>\n\n", s.mode)
 	flag.PrintDefaults()
 	fmt.Fprintf(os.Stderr, "\nExamples:\n\n")
 	op := "from"
 	if s.mode == intersectMode {
 		op = "with"
 	}
-	fmt.Fprintf(os.Stderr, "  go tool covdata %s -i=dir1,dir2 -o=outdir\n\n", s.mode)
+	fmt.Fprintf(os.Stderr, "  golang tool covdata %s -i=dir1,dir2 -o=outdir\n\n", s.mode)
 	fmt.Fprintf(os.Stderr, "  \t%ss dir2 %s dir1, writing result\n", s.mode, op)
 	fmt.Fprintf(os.Stderr, "  \tinto output dir outdir.\n")
 	os.Exit(2)
@@ -99,7 +99,7 @@ func (s *sstate) pruneCounters() {
 		pkeys = append(pkeys, k)
 	}
 	// Remove anything from pmm not found in imm. We don't need to
-	// go the other way (removing things from imm not found in pmm)
+	// golang the other way (removing things from imm not found in pmm)
 	// since we don't add anything to imm if there is no pmm entry.
 	for _, k := range pkeys {
 		if _, found := s.imm[k]; !found {

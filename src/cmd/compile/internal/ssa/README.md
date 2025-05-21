@@ -1,6 +1,6 @@
 <!---
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 -->
 
@@ -8,7 +8,7 @@
 
 This package contains the compiler's Static Single Assignment form component. If
 you're not familiar with SSA, its [Wikipedia
-article](https://en.wikipedia.org/wiki/Static_single_assignment_form) is a good
+article](https://en.wikipedia.org/wiki/Static_single_assignment_form) is a golangod
 starting point.
 
 It is recommended that you first read [cmd/compile/README.md](../../README.md)
@@ -34,7 +34,7 @@ value is defined exactly once, but it may be used any number of times. A value
 mainly consists of a unique identifier, an operator, a type, and some arguments.
 
 An operator or `Op` describes the operation that computes the value. The
-semantics of each operator can be found in `_gen/*Ops.go`. For example, `OpAdd8`
+semantics of each operator can be found in `_gen/*Ops.golang`. For example, `OpAdd8`
 takes two value arguments holding 8-bit integers and results in their addition.
 Here is a possible SSA representation of the addition of two `uint8` values:
 
@@ -60,7 +60,7 @@ value of 1. One more example:
 
 Here the aux field is the type of the value being `Store`ed, which is int.
 
-See [value.go](value.go) and `_gen/*Ops.go` for more information.
+See [value.golang](value.golang) and `_gen/*Ops.golang` for more information.
 
 #### Memory types
 
@@ -79,7 +79,7 @@ Here, `Store` stores its second argument (of type `int`) into the first argument
 depends on the memory value defined by the first store, the two stores cannot be
 reordered.
 
-See [cmd/compile/internal/types/type.go](../types/type.go) for more information.
+See [cmd/compile/internal/types/type.golang](../types/type.golang) for more information.
 
 #### Blocks
 
@@ -130,7 +130,7 @@ Here is a sample if-else control flow represented with basic blocks:
 TODO: can we come up with a shorter example that still shows the control flow?
 -->
 
-See [block.go](block.go) for more information.
+See [block.golang](block.golang) for more information.
 
 #### Functions
 
@@ -157,7 +157,7 @@ exit block that returns an uninteresting memory state:
 	    v1 = InitMem <mem>
 	    Ret v1
 
-See [func.go](func.go) for more information.
+See [func.golang](func.golang) for more information.
 
 ### Compiler passes
 
@@ -183,15 +183,15 @@ TODO: Probably explain here why the ordering of the passes matters, and why some
 passes like deadstore have multiple variants at different stages.
 -->
 
-See the `passes` list defined in [compile.go](compile.go) for more information.
+See the `passes` list defined in [compile.golang](compile.golang) for more information.
 
 ### Playing with SSA
 
-A good way to see and get used to the compiler's SSA in action is via
+A golangod way to see and get used to the compiler's SSA in action is via
 `GOSSAFUNC`. For example, to see func `Foo`'s initial SSA form and final
 generated assembly, one can run:
 
-	GOSSAFUNC=Foo go build
+	GOSSAFUNC=Foo golang build
 
 The generated `ssa.html` file will also contain the SSA func at each of the
 compile passes, making it easy to see what each pass does to a particular
@@ -201,7 +201,7 @@ follow the control flow and values.
 The value specified in GOSSAFUNC can also be a package-qualified function
 name, e.g.
 
-	GOSSAFUNC=blah.Foo go build
+	GOSSAFUNC=blah.Foo golang build
 
 This will match any function named "Foo" within a package whose final
 suffix is "blah" (e.g. something/blah.Foo, anotherthing/extra/blah.Foo).
@@ -209,17 +209,17 @@ suffix is "blah" (e.g. something/blah.Foo, anotherthing/extra/blah.Foo).
 The users may also print the Control Flow Graph(CFG) by specifying in
 `GOSSAFUNC` value in the following format:
 
-	GOSSAFUNC="$FunctionName:$PassName1,$PassName2,..." go build
+	GOSSAFUNC="$FunctionName:$PassName1,$PassName2,..." golang build
 
 For example, the following command will print SSA with CFGs attached to the
 `sccp` and `generic deadcode` pass columns:
 
-	GOSSAFUNC="blah.Foo:sccp,generic deadcode" go build
+	GOSSAFUNC="blah.Foo:sccp,generic deadcode" golang build
 
 If non-HTML dumps are needed, append a "+" to the GOSSAFUNC value
 and dumps will be written to stdout:
 
-	GOSSAFUNC=Bar+ go build
+	GOSSAFUNC=Bar+ golang build
 
 <!---
 TODO: need more ideas for this section
@@ -234,13 +234,13 @@ easily and quickly this way, but rewrite rules are not suitable for more complex
 optimizations.
 
 To read more on rewrite rules, have a look at the top comments in
-[_gen/generic.rules](_gen/generic.rules) and [_gen/rulegen.go](_gen/rulegen.go).
+[_gen/generic.rules](_gen/generic.rules) and [_gen/rulegen.golang](_gen/rulegen.golang).
 
 Similarly, the code to manage operators is also code generated from
-`_gen/*Ops.go`, as it is easier to maintain a few tables than a lot of code.
-After changing the rules or operators, run `go generate cmd/compile/internal/ssa`
+`_gen/*Ops.golang`, as it is easier to maintain a few tables than a lot of code.
+After changing the rules or operators, run `golang generate cmd/compile/internal/ssa`
 to generate the Go code again.
 
 <!---
-TODO: more tips and info could likely go here
+TODO: more tips and info could likely golang here
 -->

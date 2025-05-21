@@ -1,16 +1,16 @@
 // Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build ignore
+//golang:build ignore
 
 // This program converts CSV calibration data printed by
 //
-//	go test -run=Calibrate/Name -calibrate >file.csv
+//	golang test -run=Calibrate/Name -calibrate >file.csv
 //
 // into an SVG file. Invoke as:
 //
-//	go run calibrate_graph.go file.csv >file.svg
+//	golang run calibrate_graph.golang file.csv >file.svg
 //
 // See calibrate.md for more details.
 
@@ -28,7 +28,7 @@ import (
 )
 
 func usage() {
-	fmt.Fprintf(os.Stderr, "usage: go run calibrate_graph.go file.csv >file.svg\n")
+	fmt.Fprintf(os.Stderr, "usage: golang run calibrate_graph.golang file.csv >file.svg\n")
 	os.Exit(2)
 }
 
@@ -82,7 +82,7 @@ func main() {
 
 	// Construct graph from loaded CSV.
 	// CSV starts with metadata lines like
-	//	goos,darwin
+	//	golangos,darwin
 	// and then has two tables of timings.
 	// Each table looks like
 	//	size \ threshold,10,20,30,40
@@ -154,7 +154,7 @@ func main() {
 
 	g.Max.Y = min(*yMax, math.Ceil(maxNorm*100)/100)
 	g.XAxis = meta["calibrate"] + "Threshold"
-	g.Title = meta["goos"] + "/" + meta["goarch"] + " " + meta["cpu"]
+	g.Title = meta["golangos"] + "/" + meta["golangarch"] + " " + meta["cpu"]
 
 	os.Stdout.Write(g.SVG())
 }

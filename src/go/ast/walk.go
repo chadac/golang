@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ast
@@ -37,7 +37,7 @@ func Walk(v Visitor, node Node) {
 
 	// walk children
 	// (the order of the cases matches the order
-	// of the corresponding node types in ast.go)
+	// of the corresponding node types in ast.golang)
 	switch n := node.(type) {
 	// Comments and fields
 	case *Comment:

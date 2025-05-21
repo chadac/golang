@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package strconv_test
@@ -323,7 +323,7 @@ func TestUnquote(t *testing.T) {
 	}
 }
 
-// Issue 23685: invalid UTF-8 should not go through the fast path.
+// Issue 23685: invalid UTF-8 should not golang through the fast path.
 func TestUnquoteInvalidUTF8(t *testing.T) {
 	tests := []struct {
 		in string
@@ -345,15 +345,15 @@ func TestUnquoteInvalidUTF8(t *testing.T) {
 
 func testUnquote(t *testing.T, in, want string, wantErr error) {
 	// Test Unquote.
-	got, gotErr := Unquote(in)
-	if got != want || gotErr != wantErr {
-		t.Errorf("Unquote(%q) = (%q, %v), want (%q, %v)", in, got, gotErr, want, wantErr)
+	golangt, golangtErr := Unquote(in)
+	if golangt != want || golangtErr != wantErr {
+		t.Errorf("Unquote(%q) = (%q, %v), want (%q, %v)", in, golangt, golangtErr, want, wantErr)
 	}
 
 	// Test QuotedPrefix.
 	// Adding an arbitrary suffix should not change the result of QuotedPrefix
 	// assume that the suffix doesn't accidentally terminate a truncated input.
-	if gotErr == nil {
+	if golangtErr == nil {
 		want = in
 	}
 	suffix := "\n\r\\\"`'" // special characters for quoted strings
@@ -361,13 +361,13 @@ func testUnquote(t *testing.T, in, want string, wantErr error) {
 		suffix = strings.ReplaceAll(suffix, in[:1], "")
 	}
 	in += suffix
-	got, gotErr = QuotedPrefix(in)
-	if gotErr == nil && wantErr != nil {
-		_, wantErr = Unquote(got) // original input had trailing junk, reparse with only valid prefix
-		want = got
+	golangt, golangtErr = QuotedPrefix(in)
+	if golangtErr == nil && wantErr != nil {
+		_, wantErr = Unquote(golangt) // original input had trailing junk, reparse with only valid prefix
+		want = golangt
 	}
-	if got != want || gotErr != wantErr {
-		t.Errorf("QuotedPrefix(%q) = (%q, %v), want (%q, %v)", in, got, gotErr, want, wantErr)
+	if golangt != want || golangtErr != wantErr {
+		t.Errorf("QuotedPrefix(%q) = (%q, %v), want (%q, %v)", in, golangt, golangtErr, want, wantErr)
 	}
 }
 

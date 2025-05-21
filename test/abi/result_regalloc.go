@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Bug: in (*bb).d, the value to be returned was not allocated to
@@ -14,7 +14,7 @@ type bb struct {
 	x []float64
 }
 
-//go:noinline
+//golang:noinline
 func B(r float64, x []float64) I {
 	return bb{r, x}
 }
@@ -30,7 +30,7 @@ type I interface { d() (int, int) }
 
 func D(r I) (int, int) { return r.d() }
 
-//go:noinline
+//golang:noinline
 func F() (int, int) {
 	r := float64(1)
 	x := []float64{0, 1, 2}

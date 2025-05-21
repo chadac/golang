@@ -1,9 +1,9 @@
 // run
 
-//go:build !nacl && !js && !wasip1 && !android && !gccgo
+//golang:build !nacl && !js && !wasip1 && !android && !gccgolang
 
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -59,12 +59,12 @@ func main() {
 		log.Fatal(err)
 	}
 	defer os.RemoveAll(dir)
-	path := filepath.Join(dir, "ridiculous_number_of_fields.go")
+	path := filepath.Join(dir, "ridiculous_number_of_fields.golang")
 	if err := ioutil.WriteFile(path, buf.Bytes(), 0664); err != nil {
 		log.Fatal(err)
 	}
 
-	out, err := exec.Command("go", "build", "-o="+filepath.Join(dir, "out"), path).CombinedOutput()
+	out, err := exec.Command("golang", "build", "-o="+filepath.Join(dir, "out"), path).CombinedOutput()
 	if err != nil {
 		log.Fatalf("build failed: %v\n%s", err, out)
 	}

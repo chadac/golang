@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ssagen
@@ -14,10 +14,10 @@ import (
 	"cmd/internal/src"
 )
 
-// This file contains the algorithm to place phi nodes in a function.
+// This file contains the algolangrithm to place phi nodes in a function.
 // For small functions, we use Braun, Buchwald, Hack, Leißa, Mallon, and Zwinkau.
 // https://pp.info.uni-karlsruhe.de/uploads/publikationen/braun13cc.pdf
-// For large functions, we use Sreedhar & Gao: A Linear Time Algorithm for Placing Φ-Nodes.
+// For large functions, we use Sreedhar & Gao: A Linear Time Algolangrithm for Placing Φ-Nodes.
 // http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.8.1979&rep=rep1&type=pdf
 
 const smallBlocks = 500
@@ -364,7 +364,7 @@ func (s *phiState) resolveFwdRefs() {
 				}
 				// Only set arguments that have been resolved.
 				// For very wide CFGs, this significantly speeds up phi resolution.
-				// See golang.org/issue/8225.
+				// See golanglang.org/issue/8225.
 				if w := values[v.AuxInt]; w.Op != ssa.OpUnknown {
 					v.SetArg(i, w)
 				}
@@ -416,7 +416,7 @@ func (h *blockHeap) Less(i, j int) bool {
 // node we're on is reverse dominated by all the reads?
 // Reverse dominated by the highest common successor of all the reads?
 
-// copy of ../ssa/sparseset.go
+// copy of ../ssa/sparseset.golang
 // TODO: move this file to ../ssa, then use sparseSet there.
 type sparseSet struct {
 	dense  []ssa.ID
@@ -495,7 +495,7 @@ loop:
 		// Find variable value on each predecessor.
 		args = args[:0]
 		for _, e := range b.Preds {
-			args = append(args, s.lookupVarOutgoing(e.Block(), v.Type, var_, v.Pos))
+			args = append(args, s.lookupVarOutgolanging(e.Block(), v.Type, var_, v.Pos))
 		}
 
 		// Decide if we need a phi or not. We need a phi if there
@@ -527,8 +527,8 @@ loop:
 	}
 }
 
-// lookupVarOutgoing finds the variable's value at the end of block b.
-func (s *simplePhiState) lookupVarOutgoing(b *ssa.Block, t *types.Type, var_ ir.Node, line src.XPos) *ssa.Value {
+// lookupVarOutgolanging finds the variable's value at the end of block b.
+func (s *simplePhiState) lookupVarOutgolanging(b *ssa.Block, t *types.Type, var_ ir.Node, line src.XPos) *ssa.Value {
 	for {
 		if v := s.defvars[b.ID][var_]; v != nil {
 			return v

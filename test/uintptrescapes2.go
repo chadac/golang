@@ -1,7 +1,7 @@
 // errorcheck -0 -l -m -live
 
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test escape analysis and liveness inferred for uintptrescapes functions.
@@ -12,24 +12,24 @@ import (
 	"unsafe"
 )
 
-//go:uintptrescapes
+//golang:uintptrescapes
 func F1(a uintptr) {} // ERROR "escaping uintptr"
 
-//go:uintptrescapes
+//golang:uintptrescapes
 func F2(a ...uintptr) {} // ERROR "escaping ...uintptr"
 
-//go:uintptrescapes
+//golang:uintptrescapes
 func F3(uintptr) {} // ERROR "escaping uintptr"
 
-//go:uintptrescapes
+//golang:uintptrescapes
 func F4(...uintptr) {} // ERROR "escaping ...uintptr"
 
 type T struct{}
 
-//go:uintptrescapes
+//golang:uintptrescapes
 func (T) M1(a uintptr) {} // ERROR "escaping uintptr"
 
-//go:uintptrescapes
+//golang:uintptrescapes
 func (T) M2(a ...uintptr) {} // ERROR "escaping ...uintptr"
 
 func TestF1() {

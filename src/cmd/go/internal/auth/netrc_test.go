@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package auth
@@ -36,7 +36,7 @@ machine hasmacro.too macdef ignore-next-lines login user4 password pwd4
 
 default
 login anonymous
-password gopher@golang.org
+password golangpher@golanglang.org
 
 machine after.default
 login oops

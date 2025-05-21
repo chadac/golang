@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This is an implementation based on the s390x
@@ -22,9 +22,9 @@
 // Work is still needed for a big endian
 // implementation on power9.
 
-//go:build ppc64 || ppc64le
+//golang:build ppc64 || ppc64le
 
-#include "go_asm.h"
+#include "golang_asm.h"
 #include "textflag.h"
 
 // Needed to swap LXVD2X loads to the correct
@@ -726,7 +726,7 @@ index2to16next_p10:
 	ADD        $1, R7          // Not found, try next partial string
 	CMP        R7, LASTSTR     // Check for end of string
 	BLE        index2to16next_p10        // If at end, then not found
-	BR         notfound  // go to remainder loop
+	BR         notfound  // golang to remainder loop
 #else
 	ADD     R3, R4, R9         // End of string
 	SUB     R7, R9, R9         // Number of bytes left
@@ -749,7 +749,7 @@ index2to16next_p10:
 	CMP        R7, LASTSTR     // Check for end of string
 	BGT        notfound        // If at end, then not found
 	VSLDOI     $1, V1, V25, V1 // Shift string left by 1 byte
-	BR         index2to16next  // go to remainder loop
+	BR         index2to16next  // golang to remainder loop
 extra2:
 	VSLDOI  $14, V9, V10, V25
 	VAND       V1, SEPMASK, V2 // Just compare size of sep

@@ -1,9 +1,9 @@
 // asmcheck -gcflags=-clobberdead
 
-//go:build amd64 || arm64
+//golang:build amd64 || arm64
 
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package codegen
@@ -28,8 +28,8 @@ func F() {
 	use(y)
 }
 
-//go:noinline
+//golang:noinline
 func use(T) {}
 
-//go:noinline
+//golang:noinline
 func addrTaken(*T) {}

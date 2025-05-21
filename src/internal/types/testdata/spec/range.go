@@ -1,11 +1,11 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package p
 
 type MyInt int32
-type MyBool = bool // TODO(gri) remove alias declaration - see go.dev/issues/71131, go.dev/issues/71164
+type MyBool = bool // TODO(gri) remove alias declaration - see golang.dev/issues/71131, golang.dev/issues/71164
 type MyString string
 type MyFunc1 func(func(int) bool)
 type MyFunc2 func(int) bool
@@ -25,7 +25,7 @@ func f8(func(MyInt, MyString) MyBool) {}
 
 func test() {
 	// TODO: Would be nice to test 'for range T.M' and 'for range (*T).PM' directly,
-	// but there is no gofmt-friendly way to write the error pattern in the right place.
+	// but there is no golangfmt-friendly way to write the error pattern in the right place.
 	m1 := T.M
 	for range m1 /* ERROR "cannot range over m1 (variable of type func(T)): func must be func(yield func(...) bool): argument is not func" */ {
 	}
@@ -169,7 +169,7 @@ func _[T func() bool | func(int) bool]() {
 	}
 }
 
-// go.dev/issue/65236
+// golang.dev/issue/65236
 
 func seq0(func() bool) {}
 func seq1(func(int) bool) {}
@@ -194,7 +194,7 @@ func _() {
 	}
 	for _, _ = range seq2 {
 	}
-	// Note: go/types reports a parser error in this case, hence the different error messages.
+	// Note: golang/types reports a parser error in this case, hence the different error messages.
 	for _, _, _ /* ERRORx "(range clause permits at most two iteration variables|expected at most 2 expressions)" */ = range seq2 {
 	}
 }

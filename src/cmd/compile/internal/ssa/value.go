@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ssa
@@ -22,11 +22,11 @@ type Value struct {
 	// densely starting at 1.  There is no guarantee that there won't be occasional holes, though.
 	ID ID
 
-	// The operation that computes this value. See op.go.
+	// The operation that computes this value. See op.golang.
 	Op Op
 
 	// The type of this value. Normally this will be a Go type, but there
-	// are a few other pseudo-types, see ../types/type.go.
+	// are a few other pseudo-types, see ../types/type.golang.
 	Type *types.Type
 
 	// Auxiliary info for this value. The type of this information depends on the opcode and type.
@@ -244,7 +244,7 @@ func (v *Value) auxString() string {
 // If/when midstack inlining is enabled (-l=4), the compiler gets both larger and slower.
 // Not-inlining this method is a help (*Value.reset and *Block.NewValue0 are similar).
 //
-//go:noinline
+//golang:noinline
 func (v *Value) AddArg(w *Value) {
 	if v.Args == nil {
 		v.resetArgs() // use argstorage
@@ -253,7 +253,7 @@ func (v *Value) AddArg(w *Value) {
 	w.Uses++
 }
 
-//go:noinline
+//golang:noinline
 func (v *Value) AddArg2(w1, w2 *Value) {
 	if v.Args == nil {
 		v.resetArgs() // use argstorage
@@ -263,7 +263,7 @@ func (v *Value) AddArg2(w1, w2 *Value) {
 	w2.Uses++
 }
 
-//go:noinline
+//golang:noinline
 func (v *Value) AddArg3(w1, w2, w3 *Value) {
 	if v.Args == nil {
 		v.resetArgs() // use argstorage
@@ -274,7 +274,7 @@ func (v *Value) AddArg3(w1, w2, w3 *Value) {
 	w3.Uses++
 }
 
-//go:noinline
+//golang:noinline
 func (v *Value) AddArg4(w1, w2, w3, w4 *Value) {
 	v.Args = append(v.Args, w1, w2, w3, w4)
 	w1.Uses++
@@ -283,7 +283,7 @@ func (v *Value) AddArg4(w1, w2, w3, w4 *Value) {
 	w4.Uses++
 }
 
-//go:noinline
+//golang:noinline
 func (v *Value) AddArg5(w1, w2, w3, w4, w5 *Value) {
 	v.Args = append(v.Args, w1, w2, w3, w4, w5)
 	w1.Uses++
@@ -293,7 +293,7 @@ func (v *Value) AddArg5(w1, w2, w3, w4, w5 *Value) {
 	w5.Uses++
 }
 
-//go:noinline
+//golang:noinline
 func (v *Value) AddArg6(w1, w2, w3, w4, w5, w6 *Value) {
 	v.Args = append(v.Args, w1, w2, w3, w4, w5, w6)
 	w1.Uses++
@@ -355,7 +355,7 @@ func (v *Value) resetArgs() {
 // Allowing it to be inlined increases the size
 // of cmd/compile by almost 10%, and slows it down.
 //
-//go:noinline
+//golang:noinline
 func (v *Value) reset(op Op) {
 	if v.InCache {
 		v.Block.Func.unCache(v)
@@ -369,7 +369,7 @@ func (v *Value) reset(op Op) {
 // invalidateRecursively marks a value as invalid (unused)
 // and after decrementing reference counts on its Args,
 // also recursively invalidates any of those whose use
-// count goes to zero.  It returns whether any of the
+// count golanges to zero.  It returns whether any of the
 // invalidated values was marked with IsStmt.
 //
 // BEWARE of doing this *before* you've applied intended
@@ -402,7 +402,7 @@ func (v *Value) invalidateRecursively() bool {
 // copyOf is called from rewrite rules.
 // It modifies v to be (Copy a).
 //
-//go:noinline
+//golang:noinline
 func (v *Value) copyOf(a *Value) {
 	if v == a {
 		return

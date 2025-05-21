@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package objabi
@@ -104,7 +104,7 @@ func applyRewrite(path, rewrite string) (string, bool) {
 // For portability, we allow ASCII case folding, so that hasPathPrefix("a/b/c", "A/B") is true.
 // Similarly, we allow slash folding, so that hasPathPrefix("a/b/c", "a\\b") is true.
 // We do not allow full Unicode case folding, for fear of causing more confusion
-// or harm than good. (For an example of the kinds of things that can go wrong,
+// or harm than golangod. (For an example of the kinds of things that can golang wrong,
 // see http://article.gmane.org/gmane.linux.kernel/1853266.)
 func hasPathPrefix(s string, t string) bool {
 	if len(t) > len(s) {

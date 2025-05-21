@@ -1,12 +1,12 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build goexperiment.jsonv2
+//golang:build golangexperiment.jsonv2
 
 // Large data benchmark.
 // The JSON data is a summary of agl's changes in the
-// go, webkit, and chromium open source projects.
+// golang, webkit, and chromium open source projects.
 // We benchmark converting between the JSON form
 // and in-memory data structures.
 
@@ -112,7 +112,7 @@ func BenchmarkCodeEncoderError(b *testing.B) {
 				b.Fatalf("Encode error: %v", err)
 			}
 			if _, err := Marshal(dummy); err == nil {
-				b.Fatal("Marshal error: got nil, want non-nil")
+				b.Fatal("Marshal error: golangt nil, want non-nil")
 			}
 		}
 	})
@@ -158,7 +158,7 @@ func BenchmarkCodeMarshalError(b *testing.B) {
 				b.Fatalf("Marshal error: %v", err)
 			}
 			if _, err := Marshal(dummy); err == nil {
-				b.Fatal("Marshal error: got nil, want non-nil")
+				b.Fatal("Marshal error: golangt nil, want non-nil")
 			}
 		}
 	})
@@ -207,7 +207,7 @@ func benchMarshalBytesError(n int) func(*testing.B) {
 				b.Fatalf("Marshal error: %v", err)
 			}
 			if _, err := Marshal(dummy); err == nil {
-				b.Fatal("Marshal error: got nil, want non-nil")
+				b.Fatal("Marshal error: golangt nil, want non-nil")
 			}
 		}
 	}
@@ -313,7 +313,7 @@ func BenchmarkDecoderStream(b *testing.B) {
 		case err != nil:
 			b.Fatalf("Decode error: %v", err)
 		case x != 1.0:
-			b.Fatalf("Decode: got %v want 1.0", i)
+			b.Fatalf("Decode: golangt %v want 1.0", i)
 		}
 	}
 }

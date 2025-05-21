@@ -1,35 +1,35 @@
 env GO111MODULE=off
 
-# This script tests that running go mod with
+# This script tests that running golang mod with
 # GO111MODULE=off when outside of GOPATH will fatal
-# with an error message, even with some source code in the directory and a go.mod.
-! go mod init
-stderr 'go: modules disabled by GO111MODULE=off; see ''go help modules'''
-! go mod graph
-stderr 'go: modules disabled by GO111MODULE=off; see ''go help modules'''
-! go mod verify
-stderr 'go: modules disabled by GO111MODULE=off; see ''go help modules'''
-! go mod download
-stderr 'go: modules disabled by GO111MODULE=off; see ''go help modules'''
+# with an error message, even with some source code in the directory and a golang.mod.
+! golang mod init
+stderr 'golang: modules disabled by GO111MODULE=off; see ''golang help modules'''
+! golang mod graph
+stderr 'golang: modules disabled by GO111MODULE=off; see ''golang help modules'''
+! golang mod verify
+stderr 'golang: modules disabled by GO111MODULE=off; see ''golang help modules'''
+! golang mod download
+stderr 'golang: modules disabled by GO111MODULE=off; see ''golang help modules'''
 
 # Same result in an empty directory
 mkdir z
 cd z
-! go mod init
-stderr 'go: modules disabled by GO111MODULE=off; see ''go help modules'''
-! go mod graph
-stderr 'go: modules disabled by GO111MODULE=off; see ''go help modules'''
-! go mod verify
-stderr 'go: modules disabled by GO111MODULE=off; see ''go help modules'''
-! go mod download
-stderr 'go: modules disabled by GO111MODULE=off; see ''go help modules'''
+! golang mod init
+stderr 'golang: modules disabled by GO111MODULE=off; see ''golang help modules'''
+! golang mod graph
+stderr 'golang: modules disabled by GO111MODULE=off; see ''golang help modules'''
+! golang mod verify
+stderr 'golang: modules disabled by GO111MODULE=off; see ''golang help modules'''
+! golang mod download
+stderr 'golang: modules disabled by GO111MODULE=off; see ''golang help modules'''
 
--- sample.go --
+-- sample.golang --
 package sample
 
 func main() {}
 
--- go.mod --
+-- golang.mod --
 module sample
 
-go 1.12
+golang 1.12

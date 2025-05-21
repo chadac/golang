@@ -1,4 +1,4 @@
-//go:build x
+//golang:build x
 // +build x
 
 package p

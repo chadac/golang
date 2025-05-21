@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package sysrand
@@ -8,8 +8,8 @@ package sysrand
 // https://developer.mozilla.org/en-US/docs/Web/API/Crypto/getRandomValues#exceptions
 const maxGetRandomRead = 64 << 10
 
-//go:wasmimport gojs runtime.getRandomData
-//go:noescape
+//golang:wasmimport golangjs runtime.getRandomData
+//golang:noescape
 func getRandomValues(r []byte)
 
 // read calls the JavaScript Crypto.getRandomValues() method.

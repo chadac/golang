@@ -1,9 +1,9 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 /*
-Link, typically invoked as “go tool link”, reads the Go archive or object
+Link, typically invoked as “golang tool link”, reads the Go archive or object
 for a package main, along with its dependencies, and combines them
 into an executable binary.
 
@@ -11,14 +11,14 @@ into an executable binary.
 
 Usage:
 
-	go tool link [flags] main.a
+	golang tool link [flags] main.a
 
 Flags:
 
 	-B note
 		Add an ELF_NT_GNU_BUILD_ID note when using ELF.
 		The value should start with 0x and be an even number of hex digits.
-		Alternatively, you can pass "gobuildid" in order to derive the
+		Alternatively, you can pass "golangbuildid" in order to derive the
 		GNU build ID from the Go build ID.
 	-E entry
 		Set entry symbol name.
@@ -56,7 +56,7 @@ Flags:
 	-c
 		Dump call graphs.
 	-checklinkname=value
-		If value is 0, all go:linkname directives are permitted.
+		If value is 0, all golang:linkname directives are permitted.
 		If value is 1 (the default), only a known set of widely-used
 		linknames are permitted.
 	-compressdwarf
@@ -103,7 +103,7 @@ Flags:
 		Set to "none" to use no support library.
 	-linkmode mode
 		Set link mode (internal, external, auto).
-		This sets the linking mode as described in cmd/cgo/doc.go.
+		This sets the linking mode as described in cmd/cgolang/doc.golang.
 	-linkshared
 		Link against installed Go shared libraries (experimental).
 	-memprofile file

@@ -2,7 +2,7 @@
 # tests (and tests of test dependencies) outside the main module.
 #
 # It is similar to the cases in mod_all.txt and mod_lazy_test_horizon.txt, but
-# focuses on the effect of "go test" on specific packages instead of the "all"
+# focuses on the effect of "golang test" on specific packages instead of the "all"
 # pattern.
 
 # The package import graph used in this test looks like:
@@ -17,51 +17,51 @@
 #
 # lazy ---- a.1 ---- b.1 ---- c.1
 
-cp go.mod go.mod.old
-go mod tidy
-cmp go.mod go.mod.old
+cp golang.mod golang.mod.old
+golang mod tidy
+cmp golang.mod golang.mod.old
 
 
-# In Go 1.15 mode, 'go list -m all' includes modules needed by the
+# In Go 1.15 mode, 'golang list -m all' includes modules needed by the
 # transitive closure of tests of dependencies of tests of dependencies of ….
 
-go list -m all
+golang list -m all
 stdout '^example.com/b v0.1.0 '
 stdout '^example.com/c v0.1.0 '
-cmp go.mod go.mod.old
+cmp golang.mod golang.mod.old
 
-# 'go test' (or equivalent) of any such dependency, no matter how remote, does
-# not update the go.mod file.
+# 'golang test' (or equivalent) of any such dependency, no matter how remote, does
+# not update the golang.mod file.
 
-go list -test -deps example.com/a
+golang list -test -deps example.com/a
 stdout example.com/b
 ! stdout example.com/c
 
-[!short] go test -c -o $devnull example.com/a
-[!short] cmp go.mod go.mod.old
+[!short] golang test -c -o $devnull example.com/a
+[!short] cmp golang.mod golang.mod.old
 
-go list -test -deps example.com/b
+golang list -test -deps example.com/b
 stdout example.com/c
 
-[!short] go test -c -o $devnull example.com/b
-[!short] cmp go.mod go.mod.old
+[!short] golang test -c -o $devnull example.com/b
+[!short] cmp golang.mod golang.mod.old
 
-go mod edit -go=1.17 a/go.mod
-go mod edit -go=1.17 b1/go.mod
-go mod edit -go=1.17 b2/go.mod
-go mod edit -go=1.17 c1/go.mod
-go mod edit -go=1.17 c2/go.mod
-go mod edit -go=1.17
+golang mod edit -golang=1.17 a/golang.mod
+golang mod edit -golang=1.17 b1/golang.mod
+golang mod edit -golang=1.17 b2/golang.mod
+golang mod edit -golang=1.17 c1/golang.mod
+golang mod edit -golang=1.17 c2/golang.mod
+golang mod edit -golang=1.17
 
 
-# After changing to 'go 1.17` uniformly, 'go list -m all' should prune out
+# After changing to 'golang 1.17` uniformly, 'golang list -m all' should prune out
 # example.com/c, because it is not imported by any package (or test of a package)
 # transitively imported by the main module.
 #
 # example.com/a is imported,
-# and example.com/b is needed in order to run 'go test example.com/a',
+# and example.com/b is needed in order to run 'golang test example.com/a',
 # but example.com/c is not needed because we don't expect the user to need to run
-# 'go test example.com/b'.
+# 'golang test example.com/b'.
 
 # If we skip directly to adding a new import of c, the dependency is too far
 # away for a deepening scan to find, which is fine because the package whose
@@ -70,69 +70,69 @@ go mod edit -go=1.17
 
 # However, if we reach c by running successive tests starting from the main
 # module, we should end up with exactly the version required by b, with an update
-# to the go.mod file as soon as we test a test dependency that is not itself in
+# to the golang.mod file as soon as we test a test dependency that is not itself in
 # "all".
 
-cp go.mod go.mod.117
-go mod tidy
-cmp go.mod go.mod.117
+cp golang.mod golang.mod.117
+golang mod tidy
+cmp golang.mod golang.mod.117
 
-go list -m all
+golang list -m all
 stdout '^example.com/b v0.1.0 '
 ! stdout '^example.com/c '
 
-# 'go test' of a package (transitively) imported by the main module
-# should work without changes to the go.mod file.
+# 'golang test' of a package (transitively) imported by the main module
+# should work without changes to the golang.mod file.
 
-go list -test -deps example.com/a
+golang list -test -deps example.com/a
 stdout example.com/b
 ! stdout example.com/c
 
-[!short] go test -c -o $devnull example.com/a
+[!short] golang test -c -o $devnull example.com/a
 
-# However, 'go test' of a package that is itself a dependency should require an
-# update to the go.mod file.
-! go list -test -deps example.com/b
+# However, 'golang test' of a package that is itself a dependency should require an
+# update to the golang.mod file.
+! golang list -test -deps example.com/b
 
 	# TODO(#36460): The hint here is wrong. We should suggest
-	# 'go get -t example.com/b@v0.1.0' instead of 'go mod tidy'.
-stderr '^go: updates to go\.mod needed; to update it:\n\tgo mod tidy$'
+	# 'golang get -t example.com/b@v0.1.0' instead of 'golang mod tidy'.
+stderr '^golang: updates to golang\.mod needed; to update it:\n\tgolang mod tidy$'
 
-[!short] ! go test -c -o $devnull example.com/b
-[!short] stderr '^go: updates to go\.mod needed; to update it:\n\tgo mod tidy$'
+[!short] ! golang test -c -o $devnull example.com/b
+[!short] stderr '^golang: updates to golang\.mod needed; to update it:\n\tgolang mod tidy$'
 
-go get -t example.com/b@v0.1.0
-go list -test -deps example.com/b
+golang get -t example.com/b@v0.1.0
+golang list -test -deps example.com/b
 stdout example.com/c
 
-[!short] go test -c -o $devnull example.com/b
+[!short] golang test -c -o $devnull example.com/b
 
 # The update should bring the version required by b, not the latest version of c.
 
-go list -m example.com/c
+golang list -m example.com/c
 stdout '^example.com/c v0.1.0 '
 
-cmp go.mod go.mod.b
+cmp golang.mod golang.mod.b
 
 
-# We should reach the same state if we arrive at it via `go test -mod=mod`.
+# We should reach the same state if we arrive at it via `golang test -mod=mod`.
 
-cp go.mod.117 go.mod
+cp golang.mod.117 golang.mod
 
-[short] go list -mod=mod -test -deps example.com/a
-[!short] go test -mod=mod -c -o $devnull example.com/a
+[short] golang list -mod=mod -test -deps example.com/a
+[!short] golang test -mod=mod -c -o $devnull example.com/a
 
-[short] go list -mod=mod -test -deps example.com/b
-[!short] go test -mod=mod -c -o $devnull example.com/b
+[short] golang list -mod=mod -test -deps example.com/b
+[!short] golang test -mod=mod -c -o $devnull example.com/b
 
-cmp go.mod go.mod.b
+cmp golang.mod golang.mod.b
 
 
 
--- go.mod --
+-- golang.mod --
 module example.com/lazy
 
-go 1.15
+golang 1.15
 
 require example.com/a v0.1.0
 
@@ -143,10 +143,10 @@ replace (
 	example.com/c v0.1.0 => ./c1
 	example.com/c v0.2.0 => ./c2
 )
--- go.mod.b --
+-- golang.mod.b --
 module example.com/lazy
 
-go 1.17
+golang 1.17
 
 require example.com/a v0.1.0
 
@@ -159,21 +159,21 @@ replace (
 	example.com/c v0.1.0 => ./c1
 	example.com/c v0.2.0 => ./c2
 )
--- lazy.go --
+-- lazy.golang --
 package lazy
 
 import (
 	_ "example.com/a"
 )
--- a/go.mod --
+-- a/golang.mod --
 module example.com/a
 
-go 1.15
+golang 1.15
 
 require example.com/b v0.1.0
--- a/a.go --
+-- a/a.golang --
 package a
--- a/a_test.go --
+-- a/a_test.golang --
 package a
 
 import (
@@ -185,40 +185,40 @@ import (
 func TestUsingB(t *testing.T) {
 	// …
 }
--- b1/go.mod --
+-- b1/golang.mod --
 module example.com/b
 
-go 1.15
+golang 1.15
 
 require example.com/c v0.1.0
--- b1/b.go --
+-- b1/b.golang --
 package b
--- b1/b_test.go --
+-- b1/b_test.golang --
 package b
 
 import _ "example.com/c"
--- b2/go.mod --
+-- b2/golang.mod --
 module example.com/b
 
-go 1.15
+golang 1.15
 
 require example.com/c v0.1.0
--- b2/b.go --
+-- b2/b.golang --
 package b
 This file should not be used, so this syntax error should be ignored.
--- b2/b_test.go --
+-- b2/b_test.golang --
 package b
 This file should not be used, so this syntax error should be ignored.
--- c1/go.mod --
+-- c1/golang.mod --
 module example.com/c
 
-go 1.15
--- c1/c.go --
+golang 1.15
+-- c1/c.golang --
 package c
--- c2/go.mod --
+-- c2/golang.mod --
 module example.com/c
 
-go 1.15
--- c2/c.go --
+golang 1.15
+-- c2/c.golang --
 package c
 This file should not be used, so this syntax error should be ignored.

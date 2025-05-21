@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -10,9 +10,9 @@ import (
 	. "github.com/mmcloughlin/avo/reg"
 )
 
-//go:generate go run . -out ../sha1block_amd64.s -pkg sha1
+//golang:generate golang run . -out ../sha1block_amd64.s -pkg sha1
 
-// AVX2 version by Intel, same algorithm as code in Linux kernel:
+// AVX2 version by Intel, same algolangrithm as code in Linux kernel:
 // https://github.com/torvalds/linux/blob/master/arch/x86/crypto/sha1_avx2_x86_64_asm.S
 // Authors:
 // Ilya Albrekht <ilya.albrekht@intel.com>
@@ -22,7 +22,7 @@ import (
 
 func main() {
 	Package("crypto/sha1")
-	ConstraintExpr("!purego")
+	ConstraintExpr("!puregolang")
 	blockAVX2()
 	blockSHANI()
 	Generate()
@@ -31,7 +31,7 @@ func main() {
 // This is the implementation using AVX2, BMI1 and BMI2. It is based on:
 // "SHA-1 implementation with Intel(R) AVX2 instruction set extensions"
 // From http://software.intel.com/en-us/articles
-// (look for improving-the-performance-of-the-secure-hash-algorithm-1)
+// (look for improving-the-performance-of-the-secure-hash-algolangrithm-1)
 // This implementation is 2x unrolled, and interleaves vector instructions,
 // used to precompute W, with scalar computation of current round
 // for optimal scheduling.

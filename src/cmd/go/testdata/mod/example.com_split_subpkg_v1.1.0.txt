@@ -7,5 +7,5 @@ module example.com/split/subpkg
 require example.com/split v1.1.0
 -- .info --
 {"Version": "v1.1.0"}
--- x.go --
+-- x.golang --
 package subpkg

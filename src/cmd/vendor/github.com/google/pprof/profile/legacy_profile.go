@@ -9,7 +9,7 @@
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
+// See the License for the specific language golangverning permissions and
 // limitations under the License.
 
 // This file implements parsers to convert legacy profiles into the
@@ -75,7 +75,7 @@ func isSpaceOrComment(line string) bool {
 }
 
 // parseGoCount parses a Go count profile (e.g., threadcreate or
-// goroutine) and returns a new Profile.
+// golangroutine) and returns a new Profile.
 func parseGoCount(b []byte) (*Profile, error) {
 	s := bufio.NewScanner(bytes.NewBuffer(b))
 	// Skip comments at the beginning of the file.
@@ -589,7 +589,7 @@ func parseHeapHeader(line string) (sampling string, period int64, hasAlloc bool,
 func parseHeapSample(line string, rate int64, sampling string, includeAlloc bool) (value []int64, blocksize int64, addrs []uint64, err error) {
 	sampleData := heapSampleRE.FindStringSubmatch(line)
 	if len(sampleData) != 6 {
-		return nil, 0, nil, fmt.Errorf("unexpected number of sample values: got %d, want 6", len(sampleData))
+		return nil, 0, nil, fmt.Errorf("unexpected number of sample values: golangt %d, want 6", len(sampleData))
 	}
 
 	// This is a local-scoped helper function to avoid needing to pass
@@ -878,7 +878,7 @@ func parseThread(b []byte) (*Profile, error) {
 			return nil, err
 		}
 		if len(addrs) == 0 {
-			// We got a --same as previous threads--. Bump counters.
+			// We golangt a --same as previous threads--. Bump counters.
 			if len(p.Sample) > 0 {
 				s := p.Sample[len(p.Sample)-1]
 				s.Value[0]++

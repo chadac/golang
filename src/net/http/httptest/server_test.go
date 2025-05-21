@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package httptest
@@ -62,13 +62,13 @@ func testServer(t *testing.T, newServer newServerFunc) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	got, err := io.ReadAll(res.Body)
+	golangt, err := io.ReadAll(res.Body)
 	res.Body.Close()
 	if err != nil {
 		t.Fatal(err)
 	}
-	if string(got) != "hello" {
-		t.Errorf("got %q, want hello", string(got))
+	if string(golangt) != "hello" {
+		t.Errorf("golangt %q, want hello", string(golangt))
 	}
 }
 
@@ -82,13 +82,13 @@ func testGetAfterClose(t *testing.T, newServer newServerFunc) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	got, err := io.ReadAll(res.Body)
+	golangt, err := io.ReadAll(res.Body)
 	res.Body.Close()
 	if err != nil {
 		t.Fatal(err)
 	}
-	if string(got) != "hello" {
-		t.Fatalf("got %q, want hello", string(got))
+	if string(golangt) != "hello" {
+		t.Fatalf("golangt %q, want hello", string(golangt))
 	}
 
 	ts.Close()
@@ -154,13 +154,13 @@ func testServerClient(t *testing.T, newTLSServer newServerFunc) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	got, err := io.ReadAll(res.Body)
+	golangt, err := io.ReadAll(res.Body)
 	res.Body.Close()
 	if err != nil {
 		t.Fatal(err)
 	}
-	if string(got) != "hello" {
-		t.Errorf("got %q, want hello", string(got))
+	if string(golangt) != "hello" {
+		t.Errorf("golangt %q, want hello", string(golangt))
 	}
 }
 
@@ -172,7 +172,7 @@ func testServerClientTransportType(t *testing.T, newServer newServerFunc) {
 	defer ts.Close()
 	client := ts.Client()
 	if _, ok := client.Transport.(*http.Transport); !ok {
-		t.Errorf("got %T, want *http.Transport", client.Transport)
+		t.Errorf("golangt %T, want *http.Transport", client.Transport)
 	}
 }
 
@@ -184,7 +184,7 @@ func testTLSServerClientTransportType(t *testing.T, newTLSServer newServerFunc) 
 	defer ts.Close()
 	client := ts.Client()
 	if _, ok := client.Transport.(*http.Transport); !ok {
-		t.Errorf("got %T, want *http.Transport", client.Transport)
+		t.Errorf("golangt %T, want *http.Transport", client.Transport)
 	}
 }
 
@@ -224,7 +224,7 @@ func TestCloseHijackedConnection(t *testing.T) {
 
 	var wg sync.WaitGroup
 	wg.Add(1)
-	go func() {
+	golang func() {
 		defer wg.Done()
 		req, err := http.NewRequest("GET", ts.URL, nil)
 		if err != nil {
@@ -242,7 +242,7 @@ func TestCloseHijackedConnection(t *testing.T) {
 
 	wg.Add(1)
 	conn := <-hijacked
-	go func(conn net.Conn) {
+	golang func(conn net.Conn) {
 		defer wg.Done()
 		// Close the connection and then inform the Server that
 		// we closed it.
@@ -251,7 +251,7 @@ func TestCloseHijackedConnection(t *testing.T) {
 	}(conn)
 
 	wg.Add(1)
-	go func() {
+	golang func() {
 		defer wg.Done()
 		ts.Close()
 	}()
@@ -288,7 +288,7 @@ func TestTLSServerWithHTTP2(t *testing.T) {
 				t.Fatalf("Failed to make request: %v", err)
 			}
 			if g, w := res.Header.Get("X-Proto"), tt.wantProto; g != w {
-				t.Fatalf("X-Proto header mismatch:\n\tgot:  %q\n\twant: %q", g, w)
+				t.Fatalf("X-Proto header mismatch:\n\tgolangt:  %q\n\twant: %q", g, w)
 			}
 		})
 	}

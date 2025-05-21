@@ -1,6 +1,6 @@
 <!--{
 	"Title": "The Go Programming Language Specification",
-	"Subtitle": "Language version go1.25 (Feb 25, 2025)",
+	"Subtitle": "Language version golang1.25 (Feb 25, 2025)",
 	"Path": "/ref/spec"
 }-->
 
@@ -8,7 +8,7 @@
 
 <p>
 This is the reference manual for the Go programming language.
-For more information and other documents, see <a href="/">go.dev</a>.
+For more information and other documents, see <a href="/">golang.dev</a>.
 </p>
 
 <p>
@@ -105,20 +105,20 @@ A byte order mark may be disallowed anywhere else in the source.
 <h3 id="Characters">Characters</h3>
 
 <p>
-The following terms are used to denote specific Unicode character categories:
+The following terms are used to denote specific Unicode character categolangries:
 </p>
 <pre class="ebnf">
 newline        = /* the Unicode code point U+000A */ .
 unicode_char   = /* an arbitrary Unicode code point except newline */ .
-unicode_letter = /* a Unicode code point categorized as "Letter" */ .
-unicode_digit  = /* a Unicode code point categorized as "Number, decimal digit" */ .
+unicode_letter = /* a Unicode code point categolangrized as "Letter" */ .
+unicode_digit  = /* a Unicode code point categolangrized as "Number, decimal digit" */ .
 </pre>
 
 <p>
 In <a href="https://www.unicode.org/versions/Unicode8.0.0/">The Unicode Standard 8.0</a>,
-Section 4.5 "General Category" defines a set of character categories.
-Go treats all characters in any of the Letter categories Lu, Ll, Lt, Lm, or Lo
-as Unicode letters, and those in the Number category Nd as Unicode digits.
+Section 4.5 "General Categolangry" defines a set of character categolangries.
+Go treats all characters in any of the Letter categolangries Lu, Ll, Lt, Lm, or Lo
+as Unicode letters, and those in the Number categolangry Nd as Unicode digits.
 </p>
 
 <h3 id="Letters_and_digits">Letters and digits</h3>
@@ -259,8 +259,8 @@ The following keywords are reserved and may not be used as identifiers.
 </p>
 <pre class="grammar">
 break        default      func         interface    select
-case         defer        go           map          struct
-chan         else         goto         package      switch
+case         defer        golang           map          struct
+chan         else         golangto         package      switch
 const        fallthrough  if           range        type
 continue     for          import       return       var
 </pre>
@@ -1761,10 +1761,10 @@ A single channel may be used in
 and calls to the built-in functions
 <a href="#Length_and_capacity"><code>cap</code></a> and
 <a href="#Length_and_capacity"><code>len</code></a>
-by any number of goroutines without further synchronization.
+by any number of golangroutines without further synchronization.
 Channels act as first-in-first-out queues.
-For example, if one goroutine sends values on a channel
-and a second goroutine receives them, the values are
+For example, if one golangroutine sends values on a channel
+and a second golangroutine receives them, the values are
 received in the order sent.
 </p>
 
@@ -2246,7 +2246,7 @@ declarations.
 Labels are declared by <a href="#Labeled_statements">labeled statements</a> and are
 used in the <a href="#Break_statements">"break"</a>,
 <a href="#Continue_statements">"continue"</a>, and
-<a href="#Goto_statements">"goto"</a> statements.
+<a href="#Goto_statements">"golangto"</a> statements.
 It is illegal to define a label that is never used.
 In contrast to other identifiers, labels are not block scoped and do
 not conflict with identifiers that are not labels. The scope of a label
@@ -2299,7 +2299,7 @@ An identifier is exported if both:
 </p>
 <ol>
 	<li>the first character of the identifier's name is a Unicode uppercase
-	letter (Unicode character category Lu); and</li>
+	letter (Unicode character categolangry Lu); and</li>
 	<li>the identifier is declared in the <a href="#Blocks">package block</a>
 	or it is a <a href="#Struct_types">field name</a> or
 	<a href="#MethodName">method name</a>.</li>
@@ -2731,7 +2731,7 @@ type Constraint ~int         // illegal: ~int is not in a type parameter list
 <!--
 We should be able to simplify the rules for comparable or delegate some of them
 elsewhere since we have a section that clearly defines how interfaces implement
-other interfaces based on their type sets. But this should get us going for now.
+other interfaces based on their type sets. But this should get us golanging for now.
 -->
 
 <p>
@@ -4323,7 +4323,7 @@ Given the slice <code>s</code> and call
 
 <pre>
 s := []string{"James", "Jasmine"}
-Greeting("goodbye:", s...)
+Greeting("golangodbye:", s...)
 </pre>
 
 <p>
@@ -5079,7 +5079,7 @@ or the <code>+=</code> assignment operator:
 
 <pre>
 s := "hi" + string(c)
-s += " and good bye"
+s += " and golangod bye"
 </pre>
 
 <p>
@@ -5668,7 +5668,7 @@ myString('\u65e5')   // "\u65e5" == "日" == "\xe6\x97\xa5"
 </pre>
 
 Note: This form of conversion may eventually be removed from the language.
-The <a href="/pkg/cmd/vet"><code>go vet</code></a> tool flags certain
+The <a href="/pkg/cmd/vet"><code>golang vet</code></a> tool flags certain
 integer-to-string conversions as potential errors.
 Library functions such as
 <a href="/pkg/unicode/utf8#AppendRune"><code>utf8.AppendRune</code></a> or
@@ -5926,7 +5926,7 @@ a <a href="#Blocks">block</a>. The following statements are terminating:
 <ol>
 <li>
 	A <a href="#Return_statements">"return"</a> or
-    	<a href="#Goto_statements">"goto"</a> statement.
+    	<a href="#Goto_statements">"golangto"</a> statement.
 	<!-- ul below only for regular layout -->
 	<ul> </ul>
 </li>
@@ -6011,7 +6011,7 @@ EmptyStmt = .
 <h3 id="Labeled_statements">Labeled statements</h3>
 
 <p>
-A labeled statement may be the target of a <code>goto</code>,
+A labeled statement may be the target of a <code>golangto</code>,
 <code>break</code> or <code>continue</code> statement.
 </p>
 
@@ -6907,13 +6907,13 @@ identical element types, and all channel types must permit receive operations.
 <h3 id="Go_statements">Go statements</h3>
 
 <p>
-A "go" statement starts the execution of a function call
-as an independent concurrent thread of control, or <i>goroutine</i>,
+A "golang" statement starts the execution of a function call
+as an independent concurrent thread of control, or <i>golangroutine</i>,
 within the same address space.
 </p>
 
 <pre class="ebnf">
-GoStmt = "go" Expression .
+GoStmt = "golang" Expression .
 </pre>
 
 <p>
@@ -6925,19 +6925,19 @@ Calls of built-in functions are restricted as for
 <p>
 The function value and parameters are
 <a href="#Calls">evaluated as usual</a>
-in the calling goroutine, but
+in the calling golangroutine, but
 unlike with a regular call, program execution does not wait
 for the invoked function to complete.
 Instead, the function begins executing independently
-in a new goroutine.
-When the function terminates, its goroutine also terminates.
+in a new golangroutine.
+When the function terminates, its golangroutine also terminates.
 If the function has any return values, they are discarded when the
 function completes.
 </p>
 
 <pre>
-go Server()
-go func(ch chan&lt;- bool) { for { sleep(10); ch &lt;- true }} (c)
+golang Server()
+golang func(ch chan&lt;- bool) { for { sleep(10); ch &lt;- true }} (c)
 </pre>
 
 
@@ -7218,26 +7218,26 @@ RowLoop:
 <h3 id="Goto_statements">Goto statements</h3>
 
 <p>
-A "goto" statement transfers control to the statement with the corresponding label
+A "golangto" statement transfers control to the statement with the corresponding label
 within the same function.
 </p>
 
 <pre class="ebnf">
-GotoStmt = "goto" Label .
+GotoStmt = "golangto" Label .
 </pre>
 
 <pre>
-goto Error
+golangto Error
 </pre>
 
 <p>
-Executing the "goto" statement must not cause any variables to come into
-<a href="#Declarations_and_scope">scope</a> that were not already in scope at the point of the goto.
+Executing the "golangto" statement must not cause any variables to come into
+<a href="#Declarations_and_scope">scope</a> that were not already in scope at the point of the golangto.
 For instance, this example:
 </p>
 
 <pre>
-	goto L  // BAD
+	golangto L  // BAD
 	v := 3
 L:
 </pre>
@@ -7248,13 +7248,13 @@ the creation of <code>v</code>.
 </p>
 
 <p>
-A "goto" statement outside a <a href="#Blocks">block</a> cannot jump to a label inside that block.
+A "golangto" statement outside a <a href="#Blocks">block</a> cannot jump to a label inside that block.
 For instance, this example:
 </p>
 
 <pre>
 if n%2 == 1 {
-	goto L1
+	golangto L1
 }
 for n &gt; 0 {
 	f()
@@ -7267,7 +7267,7 @@ L1:
 
 <p>
 is erroneous because the label <code>L1</code> is inside
-the "for" statement's block but the <code>goto</code> is not.
+the "for" statement's block but the <code>golangto</code> is not.
 </p>
 
 <h3 id="Fallthrough_statements">Fallthrough statements</h3>
@@ -7290,7 +7290,7 @@ A "defer" statement invokes a function whose execution is deferred
 to the moment the surrounding function returns, either because the
 surrounding function executed a <a href="#Return_statements">return statement</a>,
 reached the end of its <a href="#Function_declarations">function body</a>,
-or because the corresponding goroutine is <a href="#Handling_panics">panicking</a>.
+or because the corresponding golangroutine is <a href="#Handling_panics">panicking</a>.
 </p>
 
 <pre class="ebnf">
@@ -7854,7 +7854,7 @@ terminates the execution of <code>F</code>.
 Any functions <a href="#Defer_statements">deferred</a> by <code>F</code>
 are then executed as usual.
 Next, any deferred functions run by <code>F</code>'s caller are run,
-and so on up to any deferred by the top-level function in the executing goroutine.
+and so on up to any deferred by the top-level function in the executing golangroutine.
 At that point, the program is terminated and the error
 condition is reported, including the value of the argument to <code>panic</code>.
 This termination sequence is called <i>panicking</i>.
@@ -7868,9 +7868,9 @@ panic(Error("cannot parse"))
 
 <p>
 The <code>recover</code> function allows a program to manage behavior
-of a panicking goroutine.
+of a panicking golangroutine.
 Suppose a function <code>G</code> defers a function <code>D</code> that calls
-<code>recover</code> and a panic occurs in a function on the same goroutine in which <code>G</code>
+<code>recover</code> and a panic occurs in a function on the same golangroutine in which <code>G</code>
 is executing.
 When the running of deferred functions reaches <code>D</code>,
 the return value of <code>D</code>'s call to <code>recover</code> will be the value passed to the call of <code>panic</code>.
@@ -7884,8 +7884,8 @@ execution terminates by returning to its caller.
 
 <p>
 The return value of <code>recover</code> is <code>nil</code> when the
-goroutine is not panicking or <code>recover</code> was not called directly by a deferred function.
-Conversely, if a goroutine is panicking and <code>recover</code> was called directly by a deferred function,
+golangroutine is not panicking or <code>recover</code> was not called directly by a deferred function.
+Conversely, if a golangroutine is panicking and <code>recover</code> was called directly by a deferred function,
 the return value of <code>recover</code> is guaranteed not to be <code>nil</code>.
 To ensure this, calling <code>panic</code> with a <code>nil</code> interface value (or an untyped <code>nil</code>)
 causes a <a href="#Run_time_panics">run-time panic</a>.
@@ -8023,7 +8023,7 @@ package and may be relative to a repository of installed packages.
 Implementation restriction: A compiler may restrict ImportPaths to
 non-empty strings using only characters belonging to
 <a href="https://www.unicode.org/versions/Unicode6.3.0/">Unicode's</a>
-L, M, N, P, and S general categories (the Graphic characters without
+L, M, N, P, and S general categolangries (the Graphic characters without
 spaces) and may also exclude the characters
 <code>!"#$%&amp;'()*,:;&lt;=&gt;?[\]^`{|}</code>
 and the Unicode replacement character U+FFFD.
@@ -8093,12 +8093,12 @@ func filter(src &lt;-chan int, dst chan&lt;- int, prime int) {
 // The prime sieve: Daisy-chain filter processes together.
 func sieve() {
 	ch := make(chan int)  // Create a new channel.
-	go generate(ch)       // Start generate() as a subprocess.
+	golang generate(ch)       // Start generate() as a subprocess.
 	for {
 		prime := &lt;-ch
 		fmt.Print(prime, "\n")
 		ch1 := make(chan int)
-		go filter(ch, ch1, prime)
+		golang filter(ch, ch1, prime)
 		ch = ch1
 	}
 }
@@ -8347,9 +8347,9 @@ This step is repeated until all packages are initialized.
 
 <p>
 Package initialization&mdash;variable initialization and the invocation of
-<code>init</code> functions&mdash;happens in a single goroutine,
+<code>init</code> functions&mdash;happens in a single golangroutine,
 sequentially, one package at a time.
-An <code>init</code> function may launch other goroutines, which can run
+An <code>init</code> function may launch other golangroutines, which can run
 concurrently with the initialization code. However, initialization
 always sequences
 the <code>init</code> functions: it will not invoke the next one
@@ -8374,7 +8374,7 @@ func main() { … }
 Program execution begins by <a href="#Program_initialization">initializing the program</a>
 and then invoking the function <code>main</code> in package <code>main</code>.
 When that function invocation returns, the program exits.
-It does not wait for other (non-<code>main</code>) goroutines to complete.
+It does not wait for other (non-<code>main</code>) golangroutines to complete.
 </p>
 
 <h2 id="Errors">Errors</h2>
@@ -8622,7 +8622,7 @@ A struct or array type has size zero if it contains no fields (or elements, resp
 <h3 id="Language_versions">Language versions</h3>
 
 <p>
-The <a href="/doc/go1compat">Go 1 compatibility guarantee</a> ensures that
+The <a href="/doc/golang1compat">Go 1 compatibility guarantee</a> ensures that
 programs written to the Go 1 specification will continue to compile and run
 correctly, unchanged, over the lifetime of that specification.
 More generally, as adjustments are made and features added to the language,

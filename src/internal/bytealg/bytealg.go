@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package bytealg
@@ -27,11 +27,11 @@ const (
 // If MaxLen is not 0, make sure MaxLen >= 4.
 var MaxLen int
 
-// PrimeRK is the prime base used in Rabin-Karp algorithm.
+// PrimeRK is the prime base used in Rabin-Karp algolangrithm.
 const PrimeRK = 16777619
 
 // HashStr returns the hash and the appropriate multiplicative
-// factor for use in Rabin-Karp algorithm.
+// factor for use in Rabin-Karp algolangrithm.
 func HashStr[T string | []byte](sep T) (uint32, uint32) {
 	hash := uint32(0)
 	for i := 0; i < len(sep); i++ {
@@ -48,7 +48,7 @@ func HashStr[T string | []byte](sep T) (uint32, uint32) {
 }
 
 // HashStrRev returns the hash of the reverse of sep and the
-// appropriate multiplicative factor for use in Rabin-Karp algorithm.
+// appropriate multiplicative factor for use in Rabin-Karp algolangrithm.
 func HashStrRev[T string | []byte](sep T) (uint32, uint32) {
 	hash := uint32(0)
 	for i := len(sep) - 1; i >= 0; i-- {
@@ -64,7 +64,7 @@ func HashStrRev[T string | []byte](sep T) (uint32, uint32) {
 	return hash, pow
 }
 
-// IndexRabinKarp uses the Rabin-Karp search algorithm to return the index of the
+// IndexRabinKarp uses the Rabin-Karp search algolangrithm to return the index of the
 // first occurrence of sep in s, or -1 if not present.
 func IndexRabinKarp[T string | []byte](s, sep T) int {
 	// Rabin-Karp search
@@ -89,7 +89,7 @@ func IndexRabinKarp[T string | []byte](s, sep T) int {
 	return -1
 }
 
-// LastIndexRabinKarp uses the Rabin-Karp search algorithm to return the last index of the
+// LastIndexRabinKarp uses the Rabin-Karp search algolangrithm to return the last index of the
 // occurrence of sep in s, or -1 if not present.
 func LastIndexRabinKarp[T string | []byte](s, sep T) int {
 	// Rabin-Karp search from the end of the string

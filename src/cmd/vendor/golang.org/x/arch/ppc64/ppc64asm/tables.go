@@ -1892,7 +1892,7 @@ var opstr = [...]string{
 	BCTARL:         "bctarl",
 	CLRBHRB:        "clrbhrb",
 	FMRGEW:         "fmrgew",
-	FMRGOW:         "fmrgow",
+	FMRGOW:         "fmrgolangw",
 	ICBT:           "icbt",
 	LQARX:          "lqarx",
 	LXSIWAX:        "lxsiwax",
@@ -1937,7 +1937,7 @@ var opstr = [...]string{
 	VMINSD:         "vminsd",
 	VMINUD:         "vminud",
 	VMRGEW:         "vmrgew",
-	VMRGOW:         "vmrgow",
+	VMRGOW:         "vmrgolangw",
 	VMULESW:        "vmulesw",
 	VMULEUW:        "vmuleuw",
 	VMULOSW:        "vmulosw",
@@ -2766,8 +2766,8 @@ var opstr = [...]string{
 	NANDCC:         "nand.",
 	NEG:            "neg",
 	NEGCC:          "neg.",
-	NEGO:           "nego",
-	NEGOCC:         "nego.",
+	NEGO:           "negolang",
+	NEGOCC:         "negolang.",
 	NOR:            "nor",
 	NORCC:          "nor.",
 	OR:             "or",
@@ -3887,7 +3887,7 @@ var instFormats = [...]instFormat{
 		[6]*argField{}},
 	{FMRGEW, 0xfc0007fe00000000, 0xfc00078c00000000, 0x100000000, // Floating Merge Even Word X-form (fmrgew FRT,FRA,FRB)
 		[6]*argField{ap_FPReg_6_10, ap_FPReg_11_15, ap_FPReg_16_20}},
-	{FMRGOW, 0xfc0007fe00000000, 0xfc00068c00000000, 0x100000000, // Floating Merge Odd Word X-form (fmrgow FRT,FRA,FRB)
+	{FMRGOW, 0xfc0007fe00000000, 0xfc00068c00000000, 0x100000000, // Floating Merge Odd Word X-form (fmrgolangw FRT,FRA,FRB)
 		[6]*argField{ap_FPReg_6_10, ap_FPReg_11_15, ap_FPReg_16_20}},
 	{ICBT, 0xfc0007fe00000000, 0x7c00002c00000000, 0x200000100000000, // Instruction Cache Block Touch X-form (icbt CT, RA, RB)
 		[6]*argField{ap_ImmUnsigned_7_10, ap_Reg_11_15, ap_Reg_16_20}},
@@ -3977,7 +3977,7 @@ var instFormats = [...]instFormat{
 		[6]*argField{ap_VecReg_6_10, ap_VecReg_11_15, ap_VecReg_16_20}},
 	{VMRGEW, 0xfc0007ff00000000, 0x1000078c00000000, 0x0, // Vector Merge Even Word VX-form (vmrgew VRT,VRA,VRB)
 		[6]*argField{ap_VecReg_6_10, ap_VecReg_11_15, ap_VecReg_16_20}},
-	{VMRGOW, 0xfc0007ff00000000, 0x1000068c00000000, 0x0, // Vector Merge Odd Word VX-form (vmrgow VRT,VRA,VRB)
+	{VMRGOW, 0xfc0007ff00000000, 0x1000068c00000000, 0x0, // Vector Merge Odd Word VX-form (vmrgolangw VRT,VRA,VRB)
 		[6]*argField{ap_VecReg_6_10, ap_VecReg_11_15, ap_VecReg_16_20}},
 	{VMULESW, 0xfc0007ff00000000, 0x1000038800000000, 0x0, // Vector Multiply Even Signed Word VX-form (vmulesw VRT,VRA,VRB)
 		[6]*argField{ap_VecReg_6_10, ap_VecReg_11_15, ap_VecReg_16_20}},
@@ -5635,9 +5635,9 @@ var instFormats = [...]instFormat{
 		[6]*argField{ap_Reg_6_10, ap_Reg_11_15}},
 	{NEGCC, 0xfc0007ff00000000, 0x7c0000d100000000, 0xf80000000000, // Negate XO-form (neg. RT,RA)
 		[6]*argField{ap_Reg_6_10, ap_Reg_11_15}},
-	{NEGO, 0xfc0007ff00000000, 0x7c0004d000000000, 0xf80000000000, // Negate XO-form (nego RT,RA)
+	{NEGO, 0xfc0007ff00000000, 0x7c0004d000000000, 0xf80000000000, // Negate XO-form (negolang RT,RA)
 		[6]*argField{ap_Reg_6_10, ap_Reg_11_15}},
-	{NEGOCC, 0xfc0007ff00000000, 0x7c0004d100000000, 0xf80000000000, // Negate XO-form (nego. RT,RA)
+	{NEGOCC, 0xfc0007ff00000000, 0x7c0004d100000000, 0xf80000000000, // Negate XO-form (negolang. RT,RA)
 		[6]*argField{ap_Reg_6_10, ap_Reg_11_15}},
 	{NOR, 0xfc0007ff00000000, 0x7c0000f800000000, 0x0, // NOR X-form (nor RA,RS,RB)
 		[6]*argField{ap_Reg_11_15, ap_Reg_6_10, ap_Reg_16_20}},

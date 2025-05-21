@@ -1,20 +1,20 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-package gccgoimporter
+package gccgolangimporter
 
 import (
 	"bufio"
-	"go/types"
+	"golang/types"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"strings"
 )
 
-// Information about a specific installation of gccgo.
-type GccgoInstallation struct {
+// Information about a specific installation of gccgolang.
+type GccgolangInstallation struct {
 	// Version of gcc (e.g. 4.8.0).
 	GccVersion string
 
@@ -25,11 +25,11 @@ type GccgoInstallation struct {
 	LibPaths []string
 }
 
-// Ask the driver at the given path for information for this GccgoInstallation.
+// Ask the driver at the given path for information for this GccgolangInstallation.
 // The given arguments are passed directly to the call of the driver.
-func (inst *GccgoInstallation) InitFromDriver(gccgoPath string, args ...string) (err error) {
-	argv := append([]string{"-###", "-S", "-x", "go", "-"}, args...)
-	cmd := exec.Command(gccgoPath, argv...)
+func (inst *GccgolangInstallation) InitFromDriver(gccgolangPath string, args ...string) (err error) {
+	argv := append([]string{"-###", "-S", "-x", "golang", "-"}, args...)
+	cmd := exec.Command(gccgolangPath, argv...)
 	stderr, err := cmd.StderrPipe()
 	if err != nil {
 		return
@@ -58,7 +58,7 @@ func (inst *GccgoInstallation) InitFromDriver(gccgoPath string, args ...string) 
 	}
 
 	argv = append([]string{"-dumpversion"}, args...)
-	stdout, err := exec.Command(gccgoPath, argv...).Output()
+	stdout, err := exec.Command(gccgolangPath, argv...).Output()
 	if err != nil {
 		return
 	}
@@ -67,10 +67,10 @@ func (inst *GccgoInstallation) InitFromDriver(gccgoPath string, args ...string) 
 	return
 }
 
-// Return the list of export search paths for this GccgoInstallation.
-func (inst *GccgoInstallation) SearchPaths() (paths []string) {
+// Return the list of export search paths for this GccgolangInstallation.
+func (inst *GccgolangInstallation) SearchPaths() (paths []string) {
 	for _, lpath := range inst.LibPaths {
-		spath := filepath.Join(lpath, "go", inst.GccVersion)
+		spath := filepath.Join(lpath, "golang", inst.GccVersion)
 		fi, err := os.Stat(spath)
 		if err != nil || !fi.IsDir() {
 			continue
@@ -92,6 +92,6 @@ func (inst *GccgoInstallation) SearchPaths() (paths []string) {
 
 // Return an importer that searches incpaths followed by the gcc installation's
 // built-in search paths and the current directory.
-func (inst *GccgoInstallation) GetImporter(incpaths []string, initmap map[*types.Package]InitData) Importer {
+func (inst *GccgolangInstallation) GetImporter(incpaths []string, initmap map[*types.Package]InitData) Importer {
 	return GetImporter(append(append(incpaths, inst.SearchPaths()...), "."), initmap)
 }

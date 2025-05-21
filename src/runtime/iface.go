@@ -1,12 +1,12 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
 
 import (
 	"internal/abi"
-	"internal/goarch"
+	"internal/golangarch"
 	"internal/runtime/atomic"
 	"internal/runtime/sys"
 	"unsafe"
@@ -28,7 +28,7 @@ type itabTableType struct {
 }
 
 func itabHashFunc(inter *interfacetype, typ *_type) uintptr {
-	// compiler has provided some good hash codes for us.
+	// compiler has provided some golangod hash codes for us.
 	return uintptr(inter.Type.Hash ^ typ.Hash)
 }
 
@@ -38,9 +38,9 @@ func itabHashFunc(inter *interfacetype, typ *_type) uintptr {
 //   - github.com/bytedance/sonic
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname getitab
+//golang:linkname getitab
 func getitab(inter *interfacetype, typ *_type, canfail bool) *itab {
 	if len(inter.Methods) == 0 {
 		throw("internal error - misuse of itab")
@@ -63,18 +63,18 @@ func getitab(inter *interfacetype, typ *_type, canfail bool) *itab {
 	// that updates the itabTable field (with atomic.Storep in itabAdd).
 	t := (*itabTableType)(atomic.Loadp(unsafe.Pointer(&itabTable)))
 	if m = t.find(inter, typ); m != nil {
-		goto finish
+		golangto finish
 	}
 
 	// Not found.  Grab the lock and try again.
 	lock(&itabLock)
 	if m = itabTable.find(inter, typ); m != nil {
 		unlock(&itabLock)
-		goto finish
+		golangto finish
 	}
 
 	// Entry doesn't exist yet. Make a new entry & add it.
-	m = (*itab)(persistentalloc(unsafe.Sizeof(itab{})+uintptr(len(inter.Methods)-1)*goarch.PtrSize, 0, &memstats.other_sys))
+	m = (*itab)(persistentalloc(unsafe.Sizeof(itab{})+uintptr(len(inter.Methods)-1)*golangarch.PtrSize, 0, &memstats.other_sys))
 	m.Inter = inter
 	m.Type = typ
 	// The hash is used in type switches. However, compiler statically generates itab's
@@ -111,7 +111,7 @@ func (t *itabTableType) find(inter *interfacetype, typ *_type) *itab {
 	mask := t.size - 1
 	h := itabHashFunc(inter, typ) & mask
 	for i := uintptr(1); ; i++ {
-		p := (**itab)(add(unsafe.Pointer(&t.entries), h*goarch.PtrSize))
+		p := (**itab)(add(unsafe.Pointer(&t.entries), h*golangarch.PtrSize))
 		// Use atomic read here so if we see m != nil, we also see
 		// the initializations of the fields of m.
 		// m := *p
@@ -144,7 +144,7 @@ func itabAdd(m *itab) {
 		// t2 = new(itabTableType) + some additional entries
 		// We lie and tell malloc we want pointer-free memory because
 		// all the pointed-to values are not in the heap.
-		t2 := (*itabTableType)(mallocgc((2+2*t.size)*goarch.PtrSize, nil, true))
+		t2 := (*itabTableType)(mallocgc((2+2*t.size)*golangarch.PtrSize, nil, true))
 		t2.size = t.size * 2
 
 		// Copy over entries.
@@ -172,7 +172,7 @@ func (t *itabTableType) add(m *itab) {
 	mask := t.size - 1
 	h := itabHashFunc(m.Inter, m.Type) & mask
 	for i := uintptr(1); ; i++ {
-		p := (**itab)(add(unsafe.Pointer(&t.entries), h*goarch.PtrSize))
+		p := (**itab)(add(unsafe.Pointer(&t.entries), h*golangarch.PtrSize))
 		m2 := *p
 		if m2 == m {
 			// A given itab may be used in more than one module
@@ -365,7 +365,7 @@ func convTnoptr(t *_type, v unsafe.Pointer) unsafe.Pointer {
 func convT16(val uint16) (x unsafe.Pointer) {
 	if val < uint16(len(staticuint64s)) {
 		x = unsafe.Pointer(&staticuint64s[val])
-		if goarch.BigEndian {
+		if golangarch.BigEndian {
 			x = add(x, 6)
 		}
 	} else {
@@ -378,7 +378,7 @@ func convT16(val uint16) (x unsafe.Pointer) {
 func convT32(val uint32) (x unsafe.Pointer) {
 	if val < uint32(len(staticuint64s)) {
 		x = unsafe.Pointer(&staticuint64s[val])
-		if goarch.BigEndian {
+		if golangarch.BigEndian {
 			x = add(x, 4)
 		}
 	} else {
@@ -394,9 +394,9 @@ func convT32(val uint32) (x unsafe.Pointer) {
 //   - github.com/bytedance/sonic
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname convT64
+//golang:linkname convT64
 func convT64(val uint64) (x unsafe.Pointer) {
 	if val < uint64(len(staticuint64s)) {
 		x = unsafe.Pointer(&staticuint64s[val])
@@ -413,9 +413,9 @@ func convT64(val uint64) (x unsafe.Pointer) {
 //   - github.com/bytedance/sonic
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname convTstring
+//golang:linkname convTstring
 func convTstring(val string) (x unsafe.Pointer) {
 	if val == "" {
 		x = unsafe.Pointer(&zeroVal[0])
@@ -432,9 +432,9 @@ func convTstring(val string) (x unsafe.Pointer) {
 //   - github.com/bytedance/sonic
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname convTslice
+//golang:linkname convTslice
 func convTslice(val []byte) (x unsafe.Pointer) {
 	// Note: this must work for any element type, not just byte.
 	if (*slice)(unsafe.Pointer(&val)).array == nil {
@@ -474,7 +474,7 @@ func typeAssert(s *abi.TypeAssert, t *_type) *itab {
 		tab = getitab(s.Inter, t, s.CanFail)
 	}
 
-	if !abi.UseInterfaceSwitchCache(goarch.ArchFamily) {
+	if !abi.UseInterfaceSwitchCache(golangarch.ArchFamily) {
 		return tab
 	}
 
@@ -574,7 +574,7 @@ func interfaceSwitch(s *abi.InterfaceSwitch, t *_type) (int, *itab) {
 		}
 	}
 
-	if !abi.UseInterfaceSwitchCache(goarch.ArchFamily) {
+	if !abi.UseInterfaceSwitchCache(golangarch.ArchFamily) {
 		return case_, tab
 	}
 
@@ -663,18 +663,18 @@ var emptyInterfaceSwitchCache = abi.InterfaceSwitchCache{Mask: 0}
 // reflect_ifaceE2I is for package reflect,
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
-//   - gitee.com/quant1x/gox
-//   - github.com/modern-go/reflect2
+//   - gitee.com/quant1x/golangx
+//   - github.com/modern-golang/reflect2
 //   - github.com/v2pro/plz
 //
 // Do not remove or change the type signature.
 //
-//go:linkname reflect_ifaceE2I reflect.ifaceE2I
+//golang:linkname reflect_ifaceE2I reflect.ifaceE2I
 func reflect_ifaceE2I(inter *interfacetype, e eface, dst *iface) {
 	*dst = iface{assertE2I(inter, e._type), e.data}
 }
 
-//go:linkname reflectlite_ifaceE2I internal/reflectlite.ifaceE2I
+//golang:linkname reflectlite_ifaceE2I internal/reflectlite.ifaceE2I
 func reflectlite_ifaceE2I(inter *interfacetype, e eface, dst *iface) {
 	*dst = iface{assertE2I(inter, e._type), e.data}
 }
@@ -684,7 +684,7 @@ func iterate_itabs(fn func(*itab)) {
 	// so no other locks/atomics needed.
 	t := itabTable
 	for i := uintptr(0); i < t.size; i++ {
-		m := *(**itab)(add(unsafe.Pointer(&t.entries), i*goarch.PtrSize))
+		m := *(**itab)(add(unsafe.Pointer(&t.entries), i*golangarch.PtrSize))
 		if m != nil {
 			fn(m)
 		}
@@ -699,7 +699,7 @@ var staticuint64s [256]uint64
 // getStaticuint64s is called by the reflect package to get a pointer
 // to the read-only array.
 //
-//go:linkname getStaticuint64s
+//golang:linkname getStaticuint64s
 func getStaticuint64s() *[256]uint64 {
 	return &staticuint64s
 }

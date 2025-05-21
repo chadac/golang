@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file implements type-checking of identifiers and type expressions.
@@ -8,8 +8,8 @@ package types
 
 import (
 	"fmt"
-	"go/ast"
-	"go/constant"
+	"golang/ast"
+	"golang/constant"
 	. "internal/types/errors"
 	"strings"
 )
@@ -32,14 +32,14 @@ func (check *Checker) ident(x *operand, e *ast.Ident, def *TypeName, wantType bo
 		}
 		return
 	case universeComparable:
-		if !check.verifyVersionf(e, go1_18, "predeclared %s", e.Name) {
+		if !check.verifyVersionf(e, golang1_18, "predeclared %s", e.Name) {
 			return // avoid follow-on errors
 		}
 	}
-	// Because the representation of any depends on gotypesalias, we don't check
+	// Because the representation of any depends on golangtypesalias, we don't check
 	// pointer identity here.
 	if obj.Name() == "any" && obj.Parent() == Universe {
-		if !check.verifyVersionf(e, go1_18, "predeclared %s", e.Name) {
+		if !check.verifyVersionf(e, golang1_18, "predeclared %s", e.Name) {
 			return // avoid follow-on errors
 		}
 	}
@@ -47,9 +47,9 @@ func (check *Checker) ident(x *operand, e *ast.Ident, def *TypeName, wantType bo
 
 	// If we want a type but don't have one, stop right here and avoid potential problems
 	// with missing underlying types. This also gives better error messages in some cases
-	// (see go.dev/issue/65344).
-	_, gotType := obj.(*TypeName)
-	if !gotType && wantType {
+	// (see golang.dev/issue/65344).
+	_, golangtType := obj.(*TypeName)
+	if !golangtType && wantType {
 		check.errorf(e, NotAType, "%s is not a type", obj.Name())
 		// avoid "declared but not used" errors
 		// (don't use Checker.use - we don't want to evaluate too much)
@@ -66,12 +66,12 @@ func (check *Checker) ident(x *operand, e *ast.Ident, def *TypeName, wantType bo
 	// we might detect a cycle which needs to be reported). Otherwise we can skip
 	// the call and avoid a possible cycle error in favor of the more informative
 	// "not a type/value" error that this function's caller will issue (see
-	// go.dev/issue/25790).
+	// golang.dev/issue/25790).
 	//
 	// Note that it is important to avoid calling objDecl on objects from other
 	// packages, to avoid races: see issue #69912.
 	typ := obj.Type()
-	if typ == nil || (gotType && wantType && obj.Pkg() == check.pkg) {
+	if typ == nil || (golangtType && wantType && obj.Pkg() == check.pkg) {
 		check.objDecl(obj, def)
 		typ = obj.Type() // type must have been assigned by Checker.objDecl
 	}
@@ -109,7 +109,7 @@ func (check *Checker) ident(x *operand, e *ast.Ident, def *TypeName, wantType bo
 
 	case *TypeName:
 		if !check.conf._EnableAlias && check.isBrokenAlias(obj) {
-			check.errorf(e, InvalidDeclCycle, "invalid use of type alias %s in recursive type (see go.dev/issue/50729)", obj.name)
+			check.errorf(e, InvalidDeclCycle, "invalid use of type alias %s in recursive type (see golang.dev/issue/50729)", obj.name)
 			return
 		}
 		x.mode = typexpr
@@ -221,9 +221,9 @@ func (check *Checker) genericType(e ast.Expr, cause *string) Type {
 	return typ
 }
 
-// goTypeName returns the Go type name for typ and
+// golangTypeName returns the Go type name for typ and
 // removes any occurrences of "types." from that name.
-func goTypeName(typ Type) string {
+func golangTypeName(typ Type) string {
 	return strings.ReplaceAll(fmt.Sprintf("%T", typ), "types.", "")
 }
 
@@ -242,9 +242,9 @@ func (check *Checker) typInternal(e0 ast.Expr, def *TypeName) (T Type) {
 				under = safeUnderlying(T)
 			}
 			if T == under {
-				check.trace(e0.Pos(), "=> %s // %s", T, goTypeName(T))
+				check.trace(e0.Pos(), "=> %s // %s", T, golangTypeName(T))
 			} else {
-				check.trace(e0.Pos(), "=> %s (under = %s) // %s", T, under, goTypeName(T))
+				check.trace(e0.Pos(), "=> %s (under = %s) // %s", T, under, golangTypeName(T))
 			}
 		}()
 	}
@@ -289,7 +289,7 @@ func (check *Checker) typInternal(e0 ast.Expr, def *TypeName) (T Type) {
 
 	case *ast.IndexExpr, *ast.IndexListExpr:
 		ix := unpackIndexedExpr(e)
-		check.verifyVersionf(inNode(e, ix.lbrack), go1_18, "type instantiation")
+		check.verifyVersionf(inNode(e, ix.lbrack), golang1_18, "type instantiation")
 		return check.instantiatedType(ix, def)
 
 	case *ast.ParenExpr:
@@ -339,7 +339,7 @@ func (check *Checker) typInternal(e0 ast.Expr, def *TypeName) (T Type) {
 		// If typ.base is invalid, it's unlikely that *base is particularly
 		// useful - even a valid dereferenciation will lead to an invalid
 		// type again, and in some cases we get unexpected follow-on errors
-		// (e.g., go.dev/issue/49005). Return an invalid type instead.
+		// (e.g., golang.dev/issue/49005). Return an invalid type instead.
 		if !isValid(typ.base) {
 			return Typ[Invalid]
 		}
@@ -369,7 +369,7 @@ func (check *Checker) typInternal(e0 ast.Expr, def *TypeName) (T Type) {
 		// function, map, or slice."
 		//
 		// Delay this check because it requires fully setup types;
-		// it is safe to continue in any case (was go.dev/issue/6667).
+		// it is safe to continue in any case (was golang.dev/issue/6667).
 		check.later(func() {
 			if !Comparable(typ.key) {
 				var why string

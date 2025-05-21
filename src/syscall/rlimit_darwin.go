@@ -1,12 +1,12 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build darwin
+//golang:build darwin
 
 package syscall
 
-// adjustFileLimit adds per-OS limitations on the Rlimit used for RLIMIT_NOFILE. See rlimit.go.
+// adjustFileLimit adds per-OS limitations on the Rlimit used for RLIMIT_NOFILE. See rlimit.golang.
 func adjustFileLimit(lim *Rlimit) {
 	// On older macOS, setrlimit(RLIMIT_NOFILE, lim) with lim.Cur = infinity fails.
 	// Set to the value of kern.maxfilesperproc instead.

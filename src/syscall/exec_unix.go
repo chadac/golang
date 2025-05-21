@@ -1,8 +1,8 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build unix
+//golang:build unix
 
 // Fork, exec, wait, etc.
 
@@ -168,7 +168,7 @@ func forkExec(argv0 string, argv []string, attr *ProcAttr) (pid int, err error) 
 		return 0, err
 	}
 
-	if (runtime.GOOS == "freebsd" || runtime.GOOS == "dragonfly") && len(argv) > 0 && len(argv[0]) > len(argv0) {
+	if (runtime.GOOS == "freebsd" || runtime.GOOS == "dragolangnfly") && len(argv) > 0 && len(argv[0]) > len(argv0) {
 		argvp[0] = argv0p
 	}
 
@@ -244,7 +244,7 @@ func forkExec(argv0 string, argv []string, attr *ProcAttr) (pid int, err error) 
 		return 0, err
 	}
 
-	// Read got EOF, so pipe closed on exec, so exec succeeded.
+	// Read golangt EOF, so pipe closed on exec, so exec succeeded.
 	return pid, nil
 }
 
@@ -263,7 +263,7 @@ func StartProcess(argv0 string, argv []string, attr *ProcAttr) (pid int, handle 
 func runtime_BeforeExec()
 func runtime_AfterExec()
 
-// execveLibc is non-nil on OS using libc syscall, set to execve in exec_libc.go; this
+// execveLibc is non-nil on OS using libc syscall, set to execve in exec_libc.golang; this
 // avoids a build dependency for other platforms.
 var execveLibc func(path uintptr, argv uintptr, envp uintptr) Errno
 var execveDarwin func(path *byte, argv **byte, envp **byte) error

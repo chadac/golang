@@ -1,4 +1,4 @@
-# https://go.dev/issue/51723: 'go test' should not stamp VCS metadata
+# https://golang.dev/issue/51723: 'golang test' should not stamp VCS metadata
 # in the build settings. (It isn't worth the latency hit, given that
 # test binaries are almost never distributed to users.)
 
@@ -9,11 +9,11 @@ exec git init
 
 # The test binaries should not have VCS settings stamped by default.
 # (The test itself verifies that.)
-go test . ./testonly
+golang test . ./testonly
 
 # However, setting -buildvcs explicitly should override that and
-# stamp anyway (https://go.dev/issue/52648).
-go test -buildvcs -c -o ./testonly.exe ./testonly
+# stamp anyway (https://golang.dev/issue/52648).
+golang test -buildvcs -c -o ./testonly.exe ./testonly
 ! exec ./testonly.exe
 stdout 'unexpected VCS setting: vcs\.modified=true'
 
@@ -25,44 +25,44 @@ env PATH=''
 env path=''
 
 # Compiling the test should not require the VCS tool.
-go test -c -o $devnull .
+golang test -c -o $devnull .
 
 
 # When listing a main package, in general we need its VCS metadata to determine
 # the .Stale and .StaleReason fields.
-! go list -buildvcs=true .
-stderr '^go: missing Git command\. See https://golang\.org/s/gogetcmd\nerror obtaining VCS status: .*\n\tUse -buildvcs=false to disable VCS stamping.'
+! golang list -buildvcs=true .
+stderr '^golang: missing Git command\. See https://golanglang\.org/s/golanggetcmd\nerror obtaining VCS status: .*\n\tUse -buildvcs=false to disable VCS stamping.'
 
 # Adding the -test flag should be strictly additive — it should not suppress the error.
-! go list -buildvcs=true -test .
-stderr '^go: missing Git command\. See https://golang\.org/s/gogetcmd\nerror obtaining VCS status: .*\n\tUse -buildvcs=false to disable VCS stamping.'
+! golang list -buildvcs=true -test .
+stderr '^golang: missing Git command\. See https://golanglang\.org/s/golanggetcmd\nerror obtaining VCS status: .*\n\tUse -buildvcs=false to disable VCS stamping.'
 
 # Adding the suggested flag should suppress the error.
-go list -test -buildvcs=false .
+golang list -test -buildvcs=false .
 ! stderr .
 
 
 # Since the ./testonly package doesn't itself produce an actual binary, we shouldn't
 # invoke a VCS tool to compute a build stamp by default when listing it.
-go list ./testonly
+golang list ./testonly
 ! stderr .
-go list -test ./testonly
+golang list -test ./testonly
 ! stderr .
 
 # Again, setting -buildvcs explicitly should force the use of the VCS tool.
-! go list -buildvcs ./testonly
-stderr '^go: missing Git command\. See https://golang\.org/s/gogetcmd\nerror obtaining VCS status: .*\n\tUse -buildvcs=false to disable VCS stamping.'
-! go list -buildvcs -test ./testonly
-stderr '^go: missing Git command\. See https://golang\.org/s/gogetcmd\nerror obtaining VCS status: .*\n\tUse -buildvcs=false to disable VCS stamping.'
+! golang list -buildvcs ./testonly
+stderr '^golang: missing Git command\. See https://golanglang\.org/s/golanggetcmd\nerror obtaining VCS status: .*\n\tUse -buildvcs=false to disable VCS stamping.'
+! golang list -buildvcs -test ./testonly
+stderr '^golang: missing Git command\. See https://golanglang\.org/s/golanggetcmd\nerror obtaining VCS status: .*\n\tUse -buildvcs=false to disable VCS stamping.'
 
 
--- go.mod --
+-- golang.mod --
 module example
 
-go 1.18
--- example.go --
+golang 1.18
+-- example.golang --
 package main
--- example_test.go --
+-- example_test.golang --
 package main
 
 import (
@@ -82,7 +82,7 @@ func TestDetail(t *testing.T) {
 		}
 	}
 }
--- testonly/main_test.go --
+-- testonly/main_test.golang --
 package main
 
 import (

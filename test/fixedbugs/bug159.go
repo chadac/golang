@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -21,7 +21,7 @@ func main() {
 	// so that the values come out backward.
 	x, y, z = f(), f(), f();
 	if x != 1 || y != 2 || z != 3 {
-		println("xyz: expected 1 2 3 got", x, y, z);
+		println("xyz: expected 1 2 3 golangt", x, y, z);
 		ok = false;
 	}
 
@@ -29,7 +29,7 @@ func main() {
 	// happens after assigning to b.
 	a, b, c = f(), f(), f();
 	if a != 4 || b != 5 || c != 6 {
-		println("abc: expected 4 5 6 got", a, b, c);
+		println("abc: expected 4 5 6 golangt", a, b, c);
 		ok = false;
 	}
 

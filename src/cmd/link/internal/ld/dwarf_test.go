@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ld
@@ -47,7 +47,7 @@ func TestRuntimeTypesPresent(t *testing.T) {
 
 	dir := t.TempDir()
 
-	f := gobuild(t, dir, `package main; func main() { }`, NoOpt)
+	f := golangbuild(t, dir, `package main; func main() { }`, NoOpt)
 	defer f.Close()
 
 	dwarf, err := f.DWARF()
@@ -105,8 +105,8 @@ type builtFile struct {
 	path string
 }
 
-func gobuild(t *testing.T, dir string, testfile string, gcflags string) *builtFile {
-	src := filepath.Join(dir, "test.go")
+func golangbuild(t *testing.T, dir string, testfile string, gcflags string) *builtFile {
+	src := filepath.Join(dir, "test.golang")
 	dst := filepath.Join(dir, "out.exe")
 
 	if err := os.WriteFile(src, []byte(testfile), 0666); err != nil {
@@ -129,9 +129,9 @@ func gobuild(t *testing.T, dir string, testfile string, gcflags string) *builtFi
 	return &builtFile{f, dst}
 }
 
-// Similar to gobuild() above, but uses a main package instead of a test.go file.
+// Similar to golangbuild() above, but uses a main package instead of a test.golang file.
 
-func gobuildTestdata(t *testing.T, pkgDir string, gcflags string) *builtFile {
+func golangbuildTestdata(t *testing.T, pkgDir string, gcflags string) *builtFile {
 	dst := filepath.Join(t.TempDir(), "out.exe")
 
 	// Run a build with an updated GOPATH
@@ -150,10 +150,10 @@ func gobuildTestdata(t *testing.T, pkgDir string, gcflags string) *builtFile {
 }
 
 // Helper to build a snippet of source for examination with dwtest.Examiner.
-func gobuildAndExamine(t *testing.T, source string, gcflags string) (*dwarf.Data, *dwtest.Examiner) {
+func golangbuildAndExamine(t *testing.T, source string, gcflags string) (*dwarf.Data, *dwtest.Examiner) {
 	dir := t.TempDir()
 
-	f := gobuild(t, dir, source, gcflags)
+	f := golangbuild(t, dir, source, gcflags)
 	defer f.Close()
 
 	d, err := f.DWARF()
@@ -223,7 +223,7 @@ func main() {
 
 	dir := t.TempDir()
 
-	f := gobuild(t, dir, prog, NoOpt)
+	f := golangbuild(t, dir, prog, NoOpt)
 
 	defer f.Close()
 
@@ -247,13 +247,13 @@ func main() {
 			if wantMembers == nil {
 				continue
 			}
-			gotMembers, err := findMembers(rdr)
+			golangtMembers, err := findMembers(rdr)
 			if err != nil {
 				t.Fatalf("error reading DWARF: %v", err)
 			}
 
-			if !reflect.DeepEqual(gotMembers, wantMembers) {
-				t.Errorf("type %v: got map[member]embedded = %+v, want %+v", name, wantMembers, gotMembers)
+			if !reflect.DeepEqual(golangtMembers, wantMembers) {
+				t.Errorf("type %v: golangt map[member]embedded = %+v, want %+v", name, wantMembers, golangtMembers)
 			}
 			delete(want, name)
 		}
@@ -266,7 +266,7 @@ func main() {
 func findMembers(rdr *dwarf.Reader) (map[string]bool, error) {
 	memberEmbedded := map[string]bool{}
 	// TODO(hyangah): define in debug/dwarf package
-	const goEmbeddedStruct = dwarf.Attr(intdwarf.DW_AT_go_embedded_field)
+	const golangEmbeddedStruct = dwarf.Attr(intdwarf.DW_AT_golang_embedded_field)
 	for entry, err := rdr.Next(); entry != nil; entry, err = rdr.Next() {
 		if err != nil {
 			return nil, err
@@ -274,7 +274,7 @@ func findMembers(rdr *dwarf.Reader) (map[string]bool, error) {
 		switch entry.Tag {
 		case dwarf.TagMember:
 			name := entry.Val(dwarf.AttrName).(string)
-			embedded := entry.Val(goEmbeddedStruct).(bool)
+			embedded := entry.Val(golangEmbeddedStruct).(bool)
 			memberEmbedded[name] = embedded
 		case 0:
 			return memberEmbedded, nil
@@ -288,7 +288,7 @@ func TestSizes(t *testing.T) {
 
 	// External linking may bring in C symbols with unknown size. Skip.
 	//
-	// N.B. go build below explictly doesn't pass through
+	// N.B. golang build below explictly doesn't pass through
 	// -asan/-msan/-race, so we don't care about those.
 	testenv.MustInternalLink(t, testenv.NoSpecialBuildTypes)
 
@@ -307,7 +307,7 @@ func main() {
 `
 	dir := t.TempDir()
 
-	f := gobuild(t, dir, prog, NoOpt)
+	f := golangbuild(t, dir, prog, NoOpt)
 	defer f.Close()
 	d, err := f.DWARF()
 	if err != nil {
@@ -350,7 +350,7 @@ func main() {
 `
 	dir := t.TempDir()
 
-	f := gobuild(t, dir, prog, NoOpt)
+	f := golangbuild(t, dir, prog, NoOpt)
 	defer f.Close()
 
 	d, err := f.DWARF()
@@ -406,13 +406,13 @@ func main() {}
 		{
 			name: "normal",
 			prog: fmt.Sprintf(prog, ""),
-			file: "test.go",
+			file: "test.golang",
 			line: 3,
 		},
 		{
 			name: "line-directive",
-			prog: fmt.Sprintf(prog, "//line /foobar.go:200"),
-			file: "foobar.go",
+			prog: fmt.Sprintf(prog, "//line /foobar.golang:200"),
+			file: "foobar.golang",
 			line: 200,
 		},
 	}
@@ -421,7 +421,7 @@ func main() {}
 		t.Run(tc.name, func(t *testing.T) {
 			t.Parallel()
 
-			d, ex := gobuildAndExamine(t, tc.prog, NoOpt)
+			d, ex := golangbuildAndExamine(t, tc.prog, NoOpt)
 
 			maindie := findSubprogramDIE(t, ex, "main.main")
 
@@ -477,7 +477,7 @@ func main() {
 		},
 		{
 			name: "line-directive",
-			prog: fmt.Sprintf(prog, "//line /foobar.go:200"),
+			prog: fmt.Sprintf(prog, "//line /foobar.golang:200"),
 			line: 202,
 		},
 	}
@@ -486,7 +486,7 @@ func main() {
 		t.Run(tc.name, func(t *testing.T) {
 			t.Parallel()
 
-			_, ex := gobuildAndExamine(t, tc.prog, NoOpt)
+			_, ex := golangbuildAndExamine(t, tc.prog, NoOpt)
 
 			maindie := findSubprogramDIE(t, ex, "main.main")
 
@@ -529,7 +529,7 @@ package main
 
 var G int
 
-//go:noinline
+//golang:noinline
 func notinlined() int {
 	return 42
 }
@@ -553,13 +553,13 @@ func main() {
 		{
 			name: "normal",
 			prog: fmt.Sprintf(prog, ""),
-			file: "test.go",
+			file: "test.golang",
 			line: 17,
 		},
 		{
 			name: "line-directive",
-			prog: fmt.Sprintf(prog, "//line /foobar.go:200"),
-			file: "foobar.go",
+			prog: fmt.Sprintf(prog, "//line /foobar.golang:200"),
+			file: "foobar.golang",
 			line: 201,
 		},
 	}
@@ -570,10 +570,10 @@ func main() {
 
 			// Note: this is a build with "-l=4", as opposed to "-l -N". The
 			// test is intended to verify DWARF that is only generated when
-			// the inliner is active. We're only going to look at the DWARF for
+			// the inliner is active. We're only golanging to look at the DWARF for
 			// main.main, however, hence we build with "-gcflags=-l=4" as opposed
 			// to "-gcflags=all=-l=4".
-			d, ex := gobuildAndExamine(t, tc.prog, OptInl4)
+			d, ex := golangbuildAndExamine(t, tc.prog, OptInl4)
 
 			maindie := findSubprogramDIE(t, ex, "main.main")
 
@@ -608,7 +608,7 @@ func main() {
 					t.Fatalf("no name attr for inlined subroutine at offset %v", child.Offset)
 				}
 				if name != "main.inlined" {
-					t.Fatalf("expected inlined routine %s got %s", "main.cand", name)
+					t.Fatalf("expected inlined routine %s golangt %s", "main.cand", name)
 				}
 
 				// Verify that the call_file attribute for the inlined
@@ -677,10 +677,10 @@ func main() {
 `
 	// Note: this is a build with "-l=4", as opposed to "-l -N". The
 	// test is intended to verify DWARF that is only generated when
-	// the inliner is active. We're only going to look at the DWARF for
+	// the inliner is active. We're only golanging to look at the DWARF for
 	// main.main, however, hence we build with "-gcflags=-l=4" as opposed
 	// to "-gcflags=all=-l=4".
-	_, ex := gobuildAndExamine(t, prog, OptInl4)
+	_, ex := golangbuildAndExamine(t, prog, OptInl4)
 
 	maindie := findSubprogramDIE(t, ex, "main.main")
 
@@ -715,7 +715,7 @@ func main() {
 			t.Fatalf("no name attr for inlined subroutine at offset %v", child.Offset)
 		}
 		if name != "main.cand" {
-			t.Fatalf("expected inlined routine %s got %s", "main.cand", name)
+			t.Fatalf("expected inlined routine %s golangt %s", "main.cand", name)
 		}
 
 		// Walk the children of the abstract subroutine. We expect
@@ -725,7 +725,7 @@ func main() {
 		absFcnIdx := ex.IdxFromOffset(ooff)
 		absFcnChildDies := ex.Children(absFcnIdx)
 		if len(absFcnChildDies) != 2 {
-			t.Fatalf("expected abstract function: expected 2 children, got %d children", len(absFcnChildDies))
+			t.Fatalf("expected abstract function: expected 2 children, golangt %d children", len(absFcnChildDies))
 		}
 		formalCount := 0
 		for _, absChild := range absFcnChildDies {
@@ -733,10 +733,10 @@ func main() {
 				formalCount += 1
 				continue
 			}
-			t.Fatalf("abstract function child DIE: expected formal, got %v", absChild.Tag)
+			t.Fatalf("abstract function child DIE: expected formal, golangt %v", absChild.Tag)
 		}
 		if formalCount != 2 {
-			t.Fatalf("abstract function DIE: expected 2 formals, got %d", formalCount)
+			t.Fatalf("abstract function DIE: expected 2 formals, golangt %d", formalCount)
 		}
 
 		omap := make(map[dwarf.Offset]bool)
@@ -766,7 +766,7 @@ func abstractOriginSanity(t *testing.T, pkgDir string, flags string) {
 	t.Parallel()
 
 	// Build with inlining, to exercise DWARF inlining support.
-	f := gobuildTestdata(t, filepath.Join(pkgDir, "main"), flags)
+	f := golangbuildTestdata(t, filepath.Join(pkgDir, "main"), flags)
 	defer f.Close()
 
 	d, err := f.DWARF()
@@ -864,7 +864,7 @@ func TestAbstractOriginSanityIssue26237(t *testing.T) {
 
 func TestRuntimeTypeAttrInternal(t *testing.T) {
 	testenv.MustHaveGoBuild(t)
-	// N.B. go build below explictly doesn't pass through
+	// N.B. golang build below explictly doesn't pass through
 	// -asan/-msan/-race, so we don't care about those.
 	testenv.MustInternalLink(t, testenv.NoSpecialBuildTypes)
 
@@ -873,7 +873,7 @@ func TestRuntimeTypeAttrInternal(t *testing.T) {
 	testRuntimeTypeAttr(t, "-ldflags=-linkmode=internal")
 }
 
-// External linking requires a host linker (https://golang.org/src/cmd/cgo/doc.go l.732)
+// External linking requires a host linker (https://golanglang.org/src/cmd/cgolang/doc.golang l.732)
 func TestRuntimeTypeAttrExternal(t *testing.T) {
 	testenv.MustHaveGoBuild(t)
 	testenv.MustHaveCGO(t)
@@ -906,7 +906,7 @@ func main() {
 `
 	dir := t.TempDir()
 
-	f := gobuild(t, dir, prog, flags)
+	f := golangbuild(t, dir, prog, flags)
 	defer f.Close()
 
 	out, err := testenv.Command(t, f.path).CombinedOutput()
@@ -947,7 +947,7 @@ func main() {
 	if len(dies) != 1 {
 		t.Fatalf("wanted 1 DIE named *main.X, found %v", len(dies))
 	}
-	rtAttr := dies[0].Val(intdwarf.DW_AT_go_runtime_type)
+	rtAttr := dies[0].Val(intdwarf.DW_AT_golang_runtime_type)
 	if rtAttr == nil {
 		t.Fatalf("*main.X DIE had no runtime type attr. DIE: %v", dies[0])
 	}
@@ -993,7 +993,7 @@ func main() {
 }
 `
 
-	f := gobuild(t, dir, prog, NoOpt)
+	f := golangbuild(t, dir, prog, NoOpt)
 
 	defer f.Close()
 
@@ -1098,7 +1098,7 @@ func main() {
 }
 `
 
-	f := gobuild(t, dir, prog, NoOpt)
+	f := golangbuild(t, dir, prog, NoOpt)
 
 	defer f.Close()
 
@@ -1162,7 +1162,7 @@ func TestPackageNameAttr(t *testing.T) {
 
 	const prog = "package main\nfunc main() {\nprintln(\"hello world\")\n}\n"
 
-	f := gobuild(t, dir, prog, NoOpt)
+	f := golangbuild(t, dir, prog, NoOpt)
 
 	defer f.Close()
 
@@ -1218,7 +1218,7 @@ func TestMachoIssue32233(t *testing.T) {
 		t.Skip("skipping; test only interesting on darwin")
 	}
 
-	f := gobuildTestdata(t, "testdata/issue32233/main", DefaultOpt)
+	f := golangbuildTestdata(t, "testdata/issue32233/main", DefaultOpt)
 	f.Close()
 }
 
@@ -1238,7 +1238,7 @@ import "fmt"
 func main() {
   fmt.Println("Hello World")
 }`
-	f := gobuild(t, dir, prog, NoOpt)
+	f := golangbuild(t, dir, prog, NoOpt)
 	defer f.Close()
 	exe, err := pe.Open(f.path)
 	if err != nil {
@@ -1293,7 +1293,7 @@ func TestIssue38192(t *testing.T) {
 
 	// Build a test program that contains a translation unit whose
 	// text (from am assembly source) contains only a single instruction.
-	f := gobuildTestdata(t, "testdata/issue38192", DefaultOpt)
+	f := golangbuildTestdata(t, "testdata/issue38192", DefaultOpt)
 	defer f.Close()
 
 	// Open the resulting binary and examine the DWARF it contains.
@@ -1372,7 +1372,7 @@ func TestIssue38192(t *testing.T) {
 	failed := false
 	if len(pcs) < 2 {
 		failed = true
-		t.Errorf("not enough line table rows for main.singleInstruction (got %d, wanted > 1", len(pcs))
+		t.Errorf("not enough line table rows for main.singleInstruction (golangt %d, wanted > 1", len(pcs))
 	}
 	if !line8seen {
 		failed = true
@@ -1405,7 +1405,7 @@ func TestIssue39757(t *testing.T) {
 	// compiler/runtime in ways that aren't happening now, so this
 	// might be something to check for if it does start failing.
 
-	f := gobuildTestdata(t, "testdata/issue39757", DefaultOpt)
+	f := golangbuildTestdata(t, "testdata/issue39757", DefaultOpt)
 	defer f.Close()
 
 	syms, err := f.Symbols()
@@ -1478,8 +1478,8 @@ func TestIssue39757(t *testing.T) {
 		if lne.Address < lowpc || lne.Address > highpc {
 			continue
 		}
-		if !strings.HasSuffix(lne.File.Name, "issue39757main.go") {
-			t.Errorf("found row with file=%s (not issue39757main.go)", lne.File.Name)
+		if !strings.HasSuffix(lne.File.Name, "issue39757main.golang") {
+			t.Errorf("found row with file=%s (not issue39757main.golang)", lne.File.Name)
 		}
 		mainrows++
 	}
@@ -1487,7 +1487,7 @@ func TestIssue39757(t *testing.T) {
 
 	// Make sure we saw a few rows.
 	if mainrows < 3 {
-		t.Errorf("not enough line table rows for main.main (got %d, wanted > 3", mainrows)
+		t.Errorf("not enough line table rows for main.main (golangt %d, wanted > 3", mainrows)
 		for i, r := range rows {
 			t.Logf("row %d: A=%x F=%s L=%d\n", i, r.Address, r.File.Name, r.Line)
 		}
@@ -1498,7 +1498,7 @@ func TestIssue42484(t *testing.T) {
 	testenv.MustHaveGoBuild(t)
 	// Avoid spurious failures from external linkers.
 	//
-	// N.B. go build below explictly doesn't pass through
+	// N.B. golang build below explictly doesn't pass through
 	// -asan/-msan/-race, so we don't care about those.
 	testenv.MustInternalLink(t, testenv.NoSpecialBuildTypes)
 
@@ -1506,7 +1506,7 @@ func TestIssue42484(t *testing.T) {
 
 	t.Parallel()
 
-	f := gobuildTestdata(t, "testdata/issue42484", NoOpt)
+	f := golangbuildTestdata(t, "testdata/issue42484", NoOpt)
 
 	var lastAddr uint64
 	var lastFile string
@@ -1561,7 +1561,7 @@ func TestIssue42484(t *testing.T) {
 // processParams examines the formal parameter children of subprogram
 // DIE "die" using the explorer "ex" and returns a string that
 // captures the name, order, and classification of the subprogram's
-// input and output parameters. For example, for the go function
+// input and output parameters. For example, for the golang function
 //
 //	func foo(i1 int, f1 float64) (string, bool) {
 //
@@ -1631,7 +1631,7 @@ func TestOutputParamAbbrevAndAttr(t *testing.T) {
 	const prog = `
 package main
 
-//go:noinline
+//golang:noinline
 func ABC(c1, c2, c3 int, d1, d2, d3, d4 string, f1, f2, f3 float32, g1 [1024]int) (r1 int, r2 int, r3 [1024]int, r4 byte, r5 string, r6 float32) {
 	g1[0] = 6
 	r1, r2, r3, r4, r5, r6 = c3, c2+c1, g1, 'a', d1+d2+d3+d4, f1+f2+f3
@@ -1644,7 +1644,7 @@ func main() {
 	println(v1, v2, v3[0], v4, v5, v6)
 }
 `
-	_, ex := gobuildAndExamine(t, prog, NoOpt)
+	_, ex := golangbuildAndExamine(t, prog, NoOpt)
 
 	abcdie := findSubprogramDIE(t, ex, "main.ABC")
 
@@ -1656,7 +1656,7 @@ func main() {
 	// set for the returns.
 	expected := "[c1:0:1 c2:1:1 c3:2:1 d1:3:1 d2:4:1 d3:5:1 d4:6:1 f1:7:1 f2:8:1 f3:9:1 g1:10:1 r1:11:2 r2:12:2 r3:13:2 r4:14:2 r5:15:2 r6:16:2]"
 	if found != expected {
-		t.Errorf("param check failed, wanted:\n%s\ngot:\n%s\n",
+		t.Errorf("param check failed, wanted:\n%s\ngolangt:\n%s\n",
 			expected, found)
 	}
 }
@@ -1689,7 +1689,7 @@ func main() {
 `
 
 	dir := t.TempDir()
-	f := gobuild(t, dir, prog, NoOpt)
+	f := golangbuild(t, dir, prog, NoOpt)
 	defer f.Close()
 
 	d, err := f.DWARF()
@@ -1737,8 +1737,8 @@ func main() {
 		if err != nil {
 			t.Fatalf("error reading DWARF: %v", err)
 		}
-		if _, ok := entry.Val(intdwarf.DW_AT_go_dict_index).(int64); !ok {
-			t.Errorf("could not find DW_AT_go_dict_index attribute offset %#x (%T)", off, entry.Val(intdwarf.DW_AT_go_dict_index))
+		if _, ok := entry.Val(intdwarf.DW_AT_golang_dict_index).(int64); !ok {
+			t.Errorf("could not find DW_AT_golang_dict_index attribute offset %#x (%T)", off, entry.Val(intdwarf.DW_AT_golang_dict_index))
 		}
 	}
 
@@ -1752,8 +1752,8 @@ func main() {
 		if len(dies) != 1 {
 			t.Errorf("wanted 1 DIE named %s, found %v", typeName, len(dies))
 		}
-		if dies[0].Val(intdwarf.DW_AT_go_runtime_type).(uint64) == 0 {
-			t.Errorf("type %s does not have DW_AT_go_runtime_type", typeName)
+		if dies[0].Val(intdwarf.DW_AT_golang_runtime_type).(uint64) == 0 {
+			t.Errorf("type %s does not have DW_AT_golang_runtime_type", typeName)
 		}
 	}
 }
@@ -1782,21 +1782,21 @@ package main
 
 // First testcase. All input params in registers, all params used.
 
-//go:noinline
+//golang:noinline
 func tc1(p1, p2 int, p3 string) (int, string) {
 	return p1 + p2, p3 + "foo"
 }
 
 // Second testcase. Some params in registers, some on stack.
 
-//go:noinline
+//golang:noinline
 func tc2(p1 int, p2 [128]int, p3 string) (int, string, [128]int) {
 	return p1 + p2[p1], p3 + "foo", [128]int{p1}
 }
 
 // Third testcase. Named return params.
 
-//go:noinline
+//golang:noinline
 func tc3(p1 int, p2 [128]int, p3 string) (r1 int, r2 bool, r3 string, r4 [128]int) {
 	if p1 == 101 {
 		r1 = p1 + p2[p1]
@@ -1810,7 +1810,7 @@ func tc3(p1 int, p2 [128]int, p3 string) (r1 int, r2 bool, r3 string, r4 [128]in
 
 // Fourth testcase. Some thing are used, some are unused.
 
-//go:noinline
+//golang:noinline
 func tc4(p1, p1un int, p2, p2un [128]int, p3, p3un string) (r1 int, r1un int, r2 bool, r3 string, r4, r4un [128]int) {
 	if p1 == 101 {
 		r1 = p1 + p2[p2[0]]
@@ -1846,7 +1846,7 @@ func main() {
 
 }
 `
-	_, ex := gobuildAndExamine(t, prog, DefaultOpt)
+	_, ex := golangbuildAndExamine(t, prog, DefaultOpt)
 
 	testcases := []struct {
 		tag      string
@@ -1878,7 +1878,7 @@ func main() {
 		// Examine params for this subprogram.
 		foundParams := processParams(die, ex)
 		if foundParams != tc.expected {
-			t.Errorf("check failed for testcase %s -- wanted:\n%s\ngot:%s\n",
+			t.Errorf("check failed for testcase %s -- wanted:\n%s\ngolangt:%s\n",
 				tc.tag, tc.expected, foundParams)
 		}
 	}
@@ -1903,7 +1903,7 @@ func main() {
 `
 
 	dir := t.TempDir()
-	f := gobuild(t, dir, prog, "-ldflags=-debugtramp=2")
+	f := golangbuild(t, dir, prog, "-ldflags=-debugtramp=2")
 	defer f.Close()
 
 	d, err := f.DWARF()
@@ -1946,18 +1946,18 @@ func main() {
 			}
 			t.Fatalf("error reading linentry: %v", err)
 		}
-		// check LE contains an entry to test.go
+		// check LE contains an entry to test.golang
 		if le.File == nil {
 			continue
 		}
 		file := filepath.Base(le.File.Name)
-		if file == "test.go" {
+		if file == "test.golang" {
 			found = true
 			break
 		}
 	}
 	if !found {
-		t.Errorf("no LPT entries for test.go")
+		t.Errorf("no LPT entries for test.golang")
 	}
 }
 
@@ -1986,12 +1986,12 @@ func TestZeroSizedVariable(t *testing.T) {
 
 	// This test verifies that the compiler emits DIEs for zero sized variables
 	// (for example variables of type 'struct {}').
-	// See go.dev/issues/54615.
+	// See golang.dev/issues/54615.
 
 	for _, opt := range []string{NoOpt, DefaultOpt} {
 		opt := opt
 		t.Run(opt, func(t *testing.T) {
-			_, ex := gobuildAndExamine(t, zeroSizedVarProg, opt)
+			_, ex := golangbuildAndExamine(t, zeroSizedVarProg, opt)
 
 			// Locate the main.zeroSizedVariable DIE
 			abcs := ex.Named("zeroSizedVariable")
@@ -2015,16 +2015,16 @@ func TestConsistentGoKindAndRuntimeType(t *testing.T) {
 		t.Skip("skipping test in short mode.")
 	}
 
-	// Ensure that if we emit a "go runtime type" attr on a type DIE,
-	// we also include the "go kind" attribute. See issue #64231.
-	_, ex := gobuildAndExamine(t, zeroSizedVarProg, DefaultOpt)
+	// Ensure that if we emit a "golang runtime type" attr on a type DIE,
+	// we also include the "golang kind" attribute. See issue #64231.
+	_, ex := golangbuildAndExamine(t, zeroSizedVarProg, DefaultOpt)
 
 	// Walk all dies.
 	typesChecked := 0
 	failures := 0
 	for _, die := range ex.DIEs() {
-		// For any type DIE with DW_AT_go_runtime_type set...
-		rtt, hasRT := die.Val(intdwarf.DW_AT_go_runtime_type).(uint64)
+		// For any type DIE with DW_AT_golang_runtime_type set...
+		rtt, hasRT := die.Val(intdwarf.DW_AT_golang_runtime_type).(uint64)
 		if !hasRT || rtt == 0 {
 			continue
 		}
@@ -2033,13 +2033,13 @@ func TestConsistentGoKindAndRuntimeType(t *testing.T) {
 			continue
 		}
 		typesChecked++
-		// ... we want to see a meaningful DW_AT_go_kind value.
-		if val, ok := die.Val(intdwarf.DW_AT_go_kind).(int64); !ok || val == 0 {
+		// ... we want to see a meaningful DW_AT_golang_kind value.
+		if val, ok := die.Val(intdwarf.DW_AT_golang_kind).(int64); !ok || val == 0 {
 			failures++
 			// dump DIEs for first 10 failures.
 			if failures <= 10 {
 				idx := ex.IdxFromOffset(die.Offset)
-				t.Logf("type DIE has DW_AT_go_runtime_type but invalid DW_AT_go_kind:\n")
+				t.Logf("type DIE has DW_AT_golang_runtime_type but invalid DW_AT_golang_kind:\n")
 				ex.DumpEntry(idx, false, 0)
 			}
 			t.Errorf("bad type DIE at offset %d\n", die.Offset)

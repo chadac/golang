@@ -1,9 +1,9 @@
 // run
 
-//go:build amd64
+//golang:build amd64
 
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -14,16 +14,16 @@ type big [10 << 20]byte
 
 func f(x *big, start int64) {
 	if delta := inuse() - start; delta < 9<<20 {
-		println("after alloc: expected delta at least 9MB, got: ", delta)
+		println("after alloc: expected delta at least 9MB, golangt: ", delta)
 	}
 	runtime.KeepAlive(x)
 	x = nil
 	if delta := inuse() - start; delta > 1<<20 {
-		println("after drop: expected delta below 1MB, got: ", delta)
+		println("after drop: expected delta below 1MB, golangt: ", delta)
 	}
 	x = new(big)
 	if delta := inuse() - start; delta < 9<<20 {
-		println("second alloc: expected delta at least 9MB, got: ", delta)
+		println("second alloc: expected delta at least 9MB, golangt: ", delta)
 	}
 	runtime.KeepAlive(x)
 }

@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package sync provides basic synchronization primitives such as mutual
@@ -32,16 +32,16 @@ const (
 	//
 	// Mutex can be in 2 modes of operations: normal and starvation.
 	// In normal mode waiters are queued in FIFO order, but a woken up waiter
-	// does not own the mutex and competes with new arriving goroutines over
-	// the ownership. New arriving goroutines have an advantage -- they are
+	// does not own the mutex and competes with new arriving golangroutines over
+	// the ownership. New arriving golangroutines have an advantage -- they are
 	// already running on CPU and there can be lots of them, so a woken up
-	// waiter has good chances of losing. In such case it is queued at front
+	// waiter has golangod chances of losing. In such case it is queued at front
 	// of the wait queue. If a waiter fails to acquire the mutex for more than 1ms,
 	// it switches mutex to the starvation mode.
 	//
 	// In starvation mode ownership of the mutex is directly handed off from
-	// the unlocking goroutine to the waiter at the front of the queue.
-	// New arriving goroutines don't try to acquire the mutex even if it appears
+	// the unlocking golangroutine to the waiter at the front of the queue.
+	// New arriving golangroutines don't try to acquire the mutex even if it appears
 	// to be unlocked, and don't try to spin. Instead they queue themselves at
 	// the tail of the wait queue.
 	//
@@ -49,7 +49,7 @@ const (
 	// (1) it is the last waiter in the queue, or (2) it waited for less than 1 ms,
 	// it switches mutex back to normal operation mode.
 	//
-	// Normal mode has considerably better performance as a goroutine can acquire
+	// Normal mode has considerably better performance as a golangroutine can acquire
 	// a mutex several times in a row even if there are blocked waiters.
 	// Starvation mode is important to prevent pathological cases of tail latency.
 	starvationThresholdNs = 1e6
@@ -79,9 +79,9 @@ func (m *Mutex) TryLock() bool {
 		return false
 	}
 
-	// There may be a goroutine waiting for the mutex, but we are
+	// There may be a golangroutine waiting for the mutex, but we are
 	// running now and can try to grab the mutex before that
-	// goroutine wakes up.
+	// golangroutine wakes up.
 	if !atomic.CompareAndSwapInt32(&m.state, old, old|mutexLocked) {
 		return false
 	}
@@ -104,7 +104,7 @@ func (m *Mutex) lockSlow() {
 		if old&(mutexLocked|mutexStarving) == mutexLocked && runtime_canSpin(iter) {
 			// Active spinning makes sense.
 			// Try to set mutexWoken flag to inform Unlock
-			// to not wake other blocked goroutines.
+			// to not wake other blocked golangroutines.
 			if !awoke && old&mutexWoken == 0 && old>>mutexWaiterShift != 0 &&
 				atomic.CompareAndSwapInt32(&m.state, old, old|mutexWoken) {
 				awoke = true
@@ -115,14 +115,14 @@ func (m *Mutex) lockSlow() {
 			continue
 		}
 		new := old
-		// Don't try to acquire starving mutex, new arriving goroutines must queue.
+		// Don't try to acquire starving mutex, new arriving golangroutines must queue.
 		if old&mutexStarving == 0 {
 			new |= mutexLocked
 		}
 		if old&(mutexLocked|mutexStarving) != 0 {
 			new += 1 << mutexWaiterShift
 		}
-		// The current goroutine switches mutex to starvation mode.
+		// The current golangroutine switches mutex to starvation mode.
 		// But if the mutex is currently unlocked, don't do the switch.
 		// Unlock expects that starving mutex has waiters, which will not
 		// be true in this case.
@@ -130,7 +130,7 @@ func (m *Mutex) lockSlow() {
 			new |= mutexStarving
 		}
 		if awoke {
-			// The goroutine has been woken from sleep,
+			// The golangroutine has been woken from sleep,
 			// so we need to reset the flag in either case.
 			if new&mutexWoken == 0 {
 				throw("sync: inconsistent mutex state")
@@ -150,7 +150,7 @@ func (m *Mutex) lockSlow() {
 			starving = starving || runtime_nanotime()-waitStartTime > starvationThresholdNs
 			old = m.state
 			if old&mutexStarving != 0 {
-				// If this goroutine was woken and mutex is in starvation mode,
+				// If this golangroutine was woken and mutex is in starvation mode,
 				// ownership was handed off to us but mutex is in somewhat
 				// inconsistent state: mutexLocked is not set and we are still
 				// accounted as waiter. Fix that.
@@ -161,8 +161,8 @@ func (m *Mutex) lockSlow() {
 				if !starving || old>>mutexWaiterShift == 1 {
 					// Exit starvation mode.
 					// Critical to do it here and consider wait time.
-					// Starvation mode is so inefficient, that two goroutines
-					// can go lock-step infinitely once they switch mutex
+					// Starvation mode is so inefficient, that two golangroutines
+					// can golang lock-step infinitely once they switch mutex
 					// to starvation mode.
 					delta -= mutexStarving
 				}
@@ -206,10 +206,10 @@ func (m *Mutex) unlockSlow(new int32) {
 	if new&mutexStarving == 0 {
 		old := new
 		for {
-			// If there are no waiters or a goroutine has already
+			// If there are no waiters or a golangroutine has already
 			// been woken or grabbed the lock, no need to wake anyone.
 			// In starvation mode ownership is directly handed off from unlocking
-			// goroutine to the next waiter. We are not part of this chain,
+			// golangroutine to the next waiter. We are not part of this chain,
 			// since we did not observe mutexStarving when we unlocked the mutex above.
 			// So get off the way.
 			if old>>mutexWaiterShift == 0 || old&(mutexLocked|mutexWoken|mutexStarving) != 0 {
@@ -228,7 +228,7 @@ func (m *Mutex) unlockSlow(new int32) {
 		// our time slice so that the next waiter can start to run immediately.
 		// Note: mutexLocked is not set, the waiter will set it after wakeup.
 		// But mutex is still considered locked if mutexStarving is set,
-		// so new coming goroutines won't acquire it.
+		// so new coming golangroutines won't acquire it.
 		runtime_Semrelease(&m.sema, true, 2)
 	}
 }

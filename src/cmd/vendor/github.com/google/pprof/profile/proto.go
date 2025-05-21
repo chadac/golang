@@ -9,12 +9,12 @@
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
+// See the License for the specific language golangverning permissions and
 // limitations under the License.
 
 // This file is a simple protocol buffer encoder and decoder.
 // The format is described at
-// https://developers.google.com/protocol-buffers/docs/encoding
+// https://developers.golangogle.com/protocol-buffers/docs/encoding
 //
 // A protocol message must implement the message interface:
 //   decoder() []decoder
@@ -27,7 +27,7 @@
 // The two methods are simple enough to be implemented by hand rather than
 // by using a protocol compiler.
 //
-// See profile.go for examples of messages implementing this interface.
+// See profile.golang for examples of messages implementing this interface.
 //
 // There is no support for groups, message sets, or "has" bits.
 

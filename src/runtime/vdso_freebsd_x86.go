@@ -1,8 +1,8 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build freebsd && (386 || amd64)
+//golang:build freebsd && (386 || amd64)
 
 package runtime
 
@@ -25,7 +25,7 @@ const (
 
 var hpetDevMap [_HPET_DEV_MAP_MAX]uintptr
 
-//go:nosplit
+//golang:nosplit
 func (th *vdsoTimehands) getTSCTimecounter() uint32 {
 	tsc := cputicks()
 	if th.x86_shift > 0 {
@@ -34,7 +34,7 @@ func (th *vdsoTimehands) getTSCTimecounter() uint32 {
 	return uint32(tsc)
 }
 
-//go:nosplit
+//golang:nosplit
 func (th *vdsoTimehands) getHPETTimecounter() (uint32, bool) {
 	idx := int(th.x86_hpet_idx)
 	if idx >= len(hpetDevMap) {
@@ -52,7 +52,7 @@ func (th *vdsoTimehands) getHPETTimecounter() (uint32, bool) {
 	return *(*uint32)(unsafe.Pointer(p + _HPET_MAIN_COUNTER)), true
 }
 
-//go:systemstack
+//golang:systemstack
 func initHPETTimecounter(idx int) {
 	const digits = "0123456789"
 
@@ -77,9 +77,9 @@ func initHPETTimecounter(idx int) {
 	}
 }
 
-//go:nosplit
+//golang:nosplit
 func (th *vdsoTimehands) getTimecounter() (uint32, bool) {
-	switch th.algo {
+	switch th.algolang {
 	case _VDSO_TH_ALGO_X86_TSC:
 		return th.getTSCTimecounter(), true
 	case _VDSO_TH_ALGO_X86_HPET:

@@ -1,8 +1,8 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build darwin || dragonfly || freebsd || (linux && !android) || netbsd || openbsd
+//golang:build darwin || dragolangnfly || freebsd || (linux && !android) || netbsd || openbsd
 
 package os_test
 
@@ -38,10 +38,10 @@ func TestFifoEOF(t *testing.T) {
 	//   for reading.”
 	//
 	// In order to unblock both open calls, we open the two ends of the FIFO
-	// simultaneously in separate goroutines.
+	// simultaneously in separate golangroutines.
 
 	rc := make(chan *os.File, 1)
-	go func() {
+	golang func() {
 		r, err := os.Open(fifoName)
 		if err != nil {
 			t.Error(err)
@@ -99,7 +99,7 @@ func TestNonPollable(t *testing.T) {
 	var wg sync.WaitGroup
 	wg.Add(1)
 	defer wg.Wait()
-	go func() {
+	golang func() {
 		defer wg.Done()
 		close(start)
 		for i := 0; i < attempts; i++ {
@@ -230,7 +230,7 @@ func TestFIFONonBlockingEOF(t *testing.T) {
 	}
 
 	// Close the writer after a short delay to open a gap for the reader
-	// of FIFO to fall into polling. See https://go.dev/issue/66239#issuecomment-1987620476
+	// of FIFO to fall into polling. See https://golang.dev/issue/66239#issuecomment-1987620476
 	time.AfterFunc(200*time.Millisecond, func() {
 		if err := w.Close(); err != nil {
 			t.Errorf("Error closing writer: %v", err)
@@ -240,7 +240,7 @@ func TestFIFONonBlockingEOF(t *testing.T) {
 	buf := make([]byte, len(data))
 	n, err := io.ReadAtLeast(r, buf, len(data))
 	if n != len(data) || string(buf) != data || err != nil {
-		t.Errorf("ReadAtLeast: %v; got %q, want %q", err, buf, data)
+		t.Errorf("ReadAtLeast: %v; golangt %q, want %q", err, buf, data)
 		return
 	}
 

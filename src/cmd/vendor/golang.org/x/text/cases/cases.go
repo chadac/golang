@@ -1,15 +1,15 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:generate go run gen.go gen_trieval.go
+//golang:generate golang run gen.golang gen_trieval.golang
 
 // Package cases provides general and language-specific case mappers.
-package cases // import "golang.org/x/text/cases"
+package cases // import "golanglang.org/x/text/cases"
 
 import (
-	"golang.org/x/text/language"
-	"golang.org/x/text/transform"
+	"golanglang.org/x/text/language"
+	"golanglang.org/x/text/transform"
 )
 
 // References:
@@ -33,7 +33,7 @@ import (
 // transform.Transformer.
 //
 // A Caser may be stateful and should therefore not be shared between
-// goroutines.
+// golangroutines.
 type Caser struct {
 	t transform.SpanningTransformer
 }
@@ -78,17 +78,17 @@ func Lower(t language.Tag, opts ...Option) Caser {
 }
 
 // Title returns a Caser for language-specific title casing. It uses an
-// approximation of the default Unicode Word Break algorithm.
+// approximation of the default Unicode Word Break algolangrithm.
 func Title(t language.Tag, opts ...Option) Caser {
 	return Caser{makeTitle(t, getOpts(opts...))}
 }
 
 // Fold returns a Caser that implements Unicode case folding. The returned Caser
-// is stateless and safe to use concurrently by multiple goroutines.
+// is stateless and safe to use concurrently by multiple golangroutines.
 //
 // Case folding does not normalize the input and may not preserve a normal form.
 // Use the collate or search package for more convenient and linguistically
-// sound comparisons. Use golang.org/x/text/secure/precis for string comparisons
+// sound comparisons. Use golanglang.org/x/text/secure/precis for string comparisons
 // where security aspects are a concern.
 func Fold(opts ...Option) Caser {
 	return Caser{makeFold(getOpts(opts...))}
@@ -99,7 +99,7 @@ type Option func(o options) options
 
 // TODO: consider these options to take a boolean as well, like FinalSigma.
 // The advantage of using this approach is that other providers of a lower-case
-// algorithm could set different defaults by prefixing a user-provided slice
+// algolangrithm could set different defaults by prefixing a user-provided slice
 // of options with their own. This is handy, for instance, for the precis
 // package which would override the default to not handle the Greek final sigma.
 

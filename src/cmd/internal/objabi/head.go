@@ -38,7 +38,7 @@ type HeadType uint8
 const (
 	Hunknown HeadType = iota
 	Hdarwin
-	Hdragonfly
+	Hdragolangnfly
 	Hfreebsd
 	Hjs
 	Hlinux
@@ -57,8 +57,8 @@ func (h *HeadType) Set(s string) error {
 		*h = Haix
 	case "darwin", "ios":
 		*h = Hdarwin
-	case "dragonfly":
-		*h = Hdragonfly
+	case "dragolangnfly":
+		*h = Hdragolangnfly
 	case "freebsd":
 		*h = Hfreebsd
 	case "js":
@@ -89,8 +89,8 @@ func (h HeadType) String() string {
 		return "aix"
 	case Hdarwin:
 		return "darwin"
-	case Hdragonfly:
-		return "dragonfly"
+	case Hdragolangnfly:
+		return "dragolangnfly"
 	case Hfreebsd:
 		return "freebsd"
 	case Hjs:

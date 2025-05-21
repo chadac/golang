@@ -1,12 +1,12 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package math
 
 // The original C code, the long comment, and the constants
 // below are from FreeBSD's /usr/src/lib/msun/src/s_log1p.c
-// and came with this notice. The go code is a simplified
+// and came with this notice. The golang code is a simplified
 // version of the original C.
 //
 // ====================================================
@@ -37,7 +37,7 @@ package math
 //      Let s = f/(2+f) ; based on log(1+f) = log(1+s) - log(1-s)
 //               = 2s + 2/3 s**3 + 2/5 s**5 + .....,
 //               = 2s + s*R
-//      We use a special Reme algorithm on [0,0.1716] to generate
+//      We use a special Reme algolangrithm on [0,0.1716] to generate
 //      a polynomial of degree 14 to approximate R The maximum error
 //      of this polynomial approximation is bounded by 2**-58.45. In
 //      other words,
@@ -75,7 +75,7 @@ package math
 // to produce the hexadecimal values shown.
 //
 // Note: Assuming log() return accurate answer, the following
-//       algorithm can be used to compute log1p(x) to within a few ULP:
+//       algolangrithm can be used to compute log1p(x) to within a few ULP:
 //
 //              u = 1+x;
 //              if(u==1.0) return x ; else

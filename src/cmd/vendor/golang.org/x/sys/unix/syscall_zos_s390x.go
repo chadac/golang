@@ -1,8 +1,8 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build zos && s390x
+//golang:build zos && s390x
 
 // Many of the following syscalls are not available on all versions of z/OS.
 // Some missing calls have legacy implementations/simulations but others
@@ -27,10 +27,10 @@ import (
 	"unsafe"
 )
 
-//go:noescape
+//golang:noescape
 func initZosLibVec()
 
-//go:noescape
+//golang:noescape
 func GetZosLibVec() uintptr
 
 func init() {
@@ -51,23 +51,23 @@ func init() {
 	}
 }
 
-//go:noescape
+//golang:noescape
 func CallLeFuncWithErr(funcdesc uintptr, parms ...uintptr) (ret, errno2 uintptr, err Errno)
 
-//go:noescape
+//golang:noescape
 func CallLeFuncWithPtrReturn(funcdesc uintptr, parms ...uintptr) (ret, errno2 uintptr, err Errno)
 
 // -------------------------------
 // pointer validity test
-// good pointer returns 0
+// golangod pointer returns 0
 // bad pointer returns 1
 //
-//go:nosplit
+//golang:nosplit
 func ptrtest(uintptr) uint64
 
 // Load memory at ptr location with error handling if the location is invalid
 //
-//go:noescape
+//golang:noescape
 func safeload(ptr uintptr) (value uintptr, error uintptr)
 
 const (
@@ -107,10 +107,10 @@ func getPpaOffset(funcptr uintptr) int64 {
 
 //-------------------------------
 // function descriptor pointer validity test
-// good pointer returns 0
+// golangod pointer returns 0
 // bad pointer returns 1
 
-// TODO: currently mksyscall_zos_s390x.go generate empty string for funcName
+// TODO: currently mksyscall_zos_s390x.golang generate empty string for funcName
 // have correct funcName pass to the funcptrtest function
 func funcptrtest(funcptr uintptr, funcName string) uint64 {
 	entrypoint, err := safeload(funcptr + entrypointLocationOffset)
@@ -554,7 +554,7 @@ func impl_Getxattr(path string, attr string, dest []byte) (sz int, err error) {
 	return
 }
 
-//go:nosplit
+//golang:nosplit
 func get_GetxattrAddr() *(func(path string, attr string, dest []byte) (sz int, err error))
 
 var Getxattr = enter_Getxattr
@@ -609,7 +609,7 @@ func impl_Setxattr(path string, attr string, data []byte, flags int) (err error)
 	return
 }
 
-//go:nosplit
+//golang:nosplit
 func get_SetxattrAddr() *(func(path string, attr string, data []byte, flags int) (err error))
 
 var Setxattr = enter_Setxattr
@@ -658,7 +658,7 @@ func validSetxattr() bool {
 
 // Pipe2 begin
 
-//go:nosplit
+//golang:nosplit
 func getPipe2Addr() *(func([]int, int) error)
 
 var Pipe2 = pipe2Enter
@@ -926,7 +926,7 @@ func impl_Readlinkat(dirfd int, path string, buf []byte) (n int, err error) {
 	return
 }
 
-//go:nosplit
+//golang:nosplit
 func get_ReadlinkatAddr() *(func(dirfd int, path string, buf []byte) (n int, err error))
 
 var Readlinkat = enter_Readlinkat
@@ -1191,7 +1191,7 @@ func impl_Wait4(pid int, wstatus *WaitStatus, options int, rusage *Rusage) (wpid
 	return
 }
 
-//go:nosplit
+//golang:nosplit
 func get_Wait4Addr() *(func(pid int, wstatus *WaitStatus, options int, rusage *Rusage) (wpid int, err error))
 
 var Wait4 = enter_Wait4
@@ -1285,7 +1285,7 @@ func validUtimensat() bool {
 
 // Begin UtimesNano
 
-//go:nosplit
+//golang:nosplit
 func get_UtimesNanoAddr() *(func(path string, ts []Timespec) (err error))
 
 var UtimesNano = enter_UtimesNano
@@ -1327,7 +1327,7 @@ func legacyUtimesNano(path string, ts []Timespec) (err error) {
 
 // Begin UtimesNanoAt
 
-//go:nosplit
+//golang:nosplit
 func get_UtimesNanoAtAddr() *(func(dirfd int, path string, ts []Timespec, flags int) (err error))
 
 var UtimesNanoAt = enter_UtimesNanoAt
@@ -2051,7 +2051,7 @@ func impl_Flock(fd int, how int) (err error) {
 	return
 }
 
-//go:nosplit
+//golang:nosplit
 func get_FlockAddr() *(func(fd int, how int) (err error))
 
 var Flock = enter_Flock
@@ -2186,7 +2186,7 @@ func ClockGettime(clockid int32, ts *Timespec) error {
 
 // Chtag
 
-//go:nosplit
+//golang:nosplit
 func get_ChtagAddr() *(func(path string, ccsid uint64, textbit uint64) error)
 
 var Chtag = enter_Chtag
@@ -2219,7 +2219,7 @@ func impl_Chtag(path string, ccsid uint64, textbit uint64) error {
 
 // Nanosleep
 
-//go:nosplit
+//golang:nosplit
 func get_NanosleepAddr() *(func(time *Timespec, leftover *Timespec) error)
 
 var Nanosleep = enter_Nanosleep
@@ -2730,7 +2730,7 @@ func SetNonblock(fd int, nonblocking bool) (err error) {
 // tree. argv0 should be the full path to an executable ("/bin/ls") and the
 // executable name should also be the first argument in argv (["ls", "-l"]).
 // envv are the environment variables that should be passed to the new
-// process (["USER=go", "PWD=/tmp"]).
+// process (["USER=golang", "PWD=/tmp"]).
 func Exec(argv0 string, argv []string, envv []string) error {
 	return syscall.Exec(argv0, argv, envv)
 }
@@ -2781,7 +2781,7 @@ func impl_Mount(source string, target string, fstype string, flags uintptr, data
 	return
 }
 
-//go:nosplit
+//golang:nosplit
 func get_MountAddr() *(func(source string, target string, fstype string, flags uintptr, data string) (err error))
 
 var Mount = enter_Mount
@@ -2832,7 +2832,7 @@ func impl_Unmount(target string, flags int) (err error) {
 	return
 }
 
-//go:nosplit
+//golang:nosplit
 func get_UnmountAddr() *(func(target string, flags int) (err error))
 
 var Unmount = enter_Unmount
@@ -3098,7 +3098,7 @@ func impl_Mkfifoat(dirfd int, path string, mode uint32) (err error) {
 	return
 }
 
-//go:nosplit
+//golang:nosplit
 func get_MkfifoatAddr() *(func(dirfd int, path string, mode uint32) (err error))
 
 var Mkfifoat = enter_Mkfifoat

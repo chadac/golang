@@ -1,10 +1,10 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:generate go run gen.go -output md5block.go
+//golang:generate golang run gen.golang -output md5block.golang
 
-// Package md5 implements the MD5 hash algorithm as defined in RFC 1321.
+// Package md5 implements the MD5 hash algolangrithm as defined in RFC 1321.
 //
 // MD5 is cryptographically broken and should not be used for secure
 // applications.

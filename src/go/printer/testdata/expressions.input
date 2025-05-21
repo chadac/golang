@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package expressions
@@ -606,7 +606,7 @@ func addState(s []state, inst instr, match []int) {
 	// handle comments correctly in multi-line expressions
 	for i := 0; i < l; i++ {
 		if s[i].inst.index() == index && // same instruction
-		   s[i].match[0] < pos {	// earlier match already going; leftmost wins
+		   s[i].match[0] < pos {	// earlier match already golanging; leftmost wins
 		   	return s
 		 }
 	}
@@ -738,7 +738,7 @@ func _() {
 }
 
 // Literal function types in conversions must be parenthesized;
-// for now go/parser accepts the unparenthesized form where it
+// for now golang/parser accepts the unparenthesized form where it
 // is non-ambiguous.
 func _() {
 	// these conversions should be rewritten to look

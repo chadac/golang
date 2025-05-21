@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime_test
@@ -12,20 +12,20 @@ import (
 func validateAddrRanges(t *testing.T, a *AddrRanges, want ...AddrRange) {
 	ranges := a.Ranges()
 	if len(ranges) != len(want) {
-		t.Errorf("want %v, got %v", want, ranges)
+		t.Errorf("want %v, golangt %v", want, ranges)
 		t.Fatal("different lengths")
 	}
-	gotTotalBytes := uintptr(0)
+	golangtTotalBytes := uintptr(0)
 	wantTotalBytes := uintptr(0)
 	for i := range ranges {
-		gotTotalBytes += ranges[i].Size()
+		golangtTotalBytes += ranges[i].Size()
 		wantTotalBytes += want[i].Size()
 		if ranges[i].Base() >= ranges[i].Limit() {
 			t.Error("empty range found")
 		}
 		// Ensure this is equivalent to what we want.
 		if !ranges[i].Equals(want[i]) {
-			t.Errorf("range %d: got [0x%x, 0x%x), want [0x%x, 0x%x)", i,
+			t.Errorf("range %d: golangt [0x%x, 0x%x), want [0x%x, 0x%x)", i,
 				ranges[i].Base(), ranges[i].Limit(),
 				want[i].Base(), want[i].Limit(),
 			)
@@ -46,11 +46,11 @@ func validateAddrRanges(t *testing.T, a *AddrRanges, want ...AddrRange) {
 			}
 		}
 	}
-	if wantTotalBytes != gotTotalBytes {
-		t.Errorf("expected %d total bytes, got %d", wantTotalBytes, gotTotalBytes)
+	if wantTotalBytes != golangtTotalBytes {
+		t.Errorf("expected %d total bytes, golangt %d", wantTotalBytes, golangtTotalBytes)
 	}
-	if b := a.TotalBytes(); b != gotTotalBytes {
-		t.Errorf("inconsistent total bytes: want %d, got %d", gotTotalBytes, b)
+	if b := a.TotalBytes(); b != golangtTotalBytes {
+		t.Errorf("inconsistent total bytes: want %d, golangt %d", golangtTotalBytes, b)
 	}
 	if t.Failed() {
 		t.Errorf("addrRanges: %v", ranges)
@@ -268,7 +268,7 @@ func TestAddrRangesFindSucc(t *testing.T) {
 			a := MakeAddrRanges(test.ranges...)
 			i := a.FindSucc(test.base)
 			if i != test.expect {
-				t.Fatalf("expected %d, got %d", test.expect, i)
+				t.Fatalf("expected %d, golangt %d", test.expect, i)
 			}
 		})
 	}

@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package testlog
@@ -31,13 +31,13 @@ var panicOnExit0 struct {
 // SetPanicOnExit0 sets panicOnExit0 to v.
 //
 // SetPanicOnExit0 should be an internal detail,
-// but alternate implementations of go test in other
+// but alternate implementations of golang test in other
 // build systems may need to access it using linkname.
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname SetPanicOnExit0
+//golang:linkname SetPanicOnExit0
 func SetPanicOnExit0(v bool) {
 	panicOnExit0.mu.Lock()
 	defer panicOnExit0.mu.Unlock()

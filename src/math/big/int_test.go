@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package big
@@ -53,7 +53,7 @@ func TestSignZ(t *testing.T) {
 		s := a.z.Sign()
 		e := a.z.Cmp(&zero)
 		if s != e {
-			t.Errorf("got %d; want %d for z = %v", s, e, a.z)
+			t.Errorf("golangt %d; want %d for z = %v", s, e, a.z)
 		}
 	}
 }
@@ -66,7 +66,7 @@ func TestSetZ(t *testing.T) {
 			t.Errorf("%v is not normalized", z)
 		}
 		if (&z).Cmp(a.z) != 0 {
-			t.Errorf("got z = %v; want %v", z, a.z)
+			t.Errorf("golangt z = %v; want %v", z, a.z)
 		}
 	}
 }
@@ -82,7 +82,7 @@ func TestAbsZ(t *testing.T) {
 			e.Sub(&zero, &e)
 		}
 		if z.Cmp(&e) != 0 {
-			t.Errorf("got z = %v; want %v", z, e)
+			t.Errorf("golangt z = %v; want %v", z, e)
 		}
 	}
 }
@@ -94,7 +94,7 @@ func testFunZZ(t *testing.T, msg string, f funZZ, a argZZ) {
 		t.Errorf("%s%v is not normalized", msg, z)
 	}
 	if (&z).Cmp(a.z) != 0 {
-		t.Errorf("%v %s %v\n\tgot z = %v; want %v", a.x, msg, a.y, &z, a.z)
+		t.Errorf("%v %s %v\n\tgolangt z = %v; want %v", a.x, msg, a.y, &z, a.z)
 	}
 }
 
@@ -218,14 +218,14 @@ func TestMulRangeZ(t *testing.T) {
 		}
 		prod := tmp.MulRange(int64(r.a), int64(r.b)).String()
 		if prod != r.prod {
-			t.Errorf("#%da: got %s; want %s", i, prod, r.prod)
+			t.Errorf("#%da: golangt %s; want %s", i, prod, r.prod)
 		}
 	}
 	// test other ranges
 	for i, r := range mulRangesZ {
 		prod := tmp.MulRange(r.a, r.b).String()
 		if prod != r.prod {
-			t.Errorf("#%db: got %s; want %s", i, prod, r.prod)
+			t.Errorf("#%db: golangt %s; want %s", i, prod, r.prod)
 		}
 	}
 }
@@ -256,8 +256,8 @@ func TestBinomial(t *testing.T) {
 		{1000, 10, "263409560461970212832400"},
 		{1000, 990, "263409560461970212832400"},
 	} {
-		if got := z.Binomial(test.n, test.k).String(); got != test.want {
-			t.Errorf("Binomial(%d, %d) = %s; want %s", test.n, test.k, got, test.want)
+		if golangt := z.Binomial(test.n, test.k).String(); golangt != test.want {
+			t.Errorf("Binomial(%d, %d) = %s; want %s", test.n, test.k, golangt, test.want)
 		}
 	}
 }
@@ -301,7 +301,7 @@ func TestDivisionSigns(t *testing.T) {
 			t.Errorf("#%d Rem: %v is not normalized", i, *r1)
 		}
 		if q1.Cmp(q) != 0 || r1.Cmp(r) != 0 {
-			t.Errorf("#%d QuoRem: got (%s, %s), want (%s, %s)", i, q1, r1, q, r)
+			t.Errorf("#%d QuoRem: golangt (%s, %s), want (%s, %s)", i, q1, r1, q, r)
 		}
 
 		q2, r2 := new(Int).QuoRem(x, y, new(Int))
@@ -312,7 +312,7 @@ func TestDivisionSigns(t *testing.T) {
 			t.Errorf("#%d Rem: %v is not normalized", i, *r2)
 		}
 		if q2.Cmp(q) != 0 || r2.Cmp(r) != 0 {
-			t.Errorf("#%d QuoRem: got (%s, %s), want (%s, %s)", i, q2, r2, q, r)
+			t.Errorf("#%d QuoRem: golangt (%s, %s), want (%s, %s)", i, q2, r2, q, r)
 		}
 
 		d1 := new(Int).Div(x, y)
@@ -324,7 +324,7 @@ func TestDivisionSigns(t *testing.T) {
 			t.Errorf("#%d Mod: %v is not normalized", i, *m1)
 		}
 		if d1.Cmp(d) != 0 || m1.Cmp(m) != 0 {
-			t.Errorf("#%d DivMod: got (%s, %s), want (%s, %s)", i, d1, m1, d, m)
+			t.Errorf("#%d DivMod: golangt (%s, %s), want (%s, %s)", i, d1, m1, d, m)
 		}
 
 		d2, m2 := new(Int).DivMod(x, y, new(Int))
@@ -335,7 +335,7 @@ func TestDivisionSigns(t *testing.T) {
 			t.Errorf("#%d Mod: %v is not normalized", i, *m2)
 		}
 		if d2.Cmp(d) != 0 || m2.Cmp(m) != 0 {
-			t.Errorf("#%d DivMod: got (%s, %s), want (%s, %s)", i, d2, m2, d, m)
+			t.Errorf("#%d DivMod: golangt (%s, %s), want (%s, %s)", i, d2, m2, d, m)
 		}
 	}
 }
@@ -359,14 +359,14 @@ func TestBits(t *testing.T) {
 	} {
 		var z Int
 		z.neg = true
-		got := z.SetBits(test)
+		golangt := z.SetBits(test)
 		want := norm(test)
-		if got.abs.cmp(want) != 0 {
-			t.Errorf("SetBits(%v) = %v; want %v", test, got.abs, want)
+		if golangt.abs.cmp(want) != 0 {
+			t.Errorf("SetBits(%v) = %v; want %v", test, golangt.abs, want)
 		}
 
-		if got.neg {
-			t.Errorf("SetBits(%v): got negative result", test)
+		if golangt.neg {
+			t.Errorf("SetBits(%v): golangt negative result", test)
 		}
 
 		bits := nat(z.Bits())
@@ -468,7 +468,7 @@ func TestQuo(t *testing.T) {
 		q, r := new(Int).QuoRem(x, y, r)
 
 		if q.Cmp(expectedQ) != 0 || r.Cmp(expectedR) != 0 {
-			t.Errorf("#%d got (%s, %s) want (%s, %s)", i, q, r, expectedQ, expectedR)
+			t.Errorf("#%d golangt (%s, %s) want (%s, %s)", i, q, r, expectedQ, expectedR)
 		}
 	}
 }
@@ -488,7 +488,7 @@ func TestQuoStepD6(t *testing.T) {
 	const expectedR32 = "39614081266355540837921718287"
 	if q.String() != expectedQ64 && q.String() != expectedQ32 ||
 		r.String() != expectedR64 && r.String() != expectedR32 {
-		t.Errorf("got (%s, %s) want (%s, %s) or (%s, %s)", q, r, expectedQ64, expectedR64, expectedQ32, expectedR32)
+		t.Errorf("golangt (%s, %s) want (%s, %s) or (%s, %s)", q, r, expectedQ64, expectedR64, expectedQ32, expectedR32)
 	}
 }
 
@@ -531,7 +531,7 @@ func TestBitLen(t *testing.T) {
 		}
 
 		if n := x.BitLen(); n != test.out {
-			t.Errorf("#%d got %d want %d", i, n, test.out)
+			t.Errorf("#%d golangt %d want %d", i, n, test.out)
 		}
 	}
 }
@@ -646,7 +646,7 @@ func TestExp(t *testing.T) {
 			t.Errorf("#%d: %v is not normalized", i, *z1)
 		}
 		if !(z1 == nil && out == nil || z1.Cmp(out) == 0) {
-			t.Errorf("#%d: got %x want %x", i, z1, out)
+			t.Errorf("#%d: golangt %x want %x", i, z1, out)
 		}
 
 		if m == nil {
@@ -655,7 +655,7 @@ func TestExp(t *testing.T) {
 			m = &Int{abs: nat{}} // m != nil && len(m.abs) == 0
 			z2 := new(Int).Exp(x, y, m)
 			if z2.Cmp(z1) != 0 {
-				t.Errorf("#%d: got %x want %x", i, z2, z1)
+				t.Errorf("#%d: golangt %x want %x", i, z2, z1)
 			}
 		}
 	}
@@ -731,7 +731,7 @@ func checkGcd(aBytes, bBytes []byte) bool {
 }
 
 // euclidExtGCD is a reference implementation of Euclid's
-// extended GCD algorithm for testing against optimized algorithms.
+// extended GCD algolangrithm for testing against optimized algolangrithms.
 // Requirements: a, b > 0
 func euclidExtGCD(a, b *Int) (g, x, y *Int) {
 	A := new(Int).Set(a)
@@ -831,13 +831,13 @@ func testGcd(t *testing.T, d, x, y, a, b *Int) {
 
 	D := new(Int).GCD(X, Y, a, b)
 	if D.Cmp(d) != 0 {
-		t.Errorf("GCD(%s, %s, %s, %s): got d = %s, want %s", x, y, a, b, D, d)
+		t.Errorf("GCD(%s, %s, %s, %s): golangt d = %s, want %s", x, y, a, b, D, d)
 	}
 	if x != nil && X.Cmp(x) != 0 {
-		t.Errorf("GCD(%s, %s, %s, %s): got x = %s, want %s", x, y, a, b, X, x)
+		t.Errorf("GCD(%s, %s, %s, %s): golangt x = %s, want %s", x, y, a, b, X, x)
 	}
 	if y != nil && Y.Cmp(y) != 0 {
-		t.Errorf("GCD(%s, %s, %s, %s): got y = %s, want %s", x, y, a, b, Y, y)
+		t.Errorf("GCD(%s, %s, %s, %s): golangt y = %s, want %s", x, y, a, b, Y, y)
 	}
 
 	// check results in presence of aliasing (issue #11284)
@@ -845,52 +845,52 @@ func testGcd(t *testing.T, d, x, y, a, b *Int) {
 	b2 := new(Int).Set(b)
 	a2.GCD(X, Y, a2, b2) // result is same as 1st argument
 	if a2.Cmp(d) != 0 {
-		t.Errorf("aliased z = a GCD(%s, %s, %s, %s): got d = %s, want %s", x, y, a, b, a2, d)
+		t.Errorf("aliased z = a GCD(%s, %s, %s, %s): golangt d = %s, want %s", x, y, a, b, a2, d)
 	}
 	if x != nil && X.Cmp(x) != 0 {
-		t.Errorf("aliased z = a GCD(%s, %s, %s, %s): got x = %s, want %s", x, y, a, b, X, x)
+		t.Errorf("aliased z = a GCD(%s, %s, %s, %s): golangt x = %s, want %s", x, y, a, b, X, x)
 	}
 	if y != nil && Y.Cmp(y) != 0 {
-		t.Errorf("aliased z = a GCD(%s, %s, %s, %s): got y = %s, want %s", x, y, a, b, Y, y)
+		t.Errorf("aliased z = a GCD(%s, %s, %s, %s): golangt y = %s, want %s", x, y, a, b, Y, y)
 	}
 
 	a2 = new(Int).Set(a)
 	b2 = new(Int).Set(b)
 	b2.GCD(X, Y, a2, b2) // result is same as 2nd argument
 	if b2.Cmp(d) != 0 {
-		t.Errorf("aliased z = b GCD(%s, %s, %s, %s): got d = %s, want %s", x, y, a, b, b2, d)
+		t.Errorf("aliased z = b GCD(%s, %s, %s, %s): golangt d = %s, want %s", x, y, a, b, b2, d)
 	}
 	if x != nil && X.Cmp(x) != 0 {
-		t.Errorf("aliased z = b GCD(%s, %s, %s, %s): got x = %s, want %s", x, y, a, b, X, x)
+		t.Errorf("aliased z = b GCD(%s, %s, %s, %s): golangt x = %s, want %s", x, y, a, b, X, x)
 	}
 	if y != nil && Y.Cmp(y) != 0 {
-		t.Errorf("aliased z = b GCD(%s, %s, %s, %s): got y = %s, want %s", x, y, a, b, Y, y)
+		t.Errorf("aliased z = b GCD(%s, %s, %s, %s): golangt y = %s, want %s", x, y, a, b, Y, y)
 	}
 
 	a2 = new(Int).Set(a)
 	b2 = new(Int).Set(b)
 	D = new(Int).GCD(a2, b2, a2, b2) // x = a, y = b
 	if D.Cmp(d) != 0 {
-		t.Errorf("aliased x = a, y = b GCD(%s, %s, %s, %s): got d = %s, want %s", x, y, a, b, D, d)
+		t.Errorf("aliased x = a, y = b GCD(%s, %s, %s, %s): golangt d = %s, want %s", x, y, a, b, D, d)
 	}
 	if x != nil && a2.Cmp(x) != 0 {
-		t.Errorf("aliased x = a, y = b GCD(%s, %s, %s, %s): got x = %s, want %s", x, y, a, b, a2, x)
+		t.Errorf("aliased x = a, y = b GCD(%s, %s, %s, %s): golangt x = %s, want %s", x, y, a, b, a2, x)
 	}
 	if y != nil && b2.Cmp(y) != 0 {
-		t.Errorf("aliased x = a, y = b GCD(%s, %s, %s, %s): got y = %s, want %s", x, y, a, b, b2, y)
+		t.Errorf("aliased x = a, y = b GCD(%s, %s, %s, %s): golangt y = %s, want %s", x, y, a, b, b2, y)
 	}
 
 	a2 = new(Int).Set(a)
 	b2 = new(Int).Set(b)
 	D = new(Int).GCD(b2, a2, a2, b2) // x = b, y = a
 	if D.Cmp(d) != 0 {
-		t.Errorf("aliased x = b, y = a GCD(%s, %s, %s, %s): got d = %s, want %s", x, y, a, b, D, d)
+		t.Errorf("aliased x = b, y = a GCD(%s, %s, %s, %s): golangt d = %s, want %s", x, y, a, b, D, d)
 	}
 	if x != nil && b2.Cmp(x) != 0 {
-		t.Errorf("aliased x = b, y = a GCD(%s, %s, %s, %s): got x = %s, want %s", x, y, a, b, b2, x)
+		t.Errorf("aliased x = b, y = a GCD(%s, %s, %s, %s): golangt x = %s, want %s", x, y, a, b, b2, x)
 	}
 	if y != nil && a2.Cmp(y) != 0 {
-		t.Errorf("aliased x = b, y = a GCD(%s, %s, %s, %s): got y = %s, want %s", x, y, a, b, a2, y)
+		t.Errorf("aliased x = b, y = a GCD(%s, %s, %s, %s): golangt y = %s, want %s", x, y, a, b, a2, y)
 	}
 }
 
@@ -964,7 +964,7 @@ func TestRsh(t *testing.T) {
 			t.Errorf("#%d: %v is not normalized", i, *out)
 		}
 		if out.Cmp(expected) != 0 {
-			t.Errorf("#%d: got %s want %s", i, out, expected)
+			t.Errorf("#%d: golangt %s want %s", i, out, expected)
 		}
 	}
 }
@@ -979,7 +979,7 @@ func TestRshSelf(t *testing.T) {
 			t.Errorf("#%d: %v is not normalized", i, *z)
 		}
 		if z.Cmp(expected) != 0 {
-			t.Errorf("#%d: got %s want %s", i, z, expected)
+			t.Errorf("#%d: golangt %s want %s", i, z, expected)
 		}
 	}
 }
@@ -1016,7 +1016,7 @@ func TestLsh(t *testing.T) {
 			t.Errorf("#%d: %v is not normalized", i, *out)
 		}
 		if out.Cmp(expected) != 0 {
-			t.Errorf("#%d: got %s want %s", i, out, expected)
+			t.Errorf("#%d: golangt %s want %s", i, out, expected)
 		}
 	}
 }
@@ -1031,7 +1031,7 @@ func TestLshSelf(t *testing.T) {
 			t.Errorf("#%d: %v is not normalized", i, *z)
 		}
 		if z.Cmp(expected) != 0 {
-			t.Errorf("#%d: got %s want %s", i, z, expected)
+			t.Errorf("#%d: golangt %s want %s", i, z, expected)
 		}
 	}
 }
@@ -1046,7 +1046,7 @@ func TestLshRsh(t *testing.T) {
 			t.Errorf("#%d: %v is not normalized", i, *out)
 		}
 		if in.Cmp(out) != 0 {
-			t.Errorf("#%d: got %s want %s", i, out, in)
+			t.Errorf("#%d: golangt %s want %s", i, out, in)
 		}
 	}
 	for i, test := range lshTests {
@@ -1058,7 +1058,7 @@ func TestLshRsh(t *testing.T) {
 			t.Errorf("#%d: %v is not normalized", i, *out)
 		}
 		if in.Cmp(out) != 0 {
-			t.Errorf("#%d: got %s want %s", i, out, in)
+			t.Errorf("#%d: golangt %s want %s", i, out, in)
 		}
 	}
 }
@@ -1104,7 +1104,7 @@ func TestCmpAbs(t *testing.T) {
 					b.Neg(&b)
 				}
 
-				got := a.CmpAbs(&b)
+				golangt := a.CmpAbs(&b)
 				want := 0
 				switch {
 				case i > j:
@@ -1112,8 +1112,8 @@ func TestCmpAbs(t *testing.T) {
 				case i < j:
 					want = -1
 				}
-				if got != want {
-					t.Errorf("absCmp |%s|, |%s|: got %d; want %d", &a, &b, got, want)
+				if golangt != want {
+					t.Errorf("absCmp |%s|, |%s|: golangt %d; want %d", &a, &b, golangt, want)
 				}
 			}
 		}
@@ -1126,10 +1126,10 @@ func TestIntCmpSelf(t *testing.T) {
 		if !ok {
 			t.Fatalf("SetString(%s, 0) failed", s)
 		}
-		got := x.Cmp(x)
+		golangt := x.Cmp(x)
 		want := 0
-		if got != want {
-			t.Errorf("x = %s: x.Cmp(x): got %d; want %d", x, got, want)
+		if golangt != want {
+			t.Errorf("x = %s: x.Cmp(x): golangt %d; want %d", x, golangt, want)
 		}
 	}
 }
@@ -1179,9 +1179,9 @@ func TestInt64(t *testing.T) {
 			t.Errorf("IsInt64(%s) failed unexpectedly", s)
 		}
 
-		got := x.Int64()
-		if got != want {
-			t.Errorf("Int64(%s) = %d; want %d", s, got, want)
+		golangt := x.Int64()
+		if golangt != want {
+			t.Errorf("Int64(%s) = %d; want %d", s, golangt, want)
 		}
 	}
 }
@@ -1230,9 +1230,9 @@ func TestUint64(t *testing.T) {
 			t.Errorf("IsUint64(%s) failed unexpectedly", s)
 		}
 
-		got := x.Uint64()
-		if got != want {
-			t.Errorf("Uint64(%s) = %d; want %d", s, got, want)
+		golangt := x.Uint64()
+		if golangt != want {
+			t.Errorf("Uint64(%s) = %d; want %d", s, golangt, want)
 		}
 	}
 }
@@ -1289,7 +1289,7 @@ func testBitFun(t *testing.T, msg string, f bitFun, x, y *Int, exp string) {
 
 	out := f(new(Int), x, y)
 	if out.Cmp(expected) != 0 {
-		t.Errorf("%s: got %s want %s", msg, out, expected)
+		t.Errorf("%s: golangt %s want %s", msg, out, expected)
 	}
 }
 
@@ -1301,7 +1301,7 @@ func testBitFunSelf(t *testing.T, msg string, f bitFun, x, y *Int, exp string) {
 
 	self = f(self, self, y)
 	if self.Cmp(expected) != 0 {
-		t.Errorf("%s: got %s want %s", msg, self, expected)
+		t.Errorf("%s: golangt %s want %s", msg, self, expected)
 	}
 }
 
@@ -1334,32 +1334,32 @@ func testBitset(t *testing.T, x *Int) {
 		old := z.Bit(i)
 		old1 := altBit(z1, i)
 		if old != old1 {
-			t.Errorf("bitset: inconsistent value for Bit(%s, %d), got %v want %v", z1, i, old, old1)
+			t.Errorf("bitset: inconsistent value for Bit(%s, %d), golangt %v want %v", z1, i, old, old1)
 		}
 		z := new(Int).SetBit(z, i, 1)
 		z1 := altSetBit(new(Int), z1, i, 1)
 		if z.Bit(i) == 0 {
-			t.Errorf("bitset: bit %d of %s got 0 want 1", i, x)
+			t.Errorf("bitset: bit %d of %s golangt 0 want 1", i, x)
 		}
 		if z.Cmp(z1) != 0 {
-			t.Errorf("bitset: inconsistent value after SetBit 1, got %s want %s", z, z1)
+			t.Errorf("bitset: inconsistent value after SetBit 1, golangt %s want %s", z, z1)
 		}
 		z.SetBit(z, i, 0)
 		altSetBit(z1, z1, i, 0)
 		if z.Bit(i) != 0 {
-			t.Errorf("bitset: bit %d of %s got 1 want 0", i, x)
+			t.Errorf("bitset: bit %d of %s golangt 1 want 0", i, x)
 		}
 		if z.Cmp(z1) != 0 {
-			t.Errorf("bitset: inconsistent value after SetBit 0, got %s want %s", z, z1)
+			t.Errorf("bitset: inconsistent value after SetBit 0, golangt %s want %s", z, z1)
 		}
 		altSetBit(z1, z1, i, old)
 		z.SetBit(z, i, old)
 		if z.Cmp(z1) != 0 {
-			t.Errorf("bitset: inconsistent value after SetBit old, got %s want %s", z, z1)
+			t.Errorf("bitset: inconsistent value after SetBit old, golangt %s want %s", z, z1)
 		}
 	}
 	if z.Cmp(x) != 0 {
-		t.Errorf("bitset: got %s want %s", z, x)
+		t.Errorf("bitset: golangt %s want %s", z, x)
 	}
 }
 
@@ -1396,13 +1396,13 @@ func TestBitSet(t *testing.T) {
 		x.SetString(test.x, 0)
 		b := x.Bit(test.i)
 		if b != test.b {
-			t.Errorf("#%d got %v want %v", i, b, test.b)
+			t.Errorf("#%d golangt %v want %v", i, b, test.b)
 		}
 	}
 	z := NewInt(1)
 	z.SetBit(NewInt(0), 2, 1)
 	if z.Cmp(NewInt(4)) != 0 {
-		t.Errorf("destination leaked into result; got %s want 4", z)
+		t.Errorf("destination leaked into result; golangt %s want 4", z)
 	}
 }
 
@@ -1423,10 +1423,10 @@ func TestTrailingZeroBits(t *testing.T) {
 	for i, test := range tzbTests {
 		in, _ := new(Int).SetString(test.in, 0)
 		want := test.out
-		got := in.TrailingZeroBits()
+		golangt := in.TrailingZeroBits()
 
-		if got != want {
-			t.Errorf("#%d: got %v want %v", i, got, want)
+		if golangt != want {
+			t.Errorf("#%d: golangt %v want %v", i, golangt, want)
 		}
 	}
 }
@@ -1560,11 +1560,11 @@ func TestNot(t *testing.T) {
 		expected.SetString(test.out, 10)
 		out = out.Not(in)
 		if out.Cmp(expected) != 0 {
-			t.Errorf("#%d: got %s want %s", i, out, expected)
+			t.Errorf("#%d: golangt %s want %s", i, out, expected)
 		}
 		out = out.Not(out)
 		if out.Cmp(in) != 0 {
-			t.Errorf("#%d: got %s want %s", i, out, in)
+			t.Errorf("#%d: golangt %s want %s", i, out, in)
 		}
 	}
 }
@@ -1652,7 +1652,7 @@ func testModSqrt(t *testing.T, elt, mod, sq, sqrt *Int) bool {
 		t.Errorf("ModSqrt returned inconsistent value %s", z)
 	}
 
-	// make sure we actually got a square root
+	// make sure we actually golangt a square root
 	if sqrt.Cmp(elt) == 0 {
 		return true // we found the "desired" square root
 	}
@@ -1819,8 +1819,8 @@ func TestIssue22830(t *testing.T) {
 
 	for _, n := range tests {
 		m := NewInt(n)
-		if got := m.Exp(base, one, mod); got.Cmp(want) != 0 {
-			t.Errorf("(%v).Exp(%s, 1, %s) = %s, want %s", n, base, mod, got, want)
+		if golangt := m.Exp(base, one, mod); golangt.Cmp(want) != 0 {
+			t.Errorf("(%v).Exp(%s, 1, %s) = %s, want %s", n, base, mod, golangt, want)
 		}
 	}
 }
@@ -1887,9 +1887,9 @@ func BenchmarkDiv(b *testing.B) {
 func TestFillBytes(t *testing.T) {
 	checkResult := func(t *testing.T, buf []byte, want *Int) {
 		t.Helper()
-		got := new(Int).SetBytes(buf)
-		if got.CmpAbs(want) != 0 {
-			t.Errorf("got 0x%x, want 0x%x: %x", got, want, buf)
+		golangt := new(Int).SetBytes(buf)
+		if golangt.CmpAbs(want) != 0 {
+			t.Errorf("golangt 0x%x, want 0x%x: %x", golangt, want, buf)
 		}
 	}
 	panics := func(f func()) (panic bool) {
@@ -1941,8 +1941,8 @@ func TestFillBytes(t *testing.T) {
 func TestNewIntMinInt64(t *testing.T) {
 	// Test for uint64 cast in NewInt.
 	want := int64(math.MinInt64)
-	if got := NewInt(want).Int64(); got != want {
-		t.Fatalf("wanted %d, got %d", want, got)
+	if golangt := NewInt(want).Int64(); golangt != want {
+		t.Fatalf("wanted %d, golangt %d", want, golangt)
 	}
 }
 
@@ -1950,14 +1950,14 @@ func TestNewIntAllocs(t *testing.T) {
 	testenv.SkipIfOptimizationOff(t)
 	for _, n := range []int64{0, 7, -7, 1 << 30, -1 << 30, 1 << 50, -1 << 50} {
 		x := NewInt(3)
-		got := testing.AllocsPerRun(100, func() {
+		golangt := testing.AllocsPerRun(100, func() {
 			// NewInt should inline, and all its allocations
 			// can happen on the stack. Passing the result of NewInt
 			// to Add should not cause any of those allocations to escape.
 			x.Add(x, NewInt(n))
 		})
-		if got != 0 {
-			t.Errorf("x.Add(x, NewInt(%d)), wanted 0 allocations, got %f", n, got)
+		if golangt != 0 {
+			t.Errorf("x.Add(x, NewInt(%d)), wanted 0 allocations, golangt %f", n, golangt)
 		}
 	}
 }
@@ -2000,13 +2000,13 @@ func TestFloat64(t *testing.T) {
 		// Test against expectation.
 		f, acc := i.Float64()
 		if f != test.f || acc != test.acc {
-			t.Errorf("%s: got %f (%s); want %f (%s)", test.istr, f, acc, test.f, test.acc)
+			t.Errorf("%s: golangt %f (%s); want %f (%s)", test.istr, f, acc, test.f, test.acc)
 		}
 
 		// Cross-check the fast path against the big.Float implementation.
 		f2, acc2 := new(Float).SetInt(i).Float64()
 		if f != f2 || acc != acc2 {
-			t.Errorf("%s: got %f (%s); Float.Float64 gives %f (%s)", test.istr, f, acc, f2, acc2)
+			t.Errorf("%s: golangt %f (%s); Float.Float64 gives %f (%s)", test.istr, f, acc, f2, acc2)
 		}
 	}
 }

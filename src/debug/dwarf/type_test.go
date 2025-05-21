@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package dwarf_test
@@ -303,10 +303,10 @@ func testBitOffsets(t *testing.T, d *Data, tag string, expectedBitOffsets map[st
 				if field.BitSize == 0 {
 					continue
 				}
-				got := bitInfoDump(field)
+				golangt := bitInfoDump(field)
 				want := expectedBitOffsets[field.Name]
-				if got != want {
-					t.Errorf("%s: field %s in %s: got info %q want %q", tag, field.Name, t1.StructName, got, want)
+				if golangt != want {
+					t.Errorf("%s: field %s in %s: golangt info %q want %q", tag, field.Name, t1.StructName, golangt, want)
 				}
 			}
 		}

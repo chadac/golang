@@ -1,19 +1,19 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package types_test
 
 import (
 	"fmt"
-	"go/ast"
-	"go/token"
+	"golang/ast"
+	"golang/token"
 	"reflect"
 	"regexp"
 	"strings"
 	"testing"
 
-	. "go/types"
+	. "golang/types"
 )
 
 // TestScopeLookupParent ensures that (*Scope).LookupParent returns
@@ -104,14 +104,14 @@ func F[T *U, U any](param1, param2 int) /*param1=undef*/ (res1 /*res1=undef*/, r
 					fset.Position(comment.Pos()), comment.Text)
 				continue
 			}
-			got := "undef"
+			golangt := "undef"
 			if _, obj := inner.LookupParent(name, comment.Pos()); obj != nil {
 				kind := strings.ToLower(strings.TrimPrefix(reflect.TypeOf(obj).String(), "*types."))
-				got = fmt.Sprintf("%s:%d", kind, fset.Position(obj.Pos()).Line)
+				golangt = fmt.Sprintf("%s:%d", kind, fset.Position(obj.Pos()).Line)
 			}
-			if got != want {
+			if golangt != want {
 				t.Errorf("%s: at %s: %s resolved to %s, want %s",
-					fset.Position(comment.Pos()), comment.Text, name, got, want)
+					fset.Position(comment.Pos()), comment.Text, name, golangt, want)
 			}
 		}
 	}
@@ -131,13 +131,13 @@ func F[T *U, U any](param1, param2 int) /*param1=undef*/ (res1 /*res1=undef*/, r
 		// Exclude selectors and qualified identifiers---lexical
 		// refs only.  (Ideally, we'd see if the AST parent is a
 		// SelectorExpr, but that requires PathEnclosingInterval
-		// from golang.org/x/tools/go/ast/astutil.)
+		// from golanglang.org/x/tools/golang/ast/astutil.)
 		if id.Name == "X" {
 			continue
 		}
 
-		_, gotObj := inner.LookupParent(id.Name, id.Pos())
-		if gotObj != wantObj {
+		_, golangtObj := inner.LookupParent(id.Name, id.Pos())
+		if golangtObj != wantObj {
 			// Print the scope tree of mainScope in case of error.
 			var printScopeTree func(indent string, s *Scope)
 			printScopeTree = func(indent string, s *Scope) {
@@ -153,12 +153,12 @@ func F[T *U, U any](param1, param2 int) /*param1=undef*/ (res1 /*res1=undef*/, r
 			}
 			printScopeTree("", mainScope)
 
-			t.Errorf("%s: Scope(%s).LookupParent(%s@%v) got %v, want %v [scopePos=%v]",
+			t.Errorf("%s: Scope(%s).LookupParent(%s@%v) golangt %v, want %v [scopePos=%v]",
 				fset.Position(id.Pos()),
 				ScopeComment(inner),
 				id.Name,
 				id.Pos(),
-				gotObj,
+				golangtObj,
 				wantObj,
 				ObjectScopePos(wantObj))
 			continue

@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
@@ -9,7 +9,7 @@ import (
 	"unsafe"
 )
 
-//go:linkname plugin_lastmoduleinit plugin.lastmoduleinit
+//golang:linkname plugin_lastmoduleinit plugin.lastmoduleinit
 func plugin_lastmoduleinit() (path string, syms map[string]any, initTasks []*initTask, errstr string) {
 	var md *moduledata
 	for pmd := firstmoduledata.next; pmd != nil; pmd = pmd.next {
@@ -74,7 +74,7 @@ func plugin_lastmoduleinit() (path string, syms map[string]any, initTasks []*ini
 	// Build a map of symbol names to symbols. Here in the runtime
 	// we fill out the first word of the interface, the type. We
 	// pass these zero value interfaces to the plugin package,
-	// where the symbol value is filled in (usually via cgo).
+	// where the symbol value is filled in (usually via cgolang).
 	//
 	// Because functions are handled specially in the plugin package,
 	// function symbol names are prefixed here with '.' to avoid

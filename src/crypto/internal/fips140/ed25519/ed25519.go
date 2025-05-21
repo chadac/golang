@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ed25519
@@ -15,7 +15,7 @@ import (
 )
 
 // See https://blog.mozilla.org/warner/2011/11/29/ed25519-keys/ for the
-// components of the keys and the moving parts of the algorithm.
+// components of the keys and the moving parts of the algolangrithm.
 
 const (
 	seedSize       = 32

@@ -1,5 +1,5 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package tls_test
@@ -59,7 +59,7 @@ TBj0/VLZjmmx6BEP3ojY+x1J96relc8geMJgEtslQIxq/H5COEBkEveegeGTLg==
 		panic("failed to parse root certificate")
 	}
 
-	conn, err := tls.Dial("tcp", "mail.google.com:443", &tls.Config{
+	conn, err := tls.Dial("tcp", "mail.golangogle.com:443", &tls.Config{
 		RootCAs: roots,
 	})
 	if err != nil {
@@ -83,7 +83,7 @@ func ExampleConfig_keyLogWriter() {
 	server.StartTLS()
 	defer server.Close()
 
-	// Typically the log would go to an open file:
+	// Typically the log would golang to an open file:
 	// w, err := os.OpenFile("tls-secrets.txt", os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0600)
 	w := os.Stdout
 

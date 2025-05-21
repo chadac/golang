@@ -1,5 +1,5 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package nettest provides utilities for network testing.
@@ -27,7 +27,7 @@ var (
 	unStrmDgramEnabled      bool
 	rawSocketSess           bool
 
-	aLongTimeAgo = time.Unix(233431200, 0)
+	aLongTimeAgolang = time.Unix(233431200, 0)
 	neverTimeout = time.Time{}
 
 	errNoAvailableInterface = errors.New("no available interface")
@@ -225,7 +225,7 @@ func LocalPath() (string, error) {
 	if runtime.GOOS == "darwin" {
 		dir = "/tmp"
 	}
-	f, err := os.CreateTemp(dir, "go-nettest")
+	f, err := os.CreateTemp(dir, "golang-nettest")
 	if err != nil {
 		return "", err
 	}

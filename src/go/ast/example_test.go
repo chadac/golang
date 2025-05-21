@@ -1,15 +1,15 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ast_test
 
 import (
 	"fmt"
-	"go/ast"
-	"go/format"
-	"go/parser"
-	"go/token"
+	"golang/ast"
+	"golang/format"
+	"golang/parser"
+	"golang/token"
 	"strings"
 )
 
@@ -24,7 +24,7 @@ var X = f(3.14)*2 + c
 
 	// Create the AST by parsing src.
 	fset := token.NewFileSet() // positions are relative to fset
-	f, err := parser.ParseFile(fset, "src.go", src, 0)
+	f, err := parser.ParseFile(fset, "src.golang", src, 0)
 	if err != nil {
 		panic(err)
 	}
@@ -45,14 +45,14 @@ var X = f(3.14)*2 + c
 	})
 
 	// Output:
-	// src.go:2:9:	p
-	// src.go:3:7:	c
-	// src.go:3:11:	1.0
-	// src.go:4:5:	X
-	// src.go:4:9:	f
-	// src.go:4:11:	3.14
-	// src.go:4:17:	2
-	// src.go:4:21:	c
+	// src.golang:2:9:	p
+	// src.golang:3:7:	c
+	// src.golang:3:11:	1.0
+	// src.golang:4:5:	X
+	// src.golang:4:9:	f
+	// src.golang:4:11:	3.14
+	// src.golang:4:17:	2
+	// src.golang:4:21:	c
 }
 
 // This example shows what an AST looks like when printed for debugging.
@@ -180,7 +180,7 @@ func f(x, y int) {
 // using an ast.CommentMap.
 func ExampleCommentMap() {
 	// src is the input for which we create the AST that we
-	// are going to manipulate.
+	// are golanging to manipulate.
 	src := `
 // This is the package comment.
 package main
@@ -199,7 +199,7 @@ func main() {
 
 	// Create the AST by parsing src.
 	fset := token.NewFileSet() // positions are relative to fset
-	f, err := parser.ParseFile(fset, "src.go", src, parser.ParseComments)
+	f, err := parser.ParseFile(fset, "src.golang", src, parser.ParseComments)
 	if err != nil {
 		panic(err)
 	}

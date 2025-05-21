@@ -1,8 +1,8 @@
 // Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !purego
+//golang:build !puregolang
 
 package subtle
 
@@ -19,13 +19,13 @@ func init() {
 	impl.Register("subtle", "LASX", &useLASX)
 }
 
-//go:noescape
+//golang:noescape
 func xorBytesBasic(dst, a, b *byte, n int)
 
-//go:noescape
+//golang:noescape
 func xorBytesLSX(dst, a, b *byte, n int)
 
-//go:noescape
+//golang:noescape
 func xorBytesLASX(dst, a, b *byte, n int)
 
 func xorBytes(dst, a, b *byte, n int) {

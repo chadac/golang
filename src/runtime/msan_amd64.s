@@ -1,11 +1,11 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build msan
+//golang:build msan
 
-#include "go_asm.h"
-#include "go_tls.h"
+#include "golang_asm.h"
+#include "golang_tls.h"
 #include "funcdata.h"
 #include "textflag.h"
 
@@ -29,8 +29,8 @@
 TEXT	runtime·domsanread(SB), NOSPLIT, $0-16
 	MOVQ	addr+0(FP), RARG0
 	MOVQ	sz+8(FP), RARG1
-	// void __msan_read_go(void *addr, uintptr_t sz);
-	MOVQ	$__msan_read_go(SB), AX
+	// void __msan_read_golang(void *addr, uintptr_t sz);
+	MOVQ	$__msan_read_golang(SB), AX
 	JMP	msancall<>(SB)
 
 // func runtime·msanwrite(addr unsafe.Pointer, sz uintptr)
@@ -38,24 +38,24 @@ TEXT	runtime·domsanread(SB), NOSPLIT, $0-16
 TEXT	runtime·msanwrite(SB), NOSPLIT, $0-16
 	MOVQ	addr+0(FP), RARG0
 	MOVQ	sz+8(FP), RARG1
-	// void __msan_write_go(void *addr, uintptr_t sz);
-	MOVQ	$__msan_write_go(SB), AX
+	// void __msan_write_golang(void *addr, uintptr_t sz);
+	MOVQ	$__msan_write_golang(SB), AX
 	JMP	msancall<>(SB)
 
 // func runtime·msanmalloc(addr unsafe.Pointer, sz uintptr)
 TEXT	runtime·msanmalloc(SB), NOSPLIT, $0-16
 	MOVQ	addr+0(FP), RARG0
 	MOVQ	sz+8(FP), RARG1
-	// void __msan_malloc_go(void *addr, uintptr_t sz);
-	MOVQ	$__msan_malloc_go(SB), AX
+	// void __msan_malloc_golang(void *addr, uintptr_t sz);
+	MOVQ	$__msan_malloc_golang(SB), AX
 	JMP	msancall<>(SB)
 
 // func runtime·msanfree(addr unsafe.Pointer, sz uintptr)
 TEXT	runtime·msanfree(SB), NOSPLIT, $0-16
 	MOVQ	addr+0(FP), RARG0
 	MOVQ	sz+8(FP), RARG1
-	// void __msan_free_go(void *addr, uintptr_t sz);
-	MOVQ	$__msan_free_go(SB), AX
+	// void __msan_free_golang(void *addr, uintptr_t sz);
+	MOVQ	$__msan_free_golang(SB), AX
 	JMP	msancall<>(SB)
 
 // func runtime·msanmove(dst, src unsafe.Pointer, sz uintptr)
@@ -63,8 +63,8 @@ TEXT	runtime·msanmove(SB), NOSPLIT, $0-24
 	MOVQ	dst+0(FP), RARG0
 	MOVQ	src+8(FP), RARG1
 	MOVQ	sz+16(FP), RARG2
-	// void __msan_memmove_go(void *dst, void *src, uintptr_t sz);
-	MOVQ	$__msan_memmove_go(SB), AX
+	// void __msan_memmove_golang(void *dst, void *src, uintptr_t sz);
+	MOVQ	$__msan_memmove_golang(SB), AX
 	JMP	msancall<>(SB)
 
 // Switches SP to g0 stack and calls (AX). Arguments already set.
@@ -86,7 +86,7 @@ TEXT	msancall<>(SB), NOSPLIT, $0-0
 	CMPQ	R10, R14
 	JE	call	// already on g0
 
-	MOVQ	(g_sched+gobuf_sp)(R10), SP
+	MOVQ	(g_sched+golangbuf_sp)(R10), SP
 call:
 	ANDQ	$~15, SP	// alignment for gcc ABI
 	CALL	AX

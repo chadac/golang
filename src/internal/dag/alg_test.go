@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package dag
@@ -18,7 +18,7 @@ func TestTranspose(t *testing.T) {
 
 func TestTopo(t *testing.T) {
 	g := mustParse(t, diamond)
-	got := g.Topo()
+	golangt := g.Topo()
 	// "d" is the root, so it's first.
 	//
 	// "c" and "b" could be in either order, but Topo is
@@ -26,8 +26,8 @@ func TestTopo(t *testing.T) {
 	//
 	// "a" is a leaf.
 	wantNodes := strings.Fields("d c b a")
-	if !slices.Equal(wantNodes, got) {
-		t.Fatalf("want topo sort %v, got %v", wantNodes, got)
+	if !slices.Equal(wantNodes, golangt) {
+		t.Fatalf("want topo sort %v, golangt %v", wantNodes, golangt)
 	}
 }
 

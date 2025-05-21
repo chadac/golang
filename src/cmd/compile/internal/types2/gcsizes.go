@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package types2
@@ -29,7 +29,7 @@ func (s *gcSizes) Alignof(T Type) (result int64) {
 			// 64-bit-aligned.
 			//
 			// This logic is equivalent to the logic in
-			// cmd/compile/internal/types/size.go:calcStructOffset
+			// cmd/compile/internal/types/size.golang:calcStructOffset
 			return 8
 		}
 

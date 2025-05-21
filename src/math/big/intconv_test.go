@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package big
@@ -36,7 +36,7 @@ var stringTests = []struct {
 	{in: "g", base: 16},
 
 	// invalid inputs with separators
-	// (smoke tests only - a comprehensive set of tests is in natconv_test.go)
+	// (smoke tests only - a comprehensive set of tests is in natconv_test.golang)
 	{in: "_"},
 	{in: "0_"},
 	{in: "_0"},
@@ -80,7 +80,7 @@ var stringTests = []struct {
 	{"ABCXYZ", "ABCXYZ", 62, 33536793425, true},
 
 	// valid input with separators
-	// (smoke tests only - a comprehensive set of tests is in natconv_test.go)
+	// (smoke tests only - a comprehensive set of tests is in natconv_test.golang)
 	{"1_000", "1000", 0, 1000, true},
 	{"0b_1010", "10", 0, 10, true},
 	{"+0o_660", "432", 0, 0660, true},
@@ -105,8 +105,8 @@ func TestIntText(t *testing.T) {
 			base = 10
 		}
 
-		if got := z.Text(base); got != test.out {
-			t.Errorf("%v: got %s; want %s", test, got, test.out)
+		if golangt := z.Text(base); golangt != test.out {
+			t.Errorf("%v: golangt %s; want %s", test, golangt, test.out)
 		}
 	}
 }
@@ -132,8 +132,8 @@ func TestAppendText(t *testing.T) {
 
 		i := len(buf)
 		buf = z.Append(buf, base)
-		if got := string(buf[i:]); got != test.out {
-			t.Errorf("%v: got %s; want %s", test, got, test.out)
+		if golangt := string(buf[i:]); golangt != test.out {
+			t.Errorf("%v: golangt %s; want %s", test, golangt, test.out)
 		}
 	}
 }
@@ -159,20 +159,20 @@ func TestGetString(t *testing.T) {
 		z.SetInt64(test.val)
 
 		if test.base == 10 {
-			if got := z.String(); got != test.out {
-				t.Errorf("#%da got %s; want %s", i, got, test.out)
+			if golangt := z.String(); golangt != test.out {
+				t.Errorf("#%da golangt %s; want %s", i, golangt, test.out)
 			}
 		}
 
 		f := format(test.base)
-		got := fmt.Sprintf(f, z)
+		golangt := fmt.Sprintf(f, z)
 		if f == "%d" {
-			if got != fmt.Sprintf("%d", test.val) {
-				t.Errorf("#%db got %s; want %d", i, got, test.val)
+			if golangt != fmt.Sprintf("%d", test.val) {
+				t.Errorf("#%db golangt %s; want %d", i, golangt, test.val)
 			}
 		} else {
-			if got != test.out {
-				t.Errorf("#%dc got %s; want %s", i, got, test.out)
+			if golangt != test.out {
+				t.Errorf("#%dc golangt %s; want %s", i, golangt, test.out)
 			}
 		}
 	}
@@ -212,10 +212,10 @@ func TestSetString(t *testing.T) {
 		}
 
 		if n1.Cmp(expected) != 0 {
-			t.Errorf("#%d (input '%s') got: %s want: %d", i, test.in, n1, test.val)
+			t.Errorf("#%d (input '%s') golangt: %s want: %d", i, test.in, n1, test.val)
 		}
 		if n2.Cmp(expected) != 0 {
-			t.Errorf("#%d (input '%s') got: %s want: %d", i, test.in, n2, test.val)
+			t.Errorf("#%d (input '%s') golangt: %s want: %d", i, test.in, n2, test.val)
 		}
 	}
 }
@@ -385,7 +385,7 @@ func TestFormat(t *testing.T) {
 		}
 		output := fmt.Sprintf(test.format, x)
 		if output != test.output {
-			t.Errorf("#%d got %q; want %q, {%q, %q, %q}", i, output, test.output, test.input, test.format, test.output)
+			t.Errorf("#%d golangt %q; want %q, {%q, %q, %q}", i, output, test.output, test.input, test.format, test.output)
 		}
 	}
 }
@@ -444,10 +444,10 @@ func TestScan(t *testing.T) {
 			t.Errorf("#%d error: %s", i, err)
 		}
 		if x.String() != test.output {
-			t.Errorf("#%d got %s; want %s", i, x.String(), test.output)
+			t.Errorf("#%d golangt %s; want %s", i, x.String(), test.output)
 		}
 		if buf.Len() != test.remaining {
-			t.Errorf("#%d got %d bytes remaining; want %d", i, buf.Len(), test.remaining)
+			t.Errorf("#%d golangt %d bytes remaining; want %d", i, buf.Len(), test.remaining)
 		}
 	}
 }

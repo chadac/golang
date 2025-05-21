@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 #include "textflag.h"
@@ -40,7 +40,7 @@ TEXT _rt0_riscv64_freebsd_lib(SB),NOSPLIT,$224
 	MOVD	F26, (8*26)(X2)
 	MOVD	F27, (8*27)(X2)
 
-	// Initialize g as nil in case of using g later e.g. sigaction in cgo_sigaction.go
+	// Initialize g as nil in case of using g later e.g. sigaction in cgolang_sigaction.golang
 	MOV	X0, g
 
 	MOV	A0, _rt0_riscv64_freebsd_lib_argc<>(SB)
@@ -51,16 +51,16 @@ TEXT _rt0_riscv64_freebsd_lib(SB),NOSPLIT,$224
 	JALR	RA, T0
 
 	// Create a new thread to do the runtime initialization and return.
-	MOV	_cgo_sys_thread_create(SB), T0
-	BEQZ	T0, nocgo
-	MOV	$_rt0_riscv64_freebsd_lib_go(SB), A0
+	MOV	_cgolang_sys_thread_create(SB), T0
+	BEQZ	T0, nocgolang
+	MOV	$_rt0_riscv64_freebsd_lib_golang(SB), A0
 	MOV	$0, A1
 	JALR	RA, T0
 	JMP	restore
 
-nocgo:
+nocgolang:
 	MOV	$0x800000, A0                     // stacksize = 8192KB
-	MOV	$_rt0_riscv64_freebsd_lib_go(SB), A1
+	MOV	$_rt0_riscv64_freebsd_lib_golang(SB), A1
 	MOV	A0, 8(X2)
 	MOV	A1, 16(X2)
 	MOV	$runtime·newosproc0(SB), T0
@@ -96,10 +96,10 @@ restore:
 
 	RET
 
-TEXT _rt0_riscv64_freebsd_lib_go(SB),NOSPLIT,$0
+TEXT _rt0_riscv64_freebsd_lib_golang(SB),NOSPLIT,$0
 	MOV	_rt0_riscv64_freebsd_lib_argc<>(SB), A0
 	MOV	_rt0_riscv64_freebsd_lib_argv<>(SB), A1
-	MOV	$runtime·rt0_go(SB), T0
+	MOV	$runtime·rt0_golang(SB), T0
 	JALR	ZERO, T0
 
 DATA _rt0_riscv64_freebsd_lib_argc<>(SB)/8, $0
@@ -108,5 +108,5 @@ DATA _rt0_riscv64_freebsd_lib_argv<>(SB)/8, $0
 GLOBL _rt0_riscv64_freebsd_lib_argv<>(SB),NOPTR, $8
 
 TEXT main(SB),NOSPLIT|NOFRAME,$0
-	MOV	$runtime·rt0_go(SB), T0
+	MOV	$runtime·rt0_golang(SB), T0
 	JALR	ZERO, T0

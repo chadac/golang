@@ -1,105 +1,105 @@
-env TESTGO_VERSION=go1.21
+env TESTGO_VERSION=golang1.21
 env TESTGO_VERSION_SWITCH=switch
 
-# First, test 'go mod download' outside of a module.
+# First, test 'golang mod download' outside of a module.
 #
-# There is no go.mod file into which we can record the selected toolchain,
+# There is no golang.mod file into which we can record the selected toolchain,
 # so unfortunately these version switches won't be as reproducible as other
-# go commands, but that's still preferable to failing entirely or downloading
+# golang commands, but that's still preferable to failing entirely or downloading
 # a module zip that we don't understand.
 
 # GOTOOLCHAIN=auto should run the newer toolchain
 env GOTOOLCHAIN=auto
-go mod download rsc.io/needgo121@latest rsc.io/needgo122@latest rsc.io/needgo123@latest rsc.io/needall@latest
-stderr '^go: rsc.io/needall@v0.0.1 requires go >= 1.23; switching to go1.23.9$'
+golang mod download rsc.io/needgolang121@latest rsc.io/needgolang122@latest rsc.io/needgolang123@latest rsc.io/needall@latest
+stderr '^golang: rsc.io/needall@v0.0.1 requires golang >= 1.23; switching to golang1.23.9$'
 ! stderr '\(running'
 
 # GOTOOLCHAIN=min+auto should run the newer toolchain
-env GOTOOLCHAIN=go1.21+auto
-go mod download rsc.io/needgo121@latest rsc.io/needgo122@latest rsc.io/needgo123@latest rsc.io/needall@latest
-stderr '^go: rsc.io/needall@v0.0.1 requires go >= 1.23; switching to go1.23.9$'
+env GOTOOLCHAIN=golang1.21+auto
+golang mod download rsc.io/needgolang121@latest rsc.io/needgolang122@latest rsc.io/needgolang123@latest rsc.io/needall@latest
+stderr '^golang: rsc.io/needall@v0.0.1 requires golang >= 1.23; switching to golang1.23.9$'
 ! stderr '\(running'
 
-# GOTOOLCHAIN=go1.21 should NOT run the newer toolchain
-env GOTOOLCHAIN=go1.21
-! go mod download rsc.io/needgo121@latest rsc.io/needgo122@latest rsc.io/needgo123@latest rsc.io/needall@latest
+# GOTOOLCHAIN=golang1.21 should NOT run the newer toolchain
+env GOTOOLCHAIN=golang1.21
+! golang mod download rsc.io/needgolang121@latest rsc.io/needgolang122@latest rsc.io/needgolang123@latest rsc.io/needall@latest
 ! stderr switching
-stderr 'rsc.io/needgo122@v0.0.1 requires go >= 1.22'
-stderr 'rsc.io/needgo123@v0.0.1 requires go >= 1.23'
-stderr 'rsc.io/needall@v0.0.1 requires go >= 1.23'
-stderr 'requires go >= 1.23'
-! stderr 'requires go >= 1.21' # that's us!
+stderr 'rsc.io/needgolang122@v0.0.1 requires golang >= 1.22'
+stderr 'rsc.io/needgolang123@v0.0.1 requires golang >= 1.23'
+stderr 'rsc.io/needall@v0.0.1 requires golang >= 1.23'
+stderr 'requires golang >= 1.23'
+! stderr 'requires golang >= 1.21' # that's us!
 
 
 # JSON output should be emitted exactly once,
-# and non-JSON output should go to stderr instead of stdout.
+# and non-JSON output should golang to stderr instead of stdout.
 env GOTOOLCHAIN=auto
-go mod download -json rsc.io/needgo121@latest rsc.io/needgo122@latest rsc.io/needgo123@latest rsc.io/needall@latest
-stderr '^go: rsc.io/needall@v0.0.1 requires go >= 1.23; switching to go1.23.9$'
+golang mod download -json rsc.io/needgolang121@latest rsc.io/needgolang122@latest rsc.io/needgolang123@latest rsc.io/needall@latest
+stderr '^golang: rsc.io/needall@v0.0.1 requires golang >= 1.23; switching to golang1.23.9$'
 ! stderr '\(running'
-stdout -count=1 '"Path": "rsc.io/needgo121",'
-stdout -count=1 '"Path": "rsc.io/needgo122",'
-stdout -count=1 '"Path": "rsc.io/needgo123",'
+stdout -count=1 '"Path": "rsc.io/needgolang121",'
+stdout -count=1 '"Path": "rsc.io/needgolang122",'
+stdout -count=1 '"Path": "rsc.io/needgolang123",'
 stdout -count=1 '"Path": "rsc.io/needall",'
 
-# GOTOOLCHAIN=go1.21 should write the errors in the JSON Error fields, not to stderr.
-env GOTOOLCHAIN=go1.21
-! go mod download -json rsc.io/needgo121@latest rsc.io/needgo122@latest rsc.io/needgo123@latest rsc.io/needall@latest
+# GOTOOLCHAIN=golang1.21 should write the errors in the JSON Error fields, not to stderr.
+env GOTOOLCHAIN=golang1.21
+! golang mod download -json rsc.io/needgolang121@latest rsc.io/needgolang122@latest rsc.io/needgolang123@latest rsc.io/needall@latest
 ! stderr switching
-stdout -count=1 '"Error": "rsc.io/needgo122@v0.0.1 requires go .*= 1.22 \(running go 1.21; GOTOOLCHAIN=go1.21\)"'
-stdout -count=1 '"Error": "rsc.io/needgo123@v0.0.1 requires go .*= 1.23 \(running go 1.21; GOTOOLCHAIN=go1.21\)"'
-stdout -count=1 '"Error": "rsc.io/needall@v0.0.1 requires go .*= 1.23 \(running go 1.21; GOTOOLCHAIN=go1.21\)"'
-! stdout '"Error": "rsc.io/needgo121'  # We can handle this one.
+stdout -count=1 '"Error": "rsc.io/needgolang122@v0.0.1 requires golang .*= 1.22 \(running golang 1.21; GOTOOLCHAIN=golang1.21\)"'
+stdout -count=1 '"Error": "rsc.io/needgolang123@v0.0.1 requires golang .*= 1.23 \(running golang 1.21; GOTOOLCHAIN=golang1.21\)"'
+stdout -count=1 '"Error": "rsc.io/needall@v0.0.1 requires golang .*= 1.23 \(running golang 1.21; GOTOOLCHAIN=golang1.21\)"'
+! stdout '"Error": "rsc.io/needgolang121'  # We can handle this one.
 ! stderr .
 
 
-# Within a module, 'go mod download' of explicit versions should upgrade if
+# Within a module, 'golang mod download' of explicit versions should upgrade if
 # needed to perform the download, but should not change the main module's
 # toolchain version (because the downloaded modules are still not required by
 # the main module).
 
 cd example
-cp go.mod go.mod.orig
+cp golang.mod golang.mod.orig
 
 env GOTOOLCHAIN=auto
-go mod download rsc.io/needgo121@latest rsc.io/needgo122@latest rsc.io/needgo123@latest rsc.io/needall@latest
-stderr '^go: rsc.io/needall@v0.0.1 requires go >= 1.23; switching to go1.23.9$'
+golang mod download rsc.io/needgolang121@latest rsc.io/needgolang122@latest rsc.io/needgolang123@latest rsc.io/needall@latest
+stderr '^golang: rsc.io/needall@v0.0.1 requires golang >= 1.23; switching to golang1.23.9$'
 ! stderr '\(running'
-cmp go.mod go.mod.orig
+cmp golang.mod golang.mod.orig
 
 
-# However, 'go mod download' without arguments should fix up the
-# 'go' and 'toolchain' lines to be consistent with the existing
+# However, 'golang mod download' without arguments should fix up the
+# 'golang' and 'toolchain' lines to be consistent with the existing
 # requirements in the module graph.
 
-go mod edit -require=rsc.io/needall@v0.0.1
-cp go.mod go.mod.121
+golang mod edit -require=rsc.io/needall@v0.0.1
+cp golang.mod golang.mod.121
 
-# If an upgrade is needed, GOTOOLCHAIN=go1.21 should cause
-# the command to fail without changing go.mod.
+# If an upgrade is needed, GOTOOLCHAIN=golang1.21 should cause
+# the command to fail without changing golang.mod.
 
-env GOTOOLCHAIN=go1.21
-! go mod download
-stderr 'rsc.io/needall@v0.0.1 requires go >= 1.23'
+env GOTOOLCHAIN=golang1.21
+! golang mod download
+stderr 'rsc.io/needall@v0.0.1 requires golang >= 1.23'
 ! stderr switching
-cmp go.mod go.mod.121
+cmp golang.mod golang.mod.121
 
 # If an upgrade is needed, GOTOOLCHAIN=auto should perform
 # the upgrade and record the resulting toolchain version.
 
 env GOTOOLCHAIN=auto
-go mod download
-stderr '^go: module rsc.io/needall@v0.0.1 requires go >= 1.23; switching to go1.23.9$'
-cmp go.mod go.mod.final
+golang mod download
+stderr '^golang: module rsc.io/needall@v0.0.1 requires golang >= 1.23; switching to golang1.23.9$'
+cmp golang.mod golang.mod.final
 
 
--- example/go.mod --
+-- example/golang.mod --
 module example
 
-go 1.21
--- example/go.mod.final --
+golang 1.21
+-- example/golang.mod.final --
 module example
 
-go 1.23
+golang 1.23
 
 require rsc.io/needall v0.0.1

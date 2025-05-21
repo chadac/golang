@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -28,9 +28,9 @@ type Q interface {
 
 func main() {
 	var count = 10000
-	if runtime.Compiler == "gccgo" {
-		// On targets without split-stack libgo allocates
-		// a large stack for each goroutine. On 32-bit
+	if runtime.Compiler == "gccgolang" {
+		// On targets without split-stack libgolang allocates
+		// a large stack for each golangroutine. On 32-bit
 		// systems this test can run out of memory.
 		const intSize = 32 << (^uint(0) >> 63) // 32 or 64
 		if intSize < 64 {
@@ -40,7 +40,7 @@ func main() {
 
 	var q Q = &R{&T{}}
 	for i := 0; i < count; i++ {
-		go func() {
+		golang func() {
 			defer q.Foo([]interface{}{"meow"})
 			time.Sleep(100 * time.Millisecond)
 		}()

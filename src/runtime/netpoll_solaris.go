@@ -1,11 +1,11 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
 
 import (
-	"internal/goarch"
+	"internal/golangarch"
 	"internal/runtime/atomic"
 	"unsafe"
 )
@@ -19,7 +19,7 @@ import (
 // ourselves. After we receive an event for a file descriptor,
 // it's our responsibility to ask again to be notified for future
 // events for that descriptor. When doing this we must keep track of
-// what kind of events the goroutines are currently interested in,
+// what kind of events the golangroutines are currently interested in,
 // for example a fd may be open both for reading and writing.
 //
 // A description of the high level operation of this code
@@ -34,7 +34,7 @@ import (
 // nobody will tell us anymore.
 //
 // Beside calling runtime·netpollopen, the networking code paths
-// will call runtime·netpollarm each time goroutines are interested
+// will call runtime·netpollarm each time golangroutines are interested
 // in doing network I/O. Because now we know what kind of I/O we
 // are interested in (reading/writing), we can call port_associate
 // passing the correct type of event set (POLLIN/POLLOUT). As we made
@@ -71,17 +71,17 @@ import (
 // again we know for sure we are always talking about the same file
 // descriptor and can safely access the data we want (the event set).
 
-//go:cgo_import_dynamic libc_port_create port_create "libc.so"
-//go:cgo_import_dynamic libc_port_associate port_associate "libc.so"
-//go:cgo_import_dynamic libc_port_dissociate port_dissociate "libc.so"
-//go:cgo_import_dynamic libc_port_getn port_getn "libc.so"
-//go:cgo_import_dynamic libc_port_alert port_alert "libc.so"
+//golang:cgolang_import_dynamic libc_port_create port_create "libc.so"
+//golang:cgolang_import_dynamic libc_port_associate port_associate "libc.so"
+//golang:cgolang_import_dynamic libc_port_dissociate port_dissociate "libc.so"
+//golang:cgolang_import_dynamic libc_port_getn port_getn "libc.so"
+//golang:cgolang_import_dynamic libc_port_alert port_alert "libc.so"
 
-//go:linkname libc_port_create libc_port_create
-//go:linkname libc_port_associate libc_port_associate
-//go:linkname libc_port_dissociate libc_port_dissociate
-//go:linkname libc_port_getn libc_port_getn
-//go:linkname libc_port_alert libc_port_alert
+//golang:linkname libc_port_create libc_port_create
+//golang:linkname libc_port_associate libc_port_associate
+//golang:linkname libc_port_dissociate libc_port_dissociate
+//golang:linkname libc_port_getn libc_port_getn
+//golang:linkname libc_port_alert libc_port_alert
 
 var (
 	libc_port_create,
@@ -146,7 +146,7 @@ func netpollopen(fd uintptr, pd *pollDesc) int32 {
 	// Note that this won't work on a 32-bit system,
 	// as taggedPointer is always 64-bits but uintptr will be 32 bits.
 	// Fortunately we only support Solaris on amd64.
-	if goarch.PtrSize != 8 {
+	if golangarch.PtrSize != 8 {
 		throw("runtime: netpollopen: unsupported pointer size")
 	}
 	r := port_associate(portfd, _PORT_SOURCE_FD, fd, 0, uintptr(tp))
@@ -215,7 +215,7 @@ func netpollBreak() {
 }
 
 // netpoll checks for ready network connections.
-// Returns a list of goroutines that become runnable,
+// Returns a list of golangroutines that become runnable,
 // and a delta to add to netpollWaiters.
 // This must never return an empty list with a non-zero delta.
 //
@@ -264,7 +264,7 @@ retry:
 		if delay > 0 {
 			return gList{}, 0
 		}
-		goto retry
+		golangto retry
 	}
 
 	var toRun gList
@@ -314,7 +314,7 @@ retry:
 		// update our association with whatever events were not
 		// set with the event. For example if we are registered
 		// for POLLIN|POLLOUT, and we get POLLIN, besides waking
-		// the goroutine interested in POLLIN we have to not forget
+		// the golangroutine interested in POLLIN we have to not forget
 		// about the one interested in POLLOUT.
 		if clear != 0 {
 			lock(&pd.lock)
@@ -327,7 +327,7 @@ retry:
 			// scanning error reporting once we are sure
 			// about the event port on SmartOS.
 			//
-			// See golang.org/x/issue/30840.
+			// See golanglang.org/x/issue/30840.
 			delta += netpollready(&toRun, pd, mode)
 		}
 	}

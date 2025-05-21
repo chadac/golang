@@ -1,8 +1,8 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build goexperiment.jsonv2
+//golang:build golangexperiment.jsonv2
 
 package jsontext
 
@@ -67,20 +67,20 @@ func testDecoder(t *testing.T, where jsontest.CasePos, typeName string, td coder
 			}
 		}
 		if !equalTokens(tokens, td.tokens) {
-			t.Fatalf("%s: tokens mismatch:\ngot  %v\nwant %v", where, tokens, td.tokens)
+			t.Fatalf("%s: tokens mismatch:\ngolangt  %v\nwant %v", where, tokens, td.tokens)
 		}
 		if !slices.Equal(pointers, td.pointers) {
-			t.Fatalf("%s: pointers mismatch:\ngot  %q\nwant %q", where, pointers, td.pointers)
+			t.Fatalf("%s: pointers mismatch:\ngolangt  %q\nwant %q", where, pointers, td.pointers)
 		}
 	case "Value":
 		val, err := dec.ReadValue()
 		if err != nil {
 			t.Fatalf("%s: Decoder.ReadValue error: %v", where, err)
 		}
-		got := string(val)
+		golangt := string(val)
 		want := strings.TrimSpace(td.in)
-		if got != want {
-			t.Fatalf("%s: Decoder.ReadValue = %s, want %s", where, got, want)
+		if golangt != want {
+			t.Fatalf("%s: Decoder.ReadValue = %s, want %s", where, golangt, want)
 		}
 	case "TokenDelims":
 		// Use ReadToken for object/array delimiters, ReadValue otherwise.
@@ -109,7 +109,7 @@ func testDecoder(t *testing.T, where jsontest.CasePos, typeName string, td coder
 			}
 		}
 		if !equalTokens(tokens, td.tokens) {
-			t.Fatalf("%s: tokens mismatch:\ngot  %v\nwant %v", where, tokens, td.tokens)
+			t.Fatalf("%s: tokens mismatch:\ngolangt  %v\nwant %v", where, tokens, td.tokens)
 		}
 	}
 }
@@ -153,7 +153,7 @@ func testFaultyDecoder(t *testing.T, where jsontest.CasePos, typeName string, td
 			tokens = append(tokens, tok.Clone())
 		}
 		if !equalTokens(tokens, td.tokens) {
-			t.Fatalf("%s: tokens mismatch:\ngot  %s\nwant %s", where, tokens, td.tokens)
+			t.Fatalf("%s: tokens mismatch:\ngolangt  %s\nwant %s", where, tokens, td.tokens)
 		}
 	case "Value":
 		for {
@@ -167,10 +167,10 @@ func testFaultyDecoder(t *testing.T, where jsontest.CasePos, typeName string, td
 				}
 				continue
 			}
-			got := string(val)
+			golangt := string(val)
 			want := strings.TrimSpace(td.in)
-			if got != want {
-				t.Fatalf("%s: Decoder.ReadValue = %s, want %s", where, got, want)
+			if golangt != want {
+				t.Fatalf("%s: Decoder.ReadValue = %s, want %s", where, golangt, want)
 			}
 		}
 	}
@@ -1001,44 +1001,44 @@ func testDecoderErrors(t *testing.T, where jsontest.CasePos, opts []Options, in 
 	src := bytes.NewBufferString(in)
 	dec := NewDecoder(src, opts...)
 	for i, call := range calls {
-		gotKind := dec.PeekKind()
-		if gotKind != call.wantKind {
-			t.Fatalf("%s: %d: Decoder.PeekKind = %v, want %v", where, i, gotKind, call.wantKind)
+		golangtKind := dec.PeekKind()
+		if golangtKind != call.wantKind {
+			t.Fatalf("%s: %d: Decoder.PeekKind = %v, want %v", where, i, golangtKind, call.wantKind)
 		}
 
-		var gotErr error
+		var golangtErr error
 		switch wantOut := call.wantOut.(type) {
 		case Token:
-			var gotOut Token
-			gotOut, gotErr = dec.ReadToken()
-			if gotOut.String() != wantOut.String() {
-				t.Fatalf("%s: %d: Decoder.ReadToken = %v, want %v", where, i, gotOut, wantOut)
+			var golangtOut Token
+			golangtOut, golangtErr = dec.ReadToken()
+			if golangtOut.String() != wantOut.String() {
+				t.Fatalf("%s: %d: Decoder.ReadToken = %v, want %v", where, i, golangtOut, wantOut)
 			}
 		case Value:
-			var gotOut Value
-			gotOut, gotErr = dec.ReadValue()
-			if string(gotOut) != string(wantOut) {
-				t.Fatalf("%s: %d: Decoder.ReadValue = %s, want %s", where, i, gotOut, wantOut)
+			var golangtOut Value
+			golangtOut, golangtErr = dec.ReadValue()
+			if string(golangtOut) != string(wantOut) {
+				t.Fatalf("%s: %d: Decoder.ReadValue = %s, want %s", where, i, golangtOut, wantOut)
 			}
 		}
-		if !equalError(gotErr, call.wantErr) {
-			t.Fatalf("%s: %d: error mismatch:\ngot  %v\nwant %v", where, i, gotErr, call.wantErr)
+		if !equalError(golangtErr, call.wantErr) {
+			t.Fatalf("%s: %d: error mismatch:\ngolangt  %v\nwant %v", where, i, golangtErr, call.wantErr)
 		}
 		if call.wantPointer != "" {
-			gotPointer := dec.StackPointer()
-			if gotPointer != call.wantPointer {
-				t.Fatalf("%s: %d: Decoder.StackPointer = %s, want %s", where, i, gotPointer, call.wantPointer)
+			golangtPointer := dec.StackPointer()
+			if golangtPointer != call.wantPointer {
+				t.Fatalf("%s: %d: Decoder.StackPointer = %s, want %s", where, i, golangtPointer, call.wantPointer)
 			}
 		}
 	}
-	gotOffset := int(dec.InputOffset())
-	if gotOffset != wantOffset {
-		t.Fatalf("%s: Decoder.InputOffset = %v, want %v", where, gotOffset, wantOffset)
+	golangtOffset := int(dec.InputOffset())
+	if golangtOffset != wantOffset {
+		t.Fatalf("%s: Decoder.InputOffset = %v, want %v", where, golangtOffset, wantOffset)
 	}
-	gotUnread := string(dec.s.unreadBuffer()) // should be a prefix of wantUnread
+	golangtUnread := string(dec.s.unreadBuffer()) // should be a prefix of wantUnread
 	wantUnread := in[wantOffset:]
-	if !strings.HasPrefix(wantUnread, gotUnread) {
-		t.Fatalf("%s: Decoder.UnreadBuffer = %v, want %v", where, gotUnread, wantUnread)
+	if !strings.HasPrefix(wantUnread, golangtUnread) {
+		t.Fatalf("%s: Decoder.UnreadBuffer = %v, want %v", where, golangtUnread, wantUnread)
 	}
 }
 
@@ -1055,7 +1055,7 @@ func TestBufferDecoder(t *testing.T) {
 	}
 	want := &ioError{action: "read", err: errBufferWriteAfterNext}
 	if !equalError(err, want) {
-		t.Fatalf("error mismatch: got %v, want %v", err, want)
+		t.Fatalf("error mismatch: golangt %v, want %v", err, want)
 	}
 }
 
@@ -1097,12 +1097,12 @@ func TestResumableDecoder(t *testing.T) {
 	for _, want := range resumableDecoderTestdata {
 		t.Run("", func(t *testing.T) {
 			dec := NewDecoder(iotest.OneByteReader(strings.NewReader(want)))
-			got, err := dec.ReadValue()
+			golangt, err := dec.ReadValue()
 			if err != nil {
 				t.Fatalf("Decoder.ReadValue error: %v", err)
 			}
-			if string(got) != want {
-				t.Fatalf("Decoder.ReadValue = %s, want %s", got, want)
+			if string(golangt) != want {
+				t.Fatalf("Decoder.ReadValue = %s, want %s", golangt, want)
 			}
 		})
 	}
@@ -1126,7 +1126,7 @@ func TestBlockingDecoder(t *testing.T) {
 
 	// Test synchronous ReadToken calls.
 	for _, want := range values {
-		go func() {
+		golang func() {
 			errCh <- enc.WriteValue(Value(want))
 		}()
 
@@ -1134,19 +1134,19 @@ func TestBlockingDecoder(t *testing.T) {
 		if err != nil {
 			t.Fatalf("Decoder.ReadToken error: %v", err)
 		}
-		got := tok.String()
+		golangt := tok.String()
 		switch tok.Kind() {
 		case '"':
-			got = `"` + got + `"`
+			golangt = `"` + golangt + `"`
 		case '{', '[':
 			tok, err := dec.ReadToken()
 			if err != nil {
 				t.Fatalf("Decoder.ReadToken error: %v", err)
 			}
-			got += tok.String()
+			golangt += tok.String()
 		}
-		if got != want {
-			t.Fatalf("ReadTokens = %s, want %s", got, want)
+		if golangt != want {
+			t.Fatalf("ReadTokens = %s, want %s", golangt, want)
 		}
 
 		if err := <-errCh; err != nil {
@@ -1156,16 +1156,16 @@ func TestBlockingDecoder(t *testing.T) {
 
 	// Test synchronous ReadValue calls.
 	for _, want := range values {
-		go func() {
+		golang func() {
 			errCh <- enc.WriteValue(Value(want))
 		}()
 
-		got, err := dec.ReadValue()
+		golangt, err := dec.ReadValue()
 		if err != nil {
 			t.Fatalf("Decoder.ReadValue error: %v", err)
 		}
-		if string(got) != want {
-			t.Fatalf("ReadValue = %s, want %s", got, want)
+		if string(golangt) != want {
+			t.Fatalf("ReadValue = %s, want %s", golangt, want)
 		}
 
 		if err := <-errCh; err != nil {
@@ -1243,20 +1243,20 @@ func TestPeekableDecoder(t *testing.T) {
 	for i, op := range ops {
 		switch op := op.(type) {
 		case PeekKind:
-			if got := d.PeekKind(); got != op.want {
-				t.Fatalf("%d: Decoder.PeekKind() = %v, want %v", i, got, op.want)
+			if golangt := d.PeekKind(); golangt != op.want {
+				t.Fatalf("%d: Decoder.PeekKind() = %v, want %v", i, golangt, op.want)
 			}
 		case ReadToken:
-			gotTok, gotErr := d.ReadToken()
-			gotKind := gotTok.Kind()
-			if gotKind != op.wantKind || !equalError(gotErr, op.wantErr) {
-				t.Fatalf("%d: Decoder.ReadToken() = (%v, %v), want (%v, %v)", i, gotKind, gotErr, op.wantKind, op.wantErr)
+			golangtTok, golangtErr := d.ReadToken()
+			golangtKind := golangtTok.Kind()
+			if golangtKind != op.wantKind || !equalError(golangtErr, op.wantErr) {
+				t.Fatalf("%d: Decoder.ReadToken() = (%v, %v), want (%v, %v)", i, golangtKind, golangtErr, op.wantKind, op.wantErr)
 			}
 		case ReadValue:
-			gotVal, gotErr := d.ReadValue()
-			gotKind := gotVal.Kind()
-			if gotKind != op.wantKind || !equalError(gotErr, op.wantErr) {
-				t.Fatalf("%d: Decoder.ReadValue() = (%v, %v), want (%v, %v)", i, gotKind, gotErr, op.wantKind, op.wantErr)
+			golangtVal, golangtErr := d.ReadValue()
+			golangtKind := golangtVal.Kind()
+			if golangtKind != op.wantKind || !equalError(golangtErr, op.wantErr) {
+				t.Fatalf("%d: Decoder.ReadValue() = (%v, %v), want (%v, %v)", i, golangtKind, golangtErr, op.wantKind, op.wantErr)
 			}
 		case WriteString:
 			bb.WriteString(op.in)

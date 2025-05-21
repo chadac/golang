@@ -1,5 +1,5 @@
 // Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime_test
@@ -14,12 +14,12 @@ func TestGOMAXPROCSUpdate(t *testing.T) {
 		t.Skip("skipping test: long sleeps")
 	}
 
-	got := runTestProg(t, "testprog", "WindowsUpdateGOMAXPROCS")
-	if strings.Contains(got, "SKIP") {
-		t.Skip(got)
+	golangt := runTestProg(t, "testprog", "WindowsUpdateGOMAXPROCS")
+	if strings.Contains(golangt, "SKIP") {
+		t.Skip(golangt)
 	}
-	if !strings.Contains(got, "OK") {
-		t.Fatalf("output got %q want OK", got)
+	if !strings.Contains(golangt, "OK") {
+		t.Fatalf("output golangt %q want OK", golangt)
 	}
 }
 
@@ -32,12 +32,12 @@ func TestCgroupGOMAXPROCSDontUpdate(t *testing.T) {
 	// update feature.
 	for _, v := range []string{"GOMAXPROCS=4", "GODEBUG=updatemaxprocs=0"} {
 		t.Run(v, func(t *testing.T) {
-			got := runTestProg(t, "testprog", "WindowsDontUpdateGOMAXPROCS", v)
-			if strings.Contains(got, "SKIP") {
-				t.Skip(got)
+			golangt := runTestProg(t, "testprog", "WindowsDontUpdateGOMAXPROCS", v)
+			if strings.Contains(golangt, "SKIP") {
+				t.Skip(golangt)
 			}
-			if !strings.Contains(got, "OK") {
-				t.Fatalf("output got %q want OK", got)
+			if !strings.Contains(golangt, "OK") {
+				t.Fatalf("output golangt %q want OK", golangt)
 			}
 		})
 	}

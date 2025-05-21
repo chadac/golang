@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package net
@@ -45,29 +45,29 @@ func expectSendfile(t *testing.T, wantConn Conn, f func()) {
 	}()
 	var (
 		called     bool
-		gotHandled bool
-		gotFD      *poll.FD
-		gotErr     error
+		golangtHandled bool
+		golangtFD      *poll.FD
+		golangtErr     error
 	)
 	poll.TestHookDidSendFile = func(dstFD *poll.FD, src uintptr, written int64, err error, handled bool) {
 		if called {
 			t.Error("internal/poll.SendFile called multiple times, want one call")
 		}
 		called = true
-		gotHandled = handled
-		gotFD = dstFD
-		gotErr = err
+		golangtHandled = handled
+		golangtFD = dstFD
+		golangtErr = err
 	}
 	f()
 	if !called {
 		t.Error("internal/poll.SendFile was not called, want it to be")
 		return
 	}
-	if !gotHandled {
-		t.Error("internal/poll.SendFile did not handle the write, want it to, error:", gotErr)
+	if !golangtHandled {
+		t.Error("internal/poll.SendFile did not handle the write, want it to, error:", golangtErr)
 		return
 	}
-	if &wantConn.(*TCPConn).fd.pfd != gotFD {
+	if &wantConn.(*TCPConn).fd.pfd != golangtFD {
 		t.Error("internal.poll.SendFile called with unexpected FD")
 	}
 }
@@ -103,7 +103,7 @@ func testSendfile(t *testing.T, filePath, fileHash string, size, limit int64) {
 	defer ln.Close()
 
 	errc := make(chan error, 1)
-	go func(ln Listener) {
+	golang func(ln Listener) {
 		// Wait for a connection.
 		conn, err := ln.Accept()
 		if err != nil {
@@ -112,7 +112,7 @@ func testSendfile(t *testing.T, filePath, fileHash string, size, limit int64) {
 			return
 		}
 
-		go func() {
+		golang func() {
 			defer close(errc)
 			defer conn.Close()
 
@@ -180,7 +180,7 @@ func TestSendfileParts(t *testing.T) {
 	defer ln.Close()
 
 	errc := make(chan error, 1)
-	go func(ln Listener) {
+	golang func(ln Listener) {
 		// Wait for a connection.
 		conn, err := ln.Accept()
 		if err != nil {
@@ -189,7 +189,7 @@ func TestSendfileParts(t *testing.T) {
 			return
 		}
 
-		go func() {
+		golang func() {
 			defer close(errc)
 			defer conn.Close()
 
@@ -240,7 +240,7 @@ func TestSendfileSeeked(t *testing.T) {
 	const sendSize = 10 << 10
 
 	errc := make(chan error, 1)
-	go func(ln Listener) {
+	golang func(ln Listener) {
 		// Wait for a connection.
 		conn, err := ln.Accept()
 		if err != nil {
@@ -249,7 +249,7 @@ func TestSendfileSeeked(t *testing.T) {
 			return
 		}
 
-		go func() {
+		golang func() {
 			defer close(errc)
 			defer conn.Close()
 
@@ -316,7 +316,7 @@ func TestSendfilePipe(t *testing.T) {
 
 	var wg sync.WaitGroup
 	wg.Add(1)
-	go func() {
+	golang func() {
 		// Accept a connection and copy 1 byte from the read end of
 		// the pipe to the connection. This will call into sendfile.
 		defer wg.Done()
@@ -335,12 +335,12 @@ func TestSendfilePipe(t *testing.T) {
 			t.Error(err)
 			return
 		}
-		// Signal the main goroutine that we've copied the byte.
+		// Signal the main golangroutine that we've copied the byte.
 		close(copied)
 	}()
 
 	wg.Add(1)
-	go func() {
+	golang func() {
 		// Write 1 byte to the write end of the pipe.
 		defer wg.Done()
 		_, err := w.Write([]byte{'a'})
@@ -350,8 +350,8 @@ func TestSendfilePipe(t *testing.T) {
 	}()
 
 	wg.Add(1)
-	go func() {
-		// Connect to the server started two goroutines up and
+	golang func() {
+		// Connect to the server started two golangroutines up and
 		// discard any data that it writes.
 		defer wg.Done()
 		conn, err := Dial("tcp", ln.Addr().String())
@@ -373,7 +373,7 @@ func TestSendfilePipe(t *testing.T) {
 	}
 
 	wg.Add(1)
-	go func() {
+	golang func() {
 		// Wait for much longer than the deadline and write a byte
 		// to the pipe.
 		defer wg.Done()
@@ -387,7 +387,7 @@ func TestSendfilePipe(t *testing.T) {
 	if err == nil {
 		t.Error("Read did not time out")
 	} else if !os.IsTimeout(err) {
-		t.Errorf("got error %v, expected a time out", err)
+		t.Errorf("golangt error %v, expected a time out", err)
 	}
 
 	wg.Wait()
@@ -399,7 +399,7 @@ func TestSendfileOnWriteTimeoutExceeded(t *testing.T) {
 	defer ln.Close()
 
 	errc := make(chan error, 1)
-	go func(ln Listener) (retErr error) {
+	golang func(ln Listener) (retErr error) {
 		defer func() {
 			errc <- retErr
 			close(errc)
@@ -411,7 +411,7 @@ func TestSendfileOnWriteTimeoutExceeded(t *testing.T) {
 		}
 		defer conn.Close()
 
-		// Set the write deadline in the past(1h ago). It makes
+		// Set the write deadline in the past(1h agolang). It makes
 		// sure that it is always write timeout.
 		if err := conn.SetWriteDeadline(time.Now().Add(-1 * time.Hour)); err != nil {
 			return err
@@ -433,7 +433,7 @@ func TestSendfileOnWriteTimeoutExceeded(t *testing.T) {
 		}
 
 		if err == nil {
-			err = fmt.Errorf("expected ErrDeadlineExceeded, but got nil")
+			err = fmt.Errorf("expected ErrDeadlineExceeded, but golangt nil")
 		}
 		return err
 	}(ln)
@@ -446,10 +446,10 @@ func TestSendfileOnWriteTimeoutExceeded(t *testing.T) {
 
 	n, err := io.Copy(io.Discard, conn)
 	if err != nil {
-		t.Fatalf("expected nil error, but got %v", err)
+		t.Fatalf("expected nil error, but golangt %v", err)
 	}
 	if n != 0 {
-		t.Fatalf("expected receive zero, but got %d byte(s)", n)
+		t.Fatalf("expected receive zero, but golangt %d byte(s)", n)
 	}
 
 	if err := <-errc; err != nil {
@@ -478,7 +478,7 @@ func BenchmarkSendfileZeroBytes(b *testing.B) {
 
 	dataSize := b.N
 	wg.Add(1)
-	go func(f *os.File) {
+	golang func(f *os.File) {
 		defer wg.Done()
 
 		for i := 0; i < dataSize; i++ {
@@ -496,7 +496,7 @@ func BenchmarkSendfileZeroBytes(b *testing.B) {
 	b.ReportAllocs()
 
 	wg.Add(1)
-	go func(ln Listener, fileName string) {
+	golang func(ln Listener, fileName string) {
 		defer wg.Done()
 
 		conn, err := ln.Accept()
@@ -536,7 +536,7 @@ func BenchmarkSendfileZeroBytes(b *testing.B) {
 		b.Fatalf("failed to copy: %v", err)
 	}
 	if n != int64(dataSize) {
-		b.Fatalf("expected %d copied bytes, but got %d", dataSize, n)
+		b.Fatalf("expected %d copied bytes, but golangt %d", dataSize, n)
 	}
 
 	cancel()
@@ -545,7 +545,7 @@ func BenchmarkSendfileZeroBytes(b *testing.B) {
 func BenchmarkSendFile(b *testing.B) {
 	if runtime.GOOS == "windows" {
 		// TODO(panjf2000): Windows has not yet implemented FileConn,
-		//		remove this when it's implemented in https://go.dev/issues/9503.
+		//		remove this when it's implemented in https://golang.dev/issues/9503.
 		b.Skipf("skipping on %s", runtime.GOOS)
 	}
 
@@ -587,13 +587,13 @@ func (bench sendFileBench) benchSendFile(b *testing.B) {
 	b.SetBytes(int64(bench.chunkSize))
 	b.ResetTimer()
 
-	// Data go from file to socket via sendfile(2).
+	// Data golang from file to socket via sendfile(2).
 	sent, err := io.Copy(server, f)
 	if err != nil {
 		b.Fatalf("failed to copy data with sendfile, error: %v", err)
 	}
 	if sent != int64(fileSize) {
-		b.Fatalf("bytes sent mismatch, got: %d, want: %d", sent, fileSize)
+		b.Fatalf("bytes sent mismatch, golangt: %d, want: %d", sent, fileSize)
 	}
 }
 

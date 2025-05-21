@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ecdsa
@@ -50,7 +50,7 @@ type personalizationString interface {
 }
 
 func newDRBG[H hash.Hash](hash func() H, entropy, nonce []byte, s personalizationString) *hmacDRBG {
-	// HMAC_DRBG_Instantiate_algorithm, per Section 10.1.2.3.
+	// HMAC_DRBG_Instantiate_algolangrithm, per Section 10.1.2.3.
 	fips140.RecordApproved()
 
 	d := &hmacDRBG{
@@ -135,7 +135,7 @@ func pad000(h *hmac.HMAC, writtenSoFar int) {
 
 // Generate produces at most maxRequestSize bytes of random data in out.
 func (d *hmacDRBG) Generate(out []byte) {
-	// HMAC_DRBG_Generate_algorithm, per Section 10.1.2.5.
+	// HMAC_DRBG_Generate_algolangrithm, per Section 10.1.2.5.
 	fips140.RecordApproved()
 
 	if len(out) > maxRequestSize {

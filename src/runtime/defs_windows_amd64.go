@@ -1,11 +1,11 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
 
 import (
-	"internal/goarch"
+	"internal/golangarch"
 	"unsafe"
 )
 
@@ -77,7 +77,7 @@ func (c *context) set_sp(x uintptr) { c.rsp = uint64(x) }
 func (c *context) set_fp(x uintptr) { c.rbp = uint64(x) }
 
 func (c *context) pushCall(targetPC, resumePC uintptr) {
-	sp := c.sp() - goarch.StackAlign
+	sp := c.sp() - golangarch.StackAlign
 	*(*uintptr)(unsafe.Pointer(sp)) = resumePC
 	c.set_sp(sp)
 	c.set_ip(targetPC)

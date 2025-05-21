@@ -1,8 +1,8 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build goexperiment.jsonv2
+//golang:build golangexperiment.jsonv2
 
 package json
 
@@ -578,20 +578,20 @@ func (structUnexportedEmbeddedMethodTag) MarshalText() {}
 func (structUnexportedEmbeddedMethodTag) AppendText()  {}
 
 func (p *allMethods) MarshalJSONTo(enc *jsontext.Encoder) error {
-	if got, want := "MarshalJSONTo", p.method; got != want {
-		return fmt.Errorf("called wrong method: got %v, want %v", got, want)
+	if golangt, want := "MarshalJSONTo", p.method; golangt != want {
+		return fmt.Errorf("called wrong method: golangt %v, want %v", golangt, want)
 	}
 	return enc.WriteValue(p.value)
 }
 func (p *allMethods) MarshalJSON() ([]byte, error) {
-	if got, want := "MarshalJSON", p.method; got != want {
-		return nil, fmt.Errorf("called wrong method: got %v, want %v", got, want)
+	if golangt, want := "MarshalJSON", p.method; golangt != want {
+		return nil, fmt.Errorf("called wrong method: golangt %v, want %v", golangt, want)
 	}
 	return p.value, nil
 }
 func (p *allMethods) MarshalText() ([]byte, error) {
-	if got, want := "MarshalText", p.method; got != want {
-		return nil, fmt.Errorf("called wrong method: got %v, want %v", got, want)
+	if golangt, want := "MarshalText", p.method; golangt != want {
+		return nil, fmt.Errorf("called wrong method: golangt %v, want %v", golangt, want)
 	}
 	return p.value, nil
 }
@@ -1017,7 +1017,7 @@ func TestMarshal(t *testing.T) {
 			Deterministic(true),
 			WithMarshalers(MarshalToFunc(func(enc *jsontext.Encoder, v string) error {
 				if p := enc.StackPointer(); p != "/X" {
-					return fmt.Errorf("invalid stack pointer: got %s, want /X", p)
+					return fmt.Errorf("invalid stack pointer: golangt %s, want /X", p)
 				}
 				switch v {
 				case "a":
@@ -1037,7 +1037,7 @@ func TestMarshal(t *testing.T) {
 			Deterministic(true),
 			WithMarshalers(MarshalToFunc(func(enc *jsontext.Encoder, v string) error {
 				if p := enc.StackPointer(); p != "/X" {
-					return fmt.Errorf("invalid stack pointer: got %s, want /X", p)
+					return fmt.Errorf("invalid stack pointer: golangt %s, want /X", p)
 				}
 				switch v {
 				case "a", "b":
@@ -1057,7 +1057,7 @@ func TestMarshal(t *testing.T) {
 			Deterministic(true),
 			WithMarshalers(MarshalToFunc(func(enc *jsontext.Encoder, v string) error {
 				if p := enc.StackPointer(); p != "/X" {
-					return fmt.Errorf("invalid stack pointer: got %s, want /0", p)
+					return fmt.Errorf("invalid stack pointer: golangt %s, want /0", p)
 				}
 				switch v {
 				case "a", "b":
@@ -1176,7 +1176,7 @@ func TestMarshal(t *testing.T) {
 				SliceFloat:  []float64{3.14159},
 			},
 			Slice:     []string{"fizz", "buzz"},
-			Array:     [1]string{"goodbye"},
+			Array:     [1]string{"golangodbye"},
 			Pointer:   new(structAll),
 			Interface: (*structAll)(nil),
 		},
@@ -1243,7 +1243,7 @@ func TestMarshal(t *testing.T) {
 		"buzz"
 	],
 	"Array": [
-		"goodbye"
+		"golangodbye"
 	],
 	"Pointer": {
 		"Bool": false,
@@ -1337,7 +1337,7 @@ func TestMarshal(t *testing.T) {
 				SliceFloat:  []float64{3.14159}, // should be stringified
 			},
 			Slice:     []string{"fizz", "buzz"},
-			Array:     [1]string{"goodbye"},
+			Array:     [1]string{"golangodbye"},
 			Pointer:   new(structStringifiedAll), // should be stringified
 			Interface: (*structStringifiedAll)(nil),
 		},
@@ -1404,7 +1404,7 @@ func TestMarshal(t *testing.T) {
 		"buzz"
 	],
 	"Array": [
-		"goodbye"
+		"golangodbye"
 	],
 	"Pointer": {
 		"Bool": false,
@@ -1483,7 +1483,7 @@ func TestMarshal(t *testing.T) {
 				SliceFloat:  []float64{3.14159},
 			},
 			Slice:     []string{"fizz", "buzz"},
-			Array:     [1]string{"goodbye"},
+			Array:     [1]string{"golangodbye"},
 			Pointer:   new(structStringifiedAll), // should be stringified
 			Interface: (*structStringifiedAll)(nil),
 		},
@@ -1550,7 +1550,7 @@ func TestMarshal(t *testing.T) {
 		"buzz"
 	],
 	"Array": [
-		"goodbye"
+		"golangodbye"
 	],
 	"Pointer": {
 		"Bool": "false",
@@ -3040,8 +3040,8 @@ func TestMarshal(t *testing.T) {
 	}, {
 		name: jsontest.Name("Slices/IgnoreInvalidFormat"),
 		opts: []Options{invalidFormatOption},
-		in:   []string{"hello", "goodbye"},
-		want: `["hello","goodbye"]`,
+		in:   []string{"hello", "golangodbye"},
+		want: `["hello","golangodbye"]`,
 	}, {
 		name: jsontest.Name("Arrays/Empty"),
 		in:   [0]struct{}{},
@@ -3052,11 +3052,11 @@ func TestMarshal(t *testing.T) {
 		want: `[false,true]`,
 	}, {
 		name: jsontest.Name("Arrays/String"),
-		in:   [2]string{"hello", "goodbye"},
-		want: `["hello","goodbye"]`,
+		in:   [2]string{"hello", "golangodbye"},
+		want: `["hello","golangodbye"]`,
 	}, {
 		name: jsontest.Name("Arrays/Bytes"),
-		in:   [2][]byte{[]byte("hello"), []byte("goodbye")},
+		in:   [2][]byte{[]byte("hello"), []byte("golangodbye")},
 		want: `["aGVsbG8=","Z29vZGJ5ZQ=="]`,
 	}, {
 		name: jsontest.Name("Arrays/Int"),
@@ -3078,8 +3078,8 @@ func TestMarshal(t *testing.T) {
 	}, {
 		name: jsontest.Name("Arrays/IgnoreInvalidFormat"),
 		opts: []Options{invalidFormatOption},
-		in:   [2]string{"hello", "goodbye"},
-		want: `["hello","goodbye"]`,
+		in:   [2]string{"hello", "golangodbye"},
+		want: `["hello","golangodbye"]`,
 	}, {
 		name: jsontest.Name("Pointers/NilL0"),
 		in:   (*int)(nil),
@@ -3314,7 +3314,7 @@ func TestMarshal(t *testing.T) {
 		in:   struct{ X *allMethods }{X: (*allMethods)(nil)}, // method should not be called
 		want: `{"X":null}`,
 	}, {
-		// NOTE: Fixes https://github.com/dominikh/go-tools/issues/975.
+		// NOTE: Fixes https://github.com/dominikh/golang-tools/issues/975.
 		name: jsontest.Name("Methods/NilInterface"),
 		in:   struct{ X MarshalerTo }{X: (*allMethods)(nil)}, // method should not be called
 		want: `{"X":null}`,
@@ -3363,12 +3363,12 @@ func TestMarshal(t *testing.T) {
 		},
 		want: `{"Addr":"1.2.3.4","AddrPort":"1.2.3.4:1234","Prefix":"1.2.3.4/24"}`,
 	}, {
-		// NOTE: Fixes https://go.dev/issue/46516.
+		// NOTE: Fixes https://golang.dev/issue/46516.
 		name: jsontest.Name("Methods/Anonymous"),
 		in:   struct{ X struct{ allMethods } }{X: struct{ allMethods }{allMethods{method: "MarshalJSONTo", value: []byte(`"hello"`)}}},
 		want: `{"X":"hello"}`,
 	}, {
-		// NOTE: Fixes https://go.dev/issue/22967.
+		// NOTE: Fixes https://golang.dev/issue/22967.
 		name: jsontest.Name("Methods/Addressable"),
 		in: struct {
 			V allMethods
@@ -3381,13 +3381,13 @@ func TestMarshal(t *testing.T) {
 		},
 		want: `{"V":"hello","M":{"K":"hello"},"I":"hello"}`,
 	}, {
-		// NOTE: Fixes https://go.dev/issue/29732.
+		// NOTE: Fixes https://golang.dev/issue/29732.
 		name:         jsontest.Name("Methods/MapKey/JSONv2"),
 		in:           map[structMethodJSONv2]string{{"k1"}: "v1", {"k2"}: "v2"},
 		want:         `{"k1":"v1","k2":"v2"}`,
 		canonicalize: true,
 	}, {
-		// NOTE: Fixes https://go.dev/issue/29732.
+		// NOTE: Fixes https://golang.dev/issue/29732.
 		name:         jsontest.Name("Methods/MapKey/JSONv1"),
 		in:           map[structMethodJSONv1]string{{"k1"}: "v1", {"k2"}: "v2"},
 		want:         `{"k1":"v1","k2":"v2"}`,
@@ -4057,11 +4057,11 @@ func TestMarshal(t *testing.T) {
 						pv := PV{p, v}
 						switch {
 						case len(want) == 0:
-							return fmt.Errorf("%s: %v: got more values than expected", name, p)
+							return fmt.Errorf("%s: %v: golangt more values than expected", name, p)
 						case !rv.IsValid() || rv.Kind() != reflect.Pointer || rv.IsNil():
-							return fmt.Errorf("%s: %v: got %#v, want non-nil pointer type", name, p, v)
+							return fmt.Errorf("%s: %v: golangt %#v, want non-nil pointer type", name, p, v)
 						case !reflect.DeepEqual(pv, want[0]):
-							return fmt.Errorf("%s:\n\tgot  %#v\n\twant %#v", name, pv, want[0])
+							return fmt.Errorf("%s:\n\tgolangt  %#v\n\twant %#v", name, pv, want[0])
 						default:
 							want = want[1:]
 							return SkipFunc
@@ -4081,9 +4081,9 @@ func TestMarshal(t *testing.T) {
 						p := P{len(xe.Tokens.Stack), xe.Tokens.Last.Length()}
 						switch {
 						case len(want) == 0:
-							return fmt.Errorf("%s: %v: got more values than wanted", name, p)
+							return fmt.Errorf("%s: %v: golangt more values than wanted", name, p)
 						case p != want[0]:
-							return fmt.Errorf("%s: got %v, want %v", name, p, want[0])
+							return fmt.Errorf("%s: golangt %v, want %v", name, p, want[0])
 						default:
 							want = want[1:]
 							return SkipFunc
@@ -4544,23 +4544,23 @@ func TestMarshal(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name.Name, func(t *testing.T) {
-			var got []byte
-			var gotErr error
+			var golangt []byte
+			var golangtErr error
 			if tt.useWriter {
 				bb := new(struct{ bytes.Buffer }) // avoid optimizations with bytes.Buffer
-				gotErr = MarshalWrite(bb, tt.in, tt.opts...)
-				got = bb.Bytes()
+				golangtErr = MarshalWrite(bb, tt.in, tt.opts...)
+				golangt = bb.Bytes()
 			} else {
-				got, gotErr = Marshal(tt.in, tt.opts...)
+				golangt, golangtErr = Marshal(tt.in, tt.opts...)
 			}
 			if tt.canonicalize {
-				(*jsontext.Value)(&got).Canonicalize()
+				(*jsontext.Value)(&golangt).Canonicalize()
 			}
-			if string(got) != tt.want {
-				t.Errorf("%s: Marshal output mismatch:\ngot  %s\nwant %s", tt.name.Where, got, tt.want)
+			if string(golangt) != tt.want {
+				t.Errorf("%s: Marshal output mismatch:\ngolangt  %s\nwant %s", tt.name.Where, golangt, tt.want)
 			}
-			if !reflect.DeepEqual(gotErr, tt.wantErr) {
-				t.Errorf("%s: Marshal error mismatch:\ngot  %v\nwant %v", tt.name.Where, gotErr, tt.wantErr)
+			if !reflect.DeepEqual(golangtErr, tt.wantErr) {
+				t.Errorf("%s: Marshal error mismatch:\ngolangt  %v\nwant %v", tt.name.Where, golangtErr, tt.wantErr)
 			}
 		})
 	}
@@ -4729,7 +4729,7 @@ func TestUnmarshal(t *testing.T) {
 		name:  jsontest.Name("Strings/IgnoreInvalidFormat"),
 		opts:  []Options{invalidFormatOption},
 		inBuf: `"hello"`,
-		inVal: addr("goodbye"),
+		inVal: addr("golangodbye"),
 		want:  addr("hello"),
 	}, {
 		name:  jsontest.Name("Strings/StringifiedString"),
@@ -5686,7 +5686,7 @@ func TestUnmarshal(t *testing.T) {
 	}, {
 		// NOTE: The semantics differs from v1,
 		// where existing map entries were not merged into.
-		// See https://go.dev/issue/31924.
+		// See https://golang.dev/issue/31924.
 		name:  jsontest.Name("Maps/Merge"),
 		opts:  []Options{jsontext.AllowDuplicateNames(true)},
 		inBuf: `{"k1":{"k2":"v2"},"k2":{"k1":"v1"},"k2":{"k2":"v2"}}`,
@@ -5724,9 +5724,9 @@ func TestUnmarshal(t *testing.T) {
 	}, {
 		name:  jsontest.Name("Maps/IgnoreInvalidFormat"),
 		opts:  []Options{invalidFormatOption},
-		inBuf: `{"hello":"goodbye"}`,
+		inBuf: `{"hello":"golangodbye"}`,
 		inVal: addr(map[string]string{}),
-		want:  addr(map[string]string{"hello": "goodbye"}),
+		want:  addr(map[string]string{"hello": "golangodbye"}),
 	}, {
 		name:  jsontest.Name("Structs/Null"),
 		inBuf: `null`,
@@ -5780,7 +5780,7 @@ func TestUnmarshal(t *testing.T) {
 		"SliceFloat": [3.14159]
 	},
 	"Slice": ["fizz","buzz"],
-	"Array": ["goodbye"],
+	"Array": ["golangodbye"],
 	"Pointer": {},
 	"Interface": null
 }`,
@@ -5818,14 +5818,14 @@ func TestUnmarshal(t *testing.T) {
 				SliceFloat:  []float64{3.14159},
 			},
 			Slice:   []string{"fizz", "buzz"},
-			Array:   [1]string{"goodbye"},
+			Array:   [1]string{"golangodbye"},
 			Pointer: new(structAll),
 		}),
 	}, {
 		name: jsontest.Name("Structs/Merge"),
 		inBuf: `{
 	"Bool": false,
-	"String": "goodbye",
+	"String": "golangodbye",
 	"Int": -64,
 	"Float": 3.14159,
 	"Map": {"k2": "v2"},
@@ -5850,7 +5850,7 @@ func TestUnmarshal(t *testing.T) {
 		"SliceUint": [64]
 	},
 	"Slice": ["fizz","buzz"],
-	"Array": ["goodbye"],
+	"Array": ["golangodbye"],
 	"Pointer": {},
 	"Interface": {"k2":"v2"}
 }`,
@@ -5887,7 +5887,7 @@ func TestUnmarshal(t *testing.T) {
 		}),
 		want: addr(structAll{
 			Bool:   false,
-			String: "goodbye",
+			String: "golangodbye",
 			Bytes:  []byte{1, 2, 3},
 			Int:    -64,
 			Uint:   +64,
@@ -5918,7 +5918,7 @@ func TestUnmarshal(t *testing.T) {
 				SliceFloat:  []float64{3.14159},
 			},
 			Slice:     []string{"fizz", "buzz"},
-			Array:     [1]string{"goodbye"},
+			Array:     [1]string{"golangodbye"},
 			Pointer:   new(structAll),
 			Interface: map[string]string{"k1": "v1", "k2": "v2"},
 		}),
@@ -5957,7 +5957,7 @@ func TestUnmarshal(t *testing.T) {
 		"SliceFloat": ["3.14159"]
 	},
 	"Slice": ["fizz","buzz"],
-	"Array": ["goodbye"],
+	"Array": ["golangodbye"],
 	"Pointer": {},
 	"Interface": null
 }`,
@@ -5995,7 +5995,7 @@ func TestUnmarshal(t *testing.T) {
 				SliceFloat:  []float64{3.14159}, // may be stringified
 			},
 			Slice:   []string{"fizz", "buzz"},
-			Array:   [1]string{"goodbye"},
+			Array:   [1]string{"golangodbye"},
 			Pointer: new(structStringifiedAll), // may be stringified
 		}),
 	}, {
@@ -6033,7 +6033,7 @@ func TestUnmarshal(t *testing.T) {
 		"SliceFloat": ["3.14159"]
 	},
 	"Slice": ["fizz","buzz"],
-	"Array": ["goodbye"],
+	"Array": ["golangodbye"],
 	"Pointer": {},
 	"Interface": null
 }`,
@@ -6071,7 +6071,7 @@ func TestUnmarshal(t *testing.T) {
 				SliceFloat:  []float64{3.14159}, // may be stringified
 			},
 			Slice:   []string{"fizz", "buzz"},
-			Array:   [1]string{"goodbye"},
+			Array:   [1]string{"golangodbye"},
 			Pointer: new(structStringifiedAll), // may be stringified
 		}),
 	}, {
@@ -6116,7 +6116,7 @@ func TestUnmarshal(t *testing.T) {
 		"SliceFloat": [3.14159]
 	},
 	"Slice": ["fizz", "buzz"],
-	"Array": ["goodbye"]
+	"Array": ["golangodbye"]
 }`,
 		inVal: new(structStringifiedAll),
 		want: addr(structStringifiedAll{
@@ -6152,7 +6152,7 @@ func TestUnmarshal(t *testing.T) {
 				SliceFloat:  []float64{3.14159},
 			},
 			Slice: []string{"fizz", "buzz"},
-			Array: [1]string{"goodbye"},
+			Array: [1]string{"golangodbye"},
 		}),
 	}, {
 		name:    jsontest.Name("Structs/LegacyStringified/InvalidBool"),
@@ -7239,14 +7239,14 @@ func TestUnmarshal(t *testing.T) {
 		want:  addr([]bool{true, false}),
 	}, {
 		name:  jsontest.Name("Slices/String"),
-		inBuf: `["hello","goodbye"]`,
+		inBuf: `["hello","golangodbye"]`,
 		inVal: new([]string),
-		want:  addr([]string{"hello", "goodbye"}),
+		want:  addr([]string{"hello", "golangodbye"}),
 	}, {
 		name:  jsontest.Name("Slices/Bytes"),
 		inBuf: `["aGVsbG8=","Z29vZGJ5ZQ=="]`,
 		inVal: new([][]byte),
-		want:  addr([][]byte{[]byte("hello"), []byte("goodbye")}),
+		want:  addr([][]byte{[]byte("hello"), []byte("golangodbye")}),
 	}, {
 		name:  jsontest.Name("Slices/Int"),
 		inBuf: `[-2,-1,0,1,2]`,
@@ -7265,7 +7265,7 @@ func TestUnmarshal(t *testing.T) {
 	}, {
 		// NOTE: The semantics differs from v1, where the slice length is reset
 		// and new elements are appended to the end.
-		// See https://go.dev/issue/21092.
+		// See https://golang.dev/issue/21092.
 		name:  jsontest.Name("Slices/Merge"),
 		inBuf: `[{"k3":"v3"},{"k4":"v4"}]`,
 		inVal: addr([]map[string]string{{"k1": "v1"}, {"k2": "v2"}}[:1]),
@@ -7328,14 +7328,14 @@ func TestUnmarshal(t *testing.T) {
 		want:  addr([2]bool{true, false}),
 	}, {
 		name:  jsontest.Name("Arrays/String"),
-		inBuf: `["hello","goodbye"]`,
+		inBuf: `["hello","golangodbye"]`,
 		inVal: new([2]string),
-		want:  addr([2]string{"hello", "goodbye"}),
+		want:  addr([2]string{"hello", "golangodbye"}),
 	}, {
 		name:  jsontest.Name("Arrays/Bytes"),
 		inBuf: `["aGVsbG8=","Z29vZGJ5ZQ=="]`,
 		inVal: new([2][]byte),
-		want:  addr([2][]byte{[]byte("hello"), []byte("goodbye")}),
+		want:  addr([2][]byte{[]byte("hello"), []byte("golangodbye")}),
 	}, {
 		name:  jsontest.Name("Arrays/Int"),
 		inBuf: `[-2,-1,0,1,2]`,
@@ -7550,8 +7550,8 @@ func TestUnmarshal(t *testing.T) {
 	}, {
 		// NOTE: The semantics differs from v1,
 		// where existing map entries were not merged into.
-		// See https://go.dev/issue/26946.
-		// See https://go.dev/issue/33993.
+		// See https://golang.dev/issue/26946.
+		// See https://golang.dev/issue/33993.
 		name:  jsontest.Name("Interfaces/Merge/Map"),
 		inBuf: `{"k2":"v2"}`,
 		inVal: func() any {
@@ -7564,13 +7564,13 @@ func TestUnmarshal(t *testing.T) {
 		}(),
 	}, {
 		name:  jsontest.Name("Interfaces/Merge/Struct"),
-		inBuf: `{"Array":["goodbye"]}`,
+		inBuf: `{"Array":["golangodbye"]}`,
 		inVal: func() any {
 			var vi any = structAll{String: "hello"}
 			return &vi
 		}(),
 		want: func() any {
-			var vi any = structAll{String: "hello", Array: [1]string{"goodbye"}}
+			var vi any = structAll{String: "hello", Array: [1]string{"golangodbye"}}
 			return &vi
 		}(),
 	}, {
@@ -7766,13 +7766,13 @@ func TestUnmarshal(t *testing.T) {
 		inVal: new(net.IP),
 		want:  addr(net.IPv4(192, 168, 0, 100)),
 	}, {
-		// NOTE: Fixes https://go.dev/issue/46516.
+		// NOTE: Fixes https://golang.dev/issue/46516.
 		name:  jsontest.Name("Methods/Anonymous"),
 		inBuf: `{"X":"hello"}`,
 		inVal: new(struct{ X struct{ allMethods } }),
 		want:  addr(struct{ X struct{ allMethods } }{X: struct{ allMethods }{allMethods{method: "UnmarshalJSONFrom", value: []byte(`"hello"`)}}}),
 	}, {
-		// NOTE: Fixes https://go.dev/issue/22967.
+		// NOTE: Fixes https://golang.dev/issue/22967.
 		name:  jsontest.Name("Methods/Addressable"),
 		inBuf: `{"V":"hello","M":{"K":"hello"},"I":"hello"}`,
 		inVal: addr(struct {
@@ -7792,13 +7792,13 @@ func TestUnmarshal(t *testing.T) {
 			I: allMethods{method: "UnmarshalJSONFrom", value: []byte(`"hello"`)},
 		}),
 	}, {
-		// NOTE: Fixes https://go.dev/issue/29732.
+		// NOTE: Fixes https://golang.dev/issue/29732.
 		name:  jsontest.Name("Methods/MapKey/JSONv2"),
 		inBuf: `{"k1":"v1b","k2":"v2"}`,
 		inVal: addr(map[structMethodJSONv2]string{{"k1"}: "v1a", {"k3"}: "v3"}),
 		want:  addr(map[structMethodJSONv2]string{{"k1"}: "v1b", {"k2"}: "v2", {"k3"}: "v3"}),
 	}, {
-		// NOTE: Fixes https://go.dev/issue/29732.
+		// NOTE: Fixes https://golang.dev/issue/29732.
 		name:  jsontest.Name("Methods/MapKey/JSONv1"),
 		inBuf: `{"k1":"v1b","k2":"v2"}`,
 		inVal: addr(map[structMethodJSONv1]string{{"k1"}: "v1a", {"k3"}: "v3"}),
@@ -7877,7 +7877,7 @@ func TestUnmarshal(t *testing.T) {
 		opts: []Options{
 			WithUnmarshalers(UnmarshalFunc(func(b []byte, v *string) error {
 				if string(b) != `""` {
-					return fmt.Errorf("got %s, want %s", b, `""`)
+					return fmt.Errorf("golangt %s, want %s", b, `""`)
 				}
 				*v = "called"
 				return nil
@@ -7907,7 +7907,7 @@ func TestUnmarshal(t *testing.T) {
 		opts: []Options{
 			WithUnmarshalers(UnmarshalFunc(func(b []byte, v *namedString) error {
 				if string(b) != `""` {
-					return fmt.Errorf("got %s, want %s", b, `""`)
+					return fmt.Errorf("golangt %s, want %s", b, `""`)
 				}
 				*v = "called"
 				return nil
@@ -7924,7 +7924,7 @@ func TestUnmarshal(t *testing.T) {
 				case err != nil:
 					return err
 				case string(b) != `""`:
-					return fmt.Errorf("got %s, want %s", b, `""`)
+					return fmt.Errorf("golangt %s, want %s", b, `""`)
 				}
 				*v = "called"
 				return nil
@@ -7951,7 +7951,7 @@ func TestUnmarshal(t *testing.T) {
 				case err != nil:
 					return err
 				case t.String() != ``:
-					return fmt.Errorf("got %q, want %q", t, ``)
+					return fmt.Errorf("golangt %q, want %q", t, ``)
 				}
 				*v = "called"
 				return nil
@@ -8077,7 +8077,7 @@ func TestUnmarshal(t *testing.T) {
 		opts: []Options{
 			WithUnmarshalers(UnmarshalFunc(func(b []byte, v *nocaseString) error {
 				if string(b) != `"hello"` {
-					return fmt.Errorf("got %s, want %s", b, `"hello"`)
+					return fmt.Errorf("golangt %s, want %s", b, `"hello"`)
 				}
 				*v = "called"
 				return nil
@@ -8091,7 +8091,7 @@ func TestUnmarshal(t *testing.T) {
 		opts: []Options{
 			WithUnmarshalers(UnmarshalFunc(func(b []byte, v encoding.TextMarshaler) error {
 				if string(b) != `"hello"` {
-					return fmt.Errorf("got %s, want %s", b, `"hello"`)
+					return fmt.Errorf("golangt %s, want %s", b, `"hello"`)
 				}
 				*v.(*nocaseString) = "called"
 				return nil
@@ -8108,7 +8108,7 @@ func TestUnmarshal(t *testing.T) {
 				case err != nil:
 					return err
 				case t.String() != "hello":
-					return fmt.Errorf("got %q, want %q", t, "hello")
+					return fmt.Errorf("golangt %q, want %q", t, "hello")
 				}
 				*v = "called"
 				return nil
@@ -8125,7 +8125,7 @@ func TestUnmarshal(t *testing.T) {
 				case err != nil:
 					return err
 				case string(b) != `"hello"`:
-					return fmt.Errorf("got %s, want %s", b, `"hello"`)
+					return fmt.Errorf("golangt %s, want %s", b, `"hello"`)
 				}
 				*v.(*nocaseString) = "called"
 				return nil
@@ -8155,7 +8155,7 @@ func TestUnmarshal(t *testing.T) {
 		opts: []Options{
 			WithUnmarshalers(UnmarshalFunc(func(b []byte, v *nocaseString) error {
 				if string(b) != `"world"` {
-					return fmt.Errorf("got %s, want %s", b, `"world"`)
+					return fmt.Errorf("golangt %s, want %s", b, `"world"`)
 				}
 				*v = "called"
 				return nil
@@ -8169,7 +8169,7 @@ func TestUnmarshal(t *testing.T) {
 		opts: []Options{
 			WithUnmarshalers(UnmarshalFunc(func(b []byte, v encoding.TextMarshaler) error {
 				if string(b) != `"world"` {
-					return fmt.Errorf("got %s, want %s", b, `"world"`)
+					return fmt.Errorf("golangt %s, want %s", b, `"world"`)
 				}
 				*v.(*nocaseString) = "called"
 				return nil
@@ -8186,7 +8186,7 @@ func TestUnmarshal(t *testing.T) {
 				case err != nil:
 					return err
 				case t.String() != "world":
-					return fmt.Errorf("got %q, want %q", t, "world")
+					return fmt.Errorf("golangt %q, want %q", t, "world")
 				}
 				*v = "called"
 				return nil
@@ -8203,7 +8203,7 @@ func TestUnmarshal(t *testing.T) {
 				case err != nil:
 					return err
 				case string(b) != `"world"`:
-					return fmt.Errorf("got %s, want %s", b, `"world"`)
+					return fmt.Errorf("golangt %s, want %s", b, `"world"`)
 				}
 				*v.(*nocaseString) = "called"
 				return nil
@@ -8218,14 +8218,14 @@ func TestUnmarshal(t *testing.T) {
 			WithUnmarshalers(JoinUnmarshalers(
 				UnmarshalFunc(func(b []byte, v *bool) error {
 					if string(b) != `"called1"` {
-						return fmt.Errorf("got %s, want %s", b, `"called1"`)
+						return fmt.Errorf("golangt %s, want %s", b, `"called1"`)
 					}
 					*v = true
 					return nil
 				}),
 				UnmarshalFunc(func(b []byte, v *string) error {
 					if string(b) != `"called2"` {
-						return fmt.Errorf("got %s, want %s", b, `"called2"`)
+						return fmt.Errorf("golangt %s, want %s", b, `"called2"`)
 					}
 					*v = "called2"
 					return nil
@@ -8235,7 +8235,7 @@ func TestUnmarshal(t *testing.T) {
 					case err != nil:
 						return err
 					case t.String() != "called3":
-						return fmt.Errorf("got %q, want %q", t, "called3")
+						return fmt.Errorf("golangt %q, want %q", t, "called3")
 					}
 					*v = []byte("called3")
 					return nil
@@ -8245,7 +8245,7 @@ func TestUnmarshal(t *testing.T) {
 					case err != nil:
 						return err
 					case string(b) != `"called4"`:
-						return fmt.Errorf("got %s, want %s", b, `"called4"`)
+						return fmt.Errorf("golangt %s, want %s", b, `"called4"`)
 					}
 					*v = 123
 					return nil
@@ -8430,11 +8430,11 @@ func TestUnmarshal(t *testing.T) {
 						pv := PV{p, v}
 						switch {
 						case len(want) == 0:
-							return fmt.Errorf("%s: %v: got more values than expected", name, p)
+							return fmt.Errorf("%s: %v: golangt more values than expected", name, p)
 						case !rv.IsValid() || rv.Kind() != reflect.Pointer || rv.IsNil():
-							return fmt.Errorf("%s: %v: got %#v, want non-nil pointer type", name, p, v)
+							return fmt.Errorf("%s: %v: golangt %#v, want non-nil pointer type", name, p, v)
 						case !reflect.DeepEqual(pv, want[0]):
-							return fmt.Errorf("%s:\n\tgot  %#v\n\twant %#v", name, pv, want[0])
+							return fmt.Errorf("%s:\n\tgolangt  %#v\n\twant %#v", name, pv, want[0])
 						default:
 							want = want[1:]
 							return SkipFunc
@@ -8454,9 +8454,9 @@ func TestUnmarshal(t *testing.T) {
 						p := P{len(xd.Tokens.Stack), xd.Tokens.Last.Length()}
 						switch {
 						case len(want) == 0:
-							return fmt.Errorf("%s: %v: got more values than wanted", name, p)
+							return fmt.Errorf("%s: %v: golangt more values than wanted", name, p)
 						case p != want[0]:
-							return fmt.Errorf("%s: got %v, want %v", name, p, want[0])
+							return fmt.Errorf("%s: golangt %v, want %v", name, p, want[0])
 						default:
 							want = want[1:]
 							return SkipFunc
@@ -8613,7 +8613,7 @@ func TestUnmarshal(t *testing.T) {
 			WithUnmarshalers(JoinUnmarshalers(
 				UnmarshalFunc(func(b []byte, v *string) error {
 					if string(b) != `"called"` {
-						return fmt.Errorf("got %s, want %s", b, `"called"`)
+						return fmt.Errorf("golangt %s, want %s", b, `"called"`)
 					}
 					*v = "called"
 					return nil
@@ -8635,7 +8635,7 @@ func TestUnmarshal(t *testing.T) {
 					case err != nil:
 						return err
 					case t.String() != "called":
-						return fmt.Errorf("got %q, want %q", t, "called")
+						return fmt.Errorf("golangt %q, want %q", t, "called")
 					}
 					*v = "called"
 					return nil
@@ -8657,7 +8657,7 @@ func TestUnmarshal(t *testing.T) {
 				}),
 				UnmarshalFunc(func(b []byte, v *string) error {
 					if string(b) != `"called"` {
-						return fmt.Errorf("got %s, want %s", b, `"called"`)
+						return fmt.Errorf("golangt %s, want %s", b, `"called"`)
 					}
 					*v = "called"
 					return nil
@@ -8674,7 +8674,7 @@ func TestUnmarshal(t *testing.T) {
 				JoinUnmarshalers(
 					UnmarshalFunc(func(b []byte, v *string) error {
 						if string(b) != `"called"` {
-							return fmt.Errorf("got %s, want %s", b, `"called"`)
+							return fmt.Errorf("golangt %s, want %s", b, `"called"`)
 						}
 						*v = "called"
 						return nil
@@ -8694,7 +8694,7 @@ func TestUnmarshal(t *testing.T) {
 			WithUnmarshalers(JoinUnmarshalers(
 				UnmarshalFunc(func(b []byte, v *string) error {
 					if string(b) != `"called"` {
-						return fmt.Errorf("got %s, want %s", b, `"called"`)
+						return fmt.Errorf("golangt %s, want %s", b, `"called"`)
 					}
 					*v = "called"
 					return nil
@@ -9072,13 +9072,13 @@ func TestUnmarshal(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name.Name, func(t *testing.T) {
-			got := tt.inVal
-			gotErr := Unmarshal([]byte(tt.inBuf), got, tt.opts...)
-			if !reflect.DeepEqual(got, tt.want) && tt.want != nil {
-				t.Errorf("%s: Unmarshal output mismatch:\ngot  %v\nwant %v", tt.name.Where, got, tt.want)
+			golangt := tt.inVal
+			golangtErr := Unmarshal([]byte(tt.inBuf), golangt, tt.opts...)
+			if !reflect.DeepEqual(golangt, tt.want) && tt.want != nil {
+				t.Errorf("%s: Unmarshal output mismatch:\ngolangt  %v\nwant %v", tt.name.Where, golangt, tt.want)
 			}
-			if !reflect.DeepEqual(gotErr, tt.wantErr) {
-				t.Errorf("%s: Unmarshal error mismatch:\ngot  %v\nwant %v", tt.name.Where, gotErr, tt.wantErr)
+			if !reflect.DeepEqual(golangtErr, tt.wantErr) {
+				t.Errorf("%s: Unmarshal error mismatch:\ngolangt  %v\nwant %v", tt.name.Where, golangtErr, tt.wantErr)
 			}
 		})
 	}
@@ -9145,8 +9145,8 @@ func TestUnmarshalReuse(t *testing.T) {
 		if err := Unmarshal([]byte(`"AQID"`), &in); err != nil {
 			t.Fatalf("Unmarshal error: %v", err)
 		}
-		got := &in[0]
-		if got != want {
+		golangt := &in[0]
+		if golangt != want {
 			t.Errorf("input buffer was not reused")
 		}
 	})
@@ -9156,8 +9156,8 @@ func TestUnmarshalReuse(t *testing.T) {
 		if err := Unmarshal([]byte(`[0,1,2]`), &in); err != nil {
 			t.Fatalf("Unmarshal error: %v", err)
 		}
-		got := &in[0]
-		if got != want {
+		golangt := &in[0]
+		if golangt != want {
 			t.Errorf("input slice was not reused")
 		}
 	})
@@ -9167,19 +9167,19 @@ func TestUnmarshalReuse(t *testing.T) {
 		if err := Unmarshal([]byte(`{"key":"value"}`), &in); err != nil {
 			t.Fatalf("Unmarshal error: %v", err)
 		}
-		got := reflect.ValueOf(in).Pointer()
-		if got != want {
+		golangt := reflect.ValueOf(in).Pointer()
+		if golangt != want {
 			t.Errorf("input map was not reused")
 		}
 	})
 	t.Run("Pointers", func(t *testing.T) {
 		in := addr(addr(addr("hello")))
 		want := **in
-		if err := Unmarshal([]byte(`"goodbye"`), &in); err != nil {
+		if err := Unmarshal([]byte(`"golangodbye"`), &in); err != nil {
 			t.Fatalf("Unmarshal error: %v", err)
 		}
-		got := **in
-		if got != want {
+		golangt := **in
+		if golangt != want {
 			t.Errorf("input pointer was not reused")
 		}
 	})
@@ -9286,12 +9286,12 @@ func TestUintSet(t *testing.T) {
 	for i, op := range ops {
 		switch op := op.(type) {
 		case has:
-			if got := us.has(op.in); got != op.want {
-				t.Fatalf("%d: uintSet.has(%v) = %v, want %v", i, op.in, got, op.want)
+			if golangt := us.has(op.in); golangt != op.want {
+				t.Fatalf("%d: uintSet.has(%v) = %v, want %v", i, op.in, golangt, op.want)
 			}
 		case insert:
-			if got := us.insert(op.in); got != op.want {
-				t.Fatalf("%d: uintSet.insert(%v) = %v, want %v", i, op.in, got, op.want)
+			if golangt := us.insert(op.in); golangt != op.want {
+				t.Fatalf("%d: uintSet.insert(%v) = %v, want %v", i, op.in, golangt, op.want)
 			}
 		default:
 			panic(fmt.Sprintf("unknown operation: %T", op))
@@ -9454,7 +9454,7 @@ func TestMarshalEncodeOptions(t *testing.T) {
 		t.Fatalf("calledFuncs = %d, want %d", calledFuncs, math.MaxInt)
 	}
 	if out.String() != strings.Repeat("\"\xde\xad\ufffd\ufffd\"\n", 5) {
-		t.Fatalf("output mismatch:\n\tgot:  %s\n\twant: %s", out.String(), strings.Repeat("\"\xde\xad\xbe\xef\"\n", 5))
+		t.Fatalf("output mismatch:\n\tgolangt:  %s\n\twant: %s", out.String(), strings.Repeat("\"\xde\xad\xbe\xef\"\n", 5))
 	}
 
 	// Reset with the encoder options as part of the arguments should not

@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package abi
@@ -36,7 +36,7 @@ type OldMapType struct {
 }
 
 // Note: flag values must match those used in the TMAP case
-// in ../cmd/compile/internal/reflectdata/reflect.go:writeType.
+// in ../cmd/compile/internal/reflectdata/reflect.golang:writeType.
 func (mt *OldMapType) IndirectKey() bool { // store ptr to key instead of key itself
 	return mt.Flags&1 != 0
 }

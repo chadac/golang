@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package race_test
@@ -13,7 +13,7 @@ func TestRaceReflectRW(t *testing.T) {
 	ch := make(chan bool, 1)
 	i := 0
 	v := reflect.ValueOf(&i)
-	go func() {
+	golang func() {
 		v.Elem().Set(reflect.ValueOf(1))
 		ch <- true
 	}()
@@ -25,7 +25,7 @@ func TestRaceReflectWW(t *testing.T) {
 	ch := make(chan bool, 1)
 	i := 0
 	v := reflect.ValueOf(&i)
-	go func() {
+	golang func() {
 		v.Elem().Set(reflect.ValueOf(1))
 		ch <- true
 	}()
@@ -37,7 +37,7 @@ func TestRaceReflectCopyWW(t *testing.T) {
 	ch := make(chan bool, 1)
 	a := make([]byte, 2)
 	v := reflect.ValueOf(a)
-	go func() {
+	golang func() {
 		reflect.Copy(v, v)
 		ch <- true
 	}()

@@ -1,5 +1,5 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package cipher_test
@@ -17,7 +17,7 @@ import (
 )
 
 // cfbTests contains the test vectors from
-// https://csrc.nist.gov/publications/nistpubs/800-38a/sp800-38a.pdf, section
+// https://csrc.nist.golangv/publications/nistpubs/800-38a/sp800-38a.pdf, section
 // F.3.13.
 var cfbTests = []struct {
 	key, iv, plaintext, ciphertext string
@@ -77,7 +77,7 @@ func TestCFBVectors(t *testing.T) {
 		cfb.XORKeyStream(ciphertext, plaintext)
 
 		if !bytes.Equal(ciphertext, expected) {
-			t.Errorf("#%d: wrong output: got %x, expected %x", i, ciphertext, expected)
+			t.Errorf("#%d: wrong output: golangt %x, expected %x", i, ciphertext, expected)
 		}
 
 		cfbdec := cipher.NewCFBDecrypter(block, iv)
@@ -85,7 +85,7 @@ func TestCFBVectors(t *testing.T) {
 		cfbdec.XORKeyStream(plaintextCopy, ciphertext)
 
 		if !bytes.Equal(plaintextCopy, plaintext) {
-			t.Errorf("#%d: wrong plaintext: got %x, expected %x", i, plaintextCopy, plaintext)
+			t.Errorf("#%d: wrong plaintext: golangt %x, expected %x", i, plaintextCopy, plaintext)
 		}
 	}
 }
@@ -111,7 +111,7 @@ func TestCFBInverse(t *testing.T) {
 	cfbdec.XORKeyStream(plaintextCopy, plaintextCopy)
 
 	if !bytes.Equal(plaintextCopy, plaintext) {
-		t.Errorf("got: %x, want: %x", plaintextCopy, plaintext)
+		t.Errorf("golangt: %x, want: %x", plaintextCopy, plaintext)
 	}
 }
 

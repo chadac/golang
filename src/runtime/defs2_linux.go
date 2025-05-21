@@ -1,13 +1,13 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build ignore
+//golang:build ignore
 
 /*
- * Input to cgo -cdefs
+ * Input to cgolang -cdefs
 
-GOARCH=386 go tool cgo -cdefs defs2_linux.go >defs_linux_386.h
+GOARCH=386 golang tool cgolang -cdefs defs2_linux.golang >defs_linux_386.h
 
 The asm header tricks we have to use for Linux on amd64
 (see defs.c and defs1.c) don't work here, so this is yet another
@@ -17,7 +17,7 @@ file.  Sigh.
 package runtime
 
 /*
-#cgo CFLAGS: -I/tmp/linux/arch/x86/include -I/tmp/linux/include -D_LOOSE_KERNEL_NAMES -D__ARCH_SI_UID_T=__kernel_uid32_t
+#cgolang CFLAGS: -I/tmp/linux/arch/x86/include -I/tmp/linux/include -D_LOOSE_KERNEL_NAMES -D__ARCH_SI_UID_T=__kernel_uid32_t
 
 #define size_t __kernel_size_t
 #define pid_t int

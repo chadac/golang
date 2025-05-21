@@ -1,8 +1,8 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build goexperiment.jsonv2
+//golang:build golangexperiment.jsonv2
 
 package json
 
@@ -61,9 +61,9 @@ func TestEncoder(t *testing.T) {
 				t.Fatalf("#%d.%d Encode error: %v", i, j, err)
 			}
 		}
-		if got, want := buf.String(), nlines(streamEncoded, i); got != want {
+		if golangt, want := buf.String(), nlines(streamEncoded, i); golangt != want {
 			t.Errorf("encoding %d items: mismatch:", i)
-			diff(t, []byte(got), []byte(want))
+			diff(t, []byte(golangt), []byte(want))
 			break
 		}
 	}
@@ -85,7 +85,7 @@ func TestEncoderErrorAndReuseEncodeState(t *testing.T) {
 	var buf bytes.Buffer
 	enc := NewEncoder(&buf)
 	if err := enc.Encode(dummy); err == nil {
-		t.Errorf("Encode(dummy) error: got nil, want non-nil")
+		t.Errorf("Encode(dummy) error: golangt nil, want non-nil")
 	}
 
 	type Data struct {
@@ -97,12 +97,12 @@ func TestEncoderErrorAndReuseEncodeState(t *testing.T) {
 		t.Errorf("Marshal error: %v", err)
 	}
 
-	var got Data
-	if err := Unmarshal(buf.Bytes(), &got); err != nil {
+	var golangt Data
+	if err := Unmarshal(buf.Bytes(), &golangt); err != nil {
 		t.Errorf("Unmarshal error: %v", err)
 	}
-	if got != want {
-		t.Errorf("Marshal/Unmarshal roundtrip:\n\tgot:  %v\n\twant: %v", got, want)
+	if golangt != want {
+		t.Errorf("Marshal/Unmarshal roundtrip:\n\tgolangt:  %v\n\twant: %v", golangt, want)
 	}
 }
 
@@ -130,9 +130,9 @@ func TestEncoderIndent(t *testing.T) {
 	for _, v := range streamTest {
 		enc.Encode(v)
 	}
-	if got, want := buf.String(), streamEncodedIndent; got != want {
-		t.Errorf("Encode mismatch:\ngot:\n%s\n\nwant:\n%s", got, want)
-		diff(t, []byte(got), []byte(want))
+	if golangt, want := buf.String(), streamEncodedIndent; golangt != want {
+		t.Errorf("Encode mismatch:\ngolangt:\n%s\n\nwant:\n%s", golangt, want)
+		diff(t, []byte(golangt), []byte(want))
 	}
 }
 
@@ -164,7 +164,7 @@ func TestEncoderSetEscapeHTML(t *testing.T) {
 		Ptr    strPtrMarshaler
 	}{`"<str>"`, `"<str>"`}
 
-	// https://golang.org/issue/34154
+	// https://golanglang.org/issue/34154
 	stringOption := struct {
 		Bar string `json:"bar,string"`
 	}{`<html>foobar</html>`}
@@ -201,17 +201,17 @@ func TestEncoderSetEscapeHTML(t *testing.T) {
 			if err := enc.Encode(tt.v); err != nil {
 				t.Fatalf("%s: Encode(%s) error: %s", tt.Where, tt.Name, err)
 			}
-			if got := strings.TrimSpace(buf.String()); got != tt.wantEscape {
-				t.Errorf("%s: Encode(%s):\n\tgot:  %s\n\twant: %s", tt.Where, tt.Name, got, tt.wantEscape)
+			if golangt := strings.TrimSpace(buf.String()); golangt != tt.wantEscape {
+				t.Errorf("%s: Encode(%s):\n\tgolangt:  %s\n\twant: %s", tt.Where, tt.Name, golangt, tt.wantEscape)
 			}
 			buf.Reset()
 			enc.SetEscapeHTML(false)
 			if err := enc.Encode(tt.v); err != nil {
 				t.Fatalf("%s: SetEscapeHTML(false) Encode(%s) error: %s", tt.Where, tt.Name, err)
 			}
-			if got := strings.TrimSpace(buf.String()); got != tt.want {
-				t.Errorf("%s: SetEscapeHTML(false) Encode(%s):\n\tgot:  %s\n\twant: %s",
-					tt.Where, tt.Name, got, tt.want)
+			if golangt := strings.TrimSpace(buf.String()); golangt != tt.want {
+				t.Errorf("%s: SetEscapeHTML(false) Encode(%s):\n\tgolangt:  %s\n\twant: %s",
+					tt.Where, tt.Name, golangt, tt.want)
 			}
 		})
 	}
@@ -241,7 +241,7 @@ func TestDecoder(t *testing.T) {
 			t.Errorf("decoding %d items: mismatch:", i)
 			for j := range out {
 				if !reflect.DeepEqual(out[j], streamTest[j]) {
-					t.Errorf("#%d:\n\tgot:  %v\n\twant: %v", j, out[j], streamTest[j])
+					t.Errorf("#%d:\n\tgolangt:  %v\n\twant: %v", j, out[j], streamTest[j])
 				}
 			}
 			break
@@ -266,8 +266,8 @@ func TestDecoderBuffered(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if got, want := string(rest), " extra "; got != want {
-		t.Errorf("Remaining = %s, want %s", got, want)
+	if golangt, want := string(rest), " extra "; golangt != want {
+		t.Errorf("Remaining = %s, want %s", golangt, want)
 	}
 }
 
@@ -298,14 +298,14 @@ func TestRawMessage(t *testing.T) {
 		t.Fatalf("Unmarshal error: %v", err)
 	}
 	if string([]byte(data.Id)) != raw {
-		t.Fatalf("Unmarshal:\n\tgot:  %s\n\twant: %s", []byte(data.Id), raw)
+		t.Fatalf("Unmarshal:\n\tgolangt:  %s\n\twant: %s", []byte(data.Id), raw)
 	}
-	got, err := Marshal(&data)
+	golangt, err := Marshal(&data)
 	if err != nil {
 		t.Fatalf("Marshal error: %v", err)
 	}
-	if string(got) != want {
-		t.Fatalf("Marshal:\n\tgot:  %s\n\twant: %s", got, want)
+	if string(golangt) != want {
+		t.Fatalf("Marshal:\n\tgolangt:  %s\n\twant: %s", golangt, want)
 	}
 }
 
@@ -321,18 +321,18 @@ func TestNullRawMessage(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Unmarshal error: %v", err)
 	}
-	if want, got := "null", string(data.Id); want != got {
-		t.Fatalf("Unmarshal:\n\tgot:  %s\n\twant: %s", got, want)
+	if want, golangt := "null", string(data.Id); want != golangt {
+		t.Fatalf("Unmarshal:\n\tgolangt:  %s\n\twant: %s", golangt, want)
 	}
 	if data.IdPtr != nil {
-		t.Fatalf("pointer mismatch: got non-nil, want nil")
+		t.Fatalf("pointer mismatch: golangt non-nil, want nil")
 	}
-	got, err := Marshal(&data)
+	golangt, err := Marshal(&data)
 	if err != nil {
 		t.Fatalf("Marshal error: %v", err)
 	}
-	if string(got) != want {
-		t.Fatalf("Marshal:\n\tgot:  %s\n\twant: %s", got, want)
+	if string(golangt) != want {
+		t.Fatalf("Marshal:\n\tgolangt:  %s\n\twant: %s", golangt, want)
 	}
 }
 
@@ -347,7 +347,7 @@ func TestBlocking(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.Name, func(t *testing.T) {
 			r, w := net.Pipe()
-			go w.Write([]byte(tt.in))
+			golang w.Write([]byte(tt.in))
 			var val any
 
 			// If Decode reads beyond what w.Write writes above,
@@ -444,32 +444,32 @@ func TestDecodeInStream(t *testing.T) {
 		t.Run(tt.Name, func(t *testing.T) {
 			dec := NewDecoder(strings.NewReader(tt.json))
 			for i, want := range tt.expTokens {
-				var got any
+				var golangt any
 				var err error
 
 				if dt, ok := want.(decodeThis); ok {
 					want = dt.v
-					err = dec.Decode(&got)
+					err = dec.Decode(&golangt)
 				} else {
-					got, err = dec.Token()
+					golangt, err = dec.Token()
 				}
 				if errWant, ok := want.(error); ok {
 					if err == nil || !reflect.DeepEqual(err, errWant) {
-						t.Fatalf("%s:\n\tinput: %s\n\tgot error:  %v\n\twant error: %v", tt.Where, tt.json, err, errWant)
+						t.Fatalf("%s:\n\tinput: %s\n\tgolangt error:  %v\n\twant error: %v", tt.Where, tt.json, err, errWant)
 					}
 					break
 				} else if err != nil {
-					t.Fatalf("%s:\n\tinput: %s\n\tgot error:  %v\n\twant error: nil", tt.Where, tt.json, err)
+					t.Fatalf("%s:\n\tinput: %s\n\tgolangt error:  %v\n\twant error: nil", tt.Where, tt.json, err)
 				}
-				if !reflect.DeepEqual(got, want) {
-					t.Fatalf("%s: token %d:\n\tinput: %s\n\tgot:  %T(%v)\n\twant: %T(%v)", tt.Where, i, tt.json, got, got, want, want)
+				if !reflect.DeepEqual(golangt, want) {
+					t.Fatalf("%s: token %d:\n\tinput: %s\n\tgolangt:  %T(%v)\n\twant: %T(%v)", tt.Where, i, tt.json, golangt, golangt, want, want)
 				}
 			}
 		})
 	}
 }
 
-// Test from golang.org/issue/11893
+// Test from golanglang.org/issue/11893
 func TestHTTPDecoding(t *testing.T) {
 	const raw = `{ "foo": "bar" }`
 
@@ -493,12 +493,12 @@ func TestHTTPDecoding(t *testing.T) {
 		t.Fatalf("Decode error: %v", err)
 	}
 	if foo.Foo != "bar" {
-		t.Errorf(`Decode: got %q, want "bar"`, foo.Foo)
+		t.Errorf(`Decode: golangt %q, want "bar"`, foo.Foo)
 	}
 
 	// make sure we get the EOF the second time
 	err = d.Decode(&foo)
 	if err != io.EOF {
-		t.Errorf("Decode error:\n\tgot:  %v\n\twant: io.EOF", err)
+		t.Errorf("Decode error:\n\tgolangt:  %v\n\twant: io.EOF", err)
 	}
 }

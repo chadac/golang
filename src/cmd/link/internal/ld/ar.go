@@ -72,7 +72,7 @@ type ArHdr struct {
 // during the middle part of host object loading we can see a lot of
 // unresolved (SXREF) import symbols. We do not, however, want to
 // trigger the inclusion of an object from a host archive if the
-// reference is going to be eventually forwarded to the corresponding
+// reference is golanging to be eventually forwarded to the corresponding
 // SDYNIMPORT symbol, so here we strip out such refs from the undefs
 // list.
 func pruneUndefsForWindows(ldr *loader.Loader, undefs, froms []loader.Sym) ([]loader.Sym, []loader.Sym) {

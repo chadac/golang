@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package os
@@ -45,7 +45,7 @@ func OpenInRoot(dir, name string) (*File, error) {
 // Methods on Root do not prohibit traversal of filesystem boundaries,
 // Linux bind mounts, /proc special files, or access to Unix device files.
 //
-// Methods on Root are safe to be used from multiple goroutines simultaneously.
+// Methods on Root are safe to be used from multiple golangroutines simultaneously.
 //
 // On most platforms, creating a Root opens a file descriptor or handle referencing
 // the directory. If the directory is moved, methods on Root reference the original

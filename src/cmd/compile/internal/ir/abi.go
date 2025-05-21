@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ir
@@ -58,7 +58,7 @@ func setupTextLSym(f *Func, flag int) {
 	// For functions that could be on the path of invoking a deferred
 	// function that can recover (runtime.reflectcall, reflect.callReflect,
 	// and reflect.callMethod), we want the panic+recover special handling.
-	// See test/recover.go for test cases and src/reflect/value.go
+	// See test/recover.golang for test cases and src/reflect/value.golang
 	// for the actual functions being considered.
 	//
 	// runtime.reflectcall is an assembly function which tailcalls

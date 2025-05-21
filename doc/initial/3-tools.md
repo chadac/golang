@@ -1,6 +1,6 @@
 ## Tools {#tools}
 
-### Go command {#go-command}
+### Go command {#golang-command}
 
-### Cgo {#cgo}
+### Cgolang {#cgolang}
 

@@ -3,4 +3,4 @@ handle dir
 -- v2/index.html --
 <!DOCTYPE html>
 <html>
-<meta name="go-import" content="vcs-test.golang.org/go/v2module/v2 git https://vcs-test.golang.org/git/v2repo">
+<meta name="golang-import" content="vcs-test.golanglang.org/golang/v2module/v2 git https://vcs-test.golanglang.org/git/v2repo">

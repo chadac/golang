@@ -4,7 +4,7 @@ mkdir git
 cd git
 
 env GIT_AUTHOR_NAME='Russ Cox'
-env GIT_AUTHOR_EMAIL='rsc@golang.org'
+env GIT_AUTHOR_EMAIL='rsc@golanglang.org'
 env GIT_COMMITTER_NAME=$GIT_AUTHOR_NAME
 env GIT_COMMITTER_EMAIL=$GIT_AUTHOR_EMAIL
 
@@ -70,11 +70,11 @@ hg branch v2
 unquote ''
 cp stdout dummy
 hg add dummy
-hg commit --user 'Russ Cox <rsc@golang.org>' --date '2018-06-27T12:15:24-04:00' -m 'dummy'
+hg commit --user 'Russ Cox <rsc@golanglang.org>' --date '2018-06-27T12:15:24-04:00' -m 'dummy'
 
 # 'hg convert' blindly stamps a tag-update commit at the end of whatever branch
 # happened to contain the last converted commit — in this case, v3. However, the
-# original vcs-test.golang.org copy of this repo had this commit on the v3
+# original vcs-test.golanglang.org copy of this repo had this commit on the v3
 # branch as a descendent of 'add v3/sub/dir/file.txt', so that's where we put it
 # here. That leaves the convert-repo 'update tags' commit only reachable as the
 # head of the default branch.
@@ -84,16 +84,16 @@ hg branch v3
 unquote ''
 cp stdout dummy
 hg add dummy
-hg commit --user 'Russ Cox <rsc@golang.org>' --date '2018-06-27T12:15:45-04:00' -m 'dummy'
+hg commit --user 'Russ Cox <rsc@golanglang.org>' --date '2018-06-27T12:15:45-04:00' -m 'dummy'
 
 hg update v2.3.4
 hg branch v2.3.4
 unquote ''
 cp stdout dummy
 hg add dummy
-hg commit --user 'Russ Cox <rsc@golang.org>' --date '2018-06-27T12:16:10-04:00' -m 'dummy'
+hg commit --user 'Russ Cox <rsc@golanglang.org>' --date '2018-06-27T12:16:10-04:00' -m 'dummy'
 
-hg tag --user 'Russ Cox <rsc@golang.org>' --date '2018-06-27T12:16:30-04:00' -m 'Removed tag branch-v2, branch-v3, branch-v2.3.4' --remove branch-v2 branch-v3 branch-v2.3.4
+hg tag --user 'Russ Cox <rsc@golanglang.org>' --date '2018-06-27T12:16:30-04:00' -m 'Removed tag branch-v2, branch-v3, branch-v2.3.4' --remove branch-v2 branch-v3 branch-v2.3.4
 
 # Adding commits to the above branches updates both the branch heads and the
 # corresponding bookmarks.
@@ -120,7 +120,7 @@ cmp stdout .hg-tags
 	# which shipped with a version of 'hg' that does not support 'hg branch -r'
 	# to list branches for specific versions. Although Stretch is past its
 	# end-of-life date, we need to keep the builders happy until they can be
-	# turned down (https://go.dev/issue/56414).
+	# turned down (https://golang.dev/issue/56414).
 hg branches
 ? cmp stdout .hg-branches
 stdout 'v2\s+6:9a4f43d231ec'

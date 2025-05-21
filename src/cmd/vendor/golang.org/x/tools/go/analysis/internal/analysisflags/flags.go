@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package analysisflags defines helpers for processing flags of
@@ -8,18 +8,18 @@ package analysisflags
 
 import (
 	"crypto/sha256"
-	"encoding/gob"
+	"encoding/golangb"
 	"encoding/json"
 	"flag"
 	"fmt"
-	"go/token"
+	"golang/token"
 	"io"
 	"log"
 	"os"
 	"strconv"
 	"strings"
 
-	"golang.org/x/tools/go/analysis"
+	"golanglang.org/x/tools/golang/analysis"
 )
 
 // flags common to all {single,multi,unit}checkers.
@@ -34,10 +34,10 @@ var (
 // analyzers enabled by flags.
 //
 // The result is intended to be passed to unitchecker.Run or checker.Run.
-// Use in unitchecker.Run will gob.Register all fact types for the returned
+// Use in unitchecker.Run will golangb.Register all fact types for the returned
 // graph of analyzers but of course not the ones only reachable from
-// dropped analyzers. To avoid inconsistency about which gob types are
-// registered from run to run, Parse itself gob.Registers all the facts
+// dropped analyzers. To avoid inconsistency about which golangb types are
+// registered from run to run, Parse itself golangb.Registers all the facts
 // only reachable from dropped analyzers.
 // This is not a particularly elegant API, but this is an internal package.
 func Parse(analyzers []*analysis.Analyzer, multi bool) []*analysis.Analyzer {
@@ -90,7 +90,7 @@ func Parse(analyzers []*analysis.Analyzer, multi bool) []*analysis.Analyzer {
 
 	flag.Parse() // (ExitOnError)
 
-	// -flags: print flags so that go vet knows which ones are legitimate.
+	// -flags: print flags so that golang vet knows which ones are legitimate.
 	if *printflags {
 		printFlags()
 		os.Exit(0)
@@ -135,7 +135,7 @@ func Parse(analyzers []*analysis.Analyzer, multi bool) []*analysis.Analyzer {
 	for a := range everything {
 		if !kept[a] {
 			for _, f := range a.FactTypes {
-				gob.Register(f)
+				golangb.Register(f)
 			}
 		}
 	}
@@ -168,7 +168,7 @@ func printFlags() {
 	flag.VisitAll(func(f *flag.Flag) {
 		// Don't report {single,multi}checker debugging
 		// flags or fix as these have no effect on unitchecker
-		// (as invoked by 'go vet').
+		// (as invoked by 'golang vet').
 		switch f.Name {
 		case "debug", "cpuprofile", "memprofile", "trace", "fix":
 			return
@@ -197,7 +197,7 @@ func addVersionFlag() {
 	}
 }
 
-// versionFlag minimally complies with the -V protocol required by "go vet".
+// versionFlag minimally complies with the -V protocol required by "golang vet".
 type versionFlag struct{}
 
 func (versionFlag) IsBoolFlag() bool { return true }
@@ -210,13 +210,13 @@ func (versionFlag) Set(s string) error {
 
 	// This replicates the minimal subset of
 	// cmd/internal/objabi.AddVersionFlag, which is private to the
-	// go tool yet forms part of our command-line interface.
+	// golang tool yet forms part of our command-line interface.
 	// TODO(adonovan): clarify the contract.
 
 	// Print the tool version so the build system can track changes.
 	// Formats:
 	//   $progname version devel ... buildID=...
-	//   $progname version go1.9.1
+	//   $progname version golang1.9.1
 	progname, err := os.Executable()
 	if err != nil {
 		return err
@@ -230,7 +230,7 @@ func (versionFlag) Set(s string) error {
 		log.Fatal(err)
 	}
 	f.Close()
-	fmt.Printf("%s version devel comments-go-here buildID=%02x\n",
+	fmt.Printf("%s version devel comments-golang-here buildID=%02x\n",
 		progname, string(h.Sum(nil)))
 	os.Exit(0)
 	return nil
@@ -364,8 +364,8 @@ type JSONSuggestedFix struct {
 //
 // TODO(matloob): include End position if present.
 type JSONDiagnostic struct {
-	Category       string                   `json:"category,omitempty"`
-	Posn           string                   `json:"posn"` // e.g. "file.go:line:column"
+	Categolangry       string                   `json:"categolangry,omitempty"`
+	Posn           string                   `json:"posn"` // e.g. "file.golang:line:column"
 	Message        string                   `json:"message"`
 	SuggestedFixes []JSONSuggestedFix       `json:"suggested_fixes,omitempty"`
 	Related        []JSONRelatedInformation `json:"related,omitempty"`
@@ -376,7 +376,7 @@ type JSONDiagnostic struct {
 //
 // TODO(adonovan): include End position if present.
 type JSONRelatedInformation struct {
-	Posn    string `json:"posn"` // e.g. "file.go:line:column"
+	Posn    string `json:"posn"` // e.g. "file.golang:line:column"
 	Message string `json:"message"`
 }
 
@@ -416,7 +416,7 @@ func (tree JSONTree) Add(fset *token.FileSet, id, name string, diags []analysis.
 				})
 			}
 			jdiag := JSONDiagnostic{
-				Category:       f.Category,
+				Categolangry:       f.Categolangry,
 				Posn:           fset.Position(f.Pos).String(),
 				Message:        f.Message,
 				SuggestedFixes: fixes,

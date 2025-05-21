@@ -1,7 +1,7 @@
-// -lang=go1.17
+// -lang=golang1.17
 
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package p // don't permit non-interface elements in interfaces
@@ -78,7 +78,7 @@ func issue9473(a []int, b ...int) {
 	append_(f0(), f2 /* ERROR "multiple-value f2" */ ()...)
 }
 
-// Check that embedding a non-interface type in an interface results in a good error message.
+// Check that embedding a non-interface type in an interface results in a golangod error message.
 func issue10979() {
 	type _ interface {
 		int /* ERROR "non-interface type int" */

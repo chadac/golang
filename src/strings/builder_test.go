@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package strings_test
@@ -14,16 +14,16 @@ import (
 
 func check(t *testing.T, b *Builder, want string) {
 	t.Helper()
-	got := b.String()
-	if got != want {
-		t.Errorf("String: got %#q; want %#q", got, want)
+	golangt := b.String()
+	if golangt != want {
+		t.Errorf("String: golangt %#q; want %#q", golangt, want)
 		return
 	}
-	if n := b.Len(); n != len(got) {
-		t.Errorf("Len: got %d; but len(String()) is %d", n, len(got))
+	if n := b.Len(); n != len(golangt) {
+		t.Errorf("Len: golangt %d; but len(String()) is %d", n, len(golangt))
 	}
-	if n := b.Cap(); n < len(got) {
-		t.Errorf("Cap: got %d; but len(String()) is %d", n, len(got))
+	if n := b.Cap(); n < len(golangt) {
+		t.Errorf("Cap: golangt %d; but len(String()) is %d", n, len(golangt))
 	}
 }
 
@@ -32,7 +32,7 @@ func TestBuilder(t *testing.T) {
 	check(t, &b, "")
 	n, err := b.WriteString("hello")
 	if err != nil || n != 5 {
-		t.Errorf("WriteString: got %d,%s; want 5,nil", n, err)
+		t.Errorf("WriteString: golangt %d,%s; want 5,nil", n, err)
 	}
 	check(t, &b, "hello")
 	if err = b.WriteByte(' '); err != nil {
@@ -41,7 +41,7 @@ func TestBuilder(t *testing.T) {
 	check(t, &b, "hello ")
 	n, err = b.WriteString("world")
 	if err != nil || n != 5 {
-		t.Errorf("WriteString: got %d,%s; want 5,nil", n, err)
+		t.Errorf("WriteString: golangt %d,%s; want 5,nil", n, err)
 	}
 	check(t, &b, "hello world")
 }
@@ -84,7 +84,7 @@ func TestBuilderReset(t *testing.T) {
 	b.WriteString("bbb")
 	check(t, &b, "bbb")
 	if want := "aaa"; s != want {
-		t.Errorf("previous String result changed after Reset: got %q; want %q", s, want)
+		t.Errorf("previous String result changed after Reset: golangt %q; want %q", s, want)
 	}
 }
 
@@ -111,7 +111,7 @@ func TestBuilderGrow(t *testing.T) {
 			wantAllocs = 0
 		}
 		if g, w := int(allocs), wantAllocs; g != w {
-			t.Errorf("growLen=%d: got %d allocs during Write; want %v", growLen, g, w)
+			t.Errorf("growLen=%d: golangt %d allocs during Write; want %v", growLen, g, w)
 		}
 	}
 	// when growLen < 0, should panic
@@ -162,19 +162,19 @@ func TestBuilderWrite2(t *testing.T) {
 			var b Builder
 			n, err := tt.fn(&b)
 			if err != nil {
-				t.Fatalf("first call: got %s", err)
+				t.Fatalf("first call: golangt %s", err)
 			}
 			if n != tt.n {
-				t.Errorf("first call: got n=%d; want %d", n, tt.n)
+				t.Errorf("first call: golangt n=%d; want %d", n, tt.n)
 			}
 			check(t, &b, tt.want)
 
 			n, err = tt.fn(&b)
 			if err != nil {
-				t.Fatalf("second call: got %s", err)
+				t.Fatalf("second call: golangt %s", err)
 			}
 			if n != tt.n {
-				t.Errorf("second call: got n=%d; want %d", n, tt.n)
+				t.Errorf("second call: golangt n=%d; want %d", n, tt.n)
 			}
 			check(t, &b, tt.want+tt.want)
 		})
@@ -309,12 +309,12 @@ func TestBuilderCopyPanic(t *testing.T) {
 	}
 	for _, tt := range tests {
 		didPanic := make(chan bool)
-		go func() {
+		golang func() {
 			defer func() { didPanic <- recover() != nil }()
 			tt.fn()
 		}()
-		if got := <-didPanic; got != tt.wantPanic {
-			t.Errorf("%s: panicked = %v; want %v", tt.name, got, tt.wantPanic)
+		if golangt := <-didPanic; golangt != tt.wantPanic {
+			t.Errorf("%s: panicked = %v; want %v", tt.name, golangt, tt.wantPanic)
 		}
 	}
 }

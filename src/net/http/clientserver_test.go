@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Tests that use both the client & server, in both HTTP/1 and HTTP/2 mode.
@@ -278,16 +278,16 @@ func TestNewClientServerTest(t *testing.T) {
 	})
 }
 func testNewClientServerTest(t *testing.T, mode testMode, opts ...any) {
-	var got struct {
+	var golangt struct {
 		sync.Mutex
 		proto  string
 		hasTLS bool
 	}
 	h := HandlerFunc(func(w ResponseWriter, r *Request) {
-		got.Lock()
-		defer got.Unlock()
-		got.proto = r.Proto
-		got.hasTLS = r.TLS != nil
+		golangt.Lock()
+		defer golangt.Unlock()
+		golangt.proto = r.Proto
+		golangt.hasTLS = r.TLS != nil
 	})
 	cst := newClientServerTest(t, mode, h, opts...)
 	if _, err := cst.c.Head(cst.ts.URL); err != nil {
@@ -306,11 +306,11 @@ func testNewClientServerTest(t *testing.T, mode testMode, opts ...any) {
 		wantProto = "HTTP/2.0"
 		wantTLS = true
 	}
-	if got.proto != wantProto {
-		t.Errorf("req.Proto = %q, want %q", got.proto, wantProto)
+	if golangt.proto != wantProto {
+		t.Errorf("req.Proto = %q, want %q", golangt.proto, wantProto)
 	}
-	if got.hasTLS != wantTLS {
-		t.Errorf("req.TLS set: %v, want %v", got.hasTLS, wantTLS)
+	if golangt.hasTLS != wantTLS {
+		t.Errorf("req.TLS set: %v, want %v", golangt.hasTLS, wantTLS)
 	}
 }
 
@@ -330,7 +330,7 @@ func testChunkedResponseHeaders(t *testing.T, mode testMode) {
 	}
 	defer res.Body.Close()
 	if g, e := res.ContentLength, int64(-1); g != e {
-		t.Errorf("expected ContentLength of %d; got %d", e, g)
+		t.Errorf("expected ContentLength of %d; golangt %d", e, g)
 	}
 	wantTE := []string{"chunked"}
 	if mode == http2Mode {
@@ -339,8 +339,8 @@ func testChunkedResponseHeaders(t *testing.T, mode testMode) {
 	if !slices.Equal(res.TransferEncoding, wantTE) {
 		t.Errorf("TransferEncoding = %v; want %v", res.TransferEncoding, wantTE)
 	}
-	if got, haveCL := res.Header["Content-Length"]; haveCL {
-		t.Errorf("Unexpected Content-Length: %q", got)
+	if golangt, haveCL := res.Header["Content-Length"]; haveCL {
+		t.Errorf("Unexpected Content-Length: %q", golangt)
 	}
 }
 
@@ -427,7 +427,7 @@ func (tt h12Compare) normalizeRes(t *testing.T, res *Response, wantProto string)
 	if res.Proto == wantProto || res.Proto == "HTTP/IGNORE" {
 		res.Proto, res.ProtoMajor, res.ProtoMinor = "", 0, 0
 	} else {
-		t.Errorf("got %q response; want %q", res.Proto, wantProto)
+		t.Errorf("golangt %q response; want %q", res.Proto, wantProto)
 	}
 	slurp, err := io.ReadAll(res.Body)
 
@@ -570,7 +570,7 @@ func TestH12_HandlerWritesTooLittle(t *testing.T) {
 // writing more than they declared. This test does not test whether
 // the transport deals with too much data, though, since the server
 // doesn't make it possible to send bogus data. For those tests, see
-// transport_test.go (for HTTP/1) or x/net/http2/transport_test.go
+// transport_test.golang (for HTTP/1) or x/net/http2/transport_test.golang
 // (for HTTP/2).
 func TestHandlerWritesTooMuch(t *testing.T) { run(t, testHandlerWritesTooMuch) }
 func testHandlerWritesTooMuch(t *testing.T, mode testMode) {
@@ -597,14 +597,14 @@ func testHandlerWritesTooMuch(t *testing.T, mode testMode) {
 	}
 	defer res.Body.Close()
 
-	gotBody, _ := io.ReadAll(res.Body)
-	if !bytes.Equal(gotBody, wantBody) {
-		t.Fatalf("got response body: %q; want %q", gotBody, wantBody)
+	golangtBody, _ := io.ReadAll(res.Body)
+	if !bytes.Equal(golangtBody, wantBody) {
+		t.Fatalf("golangt response body: %q; want %q", golangtBody, wantBody)
 	}
 }
 
 // Verify that both our HTTP/1 and HTTP/2 request and auto-decompress gzip.
-// Some hosts send gzip even if you don't ask for it; see golang.org/issue/13298
+// Some hosts send gzip even if you don't ask for it; see golanglang.org/issue/13298
 func TestH12_AutoGzip(t *testing.T) {
 	h12Compare{
 		Handler: func(w ResponseWriter, r *Request) {
@@ -613,7 +613,7 @@ func TestH12_AutoGzip(t *testing.T) {
 			}
 			w.Header().Set("Content-Encoding", "gzip")
 			gz := gzip.NewWriter(w)
-			io.WriteString(gz, "I am some gzipped content. Go go go go go go go go go go go go should compress well.")
+			io.WriteString(gz, "I am some gzipped content. Go golang golang golang golang golang golang golang golang golang golang golang should compress well.")
 			gz.Close()
 		},
 	}.run(t)
@@ -642,7 +642,7 @@ func test304Responses(t *testing.T, mode testMode) {
 		w.WriteHeader(StatusNotModified)
 		_, err := w.Write([]byte("illegal body"))
 		if err != ErrBodyNotAllowed {
-			t.Errorf("on Write, expected ErrBodyNotAllowed, got %v", err)
+			t.Errorf("on Write, expected ErrBodyNotAllowed, golangt %v", err)
 		}
 	}))
 	defer cst.close()
@@ -651,14 +651,14 @@ func test304Responses(t *testing.T, mode testMode) {
 		t.Fatal(err)
 	}
 	if len(res.TransferEncoding) > 0 {
-		t.Errorf("expected no TransferEncoding; got %v", res.TransferEncoding)
+		t.Errorf("expected no TransferEncoding; golangt %v", res.TransferEncoding)
 	}
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
 		t.Error(err)
 	}
 	if len(body) > 0 {
-		t.Errorf("got unexpected body %q", string(body))
+		t.Errorf("golangt unexpected body %q", string(body))
 	}
 }
 
@@ -693,8 +693,8 @@ func h12requestContentLength(t *testing.T, bodyfn func() io.Reader, wantLen int6
 			return c.Post(url, "text/plain", bodyfn())
 		},
 		CheckResponse: func(proto string, res *Response) {
-			if got, want := res.Header.Get("Got-Length"), fmt.Sprint(wantLen); got != want {
-				t.Errorf("Proto %q got length %q; want %q", proto, got, want)
+			if golangt, want := res.Header.Get("Got-Length"), fmt.Sprint(wantLen); golangt != want {
+				t.Errorf("Proto %q golangt length %q; want %q", proto, golangt, want)
 			}
 		},
 	}.run(t)
@@ -852,24 +852,24 @@ func testTrailersServerToClient(t *testing.T, mode testMode, flush bool) {
 		t.Errorf("Header = %v; want %v", res.Header, wantHeader)
 	}
 
-	if got, want := res.Trailer, (Header{
+	if golangt, want := res.Trailer, (Header{
 		"Server-Trailer-A": nil,
 		"Server-Trailer-B": nil,
 		"Server-Trailer-C": nil,
-	}); !reflect.DeepEqual(got, want) {
-		t.Errorf("Trailer before body read = %v; want %v", got, want)
+	}); !reflect.DeepEqual(golangt, want) {
+		t.Errorf("Trailer before body read = %v; want %v", golangt, want)
 	}
 
 	if err := wantBody(res, nil, body); err != nil {
 		t.Fatal(err)
 	}
 
-	if got, want := res.Trailer, (Header{
+	if golangt, want := res.Trailer, (Header{
 		"Server-Trailer-A": {"valuea"},
 		"Server-Trailer-B": nil,
 		"Server-Trailer-C": {"valuec"},
-	}); !reflect.DeepEqual(got, want) {
-		t.Errorf("Trailer after body read = %v; want %v", got, want)
+	}); !reflect.DeepEqual(golangt, want) {
+		t.Errorf("Trailer after body read = %v; want %v", golangt, want)
 	}
 }
 
@@ -899,8 +899,8 @@ func testConcurrentReadWriteReqBody(t *testing.T, mode testMode) {
 		var wg sync.WaitGroup
 		wg.Add(2)
 		didRead := make(chan bool, 1)
-		// Read in one goroutine.
-		go func() {
+		// Read in one golangroutine.
+		golang func() {
 			defer wg.Done()
 			data, err := io.ReadAll(r.Body)
 			if string(data) != reqBody {
@@ -911,8 +911,8 @@ func testConcurrentReadWriteReqBody(t *testing.T, mode testMode) {
 			}
 			didRead <- true
 		}()
-		// Write in another goroutine.
-		go func() {
+		// Write in another golangroutine.
+		golang func() {
 			defer wg.Done()
 			if mode != http2Mode {
 				// our HTTP/1 implementation intentionally
@@ -943,9 +943,9 @@ func testConcurrentReadWriteReqBody(t *testing.T, mode testMode) {
 
 func TestConnectRequest(t *testing.T) { run(t, testConnectRequest) }
 func testConnectRequest(t *testing.T, mode testMode) {
-	gotc := make(chan *Request, 1)
+	golangtc := make(chan *Request, 1)
 	cst := newClientServerTest(t, mode, HandlerFunc(func(w ResponseWriter, r *Request) {
-		gotc <- r
+		golangtc <- r
 	}))
 
 	u, err := url.Parse(cst.ts.URL)
@@ -983,7 +983,7 @@ func testConnectRequest(t *testing.T, mode testMode) {
 			continue
 		}
 		res.Body.Close()
-		req := <-gotc
+		req := <-golangtc
 		if req.Method != "CONNECT" {
 			t.Errorf("method = %q; want CONNECT", req.Method)
 		}
@@ -1049,7 +1049,7 @@ func testTransportUserAgent(t *testing.T, mode testMode) {
 			continue
 		}
 		if string(slurp) != tt.want {
-			t.Errorf("%d. body mismatch.\n got: %s\nwant: %s\n", i, slurp, tt.want)
+			t.Errorf("%d. body mismatch.\n golangt: %s\nwant: %s\n", i, slurp, tt.want)
 		}
 	}
 }
@@ -1064,10 +1064,10 @@ func TestStarRequestMethod(t *testing.T) {
 	}
 }
 func testStarRequest(t *testing.T, method string, mode testMode) {
-	gotc := make(chan *Request, 1)
+	golangtc := make(chan *Request, 1)
 	cst := newClientServerTest(t, mode, HandlerFunc(func(w ResponseWriter, r *Request) {
 		w.Header().Set("foo", "bar")
-		gotc <- r
+		golangtc <- r
 		w.(Flusher).Flush()
 	}))
 
@@ -1101,17 +1101,17 @@ func testStarRequest(t *testing.T, method string, mode testMode) {
 	if res.ContentLength != wantLen {
 		t.Errorf("content length = %v; want %d", res.ContentLength, wantLen)
 	}
-	if got := res.Header.Get("foo"); got != wantFoo {
-		t.Errorf("response \"foo\" header = %q; want %q", got, wantFoo)
+	if golangt := res.Header.Get("foo"); golangt != wantFoo {
+		t.Errorf("response \"foo\" header = %q; want %q", golangt, wantFoo)
 	}
 	select {
-	case req = <-gotc:
+	case req = <-golangtc:
 	default:
 		req = nil
 	}
 	if req == nil {
 		if method != "OPTIONS" {
-			t.Fatalf("handler never got request")
+			t.Fatalf("handler never golangt request")
 		}
 		return
 	}
@@ -1160,16 +1160,16 @@ func testTransportDiscardsUnneededConns(t *testing.T, mode testMode) {
 	c := &Client{Transport: tr}
 
 	const N = 10
-	gotBody := make(chan string, N)
+	golangtBody := make(chan string, N)
 	var wg sync.WaitGroup
 	for i := 0; i < N; i++ {
 		wg.Add(1)
-		go func() {
+		golang func() {
 			defer wg.Done()
 			resp, err := c.Get(cst.ts.URL)
 			if err != nil {
 				// Try to work around spurious connection reset on loaded system.
-				// See golang.org/issue/33585 and golang.org/issue/36797.
+				// See golanglang.org/issue/33585 and golanglang.org/issue/36797.
 				time.Sleep(10 * time.Millisecond)
 				resp, err = c.Get(cst.ts.URL)
 				if err != nil {
@@ -1182,20 +1182,20 @@ func testTransportDiscardsUnneededConns(t *testing.T, mode testMode) {
 			if err != nil {
 				t.Error(err)
 			}
-			gotBody <- string(slurp)
+			golangtBody <- string(slurp)
 		}()
 	}
 	wg.Wait()
-	close(gotBody)
+	close(golangtBody)
 
 	var last string
-	for got := range gotBody {
+	for golangt := range golangtBody {
 		if last == "" {
-			last = got
+			last = golangt
 			continue
 		}
-		if got != last {
-			t.Errorf("Response body changed: %q -> %q", last, got)
+		if golangt != last {
+			t.Errorf("Response body changed: %q -> %q", last, golangt)
 		}
 	}
 
@@ -1300,7 +1300,7 @@ func testTransportRejectsInvalidHeaders(t *testing.T, mode testMode) {
 		if !tt.ok && dialed {
 			t.Errorf("For key %q, value %q, transport dialed. Expected local failure. Response was: (%v, %v)\nServer replied with: %s", tt.key, tt.val, res, err, body)
 		} else if (err == nil) != tt.ok {
-			t.Errorf("For key %q, value %q; got err = %v; want ok=%v", tt.key, tt.val, err, tt.ok)
+			t.Errorf("For key %q, value %q; golangt err = %v; want ok=%v", tt.key, tt.val, err, tt.ok)
 		}
 	}
 }
@@ -1319,13 +1319,13 @@ func testInterruptWithPanic(t *testing.T, mode testMode, panicValue any) {
 	defer close(testDone)
 
 	var errorLog lockedBytesBuffer
-	gotHeaders := make(chan bool, 1)
+	golangtHeaders := make(chan bool, 1)
 	cst := newClientServerTest(t, mode, HandlerFunc(func(w ResponseWriter, r *Request) {
 		io.WriteString(w, msg)
 		w.(Flusher).Flush()
 
 		select {
-		case <-gotHeaders:
+		case <-golangtHeaders:
 		case <-testDone:
 		}
 		panic(panicValue)
@@ -1336,7 +1336,7 @@ func testInterruptWithPanic(t *testing.T, mode testMode, panicValue any) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	gotHeaders <- true
+	golangtHeaders <- true
 	defer res.Body.Close()
 	slurp, err := io.ReadAll(res.Body)
 	if string(slurp) != msg {
@@ -1353,22 +1353,22 @@ func testInterruptWithPanic(t *testing.T, mode testMode, panicValue any) {
 	wantStackLogged := panicValue != nil && panicValue != ErrAbortHandler
 
 	waitCondition(t, 10*time.Millisecond, func(d time.Duration) bool {
-		gotLog := logOutput()
+		golangtLog := logOutput()
 		if !wantStackLogged {
-			if gotLog == "" {
+			if golangtLog == "" {
 				return true
 			}
-			t.Fatalf("want no log output; got: %s", gotLog)
+			t.Fatalf("want no log output; golangt: %s", golangtLog)
 		}
-		if gotLog == "" {
+		if golangtLog == "" {
 			if d > 0 {
-				t.Logf("wanted a stack trace logged; got nothing after %v", d)
+				t.Logf("wanted a stack trace logged; golangt nothing after %v", d)
 			}
 			return false
 		}
-		if !strings.Contains(gotLog, "created by ") && strings.Count(gotLog, "\n") < 6 {
+		if !strings.Contains(golangtLog, "created by ") && strings.Count(golangtLog, "\n") < 6 {
 			if d > 0 {
-				t.Logf("output doesn't look like a panic stack trace after %v. Got: %s", d, gotLog)
+				t.Logf("output doesn't look like a panic stack trace after %v. Got: %s", d, golangtLog)
 			}
 			return false
 		}
@@ -1406,10 +1406,10 @@ func TestH12_AutoGzipWithDumpResponse(t *testing.T) {
 				return
 			}
 			if strings.Contains(string(dump), "Connection: close") {
-				t.Errorf("%s: should not see \"Connection: close\" in dump; got:\n%s", proto, dump)
+				t.Errorf("%s: should not see \"Connection: close\" in dump; golangt:\n%s", proto, dump)
 			}
 			if !strings.Contains(string(dump), "FOO") {
-				t.Errorf("%s: should see \"FOO\" in response; got:\n%s", proto, dump)
+				t.Errorf("%s: should see \"FOO\" in response; golangt:\n%s", proto, dump)
 			}
 		},
 	}.run(t)
@@ -1541,17 +1541,17 @@ func testBadResponseAfterReadingBody(t *testing.T, mode testMode) {
 
 func TestWriteHeader0(t *testing.T) { run(t, testWriteHeader0) }
 func testWriteHeader0(t *testing.T, mode testMode) {
-	gotpanic := make(chan bool, 1)
+	golangtpanic := make(chan bool, 1)
 	cst := newClientServerTest(t, mode, HandlerFunc(func(w ResponseWriter, r *Request) {
-		defer close(gotpanic)
+		defer close(golangtpanic)
 		defer func() {
 			if e := recover(); e != nil {
-				got := fmt.Sprintf("%T, %v", e, e)
+				golangt := fmt.Sprintf("%T, %v", e, e)
 				want := "string, invalid WriteHeader code 0"
-				if got != want {
-					t.Errorf("unexpected panic value:\n got: %v\nwant: %v\n", got, want)
+				if golangt != want {
+					t.Errorf("unexpected panic value:\n golangt: %v\nwant: %v\n", golangt, want)
 				}
-				gotpanic <- true
+				golangtpanic <- true
 
 				// Set an explicit 503. This also tests that the WriteHeader call panics
 				// before it recorded that an explicit value was set and that bogus
@@ -1568,7 +1568,7 @@ func testWriteHeader0(t *testing.T, mode testMode) {
 	if res.StatusCode != 503 {
 		t.Errorf("Response: %v %q; want 503", res.StatusCode, res.Status)
 	}
-	if !<-gotpanic {
+	if !<-golangtpanic {
 		t.Error("expected panic in handler")
 	}
 }
@@ -1610,8 +1610,8 @@ func testWriteHeaderAfterWrite(t *testing.T, mode testMode, hijack bool) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if got, want := string(body), "foobar"; got != want {
-		t.Errorf("got = %q; want %q", got, want)
+	if golangt, want := string(body), "foobar"; golangt != want {
+		t.Errorf("golangt = %q; want %q", golangt, want)
 	}
 
 	// Also check the stderr output:
@@ -1620,13 +1620,13 @@ func testWriteHeaderAfterWrite(t *testing.T, mode testMode, hijack bool) {
 		// We historically haven't, so don't check.
 		return
 	}
-	gotLog := strings.TrimSpace(errorLog.String())
-	wantLog := "http: superfluous response.WriteHeader call from net/http_test.testWriteHeaderAfterWrite.func1 (clientserver_test.go:"
+	golangtLog := strings.TrimSpace(errorLog.String())
+	wantLog := "http: superfluous response.WriteHeader call from net/http_test.testWriteHeaderAfterWrite.func1 (clientserver_test.golang:"
 	if hijack {
-		wantLog = "http: response.WriteHeader on hijacked connection from net/http_test.testWriteHeaderAfterWrite.func1 (clientserver_test.go:"
+		wantLog = "http: response.WriteHeader on hijacked connection from net/http_test.testWriteHeaderAfterWrite.func1 (clientserver_test.golang:"
 	}
-	if !strings.HasPrefix(gotLog, wantLog) {
-		t.Errorf("stderr output = %q; want %q", gotLog, wantLog)
+	if !strings.HasPrefix(golangtLog, wantLog) {
+		t.Errorf("stderr output = %q; want %q", golangtLog, wantLog)
 	}
 }
 
@@ -1654,10 +1654,10 @@ func testBidiStreamReverseProxy(t *testing.T, mode testMode) {
 	pr, pw := io.Pipe()
 	req, _ := NewRequest("PUT", proxy.ts.URL, pr)
 	const size = 4 << 20
-	go func() {
+	golang func() {
 		h := sha1.New()
 		_, err := io.CopyN(io.MultiWriter(h, pw), rand.Reader, size)
-		go pw.Close()
+		golang pw.Close()
 		if err != nil {
 			t.Errorf("body copy: %v", err)
 			bodyRes <- err
@@ -1670,13 +1670,13 @@ func testBidiStreamReverseProxy(t *testing.T, mode testMode) {
 		t.Fatal(err)
 	}
 	defer res.Body.Close()
-	hgot := sha1.New()
-	n, err := io.Copy(hgot, res.Body)
+	hgolangt := sha1.New()
+	n, err := io.Copy(hgolangt, res.Body)
 	if err != nil {
 		t.Fatal(err)
 	}
 	if n != size {
-		t.Fatalf("got %d bytes; want %d", n, size)
+		t.Fatalf("golangt %d bytes; want %d", n, size)
 	}
 	select {
 	case v := <-bodyRes:
@@ -1684,7 +1684,7 @@ func testBidiStreamReverseProxy(t *testing.T, mode testMode) {
 		default:
 			t.Fatalf("body copy: %v", err)
 		case hash.Hash:
-			if !bytes.Equal(v.Sum(nil), hgot.Sum(nil)) {
+			if !bytes.Equal(v.Sum(nil), hgolangt.Sum(nil)) {
 				t.Errorf("written bytes didn't match received bytes")
 			}
 		}
@@ -1709,7 +1709,7 @@ func TestH12_WebSocketUpgrade(t *testing.T) {
 		},
 		EarlyCheckResponse: func(proto string, res *Response) {
 			if res.Proto != "HTTP/1.1" {
-				t.Errorf("%s: expected HTTP/1.1, got %q", proto, res.Proto)
+				t.Errorf("%s: expected HTTP/1.1, golangt %q", proto, res.Proto)
 			}
 			res.Proto = "HTTP/IGNORE" // skip later checks that Proto must be 1.1 vs 2.0
 		},
@@ -1720,9 +1720,9 @@ func TestIdentityTransferEncoding(t *testing.T) { run(t, testIdentityTransferEnc
 func testIdentityTransferEncoding(t *testing.T, mode testMode) {
 	const body = "body"
 	cst := newClientServerTest(t, mode, HandlerFunc(func(w ResponseWriter, r *Request) {
-		gotBody, _ := io.ReadAll(r.Body)
-		if got, want := string(gotBody), body; got != want {
-			t.Errorf("got request body = %q; want %q", got, want)
+		golangtBody, _ := io.ReadAll(r.Body)
+		if golangt, want := string(golangtBody), body; golangt != want {
+			t.Errorf("golangt request body = %q; want %q", golangt, want)
 		}
 		w.Header().Set("Transfer-Encoding", "identity")
 		w.WriteHeader(StatusOK)
@@ -1735,12 +1735,12 @@ func testIdentityTransferEncoding(t *testing.T, mode testMode) {
 		t.Fatal(err)
 	}
 	defer res.Body.Close()
-	gotBody, err := io.ReadAll(res.Body)
+	golangtBody, err := io.ReadAll(res.Body)
 	if err != nil {
 		t.Fatal(err)
 	}
-	if got, want := string(gotBody), body; got != want {
-		t.Errorf("got response body = %q; want %q", got, want)
+	if golangt, want := string(golangtBody), body; golangt != want {
+		t.Errorf("golangt response body = %q; want %q", golangt, want)
 	}
 }
 
@@ -1764,16 +1764,16 @@ func testEarlyHintsRequest(t *testing.T, mode testMode) {
 		w.Write([]byte("Hello"))
 	}))
 
-	checkLinkHeaders := func(t *testing.T, expected, got []string) {
+	checkLinkHeaders := func(t *testing.T, expected, golangt []string) {
 		t.Helper()
 
-		if len(expected) != len(got) {
-			t.Errorf("got %d expected %d", len(got), len(expected))
+		if len(expected) != len(golangt) {
+			t.Errorf("golangt %d expected %d", len(golangt), len(expected))
 		}
 
 		for i := range expected {
-			if expected[i] != got[i] {
-				t.Errorf("got %q expected %q", got[i], expected[i])
+			if expected[i] != golangt[i] {
+				t.Errorf("golangt %q expected %q", golangt[i], expected[i])
 			}
 		}
 	}

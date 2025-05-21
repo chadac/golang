@@ -1,9 +1,9 @@
 // errorcheck -0 -live
 
-//go:build !goexperiment.cgocheck2
+//golang:build !golangexperiment.cgolangcheck2
 
 // Copyright 2016 The Go Authors.  All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Issue 15747: liveness analysis was marking heap-escaped params live too much,
@@ -33,7 +33,7 @@ func f1(q *Q, xx []byte) interface{} { // ERROR "live at call to newobject: xx$"
 	return nil
 }
 
-//go:noinline
+//golang:noinline
 func f2(d []byte, n int) (odata, res []byte, e interface{}) { // ERROR "live at entry to f2: d$"
 	if n > len(d) {
 		return d, nil, &T{M: "hello"} // ERROR "live at call to newobject: d"

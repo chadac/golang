@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package shifts
@@ -195,7 +195,7 @@ func shifts6() {
 	_ = float32(1.0 /* ERROR "must be integer" */ <<s)
 	_ = float32(1.1 /* ERROR "must be integer" */ <<s)
 
-	// TODO(gri) Re-enable these tests once types2 has the go/types fixes.
+	// TODO(gri) Re-enable these tests once types2 has the golang/types fixes.
 	//           Issue #52080.
 	// _ = int32(0x80000000 /* ERROR "overflows int32" */ << s)
 	// TODO(rfindley) Eliminate the redundant error here.
@@ -283,7 +283,7 @@ func shifts8() {
 
 func shifts9() {
 	// various originally failing snippets of code from the std library
-	// from src/compress/lzw/reader.go:90
+	// from src/compress/lzw/reader.golang:90
 	{
 		var d struct {
 			bits     uint32
@@ -292,7 +292,7 @@ func shifts9() {
 		_ = uint16(d.bits & (1<<d.width - 1))
 	}
 
-	// from src/debug/dwarf/buf.go:116
+	// from src/debug/dwarf/buf.golang:116
 	{
 		var ux uint64
 		var bits uint
@@ -300,13 +300,13 @@ func shifts9() {
 		if x&(1<<(bits-1)) != 0 {}
 	}
 
-	// from src/encoding/asn1/asn1.go:160
+	// from src/encoding/asn1/asn1.golang:160
 	{
 		var bytes []byte
 		if bytes[len(bytes)-1]&((1<<bytes[0])-1) != 0 {}
 	}
 
-	// from src/math/big/rat.go:140
+	// from src/math/big/rat.golang:140
 	{
 		var exp int
 		var mantissa uint64
@@ -314,7 +314,7 @@ func shifts9() {
 		_ = mantissa & (1<<shift - 1)
 	}
 
-	// from src/net/interface.go:51
+	// from src/net/interface.golang:51
 	{
 		type Flags uint
 		var f Flags
@@ -322,21 +322,21 @@ func shifts9() {
 		if f&(1<<uint(i)) != 0 {}
 	}
 
-	// from src/runtime/softfloat64.go:234
+	// from src/runtime/softfloat64.golang:234
 	{
 		var gm uint64
 		var shift uint
 		_ = gm & (1<<shift - 1)
 	}
 
-	// from src/strconv/atof.go:326
+	// from src/strconv/atof.golang:326
 	{
 		var mant uint64
 		var mantbits uint
 		if mant == 2<<mantbits {}
 	}
 
-	// from src/route_bsd.go:82
+	// from src/route_bsd.golang:82
 	{
 		var Addrs int32
 		const rtaRtMask = 1
@@ -344,7 +344,7 @@ func shifts9() {
 		if Addrs&rtaRtMask&(1<<i) == 0 {}
 	}
 
-	// from src/text/scanner/scanner.go:540
+	// from src/text/scanner/scanner.golang:540
 	{
 		var s struct { Whitespace uint64 }
 		var ch rune

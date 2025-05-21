@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package fmt_test
@@ -29,7 +29,7 @@ func ExampleFscanf() {
 		b bool
 		s string
 	)
-	r := strings.NewReader("5 true gophers")
+	r := strings.NewReader("5 true golangphers")
 	n, err := fmt.Fscanf(r, "%d %t %s", &i, &b, &s)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Fscanf: %v\n", err)
@@ -37,7 +37,7 @@ func ExampleFscanf() {
 	fmt.Println(i, b, s)
 	fmt.Println(n)
 	// Output:
-	// 5 true gophers
+	// 5 true golangphers
 	// 3
 }
 

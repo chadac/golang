@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime_test
@@ -61,8 +61,8 @@ func testCallers(t *testing.T, pcs []uintptr, pan bool) {
 		{"f3", f3Line},
 	}
 	for _, w := range want {
-		if got := m["runtime_test."+w.name]; got != w.line {
-			t.Errorf("%s is line %d, want %d", w.name, got, w.line)
+		if golangt := m["runtime_test."+w.name]; golangt != w.line {
+			t.Errorf("%s is line %d, want %d", w.name, golangt, w.line)
 		}
 	}
 }
@@ -70,18 +70,18 @@ func testCallers(t *testing.T, pcs []uintptr, pan bool) {
 func testCallersEqual(t *testing.T, pcs []uintptr, want []string) {
 	t.Helper()
 
-	got := make([]string, 0, len(want))
+	golangt := make([]string, 0, len(want))
 
 	frames := runtime.CallersFrames(pcs)
 	for {
 		frame, more := frames.Next()
-		if !more || len(got) >= len(want) {
+		if !more || len(golangt) >= len(want) {
 			break
 		}
-		got = append(got, frame.Function)
+		golangt = append(golangt, frame.Function)
 	}
-	if !slices.Equal(want, got) {
-		t.Fatalf("wanted %v, got %v", want, got)
+	if !slices.Equal(want, golangt) {
+		t.Fatalf("wanted %v, golangt %v", want, golangt)
 	}
 }
 
@@ -93,7 +93,7 @@ func TestCallersPanic(t *testing.T) {
 	// Make sure we don't have any extra frames on the stack (due to
 	// open-coded defer processing)
 	want := []string{"runtime.Callers", "runtime_test.TestCallersPanic.func1",
-		"runtime.gopanic", "runtime_test.f3", "runtime_test.f2", "runtime_test.f1",
+		"runtime.golangpanic", "runtime_test.f3", "runtime_test.f2", "runtime_test.f1",
 		"runtime_test.TestCallersPanic"}
 
 	defer func() {
@@ -112,7 +112,7 @@ func TestCallersDoublePanic(t *testing.T) {
 	// Make sure we don't have any extra frames on the stack (due to
 	// open-coded defer processing)
 	want := []string{"runtime.Callers", "runtime_test.TestCallersDoublePanic.func1.1",
-		"runtime.gopanic", "runtime_test.TestCallersDoublePanic.func1", "runtime.gopanic", "runtime_test.TestCallersDoublePanic"}
+		"runtime.golangpanic", "runtime_test.TestCallersDoublePanic.func1", "runtime.golangpanic", "runtime_test.TestCallersDoublePanic"}
 
 	defer func() {
 		defer func() {
@@ -169,7 +169,7 @@ func TestCallersAbortedPanic(t *testing.T) {
 	defer func() {
 		r := recover()
 		if r != "panic2" {
-			t.Fatalf("got %v, wanted %v", r, "panic2")
+			t.Fatalf("golangt %v, wanted %v", r, "panic2")
 		}
 	}()
 	defer func() {
@@ -198,7 +198,7 @@ func TestCallersAbortedPanic2(t *testing.T) {
 		defer func() {
 			r := recover()
 			if r != "panic2" {
-				t.Fatalf("got %v, wanted %v", r, "panic2")
+				t.Fatalf("golangt %v, wanted %v", r, "panic2")
 			}
 		}()
 		func() {
@@ -215,7 +215,7 @@ func TestCallersNilPointerPanic(t *testing.T) {
 	// Make sure we don't have any extra frames on the stack (due to
 	// open-coded defer processing)
 	want := []string{"runtime.Callers", "runtime_test.TestCallersNilPointerPanic.func1",
-		"runtime.gopanic", "runtime.panicmem", "runtime.sigpanic",
+		"runtime.golangpanic", "runtime.panicmem", "runtime.sigpanic",
 		"runtime_test.TestCallersNilPointerPanic"}
 
 	defer func() {
@@ -236,7 +236,7 @@ func TestCallersDivZeroPanic(t *testing.T) {
 	// Make sure we don't have any extra frames on the stack (due to
 	// open-coded defer processing)
 	want := []string{"runtime.Callers", "runtime_test.TestCallersDivZeroPanic.func1",
-		"runtime.gopanic", "runtime.panicdivide",
+		"runtime.golangpanic", "runtime.panicdivide",
 		"runtime_test.TestCallersDivZeroPanic"}
 
 	defer func() {
@@ -260,7 +260,7 @@ func TestCallersDeferNilFuncPanic(t *testing.T) {
 	// where the nil pointer deref happens).
 	state := 1
 	want := []string{"runtime.Callers", "runtime_test.TestCallersDeferNilFuncPanic.func1",
-		"runtime.gopanic", "runtime.panicmem", "runtime.sigpanic"}
+		"runtime.golangpanic", "runtime.panicmem", "runtime.sigpanic"}
 
 	defer func() {
 		if r := recover(); r == nil {
@@ -286,7 +286,7 @@ func TestCallersDeferNilFuncPanic(t *testing.T) {
 func TestCallersDeferNilFuncPanicWithLoop(t *testing.T) {
 	state := 1
 	want := []string{"runtime.Callers", "runtime_test.TestCallersDeferNilFuncPanicWithLoop.func1",
-		"runtime.gopanic", "runtime.panicmem", "runtime.sigpanic", "runtime.deferreturn", "runtime_test.TestCallersDeferNilFuncPanicWithLoop"}
+		"runtime.golangpanic", "runtime.panicmem", "runtime.sigpanic", "runtime.deferreturn", "runtime_test.TestCallersDeferNilFuncPanicWithLoop"}
 
 	defer func() {
 		if r := recover(); r == nil {
@@ -470,7 +470,7 @@ func TestFPUnwindAfterRecovery(t *testing.T) {
 			// If runtime.recovery doesn't properly restore the
 			// frame pointer before returning control to this
 			// function, it will point somewhere lower in the stack
-			// from one of the frames of runtime.gopanic() or one of
+			// from one of the frames of runtime.golangpanic() or one of
 			// it's callees prior to recovery.  So, we put some
 			// non-zero values on the stack to ensure that frame
 			// pointer unwinding will crash if it sees the old,

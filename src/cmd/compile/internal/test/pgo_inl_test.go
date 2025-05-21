@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package test
@@ -22,14 +22,14 @@ const profFile = "inline_hot.pprof"
 const preProfFile = "inline_hot.pprof.node_map"
 
 func buildPGOInliningTest(t *testing.T, dir string, gcflag string) []byte {
-	const pkg = "example.com/pgo/inline"
+	const pkg = "example.com/pgolang/inline"
 
-	// Add a go.mod so we have a consistent symbol names in this temp dir.
-	goMod := fmt.Sprintf(`module %s
-go 1.19
+	// Add a golang.mod so we have a consistent symbol names in this temp dir.
+	golangMod := fmt.Sprintf(`module %s
+golang 1.19
 `, pkg)
-	if err := os.WriteFile(filepath.Join(dir, "go.mod"), []byte(goMod), 0644); err != nil {
-		t.Fatalf("error writing go.mod: %v", err)
+	if err := os.WriteFile(filepath.Join(dir, "golang.mod"), []byte(golangMod), 0644); err != nil {
+		t.Fatalf("error writing golang.mod: %v", err)
 	}
 
 	exe := filepath.Join(dir, "test.exe")
@@ -50,7 +50,7 @@ func testPGOIntendedInlining(t *testing.T, dir string, profFile string) {
 	testenv.MustHaveGoRun(t)
 	t.Parallel()
 
-	const pkg = "example.com/pgo/inline"
+	const pkg = "example.com/pgolang/inline"
 
 	want := []string{
 		"(*BS).NS",
@@ -89,7 +89,7 @@ func testPGOIntendedInlining(t *testing.T, dir string, profFile string) {
 
 	// Build the test with the profile. Use a smaller threshold to test.
 	// TODO: maybe adjust the test to work with default threshold.
-	gcflag := fmt.Sprintf("-m -m -pgoprofile=%s -d=pgoinlinebudget=160,pgoinlinecdfthreshold=90", profFile)
+	gcflag := fmt.Sprintf("-m -m -pgolangprofile=%s -d=pgolanginlinebudget=160,pgolanginlinecdfthreshold=90", profFile)
 	out := buildPGOInliningTest(t, dir, gcflag)
 
 	scanner := bufio.NewScanner(bytes.NewReader(out))
@@ -152,12 +152,12 @@ func TestPGOIntendedInlining(t *testing.T) {
 	if err != nil {
 		t.Fatalf("error getting wd: %v", err)
 	}
-	srcDir := filepath.Join(wd, "testdata/pgo/inline")
+	srcDir := filepath.Join(wd, "testdata/pgolang/inline")
 
-	// Copy the module to a scratch location so we can add a go.mod.
+	// Copy the module to a scratch location so we can add a golang.mod.
 	dir := t.TempDir()
 
-	for _, file := range []string{"inline_hot.go", "inline_hot_test.go", profFile} {
+	for _, file := range []string{"inline_hot.golang", "inline_hot_test.golang", profFile} {
 		if err := copyFile(filepath.Join(dir, file), filepath.Join(srcDir, file)); err != nil {
 			t.Fatalf("error copying %s: %v", file, err)
 		}
@@ -173,12 +173,12 @@ func TestPGOPreprocessInlining(t *testing.T) {
 	if err != nil {
 		t.Fatalf("error getting wd: %v", err)
 	}
-	srcDir := filepath.Join(wd, "testdata/pgo/inline")
+	srcDir := filepath.Join(wd, "testdata/pgolang/inline")
 
-	// Copy the module to a scratch location so we can add a go.mod.
+	// Copy the module to a scratch location so we can add a golang.mod.
 	dir := t.TempDir()
 
-	for _, file := range []string{"inline_hot.go", "inline_hot_test.go", preProfFile} {
+	for _, file := range []string{"inline_hot.golang", "inline_hot_test.golang", preProfFile} {
 		if err := copyFile(filepath.Join(dir, file), filepath.Join(srcDir, file)); err != nil {
 			t.Fatalf("error copying %s: %v", file, err)
 		}
@@ -194,29 +194,29 @@ func TestPGOIntendedInliningShiftedLines(t *testing.T) {
 	if err != nil {
 		t.Fatalf("error getting wd: %v", err)
 	}
-	srcDir := filepath.Join(wd, "testdata/pgo/inline")
+	srcDir := filepath.Join(wd, "testdata/pgolang/inline")
 
 	// Copy the module to a scratch location so we can modify the source.
 	dir := t.TempDir()
 
 	// Copy most of the files unmodified.
-	for _, file := range []string{"inline_hot_test.go", profFile} {
+	for _, file := range []string{"inline_hot_test.golang", profFile} {
 		if err := copyFile(filepath.Join(dir, file), filepath.Join(srcDir, file)); err != nil {
 			t.Fatalf("error copying %s : %v", file, err)
 		}
 	}
 
-	// Add some comments to the top of inline_hot.go. This adjusts the line
+	// Add some comments to the top of inline_hot.golang. This adjusts the line
 	// numbers of all of the functions without changing the semantics.
-	src, err := os.Open(filepath.Join(srcDir, "inline_hot.go"))
+	src, err := os.Open(filepath.Join(srcDir, "inline_hot.golang"))
 	if err != nil {
-		t.Fatalf("error opening src inline_hot.go: %v", err)
+		t.Fatalf("error opening src inline_hot.golang: %v", err)
 	}
 	defer src.Close()
 
-	dst, err := os.Create(filepath.Join(dir, "inline_hot.go"))
+	dst, err := os.Create(filepath.Join(dir, "inline_hot.golang"))
 	if err != nil {
-		t.Fatalf("error creating dst inline_hot.go: %v", err)
+		t.Fatalf("error creating dst inline_hot.golang: %v", err)
 	}
 	defer dst.Close()
 
@@ -227,7 +227,7 @@ func TestPGOIntendedInliningShiftedLines(t *testing.T) {
 	}
 
 	if _, err := io.Copy(dst, src); err != nil {
-		t.Fatalf("error copying inline_hot.go: %v", err)
+		t.Fatalf("error copying inline_hot.golang: %v", err)
 	}
 
 	dst.Close()
@@ -242,7 +242,7 @@ func TestPGOSingleIndex(t *testing.T) {
 	for _, tc := range []struct {
 		originalIndex int
 	}{{
-		// The `testdata/pgo/inline/inline_hot.pprof` file is a standard CPU
+		// The `testdata/pgolang/inline/inline_hot.pprof` file is a standard CPU
 		// profile as the runtime would generate. The 0 index contains the
 		// value-type samples and value-unit count. The 1 index contains the
 		// value-type cpu and value-unit nanoseconds. These tests ensure that
@@ -257,9 +257,9 @@ func TestPGOSingleIndex(t *testing.T) {
 			if err != nil {
 				t.Fatalf("error getting wd: %v", err)
 			}
-			srcDir := filepath.Join(wd, "testdata/pgo/inline")
+			srcDir := filepath.Join(wd, "testdata/pgolang/inline")
 
-			// Copy the module to a scratch location so we can add a go.mod.
+			// Copy the module to a scratch location so we can add a golang.mod.
 			dir := t.TempDir()
 
 			originalPprofFile, err := os.Open(filepath.Join(srcDir, profFile))
@@ -291,7 +291,7 @@ func TestPGOSingleIndex(t *testing.T) {
 				t.Fatalf("error writing %v: %v", profFile, err)
 			}
 
-			for _, file := range []string{"inline_hot.go", "inline_hot_test.go"} {
+			for _, file := range []string{"inline_hot.golang", "inline_hot_test.golang"} {
 				if err := copyFile(filepath.Join(dir, file), filepath.Join(srcDir, file)); err != nil {
 					t.Fatalf("error copying %s: %v", file, err)
 				}
@@ -319,23 +319,23 @@ func copyFile(dst, src string) error {
 	return err
 }
 
-// TestPGOHash tests that PGO optimization decisions can be selected by pgohash.
+// TestPGOHash tests that PGO optimization decisions can be selected by pgolanghash.
 func TestPGOHash(t *testing.T) {
 	testenv.MustHaveGoRun(t)
 	t.Parallel()
 
-	const pkg = "example.com/pgo/inline"
+	const pkg = "example.com/pgolang/inline"
 
 	wd, err := os.Getwd()
 	if err != nil {
 		t.Fatalf("error getting wd: %v", err)
 	}
-	srcDir := filepath.Join(wd, "testdata/pgo/inline")
+	srcDir := filepath.Join(wd, "testdata/pgolang/inline")
 
-	// Copy the module to a scratch location so we can add a go.mod.
+	// Copy the module to a scratch location so we can add a golang.mod.
 	dir := t.TempDir()
 
-	for _, file := range []string{"inline_hot.go", "inline_hot_test.go", profFile} {
+	for _, file := range []string{"inline_hot.golang", "inline_hot_test.golang", profFile} {
 		if err := copyFile(filepath.Join(dir, file), filepath.Join(srcDir, file)); err != nil {
 			t.Fatalf("error copying %s: %v", file, err)
 		}
@@ -344,24 +344,24 @@ func TestPGOHash(t *testing.T) {
 	pprof := filepath.Join(dir, profFile)
 	// build with -trimpath so the source location (thus the hash)
 	// does not depend on the temporary directory path.
-	gcflag0 := fmt.Sprintf("-pgoprofile=%s -trimpath %s=>%s -d=pgoinlinebudget=160,pgoinlinecdfthreshold=90,pgodebug=1", pprof, dir, pkg)
+	gcflag0 := fmt.Sprintf("-pgolangprofile=%s -trimpath %s=>%s -d=pgolanginlinebudget=160,pgolanginlinecdfthreshold=90,pgolangdebug=1", pprof, dir, pkg)
 
 	// Check that a hash match allows PGO inlining.
-	const srcPos = "example.com/pgo/inline/inline_hot.go:81:19"
-	const hashMatch = "pgohash triggered " + srcPos + " (inline)"
-	pgoDebugRE := regexp.MustCompile(`hot-budget check allows inlining for call .* at ` + strings.ReplaceAll(srcPos, ".", "\\."))
+	const srcPos = "example.com/pgolang/inline/inline_hot.golang:81:19"
+	const hashMatch = "pgolanghash triggered " + srcPos + " (inline)"
+	pgolangDebugRE := regexp.MustCompile(`hot-budget check allows inlining for call .* at ` + strings.ReplaceAll(srcPos, ".", "\\."))
 	hash := "v1" // 1 matches srcPos, v for verbose (print source location)
-	gcflag := gcflag0 + ",pgohash=" + hash
+	gcflag := gcflag0 + ",pgolanghash=" + hash
 	out := buildPGOInliningTest(t, dir, gcflag)
-	if !bytes.Contains(out, []byte(hashMatch)) || !pgoDebugRE.Match(out) {
+	if !bytes.Contains(out, []byte(hashMatch)) || !pgolangDebugRE.Match(out) {
 		t.Errorf("output does not contain expected source line, out:\n%s", out)
 	}
 
 	// Check that a hash mismatch turns off PGO inlining.
 	hash = "v0" // 0 should not match srcPos
-	gcflag = gcflag0 + ",pgohash=" + hash
+	gcflag = gcflag0 + ",pgolanghash=" + hash
 	out = buildPGOInliningTest(t, dir, gcflag)
-	if bytes.Contains(out, []byte(hashMatch)) || pgoDebugRE.Match(out) {
+	if bytes.Contains(out, []byte(hashMatch)) || pgolangDebugRE.Match(out) {
 		t.Errorf("output contains unexpected source line, out:\n%s", out)
 	}
 }

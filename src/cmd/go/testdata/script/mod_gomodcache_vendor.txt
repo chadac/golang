@@ -2,24 +2,24 @@
 # with vendored files.
 # See issue #46400
 [short] skip 'builds and links a binary twice'
-go mod tidy
-go mod vendor
+golang mod tidy
+golang mod vendor
 
-go build -mod=vendor
-go version -m example$GOEXE
+golang build -mod=vendor
+golang version -m example$GOEXE
 cp stdout version-m.txt
 
 env GOMODCACHE=$WORK${/}modcache
-go build -mod=vendor
-go version -m example$GOEXE
+golang build -mod=vendor
+golang version -m example$GOEXE
 cmp stdout version-m.txt
 
--- go.mod --
+-- golang.mod --
 module example
-go 1.22
+golang 1.22
 require rsc.io/sampler v1.3.0
 
--- main.go --
+-- main.golang --
 package main
 
 import (

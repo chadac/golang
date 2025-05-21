@@ -1,5 +1,5 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package flate
@@ -35,7 +35,7 @@ func TestReset(t *testing.T) {
 
 	for i, s := range ss {
 		if s != inflated[i].String() {
-			t.Errorf("inflated[%d]:\ngot  %q\nwant %q", i, &inflated[i], s)
+			t.Errorf("inflated[%d]:\ngolangt  %q\nwant %q", i, &inflated[i], s)
 		}
 	}
 }
@@ -59,10 +59,10 @@ func TestReaderTruncated(t *testing.T) {
 		zr := NewReader(r)
 		b, err := io.ReadAll(zr)
 		if err != io.ErrUnexpectedEOF {
-			t.Errorf("test %d, error mismatch: got %v, want io.ErrUnexpectedEOF", i, err)
+			t.Errorf("test %d, error mismatch: golangt %v, want io.ErrUnexpectedEOF", i, err)
 		}
 		if string(b) != v.output {
-			t.Errorf("test %d, output mismatch: got %q, want %q", i, b, v.output)
+			t.Errorf("test %d, output mismatch: golangt %q, want %q", i, b, v.output)
 		}
 	}
 }
@@ -92,7 +92,7 @@ func TestResetDict(t *testing.T) {
 
 	for i, s := range ss {
 		if s != inflated[i].String() {
-			t.Errorf("inflated[%d]:\ngot  %q\nwant %q", i, &inflated[i], s)
+			t.Errorf("inflated[%d]:\ngolangt  %q\nwant %q", i, &inflated[i], s)
 		}
 	}
 }

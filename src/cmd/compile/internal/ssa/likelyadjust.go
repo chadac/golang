@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ssa
@@ -539,7 +539,7 @@ func recordIfExit(l, sl *loop, b *Block) bool {
 			return true
 		}
 		// sl is not nil, and is deeper than l
-		// it's possible for this to be a goto into an irreducible loop made from gotos.
+		// it's possible for this to be a golangto into an irreducible loop made from golangtos.
 		for sl.depth > l.depth {
 			sl = sl.outer
 		}
@@ -560,7 +560,7 @@ func (l *loop) setDepth(d int16) {
 
 // iterationEnd checks if block b ends iteration of loop l.
 // Ending iteration means either escaping to outer loop/code or
-// going back to header
+// golanging back to header
 func (l *loop) iterationEnd(b *Block, b2l []*loop) bool {
 	return b == l.header || b2l[b.ID] == nil || (b2l[b.ID] != l && b2l[b.ID].depth <= l.depth)
 }

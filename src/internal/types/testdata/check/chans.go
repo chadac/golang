@@ -8,7 +8,7 @@ import "runtime"
 // method indicates when the Sender has been closed, and the Send
 // method indicates when the Receiver has been freed.
 //
-// This is a convenient way to exit a goroutine sending values when
+// This is a convenient way to exit a golangroutine sending values when
 // the receiver stops reading them.
 func Ranger[T any]() (*Sender[T], *Receiver[T]) {
 	c := make(chan T)

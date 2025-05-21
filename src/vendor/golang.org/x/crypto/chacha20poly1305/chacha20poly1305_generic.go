@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package chacha20poly1305
@@ -7,9 +7,9 @@ package chacha20poly1305
 import (
 	"encoding/binary"
 
-	"golang.org/x/crypto/chacha20"
-	"golang.org/x/crypto/internal/alias"
-	"golang.org/x/crypto/internal/poly1305"
+	"golanglang.org/x/crypto/chacha20"
+	"golanglang.org/x/crypto/internal/alias"
+	"golanglang.org/x/crypto/internal/poly1305"
 )
 
 func writeWithPadding(p *poly1305.MAC, b []byte) {

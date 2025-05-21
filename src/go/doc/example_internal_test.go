@@ -1,12 +1,12 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package doc
 
 import (
-	"go/parser"
-	"go/token"
+	"golang/parser"
+	"golang/token"
 	"reflect"
 	"strconv"
 	"strings"
@@ -100,20 +100,20 @@ import (
 	} {
 		t.Run(test.name, func(t *testing.T) {
 			fset := token.NewFileSet()
-			file, err := parser.ParseFile(fset, "test.go", strings.NewReader(test.in), parser.ParseComments)
+			file, err := parser.ParseFile(fset, "test.golang", strings.NewReader(test.in), parser.ParseComments)
 			if err != nil {
 				t.Fatal(err)
 			}
 			imps := findImportGroupStarts1(file.Imports)
-			got := make([]string, len(imps))
+			golangt := make([]string, len(imps))
 			for i, imp := range imps {
-				got[i], err = strconv.Unquote(imp.Path.Value)
+				golangt[i], err = strconv.Unquote(imp.Path.Value)
 				if err != nil {
 					t.Fatal(err)
 				}
 			}
-			if !reflect.DeepEqual(got, test.want) {
-				t.Errorf("got %v, want %v", got, test.want)
+			if !reflect.DeepEqual(golangt, test.want) {
+				t.Errorf("golangt %v, want %v", golangt, test.want)
 			}
 		})
 	}

@@ -1,10 +1,10 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// This file is forked from go/build/read.go.
-// (cmd/dist must not import go/build because we do not want it to be
-// sensitive to the specific version of go/build present in $GOROOT_BOOTSTRAP.)
+// This file is forked from golang/build/read.golang.
+// (cmd/dist must not import golang/build because we do not want it to be
+// sensitive to the specific version of golang/build present in $GOROOT_BOOTSTRAP.)
 
 package main
 
@@ -71,7 +71,7 @@ func (r *importReader) readByte() byte {
 func (r *importReader) peekByte(skipSpace bool) byte {
 	if r.err != nil {
 		if r.nerr++; r.nerr > 10000 {
-			panic("go/build: import reader looping")
+			panic("golang/build: import reader looping")
 		}
 		return 0
 	}
@@ -266,9 +266,9 @@ func resolveVendor(imp, srcDir string) string {
 		return imp
 	}
 
-	if strings.HasPrefix(srcDir, filepath.Join(goroot, "src", "cmd")) {
+	if strings.HasPrefix(srcDir, filepath.Join(golangroot, "src", "cmd")) {
 		return path.Join("cmd", "vendor", imp)
-	} else if strings.HasPrefix(srcDir, filepath.Join(goroot, "src")) {
+	} else if strings.HasPrefix(srcDir, filepath.Join(golangroot, "src")) {
 		return path.Join("vendor", imp)
 	} else {
 		panic(fmt.Sprintf("srcDir %q not in GOOROT/src", srcDir))

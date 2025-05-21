@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package strconv
@@ -193,7 +193,7 @@ func ParseUint(s string, base int, bitSize int) (uint64, error) {
 // returned value is the maximum magnitude integer of the
 // appropriate bitSize and sign.
 //
-// [integer literals]: https://go.dev/ref/spec#Integer_literals
+// [integer literals]: https://golang.dev/ref/spec#Integer_literals
 func ParseInt(s string, base int, bitSize int) (i int64, err error) {
 	const fnParseInt = "ParseInt"
 

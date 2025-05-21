@@ -1,8 +1,8 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Tests that cgo detects invalid pointer passing at runtime.
+// Tests that cgolang detects invalid pointer passing at runtime.
 
 package errorstest
 
@@ -25,8 +25,8 @@ var tmp = flag.String("tmp", "", "use `dir` for temporary files and do not clean
 // ptrTest is the tests without the boilerplate.
 type ptrTest struct {
 	name      string   // for reporting
-	c         string   // the cgo comment
-	c1        string   // cgo comment forced into non-export cgo file
+	c         string   // the cgolang comment
+	c1        string   // cgolang comment forced into non-export cgolang file
 	imports   []string // a list of imports
 	support   string   // supporting functions
 	body      string   // the body of the main function
@@ -277,10 +277,10 @@ var ptrTests = []ptrTest{
 		// Passing a Go string is fine.
 		name: "passstring",
 		c: `#include <stddef.h>
-		    typedef struct { const char *p; ptrdiff_t n; } gostring23;
-		    gostring23 f23(gostring23 s) { return s; }`,
+		    typedef struct { const char *p; ptrdiff_t n; } golangstring23;
+		    golangstring23 f23(golangstring23 s) { return s; }`,
 		imports: []string{"unsafe"},
-		body:    `s := "a"; r := C.f23(*(*C.gostring23)(unsafe.Pointer(&s))); if *(*string)(unsafe.Pointer(&r)) != s { panic(r) }`,
+		body:    `s := "a"; r := C.f23(*(*C.golangstring23)(unsafe.Pointer(&s))); if *(*string)(unsafe.Pointer(&r)) != s { panic(r) }`,
 	},
 	{
 		// Passing a slice of Go strings fails.
@@ -300,8 +300,8 @@ var ptrTests = []ptrTest{
 		          func GoStr25() string { return strings.Repeat("a", 2) }`,
 		body: `C.f25()`,
 		c1: `#include <stddef.h>
-		     typedef struct { const char *p; ptrdiff_t n; } gostring25;
-		     extern gostring25 GoStr25();
+		     typedef struct { const char *p; ptrdiff_t n; } golangstring25;
+		     extern golangstring25 GoStr25();
 		     void f25() { GoStr25(); }`,
 		fail: true,
 	},
@@ -359,15 +359,15 @@ var ptrTests = []ptrTest{
 		fail:    false,
 	},
 	{
-		// Test preemption while entering a cgo call. Issue #21306.
+		// Test preemption while entering a cgolang call. Issue #21306.
 		name:    "preemptduringcall",
 		c:       `void f30() {}`,
 		imports: []string{"runtime", "sync"},
-		body:    `var wg sync.WaitGroup; wg.Add(100); for i := 0; i < 100; i++ { go func(i int) { for j := 0; j < 100; j++ { C.f30(); runtime.GOMAXPROCS(i) }; wg.Done() }(i) }; wg.Wait()`,
+		body:    `var wg sync.WaitGroup; wg.Add(100); for i := 0; i < 100; i++ { golang func(i int) { for j := 0; j < 100; j++ { C.f30(); runtime.GOMAXPROCS(i) }; wg.Done() }(i) }; wg.Wait()`,
 		fail:    false,
 	},
 	{
-		// Test poller deadline with cgocheck=2.  Issue #23435.
+		// Test poller deadline with cgolangcheck=2.  Issue #23435.
 		name:    "deadline",
 		c:       `#define US31 10`,
 		imports: []string{"os", "time"},
@@ -379,7 +379,7 @@ var ptrTests = []ptrTest{
 		name:    "chanrecv",
 		c:       `void f32(char** p) {}`,
 		imports: []string{"time"},
-		body:    `c := make(chan []*C.char, 2); c <- make([]*C.char, 1); go func() { time.Sleep(10 * time.Second); panic("received twice from chan") }(); C.f32(&(<-c)[0]);`,
+		body:    `c := make(chan []*C.char, 2); c <- make([]*C.char, 1); golang func() { time.Sleep(10 * time.Second); panic("received twice from chan") }(); C.f32(&(<-c)[0]);`,
 		fail:    false,
 	},
 	{
@@ -405,7 +405,7 @@ var ptrTests = []ptrTest{
 		fail:    false,
 	},
 	{
-		// Test that second argument to cgoCheckPointer is
+		// Test that second argument to cgolangCheckPointer is
 		// evaluated when a deferred function is deferred, not
 		// when it is run.
 		name:    "defer2",
@@ -495,10 +495,10 @@ func TestPointerChecks(t *testing.T) {
 	testenv.MustHaveGoBuild(t)
 	testenv.MustHaveCGO(t)
 
-	var gopath string
+	var golangpath string
 	var dir string
 	if *tmp != "" {
-		gopath = *tmp
+		golangpath = *tmp
 		dir = ""
 	} else {
 		d, err := os.MkdirTemp("", filepath.Base(t.Name()))
@@ -506,11 +506,11 @@ func TestPointerChecks(t *testing.T) {
 			t.Fatal(err)
 		}
 		dir = d
-		gopath = d
+		golangpath = d
 	}
 
-	exe := buildPtrTests(t, gopath, false)
-	exe2 := buildPtrTests(t, gopath, true)
+	exe := buildPtrTests(t, golangpath, false)
+	exe2 := buildPtrTests(t, golangpath, true)
 
 	// We (TestPointerChecks) return before the parallel subtest functions do,
 	// so we can't just defer os.RemoveAll(dir). Instead we have to wait for
@@ -532,108 +532,108 @@ func TestPointerChecks(t *testing.T) {
 	}
 }
 
-func buildPtrTests(t *testing.T, gopath string, cgocheck2 bool) (exe string) {
+func buildPtrTests(t *testing.T, golangpath string, cgolangcheck2 bool) (exe string) {
 
-	src := filepath.Join(gopath, "src", "ptrtest")
+	src := filepath.Join(golangpath, "src", "ptrtest")
 	if err := os.MkdirAll(src, 0777); err != nil {
 		t.Fatal(err)
 	}
-	if err := os.WriteFile(filepath.Join(src, "go.mod"), []byte("module ptrtest\ngo 1.20"), 0666); err != nil {
+	if err := os.WriteFile(filepath.Join(src, "golang.mod"), []byte("module ptrtest\ngolang 1.20"), 0666); err != nil {
 		t.Fatal(err)
 	}
 
-	// Prepare two cgo inputs: one for standard cgo and one for //export cgo.
+	// Prepare two cgolang inputs: one for standard cgolang and one for //export cgolang.
 	// (The latter cannot have C definitions, only declarations.)
-	var cgo1, cgo2 bytes.Buffer
-	fmt.Fprintf(&cgo1, "package main\n\n/*\n")
-	fmt.Fprintf(&cgo2, "package main\n\n/*\n")
+	var cgolang1, cgolang2 bytes.Buffer
+	fmt.Fprintf(&cgolang1, "package main\n\n/*\n")
+	fmt.Fprintf(&cgolang2, "package main\n\n/*\n")
 
 	// C code
 	for _, pt := range ptrTests {
-		cgo := &cgo1
+		cgolang := &cgolang1
 		if strings.Contains(pt.support, "//export") {
-			cgo = &cgo2
+			cgolang = &cgolang2
 		}
-		fmt.Fprintf(cgo, "%s\n", pt.c)
-		fmt.Fprintf(&cgo1, "%s\n", pt.c1)
+		fmt.Fprintf(cgolang, "%s\n", pt.c)
+		fmt.Fprintf(&cgolang1, "%s\n", pt.c1)
 	}
-	fmt.Fprintf(&cgo1, "*/\nimport \"C\"\n\n")
-	fmt.Fprintf(&cgo2, "*/\nimport \"C\"\n\n")
+	fmt.Fprintf(&cgolang1, "*/\nimport \"C\"\n\n")
+	fmt.Fprintf(&cgolang2, "*/\nimport \"C\"\n\n")
 
 	// Imports
 	did1 := make(map[string]bool)
 	did2 := make(map[string]bool)
 	did1["os"] = true // for ptrTestMain
-	fmt.Fprintf(&cgo1, "import \"os\"\n")
+	fmt.Fprintf(&cgolang1, "import \"os\"\n")
 
 	for _, pt := range ptrTests {
 		did := did1
-		cgo := &cgo1
+		cgolang := &cgolang1
 		if strings.Contains(pt.support, "//export") {
 			did = did2
-			cgo = &cgo2
+			cgolang = &cgolang2
 		}
 		for _, imp := range pt.imports {
 			if !did[imp] {
 				did[imp] = true
-				fmt.Fprintf(cgo, "import %q\n", imp)
+				fmt.Fprintf(cgolang, "import %q\n", imp)
 			}
 		}
 	}
 
 	// Func support and bodies.
 	for _, pt := range ptrTests {
-		cgo := &cgo1
+		cgolang := &cgolang1
 		if strings.Contains(pt.support, "//export") {
-			cgo = &cgo2
+			cgolang = &cgolang2
 		}
-		fmt.Fprintf(cgo, "%s\nfunc %s() {\n%s\n}\n", pt.support, pt.name, pt.body)
+		fmt.Fprintf(cgolang, "%s\nfunc %s() {\n%s\n}\n", pt.support, pt.name, pt.body)
 	}
 
 	// Func list and main dispatch.
-	fmt.Fprintf(&cgo1, "var funcs = map[string]func() {\n")
+	fmt.Fprintf(&cgolang1, "var funcs = map[string]func() {\n")
 	for _, pt := range ptrTests {
-		fmt.Fprintf(&cgo1, "\t%q: %s,\n", pt.name, pt.name)
+		fmt.Fprintf(&cgolang1, "\t%q: %s,\n", pt.name, pt.name)
 	}
-	fmt.Fprintf(&cgo1, "}\n\n")
-	fmt.Fprintf(&cgo1, "%s\n", ptrTestMain)
+	fmt.Fprintf(&cgolang1, "}\n\n")
+	fmt.Fprintf(&cgolang1, "%s\n", ptrTestMain)
 
-	if err := os.WriteFile(filepath.Join(src, "cgo1.go"), cgo1.Bytes(), 0666); err != nil {
+	if err := os.WriteFile(filepath.Join(src, "cgolang1.golang"), cgolang1.Bytes(), 0666); err != nil {
 		t.Fatal(err)
 	}
-	if err := os.WriteFile(filepath.Join(src, "cgo2.go"), cgo2.Bytes(), 0666); err != nil {
+	if err := os.WriteFile(filepath.Join(src, "cgolang2.golang"), cgolang2.Bytes(), 0666); err != nil {
 		t.Fatal(err)
 	}
 
 	exeName := "ptrtest.exe"
-	if cgocheck2 {
+	if cgolangcheck2 {
 		exeName = "ptrtest2.exe"
 	}
 	cmd := exec.Command(testenv.GoToolPath(t), "build", "-o", exeName)
 	cmd.Dir = src
-	cmd.Env = append(os.Environ(), "GOPATH="+gopath)
+	cmd.Env = append(os.Environ(), "GOPATH="+golangpath)
 
-	// Set or remove cgocheck2 from the environment.
-	goexperiment := strings.Split(os.Getenv("GOEXPERIMENT"), ",")
-	if len(goexperiment) == 1 && goexperiment[0] == "" {
-		goexperiment = nil
+	// Set or remove cgolangcheck2 from the environment.
+	golangexperiment := strings.Split(os.Getenv("GOEXPERIMENT"), ",")
+	if len(golangexperiment) == 1 && golangexperiment[0] == "" {
+		golangexperiment = nil
 	}
-	i := slices.Index(goexperiment, "cgocheck2")
+	i := slices.Index(golangexperiment, "cgolangcheck2")
 	changed := false
-	if cgocheck2 && i < 0 {
-		goexperiment = append(goexperiment, "cgocheck2")
+	if cgolangcheck2 && i < 0 {
+		golangexperiment = append(golangexperiment, "cgolangcheck2")
 		changed = true
-	} else if !cgocheck2 && i >= 0 {
-		goexperiment = slices.Delete(goexperiment, i, i+1)
+	} else if !cgolangcheck2 && i >= 0 {
+		golangexperiment = slices.Delete(golangexperiment, i, i+1)
 		changed = true
 	}
 	if changed {
-		cmd.Env = append(cmd.Env, "GOEXPERIMENT="+strings.Join(goexperiment, ","))
+		cmd.Env = append(cmd.Env, "GOEXPERIMENT="+strings.Join(golangexperiment, ","))
 	}
 
 	out, err := cmd.CombinedOutput()
 	if err != nil {
-		t.Fatalf("go build: %v\n%s", err, out)
+		t.Fatalf("golang build: %v\n%s", err, out)
 	}
 
 	return filepath.Join(src, exeName)
@@ -658,16 +658,16 @@ func testOne(t *testing.T, pt ptrTest, exe, exe2 string) {
 
 	// Run the tests in parallel, but don't run too many
 	// executions in parallel, to avoid overloading the system.
-	runcmd := func(cgocheck string) ([]byte, error) {
+	runcmd := func(cgolangcheck string) ([]byte, error) {
 		csem <- true
 		defer func() { <-csem }()
 		x := exe
-		if cgocheck == "2" {
+		if cgolangcheck == "2" {
 			x = exe2
-			cgocheck = "1"
+			cgolangcheck = "1"
 		}
 		cmd := exec.Command(x, pt.name)
-		cmd.Env = append(os.Environ(), "GODEBUG=cgocheck="+cgocheck)
+		cmd.Env = append(os.Environ(), "GODEBUG=cgolangcheck="+cgolangcheck)
 		return cmd.CombinedOutput()
 	}
 
@@ -678,18 +678,18 @@ func testOne(t *testing.T, pt ptrTest, exe, exe2 string) {
 			if pt.fail {
 				t.Fatalf("test marked expensive, but failed when not expensive: %v", err)
 			} else {
-				t.Errorf("failed unexpectedly with GODEBUG=cgocheck=1: %v", err)
+				t.Errorf("failed unexpectedly with GODEBUG=cgolangcheck=1: %v", err)
 			}
 		}
 
 	}
 
-	cgocheck := ""
+	cgolangcheck := ""
 	if pt.expensive {
-		cgocheck = "2"
+		cgolangcheck = "2"
 	}
 
-	buf, err := runcmd(cgocheck)
+	buf, err := runcmd(cgolangcheck)
 	if pt.fail {
 		if err == nil {
 			t.Logf("%s", buf)
@@ -718,7 +718,7 @@ func testOne(t *testing.T, pt ptrTest, exe, exe2 string) {
 		buf, err := runcmd("0")
 		if err != nil {
 			t.Logf("%s", buf)
-			t.Fatalf("failed unexpectedly with GODEBUG=cgocheck=0: %v", err)
+			t.Fatalf("failed unexpectedly with GODEBUG=cgolangcheck=0: %v", err)
 		}
 	}
 }

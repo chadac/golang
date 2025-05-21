@@ -1,6 +1,6 @@
 // errorcheck -0 -d=ssa/prove/debug=1
 
-//go:build amd64
+//golang:build amd64
 
 package main
 
@@ -88,7 +88,7 @@ func f5_int8(a [10]int) int {
 	return x
 }
 
-//go:noinline
+//golang:noinline
 func f6(a []int) {
 	for i := range a { // ERROR "Induction variable: limits \[0,\?\), increment 1$"
 		b := a[0:i] // ERROR "(\([0-9]+\) )?Proved IsSliceInBounds$"
@@ -469,11 +469,11 @@ func stride2(x *[7]int) int {
 	return s
 }
 
-//go:noinline
+//golang:noinline
 func useString(a string) {
 }
 
-//go:noinline
+//golang:noinline
 func useSlice(a []int) {
 }
 

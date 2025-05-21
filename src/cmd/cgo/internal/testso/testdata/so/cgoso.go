@@ -1,21 +1,21 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-package cgosotest
+package cgolangsotest
 
 /*
 // intentionally write the same LDFLAGS differently
 // to test correct handling of LDFLAGS.
-#cgo linux LDFLAGS: -L. -lcgosotest
-#cgo dragonfly LDFLAGS: -L. -l cgosotest
-#cgo freebsd LDFLAGS: -L. -l cgosotest
-#cgo openbsd LDFLAGS: -L. -l cgosotest
-#cgo solaris LDFLAGS: -L. -lcgosotest
-#cgo netbsd LDFLAGS: -L. libcgosotest.so
-#cgo darwin LDFLAGS: -L. libcgosotest.dylib
-#cgo windows LDFLAGS: -L. libcgosotest.a
-#cgo aix LDFLAGS: -L. -l cgosotest
+#cgolang linux LDFLAGS: -L. -lcgolangsotest
+#cgolang dragolangnfly LDFLAGS: -L. -l cgolangsotest
+#cgolang freebsd LDFLAGS: -L. -l cgolangsotest
+#cgolang openbsd LDFLAGS: -L. -l cgolangsotest
+#cgolang solaris LDFLAGS: -L. -lcgolangsotest
+#cgolang netbsd LDFLAGS: -L. libcgolangsotest.so
+#cgolang darwin LDFLAGS: -L. libcgolangsotest.dylib
+#cgolang windows LDFLAGS: -L. libcgolangsotest.a
+#cgolang aix LDFLAGS: -L. -l cgolangsotest
 
 void init(void);
 void sofunc(void);
@@ -27,6 +27,6 @@ func Test() {
 	C.sofunc()
 }
 
-//export goCallback
-func goCallback() {
+//export golangCallback
+func golangCallback() {
 }

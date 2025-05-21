@@ -1,23 +1,23 @@
-# Test of go work sync in a workspace in which some dependency in the build
+# Test of golang work sync in a workspace in which some dependency in the build
 # list of 'b' (but not otherwise needed by `b`, so not seen when lazy loading
 # occurs) actually is relevant to `a`.
 #
 # a -> p 1.0
 # b -> q 1.1 -> p 1.1
-go work sync
-cmp a/go.mod a/want_go.mod
-cmp b/go.mod b/want_go.mod
+golang work sync
+cmp a/golang.mod a/want_golang.mod
+cmp b/golang.mod b/want_golang.mod
 
--- go.work --
-go 1.18
+-- golang.work --
+golang 1.18
 
 use (
 	./a
 	./b
 )
 
--- a/go.mod --
-go 1.18
+-- a/golang.mod --
+golang 1.18
 
 module example.com/a
 
@@ -28,15 +28,15 @@ require (
 replace (
 	example.com/p => ../p
 )
--- a/want_go.mod --
-go 1.18
+-- a/want_golang.mod --
+golang 1.18
 
 module example.com/a
 
 require example.com/p v1.1.0
 
 replace example.com/p => ../p
--- a/a.go --
+-- a/a.golang --
 package a
 
 import (
@@ -46,8 +46,8 @@ import (
 func Foo() {
 	p.P()
 }
--- b/go.mod --
-go 1.18
+-- b/golang.mod --
+golang 1.18
 
 module example.com/b
 
@@ -58,8 +58,8 @@ require (
 replace (
 	example.com/q => ../q
 )
--- b/want_go.mod --
-go 1.18
+-- b/want_golang.mod --
+golang 1.18
 
 module example.com/b
 
@@ -70,7 +70,7 @@ require (
 replace (
 	example.com/q => ../q
 )
--- b/b.go --
+-- b/b.golang --
 package b
 
 import (
@@ -80,23 +80,23 @@ import (
 func Foo() {
 	q.Q()
 }
--- p/go.mod --
-go 1.18
+-- p/golang.mod --
+golang 1.18
 
 module example.com/p
--- p/p.go --
+-- p/p.golang --
 package p
 
 func P() {}
--- q/go.mod --
-go 1.18
+-- q/golang.mod --
+golang 1.18
 
 module example.com/q
 
 require example.com/p v1.1.0
 
 replace example.com/p => ../p
--- q/q.go --
+-- q/q.golang --
 package q
 
 import example.com/p

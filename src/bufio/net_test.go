@@ -1,8 +1,8 @@
 // Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build unix
+//golang:build unix
 
 package bufio_test
 
@@ -33,13 +33,13 @@ func TestCopyUnixpacket(t *testing.T) {
 		t.Skipf("skipping test because opening a unixpacket socket failed: %v", err)
 	}
 
-	// Start a goroutine for the server to accept one connection
+	// Start a golangroutine for the server to accept one connection
 	// and read all the data sent on the connection,
 	// reporting the number of bytes read on ch.
 	ch := make(chan int, 1)
 	var wg sync.WaitGroup
 	wg.Add(1)
-	go func() {
+	golang func() {
 		defer wg.Done()
 
 		tot := 0
@@ -69,7 +69,7 @@ func TestCopyUnixpacket(t *testing.T) {
 
 	clientConn, err := net.DialUnix("unixpacket", nil, addr)
 	if err != nil {
-		// Leaves the server goroutine hanging. Oh well.
+		// Leaves the server golangroutine hanging. Oh well.
 		t.Fatal(err)
 	}
 

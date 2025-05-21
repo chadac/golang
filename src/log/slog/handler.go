@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package slog
@@ -29,7 +29,7 @@ import (
 // Users of the slog package should not invoke Handler methods directly.
 // They should use the methods of [Logger] instead.
 //
-// Before implementing your own handler, consult https://go.dev/s/slog-handler-guide.
+// Before implementing your own handler, consult https://golang.dev/s/slog-handler-guide.
 type Handler interface {
 	// Enabled reports whether the handler handles records at the given level.
 	// The handler ignores records whose level is lower.
@@ -228,7 +228,7 @@ func (h *commonHandler) enabled(l Level) bool {
 }
 
 func (h *commonHandler) withAttrs(as []Attr) *commonHandler {
-	// We are going to ignore empty groups, so if the entire slice consists of
+	// We are golanging to ignore empty groups, so if the entire slice consists of
 	// them, there is nothing to do.
 	if countEmptyGroups(as) == len(as) {
 		return h
@@ -586,7 +586,7 @@ func (s *handleState) appendValue(v Value) {
 			// an encoding.TextMarshaler or error fails to guard against nil,
 			// in which case "<nil>" seems to be the feasible choice.
 			//
-			// Adapted from the code in fmt/print.go.
+			// Adapted from the code in fmt/print.golang.
 			if v := reflect.ValueOf(v.any); v.Kind() == reflect.Pointer && v.IsNil() {
 				s.appendString("<nil>")
 				return

@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -19,10 +19,10 @@ func growstack(n int) {
 
 func main() {
 	c := make(chan struct{})
-	go compare(c)
-	go equal(c)
-	go indexByte(c)
-	go indexByteString(c)
+	golang compare(c)
+	golang equal(c)
+	golang indexByte(c)
+	golang indexByteString(c)
 	<-c
 	<-c
 	<-c

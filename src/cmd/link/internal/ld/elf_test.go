@@ -1,8 +1,8 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build cgo
+//golang:build cgolang
 
 package ld
 
@@ -33,7 +33,7 @@ func main() {
 	net.Dial("", "")
 }
 `
-	src := filepath.Join(dir, "issue33358.go")
+	src := filepath.Join(dir, "issue33358.golang")
 	if err := os.WriteFile(src, []byte(prog), 0666); err != nil {
 		t.Fatal(err)
 	}
@@ -74,7 +74,7 @@ func main() {
 	}
 
 	if section.Info != numLocalSymbols {
-		t.Fatalf("Unexpected sh info, want greater than 0, got: %d", section.Info)
+		t.Fatalf("Unexpected sh info, want greater than 0, golangt: %d", section.Info)
 	}
 }
 
@@ -117,8 +117,8 @@ func TestNoDuplicateNeededEntries(t *testing.T) {
 		}
 	}
 
-	if got, want := count, 1; got != want {
-		t.Errorf("Got %d entries for `libc.so`, want %d", got, want)
+	if golangt, want := count, 1; golangt != want {
+		t.Errorf("Got %d entries for `libc.so`, want %d", golangt, want)
 	}
 }
 
@@ -134,7 +134,7 @@ func main() {
 	println("whee")
 }
 `
-	src := filepath.Join(dir, "issue62600.go")
+	src := filepath.Join(dir, "issue62600.golang")
 	if err := os.WriteFile(src, []byte(prog), 0666); err != nil {
 		t.Fatal(err)
 	}
@@ -165,13 +165,13 @@ func main() {
 	// size, no ALLOC flag, and the offset should not fall into any of
 	// the segments defined by the program headers.
 	if section.Addr != 0 {
-		t.Fatalf("expected Addr == 0 for .shstrtab got %x", section.Addr)
+		t.Fatalf("expected Addr == 0 for .shstrtab golangt %x", section.Addr)
 	}
 	if section.Size == 0 {
-		t.Fatal("expected nonzero Size for .shstrtab got 0")
+		t.Fatal("expected nonzero Size for .shstrtab golangt 0")
 	}
 	if section.Flags&elf.SHF_ALLOC != 0 {
-		t.Fatal("expected zero alloc flag got nonzero for .shstrtab")
+		t.Fatal("expected zero alloc flag golangt nonzero for .shstrtab")
 	}
 	for idx, p := range elfFile.Progs {
 		if section.Offset >= p.Off && section.Offset < p.Off+p.Filesz {
@@ -192,15 +192,15 @@ func TestElfBindNow(t *testing.T) {
 
 	// Notes:
 	// - for linux/amd64 and linux/arm64, for relro we'll always see a
-	//   .got section when building with -buildmode=pie (in addition
+	//   .golangt section when building with -buildmode=pie (in addition
 	//   to .dynamic); for some other less mainstream archs (ppc64le,
 	//   s390) this is not the case (on ppc64le for example we only
-	//   see got refs from C objects). Hence we put ".dynamic" in the
-	//   'want RO' list below and ".got" in the 'want RO if present".
-	// - when using the external linker, checking for read-only ".got"
-	//   is problematic since some linkers will only make the .got
+	//   see golangt refs from C objects). Hence we put ".dynamic" in the
+	//   'want RO' list below and ".golangt" in the 'want RO if present".
+	// - when using the external linker, checking for read-only ".golangt"
+	//   is problematic since some linkers will only make the .golangt
 	//   read-only if its size is above a specific threshold, e.g.
-	//   https://sourceware.org/git/?p=binutils-gdb.git;a=blob;f=ld/scripttempl/elf.sc;h=d5022fa502f24db23f396f337a6c8978fbc8415b;hb=6fde04116b4b835fa9ec3b3497fcac4e4a0637e2#l74 . For this reason, don't try to verify read-only .got
+	//   https://sourceware.org/git/?p=binutils-gdb.git;a=blob;f=ld/scripttempl/elf.sc;h=d5022fa502f24db23f396f337a6c8978fbc8415b;hb=6fde04116b4b835fa9ec3b3497fcac4e4a0637e2#l74 . For this reason, don't try to verify read-only .golangt
 	//   in the external linking case.
 
 	tests := []struct {
@@ -225,7 +225,7 @@ func TestElfBindNow(t *testing.T) {
 			mustInternalLink:     true,
 			wantDf1Pie:           true,
 			wantSecsRO:           []string{".dynamic"},
-			wantSecsROIfPresent:  []string{".got"},
+			wantSecsROIfPresent:  []string{".golangt"},
 		},
 		{
 			name:             "bindnow-linkmode-internal",
@@ -246,7 +246,7 @@ func TestElfBindNow(t *testing.T) {
 			wantDf1Now:           true,
 			wantDf1Pie:           true,
 			wantSecsRO:           []string{".dynamic"},
-			wantSecsROIfPresent:  []string{".got", ".got.plt"},
+			wantSecsROIfPresent:  []string{".golangt", ".golangt.plt"},
 		},
 		{
 			name:                 "bindnow-pie-linkmode-external",
@@ -261,9 +261,9 @@ func TestElfBindNow(t *testing.T) {
 		},
 	}
 
-	gotDynFlag := func(flags []uint64, dynFlag uint64) bool {
+	golangtDynFlag := func(flags []uint64, dynFlag uint64) bool {
 		for _, flag := range flags {
-			if gotFlag := dynFlag&flag != 0; gotFlag {
+			if golangtFlag := dynFlag&flag != 0; golangtFlag {
 				return true
 			}
 		}
@@ -279,7 +279,7 @@ func TestElfBindNow(t *testing.T) {
 		t.Run(test.name, func(t *testing.T) {
 			if test.mustInternalLink {
 				// N.B. none of the tests pass -asan/-msan/-asan.
-				testenv.MustInternalLink(t, testenv.SpecialBuildTypes{Cgo: test.mustHaveCGO})
+				testenv.MustInternalLink(t, testenv.SpecialBuildTypes{Cgolang: test.mustHaveCGO})
 			}
 			if test.mustHaveCGO {
 				testenv.MustHaveCGO(t)
@@ -293,7 +293,7 @@ func TestElfBindNow(t *testing.T) {
 
 			var (
 				dir     = t.TempDir()
-				src     = filepath.Join(dir, fmt.Sprintf("elf_%s.go", test.name))
+				src     = filepath.Join(dir, fmt.Sprintf("elf_%s.golang", test.name))
 				binFile = filepath.Join(dir, test.name)
 			)
 
@@ -330,25 +330,25 @@ func TestElfBindNow(t *testing.T) {
 				t.Fatalf("failed to get DT_FLAGS_1: %v", err)
 			}
 
-			gotDfBindNow := gotDynFlag(flags, uint64(elf.DF_BIND_NOW))
-			gotDf1Now := gotDynFlag(flags1, uint64(elf.DF_1_NOW))
+			golangtDfBindNow := golangtDynFlag(flags, uint64(elf.DF_BIND_NOW))
+			golangtDf1Now := golangtDynFlag(flags1, uint64(elf.DF_1_NOW))
 
-			bindNowFlagsMatch := gotDfBindNow == test.wantDfBindNow && gotDf1Now == test.wantDf1Now
+			bindNowFlagsMatch := golangtDfBindNow == test.wantDfBindNow && golangtDf1Now == test.wantDf1Now
 
 			// some external linkers may set one of the two flags but not both.
 			if !test.mustInternalLink {
-				bindNowFlagsMatch = gotDfBindNow == test.wantDfBindNow || gotDf1Now == test.wantDf1Now
+				bindNowFlagsMatch = golangtDfBindNow == test.wantDfBindNow || golangtDf1Now == test.wantDf1Now
 			}
 
 			if !bindNowFlagsMatch {
 				t.Fatalf("Dynamic flags mismatch:\n"+
-					"DT_FLAGS BIND_NOW	got: %v,	want: %v\n"+
-					"DT_FLAGS_1 DF_1_NOW	got: %v,	want: %v",
-					gotDfBindNow, test.wantDfBindNow, gotDf1Now, test.wantDf1Now)
+					"DT_FLAGS BIND_NOW	golangt: %v,	want: %v\n"+
+					"DT_FLAGS_1 DF_1_NOW	golangt: %v,	want: %v",
+					golangtDfBindNow, test.wantDfBindNow, golangtDf1Now, test.wantDf1Now)
 			}
 
-			if gotDf1Pie := gotDynFlag(flags1, uint64(elf.DF_1_PIE)); gotDf1Pie != test.wantDf1Pie {
-				t.Fatalf("DT_FLAGS_1 DF_1_PIE got: %v, want: %v", gotDf1Pie, test.wantDf1Pie)
+			if golangtDf1Pie := golangtDynFlag(flags1, uint64(elf.DF_1_PIE)); golangtDf1Pie != test.wantDf1Pie {
+				t.Fatalf("DT_FLAGS_1 DF_1_PIE golangt: %v, want: %v", golangtDf1Pie, test.wantDf1Pie)
 			}
 
 			wsrolists := [][]string{test.wantSecsRO, test.wantSecsROIfPresent}
@@ -408,7 +408,7 @@ func TestElfBindNow(t *testing.T) {
 }
 
 // This program is intended to be just big/complicated enough that
-// we wind up with decent-sized .data.rel.ro.{typelink,itablink,gopclntab}
+// we wind up with decent-sized .data.rel.ro.{typelink,itablink,golangpclntab}
 // sections.
 const ifacecallsProg = `
 package main
@@ -466,7 +466,7 @@ func TestRelroSectionOverlapIssue67261(t *testing.T) {
 	// sections, then runs "strip" on the resulting binary.
 
 	dir := t.TempDir()
-	src := filepath.Join(dir, "e.go")
+	src := filepath.Join(dir, "e.golang")
 	binFile := filepath.Join(dir, "e.exe")
 
 	if err := os.WriteFile(src, []byte(ifacecallsProg), 0666); err != nil {
@@ -555,7 +555,7 @@ func TestRelroSectionOverlapIssue67261(t *testing.T) {
 	stripExecs := []string{}
 	ecmd := testenv.Command(t, testenv.GoToolPath(t), "env", "CC")
 	if out, err := ecmd.CombinedOutput(); err != nil {
-		t.Fatalf("go env CC failed: %v:\n%s", err, out)
+		t.Fatalf("golang env CC failed: %v:\n%s", err, out)
 	} else {
 		ccprog := strings.TrimSpace(string(out))
 		tries := []string{"strip", "llvm-strip"}

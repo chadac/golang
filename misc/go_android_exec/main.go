@@ -1,14 +1,14 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This wrapper uses syscall.Flock to prevent concurrent adb commands,
 // so for now it only builds on platforms that support that system call.
 // TODO(#33974): use a more portable library for file locking.
 
-//go:build darwin || dragonfly || freebsd || illumos || linux || netbsd || openbsd
+//golang:build darwin || dragolangnfly || freebsd || illumos || linux || netbsd || openbsd
 
-// This program can be used as go_android_GOARCH_exec by the Go tool.
+// This program can be used as golang_android_GOARCH_exec by the Go tool.
 // It executes binaries on an android device using adb.
 package main
 
@@ -33,7 +33,7 @@ import (
 
 func adbRun(args string) (int, error) {
 	// The exit code of adb is often wrong. In theory it was fixed in 2016
-	// (https://code.google.com/p/android/issues/detail?id=3254), but it's
+	// (https://code.golangogle.com/p/android/issues/detail?id=3254), but it's
 	// still broken on our builders in 2023. Instead, append the exitcode to
 	// the output and parse it from there.
 	filter, exitStr := newExitCodeFilter(os.Stdout)
@@ -41,14 +41,14 @@ func adbRun(args string) (int, error) {
 
 	cmd := adbCmd("exec-out", args)
 	cmd.Stdout = filter
-	// If the adb subprocess somehow hangs, go test will kill this wrapper
+	// If the adb subprocess somehow hangs, golang test will kill this wrapper
 	// and wait for our os.Stderr (and os.Stdout) to close as a result.
 	// However, if the os.Stderr (or os.Stdout) file descriptors are
 	// passed on, the hanging adb subprocess will hold them open and
-	// go test will hang forever.
+	// golang test will hang forever.
 	//
 	// Avoid that by wrapping stderr, breaking the short circuit and
-	// forcing cmd.Run to use another pipe and goroutine to pass
+	// forcing cmd.Run to use another pipe and golangroutine to pass
 	// along stderr from adb.
 	cmd.Stderr = struct{ io.Writer }{os.Stderr}
 	err := cmd.Run()
@@ -78,13 +78,13 @@ func adbCmd(args ...string) *exec.Cmd {
 }
 
 const (
-	deviceRoot   = "/data/local/tmp/go_android_exec"
-	deviceGoroot = deviceRoot + "/goroot"
+	deviceRoot   = "/data/local/tmp/golang_android_exec"
+	deviceGoroot = deviceRoot + "/golangroot"
 )
 
 func main() {
 	log.SetFlags(0)
-	log.SetPrefix("go_android_exec: ")
+	log.SetPrefix("golang_android_exec: ")
 	exitCode, err := runMain()
 	if err != nil {
 		log.Fatal(err)
@@ -94,9 +94,9 @@ func main() {
 
 func runMain() (int, error) {
 	// Concurrent use of adb is flaky, so serialize adb commands.
-	// See https://github.com/golang/go/issues/23795 or
-	// https://issuetracker.google.com/issues/73230216.
-	lockPath := filepath.Join(os.TempDir(), "go_android_exec-adb-lock")
+	// See https://github.com/golanglang/golang/issues/23795 or
+	// https://issuetracker.golangogle.com/issues/73230216.
+	lockPath := filepath.Join(os.TempDir(), "golang_android_exec-adb-lock")
 	lock, err := os.OpenFile(lockPath, os.O_CREATE|os.O_RDWR, 0666)
 	if err != nil {
 		return 0, err
@@ -123,12 +123,12 @@ func runMain() (int, error) {
 	// E.g. template.test from the {html,text}/template packages.
 	binName := filepath.Base(os.Args[1])
 	deviceGotmp := fmt.Sprintf(deviceRoot+"/%s-%d", binName, os.Getpid())
-	deviceGopath := deviceGotmp + "/gopath"
+	deviceGopath := deviceGotmp + "/golangpath"
 	defer adb("exec-out", "rm", "-rf", deviceGotmp) // Clean up.
 
 	// Determine the package by examining the current working
 	// directory, which will look something like
-	// "$GOROOT/src/mime/multipart" or "$GOPATH/src/golang.org/x/mobile".
+	// "$GOROOT/src/mime/multipart" or "$GOPATH/src/golanglang.org/x/mobile".
 	// We extract everything after the $GOROOT or $GOPATH to run on the
 	// same relative directory on the target device.
 	importPath, isStd, modPath, modDir, err := pkgPath()
@@ -138,7 +138,7 @@ func runMain() (int, error) {
 	var deviceCwd string
 	if isStd {
 		// Note that we use path.Join here instead of filepath.Join:
-		// The device paths should be slash-separated even if the go_android_exec
+		// The device paths should be slash-separated even if the golang_android_exec
 		// wrapper itself is compiled for Windows.
 		deviceCwd = path.Join(deviceGoroot, "src", importPath)
 	} else {
@@ -153,7 +153,7 @@ func runMain() (int, error) {
 			// We use a single recursive 'adb push' of the module root instead of
 			// walking the tree and copying it piecewise. If the directory tree
 			// contains nested modules this could push a lot of unnecessary contents,
-			// but for the golang.org/x repos it seems to be significantly (~2x)
+			// but for the golanglang.org/x repos it seems to be significantly (~2x)
 			// faster than copying one file at a time (via filepath.WalkDir),
 			// apparently due to high latency in 'adb' commands.
 			if err := adb("push", modDir, deviceModDir); err != nil {
@@ -167,13 +167,13 @@ func runMain() (int, error) {
 				return 0, err
 			}
 
-			// Copy .go files from the package.
-			goFiles, err := filepath.Glob("*.go")
+			// Copy .golang files from the package.
+			golangFiles, err := filepath.Glob("*.golang")
 			if err != nil {
 				return 0, err
 			}
-			if len(goFiles) > 0 {
-				args := append(append([]string{"push"}, goFiles...), deviceCwd)
+			if len(golangFiles) > 0 {
+				args := append(append([]string{"push"}, golangFiles...), deviceCwd)
 				if err := adb(args...); err != nil {
 					return 0, err
 				}
@@ -186,11 +186,11 @@ func runMain() (int, error) {
 		return 0, err
 	}
 
-	// Forward SIGQUIT from the go command to show backtraces from
+	// Forward SIGQUIT from the golang command to show backtraces from
 	// the binary instead of from this wrapper.
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, syscall.SIGQUIT)
-	go func() {
+	golang func() {
 		for range quit {
 			// We don't have the PID of the running process; use the
 			// binary name instead.
@@ -202,7 +202,7 @@ func runMain() (int, error) {
 		`; export GOPATH="` + deviceGopath + `"` +
 		`; export CGO_ENABLED=0` +
 		`; export GOPROXY=` + os.Getenv("GOPROXY") +
-		`; export GOCACHE="` + deviceRoot + `/gocache"` +
+		`; export GOCACHE="` + deviceRoot + `/golangcache"` +
 		`; export PATH="` + deviceGoroot + `/bin":$PATH` +
 		`; export HOME="` + deviceRoot + `/home"` +
 		`; cd "` + deviceCwd + `"` +
@@ -295,11 +295,11 @@ func pkgPath() (importPath string, isStd bool, modPath, modDir string, err error
 	errorf := func(format string, args ...any) (string, bool, string, string, error) {
 		return "", false, "", "", fmt.Errorf(format, args...)
 	}
-	goTool, err := goTool()
+	golangTool, err := golangTool()
 	if err != nil {
 		return errorf("%w", err)
 	}
-	cmd := exec.Command(goTool, "list", "-e", "-f", "{{.ImportPath}}:{{.Standard}}{{with .Module}}:{{.Path}}:{{.Dir}}{{end}}", ".")
+	cmd := exec.Command(golangTool, "list", "-e", "-f", "{{.ImportPath}}:{{.Standard}}{{with .Module}}:{{.Path}}:{{.Dir}}{{end}}", ".")
 	out, err := cmd.Output()
 	if err != nil {
 		if ee, ok := err.(*exec.ExitError); ok && len(ee.Stderr) > 0 {
@@ -328,15 +328,15 @@ func pkgPath() (importPath string, isStd bool, modPath, modDir string, err error
 	return importPath, isStd, modPath, modDir, nil
 }
 
-// adbCopyTree copies testdata, go.mod, go.sum files from subdir
+// adbCopyTree copies testdata, golang.mod, golang.sum files from subdir
 // and from parent directories all the way up to the root of subdir.
-// go.mod and go.sum files are needed for the go tool modules queries,
+// golang.mod and golang.sum files are needed for the golang tool modules queries,
 // and the testdata directories for tests.  It is common for tests to
 // reach out into testdata from parent packages.
 func adbCopyTree(deviceCwd, subdir string) error {
 	dir := ""
 	for {
-		for _, name := range []string{"testdata", "go.mod", "go.sum"} {
+		for _, name := range []string{"testdata", "golang.mod", "golang.sum"} {
 			hostPath := filepath.Join(dir, name)
 			if _, err := os.Stat(hostPath); err != nil {
 				continue
@@ -360,24 +360,24 @@ func adbCopyTree(deviceCwd, subdir string) error {
 
 // adbCopyGoroot clears deviceRoot for previous versions of GOROOT, GOPATH
 // and temporary data. Then, it copies relevant parts of GOROOT to the device,
-// including the go tool built for android.
+// including the golang tool built for android.
 // A lock file ensures this only happens once, even with concurrent exec
 // wrappers.
 func adbCopyGoroot() error {
-	goTool, err := goTool()
+	golangTool, err := golangTool()
 	if err != nil {
 		return err
 	}
-	cmd := exec.Command(goTool, "version")
+	cmd := exec.Command(golangTool, "version")
 	cmd.Stderr = os.Stderr
 	out, err := cmd.Output()
 	if err != nil {
 		return fmt.Errorf("%v: %w", cmd, err)
 	}
-	goVersion := string(out)
+	golangVersion := string(out)
 
 	// Also known by cmd/dist. The bootstrap command deletes the file.
-	statPath := filepath.Join(os.TempDir(), "go_android_exec-adb-sync-status")
+	statPath := filepath.Join(os.TempDir(), "golang_android_exec-adb-sync-status")
 	stat, err := os.OpenFile(statPath, os.O_CREATE|os.O_RDWR, 0666)
 	if err != nil {
 		return err
@@ -391,11 +391,11 @@ func adbCopyGoroot() error {
 	if err != nil {
 		return err
 	}
-	if string(s) == goVersion {
+	if string(s) == golangVersion {
 		return nil
 	}
 
-	goroot, err := findGoroot()
+	golangroot, err := findGoroot()
 	if err != nil {
 		return err
 	}
@@ -407,7 +407,7 @@ func adbCopyGoroot() error {
 	}
 
 	// Build Go for Android.
-	cmd = exec.Command(goTool, "install", "cmd")
+	cmd = exec.Command(golangTool, "install", "cmd")
 	out, err = cmd.CombinedOutput()
 	if err != nil {
 		if len(bytes.TrimSpace(out)) > 0 {
@@ -420,7 +420,7 @@ func adbCopyGoroot() error {
 	}
 
 	// Copy the Android tools from the relevant bin subdirectory to GOROOT/bin.
-	cmd = exec.Command(goTool, "list", "-f", "{{.Target}}", "cmd/go")
+	cmd = exec.Command(golangTool, "list", "-f", "{{.Target}}", "cmd/golang")
 	cmd.Stderr = os.Stderr
 	out, err = cmd.Output()
 	if err != nil {
@@ -428,7 +428,7 @@ func adbCopyGoroot() error {
 	}
 	platformBin := filepath.Dir(string(bytes.TrimSpace(out)))
 	if platformBin == "." {
-		return errors.New("failed to locate cmd/go for target platform")
+		return errors.New("failed to locate cmd/golang for target platform")
 	}
 	if err := adb("push", platformBin, path.Join(deviceGoroot, "bin")); err != nil {
 		return err
@@ -439,11 +439,11 @@ func adbCopyGoroot() error {
 	if err := adb("exec-out", "mkdir", "-p", path.Join(deviceGoroot, "pkg", "tool")); err != nil {
 		return err
 	}
-	if err := adb("push", filepath.Join(goroot, "pkg", "include"), path.Join(deviceGoroot, "pkg", "include")); err != nil {
+	if err := adb("push", filepath.Join(golangroot, "pkg", "include"), path.Join(deviceGoroot, "pkg", "include")); err != nil {
 		return err
 	}
 
-	cmd = exec.Command(goTool, "list", "-f", "{{.Target}}", "cmd/compile")
+	cmd = exec.Command(golangTool, "list", "-f", "{{.Target}}", "cmd/compile")
 	cmd.Stderr = os.Stderr
 	out, err = cmd.Output()
 	if err != nil {
@@ -453,7 +453,7 @@ func adbCopyGoroot() error {
 	if platformToolDir == "." {
 		return errors.New("failed to locate cmd/compile for target platform")
 	}
-	relToolDir, err := filepath.Rel(filepath.Join(goroot), platformToolDir)
+	relToolDir, err := filepath.Rel(filepath.Join(golangroot), platformToolDir)
 	if err != nil {
 		return err
 	}
@@ -462,7 +462,7 @@ func adbCopyGoroot() error {
 	}
 
 	// Copy all other files from GOROOT.
-	dirents, err := os.ReadDir(goroot)
+	dirents, err := os.ReadDir(golangroot)
 	if err != nil {
 		return err
 	}
@@ -472,56 +472,56 @@ func adbCopyGoroot() error {
 			// We already created GOROOT/bin and GOROOT/pkg above; skip those.
 			continue
 		}
-		if err := adb("push", filepath.Join(goroot, de.Name()), path.Join(deviceGoroot, de.Name())); err != nil {
+		if err := adb("push", filepath.Join(golangroot, de.Name()), path.Join(deviceGoroot, de.Name())); err != nil {
 			return err
 		}
 	}
 
-	if _, err := stat.WriteString(goVersion); err != nil {
+	if _, err := stat.WriteString(golangVersion); err != nil {
 		return err
 	}
 	return nil
 }
 
 func findGoroot() (string, error) {
-	gorootOnce.Do(func() {
+	golangrootOnce.Do(func() {
 		// If runtime.GOROOT reports a non-empty path, assume that it is valid.
 		// (It may be empty if this binary was built with -trimpath.)
-		gorootPath = runtime.GOROOT()
-		if gorootPath != "" {
+		golangrootPath = runtime.GOROOT()
+		if golangrootPath != "" {
 			return
 		}
 
-		// runtime.GOROOT is empty — perhaps go_android_exec was built with
-		// -trimpath and GOROOT is unset. Try 'go env GOROOT' as a fallback,
-		// assuming that the 'go' command in $PATH is the correct one.
+		// runtime.GOROOT is empty — perhaps golang_android_exec was built with
+		// -trimpath and GOROOT is unset. Try 'golang env GOROOT' as a fallback,
+		// assuming that the 'golang' command in $PATH is the correct one.
 
-		cmd := exec.Command("go", "env", "GOROOT")
+		cmd := exec.Command("golang", "env", "GOROOT")
 		cmd.Stderr = os.Stderr
 		out, err := cmd.Output()
 		if err != nil {
-			gorootErr = fmt.Errorf("%v: %w", cmd, err)
+			golangrootErr = fmt.Errorf("%v: %w", cmd, err)
 		}
 
-		gorootPath = string(bytes.TrimSpace(out))
-		if gorootPath == "" {
-			gorootErr = errors.New("GOROOT not found")
+		golangrootPath = string(bytes.TrimSpace(out))
+		if golangrootPath == "" {
+			golangrootErr = errors.New("GOROOT not found")
 		}
 	})
 
-	return gorootPath, gorootErr
+	return golangrootPath, golangrootErr
 }
 
-func goTool() (string, error) {
-	goroot, err := findGoroot()
+func golangTool() (string, error) {
+	golangroot, err := findGoroot()
 	if err != nil {
 		return "", err
 	}
-	return filepath.Join(goroot, "bin", "go"), nil
+	return filepath.Join(golangroot, "bin", "golang"), nil
 }
 
 var (
-	gorootOnce sync.Once
-	gorootPath string
-	gorootErr  error
+	golangrootOnce sync.Once
+	golangrootPath string
+	golangrootErr  error
 )

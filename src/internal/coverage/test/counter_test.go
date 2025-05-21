@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package test
@@ -104,7 +104,7 @@ func TestCounterDataWriterReader(t *testing.T) {
 		aWant := "[arg0 arg1 arg_________2]"
 		aGot := fmt.Sprintf("%+v", decodedArgs)
 		if aWant != aGot {
-			t.Errorf("reading decoded args, got %s want %s", aGot, aWant)
+			t.Errorf("reading decoded args, golangt %s want %s", aGot, aWant)
 		}
 		for i := range funcs {
 			if isDead(funcs[i]) {
@@ -116,10 +116,10 @@ func TestCounterDataWriterReader(t *testing.T) {
 			} else if !ok {
 				t.Fatalf("reading func %d: bad return", i)
 			}
-			got := fmt.Sprintf("%+v", fp)
+			golangt := fmt.Sprintf("%+v", fp)
 			want := fmt.Sprintf("%+v", funcs[i])
-			if got != want {
-				t.Errorf("cdr.NextFunc iter %d\ngot  %+v\nwant %+v", i, got, want)
+			if golangt != want {
+				t.Errorf("cdr.NextFunc iter %d\ngolangt  %+v\nwant %+v", i, golangt, want)
 			}
 		}
 		var dummy decodecounter.FuncPayload
@@ -198,10 +198,10 @@ func TestCounterDataAppendSegment(t *testing.T) {
 	}
 	ns := cdr.NumSegments()
 	if ns != numSegments {
-		t.Fatalf("got %d segments want %d", ns, numSegments)
+		t.Fatalf("golangt %d segments want %d", ns, numSegments)
 	}
 	if len(allfuncs) != numSegments {
-		t.Fatalf("expected %d got %d", numSegments, len(allfuncs))
+		t.Fatalf("expected %d golangt %d", numSegments, len(allfuncs))
 	}
 
 	for sidx := 0; sidx < int(ns); sidx++ {
@@ -227,10 +227,10 @@ func TestCounterDataAppendSegment(t *testing.T) {
 			} else if !ok {
 				t.Fatalf("reading func %d: bad return", i)
 			}
-			got := fmt.Sprintf("%+v", fp)
+			golangt := fmt.Sprintf("%+v", fp)
 			want := fmt.Sprintf("%+v", funcs[i])
-			if got != want {
-				t.Errorf("cdr.NextFunc iter %d\ngot  %+v\nwant %+v", i, got, want)
+			if golangt != want {
+				t.Errorf("cdr.NextFunc iter %d\ngolangt  %+v\nwant %+v", i, golangt, want)
 			}
 		}
 	}

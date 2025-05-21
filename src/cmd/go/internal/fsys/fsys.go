@@ -1,21 +1,21 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Package fsys implements a virtual file system that the go command
+// Package fsys implements a virtual file system that the golang command
 // uses to read source file trees. The virtual file system redirects some
 // OS file paths to other OS file paths, according to an overlay file.
-// Editors can use this overlay support to invoke the go command on
+// Editors can use this overlay support to invoke the golang command on
 // temporary files that have been edited but not yet saved into their
 // final locations.
 package fsys
 
 import (
-	"cmd/go/internal/str"
+	"cmd/golang/internal/str"
 	"encoding/json"
 	"errors"
 	"fmt"
-	"internal/godebug"
+	"internal/golangdebug"
 	"io"
 	"io/fs"
 	"iter"
@@ -32,9 +32,9 @@ import (
 )
 
 // Trace emits a trace event for the operation and file path to the trace log,
-// but only when $GODEBUG contains gofsystrace=1.
-// The traces are appended to the file named by the $GODEBUG setting gofsystracelog, or else standard error.
-// For debugging, if the $GODEBUG setting gofsystracestack is non-empty, then trace events for paths
+// but only when $GODEBUG contains golangfsystrace=1.
+// The traces are appended to the file named by the $GODEBUG setting golangfsystracelog, or else standard error.
+// For debugging, if the $GODEBUG setting golangfsystracestack is non-empty, then trace events for paths
 // matching that glob pattern (using path.Match) will be followed by a full stack trace.
 func Trace(op, path string) {
 	if !doTrace {
@@ -42,8 +42,8 @@ func Trace(op, path string) {
 	}
 	traceMu.Lock()
 	defer traceMu.Unlock()
-	fmt.Fprintf(traceFile, "%d gofsystrace %s %s\n", os.Getpid(), op, path)
-	if pattern := gofsystracestack.Value(); pattern != "" {
+	fmt.Fprintf(traceFile, "%d golangfsystrace %s %s\n", os.Getpid(), op, path)
+	if pattern := golangfsystracestack.Value(); pattern != "" {
 		if match, _ := pathpkg.Match(pattern, path); match {
 			traceFile.Write(debug.Stack())
 		}
@@ -55,17 +55,17 @@ var (
 	traceFile *os.File
 	traceMu   sync.Mutex
 
-	gofsystrace      = godebug.New("#gofsystrace")
-	gofsystracelog   = godebug.New("#gofsystracelog")
-	gofsystracestack = godebug.New("#gofsystracestack")
+	golangfsystrace      = golangdebug.New("#golangfsystrace")
+	golangfsystracelog   = golangdebug.New("#golangfsystracelog")
+	golangfsystracestack = golangdebug.New("#golangfsystracestack")
 )
 
 func init() {
-	if gofsystrace.Value() != "1" {
+	if golangfsystrace.Value() != "1" {
 		return
 	}
 	doTrace = true
-	if f := gofsystracelog.Value(); f != "" {
+	if f := golangfsystracelog.Value(); f != "" {
 		// Note: No buffering on writes to this file, so no need to worry about closing it at exit.
 		var err error
 		traceFile, err = os.OpenFile(f, os.O_WRONLY|os.O_APPEND|os.O_CREATE, 0666)
@@ -91,8 +91,8 @@ type overlayJSON struct {
 
 // overlay is a list of replacements to be applied, sorted by cmp of the from field.
 // cmp sorts the filepath.Separator less than any other byte so that x is always
-// just before any children x/a, x/b, and so on, before x.go. (This would not
-// be the case with byte-wise sorting, which would produce x, x.go, x/a.)
+// just before any children x/a, x/b, and so on, before x.golang. (This would not
+// be the case with byte-wise sorting, which would produce x, x.golang, x/a.)
 // The sorting lets us find the relevant overlay entry quickly even if it is for a
 // parent of the path being searched.
 var overlay []replace
@@ -157,7 +157,7 @@ func abs(path string) string {
 	if vol := filepath.VolumeName(dir); vol != "" && (path[0] == '\\' || path[0] == '/') {
 		// path is volume-relative, like `\Temp`.
 		// Connect to volume name to make absolute path.
-		// See go.dev/issue/8130.
+		// See golang.dev/issue/8130.
 		return filepath.Join(vol, path)
 	}
 
@@ -327,7 +327,7 @@ func (i *info) children() iter.Seq2[string, info] {
 			// is the next child. If so, skip the binary search.
 			if j+1 < len(overlay) && cmp(overlay[j+1].from, target) >= 0 {
 				j++
-				goto Loop
+				golangto Loop
 			}
 		}
 
@@ -599,14 +599,14 @@ func IsGoDir(name string) (bool, error) {
 
 	var firstErr error
 	for _, d := range fis {
-		if d.IsDir() || !strings.HasSuffix(d.Name(), ".go") {
+		if d.IsDir() || !strings.HasSuffix(d.Name(), ".golang") {
 			continue
 		}
 		if d.Type().IsRegular() {
 			return true, nil
 		}
 
-		// d is a non-directory, non-regular .go file.
+		// d is a non-directory, non-regular .golang file.
 		// Stat to see if it is a symlink, which we allow.
 		if actual := Actual(filepath.Join(name, d.Name())); actual != "" {
 			fi, err := os.Stat(actual)
@@ -619,7 +619,7 @@ func IsGoDir(name string) (bool, error) {
 		}
 	}
 
-	// No go files found in directory.
+	// No golang files found in directory.
 	return false, firstErr
 }
 

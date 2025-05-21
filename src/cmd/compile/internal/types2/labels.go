@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package types2
@@ -18,15 +18,15 @@ func (check *Checker) labels(body *syntax.BlockStmt) {
 	fwdJumps := check.blockBranches(all, nil, nil, body.List)
 
 	// If there are any forward jumps left, no label was found for
-	// the corresponding goto statements. Either those labels were
+	// the corresponding golangto statements. Either those labels were
 	// never defined, or they are inside blocks and not reachable
-	// for the respective gotos.
+	// for the respective golangtos.
 	for _, jmp := range fwdJumps {
 		var msg string
 		var code Code
 		name := jmp.Label.Value
 		if alt := all.Lookup(name); alt != nil {
-			msg = "goto %s jumps into block"
+			msg = "golangto %s jumps into block"
 			code = JumpIntoBlock
 			alt.(*Label).used = true // avoid another error
 		} else {
@@ -57,7 +57,7 @@ type block struct {
 func (b *block) insert(s *syntax.LabeledStmt) {
 	name := s.Label.Value
 	if debug {
-		assert(b.gotoTarget(name) == nil)
+		assert(b.golangtoTarget(name) == nil)
 	}
 	labels := b.labels
 	if labels == nil {
@@ -67,9 +67,9 @@ func (b *block) insert(s *syntax.LabeledStmt) {
 	labels[name] = s
 }
 
-// gotoTarget returns the labeled statement in the current
+// golangtoTarget returns the labeled statement in the current
 // or an enclosing block with the given label name, or nil.
-func (b *block) gotoTarget(name string) *syntax.LabeledStmt {
+func (b *block) golangtoTarget(name string) *syntax.LabeledStmt {
 	for s := b; s != nil; s = s.parent {
 		if t := s.labels[name]; t != nil {
 			return t
@@ -89,7 +89,7 @@ func (b *block) enclosingTarget(name string) *syntax.LabeledStmt {
 	return nil
 }
 
-// blockBranches processes a block's statement list and returns the set of outgoing forward jumps.
+// blockBranches processes a block's statement list and returns the set of outgolanging forward jumps.
 // all is the scope of all declared labels, parent the set of labels declared in the immediately
 // enclosing block, and lstmt is the labeled statement this block is associated with (or nil).
 func (check *Checker) blockBranches(all *Scope, parent *block, lstmt *syntax.LabeledStmt, list []syntax.Stmt) []*syntax.BranchStmt {
@@ -148,7 +148,7 @@ func (check *Checker) blockBranches(all *Scope, parent *block, lstmt *syntax.Lab
 							check.softErrorf(
 								jmp.Label,
 								JumpOverDecl,
-								"goto %s jumps over variable declaration at line %d",
+								"golangto %s jumps over variable declaration at line %d",
 								name,
 								varDeclPos.Line(),
 							)
@@ -205,7 +205,7 @@ func (check *Checker) blockBranches(all *Scope, parent *block, lstmt *syntax.Lab
 				}
 
 			case syntax.Goto:
-				if b.gotoTarget(name) == nil {
+				if b.golangtoTarget(name) == nil {
 					// label may be declared later - add branch to forward jumps
 					fwdJumps = append(fwdJumps, s)
 					return

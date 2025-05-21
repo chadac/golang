@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package buildinfo
@@ -131,14 +131,14 @@ func TestSearchMagic(t *testing.T) {
 			addr, err := searchMagic(x, dataAddr, dataSize)
 			if tc.wantErr == nil {
 				if err != nil {
-					t.Errorf("searchMagic got err %v want nil", err)
+					t.Errorf("searchMagic golangt err %v want nil", err)
 				}
 				if addr != tc.want {
-					t.Errorf("searchMagic got addr %d want %d", addr, tc.want)
+					t.Errorf("searchMagic golangt addr %d want %d", addr, tc.want)
 				}
 			} else {
 				if err != tc.wantErr {
-					t.Errorf("searchMagic got err %v want %v", err, tc.wantErr)
+					t.Errorf("searchMagic golangt err %v want %v", err, tc.wantErr)
 				}
 			}
 		})

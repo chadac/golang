@@ -1,17 +1,17 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-package gccgoimporter
+package gccgolangimporter
 
 import (
-	"go/types"
+	"golang/types"
 	"testing"
 )
 
 // importablePackages is a list of packages that we verify that we can
 // import. This should be all standard library packages in all relevant
-// versions of gccgo. Note that since gccgo follows a different release
+// versions of gccgolang. Note that since gccgolang follows a different release
 // cycle, and since different systems have different versions installed,
 // we can't use the last-two-versions rule of the gc toolchain.
 var importablePackages = [...]string{
@@ -50,7 +50,7 @@ var importablePackages = [...]string{
 	"database/sql",
 	"debug/dwarf",
 	"debug/elf",
-	"debug/gosym",
+	"debug/golangsym",
 	"debug/macho",
 	"debug/pe",
 	"encoding/ascii85",
@@ -59,7 +59,7 @@ var importablePackages = [...]string{
 	"encoding/base64",
 	"encoding/binary",
 	"encoding/csv",
-	"encoding/gob",
+	"encoding/golangb",
 	// "encoding", // Added in GCC 4.9.
 	"encoding/hex",
 	"encoding/json",
@@ -69,14 +69,14 @@ var importablePackages = [...]string{
 	"expvar",
 	"flag",
 	"fmt",
-	"go/ast",
-	"go/build",
-	"go/doc",
-	// "go/format", // Added in GCC 4.8.
-	"go/parser",
-	"go/printer",
-	"go/scanner",
-	"go/token",
+	"golang/ast",
+	"golang/build",
+	"golang/doc",
+	// "golang/format", // Added in GCC 4.8.
+	"golang/parser",
+	"golang/printer",
+	"golang/scanner",
+	"golang/token",
 	"hash/adler32",
 	"hash/crc32",
 	"hash/crc64",
@@ -148,13 +148,13 @@ var importablePackages = [...]string{
 }
 
 func TestInstallationImporter(t *testing.T) {
-	// This test relies on gccgo being around.
-	gpath := gccgoPath()
+	// This test relies on gccgolang being around.
+	gpath := gccgolangPath()
 	if gpath == "" {
-		t.Skip("This test needs gccgo")
+		t.Skip("This test needs gccgolang")
 	}
 
-	var inst GccgoInstallation
+	var inst GccgolangInstallation
 	err := inst.InitFromDriver(gpath)
 	if err != nil {
 		t.Fatal(err)

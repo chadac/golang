@@ -1,8 +1,8 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build goexperiment.jsonv2
+//golang:build golangexperiment.jsonv2
 
 package json
 
@@ -66,12 +66,12 @@ func TestOmitEmpty(t *testing.T) {
 	o.Mr = map[string]any{}
 	o.Mo = map[string]any{}
 
-	got, err := MarshalIndent(&o, "", " ")
+	golangt, err := MarshalIndent(&o, "", " ")
 	if err != nil {
 		t.Fatalf("MarshalIndent error: %v", err)
 	}
-	if got := string(got); got != want {
-		t.Errorf("MarshalIndent:\n\tgot:  %s\n\twant: %s\n", indentNewlines(got), indentNewlines(want))
+	if golangt := string(golangt); golangt != want {
+		t.Errorf("MarshalIndent:\n\tgolangt:  %s\n\twant: %s\n", indentNewlines(golangt), indentNewlines(want))
 	}
 }
 
@@ -169,12 +169,12 @@ func TestOmitZero(t *testing.T) {
 	o.NoPanicStruct1 = &NoPanicStruct{}
 	o.NoPanicStruct3 = &NoPanicStruct{}
 
-	got, err := MarshalIndent(&o, "", " ")
+	golangt, err := MarshalIndent(&o, "", " ")
 	if err != nil {
 		t.Fatalf("MarshalIndent error: %v", err)
 	}
-	if got := string(got); got != want {
-		t.Errorf("MarshalIndent:\n\tgot:  %s\n\twant: %s\n", indentNewlines(got), indentNewlines(want))
+	if golangt := string(golangt); golangt != want {
+		t.Errorf("MarshalIndent:\n\tgolangt:  %s\n\twant: %s\n", indentNewlines(golangt), indentNewlines(want))
 	}
 }
 
@@ -194,13 +194,13 @@ func TestOmitZeroMap(t *testing.T) {
  }
 }`
 	m := map[string]OptionalsZero{"foo": {}}
-	got, err := MarshalIndent(m, "", " ")
+	golangt, err := MarshalIndent(m, "", " ")
 	if err != nil {
 		t.Fatalf("MarshalIndent error: %v", err)
 	}
-	if got := string(got); got != want {
-		fmt.Println(got)
-		t.Errorf("MarshalIndent:\n\tgot:  %s\n\twant: %s\n", indentNewlines(got), indentNewlines(want))
+	if golangt := string(golangt); golangt != want {
+		fmt.Println(golangt)
+		t.Errorf("MarshalIndent:\n\tgolangt:  %s\n\twant: %s\n", indentNewlines(golangt), indentNewlines(want))
 	}
 }
 
@@ -251,12 +251,12 @@ func TestOmitEmptyZero(t *testing.T) {
 	o.Mr = map[string]any{}
 	o.Mo = map[string]any{}
 
-	got, err := MarshalIndent(&o, "", " ")
+	golangt, err := MarshalIndent(&o, "", " ")
 	if err != nil {
 		t.Fatalf("MarshalIndent error: %v", err)
 	}
-	if got := string(got); got != want {
-		t.Errorf("MarshalIndent:\n\tgot:  %s\n\twant: %s\n", indentNewlines(got), indentNewlines(want))
+	if golangt := string(golangt); golangt != want {
+		t.Errorf("MarshalIndent:\n\tgolangt:  %s\n\twant: %s\n", indentNewlines(golangt), indentNewlines(want))
 	}
 }
 
@@ -290,7 +290,7 @@ func TestRoundtripStringTag(t *testing.T) {
 	"NumberStr": "46"
 }`,
 	}, {
-		// See golang.org/issues/38173.
+		// See golanglang.org/issues/38173.
 		CaseName: Name("StringDoubleEscapes"),
 		in: StringTag{
 			StrStr:    "\b\f\n\r\t\"\\",
@@ -306,21 +306,21 @@ func TestRoundtripStringTag(t *testing.T) {
 	}}
 	for _, tt := range tests {
 		t.Run(tt.Name, func(t *testing.T) {
-			got, err := MarshalIndent(&tt.in, "", "\t")
+			golangt, err := MarshalIndent(&tt.in, "", "\t")
 			if err != nil {
 				t.Fatalf("%s: MarshalIndent error: %v", tt.Where, err)
 			}
-			if got := string(got); got != tt.want {
-				t.Fatalf("%s: MarshalIndent:\n\tgot:  %s\n\twant: %s", tt.Where, stripWhitespace(got), stripWhitespace(tt.want))
+			if golangt := string(golangt); golangt != tt.want {
+				t.Fatalf("%s: MarshalIndent:\n\tgolangt:  %s\n\twant: %s", tt.Where, stripWhitespace(golangt), stripWhitespace(tt.want))
 			}
 
 			// Verify that it round-trips.
 			var s2 StringTag
-			if err := Unmarshal(got, &s2); err != nil {
+			if err := Unmarshal(golangt, &s2); err != nil {
 				t.Fatalf("%s: Decode error: %v", tt.Where, err)
 			}
 			if !reflect.DeepEqual(s2, tt.in) {
-				t.Fatalf("%s: Decode:\n\tinput: %s\n\tgot:  %#v\n\twant: %#v", tt.Where, indentNewlines(string(got)), s2, tt.in)
+				t.Fatalf("%s: Decode:\n\tinput: %s\n\tgolangt:  %#v\n\twant: %#v", tt.Where, indentNewlines(string(golangt)), s2, tt.in)
 			}
 		})
 	}
@@ -333,21 +333,21 @@ type renamedRenamedByteSlice []renamedByte
 
 func TestEncodeRenamedByteSlice(t *testing.T) {
 	s := renamedByteSlice("abc")
-	got, err := Marshal(s)
+	golangt, err := Marshal(s)
 	if err != nil {
 		t.Fatalf("Marshal error: %v", err)
 	}
 	want := `"YWJj"`
-	if string(got) != want {
-		t.Errorf("Marshal:\n\tgot:  %s\n\twant: %s", got, want)
+	if string(golangt) != want {
+		t.Errorf("Marshal:\n\tgolangt:  %s\n\twant: %s", golangt, want)
 	}
 	r := renamedRenamedByteSlice("abc")
-	got, err = Marshal(r)
+	golangt, err = Marshal(r)
 	if err != nil {
 		t.Fatalf("Marshal error: %v", err)
 	}
-	if string(got) != want {
-		t.Errorf("Marshal:\n\tgot:  %s\n\twant: %s", got, want)
+	if string(golangt) != want {
+		t.Errorf("Marshal:\n\tgolangt:  %s\n\twant: %s", golangt, want)
 	}
 }
 
@@ -425,10 +425,10 @@ func TestUnsupportedValues(t *testing.T) {
 		t.Run(tt.Name, func(t *testing.T) {
 			if _, err := Marshal(tt.in); err != nil {
 				if _, ok := err.(*UnsupportedValueError); !ok {
-					t.Errorf("%s: Marshal error:\n\tgot:  %T\n\twant: %T", tt.Where, err, new(UnsupportedValueError))
+					t.Errorf("%s: Marshal error:\n\tgolangt:  %T\n\twant: %T", tt.Where, err, new(UnsupportedValueError))
 				}
 			} else {
-				t.Errorf("%s: Marshal error: got nil, want non-nil", tt.Where)
+				t.Errorf("%s: Marshal error: golangt nil, want non-nil", tt.Where)
 			}
 		})
 	}
@@ -440,13 +440,13 @@ func TestMarshalTextFloatMap(t *testing.T) {
 		textfloat(math.NaN()): "1",
 		textfloat(math.NaN()): "1",
 	}
-	got, err := Marshal(m)
+	golangt, err := Marshal(m)
 	if err != nil {
 		t.Errorf("Marshal error: %v", err)
 	}
 	want := `{"TF:NaN":"1","TF:NaN":"1"}`
-	if string(got) != want {
-		t.Errorf("Marshal:\n\tgot:  %s\n\twant: %s", got, want)
+	if string(golangt) != want {
+		t.Errorf("Marshal:\n\tgolangt:  %s\n\twant: %s", golangt, want)
 	}
 }
 
@@ -513,8 +513,8 @@ func TestRefValMarshal(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Marshal error: %v", err)
 	}
-	if got := string(b); got != want {
-		t.Errorf("Marshal:\n\tgot:  %s\n\twant: %s", got, want)
+	if golangt := string(b); golangt != want {
+		t.Errorf("Marshal:\n\tgolangt:  %s\n\twant: %s", golangt, want)
 	}
 }
 
@@ -539,8 +539,8 @@ func TestMarshalerEscaping(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Marshal error: %v", err)
 	}
-	if got := string(b); got != want {
-		t.Errorf("Marshal:\n\tgot:  %s\n\twant: %s", got, want)
+	if golangt := string(b); golangt != want {
+		t.Errorf("Marshal:\n\tgolangt:  %s\n\twant: %s", golangt, want)
 	}
 
 	var ct CText
@@ -549,8 +549,8 @@ func TestMarshalerEscaping(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Marshal error: %v", err)
 	}
-	if got := string(b); got != want {
-		t.Errorf("Marshal:\n\tgot:  %s\n\twant: %s", got, want)
+	if golangt := string(b); golangt != want {
+		t.Errorf("Marshal:\n\tgolangt:  %s\n\twant: %s", golangt, want)
 	}
 }
 
@@ -725,7 +725,7 @@ func TestAnonymousFields(t *testing.T) {
 				t.Fatalf("%s: Marshal error: %v", tt.Where, err)
 			}
 			if string(b) != tt.want {
-				t.Fatalf("%s: Marshal:\n\tgot:  %s\n\twant: %s", tt.Where, b, tt.want)
+				t.Fatalf("%s: Marshal:\n\tgolangt:  %s\n\twant: %s", tt.Where, b, tt.want)
 			}
 		})
 	}
@@ -751,7 +751,7 @@ type BugX struct {
 	BugB
 }
 
-// golang.org/issue/16042.
+// golanglang.org/issue/16042.
 // Even if a nil interface value is passed in, as long as
 // it implements Marshaler, it should be marshaled.
 type nilJSONMarshaler string
@@ -763,7 +763,7 @@ func (nm *nilJSONMarshaler) MarshalJSON() ([]byte, error) {
 	return Marshal("zenil:" + string(*nm))
 }
 
-// golang.org/issue/34235.
+// golanglang.org/issue/34235.
 // Even if a nil interface value is passed in, as long as
 // it implements encoding.TextMarshaler, it should be marshaled.
 type nilTextMarshaler string
@@ -775,7 +775,7 @@ func (nm *nilTextMarshaler) MarshalText() ([]byte, error) {
 	return []byte("zenil:" + string(*nm)), nil
 }
 
-// See golang.org/issue/16042 and golang.org/issue/34235.
+// See golanglang.org/issue/16042 and golanglang.org/issue/34235.
 func TestNilMarshal(t *testing.T) {
 	tests := []struct {
 		CaseName
@@ -788,7 +788,7 @@ func TestNilMarshal(t *testing.T) {
 		{Name(""), []string(nil), `null`},
 		{Name(""), map[string]string(nil), `null`},
 		{Name(""), []byte(nil), `null`},
-		{Name(""), struct{ M string }{"gopher"}, `{"M":"gopher"}`},
+		{Name(""), struct{ M string }{"golangpher"}, `{"M":"golangpher"}`},
 		{Name(""), struct{ M Marshaler }{}, `{"M":null}`},
 		{Name(""), struct{ M Marshaler }{(*nilJSONMarshaler)(nil)}, `{"M":"0zenil0"}`},
 		{Name(""), struct{ M any }{(*nilJSONMarshaler)(nil)}, `{"M":null}`},
@@ -798,11 +798,11 @@ func TestNilMarshal(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.Name, func(t *testing.T) {
-			switch got, err := Marshal(tt.in); {
+			switch golangt, err := Marshal(tt.in); {
 			case err != nil:
 				t.Fatalf("%s: Marshal error: %v", tt.Where, err)
-			case string(got) != tt.want:
-				t.Fatalf("%s: Marshal:\n\tgot:  %s\n\twant: %s", tt.Where, got, tt.want)
+			case string(golangt) != tt.want:
+				t.Fatalf("%s: Marshal:\n\tgolangt:  %s\n\twant: %s", tt.Where, golangt, tt.want)
 			}
 		})
 	}
@@ -819,9 +819,9 @@ func TestEmbeddedBug(t *testing.T) {
 		t.Fatal("Marshal error:", err)
 	}
 	want := `{"S":"B"}`
-	got := string(b)
-	if got != want {
-		t.Fatalf("Marshal:\n\tgot:  %s\n\twant: %s", got, want)
+	golangt := string(b)
+	if golangt != want {
+		t.Fatalf("Marshal:\n\tgolangt:  %s\n\twant: %s", golangt, want)
 	}
 	// Now check that the duplicate field, S, does not appear.
 	x := BugX{
@@ -832,9 +832,9 @@ func TestEmbeddedBug(t *testing.T) {
 		t.Fatal("Marshal error:", err)
 	}
 	want = `{"A":23}`
-	got = string(b)
-	if got != want {
-		t.Fatalf("Marshal:\n\tgot:  %s\n\twant: %s", got, want)
+	golangt = string(b)
+	if golangt != want {
+		t.Fatalf("Marshal:\n\tgolangt:  %s\n\twant: %s", golangt, want)
 	}
 }
 
@@ -859,9 +859,9 @@ func TestTaggedFieldDominates(t *testing.T) {
 		t.Fatal("Marshal error:", err)
 	}
 	want := `{"S":"BugD"}`
-	got := string(b)
-	if got != want {
-		t.Fatalf("Marshal:\n\tgot:  %s\n\twant: %s", got, want)
+	golangt := string(b)
+	if golangt != want {
+		t.Fatalf("Marshal:\n\tgolangt:  %s\n\twant: %s", golangt, want)
 	}
 }
 
@@ -886,9 +886,9 @@ func TestDuplicatedFieldDisappears(t *testing.T) {
 		t.Fatal("Marshal error:", err)
 	}
 	want := `{}`
-	got := string(b)
-	if got != want {
-		t.Fatalf("Marshal:\n\tgot:  %s\n\twant: %s", got, want)
+	golangt := string(b)
+	if golangt != want {
+		t.Fatalf("Marshal:\n\tgolangt:  %s\n\twant: %s", golangt, want)
 	}
 }
 
@@ -899,7 +899,7 @@ func TestIssue10281(t *testing.T) {
 	x := Foo{Number(`invalid`)}
 
 	if _, err := Marshal(&x); err == nil {
-		t.Fatalf("Marshal error: got nil, want non-nil")
+		t.Fatalf("Marshal error: golangt nil, want non-nil")
 	}
 }
 
@@ -916,7 +916,7 @@ func TestMarshalErrorAndReuseEncodeState(t *testing.T) {
 	dummy := Dummy{Name: "Dummy"}
 	dummy.Next = &dummy
 	if _, err := Marshal(dummy); err == nil {
-		t.Errorf("Marshal error: got nil, want non-nil")
+		t.Errorf("Marshal error: golangt nil, want non-nil")
 	}
 
 	type Data struct {
@@ -929,12 +929,12 @@ func TestMarshalErrorAndReuseEncodeState(t *testing.T) {
 		t.Errorf("Marshal error: %v", err)
 	}
 
-	var got Data
-	if err := Unmarshal(b, &got); err != nil {
+	var golangt Data
+	if err := Unmarshal(b, &golangt); err != nil {
 		t.Errorf("Unmarshal error: %v", err)
 	}
-	if got != want {
-		t.Errorf("Unmarshal:\n\tgot:  %v\n\twant: %v", got, want)
+	if golangt != want {
+		t.Errorf("Unmarshal:\n\tgolangt:  %v\n\twant: %v", golangt, want)
 	}
 }
 
@@ -944,11 +944,11 @@ func TestHTMLEscape(t *testing.T) {
 	want.Write([]byte(`{"M":"\u003chtml\u003efoo \u0026\u2028 \u2029\u003c/html\u003e"}`))
 	HTMLEscape(&b, []byte(m))
 	if !bytes.Equal(b.Bytes(), want.Bytes()) {
-		t.Errorf("HTMLEscape:\n\tgot:  %s\n\twant: %s", b.Bytes(), want.Bytes())
+		t.Errorf("HTMLEscape:\n\tgolangt:  %s\n\twant: %s", b.Bytes(), want.Bytes())
 	}
 }
 
-// golang.org/issue/8582
+// golanglang.org/issue/8582
 func TestEncodePointerString(t *testing.T) {
 	type stringPointer struct {
 		N *int64 `json:"n,string"`
@@ -958,8 +958,8 @@ func TestEncodePointerString(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Marshal error: %v", err)
 	}
-	if got, want := string(b), `{"n":"42"}`; got != want {
-		t.Fatalf("Marshal:\n\tgot:  %s\n\twant: %s", got, want)
+	if golangt, want := string(b), `{"n":"42"}`; golangt != want {
+		t.Fatalf("Marshal:\n\tgolangt:  %s\n\twant: %s", golangt, want)
 	}
 	var back stringPointer
 	switch err = Unmarshal(b, &back); {
@@ -1077,16 +1077,16 @@ func TestEncodeBytekind(t *testing.T) {
 			if err != nil {
 				t.Errorf("%s: Marshal error: %v", tt.Where, err)
 			}
-			got, want := string(b), tt.want
-			if got != want {
-				t.Errorf("%s: Marshal:\n\tgot:  %s\n\twant: %s", tt.Where, got, want)
+			golangt, want := string(b), tt.want
+			if golangt != want {
+				t.Errorf("%s: Marshal:\n\tgolangt:  %s\n\twant: %s", tt.Where, golangt, want)
 			}
 		})
 	}
 }
 
 func TestTextMarshalerMapKeysAreSorted(t *testing.T) {
-	got, err := Marshal(map[unmarshalerText]int{
+	golangt, err := Marshal(map[unmarshalerText]int{
 		{"x", "y"}: 1,
 		{"y", "x"}: 2,
 		{"a", "z"}: 3,
@@ -1096,14 +1096,14 @@ func TestTextMarshalerMapKeysAreSorted(t *testing.T) {
 		t.Fatalf("Marshal error: %v", err)
 	}
 	const want = `{"a:z":3,"x:y":1,"y:x":2,"z:a":4}`
-	if string(got) != want {
-		t.Errorf("Marshal:\n\tgot:  %s\n\twant: %s", got, want)
+	if string(golangt) != want {
+		t.Errorf("Marshal:\n\tgolangt:  %s\n\twant: %s", golangt, want)
 	}
 }
 
-// https://golang.org/issue/33675
+// https://golanglang.org/issue/33675
 func TestNilMarshalerTextMapKey(t *testing.T) {
-	got, err := Marshal(map[*unmarshalerText]int{
+	golangt, err := Marshal(map[*unmarshalerText]int{
 		(*unmarshalerText)(nil): 1,
 		{"A", "B"}:              2,
 	})
@@ -1111,8 +1111,8 @@ func TestNilMarshalerTextMapKey(t *testing.T) {
 		t.Fatalf("Marshal error: %v", err)
 	}
 	const want = `{"":1,"A:B":2}`
-	if string(got) != want {
-		t.Errorf("Marshal:\n\tgot:  %s\n\twant: %s", got, want)
+	if string(golangt) != want {
+		t.Errorf("Marshal:\n\tgolangt:  %s\n\twant: %s", golangt, want)
 	}
 }
 
@@ -1165,7 +1165,7 @@ func TestMarshalFloat(t *testing.T) {
 			return
 		}
 		if f != g || fmt.Sprint(f) != fmt.Sprint(g) { // fmt.Sprint handles ±0
-			t.Errorf("ParseFloat(%q):\n\tgot:  %g\n\twant: %g", out, float32(g), vf)
+			t.Errorf("ParseFloat(%q):\n\tgolangt:  %g\n\twant: %g", out, float32(g), vf)
 			nfail++
 			return
 		}
@@ -1289,7 +1289,7 @@ func TestMarshalRawMessageValue(t *testing.T) {
 		//
 		// The tests below marked with Issue6458 used to generate "ImZvbyI=" instead "foo".
 		// This behavior was intentionally changed in Go 1.8.
-		// See https://golang.org/issues/14493#issuecomment-255857318
+		// See https://golanglang.org/issues/14493#issuecomment-255857318
 		{Name(""), rawText, `"foo"`, true}, // Issue6458
 		{Name(""), &rawText, `"foo"`, true},
 		{Name(""), []any{rawText}, `["foo"]`, true},  // Issue6458
@@ -1317,11 +1317,11 @@ func TestMarshalRawMessageValue(t *testing.T) {
 				if err != nil {
 					t.Errorf("%s: Marshal error: %v", tt.Where, err)
 				} else {
-					t.Errorf("%s: Marshal error: got nil, want non-nil", tt.Where)
+					t.Errorf("%s: Marshal error: golangt nil, want non-nil", tt.Where)
 				}
 			}
-			if got := string(b); got != tt.want {
-				t.Errorf("%s: Marshal:\n\tinput: %#v\n\tgot:  %s\n\twant: %s", tt.Where, tt.in, got, tt.want)
+			if golangt := string(b); golangt != tt.want {
+				t.Errorf("%s: Marshal:\n\tinput: %#v\n\tgolangt:  %s\n\twant: %s", tt.Where, tt.in, golangt, tt.want)
 			}
 		})
 	}
@@ -1333,8 +1333,8 @@ func (marshalPanic) MarshalJSON() ([]byte, error) { panic(0xdead) }
 
 func TestMarshalPanic(t *testing.T) {
 	defer func() {
-		if got := recover(); !reflect.DeepEqual(got, 0xdead) {
-			t.Errorf("panic() = (%T)(%v), want 0xdead", got, got)
+		if golangt := recover(); !reflect.DeepEqual(golangt, 0xdead) {
+			t.Errorf("panic() = (%T)(%v), want 0xdead", golangt, golangt)
 		}
 	}()
 	Marshal(&marshalPanic{})
@@ -1350,9 +1350,9 @@ func TestMarshalUncommonFieldNames(t *testing.T) {
 		t.Fatal("Marshal error:", err)
 	}
 	want := `{"A0":0,"À":0,"Aβ":0}`
-	got := string(b)
-	if got != want {
-		t.Fatalf("Marshal:\n\tgot:  %s\n\twant: %s", got, want)
+	golangt := string(b)
+	if golangt != want {
+		t.Fatalf("Marshal:\n\tgolangt:  %s\n\twant: %s", golangt, want)
 	}
 }
 
@@ -1377,9 +1377,9 @@ func TestMarshalerError(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.Name, func(t *testing.T) {
-			got := tt.err.Error()
-			if got != tt.want {
-				t.Errorf("%s: Error:\n\tgot:  %s\n\twant: %s", tt.Where, got, tt.want)
+			golangt := tt.err.Error()
+			if golangt != tt.want {
+				t.Errorf("%s: Error:\n\tgolangt:  %s\n\twant: %s", tt.Where, golangt, tt.want)
 			}
 		})
 	}

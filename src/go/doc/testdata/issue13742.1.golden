@@ -5,10 +5,10 @@ IMPORTPATH
 	testdata/issue13742
 
 IMPORTS
-	go/ast
+	golang/ast
 
 FILENAMES
-	testdata/issue13742.go
+	testdata/issue13742.golang
 
 FUNCTIONS
 	// Both F0 and G0 should appear as functions. 

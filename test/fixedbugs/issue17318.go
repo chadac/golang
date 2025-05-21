@@ -1,7 +1,7 @@
 // errorcheck -0 -N -m -l
 
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // The escape analyzer needs to run till its root set settles
@@ -25,7 +25,7 @@ func (e ent) String() string {
 	return fmt.Sprintf("%d", int(e)) // ERROR "... argument does not escape$" "int\(e\) escapes to heap$"
 }
 
-//go:noinline
+//golang:noinline
 func foo(ops closure, j int) (err fmt.Stringer) { // ERROR "ops does not escape"
 	enqueue := func(i int) fmt.Stringer { // ERROR "func literal does not escape"
 		return ops(i, j) // ERROR "ops\(i, j\) escapes to heap$"

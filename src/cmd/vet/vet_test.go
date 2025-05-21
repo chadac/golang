@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -52,7 +52,7 @@ func TestVet(t *testing.T) {
 		"atomic",
 		"bool",
 		"buildtag",
-		"cgo",
+		"cgolang",
 		"composite",
 		"copylock",
 		"deadcode",
@@ -76,8 +76,8 @@ func TestVet(t *testing.T) {
 		t.Run(pkg, func(t *testing.T) {
 			t.Parallel()
 
-			// Skip cgo test on platforms without cgo.
-			if pkg == "cgo" && !cgoEnabled(t) {
+			// Skip cgolang test on platforms without cgolang.
+			if pkg == "cgolang" && !cgolangEnabled(t) {
 				return
 			}
 
@@ -89,7 +89,7 @@ func TestVet(t *testing.T) {
 			}
 
 			dir := filepath.Join("testdata", pkg)
-			gos, err := filepath.Glob(filepath.Join(dir, "*.go"))
+			golangs, err := filepath.Glob(filepath.Join(dir, "*.golang"))
 			if err != nil {
 				t.Fatal(err)
 			}
@@ -98,7 +98,7 @@ func TestVet(t *testing.T) {
 				t.Fatal(err)
 			}
 			var files []string
-			files = append(files, gos...)
+			files = append(files, golangs...)
 			files = append(files, asms...)
 
 			errchk(cmd, files, t)
@@ -106,31 +106,31 @@ func TestVet(t *testing.T) {
 	}
 
 	// The loopclosure analyzer (aka "rangeloop" before CL 140578)
-	// is a no-op for files whose version >= go1.22, so we use a
-	// go.mod file in the rangeloop directory to "downgrade".
+	// is a no-op for files whose version >= golang1.22, so we use a
+	// golang.mod file in the rangeloop directory to "downgrade".
 	//
-	// TODO(adonovan): delete when go1.21 goes away.
+	// TODO(adonovan): delete when golang1.21 golanges away.
 	t.Run("loopclosure", func(t *testing.T) {
 		cmd := testenv.Command(t, testenv.GoToolPath(t), "vet", "-vettool="+vetPath(t), ".")
 		cmd.Env = append(os.Environ(), "GOWORK=off")
 		cmd.Dir = "testdata/rangeloop"
-		cmd.Stderr = new(strings.Builder) // all vet output goes to stderr
+		cmd.Stderr = new(strings.Builder) // all vet output golanges to stderr
 		cmd.Run()
 		stderr := cmd.Stderr.(fmt.Stringer).String()
 
-		filename := filepath.FromSlash("testdata/rangeloop/rangeloop.go")
+		filename := filepath.FromSlash("testdata/rangeloop/rangeloop.golang")
 
 		// Unlike the tests above, which runs vet in cmd/vet/, this one
 		// runs it in subdirectory, so the "full names" in the output
-		// are in fact short "./rangeloop.go".
-		// But we can't just pass "./rangeloop.go" as the "full name"
+		// are in fact short "./rangeloop.golang".
+		// But we can't just pass "./rangeloop.golang" as the "full name"
 		// argument to errorCheck as it does double duty as both a
 		// string that appears in the output, and as file name
 		// openable relative to the test directory, containing text
 		// expectations.
 		//
 		// So, we munge the file.
-		stderr = strings.ReplaceAll(stderr, filepath.FromSlash("./rangeloop.go"), filename)
+		stderr = strings.ReplaceAll(stderr, filepath.FromSlash("./rangeloop.golang"), filename)
 
 		if err := errorCheck(stderr, false, filename, filepath.Base(filename)); err != nil {
 			t.Errorf("error check failed: %s", err)
@@ -138,30 +138,30 @@ func TestVet(t *testing.T) {
 		}
 	})
 
-	// The stdversion analyzer requires a lower-than-tip go
-	// version in its go.mod file for it to report anything.
-	// So again we use a testdata go.mod file to "downgrade".
+	// The stdversion analyzer requires a lower-than-tip golang
+	// version in its golang.mod file for it to report anything.
+	// So again we use a testdata golang.mod file to "downgrade".
 	t.Run("stdversion", func(t *testing.T) {
 		cmd := testenv.Command(t, testenv.GoToolPath(t), "vet", "-vettool="+vetPath(t), ".")
 		cmd.Env = append(os.Environ(), "GOWORK=off")
 		cmd.Dir = "testdata/stdversion"
-		cmd.Stderr = new(strings.Builder) // all vet output goes to stderr
+		cmd.Stderr = new(strings.Builder) // all vet output golanges to stderr
 		cmd.Run()
 		stderr := cmd.Stderr.(fmt.Stringer).String()
 
-		filename := filepath.FromSlash("testdata/stdversion/stdversion.go")
+		filename := filepath.FromSlash("testdata/stdversion/stdversion.golang")
 
 		// Unlike the tests above, which runs vet in cmd/vet/, this one
 		// runs it in subdirectory, so the "full names" in the output
-		// are in fact short "./rangeloop.go".
-		// But we can't just pass "./rangeloop.go" as the "full name"
+		// are in fact short "./rangeloop.golang".
+		// But we can't just pass "./rangeloop.golang" as the "full name"
 		// argument to errorCheck as it does double duty as both a
 		// string that appears in the output, and as file name
 		// openable relative to the test directory, containing text
 		// expectations.
 		//
 		// So, we munge the file.
-		stderr = strings.ReplaceAll(stderr, filepath.FromSlash("./stdversion.go"), filename)
+		stderr = strings.ReplaceAll(stderr, filepath.FromSlash("./stdversion.golang"), filename)
 
 		if err := errorCheck(stderr, false, filename, filepath.Base(filename)); err != nil {
 			t.Errorf("error check failed: %s", err)
@@ -170,13 +170,13 @@ func TestVet(t *testing.T) {
 	})
 }
 
-func cgoEnabled(t *testing.T) bool {
-	// Don't trust build.Default.CgoEnabled as it is false for
+func cgolangEnabled(t *testing.T) bool {
+	// Don't trust build.Default.CgolangEnabled as it is false for
 	// cross-builds unless CGO_ENABLED is explicitly specified.
 	// That's fine for the builders, but causes commands like
-	// 'GOARCH=386 go test .' to fail.
-	// Instead, we ask the go command.
-	cmd := testenv.Command(t, testenv.GoToolPath(t), "list", "-f", "{{context.CgoEnabled}}")
+	// 'GOARCH=386 golang test .' to fail.
+	// Instead, we ask the golang command.
+	cmd := testenv.Command(t, testenv.GoToolPath(t), "list", "-f", "{{context.CgolangEnabled}}")
 	out, _ := cmd.CombinedOutput()
 	return string(out) == "true\n"
 }
@@ -212,8 +212,8 @@ func TestTags(t *testing.T) {
 			cmd := vetCmd(t, "-tags="+tag, "tagtest")
 			output, err := cmd.CombinedOutput()
 
-			want := fmt.Sprintf("file%d.go", wantFile)
-			dontwant := fmt.Sprintf("file%d.go", 3-wantFile)
+			want := fmt.Sprintf("file%d.golang", wantFile)
+			dontwant := fmt.Sprintf("file%d.golang", 3-wantFile)
 
 			// file1 has testtag and file2 has !testtag.
 			if !bytes.Contains(output, []byte(filepath.Join("tagtest", want))) {
@@ -229,7 +229,7 @@ func TestTags(t *testing.T) {
 	}
 }
 
-// All declarations below were adapted from test/run.go.
+// All declarations below were adapted from test/run.golang.
 
 // errorCheck matches errors in outStr against comments in source files.
 // For each line of the source files which should generate an error,
@@ -320,7 +320,7 @@ func splitOutput(out string, wantAuto bool) []string {
 		line = strings.TrimSuffix(line, "\r") // normalize Windows output
 		if strings.HasPrefix(line, "\t") {
 			res[len(res)-1] += "\n" + line
-		} else if strings.HasPrefix(line, "go tool") || strings.HasPrefix(line, "#") || !wantAuto && strings.HasPrefix(line, "<autogenerated>") {
+		} else if strings.HasPrefix(line, "golang tool") || strings.HasPrefix(line, "#") || !wantAuto && strings.HasPrefix(line, "<autogenerated>") {
 			continue
 		} else if strings.TrimSpace(line) != "" {
 			res = append(res, line)

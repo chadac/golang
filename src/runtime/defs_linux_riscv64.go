@@ -1,6 +1,6 @@
-// Generated using cgo, then manually converted into appropriate naming and code
+// Generated using cgolang, then manually converted into appropriate naming and code
 // for the Go runtime.
-// go tool cgo -godefs defs_linux.go defs1_linux.go defs2_linux.go
+// golang tool cgolang -golangdefs defs_linux.golang defs1_linux.golang defs2_linux.golang
 
 package runtime
 
@@ -97,7 +97,7 @@ type timespec struct {
 	tv_nsec int64
 }
 
-//go:nosplit
+//golang:nosplit
 func (ts *timespec) setNsec(ns int64) {
 	ts.tv_sec = ns / 1e9
 	ts.tv_nsec = ns % 1e9
@@ -230,6 +230,6 @@ type ucontext struct {
 	uc_stack     stackt
 	uc_sigmask   usigset
 	uc_x__unused [0]uint8
-	uc_pad_cgo_0 [8]byte
+	uc_pad_cgolang_0 [8]byte
 	uc_mcontext  sigcontext
 }

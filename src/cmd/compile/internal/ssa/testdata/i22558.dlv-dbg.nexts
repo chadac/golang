@@ -1,4 +1,4 @@
-  ./testdata/i22558.go
+  ./testdata/i22558.golang
 19:	func test(t *thing, u *thing) {
 20:		if t.next != nil {
 23:		fmt.Fprintf(os.Stderr, "%s\n", t.name)

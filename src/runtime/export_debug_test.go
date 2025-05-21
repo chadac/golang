@@ -1,8 +1,8 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build (amd64 || arm64 || loong64 || ppc64le) && linux
+//golang:build (amd64 || arm64 || loong64 || ppc64le) && linux
 
 package runtime
 
@@ -24,7 +24,7 @@ import (
 // If fn did not panic, its results will be available in args.
 func InjectDebugCall(gp *g, fn any, regArgs *abi.RegArgs, stackArgs any, tkill func(tid int) error, returnOnUnsafePoint bool) (any, error) {
 	if gp.lockedm == 0 {
-		return nil, plainError("goroutine not locked to thread")
+		return nil, plainError("golangroutine not locked to thread")
 	}
 
 	tid := int(gp.lockedm.ptr().procid)
@@ -107,7 +107,7 @@ type debugCallHandler struct {
 
 func (h *debugCallHandler) inject(info *siginfo, ctxt *sigctxt, gp2 *g) bool {
 	// TODO(49370): This code is riddled with write barriers, but called from
-	// a signal handler. Add the go:nowritebarrierrec annotation and restructure
+	// a signal handler. Add the golang:nowritebarrierrec annotation and restructure
 	// this to avoid write barriers.
 
 	switch h.gp.atomicstatus.Load() {
@@ -124,11 +124,11 @@ func (h *debugCallHandler) inject(info *siginfo, ctxt *sigctxt, gp2 *g) bool {
 		testSigtrap = h.handleF
 	case _Grunnable:
 		// Ask InjectDebugCall to pause for a bit and then try
-		// again to interrupt this goroutine.
+		// again to interrupt this golangroutine.
 		h.err = plainError("retry _Grunnable")
 		notewakeup(&h.done)
 	default:
-		h.err = plainError("goroutine in unexpected state at call inject")
+		h.err = plainError("golangroutine in unexpected state at call inject")
 		notewakeup(&h.done)
 	}
 	// Resume execution.
@@ -137,7 +137,7 @@ func (h *debugCallHandler) inject(info *siginfo, ctxt *sigctxt, gp2 *g) bool {
 
 func (h *debugCallHandler) handle(info *siginfo, ctxt *sigctxt, gp2 *g) bool {
 	// TODO(49370): This code is riddled with write barriers, but called from
-	// a signal handler. Add the go:nowritebarrierrec annotation and restructure
+	// a signal handler. Add the golang:nowritebarrierrec annotation and restructure
 	// this to avoid write barriers.
 
 	// Double-check m.

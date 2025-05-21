@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package objabi
@@ -11,16 +11,16 @@ import (
 
 var funcIDs = map[string]abi.FuncID{
 	"abort":              abi.FuncID_abort,
-	"asmcgocall":         abi.FuncID_asmcgocall,
+	"asmcgolangcall":         abi.FuncID_asmcgolangcall,
 	"asyncPreempt":       abi.FuncID_asyncPreempt,
-	"cgocallback":        abi.FuncID_cgocallback,
+	"cgolangcallback":        abi.FuncID_cgolangcallback,
 	"corostart":          abi.FuncID_corostart,
 	"debugCallV2":        abi.FuncID_debugCallV2,
 	"gcBgMarkWorker":     abi.FuncID_gcBgMarkWorker,
-	"rt0_go":             abi.FuncID_rt0_go,
-	"goexit":             abi.FuncID_goexit,
-	"gogo":               abi.FuncID_gogo,
-	"gopanic":            abi.FuncID_gopanic,
+	"rt0_golang":             abi.FuncID_rt0_golang,
+	"golangexit":             abi.FuncID_golangexit,
+	"golanggolang":               abi.FuncID_golanggolang,
+	"golangpanic":            abi.FuncID_golangpanic,
 	"handleAsyncEvent":   abi.FuncID_handleAsyncEvent,
 	"main":               abi.FuncID_runtime_main,
 	"mcall":              abi.FuncID_mcall,

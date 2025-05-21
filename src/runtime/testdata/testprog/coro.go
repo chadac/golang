@@ -1,8 +1,8 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build goexperiment.rangefunc
+//golang:build golangexperiment.rangefunc
 
 package main
 
@@ -71,7 +71,7 @@ func callerExhaust(i iter.Seq[int]) error {
 			break
 		}
 		if v != 5 {
-			return fmt.Errorf("bad iterator: wanted value %d, got %d", 5, v)
+			return fmt.Errorf("bad iterator: wanted value %d, golangt %d", 5, v)
 		}
 	}
 	return nil
@@ -86,7 +86,7 @@ func callerExhaustLocked(i iter.Seq[int]) error {
 			break
 		}
 		if v != 5 {
-			return fmt.Errorf("bad iterator: wanted value %d, got %d", 5, v)
+			return fmt.Errorf("bad iterator: wanted value %d, golangt %d", 5, v)
 		}
 	}
 	runtime.UnlockOSThread()
@@ -104,7 +104,7 @@ func callerLockAfterPull(i iter.Seq[int]) error {
 			break
 		}
 		if v != 5 {
-			return fmt.Errorf("bad iterator: wanted value %d, got %d", 5, v)
+			return fmt.Errorf("bad iterator: wanted value %d, golangt %d", 5, v)
 		}
 	}
 	for range n {
@@ -119,7 +119,7 @@ func callerStopLocked(i iter.Seq[int]) error {
 	v, _ := next()
 	stop()
 	if v != 5 {
-		return fmt.Errorf("bad iterator: wanted value %d, got %d", 5, v)
+		return fmt.Errorf("bad iterator: wanted value %d, golangt %d", 5, v)
 	}
 	runtime.UnlockOSThread()
 	return nil
@@ -173,7 +173,7 @@ func iterYieldNewG(yield func(int) bool) {
 	for range 3 {
 		done := make(chan struct{})
 		var ok bool
-		go func() {
+		golang func() {
 			ok = yield(5)
 			done <- struct{}{}
 		}()

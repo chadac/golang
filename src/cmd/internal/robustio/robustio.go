@@ -1,5 +1,5 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package robustio wraps I/O functions that are prone to failure on Windows,
@@ -17,7 +17,7 @@ package robustio
 // Rename is like os.Rename, but on Windows retries errors that may occur if the
 // file is concurrently read or overwritten.
 //
-// (See golang.org/issue/31247 and golang.org/issue/32188.)
+// (See golanglang.org/issue/31247 and golanglang.org/issue/32188.)
 func Rename(oldpath, newpath string) error {
 	return rename(oldpath, newpath)
 }
@@ -25,7 +25,7 @@ func Rename(oldpath, newpath string) error {
 // ReadFile is like os.ReadFile, but on Windows retries errors that may
 // occur if the file is concurrently replaced.
 //
-// (See golang.org/issue/31247 and golang.org/issue/32188.)
+// (See golanglang.org/issue/31247 and golanglang.org/issue/32188.)
 func ReadFile(filename string) ([]byte, error) {
 	return readFile(filename)
 }
@@ -33,7 +33,7 @@ func ReadFile(filename string) ([]byte, error) {
 // RemoveAll is like os.RemoveAll, but on Windows retries errors that may occur
 // if an executable file in the directory has recently been executed.
 //
-// (See golang.org/issue/19491.)
+// (See golanglang.org/issue/19491.)
 func RemoveAll(path string) error {
 	return removeAll(path)
 }

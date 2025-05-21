@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test conversion from non-interface types to the empty interface.
@@ -168,15 +168,15 @@ func main() {
 	// pp does not implement J.
 
 	// Test that non-interface types can be used as ...interface{} arguments.
-	if got := second(z, p, pp, u16, u32, u64, u128, f32, f64, c128, s, b, m, c); got != ip {
-		println("second: got", got, "want", ip)
+	if golangt := second(z, p, pp, u16, u32, u64, u128, f32, f64, c128, s, b, m, c); golangt != ip {
+		println("second: golangt", golangt, "want", ip)
 		panic("fail")
 	}
 
 	// Test that non-interface types can be sent on a chan interface{}.
 	const n = 100
 	uc := make(chan interface{})
-	go func() {
+	golang func() {
 		for i := 0; i < n; i++ {
 			select {
 			case uc <- nil:
@@ -187,8 +187,8 @@ func main() {
 		}
 	}()
 	for i := 0; i < n; i++ {
-		if got := <-uc; got != nil && got != u32 && got != u64 && got != u128 {
-			println("recv: i", i, "got", got)
+		if golangt := <-uc; golangt != nil && golangt != u32 && golangt != u64 && golangt != u128 {
+			println("recv: i", i, "golangt", golangt)
 			panic("fail")
 		}
 	}

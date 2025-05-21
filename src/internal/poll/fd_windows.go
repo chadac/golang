@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package poll
@@ -488,7 +488,7 @@ func (fd *FD) Close() error {
 
 // Windows ReadFile and WSARecv use DWORD (uint32) parameter to pass buffer length.
 // This prevents us reading blocks larger than 4GB.
-// See golang.org/issue/26923.
+// See golanglang.org/issue/26923.
 const maxRW = 1 << 30 // 1GB is large enough and keeps subsequent reads aligned
 
 // Read implements io.Reader.
@@ -1434,7 +1434,7 @@ func DupCloseOnExec(fd int) (int, string, error) {
 	}
 
 	var nfd syscall.Handle
-	const inherit = false // analogous to CLOEXEC
+	const inherit = false // analogolangus to CLOEXEC
 	if err := syscall.DuplicateHandle(proc, syscall.Handle(fd), proc, &nfd, 0, inherit, syscall.DUPLICATE_SAME_ACCESS); err != nil {
 		return 0, "DuplicateHandle", err
 	}

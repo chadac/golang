@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file implements multi-precision decimal numbers.
@@ -9,12 +9,12 @@
 // decimal and rounding.
 //
 // The key observation and some code (shr) is borrowed from
-// strconv/decimal.go: conversion of binary fractional values can be done
+// strconv/decimal.golang: conversion of binary fractional values can be done
 // precisely in multi-precision decimal because 2 divides 10 (required for
 // >> of mantissa); but conversion of decimal floating-point values cannot
 // be done precisely in binary representation.
 //
-// In contrast to strconv/decimal.go, only right shift is implemented in
+// In contrast to strconv/decimal.golang, only right shift is implemented in
 // decimal format - left shift can be done precisely in binary format.
 
 package big
@@ -102,7 +102,7 @@ func (x *decimal) init(m nat, shift int) {
 
 // rsh implements x >> s, for s <= maxShift.
 func rsh(x *decimal, s uint) {
-	// Division by 1<<s using shift-and-subtract algorithm.
+	// Division by 1<<s using shift-and-subtract algolangrithm.
 
 	// pick up enough leading digits to cover first shift
 	r := 0 // read index

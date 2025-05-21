@@ -1,22 +1,22 @@
 [short] skip
 
-# This test may go away when the loopvar experiment goes away.
+# This test may golang away when the loopvar experiment golanges away.
 # Accurate reporting of notable loops in the presence of inlining
 # can create warnings in sibling directories, and it's nice if those
 # can be trimmed like subdirectory paths are.
 
 env GOEXPERIMENT=loopvar
-go build -gcflags=inlines/a=-d=loopvar=2 .
-stderr ^\.[\\/]b[\\/]b\.go:12:6:.*loop.inlined.into.a[\\/]a\.go
-stderr ^\.[\\/]b[\\/]b\.go:12:9:.*loop.inlined.into.a[\\/]a\.go
+golang build -gcflags=inlines/a=-d=loopvar=2 .
+stderr ^\.[\\/]b[\\/]b\.golang:12:6:.*loop.inlined.into.a[\\/]a\.golang
+stderr ^\.[\\/]b[\\/]b\.golang:12:9:.*loop.inlined.into.a[\\/]a\.golang
 
--- go.mod --
+-- golang.mod --
 module inlines
 
-go 1.21
--- a/a.go --
+golang 1.21
+-- a/a.golang --
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package a
@@ -35,7 +35,7 @@ func Fb() []*int {
 	bf, _ := b.F()
 	return bf
 }
--- b/b.go --
+-- b/b.golang --
 package b
 
 var slice = []int{1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024}
@@ -53,7 +53,7 @@ func g() ([]*int, []*int) {
 	}
 	return s[:len(s)-1], t
 }
--- main.go --
+-- main.golang --
 package main
 
 import (

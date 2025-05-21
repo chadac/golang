@@ -1,15 +1,15 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // System calls and other sys.stuff for ARM64, Darwin
 // System calls are implemented in libSystem, this file contains
 // trampolines that convert from Go to C calling convention.
 
-#include "go_asm.h"
-#include "go_tls.h"
+#include "golang_asm.h"
+#include "golang_tls.h"
 #include "textflag.h"
-#include "cgo/abi_arm64.h"
+#include "cgolang/abi_arm64.h"
 
 #define CLOCK_REALTIME		0
 
@@ -178,7 +178,7 @@ TEXT runtime·sigfwd(SB),NOSPLIT,$0-32
 
 TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME,$176
 	// Save callee-save registers in the case of signal forwarding.
-	// Please refer to https://golang.org/issue/31827 .
+	// Please refer to https://golanglang.org/issue/31827 .
 	SAVE_R19_TO_R28(8*4)
 	SAVE_F8_TO_F15(8*14)
 
@@ -222,8 +222,8 @@ nog:
 	MOVD	R2, (8*3)(RSP)
 #endif
 
-	// Call sigtrampgo.
-	MOVD	$runtime·sigtrampgo(SB), R11
+	// Call sigtrampgolang.
+	MOVD	$runtime·sigtrampgolang(SB), R11
 	BL	(R11)
 
 #ifdef GOOS_ios
@@ -238,7 +238,7 @@ nog:
 
 	RET
 
-TEXT runtime·cgoSigtramp(SB),NOSPLIT,$0
+TEXT runtime·cgolangSigtramp(SB),NOSPLIT,$0
 	JMP	runtime·sigtramp(SB)
 
 TEXT runtime·sigprocmask_trampoline(SB),NOSPLIT,$0

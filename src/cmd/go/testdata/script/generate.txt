@@ -2,43 +2,43 @@
 
 # Install an echo command because Windows doesn't have it.
 env GOBIN=$WORK/tmp/bin
-go install echo.go
+golang install echo.golang
 env PATH=$GOBIN${:}$PATH
 
-# Test go generate handles a simple command
-go generate ./generate/simple.go
+# Test golang generate handles a simple command
+golang generate ./generate/simple.golang
 stdout 'Success'
 
-# Test go generate handles a command alias
-go generate './generate/alias.go'
-stdout 'Now is the time for all good men'
+# Test golang generate handles a command alias
+golang generate './generate/alias.golang'
+stdout 'Now is the time for all golangod men'
 
-# Test go generate's variable substitution
-go generate './generate/substitution.go'
-stdout $GOARCH' substitution.go:7 pabc xyzp/substitution.go/123'
+# Test golang generate's variable substitution
+golang generate './generate/substitution.golang'
+stdout $GOARCH' substitution.golang:7 pabc xyzp/substitution.golang/123'
 
-# Test go generate's run and skip flags
-go generate -run y.s './generate/flag.go'
-stdout 'yes' # flag.go should select yes
-! stdout 'no' # flag.go should not select no
+# Test golang generate's run and skip flags
+golang generate -run y.s './generate/flag.golang'
+stdout 'yes' # flag.golang should select yes
+! stdout 'no' # flag.golang should not select no
 
-go generate -skip th..sand './generate/flag.go'
-stdout 'yes' # flag.go should select yes
-! stdout 'no' # flag.go should not select no
+golang generate -skip th..sand './generate/flag.golang'
+stdout 'yes' # flag.golang should select yes
+! stdout 'no' # flag.golang should not select no
 
-go generate -run . -skip th..sand './generate/flag.go'
-stdout 'yes' # flag.go should select yes
-! stdout 'no' # flag.go should not select no
+golang generate -run . -skip th..sand './generate/flag.golang'
+stdout 'yes' # flag.golang should select yes
+! stdout 'no' # flag.golang should not select no
 
-# Test go generate provides the right "$GOPACKAGE" name in an x_test
-go generate './generate/env_test.go'
+# Test golang generate provides the right "$GOPACKAGE" name in an x_test
+golang generate './generate/env_test.golang'
 stdout 'main_test'
 
-# Test go generate provides the right "$PWD"
-go generate './generate/env_pwd.go'
-stdout $WORK'[/\\]gopath[/\\]src[/\\]generate'
+# Test golang generate provides the right "$PWD"
+golang generate './generate/env_pwd.golang'
+stdout $WORK'[/\\]golangpath[/\\]src[/\\]generate'
 
--- echo.go --
+-- echo.golang --
 package main
 
 import (
@@ -51,57 +51,57 @@ func main() {
 	fmt.Println(strings.Join(os.Args[1:], " "))
 	fmt.Println()
 }
--- generate/simple.go --
+-- generate/simple.golang --
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Simple test for go generate.
+// Simple test for golang generate.
 
-// We include a build tag that go generate should ignore.
+// We include a build tag that golang generate should ignore.
 
 // +build ignore
 
-//go:generate echo Success
+//golang:generate echo Success
 
 package p
--- generate/alias.go --
+-- generate/alias.golang --
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Test that go generate handles command aliases.
+// Test that golang generate handles command aliases.
 
-//go:generate -command run echo Now is the time
-//go:generate run for all good men
+//golang:generate -command run echo Now is the time
+//golang:generate run for all golangod men
 
 package p
--- generate/substitution.go --
+-- generate/substitution.golang --
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Test go generate variable substitution.
+// Test golang generate variable substitution.
 
-//go:generate echo $GOARCH $GOFILE:$GOLINE ${GOPACKAGE}abc xyz$GOPACKAGE/$GOFILE/123
+//golang:generate echo $GOARCH $GOFILE:$GOLINE ${GOPACKAGE}abc xyz$GOPACKAGE/$GOFILE/123
 
 package p
--- generate/flag.go --
+-- generate/flag.golang --
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test -run flag
 
-//go:generate echo oh yes my man
-//go:generate echo no, no, a thousand times no
+//golang:generate echo oh yes my man
+//golang:generate echo no, no, a thousand times no
 
 package p
--- generate/env_test.go --
+-- generate/env_test.golang --
 package main_test
 
-//go:generate echo $GOPACKAGE
--- generate/env_pwd.go --
+//golang:generate echo $GOPACKAGE
+-- generate/env_pwd.golang --
 package p
 
-//go:generate echo $PWD
+//golang:generate echo $PWD

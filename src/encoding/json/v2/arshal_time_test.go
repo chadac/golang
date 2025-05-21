@@ -1,8 +1,8 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build goexperiment.jsonv2
+//golang:build golangexperiment.jsonv2
 
 package json
 
@@ -88,18 +88,18 @@ var formatDurationTestdata = []struct {
 }
 
 func TestFormatDuration(t *testing.T) {
-	var gotBuf []byte
+	var golangtBuf []byte
 	check := func(td time.Duration, s string, base uint64) {
 		a := durationArshaler{td, base}
-		gotBuf, _ = a.appendMarshal(gotBuf[:0])
-		if string(gotBuf) != s {
-			t.Errorf("formatDuration(%d, %s) = %q, want %q", td, baseLabel(base), string(gotBuf), s)
+		golangtBuf, _ = a.appendMarshal(golangtBuf[:0])
+		if string(golangtBuf) != s {
+			t.Errorf("formatDuration(%d, %s) = %q, want %q", td, baseLabel(base), string(golangtBuf), s)
 		}
-		if err := a.unmarshal(gotBuf); err != nil {
-			t.Errorf("parseDuration(%q, %s) error: %v", gotBuf, baseLabel(base), err)
+		if err := a.unmarshal(golangtBuf); err != nil {
+			t.Errorf("parseDuration(%q, %s) error: %v", golangtBuf, baseLabel(base), err)
 		}
 		if a.td != td {
-			t.Errorf("parseDuration(%q, %s) = %d, want %d", gotBuf, baseLabel(base), a.td, td)
+			t.Errorf("parseDuration(%q, %s) = %d, want %d", golangtBuf, baseLabel(base), a.td, td)
 		}
 	}
 	for _, tt := range formatDurationTestdata {
@@ -213,18 +213,18 @@ var formatTimeTestdata = func() []formatTimeTestdataEntry {
 }()
 
 func TestFormatTime(t *testing.T) {
-	var gotBuf []byte
+	var golangtBuf []byte
 	check := func(ts time.Time, s string, pow10 uint64) {
-		gotBuf = appendTimeUnix(gotBuf[:0], ts, pow10)
-		if string(gotBuf) != s {
-			t.Errorf("formatTime(time.Unix(%d, %d), %s) = %q, want %q", ts.Unix(), ts.Nanosecond(), baseLabel(pow10), string(gotBuf), s)
+		golangtBuf = appendTimeUnix(golangtBuf[:0], ts, pow10)
+		if string(golangtBuf) != s {
+			t.Errorf("formatTime(time.Unix(%d, %d), %s) = %q, want %q", ts.Unix(), ts.Nanosecond(), baseLabel(pow10), string(golangtBuf), s)
 		}
-		gotTS, err := parseTimeUnix(gotBuf, pow10)
+		golangtTS, err := parseTimeUnix(golangtBuf, pow10)
 		if err != nil {
-			t.Errorf("parseTime(%q, %s) error: %v", gotBuf, baseLabel(pow10), err)
+			t.Errorf("parseTime(%q, %s) error: %v", golangtBuf, baseLabel(pow10), err)
 		}
-		if !gotTS.Equal(ts) {
-			t.Errorf("parseTime(%q, %s) = time.Unix(%d, %d), want time.Unix(%d, %d)", gotBuf, baseLabel(pow10), gotTS.Unix(), gotTS.Nanosecond(), ts.Unix(), ts.Nanosecond())
+		if !golangtTS.Equal(ts) {
+			t.Errorf("parseTime(%q, %s) = time.Unix(%d, %d), want time.Unix(%d, %d)", golangtBuf, baseLabel(pow10), golangtTS.Unix(), golangtTS.Nanosecond(), ts.Unix(), ts.Nanosecond())
 		}
 	}
 	for _, tt := range formatTimeTestdata {

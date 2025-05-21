@@ -1,16 +1,16 @@
-This module's path ends with ".go".
-Based on github.com/nats-io/nats.go.
-Used in regression tests for golang.org/issue/32483.
+This module's path ends with ".golang".
+Based on github.com/nats-io/nats.golang.
+Used in regression tests for golanglang.org/issue/32483.
 
 -- .mod --
-module example.com/dotgo.go
+module example.com/dotgolang.golang
 
-go 1.13
+golang 1.13
 -- .info --
 {"Version":"v1.0.0"}
--- go.mod --
-module example.com/dotgo.go
+-- golang.mod --
+module example.com/dotgolang.golang
 
-go 1.13
--- dotgo.go --
-package dotgo
+golang 1.13
+-- dotgolang.golang --
+package dotgolang

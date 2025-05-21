@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -13,7 +13,7 @@ type I[T any] interface {
 type E[T any] interface {
 }
 
-//go:noinline
+//golang:noinline
 func f[T I[T]](x T) E[T] {
 	// contains a cast from nonempty to empty interface
 	return E[T](I[T](x))

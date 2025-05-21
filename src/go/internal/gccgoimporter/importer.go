@@ -1,15 +1,15 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Package gccgoimporter implements Import for gccgo-generated object files.
-package gccgoimporter // import "go/internal/gccgoimporter"
+// Package gccgolangimporter implements Import for gccgolang-generated object files.
+package gccgolangimporter // import "golang/internal/gccgolangimporter"
 
 import (
 	"bytes"
 	"debug/elf"
 	"fmt"
-	"go/types"
+	"golang/types"
 	"internal/xcoff"
 	"io"
 	"os"
@@ -24,7 +24,7 @@ type PackageInit struct {
 	Priority int    // priority of init function, see InitData.Priority
 }
 
-// The gccgo-specific init data for a package.
+// The gccgolang-specific init data for a package.
 type InitData struct {
 	// Initialization priority of this package relative to other packages.
 	// This is based on the maximum depth of the package's dependency graph;
@@ -38,7 +38,7 @@ type InitData struct {
 }
 
 // Locate the file from which to read export data.
-// This is intended to replicate the logic in gofrontend.
+// This is intended to replicate the logic in golangfrontend.
 func findExportFile(searchpaths []string, pkgpath string) (string, error) {
 	for _, spath := range searchpaths {
 		pkgfullpath := filepath.Join(spath, pkgpath)
@@ -46,7 +46,7 @@ func findExportFile(searchpaths []string, pkgpath string) (string, error) {
 
 		for _, filepath := range [...]string{
 			pkgfullpath,
-			pkgfullpath + ".gox",
+			pkgfullpath + ".golangx",
 			pkgdir + "lib" + name + ".so",
 			pkgdir + "lib" + name + ".a",
 			pkgfullpath + ".o",
@@ -62,18 +62,18 @@ func findExportFile(searchpaths []string, pkgpath string) (string, error) {
 }
 
 const (
-	gccgov1Magic    = "v1;\n"
-	gccgov2Magic    = "v2;\n"
-	gccgov3Magic    = "v3;\n"
-	goimporterMagic = "\n$$ "
+	gccgolangv1Magic    = "v1;\n"
+	gccgolangv2Magic    = "v2;\n"
+	gccgolangv3Magic    = "v3;\n"
+	golangimporterMagic = "\n$$ "
 	archiveMagic    = "!<ar"
 	aixbigafMagic   = "<big"
 )
 
 // Opens the export data file at the given path. If this is an ELF file,
-// searches for and opens the .go_export section. If this is an archive,
+// searches for and opens the .golang_export section. If this is an archive,
 // reads the export data from the first member, which is assumed to be an ELF file.
-// This is intended to replicate the logic in gofrontend.
+// This is intended to replicate the logic in golangfrontend.
 func openExportFile(fpath string) (reader io.ReadSeeker, closer io.Closer, err error) {
 	f, err := os.Open(fpath)
 	if err != nil {
@@ -94,7 +94,7 @@ func openExportFile(fpath string) (reader io.ReadSeeker, closer io.Closer, err e
 
 	var objreader io.ReaderAt
 	switch string(magic[:]) {
-	case gccgov1Magic, gccgov2Magic, gccgov3Magic, goimporterMagic:
+	case gccgolangv1Magic, gccgolangv2Magic, gccgolangv3Magic, golangimporterMagic:
 		// Raw export data.
 		reader = f
 		return
@@ -109,9 +109,9 @@ func openExportFile(fpath string) (reader io.ReadSeeker, closer io.Closer, err e
 
 	ef, err := elf.NewFile(objreader)
 	if err == nil {
-		sec := ef.Section(".go_export")
+		sec := ef.Section(".golang_export")
 		if sec == nil {
-			err = fmt.Errorf("%s: .go_export section not found", fpath)
+			err = fmt.Errorf("%s: .golang_export section not found", fpath)
 			return
 		}
 		reader = sec.Open()
@@ -120,9 +120,9 @@ func openExportFile(fpath string) (reader io.ReadSeeker, closer io.Closer, err e
 
 	xf, err := xcoff.NewFile(objreader)
 	if err == nil {
-		sdat := xf.CSect(".go_export")
+		sdat := xf.CSect(".golang_export")
 		if sdat == nil {
-			err = fmt.Errorf("%s: .go_export section not found", fpath)
+			err = fmt.Errorf("%s: .golang_export section not found", fpath)
 			return
 		}
 		reader = bytes.NewReader(sdat)
@@ -146,7 +146,7 @@ func GetImporter(searchpaths []string, initmap map[*types.Package]InitData) Impo
 	return func(imports map[string]*types.Package, pkgpath, srcDir string, lookup func(string) (io.ReadCloser, error)) (pkg *types.Package, err error) {
 		// TODO(gri): Use srcDir.
 		// Or not. It's possible that srcDir will fade in importance as
-		// the go command and other tools provide a translation table
+		// the golang command and other tools provide a translation table
 		// for relative imports (like ./foo or vendored imports).
 		if pkgpath == "unsafe" {
 			return types.Unsafe, nil
@@ -168,7 +168,7 @@ func GetImporter(searchpaths []string, initmap map[*types.Package]InitData) Impo
 			defer rc.Close()
 			rs, ok := rc.(io.ReadSeeker)
 			if !ok {
-				return nil, fmt.Errorf("gccgo importer requires lookup to return an io.ReadSeeker, have %T", rc)
+				return nil, fmt.Errorf("gccgolang importer requires lookup to return an io.ReadSeeker, have %T", rc)
 			}
 			reader = rs
 			fpath = "<lookup " + pkgpath + ">"
@@ -210,7 +210,7 @@ func GetImporter(searchpaths []string, initmap map[*types.Package]InitData) Impo
 		}
 
 		switch magics {
-		case gccgov1Magic, gccgov2Magic, gccgov3Magic:
+		case gccgolangv1Magic, gccgolangv2Magic, gccgolangv3Magic:
 			var p parser
 			p.init(fpath, reader, imports)
 			pkg = p.parsePackage()
@@ -218,8 +218,8 @@ func GetImporter(searchpaths []string, initmap map[*types.Package]InitData) Impo
 				initmap[pkg] = p.initdata
 			}
 
-		// Excluded for now: Standard gccgo doesn't support this import format currently.
-		// case goimporterMagic:
+		// Excluded for now: Standard gccgolang doesn't support this import format currently.
+		// case golangimporterMagic:
 		// 	var data []byte
 		// 	data, err = io.ReadAll(reader)
 		// 	if err != nil {

@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package flate
@@ -68,7 +68,7 @@ func TestDictDecoder(t *testing.T) {
 		{151, 3}, {48, 4}, {0, 4}, {125, 3}, {108, 3}, {0, 2},
 	}
 
-	var got, want bytes.Buffer
+	var golangt, want bytes.Buffer
 	var dd dictDecoder
 	dd.init(1<<11, nil)
 
@@ -81,7 +81,7 @@ func TestDictDecoder(t *testing.T) {
 
 			length -= cnt
 			if dd.availWrite() == 0 {
-				got.Write(dd.readFlush())
+				golangt.Write(dd.readFlush())
 			}
 		}
 	}
@@ -91,7 +91,7 @@ func TestDictDecoder(t *testing.T) {
 			str = str[cnt:]
 			dd.writeMark(cnt)
 			if dd.availWrite() == 0 {
-				got.Write(dd.readFlush())
+				golangt.Write(dd.readFlush())
 			}
 		}
 	}
@@ -132,8 +132,8 @@ func TestDictDecoder(t *testing.T) {
 	writeCopy(dd.histSize(), 10)
 	want.Write(want.Bytes()[want.Len()-dd.histSize():][:10])
 
-	got.Write(dd.readFlush())
-	if got.String() != want.String() {
-		t.Errorf("final string mismatch:\ngot  %q\nwant %q", got.String(), want.String())
+	golangt.Write(dd.readFlush())
+	if golangt.String() != want.String() {
+		t.Errorf("final string mismatch:\ngolangt  %q\nwant %q", golangt.String(), want.String())
 	}
 }

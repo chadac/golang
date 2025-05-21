@@ -1,41 +1,41 @@
-# Verifies golang.org/issue/37555.
+# Verifies golanglang.org/issue/37555.
 
 [short] skip
 
-# 'go test -json' should say a test passes if it says it passes.
-go test -json ./pass
+# 'golang test -json' should say a test passes if it says it passes.
+golang test -json ./pass
 stdout '"Action":"pass","Package":"[^"]*","Elapsed":[^"]*}\n\z'
 ! stdout '"Test":.*\n\z'
 
-# 'go test -json' should say a test passes if it exits 0 and prints nothing.
-# TODO(golang.org/issue/29062): this should fail in the future.
-go test -json ./exit0main
+# 'golang test -json' should say a test passes if it exits 0 and prints nothing.
+# TODO(golanglang.org/issue/29062): this should fail in the future.
+golang test -json ./exit0main
 stdout '"Action":"pass".*\n\z'
 ! stdout '"Test":.*\n\z'
 
-# 'go test -json' should say a test fails if it exits 1 and prints nothing.
-! go test -json ./exit1main
+# 'golang test -json' should say a test fails if it exits 1 and prints nothing.
+! golang test -json ./exit1main
 stdout '"Action":"fail".*\n\z'
 ! stdout '"Test":.*\n\z'
 
-# 'go test -json' should say a test fails if it panics.
-! go test -json ./panic
+# 'golang test -json' should say a test fails if it panics.
+! golang test -json ./panic
 stdout '"Action":"fail".*\n\z'
 ! stdout '"Test":.*\n\z'
 
--- go.mod --
+-- golang.mod --
 module example.com/test
 
-go 1.14
+golang 1.14
 
--- pass/pass_test.go --
+-- pass/pass_test.golang --
 package pass_test
 
 import "testing"
 
 func TestPass(t *testing.T) {}
 
--- exit0main/exit0main_test.go --
+-- exit0main/exit0main_test.golang --
 package exit0_test
 
 import (
@@ -47,7 +47,7 @@ func TestMain(m *testing.M) {
 	os.Exit(0)
 }
 
--- exit1main/exit1main_test.go --
+-- exit1main/exit1main_test.golang --
 package exit1_test
 
 import (
@@ -59,7 +59,7 @@ func TestMain(m *testing.M) {
 	os.Exit(1)
 }
 
--- panic/panic_test.go --
+-- panic/panic_test.golang --
 package panic_test
 
 import "testing"

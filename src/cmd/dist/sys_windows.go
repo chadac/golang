@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -44,13 +44,13 @@ func sysinit() {
 	syscall.Syscall(procGetSystemInfo.Addr(), 1, uintptr(unsafe.Pointer(&sysinfo)), 0, 0)
 	switch sysinfo.wProcessorArchitecture {
 	case PROCESSOR_ARCHITECTURE_AMD64:
-		gohostarch = "amd64"
+		golanghostarch = "amd64"
 	case PROCESSOR_ARCHITECTURE_INTEL:
-		gohostarch = "386"
+		golanghostarch = "386"
 	case PROCESSOR_ARCHITECTURE_ARM:
-		gohostarch = "arm"
+		golanghostarch = "arm"
 	case PROCESSOR_ARCHITECTURE_ARM64:
-		gohostarch = "arm64"
+		golanghostarch = "arm64"
 	default:
 		fatalf("unknown processor architecture")
 	}

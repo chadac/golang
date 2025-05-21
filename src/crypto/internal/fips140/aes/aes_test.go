@@ -1,12 +1,12 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package aes
 
 import "testing"
 
-// See const.go for overview of math here.
+// See const.golang for overview of math here.
 
 // Test that powx is initialized correctly.
 // (Can adapt this code to generate it too.)
@@ -46,7 +46,7 @@ func mul(b, c uint32) uint32 {
 	return s
 }
 
-// Test all mul inputs against bit-by-bit n² algorithm.
+// Test all mul inputs against bit-by-bit n² algolangrithm.
 func TestMul(t *testing.T) {
 	for i := uint32(0); i < 256; i++ {
 		for j := uint32(0); j < 256; j++ {

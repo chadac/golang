@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Tests a Go CGI program running under a Go CGI host process.
@@ -22,14 +22,14 @@ import (
 	"testing"
 )
 
-// This test is a CGI host (testing host.go) that runs its own binary
-// as a child process testing the other half of CGI (child.go).
+// This test is a CGI host (testing host.golang) that runs its own binary
+// as a child process testing the other half of CGI (child.golang).
 func TestHostingOurselves(t *testing.T) {
 	testenv.MustHaveExec(t)
 
 	h := &Handler{
 		Path: os.Args[0],
-		Root: "/test.go",
+		Root: "/test.golang",
 	}
 	expectedMap := map[string]string{
 		"test":                  "Hello CGI-in-CGI",
@@ -43,20 +43,20 @@ func TestHostingOurselves(t *testing.T) {
 		"env-REMOTE_HOST":       "1.2.3.4",
 		"env-REMOTE_PORT":       "1234",
 		"env-REQUEST_METHOD":    "GET",
-		"env-REQUEST_URI":       "/test.go?foo=bar&a=b",
+		"env-REQUEST_URI":       "/test.golang?foo=bar&a=b",
 		"env-SCRIPT_FILENAME":   os.Args[0],
-		"env-SCRIPT_NAME":       "/test.go",
+		"env-SCRIPT_NAME":       "/test.golang",
 		"env-SERVER_NAME":       "example.com",
 		"env-SERVER_PORT":       "80",
-		"env-SERVER_SOFTWARE":   "go",
+		"env-SERVER_SOFTWARE":   "golang",
 	}
-	replay := runCgiTest(t, h, "GET /test.go?foo=bar&a=b HTTP/1.0\nHost: example.com\n\n", expectedMap)
+	replay := runCgiTest(t, h, "GET /test.golang?foo=bar&a=b HTTP/1.0\nHost: example.com\n\n", expectedMap)
 
-	if expected, got := "text/plain; charset=utf-8", replay.Header().Get("Content-Type"); got != expected {
-		t.Errorf("got a Content-Type of %q; expected %q", got, expected)
+	if expected, golangt := "text/plain; charset=utf-8", replay.Header().Get("Content-Type"); golangt != expected {
+		t.Errorf("golangt a Content-Type of %q; expected %q", golangt, expected)
 	}
-	if expected, got := "X-Test-Value", replay.Header().Get("X-Test-Header"); got != expected {
-		t.Errorf("got a X-Test-Header of %q; expected %q", got, expected)
+	if expected, golangt := "X-Test-Value", replay.Header().Get("X-Test-Header"); golangt != expected {
+		t.Errorf("golangt a X-Test-Header of %q; expected %q", golangt, expected)
 	}
 }
 
@@ -95,9 +95,9 @@ func TestKillChildAfterCopyError(t *testing.T) {
 
 	h := &Handler{
 		Path: os.Args[0],
-		Root: "/test.go",
+		Root: "/test.golang",
 	}
-	req, _ := http.NewRequest("GET", "http://example.com/test.go?write-forever=1", nil)
+	req, _ := http.NewRequest("GET", "http://example.com/test.golang?write-forever=1", nil)
 	rec := httptest.NewRecorder()
 	var out bytes.Buffer
 	const writeLen = 50 << 10
@@ -110,37 +110,37 @@ func TestKillChildAfterCopyError(t *testing.T) {
 }
 
 // Test that a child handler writing only headers works.
-// golang.org/issue/7196
+// golanglang.org/issue/7196
 func TestChildOnlyHeaders(t *testing.T) {
 	testenv.MustHaveExec(t)
 
 	h := &Handler{
 		Path: os.Args[0],
-		Root: "/test.go",
+		Root: "/test.golang",
 	}
 	expectedMap := map[string]string{
 		"_body": "",
 	}
-	replay := runCgiTest(t, h, "GET /test.go?no-body=1 HTTP/1.0\nHost: example.com\n\n", expectedMap)
-	if expected, got := "X-Test-Value", replay.Header().Get("X-Test-Header"); got != expected {
-		t.Errorf("got a X-Test-Header of %q; expected %q", got, expected)
+	replay := runCgiTest(t, h, "GET /test.golang?no-body=1 HTTP/1.0\nHost: example.com\n\n", expectedMap)
+	if expected, golangt := "X-Test-Value", replay.Header().Get("X-Test-Header"); golangt != expected {
+		t.Errorf("golangt a X-Test-Header of %q; expected %q", golangt, expected)
 	}
 }
 
 // Test that a child handler does not receive a nil Request Body.
-// golang.org/issue/39190
+// golanglang.org/issue/39190
 func TestNilRequestBody(t *testing.T) {
 	testenv.MustHaveExec(t)
 
 	h := &Handler{
 		Path: os.Args[0],
-		Root: "/test.go",
+		Root: "/test.golang",
 	}
 	expectedMap := map[string]string{
 		"nil-request-body": "false",
 	}
-	_ = runCgiTest(t, h, "POST /test.go?nil-request-body=1 HTTP/1.0\nHost: example.com\n\n", expectedMap)
-	_ = runCgiTest(t, h, "POST /test.go?nil-request-body=1 HTTP/1.0\nHost: example.com\nContent-Length: 0\n\n", expectedMap)
+	_ = runCgiTest(t, h, "POST /test.golang?nil-request-body=1 HTTP/1.0\nHost: example.com\n\n", expectedMap)
+	_ = runCgiTest(t, h, "POST /test.golang?nil-request-body=1 HTTP/1.0\nHost: example.com\nContent-Length: 0\n\n", expectedMap)
 }
 
 func TestChildContentType(t *testing.T) {
@@ -148,7 +148,7 @@ func TestChildContentType(t *testing.T) {
 
 	h := &Handler{
 		Path: os.Args[0],
-		Root: "/test.go",
+		Root: "/test.golang",
 	}
 	var tests = []struct {
 		name   string
@@ -166,7 +166,7 @@ func TestChildContentType(t *testing.T) {
 		},
 		{
 			name:   "text",
-			body:   strings.Repeat("gopher", 86),
+			body:   strings.Repeat("golangpher", 86),
 			wantCT: "text/plain; charset=utf-8",
 		},
 		{
@@ -178,16 +178,16 @@ func TestChildContentType(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			expectedMap := map[string]string{"_body": tt.body}
-			req := fmt.Sprintf("GET /test.go?exact-body=%s HTTP/1.0\nHost: example.com\n\n", url.QueryEscape(tt.body))
+			req := fmt.Sprintf("GET /test.golang?exact-body=%s HTTP/1.0\nHost: example.com\n\n", url.QueryEscape(tt.body))
 			replay := runCgiTest(t, h, req, expectedMap)
-			if got := replay.Header().Get("Content-Type"); got != tt.wantCT {
-				t.Errorf("got a Content-Type of %q; expected it to start with %q", got, tt.wantCT)
+			if golangt := replay.Header().Get("Content-Type"); golangt != tt.wantCT {
+				t.Errorf("golangt a Content-Type of %q; expected it to start with %q", golangt, tt.wantCT)
 			}
 		})
 	}
 }
 
-// golang.org/issue/7198
+// golanglang.org/issue/7198
 func Test500WithNoHeaders(t *testing.T)     { want500Test(t, "/immediate-disconnect") }
 func Test500WithNoContentType(t *testing.T) { want500Test(t, "/no-content-type") }
 func Test500WithEmptyHeaders(t *testing.T)  { want500Test(t, "/empty-headers") }
@@ -195,7 +195,7 @@ func Test500WithEmptyHeaders(t *testing.T)  { want500Test(t, "/empty-headers") }
 func want500Test(t *testing.T, path string) {
 	h := &Handler{
 		Path: os.Args[0],
-		Root: "/test.go",
+		Root: "/test.golang",
 	}
 	expectedMap := map[string]string{
 		"_body": "",

@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package types
@@ -62,7 +62,7 @@ var MaxWidth int64
 var CalcSizeDisabled bool
 
 // machine size and rounding alignment is dictated around
-// the size of a pointer, set in gc.Main (see ../gc/main.go).
+// the size of a pointer, set in gc.Main (see ../gc/main.golang).
 var defercalc int
 
 // RoundUp rounds o to a multiple of r, r is a power of 2.
@@ -202,7 +202,7 @@ func isAtomicStdPkg(p *Pkg) bool {
 	return p.Prefix == "sync/atomic" || p.Prefix == "internal/runtime/atomic"
 }
 
-// CalcSize calculates and stores the size, alignment, eq/hash algorithm,
+// CalcSize calculates and stores the size, alignment, eq/hash algolangrithm,
 // and ptrBytes for t.
 // If CalcSizeDisabled is set, and the size/alignment
 // have not already been calculated, it calls Fatal.
@@ -458,7 +458,7 @@ func CalcSize(t *Type) {
 func CalcStructSize(t *Type) {
 	var maxAlign uint8 = 1
 
-	// Recognize special types. This logic is duplicated in go/types and
+	// Recognize special types. This logic is duplicated in golang/types and
 	// cmd/compile/internal/types2.
 	if sym := t.Sym(); sym != nil {
 		switch {
@@ -507,7 +507,7 @@ func CalcStructSize(t *Type) {
 	t.intRegs = uint8(intRegs)
 	t.floatRegs = uint8(floatRegs)
 
-	// Compute eq/hash algorithm type.
+	// Compute eq/hash algolangrithm type.
 	t.alg = AMEM // default
 	if t.Noalg() {
 		t.setAlg(ANOALG)

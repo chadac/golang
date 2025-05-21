@@ -1,5 +1,5 @@
 // Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package asmgen
@@ -22,7 +22,7 @@ var Arch386 = &Arch{
 	maxColumns:       1, // not enough registers for more
 
 	// Note: It would be nice to not set memIndex and then
-	// delete all the code in pipe.go that supports it.
+	// delete all the code in pipe.golang that supports it.
 	// But a few routines, notably lshVU and mulAddVWW,
 	// benefit dramatically from the use of index registers.
 	// Perhaps some day we will decide 386 performance

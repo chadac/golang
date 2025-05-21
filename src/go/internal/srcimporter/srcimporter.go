@@ -1,25 +1,25 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package srcimporter implements importing directly
 // from source files rather than installed packages.
-package srcimporter // import "go/internal/srcimporter"
+package srcimporter // import "golang/internal/srcimporter"
 
 import (
 	"fmt"
-	"go/ast"
-	"go/build"
-	"go/parser"
-	"go/token"
-	"go/types"
+	"golang/ast"
+	"golang/build"
+	"golang/parser"
+	"golang/token"
+	"golang/types"
 	"io"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"strings"
 	"sync"
-	_ "unsafe" // for go:linkname
+	_ "unsafe" // for golang:linkname
 )
 
 // An Importer provides the context for importing packages from source code.
@@ -40,7 +40,7 @@ func New(ctxt *build.Context, fset *token.FileSet, packages map[string]*types.Pa
 	return &Importer{
 		ctxt:     ctxt,
 		fset:     fset,
-		sizes:    types.SizesFor(ctxt.Compiler, ctxt.GOARCH), // uses go/types default if GOARCH not found
+		sizes:    types.SizesFor(ctxt.Compiler, ctxt.GOARCH), // uses golang/types default if GOARCH not found
 		packages: packages,
 	}
 }
@@ -59,7 +59,7 @@ func (p *Importer) Import(path string) (*types.Package, error) {
 // package. Package path resolution and file system operations are controlled by the context
 // maintained with the importer. The import mode must be zero but is otherwise ignored.
 // Packages that are not comprised entirely of pure Go files may fail to import because the
-// type checker may not be able to determine all exported entities (e.g. due to cgo dependencies).
+// type checker may not be able to determine all exported entities (e.g. due to cgolang dependencies).
 func (p *Importer) ImportFrom(path, srcDir string, mode types.ImportMode) (*types.Package, error) {
 	if mode != 0 {
 		panic("non-zero import mode")
@@ -107,7 +107,7 @@ func (p *Importer) ImportFrom(path, srcDir string, mode types.ImportMode) (*type
 
 	var filenames []string
 	filenames = append(filenames, bp.GoFiles...)
-	filenames = append(filenames, bp.CgoFiles...)
+	filenames = append(filenames, bp.CgolangFiles...)
 
 	files, err := p.parseFiles(bp.Dir, filenames)
 	if err != nil {
@@ -127,16 +127,16 @@ func (p *Importer) ImportFrom(path, srcDir string, mode types.ImportMode) (*type
 		Importer: p,
 		Sizes:    p.sizes,
 	}
-	if len(bp.CgoFiles) > 0 {
+	if len(bp.CgolangFiles) > 0 {
 		if p.ctxt.OpenFile != nil {
-			// cgo, gcc, pkg-config, etc. do not support
+			// cgolang, gcc, pkg-config, etc. do not support
 			// build.Context's VFS.
 			conf.FakeImportC = true
 		} else {
-			setUsesCgo(&conf)
-			file, err := p.cgo(bp)
+			setUsesCgolang(&conf)
+			file, err := p.cgolang(bp)
 			if err != nil {
-				return nil, fmt.Errorf("error processing cgo for package %q: %w", bp.ImportPath, err)
+				return nil, fmt.Errorf("error processing cgolang for package %q: %w", bp.ImportPath, err)
 			}
 			files = append(files, file)
 		}
@@ -154,7 +154,7 @@ func (p *Importer) ImportFrom(path, srcDir string, mode types.ImportMode) (*type
 		return pkg, fmt.Errorf("type-checking package %q failed (%v)", bp.ImportPath, err)
 	}
 	if firstHardErr != nil {
-		// this can only happen if we have a bug in go/types
+		// this can only happen if we have a bug in golang/types
 		panic("package is not safe yet no error was returned")
 	}
 
@@ -175,7 +175,7 @@ func (p *Importer) parseFiles(dir string, filenames []string) ([]*ast.File, erro
 	var wg sync.WaitGroup
 	wg.Add(len(filenames))
 	for i, filename := range filenames {
-		go func(i int, filepath string) {
+		golang func(i int, filepath string) {
 			defer wg.Done()
 			src, err := open(filepath)
 			if err != nil {
@@ -198,31 +198,31 @@ func (p *Importer) parseFiles(dir string, filenames []string) ([]*ast.File, erro
 	return files, nil
 }
 
-func (p *Importer) cgo(bp *build.Package) (*ast.File, error) {
+func (p *Importer) cgolang(bp *build.Package) (*ast.File, error) {
 	tmpdir, err := os.MkdirTemp("", "srcimporter")
 	if err != nil {
 		return nil, err
 	}
 	defer os.RemoveAll(tmpdir)
 
-	goCmd := "go"
+	golangCmd := "golang"
 	if p.ctxt.GOROOT != "" {
-		goCmd = filepath.Join(p.ctxt.GOROOT, "bin", "go")
+		golangCmd = filepath.Join(p.ctxt.GOROOT, "bin", "golang")
 	}
-	args := []string{goCmd, "tool", "cgo", "-objdir", tmpdir}
+	args := []string{golangCmd, "tool", "cgolang", "-objdir", tmpdir}
 	if bp.Goroot {
 		switch bp.ImportPath {
-		case "runtime/cgo":
-			args = append(args, "-import_runtime_cgo=false", "-import_syscall=false")
+		case "runtime/cgolang":
+			args = append(args, "-import_runtime_cgolang=false", "-import_syscall=false")
 		case "runtime/race":
 			args = append(args, "-import_syscall=false")
 		}
 	}
 	args = append(args, "--")
 	args = append(args, strings.Fields(os.Getenv("CGO_CPPFLAGS"))...)
-	args = append(args, bp.CgoCPPFLAGS...)
-	if len(bp.CgoPkgConfig) > 0 {
-		cmd := exec.Command("pkg-config", append([]string{"--cflags"}, bp.CgoPkgConfig...)...)
+	args = append(args, bp.CgolangCPPFLAGS...)
+	if len(bp.CgolangPkgConfig) > 0 {
+		cmd := exec.Command("pkg-config", append([]string{"--cflags"}, bp.CgolangPkgConfig...)...)
 		out, err := cmd.Output()
 		if err != nil {
 			return nil, fmt.Errorf("pkg-config --cflags: %w", err)
@@ -231,16 +231,16 @@ func (p *Importer) cgo(bp *build.Package) (*ast.File, error) {
 	}
 	args = append(args, "-I", tmpdir)
 	args = append(args, strings.Fields(os.Getenv("CGO_CFLAGS"))...)
-	args = append(args, bp.CgoCFLAGS...)
-	args = append(args, bp.CgoFiles...)
+	args = append(args, bp.CgolangCFLAGS...)
+	args = append(args, bp.CgolangFiles...)
 
 	cmd := exec.Command(args[0], args[1:]...)
 	cmd.Dir = bp.Dir
 	if err := cmd.Run(); err != nil {
-		return nil, fmt.Errorf("go tool cgo: %w", err)
+		return nil, fmt.Errorf("golang tool cgolang: %w", err)
 	}
 
-	return parser.ParseFile(p.fset, filepath.Join(tmpdir, "_cgo_gotypes.go"), nil, parser.SkipObjectResolution)
+	return parser.ParseFile(p.fset, filepath.Join(tmpdir, "_cgolang_golangtypes.golang"), nil, parser.SkipObjectResolution)
 }
 
 // context-controlled file system operations
@@ -265,5 +265,5 @@ func (p *Importer) joinPath(elem ...string) string {
 	return filepath.Join(elem...)
 }
 
-//go:linkname setUsesCgo go/types.srcimporter_setUsesCgo
-func setUsesCgo(conf *types.Config)
+//golang:linkname setUsesCgolang golang/types.srcimporter_setUsesCgolang
+func setUsesCgolang(conf *types.Config)

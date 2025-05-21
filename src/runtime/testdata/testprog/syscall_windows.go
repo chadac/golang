@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -55,7 +55,7 @@ func StackMemory() {
 	var wg sync.WaitGroup
 	for i := 0; i < threadCount; i++ {
 		wg.Add(1)
-		go func() {
+		golang func() {
 			runtime.LockOSThread()
 			wg.Done()
 			select {}
@@ -67,7 +67,7 @@ func StackMemory() {
 		panic(err)
 	}
 	// assumes that this process creates 1 thread for each
-	// thread locked goroutine plus extra 10 threads
+	// thread locked golangroutine plus extra 10 threads
 	// like sysmon and others
 	print((mem2 - mem1) / (threadCount + 10))
 }

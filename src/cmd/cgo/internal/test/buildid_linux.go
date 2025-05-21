@@ -1,11 +1,11 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-package cgotest
+package cgolangtest
 
 // Test that we have no more than one build ID.  In the past we used
-// to generate a separate build ID for each package using cgo, and the
+// to generate a separate build ID for each package using cgolang, and the
 // linker concatenated them all.  We don't want that--we only want
 // one.
 
@@ -43,7 +43,7 @@ sections:
 
 			// ELF standards differ as to the sizes in
 			// note sections.  Both the GNU linker and
-			// gold always generate 32-bit sizes, so that
+			// golangld always generate 32-bit sizes, so that
 			// is what we assume here.
 
 			if len(d) < 12 {

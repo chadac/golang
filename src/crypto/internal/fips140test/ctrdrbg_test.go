@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package fipstest
@@ -12,7 +12,7 @@ import (
 )
 
 func TestCounterDRBG(t *testing.T) {
-	// https://github.com/usnistgov/ACVP-Server/blob/fb44dce/gen-val/json-files/ctrDRBG-1.0/prompt.json#L4447-L4482
+	// https://github.com/usnistgolangv/ACVP-Server/blob/fb44dce/gen-val/json-files/ctrDRBG-1.0/prompt.json#L4447-L4482
 
 	entropyInput := decodeHex(t, "9FCBB4CCC0135C484BDED061DA9FD70748682FE84166B97FF53F9AA1909B2E95D3D529C0F453B3AC575D12AA441CC5CD")
 	persoString := decodeHex(t, "2C9FED0B39556CDBE699EBCA2A0EC7EECB287E8744475050C572FA8AE9ED0A4A7D6F1CABF1C4278532FB20AF7D64BD32")

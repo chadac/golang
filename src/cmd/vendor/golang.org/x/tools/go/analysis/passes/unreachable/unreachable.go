@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package unreachable
@@ -8,23 +8,23 @@ package unreachable
 
 import (
 	_ "embed"
-	"go/ast"
-	"go/token"
+	"golang/ast"
+	"golang/token"
 	"log"
 
-	"golang.org/x/tools/go/analysis"
-	"golang.org/x/tools/go/analysis/passes/inspect"
-	"golang.org/x/tools/go/analysis/passes/internal/analysisutil"
-	"golang.org/x/tools/go/ast/inspector"
+	"golanglang.org/x/tools/golang/analysis"
+	"golanglang.org/x/tools/golang/analysis/passes/inspect"
+	"golanglang.org/x/tools/golang/analysis/passes/internal/analysisutil"
+	"golanglang.org/x/tools/golang/ast/inspector"
 )
 
-//go:embed doc.go
+//golang:embed doc.golang
 var doc string
 
 var Analyzer = &analysis.Analyzer{
 	Name:             "unreachable",
 	Doc:              analysisutil.MustExtractDoc(doc, "unreachable"),
-	URL:              "https://pkg.go.dev/golang.org/x/tools/go/analysis/passes/unreachable",
+	URL:              "https://pkg.golang.dev/golanglang.org/x/tools/golang/analysis/passes/unreachable",
 	Requires:         []*analysis.Analyzer{inspect.Analyzer},
 	RunDespiteErrors: true,
 	Run:              run,
@@ -172,13 +172,13 @@ func (d *deadState) findLabels(stmt ast.Stmt) {
 // When findDead returns, d.reachable tells whether the
 // statement following stmt is reachable.
 func (d *deadState) findDead(stmt ast.Stmt) {
-	// Is this a labeled goto target?
-	// If so, assume it is reachable due to the goto.
+	// Is this a labeled golangto target?
+	// If so, assume it is reachable due to the golangto.
 	// This is slightly conservative, in that we don't
-	// check that the goto is reachable, so
-	//	L: goto L
+	// check that the golangto is reachable, so
+	//	L: golangto L
 	// will not provoke a warning.
-	// But it's good enough.
+	// But it's golangod enough.
 	if x, isLabel := stmt.(*ast.LabeledStmt); isLabel && d.hasGoto[x.Label.Name] {
 		d.reachable = true
 	}

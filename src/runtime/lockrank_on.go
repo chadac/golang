@@ -1,8 +1,8 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build goexperiment.staticlockranking
+//golang:build golangexperiment.staticlockranking
 
 package runtime
 
@@ -92,7 +92,7 @@ func lockWithRank(l *mutex, rank lockRank) {
 
 // nosplit to ensure it can be called in as many contexts as possible.
 //
-//go:nosplit
+//golang:nosplit
 func printHeldLocks(gp *g) {
 	if gp.m.locksHeldLen == 0 {
 		println("<none>")
@@ -110,7 +110,7 @@ func printHeldLocks(gp *g) {
 //
 // This function may be called in nosplit context and thus must be nosplit.
 //
-//go:nosplit
+//golang:nosplit
 func acquireLockRankAndM(rank lockRank) {
 	acquirem()
 
@@ -132,10 +132,10 @@ func acquireLockRankAndM(rank lockRank) {
 	})
 }
 
-// checkRanks checks if goroutine g, which has mostly recently acquired a lock
+// checkRanks checks if golangroutine g, which has mostly recently acquired a lock
 // with rank 'prevRank', can now acquire a lock with rank 'rank'.
 //
-//go:systemstack
+//golang:systemstack
 func checkRanks(gp *g, prevRank, rank lockRank) {
 	rankOK := false
 	if rank < prevRank {
@@ -199,7 +199,7 @@ func unlockWithRank(l *mutex) {
 //
 // This function may be called in nosplit context and thus must be nosplit.
 //
-//go:nosplit
+//golang:nosplit
 func releaseLockRankAndM(rank lockRank) {
 	gp := getg()
 	systemstack(func() {
@@ -223,7 +223,7 @@ func releaseLockRankAndM(rank lockRank) {
 
 // nosplit because it may be called from nosplit contexts.
 //
-//go:nosplit
+//golang:nosplit
 func lockWithRankMayAcquire(l *mutex, rank lockRank) {
 	gp := getg()
 	if gp.m.locksHeldLen == 0 {
@@ -249,7 +249,7 @@ func lockWithRankMayAcquire(l *mutex, rank lockRank) {
 
 // nosplit to ensure it can be called in as many contexts as possible.
 //
-//go:nosplit
+//golang:nosplit
 func checkLockHeld(gp *g, l *mutex) bool {
 	for i := gp.m.locksHeldLen - 1; i >= 0; i-- {
 		if gp.m.locksHeld[i].lockAddr == uintptr(unsafe.Pointer(l)) {
@@ -263,7 +263,7 @@ func checkLockHeld(gp *g, l *mutex) bool {
 //
 // nosplit to ensure it can be called in as many contexts as possible.
 //
-//go:nosplit
+//golang:nosplit
 func assertLockHeld(l *mutex) {
 	gp := getg()
 
@@ -289,7 +289,7 @@ func assertLockHeld(l *mutex) {
 //
 // nosplit to ensure it can be called in as many contexts as possible.
 //
-//go:nosplit
+//golang:nosplit
 func assertRankHeld(r lockRank) {
 	gp := getg()
 
@@ -315,7 +315,7 @@ func assertRankHeld(r lockRank) {
 //
 // nosplit to ensure it can be called in as many contexts as possible.
 //
-//go:nosplit
+//golang:nosplit
 func worldStopped() {
 	if stopped := worldIsStopped.Add(1); stopped != 1 {
 		systemstack(func() {
@@ -331,7 +331,7 @@ func worldStopped() {
 //
 // nosplit to ensure it can be called in as many contexts as possible.
 //
-//go:nosplit
+//golang:nosplit
 func worldStarted() {
 	if stopped := worldIsStopped.Add(-1); stopped != 0 {
 		systemstack(func() {
@@ -343,7 +343,7 @@ func worldStarted() {
 
 // nosplit to ensure it can be called in as many contexts as possible.
 //
-//go:nosplit
+//golang:nosplit
 func checkWorldStopped() bool {
 	stopped := worldIsStopped.Load()
 	if stopped > 1 {
@@ -361,7 +361,7 @@ func checkWorldStopped() bool {
 //
 // nosplit to ensure it can be called in as many contexts as possible.
 //
-//go:nosplit
+//golang:nosplit
 func assertWorldStopped() {
 	if checkWorldStopped() {
 		return
@@ -375,7 +375,7 @@ func assertWorldStopped() {
 //
 // nosplit to ensure it can be called in as many contexts as possible.
 //
-//go:nosplit
+//golang:nosplit
 func assertWorldStoppedOrLockHeld(l *mutex) {
 	if checkWorldStopped() {
 		return

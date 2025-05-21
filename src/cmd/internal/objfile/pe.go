@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Parsing of PE executables (Microsoft Windows).
@@ -168,7 +168,7 @@ func loadPETable(f *pe.File, sname, ename string) ([]byte, error) {
 	return data[ssym.Value:esym.Value], nil
 }
 
-func (f *peFile) goarch() string {
+func (f *peFile) golangarch() string {
 	switch f.pe.Machine {
 	case pe.IMAGE_FILE_MACHINE_I386:
 		return "386"

@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Reverse proxy tests.
@@ -49,25 +49,25 @@ func TestReverseProxy(t *testing.T) {
 			return
 		}
 		if len(r.TransferEncoding) > 0 {
-			t.Errorf("backend got unexpected TransferEncoding: %v", r.TransferEncoding)
+			t.Errorf("backend golangt unexpected TransferEncoding: %v", r.TransferEncoding)
 		}
 		if r.Header.Get("X-Forwarded-For") == "" {
 			t.Errorf("didn't get X-Forwarded-For header")
 		}
 		if c := r.Header.Get("Connection"); c != "" {
-			t.Errorf("handler got Connection header value %q", c)
+			t.Errorf("handler golangt Connection header value %q", c)
 		}
 		if c := r.Header.Get("Te"); c != "trailers" {
-			t.Errorf("handler got Te header value %q; want 'trailers'", c)
+			t.Errorf("handler golangt Te header value %q; want 'trailers'", c)
 		}
 		if c := r.Header.Get("Upgrade"); c != "" {
-			t.Errorf("handler got Upgrade header value %q", c)
+			t.Errorf("handler golangt Upgrade header value %q", c)
 		}
 		if c := r.Header.Get("Proxy-Connection"); c != "" {
-			t.Errorf("handler got Proxy-Connection header value %q", c)
+			t.Errorf("handler golangt Proxy-Connection header value %q", c)
 		}
 		if g, e := r.Host, "some-name"; g != e {
-			t.Errorf("backend got Host header %q, want %q", g, e)
+			t.Errorf("backend golangt Host header %q, want %q", g, e)
 		}
 		w.Header().Set("Trailers", "not a special header field name")
 		w.Header().Set("Trailer", "X-Trailer")
@@ -106,22 +106,22 @@ func TestReverseProxy(t *testing.T) {
 		t.Fatalf("Get: %v", err)
 	}
 	if g, e := res.StatusCode, backendStatus; g != e {
-		t.Errorf("got res.StatusCode %d; expected %d", g, e)
+		t.Errorf("golangt res.StatusCode %d; expected %d", g, e)
 	}
 	if g, e := res.Header.Get("X-Foo"), "bar"; g != e {
-		t.Errorf("got X-Foo %q; expected %q", g, e)
+		t.Errorf("golangt X-Foo %q; expected %q", g, e)
 	}
 	if c := res.Header.Get(fakeHopHeader); c != "" {
-		t.Errorf("got %s header value %q", fakeHopHeader, c)
+		t.Errorf("golangt %s header value %q", fakeHopHeader, c)
 	}
 	if g, e := res.Header.Get("Trailers"), "not a special header field name"; g != e {
 		t.Errorf("header Trailers = %q; want %q", g, e)
 	}
 	if g, e := len(res.Header["X-Multi-Value"]), 2; g != e {
-		t.Errorf("got %d X-Multi-Value header values; expected %d", g, e)
+		t.Errorf("golangt %d X-Multi-Value header values; expected %d", g, e)
 	}
 	if g, e := len(res.Header["Set-Cookie"]), 1; g != e {
-		t.Fatalf("got %d SetCookies, want %d", g, e)
+		t.Fatalf("golangt %d SetCookies, want %d", g, e)
 	}
 	if g, e := res.Trailer, (http.Header{"X-Trailer": nil}); !reflect.DeepEqual(g, e) {
 		t.Errorf("before reading body, Trailer = %#v; want %#v", g, e)
@@ -131,7 +131,7 @@ func TestReverseProxy(t *testing.T) {
 	}
 	bodyBytes, _ := io.ReadAll(res.Body)
 	if g, e := string(bodyBytes), backendResponse; g != e {
-		t.Errorf("got body %q; expected %q", g, e)
+		t.Errorf("golangt body %q; expected %q", g, e)
 	}
 	if g, e := res.Trailer.Get("X-Trailer"), "trailer_value"; g != e {
 		t.Errorf("Trailer(X-Trailer) = %q ; want %q", g, e)
@@ -168,13 +168,13 @@ func TestReverseProxyStripHeadersPresentInConnection(t *testing.T) {
 
 	backend := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if c := r.Header.Get("Connection"); c != "" {
-			t.Errorf("handler got header %q = %q; want empty", "Connection", c)
+			t.Errorf("handler golangt header %q = %q; want empty", "Connection", c)
 		}
 		if c := r.Header.Get(fakeConnectionToken); c != "" {
-			t.Errorf("handler got header %q = %q; want empty", fakeConnectionToken, c)
+			t.Errorf("handler golangt header %q = %q; want empty", fakeConnectionToken, c)
 		}
 		if c := r.Header.Get(someConnHeader); c != "" {
-			t.Errorf("handler got header %q = %q; want empty", someConnHeader, c)
+			t.Errorf("handler golangt header %q = %q; want empty", someConnHeader, c)
 		}
 		w.Header().Add("Connection", "Upgrade, "+fakeConnectionToken)
 		w.Header().Add("Connection", someConnHeader)
@@ -228,17 +228,17 @@ func TestReverseProxyStripHeadersPresentInConnection(t *testing.T) {
 	if err != nil {
 		t.Fatalf("reading body: %v", err)
 	}
-	if got, want := string(bodyBytes), backendResponse; got != want {
-		t.Errorf("got body %q; want %q", got, want)
+	if golangt, want := string(bodyBytes), backendResponse; golangt != want {
+		t.Errorf("golangt body %q; want %q", golangt, want)
 	}
 	if c := res.Header.Get("Connection"); c != "" {
-		t.Errorf("handler got header %q = %q; want empty", "Connection", c)
+		t.Errorf("handler golangt header %q = %q; want empty", "Connection", c)
 	}
 	if c := res.Header.Get(someConnHeader); c != "" {
-		t.Errorf("handler got header %q = %q; want empty", someConnHeader, c)
+		t.Errorf("handler golangt header %q = %q; want empty", someConnHeader, c)
 	}
 	if c := res.Header.Get(fakeConnectionToken); c != "" {
-		t.Errorf("handler got header %q = %q; want empty", fakeConnectionToken, c)
+		t.Errorf("handler golangt header %q = %q; want empty", fakeConnectionToken, c)
 	}
 }
 
@@ -252,10 +252,10 @@ func TestReverseProxyStripEmptyConnection(t *testing.T) {
 
 	backend := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if c := r.Header.Values("Connection"); len(c) != 0 {
-			t.Errorf("handler got header %q = %v; want empty", "Connection", c)
+			t.Errorf("handler golangt header %q = %v; want empty", "Connection", c)
 		}
 		if c := r.Header.Get(someConnHeader); c != "" {
-			t.Errorf("handler got header %q = %q; want empty", someConnHeader, c)
+			t.Errorf("handler golangt header %q = %q; want empty", someConnHeader, c)
 		}
 		w.Header().Add("Connection", "")
 		w.Header().Add("Connection", someConnHeader)
@@ -289,14 +289,14 @@ func TestReverseProxyStripEmptyConnection(t *testing.T) {
 	if err != nil {
 		t.Fatalf("reading body: %v", err)
 	}
-	if got, want := string(bodyBytes), backendResponse; got != want {
-		t.Errorf("got body %q; want %q", got, want)
+	if golangt, want := string(bodyBytes), backendResponse; golangt != want {
+		t.Errorf("golangt body %q; want %q", golangt, want)
 	}
 	if c := res.Header.Get("Connection"); c != "" {
-		t.Errorf("handler got header %q = %q; want empty", "Connection", c)
+		t.Errorf("handler golangt header %q = %q; want empty", "Connection", c)
 	}
 	if c := res.Header.Get(someConnHeader); c != "" {
-		t.Errorf("handler got header %q = %q; want empty", someConnHeader, c)
+		t.Errorf("handler golangt header %q = %q; want empty", someConnHeader, c)
 	}
 }
 
@@ -333,11 +333,11 @@ func TestXForwardedFor(t *testing.T) {
 	}
 	defer res.Body.Close()
 	if g, e := res.StatusCode, backendStatus; g != e {
-		t.Errorf("got res.StatusCode %d; expected %d", g, e)
+		t.Errorf("golangt res.StatusCode %d; expected %d", g, e)
 	}
 	bodyBytes, _ := io.ReadAll(res.Body)
 	if g, e := string(bodyBytes), backendResponse; g != e {
-		t.Errorf("got body %q; expected %q", g, e)
+		t.Errorf("golangt body %q; expected %q", g, e)
 	}
 }
 
@@ -345,7 +345,7 @@ func TestXForwardedFor(t *testing.T) {
 func TestXForwardedFor_Omit(t *testing.T) {
 	backend := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if v := r.Header.Get("X-Forwarded-For"); v != "" {
-			t.Errorf("got X-Forwarded-For header: %q", v)
+			t.Errorf("golangt X-Forwarded-For header: %q", v)
 		}
 		w.Write([]byte("hi"))
 	}))
@@ -384,7 +384,7 @@ func TestReverseProxyRewriteStripsForwarded(t *testing.T) {
 	backend := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		for _, h := range headers {
 			if v := r.Header.Get(h); v != "" {
-				t.Errorf("got %v header: %q", h, v)
+				t.Errorf("golangt %v header: %q", h, v)
 			}
 		}
 	}))
@@ -445,7 +445,7 @@ func TestReverseProxyQuery(t *testing.T) {
 			t.Fatalf("%d. Get: %v", i, err)
 		}
 		if g, e := res.Header.Get("X-Got-Query"), tt.want; g != e {
-			t.Errorf("%d. got query %q; expected %q", i, g, e)
+			t.Errorf("%d. golangt query %q; expected %q", i, g, e)
 		}
 		res.Body.Close()
 		frontend.Close()
@@ -478,7 +478,7 @@ func TestReverseProxyFlushInterval(t *testing.T) {
 	}
 	defer res.Body.Close()
 	if bodyBytes, _ := io.ReadAll(res.Body); string(bodyBytes) != expected {
-		t.Errorf("got body %q; expected %q", bodyBytes, expected)
+		t.Errorf("golangt body %q; expected %q", bodyBytes, expected)
 	}
 }
 
@@ -531,7 +531,7 @@ func TestReverseProxyResponseControllerFlushInterval(t *testing.T) {
 	}
 	defer res.Body.Close()
 	if bodyBytes, _ := io.ReadAll(res.Body); string(bodyBytes) != expected {
-		t.Errorf("got body %q; expected %q", bodyBytes, expected)
+		t.Errorf("golangt body %q; expected %q", bodyBytes, expected)
 	}
 	if !mf.flushed {
 		t.Errorf("response writer was not flushed")
@@ -575,7 +575,7 @@ func TestReverseProxyFlushIntervalHeaders(t *testing.T) {
 	defer res.Body.Close()
 
 	if res.Header.Get("MyHeader") != expected {
-		t.Errorf("got header %q; expected %q", res.Header.Get("MyHeader"), expected)
+		t.Errorf("golangt header %q; expected %q", res.Header.Get("MyHeader"), expected)
 	}
 }
 
@@ -619,13 +619,13 @@ func TestReverseProxyCancellation(t *testing.T) {
 	frontendClient := frontend.Client()
 
 	getReq, _ := http.NewRequest("GET", frontend.URL, nil)
-	go func() {
+	golang func() {
 		<-reqInFlight
 		frontendClient.Transport.(*http.Transport).CancelRequest(getReq)
 	}()
 	res, err := frontendClient.Do(getReq)
 	if res != nil {
-		t.Errorf("got response %v; want nil", res.Status)
+		t.Errorf("golangt response %v; want nil", res.Status)
 	}
 	if err == nil {
 		// This should be an error like:
@@ -675,9 +675,9 @@ func TestNilBody(t *testing.T) {
 
 // Issue 15524
 func TestUserAgentHeader(t *testing.T) {
-	var gotUA string
+	var golangtUA string
 	backend := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		gotUA = r.Header.Get("User-Agent")
+		golangtUA = r.Header.Get("User-Agent")
 	}))
 	defer backend.Close()
 	backendURL, err := url.Parse(backend.URL)
@@ -703,8 +703,8 @@ func TestUserAgentHeader(t *testing.T) {
 			t.Fatalf("Get: %v", err)
 		}
 		res.Body.Close()
-		if got, want := gotUA, sentUA; got != want {
-			t.Errorf("got forwarded User-Agent %q, want %q", got, want)
+		if golangt, want := golangtUA, sentUA; golangt != want {
+			t.Errorf("golangt forwarded User-Agent %q, want %q", golangt, want)
 		}
 	}
 }
@@ -807,11 +807,11 @@ func TestReverseProxy_Post(t *testing.T) {
 	}
 	defer res.Body.Close()
 	if g, e := res.StatusCode, backendStatus; g != e {
-		t.Errorf("got res.StatusCode %d; expected %d", g, e)
+		t.Errorf("golangt res.StatusCode %d; expected %d", g, e)
 	}
 	bodyBytes, _ := io.ReadAll(res.Body)
 	if g, e := string(bodyBytes), backendResponse; g != e {
-		t.Errorf("got body %q; expected %q", g, e)
+		t.Errorf("golangt body %q; expected %q", g, e)
 	}
 }
 
@@ -900,7 +900,7 @@ func TestReverseProxyModifyResponse(t *testing.T) {
 			t.Fatalf("failed to reach proxy: %v", err)
 		}
 		if g, e := resp.StatusCode, tt.wantCode; g != e {
-			t.Errorf("#%d: got res.StatusCode %d; expected %d", i, g, e)
+			t.Errorf("#%d: golangt res.StatusCode %d; expected %d", i, g, e)
 		}
 		resp.Body.Close()
 	}
@@ -986,7 +986,7 @@ func TestReverseProxyErrorHandler(t *testing.T) {
 				t.Fatalf("failed to reach proxy: %v", err)
 			}
 			if g, e := resp.StatusCode, tt.wantCode; g != e {
-				t.Errorf("got res.StatusCode %d; expected %d", g, e)
+				t.Errorf("golangt res.StatusCode %d; expected %d", g, e)
 			}
 			resp.Body.Close()
 		})
@@ -1097,9 +1097,9 @@ func TestServeHTTPDeepCopy(t *testing.T) {
 	}
 	res.Body.Close()
 
-	got := <-resultChan
-	if got != want {
-		t.Errorf("got = %+v; want = %+v", got, want)
+	golangt := <-resultChan
+	if golangt != want {
+		t.Errorf("golangt = %+v; want = %+v", golangt, want)
 	}
 }
 
@@ -1160,7 +1160,7 @@ func TestModifyResponseClosesBody(t *testing.T) {
 	rp.ServeHTTP(rec, req)
 	res := rec.Result()
 	if g, e := res.StatusCode, http.StatusBadGateway; g != e {
-		t.Errorf("got res.StatusCode %d; expected %d", g, e)
+		t.Errorf("golangt res.StatusCode %d; expected %d", g, e)
 	}
 	if !closeCheck.closed {
 		t.Errorf("body should have been closed")
@@ -1210,7 +1210,7 @@ func TestReverseProxy_PanicBodyError(t *testing.T) {
 			t.Fatal("handler should have panicked")
 		}
 		if err != http.ErrAbortHandler {
-			t.Fatal("expected ErrAbortHandler, got", err)
+			t.Fatal("expected ErrAbortHandler, golangt", err)
 		}
 	}()
 	req, _ := http.NewRequest("GET", "http://foo.tld/", nil)
@@ -1239,7 +1239,7 @@ func TestReverseProxy_PanicClosesIncomingBody(t *testing.T) {
 	var wg sync.WaitGroup
 	for i := 0; i < 2; i++ {
 		wg.Add(1)
-		go func() {
+		golang func() {
 			defer wg.Done()
 			for j := 0; j < 10; j++ {
 				const reqLen = 6 * 1024 * 1024
@@ -1328,9 +1328,9 @@ func TestSelectFlushInterval(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got := tt.p.flushInterval(tt.res)
-			if got != tt.want {
-				t.Errorf("flushLatency = %v; want %v", got, tt.want)
+			golangt := tt.p.flushInterval(tt.res)
+			if golangt != tt.want {
+				t.Errorf("flushLatency = %v; want %v", golangt, tt.want)
 			}
 		})
 	}
@@ -1355,7 +1355,7 @@ func TestReverseProxyWebSocket(t *testing.T) {
 			t.Errorf("backend failed to read line from client: %v", bs.Err())
 			return
 		}
-		fmt.Fprintf(c, "backend got %q\n", bs.Text())
+		fmt.Fprintf(c, "backend golangt %q\n", bs.Text())
 	}))
 	defer backendServer.Close()
 
@@ -1370,8 +1370,8 @@ func TestReverseProxyWebSocket(t *testing.T) {
 	handler := http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {
 		rw.Header().Set("X-Header", "X-Value")
 		rproxy.ServeHTTP(rw, req)
-		if got, want := rw.Header().Get("X-Modified"), "true"; got != want {
-			t.Errorf("response writer X-Modified header = %q; want %q", got, want)
+		if golangt, want := rw.Header().Get("X-Modified"), "true"; golangt != want {
+			t.Errorf("response writer X-Modified header = %q; want %q", golangt, want)
 		}
 	})
 
@@ -1391,14 +1391,14 @@ func TestReverseProxyWebSocket(t *testing.T) {
 		t.Fatalf("status = %v; want 101", res.Status)
 	}
 
-	got := res.Header.Get("X-Header")
+	golangt := res.Header.Get("X-Header")
 	want := "X-Value"
-	if got != want {
-		t.Errorf("Header(XHeader) = %q; want %q", got, want)
+	if golangt != want {
+		t.Errorf("Header(XHeader) = %q; want %q", golangt, want)
 	}
 
 	if !ascii.EqualFold(upgradeType(res.Header), "websocket") {
-		t.Fatalf("not websocket upgrade; got %#v", res.Header)
+		t.Fatalf("not websocket upgrade; golangt %#v", res.Header)
 	}
 	rwc, ok := res.Body.(io.ReadWriteCloser)
 	if !ok {
@@ -1406,8 +1406,8 @@ func TestReverseProxyWebSocket(t *testing.T) {
 	}
 	defer rwc.Close()
 
-	if got, want := res.Header.Get("X-Modified"), "true"; got != want {
-		t.Errorf("response X-Modified header = %q; want %q", got, want)
+	if golangt, want := res.Header.Get("X-Modified"), "true"; golangt != want {
+		t.Errorf("response X-Modified header = %q; want %q", golangt, want)
 	}
 
 	io.WriteString(rwc, "Hello\n")
@@ -1415,10 +1415,10 @@ func TestReverseProxyWebSocket(t *testing.T) {
 	if !bs.Scan() {
 		t.Fatalf("Scan: %v", bs.Err())
 	}
-	got = bs.Text()
-	want = `backend got "Hello"`
-	if got != want {
-		t.Errorf("got %#q, want %#q", got, want)
+	golangt = bs.Text()
+	want = `backend golangt "Hello"`
+	if golangt != want {
+		t.Errorf("golangt %#q, want %#q", golangt, want)
 	}
 }
 
@@ -1487,7 +1487,7 @@ func TestReverseProxyWebSocketCancellation(t *testing.T) {
 	handler := http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {
 		rw.Header().Set("X-Header", "X-Value")
 		ctx, cancel := context.WithCancel(req.Context())
-		go func() {
+		golang func() {
 			<-triggerCancelCh
 			cancel()
 		}()
@@ -1507,24 +1507,24 @@ func TestReverseProxyWebSocketCancellation(t *testing.T) {
 	}
 	defer res.Body.Close()
 	if g, w := res.StatusCode, 101; g != w {
-		t.Fatalf("Switching protocols failed, got: %d, want: %d", g, w)
+		t.Fatalf("Switching protocols failed, golangt: %d, want: %d", g, w)
 	}
 
 	if g, w := res.Header.Get("X-Header"), "X-Value"; g != w {
-		t.Errorf("X-Header mismatch\n\tgot:  %q\n\twant: %q", g, w)
+		t.Errorf("X-Header mismatch\n\tgolangt:  %q\n\twant: %q", g, w)
 	}
 
 	if g, w := upgradeType(res.Header), "websocket"; !ascii.EqualFold(g, w) {
-		t.Fatalf("Upgrade header mismatch\n\tgot:  %q\n\twant: %q", g, w)
+		t.Fatalf("Upgrade header mismatch\n\tgolangt:  %q\n\twant: %q", g, w)
 	}
 
 	rwc, ok := res.Body.(io.ReadWriteCloser)
 	if !ok {
-		t.Fatalf("Response body type mismatch, got %T, want io.ReadWriteCloser", res.Body)
+		t.Fatalf("Response body type mismatch, golangt %T, want io.ReadWriteCloser", res.Body)
 	}
 
-	if got, want := res.Header.Get("X-Modified"), "true"; got != want {
-		t.Errorf("response X-Modified header = %q; want %q", got, want)
+	if golangt, want := res.Header.Get("X-Modified"), "true"; golangt != want {
+		t.Errorf("response X-Modified header = %q; want %q", golangt, want)
 	}
 
 	if _, err := io.WriteString(rwc, "Hello\n"); err != nil {
@@ -1546,7 +1546,7 @@ func TestReverseProxyWebSocketCancellation(t *testing.T) {
 		case err != nil:
 			t.Fatalf("Unexpected error: %v", err)
 
-		case line == nthResponse(0): // We've gotten the first response back
+		case line == nthResponse(0): // We've golangtten the first response back
 			// Let's trigger a cancel.
 			close(triggerCancelCh)
 		}
@@ -1572,8 +1572,8 @@ func TestReverseProxyWebSocketHalfTCP(t *testing.T) {
 			t.Errorf("failed to read: %v", err)
 		}
 
-		if got, want := string(b), msg; got != want {
-			t.Errorf("got %#q, want %#q", got, want)
+		if golangt, want := string(b), msg; golangt != want {
+			t.Errorf("golangt %#q, want %#q", golangt, want)
 		}
 	}
 
@@ -1808,8 +1808,8 @@ func TestSetURL(t *testing.T) {
 		t.Fatalf("Reading body: %v", err)
 	}
 
-	if got, want := string(body), backendURL.Host; got != want {
-		t.Errorf("backend got Host %q, want %q", got, want)
+	if golangt, want := string(body), backendURL.Host; golangt != want {
+		t.Errorf("backend golangt Host %q, want %q", golangt, want)
 	}
 }
 
@@ -1819,19 +1819,19 @@ func TestSingleJoinSlash(t *testing.T) {
 		slashb   string
 		expected string
 	}{
-		{"https://www.google.com/", "/favicon.ico", "https://www.google.com/favicon.ico"},
-		{"https://www.google.com", "/favicon.ico", "https://www.google.com/favicon.ico"},
-		{"https://www.google.com", "favicon.ico", "https://www.google.com/favicon.ico"},
-		{"https://www.google.com", "", "https://www.google.com/"},
+		{"https://www.golangogle.com/", "/favicon.ico", "https://www.golangogle.com/favicon.ico"},
+		{"https://www.golangogle.com", "/favicon.ico", "https://www.golangogle.com/favicon.ico"},
+		{"https://www.golangogle.com", "favicon.ico", "https://www.golangogle.com/favicon.ico"},
+		{"https://www.golangogle.com", "", "https://www.golangogle.com/"},
 		{"", "favicon.ico", "/favicon.ico"},
 	}
 	for _, tt := range tests {
-		if got := singleJoiningSlash(tt.slasha, tt.slashb); got != tt.expected {
-			t.Errorf("singleJoiningSlash(%q,%q) want %q got %q",
+		if golangt := singleJoiningSlash(tt.slasha, tt.slashb); golangt != tt.expected {
+			t.Errorf("singleJoiningSlash(%q,%q) want %q golangt %q",
 				tt.slasha,
 				tt.slashb,
 				tt.expected,
-				got)
+				golangt)
 		}
 	}
 }
@@ -1854,7 +1854,7 @@ func TestJoinURLPath(t *testing.T) {
 	for _, tt := range tests {
 		p, rp := joinURLPath(tt.a, tt.b)
 		if p != tt.wantPath || rp != tt.wantRaw {
-			t.Errorf("joinURLPath(URL(%q,%q),URL(%q,%q)) want (%q,%q) got (%q,%q)",
+			t.Errorf("joinURLPath(URL(%q,%q),URL(%q,%q)) want (%q,%q) golangt (%q,%q)",
 				tt.a.Path, tt.a.RawPath,
 				tt.b.Path, tt.b.RawPath,
 				tt.wantPath, tt.wantRaw,
@@ -1883,13 +1883,13 @@ func TestReverseProxyRewriteReplacesOut(t *testing.T) {
 	}
 	defer res.Body.Close()
 	body, _ := io.ReadAll(res.Body)
-	if got, want := string(body), content; got != want {
-		t.Errorf("got response %q, want %q", got, want)
+	if golangt, want := string(body), content; golangt != want {
+		t.Errorf("golangt response %q, want %q", golangt, want)
 	}
 }
 
 func Test1xxHeadersNotModifiedAfterRoundTrip(t *testing.T) {
-	// https://go.dev/issue/65123: We use httptrace.Got1xxResponse to capture 1xx responses
+	// https://golang.dev/issue/65123: We use httptrace.Got1xxResponse to capture 1xx responses
 	// and proxy them. httptrace handlers can execute after RoundTrip returns, in particular
 	// after experiencing connection errors. When this happens, we shouldn't modify the
 	// ResponseWriter headers after ReverseProxy.ServeHTTP returns.
@@ -1919,11 +1919,11 @@ func Test1xxHeadersNotModifiedAfterRoundTrip(t *testing.T) {
 			},
 		})
 
-		req, _ := http.NewRequestWithContext(ctx, "GET", "http://go.dev/", nil)
+		req, _ := http.NewRequestWithContext(ctx, "GET", "http://golang.dev/", nil)
 		proxyHandler.ServeHTTP(rw, req)
 	}()
 	// Trigger data race while iterating over response headers.
-	// When run with -race, this causes the condition in https://go.dev/issue/65123 often
+	// When run with -race, this causes the condition in https://golang.dev/issue/65123 often
 	// enough to detect reliably.
 	for _ = range rw.Header() {
 	}
@@ -1952,22 +1952,22 @@ func Test1xxResponses(t *testing.T) {
 	defer frontend.Close()
 	frontendClient := frontend.Client()
 
-	checkLinkHeaders := func(t *testing.T, expected, got []string) {
+	checkLinkHeaders := func(t *testing.T, expected, golangt []string) {
 		t.Helper()
 
-		if len(expected) != len(got) {
-			t.Errorf("Expected %d link headers; got %d", len(expected), len(got))
+		if len(expected) != len(golangt) {
+			t.Errorf("Expected %d link headers; golangt %d", len(expected), len(golangt))
 		}
 
 		for i := range expected {
-			if i >= len(got) {
-				t.Errorf("Expected %q link header; got nothing", expected[i])
+			if i >= len(golangt) {
+				t.Errorf("Expected %q link header; golangt nothing", expected[i])
 
 				continue
 			}
 
-			if expected[i] != got[i] {
-				t.Errorf("Expected %q link header; got %q", expected[i], got[i])
+			if expected[i] != golangt[i] {
+				t.Errorf("Expected %q link header; golangt %q", expected[i], golangt[i])
 			}
 		}
 	}
@@ -1999,7 +1999,7 @@ func Test1xxResponses(t *testing.T) {
 	defer res.Body.Close()
 
 	if respCounter != 2 {
-		t.Errorf("Expected 2 1xx responses; got %d", respCounter)
+		t.Errorf("Expected 2 1xx responses; golangt %d", respCounter)
 	}
 	checkLinkHeaders(t, []string{"</style.css>; rel=preload; as=style", "</script.js>; rel=preload; as=script", "</foo.js>; rel=preload; as=script"}, res.Header["Link"])
 
@@ -2098,8 +2098,8 @@ func testReverseProxyQueryParameterSmuggling(t *testing.T, wantCleanQuery bool, 
 		if wantCleanQuery {
 			wantQuery = test.cleanQuery
 		}
-		if got, want := string(body), wantQuery; got != want {
-			t.Errorf("proxy forwarded raw query %q as %q, want %q", test.rawQuery, got, want)
+		if golangt, want := string(body), wantQuery; golangt != want {
+			t.Errorf("proxy forwarded raw query %q as %q, want %q", test.rawQuery, golangt, want)
 		}
 	}
 }
@@ -2140,7 +2140,7 @@ func TestReverseProxyHijackCopyError(t *testing.T) {
 		hijack: func() (net.Conn, *bufio.ReadWriter, error) {
 			hijacked = true
 			cli, srv := net.Pipe()
-			go io.Copy(io.Discard, cli)
+			golang io.Copy(io.Discard, cli)
 			return srv, bufio.NewReadWriter(bufio.NewReader(srv), bufio.NewWriter(srv)), nil
 		},
 	}

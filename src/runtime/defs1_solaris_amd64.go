@@ -1,5 +1,5 @@
-// created by cgo -cdefs and then converted to Go
-// cgo -cdefs defs_solaris.go defs_solaris_amd64.go
+// created by cgolang -cdefs and then converted to Go
+// cgolang -cdefs defs_solaris.golang defs_solaris_amd64.golang
 
 package runtime
 
@@ -123,7 +123,7 @@ type stackt struct {
 	ss_sp     *byte
 	ss_size   uintptr
 	ss_flags  int32
-	pad_cgo_0 [4]byte
+	pad_cgolang_0 [4]byte
 }
 
 type siginfo struct {
@@ -136,7 +136,7 @@ type siginfo struct {
 
 type sigactiont struct {
 	sa_flags  int32
-	pad_cgo_0 [4]byte
+	pad_cgolang_0 [4]byte
 	_funcptr  [8]byte
 	sa_mask   sigset
 }
@@ -155,10 +155,10 @@ type ucontext struct {
 	uc_link     *ucontext
 	uc_sigmask  sigset
 	uc_stack    stackt
-	pad_cgo_0   [8]byte
+	pad_cgolang_0   [8]byte
 	uc_mcontext mcontext
 	uc_filler   [5]int64
-	pad_cgo_1   [8]byte
+	pad_cgolang_1   [8]byte
 }
 
 type timespec struct {
@@ -166,7 +166,7 @@ type timespec struct {
 	tv_nsec int64
 }
 
-//go:nosplit
+//golang:nosplit
 func (ts *timespec) setNsec(ns int64) {
 	ts.tv_sec = ns / 1e9
 	ts.tv_nsec = ns % 1e9
@@ -212,13 +212,13 @@ type stat struct {
 	st_mtim    timespec
 	st_ctim    timespec
 	st_blksize int32
-	pad_cgo_0  [4]byte
+	pad_cgolang_0  [4]byte
 	st_blocks  int64
 	st_fstype  [16]int8
 }
 
-// created by cgo -cdefs and then converted to Go
-// cgo -cdefs defs_solaris.go defs_solaris_amd64.go
+// created by cgolang -cdefs and then converted to Go
+// cgolang -cdefs defs_solaris.golang defs_solaris_amd64.golang
 
 const (
 	_REG_RDI    = 0x8

@@ -1,7 +1,7 @@
 // errorcheck
 
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -12,7 +12,7 @@ func main() {
 }
 
 /*
-ixedbugs/bug016.go:7: overflow converting constant to <uint32>UINT32
-fixedbugs/bug016.go:7: illegal types for operand: AS
+ixedbugs/bug016.golang:7: overflow converting constant to <uint32>UINT32
+fixedbugs/bug016.golang:7: illegal types for operand: AS
 	(<int32>INT32)
 */

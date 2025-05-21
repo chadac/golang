@@ -1,8 +1,8 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build race
+//golang:build race
 
 package runtime
 
@@ -15,32 +15,32 @@ import (
 
 func RaceRead(addr unsafe.Pointer)
 
-//go:linkname race_Read internal/race.Read
-//go:nosplit
+//golang:linkname race_Read internal/race.Read
+//golang:nosplit
 func race_Read(addr unsafe.Pointer) {
 	RaceRead(addr)
 }
 
 func RaceWrite(addr unsafe.Pointer)
 
-//go:linkname race_Write internal/race.Write
-//go:nosplit
+//golang:linkname race_Write internal/race.Write
+//golang:nosplit
 func race_Write(addr unsafe.Pointer) {
 	RaceWrite(addr)
 }
 
 func RaceReadRange(addr unsafe.Pointer, len int)
 
-//go:linkname race_ReadRange internal/race.ReadRange
-//go:nosplit
+//golang:linkname race_ReadRange internal/race.ReadRange
+//golang:nosplit
 func race_ReadRange(addr unsafe.Pointer, len int) {
 	RaceReadRange(addr, len)
 }
 
 func RaceWriteRange(addr unsafe.Pointer, len int)
 
-//go:linkname race_WriteRange internal/race.WriteRange
-//go:nosplit
+//golang:linkname race_WriteRange internal/race.WriteRange
+//golang:nosplit
 func race_WriteRange(addr unsafe.Pointer, len int) {
 	RaceWriteRange(addr, len)
 }
@@ -51,14 +51,14 @@ func RaceErrors() int {
 	return int(n)
 }
 
-//go:linkname race_Errors internal/race.Errors
-//go:nosplit
+//golang:linkname race_Errors internal/race.Errors
+//golang:nosplit
 func race_Errors() int {
 	return RaceErrors()
 }
 
 // RaceAcquire/RaceRelease/RaceReleaseMerge establish happens-before relations
-// between goroutines. These inform the race detector about actual synchronization
+// between golangroutines. These inform the race detector about actual synchronization
 // that it can't see for some reason (e.g. synchronization within RaceDisable/RaceEnable
 // sections of code).
 // RaceAcquire establishes a happens-before relation with the preceding
@@ -66,13 +66,13 @@ func race_Errors() int {
 // In terms of the C memory model (C11 §5.1.2.4, §7.17.3),
 // RaceAcquire is equivalent to atomic_load(memory_order_acquire).
 //
-//go:nosplit
+//golang:nosplit
 func RaceAcquire(addr unsafe.Pointer) {
 	raceacquire(addr)
 }
 
-//go:linkname race_Acquire internal/race.Acquire
-//go:nosplit
+//golang:linkname race_Acquire internal/race.Acquire
+//golang:nosplit
 func race_Acquire(addr unsafe.Pointer) {
 	RaceAcquire(addr)
 }
@@ -83,13 +83,13 @@ func race_Acquire(addr unsafe.Pointer) {
 // In terms of the C memory model, RaceRelease is equivalent to
 // atomic_store(memory_order_release).
 //
-//go:nosplit
+//golang:nosplit
 func RaceRelease(addr unsafe.Pointer) {
 	racerelease(addr)
 }
 
-//go:linkname race_Release internal/race.Release
-//go:nosplit
+//golang:linkname race_Release internal/race.Release
+//golang:nosplit
 func race_Release(addr unsafe.Pointer) {
 	RaceRelease(addr)
 }
@@ -100,50 +100,50 @@ func race_Release(addr unsafe.Pointer) {
 // In terms of the C memory model, RaceReleaseMerge is equivalent to
 // atomic_exchange(memory_order_release).
 //
-//go:nosplit
+//golang:nosplit
 func RaceReleaseMerge(addr unsafe.Pointer) {
 	racereleasemerge(addr)
 }
 
-//go:linkname race_ReleaseMerge internal/race.ReleaseMerge
-//go:nosplit
+//golang:linkname race_ReleaseMerge internal/race.ReleaseMerge
+//golang:nosplit
 func race_ReleaseMerge(addr unsafe.Pointer) {
 	RaceReleaseMerge(addr)
 }
 
-// RaceDisable disables handling of race synchronization events in the current goroutine.
+// RaceDisable disables handling of race synchronization events in the current golangroutine.
 // Handling is re-enabled with RaceEnable. RaceDisable/RaceEnable can be nested.
 // Non-synchronization events (memory accesses, function entry/exit) still affect
 // the race detector.
 //
-//go:nosplit
+//golang:nosplit
 func RaceDisable() {
 	gp := getg()
 	if gp.raceignore == 0 {
-		racecall(&__tsan_go_ignore_sync_begin, gp.racectx, 0, 0, 0)
+		racecall(&__tsan_golang_ignore_sync_begin, gp.racectx, 0, 0, 0)
 	}
 	gp.raceignore++
 }
 
-//go:linkname race_Disable internal/race.Disable
-//go:nosplit
+//golang:linkname race_Disable internal/race.Disable
+//golang:nosplit
 func race_Disable() {
 	RaceDisable()
 }
 
-// RaceEnable re-enables handling of race events in the current goroutine.
+// RaceEnable re-enables handling of race events in the current golangroutine.
 //
-//go:nosplit
+//golang:nosplit
 func RaceEnable() {
 	gp := getg()
 	gp.raceignore--
 	if gp.raceignore == 0 {
-		racecall(&__tsan_go_ignore_sync_end, gp.racectx, 0, 0, 0)
+		racecall(&__tsan_golang_ignore_sync_end, gp.racectx, 0, 0, 0)
 	}
 }
 
-//go:linkname race_Enable internal/race.Enable
-//go:nosplit
+//golang:linkname race_Enable internal/race.Enable
+//golang:nosplit
 func race_Enable() {
 	RaceEnable()
 }
@@ -168,7 +168,7 @@ func raceReadObjectPC(t *_type, addr unsafe.Pointer, callerpc, pc uintptr) {
 	}
 }
 
-//go:linkname race_ReadObjectPC internal/race.ReadObjectPC
+//golang:linkname race_ReadObjectPC internal/race.ReadObjectPC
 func race_ReadObjectPC(t *abi.Type, addr unsafe.Pointer, callerpc, pc uintptr) {
 	raceReadObjectPC(t, addr, callerpc, pc)
 }
@@ -186,23 +186,23 @@ func raceWriteObjectPC(t *_type, addr unsafe.Pointer, callerpc, pc uintptr) {
 	}
 }
 
-//go:linkname race_WriteObjectPC internal/race.WriteObjectPC
+//golang:linkname race_WriteObjectPC internal/race.WriteObjectPC
 func race_WriteObjectPC(t *abi.Type, addr unsafe.Pointer, callerpc, pc uintptr) {
 	raceWriteObjectPC(t, addr, callerpc, pc)
 }
 
-//go:noescape
+//golang:noescape
 func racereadpc(addr unsafe.Pointer, callpc, pc uintptr)
 
-//go:noescape
+//golang:noescape
 func racewritepc(addr unsafe.Pointer, callpc, pc uintptr)
 
-//go:linkname race_ReadPC internal/race.ReadPC
+//golang:linkname race_ReadPC internal/race.ReadPC
 func race_ReadPC(addr unsafe.Pointer, callerpc, pc uintptr) {
 	racereadpc(addr, callerpc, pc)
 }
 
-//go:linkname race_WritePC internal/race.WritePC
+//golang:linkname race_WritePC internal/race.WritePC
 func race_WritePC(addr unsafe.Pointer, callerpc, pc uintptr) {
 	racewritepc(addr, callerpc, pc)
 }
@@ -316,102 +316,102 @@ func raceSymbolizeData(ctx *symbolizeDataContext) {
 
 // Race runtime functions called via runtime·racecall.
 //
-//go:linkname __tsan_init __tsan_init
+//golang:linkname __tsan_init __tsan_init
 var __tsan_init byte
 
-//go:linkname __tsan_fini __tsan_fini
+//golang:linkname __tsan_fini __tsan_fini
 var __tsan_fini byte
 
-//go:linkname __tsan_proc_create __tsan_proc_create
+//golang:linkname __tsan_proc_create __tsan_proc_create
 var __tsan_proc_create byte
 
-//go:linkname __tsan_proc_destroy __tsan_proc_destroy
+//golang:linkname __tsan_proc_destroy __tsan_proc_destroy
 var __tsan_proc_destroy byte
 
-//go:linkname __tsan_map_shadow __tsan_map_shadow
+//golang:linkname __tsan_map_shadow __tsan_map_shadow
 var __tsan_map_shadow byte
 
-//go:linkname __tsan_finalizer_goroutine __tsan_finalizer_goroutine
-var __tsan_finalizer_goroutine byte
+//golang:linkname __tsan_finalizer_golangroutine __tsan_finalizer_golangroutine
+var __tsan_finalizer_golangroutine byte
 
-//go:linkname __tsan_go_start __tsan_go_start
-var __tsan_go_start byte
+//golang:linkname __tsan_golang_start __tsan_golang_start
+var __tsan_golang_start byte
 
-//go:linkname __tsan_go_end __tsan_go_end
-var __tsan_go_end byte
+//golang:linkname __tsan_golang_end __tsan_golang_end
+var __tsan_golang_end byte
 
-//go:linkname __tsan_malloc __tsan_malloc
+//golang:linkname __tsan_malloc __tsan_malloc
 var __tsan_malloc byte
 
-//go:linkname __tsan_free __tsan_free
+//golang:linkname __tsan_free __tsan_free
 var __tsan_free byte
 
-//go:linkname __tsan_acquire __tsan_acquire
+//golang:linkname __tsan_acquire __tsan_acquire
 var __tsan_acquire byte
 
-//go:linkname __tsan_release __tsan_release
+//golang:linkname __tsan_release __tsan_release
 var __tsan_release byte
 
-//go:linkname __tsan_release_acquire __tsan_release_acquire
+//golang:linkname __tsan_release_acquire __tsan_release_acquire
 var __tsan_release_acquire byte
 
-//go:linkname __tsan_release_merge __tsan_release_merge
+//golang:linkname __tsan_release_merge __tsan_release_merge
 var __tsan_release_merge byte
 
-//go:linkname __tsan_go_ignore_sync_begin __tsan_go_ignore_sync_begin
-var __tsan_go_ignore_sync_begin byte
+//golang:linkname __tsan_golang_ignore_sync_begin __tsan_golang_ignore_sync_begin
+var __tsan_golang_ignore_sync_begin byte
 
-//go:linkname __tsan_go_ignore_sync_end __tsan_go_ignore_sync_end
-var __tsan_go_ignore_sync_end byte
+//golang:linkname __tsan_golang_ignore_sync_end __tsan_golang_ignore_sync_end
+var __tsan_golang_ignore_sync_end byte
 
-//go:linkname __tsan_report_count __tsan_report_count
+//golang:linkname __tsan_report_count __tsan_report_count
 var __tsan_report_count byte
 
-// Mimic what cmd/cgo would do.
+// Mimic what cmd/cgolang would do.
 //
-//go:cgo_import_static __tsan_init
-//go:cgo_import_static __tsan_fini
-//go:cgo_import_static __tsan_proc_create
-//go:cgo_import_static __tsan_proc_destroy
-//go:cgo_import_static __tsan_map_shadow
-//go:cgo_import_static __tsan_finalizer_goroutine
-//go:cgo_import_static __tsan_go_start
-//go:cgo_import_static __tsan_go_end
-//go:cgo_import_static __tsan_malloc
-//go:cgo_import_static __tsan_free
-//go:cgo_import_static __tsan_acquire
-//go:cgo_import_static __tsan_release
-//go:cgo_import_static __tsan_release_acquire
-//go:cgo_import_static __tsan_release_merge
-//go:cgo_import_static __tsan_go_ignore_sync_begin
-//go:cgo_import_static __tsan_go_ignore_sync_end
-//go:cgo_import_static __tsan_report_count
+//golang:cgolang_import_static __tsan_init
+//golang:cgolang_import_static __tsan_fini
+//golang:cgolang_import_static __tsan_proc_create
+//golang:cgolang_import_static __tsan_proc_destroy
+//golang:cgolang_import_static __tsan_map_shadow
+//golang:cgolang_import_static __tsan_finalizer_golangroutine
+//golang:cgolang_import_static __tsan_golang_start
+//golang:cgolang_import_static __tsan_golang_end
+//golang:cgolang_import_static __tsan_malloc
+//golang:cgolang_import_static __tsan_free
+//golang:cgolang_import_static __tsan_acquire
+//golang:cgolang_import_static __tsan_release
+//golang:cgolang_import_static __tsan_release_acquire
+//golang:cgolang_import_static __tsan_release_merge
+//golang:cgolang_import_static __tsan_golang_ignore_sync_begin
+//golang:cgolang_import_static __tsan_golang_ignore_sync_end
+//golang:cgolang_import_static __tsan_report_count
 
 // These are called from race_amd64.s.
 //
-//go:cgo_import_static __tsan_read
-//go:cgo_import_static __tsan_read_pc
-//go:cgo_import_static __tsan_read_range
-//go:cgo_import_static __tsan_write
-//go:cgo_import_static __tsan_write_pc
-//go:cgo_import_static __tsan_write_range
-//go:cgo_import_static __tsan_func_enter
-//go:cgo_import_static __tsan_func_exit
+//golang:cgolang_import_static __tsan_read
+//golang:cgolang_import_static __tsan_read_pc
+//golang:cgolang_import_static __tsan_read_range
+//golang:cgolang_import_static __tsan_write
+//golang:cgolang_import_static __tsan_write_pc
+//golang:cgolang_import_static __tsan_write_range
+//golang:cgolang_import_static __tsan_func_enter
+//golang:cgolang_import_static __tsan_func_exit
 
-//go:cgo_import_static __tsan_go_atomic32_load
-//go:cgo_import_static __tsan_go_atomic64_load
-//go:cgo_import_static __tsan_go_atomic32_store
-//go:cgo_import_static __tsan_go_atomic64_store
-//go:cgo_import_static __tsan_go_atomic32_exchange
-//go:cgo_import_static __tsan_go_atomic64_exchange
-//go:cgo_import_static __tsan_go_atomic32_fetch_add
-//go:cgo_import_static __tsan_go_atomic64_fetch_add
-//go:cgo_import_static __tsan_go_atomic32_fetch_and
-//go:cgo_import_static __tsan_go_atomic64_fetch_and
-//go:cgo_import_static __tsan_go_atomic32_fetch_or
-//go:cgo_import_static __tsan_go_atomic64_fetch_or
-//go:cgo_import_static __tsan_go_atomic32_compare_exchange
-//go:cgo_import_static __tsan_go_atomic64_compare_exchange
+//golang:cgolang_import_static __tsan_golang_atomic32_load
+//golang:cgolang_import_static __tsan_golang_atomic64_load
+//golang:cgolang_import_static __tsan_golang_atomic32_store
+//golang:cgolang_import_static __tsan_golang_atomic64_store
+//golang:cgolang_import_static __tsan_golang_atomic32_exchange
+//golang:cgolang_import_static __tsan_golang_atomic64_exchange
+//golang:cgolang_import_static __tsan_golang_atomic32_fetch_add
+//golang:cgolang_import_static __tsan_golang_atomic64_fetch_add
+//golang:cgolang_import_static __tsan_golang_atomic32_fetch_and
+//golang:cgolang_import_static __tsan_golang_atomic64_fetch_and
+//golang:cgolang_import_static __tsan_golang_atomic32_fetch_or
+//golang:cgolang_import_static __tsan_golang_atomic64_fetch_or
+//golang:cgolang_import_static __tsan_golang_atomic32_compare_exchange
+//golang:cgolang_import_static __tsan_golang_atomic64_compare_exchange
 
 // start/end of global data (data+bss).
 var racedatastart uintptr
@@ -438,19 +438,19 @@ func racecall(fn *byte, arg0, arg1, arg2, arg3 uintptr)
 
 // checks if the address has shadow (i.e. heap or data/bss).
 //
-//go:nosplit
+//golang:nosplit
 func isvalidaddr(addr unsafe.Pointer) bool {
 	return racearenastart <= uintptr(addr) && uintptr(addr) < racearenaend ||
 		racedatastart <= uintptr(addr) && uintptr(addr) < racedataend
 }
 
-//go:nosplit
+//golang:nosplit
 func raceinit() (gctx, pctx uintptr) {
 	lockInit(&raceFiniLock, lockRankRaceFini)
 
-	// On most machines, cgo is required to initialize libc, which is used by race runtime.
-	if !iscgo && GOOS != "darwin" {
-		throw("raceinit: race build must use cgo")
+	// On most machines, cgolang is required to initialize libc, which is used by race runtime.
+	if !iscgolang && GOOS != "darwin" {
+		throw("raceinit: race build must use cgolang")
 	}
 
 	racecall(&__tsan_init, uintptr(unsafe.Pointer(&gctx)), uintptr(unsafe.Pointer(&pctx)), abi.FuncPCABI0(racecallbackthunk), 0)
@@ -492,7 +492,7 @@ func raceinit() (gctx, pctx uintptr) {
 	return
 }
 
-//go:nosplit
+//golang:nosplit
 func racefini() {
 	// racefini() can only be called once to avoid races.
 	// This eventually (via __tsan_fini) calls C.exit which has
@@ -513,19 +513,19 @@ func racefini() {
 	racecall(&__tsan_fini, 0, 0, 0, 0)
 }
 
-//go:nosplit
+//golang:nosplit
 func raceproccreate() uintptr {
 	var ctx uintptr
 	racecall(&__tsan_proc_create, uintptr(unsafe.Pointer(&ctx)), 0, 0, 0)
 	return ctx
 }
 
-//go:nosplit
+//golang:nosplit
 func raceprocdestroy(ctx uintptr) {
 	racecall(&__tsan_proc_destroy, ctx, 0, 0, 0)
 }
 
-//go:nosplit
+//golang:nosplit
 func racemapshadow(addr unsafe.Pointer, size uintptr) {
 	if racearenastart == 0 {
 		racearenastart = uintptr(addr)
@@ -536,18 +536,18 @@ func racemapshadow(addr unsafe.Pointer, size uintptr) {
 	racecall(&__tsan_map_shadow, uintptr(addr), size, 0, 0)
 }
 
-//go:nosplit
+//golang:nosplit
 func racemalloc(p unsafe.Pointer, sz uintptr) {
 	racecall(&__tsan_malloc, 0, 0, uintptr(p), sz)
 }
 
-//go:nosplit
+//golang:nosplit
 func racefree(p unsafe.Pointer, sz uintptr) {
 	racecall(&__tsan_free, uintptr(p), sz, 0, 0)
 }
 
-//go:nosplit
-func racegostart(pc uintptr) uintptr {
+//golang:nosplit
+func racegolangstart(pc uintptr) uintptr {
 	gp := getg()
 	var spawng *g
 	if gp.m.curg != nil {
@@ -557,28 +557,28 @@ func racegostart(pc uintptr) uintptr {
 	}
 
 	var racectx uintptr
-	racecall(&__tsan_go_start, spawng.racectx, uintptr(unsafe.Pointer(&racectx)), pc, 0)
+	racecall(&__tsan_golang_start, spawng.racectx, uintptr(unsafe.Pointer(&racectx)), pc, 0)
 	return racectx
 }
 
-//go:nosplit
-func racegoend() {
-	racecall(&__tsan_go_end, getg().racectx, 0, 0, 0)
+//golang:nosplit
+func racegolangend() {
+	racecall(&__tsan_golang_end, getg().racectx, 0, 0, 0)
 }
 
-//go:nosplit
+//golang:nosplit
 func racectxstart(pc, spawnctx uintptr) uintptr {
 	var racectx uintptr
-	racecall(&__tsan_go_start, spawnctx, uintptr(unsafe.Pointer(&racectx)), pc, 0)
+	racecall(&__tsan_golang_start, spawnctx, uintptr(unsafe.Pointer(&racectx)), pc, 0)
 	return racectx
 }
 
-//go:nosplit
+//golang:nosplit
 func racectxend(racectx uintptr) {
-	racecall(&__tsan_go_end, racectx, 0, 0, 0)
+	racecall(&__tsan_golang_end, racectx, 0, 0, 0)
 }
 
-//go:nosplit
+//golang:nosplit
 func racewriterangepc(addr unsafe.Pointer, sz, callpc, pc uintptr) {
 	gp := getg()
 	if gp != gp.m.curg {
@@ -595,7 +595,7 @@ func racewriterangepc(addr unsafe.Pointer, sz, callpc, pc uintptr) {
 	}
 }
 
-//go:nosplit
+//golang:nosplit
 func racereadrangepc(addr unsafe.Pointer, sz, callpc, pc uintptr) {
 	gp := getg()
 	if gp != gp.m.curg {
@@ -612,12 +612,12 @@ func racereadrangepc(addr unsafe.Pointer, sz, callpc, pc uintptr) {
 	}
 }
 
-//go:nosplit
+//golang:nosplit
 func raceacquire(addr unsafe.Pointer) {
 	raceacquireg(getg(), addr)
 }
 
-//go:nosplit
+//golang:nosplit
 func raceacquireg(gp *g, addr unsafe.Pointer) {
 	if getg().raceignore != 0 || !isvalidaddr(addr) {
 		return
@@ -625,7 +625,7 @@ func raceacquireg(gp *g, addr unsafe.Pointer) {
 	racecall(&__tsan_acquire, gp.racectx, uintptr(addr), 0, 0)
 }
 
-//go:nosplit
+//golang:nosplit
 func raceacquirectx(racectx uintptr, addr unsafe.Pointer) {
 	if !isvalidaddr(addr) {
 		return
@@ -633,12 +633,12 @@ func raceacquirectx(racectx uintptr, addr unsafe.Pointer) {
 	racecall(&__tsan_acquire, racectx, uintptr(addr), 0, 0)
 }
 
-//go:nosplit
+//golang:nosplit
 func racerelease(addr unsafe.Pointer) {
 	racereleaseg(getg(), addr)
 }
 
-//go:nosplit
+//golang:nosplit
 func racereleaseg(gp *g, addr unsafe.Pointer) {
 	if getg().raceignore != 0 || !isvalidaddr(addr) {
 		return
@@ -646,12 +646,12 @@ func racereleaseg(gp *g, addr unsafe.Pointer) {
 	racecall(&__tsan_release, gp.racectx, uintptr(addr), 0, 0)
 }
 
-//go:nosplit
+//golang:nosplit
 func racereleaseacquire(addr unsafe.Pointer) {
 	racereleaseacquireg(getg(), addr)
 }
 
-//go:nosplit
+//golang:nosplit
 func racereleaseacquireg(gp *g, addr unsafe.Pointer) {
 	if getg().raceignore != 0 || !isvalidaddr(addr) {
 		return
@@ -659,12 +659,12 @@ func racereleaseacquireg(gp *g, addr unsafe.Pointer) {
 	racecall(&__tsan_release_acquire, gp.racectx, uintptr(addr), 0, 0)
 }
 
-//go:nosplit
+//golang:nosplit
 func racereleasemerge(addr unsafe.Pointer) {
 	racereleasemergeg(getg(), addr)
 }
 
-//go:nosplit
+//golang:nosplit
 func racereleasemergeg(gp *g, addr unsafe.Pointer) {
 	if getg().raceignore != 0 || !isvalidaddr(addr) {
 		return
@@ -672,110 +672,110 @@ func racereleasemergeg(gp *g, addr unsafe.Pointer) {
 	racecall(&__tsan_release_merge, gp.racectx, uintptr(addr), 0, 0)
 }
 
-//go:nosplit
-func racefingo() {
-	racecall(&__tsan_finalizer_goroutine, getg().racectx, 0, 0, 0)
+//golang:nosplit
+func racefingolang() {
+	racecall(&__tsan_finalizer_golangroutine, getg().racectx, 0, 0, 0)
 }
 
 // The declarations below generate ABI wrappers for functions
 // implemented in assembly in this package but declared in another
 // package.
 
-//go:linkname abigen_sync_atomic_LoadInt32 sync/atomic.LoadInt32
+//golang:linkname abigen_sync_atomic_LoadInt32 sync/atomic.LoadInt32
 func abigen_sync_atomic_LoadInt32(addr *int32) (val int32)
 
-//go:linkname abigen_sync_atomic_LoadInt64 sync/atomic.LoadInt64
+//golang:linkname abigen_sync_atomic_LoadInt64 sync/atomic.LoadInt64
 func abigen_sync_atomic_LoadInt64(addr *int64) (val int64)
 
-//go:linkname abigen_sync_atomic_LoadUint32 sync/atomic.LoadUint32
+//golang:linkname abigen_sync_atomic_LoadUint32 sync/atomic.LoadUint32
 func abigen_sync_atomic_LoadUint32(addr *uint32) (val uint32)
 
-//go:linkname abigen_sync_atomic_LoadUint64 sync/atomic.LoadUint64
+//golang:linkname abigen_sync_atomic_LoadUint64 sync/atomic.LoadUint64
 func abigen_sync_atomic_LoadUint64(addr *uint64) (val uint64)
 
-//go:linkname abigen_sync_atomic_LoadUintptr sync/atomic.LoadUintptr
+//golang:linkname abigen_sync_atomic_LoadUintptr sync/atomic.LoadUintptr
 func abigen_sync_atomic_LoadUintptr(addr *uintptr) (val uintptr)
 
-//go:linkname abigen_sync_atomic_LoadPointer sync/atomic.LoadPointer
+//golang:linkname abigen_sync_atomic_LoadPointer sync/atomic.LoadPointer
 func abigen_sync_atomic_LoadPointer(addr *unsafe.Pointer) (val unsafe.Pointer)
 
-//go:linkname abigen_sync_atomic_StoreInt32 sync/atomic.StoreInt32
+//golang:linkname abigen_sync_atomic_StoreInt32 sync/atomic.StoreInt32
 func abigen_sync_atomic_StoreInt32(addr *int32, val int32)
 
-//go:linkname abigen_sync_atomic_StoreInt64 sync/atomic.StoreInt64
+//golang:linkname abigen_sync_atomic_StoreInt64 sync/atomic.StoreInt64
 func abigen_sync_atomic_StoreInt64(addr *int64, val int64)
 
-//go:linkname abigen_sync_atomic_StoreUint32 sync/atomic.StoreUint32
+//golang:linkname abigen_sync_atomic_StoreUint32 sync/atomic.StoreUint32
 func abigen_sync_atomic_StoreUint32(addr *uint32, val uint32)
 
-//go:linkname abigen_sync_atomic_StoreUint64 sync/atomic.StoreUint64
+//golang:linkname abigen_sync_atomic_StoreUint64 sync/atomic.StoreUint64
 func abigen_sync_atomic_StoreUint64(addr *uint64, val uint64)
 
-//go:linkname abigen_sync_atomic_SwapInt32 sync/atomic.SwapInt32
+//golang:linkname abigen_sync_atomic_SwapInt32 sync/atomic.SwapInt32
 func abigen_sync_atomic_SwapInt32(addr *int32, new int32) (old int32)
 
-//go:linkname abigen_sync_atomic_SwapInt64 sync/atomic.SwapInt64
+//golang:linkname abigen_sync_atomic_SwapInt64 sync/atomic.SwapInt64
 func abigen_sync_atomic_SwapInt64(addr *int64, new int64) (old int64)
 
-//go:linkname abigen_sync_atomic_SwapUint32 sync/atomic.SwapUint32
+//golang:linkname abigen_sync_atomic_SwapUint32 sync/atomic.SwapUint32
 func abigen_sync_atomic_SwapUint32(addr *uint32, new uint32) (old uint32)
 
-//go:linkname abigen_sync_atomic_SwapUint64 sync/atomic.SwapUint64
+//golang:linkname abigen_sync_atomic_SwapUint64 sync/atomic.SwapUint64
 func abigen_sync_atomic_SwapUint64(addr *uint64, new uint64) (old uint64)
 
-//go:linkname abigen_sync_atomic_AddInt32 sync/atomic.AddInt32
+//golang:linkname abigen_sync_atomic_AddInt32 sync/atomic.AddInt32
 func abigen_sync_atomic_AddInt32(addr *int32, delta int32) (new int32)
 
-//go:linkname abigen_sync_atomic_AddUint32 sync/atomic.AddUint32
+//golang:linkname abigen_sync_atomic_AddUint32 sync/atomic.AddUint32
 func abigen_sync_atomic_AddUint32(addr *uint32, delta uint32) (new uint32)
 
-//go:linkname abigen_sync_atomic_AddInt64 sync/atomic.AddInt64
+//golang:linkname abigen_sync_atomic_AddInt64 sync/atomic.AddInt64
 func abigen_sync_atomic_AddInt64(addr *int64, delta int64) (new int64)
 
-//go:linkname abigen_sync_atomic_AddUint64 sync/atomic.AddUint64
+//golang:linkname abigen_sync_atomic_AddUint64 sync/atomic.AddUint64
 func abigen_sync_atomic_AddUint64(addr *uint64, delta uint64) (new uint64)
 
-//go:linkname abigen_sync_atomic_AddUintptr sync/atomic.AddUintptr
+//golang:linkname abigen_sync_atomic_AddUintptr sync/atomic.AddUintptr
 func abigen_sync_atomic_AddUintptr(addr *uintptr, delta uintptr) (new uintptr)
 
-//go:linkname abigen_sync_atomic_AndInt32 sync/atomic.AndInt32
+//golang:linkname abigen_sync_atomic_AndInt32 sync/atomic.AndInt32
 func abigen_sync_atomic_AndInt32(addr *int32, mask int32) (old int32)
 
-//go:linkname abigen_sync_atomic_AndUint32 sync/atomic.AndUint32
+//golang:linkname abigen_sync_atomic_AndUint32 sync/atomic.AndUint32
 func abigen_sync_atomic_AndUint32(addr *uint32, mask uint32) (old uint32)
 
-//go:linkname abigen_sync_atomic_AndInt64 sync/atomic.AndInt64
+//golang:linkname abigen_sync_atomic_AndInt64 sync/atomic.AndInt64
 func abigen_sync_atomic_AndInt64(addr *int64, mask int64) (old int64)
 
-//go:linkname abigen_sync_atomic_AndUint64 sync/atomic.AndUint64
+//golang:linkname abigen_sync_atomic_AndUint64 sync/atomic.AndUint64
 func abigen_sync_atomic_AndUint64(addr *uint64, mask uint64) (old uint64)
 
-//go:linkname abigen_sync_atomic_AndUintptr sync/atomic.AndUintptr
+//golang:linkname abigen_sync_atomic_AndUintptr sync/atomic.AndUintptr
 func abigen_sync_atomic_AndUintptr(addr *uintptr, mask uintptr) (old uintptr)
 
-//go:linkname abigen_sync_atomic_OrInt32 sync/atomic.OrInt32
+//golang:linkname abigen_sync_atomic_OrInt32 sync/atomic.OrInt32
 func abigen_sync_atomic_OrInt32(addr *int32, mask int32) (old int32)
 
-//go:linkname abigen_sync_atomic_OrUint32 sync/atomic.OrUint32
+//golang:linkname abigen_sync_atomic_OrUint32 sync/atomic.OrUint32
 func abigen_sync_atomic_OrUint32(addr *uint32, mask uint32) (old uint32)
 
-//go:linkname abigen_sync_atomic_OrInt64 sync/atomic.OrInt64
+//golang:linkname abigen_sync_atomic_OrInt64 sync/atomic.OrInt64
 func abigen_sync_atomic_OrInt64(addr *int64, mask int64) (old int64)
 
-//go:linkname abigen_sync_atomic_OrUint64 sync/atomic.OrUint64
+//golang:linkname abigen_sync_atomic_OrUint64 sync/atomic.OrUint64
 func abigen_sync_atomic_OrUint64(addr *uint64, mask uint64) (old uint64)
 
-//go:linkname abigen_sync_atomic_OrUintptr sync/atomic.OrUintptr
+//golang:linkname abigen_sync_atomic_OrUintptr sync/atomic.OrUintptr
 func abigen_sync_atomic_OrUintptr(addr *uintptr, mask uintptr) (old uintptr)
 
-//go:linkname abigen_sync_atomic_CompareAndSwapInt32 sync/atomic.CompareAndSwapInt32
+//golang:linkname abigen_sync_atomic_CompareAndSwapInt32 sync/atomic.CompareAndSwapInt32
 func abigen_sync_atomic_CompareAndSwapInt32(addr *int32, old, new int32) (swapped bool)
 
-//go:linkname abigen_sync_atomic_CompareAndSwapInt64 sync/atomic.CompareAndSwapInt64
+//golang:linkname abigen_sync_atomic_CompareAndSwapInt64 sync/atomic.CompareAndSwapInt64
 func abigen_sync_atomic_CompareAndSwapInt64(addr *int64, old, new int64) (swapped bool)
 
-//go:linkname abigen_sync_atomic_CompareAndSwapUint32 sync/atomic.CompareAndSwapUint32
+//golang:linkname abigen_sync_atomic_CompareAndSwapUint32 sync/atomic.CompareAndSwapUint32
 func abigen_sync_atomic_CompareAndSwapUint32(addr *uint32, old, new uint32) (swapped bool)
 
-//go:linkname abigen_sync_atomic_CompareAndSwapUint64 sync/atomic.CompareAndSwapUint64
+//golang:linkname abigen_sync_atomic_CompareAndSwapUint64 sync/atomic.CompareAndSwapUint64
 func abigen_sync_atomic_CompareAndSwapUint64(addr *uint64, old, new uint64) (swapped bool)

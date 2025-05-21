@@ -1,15 +1,15 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-package gccgoimporter
+package gccgolangimporter
 
 import (
 	"errors"
 	"fmt"
-	"go/constant"
-	"go/token"
-	"go/types"
+	"golang/constant"
+	"golang/token"
+	"golang/types"
 	"io"
 	"strconv"
 	"strings"
@@ -66,7 +66,7 @@ func (p *parser) initScanner(filename string, src io.Reader) {
 	p.scanner.Error = func(_ *scanner.Scanner, msg string) { p.error(msg) }
 	p.scanner.Mode = scanner.ScanIdents | scanner.ScanInts | scanner.ScanFloats | scanner.ScanStrings
 	p.scanner.Whitespace = 1<<'\t' | 1<<' '
-	p.scanner.Filename = filename // for good error messages
+	p.scanner.Filename = filename // for golangod error messages
 	p.next()
 }
 
@@ -94,7 +94,7 @@ func (p *parser) errorf(format string, args ...any) {
 func (p *parser) expect(tok rune) string {
 	lit := p.lit
 	if p.tok != tok {
-		p.errorf("expected %s, got %s (%s)", scanner.TokenString(tok), scanner.TokenString(p.tok), lit)
+		p.errorf("expected %s, golangt %s (%s)", scanner.TokenString(tok), scanner.TokenString(p.tok), lit)
 	}
 	p.next()
 	return lit
@@ -110,7 +110,7 @@ func (p *parser) expectEOL() {
 func (p *parser) expectKeyword(keyword string) {
 	lit := p.expect(scanner.Ident)
 	if lit != keyword {
-		p.errorf("expected keyword %s, got %q", keyword, lit)
+		p.errorf("expected keyword %s, golangt %q", keyword, lit)
 	}
 }
 
@@ -325,7 +325,7 @@ func (p *parser) parseConstValue(pkg *types.Package) (val constant.Value, typ ty
 	if p.tok == '$' {
 		p.next()
 		if p.tok != scanner.Ident {
-			p.errorf("expected identifier after '$', got %s (%q)", scanner.TokenString(p.tok), p.lit)
+			p.errorf("expected identifier after '$', golangt %s (%q)", scanner.TokenString(p.tok), p.lit)
 		}
 	}
 
@@ -347,7 +347,7 @@ func (p *parser) parseConstValue(pkg *types.Package) (val constant.Value, typ ty
 			return p.parseConversion(pkg)
 
 		default:
-			p.errorf("expected const value, got %s (%q)", scanner.TokenString(p.tok), p.lit)
+			p.errorf("expected const value, golangt %s (%q)", scanner.TokenString(p.tok), p.lit)
 		}
 
 		p.next()
@@ -418,7 +418,7 @@ func (p *parser) parseConstValue(pkg *types.Package) (val constant.Value, typ ty
 		typ = types.Typ[types.UntypedComplex]
 
 	default:
-		p.errorf("expected const value, got %s (%q)", scanner.TokenString(p.tok), p.lit)
+		p.errorf("expected const value, golangt %s (%q)", scanner.TokenString(p.tok), p.lit)
 	}
 
 	return
@@ -518,7 +518,7 @@ func (p *parser) parseNamedType(nlist []any) types.Type {
 
 	if p.tok == scanner.Ident && p.lit == "notinheap" {
 		p.next()
-		// The go/types package has no way of recording that
+		// The golang/types package has no way of recording that
 		// this type is marked notinheap. Presumably no user
 		// of this package actually cares.
 	}
@@ -877,60 +877,60 @@ func (p *parser) parseTypeSpec(pkg *types.Package, nlist []any) types.Type {
 		return p.parseFunctionType(pkg, nlist)
 	}
 
-	p.errorf("expected type name or literal, got %s", scanner.TokenString(p.tok))
+	p.errorf("expected type name or literal, golangt %s", scanner.TokenString(p.tok))
 	return nil
 }
 
 const (
-	// From gofrontend/go/export.h
-	// Note that these values are negative in the gofrontend and have been made positive
-	// in the gccgoimporter.
-	gccgoBuiltinINT8       = 1
-	gccgoBuiltinINT16      = 2
-	gccgoBuiltinINT32      = 3
-	gccgoBuiltinINT64      = 4
-	gccgoBuiltinUINT8      = 5
-	gccgoBuiltinUINT16     = 6
-	gccgoBuiltinUINT32     = 7
-	gccgoBuiltinUINT64     = 8
-	gccgoBuiltinFLOAT32    = 9
-	gccgoBuiltinFLOAT64    = 10
-	gccgoBuiltinINT        = 11
-	gccgoBuiltinUINT       = 12
-	gccgoBuiltinUINTPTR    = 13
-	gccgoBuiltinBOOL       = 15
-	gccgoBuiltinSTRING     = 16
-	gccgoBuiltinCOMPLEX64  = 17
-	gccgoBuiltinCOMPLEX128 = 18
-	gccgoBuiltinERROR      = 19
-	gccgoBuiltinBYTE       = 20
-	gccgoBuiltinRUNE       = 21
-	gccgoBuiltinANY        = 22
+	// From golangfrontend/golang/export.h
+	// Note that these values are negative in the golangfrontend and have been made positive
+	// in the gccgolangimporter.
+	gccgolangBuiltinINT8       = 1
+	gccgolangBuiltinINT16      = 2
+	gccgolangBuiltinINT32      = 3
+	gccgolangBuiltinINT64      = 4
+	gccgolangBuiltinUINT8      = 5
+	gccgolangBuiltinUINT16     = 6
+	gccgolangBuiltinUINT32     = 7
+	gccgolangBuiltinUINT64     = 8
+	gccgolangBuiltinFLOAT32    = 9
+	gccgolangBuiltinFLOAT64    = 10
+	gccgolangBuiltinINT        = 11
+	gccgolangBuiltinUINT       = 12
+	gccgolangBuiltinUINTPTR    = 13
+	gccgolangBuiltinBOOL       = 15
+	gccgolangBuiltinSTRING     = 16
+	gccgolangBuiltinCOMPLEX64  = 17
+	gccgolangBuiltinCOMPLEX128 = 18
+	gccgolangBuiltinERROR      = 19
+	gccgolangBuiltinBYTE       = 20
+	gccgolangBuiltinRUNE       = 21
+	gccgolangBuiltinANY        = 22
 )
 
 func lookupBuiltinType(typ int) types.Type {
 	return [...]types.Type{
-		gccgoBuiltinINT8:       types.Typ[types.Int8],
-		gccgoBuiltinINT16:      types.Typ[types.Int16],
-		gccgoBuiltinINT32:      types.Typ[types.Int32],
-		gccgoBuiltinINT64:      types.Typ[types.Int64],
-		gccgoBuiltinUINT8:      types.Typ[types.Uint8],
-		gccgoBuiltinUINT16:     types.Typ[types.Uint16],
-		gccgoBuiltinUINT32:     types.Typ[types.Uint32],
-		gccgoBuiltinUINT64:     types.Typ[types.Uint64],
-		gccgoBuiltinFLOAT32:    types.Typ[types.Float32],
-		gccgoBuiltinFLOAT64:    types.Typ[types.Float64],
-		gccgoBuiltinINT:        types.Typ[types.Int],
-		gccgoBuiltinUINT:       types.Typ[types.Uint],
-		gccgoBuiltinUINTPTR:    types.Typ[types.Uintptr],
-		gccgoBuiltinBOOL:       types.Typ[types.Bool],
-		gccgoBuiltinSTRING:     types.Typ[types.String],
-		gccgoBuiltinCOMPLEX64:  types.Typ[types.Complex64],
-		gccgoBuiltinCOMPLEX128: types.Typ[types.Complex128],
-		gccgoBuiltinERROR:      types.Universe.Lookup("error").Type(),
-		gccgoBuiltinBYTE:       types.Universe.Lookup("byte").Type(),
-		gccgoBuiltinRUNE:       types.Universe.Lookup("rune").Type(),
-		gccgoBuiltinANY:        types.Universe.Lookup("any").Type(),
+		gccgolangBuiltinINT8:       types.Typ[types.Int8],
+		gccgolangBuiltinINT16:      types.Typ[types.Int16],
+		gccgolangBuiltinINT32:      types.Typ[types.Int32],
+		gccgolangBuiltinINT64:      types.Typ[types.Int64],
+		gccgolangBuiltinUINT8:      types.Typ[types.Uint8],
+		gccgolangBuiltinUINT16:     types.Typ[types.Uint16],
+		gccgolangBuiltinUINT32:     types.Typ[types.Uint32],
+		gccgolangBuiltinUINT64:     types.Typ[types.Uint64],
+		gccgolangBuiltinFLOAT32:    types.Typ[types.Float32],
+		gccgolangBuiltinFLOAT64:    types.Typ[types.Float64],
+		gccgolangBuiltinINT:        types.Typ[types.Int],
+		gccgolangBuiltinUINT:       types.Typ[types.Uint],
+		gccgolangBuiltinUINTPTR:    types.Typ[types.Uintptr],
+		gccgolangBuiltinBOOL:       types.Typ[types.Bool],
+		gccgolangBuiltinSTRING:     types.Typ[types.String],
+		gccgolangBuiltinCOMPLEX64:  types.Typ[types.Complex64],
+		gccgolangBuiltinCOMPLEX128: types.Typ[types.Complex128],
+		gccgolangBuiltinERROR:      types.Universe.Lookup("error").Type(),
+		gccgolangBuiltinBYTE:       types.Universe.Lookup("byte").Type(),
+		gccgolangBuiltinRUNE:       types.Universe.Lookup("rune").Type(),
+		gccgolangBuiltinANY:        types.Universe.Lookup("any").Type(),
 	}[typ]
 }
 
@@ -972,7 +972,7 @@ func (p *parser) parseTypeAfterAngle(pkg *types.Package, n ...any) (t types.Type
 		p.update(t, n)
 
 	default:
-		p.errorf("expected type number, got %s (%q)", scanner.TokenString(p.tok), p.lit)
+		p.errorf("expected type number, golangt %s (%q)", scanner.TokenString(p.tok), p.lit)
 		return nil, 0
 	}
 
@@ -1016,13 +1016,13 @@ func (p *parser) skipInlineBody() {
 	}(p.scanner.Whitespace)
 	p.scanner.Whitespace = 0
 
-	got := 0
-	for got < want {
+	golangt := 0
+	for golangt < want {
 		r := p.scanner.Next()
 		if r == scanner.EOF {
 			p.error("unexpected EOF")
 		}
-		got += utf8.RuneLen(r)
+		golangt += utf8.RuneLen(r)
 	}
 }
 
@@ -1086,7 +1086,7 @@ func (p *parser) parseSavedType(pkg *types.Package, i int, nlist []any) {
 	p.expectKeyword("type")
 	id := p.parseInt()
 	if id != i {
-		p.errorf("type ID mismatch: got %d, want %d", id, i)
+		p.errorf("type ID mismatch: golangt %d, want %d", id, i)
 	}
 	if p.typeList[i] == reserved {
 		p.errorf("internal error: %d already reserved in parseSavedType", i)

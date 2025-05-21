@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Minimum mutator utilization (MMU) graphing.
@@ -178,11 +178,11 @@ var templMMU = `<!doctype html>
   <head>
     <meta charset="utf-8">
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://ajax.golangogleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script type="text/javascript">
-      google.charts.load('current', {'packages':['corechart']});
+      golangogle.charts.load('current', {'packages':['corechart']});
       var chartsReady = false;
-      google.charts.setOnLoadCallback(function() { chartsReady = true; refreshChart(); });
+      golangogle.charts.setOnLoadCallback(function() { chartsReady = true; refreshChart(); });
 
       var chart;
       var curve;
@@ -226,7 +226,7 @@ var templMMU = `<!doctype html>
 
       function drawChart(plotData) {
         curve = plotData.curve;
-        var data = new google.visualization.DataTable();
+        var data = new golangogle.visualization.DataTable();
         data.addColumn('number', 'Window duration');
         data.addColumn('number', 'Minimum mutator utilization');
         if (plotData.quantiles) {
@@ -254,7 +254,7 @@ var templMMU = `<!doctype html>
             maxValue: 1.0,
           },
           legend: { position: 'none' },
-          focusTarget: 'category',
+          focusTarget: 'categolangry',
           width: 900,
           height: 500,
           chartArea: { width: '80%', height: '80%' },
@@ -270,11 +270,11 @@ var templMMU = `<!doctype html>
         var container = $('#mmu_chart');
         container.empty();
         container.css('opacity', '');
-        chart = new google.visualization.LineChart(container[0]);
-        chart = new google.visualization.LineChart(document.getElementById('mmu_chart'));
+        chart = new golangogle.visualization.LineChart(container[0]);
+        chart = new golangogle.visualization.LineChart(document.getElementById('mmu_chart'));
         chart.draw(data, options);
 
-        google.visualization.events.addListener(chart, 'select', selectHandler);
+        golangogle.visualization.events.addListener(chart, 'select', selectHandler);
         $('#details').empty();
       }
 
@@ -342,15 +342,15 @@ var templMMU = `<!doctype html>
           <b>View</b><br>
           <input type="radio" name="view" id="system" checked><label for="system">System</label>
           <span class="help">?<span>Consider whole system utilization. For example, if one of four procs is available to the mutator, mutator utilization will be 0.25. This is the standard definition of an MMU.</span></span><br>
-          <input type="radio" name="view" id="perProc"><label for="perProc">Per-goroutine</label>
-          <span class="help">?<span>Consider per-goroutine utilization. When even one goroutine is interrupted by GC, mutator utilization is 0.</span></span><br>
+          <input type="radio" name="view" id="perProc"><label for="perProc">Per-golangroutine</label>
+          <span class="help">?<span>Consider per-golangroutine utilization. When even one golangroutine is interrupted by GC, mutator utilization is 0.</span></span><br>
         </p>
         <p>
           <b>Include</b><br>
           <input type="checkbox" id="stw" checked><label for="stw">STW</label>
-          <span class="help">?<span>Stop-the-world stops all goroutines simultaneously.</span></span><br>
+          <span class="help">?<span>Stop-the-world stops all golangroutines simultaneously.</span></span><br>
           <input type="checkbox" id="background" checked><label for="background">Background workers</label>
-          <span class="help">?<span>Background workers are GC-specific goroutines. 25% of the CPU is dedicated to background workers during GC.</span></span><br>
+          <span class="help">?<span>Background workers are GC-specific golangroutines. 25% of the CPU is dedicated to background workers during GC.</span></span><br>
           <input type="checkbox" id="assist" checked><label for="assist">Mark assist</label>
           <span class="help">?<span>Mark assists are performed by allocation to prevent the mutator from outpacing GC.</span></span><br>
           <input type="checkbox" id="sweep"><label for="sweep">Sweep</label>

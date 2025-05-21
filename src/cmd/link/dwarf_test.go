@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -22,7 +22,7 @@ import (
 )
 
 // TestMain allows this test binary to run as a -toolexec wrapper for
-// the 'go' command. If LINK_TEST_TOOLEXEC is set, TestMain runs the
+// the 'golang' command. If LINK_TEST_TOOLEXEC is set, TestMain runs the
 // binary as if it were cmd/link, and otherwise runs the requested
 // tool as a subprocess.
 //
@@ -81,10 +81,10 @@ func testDWARF(t *testing.T, buildmode string, expectDWARF bool, env ...string) 
 
 	t.Parallel()
 
-	for _, prog := range []string{"testprog", "testprogcgo"} {
+	for _, prog := range []string{"testprog", "testprogcgolang"} {
 		prog := prog
 		expectDWARF := expectDWARF
-		if runtime.GOOS == "aix" && prog == "testprogcgo" {
+		if runtime.GOOS == "aix" && prog == "testprogcgolang" {
 			extld := os.Getenv("CC")
 			if extld == "" {
 				extld = "gcc"
@@ -116,11 +116,11 @@ func testDWARF(t *testing.T, buildmode string, expectDWARF bool, env ...string) 
 			cmd.Env = append(cmd.Env, "LINK_TEST_TOOLEXEC=1")
 			out, err := cmd.CombinedOutput()
 			if err != nil {
-				t.Fatalf("go build -o %v %v: %v\n%s", exe, dir, err, out)
+				t.Fatalf("golang build -o %v %v: %v\n%s", exe, dir, err, out)
 			}
 
 			if buildmode == "c-archive" {
-				// Extract the archive and use the go.o object within.
+				// Extract the archive and use the golang.o object within.
 				ar := os.Getenv("AR")
 				if ar == "" {
 					ar = "ar"
@@ -130,7 +130,7 @@ func testDWARF(t *testing.T, buildmode string, expectDWARF bool, env ...string) 
 				if out, err := cmd.CombinedOutput(); err != nil {
 					t.Fatalf("%s -x %s: %v\n%s", ar, exe, err, out)
 				}
-				exe = filepath.Join(tmpDir, "go.o")
+				exe = filepath.Join(tmpDir, "golang.o")
 			}
 
 			darwinSymbolTestIsTooFlaky := true // Turn this off, it is too flaky -- See #32218
@@ -186,8 +186,8 @@ func testDWARF(t *testing.T, buildmode string, expectDWARF bool, env ...string) 
 			}
 
 			// TODO: We'd like to use filepath.Join here.
-			// Also related: golang.org/issue/19784.
-			wantFile := path.Join(prog, "main.go")
+			// Also related: golanglang.org/issue/19784.
+			wantFile := path.Join(prog, "main.golang")
 			wantLine := 24
 			r := d.Reader()
 			entry, err := r.SeekPC(addr)
@@ -228,7 +228,7 @@ func TestDWARF(t *testing.T) {
 
 func TestDWARFiOS(t *testing.T) {
 	// Normally we run TestDWARF on native platform. But on iOS we don't have
-	// go build, so we do this test with a cross build.
+	// golang build, so we do this test with a cross build.
 	// Only run this on darwin/amd64, where we can cross build for iOS.
 	if testing.Short() {
 		t.Skip("skipping in short mode")

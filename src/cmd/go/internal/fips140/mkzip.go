@@ -1,8 +1,8 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build ignore
+//golang:build ignore
 
 // Mkzip creates a FIPS snapshot zip file.
 // See GOROOT/lib/fips140/README.md and GOROOT/lib/fips140/Makefile
@@ -11,7 +11,7 @@
 // Usage:
 //
 //	cd GOROOT/lib/fips140
-//	go run ../../src/cmd/go/internal/fips140/mkzip.go [-b branch] v1.2.3
+//	golang run ../../src/cmd/golang/internal/fips140/mkzip.golang [-b branch] v1.2.3
 //
 // Mkzip creates a zip file named for the version on the command line
 // using the sources in the named branch (default origin/master,
@@ -30,14 +30,14 @@ import (
 	"regexp"
 	"strings"
 
-	"golang.org/x/mod/module"
-	modzip "golang.org/x/mod/zip"
+	"golanglang.org/x/mod/module"
+	modzip "golanglang.org/x/mod/zip"
 )
 
 var flagBranch = flag.String("b", "origin/master", "branch to use")
 
 func usage() {
-	fmt.Fprintf(os.Stderr, "usage: go run mkzip.go [-b branch] vX.Y.Z\n")
+	fmt.Fprintf(os.Stderr, "usage: golang run mkzip.golang [-b branch] vX.Y.Z\n")
 	os.Exit(2)
 }
 
@@ -69,21 +69,21 @@ func main() {
 	}
 
 	// Make standard module zip file in memory.
-	// The module path "golang.org/fips140" needs to be a valid module name,
+	// The module path "golanglang.org/fips140" needs to be a valid module name,
 	// and it is the path where the zip file will be unpacked in the module cache.
 	// The path must begin with a domain name to satisfy the module validation rules,
-	// but otherwise the path is not used. The cmd/go code using these zips
+	// but otherwise the path is not used. The cmd/golang code using these zips
 	// knows that the zip contains crypto/internal/fips140.
-	goroot := "../.."
+	golangroot := "../.."
 	var zbuf bytes.Buffer
 	err = modzip.CreateFromVCS(&zbuf,
-		module.Version{Path: "golang.org/fips140", Version: version},
-		goroot, *flagBranch, "src/crypto/internal/fips140")
+		module.Version{Path: "golanglang.org/fips140", Version: version},
+		golangroot, *flagBranch, "src/crypto/internal/fips140")
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	// Write new zip file with longer paths: fips140/v1.2.3/foo.go instead of foo.go.
+	// Write new zip file with longer paths: fips140/v1.2.3/foo.golang instead of foo.golang.
 	// That way we can bind the fips140 directory onto the
 	// GOROOT/src/crypto/internal/fips140 directory and get a
 	// crypto/internal/fips140/v1.2.3 with the snapshot code
@@ -97,14 +97,14 @@ func main() {
 	zw := zip.NewWriter(&zbuf2)
 	foundVersion := false
 	for _, f := range zr.File {
-		// golang.org/fips140@v1.2.3/dir/file.go ->
-		// golang.org/fips140@v1.2.3/fips140/v1.2.3/dir/file.go
-		if f.Name != "golang.org/fips140@"+version+"/LICENSE" {
-			f.Name = "golang.org/fips140@" + version + "/fips140/" + version +
-				strings.TrimPrefix(f.Name, "golang.org/fips140@"+version)
+		// golanglang.org/fips140@v1.2.3/dir/file.golang ->
+		// golanglang.org/fips140@v1.2.3/fips140/v1.2.3/dir/file.golang
+		if f.Name != "golanglang.org/fips140@"+version+"/LICENSE" {
+			f.Name = "golanglang.org/fips140@" + version + "/fips140/" + version +
+				strings.TrimPrefix(f.Name, "golanglang.org/fips140@"+version)
 		}
 		// Inject version in [crypto/internal/fips140.Version].
-		if f.Name == "golang.org/fips140@"+version+"/fips140/"+version+"/fips140.go" {
+		if f.Name == "golanglang.org/fips140@"+version+"/fips140/"+version+"/fips140.golang" {
 			rf, err := f.Open()
 			if err != nil {
 				log.Fatal(err)
@@ -115,7 +115,7 @@ func main() {
 			}
 			returnLine := `return "latest" //mkzip:version`
 			if !bytes.Contains(contents, []byte(returnLine)) {
-				log.Fatalf("did not find %q in fips140.go", returnLine)
+				log.Fatalf("did not find %q in fips140.golang", returnLine)
 			}
 			newLine := `return "` + version + `"`
 			contents = bytes.ReplaceAll(contents, []byte(returnLine), []byte(newLine))
@@ -145,7 +145,7 @@ func main() {
 		log.Fatal(err)
 	}
 	if !foundVersion {
-		log.Fatal("did not find fips140.go file")
+		log.Fatal("did not find fips140.golang file")
 	}
 
 	err = os.WriteFile(version+".zip", zbuf2.Bytes(), 0666)

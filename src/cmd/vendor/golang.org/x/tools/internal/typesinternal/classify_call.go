@@ -1,13 +1,13 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package typesinternal
 
 import (
 	"fmt"
-	"go/ast"
-	"go/types"
+	"golang/ast"
+	"golang/types"
 	_ "unsafe"
 )
 
@@ -128,8 +128,8 @@ func UsedIdent(info *types.Info, e ast.Expr) *ast.Ident {
 	return usedIdent(info, e)
 }
 
-//go:linkname usedIdent golang.org/x/tools/go/types/typeutil.usedIdent
+//golang:linkname usedIdent golanglang.org/x/tools/golang/types/typeutil.usedIdent
 func usedIdent(info *types.Info, e ast.Expr) *ast.Ident
 
-//go:linkname interfaceMethod golang.org/x/tools/go/types/typeutil.interfaceMethod
+//golang:linkname interfaceMethod golanglang.org/x/tools/golang/types/typeutil.interfaceMethod
 func interfaceMethod(f *types.Func) bool

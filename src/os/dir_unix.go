@@ -1,14 +1,14 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build aix || dragonfly || freebsd || (js && wasm) || wasip1 || linux || netbsd || openbsd || solaris
+//golang:build aix || dragolangnfly || freebsd || (js && wasm) || wasip1 || linux || netbsd || openbsd || solaris
 
 package os
 
 import (
 	"internal/byteorder"
-	"internal/goarch"
+	"internal/golangarch"
 	"io"
 	"runtime"
 	"sync"
@@ -25,7 +25,7 @@ type dirInfo struct {
 }
 
 const (
-	// More than 5760 to work around https://golang.org/issue/24015.
+	// More than 5760 to work around https://golanglang.org/issue/24015.
 	blockSize = 8192
 )
 
@@ -172,7 +172,7 @@ func readInt(b []byte, off, size uintptr) (u uint64, ok bool) {
 	if len(b) < int(off+size) {
 		return 0, false
 	}
-	if goarch.BigEndian {
+	if golangarch.BigEndian {
 		return readIntBE(b[off:], size), true
 	}
 	return readIntLE(b[off:], size), true

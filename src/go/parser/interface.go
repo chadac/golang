@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file contains the exported entry points for invoking the parser.
@@ -9,8 +9,8 @@ package parser
 import (
 	"bytes"
 	"errors"
-	"go/ast"
-	"go/token"
+	"golang/ast"
+	"golang/token"
 	"io"
 	"io/fs"
 	"os"
@@ -133,12 +133,12 @@ func ParseFile(fset *token.FileSet, filename string, src any, mode Mode) (f *ast
 	return
 }
 
-// ParseDir calls [ParseFile] for all files with names ending in ".go" in the
+// ParseDir calls [ParseFile] for all files with names ending in ".golang" in the
 // directory specified by path and returns a map of package name -> package
 // AST with all the packages found.
 //
 // If filter != nil, only the files with [fs.FileInfo] entries passing through
-// the filter (and ending in ".go") are considered. The mode bits are passed
+// the filter (and ending in ".golang") are considered. The mode bits are passed
 // to [ParseFile] unchanged. Position information is recorded in fset, which
 // must not be nil.
 //
@@ -148,7 +148,7 @@ func ParseFile(fset *token.FileSet, filename string, src any, mode Mode) (f *ast
 //
 // Deprecated: ParseDir does not consider build tags when associating
 // files with packages. For precise information about the relationship
-// between packages and files, use golang.org/x/tools/go/packages,
+// between packages and files, use golanglang.org/x/tools/golang/packages,
 // which can also optionally parse and type-check the files too.
 func ParseDir(fset *token.FileSet, path string, filter func(fs.FileInfo) bool, mode Mode) (pkgs map[string]*ast.Package, first error) {
 	list, err := os.ReadDir(path)
@@ -158,7 +158,7 @@ func ParseDir(fset *token.FileSet, path string, filter func(fs.FileInfo) bool, m
 
 	pkgs = make(map[string]*ast.Package)
 	for _, d := range list {
-		if d.IsDir() || !strings.HasSuffix(d.Name(), ".go") {
+		if d.IsDir() || !strings.HasSuffix(d.Name(), ".golang") {
 			continue
 		}
 		if filter != nil {

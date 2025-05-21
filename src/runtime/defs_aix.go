@@ -1,14 +1,14 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build ignore
+//golang:build ignore
 
 /*
-Input to cgo -godefs
-GOARCH=ppc64 go tool cgo -godefs defs_aix.go > defs_aix_ppc64_tmp.go
+Input to cgolang -golangdefs
+GOARCH=ppc64 golang tool cgolang -golangdefs defs_aix.golang > defs_aix_ppc64_tmp.golang
 
-This is only a helper to create defs_aix_ppc64.go
+This is only a helper to create defs_aix_ppc64.golang
 Go runtime functions require the "linux" name of fields (ss_sp, si_addr, etc)
 However, AIX structures don't provide such names and must be modified.
 

@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Aix system calls.
@@ -20,7 +20,7 @@ func Syscall6(trap, a1, a2, a3, a4, a5, a6 uintptr) (r1, r2 uintptr, err Errno)
 func RawSyscall(trap, a1, a2, a3 uintptr) (r1, r2 uintptr, err Errno)
 func RawSyscall6(trap, a1, a2, a3, a4, a5, a6 uintptr) (r1, r2 uintptr, err Errno)
 
-// Implemented in runtime/syscall_aix.go.
+// Implemented in runtime/syscall_aix.golang.
 func rawSyscall6(trap, nargs, a1, a2, a3, a4, a5, a6 uintptr) (r1, r2 uintptr, err Errno)
 func syscall6(trap, nargs, a1, a2, a3, a4, a5, a6 uintptr) (r1, r2 uintptr, err Errno)
 
@@ -257,7 +257,7 @@ func Fsync(fd int) error {
 //sys	sendto(s int, buf []byte, flags int, to unsafe.Pointer, addrlen _Socklen) (err error)
 //sys	Shutdown(s int, how int) (err error)
 
-// In order to use msghdr structure with Control, Controllen in golang.org/x/net,
+// In order to use msghdr structure with Control, Controllen in golanglang.org/x/net,
 // nrecvmsg and nsendmsg must be used.
 //sys	recvmsg(s int, msg *Msghdr, flags int) (n int, err error) = nrecvmsg
 //sys	sendmsg(s int, msg *Msghdr, flags int) (n int, err error) = nsendmsg

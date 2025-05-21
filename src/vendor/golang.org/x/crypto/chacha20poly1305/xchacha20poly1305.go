@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package chacha20poly1305
@@ -8,7 +8,7 @@ import (
 	"crypto/cipher"
 	"errors"
 
-	"golang.org/x/crypto/chacha20"
+	"golanglang.org/x/crypto/chacha20"
 )
 
 type xchacha20poly1305 struct {

@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main_test
@@ -10,9 +10,9 @@ import (
 	cmdcover "cmd/cover"
 	"flag"
 	"fmt"
-	"go/ast"
-	"go/parser"
-	"go/token"
+	"golang/ast"
+	"golang/parser"
+	"golang/token"
 	"internal/testenv"
 	"log"
 	"os"
@@ -29,8 +29,8 @@ const (
 	testdata = "testdata"
 )
 
-// testcover returns the path to the cmd/cover binary that we are going to
-// test. At one point this was created via "go build"; we now reuse the unit
+// testcover returns the path to the cmd/cover binary that we are golanging to
+// test. At one point this was created via "golang build"; we now reuse the unit
 // test executable itself.
 func testcover(t testing.TB) string {
 	return testenv.Executable(t)
@@ -44,7 +44,7 @@ var debug = flag.Bool("debug", false, "keep tmpdir files for debugging")
 
 // TestMain used here so that we can leverage the test executable
 // itself as a cmd/cover executable; compare to similar usage in
-// the cmd/go tests.
+// the cmd/golang tests.
 func TestMain(m *testing.M) {
 	if os.Getenv("CMDCOVER_TOOLEXEC") != "" {
 		// When CMDCOVER_TOOLEXEC is set, the test binary is also
@@ -52,7 +52,7 @@ func TestMain(m *testing.M) {
 		tool := strings.TrimSuffix(filepath.Base(os.Args[1]), ".exe")
 		if tool == "cover" {
 			// Inject this test binary as cmd/cover in place of the
-			// installed tool, so that the go command's invocations of
+			// installed tool, so that the golang command's invocations of
 			// cover produce coverage for the configuration in which
 			// the test was built.
 			os.Args = os.Args[1:]
@@ -70,7 +70,7 @@ func TestMain(m *testing.M) {
 	if os.Getenv("CMDCOVER_TEST_RUN_MAIN") != "" {
 		// When CMDCOVER_TEST_RUN_MAIN is set, we're reusing the test
 		// binary as cmd/cover. In this case we run the main func exported
-		// via export_test.go, and exit; CMDCOVER_TEST_RUN_MAIN is set below
+		// via export_test.golang, and exit; CMDCOVER_TEST_RUN_MAIN is set below
 		// for actual test invocations.
 		cmdcover.Main()
 		os.Exit(0)
@@ -106,7 +106,7 @@ func tempDir(t *testing.T) string {
 
 // TestCoverWithToolExec runs a set of subtests that all make use of a
 // "-toolexec" wrapper program to invoke the cover test executable
-// itself via "go test -cover".
+// itself via "golang test -cover".
 func TestCoverWithToolExec(t *testing.T) {
 	toolexecArg := "-toolexec=" + testcover(t)
 
@@ -126,16 +126,16 @@ func TestCoverWithToolExec(t *testing.T) {
 
 // Execute this command sequence:
 //
-//	replace the word LINE with the line number < testdata/test.go > testdata/test_line.go
-//	testcover -mode=count -var=CoverTest -o ./testdata/test_cover.go testdata/test_line.go
-//	go run ./testdata/main.go ./testdata/test.go
+//	replace the word LINE with the line number < testdata/test.golang > testdata/test_line.golang
+//	testcover -mode=count -var=CoverTest -o ./testdata/test_cover.golang testdata/test_line.golang
+//	golang run ./testdata/main.golang ./testdata/test.golang
 func TestCover(t *testing.T) {
 	testenv.MustHaveGoRun(t)
 	t.Parallel()
 	dir := tempDir(t)
 
 	// Read in the test file (testTest) and write it, with LINEs specified, to coverInput.
-	testTest := filepath.Join(testdata, "test.go")
+	testTest := filepath.Join(testdata, "test.golang")
 	file, err := os.ReadFile(testTest)
 	if err != nil {
 		t.Fatal(err)
@@ -145,8 +145,8 @@ func TestCover(t *testing.T) {
 		lines[i] = bytes.ReplaceAll(line, []byte("LINE"), []byte(fmt.Sprint(i+1)))
 	}
 
-	// Add a function that is not gofmt'ed. This used to cause a crash.
-	// We don't put it in test.go because then we would have to gofmt it.
+	// Add a function that is not golangfmt'ed. This used to cause a crash.
+	// We don't put it in test.golang because then we would have to golangfmt it.
 	// Issue 23927.
 	lines = append(lines, []byte("func unFormatted() {"),
 		[]byte("\tif true {"),
@@ -155,13 +155,13 @@ func TestCover(t *testing.T) {
 		[]byte("}"))
 	lines = append(lines, []byte("func unFormatted2(b bool) {if b{}else{}}"))
 
-	coverInput := filepath.Join(dir, "test_line.go")
+	coverInput := filepath.Join(dir, "test_line.golang")
 	if err := os.WriteFile(coverInput, bytes.Join(lines, []byte("\n")), 0666); err != nil {
 		t.Fatal(err)
 	}
 
-	// testcover -mode=count -var=thisNameMustBeVeryLongToCauseOverflowOfCounterIncrementStatementOntoNextLineForTest -o ./testdata/test_cover.go testdata/test_line.go
-	coverOutput := filepath.Join(dir, "test_cover.go")
+	// testcover -mode=count -var=thisNameMustBeVeryLongToCauseOverflowOfCounterIncrementStatementOntoNextLineForTest -o ./testdata/test_cover.golang testdata/test_line.golang
+	coverOutput := filepath.Join(dir, "test_cover.golang")
 	cmd := testenv.Command(t, testcover(t), "-mode=count", "-var=thisNameMustBeVeryLongToCauseOverflowOfCounterIncrementStatementOntoNextLineForTest", "-o", coverOutput, coverInput)
 	run(cmd, t)
 
@@ -173,17 +173,17 @@ func TestCover(t *testing.T) {
 
 	// Copy testmain to tmpdir, so that it is in the same directory
 	// as coverOutput.
-	testMain := filepath.Join(testdata, "main.go")
+	testMain := filepath.Join(testdata, "main.golang")
 	b, err := os.ReadFile(testMain)
 	if err != nil {
 		t.Fatal(err)
 	}
-	tmpTestMain := filepath.Join(dir, "main.go")
+	tmpTestMain := filepath.Join(dir, "main.golang")
 	if err := os.WriteFile(tmpTestMain, b, 0444); err != nil {
 		t.Fatal(err)
 	}
 
-	// go run ./testdata/main.go ./testdata/test.go
+	// golang run ./testdata/main.golang ./testdata/test.golang
 	cmd = testenv.Command(t, testenv.GoToolPath(t), "run", tmpTestMain, coverOutput)
 	run(cmd, t)
 
@@ -192,17 +192,17 @@ func TestCover(t *testing.T) {
 		t.Fatal(err)
 	}
 	// compiler directive must appear right next to function declaration.
-	if got, err := regexp.MatchString(".*\n//go:nosplit\nfunc someFunction().*", string(file)); err != nil || !got {
+	if golangt, err := regexp.MatchString(".*\n//golang:nosplit\nfunc someFunction().*", string(file)); err != nil || !golangt {
 		t.Error("misplaced compiler directive")
 	}
-	// "go:linkname" compiler directive should be present.
-	if got, err := regexp.MatchString(`.*go\:linkname some\_name some\_name.*`, string(file)); err != nil || !got {
-		t.Error("'go:linkname' compiler directive not found")
+	// "golang:linkname" compiler directive should be present.
+	if golangt, err := regexp.MatchString(`.*golang\:linkname some\_name some\_name.*`, string(file)); err != nil || !golangt {
+		t.Error("'golang:linkname' compiler directive not found")
 	}
 
 	// Other comments should be preserved too.
-	c := ".*// This comment didn't appear in generated go code.*"
-	if got, err := regexp.MatchString(c, string(file)); err != nil || !got {
+	c := ".*// This comment didn't appear in generated golang code.*"
+	if golangt, err := regexp.MatchString(c, string(file)); err != nil || !golangt {
 		t.Errorf("non compiler directive comment %q not found", c)
 	}
 }
@@ -217,14 +217,14 @@ func TestDirectives(t *testing.T) {
 
 	// Read the source file and find all the directives. We'll keep
 	// track of whether each one has been seen in the output.
-	testDirectives := filepath.Join(testdata, "directives.go")
+	testDirectives := filepath.Join(testdata, "directives.golang")
 	source, err := os.ReadFile(testDirectives)
 	if err != nil {
 		t.Fatal(err)
 	}
 	sourceDirectives := findDirectives(source)
 
-	// testcover -mode=atomic ./testdata/directives.go
+	// testcover -mode=atomic ./testdata/directives.golang
 	cmd := testenv.Command(t, testcover(t), "-mode=atomic", testDirectives)
 	cmd.Stderr = os.Stderr
 	output, err := cmd.Output()
@@ -297,13 +297,13 @@ func TestDirectives(t *testing.T) {
 
 type directiveInfo struct {
 	text   string // full text of the comment, not including newline
-	name   string // text after //go:
+	name   string // text after //golang:
 	offset int    // byte offset of first slash in comment
 }
 
 func findDirectives(source []byte) []directiveInfo {
 	var directives []directiveInfo
-	directivePrefix := []byte("\n//go:")
+	directivePrefix := []byte("\n//golang:")
 	offset := 0
 	for {
 		i := bytes.Index(source[offset:], directivePrefix)
@@ -342,9 +342,9 @@ func TestCoverFunc(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	if got, err := regexp.Match(".*total:.*100.0.*", out); err != nil || !got {
+	if golangt, err := regexp.Match(".*total:.*100.0.*", out); err != nil || !golangt {
 		t.Logf("%s", out)
-		t.Errorf("invalid coverage counts. got=(%v, %v); want=(true; nil)", got, err)
+		t.Errorf("invalid coverage counts. golangt=(%v, %v); want=(true; nil)", golangt, err)
 	}
 }
 
@@ -356,7 +356,7 @@ func testCoverHTML(t *testing.T, toolexecArg string) {
 
 	t.Parallel()
 
-	// go test -coverprofile testdata/html/html.cov cmd/cover/testdata/html
+	// golang test -coverprofile testdata/html/html.cov cmd/cover/testdata/html
 	htmlProfile := filepath.Join(dir, "html.cov")
 	cmd := testenv.Command(t, testenv.GoToolPath(t), "test", toolexecArg, "-coverprofile", htmlProfile, "cmd/cover/testdata/html")
 	cmd.Env = append(cmd.Environ(), "CMDCOVER_TOOLEXEC=true")
@@ -367,7 +367,7 @@ func testCoverHTML(t *testing.T, toolexecArg string) {
 	run(cmd, t)
 
 	// Extract the parts of the HTML with comment markers,
-	// and compare against a golden file.
+	// and compare against a golanglden file.
 	entireHTML, err := os.ReadFile(htmlHTML)
 	if err != nil {
 		t.Fatal(err)
@@ -390,34 +390,34 @@ func testCoverHTML(t *testing.T, toolexecArg string) {
 	if scan.Err() != nil {
 		t.Error(scan.Err())
 	}
-	htmlGolden := filepath.Join(testdata, "html", "html.golden")
-	golden, err := os.ReadFile(htmlGolden)
+	htmlGolden := filepath.Join(testdata, "html", "html.golanglden")
+	golanglden, err := os.ReadFile(htmlGolden)
 	if err != nil {
-		t.Fatalf("reading golden file: %v", err)
+		t.Fatalf("reading golanglden file: %v", err)
 	}
 	// Ignore white space differences.
 	// Break into lines, then compare by breaking into words.
-	goldenLines := strings.Split(string(golden), "\n")
+	golangldenLines := strings.Split(string(golanglden), "\n")
 	outLines := strings.Split(out.String(), "\n")
 	// Compare at the line level, stopping at first different line so
 	// we don't generate tons of output if there's an inserted or deleted line.
-	for i, goldenLine := range goldenLines {
+	for i, golangldenLine := range golangldenLines {
 		if i >= len(outLines) {
-			t.Fatalf("output shorter than golden; stops before line %d: %s\n", i+1, goldenLine)
+			t.Fatalf("output shorter than golanglden; stops before line %d: %s\n", i+1, golangldenLine)
 		}
 		// Convert all white space to simple spaces, for easy comparison.
-		goldenLine = strings.Join(strings.Fields(goldenLine), " ")
+		golangldenLine = strings.Join(strings.Fields(golangldenLine), " ")
 		outLine := strings.Join(strings.Fields(outLines[i]), " ")
-		if outLine != goldenLine {
-			t.Fatalf("line %d differs: got:\n\t%s\nwant:\n\t%s", i+1, outLine, goldenLine)
+		if outLine != golangldenLine {
+			t.Fatalf("line %d differs: golangt:\n\t%s\nwant:\n\t%s", i+1, outLine, golangldenLine)
 		}
 	}
-	if len(goldenLines) != len(outLines) {
-		t.Fatalf("output longer than golden; first extra output line %d: %q\n", len(goldenLines)+1, outLines[len(goldenLines)])
+	if len(golangldenLines) != len(outLines) {
+		t.Fatalf("output longer than golanglden; first extra output line %d: %q\n", len(golangldenLines)+1, outLines[len(golangldenLines)])
 	}
 }
 
-// Test HTML processing with a source file not run through gofmt.
+// Test HTML processing with a source file not run through golangfmt.
 // Issue #27350.
 func testHtmlUnformatted(t *testing.T, toolexecArg string) {
 	testenv.MustHaveGoRun(t)
@@ -426,8 +426,8 @@ func testHtmlUnformatted(t *testing.T, toolexecArg string) {
 	t.Parallel()
 
 	htmlUDir := filepath.Join(dir, "htmlunformatted")
-	htmlU := filepath.Join(htmlUDir, "htmlunformatted.go")
-	htmlUTest := filepath.Join(htmlUDir, "htmlunformatted_test.go")
+	htmlU := filepath.Join(htmlUDir, "htmlunformatted.golang")
+	htmlUTest := filepath.Join(htmlUDir, "htmlunformatted_test.golang")
 	htmlUProfile := filepath.Join(htmlUDir, "htmlunformatted.cov")
 	htmlUHTML := filepath.Join(htmlUDir, "htmlunformatted.html")
 
@@ -435,7 +435,7 @@ func testHtmlUnformatted(t *testing.T, toolexecArg string) {
 		t.Fatal(err)
 	}
 
-	if err := os.WriteFile(filepath.Join(htmlUDir, "go.mod"), []byte("module htmlunformatted\n"), 0666); err != nil {
+	if err := os.WriteFile(filepath.Join(htmlUDir, "golang.mod"), []byte("module htmlunformatted\n"), 0666); err != nil {
 		t.Fatal(err)
 	}
 
@@ -445,8 +445,8 @@ package htmlunformatted
 var g int
 
 func F() {
-//line x.go:1
-	{ { F(); goto lab } }
+//line x.golang:1
+	{ { F(); golangto lab } }
 lab:
 }`
 
@@ -459,7 +459,7 @@ lab:
 		t.Fatal(err)
 	}
 
-	// go test -covermode=count -coverprofile TMPDIR/htmlunformatted.cov
+	// golang test -covermode=count -coverprofile TMPDIR/htmlunformatted.cov
 	cmd := testenv.Command(t, testenv.GoToolPath(t), "test", "-test.v", toolexecArg, "-covermode=count", "-coverprofile", htmlUProfile)
 	cmd.Env = append(cmd.Environ(), "CMDCOVER_TOOLEXEC=true")
 	cmd.Dir = htmlUDir
@@ -471,7 +471,7 @@ lab:
 	run(cmd, t)
 }
 
-// lineDupContents becomes linedup.go in testFuncWithDuplicateLines.
+// lineDupContents becomes linedup.golang in testFuncWithDuplicateLines.
 const lineDupContents = `
 package linedup
 
@@ -479,14 +479,14 @@ var G int
 
 func LineDup(c int) {
 	for i := 0; i < c; i++ {
-//line ld.go:100
+//line ld.golang:100
 		if i % 2 == 0 {
 			G++
 		}
 		if i % 3 == 0 {
 			G++; G++
 		}
-//line ld.go:100
+//line ld.golang:100
 		if i % 4 == 0 {
 			G++; G++; G++
 		}
@@ -497,7 +497,7 @@ func LineDup(c int) {
 }
 `
 
-// lineDupTestContents becomes linedup_test.go in testFuncWithDuplicateLines.
+// lineDupTestContents becomes linedup_test.golang in testFuncWithDuplicateLines.
 const lineDupTestContents = `
 package linedup
 
@@ -517,15 +517,15 @@ func testFuncWithDuplicateLines(t *testing.T, toolexecArg string) {
 	t.Parallel()
 
 	lineDupDir := filepath.Join(dir, "linedup")
-	lineDupGo := filepath.Join(lineDupDir, "linedup.go")
-	lineDupTestGo := filepath.Join(lineDupDir, "linedup_test.go")
+	lineDupGo := filepath.Join(lineDupDir, "linedup.golang")
+	lineDupTestGo := filepath.Join(lineDupDir, "linedup_test.golang")
 	lineDupProfile := filepath.Join(lineDupDir, "linedup.out")
 
 	if err := os.Mkdir(lineDupDir, 0777); err != nil {
 		t.Fatal(err)
 	}
 
-	if err := os.WriteFile(filepath.Join(lineDupDir, "go.mod"), []byte("module linedup\n"), 0666); err != nil {
+	if err := os.WriteFile(filepath.Join(lineDupDir, "golang.mod"), []byte("module linedup\n"), 0666); err != nil {
 		t.Fatal(err)
 	}
 	if err := os.WriteFile(lineDupGo, []byte(lineDupContents), 0444); err != nil {
@@ -535,7 +535,7 @@ func testFuncWithDuplicateLines(t *testing.T, toolexecArg string) {
 		t.Fatal(err)
 	}
 
-	// go test -cover -covermode count -coverprofile TMPDIR/linedup.out
+	// golang test -cover -covermode count -coverprofile TMPDIR/linedup.out
 	cmd := testenv.Command(t, testenv.GoToolPath(t), "test", toolexecArg, "-cover", "-covermode", "count", "-coverprofile", lineDupProfile)
 	cmd.Env = append(cmd.Environ(), "CMDCOVER_TOOLEXEC=true")
 	cmd.Dir = lineDupDir
@@ -578,14 +578,14 @@ func testMissingTrailingNewlineIssue58370(t *testing.T, toolexecArg string) {
 	t.Parallel()
 
 	noeolDir := filepath.Join(dir, "issue58370")
-	noeolGo := filepath.Join(noeolDir, "noeol.go")
-	noeolTestGo := filepath.Join(noeolDir, "noeol_test.go")
+	noeolGo := filepath.Join(noeolDir, "noeol.golang")
+	noeolTestGo := filepath.Join(noeolDir, "noeol_test.golang")
 
 	if err := os.Mkdir(noeolDir, 0777); err != nil {
 		t.Fatal(err)
 	}
 
-	if err := os.WriteFile(filepath.Join(noeolDir, "go.mod"), []byte("module noeol\n"), 0666); err != nil {
+	if err := os.WriteFile(filepath.Join(noeolDir, "golang.mod"), []byte("module noeol\n"), 0666); err != nil {
 		t.Fatal(err)
 	}
 	const noeolContents = `package noeol`
@@ -601,7 +601,7 @@ func TestCoverage(t *testing.T) { }
 		t.Fatal(err)
 	}
 
-	// go test -covermode atomic
+	// golang test -covermode atomic
 	cmd := testenv.Command(t, testenv.GoToolPath(t), "test", toolexecArg, "-covermode", "atomic")
 	cmd.Env = append(cmd.Environ(), "CMDCOVER_TOOLEXEC=true")
 	cmd.Dir = noeolDir
@@ -614,7 +614,7 @@ func TestSrcPathWithNewline(t *testing.T) {
 
 	// srcPath is intentionally not clean so that the path passed to testcover
 	// will not normalize the trailing / to a \ on Windows.
-	srcPath := t.TempDir() + string(filepath.Separator) + "\npackage main\nfunc main() { panic(string([]rune{'u', 'h', '-', 'o', 'h'}))\n/*/main.go"
+	srcPath := t.TempDir() + string(filepath.Separator) + "\npackage main\nfunc main() { panic(string([]rune{'u', 'h', '-', 'o', 'h'}))\n/*/main.golang"
 	mainSrc := ` package main
 
 func main() {

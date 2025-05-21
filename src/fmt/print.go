@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package fmt
@@ -131,8 +131,8 @@ type pp struct {
 
 	// reordered records whether the format string used argument reordering.
 	reordered bool
-	// goodArgNum records whether the most recent reordering directive was valid.
-	goodArgNum bool
+	// golangodArgNum records whether the most recent reordering directive was valid.
+	golangodArgNum bool
 	// panicking is set by catchPanic to avoid infinite panic, recover, panic, ... recursion.
 	panicking bool
 	// erroring is set when printing an error string to guard against calling handleMethods.
@@ -165,7 +165,7 @@ func (p *pp) free() {
 	// buffer to place back in the pool. If the buffer is larger than the
 	// limit, we drop the buffer and recycle just the printer.
 	//
-	// See https://golang.org/issue/23199.
+	// See https://golanglang.org/issue/23199.
 	if cap(p.buf) > 64*1024 {
 		p.buf = nil
 	} else {
@@ -1000,7 +1000,7 @@ func (p *pp) argNumber(argNum int, format string, i int, numArgs int) (newArgNum
 	if ok && 0 <= index && index < numArgs {
 		return index, i + wid, true
 	}
-	p.goodArgNum = false
+	p.golangodArgNum = false
 	return argNum, i + wid, ok
 }
 
@@ -1023,7 +1023,7 @@ func (p *pp) doPrintf(format string, a []any) {
 	p.reordered = false
 formatLoop:
 	for i := 0; i < end; {
-		p.goodArgNum = true
+		p.golangodArgNum = true
 		lasti := i
 		for i < end && format[i] != '%' {
 			i++
@@ -1104,7 +1104,7 @@ formatLoop:
 		} else {
 			p.fmt.wid, p.fmt.widPresent, i = parsenum(format, i, end)
 			if afterIndex && p.fmt.widPresent { // "%[3]2d"
-				p.goodArgNum = false
+				p.golangodArgNum = false
 			}
 		}
 
@@ -1112,7 +1112,7 @@ formatLoop:
 		if i+1 < end && format[i] == '.' {
 			i++
 			if afterIndex { // "%[3].2d"
-				p.goodArgNum = false
+				p.golangodArgNum = false
 			}
 			argNum, i, afterIndex = p.argNumber(argNum, format, i, len(a))
 			if i < end && format[i] == '*' {
@@ -1154,7 +1154,7 @@ formatLoop:
 		switch {
 		case verb == '%': // Percent does not absorb operands and ignores f.wid and f.prec.
 			p.buf.writeByte('%')
-		case !p.goodArgNum:
+		case !p.golangodArgNum:
 			p.badArgNum(verb)
 		case argNum >= len(a): // No argument left over to print for the current verb.
 			p.missingArg(verb)

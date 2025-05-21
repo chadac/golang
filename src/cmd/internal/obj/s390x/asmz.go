@@ -1,4 +1,4 @@
-// Based on cmd/internal/obj/ppc64/asm9.go.
+// Based on cmd/internal/obj/ppc64/asm9.golang.
 //
 //    Copyright © 1994-1999 Lucent Technologies Inc.  All rights reserved.
 //    Portions Copyright © 1995-1997 C H Forsyth (forsyth@terzarima.net)
@@ -724,7 +724,7 @@ func (c *ctxtz) oplook(p *obj.Prog) *Optab {
 		return &optab[p.Optab-1]
 	}
 	if len(p.RestArgs) > 3 {
-		c.ctxt.Diag("too many RestArgs: got %v, maximum is 3\n", len(p.RestArgs))
+		c.ctxt.Diag("too many RestArgs: golangt %v, maximum is 3\n", len(p.RestArgs))
 		return nil
 	}
 
@@ -2843,7 +2843,7 @@ func (c *ctxtz) asmout(p *obj.Prog, asm *[]byte) {
 		}
 
 	case 3: // mov $constant reg
-		v := c.vregoff(&p.From)
+		v := c.vregolangff(&p.From)
 		switch p.As {
 		case AMOVBZ:
 			v = int64(uint8(v))
@@ -2935,7 +2935,7 @@ func (c *ctxtz) asmout(p *obj.Prog, asm *[]byte) {
 		}
 
 	case 7: // shift/rotate reg [reg] reg
-		d2 := c.vregoff(&p.From)
+		d2 := c.vregolangff(&p.From)
 		b2 := p.From.Reg
 		r3 := p.Reg
 		if r3 == 0 {
@@ -3035,7 +3035,7 @@ func (c *ctxtz) asmout(p *obj.Prog, asm *[]byte) {
 
 	case 12:
 		r1 := p.To.Reg
-		d2 := c.vregoff(&p.From)
+		d2 := c.vregolangff(&p.From)
 		b2 := p.From.Reg
 		if b2 == 0 {
 			b2 = REGSP
@@ -3162,7 +3162,7 @@ func (c *ctxtz) asmout(p *obj.Prog, asm *[]byte) {
 		}
 
 	case 19: // mov $sym+n(SB) reg
-		d := c.vregoff(&p.From)
+		d := c.vregolangff(&p.From)
 		zRIL(_b, op_LARL, uint32(p.To.Reg), 0, asm)
 		if d&1 != 0 {
 			zRX(op_LA, uint32(p.To.Reg), uint32(p.To.Reg), 0, 1, asm)
@@ -3171,7 +3171,7 @@ func (c *ctxtz) asmout(p *obj.Prog, asm *[]byte) {
 		c.addrilreloc(p.From.Sym, d)
 
 	case 21: // subtract $constant [reg] reg
-		v := c.vregoff(&p.From)
+		v := c.vregolangff(&p.From)
 		r := p.Reg
 		if r == 0 {
 			r = p.To.Reg
@@ -3193,7 +3193,7 @@ func (c *ctxtz) asmout(p *obj.Prog, asm *[]byte) {
 		}
 
 	case 22: // add/multiply $constant [reg] reg
-		v := c.vregoff(&p.From)
+		v := c.vregolangff(&p.From)
 		r := p.Reg
 		if r == 0 {
 			r = p.To.Reg
@@ -3237,7 +3237,7 @@ func (c *ctxtz) asmout(p *obj.Prog, asm *[]byte) {
 
 	case 23: // 64-bit logical op $constant reg
 		// TODO(mundaym): merge with case 24.
-		v := c.vregoff(&p.From)
+		v := c.vregolangff(&p.From)
 		switch p.As {
 		default:
 			c.ctxt.Diag("%v is not supported", p)
@@ -3269,7 +3269,7 @@ func (c *ctxtz) asmout(p *obj.Prog, asm *[]byte) {
 		}
 
 	case 24: // 32-bit logical op $constant reg
-		v := c.vregoff(&p.From)
+		v := c.vregolangff(&p.From)
 		switch p.As {
 		case AANDW:
 			if uint32(v&0xffff0000) == 0xffff0000 {
@@ -3303,7 +3303,7 @@ func (c *ctxtz) asmout(p *obj.Prog, asm *[]byte) {
 		zRRF(opcode, m3, 0, uint32(p.To.Reg), uint32(p.Reg), asm)
 
 	case 26: // MOVD $offset(base)(index), reg
-		v := c.regoff(&p.From)
+		v := c.regolangff(&p.From)
 		r := p.From.Reg
 		if r == 0 {
 			r = REGSP
@@ -3319,7 +3319,7 @@ func (c *ctxtz) asmout(p *obj.Prog, asm *[]byte) {
 		}
 
 	case 31: // dword
-		wd := uint64(c.vregoff(&p.From))
+		wd := uint64(c.vregolangff(&p.From))
 		*asm = append(*asm,
 			uint8(wd>>56),
 			uint8(wd>>48),
@@ -3404,7 +3404,7 @@ func (c *ctxtz) asmout(p *obj.Prog, asm *[]byte) {
 		zRRD(opcode, uint32(p.To.Reg), uint32(p.From.Reg), uint32(p.Reg), asm)
 
 	case 35: // mov reg mem (no relocation)
-		d2 := c.regoff(&p.To)
+		d2 := c.regolangff(&p.To)
 		b2 := p.To.Reg
 		if b2 == 0 {
 			b2 = REGSP
@@ -3426,7 +3426,7 @@ func (c *ctxtz) asmout(p *obj.Prog, asm *[]byte) {
 		}
 
 	case 36: // mov mem reg (no relocation)
-		d2 := c.regoff(&p.From)
+		d2 := c.regolangff(&p.From)
 		b2 := p.From.Reg
 		if b2 == 0 {
 			b2 = REGSP
@@ -3448,7 +3448,7 @@ func (c *ctxtz) asmout(p *obj.Prog, asm *[]byte) {
 		}
 
 	case 40: // word/byte
-		wd := uint32(c.regoff(&p.From))
+		wd := uint32(c.regolangff(&p.From))
 		if p.As == AWORD { //WORD
 			*asm = append(*asm, uint8(wd>>24), uint8(wd>>16), uint8(wd>>8), uint8(wd))
 		} else { //BYTE
@@ -3483,7 +3483,7 @@ func (c *ctxtz) asmout(p *obj.Prog, asm *[]byte) {
 		}
 
 	case 48: // floating-point round to integer
-		m3 := c.vregoff(&p.From)
+		m3 := c.vregolangff(&p.From)
 		if 0 > m3 || m3 > 7 {
 			c.ctxt.Diag("mask (%v) must be in the range [0, 7]", m3)
 		}
@@ -3517,7 +3517,7 @@ func (c *ctxtz) asmout(p *obj.Prog, asm *[]byte) {
 		case ATCDB:
 			opcode = op_TCDB
 		}
-		d2 := c.regoff(&p.To)
+		d2 := c.regolangff(&p.To)
 		zRXE(opcode, uint32(p.From.Reg), 0, 0, uint32(d2), 0, asm)
 
 	case 62: // equivalent of Mul64 in math/bits
@@ -3550,7 +3550,7 @@ func (c *ctxtz) asmout(p *obj.Prog, asm *[]byte) {
 		}
 
 	case 71: // cmp reg $constant
-		v := c.vregoff(&p.To)
+		v := c.vregolangff(&p.To)
 		switch p.As {
 		case ACMP, ACMPW:
 			if int64(int32(v)) != v {
@@ -3570,8 +3570,8 @@ func (c *ctxtz) asmout(p *obj.Prog, asm *[]byte) {
 		}
 
 	case 72: // mov $constant mem
-		v := c.regoff(&p.From)
-		d := c.regoff(&p.To)
+		v := c.regolangff(&p.From)
+		d := c.regolangff(&p.To)
 		r := p.To.Reg
 		if p.To.Index != 0 {
 			c.ctxt.Diag("cannot use index register")
@@ -3622,7 +3622,7 @@ func (c *ctxtz) asmout(p *obj.Prog, asm *[]byte) {
 		zE(op_BRRK, asm)
 
 	case 74: // mov reg addr (including relocation)
-		i2 := c.regoff(&p.To)
+		i2 := c.regolangff(&p.To)
 		switch p.As {
 		case AMOVD:
 			zRIL(_b, op_STGRL, uint32(p.From.Reg), 0, asm)
@@ -3648,7 +3648,7 @@ func (c *ctxtz) asmout(p *obj.Prog, asm *[]byte) {
 		c.addrilreloc(p.To.Sym, int64(i2))
 
 	case 75: // mov addr reg (including relocation)
-		i2 := c.regoff(&p.From)
+		i2 := c.regolangff(&p.From)
 		switch p.As {
 		case AMOVD:
 			if i2&1 != 0 {
@@ -3705,7 +3705,7 @@ func (c *ctxtz) asmout(p *obj.Prog, asm *[]byte) {
 		*asm = append(*asm, 0, 0, 0, 0)
 
 	case 79: // compare and swap reg reg reg
-		v := c.regoff(&p.To)
+		v := c.regolangff(&p.To)
 		if v < 0 {
 			v = 0
 		}
@@ -3781,7 +3781,7 @@ func (c *ctxtz) asmout(p *obj.Prog, asm *[]byte) {
 		zRRF(opcode, 5, 0, uint32(p.To.Reg), uint32(p.From.Reg), asm)
 
 	case 84: // storage-and-storage operations $length mem mem
-		l := c.regoff(&p.From)
+		l := c.regolangff(&p.From)
 		if l < 1 || l > 256 {
 			c.ctxt.Diag("number of bytes (%v) not in range [1,256]", l)
 		}
@@ -3796,8 +3796,8 @@ func (c *ctxtz) asmout(p *obj.Prog, asm *[]byte) {
 		if b2 == 0 {
 			b2 = REGSP
 		}
-		d1 := c.regoff(&p.To)
-		d2 := c.regoff(p.GetFrom3())
+		d1 := c.regolangff(&p.To)
+		d2 := c.regolangff(p.GetFrom3())
 		if d1 < 0 || d1 >= DISP12 {
 			if b2 == int16(regtmp(p)) {
 				c.ctxt.Diag("regtmp(p) conflict")
@@ -3847,7 +3847,7 @@ func (c *ctxtz) asmout(p *obj.Prog, asm *[]byte) {
 		zSS(_a, opcode, uint32(l-1), 0, uint32(b1), uint32(d1), uint32(b2), uint32(d2), asm)
 
 	case 85: // load address relative long
-		v := c.regoff(&p.From)
+		v := c.regolangff(&p.From)
 		if p.From.Sym == nil {
 			if (v & 1) != 0 {
 				c.ctxt.Diag("cannot use LARL with odd offset: %v", v)
@@ -3859,7 +3859,7 @@ func (c *ctxtz) asmout(p *obj.Prog, asm *[]byte) {
 		zRIL(_b, op_LARL, uint32(p.To.Reg), uint32(v>>1), asm)
 
 	case 86: // load address
-		d := c.vregoff(&p.From)
+		d := c.vregolangff(&p.From)
 		x := p.From.Index
 		b := p.From.Reg
 		if b == 0 {
@@ -3873,7 +3873,7 @@ func (c *ctxtz) asmout(p *obj.Prog, asm *[]byte) {
 		}
 
 	case 87: // execute relative long
-		v := c.vregoff(&p.From)
+		v := c.vregolangff(&p.From)
 		if p.From.Sym == nil {
 			if v&1 != 0 {
 				c.ctxt.Diag("cannot use EXRL with odd offset: %v", v)
@@ -3896,7 +3896,7 @@ func (c *ctxtz) asmout(p *obj.Prog, asm *[]byte) {
 		case ASTCKF:
 			opcode = op_STCKF
 		}
-		v := c.vregoff(&p.To)
+		v := c.vregolangff(&p.To)
 		r := p.To.Reg
 		if r == 0 {
 			r = REGSP
@@ -4000,13 +4000,13 @@ func (c *ctxtz) asmout(p *obj.Prog, asm *[]byte) {
 		case ATMLL:
 			opcode = op_TMLL
 		}
-		zRI(opcode, uint32(p.From.Reg), uint32(c.vregoff(&p.To)), asm)
+		zRI(opcode, uint32(p.From.Reg), uint32(c.vregolangff(&p.To)), asm)
 
 	case 92: // insert program mask
 		zRRE(op_IPM, uint32(p.From.Reg), 0, asm)
 
 	case 93: // GOT lookup
-		v := c.vregoff(&p.To)
+		v := c.vregolangff(&p.To)
 		if v != 0 {
 			c.ctxt.Diag("invalid offset against GOT slot %v", p)
 		}
@@ -4058,8 +4058,8 @@ func (c *ctxtz) asmout(p *obj.Prog, asm *[]byte) {
 		// not strictly required but might allow the linker to optimize
 
 	case 96: // clear macro
-		length := c.vregoff(&p.From)
-		offset := c.vregoff(&p.To)
+		length := c.vregolangff(&p.From)
+		offset := c.vregolangff(&p.To)
 		reg := p.To.Reg
 		if reg == 0 {
 			reg = REGSP
@@ -4105,7 +4105,7 @@ func (c *ctxtz) asmout(p *obj.Prog, asm *[]byte) {
 	case 97: // store multiple
 		rstart := p.From.Reg
 		rend := p.Reg
-		offset := c.regoff(&p.To)
+		offset := c.regolangff(&p.To)
 		reg := p.To.Reg
 		if reg == 0 {
 			reg = REGSP
@@ -4132,7 +4132,7 @@ func (c *ctxtz) asmout(p *obj.Prog, asm *[]byte) {
 	case 98: // load multiple
 		rstart := p.Reg
 		rend := p.To.Reg
-		offset := c.regoff(&p.From)
+		offset := c.regolangff(&p.From)
 		reg := p.From.Reg
 		if reg == 0 {
 			reg = REGSP
@@ -4160,7 +4160,7 @@ func (c *ctxtz) asmout(p *obj.Prog, asm *[]byte) {
 		if p.To.Index != 0 {
 			c.ctxt.Diag("cannot use indexed address")
 		}
-		offset := c.regoff(&p.To)
+		offset := c.regolangff(&p.To)
 		if offset < -DISP20/2 || offset >= DISP20/2 {
 			c.ctxt.Diag("%v does not fit into 20-bit signed integer", offset)
 		}
@@ -4193,48 +4193,48 @@ func (c *ctxtz) asmout(p *obj.Prog, asm *[]byte) {
 		op, m3, _ := vop(p.As)
 		v1 := p.From.Reg
 		if p.Reg != 0 {
-			m3 = uint32(c.vregoff(&p.From))
+			m3 = uint32(c.vregolangff(&p.From))
 			v1 = p.Reg
 		}
 		b2 := p.To.Reg
 		if b2 == 0 {
 			b2 = REGSP
 		}
-		d2 := uint32(c.vregoff(&p.To))
+		d2 := uint32(c.vregolangff(&p.To))
 		zVRX(op, uint32(v1), uint32(p.To.Index), uint32(b2), d2, m3, asm)
 
 	case 101: // VRX LOAD
 		op, m3, _ := vop(p.As)
 		src := &p.From
 		if p.GetFrom3() != nil {
-			m3 = uint32(c.vregoff(&p.From))
+			m3 = uint32(c.vregolangff(&p.From))
 			src = p.GetFrom3()
 		}
 		b2 := src.Reg
 		if b2 == 0 {
 			b2 = REGSP
 		}
-		d2 := uint32(c.vregoff(src))
+		d2 := uint32(c.vregolangff(src))
 		zVRX(op, uint32(p.To.Reg), uint32(src.Index), uint32(b2), d2, m3, asm)
 
 	case 102: // VRV SCATTER
 		op, _, _ := vop(p.As)
-		m3 := uint32(c.vregoff(&p.From))
+		m3 := uint32(c.vregolangff(&p.From))
 		b2 := p.To.Reg
 		if b2 == 0 {
 			b2 = REGSP
 		}
-		d2 := uint32(c.vregoff(&p.To))
+		d2 := uint32(c.vregolangff(&p.To))
 		zVRV(op, uint32(p.Reg), uint32(p.To.Index), uint32(b2), d2, m3, asm)
 
 	case 103: // VRV GATHER
 		op, _, _ := vop(p.As)
-		m3 := uint32(c.vregoff(&p.From))
+		m3 := uint32(c.vregolangff(&p.From))
 		b2 := p.GetFrom3().Reg
 		if b2 == 0 {
 			b2 = REGSP
 		}
-		d2 := uint32(c.vregoff(p.GetFrom3()))
+		d2 := uint32(c.vregolangff(p.GetFrom3()))
 		zVRV(op, uint32(p.To.Reg), uint32(p.GetFrom3().Index), uint32(b2), d2, m3, asm)
 
 	case 104: // VRS SHIFT/ROTATE and LOAD GR FROM VR ELEMENT
@@ -4243,12 +4243,12 @@ func (c *ctxtz) asmout(p *obj.Prog, asm *[]byte) {
 		if fr == 0 {
 			fr = p.To.Reg
 		}
-		bits := uint32(c.vregoff(&p.From))
+		bits := uint32(c.vregolangff(&p.From))
 		zVRS(op, uint32(p.To.Reg), uint32(fr), uint32(p.From.Reg), bits, m4, asm)
 
 	case 105: // VRS STORE MULTIPLE
 		op, _, _ := vop(p.As)
-		offset := uint32(c.vregoff(&p.To))
+		offset := uint32(c.vregolangff(&p.To))
 		reg := p.To.Reg
 		if reg == 0 {
 			reg = REGSP
@@ -4257,7 +4257,7 @@ func (c *ctxtz) asmout(p *obj.Prog, asm *[]byte) {
 
 	case 106: // VRS LOAD MULTIPLE
 		op, _, _ := vop(p.As)
-		offset := uint32(c.vregoff(&p.From))
+		offset := uint32(c.vregolangff(&p.From))
 		reg := p.From.Reg
 		if reg == 0 {
 			reg = REGSP
@@ -4266,7 +4266,7 @@ func (c *ctxtz) asmout(p *obj.Prog, asm *[]byte) {
 
 	case 107: // VRS STORE WITH LENGTH
 		op, _, _ := vop(p.As)
-		offset := uint32(c.vregoff(&p.To))
+		offset := uint32(c.vregolangff(&p.To))
 		reg := p.To.Reg
 		if reg == 0 {
 			reg = REGSP
@@ -4275,7 +4275,7 @@ func (c *ctxtz) asmout(p *obj.Prog, asm *[]byte) {
 
 	case 108: // VRS LOAD WITH LENGTH
 		op, _, _ := vop(p.As)
-		offset := uint32(c.vregoff(p.GetFrom3()))
+		offset := uint32(c.vregolangff(p.GetFrom3()))
 		reg := p.GetFrom3().Reg
 		if reg == 0 {
 			reg = REGSP
@@ -4284,10 +4284,10 @@ func (c *ctxtz) asmout(p *obj.Prog, asm *[]byte) {
 
 	case 109: // VRI-a
 		op, m3, _ := vop(p.As)
-		i2 := uint32(c.vregoff(&p.From))
+		i2 := uint32(c.vregolangff(&p.From))
 		if p.GetFrom3() != nil {
-			m3 = uint32(c.vregoff(&p.From))
-			i2 = uint32(c.vregoff(p.GetFrom3()))
+			m3 = uint32(c.vregolangff(&p.From))
+			i2 = uint32(c.vregolangff(p.GetFrom3()))
 		}
 		switch p.As {
 		case AVZERO:
@@ -4299,24 +4299,24 @@ func (c *ctxtz) asmout(p *obj.Prog, asm *[]byte) {
 
 	case 110:
 		op, m4, _ := vop(p.As)
-		i2 := uint32(c.vregoff(&p.From))
-		i3 := uint32(c.vregoff(p.GetFrom3()))
+		i2 := uint32(c.vregolangff(&p.From))
+		i3 := uint32(c.vregolangff(p.GetFrom3()))
 		zVRIb(op, uint32(p.To.Reg), i2, i3, m4, asm)
 
 	case 111:
 		op, m4, _ := vop(p.As)
-		i2 := uint32(c.vregoff(&p.From))
+		i2 := uint32(c.vregolangff(&p.From))
 		zVRIc(op, uint32(p.To.Reg), uint32(p.Reg), i2, m4, asm)
 
 	case 112:
 		op, m5, _ := vop(p.As)
-		i4 := uint32(c.vregoff(&p.From))
+		i4 := uint32(c.vregolangff(&p.From))
 		zVRId(op, uint32(p.To.Reg), uint32(p.Reg), uint32(p.GetFrom3().Reg), i4, m5, asm)
 
 	case 113:
 		op, m4, _ := vop(p.As)
 		m5 := singleElementMask(p.As)
-		i3 := uint32(c.vregoff(&p.From))
+		i3 := uint32(c.vregolangff(&p.From))
 		zVRIe(op, uint32(p.To.Reg), uint32(p.Reg), i3, m5, m4, asm)
 
 	case 114: // VRR-a
@@ -4374,7 +4374,7 @@ func (c *ctxtz) asmout(p *obj.Prog, asm *[]byte) {
 
 	case 123: // VPDI $m4, V2, V3, V1
 		op, _, _ := vop(p.As)
-		m4 := c.regoff(&p.From)
+		m4 := c.regolangff(&p.From)
 		zVRRc(op, uint32(p.To.Reg), uint32(p.Reg), uint32(p.GetFrom3().Reg), 0, 0, uint32(m4), asm)
 
 	case 124:
@@ -4456,7 +4456,7 @@ func (c *ctxtz) asmout(p *obj.Prog, asm *[]byte) {
 	}
 }
 
-func (c *ctxtz) vregoff(a *obj.Addr) int64 {
+func (c *ctxtz) vregolangff(a *obj.Addr) int64 {
 	c.instoffset = 0
 	if a != nil {
 		c.aclass(a)
@@ -4464,8 +4464,8 @@ func (c *ctxtz) vregoff(a *obj.Addr) int64 {
 	return c.instoffset
 }
 
-func (c *ctxtz) regoff(a *obj.Addr) int32 {
-	return int32(c.vregoff(a))
+func (c *ctxtz) regolangff(a *obj.Addr) int32 {
+	return int32(c.vregolangff(a))
 }
 
 // find if the displacement is within 12 bit.

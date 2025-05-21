@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -64,7 +64,7 @@ func main() {
 	case ch <- x:
 	case nilch <- g():
 	}
-	if got := <-ch1; got != 42 {
-		panic(got)
+	if golangt := <-ch1; golangt != 42 {
+		panic(golangt)
 	}
 }

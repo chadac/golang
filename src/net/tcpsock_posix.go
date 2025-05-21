@@ -1,8 +1,8 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build unix || js || wasip1 || windows
+//golang:build unix || js || wasip1 || windows
 
 package net
 
@@ -99,7 +99,7 @@ func (sd *sysDialer) doDialTCPProto(ctx context.Context, laddr, raddr *TCPAddr, 
 	// see this happen, rather than expose the buggy effect to users, we
 	// close the fd and try again. If it happens twice more, we relent and
 	// use the result. See also:
-	//	https://golang.org/issue/2690
+	//	https://golanglang.org/issue/2690
 	//	https://stackoverflow.com/questions/4949858/
 	//
 	// The opposite can also happen: if we ask the kernel to pick an appropriate
@@ -134,7 +134,7 @@ func selfConnect(fd *netFD, err error) bool {
 	// Since this code (selfConnect) is already trying to work around
 	// a problem, we make sure if this happens we recognize trouble and
 	// ask the DialTCP routine to try again.
-	// TODO: try to understand what's really going on.
+	// TODO: try to understand what's really golanging on.
 	if fd.laddr == nil || fd.raddr == nil {
 		return true
 	}

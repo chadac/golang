@@ -1,8 +1,8 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build js && wasm
+//golang:build js && wasm
 
 package http
 
@@ -49,9 +49,9 @@ var jsFetchMissing = js.Global().Get("fetch").IsUndefined()
 // jsFetchDisabled controls whether the use of Fetch API is disabled.
 // It's set to true when we detect we're running in Node.js, so that
 // RoundTrip ends up talking over the same fake network the HTTP servers
-// currently use in various tests and examples. See go.dev/issue/57613.
+// currently use in various tests and examples. See golang.dev/issue/57613.
 //
-// TODO(go.dev/issue/60810): See if it's viable to test the Fetch API
+// TODO(golang.dev/issue/60810): See if it's viable to test the Fetch API
 // code path.
 var jsFetchDisabled = js.Global().Get("process").Type() == js.TypeObject &&
 	strings.HasPrefix(js.Global().Get("process").Get("argv0").String(), "node")
@@ -112,7 +112,7 @@ func (t *Transport) RoundTrip(req *Request) (*Response, error) {
 		// See https://developer.mozilla.org/en-US/docs/Web/API/Streams_API for more details on the Streams API
 		// and browser support.
 		// NOTE(haruyama480): Ensure HTTP/1 fallback exists.
-		// See https://go.dev/issue/61889 for discussion.
+		// See https://golang.dev/issue/61889 for discussion.
 		body, err := io.ReadAll(req.Body)
 		if err != nil {
 			req.Body.Close() // RoundTrip must always close the body, including on errors.

@@ -1,13 +1,13 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 //
 // System calls and other sys.stuff for 386, NetBSD
 // /usr/src/sys/kern/syscalls.master for syscall numbers.
 //
 
-#include "go_asm.h"
-#include "go_tls.h"
+#include "golang_asm.h"
+#include "golang_tls.h"
 #include "textflag.h"
 
 #define CLOCK_REALTIME		0
@@ -296,7 +296,7 @@ TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME,$28
 	MOVL	BP, bp-8(SP)
 	MOVL	SI, si-12(SP)
 	MOVL	DI, di-16(SP)
-	// We don't save mxcsr or the x87 control word because sigtrampgo doesn't
+	// We don't save mxcsr or the x87 control word because sigtrampgolang doesn't
 	// modify them.
 
 	MOVL	32(SP), BX // signo
@@ -305,7 +305,7 @@ TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME,$28
 	MOVL	BX, 4(SP)
 	MOVL	40(SP), BX // context
 	MOVL	BX, 8(SP)
-	CALL	runtime·sigtrampgo(SB)
+	CALL	runtime·sigtrampgolang(SB)
 
 	MOVL	di-16(SP), DI
 	MOVL	si-12(SP), SI

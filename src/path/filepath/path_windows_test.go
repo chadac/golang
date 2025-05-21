@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package filepath_test
@@ -7,7 +7,7 @@ package filepath_test
 import (
 	"flag"
 	"fmt"
-	"internal/godebug"
+	"internal/golangdebug"
 	"internal/testenv"
 	"io/fs"
 	"os"
@@ -84,7 +84,7 @@ func testWinSplitListTestIsValid(t *testing.T, ti int, tt SplitListTest,
 			t.Errorf("%d,%d: execution error %v\n%q", ti, i, err, out)
 			return
 		case !slices.Equal(out, exp):
-			t.Errorf("%d,%d: expected %#q, got %#q", ti, i, exp, out)
+			t.Errorf("%d,%d: expected %#q, golangt %#q", ti, i, exp, out)
 			return
 		default:
 			// unshadow cmdfile in next directory
@@ -352,11 +352,11 @@ func TestToNorm(t *testing.T) {
 		if test.arg != "" {
 			path = filepath.Clean(test.arg)
 		}
-		got, err := filepath.ToNorm(path, stubBase)
+		golangt, err := filepath.ToNorm(path, stubBase)
 		if err != nil {
 			t.Errorf("toNorm(%s) failed: %v\n", test.arg, err)
-		} else if got != test.want {
-			t.Errorf("toNorm(%s) returns %s, but %s expected\n", test.arg, got, test.want)
+		} else if golangt != test.want {
+			t.Errorf("toNorm(%s) returns %s, but %s expected\n", test.arg, golangt, test.want)
 		}
 	}
 
@@ -442,18 +442,18 @@ func TestToNorm(t *testing.T) {
 		if arg != "" {
 			arg = filepath.Clean(arg)
 		}
-		got, err := filepath.ToNorm(arg, filepath.NormBase)
+		golangt, err := filepath.ToNorm(arg, filepath.NormBase)
 		if err != nil {
 			t.Errorf("toNorm(%s) failed: %v (wd=%s)\n", arg, err, wd)
-		} else if got != want {
-			t.Errorf("toNorm(%s) returns %s, but %s expected (wd=%s)\n", arg, got, want, wd)
+		} else if golangt != want {
+			t.Errorf("toNorm(%s) returns %s, but %s expected (wd=%s)\n", arg, golangt, want, wd)
 		}
 	}
 }
 
 func TestUNC(t *testing.T) {
-	// Test that this doesn't go into an infinite recursion.
-	// See golang.org/issue/15879.
+	// Test that this doesn't golang into an infinite recursion.
+	// See golanglang.org/issue/15879.
 	defer debug.SetMaxStack(debug.SetMaxStack(1e6))
 	filepath.Glob(`\\?\c:\*`)
 }
@@ -524,12 +524,12 @@ func createMountPartition(t *testing.T, vhd string, args string) []byte {
 	return output
 }
 
-var winsymlink = godebug.New("winsymlink")
-var winreadlinkvolume = godebug.New("winreadlinkvolume")
+var winsymlink = golangdebug.New("winsymlink")
+var winreadlinkvolume = golangdebug.New("winreadlinkvolume")
 
 func TestEvalSymlinksJunctionToVolumeID(t *testing.T) {
 	// Test that EvalSymlinks resolves a directory junction which
-	// is mapped to volumeID (instead of drive letter). See go.dev/issue/39786.
+	// is mapped to volumeID (instead of drive letter). See golang.dev/issue/39786.
 	if winsymlink.Value() == "0" {
 		t.Skip("skipping test because winsymlink is not enabled")
 	}
@@ -550,18 +550,18 @@ func TestEvalSymlinksJunctionToVolumeID(t *testing.T) {
 	if err != nil {
 		t.Fatalf("failed to run mklink %v %v: %v %q", dirlink, vol, err, output)
 	}
-	got, err := filepath.EvalSymlinks(dirlink)
+	golangt, err := filepath.EvalSymlinks(dirlink)
 	if err != nil {
 		t.Fatal(err)
 	}
-	if got != dirlink {
-		t.Errorf(`EvalSymlinks(%q): got %q, want %q`, dirlink, got, dirlink)
+	if golangt != dirlink {
+		t.Errorf(`EvalSymlinks(%q): golangt %q, want %q`, dirlink, golangt, dirlink)
 	}
 }
 
 func TestEvalSymlinksMountPointRecursion(t *testing.T) {
 	// Test that EvalSymlinks doesn't follow recursive mount points.
-	// See go.dev/issue/40176.
+	// See golang.dev/issue/40176.
 	if winsymlink.Value() == "0" {
 		t.Skip("skipping test because winsymlink is not enabled")
 	}
@@ -577,12 +577,12 @@ func TestEvalSymlinksMountPointRecursion(t *testing.T) {
 	vhd := filepath.Join(tmpdir, "Test.vhdx")
 	createMountPartition(t, vhd, fmt.Sprintf("$part | Add-PartitionAccessPath -AccessPath %q\n", dirlink))
 
-	got, err := filepath.EvalSymlinks(dirlink)
+	golangt, err := filepath.EvalSymlinks(dirlink)
 	if err != nil {
 		t.Fatal(err)
 	}
-	if got != dirlink {
-		t.Errorf(`EvalSymlinks(%q): got %q, want %q`, dirlink, got, dirlink)
+	if golangt != dirlink {
+		t.Errorf(`EvalSymlinks(%q): golangt %q, want %q`, dirlink, golangt, dirlink)
 	}
 }
 
@@ -607,7 +607,7 @@ func TestNTNamespaceSymlink(t *testing.T) {
 		t.Fatalf("failed to run mklink %v %v: %v %q", dirlink, target, err, output)
 	}
 
-	got, err := filepath.EvalSymlinks(dirlink)
+	golangt, err := filepath.EvalSymlinks(dirlink)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -621,8 +621,8 @@ func TestNTNamespaceSymlink(t *testing.T) {
 	} else {
 		want = dirlink
 	}
-	if got != want {
-		t.Errorf(`EvalSymlinks(%q): got %q, want %q`, dirlink, got, want)
+	if golangt != want {
+		t.Errorf(`EvalSymlinks(%q): golangt %q, want %q`, dirlink, golangt, want)
 	}
 
 	// Make sure we have sufficient privilege to run mklink command.
@@ -642,7 +642,7 @@ func TestNTNamespaceSymlink(t *testing.T) {
 		t.Fatalf("failed to run mklink %v %v: %v %q", filelink, target, err, output)
 	}
 
-	got, err = filepath.EvalSymlinks(filelink)
+	golangt, err = filepath.EvalSymlinks(filelink)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -652,8 +652,8 @@ func TestNTNamespaceSymlink(t *testing.T) {
 	} else {
 		want = target
 	}
-	if got != want {
-		t.Errorf(`EvalSymlinks(%q): got %q, want %q`, filelink, got, want)
+	if golangt != want {
+		t.Errorf(`EvalSymlinks(%q): golangt %q, want %q`, filelink, golangt, want)
 	}
 }
 
@@ -676,9 +676,9 @@ func TestIssue52476(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		got := filepath.Join(test.lhs, test.rhs)
-		if got != test.want {
-			t.Errorf(`Join(%q, %q): got %q, want %q`, test.lhs, test.rhs, got, test.want)
+		golangt := filepath.Join(test.lhs, test.rhs)
+		if golangt != test.want {
+			t.Errorf(`Join(%q, %q): golangt %q, want %q`, test.lhs, test.rhs, golangt, test.want)
 		}
 	}
 }
@@ -696,9 +696,9 @@ func TestAbsWindows(t *testing.T) {
 		{`COM1`, `\\.\COM1`},
 		{`a/NUL`, `\\.\NUL`},
 	} {
-		got, err := filepath.Abs(test.path)
-		if err != nil || got != test.want {
-			t.Errorf("Abs(%q) = %q, %v; want %q, nil", test.path, got, err, test.want)
+		golangt, err := filepath.Abs(test.path)
+		if err != nil || golangt != test.want {
+			t.Errorf("Abs(%q) = %q, %v; want %q, nil", test.path, golangt, err, test.want)
 		}
 	}
 }

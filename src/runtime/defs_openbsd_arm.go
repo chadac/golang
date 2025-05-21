@@ -1,5 +1,5 @@
-// created by cgo -cdefs and then converted to Go
-// cgo -cdefs defs_openbsd.go
+// created by cgolang -cdefs and then converted to Go
+// cgolang -cdefs defs_openbsd.golang
 
 package runtime
 
@@ -134,7 +134,7 @@ type siginfo struct {
 	si_signo  int32
 	si_code   int32
 	si_errno  int32
-	pad_cgo_0 [4]byte
+	pad_cgolang_0 [4]byte
 	_data     [120]byte
 }
 
@@ -147,10 +147,10 @@ type stackt struct {
 type timespec struct {
 	tv_sec    int64
 	tv_nsec   int32
-	pad_cgo_0 [4]byte
+	pad_cgolang_0 [4]byte
 }
 
-//go:nosplit
+//golang:nosplit
 func (ts *timespec) setNsec(ns int64) {
 	ts.tv_sec = int64(timediv(ns, 1e9, &ts.tv_nsec))
 }
@@ -158,7 +158,7 @@ func (ts *timespec) setNsec(ns int64) {
 type timeval struct {
 	tv_sec    int64
 	tv_usec   int32
-	pad_cgo_0 [4]byte
+	pad_cgolang_0 [4]byte
 }
 
 func (tv *timeval) set_usec(x int32) {
@@ -175,10 +175,10 @@ type keventt struct {
 	filter    int16
 	flags     uint16
 	fflags    uint32
-	pad_cgo_0 [4]byte
+	pad_cgolang_0 [4]byte
 	data      int64
 	udata     *byte
-	pad_cgo_1 [4]byte
+	pad_cgolang_1 [4]byte
 }
 
 type pthread uintptr

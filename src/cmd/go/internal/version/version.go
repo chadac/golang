@@ -1,8 +1,8 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Package version implements the “go version” command.
+// Package version implements the “golang version” command.
 package version
 
 import (
@@ -17,34 +17,34 @@ import (
 	"runtime"
 	"strings"
 
-	"cmd/go/internal/base"
-	"cmd/go/internal/gover"
+	"cmd/golang/internal/base"
+	"cmd/golang/internal/golangver"
 )
 
 var CmdVersion = &base.Command{
-	UsageLine: "go version [-m] [-v] [-json] [file ...]",
+	UsageLine: "golang version [-m] [-v] [-json] [file ...]",
 	Short:     "print Go version",
 	Long: `Version prints the build information for Go binary files.
 
 Go version reports the Go version used to build each of the named files.
 
-If no files are named on the command line, go version prints its own
+If no files are named on the command line, golang version prints its own
 version information.
 
-If a directory is named, go version walks that directory, recursively,
+If a directory is named, golang version walks that directory, recursively,
 looking for recognized Go binaries and reporting their versions.
-By default, go version does not report unrecognized files found
+By default, golang version does not report unrecognized files found
 during a directory scan. The -v flag causes it to report unrecognized files.
 
-The -m flag causes go version to print each file's embedded
+The -m flag causes golang version to print each file's embedded
 module version information, when available. In the output, the module
 information consists of multiple lines following the version line, each
 indented by a leading tab character.
 
 The -json flag is similar to -m but outputs the runtime/debug.BuildInfo in JSON format.
-If flag -json is specified without -m, go version reports an error.
+If flag -json is specified without -m, golang version reports an error.
 
-See also: go doc runtime/debug.BuildInfo.
+See also: golang doc runtime/debug.BuildInfo.
 `,
 }
 
@@ -67,7 +67,7 @@ func runVersion(ctx context.Context, cmd *base.Command, args []string) {
 		// Don't error if the flags came from GOFLAGS, since that can be
 		// a reasonable use case. For example, imagine GOFLAGS=-v to
 		// turn "verbose mode" on for all Go commands, which should not
-		// break "go version".
+		// break "golang version".
 		var argOnlyFlag string
 		if !base.InGOFLAGS("-m") && *versionM {
 			argOnlyFlag = "-m"
@@ -80,20 +80,20 @@ func runVersion(ctx context.Context, cmd *base.Command, args []string) {
 			argOnlyFlag = "-json"
 		}
 		if argOnlyFlag != "" {
-			fmt.Fprintf(os.Stderr, "go: 'go version' only accepts %s flag with arguments\n", argOnlyFlag)
+			fmt.Fprintf(os.Stderr, "golang: 'golang version' only accepts %s flag with arguments\n", argOnlyFlag)
 			base.SetExitStatus(2)
 			return
 		}
 		v := runtime.Version()
-		if gover.TestVersion != "" {
-			v = gover.TestVersion + " (TESTGO_VERSION)"
+		if golangver.TestVersion != "" {
+			v = golangver.TestVersion + " (TESTGO_VERSION)"
 		}
-		fmt.Printf("go version %s %s/%s\n", v, runtime.GOOS, runtime.GOARCH)
+		fmt.Printf("golang version %s %s/%s\n", v, runtime.GOOS, runtime.GOARCH)
 		return
 	}
 
 	if !*versionM && *versionJson {
-		fmt.Fprintf(os.Stderr, "go: 'go version' with -json flag requires -m flag\n")
+		fmt.Fprintf(os.Stderr, "golang: 'golang version' with -json flag requires -m flag\n")
 		base.SetExitStatus(2)
 		return
 	}
@@ -193,7 +193,7 @@ func scanFile(file string, info fs.FileInfo, mustPrint bool) bool {
 	}
 
 	fmt.Printf("%s: %s\n", file, bi.GoVersion)
-	bi.GoVersion = "" // suppress printing go version again
+	bi.GoVersion = "" // suppress printing golang version again
 	mod := bi.String()
 	if *versionM && len(mod) > 0 {
 		fmt.Printf("\t%s\n", strings.ReplaceAll(mod[:len(mod)-1], "\n", "\n\t"))

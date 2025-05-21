@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package os
@@ -9,8 +9,8 @@ import (
 	_ "unsafe" // for linkname
 )
 
-//go:linkname executablePath
-var executablePath string // set by sysauxv in ../runtime/os3_solaris.go
+//golang:linkname executablePath
+var executablePath string // set by sysauxv in ../runtime/os3_solaris.golang
 
 var initCwd, initCwdErr = Getwd()
 

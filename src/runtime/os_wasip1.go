@@ -1,8 +1,8 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build wasip1
+//golang:build wasip1
 
 package runtime
 
@@ -46,35 +46,35 @@ type iovec struct {
 	bufLen size
 }
 
-//go:wasmimport wasi_snapshot_preview1 proc_exit
+//golang:wasmimport wasi_snapshot_preview1 proc_exit
 func exit(code int32)
 
-//go:wasmimport wasi_snapshot_preview1 args_get
-//go:noescape
+//golang:wasmimport wasi_snapshot_preview1 args_get
+//golang:noescape
 func args_get(argv *uintptr32, argvBuf *byte) errno
 
-//go:wasmimport wasi_snapshot_preview1 args_sizes_get
-//go:noescape
+//golang:wasmimport wasi_snapshot_preview1 args_sizes_get
+//golang:noescape
 func args_sizes_get(argc, argvBufLen *size) errno
 
-//go:wasmimport wasi_snapshot_preview1 clock_time_get
-//go:noescape
+//golang:wasmimport wasi_snapshot_preview1 clock_time_get
+//golang:noescape
 func clock_time_get(clock_id clockid, precision timestamp, time *timestamp) errno
 
-//go:wasmimport wasi_snapshot_preview1 environ_get
-//go:noescape
+//golang:wasmimport wasi_snapshot_preview1 environ_get
+//golang:noescape
 func environ_get(environ *uintptr32, environBuf *byte) errno
 
-//go:wasmimport wasi_snapshot_preview1 environ_sizes_get
-//go:noescape
+//golang:wasmimport wasi_snapshot_preview1 environ_sizes_get
+//golang:noescape
 func environ_sizes_get(environCount, environBufLen *size) errno
 
-//go:wasmimport wasi_snapshot_preview1 fd_write
-//go:noescape
+//golang:wasmimport wasi_snapshot_preview1 fd_write
+//golang:noescape
 func fd_write(fd int32, iovs unsafe.Pointer, iovsLen size, nwritten *size) errno
 
-//go:wasmimport wasi_snapshot_preview1 random_get
-//go:noescape
+//golang:wasmimport wasi_snapshot_preview1 random_get
+//golang:noescape
 func random_get(buf *byte, bufLen size) errno
 
 type eventtype = uint8
@@ -93,7 +93,7 @@ const (
 
 type userdata = uint64
 
-// The go:wasmimport directive currently does not accept values of type uint16
+// The golang:wasmimport directive currently does not accept values of type uint16
 // in arguments or returns of the function signature. Most WASI imports return
 // an errno value, which we have to define as uint32 because of that limitation.
 // However, the WASI errno type is intended to be a 16 bits integer, and in the
@@ -154,8 +154,8 @@ func (u *subscriptionUnion) subscriptionFdReadwrite() *subscriptionFdReadwrite {
 	return (*subscriptionFdReadwrite)(unsafe.Pointer(&u[1]))
 }
 
-//go:wasmimport wasi_snapshot_preview1 poll_oneoff
-//go:noescape
+//golang:wasmimport wasi_snapshot_preview1 poll_oneoff
+//golang:noescape
 func poll_oneoff(in *subscription, out *event, nsubscriptions size, nevents *size) errno
 
 func write1(fd uintptr, p unsafe.Pointer, n int32) int32 {
@@ -195,7 +195,7 @@ func readRandom(r []byte) int {
 	return len(r)
 }
 
-func goenvs() {
+func golangenvs() {
 	// arguments
 	var argc size
 	var argvBufLen size

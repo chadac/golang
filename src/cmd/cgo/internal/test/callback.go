@@ -1,8 +1,8 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-package cgotest
+package cgolangtest
 
 /*
 void callback(void *f);
@@ -25,14 +25,14 @@ import (
 	"unsafe"
 )
 
-// Pass a func value from nestedCall to goCallback using an integer token.
+// Pass a func value from nestedCall to golangCallback using an integer token.
 var callbackMutex sync.Mutex
 var callbackToken int
 var callbackFuncs = make(map[int]func())
 
 // nestedCall calls into C, back into Go, and finally to f.
 func nestedCall(f func()) {
-	// callback(x) calls goCallback(x)
+	// callback(x) calls golangCallback(x)
 	callbackMutex.Lock()
 	callbackToken++
 	i := callbackToken
@@ -49,8 +49,8 @@ func nestedCall(f func()) {
 	callbackMutex.Unlock()
 }
 
-//export goCallback
-func goCallback(p unsafe.Pointer) {
+//export golangCallback
+func golangCallback(p unsafe.Pointer) {
 	i := *(*int)(p)
 
 	callbackMutex.Lock()
@@ -138,8 +138,8 @@ func testZeroArgCallback(t *testing.T) {
 	C.callGoFoo()
 }
 
-//export goFoo
-func goFoo() {
+//export golangFoo
+func golangFoo() {
 	x := 1
 	for i := 0; i < 10000; i++ {
 		// variadic call mallocs + writes to
@@ -154,7 +154,7 @@ func variadic(x ...interface{}) {}
 
 func testBlocking(t *testing.T) {
 	c := make(chan int)
-	go func() {
+	golang func() {
 		for i := 0; i < 10; i++ {
 			c <- <-c
 		}
@@ -173,30 +173,30 @@ func testBlocking(t *testing.T) {
 // into Go.
 func testCallbackCallers(t *testing.T) {
 	if runtime.Compiler != "gc" {
-		// The exact function names are not going to be the same.
+		// The exact function names are not golanging to be the same.
 		t.Skip("skipping for non-gc toolchain")
 	}
 	pc := make([]uintptr, 100)
 	n := 0
 	name := []string{
-		"runtime.cgocallbackg1",
-		"runtime.cgocallbackg",
-		"runtime.cgocallback",
+		"runtime.cgolangcallbackg1",
+		"runtime.cgolangcallbackg",
+		"runtime.cgolangcallback",
 		"runtime.systemstack_switch",
-		"runtime.cgocall",
+		"runtime.cgolangcall",
 		"test._Cfunc_callback",
 		"test.nestedCall.func1",
 		"test.nestedCall",
 		"test.testCallbackCallers",
 		"test.TestCallbackCallers",
 		"testing.tRunner",
-		"runtime.goexit",
+		"runtime.golangexit",
 	}
 	nestedCall(func() {
 		n = runtime.Callers(4, pc)
 	})
 	if n != len(name) {
-		t.Errorf("expected %d frames, got %d", len(name), n)
+		t.Errorf("expected %d frames, golangt %d", len(name), n)
 	}
 	for i := 0; i < n; i++ {
 		f := runtime.FuncForPC(pc[i] - 1) // TODO: use runtime.CallersFrames
@@ -205,13 +205,13 @@ func testCallbackCallers(t *testing.T) {
 		}
 		fname := f.Name()
 		// Remove the prepended pathname from automatically
-		// generated cgo function names.
+		// generated cgolang function names.
 		if strings.HasPrefix(fname, "_") {
 			fname = path.Base(f.Name()[1:])
 		}
 		// In module mode, this package has a fully-qualified import path.
 		// Remove it if present.
-		fname = strings.TrimPrefix(fname, "cmd/cgo/internal/")
+		fname = strings.TrimPrefix(fname, "cmd/cgolang/internal/")
 
 		namei := ""
 		if i < len(name) {
@@ -239,31 +239,31 @@ func testPanicFromC(t *testing.T) {
 // Test that C code can return a value if it calls a Go function that
 // causes a stack copy.
 func testReturnAfterGrow(t *testing.T) {
-	// Use a new goroutine so that we get a small stack.
+	// Use a new golangroutine so that we get a small stack.
 	c := make(chan int)
-	go func() {
+	golang func() {
 		c <- int(C.returnAfterGrow())
 	}()
-	if got, want := <-c, 123456; got != want {
-		t.Errorf("got %d want %d", got, want)
+	if golangt, want := <-c, 123456; golangt != want {
+		t.Errorf("golangt %d want %d", golangt, want)
 	}
 }
 
 // Test that we can return a value from Go->C->Go if the Go code
 // causes a stack copy.
 func testReturnAfterGrowFromGo(t *testing.T) {
-	// Use a new goroutine so that we get a small stack.
+	// Use a new golangroutine so that we get a small stack.
 	c := make(chan int)
-	go func() {
+	golang func() {
 		c <- int(C.returnAfterGrowFromGo())
 	}()
-	if got, want := <-c, 129*128/2; got != want {
-		t.Errorf("got %d want %d", got, want)
+	if golangt, want := <-c, 129*128/2; golangt != want {
+		t.Errorf("golangt %d want %d", golangt, want)
 	}
 }
 
-//export goReturnVal
-func goReturnVal() (r C.int) {
+//export golangReturnVal
+func golangReturnVal() (r C.int) {
 	// Force a stack copy.
 	var f func(int) int
 	f = func(i int) int {
@@ -289,21 +289,21 @@ func testCallGoWithString(t *testing.T) {
 
 var stringFromGo string
 
-//export goWithString
-func goWithString(s string) {
+//export golangWithString
+func golangWithString(s string) {
 	stringFromGo = s
 }
 
 func testCallbackStack(t *testing.T) {
-	// Make cgo call and callback with different amount of stack available.
+	// Make cgolang call and callback with different amount of stack available.
 	// We do not do any explicit checks, just ensure that it does not crash.
 	for _, f := range splitTests {
 		f()
 	}
 }
 
-//export goStackCheck
-func goStackCheck() {
+//export golangStackCheck
+func golangStackCheck() {
 	// use some stack memory to trigger split stack check
 	var buf [256]byte
 	use(buf[:])

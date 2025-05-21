@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // HTTP Request reading and parsing.
@@ -28,8 +28,8 @@ import (
 	"sync"
 	_ "unsafe" // for linkname
 
-	"golang.org/x/net/http/httpguts"
-	"golang.org/x/net/idna"
+	"golanglang.org/x/net/http/httpguts"
+	"golanglang.org/x/net/idna"
 )
 
 const (
@@ -230,7 +230,7 @@ type Request struct {
 	// ":authority" pseudo-header field.
 	// It may be of the form "host:port". For international domain
 	// names, Host may be in Punycode or Unicode form. Use
-	// golang.org/x/net/idna to convert it to either format if
+	// golanglang.org/x/net/idna to convert it to either format if
 	// needed.
 	// To prevent DNS rebinding attacks, server Handlers should
 	// validate that the Host header has a value for which the
@@ -344,7 +344,7 @@ type Request struct {
 // The returned context is always non-nil; it defaults to the
 // background context.
 //
-// For outgoing client requests, the context controls cancellation.
+// For outgolanging client requests, the context controls cancellation.
 //
 // For incoming server requests, the context is canceled when the
 // client's connection closes, the request is canceled (with HTTP/2),
@@ -359,7 +359,7 @@ func (r *Request) Context() context.Context {
 // WithContext returns a shallow copy of r with its context changed
 // to ctx. The provided ctx must be non-nil.
 //
-// For outgoing client request, the context controls the entire
+// For outgolanging client request, the context controls the entire
 // lifetime of a request and its response: obtaining a connection,
 // sending the request, and reading the response headers and body.
 //
@@ -380,7 +380,7 @@ func (r *Request) WithContext(ctx context.Context) *Request {
 //
 // Clone only makes a shallow copy of the Body field.
 //
-// For an outgoing client request, the context controls the entire
+// For an outgolanging client request, the context controls the entire
 // lifetime of a request and its response: obtaining a connection,
 // sending the request, and reading the response headers and body.
 func (r *Request) Clone(ctx context.Context) *Request {
@@ -622,7 +622,7 @@ func (r *Request) write(w io.Writer, usingProxy bool, extraHeaders Header, waitF
 		// Historically, we would truncate the Host header after '/' or ' '.
 		// Some users have relied on this truncation to convert a network
 		// address such as Unix domain socket path into a valid, ignored
-		// Host header (see https://go.dev/issue/61431).
+		// Host header (see https://golang.dev/issue/61431).
 		//
 		// We don't preserve the truncation, because sending an altered
 		// header field opens a smuggling vector. Instead, zero out the
@@ -640,7 +640,7 @@ func (r *Request) write(w io.Writer, usingProxy bool, extraHeaders Header, waitF
 
 	// According to RFC 6874, an HTTP client, proxy, or other
 	// intermediary must remove any IPv6 zone identifier attached
-	// to an outgoing URI.
+	// to an outgolanging URI.
 	host = removeZone(host)
 
 	ruri := r.URL.RequestURI()
@@ -875,7 +875,7 @@ func NewRequest(method, url string, body io.Reader) (*Request, error) {
 // [Client.Do] or [Transport.RoundTrip]. To create a request for use with
 // testing a Server Handler, either use the [net/http/httptest.NewRequest] function,
 // use [ReadRequest], or manually update the Request fields.
-// For an outgoing client request, the context
+// For an outgolanging client request, the context
 // controls the entire lifetime of a request and its response:
 // obtaining a connection, sending the request, and reading the
 // response headers and body. See the [Request] type's documentation for
@@ -987,9 +987,9 @@ func (r *Request) BasicAuth() (username, password string, ok bool) {
 //   - github.com/sagernet/sing
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname parseBasicAuth
+//golang:linkname parseBasicAuth
 func parseBasicAuth(auth string) (username, password string, ok bool) {
 	const prefix = "Basic "
 	// Case insensitive prefix match. See Issue 22736.
@@ -1054,7 +1054,7 @@ func putTextprotoReader(r *textproto.Reader) {
 // ReadRequest is a low-level function and should only be used for
 // specialized applications; most code should use the [Server] to read
 // requests and handle them via the [Handler] interface. ReadRequest
-// only supports HTTP/1.x requests. For HTTP/2, use golang.org/x/net/http2.
+// only supports HTTP/1.x requests. For HTTP/2, use golanglang.org/x/net/http2.
 func ReadRequest(b *bufio.Reader) (*Request, error) {
 	req, err := readRequest(b)
 	if err != nil {
@@ -1073,9 +1073,9 @@ func ReadRequest(b *bufio.Reader) (*Request, error) {
 //   - github.com/v2fly/v2ray-core/v5
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname readRequest
+//golang:linkname readRequest
 func readRequest(b *bufio.Reader) (req *Request, err error) {
 	tp := newTextprotoReader(b)
 	defer putTextprotoReader(tp)
@@ -1108,8 +1108,8 @@ func readRequest(b *bufio.Reader) (req *Request, err error) {
 
 	// CONNECT requests are used two different ways, and neither uses a full URL:
 	// The standard use is to tunnel HTTPS through an HTTP proxy.
-	// It looks like "CONNECT www.google.com:443 HTTP/1.1", and the parameter is
-	// just the authority section of a URL. This information should go in req.URL.Host.
+	// It looks like "CONNECT www.golangogle.com:443 HTTP/1.1", and the parameter is
+	// just the authority section of a URL. This information should golang in req.URL.Host.
 	//
 	// The net/rpc package also uses CONNECT, but there the parameter is a path
 	// that starts with a slash. It can be parsed with the regular URL parser,
@@ -1141,9 +1141,9 @@ func readRequest(b *bufio.Reader) (req *Request, err error) {
 
 	// RFC 7230, section 5.3: Must treat
 	//	GET /index.html HTTP/1.1
-	//	Host: www.google.com
+	//	Host: www.golangogle.com
 	// and
-	//	GET http://www.google.com/index.html HTTP/1.1
+	//	GET http://www.golangogle.com/index.html HTTP/1.1
 	//	Host: doesntmatter
 	// the same. In the second case, any Host line is ignored.
 	req.Host = req.URL.Host
@@ -1217,7 +1217,7 @@ func (l *maxBytesReader) Read(p []byte) (n int, err error) {
 	}
 	// If they asked for a 32KB byte read but only 5 bytes are
 	// remaining, no need to read 32KB. 6 bytes will answer the
-	// question of the whether we hit the limit or go past it.
+	// question of the whether we hit the limit or golang past it.
 	// 0 < len(p) < 2^63
 	if int64(len(p))-1 > l.n {
 		p = p[:l.n+1]
@@ -1237,7 +1237,7 @@ func (l *maxBytesReader) Read(p []byte) (n int, err error) {
 	// maxBytesReader. This "requestTooLarge" check is
 	// only used by the server code. To prevent binaries
 	// which only using the HTTP Client code (such as
-	// cmd/go) from also linking in the HTTP server, don't
+	// cmd/golang) from also linking in the HTTP server, don't
 	// use a static type assertion to the server
 	// "*response" type. Check this interface instead:
 	type requestTooLarger interface {
@@ -1300,7 +1300,7 @@ func parsePostForm(r *Request) (vs url.Values, err error) {
 		// TODO(bradfitz): there are too many possible
 		// orders to call too many functions here.
 		// Clean this up and write more tests.
-		// request_test.go contains the start of this,
+		// request_test.golang contains the start of this,
 		// in TestParseMultipartFormOrder and others.
 	}
 	return
@@ -1539,7 +1539,7 @@ func (r *Request) isReplayable() bool {
 		}
 		// The Idempotency-Key, while non-standard, is widely used to
 		// mean a POST or other request is idempotent. See
-		// https://golang.org/issue/19943#issuecomment-421092421
+		// https://golanglang.org/issue/19943#issuecomment-421092421
 		if r.Header.has("Idempotency-Key") || r.Header.has("X-Idempotency-Key") {
 			return true
 		}
@@ -1547,9 +1547,9 @@ func (r *Request) isReplayable() bool {
 	return false
 }
 
-// outgoingLength reports the Content-Length of this outgoing (Client) request.
+// outgolangingLength reports the Content-Length of this outgolanging (Client) request.
 // It maps 0 into -1 (unknown) when the Body is non-nil.
-func (r *Request) outgoingLength() int64 {
+func (r *Request) outgolangingLength() int64 {
 	if r.Body == nil || r.Body == NoBody {
 		return 0
 	}
@@ -1564,7 +1564,7 @@ func (r *Request) outgoingLength() int64 {
 // This is used by the Transport (via
 // transferWriter.shouldSendChunkedRequestBody) to determine whether
 // we try to test-read a byte from a non-nil Request.Body when
-// Request.outgoingLength() returns -1. See the comments in
+// Request.outgolangingLength() returns -1. See the comments in
 // shouldSendChunkedRequestBody.
 func requestMethodUsuallyLacksBody(method string) bool {
 	switch method {

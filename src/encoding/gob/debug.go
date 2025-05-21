@@ -1,18 +1,18 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Delete the next line to include in the gob package.
+// Delete the next line to include in the golangb package.
 //
-//go:build ignore
+//golang:build ignore
 
-package gob
+package golangb
 
-// This file is not normally included in the gob package. Used only for debugging the package itself.
+// This file is not normally included in the golangb package. Used only for debugging the package itself.
 // Except for reading uints, it is an implementation of a reader that is independent of
 // the one implemented by Decoder.
 // To enable the Debug function, delete the +build ignore line above and do
-//	go install
+//	golang install
 
 import (
 	"bytes"
@@ -26,7 +26,7 @@ import (
 var dumpBytes = false // If true, print the remaining bytes in the input buffer at each item.
 
 // Init installs the debugging facility. If this file is not compiled in the
-// package, the tests in codec_test.go are no-ops.
+// package, the tests in codec_test.golang are no-ops.
 func init() {
 	debugFunc = Debug
 }
@@ -96,7 +96,7 @@ func (p *peekReader) peek(b []byte) (n int, err error) {
 	}
 	n += m
 	if e == io.ErrUnexpectedEOF {
-		// That means m > 0 but we reached EOF. If we got data
+		// That means m > 0 but we reached EOF. If we golangt data
 		// we won't complain about not being able to peek enough.
 		if n > 0 {
 			e = nil
@@ -162,12 +162,12 @@ func (deb *debugger) dump(format string, args ...any) {
 	os.Stderr.Write(b.Bytes())
 }
 
-// Debug prints a human-readable representation of the gob data read from r.
+// Debug prints a human-readable representation of the golangb data read from r.
 // It is a no-op unless debugging was enabled when the package was built.
 func Debug(r io.Reader) {
 	err := debug(r)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "gob debug: %s\n", err)
+		fmt.Fprintf(os.Stderr, "golangb debug: %s\n", err)
 	}
 }
 
@@ -185,7 +185,7 @@ func debug(r io.Reader) (err error) {
 		deb.remain = b.Len()
 		deb.remainingKnown = true
 	}
-	deb.gobStream()
+	deb.golangbStream()
 	return
 }
 
@@ -217,7 +217,7 @@ func (deb *debugger) uint64() uint64 {
 // GobStream:
 //
 //	DelimitedMessage* (until EOF)
-func (deb *debugger) gobStream() {
+func (deb *debugger) golangbStream() {
 	// Make sure we're single-threaded through here.
 	deb.mutex.Lock()
 	defer deb.mutex.Unlock()
@@ -425,17 +425,17 @@ func (deb *debugger) typeDefinition(indent tab, id typeId) {
 		// Field number 0 is CommonType
 		deb.delta(1)
 		com := deb.common()
-		wire.GobEncoderT = &gobEncoderType{com}
+		wire.GobEncoderT = &golangbEncoderType{com}
 	case 5: // BinaryMarshaler type, one field of {{Common}}
 		// Field number 0 is CommonType
 		deb.delta(1)
 		com := deb.common()
-		wire.BinaryMarshalerT = &gobEncoderType{com}
+		wire.BinaryMarshalerT = &golangbEncoderType{com}
 	case 6: // TextMarshaler type, one field of {{Common}}
 		// Field number 0 is CommonType
 		deb.delta(1)
 		com := deb.common()
-		wire.TextMarshalerT = &gobEncoderType{com}
+		wire.TextMarshalerT = &golangbEncoderType{com}
 	default:
 		errorf("bad field in type %d", fieldNum)
 	}
@@ -470,7 +470,7 @@ func (deb *debugger) singletonValue(indent tab, id typeId) {
 	}
 	m := deb.uint64()
 	if m != 0 {
-		errorf("expected zero; got %d", m)
+		errorf("expected zero; golangt %d", m)
 	}
 	deb.fieldValue(indent, id)
 }
@@ -594,14 +594,14 @@ func (deb *debugger) fieldValue(indent tab, id typeId) {
 	case wire.StructT != nil:
 		deb.structValue(indent, id)
 	case wire.GobEncoderT != nil:
-		deb.gobEncoderValue(indent, id)
+		deb.golangbEncoderValue(indent, id)
 	default:
 		panic("bad wire type for field")
 	}
 }
 
 // printBuiltin prints a value not of a fundamental type, that is,
-// one whose type is known to gobs at bootstrap time.
+// one whose type is known to golangbs at bootstrap time.
 func (deb *debugger) printBuiltin(indent tab, id typeId) {
 	switch id {
 	case tBool:
@@ -718,14 +718,14 @@ func (deb *debugger) structValue(indent tab, id typeId) {
 // GobEncoderValue:
 //
 //	uint(n) byte*n
-func (deb *debugger) gobEncoderValue(indent tab, id typeId) {
+func (deb *debugger) golangbEncoderValue(indent tab, id typeId) {
 	len := deb.uint64()
 	deb.dump("GobEncoder value of %q id=%d, length %d\n", id.name(), id, len)
 	fmt.Fprintf(os.Stderr, "%s%s (implements GobEncoder)\n", indent, id.name())
 	data := make([]byte, len)
 	_, err := deb.r.Read(data)
 	if err != nil {
-		errorf("gobEncoder data read: %s", err)
+		errorf("golangbEncoder data read: %s", err)
 	}
 	fmt.Fprintf(os.Stderr, "%s[% .2x]\n", indent+1, data)
 }

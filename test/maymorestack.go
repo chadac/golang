@@ -1,7 +1,7 @@
 // run -gcflags=-d=maymorestack=main.mayMoreStack
 
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test the maymorestack testing hook by injecting a hook that counts
@@ -13,7 +13,7 @@ import "runtime"
 
 var count uint32
 
-//go:nosplit
+//golang:nosplit
 func mayMoreStack() {
 	count++
 }
@@ -31,7 +31,7 @@ func main() {
 	}
 }
 
-//go:noinline
+//golang:noinline
 func anotherFunc(n int) {
 	// Trigger a stack growth on at least some calls to
 	// anotherFunc to test that mayMoreStack is called outside the

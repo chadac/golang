@@ -1,9 +1,9 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 /*
-Asm, typically invoked as “go tool asm”, assembles the source file into an object
+Asm, typically invoked as “golang tool asm”, assembles the source file into an object
 file named for the basename of the argument source file with a .o suffix. The
 object file can then be combined with other objects into a package archive.
 
@@ -11,7 +11,7 @@ object file can then be combined with other objects into a package archive.
 
 Usage:
 
-	go tool asm [flags] file
+	golang tool asm [flags] file
 
 The specified file must be a Go assembly file.
 The same assembler is used for all target operating systems and architectures.
@@ -57,6 +57,6 @@ the main variation having to do with addressing modes. Input is
 run through a simplified C preprocessor that implements #include,
 #define, #ifdef/endif, but not #if or ##.
 
-For more information, see https://golang.org/doc/asm.
+For more information, see https://golanglang.org/doc/asm.
 */
 package main

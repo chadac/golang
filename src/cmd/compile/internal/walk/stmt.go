@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package walk
@@ -193,7 +193,7 @@ func walkFor(n *ir.ForStmt) ir.Node {
 }
 
 // validGoDeferCall reports whether call is a valid call to appear in
-// a go or defer statement; that is, whether it's a regular function
+// a golang or defer statement; that is, whether it's a regular function
 // call without arguments or results.
 func validGoDeferCall(call ir.Node) bool {
 	if call, ok := call.(*ir.CallExpr); ok && call.Op() == ir.OCALLFUNC && len(call.KeepAlive) == 0 {

@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package x86
@@ -271,7 +271,7 @@ func ParseSuffix(p *obj.Prog, cond string) error {
 // the cause of suffix parse failure.
 //
 // At the point this function is executed there is already assembly error,
-// so we can burn some clocks to construct good error message.
+// so we can burn some clocks to construct golangod error message.
 //
 // Reported issues:
 //   - duplicated suffixes

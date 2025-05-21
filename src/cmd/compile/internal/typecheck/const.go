@@ -1,13 +1,13 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package typecheck
 
 import (
 	"fmt"
-	"go/constant"
-	"go/token"
+	"golang/constant"
+	"golang/token"
 	"math"
 	"math/big"
 	"unicode"
@@ -330,8 +330,8 @@ func makeComplex(real, imag constant.Value) constant.Value {
 }
 
 // DefaultLit on both nodes simultaneously;
-// if they're both ideal going in they better
-// get the same type going out.
+// if they're both ideal golanging in they better
+// get the same type golanging out.
 // force means must assign concrete (non-ideal) type.
 // The results of defaultlit2 MUST be assigned back to l and r, e.g.
 //

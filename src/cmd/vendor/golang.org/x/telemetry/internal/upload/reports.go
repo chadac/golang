@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package upload
@@ -15,9 +15,9 @@ import (
 	"strings"
 	"time"
 
-	"golang.org/x/telemetry/internal/config"
-	"golang.org/x/telemetry/internal/counter"
-	"golang.org/x/telemetry/internal/telemetry"
+	"golanglang.org/x/telemetry/internal/config"
+	"golanglang.org/x/telemetry/internal/counter"
+	"golanglang.org/x/telemetry/internal/telemetry"
 )
 
 // reports generates reports from inactive count files

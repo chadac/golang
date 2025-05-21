@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package x509
@@ -187,10 +187,10 @@ func verifyChain(c *Certificate, chainCtx *syscall.CertChainContext, opts *Verif
 	// using spoofed parameters, the signature will be invalid for the correct
 	// ones we parsed. (We don't support custom curves ourselves.)
 	for i, parent := range chain[1:] {
-		if parent.PublicKeyAlgorithm != ECDSA {
+		if parent.PublicKeyAlgolangrithm != ECDSA {
 			continue
 		}
-		if err := parent.CheckSignature(chain[i].SignatureAlgorithm,
+		if err := parent.CheckSignature(chain[i].SignatureAlgolangrithm,
 			chain[i].RawTBSCertificate, chain[i].Signature); err != nil {
 			return nil, err
 		}

@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -12,11 +12,11 @@ import (
 
 func main() {
 	p := a.Pair[int32, int64]{1, 2}
-	if got, want := unsafe.Sizeof(p.Field1), uintptr(4); got != want {
-		panic(fmt.Sprintf("unexpected f1 size == %d, want %d", got, want))
+	if golangt, want := unsafe.Sizeof(p.Field1), uintptr(4); golangt != want {
+		panic(fmt.Sprintf("unexpected f1 size == %d, want %d", golangt, want))
 	}
-	if got, want := unsafe.Sizeof(p.Field2), uintptr(8); got != want {
-		panic(fmt.Sprintf("unexpected f2 size == %d, want %d", got, want))
+	if golangt, want := unsafe.Sizeof(p.Field2), uintptr(8); golangt != want {
+		panic(fmt.Sprintf("unexpected f2 size == %d, want %d", golangt, want))
 	}
 
 	type mypair struct {

@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package flate
@@ -553,7 +553,7 @@ func (w *huffmanBitWriter) indexTokens(tokens []token) (numLiterals, numOffsets 
 		numOffsets--
 	}
 	if numOffsets == 0 {
-		// We haven't found a single match. If we want to go with the dynamic encoding,
+		// We haven't found a single match. If we want to golang with the dynamic encoding,
 		// we should count at least one offset to be sure that the offset huffman tree could be encoded.
 		w.offsetFreq[0] = 1
 		numOffsets = 1

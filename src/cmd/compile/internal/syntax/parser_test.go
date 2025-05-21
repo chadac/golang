@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package syntax
@@ -22,7 +22,7 @@ import (
 var (
 	fast   = flag.Bool("fast", false, "parse package files in parallel")
 	verify = flag.Bool("verify", false, "verify idempotent printing")
-	src_   = flag.String("src", "parser.go", "source file to parse")
+	src_   = flag.String("src", "parser.golang", "source file to parse")
 	skip   = flag.String("skip", "", "files matching this regular expression are skipped by TestStdLib")
 )
 
@@ -61,14 +61,14 @@ func TestStdLib(t *testing.T) {
 		lines    uint
 	}
 
-	goroot := testenv.GOROOT(t)
+	golangroot := testenv.GOROOT(t)
 
 	results := make(chan parseResult)
-	go func() {
+	golang func() {
 		defer close(results)
 		for _, dir := range []string{
-			filepath.Join(goroot, "src"),
-			filepath.Join(goroot, "misc"),
+			filepath.Join(golangroot, "src"),
+			filepath.Join(golangroot, "misc"),
 		} {
 			if filepath.Base(dir) == "misc" {
 				// cmd/distpack deletes GOROOT/misc, so skip that directory if it isn't present.
@@ -133,7 +133,7 @@ func walkDirs(t *testing.T, dir string, action func(string)) {
 	var files, dirs []string
 	for _, entry := range entries {
 		if entry.Type().IsRegular() {
-			if strings.HasSuffix(entry.Name(), ".go") {
+			if strings.HasSuffix(entry.Name(), ".golang") {
 				path := filepath.Join(dir, entry.Name())
 				files = append(files, path)
 			}
@@ -149,7 +149,7 @@ func walkDirs(t *testing.T, dir string, action func(string)) {
 		var wg sync.WaitGroup
 		wg.Add(len(files))
 		for _, filename := range files {
-			go func(filename string) {
+			golang func(filename string) {
 				defer wg.Done()
 				action(filename)
 			}(filename)
@@ -222,7 +222,7 @@ func TestParseFile(t *testing.T) {
 		t.Error("missing io error")
 	}
 	if err != first {
-		t.Errorf("got %v; want first error %v", err, first)
+		t.Errorf("golangt %v; want first error %v", err, first)
 	}
 }
 
@@ -234,7 +234,7 @@ var tooLarge int = PosMax + 1
 func TestLineDirectives(t *testing.T) {
 	// valid line directives lead to a syntax error after them
 	const valid = "syntax error: package statement must be first"
-	const filename = "directives.go"
+	const filename = "directives.golang"
 
 	for _, test := range []struct {
 		src, msg  string
@@ -275,7 +275,7 @@ func TestLineDirectives(t *testing.T) {
 		{"//line  foo:123\n   foo", valid, " foo", 123, 0},
 		{"//line foo:123\n//line bar:345\nfoo", valid, "bar", 345, 0},
 		{"//line C:foo:123\n", valid, "C:foo", 123, 0},
-		{"//line /src/a/a.go:123\n   foo", valid, "/src/a/a.go", 123, 0},
+		{"//line /src/a/a.golang:123\n   foo", valid, "/src/a/a.golang", 123, 0},
 		{"//line :x:1\n", valid, ":x", 1, 0},
 		{"//line foo ::1\n", valid, "foo :", 1, 0},
 		{"//line foo:123abc:1\n", valid, "foo:123abc", 1, 0},
@@ -327,7 +327,7 @@ func TestLineDirectives(t *testing.T) {
 		{"/*line foo:123*/   foo", valid, "foo", 123, 0},
 		{"/*line foo:123*/\n//line bar:345\nfoo", valid, "bar", 345, 0},
 		{"/*line C:foo:123*/", valid, "C:foo", 123, 0},
-		{"/*line /src/a/a.go:123*/   foo", valid, "/src/a/a.go", 123, 0},
+		{"/*line /src/a/a.golang:123*/   foo", valid, "/src/a/a.golang", 123, 0},
 		{"/*line :x:1*/", valid, ":x", 1, 0},
 		{"/*line foo ::1*/", valid, "foo :", 1, 0},
 		{"/*line foo:123abc:1*/", valid, "foo:123abc", 1, 0},
@@ -355,22 +355,22 @@ func TestLineDirectives(t *testing.T) {
 		}
 		perr, ok := err.(Error)
 		if !ok {
-			t.Errorf("%s: got %v; want parser error", test.src, err)
+			t.Errorf("%s: golangt %v; want parser error", test.src, err)
 			continue
 		}
 		if msg := perr.Msg; msg != test.msg {
-			t.Errorf("%s: got msg = %q; want %q", test.src, msg, test.msg)
+			t.Errorf("%s: golangt msg = %q; want %q", test.src, msg, test.msg)
 		}
 
 		pos := perr.Pos
 		if filename := pos.RelFilename(); filename != test.filename {
-			t.Errorf("%s: got filename = %q; want %q", test.src, filename, test.filename)
+			t.Errorf("%s: golangt filename = %q; want %q", test.src, filename, test.filename)
 		}
 		if line := pos.RelLine(); line != test.line {
-			t.Errorf("%s: got line = %d; want %d", test.src, line, test.line)
+			t.Errorf("%s: golangt line = %d; want %d", test.src, line, test.line)
 		}
 		if col := pos.RelCol(); col != test.col {
-			t.Errorf("%s: got col = %d; want %d", test.src, col, test.col)
+			t.Errorf("%s: golangt col = %d; want %d", test.src, col, test.col)
 		}
 	}
 }

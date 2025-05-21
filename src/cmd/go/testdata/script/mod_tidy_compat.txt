@@ -1,8 +1,8 @@
-# https://golang.org/issue/46141: 'go mod tidy' for a Go 1.17 module should by
+# https://golanglang.org/issue/46141: 'golang mod tidy' for a Go 1.17 module should by
 # default preserve enough checksums for the module to be used by Go 1.16.
 #
 # We don't have a copy of Go 1.16 handy, but we can simulate it by editing the
-# 'go' version in the go.mod file to 1.16, without actually updating the
+# 'golang' version in the golang.mod file to 1.16, without actually updating the
 # requirements to match.
 
 [short] skip
@@ -11,7 +11,7 @@ env MODFMT='{{with .Module}}{{.Path}} {{.Version}}{{end}}'
 
 
 # This module has the same module dependency graph in Go 1.16 as in Go 1.17,
-# but in 1.16 requires (checksums for) additional (irrelevant) go.mod files.
+# but in 1.16 requires (checksums for) additional (irrelevant) golang.mod files.
 #
 # The module graph under both versions looks like:
 #
@@ -19,69 +19,69 @@ env MODFMT='{{with .Module}}{{.Path}} {{.Version}}{{end}}'
 # |
 # + ---- example.net/lazy v0.1.0 ---- example.com/version v1.0.1
 #
-# Go 1.17 avoids loading the go.mod file for example.com/version v1.0.1
+# Go 1.17 avoids loading the golang.mod file for example.com/version v1.0.1
 # (because it is lower than the version explicitly required by m,
-# and the module that requires it — m — specifies 'go 1.17').
+# and the module that requires it — m — specifies 'golang 1.17').
 #
-# That go.mod file happens not to affect the final 1.16 module graph anyway,
+# That golang.mod file happens not to affect the final 1.16 module graph anyway,
 # so the pruned graph is equivalent to the unpruned one.
 
-cp go.mod go.mod.orig
-go mod tidy
-cmp go.mod go.mod.orig
+cp golang.mod golang.mod.orig
+golang mod tidy
+cmp golang.mod golang.mod.orig
 
 # Make sure that -diff behaves the same as tidy.
-[exec:patch] mv go.mod go.mod.tidyResult
-[exec:patch] mv go.sum go.sum.tidyResult
-[exec:patch] cp go.mod.orig go.mod
-[exec:patch] ! go mod tidy -diff
+[exec:patch] mv golang.mod golang.mod.tidyResult
+[exec:patch] mv golang.sum golang.sum.tidyResult
+[exec:patch] cp golang.mod.orig golang.mod
+[exec:patch] ! golang mod tidy -diff
 [exec:patch] cp stdout diff.patch
 [exec:patch] exec patch -p1 -i diff.patch
-[exec:patch] go mod tidy -diff
-[exec:patch] cmp go.mod go.mod.tidyResult
-[exec:patch] cmp go.sum go.sum.tidyResult
+[exec:patch] golang mod tidy -diff
+[exec:patch] cmp golang.mod golang.mod.tidyResult
+[exec:patch] cmp golang.sum golang.sum.tidyResult
 
-go list -m all
+golang list -m all
 cmp stdout m_all.txt
 
-go mod edit -go=1.16
-go list -m all
+golang mod edit -golang=1.16
+golang list -m all
 cmp stdout m_all.txt
 
 
 # If we explicitly drop compatibility with 1.16, we retain fewer checksums,
-# which gives a cleaner go.sum file but causes 1.16 to fail in readonly mode.
+# which gives a cleaner golang.sum file but causes 1.16 to fail in readonly mode.
 
-cp go.mod.orig go.mod
-go mod tidy -compat=1.17
-cmp go.mod go.mod.orig
+cp golang.mod.orig golang.mod
+golang mod tidy -compat=1.17
+cmp golang.mod golang.mod.orig
 
 # Make sure that -diff behaves the same as tidy.
-[exec:patch] mv go.mod go.mod.tidyResult
-[exec:patch] mv go.sum go.sum.tidyResult
-[exec:patch] cp go.mod.orig go.mod
-[exec:patch] ! go mod tidy -compat=1.17 -diff
+[exec:patch] mv golang.mod golang.mod.tidyResult
+[exec:patch] mv golang.sum golang.sum.tidyResult
+[exec:patch] cp golang.mod.orig golang.mod
+[exec:patch] ! golang mod tidy -compat=1.17 -diff
 [exec:patch] cp stdout diff.patch
 [exec:patch] exec patch -p1 -i diff.patch
-[exec:patch] go mod tidy -compat=1.17 -diff
-[exec:patch] cmp go.mod go.mod.tidyResult
-[exec:patch] cmp go.sum go.sum.tidyResult
+[exec:patch] golang mod tidy -compat=1.17 -diff
+[exec:patch] cmp golang.mod golang.mod.tidyResult
+[exec:patch] cmp golang.sum golang.sum.tidyResult
 
-go list -m all
+golang list -m all
 cmp stdout m_all.txt
 
-go mod edit -go=1.16
-! go list -m all
-stderr '^go: example.net/lazy@v0.1.0 requires\n\texample.com/version@v1.0.1: missing go.sum entry for go.mod file; to add it:\n\tgo mod download example.com/version$'
+golang mod edit -golang=1.16
+! golang list -m all
+stderr '^golang: example.net/lazy@v0.1.0 requires\n\texample.com/version@v1.0.1: missing golang.sum entry for golang.mod file; to add it:\n\tgolang mod download example.com/version$'
 
 
--- go.mod --
+-- golang.mod --
 // Module m happens to have the exact same build list as what would be
 // selected under Go 1.16, but computes that build list without looking at
-// as many go.mod files.
+// as many golang.mod files.
 module example.com/m
 
-go 1.17
+golang 1.17
 
 replace example.net/lazy v0.1.0 => ./lazy
 
@@ -93,14 +93,14 @@ require (
 example.com/m
 example.com/version v1.1.0
 example.net/lazy v0.1.0 => ./lazy
--- compatible.go --
+-- compatible.golang --
 package compatible
 
 import (
 	_ "example.com/version"
 	_ "example.net/lazy"
 )
--- lazy/go.mod --
+-- lazy/golang.mod --
 // Module lazy requires example.com/version v1.0.1.
 //
 // However, since this module is lazy, its dependents
@@ -108,10 +108,10 @@ import (
 // unless they actually import packages from it.
 module example.net/lazy
 
-go 1.17
+golang 1.17
 
 require example.com/version v1.0.1
--- lazy/lazy.go --
+-- lazy/lazy.golang --
 package lazy
 
 import _ "example.com/version"

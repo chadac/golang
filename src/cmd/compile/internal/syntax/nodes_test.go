@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package syntax
@@ -182,10 +182,10 @@ var stmts = []test{
 	{"BranchStmt", `@continue`},
 	{"BranchStmt", `@continue L`},
 	{"BranchStmt", `@fallthrough`},
-	{"BranchStmt", `@goto L`},
+	{"BranchStmt", `@golangto L`},
 
 	{"CallStmt", `@defer f()`},
-	{"CallStmt", `@go f()`},
+	{"CallStmt", `@golang f()`},
 
 	{"ReturnStmt", `@return`},
 	{"ReturnStmt", `@return x`},

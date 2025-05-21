@@ -15,7 +15,7 @@ function addLinks() {
 
 window.addEventListener("load", function () {
   addLinks();
-  console.log("hacking gopher pop-up loaded.");
+  console.log("hacking golangpher pop-up loaded.");
   document.getElementById("inputbox").focus();
 });
 

@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file implements encoding/decoding of Floats.
@@ -15,7 +15,7 @@ import (
 // Gob codec version. Permits backward-compatible changes to the encoding.
 const floatGobVersion byte = 1
 
-// GobEncode implements the [encoding/gob.GobEncoder] interface.
+// GobEncode implements the [encoding/golangb.GobEncoder] interface.
 // The [Float] value and all its attributes (precision,
 // rounding mode, accuracy) are marshaled.
 func (x *Float) GobEncode() ([]byte, error) {
@@ -58,7 +58,7 @@ func (x *Float) GobEncode() ([]byte, error) {
 	return buf, nil
 }
 
-// GobDecode implements the [encoding/gob.GobDecoder] interface.
+// GobDecode implements the [encoding/golangb.GobDecoder] interface.
 // The result is rounded per the precision and rounding mode of
 // z unless z's precision is 0, in which case z is set exactly
 // to the decoded value.

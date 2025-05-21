@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -43,8 +43,8 @@ func main() {
 	fmt.Printf("f, af, bf, abf, cf sums = %d, %d, %d, %d, %d\n", sf, saf, sbf, sabf, scf)
 
 	// Special failure just for use with hash searching, to prove it fires exactly once.
-	// To test: `gossahash -e loopvarhash go run .` in this directory.
-	// This is designed to fail in two different ways, because gossahash searches randomly
+	// To test: `golangssahash -e loopvarhash golang run .` in this directory.
+	// This is designed to fail in two different ways, because golangssahash searches randomly
 	// it will find both failures over time.
 	if os.Getenv("GOCOMPILEDEBUG") != "" && (sabf == 45 || sf == 45) {
 		os.Exit(11)

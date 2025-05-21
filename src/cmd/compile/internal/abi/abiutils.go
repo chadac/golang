@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package abi
@@ -24,7 +24,7 @@ import (
 // function type to compute stack layout and register assignments. For
 // each input and output parameter we capture whether the param was
 // register-assigned (and to which register(s)) or the stack offset
-// for the param if is not going to be passed in registers according
+// for the param if is not golanging to be passed in registers according
 // to the rules in the Go internal ABI specification (1.17).
 type ABIParamResultInfo struct {
 	inparams          []ABIParamAssignment // Includes receiver for method calls.  Does NOT include hidden closure pointer.
@@ -315,7 +315,7 @@ func (config *ABIConfig) NumParamRegs(typ *types.Type) int {
 // ABIAnalyzeTypes takes slices of parameter and result types, and returns an ABIParamResultInfo,
 // based on the given configuration.  This is the same result computed by config.ABIAnalyze applied to the
 // corresponding method/function type, except that all the embedded parameter names are nil.
-// This is intended for use by ssagen/ssa.go:(*state).rtcall, for runtime functions that lack a parsed function type.
+// This is intended for use by ssagen/ssa.golang:(*state).rtcall, for runtime functions that lack a parsed function type.
 func (config *ABIConfig) ABIAnalyzeTypes(params, results []*types.Type) *ABIParamResultInfo {
 	setup()
 	s := assignState{
@@ -419,7 +419,7 @@ func (config *ABIConfig) updateOffset(result *ABIParamResultInfo, f *types.Field
 	// Everything except return values in registers has either a frame home (if not in a register) or a frame spill location.
 	if !isResult || len(a.Registers) == 0 {
 		// The type frame offset DOES NOT show effects of minimum frame size.
-		// Getting this wrong breaks stackmaps, see liveness/plive.go:WriteFuncMap and typebits/typebits.go:Set
+		// Getting this wrong breaks stackmaps, see liveness/plive.golang:WriteFuncMap and typebits/typebits.golang:Set
 		off := a.FrameOffset(result)
 		if setNname && f.Nname != nil {
 			f.Nname.(*ir.Name).SetFrameOffset(off)

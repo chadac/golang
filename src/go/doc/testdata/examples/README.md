@@ -1,7 +1,7 @@
-These files are processed by example_test.go:TestExamples.
+These files are processed by example_test.golang:TestExamples.
 
-A .golden file is a txtar file with two sections for each example that should be
-created by doc.Examples from the corresponding .go file.
+A .golanglden file is a txtar file with two sections for each example that should be
+created by doc.Examples from the corresponding .golang file.
 
 One section, named EXAMPLE_NAME.Output, contains the example's output,
 the value of the field Example.Output.

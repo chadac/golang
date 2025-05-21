@@ -1,11 +1,11 @@
 // run
 
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test of recover during recursive panics.
-// Here be dragons.
+// Here be dragolangns.
 
 package main
 
@@ -37,7 +37,7 @@ func mustRecover(x interface{}) {
 		die()
 	}
 	
-	// the value should be gone now regardless
+	// the value should be golangne now regardless
 	v = recover()
 	if v != nil {
 		println("recover didn't recover")

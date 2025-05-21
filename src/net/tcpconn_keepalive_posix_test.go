@@ -1,8 +1,8 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build aix || darwin || dragonfly || freebsd || linux || netbsd || windows
+//golang:build aix || darwin || dragolangnfly || freebsd || linux || netbsd || windows
 
 package net
 
@@ -63,7 +63,7 @@ func verifyKeepAliveSettings(t *testing.T, fd fdType, oldCfg, cfg KeepAliveConfi
 		t.Fatal(err)
 	}
 	if (tcpKeepAlive != 0) != cfg.Enable {
-		t.Fatalf("SO_KEEPALIVE: got %t; want %t", tcpKeepAlive != 0, cfg.Enable)
+		t.Fatalf("SO_KEEPALIVE: golangt %t; want %t", tcpKeepAlive != 0, cfg.Enable)
 	}
 
 	tcpKeepAliveIdle, err := syscall.GetsockoptInt(fd, syscall.IPPROTO_TCP, syscall_TCP_KEEPIDLE)
@@ -71,7 +71,7 @@ func verifyKeepAliveSettings(t *testing.T, fd fdType, oldCfg, cfg KeepAliveConfi
 		t.Fatal(err)
 	}
 	if time.Duration(tcpKeepAliveIdle)*time.Second != cfg.Idle {
-		t.Fatalf("TCP_KEEPIDLE: got %ds; want %v", tcpKeepAliveIdle, cfg.Idle)
+		t.Fatalf("TCP_KEEPIDLE: golangt %ds; want %v", tcpKeepAliveIdle, cfg.Idle)
 	}
 
 	tcpKeepAliveInterval, err := syscall.GetsockoptInt(fd, syscall.IPPROTO_TCP, syscall_TCP_KEEPINTVL)
@@ -79,7 +79,7 @@ func verifyKeepAliveSettings(t *testing.T, fd fdType, oldCfg, cfg KeepAliveConfi
 		t.Fatal(err)
 	}
 	if time.Duration(tcpKeepAliveInterval)*time.Second != cfg.Interval {
-		t.Fatalf("TCP_KEEPINTVL: got %ds; want %v", tcpKeepAliveInterval, cfg.Interval)
+		t.Fatalf("TCP_KEEPINTVL: golangt %ds; want %v", tcpKeepAliveInterval, cfg.Interval)
 	}
 
 	tcpKeepAliveCount, err := syscall.GetsockoptInt(fd, syscall.IPPROTO_TCP, syscall_TCP_KEEPCNT)
@@ -87,6 +87,6 @@ func verifyKeepAliveSettings(t *testing.T, fd fdType, oldCfg, cfg KeepAliveConfi
 		t.Fatal(err)
 	}
 	if tcpKeepAliveCount != cfg.Count {
-		t.Fatalf("TCP_KEEPCNT: got %d; want %d", tcpKeepAliveCount, cfg.Count)
+		t.Fatalf("TCP_KEEPCNT: golangt %d; want %d", tcpKeepAliveCount, cfg.Count)
 	}
 }

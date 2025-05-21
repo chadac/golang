@@ -1,5 +1,5 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 //
 // System calls and other sys.stuff for arm64, OpenBSD
@@ -8,10 +8,10 @@
 // Some direct system call implementations currently remain.
 //
 
-#include "go_asm.h"
-#include "go_tls.h"
+#include "golang_asm.h"
+#include "golang_tls.h"
 #include "textflag.h"
-#include "cgo/abi_arm64.h"
+#include "cgolang/abi_arm64.h"
 
 #define CLOCK_REALTIME	$0
 #define	CLOCK_MONOTONIC	$3
@@ -53,7 +53,7 @@ TEXT runtime·sigfwd(SB),NOSPLIT,$0-32
 
 TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME,$192
 	// Save callee-save registers in the case of signal forwarding.
-	// Please refer to https://golang.org/issue/31827 .
+	// Please refer to https://golanglang.org/issue/31827 .
 	SAVE_R19_TO_R28(8*4)
 	SAVE_F8_TO_F15(8*14)
 
@@ -65,7 +65,7 @@ TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME,$192
 	// Restore signum to R0.
 	MOVW	8(RSP), R0
 	// R1 and R2 already contain info and ctx, respectively.
-	BL	runtime·sigtrampgo<ABIInternal>(SB)
+	BL	runtime·sigtrampgolang<ABIInternal>(SB)
 
 	// Restore callee-save registers.
 	RESTORE_R19_TO_R28(8*4)
@@ -75,7 +75,7 @@ TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME,$192
 
 //
 // These trampolines help convert from Go calling convention to C calling convention.
-// They should be called with asmcgocall.
+// They should be called with asmcgolangcall.
 // A pointer to the arguments is passed in R0.
 // A single int32 result is returned in R0.
 // (For more results, make an args/results structure.)

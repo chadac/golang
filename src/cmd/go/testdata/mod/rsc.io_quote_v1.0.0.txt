@@ -4,11 +4,11 @@ rsc.io/quote@v1.0.0
 module "rsc.io/quote"
 -- .info --
 {"Version":"v1.0.0","Name":"f488df80bcdbd3e5bafdc24ad7d1e79e83edd7e6","Short":"f488df80bcdb","Time":"2018-02-14T00:45:20Z"}
--- go.mod --
+-- golang.mod --
 module "rsc.io/quote"
--- quote.go --
+-- quote.golang --
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package quote collects pithy sayings.
@@ -18,9 +18,9 @@ package quote // import "rsc.io/quote"
 func Hello() string {
 	return "Hello, world."
 }
--- quote_test.go --
+-- quote_test.golang --
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package quote

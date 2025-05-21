@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package cfile
@@ -78,7 +78,7 @@ func ClearCounters() error {
 
 	// Implementation note: this function would be faster and simpler
 	// if we could just zero out the entire counter array, but for the
-	// moment we go through and zero out just the slots in the array
+	// moment we golang through and zero out just the slots in the array
 	// corresponding to the counter values. We do this to avoid the
 	// following bad scenario: suppose that a user builds their Go
 	// program with "-cover", and that program has a function (call it
@@ -104,7 +104,7 @@ func ClearCounters() error {
 	// main.XYZ's prolog (which was zero'd) and hit the non-zero
 	// counter value corresponding to the "HERE" block, which will
 	// then be interpreted as the start of another live function.
-	// Things will go downhill from there.
+	// Things will golang downhill from there.
 	//
 	// This same scenario is also a potential risk if the program is
 	// running on an architecture that permits reordering of

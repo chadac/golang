@@ -1,9 +1,9 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-#include "go_asm.h"
-#include "go_tls.h"
+#include "golang_asm.h"
+#include "golang_tls.h"
 #include "textflag.h"
 
 // setldt(int entry, int address, int limit)
@@ -222,7 +222,7 @@ TEXT errstr<>(SB),NOSPLIT,$0
 // func errstr() string
 // Only used by package syscall.
 // Grab error string due to a syscall made
-// in entersyscall mode, without going
+// in entersyscall mode, without golanging
 // through the allocator (issue 4994).
 // See ../syscall/asm_plan9_386.s:/·Syscall/
 TEXT runtime·errstr(SB),NOSPLIT,$8-8

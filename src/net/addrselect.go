@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Minimal RFC 6724 address selection.
@@ -84,7 +84,7 @@ type byRFC6724Info struct {
 }
 
 // compareByRFC6724 compares two byRFC6724Info records and returns an integer
-// indicating the order. It follows the algorithm and variable names from
+// indicating the order. It follows the algolangrithm and variable names from
 // RFC 6724 section 6. Returns -1 if a is preferred, 1 if b is preferred,
 // and 0 if they are equal.
 func compareByRFC6724(a, b byRFC6724Info) int {

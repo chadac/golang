@@ -2,17 +2,17 @@
 # that the error for not matching tests does not override the error for
 # the build failure.
 
-! go test -run ThisWillNotMatch syntaxerror
+! golang test -run ThisWillNotMatch syntaxerror
 ! stderr '(?m)^ok.*\[no tests to run\]'
 stdout 'FAIL'
 
--- go.mod --
+-- golang.mod --
 module syntaxerror
 
-go 1.16
--- x.go --
+golang 1.16
+-- x.golang --
 package p
--- x_test.go --
+-- x_test.golang --
 package p
 
 func f() (x.y, z int) {

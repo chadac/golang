@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file implements type parameter substitution.
@@ -216,7 +216,7 @@ func (subst *subster) typ(typ Type) Type {
 			iface.methods, _ = replaceRecvType(methods, t, iface)
 
 			// If check != nil, check.newInterface will have saved the interface for later completion.
-			if subst.check == nil { // golang/go#61561: all newly created interfaces must be completed
+			if subst.check == nil { // golanglang/golang#61561: all newly created interfaces must be completed
 				iface.typeSet()
 			}
 			return iface

@@ -1,13 +1,13 @@
 [short] skip
-go test -cover coverblank
+golang test -cover coverblank
 stdout 'coverage: 100.0% of statements'
 
 
--- go.mod --
+-- golang.mod --
 module coverblank
 
-go 1.16
--- a.go --
+golang 1.16
+-- a.golang --
 package coverblank
 
 func _() {
@@ -24,7 +24,7 @@ func (x X) _() {
 	println("unreachable")
 }
 
--- a_test.go --
+-- a_test.golang --
 package coverblank
 
 import "testing"

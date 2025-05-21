@@ -1,11 +1,11 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package obj
 
 import (
-	"cmd/internal/goobj"
+	"cmd/internal/golangobj"
 	"cmd/internal/objabi"
 	"encoding/binary"
 	"fmt"
@@ -51,7 +51,7 @@ func funcpctab(ctxt *Link, func_ *LSym, desc string, valfunc func(*Link, *LSym, 
 	buf := make([]byte, binary.MaxVarintLen32)
 	started := false
 	for p := fn.Text; p != nil; p = p.Link {
-		// Update val. If it's not changing, keep going.
+		// Update val. If it's not changing, keep golanging.
 		val = valfunc(ctxt, func_, val, p, 0, arg)
 
 		if val == oldval && started {
@@ -64,7 +64,7 @@ func funcpctab(ctxt *Link, func_ *LSym, desc string, valfunc func(*Link, *LSym, 
 
 		// If the pc of the next instruction is the same as the
 		// pc of this instruction, this instruction is not a real
-		// instruction. Keep going, so that we only emit a delta
+		// instruction. Keep golanging, so that we only emit a delta
 		// for a true instruction boundary in the program.
 		if p.Link != nil && p.Link.Pc == p.Pc {
 			val = valfunc(ctxt, func_, val, p, 1, arg)
@@ -147,7 +147,7 @@ func pctofileline(ctxt *Link, sym *LSym, oldval int32, p *Prog, phase int32, arg
 		return l
 	}
 	pcln := arg.(*Pcln)
-	pcln.UsedFiles[goobj.CUFileIndex(f)] = struct{}{}
+	pcln.UsedFiles[golangobj.CUFileIndex(f)] = struct{}{}
 	return int32(f)
 }
 
@@ -260,7 +260,7 @@ func pctopcdata(ctxt *Link, sym *LSym, oldval int32, p *Prog, phase int32, arg i
 
 func linkpcln(ctxt *Link, cursym *LSym) {
 	pcln := &cursym.Func().Pcln
-	pcln.UsedFiles = make(map[goobj.CUFileIndex]struct{})
+	pcln.UsedFiles = make(map[golangobj.CUFileIndex]struct{})
 
 	npcdata := 0
 	nfuncdata := 0

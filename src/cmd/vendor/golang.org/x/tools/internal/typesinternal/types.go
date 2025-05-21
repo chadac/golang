@@ -1,27 +1,27 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Package typesinternal provides access to internal go/types APIs that are not
+// Package typesinternal provides access to internal golang/types APIs that are not
 // yet exported.
 package typesinternal
 
 import (
-	"go/ast"
-	"go/token"
-	"go/types"
+	"golang/ast"
+	"golang/token"
+	"golang/types"
 	"reflect"
 	"unsafe"
 
-	"golang.org/x/tools/internal/aliases"
+	"golanglang.org/x/tools/internal/aliases"
 )
 
-func SetUsesCgo(conf *types.Config) bool {
+func SetUsesCgolang(conf *types.Config) bool {
 	v := reflect.ValueOf(conf).Elem()
 
-	f := v.FieldByName("go115UsesCgo")
+	f := v.FieldByName("golang115UsesCgolang")
 	if !f.IsValid() {
-		f = v.FieldByName("UsesCgo")
+		f = v.FieldByName("UsesCgolang")
 		if !f.IsValid() {
 			return false
 		}
@@ -44,7 +44,7 @@ func ErrorCodeStartEnd(err types.Error) (code ErrorCode, start, end token.Pos, o
 	var data [3]int
 	// By coincidence all of these fields are ints, which simplifies things.
 	v := reflect.ValueOf(err)
-	for i, name := range []string{"go116code", "go116start", "go116end"} {
+	for i, name := range []string{"golang116code", "golang116start", "golang116end"} {
 		f := v.FieldByName(name)
 		if !f.IsValid() {
 			return 0, 0, 0, false
@@ -85,11 +85,11 @@ func NameRelativeTo(pkg *types.Package) types.Qualifier {
 type NamedOrAlias interface {
 	types.Type
 	Obj() *types.TypeName
-	// TODO(hxjiang): add method TypeArgs() *types.TypeList after stop supporting go1.22.
+	// TODO(hxjiang): add method TypeArgs() *types.TypeList after stop supporting golang1.22.
 }
 
 // TypeParams is a light shim around t.TypeParams().
-// (go/types.Alias).TypeParams requires >= 1.23.
+// (golang/types.Alias).TypeParams requires >= 1.23.
 func TypeParams(t NamedOrAlias) *types.TypeParamList {
 	switch t := t.(type) {
 	case *types.Alias:
@@ -101,7 +101,7 @@ func TypeParams(t NamedOrAlias) *types.TypeParamList {
 }
 
 // TypeArgs is a light shim around t.TypeArgs().
-// (go/types.Alias).TypeArgs requires >= 1.23.
+// (golang/types.Alias).TypeArgs requires >= 1.23.
 func TypeArgs(t NamedOrAlias) *types.TypeList {
 	switch t := t.(type) {
 	case *types.Alias:

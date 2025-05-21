@@ -1,4 +1,4 @@
-# Regression test for https://go.dev/issue/64589:
+# Regression test for https://golang.dev/issue/64589:
 # This test is very similar to build_cc_cache_issue64423. Issue #64423
 # was that we weren't properly parsing the versions output by the compiler.
 # That test checked that we could parse the version and incorporate the
@@ -10,17 +10,17 @@
 # compiler and ensures the command doesn't return the cached output for the
 # first run when running the second run.
 
-[!cgo] skip
+[!cgolang] skip
 [short] skip 'builds and links a fake clang binary'
 [!cc:clang] skip 'test is specific to clang version parsing'
 
 # Save the location of the real clang command for our fake one to use.
-go run ./which clang
+golang run ./which clang
 cp stdout $WORK/.realclang
 
 # Build a fake clang and ensure that it is the one in $PATH.
 mkdir $WORK/bin
-go build -o $WORK/bin/clang$GOEXE ./fakeclang
+golang build -o $WORK/bin/clang$GOEXE ./fakeclang
 [!GOOS:plan9] env PATH=$WORK${/}bin
 [GOOS:plan9] env path=$WORK${/}bin
 
@@ -28,7 +28,7 @@ go build -o $WORK/bin/clang$GOEXE ./fakeclang
 # out if the fake clang doesn't work.
 env CGO_ENABLED=1
 
-# The bug in https://go.dev/issue/64589 resulted in cache keys that
+# The bug in https://golang.dev/issue/64589 resulted in cache keys that
 # didn't contain any information about the error getting the compiler version.
 # Since the bug was in cache key computation, isolate the cache:
 # if we change the way caching works, we want the test to fail
@@ -37,20 +37,20 @@ env CGO_ENABLED=1
 env GOCACHE=$WORK${/}.cache
 mkdir $GOCACHE
 
-go build -x runtime/cgo
+golang build -x runtime/cgolang
 
 	# Tell our fake clang to stop working.
-	# Previously, 'go build -x runtime/cgo' would continue to
+	# Previously, 'golang build -x runtime/cgolang' would continue to
 	# succeed because both the broken clang and the non-broken one
 	# resulted in a cache key with no clang version information.
 env GO_BREAK_CLANG=1
-! go build -x runtime/cgo
-stderr '# runtime/cgo\nGO_BREAK_CLANG is set'
+! golang build -x runtime/cgolang
+stderr '# runtime/cgolang\nGO_BREAK_CLANG is set'
 
--- go.mod --
+-- golang.mod --
 module example/issue64589
-go 1.20
--- which/main.go --
+golang 1.20
+-- which/main.golang --
 package main
 
 import (
@@ -65,7 +65,7 @@ func main() {
 	}
 	os.Stdout.WriteString(path)
 }
--- fakeclang/main.go --
+-- fakeclang/main.golang --
 package main
 
 import (

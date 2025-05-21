@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package doc
@@ -35,7 +35,7 @@ var tests = []struct {
 	{"All Rights reserved. Package foo does bar.", 20, ""},
 	{"All rights reserved. Package foo does bar.", 20, ""},
 	{"Authors: foo@bar.com. Package foo does bar.", 21, ""},
-	{"typically invoked as ``go tool asm'',", 37, "typically invoked as “go tool asm”,"},
+	{"typically invoked as ``golang tool asm'',", 37, "typically invoked as “golang tool asm”,"},
 }
 
 func TestSynopsis(t *testing.T) {

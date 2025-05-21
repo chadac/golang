@@ -22,24 +22,24 @@
 #
 # b.1 --- e.1
 
-cp go.mod go.mod.orig
-go mod tidy
-cmp go.mod.orig go.mod
+cp golang.mod golang.mod.orig
+golang mod tidy
+cmp golang.mod.orig golang.mod
 
 # When we downgrade d.2 to d.1, no dependency on e should be added
 # because nothing else in the module or import graph requires it.
-go get example.net/d@v0.1.0
+golang get example.net/d@v0.1.0
 
-go list -m all
+golang list -m all
 stdout '^example.net/b v0.2.1-0.20210219000000-000000000000 '
 stdout '^example.net/c v0.1.0 '
 stdout '^example.net/d v0.1.0 '
 ! stdout '^example.net/e '
 
--- go.mod --
+-- golang.mod --
 module example.net/a
 
-go 1.16
+golang 1.16
 
 require (
 	example.net/b v0.3.0
@@ -56,7 +56,7 @@ replace (
 	example.net/d v0.2.0 => ./d
 	example.net/e v0.1.0 => ./e
 )
--- a.go --
+-- a.golang --
 package a
 
 import (
@@ -64,66 +64,66 @@ import (
 	_ "example.net/c"
 )
 
--- b1/go.mod --
+-- b1/golang.mod --
 module example.net/b
 
-go 1.16
+golang 1.16
 
 require example.net/e v0.1.0
--- b1/b.go --
+-- b1/b.golang --
 package b
 
 import _ "example.net/e"
 
--- b2/go.mod --
+-- b2/golang.mod --
 module example.net/b
 
-go 1.16
--- b2/b.go --
+golang 1.16
+-- b2/b.golang --
 package b
 
--- b3/go.mod --
+-- b3/golang.mod --
 module example.net/b
 
-go 1.16
+golang 1.16
 
 require example.net/d v0.2.0
--- b3/b.go --
+-- b3/b.golang --
 package b
 
 import _ "example.net/d"
--- c1/go.mod --
+-- c1/golang.mod --
 module example.net/c
 
-go 1.16
+golang 1.16
 
 require example.net/b v0.2.1-0.20210219000000-000000000000
--- c1/c.go --
+-- c1/c.golang --
 package c
 
 import _ "example.net/b"
 
--- c2/go.mod --
+-- c2/golang.mod --
 module example.net/c
 
-go 1.16
+golang 1.16
 
 require example.net/d v0.2.0
--- c2/c.go --
+-- c2/c.golang --
 package c
 
 import _ "example.net/d"
 
--- d/go.mod --
+-- d/golang.mod --
 module example.net/d
 
-go 1.16
--- d/d.go --
+golang 1.16
+-- d/d.golang --
 package d
 
--- e/go.mod --
+-- e/golang.mod --
 module example.net/e
 
-go 1.16
--- e/e.go --
+golang 1.16
+-- e/e.golang --
 package e

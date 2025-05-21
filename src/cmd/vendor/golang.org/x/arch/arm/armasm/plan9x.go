@@ -1,5 +1,5 @@
 // Copyright 2014 The Go Authors.  All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package armasm
@@ -290,14 +290,14 @@ func memOpTrans(mem Mem) (string, string) {
 	return off + base + index, suffix
 }
 
-type goFPInfo struct {
+type golangFPInfo struct {
 	op        Op
 	transArgs []int  // indexes of arguments which need transformation
 	gnuName   string // instruction name in GNU syntax
-	goName    string // instruction name in Plan 9 syntax
+	golangName    string // instruction name in Plan 9 syntax
 }
 
-var fpInst []goFPInfo = []goFPInfo{
+var fpInst []golangFPInfo = []golangFPInfo{
 	{VADD_EQ_F32, []int{2, 1, 0}, "VADD", "ADDF"},
 	{VADD_EQ_F64, []int{2, 1, 0}, "VADD", "ADDD"},
 	{VSUB_EQ_F32, []int{2, 1, 0}, "VSUB", "SUBF"},
@@ -370,7 +370,7 @@ func fpTrans(inst *Inst, op string, args []string) (string, []string) {
 					panic(fmt.Sprintf("wrong FP register: %v", inst))
 				}
 			} else {
-				op = fp.goName + op[len(fp.gnuName):]
+				op = fp.golangName + op[len(fp.gnuName):]
 			}
 			// transform registers
 			for ix, ri := range fp.transArgs {

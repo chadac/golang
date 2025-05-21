@@ -1,11 +1,11 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Tests increasing and decreasing GOMAXPROCS to try and
 // catch issues with stale proc state.
 
-//go:build ignore
+//golang:build ignore
 
 package main
 
@@ -18,10 +18,10 @@ import (
 )
 
 func main() {
-	// Start a goroutine that calls runtime.GC to try and
+	// Start a golangroutine that calls runtime.GC to try and
 	// introduce some interesting events in between the
 	// GOMAXPROCS calls.
-	go func() {
+	golang func() {
 		for {
 			runtime.GC()
 			time.Sleep(1 * time.Millisecond)

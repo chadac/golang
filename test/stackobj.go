@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -35,7 +35,7 @@ func main() {
 		panic("heap object never collected")
 	}
 	if c != 1 {
-		panic(fmt.Sprintf("expected collection at phase 1, got phase %d", c))
+		panic(fmt.Sprintf("expected collection at phase 1, golangt phase %d", c))
 	}
 }
 

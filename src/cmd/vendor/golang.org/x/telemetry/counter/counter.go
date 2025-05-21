@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package counter
@@ -7,15 +7,15 @@ package counter
 // The implementation of this package and tests are located in
 // internal/counter, which can be shared with the upload package.
 // TODO(hyangah): use of type aliases prevents nice documentation
-// rendering in go doc or pkgsite. Fix this either by avoiding
+// rendering in golang doc or pkgsite. Fix this either by avoiding
 // type aliasing or restructuring the internal/counter package.
 import (
 	"flag"
 	"path"
 	"runtime/debug"
 
-	"golang.org/x/telemetry/internal/counter"
-	"golang.org/x/telemetry/internal/telemetry"
+	"golanglang.org/x/telemetry/internal/counter"
+	"golanglang.org/x/telemetry/internal/telemetry"
 )
 
 // Inc increments the counter with the given name.
@@ -44,7 +44,7 @@ func New(name string) *Counter {
 }
 
 // A Counter is a single named event counter.
-// A Counter is safe for use by multiple goroutines simultaneously.
+// A Counter is safe for use by multiple golangroutines simultaneously.
 //
 // Counters should typically be created using New
 // and stored as global variables, like:
@@ -93,7 +93,7 @@ func Open() {
 // OpenAndRotate is like [Open], but also schedules a rotation of the counter
 // file when it expires.
 //
-// See golang/go#68497 for background on why [OpenAndRotate] is a separate API.
+// See golanglang/golang#68497 for background on why [OpenAndRotate] is a separate API.
 //
 // TODO(rfindley): refactor Open and OpenAndRotate for Go 1.24.
 func OpenAndRotate() {
@@ -117,7 +117,7 @@ func OpenDir(telemetryDir string) {
 // and increments the counter. The name of the counter is
 // the concatenation of prefix and the flag name.
 //
-//	For instance, CountFlags("gopls/flag:", *flag.CommandLine)
+//	For instance, CountFlags("golangpls/flag:", *flag.CommandLine)
 func CountFlags(prefix string, fs flag.FlagSet) {
 	fs.Visit(func(f *flag.Flag) {
 		New(prefix + f.Name).Inc()

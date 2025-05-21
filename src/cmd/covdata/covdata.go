@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -72,7 +72,7 @@ func usage(msg string) {
 	if len(msg) > 0 {
 		fmt.Fprintf(os.Stderr, "error: %s\n", msg)
 	}
-	fmt.Fprintf(os.Stderr, "usage: go tool covdata [command]\n")
+	fmt.Fprintf(os.Stderr, "usage: golang tool covdata [command]\n")
 	fmt.Fprintf(os.Stderr, `
 Commands are:
 
@@ -86,7 +86,7 @@ intersect   generate intersection of two sets of data files
 debugdump   dump data in human-readable format for debugging purposes
 `)
 	fmt.Fprintf(os.Stderr, "\nFor help on a specific subcommand, try:\n")
-	fmt.Fprintf(os.Stderr, "\ngo tool covdata <cmd> -help\n")
+	fmt.Fprintf(os.Stderr, "\ngolang tool covdata <cmd> -help\n")
 	Exit(2)
 }
 

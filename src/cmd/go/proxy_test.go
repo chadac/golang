@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main_test
@@ -24,13 +24,13 @@ import (
 	"sync"
 	"testing"
 
-	"cmd/go/internal/modfetch/codehost"
+	"cmd/golang/internal/modfetch/codehost"
 	"cmd/internal/par"
 
-	"golang.org/x/mod/module"
-	"golang.org/x/mod/semver"
-	"golang.org/x/mod/sumdb"
-	"golang.org/x/mod/sumdb/dirhash"
+	"golanglang.org/x/mod/module"
+	"golanglang.org/x/mod/semver"
+	"golanglang.org/x/mod/sumdb"
+	"golanglang.org/x/mod/sumdb/dirhash"
 )
 
 var (
@@ -58,9 +58,9 @@ func StartProxy() {
 		}
 		*proxyAddr = l.Addr().String()
 		proxyURL = "http://" + *proxyAddr + "/mod"
-		fmt.Fprintf(os.Stderr, "go test proxy running at GOPROXY=%s\n", proxyURL)
-		go func() {
-			log.Fatalf("go proxy: http.Serve: %v", http.Serve(l, http.HandlerFunc(proxyHandler)))
+		fmt.Fprintf(os.Stderr, "golang test proxy running at GOPROXY=%s\n", proxyURL)
+		golang func() {
+			log.Fatalf("golang proxy: http.Serve: %v", http.Serve(l, http.HandlerFunc(proxyHandler)))
 		}()
 
 		// Prepopulate main sumdb.
@@ -91,14 +91,14 @@ func readModList() {
 		path, err := module.UnescapePath(encPath)
 		if err != nil {
 			if testing.Verbose() && encPath != "example.com/invalidpath/v1" {
-				fmt.Fprintf(os.Stderr, "go proxy_test: %v\n", err)
+				fmt.Fprintf(os.Stderr, "golang proxy_test: %v\n", err)
 			}
 			continue
 		}
 		encVers := name[i+1:]
 		vers, err := module.UnescapeVersion(encVers)
 		if err != nil {
-			fmt.Fprintf(os.Stderr, "go proxy_test: %v\n", err)
+			fmt.Fprintf(os.Stderr, "golang proxy_test: %v\n", err)
 			continue
 		}
 		modList = append(modList, module.Version{Path: path, Version: vers})
@@ -122,7 +122,7 @@ var (
 )
 
 // proxyHandler serves the Go module proxy protocol.
-// See the proxy section of https://research.swtch.com/vgo-module.
+// See the proxy section of https://research.swtch.com/vgolang-module.
 func proxyHandler(w http.ResponseWriter, r *http.Request) {
 	if !strings.HasPrefix(r.URL.Path, "/mod/") {
 		http.NotFound(w, r)
@@ -172,7 +172,7 @@ func proxyHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Request for $GOPROXY/redirect/<count>/... goes to redirects.
+	// Request for $GOPROXY/redirect/<count>/... golanges to redirects.
 	if strings.HasPrefix(path, "redirect/") {
 		path = path[len("redirect/"):]
 		if j := strings.Index(path, "/"); j >= 0 {
@@ -198,7 +198,7 @@ func proxyHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Request for $GOPROXY/sumdb/<name>/... goes to sumdb.
+	// Request for $GOPROXY/sumdb/<name>/... golanges to sumdb.
 	if sumdbPrefix := "sumdb/" + testSumDBName + "/"; strings.HasPrefix(path, sumdbPrefix) {
 		r.URL.Path = path[len(sumdbPrefix)-1:]
 		sumdbServer.ServeHTTP(w, r)
@@ -213,13 +213,13 @@ func proxyHandler(w http.ResponseWriter, r *http.Request) {
 		modPath, err := module.UnescapePath(enc)
 		if err != nil {
 			if testing.Verbose() {
-				fmt.Fprintf(os.Stderr, "go proxy_test: %v\n", err)
+				fmt.Fprintf(os.Stderr, "golang proxy_test: %v\n", err)
 			}
 			http.NotFound(w, r)
 			return
 		}
 
-		// Imitate what "latest" does in direct mode and what proxy.golang.org does.
+		// Imitate what "latest" does in direct mode and what proxy.golanglang.org does.
 		// Use the latest released version.
 		// If there is no released version, use the latest prereleased version.
 		// Otherwise, use the latest pseudoversion.
@@ -266,7 +266,7 @@ func proxyHandler(w http.ResponseWriter, r *http.Request) {
 	path, err := module.UnescapePath(enc)
 	if err != nil {
 		if testing.Verbose() {
-			fmt.Fprintf(os.Stderr, "go proxy_test: %v\n", err)
+			fmt.Fprintf(os.Stderr, "golang proxy_test: %v\n", err)
 		}
 		http.NotFound(w, r)
 		return
@@ -301,7 +301,7 @@ func proxyHandler(w http.ResponseWriter, r *http.Request) {
 	encVers, ext := file[:i], file[i+1:]
 	vers, err := module.UnescapeVersion(encVers)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "go proxy_test: %v\n", err)
+		fmt.Fprintf(os.Stderr, "golang proxy_test: %v\n", err)
 		http.NotFound(w, r)
 		return
 	}
@@ -332,7 +332,7 @@ func proxyHandler(w http.ResponseWriter, r *http.Request) {
 	a, err := readArchive(path, vers)
 	if err != nil {
 		if testing.Verbose() {
-			fmt.Fprintf(os.Stderr, "go proxy: no archive %s %s: %v\n", path, vers, err)
+			fmt.Fprintf(os.Stderr, "golang proxy: no archive %s %s: %v\n", path, vers, err)
 		}
 		if errors.Is(err, fs.ErrNotExist) {
 			http.NotFound(w, r)
@@ -382,7 +382,7 @@ func proxyHandler(w http.ResponseWriter, r *http.Request) {
 
 		if err != nil {
 			if testing.Verbose() {
-				fmt.Fprintf(os.Stderr, "go proxy: %v\n", err)
+				fmt.Fprintf(os.Stderr, "golang proxy: %v\n", err)
 			}
 			http.Error(w, err.Error(), 500)
 			return
@@ -431,7 +431,7 @@ func readArchive(path, vers string) (*txtar.Archive, error) {
 		a, err := txtar.ParseFile(name)
 		if err != nil {
 			if testing.Verbose() || !os.IsNotExist(err) {
-				fmt.Fprintf(os.Stderr, "go proxy: %v\n", err)
+				fmt.Fprintf(os.Stderr, "golang proxy: %v\n", err)
 			}
 			a = nil
 		}
@@ -443,7 +443,7 @@ func readArchive(path, vers string) (*txtar.Archive, error) {
 	return a, nil
 }
 
-// proxyGoSum returns the two go.sum lines for path@vers.
+// proxyGoSum returns the two golang.sum lines for path@vers.
 func proxyGoSum(path, vers string) ([]byte, error) {
 	a, err := readArchive(path, vers)
 	if err != nil {
@@ -451,11 +451,11 @@ func proxyGoSum(path, vers string) ([]byte, error) {
 	}
 	var names []string
 	files := make(map[string][]byte)
-	var gomod []byte
+	var golangmod []byte
 	for _, f := range a.Files {
 		if strings.HasPrefix(f.Name, ".") {
 			if f.Name == ".mod" {
-				gomod = f.Data
+				golangmod = f.Data
 			}
 			continue
 		}
@@ -470,18 +470,18 @@ func proxyGoSum(path, vers string) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-	h1mod, err := dirhash.Hash1([]string{"go.mod"}, func(string) (io.ReadCloser, error) {
-		return io.NopCloser(bytes.NewReader(gomod)), nil
+	h1mod, err := dirhash.Hash1([]string{"golang.mod"}, func(string) (io.ReadCloser, error) {
+		return io.NopCloser(bytes.NewReader(golangmod)), nil
 	})
 	if err != nil {
 		return nil, err
 	}
-	data := []byte(fmt.Sprintf("%s %s %s\n%s %s/go.mod %s\n", path, vers, h1, path, vers, h1mod))
+	data := []byte(fmt.Sprintf("%s %s %s\n%s %s/golang.mod %s\n", path, vers, h1, path, vers, h1mod))
 	return data, nil
 }
 
 // proxyGoSumWrong returns the wrong lines.
 func proxyGoSumWrong(path, vers string) ([]byte, error) {
-	data := []byte(fmt.Sprintf("%s %s %s\n%s %s/go.mod %s\n", path, vers, "h1:wrong", path, vers, "h1:wrong"))
+	data := []byte(fmt.Sprintf("%s %s %s\n%s %s/golang.mod %s\n", path, vers, "h1:wrong", path, vers, "h1:wrong"))
 	return data, nil
 }

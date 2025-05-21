@@ -1,15 +1,15 @@
 [short] skip
 # Reset all experiments so fieldtrack is definitely off.
 env GOEXPERIMENT=none
-go run m
+golang run m
 stderr 'fieldtrack off'
 # Turn fieldtrack on.
 env GOEXPERIMENT=none,fieldtrack
-go run m
+golang run m
 stderr 'fieldtrack on'
 
--- ft_off.go --
-// +build !goexperiment.fieldtrack
+-- ft_off.golang --
+// +build !golangexperiment.fieldtrack
 
 package main
 
@@ -17,8 +17,8 @@ func main() {
 	println("fieldtrack off")
 }
 
--- ft_on.go --
-// +build goexperiment.fieldtrack
+-- ft_on.golang --
+// +build golangexperiment.fieldtrack
 
 package main
 
@@ -26,6 +26,6 @@ func main() {
 	println("fieldtrack on")
 }
 
--- go.mod --
+-- golang.mod --
 module m
-go 1.14
+golang 1.14

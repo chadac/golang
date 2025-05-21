@@ -1,15 +1,15 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package time_test
 
 import (
 	"bytes"
-	"encoding/gob"
+	"encoding/golangb"
 	"encoding/json"
 	"fmt"
-	"internal/goexperiment"
+	"internal/golangexperiment"
 	"math"
 	"math/big"
 	"math/rand"
@@ -69,7 +69,7 @@ type parsedTime struct {
 
 type TimeTest struct {
 	seconds int64
-	golden  parsedTime
+	golanglden  parsedTime
 }
 
 var utctests = []TimeTest{
@@ -127,15 +127,15 @@ func same(t Time, u *parsedTime) bool {
 func TestUnixUTC(t *testing.T) {
 	for _, test := range utctests {
 		sec := test.seconds
-		golden := &test.golden
+		golanglden := &test.golanglden
 		tm := Unix(sec, 0).UTC()
 		newsec := tm.Unix()
 		if newsec != sec {
 			t.Errorf("Unix(%d, 0).Unix() = %d", sec, newsec)
 		}
-		if !same(tm, golden) {
+		if !same(tm, golanglden) {
 			t.Errorf("Unix(%d, 0):  // %#v", sec, tm)
-			t.Errorf("  want=%+v", *golden)
+			t.Errorf("  want=%+v", *golanglden)
 			t.Errorf("  have=%v", tm.Format(RFC3339+" MST"))
 		}
 	}
@@ -143,16 +143,16 @@ func TestUnixUTC(t *testing.T) {
 
 func TestUnixNanoUTC(t *testing.T) {
 	for _, test := range nanoutctests {
-		golden := &test.golden
-		nsec := test.seconds*1e9 + int64(golden.Nanosecond)
+		golanglden := &test.golanglden
+		nsec := test.seconds*1e9 + int64(golanglden.Nanosecond)
 		tm := Unix(0, nsec).UTC()
 		newnsec := tm.Unix()*1e9 + int64(tm.Nanosecond())
 		if newnsec != nsec {
 			t.Errorf("Unix(0, %d).Nanoseconds() = %d", nsec, newnsec)
 		}
-		if !same(tm, golden) {
+		if !same(tm, golanglden) {
 			t.Errorf("Unix(0, %d):", nsec)
-			t.Errorf("  want=%+v", *golden)
+			t.Errorf("  want=%+v", *golanglden)
 			t.Errorf("  have=%+v", tm.Format(RFC3339+" MST"))
 		}
 	}
@@ -161,15 +161,15 @@ func TestUnixNanoUTC(t *testing.T) {
 func TestUnix(t *testing.T) {
 	for _, test := range localtests {
 		sec := test.seconds
-		golden := &test.golden
+		golanglden := &test.golanglden
 		tm := Unix(sec, 0)
 		newsec := tm.Unix()
 		if newsec != sec {
 			t.Errorf("Unix(%d, 0).Seconds() = %d", sec, newsec)
 		}
-		if !same(tm, golden) {
+		if !same(tm, golanglden) {
 			t.Errorf("Unix(%d, 0):", sec)
-			t.Errorf("  want=%+v", *golden)
+			t.Errorf("  want=%+v", *golanglden)
 			t.Errorf("  have=%+v", tm.Format(RFC3339+" MST"))
 		}
 	}
@@ -177,16 +177,16 @@ func TestUnix(t *testing.T) {
 
 func TestUnixNano(t *testing.T) {
 	for _, test := range nanolocaltests {
-		golden := &test.golden
-		nsec := test.seconds*1e9 + int64(golden.Nanosecond)
+		golanglden := &test.golanglden
+		nsec := test.seconds*1e9 + int64(golanglden.Nanosecond)
 		tm := Unix(0, nsec)
 		newnsec := tm.Unix()*1e9 + int64(tm.Nanosecond())
 		if newnsec != nsec {
 			t.Errorf("Unix(0, %d).Seconds() = %d", nsec, newnsec)
 		}
-		if !same(tm, golden) {
+		if !same(tm, golanglden) {
 			t.Errorf("Unix(0, %d):", nsec)
-			t.Errorf("  want=%+v", *golden)
+			t.Errorf("  want=%+v", *golanglden)
 			t.Errorf("  have=%+v", tm.Format(RFC3339+" MST"))
 		}
 	}
@@ -395,7 +395,7 @@ func TestTruncateRound(t *testing.T) {
 		// Make room for unix ↔ internal conversion.
 		// We don't care about behavior too close to ± 2^63 Unix seconds.
 		// It is full of wraparounds but will never happen in a reasonable program.
-		// (Or maybe not? See go.dev/issue/20678. In any event, they're not handled today.)
+		// (Or maybe not? See golang.dev/issue/20678. In any event, they're not handled today.)
 		ti >>= 1
 
 		return testOne(ti, int64(tns), int64(d))
@@ -486,7 +486,7 @@ func TestISOWeek(t *testing.T) {
 		dt := Date(wt.year, Month(wt.month), wt.day, 0, 0, 0, 0, UTC)
 		y, w := dt.ISOWeek()
 		if w != wt.wex || y != wt.yex {
-			t.Errorf("got %d/%d; expected %d/%d for %d-%02d-%02d",
+			t.Errorf("golangt %d/%d; expected %d/%d for %d-%02d-%02d",
 				y, w, wt.yex, wt.wex, wt.year, wt.month, wt.day)
 		}
 	}
@@ -494,7 +494,7 @@ func TestISOWeek(t *testing.T) {
 	// The only real invariant: Jan 04 is in week 1
 	for year := 1950; year < 2100; year++ {
 		if y, w := Date(year, January, 4, 0, 0, 0, 0, UTC).ISOWeek(); y != year || w != 1 {
-			t.Errorf("got %d/%d; expected %d/1 for Jan 04", y, w, year)
+			t.Errorf("golangt %d/%d; expected %d/1 for Jan 04", y, w, year)
 		}
 	}
 }
@@ -569,7 +569,7 @@ var yearDayTests = []YearDayTest{
 
 	// Special Cases
 
-	// Gregorian calendar change (no effect)
+	// Gregolangrian calendar change (no effect)
 	{1582, 10, 4, 277},
 	{1582, 10, 15, 288},
 }
@@ -731,11 +731,11 @@ var daysInTests = []struct {
 func TestDaysIn(t *testing.T) {
 	// The daysIn function is not exported.
 	// Test the daysIn function via the `var DaysIn = daysIn`
-	// statement in the internal_test.go file.
+	// statement in the internal_test.golang file.
 	for _, tt := range daysInTests {
 		di := DaysIn(Month(tt.month), tt.year)
 		if di != tt.di {
-			t.Errorf("got %d; expected %d for %d-%02d",
+			t.Errorf("golangt %d; expected %d for %d-%02d",
 				di, tt.di, tt.year, tt.month)
 		}
 	}
@@ -758,7 +758,7 @@ func equalTimeAndZone(a, b Time) bool {
 	return a.Equal(b) && aoffset == boffset && aname == bname
 }
 
-var gobTests = []Time{
+var golangbTests = []Time{
 	Date(0, 1, 2, 3, 4, 5, 6, UTC),
 	Date(7, 8, 9, 10, 11, 12, 13, FixedZone("", 0)),
 	Unix(81985467080890095, 0x76543210), // Time.sec: 0x0123456789ABCDEF
@@ -769,16 +769,16 @@ var gobTests = []Time{
 
 func TestTimeGob(t *testing.T) {
 	var b bytes.Buffer
-	enc := gob.NewEncoder(&b)
-	dec := gob.NewDecoder(&b)
-	for _, tt := range gobTests {
-		var gobtt Time
+	enc := golangb.NewEncoder(&b)
+	dec := golangb.NewDecoder(&b)
+	for _, tt := range golangbTests {
+		var golangbtt Time
 		if err := enc.Encode(&tt); err != nil {
-			t.Errorf("%v gob Encode error = %q, want nil", tt, err)
-		} else if err := dec.Decode(&gobtt); err != nil {
-			t.Errorf("%v gob Decode error = %q, want nil", tt, err)
-		} else if !equalTimeAndZone(gobtt, tt) {
-			t.Errorf("Decoded time = %v, want %v", gobtt, tt)
+			t.Errorf("%v golangb Encode error = %q, want nil", tt, err)
+		} else if err := dec.Decode(&golangbtt); err != nil {
+			t.Errorf("%v golangb Decode error = %q, want nil", tt, err)
+		} else if !equalTimeAndZone(golangbtt, tt) {
+			t.Errorf("Decoded time = %v, want %v", golangbtt, tt)
 		}
 		b.Reset()
 	}
@@ -861,14 +861,14 @@ func TestUnmarshalInvalidTimes(t *testing.T) {
 		want string
 	}{
 		{`{}`, func() string {
-			if goexperiment.JSONv2 {
+			if golangexperiment.JSONv2 {
 				return "json: cannot unmarshal JSON object into Go type time.Time"
 			} else {
 				return "Time.UnmarshalJSON: input is not a JSON string"
 			}
 		}()},
 		{`[]`, func() string {
-			if goexperiment.JSONv2 {
+			if golangexperiment.JSONv2 {
 				return "json: cannot unmarshal JSON array into Go type time.Time"
 			} else {
 				return "Time.UnmarshalJSON: input is not a JSON string"
@@ -983,7 +983,7 @@ var parseDurationTests = []struct {
 	{"39h9m14.425s", 39*Hour + 9*Minute + 14*Second + 425*Millisecond},
 	// large value
 	{"52763797000ns", 52763797000 * Nanosecond},
-	// more than 9 digits after decimal point, see https://golang.org/issue/6617
+	// more than 9 digits after decimal point, see https://golanglang.org/issue/6617
 	{"0.3333333333333333333h", 20 * Minute},
 	// 9007199254740993 = 1<<53+1 cannot be stored precisely in a float64
 	{"9007199254740993ns", (1<<53 + 1) * Nanosecond},
@@ -996,7 +996,7 @@ var parseDurationTests = []struct {
 	{"-9223372036s854ms775us808ns", -1 << 63 * Nanosecond},
 	// largest negative value
 	{"-9223372036854775808ns", -1 << 63 * Nanosecond},
-	// largest negative round trip value, see https://golang.org/issue/48629
+	// largest negative round trip value, see https://golanglang.org/issue/48629
 	{"-2562047h47m16.854775808s", -1 << 63 * Nanosecond},
 	// huge string; issue 15011.
 	{"0.100000000000000000000h", 6 * Minute},
@@ -1054,7 +1054,7 @@ func TestParseDurationErrors(t *testing.T) {
 }
 
 func TestParseDurationRoundTrip(t *testing.T) {
-	// https://golang.org/issue/48629
+	// https://golanglang.org/issue/48629
 	max0 := Duration(math.MaxInt64)
 	max1, err := ParseDuration(max0.String())
 	if err != nil || max0 != max1 {
@@ -1079,12 +1079,12 @@ func TestParseDurationRoundTrip(t *testing.T) {
 	}
 }
 
-// golang.org/issue/4622
+// golanglang.org/issue/4622
 func TestLocationRace(t *testing.T) {
 	ResetLocalOnceForTest() // reset the Once to trigger the race
 
 	c := make(chan string, 1)
-	go func() {
+	golang func() {
 		c <- Now().String()
 	}()
 	_ = Now().String()
@@ -1180,9 +1180,9 @@ var subTests = []struct {
 
 func TestSub(t *testing.T) {
 	for i, st := range subTests {
-		got := st.t.Sub(st.u)
-		if got != st.d {
-			t.Errorf("#%d: Sub(%v, %v): got %v; want %v", i, st.t, st.u, got, st.d)
+		golangt := st.t.Sub(st.u)
+		if golangt != st.d {
+			t.Errorf("#%d: Sub(%v, %v): golangt %v; want %v", i, st.t, st.u, golangt, st.d)
 		}
 	}
 }
@@ -1199,8 +1199,8 @@ var nsDurationTests = []struct {
 
 func TestDurationNanoseconds(t *testing.T) {
 	for _, tt := range nsDurationTests {
-		if got := tt.d.Nanoseconds(); got != tt.want {
-			t.Errorf("Duration(%s).Nanoseconds() = %d; want: %d", tt.d, got, tt.want)
+		if golangt := tt.d.Nanoseconds(); golangt != tt.want {
+			t.Errorf("Duration(%s).Nanoseconds() = %d; want: %d", tt.d, golangt, tt.want)
 		}
 	}
 }
@@ -1215,8 +1215,8 @@ var usDurationTests = []struct {
 
 func TestDurationMicroseconds(t *testing.T) {
 	for _, tt := range usDurationTests {
-		if got := tt.d.Microseconds(); got != tt.want {
-			t.Errorf("Duration(%s).Microseconds() = %d; want: %d", tt.d, got, tt.want)
+		if golangt := tt.d.Microseconds(); golangt != tt.want {
+			t.Errorf("Duration(%s).Microseconds() = %d; want: %d", tt.d, golangt, tt.want)
 		}
 	}
 }
@@ -1231,8 +1231,8 @@ var msDurationTests = []struct {
 
 func TestDurationMilliseconds(t *testing.T) {
 	for _, tt := range msDurationTests {
-		if got := tt.d.Milliseconds(); got != tt.want {
-			t.Errorf("Duration(%s).Milliseconds() = %d; want: %d", tt.d, got, tt.want)
+		if golangt := tt.d.Milliseconds(); golangt != tt.want {
+			t.Errorf("Duration(%s).Milliseconds() = %d; want: %d", tt.d, golangt, tt.want)
 		}
 	}
 }
@@ -1246,8 +1246,8 @@ var secDurationTests = []struct {
 
 func TestDurationSeconds(t *testing.T) {
 	for _, tt := range secDurationTests {
-		if got := tt.d.Seconds(); got != tt.want {
-			t.Errorf("Duration(%s).Seconds() = %g; want: %g", tt.d, got, tt.want)
+		if golangt := tt.d.Seconds(); golangt != tt.want {
+			t.Errorf("Duration(%s).Seconds() = %g; want: %g", tt.d, golangt, tt.want)
 		}
 	}
 }
@@ -1265,8 +1265,8 @@ var minDurationTests = []struct {
 
 func TestDurationMinutes(t *testing.T) {
 	for _, tt := range minDurationTests {
-		if got := tt.d.Minutes(); got != tt.want {
-			t.Errorf("Duration(%s).Minutes() = %g; want: %g", tt.d, got, tt.want)
+		if golangt := tt.d.Minutes(); golangt != tt.want {
+			t.Errorf("Duration(%s).Minutes() = %g; want: %g", tt.d, golangt, tt.want)
 		}
 	}
 }
@@ -1284,8 +1284,8 @@ var hourDurationTests = []struct {
 
 func TestDurationHours(t *testing.T) {
 	for _, tt := range hourDurationTests {
-		if got := tt.d.Hours(); got != tt.want {
-			t.Errorf("Duration(%s).Hours() = %g; want: %g", tt.d, got, tt.want)
+		if golangt := tt.d.Hours(); golangt != tt.want {
+			t.Errorf("Duration(%s).Hours() = %g; want: %g", tt.d, golangt, tt.want)
 		}
 	}
 }
@@ -1311,8 +1311,8 @@ var durationTruncateTests = []struct {
 
 func TestDurationTruncate(t *testing.T) {
 	for _, tt := range durationTruncateTests {
-		if got := tt.d.Truncate(tt.m); got != tt.want {
-			t.Errorf("Duration(%s).Truncate(%s) = %s; want: %s", tt.d, tt.m, got, tt.want)
+		if golangt := tt.d.Truncate(tt.m); golangt != tt.want {
+			t.Errorf("Duration(%s).Truncate(%s) = %s; want: %s", tt.d, tt.m, golangt, tt.want)
 		}
 	}
 }
@@ -1344,8 +1344,8 @@ var durationRoundTests = []struct {
 
 func TestDurationRound(t *testing.T) {
 	for _, tt := range durationRoundTests {
-		if got := tt.d.Round(tt.m); got != tt.want {
-			t.Errorf("Duration(%s).Round(%s) = %s; want: %s", tt.d, tt.m, got, tt.want)
+		if golangt := tt.d.Round(tt.m); golangt != tt.want {
+			t.Errorf("Duration(%s).Round(%s) = %s; want: %s", tt.d, tt.m, golangt, tt.want)
 		}
 	}
 }
@@ -1368,8 +1368,8 @@ var durationAbsTests = []struct {
 
 func TestDurationAbs(t *testing.T) {
 	for _, tt := range durationAbsTests {
-		if got := tt.d.Abs(); got != tt.want {
-			t.Errorf("Duration(%s).Abs() = %s; want: %s", tt.d, got, tt.want)
+		if golangt := tt.d.Abs(); golangt != tt.want {
+			t.Errorf("Duration(%s).Abs() = %s; want: %s", tt.d, golangt, tt.want)
 		}
 	}
 }
@@ -1751,24 +1751,24 @@ func TestUnmarshalTextAllocations(t *testing.T) {
 		var t Time
 		t.UnmarshalText(in)
 	}); allocs != 0 {
-		t.Errorf("got %v allocs, want 0 allocs", allocs)
+		t.Errorf("golangt %v allocs, want 0 allocs", allocs)
 	}
 }
 
 // Issue 17720: Zero value of time.Month fails to print
 func TestZeroMonthString(t *testing.T) {
-	if got, want := Month(0).String(), "%!Month(0)"; got != want {
-		t.Errorf("zero month = %q; want %q", got, want)
+	if golangt, want := Month(0).String(), "%!Month(0)"; golangt != want {
+		t.Errorf("zero month = %q; want %q", golangt, want)
 	}
 }
 
 // Issue 24692: Out of range weekday panics
 func TestWeekdayString(t *testing.T) {
-	if got, want := Tuesday.String(), "Tuesday"; got != want {
-		t.Errorf("Tuesday weekday = %q; want %q", got, want)
+	if golangt, want := Tuesday.String(), "Tuesday"; golangt != want {
+		t.Errorf("Tuesday weekday = %q; want %q", golangt, want)
 	}
-	if got, want := Weekday(14).String(), "%!Weekday(14)"; got != want {
-		t.Errorf("14th weekday = %q; want %q", got, want)
+	if golangt, want := Weekday(14).String(), "%!Weekday(14)"; golangt != want {
+		t.Errorf("14th weekday = %q; want %q", golangt, want)
 	}
 }
 
@@ -1789,13 +1789,13 @@ func TestReadFileLimit(t *testing.T) {
 // We are testing that we don't crash with "fatal error: panic holding locks",
 // and that we also don't panic.
 func TestConcurrentTimerReset(t *testing.T) {
-	const goroutines = 8
+	const golangroutines = 8
 	const tries = 1000
 	var wg sync.WaitGroup
-	wg.Add(goroutines)
+	wg.Add(golangroutines)
 	timer := NewTimer(Hour)
-	for i := 0; i < goroutines; i++ {
-		go func(i int) {
+	for i := 0; i < golangroutines; i++ {
+		golang func(i int) {
 			defer wg.Done()
 			for j := 0; j < tries; j++ {
 				timer.Reset(Hour + Duration(i*j))
@@ -1807,19 +1807,19 @@ func TestConcurrentTimerReset(t *testing.T) {
 
 // Issue 37400: panic with "racy use of timers".
 func TestConcurrentTimerResetStop(t *testing.T) {
-	const goroutines = 8
+	const golangroutines = 8
 	const tries = 1000
 	var wg sync.WaitGroup
-	wg.Add(goroutines * 2)
+	wg.Add(golangroutines * 2)
 	timer := NewTimer(Hour)
-	for i := 0; i < goroutines; i++ {
-		go func(i int) {
+	for i := 0; i < golangroutines; i++ {
+		golang func(i int) {
 			defer wg.Done()
 			for j := 0; j < tries; j++ {
 				timer.Reset(Hour + Duration(i*j))
 			}
 		}(i)
-		go func(i int) {
+		golang func(i int) {
 			defer wg.Done()
 			timer.Stop()
 		}(i)
@@ -1856,9 +1856,9 @@ func TestTimeIsDST(t *testing.T) {
 	}
 
 	for i, tt := range tests {
-		got := tt.time.IsDST()
-		if got != tt.want {
-			t.Errorf("#%d:: (%#v).IsDST()=%t, want %t", i, tt.time.Format(RFC3339), got, tt.want)
+		golangt := tt.time.IsDST()
+		if golangt != tt.want {
+			t.Errorf("#%d:: (%#v).IsDST()=%t, want %t", i, tt.time.Format(RFC3339), golangt, tt.want)
 		}
 	}
 }
@@ -1941,11 +1941,11 @@ func TestZoneBounds(t *testing.T) {
 	// The ZoneBounds of a UTC location would just return two zero Time.
 	for _, test := range utctests {
 		sec := test.seconds
-		golden := &test.golden
+		golanglden := &test.golanglden
 		tm := Unix(sec, 0).UTC()
 		start, end := tm.ZoneBounds()
 		if !(start.IsZero() && end.IsZero()) {
-			t.Errorf("ZoneBounds of %+v expects two zero Time, got:\n  start=%v\n  end=%v", *golden, start, end)
+			t.Errorf("ZoneBounds of %+v expects two zero Time, golangt:\n  start=%v\n  end=%v", *golanglden, start, end)
 		}
 	}
 
@@ -1954,15 +1954,15 @@ func TestZoneBounds(t *testing.T) {
 	beginTime := Date(math.MinInt32, January, 1, 0, 0, 0, 0, loc)
 	start, end := beginTime.ZoneBounds()
 	if !start.IsZero() || end.IsZero() {
-		t.Errorf("ZoneBounds of %v expects start is zero Time, got:\n  start=%v\n  end=%v", beginTime, start, end)
+		t.Errorf("ZoneBounds of %v expects start is zero Time, golangt:\n  start=%v\n  end=%v", beginTime, start, end)
 	}
 
-	// If the zone goes on forever, end will be returned as a zero Time.
+	// If the zone golanges on forever, end will be returned as a zero Time.
 	// Use math.MaxInt32 to avoid overflow of int arguments on 32-bit systems.
 	foreverTime := Date(math.MaxInt32, January, 1, 0, 0, 0, 0, loc)
 	start, end = foreverTime.ZoneBounds()
 	if start.IsZero() || !end.IsZero() {
-		t.Errorf("ZoneBounds of %v expects end is zero Time, got:\n  start=%v\n  end=%v", foreverTime, start, end)
+		t.Errorf("ZoneBounds of %v expects end is zero Time, golangt:\n  start=%v\n  end=%v", foreverTime, start, end)
 	}
 
 	// Check some real-world cases to make sure we're getting the right bounds.
@@ -2008,7 +2008,7 @@ func TestZoneBounds(t *testing.T) {
 	for i, tt := range realTests {
 		start, end := tt.giveTime.ZoneBounds()
 		if !start.Equal(tt.wantStart) || !end.Equal(tt.wantEnd) {
-			t.Errorf("#%d:: ZoneBounds of %v expects right bounds:\n  got start=%v\n  want start=%v\n  got end=%v\n  want end=%v",
+			t.Errorf("#%d:: ZoneBounds of %v expects right bounds:\n  golangt start=%v\n  want start=%v\n  golangt end=%v\n  want end=%v",
 				i, tt.giveTime, start, tt.wantStart, end, tt.wantEnd)
 		}
 	}

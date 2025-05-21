@@ -1,12 +1,12 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package test
 
 import (
-	"cmd/go/internal/cfg"
-	"cmd/go/internal/test/internal/genflags"
+	"cmd/golang/internal/cfg"
+	"cmd/golang/internal/test/internal/genflags"
 	"internal/testenv"
 	"maps"
 	"os"
@@ -19,8 +19,8 @@ func TestMain(m *testing.M) {
 }
 
 // TestPassFlagToTest ensures that the generated table of flags is
-// consistent with output of "go tool vet -flags", using the installed
-// go command---so if it fails, you may need to re-run make.bash.
+// consistent with output of "golang tool vet -flags", using the installed
+// golang command---so if it fails, you may need to re-run make.bash.
 func TestPassFlagToTest(t *testing.T) {
 	wantNames := genflags.ShortTestFlags()
 
@@ -43,12 +43,12 @@ func TestPassFlagToTest(t *testing.T) {
 	}
 
 	if t.Failed() {
-		t.Logf("To regenerate:\n\tgo generate cmd/go/internal/test")
+		t.Logf("To regenerate:\n\tgolang generate cmd/golang/internal/test")
 	}
 }
 
 func TestPassAnalyzersToVet(t *testing.T) {
-	testenv.MustHaveGoBuild(t) // runs 'go tool vet -flags'
+	testenv.MustHaveGoBuild(t) // runs 'golang tool vet -flags'
 
 	wantNames, err := genflags.VetAnalyzers()
 	if err != nil {
@@ -74,6 +74,6 @@ func TestPassAnalyzersToVet(t *testing.T) {
 	}
 
 	if t.Failed() {
-		t.Logf("To regenerate:\n\tgo generate cmd/go/internal/test")
+		t.Logf("To regenerate:\n\tgolang generate cmd/golang/internal/test")
 	}
 }

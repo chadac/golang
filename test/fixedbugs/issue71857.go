@@ -1,14 +1,14 @@
 // run
 
 // Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
 
 import "sync/atomic"
 
-//go:noinline
+//golang:noinline
 func f(p0, p1, p2, p3, p4, p5, p6, p7 *uint64, a *atomic.Uint64) {
 	old := a.Or(0xaaa)
 	*p0 = old

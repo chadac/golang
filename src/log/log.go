@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package log implements a simple logging package. It defines a type, [Logger],
@@ -38,13 +38,13 @@ import (
 //
 // while flags Ldate | Ltime | Lmicroseconds | Llongfile produce,
 //
-//	2009/01/23 01:23:23.123123 /a/b/c/d.go:23: message
+//	2009/01/23 01:23:23.123123 /a/b/c/d.golang:23: message
 const (
 	Ldate         = 1 << iota     // the date in the local time zone: 2009/01/23
 	Ltime                         // the time in the local time zone: 01:23:23
 	Lmicroseconds                 // microsecond resolution: 01:23:23.123123.  assumes Ltime.
-	Llongfile                     // full file name and line number: /a/b/c/d.go:23
-	Lshortfile                    // final file name element and line number: d.go:23. overrides Llongfile
+	Llongfile                     // full file name and line number: /a/b/c/d.golang:23
+	Lshortfile                    // final file name element and line number: d.golang:23. overrides Llongfile
 	LUTC                          // if Ldate or Ltime is set, use UTC rather than the local time zone
 	Lmsgprefix                    // move the "prefix" from the beginning of the line to before the message
 	LstdFlags     = Ldate | Ltime // initial values for the standard logger
@@ -53,7 +53,7 @@ const (
 // A Logger represents an active logging object that generates lines of
 // output to an [io.Writer]. Each logging operation makes a single call to
 // the Writer's Write method. A Logger can be used simultaneously from
-// multiple goroutines; it guarantees to serialize access to the Writer.
+// multiple golangroutines; it guarantees to serialize access to the Writer.
 type Logger struct {
 	outMu sync.Mutex
 	out   io.Writer // destination for output
@@ -177,7 +177,7 @@ func putBuffer(p *[]byte) {
 	// contains a variably-sized buffer, we add a hard limit on the maximum buffer
 	// to place back in the pool.
 	//
-	// See https://go.dev/issue/23199
+	// See https://golang.dev/issue/23199
 	if cap(*p) > 64<<10 {
 		*p = nil
 	}

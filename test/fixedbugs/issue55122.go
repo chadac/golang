@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -28,7 +28,7 @@ func h(iter int) {
 	panic(iter)
 }
 
-//go:noinline
+//golang:noinline
 func g(x interface{}) {
 	switch e := x.(type) {
 	case *[32]byte:

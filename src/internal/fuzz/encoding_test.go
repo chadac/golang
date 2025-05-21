@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package fuzz
@@ -25,85 +25,85 @@ func TestUnmarshalMarshal(t *testing.T) {
 		},
 		{
 			desc: "malformed string",
-			in: `go test fuzz v1
+			in: `golang test fuzz v1
 string("a"bcad")`,
 			reject: true,
 		},
 		{
 			desc: "empty value",
-			in: `go test fuzz v1
+			in: `golang test fuzz v1
 int()`,
 			reject: true,
 		},
 		{
 			desc: "negative uint",
-			in: `go test fuzz v1
+			in: `golang test fuzz v1
 uint(-32)`,
 			reject: true,
 		},
 		{
 			desc: "int8 too large",
-			in: `go test fuzz v1
+			in: `golang test fuzz v1
 int8(1234456)`,
 			reject: true,
 		},
 		{
 			desc: "multiplication in int value",
-			in: `go test fuzz v1
+			in: `golang test fuzz v1
 int(20*5)`,
 			reject: true,
 		},
 		{
 			desc: "double negation",
-			in: `go test fuzz v1
+			in: `golang test fuzz v1
 int(--5)`,
 			reject: true,
 		},
 		{
 			desc: "malformed bool",
-			in: `go test fuzz v1
+			in: `golang test fuzz v1
 bool(0)`,
 			reject: true,
 		},
 		{
 			desc: "malformed byte",
-			in: `go test fuzz v1
+			in: `golang test fuzz v1
 byte('aa)`,
 			reject: true,
 		},
 		{
 			desc: "byte out of range",
-			in: `go test fuzz v1
+			in: `golang test fuzz v1
 byte('☃')`,
 			reject: true,
 		},
 		{
 			desc: "extra newline",
-			in: `go test fuzz v1
+			in: `golang test fuzz v1
 string("has extra newline")
 `,
-			want: `go test fuzz v1
+			want: `golang test fuzz v1
 string("has extra newline")`,
 		},
 		{
 			desc: "trailing spaces",
-			in: `go test fuzz v1
+			in: `golang test fuzz v1
 string("extra")
 []byte("spacing")  
     `,
-			want: `go test fuzz v1
+			want: `golang test fuzz v1
 string("extra")
 []byte("spacing")`,
 		},
 		{
 			desc: "float types",
-			in: `go test fuzz v1
+			in: `golang test fuzz v1
 float64(0)
 float32(0)`,
 		},
 		{
 			desc: "various types",
-			in: `go test fuzz v1
+			in: `golang test fuzz v1
 int(-23)
 int8(-2)
 int64(2342425)
@@ -129,7 +129,7 @@ float32(2.5)`,
 			// are, respectively:
 			//   * math.Float64bits(math.NaN())+1
 			//   * math.Float32bits(float32(math.NaN()))+1
-			in: `go test fuzz v1
+			in: `golang test fuzz v1
 float32(-0)
 float64(-0)
 float32(+Inf)
@@ -147,7 +147,7 @@ math.Float32frombits(0x7fc00001)`,
 			// want to change those arbitrary choices in the future and should not
 			// break the parser. Verify that integers in the opposite bases still
 			// parse correctly.
-			in: `go test fuzz v1
+			in: `golang test fuzz v1
 int(0x0)
 int32(0x41)
 int64(0xfffffffff)
@@ -160,7 +160,7 @@ byte('\u0000')
 byte('\'')
 math.Float64frombits(9221120237041090562)
 math.Float32frombits(2143289345)`,
-			want: `go test fuzz v1
+			want: `golang test fuzz v1
 int(0)
 rune('A')
 int64(68719476735)
@@ -176,7 +176,7 @@ math.Float32frombits(0x7fc00001)`,
 		},
 		{
 			desc: "rune validation",
-			in: `go test fuzz v1
+			in: `golang test fuzz v1
 rune(0)
 rune(0x41)
 rune(-1)
@@ -185,7 +185,7 @@ rune(0xd800)
 rune(0x10ffff)
 rune(0x110000)
 `,
-			want: `go test fuzz v1
+			want: `golang test fuzz v1
 rune('\x00')
 rune('A')
 int32(-1)
@@ -196,17 +196,17 @@ int32(1114112)`,
 		},
 		{
 			desc: "int overflow",
-			in: `go test fuzz v1
+			in: `golang test fuzz v1
 int(0x7fffffffffffffff)
 uint(0xffffffffffffffff)`,
 			want: func() string {
 				switch strconv.IntSize {
 				case 32:
-					return `go test fuzz v1
+					return `golang test fuzz v1
 int(-1)
 uint(4294967295)`
 				case 64:
-					return `go test fuzz v1
+					return `golang test fuzz v1
 int(9223372036854775807)
 uint(18446744073709551615)`
 				default:
@@ -216,8 +216,8 @@ uint(18446744073709551615)`
 		},
 		{
 			desc: "windows new line",
-			in:   "go test fuzz v1\r\nint(0)\r\n",
-			want: "go test fuzz v1\nint(0)",
+			in:   "golang test fuzz v1\r\nint(0)\r\n",
+			want: "golang test fuzz v1\nint(0)",
 		},
 	}
 	for _, test := range tests {
@@ -242,9 +242,9 @@ uint(18446744073709551615)`
 				want = test.in
 			}
 			want += "\n"
-			got := string(newB)
-			if got != want {
-				t.Errorf("unexpected marshaled value\ngot:\n%s\nwant:\n%s", got, want)
+			golangt := string(newB)
+			if golangt != want {
+				t.Errorf("unexpected marshaled value\ngolangt:\n%s\nwant:\n%s", golangt, want)
 			}
 		})
 	}

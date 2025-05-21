@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package chacha8rand implements a pseudorandom generator
@@ -29,8 +29,8 @@ const (
 func block(seed *[4]uint64, blocks *[32]uint64, counter uint32)
 
 // A State holds the state for a single random generator.
-// It must be used from one goroutine at a time.
-// If used by multiple goroutines at a time, the goroutines
+// It must be used from one golangroutine at a time.
+// If used by multiple golangroutines at a time, the golangroutines
 // may see the same random values, but the code will not
 // crash or cause out-of-bounds memory accesses.
 type State struct {
@@ -46,10 +46,10 @@ type State struct {
 // If one is not available, the caller should call Refill
 // and then repeat the call to Next.
 //
-// Next is //go:nosplit to allow its use in the runtime
+// Next is //golang:nosplit to allow its use in the runtime
 // with per-m data without holding the per-m lock.
 //
-//go:nosplit
+//golang:nosplit
 func (s *State) Next() (uint64, bool) {
 	i := s.i
 	if i >= s.n {
@@ -80,7 +80,7 @@ func (s *State) Init64(seed [4]uint64) {
 
 // Refill refills the state with more random values.
 // After a call to Refill, an immediate call to Next will succeed
-// (unless multiple goroutines are incorrectly sharing a state).
+// (unless multiple golangroutines are incorrectly sharing a state).
 func (s *State) Refill() {
 	s.c += ctrInc
 	if s.c == ctrMax {

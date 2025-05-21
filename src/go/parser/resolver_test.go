@@ -1,14 +1,14 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package parser
 
 import (
 	"fmt"
-	"go/ast"
-	"go/scanner"
-	"go/token"
+	"golang/ast"
+	"golang/scanner"
+	"golang/token"
 	"os"
 	"path/filepath"
 	"strings"
@@ -60,14 +60,14 @@ func TestResolution(t *testing.T) {
 				return p
 			}
 			for k, want := range fromComments {
-				if got := fromParser[k]; got != want {
-					t.Errorf("%s resolved to %s, want %s", pos(k), pos(got), pos(want))
+				if golangt := fromParser[k]; golangt != want {
+					t.Errorf("%s resolved to %s, want %s", pos(k), pos(golangt), pos(want))
 				}
 				delete(fromParser, k)
 			}
 			// What remains in fromParser are unexpected resolutions.
-			for k, got := range fromParser {
-				t.Errorf("%s resolved to %s, want no object", pos(k), pos(got))
+			for k, golangt := range fromParser {
+				t.Errorf("%s resolved to %s, want no object", pos(k), pos(golangt))
 			}
 		})
 	}

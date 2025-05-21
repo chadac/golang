@@ -5,9 +5,9 @@ written by hand
 module example.com/invalidpath/v1
 -- .info --
 {"Version":"v1.0.0"}
--- go.mod --
+-- golang.mod --
 module example.com/invalidpath/v1
--- version.go --
+-- version.golang --
 package version
 
 const V = "v1.0.0"

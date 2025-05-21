@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package types_test
@@ -10,13 +10,13 @@ import (
 	"strings"
 	"testing"
 
-	. "go/types"
+	. "golang/types"
 )
 
 func TestIsAlias(t *testing.T) {
 	check := func(obj *TypeName, want bool) {
-		if got := obj.IsAlias(); got != want {
-			t.Errorf("%v: got IsAlias = %v; want %v", obj, got, want)
+		if golangt := obj.IsAlias(); golangt != want {
+			t.Errorf("%v: golangt IsAlias = %v; want %v", obj, golangt, want)
 		}
 	}
 
@@ -54,7 +54,7 @@ func TestIsAlias(t *testing.T) {
 }
 
 // TestEmbeddedMethod checks that an embedded method is represented by
-// the same Func Object as the original method. See also go.dev/issue/34421.
+// the same Func Object as the original method. See also golang.dev/issue/34421.
 func TestEmbeddedMethod(t *testing.T) {
 	const src = `package p; type I interface { error }`
 	pkg := mustTypecheck(src, nil, nil)
@@ -117,7 +117,7 @@ func TestObjectString(t *testing.T) {
 			if test.alias {
 				revert := setGOEXPERIMENT("aliastypeparams")
 				defer revert()
-				t.Setenv("GODEBUG", "gotypesalias=1")
+				t.Setenv("GODEBUG", "golangtypesalias=1")
 			}
 
 			src := "package p; " + test.src
@@ -150,8 +150,8 @@ func TestObjectString(t *testing.T) {
 				}
 			}
 
-			if got := obj.String(); got != test.want {
-				t.Errorf("%s: got %s, want %s", test.src, got, test.want)
+			if golangt := obj.String(); golangt != test.want {
+				t.Errorf("%s: golangt %s, want %s", test.src, golangt, test.want)
 			}
 		})
 	}

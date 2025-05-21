@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package fipstest
@@ -32,7 +32,7 @@ func TestXAESAllocations(t *testing.T) {
 			t.Fatal(err)
 		}
 	}); allocs > 0 {
-		t.Errorf("expected zero allocations, got %0.1f", allocs)
+		t.Errorf("expected zero allocations, golangt %0.1f", allocs)
 	}
 }
 
@@ -51,18 +51,18 @@ func TestXAES(t *testing.T) {
 	g, _ := gcm.New(a, 12, 16)
 	gcm.SealWithRandomNonce(g, nonce[12:], ciphertext, plaintext, additionalData)
 
-	got, err := xaesOpen(nil, key, nonce, ciphertext, additionalData)
+	golangt, err := xaesOpen(nil, key, nonce, ciphertext, additionalData)
 	if err != nil {
 		t.Fatal(err)
 	}
-	if !bytes.Equal(plaintext, got) {
-		t.Errorf("plaintext and got are not equal")
+	if !bytes.Equal(plaintext, golangt) {
+		t.Errorf("plaintext and golangt are not equal")
 	}
 }
 
 // ACVP tests consider fixed data part of the output, not part of the input, and
 // all the pre-generated vectors at
-// https://github.com/usnistgov/ACVP-Server/blob/3a7333f6/gen-val/json-files/KDF-1.0/expectedResults.json
+// https://github.com/usnistgolangv/ACVP-Server/blob/3a7333f6/gen-val/json-files/KDF-1.0/expectedResults.json
 // have a 32-byte fixed data, while ours is always 14 bytes. Instead, test
 // against the XAES-256-GCM vectors, which were tested against OpenSSL's Counter
 // KDF. This also ensures the KDF will work for XAES-256-GCM.
@@ -91,8 +91,8 @@ func TestXAESVectors(t *testing.T) {
 	plaintext := []byte("XAES-256-GCM")
 	ciphertext := xaesSeal(nil, key, nonce, plaintext, nil)
 	expected := "ce546ef63c9cc60765923609b33a9a1974e96e52daf2fcf7075e2271"
-	if got := hex.EncodeToString(ciphertext); got != expected {
-		t.Errorf("got: %s", got)
+	if golangt := hex.EncodeToString(ciphertext); golangt != expected {
+		t.Errorf("golangt: %s", golangt)
 	}
 	if decrypted, err := xaesOpen(nil, key, nonce, ciphertext, nil); err != nil {
 		t.Fatal(err)
@@ -104,8 +104,8 @@ func TestXAESVectors(t *testing.T) {
 	aad := []byte("c2sp.org/XAES-256-GCM")
 	ciphertext = xaesSeal(nil, key, nonce, plaintext, aad)
 	expected = "986ec1832593df5443a179437fd083bf3fdb41abd740a21f71eb769d"
-	if got := hex.EncodeToString(ciphertext); got != expected {
-		t.Errorf("got: %s", got)
+	if golangt := hex.EncodeToString(ciphertext); golangt != expected {
+		t.Errorf("golangt: %s", golangt)
 	}
 	if decrypted, err := xaesOpen(nil, key, nonce, ciphertext, aad); err != nil {
 		t.Fatal(err)
@@ -143,7 +143,7 @@ func TestXAESAccumulated(t *testing.T) {
 
 		d.Write(ciphertext)
 	}
-	if got := hex.EncodeToString(d.Sum(nil)); got != expected {
-		t.Errorf("got: %s", got)
+	if golangt := hex.EncodeToString(d.Sum(nil)); golangt != expected {
+		t.Errorf("golangt: %s", golangt)
 	}
 }

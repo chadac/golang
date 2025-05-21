@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
@@ -41,7 +41,7 @@ func XTestInlineUnwinder(t TestingT) {
 		if file, _ := u.fileLine(uf); file == "?" {
 			// We're probably in the trailing function padding, where findfunc
 			// still returns f but there's no symbolic information. Just keep
-			// going until we definitely hit the end. If we see a "?" in the
+			// golanging until we definitely hit the end. If we see a "?" in the
 			// middle of unwinding, that's a real problem.
 			//
 			// TODO: If we ever have function end information, use that to make
@@ -50,9 +50,9 @@ func XTestInlineUnwinder(t TestingT) {
 		}
 		for ; uf.valid(); uf = u.next(uf) {
 			file, line := u.fileLine(uf)
-			const wantFile = "symtabinl_test.go"
+			const wantFile = "symtabinl_test.golang"
 			if !stringslite.HasSuffix(file, wantFile) {
-				t.Errorf("tiuTest+%#x: want file ...%s, got %s", pc-pc1, wantFile, file)
+				t.Errorf("tiuTest+%#x: want file ...%s, golangt %s", pc-pc1, wantFile, file)
 			}
 
 			sf := u.srcFunc(uf)
@@ -68,7 +68,7 @@ func XTestInlineUnwinder(t TestingT) {
 
 			start := int(sf.startLine) - tiuStart
 			if start != wantStart[name] {
-				t.Errorf("tiuTest+%#x: want startLine %d, got %d", pc-pc1, wantStart[name], start)
+				t.Errorf("tiuTest+%#x: want startLine %d, golangt %d", pc-pc1, wantStart[name], start)
 			}
 			if sf.funcID != abi.FuncIDNormal {
 				t.Errorf("tiuTest+%#x: bad funcID %v", pc-pc1, sf.funcID)
@@ -91,7 +91,7 @@ func XTestInlineUnwinder(t TestingT) {
 		}
 	}
 
-	// Check that we got all the stacks we wanted.
+	// Check that we golangt all the stacks we wanted.
 	for stack, count := range want {
 		if count == 0 {
 			t.Errorf("missing stack %s", stack)

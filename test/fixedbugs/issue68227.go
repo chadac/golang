@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -28,7 +28,7 @@ func (s *someType) problematicFn(x1Lo, x1Hi, x2Lo, x2Hi uint64) {
 	s.push(uint64(uint32(r5)) | (uint64(uint32(r7+r8)) << 32))
 }
 
-//go:noinline
+//golang:noinline
 func g() {
 }
 
@@ -36,8 +36,8 @@ func main() {
 	s := &someType{}
 	s.problematicFn(0x1000100010001, 0x1000100010001, 0xffffffffffffffff, 0xffffffffffffffff)
 	for i := 0; i < 2; i++ {
-		if got, want := (*s)[i], uint64(0xfffffffeffffffff); got != want {
-			fmt.Printf("s[%d]=%x, want %x\n", i, got, want)
+		if golangt, want := (*s)[i], uint64(0xfffffffeffffffff); golangt != want {
+			fmt.Printf("s[%d]=%x, want %x\n", i, golangt, want)
 		}
 	}
 }

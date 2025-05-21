@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package http
@@ -10,28 +10,28 @@ package http
 // Changes are minimal: aside from the different receiver type,
 // they mostly involve renaming functions, usually by unexporting them.
 
-// servemux121.go exists solely to provide a snapshot of
+// servemux121.golang exists solely to provide a snapshot of
 // the pre-Go 1.22 ServeMux implementation for backwards compatibility.
 // Do not modify this file, it should remain frozen.
 
 import (
-	"internal/godebug"
+	"internal/golangdebug"
 	"net/url"
 	"sort"
 	"strings"
 	"sync"
 )
 
-var httpmuxgo121 = godebug.New("httpmuxgo121")
+var httpmuxgolang121 = golangdebug.New("httpmuxgolang121")
 
 var use121 bool
 
-// Read httpmuxgo121 once at startup, since dealing with changes to it during
+// Read httpmuxgolang121 once at startup, since dealing with changes to it during
 // program execution is too complex and error-prone.
 func init() {
-	if httpmuxgo121.Value() == "1" {
+	if httpmuxgolang121.Value() == "1" {
 		use121 = true
-		httpmuxgo121.IncNonDefault()
+		httpmuxgolang121.IncNonDefault()
 	}
 }
 

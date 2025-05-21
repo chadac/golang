@@ -7,11 +7,11 @@ env GOCACHE=$WORK/cache
 
 # Tests without -run.
 
-! go test
+! golang test
 stdout FAIL
 stdout 'error here'
 
-! go test -v
+! golang test -v
 stdout FAIL
 stdout 'error here'
 stdout '=== RUN   FuzzFoo/thisfails'
@@ -21,17 +21,17 @@ stdout '--- PASS: FuzzFoo/thispasses'
 
 # Tests where -run matches all seed corpora.
 
-! go test -run FuzzFoo/this
+! golang test -run FuzzFoo/this
 stdout FAIL
 stdout 'error here'
 ! stdout 'no tests to run'
 
-! go test -run /this
+! golang test -run /this
 stdout FAIL
 stdout 'error here'
 ! stdout 'no tests to run'
 
-! go test -v -run FuzzFoo/this
+! golang test -v -run FuzzFoo/this
 stdout FAIL
 stdout 'error here'
 stdout '=== RUN   FuzzFoo/thisfails'
@@ -40,7 +40,7 @@ stdout '=== RUN   FuzzFoo/thispasses'
 stdout '--- PASS: FuzzFoo/thispasses'
 ! stdout 'no tests to run'
 
-! go test -v -run /this
+! golang test -v -run /this
 stdout FAIL
 stdout 'error here'
 stdout '=== RUN   FuzzFoo/thisfails'
@@ -51,22 +51,22 @@ stdout '--- PASS: FuzzFoo/thispasses'
 
 # Tests where -run only matches one seed corpus which passes.
 
-go test -run FuzzFoo/thispasses
+golang test -run FuzzFoo/thispasses
 stdout ok
 ! stdout 'no tests to run'
 
-go test -run /thispasses
+golang test -run /thispasses
 stdout ok
 ! stdout 'no tests to run'
 
 # Same tests in verbose mode
-go test -v -run FuzzFoo/thispasses
+golang test -v -run FuzzFoo/thispasses
 stdout '=== RUN   FuzzFoo/thispasses'
 stdout '--- PASS: FuzzFoo/thispasses'
 ! stdout '=== RUN   FuzzFoo/thisfails'
 ! stdout 'no tests to run'
 
-go test -v -run /thispasses
+golang test -v -run /thispasses
 stdout '=== RUN   FuzzFoo/thispasses'
 stdout '--- PASS: FuzzFoo/thispasses'
 ! stdout '=== RUN   FuzzFoo/thisfails'
@@ -74,24 +74,24 @@ stdout '--- PASS: FuzzFoo/thispasses'
 
 # Tests where -run only matches one seed corpus which fails.
 
-! go test -run FuzzFoo/thisfails
+! golang test -run FuzzFoo/thisfails
 stdout FAIL
 stdout 'error here'
 ! stdout 'no tests to run'
 
-! go test -run /thisfails
+! golang test -run /thisfails
 stdout FAIL
 stdout 'error here'
 ! stdout 'no tests to run'
 
-! go test -v -run FuzzFoo/thisfails
+! golang test -v -run FuzzFoo/thisfails
 stdout 'error here'
 stdout '=== RUN   FuzzFoo/thisfails'
 stdout '--- FAIL: FuzzFoo/thisfails'
 ! stdout '=== RUN   FuzzFoo/thispasses'
 ! stdout 'no tests to run'
 
-! go test -v -run /thisfails
+! golang test -v -run /thisfails
 stdout 'error here'
 stdout '=== RUN   FuzzFoo/thisfails'
 stdout '--- FAIL: FuzzFoo/thisfails'
@@ -100,29 +100,29 @@ stdout '--- FAIL: FuzzFoo/thisfails'
 
 # Tests where -run doesn't match any seed corpora.
 
-go test -run FuzzFoo/nomatch
+golang test -run FuzzFoo/nomatch
 stdout ok
 
-go test -run /nomatch
+golang test -run /nomatch
 stdout ok
 
-go test -v -run FuzzFoo/nomatch
+golang test -v -run FuzzFoo/nomatch
 stdout '=== RUN   FuzzFoo'
 stdout '--- PASS: FuzzFoo'
 stdout ok
 ! stdout 'no tests to run'
 
-go test -v -run /nomatch
+golang test -v -run /nomatch
 stdout '=== RUN   FuzzFoo'
 stdout '--- PASS: FuzzFoo'
 stdout ok
 ! stdout 'no tests to run'
 
--- go.mod --
+-- golang.mod --
 module example.com/x
 
-go 1.16
--- x_test.go --
+golang 1.16
+-- x_test.golang --
 package x
 
 import "testing"
@@ -136,8 +136,8 @@ func FuzzFoo(f *testing.F) {
     })
 }
 -- testdata/fuzz/FuzzFoo/thisfails --
-go test fuzz v1
+golang test fuzz v1
 string("fails")
 -- testdata/fuzz/FuzzFoo/thispasses --
-go test fuzz v1
+golang test fuzz v1
 string("passes")

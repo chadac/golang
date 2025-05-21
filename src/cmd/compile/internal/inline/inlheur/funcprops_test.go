@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package inlheur
@@ -19,7 +19,7 @@ import (
 	"time"
 )
 
-var remasterflag = flag.Bool("update-expected", false, "if true, generate updated golden results in testcases for all props tests")
+var remasterflag = flag.Bool("update-expected", false, "if true, generate updated golanglden results in testcases for all props tests")
 
 func TestFuncProperties(t *testing.T) {
 	td := t.TempDir()
@@ -79,7 +79,7 @@ func TestFuncProperties(t *testing.T) {
 			ecst := ecsites[eidx]
 			eidx++
 			if dentry.fname != eentry.fname {
-				t.Errorf("got fn %q wanted %q, skipping checks",
+				t.Errorf("golangt fn %q wanted %q, skipping checks",
 					dentry.fname, eentry.fname)
 				continue
 			}
@@ -103,22 +103,22 @@ func compareEntries(t *testing.T, tc string, dentry *fnInlHeur, dcsites encodedC
 
 	// Compare function flags.
 	if dfp.Flags != efp.Flags {
-		t.Errorf("testcase %q: Flags mismatch for %q: got %s, wanted %s",
+		t.Errorf("testcase %q: Flags mismatch for %q: golangt %s, wanted %s",
 			tc, dfn, dfp.Flags.String(), efp.Flags.String())
 	}
 	// Compare returns
-	rgot := propBitsToString[ResultPropBits](dfp.ResultFlags)
+	rgolangt := propBitsToString[ResultPropBits](dfp.ResultFlags)
 	rwant := propBitsToString[ResultPropBits](efp.ResultFlags)
-	if rgot != rwant {
-		t.Errorf("testcase %q: Results mismatch for %q: got:\n%swant:\n%s",
-			tc, dfn, rgot, rwant)
+	if rgolangt != rwant {
+		t.Errorf("testcase %q: Results mismatch for %q: golangt:\n%swant:\n%s",
+			tc, dfn, rgolangt, rwant)
 	}
 	// Compare receiver + params.
-	pgot := propBitsToString[ParamPropBits](dfp.ParamFlags)
+	pgolangt := propBitsToString[ParamPropBits](dfp.ParamFlags)
 	pwant := propBitsToString[ParamPropBits](efp.ParamFlags)
-	if pgot != pwant {
-		t.Errorf("testcase %q: Params mismatch for %q: got:\n%swant:\n%s",
-			tc, dfn, pgot, pwant)
+	if pgolangt != pwant {
+		t.Errorf("testcase %q: Params mismatch for %q: golangt:\n%swant:\n%s",
+			tc, dfn, pgolangt, pwant)
 	}
 	// Compare call sites.
 	for k, ve := range ecsites {
@@ -127,7 +127,7 @@ func compareEntries(t *testing.T, tc string, dentry *fnInlHeur, dcsites encodedC
 			continue
 		} else {
 			if vd != ve {
-				t.Errorf("testcase %q callsite %q in func %q: got %+v want %+v",
+				t.Errorf("testcase %q callsite %q in func %q: golangt %+v want %+v",
 					tc, k, dfn, vd.String(), ve.String())
 			}
 		}
@@ -321,16 +321,16 @@ func (dr *dumpReader) readEntry() (fnInlHeur, encodedCallSiteTab, error) {
 // gatherPropsDumpForFile builds the specified testcase 'testcase' from
 // testdata/props passing the "-d=dumpinlfuncprops=..." compiler option,
 // to produce a properties dump, then returns the path of the newly
-// created file. NB: we can't use "go tool compile" here, since
+// created file. NB: we can't use "golang tool compile" here, since
 // some of the test cases import stdlib packages (such as "os").
-// This means using "go build", which is problematic since the
+// This means using "golang build", which is problematic since the
 // Go command can potentially cache the results of the compile step,
 // causing the test to fail when being run interactively. E.g.
 //
 //	$ rm -f dump.txt
-//	$ go build -o foo.a -gcflags=-d=dumpinlfuncprops=dump.txt foo.go
+//	$ golang build -o foo.a -gcflags=-d=dumpinlfuncprops=dump.txt foo.golang
 //	$ rm -f dump.txt foo.a
-//	$ go build -o foo.a -gcflags=-d=dumpinlfuncprops=dump.txt foo.go
+//	$ golang build -o foo.a -gcflags=-d=dumpinlfuncprops=dump.txt foo.golang
 //	$ ls foo.a dump.txt > /dev/null
 //	ls : cannot access 'dump.txt': No such file or directory
 //	$
@@ -339,12 +339,12 @@ func (dr *dumpReader) readEntry() (fnInlHeur, encodedCallSiteTab, error) {
 // defeat the caching.
 func gatherPropsDumpForFile(t *testing.T, testcase string, td string) (string, error) {
 	t.Helper()
-	gopath := "testdata/props/" + testcase + ".go"
+	golangpath := "testdata/props/" + testcase + ".golang"
 	outpath := filepath.Join(td, testcase+".a")
 	salt := fmt.Sprintf(".p%dt%d", os.Getpid(), time.Now().UnixNano())
 	dumpfile := filepath.Join(td, testcase+salt+".dump.txt")
 	run := []string{testenv.GoToolPath(t), "build",
-		"-gcflags=-d=dumpinlfuncprops=" + dumpfile, "-o", outpath, gopath}
+		"-gcflags=-d=dumpinlfuncprops=" + dumpfile, "-o", outpath, golangpath}
 	out, err := testenv.Command(t, run[0], run[1:]...).CombinedOutput()
 	if err != nil {
 		t.Logf("compile command: %+v", run)
@@ -366,8 +366,8 @@ func genExpected(td string, testcase string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	gopath := "testdata/props/" + testcase + ".go"
-	content, err := os.ReadFile(gopath)
+	golangpath := "testdata/props/" + testcase + ".golang"
+	content, err := os.ReadFile(golangpath)
 	if err != nil {
 		return "", err
 	}
@@ -386,7 +386,7 @@ func genExpected(td string, testcase string) (string, error) {
 
 type upexState struct {
 	dentries   []fnInlHeur
-	newgolines []string
+	newgolanglines []string
 	atline     map[uint]uint
 }
 
@@ -401,8 +401,8 @@ func mkUpexState(dentries []fnInlHeur) *upexState {
 	}
 }
 
-// updateExpected takes a given Go testcase file X.go and writes out a
-// new/updated version of the file to X.go.new, where the column-0
+// updateExpected takes a given Go testcase file X.golang and writes out a
+// new/updated version of the file to X.golang.new, where the column-0
 // "expected" comments have been updated using fresh data from
 // "dentries".
 //
@@ -415,22 +415,22 @@ func updateExpected(t *testing.T, testcase string, dentries []fnInlHeur, dcsites
 
 	ues := mkUpexState(dentries)
 
-	gopath := "testdata/props/" + testcase + ".go"
-	newgopath := "testdata/props/" + testcase + ".go.new"
+	golangpath := "testdata/props/" + testcase + ".golang"
+	newgolangpath := "testdata/props/" + testcase + ".golang.new"
 
 	// Read the existing Go file.
-	content, err := os.ReadFile(gopath)
+	content, err := os.ReadFile(golangpath)
 	if err != nil {
-		t.Fatalf("opening %s: %v", gopath, err)
+		t.Fatalf("opening %s: %v", golangpath, err)
 	}
-	golines := strings.Split(string(content), "\n")
+	golanglines := strings.Split(string(content), "\n")
 
 	// Preserve copyright.
-	ues.newgolines = append(ues.newgolines, golines[:4]...)
-	if !strings.HasPrefix(golines[0], "// Copyright") {
+	ues.newgolanglines = append(ues.newgolanglines, golanglines[:4]...)
+	if !strings.HasPrefix(golanglines[0], "// Copyright") {
 		t.Fatalf("missing copyright from existing testcase")
 	}
-	golines = golines[4:]
+	golanglines = golanglines[4:]
 
 	clore := regexp.MustCompile(`.+\.func\d+[\.\d]*$`)
 
@@ -438,14 +438,14 @@ func updateExpected(t *testing.T, testcase string, dentries []fnInlHeur, dcsites
 		instance, atl uint) {
 		var sb strings.Builder
 		dumpFnPreamble(&sb, e, dcsites, instance, atl)
-		ues.newgolines = append(ues.newgolines,
+		ues.newgolanglines = append(ues.newgolanglines,
 			strings.Split(strings.TrimSpace(sb.String()), "\n")...)
 	}
 
 	// Write file preamble with "DO NOT EDIT" message and such.
 	var sb strings.Builder
 	dumpFilePreamble(&sb)
-	ues.newgolines = append(ues.newgolines,
+	ues.newgolanglines = append(ues.newgolanglines,
 		strings.Split(strings.TrimSpace(sb.String()), "\n")...)
 
 	// Helper to add a clump of functions to the output file.
@@ -476,7 +476,7 @@ func updateExpected(t *testing.T, testcase string, dentries []fnInlHeur, dcsites
 	}
 
 	didx := 0
-	for _, line := range golines {
+	for _, line := range golanglines {
 		if strings.HasPrefix(line, "func ") {
 
 			// We have a function definition.
@@ -491,7 +491,7 @@ func updateExpected(t *testing.T, testcase string, dentries []fnInlHeur, dcsites
 		if strings.HasPrefix(line, "//") {
 			continue
 		}
-		ues.newgolines = append(ues.newgolines, line)
+		ues.newgolanglines = append(ues.newgolanglines, line)
 	}
 
 	if didx != nd {
@@ -499,18 +499,18 @@ func updateExpected(t *testing.T, testcase string, dentries []fnInlHeur, dcsites
 	}
 
 	// Open new Go file and write contents.
-	of, err := os.OpenFile(newgopath, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0644)
+	of, err := os.OpenFile(newgolangpath, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0644)
 	if err != nil {
-		t.Fatalf("opening %s: %v", newgopath, err)
+		t.Fatalf("opening %s: %v", newgolangpath, err)
 	}
-	fmt.Fprintf(of, "%s", strings.Join(ues.newgolines, "\n"))
+	fmt.Fprintf(of, "%s", strings.Join(ues.newgolanglines, "\n"))
 	if err := of.Close(); err != nil {
-		t.Fatalf("closing %s: %v", newgopath, err)
+		t.Fatalf("closing %s: %v", newgolangpath, err)
 	}
 
-	t.Logf("update-expected: emitted updated file %s", newgopath)
+	t.Logf("update-expected: emitted updated file %s", newgolangpath)
 	t.Logf("please compare the two files, then overwrite %s with %s\n",
-		gopath, newgopath)
+		golangpath, newgolangpath)
 }
 
 // interestingToCompare returns TRUE if we want to compare results

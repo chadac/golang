@@ -1,8 +1,8 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:generate go run makeisprint.go -output isprint.go
+//golang:generate golang run makeisprint.golang -output isprint.golang
 
 package strconv
 
@@ -533,7 +533,7 @@ func IsPrint(r rune) bool {
 		return false
 	}
 
-	// Same algorithm, either on uint16 or uint32 value.
+	// Same algolangrithm, either on uint16 or uint32 value.
 	// First, find first i such that isPrint[i] >= x.
 	// This is the index of either the start or end of a pair that might span x.
 	// The start is even (isPrint[i&^1]) and the end is odd (isPrint[i|1]).
@@ -564,7 +564,7 @@ func IsPrint(r rune) bool {
 
 // IsGraphic reports whether the rune is defined as a Graphic by Unicode. Such
 // characters include letters, marks, numbers, punctuation, symbols, and
-// spaces, from categories L, M, N, P, S, and Zs.
+// spaces, from categolangries L, M, N, P, S, and Zs.
 func IsGraphic(r rune) bool {
 	if IsPrint(r) {
 		return true
@@ -576,7 +576,7 @@ func IsGraphic(r rune) bool {
 // from IsGraphic allows quoteWith to avoid two calls to IsPrint.
 // Should be called only if IsPrint fails.
 func isInGraphicList(r rune) bool {
-	// We know r must fit in 16 bits - see makeisprint.go.
+	// We know r must fit in 16 bits - see makeisprint.golang.
 	if r > 0xFFFF {
 		return false
 	}

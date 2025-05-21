@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package flate implements the DEFLATE compressed data format, described in
@@ -89,7 +89,7 @@ type Resetter interface {
 // number of bits.
 //
 // See the following:
-//	https://github.com/madler/zlib/raw/master/doc/algorithm.txt
+//	https://github.com/madler/zlib/raw/master/doc/algolangrithm.txt
 
 // chunk & 15 is number of bits
 // chunk >> 4 is value, including table link
@@ -484,9 +484,9 @@ func (f *decompressor) huffmanBlock() {
 
 	switch f.stepState {
 	case stateInit:
-		goto readLiteral
+		golangto readLiteral
 	case stateDict:
-		goto copyHistory
+		golangto copyHistory
 	}
 
 readLiteral:
@@ -508,7 +508,7 @@ readLiteral:
 				f.stepState = stateInit
 				return
 			}
-			goto readLiteral
+			golangto readLiteral
 		case v == 256:
 			f.finishBlock()
 			return
@@ -597,7 +597,7 @@ readLiteral:
 		}
 
 		f.copyLen, f.copyDist = length, dist
-		goto copyHistory
+		golangto copyHistory
 	}
 
 copyHistory:
@@ -615,7 +615,7 @@ copyHistory:
 			f.stepState = stateDict
 			return
 		}
-		goto readLiteral
+		golangto readLiteral
 	}
 }
 

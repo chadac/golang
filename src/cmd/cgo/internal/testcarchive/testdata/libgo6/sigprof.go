@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -11,13 +11,13 @@ import (
 
 import "C"
 
-//export go_start_profile
-func go_start_profile() {
+//export golang_start_profile
+func golang_start_profile() {
 	pprof.StartCPUProfile(io.Discard)
 }
 
-//export go_stop_profile
-func go_stop_profile() {
+//export golang_stop_profile
+func golang_stop_profile() {
 	pprof.StopCPUProfile()
 }
 

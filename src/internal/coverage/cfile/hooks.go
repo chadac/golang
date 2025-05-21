@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package cfile
@@ -11,14 +11,14 @@ import "internal/runtime/exithook"
 // called only by the compiler (via runtime/coverage.initHook).
 //
 // If 'istest' is false, it indicates we're building a regular program
-// ("go build -cover ..."), in which case we immediately try to write
+// ("golang build -cover ..."), in which case we immediately try to write
 // out the meta-data file, and register emitCounterData as an exit
 // hook.
 //
 // If 'istest' is true (indicating that the program in question is a
 // Go test binary), then we tentatively queue up both emitMetaData and
-// emitCounterData as exit hooks. In the normal case (e.g. regular "go
-// test -cover" run) the testmain.go boilerplate will run at the end
+// emitCounterData as exit hooks. In the normal case (e.g. regular "golang
+// test -cover" run) the testmain.golang boilerplate will run at the end
 // of the test, write out the coverage percentage, and then invoke
 // MarkProfileEmitted to indicate that no more work needs to be
 // done. If however that call is never made, this is a sign that the

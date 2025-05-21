@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -25,18 +25,18 @@ func JSONTraceHandler(parsed *parsedTrace) http.Handler {
 		case "thread":
 			opts.mode = traceviewer.ModeThreadOriented
 		}
-		if goids := r.FormValue("goid"); goids != "" {
-			// Render trace focused on a particular goroutine.
+		if golangids := r.FormValue("golangid"); golangids != "" {
+			// Render trace focused on a particular golangroutine.
 
-			id, err := strconv.ParseUint(goids, 10, 64)
+			id, err := strconv.ParseUint(golangids, 10, 64)
 			if err != nil {
-				log.Printf("failed to parse goid parameter %q: %v", goids, err)
+				log.Printf("failed to parse golangid parameter %q: %v", golangids, err)
 				return
 			}
-			goid := trace.GoID(id)
-			g, ok := parsed.summary.Goroutines[goid]
+			golangid := trace.GoID(id)
+			g, ok := parsed.summary.Goroutines[golangid]
 			if !ok {
-				log.Printf("failed to find goroutine %d", goid)
+				log.Printf("failed to find golangroutine %d", golangid)
 				return
 			}
 			opts.mode = traceviewer.ModeGoroutineOriented
@@ -47,11 +47,11 @@ func JSONTraceHandler(parsed *parsedTrace) http.Handler {
 			}
 			if g.EndTime != 0 {
 				opts.endTime = g.EndTime.Sub(parsed.startTime())
-			} else { // The goroutine didn't end.
+			} else { // The golangroutine didn't end.
 				opts.endTime = parsed.endTime().Sub(parsed.startTime())
 			}
-			opts.focusGoroutine = goid
-			opts.goroutines = trace.RelatedGoroutinesV2(parsed.events, goid)
+			opts.focusGoroutine = golangid
+			opts.golangroutines = trace.RelatedGoroutinesV2(parsed.events, golangid)
 		} else if taskids := r.FormValue("focustask"); taskids != "" {
 			taskid, err := strconv.ParseUint(taskids, 10, 64)
 			if err != nil {
@@ -75,11 +75,11 @@ func JSONTraceHandler(parsed *parsedTrace) http.Handler {
 				log.Printf("failed to find task with id %d", taskid)
 				return
 			}
-			// This mode is goroutine-oriented.
+			// This mode is golangroutine-oriented.
 			opts.mode = traceviewer.ModeGoroutineOriented
 			opts.setTask(parsed, task)
 
-			// Pick the goroutine to orient ourselves around by just
+			// Pick the golangroutine to orient ourselves around by just
 			// trying to pick the earliest event in the task that makes
 			// any sense. Though, we always want the start if that's there.
 			var firstEv *trace.Event
@@ -100,17 +100,17 @@ func JSONTraceHandler(parsed *parsedTrace) http.Handler {
 				return
 			}
 
-			// Set the goroutine filtering options.
-			goid := firstEv.Goroutine()
-			opts.focusGoroutine = goid
-			goroutines := make(map[trace.GoID]struct{})
+			// Set the golangroutine filtering options.
+			golangid := firstEv.Goroutine()
+			opts.focusGoroutine = golangid
+			golangroutines := make(map[trace.GoID]struct{})
 			for _, task := range opts.tasks {
-				// Find only directly involved goroutines.
+				// Find only directly involved golangroutines.
 				for id := range task.Goroutines {
-					goroutines[id] = struct{}{}
+					golangroutines[id] = struct{}{}
 				}
 			}
-			opts.goroutines = goroutines
+			opts.golangroutines = golangroutines
 		}
 
 		// Parse start and end options. Both or none must be present.
@@ -159,7 +159,7 @@ type genOpts struct {
 
 	// Used if mode != 0.
 	focusGoroutine trace.GoID
-	goroutines     map[trace.GoID]struct{} // Goroutines to be displayed for goroutine-oriented or task-oriented view. goroutines[0] is the main goroutine.
+	golangroutines     map[trace.GoID]struct{} // Goroutines to be displayed for golangroutine-oriented or task-oriented view. golangroutines[0] is the main golangroutine.
 	tasks          []*trace.UserTaskSummary
 }
 
@@ -217,7 +217,7 @@ func generateTrace(parsed *parsedTrace, opts *genOpts, c traceviewer.TraceConsum
 
 	var g generator
 	if opts.mode&traceviewer.ModeGoroutineOriented != 0 {
-		g = newGoroutineGenerator(ctx, opts.focusGoroutine, opts.goroutines)
+		g = newGoroutineGenerator(ctx, opts.focusGoroutine, opts.golangroutines)
 	} else if opts.mode&traceviewer.ModeThreadOriented != 0 {
 		g = newThreadGenerator()
 	} else {

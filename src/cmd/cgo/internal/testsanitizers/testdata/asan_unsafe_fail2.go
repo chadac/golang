@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -17,7 +17,7 @@ func main() {
 	fmt.Println(c, d)
 }
 
-//go:noinline
+//golang:noinline
 func add(a1, b1 int) (ret int) {
 	// The return value
 	// When -asan is enabled, the unsafe.Pointer(&ret) conversion is escaping.

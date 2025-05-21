@@ -1,26 +1,26 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package errors_test
 
 import (
 	"fmt"
-	"go/ast"
-	"go/constant"
-	"go/importer"
-	"go/parser"
-	"go/token"
+	"golang/ast"
+	"golang/constant"
+	"golang/importer"
+	"golang/parser"
+	"golang/token"
 	"internal/testenv"
 	"reflect"
 	"strings"
 	"testing"
 
-	. "go/types"
+	. "golang/types"
 )
 
 func TestErrorCodeExamples(t *testing.T) {
-	testenv.MustHaveGoBuild(t) // go command needed to resolve std .a files for importer.Default().
+	testenv.MustHaveGoBuild(t) // golang command needed to resolve std .a files for importer.Default().
 
 	walkCodes(t, func(name string, value int, spec *ast.ValueSpec) {
 		t.Run(name, func(t *testing.T) {
@@ -36,8 +36,8 @@ func TestErrorCodeExamples(t *testing.T) {
 				if !ok {
 					t.Fatalf("not a types.Error: %v", err)
 				}
-				if got := readCode(typerr); got != value {
-					t.Errorf("%s: example #%d returned code %d (%s), want %d", name, i, got, err, value)
+				if golangt := readCode(typerr); golangt != value {
+					t.Errorf("%s: example #%d returned code %d (%s), want %d", name, i, golangt, err, value)
 				}
 			}
 		})
@@ -47,7 +47,7 @@ func TestErrorCodeExamples(t *testing.T) {
 func walkCodes(t *testing.T, f func(string, int, *ast.ValueSpec)) {
 	t.Helper()
 	fset := token.NewFileSet()
-	file, err := parser.ParseFile(fset, "codes.go", nil, parser.ParseComments)
+	file, err := parser.ParseFile(fset, "codes.golang", nil, parser.ParseComments)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -74,7 +74,7 @@ func walkCodes(t *testing.T, f func(string, int, *ast.ValueSpec)) {
 			obj := info.ObjectOf(spec.Names[0])
 			if named, ok := obj.Type().(*Named); ok && named.Obj().Name() == "Code" {
 				if len(spec.Names) != 1 {
-					t.Fatalf("bad Code declaration for %q: got %d names, want exactly 1", spec.Names[0].Name, len(spec.Names))
+					t.Fatalf("bad Code declaration for %q: golangt %d names, want exactly 1", spec.Names[0].Name, len(spec.Names))
 				}
 				codename := spec.Names[0].Name
 				value := int(constant.Val(obj.(*Const).Val()).(int64))
@@ -86,7 +86,7 @@ func walkCodes(t *testing.T, f func(string, int, *ast.ValueSpec)) {
 
 func readCode(err Error) int {
 	v := reflect.ValueOf(err)
-	return int(v.FieldByName("go116code").Int())
+	return int(v.FieldByName("golang116code").Int())
 }
 
 func checkExample(t *testing.T, example string) error {
@@ -95,7 +95,7 @@ func checkExample(t *testing.T, example string) error {
 	if !strings.HasPrefix(example, "package") {
 		example = "package p\n\n" + example
 	}
-	file, err := parser.ParseFile(fset, "example.go", example, 0)
+	file, err := parser.ParseFile(fset, "example.golang", example, 0)
 	if err != nil {
 		t.Fatal(err)
 	}

@@ -1,23 +1,23 @@
-[compiler:gccgo] skip # gccgo has no cover tool
+[compiler:gccgolang] skip # gccgolang has no cover tool
 
-! go test -n importmain/test
+! golang test -n importmain/test
 stderr 'not an importable package' # check that import main was detected
-! go test -n -cover importmain/test
+! golang test -n -cover importmain/test
 stderr 'not an importable package' # check that import main was detected
 
--- go.mod --
+-- golang.mod --
 module importmain
 
-go 1.16
--- ismain/main.go --
+golang 1.16
+-- ismain/main.golang --
 package main
 
 import _ "importmain/test"
 
 func main() {}
--- test/test.go --
+-- test/test.golang --
 package test
--- test/test_test.go --
+-- test/test_test.golang --
 package test_test
 
 import "testing"

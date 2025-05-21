@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package reflect implements run-time reflection, allowing a program to
@@ -12,12 +12,12 @@
 // for that type.
 //
 // See "The Laws of Reflection" for an introduction to reflection in Go:
-// https://golang.org/doc/articles/laws_of_reflection.html
+// https://golanglang.org/doc/articles/laws_of_reflection.html
 package reflect
 
 import (
 	"internal/abi"
-	"internal/goarch"
+	"internal/golangarch"
 	"runtime"
 	"strconv"
 	"sync"
@@ -97,7 +97,7 @@ type Type interface {
 	PkgPath() string
 
 	// Size returns the number of bytes needed to store
-	// a value of the given type; it is analogous to unsafe.Sizeof.
+	// a value of the given type; it is analogolangus to unsafe.Sizeof.
 	Size() uintptr
 
 	// String returns a string representation of the type.
@@ -265,12 +265,12 @@ type Type interface {
 // t.FieldByName("x") is not well defined if the struct type t contains
 // multiple fields named x (embedded from different packages).
 // FieldByName may return one of the fields named x or may report that there are none.
-// See https://golang.org/issue/4876 for more details.
+// See https://golanglang.org/issue/4876 for more details.
 
 /*
- * These data structures are known to the compiler (../cmd/compile/internal/reflectdata/reflect.go).
- * A few are known to ../runtime/type.go to convey to debuggers.
- * They are also known to ../internal/abi/type.go.
+ * These data structures are known to the compiler (../cmd/compile/internal/reflectdata/reflect.golang).
+ * A few are known to ../runtime/type.golang to convey to debuggers.
+ * They are also known to ../internal/abi/type.golang.
  */
 
 // A Kind represents the specific kind of type that a [Type] represents.
@@ -309,7 +309,7 @@ const (
 
 // Ptr is the old name for the [Pointer] kind.
 //
-//go:fix inline
+//golang:fix inline
 const Ptr = Pointer
 
 // uncommonType is present only for defined types or types with methods
@@ -452,7 +452,7 @@ type Method struct {
 	// method name. It is empty for upper case (exported) method names.
 	// The combination of PkgPath and Name uniquely identifies a method
 	// in a method set.
-	// See https://golang.org/ref/spec#Uniqueness_of_identifiers
+	// See https://golanglang.org/ref/spec#Uniqueness_of_identifiers
 	PkgPath string
 
 	Type  Type  // method type
@@ -507,21 +507,21 @@ var kindNames = []string{
 // The (*rtype).nameOff method is a convenience wrapper for this function.
 // Implemented in the runtime package.
 //
-//go:noescape
+//golang:noescape
 func resolveNameOff(ptrInModule unsafe.Pointer, off int32) unsafe.Pointer
 
 // resolveTypeOff resolves an *rtype offset from a base type.
 // The (*rtype).typeOff method is a convenience wrapper for this function.
 // Implemented in the runtime package.
 //
-//go:noescape
+//golang:noescape
 func resolveTypeOff(rtype unsafe.Pointer, off int32) unsafe.Pointer
 
 // resolveTextOff resolves a function pointer offset from a base type.
 // The (*rtype).textOff method is a convenience wrapper for this function.
 // Implemented in the runtime package.
 //
-//go:noescape
+//golang:noescape
 func resolveTextOff(rtype unsafe.Pointer, off int32) unsafe.Pointer
 
 // addReflectOff adds a pointer to the reflection lookup map in the runtime.
@@ -531,13 +531,13 @@ func resolveTextOff(rtype unsafe.Pointer, off int32) unsafe.Pointer
 // addReflectOff should be an internal detail,
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
-//   - github.com/goplus/reflectx
+//   - github.com/golangplus/reflectx
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname addReflectOff
-//go:noescape
+//golang:linkname addReflectOff
+//golang:noescape
 func addReflectOff(ptr unsafe.Pointer) int32
 
 // resolveReflectName adds a name to the reflection lookup map in the runtime.
@@ -945,13 +945,13 @@ func canRangeFunc2(t *abi.Type) bool {
 // add should be an internal detail (and is trivially copyable),
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
-//   - github.com/pinpoint-apm/pinpoint-go-agent
-//   - github.com/vmware/govmomi
+//   - github.com/pinpoint-apm/pinpoint-golang-agent
+//   - github.com/vmware/golangvmomi
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname add
+//golang:linkname add
 func add(p unsafe.Pointer, x uintptr, whySafe string) unsafe.Pointer {
 	return unsafe.Pointer(uintptr(p) + x)
 }
@@ -1012,7 +1012,7 @@ type StructField struct {
 
 	// PkgPath is the package path that qualifies a lower case (unexported)
 	// field name. It is empty for upper case (exported) field names.
-	// See https://golang.org/ref/spec#Uniqueness_of_identifiers
+	// See https://golanglang.org/ref/spec#Uniqueness_of_identifiers
 	PkgPath string
 
 	Type      Type      // field type
@@ -1055,7 +1055,7 @@ func (tag StructTag) Get(key string) string {
 // the value returned by Lookup is unspecified.
 func (tag StructTag) Lookup(key string) (value string, ok bool) {
 	// When modifying this code, also update the validateStructTag code
-	// in cmd/vet/structtag.go.
+	// in cmd/vet/structtag.golang.
 
 	for tag != "" {
 		// Skip leading space.
@@ -1129,7 +1129,7 @@ func (t *structType) Field(i int) (f StructField) {
 	if i < 256 && runtime.GOOS != "js" && runtime.GOOS != "wasip1" {
 		staticuint64s := getStaticuint64s()
 		p := unsafe.Pointer(&(*staticuint64s)[i])
-		if unsafe.Sizeof(int(0)) == 4 && goarch.BigEndian {
+		if unsafe.Sizeof(int(0)) == 4 && golangarch.BigEndian {
 			p = unsafe.Add(p, 4)
 		}
 		f.Index = unsafe.Slice((*int)(p), 1)
@@ -1150,7 +1150,7 @@ func (t *structType) Field(i int) (f StructField) {
 // defined in the runtime package in read-only memory.
 // staticuint64s[0] == 0, staticuint64s[1] == 1, and so forth.
 //
-//go:linkname getStaticuint64s runtime.getStaticuint64s
+//golang:linkname getStaticuint64s runtime.getStaticuint64s
 func getStaticuint64s() *[256]uint64
 
 // TODO(gri): Should there be an error/bool indicator if the index
@@ -1184,7 +1184,7 @@ func (t *structType) FieldByNameFunc(match func(string) bool) (result StructFiel
 	// This uses the same condition that the Go language does: there must be a unique instance
 	// of the match at a given depth level. If there are multiple instances of a match at the
 	// same depth, they annihilate each other and inhibit any possible match at a lower level.
-	// The algorithm is breadth first search, one depth level at a time.
+	// The algolangrithm is breadth first search, one depth level at a time.
 
 	// The current and next slices are work queues:
 	// current lists the fields to visit on this depth level,
@@ -1333,7 +1333,7 @@ var ptrMap sync.Map // map[*rtype]*ptrType
 //
 // Deprecated: Superseded by [PointerTo].
 //
-//go:fix inline
+//golang:fix inline
 func PtrTo(t Type) Type { return PointerTo(t) }
 
 // PointerTo returns the pointer type with element t.
@@ -1374,8 +1374,8 @@ func (t *rtype) ptrTo() *abi.Type {
 	pp.PtrToThis = 0
 
 	// For the type structures linked into the binary, the
-	// compiler provides a good hash of the string.
-	// Create a good hash for the new string by using
+	// compiler provides a golangod hash of the string.
+	// Create a golangod hash for the new string by using
 	// the FNV-1 hash's mixing function to combine the
 	// old hash and the new "*".
 	pp.Hash = fnv1(t.t.Hash, '*')
@@ -1437,10 +1437,10 @@ func implements(T, V *abi.Type) bool {
 		return true
 	}
 
-	// The same algorithm applies in both cases, but the
+	// The same algolangrithm applies in both cases, but the
 	// method tables for an interface type and a concrete type
 	// are different, so the code is duplicated.
-	// In both cases the algorithm is a linear scan over the two
+	// In both cases the algolangrithm is a linear scan over the two
 	// lists - T's methods and V's methods - simultaneously.
 	// Since method tables are stored in a unique sorted order
 	// (alphabetical, with no duplicate method names), the scan
@@ -1448,7 +1448,7 @@ func implements(T, V *abi.Type) bool {
 	// methods along the way, or else V does not implement T.
 	// This lets us run the scan in overall linear time instead of
 	// the quadratic time  a naive search would require.
-	// See also ../runtime/iface.go.
+	// See also ../runtime/iface.golang.
 	if V.Kind() == abi.Interface {
 		v := (*interfaceType)(unsafe.Pointer(V))
 		i := 0
@@ -1514,7 +1514,7 @@ func implements(T, V *abi.Type) bool {
 
 // specialChannelAssignability reports whether a value x of channel type V
 // can be directly assigned (using memmove) to another channel type T.
-// https://golang.org/doc/go_spec.html#Assignability
+// https://golanglang.org/doc/golang_spec.html#Assignability
 // T and V must be both of Chan kind.
 func specialChannelAssignability(T, V *abi.Type) bool {
 	// Special case:
@@ -1526,7 +1526,7 @@ func specialChannelAssignability(T, V *abi.Type) bool {
 
 // directlyAssignable reports whether a value x of type V can be directly
 // assigned (using memmove) to a value of type T.
-// https://golang.org/doc/go_spec.html#Assignability
+// https://golanglang.org/doc/golang_spec.html#Assignability
 // Ignoring the interface rules (implemented elsewhere)
 // and the ideal constant rules (no ideal constants at run time).
 func directlyAssignable(T, V *abi.Type) bool {
@@ -1677,12 +1677,12 @@ func typelinks() (sections []unsafe.Pointer, offset [][]int32)
 // rtypeOff should be an internal detail,
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
-//   - github.com/goccy/go-json
+//   - github.com/golangccy/golang-json
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname rtypeOff
+//golang:linkname rtypeOff
 func rtypeOff(section unsafe.Pointer, off int32) *abi.Type {
 	return (*abi.Type)(add(section, uintptr(off), "sizeof(rtype) > 0"))
 }
@@ -1695,13 +1695,13 @@ func rtypeOff(section unsafe.Pointer, off int32) *abi.Type {
 // typesByString should be an internal detail,
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
-//   - github.com/aristanetworks/goarista
+//   - github.com/aristanetworks/golangarista
 //   - fortio.org/log
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname typesByString
+//golang:linkname typesByString
 func typesByString(s string) []*abi.Type {
 	sections, offset := typelinks()
 	var ret []*abi.Type
@@ -1724,7 +1724,7 @@ func typesByString(s string) []*abi.Type {
 		// i == j, f(i-1) == false, and f(j) (= f(i)) == true  =>  answer is i.
 
 		// Having found the first, linear scan forward to find the last.
-		// We could do a second binary search, but the caller is going
+		// We could do a second binary search, but the caller is golanging
 		// to do a linear scan anyway.
 		for j := i; j < len(offs); j++ {
 			typ := rtypeOff(section, offs[j])
@@ -1794,8 +1794,8 @@ func ChanOf(dir ChanDir, t Type) Type {
 		if typeStr[0] == '<' {
 			// typ is recv chan, need parentheses as "<-" associates with leftmost
 			// chan possible, see:
-			// * https://golang.org/ref/spec#Channel_types
-			// * https://github.com/golang/go/issues/39897
+			// * https://golanglang.org/ref/spec#Channel_types
+			// * https://github.com/golanglang/golang/issues/39897
 			s = "chan (" + typeStr + ")"
 		} else {
 			s = "chan " + typeStr
@@ -2058,8 +2058,8 @@ func hashMightPanic(t *abi.Type) bool {
 // emitGCMask writes the GC mask for [n]typ into out, starting at bit
 // offset base.
 func emitGCMask(out []byte, base uintptr, typ *abi.Type, n uintptr) {
-	ptrs := typ.PtrBytes / goarch.PtrSize
-	words := typ.Size_ / goarch.PtrSize
+	ptrs := typ.PtrBytes / golangarch.PtrSize
+	words := typ.Size_ / golangarch.PtrSize
 	mask := typ.GcSlice(0, (ptrs+7)/8)
 	for j := uintptr(0); j < ptrs; j++ {
 		if (mask[j/8]>>(j%8))&1 != 0 {
@@ -2498,7 +2498,7 @@ func StructOf(fields []StructField) Type {
 
 	if typ.PtrBytes == 0 {
 		typ.GCData = nil
-	} else if typ.PtrBytes <= abi.MaxPtrmaskBytes*8*goarch.PtrSize {
+	} else if typ.PtrBytes <= abi.MaxPtrmaskBytes*8*golangarch.PtrSize {
 		bv := new(bitVector)
 		addTypeBits(bv, 0, &typ.Type)
 		typ.GCData = &bv.data[0]
@@ -2566,7 +2566,7 @@ func runtimeStructField(field StructField) (structField, string) {
 
 // typeptrdata returns the length in bytes of the prefix of t
 // containing pointer data. Anything after this offset is scalar data.
-// keep in sync with ../cmd/compile/internal/reflectdata/reflect.go
+// keep in sync with ../cmd/compile/internal/reflectdata/reflect.golang
 func typeptrdata(t *abi.Type) uintptr {
 	switch t.Kind() {
 	case abi.Struct:
@@ -2659,11 +2659,11 @@ func ArrayOf(length int, elem Type) Type {
 		array.TFlag |= typ.TFlag & abi.TFlagGCMaskOnDemand
 		array.GCData = typ.GCData
 
-	case array.PtrBytes <= abi.MaxPtrmaskBytes*8*goarch.PtrSize:
+	case array.PtrBytes <= abi.MaxPtrmaskBytes*8*golangarch.PtrSize:
 		// Create pointer mask by repeating the element bitmask Len times.
-		n := (array.PtrBytes/goarch.PtrSize + 7) / 8
+		n := (array.PtrBytes/golangarch.PtrSize + 7) / 8
 		// Runtime needs pointer masks to be a multiple of uintptr in size.
-		n = (n + goarch.PtrSize - 1) &^ (goarch.PtrSize - 1)
+		n = (n + golangarch.PtrSize - 1) &^ (golangarch.PtrSize - 1)
 		mask := make([]byte, n)
 		emitGCMask(mask, 0, typ, array.Len)
 		array.GCData = &mask[0]
@@ -2715,7 +2715,7 @@ func appendVarint(x []byte, v uintptr) []byte {
 
 // toType converts from a *rtype to a Type that can be returned
 // to the client of package reflect. In gc, the only concern is that
-// a nil *rtype must be replaced by a nil Type, but in gccgo this
+// a nil *rtype must be replaced by a nil Type, but in gccgolang this
 // function takes care of ensuring that multiple *rtype for the same
 // type are coalesced into a single Type.
 //
@@ -2723,14 +2723,14 @@ func appendVarint(x []byte, v uintptr) []byte {
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
 //   - fortio.org/log
-//   - github.com/goccy/go-json
-//   - github.com/goccy/go-reflect
-//   - github.com/sohaha/zlsgo
+//   - github.com/golangccy/golang-json
+//   - github.com/golangccy/golang-reflect
+//   - github.com/sohaha/zlsgolang
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname toType
+//golang:linkname toType
 func toType(t *abi.Type) Type {
 	if t == nil {
 		return nil
@@ -2776,13 +2776,13 @@ func funcLayout(t *funcType, rcvr *abi.Type) (frametype *abi.Type, framePool *sy
 
 	// build dummy rtype holding gc program
 	x := &abi.Type{
-		Align_: goarch.PtrSize,
+		Align_: golangarch.PtrSize,
 		// Don't add spill space here; it's only necessary in
 		// reflectcall's frame, not in the allocated frame.
 		// TODO(mknyszek): Remove this comment when register
 		// spill space in the frame is no longer required.
-		Size_:    align(abid.retOffset+abid.ret.stackBytes, goarch.PtrSize),
-		PtrBytes: uintptr(abid.stackPtrs.n) * goarch.PtrSize,
+		Size_:    align(abid.retOffset+abid.ret.stackBytes, golangarch.PtrSize),
+		PtrBytes: uintptr(abid.stackPtrs.n) * golangarch.PtrSize,
 	}
 	if abid.stackPtrs.n > 0 {
 		x.GCData = &abid.stackPtrs.data[0]
@@ -2817,11 +2817,11 @@ type bitVector struct {
 
 // append a bit to the bitmap.
 func (bv *bitVector) append(bit uint8) {
-	if bv.n%(8*goarch.PtrSize) == 0 {
+	if bv.n%(8*golangarch.PtrSize) == 0 {
 		// Runtime needs pointer masks to be a multiple of uintptr in size.
 		// Since reflect passes bv.data directly to the runtime as a pointer mask,
 		// we append a full uintptr of zeros at a time.
-		for i := 0; i < goarch.PtrSize; i++ {
+		for i := 0; i < golangarch.PtrSize; i++ {
 			bv.data = append(bv.data, 0)
 		}
 	}
@@ -2837,14 +2837,14 @@ func addTypeBits(bv *bitVector, offset uintptr, t *abi.Type) {
 	switch Kind(t.Kind_ & abi.KindMask) {
 	case Chan, Func, Map, Pointer, Slice, String, UnsafePointer:
 		// 1 pointer at start of representation
-		for bv.n < uint32(offset/goarch.PtrSize) {
+		for bv.n < uint32(offset/golangarch.PtrSize) {
 			bv.append(0)
 		}
 		bv.append(1)
 
 	case Interface:
 		// 2 pointers
-		for bv.n < uint32(offset/goarch.PtrSize) {
+		for bv.n < uint32(offset/golangarch.PtrSize) {
 			bv.append(0)
 		}
 		bv.append(1)

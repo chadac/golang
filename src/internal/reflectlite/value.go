@@ -1,12 +1,12 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package reflectlite
 
 import (
 	"internal/abi"
-	"internal/goarch"
+	"internal/golangarch"
 	"internal/unsafeheader"
 	"runtime"
 	"unsafe"
@@ -26,7 +26,7 @@ import (
 // Most functions and methods never return an invalid value.
 // If one does, its documentation states the conditions explicitly.
 //
-// A Value can be used concurrently by multiple goroutines provided that
+// A Value can be used concurrently by multiple golangroutines provided that
 // the underlying Go value can be used concurrently for the equivalent
 // direct operations.
 //
@@ -100,7 +100,7 @@ func (v Value) typ() *abi.Type {
 // pointer returns the underlying pointer represented by v.
 // v.Kind() must be Pointer, Map, Chan, Func, or UnsafePointer
 func (v Value) pointer() unsafe.Pointer {
-	if v.typ().Size() != goarch.PtrSize || !v.typ().Pointers() {
+	if v.typ().Size() != golangarch.PtrSize || !v.typ().Pointers() {
 		panic("can't call pointer on a non-pointer Value")
 	}
 	if v.flag&flagIndir != 0 {
@@ -324,10 +324,10 @@ func (v Value) Kind() Kind {
 
 // implemented in runtime:
 
-//go:noescape
+//golang:noescape
 func chanlen(unsafe.Pointer) int
 
-//go:noescape
+//golang:noescape
 func maplen(unsafe.Pointer) int
 
 // Len returns v's length.
@@ -394,7 +394,7 @@ func (v Value) Type() Type {
 
 // implemented in package runtime
 
-//go:noescape
+//golang:noescape
 func unsafe_New(*abi.Type) unsafe.Pointer
 
 // ValueOf returns a new Value initialized to the concrete value
@@ -460,7 +460,7 @@ func ifaceE2I(t *abi.Type, src any, dst unsafe.Pointer)
 
 // typedmemmove copies a value of type t to dst from src.
 //
-//go:noescape
+//golang:noescape
 func typedmemmove(t *abi.Type, dst, src unsafe.Pointer)
 
 // Dummy annotation marking that the value x escapes,

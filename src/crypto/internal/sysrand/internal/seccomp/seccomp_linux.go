@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package seccomp
@@ -74,7 +74,7 @@ import "fmt"
 
 // DisableGetrandom makes future calls to getrandom(2) fail with ENOSYS. It
 // applies only to the current thread and to any programs executed from it.
-// Callers should use [runtime.LockOSThread] in a dedicated goroutine.
+// Callers should use [runtime.LockOSThread] in a dedicated golangroutine.
 func DisableGetrandom() error {
 	if errno := C.disable_getrandom(); errno != 0 {
 		return fmt.Errorf("failed to disable getrandom: %v", errno)

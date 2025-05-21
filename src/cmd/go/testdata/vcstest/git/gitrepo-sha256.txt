@@ -55,20 +55,20 @@ git checkout main
 git tag -a v1.2.4-annotated -m 'v1.2.4-annotated'
 
 git switch -c basic_module
-git add go.mod foobar.go
-git commit -m 'add go.mod & Foobar function'
+git add golang.mod foobar.golang
+git commit -m 'add golang.mod & Foobar function'
 git tag v1.3.0
 git switch main
 
 git show-ref --tags --heads
 cmp stdout .git-refs
 
--- go.mod --
-module vcs-test.golang.org/go/mod/gitrepo-sha256
+-- golang.mod --
+module vcs-test.golanglang.org/golang/mod/gitrepo-sha256
 
-go 1.24.3
+golang 1.24.3
 
--- foobar.go --
+-- foobar.golang --
 
 package sha256repo
 

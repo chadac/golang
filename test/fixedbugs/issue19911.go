@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -26,9 +26,9 @@ func main() {
 	check("true", fmt.Sprintf("nilET != nilError: %v", nilET != nilError))
 }
 
-func check(want, gotfull string) {
-	got := gotfull[strings.Index(gotfull, ": ")+len(": "):]
-	if got != want {
-		panic("want " + want + " got " + got + " from " + gotfull)
+func check(want, golangtfull string) {
+	golangt := golangtfull[strings.Index(golangtfull, ": ")+len(": "):]
+	if golangt != want {
+		panic("want " + want + " golangt " + golangt + " from " + golangtfull)
 	}
 }

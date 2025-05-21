@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 /*
@@ -33,8 +33,8 @@ type IntegerType int
 // or to become invalid in the future.
 // Even the valid patterns below come with important caveats.
 //
-// Running "go vet" can help find uses of Pointer that do not conform to these patterns,
-// but silence from "go vet" is not a guarantee that the code is valid.
+// Running "golang vet" can help find uses of Pointer that do not conform to these patterns,
+// but silence from "golang vet" is not a guarantee that the code is valid.
 //
 // (1) Conversion of a *T1 to Pointer to *T2.
 //

@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 #include "textflag.h"
@@ -9,7 +9,7 @@
 // System calls for arm, Linux
 //
 
-#define SYS__LLSEEK 140  /* from zsysnum_linux_arm.go */
+#define SYS__LLSEEK 140  /* from zsysnum_linux_arm.golang */
 // func seek(fd int, offset int64, whence int) (newoffset int64, errno int)
 // Implemented in assembly to avoid allocation when
 // taking the address of the return value newoffset.

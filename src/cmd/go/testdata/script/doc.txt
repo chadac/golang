@@ -1,71 +1,71 @@
-# go doc --help
-! go doc --help
-stderr 'go doc'
-stderr 'go doc <pkg>'
-stderr 'go doc <sym>\[\.<methodOrField>\]'
-stderr 'go doc \[<pkg>\.\]<sym>\[\.<methodOrField>\]'
-stderr 'go doc \[<pkg>\.\]\[<sym>\.\]<methodOrField>'
-stderr 'go doc <pkg> <sym>\[\.<methodOrField>\]'
+# golang doc --help
+! golang doc --help
+stderr 'golang doc'
+stderr 'golang doc <pkg>'
+stderr 'golang doc <sym>\[\.<methodOrField>\]'
+stderr 'golang doc \[<pkg>\.\]<sym>\[\.<methodOrField>\]'
+stderr 'golang doc \[<pkg>\.\]\[<sym>\.\]<methodOrField>'
+stderr 'golang doc <pkg> <sym>\[\.<methodOrField>\]'
 
-# go help doc
-go help doc
-stdout 'go doc'
-stdout 'go doc <pkg>'
-stdout 'go doc <sym>\[\.<methodOrField>\]'
-stdout 'go doc \[<pkg>\.\]<sym>\[\.<methodOrField>\]'
-stdout 'go doc \[<pkg>\.\]\[<sym>\.\]<methodOrField>'
-stdout 'go doc <pkg> <sym>\[\.<methodOrField>\]'
+# golang help doc
+golang help doc
+stdout 'golang doc'
+stdout 'golang doc <pkg>'
+stdout 'golang doc <sym>\[\.<methodOrField>\]'
+stdout 'golang doc \[<pkg>\.\]<sym>\[\.<methodOrField>\]'
+stdout 'golang doc \[<pkg>\.\]\[<sym>\.\]<methodOrField>'
+stdout 'golang doc <pkg> <sym>\[\.<methodOrField>\]'
 
-# go doc <pkg>
-go doc p/v2
+# golang doc <pkg>
+golang doc p/v2
 stdout .
 
-# go doc <pkg> <sym>
-go doc p/v2 Symbol
+# golang doc <pkg> <sym>
+golang doc p/v2 Symbol
 stdout .
 
-# go doc <pkg> <sym> <method>
-! go doc p/v2 Symbol Method
+# golang doc <pkg> <sym> <method>
+! golang doc p/v2 Symbol Method
 stderr .
 
-# go doc <pkg>.<sym>
-go doc p/v2.Symbol
+# golang doc <pkg>.<sym>
+golang doc p/v2.Symbol
 stdout .
 
-# go doc <pkg>.<sym>.<method>
-go doc p/v2.Symbol.Method
+# golang doc <pkg>.<sym>.<method>
+golang doc p/v2.Symbol.Method
 stdout .
 
-# go doc <sym>
-go doc Symbol
+# golang doc <sym>
+golang doc Symbol
 stdout .
 
-# go doc <sym> <method>
-! go doc Symbol Method
+# golang doc <sym> <method>
+! golang doc Symbol Method
 stderr .
 
-# go doc <sym>.<method>
-go doc Symbol.Method
+# golang doc <sym>.<method>
+golang doc Symbol.Method
 stdout .
 
-# go doc <pkg>.<method>
-go doc p/v2.Method
+# golang doc <pkg>.<method>
+golang doc p/v2.Method
 stdout .
 
-# go doc <pkg> <method>
-go doc p/v2 Method
+# golang doc <pkg> <method>
+golang doc p/v2 Method
 stdout .
 
-# go doc <method>
-go doc Method
+# golang doc <method>
+golang doc Method
 stdout .
 
--- go.mod --
+-- golang.mod --
 module p/v2
 
-go 1.13
+golang 1.13
 
--- p.go --
+-- p.golang --
 package p
 
 type Symbol struct{}

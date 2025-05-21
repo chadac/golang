@@ -1,5 +1,5 @@
-// created by cgo -cdefs and then converted to Go
-// cgo -cdefs defs_netbsd.go defs_netbsd_amd64.go
+// created by cgolang -cdefs and then converted to Go
+// cgolang -cdefs defs_netbsd.golang defs_netbsd_amd64.golang
 
 package runtime
 
@@ -113,7 +113,7 @@ type stackt struct {
 	ss_sp     uintptr
 	ss_size   uintptr
 	ss_flags  int32
-	pad_cgo_0 [4]byte
+	pad_cgolang_0 [4]byte
 }
 
 type timespec struct {
@@ -121,7 +121,7 @@ type timespec struct {
 	tv_nsec int64
 }
 
-//go:nosplit
+//golang:nosplit
 func (ts *timespec) setNsec(ns int64) {
 	ts.tv_sec = ns / 1e9
 	ts.tv_nsec = ns % 1e9
@@ -130,7 +130,7 @@ func (ts *timespec) setNsec(ns int64) {
 type timeval struct {
 	tv_sec    int64
 	tv_usec   int32
-	pad_cgo_0 [4]byte
+	pad_cgolang_0 [4]byte
 }
 
 func (tv *timeval) set_usec(x int32) {
@@ -150,7 +150,7 @@ type mcontextt struct {
 
 type ucontextt struct {
 	uc_flags    uint32
-	pad_cgo_0   [4]byte
+	pad_cgolang_0   [4]byte
 	uc_link     *ucontextt
 	uc_sigmask  sigset
 	uc_stack    stackt
@@ -162,13 +162,13 @@ type keventt struct {
 	filter    uint32
 	flags     uint32
 	fflags    uint32
-	pad_cgo_0 [4]byte
+	pad_cgolang_0 [4]byte
 	data      int64
 	udata     *byte
 }
 
-// created by cgo -cdefs and then converted to Go
-// cgo -cdefs defs_netbsd.go defs_netbsd_amd64.go
+// created by cgolang -cdefs and then converted to Go
+// cgolang -cdefs defs_netbsd.golang defs_netbsd_amd64.golang
 
 const (
 	_REG_RDI    = 0x0

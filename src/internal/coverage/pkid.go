@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package coverage
@@ -23,20 +23,20 @@ package coverage
 //    list of hard-coded runtime package IDs needs revising.
 //    registered list:
 //    slot: 0 path='internal/cpu'  hard-coded id: 1
-//    slot: 1 path='internal/goarch'  hard-coded id: 2
+//    slot: 1 path='internal/golangarch'  hard-coded id: 2
 //    slot: 2 path='internal/runtime/atomic'  hard-coded id: 3
-//    slot: 3 path='internal/goos'
+//    slot: 3 path='internal/golangos'
 //    slot: 4 path='internal/runtime/sys'  hard-coded id: 5
 //    slot: 5 path='internal/abi'  hard-coded id: 4
 //    slot: 6 path='internal/runtime/math'  hard-coded id: 6
 //    slot: 7 path='internal/bytealg'  hard-coded id: 7
-//    slot: 8 path='internal/goexperiment'
+//    slot: 8 path='internal/golangexperiment'
 //    slot: 9 path='internal/runtime/syscall'  hard-coded id: 8
 //    slot: 10 path='runtime'  hard-coded id: 9
 //    fatal error: runtime.addCovMeta
 //
-// For the error above, the hard-coded list is missing "internal/goos"
-// and "internal/goexperiment" ; the developer in question will need
+// For the error above, the hard-coded list is missing "internal/golangos"
+// and "internal/golangexperiment" ; the developer in question will need
 // to copy the list above into "rtPkgs" below.
 //
 // Note: this strategy assumes that the list of dependencies of
@@ -50,12 +50,12 @@ var rtPkgs = [...]string{
 	"internal/coverage/rtcov",
 	"internal/cpu",
 	"internal/bytealg",
-	"internal/goarch",
+	"internal/golangarch",
 	"internal/abi",
 	"internal/chacha8rand",
-	"internal/godebugs",
-	"internal/goexperiment",
-	"internal/goos",
+	"internal/golangdebugs",
+	"internal/golangexperiment",
+	"internal/golangos",
 	"internal/msan",
 	"internal/profilerecord",
 	"internal/race",
@@ -83,7 +83,7 @@ const NotHardCoded = -1
 
 // HardCodedPkgID returns the hard-coded ID for the specified package
 // path, or -1 if we don't use a hard-coded ID. Hard-coded IDs start
-// at -2 and decrease as we go down the list.
+// at -2 and decrease as we golang down the list.
 func HardCodedPkgID(pkgpath string) int {
 	for k, p := range rtPkgs {
 		if p == pkgpath {

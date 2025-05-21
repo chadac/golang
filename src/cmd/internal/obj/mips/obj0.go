@@ -344,7 +344,7 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 
 				q = c.ctxt.EndUnsafePoint(q, c.newprog, -1)
 
-				// On Linux, in a cgo binary we may get a SIGSETXID signal early on
+				// On Linux, in a cgolang binary we may get a SIGSETXID signal early on
 				// before the signal stack is set, as glibc doesn't allow us to block
 				// SIGSETXID. So a signal may land on the current stack and clobber
 				// the content below the SP. We store the LR again after the SP is
@@ -715,7 +715,7 @@ func (c *ctxt0) stacksplit(p *obj.Prog, framesize int32) *obj.Prog {
 		p = obj.Appendp(p, c.newprog)
 		p.As = AJAL
 		p.To.Type = obj.TYPE_BRANCH
-		// See ../x86/obj6.go
+		// See ../x86/obj6.golang
 		p.To.Sym = c.ctxt.LookupABI(c.ctxt.Flag_maymorestack, c.cursym.ABI())
 		p.Mark |= BRANCH
 
@@ -979,7 +979,7 @@ func (c *ctxt0) sched(p0, pe *obj.Prog) {
 					continue
 				}
 			}
-			goto out2
+			golangto out2
 		}
 
 		if s[0].p.Mark&BRANCH != 0 {
@@ -1211,7 +1211,7 @@ func (c *ctxt0) markregused(s *Sch) {
 			break
 		}
 		s.size = uint8(sz)
-		s.soffset = c.regoff(&p.To)
+		s.soffset = c.regolangff(&p.To)
 
 		m := uint32(ANYMEM)
 		if cls == REGSB {
@@ -1259,7 +1259,7 @@ func (c *ctxt0) markregused(s *Sch) {
 			break
 		}
 		s.size = uint8(sz)
-		s.soffset = c.regoff(&p.To)
+		s.soffset = c.regolangff(&p.To)
 
 		if ar != 0 {
 			s.used.cc |= E_MEMSP
@@ -1274,7 +1274,7 @@ func (c *ctxt0) markregused(s *Sch) {
 			break
 		}
 		s.size = uint8(sz)
-		s.soffset = c.regoff(&p.To)
+		s.soffset = c.regolangff(&p.To)
 
 		if ar != 0 {
 			s.used.cc |= E_MEMSB
@@ -1330,7 +1330,7 @@ func (c *ctxt0) markregused(s *Sch) {
 			p.Mark |= LOAD
 		}
 		s.size = uint8(sz)
-		s.soffset = c.regoff(&p.From)
+		s.soffset = c.regolangff(&p.From)
 
 		m := uint32(ANYMEM)
 		if cls == REGSB {
@@ -1373,7 +1373,7 @@ func (c *ctxt0) markregused(s *Sch) {
 			break
 		}
 		s.size = uint8(sz)
-		s.soffset = c.regoff(&p.From)
+		s.soffset = c.regolangff(&p.From)
 
 		s.used.cc |= E_MEMSP
 
@@ -1387,7 +1387,7 @@ func (c *ctxt0) markregused(s *Sch) {
 			break
 		}
 		s.size = uint8(sz)
-		s.soffset = c.regoff(&p.From)
+		s.soffset = c.regolangff(&p.From)
 
 		s.used.cc |= E_MEMSB
 	}
@@ -1429,7 +1429,7 @@ func (c *ctxt0) depend(sa, sb *Sch) bool {
 	 */
 	if sa.used.cc&sb.used.cc&E_MEM != 0 {
 		if sa.p.Reg == sb.p.Reg {
-			if c.regoff(&sa.p.From) == c.regoff(&sb.p.From) {
+			if c.regolangff(&sa.p.From) == c.regolangff(&sb.p.From) {
 				return true
 			}
 		}

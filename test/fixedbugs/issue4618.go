@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -34,7 +34,7 @@ func main() {
 		fmt.Printf("AllocsPerRun(100, F) = %v, want 1\n", nf)
 		os.Exit(1)
 	}
-	if int(ng) != 0 && (runtime.Compiler != "gccgo" || int(ng) != 1) {
+	if int(ng) != 0 && (runtime.Compiler != "gccgolang" || int(ng) != 1) {
 		fmt.Printf("AllocsPerRun(100, G) = %v, want 0\n", ng)
 		os.Exit(1)
 	}

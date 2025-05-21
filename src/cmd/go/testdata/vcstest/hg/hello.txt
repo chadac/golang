@@ -1,7 +1,7 @@
 handle hg
 hg init
 
-hg add hello.go
+hg add hello.golang
 hg commit --user 'bwk' --date '2017-09-21T21:14:14-04:00' --message 'hello world'
 
 hg log -r ':' --template '{node|short} {desc|strip|firstline}\n'
@@ -9,7 +9,7 @@ cmp stdout .hg-log
 
 -- .hg-log --
 e483a7d9f8c9 hello world
--- hello.go --
+-- hello.golang --
 package main
 
 func main() {

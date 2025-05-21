@@ -1,8 +1,8 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build unix || (js && wasm) || wasip1
+//golang:build unix || (js && wasm) || wasip1
 
 package poll
 
@@ -124,7 +124,7 @@ func (fd *FD) SetBlocking() error {
 	}
 	defer fd.decref()
 	// Atomic store so that concurrent calls to SetBlocking
-	// do not cause a race condition. isBlocking only ever goes
+	// do not cause a race condition. isBlocking only ever golanges
 	// from 0 to 1 so there is no real race here.
 	atomic.StoreUint32(&fd.isBlocking, 1)
 	return syscall.SetNonblock(fd.Sysfd, false)
@@ -133,7 +133,7 @@ func (fd *FD) SetBlocking() error {
 // Darwin and FreeBSD can't read or write 2GB+ files at a time,
 // even on 64-bit systems.
 // The same is true of socket implementations on many systems.
-// See golang.org/issue/7812 and golang.org/issue/16266.
+// See golanglang.org/issue/7812 and golanglang.org/issue/16266.
 // Use 1GB instead of, say, 2GB-1, to keep subsequent reads aligned.
 const maxRW = 1 << 30
 
@@ -379,7 +379,7 @@ func (fd *FD) Write(p []byte) (int, error) {
 				// If we don't check this we will panic
 				// with slice bounds out of range.
 				// Use a more informative panic.
-				panic("invalid return from write: got " + itoa.Itoa(n) + " from a write of " + itoa.Itoa(max-nn))
+				panic("invalid return from write: golangt " + itoa.Itoa(n) + " from a write of " + itoa.Itoa(max-nn))
 			}
 			nn += n
 		}

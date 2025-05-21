@@ -1,5 +1,5 @@
 // Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -38,8 +38,8 @@ func FinalizerOrCleanupDeadlock(useCleanup bool) {
 	runtime.GC()
 
 	<-started
-	// We know the finalizer has started running. The goroutine might still
-	// be running or it may now be blocked. Either is fine, the goroutine
+	// We know the finalizer has started running. The golangroutine might still
+	// be running or it may now be blocked. Either is fine, the golangroutine
 	// should appear in stacks either way.
 
 	mode := os.Getenv("GO_TEST_FINALIZER_DEADLOCK")
@@ -59,17 +59,17 @@ func FinalizerOrCleanupDeadlock(useCleanup bool) {
 		}
 		fmt.Printf("%s\n", string(buf))
 	case "pprof_proto":
-		if err := pprof.Lookup("goroutine").WriteTo(os.Stdout, 0); err != nil {
+		if err := pprof.Lookup("golangroutine").WriteTo(os.Stdout, 0); err != nil {
 			fmt.Fprintf(os.Stderr, "Error writing profile: %v\n", err)
 			os.Exit(1)
 		}
 	case "pprof_debug1":
-		if err := pprof.Lookup("goroutine").WriteTo(os.Stdout, 1); err != nil {
+		if err := pprof.Lookup("golangroutine").WriteTo(os.Stdout, 1); err != nil {
 			fmt.Fprintf(os.Stderr, "Error writing profile: %v\n", err)
 			os.Exit(1)
 		}
 	case "pprof_debug2":
-		if err := pprof.Lookup("goroutine").WriteTo(os.Stdout, 2); err != nil {
+		if err := pprof.Lookup("golangroutine").WriteTo(os.Stdout, 2); err != nil {
 			fmt.Fprintf(os.Stderr, "Error writing profile: %v\n", err)
 			os.Exit(1)
 		}

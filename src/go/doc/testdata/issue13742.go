@@ -1,12 +1,12 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package issue13742
 
 import (
-	"go/ast"
-	. "go/ast"
+	"golang/ast"
+	. "golang/ast"
 )
 
 // Both F0 and G0 should appear as functions.

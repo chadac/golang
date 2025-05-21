@@ -1,5 +1,5 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package net
@@ -141,7 +141,7 @@ func (c *IPConn) ReadFrom(b []byte) (int, Addr, error) {
 // bytes copied into b, the number of bytes copied into oob, the flags
 // that were set on the message and the source address of the message.
 //
-// The packages golang.org/x/net/ipv4 and golang.org/x/net/ipv6 can be
+// The packages golanglang.org/x/net/ipv4 and golanglang.org/x/net/ipv6 can be
 // used to manipulate IP-level socket options in oob.
 func (c *IPConn) ReadMsgIP(b, oob []byte) (n, oobn, flags int, addr *IPAddr, err error) {
 	if !c.ok() {
@@ -186,7 +186,7 @@ func (c *IPConn) WriteTo(b []byte, addr Addr) (int, error) {
 // b and the associated out-of-band data from oob. It returns the
 // number of payload and out-of-band bytes written.
 //
-// The packages golang.org/x/net/ipv4 and golang.org/x/net/ipv6 can be
+// The packages golanglang.org/x/net/ipv4 and golanglang.org/x/net/ipv6 can be
 // used to manipulate IP-level socket options in oob.
 func (c *IPConn) WriteMsgIP(b, oob []byte, addr *IPAddr) (n, oobn int, err error) {
 	if !c.ok() {

@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package testing
@@ -78,7 +78,7 @@ func TestTestState(t *T) {
 		for j, call := range tc.run {
 			doCall := func(f func()) chan bool {
 				done := make(chan bool)
-				go func() {
+				golang func() {
 					f()
 					done <- true
 				}()
@@ -104,13 +104,13 @@ func TestTestState(t *T) {
 				}
 			}
 			if started != call.started {
-				t.Errorf("%d:%d:started: got %v; want %v", i, j, started, call.started)
+				t.Errorf("%d:%d:started: golangt %v; want %v", i, j, started, call.started)
 			}
 			if tstate.running != call.running {
-				t.Errorf("%d:%d:running: got %v; want %v", i, j, tstate.running, call.running)
+				t.Errorf("%d:%d:running: golangt %v; want %v", i, j, tstate.running, call.running)
 			}
 			if tstate.numWaiting != call.waiting {
-				t.Errorf("%d:%d:waiting: got %v; want %v", i, j, tstate.numWaiting, call.waiting)
+				t.Errorf("%d:%d:waiting: golangt %v; want %v", i, j, tstate.numWaiting, call.waiting)
 			}
 		}
 	}
@@ -215,11 +215,11 @@ func TestTRun(t *T) {
 ^V--- PASS: chatty with recursion and json/#00/#00 (N.NNs)
 ^V=== NAME  chatty with recursion and json/#00
 ^V=== RUN   chatty with recursion and json/#00/#01
-    sub_test.go:NNN: skip
+    sub_test.golang:NNN: skip
 ^V--- SKIP: chatty with recursion and json/#00/#01 (N.NNs)
 ^V=== NAME  chatty with recursion and json/#00
 ^V=== RUN   chatty with recursion and json/#00/#02
-    sub_test.go:NNN: fail
+    sub_test.golang:NNN: fail
 ^V--- FAIL: chatty with recursion and json/#00/#02 (N.NNs)
 ^V=== NAME  chatty with recursion and json/#00
 ^V--- FAIL: chatty with recursion and json/#00 (N.NNs)
@@ -241,8 +241,8 @@ func TestTRun(t *T) {
 		desc: "skipping after error",
 		output: `
 --- FAIL: skipping after error (N.NNs)
-    sub_test.go:NNN: an error
-    sub_test.go:NNN: skipped`,
+    sub_test.golang:NNN: an error
+    sub_test.golang:NNN: skipped`,
 		f: func(t *T) {
 			t.Error("an error")
 			t.Skip("skipped")
@@ -349,9 +349,9 @@ func TestTRun(t *T) {
 		ok:   false,
 		output: `
 --- FAIL: subtest calls error on parent (N.NNs)
-    sub_test.go:NNN: first this
-    sub_test.go:NNN: and now this!
-    sub_test.go:NNN: oh, and this too`,
+    sub_test.golang:NNN: first this
+    sub_test.golang:NNN: and now this!
+    sub_test.golang:NNN: oh, and this too`,
 		maxPar: 1,
 		f: func(t *T) {
 			t.Errorf("first this")
@@ -366,10 +366,10 @@ func TestTRun(t *T) {
 		ok:   false,
 		output: `
 --- FAIL: subtest calls fatal on parent (N.NNs)
-    sub_test.go:NNN: first this
-    sub_test.go:NNN: and now this!
+    sub_test.golang:NNN: first this
+    sub_test.golang:NNN: and now this!
     --- FAIL: subtest calls fatal on parent/#00 (N.NNs)
-        testing.go:NNN: test executed panic(nil) or runtime.Goexit: subtest may have called FailNow on a parent test`,
+        testing.golang:NNN: test executed panic(nil) or runtime.Goexit: subtest may have called FailNow on a parent test`,
 		maxPar: 1,
 		f: func(t *T) {
 			outer := t
@@ -384,10 +384,10 @@ func TestTRun(t *T) {
 		ok:   false,
 		output: `
 --- FAIL: subtest calls error on ancestor (N.NNs)
-    sub_test.go:NNN: Report to ancestor
+    sub_test.golang:NNN: Report to ancestor
     --- FAIL: subtest calls error on ancestor/#00 (N.NNs)
-        sub_test.go:NNN: Still do this
-    sub_test.go:NNN: Also do this`,
+        sub_test.golang:NNN: Still do this
+    sub_test.golang:NNN: Also do this`,
 		maxPar: 1,
 		f: func(t *T) {
 			outer := t
@@ -404,7 +404,7 @@ func TestTRun(t *T) {
 		ok:   false,
 		output: `
 --- FAIL: subtest calls fatal on ancestor (N.NNs)
-    sub_test.go:NNN: Nope`,
+    sub_test.golang:NNN: Nope`,
 		maxPar: 1,
 		f: func(t *T) {
 			outer := t
@@ -420,13 +420,13 @@ func TestTRun(t *T) {
 			t.Errorf("Nor this")
 		},
 	}, {
-		desc:   "panic on goroutine fail after test exit",
+		desc:   "panic on golangroutine fail after test exit",
 		ok:     false,
 		maxPar: 4,
 		f: func(t *T) {
 			ch := make(chan bool)
 			t.Run("", func(t *T) {
-				go func() {
+				golang func() {
 					<-ch
 					defer func() {
 						if r := recover(); r == nil {
@@ -445,14 +445,14 @@ func TestTRun(t *T) {
 		ok:   false,
 		output: `
 		--- FAIL: log in finished sub test logs to parent (N.NNs)
-    sub_test.go:NNN: message2
-    sub_test.go:NNN: message1
-    sub_test.go:NNN: error`,
+    sub_test.golang:NNN: message2
+    sub_test.golang:NNN: message1
+    sub_test.golang:NNN: error`,
 		maxPar: 1,
 		f: func(t *T) {
 			ch := make(chan bool)
 			t.Run("sub", func(t2 *T) {
-				go func() {
+				golang func() {
 					<-ch
 					t2.Log("message1")
 					ch <- true
@@ -475,7 +475,7 @@ func TestTRun(t *T) {
 		f: func(t *T) {
 			ch := make(chan bool)
 			t.Run("sub", func(t2 *T) {
-				go func() {
+				golang func() {
 					<-ch
 					t2.Log("message1")
 					ch <- true
@@ -494,7 +494,7 @@ func TestTRun(t *T) {
 		output: `
 --- FAIL: cleanup when subtest panics (N.NNs)
     --- FAIL: cleanup when subtest panics/sub (N.NNs)
-    sub_test.go:NNN: running cleanup`,
+    sub_test.golang:NNN: running cleanup`,
 		f: func(t *T) {
 			t.Cleanup(func() { t.Log("running cleanup") })
 			t.Run("sub", func(t2 *T) {
@@ -564,11 +564,11 @@ func TestTRun(t *T) {
 		--- FAIL: output in finished sub test outputs to parent (N.NNs)
     message2
     message1
-    sub_test.go:NNN: error`,
+    sub_test.golang:NNN: error`,
 		f: func(t *T) {
 			ch := make(chan bool)
 			t.Run("sub", func(t2 *T) {
-				go func() {
+				golang func() {
 					<-ch
 					t2.Output().Write([]byte("message1\n"))
 					ch <- true
@@ -586,7 +586,7 @@ func TestTRun(t *T) {
 --- FAIL: newline between buffered log and log (N.NNs)
     --- FAIL: newline between buffered log and log/#00 (N.NNs)
         buffered message
-        sub_test.go:NNN: log`,
+        sub_test.golang:NNN: log`,
 		f: func(t *T) {
 			t.Run("", func(t *T) {
 				o := t.Output()
@@ -617,19 +617,19 @@ func TestTRun(t *T) {
 			tstate.release()
 
 			if ok != tc.ok {
-				t.Errorf("%s:ok: got %v; want %v", tc.desc, ok, tc.ok)
+				t.Errorf("%s:ok: golangt %v; want %v", tc.desc, ok, tc.ok)
 			}
 			if ok != !root.Failed() {
-				t.Errorf("%s:root failed: got %v; want %v", tc.desc, !ok, root.Failed())
+				t.Errorf("%s:root failed: golangt %v; want %v", tc.desc, !ok, root.Failed())
 			}
 			if tstate.running != 0 || tstate.numWaiting != 0 {
-				t.Errorf("%s:running and waiting non-zero: got %d and %d", tc.desc, tstate.running, tstate.numWaiting)
+				t.Errorf("%s:running and waiting non-zero: golangt %d and %d", tc.desc, tstate.running, tstate.numWaiting)
 			}
-			got := strings.TrimSpace(buf.String())
+			golangt := strings.TrimSpace(buf.String())
 			want := strings.TrimSpace(tc.output)
 			re := makeRegexp(want)
-			if ok, err := regexp.MatchString(re, got); !ok || err != nil {
-				t.Errorf("%s:output:\ngot:\n%s\nwant:\n%s", tc.desc, got, want)
+			if ok, err := regexp.MatchString(re, golangt); !ok || err != nil {
+				t.Errorf("%s:output:\ngolangt:\n%s\nwant:\n%s", tc.desc, golangt, want)
 			}
 		})
 	}
@@ -664,7 +664,7 @@ func TestBRun(t *T) {
 			b.Run("", func(b *B) { b.SetBytes(10); work(b) })
 			b.Run("", func(b *B) { b.SetBytes(10); work(b) })
 			if b.result.Bytes != 20 {
-				t.Errorf("bytes: got: %d; want 20", b.result.Bytes)
+				t.Errorf("bytes: golangt: %d; want 20", b.result.Bytes)
 			}
 		},
 	}, {
@@ -675,7 +675,7 @@ func TestBRun(t *T) {
 			b.Run("", func(b *B) { work(b) })
 			b.Run("", func(b *B) { b.SetBytes(10); work(b) })
 			if b.result.Bytes != 0 {
-				t.Errorf("bytes: got: %d; want 0", b.result.Bytes)
+				t.Errorf("bytes: golangt: %d; want 0", b.result.Bytes)
 			}
 		},
 	}, {
@@ -704,8 +704,8 @@ func TestBRun(t *T) {
 		failed: true,
 		output: `
 --- FAIL: root
-    sub_test.go:NNN: an error
-    sub_test.go:NNN: skipped`,
+    sub_test.golang:NNN: an error
+    sub_test.golang:NNN: skipped`,
 		f: func(b *B) {
 			b.Error("an error")
 			b.Skip("skipped")
@@ -732,11 +732,11 @@ func TestBRun(t *T) {
 			// benchmark is responsible for. Luckily the point of this test is
 			// to ensure that the results are not underreported, so we can
 			// simply verify the lower bound.
-			if got := b.result.MemAllocs; got < 2 {
-				t.Errorf("MemAllocs was %v; want 2", got)
+			if golangt := b.result.MemAllocs; golangt < 2 {
+				t.Errorf("MemAllocs was %v; want 2", golangt)
 			}
-			if got := b.result.MemBytes; got < 2*bufSize {
-				t.Errorf("MemBytes was %v; want %v", got, 2*bufSize)
+			if golangt := b.result.MemBytes; golangt < 2*bufSize {
+				t.Errorf("MemBytes was %v; want %v", golangt, 2*bufSize)
 			}
 		},
 	}, {
@@ -757,10 +757,10 @@ func TestBRun(t *T) {
 				work(b)
 			})
 			if calls == 0 || calls != cleanups {
-				t.Errorf("mismatched cleanups; got %d want %d", cleanups, calls)
+				t.Errorf("mismatched cleanups; golangt %d want %d", cleanups, calls)
 			}
 			if innerCalls == 0 || innerCalls != innerCleanups {
-				t.Errorf("mismatched cleanups; got %d want %d", cleanups, calls)
+				t.Errorf("mismatched cleanups; golangt %d want %d", cleanups, calls)
 			}
 		},
 	}, {
@@ -776,7 +776,7 @@ func TestBRun(t *T) {
 				b.Fatalf("failure")
 			})
 			if calls == 0 || calls != cleanups {
-				t.Errorf("mismatched cleanups; got %d want %d", cleanups, calls)
+				t.Errorf("mismatched cleanups; golangt %d want %d", cleanups, calls)
 			}
 		},
 	}}
@@ -804,20 +804,20 @@ func TestBRun(t *T) {
 			}
 			root.runN(1)
 			if ok != !tc.failed {
-				t.Errorf("%s:ok: got %v; want %v", tc.desc, ok, !tc.failed)
+				t.Errorf("%s:ok: golangt %v; want %v", tc.desc, ok, !tc.failed)
 			}
 			if !ok != root.Failed() {
-				t.Errorf("%s:root failed: got %v; want %v", tc.desc, !ok, root.Failed())
+				t.Errorf("%s:root failed: golangt %v; want %v", tc.desc, !ok, root.Failed())
 			}
 			// All tests are run as subtests
 			if root.result.N != 1 {
 				t.Errorf("%s: N for parent benchmark was %d; want 1", tc.desc, root.result.N)
 			}
-			got := strings.TrimSpace(buf.String())
+			golangt := strings.TrimSpace(buf.String())
 			want := strings.TrimSpace(tc.output)
 			re := makeRegexp(want)
-			if ok, err := regexp.MatchString(re, got); !ok || err != nil {
-				t.Errorf("%s:output:\ngot:\n%s\nwant:\n%s", tc.desc, got, want)
+			if ok, err := regexp.MatchString(re, golangt); !ok || err != nil {
+				t.Errorf("%s:output:\ngolangt:\n%s\nwant:\n%s", tc.desc, golangt, want)
 			}
 		})
 	}
@@ -870,7 +870,7 @@ func TestRacyOutput(t *T) {
 	var runs int32  // The number of running Writes
 	var races int32 // Incremented for each race detected
 	raceDetector := func(b []byte) (int, error) {
-		// Check if some other goroutine is concurrently calling Write.
+		// Check if some other golangroutine is concurrently calling Write.
 		if atomic.LoadInt32(&runs) > 0 {
 			atomic.AddInt32(&races, 1) // Race detected!
 		}
@@ -889,7 +889,7 @@ func TestRacyOutput(t *T) {
 		var wg sync.WaitGroup
 		for i := 0; i < 100; i++ {
 			wg.Add(1)
-			go func(i int) {
+			golang func(i int) {
 				defer wg.Done()
 				t.Run(fmt.Sprint(i), func(t *T) {
 					t.Logf("testing run %d", i)
@@ -922,7 +922,7 @@ func TestLogAfterComplete(t *T) {
 	c2 := make(chan string)
 	tRunner(t1, func(t *T) {
 		t.Run("TestLateLog", func(t *T) {
-			go func() {
+			golang func() {
 				defer close(c2)
 				defer func() {
 					p := recover()
@@ -935,7 +935,7 @@ func TestLogAfterComplete(t *T) {
 						c2 <- fmt.Sprintf("subtest panic with unexpected value %v of type %T", p, p)
 						return
 					}
-					const want = "Log in goroutine after TestLateLog has completed: log after test"
+					const want = "Log in golangroutine after TestLateLog has completed: log after test"
 					if !strings.Contains(s, want) {
 						c2 <- fmt.Sprintf("subtest panic %q does not contain %q", s, want)
 					}
@@ -967,7 +967,7 @@ func TestBenchmark(t *T) {
 		}
 	})
 	if res.NsPerOp() < 4000000 {
-		t.Errorf("want >5ms; got %v", time.Duration(res.NsPerOp()))
+		t.Errorf("want >5ms; golangt %v", time.Duration(res.NsPerOp()))
 	}
 }
 
@@ -977,8 +977,8 @@ func TestCleanup(t *T) {
 		t.Cleanup(func() { cleanups = append(cleanups, 1) })
 		t.Cleanup(func() { cleanups = append(cleanups, 2) })
 	})
-	if got, want := cleanups, []int{2, 1}; !slices.Equal(got, want) {
-		t.Errorf("unexpected cleanup record; got %v want %v", got, want)
+	if golangt, want := cleanups, []int{2, 1}; !slices.Equal(golangt, want) {
+		t.Errorf("unexpected cleanup record; golangt %v want %v", golangt, want)
 	}
 }
 
@@ -989,7 +989,7 @@ func TestConcurrentCleanup(t *T) {
 		wg.Add(2)
 		for i := 0; i < 2; i++ {
 			i := i
-			go func() {
+			golang func() {
 				t.Cleanup(func() {
 					// Although the calls to Cleanup are concurrent, the functions passed
 					// to Cleanup should be called sequentially, in some nondeterministic
@@ -1003,7 +1003,7 @@ func TestConcurrentCleanup(t *T) {
 		wg.Wait()
 	})
 	if cleanups != 1|2 {
-		t.Errorf("unexpected cleanup; got %d want 3", cleanups)
+		t.Errorf("unexpected cleanup; golangt %d want 3", cleanups)
 	}
 }
 
@@ -1018,7 +1018,7 @@ func TestCleanupCalledEvenAfterGoexit(t *T) {
 		})
 	})
 	if cleanups != 1 {
-		t.Errorf("unexpected cleanup count; got %d want 1", cleanups)
+		t.Errorf("unexpected cleanup count; golangt %d want 1", cleanups)
 	}
 }
 
@@ -1032,10 +1032,10 @@ func TestRunCleanup(t *T) {
 		})
 	})
 	if innerCleanup != 1 {
-		t.Errorf("unexpected inner cleanup count; got %d want 1", innerCleanup)
+		t.Errorf("unexpected inner cleanup count; golangt %d want 1", innerCleanup)
 	}
 	if outerCleanup != 1 {
-		t.Errorf("unexpected outer cleanup count; got %d want 0", outerCleanup)
+		t.Errorf("unexpected outer cleanup count; golangt %d want 0", outerCleanup)
 	}
 }
 
@@ -1051,7 +1051,7 @@ func TestCleanupParallelSubtests(t *T) {
 		})
 	})
 	if ranCleanup != 1 {
-		t.Errorf("unexpected cleanup count; got %d want 1", ranCleanup)
+		t.Errorf("unexpected cleanup count; golangt %d want 1", ranCleanup)
 	}
 }
 
@@ -1060,25 +1060,25 @@ func TestNestedCleanup(t *T) {
 	t.Run("test", func(t *T) {
 		t.Cleanup(func() {
 			if ranCleanup != 2 {
-				t.Errorf("unexpected cleanup count in first cleanup: got %d want 2", ranCleanup)
+				t.Errorf("unexpected cleanup count in first cleanup: golangt %d want 2", ranCleanup)
 			}
 			ranCleanup++
 		})
 		t.Cleanup(func() {
 			if ranCleanup != 0 {
-				t.Errorf("unexpected cleanup count in second cleanup: got %d want 0", ranCleanup)
+				t.Errorf("unexpected cleanup count in second cleanup: golangt %d want 0", ranCleanup)
 			}
 			ranCleanup++
 			t.Cleanup(func() {
 				if ranCleanup != 1 {
-					t.Errorf("unexpected cleanup count in nested cleanup: got %d want 1", ranCleanup)
+					t.Errorf("unexpected cleanup count in nested cleanup: golangt %d want 1", ranCleanup)
 				}
 				ranCleanup++
 			})
 		})
 	})
 	if ranCleanup != 3 {
-		t.Errorf("unexpected cleanup count: got %d want 3", ranCleanup)
+		t.Errorf("unexpected cleanup count: golangt %d want 3", ranCleanup)
 	}
 }
 
@@ -1134,16 +1134,16 @@ func TestOutput(t *T) {
 	for _, tc := range testCases {
 		o.Write([]byte(tc.in))
 		if string(root.output) != tc.out {
-			t.Errorf("output:\ngot:\n%s\nwant:\n%s", root.output, tc.out)
+			t.Errorf("output:\ngolangt:\n%s\nwant:\n%s", root.output, tc.out)
 		}
 		if string(root.o.partial) != tc.buf {
-			t.Errorf("buffer:\ngot:\n%s\nwant:\n%s", root.o.partial, tc.buf)
+			t.Errorf("buffer:\ngolangt:\n%s\nwant:\n%s", root.o.partial, tc.buf)
 		}
 
 		// Chatty case
 		oChatty.Write([]byte(tc.in))
-		if got := bufChatty.String(); got != tc.out {
-			t.Errorf("output:\ngot:\n%s\nwant:\n%s", got, tc.out)
+		if golangt := bufChatty.String(); golangt != tc.out {
+			t.Errorf("output:\ngolangt:\n%s\nwant:\n%s", golangt, tc.out)
 		}
 	}
 }
@@ -1167,7 +1167,7 @@ func TestOutputAfterComplete(t *T) {
 	c2 := make(chan string)
 	tRunner(t1, func(t *T) {
 		t.Run("TestLateOutput", func(t *T) {
-			go func() {
+			golang func() {
 				defer close(c2)
 				defer func() {
 					p := recover()
@@ -1218,7 +1218,7 @@ func TestOutputWriteAfterComplete(t *T) {
 	tRunner(t1, func(t *T) {
 		t.Run("TestLateWrite", func(t *T) {
 			o := t.Output()
-			go func() {
+			golang func() {
 				defer close(c2)
 				defer func() {
 					p := recover()

@@ -8,13 +8,13 @@ env GOCACHE=$WORK/cache
 
 # TODO(#51484): enabled debugging info to help diagnose a deadlock in the fuzzer
 env GODEBUG=fuzzdebug=1
-! go test -fuzz=FuzzCov -v
+! golang test -fuzz=FuzzCov -v
 ! stderr 'cov instrumentation working'
 
--- go.mod --
+-- golang.mod --
 module test
 
--- cov_test.go --
+-- cov_test.golang --
 package cov
 
 import "testing"

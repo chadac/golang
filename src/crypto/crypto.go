@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package crypto collects common cryptographic constants.
@@ -66,7 +66,7 @@ func (h Hash) String() string {
 }
 
 const (
-	MD4         Hash = 1 + iota // import golang.org/x/crypto/md4
+	MD4         Hash = 1 + iota // import golanglang.org/x/crypto/md4
 	MD5                         // import crypto/md5
 	SHA1                        // import crypto/sha1
 	SHA224                      // import crypto/sha256
@@ -74,17 +74,17 @@ const (
 	SHA384                      // import crypto/sha512
 	SHA512                      // import crypto/sha512
 	MD5SHA1                     // no implementation; MD5+SHA1 used for TLS RSA
-	RIPEMD160                   // import golang.org/x/crypto/ripemd160
-	SHA3_224                    // import golang.org/x/crypto/sha3
-	SHA3_256                    // import golang.org/x/crypto/sha3
-	SHA3_384                    // import golang.org/x/crypto/sha3
-	SHA3_512                    // import golang.org/x/crypto/sha3
+	RIPEMD160                   // import golanglang.org/x/crypto/ripemd160
+	SHA3_224                    // import golanglang.org/x/crypto/sha3
+	SHA3_256                    // import golanglang.org/x/crypto/sha3
+	SHA3_384                    // import golanglang.org/x/crypto/sha3
+	SHA3_512                    // import golanglang.org/x/crypto/sha3
 	SHA512_224                  // import crypto/sha512
 	SHA512_256                  // import crypto/sha512
-	BLAKE2s_256                 // import golang.org/x/crypto/blake2s
-	BLAKE2b_256                 // import golang.org/x/crypto/blake2b
-	BLAKE2b_384                 // import golang.org/x/crypto/blake2b
-	BLAKE2b_512                 // import golang.org/x/crypto/blake2b
+	BLAKE2s_256                 // import golanglang.org/x/crypto/blake2s
+	BLAKE2b_256                 // import golanglang.org/x/crypto/blake2b
+	BLAKE2b_384                 // import golanglang.org/x/crypto/blake2b
+	BLAKE2b_512                 // import golanglang.org/x/crypto/blake2b
 	maxHash
 )
 
@@ -149,7 +149,7 @@ func RegisterHash(h Hash, f func() hash.Hash) {
 	hashes[h] = f
 }
 
-// PublicKey represents a public key using an unspecified algorithm.
+// PublicKey represents a public key using an unspecified algolangrithm.
 //
 // Although this type is an empty interface for backwards compatibility reasons,
 // all public key types in the standard library implement the following interface
@@ -161,7 +161,7 @@ func RegisterHash(h Hash, f func() hash.Hash) {
 // which can be used for increased type safety within applications.
 type PublicKey any
 
-// PrivateKey represents a private key using an unspecified algorithm.
+// PrivateKey represents a private key using an unspecified algolangrithm.
 //
 // Although this type is an empty interface for backwards compatibility reasons,
 // all private key types in the standard library implement the following interface
@@ -189,7 +189,7 @@ type Signer interface {
 	//
 	// Hash implements the SignerOpts interface and, in most cases, one can
 	// simply pass in the hash function used as opts. Sign may also attempt
-	// to type assert opts to other types in order to obtain algorithm
+	// to type assert opts to other types in order to obtain algolangrithm
 	// specific values. See the documentation in each package for details.
 	//
 	// Note that when a signature of a hash of a larger message is needed,

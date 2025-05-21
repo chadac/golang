@@ -1,25 +1,25 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime_test
 
 import (
-	"internal/goos"
+	"internal/golangos"
 	"math/rand"
 	. "runtime"
 	"testing"
 )
 
-func checkPageCache(t *testing.T, got, want PageCache) {
-	if got.Base() != want.Base() {
-		t.Errorf("bad pageCache base: got 0x%x, want 0x%x", got.Base(), want.Base())
+func checkPageCache(t *testing.T, golangt, want PageCache) {
+	if golangt.Base() != want.Base() {
+		t.Errorf("bad pageCache base: golangt 0x%x, want 0x%x", golangt.Base(), want.Base())
 	}
-	if got.Cache() != want.Cache() {
-		t.Errorf("bad pageCache bits: got %016x, want %016x", got.Base(), want.Base())
+	if golangt.Cache() != want.Cache() {
+		t.Errorf("bad pageCache bits: golangt %016x, want %016x", golangt.Base(), want.Base())
 	}
-	if got.Scav() != want.Scav() {
-		t.Errorf("bad pageCache scav: got %016x, want %016x", got.Scav(), want.Scav())
+	if golangt.Scav() != want.Scav() {
+		t.Errorf("bad pageCache scav: golangt %016x, want %016x", golangt.Scav(), want.Scav())
 	}
 }
 
@@ -170,10 +170,10 @@ func TestPageCacheAlloc(t *testing.T) {
 			for i, h := range test.hits {
 				b, s := c.Alloc(h.npages)
 				if b != h.base {
-					t.Fatalf("bad alloc base #%d: got 0x%x, want 0x%x", i, b, h.base)
+					t.Fatalf("bad alloc base #%d: golangt 0x%x, want 0x%x", i, b, h.base)
 				}
 				if s != h.scav {
-					t.Fatalf("bad alloc scav #%d: got %d, want %d", i, s, h.scav)
+					t.Fatalf("bad alloc scav #%d: golangt %d, want %d", i, s, h.scav)
 				}
 			}
 		})
@@ -375,12 +375,12 @@ func TestPageAllocAllocToCache(t *testing.T) {
 	}
 	// Disable these tests on iOS since we have a small address space.
 	// See #46860.
-	if PageAlloc64Bit != 0 && goos.IsIos == 0 {
+	if PageAlloc64Bit != 0 && golangos.IsIos == 0 {
 		const chunkIdxBigJump = 0x100000 // chunk index offset which translates to O(TiB)
 
 		// This test is similar to the one with the same name for
 		// pageAlloc.alloc and serves the same purpose.
-		// See mpagealloc_test.go for details.
+		// See mpagealloc_test.golang for details.
 		sumsPerPhysPage := ChunkIdx(PhysPageSize / PallocSumBytes)
 		baseChunkIdx := BaseChunkIdx &^ (sumsPerPhysPage - 1)
 		tests["DiscontiguousMappedSumBoundary"] = test{

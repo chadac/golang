@@ -1,5 +1,5 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Parsing of Plan 9 a.out executables.
@@ -136,7 +136,7 @@ func loadPlan9Table(f *plan9obj.File, sname, ename string) ([]byte, error) {
 	return data[ssym.Value-textStart : esym.Value-textStart], nil
 }
 
-func (f *plan9File) goarch() string {
+func (f *plan9File) golangarch() string {
 	switch f.plan9.Magic {
 	case plan9obj.Magic386:
 		return "386"

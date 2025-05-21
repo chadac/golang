@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ssa
@@ -18,7 +18,7 @@ type Cache struct {
 	locs   [2000]Location
 
 	// Reusable stackAllocState.
-	// See stackalloc.go's {new,put}StackAllocState.
+	// See stackalloc.golang's {new,put}StackAllocState.
 	stackAllocState *stackAllocState
 
 	scrPoset []*poset // scratch poset to be reused
@@ -31,7 +31,7 @@ type Cache struct {
 
 	Liveness interface{} // *gc.livenessFuncCache
 
-	// Free "headers" for use by the allocators in allocators.go.
+	// Free "headers" for use by the allocators in allocators.golang.
 	// Used to put slices in sync.Pools without allocation.
 	hdrValueSlice []*[]*Value
 	hdrLimitSlice []*[]limit

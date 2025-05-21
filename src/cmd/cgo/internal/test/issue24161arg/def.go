@@ -1,13 +1,13 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build darwin
+//golang:build darwin
 
 package issue24161arg
 
 /*
-#cgo LDFLAGS: -framework CoreFoundation
+#cgolang LDFLAGS: -framework CoreFoundation
 #include <CoreFoundation/CoreFoundation.h>
 */
 import "C"

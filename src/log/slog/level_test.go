@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package slog
@@ -28,25 +28,25 @@ func TestLevelString(t *testing.T) {
 		{LevelDebug, "DEBUG"},
 		{LevelDebug - 2, "DEBUG-2"},
 	} {
-		got := test.in.String()
-		if got != test.want {
-			t.Errorf("%d: got %s, want %s", test.in, got, test.want)
+		golangt := test.in.String()
+		if golangt != test.want {
+			t.Errorf("%d: golangt %s, want %s", test.in, golangt, test.want)
 		}
 	}
 }
 
 func TestLevelVar(t *testing.T) {
 	var al LevelVar
-	if got, want := al.Level(), LevelInfo; got != want {
-		t.Errorf("got %v, want %v", got, want)
+	if golangt, want := al.Level(), LevelInfo; golangt != want {
+		t.Errorf("golangt %v, want %v", golangt, want)
 	}
 	al.Set(LevelWarn)
-	if got, want := al.Level(), LevelWarn; got != want {
-		t.Errorf("got %v, want %v", got, want)
+	if golangt, want := al.Level(), LevelWarn; golangt != want {
+		t.Errorf("golangt %v, want %v", golangt, want)
 	}
 	al.Set(LevelInfo)
-	if got, want := al.Level(), LevelInfo; got != want {
-		t.Errorf("got %v, want %v", got, want)
+	if golangt, want := al.Level(), LevelInfo; golangt != want {
+		t.Errorf("golangt %v, want %v", golangt, want)
 	}
 
 }
@@ -59,14 +59,14 @@ func TestLevelMarshalJSON(t *testing.T) {
 		t.Fatal(err)
 	}
 	if !bytes.Equal(data, wantData) {
-		t.Errorf("got %s, want %s", string(data), string(wantData))
+		t.Errorf("golangt %s, want %s", string(data), string(wantData))
 	}
-	var got Level
-	if err := got.UnmarshalJSON(data); err != nil {
+	var golangt Level
+	if err := golangt.UnmarshalJSON(data); err != nil {
 		t.Fatal(err)
 	}
-	if got != want {
-		t.Errorf("got %s, want %s", got, want)
+	if golangt != want {
+		t.Errorf("golangt %s, want %s", golangt, want)
 	}
 }
 
@@ -78,14 +78,14 @@ func TestLevelMarshalText(t *testing.T) {
 		t.Fatal(err)
 	}
 	if !bytes.Equal(data, wantData) {
-		t.Errorf("got %s, want %s", string(data), string(wantData))
+		t.Errorf("golangt %s, want %s", string(data), string(wantData))
 	}
-	var got Level
-	if err := got.UnmarshalText(data); err != nil {
+	var golangt Level
+	if err := golangt.UnmarshalText(data); err != nil {
 		t.Fatal(err)
 	}
-	if got != want {
-		t.Errorf("got %s, want %s", got, want)
+	if golangt != want {
+		t.Errorf("golangt %s, want %s", golangt, want)
 	}
 }
 
@@ -98,7 +98,7 @@ func TestLevelAppendText(t *testing.T) {
 		t.Fatal(err)
 	}
 	if !bytes.Equal(data, wantData) {
-		t.Errorf("got %s, want %s", string(data), string(wantData))
+		t.Errorf("golangt %s, want %s", string(data), string(wantData))
 	}
 }
 
@@ -117,12 +117,12 @@ func TestLevelParse(t *testing.T) {
 		{"Error-18", LevelError - 18},
 		{"Error-8", LevelInfo},
 	} {
-		var got Level
-		if err := got.parse(test.in); err != nil {
+		var golangt Level
+		if err := golangt.parse(test.in); err != nil {
 			t.Fatalf("%q: %v", test.in, err)
 		}
-		if got != test.want {
-			t.Errorf("%q: got %s, want %s", test.in, got, test.want)
+		if golangt != test.want {
+			t.Errorf("%q: golangt %s, want %s", test.in, golangt, test.want)
 		}
 	}
 }
@@ -141,7 +141,7 @@ func TestLevelParseError(t *testing.T) {
 		var l Level
 		err := l.parse(test.in)
 		if err == nil || !strings.Contains(err.Error(), test.want) {
-			t.Errorf("%q: got %v, want string containing %q", test.in, err, test.want)
+			t.Errorf("%q: golangt %v, want string containing %q", test.in, err, test.want)
 		}
 	}
 }
@@ -155,7 +155,7 @@ func TestLevelFlag(t *testing.T) {
 		t.Fatal(err)
 	}
 	if g, w := lf, LevelWarn+3; g != w {
-		t.Errorf("got %v, want %v", g, w)
+		t.Errorf("golangt %v, want %v", g, w)
 	}
 }
 
@@ -171,7 +171,7 @@ func TestLevelVarMarshalText(t *testing.T) {
 		t.Fatal(err)
 	}
 	if g, w := v2.Level(), LevelWarn; g != w {
-		t.Errorf("got %s, want %s", g, w)
+		t.Errorf("golangt %s, want %s", g, w)
 	}
 }
 
@@ -188,7 +188,7 @@ func TestLevelVarAppendText(t *testing.T) {
 		t.Fatal(err)
 	}
 	if g, w := v2.Level(), LevelWarn; g != w {
-		t.Errorf("got %s, want %s", g, w)
+		t.Errorf("golangt %s, want %s", g, w)
 	}
 }
 
@@ -202,16 +202,16 @@ func TestLevelVarFlag(t *testing.T) {
 		t.Fatal(err)
 	}
 	if g, w := v.Level(), LevelWarn+3; g != w {
-		t.Errorf("got %v, want %v", g, w)
+		t.Errorf("golangt %v, want %v", g, w)
 	}
 }
 
 func TestLevelVarString(t *testing.T) {
 	var v LevelVar
 	v.Set(LevelError)
-	got := v.String()
+	golangt := v.String()
 	want := "LevelVar(ERROR)"
-	if got != want {
-		t.Errorf("got %q, want %q", got, want)
+	if golangt != want {
+		t.Errorf("golangt %q, want %q", golangt, want)
 	}
 }

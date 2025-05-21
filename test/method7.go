@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test forms of method expressions T.m where T is
@@ -9,7 +9,7 @@
 
 package main
 
-var got, want string
+var golangt, want string
 
 type I interface {
 	m()
@@ -18,12 +18,12 @@ type I interface {
 type S struct {
 }
 
-func (S) m()          { got += " m()" }
-func (S) m1(s string) { got += " m1(" + s + ")" }
+func (S) m()          { golangt += " m()" }
+func (S) m1(s string) { golangt += " m1(" + s + ")" }
 
 type T int
 
-func (T) m2() { got += " m2()" }
+func (T) m2() { golangt += " m2()" }
 
 type Outer struct{ *Inner }
 type Inner struct{ s string }
@@ -54,14 +54,14 @@ func main() {
 	g(struct{ T }{})
 	want += " m2()"
 
-	if got != want {
-		panic("got" + got + ", want" + want)
+	if golangt != want {
+		panic("golangt" + golangt + ", want" + want)
 	}
 
 	h := (*Outer).M
-	got := h(&Outer{&Inner{"hello"}})
+	golangt := h(&Outer{&Inner{"hello"}})
 	want := "hello"
-	if got != want {
-		panic("got " + got + ", want " + want)
+	if golangt != want {
+		panic("golangt " + golangt + ", want " + want)
 	}
 }

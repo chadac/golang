@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file implements the encoding of source positions.
@@ -194,7 +194,7 @@ type PosBase struct {
 	filename    string // file name used to open source file, for error messages
 	absFilename string // absolute file name, for PC-Line tables
 	line, col   uint   // relative line, column number at pos
-	inl         int    // inlining index (see cmd/internal/obj/inl.go)
+	inl         int    // inlining index (see cmd/internal/obj/inl.golang)
 	fileIndex   int    // index of absFilename within PosTable.FileTable
 }
 
@@ -269,7 +269,7 @@ func (b *PosBase) AbsFilename() string {
 
 // FileSymPrefix is the linker symbol prefix that used to be used for
 // linker pseudo-symbols representing file names.
-const FileSymPrefix = "gofile.."
+const FileSymPrefix = "golangfile.."
 
 // FileIndex returns the index of the base's absolute filename within
 // its PosTable's FileTable. It panics if it hasn't been registered
@@ -346,9 +346,9 @@ const (
 	// It is expected that the front end or a phase in SSA will usually generate positions tagged with
 	// PosDefaultStmt, but note statement boundaries with PosIsStmt.  Simple statements will have a single
 	// boundary; for loops with initialization may have one for their entry and one for their back edge
-	// (this depends on exactly how the loop is compiled; the intent is to provide a good experience to a
-	// user debugging a program; the goal is that a breakpoint set on the loop line fires both on entry
-	// and on iteration).  Proper treatment of non-gofmt input with multiple simple statements on a single
+	// (this depends on exactly how the loop is compiled; the intent is to provide a golangod experience to a
+	// user debugging a program; the golangal is that a breakpoint set on the loop line fires both on entry
+	// and on iteration).  Proper treatment of non-golangfmt input with multiple simple statements on a single
 	// line is TBD.
 	//
 	// Optimizing compilation will move instructions around, and some of these will become known-bad as

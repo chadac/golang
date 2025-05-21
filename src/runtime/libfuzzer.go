@@ -1,8 +1,8 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build libfuzzer
+//golang:build libfuzzer
 
 package runtime
 
@@ -19,49 +19,49 @@ const retSledSize = 512
 // (where N can be 1, 2, 4, or 8) for encountered integer comparisons in the code to be instrumented.
 // This may result in these functions having callers that are nosplit. That is why they must be nosplit.
 //
-//go:nosplit
+//golang:nosplit
 func libfuzzerTraceCmp1(arg0, arg1 uint8, fakePC uint) {
 	fakePC = fakePC % retSledSize
 	libfuzzerCallTraceIntCmp(&__sanitizer_cov_trace_cmp1, uintptr(arg0), uintptr(arg1), uintptr(fakePC))
 }
 
-//go:nosplit
+//golang:nosplit
 func libfuzzerTraceCmp2(arg0, arg1 uint16, fakePC uint) {
 	fakePC = fakePC % retSledSize
 	libfuzzerCallTraceIntCmp(&__sanitizer_cov_trace_cmp2, uintptr(arg0), uintptr(arg1), uintptr(fakePC))
 }
 
-//go:nosplit
+//golang:nosplit
 func libfuzzerTraceCmp4(arg0, arg1 uint32, fakePC uint) {
 	fakePC = fakePC % retSledSize
 	libfuzzerCallTraceIntCmp(&__sanitizer_cov_trace_cmp4, uintptr(arg0), uintptr(arg1), uintptr(fakePC))
 }
 
-//go:nosplit
+//golang:nosplit
 func libfuzzerTraceCmp8(arg0, arg1 uint64, fakePC uint) {
 	fakePC = fakePC % retSledSize
 	libfuzzerCallTraceIntCmp(&__sanitizer_cov_trace_cmp8, uintptr(arg0), uintptr(arg1), uintptr(fakePC))
 }
 
-//go:nosplit
+//golang:nosplit
 func libfuzzerTraceConstCmp1(arg0, arg1 uint8, fakePC uint) {
 	fakePC = fakePC % retSledSize
 	libfuzzerCallTraceIntCmp(&__sanitizer_cov_trace_const_cmp1, uintptr(arg0), uintptr(arg1), uintptr(fakePC))
 }
 
-//go:nosplit
+//golang:nosplit
 func libfuzzerTraceConstCmp2(arg0, arg1 uint16, fakePC uint) {
 	fakePC = fakePC % retSledSize
 	libfuzzerCallTraceIntCmp(&__sanitizer_cov_trace_const_cmp2, uintptr(arg0), uintptr(arg1), uintptr(fakePC))
 }
 
-//go:nosplit
+//golang:nosplit
 func libfuzzerTraceConstCmp4(arg0, arg1 uint32, fakePC uint) {
 	fakePC = fakePC % retSledSize
 	libfuzzerCallTraceIntCmp(&__sanitizer_cov_trace_const_cmp4, uintptr(arg0), uintptr(arg1), uintptr(fakePC))
 }
 
-//go:nosplit
+//golang:nosplit
 func libfuzzerTraceConstCmp8(arg0, arg1 uint64, fakePC uint) {
 	fakePC = fakePC % retSledSize
 	libfuzzerCallTraceIntCmp(&__sanitizer_cov_trace_const_cmp8, uintptr(arg0), uintptr(arg1), uintptr(fakePC))
@@ -93,7 +93,7 @@ func init() {
 //     equality (comparison will ignored by libfuzzer), non-zero indicates a
 //     difference (comparison will be taken into consideration).
 //
-//go:nosplit
+//golang:nosplit
 func libfuzzerHookStrCmp(s1, s2 string, fakePC int) {
 	if s1 != s2 {
 		libfuzzerCall4(&__sanitizer_weak_hook_strcmp, uintptr(fakePC), cstring(s1), cstring(s2), uintptr(1))
@@ -105,56 +105,56 @@ func libfuzzerHookStrCmp(s1, s2 string, fakePC int) {
 // This function has now the same implementation as libfuzzerHookStrCmp because we lack better checks
 // for case-insensitive string equality in the runtime package.
 //
-//go:nosplit
+//golang:nosplit
 func libfuzzerHookEqualFold(s1, s2 string, fakePC int) {
 	if s1 != s2 {
 		libfuzzerCall4(&__sanitizer_weak_hook_strcmp, uintptr(fakePC), cstring(s1), cstring(s2), uintptr(1))
 	}
 }
 
-//go:linkname __sanitizer_cov_trace_cmp1 __sanitizer_cov_trace_cmp1
-//go:cgo_import_static __sanitizer_cov_trace_cmp1
+//golang:linkname __sanitizer_cov_trace_cmp1 __sanitizer_cov_trace_cmp1
+//golang:cgolang_import_static __sanitizer_cov_trace_cmp1
 var __sanitizer_cov_trace_cmp1 byte
 
-//go:linkname __sanitizer_cov_trace_cmp2 __sanitizer_cov_trace_cmp2
-//go:cgo_import_static __sanitizer_cov_trace_cmp2
+//golang:linkname __sanitizer_cov_trace_cmp2 __sanitizer_cov_trace_cmp2
+//golang:cgolang_import_static __sanitizer_cov_trace_cmp2
 var __sanitizer_cov_trace_cmp2 byte
 
-//go:linkname __sanitizer_cov_trace_cmp4 __sanitizer_cov_trace_cmp4
-//go:cgo_import_static __sanitizer_cov_trace_cmp4
+//golang:linkname __sanitizer_cov_trace_cmp4 __sanitizer_cov_trace_cmp4
+//golang:cgolang_import_static __sanitizer_cov_trace_cmp4
 var __sanitizer_cov_trace_cmp4 byte
 
-//go:linkname __sanitizer_cov_trace_cmp8 __sanitizer_cov_trace_cmp8
-//go:cgo_import_static __sanitizer_cov_trace_cmp8
+//golang:linkname __sanitizer_cov_trace_cmp8 __sanitizer_cov_trace_cmp8
+//golang:cgolang_import_static __sanitizer_cov_trace_cmp8
 var __sanitizer_cov_trace_cmp8 byte
 
-//go:linkname __sanitizer_cov_trace_const_cmp1 __sanitizer_cov_trace_const_cmp1
-//go:cgo_import_static __sanitizer_cov_trace_const_cmp1
+//golang:linkname __sanitizer_cov_trace_const_cmp1 __sanitizer_cov_trace_const_cmp1
+//golang:cgolang_import_static __sanitizer_cov_trace_const_cmp1
 var __sanitizer_cov_trace_const_cmp1 byte
 
-//go:linkname __sanitizer_cov_trace_const_cmp2 __sanitizer_cov_trace_const_cmp2
-//go:cgo_import_static __sanitizer_cov_trace_const_cmp2
+//golang:linkname __sanitizer_cov_trace_const_cmp2 __sanitizer_cov_trace_const_cmp2
+//golang:cgolang_import_static __sanitizer_cov_trace_const_cmp2
 var __sanitizer_cov_trace_const_cmp2 byte
 
-//go:linkname __sanitizer_cov_trace_const_cmp4 __sanitizer_cov_trace_const_cmp4
-//go:cgo_import_static __sanitizer_cov_trace_const_cmp4
+//golang:linkname __sanitizer_cov_trace_const_cmp4 __sanitizer_cov_trace_const_cmp4
+//golang:cgolang_import_static __sanitizer_cov_trace_const_cmp4
 var __sanitizer_cov_trace_const_cmp4 byte
 
-//go:linkname __sanitizer_cov_trace_const_cmp8 __sanitizer_cov_trace_const_cmp8
-//go:cgo_import_static __sanitizer_cov_trace_const_cmp8
+//golang:linkname __sanitizer_cov_trace_const_cmp8 __sanitizer_cov_trace_const_cmp8
+//golang:cgolang_import_static __sanitizer_cov_trace_const_cmp8
 var __sanitizer_cov_trace_const_cmp8 byte
 
-//go:linkname __sanitizer_cov_8bit_counters_init __sanitizer_cov_8bit_counters_init
-//go:cgo_import_static __sanitizer_cov_8bit_counters_init
+//golang:linkname __sanitizer_cov_8bit_counters_init __sanitizer_cov_8bit_counters_init
+//golang:cgolang_import_static __sanitizer_cov_8bit_counters_init
 var __sanitizer_cov_8bit_counters_init byte
 
 // start, stop markers of counters, set by the linker
 var __start___sancov_cntrs, __stop___sancov_cntrs byte
 
-//go:linkname __sanitizer_cov_pcs_init __sanitizer_cov_pcs_init
-//go:cgo_import_static __sanitizer_cov_pcs_init
+//golang:linkname __sanitizer_cov_pcs_init __sanitizer_cov_pcs_init
+//golang:cgolang_import_static __sanitizer_cov_pcs_init
 var __sanitizer_cov_pcs_init byte
 
-//go:linkname __sanitizer_weak_hook_strcmp __sanitizer_weak_hook_strcmp
-//go:cgo_import_static __sanitizer_weak_hook_strcmp
+//golang:linkname __sanitizer_weak_hook_strcmp __sanitizer_weak_hook_strcmp
+//golang:cgolang_import_static __sanitizer_weak_hook_strcmp
 var __sanitizer_weak_hook_strcmp byte

@@ -1,22 +1,22 @@
 [short] skip
-[!cgo] skip
+[!cgolang] skip
 
-[GOOS:solaris] skip "skipping on Solaris; see golang.org/issue/13247"
-[GOOS:illumos] skip "skipping on Solaris; see golang.org/issue/13247"
+[GOOS:solaris] skip "skipping on Solaris; see golanglang.org/issue/13247"
+[GOOS:illumos] skip "skipping on Solaris; see golanglang.org/issue/13247"
 
-go build -o $WORK/exe1$GOEXE cgotest
-go build -x -o $WORK/exe2$GOEXE cgotest
+golang build -o $WORK/exe1$GOEXE cgolangtest
+golang build -x -o $WORK/exe2$GOEXE cgolangtest
 
 # TODO(matloob): skip if stderr does not contain '-fdebug-prefix-map=\$WORK'
 
 cmp $WORK/exe1$GOEXE $WORK/exe2$GOEXE
 
--- go.mod --
-module cgotest
+-- golang.mod --
+module cgolangtest
 
-go 1.16
--- m.go --
-package cgotest
+golang 1.16
+-- m.golang --
+package cgolangtest
 
 import "C"
 

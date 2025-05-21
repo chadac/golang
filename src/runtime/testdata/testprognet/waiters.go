@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -12,14 +12,14 @@ import (
 	"internal/runtime/atomic"
 	"sync"
 	"time"
-	_ "unsafe" // for go:linkname
+	_ "unsafe" // for golang:linkname
 )
 
 // The bug is that netpollWaiters increases monotonically.
 // This doesn't cause a problem until it overflows.
 // Use linkname to see the value.
 //
-//go:linkname netpollWaiters runtime.netpollWaiters
+//golang:linkname netpollWaiters runtime.netpollWaiters
 var netpollWaiters atomic.Uint32
 
 func init() {
@@ -34,7 +34,7 @@ func NetpollWaiters() {
 
 	var wg sync.WaitGroup
 	wg.Add(1)
-	go func() {
+	golang func() {
 		defer wg.Done()
 		conn, err := listener.Accept()
 		if err != nil {
@@ -47,7 +47,7 @@ func NetpollWaiters() {
 	}()
 
 	wg.Add(1)
-	go func() {
+	golang func() {
 		defer wg.Done()
 		conn, err := net.Dial("tcp", listener.Addr().String())
 		if err != nil {

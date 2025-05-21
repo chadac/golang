@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package build
@@ -11,15 +11,15 @@ import (
 	"testing"
 )
 
-// Prefixes for packages that can be vendored into the go repo.
-// The prefixes are component-wise; for example, "golang.org/x"
-// matches "golang.org/x/build" but not "golang.org/xyz".
+// Prefixes for packages that can be vendored into the golang repo.
+// The prefixes are component-wise; for example, "golanglang.org/x"
+// matches "golanglang.org/x/build" but not "golanglang.org/xyz".
 //
 // DO NOT ADD TO THIS LIST TO FIX BUILDS.
 // Vendoring a new package requires prior discussion.
 var allowedPackagePrefixes = []string{
-	"golang.org/x",
-	"github.com/google/pprof",
+	"golanglang.org/x",
+	"github.com/golangogle/pprof",
 	"github.com/ianlancetaylor/demangle",
 	"rsc.io/markdown",
 }
@@ -27,8 +27,8 @@ var allowedPackagePrefixes = []string{
 // Verify that the vendor directories contain only packages matching the list above.
 func TestVendorPackages(t *testing.T) {
 	_, thisFile, _, _ := runtime.Caller(0)
-	goBin := testenv.GoToolPath(t)
-	listCmd := testenv.Command(t, goBin, "list", "std", "cmd")
+	golangBin := testenv.GoToolPath(t)
+	listCmd := testenv.Command(t, golangBin, "list", "std", "cmd")
 	out, err := listCmd.Output()
 	if err != nil {
 		t.Fatal(err)
@@ -66,14 +66,14 @@ func TestIsAllowed(t *testing.T) {
 		want bool
 	}{
 		{"evil.com/bad", false},
-		{"golang.org/x/build", true},
+		{"golanglang.org/x/build", true},
 		{"rsc.io/markdown", true},
 		{"rsc.io/markdowntonabbey", false},
 		{"rsc.io/markdown/sub", true},
 	} {
-		got := isAllowed(test.in)
-		if got != test.want {
-			t.Errorf("%q: got %t, want %t", test.in, got, test.want)
+		golangt := isAllowed(test.in)
+		if golangt != test.want {
+			t.Errorf("%q: golangt %t, want %t", test.in, golangt, test.want)
 		}
 	}
 }

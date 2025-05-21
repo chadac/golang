@@ -1,11 +1,11 @@
 [!GOOS:windows] [short] stop 'this test only applies to Windows'
 env GO111MODULE=off
 
-go build run_go.go
-exec ./run_go$GOEXE $GOPATH $GOPATH/src/vend/hello
+golang build run_golang.golang
+exec ./run_golang$GOEXE $GOPATH $GOPATH/src/vend/hello
 stdout 'hello, world'
 
--- run_go.go --
+-- run_golang.golang --
 package main
 
 import (
@@ -22,11 +22,11 @@ func changeVolume(s string, f func(s string) string) string {
 }
 
 func main() {
-	gopath := changeVolume(os.Args[1], strings.ToLower)
+	golangpath := changeVolume(os.Args[1], strings.ToLower)
 	dir := changeVolume(os.Args[2], strings.ToUpper)
-	cmd := exec.Command("go", "run", "hello.go")
+	cmd := exec.Command("golang", "run", "hello.golang")
 	cmd.Dir = dir
-	cmd.Env = append(os.Environ(), "GOPATH="+gopath)
+	cmd.Env = append(os.Environ(), "GOPATH="+golangpath)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	if err := cmd.Run(); err != nil {
@@ -35,7 +35,7 @@ func main() {
 	}
 }
 
--- vend/hello/hello.go --
+-- vend/hello/hello.golang --
 package main
 
 import (
@@ -46,7 +46,7 @@ import (
 func main() {
 	fmt.Printf("%s\n", strings.Msg)
 }
--- vend/vendor/strings/msg.go --
+-- vend/vendor/strings/msg.golang --
 package strings
 
 var Msg = "hello, world"

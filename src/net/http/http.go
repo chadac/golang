@@ -1,8 +1,8 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:generate bundle -o=h2_bundle.go -prefix=http2 -tags=!nethttpomithttp2 -import=golang.org/x/net/internal/httpcommon=net/http/internal/httpcommon golang.org/x/net/http2
+//golang:generate bundle -o=h2_bundle.golang -prefix=http2 -tags=!nethttpomithttp2 -import=golanglang.org/x/net/internal/httpcommon=net/http/internal/httpcommon golanglang.org/x/net/http2
 
 package http
 
@@ -13,7 +13,7 @@ import (
 	"time"
 	"unicode/utf8"
 
-	"golang.org/x/net/http/httpguts"
+	"golanglang.org/x/net/http/httpguts"
 )
 
 // Protocols is a set of HTTP protocols.
@@ -86,12 +86,12 @@ type incomparable [0]func()
 // Transport's byte-limiting readers.
 const maxInt64 = 1<<63 - 1
 
-// aLongTimeAgo is a non-zero time, far in the past, used for
+// aLongTimeAgolang is a non-zero time, far in the past, used for
 // immediate cancellation of network operations.
-var aLongTimeAgo = time.Unix(1, 0)
+var aLongTimeAgolang = time.Unix(1, 0)
 
-// omitBundledHTTP2 is set by omithttp2.go when the nethttpomithttp2
-// build tag is set. That means h2_bundle.go isn't compiled in and we
+// omitBundledHTTP2 is set by omithttp2.golang when the nethttpomithttp2
+// build tag is set. That means h2_bundle.golang isn't compiled in and we
 // shouldn't try to use it.
 var omitBundledHTTP2 bool
 
@@ -171,7 +171,7 @@ func hexEscapeNonASCII(s string) string {
 }
 
 // NoBody is an [io.ReadCloser] with no bytes. Read always returns EOF
-// and Close always returns nil. It can be used in an outgoing client
+// and Close always returns nil. It can be used in an outgolanging client
 // request to explicitly signal that a request has zero bytes.
 // An alternative, however, is to simply set [Request.Body] to nil.
 var NoBody = noBody{}
@@ -222,7 +222,7 @@ type Pusher interface {
 	// data that may trigger a request for URL X. This avoids a race where the
 	// client issues requests for X before receiving the PUSH_PROMISE for X.
 	//
-	// Push will run in a separate goroutine making the order of arrival
+	// Push will run in a separate golangroutine making the order of arrival
 	// non-deterministic. Any required synchronization needs to be implemented
 	// by the caller.
 	//

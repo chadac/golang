@@ -1,16 +1,16 @@
 
 # Test of the linker's script test harness.
 
-go build
-[!cgo] skip
+golang build
+[!cgolang] skip
 cc -c testdata/mumble.c
 
--- go.mod --
+-- golang.mod --
 module main
 
-go 1.20
+golang 1.20
 
--- main.go --
+-- main.golang --
 package main
 
 func main() {

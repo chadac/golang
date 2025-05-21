@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package zstd
@@ -13,7 +13,7 @@ import (
 // and is Block_Size bytes long.
 type block []byte
 
-// bitReader reads a bit stream going forward.
+// bitReader reads a bit stream golanging forward.
 type bitReader struct {
 	r    *Reader // for error reporting
 	data block   // the bits to read

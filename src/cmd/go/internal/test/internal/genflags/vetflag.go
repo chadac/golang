@@ -1,12 +1,12 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package genflags
 
 import (
 	"bytes"
-	"cmd/go/internal/base"
+	"cmd/golang/internal/base"
 	"encoding/json"
 	"fmt"
 	"os/exec"
@@ -22,7 +22,7 @@ func VetAnalyzers() ([]string, error) {
 	out := new(bytes.Buffer)
 	vetcmd.Stdout = out
 	if err := vetcmd.Run(); err != nil {
-		return nil, fmt.Errorf("go vet: can't execute %s -flags: %v\n", tool, err)
+		return nil, fmt.Errorf("golang vet: can't execute %s -flags: %v\n", tool, err)
 	}
 	var analysisFlags []struct {
 		Name  string
@@ -30,7 +30,7 @@ func VetAnalyzers() ([]string, error) {
 		Usage string
 	}
 	if err := json.Unmarshal(out.Bytes(), &analysisFlags); err != nil {
-		return nil, fmt.Errorf("go vet: can't unmarshal JSON from %s -flags: %v", tool, err)
+		return nil, fmt.Errorf("golang vet: can't unmarshal JSON from %s -flags: %v", tool, err)
 	}
 
 	// parse the flags to figure out which ones stand for analyses

@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package foo_test
@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"time"
 
-	"golang.org/x/time/rate"
+	"golanglang.org/x/time/rate"
 )
 
 func Example() {

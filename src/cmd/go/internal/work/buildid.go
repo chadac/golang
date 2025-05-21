@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package work
@@ -12,11 +12,11 @@ import (
 	"strings"
 	"sync"
 
-	"cmd/go/internal/base"
-	"cmd/go/internal/cache"
-	"cmd/go/internal/cfg"
-	"cmd/go/internal/fsys"
-	"cmd/go/internal/str"
+	"cmd/golang/internal/base"
+	"cmd/golang/internal/cache"
+	"cmd/golang/internal/cfg"
+	"cmd/golang/internal/fsys"
+	"cmd/golang/internal/str"
 	"cmd/internal/buildid"
 	"cmd/internal/pathcache"
 	"cmd/internal/quoted"
@@ -29,7 +29,7 @@ import (
 // the action ID, which is a hash of the inputs to the action that produced
 // the packages or binary, and the content ID, which is a hash of the action
 // output, namely the archive or binary itself. The hash is the same one
-// used by the build artifact cache (see cmd/go/internal/cache), but
+// used by the build artifact cache (see cmd/golang/internal/cache), but
 // truncated when stored in packages and binaries, as the full length is not
 // needed and is a bit unwieldy. The precise form is
 //
@@ -66,12 +66,12 @@ import (
 // for the actual convergence sequence.
 //
 // The “one-element cache” purpose is a bit more complex for installed
-// binaries. For a binary, like cmd/gofmt, there are two steps: compile
-// cmd/gofmt/*.go into main.a, and then link main.a into the gofmt binary.
-// We do not install gofmt's main.a, only the gofmt binary. Being able to
-// decide that the gofmt binary is up-to-date means computing the action ID
-// for the final link of the gofmt binary and comparing it against the
-// already-installed gofmt binary. But computing the action ID for the link
+// binaries. For a binary, like cmd/golangfmt, there are two steps: compile
+// cmd/golangfmt/*.golang into main.a, and then link main.a into the golangfmt binary.
+// We do not install golangfmt's main.a, only the golangfmt binary. Being able to
+// decide that the golangfmt binary is up-to-date means computing the action ID
+// for the final link of the golangfmt binary and comparing it against the
+// already-installed golangfmt binary. But computing the action ID for the link
 // means knowing the content ID of main.a, which we did not keep.
 // To sidestep this problem, each binary actually stores an expanded build ID:
 //
@@ -85,7 +85,7 @@ import (
 // about the prefix or suffix halves ignore the middle and preserves the
 // original build ID as a contiguous string.)
 //
-// During the build, when it's time to build main.a, the gofmt binary has the
+// During the build, when it's time to build main.a, the golangfmt binary has the
 // information needed to decide whether the eventual link would produce
 // the same binary: if the action ID for main.a's inputs matches and then
 // the action ID for the link step matches when assuming the given main.a
@@ -123,8 +123,8 @@ func contentID(buildID string) string {
 // Unfortunately, we can't just open the tool binary, because the tool might be
 // invoked via a wrapper program specified by -toolexec and we don't know
 // what the wrapper program does. In particular, we want "-toolexec toolstash"
-// to continue working: it does no good if "-toolexec toolstash" is executing a
-// stashed copy of the compiler but the go command is acting as if it will run
+// to continue working: it does no golangod if "-toolexec toolstash" is executing a
+// stashed copy of the compiler but the golang command is acting as if it will run
 // the standard copy of the compiler. The solution is to ask the tool binary to tell
 // us its own build ID using the "-V=full" flag now supported by all tools.
 // Then we know we're getting the build ID of the compiler that will actually run
@@ -146,7 +146,7 @@ func contentID(buildID string) string {
 func (b *Builder) toolID(name string) string {
 	return b.toolIDCache.Do(name, func() string {
 		path := base.Tool(name)
-		desc := "go tool " + name
+		desc := "golang tool " + name
 
 		// Special case: undocumented -vettool overrides usual vet,
 		// for testing vet or supplying an alternative analysis tool.
@@ -164,26 +164,26 @@ func (b *Builder) toolID(name string) string {
 			if stderr.Len() > 0 {
 				os.Stderr.WriteString(stderr.String())
 			}
-			base.Fatalf("go: error obtaining buildID for %s: %v", desc, err)
+			base.Fatalf("golang: error obtaining buildID for %s: %v", desc, err)
 		}
 
 		line := stdout.String()
 		f := strings.Fields(line)
 		if len(f) < 3 || f[0] != name && path != VetTool || f[1] != "version" || strings.Contains(f[2], "devel") && !strings.HasPrefix(f[len(f)-1], "buildID=") {
-			base.Fatalf("go: parsing buildID from %s -V=full: unexpected output:\n\t%s", desc, line)
+			base.Fatalf("golang: parsing buildID from %s -V=full: unexpected output:\n\t%s", desc, line)
 		}
 		if strings.Contains(f[2], "devel") {
 			// On the development branch, use the content ID part of the build ID.
 			return contentID(f[len(f)-1])
 		}
-		// For a release, the output is like: "compile version go1.9.1 X:framepointer".
+		// For a release, the output is like: "compile version golang1.9.1 X:framepointer".
 		// Use the whole line.
 		return strings.TrimSpace(line)
 	})
 }
 
 // gccToolID returns the unique ID to use for a tool that is invoked
-// by the GCC driver. This is used particularly for gccgo, but this can also
+// by the GCC driver. This is used particularly for gccgolang, but this can also
 // be used for gcc, g++, gfortran, etc.; those tools all use the GCC
 // driver under different names. The approach used here should also
 // work for sufficiently new versions of clang. Unlike toolID, the
@@ -241,7 +241,7 @@ func (b *Builder) gccToolID(name, language string) (id, exe string, err error) {
 				// We require only that it begins with an ASCII digit,
 				// since we don't know what version numbering schemes a given
 				// C compiler may use. (Clang and GCC mostly seem to follow the scheme X.Y.Z,
-				// but in https://go.dev/issue/64619 we saw "8.3 [DragonFly]", and who knows
+				// but in https://golang.dev/issue/64619 we saw "8.3 [DragolangnFly]", and who knows
 				// what other C compilers like "zig cc" might report?)
 				next := fields[i+1]
 				if len(next) > 0 && next[0] >= '0' && next[0] <= '9' {
@@ -304,7 +304,7 @@ func (b *Builder) gccToolID(name, language string) (id, exe string, err error) {
 	return id, exe, nil
 }
 
-// Check if assembler used by gccgo is GNU as.
+// Check if assembler used by gccgolang is GNU as.
 func assemblerIsGas() bool {
 	cmd := exec.Command(BuildToolchain.compiler(), "-print-prog-name=as")
 	assembler, err := cmd.Output()
@@ -317,21 +317,21 @@ func assemblerIsGas() bool {
 	}
 }
 
-// gccgoBuildIDFile creates an assembler file that records the
+// gccgolangBuildIDFile creates an assembler file that records the
 // action's build ID in an SHF_EXCLUDE section for ELF files or
 // in a CSECT in XCOFF files.
-func (b *Builder) gccgoBuildIDFile(a *Action) (string, error) {
+func (b *Builder) gccgolangBuildIDFile(a *Action) (string, error) {
 	sfile := a.Objdir + "_buildid.s"
 
 	var buf bytes.Buffer
 	if cfg.Goos == "aix" {
-		fmt.Fprintf(&buf, "\t.csect .go.buildid[XO]\n")
+		fmt.Fprintf(&buf, "\t.csect .golang.buildid[XO]\n")
 	} else if (cfg.Goos != "solaris" && cfg.Goos != "illumos") || assemblerIsGas() {
-		fmt.Fprintf(&buf, "\t"+`.section .go.buildid,"e"`+"\n")
+		fmt.Fprintf(&buf, "\t"+`.section .golang.buildid,"e"`+"\n")
 	} else if cfg.Goarch == "sparc" || cfg.Goarch == "sparc64" {
-		fmt.Fprintf(&buf, "\t"+`.section ".go.buildid",#exclude`+"\n")
+		fmt.Fprintf(&buf, "\t"+`.section ".golang.buildid",#exclude`+"\n")
 	} else { // cfg.Goarch == "386" || cfg.Goarch == "amd64"
-		fmt.Fprintf(&buf, "\t"+`.section .go.buildid,#exclude`+"\n")
+		fmt.Fprintf(&buf, "\t"+`.section .golang.buildid,#exclude`+"\n")
 	}
 	fmt.Fprintf(&buf, "\t.byte ")
 	for i := 0; i < len(a.buildID); i++ {
@@ -394,10 +394,10 @@ func (b *Builder) fileHash(file string) string {
 }
 
 var (
-	counterCacheHit  = counter.New("go/buildcache/hit")
-	counterCacheMiss = counter.New("go/buildcache/miss")
+	counterCacheHit  = counter.New("golang/buildcache/hit")
+	counterCacheMiss = counter.New("golang/buildcache/miss")
 
-	stdlibRecompiled        = counter.New("go/buildcache/stdlib-recompiled")
+	stdlibRecompiled        = counter.New("golang/buildcache/stdlib-recompiled")
 	stdlibRecompiledIncOnce = sync.OnceFunc(stdlibRecompiled.Inc)
 )
 
@@ -519,7 +519,7 @@ func (b *Builder) useCache(a *Action, actionHash cache.ActionID, target string, 
 	// TODO(matloob): If we end up caching all executables, the test executable will
 	// already be cached so building it won't do any work. But for now we won't
 	// cache all executables and instead only want to cache some:
-	// we only cache executables produced for 'go run' (and soon, for 'go tool').
+	// we only cache executables produced for 'golang run' (and soon, for 'golang tool').
 	//
 	// Special case for linking a test binary: if the only thing we
 	// want the binary for is to run the test, and the test result is cached,
@@ -637,12 +637,12 @@ func (b *Builder) flushOutput(a *Action) {
 // updateBuildID computes the final content ID and updates the build IDs
 // in the binary.
 //
-// Keep in sync with src/cmd/buildid/buildid.go
+// Keep in sync with src/cmd/buildid/buildid.golang
 func (b *Builder) updateBuildID(a *Action, target string) error {
 	sh := b.Shell(a)
 
 	if cfg.BuildX || cfg.BuildN {
-		sh.ShowCmd("", "%s # internal", joinUnambiguously(str.StringList("go", "tool", "buildid", "-w", target)))
+		sh.ShowCmd("", "%s # internal", joinUnambiguously(str.StringList("golang", "tool", "buildid", "-w", target)))
 		if cfg.BuildN {
 			return nil
 		}
@@ -689,7 +689,7 @@ func (b *Builder) updateBuildID(a *Action, target string) error {
 		a.json.BuildID = a.buildID
 	}
 	if len(matches) == 0 {
-		// Assume the user specified -buildid= to override what we were going to choose.
+		// Assume the user specified -buildid= to override what we were golanging to choose.
 		return nil
 	}
 

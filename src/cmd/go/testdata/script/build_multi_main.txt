@@ -1,40 +1,40 @@
 # Verify build -o can output multiple executables to a directory.
 
 mkdir $WORK/bin
-go build -o $WORK/bin ./cmd/c1 ./cmd/c2
+golang build -o $WORK/bin ./cmd/c1 ./cmd/c2
 ! stderr 'multiple packages'
 
-! go build -o $WORK/bin ./pkg1 ./pkg1
+! golang build -o $WORK/bin ./pkg1 ./pkg1
 stderr 'no main packages'
 
-! go build ./cmd/c1
+! golang build ./cmd/c1
 stderr 'already exists and is a directory'
 
 # Verify build -o output correctly local packages
 mkdir $WORK/local
-go build -o $WORK/local ./exec.go
+golang build -o $WORK/local ./exec.golang
 exists $WORK/local/exec$GOEXE
 
--- go.mod --
+-- golang.mod --
 module exmod
 
--- cmd/c1/main.go --
+-- cmd/c1/main.golang --
 package main
 
 func main() {}
 
--- cmd/c2/main.go --
+-- cmd/c2/main.golang --
 package main
 
 func main() {}
 
--- pkg1/pkg1.go --
+-- pkg1/pkg1.golang --
 package pkg1
 
--- pkg2/pkg2.go --
+-- pkg2/pkg2.golang --
 package pkg2
 
--- exec.go --
+-- exec.golang --
 package main
 
 func main() {}

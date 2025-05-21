@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package x509
@@ -52,7 +52,7 @@ var pkcs8Ed25519PrivateKeyHex = `302e020100300506032b657004220420d4ee72dbf913584
 
 // Generated using:
 //
-//	openssl genpkey -algorithm x25519
+//	openssl genpkey -algolangrithm x25519
 var pkcs8X25519PrivateKeyHex = `302e020100300506032b656e0422042068ff93a73c5adefd6d498b24e588fd4daa10924d992afed01b43ca5725025a6b`
 
 func TestPKCS8(t *testing.T) {
@@ -128,7 +128,7 @@ func TestPKCS8(t *testing.T) {
 			continue
 		}
 		if !bytes.Equal(derBytes, reserialised) {
-			t.Errorf("%s: marshaled PKCS#8 didn't match original: got %x, want %x", test.name, reserialised, derBytes)
+			t.Errorf("%s: marshaled PKCS#8 didn't match original: golangt %x, want %x", test.name, reserialised, derBytes)
 			continue
 		}
 
@@ -146,7 +146,7 @@ func TestPKCS8(t *testing.T) {
 				continue
 			}
 			if !bytes.Equal(derBytes, reserialised) {
-				t.Errorf("%s: marshaled PKCS#8 didn't match original: got %x, want %x", test.name, reserialised, derBytes)
+				t.Errorf("%s: marshaled PKCS#8 didn't match original: golangt %x, want %x", test.name, reserialised, derBytes)
 				continue
 			}
 		}
@@ -169,7 +169,7 @@ func TestPKCS8MismatchKeyFormat(t *testing.T) {
 		derBytes, _ := hex.DecodeString(test.hexKey)
 		_, err := ParsePKCS8PrivateKey(derBytes)
 		if !strings.Contains(err.Error(), test.errorContains) {
-			t.Errorf("#%d: expected error containing %q, got %s", i, test.errorContains, err)
+			t.Errorf("#%d: expected error containing %q, golangt %s", i, test.errorContains, err)
 		}
 	}
 }

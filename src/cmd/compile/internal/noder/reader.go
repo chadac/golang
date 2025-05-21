@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package noder
@@ -7,7 +7,7 @@ package noder
 import (
 	"encoding/hex"
 	"fmt"
-	"go/constant"
+	"golang/constant"
 	"internal/buildcfg"
 	"internal/pkgbits"
 	"path/filepath"
@@ -273,7 +273,7 @@ func (pr *pkgReader) posBaseIdx(idx index) *src.PosBase {
 
 	// For build artifact stability, the export data format only
 	// contains the "absolute" filename as returned by objabi.AbsFile.
-	// However, some tests (e.g., test/run.go's asmcheck tests) expect
+	// However, some tests (e.g., test/run.golang's asmcheck tests) expect
 	// to see the full, original filename printed out. Re-expanding
 	// "$GOROOT" to buildcfg.GOROOT is a close-enough approximation to
 	// satisfy this.
@@ -282,7 +282,7 @@ func (pr *pkgReader) posBaseIdx(idx index) *src.PosBase {
 	// (for cross-operating-system reproducible builds),
 	// but error messages need to use native paths (backslash on Windows)
 	// as if they had been specified on the command line.
-	// (The go command always passes native paths to the compiler.)
+	// (The golang command always passes native paths to the compiler.)
 	const dollarGOROOT = "$GOROOT"
 	if buildcfg.GOROOT != "" && strings.HasPrefix(filename, dollarGOROOT) {
 		filename = filepath.FromSlash(buildcfg.GOROOT + filename[len(dollarGOROOT):])
@@ -536,7 +536,7 @@ func (r *reader) unionType() *types.Type {
 	// and this is enforced by the types2 type checker.
 	//
 	// However, type unions can still appear in pure interfaces if the
-	// type union is equivalent to "any". E.g., typeparam/issue52124.go
+	// type union is equivalent to "any". E.g., typeparam/issue52124.golang
 	// declares variables with the type "interface { any | int }".
 	//
 	// To avoid needing to represent type unions in types1 (since we
@@ -866,7 +866,7 @@ func (dict *readerDict) mangle(sym *types.Sym) *types.Sym {
 	}
 
 	// If sym is a locally defined generic type, we need the suffix to
-	// stay at the end after mangling so that types/fmt.go can strip it
+	// stay at the end after mangling so that types/fmt.golang can strip it
 	// out again when writing the type's runtime descriptor (#54456).
 	base, suffix := types.SplitVargenSuffix(sym.Name)
 
@@ -1153,7 +1153,7 @@ func (r *reader) funcExt(name *ir.Name, method *types.Sym) {
 		}
 		if exportname != "" {
 			if method != nil {
-				base.ErrorfAt(fn.Pos(), 0, "cannot use //go:wasmexport on a method")
+				base.ErrorfAt(fn.Pos(), 0, "cannot use //golang:wasmexport on a method")
 			}
 			fn.WasmExport = &ir.WasmExport{Name: exportname}
 		}
@@ -1439,7 +1439,7 @@ func (pr *pkgReader) dictNameOf(dict *readerDict) *ir.Name {
 		method := typecheck.NewMethodExpr(pos, typeParam, info.method)
 
 		rsym := method.FuncName().Linksym()
-		assert(rsym.ABI() == obj.ABIInternal) // must be ABIInternal; see ir.OCFUNC in ssagen/ssa.go
+		assert(rsym.ABI() == obj.ABIInternal) // must be ABIInternal; see ir.OCFUNC in ssagen/ssa.golang
 
 		ot = objw.SymPtr(lsym, ot, rsym, 0)
 	}
@@ -1803,7 +1803,7 @@ func (r *reader) assign() (ir.Node, bool) {
 
 	case assignDef:
 		pos := r.pos()
-		setBasePos(pos) // test/fixedbugs/issue49767.go depends on base.Pos being set for the r.typ() call here, ugh
+		setBasePos(pos) // test/fixedbugs/issue49767.golang depends on base.Pos being set for the r.typ() call here, ugh
 		name := r.curfn.NewLocal(pos, r.localIdent(), r.typ())
 		r.addLocal(name)
 		return name, true
@@ -1927,7 +1927,7 @@ func (r *reader) selectStmt(label *types.Sym) ir.Node {
 		body := r.stmts()
 
 		// "case i = <-c: ..." may require an implicit conversion (e.g.,
-		// see fixedbugs/bug312.go). Currently, typecheck throws away the
+		// see fixedbugs/bug312.golang). Currently, typecheck throws away the
 		// implicit conversion and relies on it being reinserted later,
 		// but that would lose any explicit RTTI operands too. To preserve
 		// RTTI, we rewrite this as "case tmp := <-c: i = tmp; ...".
@@ -2021,11 +2021,11 @@ func (r *reader) switchStmt(label *types.Sym) ir.Node {
 			cases = r.exprList()
 
 			// For `switch { case any(true): }` (e.g., issue 3980 in
-			// test/switch.go), the backend still creates a mixed bool/any
+			// test/switch.golang), the backend still creates a mixed bool/any
 			// comparison, and we need to explicitly supply the RTTI for the
 			// comparison.
 			//
-			// TODO(mdempsky): Change writer.go to desugar "switch {" into
+			// TODO(mdempsky): Change writer.golang to desugar "switch {" into
 			// "switch true {", which we already handle correctly.
 			if tag == nil {
 				for i, cas := range cases {
@@ -2162,12 +2162,12 @@ func (r *reader) expr() (res ir.Node) {
 		// and deduplicating wrapperFn value wrappers still works fine.
 		if wrapperFn, ok := wrapperFn.(*ir.SelectorExpr); ok && wrapperFn.Op() == ir.OMETHEXPR {
 			// The receiver expression we constructed may have a shape type.
-			// For example, in fixedbugs/issue54343.go, `New[int]()` is
-			// constructed as `New[go.shape.int](&.dict.New[int])`, which
-			// has type `*T[go.shape.int]`, not `*T[int]`.
+			// For example, in fixedbugs/issue54343.golang, `New[int]()` is
+			// constructed as `New[golang.shape.int](&.dict.New[int])`, which
+			// has type `*T[golang.shape.int]`, not `*T[int]`.
 			//
 			// However, the method we want to select here is `(*T[int]).M`,
-			// not `(*T[go.shape.int]).M`, so we need to manually convert
+			// not `(*T[golang.shape.int]).M`, so we need to manually convert
 			// the type back so that the OXDOT resolves correctly.
 			//
 			// TODO(mdempsky): Logically it might make more sense for
@@ -2239,7 +2239,7 @@ func (r *reader) expr() (res ir.Node) {
 		//
 		// N.B., we use implicits/deref/addr here as the source of truth
 		// rather than types.Identical, because the latter can be confused
-		// by tricky promoted methods (e.g., typeparam/mdempsky/21.go).
+		// by tricky promoted methods (e.g., typeparam/mdempsky/21.golang).
 		if wrapperFn != nil && len(implicits) == 0 && !deref && !addr {
 			if !types.Identical(recv, wrapperFn.Type().Param(0).Type) {
 				base.FatalfAt(pos, "want receiver type %v, but have method %L", recv, wrapperFn)
@@ -2357,13 +2357,13 @@ func (r *reader) expr() (res ir.Node) {
 				// calls that way where possible.
 				//
 				// There are also corner cases where semantically it's perhaps
-				// significant; e.g., fixedbugs/issue15975.go, #38634, #52025.
+				// significant; e.g., fixedbugs/issue15975.golang, #38634, #52025.
 
 				fun = typecheck.XDotMethod(method.Pos(), recv, method.Sel, true)
 			} else {
 				if recv.Type().IsInterface() {
-					// N.B., this happens currently for typeparam/issue51521.go
-					// and typeparam/typeswitch3.go.
+					// N.B., this happens currently for typeparam/issue51521.golang
+					// and typeparam/typeswitch3.golang.
 					if base.Flag.LowerM != 0 {
 						base.WarnfAt(method.Pos(), "imprecise interface call")
 					}
@@ -3257,11 +3257,11 @@ func (r *reader) op() ir.Op {
 // @@@ Package initialization
 
 func (r *reader) pkgInit(self *types.Pkg, target *ir.Package) {
-	cgoPragmas := make([][]string, r.Len())
-	for i := range cgoPragmas {
-		cgoPragmas[i] = r.Strings()
+	cgolangPragmas := make([][]string, r.Len())
+	for i := range cgolangPragmas {
+		cgolangPragmas[i] = r.Strings()
 	}
-	target.CgoPragmas = cgoPragmas
+	target.CgolangPragmas = cgolangPragmas
 
 	r.pkgInitOrder(target)
 
@@ -3524,7 +3524,7 @@ func unifiedInlineCall(callerfn *ir.Func, call *ir.CallExpr, fn *ir.Func, inlInd
 	// Add an inline mark just before the inlined body.
 	// This mark is inline in the code so that it's a reasonable spot
 	// to put a breakpoint. Not sure if that's really necessary or not
-	// (in which case it could go at the end of the function instead).
+	// (in which case it could golang at the end of the function instead).
 	// Note issue 28603.
 	init.Append(ir.NewInlineMarkStmt(call.Pos().WithIsStmt(), int64(r.inlTreeIndex)))
 
@@ -3615,7 +3615,7 @@ func (r *reader) inlReturn(ret *ir.ReturnStmt, retvars []*ir.Name) *ir.BlockStmt
 // fn.Inl.Dcl.
 func expandInline(fn *ir.Func, pri pkgReaderIndex) {
 	// TODO(mdempsky): Remove this function. It's currently needed by
-	// dwarfgen/dwarf.go:preInliningDcls, which requires fn.Inl.Dcl to
+	// dwarfgen/dwarf.golang:preInliningDcls, which requires fn.Inl.Dcl to
 	// create abstract function DIEs. But we should be able to provide it
 	// with the same information some other way.
 
@@ -4013,7 +4013,7 @@ func setBasePos(pos src.XPos) {
 // added to shaped functions.
 //
 // N.B., this variable name is known to Delve:
-// https://github.com/go-delve/delve/blob/cb91509630529e6055be845688fd21eb89ae8714/pkg/proc/eval.go#L28
+// https://github.com/golang-delve/delve/blob/cb91509630529e6055be845688fd21eb89ae8714/pkg/proc/eval.golang#L28
 const dictParamName = typecheck.LocalDictName
 
 // shapeSig returns a copy of fn's signature, except adding a

@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package asm
@@ -66,7 +66,7 @@ func TestExpr(t *testing.T) {
 		}
 		tok := p.next()
 		if test.atEOF && tok.ScanToken != scanner.EOF {
-			t.Errorf("%d: %q: at EOF got %s", i, test.input, tok)
+			t.Errorf("%d: %q: at EOF golangt %s", i, test.input, tok)
 		} else if !test.atEOF && tok.ScanToken == scanner.EOF {
 			t.Errorf("%d: %q: expected not EOF but at EOF", i, test.input)
 		}
@@ -101,12 +101,12 @@ func TestBadExpr(t *testing.T) {
 		err := runBadTest(i, test, t)
 		if err == nil {
 			if test.error != "" {
-				t.Errorf("#%d: %q: expected error %q; got none", i, test.input, test.error)
+				t.Errorf("#%d: %q: expected error %q; golangt none", i, test.input, test.error)
 			}
 			continue
 		}
 		if !strings.Contains(err.Error(), test.error) {
-			t.Errorf("#%d: expected error %q; got %q", i, test.error, err)
+			t.Errorf("#%d: expected error %q; golangt %q", i, test.error, err)
 			continue
 		}
 	}

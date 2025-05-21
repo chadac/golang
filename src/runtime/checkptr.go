@@ -1,5 +1,5 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
@@ -83,9 +83,9 @@ func checkptrArithmetic(p unsafe.Pointer, originals []unsafe.Pointer) {
 //   - github.com/bytedance/sonic
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname checkptrBase
+//golang:linkname checkptrBase
 func checkptrBase(p unsafe.Pointer) uintptr {
 	// stack
 	if gp := getg(); gp.stack.lo <= uintptr(p) && uintptr(p) < gp.stack.hi {

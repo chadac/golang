@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package elliptic
@@ -288,7 +288,7 @@ func TestP224BaseMult(t *testing.T) {
 		}
 		x, y := p224.ScalarBaseMult(k.Bytes())
 		if fmt.Sprintf("%x", x) != e.x || fmt.Sprintf("%x", y) != e.y {
-			t.Errorf("%d: bad output for k=%s: got (%x, %x), want (%s, %s)", i, e.k, x, y, e.x, e.y)
+			t.Errorf("%d: bad output for k=%s: golangt (%x, %x), want (%s, %s)", i, e.k, x, y, e.x, e.y)
 		}
 		if testing.Short() && i > 5 {
 			break
@@ -306,7 +306,7 @@ func TestP224GenericBaseMult(t *testing.T) {
 		}
 		x, y := p224.ScalarBaseMult(k.Bytes())
 		if fmt.Sprintf("%x", x) != e.x || fmt.Sprintf("%x", y) != e.y {
-			t.Errorf("%d: bad output for k=%s: got (%x, %x), want (%s, %s)", i, e.k, x, y, e.x, e.y)
+			t.Errorf("%d: bad output for k=%s: golangt (%x, %x), want (%s, %s)", i, e.k, x, y, e.x, e.y)
 		}
 		if testing.Short() && i > 5 {
 			break

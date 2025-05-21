@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package buffer
@@ -17,10 +17,10 @@ func Test(t *testing.T) {
 	b.WriteByte(',')
 	b.Write([]byte(" world"))
 
-	got := b.String()
+	golangt := b.String()
 	want := "hello, world"
-	if got != want {
-		t.Errorf("got %q, want %q", got, want)
+	if golangt != want {
+		t.Errorf("golangt %q, want %q", golangt, want)
 	}
 }
 
@@ -29,12 +29,12 @@ func TestAlloc(t *testing.T) {
 		t.Skip("skipping test in race mode")
 	}
 	testenv.SkipIfOptimizationOff(t)
-	got := int(testing.AllocsPerRun(5, func() {
+	golangt := int(testing.AllocsPerRun(5, func() {
 		b := New()
 		defer b.Free()
 		b.WriteString("not 1K worth of bytes")
 	}))
-	if got != 0 {
-		t.Errorf("got %d allocs, want 0", got)
+	if golangt != 0 {
+		t.Errorf("golangt %d allocs, want 0", golangt)
 	}
 }

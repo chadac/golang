@@ -1,8 +1,8 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build windows
+//golang:build windows
 
 // Package sysdll is an internal leaf package that records and reports
 // which Windows DLL names are used by Go itself. These DLLs are then

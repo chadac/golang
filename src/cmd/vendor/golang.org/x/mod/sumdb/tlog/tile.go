@@ -1,5 +1,5 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package tlog
@@ -34,7 +34,7 @@ import (
 // In this case, the level encodes into a tile path as the path element
 // "data" instead of "-1".
 //
-// See also https://golang.org/design/25530-sumdb#checksum-database
+// See also https://golanglang.org/design/25530-sumdb#checksum-database
 // and https://research.swtch.com/tlog#tiling_a_log.
 type Tile struct {
 	H int   // height of tile (1 ≤ H ≤ 30)
@@ -239,7 +239,7 @@ func (e *badPathError) Error() string {
 	return fmt.Sprintf("malformed tile path %q", e.path)
 }
 
-// A TileReader reads tiles from a go.sum database log.
+// A TileReader reads tiles from a golang.sum database log.
 type TileReader interface {
 	// Height returns the height of the available tiles.
 	Height() int

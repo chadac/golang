@@ -1,8 +1,8 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Package godebug makes the settings in the $GODEBUG environment variable
+// Package golangdebug makes the settings in the $GODEBUG environment variable
 // available to other packages. These settings are often used for compatibility
 // tweaks, when we need to change a default behavior but want to let users
 // opt back in to the original. For example GODEBUG=http2server=0 disables
@@ -11,7 +11,7 @@
 // In typical usage, code should declare a Setting as a global
 // and then call Value each time the current setting value is needed:
 //
-//	var http2server = godebug.New("http2server")
+//	var http2server = golangdebug.New("http2server")
 //
 //	func ServeConn(c net.Conn) {
 //		if http2server.Value() == "0" {
@@ -26,35 +26,35 @@
 // be reported by [runtime/metrics.Read]. The call must only happen when
 // the program executes a non-default behavior, not just when the setting
 // is set to a non-default value. This is occasionally (but very rarely)
-// infeasible, in which case the internal/godebugs table entry must set
-// Opaque: true, and the documentation in doc/godebug.md should
+// infeasible, in which case the internal/golangdebugs table entry must set
+// Opaque: true, and the documentation in doc/golangdebug.md should
 // mention that metrics are unavailable.
 //
-// Conventionally, the global variable representing a godebug is named
-// for the godebug itself, with no case changes:
+// Conventionally, the global variable representing a golangdebug is named
+// for the golangdebug itself, with no case changes:
 //
-//	var gotypesalias = godebug.New("gotypesalias") // this
-//	var goTypesAlias = godebug.New("gotypesalias") // NOT THIS
+//	var golangtypesalias = golangdebug.New("golangtypesalias") // this
+//	var golangTypesAlias = golangdebug.New("golangtypesalias") // NOT THIS
 //
-// The test in internal/godebugs that checks for use of IncNonDefault
+// The test in internal/golangdebugs that checks for use of IncNonDefault
 // requires the use of this convention.
 //
 // Note that counters used with IncNonDefault must be added to
 // various tables in other packages. See the [Setting.IncNonDefault]
 // documentation for details.
-package godebug
+package golangdebug
 
 // Note: Be careful about new imports here. Any package
-// that internal/godebug imports cannot itself import internal/godebug,
+// that internal/golangdebug imports cannot itself import internal/golangdebug,
 // meaning it cannot introduce a GODEBUG setting of its own.
 // We keep imports to the absolute bare minimum.
 import (
 	"internal/bisect"
-	"internal/godebugs"
+	"internal/golangdebugs"
 	"sync"
 	"sync/atomic"
 	"unsafe"
-	_ "unsafe" // go:linkname
+	_ "unsafe" // golang:linkname
 )
 
 // A Setting is a single setting in the $GODEBUG environment variable.
@@ -68,7 +68,7 @@ type setting struct {
 	value          atomic.Pointer[value]
 	nonDefaultOnce sync.Once
 	nonDefault     atomic.Uint64
-	info           *godebugs.Info
+	info           *golangdebugs.Info
 }
 
 type value struct {
@@ -78,18 +78,18 @@ type value struct {
 
 // New returns a new Setting for the $GODEBUG setting with the given name.
 //
-// GODEBUGs meant for use by end users must be listed in ../godebugs/table.go,
+// GODEBUGs meant for use by end users must be listed in ../golangdebugs/table.golang,
 // which is used for generating and checking various documentation.
 // If the name is not listed in that table, New will succeed but calling Value
 // on the returned Setting will panic.
 // To disable that panic for access to an undocumented setting,
-// prefix the name with a #, as in godebug.New("#gofsystrace").
+// prefix the name with a #, as in golangdebug.New("#golangfsystrace").
 // The # is a signal to New but not part of the key used in $GODEBUG.
 //
 // Note that almost all settings should arrange to call [IncNonDefault] precisely
 // when program behavior is changing from the default due to the setting
 // (not just when the setting is different, but when program behavior changes).
-// See the [internal/godebug] package comment for more.
+// See the [internal/golangdebug] package comment for more.
 func New(name string) *Setting {
 	return &Setting{name: name}
 }
@@ -115,7 +115,7 @@ func (s *Setting) String() string {
 // IncNonDefault increments the non-default behavior counter
 // associated with the given setting.
 // This counter is exposed in the runtime/metrics value
-// /godebug/non-default-behavior/<name>:events.
+// /golangdebug/non-default-behavior/<name>:events.
 //
 // Note that Value must be called at least once before IncNonDefault.
 func (s *Setting) IncNonDefault() {
@@ -125,9 +125,9 @@ func (s *Setting) IncNonDefault() {
 
 func (s *Setting) register() {
 	if s.info == nil || s.info.Opaque {
-		panic("godebug: unexpected IncNonDefault of " + s.name)
+		panic("golangdebug: unexpected IncNonDefault of " + s.name)
 	}
-	registerMetric("/godebug/non-default-behavior/"+s.Name()+":events", s.nonDefault.Load)
+	registerMetric("/golangdebug/non-default-behavior/"+s.Name()+":events", s.nonDefault.Load)
 }
 
 // cache is a cache of all the GODEBUG settings,
@@ -158,7 +158,7 @@ func (s *Setting) Value() string {
 	s.once.Do(func() {
 		s.setting = lookup(s.Name())
 		if s.info == nil && !s.Undocumented() {
-			panic("godebug: Value of name not listed in godebugs.All: " + s.name)
+			panic("golangdebug: Value of name not listed in golangdebugs.All: " + s.name)
 		}
 	})
 	v := *s.value.Load()
@@ -174,7 +174,7 @@ func lookup(name string) *setting {
 		return v.(*setting)
 	}
 	s := new(setting)
-	s.info = godebugs.Lookup(name)
+	s.info = golangdebugs.Lookup(name)
 	s.value.Store(&empty)
 	if v, loaded := cache.LoadOrStore(name, s); loaded {
 		// Lost race: someone else created it. Use theirs.
@@ -191,13 +191,13 @@ func lookup(name string) *setting {
 // again each time the environment variable changes
 // (due to use of os.Setenv, for example).
 //
-//go:linkname setUpdate
+//golang:linkname setUpdate
 func setUpdate(update func(string, string))
 
 // registerMetric is provided by package runtime.
 // It forwards registrations to runtime/metrics.
 //
-//go:linkname registerMetric
+//golang:linkname registerMetric
 func registerMetric(name string, read func() uint64)
 
 // setNewIncNonDefault is provided by package runtime.
@@ -207,11 +207,11 @@ func registerMetric(name string, read func() uint64)
 //
 // instead of
 //
-//	inc := godebug.New(name).IncNonDefault
+//	inc := golangdebug.New(name).IncNonDefault
 //
-// since it cannot import godebug.
+// since it cannot import golangdebug.
 //
-//go:linkname setNewIncNonDefault
+//golang:linkname setNewIncNonDefault
 func setNewIncNonDefault(newIncNonDefault func(string) func())
 
 func init() {
@@ -264,7 +264,7 @@ func update(def, env string) {
 // It also sets did[k] = true for settings that it updates.
 // Each value v can also have the form v#pattern,
 // in which case the GODEBUG is only enabled for call stacks
-// matching pattern, for use with golang.org/x/tools/cmd/bisect.
+// matching pattern, for use with golanglang.org/x/tools/cmd/bisect.
 func parse(did map[string]bool, s string) {
 	// Scan the string backward so that later settings are used
 	// and earlier settings are ignored.
@@ -312,5 +312,5 @@ func (*runtimeStderr) Write(b []byte) (int, error) {
 // Since we cannot import os or syscall, use the runtime's write function
 // to print to standard error.
 //
-//go:linkname write runtime.write
+//golang:linkname write runtime.write
 func write(fd uintptr, p unsafe.Pointer, n int32) int32

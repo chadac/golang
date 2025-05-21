@@ -1,15 +1,15 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 //
 // System calls and other sys.stuff for AMD64, FreeBSD
 // /usr/src/sys/kern/syscalls.master for syscall numbers.
 //
 
-#include "go_asm.h"
-#include "go_tls.h"
+#include "golang_asm.h"
+#include "golang_tls.h"
 #include "textflag.h"
-#include "cgo/abi_amd64.h"
+#include "cgolang/abi_amd64.h"
 
 TEXT runtime·sys_umtx_sleep(SB),NOSPLIT,$0
 	MOVQ addr+0(FP), DI		// arg 1 - ptr
@@ -112,7 +112,7 @@ TEXT runtime·read(SB),NOSPLIT,$-8
 // func pipe2(flags int32) (r, w int32, errno int32)
 TEXT runtime·pipe2(SB),NOSPLIT,$0-20
 	MOVL	$0, DI
-	// dragonfly expects flags as the 2nd argument
+	// dragolangnfly expects flags as the 2nd argument
 	MOVL	flags+0(FP), SI
 	MOVL	$538, AX
 	SYSCALL
@@ -237,7 +237,7 @@ TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME|NOFRAME,$0
 	MOVQ	DI, AX	// sig
 	MOVQ	SI, BX	// info
 	MOVQ	DX, CX	// ctx
-	CALL	·sigtrampgo<ABIInternal>(SB)
+	CALL	·sigtrampgolang<ABIInternal>(SB)
 
 	ADJSP	$-24
 

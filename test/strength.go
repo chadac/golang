@@ -1,7 +1,7 @@
 // runoutput
 
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Generate test of strength reduction for multiplications
@@ -17,9 +17,9 @@ func testMul(fact, bits int) string {
 
 	want := 0
 	for i := 0; i < 200; i++ {
-		fmt.Printf(`	if want, got := int%d(%d), s*%d; want != got {
+		fmt.Printf(`	if want, golangt := int%d(%d), s*%d; want != golangt {
 		failed = true
-		fmt.Printf("got %d * %%d == %%d, wanted %d\n",  s, got)
+		fmt.Printf("golangt %d * %%d == %%d, wanted %d\n",  s, golangt)
 	}
 `, bits, want, i, i, want)
 		want += fact

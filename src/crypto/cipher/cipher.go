@@ -1,10 +1,10 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package cipher implements standard block cipher modes that can be wrapped
 // around low-level block cipher implementations.
-// See https://csrc.nist.gov/groups/ST/toolkit/BCM/current_modes.html
+// See https://csrc.nist.golangv/groups/ST/toolkit/BCM/current_modes.html
 // and NIST Special Publication 800-38A.
 package cipher
 

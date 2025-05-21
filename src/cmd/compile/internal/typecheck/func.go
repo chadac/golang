@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package typecheck
@@ -11,8 +11,8 @@ import (
 	"cmd/internal/src"
 
 	"fmt"
-	"go/constant"
-	"go/token"
+	"golang/constant"
+	"golang/token"
 )
 
 // MakeDotArgs package all the arguments that match a ... T parameter into a []T.
@@ -802,7 +802,7 @@ func tcUnsafeSlice(n *ir.BinaryExpr) *ir.BinaryExpr {
 	} else if t.Elem().NotInHeap() {
 		// TODO(mdempsky): This can be relaxed, but should only affect the
 		// Go runtime itself. End users should only see not-in-heap
-		// types due to incomplete C structs in cgo, and those types don't
+		// types due to incomplete C structs in cgolang, and those types don't
 		// have a meaningful size anyway.
 		base.Errorf("unsafe.Slice of incomplete (or unallocatable) type not allowed")
 	}

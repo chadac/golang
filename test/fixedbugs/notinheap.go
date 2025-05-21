@@ -1,18 +1,18 @@
 // errorcheck -+
 
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test type-checking errors for not-in-heap types.
 
-//go:build cgo
+//golang:build cgolang
 
 package p
 
-import "runtime/cgo"
+import "runtime/cgolang"
 
-type nih struct{ _ cgo.Incomplete }
+type nih struct{ _ cgolang.Incomplete }
 
 type embed4 map[nih]int // ERROR "incomplete \(or unallocatable\) map key not allowed"
 

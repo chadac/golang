@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package http
@@ -110,7 +110,7 @@ func TestHeaderWrite(t *testing.T) {
 	for i, test := range headerWriteTests {
 		test.h.WriteSubset(&buf, test.exclude)
 		if buf.String() != test.expected {
-			t.Errorf("#%d:\n got: %q\nwant: %q", i, buf.String(), test.expected)
+			t.Errorf("#%d:\n golangt: %q\nwant: %q", i, buf.String(), test.expected)
 		}
 		buf.Reset()
 	}
@@ -134,7 +134,7 @@ func TestParseTime(t *testing.T) {
 		d, err := ParseTime(test.h.Get("Date"))
 		if err != nil {
 			if !test.err {
-				t.Errorf("#%d:\n got err: %v", i, err)
+				t.Errorf("#%d:\n golangt err: %v", i, err)
 			}
 			continue
 		}
@@ -143,7 +143,7 @@ func TestParseTime(t *testing.T) {
 			continue
 		}
 		if !expect.Equal(d) {
-			t.Errorf("#%d:\n got: %v\nwant: %v", i, d, expect)
+			t.Errorf("#%d:\n golangt: %v\nwant: %v", i, d, expect)
 		}
 	}
 }
@@ -195,7 +195,7 @@ func TestNilHeaderClone(t *testing.T) {
 	t1 := Header(nil)
 	t2 := t1.Clone()
 	if t2 != nil {
-		t.Errorf("cloned header does not match original: got: %+v; want: %+v", t2, nil)
+		t.Errorf("cloned header does not match original: golangt: %+v; want: %+v", t2, nil)
 	}
 }
 
@@ -258,15 +258,15 @@ func TestCloneOrMakeHeader(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got := cloneOrMakeHeader(tt.in)
-			if got == nil {
+			golangt := cloneOrMakeHeader(tt.in)
+			if golangt == nil {
 				t.Fatal("unexpected nil Header")
 			}
-			if !reflect.DeepEqual(got, tt.want) {
-				t.Fatalf("Got:  %#v\nWant: %#v", got, tt.want)
+			if !reflect.DeepEqual(golangt, tt.want) {
+				t.Fatalf("Got:  %#v\nWant: %#v", golangt, tt.want)
 			}
-			got.Add("A", "B")
-			got.Get("A")
+			golangt.Add("A", "B")
+			golangt.Get("A")
 		})
 	}
 }

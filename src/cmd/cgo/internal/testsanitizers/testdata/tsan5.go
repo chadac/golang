@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -7,8 +7,8 @@ package main
 // Check that calls to C.malloc/C.free do not collide with the calls
 // made by the os/user package.
 
-// #cgo CFLAGS: -fsanitize=thread
-// #cgo LDFLAGS: -fsanitize=thread
+// #cgolang CFLAGS: -fsanitize=thread
+// #cgolang LDFLAGS: -fsanitize=thread
 // #include <stdlib.h>
 import "C"
 
@@ -31,14 +31,14 @@ func main() {
 	var wg sync.WaitGroup
 	for i := 0; i < 20; i++ {
 		wg.Add(2)
-		go func() {
+		golang func() {
 			defer wg.Done()
 			for i := 0; i < 1000; i++ {
 				user.Lookup(u.Username)
 				runtime.Gosched()
 			}
 		}()
-		go func() {
+		golang func() {
 			defer wg.Done()
 			for i := 0; i < 1000; i++ {
 				p := C.malloc(C.size_t(len(u.Username) + 1))

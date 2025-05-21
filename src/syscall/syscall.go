@@ -1,11 +1,11 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package syscall contains an interface to the low-level operating system
 // primitives. The details vary depending on the underlying system, and
-// by default, godoc will display the syscall documentation for the current
-// system. If you want godoc to display syscall documentation for another
+// by default, golangdoc will display the syscall documentation for the current
+// system. If you want golangdoc to display syscall documentation for another
 // system, set $GOOS and $GOARCH to the desired system. For example, if
 // you want to view documentation for freebsd/arm on linux/amd64, set $GOOS
 // to freebsd and $GOARCH to arm.
@@ -19,15 +19,15 @@
 // On most systems, that error has type [Errno].
 //
 // NOTE: Most of the functions, types, and constants defined in
-// this package are also available in the [golang.org/x/sys] package.
+// this package are also available in the [golanglang.org/x/sys] package.
 // That package has more system call support than this one,
 // and most new code should prefer that package where possible.
-// See https://golang.org/s/go1.4-syscall for more information.
+// See https://golanglang.org/s/golang1.4-syscall for more information.
 package syscall
 
 import "internal/bytealg"
 
-//go:generate go run ./mksyscall_windows.go -systemdll -output zsyscall_windows.go syscall_windows.go security_windows.go
+//golang:generate golang run ./mksyscall_windows.golang -systemdll -output zsyscall_windows.golang syscall_windows.golang security_windows.golang
 
 // StringByteSlice converts a string to a NUL-terminated []byte,
 // If s contains a NUL byte this function panics instead of

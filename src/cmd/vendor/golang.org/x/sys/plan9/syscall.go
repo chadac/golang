@@ -1,13 +1,13 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build plan9
+//golang:build plan9
 
 // Package plan9 contains an interface to the low-level operating system
 // primitives. OS details vary depending on the underlying system, and
-// by default, godoc will display the OS-specific documentation for the current
-// system. If you want godoc to display documentation for another
+// by default, golangdoc will display the OS-specific documentation for the current
+// system. If you want golangdoc to display documentation for another
 // system, set $GOOS and $GOARCH to the desired system. For example, if
 // you want to view documentation for freebsd/arm on linux/amd64, set $GOOS
 // to freebsd and $GOARCH to arm.
@@ -22,7 +22,7 @@
 // These calls return err == nil to indicate success; otherwise
 // err represents an operating system error describing the failure and
 // holds a value of type syscall.ErrorString.
-package plan9 // import "golang.org/x/sys/plan9"
+package plan9 // import "golanglang.org/x/sys/plan9"
 
 import (
 	"bytes"
@@ -105,5 +105,5 @@ func (tv *Timeval) Nano() int64 {
 // use is a no-op, but the compiler cannot see that it is.
 // Calling use(p) ensures that p is kept live until that point.
 //
-//go:noescape
+//golang:noescape
 func use(p unsafe.Pointer)

@@ -1,8 +1,8 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// The C definitions for tracebackctxt.go. That file uses //export so
+// The C definitions for tracebackctxt.golang. That file uses //export so
 // it can't put function definitions in the "C" import comment.
 
 #include <stdlib.h>
@@ -22,18 +22,18 @@ void C2() {
 	G2();
 }
 
-struct cgoContextArg {
+struct cgolangContextArg {
 	uintptr_t context;
 };
 
-struct cgoTracebackArg {
+struct cgolangTracebackArg {
 	uintptr_t  context;
 	uintptr_t  sigContext;
 	uintptr_t* buf;
 	uintptr_t  max;
 };
 
-struct cgoSymbolizerArg {
+struct cgolangSymbolizerArg {
 	uintptr_t   pc;
 	const char* file;
 	uintptr_t   lineno;
@@ -53,7 +53,7 @@ int getContextCount() {
 }
 
 void tcContext(void* parg) {
-	struct cgoContextArg* arg = (struct cgoContextArg*)(parg);
+	struct cgolangContextArg* arg = (struct cgolangContextArg*)(parg);
 	if (arg->context == 0) {
 		arg->context = __sync_add_and_fetch(&contextCount, 1);
 	} else {
@@ -65,7 +65,7 @@ void tcContext(void* parg) {
 }
 
 void tcContextSimple(void* parg) {
-	struct cgoContextArg* arg = (struct cgoContextArg*)(parg);
+	struct cgolangContextArg* arg = (struct cgolangContextArg*)(parg);
 	if (arg->context == 0) {
 		arg->context = 1;
 	}
@@ -73,7 +73,7 @@ void tcContextSimple(void* parg) {
 
 void tcTraceback(void* parg) {
 	int base, i;
-	struct cgoTracebackArg* arg = (struct cgoTracebackArg*)(parg);
+	struct cgolangTracebackArg* arg = (struct cgolangTracebackArg*)(parg);
 	if (arg->context == 0 && arg->sigContext == 0) {
 		// This shouldn't happen in this program.
 		abort();
@@ -88,13 +88,13 @@ void tcTraceback(void* parg) {
 }
 
 void tcSymbolizer(void *parg) {
-	struct cgoSymbolizerArg* arg = (struct cgoSymbolizerArg*)(parg);
+	struct cgolangSymbolizerArg* arg = (struct cgolangSymbolizerArg*)(parg);
 	if (arg->pc == 0) {
 		return;
 	}
 	// Report two lines per PC returned by traceback, to test more handling.
 	arg->more = arg->file == NULL;
-	arg->file = "tracebackctxt.go";
+	arg->file = "tracebackctxt.golang";
 	arg->func = "cFunction";
 	arg->lineno = arg->pc + (arg->more << 16);
 }

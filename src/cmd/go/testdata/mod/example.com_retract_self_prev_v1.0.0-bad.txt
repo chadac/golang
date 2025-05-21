@@ -5,10 +5,10 @@ This version is retracted.
 -- .mod --
 module example.com/retract/self/prev
 
-go 1.15
+golang 1.15
 
 -- .info --
 {"Version":"v1.0.0-bad"}
 
--- p.go --
+-- p.golang --
 package p

@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package coverage
@@ -127,7 +127,7 @@ func metaHashAndLen() ([16]byte, int) {
 	// Read meta-data hash from config entry.
 	mhash := base.Flag.Cfg.CoverageInfo.MetaHash
 	if len(mhash) != 32 {
-		base.Fatalf("unexpected: got metahash length %d want 32", len(mhash))
+		base.Fatalf("unexpected: golangt metahash length %d want 32", len(mhash))
 	}
 	var hv [16]byte
 	for i := 0; i < 16; i++ {

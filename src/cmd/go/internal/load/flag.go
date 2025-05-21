@@ -1,11 +1,11 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package load
 
 import (
-	"cmd/go/internal/base"
+	"cmd/golang/internal/base"
 	"cmd/internal/quoted"
 	"fmt"
 	"strings"
@@ -15,12 +15,12 @@ var (
 	BuildAsmflags   PerPackageFlag // -asmflags
 	BuildGcflags    PerPackageFlag // -gcflags
 	BuildLdflags    PerPackageFlag // -ldflags
-	BuildGccgoflags PerPackageFlag // -gccgoflags
+	BuildGccgolangflags PerPackageFlag // -gccgolangflags
 )
 
 // A PerPackageFlag is a command-line flag implementation (a flag.Value)
 // that allows specifying different effective flags for different packages.
-// See 'go help build' for more details about per-package flags.
+// See 'golang help build' for more details about per-package flags.
 type PerPackageFlag struct {
 	raw     string
 	present bool

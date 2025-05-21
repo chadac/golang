@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package typeparams
@@ -7,12 +7,12 @@ package typeparams
 import (
 	"errors"
 	"fmt"
-	"go/types"
+	"golang/types"
 	"os"
 	"strings"
 )
 
-//go:generate go run copytermlist.go
+//golang:generate golang run copytermlist.golang
 
 const debug = false
 
@@ -211,8 +211,8 @@ func computeTermSetInternal(t types.Type, seen map[types.Type]*termSet, depth in
 	return tset, nil
 }
 
-// under is a facade for the go/types internal function of the same name. It is
-// used by typeterm.go.
+// under is a facade for the golang/types internal function of the same name. It is
+// used by typeterm.golang.
 func under(t types.Type) types.Type {
 	return t.Underlying()
 }

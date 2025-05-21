@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package sync_test
@@ -18,7 +18,7 @@ func TestCondSignal(t *testing.T) {
 	running := make(chan bool, n)
 	awake := make(chan bool, n)
 	for i := 0; i < n; i++ {
-		go func() {
+		golang func() {
 			m.Lock()
 			running <- true
 			c.Wait()
@@ -32,16 +32,16 @@ func TestCondSignal(t *testing.T) {
 	for n > 0 {
 		select {
 		case <-awake:
-			t.Fatal("goroutine not asleep")
+			t.Fatal("golangroutine not asleep")
 		default:
 		}
 		m.Lock()
 		c.Signal()
 		m.Unlock()
-		<-awake // Will deadlock if no goroutine wakes up
+		<-awake // Will deadlock if no golangroutine wakes up
 		select {
 		case <-awake:
-			t.Fatal("too many goroutines awake")
+			t.Fatal("too many golangroutines awake")
 		default:
 		}
 		n--
@@ -56,7 +56,7 @@ func TestCondSignalGenerations(t *testing.T) {
 	running := make(chan bool, n)
 	awake := make(chan int, n)
 	for i := 0; i < n; i++ {
-		go func(i int) {
+		golang func(i int) {
 			m.Lock()
 			running <- true
 			c.Wait()
@@ -66,7 +66,7 @@ func TestCondSignalGenerations(t *testing.T) {
 		if i > 0 {
 			a := <-awake
 			if a != i-1 {
-				t.Fatalf("wrong goroutine woke up: want %d, got %d", i-1, a)
+				t.Fatalf("wrong golangroutine woke up: want %d, golangt %d", i-1, a)
 			}
 		}
 		<-running
@@ -84,7 +84,7 @@ func TestCondBroadcast(t *testing.T) {
 	awake := make(chan int, n)
 	exit := false
 	for i := 0; i < n; i++ {
-		go func(g int) {
+		golang func(g int) {
 			m.Lock()
 			for !exit {
 				running <- g
@@ -105,7 +105,7 @@ func TestCondBroadcast(t *testing.T) {
 		}
 		select {
 		case <-awake:
-			t.Fatal("goroutine not asleep")
+			t.Fatal("golangroutine not asleep")
 		default:
 		}
 		m.Lock()
@@ -115,14 +115,14 @@ func TestCondBroadcast(t *testing.T) {
 		for i := 0; i < n; i++ {
 			g := <-awake
 			if seen[g] {
-				t.Fatal("goroutine woke up twice")
+				t.Fatal("golangroutine woke up twice")
 			}
 			seen[g] = true
 		}
 	}
 	select {
 	case <-running:
-		t.Fatal("goroutine did not exit")
+		t.Fatal("golangroutine did not exit")
 	default:
 	}
 	c.Broadcast()
@@ -132,7 +132,7 @@ func TestRace(t *testing.T) {
 	x := 0
 	c := NewCond(&Mutex{})
 	done := make(chan bool)
-	go func() {
+	golang func() {
 		c.L.Lock()
 		x = 1
 		c.Wait()
@@ -144,7 +144,7 @@ func TestRace(t *testing.T) {
 		c.L.Unlock()
 		done <- true
 	}()
-	go func() {
+	golang func() {
 		c.L.Lock()
 		for {
 			if x == 1 {
@@ -159,7 +159,7 @@ func TestRace(t *testing.T) {
 		c.L.Unlock()
 		done <- true
 	}()
-	go func() {
+	golang func() {
 		c.L.Lock()
 		for {
 			if x == 2 {
@@ -191,7 +191,7 @@ func TestCondSignalStealing(t *testing.T) {
 
 		// Start a waiter.
 		ch := make(chan struct{})
-		go func() {
+		golang func() {
 			m.Lock()
 			ch <- struct{}{}
 			cond.Wait()
@@ -208,17 +208,17 @@ func TestCondSignalStealing(t *testing.T) {
 		// synchronized with it, then acquired/released the mutex it was
 		// holding when we synchronized.
 		//
-		// Start two goroutines that will race: one will broadcast on
+		// Start two golangroutines that will race: one will broadcast on
 		// the cond var, the other will wait on it.
 		//
 		// The new waiter may or may not get notified, but the first one
 		// has to be notified.
 		done := false
-		go func() {
+		golang func() {
 			cond.Broadcast()
 		}()
 
-		go func() {
+		golang func() {
 			m.Lock()
 			for !done {
 				cond.Wait()
@@ -242,7 +242,7 @@ func TestCondCopy(t *testing.T) {
 	defer func() {
 		err := recover()
 		if err == nil || err.(string) != "sync.Cond is copied" {
-			t.Fatalf("got %v, expect sync.Cond is copied", err)
+			t.Fatalf("golangt %v, expect sync.Cond is copied", err)
 		}
 	}()
 	c := Cond{L: &Mutex{}}
@@ -282,7 +282,7 @@ func benchmarkCond(b *testing.B, waiters int) {
 	id := 0
 
 	for routine := 0; routine < waiters+1; routine++ {
-		go func() {
+		golang func() {
 			for i := 0; i < b.N; i++ {
 				c.L.Lock()
 				if id == -1 {

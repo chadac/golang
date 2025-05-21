@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package base
@@ -8,8 +8,8 @@ import (
 	"flag"
 	"fmt"
 
-	"cmd/go/internal/cfg"
-	"cmd/go/internal/fsys"
+	"cmd/golang/internal/cfg"
+	"cmd/golang/internal/fsys"
 	"cmd/internal/quoted"
 )
 
@@ -60,7 +60,7 @@ func AddBuildFlagsNX(flags *flag.FlagSet) {
 
 // AddChdirFlag adds the -C flag to the flag set.
 func AddChdirFlag(flags *flag.FlagSet) {
-	// The usage message is never printed, but it's used in chdir_test.go
+	// The usage message is never printed, but it's used in chdir_test.golang
 	// to identify that the -C flag is from AddChdirFlag.
 	flags.Func("C", "AddChdirFlag", ChdirFlag)
 }
@@ -71,7 +71,7 @@ func AddModFlag(flags *flag.FlagSet) {
 }
 
 // AddModCommonFlags adds the module-related flags common to build commands
-// and 'go mod' subcommands.
+// and 'golang mod' subcommands.
 func AddModCommonFlags(flags *flag.FlagSet) {
 	flags.BoolVar(&cfg.ModCacheRW, "modcacherw", false, "")
 	flags.StringVar(&cfg.ModFile, "modfile", "", "")

@@ -1,8 +1,8 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build race
+//golang:build race
 
 package race
 
@@ -15,44 +15,44 @@ const Enabled = true
 
 // Functions below pushed from runtime.
 
-//go:linkname Acquire
+//golang:linkname Acquire
 func Acquire(addr unsafe.Pointer)
 
-//go:linkname Release
+//golang:linkname Release
 func Release(addr unsafe.Pointer)
 
-//go:linkname ReleaseMerge
+//golang:linkname ReleaseMerge
 func ReleaseMerge(addr unsafe.Pointer)
 
-//go:linkname Disable
+//golang:linkname Disable
 func Disable()
 
-//go:linkname Enable
+//golang:linkname Enable
 func Enable()
 
-//go:linkname Read
+//golang:linkname Read
 func Read(addr unsafe.Pointer)
 
-//go:linkname ReadPC
+//golang:linkname ReadPC
 func ReadPC(addr unsafe.Pointer, callerpc, pc uintptr)
 
-//go:linkname ReadObjectPC
+//golang:linkname ReadObjectPC
 func ReadObjectPC(t *abi.Type, addr unsafe.Pointer, callerpc, pc uintptr)
 
-//go:linkname Write
+//golang:linkname Write
 func Write(addr unsafe.Pointer)
 
-//go:linkname WritePC
+//golang:linkname WritePC
 func WritePC(addr unsafe.Pointer, callerpc, pc uintptr)
 
-//go:linkname WriteObjectPC
+//golang:linkname WriteObjectPC
 func WriteObjectPC(t *abi.Type, addr unsafe.Pointer, callerpc, pc uintptr)
 
-//go:linkname ReadRange
+//golang:linkname ReadRange
 func ReadRange(addr unsafe.Pointer, len int)
 
-//go:linkname WriteRange
+//golang:linkname WriteRange
 func WriteRange(addr unsafe.Pointer, len int)
 
-//go:linkname Errors
+//golang:linkname Errors
 func Errors() int

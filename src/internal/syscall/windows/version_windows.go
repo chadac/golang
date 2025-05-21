@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package windows
@@ -52,7 +52,7 @@ func Version() (major, minor, build uint32) {
 // of concurrent TransmitFile operations allowed on the system
 // to a maximum of two. Please see:
 // https://learn.microsoft.com/en-us/windows/win32/api/mswsock/nf-mswsock-transmitfile
-// https://golang.org/issue/73746
+// https://golanglang.org/issue/73746
 var SupportUnlimitedTransmitFile = sync.OnceValue(func() bool {
 	info := getVersionInfo()
 	return info.productType != VER_NT_WORKSTATION

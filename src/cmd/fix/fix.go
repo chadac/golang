@@ -1,13 +1,13 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
 
 import (
 	"fmt"
-	"go/ast"
-	"go/token"
+	"golang/ast"
+	"golang/token"
 	"path"
 	"strconv"
 )
@@ -84,7 +84,7 @@ func walkBeforeAfter(x any, before, after func(any)) {
 	case *[]ast.Stmt:
 		walkBeforeAfter(*n, before, after)
 
-	// These are ordered and grouped to match ../../go/ast/ast.go
+	// These are ordered and grouped to match ../../golang/ast/ast.golang
 	case *ast.Field:
 		walkBeforeAfter(&n.Names, before, after)
 		walkBeforeAfter(&n.Type, before, after)
@@ -432,7 +432,7 @@ func addImport(f *ast.File, ipath string) (added bool) {
 		if ok && gen.Tok == token.IMPORT {
 			lastImport = i
 			// Do not add to import "C", to avoid disrupting the
-			// association with its doc comment, breaking cgo.
+			// association with its doc comment, breaking cgolang.
 			if declImports(gen, "C") {
 				continue
 			}

@@ -1,12 +1,12 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package wasm
 
 import "cmd/internal/obj"
 
-//go:generate go run ../stringer.go -i $GOFILE -o anames.go -p wasm
+//golang:generate golang run ../stringer.golang -i $GOFILE -o anames.golang -p wasm
 
 const (
 	/* mark flags */
@@ -246,7 +246,7 @@ const (
 	ARESUMEPOINT
 	// ACALLNORESUME is a call which is not followed by a resume point.
 	// It is allowed inside of WebAssembly blocks, whereas obj.ACALL is not.
-	// However, it is not allowed to switch goroutines while inside of an ACALLNORESUME call.
+	// However, it is not allowed to switch golangroutines while inside of an ACALLNORESUME call.
 	ACALLNORESUME
 
 	ARETUNWIND

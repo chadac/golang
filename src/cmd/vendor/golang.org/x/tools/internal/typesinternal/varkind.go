@@ -1,13 +1,13 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package typesinternal
 
-// TODO(adonovan): when CL 645115 lands, define the go1.25 version of
+// TODO(adonovan): when CL 645115 lands, define the golang1.25 version of
 // this API that actually does something.
 
-import "go/types"
+import "golang/types"
 
 type VarKind uint8
 

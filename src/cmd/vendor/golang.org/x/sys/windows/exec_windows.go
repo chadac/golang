@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Fork, exec, wait, etc.
@@ -175,7 +175,7 @@ func DecomposeCommandLine(commandLine string) ([]string, error) {
 // entries of up to 8192 characters each, the actual count of parsed arguments
 // may exceed 8192, and the documentation for CommandLineToArgvW does not mention
 // any bound on the lengths of the individual argument strings.
-// (See https://go.dev/issue/63236.)
+// (See https://golang.dev/issue/63236.)
 func CommandLineToArgv(cmd *uint16, argc *int32) (argv *[8192]*[8192]uint16, err error) {
 	argp, err := commandLineToArgv(cmd, argc)
 	argv = (*[8192]*[8192]uint16)(unsafe.Pointer(argp))

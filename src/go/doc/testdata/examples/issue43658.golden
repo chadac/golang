@@ -6,16 +6,16 @@ import (
 	"log"
 	"sort"
 
-	"golang.org/x/exp/rand"
+	"golanglang.org/x/exp/rand"
 
-	"gonum.org/v1/gonum/graph/community"
-	"gonum.org/v1/gonum/graph/internal/ordered"
-	"gonum.org/v1/gonum/graph/simple"
+	"golangnum.org/v1/golangnum/graph/community"
+	"golangnum.org/v1/golangnum/graph/internal/ordered"
+	"golangnum.org/v1/golangnum/graph/simple"
 )
 
 func main() {
-	// Profile calls Modularize which implements the Louvain modularization algorithm.
-	// Since this is a randomized algorithm we use a defined random source to ensure
+	// Profile calls Modularize which implements the Louvain modularization algolangrithm.
+	// Since this is a randomized algolangrithm we use a defined random source to ensure
 	// consistency between test runs. In practice, results will not differ greatly
 	// between runs with different PRNG seeds.
 	src := rand.NewSource(1)
@@ -96,18 +96,18 @@ import (
 	"log"
 	"sort"
 
-	"golang.org/x/exp/rand"
+	"golanglang.org/x/exp/rand"
 
-	"gonum.org/v1/gonum/graph/community"
-	"gonum.org/v1/gonum/graph/internal/ordered"
-	"gonum.org/v1/gonum/graph/simple"
+	"golangnum.org/v1/golangnum/graph/community"
+	"golangnum.org/v1/golangnum/graph/internal/ordered"
+	"golangnum.org/v1/golangnum/graph/simple"
 )
 
 var friends, enemies *simple.WeightedUndirectedGraph
 
 func main() {
 	// Profile calls ModularizeMultiplex which implements the Louvain modularization
-	// algorithm. Since this is a randomized algorithm we use a defined random source
+	// algolangrithm. Since this is a randomized algolangrithm we use a defined random source
 	// to ensure consistency between test runs. In practice, results will not differ
 	// greatly between runs with different PRNG seeds.
 	src := rand.NewSource(1)

@@ -1,8 +1,8 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build gccgo
+//golang:build gccgolang
 
 package cpu
 
@@ -11,12 +11,12 @@ package cpu
 func haveAsmFunctions() bool { return false }
 
 // TODO(mundaym): the following feature detection functions are currently
-// stubs. See https://golang.org/cl/162887 for how to fix this.
+// stubs. See https://golanglang.org/cl/162887 for how to fix this.
 // They are likely to be expensive to call so the results should be cached.
-func stfle() facilityList     { panic("not implemented for gccgo") }
-func kmQuery() queryResult    { panic("not implemented for gccgo") }
-func kmcQuery() queryResult   { panic("not implemented for gccgo") }
-func kmctrQuery() queryResult { panic("not implemented for gccgo") }
-func kmaQuery() queryResult   { panic("not implemented for gccgo") }
-func kimdQuery() queryResult  { panic("not implemented for gccgo") }
-func klmdQuery() queryResult  { panic("not implemented for gccgo") }
+func stfle() facilityList     { panic("not implemented for gccgolang") }
+func kmQuery() queryResult    { panic("not implemented for gccgolang") }
+func kmcQuery() queryResult   { panic("not implemented for gccgolang") }
+func kmctrQuery() queryResult { panic("not implemented for gccgolang") }
+func kmaQuery() queryResult   { panic("not implemented for gccgolang") }
+func kimdQuery() queryResult  { panic("not implemented for gccgolang") }
+func klmdQuery() queryResult  { panic("not implemented for gccgolang") }

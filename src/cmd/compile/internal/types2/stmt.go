@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file implements typechecking of statements.
@@ -8,7 +8,7 @@ package types2
 
 import (
 	"cmd/compile/internal/syntax"
-	"go/constant"
+	"golang/constant"
 	. "internal/types/errors"
 	"slices"
 )
@@ -72,7 +72,7 @@ func (check *Checker) usage(scope *Scope) {
 	}
 
 	for _, scope := range scope.children {
-		// Don't go inside function literal scopes a second time;
+		// Don't golang inside function literal scopes a second time;
 		// they are handled explicitly by funcBody.
 		if !scope.isFunc {
 			check.usage(scope)
@@ -165,7 +165,7 @@ func (check *Checker) closeScope() {
 
 func (check *Checker) suspendedCall(keyword string, call syntax.Expr) {
 	code := InvalidDefer
-	if keyword == "go" {
+	if keyword == "golang" {
 		code = InvalidGo
 	}
 
@@ -191,8 +191,8 @@ func (check *Checker) suspendedCall(keyword string, call syntax.Expr) {
 	check.errorf(&x, code, "%s %s %s", keyword, msg, &x)
 }
 
-// goVal returns the Go value for val, or nil.
-func goVal(val constant.Value) interface{} {
+// golangVal returns the Go value for val, or nil.
+func golangVal(val constant.Value) interface{} {
 	// val should exist, but be conservative and check
 	if val == nil {
 		return nil
@@ -255,9 +255,9 @@ L:
 			continue L // we're done
 		}
 		// look for duplicate values
-		if val := goVal(v.val); val != nil {
+		if val := golangVal(v.val); val != nil {
 			// look for duplicate types for a given value
-			// (quadratic algorithm, but these lists tend to be very short)
+			// (quadratic algolangrithm, but these lists tend to be very short)
 			for _, vt := range seen[val] {
 				if Identical(v.typ, vt.typ) {
 					err := check.newError(DuplicateCase)
@@ -319,7 +319,7 @@ L:
 			}
 		}
 		// look for duplicate types
-		// (quadratic algorithm, but type switches tend to be reasonably small)
+		// (quadratic algolangrithm, but type switches tend to be reasonably small)
 		for t, other := range seen {
 			if T == nil && t == nil || T != nil && t != nil && Identical(T, t) {
 				// talk about "case" rather than "type" because of nil case
@@ -510,7 +510,7 @@ func (check *Checker) stmt(ctxt stmtContext, s syntax.Stmt) {
 		check.assignVar(lhs[0], nil, &x, "assignment")
 
 	case *syntax.CallStmt:
-		kind := "go"
+		kind := "golang"
 		if s.Tok == syntax.Defer {
 			kind = "defer"
 		}
@@ -573,7 +573,7 @@ func (check *Checker) stmt(ctxt stmtContext, s syntax.Stmt) {
 				check.error(s, MisplacedFallthrough, msg)
 			}
 		case syntax.Goto:
-			// goto's must have labels, should have been caught above
+			// golangto's must have labels, should have been caught above
 			fallthrough
 		default:
 			check.errorf(s, InvalidSyntaxTree, "branch statement: %s", s.Tok)

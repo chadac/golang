@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package url
@@ -7,7 +7,7 @@ package url
 import (
 	"bytes"
 	encodingPkg "encoding"
-	"encoding/gob"
+	"encoding/golangb"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -26,29 +26,29 @@ type URLTest struct {
 var urltests = []URLTest{
 	// no path
 	{
-		"http://www.google.com",
+		"http://www.golangogle.com",
 		&URL{
 			Scheme: "http",
-			Host:   "www.google.com",
+			Host:   "www.golangogle.com",
 		},
 		"",
 	},
 	// path
 	{
-		"http://www.google.com/",
+		"http://www.golangogle.com/",
 		&URL{
 			Scheme: "http",
-			Host:   "www.google.com",
+			Host:   "www.golangogle.com",
 			Path:   "/",
 		},
 		"",
 	},
 	// path with hex escaping
 	{
-		"http://www.google.com/file%20one%26two",
+		"http://www.golangogle.com/file%20one%26two",
 		&URL{
 			Scheme:  "http",
-			Host:    "www.google.com",
+			Host:    "www.golangogle.com",
 			Path:    "/file one&two",
 			RawPath: "/file%20one%26two",
 		},
@@ -56,10 +56,10 @@ var urltests = []URLTest{
 	},
 	// fragment with hex escaping
 	{
-		"http://www.google.com/#file%20one%26two",
+		"http://www.golangogle.com/#file%20one%26two",
 		&URL{
 			Scheme:      "http",
-			Host:        "www.google.com",
+			Host:        "www.golangogle.com",
 			Path:        "/",
 			Fragment:    "file one&two",
 			RawFragment: "file%20one%26two",
@@ -68,32 +68,32 @@ var urltests = []URLTest{
 	},
 	// user
 	{
-		"ftp://webmaster@www.google.com/",
+		"ftp://webmaster@www.golangogle.com/",
 		&URL{
 			Scheme: "ftp",
 			User:   User("webmaster"),
-			Host:   "www.google.com",
+			Host:   "www.golangogle.com",
 			Path:   "/",
 		},
 		"",
 	},
 	// escape sequence in username
 	{
-		"ftp://john%20doe@www.google.com/",
+		"ftp://john%20doe@www.golangogle.com/",
 		&URL{
 			Scheme: "ftp",
 			User:   User("john doe"),
-			Host:   "www.google.com",
+			Host:   "www.golangogle.com",
 			Path:   "/",
 		},
-		"ftp://john%20doe@www.google.com/",
+		"ftp://john%20doe@www.golangogle.com/",
 	},
 	// empty query
 	{
-		"http://www.google.com/?",
+		"http://www.golangogle.com/?",
 		&URL{
 			Scheme:     "http",
-			Host:       "www.google.com",
+			Host:       "www.golangogle.com",
 			Path:       "/",
 			ForceQuery: true,
 		},
@@ -101,10 +101,10 @@ var urltests = []URLTest{
 	},
 	// query ending in question mark (Issue 14573)
 	{
-		"http://www.google.com/?foo=bar?",
+		"http://www.golangogle.com/?foo=bar?",
 		&URL{
 			Scheme:   "http",
-			Host:     "www.google.com",
+			Host:     "www.golangogle.com",
 			Path:     "/",
 			RawQuery: "foo=bar?",
 		},
@@ -112,32 +112,32 @@ var urltests = []URLTest{
 	},
 	// query
 	{
-		"http://www.google.com/?q=go+language",
+		"http://www.golangogle.com/?q=golang+language",
 		&URL{
 			Scheme:   "http",
-			Host:     "www.google.com",
+			Host:     "www.golangogle.com",
 			Path:     "/",
-			RawQuery: "q=go+language",
+			RawQuery: "q=golang+language",
 		},
 		"",
 	},
 	// query with hex escaping: NOT parsed
 	{
-		"http://www.google.com/?q=go%20language",
+		"http://www.golangogle.com/?q=golang%20language",
 		&URL{
 			Scheme:   "http",
-			Host:     "www.google.com",
+			Host:     "www.golangogle.com",
 			Path:     "/",
-			RawQuery: "q=go%20language",
+			RawQuery: "q=golang%20language",
 		},
 		"",
 	},
 	// %20 outside query
 	{
-		"http://www.google.com/a%20b?q=c+d",
+		"http://www.golangogle.com/a%20b?q=c+d",
 		&URL{
 			Scheme:   "http",
-			Host:     "www.google.com",
+			Host:     "www.golangogle.com",
 			Path:     "/a b",
 			RawQuery: "q=c+d",
 		},
@@ -145,40 +145,40 @@ var urltests = []URLTest{
 	},
 	// path without leading /, so no parsing
 	{
-		"http:www.google.com/?q=go+language",
+		"http:www.golangogle.com/?q=golang+language",
 		&URL{
 			Scheme:   "http",
-			Opaque:   "www.google.com/",
-			RawQuery: "q=go+language",
+			Opaque:   "www.golangogle.com/",
+			RawQuery: "q=golang+language",
 		},
-		"http:www.google.com/?q=go+language",
+		"http:www.golangogle.com/?q=golang+language",
 	},
 	// path without leading /, so no parsing
 	{
-		"http:%2f%2fwww.google.com/?q=go+language",
+		"http:%2f%2fwww.golangogle.com/?q=golang+language",
 		&URL{
 			Scheme:   "http",
-			Opaque:   "%2f%2fwww.google.com/",
-			RawQuery: "q=go+language",
+			Opaque:   "%2f%2fwww.golangogle.com/",
+			RawQuery: "q=golang+language",
 		},
-		"http:%2f%2fwww.google.com/?q=go+language",
+		"http:%2f%2fwww.golangogle.com/?q=golang+language",
 	},
-	// non-authority with path; see golang.org/issue/46059
+	// non-authority with path; see golanglang.org/issue/46059
 	{
-		"mailto:/webmaster@golang.org",
+		"mailto:/webmaster@golanglang.org",
 		&URL{
 			Scheme:   "mailto",
-			Path:     "/webmaster@golang.org",
+			Path:     "/webmaster@golanglang.org",
 			OmitHost: true,
 		},
 		"",
 	},
 	// non-authority
 	{
-		"mailto:webmaster@golang.org",
+		"mailto:webmaster@golanglang.org",
 		&URL{
 			Scheme: "mailto",
-			Opaque: "webmaster@golang.org",
+			Opaque: "webmaster@golanglang.org",
 		},
 		"",
 	},
@@ -223,78 +223,78 @@ var urltests = []URLTest{
 		"",
 	},
 	{
-		"http://user:password@google.com",
+		"http://user:password@golangogle.com",
 		&URL{
 			Scheme: "http",
 			User:   UserPassword("user", "password"),
-			Host:   "google.com",
+			Host:   "golangogle.com",
 		},
-		"http://user:password@google.com",
+		"http://user:password@golangogle.com",
 	},
 	// unescaped @ in username should not confuse host
 	{
-		"http://j@ne:password@google.com",
+		"http://j@ne:password@golangogle.com",
 		&URL{
 			Scheme: "http",
 			User:   UserPassword("j@ne", "password"),
-			Host:   "google.com",
+			Host:   "golangogle.com",
 		},
-		"http://j%40ne:password@google.com",
+		"http://j%40ne:password@golangogle.com",
 	},
 	// unescaped @ in password should not confuse host
 	{
-		"http://jane:p@ssword@google.com",
+		"http://jane:p@ssword@golangogle.com",
 		&URL{
 			Scheme: "http",
 			User:   UserPassword("jane", "p@ssword"),
-			Host:   "google.com",
+			Host:   "golangogle.com",
 		},
-		"http://jane:p%40ssword@google.com",
+		"http://jane:p%40ssword@golangogle.com",
 	},
 	{
-		"http://j@ne:password@google.com/p@th?q=@go",
+		"http://j@ne:password@golangogle.com/p@th?q=@golang",
 		&URL{
 			Scheme:   "http",
 			User:     UserPassword("j@ne", "password"),
-			Host:     "google.com",
+			Host:     "golangogle.com",
 			Path:     "/p@th",
-			RawQuery: "q=@go",
+			RawQuery: "q=@golang",
 		},
-		"http://j%40ne:password@google.com/p@th?q=@go",
+		"http://j%40ne:password@golangogle.com/p@th?q=@golang",
 	},
 	{
-		"http://www.google.com/?q=go+language#foo",
+		"http://www.golangogle.com/?q=golang+language#foo",
 		&URL{
 			Scheme:   "http",
-			Host:     "www.google.com",
+			Host:     "www.golangogle.com",
 			Path:     "/",
-			RawQuery: "q=go+language",
+			RawQuery: "q=golang+language",
 			Fragment: "foo",
 		},
 		"",
 	},
 	{
-		"http://www.google.com/?q=go+language#foo&bar",
+		"http://www.golangogle.com/?q=golang+language#foo&bar",
 		&URL{
 			Scheme:   "http",
-			Host:     "www.google.com",
+			Host:     "www.golangogle.com",
 			Path:     "/",
-			RawQuery: "q=go+language",
+			RawQuery: "q=golang+language",
 			Fragment: "foo&bar",
 		},
-		"http://www.google.com/?q=go+language#foo&bar",
+		"http://www.golangogle.com/?q=golang+language#foo&bar",
 	},
 	{
-		"http://www.google.com/?q=go+language#foo%26bar",
+		"http://www.golangogle.com/?q=golang+language#foo%26bar",
 		&URL{
 			Scheme:      "http",
-			Host:        "www.google.com",
+			Host:        "www.golangogle.com",
 			Path:        "/",
-			RawQuery:    "q=go+language",
+			RawQuery:    "q=golang+language",
 			Fragment:    "foo&bar",
 			RawFragment: "foo%26bar",
 		},
-		"http://www.google.com/?q=go+language#foo%26bar",
+		"http://www.golangogle.com/?q=golang+language#foo%26bar",
 	},
 	{
 		"file:///home/adg/rabbits",
@@ -306,7 +306,7 @@ var urltests = []URLTest{
 		"file:///home/adg/rabbits",
 	},
 	// "Windows" paths are no exception to the rule.
-	// See golang.org/issue/6027, especially comment #9.
+	// See golanglang.org/issue/6027, especially comment #9.
 	{
 		"file:///C:/FooBar/Baz.txt",
 		&URL{
@@ -318,12 +318,12 @@ var urltests = []URLTest{
 	},
 	// case-insensitive scheme
 	{
-		"MaIlTo:webmaster@golang.org",
+		"MaIlTo:webmaster@golanglang.org",
 		&URL{
 			Scheme: "mailto",
-			Opaque: "webmaster@golang.org",
+			Opaque: "webmaster@golanglang.org",
 		},
-		"mailto:webmaster@golang.org",
+		"mailto:webmaster@golanglang.org",
 	},
 	// Relative path
 	{
@@ -335,11 +335,11 @@ var urltests = []URLTest{
 	},
 	// escaped '?' in username and password
 	{
-		"http://%3Fam:pa%3Fsword@google.com",
+		"http://%3Fam:pa%3Fsword@golangogle.com",
 		&URL{
 			Scheme: "http",
 			User:   UserPassword("?am", "pa?sword"),
-			Host:   "google.com",
+			Host:   "golangogle.com",
 		},
 		"",
 	},
@@ -466,7 +466,7 @@ var urltests = []URLTest{
 		},
 		"",
 	},
-	// golang.org/issue/5684
+	// golanglang.org/issue/5684
 	{
 		"http://example.com/oid/[order_id]",
 		&URL{
@@ -477,7 +477,7 @@ var urltests = []URLTest{
 		},
 		"",
 	},
-	// golang.org/issue/12200 (colon with empty port)
+	// golanglang.org/issue/12200 (colon with empty port)
 	{
 		"http://192.168.0.2:8080/foo",
 		&URL{
@@ -534,7 +534,7 @@ var urltests = []URLTest{
 		},
 		"",
 	},
-	// golang.org/issue/7991 and golang.org/issue/12719 (non-ascii %-encoded in host)
+	// golanglang.org/issue/7991 and golanglang.org/issue/12719 (non-ascii %-encoded in host)
 	{
 		"http://hello.世界.com/foo",
 		&URL{
@@ -562,7 +562,7 @@ var urltests = []URLTest{
 		},
 		"",
 	},
-	// golang.org/issue/10433 (path beginning with //)
+	// golanglang.org/issue/10433 (path beginning with //)
 	{
 		"http://example.com//foo",
 		&URL{
@@ -584,7 +584,7 @@ var urltests = []URLTest{
 	},
 	// spaces in hosts are disallowed but escaped spaces in IPv6 scope IDs are grudgingly OK.
 	// This happens on Windows.
-	// golang.org/issue/14002
+	// golanglang.org/issue/14002
 	{
 		"tcp://[2020::2020:20:2020:2020%25Windows%20Loves%20Spaces]:2020",
 		&URL{
@@ -594,7 +594,7 @@ var urltests = []URLTest{
 		"",
 	},
 	// test we can roundtrip magnet url
-	// fix issue https://golang.org/issue/20054
+	// fix issue https://golanglang.org/issue/20054
 	{
 		"magnet:?xt=urn:btih:c12fe1c06bba254a9dc9f519b335aa7c1367a88a&dn",
 		&URL{
@@ -662,7 +662,7 @@ func TestParse(t *testing.T) {
 			continue
 		}
 		if !reflect.DeepEqual(u, tt.out) {
-			t.Errorf("Parse(%q):\n\tgot  %v\n\twant %v\n", tt.in, ufmt(u), ufmt(tt.out))
+			t.Errorf("Parse(%q):\n\tgolangt  %v\n\twant %v\n", tt.in, ufmt(u), ufmt(tt.out))
 		}
 	}
 }
@@ -724,7 +724,7 @@ func TestParseRequestURI(t *testing.T) {
 		t.Fatalf("Unexpected error %v", err)
 	}
 	if url.Path != pathThatLooksSchemeRelative {
-		t.Errorf("ParseRequestURI path:\ngot  %q\nwant %q", url.Path, pathThatLooksSchemeRelative)
+		t.Errorf("ParseRequestURI path:\ngolangt  %q\nwant %q", url.Path, pathThatLooksSchemeRelative)
 	}
 }
 
@@ -736,12 +736,12 @@ var stringURLTests = []struct {
 	{
 		url: URL{
 			Scheme: "http",
-			Host:   "www.google.com",
+			Host:   "www.golangogle.com",
 			Path:   "search",
 		},
-		want: "http://www.google.com/search",
+		want: "http://www.golangogle.com/search",
 	},
-	// Relative path with first element containing ":" should be prepended with "./", golang.org/issue/17184
+	// Relative path with first element containing ":" should be prepended with "./", golanglang.org/issue/17184
 	{
 		url: URL{
 			Path: "this:that",
@@ -759,10 +759,10 @@ var stringURLTests = []struct {
 	{
 		url: URL{
 			Scheme: "http",
-			Host:   "www.google.com",
+			Host:   "www.golangogle.com",
 			Path:   "this:that",
 		},
-		want: "http://www.google.com/this:that",
+		want: "http://www.golangogle.com/this:that",
 	},
 }
 
@@ -784,8 +784,8 @@ func TestURLString(t *testing.T) {
 	}
 
 	for _, tt := range stringURLTests {
-		if got := tt.url.String(); got != tt.want {
-			t.Errorf("%+v.String() = %q; want %q", tt.url, got, tt.want)
+		if golangt := tt.url.String(); golangt != tt.want {
+			t.Errorf("%+v.String() = %q; want %q", tt.url, golangt, tt.want)
 		}
 	}
 }
@@ -851,7 +851,7 @@ func TestURLRedacted(t *testing.T) {
 		t := t
 		t.Run(tt.name, func(t *testing.T) {
 			if g, w := tt.url.Redacted(), tt.want; g != w {
-				t.Fatalf("got: %q\nwant: %q", g, w)
+				t.Fatalf("golangt: %q\nwant: %q", g, w)
 			}
 		})
 	}
@@ -1109,9 +1109,9 @@ var resolvePathTests = []struct {
 
 func TestResolvePath(t *testing.T) {
 	for _, test := range resolvePathTests {
-		got := resolvePath(test.base, test.ref)
-		if got != test.expected {
-			t.Errorf("For %q + %q got %q; expected %q", test.base, test.ref, got, test.expected)
+		golangt := resolvePath(test.base, test.ref)
+		if golangt != test.expected {
+			t.Errorf("For %q + %q golangt %q; expected %q", test.base, test.ref, golangt, test.expected)
 		}
 	}
 }
@@ -1152,12 +1152,12 @@ var resolveReferenceTests = []struct {
 	{"http://foo.com/bar", ".", "http://foo.com/"},
 	{"http://foo.com/bar/", ".", "http://foo.com/bar/"},
 
-	// ... going down
+	// ... golanging down
 	{"http://foo.com", "bar", "http://foo.com/bar"},
 	{"http://foo.com/", "bar", "http://foo.com/bar"},
 	{"http://foo.com/bar/baz", "quux", "http://foo.com/bar/quux"},
 
-	// ... going up
+	// ... golanging up
 	{"http://foo.com/bar/baz", "../quux", "http://foo.com/quux"},
 	{"http://foo.com/bar/baz", "../../../../../quux", "http://foo.com/quux"},
 	{"http://foo.com/bar", "..", "http://foo.com/"},
@@ -1262,7 +1262,7 @@ func TestResolveReference(t *testing.T) {
 	mustParse := func(url string) *URL {
 		u, err := Parse(url)
 		if err != nil {
-			t.Fatalf("Parse(%q) got err %v", url, err)
+			t.Fatalf("Parse(%q) golangt err %v", url, err)
 		}
 		return u
 	}
@@ -1271,8 +1271,8 @@ func TestResolveReference(t *testing.T) {
 		base := mustParse(test.base)
 		rel := mustParse(test.rel)
 		url := base.ResolveReference(rel)
-		if got := url.String(); got != test.expected {
-			t.Errorf("URL(%q).ResolveReference(%q)\ngot  %q\nwant %q", test.base, test.rel, got, test.expected)
+		if golangt := url.String(); golangt != test.expected {
+			t.Errorf("URL(%q).ResolveReference(%q)\ngolangt  %q\nwant %q", test.base, test.rel, golangt, test.expected)
 		}
 		// Ensure that new instances are returned.
 		if base == url {
@@ -1282,8 +1282,8 @@ func TestResolveReference(t *testing.T) {
 		url, err := base.Parse(test.rel)
 		if err != nil {
 			t.Errorf("URL(%q).Parse(%q) failed: %v", test.base, test.rel, err)
-		} else if got := url.String(); got != test.expected {
-			t.Errorf("URL(%q).Parse(%q)\ngot  %q\nwant %q", test.base, test.rel, got, test.expected)
+		} else if golangt := url.String(); golangt != test.expected {
+			t.Errorf("URL(%q).Parse(%q)\ngolangt  %q\nwant %q", test.base, test.rel, golangt, test.expected)
 		} else if base == url {
 			// Ensure that new instances are returned for the wrapper too.
 			t.Errorf("Expected URL.Parse to return new URL instance.")
@@ -1291,14 +1291,14 @@ func TestResolveReference(t *testing.T) {
 		// Ensure Opaque resets the URL.
 		url = base.ResolveReference(opaque)
 		if *url != *opaque {
-			t.Errorf("ResolveReference failed to resolve opaque URL:\ngot  %#v\nwant %#v", url, opaque)
+			t.Errorf("ResolveReference failed to resolve opaque URL:\ngolangt  %#v\nwant %#v", url, opaque)
 		}
 		// Test the convenience wrapper with an opaque URL too.
 		url, err = base.Parse("scheme:opaque")
 		if err != nil {
 			t.Errorf(`URL(%q).Parse("scheme:opaque") failed: %v`, test.base, err)
 		} else if *url != *opaque {
-			t.Errorf("Parse failed to resolve opaque URL:\ngot  %#v\nwant %#v", opaque, url)
+			t.Errorf("Parse failed to resolve opaque URL:\ngolangt  %#v\nwant %#v", opaque, url)
 		} else if base == url {
 			// Ensure that new instances are returned, again.
 			t.Errorf("Expected URL.Parse to return new URL instance.")
@@ -1310,7 +1310,7 @@ func TestQueryValues(t *testing.T) {
 	u, _ := Parse("http://x.com?foo=bar&bar=1&bar=2&baz")
 	v := u.Query()
 	if len(v) != 3 {
-		t.Errorf("got %d keys in Query values, want 3", len(v))
+		t.Errorf("golangt %d keys in Query values, want 3", len(v))
 	}
 	if g, e := v.Get("foo"), "bar"; g != e {
 		t.Errorf("Get(foo) = %q, want %q", g, e)
@@ -1490,7 +1490,7 @@ var requritests = []RequestURITest{
 		},
 		"/a%20b",
 	},
-	// golang.org/issue/4860 variant 1
+	// golanglang.org/issue/4860 variant 1
 	{
 		&URL{
 			Scheme: "http",
@@ -1499,7 +1499,7 @@ var requritests = []RequestURITest{
 		},
 		"/%2F/%2F/",
 	},
-	// golang.org/issue/4860 variant 2
+	// golanglang.org/issue/4860 variant 2
 	{
 		&URL{
 			Scheme: "http",
@@ -1532,9 +1532,9 @@ var requritests = []RequestURITest{
 			Scheme:   "http",
 			Host:     "example.com",
 			Path:     "/a b",
-			RawQuery: "q=go+language",
+			RawQuery: "q=golang+language",
 		},
-		"/a%20b?q=go+language",
+		"/a%20b?q=golang+language",
 	},
 	{
 		&URL{
@@ -1542,9 +1542,9 @@ var requritests = []RequestURITest{
 			Host:     "example.com",
 			Path:     "/a b",
 			RawPath:  "/a b", // ignored because invalid
-			RawQuery: "q=go+language",
+			RawQuery: "q=golang+language",
 		},
-		"/a%20b?q=go+language",
+		"/a%20b?q=golang+language",
 	},
 	{
 		&URL{
@@ -1552,9 +1552,9 @@ var requritests = []RequestURITest{
 			Host:     "example.com",
 			Path:     "/a?b",
 			RawPath:  "/a?b", // ignored because invalid
-			RawQuery: "q=go+language",
+			RawQuery: "q=golang+language",
 		},
-		"/a%3Fb?q=go+language",
+		"/a%3Fb?q=golang+language",
 	},
 	{
 		&URL{
@@ -1567,9 +1567,9 @@ var requritests = []RequestURITest{
 		&URL{
 			Scheme:   "myschema",
 			Opaque:   "opaque",
-			RawQuery: "q=go+language",
+			RawQuery: "q=golang+language",
 		},
-		"opaque?q=go+language",
+		"opaque?q=golang+language",
 	},
 	{
 		&URL{
@@ -1629,7 +1629,7 @@ func TestParseErrors(t *testing.T) {
 		{"http://[%10::1]", true},        // no %xx escapes in IP address
 		{"http://[::1]/%48", false},      // %xx in path is fine
 		{"http://%41:8080/", true},       // not allowed: % encoding only for non-ASCII
-		{"mysql://x@y(z:123)/foo", true}, // not well-formed per RFC 3986, golang.org/issue/33646
+		{"mysql://x@y(z:123)/foo", true}, // not well-formed per RFC 3986, golanglang.org/issue/33646
 		{"mysql://x@y(1.2.3.4:123)/foo", true},
 
 		{" http://foo.com", true},  // invalid character in schema
@@ -1637,7 +1637,7 @@ func TestParseErrors(t *testing.T) {
 		{"ahttp://foo.com", false}, // valid schema characters
 		{"1http://foo.com", true},  // invalid character in schema
 
-		{"http://[]%20%48%54%54%50%2f%31%2e%31%0a%4d%79%48%65%61%64%65%72%3a%20%31%32%33%0a%0a/", true}, // golang.org/issue/11208
+		{"http://[]%20%48%54%54%50%2f%31%2e%31%0a%4d%79%48%65%61%64%65%72%3a%20%31%32%33%0a%0a/", true}, // golanglang.org/issue/11208
 		{"http://a b.com/", true},    // no space in host name please
 		{"cache_object://foo", true}, // scheme cannot have _, relative path cannot have : in first segment
 		{"cache_object:foo", true},
@@ -1664,8 +1664,8 @@ func TestStarRequest(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if got, want := u.RequestURI(), "*"; got != want {
-		t.Errorf("RequestURI = %q; want %q", got, want)
+	if golangt, want := u.RequestURI(), "*"; golangt != want {
+		t.Errorf("RequestURI = %q; want %q", golangt, want)
 	}
 }
 
@@ -1765,39 +1765,39 @@ var netErrorTests = []struct {
 	timeout   bool
 	temporary bool
 }{{
-	err:       &Error{"Get", "http://google.com/", &timeoutError{timeout: true}},
+	err:       &Error{"Get", "http://golangogle.com/", &timeoutError{timeout: true}},
 	timeout:   true,
 	temporary: false,
 }, {
-	err:       &Error{"Get", "http://google.com/", &timeoutError{timeout: false}},
+	err:       &Error{"Get", "http://golangogle.com/", &timeoutError{timeout: false}},
 	timeout:   false,
 	temporary: false,
 }, {
-	err:       &Error{"Get", "http://google.com/", &temporaryError{temporary: true}},
+	err:       &Error{"Get", "http://golangogle.com/", &temporaryError{temporary: true}},
 	timeout:   false,
 	temporary: true,
 }, {
-	err:       &Error{"Get", "http://google.com/", &temporaryError{temporary: false}},
+	err:       &Error{"Get", "http://golangogle.com/", &temporaryError{temporary: false}},
 	timeout:   false,
 	temporary: false,
 }, {
-	err:       &Error{"Get", "http://google.com/", &timeoutTemporaryError{timeoutError{timeout: true}, temporaryError{temporary: true}}},
+	err:       &Error{"Get", "http://golangogle.com/", &timeoutTemporaryError{timeoutError{timeout: true}, temporaryError{temporary: true}}},
 	timeout:   true,
 	temporary: true,
 }, {
-	err:       &Error{"Get", "http://google.com/", &timeoutTemporaryError{timeoutError{timeout: false}, temporaryError{temporary: true}}},
+	err:       &Error{"Get", "http://golangogle.com/", &timeoutTemporaryError{timeoutError{timeout: false}, temporaryError{temporary: true}}},
 	timeout:   false,
 	temporary: true,
 }, {
-	err:       &Error{"Get", "http://google.com/", &timeoutTemporaryError{timeoutError{timeout: true}, temporaryError{temporary: false}}},
+	err:       &Error{"Get", "http://golangogle.com/", &timeoutTemporaryError{timeoutError{timeout: true}, temporaryError{temporary: false}}},
 	timeout:   true,
 	temporary: false,
 }, {
-	err:       &Error{"Get", "http://google.com/", &timeoutTemporaryError{timeoutError{timeout: false}, temporaryError{temporary: false}}},
+	err:       &Error{"Get", "http://golangogle.com/", &timeoutTemporaryError{timeoutError{timeout: false}, temporaryError{temporary: false}}},
 	timeout:   false,
 	temporary: false,
 }, {
-	err:       &Error{"Get", "http://google.com/", io.EOF},
+	err:       &Error{"Get", "http://golangogle.com/", io.EOF},
 	timeout:   false,
 	temporary: false,
 }}
@@ -1811,11 +1811,11 @@ func TestURLErrorImplementsNetError(t *testing.T) {
 			continue
 		}
 		if err.Timeout() != tt.timeout {
-			t.Errorf("%d: err.Timeout(): got %v, want %v", i+1, err.Timeout(), tt.timeout)
+			t.Errorf("%d: err.Timeout(): golangt %v, want %v", i+1, err.Timeout(), tt.timeout)
 			continue
 		}
 		if err.Temporary() != tt.temporary {
-			t.Errorf("%d: err.Temporary(): got %v, want %v", i+1, err.Temporary(), tt.temporary)
+			t.Errorf("%d: err.Temporary(): golangt %v, want %v", i+1, err.Temporary(), tt.temporary)
 		}
 	}
 }
@@ -1845,12 +1845,12 @@ func TestURLHostnameAndPort(t *testing.T) {
 
 		// Ensure that even when not valid, Host is one of "Hostname",
 		// "Hostname:Port", "[Hostname]" or "[Hostname]:Port".
-		// See https://golang.org/issue/29098.
-		{"[google.com]:80", "google.com", "80"},
-		{"google.com]:80", "google.com]", "80"},
-		{"google.com:80_invalid_port", "google.com:80_invalid_port", ""},
+		// See https://golanglang.org/issue/29098.
+		{"[golangogle.com]:80", "golangogle.com", "80"},
+		{"golangogle.com]:80", "golangogle.com]", "80"},
+		{"golangogle.com:80_invalid_port", "golangogle.com:80_invalid_port", ""},
 		{"[::1]extra]:80", "::1]extra", "80"},
-		{"google.com]extra:extra", "google.com]extra:extra", ""},
+		{"golangogle.com]extra:extra", "golangogle.com]extra:extra", ""},
 	}
 	for _, tt := range tests {
 		u := &URL{Host: tt.in}
@@ -1869,7 +1869,7 @@ var _ encodingPkg.BinaryUnmarshaler = (*URL)(nil)
 var _ encodingPkg.BinaryAppender = (*URL)(nil)
 
 func TestJSON(t *testing.T) {
-	u, err := Parse("https://www.google.com/x?y=z")
+	u, err := Parse("https://www.golangogle.com/x?y=z")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1896,18 +1896,18 @@ func TestJSON(t *testing.T) {
 }
 
 func TestGob(t *testing.T) {
-	u, err := Parse("https://www.google.com/x?y=z")
+	u, err := Parse("https://www.golangogle.com/x?y=z")
 	if err != nil {
 		t.Fatal(err)
 	}
 	var w bytes.Buffer
-	err = gob.NewEncoder(&w).Encode(u)
+	err = golangb.NewEncoder(&w).Encode(u)
 	if err != nil {
 		t.Fatal(err)
 	}
 
 	u1 := new(URL)
-	err = gob.NewDecoder(&w).Decode(u1)
+	err = golangb.NewDecoder(&w).Decode(u1)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1930,22 +1930,22 @@ func TestNilUser(t *testing.T) {
 	}
 
 	if v := u.User.Username(); v != "" {
-		t.Fatalf("expected empty username, got %s", v)
+		t.Fatalf("expected empty username, golangt %s", v)
 	}
 
 	if v, ok := u.User.Password(); v != "" || ok {
-		t.Fatalf("expected empty password, got %s (%v)", v, ok)
+		t.Fatalf("expected empty password, golangt %s (%v)", v, ok)
 	}
 
 	if v := u.User.String(); v != "" {
-		t.Fatalf("expected empty string, got %s", v)
+		t.Fatalf("expected empty string, golangt %s", v)
 	}
 }
 
 func TestInvalidUserPassword(t *testing.T) {
 	_, err := Parse("http://user^:passwo^rd@foo.com/")
-	if got, wantsub := fmt.Sprint(err), "net/url: invalid userinfo"; !strings.Contains(got, wantsub) {
-		t.Errorf("error = %q; want substring %q", got, wantsub)
+	if golangt, wantsub := fmt.Sprint(err), "net/url: invalid userinfo"; !strings.Contains(golangt, wantsub) {
+		t.Errorf("error = %q; want substring %q", golangt, wantsub)
 	}
 }
 
@@ -1958,8 +1958,8 @@ func TestRejectControlCharacters(t *testing.T) {
 	for _, s := range tests {
 		_, err := Parse(s)
 		const wantSub = "net/url: invalid control character in URL"
-		if got := fmt.Sprint(err); !strings.Contains(got, wantSub) {
-			t.Errorf("Parse(%q) error = %q; want substring %q", s, got, wantSub)
+		if golangt := fmt.Sprint(err); !strings.Contains(golangt, wantSub) {
+			t.Errorf("Parse(%q) error = %q; want substring %q", s, golangt, wantSub)
 		}
 	}
 
@@ -2080,88 +2080,88 @@ func TestJoinPath(t *testing.T) {
 		out  string
 	}{
 		{
-			base: "https://go.googlesource.com",
-			elem: []string{"go"},
-			out:  "https://go.googlesource.com/go",
+			base: "https://golang.golangoglesource.com",
+			elem: []string{"golang"},
+			out:  "https://golang.golangoglesource.com/golang",
 		},
 		{
-			base: "https://go.googlesource.com/a/b/c",
-			elem: []string{"../../../go"},
-			out:  "https://go.googlesource.com/go",
+			base: "https://golang.golangoglesource.com/a/b/c",
+			elem: []string{"../../../golang"},
+			out:  "https://golang.golangoglesource.com/golang",
 		},
 		{
-			base: "https://go.googlesource.com/",
-			elem: []string{"../go"},
-			out:  "https://go.googlesource.com/go",
+			base: "https://golang.golangoglesource.com/",
+			elem: []string{"../golang"},
+			out:  "https://golang.golangoglesource.com/golang",
 		},
 		{
-			base: "https://go.googlesource.com",
-			elem: []string{"../go"},
-			out:  "https://go.googlesource.com/go",
+			base: "https://golang.golangoglesource.com",
+			elem: []string{"../golang"},
+			out:  "https://golang.golangoglesource.com/golang",
 		},
 		{
-			base: "https://go.googlesource.com",
-			elem: []string{"../go", "../../go", "../../../go"},
-			out:  "https://go.googlesource.com/go",
+			base: "https://golang.golangoglesource.com",
+			elem: []string{"../golang", "../../golang", "../../../golang"},
+			out:  "https://golang.golangoglesource.com/golang",
 		},
 		{
-			base: "https://go.googlesource.com/../go",
+			base: "https://golang.golangoglesource.com/../golang",
 			elem: nil,
-			out:  "https://go.googlesource.com/go",
+			out:  "https://golang.golangoglesource.com/golang",
 		},
 		{
-			base: "https://go.googlesource.com/",
-			elem: []string{"./go"},
-			out:  "https://go.googlesource.com/go",
+			base: "https://golang.golangoglesource.com/",
+			elem: []string{"./golang"},
+			out:  "https://golang.golangoglesource.com/golang",
 		},
 		{
-			base: "https://go.googlesource.com//",
-			elem: []string{"/go"},
-			out:  "https://go.googlesource.com/go",
+			base: "https://golang.golangoglesource.com//",
+			elem: []string{"/golang"},
+			out:  "https://golang.golangoglesource.com/golang",
 		},
 		{
-			base: "https://go.googlesource.com//",
-			elem: []string{"/go", "a", "b", "c"},
-			out:  "https://go.googlesource.com/go/a/b/c",
+			base: "https://golang.golangoglesource.com//",
+			elem: []string{"/golang", "a", "b", "c"},
+			out:  "https://golang.golangoglesource.com/golang/a/b/c",
 		},
 		{
 			base: "http://[fe80::1%en0]:8080/",
-			elem: []string{"/go"},
+			elem: []string{"/golang"},
 		},
 		{
-			base: "https://go.googlesource.com",
-			elem: []string{"go/"},
-			out:  "https://go.googlesource.com/go/",
+			base: "https://golang.golangoglesource.com",
+			elem: []string{"golang/"},
+			out:  "https://golang.golangoglesource.com/golang/",
 		},
 		{
-			base: "https://go.googlesource.com",
-			elem: []string{"go//"},
-			out:  "https://go.googlesource.com/go/",
+			base: "https://golang.golangoglesource.com",
+			elem: []string{"golang//"},
+			out:  "https://golang.golangoglesource.com/golang/",
 		},
 		{
-			base: "https://go.googlesource.com",
+			base: "https://golang.golangoglesource.com",
 			elem: nil,
-			out:  "https://go.googlesource.com/",
+			out:  "https://golang.golangoglesource.com/",
 		},
 		{
-			base: "https://go.googlesource.com/",
+			base: "https://golang.golangoglesource.com/",
 			elem: nil,
-			out:  "https://go.googlesource.com/",
+			out:  "https://golang.golangoglesource.com/",
 		},
 		{
-			base: "https://go.googlesource.com/a%2fb",
+			base: "https://golang.golangoglesource.com/a%2fb",
 			elem: []string{"c"},
-			out:  "https://go.googlesource.com/a%2fb/c",
+			out:  "https://golang.golangoglesource.com/a%2fb/c",
 		},
 		{
-			base: "https://go.googlesource.com/a%2fb",
+			base: "https://golang.golangoglesource.com/a%2fb",
 			elem: []string{"c%2fd"},
-			out:  "https://go.googlesource.com/a%2fb/c%2fd",
+			out:  "https://golang.golangoglesource.com/a%2fb/c%2fd",
 		},
 		{
-			base: "https://go.googlesource.com/a/b",
-			elem: []string{"/go"},
-			out:  "https://go.googlesource.com/a/b/go",
+			base: "https://golang.golangoglesource.com/a/b",
+			elem: []string{"/golang"},
+			out:  "https://golang.golangoglesource.com/a/b/golang",
 		},
 		{
 			base: "/",

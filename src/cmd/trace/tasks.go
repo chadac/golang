@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -286,7 +286,7 @@ Search log text: <form onsubmit="window.location.search+='&logtext='+window.logt
 		<td></td>
 		<td>
 			<a href="/trace?focustask={{$el.ID}}#{{asMillisecond $el.Start}}:{{asMillisecond $el.End}}">Task {{$el.ID}}</a>
-			<a href="/trace?taskid={{$el.ID}}#{{asMillisecond $el.Start}}:{{asMillisecond $el.End}}">(goroutine view)</a>
+			<a href="/trace?taskid={{$el.ID}}#{{asMillisecond $el.Start}}:{{asMillisecond $el.End}}">(golangroutine view)</a>
 			({{if .Complete}}complete{{else}}incomplete{{end}})
 		</td>
 	</tr>
@@ -294,7 +294,7 @@ Search log text: <form onsubmit="window.location.search+='&logtext='+window.logt
 	<tr>
 		<td class="when">{{.WhenString}}</td>
 		<td class="elapsed">{{elapsed .Elapsed}}</td>
-		<td class="goid">{{.Goroutine}}</td>
+		<td class="golangid">{{.Goroutine}}</td>
 		<td>{{.What}}</td>
 	</tr>
 	{{end}}
@@ -401,7 +401,7 @@ func taskMatches(t *trace.UserTaskSummary, text string) bool {
 	}
 	for _, ev := range t.Logs {
 		log := ev.Log()
-		if matches(log.Category) {
+		if matches(log.Categolangry) {
 			return true
 		}
 		if matches(log.Message) {
@@ -431,10 +431,10 @@ func describeEvent(ev *trace.Event) string {
 		return "task end"
 	case trace.EventLog:
 		log := ev.Log()
-		if log.Category != "" {
+		if log.Categolangry != "" {
 			return fmt.Sprintf("log %q", log.Message)
 		}
-		return fmt.Sprintf("log (category: %s): %q", log.Category, log.Message)
+		return fmt.Sprintf("log (categolangry: %s): %q", log.Categolangry, log.Message)
 	}
 	return ""
 }

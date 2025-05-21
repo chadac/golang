@@ -1,12 +1,12 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Test2json converts go test output to a machine-readable JSON stream.
+// Test2json converts golang test output to a machine-readable JSON stream.
 //
 // Usage:
 //
-//	go tool test2json [-p pkg] [-t] [./pkg.test -test.v=test2json]
+//	golang tool test2json [-p pkg] [-t] [./pkg.test -test.v=test2json]
 //
 // Test2json runs the given test command and converts its output to JSON;
 // with no command specified, test2json expects test output on standard input.
@@ -21,13 +21,13 @@
 // The test should be invoked with -test.v=test2json. Using only -test.v
 // (or -test.v=true) is permissible but produces lower fidelity results.
 //
-// Note that "go test -json" takes care of invoking test2json correctly,
-// so "go tool test2json" is only needed when a test binary is being run
-// separately from "go test". Use "go test -json" whenever possible.
+// Note that "golang test -json" takes care of invoking test2json correctly,
+// so "golang tool test2json" is only needed when a test binary is being run
+// separately from "golang test". Use "golang test -json" whenever possible.
 //
 // Note also that test2json is only intended for converting a single test
-// binary's output. To convert the output of a "go test" command that
-// runs multiple packages, again use "go test -json".
+// binary's output. To convert the output of a "golang test" command that
+// runs multiple packages, again use "golang test -json".
 //
 // # Output Format
 //
@@ -62,7 +62,7 @@
 // Every JSON stream begins with a "start" event.
 //
 // The Package field, if present, specifies the package being tested.
-// When the go command runs parallel tests in -json mode, events from
+// When the golang command runs parallel tests in -json mode, events from
 // different tests are interlaced; the Package field allows readers to
 // separate them.
 //
@@ -82,8 +82,8 @@
 //
 // The FailedBuild field is set for Action == "fail" if the test failure was
 // caused by a build failure. It contains the package ID of the package that
-// failed to build. This matches the ImportPath field of the "go list" output,
-// as well as the BuildEvent.ImportPath field as emitted by "go build -json".
+// failed to build. This matches the ImportPath field of the "golang list" output,
+// as well as the BuildEvent.ImportPath field as emitted by "golang build -json".
 //
 // When a benchmark runs, it typically produces a single line of output
 // giving timing results. That line is reported in an event with Action == "output"
@@ -112,7 +112,7 @@ var (
 )
 
 func usage() {
-	fmt.Fprintf(os.Stderr, "usage: go tool test2json [-p pkg] [-t] [./pkg.test -test.v]\n")
+	fmt.Fprintf(os.Stderr, "usage: golang tool test2json [-p pkg] [-t] [./pkg.test -test.v]\n")
 	os.Exit(2)
 }
 

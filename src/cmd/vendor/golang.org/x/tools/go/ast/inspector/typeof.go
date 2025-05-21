@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package inspector
@@ -7,10 +7,10 @@ package inspector
 // This file defines func typeOf(ast.Node) uint64.
 //
 // The initial map-based implementation was too slow;
-// see https://go-review.googlesource.com/c/tools/+/135655/1/go/ast/inspector/inspector.go#196
+// see https://golang-review.golangoglesource.com/c/tools/+/135655/1/golang/ast/inspector/inspector.golang#196
 
 import (
-	"go/ast"
+	"golang/ast"
 	"math"
 
 	_ "unsafe"
@@ -90,7 +90,7 @@ const (
 //
 // The compiler's switch statement is the clear winner
 // as it produces a binary tree in code,
-// with constant conditions and good branch prediction.
+// with constant conditions and golangod branch prediction.
 // (Sadly it is the most verbose in source code.)
 // Binary search suffered from poor branch prediction.
 func typeOf(n ast.Node) uint64 {
@@ -217,7 +217,7 @@ func typeOf(n ast.Node) uint64 {
 	return 0
 }
 
-//go:linkname maskOf golang.org/x/tools/go/ast/inspector.maskOf
+//golang:linkname maskOf golanglang.org/x/tools/golang/ast/inspector.maskOf
 func maskOf(nodes []ast.Node) uint64 {
 	if len(nodes) == 0 {
 		return math.MaxUint64 // match all node types

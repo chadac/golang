@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package fmt_test
@@ -83,14 +83,14 @@ func TestErrorf(t *testing.T) {
 		wantText:   "%!w(<nil>)",
 		wantUnwrap: nil, // still nil
 	}} {
-		if got, want := errors.Unwrap(test.err), test.wantUnwrap; got != want {
-			t.Errorf("Formatted error: %v\nerrors.Unwrap() = %v, want %v", test.err, got, want)
+		if golangt, want := errors.Unwrap(test.err), test.wantUnwrap; golangt != want {
+			t.Errorf("Formatted error: %v\nerrors.Unwrap() = %v, want %v", test.err, golangt, want)
 		}
-		if got, want := splitErr(test.err), test.wantSplit; !reflect.DeepEqual(got, want) {
-			t.Errorf("Formatted error: %v\nUnwrap() []error = %v, want %v", test.err, got, want)
+		if golangt, want := splitErr(test.err), test.wantSplit; !reflect.DeepEqual(golangt, want) {
+			t.Errorf("Formatted error: %v\nUnwrap() []error = %v, want %v", test.err, golangt, want)
 		}
-		if got, want := test.err.Error(), test.wantText; got != want {
-			t.Errorf("err.Error() = %q, want %q", got, want)
+		if golangt, want := test.err.Error(), test.wantText; golangt != want {
+			t.Errorf("err.Error() = %q, want %q", golangt, want)
 		}
 	}
 }

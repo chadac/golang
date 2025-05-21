@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // These examples demonstrate more intricate uses of the flag package.
@@ -13,21 +13,21 @@ import (
 	"time"
 )
 
-// Example 1: A single string flag called "species" with default value "gopher".
-var species = flag.String("species", "gopher", "the species we are studying")
+// Example 1: A single string flag called "species" with default value "golangpher".
+var species = flag.String("species", "golangpher", "the species we are studying")
 
 // Example 2: Two flags sharing a variable, so we can have a shorthand.
 // The order of initialization is undefined, so make sure both use the
 // same default value. They must be set up with an init function.
-var gopherType string
+var golangpherType string
 
 func init() {
 	const (
 		defaultGopher = "pocket"
-		usage         = "the variety of gopher"
+		usage         = "the variety of golangpher"
 	)
-	flag.StringVar(&gopherType, "gopher_type", defaultGopher, usage)
-	flag.StringVar(&gopherType, "g", defaultGopher, usage+" (shorthand)")
+	flag.StringVar(&golangpherType, "golangpher_type", defaultGopher, usage)
+	flag.StringVar(&golangpherType, "g", defaultGopher, usage+" (shorthand)")
 }
 
 // Example 3: A user-defined flag type, a slice of durations.
@@ -80,6 +80,6 @@ func Example() {
 	//	flag.Parse()
 	// We don't call it here because this code is a function called "Example"
 	// that is part of the testing suite for the package, which has already
-	// parsed the flags. When viewed at pkg.go.dev, however, the function is
+	// parsed the flags. When viewed at pkg.golang.dev, however, the function is
 	// renamed to "main" and it could be run as a standalone example.
 }

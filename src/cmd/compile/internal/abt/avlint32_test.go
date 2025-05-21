@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package abt
@@ -256,7 +256,7 @@ func applicDelete(te *testing.T, x []int32) {
 		return
 	}
 	if size != i {
-		te.Errorf("Delete of missing data should not change tree size, expected %d, got %d", size, i)
+		te.Errorf("Delete of missing data should not change tree size, expected %d, golangt %d", size, i)
 		return
 	}
 
@@ -279,7 +279,7 @@ func applicDelete(te *testing.T, x []int32) {
 		}
 
 		if v.(*sstring).s != vWant {
-			te.Errorf("Deleted %v expected %v but got %v", d, vWant, v)
+			te.Errorf("Deleted %v expected %v but golangt %v", d, vWant, v)
 			return
 		}
 		size--
@@ -467,15 +467,15 @@ func smaller(x, y interface{}) interface{} {
 	}
 	return y
 }
-func assert(t *testing.T, expected, got *T, what string) {
-	s, _ := got.wellFormed()
+func assert(t *testing.T, expected, golangt *T, what string) {
+	s, _ := golangt.wellFormed()
 	if s != "" {
-		t.Errorf("Tree consistency problem %v for 'got' in assert for %s, tree=\n%v", s, what, got.DebugString())
+		t.Errorf("Tree consistency problem %v for 'golangt' in assert for %s, tree=\n%v", s, what, golangt.DebugString())
 		return
 	}
 
-	if !expected.Equiv(got, equiv) {
-		t.Errorf("%s fail, expected\n%vgot\n%v\n", what, expected.DebugString(), got.DebugString())
+	if !expected.Equiv(golangt, equiv) {
+		t.Errorf("%s fail, expected\n%vgolangt\n%v\n", what, expected.DebugString(), golangt.DebugString())
 	}
 }
 

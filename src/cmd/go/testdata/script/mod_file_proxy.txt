@@ -2,35 +2,35 @@
 
 # Allow (cached) downloads for -mod=readonly.
 env GO111MODULE=on
-env GOPATH=$WORK/gopath1
+env GOPATH=$WORK/golangpath1
 cd $WORK/x
-go mod edit -fmt
-go list -mod=readonly
+golang mod edit -fmt
+golang list -mod=readonly
 env GOPROXY=file:///nonexist
-go list
+golang list
 grep v1.5.1 $GOPATH/pkg/mod/cache/download/rsc.io/quote/@v/list
 
 # Use download cache as file:/// proxy.
-env GOPATH=$WORK/gopath2
+env GOPATH=$WORK/golangpath2
 [GOOS:windows] env GOPROXY=file:///C:/nonexist
 [!GOOS:windows] env GOPROXY=file:///nonexist
-! go list
-[GOOS:windows] env GOPROXY=file:///$WORK/gopath1/pkg/mod/cache/download
-[!GOOS:windows] env GOPROXY=file://$WORK/gopath1/pkg/mod/cache/download
-go list
+! golang list
+[GOOS:windows] env GOPROXY=file:///$WORK/golangpath1/pkg/mod/cache/download
+[!GOOS:windows] env GOPROXY=file://$WORK/golangpath1/pkg/mod/cache/download
+golang list
 grep v1.5.1 $GOPATH/pkg/mod/cache/download/rsc.io/quote/@v/list
 
--- $WORK/x/go.mod --
+-- $WORK/x/golang.mod --
 module x
-go 1.13
+golang 1.13
 require rsc.io/quote v1.5.1
--- $WORK/x/x.go --
+-- $WORK/x/x.golang --
 package x
 import _ "rsc.io/quote"
--- $WORK/x/go.sum --
-golang.org/x/text v0.0.0-20170915032832-14c0d48ead0c h1:pvCbr/wm8HzDD3fVywevekufpn6tCGPY3spdHeZJEsw=
-golang.org/x/text v0.0.0-20170915032832-14c0d48ead0c/go.mod h1:NqM8EUOU14njkJ3fqMW+pc6Ldnwhi/IjpwHt7yyuwOQ=
+-- $WORK/x/golang.sum --
+golanglang.org/x/text v0.0.0-20170915032832-14c0d48ead0c h1:pvCbr/wm8HzDD3fVywevekufpn6tCGPY3spdHeZJEsw=
+golanglang.org/x/text v0.0.0-20170915032832-14c0d48ead0c/golang.mod h1:NqM8EUOU14njkJ3fqMW+pc6Ldnwhi/IjpwHt7yyuwOQ=
 rsc.io/quote v1.5.1 h1:ZE3OgnVGrhXtFkGw90HwW992ZRqcdli/33DLqEYsoxA=
-rsc.io/quote v1.5.1/go.mod h1:LzX7hefJvL54yjefDEDHNONDjII0t9xZLPXsUe+TKr0=
+rsc.io/quote v1.5.1/golang.mod h1:LzX7hefJvL54yjefDEDHNONDjII0t9xZLPXsUe+TKr0=
 rsc.io/sampler v1.3.0 h1:HLGR/BgEtI3r0uymSP/nl2uPLsUnNJX8toRyhfpBTII=
-rsc.io/sampler v1.3.0/go.mod h1:T1hPZKmBbMNahiBKFy5HrXp6adAjACjK9JXDnKaTXpA=
+rsc.io/sampler v1.3.0/golang.mod h1:T1hPZKmBbMNahiBKFy5HrXp6adAjACjK9JXDnKaTXpA=

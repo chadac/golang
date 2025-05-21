@@ -1,7 +1,7 @@
 package main
 
 // This program will crash.
-// We want to test unwinding from a cgo callback.
+// We want to test unwinding from a cgolang callback.
 
 /*
 void call_callback(void);

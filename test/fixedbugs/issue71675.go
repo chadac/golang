@@ -1,10 +1,10 @@
 // run
 // Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 package main
 
-//go:noinline
+//golang:noinline
 func i() {
 	for range yieldInts {
 		defer func() {
@@ -17,7 +17,7 @@ func i() {
 	panic("i panic")
 }
 
-//go:noinline
+//golang:noinline
 func h() {
 	defer func() {
 		println("H first")
@@ -38,14 +38,14 @@ func h() {
 	}
 }
 
-//go:noinline
+//golang:noinline
 func yieldInts(yield func(int) bool) {
 	if !yield(0) {
 		return
 	}
 }
 
-//go:noinline
+//golang:noinline
 func g() {
 	defer func() {
 		println("G first")
@@ -58,7 +58,7 @@ func g() {
 	}
 }
 
-//go:noinline
+//golang:noinline
 func yieldIntsPanic(yield func(int) bool) {
 	if !yield(0) {
 		return
@@ -66,7 +66,7 @@ func yieldIntsPanic(yield func(int) bool) {
 	panic("yield stop")
 }
 
-//go:noinline
+//golang:noinline
 func next(i int) int {
 	if i == 0 {
 		panic("next stop")
@@ -74,7 +74,7 @@ func next(i int) int {
 	return i + 1
 }
 
-//go:noinline
+//golang:noinline
 func f() {
 	defer func() {
 		println("F first")

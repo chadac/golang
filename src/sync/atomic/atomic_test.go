@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package atomic_test
@@ -2140,7 +2140,7 @@ func TestHammer32(t *testing.T) {
 		c := make(chan int)
 		var val uint32
 		for i := 0; i < p; i++ {
-			go func() {
+			golang func() {
 				defer func() {
 					if err := recover(); err != nil {
 						t.Error(err.(string))
@@ -2407,7 +2407,7 @@ func TestHammer64(t *testing.T) {
 		c := make(chan int)
 		var val uint64
 		for i := 0; i < p; i++ {
-			go func() {
+			golang func() {
 				defer func() {
 					if err := recover(); err != nil {
 						t.Error(err.(string))
@@ -2560,7 +2560,7 @@ func hammerStoreLoadUintptr(t *testing.T, paddr unsafe.Pointer) {
 	StoreUintptr(addr, new)
 }
 
-//go:nocheckptr
+//golang:nocheckptr
 func hammerStoreLoadUintptrMethod(t *testing.T, paddr unsafe.Pointer) {
 	addr := (*Uintptr)(paddr)
 	v := addr.Load()
@@ -2590,7 +2590,7 @@ func hammerStoreLoadUintptrMethod(t *testing.T, paddr unsafe.Pointer) {
 // This code is just testing that LoadPointer/StorePointer operate
 // atomically; it's not actually calculating pointers.
 //
-//go:nocheckptr
+//golang:nocheckptr
 func hammerStoreLoadPointer(t *testing.T, paddr unsafe.Pointer) {
 	addr := (*unsafe.Pointer)(paddr)
 	v := uintptr(LoadPointer(addr))
@@ -2620,7 +2620,7 @@ func hammerStoreLoadPointer(t *testing.T, paddr unsafe.Pointer) {
 // This code is just testing that LoadPointer/StorePointer operate
 // atomically; it's not actually calculating pointers.
 //
-//go:nocheckptr
+//golang:nocheckptr
 func hammerStoreLoadPointerMethod(t *testing.T, paddr unsafe.Pointer) {
 	addr := (*Pointer[byte])(paddr)
 	v := uintptr(unsafe.Pointer(addr.Load()))
@@ -2671,7 +2671,7 @@ func TestHammerStoreLoad(t *testing.T) {
 		c := make(chan int)
 		var val uint64
 		for p := 0; p < procs; p++ {
-			go func() {
+			golang func() {
 				for i := 0; i < n; i++ {
 					tt(t, unsafe.Pointer(&val))
 				}
@@ -2697,7 +2697,7 @@ func TestStoreLoadSeqCst32(t *testing.T) {
 	X := [2]int32{}
 	ack := [2][3]int32{{-1, -1, -1}, {-1, -1, -1}}
 	for p := 0; p < 2; p++ {
-		go func(me int) {
+		golang func(me int) {
 			he := 1 - me
 			for i := int32(1); i < N; i++ {
 				StoreInt32(&X[me], i)
@@ -2739,7 +2739,7 @@ func TestStoreLoadSeqCst64(t *testing.T) {
 	X := [2]int64{}
 	ack := [2][3]int64{{-1, -1, -1}, {-1, -1, -1}}
 	for p := 0; p < 2; p++ {
-		go func(me int) {
+		golang func(me int) {
 			he := 1 - me
 			for i := int64(1); i < N; i++ {
 				StoreInt64(&X[me], i)
@@ -2787,7 +2787,7 @@ func TestStoreLoadRelAcq32(t *testing.T) {
 	}
 	var X Data
 	for p := int32(0); p < 2; p++ {
-		go func(p int32) {
+		golang func(p int32) {
 			for i := int32(1); i < N; i++ {
 				if (i+p)%2 == 0 {
 					X.data1 = i
@@ -2833,7 +2833,7 @@ func TestStoreLoadRelAcq64(t *testing.T) {
 	}
 	var X Data
 	for p := int64(0); p < 2; p++ {
-		go func(p int64) {
+		golang func(p int64) {
 			for i := int64(1); i < N; i++ {
 				if (i+p)%2 == 0 {
 					X.data1 = i
@@ -2870,7 +2870,7 @@ func shouldPanic(t *testing.T, name string, f func()) {
 		if err == nil {
 			t.Errorf("%s did not panic", name)
 		} else if s, _ := err.(string); s != want {
-			t.Errorf("%s: wanted panic %q, got %q", name, want, err)
+			t.Errorf("%s: wanted panic %q, golangt %q", name, want, err)
 		}
 	}()
 	f()

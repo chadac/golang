@@ -2,32 +2,32 @@
 env GO111MODULE=on
 
 # Set up fresh GOCACHE.
-env GOCACHE=$WORK/gocache
+env GOCACHE=$WORK/golangcache
 mkdir $GOCACHE
 
 cd $WORK
-go build -o a.out
+golang build -o a.out
 
 # Varying -trimpath should cause a rebuild.
-go build -x -o a.out -trimpath
-stderr '(compile|gccgo)( |\.exe)'
+golang build -x -o a.out -trimpath
+stderr '(compile|gccgolang)( |\.exe)'
 stderr 'link( |\.exe)'
 
 # Two distinct versions of the same module with identical content should
 # still be cached separately.
-# Verifies golang.org/issue/35412.
-go get example.com/stack@v1.0.0
-go run -trimpath printstack.go
-stdout '^example.com/stack@v1.0.0/stack.go$'
-go get example.com/stack@v1.0.1
-go run -trimpath printstack.go
-stdout '^example.com/stack@v1.0.1/stack.go$'
+# Verifies golanglang.org/issue/35412.
+golang get example.com/stack@v1.0.0
+golang run -trimpath printstack.golang
+stdout '^example.com/stack@v1.0.0/stack.golang$'
+golang get example.com/stack@v1.0.1
+golang run -trimpath printstack.golang
+stdout '^example.com/stack@v1.0.1/stack.golang$'
 
--- $WORK/hello.go --
+-- $WORK/hello.golang --
 package main
 func main() { println("hello") }
 
--- $WORK/printstack.go --
+-- $WORK/printstack.golang --
 // +build ignore
 
 package main
@@ -41,7 +41,7 @@ import (
 func main() {
 	fmt.Println(stack.TopFile())
 }
--- $WORK/go.mod --
+-- $WORK/golang.mod --
 module m
 
-go 1.14
+golang 1.14

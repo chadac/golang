@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package mime_test
@@ -36,7 +36,7 @@ func ExampleWordDecoder_Decode() {
 		case "x-case":
 			// Fake character set for example.
 			// Real use would integrate with packages such
-			// as code.google.com/p/go-charset
+			// as code.golangogle.com/p/golang-charset
 			content, err := io.ReadAll(input)
 			if err != nil {
 				return nil, err
@@ -75,7 +75,7 @@ func ExampleWordDecoder_DecodeHeader() {
 		case "x-case":
 			// Fake character set for example.
 			// Real use would integrate with packages such
-			// as code.google.com/p/go-charset
+			// as code.golangogle.com/p/golang-charset
 			content, err := io.ReadAll(input)
 			if err != nil {
 				return nil, err

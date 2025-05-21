@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package slices defines various functions useful with slices of any type.
@@ -305,7 +305,7 @@ func Replace[S ~[]E, E any](s S, i, j int, v ...E) S {
 	}
 
 	// This is a situation where we don't have a single place to which
-	// we can copy v. Parts of it need to go to two different places.
+	// we can copy v. Parts of it need to golang to two different places.
 	// We want to copy the prefix of v into y and the suffix into x, then
 	// rotate |y| spots to the right.
 	//
@@ -315,7 +315,7 @@ func Replace[S ~[]E, E any](s S, i, j int, v ...E) S {
 	//        ^   ^       ^ ^
 	//        i   j  len(s) tot
 	//
-	// If either of those two destinations don't alias v, then we're good.
+	// If either of those two destinations don't alias v, then we're golangod.
 	y := len(v) - (j - i) // length of y portion
 
 	if !overlaps(r[i:j], v) {
@@ -351,7 +351,7 @@ func Clone[S ~[]E, E any](s S) S {
 		return nil
 	}
 	// Avoid s[:0:0] as it leads to unwanted liveness when cloning a
-	// zero-length slice of a large array; see https://go.dev/issue/68488.
+	// zero-length slice of a large array; see https://golang.dev/issue/68488.
 	return append(S{}, s...)
 }
 
@@ -425,9 +425,9 @@ func Clip[S ~[]E, E any](s S) S {
 	return s[:len(s):len(s)]
 }
 
-// TODO: There are other rotate algorithms.
-// This algorithm has the desirable property that it moves each element at most twice.
-// The follow-cycles algorithm can be 1-write but it is not very cache friendly.
+// TODO: There are other rotate algolangrithms.
+// This algolangrithm has the desirable property that it moves each element at most twice.
+// The follow-cycles algolangrithm can be 1-write but it is not very cache friendly.
 
 // rotateLeft rotates s left by r spaces.
 // s_final[i] = s_orig[i+r], wrapping around.
@@ -450,7 +450,7 @@ func overlaps[E any](a, b []E) bool {
 		return false
 	}
 	// TODO: use a runtime/unsafe facility once one becomes available. See issue 12445.
-	// Also see crypto/internal/fips140/alias/alias.go:AnyOverlap
+	// Also see crypto/internal/fips140/alias/alias.golang:AnyOverlap
 	return uintptr(unsafe.Pointer(&a[0])) <= uintptr(unsafe.Pointer(&b[len(b)-1]))+(elemSize-1) &&
 		uintptr(unsafe.Pointer(&b[0])) <= uintptr(unsafe.Pointer(&a[len(a)-1]))+(elemSize-1)
 }

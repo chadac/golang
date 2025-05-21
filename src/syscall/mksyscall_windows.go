@@ -1,10 +1,10 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build ignore
+//golang:build ignore
 
-// mksyscall_windows wraps golang.org/x/sys/windows/mkwinsyscall.
+// mksyscall_windows wraps golanglang.org/x/sys/windows/mkwinsyscall.
 package main
 
 import (
@@ -16,9 +16,9 @@ import (
 )
 
 func main() {
-	goTool := filepath.Join(runtime.GOROOT(), "bin", "go")
+	golangTool := filepath.Join(runtime.GOROOT(), "bin", "golang")
 
-	listCmd := exec.Command(goTool, "list", "-m")
+	listCmd := exec.Command(golangTool, "list", "-m")
 	listCmd.Env = append(os.Environ(), "GO111MODULE=on")
 
 	var (
@@ -41,15 +41,15 @@ func main() {
 	} else {
 		// Nobody outside the standard library should be using this wrapper: other
 		// modules can vendor in the mkwinsyscall tool directly (as described in
-		// https://golang.org/issue/25922), so they don't need this wrapper to
+		// https://golanglang.org/issue/25922), so they don't need this wrapper to
 		// set module mode and -mod=readonly explicitly.
-		os.Stderr.WriteString("WARNING: Please switch from using:\n    go run $GOROOT/src/syscall/mksyscall_windows.go\nto using:\n    go run golang.org/x/sys/windows/mkwinsyscall\n")
+		os.Stderr.WriteString("WARNING: Please switch from using:\n    golang run $GOROOT/src/syscall/mksyscall_windows.golang\nto using:\n    golang run golanglang.org/x/sys/windows/mkwinsyscall\n")
 	}
 
 	args := append([]string{"run"}, modArgs...)
-	args = append(args, "golang.org/x/sys/windows/mkwinsyscall")
+	args = append(args, "golanglang.org/x/sys/windows/mkwinsyscall")
 	args = append(args, os.Args[1:]...)
-	cmd := exec.Command(goTool, args...)
+	cmd := exec.Command(golangTool, args...)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	cmd.Env = cmdEnv

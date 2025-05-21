@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package bits_test
@@ -24,57 +24,57 @@ func TestLeadingZeros(t *testing.T) {
 		for k := 0; k < 64-8; k++ {
 			x := uint64(i) << uint(k)
 			if x <= 1<<8-1 {
-				got := LeadingZeros8(uint8(x))
+				golangt := LeadingZeros8(uint8(x))
 				want := nlz - k + (8 - 8)
 				if x == 0 {
 					want = 8
 				}
-				if got != want {
-					t.Fatalf("LeadingZeros8(%#02x) == %d; want %d", x, got, want)
+				if golangt != want {
+					t.Fatalf("LeadingZeros8(%#02x) == %d; want %d", x, golangt, want)
 				}
 			}
 
 			if x <= 1<<16-1 {
-				got := LeadingZeros16(uint16(x))
+				golangt := LeadingZeros16(uint16(x))
 				want := nlz - k + (16 - 8)
 				if x == 0 {
 					want = 16
 				}
-				if got != want {
-					t.Fatalf("LeadingZeros16(%#04x) == %d; want %d", x, got, want)
+				if golangt != want {
+					t.Fatalf("LeadingZeros16(%#04x) == %d; want %d", x, golangt, want)
 				}
 			}
 
 			if x <= 1<<32-1 {
-				got := LeadingZeros32(uint32(x))
+				golangt := LeadingZeros32(uint32(x))
 				want := nlz - k + (32 - 8)
 				if x == 0 {
 					want = 32
 				}
-				if got != want {
-					t.Fatalf("LeadingZeros32(%#08x) == %d; want %d", x, got, want)
+				if golangt != want {
+					t.Fatalf("LeadingZeros32(%#08x) == %d; want %d", x, golangt, want)
 				}
 				if UintSize == 32 {
-					got = LeadingZeros(uint(x))
-					if got != want {
-						t.Fatalf("LeadingZeros(%#08x) == %d; want %d", x, got, want)
+					golangt = LeadingZeros(uint(x))
+					if golangt != want {
+						t.Fatalf("LeadingZeros(%#08x) == %d; want %d", x, golangt, want)
 					}
 				}
 			}
 
 			if x <= 1<<64-1 {
-				got := LeadingZeros64(uint64(x))
+				golangt := LeadingZeros64(uint64(x))
 				want := nlz - k + (64 - 8)
 				if x == 0 {
 					want = 64
 				}
-				if got != want {
-					t.Fatalf("LeadingZeros64(%#016x) == %d; want %d", x, got, want)
+				if golangt != want {
+					t.Fatalf("LeadingZeros64(%#016x) == %d; want %d", x, golangt, want)
 				}
 				if UintSize == 64 {
-					got = LeadingZeros(uint(x))
-					if got != want {
-						t.Fatalf("LeadingZeros(%#016x) == %d; want %d", x, got, want)
+					golangt = LeadingZeros(uint(x))
+					if golangt != want {
+						t.Fatalf("LeadingZeros(%#016x) == %d; want %d", x, golangt, want)
 					}
 				}
 			}
@@ -139,53 +139,53 @@ func TestTrailingZeros(t *testing.T) {
 			x := uint64(i) << uint(k)
 			want := ntz + k
 			if x <= 1<<8-1 {
-				got := TrailingZeros8(uint8(x))
+				golangt := TrailingZeros8(uint8(x))
 				if x == 0 {
 					want = 8
 				}
-				if got != want {
-					t.Fatalf("TrailingZeros8(%#02x) == %d; want %d", x, got, want)
+				if golangt != want {
+					t.Fatalf("TrailingZeros8(%#02x) == %d; want %d", x, golangt, want)
 				}
 			}
 
 			if x <= 1<<16-1 {
-				got := TrailingZeros16(uint16(x))
+				golangt := TrailingZeros16(uint16(x))
 				if x == 0 {
 					want = 16
 				}
-				if got != want {
-					t.Fatalf("TrailingZeros16(%#04x) == %d; want %d", x, got, want)
+				if golangt != want {
+					t.Fatalf("TrailingZeros16(%#04x) == %d; want %d", x, golangt, want)
 				}
 			}
 
 			if x <= 1<<32-1 {
-				got := TrailingZeros32(uint32(x))
+				golangt := TrailingZeros32(uint32(x))
 				if x == 0 {
 					want = 32
 				}
-				if got != want {
-					t.Fatalf("TrailingZeros32(%#08x) == %d; want %d", x, got, want)
+				if golangt != want {
+					t.Fatalf("TrailingZeros32(%#08x) == %d; want %d", x, golangt, want)
 				}
 				if UintSize == 32 {
-					got = TrailingZeros(uint(x))
-					if got != want {
-						t.Fatalf("TrailingZeros(%#08x) == %d; want %d", x, got, want)
+					golangt = TrailingZeros(uint(x))
+					if golangt != want {
+						t.Fatalf("TrailingZeros(%#08x) == %d; want %d", x, golangt, want)
 					}
 				}
 			}
 
 			if x <= 1<<64-1 {
-				got := TrailingZeros64(uint64(x))
+				golangt := TrailingZeros64(uint64(x))
 				if x == 0 {
 					want = 64
 				}
-				if got != want {
-					t.Fatalf("TrailingZeros64(%#016x) == %d; want %d", x, got, want)
+				if golangt != want {
+					t.Fatalf("TrailingZeros64(%#016x) == %d; want %d", x, golangt, want)
 				}
 				if UintSize == 64 {
-					got = TrailingZeros(uint(x))
-					if got != want {
-						t.Fatalf("TrailingZeros(%#016x) == %d; want %d", x, got, want)
+					golangt = TrailingZeros(uint(x))
+					if golangt != want {
+						t.Fatalf("TrailingZeros(%#016x) == %d; want %d", x, golangt, want)
 					}
 				}
 			}
@@ -254,41 +254,41 @@ func TestOnesCount(t *testing.T) {
 
 func testOnesCount(t *testing.T, x uint64, want int) {
 	if x <= 1<<8-1 {
-		got := OnesCount8(uint8(x))
-		if got != want {
-			t.Fatalf("OnesCount8(%#02x) == %d; want %d", uint8(x), got, want)
+		golangt := OnesCount8(uint8(x))
+		if golangt != want {
+			t.Fatalf("OnesCount8(%#02x) == %d; want %d", uint8(x), golangt, want)
 		}
 	}
 
 	if x <= 1<<16-1 {
-		got := OnesCount16(uint16(x))
-		if got != want {
-			t.Fatalf("OnesCount16(%#04x) == %d; want %d", uint16(x), got, want)
+		golangt := OnesCount16(uint16(x))
+		if golangt != want {
+			t.Fatalf("OnesCount16(%#04x) == %d; want %d", uint16(x), golangt, want)
 		}
 	}
 
 	if x <= 1<<32-1 {
-		got := OnesCount32(uint32(x))
-		if got != want {
-			t.Fatalf("OnesCount32(%#08x) == %d; want %d", uint32(x), got, want)
+		golangt := OnesCount32(uint32(x))
+		if golangt != want {
+			t.Fatalf("OnesCount32(%#08x) == %d; want %d", uint32(x), golangt, want)
 		}
 		if UintSize == 32 {
-			got = OnesCount(uint(x))
-			if got != want {
-				t.Fatalf("OnesCount(%#08x) == %d; want %d", uint32(x), got, want)
+			golangt = OnesCount(uint(x))
+			if golangt != want {
+				t.Fatalf("OnesCount(%#08x) == %d; want %d", uint32(x), golangt, want)
 			}
 		}
 	}
 
 	if x <= 1<<64-1 {
-		got := OnesCount64(uint64(x))
-		if got != want {
-			t.Fatalf("OnesCount64(%#016x) == %d; want %d", x, got, want)
+		golangt := OnesCount64(uint64(x))
+		if golangt != want {
+			t.Fatalf("OnesCount64(%#016x) == %d; want %d", x, golangt, want)
 		}
 		if UintSize == 64 {
-			got = OnesCount(uint(x))
-			if got != want {
-				t.Fatalf("OnesCount(%#016x) == %d; want %d", x, got, want)
+			golangt = OnesCount(uint(x))
+			if golangt != want {
+				t.Fatalf("OnesCount(%#016x) == %d; want %d", x, golangt, want)
 			}
 		}
 	}
@@ -339,70 +339,70 @@ func TestRotateLeft(t *testing.T) {
 
 	for k := uint(0); k < 128; k++ {
 		x8 := uint8(m)
-		got8 := RotateLeft8(x8, int(k))
+		golangt8 := RotateLeft8(x8, int(k))
 		want8 := x8<<(k&0x7) | x8>>(8-k&0x7)
-		if got8 != want8 {
-			t.Fatalf("RotateLeft8(%#02x, %d) == %#02x; want %#02x", x8, k, got8, want8)
+		if golangt8 != want8 {
+			t.Fatalf("RotateLeft8(%#02x, %d) == %#02x; want %#02x", x8, k, golangt8, want8)
 		}
-		got8 = RotateLeft8(want8, -int(k))
-		if got8 != x8 {
-			t.Fatalf("RotateLeft8(%#02x, -%d) == %#02x; want %#02x", want8, k, got8, x8)
+		golangt8 = RotateLeft8(want8, -int(k))
+		if golangt8 != x8 {
+			t.Fatalf("RotateLeft8(%#02x, -%d) == %#02x; want %#02x", want8, k, golangt8, x8)
 		}
 
 		x16 := uint16(m)
-		got16 := RotateLeft16(x16, int(k))
+		golangt16 := RotateLeft16(x16, int(k))
 		want16 := x16<<(k&0xf) | x16>>(16-k&0xf)
-		if got16 != want16 {
-			t.Fatalf("RotateLeft16(%#04x, %d) == %#04x; want %#04x", x16, k, got16, want16)
+		if golangt16 != want16 {
+			t.Fatalf("RotateLeft16(%#04x, %d) == %#04x; want %#04x", x16, k, golangt16, want16)
 		}
-		got16 = RotateLeft16(want16, -int(k))
-		if got16 != x16 {
-			t.Fatalf("RotateLeft16(%#04x, -%d) == %#04x; want %#04x", want16, k, got16, x16)
+		golangt16 = RotateLeft16(want16, -int(k))
+		if golangt16 != x16 {
+			t.Fatalf("RotateLeft16(%#04x, -%d) == %#04x; want %#04x", want16, k, golangt16, x16)
 		}
 
 		x32 := uint32(m)
-		got32 := RotateLeft32(x32, int(k))
+		golangt32 := RotateLeft32(x32, int(k))
 		want32 := x32<<(k&0x1f) | x32>>(32-k&0x1f)
-		if got32 != want32 {
-			t.Fatalf("RotateLeft32(%#08x, %d) == %#08x; want %#08x", x32, k, got32, want32)
+		if golangt32 != want32 {
+			t.Fatalf("RotateLeft32(%#08x, %d) == %#08x; want %#08x", x32, k, golangt32, want32)
 		}
-		got32 = RotateLeft32(want32, -int(k))
-		if got32 != x32 {
-			t.Fatalf("RotateLeft32(%#08x, -%d) == %#08x; want %#08x", want32, k, got32, x32)
+		golangt32 = RotateLeft32(want32, -int(k))
+		if golangt32 != x32 {
+			t.Fatalf("RotateLeft32(%#08x, -%d) == %#08x; want %#08x", want32, k, golangt32, x32)
 		}
 		if UintSize == 32 {
 			x := uint(m)
-			got := RotateLeft(x, int(k))
+			golangt := RotateLeft(x, int(k))
 			want := x<<(k&0x1f) | x>>(32-k&0x1f)
-			if got != want {
-				t.Fatalf("RotateLeft(%#08x, %d) == %#08x; want %#08x", x, k, got, want)
+			if golangt != want {
+				t.Fatalf("RotateLeft(%#08x, %d) == %#08x; want %#08x", x, k, golangt, want)
 			}
-			got = RotateLeft(want, -int(k))
-			if got != x {
-				t.Fatalf("RotateLeft(%#08x, -%d) == %#08x; want %#08x", want, k, got, x)
+			golangt = RotateLeft(want, -int(k))
+			if golangt != x {
+				t.Fatalf("RotateLeft(%#08x, -%d) == %#08x; want %#08x", want, k, golangt, x)
 			}
 		}
 
 		x64 := uint64(m)
-		got64 := RotateLeft64(x64, int(k))
+		golangt64 := RotateLeft64(x64, int(k))
 		want64 := x64<<(k&0x3f) | x64>>(64-k&0x3f)
-		if got64 != want64 {
-			t.Fatalf("RotateLeft64(%#016x, %d) == %#016x; want %#016x", x64, k, got64, want64)
+		if golangt64 != want64 {
+			t.Fatalf("RotateLeft64(%#016x, %d) == %#016x; want %#016x", x64, k, golangt64, want64)
 		}
-		got64 = RotateLeft64(want64, -int(k))
-		if got64 != x64 {
-			t.Fatalf("RotateLeft64(%#016x, -%d) == %#016x; want %#016x", want64, k, got64, x64)
+		golangt64 = RotateLeft64(want64, -int(k))
+		if golangt64 != x64 {
+			t.Fatalf("RotateLeft64(%#016x, -%d) == %#016x; want %#016x", want64, k, golangt64, x64)
 		}
 		if UintSize == 64 {
 			x := uint(m)
-			got := RotateLeft(x, int(k))
+			golangt := RotateLeft(x, int(k))
 			want := x<<(k&0x3f) | x>>(64-k&0x3f)
-			if got != want {
-				t.Fatalf("RotateLeft(%#016x, %d) == %#016x; want %#016x", x, k, got, want)
+			if golangt != want {
+				t.Fatalf("RotateLeft(%#016x, %d) == %#016x; want %#016x", x, k, golangt, want)
 			}
-			got = RotateLeft(want, -int(k))
-			if got != x {
-				t.Fatalf("RotateLeft(%#08x, -%d) == %#08x; want %#08x", want, k, got, x)
+			golangt = RotateLeft(want, -int(k))
+			if golangt != x {
+				t.Fatalf("RotateLeft(%#08x, -%d) == %#08x; want %#08x", want, k, golangt, x)
 			}
 		}
 	}
@@ -484,44 +484,44 @@ func TestReverse(t *testing.T) {
 
 func testReverse(t *testing.T, x64, want64 uint64) {
 	x8 := uint8(x64)
-	got8 := Reverse8(x8)
+	golangt8 := Reverse8(x8)
 	want8 := uint8(want64 >> (64 - 8))
-	if got8 != want8 {
-		t.Fatalf("Reverse8(%#02x) == %#02x; want %#02x", x8, got8, want8)
+	if golangt8 != want8 {
+		t.Fatalf("Reverse8(%#02x) == %#02x; want %#02x", x8, golangt8, want8)
 	}
 
 	x16 := uint16(x64)
-	got16 := Reverse16(x16)
+	golangt16 := Reverse16(x16)
 	want16 := uint16(want64 >> (64 - 16))
-	if got16 != want16 {
-		t.Fatalf("Reverse16(%#04x) == %#04x; want %#04x", x16, got16, want16)
+	if golangt16 != want16 {
+		t.Fatalf("Reverse16(%#04x) == %#04x; want %#04x", x16, golangt16, want16)
 	}
 
 	x32 := uint32(x64)
-	got32 := Reverse32(x32)
+	golangt32 := Reverse32(x32)
 	want32 := uint32(want64 >> (64 - 32))
-	if got32 != want32 {
-		t.Fatalf("Reverse32(%#08x) == %#08x; want %#08x", x32, got32, want32)
+	if golangt32 != want32 {
+		t.Fatalf("Reverse32(%#08x) == %#08x; want %#08x", x32, golangt32, want32)
 	}
 	if UintSize == 32 {
 		x := uint(x32)
-		got := Reverse(x)
+		golangt := Reverse(x)
 		want := uint(want32)
-		if got != want {
-			t.Fatalf("Reverse(%#08x) == %#08x; want %#08x", x, got, want)
+		if golangt != want {
+			t.Fatalf("Reverse(%#08x) == %#08x; want %#08x", x, golangt, want)
 		}
 	}
 
-	got64 := Reverse64(x64)
-	if got64 != want64 {
-		t.Fatalf("Reverse64(%#016x) == %#016x; want %#016x", x64, got64, want64)
+	golangt64 := Reverse64(x64)
+	if golangt64 != want64 {
+		t.Fatalf("Reverse64(%#016x) == %#016x; want %#016x", x64, golangt64, want64)
 	}
 	if UintSize == 64 {
 		x := uint(x64)
-		got := Reverse(x)
+		golangt := Reverse(x)
 		want := uint(want64)
-		if got != want {
-			t.Fatalf("Reverse(%#08x) == %#016x; want %#016x", x, got, want)
+		if golangt != want {
+			t.Fatalf("Reverse(%#08x) == %#016x; want %#016x", x, golangt, want)
 		}
 	}
 }
@@ -587,37 +587,37 @@ func TestReverseBytes(t *testing.T) {
 
 func testReverseBytes(t *testing.T, x64, want64 uint64) {
 	x16 := uint16(x64)
-	got16 := ReverseBytes16(x16)
+	golangt16 := ReverseBytes16(x16)
 	want16 := uint16(want64 >> (64 - 16))
-	if got16 != want16 {
-		t.Fatalf("ReverseBytes16(%#04x) == %#04x; want %#04x", x16, got16, want16)
+	if golangt16 != want16 {
+		t.Fatalf("ReverseBytes16(%#04x) == %#04x; want %#04x", x16, golangt16, want16)
 	}
 
 	x32 := uint32(x64)
-	got32 := ReverseBytes32(x32)
+	golangt32 := ReverseBytes32(x32)
 	want32 := uint32(want64 >> (64 - 32))
-	if got32 != want32 {
-		t.Fatalf("ReverseBytes32(%#08x) == %#08x; want %#08x", x32, got32, want32)
+	if golangt32 != want32 {
+		t.Fatalf("ReverseBytes32(%#08x) == %#08x; want %#08x", x32, golangt32, want32)
 	}
 	if UintSize == 32 {
 		x := uint(x32)
-		got := ReverseBytes(x)
+		golangt := ReverseBytes(x)
 		want := uint(want32)
-		if got != want {
-			t.Fatalf("ReverseBytes(%#08x) == %#08x; want %#08x", x, got, want)
+		if golangt != want {
+			t.Fatalf("ReverseBytes(%#08x) == %#08x; want %#08x", x, golangt, want)
 		}
 	}
 
-	got64 := ReverseBytes64(x64)
-	if got64 != want64 {
-		t.Fatalf("ReverseBytes64(%#016x) == %#016x; want %#016x", x64, got64, want64)
+	golangt64 := ReverseBytes64(x64)
+	if golangt64 != want64 {
+		t.Fatalf("ReverseBytes64(%#016x) == %#016x; want %#016x", x64, golangt64, want64)
 	}
 	if UintSize == 64 {
 		x := uint(x64)
-		got := ReverseBytes(x)
+		golangt := ReverseBytes(x)
 		want := uint(want64)
-		if got != want {
-			t.Fatalf("ReverseBytes(%#016x) == %#016x; want %#016x", x, got, want)
+		if golangt != want {
+			t.Fatalf("ReverseBytes(%#016x) == %#016x; want %#016x", x, golangt, want)
 		}
 	}
 }
@@ -664,41 +664,41 @@ func TestLen(t *testing.T) {
 				want = len + k
 			}
 			if x <= 1<<8-1 {
-				got := Len8(uint8(x))
-				if got != want {
-					t.Fatalf("Len8(%#02x) == %d; want %d", x, got, want)
+				golangt := Len8(uint8(x))
+				if golangt != want {
+					t.Fatalf("Len8(%#02x) == %d; want %d", x, golangt, want)
 				}
 			}
 
 			if x <= 1<<16-1 {
-				got := Len16(uint16(x))
-				if got != want {
-					t.Fatalf("Len16(%#04x) == %d; want %d", x, got, want)
+				golangt := Len16(uint16(x))
+				if golangt != want {
+					t.Fatalf("Len16(%#04x) == %d; want %d", x, golangt, want)
 				}
 			}
 
 			if x <= 1<<32-1 {
-				got := Len32(uint32(x))
-				if got != want {
-					t.Fatalf("Len32(%#08x) == %d; want %d", x, got, want)
+				golangt := Len32(uint32(x))
+				if golangt != want {
+					t.Fatalf("Len32(%#08x) == %d; want %d", x, golangt, want)
 				}
 				if UintSize == 32 {
-					got := Len(uint(x))
-					if got != want {
-						t.Fatalf("Len(%#08x) == %d; want %d", x, got, want)
+					golangt := Len(uint(x))
+					if golangt != want {
+						t.Fatalf("Len(%#08x) == %d; want %d", x, golangt, want)
 					}
 				}
 			}
 
 			if x <= 1<<64-1 {
-				got := Len64(uint64(x))
-				if got != want {
-					t.Fatalf("Len64(%#016x) == %d; want %d", x, got, want)
+				golangt := Len64(uint64(x))
+				if golangt != want {
+					t.Fatalf("Len64(%#016x) == %d; want %d", x, golangt, want)
 				}
 				if UintSize == 64 {
-					got := Len(uint(x))
-					if got != want {
-						t.Fatalf("Len(%#016x) == %d; want %d", x, got, want)
+					golangt := Len(uint(x))
+					if golangt != want {
+						t.Fatalf("Len(%#016x) == %d; want %d", x, golangt, want)
 					}
 				}
 			}
@@ -716,7 +716,7 @@ func TestAddSubUint(t *testing.T) {
 	test := func(msg string, f func(x, y, c uint) (z, cout uint), x, y, c, z, cout uint) {
 		z1, cout1 := f(x, y, c)
 		if z1 != z || cout1 != cout {
-			t.Errorf("%s: got z:cout = %#x:%#x; want %#x:%#x", msg, z1, cout1, z, cout)
+			t.Errorf("%s: golangt z:cout = %#x:%#x; want %#x:%#x", msg, z1, cout1, z, cout)
 		}
 	}
 	for _, a := range []struct{ x, y, c, z, cout uint }{
@@ -750,7 +750,7 @@ func TestAddSubUint32(t *testing.T) {
 	test := func(msg string, f func(x, y, c uint32) (z, cout uint32), x, y, c, z, cout uint32) {
 		z1, cout1 := f(x, y, c)
 		if z1 != z || cout1 != cout {
-			t.Errorf("%s: got z:cout = %#x:%#x; want %#x:%#x", msg, z1, cout1, z, cout)
+			t.Errorf("%s: golangt z:cout = %#x:%#x; want %#x:%#x", msg, z1, cout1, z, cout)
 		}
 	}
 	for _, a := range []struct{ x, y, c, z, cout uint32 }{
@@ -777,7 +777,7 @@ func TestAddSubUint64(t *testing.T) {
 	test := func(msg string, f func(x, y, c uint64) (z, cout uint64), x, y, c, z, cout uint64) {
 		z1, cout1 := f(x, y, c)
 		if z1 != z || cout1 != cout {
-			t.Errorf("%s: got z:cout = %#x:%#x; want %#x:%#x", msg, z1, cout1, z, cout)
+			t.Errorf("%s: golangt z:cout = %#x:%#x; want %#x:%#x", msg, z1, cout1, z, cout)
 		}
 	}
 	for _, a := range []struct{ x, y, c, z, cout uint64 }{
@@ -934,13 +934,13 @@ func TestMulDiv(t *testing.T) {
 	testMul := func(msg string, f func(x, y uint) (hi, lo uint), x, y, hi, lo uint) {
 		hi1, lo1 := f(x, y)
 		if hi1 != hi || lo1 != lo {
-			t.Errorf("%s: got hi:lo = %#x:%#x; want %#x:%#x", msg, hi1, lo1, hi, lo)
+			t.Errorf("%s: golangt hi:lo = %#x:%#x; want %#x:%#x", msg, hi1, lo1, hi, lo)
 		}
 	}
 	testDiv := func(msg string, f func(hi, lo, y uint) (q, r uint), hi, lo, y, q, r uint) {
 		q1, r1 := f(hi, lo, y)
 		if q1 != q || r1 != r {
-			t.Errorf("%s: got q:r = %#x:%#x; want %#x:%#x", msg, q1, r1, q, r)
+			t.Errorf("%s: golangt q:r = %#x:%#x; want %#x:%#x", msg, q1, r1, q, r)
 		}
 	}
 	for _, a := range []struct {
@@ -967,13 +967,13 @@ func TestMulDiv32(t *testing.T) {
 	testMul := func(msg string, f func(x, y uint32) (hi, lo uint32), x, y, hi, lo uint32) {
 		hi1, lo1 := f(x, y)
 		if hi1 != hi || lo1 != lo {
-			t.Errorf("%s: got hi:lo = %#x:%#x; want %#x:%#x", msg, hi1, lo1, hi, lo)
+			t.Errorf("%s: golangt hi:lo = %#x:%#x; want %#x:%#x", msg, hi1, lo1, hi, lo)
 		}
 	}
 	testDiv := func(msg string, f func(hi, lo, y uint32) (q, r uint32), hi, lo, y, q, r uint32) {
 		q1, r1 := f(hi, lo, y)
 		if q1 != q || r1 != r {
-			t.Errorf("%s: got q:r = %#x:%#x; want %#x:%#x", msg, q1, r1, q, r)
+			t.Errorf("%s: golangt q:r = %#x:%#x; want %#x:%#x", msg, q1, r1, q, r)
 		}
 	}
 	for _, a := range []struct {
@@ -995,13 +995,13 @@ func TestMulDiv64(t *testing.T) {
 	testMul := func(msg string, f func(x, y uint64) (hi, lo uint64), x, y, hi, lo uint64) {
 		hi1, lo1 := f(x, y)
 		if hi1 != hi || lo1 != lo {
-			t.Errorf("%s: got hi:lo = %#x:%#x; want %#x:%#x", msg, hi1, lo1, hi, lo)
+			t.Errorf("%s: golangt hi:lo = %#x:%#x; want %#x:%#x", msg, hi1, lo1, hi, lo)
 		}
 	}
 	testDiv := func(msg string, f func(hi, lo, y uint64) (q, r uint64), hi, lo, y, q, r uint64) {
 		q1, r1 := f(hi, lo, y)
 		if q1 != q || r1 != r {
-			t.Errorf("%s: got q:r = %#x:%#x; want %#x:%#x", msg, q1, r1, q, r)
+			t.Errorf("%s: golangt q:r = %#x:%#x; want %#x:%#x", msg, q1, r1, q, r)
 		}
 	}
 	for _, a := range []struct {
@@ -1036,7 +1036,7 @@ func TestDivPanicOverflow(t *testing.T) {
 		if err := recover(); err == nil {
 			t.Error("Div should have panicked when y<=hi")
 		} else if e, ok := err.(runtime.Error); !ok || e.Error() != overflowError {
-			t.Errorf("Div expected panic: %q, got: %q ", overflowError, e.Error())
+			t.Errorf("Div expected panic: %q, golangt: %q ", overflowError, e.Error())
 		}
 	}()
 	q, r := Div(1, 0, 1)
@@ -1049,7 +1049,7 @@ func TestDiv32PanicOverflow(t *testing.T) {
 		if err := recover(); err == nil {
 			t.Error("Div32 should have panicked when y<=hi")
 		} else if e, ok := err.(runtime.Error); !ok || e.Error() != overflowError {
-			t.Errorf("Div32 expected panic: %q, got: %q ", overflowError, e.Error())
+			t.Errorf("Div32 expected panic: %q, golangt: %q ", overflowError, e.Error())
 		}
 	}()
 	q, r := Div32(1, 0, 1)
@@ -1062,7 +1062,7 @@ func TestDiv64PanicOverflow(t *testing.T) {
 		if err := recover(); err == nil {
 			t.Error("Div64 should have panicked when y<=hi")
 		} else if e, ok := err.(runtime.Error); !ok || e.Error() != overflowError {
-			t.Errorf("Div64 expected panic: %q, got: %q ", overflowError, e.Error())
+			t.Errorf("Div64 expected panic: %q, golangt: %q ", overflowError, e.Error())
 		}
 	}()
 	q, r := Div64(1, 0, 1)
@@ -1075,7 +1075,7 @@ func TestDivPanicZero(t *testing.T) {
 		if err := recover(); err == nil {
 			t.Error("Div should have panicked when y==0")
 		} else if e, ok := err.(runtime.Error); !ok || e.Error() != divZeroError {
-			t.Errorf("Div expected panic: %q, got: %q ", divZeroError, e.Error())
+			t.Errorf("Div expected panic: %q, golangt: %q ", divZeroError, e.Error())
 		}
 	}()
 	q, r := Div(1, 1, 0)
@@ -1088,7 +1088,7 @@ func TestDiv32PanicZero(t *testing.T) {
 		if err := recover(); err == nil {
 			t.Error("Div32 should have panicked when y==0")
 		} else if e, ok := err.(runtime.Error); !ok || e.Error() != divZeroError {
-			t.Errorf("Div32 expected panic: %q, got: %q ", divZeroError, e.Error())
+			t.Errorf("Div32 expected panic: %q, golangt: %q ", divZeroError, e.Error())
 		}
 	}()
 	q, r := Div32(1, 1, 0)
@@ -1101,7 +1101,7 @@ func TestDiv64PanicZero(t *testing.T) {
 		if err := recover(); err == nil {
 			t.Error("Div64 should have panicked when y==0")
 		} else if e, ok := err.(runtime.Error); !ok || e.Error() != divZeroError {
-			t.Errorf("Div64 expected panic: %q, got: %q ", divZeroError, e.Error())
+			t.Errorf("Div64 expected panic: %q, golangt: %q ", divZeroError, e.Error())
 		}
 	}()
 	q, r := Div64(1, 1, 0)

@@ -1,5 +1,5 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Page allocator.
@@ -71,7 +71,7 @@ const (
 	// The following equation explains how each of the constants relate:
 	// summaryL0Bits + (summaryLevels-1)*summaryLevelBits + logPallocChunkBytes = heapAddrBits
 	//
-	// summaryLevels is an architecture-dependent value defined in mpagealloc_*.go.
+	// summaryLevels is an architecture-dependent value defined in mpagealloc_*.golang.
 	summaryLevelBits = 3
 	summaryL0Bits    = heapAddrBits - logPallocChunkBytes - (summaryLevels-1)*summaryLevelBits
 
@@ -226,7 +226,7 @@ type pageAlloc struct {
 	// There's no reason to use the L1 part of chunks on 32-bit, the
 	// address space is small so the L2 is small. For platforms with a
 	// 48-bit address space, we pick the L1 such that the L2 is 1 MiB
-	// in size, which is a good balance between low granularity without
+	// in size, which is a golangod balance between low granularity without
 	// making the impact on BSS too high (note the L1 is stored directly
 	// in pageAlloc).
 	//
@@ -443,7 +443,7 @@ func (p *pageAlloc) grow(base, size uintptr) {
 //
 // Must be called on the system stack because it acquires the heap lock.
 //
-//go:systemstack
+//golang:systemstack
 func (p *pageAlloc) enableChunkHugePages() {
 	// Grab the heap lock to turn on huge pages for new chunks and clone the current
 	// heap address space ranges.
@@ -650,9 +650,9 @@ func (p *pageAlloc) findMappedAddr(addr offAddr) offAddr {
 func (p *pageAlloc) find(npages uintptr) (uintptr, offAddr) {
 	assertLockHeld(p.mheapLock)
 
-	// Search algorithm.
+	// Search algolangrithm.
 	//
-	// This algorithm walks each level l of the radix tree from the root level
+	// This algolangrithm walks each level l of the radix tree from the root level
 	// to the leaf level. It iterates over at most 1 << levelBits[l] of entries
 	// in a given level in the radix tree, and uses the summary information to
 	// find either:
@@ -832,7 +832,7 @@ nextLevel:
 		throw("bad summary data")
 	}
 
-	// Since we've gotten to this point, that means we haven't found a
+	// Since we've golangtten to this point, that means we haven't found a
 	// sufficiently-sized free region straddling some boundary (chunk or larger).
 	// This means the last summary we inspected must have had a large enough "max"
 	// value, so look inside the chunk to find a suitable run.
@@ -871,7 +871,7 @@ nextLevel:
 //
 // Must run on the system stack because p.mheapLock must be held.
 //
-//go:systemstack
+//golang:systemstack
 func (p *pageAlloc) alloc(npages uintptr) (addr uintptr, scav uintptr) {
 	assertLockHeld(p.mheapLock)
 
@@ -896,7 +896,7 @@ func (p *pageAlloc) alloc(npages uintptr) (addr uintptr, scav uintptr) {
 			}
 			addr = chunkBase(i) + uintptr(j)*pageSize
 			searchAddr = offAddr{chunkBase(i) + uintptr(searchIdx)*pageSize}
-			goto Found
+			golangto Found
 		}
 	}
 	// We failed to use a searchAddr for one reason or another, so try
@@ -932,7 +932,7 @@ Found:
 //
 // Must run on the system stack because p.mheapLock must be held.
 //
-//go:systemstack
+//golang:systemstack
 func (p *pageAlloc) free(base, npages uintptr) {
 	assertLockHeld(p.mheapLock)
 

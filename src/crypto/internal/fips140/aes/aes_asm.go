@@ -1,24 +1,24 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build (amd64 || arm64 || ppc64 || ppc64le) && !purego
+//golang:build (amd64 || arm64 || ppc64 || ppc64le) && !puregolang
 
 package aes
 
 import (
 	"crypto/internal/fips140deps/cpu"
-	"crypto/internal/fips140deps/godebug"
+	"crypto/internal/fips140deps/golangdebug"
 	"crypto/internal/impl"
 )
 
-//go:noescape
+//golang:noescape
 func encryptBlockAsm(nr int, xk *uint32, dst, src *byte)
 
-//go:noescape
+//golang:noescape
 func decryptBlockAsm(nr int, xk *uint32, dst, src *byte)
 
-//go:noescape
+//golang:noescape
 func expandKeyAsm(nr int, key *byte, enc *uint32, dec *uint32)
 
 var supportsAES = cpu.X86HasAES && cpu.X86HasSSE41 && cpu.X86HasSSSE3 ||
@@ -36,7 +36,7 @@ func init() {
 		// at runtime with GODEBUG=cpu.something=off, so introduce a new GODEBUG
 		// knob for that. It's intentionally only checked at init() time, to
 		// avoid the performance overhead of checking it every time.
-		if godebug.Value("#ppc64aes") == "off" {
+		if golangdebug.Value("#ppc64aes") == "off" {
 			supportsAES = false
 		}
 		impl.Register("aes", "POWER8", &supportsAES)

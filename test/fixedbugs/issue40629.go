@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -29,11 +29,11 @@ func main() {
 		}
 	}(&x)
 
-	// This defer starts a new goroutine, which will (hopefully)
+	// This defer starts a new golangroutine, which will (hopefully)
 	// overwrite x on the garbage stack.
 	defer func() {
 		c := make(chan bool)
-		go func() {
+		golang func() {
 			useStack(1000)
 			c <- true
 		}()

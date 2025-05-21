@@ -1,8 +1,8 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build cgo
+//golang:build cgolang
 
 package sysrand_test
 
@@ -37,9 +37,9 @@ func TestNoGetrandom(t *testing.T) {
 	testenv.MustHaveExec(t)
 
 	done := make(chan struct{})
-	go func() {
+	golang func() {
 		defer close(done)
-		// Call LockOSThread in a new goroutine, where we will apply the seccomp
+		// Call LockOSThread in a new golangroutine, where we will apply the seccomp
 		// filter. We exit without unlocking the thread, so the thread will die
 		// and won't be reused.
 		runtime.LockOSThread()

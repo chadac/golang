@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package bytes_test
@@ -291,7 +291,7 @@ func runIndexTests(t *testing.T, f func(s, sep []byte) int, funcName string, tes
 		}
 	})
 	if allocs != 0 {
-		t.Errorf("expected no allocations, got %f", allocs)
+		t.Errorf("expected no allocations, golangt %f", allocs)
 	}
 }
 
@@ -498,8 +498,8 @@ func TestIndexRune(t *testing.T) {
 		{"aaKKKKKa鄄", '鄄', 18},
 	}
 	for _, tt := range tests {
-		if got := IndexRune([]byte(tt.in), tt.rune); got != tt.want {
-			t.Errorf("IndexRune(%q, %d) = %v; want %v", tt.in, tt.rune, got, tt.want)
+		if golangt := IndexRune([]byte(tt.in), tt.rune); golangt != tt.want {
+			t.Errorf("IndexRune(%q, %d) = %v; want %v", tt.in, tt.rune, golangt, tt.want)
 		}
 	}
 
@@ -513,7 +513,7 @@ func TestIndexRune(t *testing.T) {
 		}
 	})
 	if allocs != 0 {
-		t.Errorf("expected no allocations, got %f", allocs)
+		t.Errorf("expected no allocations, golangt %f", allocs)
 	}
 }
 
@@ -1231,7 +1231,7 @@ func TestMap(t *testing.T) {
 	m := Map(maxRune, []byte(a))
 	expect := tenRunes(unicode.MaxRune)
 	if string(m) != expect {
-		t.Errorf("growing: expected %q got %q", expect, m)
+		t.Errorf("growing: expected %q golangt %q", expect, m)
 	}
 
 	// 2. Shrink
@@ -1239,21 +1239,21 @@ func TestMap(t *testing.T) {
 	m = Map(minRune, []byte(tenRunes(unicode.MaxRune)))
 	expect = a
 	if string(m) != expect {
-		t.Errorf("shrinking: expected %q got %q", expect, m)
+		t.Errorf("shrinking: expected %q golangt %q", expect, m)
 	}
 
 	// 3. Rot13
 	m = Map(rot13, []byte("a to zed"))
 	expect = "n gb mrq"
 	if string(m) != expect {
-		t.Errorf("rot13: expected %q got %q", expect, m)
+		t.Errorf("rot13: expected %q golangt %q", expect, m)
 	}
 
 	// 4. Rot13^2
 	m = Map(rot13, Map(rot13, []byte("a to zed")))
 	expect = "a to zed"
 	if string(m) != expect {
-		t.Errorf("rot13: expected %q got %q", expect, m)
+		t.Errorf("rot13: expected %q golangt %q", expect, m)
 	}
 
 	// 5. Drop
@@ -1266,7 +1266,7 @@ func TestMap(t *testing.T) {
 	m = Map(dropNotLatin, []byte("Hello, 세계"))
 	expect = "Hello"
 	if string(m) != expect {
-		t.Errorf("drop: expected %q got %q", expect, m)
+		t.Errorf("drop: expected %q golangt %q", expect, m)
 	}
 
 	// 6. Invalid rune
@@ -1276,7 +1276,7 @@ func TestMap(t *testing.T) {
 	m = Map(invalidRune, []byte("x"))
 	expect = "\uFFFD"
 	if string(m) != expect {
-		t.Errorf("invalidRune: expected %q got %q", expect, m)
+		t.Errorf("invalidRune: expected %q golangt %q", expect, m)
 	}
 }
 
@@ -1335,9 +1335,9 @@ var toValidUTF8Tests = []struct {
 
 func TestToValidUTF8(t *testing.T) {
 	for _, tc := range toValidUTF8Tests {
-		got := ToValidUTF8([]byte(tc.in), []byte(tc.repl))
-		if !Equal(got, []byte(tc.out)) {
-			t.Errorf("ToValidUTF8(%q, %q) = %q; want %q", tc.in, tc.repl, got, tc.out)
+		golangt := ToValidUTF8([]byte(tc.in), []byte(tc.repl))
+		if !Equal(golangt, []byte(tc.out)) {
+			t.Errorf("ToValidUTF8(%q, %q) = %q; want %q", tc.in, tc.repl, golangt, tc.out)
 		}
 	}
 }
@@ -1393,7 +1393,7 @@ func repeat(b []byte, count int) (err error) {
 	return
 }
 
-// See Issue golang.org/issue/16237
+// See Issue golanglang.org/issue/16237
 func TestRepeatCatchesOverflow(t *testing.T) {
 	type testCase struct {
 		s      string
@@ -1412,7 +1412,7 @@ func TestRepeatCatchesOverflow(t *testing.T) {
 			}
 
 			if err == nil || !strings.Contains(err.Error(), tt.errStr) {
-				t.Errorf("%s#%d got %q want %q", prefix, i, err, tt.errStr)
+				t.Errorf("%s#%d golangt %q want %q", prefix, i, err, tt.errStr)
 			}
 		}
 	}
@@ -1423,7 +1423,7 @@ func TestRepeatCatchesOverflow(t *testing.T) {
 		0: {"--", -2147483647, "negative"},
 		1: {"", maxInt, ""},
 		2: {"-", 10, ""},
-		3: {"gopher", 0, ""},
+		3: {"golangpher", 0, ""},
 		4: {"-", -1, "negative"},
 		5: {"--", -102, "negative"},
 		6: {string(make([]byte, 255)), int((^uint(0))/255 + 1), "overflow"},
@@ -1611,7 +1611,7 @@ func TestTrim(t *testing.T) {
 			actualNil := actual == nil
 			outNil := tc.out == nil
 			if actualNil != outNil {
-				t.Errorf("%s(%s, %q) got nil %t; want nil %t", name, report(tc.in), tc.arg, actualNil, outNil)
+				t.Errorf("%s(%s, %q) golangt nil %t; want nil %t", name, report(tc.in), tc.arg, actualNil, outNil)
 			}
 		}
 	}
@@ -2057,8 +2057,8 @@ var containsTests = []struct {
 
 func TestContains(t *testing.T) {
 	for _, tt := range containsTests {
-		if got := Contains(tt.b, tt.subslice); got != tt.want {
-			t.Errorf("Contains(%q, %q) = %v, want %v", tt.b, tt.subslice, got, tt.want)
+		if golangt := Contains(tt.b, tt.subslice); golangt != tt.want {
+			t.Errorf("Contains(%q, %q) = %v, want %v", tt.b, tt.subslice, golangt, tt.want)
 		}
 	}
 }

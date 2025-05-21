@@ -1,11 +1,11 @@
 env GO111MODULE=off
 
 # issue 28491: errors in test source files should not prevent
-# "go list -test" from returning useful information.
+# "golang list -test" from returning useful information.
 
-# go list -e prints information for all test packages.
+# golang list -e prints information for all test packages.
 # The syntax error is shown in the package error field.
-go list -e -test -deps -f '{{.ImportPath}} {{.Error | printf "%q"}}' syntaxerr
+golang list -e -test -deps -f '{{.ImportPath}} {{.Error | printf "%q"}}' syntaxerr
 stdout 'pkgdep <nil>'
 stdout 'testdep_a <nil>'
 stdout 'testdep_b <nil>'
@@ -17,55 +17,55 @@ stdout 'syntaxerr\.test "[^"]*expected declaration'
 
 [short] stop
 
-go list -e -test -deps -f '{{.ImportPath}} {{.Error | printf "%q"}}' nameerr
+golang list -e -test -deps -f '{{.ImportPath}} {{.Error | printf "%q"}}' nameerr
 stdout 'pkgdep <nil>'
 stdout 'testdep_a <nil>'
 stdout 'testdep_b <nil>'
 stdout 'nameerr\.test "[^"]*wrong signature for TestBad'
 ! stderr 'wrong signature for TestBad'
 
-# go list prints a useful error for generic test functions
-! go list -test -deps genericerr
+# golang list prints a useful error for generic test functions
+! golang list -test -deps genericerr
 stderr 'wrong signature for TestGeneric, test functions cannot have type parameters'
 
-go list -e -test -deps -f '{{.ImportPath}} {{.Error | printf "%q"}}' cycleerr
+golang list -e -test -deps -f '{{.ImportPath}} {{.Error | printf "%q"}}' cycleerr
 stdout 'cycleerr <nil>'
 stdout 'testdep_a <nil>'
 stdout 'testdep_cycle \[cycleerr.test\] <nil>'
 stdout 'cycleerr \[cycleerr.test\] "[^"]*import cycle not allowed in test'
 ! stderr 'import cycle not allowed in test'
 
--- syntaxerr/syntaxerr.go --
+-- syntaxerr/syntaxerr.golang --
 package syntaxerr
 
 import _ "pkgdep"
 
--- syntaxerr/syntaxerr_ie_test.go --
+-- syntaxerr/syntaxerr_ie_test.golang --
 package syntaxerr
 
 !!!syntax error
 
--- syntaxerr/syntaxerr_xe_test.go --
+-- syntaxerr/syntaxerr_xe_test.golang --
 package syntaxerr_test
 
 !!!syntax error
 
--- syntaxerr/syntaxerr_i_test.go --
+-- syntaxerr/syntaxerr_i_test.golang --
 package syntaxerr
 
 import _ "testdep_a"
 
--- syntaxerr/syntaxerr_x_test.go --
+-- syntaxerr/syntaxerr_x_test.golang --
 package syntaxerr
 
 import _ "testdep_b"
 
--- nameerr/nameerr.go --
+-- nameerr/nameerr.golang --
 package nameerr
 
 import _ "pkgdep"
 
--- nameerr/nameerr_i_test.go --
+-- nameerr/nameerr_i_test.golang --
 package nameerr
 
 import (
@@ -75,7 +75,7 @@ import (
 
 func TestBad(t *testing.B) {}
 
--- nameerr/nameerr_x_test.go --
+-- nameerr/nameerr_x_test.golang --
 package nameerr_test
 
 import (
@@ -85,17 +85,17 @@ import (
 
 func TestBad(t *testing.B) {}
 
--- genericerr/genericerr.go --
+-- genericerr/genericerr.golang --
 package genericerr
 
--- genericerr/genericerr_test.go --
+-- genericerr/genericerr_test.golang --
 package genericerr
 
 import "testing"
 
 func TestGeneric[T any](t *testing.T) {}
 
--- cycleerr/cycleerr_test.go --
+-- cycleerr/cycleerr_test.golang --
 package cycleerr
 
 import (
@@ -103,16 +103,16 @@ import (
   _ "testdep_cycle"
 )
 
--- pkgdep/pkgdep.go --
+-- pkgdep/pkgdep.golang --
 package pkgdep
 
--- testdep_a/testdep_a.go --
+-- testdep_a/testdep_a.golang --
 package testdep_a
 
--- testdep_b/testdep_b.go --
+-- testdep_b/testdep_b.golang --
 package testdep_b
 
--- testdep_cycle/testdep_cycle.go --
+-- testdep_cycle/testdep_cycle.golang --
 package testdep_cycle
 
 import _ "cycleerr"

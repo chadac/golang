@@ -1,8 +1,8 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build solaris && !illumos
+//golang:build solaris && !illumos
 
 package net
 
@@ -52,7 +52,7 @@ func getCurrentKeepAliveSettings(fd fdType) (cfg KeepAliveConfig, err error) {
 
 		// TCP_KEEPINTVL and TCP_KEEPCNT are not available on Solaris prior to 11.4,
 		// so we have to use the value of TCP_KEEPALIVE_ABORT_THRESHOLD for Interval
-		// and 1 for Count to keep this test going.
+		// and 1 for Count to keep this test golanging.
 		tcpKeepAliveInterval, err = syscall.GetsockoptInt(fd, syscall.IPPROTO_TCP, syscall.TCP_KEEPALIVE_ABORT_THRESHOLD)
 		if err != nil {
 			return
@@ -117,7 +117,7 @@ func verifyKeepAliveSettings(t *testing.T, fd fdType, oldCfg, cfg KeepAliveConfi
 		t.Fatal(err)
 	}
 	if (tcpKeepAlive != 0) != cfg.Enable {
-		t.Fatalf("SO_KEEPALIVE: got %t; want %t", tcpKeepAlive != 0, cfg.Enable)
+		t.Fatalf("SO_KEEPALIVE: golangt %t; want %t", tcpKeepAlive != 0, cfg.Enable)
 	}
 
 	// TCP_KEEPALIVE_THRESHOLD and TCP_KEEPALIVE_ABORT_THRESHOLD are both available on Solaris 11.4
@@ -127,7 +127,7 @@ func verifyKeepAliveSettings(t *testing.T, fd fdType, oldCfg, cfg KeepAliveConfi
 		t.Fatal(err)
 	}
 	if time.Duration(tcpKeepAliveThreshold)*time.Millisecond != cfg.Idle {
-		t.Fatalf("TCP_KEEPIDLE: got %dms; want %v", tcpKeepAliveThreshold, cfg.Idle)
+		t.Fatalf("TCP_KEEPIDLE: golangt %dms; want %v", tcpKeepAliveThreshold, cfg.Idle)
 	}
 
 	tcpKeepAliveAbortInterval, err := syscall.GetsockoptInt(fd, syscall.IPPROTO_TCP, syscall.TCP_KEEPALIVE_ABORT_THRESHOLD)
@@ -135,7 +135,7 @@ func verifyKeepAliveSettings(t *testing.T, fd fdType, oldCfg, cfg KeepAliveConfi
 		t.Fatal(err)
 	}
 	if time.Duration(tcpKeepAliveAbortInterval)*time.Millisecond != tcpKeepAliveAbortThreshold {
-		t.Fatalf("TCP_KEEPALIVE_ABORT_THRESHOLD: got %dms; want %v", tcpKeepAliveAbortInterval, tcpKeepAliveAbortThreshold)
+		t.Fatalf("TCP_KEEPALIVE_ABORT_THRESHOLD: golangt %dms; want %v", tcpKeepAliveAbortInterval, tcpKeepAliveAbortThreshold)
 	}
 
 	if unix.SupportTCPKeepAliveIdleIntvlCNT() {
@@ -144,7 +144,7 @@ func verifyKeepAliveSettings(t *testing.T, fd fdType, oldCfg, cfg KeepAliveConfi
 			t.Fatal(err)
 		}
 		if time.Duration(tcpKeepAliveIdle)*time.Second != cfg.Idle {
-			t.Fatalf("TCP_KEEPIDLE: got %ds; want %v", tcpKeepAliveIdle, cfg.Idle)
+			t.Fatalf("TCP_KEEPIDLE: golangt %ds; want %v", tcpKeepAliveIdle, cfg.Idle)
 		}
 
 		tcpKeepAliveInterval, err := syscall.GetsockoptInt(fd, syscall.IPPROTO_TCP, syscall_TCP_KEEPINTVL)
@@ -152,7 +152,7 @@ func verifyKeepAliveSettings(t *testing.T, fd fdType, oldCfg, cfg KeepAliveConfi
 			t.Fatal(err)
 		}
 		if time.Duration(tcpKeepAliveInterval)*time.Second != cfg.Interval {
-			t.Fatalf("TCP_KEEPINTVL: got %ds; want %v", tcpKeepAliveInterval, cfg.Interval)
+			t.Fatalf("TCP_KEEPINTVL: golangt %ds; want %v", tcpKeepAliveInterval, cfg.Interval)
 		}
 
 		tcpKeepAliveCount, err := syscall.GetsockoptInt(fd, syscall.IPPROTO_TCP, syscall_TCP_KEEPCNT)
@@ -160,11 +160,11 @@ func verifyKeepAliveSettings(t *testing.T, fd fdType, oldCfg, cfg KeepAliveConfi
 			t.Fatal(err)
 		}
 		if tcpKeepAliveCount != cfg.Count {
-			t.Fatalf("TCP_KEEPCNT: got %d; want %d", tcpKeepAliveCount, cfg.Count)
+			t.Fatalf("TCP_KEEPCNT: golangt %d; want %d", tcpKeepAliveCount, cfg.Count)
 		}
 	} else {
 		if cfg.Count != 1 {
-			t.Fatalf("TCP_KEEPCNT: got %d; want 1", cfg.Count)
+			t.Fatalf("TCP_KEEPCNT: golangt %d; want 1", cfg.Count)
 		}
 	}
 }

@@ -1,15 +1,15 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // System calls and other sys.stuff for AMD64, Darwin
 // System calls are implemented in libSystem, this file contains
 // trampolines that convert from Go to C calling convention.
 
-#include "go_asm.h"
-#include "go_tls.h"
+#include "golang_asm.h"
+#include "golang_tls.h"
 #include "textflag.h"
-#include "cgo/abi_amd64.h"
+#include "cgolang/abi_amd64.h"
 
 #define CLOCK_REALTIME		0
 
@@ -167,7 +167,7 @@ TEXT runtime·sigfwd(SB),NOSPLIT,$0-32
 	RET
 
 // This is the function registered during sigaction and is invoked when
-// a signal is received. It just redirects to the Go function sigtrampgo.
+// a signal is received. It just redirects to the Go function sigtrampgolang.
 // Called using C ABI.
 TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME|NOFRAME,$0
 	// Transition from C ABI to Go ABI.
@@ -186,7 +186,7 @@ TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME|NOFRAME,$0
 	MOVQ	DI, AX	// sig
 	MOVQ	SI, BX	// info
 	MOVQ	DX, CX	// ctx
-	CALL	·sigtrampgo<ABIInternal>(SB)
+	CALL	·sigtrampgolang<ABIInternal>(SB)
 
 	ADJSP	$-24
 
@@ -210,21 +210,21 @@ TEXT runtime·sigprofNonGoWrapper<>(SB),NOSPLIT|NOFRAME,$0
 	POP_REGS_HOST_TO_ABI0()
 	RET
 
-// Used instead of sigtramp in programs that use cgo.
+// Used instead of sigtramp in programs that use cgolang.
 // Arguments from kernel are in DI, SI, DX.
-TEXT runtime·cgoSigtramp(SB),NOSPLIT,$0
+TEXT runtime·cgolangSigtramp(SB),NOSPLIT,$0
 	// If no traceback function, do usual sigtramp.
-	MOVQ	runtime·cgoTraceback(SB), AX
+	MOVQ	runtime·cgolangTraceback(SB), AX
 	TESTQ	AX, AX
 	JZ	sigtramp
 
 	// If no traceback support function, which means that
-	// runtime/cgo was not linked in, do usual sigtramp.
-	MOVQ	_cgo_callers(SB), AX
+	// runtime/cgolang was not linked in, do usual sigtramp.
+	MOVQ	_cgolang_callers(SB), AX
 	TESTQ	AX, AX
 	JZ	sigtramp
 
-	// Figure out if we are currently in a cgo call.
+	// Figure out if we are currently in a cgolang call.
 	// If not, just do usual sigtramp.
 	get_tls(CX)
 	MOVQ	g(CX),AX
@@ -233,30 +233,30 @@ TEXT runtime·cgoSigtramp(SB),NOSPLIT,$0
 	MOVQ	g_m(AX), AX
 	TESTQ	AX, AX
 	JZ	sigtramp        // g.m == nil
-	MOVL	m_ncgo(AX), CX
+	MOVL	m_ncgolang(AX), CX
 	TESTL	CX, CX
-	JZ	sigtramp        // g.m.ncgo == 0
+	JZ	sigtramp        // g.m.ncgolang == 0
 	MOVQ	m_curg(AX), CX
 	TESTQ	CX, CX
 	JZ	sigtramp        // g.m.curg == nil
 	MOVQ	g_syscallsp(CX), CX
 	TESTQ	CX, CX
 	JZ	sigtramp        // g.m.curg.syscallsp == 0
-	MOVQ	m_cgoCallers(AX), R8
+	MOVQ	m_cgolangCallers(AX), R8
 	TESTQ	R8, R8
-	JZ	sigtramp        // g.m.cgoCallers == nil
-	MOVL	m_cgoCallersUse(AX), CX
+	JZ	sigtramp        // g.m.cgolangCallers == nil
+	MOVL	m_cgolangCallersUse(AX), CX
 	TESTL	CX, CX
-	JNZ	sigtramp	// g.m.cgoCallersUse != 0
+	JNZ	sigtramp	// g.m.cgolangCallersUse != 0
 
-	// Jump to a function in runtime/cgo.
+	// Jump to a function in runtime/cgolang.
 	// That function, written in C, will call the user's traceback
 	// function with proper unwind info, and will then call back here.
 	// The first three arguments, and the fifth, are already in registers.
 	// Set the two remaining arguments now.
-	MOVQ	runtime·cgoTraceback(SB), CX
+	MOVQ	runtime·cgolangTraceback(SB), CX
 	MOVQ	$runtime·sigtramp(SB), R9
-	MOVQ	_cgo_callers(SB), AX
+	MOVQ	_cgolang_callers(SB), AX
 	JMP	AX
 
 sigtramp:
@@ -276,14 +276,14 @@ sigtrampnog:
 	CMPXCHGL	CX, 0(R11)
 	JNZ	sigtramp  // Skip stack trace if already locked.
 
-	// Jump to the traceback function in runtime/cgo.
+	// Jump to the traceback function in runtime/cgolang.
 	// It will call back to sigprofNonGo, via sigprofNonGoWrapper, to convert
 	// the arguments to the Go calling convention.
 	// First three arguments to traceback function are in registers already.
-	MOVQ	runtime·cgoTraceback(SB), CX
+	MOVQ	runtime·cgolangTraceback(SB), CX
 	MOVQ	$runtime·sigprofCallers(SB), R8
 	MOVQ	$runtime·sigprofNonGoWrapper<>(SB), R9
-	MOVQ	_cgo_callers(SB), AX
+	MOVQ	_cgolang_callers(SB), AX
 	JMP	AX
 
 TEXT runtime·mmap_trampoline(SB),NOSPLIT,$0
@@ -394,7 +394,7 @@ TEXT runtime·mstart_stub(SB),NOSPLIT|NOFRAME,$0
 	MOVQ	m_g0(DI), DX // g
 
 	// Initialize TLS entry.
-	// See cmd/link/internal/ld/sym.go:computeTLSOffset.
+	// See cmd/link/internal/ld/sym.golang:computeTLSOffset.
 	MOVQ	DX, 0x30(GS)
 
 	CALL	runtime·mstart(SB)
@@ -408,7 +408,7 @@ TEXT runtime·mstart_stub(SB),NOSPLIT|NOFRAME,$0
 	RET
 
 // These trampolines help convert from Go calling convention to C calling convention.
-// They should be called with asmcgocall.
+// They should be called with asmcgolangcall.
 // A pointer to the arguments is passed in DI.
 // A single int32 result is returned in AX.
 // (For more results, make an args/results structure.)

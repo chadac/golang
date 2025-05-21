@@ -1,5 +1,5 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package cpu
@@ -18,7 +18,7 @@ const (
 )
 
 // For those platforms don't have a 'cpuid' equivalent we use HWCAP/HWCAP2
-// These are initialized in cpu_$GOARCH.go
+// These are initialized in cpu_$GOARCH.golang
 // and should not be changed after they are initialized.
 var hwCap uint
 var hwCap2 uint

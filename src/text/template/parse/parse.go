@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package parse builds parse trees for templates as defined by text/template
@@ -491,7 +491,7 @@ decls:
 				switch t.peekNonSpace().typ {
 				case itemVariable, itemRightDelim, itemRightParen:
 					// second initialized variable in a range pipeline
-					goto decls
+					golangto decls
 				default:
 					t.errorf("range can only initialize variables")
 				}

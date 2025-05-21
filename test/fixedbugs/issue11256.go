@@ -1,10 +1,10 @@
 // run
 
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Test that stack barriers are reset when a goroutine exits without
+// Test that stack barriers are reset when a golangroutine exits without
 // returning.
 
 package main
@@ -24,9 +24,9 @@ func main() {
 	for i := range x {
 		var done int32
 
-		go func() {
+		golang func() {
 			// Use enough stack to get stack barriers, but
-			// not so much that we go over _FixedStack.
+			// not so much that we golang over _FixedStack.
 			// There's a very narrow window here on most
 			// OSs, so we basically can't do anything (not
 			// even a time.Sleep or a channel).

@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -23,7 +23,7 @@ func init() {
 
 // Trace is used by TestTraceUnwindCGO.
 func Trace() {
-	file, err := os.CreateTemp("", "testprogcgo_trace")
+	file, err := os.CreateTemp("", "testprogcgolang_trace")
 	if err != nil {
 		log.Fatalf("failed to create temp file: %s", err)
 	}
@@ -34,27 +34,27 @@ func Trace() {
 	}
 	defer trace.Stop()
 
-	goCalledFromGo()
-	<-goCalledFromCThreadChan
+	golangCalledFromGo()
+	<-golangCalledFromCThreadChan
 
 	fmt.Printf("trace path:%s", file.Name())
 }
 
-// goCalledFromGo calls cCalledFromGo which calls back into goCalledFromC and
-// goCalledFromCThread.
-func goCalledFromGo() {
+// golangCalledFromGo calls cCalledFromGo which calls back into golangCalledFromC and
+// golangCalledFromCThread.
+func golangCalledFromGo() {
 	C.cCalledFromGo()
 }
 
-//export goCalledFromC
-func goCalledFromC() {
-	trace.Log(context.Background(), "goCalledFromC", "")
+//export golangCalledFromC
+func golangCalledFromC() {
+	trace.Log(context.Background(), "golangCalledFromC", "")
 }
 
-var goCalledFromCThreadChan = make(chan struct{})
+var golangCalledFromCThreadChan = make(chan struct{})
 
-//export goCalledFromCThread
-func goCalledFromCThread() {
-	trace.Log(context.Background(), "goCalledFromCThread", "")
-	close(goCalledFromCThreadChan)
+//export golangCalledFromCThread
+func golangCalledFromCThread() {
+	trace.Log(context.Background(), "golangCalledFromCThread", "")
+	close(golangCalledFromCThreadChan)
 }

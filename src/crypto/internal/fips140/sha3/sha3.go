@@ -1,5 +1,5 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package sha3 implements the SHA-3 fixed-output-length hash functions and
@@ -43,7 +43,7 @@ type Digest struct {
 	// of the rate, which involves adding a "1" bit, zero or more "0" bits, and
 	// a final "1" bit. We merge the first "1" bit from the padding into dsbyte,
 	// giving 00000110b (0x06) and 00011111b (0x1f).
-	// [1] http://csrc.nist.gov/publications/drafts/fips-202/fips_202_draft.pdf
+	// [1] http://csrc.nist.golangv/publications/drafts/fips-202/fips_202_draft.pdf
 	//     "Draft FIPS 202: SHA-3 Standard: Permutation-Based Hash and
 	//      Extendable-Output Functions (May 2014)"
 	dsbyte byte

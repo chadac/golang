@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime_test
@@ -17,7 +17,7 @@ func TestCleanup(t *testing.T) {
 	ch := make(chan bool, 1)
 	done := make(chan bool, 1)
 	want := 97531
-	go func() {
+	golang func() {
 		// allocate struct with pointer to avoid hitting tinyalloc.
 		// Otherwise we can't be sure when the allocation will
 		// be freed.
@@ -46,7 +46,7 @@ func TestCleanupMultiple(t *testing.T) {
 	ch := make(chan bool, 3)
 	done := make(chan bool, 1)
 	want := 97531
-	go func() {
+	golang func() {
 		// allocate struct with pointer to avoid hitting tinyalloc.
 		// Otherwise we can't be sure when the allocation will
 		// be freed.
@@ -85,7 +85,7 @@ func TestCleanupAfterFinalizer(t *testing.T) {
 	ch := make(chan int, 2)
 	done := make(chan bool, 1)
 	want := 97531
-	go func() {
+	golang func() {
 		// allocate struct with pointer to avoid hitting tinyalloc.
 		// Otherwise we can't be sure when the allocation will
 		// be freed.
@@ -127,7 +127,7 @@ func TestCleanupInteriorPointer(t *testing.T) {
 	ch := make(chan bool, 3)
 	done := make(chan bool, 1)
 	want := 97531
-	go func() {
+	golang func() {
 		// Allocate struct with pointer to avoid hitting tinyalloc.
 		// Otherwise we can't be sure when the allocation will
 		// be freed.
@@ -163,7 +163,7 @@ func TestCleanupInteriorPointer(t *testing.T) {
 
 func TestCleanupStop(t *testing.T) {
 	done := make(chan bool, 1)
-	go func() {
+	golang func() {
 		// allocate struct with pointer to avoid hitting tinyalloc.
 		// Otherwise we can't be sure when the allocation will
 		// be freed.
@@ -187,7 +187,7 @@ func TestCleanupStop(t *testing.T) {
 
 func TestCleanupStopMultiple(t *testing.T) {
 	done := make(chan bool, 1)
-	go func() {
+	golang func() {
 		// allocate struct with pointer to avoid hitting tinyalloc.
 		// Otherwise we can't be sure when the allocation will
 		// be freed.
@@ -214,7 +214,7 @@ func TestCleanupStopMultiple(t *testing.T) {
 func TestCleanupStopinterleavedMultiple(t *testing.T) {
 	ch := make(chan bool, 3)
 	done := make(chan bool, 1)
-	go func() {
+	golang func() {
 		// allocate struct with pointer to avoid hitting tinyalloc.
 		// Otherwise we can't be sure when the allocation will
 		// be freed.
@@ -249,7 +249,7 @@ func TestCleanupStopAfterCleanupRuns(t *testing.T) {
 	ch := make(chan bool, 1)
 	done := make(chan bool, 1)
 	var stop func()
-	go func() {
+	golang func() {
 		// Allocate struct with pointer to avoid hitting tinyalloc.
 		// Otherwise we can't be sure when the allocation will
 		// be freed.
@@ -274,7 +274,7 @@ func TestCleanupStopAfterCleanupRuns(t *testing.T) {
 }
 
 func TestCleanupPointerEqualsArg(t *testing.T) {
-	// See go.dev/issue/71316
+	// See golang.dev/issue/71316
 	defer func() {
 		want := "runtime.AddCleanup: ptr is equal to arg, cleanup will never run"
 		if r := recover(); r == nil {
@@ -282,7 +282,7 @@ func TestCleanupPointerEqualsArg(t *testing.T) {
 		} else if r == want {
 			// do nothing
 		} else {
-			t.Errorf("wrong panic: want=%q, got=%q", want, r)
+			t.Errorf("wrong panic: want=%q, golangt=%q", want, r)
 		}
 	}()
 
@@ -313,18 +313,18 @@ func TestCleanupLost(t *testing.T) {
 	}
 	n := runtime.GOMAXPROCS(-1)
 	want := n * cleanups
-	var got atomic.Uint64
+	var golangt atomic.Uint64
 	var wg sync.WaitGroup
 	for i := range n {
 		wg.Add(1)
-		go func(i int) {
+		golang func(i int) {
 			defer wg.Done()
 
 			for range cleanups {
 				v := &new(T).v
 				*v = 97531
 				runtime.AddCleanup(v, func(_ int) {
-					got.Add(1)
+					golangt.Add(1)
 				}, 97531)
 			}
 		}(i)
@@ -332,7 +332,7 @@ func TestCleanupLost(t *testing.T) {
 	wg.Wait()
 	runtime.GC()
 	runtime.BlockUntilEmptyCleanupQueue(int64(10 * time.Second))
-	if got := int(got.Load()); got != want {
-		t.Errorf("expected %d cleanups to be executed, got %d", got, want)
+	if golangt := int(golangt.Load()); golangt != want {
+		t.Errorf("expected %d cleanups to be executed, golangt %d", golangt, want)
 	}
 }

@@ -1,5 +1,5 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package http
@@ -14,12 +14,12 @@ import (
 // cloneURLValues should be an internal detail,
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
-//   - github.com/searKing/golang
+//   - github.com/searKing/golanglang
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname cloneURLValues
+//golang:linkname cloneURLValues
 func cloneURLValues(v url.Values) url.Values {
 	if v == nil {
 		return nil
@@ -32,12 +32,12 @@ func cloneURLValues(v url.Values) url.Values {
 // cloneURL should be an internal detail,
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
-//   - github.com/searKing/golang
+//   - github.com/searKing/golanglang
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname cloneURL
+//golang:linkname cloneURL
 func cloneURL(u *url.URL) *url.URL {
 	if u == nil {
 		return nil
@@ -54,12 +54,12 @@ func cloneURL(u *url.URL) *url.URL {
 // cloneMultipartForm should be an internal detail,
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
-//   - github.com/searKing/golang
+//   - github.com/searKing/golanglang
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname cloneMultipartForm
+//golang:linkname cloneMultipartForm
 func cloneMultipartForm(f *multipart.Form) *multipart.Form {
 	if f == nil {
 		return nil
@@ -84,12 +84,12 @@ func cloneMultipartForm(f *multipart.Form) *multipart.Form {
 // cloneMultipartFileHeader should be an internal detail,
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
-//   - github.com/searKing/golang
+//   - github.com/searKing/golanglang
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname cloneMultipartFileHeader
+//golang:linkname cloneMultipartFileHeader
 func cloneMultipartFileHeader(fh *multipart.FileHeader) *multipart.FileHeader {
 	if fh == nil {
 		return nil
@@ -106,12 +106,12 @@ func cloneMultipartFileHeader(fh *multipart.FileHeader) *multipart.FileHeader {
 // cloneOrMakeHeader should be an internal detail,
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
-//   - github.com/searKing/golang
+//   - github.com/searKing/golanglang
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname cloneOrMakeHeader
+//golang:linkname cloneOrMakeHeader
 func cloneOrMakeHeader(hdr Header) Header {
 	clone := hdr.Clone()
 	if clone == nil {

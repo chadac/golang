@@ -1,12 +1,12 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package sync
 
 import (
 	"internal/abi"
-	"internal/goarch"
+	"internal/golangarch"
 	"sync/atomic"
 	"unsafe"
 )
@@ -33,13 +33,13 @@ func (ht *HashTrieMap[K, V]) init() {
 	}
 }
 
-//go:noinline
+//golang:noinline
 func (ht *HashTrieMap[K, V]) initSlow() {
 	ht.initMu.Lock()
 	defer ht.initMu.Unlock()
 
 	if ht.inited.Load() != 0 {
-		// Someone got to it while we were waiting.
+		// Someone golangt to it while we were waiting.
 		return
 	}
 
@@ -66,7 +66,7 @@ func (ht *HashTrieMap[K, V]) Load(key K) (value V, ok bool) {
 	hash := ht.keyHash(abi.NoEscape(unsafe.Pointer(&key)), ht.seed)
 
 	i := ht.root.Load()
-	hashShift := 8 * goarch.PtrSize
+	hashShift := 8 * golangarch.PtrSize
 	for hashShift != 0 {
 		hashShift -= nChildrenLog2
 
@@ -95,7 +95,7 @@ func (ht *HashTrieMap[K, V]) LoadOrStore(key K, value V) (result V, loaded bool)
 	for {
 		// Find the key or a candidate location for insertion.
 		i = ht.root.Load()
-		hashShift = 8 * goarch.PtrSize
+		hashShift = 8 * golangarch.PtrSize
 		haveInsertPoint := false
 		for hashShift != 0 {
 			hashShift -= nChildrenLog2
@@ -108,7 +108,7 @@ func (ht *HashTrieMap[K, V]) LoadOrStore(key K, value V) (result V, loaded bool)
 				break
 			}
 			if n.isEntry {
-				// We found an existing entry, which is as far as we can go.
+				// We found an existing entry, which is as far as we can golang.
 				// If it stays this way, we'll have to replace it with an
 				// indirect node.
 				if v, ok := n.entry().lookup(key); ok {
@@ -180,7 +180,7 @@ func (ht *HashTrieMap[K, V]) expand(oldEntry, newEntry *entry[K, V], newHash uin
 		if hashShift == 0 {
 			panic("internal/sync.HashTrieMap: ran out of hash bits while inserting")
 		}
-		hashShift -= nChildrenLog2 // hashShift is for the level parent is at. We need to go deeper.
+		hashShift -= nChildrenLog2 // hashShift is for the level parent is at. We need to golang deeper.
 		oi := (oldHash >> hashShift) & nChildrenMask
 		ni := (newHash >> hashShift) & nChildrenMask
 		if oi != ni {
@@ -212,7 +212,7 @@ func (ht *HashTrieMap[K, V]) Swap(key K, new V) (previous V, loaded bool) {
 	for {
 		// Find the key or a candidate location for insertion.
 		i = ht.root.Load()
-		hashShift = 8 * goarch.PtrSize
+		hashShift = 8 * golangarch.PtrSize
 		haveInsertPoint := false
 		for hashShift != 0 {
 			hashShift -= nChildrenLog2
@@ -338,7 +338,7 @@ func (ht *HashTrieMap[K, V]) LoadAndDelete(key K) (value V, loaded bool) {
 
 	// Check if the node is now empty (and isn't the root), and delete it if able.
 	for i.parent != nil && i.empty() {
-		if hashShift == 8*goarch.PtrSize {
+		if hashShift == 8*golangarch.PtrSize {
 			panic("internal/sync.HashTrieMap: ran out of hash bits while iterating")
 		}
 		hashShift += nChildrenLog2
@@ -400,7 +400,7 @@ func (ht *HashTrieMap[K, V]) CompareAndDelete(key K, old V) (deleted bool) {
 
 	// Check if the node is now empty (and isn't the root), and delete it if able.
 	for i.parent != nil && i.empty() {
-		if hashShift == 8*goarch.PtrSize {
+		if hashShift == 8*golangarch.PtrSize {
 			panic("internal/sync.HashTrieMap: ran out of hash bits while iterating")
 		}
 		hashShift += nChildrenLog2
@@ -427,7 +427,7 @@ func (ht *HashTrieMap[K, V]) find(key K, hash uintptr, valEqual equalFunc, value
 	for {
 		// Find the key or return if it's not there.
 		i = ht.root.Load()
-		hashShift = 8 * goarch.PtrSize
+		hashShift = 8 * golangarch.PtrSize
 		found := false
 		for hashShift != 0 {
 			hashShift -= nChildrenLog2
@@ -447,7 +447,7 @@ func (ht *HashTrieMap[K, V]) find(key K, hash uintptr, valEqual equalFunc, value
 					n = nil
 					return
 				}
-				// We've got a match. Prepare to perform an operation on the key.
+				// We've golangt a match. Prepare to perform an operation on the key.
 				found = true
 				break
 			}
@@ -461,7 +461,7 @@ func (ht *HashTrieMap[K, V]) find(key K, hash uintptr, valEqual equalFunc, value
 		i.mu.Lock()
 		n = slot.Load()
 		if !i.dead.Load() && (n == nil || n.isEntry) {
-			// Either we've got a valid node or the node is now nil under the lock.
+			// Either we've golangt a valid node or the node is now nil under the lock.
 			// In either case, we're done here.
 			return
 		}
@@ -720,5 +720,5 @@ func (n *node[K, V]) indirect() *indirect[K, V] {
 // Pull in runtime.rand so that we don't need to take a dependency
 // on math/rand/v2.
 //
-//go:linkname runtime_rand runtime.rand
+//golang:linkname runtime_rand runtime.rand
 func runtime_rand() uint64

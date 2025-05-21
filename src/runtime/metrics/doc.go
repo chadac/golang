@@ -1,9 +1,9 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Note: run 'go generate' (which will run 'go test -generate') to update the "Supported metrics" list.
-//go:generate go test -run=Docs -generate
+// Note: run 'golang generate' (which will run 'golang test -generate') to update the "Supported metrics" list.
+//golang:generate golang test -run=Docs -generate
 
 /*
 Package metrics provides a stable interface to access implementation-defined
@@ -55,11 +55,11 @@ classes of floating-point values: NaN, infinity.
 
 Below is the full list of supported metrics, ordered lexicographically.
 
-	/cgo/go-to-c-calls:calls
+	/cgolang/golang-to-c-calls:calls
 		Count of calls made from Go to C by the current process.
 
 	/cpu/classes/gc/mark/assist:cpu-seconds
-		Estimated total CPU time goroutines spent performing GC
+		Estimated total CPU time golangroutines spent performing GC
 		tasks to assist the GC and prevent it from falling behind the
 		application. This metric is an overestimate, and not directly
 		comparable to system CPU time measurements. Compare only with
@@ -146,12 +146,12 @@ Below is the full list of supported metrics, ordered lexicographically.
 	/gc/cycles/total:gc-cycles
 		Count of all completed GC cycles.
 
-	/gc/gogc:percent
+	/gc/golanggc:percent
 		Heap size target percentage configured by the user, otherwise
 		100. This value is set by the GOGC environment variable, and the
 		runtime/debug.SetGCPercent function.
 
-	/gc/gomemlimit:bytes
+	/gc/golangmemlimit:bytes
 		Go runtime memory limit configured by the user, otherwise
 		math.MaxInt64. This value is set by the GOMEMLIMIT environment
 		variable, and the runtime/debug.SetMemoryLimit function.
@@ -186,7 +186,7 @@ Below is the full list of supported metrics, ordered lexicographically.
 		objects as defined by /gc/heap/tiny/allocs:objects, only tiny
 		blocks.
 
-	/gc/heap/goal:bytes
+	/gc/heap/golangal:bytes
 		Heap size target for the end of the GC cycle.
 
 	/gc/heap/live:bytes
@@ -228,177 +228,177 @@ Below is the full list of supported metrics, ordered lexicographically.
 		/gc/scan.
 
 	/gc/stack/starting-size:bytes
-		The stack size of new goroutines.
+		The stack size of new golangroutines.
 
-	/godebug/non-default-behavior/asynctimerchan:events
+	/golangdebug/non-default-behavior/asynctimerchan:events
 		The number of non-default behaviors executed by the time package
 		due to a non-default GODEBUG=asynctimerchan=... setting.
 
-	/godebug/non-default-behavior/containermaxprocs:events
+	/golangdebug/non-default-behavior/containermaxprocs:events
 		The number of non-default behaviors executed by the runtime
 		package due to a non-default GODEBUG=containermaxprocs=...
 		setting.
 
-	/godebug/non-default-behavior/embedfollowsymlinks:events
-		The number of non-default behaviors executed by the cmd/go
+	/golangdebug/non-default-behavior/embedfollowsymlinks:events
+		The number of non-default behaviors executed by the cmd/golang
 		package due to a non-default GODEBUG=embedfollowsymlinks=...
 		setting.
 
-	/godebug/non-default-behavior/execerrdot:events
+	/golangdebug/non-default-behavior/execerrdot:events
 		The number of non-default behaviors executed by the os/exec
 		package due to a non-default GODEBUG=execerrdot=... setting.
 
-	/godebug/non-default-behavior/gocachehash:events
-		The number of non-default behaviors executed by the cmd/go
-		package due to a non-default GODEBUG=gocachehash=... setting.
+	/golangdebug/non-default-behavior/golangcachehash:events
+		The number of non-default behaviors executed by the cmd/golang
+		package due to a non-default GODEBUG=golangcachehash=... setting.
 
-	/godebug/non-default-behavior/gocachetest:events
-		The number of non-default behaviors executed by the cmd/go
-		package due to a non-default GODEBUG=gocachetest=... setting.
+	/golangdebug/non-default-behavior/golangcachetest:events
+		The number of non-default behaviors executed by the cmd/golang
+		package due to a non-default GODEBUG=golangcachetest=... setting.
 
-	/godebug/non-default-behavior/gocacheverify:events
-		The number of non-default behaviors executed by the cmd/go
-		package due to a non-default GODEBUG=gocacheverify=... setting.
+	/golangdebug/non-default-behavior/golangcacheverify:events
+		The number of non-default behaviors executed by the cmd/golang
+		package due to a non-default GODEBUG=golangcacheverify=... setting.
 
-	/godebug/non-default-behavior/gotestjsonbuildtext:events
-		The number of non-default behaviors executed by the cmd/go
-		package due to a non-default GODEBUG=gotestjsonbuildtext=...
+	/golangdebug/non-default-behavior/golangtestjsonbuildtext:events
+		The number of non-default behaviors executed by the cmd/golang
+		package due to a non-default GODEBUG=golangtestjsonbuildtext=...
 		setting.
 
-	/godebug/non-default-behavior/gotypesalias:events
-		The number of non-default behaviors executed by the go/types
-		package due to a non-default GODEBUG=gotypesalias=... setting.
+	/golangdebug/non-default-behavior/golangtypesalias:events
+		The number of non-default behaviors executed by the golang/types
+		package due to a non-default GODEBUG=golangtypesalias=... setting.
 
-	/godebug/non-default-behavior/http2client:events
+	/golangdebug/non-default-behavior/http2client:events
 		The number of non-default behaviors executed by the net/http
 		package due to a non-default GODEBUG=http2client=... setting.
 
-	/godebug/non-default-behavior/http2server:events
+	/golangdebug/non-default-behavior/http2server:events
 		The number of non-default behaviors executed by the net/http
 		package due to a non-default GODEBUG=http2server=... setting.
 
-	/godebug/non-default-behavior/httplaxcontentlength:events
+	/golangdebug/non-default-behavior/httplaxcontentlength:events
 		The number of non-default behaviors executed by the net/http
 		package due to a non-default GODEBUG=httplaxcontentlength=...
 		setting.
 
-	/godebug/non-default-behavior/httpmuxgo121:events
+	/golangdebug/non-default-behavior/httpmuxgolang121:events
 		The number of non-default behaviors executed by the net/http
-		package due to a non-default GODEBUG=httpmuxgo121=... setting.
+		package due to a non-default GODEBUG=httpmuxgolang121=... setting.
 
-	/godebug/non-default-behavior/httpservecontentkeepheaders:events
+	/golangdebug/non-default-behavior/httpservecontentkeepheaders:events
 		The number of non-default behaviors executed
 		by the net/http package due to a non-default
 		GODEBUG=httpservecontentkeepheaders=... setting.
 
-	/godebug/non-default-behavior/installgoroot:events
-		The number of non-default behaviors executed by the go/build
-		package due to a non-default GODEBUG=installgoroot=... setting.
+	/golangdebug/non-default-behavior/installgolangroot:events
+		The number of non-default behaviors executed by the golang/build
+		package due to a non-default GODEBUG=installgolangroot=... setting.
 
-	/godebug/non-default-behavior/multipartmaxheaders:events
+	/golangdebug/non-default-behavior/multipartmaxheaders:events
 		The number of non-default behaviors executed by
 		the mime/multipart package due to a non-default
 		GODEBUG=multipartmaxheaders=... setting.
 
-	/godebug/non-default-behavior/multipartmaxparts:events
+	/golangdebug/non-default-behavior/multipartmaxparts:events
 		The number of non-default behaviors executed by
 		the mime/multipart package due to a non-default
 		GODEBUG=multipartmaxparts=... setting.
 
-	/godebug/non-default-behavior/multipathtcp:events
+	/golangdebug/non-default-behavior/multipathtcp:events
 		The number of non-default behaviors executed by the net package
 		due to a non-default GODEBUG=multipathtcp=... setting.
 
-	/godebug/non-default-behavior/netedns0:events
+	/golangdebug/non-default-behavior/netedns0:events
 		The number of non-default behaviors executed by the net package
 		due to a non-default GODEBUG=netedns0=... setting.
 
-	/godebug/non-default-behavior/panicnil:events
+	/golangdebug/non-default-behavior/panicnil:events
 		The number of non-default behaviors executed by the runtime
 		package due to a non-default GODEBUG=panicnil=... setting.
 
-	/godebug/non-default-behavior/randautoseed:events
+	/golangdebug/non-default-behavior/randautoseed:events
 		The number of non-default behaviors executed by the math/rand
 		package due to a non-default GODEBUG=randautoseed=... setting.
 
-	/godebug/non-default-behavior/randseednop:events
+	/golangdebug/non-default-behavior/randseednop:events
 		The number of non-default behaviors executed by the math/rand
 		package due to a non-default GODEBUG=randseednop=... setting.
 
-	/godebug/non-default-behavior/rsa1024min:events
+	/golangdebug/non-default-behavior/rsa1024min:events
 		The number of non-default behaviors executed by the crypto/rsa
 		package due to a non-default GODEBUG=rsa1024min=... setting.
 
-	/godebug/non-default-behavior/tarinsecurepath:events
+	/golangdebug/non-default-behavior/tarinsecurepath:events
 		The number of non-default behaviors executed by the archive/tar
 		package due to a non-default GODEBUG=tarinsecurepath=...
 		setting.
 
-	/godebug/non-default-behavior/tls10server:events
+	/golangdebug/non-default-behavior/tls10server:events
 		The number of non-default behaviors executed by the crypto/tls
 		package due to a non-default GODEBUG=tls10server=... setting.
 
-	/godebug/non-default-behavior/tls3des:events
+	/golangdebug/non-default-behavior/tls3des:events
 		The number of non-default behaviors executed by the crypto/tls
 		package due to a non-default GODEBUG=tls3des=... setting.
 
-	/godebug/non-default-behavior/tlsmaxrsasize:events
+	/golangdebug/non-default-behavior/tlsmaxrsasize:events
 		The number of non-default behaviors executed by the crypto/tls
 		package due to a non-default GODEBUG=tlsmaxrsasize=... setting.
 
-	/godebug/non-default-behavior/tlsrsakex:events
+	/golangdebug/non-default-behavior/tlsrsakex:events
 		The number of non-default behaviors executed by the crypto/tls
 		package due to a non-default GODEBUG=tlsrsakex=... setting.
 
-	/godebug/non-default-behavior/tlssha1:events
+	/golangdebug/non-default-behavior/tlssha1:events
 		The number of non-default behaviors executed by the crypto/tls
 		package due to a non-default GODEBUG=tlssha1=... setting.
 
-	/godebug/non-default-behavior/tlsunsafeekm:events
+	/golangdebug/non-default-behavior/tlsunsafeekm:events
 		The number of non-default behaviors executed by the crypto/tls
 		package due to a non-default GODEBUG=tlsunsafeekm=... setting.
 
-	/godebug/non-default-behavior/updatemaxprocs:events
+	/golangdebug/non-default-behavior/updatemaxprocs:events
 		The number of non-default behaviors executed by the runtime
 		package due to a non-default GODEBUG=updatemaxprocs=... setting.
 
-	/godebug/non-default-behavior/winreadlinkvolume:events
+	/golangdebug/non-default-behavior/winreadlinkvolume:events
 		The number of non-default behaviors executed by the os package
 		due to a non-default GODEBUG=winreadlinkvolume=... setting.
 
-	/godebug/non-default-behavior/winsymlink:events
+	/golangdebug/non-default-behavior/winsymlink:events
 		The number of non-default behaviors executed by the os package
 		due to a non-default GODEBUG=winsymlink=... setting.
 
-	/godebug/non-default-behavior/x509keypairleaf:events
+	/golangdebug/non-default-behavior/x509keypairleaf:events
 		The number of non-default behaviors executed by the crypto/tls
 		package due to a non-default GODEBUG=x509keypairleaf=...
 		setting.
 
-	/godebug/non-default-behavior/x509negativeserial:events
+	/golangdebug/non-default-behavior/x509negativeserial:events
 		The number of non-default behaviors executed by the crypto/x509
 		package due to a non-default GODEBUG=x509negativeserial=...
 		setting.
 
-	/godebug/non-default-behavior/x509rsacrt:events
+	/golangdebug/non-default-behavior/x509rsacrt:events
 		The number of non-default behaviors executed by the crypto/x509
 		package due to a non-default GODEBUG=x509rsacrt=... setting.
 
-	/godebug/non-default-behavior/x509sha256skid:events
+	/golangdebug/non-default-behavior/x509sha256skid:events
 		The number of non-default behaviors executed by the crypto/x509
 		package due to a non-default GODEBUG=x509sha256skid=... setting.
 
-	/godebug/non-default-behavior/x509usefallbackroots:events
+	/golangdebug/non-default-behavior/x509usefallbackroots:events
 		The number of non-default behaviors executed by the crypto/x509
 		package due to a non-default GODEBUG=x509usefallbackroots=...
 		setting.
 
-	/godebug/non-default-behavior/x509usepolicies:events
+	/golangdebug/non-default-behavior/x509usepolicies:events
 		The number of non-default behaviors executed by the crypto/x509
 		package due to a non-default GODEBUG=x509usepolicies=...
 		setting.
 
-	/godebug/non-default-behavior/zipinsecurepath:events
+	/golangdebug/non-default-behavior/zipinsecurepath:events
 		The number of non-default behaviors executed by the archive/zip
 		package due to a non-default GODEBUG=zipinsecurepath=...
 		setting.
@@ -422,8 +422,8 @@ Below is the full list of supported metrics, ordered lexicographically.
 	/memory/classes/heap/stacks:bytes
 		Memory allocated from the heap that is reserved for stack space,
 		whether or not it is currently in-use. Currently, this
-		represents all stack memory for goroutines. It also includes all
-		OS thread stacks in non-cgo programs. Note that stacks may be
+		represents all stack memory for golangroutines. It also includes all
+		OS thread stacks in non-cgolang programs. Note that stacks may be
 		allocated differently in the future, and this may change.
 
 	/memory/classes/heap/unused:bytes
@@ -451,8 +451,8 @@ Below is the full list of supported metrics, ordered lexicographically.
 
 	/memory/classes/os-stacks:bytes
 		Stack memory allocated by the underlying operating system.
-		In non-cgo programs this metric is currently zero. This may
-		change in the future.In cgo programs this metric includes
+		In non-cgolang programs this metric is currently zero. This may
+		change in the future.In cgolang programs this metric includes
 		OS thread stacks allocated directly from the OS. Currently,
 		this only accounts for one stack in c-shared and c-archive build
 		modes, and other sources of stacks from the OS are not measured.
@@ -469,19 +469,19 @@ Below is the full list of supported metrics, ordered lexicographically.
 	/memory/classes/total:bytes
 		All memory mapped by the Go runtime into the current process
 		as read-write. Note that this does not include memory mapped
-		by code called via cgo or via the syscall package. Sum of all
+		by code called via cgolang or via the syscall package. Sum of all
 		metrics in /memory/classes.
 
-	/sched/gomaxprocs:threads
+	/sched/golangmaxprocs:threads
 		The current runtime.GOMAXPROCS setting, or the number of
 		operating system threads that can execute user-level Go code
 		simultaneously.
 
-	/sched/goroutines:goroutines
-		Count of live goroutines.
+	/sched/golangroutines:golangroutines
+		Count of live golangroutines.
 
 	/sched/latencies:seconds
-		Distribution of the time goroutines have spent in the scheduler
+		Distribution of the time golangroutines have spent in the scheduler
 		in a runnable state before actually running. Bucket counts
 		increase monotonically.
 
@@ -518,7 +518,7 @@ Below is the full list of supported metrics, ordered lexicographically.
 		monotonically.
 
 	/sync/mutex/wait/total:seconds
-		Approximate cumulative time goroutines have spent blocked on a
+		Approximate cumulative time golangroutines have spent blocked on a
 		sync.Mutex, sync.RWMutex, or runtime-internal lock. This metric
 		is useful for identifying global changes in lock contention.
 		Collect a mutex or block profile using the runtime/pprof package

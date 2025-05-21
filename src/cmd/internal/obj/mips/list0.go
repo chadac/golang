@@ -69,7 +69,7 @@ func rconv(r int) string {
 		return "LO"
 	}
 
-	return fmt.Sprintf("Rgok(%d)", r-obj.RBaseMIPS)
+	return fmt.Sprintf("Rgolangk(%d)", r-obj.RBaseMIPS)
 }
 
 func DRconv(a int) string {

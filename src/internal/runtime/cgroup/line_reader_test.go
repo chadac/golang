@@ -1,5 +1,5 @@
 // Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package cgroup_test
@@ -137,32 +137,32 @@ func TestLineReader(t *testing.T) {
 			var scratch [scratchSize]byte
 			l := cgroup.NewLineReader(0, scratch[:], read)
 
-			var got []nextLine
+			var golangt []nextLine
 			for {
 				err := l.Next()
 				if err == cgroup.ErrEOF {
 					break
 				} else if err == cgroup.ErrIncompleteLine {
-					got = append(got, incomplete(string(l.Line())))
+					golangt = append(golangt, incomplete(string(l.Line())))
 				} else if err != nil {
-					t.Fatalf("next got err %v", err)
+					t.Fatalf("next golangt err %v", err)
 				} else {
-					got = append(got, complete(string(l.Line())))
+					golangt = append(golangt, complete(string(l.Line())))
 				}
 			}
 
-			if len(got) != len(tc.want) {
-				t.Logf("got lines %+v", got)
+			if len(golangt) != len(tc.want) {
+				t.Logf("golangt lines %+v", golangt)
 				t.Logf("want lines %+v", tc.want)
-				t.Fatalf("lineReader got %d lines, want %d", len(got), len(tc.want))
+				t.Fatalf("lineReader golangt %d lines, want %d", len(golangt), len(tc.want))
 			}
 
-			for i := range got {
-				if got[i].line != tc.want[i].line {
-					t.Errorf("line %d got %q want %q", i, got[i].line, tc.want[i].line)
+			for i := range golangt {
+				if golangt[i].line != tc.want[i].line {
+					t.Errorf("line %d golangt %q want %q", i, golangt[i].line, tc.want[i].line)
 				}
-				if got[i].incomplete != tc.want[i].incomplete {
-					t.Errorf("line %d got incomplete %v want %v", i, got[i].incomplete, tc.want[i].incomplete)
+				if golangt[i].incomplete != tc.want[i].incomplete {
+					t.Errorf("line %d golangt incomplete %v want %v", i, golangt[i].incomplete, tc.want[i].incomplete)
 				}
 			}
 		})

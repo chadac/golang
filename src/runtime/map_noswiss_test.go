@@ -1,24 +1,24 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !goexperiment.swissmap
+//golang:build !golangexperiment.swissmap
 
 package runtime_test
 
 import (
 	"internal/abi"
-	"internal/goarch"
+	"internal/golangarch"
 	"runtime"
 	"slices"
 	"testing"
 )
 
 func TestHmapSize(t *testing.T) {
-	// The structure of hmap is defined in runtime/map.go
-	// and in cmd/compile/internal/reflectdata/map.go and must be in sync.
+	// The structure of hmap is defined in runtime/map.golang
+	// and in cmd/compile/internal/reflectdata/map.golang and must be in sync.
 	// The size of hmap should be 56 bytes on 64 bit and 36 bytes on 32 bit platforms.
-	var hmapSize = uintptr(2*8 + 5*goarch.PtrSize)
+	var hmapSize = uintptr(2*8 + 5*golangarch.PtrSize)
 	if runtime.RuntimeHmapSize != hmapSize {
 		t.Errorf("sizeof(runtime.hmap{})==%d, want %d", runtime.RuntimeHmapSize, hmapSize)
 	}
@@ -114,7 +114,7 @@ func TestMapBuckets(t *testing.T) {
 	// have a nil bucket pointer due to starting with preallocated buckets
 	// on the stack. Escaping maps start with a non-nil bucket pointer if
 	// hint size is above bucketCnt and thereby have more than one bucket.
-	// These tests depend on bucketCnt and loadFactor* in map.go.
+	// These tests depend on bucketCnt and loadFactor* in map.golang.
 	t.Run("mapliteral", func(t *testing.T) {
 		for _, tt := range mapBucketTests {
 			localMap := map[int]int{}
@@ -124,8 +124,8 @@ func TestMapBuckets(t *testing.T) {
 			for i := 0; i < tt.n; i++ {
 				localMap[i] = i
 			}
-			if got := runtime.MapBucketsCount(localMap); got != tt.noescape {
-				t.Errorf("no escape: n=%d want %d buckets, got %d", tt.n, tt.noescape, got)
+			if golangt := runtime.MapBucketsCount(localMap); golangt != tt.noescape {
+				t.Errorf("no escape: n=%d want %d buckets, golangt %d", tt.n, tt.noescape, golangt)
 			}
 			escapingMap := runtime.Escape(map[int]int{})
 			if count := runtime.MapBucketsCount(escapingMap); count > 1 && runtime.MapBucketsPointerIsNil(escapingMap) {
@@ -134,8 +134,8 @@ func TestMapBuckets(t *testing.T) {
 			for i := 0; i < tt.n; i++ {
 				escapingMap[i] = i
 			}
-			if got := runtime.MapBucketsCount(escapingMap); got != tt.escape {
-				t.Errorf("escape n=%d want %d buckets, got %d", tt.n, tt.escape, got)
+			if golangt := runtime.MapBucketsCount(escapingMap); golangt != tt.escape {
+				t.Errorf("escape n=%d want %d buckets, golangt %d", tt.n, tt.escape, golangt)
 			}
 		}
 	})
@@ -148,8 +148,8 @@ func TestMapBuckets(t *testing.T) {
 			for i := 0; i < tt.n; i++ {
 				localMap[i] = i
 			}
-			if got := runtime.MapBucketsCount(localMap); got != tt.noescape {
-				t.Errorf("no escape: n=%d want %d buckets, got %d", tt.n, tt.noescape, got)
+			if golangt := runtime.MapBucketsCount(localMap); golangt != tt.noescape {
+				t.Errorf("no escape: n=%d want %d buckets, golangt %d", tt.n, tt.noescape, golangt)
 			}
 			escapingMap := runtime.Escape(make(map[int]int))
 			if count := runtime.MapBucketsCount(escapingMap); count > 1 && runtime.MapBucketsPointerIsNil(escapingMap) {
@@ -158,8 +158,8 @@ func TestMapBuckets(t *testing.T) {
 			for i := 0; i < tt.n; i++ {
 				escapingMap[i] = i
 			}
-			if got := runtime.MapBucketsCount(escapingMap); got != tt.escape {
-				t.Errorf("escape: n=%d want %d buckets, got %d", tt.n, tt.escape, got)
+			if golangt := runtime.MapBucketsCount(escapingMap); golangt != tt.escape {
+				t.Errorf("escape: n=%d want %d buckets, golangt %d", tt.n, tt.escape, golangt)
 			}
 		}
 	})
@@ -172,8 +172,8 @@ func TestMapBuckets(t *testing.T) {
 			for i := 0; i < tt.n; i++ {
 				localMap[i] = i
 			}
-			if got := runtime.MapBucketsCount(localMap); got != tt.noescape {
-				t.Errorf("no escape: n=%d want %d buckets, got %d", tt.n, tt.noescape, got)
+			if golangt := runtime.MapBucketsCount(localMap); golangt != tt.noescape {
+				t.Errorf("no escape: n=%d want %d buckets, golangt %d", tt.n, tt.noescape, golangt)
 			}
 			escapingMap := runtime.Escape(make(map[int]int, tt.n))
 			if count := runtime.MapBucketsCount(escapingMap); count > 1 && runtime.MapBucketsPointerIsNil(escapingMap) {
@@ -182,8 +182,8 @@ func TestMapBuckets(t *testing.T) {
 			for i := 0; i < tt.n; i++ {
 				escapingMap[i] = i
 			}
-			if got := runtime.MapBucketsCount(escapingMap); got != tt.escape {
-				t.Errorf("escape: n=%d want %d buckets, got %d", tt.n, tt.escape, got)
+			if golangt := runtime.MapBucketsCount(escapingMap); golangt != tt.escape {
+				t.Errorf("escape: n=%d want %d buckets, golangt %d", tt.n, tt.escape, golangt)
 			}
 		}
 	})
@@ -196,8 +196,8 @@ func TestMapBuckets(t *testing.T) {
 			for i := 0; i < tt.n; i++ {
 				localMap[i] = i
 			}
-			if got := runtime.MapBucketsCount(localMap); got != tt.noescape {
-				t.Errorf("no escape: n=%d want %d buckets, got %d", tt.n, tt.noescape, got)
+			if golangt := runtime.MapBucketsCount(localMap); golangt != tt.noescape {
+				t.Errorf("no escape: n=%d want %d buckets, golangt %d", tt.n, tt.noescape, golangt)
 			}
 			escapingMap := runtime.Escape(make(map[int]int, tt.n))
 			if count := runtime.MapBucketsCount(escapingMap); count > 1 && runtime.MapBucketsPointerIsNil(escapingMap) {
@@ -206,8 +206,8 @@ func TestMapBuckets(t *testing.T) {
 			for i := 0; i < tt.n; i++ {
 				escapingMap[i] = i
 			}
-			if got := runtime.MapBucketsCount(escapingMap); got != tt.escape {
-				t.Errorf("escape: n=%d want %d buckets, got %d", tt.n, tt.escape, got)
+			if golangt := runtime.MapBucketsCount(escapingMap); golangt != tt.escape {
+				t.Errorf("escape: n=%d want %d buckets, golangt %d", tt.n, tt.escape, golangt)
 			}
 		}
 	})

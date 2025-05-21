@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package bytes_test
@@ -150,7 +150,7 @@ func TestBasicOperations(t *testing.T) {
 
 		n, err := buf.Write(testBytes[0:1])
 		if want := 1; err != nil || n != want {
-			t.Errorf("Write: got (%d, %v), want (%d, %v)", n, err, want, nil)
+			t.Errorf("Write: golangt (%d, %v), want (%d, %v)", n, err, want, nil)
 		}
 		check(t, "TestBasicOperations (4)", &buf, "a")
 
@@ -159,7 +159,7 @@ func TestBasicOperations(t *testing.T) {
 
 		n, err = buf.Write(testBytes[2:26])
 		if want := 24; err != nil || n != want {
-			t.Errorf("Write: got (%d, %v), want (%d, %v)", n, err, want, nil)
+			t.Errorf("Write: golangt (%d, %v), want (%d, %v)", n, err, want, nil)
 		}
 		check(t, "TestBasicOperations (6)", &buf, testString[0:26])
 
@@ -175,11 +175,11 @@ func TestBasicOperations(t *testing.T) {
 		buf.WriteByte(testString[1])
 		c, err := buf.ReadByte()
 		if want := testString[1]; err != nil || c != want {
-			t.Errorf("ReadByte: got (%q, %v), want (%q, %v)", c, err, want, nil)
+			t.Errorf("ReadByte: golangt (%q, %v), want (%q, %v)", c, err, want, nil)
 		}
 		c, err = buf.ReadByte()
 		if err != io.EOF {
-			t.Errorf("ReadByte: got (%q, %v), want (%q, %v)", c, err, byte(0), io.EOF)
+			t.Errorf("ReadByte: golangt (%q, %v), want (%q, %v)", c, err, byte(0), io.EOF)
 		}
 	}
 }
@@ -251,7 +251,7 @@ func TestCapWithPreallocatedSlice(t *testing.T) {
 	buf := NewBuffer(make([]byte, 10))
 	n := buf.Cap()
 	if n != 10 {
-		t.Errorf("expected 10, got %d", n)
+		t.Errorf("expected 10, golangt %d", n)
 	}
 }
 
@@ -260,14 +260,14 @@ func TestCapWithSliceAndWrittenData(t *testing.T) {
 	buf.Write([]byte("test"))
 	n := buf.Cap()
 	if n != 10 {
-		t.Errorf("expected 10, got %d", n)
+		t.Errorf("expected 10, golangt %d", n)
 	}
 }
 
 func TestNil(t *testing.T) {
 	var b *Buffer
 	if b.String() != "<nil>" {
-		t.Errorf("expected <nil>; got %q", b.String())
+		t.Errorf("expected <nil>; golangt %q", b.String())
 	}
 }
 
@@ -301,7 +301,7 @@ func TestReadFromPanicReader(t *testing.T) {
 		t.Fatal(err)
 	}
 	if i != 0 {
-		t.Fatalf("unexpected return from bytes.ReadFrom (1): got: %d, want %d", i, 0)
+		t.Fatalf("unexpected return from bytes.ReadFrom (1): golangt: %d, want %d", i, 0)
 	}
 	check(t, "TestReadFromPanicReader (1)", &buf, "")
 
@@ -324,7 +324,7 @@ func TestReadFromNegativeReader(t *testing.T) {
 			// this is the error string of errNegativeRead
 			wantError := "bytes.Buffer: reader returned negative count from Read"
 			if err.Error() != wantError {
-				t.Fatalf("recovered panic: got %v, want %v", err.Error(), wantError)
+				t.Fatalf("recovered panic: golangt %v, want %v", err.Error(), wantError)
 			}
 		default:
 			t.Fatalf("unexpected panic value: %#v", err)
@@ -345,25 +345,25 @@ func TestWriteTo(t *testing.T) {
 }
 
 func TestWriteAppend(t *testing.T) {
-	var got Buffer
+	var golangt Buffer
 	var want []byte
 	for i := 0; i < 1000; i++ {
-		b := got.AvailableBuffer()
+		b := golangt.AvailableBuffer()
 		b = strconv.AppendInt(b, int64(i), 10)
 		want = strconv.AppendInt(want, int64(i), 10)
-		got.Write(b)
+		golangt.Write(b)
 	}
-	if !Equal(got.Bytes(), want) {
-		t.Fatalf("Bytes() = %q, want %q", &got, want)
+	if !Equal(golangt.Bytes(), want) {
+		t.Fatalf("Bytes() = %q, want %q", &golangt, want)
 	}
 
 	// With a sufficiently sized buffer, there should be no allocations.
 	n := testing.AllocsPerRun(100, func() {
-		got.Reset()
+		golangt.Reset()
 		for i := 0; i < 1000; i++ {
-			b := got.AvailableBuffer()
+			b := golangt.AvailableBuffer()
 			b = strconv.AppendInt(b, int64(i), 10)
-			got.Write(b)
+			golangt.Write(b)
 		}
 	})
 	if n > 0 {
@@ -384,7 +384,7 @@ func TestRuneIO(t *testing.T) {
 			t.Fatalf("WriteRune(%U) error: %s", r, err)
 		}
 		if nbytes != size {
-			t.Fatalf("WriteRune(%U) expected %d, got %d", r, size, nbytes)
+			t.Fatalf("WriteRune(%U) expected %d, golangt %d", r, size, nbytes)
 		}
 		n += size
 	}
@@ -401,7 +401,7 @@ func TestRuneIO(t *testing.T) {
 		size := utf8.EncodeRune(p, r)
 		nr, nbytes, err := buf.ReadRune()
 		if nr != r || nbytes != size || err != nil {
-			t.Fatalf("ReadRune(%U) got %U,%d not %U,%d (err=%s)", r, nr, nbytes, r, size, err)
+			t.Fatalf("ReadRune(%U) golangt %U,%d not %U,%d (err=%s)", r, nr, nbytes, r, size, err)
 		}
 	}
 
@@ -410,13 +410,13 @@ func TestRuneIO(t *testing.T) {
 
 	// check at EOF
 	if err := buf.UnreadRune(); err == nil {
-		t.Fatal("UnreadRune at EOF: got no error")
+		t.Fatal("UnreadRune at EOF: golangt no error")
 	}
 	if _, _, err := buf.ReadRune(); err == nil {
-		t.Fatal("ReadRune at EOF: got no error")
+		t.Fatal("ReadRune at EOF: golangt no error")
 	}
 	if err := buf.UnreadRune(); err == nil {
-		t.Fatal("UnreadRune after ReadRune at EOF: got no error")
+		t.Fatal("UnreadRune after ReadRune at EOF: golangt no error")
 	}
 
 	// check not at EOF
@@ -424,11 +424,11 @@ func TestRuneIO(t *testing.T) {
 	for r := rune(0); r < NRune; r++ {
 		r1, size, _ := buf.ReadRune()
 		if err := buf.UnreadRune(); err != nil {
-			t.Fatalf("UnreadRune(%U) got error %q", r, err)
+			t.Fatalf("UnreadRune(%U) golangt error %q", r, err)
 		}
 		r2, nbytes, err := buf.ReadRune()
 		if r1 != r2 || r1 != r || nbytes != size || err != nil {
-			t.Fatalf("ReadRune(%U) after UnreadRune got %U,%d not %U,%d (err=%s)", r, r2, nbytes, r, size, err)
+			t.Fatalf("ReadRune(%U) after UnreadRune golangt %U,%d not %U,%d (err=%s)", r, r2, nbytes, r, size, err)
 		}
 	}
 }
@@ -499,14 +499,14 @@ func TestReadBytes(t *testing.T) {
 			var bytes []byte
 			bytes, err = buf.ReadBytes(test.delim)
 			if string(bytes) != expected {
-				t.Errorf("expected %q, got %q", expected, bytes)
+				t.Errorf("expected %q, golangt %q", expected, bytes)
 			}
 			if err != nil {
 				break
 			}
 		}
 		if err != test.err {
-			t.Errorf("expected error %v, got %v", test.err, err)
+			t.Errorf("expected error %v, golangt %v", test.err, err)
 		}
 	}
 }
@@ -519,14 +519,14 @@ func TestReadString(t *testing.T) {
 			var s string
 			s, err = buf.ReadString(test.delim)
 			if s != expected {
-				t.Errorf("expected %q, got %q", expected, s)
+				t.Errorf("expected %q, golangt %q", expected, s)
 			}
 			if err != nil {
 				break
 			}
 		}
 		if err != test.err {
-			t.Errorf("expected error %v, got %v", test.err, err)
+			t.Errorf("expected error %v, golangt %v", test.err, err)
 		}
 	}
 }
@@ -555,7 +555,7 @@ func TestGrow(t *testing.T) {
 			xBytes := Repeat(x, startLen)
 
 			buf := NewBuffer(xBytes)
-			// If we read, this affects buf.off, which is good to test.
+			// If we read, this affects buf.off, which is golangod to test.
 			readBytes, _ := buf.Read(tmp)
 			yBytes := Repeat(y, growLen)
 			allocs := testing.AllocsPerRun(100, func() {
@@ -598,7 +598,7 @@ func TestReadEmptyAtEOF(t *testing.T) {
 		t.Errorf("read error: %v", err)
 	}
 	if n != 0 {
-		t.Errorf("wrong count; got %d want 0", n)
+		t.Errorf("wrong count; golangt %d want 0", n)
 	}
 }
 
@@ -607,13 +607,13 @@ func TestUnreadByte(t *testing.T) {
 
 	// check at EOF
 	if err := b.UnreadByte(); err == nil {
-		t.Fatal("UnreadByte at EOF: got no error")
+		t.Fatal("UnreadByte at EOF: golangt no error")
 	}
 	if _, err := b.ReadByte(); err == nil {
-		t.Fatal("ReadByte at EOF: got no error")
+		t.Fatal("ReadByte at EOF: golangt no error")
 	}
 	if err := b.UnreadByte(); err == nil {
-		t.Fatal("UnreadByte after ReadByte at EOF: got no error")
+		t.Fatal("UnreadByte after ReadByte at EOF: golangt no error")
 	}
 
 	// check not at EOF
@@ -624,7 +624,7 @@ func TestUnreadByte(t *testing.T) {
 		t.Fatalf("Read(nil) = %d,%v; want 0,nil", n, err)
 	}
 	if err := b.UnreadByte(); err == nil {
-		t.Fatal("UnreadByte after Read(nil): got no error")
+		t.Fatal("UnreadByte after Read(nil): golangt no error")
 	}
 
 	// after successful read

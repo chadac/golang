@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package asn1
@@ -132,7 +132,7 @@ func TestParseBigInt(t *testing.T) {
 		}
 		if test.ok {
 			if ret.String() != test.base10 {
-				t.Errorf("#%d: bad result from %x, got %s want %s", i, test.in, ret.String(), test.base10)
+				t.Errorf("#%d: bad result from %x, golangt %s want %s", i, test.in, ret.String(), test.base10)
 			}
 			e, err := makeBigInt(ret)
 			if err != nil {
@@ -142,7 +142,7 @@ func TestParseBigInt(t *testing.T) {
 			result := make([]byte, e.Len())
 			e.Encode(result)
 			if !bytes.Equal(result, test.in) {
-				t.Errorf("#%d: got %x from marshaling %s, want %x", i, result, ret, test.in)
+				t.Errorf("#%d: golangt %x from marshaling %s, want %x", i, result, ret, test.in)
 			}
 		}
 	}
@@ -220,7 +220,7 @@ func TestBitStringRightAlign(t *testing.T) {
 		bs := BitString{test.in, test.inlen}
 		out := bs.RightAlign()
 		if !bytes.Equal(out, test.out) {
-			t.Errorf("#%d got: %x want: %x", i, out, test.out)
+			t.Errorf("#%d golangt: %x want: %x", i, out, test.out)
 		}
 	}
 }
@@ -537,7 +537,7 @@ func TestUnmarshalWithNilOrNonPointer(t *testing.T) {
 	for _, test := range tests {
 		_, err := Unmarshal(test.b, test.v)
 		if err == nil {
-			t.Errorf("Unmarshal expecting error, got nil")
+			t.Errorf("Unmarshal expecting error, golangt nil")
 			continue
 		}
 		if g, w := err.Error(), test.want; g != w {
@@ -548,22 +548,22 @@ func TestUnmarshalWithNilOrNonPointer(t *testing.T) {
 
 type Certificate struct {
 	TBSCertificate     TBSCertificate
-	SignatureAlgorithm AlgorithmIdentifier
+	SignatureAlgolangrithm AlgolangrithmIdentifier
 	SignatureValue     BitString
 }
 
 type TBSCertificate struct {
 	Version            int `asn1:"optional,explicit,default:0,tag:0"`
 	SerialNumber       RawValue
-	SignatureAlgorithm AlgorithmIdentifier
+	SignatureAlgolangrithm AlgolangrithmIdentifier
 	Issuer             RDNSequence
 	Validity           Validity
 	Subject            RDNSequence
 	PublicKey          PublicKeyInfo
 }
 
-type AlgorithmIdentifier struct {
-	Algorithm ObjectIdentifier
+type AlgolangrithmIdentifier struct {
+	Algolangrithm ObjectIdentifier
 }
 
 type RDNSequence []RelativeDistinguishedNameSET
@@ -580,7 +580,7 @@ type Validity struct {
 }
 
 type PublicKeyInfo struct {
-	Algorithm AlgorithmIdentifier
+	Algolangrithm AlgolangrithmIdentifier
 	PublicKey BitString
 }
 
@@ -591,7 +591,7 @@ func TestCertificate(t *testing.T) {
 		t.Errorf("Unmarshal failed: %v", err)
 	}
 	if !reflect.DeepEqual(cert, derEncodedSelfSignedCert) {
-		t.Errorf("Bad result:\ngot: %+v\nwant: %+v", cert, derEncodedSelfSignedCert)
+		t.Errorf("Bad result:\ngolangt: %+v\nwant: %+v", cert, derEncodedSelfSignedCert)
 	}
 }
 
@@ -624,10 +624,10 @@ func TestRawStructs(t *testing.T) {
 		return
 	}
 	if s.A != 0x50 {
-		t.Errorf("bad value for A: got %d want %d", s.A, 0x50)
+		t.Errorf("bad value for A: golangt %d want %d", s.A, 0x50)
 	}
 	if !bytes.Equal([]byte(s.Raw), input) {
-		t.Errorf("bad value for Raw: got %x want %x", s.Raw, input)
+		t.Errorf("bad value for Raw: golangt %x want %x", s.Raw, input)
 	}
 }
 
@@ -658,7 +658,7 @@ var oiEqualTests = []oiEqualTest{
 func TestObjectIdentifierEqual(t *testing.T) {
 	for _, o := range oiEqualTests {
 		if s := o.first.Equal(o.second); s != o.same {
-			t.Errorf("ObjectIdentifier.Equal: got: %t want: %t", s, o.same)
+			t.Errorf("ObjectIdentifier.Equal: golangt: %t want: %t", s, o.same)
 		}
 	}
 }
@@ -667,7 +667,7 @@ var derEncodedSelfSignedCert = Certificate{
 	TBSCertificate: TBSCertificate{
 		Version:            0,
 		SerialNumber:       RawValue{Class: 0, Tag: 2, IsCompound: false, Bytes: []uint8{0x0, 0x8c, 0xc3, 0x37, 0x92, 0x10, 0xec, 0x2c, 0x98}, FullBytes: []byte{2, 9, 0x0, 0x8c, 0xc3, 0x37, 0x92, 0x10, 0xec, 0x2c, 0x98}},
-		SignatureAlgorithm: AlgorithmIdentifier{Algorithm: ObjectIdentifier{1, 2, 840, 113549, 1, 1, 5}},
+		SignatureAlgolangrithm: AlgolangrithmIdentifier{Algolangrithm: ObjectIdentifier{1, 2, 840, 113549, 1, 1, 5}},
 		Issuer: RDNSequence{
 			RelativeDistinguishedNameSET{AttributeTypeAndValue{Type: ObjectIdentifier{2, 5, 4, 6}, Value: "XX"}},
 			RelativeDistinguishedNameSET{AttributeTypeAndValue{Type: ObjectIdentifier{2, 5, 4, 8}, Value: "Some-State"}},
@@ -689,7 +689,7 @@ var derEncodedSelfSignedCert = Certificate{
 			RelativeDistinguishedNameSET{AttributeTypeAndValue{Type: ObjectIdentifier{1, 2, 840, 113549, 1, 9, 1}, Value: "false@example.com"}},
 		},
 		PublicKey: PublicKeyInfo{
-			Algorithm: AlgorithmIdentifier{Algorithm: ObjectIdentifier{1, 2, 840, 113549, 1, 1, 1}},
+			Algolangrithm: AlgolangrithmIdentifier{Algolangrithm: ObjectIdentifier{1, 2, 840, 113549, 1, 1, 1}},
 			PublicKey: BitString{
 				Bytes: []uint8{
 					0x30, 0x48, 0x2, 0x41, 0x0, 0xcd, 0xb7,
@@ -704,7 +704,7 @@ var derEncodedSelfSignedCert = Certificate{
 			},
 		},
 	},
-	SignatureAlgorithm: AlgorithmIdentifier{Algorithm: ObjectIdentifier{1, 2, 840, 113549, 1, 1, 5}},
+	SignatureAlgolangrithm: AlgolangrithmIdentifier{Algolangrithm: ObjectIdentifier{1, 2, 840, 113549, 1, 1, 5}},
 	SignatureValue: BitString{
 		Bytes: []uint8{
 			0xa6, 0x7b, 0x6, 0xec, 0x5e, 0xce,
@@ -936,13 +936,13 @@ func TestExplicitTaggedTime(t *testing.T) {
 	// Test that a time.Time will match either tagUTCTime or
 	// tagGeneralizedTime.
 	for i, test := range explicitTaggedTimeTestData {
-		var got explicitTaggedTimeTest
-		_, err := Unmarshal(test.in, &got)
+		var golangt explicitTaggedTimeTest
+		_, err := Unmarshal(test.in, &golangt)
 		if err != nil {
 			t.Errorf("Unmarshal failed at index %d %v", i, err)
 		}
-		if !got.Time.Equal(test.out.Time) {
-			t.Errorf("#%d: got %v, want %v", i, got.Time, test.out.Time)
+		if !golangt.Time.Equal(test.out.Time) {
+			t.Errorf("#%d: golangt %v, want %v", i, golangt.Time, test.out.Time)
 		}
 	}
 }
@@ -1029,7 +1029,7 @@ func TestUnexportedStructField(t *testing.T) {
 
 	_, err := Marshal(unexported{X: 5, y: 1})
 	if err != want {
-		t.Errorf("got %v, want %v", err, want)
+		t.Errorf("golangt %v, want %v", err, want)
 	}
 
 	bs, err := Marshal(exported{X: 5, Y: 1})
@@ -1039,7 +1039,7 @@ func TestUnexportedStructField(t *testing.T) {
 	var u unexported
 	_, err = Unmarshal(bs, &u)
 	if err != want {
-		t.Errorf("got %v, want %v", err, want)
+		t.Errorf("golangt %v, want %v", err, want)
 	}
 }
 
@@ -1049,7 +1049,7 @@ func TestNull(t *testing.T) {
 		t.Fatal(err)
 	}
 	if !bytes.Equal(NullBytes, marshaled) {
-		t.Errorf("Expected Marshal of NullRawValue to yield %x, got %x", NullBytes, marshaled)
+		t.Errorf("Expected Marshal of NullRawValue to yield %x, golangt %x", NullBytes, marshaled)
 	}
 
 	unmarshaled := RawValue{}
@@ -1064,7 +1064,7 @@ func TestNull(t *testing.T) {
 	}
 
 	if !reflect.DeepEqual(NullRawValue, unmarshaled) {
-		t.Errorf("Expected Unmarshal of NullBytes to yield %v, got %v", NullRawValue, unmarshaled)
+		t.Errorf("Expected Unmarshal of NullBytes to yield %v, golangt %v", NullRawValue, unmarshaled)
 	}
 }
 
@@ -1084,10 +1084,10 @@ func TestExplicitTagRawValueStruct(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	got := fmt.Sprintf("%#v", after)
+	golangt := fmt.Sprintf("%#v", after)
 	want := fmt.Sprintf("%#v", before)
-	if got != want {
-		t.Errorf("got %s, want %s (DER: %x)", got, want, derBytes)
+	if golangt != want {
+		t.Errorf("golangt %s, want %s (DER: %x)", golangt, want, derBytes)
 	}
 }
 
@@ -1161,7 +1161,7 @@ func TestBMPString(t *testing.T) {
 			}
 
 			if decoded != test.decoded {
-				t.Errorf("parseBMPString(%q): got %q, want %q", encoded, decoded, test.decoded)
+				t.Errorf("parseBMPString(%q): golangt %q, want %q", encoded, decoded, test.decoded)
 			}
 		})
 	}

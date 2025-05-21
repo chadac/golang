@@ -1,12 +1,12 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main_test
 
 import (
 	"flag"
-	"go/format"
+	"golang/format"
 	"internal/diff"
 	"internal/testenv"
 	"os"
@@ -14,7 +14,7 @@ import (
 	"testing"
 )
 
-var fixDocs = flag.Bool("fixdocs", false, "if true, update alldocs.go")
+var fixDocs = flag.Bool("fixdocs", false, "if true, update alldocs.golang")
 
 func TestDocsUpToDate(t *testing.T) {
 	testenv.MustHaveGoBuild(t)
@@ -22,12 +22,12 @@ func TestDocsUpToDate(t *testing.T) {
 		t.Parallel()
 	}
 
-	// We run 'go help documentation' as a subprocess instead of
+	// We run 'golang help documentation' as a subprocess instead of
 	// calling help.Help directly because it may be sensitive to
 	// init-time configuration
 	cmd := testenv.Command(t, testGo, "help", "documentation")
-	// Unset GO111MODULE so that the 'go get' section matches
-	// the default 'go get' implementation.
+	// Unset GO111MODULE so that the 'golang get' section matches
+	// the default 'golang get' implementation.
 	cmd.Env = append(cmd.Environ(), "GO111MODULE=")
 	cmd.Stderr = new(strings.Builder)
 	out, err := cmd.Output()
@@ -40,12 +40,12 @@ func TestDocsUpToDate(t *testing.T) {
 		t.Fatalf("format.Source($(%v)): %v", cmd, err)
 	}
 
-	const srcPath = `alldocs.go`
+	const srcPath = `alldocs.golang`
 	old, err := os.ReadFile(srcPath)
 	if err != nil {
 		t.Fatalf("error reading %s: %v", srcPath, err)
 	}
-	diff := diff.Diff(srcPath, old, "go help documentation | gofmt", alldocs)
+	diff := diff.Diff(srcPath, old, "golang help documentation | golangfmt", alldocs)
 	if diff == nil {
 		t.Logf("%s is up to date.", srcPath)
 		return
@@ -58,6 +58,6 @@ func TestDocsUpToDate(t *testing.T) {
 		t.Logf("wrote %d bytes to %s", len(alldocs), srcPath)
 	} else {
 		t.Logf("\n%s", diff)
-		t.Errorf("%s is stale. To update, run 'go generate cmd/go'.", srcPath)
+		t.Errorf("%s is stale. To update, run 'golang generate cmd/golang'.", srcPath)
 	}
 }

@@ -1,5 +1,5 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package vcs
@@ -16,13 +16,13 @@ var parseMetaGoImportsTests = []struct {
 	out []metaImport
 }{
 	{
-		`<meta name="go-import" content="foo/bar git https://github.com/rsc/foo/bar">`,
+		`<meta name="golang-import" content="foo/bar git https://github.com/rsc/foo/bar">`,
 		IgnoreMod,
 		[]metaImport{{"foo/bar", "git", "https://github.com/rsc/foo/bar", ""}},
 	},
 	{
-		`<meta name="go-import" content="foo/bar git https://github.com/rsc/foo/bar">
-		<meta name="go-import" content="baz/quux git http://github.com/rsc/baz/quux">`,
+		`<meta name="golang-import" content="foo/bar git https://github.com/rsc/foo/bar">
+		<meta name="golang-import" content="baz/quux git http://github.com/rsc/baz/quux">`,
 		IgnoreMod,
 		[]metaImport{
 			{"foo/bar", "git", "https://github.com/rsc/foo/bar", ""},
@@ -30,24 +30,24 @@ var parseMetaGoImportsTests = []struct {
 		},
 	},
 	{
-		`<meta name="go-import" content="foo/bar git https://github.com/rsc/foo/bar">
-		<meta name="go-import" content="foo/bar mod http://github.com/rsc/baz/quux">`,
+		`<meta name="golang-import" content="foo/bar git https://github.com/rsc/foo/bar">
+		<meta name="golang-import" content="foo/bar mod http://github.com/rsc/baz/quux">`,
 		IgnoreMod,
 		[]metaImport{
 			{"foo/bar", "git", "https://github.com/rsc/foo/bar", ""},
 		},
 	},
 	{
-		`<meta name="go-import" content="foo/bar mod http://github.com/rsc/baz/quux">
-		<meta name="go-import" content="foo/bar git https://github.com/rsc/foo/bar">`,
+		`<meta name="golang-import" content="foo/bar mod http://github.com/rsc/baz/quux">
+		<meta name="golang-import" content="foo/bar git https://github.com/rsc/foo/bar">`,
 		IgnoreMod,
 		[]metaImport{
 			{"foo/bar", "git", "https://github.com/rsc/foo/bar", ""},
 		},
 	},
 	{
-		`<meta name="go-import" content="foo/bar mod http://github.com/rsc/baz/quux">
-		<meta name="go-import" content="foo/bar git https://github.com/rsc/foo/bar">`,
+		`<meta name="golang-import" content="foo/bar mod http://github.com/rsc/baz/quux">
+		<meta name="golang-import" content="foo/bar git https://github.com/rsc/foo/bar">`,
 		PreferMod,
 		[]metaImport{
 			{"foo/bar", "mod", "http://github.com/rsc/baz/quux", ""},
@@ -55,38 +55,38 @@ var parseMetaGoImportsTests = []struct {
 	},
 	{
 		`<head>
-		<meta name="go-import" content="foo/bar git https://github.com/rsc/foo/bar">
+		<meta name="golang-import" content="foo/bar git https://github.com/rsc/foo/bar">
 		</head>`,
 		IgnoreMod,
 		[]metaImport{{"foo/bar", "git", "https://github.com/rsc/foo/bar", ""}},
 	},
 	{
-		`<meta name="go-import" content="foo/bar git https://github.com/rsc/foo/bar">
+		`<meta name="golang-import" content="foo/bar git https://github.com/rsc/foo/bar">
 		<body>`,
 		IgnoreMod,
 		[]metaImport{{"foo/bar", "git", "https://github.com/rsc/foo/bar", ""}},
 	},
 	{
-		`<!doctype html><meta name="go-import" content="foo/bar git https://github.com/rsc/foo/bar">`,
+		`<!doctype html><meta name="golang-import" content="foo/bar git https://github.com/rsc/foo/bar">`,
 		IgnoreMod,
 		[]metaImport{{"foo/bar", "git", "https://github.com/rsc/foo/bar", ""}},
 	},
 	{
 		// XML doesn't like <div style=position:relative>.
-		`<!doctype html><title>Page Not Found</title><meta name=go-import content="chitin.io/chitin git https://github.com/chitin-io/chitin"><div style=position:relative>DRAFT</div>`,
+		`<!doctype html><title>Page Not Found</title><meta name=golang-import content="chitin.io/chitin git https://github.com/chitin-io/chitin"><div style=position:relative>DRAFT</div>`,
 		IgnoreMod,
 		[]metaImport{{"chitin.io/chitin", "git", "https://github.com/chitin-io/chitin", ""}},
 	},
 	{
-		`<meta name="go-import" content="myitcv.io git https://github.com/myitcv/x">
-	        <meta name="go-import" content="myitcv.io/blah2 mod https://raw.githubusercontent.com/myitcv/pubx/master">
+		`<meta name="golang-import" content="myitcv.io git https://github.com/myitcv/x">
+	        <meta name="golang-import" content="myitcv.io/blah2 mod https://raw.githubusercontent.com/myitcv/pubx/master">
 	        `,
 		IgnoreMod,
 		[]metaImport{{"myitcv.io", "git", "https://github.com/myitcv/x", ""}},
 	},
 	{
-		`<meta name="go-import" content="myitcv.io git https://github.com/myitcv/x">
-	        <meta name="go-import" content="myitcv.io/blah2 mod https://raw.githubusercontent.com/myitcv/pubx/master">
+		`<meta name="golang-import" content="myitcv.io git https://github.com/myitcv/x">
+	        <meta name="golang-import" content="myitcv.io/blah2 mod https://raw.githubusercontent.com/myitcv/pubx/master">
 	        `,
 		PreferMod,
 		[]metaImport{
@@ -95,12 +95,12 @@ var parseMetaGoImportsTests = []struct {
 		},
 	},
 	{
-		`<meta name="go-import" content="foo/bar git https://github.com/rsc/foo/bar subdir">`,
+		`<meta name="golang-import" content="foo/bar git https://github.com/rsc/foo/bar subdir">`,
 		IgnoreMod,
 		[]metaImport{{"foo/bar", "git", "https://github.com/rsc/foo/bar", "subdir"}},
 	},
 	{
-		`<meta name="go-import" content="foo/bar git https://github.com/rsc/foo/bar subdir/path">`,
+		`<meta name="golang-import" content="foo/bar git https://github.com/rsc/foo/bar subdir/path">`,
 		IgnoreMod,
 		[]metaImport{{"foo/bar", "git", "https://github.com/rsc/foo/bar", "subdir/path"}},
 	},

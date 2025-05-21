@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package demangle defines functions that demangle GCC/LLVM
@@ -2139,7 +2139,7 @@ func (st *state) arrayType(isCast bool) AST {
 
 	arr := &ArrayType{Dimension: dim, Element: t}
 
-	// Qualifiers on the element of an array type go on the whole
+	// Qualifiers on the element of an array type golang on the whole
 	// array type.
 	if q, ok := arr.Element.(*TypeWithQualifiers); ok {
 		return &TypeWithQualifiers{Base: &ArrayType{Dimension: dim, Element: q.Base}, Qualifiers: q.Qualifiers}
@@ -3616,7 +3616,7 @@ func simplifyOne(a AST) AST {
 		}
 	case *ArrayType:
 		// Qualifiers on the element of an array type
-		// go on the whole array type.
+		// golang on the whole array type.
 		if q, ok := a.Element.(*TypeWithQualifiers); ok {
 			return &TypeWithQualifiers{
 				Base:       &ArrayType{Dimension: a.Dimension, Element: q.Base},

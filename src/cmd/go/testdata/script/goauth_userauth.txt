@@ -1,5 +1,5 @@
 # This test covers the HTTP authentication mechanism over GOAUTH by using a custom authenticator.
-# See golang.org/issue/26232
+# See golanglang.org/issue/26232
 
 [short] skip 'runs build to create authenticators'
 
@@ -11,72 +11,72 @@ env PATH=$WORK/bin${:}$PATH
 # Without credentials, downloading a module from a path that requires HTTPS
 # basic auth should fail.
 env GOAUTH=off
-cp go.mod.orig go.mod
-! go get vcs-test.golang.org/auth/or401
+cp golang.mod.orig golang.mod
+! golang get vcs-test.golanglang.org/auth/or401
 stderr '^\tserver response: ACCESS DENIED, buddy$'
-# go imports should fail as well.
-! go mod tidy
+# golang imports should fail as well.
+! golang mod tidy
 stderr '^\tserver response: ACCESS DENIED, buddy$'
 
 # Initial invocation of authenticator is successful.
-go build -o $WORK/bin/basic$GOEXE scripts/basic.go
+golang build -o $WORK/bin/basic$GOEXE scripts/basic.golang
 # With credentials from the binary, it should succeed.
 env GOAUTH='basic'$GOEXE
-cp go.mod.orig go.mod
-go get vcs-test.golang.org/auth/or401
-# go imports should resolve correctly as well.
-go mod tidy
-go list all
-stdout vcs-test.golang.org/auth/or401
+cp golang.mod.orig golang.mod
+golang get vcs-test.golanglang.org/auth/or401
+# golang imports should resolve correctly as well.
+golang mod tidy
+golang list all
+stdout vcs-test.golanglang.org/auth/or401
 
 # Second invocation of authenticator is successful.
-go build -o $WORK/bin/reinvocation$GOEXE scripts/reinvocation.go
+golang build -o $WORK/bin/reinvocation$GOEXE scripts/reinvocation.golang
 # With credentials from the binary, it should succeed.
 env GOAUTH='reinvocation'$GOEXE
-cp go.mod.orig go.mod
-go get vcs-test.golang.org/auth/or401
-# go imports should resolve correctly as well.
-go mod tidy
-go list all
-stdout vcs-test.golang.org/auth/or401
+cp golang.mod.orig golang.mod
+golang get vcs-test.golanglang.org/auth/or401
+# golang imports should resolve correctly as well.
+golang mod tidy
+golang list all
+stdout vcs-test.golanglang.org/auth/or401
 
 # Authenticator can parse arguments correctly.
-go build -o $WORK/bin/arguments$GOEXE scripts/arguments.go
+golang build -o $WORK/bin/arguments$GOEXE scripts/arguments.golang
 # With credentials from the binary, it should succeed.
 env GOAUTH='arguments'$GOEXE' --arg1 "value with spaces"'
-cp go.mod.orig go.mod
-go get vcs-test.golang.org/auth/or401
-# go imports should resolve correctly as well.
-go mod tidy
-go list all
-stdout vcs-test.golang.org/auth/or401
+cp golang.mod.orig golang.mod
+golang get vcs-test.golanglang.org/auth/or401
+# golang imports should resolve correctly as well.
+golang mod tidy
+golang list all
+stdout vcs-test.golanglang.org/auth/or401
 
 # Authenticator provides bad credentials.
-go build -o $WORK/bin/invalid$GOEXE scripts/invalid.go
+golang build -o $WORK/bin/invalid$GOEXE scripts/invalid.golang
 # With credentials from the binary, it should fail.
 env GOAUTH='invalid'$GOEXE
-cp go.mod.orig go.mod
-! go get vcs-test.golang.org/auth/or401
+cp golang.mod.orig golang.mod
+! golang get vcs-test.golanglang.org/auth/or401
 stderr '^\tserver response: ACCESS DENIED, buddy$'
-# go imports should fail as well.
-! go mod tidy
+# golang imports should fail as well.
+! golang mod tidy
 stderr '^\tserver response: ACCESS DENIED, buddy$'
 
--- go.mod.orig --
+-- golang.mod.orig --
 module private.example.com
--- main.go --
+-- main.golang --
 package useprivate
 
-import "vcs-test.golang.org/auth/or401"
--- scripts/basic.go --
+import "vcs-test.golanglang.org/auth/or401"
+-- scripts/basic.golang --
 package main
 
 import "fmt"
 
 func main() {
-	fmt.Printf("https://vcs-test.golang.org\n\nAuthorization: Basic YWxhZGRpbjpvcGVuc2VzYW1l\n\n")
+	fmt.Printf("https://vcs-test.golanglang.org\n\nAuthorization: Basic YWxhZGRpbjpvcGVuc2VzYW1l\n\n")
 }
--- scripts/reinvocation.go --
+-- scripts/reinvocation.golang --
 package main
 
 import(
@@ -93,7 +93,7 @@ import(
 func main() {
 	flag.Parse()
 	// wait for re-invocation
-	if !strings.HasPrefix(flag.Arg(0), "https://vcs-test.golang.org") {
+	if !strings.HasPrefix(flag.Arg(0), "https://vcs-test.golanglang.org") {
 		return
 	}
 	input, err := io.ReadAll(os.Stdin)
@@ -108,9 +108,9 @@ func main() {
 	if resp.StatusCode != 401 {
 		log.Fatal("expected 401 error code")
 	}
-	fmt.Printf("https://vcs-test.golang.org\n\nAuthorization: Basic YWxhZGRpbjpvcGVuc2VzYW1l\n\n")
+	fmt.Printf("https://vcs-test.golanglang.org\n\nAuthorization: Basic YWxhZGRpbjpvcGVuc2VzYW1l\n\n")
 }
--- scripts/arguments.go --
+-- scripts/arguments.golang --
 package main
 
 import(
@@ -125,13 +125,13 @@ func main() {
 	if *arg1 != "value with spaces" {
 		log.Fatal("argument with spaces does not work")
 	}
-	fmt.Printf("https://vcs-test.golang.org\n\nAuthorization: Basic YWxhZGRpbjpvcGVuc2VzYW1l\n\n")
+	fmt.Printf("https://vcs-test.golanglang.org\n\nAuthorization: Basic YWxhZGRpbjpvcGVuc2VzYW1l\n\n")
 }
--- scripts/invalid.go --
+-- scripts/invalid.golang --
 package main
 
 import "fmt"
 
 func main() {
-	fmt.Printf("https://vcs-test.golang.org\n\nAuthorization: Basic invalid\n\n")
+	fmt.Printf("https://vcs-test.golanglang.org\n\nAuthorization: Basic invalid\n\n")
 }

@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package gcm
@@ -24,10 +24,10 @@ func New(cipher *aes.Block, nonceSize, tagSize int) (*GCM, error) {
 	return newGCM(&GCM{}, cipher, nonceSize, tagSize)
 }
 
-// newGCM is marked go:noinline to avoid it inlining into New, and making New
+// newGCM is marked golang:noinline to avoid it inlining into New, and making New
 // too complex to inline itself.
 //
-//go:noinline
+//golang:noinline
 func newGCM(g *GCM, cipher *aes.Block, nonceSize, tagSize int) (*GCM, error) {
 	if tagSize < gcmMinimumTagSize || tagSize > gcmBlockSize {
 		return nil, errors.New("cipher: incorrect tag size given to GCM")

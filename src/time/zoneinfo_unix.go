@@ -1,8 +1,8 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build unix && !ios && !android
+//golang:build unix && !ios && !android
 
 // Parse "zoneinfo" time zone file.
 // This is a fairly standard file format used on OS X, Linux, BSD, Sun, and others.

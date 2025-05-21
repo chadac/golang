@@ -1,25 +1,25 @@
-# "go test -c -test.bench=XXX errors" should not hang.
-# "go test -c" should also produce reproducible binaries.
-# "go test -c" should also appear to write a new binary every time,
+# "golang test -c -test.bench=XXX errors" should not hang.
+# "golang test -c" should also produce reproducible binaries.
+# "golang test -c" should also appear to write a new binary every time,
 # even if it's really just updating the mtime on an existing up-to-date binary.
 
-[compiler:gccgo] skip
+[compiler:gccgolang] skip
 [short] skip
 
 # Install some commands to compare mtimes
 env GOBIN=$WORK/tmp/bin
-go install m/now m/mtime m/before
+golang install m/now m/mtime m/before
 
 # Initial builds
-go test -c -test.bench=XXX errors
-go test -c -o errors2.test errors
+golang test -c -test.bench=XXX errors
+golang test -c -o errors2.test errors
 cmp errors.test$GOEXE errors2.test # // errors2.test has no exeSuffix because -o above doesn't have it
 
 # Check errors.test mtime is updated
 exec $GOBIN/now
 cp stdout start_time.txt
-go test -x -c -test.bench=XXX errors
-! stderr '[\\/]link|gccgo' # make sure up-to-date test binary is not relinked
+golang test -x -c -test.bench=XXX errors
+! stderr '[\\/]link|gccgolang' # make sure up-to-date test binary is not relinked
 exec $GOBIN/mtime errors.test$GOEXE
 cp stdout errors1_mod_time.txt
 exec $GOBIN/before start_time.txt errors1_mod_time.txt
@@ -28,17 +28,17 @@ rm start_time.txt errors1_mod_time.txt
 # Check errors2.test mtime is updated
 exec $GOBIN/now
 cp stdout start_time.txt
-go test -x -c -o errors2.test errors
-! stderr '[\\/]link|gccgo' # make sure up-to-date test binary is not relinked
+golang test -x -c -o errors2.test errors
+! stderr '[\\/]link|gccgolang' # make sure up-to-date test binary is not relinked
 exec $GOBIN/mtime errors2.test
 cp stdout errors2_mod_time.txt
 exec $GOBIN/before start_time.txt errors2_mod_time.txt
 
--- go.mod --
+-- golang.mod --
 module m
 
-go 1.16
--- now/now.go --
+golang 1.16
+-- now/now.golang --
 // Writes time.Now() to a file
 package main
 
@@ -55,7 +55,7 @@ func main() {
 		os.Exit(1)
 	}
 }
--- mtime/mtime.go --
+-- mtime/mtime.golang --
 package main
 
 import (
@@ -75,7 +75,7 @@ func main() {
 		os.Exit(1)
 	}
 }
--- before/before.go --
+-- before/before.golang --
 package main
 
 import (

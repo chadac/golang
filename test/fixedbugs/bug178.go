@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -15,7 +15,7 @@ L:
 		}
 		panic("BUG: not reached - break")
 		if false {
-			goto L1
+			golangto L1
 		}
 	}
 
@@ -27,7 +27,7 @@ L2:
 		}
 		panic("BUG: not reached - continue")
 		if false {
-			goto L3
+			golangto L3
 		}
 	}
 }

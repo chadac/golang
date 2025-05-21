@@ -1,12 +1,12 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !purego
+//golang:build !puregolang
 
 package sha3
 
-//go:noescape
+//golang:noescape
 func keccakF1600(a *[200]byte)
 
 func (d *Digest) write(p []byte) (n int, err error) {

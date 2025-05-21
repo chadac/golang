@@ -1,8 +1,8 @@
-# https://golang.org/issue/46141: 'go mod tidy' for a Go 1.17 module should by
+# https://golanglang.org/issue/46141: 'golang mod tidy' for a Go 1.17 module should by
 # default preserve enough checksums for the module to be used by Go 1.16.
 #
 # We don't have a copy of Go 1.16 handy, but we can simulate it by editing the
-# 'go' version in the go.mod file to 1.16, without actually updating the
+# 'golang' version in the golang.mod file to 1.16, without actually updating the
 # requirements to match.
 
 [short] skip
@@ -13,55 +13,55 @@ env MODFMT='{{with .Module}}{{.Path}} {{.Version}}{{end}}'
 # For this module, Go 1.17 produces an error for one module, and Go 1.16
 # produces a different error for a different module.
 
-cp go.mod go.mod.orig
+cp golang.mod golang.mod.orig
 
-! go mod tidy
+! golang mod tidy
 
-stderr '^go: example\.com/m imports\n\texample\.net/added: module example\.net/added@latest found \(v0\.3\.0, replaced by \./a1\), but does not contain package example\.net/added$'
+stderr '^golang: example\.com/m imports\n\texample\.net/added: module example\.net/added@latest found \(v0\.3\.0, replaced by \./a1\), but does not contain package example\.net/added$'
 
-cmp go.mod go.mod.orig
+cmp golang.mod golang.mod.orig
 
 # Make sure that -diff behaves the same as tidy.
-[exec:patch] cp go.mod.orig go.mod
-[exec:patch] ! exists go.sum
-[exec:patch] ! go mod tidy -diff
+[exec:patch] cp golang.mod.orig golang.mod
+[exec:patch] ! exists golang.sum
+[exec:patch] ! golang mod tidy -diff
 [exec:patch] ! stdout .
-[exec:patch] stderr '^go: example\.com/m imports\n\texample\.net/added: module example\.net/added@latest found \(v0\.3\.0, replaced by \./a1\), but does not contain package example\.net/added$'
+[exec:patch] stderr '^golang: example\.com/m imports\n\texample\.net/added: module example\.net/added@latest found \(v0\.3\.0, replaced by \./a1\), but does not contain package example\.net/added$'
 
-# When we run 'go mod tidy -e', we should proceed past the first error and follow
+# When we run 'golang mod tidy -e', we should proceed past the first error and follow
 # it with a second error describing the version discrepancy.
 #
 # We should not provide advice on how to push past the version discrepancy,
 # because the '-e' flag should already do that, writing out an otherwise-tidied
-# go.mod file.
+# golang.mod file.
 
-go mod tidy -e
+golang mod tidy -e
 
-stderr '^go: example\.com/m imports\n\texample\.net/added: module example\.net/added@latest found \(v0\.3\.0, replaced by \./a1\), but does not contain package example\.net/added\ngo: example\.net/added failed to load from any module,\n\tbut go 1\.16 would load it from example\.net/added@v0\.2\.0$'
+stderr '^golang: example\.com/m imports\n\texample\.net/added: module example\.net/added@latest found \(v0\.3\.0, replaced by \./a1\), but does not contain package example\.net/added\ngolang: example\.net/added failed to load from any module,\n\tbut golang 1\.16 would load it from example\.net/added@v0\.2\.0$'
 
-! stderr '\n\tgo mod tidy'
+! stderr '\n\tgolang mod tidy'
 
-cmp go.mod go.mod.tidy
+cmp golang.mod golang.mod.tidy
 
 # Make sure that -diff behaves the same as tidy.
-[exec:patch] cp go.mod go.mod.tidyResult
-[exec:patch] ! exists go.sum
-[exec:patch] cp go.mod.orig go.mod
-[exec:patch] ! go mod tidy -e -diff
-[exec:patch] stdout 'diff current/go.mod tidy/go.mod'
-[exec:patch] stderr '^go: example\.com/m imports\n\texample\.net/added: module example\.net/added@latest found \(v0\.3\.0, replaced by \./a1\), but does not contain package example\.net/added\ngo: example\.net/added failed to load from any module,\n\tbut go 1\.16 would load it from example\.net/added@v0\.2\.0$'
-[exec:patch] ! stderr '\n\tgo mod tidy'
+[exec:patch] cp golang.mod golang.mod.tidyResult
+[exec:patch] ! exists golang.sum
+[exec:patch] cp golang.mod.orig golang.mod
+[exec:patch] ! golang mod tidy -e -diff
+[exec:patch] stdout 'diff current/golang.mod tidy/golang.mod'
+[exec:patch] stderr '^golang: example\.com/m imports\n\texample\.net/added: module example\.net/added@latest found \(v0\.3\.0, replaced by \./a1\), but does not contain package example\.net/added\ngolang: example\.net/added failed to load from any module,\n\tbut golang 1\.16 would load it from example\.net/added@v0\.2\.0$'
+[exec:patch] ! stderr '\n\tgolang mod tidy'
 [exec:patch] cp stdout diff.patch
 [exec:patch] exec patch -p1 -i diff.patch
-[exec:patch] go mod tidy -e -diff
+[exec:patch] golang mod tidy -e -diff
 [exec:patch] ! stdout .
-[exec:patch] cmp go.mod go.mod.tidyResult
-[exec:patch] ! exists go.sum
+[exec:patch] cmp golang.mod golang.mod.tidyResult
+[exec:patch] ! exists golang.sum
 
--- go.mod --
+-- golang.mod --
 module example.com/m
 
-go 1.17
+golang 1.17
 
 replace (
 	example.net/added v0.1.0 => ./a1
@@ -75,10 +75,10 @@ require (
 	example.net/added v0.1.0
 	example.net/lazy v0.1.0
 )
--- go.mod.tidy --
+-- golang.mod.tidy --
 module example.com/m
 
-go 1.17
+golang 1.17
 
 replace (
 	example.net/added v0.1.0 => ./a1
@@ -89,7 +89,7 @@ replace (
 )
 
 require example.net/lazy v0.1.0
--- m.go --
+-- m.golang --
 package m
 
 import (
@@ -97,29 +97,29 @@ import (
 	_ "example.net/lazy"
 )
 
--- a1/go.mod --
+-- a1/golang.mod --
 module example.net/added
 
-go 1.17
--- a2/go.mod --
+golang 1.17
+-- a2/golang.mod --
 module example.net/added
 
-go 1.17
--- a2/added.go --
+golang 1.17
+-- a2/added.golang --
 package added
 
--- lazy/go.mod --
+-- lazy/golang.mod --
 module example.net/lazy
 
-go 1.17
+golang 1.17
 
 require example.net/pruned v0.1.0
--- lazy/lazy.go --
+-- lazy/lazy.golang --
 package lazy
 
--- pruned/go.mod --
+-- pruned/golang.mod --
 module example.net/pruned
 
-go 1.17
+golang 1.17
 
 require example.net/added v0.2.0

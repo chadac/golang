@@ -1,10 +1,10 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package math
 
-import "internal/goarch"
+import "internal/golangarch"
 
 const (
 	MaxUint32  = ^uint32(0)
@@ -17,7 +17,7 @@ const (
 // MulUintptr returns a * b and whether the multiplication overflowed.
 // On supported platforms this is an intrinsic lowered by the compiler.
 func MulUintptr(a, b uintptr) (uintptr, bool) {
-	if a|b < 1<<(4*goarch.PtrSize) || a == 0 {
+	if a|b < 1<<(4*golangarch.PtrSize) || a == 0 {
 		return a * b, false
 	}
 	overflow := b > MaxUintptr/a

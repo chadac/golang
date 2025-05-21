@@ -7,13 +7,13 @@ env GOCACHE=$WORK/cache
 # had an execution limit, causing it to deadlock and sit in the coordinator
 # loop indefinitely, failing to exit once the limit had been exhausted.
 
-go test -fuzz=FuzzA -fuzztime=100x -parallel=1
+golang test -fuzz=FuzzA -fuzztime=100x -parallel=1
 
--- go.mod --
+-- golang.mod --
 module m
 
-go 1.16
--- fuzz_test.go --
+golang 1.16
+-- fuzz_test.golang --
 package fuzz_test
 
 import (

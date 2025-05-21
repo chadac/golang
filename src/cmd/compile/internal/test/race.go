@@ -1,8 +1,8 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !compiler_bootstrap
+//golang:build !compiler_bootstrap
 
 package test
 
@@ -38,7 +38,7 @@ func Issue55357() {
 
 type T55357[T any] struct{}
 
-//go:noinline
+//golang:noinline
 func (q *T55357[T]) do(w, v bool, fn func(bk []byte, v T) error) error {
 	return nil
 }

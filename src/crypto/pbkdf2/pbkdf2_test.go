@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package pbkdf2_test
@@ -149,7 +149,7 @@ func testHash(t *testing.T, h func() hash.Hash, hashName string, vectors []testV
 			t.Error(err)
 		}
 		if !bytes.Equal(o, v.output) {
-			t.Errorf("%s %d: expected %x, got %x", hashName, i, v.output, o)
+			t.Errorf("%s %d: expected %x, golangt %x", hashName, i, v.output, o)
 		}
 	}
 }
@@ -190,10 +190,10 @@ func TestPBKDF2ServiceIndicator(t *testing.T) {
 		t.Skip("in BoringCrypto mode PBKDF2 is not from the Go FIPS module")
 	}
 
-	goodSalt := []byte{0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10}
+	golangodSalt := []byte{0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10}
 
 	fips140.ResetServiceIndicator()
-	_, err := pbkdf2.Key(sha256.New, "password", goodSalt, 1, 32)
+	_, err := pbkdf2.Key(sha256.New, "password", golangodSalt, 1, 32)
 	if err != nil {
 		t.Error(err)
 	}
@@ -203,7 +203,7 @@ func TestPBKDF2ServiceIndicator(t *testing.T) {
 
 	// Salt too short
 	fips140.ResetServiceIndicator()
-	_, err = pbkdf2.Key(sha256.New, "password", goodSalt[:8], 1, 32)
+	_, err = pbkdf2.Key(sha256.New, "password", golangodSalt[:8], 1, 32)
 	if err != nil {
 		t.Error(err)
 	}
@@ -213,7 +213,7 @@ func TestPBKDF2ServiceIndicator(t *testing.T) {
 
 	// Key length too short
 	fips140.ResetServiceIndicator()
-	_, err = pbkdf2.Key(sha256.New, "password", goodSalt, 1, 10)
+	_, err = pbkdf2.Key(sha256.New, "password", golangodSalt, 1, 10)
 	if err != nil {
 		t.Error(err)
 	}

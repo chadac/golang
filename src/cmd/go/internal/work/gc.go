@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package work
@@ -17,13 +17,13 @@ import (
 	"runtime"
 	"strings"
 
-	"cmd/go/internal/base"
-	"cmd/go/internal/cfg"
-	"cmd/go/internal/fips140"
-	"cmd/go/internal/fsys"
-	"cmd/go/internal/gover"
-	"cmd/go/internal/load"
-	"cmd/go/internal/str"
+	"cmd/golang/internal/base"
+	"cmd/golang/internal/cfg"
+	"cmd/golang/internal/fips140"
+	"cmd/golang/internal/fsys"
+	"cmd/golang/internal/golangver"
+	"cmd/golang/internal/load"
+	"cmd/golang/internal/str"
 	"cmd/internal/quoted"
 	"crypto/sha1"
 )
@@ -54,40 +54,40 @@ func pkgPath(a *Action) string {
 	return ppath
 }
 
-func (gcToolchain) gc(b *Builder, a *Action, archive string, importcfg, embedcfg []byte, symabis string, asmhdr bool, pgoProfile string, gofiles []string) (ofile string, output []byte, err error) {
+func (gcToolchain) gc(b *Builder, a *Action, archive string, importcfg, embedcfg []byte, symabis string, asmhdr bool, pgolangProfile string, golangfiles []string) (ofile string, output []byte, err error) {
 	p := a.Package
 	sh := b.Shell(a)
 	objdir := a.Objdir
 	if archive != "" {
 		ofile = archive
 	} else {
-		out := "_go_.o"
+		out := "_golang_.o"
 		ofile = objdir + out
 	}
 
 	pkgpath := pkgPath(a)
 	defaultGcFlags := []string{"-p", pkgpath}
-	vers := gover.Local()
+	vers := golangver.Local()
 	if p.Module != nil {
 		v := p.Module.GoVersion
 		if v == "" {
-			v = gover.DefaultGoModVersion
+			v = golangver.DefaultGoModVersion
 		}
 		// TODO(samthanawalla): Investigate when allowedVersion is not true.
 		if allowedVersion(v) {
 			vers = v
 		}
 	}
-	defaultGcFlags = append(defaultGcFlags, "-lang=go"+gover.Lang(vers))
+	defaultGcFlags = append(defaultGcFlags, "-lang=golang"+golangver.Lang(vers))
 	if p.Standard {
 		defaultGcFlags = append(defaultGcFlags, "-std")
 	}
 
 	// If we're giving the compiler the entire package (no C etc files), tell it that,
-	// so that it can give good error messages about forward declarations.
+	// so that it can give golangod error messages about forward declarations.
 	// Exceptions: a few standard packages have forward declarations for
 	// pieces supplied behind-the-scenes by package runtime.
-	extFiles := len(p.CgoFiles) + len(p.CFiles) + len(p.CXXFiles) + len(p.MFiles) + len(p.FFiles) + len(p.SFiles) + len(p.SysoFiles) + len(p.SwigFiles) + len(p.SwigCXXFiles)
+	extFiles := len(p.CgolangFiles) + len(p.CFiles) + len(p.CXXFiles) + len(p.MFiles) + len(p.FFiles) + len(p.SFiles) + len(p.SysoFiles) + len(p.SwigFiles) + len(p.SwigCXXFiles)
 	if p.Standard {
 		switch p.ImportPath {
 		case "bytes", "internal/poll", "net", "os":
@@ -110,14 +110,14 @@ func (gcToolchain) gc(b *Builder, a *Action, archive string, importcfg, embedcfg
 	if p.Internal.OmitDebug || cfg.Goos == "plan9" || cfg.Goarch == "wasm" {
 		defaultGcFlags = append(defaultGcFlags, "-dwarf=false")
 	}
-	if strings.HasPrefix(ToolchainVersion, "go1") && !strings.Contains(os.Args[0], "go_bootstrap") {
-		defaultGcFlags = append(defaultGcFlags, "-goversion", ToolchainVersion)
+	if strings.HasPrefix(ToolchainVersion, "golang1") && !strings.Contains(os.Args[0], "golang_bootstrap") {
+		defaultGcFlags = append(defaultGcFlags, "-golangversion", ToolchainVersion)
 	}
 	if p.Internal.Cover.Cfg != "" {
 		defaultGcFlags = append(defaultGcFlags, "-coveragecfg="+p.Internal.Cover.Cfg)
 	}
-	if pgoProfile != "" {
-		defaultGcFlags = append(defaultGcFlags, "-pgoprofile="+pgoProfile)
+	if pgolangProfile != "" {
+		defaultGcFlags = append(defaultGcFlags, "-pgolangprofile="+pgolangProfile)
 	}
 	if symabis != "" {
 		defaultGcFlags = append(defaultGcFlags, "-symabis", symabis)
@@ -154,10 +154,10 @@ func (gcToolchain) gc(b *Builder, a *Action, archive string, importcfg, embedcfg
 		args = append(args, "-pack")
 	}
 	if asmhdr {
-		args = append(args, "-asmhdr", objdir+"go_asm.h")
+		args = append(args, "-asmhdr", objdir+"golang_asm.h")
 	}
 
-	for _, f := range gofiles {
+	for _, f := range golangfiles {
 		f := mkAbs(p.Dir, f)
 
 		// Handle overlays. Convert path names using fsys.Actual
@@ -169,7 +169,7 @@ func (gcToolchain) gc(b *Builder, a *Action, archive string, importcfg, embedcfg
 		// files are in an overlay): the code expects the package directory
 		// to exist and runs some tools in that directory.
 		// TODO(#39958): Process the overlays when the
-		// gofiles, cgofiles, cfiles, sfiles, and cxxfiles variables are
+		// golangfiles, cgolangfiles, cfiles, sfiles, and cxxfiles variables are
 		// created in (*Builder).build. Doing that requires rewriting the
 		// code that uses those values to expect absolute paths.
 		args = append(args, fsys.Actual(f))
@@ -191,7 +191,7 @@ func gcBackendConcurrency(gcflags []string) int {
 	case "":
 		// Not set. Use default.
 	default:
-		log.Fatalf("GO19CONCURRENTCOMPILATION must be 0, 1, or unset, got %q", e)
+		log.Fatalf("GO19CONCURRENTCOMPILATION must be 0, 1, or unset, golangt %q", e)
 	}
 
 	// TODO: Test and delete these conditions.
@@ -261,20 +261,20 @@ func (a *Action) trimpath() string {
 	}
 
 	// Add rewrites for overlays. The 'from' and 'to' paths in overlays don't need to have
-	// same basename, so go from the overlay contents file path (passed to the compiler)
+	// same basename, so golang from the overlay contents file path (passed to the compiler)
 	// to the path the disk path would be rewritten to.
 
-	cgoFiles := make(map[string]bool)
-	for _, f := range a.Package.CgoFiles {
-		cgoFiles[f] = true
+	cgolangFiles := make(map[string]bool)
+	for _, f := range a.Package.CgolangFiles {
+		cgolangFiles[f] = true
 	}
 
 	// TODO(matloob): Higher up in the stack, when the logic for deciding when to make copies
 	// of c/c++/m/f/hfiles is consolidated, use the same logic that Build uses to determine
 	// whether to create the copies in objdir to decide whether to rewrite objdir to the
 	// package directory here.
-	var overlayNonGoRewrites string // rewrites for non-go files
-	hasCgoOverlay := false
+	var overlayNonGoRewrites string // rewrites for non-golang files
+	hasCgolangOverlay := false
 	if fsys.OverlayFile != "" {
 		for _, filename := range a.Package.AllFiles() {
 			path := filename
@@ -282,15 +282,15 @@ func (a *Action) trimpath() string {
 				path = filepath.Join(a.Package.Dir, path)
 			}
 			base := filepath.Base(path)
-			isGo := strings.HasSuffix(filename, ".go") || strings.HasSuffix(filename, ".s")
-			isCgo := cgoFiles[filename] || !isGo
+			isGo := strings.HasSuffix(filename, ".golang") || strings.HasSuffix(filename, ".s")
+			isCgolang := cgolangFiles[filename] || !isGo
 			if fsys.Replaced(path) {
-				if isCgo {
-					hasCgoOverlay = true
+				if isCgolang {
+					hasCgolangOverlay = true
 				} else {
 					rewrite += fsys.Actual(path) + "=>" + filepath.Join(rewriteDir, base) + ";"
 				}
-			} else if isCgo {
+			} else if isCgolang {
 				// Generate rewrites for non-Go files copied to files in objdir.
 				if filepath.Dir(path) == a.Package.Dir {
 					// This is a file copied to objdir.
@@ -301,7 +301,7 @@ func (a *Action) trimpath() string {
 			}
 		}
 	}
-	if hasCgoOverlay {
+	if hasCgolangOverlay {
 		rewrite += overlayNonGoRewrites
 	}
 	rewrite += objdir + "=>"
@@ -410,16 +410,16 @@ func (gcToolchain) symabis(b *Builder, a *Action, sfiles []string) (string, erro
 		args := asmArgs(a, p)
 		args = append(args, "-gensymabis", "-o", path)
 		for _, sfile := range sfiles {
-			if p.ImportPath == "runtime/cgo" && strings.HasPrefix(sfile, "gcc_") {
+			if p.ImportPath == "runtime/cgolang" && strings.HasPrefix(sfile, "gcc_") {
 				continue
 			}
 			args = append(args, fsys.Actual(mkAbs(p.Dir, sfile)))
 		}
 
-		// Supply an empty go_asm.h as if the compiler had been run.
+		// Supply an empty golang_asm.h as if the compiler had been run.
 		// -gensymabis parsing is lax enough that we don't need the
-		// actual definitions that would appear in go_asm.h.
-		if err := sh.writeFile(a.Objdir+"go_asm.h", nil); err != nil {
+		// actual definitions that would appear in golang_asm.h.
+		if err := sh.writeFile(a.Objdir+"golang_asm.h", nil); err != nil {
 			return err
 		}
 
@@ -579,7 +579,7 @@ func pluginPath(a *Action) string {
 		// compiling and linking.
 		// When compiling, we use actionID/actionID (instead of
 		// actionID/contentID) as a temporary build ID to compute
-		// the hash. Do the same here. (See buildid.go:useCache)
+		// the hash. Do the same here. (See buildid.golang:useCache)
 		// The build ID matters because it affects the overall hash
 		// in the plugin's pseudo-import path returned below.
 		// We need to use the same import path when compiling and linking.
@@ -587,10 +587,10 @@ func pluginPath(a *Action) string {
 		buildID = id[1] + buildIDSeparator + id[1]
 	}
 	fmt.Fprintf(h, "build ID: %s\n", buildID)
-	for _, file := range str.StringList(p.GoFiles, p.CgoFiles, p.SFiles) {
+	for _, file := range str.StringList(p.GoFiles, p.CgolangFiles, p.SFiles) {
 		data, err := os.ReadFile(filepath.Join(p.Dir, file))
 		if err != nil {
-			base.Fatalf("go: %s", err)
+			base.Fatalf("golang: %s", err)
 		}
 		h.Write(data)
 	}
@@ -632,7 +632,7 @@ func (gcToolchain) ld(b *Builder, root *Action, targetPath, importcfg, mainpkg s
 
 	// Store default GODEBUG in binaries.
 	if root.Package.DefaultGODEBUG != "" {
-		ldflags = append(ldflags, "-X=runtime.godebugDefault="+root.Package.DefaultGODEBUG)
+		ldflags = append(ldflags, "-X=runtime.golangdebugDefault="+root.Package.DefaultGODEBUG)
 	}
 
 	// If the user has not specified the -extld option, then specify the
@@ -731,5 +731,5 @@ func (gcToolchain) ldShared(b *Builder, root *Action, toplevelactions []*Action,
 }
 
 func (gcToolchain) cc(b *Builder, a *Action, ofile, cfile string) error {
-	return fmt.Errorf("%s: C source files not supported without cgo", mkAbs(a.Package.Dir, cfile))
+	return fmt.Errorf("%s: C source files not supported without cgolang", mkAbs(a.Package.Dir, cfile))
 }

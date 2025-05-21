@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -31,7 +31,7 @@ func DidInitRun() bool {
 	case x := <-initCh:
 		if x != 42 {
 			// Just in case initCh was not correctly made.
-			println("want init value of 42, got: ", x)
+			println("want init value of 42, golangt: ", x)
 			syscall.Exit(2)
 		}
 		return true

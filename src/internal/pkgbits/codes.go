@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package pkgbits
@@ -16,14 +16,14 @@ type Code interface {
 	Value() int
 }
 
-// A CodeVal distinguishes among go/constant.Value encodings.
+// A CodeVal distinguishes among golang/constant.Value encodings.
 type CodeVal int
 
 func (c CodeVal) Marker() SyncMarker { return SyncVal }
 func (c CodeVal) Value() int         { return int(c) }
 
 // Note: These values are public and cannot be changed without
-// updating the go/types importers.
+// updating the golang/types importers.
 
 const (
 	ValBool CodeVal = iota
@@ -34,14 +34,14 @@ const (
 	ValBigFloat
 )
 
-// A CodeType distinguishes among go/types.Type encodings.
+// A CodeType distinguishes among golang/types.Type encodings.
 type CodeType int
 
 func (c CodeType) Marker() SyncMarker { return SyncType }
 func (c CodeType) Value() int         { return int(c) }
 
 // Note: These values are public and cannot be changed without
-// updating the go/types importers.
+// updating the golang/types importers.
 
 const (
 	TypeBasic CodeType = iota
@@ -58,14 +58,14 @@ const (
 	TypeTypeParam
 )
 
-// A CodeObj distinguishes among go/types.Object encodings.
+// A CodeObj distinguishes among golang/types.Object encodings.
 type CodeObj int
 
 func (c CodeObj) Marker() SyncMarker { return SyncCodeObj }
 func (c CodeObj) Value() int         { return int(c) }
 
 // Note: These values are public and cannot be changed without
-// updating the go/types importers.
+// updating the golang/types importers.
 
 const (
 	ObjAlias CodeObj = iota

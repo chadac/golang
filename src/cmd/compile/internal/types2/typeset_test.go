@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package types2
@@ -70,9 +70,9 @@ func TestTypeSetString(t *testing.T) {
 		}
 
 		// verify test case
-		got := T.typeSet().String()
-		if got != want {
-			t.Errorf("%s: got %s; want %s", body, got, want)
+		golangt := T.typeSet().String()
+		if golangt != want {
+			t.Errorf("%s: golangt %s; want %s", body, golangt, want)
 		}
 	}
 }

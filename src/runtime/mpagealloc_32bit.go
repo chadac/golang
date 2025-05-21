@@ -1,8 +1,8 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build 386 || arm || mips || mipsle || wasm
+//golang:build 386 || arm || mips || mipsle || wasm
 
 // wasm is a treated as a 32-bit architecture for the purposes of the page
 // allocator, even though it has 64-bit pointers. This is because any wasm
@@ -31,7 +31,7 @@ const (
 	pallocChunksL1Bits = 0
 )
 
-// See comment in mpagealloc_64bit.go.
+// See comment in mpagealloc_64bit.golang.
 var levelBits = [summaryLevels]uint{
 	summaryL0Bits,
 	summaryLevelBits,
@@ -39,7 +39,7 @@ var levelBits = [summaryLevels]uint{
 	summaryLevelBits,
 }
 
-// See comment in mpagealloc_64bit.go.
+// See comment in mpagealloc_64bit.golang.
 var levelShift = [summaryLevels]uint{
 	heapAddrBits - summaryL0Bits,
 	heapAddrBits - summaryL0Bits - 1*summaryLevelBits,
@@ -47,7 +47,7 @@ var levelShift = [summaryLevels]uint{
 	heapAddrBits - summaryL0Bits - 3*summaryLevelBits,
 }
 
-// See comment in mpagealloc_64bit.go.
+// See comment in mpagealloc_64bit.golang.
 var levelLogPages = [summaryLevels]uint{
 	logPallocChunkPages + 3*summaryLevelBits,
 	logPallocChunkPages + 2*summaryLevelBits,
@@ -59,7 +59,7 @@ var levelLogPages = [summaryLevels]uint{
 // On 32-bit platforms, it's small enough to just be a global.
 var scavengeIndexArray [(1 << heapAddrBits) / pallocChunkBytes]atomicScavChunkData
 
-// See mpagealloc_64bit.go for details.
+// See mpagealloc_64bit.golang for details.
 func (p *pageAlloc) sysInit(test bool) {
 	// Calculate how much memory all our entries will take up.
 	//
@@ -70,7 +70,7 @@ func (p *pageAlloc) sysInit(test bool) {
 	}
 	totalSize = alignUp(totalSize, physPageSize)
 
-	// Reserve memory for all levels in one go. There shouldn't be much for 32-bit.
+	// Reserve memory for all levels in one golang. There shouldn't be much for 32-bit.
 	reservation := sysReserve(nil, totalSize, "page summary")
 	if reservation == nil {
 		throw("failed to reserve page summary memory")
@@ -95,7 +95,7 @@ func (p *pageAlloc) sysInit(test bool) {
 	}
 }
 
-// See mpagealloc_64bit.go for details.
+// See mpagealloc_64bit.golang for details.
 func (p *pageAlloc) sysGrow(base, limit uintptr) {
 	if base%pallocChunkBytes != 0 || limit%pallocChunkBytes != 0 {
 		print("runtime: base = ", hex(base), ", limit = ", hex(limit), "\n")
@@ -129,7 +129,7 @@ func (s *scavengeIndex) sysInit(test bool, sysStat *sysMemStat) (mappedReady uin
 		// Set up the scavenge index.
 		s.chunks = scavengeIndexArray[:]
 	}
-	s.min.Store(1) // The 0th chunk is never going to be mapped for the heap.
+	s.min.Store(1) // The 0th chunk is never golanging to be mapped for the heap.
 	s.max.Store(uintptr(len(s.chunks)))
 	return
 }

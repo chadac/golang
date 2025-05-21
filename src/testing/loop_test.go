@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package testing
@@ -41,7 +41,7 @@ func TestBenchmarkBLoop(t *T) {
 	})
 	// Verify that a b.Loop benchmark is invoked just once.
 	if runs != 1 {
-		t.Errorf("want runs == 1, got %d", runs)
+		t.Errorf("want runs == 1, golangt %d", runs)
 	}
 	// Verify that at least one iteration ran.
 	if iters == 0 {
@@ -53,10 +53,10 @@ func TestBenchmarkBLoop(t *T) {
 	}
 	// Verify that b.N was 0 inside the loop
 	if firstBN != 0 {
-		t.Errorf("want b.N == 0 on first iteration, got %d", firstBN)
+		t.Errorf("want b.N == 0 on first iteration, golangt %d", firstBN)
 	}
 	if restBN != 0 {
-		t.Errorf("want b.N == 0 on subsequent iterations, got %d", restBN)
+		t.Errorf("want b.N == 0 on subsequent iterations, golangt %d", restBN)
 	}
 	// Make sure the benchmark ran for an appropriate amount of time.
 	if bRet.T < benchTime.d {
@@ -100,7 +100,7 @@ func TestBenchmarkBLoopBreak(t *T) {
 	// A benchmark that exits early should not report its target iteration count
 	// because it's not meaningful.
 	if bRet.N != 0 {
-		t.Errorf("want N == 0, got %d", bRet.N)
+		t.Errorf("want N == 0, golangt %d", bRet.N)
 	}
 }
 
@@ -126,7 +126,7 @@ func TestBenchmarkBLoopError(t *T) {
 		t.Errorf("unexpected error %q in output:\n%s", noWantLog, log)
 	}
 	if bRet.N != 0 {
-		t.Errorf("want N == 0, got %d", bRet.N)
+		t.Errorf("want N == 0, golangt %d", bRet.N)
 	}
 }
 
@@ -149,6 +149,6 @@ func TestBenchmarkBLoopStop(t *T) {
 		t.Errorf("missing error %q in output:\n%s", wantLog, log)
 	}
 	if bRet.N != 0 {
-		t.Errorf("want N == 0, got %d", bRet.N)
+		t.Errorf("want N == 0, golangt %d", bRet.N)
 	}
 }

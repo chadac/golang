@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -31,10 +31,10 @@ func TestJSONTraceHandler(t *testing.T) {
 		t.Run(filepath.Base(testPath), func(t *testing.T) {
 			parsed := getTestTrace(t, testPath)
 			data := recordJSONTraceHandlerResponse(t, parsed)
-			// TODO(mknyszek): Check that there's one at most goroutine per proc at any given time.
+			// TODO(mknyszek): Check that there's one at most golangroutine per proc at any given time.
 			checkExecutionTimes(t, data)
 			checkPlausibleHeapMetrics(t, data)
-			// TODO(mknyszek): Check for plausible thread and goroutine metrics.
+			// TODO(mknyszek): Check for plausible thread and golangroutine metrics.
 			checkMetaNamesEmitted(t, data, "process_name", []string{"STATS", "PROCS"})
 			checkMetaNamesEmitted(t, data, "thread_name", []string{"GC", "Network", "Timers", "Syscalls", "Proc 0"})
 			checkProcStartStop(t, data)
@@ -50,11 +50,11 @@ func checkSyscalls(t *testing.T, data format.Data) {
 		filterEventName("syscall"),
 		filterStackRootFunc("main.blockingSyscall"))
 	if len(data.Events) <= 1 {
-		t.Errorf("got %d events, want > 1", len(data.Events))
+		t.Errorf("golangt %d events, want > 1", len(data.Events))
 	}
 	data = filterViewerTrace(data, filterBlocked("yes"))
 	if len(data.Events) != 1 {
-		t.Errorf("got %d events, want 1", len(data.Events))
+		t.Errorf("golangt %d events, want 1", len(data.Events))
 	}
 }
 
@@ -67,14 +67,14 @@ func filterEventName(name string) eventFilterFn {
 }
 
 // filterGoRoutineName returns an event filter that returns true if the event's
-// goroutine name is equal to name.
+// golangroutine name is equal to name.
 func filterGoRoutineName(name string) eventFilterFn {
 	return func(e *format.Event, _ *format.Data) bool {
 		return parseGoroutineName(e) == name
 	}
 }
 
-// parseGoroutineName returns the goroutine name from the event's name field.
+// parseGoroutineName returns the golangroutine name from the event's name field.
 // E.g. if e.Name is "G42 main.cpu10", this returns "main.cpu10".
 func parseGoroutineName(e *format.Event) string {
 	parts := strings.SplitN(e.Name, " ", 2)
@@ -150,8 +150,8 @@ func checkProcStartStop(t *testing.T, data format.Data) {
 			procStarted[e.TID] = false
 		}
 	}
-	if got, want := len(procStarted), 8; got != want {
-		t.Errorf("wrong number of procs started/stopped got=%d want=%d", got, want)
+	if golangt, want := len(procStarted), 8; golangt != want {
+		t.Errorf("wrong number of procs started/stopped golangt=%d want=%d", golangt, want)
 	}
 }
 
@@ -170,7 +170,7 @@ func checkNetworkUnblock(t *testing.T, data format.Data) {
 	if count == 0 {
 		t.Errorf("found zero network block events, want at least one")
 	}
-	// TODO(mknyszek): Check for the flow of this event to some slice event of a goroutine running.
+	// TODO(mknyszek): Check for the flow of this event to some slice event of a golangroutine running.
 }
 
 func checkExecutionTimes(t *testing.T, data format.Data) {
@@ -181,19 +181,19 @@ func checkExecutionTimes(t *testing.T, data format.Data) {
 	}
 }
 
-func checkMetaNamesEmitted(t *testing.T, data format.Data, category string, want []string) {
+func checkMetaNamesEmitted(t *testing.T, data format.Data, categolangry string, want []string) {
 	t.Helper()
-	names := metaEventNameArgs(category, data)
+	names := metaEventNameArgs(categolangry, data)
 	for _, wantName := range want {
 		if !slices.Contains(names, wantName) {
-			t.Errorf("%s: names=%v, want %q", category, names, wantName)
+			t.Errorf("%s: names=%v, want %q", categolangry, names, wantName)
 		}
 	}
 }
 
-func metaEventNameArgs(category string, data format.Data) (names []string) {
+func metaEventNameArgs(categolangry string, data format.Data) (names []string) {
 	for _, e := range data.Events {
-		if e.Name == category && e.Phase == "M" {
+		if e.Name == categolangry && e.Phase == "M" {
 			names = append(names, e.Arg.(map[string]any)["name"].(string))
 		}
 	}

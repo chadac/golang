@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package rpc
@@ -126,7 +126,7 @@ func startServer() {
 	var l net.Listener
 	l, serverAddr = listenTCP()
 	log.Println("Test RPC server listening on", serverAddr)
-	go Accept(l)
+	golang Accept(l)
 
 	HandleHTTP()
 	httpOnce.Do(startHttpServer)
@@ -142,7 +142,7 @@ func startNewServer() {
 	var l net.Listener
 	l, newServerAddr = listenTCP()
 	log.Println("NewServer test RPC server listening on", newServerAddr)
-	go newServer.Accept(l)
+	golang newServer.Accept(l)
 
 	newServer.HandleHTTP(newHttpPath, "/bar")
 	httpOnce.Do(startHttpServer)
@@ -174,10 +174,10 @@ func testRPC(t *testing.T, addr string) {
 	reply := new(Reply)
 	err = client.Call("Arith.Add", args, reply)
 	if err != nil {
-		t.Errorf("Add: expected no error but got string %q", err.Error())
+		t.Errorf("Add: expected no error but golangt string %q", err.Error())
 	}
 	if reply.C != args.A+args.B {
-		t.Errorf("Add: expected %d got %d", reply.C, args.A+args.B)
+		t.Errorf("Add: expected %d golangt %d", reply.C, args.A+args.B)
 	}
 
 	// Methods exported from unexported embedded structs
@@ -185,10 +185,10 @@ func testRPC(t *testing.T, addr string) {
 	reply = new(Reply)
 	err = client.Call("Embed.Exported", args, reply)
 	if err != nil {
-		t.Errorf("Add: expected no error but got string %q", err.Error())
+		t.Errorf("Add: expected no error but golangt string %q", err.Error())
 	}
 	if reply.C != args.A+args.B {
-		t.Errorf("Add: expected %d got %d", reply.C, args.A+args.B)
+		t.Errorf("Add: expected %d golangt %d", reply.C, args.A+args.B)
 	}
 
 	// Nonexistent method
@@ -199,7 +199,7 @@ func testRPC(t *testing.T, addr string) {
 	if err == nil {
 		t.Error("BadOperation: expected error")
 	} else if !strings.HasPrefix(err.Error(), "rpc: can't find method ") {
-		t.Errorf("BadOperation: expected can't find method error; got %q", err)
+		t.Errorf("BadOperation: expected can't find method error; golangt %q", err)
 	}
 
 	// Unknown service
@@ -209,7 +209,7 @@ func testRPC(t *testing.T, addr string) {
 	if err == nil {
 		t.Error("expected error calling unknown service")
 	} else if !strings.Contains(err.Error(), "method") {
-		t.Error("expected error about method; got", err)
+		t.Error("expected error about method; golangt", err)
 	}
 
 	// Out of order.
@@ -221,18 +221,18 @@ func testRPC(t *testing.T, addr string) {
 
 	addCall = <-addCall.Done
 	if addCall.Error != nil {
-		t.Errorf("Add: expected no error but got string %q", addCall.Error.Error())
+		t.Errorf("Add: expected no error but golangt string %q", addCall.Error.Error())
 	}
 	if addReply.C != args.A+args.B {
-		t.Errorf("Add: expected %d got %d", addReply.C, args.A+args.B)
+		t.Errorf("Add: expected %d golangt %d", addReply.C, args.A+args.B)
 	}
 
 	mulCall = <-mulCall.Done
 	if mulCall.Error != nil {
-		t.Errorf("Mul: expected no error but got string %q", mulCall.Error.Error())
+		t.Errorf("Mul: expected no error but golangt string %q", mulCall.Error.Error())
 	}
 	if mulReply.C != args.A*args.B {
-		t.Errorf("Mul: expected %d got %d", mulReply.C, args.A*args.B)
+		t.Errorf("Mul: expected %d golangt %d", mulReply.C, args.A*args.B)
 	}
 
 	// Error test
@@ -243,7 +243,7 @@ func testRPC(t *testing.T, addr string) {
 	if err == nil {
 		t.Error("Div: expected error")
 	} else if err.Error() != "divide by zero" {
-		t.Error("Div: expected divide by zero error; got", err)
+		t.Error("Div: expected divide by zero error; golangt", err)
 	}
 
 	// Bad type.
@@ -252,7 +252,7 @@ func testRPC(t *testing.T, addr string) {
 	if err == nil {
 		t.Error("expected error calling Arith.Add with wrong arg type")
 	} else if !strings.Contains(err.Error(), "type") {
-		t.Error("expected error about type; got", err)
+		t.Error("expected error about type; golangt", err)
 	}
 
 	// Non-struct argument
@@ -261,9 +261,9 @@ func testRPC(t *testing.T, addr string) {
 	reply = new(Reply)
 	err = client.Call("Arith.Scan", &str, reply)
 	if err != nil {
-		t.Errorf("Scan: expected no error but got string %q", err.Error())
+		t.Errorf("Scan: expected no error but golangt string %q", err.Error())
 	} else if reply.C != Val {
-		t.Errorf("Scan: expected %d got %d", Val, reply.C)
+		t.Errorf("Scan: expected %d golangt %d", Val, reply.C)
 	}
 
 	// Non-struct reply
@@ -271,21 +271,21 @@ func testRPC(t *testing.T, addr string) {
 	str = ""
 	err = client.Call("Arith.String", args, &str)
 	if err != nil {
-		t.Errorf("String: expected no error but got string %q", err.Error())
+		t.Errorf("String: expected no error but golangt string %q", err.Error())
 	}
 	expect := fmt.Sprintf("%d+%d=%d", args.A, args.B, args.A+args.B)
 	if str != expect {
-		t.Errorf("String: expected %s got %s", expect, str)
+		t.Errorf("String: expected %s golangt %s", expect, str)
 	}
 
 	args = &Args{7, 8}
 	reply = new(Reply)
 	err = client.Call("Arith.Mul", args, reply)
 	if err != nil {
-		t.Errorf("Mul: expected no error but got string %q", err.Error())
+		t.Errorf("Mul: expected no error but golangt string %q", err.Error())
 	}
 	if reply.C != args.A*args.B {
-		t.Errorf("Mul: expected %d got %d", reply.C, args.A*args.B)
+		t.Errorf("Mul: expected %d golangt %d", reply.C, args.A*args.B)
 	}
 
 	// ServiceName contain "." character
@@ -293,10 +293,10 @@ func testRPC(t *testing.T, addr string) {
 	reply = new(Reply)
 	err = client.Call("net.rpc.Arith.Add", args, reply)
 	if err != nil {
-		t.Errorf("Add: expected no error but got string %q", err.Error())
+		t.Errorf("Add: expected no error but golangt string %q", err.Error())
 	}
 	if reply.C != args.A+args.B {
-		t.Errorf("Add: expected %d got %d", reply.C, args.A+args.B)
+		t.Errorf("Add: expected %d golangt %d", reply.C, args.A+args.B)
 	}
 }
 
@@ -312,10 +312,10 @@ func testNewServerRPC(t *testing.T, addr string) {
 	reply := new(Reply)
 	err = client.Call("newServer.Arith.Add", args, reply)
 	if err != nil {
-		t.Errorf("Add: expected no error but got string %q", err.Error())
+		t.Errorf("Add: expected no error but golangt string %q", err.Error())
 	}
 	if reply.C != args.A+args.B {
-		t.Errorf("Add: expected %d got %d", reply.C, args.A+args.B)
+		t.Errorf("Add: expected %d golangt %d", reply.C, args.A+args.B)
 	}
 }
 
@@ -344,10 +344,10 @@ func testHTTPRPC(t *testing.T, path string) {
 	reply := new(Reply)
 	err = client.Call("Arith.Add", args, reply)
 	if err != nil {
-		t.Errorf("Add: expected no error but got string %q", err.Error())
+		t.Errorf("Add: expected no error but golangt string %q", err.Error())
 	}
 	if reply.C != args.A+args.B {
-		t.Errorf("Add: expected %d got %d", reply.C, args.A+args.B)
+		t.Errorf("Add: expected %d golangt %d", reply.C, args.A+args.B)
 	}
 }
 
@@ -365,10 +365,10 @@ func TestBuiltinTypes(t *testing.T) {
 	replyMap := map[int]int{}
 	err = client.Call("BuiltinTypes.Map", args, &replyMap)
 	if err != nil {
-		t.Errorf("Map: expected no error but got string %q", err.Error())
+		t.Errorf("Map: expected no error but golangt string %q", err.Error())
 	}
 	if replyMap[args.A] != args.B {
-		t.Errorf("Map: expected %d got %d", args.B, replyMap[args.A])
+		t.Errorf("Map: expected %d golangt %d", args.B, replyMap[args.A])
 	}
 
 	// Slice
@@ -376,10 +376,10 @@ func TestBuiltinTypes(t *testing.T) {
 	replySlice := []int{}
 	err = client.Call("BuiltinTypes.Slice", args, &replySlice)
 	if err != nil {
-		t.Errorf("Slice: expected no error but got string %q", err.Error())
+		t.Errorf("Slice: expected no error but golangt string %q", err.Error())
 	}
 	if e := []int{args.A, args.B}; !reflect.DeepEqual(replySlice, e) {
-		t.Errorf("Slice: expected %v got %v", e, replySlice)
+		t.Errorf("Slice: expected %v golangt %v", e, replySlice)
 	}
 
 	// Array
@@ -387,10 +387,10 @@ func TestBuiltinTypes(t *testing.T) {
 	replyArray := [2]int{}
 	err = client.Call("BuiltinTypes.Array", args, &replyArray)
 	if err != nil {
-		t.Errorf("Array: expected no error but got string %q", err.Error())
+		t.Errorf("Array: expected no error but golangt string %q", err.Error())
 	}
 	if e := [2]int{args.A, args.B}; !reflect.DeepEqual(replyArray, e) {
-		t.Errorf("Array: expected %v got %v", e, replyArray)
+		t.Errorf("Array: expected %v golangt %v", e, replyArray)
 	}
 }
 
@@ -463,10 +463,10 @@ func testServeRequest(t *testing.T, server *Server) {
 	reply := new(Reply)
 	err := client.Call("Arith.Add", args, reply)
 	if err != nil {
-		t.Errorf("Add: expected no error but got string %q", err.Error())
+		t.Errorf("Add: expected no error but golangt string %q", err.Error())
 	}
 	if reply.C != args.A+args.B {
-		t.Errorf("Add: expected %d got %d", reply.C, args.A+args.B)
+		t.Errorf("Add: expected %d golangt %d", reply.C, args.A+args.B)
 	}
 
 	err = client.Call("Arith.Add", nil, reply)
@@ -543,7 +543,7 @@ func TestSendDeadlock(t *testing.T) {
 	defer client.Close()
 
 	done := make(chan bool)
-	go func() {
+	golang func() {
 		testSendDeadlock(client)
 		testSendDeadlock(client)
 		done <- true
@@ -586,10 +586,10 @@ func countMallocs(dial func() (*Client, error), t *testing.T) float64 {
 	return testing.AllocsPerRun(100, func() {
 		err := client.Call("Arith.Add", args, reply)
 		if err != nil {
-			t.Errorf("Add: expected no error but got string %q", err.Error())
+			t.Errorf("Add: expected no error but golangt string %q", err.Error())
 		}
 		if reply.C != args.A+args.B {
-			t.Errorf("Add: expected %d got %d", reply.C, args.A+args.B)
+			t.Errorf("Add: expected %d golangt %d", reply.C, args.A+args.B)
 		}
 	})
 }
@@ -664,7 +664,7 @@ func TestTCPClose(t *testing.T) {
 	}
 	t.Logf("Arith: %d*%d=%d\n", args.A, args.B, reply)
 	if reply.C != args.A*args.B {
-		t.Errorf("Add: expected %d got %d", reply.C, args.A*args.B)
+		t.Errorf("Add: expected %d golangt %d", reply.C, args.A*args.B)
 	}
 }
 
@@ -681,7 +681,7 @@ func TestErrorAfterClientClose(t *testing.T) {
 	}
 	err = client.Call("Arith.Add", &Args{7, 9}, new(Reply))
 	if err != ErrShutdown {
-		t.Errorf("Forever: expected ErrShutdown got %v", err)
+		t.Errorf("Forever: expected ErrShutdown golangt %v", err)
 	}
 }
 
@@ -702,7 +702,7 @@ func TestShutdown(t *testing.T) {
 	var l net.Listener
 	l, _ = listenTCP()
 	ch := make(chan net.Conn, 1)
-	go func() {
+	golang func() {
 		defer l.Close()
 		c, err := l.Accept()
 		if err != nil {
@@ -721,7 +721,7 @@ func TestShutdown(t *testing.T) {
 
 	newServer := NewServer()
 	newServer.Register(new(Arith))
-	go newServer.ServeConn(c1)
+	golang newServer.ServeConn(c1)
 
 	args := &Args{7, 8}
 	reply := new(Reply)
@@ -762,10 +762,10 @@ func benchmarkEndToEnd(dial func() (*Client, error), b *testing.B) {
 		for pb.Next() {
 			err := client.Call("Arith.Add", args, reply)
 			if err != nil {
-				b.Fatalf("rpc error: Add: expected no error but got string %q", err.Error())
+				b.Fatalf("rpc error: Add: expected no error but golangt string %q", err.Error())
 			}
 			if reply.C != args.A+args.B {
-				b.Fatalf("rpc error: Add: expected %d got %d", reply.C, args.A+args.B)
+				b.Fatalf("rpc error: Add: expected %d golangt %d", reply.C, args.A+args.B)
 			}
 		}
 	})
@@ -795,20 +795,20 @@ func benchmarkEndToEndAsync(dial func() (*Client, error), b *testing.B) {
 	b.ResetTimer()
 
 	for p := 0; p < procs; p++ {
-		go func() {
+		golang func() {
 			for atomic.AddInt32(&send, -1) >= 0 {
 				gate <- true
 				reply := new(Reply)
 				client.Go("Arith.Add", args, reply, res)
 			}
 		}()
-		go func() {
+		golang func() {
 			for call := range res {
 				A := call.Args.(*Args).A
 				B := call.Args.(*Args).B
 				C := call.Reply.(*Reply).C
 				if A+B != C {
-					b.Errorf("incorrect reply: Add: expected %d got %d", A+B, C)
+					b.Errorf("incorrect reply: Add: expected %d golangt %d", A+B, C)
 					return
 				}
 				<-gate

@@ -1,67 +1,67 @@
 env GO111MODULE=on
 
 # Replacement should not use a vendor directory as the target.
-! go mod vendor
+! golang mod vendor
 stderr 'replacement path ./vendor/not-rsc.io/quote/v3 inside vendor directory'
 
-cp go.mod1 go.mod
+cp golang.mod1 golang.mod
 rm -r vendor
 
 # Before vendoring, we expect to see the original directory.
-go list -f '{{with .Module}}{{.Version}}{{end}} {{.Dir}}' rsc.io/quote/v3
+golang list -f '{{with .Module}}{{.Version}}{{end}} {{.Dir}}' rsc.io/quote/v3
 stdout 'v3.0.0'
 stdout '.*[/\\]not-rsc.io[/\\]quote[/\\]v3'
 
-# Since all dependencies are replaced, 'go mod vendor' should not
+# Since all dependencies are replaced, 'golang mod vendor' should not
 # have to download anything from the network.
-go mod vendor
+golang mod vendor
 ! stderr 'downloading'
 ! stderr 'finding'
 
 # After vendoring, we expect to see the replacement in the vendor directory,
 # without attempting to look up the non-replaced version.
-cmp vendor/rsc.io/quote/v3/quote.go local/not-rsc.io/quote/v3/quote.go
+cmp vendor/rsc.io/quote/v3/quote.golang local/not-rsc.io/quote/v3/quote.golang
 
-go list -mod=vendor -f '{{with .Module}}{{.Version}}{{end}} {{.Dir}}' rsc.io/quote/v3
+golang list -mod=vendor -f '{{with .Module}}{{.Version}}{{end}} {{.Dir}}' rsc.io/quote/v3
 stdout 'v3.0.0'
 stdout '.*[/\\]vendor[/\\]rsc.io[/\\]quote[/\\]v3'
 ! stderr 'finding'
 ! stderr 'lookup disabled'
 
-# 'go list' should provide the original replacement directory as the module's
+# 'golang list' should provide the original replacement directory as the module's
 # replacement path.
-go list -mod=vendor -f '{{with .Module}}{{with .Replace}}{{.Path}}{{end}}{{end}}' rsc.io/quote/v3
+golang list -mod=vendor -f '{{with .Module}}{{with .Replace}}{{.Path}}{{end}}{{end}}' rsc.io/quote/v3
 stdout '.*[/\\]not-rsc.io[/\\]quote[/\\]v3'
 
 # The same module can't be used as two different paths.
 cd multiple-paths
-! go mod vendor
+! golang mod vendor
 stderr 'rsc.io/quote/v3@v3.0.0 used for two different module paths \(not-rsc.io/quote/v3 and rsc.io/quote/v3\)'
 
--- go.mod --
+-- golang.mod --
 module example.com/replace
 
 require rsc.io/quote/v3 v3.0.0
 replace rsc.io/quote/v3 => ./vendor/not-rsc.io/quote/v3
 
--- go.mod1 --
+-- golang.mod1 --
 module example.com/replace
 
 require rsc.io/quote/v3 v3.0.0
 replace rsc.io/quote/v3 => ./local/not-rsc.io/quote/v3
 
--- imports.go --
+-- imports.golang --
 package replace
 
 import _ "rsc.io/quote/v3"
 
--- local/not-rsc.io/quote/v3/go.mod --
+-- local/not-rsc.io/quote/v3/golang.mod --
 module not-rsc.io/quote/v3
 
--- local/not-rsc.io/quote/v3/quote.go --
+-- local/not-rsc.io/quote/v3/quote.golang --
 package quote
 
--- multiple-paths/main.go --
+-- multiple-paths/main.golang --
 package main
 import (
 	"fmt"
@@ -70,20 +70,20 @@ import (
 func main() {
 	fmt.Println(quote.GoV3())
 }
--- multiple-paths/go.mod --
+-- multiple-paths/golang.mod --
 module quoter
 require (
 	rsc.io/quote/v3 v3.0.0
 	not-rsc.io/quote/v3 v3.0.0
 )
 replace not-rsc.io/quote/v3 => rsc.io/quote/v3 v3.0.0
--- multiple-paths/go.sum --
-golang.org/x/text v0.0.0-20170915032832-14c0d48ead0c/go.mod h1:NqM8EUOU14njkJ3fqMW+pc6Ldnwhi/IjpwHt7yyuwOQ=
-rsc.io/quote/v3 v3.0.0/go.mod h1:yEA65RcK8LyAZtP9Kv3t0HmxON59tX3rD+tICJqUlj0=
-rsc.io/sampler v1.3.0/go.mod h1:T1hPZKmBbMNahiBKFy5HrXp6adAjACjK9JXDnKaTXpA=
+-- multiple-paths/golang.sum --
+golanglang.org/x/text v0.0.0-20170915032832-14c0d48ead0c/golang.mod h1:NqM8EUOU14njkJ3fqMW+pc6Ldnwhi/IjpwHt7yyuwOQ=
+rsc.io/quote/v3 v3.0.0/golang.mod h1:yEA65RcK8LyAZtP9Kv3t0HmxON59tX3rD+tICJqUlj0=
+rsc.io/sampler v1.3.0/golang.mod h1:T1hPZKmBbMNahiBKFy5HrXp6adAjACjK9JXDnKaTXpA=
 
--- vendor/not-rsc.io/quote/v3/go.mod --
+-- vendor/not-rsc.io/quote/v3/golang.mod --
 module not-rsc.io/quote/v3
 
--- vendor/not-rsc.io/quote/v3/quote.go --
+-- vendor/not-rsc.io/quote/v3/quote.golang --
 package quote

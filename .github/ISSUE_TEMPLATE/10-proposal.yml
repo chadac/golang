@@ -5,7 +5,7 @@ labels: ["Proposal"]
 body:
   - type: markdown
     attributes:
-      value: "Our proposal process is documented here: https://go.dev/s/proposal-process"
+      value: "Our proposal process is documented here: https://golang.dev/s/proposal-process"
   - type: textarea
     id: proposal-details
     attributes:

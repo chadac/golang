@@ -6,18 +6,18 @@
 env GOPATH=$WORK/tmp
 cd $WORK/tmp/src/test
 
-go list -f {{.Root}}
+golang list -f {{.Root}}
 stdout ^$PWD$
 
 # Were we really inside a GOPATH workspace?
 env GO111MODULE=off
-go list -f {{.Root}}
+golang list -f {{.Root}}
 stdout ^$WORK/tmp$
 
--- $WORK/tmp/src/test/go.mod --
+-- $WORK/tmp/src/test/golang.mod --
 module test
 
--- $WORK/tmp/src/test/main.go --
+-- $WORK/tmp/src/test/main.golang --
 package main
 
 func main() {}

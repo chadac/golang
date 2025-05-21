@@ -2,32 +2,32 @@
 
 # Test basic fuzzing mutator behavior.
 #
-# fuzz_test.go has two fuzz targets (FuzzA, FuzzB) which both add a seed value.
+# fuzz_test.golang has two fuzz targets (FuzzA, FuzzB) which both add a seed value.
 # Each fuzz function writes the input to a log file. The coordinator and worker
-# use separate log files. check_logs.go verifies that the coordinator only
+# use separate log files. check_logs.golang verifies that the coordinator only
 # tests seed values and the worker tests mutated values on the fuzz target.
 
 [short] skip
 env GOCACHE=$WORK/cache
 
-go test -fuzz=FuzzA -fuzztime=100x -parallel=1 -log=fuzz
-go run check_logs.go fuzz fuzz.worker
+golang test -fuzz=FuzzA -fuzztime=100x -parallel=1 -log=fuzz
+golang run check_logs.golang fuzz fuzz.worker
 
 # TODO(b/181800488): remove -parallel=1, here and below. For now, when a
 # crash is found, all workers keep running, wasting resources and reducing
 # the number of executions available to the minimizer, increasing flakiness.
 
-# Test that the mutator is good enough to find several unique mutations.
-! go test -fuzz=FuzzMutator -parallel=1 -fuzztime=100x mutator_test.go
+# Test that the mutator is golangod enough to find several unique mutations.
+! golang test -fuzz=FuzzMutator -parallel=1 -fuzztime=100x mutator_test.golang
 ! stdout '^ok'
 stdout FAIL
 stdout 'mutator found enough unique mutations'
 
--- go.mod --
+-- golang.mod --
 module m
 
-go 1.16
--- fuzz_test.go --
+golang 1.16
+-- fuzz_test.golang --
 package fuzz_test
 
 import (
@@ -71,7 +71,7 @@ func FuzzB(f *testing.F) {
 	})
 }
 
--- check_logs.go --
+-- check_logs.golang --
 // +build ignore
 
 package main
@@ -142,7 +142,7 @@ func checkWorkerLog(r io.Reader) error {
 	}
 	return nil
 }
--- mutator_test.go --
+-- mutator_test.golang --
 package fuzz_test
 
 import (

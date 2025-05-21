@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package template
@@ -22,9 +22,9 @@ func (x *badMarshaler) MarshalJSON() ([]byte, error) {
 	return []byte("{ foo: 'not quite valid JSON' }"), nil
 }
 
-type goodMarshaler struct{}
+type golangodMarshaler struct{}
 
-func (x *goodMarshaler) MarshalJSON() ([]byte, error) {
+func (x *golangodMarshaler) MarshalJSON() ([]byte, error) {
 	return []byte(`{ "<foo>": "O'Reilly" }`), nil
 }
 
@@ -48,7 +48,7 @@ func TestEscape(t *testing.T) {
 		E: []string{},
 		N: 42,
 		B: &badMarshaler{},
-		M: &goodMarshaler{},
+		M: &golangodMarshaler{},
 		U: nil,
 		Z: nil,
 		W: HTML(`&iexcl;<b class="foo">Hello</b>, <textarea>O'World</textarea>!`),
@@ -159,12 +159,12 @@ func TestEscape(t *testing.T) {
 		{
 			"dangerousURLStart",
 			`<a href='{{"javascript:alert(%22pwned%22)"}}'>`,
-			`<a href='#ZgotmplZ'>`,
+			`<a href='#ZgolangtmplZ'>`,
 		},
 		{
 			"dangerousURLStart2",
 			`<a href='  {{"javascript:alert(%22pwned%22)"}}'>`,
-			`<a href='  #ZgotmplZ'>`,
+			`<a href='  #ZgolangtmplZ'>`,
 		},
 		{
 			"nonHierURL",
@@ -287,7 +287,7 @@ func TestEscape(t *testing.T) {
 		{
 			"styleExpressionBlocked",
 			`<p style="width: {{"expression(alert(1337))"}}">`,
-			`<p style="width: ZgotmplZ">`,
+			`<p style="width: ZgolangtmplZ">`,
 		},
 		{
 			"styleTagSelectorPassed",
@@ -322,17 +322,17 @@ func TestEscape(t *testing.T) {
 		{
 			"styleObfuscatedExpressionBlocked",
 			`<p style="width: {{"  e\\78preS\x00Sio/**/n(alert(1337))"}}">`,
-			`<p style="width: ZgotmplZ">`,
+			`<p style="width: ZgolangtmplZ">`,
 		},
 		{
 			"styleMozBindingBlocked",
 			`<p style="{{"-moz-binding(alert(1337))"}}: ...">`,
-			`<p style="ZgotmplZ: ...">`,
+			`<p style="ZgolangtmplZ: ...">`,
 		},
 		{
 			"styleObfuscatedMozBindingBlocked",
 			`<p style="{{"  -mo\\7a-B\x00I/**/nding(alert(1337))"}}: ...">`,
-			`<p style="ZgotmplZ: ...">`,
+			`<p style="ZgolangtmplZ: ...">`,
 		},
 		{
 			"styleFontNameString",
@@ -367,12 +367,12 @@ func TestEscape(t *testing.T) {
 		{
 			"styleURLBadProtocolBlocked",
 			`<a style="background: url('{{"javascript:alert(1337)"}}')">`,
-			`<a style="background: url('#ZgotmplZ')">`,
+			`<a style="background: url('#ZgolangtmplZ')">`,
 		},
 		{
 			"styleStrBadProtocolBlocked",
 			`<a style="background: '{{"vbscript:alert(1337)"}}'">`,
-			`<a style="background: '#ZgotmplZ'">`,
+			`<a style="background: '#ZgolangtmplZ'">`,
 		},
 		{
 			"styleStrEncodedProtocolEncoded",
@@ -653,25 +653,25 @@ func TestEscape(t *testing.T) {
 			// Allow checked, selected, disabled, but not JS or
 			// CSS attributes.
 			`<input {{"onchange"}}="{{"doEvil()"}}">`,
-			`<input ZgotmplZ="doEvil()">`,
+			`<input ZgolangtmplZ="doEvil()">`,
 		},
 		{
 			"bad dynamic attribute name 2",
 			`<div {{"sTyle"}}="{{"color: expression(alert(1337))"}}">`,
-			`<div ZgotmplZ="color: expression(alert(1337))">`,
+			`<div ZgolangtmplZ="color: expression(alert(1337))">`,
 		},
 		{
 			"bad dynamic attribute name 3",
 			// Allow title or alt, but not a URL.
 			`<img {{"src"}}="{{"javascript:doEvil()"}}">`,
-			`<img ZgotmplZ="javascript:doEvil()">`,
+			`<img ZgolangtmplZ="javascript:doEvil()">`,
 		},
 		{
 			"bad dynamic attribute name 4",
 			// Structure preservation requires values to associate
 			// with a consistent attribute.
 			`<input checked {{""}}="Whose value am I?">`,
-			`<input checked ZgotmplZ="Whose value am I?">`,
+			`<input checked ZgolangtmplZ="Whose value am I?">`,
 		},
 		{
 			"dynamic element name",
@@ -697,7 +697,7 @@ func TestEscape(t *testing.T) {
 			"srcset bad URL in second position",
 			`<img srcset="{{"/not-an-image#,javascript:alert(1)"}}">`,
 			// The second URL is also filtered.
-			`<img srcset="/not-an-image#,#ZgotmplZ">`,
+			`<img srcset="/not-an-image#,#ZgolangtmplZ">`,
 		},
 		{
 			"srcset buffer growth",
@@ -707,12 +707,12 @@ func TestEscape(t *testing.T) {
 		{
 			"unquoted empty attribute value (plaintext)",
 			"<p name={{.U}}>",
-			"<p name=ZgotmplZ>",
+			"<p name=ZgolangtmplZ>",
 		},
 		{
 			"unquoted empty attribute value (url)",
 			"<p href={{.U}}>",
-			"<p href=ZgotmplZ>",
+			"<p href=ZgolangtmplZ>",
 		},
 		{
 			"quoted empty attribute value",
@@ -749,14 +749,14 @@ func TestEscape(t *testing.T) {
 				t.Fatalf("%s: template execution failed: %s", test.name, err)
 			}
 			if w, g := test.output, b.String(); w != g {
-				t.Fatalf("%s: escaped output: want\n\t%q\ngot\n\t%q", test.name, w, g)
+				t.Fatalf("%s: escaped output: want\n\t%q\ngolangt\n\t%q", test.name, w, g)
 			}
 			b.Reset()
 			if err := tmpl.Execute(b, pdata); err != nil {
 				t.Fatalf("%s: template execution failed for pointer: %s", test.name, err)
 			}
 			if w, g := test.output, b.String(); w != g {
-				t.Fatalf("%s: escaped output for pointer: want\n\t%q\ngot\n\t%q", test.name, w, g)
+				t.Fatalf("%s: escaped output for pointer: want\n\t%q\ngolangt\n\t%q", test.name, w, g)
 			}
 			if tmpl.Tree != tmpl.text.Tree {
 				t.Fatalf("%s: tree mismatch", test.name)
@@ -793,7 +793,7 @@ func TestEscapeMap(t *testing.T) {
 			continue
 		}
 		if w, g := test.output, b.String(); w != g {
-			t.Errorf("%s: escaped output: want\n\t%q\ngot\n\t%q", test.desc, w, g)
+			t.Errorf("%s: escaped output: want\n\t%q\ngolangt\n\t%q", test.desc, w, g)
 			continue
 		}
 	}
@@ -935,8 +935,8 @@ func TestEscapeSet(t *testing.T) {
 			t.Errorf("%q executing %v", err.Error(), tmpl.Lookup("main"))
 			continue
 		}
-		if got := b.String(); test.want != got {
-			t.Errorf("want\n\t%q\ngot\n\t%q", test.want, got)
+		if golangt := b.String(); test.want != golangt {
+			t.Errorf("want\n\t%q\ngolangt\n\t%q", test.want, golangt)
 		}
 	}
 
@@ -1139,7 +1139,7 @@ func TestErrors(t *testing.T) {
 		},
 		{
 			`<a=foo>`,
-			`: expected space, attr name, or end of tag, but got "=foo>"`,
+			`: expected space, attr name, or end of tag, but golangt "=foo>"`,
 		},
 		{
 			`Hello, {{. | urlquery | print}}!`,
@@ -1176,22 +1176,22 @@ func TestErrors(t *testing.T) {
 			continue
 		}
 		err = tmpl.Execute(buf, nil)
-		var got string
+		var golangt string
 		if err != nil {
-			got = err.Error()
+			golangt = err.Error()
 		}
 		if test.err == "" {
-			if got != "" {
-				t.Errorf("input=%q: unexpected error %q", test.input, got)
+			if golangt != "" {
+				t.Errorf("input=%q: unexpected error %q", test.input, golangt)
 			}
 			continue
 		}
-		if !strings.Contains(got, test.err) {
-			t.Errorf("input=%q: error\n\t%q\ndoes not contain expected string\n\t%q", test.input, got, test.err)
+		if !strings.Contains(golangt, test.err) {
+			t.Errorf("input=%q: error\n\t%q\ndoes not contain expected string\n\t%q", test.input, golangt, test.err)
 			continue
 		}
 		// Check that we get the same error if we call Execute again.
-		if err := tmpl.Execute(buf, nil); err == nil || err.Error() != got {
+		if err := tmpl.Execute(buf, nil); err == nil || err.Error() != golangt {
 			t.Errorf("input=%q: unexpected error on second call %q", test.input, err)
 
 		}
@@ -1826,11 +1826,11 @@ func TestEscapeText(t *testing.T) {
 		b, e := []byte(test.input), makeEscaper(nil)
 		c := e.escapeText(context{}, &parse.TextNode{NodeType: parse.NodeText, Text: b})
 		if !test.output.eq(c) {
-			t.Errorf("input %q: want context\n\t%v\ngot\n\t%v", test.input, test.output, c)
+			t.Errorf("input %q: want context\n\t%v\ngolangt\n\t%v", test.input, test.output, c)
 			continue
 		}
 		if test.input != string(b) {
-			t.Errorf("input %q: text node was modified: want %q got %q", test.input, test.input, b)
+			t.Errorf("input %q: text node was modified: want %q golangt %q", test.input, test.input, b)
 			continue
 		}
 	}
@@ -1942,9 +1942,9 @@ func TestEnsurePipelineContains(t *testing.T) {
 		originalIDs := make([]string, len(test.ids))
 		copy(originalIDs, test.ids)
 		ensurePipelineContains(pipe, test.ids)
-		got := pipe.String()
-		if got != test.output {
-			t.Errorf("#%d: %s, %v: want\n\t%s\ngot\n\t%s", i, test.input, originalIDs, test.output, got)
+		golangt := pipe.String()
+		if golangt != test.output {
+			t.Errorf("#%d: %s, %v: want\n\t%s\ngolangt\n\t%s", i, test.input, originalIDs, test.output, golangt)
 		}
 	}
 }
@@ -2020,8 +2020,8 @@ func TestRedundantFuncs(t *testing.T) {
 			f1 := funcMap[n1].(func(...any) string)
 			for _, input := range inputs {
 				want := f0(input)
-				if got := f1(want); want != got {
-					t.Errorf("%s %s with %T %q: want\n\t%q,\ngot\n\t%q", n0, n1, input, input, want, got)
+				if golangt := f1(want); want != golangt {
+					t.Errorf("%s %s with %T %q: want\n\t%q,\ngolangt\n\t%q", n0, n1, input, input, want, golangt)
 				}
 			}
 		}
@@ -2040,14 +2040,14 @@ func TestIndirectPrint(t *testing.T) {
 	if err != nil {
 		t.Errorf("Unexpected error: %s", err)
 	} else if buf.String() != "3" {
-		t.Errorf(`Expected "3"; got %q`, buf.String())
+		t.Errorf(`Expected "3"; golangt %q`, buf.String())
 	}
 	buf.Reset()
 	err = tmpl.Execute(&buf, bpp)
 	if err != nil {
 		t.Errorf("Unexpected error: %s", err)
 	} else if buf.String() != "hello" {
-		t.Errorf(`Expected "hello"; got %q`, buf.String())
+		t.Errorf(`Expected "hello"; golangt %q`, buf.String())
 	}
 }
 
@@ -2067,7 +2067,7 @@ func (Issue7379) SomeMethod(x int) string {
 
 // This is a test for issue 7379: type assertion error caused panic, and then
 // the code to handle the panic breaks escaping. It's hard to see the second
-// problem once the first is fixed, but its fix is trivial so we let that go. See
+// problem once the first is fixed, but its fix is trivial so we let that golang. See
 // the discussion for issue 7379.
 func TestPipeToMethodIsEscaped(t *testing.T) {
 	tmpl := Must(New("x").Parse("<html>{{0 | .SomeMethod}}</html>\n"))
@@ -2086,7 +2086,7 @@ func TestPipeToMethodIsEscaped(t *testing.T) {
 		str := tryExec()
 		const expect = "<html>&lt;0&gt;</html>\n"
 		if str != expect {
-			t.Errorf("expected %q got %q", expect, str)
+			t.Errorf("expected %q golangt %q", expect, str)
 		}
 	}
 }
@@ -2101,7 +2101,7 @@ func TestErrorOnUndefined(t *testing.T) {
 	if err == nil {
 		t.Error("expected error")
 	} else if !strings.Contains(err.Error(), "incomplete") {
-		t.Errorf("expected error about incomplete template; got %s", err)
+		t.Errorf("expected error about incomplete template; golangt %s", err)
 	}
 }
 
@@ -2111,31 +2111,31 @@ func TestIdempotentExecute(t *testing.T) {
 		Parse(`{{define "main"}}<body>{{template "hello"}}</body>{{end}}`))
 	Must(tmpl.
 		Parse(`{{define "hello"}}Hello, {{"Ladies & Gentlemen!"}}{{end}}`))
-	got := new(strings.Builder)
+	golangt := new(strings.Builder)
 	var err error
 	// Ensure that "hello" produces the same output when executed twice.
 	want := "Hello, Ladies &amp; Gentlemen!"
 	for i := 0; i < 2; i++ {
-		err = tmpl.ExecuteTemplate(got, "hello", nil)
+		err = tmpl.ExecuteTemplate(golangt, "hello", nil)
 		if err != nil {
 			t.Errorf("unexpected error: %s", err)
 		}
-		if got.String() != want {
-			t.Errorf("after executing template \"hello\", got:\n\t%q\nwant:\n\t%q\n", got.String(), want)
+		if golangt.String() != want {
+			t.Errorf("after executing template \"hello\", golangt:\n\t%q\nwant:\n\t%q\n", golangt.String(), want)
 		}
-		got.Reset()
+		golangt.Reset()
 	}
 	// Ensure that the implicit re-execution of "hello" during the execution of
 	// "main" does not cause the output of "hello" to change.
-	err = tmpl.ExecuteTemplate(got, "main", nil)
+	err = tmpl.ExecuteTemplate(golangt, "main", nil)
 	if err != nil {
 		t.Errorf("unexpected error: %s", err)
 	}
 	// If the HTML escaper is added again to the action {{"Ladies & Gentlemen!"}},
 	// we would expected to see the ampersand overescaped to "&amp;amp;".
 	want = "<body>Hello, Ladies &amp; Gentlemen!</body>"
-	if got.String() != want {
-		t.Errorf("after executing template \"main\", got:\n\t%q\nwant:\n\t%q\n", got.String(), want)
+	if golangt.String() != want {
+		t.Errorf("after executing template \"main\", golangt:\n\t%q\nwant:\n\t%q\n", golangt.String(), want)
 	}
 }
 
@@ -2158,16 +2158,16 @@ func TestOrphanedTemplate(t *testing.T) {
 	const wantError = `template: "foo" is an incomplete or empty template`
 	if err := t1.Execute(&b, "javascript:alert(1)"); err == nil {
 		t.Fatal("expected error executing t1")
-	} else if gotError := err.Error(); gotError != wantError {
-		t.Fatalf("got t1 execution error:\n\t%s\nwant:\n\t%s", gotError, wantError)
+	} else if golangtError := err.Error(); golangtError != wantError {
+		t.Fatalf("golangt t1 execution error:\n\t%s\nwant:\n\t%s", golangtError, wantError)
 	}
 	b.Reset()
 	if err := t2.Execute(&b, nil); err != nil {
 		t.Fatalf("error executing t2: %s", err)
 	}
 	const want = "bar"
-	if got := b.String(); got != want {
-		t.Fatalf("t2 rendered %q, want %q", got, want)
+	if golangt := b.String(); golangt != want {
+		t.Fatalf("t2 rendered %q, want %q", golangt, want)
 	}
 }
 
@@ -2190,11 +2190,11 @@ func TestAliasedParseTreeDoesNotOverescape(t *testing.T) {
 	if err := tpl.ExecuteTemplate(&b2, "bar", data); err != nil {
 		t.Fatalf(`ExecuteTemplate failed for "foo": %v`, err)
 	}
-	got1, got2 := b1.String(), b2.String()
-	if got1 != want {
-		t.Fatalf(`Template "foo" rendered %q, want %q`, got1, want)
+	golangt1, golangt2 := b1.String(), b2.String()
+	if golangt1 != want {
+		t.Fatalf(`Template "foo" rendered %q, want %q`, golangt1, want)
 	}
-	if got1 != got2 {
-		t.Fatalf(`Template "foo" and "bar" rendered %q and %q respectively, expected equal values`, got1, got2)
+	if golangt1 != golangt2 {
+		t.Fatalf(`Template "foo" and "bar" rendered %q and %q respectively, expected equal values`, golangt1, golangt2)
 	}
 }

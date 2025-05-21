@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Patterns for ServeMux routing.
@@ -21,7 +21,7 @@ type pattern struct {
 	method string
 	host   string
 	// The representation of a path differs from the surface syntax, which
-	// simplifies most algorithms.
+	// simplifies most algolangrithms.
 	//
 	// Paths ending in '/' are represented with an anonymous "..." wildcard.
 	// For example, the path "a/" is represented as a literal segment "a" followed

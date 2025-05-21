@@ -1,7 +1,7 @@
 // asmcheck
 
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package codegen
@@ -329,7 +329,7 @@ func ubfx16(x uint64) uint64 {
 
 // Check that we don't emit comparisons for constant shifts.
 //
-//go:nosplit
+//golang:nosplit
 func shift_no_cmp(x int) int {
 	// arm64:`LSL\t[$]17`,-`CMP`
 	// mips64:`SLLV\t[$]17`,-`SGT`

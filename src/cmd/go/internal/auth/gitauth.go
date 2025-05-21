@@ -1,5 +1,5 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // gitauth uses 'git credential' to implement the GOAUTH protocol.
@@ -11,9 +11,9 @@ package auth
 
 import (
 	"bytes"
-	"cmd/go/internal/base"
-	"cmd/go/internal/cfg"
-	"cmd/go/internal/web/intercept"
+	"cmd/golang/internal/base"
+	"cmd/golang/internal/cfg"
+	"cmd/golang/internal/web/intercept"
 	"fmt"
 	"log"
 	"net/http"
@@ -39,7 +39,7 @@ func runGitAuth(client *http.Client, dir, url string) (string, http.Header, erro
 	}
 	if dir == "" {
 		// Prevent config-injection attacks by requiring an explicit working directory.
-		// See https://golang.org/issue/29230 for details.
+		// See https://golanglang.org/issue/29230 for details.
 		panic("'git' invoked in an arbitrary directory") // this should be caught earlier.
 	}
 	cmd := exec.Command("git", "credential", "fill")
@@ -70,7 +70,7 @@ func runGitAuth(client *http.Client, dir, url string) (string, http.Header, erro
 	// The request is intercepted for testing purposes to simulate interactions
 	// with the credential helper.
 	intercept.Request(req)
-	go updateGitCredentialHelper(client, req, out)
+	golang updateGitCredentialHelper(client, req, out)
 
 	// Return the parsed prefix and headers, even if credential validation fails.
 	// The caller is responsible for the primary validation.

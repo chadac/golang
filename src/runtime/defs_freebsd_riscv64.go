@@ -1,5 +1,5 @@
-// created by cgo -cdefs and then converted to Go
-// cgo -cdefs defs_freebsd.go
+// created by cgolang -cdefs and then converted to Go
+// cgolang -cdefs defs_freebsd.golang
 
 package runtime
 
@@ -131,7 +131,7 @@ type thrparam struct {
 	child_tid  unsafe.Pointer // *int64
 	parent_tid *int64
 	flags      int32
-	pad_cgo_0  [4]byte
+	pad_cgolang_0  [4]byte
 	rtp        *rtprio
 	spare      [3]uintptr
 }
@@ -146,7 +146,7 @@ type stackt struct {
 	ss_sp     uintptr
 	ss_size   uintptr
 	ss_flags  int32
-	pad_cgo_0 [4]byte
+	pad_cgolang_0 [4]byte
 }
 
 type siginfo struct {
@@ -195,7 +195,7 @@ type ucontext struct {
 	uc_stack    stackt
 	uc_flags    int32
 	__spare__   [4]int32
-	pad_cgo_0   [12]byte
+	pad_cgolang_0   [12]byte
 }
 
 type timespec struct {
@@ -203,7 +203,7 @@ type timespec struct {
 	tv_nsec int64
 }
 
-//go:nosplit
+//golang:nosplit
 func (ts *timespec) setNsec(ns int64) {
 	ts.tv_sec = ns / 1e9
 	ts.tv_nsec = ns % 1e9
@@ -245,7 +245,7 @@ type bintime struct {
 }
 
 type vdsoTimehands struct {
-	algo         uint32
+	algolang         uint32
 	gen          uint32
 	scale        uint64
 	offset_count uint32
@@ -260,7 +260,7 @@ type vdsoTimekeep struct {
 	ver       uint32
 	enabled   uint32
 	current   uint32
-	pad_cgo_0 [4]byte
+	pad_cgolang_0 [4]byte
 }
 
 const (

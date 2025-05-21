@@ -25,7 +25,7 @@ pkg crypto/x509, type RevocationList struct, ExtraExtensions []pkix.Extension
 pkg crypto/x509, type RevocationList struct, NextUpdate time.Time
 pkg crypto/x509, type RevocationList struct, Number *big.Int
 pkg crypto/x509, type RevocationList struct, RevokedCertificates []pkix.RevokedCertificate
-pkg crypto/x509, type RevocationList struct, SignatureAlgorithm SignatureAlgorithm
+pkg crypto/x509, type RevocationList struct, SignatureAlgolangrithm SignatureAlgolangrithm
 pkg crypto/x509, type RevocationList struct, ThisUpdate time.Time
 pkg database/sql, method (*DB) SetConnMaxIdleTime(time.Duration)
 pkg database/sql, method (*Row) Err() error

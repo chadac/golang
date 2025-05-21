@@ -1,10 +1,10 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package strings implements simple functions to manipulate UTF-8 encoded strings.
 //
-// For information about UTF-8 strings in Go, see https://blog.golang.org/strings.
+// For information about UTF-8 strings in Go, see https://blog.golanglang.org/strings.
 package strings
 
 import (
@@ -157,7 +157,7 @@ func IndexRune(s string, r rune) int {
 			// Step backwards comparing bytes.
 			for j := 1; j < len(rs); j++ {
 				if s[i-j] != rs[last-j] {
-					goto next
+					golangto next
 				}
 			}
 			return i - last
@@ -166,13 +166,13 @@ func IndexRune(s string, r rune) int {
 			i++
 			if (haveFastIndex && fails > bytealg.Cutover(i)) && i < len(s) ||
 				(!haveFastIndex && fails >= 4+i>>4 && i < len(s)) {
-				goto fallback
+				golangto fallback
 			}
 		}
 		return -1
 
 	fallback:
-		// see comment in ../bytes/bytes.go
+		// see comment in ../bytes/bytes.golang
 		if haveFastIndex {
 			if j := bytealg.IndexString(s[i-last:], string(r)); j >= 0 {
 				return i + j - last
@@ -623,7 +623,7 @@ func Repeat(s string, count int) string {
 
 	// Since we cannot return an error on overflow,
 	// we should panic if the repeat will generate an overflow.
-	// See golang.org/issue/16237.
+	// See golanglang.org/issue/16237.
 	if count < 0 {
 		panic("strings: negative Repeat count")
 	}
@@ -864,7 +864,7 @@ func isSeparator(r rune) bool {
 // mapped to their Unicode title case.
 //
 // Deprecated: The rule Title uses for word boundaries does not handle Unicode
-// punctuation properly. Use golang.org/x/text/cases instead.
+// punctuation properly. Use golanglang.org/x/text/cases instead.
 func Title(s string) string {
 	// Use a closure here to remember state.
 	// Hackish but effective. Depends on Map scanning in order and calling
@@ -1198,7 +1198,7 @@ func EqualFold(s, t string) bool {
 		sr := s[i]
 		tr := t[i]
 		if sr|tr >= utf8.RuneSelf {
-			goto hasUnicode
+			golangto hasUnicode
 		}
 
 		// Easy case.
@@ -1237,7 +1237,7 @@ hasUnicode:
 			tr, t = r, t[size:]
 		}
 
-		// If they match, keep going; if not, return false.
+		// If they match, keep golanging; if not, return false.
 
 		// Easy case.
 		if tr == sr {

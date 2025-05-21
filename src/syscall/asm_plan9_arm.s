@@ -1,12 +1,12 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 #include "textflag.h"
 #include "funcdata.h"
 
-#define SYS_ERRSTR 41	/* from zsysnum_plan9.go */
-#define SYS_SEEK 39	/* from zsysnum_plan9.go */
+#define SYS_ERRSTR 41	/* from zsysnum_plan9.golang */
+#define SYS_SEEK 39	/* from zsysnum_plan9.golang */
 
 // System call support for plan9 on arm
 
@@ -35,7 +35,7 @@ syscallerr:
 	MOVW	$SYS_ERRSTR, R0
 	SWI		$0
 	BL		runtime·exitsyscall(SB)
-	BL		runtime·gostring(SB)
+	BL		runtime·golangstring(SB)
 	MOVW	$str-140(SP), R2
 syscallok:
 	MOVW	$err+24(FP), R1
@@ -70,7 +70,7 @@ syscall6err:
 	MOVW	$SYS_ERRSTR, R0
 	SWI		$0
 	BL		runtime·exitsyscall(SB)
-	BL		runtime·gostring(SB)
+	BL		runtime·golangstring(SB)
 	MOVW	$str-140(SP), R2
 syscall6ok:
 	MOVW	$err+36(FP), R1

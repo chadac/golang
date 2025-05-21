@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package bytes_test
@@ -53,9 +53,9 @@ func TestReader(t *testing.T) {
 			t.Errorf("%d. read = %v; want %v", i, err, tt.readerr)
 			continue
 		}
-		got := string(buf[:n])
-		if got != tt.want {
-			t.Errorf("%d. got %q; want %q", i, got, tt.want)
+		golangt := string(buf[:n])
+		if golangt != tt.want {
+			t.Errorf("%d. golangt %q; want %q", i, golangt, tt.want)
 		}
 	}
 }
@@ -88,12 +88,12 @@ func TestReaderAt(t *testing.T) {
 	for i, tt := range tests {
 		b := make([]byte, tt.n)
 		rn, err := r.ReadAt(b, tt.off)
-		got := string(b[:rn])
-		if got != tt.want {
-			t.Errorf("%d. got %q; want %q", i, got, tt.want)
+		golangt := string(b[:rn])
+		if golangt != tt.want {
+			t.Errorf("%d. golangt %q; want %q", i, golangt, tt.want)
 		}
 		if fmt.Sprintf("%v", err) != fmt.Sprintf("%v", tt.wanterr) {
-			t.Errorf("%d. got error = %v; want %v", i, err, tt.wanterr)
+			t.Errorf("%d. golangt error = %v; want %v", i, err, tt.wanterr)
 		}
 	}
 }
@@ -105,7 +105,7 @@ func TestReaderAtConcurrent(t *testing.T) {
 	var wg sync.WaitGroup
 	for i := 0; i < 5; i++ {
 		wg.Add(1)
-		go func(i int) {
+		golang func(i int) {
 			defer wg.Done()
 			var buf [1]byte
 			r.ReadAt(buf[:], int64(i))
@@ -116,18 +116,18 @@ func TestReaderAtConcurrent(t *testing.T) {
 
 func TestEmptyReaderConcurrent(t *testing.T) {
 	// Test for the race detector, to verify a Read that doesn't yield any bytes
-	// is okay to use from multiple goroutines. This was our historic behavior.
-	// See golang.org/issue/7856
+	// is okay to use from multiple golangroutines. This was our historic behavior.
+	// See golanglang.org/issue/7856
 	r := NewReader([]byte{})
 	var wg sync.WaitGroup
 	for i := 0; i < 5; i++ {
 		wg.Add(2)
-		go func() {
+		golang func() {
 			defer wg.Done()
 			var buf [1]byte
 			r.Read(buf[:])
 		}()
-		go func() {
+		golang func() {
 			defer wg.Done()
 			r.Read(nil)
 		}()
@@ -146,13 +146,13 @@ func TestReaderWriteTo(t *testing.T) {
 		var b Buffer
 		n, err := r.WriteTo(&b)
 		if expect := int64(len(s)); n != expect {
-			t.Errorf("got %v; want %v", n, expect)
+			t.Errorf("golangt %v; want %v", n, expect)
 		}
 		if err != nil {
-			t.Errorf("for length %d: got error = %v; want nil", l, err)
+			t.Errorf("for length %d: golangt error = %v; want nil", l, err)
 		}
 		if b.String() != s {
-			t.Errorf("got string %q; want %q", b.String(), s)
+			t.Errorf("golangt string %q; want %q", b.String(), s)
 		}
 		if r.Len() != 0 {
 			t.Errorf("reader contains %v bytes; want 0", r.Len())
@@ -163,20 +163,20 @@ func TestReaderWriteTo(t *testing.T) {
 func TestReaderLen(t *testing.T) {
 	const data = "hello world"
 	r := NewReader([]byte(data))
-	if got, want := r.Len(), 11; got != want {
-		t.Errorf("r.Len(): got %d, want %d", got, want)
+	if golangt, want := r.Len(), 11; golangt != want {
+		t.Errorf("r.Len(): golangt %d, want %d", golangt, want)
 	}
 	if n, err := r.Read(make([]byte, 10)); err != nil || n != 10 {
 		t.Errorf("Read failed: read %d %v", n, err)
 	}
-	if got, want := r.Len(), 1; got != want {
-		t.Errorf("r.Len(): got %d, want %d", got, want)
+	if golangt, want := r.Len(), 1; golangt != want {
+		t.Errorf("r.Len(): golangt %d, want %d", golangt, want)
 	}
 	if n, err := r.Read(make([]byte, 1)); err != nil || n != 1 {
 		t.Errorf("Read failed: read %d %v; want 1, nil", n, err)
 	}
-	if got, want := r.Len(), 0; got != want {
-		t.Errorf("r.Len(): got %d, want %d", got, want)
+	if golangt, want := r.Len(), 0; golangt != want {
+		t.Errorf("r.Len(): golangt %d, want %d", golangt, want)
 	}
 }
 
@@ -217,7 +217,7 @@ func TestReaderDoubleUnreadRune(t *testing.T) {
 		t.Fatal(err)
 	}
 	if err := buf.UnreadByte(); err == nil {
-		t.Fatal("UnreadByte: expected error, got nil")
+		t.Fatal("UnreadByte: expected error, golangt nil")
 	}
 }
 
@@ -265,55 +265,55 @@ func TestReaderReset(t *testing.T) {
 	const want = "abcdef"
 	r.Reset([]byte(want))
 	if err := r.UnreadRune(); err == nil {
-		t.Errorf("UnreadRune: expected error, got nil")
+		t.Errorf("UnreadRune: expected error, golangt nil")
 	}
 	buf, err := io.ReadAll(r)
 	if err != nil {
 		t.Errorf("ReadAll: unexpected error: %v", err)
 	}
-	if got := string(buf); got != want {
-		t.Errorf("ReadAll: got %q, want %q", got, want)
+	if golangt := string(buf); golangt != want {
+		t.Errorf("ReadAll: golangt %q, want %q", golangt, want)
 	}
 }
 
 func TestReaderZero(t *testing.T) {
 	if l := (&Reader{}).Len(); l != 0 {
-		t.Errorf("Len: got %d, want 0", l)
+		t.Errorf("Len: golangt %d, want 0", l)
 	}
 
 	if n, err := (&Reader{}).Read(nil); n != 0 || err != io.EOF {
-		t.Errorf("Read: got %d, %v; want 0, io.EOF", n, err)
+		t.Errorf("Read: golangt %d, %v; want 0, io.EOF", n, err)
 	}
 
 	if n, err := (&Reader{}).ReadAt(nil, 11); n != 0 || err != io.EOF {
-		t.Errorf("ReadAt: got %d, %v; want 0, io.EOF", n, err)
+		t.Errorf("ReadAt: golangt %d, %v; want 0, io.EOF", n, err)
 	}
 
 	if b, err := (&Reader{}).ReadByte(); b != 0 || err != io.EOF {
-		t.Errorf("ReadByte: got %d, %v; want 0, io.EOF", b, err)
+		t.Errorf("ReadByte: golangt %d, %v; want 0, io.EOF", b, err)
 	}
 
 	if ch, size, err := (&Reader{}).ReadRune(); ch != 0 || size != 0 || err != io.EOF {
-		t.Errorf("ReadRune: got %d, %d, %v; want 0, 0, io.EOF", ch, size, err)
+		t.Errorf("ReadRune: golangt %d, %d, %v; want 0, 0, io.EOF", ch, size, err)
 	}
 
 	if offset, err := (&Reader{}).Seek(11, io.SeekStart); offset != 11 || err != nil {
-		t.Errorf("Seek: got %d, %v; want 11, nil", offset, err)
+		t.Errorf("Seek: golangt %d, %v; want 11, nil", offset, err)
 	}
 
 	if s := (&Reader{}).Size(); s != 0 {
-		t.Errorf("Size: got %d, want 0", s)
+		t.Errorf("Size: golangt %d, want 0", s)
 	}
 
 	if (&Reader{}).UnreadByte() == nil {
-		t.Errorf("UnreadByte: got nil, want error")
+		t.Errorf("UnreadByte: golangt nil, want error")
 	}
 
 	if (&Reader{}).UnreadRune() == nil {
-		t.Errorf("UnreadRune: got nil, want error")
+		t.Errorf("UnreadRune: golangt nil, want error")
 	}
 
 	if n, err := (&Reader{}).WriteTo(io.Discard); n != 0 || err != nil {
-		t.Errorf("WriteTo: got %d, %v; want 0, nil", n, err)
+		t.Errorf("WriteTo: golangt %d, %v; want 0, nil", n, err)
 	}
 }

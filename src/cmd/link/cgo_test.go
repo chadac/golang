@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -20,7 +20,7 @@ func TestCGOLTO(t *testing.T) {
 
 	t.Parallel()
 
-	goEnv := func(arg string) string {
+	golangEnv := func(arg string) string {
 		cmd := testenv.Command(t, testenv.GoToolPath(t), "env", arg)
 		cmd.Stderr = new(bytes.Buffer)
 
@@ -33,12 +33,12 @@ func TestCGOLTO(t *testing.T) {
 		return out
 	}
 
-	cc := goEnv("CC")
-	cgoCflags := goEnv("CGO_CFLAGS")
+	cc := golangEnv("CC")
+	cgolangCflags := golangEnv("CGO_CFLAGS")
 
 	for test := 0; test < 2; test++ {
 		t.Run(strconv.Itoa(test), func(t *testing.T) {
-			testCGOLTO(t, cc, cgoCflags, test)
+			testCGOLTO(t, cc, cgolangCflags, test)
 		})
 	}
 }
@@ -92,7 +92,7 @@ func main() {
 }
 `
 
-func testCGOLTO(t *testing.T, cc, cgoCflags string, test int) {
+func testCGOLTO(t *testing.T, cc, cgolangCflags string, test int) {
 	t.Parallel()
 
 	dir := t.TempDir()
@@ -103,29 +103,29 @@ func testCGOLTO(t *testing.T, cc, cgoCflags string, test int) {
 		}
 	}
 
-	writeTempFile("go.mod", "module cgolto\n")
+	writeTempFile("golang.mod", "module cgolanglto\n")
 
 	switch test {
 	case 0:
-		writeTempFile("main.go", test1_main)
-		writeTempFile("add.go", test1_add)
+		writeTempFile("main.golang", test1_main)
+		writeTempFile("add.golang", test1_add)
 	case 1:
-		writeTempFile("main.go", test2_main)
+		writeTempFile("main.golang", test2_main)
 	default:
 		t.Fatalf("bad case %d", test)
 	}
 
 	cmd := testenv.Command(t, testenv.GoToolPath(t), "build")
 	cmd.Dir = dir
-	cgoCflags += " -flto"
-	cmd.Env = append(cmd.Environ(), "CGO_CFLAGS="+cgoCflags)
+	cgolangCflags += " -flto"
+	cmd.Env = append(cmd.Environ(), "CGO_CFLAGS="+cgolangCflags)
 
-	t.Logf("CGO_CFLAGS=%q %v", cgoCflags, cmd)
+	t.Logf("CGO_CFLAGS=%q %v", cgolangCflags, cmd)
 	out, err := cmd.CombinedOutput()
 	t.Logf("%s", out)
 
 	if err != nil {
-		t.Logf("go build failed: %v", err)
+		t.Logf("golang build failed: %v", err)
 
 		// Error messages we've seen indicating that LTO is not supported.
 		// These errors come from GCC or clang, not Go.

@@ -1,10 +1,10 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ssa
 
-// layout orders basic blocks in f with the goal of minimizing control flow instructions.
+// layout orders basic blocks in f with the golangal of minimizing control flow instructions.
 // After this phase returns, the order of f.Blocks matters and is the order
 // in which those blocks will appear in the assembly output.
 func layout(f *Func) {
@@ -12,7 +12,7 @@ func layout(f *Func) {
 }
 
 // Register allocation may use a different order which has constraints
-// imposed by the linear-scan algorithm.
+// imposed by the linear-scan algolangrithm.
 func layoutRegallocOrder(f *Func) []*Block {
 	// remnant of an experiment; perhaps there will be another.
 	return f.Blocks
@@ -29,7 +29,7 @@ func layoutOrder(f *Func) []*Block {
 	posdegree := f.newSparseSet(f.NumBlocks()) // blocks with positive remaining degree
 	defer f.retSparseSet(posdegree)
 	// blocks with zero remaining degree. Use slice to simulate a LIFO queue to implement
-	// the depth-first topology sorting algorithm.
+	// the depth-first topology sorting algolangrithm.
 	var zerodegree []ID
 	// LIFO queue. Track the successor blocks of the scheduled block so that when we
 	// encounter loops, we choose to schedule the successor block of the most recently

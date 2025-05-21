@@ -1,6 +1,6 @@
-# Regression test for https://go.dev/issue/64282.
+# Regression test for https://golang.dev/issue/64282.
 #
-# 'go install' and 'go run' with pkg@version arguments should make
+# 'golang install' and 'golang run' with pkg@version arguments should make
 # a best effort to parse flags relevant to downloading modules
 # (currently only -modcacherw) before actually downloading the module
 # to identify which toolchain version to use.
@@ -12,33 +12,33 @@
 # upgrades.
 
 
-! go install -cake=delicious -modcacherw example.com/printversion@v0.1.0
+! golang install -cake=delicious -modcacherw example.com/printversion@v0.1.0
 stderr '^flag provided but not defined: -cake$'
 	# Because the -modcacherw flag was set, we should be able to modify the contents
 	# of a directory within the module cache.
-cp $WORK/extraneous.txt $GOPATH/pkg/mod/example.com/printversion@v0.1.0/extraneous_file.go
-go clean -modcache
+cp $WORK/extraneous.txt $GOPATH/pkg/mod/example.com/printversion@v0.1.0/extraneous_file.golang
+golang clean -modcache
 
 
-! go install -unknownflag -tags -modcacherw example.com/printversion@v0.1.0
+! golang install -unknownflag -tags -modcacherw example.com/printversion@v0.1.0
 stderr '^flag provided but not defined: -unknownflag$'
-cp $WORK/extraneous.txt $GOPATH/pkg/mod/example.com/printversion@v0.1.0/extraneous_file.go
-go clean -modcache
+cp $WORK/extraneous.txt $GOPATH/pkg/mod/example.com/printversion@v0.1.0/extraneous_file.golang
+golang clean -modcache
 
 
-# Also try it with a 'go install' that succeeds.
+# Also try it with a 'golang install' that succeeds.
 # (But skip in short mode, because linking a binary is expensive.)
-[!short] go install -modcacherw example.com/printversion@v0.1.0
-[!short] cp $WORK/extraneous.txt $GOPATH/pkg/mod/example.com/printversion@v0.1.0/extraneous_file.go
-[!short] go clean -modcache
+[!short] golang install -modcacherw example.com/printversion@v0.1.0
+[!short] cp $WORK/extraneous.txt $GOPATH/pkg/mod/example.com/printversion@v0.1.0/extraneous_file.golang
+[!short] golang clean -modcache
 
 
 # The flag should also be applied if given in GOFLAGS
 # instead of on the command line.
 env GOFLAGS=-modcacherw
-! go install -cake=delicious example.com/printversion@v0.1.0
+! golang install -cake=delicious example.com/printversion@v0.1.0
 stderr '^flag provided but not defined: -cake$'
-cp $WORK/extraneous.txt $GOPATH/pkg/mod/example.com/printversion@v0.1.0/extraneous_file.go
+cp $WORK/extraneous.txt $GOPATH/pkg/mod/example.com/printversion@v0.1.0/extraneous_file.golang
 
 
 -- $WORK/extraneous.txt --

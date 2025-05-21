@@ -1,8 +1,8 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Like ifacemethod2.go, this tests that a method *is* live
+// Like ifacemethod2.golang, this tests that a method *is* live
 // if the type is "indirectly" converted to an interface
 // using reflection with a method descriptor as intermediate.
 // However, it uses MethodByName() with a constant name of

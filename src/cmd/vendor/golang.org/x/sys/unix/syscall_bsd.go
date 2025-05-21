@@ -1,12 +1,12 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build darwin || dragonfly || freebsd || netbsd || openbsd
+//golang:build darwin || dragolangnfly || freebsd || netbsd || openbsd
 
 // BSD system call wrappers shared by *BSD based systems
 // including OS X (Darwin) and FreeBSD.  Like the other
-// syscall_*.go files it is compiled as Go code but also
+// syscall_*.golang files it is compiled as Go code but also
 // used as input to mksyscall which parses the //sys
 // lines and generates system call stubs.
 
@@ -296,9 +296,9 @@ func Getsockname(fd int) (sa Sockaddr, err error) {
 	if err = getsockname(fd, &rsa, &len); err != nil {
 		return
 	}
-	// TODO(jsing): DragonFly has a "bug" (see issue 3349), which should be
+	// TODO(jsing): DragolangnFly has a "bug" (see issue 3349), which should be
 	// reported upstream.
-	if runtime.GOOS == "dragonfly" && rsa.Addr.Family == AF_UNSPEC && rsa.Addr.Len == 0 {
+	if runtime.GOOS == "dragolangnfly" && rsa.Addr.Family == AF_UNSPEC && rsa.Addr.Len == 0 {
 		rsa.Addr.Family = AF_UNIX
 		rsa.Addr.Len = SizeofSockaddrUnix
 	}

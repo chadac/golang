@@ -11,10 +11,10 @@ env GO111MODULE=auto
 env CGO_CFLAGS=nodefault
 env CGO_CPPFLAGS=nodefault
 env GOFIPS140=latest
-[cgo] env CGO_ENABLED=0
+[cgolang] env CGO_ENABLED=0
 env GCCGO=nodefault
 
-go env -changed
+golang env -changed
 # linux output like GOTOOLCHAIN='local'
 # windows output like GOTOOLCHAIN=local
 stdout 'GOTOOLCHAIN=''?local''?'
@@ -24,10 +24,10 @@ stdout 'GO111MODULE=''?auto''?'
 stdout 'CGO_CFLAGS=''?nodefault''?'
 stdout 'CGO_CPPFLAGS=''?nodefault''?'
 stdout 'GOFIPS140=''?latest''?'
-[cgo] stdout 'CGO_ENABLED=''?0''?'
+[cgolang] stdout 'CGO_ENABLED=''?0''?'
 stdout 'GCCGO=''?nodefault''?'
 
-go env -changed -json
+golang env -changed -json
 stdout '"GOTOOLCHAIN": "local"'
 stdout '"GOSUMDB": "nodefault"'
 stdout '"GOPROXY": "nodefault"'
@@ -35,7 +35,7 @@ stdout '"GO111MODULE": "auto"'
 stdout '"CGO_CFLAGS": "nodefault"'
 stdout '"CGO_CPPFLAGS": "nodefault"'
 stdout '"GOFIPS140": "latest"'
-[cgo] stdout '"CGO_ENABLED": "0"'
+[cgolang] stdout '"CGO_ENABLED": "0"'
 stdout '"GCCGO": "nodefault"'
 
 [GOOS:windows] env GOOS=linux
@@ -43,45 +43,45 @@ stdout '"GCCGO": "nodefault"'
 [GOARCH:amd64] env GOARCH=arm64
 [!GOARCH:amd64] env GOARCH=amd64
 
-go env -changed GOOS
+golang env -changed GOOS
 [GOOS:windows] stdout 'set GOOS=linux'
 [!GOOS:windows] stdout 'GOOS=''windows'''
-go env -changed GOARCH
+golang env -changed GOARCH
 [GOARCH:amd64] stdout 'set GOARCH=arm64|GOARCH=''arm64'''
 [!GOARCH:amd64] stdout 'set GOARCH=amd64|GOARCH=''amd64'''
 
-go env -changed -json GOOS
+golang env -changed -json GOOS
 [GOOS:windows] stdout '"GOOS": "linux"'
 [!GOOS:windows] stdout '"GOOS": "windows"'
-go env -changed -json GOARCH
+golang env -changed -json GOARCH
 [GOARCH:amd64] stdout '"GOARCH": "arm64"'
 [!GOARCH:amd64] stdout '"GOARCH": "amd64"'
 
 env GOARCH=amd64
 env GOAMD64=v3
-go env -changed
+golang env -changed
 stdout 'GOAMD64=''?v3''?'
 
 env GOPROXY=s
-go env -changed GOPROXY
+golang env -changed GOPROXY
 ! stdout 'GOPROXY'
 env GOPROXY=s2
-go env -changed GOPROXY
+golang env -changed GOPROXY
 stdout 'GOPROXY=''?s2''?'
 
 env GOROOT=./b
-go env -changed
+golang env -changed
 ! stdout 'GOTOOLCHAIN=''?local''?'
 
 [GOOS:windows] env LocalAppData=C:\
-[GOOS:windows] env GOCACHE=C:\go-build
-[GOOS:windows] go env -changed
+[GOOS:windows] env GOCACHE=C:\golang-build
+[GOOS:windows] golang env -changed
 [GOOS:windows] ! stdout 'GOCACHE'
 
---  a/go.env --
+--  a/golang.env --
 GOPROXY=s
 GOAMD64=v1
 GOFIPS140=off
 
---  b/go.env --
+--  b/golang.env --
 GOTOOLCHAIN=local

@@ -2,17 +2,17 @@
 [!fuzz-instrumented] skip
 
 env GOCACHE=$WORK/cache
-! go test -fuzz=FuzzDead -v
+! golang test -fuzz=FuzzDead -v
 # This is a somewhat inexact check, but since we don't prefix the error with anything
 # and as the error suffix is platform dependent, this is the best we can do. In the
 # deadlock failure case, the test will just deadlock and timeout anyway, so it should
 # be clear that that failure mode is different.
 stdout 'open'
 
--- go.mod --
+-- golang.mod --
 module test
 
--- cov_test.go --
+-- cov_test.golang --
 package dead
 
 import (
@@ -23,7 +23,7 @@ import (
 )
 
 func FuzzDead(f *testing.F) {
-	go func() {
+	golang func() {
 		c := filepath.Join(os.Getenv("GOCACHE"), "fuzz", "test", "FuzzDead")
 		t := time.NewTicker(time.Second)
 		for range t.C {

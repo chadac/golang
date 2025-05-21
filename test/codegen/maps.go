@@ -1,7 +1,7 @@
 // asmcheck
 
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package codegen
@@ -146,7 +146,7 @@ func MapClearSideEffect(m map[int]int) int {
 }
 
 func MapLiteralSizing(x int) (map[int]int, map[int]int) {
-	// This is tested for internal/abi/maps.go:MapBucketCountBits={3,4,5}
+	// This is tested for internal/abi/maps.golang:MapBucketCountBits={3,4,5}
 	// amd64:"MOVL\t[$]33,"
 	m := map[int]int{
 		0:  0,

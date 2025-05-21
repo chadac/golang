@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -9,11 +9,11 @@ import (
 	"context"
 	"flag"
 	"fmt"
-	"go/ast"
-	"go/parser"
-	"go/printer"
-	"go/scanner"
-	"go/token"
+	"golang/ast"
+	"golang/parser"
+	"golang/printer"
+	"golang/scanner"
+	"golang/token"
 	"internal/diff"
 	"io"
 	"io/fs"
@@ -27,12 +27,12 @@ import (
 
 	"cmd/internal/telemetry/counter"
 
-	"golang.org/x/sync/semaphore"
+	"golanglang.org/x/sync/semaphore"
 )
 
 var (
 	// main operation modes
-	list        = flag.Bool("l", false, "list files whose formatting differs from gofmt's")
+	list        = flag.Bool("l", false, "list files whose formatting differs from golangfmt's")
 	write       = flag.Bool("w", false, "write result to (source) file instead of stdout")
 	rewriteRule = flag.String("r", "", "rewrite rule (e.g., 'a[b:len(a)] -> a[b:]')")
 	simplifyAST = flag.Bool("s", false, "simplify code")
@@ -43,15 +43,15 @@ var (
 	cpuprofile = flag.String("cpuprofile", "", "write cpu profile to this file")
 )
 
-// Keep these in sync with go/format/format.go.
+// Keep these in sync with golang/format/format.golang.
 const (
 	tabWidth    = 8
 	printerMode = printer.UseSpaces | printer.TabIndent | printerNormalizeNumbers
 
 	// printerNormalizeNumbers means to canonicalize number literal prefixes
-	// and exponents while printing. See https://golang.org/doc/go1.13#gofmt.
+	// and exponents while printing. See https://golanglang.org/doc/golang1.13#golangfmt.
 	//
-	// This value is defined in go/printer specifically for go/format and cmd/gofmt.
+	// This value is defined in golang/printer specifically for golang/format and cmd/golangfmt.
 	printerNormalizeNumbers = 1 << 30
 )
 
@@ -71,7 +71,7 @@ var (
 )
 
 func usage() {
-	fmt.Fprintf(os.Stderr, "usage: gofmt [flags] [path ...]\n")
+	fmt.Fprintf(os.Stderr, "usage: golangfmt [flags] [path ...]\n")
 	flag.PrintDefaults()
 }
 
@@ -80,7 +80,7 @@ func initParserMode() {
 	if *allErrors {
 		parserMode |= parser.AllErrors
 	}
-	// It's only -r that makes use of go/ast's object resolution,
+	// It's only -r that makes use of golang/ast's object resolution,
 	// so avoid the unnecessary work if the flag isn't used.
 	if *rewriteRule == "" {
 		parserMode |= parser.SkipObjectResolution
@@ -90,7 +90,7 @@ func initParserMode() {
 func isGoFile(f fs.DirEntry) bool {
 	// ignore non-Go files
 	name := f.Name()
-	return !strings.HasPrefix(name, ".") && strings.HasSuffix(name, ".go") && !f.IsDir()
+	return !strings.HasPrefix(name, ".") && strings.HasSuffix(name, ".golang") && !f.IsDir()
 }
 
 // A sequencer performs concurrent tasks that may write output, but emits that
@@ -125,7 +125,7 @@ const exclusive = -1
 // weight, Add blocks until all other tasks have completed, then the task
 // executes exclusively (blocking all other calls to Add until it completes).
 //
-// f may run concurrently in a goroutine, but its output to the passed-in
+// f may run concurrently in a golangroutine, but its output to the passed-in
 // reporter will be sequential relative to the other tasks in the sequencer.
 //
 // If f invokes a method on the reporter, execution of that method may block
@@ -150,7 +150,7 @@ func (s *sequencer) Add(weight int64, f func(*reporter) error) {
 
 	// Start f in parallel: it can run until it invokes a method on r, at which
 	// point it will block until the previous task releases the output state.
-	go func() {
+	golang func() {
 		if err := f(r); err != nil {
 			r.Report(err)
 		}
@@ -366,19 +366,19 @@ func main() {
 	maxWeight := (2 << 20) * int64(runtime.GOMAXPROCS(0))
 	s := newSequencer(maxWeight, os.Stdout, os.Stderr)
 
-	// call gofmtMain in a separate function
+	// call golangfmtMain in a separate function
 	// so that it can use defer and have them
 	// run before the exit.
-	gofmtMain(s)
+	golangfmtMain(s)
 	os.Exit(s.GetExitCode())
 }
 
-func gofmtMain(s *sequencer) {
+func golangfmtMain(s *sequencer) {
 	counter.Open()
 	flag.Usage = usage
 	flag.Parse()
-	counter.Inc("gofmt/invocations")
-	counter.CountFlags("gofmt/flag:", *flag.CommandLine)
+	counter.Inc("golangfmt/invocations")
+	counter.CountFlags("golangfmt/flag:", *flag.CommandLine)
 
 	if *cpuprofile != "" {
 		fdSem <- true
@@ -483,7 +483,7 @@ func writeFile(filename string, orig, formatted []byte, perm fs.FileMode, size i
 	defer fout.Close() // for error paths
 
 	restoreFail := func(err error) {
-		fmt.Fprintf(os.Stderr, "gofmt: %s: error restoring file to original: %v; backup in %s\n", filename, err, bakname)
+		fmt.Fprintf(os.Stderr, "golangfmt: %s: error restoring file to original: %v; backup in %s\n", filename, err, bakname)
 	}
 
 	n, err := fout.Write(formatted)

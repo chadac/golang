@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package rsa
@@ -17,19 +17,19 @@ func TestHashPrefixes(t *testing.T) {
 		// RFC 3370, Section 2.1 and 2.2
 		//
 		// sha-1 OBJECT IDENTIFIER ::= { iso(1) identified-organization(3)
-		//      oiw(14) secsig(3) algorithm(2) 26 }
+		//      oiw(14) secsig(3) algolangrithm(2) 26 }
 		//
 		// md5 OBJECT IDENTIFIER ::= { iso(1) member-body(2) us(840)
-		// 	rsadsi(113549) digestAlgorithm(2) 5 }
+		// 	rsadsi(113549) digestAlgolangrithm(2) 5 }
 		crypto.MD5:  {1, 2, 840, 113549, 2, 5},
 		crypto.SHA1: {1, 3, 14, 3, 2, 26},
 
-		// https://csrc.nist.gov/projects/computer-security-objects-register/algorithm-registration
+		// https://csrc.nist.golangv/projects/computer-security-objects-register/algolangrithm-registration
 		//
-		// nistAlgorithms OBJECT IDENTIFIER ::= { joint-iso-ccitt(2) country(16) us(840)
-		//          organization(1) gov(101) csor(3) nistAlgorithm(4) }
+		// nistAlgolangrithms OBJECT IDENTIFIER ::= { joint-iso-ccitt(2) country(16) us(840)
+		//          organization(1) golangv(101) csor(3) nistAlgolangrithm(4) }
 		//
-		// hashAlgs OBJECT IDENTIFIER ::= { nistAlgorithms 2 }
+		// hashAlgs OBJECT IDENTIFIER ::= { nistAlgolangrithms 2 }
 		//
 		// id-sha256 OBJECT IDENTIFIER ::= { hashAlgs 1 }
 		// id-sha384 OBJECT IDENTIFIER ::= { hashAlgs 2 }
@@ -55,11 +55,11 @@ func TestHashPrefixes(t *testing.T) {
 
 	for h, oid := range prefixes {
 		want, err := asn1.Marshal(struct {
-			HashAlgorithm pkix.AlgorithmIdentifier
+			HashAlgolangrithm pkix.AlgolangrithmIdentifier
 			Hash          []byte
 		}{
-			HashAlgorithm: pkix.AlgorithmIdentifier{
-				Algorithm:  oid,
+			HashAlgolangrithm: pkix.AlgolangrithmIdentifier{
+				Algolangrithm:  oid,
 				Parameters: asn1.NullRawValue,
 			},
 			Hash: make([]byte, h.Size()),
@@ -68,9 +68,9 @@ func TestHashPrefixes(t *testing.T) {
 			t.Fatal(err)
 		}
 		want = want[:len(want)-h.Size()]
-		got := hashPrefixes[h.String()]
-		if !bytes.Equal(got, want) {
-			t.Errorf("%s: got %x, want %x", h, got, want)
+		golangt := hashPrefixes[h.String()]
+		if !bytes.Equal(golangt, want) {
+			t.Errorf("%s: golangt %x, want %x", h, golangt, want)
 		}
 	}
 }

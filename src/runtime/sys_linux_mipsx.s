@@ -1,15 +1,15 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build linux && (mips || mipsle)
+//golang:build linux && (mips || mipsle)
 
 //
 // System calls and other sys.stuff for mips, Linux
 //
 
-#include "go_asm.h"
-#include "go_tls.h"
+#include "golang_asm.h"
+#include "golang_tls.h"
 #include "textflag.h"
 
 #define SYS_exit		4001
@@ -309,18 +309,18 @@ TEXT runtime·sigfwd(SB),NOSPLIT,$0-16
 TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME,$12
 	// this might be called in external code context,
 	// where g is not set.
-	MOVB	runtime·iscgo(SB), R1
+	MOVB	runtime·iscgolang(SB), R1
 	BEQ	R1, 2(PC)
 	JAL	runtime·load_g(SB)
 
 	MOVW	R4, 4(R29)
 	MOVW	R5, 8(R29)
 	MOVW	R6, 12(R29)
-	MOVW	$runtime·sigtrampgo(SB), R1
+	MOVW	$runtime·sigtrampgolang(SB), R1
 	JAL	(R1)
 	RET
 
-TEXT runtime·cgoSigtramp(SB),NOSPLIT,$0
+TEXT runtime·cgolangSigtramp(SB),NOSPLIT,$0
 	JMP	runtime·sigtramp(SB)
 
 TEXT runtime·mmap(SB),NOSPLIT,$20-32
@@ -492,16 +492,16 @@ TEXT runtime·sbrk0(SB),NOSPLIT,$0-4
 	RET
 
 TEXT runtime·access(SB),$0-12
-	BREAK // unimplemented, only needed for android; declared in stubs_linux.go
+	BREAK // unimplemented, only needed for android; declared in stubs_linux.golang
 	MOVW	R0, ret+8(FP)	// for vet
 	RET
 
 TEXT runtime·connect(SB),$0-16
-	BREAK // unimplemented, only needed for android; declared in stubs_linux.go
+	BREAK // unimplemented, only needed for android; declared in stubs_linux.golang
 	MOVW	R0, ret+12(FP)	// for vet
 	RET
 
 TEXT runtime·socket(SB),$0-16
-	BREAK // unimplemented, only needed for android; declared in stubs_linux.go
+	BREAK // unimplemented, only needed for android; declared in stubs_linux.golang
 	MOVW	R0, ret+12(FP)	// for vet
 	RET

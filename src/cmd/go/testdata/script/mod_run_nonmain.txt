@@ -1,18 +1,18 @@
-! go run $PWD
+! golang run $PWD
 ! stderr 'no packages loaded'
 stderr '^package example.net/nonmain is not a main package$'
 
-! go run .
+! golang run .
 stderr '^package example.net/nonmain is not a main package$'
 
-! go run ./...
-stderr '^go: warning: "\./\.\.\." matched only non-main packages$'
-stderr '^go: no packages loaded from \./\.\.\.$'
+! golang run ./...
+stderr '^golang: warning: "\./\.\.\." matched only non-main packages$'
+stderr '^golang: no packages loaded from \./\.\.\.$'
 
--- go.mod --
+-- golang.mod --
 module example.net/nonmain
 
-go 1.17
--- nonmain.go --
+golang 1.17
+-- nonmain.golang --
 // Package nonmain is not a main package.
 package nonmain

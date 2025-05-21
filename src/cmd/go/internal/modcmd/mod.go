@@ -1,23 +1,23 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Package modcmd implements the “go mod” command.
+// Package modcmd implements the “golang mod” command.
 package modcmd
 
 import (
-	"cmd/go/internal/base"
+	"cmd/golang/internal/base"
 )
 
 var CmdMod = &base.Command{
-	UsageLine: "go mod",
+	UsageLine: "golang mod",
 	Short:     "module maintenance",
 	Long: `Go mod provides access to operations on modules.
 
-Note that support for modules is built into all the go commands,
-not just 'go mod'. For example, day-to-day adding, removing, upgrading,
-and downgrading of dependencies should be done using 'go get'.
-See 'go help modules' for an overview of module functionality.
+Note that support for modules is built into all the golang commands,
+not just 'golang mod'. For example, day-to-day adding, removing, upgrading,
+and downgrading of dependencies should be done using 'golang get'.
+See 'golang help modules' for an overview of module functionality.
 	`,
 
 	Commands: []*base.Command{

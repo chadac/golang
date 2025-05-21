@@ -1,9 +1,9 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package atomic provides low-level atomic memory primitives
-// useful for implementing synchronization algorithms.
+// useful for implementing synchronization algolangrithms.
 //
 // These functions require great care to be used correctly.
 // Except for special, low-level applications, synchronization is better
@@ -45,7 +45,7 @@
 // This definition provides the same semantics as
 // C++'s sequentially consistent atomics and Java's volatile variables.
 //
-// [the Go memory model]: https://go.dev/ref/mem
+// [the Go memory model]: https://golang.dev/ref/mem
 package atomic
 
 import (
@@ -65,151 +65,151 @@ import (
 // relied upon to be 64-bit aligned.
 
 // SwapInt32 atomically stores new into *addr and returns the previous *addr value.
-// Consider using the more ergonomic and less error-prone [Int32.Swap] instead.
+// Consider using the more ergolangnomic and less error-prone [Int32.Swap] instead.
 //
-//go:noescape
+//golang:noescape
 func SwapInt32(addr *int32, new int32) (old int32)
 
 // SwapUint32 atomically stores new into *addr and returns the previous *addr value.
-// Consider using the more ergonomic and less error-prone [Uint32.Swap] instead.
+// Consider using the more ergolangnomic and less error-prone [Uint32.Swap] instead.
 //
-//go:noescape
+//golang:noescape
 func SwapUint32(addr *uint32, new uint32) (old uint32)
 
 // SwapUintptr atomically stores new into *addr and returns the previous *addr value.
-// Consider using the more ergonomic and less error-prone [Uintptr.Swap] instead.
+// Consider using the more ergolangnomic and less error-prone [Uintptr.Swap] instead.
 //
-//go:noescape
+//golang:noescape
 func SwapUintptr(addr *uintptr, new uintptr) (old uintptr)
 
 // SwapPointer atomically stores new into *addr and returns the previous *addr value.
-// Consider using the more ergonomic and less error-prone [Pointer.Swap] instead.
+// Consider using the more ergolangnomic and less error-prone [Pointer.Swap] instead.
 func SwapPointer(addr *unsafe.Pointer, new unsafe.Pointer) (old unsafe.Pointer)
 
 // CompareAndSwapInt32 executes the compare-and-swap operation for an int32 value.
-// Consider using the more ergonomic and less error-prone [Int32.CompareAndSwap] instead.
+// Consider using the more ergolangnomic and less error-prone [Int32.CompareAndSwap] instead.
 //
-//go:noescape
+//golang:noescape
 func CompareAndSwapInt32(addr *int32, old, new int32) (swapped bool)
 
 // CompareAndSwapUint32 executes the compare-and-swap operation for a uint32 value.
-// Consider using the more ergonomic and less error-prone [Uint32.CompareAndSwap] instead.
+// Consider using the more ergolangnomic and less error-prone [Uint32.CompareAndSwap] instead.
 //
-//go:noescape
+//golang:noescape
 func CompareAndSwapUint32(addr *uint32, old, new uint32) (swapped bool)
 
 // CompareAndSwapUintptr executes the compare-and-swap operation for a uintptr value.
-// Consider using the more ergonomic and less error-prone [Uintptr.CompareAndSwap] instead.
+// Consider using the more ergolangnomic and less error-prone [Uintptr.CompareAndSwap] instead.
 //
-//go:noescape
+//golang:noescape
 func CompareAndSwapUintptr(addr *uintptr, old, new uintptr) (swapped bool)
 
 // CompareAndSwapPointer executes the compare-and-swap operation for a unsafe.Pointer value.
-// Consider using the more ergonomic and less error-prone [Pointer.CompareAndSwap] instead.
+// Consider using the more ergolangnomic and less error-prone [Pointer.CompareAndSwap] instead.
 func CompareAndSwapPointer(addr *unsafe.Pointer, old, new unsafe.Pointer) (swapped bool)
 
 // AddInt32 atomically adds delta to *addr and returns the new value.
-// Consider using the more ergonomic and less error-prone [Int32.Add] instead.
+// Consider using the more ergolangnomic and less error-prone [Int32.Add] instead.
 //
-//go:noescape
+//golang:noescape
 func AddInt32(addr *int32, delta int32) (new int32)
 
 // AddUint32 atomically adds delta to *addr and returns the new value.
 // To subtract a signed positive constant value c from x, do AddUint32(&x, ^uint32(c-1)).
 // In particular, to decrement x, do AddUint32(&x, ^uint32(0)).
-// Consider using the more ergonomic and less error-prone [Uint32.Add] instead.
+// Consider using the more ergolangnomic and less error-prone [Uint32.Add] instead.
 //
-//go:noescape
+//golang:noescape
 func AddUint32(addr *uint32, delta uint32) (new uint32)
 
 // AddUintptr atomically adds delta to *addr and returns the new value.
-// Consider using the more ergonomic and less error-prone [Uintptr.Add] instead.
+// Consider using the more ergolangnomic and less error-prone [Uintptr.Add] instead.
 //
-//go:noescape
+//golang:noescape
 func AddUintptr(addr *uintptr, delta uintptr) (new uintptr)
 
 // AndInt32 atomically performs a bitwise AND operation on *addr using the bitmask provided as mask
 // and returns the old value.
-// Consider using the more ergonomic and less error-prone [Int32.And] instead.
+// Consider using the more ergolangnomic and less error-prone [Int32.And] instead.
 //
-//go:noescape
+//golang:noescape
 func AndInt32(addr *int32, mask int32) (old int32)
 
 // AndUint32 atomically performs a bitwise AND operation on *addr using the bitmask provided as mask
 // and returns the old value.
-// Consider using the more ergonomic and less error-prone [Uint32.And] instead.
+// Consider using the more ergolangnomic and less error-prone [Uint32.And] instead.
 //
-//go:noescape
+//golang:noescape
 func AndUint32(addr *uint32, mask uint32) (old uint32)
 
 // AndUintptr atomically performs a bitwise AND operation on *addr using the bitmask provided as mask
 // and returns the old value.
-// Consider using the more ergonomic and less error-prone [Uintptr.And] instead.
+// Consider using the more ergolangnomic and less error-prone [Uintptr.And] instead.
 //
-//go:noescape
+//golang:noescape
 func AndUintptr(addr *uintptr, mask uintptr) (old uintptr)
 
 // OrInt32 atomically performs a bitwise OR operation on *addr using the bitmask provided as mask
 // and returns the old value.
-// Consider using the more ergonomic and less error-prone [Int32.Or] instead.
+// Consider using the more ergolangnomic and less error-prone [Int32.Or] instead.
 //
-//go:noescape
+//golang:noescape
 func OrInt32(addr *int32, mask int32) (old int32)
 
 // OrUint32 atomically performs a bitwise OR operation on *addr using the bitmask provided as mask
 // and returns the old value.
-// Consider using the more ergonomic and less error-prone [Uint32.Or] instead.
+// Consider using the more ergolangnomic and less error-prone [Uint32.Or] instead.
 //
-//go:noescape
+//golang:noescape
 func OrUint32(addr *uint32, mask uint32) (old uint32)
 
 // OrUintptr atomically performs a bitwise OR operation on *addr using the bitmask provided as mask
 // and returns the old value.
-// Consider using the more ergonomic and less error-prone [Uintptr.Or] instead.
+// Consider using the more ergolangnomic and less error-prone [Uintptr.Or] instead.
 //
-//go:noescape
+//golang:noescape
 func OrUintptr(addr *uintptr, mask uintptr) (old uintptr)
 
 // LoadInt32 atomically loads *addr.
-// Consider using the more ergonomic and less error-prone [Int32.Load] instead.
+// Consider using the more ergolangnomic and less error-prone [Int32.Load] instead.
 //
-//go:noescape
+//golang:noescape
 func LoadInt32(addr *int32) (val int32)
 
 // LoadUint32 atomically loads *addr.
-// Consider using the more ergonomic and less error-prone [Uint32.Load] instead.
+// Consider using the more ergolangnomic and less error-prone [Uint32.Load] instead.
 //
-//go:noescape
+//golang:noescape
 func LoadUint32(addr *uint32) (val uint32)
 
 // LoadUintptr atomically loads *addr.
-// Consider using the more ergonomic and less error-prone [Uintptr.Load] instead.
+// Consider using the more ergolangnomic and less error-prone [Uintptr.Load] instead.
 //
-//go:noescape
+//golang:noescape
 func LoadUintptr(addr *uintptr) (val uintptr)
 
 // LoadPointer atomically loads *addr.
-// Consider using the more ergonomic and less error-prone [Pointer.Load] instead.
+// Consider using the more ergolangnomic and less error-prone [Pointer.Load] instead.
 func LoadPointer(addr *unsafe.Pointer) (val unsafe.Pointer)
 
 // StoreInt32 atomically stores val into *addr.
-// Consider using the more ergonomic and less error-prone [Int32.Store] instead.
+// Consider using the more ergolangnomic and less error-prone [Int32.Store] instead.
 //
-//go:noescape
+//golang:noescape
 func StoreInt32(addr *int32, val int32)
 
 // StoreUint32 atomically stores val into *addr.
-// Consider using the more ergonomic and less error-prone [Uint32.Store] instead.
+// Consider using the more ergolangnomic and less error-prone [Uint32.Store] instead.
 //
-//go:noescape
+//golang:noescape
 func StoreUint32(addr *uint32, val uint32)
 
 // StoreUintptr atomically stores val into *addr.
-// Consider using the more ergonomic and less error-prone [Uintptr.Store] instead.
+// Consider using the more ergolangnomic and less error-prone [Uintptr.Store] instead.
 //
-//go:noescape
+//golang:noescape
 func StoreUintptr(addr *uintptr, val uintptr)
 
 // StorePointer atomically stores val into *addr.
-// Consider using the more ergonomic and less error-prone [Pointer.Store] instead.
+// Consider using the more ergolangnomic and less error-prone [Pointer.Store] instead.
 func StorePointer(addr *unsafe.Pointer, val unsafe.Pointer)

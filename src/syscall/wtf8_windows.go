@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Windows UTF-16 strings can contain unpaired surrogates, which can't be
@@ -16,7 +16,7 @@
 // This property allows to read an ill-formed UTF-16 string, convert it
 // to a Go string, and convert it back to the same original UTF-16 string.
 //
-// See go.dev/issues/59971 for more info.
+// See golang.dev/issues/59971 for more info.
 
 package syscall
 

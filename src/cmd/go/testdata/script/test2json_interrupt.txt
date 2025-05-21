@@ -2,20 +2,20 @@
 [!fuzz] skip 'tests SIGINT behavior for interrupting fuzz tests'
 [GOOS:windows] skip 'windows does not support os.Interrupt'
 
-? go test -json -fuzz FuzzInterrupt -run '^$' -parallel 1
+? golang test -json -fuzz FuzzInterrupt -run '^$' -parallel 1
 stdout -count=1 '"Action":"pass","Package":"example","Test":"FuzzInterrupt"'
 stdout -count=1 '"Action":"pass","Package":"example","Elapsed":'
 
 mkdir $WORK/fuzzcache
-go test -c . -fuzz=. -o example_test.exe
-? go tool test2json -p example -t ./example_test.exe -test.v -test.paniconexit0 -test.fuzzcachedir $WORK/fuzzcache -test.fuzz FuzzInterrupt -test.run '^$' -test.parallel 1
+golang test -c . -fuzz=. -o example_test.exe
+? golang tool test2json -p example -t ./example_test.exe -test.v -test.paniconexit0 -test.fuzzcachedir $WORK/fuzzcache -test.fuzz FuzzInterrupt -test.run '^$' -test.parallel 1
 stdout -count=1 '"Action":"pass","Package":"example","Test":"FuzzInterrupt"'
 stdout -count=1 '"Action":"pass","Package":"example","Elapsed":'
 
--- go.mod --
+-- golang.mod --
 module example
-go 1.20
--- example_test.go --
+golang 1.20
+-- example_test.golang --
 package example_test
 
 import (

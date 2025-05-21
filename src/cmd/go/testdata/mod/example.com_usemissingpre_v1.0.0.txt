@@ -7,7 +7,7 @@ module example.com/usemissingpre
 require example.com/missingpkg v1.0.1-beta
 -- .info --
 {"Version":"v1.0.0"}
--- use.go --
+-- use.golang --
 package use
 
 import _ "example.com/missingpkg"

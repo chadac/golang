@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime_test
@@ -21,7 +21,7 @@ func BenchmarkNetpollBreak(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		for j := 0; j < 10; j++ {
 			wg.Add(1)
-			go func() {
+			golang func() {
 				runtime.NetpollBreak()
 				wg.Done()
 			}()

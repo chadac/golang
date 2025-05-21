@@ -1,4 +1,4 @@
-{"DocLinkBaseURL": "https://pkg.go.dev"}
+{"DocLinkBaseURL": "https://pkg.golang.dev"}
 -- input --
 Cool things:
 
@@ -6,7 +6,7 @@ Cool things:
   - [Go]
   - Bar
 
-[Go]: https://go.dev/
+[Go]: https://golang.dev/
 -- text --
 Cool things:
 
@@ -14,18 +14,18 @@ Cool things:
   - Go
   - Bar
 
-[Go]: https://go.dev/
+[Go]: https://golang.dev/
 -- markdown --
 Cool things:
 
   - Foo
-  - [Go](https://go.dev/)
+  - [Go](https://golang.dev/)
   - Bar
 
 -- html --
 <p>Cool things:
 <ul>
 <li>Foo
-<li><a href="https://go.dev/">Go</a>
+<li><a href="https://golang.dev/">Go</a>
 <li>Bar
 </ul>

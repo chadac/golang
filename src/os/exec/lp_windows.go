@@ -1,5 +1,5 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package exec
@@ -148,7 +148,7 @@ func lookPath(file string, exts []string) (string, error) {
 	// but that seems exceedingly unlikely: it would break all users who
 	// have configured their environment this way!
 	// https://docs.microsoft.com/en-us/windows/win32/api/processenv/nf-processenv-needcurrentdirectoryforexepathw
-	// See also go.dev/issue/43947.
+	// See also golang.dev/issue/43947.
 	var (
 		dotf   string
 		dotErr error
@@ -167,13 +167,13 @@ func lookPath(file string, exts []string) (string, error) {
 	for _, dir := range filepath.SplitList(path) {
 		if dir == "" {
 			// Skip empty entries, consistent with what PowerShell does.
-			// (See https://go.dev/issue/61493#issuecomment-1649724826.)
+			// (See https://golang.dev/issue/61493#issuecomment-1649724826.)
 			continue
 		}
 
 		if f, err := findExecutable(filepath.Join(dir, file), exts); err == nil {
 			if dotErr != nil {
-				// https://go.dev/issue/53536: if we resolved a relative path implicitly,
+				// https://golang.dev/issue/53536: if we resolved a relative path implicitly,
 				// and it is the same executable that would be resolved from the explicit %PATH%,
 				// prefer the explicit name for the executable (and, likely, no error) instead
 				// of the equivalent implicit name with ErrDot.

@@ -1,42 +1,42 @@
-# go list all should work with GOOS=linux because all packages build on Linux
+# golang list all should work with GOOS=linux because all packages build on Linux
 env GOOS=linux
 env GOARCH=amd64
-go list all
+golang list all
 
-# go list all should work with GOOS=darwin, but it used to fail because
-# in the absence of //go:build support, p looked like it needed q
-# (p_test.go was not properly excluded), and q was Linux-only.
+# golang list all should work with GOOS=darwin, but it used to fail because
+# in the absence of //golang:build support, p looked like it needed q
+# (p_test.golang was not properly excluded), and q was Linux-only.
 #
 # Also testing with r and s that +build lines keep working.
 env GOOS=darwin
-go list all
+golang list all
 
--- go.mod --
-go 1.17
+-- golang.mod --
+golang 1.17
 module m
 
--- p/p.go --
+-- p/p.golang --
 package p
 
--- p/p_test.go --
-//go:build linux
+-- p/p_test.golang --
+//golang:build linux
 
 package p
 
 import "m/q"
 
--- q/q_linux.go --
+-- q/q_linux.golang --
 package q
 
--- r/r.go --
+-- r/r.golang --
 package r
 
--- r/r_test.go --
+-- r/r_test.golang --
 // +build linux
 
 package r
 
 import "m/s"
 
--- s/s_linux.go --
+-- s/s_linux.golang --
 package s

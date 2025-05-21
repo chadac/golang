@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package reflect_test
@@ -296,34 +296,34 @@ func TestFields(t *testing.T) {
 		t.Run(test.testName, func(t *testing.T) {
 			typ := TypeOf(test.val)
 			fields := VisibleFields(typ)
-			if got, want := len(fields), len(test.expect); got != want {
-				t.Fatalf("unexpected field count; got %d want %d", got, want)
+			if golangt, want := len(fields), len(test.expect); golangt != want {
+				t.Fatalf("unexpected field count; golangt %d want %d", golangt, want)
 			}
 
 			for j, field := range fields {
 				expect := test.expect[j]
 				t.Logf("field %d: %s", j, expect.name)
-				gotField := typ.FieldByIndex(field.Index)
+				golangtField := typ.FieldByIndex(field.Index)
 				// Unfortunately, FieldByIndex does not return
 				// a field with the same index that we passed in,
 				// so we set it to the expected value so that
 				// it can be compared later with the result of FieldByName.
-				gotField.Index = field.Index
+				golangtField.Index = field.Index
 				expectField := typ.FieldByIndex(expect.index)
 				// ditto.
 				expectField.Index = expect.index
-				if !DeepEqual(gotField, expectField) {
-					t.Fatalf("unexpected field result\ngot %#v\nwant %#v", gotField, expectField)
+				if !DeepEqual(golangtField, expectField) {
+					t.Fatalf("unexpected field result\ngolangt %#v\nwant %#v", golangtField, expectField)
 				}
 
 				// Sanity check that we can actually access the field by the
 				// expected name.
-				gotField1, ok := typ.FieldByName(expect.name)
+				golangtField1, ok := typ.FieldByName(expect.name)
 				if !ok {
 					t.Fatalf("field %q not accessible by name", expect.name)
 				}
-				if !DeepEqual(gotField1, expectField) {
-					t.Fatalf("unexpected FieldByName result; got %#v want %#v", gotField1, expectField)
+				if !DeepEqual(golangtField1, expectField) {
+					t.Fatalf("unexpected FieldByName result; golangt %#v want %#v", golangtField1, expectField)
 				}
 			}
 		})

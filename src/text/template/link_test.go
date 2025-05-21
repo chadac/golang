@@ -1,5 +1,5 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package template_test
@@ -41,13 +41,13 @@ func main() {
 `
 	td := t.TempDir()
 
-	if err := os.WriteFile(filepath.Join(td, "x.go"), []byte(prog), 0644); err != nil {
+	if err := os.WriteFile(filepath.Join(td, "x.golang"), []byte(prog), 0644); err != nil {
 		t.Fatal(err)
 	}
-	cmd := exec.Command(testenv.GoToolPath(t), "build", "-o", "x.exe", "x.go")
+	cmd := exec.Command(testenv.GoToolPath(t), "build", "-o", "x.exe", "x.golang")
 	cmd.Dir = td
 	if out, err := cmd.CombinedOutput(); err != nil {
-		t.Fatalf("go build: %v, %s", err, out)
+		t.Fatalf("golang build: %v, %s", err, out)
 	}
 	slurp, err := os.ReadFile(filepath.Join(td, "x.exe"))
 	if err != nil {

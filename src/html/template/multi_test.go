@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Tests for multiple-template execution, copied from text/template.
@@ -57,7 +57,7 @@ func TestMultiExecute(t *testing.T) {
 func TestParseFiles(t *testing.T) {
 	_, err := ParseFiles("DOES NOT EXIST")
 	if err == nil {
-		t.Error("expected error for non-existent file; got none")
+		t.Error("expected error for non-existent file; golangt none")
 	}
 	template := New("root")
 	_, err = template.ParseFiles("testdata/file1.tmpl", "testdata/file2.tmpl")
@@ -70,11 +70,11 @@ func TestParseFiles(t *testing.T) {
 func TestParseGlob(t *testing.T) {
 	_, err := ParseGlob("DOES NOT EXIST")
 	if err == nil {
-		t.Error("expected error for non-existent file; got none")
+		t.Error("expected error for non-existent file; golangt none")
 	}
 	_, err = New("error").ParseGlob("[x")
 	if err == nil {
-		t.Error("expected error for bad pattern; got none")
+		t.Error("expected error for bad pattern; golangt none")
 	}
 	template := New("root")
 	_, err = template.ParseGlob("testdata/file*.tmpl")
@@ -90,7 +90,7 @@ func TestParseFS(t *testing.T) {
 	{
 		_, err := ParseFS(fs, "DOES NOT EXIST")
 		if err == nil {
-			t.Error("expected error for non-existent file; got none")
+			t.Error("expected error for non-existent file; golangt none")
 		}
 	}
 
@@ -173,10 +173,10 @@ func TestRedefinition(t *testing.T) {
 		t.Fatalf("parse 1: %v", err)
 	}
 	if _, err = tmpl.Parse(`{{define "test"}}bar{{end}}`); err != nil {
-		t.Fatalf("got error %v, expected nil", err)
+		t.Fatalf("golangt error %v, expected nil", err)
 	}
 	if _, err = tmpl.New("tmpl2").Parse(`{{define "test"}}bar{{end}}`); err != nil {
-		t.Fatalf("got error %v, expected nil", err)
+		t.Fatalf("golangt error %v, expected nil", err)
 	}
 }
 
@@ -251,13 +251,13 @@ func TestEmptyTemplate(t *testing.T) {
 			continue
 		}
 		if buf.String() != c.want {
-			t.Errorf("expected string %q: got %q", c.want, buf.String())
+			t.Errorf("expected string %q: golangt %q", c.want, buf.String())
 		}
 	}
 }
 
 // Issue 19249 was a regression in 1.8 caused by the handling of empty
-// templates added in that release, which got different answers depending
+// templates added in that release, which golangt different answers depending
 // on the order templates appeared in the internal map.
 func TestIssue19294(t *testing.T) {
 	// The empty block in "xhtml" should be replaced during execution
@@ -283,7 +283,7 @@ func TestIssue19294(t *testing.T) {
 		var buf strings.Builder
 		res.Execute(&buf, 0)
 		if buf.String() != "stylesheet" {
-			t.Fatalf("iteration %d: got %q; expected %q", i, buf.String(), "stylesheet")
+			t.Fatalf("iteration %d: golangt %q; expected %q", i, buf.String(), "stylesheet")
 		}
 	}
 }

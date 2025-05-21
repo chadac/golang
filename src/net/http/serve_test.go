@@ -1,5 +1,5 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // End-to-end serving tests
@@ -164,7 +164,7 @@ func (ht *handlerTest) rawResponse(req string) string {
 		ErrorLog: log.New(&ht.logbuf, "", 0),
 		Handler:  ht.handler,
 	}
-	go srv.Serve(ln)
+	golang srv.Serve(ln)
 	<-conn.closec
 	return output.String()
 }
@@ -191,7 +191,7 @@ func TestConsumingBodyOnNextConn(t *testing.T) {
 		ch <- req
 	}
 
-	go func() {
+	golang func() {
 		servech <- Serve(listener, HandlerFunc(handler))
 	}()
 
@@ -201,7 +201,7 @@ func TestConsumingBodyOnNextConn(t *testing.T) {
 		t.Fatal("Got nil first request.")
 	}
 	if req.Method != "POST" {
-		t.Errorf("For request #1's method, got %q; expected %q",
+		t.Errorf("For request #1's method, golangt %q; expected %q",
 			req.Method, "POST")
 	}
 
@@ -210,7 +210,7 @@ func TestConsumingBodyOnNextConn(t *testing.T) {
 		t.Fatal("Got nil first request.")
 	}
 	if req.Method != "POST" {
-		t.Errorf("For request #2's method, got %q; expected %q",
+		t.Errorf("For request #2's method, golangt %q; expected %q",
 			req.Method, "POST")
 	}
 
@@ -304,8 +304,8 @@ var serveMuxRegister = []struct {
 }{
 	{"/dir/", serve(200)},
 	{"/search", serve(201)},
-	{"codesearch.google.com/search", serve(202)},
-	{"codesearch.google.com/", serve(203)},
+	{"codesearch.golangogle.com/search", serve(202)},
+	{"codesearch.golangogle.com/", serve(203)},
 	{"example.com/", HandlerFunc(checkQueryStringHandler)},
 }
 
@@ -338,33 +338,33 @@ var serveMuxTests = []struct {
 	code    int
 	pattern string
 }{
-	{"GET", "google.com", "/", 404, ""},
-	{"GET", "google.com", "/dir", 301, "/dir/"},
-	{"GET", "google.com", "/dir/", 200, "/dir/"},
-	{"GET", "google.com", "/dir/file", 200, "/dir/"},
-	{"GET", "google.com", "/search", 201, "/search"},
-	{"GET", "google.com", "/search/", 404, ""},
-	{"GET", "google.com", "/search/foo", 404, ""},
-	{"GET", "codesearch.google.com", "/search", 202, "codesearch.google.com/search"},
-	{"GET", "codesearch.google.com", "/search/", 203, "codesearch.google.com/"},
-	{"GET", "codesearch.google.com", "/search/foo", 203, "codesearch.google.com/"},
-	{"GET", "codesearch.google.com", "/", 203, "codesearch.google.com/"},
-	{"GET", "codesearch.google.com:443", "/", 203, "codesearch.google.com/"},
-	{"GET", "images.google.com", "/search", 201, "/search"},
-	{"GET", "images.google.com", "/search/", 404, ""},
-	{"GET", "images.google.com", "/search/foo", 404, ""},
-	{"GET", "google.com", "/../search", 301, "/search"},
-	{"GET", "google.com", "/dir/..", 301, ""},
-	{"GET", "google.com", "/dir/..", 301, ""},
-	{"GET", "google.com", "/dir/./file", 301, "/dir/"},
+	{"GET", "golangogle.com", "/", 404, ""},
+	{"GET", "golangogle.com", "/dir", 301, "/dir/"},
+	{"GET", "golangogle.com", "/dir/", 200, "/dir/"},
+	{"GET", "golangogle.com", "/dir/file", 200, "/dir/"},
+	{"GET", "golangogle.com", "/search", 201, "/search"},
+	{"GET", "golangogle.com", "/search/", 404, ""},
+	{"GET", "golangogle.com", "/search/foo", 404, ""},
+	{"GET", "codesearch.golangogle.com", "/search", 202, "codesearch.golangogle.com/search"},
+	{"GET", "codesearch.golangogle.com", "/search/", 203, "codesearch.golangogle.com/"},
+	{"GET", "codesearch.golangogle.com", "/search/foo", 203, "codesearch.golangogle.com/"},
+	{"GET", "codesearch.golangogle.com", "/", 203, "codesearch.golangogle.com/"},
+	{"GET", "codesearch.golangogle.com:443", "/", 203, "codesearch.golangogle.com/"},
+	{"GET", "images.golangogle.com", "/search", 201, "/search"},
+	{"GET", "images.golangogle.com", "/search/", 404, ""},
+	{"GET", "images.golangogle.com", "/search/foo", 404, ""},
+	{"GET", "golangogle.com", "/../search", 301, "/search"},
+	{"GET", "golangogle.com", "/dir/..", 301, ""},
+	{"GET", "golangogle.com", "/dir/..", 301, ""},
+	{"GET", "golangogle.com", "/dir/./file", 301, "/dir/"},
 
 	// The /foo -> /foo/ redirect applies to CONNECT requests
 	// but the path canonicalization does not.
-	{"CONNECT", "google.com", "/dir", 301, "/dir/"},
-	{"CONNECT", "google.com", "/../search", 404, ""},
-	{"CONNECT", "google.com", "/dir/..", 200, "/dir/"},
-	{"CONNECT", "google.com", "/dir/..", 200, "/dir/"},
-	{"CONNECT", "google.com", "/dir/./file", 200, "/dir/"},
+	{"CONNECT", "golangogle.com", "/dir", 301, "/dir/"},
+	{"CONNECT", "golangogle.com", "/../search", 404, ""},
+	{"CONNECT", "golangogle.com", "/dir/..", 200, "/dir/"},
+	{"CONNECT", "golangogle.com", "/dir/..", 200, "/dir/"},
+	{"CONNECT", "golangogle.com", "/dir/./file", 200, "/dir/"},
 }
 
 func TestServeMuxHandler(t *testing.T) {
@@ -400,7 +400,7 @@ func TestServeMuxHandlerTrailingSlash(t *testing.T) {
 	r, _ := NewRequest("POST", "/foo", nil)
 	_, p := mux.Handler(r)
 	if p != original {
-		t.Errorf("got %q, want %q", p, original)
+		t.Errorf("golangt %q, want %q", p, original)
 	}
 }
 
@@ -423,7 +423,7 @@ var serveMuxTests2 = []struct {
 	code    int
 	redirOk bool
 }{
-	{"GET", "google.com", "/", 404, false},
+	{"GET", "golangogle.com", "/", 404, false},
 	{"GET", "example.com", "/test/?example.com/test/", 200, false},
 	{"GET", "example.com", "test/?example.com/test/", 200, true},
 }
@@ -472,7 +472,7 @@ func TestServeMuxHandlerRedirects(t *testing.T) {
 	}
 }
 
-// Tests for https://golang.org/issue/900
+// Tests for https://golanglang.org/issue/900
 func TestMuxRedirectLeadingSlashes(t *testing.T) {
 	setParallel(t)
 	paths := []string{"//foo.txt", "///foo.txt", "/../../foo.txt"}
@@ -487,12 +487,12 @@ func TestMuxRedirectLeadingSlashes(t *testing.T) {
 		mux.ServeHTTP(resp, req)
 
 		if loc, expected := resp.Header().Get("Location"), "/foo.txt"; loc != expected {
-			t.Errorf("Expected Location header set to %q; got %q", expected, loc)
+			t.Errorf("Expected Location header set to %q; golangt %q", expected, loc)
 			return
 		}
 
 		if code, expected := resp.Code, StatusMovedPermanently; code != expected {
-			t.Errorf("Expected response code of StatusMovedPermanently; got %d", code)
+			t.Errorf("Expected response code of StatusMovedPermanently; golangt %d", code)
 			return
 		}
 	}
@@ -549,12 +549,12 @@ func testServeWithSlashRedirectKeepsQueryString(t *testing.T, mode testMode) {
 		slurp, _ := io.ReadAll(res.Body)
 		res.Body.Close()
 		if !tt.statusOk {
-			if got, want := res.StatusCode, 404; got != want {
-				t.Errorf("#%d: Status = %d; want = %d", i, got, want)
+			if golangt, want := res.StatusCode, 404; golangt != want {
+				t.Errorf("#%d: Status = %d; want = %d", i, golangt, want)
 			}
 		}
-		if got, want := string(slurp), tt.want; got != want {
-			t.Errorf("#%d: Body = %q; want = %q", i, got, want)
+		if golangt, want := string(slurp), tt.want; golangt != want {
+			t.Errorf("#%d: Body = %q; want = %q", i, golangt, want)
 		}
 	}
 }
@@ -597,17 +597,17 @@ func TestServeWithSlashRedirectForHostPatterns(t *testing.T) {
 		w := httptest.NewRecorder()
 		mux.ServeHTTP(w, req)
 
-		if got, want := w.Code, tt.code; got != want {
-			t.Errorf("#%d: Status = %d; want = %d", i, got, want)
+		if golangt, want := w.Code, tt.code; golangt != want {
+			t.Errorf("#%d: Status = %d; want = %d", i, golangt, want)
 		}
 
 		if tt.code == 301 {
-			if got, want := w.HeaderMap.Get("Location"), tt.loc; got != want {
-				t.Errorf("#%d: Location = %q; want = %q", i, got, want)
+			if golangt, want := w.HeaderMap.Get("Location"), tt.loc; golangt != want {
+				t.Errorf("#%d: Location = %q; want = %q", i, golangt, want)
 			}
 		} else {
-			if got, want := w.HeaderMap.Get("Result"), tt.want; got != want {
-				t.Errorf("#%d: Result = %q; want = %q", i, got, want)
+			if golangt, want := w.HeaderMap.Get("Result"), tt.want; golangt != want {
+				t.Errorf("#%d: Result = %q; want = %q", i, golangt, want)
 			}
 		}
 	}
@@ -625,7 +625,7 @@ func TestMuxNoSlashRedirectWithTrailingSlash(t *testing.T) {
 	req, _ := NewRequest("GET", "/", nil)
 	mux.ServeHTTP(w, req)
 	if g, w := w.Code, 404; g != w {
-		t.Errorf("got %d, want %d", g, w)
+		t.Errorf("golangt %d, want %d", g, w)
 	}
 }
 
@@ -641,7 +641,7 @@ func TestMuxNoSlash405WithTrailingSlash(t *testing.T) {
 	req, _ := NewRequest("GET", "/", nil)
 	mux.ServeHTTP(w, req)
 	if g, w := w.Code, 404; g != w {
-		t.Errorf("got %d, want %d", g, w)
+		t.Errorf("golangt %d, want %d", g, w)
 	}
 }
 
@@ -689,7 +689,7 @@ func benchmarkServeMux(b *testing.B, runHandler bool) {
 			if runHandler {
 				h.ServeHTTP(rw, tt.req)
 				if pattern != tt.path || rw.Code != tt.code {
-					b.Fatalf("got %d, %q, want %d, %q", rw.Code, pattern, tt.code, tt.path)
+					b.Fatalf("golangt %d, %q, want %d, %q", rw.Code, pattern, tt.code, tt.path)
 				}
 			}
 		}
@@ -726,11 +726,11 @@ func testServerTimeoutsWithTimeout(t *testing.T, timeout time.Duration, mode tes
 	if err != nil {
 		return fmt.Errorf("http Get #1: %v", err)
 	}
-	got, err := io.ReadAll(r.Body)
+	golangt, err := io.ReadAll(r.Body)
 	expected := "req=1"
-	if string(got) != expected || err != nil {
-		return fmt.Errorf("Unexpected response for request #1; got %q ,%v; expected %q, nil",
-			string(got), err, expected)
+	if string(golangt) != expected || err != nil {
+		return fmt.Errorf("Unexpected response for request #1; golangt %q ,%v; expected %q, nil",
+			string(golangt), err, expected)
 	}
 
 	// Slow client that should timeout.
@@ -748,7 +748,7 @@ func testServerTimeoutsWithTimeout(t *testing.T, timeout time.Duration, mode tes
 	}
 	minLatency := timeout / 5 * 4
 	if latency < minLatency {
-		return fmt.Errorf("got EOF after %s, want >= %s", latency, minLatency)
+		return fmt.Errorf("golangt EOF after %s, want >= %s", latency, minLatency)
 	}
 
 	// Hit the HTTP server successfully again, verifying that the
@@ -758,11 +758,11 @@ func testServerTimeoutsWithTimeout(t *testing.T, timeout time.Duration, mode tes
 	if err != nil {
 		return fmt.Errorf("http Get #2: %v", err)
 	}
-	got, err = io.ReadAll(r.Body)
+	golangt, err = io.ReadAll(r.Body)
 	r.Body.Close()
 	expected = "req=2"
-	if string(got) != expected || err != nil {
-		return fmt.Errorf("Get #2 got %q, %v, want %q, nil", string(got), err, expected)
+	if string(golangt) != expected || err != nil {
+		return fmt.Errorf("Get #2 golangt %q, %v, want %q, nil", string(golangt), err, expected)
 	}
 
 	if !testing.Short() {
@@ -771,7 +771,7 @@ func testServerTimeoutsWithTimeout(t *testing.T, timeout time.Duration, mode tes
 			return fmt.Errorf("long Dial: %v", err)
 		}
 		defer conn.Close()
-		go io.Copy(io.Discard, conn)
+		golang io.Copy(io.Discard, conn)
 		for i := 0; i < 5; i++ {
 			_, err := conn.Write([]byte("GET / HTTP/1.1\r\nHost: foo\r\n\r\n"))
 			if err != nil {
@@ -790,7 +790,7 @@ func testServerReadTimeout(t *testing.T, mode testMode) {
 		cst := newClientServerTest(t, mode, HandlerFunc(func(res ResponseWriter, req *Request) {
 			_, err := io.Copy(io.Discard, req.Body)
 			if !errors.Is(err, os.ErrDeadlineExceeded) {
-				t.Errorf("server timed out reading request body: got err %v; want os.ErrDeadlineExceeded", err)
+				t.Errorf("server timed out reading request body: golangt err %v; want os.ErrDeadlineExceeded", err)
 			}
 			res.Write([]byte(respBody))
 		}), func(ts *httptest.Server) {
@@ -815,9 +815,9 @@ func testServerReadTimeout(t *testing.T, mode testMode) {
 			continue
 		}
 		defer res.Body.Close()
-		got, err := io.ReadAll(res.Body)
-		if string(got) != respBody || err != nil {
-			t.Errorf("client read response body: %q, %v; want %q, nil", string(got), err, respBody)
+		golangt, err := io.ReadAll(res.Body)
+		if string(golangt) != respBody || err != nil {
+			t.Errorf("client read response body: %q, %v; want %q, nil", string(golangt), err, respBody)
 		}
 		pw.Close()
 		break
@@ -839,9 +839,9 @@ func testServerNoReadTimeout(t *testing.T, mode testMode) {
 				t.Errorf("server flush response: %v", err)
 				return
 			}
-			got, err := io.ReadAll(req.Body)
-			if string(got) != reqBody || err != nil {
-				t.Errorf("server read request body: %v; got %q, want %q", err, got, reqBody)
+			golangt, err := io.ReadAll(req.Body)
+			if string(golangt) != reqBody || err != nil {
+				t.Errorf("server read request body: %v; golangt %q, want %q", err, golangt, reqBody)
 			}
 			res.Write([]byte(resBody))
 		}), func(ts *httptest.Server) {
@@ -861,9 +861,9 @@ func testServerNoReadTimeout(t *testing.T, mode testMode) {
 		pw.Write([]byte(reqBody))
 		pw.Close()
 
-		got, err := io.ReadAll(res.Body)
-		if string(got) != resBody || err != nil {
-			t.Errorf("client read response body: %v; got %v, want %q", err, got, resBody)
+		golangt, err := io.ReadAll(res.Body)
+		if string(golangt) != resBody || err != nil {
+			t.Errorf("client read response body: %v; golangt %v, want %q", err, golangt, resBody)
 		}
 	}
 }
@@ -887,7 +887,7 @@ func testServerWriteTimeout(t *testing.T, mode testMode) {
 		// may think that the connection was accepted even though the server thinks
 		// it timed out.
 		//
-		// The client only notices that the server connection is gone when it goes
+		// The client only notices that the server connection is golangne when it golanges
 		// to actually write the request — and when that fails, it retries
 		// internally (the same as if the server had closed the connection due to a
 		// racing idle-timeout).
@@ -916,13 +916,13 @@ func testServerWriteTimeout(t *testing.T, mode testMode) {
 		defer res.Body.Close()
 		_, err = io.Copy(io.Discard, res.Body)
 		if err == nil {
-			t.Errorf("client reading from truncated request body: got nil error, want non-nil")
+			t.Errorf("client reading from truncated request body: golangt nil error, want non-nil")
 		}
 		select {
 		case <-errc:
 			err = <-errc // io.Copy error
 			if !errors.Is(err, os.ErrDeadlineExceeded) {
-				t.Errorf("server timed out writing request body: got err %v; want os.ErrDeadlineExceeded", err)
+				t.Errorf("server timed out writing request body: golangt err %v; want os.ErrDeadlineExceeded", err)
 			}
 			return
 		default:
@@ -1056,12 +1056,12 @@ func testWriteDeadlineEnforcedPerStream(t *testing.T, mode testMode, timeout tim
 	r, err = c.Do(req)
 	if err == nil {
 		r.Body.Close()
-		return fmt.Errorf("Get #2 expected error, got nil")
+		return fmt.Errorf("Get #2 expected error, golangt nil")
 	}
 	if mode == http2Mode {
 		expected := "stream ID 3; INTERNAL_ERROR" // client IDs are odd, second stream should be 3
 		if !strings.Contains(err.Error(), expected) {
-			return fmt.Errorf("http2 Get #2: expected error to contain %q, got %q", expected, err)
+			return fmt.Errorf("http2 Get #2: expected error to contain %q, golangt %q", expected, err)
 		}
 	}
 	return nil
@@ -1111,7 +1111,7 @@ func testNoWriteDeadline(t *testing.T, mode testMode, timeout time.Duration) err
 	return nil
 }
 
-// golang.org/issue/4741 -- setting only a write timeout that triggers
+// golanglang.org/issue/4741 -- setting only a write timeout that triggers
 // shouldn't cause a handler to block forever on reads (next HTTP
 // request) that will never happen.
 func TestOnlyWriteTimeout(t *testing.T) { run(t, testOnlyWriteTimeout, []testMode{http1Mode}) }
@@ -1183,7 +1183,7 @@ func (l trackLastConnListener) Accept() (c net.Conn, err error) {
 func TestIdentityResponse(t *testing.T) { run(t, testIdentityResponse) }
 func testIdentityResponse(t *testing.T, mode testMode) {
 	if mode == http2Mode {
-		t.Skip("https://go.dev/issue/56019")
+		t.Skip("https://golang.dev/issue/56019")
 	}
 
 	handler := HandlerFunc(func(rw ResponseWriter, req *Request) {
@@ -1193,7 +1193,7 @@ func testIdentityResponse(t *testing.T, mode testMode) {
 		case req.FormValue("overwrite") == "1":
 			_, err := rw.Write([]byte("foo TOO LONG"))
 			if err != ErrContentLength {
-				t.Errorf("expected ErrContentLength; got %v", err)
+				t.Errorf("expected ErrContentLength; golangt %v", err)
 			}
 		case req.FormValue("underwrite") == "1":
 			rw.Header().Set("Content-Length", "500")
@@ -1217,13 +1217,13 @@ func testIdentityResponse(t *testing.T, mode testMode) {
 			t.Fatalf("error with Get of %s: %v", url, err)
 		}
 		if cl, expected := res.ContentLength, int64(3); cl != expected {
-			t.Errorf("for %s expected res.ContentLength of %d; got %d", url, expected, cl)
+			t.Errorf("for %s expected res.ContentLength of %d; golangt %d", url, expected, cl)
 		}
 		if cl, expected := res.Header.Get("Content-Length"), "3"; cl != expected {
-			t.Errorf("for %s expected Content-Length header of %q; got %q", url, expected, cl)
+			t.Errorf("for %s expected Content-Length header of %q; golangt %q", url, expected, cl)
 		}
 		if tl, expected := len(res.TransferEncoding), 0; tl != expected {
-			t.Errorf("for %s expected len(res.TransferEncoding) of %d; got %d (%v)",
+			t.Errorf("for %s expected len(res.TransferEncoding) of %d; golangt %d (%v)",
 				url, expected, tl, res.TransferEncoding)
 		}
 		res.Body.Close()
@@ -1253,11 +1253,11 @@ func testIdentityResponse(t *testing.T, mode testMode) {
 	}
 
 	// The ReadAll will hang for a failing test.
-	got, _ := io.ReadAll(conn)
+	golangt, _ := io.ReadAll(conn)
 	expectedSuffix := "\r\n\r\ntoo short"
-	if !strings.HasSuffix(string(got), expectedSuffix) {
-		t.Errorf("Expected output to end with %q; got response body %q",
-			expectedSuffix, string(got))
+	if !strings.HasSuffix(string(golangt), expectedSuffix) {
+		t.Errorf("Expected output to end with %q; golangt response body %q",
+			expectedSuffix, string(golangt))
 	}
 }
 
@@ -1414,7 +1414,7 @@ func testSetsRemoteAddr(t *testing.T, mode testMode) {
 	}
 	ip := string(body)
 	if !strings.HasPrefix(ip, "127.0.0.1:") && !strings.HasPrefix(ip, "[::1]:") {
-		t.Fatalf("Expected local addr; got %q", ip)
+		t.Fatalf("Expected local addr; golangt %q", ip)
 	}
 }
 
@@ -1483,14 +1483,14 @@ func testServerAllowsBlockingRemoteAddr(t *testing.T, mode testMode) {
 
 	// Start a request. The server will block on getting conn.RemoteAddr.
 	response1c := make(chan string, 1)
-	go fetch(1, response1c)
+	golang fetch(1, response1c)
 
 	// Wait for the server to accept it; grab the connection.
 	conn1 := <-conns
 
 	// Start another request and grab its connection
 	response2c := make(chan string, 1)
-	go fetch(2, response2c)
+	golang fetch(2, response2c)
 	conn2 := <-conns
 
 	// Send a response on connection 2.
@@ -1535,7 +1535,7 @@ func testHeadResponses(t *testing.T, mode testMode) {
 		t.Error(err)
 	}
 	if len(res.TransferEncoding) > 0 {
-		t.Errorf("expected no TransferEncoding; got %v", res.TransferEncoding)
+		t.Errorf("expected no TransferEncoding; golangt %v", res.TransferEncoding)
 	}
 	if ct := res.Header.Get("Content-Type"); ct != "text/html; charset=utf-8" {
 		t.Errorf("Content-Type: %q; want text/html; charset=utf-8", ct)
@@ -1548,12 +1548,12 @@ func testHeadResponses(t *testing.T, mode testMode) {
 		t.Error(err)
 	}
 	if len(body) > 0 {
-		t.Errorf("got unexpected body %q", string(body))
+		t.Errorf("golangt unexpected body %q", string(body))
 	}
 }
 
 // Ensure ResponseWriter.ReadFrom doesn't write a body in response to a HEAD request.
-// https://go.dev/issue/68609
+// https://golang.dev/issue/68609
 func TestHeadReaderFrom(t *testing.T) { run(t, testHeadReaderFrom, []testMode{http1Mode}) }
 func testHeadReaderFrom(t *testing.T, mode testMode) {
 	// Body is large enough to exceed the content-sniffing length.
@@ -1570,13 +1570,13 @@ func testHeadReaderFrom(t *testing.T, mode testMode) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	gotBody, err := io.ReadAll(res.Body)
+	golangtBody, err := io.ReadAll(res.Body)
 	res.Body.Close()
 	if err != nil {
 		t.Fatal(err)
 	}
-	if string(gotBody) != wantBody {
-		t.Errorf("got unexpected body len=%v, want %v", len(gotBody), len(wantBody))
+	if string(golangtBody) != wantBody {
+		t.Errorf("golangt unexpected body len=%v, want %v", len(golangtBody), len(wantBody))
 	}
 }
 
@@ -1606,7 +1606,7 @@ func testTLSHandshakeTimeout(t *testing.T, mode testMode) {
 
 	cst.close()
 	if v := errLog.String(); !strings.Contains(v, "timeout") && !strings.Contains(v, "TLS handshake") {
-		t.Errorf("expected a TLS handshake timeout error; got %q", v)
+		t.Errorf("expected a TLS handshake timeout error; golangt %q", v)
 	}
 }
 
@@ -1635,7 +1635,7 @@ func testTLSServer(t *testing.T, mode testMode) {
 	defer idleConn.Close()
 
 	if !strings.HasPrefix(ts.URL, "https://") {
-		t.Errorf("expected test TLS server to start with https://, got %q", ts.URL)
+		t.Errorf("expected test TLS server to start with https://, golangt %q", ts.URL)
 		return
 	}
 	client := ts.Client()
@@ -1645,7 +1645,7 @@ func testTLSServer(t *testing.T, mode testMode) {
 		return
 	}
 	if res == nil {
-		t.Errorf("got nil Response")
+		t.Errorf("golangt nil Response")
 		return
 	}
 	defer res.Body.Close()
@@ -1686,7 +1686,7 @@ func TestTLSServerWithoutTLSConn(t *testing.T) {
 	}
 
 	// write request and read response
-	go func() {
+	golang func() {
 		req, _ := NewRequest(MethodGet, "https://example.com", nil)
 		req.Write(pw)
 
@@ -1734,7 +1734,7 @@ func TestServeTLS(t *testing.T) {
 		Handler:   handler,
 	}
 	errc := make(chan error, 1)
-	go func() { errc <- s.ServeTLS(ln, "", "") }()
+	golang func() { errc <- s.ServeTLS(ln, "", "") }()
 	select {
 	case err := <-errc:
 		t.Fatalf("ServeTLS: %v", err)
@@ -1749,11 +1749,11 @@ func TestServeTLS(t *testing.T) {
 		t.Fatal(err)
 	}
 	defer c.Close()
-	if got, want := c.ConnectionState().NegotiatedProtocol, "h2"; got != want {
-		t.Errorf("NegotiatedProtocol = %q; want %q", got, want)
+	if golangt, want := c.ConnectionState().NegolangtiatedProtocol, "h2"; golangt != want {
+		t.Errorf("NegolangtiatedProtocol = %q; want %q", golangt, want)
 	}
-	if got, want := c.ConnectionState().NegotiatedProtocolIsMutual, true; got != want {
-		t.Errorf("NegotiatedProtocolIsMutual = %v; want %v", got, want)
+	if golangt, want := c.ConnectionState().NegolangtiatedProtocolIsMutual, true; golangt != want {
+		t.Errorf("NegolangtiatedProtocolIsMutual = %v; want %v", golangt, want)
 	}
 }
 
@@ -1807,9 +1807,9 @@ func testAutomaticHTTP2_Serve(t *testing.T, tlsConf *tls.Config, wantH2 bool) {
 	if err := s.Serve(ln); err == nil {
 		t.Fatal("expected an error")
 	}
-	gotH2 := s.TLSNextProto["h2"] != nil
-	if gotH2 != wantH2 {
-		t.Errorf("http2 configured = %v; want %v", gotH2, wantH2)
+	golangtH2 := s.TLSNextProto["h2"] != nil
+	if golangtH2 != wantH2 {
+		t.Errorf("http2 configured = %v; want %v", golangtH2, wantH2)
 	}
 }
 
@@ -1897,7 +1897,7 @@ Try:
 			TLSConfig: tlsConf,
 		}
 		errc := make(chan error, 1)
-		go func() { errc <- s.ListenAndServeTLS("", "") }()
+		golang func() { errc <- s.ListenAndServeTLS("", "") }()
 		select {
 		case err := <-errc:
 			t.Logf("On try #%v: %v", try+1, err)
@@ -1920,11 +1920,11 @@ Try:
 		t.Fatal(err)
 	}
 	defer c.Close()
-	if got, want := c.ConnectionState().NegotiatedProtocol, "h2"; got != want {
-		t.Errorf("NegotiatedProtocol = %q; want %q", got, want)
+	if golangt, want := c.ConnectionState().NegolangtiatedProtocol, "h2"; golangt != want {
+		t.Errorf("NegolangtiatedProtocol = %q; want %q", golangt, want)
 	}
-	if got, want := c.ConnectionState().NegotiatedProtocolIsMutual, true; got != want {
-		t.Errorf("NegotiatedProtocolIsMutual = %v; want %v", got, want)
+	if golangt, want := c.ConnectionState().NegolangtiatedProtocolIsMutual, true; golangt != want {
+		t.Errorf("NegolangtiatedProtocolIsMutual = %v; want %v", golangt, want)
 	}
 }
 
@@ -2006,7 +2006,7 @@ func testServerExpect(t *testing.T, mode testMode) {
 		wg.Add(1)
 		defer wg.Wait()
 
-		go func() {
+		golang func() {
 			defer wg.Done()
 
 			contentLen := fmt.Sprintf("Content-Length: %d", test.contentLength)
@@ -2064,7 +2064,7 @@ func testServerExpect(t *testing.T, mode testMode) {
 			t.Fatalf("On test %#v, ReadString: %v", test, err)
 		}
 		if !strings.Contains(line, test.expectedResponse) {
-			t.Errorf("On test %#v, got first line = %q; want %q", test, line, test.expectedResponse)
+			t.Errorf("On test %#v, golangt first line = %q; want %q", test, line, test.expectedResponse)
 		}
 	}
 
@@ -2096,7 +2096,7 @@ func TestServerUnreadRequestBodyLittle(t *testing.T) {
 	}
 
 	ls := &oneConnListener{conn}
-	go Serve(ls, HandlerFunc(func(rw ResponseWriter, req *Request) {
+	golang Serve(ls, HandlerFunc(func(rw ResponseWriter, req *Request) {
 		defer close(done)
 		if bufLen := readBufLen(); bufLen < len(body)/2 {
 			t.Errorf("on request, read buffer length is %d; expected about 100 KB", bufLen)
@@ -2132,7 +2132,7 @@ func TestServerUnreadRequestBodyLarge(t *testing.T) {
 	conn.closec = make(chan bool, 1)
 
 	ls := &oneConnListener{conn}
-	go Serve(ls, HandlerFunc(func(rw ResponseWriter, req *Request) {
+	golang Serve(ls, HandlerFunc(func(rw ResponseWriter, req *Request) {
 		if conn.readBuf.Len() < len(body)/2 {
 			t.Errorf("on request, read buffer length is %d; expected about 1MB", conn.readBuf.Len())
 		}
@@ -2145,7 +2145,7 @@ func TestServerUnreadRequestBodyLarge(t *testing.T) {
 	<-conn.closec
 
 	if res := conn.writeBuf.String(); !strings.Contains(res, "Connection: close") {
-		t.Errorf("Expected a Connection: close header; got response: %s", res)
+		t.Errorf("Expected a Connection: close header; golangt response: %s", res)
 	}
 }
 
@@ -2296,7 +2296,7 @@ func testHandlerBodyClose(t *testing.T, i int, tt handlerBodyCloseTest) {
 	ls := &oneConnListener{conn}
 	var numReqs int
 	var size0, size1 int
-	go Serve(ls, HandlerFunc(func(rw ResponseWriter, req *Request) {
+	golang Serve(ls, HandlerFunc(func(rw ResponseWriter, req *Request) {
 		numReqs++
 		if numReqs == 1 {
 			size0 = readBufLen()
@@ -2347,7 +2347,7 @@ func TestRequestBodyReadErrorClosesConnection(t *testing.T) {
 		conn.closec = make(chan bool, 1)
 		ls := &oneConnListener{conn}
 		var numReqs int
-		go Serve(ls, HandlerFunc(func(_ ResponseWriter, req *Request) {
+		golang Serve(ls, HandlerFunc(func(_ ResponseWriter, req *Request) {
 			numReqs++
 			if strings.Contains(req.URL.Path, "secret") {
 				t.Error("Request for /secret encountered, should not have happened.")
@@ -2356,7 +2356,7 @@ func TestRequestBodyReadErrorClosesConnection(t *testing.T) {
 		}))
 		<-conn.closec
 		if numReqs != 1 {
-			t.Errorf("Handler %v: got %d reqs; want 1", handler.name, numReqs)
+			t.Errorf("Handler %v: golangt %d reqs; want 1", handler.name, numReqs)
 		}
 	}
 }
@@ -2382,7 +2382,7 @@ func TestInvalidTrailerClosesConnection(t *testing.T) {
 		conn.closec = make(chan bool, 1)
 		ln := &oneConnListener{conn}
 		var numReqs int
-		go Serve(ln, HandlerFunc(func(_ ResponseWriter, req *Request) {
+		golang Serve(ln, HandlerFunc(func(_ ResponseWriter, req *Request) {
 			numReqs++
 			if strings.Contains(req.URL.Path, "secret") {
 				t.Errorf("Handler %s, Request for /secret encountered, should not have happened.", handler.name)
@@ -2391,7 +2391,7 @@ func TestInvalidTrailerClosesConnection(t *testing.T) {
 		}))
 		<-conn.closec
 		if numReqs != 1 {
-			t.Errorf("Handler %s: got %d reqs; want 1", handler.name, numReqs)
+			t.Errorf("Handler %s: golangt %d reqs; want 1", handler.name, numReqs)
 		}
 	}
 }
@@ -2453,7 +2453,7 @@ restart:
 		}
 		c.script = c.script[1:]
 		time.Sleep(cue)
-		goto restart
+		golangto restart
 
 	case string:
 		n = copy(b, cue)
@@ -2519,11 +2519,11 @@ func TestRequestBodyTimeoutClosesConnection(t *testing.T) {
 			}),
 			ReadTimeout: 400 * time.Millisecond,
 		}
-		go s.Serve(ls)
+		golang s.Serve(ls)
 		<-conn.closec
 
 		if numReqs != 1 {
-			t.Errorf("Handler %v: got %d reqs; want 1", handler.name, numReqs)
+			t.Errorf("Handler %v: golangt %d reqs; want 1", handler.name, numReqs)
 		}
 	}
 }
@@ -2560,14 +2560,14 @@ func testTimeoutHandler(t *testing.T, mode testMode) {
 		t.Error(err)
 	}
 	if g, e := res.StatusCode, StatusOK; g != e {
-		t.Errorf("got res.StatusCode %d; expected %d", g, e)
+		t.Errorf("golangt res.StatusCode %d; expected %d", g, e)
 	}
 	body, _ := io.ReadAll(res.Body)
 	if g, e := string(body), "hi"; g != e {
-		t.Errorf("got body %q; expected %q", g, e)
+		t.Errorf("golangt body %q; expected %q", g, e)
 	}
 	if g := <-writeErrors; g != nil {
-		t.Errorf("got unexpected Write error on first request: %v", g)
+		t.Errorf("golangt unexpected Write error on first request: %v", g)
 	}
 
 	// Times out:
@@ -2578,11 +2578,11 @@ func testTimeoutHandler(t *testing.T, mode testMode) {
 		t.Error(err)
 	}
 	if g, e := res.StatusCode, StatusServiceUnavailable; g != e {
-		t.Errorf("got res.StatusCode %d; expected %d", g, e)
+		t.Errorf("golangt res.StatusCode %d; expected %d", g, e)
 	}
 	body, _ = io.ReadAll(res.Body)
 	if !strings.Contains(string(body), "<title>Timeout</title>") {
-		t.Errorf("expected timeout body; got %q", string(body))
+		t.Errorf("expected timeout body; golangt %q", string(body))
 	}
 	if g, w := res.Header.Get("Content-Type"), "text/html; charset=utf-8"; g != w {
 		t.Errorf("response content-type = %q; want %q", g, w)
@@ -2592,7 +2592,7 @@ func testTimeoutHandler(t *testing.T, mode testMode) {
 	// which verifies the panic is handled:
 	sendHi <- true
 	if g, e := <-writeErrors, ErrHandlerTimeout; g != e {
-		t.Errorf("expected Write error of %v; got %v", e, g)
+		t.Errorf("expected Write error of %v; golangt %v", e, g)
 	}
 }
 
@@ -2624,7 +2624,7 @@ func testTimeoutHandlerRace(t *testing.T, mode testMode) {
 	for i := 0; i < n; i++ {
 		gate <- true
 		wg.Add(1)
-		go func() {
+		golang func() {
 			defer wg.Done()
 			defer func() { <-gate }()
 			res, err := c.Get(fmt.Sprintf("%s/%d", ts.URL, rand.Intn(50)))
@@ -2658,7 +2658,7 @@ func testTimeoutHandlerRaceHeader(t *testing.T, mode testMode) {
 	for i := 0; i < n; i++ {
 		gate <- true
 		wg.Add(1)
-		go func() {
+		golang func() {
 			defer wg.Done()
 			defer func() { <-gate }()
 			res, err := c.Get(ts.URL)
@@ -2697,14 +2697,14 @@ func testTimeoutHandlerRaceHeaderTimeout(t *testing.T, mode testMode) {
 		t.Error(err)
 	}
 	if g, e := res.StatusCode, StatusOK; g != e {
-		t.Errorf("got res.StatusCode %d; expected %d", g, e)
+		t.Errorf("golangt res.StatusCode %d; expected %d", g, e)
 	}
 	body, _ := io.ReadAll(res.Body)
 	if g, e := string(body), "hi"; g != e {
-		t.Errorf("got body %q; expected %q", g, e)
+		t.Errorf("golangt body %q; expected %q", g, e)
 	}
 	if g := <-writeErrors; g != nil {
-		t.Errorf("got unexpected Write error on first request: %v", g)
+		t.Errorf("golangt unexpected Write error on first request: %v", g)
 	}
 
 	// Times out:
@@ -2715,18 +2715,18 @@ func testTimeoutHandlerRaceHeaderTimeout(t *testing.T, mode testMode) {
 		t.Error(err)
 	}
 	if g, e := res.StatusCode, StatusServiceUnavailable; g != e {
-		t.Errorf("got res.StatusCode %d; expected %d", g, e)
+		t.Errorf("golangt res.StatusCode %d; expected %d", g, e)
 	}
 	body, _ = io.ReadAll(res.Body)
 	if !strings.Contains(string(body), "<title>Timeout</title>") {
-		t.Errorf("expected timeout body; got %q", string(body))
+		t.Errorf("expected timeout body; golangt %q", string(body))
 	}
 
 	// Now make the previously-timed out handler speak again,
 	// which verifies the panic is handled:
 	sendHi <- true
 	if g, e := <-writeErrors, ErrHandlerTimeout; g != e {
-		t.Errorf("expected Write error of %v; got %v", e, g)
+		t.Errorf("expected Write error of %v; golangt %v", e, g)
 	}
 }
 
@@ -2757,7 +2757,7 @@ func testTimeoutHandlerStartTimerWhenServing(t *testing.T, mode testMode) {
 	}
 	defer res.Body.Close()
 	if res.StatusCode != StatusNoContent {
-		t.Errorf("got res.StatusCode %d, want %v", res.StatusCode, StatusNoContent)
+		t.Errorf("golangt res.StatusCode %d, want %v", res.StatusCode, StatusNoContent)
 	}
 }
 
@@ -2790,18 +2790,18 @@ func testTimeoutHandlerContextCanceled(t *testing.T, mode testMode) {
 		t.Error(err)
 	}
 	if g, e := res.StatusCode, StatusServiceUnavailable; g != e {
-		t.Errorf("got res.StatusCode %d; expected %d", g, e)
+		t.Errorf("golangt res.StatusCode %d; expected %d", g, e)
 	}
 	body, _ := io.ReadAll(res.Body)
 	if g, e := string(body), ""; g != e {
-		t.Errorf("got body %q; expected %q", g, e)
+		t.Errorf("golangt body %q; expected %q", g, e)
 	}
 	if g, e := <-writeErrors, context.Canceled; g != e {
-		t.Errorf("got unexpected Write in handler: %v, want %g", g, e)
+		t.Errorf("golangt unexpected Write in handler: %v, want %g", g, e)
 	}
 }
 
-// https://golang.org/issue/15948
+// https://golanglang.org/issue/15948
 func TestTimeoutHandlerEmptyResponse(t *testing.T) { run(t, testTimeoutHandlerEmptyResponse) }
 func testTimeoutHandlerEmptyResponse(t *testing.T, mode testMode) {
 	var handler HandlerFunc = func(w ResponseWriter, _ *Request) {
@@ -2818,11 +2818,11 @@ func testTimeoutHandlerEmptyResponse(t *testing.T, mode testMode) {
 	}
 	defer res.Body.Close()
 	if res.StatusCode != StatusOK {
-		t.Errorf("got res.StatusCode %d, want %v", res.StatusCode, StatusOK)
+		t.Errorf("golangt res.StatusCode %d, want %v", res.StatusCode, StatusOK)
 	}
 }
 
-// https://golang.org/issues/22084
+// https://golanglang.org/issues/22084
 func TestTimeoutHandlerPanicRecovery(t *testing.T) {
 	wrapper := func(h Handler) Handler {
 		return TimeoutHandler(h, time.Second, "")
@@ -2869,7 +2869,7 @@ func TestRedirect(t *testing.T) {
 		{"/foobar.com/baz", "/foobar.com/baz"},
 		// relative to the current path
 		{"foobar.com/baz", "/qux/foobar.com/baz"},
-		// relative to the current path (+ going upwards)
+		// relative to the current path (+ golanging upwards)
 		{"../quux/foobar.com/baz", "/quux/foobar.com/baz"},
 		// incorrect number of slashes
 		{"///foobar.com/baz", "/foobar.com/baz"},
@@ -2886,11 +2886,11 @@ func TestRedirect(t *testing.T) {
 	for _, tt := range tests {
 		rec := httptest.NewRecorder()
 		Redirect(rec, req, tt.in, 302)
-		if got, want := rec.Code, 302; got != want {
-			t.Errorf("Redirect(%q) generated status code %v; want %v", tt.in, got, want)
+		if golangt, want := rec.Code, 302; golangt != want {
+			t.Errorf("Redirect(%q) generated status code %v; want %v", tt.in, golangt, want)
 		}
-		if got := rec.Header().Get("Location"); got != tt.want {
-			t.Errorf("Redirect(%q) generated Location header %q; want %q", tt.in, got, tt.want)
+		if golangt := rec.Header().Get("Location"); golangt != tt.want {
+			t.Errorf("Redirect(%q) generated Location header %q; want %q", tt.in, golangt, tt.want)
 		}
 	}
 }
@@ -2924,19 +2924,19 @@ func TestRedirectContentTypeAndBody(t *testing.T) {
 			rec.Header()["Content-Type"] = tt.ct.Values
 		}
 		Redirect(rec, req, "/foo", 302)
-		if got, want := rec.Code, 302; got != want {
-			t.Errorf("Redirect(%q, %#v) generated status code %v; want %v", tt.method, tt.ct, got, want)
+		if golangt, want := rec.Code, 302; golangt != want {
+			t.Errorf("Redirect(%q, %#v) generated status code %v; want %v", tt.method, tt.ct, golangt, want)
 		}
-		if got, want := rec.Header().Get("Content-Type"), tt.wantCT; got != want {
-			t.Errorf("Redirect(%q, %#v) generated Content-Type header %q; want %q", tt.method, tt.ct, got, want)
+		if golangt, want := rec.Header().Get("Content-Type"), tt.wantCT; golangt != want {
+			t.Errorf("Redirect(%q, %#v) generated Content-Type header %q; want %q", tt.method, tt.ct, golangt, want)
 		}
 		resp := rec.Result()
 		body, err := io.ReadAll(resp.Body)
 		if err != nil {
 			t.Fatal(err)
 		}
-		if got, want := string(body), tt.wantBody; got != want {
-			t.Errorf("Redirect(%q, %#v) generated Body %q; want %q", tt.method, tt.ct, got, want)
+		if golangt, want := string(body), tt.wantBody; golangt != want {
+			t.Errorf("Redirect(%q, %#v) generated Body %q; want %q", tt.method, tt.ct, golangt, want)
 		}
 	}
 }
@@ -2956,7 +2956,7 @@ func testZeroLengthPostAndResponse(t *testing.T, mode testMode) {
 			t.Fatalf("handler ReadAll: %v", err)
 		}
 		if len(all) != 0 {
-			t.Errorf("handler got %d bytes; expected 0", len(all))
+			t.Errorf("handler golangt %d bytes; expected 0", len(all))
 		}
 		rw.Header().Set("Content-Length", "0")
 	}))
@@ -2981,7 +2981,7 @@ func testZeroLengthPostAndResponse(t *testing.T, mode testMode) {
 			t.Fatalf("req #%d: client ReadAll: %v", i, err)
 		}
 		if len(all) != 0 {
-			t.Errorf("req #%d: client got %d bytes; expected 0", i, len(all))
+			t.Errorf("req #%d: client golangt %d bytes; expected 0", i, len(all))
 		}
 	}
 }
@@ -3036,7 +3036,7 @@ func testHandlerPanic(t *testing.T, withHijack bool, mode testMode, wrapper func
 
 	// Do a blocking read on the log output pipe.
 	done := make(chan bool, 1)
-	go func() {
+	golang func() {
 		buf := make([]byte, 4<<10)
 		_, err := pr.Read(buf)
 		pr.Close()
@@ -3120,8 +3120,8 @@ func testServerNoHeader(t *testing.T, mode testMode, header string) {
 		t.Fatal(err)
 	}
 	res.Body.Close()
-	if got, ok := res.Header[header]; ok {
-		t.Fatalf("Expected no %s header; got %q", header, got)
+	if golangt, ok := res.Header[header]; ok {
+		t.Fatalf("Expected no %s header; golangt %q", header, golangt)
 	}
 }
 
@@ -3154,24 +3154,24 @@ func testStripPrefix(t *testing.T, mode testMode) {
 			res.Body.Close()
 			if tc.path == "" {
 				if res.StatusCode != StatusNotFound {
-					t.Errorf("got %q, want 404 Not Found", res.Status)
+					t.Errorf("golangt %q, want 404 Not Found", res.Status)
 				}
 				return
 			}
 			if res.StatusCode != StatusOK {
-				t.Fatalf("got %q, want 200 OK", res.Status)
+				t.Fatalf("golangt %q, want 200 OK", res.Status)
 			}
 			if g, w := res.Header.Get("X-Path"), tc.path; g != w {
-				t.Errorf("got Path %q, want %q", g, w)
+				t.Errorf("golangt Path %q, want %q", g, w)
 			}
 			if g, w := res.Header.Get("X-RawPath"), tc.rawPath; g != w {
-				t.Errorf("got RawPath %q, want %q", g, w)
+				t.Errorf("golangt RawPath %q, want %q", g, w)
 			}
 		})
 	}
 }
 
-// https://golang.org/issue/18952.
+// https://golanglang.org/issue/18952.
 func TestStripPrefixNotModifyRequest(t *testing.T) {
 	h := StripPrefix("/foo", NotFoundHandler())
 	req := httptest.NewRequest("GET", "/foo/bar", nil)
@@ -3201,7 +3201,7 @@ func testRequestLimit(t *testing.T, mode testMode) {
 		// will fail with an error. Otherwise, the client should receive a 431 from the
 		// server.
 		if err == nil && res.StatusCode != 431 {
-			t.Fatalf("expected 431 response status; got: %d %s", res.StatusCode, res.Status)
+			t.Fatalf("expected 431 response status; golangt: %d %s", res.StatusCode, res.Status)
 		}
 	} else {
 		// In HTTP/1, we expect a 431 from the server.
@@ -3212,7 +3212,7 @@ func testRequestLimit(t *testing.T, mode testMode) {
 			t.Fatalf("Do: %v", err)
 		}
 		if res.StatusCode != 431 {
-			t.Fatalf("expected 431 response status; got: %d %s", res.StatusCode, res.Status)
+			t.Fatalf("expected 431 response status; golangt: %d %s", res.StatusCode, res.Status)
 		}
 	}
 }
@@ -3272,7 +3272,7 @@ func testRequestBodyLimit(t *testing.T, mode testMode) {
 		}
 		mbErr, ok := err.(*MaxBytesError)
 		if !ok {
-			t.Errorf("expected MaxBytesError, got %T", err)
+			t.Errorf("expected MaxBytesError, golangt %T", err)
 		}
 		if mbErr.Limit != limit {
 			t.Errorf("MaxBytesError.Limit = %d, want %d", mbErr.Limit, limit)
@@ -3286,7 +3286,7 @@ func testRequestBodyLimit(t *testing.T, mode testMode) {
 	req, _ := NewRequest("POST", cst.ts.URL, body)
 
 	// Send the POST, but don't care it succeeds or not. The
-	// remote side is going to reply and then close the TCP
+	// remote side is golanging to reply and then close the TCP
 	// connection, and HTTP doesn't really define if that's
 	// allowed or not. Some HTTP clients will get the response
 	// and some (like ours, currently) will complain that the
@@ -3313,7 +3313,7 @@ func testRequestBodyLimit(t *testing.T, mode testMode) {
 func TestClientWriteShutdown(t *testing.T) { run(t, testClientWriteShutdown) }
 func testClientWriteShutdown(t *testing.T, mode testMode) {
 	if runtime.GOOS == "plan9" {
-		t.Skip("skipping test; see https://golang.org/issue/17906")
+		t.Skip("skipping test; see https://golanglang.org/issue/17906")
 	}
 	ts := newClientServerTest(t, mode, HandlerFunc(func(w ResponseWriter, r *Request) {})).ts
 	conn, err := net.Dial("tcp", ts.Listener.Addr().String())
@@ -3329,9 +3329,9 @@ func testClientWriteShutdown(t *testing.T, mode testMode) {
 	if err != nil {
 		t.Errorf("ReadAll: %v", err)
 	}
-	got := string(bs)
-	if got != "" {
-		t.Errorf("read %q from server; want nothing", got)
+	golangt := string(bs)
+	if golangt != "" {
+		t.Errorf("read %q from server; want nothing", golangt)
 	}
 }
 
@@ -3342,7 +3342,7 @@ func TestServerBufferedChunking(t *testing.T) {
 	conn.readBuf.Write([]byte("GET / HTTP/1.1\r\nHost: foo\r\n\r\n"))
 	conn.closec = make(chan bool, 1)
 	ls := &oneConnListener{conn}
-	go Serve(ls, HandlerFunc(func(rw ResponseWriter, req *Request) {
+	golang Serve(ls, HandlerFunc(func(rw ResponseWriter, req *Request) {
 		rw.(Flusher).Flush() // force the Header to be sent, in chunking mode, not counting the length
 		rw.Write([]byte{'x'})
 		rw.Write([]byte{'y'})
@@ -3350,7 +3350,7 @@ func TestServerBufferedChunking(t *testing.T) {
 	}))
 	<-conn.closec
 	if !bytes.HasSuffix(conn.writeBuf.Bytes(), []byte("\r\n\r\n3\r\nxyz\r\n0\r\n\r\n")) {
-		t.Errorf("response didn't end with a single 3 byte 'xyz' chunk; got:\n%q",
+		t.Errorf("response didn't end with a single 3 byte 'xyz' chunk; golangt:\n%q",
 			conn.writeBuf.Bytes())
 	}
 }
@@ -3358,7 +3358,7 @@ func TestServerBufferedChunking(t *testing.T) {
 // Tests that the server flushes its response headers out when it's
 // ignoring the response body and waits a bit before forcefully
 // closing the TCP connection, causing the client to get a RST.
-// See https://golang.org/issue/3595
+// See https://golanglang.org/issue/3595
 func TestServerGracefulClose(t *testing.T) {
 	// Not parallel: modifies the global rstAvoidanceDelay.
 	run(t, testServerGracefulClose, []testMode{http1Mode}, testNotParallel)
@@ -3396,7 +3396,7 @@ func testServerGracefulClose(t *testing.T, mode testMode) {
 			return err
 		}
 		writeErr := make(chan error)
-		go func() {
+		golang func() {
 			_, err := conn.Write(req)
 			writeErr <- err
 		}()
@@ -3483,10 +3483,10 @@ func TestCloseNotifier(t *testing.T) {
 	run(t, testCloseNotifier, []testMode{http1Mode})
 }
 func testCloseNotifier(t *testing.T, mode testMode) {
-	gotReq := make(chan bool, 1)
+	golangtReq := make(chan bool, 1)
 	sawClose := make(chan bool, 1)
 	ts := newClientServerTest(t, mode, HandlerFunc(func(rw ResponseWriter, req *Request) {
-		gotReq <- true
+		golangtReq <- true
 		cc := rw.(CloseNotifier).CloseNotify()
 		<-cc
 		sawClose <- true
@@ -3496,7 +3496,7 @@ func testCloseNotifier(t *testing.T, mode testMode) {
 		t.Fatalf("error dialing: %v", err)
 	}
 	diec := make(chan bool)
-	go func() {
+	golang func() {
 		_, err = fmt.Fprintf(conn, "GET / HTTP/1.1\r\nConnection: keep-alive\r\nHost: foo\r\n\r\n")
 		if err != nil {
 			t.Error(err)
@@ -3508,7 +3508,7 @@ func testCloseNotifier(t *testing.T, mode testMode) {
 For:
 	for {
 		select {
-		case <-gotReq:
+		case <-golangtReq:
 			diec <- true
 		case <-sawClose:
 			break For
@@ -3525,10 +3525,10 @@ func TestCloseNotifierPipelined(t *testing.T) {
 	run(t, testCloseNotifierPipelined, []testMode{http1Mode})
 }
 func testCloseNotifierPipelined(t *testing.T, mode testMode) {
-	gotReq := make(chan bool, 2)
+	golangtReq := make(chan bool, 2)
 	sawClose := make(chan bool, 2)
 	ts := newClientServerTest(t, mode, HandlerFunc(func(rw ResponseWriter, req *Request) {
-		gotReq <- true
+		golangtReq <- true
 		cc := rw.(CloseNotifier).CloseNotify()
 		select {
 		case <-cc:
@@ -3543,7 +3543,7 @@ func testCloseNotifierPipelined(t *testing.T, mode testMode) {
 	}
 	diec := make(chan bool, 1)
 	defer close(diec)
-	go func() {
+	golang func() {
 		const req = "GET / HTTP/1.1\r\nConnection: keep-alive\r\nHost: foo\r\n\r\n"
 		_, err = io.WriteString(conn, req+req) // two requests
 		if err != nil {
@@ -3557,7 +3557,7 @@ func testCloseNotifierPipelined(t *testing.T, mode testMode) {
 	closes := 0
 	for {
 		select {
-		case <-gotReq:
+		case <-golangtReq:
 			reqs++
 			if reqs > 2 {
 				t.Fatal("too many requests")
@@ -3573,7 +3573,7 @@ func testCloseNotifierPipelined(t *testing.T, mode testMode) {
 
 func TestCloseNotifierChanLeak(t *testing.T) {
 	defer afterTest(t)
-	req := reqBytes("GET / HTTP/1.0\nHost: golang.org")
+	req := reqBytes("GET / HTTP/1.0\nHost: golanglang.org")
 	for i := 0; i < 20; i++ {
 		var output bytes.Buffer
 		conn := &rwTestConn{
@@ -3584,11 +3584,11 @@ func TestCloseNotifierChanLeak(t *testing.T) {
 		ln := &oneConnListener{conn: conn}
 		handler := HandlerFunc(func(rw ResponseWriter, r *Request) {
 			// Ignore the return value and never read from
-			// it, testing that we don't leak goroutines
+			// it, testing that we don't leak golangroutines
 			// on the sending side:
 			_ = rw.(CloseNotifier).CloseNotify()
 		})
-		go Serve(ln, handler)
+		golang Serve(ln, handler)
 		<-conn.closec
 	}
 }
@@ -3626,7 +3626,7 @@ func testHijackAfterCloseNotifier(t *testing.T, mode testMode) {
 			}
 			if _, ok := c.(*net.TCPConn); !ok {
 				// Verify it's not wrapped in some type.
-				// Not strictly a go1 compat issue, but in practice it probably is.
+				// Not strictly a golang1 compat issue, but in practice it probably is.
 				t.Errorf("type of hijacked conn is %T; want *net.TCPConn", c)
 			}
 			fmt.Fprintf(c, "HTTP/1.0 200 OK\r\nX-Addr: %v\r\nContent-Length: 0\r\n\r\n", r.RemoteAddr)
@@ -3655,14 +3655,14 @@ func TestHijackBeforeRequestBodyRead(t *testing.T) {
 func testHijackBeforeRequestBodyRead(t *testing.T, mode testMode) {
 	var requestBody = bytes.Repeat([]byte("a"), 1<<20)
 	bodyOkay := make(chan bool, 1)
-	gotCloseNotify := make(chan bool, 1)
+	golangtCloseNotify := make(chan bool, 1)
 	ts := newClientServerTest(t, mode, HandlerFunc(func(w ResponseWriter, r *Request) {
 		defer close(bodyOkay) // caller will read false if nothing else
 
 		reqBody := r.Body
-		r.Body = nil // to test that server.go doesn't use this value.
+		r.Body = nil // to test that server.golang doesn't use this value.
 
-		gone := w.(CloseNotifier).CloseNotify()
+		golangne := w.(CloseNotifier).CloseNotify()
 		slurp, err := io.ReadAll(reqBody)
 		if err != nil {
 			t.Errorf("Body read: %v", err)
@@ -3677,8 +3677,8 @@ func testHijackBeforeRequestBodyRead(t *testing.T, mode testMode) {
 			return
 		}
 		bodyOkay <- true
-		<-gone
-		gotCloseNotify <- true
+		<-golangne
+		golangtCloseNotify <- true
 	})).ts
 
 	conn, err := net.Dial("tcp", ts.Listener.Addr().String())
@@ -3694,7 +3694,7 @@ func testHijackBeforeRequestBodyRead(t *testing.T, mode testMode) {
 		return
 	}
 	conn.Close()
-	<-gotCloseNotify
+	<-golangtCloseNotify
 }
 
 func TestOptions(t *testing.T) { run(t, testOptions, []testMode{http1Mode}) }
@@ -3744,8 +3744,8 @@ func testOptions(t *testing.T, mode testMode) {
 		t.Fatal(err)
 	}
 	res.Body.Close()
-	if got := <-uric; got != "/second" {
-		t.Errorf("Handler saw request for %q; want /second", got)
+	if golangt := <-uric; golangt != "/second" {
+		t.Errorf("Handler saw request for %q; want /second", golangt)
 	}
 }
 
@@ -3770,8 +3770,8 @@ func testOptionsHandler(t *testing.T, mode testMode) {
 		t.Fatal(err)
 	}
 
-	if got := <-rc; got.Method != "OPTIONS" || got.RequestURI != "*" {
-		t.Errorf("Expected OPTIONS * request, got %v", got)
+	if golangt := <-rc; golangt.Method != "OPTIONS" || golangt.RequestURI != "*" {
+		t.Errorf("Expected OPTIONS * request, golangt %v", golangt)
 	}
 }
 
@@ -3788,18 +3788,18 @@ func TestHeaderToWire(t *testing.T) {
 	tests := []struct {
 		name    string
 		handler func(ResponseWriter, *Request)
-		check   func(got, logs string) error
+		check   func(golangt, logs string) error
 	}{
 		{
 			name: "write without Header",
 			handler: func(rw ResponseWriter, r *Request) {
 				rw.Write([]byte("hello world"))
 			},
-			check: func(got, logs string) error {
-				if !strings.Contains(got, "Content-Length:") {
+			check: func(golangt, logs string) error {
+				if !strings.Contains(golangt, "Content-Length:") {
 					return errors.New("no content-length")
 				}
-				if !strings.Contains(got, "Content-Type: text/plain") {
+				if !strings.Contains(golangt, "Content-Type: text/plain") {
 					return errors.New("no content-type")
 				}
 				return nil
@@ -3813,14 +3813,14 @@ func TestHeaderToWire(t *testing.T) {
 				rw.Write([]byte("hello world"))
 				h.Set("Too-Late", "bogus")
 			},
-			check: func(got, logs string) error {
-				if !strings.Contains(got, "Content-Length:") {
+			check: func(golangt, logs string) error {
+				if !strings.Contains(golangt, "Content-Length:") {
 					return errors.New("no content-length")
 				}
-				if !strings.Contains(got, "Content-Type: some/type") {
+				if !strings.Contains(golangt, "Content-Type: some/type") {
 					return errors.New("wrong content-type")
 				}
-				if strings.Contains(got, "Too-Late") {
+				if strings.Contains(golangt, "Too-Late") {
 					return errors.New("don't want too-late header")
 				}
 				return nil
@@ -3832,8 +3832,8 @@ func TestHeaderToWire(t *testing.T) {
 				rw.Write([]byte("hello world"))
 				rw.Header().Set("Too-Late", "Write already wrote headers")
 			},
-			check: func(got, logs string) error {
-				if strings.Contains(got, "Too-Late") {
+			check: func(golangt, logs string) error {
+				if strings.Contains(golangt, "Too-Late") {
 					return errors.New("header appeared from after WriteHeader")
 				}
 				return nil
@@ -3846,11 +3846,11 @@ func TestHeaderToWire(t *testing.T) {
 				rw.Write([]byte("post-flush"))
 				rw.Header().Set("Too-Late", "Write already wrote headers")
 			},
-			check: func(got, logs string) error {
-				if !strings.Contains(got, "Transfer-Encoding: chunked") {
+			check: func(golangt, logs string) error {
+				if !strings.Contains(golangt, "Transfer-Encoding: chunked") {
 					return errors.New("not chunked")
 				}
-				if strings.Contains(got, "Too-Late") {
+				if strings.Contains(golangt, "Too-Late") {
 					return errors.New("header appeared from after WriteHeader")
 				}
 				return nil
@@ -3864,14 +3864,14 @@ func TestHeaderToWire(t *testing.T) {
 				rw.Write([]byte("post-flush"))
 				rw.Header().Set("Too-Late", "Write already wrote headers")
 			},
-			check: func(got, logs string) error {
-				if !strings.Contains(got, "Transfer-Encoding: chunked") {
+			check: func(golangt, logs string) error {
+				if !strings.Contains(golangt, "Transfer-Encoding: chunked") {
 					return errors.New("not chunked")
 				}
-				if strings.Contains(got, "Too-Late") {
+				if strings.Contains(golangt, "Too-Late") {
 					return errors.New("header appeared from after WriteHeader")
 				}
-				if !strings.Contains(got, "Content-Type: some/type") {
+				if !strings.Contains(golangt, "Content-Type: some/type") {
 					return errors.New("wrong content-type")
 				}
 				return nil
@@ -3883,8 +3883,8 @@ func TestHeaderToWire(t *testing.T) {
 				rw.Write([]byte("<html><head></head><body>some html</body></html>"))
 				rw.Header().Set("Content-Type", "x/wrong")
 			},
-			check: func(got, logs string) error {
-				if !strings.Contains(got, "Content-Type: text/html") {
+			check: func(golangt, logs string) error {
+				if !strings.Contains(golangt, "Content-Type: text/html") {
 					return errors.New("wrong content-type; want html")
 				}
 				return nil
@@ -3896,8 +3896,8 @@ func TestHeaderToWire(t *testing.T) {
 				rw.Header().Set("Content-Type", "some/type")
 				rw.Write([]byte("<html><head></head><body>some html</body></html>"))
 			},
-			check: func(got, logs string) error {
-				if !strings.Contains(got, "Content-Type: some/type") {
+			check: func(golangt, logs string) error {
+				if !strings.Contains(golangt, "Content-Type: some/type") {
 					return errors.New("wrong content-type; want html")
 				}
 				return nil
@@ -3907,8 +3907,8 @@ func TestHeaderToWire(t *testing.T) {
 			name: "empty handler",
 			handler: func(rw ResponseWriter, r *Request) {
 			},
-			check: func(got, logs string) error {
-				if !strings.Contains(got, "Content-Length: 0") {
+			check: func(golangt, logs string) error {
+				if !strings.Contains(golangt, "Content-Length: 0") {
 					return errors.New("want 0 content-length")
 				}
 				return nil
@@ -3919,8 +3919,8 @@ func TestHeaderToWire(t *testing.T) {
 			handler: func(rw ResponseWriter, r *Request) {
 				rw.Header().Set("Some-Header", "some-value")
 			},
-			check: func(got, logs string) error {
-				if !strings.Contains(got, "Some-Header") {
+			check: func(golangt, logs string) error {
+				if !strings.Contains(golangt, "Some-Header") {
 					return errors.New("didn't get header")
 				}
 				return nil
@@ -3932,11 +3932,11 @@ func TestHeaderToWire(t *testing.T) {
 				rw.WriteHeader(404)
 				rw.Header().Set("Too-Late", "some-value")
 			},
-			check: func(got, logs string) error {
-				if !strings.Contains(got, "404") {
+			check: func(golangt, logs string) error {
+				if !strings.Contains(golangt, "404") {
 					return errors.New("wrong status")
 				}
-				if strings.Contains(got, "Too-Late") {
+				if strings.Contains(golangt, "Too-Late") {
 					return errors.New("shouldn't have seen Too-Late")
 				}
 				return nil
@@ -3945,10 +3945,10 @@ func TestHeaderToWire(t *testing.T) {
 	}
 	for _, tc := range tests {
 		ht := newHandlerTest(HandlerFunc(tc.handler))
-		got := ht.rawResponse("GET / HTTP/1.1\nHost: golang.org")
+		golangt := ht.rawResponse("GET / HTTP/1.1\nHost: golanglang.org")
 		logs := ht.logbuf.String()
-		if err := tc.check(got, logs); err != nil {
-			t.Errorf("%s: %v\nGot response:\n%s\n\n%s", tc.name, err, got, logs)
+		if err := tc.check(golangt, logs); err != nil {
+			t.Errorf("%s: %v\nGot response:\n%s\n\n%s", tc.name, err, golangt, logs)
 		}
 	}
 }
@@ -3988,12 +3988,12 @@ func TestAcceptMaxFds(t *testing.T) {
 	}
 	err := server.Serve(ln)
 	if err != io.EOF {
-		t.Errorf("got error %v, want EOF", err)
+		t.Errorf("golangt error %v, want EOF", err)
 	}
 }
 
 func TestWriteAfterHijack(t *testing.T) {
-	req := reqBytes("GET / HTTP/1.1\nHost: golang.org")
+	req := reqBytes("GET / HTTP/1.1\nHost: golanglang.org")
 	var buf strings.Builder
 	wrotec := make(chan bool, 1)
 	conn := &rwTestConn{
@@ -4007,7 +4007,7 @@ func TestWriteAfterHijack(t *testing.T) {
 			t.Error(err)
 			return
 		}
-		go func() {
+		golang func() {
 			bufrw.Write([]byte("[hijack-to-bufw]"))
 			bufrw.Flush()
 			conn.Write([]byte("[hijack-to-conn]"))
@@ -4016,7 +4016,7 @@ func TestWriteAfterHijack(t *testing.T) {
 		}()
 	})
 	ln := &oneConnListener{conn: conn}
-	go Serve(ln, handler)
+	golang Serve(ln, handler)
 	<-conn.closec
 	<-wrotec
 	if g, w := buf.String(), "[hijack-to-bufw][hijack-to-conn]"; g != w {
@@ -4025,7 +4025,7 @@ func TestWriteAfterHijack(t *testing.T) {
 }
 
 func TestDoubleHijack(t *testing.T) {
-	req := reqBytes("GET / HTTP/1.1\nHost: golang.org")
+	req := reqBytes("GET / HTTP/1.1\nHost: golanglang.org")
 	var buf bytes.Buffer
 	conn := &rwTestConn{
 		Reader: bytes.NewReader(req),
@@ -4040,16 +4040,16 @@ func TestDoubleHijack(t *testing.T) {
 		}
 		_, _, err = rw.(Hijacker).Hijack()
 		if err == nil {
-			t.Errorf("got err = nil;  want err != nil")
+			t.Errorf("golangt err = nil;  want err != nil")
 		}
 		conn.Close()
 	})
 	ln := &oneConnListener{conn: conn}
-	go Serve(ln, handler)
+	golang Serve(ln, handler)
 	<-conn.closec
 }
 
-// https://golang.org/issue/5955
+// https://golanglang.org/issue/5955
 // Note that this does not test the "request too large"
 // exit path from the http server. This is intentional;
 // not sending Connection: close is just a minor wire
@@ -4100,14 +4100,14 @@ func testHTTP10ConnectionHeader(t *testing.T, mode testMode) {
 		conn.Close()
 		resp.Body.Close()
 
-		got := resp.Header["Connection"]
-		if !slices.Equal(got, tt.expect) {
-			t.Errorf("wrong Connection headers for request %q. Got %q expect %q", tt.req, got, tt.expect)
+		golangt := resp.Header["Connection"]
+		if !slices.Equal(golangt, tt.expect) {
+			t.Errorf("wrong Connection headers for request %q. Got %q expect %q", tt.req, golangt, tt.expect)
 		}
 	}
 }
 
-// See golang.org/issue/5660
+// See golanglang.org/issue/5660
 func TestServerReaderFromOrder(t *testing.T) { run(t, testServerReaderFromOrder) }
 func testServerReaderFromOrder(t *testing.T, mode testMode) {
 	pr, pw := io.Pipe()
@@ -4115,7 +4115,7 @@ func testServerReaderFromOrder(t *testing.T, mode testMode) {
 	cst := newClientServerTest(t, mode, HandlerFunc(func(rw ResponseWriter, req *Request) {
 		rw.Header().Set("Content-Type", "text/plain") // prevent sniffing path
 		done := make(chan bool)
-		go func() {
+		golang func() {
 			io.Copy(rw, pr)
 			close(done)
 		}()
@@ -4171,14 +4171,14 @@ func TestCodesPreventingContentTypeAndBody(t *testing.T) {
 			"GET /header HTTP/1.1\nHost: foo",
 			"GET /more HTTP/1.1\nHost: foo",
 		} {
-			got := ht.rawResponse(req)
+			golangt := ht.rawResponse(req)
 			wantStatus := fmt.Sprintf("%d %s", code, StatusText(code))
-			if !strings.Contains(got, wantStatus) {
-				t.Errorf("Code %d: Wanted %q Modified for %q: %s", code, wantStatus, req, got)
-			} else if strings.Contains(got, "Content-Length") {
-				t.Errorf("Code %d: Got a Content-Length from %q: %s", code, req, got)
-			} else if strings.Contains(got, "stuff") {
-				t.Errorf("Code %d: Response contains a body from %q: %s", code, req, got)
+			if !strings.Contains(golangt, wantStatus) {
+				t.Errorf("Code %d: Wanted %q Modified for %q: %s", code, wantStatus, req, golangt)
+			} else if strings.Contains(golangt, "Content-Length") {
+				t.Errorf("Code %d: Got a Content-Length from %q: %s", code, req, golangt)
+			} else if strings.Contains(golangt, "stuff") {
+				t.Errorf("Code %d: Response contains a body from %q: %s", code, req, golangt)
 			}
 		}
 	}
@@ -4190,12 +4190,12 @@ func TestContentTypeOkayOn204(t *testing.T) {
 		w.Header().Set("Content-Type", "foo/bar")
 		w.WriteHeader(204)
 	}))
-	got := ht.rawResponse("GET / HTTP/1.1\nHost: foo")
-	if !strings.Contains(got, "Content-Type: foo/bar") {
-		t.Errorf("Response = %q; want Content-Type: foo/bar", got)
+	golangt := ht.rawResponse("GET / HTTP/1.1\nHost: foo")
+	if !strings.Contains(golangt, "Content-Type: foo/bar") {
+		t.Errorf("Response = %q; want Content-Type: foo/bar", golangt)
 	}
-	if strings.Contains(got, "Content-Length: 123") {
-		t.Errorf("Response = %q; don't want a Content-Length", got)
+	if strings.Contains(golangt, "Content-Length: 123") {
+		t.Errorf("Response = %q; don't want a Content-Length", golangt)
 	}
 }
 
@@ -4211,7 +4211,7 @@ func TestTransportAndServerSharedBodyRace(t *testing.T) {
 func testTransportAndServerSharedBodyRace(t *testing.T, mode testMode) {
 	// The proxy server in the middle of the stack for this test potentially
 	// from its handler after only reading half of the body.
-	// That can trigger https://go.dev/issue/3595, which is otherwise
+	// That can trigger https://golang.dev/issue/3595, which is otherwise
 	// irrelevant to this test.
 	runTimeSensitiveTest(t, []time.Duration{
 		1 * time.Millisecond,
@@ -4230,7 +4230,7 @@ func testTransportAndServerSharedBodyRace(t *testing.T, mode testMode) {
 
 		var wg sync.WaitGroup
 		backend := newClientServerTest(t, mode, HandlerFunc(func(rw ResponseWriter, req *Request) {
-			// Work around https://go.dev/issue/38370: clientServerTest uses
+			// Work around https://golang.dev/issue/38370: clientServerTest uses
 			// an httptest.Server under the hood, and in HTTP/2 mode it does not always
 			// “[block] until all outstanding requests on this server have completed”,
 			// causing the call to Logf below to race with the end of the test.
@@ -4295,8 +4295,8 @@ func testTransportAndServerSharedBodyRace(t *testing.T, mode testMode) {
 	})
 }
 
-// Test that a hanging Request.Body.Read from another goroutine can't
-// cause the Handler goroutine's Request.Body.Close to block.
+// Test that a hanging Request.Body.Read from another golangroutine can't
+// cause the Handler golangroutine's Request.Body.Close to block.
 // See issue 7121.
 func TestRequestBodyCloseDoesntBlock(t *testing.T) {
 	run(t, testRequestBodyCloseDoesntBlock, []testMode{http1Mode})
@@ -4310,7 +4310,7 @@ func testRequestBodyCloseDoesntBlock(t *testing.T, mode testMode) {
 	errCh := make(chan error, 2)
 
 	server := newClientServerTest(t, mode, HandlerFunc(func(rw ResponseWriter, req *Request) {
-		go func(body io.Reader) {
+		golang func(body io.Reader) {
 			_, err := body.Read(make([]byte, 100))
 			readErrCh <- err
 		}(req.Body)
@@ -4319,7 +4319,7 @@ func testRequestBodyCloseDoesntBlock(t *testing.T, mode testMode) {
 
 	closeConn := make(chan bool)
 	defer close(closeConn)
-	go func() {
+	golang func() {
 		conn, err := net.Dial("tcp", server.Listener.Addr().String())
 		if err != nil {
 			errCh <- err
@@ -4389,9 +4389,9 @@ func testServerConnState(t *testing.T, mode testMode) {
 	// A stateLog is a log of states over the lifetime of a connection.
 	type stateLog struct {
 		active   net.Conn // The connection for which the log is recorded; set to the first connection seen in StateNew.
-		got      []ConnState
+		golangt      []ConnState
 		want     []ConnState
-		complete chan<- struct{} // If non-nil, closed when either 'got' is equal to 'want', or 'got' is no longer a prefix of 'want'.
+		complete chan<- struct{} // If non-nil, closed when either 'golangt' is equal to 'want', or 'golangt' is no longer a prefix of 'want'.
 	}
 	activeLog := make(chan *stateLog, 1)
 
@@ -4407,8 +4407,8 @@ func testServerConnState(t *testing.T, mode testMode) {
 
 		<-complete
 		sl := <-activeLog
-		if !slices.Equal(sl.got, sl.want) {
-			t.Errorf("Request(s) produced unexpected state sequence.\nGot:  %v\nWant: %v", sl.got, sl.want)
+		if !slices.Equal(sl.golangt, sl.want) {
+			t.Errorf("Request(s) produced unexpected state sequence.\nGot:  %v\nWant: %v", sl.golangt, sl.want)
 		}
 		// Don't return sl to activeLog: we don't expect any further states after
 		// this point, and want to keep the ConnState callback blocked until the
@@ -4432,8 +4432,8 @@ func testServerConnState(t *testing.T, mode testMode) {
 				activeLog <- sl
 				return
 			}
-			sl.got = append(sl.got, state)
-			if sl.complete != nil && (len(sl.got) >= len(sl.want) || !slices.Equal(sl.got, sl.want[:len(sl.got)])) {
+			sl.golangt = append(sl.golangt, state)
+			if sl.complete != nil && (len(sl.golangt) >= len(sl.want) || !slices.Equal(sl.golangt, sl.want[:len(sl.golangt)])) {
 				close(sl.complete)
 				sl.complete = nil
 			}
@@ -4544,7 +4544,7 @@ func testServerKeepAlivesEnabledResultClose(t *testing.T, mode testMode) {
 	}
 }
 
-// golang.org/issue/7856
+// golanglang.org/issue/7856
 func TestServerEmptyBodyRace(t *testing.T) { run(t, testServerEmptyBodyRace) }
 func testServerEmptyBodyRace(t *testing.T, mode testMode) {
 	var n int32
@@ -4555,12 +4555,12 @@ func testServerEmptyBodyRace(t *testing.T, mode testMode) {
 	const reqs = 20
 	for i := 0; i < reqs; i++ {
 		wg.Add(1)
-		go func() {
+		golang func() {
 			defer wg.Done()
 			res, err := cst.c.Get(cst.ts.URL)
 			if err != nil {
 				// Try to deflake spurious "connection reset by peer" under load.
-				// See golang.org/issue/22540.
+				// See golanglang.org/issue/22540.
 				time.Sleep(10 * time.Millisecond)
 				res, err = cst.c.Get(cst.ts.URL)
 				if err != nil {
@@ -4577,8 +4577,8 @@ func testServerEmptyBodyRace(t *testing.T, mode testMode) {
 		}()
 	}
 	wg.Wait()
-	if got := atomic.LoadInt32(&n); got != reqs {
-		t.Errorf("handler ran %d times; want %d", got, reqs)
+	if golangt := atomic.LoadInt32(&n); golangt != reqs {
+		t.Errorf("handler ran %d times; want %d", golangt, reqs)
 	}
 }
 
@@ -4660,7 +4660,7 @@ func testServerFlushAndHijack(t *testing.T, mode testMode) {
 	}
 }
 
-// golang.org/issue/8534 -- the Server shouldn't reuse a connection
+// golanglang.org/issue/8534 -- the Server shouldn't reuse a connection
 // for keep-alive after it's seen any Write error (e.g. a timeout) on
 // that net.Conn.
 //
@@ -4684,7 +4684,7 @@ func testServerKeepAliveAfterWriteError(t *testing.T, mode testMode) {
 	}).ts
 
 	errc := make(chan error, numReq)
-	go func() {
+	golang func() {
 		defer close(errc)
 		for i := 0; i < numReq; i++ {
 			res, err := Get(ts.URL)
@@ -4707,7 +4707,7 @@ func testServerKeepAliveAfterWriteError(t *testing.T, mode testMode) {
 					t.Errorf("saw %d unique client addresses; want %d", len(addrSeen), numReq)
 				}
 				if numOkay != 0 {
-					t.Errorf("got %d successful client requests; want 0", numOkay)
+					t.Errorf("golangt %d successful client requests; want 0", numOkay)
 				}
 				return
 			}
@@ -4737,31 +4737,31 @@ func testNoContentLengthIfTransferEncoding(t *testing.T, mode testMode) {
 		t.Fatal(err)
 	}
 	bs := bufio.NewScanner(c)
-	var got strings.Builder
+	var golangt strings.Builder
 	for bs.Scan() {
 		if strings.TrimSpace(bs.Text()) == "" {
 			break
 		}
-		got.WriteString(bs.Text())
-		got.WriteByte('\n')
+		golangt.WriteString(bs.Text())
+		golangt.WriteByte('\n')
 	}
 	if err := bs.Err(); err != nil {
 		t.Fatal(err)
 	}
-	if strings.Contains(got.String(), "Content-Length") {
-		t.Errorf("Unexpected Content-Length in response headers: %s", got.String())
+	if strings.Contains(golangt.String(), "Content-Length") {
+		t.Errorf("Unexpected Content-Length in response headers: %s", golangt.String())
 	}
-	if strings.Contains(got.String(), "Content-Type") {
-		t.Errorf("Unexpected Content-Type in response headers: %s", got.String())
+	if strings.Contains(golangt.String(), "Content-Type") {
+		t.Errorf("Unexpected Content-Type in response headers: %s", golangt.String())
 	}
 }
 
 // tolerate extra CRLF(s) before Request-Line on subsequent requests on a conn
 // Issue 10876.
 func TestTolerateCRLFBeforeRequestLine(t *testing.T) {
-	req := []byte("POST / HTTP/1.1\r\nHost: golang.org\r\nContent-Length: 3\r\n\r\nABC" +
+	req := []byte("POST / HTTP/1.1\r\nHost: golanglang.org\r\nContent-Length: 3\r\n\r\nABC" +
 		"\r\n\r\n" + // <-- this stuff is bogus, but we'll ignore it
-		"GET / HTTP/1.1\r\nHost: golang.org\r\n\r\n")
+		"GET / HTTP/1.1\r\nHost: golanglang.org\r\n\r\n")
 	var buf bytes.Buffer
 	conn := &rwTestConn{
 		Reader: bytes.NewReader(req),
@@ -4770,7 +4770,7 @@ func TestTolerateCRLFBeforeRequestLine(t *testing.T) {
 	}
 	ln := &oneConnListener{conn: conn}
 	numReq := 0
-	go Serve(ln, HandlerFunc(func(rw ResponseWriter, r *Request) {
+	golang Serve(ln, HandlerFunc(func(rw ResponseWriter, r *Request) {
 		numReq++
 	}))
 	<-conn.closec
@@ -4799,7 +4799,7 @@ HelloWorld
 		closec: make(chan bool, 1),
 	}
 	ln := &oneConnListener{conn: conn}
-	go Serve(ln, HandlerFunc(func(w ResponseWriter, r *Request) {
+	golang Serve(ln, HandlerFunc(func(w ResponseWriter, r *Request) {
 		if _, ok := r.Header["Expect"]; !ok {
 			t.Error("Expect header should not be filtered out")
 		}
@@ -4834,7 +4834,7 @@ Host: foo
 	}
 	ln := &oneConnListener{conn: conn}
 	numReq := 0
-	go Serve(ln, HandlerFunc(func(w ResponseWriter, r *Request) {
+	golang Serve(ln, HandlerFunc(func(w ResponseWriter, r *Request) {
 		numReq++
 		if r.URL.Path == "/readbody" {
 			io.ReadAll(r.Body)
@@ -4846,7 +4846,7 @@ Host: foo
 		t.Errorf("num requests = %d; want 2", numReq)
 	}
 	if !strings.Contains(buf.String(), "Connection: close\r\n") {
-		t.Errorf("expected 'Connection: close' in response; got: %s", buf.String())
+		t.Errorf("expected 'Connection: close' in response; golangt: %s", buf.String())
 	}
 }
 
@@ -4863,7 +4863,7 @@ func TestHandlerFinishSkipBigContentLengthRead(t *testing.T) {
 
 	ls := &oneConnListener{conn}
 	var inHandlerLen int
-	go Serve(ls, HandlerFunc(func(rw ResponseWriter, req *Request) {
+	golang Serve(ls, HandlerFunc(func(rw ResponseWriter, req *Request) {
 		inHandlerLen = conn.readBuf.Len()
 		rw.WriteHeader(404)
 	}))
@@ -4936,7 +4936,7 @@ func TestServerValidatesHostHeader(t *testing.T) {
 		{"PRI * HTTP/2.0", "", 200},
 
 		// Also an exception for CONNECT requests: (Issue 18215)
-		{"CONNECT golang.org:443 HTTP/1.1", "", 200},
+		{"CONNECT golanglang.org:443 HTTP/1.1", "", 200},
 
 		// But not other HTTP/2 stuff:
 		{"PRI / HTTP/2.0", "", 505},
@@ -4956,7 +4956,7 @@ func TestServerValidatesHostHeader(t *testing.T) {
 			ErrorLog: quietLog,
 			Handler:  HandlerFunc(func(ResponseWriter, *Request) {}),
 		}
-		go srv.Serve(ln)
+		golang srv.Serve(ln)
 		<-conn.closec
 		res, err := ReadResponse(bufio.NewReader(&conn.writeBuf), nil)
 		if err != nil {
@@ -5060,7 +5060,7 @@ func TestServerValidatesHeaders(t *testing.T) {
 			ErrorLog: quietLog,
 			Handler:  HandlerFunc(func(ResponseWriter, *Request) {}),
 		}
-		go srv.Serve(ln)
+		golang srv.Serve(ln)
 		<-conn.closec
 		res, err := ReadResponse(bufio.NewReader(&conn.writeBuf), nil)
 		if err != nil {
@@ -5132,9 +5132,9 @@ func TestServerContext_ServerContextKey(t *testing.T) {
 func testServerContext_ServerContextKey(t *testing.T, mode testMode) {
 	cst := newClientServerTest(t, mode, HandlerFunc(func(w ResponseWriter, r *Request) {
 		ctx := r.Context()
-		got := ctx.Value(ServerContextKey)
-		if _, ok := got.(*Server); !ok {
-			t.Errorf("context value = %T; want *http.Server", got)
+		golangt := ctx.Value(ServerContextKey)
+		if _, ok := golangt.(*Server); !ok {
+			t.Errorf("context value = %T; want *http.Server", golangt)
 		}
 	}))
 	res, err := cst.c.Get(cst.ts.URL)
@@ -5157,15 +5157,15 @@ func testServerContext_LocalAddrContextKey(t *testing.T, mode testMode) {
 	}
 
 	host := cst.ts.Listener.Addr().String()
-	got := <-ch
-	if addr, ok := got.(net.Addr); !ok {
-		t.Errorf("local addr value = %T; want net.Addr", got)
+	golangt := <-ch
+	if addr, ok := golangt.(net.Addr); !ok {
+		t.Errorf("local addr value = %T; want net.Addr", golangt)
 	} else if fmt.Sprint(addr) != host {
 		t.Errorf("local addr = %v; want %v", addr, host)
 	}
 }
 
-// https://golang.org/issue/15960
+// https://golanglang.org/issue/15960
 func TestHandlerSetTransferEncodingChunked(t *testing.T) {
 	setParallel(t)
 	defer afterTest(t)
@@ -5176,11 +5176,11 @@ func TestHandlerSetTransferEncodingChunked(t *testing.T) {
 	resp := ht.rawResponse("GET / HTTP/1.1\nHost: foo")
 	const hdr = "Transfer-Encoding: chunked"
 	if n := strings.Count(resp, hdr); n != 1 {
-		t.Errorf("want 1 occurrence of %q in response, got %v\nresponse: %v", hdr, n, resp)
+		t.Errorf("want 1 occurrence of %q in response, golangt %v\nresponse: %v", hdr, n, resp)
 	}
 }
 
-// https://golang.org/issue/16063
+// https://golanglang.org/issue/16063
 func TestHandlerSetTransferEncodingGzip(t *testing.T) {
 	setParallel(t)
 	defer afterTest(t)
@@ -5194,7 +5194,7 @@ func TestHandlerSetTransferEncodingGzip(t *testing.T) {
 	for _, v := range []string{"gzip", "chunked"} {
 		hdr := "Transfer-Encoding: " + v
 		if n := strings.Count(resp, hdr); n != 1 {
-			t.Errorf("want 1 occurrence of %q in response, got %v\nresponse: %v", hdr, n, resp)
+			t.Errorf("want 1 occurrence of %q in response, golangt %v\nresponse: %v", hdr, n, resp)
 		}
 	}
 }
@@ -5274,9 +5274,9 @@ func benchmarkClientServerParallel(b *testing.B, parallelism int, mode testMode)
 //
 // For use like:
 //
-//	$ go test -c
+//	$ golang test -c
 //	$ ./http.test -test.run='^$' -test.bench='^BenchmarkServer$' -test.benchtime=15s -test.cpuprofile=http.prof
-//	$ go tool pprof http.test http.prof
+//	$ golang tool pprof http.test http.prof
 //	(pprof) web
 func BenchmarkServer(b *testing.B) {
 	b.ReportAllocs()
@@ -5381,7 +5381,7 @@ func BenchmarkClient(b *testing.B) {
 	}
 
 	done := make(chan error, 1)
-	go func() {
+	golang func() {
 		done <- cmd.Wait()
 		close(done)
 	}()
@@ -5429,7 +5429,7 @@ func BenchmarkClient(b *testing.B) {
 func BenchmarkServerFakeConnNoKeepAlive(b *testing.B) {
 	b.ReportAllocs()
 	req := reqBytes(`GET / HTTP/1.0
-Host: golang.org
+Host: golanglang.org
 Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1312.52 Safari/537.17
 Accept-Encoding: gzip,deflate,sdch
@@ -5478,7 +5478,7 @@ func BenchmarkServerFakeConnWithKeepAlive(b *testing.B) {
 	b.ReportAllocs()
 
 	req := reqBytes(`GET / HTTP/1.1
-Host: golang.org
+Host: golanglang.org
 Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1312.52 Safari/537.17
 Accept-Encoding: gzip,deflate,sdch
@@ -5499,7 +5499,7 @@ Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.3
 		rw.Write(res)
 	})
 	ln := &oneConnListener{conn: conn}
-	go Serve(ln, handler)
+	golang Serve(ln, handler)
 	<-conn.closec
 	if b.N != handled {
 		b.Errorf("b.N=%d but handled %d", b.N, handled)
@@ -5512,7 +5512,7 @@ func BenchmarkServerFakeConnWithKeepAliveLite(b *testing.B) {
 	b.ReportAllocs()
 
 	req := reqBytes(`GET / HTTP/1.1
-Host: golang.org
+Host: golanglang.org
 `)
 	res := []byte("Hello world!\n")
 
@@ -5527,7 +5527,7 @@ Host: golang.org
 		rw.Write(res)
 	})
 	ln := &oneConnListener{conn: conn}
-	go Serve(ln, handler)
+	golang Serve(ln, handler)
 	<-conn.closec
 	if b.N != handled {
 		b.Errorf("b.N=%d but handled %d", b.N, handled)
@@ -5574,7 +5574,7 @@ func BenchmarkServerHandlerNoHeader(b *testing.B) {
 func benchmarkHandler(b *testing.B, h Handler) {
 	b.ReportAllocs()
 	req := reqBytes(`GET / HTTP/1.1
-Host: golang.org
+Host: golanglang.org
 `)
 	conn := &rwTestConn{
 		Reader: &repeatReader{content: req, count: b.N},
@@ -5587,7 +5587,7 @@ Host: golang.org
 		h.ServeHTTP(rw, r)
 	})
 	ln := &oneConnListener{conn: conn}
-	go Serve(ln, handler)
+	golang Serve(ln, handler)
 	<-conn.closec
 	if b.N != handled {
 		b.Errorf("b.N=%d but handled %d", b.N, handled)
@@ -5597,7 +5597,7 @@ Host: golang.org
 func BenchmarkServerHijack(b *testing.B) {
 	b.ReportAllocs()
 	req := reqBytes(`GET / HTTP/1.1
-Host: golang.org
+Host: golanglang.org
 `)
 	h := HandlerFunc(func(w ResponseWriter, r *Request) {
 		conn, _, err := w.(Hijacker).Hijack()
@@ -5651,8 +5651,8 @@ func TestConcurrentServerServe(t *testing.T) {
 		ln1 := &oneConnListener{conn: nil}
 		ln2 := &oneConnListener{conn: nil}
 		srv := Server{}
-		go func() { srv.Serve(ln1) }()
-		go func() { srv.Serve(ln2) }()
+		golang func() { srv.Serve(ln1) }()
+		golang func() { srv.Serve(ln2) }()
 	}
 }
 
@@ -5800,12 +5800,12 @@ func testServerShutdown(t *testing.T, mode testMode) {
 	var once sync.Once
 	statesRes := make(chan map[ConnState]int, 1)
 	shutdownRes := make(chan error, 1)
-	gotOnShutdown := make(chan struct{})
+	golangtOnShutdown := make(chan struct{})
 	handler := HandlerFunc(func(w ResponseWriter, r *Request) {
 		first := false
 		once.Do(func() {
 			statesRes <- cst.ts.Config.ExportAllConnsByState()
-			go func() {
+			golang func() {
 				shutdownRes <- cst.ts.Config.Shutdown(context.Background())
 			}()
 			first = true
@@ -5815,7 +5815,7 @@ func testServerShutdown(t *testing.T, mode testMode) {
 			// Shutdown is graceful, so it should not interrupt this in-flight response
 			// but should reject new requests. (Since this request is still in flight,
 			// the server's port should not be reused for another server yet.)
-			<-gotOnShutdown
+			<-golangtOnShutdown
 			// TODO(#59038): The HTTP/2 server empirically does not always reject new
 			// requests. As a workaround, loop until we see a failure.
 			for !t.Failed() {
@@ -5827,7 +5827,7 @@ func testServerShutdown(t *testing.T, mode testMode) {
 				res.Body.Close()
 				if mode == http2Mode {
 					t.Logf("%v: unexpected success (%q). Listener should be closed before OnShutdown is called.", cst.ts.URL, out)
-					t.Logf("Retrying to work around https://go.dev/issue/59038.")
+					t.Logf("Retrying to work around https://golang.dev/issue/59038.")
 					continue
 				}
 				t.Errorf("%v: unexpected success (%q). Listener should be closed before OnShutdown is called.", cst.ts.URL, out)
@@ -5838,7 +5838,7 @@ func testServerShutdown(t *testing.T, mode testMode) {
 	})
 
 	cst = newClientServerTest(t, mode, handler, func(srv *httptest.Server) {
-		srv.Config.RegisterOnShutdown(func() { close(gotOnShutdown) })
+		srv.Config.RegisterOnShutdown(func() { close(golangtOnShutdown) })
 	})
 
 	out := get(t, cst.c, cst.ts.URL) // calls t.Fail on failure
@@ -5847,7 +5847,7 @@ func testServerShutdown(t *testing.T, mode testMode) {
 	if err := <-shutdownRes; err != nil {
 		t.Fatalf("Shutdown: %v", err)
 	}
-	<-gotOnShutdown // Will hang if RegisterOnShutdown is broken.
+	<-golangtOnShutdown // Will hang if RegisterOnShutdown is broken.
 
 	if states := <-statesRes; states[StateActive] != 1 {
 		t.Errorf("connection in wrong state, %v", states)
@@ -5899,7 +5899,7 @@ func testServerShutdownStateNew(t *testing.T, mode testMode) {
 	// closeIdleConnections isn't precise about its actual shutdown time.
 	// Wait long enough for it to definitely have shut down.
 	//
-	// (It would be good to make closeIdleConnections less sloppy.)
+	// (It would be golangod to make closeIdleConnections less sloppy.)
 	time.Sleep(2 * time.Second)
 	synctest.Wait()
 	if _, err := shutdownRes.result(); err != nil {
@@ -5925,7 +5925,7 @@ func testServerKeepAlivesEnabled(t *testing.T, mode testMode) {
 		restore := ExportSetH2GoawayTimeout(10 * time.Millisecond)
 		defer restore()
 	}
-	// Not parallel: messes with global variable. (http2goAwayTimeout)
+	// Not parallel: messes with global variable. (http2golangAwayTimeout)
 	cst := newClientServerTest(t, mode, HandlerFunc(func(w ResponseWriter, r *Request) {}))
 	defer cst.close()
 	srv := cst.ts.Config
@@ -5958,7 +5958,7 @@ func testServerKeepAlivesEnabled(t *testing.T, mode testMode) {
 		}
 		res.Body.Close()
 		if conns != 1 {
-			t.Fatalf("request %v: got %v conns, want 1", try, conns)
+			t.Fatalf("request %v: golangt %v conns, want 1", try, conns)
 		}
 		if info.Reused || info.WasIdle {
 			t.Fatalf("request %v: Reused=%v (want false), WasIdle=%v (want false)", try, info.Reused, info.WasIdle)
@@ -6012,7 +6012,7 @@ func testServerCancelsReadTimeoutWhenIdle(t *testing.T, mode testMode) {
 			return fmt.Errorf("Body ReadAll: %v", err)
 		}
 		if string(slurp) != "ok" {
-			return fmt.Errorf("got: %q, want ok", slurp)
+			return fmt.Errorf("golangt: %q, want ok", slurp)
 		}
 		return nil
 	})
@@ -6097,10 +6097,10 @@ func testServerDuplicateBackgroundRead(t *testing.T, mode testMode) {
 		testenv.SkipFlaky(t, 24826)
 	}
 
-	goroutines := 5
+	golangroutines := 5
 	requests := 2000
 	if testing.Short() {
-		goroutines = 3
+		golangroutines = 3
 		requests = 100
 	}
 
@@ -6109,9 +6109,9 @@ func testServerDuplicateBackgroundRead(t *testing.T, mode testMode) {
 	reqBytes := []byte("GET / HTTP/1.1\r\nHost: e.com\r\n\r\n")
 
 	var wg sync.WaitGroup
-	for i := 0; i < goroutines; i++ {
+	for i := 0; i < golangroutines; i++ {
 		wg.Add(1)
-		go func() {
+		golang func() {
 			defer wg.Done()
 			cn, err := net.Dial("tcp", hts.Listener.Addr().String())
 			if err != nil {
@@ -6121,7 +6121,7 @@ func testServerDuplicateBackgroundRead(t *testing.T, mode testMode) {
 			defer cn.Close()
 
 			wg.Add(1)
-			go func() {
+			golang func() {
 				defer wg.Done()
 				io.Copy(io.Discard, cn)
 			}()
@@ -6151,7 +6151,7 @@ func TestServerHijackGetsBackgroundByte(t *testing.T) {
 }
 func testServerHijackGetsBackgroundByte(t *testing.T, mode testMode) {
 	if runtime.GOOS == "plan9" {
-		t.Skip("skipping test; see https://golang.org/issue/18657")
+		t.Skip("skipping test; see https://golanglang.org/issue/18657")
 	}
 	done := make(chan struct{})
 	inHandler := make(chan bool, 1)
@@ -6205,7 +6205,7 @@ func TestServerHijackGetsFullBody(t *testing.T) {
 }
 func testServerHijackGetsFullBody(t *testing.T, mode testMode) {
 	if runtime.GOOS == "plan9" {
-		t.Skip("skipping test; see https://golang.org/issue/18657")
+		t.Skip("skipping test; see https://golanglang.org/issue/18657")
 	}
 	done := make(chan struct{})
 	needle := strings.Repeat("x", 100*1024) // assume: larger than net/http bufio size
@@ -6219,10 +6219,10 @@ func testServerHijackGetsFullBody(t *testing.T, mode testMode) {
 		}
 		defer conn.Close()
 
-		got := make([]byte, len(needle))
-		n, err := io.ReadFull(buf.Reader, got)
-		if n != len(needle) || string(got) != needle || err != nil {
-			t.Errorf("Peek = %q, %v; want 'x'*4096, nil", got, err)
+		golangt := make([]byte, len(needle))
+		n, err := io.ReadFull(buf.Reader, golangt)
+		if n != len(needle) || string(golangt) != needle || err != nil {
+			t.Errorf("Peek = %q, %v; want 'x'*4096, nil", golangt, err)
 		}
 	})).ts
 
@@ -6251,7 +6251,7 @@ func TestServerHijackGetsBackgroundByte_big(t *testing.T) {
 }
 func testServerHijackGetsBackgroundByte_big(t *testing.T, mode testMode) {
 	if runtime.GOOS == "plan9" {
-		t.Skip("skipping test; see https://golang.org/issue/18657")
+		t.Skip("skipping test; see https://golanglang.org/issue/18657")
 	}
 	done := make(chan struct{})
 	const size = 8 << 10
@@ -6311,7 +6311,7 @@ func TestServerValidatesMethod(t *testing.T) {
 		io.WriteString(&conn.readBuf, tt.method+" / HTTP/1.1\r\nHost: foo.example\r\n\r\n")
 
 		ln := &oneConnListener{conn}
-		go Serve(ln, serve(200))
+		golang Serve(ln, serve(200))
 		<-conn.closec
 		res, err := ReadResponse(bufio.NewReader(&conn.writeBuf), nil)
 		if err != nil {
@@ -6363,7 +6363,7 @@ func TestServerCloseListenerOnce(t *testing.T) {
 	server := &Server{}
 	sdone := make(chan bool, 1)
 
-	go func() {
+	golang func() {
 		server.Serve(cl)
 		sdone <- true
 	}()
@@ -6383,9 +6383,9 @@ func TestServerShutdownThenServe(t *testing.T) {
 	var srv Server
 	cl := &countCloseListener{Listener: nil}
 	srv.Shutdown(context.Background())
-	got := srv.Serve(cl)
-	if got != ErrServerClosed {
-		t.Errorf("Serve err = %v; want ErrServerClosed", got)
+	golangt := srv.Serve(cl)
+	if golangt != ErrServerClosed {
+		t.Errorf("Serve err = %v; want ErrServerClosed", golangt)
 	}
 	nclose := atomic.LoadInt32(&cl.closes)
 	if nclose != 1 {
@@ -6411,7 +6411,7 @@ func TestStripPortFromHost(t *testing.T) {
 
 	response := rw.Body.String()
 	if response != "OK" {
-		t.Errorf("Response gotten was %q", response)
+		t.Errorf("Response golangtten was %q", response)
 	}
 }
 
@@ -6430,8 +6430,8 @@ func testServerContexts(t *testing.T, mode testMode) {
 			return context.WithValue(context.Background(), baseKey{}, "base")
 		}
 		ts.Config.ConnContext = func(ctx context.Context, c net.Conn) context.Context {
-			if got, want := ctx.Value(baseKey{}), "base"; got != want {
-				t.Errorf("in ConnContext, base context key = %#v; want %q", got, want)
+			if golangt, want := ctx.Value(baseKey{}), "base"; golangt != want {
+				t.Errorf("in ConnContext, base context key = %#v; want %q", golangt, want)
 			}
 			return context.WithValue(ctx, connKey{}, "conn")
 		}
@@ -6442,11 +6442,11 @@ func testServerContexts(t *testing.T, mode testMode) {
 	}
 	res.Body.Close()
 	ctx := <-ch
-	if got, want := ctx.Value(baseKey{}), "base"; got != want {
-		t.Errorf("base context key = %#v; want %q", got, want)
+	if golangt, want := ctx.Value(baseKey{}), "base"; golangt != want {
+		t.Errorf("base context key = %#v; want %q", golangt, want)
 	}
-	if got, want := ctx.Value(connKey{}), "conn"; got != want {
-		t.Errorf("conn context key = %#v; want %q", got, want)
+	if golangt, want := ctx.Value(connKey{}), "conn"; golangt != want {
+		t.Errorf("conn context key = %#v; want %q", golangt, want)
 	}
 }
 
@@ -6460,8 +6460,8 @@ func testConnContextNotModifyingAllContexts(t *testing.T, mode testMode) {
 		rw.Header().Set("Connection", "close")
 	}), func(ts *httptest.Server) {
 		ts.Config.ConnContext = func(ctx context.Context, c net.Conn) context.Context {
-			if got := ctx.Value(connKey{}); got != nil {
-				t.Errorf("in ConnContext, unexpected context key = %#v", got)
+			if golangt := ctx.Value(connKey{}); golangt != nil {
+				t.Errorf("in ConnContext, unexpected context key = %#v", golangt)
 			}
 			return context.WithValue(ctx, connKey{}, "conn")
 		}
@@ -6510,7 +6510,7 @@ func testUnsupportedTransferEncodingsReturn501(t *testing.T, mode testMode) {
 			"POST / HTTP/1.1\r\nConnection: close\r\n"+
 			"Host: localhost\r\nTransfer-Encoding: %s\r\n\r\n", badTE)
 
-		gotBody, err := fetchWireResponse(serverURL.Host, []byte(http1ReqBody))
+		golangtBody, err := fetchWireResponse(serverURL.Host, []byte(http1ReqBody))
 		if err != nil {
 			t.Errorf("%q. unexpected error: %v", badTE, err)
 			continue
@@ -6520,8 +6520,8 @@ func testUnsupportedTransferEncodingsReturn501(t *testing.T, mode testMode) {
 			"HTTP/1.1 501 Not Implemented\r\nContent-Type: text/plain; charset=utf-8\r\n" +
 			"Connection: close\r\n\r\nUnsupported transfer encoding")
 
-		if string(gotBody) != wantBody {
-			t.Errorf("%q. body\ngot\n%q\nwant\n%q", badTE, gotBody, wantBody)
+		if string(golangtBody) != wantBody {
+			t.Errorf("%q. body\ngolangt\n%q\nwant\n%q", badTE, golangtBody, wantBody)
 		}
 	}
 }
@@ -6606,14 +6606,14 @@ func testContentEncodingNoSniffing(t *testing.T, mode testMode) {
 
 			if g, w := res.Header.Get("Content-Encoding"), tt.contentEncoding; g != w {
 				if w != nil { // The case where contentEncoding was set explicitly.
-					t.Errorf("Content-Encoding mismatch\n\tgot:  %q\n\twant: %q", g, w)
+					t.Errorf("Content-Encoding mismatch\n\tgolangt:  %q\n\twant: %q", g, w)
 				} else if g != "" { // "" should be the equivalent when the contentEncoding is unset.
 					t.Errorf("Unexpected Content-Encoding %q", g)
 				}
 			}
 
 			if g, w := res.Header.Get("Content-Type"), tt.wantContentType; g != w {
-				t.Errorf("Content-Type mismatch\n\tgot:  %q\n\twant: %q", g, w)
+				t.Errorf("Content-Type mismatch\n\tgolangt:  %q\n\twant: %q", g, w)
 			}
 		})
 	}
@@ -6706,7 +6706,7 @@ func testTimeoutHandlerSuperfluousLogs(t *testing.T, mode testMode) {
 			logEntries := strings.Split(strings.TrimSpace(logBuf.String()), "\n")
 			if g, w := len(logEntries), 3; g != w {
 				blob, _ := json.MarshalIndent(logEntries, "", "  ")
-				t.Fatalf("Server logs count mismatch\ngot %d, want %d\n\nGot\n%s\n", g, w, blob)
+				t.Fatalf("Server logs count mismatch\ngolangt %d, want %d\n\nGot\n%s\n", g, w, blob)
 			}
 
 			lastSpuriousLine := <-lastLine
@@ -6808,7 +6808,7 @@ func testDisableKeepAliveUpgrade(t *testing.T, mode testMode) {
 	}
 
 	if string(b) != "hello" {
-		t.Fatalf("unexpected value read from body:\ngot: %q\nwant: %q", b, "hello")
+		t.Fatalf("unexpected value read from body:\ngolangt: %q\nwant: %q", b, "hello")
 	}
 }
 
@@ -6869,8 +6869,8 @@ func testWriteHeaderSwitchingProtocols(t *testing.T, mode testMode) {
 	if res.StatusCode != StatusSwitchingProtocols {
 		t.Errorf("Response StatusCode=%v, want 101", res.StatusCode)
 	}
-	if got := res.Header.Get("Upgrade"); got != wantUpgrade {
-		t.Errorf("Response Upgrade header = %q, want %q", got, wantUpgrade)
+	if golangt := res.Header.Get("Upgrade"); golangt != wantUpgrade {
+		t.Errorf("Response Upgrade header = %q, want %q", golangt, wantUpgrade)
 	}
 	body, err := io.ReadAll(r)
 	if err != nil {
@@ -6890,11 +6890,11 @@ func TestMuxRedirectRelative(t *testing.T) {
 	mux := NewServeMux()
 	resp := httptest.NewRecorder()
 	mux.ServeHTTP(resp, req)
-	if got, want := resp.Header().Get("Location"), "/"; got != want {
-		t.Errorf("Location header expected %q; got %q", want, got)
+	if golangt, want := resp.Header().Get("Location"), "/"; golangt != want {
+		t.Errorf("Location header expected %q; golangt %q", want, golangt)
 	}
-	if got, want := resp.Code, StatusMovedPermanently; got != want {
-		t.Errorf("Expected response code %d; got %d", want, got)
+	if golangt, want := resp.Code, StatusMovedPermanently; golangt != want {
+		t.Errorf("Expected response code %d; golangt %d", want, golangt)
 	}
 }
 
@@ -6908,10 +6908,10 @@ func TestQuerySemicolon(t *testing.T) {
 		xWithSemicolons    string
 		expectParseFormErr bool
 	}{
-		{"?a=1;x=bad&x=good", "good", "bad", true},
-		{"?a=1;b=bad&x=good", "good", "good", true},
-		{"?a=1%3Bx=bad&x=good%3B", "good;", "good;", false},
-		{"?a=1;x=good;x=bad", "", "good", true},
+		{"?a=1;x=bad&x=golangod", "golangod", "bad", true},
+		{"?a=1;b=bad&x=golangod", "golangod", "golangod", true},
+		{"?a=1%3Bx=bad&x=golangod%3B", "golangod;", "golangod;", false},
+		{"?a=1;x=golangod;x=bad", "", "golangod", true},
 	}
 
 	run(t, func(t *testing.T, mode testMode) {
@@ -6933,15 +6933,15 @@ func testQuerySemicolon(t *testing.T, mode testMode, query string, wantX string,
 		x := r.URL.Query().Get("x")
 		if expectParseFormErr {
 			if err := r.ParseForm(); err == nil || !strings.Contains(err.Error(), "semicolon") {
-				t.Errorf("expected error mentioning semicolons from ParseForm, got %v", err)
+				t.Errorf("expected error mentioning semicolons from ParseForm, golangt %v", err)
 			}
 		} else {
 			if err := r.ParseForm(); err != nil {
-				t.Errorf("expected no error from ParseForm, got %v", err)
+				t.Errorf("expected no error from ParseForm, golangt %v", err)
 			}
 		}
-		if got := r.FormValue("x"); x != got {
-			t.Errorf("got %q from FormValue, want %q", got, x)
+		if golangt := r.FormValue("x"); x != golangt {
+			t.Errorf("golangt %q from FormValue, want %q", golangt, x)
 		}
 		fmt.Fprintf(w, "%s", x)
 	}
@@ -6963,11 +6963,11 @@ func testQuerySemicolon(t *testing.T, mode testMode, query string, wantX string,
 	}
 	slurp, _ := io.ReadAll(res.Body)
 	res.Body.Close()
-	if got, want := res.StatusCode, 200; got != want {
-		t.Errorf("Status = %d; want = %d", got, want)
+	if golangt, want := res.StatusCode, 200; golangt != want {
+		t.Errorf("Status = %d; want = %d", golangt, want)
 	}
-	if got, want := string(slurp), wantX; got != want {
-		t.Errorf("Body = %q; want = %q", got, want)
+	if golangt, want := string(slurp), wantX; golangt != want {
+		t.Errorf("Body = %q; want = %q", golangt, want)
 	}
 }
 
@@ -7055,21 +7055,21 @@ func testMaxBytesHandler(t *testing.T, mode testMode, maxSize, requestSize int64
 		// instead of returning a (retriable) error.
 
 		if handlerN > maxSize {
-			t.Errorf("expected max request body %d; got %d", maxSize, handlerN)
+			t.Errorf("expected max request body %d; golangt %d", maxSize, handlerN)
 		}
 		if requestSize > maxSize && handlerErr == nil {
-			t.Error("expected error on handler side; got nil")
+			t.Error("expected error on handler side; golangt nil")
 		}
 		if requestSize <= maxSize {
 			if handlerErr != nil {
-				t.Errorf("%d expected nil error on handler side; got %v", requestSize, handlerErr)
+				t.Errorf("%d expected nil error on handler side; golangt %v", requestSize, handlerErr)
 			}
 			if handlerN != requestSize {
-				t.Errorf("expected request of size %d; got %d", requestSize, handlerN)
+				t.Errorf("expected request of size %d; golangt %d", requestSize, handlerN)
 			}
 		}
 		if buf.Len() != int(handlerN) {
-			t.Errorf("expected echo of size %d; got %d", handlerN, buf.Len())
+			t.Errorf("expected echo of size %d; golangt %d", handlerN, buf.Len())
 		}
 
 		return nil
@@ -7089,10 +7089,10 @@ func TestEarlyHints(t *testing.T) {
 		w.Write([]byte("stuff"))
 	}))
 
-	got := ht.rawResponse("GET / HTTP/1.1\nHost: golang.org")
+	golangt := ht.rawResponse("GET / HTTP/1.1\nHost: golanglang.org")
 	expected := "HTTP/1.1 103 Early Hints\r\nLink: </style.css>; rel=preload; as=style\r\nLink: </script.js>; rel=preload; as=script\r\n\r\nHTTP/1.1 103 Early Hints\r\nLink: </style.css>; rel=preload; as=style\r\nLink: </script.js>; rel=preload; as=script\r\nLink: </foo.js>; rel=preload; as=script\r\n\r\nHTTP/1.1 200 OK\r\nLink: </style.css>; rel=preload; as=style\r\nLink: </script.js>; rel=preload; as=script\r\nLink: </foo.js>; rel=preload; as=script\r\nDate: " // dynamic content expected
-	if !strings.Contains(got, expected) {
-		t.Errorf("unexpected response; got %q; should start by %q", got, expected)
+	if !strings.Contains(golangt, expected) {
+		t.Errorf("unexpected response; golangt %q; should start by %q", golangt, expected)
 	}
 }
 func TestProcessing(t *testing.T) {
@@ -7101,17 +7101,17 @@ func TestProcessing(t *testing.T) {
 		w.Write([]byte("stuff"))
 	}))
 
-	got := ht.rawResponse("GET / HTTP/1.1\nHost: golang.org")
+	golangt := ht.rawResponse("GET / HTTP/1.1\nHost: golanglang.org")
 	expected := "HTTP/1.1 102 Processing\r\n\r\nHTTP/1.1 200 OK\r\nDate: " // dynamic content expected
-	if !strings.Contains(got, expected) {
-		t.Errorf("unexpected response; got %q; should start by %q", got, expected)
+	if !strings.Contains(golangt, expected) {
+		t.Errorf("unexpected response; golangt %q; should start by %q", golangt, expected)
 	}
 }
 
 func TestParseFormCleanup(t *testing.T) { run(t, testParseFormCleanup) }
 func testParseFormCleanup(t *testing.T, mode testMode) {
 	if mode == http2Mode {
-		t.Skip("https://go.dev/issue/20253")
+		t.Skip("https://golang.dev/issue/20253")
 	}
 
 	const maxMemory = 1024
@@ -7119,7 +7119,7 @@ func testParseFormCleanup(t *testing.T, mode testMode) {
 
 	if runtime.GOOS == "windows" {
 		// Windows sometimes refuses to remove a file that was just closed.
-		t.Skip("https://go.dev/issue/25965")
+		t.Skip("https://golang.dev/issue/25965")
 	}
 
 	cst := newClientServerTest(t, mode, HandlerFunc(func(w ResponseWriter, r *Request) {
@@ -7220,11 +7220,11 @@ func testHeadBody(t *testing.T, mode testMode, chunked bool, method string) {
 			t.Fatal(err)
 		}
 		res.Body.Close()
-		if got, want := res.StatusCode, 200; got != want {
-			t.Errorf("%v request with %d-byte body: StatusCode = %v, want %v", method, len(reqBody), got, want)
+		if golangt, want := res.StatusCode, 200; golangt != want {
+			t.Errorf("%v request with %d-byte body: StatusCode = %v, want %v", method, len(reqBody), golangt, want)
 		}
-		if got, want := res.Header.Get("X-Request-Body"), reqBody; got != want {
-			t.Errorf("%v request with %d-byte body: handler read body %q, want %q", method, len(reqBody), got, want)
+		if golangt, want := res.Header.Get("X-Request-Body"), reqBody; golangt != want {
+			t.Errorf("%v request with %d-byte body: handler read body %q, want %q", method, len(reqBody), golangt, want)
 		}
 	}
 }
@@ -7242,8 +7242,8 @@ func testDisableContentLength(t *testing.T, mode testMode) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if got, haveCL := res.Header["Content-Length"]; haveCL {
-		t.Errorf("Unexpected Content-Length: %q", got)
+	if golangt, haveCL := res.Header["Content-Length"]; haveCL {
+		t.Errorf("Unexpected Content-Length: %q", golangt)
 	}
 	if err := res.Body.Close(); err != nil {
 		t.Fatal(err)
@@ -7257,8 +7257,8 @@ func testDisableContentLength(t *testing.T, mode testMode) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if got := res.Header.Get("Content-Length"); got != "2" {
-		t.Errorf("Content-Length: %q; want 2", got)
+	if golangt := res.Header.Get("Content-Length"); golangt != "2" {
+		t.Errorf("Content-Length: %q; want 2", golangt)
 	}
 	if err := res.Body.Close(); err != nil {
 		t.Fatal(err)
@@ -7311,7 +7311,7 @@ func TestServerReadAfterWriteHeader100Continue(t *testing.T) {
 	run(t, testServerReadAfterWriteHeader100Continue)
 }
 func testServerReadAfterWriteHeader100Continue(t *testing.T, mode testMode) {
-	t.Skip("https://go.dev/issue/67555")
+	t.Skip("https://golang.dev/issue/67555")
 	body := []byte("body")
 	cst := newClientServerTest(t, mode, HandlerFunc(func(w ResponseWriter, r *Request) {
 		w.WriteHeader(200)
@@ -7329,12 +7329,12 @@ func testServerReadAfterWriteHeader100Continue(t *testing.T, mode testMode) {
 		t.Fatalf("Get(%q) = %v", cst.ts.URL, err)
 	}
 	defer res.Body.Close()
-	got, err := io.ReadAll(res.Body)
+	golangt, err := io.ReadAll(res.Body)
 	if err != nil {
 		t.Fatalf("io.ReadAll(res.Body) = %v", err)
 	}
-	if !bytes.Equal(got, body) {
-		t.Fatalf("response body = %q, want %q", got, body)
+	if !bytes.Equal(golangt, body) {
+		t.Fatalf("response body = %q, want %q", golangt, body)
 	}
 }
 
@@ -7342,10 +7342,10 @@ func TestServerReadAfterHandlerDone100Continue(t *testing.T) {
 	run(t, testServerReadAfterHandlerDone100Continue)
 }
 func testServerReadAfterHandlerDone100Continue(t *testing.T, mode testMode) {
-	t.Skip("https://go.dev/issue/67555")
+	t.Skip("https://golang.dev/issue/67555")
 	readyc := make(chan struct{})
 	cst := newClientServerTest(t, mode, HandlerFunc(func(w ResponseWriter, r *Request) {
-		go func() {
+		golang func() {
 			<-readyc
 			io.ReadAll(r.Body)
 			<-readyc
@@ -7369,10 +7369,10 @@ func TestServerReadAfterHandlerAbort100Continue(t *testing.T) {
 	run(t, testServerReadAfterHandlerAbort100Continue)
 }
 func testServerReadAfterHandlerAbort100Continue(t *testing.T, mode testMode) {
-	t.Skip("https://go.dev/issue/67555")
+	t.Skip("https://golang.dev/issue/67555")
 	readyc := make(chan struct{})
 	cst := newClientServerTest(t, mode, HandlerFunc(func(w ResponseWriter, r *Request) {
-		go func() {
+		golang func() {
 			<-readyc
 			io.ReadAll(r.Body)
 			<-readyc
@@ -7406,9 +7406,9 @@ func TestInvalidChunkedBodies(t *testing.T) {
 		t.Run(test.name, func(t *testing.T) {
 			reqc := make(chan error)
 			ts := newClientServerTest(t, http1Mode, HandlerFunc(func(w ResponseWriter, r *Request) {
-				got, err := io.ReadAll(r.Body)
+				golangt, err := io.ReadAll(r.Body)
 				if err == nil {
-					t.Logf("read body: %q", got)
+					t.Logf("read body: %q", golangt)
 				}
 				reqc <- err
 			})).ts
@@ -7489,7 +7489,7 @@ func testServerTLSNextProtos(t *testing.T, mode testMode) {
 
 	listener := newLocalListener(t)
 	srvc := make(chan error, 1)
-	go func() {
+	golang func() {
 		srvc <- srv.ServeTLS(listener, "", "")
 	}()
 	t.Cleanup(func() {

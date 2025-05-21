@@ -1,5 +1,5 @@
-// created by cgo -cdefs and then converted to Go
-// cgo -cdefs defs_dragonfly.go
+// created by cgolang -cdefs and then converted to Go
+// cgolang -cdefs defs_dragolangnfly.golang
 
 package runtime
 
@@ -121,7 +121,7 @@ type stackt struct {
 	ss_sp     uintptr
 	ss_size   uintptr
 	ss_flags  int32
-	pad_cgo_0 [4]byte
+	pad_cgolang_0 [4]byte
 }
 
 type siginfo struct {
@@ -135,7 +135,7 @@ type siginfo struct {
 	si_value  [8]byte
 	si_band   int64
 	__spare__ [7]int32
-	pad_cgo_0 [4]byte
+	pad_cgolang_0 [4]byte
 }
 
 type mcontext struct {
@@ -175,7 +175,7 @@ type mcontext struct {
 
 type ucontext struct {
 	uc_sigmask  sigset
-	pad_cgo_0   [48]byte
+	pad_cgolang_0   [48]byte
 	uc_mcontext mcontext
 	uc_link     *ucontext
 	uc_stack    stackt
@@ -187,7 +187,7 @@ type timespec struct {
 	tv_nsec int64
 }
 
-//go:nosplit
+//golang:nosplit
 func (ts *timespec) setNsec(ns int64) {
 	ts.tv_sec = ns / 1e9
 	ts.tv_nsec = ns % 1e9

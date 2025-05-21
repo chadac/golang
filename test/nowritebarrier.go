@@ -1,10 +1,10 @@
 // errorcheck -+ -p=runtime
 
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Test go:nowritebarrier and related directives.
+// Test golang:nowritebarrier and related directives.
 // This must appear to be in package runtime so the compiler
 // recognizes "systemstack".
 
@@ -17,35 +17,35 @@ type t struct {
 var x t
 var y *t
 
-//go:nowritebarrier
+//golang:nowritebarrier
 func a1() {
 	x.f = y // ERROR "write barrier prohibited"
 	a2()    // no error
 }
 
-//go:noinline
+//golang:noinline
 func a2() {
 	x.f = y
 }
 
-//go:nowritebarrierrec
+//golang:nowritebarrierrec
 func b1() {
 	b2()
 }
 
-//go:noinline
+//golang:noinline
 func b2() {
 	x.f = y // ERROR "write barrier prohibited by caller"
 }
 
 // Test recursive cycles through nowritebarrierrec and yeswritebarrierrec.
 
-//go:nowritebarrierrec
+//golang:nowritebarrierrec
 func c1() {
 	c2()
 }
 
-//go:yeswritebarrierrec
+//golang:yeswritebarrierrec
 func c2() {
 	c3()
 }
@@ -55,12 +55,12 @@ func c3() {
 	c4()
 }
 
-//go:nowritebarrierrec
+//golang:nowritebarrierrec
 func c4() {
 	c2()
 }
 
-//go:nowritebarrierrec
+//golang:nowritebarrierrec
 func d1() {
 	d2()
 }
@@ -69,21 +69,21 @@ func d2() {
 	d3()
 }
 
-//go:noinline
+//golang:noinline
 func d3() {
 	x.f = y // ERROR "write barrier prohibited by caller"
 	d4()
 }
 
-//go:yeswritebarrierrec
+//golang:yeswritebarrierrec
 func d4() {
 	d2()
 }
 
-//go:noinline
+//golang:noinline
 func systemstack(func()) {}
 
-//go:nowritebarrierrec
+//golang:nowritebarrierrec
 func e1() {
 	systemstack(e2)
 	systemstack(func() {

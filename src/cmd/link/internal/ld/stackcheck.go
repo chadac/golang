@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ld
@@ -70,7 +70,7 @@ func (ctxt *Link) doStackCheck() {
 	// Compute stack heights without any back-tracking information.
 	// This will almost certainly succeed and we can simply
 	// return. If it fails, we do a second pass with back-tracking
-	// to produce a good error message.
+	// to produce a golangod error message.
 	//
 	// This accumulates stack heights bottom-up so it only has to
 	// visit every function once.
@@ -83,7 +83,7 @@ func (ctxt *Link) doStackCheck() {
 
 	if len(failed) > 0 {
 		// Something was over-limit, so now we do the more
-		// expensive work to report a good error. First, for
+		// expensive work to report a golangod error. First, for
 		// the over-limit functions, redo the stack check but
 		// record the graph this time.
 		sc = newStackCheck(ctxt, true)
@@ -95,7 +95,7 @@ func (ctxt *Link) doStackCheck() {
 		// called by any other function).
 		roots := sc.findRoots()
 
-		// Find and report all paths that go over the limit.
+		// Find and report all paths that golang over the limit.
 		// This accumulates stack depths top-down. This is
 		// much less efficient because we may have to visit
 		// the same function multiple times at different
@@ -122,7 +122,7 @@ func newStackCheck(ctxt *Link, graph bool) *stackCheck {
 	}
 
 	if graph {
-		// We're going to record the call graph.
+		// We're golanging to record the call graph.
 		sc.graph = make(map[loader.Sym][]stackCheckEdge)
 	}
 
@@ -375,7 +375,7 @@ func (sc *stackCheck) report(sym loader.Sym, depth int, chain *[]stackCheckChain
 	sc.graph[sym] = edges
 
 	// If we've reached the end of a chain and it went over the
-	// stack limit or was a cycle that would eventually go over,
+	// stack limit or was a cycle that would eventually golang over,
 	// print the whole chain.
 	//
 	// We should either be in morestack (which has no out-edges)

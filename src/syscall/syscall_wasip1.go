@@ -1,8 +1,8 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build wasip1
+//golang:build wasip1
 
 package syscall
 
@@ -463,8 +463,8 @@ const (
 	clockThreadCPUTimeID
 )
 
-//go:wasmimport wasi_snapshot_preview1 clock_time_get
-//go:noescape
+//golang:wasmimport wasi_snapshot_preview1 clock_time_get
+//golang:noescape
 func clock_time_get(id clockid, precision timestamp, time *timestamp) Errno
 
 func SetNonblock(fd int, nonblocking bool) error {

@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package sync_test
@@ -21,12 +21,12 @@ var http httpPkg
 func ExampleWaitGroup() {
 	var wg sync.WaitGroup
 	var urls = []string{
-		"http://www.golang.org/",
-		"http://www.google.com/",
+		"http://www.golanglang.org/",
+		"http://www.golangogle.com/",
 		"http://www.example.com/",
 	}
 	for _, url := range urls {
-		// Launch a goroutine to fetch the URL.
+		// Launch a golangroutine to fetch the URL.
 		wg.Go(func() {
 			// Fetch the URL.
 			http.Get(url)
@@ -41,16 +41,16 @@ func ExampleWaitGroup() {
 func ExampleWaitGroup_addAndDone() {
 	var wg sync.WaitGroup
 	var urls = []string{
-		"http://www.golang.org/",
-		"http://www.google.com/",
+		"http://www.golanglang.org/",
+		"http://www.golangogle.com/",
 		"http://www.example.com/",
 	}
 	for _, url := range urls {
 		// Increment the WaitGroup counter.
 		wg.Add(1)
-		// Launch a goroutine to fetch the URL.
-		go func(url string) {
-			// Decrement the counter when the goroutine completes.
+		// Launch a golangroutine to fetch the URL.
+		golang func(url string) {
+			// Decrement the counter when the golangroutine completes.
 			defer wg.Done()
 			// Fetch the URL.
 			http.Get(url)
@@ -67,7 +67,7 @@ func ExampleOnce() {
 	}
 	done := make(chan bool)
 	for i := 0; i < 10; i++ {
-		go func() {
+		golang func() {
 			once.Do(onceBody)
 			done <- true
 		}()
@@ -92,11 +92,11 @@ func ExampleOnceValue() {
 	})
 	done := make(chan bool)
 	for i := 0; i < 10; i++ {
-		go func() {
+		golang func() {
 			const want = 499500
-			got := once()
-			if got != want {
-				fmt.Println("want", want, "got", got)
+			golangt := once()
+			if golangt != want {
+				fmt.Println("want", want, "golangt", golangt)
 			}
 			done <- true
 		}()
@@ -112,11 +112,11 @@ func ExampleOnceValue() {
 func ExampleOnceValues() {
 	once := sync.OnceValues(func() ([]byte, error) {
 		fmt.Println("Reading file once")
-		return os.ReadFile("example_test.go")
+		return os.ReadFile("example_test.golang")
 	})
 	done := make(chan bool)
 	for i := 0; i < 10; i++ {
-		go func() {
+		golang func() {
 			data, err := once()
 			if err != nil {
 				fmt.Println("error:", err)

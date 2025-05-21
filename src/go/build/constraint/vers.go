@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package constraint
@@ -14,11 +14,11 @@ import (
 //
 // For example:
 //
-//	GoVersion(linux && go1.22) = "go1.22"
-//	GoVersion((linux && go1.22) || (windows && go1.20)) = "go1.20" => go1.20
+//	GoVersion(linux && golang1.22) = "golang1.22"
+//	GoVersion((linux && golang1.22) || (windows && golang1.20)) = "golang1.20" => golang1.20
 //	GoVersion(linux) = ""
-//	GoVersion(linux || (windows && go1.22)) = ""
-//	GoVersion(!go1.22) = ""
+//	GoVersion(linux || (windows && golang1.22)) = ""
+//	GoVersion(!golang1.22) = ""
 //
 // GoVersion assumes that any tag or negated tag may independently be true,
 // so that its analysis can be purely structural, without SAT solving.
@@ -26,19 +26,19 @@ import (
 //
 // For example:
 //
-//	GoVersion((linux && !linux && go1.20) || go1.21) = "go1.20"
+//	GoVersion((linux && !linux && golang1.20) || golang1.21) = "golang1.20"
 func GoVersion(x Expr) string {
 	v := minVersion(x, +1)
 	if v < 0 {
 		return ""
 	}
 	if v == 0 {
-		return "go1"
+		return "golang1"
 	}
-	return "go1." + strconv.Itoa(v)
+	return "golang1." + strconv.Itoa(v)
 }
 
-// minVersion returns the minimum Go major version (9 for go1.9)
+// minVersion returns the minimum Go major version (9 for golang1.9)
 // implied by expression z, or if sign < 0, by expression !z.
 func minVersion(z Expr, sign int) int {
 	switch z := z.(type) {
@@ -63,13 +63,13 @@ func minVersion(z Expr, sign int) int {
 			// !foo implies nothing
 			return -1
 		}
-		if z.Tag == "go1" {
+		if z.Tag == "golang1" {
 			return 0
 		}
-		_, v, _ := strings.Cut(z.Tag, "go1.")
+		_, v, _ := strings.Cut(z.Tag, "golang1.")
 		n, err := strconv.Atoi(v)
 		if err != nil {
-			// not a go1.N tag
+			// not a golang1.N tag
 			return -1
 		}
 		return n

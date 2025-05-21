@@ -227,7 +227,7 @@ const (
 	EM_SH            Machine = 42  /* Hitachi SH. */
 	EM_SPARCV9       Machine = 43  /* SPARC v9 64-bit. */
 	EM_TRICORE       Machine = 44  /* Siemens TriCore embedded processor. */
-	EM_ARC           Machine = 45  /* Argonaut RISC Core. */
+	EM_ARC           Machine = 45  /* Argolangnaut RISC Core. */
 	EM_H8_300        Machine = 46  /* Hitachi H8/300. */
 	EM_H8_300H       Machine = 47  /* Hitachi H8/300H. */
 	EM_H8S           Machine = 48  /* Hitachi H8S. */
@@ -3593,10 +3593,10 @@ const (
 	VER_FLG_INFO DynamicVersionFlag = 0x4 /* Reference exists for informational purposes. */
 )
 
-func stringName(i uint32, names []intName, goSyntax bool) string {
+func stringName(i uint32, names []intName, golangSyntax bool) string {
 	for _, n := range names {
 		if n.i == i {
-			if goSyntax {
+			if golangSyntax {
 				return "elf." + n.s
 			}
 			return n.s
@@ -3609,7 +3609,7 @@ func stringName(i uint32, names []intName, goSyntax bool) string {
 		n := names[j]
 		if n.i < i {
 			s := n.s
-			if goSyntax {
+			if golangSyntax {
 				s = "elf." + s
 			}
 			return s + "+" + strconv.FormatUint(uint64(i-n.i), 10)
@@ -3619,14 +3619,14 @@ func stringName(i uint32, names []intName, goSyntax bool) string {
 	return strconv.FormatUint(uint64(i), 10)
 }
 
-func flagName(i uint32, names []intName, goSyntax bool) string {
+func flagName(i uint32, names []intName, golangSyntax bool) string {
 	s := ""
 	for _, n := range names {
 		if n.i&i == n.i {
 			if len(s) > 0 {
 				s += "+"
 			}
-			if goSyntax {
+			if golangSyntax {
 				s += "elf."
 			}
 			s += n.s

@@ -1,5 +1,5 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
@@ -8,14 +8,14 @@ import (
 	"internal/abi"
 	"internal/byteorder"
 	"internal/cpu"
-	"internal/goarch"
+	"internal/golangarch"
 	"internal/runtime/sys"
 	"unsafe"
 )
 
 const (
-	c0 = uintptr((8-goarch.PtrSize)/4*2860486313 + (goarch.PtrSize-4)/4*33054211828000289)
-	c1 = uintptr((8-goarch.PtrSize)/4*3267000013 + (goarch.PtrSize-4)/4*23344194077549503)
+	c0 = uintptr((8-golangarch.PtrSize)/4*2860486313 + (golangarch.PtrSize-4)/4*33054211828000289)
+	c1 = uintptr((8-golangarch.PtrSize)/4*3267000013 + (golangarch.PtrSize-4)/4*23344194077549503)
 )
 
 func memhash0(p unsafe.Pointer, h uintptr) uintptr {
@@ -34,7 +34,7 @@ func memhash128(p unsafe.Pointer, h uintptr) uintptr {
 	return memhash(p, h, 16)
 }
 
-//go:nosplit
+//golang:nosplit
 func memhash_varlen(p unsafe.Pointer, h uintptr) uintptr {
 	ptr := sys.GetClosurePtr()
 	size := *(*uintptr)(unsafe.Pointer(ptr + unsafe.Sizeof(h)))
@@ -53,8 +53,8 @@ var useAeshash bool
 // Notable members of the hall of shame include:
 //   - github.com/aacfactory/fns
 //   - github.com/dgraph-io/ristretto
-//   - github.com/minio/simdjson-go
-//   - github.com/nbd-wtf/go-nostr
+//   - github.com/minio/simdjson-golang
+//   - github.com/nbd-wtf/golang-nostr
 //   - github.com/outcaste-io/ristretto
 //   - github.com/puzpuzpuz/xsync/v2
 //   - github.com/puzpuzpuz/xsync/v3
@@ -62,9 +62,9 @@ var useAeshash bool
 //   - github.com/pingcap/badger
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname memhash
+//golang:linkname memhash
 func memhash(p unsafe.Pointer, h, s uintptr) uintptr
 
 func memhash32(p unsafe.Pointer, h uintptr) uintptr
@@ -74,16 +74,16 @@ func memhash64(p unsafe.Pointer, h uintptr) uintptr
 // strhash should be an internal detail,
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
-//   - github.com/aristanetworks/goarista
+//   - github.com/aristanetworks/golangarista
 //   - github.com/bytedance/sonic
-//   - github.com/bytedance/go-tagexpr/v2
-//   - github.com/cloudwego/dynamicgo
+//   - github.com/bytedance/golang-tagexpr/v2
+//   - github.com/cloudwegolang/dynamicgolang
 //   - github.com/v2fly/v2ray-core/v5
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname strhash
+//golang:linkname strhash
 func strhash(p unsafe.Pointer, h uintptr) uintptr
 
 func strhashFallback(a unsafe.Pointer, h uintptr) uintptr {
@@ -155,12 +155,12 @@ func interhash(p unsafe.Pointer, h uintptr) uintptr {
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
 //   - github.com/anacrolix/stm
-//   - github.com/aristanetworks/goarista
+//   - github.com/aristanetworks/golangarista
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname nilinterhash
+//golang:linkname nilinterhash
 func nilinterhash(p unsafe.Pointer, h uintptr) uintptr {
 	a := (*eface)(p)
 	t := a._type
@@ -196,9 +196,9 @@ func nilinterhash(p unsafe.Pointer, h uintptr) uintptr {
 //   - github.com/puzpuzpuz/xsync/v3
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname typehash
+//golang:linkname typehash
 func typehash(t *_type, p unsafe.Pointer, h uintptr) uintptr {
 	if t.TFlag&abi.TFlagRegularMemory != 0 {
 		// Handle ptr sizes specially, see issue 37086.
@@ -250,7 +250,7 @@ func typehash(t *_type, p unsafe.Pointer, h uintptr) uintptr {
 	}
 }
 
-//go:linkname reflect_typehash reflect.typehash
+//golang:linkname reflect_typehash reflect.typehash
 func reflect_typehash(t *_type, p unsafe.Pointer, h uintptr) uintptr {
 	return typehash(t, p, h)
 }
@@ -330,17 +330,17 @@ func ifaceeq(tab *itab, x, y unsafe.Pointer) bool {
 	return eq(x, y)
 }
 
-// Testing adapters for hash quality tests (see hash_test.go)
+// Testing adapters for hash quality tests (see hash_test.golang)
 //
 // stringHash should be an internal detail,
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
-//   - github.com/k14s/starlark-go
+//   - github.com/k14s/starlark-golang
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname stringHash
+//golang:linkname stringHash
 func stringHash(s string, seed uintptr) uintptr {
 	return strhash(noescape(unsafe.Pointer(&s)), seed)
 }
@@ -368,16 +368,16 @@ func ifaceHash(i interface {
 	return interhash(noescape(unsafe.Pointer(&i)), seed)
 }
 
-const hashRandomBytes = goarch.PtrSize / 4 * 64
+const hashRandomBytes = golangarch.PtrSize / 4 * 64
 
 // used in asm_{386,amd64,arm64}.s to seed the hash function
 var aeskeysched [hashRandomBytes]byte
 
-// used in hash{32,64}.go to seed the hash function
+// used in hash{32,64}.golang to seed the hash function
 var hashkey [4]uintptr
 
 func alginit() {
-	// Install AES hash algorithms if the instructions needed are present.
+	// Install AES hash algolangrithms if the instructions needed are present.
 	if (GOARCH == "386" || GOARCH == "amd64") &&
 		cpu.X86.HasAES && // AESENC
 		cpu.X86.HasSSSE3 && // PSHUFB
@@ -406,7 +406,7 @@ func initAlgAES() {
 // Note: These routines perform the read with a native endianness.
 func readUnaligned32(p unsafe.Pointer) uint32 {
 	q := (*[4]byte)(p)
-	if goarch.BigEndian {
+	if golangarch.BigEndian {
 		return byteorder.BEUint32(q[:])
 	}
 	return byteorder.LEUint32(q[:])
@@ -414,7 +414,7 @@ func readUnaligned32(p unsafe.Pointer) uint32 {
 
 func readUnaligned64(p unsafe.Pointer) uint64 {
 	q := (*[8]byte)(p)
-	if goarch.BigEndian {
+	if golangarch.BigEndian {
 		return byteorder.BEUint64(q[:])
 	}
 	return byteorder.LEUint64(q[:])

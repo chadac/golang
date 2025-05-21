@@ -1,9 +1,9 @@
 // buildrun -t 45
 
-//go:build !js && !wasip1
+//golang:build !js && !wasip1
 
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Ensure that runtime traceback does not infinite loop for
@@ -85,12 +85,12 @@ func main() {
 	}
 	defer os.RemoveAll(dir)
 
-	file := filepath.Join(dir, "main.go")
+	file := filepath.Join(dir, "main.golang")
 	if err := ioutil.WriteFile(file, []byte(prog), 0655); err != nil {
 		log.Fatalf("Write error %v", err)
 	}
 
-	cmd := exec.Command("go", "run", file)
+	cmd := exec.Command("golang", "run", file)
 	output, err := cmd.CombinedOutput()
 	if err == nil {
 		log.Fatalf("Passed, expected an error")

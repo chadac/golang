@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package sync
@@ -16,7 +16,7 @@ import (
 // the return from f “synchronizes before”
 // the return from any call of once.Do(f).
 //
-// [the Go memory model]: https://go.dev/ref/mem
+// [the Go memory model]: https://golang.dev/ref/mem
 type Once struct {
 	_ noCopy
 

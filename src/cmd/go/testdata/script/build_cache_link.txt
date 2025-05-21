@@ -2,25 +2,25 @@ env GO111MODULE=off
 [short] skip
 
 # Set up fresh GOCACHE.
-env GOCACHE=$WORK/gocache
+env GOCACHE=$WORK/golangcache
 mkdir $GOCACHE
 
 # Building a main package should run the compiler and linker ...
-go build -o $devnull -x main.go
-stderr '(compile|gccgo)( |\.exe).*main\.go'
-stderr '(link|gccgo)( |\.exe)'
+golang build -o $devnull -x main.golang
+stderr '(compile|gccgolang)( |\.exe).*main\.golang'
+stderr '(link|gccgolang)( |\.exe)'
 
 # ... and then the linker again ...
-go build -o $devnull -x main.go
-! stderr '(compile|gccgo)( |\.exe).*main\.go'
-stderr '(link|gccgo)( |\.exe)'
+golang build -o $devnull -x main.golang
+! stderr '(compile|gccgolang)( |\.exe).*main\.golang'
+stderr '(link|gccgolang)( |\.exe)'
 
 # ... but the output binary can serve as a cache.
-go build -o main$GOEXE -x main.go
-stderr '(link|gccgo)( |\.exe)'
-go build -o main$GOEXE -x main.go
-! stderr '(link|gccgo)( |\.exe)'
+golang build -o main$GOEXE -x main.golang
+stderr '(link|gccgolang)( |\.exe)'
+golang build -o main$GOEXE -x main.golang
+! stderr '(link|gccgolang)( |\.exe)'
 
--- main.go --
+-- main.golang --
 package main
 func main() {}

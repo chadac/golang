@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package os
@@ -252,7 +252,7 @@ func FindProcess(pid int) (*Process, error) {
 // specified by name, argv and attr. The argv slice will become [os.Args] in the
 // new process, so it normally starts with the program name.
 //
-// If the calling goroutine has locked the operating system thread
+// If the calling golangroutine has locked the operating system thread
 // with [runtime.LockOSThread] and modified any inheritable OS-level
 // thread state (for example, Linux or Plan 9 name spaces), the new
 // process will inherit the caller's thread state.

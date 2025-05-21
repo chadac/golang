@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package reflectdata
@@ -25,7 +25,7 @@ func SwissMapGroupType(t *types.Type) *types.Type {
 	// This type is not visible to users, we include it so we can generate
 	// a correct GC program for it.
 	//
-	// Make sure this stays in sync with internal/runtime/maps/group.go.
+	// Make sure this stays in sync with internal/runtime/maps/group.golang.
 	//
 	// type group struct {
 	//     ctrl uint64
@@ -91,7 +91,7 @@ func SwissMapGroupType(t *types.Type) *types.Type {
 var cachedSwissTableType *types.Type
 
 // swissTableType returns a type interchangeable with internal/runtime/maps.table.
-// Make sure this stays in sync with internal/runtime/maps/table.go.
+// Make sure this stays in sync with internal/runtime/maps/table.golang.
 func swissTableType() *types.Type {
 	if cachedSwissTableType != nil {
 		return cachedSwissTableType
@@ -110,7 +110,7 @@ func swissTableType() *types.Type {
 	//     groups_data       unsafe.Pointer
 	//     groups_lengthMask uint64
 	// }
-	// must match internal/runtime/maps/table.go:table.
+	// must match internal/runtime/maps/table.golang:table.
 	fields := []*types.Field{
 		makefield("used", types.Types[types.TUINT16]),
 		makefield("capacity", types.Types[types.TUINT16]),
@@ -132,7 +132,7 @@ func swissTableType() *types.Type {
 	// The size of table should be 32 bytes on 64 bit
 	// and 24 bytes on 32 bit platforms.
 	if size := int64(3*2 + 2*1 /* one extra for padding */ + 1*8 + 2*types.PtrSize); table.Size() != size {
-		base.Fatalf("internal/runtime/maps.table size not correct: got %d, want %d", table.Size(), size)
+		base.Fatalf("internal/runtime/maps.table size not correct: golangt %d, want %d", table.Size(), size)
 	}
 
 	cachedSwissTableType = table
@@ -142,7 +142,7 @@ func swissTableType() *types.Type {
 var cachedSwissMapType *types.Type
 
 // SwissMapType returns a type interchangeable with internal/runtime/maps.Map.
-// Make sure this stays in sync with internal/runtime/maps/map.go.
+// Make sure this stays in sync with internal/runtime/maps/map.golang.
 func SwissMapType() *types.Type {
 	if cachedSwissMapType != nil {
 		return cachedSwissMapType
@@ -164,7 +164,7 @@ func SwissMapType() *types.Type {
 	//
 	//     clearSeq uint64
 	// }
-	// must match internal/runtime/maps/map.go:Map.
+	// must match internal/runtime/maps/map.golang:Map.
 	fields := []*types.Field{
 		makefield("used", types.Types[types.TUINT64]),
 		makefield("seed", types.Types[types.TUINTPTR]),
@@ -188,7 +188,7 @@ func SwissMapType() *types.Type {
 	// The size of Map should be 48 bytes on 64 bit
 	// and 32 bytes on 32 bit platforms.
 	if size := int64(2*8 + 4*types.PtrSize /* one extra for globalDepth/globalShift/writing + padding */); m.Size() != size {
-		base.Fatalf("internal/runtime/maps.Map size not correct: got %d, want %d", m.Size(), size)
+		base.Fatalf("internal/runtime/maps.Map size not correct: golangt %d, want %d", m.Size(), size)
 	}
 
 	cachedSwissMapType = m
@@ -198,7 +198,7 @@ func SwissMapType() *types.Type {
 var cachedSwissIterType *types.Type
 
 // SwissMapIterType returns a type interchangeable with runtime.hiter.
-// Make sure this stays in sync with runtime/map.go.
+// Make sure this stays in sync with runtime/map.golang.
 func SwissMapIterType() *types.Type {
 	if cachedSwissIterType != nil {
 		return cachedSwissIterType
@@ -226,10 +226,10 @@ func SwissMapIterType() *types.Type {
 	//
 	//    entryIdx uint64
 	// }
-	// must match internal/runtime/maps/table.go:Iter.
+	// must match internal/runtime/maps/table.golang:Iter.
 	fields := []*types.Field{
-		makefield("key", types.Types[types.TUNSAFEPTR]),  // Used in range.go for TMAP.
-		makefield("elem", types.Types[types.TUNSAFEPTR]), // Used in range.go for TMAP.
+		makefield("key", types.Types[types.TUNSAFEPTR]),  // Used in range.golang for TMAP.
+		makefield("elem", types.Types[types.TUNSAFEPTR]), // Used in range.golang for TMAP.
 		makefield("typ", types.Types[types.TUNSAFEPTR]),
 		makefield("m", types.NewPtr(SwissMapType())),
 		makefield("groupSlotOffset", types.Types[types.TUINT64]),
@@ -254,7 +254,7 @@ func SwissMapIterType() *types.Type {
 	// The size of Iter should be 96 bytes on 64 bit
 	// and 64 bytes on 32 bit platforms.
 	if size := 8*types.PtrSize /* one extra for globalDepth + padding */ + 4*8; iter.Size() != int64(size) {
-		base.Fatalf("internal/runtime/maps.Iter size not correct: got %d, want %d", iter.Size(), size)
+		base.Fatalf("internal/runtime/maps.Iter size not correct: golangt %d, want %d", iter.Size(), size)
 	}
 
 	cachedSwissIterType = iter
@@ -272,10 +272,10 @@ func writeSwissMapType(t *types.Type, lsym *obj.LSym, c rttype.Cursor) {
 	slotTyp := gtyp.Field(1).Type.Elem()
 	elemOff := slotTyp.Field(1).Offset
 	if AlgType(t.Key()) == types.AMEM64 && elemOff != 8 {
-		base.Fatalf("runtime assumes elemOff for 8-byte keys is 8, got %d", elemOff)
+		base.Fatalf("runtime assumes elemOff for 8-byte keys is 8, golangt %d", elemOff)
 	}
 	if AlgType(t.Key()) == types.ASTRING && elemOff != int64(2*types.PtrSize) {
-		base.Fatalf("runtime assumes elemOff for string keys is %d, got %d", 2*types.PtrSize, elemOff)
+		base.Fatalf("runtime assumes elemOff for string keys is %d, golangt %d", 2*types.PtrSize, elemOff)
 	}
 
 	c.Field("Key").WritePtr(s1)

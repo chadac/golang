@@ -1,5 +1,5 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package textproto
@@ -503,7 +503,7 @@ func (r *Reader) ReadMIMEHeader() (MIMEHeader, error) {
 }
 
 // readMIMEHeader is accessed from mime/multipart.
-//go:linkname readMIMEHeader
+//golang:linkname readMIMEHeader
 
 // readMIMEHeader is a version of ReadMIMEHeader which takes a limit on the header size.
 // It is called by the mime/multipart package.
@@ -523,7 +523,7 @@ func readMIMEHeader(r *Reader, maxMemory, maxHeaders int64) (MIMEHeader, error) 
 	m := make(MIMEHeader, hint)
 
 	// Account for 400 bytes of overhead for the MIMEHeader, plus 200 bytes per entry.
-	// Benchmarking map creation as of go1.20, a one-entry MIMEHeader is 416 bytes and large
+	// Benchmarking map creation as of golang1.20, a one-entry MIMEHeader is 416 bytes and large
 	// MIMEHeaders average about 200 bytes per entry.
 	maxMemory -= 400
 	const mapEntryOverhead = 200
@@ -754,7 +754,7 @@ func canonicalMIMEHeaderKey(a []byte) (_ string, ok bool) {
 		if c == ' ' {
 			// We accept invalid headers with a space before the
 			// colon, but must not canonicalize them.
-			// See https://go.dev/issue/34540.
+			// See https://golang.dev/issue/34540.
 			noCanon = true
 			continue
 		}

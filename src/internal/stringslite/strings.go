@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package stringslite implements a subset of strings,
@@ -94,7 +94,7 @@ func Index(s, substr string) int {
 		i++
 		fails++
 		if fails >= 4+i>>4 && i < t {
-			// See comment in ../bytes/bytes.go.
+			// See comment in ../bytes/bytes.golang.
 			j := bytealg.IndexRabinKarp(s[i:], substr)
 			if j < 0 {
 				return -1

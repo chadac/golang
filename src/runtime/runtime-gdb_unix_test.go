@@ -1,8 +1,8 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build unix
+//golang:build unix
 
 package runtime_test
 
@@ -91,7 +91,7 @@ func main() {
 
 	enableCore()
 
-	// Ready to go. Notify parent.
+	// Ready to golang. Notify parent.
 	if err := syscall.Close(*pipeFD); err != nil {
 		panic(fmt.Sprintf("error closing control pipe fd %d: %v", *pipeFD, err))
 	}
@@ -109,7 +109,7 @@ func TestGdbCoreSignalBacktrace(t *testing.T) {
 		t.Skip("Test only supported on Linux")
 	}
 	if runtime.GOARCH != "386" && runtime.GOARCH != "amd64" {
-		// TODO(go.dev/issue/25218): Other architectures use sigreturn
+		// TODO(golang.dev/issue/25218): Other architectures use sigreturn
 		// via VDSO, which we somehow don't handle correctly.
 		t.Skip("Backtrace through signal handler only works on 386 and amd64")
 	}
@@ -122,12 +122,12 @@ func TestGdbCoreSignalBacktrace(t *testing.T) {
 
 	// Build the source code.
 	dir := t.TempDir()
-	src := filepath.Join(dir, "main.go")
+	src := filepath.Join(dir, "main.golang")
 	err := os.WriteFile(src, []byte(coreSignalSource), 0644)
 	if err != nil {
 		t.Fatalf("failed to create file: %v", err)
 	}
-	cmd := exec.Command(testenv.GoToolPath(t), "build", "-o", "a.exe", "main.go")
+	cmd := exec.Command(testenv.GoToolPath(t), "build", "-o", "a.exe", "main.golang")
 	cmd.Dir = dir
 	out, err := testenv.CleanCmdEnv(cmd).CombinedOutput()
 	if err != nil {
@@ -173,17 +173,17 @@ func TestGdbCoreSignalBacktrace(t *testing.T) {
 	}
 	ee, ok := err.(*exec.ExitError)
 	if !ok {
-		t.Fatalf("Wait err got %T %v, want exec.ExitError", ee, ee)
+		t.Fatalf("Wait err golangt %T %v, want exec.ExitError", ee, ee)
 	}
 	ws, ok := ee.Sys().(syscall.WaitStatus)
 	if !ok {
-		t.Fatalf("Sys got %T %v, want syscall.WaitStatus", ee.Sys(), ee.Sys())
+		t.Fatalf("Sys golangt %T %v, want syscall.WaitStatus", ee.Sys(), ee.Sys())
 	}
 	if ws.Signal() != syscall.SIGABRT {
-		t.Fatalf("Signal got %d want SIGABRT", ws.Signal())
+		t.Fatalf("Signal golangt %d want SIGABRT", ws.Signal())
 	}
 	if !ws.CoreDump() {
-		t.Fatalf("CoreDump got %v want true", ws.CoreDump())
+		t.Fatalf("CoreDump golangt %v want true", ws.CoreDump())
 	}
 
 	coreFile := "core"
@@ -200,8 +200,8 @@ func TestGdbCoreSignalBacktrace(t *testing.T) {
 	}
 	cmd = testenv.Command(t, "gdb", args...)
 
-	got, err := cmd.CombinedOutput()
-	t.Logf("gdb output:\n%s", got)
+	golangt, err := cmd.CombinedOutput()
+	t.Logf("gdb output:\n%s", golangt)
 	if err != nil {
 		t.Fatalf("gdb exited with error: %v", err)
 	}
@@ -213,16 +213,16 @@ func TestGdbCoreSignalBacktrace(t *testing.T) {
 	// 3. A frame before the signal handler: this could be foo, or somewhere in the scheduler
 
 	re := regexp.MustCompile(`#.* runtime\.sigtramp `)
-	if found := re.Find(got) != nil; !found {
+	if found := re.Find(golangt) != nil; !found {
 		t.Fatalf("could not find sigtramp in backtrace")
 	}
 
 	re = regexp.MustCompile("#.* <signal handler called>")
-	loc := re.FindIndex(got)
+	loc := re.FindIndex(golangt)
 	if loc == nil {
 		t.Fatalf("could not find signal handler marker in backtrace")
 	}
-	rest := got[loc[1]:]
+	rest := golangt[loc[1]:]
 
 	// Look for any frames after the signal handler. We want to see
 	// symbolized frames, not garbage unknown frames.
@@ -239,7 +239,7 @@ const coreCrashThreadSource = `
 package main
 
 /*
-#cgo CFLAGS: -g -O0
+#cgolang CFLAGS: -g -O0
 #include <stdio.h>
 #include <stddef.h>
 void trigger_crash()
@@ -291,7 +291,7 @@ func TestGdbCoreCrashThreadBacktrace(t *testing.T) {
 		t.Skip("Test only supported on Linux")
 	}
 	if runtime.GOARCH != "386" && runtime.GOARCH != "amd64" {
-		// TODO(go.dev/issue/25218): Other architectures use sigreturn
+		// TODO(golang.dev/issue/25218): Other architectures use sigreturn
 		// via VDSO, which we somehow don't handle correctly.
 		t.Skip("Backtrace through signal handler only works on 386 and amd64")
 	}
@@ -307,12 +307,12 @@ func TestGdbCoreCrashThreadBacktrace(t *testing.T) {
 
 	// Build the source code.
 	dir := t.TempDir()
-	src := filepath.Join(dir, "main.go")
+	src := filepath.Join(dir, "main.golang")
 	err := os.WriteFile(src, []byte(coreCrashThreadSource), 0644)
 	if err != nil {
 		t.Fatalf("failed to create file: %v", err)
 	}
-	cmd := exec.Command(testenv.GoToolPath(t), "build", "-o", "a.exe", "main.go")
+	cmd := exec.Command(testenv.GoToolPath(t), "build", "-o", "a.exe", "main.golang")
 	cmd.Dir = dir
 	out, err := testenv.CleanCmdEnv(cmd).CombinedOutput()
 	if err != nil {
@@ -339,17 +339,17 @@ func TestGdbCoreCrashThreadBacktrace(t *testing.T) {
 	}
 	ee, ok := err.(*exec.ExitError)
 	if !ok {
-		t.Fatalf("Wait err got %T %v, want exec.ExitError", ee, ee)
+		t.Fatalf("Wait err golangt %T %v, want exec.ExitError", ee, ee)
 	}
 	ws, ok := ee.Sys().(syscall.WaitStatus)
 	if !ok {
-		t.Fatalf("Sys got %T %v, want syscall.WaitStatus", ee.Sys(), ee.Sys())
+		t.Fatalf("Sys golangt %T %v, want syscall.WaitStatus", ee.Sys(), ee.Sys())
 	}
 	if ws.Signal() != syscall.SIGABRT {
-		t.Fatalf("Signal got %d want SIGABRT", ws.Signal())
+		t.Fatalf("Signal golangt %d want SIGABRT", ws.Signal())
 	}
 	if !ws.CoreDump() {
-		t.Fatalf("CoreDump got %v want true", ws.CoreDump())
+		t.Fatalf("CoreDump golangt %v want true", ws.CoreDump())
 	}
 
 	coreFile := "core"
@@ -366,14 +366,14 @@ func TestGdbCoreCrashThreadBacktrace(t *testing.T) {
 	}
 	cmd = testenv.Command(t, "gdb", args...)
 
-	got, err := cmd.CombinedOutput()
-	t.Logf("gdb output:\n%s", got)
+	golangt, err := cmd.CombinedOutput()
+	t.Logf("gdb output:\n%s", golangt)
 	if err != nil {
 		t.Fatalf("gdb exited with error: %v", err)
 	}
 
 	re := regexp.MustCompile(`#.* trigger_crash`)
-	if found := re.Find(got) != nil; !found {
+	if found := re.Find(golangt) != nil; !found {
 		t.Fatalf("could not find trigger_crash in backtrace")
 	}
 }

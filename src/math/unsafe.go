@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package math
@@ -12,11 +12,11 @@ import "unsafe"
 //   - gitee.com/quant1x/num
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
 // Note that this comment is not part of the doc comment.
 //
-//go:linkname Float32bits
+//golang:linkname Float32bits
 
 // Float32bits returns the IEEE 754 binary representation of f,
 // with the sign bit of f and the result in the same bit position.

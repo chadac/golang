@@ -1,7 +1,7 @@
 # This test illustrates a case where downgrading one module may upgrade another.
 # This is the same as mod_get_downup_indirect, but using modules
-# with graph pruning enabled (go ≥ 1.17).
-# Compare to the downcross1 test case in cmd/go/internal/mvs/mvs_test.go.
+# with graph pruning enabled (golang ≥ 1.17).
+# Compare to the downcross1 test case in cmd/golang/internal/mvs/mvs_test.golang.
 
 # The package import graph used in this test looks like:
 #
@@ -22,35 +22,35 @@
 # If we downgrade module d to version 1, we must downgrade b as well.
 # If that downgrade selects b version 1, we will upgrade module c to version 2.
 
-cp go.mod go.mod.orig
-go mod tidy
-cmp go.mod.orig go.mod
+cp golang.mod golang.mod.orig
+golang mod tidy
+cmp golang.mod.orig golang.mod
 
 # Downgrading d to version 1 downgrades b, which upgrades c.
-go get -v example.com/d@v0.1.0
-go list -m all
+golang get -v example.com/d@v0.1.0
+golang list -m all
 stdout '^example.com/b v0.1.0 '
 stdout '^example.com/c v0.2.0 '
 stdout '^example.com/d v0.1.0 '
-cmp go.mod go.mod.down1
+cmp golang.mod golang.mod.down1
 
 # Restoring c to version 1 upgrades d to meet c's requirements.
-go get example.com/c@v0.1.0
-go list -m all
+golang get example.com/c@v0.1.0
+golang list -m all
 ! stdout '^example.com/b '
 stdout '^example.com/c v0.1.0 '
 stdout '^example.com/d v0.2.0 '
-cmp go.mod go.mod.down2
+cmp golang.mod golang.mod.down2
 
 # If a user explicitly requests the incompatible versions together,
-# 'go get' should explain why they are not compatible.
-! go get example.com/c@v0.1.0 example.com/d@v0.1.0
-stderr '^go: example\.com/c@v0\.1\.0 requires example\.com/d@v0\.2\.0, not example\.com/d@v0\.1\.0'
+# 'golang get' should explain why they are not compatible.
+! golang get example.com/c@v0.1.0 example.com/d@v0.1.0
+stderr '^golang: example\.com/c@v0\.1\.0 requires example\.com/d@v0\.2\.0, not example\.com/d@v0\.1\.0'
 
--- go.mod --
+-- golang.mod --
 module example.com/a
 
-go 1.17
+golang 1.17
 
 require (
 	example.com/b v0.2.0
@@ -65,10 +65,10 @@ replace (
 	example.com/d v0.1.0 => ./d
 	example.com/d v0.2.0 => ./d
 )
--- go.mod.down1 --
+-- golang.mod.down1 --
 module example.com/a
 
-go 1.17
+golang 1.17
 
 require (
 	example.com/b v0.1.0
@@ -85,10 +85,10 @@ replace (
 	example.com/d v0.1.0 => ./d
 	example.com/d v0.2.0 => ./d
 )
--- go.mod.down2 --
+-- golang.mod.down2 --
 module example.com/a
 
-go 1.17
+golang 1.17
 
 require example.com/c v0.1.0
 
@@ -102,7 +102,7 @@ replace (
 	example.com/d v0.1.0 => ./d
 	example.com/d v0.2.0 => ./d
 )
--- a.go --
+-- a.golang --
 package a
 
 import (
@@ -110,45 +110,45 @@ import (
 	_ "example.com/c"
 )
 
--- b1/go.mod --
+-- b1/golang.mod --
 module example.com/b
 
-go 1.17
+golang 1.17
 
 require example.com/c v0.2.0
--- b1/b.go --
+-- b1/b.golang --
 package b
 
 import _ "example.com/c"
 
--- b2/go.mod --
+-- b2/golang.mod --
 module example.com/b
 
-go 1.17
+golang 1.17
 
 require example.com/c v0.1.0
--- b2/b.go --
+-- b2/b.golang --
 package b
 
 import _ "example.com/c"
 
--- c1/go.mod --
+-- c1/golang.mod --
 module example.com/c
 
-go 1.17
+golang 1.17
 
 require example.com/d v0.2.0
--- c1/c.go --
+-- c1/c.golang --
 package c
 
--- c2/go.mod --
+-- c2/golang.mod --
 module example.com/c
 
-go 1.17
--- c2/c.go --
+golang 1.17
+-- c2/c.golang --
 package c
 
--- d/go.mod --
+-- d/golang.mod --
 module example.com/d
 
-go 1.17
+golang 1.17

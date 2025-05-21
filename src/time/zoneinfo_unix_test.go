@@ -1,8 +1,8 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build unix && !ios && !android
+//golang:build unix && !ios && !android
 
 package time_test
 
@@ -52,7 +52,7 @@ func TestEnvTZUsage(t *testing.T) {
 			os.Setenv(env, c.tz)
 		}
 		if time.Local.String() != c.local {
-			t.Errorf("invalid Local location name for %q: got %q want %q", c.tz, time.Local, c.local)
+			t.Errorf("invalid Local location name for %q: golangt %q want %q", c.tz, time.Local, c.local)
 		}
 	}
 
@@ -62,29 +62,29 @@ func TestEnvTZUsage(t *testing.T) {
 	os.Setenv(env, path)
 	if _, err := os.Stat(path); os.IsNotExist(err) {
 		if time.Local.String() != "UTC" {
-			t.Errorf(`invalid path should fallback to UTC: got %q want "UTC"`, time.Local)
+			t.Errorf(`invalid path should fallback to UTC: golangt %q want "UTC"`, time.Local)
 		}
 		return
 	}
 	if time.Local.String() != path {
-		t.Errorf(`custom path should lead to path itself: got %q want %q`, time.Local, path)
+		t.Errorf(`custom path should lead to path itself: golangt %q want %q`, time.Local, path)
 	}
 
 	timeInUTC := time.Date(2009, 1, 1, 12, 0, 0, 0, time.UTC)
 	sameTimeInShanghai := time.Date(2009, 1, 1, 20, 0, 0, 0, time.Local)
 	if !timeInUTC.Equal(sameTimeInShanghai) {
-		t.Errorf("invalid timezone: got %q want %q", timeInUTC, sameTimeInShanghai)
+		t.Errorf("invalid timezone: golangt %q want %q", timeInUTC, sameTimeInShanghai)
 	}
 
 	time.ResetLocalOnceForTest()
 	os.Setenv(env, ":"+path)
 	if time.Local.String() != path {
-		t.Errorf(`custom path should lead to path itself: got %q want %q`, time.Local, path)
+		t.Errorf(`custom path should lead to path itself: golangt %q want %q`, time.Local, path)
 	}
 
 	time.ResetLocalOnceForTest()
 	os.Setenv(env, path[:len(path)-1])
 	if time.Local.String() != "UTC" {
-		t.Errorf(`invalid path should fallback to UTC: got %q want "UTC"`, time.Local)
+		t.Errorf(`invalid path should fallback to UTC: golangt %q want "UTC"`, time.Local)
 	}
 }

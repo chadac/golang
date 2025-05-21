@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Issue 8036. Stores necessary for stack scan being eliminated as redundant by optimizer.
@@ -18,7 +18,7 @@ type T struct {
 
 type TI [3]uintptr
 
-//go:noinline
+//golang:noinline
 func G() (t TI) {
 	t[0] = 1
 	t[1] = 2
@@ -26,7 +26,7 @@ func G() (t TI) {
 	return
 }
 
-//go:noinline
+//golang:noinline
 func F() (t T) {
 	t.X = newint()
 	t.Y = t.X
@@ -40,6 +40,6 @@ func newint() *int {
 }
 
 func main() {
-	G() // leave non-pointers where F's return values go
+	G() // leave non-pointers where F's return values golang
 	F()
 }

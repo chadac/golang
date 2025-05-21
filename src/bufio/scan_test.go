@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package bufio_test
@@ -46,11 +46,11 @@ func TestScanByte(t *testing.T) {
 		var i int
 		for i = 0; s.Scan(); i++ {
 			if b := s.Bytes(); len(b) != 1 || b[0] != test[i] {
-				t.Errorf("#%d: %d: expected %q got %q", n, i, test, b)
+				t.Errorf("#%d: %d: expected %q golangt %q", n, i, test, b)
 			}
 		}
 		if i != len(test) {
-			t.Errorf("#%d: termination expected at %d; got %d", n, len(test), i)
+			t.Errorf("#%d: termination expected at %d; golangt %d", n, len(test), i)
 		}
 		err := s.Err()
 		if err != nil {
@@ -73,17 +73,17 @@ func TestScanRune(t *testing.T) {
 				break
 			}
 			runeCount++
-			got, _ := utf8.DecodeRune(s.Bytes())
-			if got != expect {
-				t.Errorf("#%d: %d: expected %q got %q", n, i, expect, got)
+			golangt, _ := utf8.DecodeRune(s.Bytes())
+			if golangt != expect {
+				t.Errorf("#%d: %d: expected %q golangt %q", n, i, expect, golangt)
 			}
 		}
 		if s.Scan() {
-			t.Errorf("#%d: scan ran too long, got %q", n, s.Text())
+			t.Errorf("#%d: scan ran too long, golangt %q", n, s.Text())
 		}
 		testRuneCount := utf8.RuneCountInString(test)
 		if runeCount != testRuneCount {
-			t.Errorf("#%d: termination expected at %d; got %d", n, testRuneCount, runeCount)
+			t.Errorf("#%d: termination expected at %d; golangt %d", n, testRuneCount, runeCount)
 		}
 		err := s.Err()
 		if err != nil {
@@ -115,16 +115,16 @@ func TestScanWords(t *testing.T) {
 			if !s.Scan() {
 				break
 			}
-			got := s.Text()
-			if got != words[wordCount] {
-				t.Errorf("#%d: %d: expected %q got %q", n, wordCount, words[wordCount], got)
+			golangt := s.Text()
+			if golangt != words[wordCount] {
+				t.Errorf("#%d: %d: expected %q golangt %q", n, wordCount, words[wordCount], golangt)
 			}
 		}
 		if s.Scan() {
-			t.Errorf("#%d: scan ran too long, got %q", n, s.Text())
+			t.Errorf("#%d: scan ran too long, golangt %q", n, s.Text())
 		}
 		if wordCount != len(words) {
-			t.Errorf("#%d: termination expected at %d; got %d", n, len(words), wordCount)
+			t.Errorf("#%d: termination expected at %d; golangt %d", n, len(words), wordCount)
 		}
 		err := s.Err()
 		if err != nil {
@@ -242,7 +242,7 @@ func TestScanLineTooLong(t *testing.T) {
 	}
 	err := s.Err()
 	if err != ErrTooLong {
-		t.Fatalf("expected ErrTooLong; got %s", err)
+		t.Fatalf("expected ErrTooLong; golangt %s", err)
 	}
 }
 
@@ -330,16 +330,16 @@ func TestSplitError(t *testing.T) {
 	var i int
 	for i = 0; s.Scan(); i++ {
 		if len(s.Bytes()) != 1 || text[i] != s.Bytes()[0] {
-			t.Errorf("#%d: expected %q got %q", i, text[i], s.Bytes()[0])
+			t.Errorf("#%d: expected %q golangt %q", i, text[i], s.Bytes()[0])
 		}
 	}
 	// Check correct termination location and error.
 	if i != okCount {
-		t.Errorf("unexpected termination; expected %d tokens got %d", okCount, i)
+		t.Errorf("unexpected termination; expected %d tokens golangt %d", okCount, i)
 	}
 	err := s.Err()
 	if err != testError {
-		t.Fatalf("expected %q got %v", testError, err)
+		t.Fatalf("expected %q golangt %v", testError, err)
 	}
 }
 
@@ -433,14 +433,14 @@ func testEmptyTokens(t *testing.T, text string, values []string) {
 	var i int
 	for i = 0; s.Scan(); i++ {
 		if i >= len(values) {
-			t.Fatalf("got %d fields, expected %d", i+1, len(values))
+			t.Fatalf("golangt %d fields, expected %d", i+1, len(values))
 		}
 		if s.Text() != values[i] {
-			t.Errorf("%d: expected %q got %q", i, values[i], s.Text())
+			t.Errorf("%d: expected %q golangt %q", i, values[i], s.Text())
 		}
 	}
 	if i != len(values) {
-		t.Fatalf("got %d fields, expected %d", i, len(values))
+		t.Fatalf("golangt %d fields, expected %d", i, len(values))
 	}
 	if err := s.Err(); err != nil {
 		t.Fatal(err)
@@ -530,7 +530,7 @@ func TestHugeBuffer(t *testing.T) {
 	for s.Scan() {
 		token := s.Text()
 		if token != text {
-			t.Errorf("scan got incorrect token of length %d", len(token))
+			t.Errorf("scan golangt incorrect token of length %d", len(token))
 		}
 	}
 	if s.Err() != nil {
@@ -571,8 +571,8 @@ func TestNegativeEOFReader(t *testing.T) {
 			break
 		}
 	}
-	if got, want := scanner.Err(), ErrBadReadCount; got != want {
-		t.Errorf("scanner.Err: got %v, want %v", got, want)
+	if golangt, want := scanner.Err(), ErrBadReadCount; golangt != want {
+		t.Errorf("scanner.Err: golangt %v, want %v", golangt, want)
 	}
 }
 
@@ -590,7 +590,7 @@ func TestLargeReader(t *testing.T) {
 	scanner := NewScanner(largeReader{})
 	for scanner.Scan() {
 	}
-	if got, want := scanner.Err(), ErrBadReadCount; got != want {
-		t.Errorf("scanner.Err: got %v, want %v", got, want)
+	if golangt, want := scanner.Err(), ErrBadReadCount; golangt != want {
+		t.Errorf("scanner.Err: golangt %v, want %v", golangt, want)
 	}
 }

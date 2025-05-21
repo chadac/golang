@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Copyright 2009 The Go Authors. All rights reserved.
-# Use of this source code is governed by a BSD-style
+# Use of this source code is golangverned by a BSD-style
 # license that can be found in the LICENSE file.
 
 # Environment variables that control run.bash:
@@ -17,20 +17,20 @@
 # GO_TEST_SHORT: if set to a non-empty, false-ish string, run tests in "-short=false" mode.
 # This environment variable is an internal implementation detail between the
 # Go build system (x/build) and cmd/dist for the purpose of longtest builders,
-# and will be removed if it stops being needed. See go.dev/issue/12508.
+# and will be removed if it stops being needed. See golang.dev/issue/12508.
 #
 # GO_TEST_TIMEOUT_SCALE: a non-negative integer factor to scale test timeout by.
 # Defaults to 1.
 
 set -e
 
-if [ ! -f ../bin/go ]; then
-	echo 'run.bash must be run from $GOROOT/src after installing cmd/go' 1>&2
+if [ ! -f ../bin/golang ]; then
+	echo 'run.bash must be run from $GOROOT/src after installing cmd/golang' 1>&2
 	exit 1
 fi
 
 export GOENV=off
-eval $(../bin/go tool dist env)
+eval $(../bin/golang tool dist env)
 
 unset CDPATH	# in case user has it set
 
@@ -49,5 +49,5 @@ if ulimit -T &> /dev/null; then
 	[ "$(ulimit -H -T)" = "unlimited" ] || ulimit -S -T $(ulimit -H -T)
 fi
 
-export GOPATH=/nonexist-gopath
-exec ../bin/go tool dist test -rebuild "$@"
+export GOPATH=/nonexist-golangpath
+exec ../bin/golang tool dist test -rebuild "$@"

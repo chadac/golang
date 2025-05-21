@@ -1,8 +1,8 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !purego
+//golang:build !puregolang
 
 #include "textflag.h"
 
@@ -15,7 +15,7 @@ TEXT ·kimd(SB), NOFRAME|NOSPLIT, $0-40
 continue:
 	KIMD R0, R2
 	BVS  continue    // continue if interrupted
-	MOVD $0, R0      // reset R0 for pre-go1.8 compilers
+	MOVD $0, R0      // reset R0 for pre-golang1.8 compilers
 	RET
 
 // func klmd(function code, a *[200]byte, dst, src []byte)
@@ -28,5 +28,5 @@ TEXT ·klmd(SB), NOFRAME|NOSPLIT, $0-64
 continue:
 	KLMD R2, R4
 	BVS  continue    // continue if interrupted
-	MOVD $0, R0      // reset R0 for pre-go1.8 compilers
+	MOVD $0, R0      // reset R0 for pre-golang1.8 compilers
 	RET

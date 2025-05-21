@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package test
@@ -16,13 +16,13 @@ import (
 	"testing"
 )
 
-func cmpFuncDesc(want, got coverage.FuncDesc) string {
+func cmpFuncDesc(want, golangt coverage.FuncDesc) string {
 	swant := fmt.Sprintf("%+v", want)
-	sgot := fmt.Sprintf("%+v", got)
-	if swant == sgot {
+	sgolangt := fmt.Sprintf("%+v", golangt)
+	if swant == sgolangt {
 		return ""
 	}
-	return fmt.Sprintf("wanted %q got %q", swant, sgot)
+	return fmt.Sprintf("wanted %q golangt %q", swant, sgolangt)
 }
 
 func TestMetaDataEmptyPackage(t *testing.T) {
@@ -44,19 +44,19 @@ func TestMetaDataEmptyPackage(t *testing.T) {
 	}
 	nf := dec.NumFuncs()
 	if nf != 0 {
-		t.Errorf("dec.NumFuncs(): got %d want %d", nf, 0)
+		t.Errorf("dec.NumFuncs(): golangt %d want %d", nf, 0)
 	}
 	pp := dec.PackagePath()
 	if pp != p {
-		t.Errorf("dec.PackagePath(): got %s want %s", pp, p)
+		t.Errorf("dec.PackagePath(): golangt %s want %s", pp, p)
 	}
 	ppn := dec.PackageName()
 	if ppn != pn {
-		t.Errorf("dec.PackageName(): got %s want %s", ppn, pn)
+		t.Errorf("dec.PackageName(): golangt %s want %s", ppn, pn)
 	}
 	pmp := dec.ModulePath()
 	if pmp != mp {
-		t.Errorf("dec.ModulePath(): got %s want %s", pmp, mp)
+		t.Errorf("dec.ModulePath(): golangt %s want %s", pmp, mp)
 	}
 }
 
@@ -71,7 +71,7 @@ func TestMetaDataEncoderDecoder(t *testing.T) {
 	}
 	f1 := coverage.FuncDesc{
 		Funcname: "func",
-		Srcfile:  "foo.go",
+		Srcfile:  "foo.golang",
 		Units: []coverage.CoverableUnit{
 			coverage.CoverableUnit{StLine: 1, StCol: 2, EnLine: 3, EnCol: 4, NxStmts: 5},
 			coverage.CoverableUnit{StLine: 6, StCol: 7, EnLine: 8, EnCol: 9, NxStmts: 10},
@@ -79,12 +79,12 @@ func TestMetaDataEncoderDecoder(t *testing.T) {
 	}
 	idx := b.AddFunc(f1)
 	if idx != 0 {
-		t.Errorf("b.AddFunc(f1) got %d want %d", idx, 0)
+		t.Errorf("b.AddFunc(f1) golangt %d want %d", idx, 0)
 	}
 
 	f2 := coverage.FuncDesc{
 		Funcname: "xfunc",
-		Srcfile:  "bar.go",
+		Srcfile:  "bar.golang",
 		Units: []coverage.CoverableUnit{
 			coverage.CoverableUnit{StLine: 1, StCol: 2, EnLine: 3, EnCol: 4, NxStmts: 5},
 			coverage.CoverableUnit{StLine: 6, StCol: 7, EnLine: 8, EnCol: 9, NxStmts: 10},
@@ -93,7 +93,7 @@ func TestMetaDataEncoderDecoder(t *testing.T) {
 	}
 	idx = b.AddFunc(f2)
 	if idx != 1 {
-		t.Errorf("b.AddFunc(f2) got %d want %d", idx, 0)
+		t.Errorf("b.AddFunc(f2) golangt %d want %d", idx, 0)
 	}
 
 	// Emit into a writer.
@@ -108,16 +108,16 @@ func TestMetaDataEncoderDecoder(t *testing.T) {
 	}
 	nf := dec.NumFuncs()
 	if nf != 2 {
-		t.Errorf("dec.NumFuncs(): got %d want %d", nf, 2)
+		t.Errorf("dec.NumFuncs(): golangt %d want %d", nf, 2)
 	}
 
-	gotpp := dec.PackagePath()
-	if gotpp != pp {
-		t.Errorf("packagepath: got %s want %s", gotpp, pp)
+	golangtpp := dec.PackagePath()
+	if golangtpp != pp {
+		t.Errorf("packagepath: golangt %s want %s", golangtpp, pp)
 	}
-	gotpn := dec.PackageName()
-	if gotpn != pn {
-		t.Errorf("packagename: got %s want %s", gotpn, pn)
+	golangtpn := dec.PackageName()
+	if golangtpn != pn {
+		t.Errorf("packagename: golangt %s want %s", golangtpn, pn)
 	}
 
 	cases := []coverage.FuncDesc{f1, f2}
@@ -147,7 +147,7 @@ func createFuncs(i int) []coverage.FuncDesc {
 		}
 		f := coverage.FuncDesc{
 			Funcname: fmt.Sprintf("func_%d_%d", i, fi),
-			Srcfile:  fmt.Sprintf("foo_%d.go", i),
+			Srcfile:  fmt.Sprintf("foo_%d.golang", i),
 			Units:    units,
 		}
 		res = append(res, f)
@@ -232,17 +232,17 @@ func TestMetaDataWriterReader(t *testing.T) {
 		}
 		np := mfr.NumPackages()
 		if np != 7 {
-			t.Fatalf("k=%d wanted 7 packages got %d", k, np)
+			t.Fatalf("k=%d wanted 7 packages golangt %d", k, np)
 		}
 		md := mfr.CounterMode()
 		wmd := coverage.CtrModeAtomic
 		if md != wmd {
-			t.Fatalf("k=%d wanted mode %d got %d", k, wmd, md)
+			t.Fatalf("k=%d wanted mode %d golangt %d", k, wmd, md)
 		}
 		gran := mfr.CounterGranularity()
 		wgran := coverage.CtrGranularityPerBlock
 		if gran != wgran {
-			t.Fatalf("k=%d wanted gran %d got %d", k, wgran, gran)
+			t.Fatalf("k=%d wanted gran %d golangt %d", k, wgran, gran)
 		}
 
 		payload := []byte{}
@@ -256,13 +256,13 @@ func TestMetaDataWriterReader(t *testing.T) {
 			efuncs := createFuncs(pi)
 			nf := pd.NumFuncs()
 			if len(efuncs) != int(nf) {
-				t.Fatalf("decoding pk %d wanted %d funcs got %d",
+				t.Fatalf("decoding pk %d wanted %d funcs golangt %d",
 					pi, len(efuncs), nf)
 			}
 			var f coverage.FuncDesc
 			for fi := 0; fi < int(nf); fi++ {
 				if err := pd.ReadFunc(uint32(fi), &f); err != nil {
-					t.Fatalf("ReadFunc(%d) pk %d got error %v",
+					t.Fatalf("ReadFunc(%d) pk %d golangt error %v",
 						fi, pi, err)
 				}
 				res := cmpFuncDesc(efuncs[fi], f)
@@ -294,7 +294,7 @@ func TestMetaDataDecodeLitFlagIssue57942(t *testing.T) {
 		fis := fmt.Sprintf("%d", fi)
 		fd := coverage.FuncDesc{
 			Funcname: "func" + fis,
-			Srcfile:  "foo" + fis + ".go",
+			Srcfile:  "foo" + fis + ".golang",
 			Units: []coverage.CoverableUnit{
 				coverage.CoverableUnit{StLine: ln + 1, StCol: 2, EnLine: ln + 3, EnCol: 4, NxStmts: fi + 2},
 			},
@@ -316,7 +316,7 @@ func TestMetaDataDecodeLitFlagIssue57942(t *testing.T) {
 	}
 	nf := dec.NumFuncs()
 	if nf != NF {
-		t.Fatalf("decoder number of functions: got %d want %d", nf, NF)
+		t.Fatalf("decoder number of functions: golangt %d want %d", nf, NF)
 	}
 	var fn coverage.FuncDesc
 	for i := uint32(0); i < uint32(NF); i++ {

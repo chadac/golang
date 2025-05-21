@@ -1,8 +1,8 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build ppc64le
+//golang:build ppc64le
 
 package cipher_test
 
@@ -69,7 +69,7 @@ func TestFuzz(t *testing.T) {
 			cbcAsm.CryptBlocks(indata, outdata)
 
 			if !bytes.Equal(outdata, outgeneric) {
-				t.Fatalf("AES-CBC encryption does not match reference result: %x and %x, please report this error to security@golang.org", outdata, outgeneric)
+				t.Fatalf("AES-CBC encryption does not match reference result: %x and %x, please report this error to security@golanglang.org", outdata, outgeneric)
 			}
 		}
 
@@ -96,7 +96,7 @@ func TestFuzz(t *testing.T) {
 			cbcAsm.CryptBlocks(indata, outdata)
 
 			if !bytes.Equal(outdata, outgeneric) {
-				t.Fatalf("AES-CBC decryption does not match reference result: %x and %x, please report this error to security@golang.org", outdata, outgeneric)
+				t.Fatalf("AES-CBC decryption does not match reference result: %x and %x, please report this error to security@golanglang.org", outdata, outgeneric)
 			}
 		}
 	}

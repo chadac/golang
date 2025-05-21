@@ -1,8 +1,8 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build unix
+//golang:build unix
 
 package osinfo
 
@@ -21,6 +21,6 @@ func TestVersion(t *testing.T) {
 
 	fields := strings.Fields(v)
 	if len(fields) < 4 {
-		t.Errorf("wanted at least 4 fields in %q, got %d", v, len(fields))
+		t.Errorf("wanted at least 4 fields in %q, golangt %d", v, len(fields))
 	}
 }

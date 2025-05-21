@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package strconv_test
@@ -91,7 +91,7 @@ func TestAllocationsFromBytes(t *testing.T) {
 		return func(t *testing.T) {
 			t.Helper()
 			if allocs := testing.AllocsPerRun(runsPerTest, f); allocs != 0 {
-				t.Errorf("got %v allocs, want 0 allocs", allocs)
+				t.Errorf("golangt %v allocs, want 0 allocs", allocs)
 			}
 		}
 	}
@@ -152,8 +152,8 @@ func TestErrorPrefixes(t *testing.T) {
 			t.Errorf("test %s, error was not a *NumError", v.want)
 			continue
 		}
-		if got := nerr.Func; got != v.want {
-			t.Errorf("mismatching Func: got %s, want %s", got, v.want)
+		if golangt := nerr.Func; golangt != v.want {
+			t.Errorf("mismatching Func: golangt %s, want %s", golangt, v.want)
 		}
 	}
 

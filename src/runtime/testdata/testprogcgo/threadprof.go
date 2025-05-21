@@ -1,8 +1,8 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !plan9 && !windows
+//golang:build !plan9 && !windows
 // +build !plan9,!windows
 
 package main
@@ -17,7 +17,7 @@ volatile int32_t spinlock;
 
 // Note that this thread is only started if GO_START_SIGPROF_THREAD
 // is set in the environment, which is only done when running the
-// CgoExternalThreadSIGPROF test.
+// CgolangExternalThreadSIGPROF test.
 static void *thread1(void *p) {
 	(void)p;
 	while (spinlock == 0)
@@ -28,7 +28,7 @@ static void *thread1(void *p) {
 }
 
 // This constructor function is run when the program starts.
-// It is used for the CgoExternalThreadSIGPROF test.
+// It is used for the CgolangExternalThreadSIGPROF test.
 __attribute__((constructor)) void issue9456() {
 	if (getenv("GO_START_SIGPROF_THREAD") != NULL) {
 		pthread_t tid;
@@ -61,14 +61,14 @@ import (
 )
 
 func init() {
-	register("CgoExternalThreadSIGPROF", CgoExternalThreadSIGPROF)
-	register("CgoExternalThreadSignal", CgoExternalThreadSignal)
+	register("CgolangExternalThreadSIGPROF", CgolangExternalThreadSIGPROF)
+	register("CgolangExternalThreadSignal", CgolangExternalThreadSignal)
 }
 
-func CgoExternalThreadSIGPROF() {
+func CgolangExternalThreadSIGPROF() {
 	// This test intends to test that sending SIGPROF to foreign threads
-	// before we make any cgo call will not abort the whole process, so
-	// we cannot make any cgo call here. See https://golang.org/issue/9456.
+	// before we make any cgolang call will not abort the whole process, so
+	// we cannot make any cgolang call here. See https://golanglang.org/issue/9456.
 	atomic.StoreInt32((*int32)(unsafe.Pointer(&C.spinlock)), 1)
 	for atomic.LoadInt32((*int32)(unsafe.Pointer(&C.spinlock))) == 1 {
 		runtime.Gosched()
@@ -76,7 +76,7 @@ func CgoExternalThreadSIGPROF() {
 	println("OK")
 }
 
-func CgoExternalThreadSignal() {
+func CgolangExternalThreadSignal() {
 	if len(os.Args) > 2 && os.Args[2] == "crash" {
 		i := C.start_crashing_thread()
 		if i != 0 {
@@ -92,7 +92,7 @@ func CgoExternalThreadSignal() {
 		return
 	}
 
-	cmd := exec.Command(os.Args[0], "CgoExternalThreadSignal", "crash")
+	cmd := exec.Command(os.Args[0], "CgolangExternalThreadSignal", "crash")
 	cmd.Dir = os.TempDir() // put any core file in tempdir
 	out, err := cmd.CombinedOutput()
 	if err == nil {

@@ -1,8 +1,8 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build unix
+//golang:build unix
 
 package syscall_test
 
@@ -247,7 +247,7 @@ func TestForegroundSignal(t *testing.T) {
 
 	cmd := create(t)
 
-	go func() {
+	golang func() {
 		cmd.proc.SysProcAttr = &syscall.SysProcAttr{
 			Ctty:       ttyFD,
 			Foreground: true,
@@ -320,12 +320,12 @@ func TestExecHelper(t *testing.T) {
 
 	// We don't have to worry about restoring these values.
 	// We are in a child process that only runs this test,
-	// and we are going to call syscall.Exec anyhow.
+	// and we are golanging to call syscall.Exec anyhow.
 	os.Setenv("GO_WANT_HELPER_PROCESS", "3")
 
 	stop := time.Now().Add(time.Second)
 	for i := 0; i < 100; i++ {
-		go func(i int) {
+		golang func(i int) {
 			r := rand.New(rand.NewSource(int64(i)))
 			for time.Now().Before(stop) {
 				r.Uint64()

@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package devirtualize
@@ -8,8 +8,8 @@ import (
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/inline"
 	"cmd/compile/internal/ir"
-	"cmd/compile/internal/logopt"
-	"cmd/compile/internal/pgoir"
+	"cmd/compile/internal/logolangpt"
+	"cmd/compile/internal/pgolangir"
 	"cmd/compile/internal/typecheck"
 	"cmd/compile/internal/types"
 	"cmd/internal/obj"
@@ -102,7 +102,7 @@ type CallStat struct {
 //
 // The primary benefit of this transformation is enabling inlining of the
 // direct call.
-func ProfileGuided(fn *ir.Func, p *pgoir.Profile) {
+func ProfileGuided(fn *ir.Func, p *pgolangir.Profile) {
 	ir.CurFunc = fn
 
 	name := ir.LinkFuncName(fn)
@@ -129,7 +129,7 @@ func ProfileGuided(fn *ir.Func, p *pgoir.Profile) {
 		if base.Debug.PGODebug >= 3 {
 			// Statistics about every single call. Handy for external data analysis.
 			//
-			// TODO(prattmic): Log via logopt?
+			// TODO(prattmic): Log via logolangpt?
 			stat = constructCallStat(p, fn, name, call)
 			if stat != nil {
 				defer func() {
@@ -149,7 +149,7 @@ func ProfileGuided(fn *ir.Func, p *pgoir.Profile) {
 
 		if call.GoDefer {
 			if base.Debug.PGODebug >= 2 {
-				fmt.Printf("%v: can't PGO devirtualize go/defer call %v\n", ir.Line(call), call)
+				fmt.Printf("%v: can't PGO devirtualize golang/defer call %v\n", ir.Line(call), call)
 			}
 			return n
 		}
@@ -184,7 +184,7 @@ func ProfileGuided(fn *ir.Func, p *pgoir.Profile) {
 // Devirtualize interface call if possible and eligible. Returns the new
 // ir.Node if call was devirtualized, and if so also the callee and weight of
 // the devirtualized edge.
-func maybeDevirtualizeInterfaceCall(p *pgoir.Profile, fn *ir.Func, call *ir.CallExpr) (ir.Node, *ir.Func, int64) {
+func maybeDevirtualizeInterfaceCall(p *pgolangir.Profile, fn *ir.Func, call *ir.CallExpr) (ir.Node, *ir.Func, int64) {
 	if base.Debug.PGODevirtualize < 1 {
 		return nil, nil, 0
 	}
@@ -214,13 +214,13 @@ func maybeDevirtualizeInterfaceCall(p *pgoir.Profile, fn *ir.Func, call *ir.Call
 // Devirtualize an indirect function call if possible and eligible. Returns the new
 // ir.Node if call was devirtualized, and if so also the callee and weight of
 // the devirtualized edge.
-func maybeDevirtualizeFunctionCall(p *pgoir.Profile, fn *ir.Func, call *ir.CallExpr) (ir.Node, *ir.Func, int64) {
+func maybeDevirtualizeFunctionCall(p *pgolangir.Profile, fn *ir.Func, call *ir.CallExpr) (ir.Node, *ir.Func, int64) {
 	if base.Debug.PGODevirtualize < 2 {
 		return nil, nil, 0
 	}
 
 	// Bail if this is a direct call; no devirtualization necessary.
-	callee := pgoir.DirectCallee(call.Fun)
+	callee := pgolangir.DirectCallee(call.Fun)
 	if callee != nil {
 		return nil, nil, 0
 	}
@@ -231,7 +231,7 @@ func maybeDevirtualizeFunctionCall(p *pgoir.Profile, fn *ir.Func, call *ir.CallE
 		return nil, nil, 0
 	}
 
-	// TODO(go.dev/issue/61577): Closures need the closure context passed
+	// TODO(golang.dev/issue/61577): Closures need the closure context passed
 	// via the context register. That requires extra plumbing that we
 	// haven't done yet.
 	if callee.OClosure != nil {
@@ -303,14 +303,14 @@ func maybeDevirtualizeFunctionCall(p *pgoir.Profile, fn *ir.Func, call *ir.CallE
 // won't inline we can skip devirtualizing.
 func shouldPGODevirt(fn *ir.Func) bool {
 	var reason string
-	if base.Flag.LowerM > 1 || logopt.Enabled() {
+	if base.Flag.LowerM > 1 || logolangpt.Enabled() {
 		defer func() {
 			if reason != "" {
 				if base.Flag.LowerM > 1 {
 					fmt.Printf("%v: should not PGO devirtualize %v: %s\n", ir.Line(fn), ir.FuncName(fn), reason)
 				}
-				if logopt.Enabled() {
-					logopt.LogOpt(fn.Pos(), ": should not PGO devirtualize function", "pgoir-devirtualize", ir.FuncName(fn), reason)
+				if logolangpt.Enabled() {
+					logolangpt.LogOpt(fn.Pos(), ": should not PGO devirtualize function", "pgolangir-devirtualize", ir.FuncName(fn), reason)
 				}
 			}
 		}()
@@ -337,7 +337,7 @@ func shouldPGODevirt(fn *ir.Func) bool {
 // constructCallStat builds an initial CallStat describing this call, for
 // logging. If the call is devirtualized, the devirtualization fields should be
 // updated.
-func constructCallStat(p *pgoir.Profile, fn *ir.Func, name string, call *ir.CallExpr) *CallStat {
+func constructCallStat(p *pgolangir.Profile, fn *ir.Func, name string, call *ir.CallExpr) *CallStat {
 	switch call.Op() {
 	case ir.OCALLFUNC, ir.OCALLINTER, ir.OCALLMETH:
 	default:
@@ -351,9 +351,9 @@ func constructCallStat(p *pgoir.Profile, fn *ir.Func, name string, call *ir.Call
 		Caller: name,
 	}
 
-	offset := pgoir.NodeLineOffset(call, fn)
+	offset := pgolangir.NodeLineOffset(call, fn)
 
-	hotter := func(e *pgoir.IREdge) bool {
+	hotter := func(e *pgolangir.IREdge) bool {
 		if stat.Hottest == "" {
 			return true
 		}
@@ -389,7 +389,7 @@ func constructCallStat(p *pgoir.Profile, fn *ir.Func, name string, call *ir.Call
 	case ir.OCALLFUNC:
 		stat.Interface = false
 
-		callee := pgoir.DirectCallee(call.Fun)
+		callee := pgolangir.DirectCallee(call.Fun)
 		if callee != nil {
 			stat.Direct = true
 			if stat.Hottest == "" {
@@ -607,7 +607,7 @@ func rewriteFunctionCall(call *ir.CallExpr, curfn, callee *ir.Func) ir.Node {
 
 	pcEq := typecheck.Expr(ir.NewBinaryExpr(base.Pos, ir.OEQ, fnPC, concretePC))
 
-	// TODO(go.dev/issue/61577): Handle callees that a closures and need a
+	// TODO(golang.dev/issue/61577): Handle callees that a closures and need a
 	// copy of the closure context from call. For now, we skip callees that
 	// are closures in maybeDevirtualizeFunctionCall.
 	if callee.OClosure != nil {
@@ -656,16 +656,16 @@ func interfaceCallRecvTypeAndMethod(call *ir.CallExpr) (*types.Type, *types.Sym)
 // if available, and its edge weight. extraFn can perform additional
 // applicability checks on each candidate edge. If extraFn returns false,
 // candidate will not be considered a valid callee candidate.
-func findHotConcreteCallee(p *pgoir.Profile, caller *ir.Func, call *ir.CallExpr, extraFn func(callerName string, callOffset int, candidate *pgoir.IREdge) bool) (*ir.Func, int64) {
+func findHotConcreteCallee(p *pgolangir.Profile, caller *ir.Func, call *ir.CallExpr, extraFn func(callerName string, callOffset int, candidate *pgolangir.IREdge) bool) (*ir.Func, int64) {
 	callerName := ir.LinkFuncName(caller)
 	callerNode := p.WeightedCG.IRNodes[callerName]
-	callOffset := pgoir.NodeLineOffset(call, caller)
+	callOffset := pgolangir.NodeLineOffset(call, caller)
 
 	if callerNode == nil {
 		return nil, 0
 	}
 
-	var hottest *pgoir.IREdge
+	var hottest *pgolangir.IREdge
 
 	// Returns true if e is hotter than hottest.
 	//
@@ -673,7 +673,7 @@ func findHotConcreteCallee(p *pgoir.Profile, caller *ir.Func, call *ir.CallExpr,
 	// has arbitrary iteration order, we need to apply additional sort
 	// criteria when e.Weight == hottest.Weight to ensure we have stable
 	// selection.
-	hotter := func(e *pgoir.IREdge) bool {
+	hotter := func(e *pgolangir.IREdge) bool {
 		if hottest == nil {
 			return true
 		}
@@ -756,10 +756,10 @@ func findHotConcreteCallee(p *pgoir.Profile, caller *ir.Func, call *ir.CallExpr,
 
 // findHotConcreteInterfaceCallee returns the *ir.Func of the hottest callee of an
 // interface call, if available, and its edge weight.
-func findHotConcreteInterfaceCallee(p *pgoir.Profile, caller *ir.Func, call *ir.CallExpr) (*ir.Func, int64) {
+func findHotConcreteInterfaceCallee(p *pgolangir.Profile, caller *ir.Func, call *ir.CallExpr) (*ir.Func, int64) {
 	inter, method := interfaceCallRecvTypeAndMethod(call)
 
-	return findHotConcreteCallee(p, caller, call, func(callerName string, callOffset int, e *pgoir.IREdge) bool {
+	return findHotConcreteCallee(p, caller, call, func(callerName string, callOffset int, e *pgolangir.IREdge) bool {
 		ctyp := methodRecvType(e.Dst.AST)
 		if ctyp == nil {
 			// Not a method.
@@ -804,10 +804,10 @@ func findHotConcreteInterfaceCallee(p *pgoir.Profile, caller *ir.Func, call *ir.
 
 // findHotConcreteFunctionCallee returns the *ir.Func of the hottest callee of an
 // indirect function call, if available, and its edge weight.
-func findHotConcreteFunctionCallee(p *pgoir.Profile, caller *ir.Func, call *ir.CallExpr) (*ir.Func, int64) {
+func findHotConcreteFunctionCallee(p *pgolangir.Profile, caller *ir.Func, call *ir.CallExpr) (*ir.Func, int64) {
 	typ := call.Fun.Type().Underlying()
 
-	return findHotConcreteCallee(p, caller, call, func(callerName string, callOffset int, e *pgoir.IREdge) bool {
+	return findHotConcreteCallee(p, caller, call, func(callerName string, callOffset int, e *pgolangir.IREdge) bool {
 		ctyp := e.Dst.AST.Type().Underlying()
 
 		// If ctyp doesn't match typ it is most likely from a different

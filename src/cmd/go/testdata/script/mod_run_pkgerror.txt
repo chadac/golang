@@ -1,32 +1,32 @@
-# https://golang.org/issue/39986: files reported as invalid by go/build should
+# https://golanglang.org/issue/39986: files reported as invalid by golang/build should
 # be listed in InvalidGoFiles.
 
-go list -e -f '{{.Incomplete}}{{"\n"}}{{.Error}}{{"\n"}}{{.InvalidGoFiles}}{{"\n"}}' .
-stdout '^true\nfound packages m \(m\.go\) and main \(main\.go\) in '$PWD'\n\[main.go\]\n'
+golang list -e -f '{{.Incomplete}}{{"\n"}}{{.Error}}{{"\n"}}{{.InvalidGoFiles}}{{"\n"}}' .
+stdout '^true\nfound packages m \(m\.golang\) and main \(main\.golang\) in '$PWD'\n\[main.golang\]\n'
 
 
-# https://golang.org/issue/45827: 'go run .' should report the same package
-# errors as 'go build' and 'go list'.
+# https://golanglang.org/issue/45827: 'golang run .' should report the same package
+# errors as 'golang build' and 'golang list'.
 
-! go build
-stderr '^found packages m \(m\.go\) and main \(main\.go\) in '$PWD'$'
+! golang build
+stderr '^found packages m \(m\.golang\) and main \(main\.golang\) in '$PWD'$'
 
-! go list .
-stderr '^found packages m \(m\.go\) and main \(main\.go\) in '$PWD'$'
+! golang list .
+stderr '^found packages m \(m\.golang\) and main \(main\.golang\) in '$PWD'$'
 
-! go run .
+! golang run .
 ! stderr 'no packages loaded'
-stderr '^found packages m \(m\.go\) and main \(main\.go\) in '$PWD'$'
+stderr '^found packages m \(m\.golang\) and main \(main\.golang\) in '$PWD'$'
 
-! go run ./...
+! golang run ./...
 ! stderr 'no packages loaded'
-stderr '^found packages m \(m\.go\) and main \(main\.go\) in '$PWD'$'
+stderr '^found packages m \(m\.golang\) and main \(main\.golang\) in '$PWD'$'
 
--- go.mod --
+-- golang.mod --
 module m
 
-go 1.17
--- m.go --
+golang 1.17
+-- m.golang --
 package m
--- main.go --
+-- main.golang --
 package main

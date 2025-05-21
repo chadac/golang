@@ -1,20 +1,20 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
 
 func init() {
-	addTestCases(gotypesTests, gotypes)
+	addTestCases(golangtypesTests, golangtypes)
 }
 
-var gotypesTests = []testCase{
+var golangtypesTests = []testCase{
 	{
-		Name: "gotypes.0",
+		Name: "golangtypes.0",
 		In: `package main
 
-import "golang.org/x/tools/go/types"
-import "golang.org/x/tools/go/exact"
+import "golanglang.org/x/tools/golang/types"
+import "golanglang.org/x/tools/golang/exact"
 
 var _ = exact.Kind
 
@@ -24,8 +24,8 @@ func f() {
 `,
 		Out: `package main
 
-import "go/types"
-import "go/constant"
+import "golang/types"
+import "golang/constant"
 
 var _ = constant.Kind
 
@@ -35,11 +35,11 @@ func f() {
 `,
 	},
 	{
-		Name: "gotypes.1",
+		Name: "golangtypes.1",
 		In: `package main
 
-import "golang.org/x/tools/go/types"
-import foo "golang.org/x/tools/go/exact"
+import "golanglang.org/x/tools/golang/types"
+import foo "golanglang.org/x/tools/golang/exact"
 
 var _ = foo.Kind
 
@@ -49,8 +49,8 @@ func f() {
 `,
 		Out: `package main
 
-import "go/types"
-import "go/constant"
+import "golang/types"
+import "golang/constant"
 
 var _ = foo.Kind
 
@@ -60,11 +60,11 @@ func f() {
 `,
 	},
 	{
-		Name: "gotypes.0",
+		Name: "golangtypes.0",
 		In: `package main
 
-import "golang.org/x/tools/go/types"
-import "golang.org/x/tools/go/exact"
+import "golanglang.org/x/tools/golang/types"
+import "golanglang.org/x/tools/golang/exact"
 
 var _ = exact.Kind
 var constant = 23 // Use of new package name.
@@ -75,8 +75,8 @@ func f() {
 `,
 		Out: `package main
 
-import "go/types"
-import "go/constant"
+import "golang/types"
+import "golang/constant"
 
 var _ = constant_.Kind
 var constant = 23 // Use of new package name.

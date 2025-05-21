@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package cpu
@@ -74,7 +74,7 @@ func doinit() {
 		// cause a SIGILL and we'll die. So for older kernels, parse /proc/cpuinfo
 		// instead.
 		//
-		// See golang/go#57336.
+		// See golanglang/golang#57336.
 		if linuxKernelCanEmulateCPUID() {
 			readARM64Registers()
 		} else {

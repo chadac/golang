@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package a
@@ -53,7 +53,7 @@ func NewOrdered[K Ordered, V any]() *Map[K, V] {
 }
 
 // find looks up key in the map, returning either a pointer to the slot of the
-// node holding key, or a pointer to the slot where a node would go.
+// node holding key, or a pointer to the slot where a node would golang.
 func (m *Map[K, V]) find(key K) **node[K, V] {
 	pn := &m.root
 	for *pn != nil {
@@ -113,7 +113,7 @@ func (m *Map[K, V]) Iterate() *Iterator[K, V] {
 			sender.Send(context.Background(), keyValue[K, V]{n.key, n.val}) &&
 			f(n.right)
 	}
-	go func() {
+	golang func() {
 		f(m.root)
 		sender.Close()
 	}()
@@ -161,7 +161,7 @@ func SliceEqual[Elem comparable](s1, s2 []Elem) bool {
 // method indicates when the Sender has been closed, and the Send
 // method indicates when the Receiver has been freed.
 //
-// This is a convenient way to exit a goroutine sending values when
+// This is a convenient way to exit a golangroutine sending values when
 // the receiver stops reading them.
 func Ranger[Elem any]() (*Sender[Elem], *Receiver[Elem]) {
 	c := make(chan Elem)

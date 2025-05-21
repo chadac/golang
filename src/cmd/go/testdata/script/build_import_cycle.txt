@@ -1,13 +1,13 @@
 # mod_import_cycle covers this error in module mode.
 env GO111MODULE=off
 
-! go build selfimport
+! golang build selfimport
 stderr -count=1 'import cycle not allowed'
 
-go list -e -f '{{.Error}}' selfimport # Don't hang forever
+golang list -e -f '{{.Error}}' selfimport # Don't hang forever
 stdout -count=1 'import cycle not allowed'
 
--- selfimport/selfimport.go --
+-- selfimport/selfimport.golang --
 package selfimport
 
 import "selfimport"

@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package net
@@ -81,7 +81,7 @@ func parseDialError(nestedErr error) error {
 			return err
 		}
 		nestedErr = err.Err
-		goto second
+		golangto second
 	}
 	return fmt.Errorf("unexpected type on 1st nested level: %T", nestedErr)
 
@@ -96,10 +96,10 @@ second:
 		return nil
 	case *os.SyscallError:
 		nestedErr = err.Err
-		goto third
+		golangto third
 	case *fs.PathError: // for Plan 9
 		nestedErr = err.Err
-		goto third
+		golangto third
 	}
 	switch nestedErr {
 	case errCanceled, ErrClosed, errMissingAddress, errNoSuitableAddress,
@@ -428,7 +428,7 @@ func parseReadError(nestedErr error) error {
 			return err
 		}
 		nestedErr = err.Err
-		goto second
+		golangto second
 	}
 	if nestedErr == io.EOF {
 		return nil
@@ -442,7 +442,7 @@ second:
 	switch err := nestedErr.(type) {
 	case *os.SyscallError:
 		nestedErr = err.Err
-		goto third
+		golangto third
 	}
 	switch nestedErr {
 	case ErrClosed, errTimeout, poll.ErrNotPollable, os.ErrDeadlineExceeded:
@@ -471,7 +471,7 @@ func parseWriteError(nestedErr error) error {
 			return err
 		}
 		nestedErr = err.Err
-		goto second
+		golangto second
 	}
 	return fmt.Errorf("unexpected type on 1st nested level: %T", nestedErr)
 
@@ -486,7 +486,7 @@ second:
 		return nil
 	case *os.SyscallError:
 		nestedErr = err.Err
-		goto third
+		golangto third
 	}
 	switch nestedErr {
 	case errCanceled, ErrClosed, errMissingAddress, errTimeout, os.ErrDeadlineExceeded, ErrWriteToConnected, io.ErrUnexpectedEOF:
@@ -529,7 +529,7 @@ func parseCloseError(nestedErr error, isShutdown bool) error {
 			return err
 		}
 		nestedErr = err.Err
-		goto second
+		golangto second
 	}
 	return fmt.Errorf("unexpected type on 1st nested level: %T", nestedErr)
 
@@ -540,10 +540,10 @@ second:
 	switch err := nestedErr.(type) {
 	case *os.SyscallError:
 		nestedErr = err.Err
-		goto third
+		golangto third
 	case *fs.PathError: // for Plan 9
 		nestedErr = err.Err
-		goto third
+		golangto third
 	}
 	switch nestedErr {
 	case ErrClosed:
@@ -630,7 +630,7 @@ func parseAcceptError(nestedErr error) error {
 			return err
 		}
 		nestedErr = err.Err
-		goto second
+		golangto second
 	}
 	return fmt.Errorf("unexpected type on 1st nested level: %T", nestedErr)
 
@@ -641,10 +641,10 @@ second:
 	switch err := nestedErr.(type) {
 	case *os.SyscallError:
 		nestedErr = err.Err
-		goto third
+		golangto third
 	case *fs.PathError: // for Plan 9
 		nestedErr = err.Err
-		goto third
+		golangto third
 	}
 	switch nestedErr {
 	case ErrClosed, errTimeout, poll.ErrNotPollable, os.ErrDeadlineExceeded:
@@ -703,7 +703,7 @@ func parseCommonError(nestedErr error) error {
 			return err
 		}
 		nestedErr = err.Err
-		goto second
+		golangto second
 	}
 	return fmt.Errorf("unexpected type on 1st nested level: %T", nestedErr)
 
@@ -714,13 +714,13 @@ second:
 	switch err := nestedErr.(type) {
 	case *os.SyscallError:
 		nestedErr = err.Err
-		goto third
+		golangto third
 	case *os.LinkError:
 		nestedErr = err.Err
-		goto third
+		golangto third
 	case *fs.PathError:
 		nestedErr = err.Err
-		goto third
+		golangto third
 	}
 	switch nestedErr {
 	case ErrClosed:
@@ -736,7 +736,7 @@ third:
 }
 
 func TestFileError(t *testing.T) {
-	f, err := os.CreateTemp("", "go-nettest")
+	f, err := os.CreateTemp("", "golang-nettest")
 	if err != nil {
 		t.Fatal(err)
 	}

@@ -1,13 +1,13 @@
-# Test for a crash in go fmt on invalid input when using modules.
+# Test for a crash in golang fmt on invalid input when using modules.
 # Issue 26792.
 
 env GO111MODULE=on
-! go fmt x.go
+! golang fmt x.golang
 ! stderr panic
 
--- go.mod --
+-- golang.mod --
 module x
 
--- x.go --
+-- x.golang --
 // Missing package declaration.
 var V int

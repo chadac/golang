@@ -2,7 +2,7 @@ The upload process converts count files into reports, and
 uploads reports. There will be only one report, named YYYY-MM-DD.json,
 for a given day.
 
-First phase. Look at the localdir (os.UserConfigdir()/go/telemetry/local)
+First phase. Look at the localdir (os.UserConfigdir()/golang/telemetry/local)
 and find all .count and .json files. Find the count files that are no
 longer active by looking at their metadata.
 

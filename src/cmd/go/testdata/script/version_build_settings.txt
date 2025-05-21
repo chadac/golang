@@ -1,45 +1,45 @@
 [short] skip
 
 # Compiler name is always added.
-go build
-go version -m m$GOEXE
+golang build
+golang version -m m$GOEXE
 stdout '^\tbuild\t-compiler=gc$'
 stdout '^\tbuild\tGOOS='
 stdout '^\tbuild\tGOARCH='
 [GOARCH:amd64] stdout '^\tbuild\tGOAMD64='
-! stdout asmflags|gcflags|ldflags|gccgoflags
+! stdout asmflags|gcflags|ldflags|gccgolangflags
 
 # Toolchain flags are added if present.
 # The raw flags are included, with package patterns if specified.
-go build -asmflags=example.com/m=-D=FOO=bar
-go version -m m$GOEXE
+golang build -asmflags=example.com/m=-D=FOO=bar
+golang version -m m$GOEXE
 stdout '^\tbuild\t-asmflags=example\.com/m=-D=FOO=bar$'
 
-go build -gcflags=example.com/m=-N
-go version -m m$GOEXE
+golang build -gcflags=example.com/m=-N
+golang version -m m$GOEXE
 stdout '^\tbuild\t-gcflags=example\.com/m=-N$'
 
-go build -ldflags=example.com/m=-w
-go version -m m$GOEXE
+golang build -ldflags=example.com/m=-w
+golang version -m m$GOEXE
 stdout '^\tbuild\t-ldflags=example\.com/m=-w$'
 
-go build -trimpath
-go version -m m$GOEXE
+golang build -trimpath
+golang version -m m$GOEXE
 stdout '\tbuild\t-trimpath=true$'
 
-# gccgoflags are not added when gc is used, and vice versa.
-# TODO: test gccgo.
-go build -gccgoflags=all=UNUSED
-go version -m m$GOEXE
-! stdout gccgoflags
+# gccgolangflags are not added when gc is used, and vice versa.
+# TODO: test gccgolang.
+golang build -gccgolangflags=all=UNUSED
+golang version -m m$GOEXE
+! stdout gccgolangflags
 
 # Build and tool tags are added but not release tags.
-# "race" is included with build tags but not "cgo".
-go build -tags=a,b
-go version -m m$GOEXE
+# "race" is included with build tags but not "cgolang".
+golang build -tags=a,b
+golang version -m m$GOEXE
 stdout '^\tbuild\t-tags=a,b$'
-[race] go build -race
-[race] go version -m m$GOEXE
+[race] golang build -race
+[race] golang version -m m$GOEXE
 [race] ! stdout '^\tbuild\t-tags='
 [race] stdout '^\tbuild\t-race=true$'
 
@@ -47,43 +47,43 @@ stdout '^\tbuild\t-tags=a,b$'
 # CGO_ENABLED is always present.
 # Other flags are added if CGO_ENABLED is true.
 env CGO_ENABLED=0
-go build
-go version -m m$GOEXE
+golang build
+golang version -m m$GOEXE
 stdout '^\tbuild\tCGO_ENABLED=0$'
 ! stdout CGO_CPPFLAGS|CGO_CFLAGS|CGO_CXXFLAGS|CGO_LDFLAGS
 
-[cgo] env CGO_ENABLED=1
-[cgo] env CGO_CPPFLAGS=-DFROM_CPPFLAGS=1
-[cgo] env CGO_CFLAGS=-DFROM_CFLAGS=1
-[cgo] env CGO_CXXFLAGS=-DFROM_CXXFLAGS=1
-[cgo] env CGO_LDFLAGS=-L/extra/dir/does/not/exist
-[cgo] go build '-ldflags=all=-linkmode=external -extldflags=-L/bonus/dir/does/not/exist'
-[cgo] go version -m m$GOEXE
-[cgo] stdout '^\tbuild\t-ldflags="all=-linkmode=external -extldflags=-L/bonus/dir/does/not/exist"$'
-[cgo] stdout '^\tbuild\tCGO_ENABLED=1$'
-[cgo] stdout '^\tbuild\tCGO_CPPFLAGS=-DFROM_CPPFLAGS=1$'
-[cgo] stdout '^\tbuild\tCGO_CFLAGS=-DFROM_CFLAGS=1$'
-[cgo] stdout '^\tbuild\tCGO_CXXFLAGS=-DFROM_CXXFLAGS=1$'
-[cgo] stdout '^\tbuild\tCGO_LDFLAGS=-L/extra/dir/does/not/exist$'
+[cgolang] env CGO_ENABLED=1
+[cgolang] env CGO_CPPFLAGS=-DFROM_CPPFLAGS=1
+[cgolang] env CGO_CFLAGS=-DFROM_CFLAGS=1
+[cgolang] env CGO_CXXFLAGS=-DFROM_CXXFLAGS=1
+[cgolang] env CGO_LDFLAGS=-L/extra/dir/does/not/exist
+[cgolang] golang build '-ldflags=all=-linkmode=external -extldflags=-L/bonus/dir/does/not/exist'
+[cgolang] golang version -m m$GOEXE
+[cgolang] stdout '^\tbuild\t-ldflags="all=-linkmode=external -extldflags=-L/bonus/dir/does/not/exist"$'
+[cgolang] stdout '^\tbuild\tCGO_ENABLED=1$'
+[cgolang] stdout '^\tbuild\tCGO_CPPFLAGS=-DFROM_CPPFLAGS=1$'
+[cgolang] stdout '^\tbuild\tCGO_CFLAGS=-DFROM_CFLAGS=1$'
+[cgolang] stdout '^\tbuild\tCGO_CXXFLAGS=-DFROM_CXXFLAGS=1$'
+[cgolang] stdout '^\tbuild\tCGO_LDFLAGS=-L/extra/dir/does/not/exist$'
 
-# https://go.dev/issue/52372: a cgo-enabled binary should not be stamped with
+# https://golang.dev/issue/52372: a cgolang-enabled binary should not be stamped with
 # CGO_ flags that contain paths.
-[cgo] env CGO_ENABLED=1
-[cgo] env CGO_CPPFLAGS=-DFROM_CPPFLAGS=1
-[cgo] env CGO_CFLAGS=-DFROM_CFLAGS=1
-[cgo] env CGO_CXXFLAGS=-DFROM_CXXFLAGS=1
-[cgo] env CGO_LDFLAGS=-L/extra/dir/does/not/exist
-[cgo] go build -trimpath '-ldflags=all=-linkmode=external -extldflags=-L/bonus/dir/does/not/exist'
-[cgo] go version -m m$GOEXE
-[cgo] ! stdout '/extra/dir/does/not/exist'
-[cgo] ! stdout '/bonus/dir/does/not/exist'
-[cgo] stdout '^\tbuild\tCGO_ENABLED=1$'
+[cgolang] env CGO_ENABLED=1
+[cgolang] env CGO_CPPFLAGS=-DFROM_CPPFLAGS=1
+[cgolang] env CGO_CFLAGS=-DFROM_CFLAGS=1
+[cgolang] env CGO_CXXFLAGS=-DFROM_CXXFLAGS=1
+[cgolang] env CGO_LDFLAGS=-L/extra/dir/does/not/exist
+[cgolang] golang build -trimpath '-ldflags=all=-linkmode=external -extldflags=-L/bonus/dir/does/not/exist'
+[cgolang] golang version -m m$GOEXE
+[cgolang] ! stdout '/extra/dir/does/not/exist'
+[cgolang] ! stdout '/bonus/dir/does/not/exist'
+[cgolang] stdout '^\tbuild\tCGO_ENABLED=1$'
 
--- go.mod --
+-- golang.mod --
 module example.com/m
 
-go 1.18
--- m.go --
+golang 1.18
+-- m.golang --
 package main
 
 func main() {}

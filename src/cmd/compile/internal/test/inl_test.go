@@ -1,12 +1,12 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package test
 
 import (
 	"bufio"
-	"internal/goexperiment"
+	"internal/golangexperiment"
 	"internal/testenv"
 	"io"
 	"math/bits"
@@ -65,7 +65,7 @@ func TestIntendedInlining(t *testing.T) {
 			"funcInfo.entry",
 
 			// GC-related ones
-			"cgoInRange",
+			"cgolangInRange",
 			"gclinkptr.ptr",
 			"gcUsesSpanInlineMarkBits",
 			"guintptr.ptr",
@@ -190,7 +190,7 @@ func TestIntendedInlining(t *testing.T) {
 			// that the returned closure can be inlined into the caller of OnceFunc.
 			"OnceFunc",
 			"OnceFunc.func1", // The returned closure.
-			// TODO(austin): It would be good to check OnceValue and OnceValues,
+			// TODO(austin): It would be golangod to check OnceValue and OnceValues,
 			// too, but currently they aren't reported because they have type
 			// parameters and aren't instantiated in sync.
 		},
@@ -224,17 +224,17 @@ func TestIntendedInlining(t *testing.T) {
 			"(*Uintptr).Load",
 			"(*Uintptr).Store",
 			"(*Uintptr).Swap",
-			"(*Pointer[go.shape.int]).CompareAndSwap",
-			"(*Pointer[go.shape.int]).Load",
-			"(*Pointer[go.shape.int]).Store",
-			"(*Pointer[go.shape.int]).Swap",
+			"(*Pointer[golang.shape.int]).CompareAndSwap",
+			"(*Pointer[golang.shape.int]).Load",
+			"(*Pointer[golang.shape.int]).Store",
+			"(*Pointer[golang.shape.int]).Swap",
 		},
 		"testing": {
 			"(*B).Loop",
 		},
 	}
 
-	if !goexperiment.SwissMap {
+	if !golangexperiment.SwissMap {
 		// Maps
 		want["runtime"] = append(want["runtime"], "bucketMask")
 		want["runtime"] = append(want["runtime"], "bucketShift")
@@ -271,8 +271,8 @@ func TestIntendedInlining(t *testing.T) {
 	switch runtime.GOARCH {
 	case "386", "wasm", "arm":
 	default:
-		// TODO(mvdan): As explained in /test/inline_sync.go, some
-		// architectures don't have atomic intrinsics, so these go over
+		// TODO(mvdan): As explained in /test/inline_sync.golang, some
+		// architectures don't have atomic intrinsics, so these golang over
 		// the inlining budget. Move back to the main table once that
 		// problem is solved.
 		want["sync"] = []string{
@@ -323,13 +323,13 @@ func TestIntendedInlining(t *testing.T) {
 		}
 	}
 
-	args := append([]string{"build", "-gcflags=-m -m", "-tags=math_big_pure_go"}, pkgs...)
+	args := append([]string{"build", "-gcflags=-m -m", "-tags=math_big_pure_golang"}, pkgs...)
 	cmd := testenv.CleanCmdEnv(testenv.Command(t, testenv.GoToolPath(t), args...))
 	pr, pw := io.Pipe()
 	cmd.Stdout = pw
 	cmd.Stderr = pw
 	cmdErr := make(chan error, 1)
-	go func() {
+	golang func() {
 		cmdErr <- cmd.Run()
 		pw.Close()
 	}()

@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package fuzz
@@ -7,9 +7,9 @@ package fuzz
 import (
 	"bytes"
 	"fmt"
-	"go/ast"
-	"go/parser"
-	"go/token"
+	"golang/ast"
+	"golang/parser"
+	"golang/token"
 	"math"
 	"strconv"
 	"strings"
@@ -17,7 +17,7 @@ import (
 )
 
 // encVersion1 will be the first line of a file with version 1 encoding.
-var encVersion1 = "go test fuzz v1"
+var encVersion1 = "golang test fuzz v1"
 
 // marshalCorpusFile encodes an arbitrary number of arguments into the file format for the
 // corpus.
@@ -75,7 +75,7 @@ func marshalCorpusFile(vals ...any) []byte {
 			//
 			// fmt with "%q" (and the corresponding functions in the strconv package)
 			// would quote out-of-range values to the Unicode replacement character
-			// instead of the original value (see https://go.dev/issue/51526), so
+			// instead of the original value (see https://golang.dev/issue/51526), so
 			// they must be treated as int32 instead.
 			//
 			// We arbitrarily draw the line at UTF-8 validity, which biases toward the
@@ -137,7 +137,7 @@ func parseCorpusValue(line []byte) (any, error) {
 		return nil, fmt.Errorf("expected call expression")
 	}
 	if len(call.Args) != 1 {
-		return nil, fmt.Errorf("expected call expression with 1 argument; got %d", len(call.Args))
+		return nil, fmt.Errorf("expected call expression with 1 argument; golangt %d", len(call.Args))
 	}
 	arg := call.Args[0]
 

@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package walk
@@ -7,7 +7,7 @@ package walk
 import (
 	"encoding/binary"
 	"fmt"
-	"go/constant"
+	"golang/constant"
 	"hash/fnv"
 	"io"
 
@@ -371,7 +371,7 @@ func walkCompareString(n *ir.BinaryExpr, init *ir.Nodes) ir.Node {
 		}
 
 		// maxRewriteLen was chosen empirically.
-		// It is the value that minimizes cmd/go file size
+		// It is the value that minimizes cmd/golang file size
 		// across most architectures.
 		// See the commit description for CL 26758 for details.
 		maxRewriteLen := 6

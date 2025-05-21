@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Parsing of ELF executables (Linux, FreeBSD, and so on).
@@ -69,10 +69,10 @@ func (f *elfFile) pcln() (textStart uint64, symtab, pclntab []byte, err error) {
 		textStart = sect.Addr
 	}
 
-	sect := f.elf.Section(".gosymtab")
+	sect := f.elf.Section(".golangsymtab")
 	if sect == nil {
-		// try .data.rel.ro.gosymtab, for PIE binaries
-		sect = f.elf.Section(".data.rel.ro.gosymtab")
+		// try .data.rel.ro.golangsymtab, for PIE binaries
+		sect = f.elf.Section(".data.rel.ro.golangsymtab")
 	}
 	if sect != nil {
 		if symtab, err = sect.Data(); err != nil {
@@ -83,10 +83,10 @@ func (f *elfFile) pcln() (textStart uint64, symtab, pclntab []byte, err error) {
 		symtab = f.symbolData("runtime.symtab", "runtime.esymtab")
 	}
 
-	sect = f.elf.Section(".gopclntab")
+	sect = f.elf.Section(".golangpclntab")
 	if sect == nil {
-		// try .data.rel.ro.gopclntab, for PIE binaries
-		sect = f.elf.Section(".data.rel.ro.gopclntab")
+		// try .data.rel.ro.golangpclntab, for PIE binaries
+		sect = f.elf.Section(".data.rel.ro.golangpclntab")
 	}
 	if sect != nil {
 		if pclntab, err = sect.Data(); err != nil {
@@ -110,7 +110,7 @@ func (f *elfFile) text() (textStart uint64, text []byte, err error) {
 	return
 }
 
-func (f *elfFile) goarch() string {
+func (f *elfFile) golangarch() string {
 	switch f.elf.Machine {
 	case elf.EM_386:
 		return "386"

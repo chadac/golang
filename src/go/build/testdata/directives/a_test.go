@@ -1,3 +1,3 @@
-//go:test1
+//golang:test1
 
 package p

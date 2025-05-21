@@ -1,14 +1,14 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build arm64 && linux
+//golang:build arm64 && linux
 
 package runtime
 
 import (
 	"internal/abi"
-	"internal/goarch"
+	"internal/golangarch"
 	"unsafe"
 )
 
@@ -30,7 +30,7 @@ func sigctxtStatus(ctxt *sigctxt) uint64 {
 
 func (h *debugCallHandler) saveSigContext(ctxt *sigctxt) {
 	sp := ctxt.sp()
-	sp -= 2 * goarch.PtrSize
+	sp -= 2 * golangarch.PtrSize
 	ctxt.set_sp(sp)
 	*(*uint64)(unsafe.Pointer(uintptr(sp))) = ctxt.lr() // save the current lr
 	ctxt.set_lr(ctxt.pc())                              // set new lr to the current pc
@@ -72,7 +72,7 @@ func (h *debugCallHandler) debugCallReturn(ctxt *sigctxt) {
 // case 2
 func (h *debugCallHandler) debugCallPanicOut(ctxt *sigctxt) {
 	sp := ctxt.sp()
-	memmove(unsafe.Pointer(&h.panic), unsafe.Pointer(uintptr(sp)+8), 2*goarch.PtrSize)
+	memmove(unsafe.Pointer(&h.panic), unsafe.Pointer(uintptr(sp)+8), 2*golangarch.PtrSize)
 	ctxt.set_pc(ctxt.pc() + 4)
 }
 

@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package filepath
@@ -56,7 +56,7 @@ func abs(path string) (string, error) {
 	if path == "" {
 		// syscall.FullPath returns an error on empty path, because it's not a valid path.
 		// To implement Abs behavior of returning working directory on empty string input,
-		// special-case empty path by changing it to "." path. See golang.org/issue/24441.
+		// special-case empty path by changing it to "." path. See golanglang.org/issue/24441.
 		path = "."
 	}
 	fullPath, err := syscall.FullPath(path)

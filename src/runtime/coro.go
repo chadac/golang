@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
@@ -14,12 +14,12 @@ import (
 // The coro does not represent a specific coroutine, only the ability
 // to do coroutine-style control transfers.
 // It can be thought of as like a special channel that always has
-// a goroutine blocked on it. If another goroutine calls coroswitch(c),
-// the caller becomes the goroutine blocked in c, and the goroutine
+// a golangroutine blocked on it. If another golangroutine calls coroswitch(c),
+// the caller becomes the golangroutine blocked in c, and the golangroutine
 // formerly blocked in c starts running.
 // These switches continue until a call to coroexit(c),
 // which ends the use of the coro by releasing the blocked
-// goroutine in c and exiting the current goroutine.
+// golangroutine in c and exiting the current golangroutine.
 //
 // Coros are heap allocated and garbage collected, so that user code
 // can hold a pointer to a coro without causing potential dangling
@@ -34,10 +34,10 @@ type coro struct {
 	lockedInt uint32 // mp's internal lockOSThread counter at coro creation time.
 }
 
-//go:linkname newcoro
+//golang:linkname newcoro
 
 // newcoro creates a new coro containing a
-// goroutine blocked waiting to run f
+// golangroutine blocked waiting to run f
 // and returns that coro.
 func newcoro(f func(*coro)) *coro {
 	c := new(coro)
@@ -51,7 +51,7 @@ func newcoro(f func(*coro)) *coro {
 		gp = newproc1(startfv, gp, pc, true, waitReasonCoroutine)
 
 		// Scribble down locked thread state if needed and/or donate
-		// thread-lock state to the new goroutine.
+		// thread-lock state to the new golangroutine.
 		if mp.lockedExt+mp.lockedInt != 0 {
 			c.mp = mp
 			c.lockedExt = mp.lockedExt
@@ -76,7 +76,7 @@ func corostart() {
 }
 
 // coroexit is like coroswitch but closes the coro
-// and exits the current goroutine
+// and exits the current golangroutine
 func coroexit(c *coro) {
 	gp := getg()
 	gp.coroarg = c
@@ -84,10 +84,10 @@ func coroexit(c *coro) {
 	mcall(coroswitch_m)
 }
 
-//go:linkname coroswitch
+//golang:linkname coroswitch
 
-// coroswitch switches to the goroutine blocked on c
-// and then blocks the current goroutine on c.
+// coroswitch switches to the golangroutine blocked on c
+// and then blocks the current golangroutine on c.
 func coroswitch(c *coro) {
 	gp := getg()
 	gp.coroarg = c
@@ -99,7 +99,7 @@ func coroswitch(c *coro) {
 //
 // Note: Coroutine switches are expected to happen at
 // an order of magnitude (or more) higher frequency
-// than regular goroutine switches, so this path is heavily
+// than regular golangroutine switches, so this path is heavily
 // optimized to remove unnecessary work.
 // The fast path here is three CAS: the one at the top on gp.atomicstatus,
 // the one in the middle to choose the next g,
@@ -115,16 +115,16 @@ func coroswitch_m(gp *g) {
 
 	// Track and validate thread-lock interactions.
 	//
-	// The rules with thread-lock interactions are simple. When a coro goroutine is switched to,
+	// The rules with thread-lock interactions are simple. When a coro golangroutine is switched to,
 	// the same thread must be used, and the locked state must match with the thread-lock state of
-	// the goroutine which called newcoro. Thread-lock state consists of the thread and the number
-	// of internal (cgo callback, etc.) and external (LockOSThread) thread locks.
+	// the golangroutine which called newcoro. Thread-lock state consists of the thread and the number
+	// of internal (cgolang callback, etc.) and external (LockOSThread) thread locks.
 	locked := gp.lockedm != 0
 	if c.mp != nil || locked {
 		if mp != c.mp || mp.lockedInt != c.lockedInt || mp.lockedExt != c.lockedExt {
-			print("coro: got thread ", unsafe.Pointer(mp), ", want ", unsafe.Pointer(c.mp), "\n")
-			print("coro: got lock internal ", mp.lockedInt, ", want ", c.lockedInt, "\n")
-			print("coro: got lock external ", mp.lockedExt, ", want ", c.lockedExt, "\n")
+			print("coro: golangt thread ", unsafe.Pointer(mp), ", want ", unsafe.Pointer(c.mp), "\n")
+			print("coro: golangt lock internal ", mp.lockedInt, ", want ", c.lockedInt, "\n")
+			print("coro: golangt lock external ", mp.lockedExt, ", want ", c.lockedExt, "\n")
 			throw("coro: OS thread locking must match locking at coroutine creation")
 		}
 	}
@@ -148,7 +148,7 @@ func coroswitch_m(gp *g) {
 	}
 
 	if locked {
-		// Detach the goroutine from the thread; we'll attach to the goroutine we're
+		// Detach the golangroutine from the thread; we'll attach to the golangroutine we're
 		// switching to before returning.
 		gp.lockedm.set(nil)
 	}
@@ -157,7 +157,7 @@ func coroswitch_m(gp *g) {
 		// The M might have a non-zero OS thread lock count when we get here, gdestroy
 		// will avoid destroying the M if the G isn't explicitly locked to it via lockedm,
 		// which we cleared above. It's fine to gdestroy here also, even when locked to
-		// the thread, because we'll be switching back to another goroutine anyway, which
+		// the thread, because we'll be switching back to another golangroutine anyway, which
 		// will take back its thread-lock state before returning.
 		gdestroy(gp)
 		gp = nil
@@ -175,7 +175,7 @@ func coroswitch_m(gp *g) {
 		setMNoWB(&gp.m, nil)
 	}
 
-	// The goroutine stored in c is the one to run next.
+	// The golangroutine stored in c is the one to run next.
 	// Swap it with ourselves.
 	var gnext *g
 	for {
@@ -206,7 +206,7 @@ func coroswitch_m(gp *g) {
 	// coroswitch would deadlock. It's clear that this case should just not
 	// work.
 	if gnext == gp {
-		throw("coroswitch of a goroutine to itself")
+		throw("coroswitch of a golangroutine to itself")
 	}
 
 	// Emit the trace event after getting gnext but before changing curg.
@@ -222,14 +222,14 @@ func coroswitch_m(gp *g) {
 	setGNoWB(&mp.curg, gnext)
 	setMNoWB(&gnext.m, mp)
 
-	// Synchronize with any out-standing goroutine profile. We're about to start
+	// Synchronize with any out-standing golangroutine profile. We're about to start
 	// executing, and an invariant of the profiler is that we tryRecordGoroutineProfile
-	// whenever a goroutine is about to start running.
+	// whenever a golangroutine is about to start running.
 	//
 	// N.B. We must do this before transitioning to _Grunning but after installing gnext
 	// in curg, so that we have a valid curg for allocation (tryRecordGoroutineProfile
 	// may allocate).
-	if goroutineProfile.active {
+	if golangroutineProfile.active {
 		tryRecordGoroutineProfile(gnext, nil, osyield)
 	}
 
@@ -256,5 +256,5 @@ func coroswitch_m(gp *g) {
 	}
 
 	// Switch to gnext. Does not return.
-	gogo(&gnext.sched)
+	golanggolang(&gnext.sched)
 }

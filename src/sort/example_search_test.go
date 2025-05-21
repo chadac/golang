@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package sort_test
@@ -44,7 +44,7 @@ func ExampleSearch_descendingOrder() {
 
 // This example demonstrates finding a string in a list sorted in ascending order.
 func ExampleFind() {
-	a := []string{"apple", "banana", "lemon", "mango", "pear", "strawberry"}
+	a := []string{"apple", "banana", "lemon", "mangolang", "pear", "strawberry"}
 
 	for _, x := range []string{"banana", "orange"} {
 		i, found := sort.Find(len(a), func(i int) int {

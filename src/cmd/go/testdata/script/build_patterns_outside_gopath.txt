@@ -4,30 +4,30 @@
 cd pkgs
 
 env GO111MODULE=off
-go build ./...
+golang build ./...
 ! stdout .
-go test ./...
+golang test ./...
 stdout '^ok'
-go list ./...
+golang list ./...
 stdout 'pkgs$'
 stdout 'pkgs/a'
 
--- pkgs/go.mod --
+-- pkgs/golang.mod --
 module pkgs
 
-go 1.16
--- pkgs/a.go --
+golang 1.16
+-- pkgs/a.golang --
 package x
--- pkgs/a_test.go --
+-- pkgs/a_test.golang --
 package x_test
 
 import "testing"
 
 func TestX(t *testing.T) {
 }
--- pkgs/a/a.go --
+-- pkgs/a/a.golang --
 package a
--- pkgs/a/a_test.go --
+-- pkgs/a/a_test.golang --
 package a_test
 
 import "testing"

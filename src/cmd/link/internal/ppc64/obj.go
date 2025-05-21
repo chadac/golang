@@ -73,7 +73,7 @@ func Init() (*sys.Arch, ld.Arch) {
 			Freebsddynld:   "XXX",
 			Openbsddynld:   "/usr/libexec/ld.so",
 			Netbsddynld:    "XXX",
-			Dragonflydynld: "XXX",
+			Dragolangnflydynld: "XXX",
 			Solarisdynld:   "XXX",
 
 			Reloc1:    elfreloc1,

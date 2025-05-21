@@ -1,8 +1,8 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build zos && s390x && gc
+//golang:build zos && s390x && gc
 
 #include "textflag.h"
 
@@ -102,13 +102,13 @@ TEXT ·svcCall(SB), NOSPLIT, $0
 
 // func svcLoad(name *byte) unsafe.Pointer
 TEXT ·svcLoad(SB), NOSPLIT, $0
-	MOVD R15, R2         // Save go stack pointer
+	MOVD R15, R2         // Save golang stack pointer
 	MOVD name+0(FP), R0  // Move SVC args into registers
 	MOVD $0x80000000, R1
 	MOVD $0, R15
 	SVC_LOAD
 	MOVW R15, R3         // Save return code from SVC
-	MOVD R2, R15         // Restore go stack pointer
+	MOVD R2, R15         // Restore golang stack pointer
 	CMP  R3, $0          // Check SVC return code
 	BNE  error
 
@@ -118,10 +118,10 @@ TEXT ·svcLoad(SB), NOSPLIT, $0
 	CMP  R0, R3        // Check if last bit of entry point was set
 	BNE  done
 
-	MOVD R15, R2 // Save go stack pointer
+	MOVD R15, R2 // Save golang stack pointer
 	MOVD $0, R15 // Move SVC args into registers (entry point still in r0 from SVC 08)
 	SVC_DELETE
-	MOVD R2, R15 // Restore go stack pointer
+	MOVD R2, R15 // Restore golang stack pointer
 
 error:
 	MOVD $0, ret+8(FP) // Return 0 on failure
@@ -132,13 +132,13 @@ done:
 
 // func svcUnload(name *byte, fnptr unsafe.Pointer) int64
 TEXT ·svcUnload(SB), NOSPLIT, $0
-	MOVD R15, R2          // Save go stack pointer
+	MOVD R15, R2          // Save golang stack pointer
 	MOVD name+0(FP), R0   // Move SVC args into registers
 	MOVD fnptr+8(FP), R15
 	SVC_DELETE
 	XOR  R0, R0           // Reset r0 to 0
 	MOVD R15, R1          // Save SVC return code
-	MOVD R2, R15          // Restore go stack pointer
+	MOVD R2, R15          // Restore golang stack pointer
 	MOVD R1, ret+16(FP)   // Return SVC return code
 	RET
 
@@ -200,7 +200,7 @@ repeat:
 	ADD  $8, R7
 	MOVD 0(R7), R0      // advance arg pointer by 8 byte
 	ADD  $8, R6         // advance LE argument address by 8 byte
-	MOVD R0, (R4)(R6*1) // copy argument from go-slice to le-frame
+	MOVD R0, (R4)(R6*1) // copy argument from golang-slice to le-frame
 	SUB  $1, R8
 	CMP  R8, $0
 	BNE  repeat
@@ -280,7 +280,7 @@ repeat:
 	ADD  $8, R7
 	MOVD 0(R7), R0      // advance arg pointer by 8 byte
 	ADD  $8, R6         // advance LE argument address by 8 byte
-	MOVD R0, (R4)(R6*1) // copy argument from go-slice to le-frame
+	MOVD R0, (R4)(R6*1) // copy argument from golang-slice to le-frame
 	SUB  $1, R8
 	CMP  R8, $0
 	BNE  repeat

@@ -1,45 +1,45 @@
-env TESTGO_VERSION=go1.21.0
+env TESTGO_VERSION=golang1.21.0
 env TESTGO_VERSION_SWITCH=switch
 
-# If the main module's go.mod file lists a version lower than the version
+# If the main module's golang.mod file lists a version lower than the version
 # required by its dependencies, the commands that fetch and diagnose the module
-# graph (such as 'go mod graph' and 'go mod verify') should fail explicitly:
+# graph (such as 'golang mod graph' and 'golang mod verify') should fail explicitly:
 # they can't interpret the graph themselves, and they aren't allowed to update
-# the go.mod file to record a specific, stable toolchain version that can.
+# the golang.mod file to record a specific, stable toolchain version that can.
 
-! go mod verify
-stderr '^go: rsc.io/future@v1.0.0: module rsc.io/future@v1.0.0 requires go >= 1.999 \(running go 1.21.0\)'
+! golang mod verify
+stderr '^golang: rsc.io/future@v1.0.0: module rsc.io/future@v1.0.0 requires golang >= 1.999 \(running golang 1.21.0\)'
 
-! go mod graph
-stderr '^go: rsc.io/future@v1.0.0: module rsc.io/future@v1.0.0 requires go >= 1.999 \(running go 1.21.0\)'
+! golang mod graph
+stderr '^golang: rsc.io/future@v1.0.0: module rsc.io/future@v1.0.0 requires golang >= 1.999 \(running golang 1.21.0\)'
 
-# TODO(#64008): 'go mod download' without arguments should fail too.
-
-
-# 'go get' should update the main module's go.mod file to a version compatible with the
-# go version required for rsc.io/future, not fail.
-go get .
-stderr '^go: module rsc.io/future@v1.0.0 requires go >= 1.999; switching to go1.999testmod$'
-stderr '^go: upgraded go 1.21 => 1.999$'
-! stderr '^go: added toolchain'
+# TODO(#64008): 'golang mod download' without arguments should fail too.
 
 
-# Now, the various 'go mod' subcommands should succeed.
+# 'golang get' should update the main module's golang.mod file to a version compatible with the
+# golang version required for rsc.io/future, not fail.
+golang get .
+stderr '^golang: module rsc.io/future@v1.0.0 requires golang >= 1.999; switching to golang1.999testmod$'
+stderr '^golang: upgraded golang 1.21 => 1.999$'
+! stderr '^golang: added toolchain'
 
-go mod download
 
-go mod verify
+# Now, the various 'golang mod' subcommands should succeed.
 
-go mod graph
+golang mod download
+
+golang mod verify
+
+golang mod graph
 
 
--- go.mod --
+-- golang.mod --
 module example
 
-go 1.21
+golang 1.21
 
 require rsc.io/future v1.0.0
--- example.go --
+-- example.golang --
 package example
 
 import _ "rsc.io/future"

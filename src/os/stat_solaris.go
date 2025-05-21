@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package os
@@ -11,7 +11,7 @@ import (
 )
 
 // These constants aren't in the syscall package, which is frozen.
-// Values taken from golang.org/x/sys/unix.
+// Values taken from golanglang.org/x/sys/unix.
 const (
 	_S_IFNAM  = 0x5000
 	_S_IFDOOR = 0xd000

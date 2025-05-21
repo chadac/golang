@@ -1,5 +1,5 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package riscv64
@@ -28,7 +28,7 @@ func gentext(ctxt *ld.Link, ldr *loader.Loader) {
 
 	// Emit the following function:
 	//
-	// go.link.addmoduledatainit:
+	// golang.link.addmoduledatainit:
 	//      auipc a0, %pcrel_hi(local.moduledata)
 	//      addi  a0, %pcrel_lo(local.moduledata)
 	//      j     runtime.addmoduledata
@@ -313,28 +313,28 @@ func elfreloc1(ctxt *ld.Link, out *ld.OutBuf, ldr *loader.Loader, s loader.Sym, 
 	return true
 }
 
-func elfsetupplt(ctxt *ld.Link, ldr *loader.Loader, plt, gotplt *loader.SymbolBuilder, dynamic loader.Sym) {
+func elfsetupplt(ctxt *ld.Link, ldr *loader.Loader, plt, golangtplt *loader.SymbolBuilder, dynamic loader.Sym) {
 	if plt.Size() != 0 {
 		return
 	}
-	if gotplt.Size() != 0 {
-		ctxt.Errorf(gotplt.Sym(), "got.plt is not empty")
+	if golangtplt.Size() != 0 {
+		ctxt.Errorf(golangtplt.Sym(), "golangt.plt is not empty")
 	}
 
 	// See section 8.4.6 of the RISC-V ABIs Specification:
 	//
 	//  https://github.com/riscv-non-isa/riscv-elf-psabi-doc/releases/download/v1.0/riscv-abi.pdf
 	//
-	// 1:   auipc  t2, %pcrel_hi(.got.plt)
-	//      sub    t1, t1, t3               # shifted .got.plt offset + hdr size + 12
+	// 1:   auipc  t2, %pcrel_hi(.golangt.plt)
+	//      sub    t1, t1, t3               # shifted .golangt.plt offset + hdr size + 12
 	//      l[w|d] t3, %pcrel_lo(1b)(t2)    # _dl_runtime_resolve
-	//      addi   t1, t1, -(hdr size + 12) # shifted .got.plt offset
-	//      addi   t0, t2, %pcrel_lo(1b)    # &.got.plt
-	//      srli   t1, t1, log2(16/PTRSIZE) # .got.plt offset
+	//      addi   t1, t1, -(hdr size + 12) # shifted .golangt.plt offset
+	//      addi   t0, t2, %pcrel_lo(1b)    # &.golangt.plt
+	//      srli   t1, t1, log2(16/PTRSIZE) # .golangt.plt offset
 	//      l[w|d] t0, PTRSIZE(t0)          # link map
 	//      jr     t3
 
-	plt.AddSymRef(ctxt.Arch, gotplt.Sym(), 0, objabi.R_RISCV_PCREL_HI20, 4)
+	plt.AddSymRef(ctxt.Arch, golangtplt.Sym(), 0, objabi.R_RISCV_PCREL_HI20, 4)
 	plt.SetUint32(ctxt.Arch, plt.Size()-4, 0x00000397) // auipc   t2,0x0
 
 	sb := ldr.MakeSymbolBuilder(fakeLabelName)
@@ -359,8 +359,8 @@ func elfsetupplt(ctxt *ld.Link, ldr *loader.Loader, plt, gotplt *loader.SymbolBu
 	plt.AddUint32(ctxt.Arch, 0x0082b283) // ld      t0,8(t0)
 	plt.AddUint32(ctxt.Arch, 0x00008e02) // jr      t3
 
-	gotplt.AddAddrPlus(ctxt.Arch, dynamic, 0) // got.plt[0] = _dl_runtime_resolve
-	gotplt.AddUint64(ctxt.Arch, 0)            // got.plt[1] = link map
+	golangtplt.AddAddrPlus(ctxt.Arch, dynamic, 0) // golangt.plt[0] = _dl_runtime_resolve
+	golangtplt.AddUint64(ctxt.Arch, 0)            // golangt.plt[1] = link map
 }
 
 func addpltsym(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s loader.Sym) {
@@ -371,7 +371,7 @@ func addpltsym(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s loade
 	ld.Adddynsym(ldr, target, syms, s)
 
 	plt := ldr.MakeSymbolUpdater(syms.PLT)
-	gotplt := ldr.MakeSymbolUpdater(syms.GOTPLT)
+	golangtplt := ldr.MakeSymbolUpdater(syms.GOTPLT)
 	rela := ldr.MakeSymbolUpdater(syms.RelaPLT)
 	if plt.Size() == 0 {
 		panic("plt is not set up")
@@ -381,12 +381,12 @@ func addpltsym(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s loade
 	//
 	//  https://github.com/riscv-non-isa/riscv-elf-psabi-doc/releases/download/v1.0/riscv-abi.pdf
 	//
-	// 1:  auipc   t3, %pcrel_hi(function@.got.plt)
+	// 1:  auipc   t3, %pcrel_hi(function@.golangt.plt)
 	//     l[w|d]  t3, %pcrel_lo(1b)(t3)
 	//     jalr    t1, t3
 	//     nop
 
-	plt.AddSymRef(target.Arch, gotplt.Sym(), gotplt.Size(), objabi.R_RISCV_PCREL_HI20, 4)
+	plt.AddSymRef(target.Arch, golangtplt.Sym(), golangtplt.Size(), objabi.R_RISCV_PCREL_HI20, 4)
 	plt.SetUint32(target.Arch, plt.Size()-4, 0x00000e17) // auipc   t3,0x0
 
 	sb := ldr.MakeSymbolBuilder(fakeLabelName)
@@ -404,11 +404,11 @@ func addpltsym(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s loade
 
 	ldr.SetPlt(s, int32(plt.Size()-16))
 
-	// add to got.plt: pointer to plt[0]
-	gotplt.AddAddrPlus(target.Arch, plt.Sym(), 0)
+	// add to golangt.plt: pointer to plt[0]
+	golangtplt.AddAddrPlus(target.Arch, plt.Sym(), 0)
 
 	// rela
-	rela.AddAddrPlus(target.Arch, gotplt.Sym(), gotplt.Size()-8)
+	rela.AddAddrPlus(target.Arch, golangtplt.Sym(), golangtplt.Size()-8)
 	sDynid := ldr.SymDynid(s)
 
 	rela.AddUint64(target.Arch, elf.R_INFO(uint32(sDynid), uint32(elf.R_RISCV_JUMP_SLOT)))

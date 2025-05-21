@@ -1,11 +1,11 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Tests a G being created from within a syscall.
 //
 // Specifically, it tests a scenario wherein a C
-// thread is calling into Go, creating a goroutine in
+// thread is calling into Go, creating a golangroutine in
 // a syscall (in the tracer's model). Because the actual
 // m can be reused, it's possible for that m to have never
 // had its P (in _Psyscall) stolen if the runtime doesn't

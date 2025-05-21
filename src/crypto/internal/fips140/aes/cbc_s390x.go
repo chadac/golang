@@ -1,15 +1,15 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !purego
+//golang:build !puregolang
 
 package aes
 
 // cryptBlocksChain invokes the cipher message with chaining (KMC) instruction
 // with the given function code. The length must be a multiple of BlockSize (16).
 //
-//go:noescape
+//golang:noescape
 func cryptBlocksChain(c code, iv, key, dst, src *byte, length int)
 
 func cryptBlocksEnc(b *Block, civ *[BlockSize]byte, dst, src []byte) {

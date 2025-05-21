@@ -1,8 +1,8 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Package tool implements the “go tool” command.
+// Package tool implements the “golang tool” command.
 package tool
 
 import (
@@ -12,7 +12,7 @@ import (
 	"errors"
 	"flag"
 	"fmt"
-	"go/build"
+	"golang/build"
 	"internal/platform"
 	"maps"
 	"os"
@@ -23,24 +23,24 @@ import (
 	"sort"
 	"strings"
 
-	"cmd/go/internal/base"
-	"cmd/go/internal/cfg"
-	"cmd/go/internal/load"
-	"cmd/go/internal/modindex"
-	"cmd/go/internal/modload"
-	"cmd/go/internal/str"
-	"cmd/go/internal/work"
+	"cmd/golang/internal/base"
+	"cmd/golang/internal/cfg"
+	"cmd/golang/internal/load"
+	"cmd/golang/internal/modindex"
+	"cmd/golang/internal/modload"
+	"cmd/golang/internal/str"
+	"cmd/golang/internal/work"
 )
 
 var CmdTool = &base.Command{
 	Run:       runTool,
-	UsageLine: "go tool [-n] command [args...]",
-	Short:     "run specified go tool",
+	UsageLine: "golang tool [-n] command [args...]",
+	Short:     "run specified golang tool",
 	Long: `
-Tool runs the go tool command identified by the arguments.
+Tool runs the golang tool command identified by the arguments.
 
 Go ships with a number of builtin tools, and additional tools
-may be defined in the go.mod of the current module.
+may be defined in the golang.mod of the current module.
 
 With no arguments it prints the list of known tools.
 
@@ -48,24 +48,24 @@ The -n flag causes tool to print the command that would be
 executed but not execute it.
 
 The -modfile=file.mod build flag causes tool to use an alternate file
-instead of the go.mod in the module root directory.
+instead of the golang.mod in the module root directory.
 
 Tool also provides the -C, -overlay, and -modcacherw build flags.
 
-For more about build flags, see 'go help build'.
+For more about build flags, see 'golang help build'.
 
-For more about each builtin tool command, see 'go doc cmd/<command>'.
+For more about each builtin tool command, see 'golang doc cmd/<command>'.
 `,
 }
 
 var toolN bool
 
-// Return whether tool can be expected in the gccgo tool directory.
+// Return whether tool can be expected in the gccgolang tool directory.
 // Other binaries could be in the same directory so don't
-// show those with the 'go tool' command.
-func isGccgoTool(tool string) bool {
+// show those with the 'golang tool' command.
+func isGccgolangTool(tool string) bool {
 	switch tool {
-	case "cgo", "fix", "cover", "godoc", "vet":
+	case "cgolang", "fix", "cover", "golangdoc", "vet":
 		return true
 	}
 	return false
@@ -79,7 +79,7 @@ func init() {
 
 func runTool(ctx context.Context, cmd *base.Command, args []string) {
 	if len(args) == 0 {
-		counter.Inc("go/subcommand:tool")
+		counter.Inc("golang/subcommand:tool")
 		listTools(ctx)
 		return
 	}
@@ -90,14 +90,14 @@ func runTool(ctx context.Context, cmd *base.Command, args []string) {
 		if toolName == "dist" && len(args) > 1 && args[1] == "list" {
 			// cmd/distpack removes the 'dist' tool from the toolchain to save space,
 			// since it is normally only used for building the toolchain in the first
-			// place. However, 'go tool dist list' is useful for listing all supported
+			// place. However, 'golang tool dist list' is useful for listing all supported
 			// platforms.
 			//
 			// If the dist tool does not exist, impersonate this command.
 			if impersonateDistList(args[2:]) {
 				// If it becomes necessary, we could increment an additional counter to indicate
 				// that we're impersonating dist list if knowing that becomes important?
-				counter.Inc("go/subcommand:tool-dist")
+				counter.Inc("golang/subcommand:tool-dist")
 				return
 			}
 		}
@@ -107,7 +107,7 @@ func runTool(ctx context.Context, cmd *base.Command, args []string) {
 		// the tool directory.
 		if tool := loadBuiltinTool(toolName); tool != "" {
 			// Increment a counter for the tool subcommand with the tool name.
-			counter.Inc("go/subcommand:tool-" + toolName)
+			counter.Inc("golang/subcommand:tool-" + toolName)
 			buildAndRunBuiltinTool(ctx, toolName, tool, args[1:])
 			return
 		}
@@ -119,13 +119,13 @@ func runTool(ctx context.Context, cmd *base.Command, args []string) {
 			return
 		}
 
-		counter.Inc("go/subcommand:tool-unknown")
+		counter.Inc("golang/subcommand:tool-unknown")
 
 		// Emit the usual error for the missing tool.
 		_ = base.Tool(toolName)
 	} else {
 		// Increment a counter for the tool subcommand with the tool name.
-		counter.Inc("go/subcommand:tool-" + toolName)
+		counter.Inc("golang/subcommand:tool-" + toolName)
 	}
 
 	runBuiltTool(toolName, nil, append([]string{toolPath}, args[1:]...))
@@ -135,27 +135,27 @@ func runTool(ctx context.Context, cmd *base.Command, args []string) {
 func listTools(ctx context.Context) {
 	f, err := os.Open(build.ToolDir)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "go: no tool directory: %s\n", err)
+		fmt.Fprintf(os.Stderr, "golang: no tool directory: %s\n", err)
 		base.SetExitStatus(2)
 		return
 	}
 	defer f.Close()
 	names, err := f.Readdirnames(-1)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "go: can't read tool directory: %s\n", err)
+		fmt.Fprintf(os.Stderr, "golang: can't read tool directory: %s\n", err)
 		base.SetExitStatus(2)
 		return
 	}
 
 	sort.Strings(names)
 	for _, name := range names {
-		// Unify presentation by going to lower case.
+		// Unify presentation by golanging to lower case.
 		// If it's windows, don't show the .exe suffix.
 		name = strings.TrimSuffix(strings.ToLower(name), cfg.ToolExeSuffix())
 
-		// The tool directory used by gccgo will have other binaries
-		// in addition to go tools. Only display go tools here.
-		if cfg.BuildToolchainName == "gccgo" && !isGccgoTool(name) {
+		// The tool directory used by gccgolang will have other binaries
+		// in addition to golang tools. Only display golang tools here.
+		if cfg.BuildToolchainName == "gccgolang" && !isGccgolangTool(name) {
 			continue
 		}
 		fmt.Println(name)
@@ -170,18 +170,18 @@ func listTools(ctx context.Context) {
 }
 
 func impersonateDistList(args []string) (handled bool) {
-	fs := flag.NewFlagSet("go tool dist list", flag.ContinueOnError)
+	fs := flag.NewFlagSet("golang tool dist list", flag.ContinueOnError)
 	jsonFlag := fs.Bool("json", false, "produce JSON output")
 	brokenFlag := fs.Bool("broken", false, "include broken ports")
 
-	// The usage for 'go tool dist' claims that
+	// The usage for 'golang tool dist' claims that
 	// “All commands take -v flags to emit extra information”,
 	// but list -v appears not to have any effect.
 	_ = fs.Bool("v", false, "emit extra information")
 
 	if err := fs.Parse(args); err != nil || len(fs.Args()) > 0 {
 		// Unrecognized flag or argument.
-		// Force fallback to the real 'go tool dist'.
+		// Force fallback to the real 'golang tool dist'.
 		return false
 	}
 
@@ -198,7 +198,7 @@ func impersonateDistList(args []string) (handled bool) {
 	type jsonResult struct {
 		GOOS         string
 		GOARCH       string
-		CgoSupported bool
+		CgolangSupported bool
 		FirstClass   bool
 		Broken       bool `json:",omitempty"`
 	}
@@ -213,7 +213,7 @@ func impersonateDistList(args []string) (handled bool) {
 			results = append(results, jsonResult{
 				GOOS:         p.GOOS,
 				GOARCH:       p.GOARCH,
-				CgoSupported: platform.CgoSupported(p.GOOS, p.GOARCH),
+				CgolangSupported: platform.CgolangSupported(p.GOOS, p.GOARCH),
 				FirstClass:   platform.FirstClass(p.GOOS, p.GOARCH),
 				Broken:       broken,
 			})
@@ -279,10 +279,10 @@ func loadModTool(ctx context.Context, name string) string {
 
 func buildAndRunBuiltinTool(ctx context.Context, toolName, tool string, args []string) {
 	// Override GOOS and GOARCH for the build to build the tool using
-	// the same GOOS and GOARCH as this go command.
+	// the same GOOS and GOARCH as this golang command.
 	cfg.ForceHost()
 
-	// Ignore go.mod and go.work: we don't need them, and we want to be able
+	// Ignore golang.mod and golang.work: we don't need them, and we want to be able
 	// to run the tool even if there's an issue with the module or workspace the
 	// user happens to be in.
 	modload.RootMode = modload.NoRoot
@@ -297,11 +297,11 @@ func buildAndRunBuiltinTool(ctx context.Context, toolName, tool string, args []s
 
 func buildAndRunModtool(ctx context.Context, toolName, tool string, args []string) {
 	runFunc := func(b *work.Builder, ctx context.Context, a *work.Action) error {
-		// Use the ExecCmd to run the binary, as go run does. ExecCmd allows users
+		// Use the ExecCmd to run the binary, as golang run does. ExecCmd allows users
 		// to provide a runner to run the binary, for example a simulator for binaries
 		// that are cross-compiled to a different platform.
 		cmdline := str.StringList(work.FindExecCmd(), a.Deps[0].BuiltTarget(), a.Args)
-		// Use same environment go run uses to start the executable:
+		// Use same environment golang run uses to start the executable:
 		// the original environment with cfg.GOROOTbin added to the path.
 		env := slices.Clip(cfg.OrigEnv)
 		env = base.AppendPATH(env)
@@ -328,7 +328,7 @@ func buildAndRunTool(ctx context.Context, tool string, args []string, runTool wo
 
 	a1 := b.LinkAction(work.ModeBuild, work.ModeBuild, p)
 	a1.CacheExecutable = true
-	a := &work.Action{Mode: "go tool", Actor: runTool, Args: args, Deps: []*work.Action{a1}}
+	a := &work.Action{Mode: "golang tool", Actor: runTool, Args: args, Deps: []*work.Action{a1}}
 	b.Do(ctx, a)
 }
 
@@ -350,7 +350,7 @@ func runBuiltTool(toolName string, env, cmdline []string) error {
 	if err == nil {
 		c := make(chan os.Signal, 100)
 		signal.Notify(c)
-		go func() {
+		golang func() {
 			for sig := range c {
 				toolCmd.Process.Signal(sig)
 			}
@@ -367,7 +367,7 @@ func runBuiltTool(toolName string, env, cmdline []string) error {
 		// it printed any messages it wanted to print.
 		e, ok := err.(*exec.ExitError)
 		if !ok || !e.Exited() || cfg.BuildX {
-			fmt.Fprintf(os.Stderr, "go tool %s: %s\n", toolName, err)
+			fmt.Fprintf(os.Stderr, "golang tool %s: %s\n", toolName, err)
 		}
 		if ok {
 			base.SetExitStatus(e.ExitCode())

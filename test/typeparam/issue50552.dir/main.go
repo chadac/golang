@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -14,7 +14,7 @@ func BuildInt() int {
 }
 
 func main() {
-	if got, want := BuildInt(), 0; got != want {
-		panic(fmt.Sprintf("got %d, want %d", got, want))
+	if golangt, want := BuildInt(), 0; golangt != want {
+		panic(fmt.Sprintf("golangt %d, want %d", golangt, want))
 	}
 }

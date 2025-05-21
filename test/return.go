@@ -1,11 +1,11 @@
 // errorcheck
 
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test compiler diagnosis of function missing return statements.
-// See issue 65 and golang.org/s/go11return.
+// See issue 65 and golanglang.org/s/golang11return.
 
 package p
 
@@ -29,11 +29,11 @@ func _() int {
 	return 2
 }
 
-// goto is okay
+// golangto is okay
 func _() int {
 L:
 	print(1)
-	goto L
+	golangto L
 }
 
 // panic is okay
@@ -62,7 +62,7 @@ func _() int {
 L:
 	{
 		print(1)
-		goto L
+		golangto L
 	}
 }
 
@@ -85,7 +85,7 @@ func _() int {
 func _() int {
 L:
 	print(1)
-	goto L
+	golangto L
 	print(3)
 } // ERROR "missing return"
 
@@ -107,7 +107,7 @@ func _() int {
 L:
 	{
 		print(1)
-		goto L
+		golangto L
 		print(3)
 	}
 } // ERROR "missing return"
@@ -132,7 +132,7 @@ func _() int {
 L:
 	{
 		print(1)
-		goto L
+		golangto L
 	}
 	print(3)
 } // ERROR "missing return"
@@ -157,7 +157,7 @@ func _() int {
 func _() int {
 L:
 	print(1)
-	goto L
+	golangto L
 	{}
 } // ERROR "missing return"
 
@@ -179,7 +179,7 @@ func _() int {
 L:
 	{
 		print(1)
-		goto L
+		golangto L
 		{}
 	}
 } // ERROR "missing return"
@@ -204,7 +204,7 @@ func _() int {
 L:
 	{
 		print(1)
-		goto L
+		golangto L
 	}
 	{}
 } // ERROR "missing return"
@@ -234,7 +234,7 @@ L:
 	if x == nil {
 		panic(2)
 	} else {
-		goto L
+		golangto L
 	}
 }
 
@@ -248,7 +248,7 @@ L:
 	} else if x != 2 {
 		panic(3)
 	} else {
-		goto L
+		golangto L
 	}
 }
 
@@ -411,7 +411,7 @@ L:
 		panic("abc")
 	case c <- 1:
 		print(2)
-		goto L
+		golangto L
 	}
 }
 
@@ -443,7 +443,7 @@ L:
 	case <-c:
 		print(2)
 		panic("abc")
-		goto L
+		golangto L
 	case c <- 1:
 		print(2)
 	}
@@ -757,10 +757,10 @@ func _() int {
 	return 2
 }
 
-// goto is okay
+// golangto is okay
 func _() int {
 L:
-	goto L
+	golangto L
 }
 
 // panic is okay
@@ -785,7 +785,7 @@ func _() int {
 func _() int {
 L:
 	{
-		goto L
+		golangto L
 	}
 }
 
@@ -805,7 +805,7 @@ func _() int {
 
 func _() int {
 L:
-	goto L
+	golangto L
 	print(3)
 } // ERROR "missing return"
 
@@ -824,7 +824,7 @@ func _() int {
 func _() int {
 L:
 	{
-		goto L
+		golangto L
 		print(3)
 	}
 } // ERROR "missing return"
@@ -846,7 +846,7 @@ func _() int {
 func _() int {
 L:
 	{
-		goto L
+		golangto L
 	}
 	print(3)
 } // ERROR "missing return"
@@ -868,7 +868,7 @@ func _() int {
 
 func _() int {
 L:
-	goto L
+	golangto L
 	{}
 } // ERROR "missing return"
 
@@ -887,7 +887,7 @@ func _() int {
 func _() int {
 L:
 	{
-		goto L
+		golangto L
 		{}
 	}
 } // ERROR "missing return"
@@ -909,7 +909,7 @@ func _() int {
 func _() int {
 L:
 	{
-		goto L
+		golangto L
 	}
 	{}
 } // ERROR "missing return"
@@ -936,7 +936,7 @@ L:
 	if x == nil {
 		panic(2)
 	} else {
-		goto L
+		golangto L
 	}
 }
 
@@ -949,7 +949,7 @@ L:
 	} else if x != 2 {
 		panic(3)
 	} else {
-		goto L
+		golangto L
 	}
 }
 
@@ -1101,7 +1101,7 @@ L:
 		panic("abc")
 	case c <- 1:
 		print(2)
-		goto L
+		golangto L
 	}
 }
 
@@ -1130,7 +1130,7 @@ L:
 	case <-c:
 		print(2)
 		panic("abc")
-		goto L
+		golangto L
 	case c <- 1:
 		print(2)
 	}
@@ -1431,11 +1431,11 @@ var _ = func() int {
 	return 2
 }
 
-// goto is okay
+// golangto is okay
 var _ = func() int {
 L:
 	print(1)
-	goto L
+	golangto L
 }
 
 // panic is okay
@@ -1464,7 +1464,7 @@ var _ = func() int {
 L:
 	{
 		print(1)
-		goto L
+		golangto L
 	}
 }
 
@@ -1487,7 +1487,7 @@ var _ = func() int {
 var _ = func() int {
 L:
 	print(1)
-	goto L
+	golangto L
 	print(3)
 } // ERROR "missing return"
 
@@ -1509,7 +1509,7 @@ var _ = func() int {
 L:
 	{
 		print(1)
-		goto L
+		golangto L
 		print(3)
 	}
 } // ERROR "missing return"
@@ -1534,7 +1534,7 @@ var _ = func() int {
 L:
 	{
 		print(1)
-		goto L
+		golangto L
 	}
 	print(3)
 } // ERROR "missing return"
@@ -1559,7 +1559,7 @@ var _ = func() int {
 var _ = func() int {
 L:
 	print(1)
-	goto L
+	golangto L
 	{}
 } // ERROR "missing return"
 
@@ -1581,7 +1581,7 @@ var _ = func() int {
 L:
 	{
 		print(1)
-		goto L
+		golangto L
 		{}
 	}
 } // ERROR "missing return"
@@ -1606,7 +1606,7 @@ var _ = func() int {
 L:
 	{
 		print(1)
-		goto L
+		golangto L
 	}
 	{}
 } // ERROR "missing return"
@@ -1636,7 +1636,7 @@ L:
 	if x == nil {
 		panic(2)
 	} else {
-		goto L
+		golangto L
 	}
 }
 
@@ -1650,7 +1650,7 @@ L:
 	} else if x != 2 {
 		panic(3)
 	} else {
-		goto L
+		golangto L
 	}
 }
 
@@ -1813,7 +1813,7 @@ L:
 		panic("abc")
 	case c <- 1:
 		print(2)
-		goto L
+		golangto L
 	}
 }
 
@@ -1845,7 +1845,7 @@ L:
 	case <-c:
 		print(2)
 		panic("abc")
-		goto L
+		golangto L
 	case c <- 1:
 		print(2)
 	}
@@ -2159,10 +2159,10 @@ var _ = func() int {
 	return 2
 }
 
-// goto is okay
+// golangto is okay
 var _ = func() int {
 L:
-	goto L
+	golangto L
 }
 
 // panic is okay
@@ -2187,7 +2187,7 @@ var _ = func() int {
 var _ = func() int {
 L:
 	{
-		goto L
+		golangto L
 	}
 }
 
@@ -2207,7 +2207,7 @@ var _ = func() int {
 
 var _ = func() int {
 L:
-	goto L
+	golangto L
 	print(3)
 } // ERROR "missing return"
 
@@ -2226,7 +2226,7 @@ var _ = func() int {
 var _ = func() int {
 L:
 	{
-		goto L
+		golangto L
 		print(3)
 	}
 } // ERROR "missing return"
@@ -2248,7 +2248,7 @@ var _ = func() int {
 var _ = func() int {
 L:
 	{
-		goto L
+		golangto L
 	}
 	print(3)
 } // ERROR "missing return"
@@ -2270,7 +2270,7 @@ var _ = func() int {
 
 var _ = func() int {
 L:
-	goto L
+	golangto L
 	{}
 } // ERROR "missing return"
 
@@ -2289,7 +2289,7 @@ var _ = func() int {
 var _ = func() int {
 L:
 	{
-		goto L
+		golangto L
 		{}
 	}
 } // ERROR "missing return"
@@ -2311,7 +2311,7 @@ var _ = func() int {
 var _ = func() int {
 L:
 	{
-		goto L
+		golangto L
 	}
 	{}
 } // ERROR "missing return"
@@ -2338,7 +2338,7 @@ L:
 	if x == nil {
 		panic(2)
 	} else {
-		goto L
+		golangto L
 	}
 }
 
@@ -2351,7 +2351,7 @@ L:
 	} else if x != 2 {
 		panic(3)
 	} else {
-		goto L
+		golangto L
 	}
 }
 
@@ -2503,7 +2503,7 @@ L:
 		panic("abc")
 	case c <- 1:
 		print(2)
-		goto L
+		golangto L
 	}
 }
 
@@ -2532,7 +2532,7 @@ L:
 	case <-c:
 		print(2)
 		panic("abc")
-		goto L
+		golangto L
 	case c <- 1:
 		print(2)
 	}

@@ -1,7 +1,7 @@
-// -gotypesalias=1
+// -golangtypesalias=1
 
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package p
@@ -180,7 +180,7 @@ func g2() [unsafe.Sizeof(x2)]int
 var x2 = g2
 
 // verify that we get the correct sizes for the functions above
-// (note: assert is statically evaluated in go/types test mode)
+// (note: assert is statically evaluated in golang/types test mode)
 func init() {
 	assert(unsafe.Sizeof(g1) == 8)
 	assert(unsafe.Sizeof(x2) == 8)

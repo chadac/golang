@@ -1,8 +1,8 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build amd64 || arm64 || loong64 || mips64 || mips64le || ppc64 || ppc64le || riscv64 || s390x
+//golang:build amd64 || arm64 || loong64 || mips64 || mips64le || ppc64 || ppc64le || riscv64 || s390x
 
 package runtime
 
@@ -227,7 +227,7 @@ func (s *scavengeIndex) sysGrow(base, limit uintptr, sysStat *sysMemStat) uintpt
 	// it'll be zeroed.
 	need = need.subtract(have)
 
-	// If we've got something to map, map it, and update the slice bounds.
+	// If we've golangt something to map, map it, and update the slice bounds.
 	if need.size() != 0 {
 		sysMap(unsafe.Pointer(need.base.addr()), need.size(), sysStat, "scavenge index")
 		sysUsed(unsafe.Pointer(need.base.addr()), need.size(), need.size())

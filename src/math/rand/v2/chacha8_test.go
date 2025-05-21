@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package rand_test
@@ -38,11 +38,11 @@ func TestChaCha8Read(t *testing.T) {
 	if nn, err := p.Read(buf); err != nil {
 		t.Fatal(err)
 	} else if nn != len(buf) {
-		t.Errorf("Read short: got %d, expected %d", nn, len(buf))
+		t.Errorf("Read short: golangt %d, expected %d", nn, len(buf))
 	}
 	h.Write(buf)
-	if got := h.Sum(nil); !bytes.Equal(got, chacha8hash) {
-		t.Errorf("transcript incorrect: got %x, want %x", got, chacha8hash)
+	if golangt := h.Sum(nil); !bytes.Equal(golangt, chacha8hash) {
+		t.Errorf("transcript incorrect: golangt %x, want %x", golangt, chacha8hash)
 	}
 
 	p.Seed(chacha8seed)
@@ -53,8 +53,8 @@ func TestChaCha8Read(t *testing.T) {
 		t.Errorf("one byte reads: %v", err)
 	}
 	h.Write(buf)
-	if got := h.Sum(nil); !bytes.Equal(got, chacha8hash) {
-		t.Errorf("transcript incorrect (one byte reads): got %x, want %x", got, chacha8hash)
+	if golangt := h.Sum(nil); !bytes.Equal(golangt, chacha8hash) {
+		t.Errorf("transcript incorrect (one byte reads): golangt %x, want %x", golangt, chacha8hash)
 	}
 
 	p.Seed(chacha8seed)
@@ -63,7 +63,7 @@ func TestChaCha8Read(t *testing.T) {
 	if n, err := p.Read(make([]byte, 0)); err != nil {
 		t.Errorf("zero length read: %v", err)
 	} else if n != 0 {
-		t.Errorf("Read zero length: got %d, expected %d", n, 0)
+		t.Errorf("Read zero length: golangt %d, expected %d", n, 0)
 	}
 
 	var n int
@@ -89,12 +89,12 @@ func TestChaCha8Read(t *testing.T) {
 		if nn, err := p.Read(buf); err != nil {
 			t.Fatal(err)
 		} else if nn != len(buf) {
-			t.Errorf("Read short: got %d, expected %d", nn, len(buf))
+			t.Errorf("Read short: golangt %d, expected %d", nn, len(buf))
 		}
 		h.Write(buf)
 	}
-	if got := h.Sum(nil); !bytes.Equal(got, chacha8hash) {
-		t.Errorf("transcript incorrect: got %x, want %x", got, chacha8hash)
+	if golangt := h.Sum(nil); !bytes.Equal(golangt, chacha8hash) {
+		t.Errorf("transcript incorrect: golangt %x, want %x", golangt, chacha8hash)
 	}
 }
 
@@ -195,7 +195,7 @@ func BenchmarkChaCha8Read(b *testing.B) {
 	Sink = uint64(t)
 }
 
-// Golden output test to make sure algorithm never changes,
+// Golden output test to make sure algolangrithm never changes,
 // so that its use in math/rand/v2 stays stable.
 
 var chacha8seed = [32]byte([]byte("ABCDEFGHIJKLMNOPQRSTUVWXYZ123456"))

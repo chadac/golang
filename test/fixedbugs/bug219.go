@@ -1,7 +1,7 @@
 // compile
 
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package bug219
@@ -9,7 +9,7 @@ package bug219
 func f(func()) int { return 0 }
 
 // this doesn't work:
-// bug219.go:16: syntax error near if
+// bug219.golang:16: syntax error near if
 func g1() {
 	if x := f(func() {
 		if true {}

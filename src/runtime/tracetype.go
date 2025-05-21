@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Trace stack table and acquisition.
@@ -8,7 +8,7 @@ package runtime
 
 import (
 	"internal/abi"
-	"internal/goarch"
+	"internal/golangarch"
 	"internal/trace/tracev2"
 	"unsafe"
 )
@@ -28,7 +28,7 @@ func (t *traceTypeTable) put(typ *abi.Type) uint64 {
 		return 0
 	}
 	// Insert the pointer to the type itself.
-	id, _ := t.tab.put(noescape(unsafe.Pointer(&typ)), goarch.PtrSize)
+	id, _ := t.tab.put(noescape(unsafe.Pointer(&typ)), golangarch.PtrSize)
 	return id
 }
 

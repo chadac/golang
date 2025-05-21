@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package cmerge_test
@@ -99,7 +99,7 @@ func TestBasic(t *testing.T) {
 		for i := 0; i < scenario.iters; i++ {
 			err, ovf = m.MergeCounters(scenario.dst, scenario.src)
 			if ovf != scenario.overflow {
-				t.Fatalf("case %d overflow mismatch: got %v want %v", k, ovf, scenario.overflow)
+				t.Fatalf("case %d overflow mismatch: golangt %v want %v", k, ovf, scenario.overflow)
 			}
 			if !scenario.merr && err != nil {
 				t.Fatalf("case %d unexpected err %v", k, err)
@@ -109,7 +109,7 @@ func TestBasic(t *testing.T) {
 			}
 			for i := range scenario.dst {
 				if scenario.dst[i] != scenario.res[i] {
-					t.Fatalf("case %d: bad merge at %d got %d want %d",
+					t.Fatalf("case %d: bad merge at %d golangt %d want %d",
 						k, i, scenario.dst[i], scenario.res[i])
 				}
 			}

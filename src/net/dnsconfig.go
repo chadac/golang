@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package net
@@ -21,9 +21,9 @@ import (
 //   - github.com/metacubex/mihomo
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname defaultNS
+//golang:linkname defaultNS
 var defaultNS = []string{"127.0.0.1:53", "[::1]:53"}
 
 var getHostname = os.Hostname // variable for testing

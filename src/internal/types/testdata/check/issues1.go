@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file contains regression tests for bugs found.
@@ -168,7 +168,7 @@ func issue39623[T interface{~int | ~string}](x, y T) T {
 	return x + y
 }
 
-// Simplified, from https://go2goplay.golang.org/p/efS6x6s-9NI:
+// Simplified, from https://golang2golangplay.golanglang.org/p/efS6x6s-9NI:
 func Sum[T interface{~int | ~string}](s []T) (sum T) {
 	for _, v := range s {
 		sum += v
@@ -216,14 +216,14 @@ func _[T interface{ ~chan int }](ch T) int {
 // Calling of a generic variable.
 func _[T interface{ ~func() }](f T) {
 	f()
-	go f()
+	golang f()
 }
 
 type F1 func()
 type F2 func()
 func _[T interface{ func()|F1|F2 }](f T) {
 	f()
-	go f()
+	golang f()
 }
 
 // We must compare against the (possibly underlying) types of term list

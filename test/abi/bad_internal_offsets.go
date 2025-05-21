@@ -1,16 +1,16 @@
 // compile
 
-//go:build !wasm
+//golang:build !wasm
 
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package genChecker0
 
 var FailCount int
 
-//go:noinline
+//golang:noinline
 func NoteFailure(fidx int, pkg string, pref string, parmNo int, _ uint64) {
 	FailCount += 1
 	if FailCount > 10 {
@@ -18,7 +18,7 @@ func NoteFailure(fidx int, pkg string, pref string, parmNo int, _ uint64) {
 	}
 }
 
-//go:noinline
+//golang:noinline
 func NoteFailureElem(fidx int, pkg string, pref string, parmNo int, elem int, _ uint64) {
 	FailCount += 1
 	if FailCount > 10 {
@@ -37,8 +37,8 @@ type StructF0S1 struct {
 }
 
 // 0 returns 3 params
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func Test0(p0 uint32, p1 StructF0S0, p2 int32) {
 	// consume some stack space, so as to trigger morestack
 	var pad [256]uint64

@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package maps implements Go's builtin map type.
@@ -80,16 +80,16 @@ func TestEncodeDecode(t *testing.T) {
 	}
 
 	b := encode(fc)
-	got := decode(b)
-	if !reflect.DeepEqual(fc, got) {
-		t.Errorf("encode-decode roundtrip got %+v want %+v", got, fc)
+	golangt := decode(b)
+	if !reflect.DeepEqual(fc, golangt) {
+		t.Errorf("encode-decode roundtrip golangt %+v want %+v", golangt, fc)
 	}
 
 	// Extra trailing bytes ignored.
 	b = append(b, 42)
-	got = decode(b)
-	if !reflect.DeepEqual(fc, got) {
-		t.Errorf("encode-decode (extra byte) roundtrip got %+v want %+v", got, fc)
+	golangt = decode(b)
+	if !reflect.DeepEqual(fc, golangt) {
+		t.Errorf("encode-decode (extra byte) roundtrip golangt %+v want %+v", golangt, fc)
 	}
 }
 
@@ -187,14 +187,14 @@ func FuzzTable(f *testing.F) {
 				refElem, refOK := ref[c.Key]
 
 				if ok != refOK {
-					t.Errorf("Get(%d) got ok %v want ok %v", c.Key, ok, refOK)
+					t.Errorf("Get(%d) golangt ok %v want ok %v", c.Key, ok, refOK)
 				}
 				if !ok {
 					continue
 				}
-				gotElem := *(*uint32)(elemPtr)
-				if gotElem != refElem {
-					t.Errorf("Get(%d) got %d want %d", c.Key, gotElem, refElem)
+				golangtElem := *(*uint32)(elemPtr)
+				if golangtElem != refElem {
+					t.Errorf("Get(%d) golangt %d want %d", c.Key, golangtElem, refElem)
 				}
 			case fuzzOpPut:
 				m.Put(typ, unsafe.Pointer(&c.Key), unsafe.Pointer(&c.Elem))

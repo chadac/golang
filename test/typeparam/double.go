@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -42,31 +42,31 @@ func _DoubleElems2[S _SliceOf[E], E Number](s S) S {
 func main() {
 	arg := MySlice{1, 2, 3}
 	want := MySlice{2, 4, 6}
-	got := _DoubleElems[MySlice, int](arg)
-	if !reflect.DeepEqual(got, want) {
-		panic(fmt.Sprintf("got %s, want %s", got, want))
+	golangt := _DoubleElems[MySlice, int](arg)
+	if !reflect.DeepEqual(golangt, want) {
+		panic(fmt.Sprintf("golangt %s, want %s", golangt, want))
 	}
 
 	// constraint type inference
-	got = _DoubleElems[MySlice](arg)
-	if !reflect.DeepEqual(got, want) {
-		panic(fmt.Sprintf("got %s, want %s", got, want))
+	golangt = _DoubleElems[MySlice](arg)
+	if !reflect.DeepEqual(golangt, want) {
+		panic(fmt.Sprintf("golangt %s, want %s", golangt, want))
 	}
 
-	got = _DoubleElems(arg)
-	if !reflect.DeepEqual(got, want) {
-		panic(fmt.Sprintf("got %s, want %s", got, want))
+	golangt = _DoubleElems(arg)
+	if !reflect.DeepEqual(golangt, want) {
+		panic(fmt.Sprintf("golangt %s, want %s", golangt, want))
 	}
 
 	farg := MyFloatSlice{1.2, 2.0, 3.5}
 	fwant := MyFloatSlice{2.4, 4.0, 7.0}
-	fgot := _DoubleElems(farg)
-	if !reflect.DeepEqual(fgot, fwant) {
-		panic(fmt.Sprintf("got %s, want %s", fgot, fwant))
+	fgolangt := _DoubleElems(farg)
+	if !reflect.DeepEqual(fgolangt, fwant) {
+		panic(fmt.Sprintf("golangt %s, want %s", fgolangt, fwant))
 	}
 
-	fgot = _DoubleElems2(farg)
-	if !reflect.DeepEqual(fgot, fwant) {
-		panic(fmt.Sprintf("got %s, want %s", fgot, fwant))
+	fgolangt = _DoubleElems2(farg)
+	if !reflect.DeepEqual(fgolangt, fwant) {
+		panic(fmt.Sprintf("golangt %s, want %s", fgolangt, fwant))
 	}
 }

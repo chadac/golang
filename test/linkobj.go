@@ -1,9 +1,9 @@
 // run
 
-//go:build !nacl && !js && gc && !wasip1
+//golang:build !nacl && !js && gc && !wasip1
 
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test the compiler -linkobj flag.
@@ -22,7 +22,7 @@ import (
 var pwd, tmpdir string
 
 func main() {
-	dir, err := ioutil.TempDir("", "go-test-linkobj-")
+	dir, err := ioutil.TempDir("", "golang-test-linkobj-")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -36,14 +36,14 @@ func main() {
 	}
 	tmpdir = dir
 
-	writeFile("p1.go", `
+	writeFile("p1.golang", `
 		package p1
 
 		func F() {
 			println("hello from p1")
 		}
 	`)
-	writeFile("p2.go", `
+	writeFile("p2.golang", `
 		package p2
 
 		import "./p1"
@@ -55,7 +55,7 @@ func main() {
 
 		func main() {}
 	`)
-	writeFile("p3.go", `
+	writeFile("p3.golang", `
 		package main
 
 		import "./p2"
@@ -85,9 +85,9 @@ func main() {
 		os.WriteFile("importcfg", []byte(importcfg), 0644)
 
 		// inlining is disabled to make sure that the link objects contain needed code.
-		run("go", "tool", "compile", "-p=p1", pkg, "-D", ".", "-importcfg=importcfg", "-l", "-o", "p1."+o, "-linkobj", "p1.lo", "p1.go")
-		run("go", "tool", "compile", "-p=p2", pkg, "-D", ".", "-importcfg=importcfg", "-l", "-o", "p2."+o, "-linkobj", "p2.lo", "p2.go")
-		run("go", "tool", "compile", "-p=main", pkg, "-D", ".", "-importcfg=importcfg", "-l", "-o", "p3."+o, "-linkobj", "p3.lo", "p3.go")
+		run("golang", "tool", "compile", "-p=p1", pkg, "-D", ".", "-importcfg=importcfg", "-l", "-o", "p1."+o, "-linkobj", "p1.lo", "p1.golang")
+		run("golang", "tool", "compile", "-p=p2", pkg, "-D", ".", "-importcfg=importcfg", "-l", "-o", "p2."+o, "-linkobj", "p2.lo", "p2.golang")
+		run("golang", "tool", "compile", "-p=main", pkg, "-D", ".", "-importcfg=importcfg", "-l", "-o", "p3."+o, "-linkobj", "p3.lo", "p3.golang")
 
 		cp("p1."+o, "p1.oo")
 		cp("p2."+o, "p2.oo")
@@ -95,12 +95,12 @@ func main() {
 		cp("p1.lo", "p1."+o)
 		cp("p2.lo", "p2."+o)
 		cp("p3.lo", "p3."+o)
-		out := runFail("go", "tool", "link", "p2."+o)
+		out := runFail("golang", "tool", "link", "p2."+o)
 		if !strings.Contains(out, "not package main") {
 			fatalf("link p2.o failed but not for package main:\n%s", out)
 		}
 
-		run("go", "tool", "link", "-importcfg=importcfg", "-o", "a.out.exe", "p3."+o)
+		run("golang", "tool", "link", "-importcfg=importcfg", "-o", "a.out.exe", "p3."+o)
 		out = run("./a.out.exe")
 		if !strings.Contains(out, "hello from p1\nhello from p2\nhello from main\n") {
 			fatalf("running main, incorrect output:\n%s", out)

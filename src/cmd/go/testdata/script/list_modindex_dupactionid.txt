@@ -2,22 +2,22 @@
 # multiple action entry ids for the same index file. That was happening
 # previously because we sometimes generated the action id with unclean
 # paths (and the rest of the time with clean paths) for the same package.
-# This test will use a go program ('check') to check the cache that there are
+# This test will use a golang program ('check') to check the cache that there are
 # no two action entry files that point to the same object id.
 
-[short] skip 'builds and runs a go program'
+[short] skip 'builds and runs a golang program'
 sleep 2s # Sleep so that the unpacked files are > 2 seconds old. The index won't be used if the modified times on the files are newer.
-go build -o check$GOEXE check.go
+golang build -o check$GOEXE check.golang
 cd mod
 env GOCACHE=$WORK/newcache # Run list command in a clean cache.
-go list all
+golang list all
 exec ../check$GOEXE
 
--- mod/go.mod --
+-- mod/golang.mod --
 module example.com/foo
--- mod/foo.go --
+-- mod/foo.golang --
 package foo
--- check.go --
+-- check.golang --
 package main
 
 import (
@@ -78,7 +78,7 @@ func main() {
 
 // objectid returns the object id that the given actionEntryFile points to.
 func objectid(actionEntryFile string) (string, error) {
-	// See cmd/go/internal/cache.(*DiskCache).get for the code that reads
+	// See cmd/golang/internal/cache.(*DiskCache).get for the code that reads
 	// from the action entry files. The following is based on that function.
 	const (
 		HashSize  = 32

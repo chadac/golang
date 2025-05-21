@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package interleaved implements the interleaved devirtualization and
@@ -12,14 +12,14 @@ import (
 	"cmd/compile/internal/inline"
 	"cmd/compile/internal/inline/inlheur"
 	"cmd/compile/internal/ir"
-	"cmd/compile/internal/pgoir"
+	"cmd/compile/internal/pgolangir"
 	"cmd/compile/internal/typecheck"
 	"fmt"
 )
 
 // DevirtualizeAndInlinePackage interleaves devirtualization and inlining on
 // all functions within pkg.
-func DevirtualizeAndInlinePackage(pkg *ir.Package, profile *pgoir.Profile) {
+func DevirtualizeAndInlinePackage(pkg *ir.Package, profile *pgolangir.Profile) {
 	if profile != nil && base.Debug.PGODevirtualize > 0 {
 		// TODO(mdempsky): Integrate into DevirtualizeAndInlineFunc below.
 		ir.VisitFuncsBottomUp(typecheck.Target.Funcs, func(list []*ir.Func, recursive bool) {
@@ -34,7 +34,7 @@ func DevirtualizeAndInlinePackage(pkg *ir.Package, profile *pgoir.Profile) {
 		inlheur.SetupScoreAdjustments()
 	}
 
-	var inlProfile *pgoir.Profile // copy of profile for inlining
+	var inlProfile *pgolangir.Profile // copy of profile for inlining
 	if base.Debug.PGOInline != 0 {
 		inlProfile = profile
 	}
@@ -146,7 +146,7 @@ func DevirtualizeAndInlinePackage(pkg *ir.Package, profile *pgoir.Profile) {
 
 // DevirtualizeAndInlineFunc interleaves devirtualization and inlining
 // on a single function.
-func DevirtualizeAndInlineFunc(fn *ir.Func, profile *pgoir.Profile) {
+func DevirtualizeAndInlineFunc(fn *ir.Func, profile *pgolangir.Profile) {
 	ir.WithFunc(fn, func() {
 		if base.Flag.LowerL != 0 {
 			if inlheur.Enabled() && !fn.Wrapper() {
@@ -177,7 +177,7 @@ type callSite struct {
 
 type inlClosureState struct {
 	fn        *ir.Func
-	profile   *pgoir.Profile
+	profile   *pgolangir.Profile
 	callSites map[*ir.ParenExpr]bool // callSites[p] == "p appears in parens" (do not append again)
 	resolved  []*ir.Func             // for each call in parens, the resolved target of the call
 	useCounts map[*ir.Func]int       // shared among all InlClosureStates

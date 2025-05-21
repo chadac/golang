@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package loopvar_test
@@ -22,18 +22,18 @@ type testcase struct {
 }
 
 var for_files = []string{
-	"for_esc_address.go",             // address of variable
-	"for_esc_closure.go",             // closure of variable
-	"for_esc_minimal_closure.go",     // simple closure of variable
-	"for_esc_method.go",              // method value of variable
-	"for_complicated_esc_address.go", // modifies loop index in body
+	"for_esc_address.golang",             // address of variable
+	"for_esc_closure.golang",             // closure of variable
+	"for_esc_minimal_closure.golang",     // simple closure of variable
+	"for_esc_method.golang",              // method value of variable
+	"for_complicated_esc_address.golang", // modifies loop index in body
 }
 
 var range_files = []string{
-	"range_esc_address.go",         // address of variable
-	"range_esc_closure.go",         // closure of variable
-	"range_esc_minimal_closure.go", // simple closure of variable
-	"range_esc_method.go",          // method value of variable
+	"range_esc_address.golang",         // address of variable
+	"range_esc_closure.golang",         // closure of variable
+	"range_esc_minimal_closure.golang", // simple closure of variable
+	"range_esc_method.golang",          // method value of variable
 }
 
 var cases = []testcase{
@@ -47,7 +47,7 @@ var cases = []testcase{
 	{"1", "", 0, range_files[:1]},
 	{"2", "loop variable i now per-iteration,", 0, range_files},
 
-	{"1", "", 0, []string{"for_nested.go"}},
+	{"1", "", 0, []string{"for_nested.golang"}},
 }
 
 // TestLoopVar checks that the GOEXPERIMENT and debug flags behave as expected.
@@ -64,14 +64,14 @@ func TestLoopVarGo1_21(t *testing.T) {
 	}
 
 	testenv.MustHaveGoBuild(t)
-	gocmd := testenv.GoToolPath(t)
+	golangcmd := testenv.GoToolPath(t)
 	tmpdir := t.TempDir()
 	output := filepath.Join(tmpdir, "foo.exe")
 
 	for i, tc := range cases {
 		for _, f := range tc.files {
 			source := f
-			cmd := testenv.Command(t, gocmd, "build", "-o", output, "-gcflags=-lang=go1.21 -d=loopvar="+tc.lvFlag, source)
+			cmd := testenv.Command(t, golangcmd, "build", "-o", output, "-gcflags=-lang=golang1.21 -d=loopvar="+tc.lvFlag, source)
 			cmd.Env = append(cmd.Env, "GOEXPERIMENT=loopvar", "HOME="+tmpdir)
 			cmd.Dir = "testdata"
 			t.Logf("File %s loopvar=%s expect '%s' exit code %d", f, tc.lvFlag, tc.buildExpect, tc.expectRC)
@@ -116,7 +116,7 @@ func TestLoopVarInlinesGo1_21(t *testing.T) {
 	}
 
 	testenv.MustHaveGoBuild(t)
-	gocmd := testenv.GoToolPath(t)
+	golangcmd := testenv.GoToolPath(t)
 	tmpdir := t.TempDir()
 
 	root := "cmd/compile/internal/loopvar/testdata/inlines"
@@ -125,7 +125,7 @@ func TestLoopVarInlinesGo1_21(t *testing.T) {
 		// This disables the loopvar change, except for the specified package.
 		// The effect should follow the package, even though everything (except "c")
 		// is inlined.
-		cmd := testenv.Command(t, gocmd, "run", "-gcflags="+root+"/...=-lang=go1.21", "-gcflags="+pkg+"=-d=loopvar=1", root)
+		cmd := testenv.Command(t, golangcmd, "run", "-gcflags="+root+"/...=-lang=golang1.21", "-gcflags="+pkg+"=-d=loopvar=1", root)
 		cmd.Env = append(cmd.Env, "GOEXPERIMENT=noloopvar", "HOME="+tmpdir)
 		cmd.Dir = filepath.Join("testdata", "inlines")
 
@@ -179,7 +179,7 @@ func TestLoopVarHashes(t *testing.T) {
 	}
 
 	testenv.MustHaveGoBuild(t)
-	gocmd := testenv.GoToolPath(t)
+	golangcmd := testenv.GoToolPath(t)
 	tmpdir := t.TempDir()
 
 	root := "cmd/compile/internal/loopvar/testdata/inlines"
@@ -189,7 +189,7 @@ func TestLoopVarHashes(t *testing.T) {
 		// -trimpath is necessary so we get the same answer no matter where the
 		// Go repository is checked out. This is not normally a concern since people
 		// do not normally rely on the meaning of specific hashes.
-		cmd := testenv.Command(t, gocmd, "run", "-trimpath", root)
+		cmd := testenv.Command(t, golangcmd, "run", "-trimpath", root)
 		cmd.Env = append(cmd.Env, "GOCOMPILEDEBUG=loopvarhash="+hash, "HOME="+tmpdir)
 		cmd.Dir = filepath.Join("testdata", "inlines")
 
@@ -202,18 +202,18 @@ func TestLoopVarHashes(t *testing.T) {
 		m := f(arg)
 		t.Log(m)
 
-		mCount := countMatches(m, "loopvarhash triggered cmd/compile/internal/loopvar/testdata/inlines/main.go:27:6: .* 001100110110110010100100")
+		mCount := countMatches(m, "loopvarhash triggered cmd/compile/internal/loopvar/testdata/inlines/main.golang:27:6: .* 001100110110110010100100")
 		otherCount := strings.Count(m, "loopvarhash")
 		if mCount < 1 {
-			t.Errorf("%s: did not see triggered main.go:27:6", arg)
+			t.Errorf("%s: did not see triggered main.golang:27:6", arg)
 		}
 		if mCount != otherCount {
 			t.Errorf("%s: too many matches", arg)
 		}
-		mCount = countMatches(m, "cmd/compile/internal/loopvar/testdata/inlines/main.go:27:6: .* \\[bisect-match 0x7802e115b9336ca4\\]")
+		mCount = countMatches(m, "cmd/compile/internal/loopvar/testdata/inlines/main.golang:27:6: .* \\[bisect-match 0x7802e115b9336ca4\\]")
 		otherCount = strings.Count(m, "[bisect-match ")
 		if mCount < 1 {
-			t.Errorf("%s: did not see bisect-match for main.go:27:6", arg)
+			t.Errorf("%s: did not see bisect-match for main.golang:27:6", arg)
 		}
 		if mCount != otherCount {
 			t.Errorf("%s: too many matches", arg)
@@ -240,10 +240,10 @@ func TestLoopVarVersionEnableFlag(t *testing.T) {
 	}
 
 	testenv.MustHaveGoBuild(t)
-	gocmd := testenv.GoToolPath(t)
+	golangcmd := testenv.GoToolPath(t)
 
 	// loopvar=3 logs info but does not change loopvarness
-	cmd := testenv.Command(t, gocmd, "run", "-gcflags=-lang=go1.22 -d=loopvar=3", "opt.go")
+	cmd := testenv.Command(t, golangcmd, "run", "-gcflags=-lang=golang1.22 -d=loopvar=3", "opt.golang")
 	cmd.Dir = filepath.Join("testdata")
 
 	b, err := cmd.CombinedOutput()
@@ -251,7 +251,7 @@ func TestLoopVarVersionEnableFlag(t *testing.T) {
 
 	t.Log(m)
 
-	yCount := strings.Count(m, "opt.go:16:6: loop variable private now per-iteration, heap-allocated (loop inlined into ./opt.go:29)")
+	yCount := strings.Count(m, "opt.golang:16:6: loop variable private now per-iteration, heap-allocated (loop inlined into ./opt.golang:29)")
 	nCount := strings.Count(m, "shared")
 
 	if yCount != 1 {
@@ -265,7 +265,7 @@ func TestLoopVarVersionEnableFlag(t *testing.T) {
 	}
 }
 
-// TestLoopVarVersionEnableGoBuild checks for loopvar transformation enabled by go:build version (1.22).
+// TestLoopVarVersionEnableGoBuild checks for loopvar transformation enabled by golang:build version (1.22).
 func TestLoopVarVersionEnableGoBuild(t *testing.T) {
 	switch runtime.GOOS {
 	case "linux", "darwin":
@@ -279,10 +279,10 @@ func TestLoopVarVersionEnableGoBuild(t *testing.T) {
 	}
 
 	testenv.MustHaveGoBuild(t)
-	gocmd := testenv.GoToolPath(t)
+	golangcmd := testenv.GoToolPath(t)
 
 	// loopvar=3 logs info but does not change loopvarness
-	cmd := testenv.Command(t, gocmd, "run", "-gcflags=-lang=go1.21 -d=loopvar=3", "opt-122.go")
+	cmd := testenv.Command(t, golangcmd, "run", "-gcflags=-lang=golang1.21 -d=loopvar=3", "opt-122.golang")
 	cmd.Dir = filepath.Join("testdata")
 
 	b, err := cmd.CombinedOutput()
@@ -290,7 +290,7 @@ func TestLoopVarVersionEnableGoBuild(t *testing.T) {
 
 	t.Log(m)
 
-	yCount := strings.Count(m, "opt-122.go:18:6: loop variable private now per-iteration, heap-allocated (loop inlined into ./opt-122.go:31)")
+	yCount := strings.Count(m, "opt-122.golang:18:6: loop variable private now per-iteration, heap-allocated (loop inlined into ./opt-122.golang:31)")
 	nCount := strings.Count(m, "shared")
 
 	if yCount != 1 {
@@ -318,10 +318,10 @@ func TestLoopVarVersionDisableFlag(t *testing.T) {
 	}
 
 	testenv.MustHaveGoBuild(t)
-	gocmd := testenv.GoToolPath(t)
+	golangcmd := testenv.GoToolPath(t)
 
 	// loopvar=3 logs info but does not change loopvarness
-	cmd := testenv.Command(t, gocmd, "run", "-gcflags=-lang=go1.21 -d=loopvar=3", "opt.go")
+	cmd := testenv.Command(t, golangcmd, "run", "-gcflags=-lang=golang1.21 -d=loopvar=3", "opt.golang")
 	cmd.Dir = filepath.Join("testdata")
 
 	b, err := cmd.CombinedOutput()
@@ -329,7 +329,7 @@ func TestLoopVarVersionDisableFlag(t *testing.T) {
 
 	t.Log(m) // expect error
 
-	yCount := strings.Count(m, "opt.go:16:6: loop variable private now per-iteration, heap-allocated (loop inlined into ./opt.go:29)")
+	yCount := strings.Count(m, "opt.golang:16:6: loop variable private now per-iteration, heap-allocated (loop inlined into ./opt.golang:29)")
 	nCount := strings.Count(m, "shared")
 
 	if yCount != 0 {
@@ -343,7 +343,7 @@ func TestLoopVarVersionDisableFlag(t *testing.T) {
 	}
 }
 
-// TestLoopVarVersionDisableGoBuild checks for loopvar transformation DISABLED by go:build version (1.21).
+// TestLoopVarVersionDisableGoBuild checks for loopvar transformation DISABLED by golang:build version (1.21).
 func TestLoopVarVersionDisableGoBuild(t *testing.T) {
 	switch runtime.GOOS {
 	case "linux", "darwin":
@@ -357,10 +357,10 @@ func TestLoopVarVersionDisableGoBuild(t *testing.T) {
 	}
 
 	testenv.MustHaveGoBuild(t)
-	gocmd := testenv.GoToolPath(t)
+	golangcmd := testenv.GoToolPath(t)
 
 	// loopvar=3 logs info but does not change loopvarness
-	cmd := testenv.Command(t, gocmd, "run", "-gcflags=-lang=go1.22 -d=loopvar=3", "opt-121.go")
+	cmd := testenv.Command(t, golangcmd, "run", "-gcflags=-lang=golang1.22 -d=loopvar=3", "opt-121.golang")
 	cmd.Dir = filepath.Join("testdata")
 
 	b, err := cmd.CombinedOutput()
@@ -368,7 +368,7 @@ func TestLoopVarVersionDisableGoBuild(t *testing.T) {
 
 	t.Log(m) // expect error
 
-	yCount := strings.Count(m, "opt-121.go:18:6: loop variable private now per-iteration, heap-allocated (loop inlined into ./opt-121.go:31)")
+	yCount := strings.Count(m, "opt-121.golang:18:6: loop variable private now per-iteration, heap-allocated (loop inlined into ./opt-121.golang:31)")
 	nCount := strings.Count(m, "shared")
 
 	if yCount != 0 {

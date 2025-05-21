@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package pprof
@@ -213,8 +213,8 @@ func allFrames(addr uintptr) ([]runtime.Frame, symbolizeFlag) {
 	// the stack and we have return PCs anyway.
 	frames := runtime.CallersFrames([]uintptr{addr})
 	frame, more := frames.Next()
-	if frame.Function == "runtime.goexit" {
-		// Short-circuit if we see runtime.goexit so the loop
+	if frame.Function == "runtime.golangexit" {
+		// Short-circuit if we see runtime.golangexit so the loop
 		// below doesn't allocate a useless empty location.
 		return nil, 0
 	}
@@ -230,7 +230,7 @@ func allFrames(addr uintptr) ([]runtime.Frame, symbolizeFlag) {
 		frame.PC = addr - 1
 	}
 	ret := []runtime.Frame{frame}
-	for frame.Function != "runtime.goexit" && more {
+	for frame.Function != "runtime.golangexit" && more {
 		frame, more = frames.Next()
 		ret = append(ret, frame)
 	}
@@ -243,7 +243,7 @@ type locInfo struct {
 
 	// sequence of PCs, including the fake PCs returned by the traceback
 	// to represent inlined functions
-	// https://github.com/golang/go/blob/d6f2f833c93a41ec1c68e49804b8387a06b131c5/src/runtime/traceback.go#L347-L368
+	// https://github.com/golanglang/golang/blob/d6f2f833c93a41ec1c68e49804b8387a06b131c5/src/runtime/traceback.golang#L347-L368
 	pcs []uintptr
 
 	// firstPCFrames and firstPCSymbolizeResult hold the results of the
@@ -399,7 +399,7 @@ func (b *profileBuilder) build() error {
 // an inline marker as the runtime traceback function returns.
 //
 // It may return an empty slice even if locs is non-empty, for example if locs consists
-// solely of runtime.goexit. We still count these empty stacks in profiles in order to
+// solely of runtime.golangexit. We still count these empty stacks in profiles in order to
 // get the right cumulative sample count.
 //
 // It may emit to b.pb, so there must be no message encoding in progress.
@@ -452,7 +452,7 @@ func (b *profileBuilder) appendLocsForStack(locs []uint64, stk []uintptr) (newLo
 		}
 
 		frames, symbolizeResult := allFrames(addr)
-		if len(frames) == 0 { // runtime.goexit.
+		if len(frames) == 0 { // runtime.golangexit.
 			if id := b.emitLocation(); id > 0 {
 				locs = append(locs, id)
 			}
@@ -490,9 +490,9 @@ func (b *profileBuilder) appendLocsForStack(locs []uint64, stk []uintptr) (newLo
 // linux/amd64. The disassembly of main.main shows two levels of inlining: main
 // calls b, b calls a, a does some work.
 //
-//   inline.go:9   0x4553ec  90              NOPL                 // func main()    { b(v) }
-//   inline.go:6   0x4553ed  90              NOPL                 // func b(v *int) { a(v) }
-//   inline.go:5   0x4553ee  48c7002a000000  MOVQ $0x2a, 0(AX)    // func a(v *int) { *v = 42 }
+//   inline.golang:9   0x4553ec  90              NOPL                 // func main()    { b(v) }
+//   inline.golang:6   0x4553ed  90              NOPL                 // func b(v *int) { a(v) }
+//   inline.golang:5   0x4553ee  48c7002a000000  MOVQ $0x2a, 0(AX)    // func a(v *int) { *v = 42 }
 //
 // If a profiling signal arrives while executing the MOVQ at 0x4553ee (for line
 // 5), the runtime will report the stack as the MOVQ frame being called by the
@@ -514,7 +514,7 @@ func (b *profileBuilder) appendLocsForStack(locs []uint64, stk []uintptr) (newLo
 // expanded (at least for Go functions) and include the fake pcs representing
 // inlined functions. The profile proto expects the inlined functions to be
 // encoded in one Location message.
-// https://github.com/google/pprof/blob/5e965273ee43930341d897407202dd5e10e952cb/proto/profile.proto#L177-L184
+// https://github.com/golangogle/pprof/blob/5e965273ee43930341d897407202dd5e10e952cb/proto/profile.proto#L177-L184
 //
 // Runtime does not directly expose whether a frame is for an inlined function
 // and looking up debug info is not ideal, so we use a heuristic to filter
@@ -745,7 +745,7 @@ func parseProcSelfMaps(data []byte, addMapping func(lo, hi, offset uint64, file,
 		// consecutive to a next mapping, drop the /anon_hugepage.
 		// There's no indication why this is needed.
 		// Let's try not doing this and see what breaks.
-		// If we do need it, it would go here, before we
+		// If we do need it, it would golang here, before we
 		// enter the mappings into b.mem in the first place.
 
 		buildID, _ := elfBuildID(file)

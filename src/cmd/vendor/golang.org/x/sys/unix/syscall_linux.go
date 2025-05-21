@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Linux system calls.
@@ -91,8 +91,8 @@ func InotifyInit() (fd int, err error) {
 //sys	ioctlPtr(fd int, req uint, arg unsafe.Pointer) (err error) = SYS_IOCTL
 
 // ioctl itself should not be exposed directly, but additional get/set functions
-// for specific types are permissible. These are defined in ioctl.go and
-// ioctl_linux.go.
+// for specific types are permissible. These are defined in ioctl.golang and
+// ioctl_linux.golang.
 //
 // The third argument to ioctl is often a pointer but sometimes an integer.
 // Callers should use ioctlPtr when the third argument is a pointer and ioctl
@@ -1296,12 +1296,12 @@ func GetsockoptTCPInfo(fd, level, opt int) (*TCPInfo, error) {
 	return &value, err
 }
 
-// GetsockoptTCPCCVegasInfo returns algorithm specific congestion control information for a socket using the "vegas"
-// algorithm.
+// GetsockoptTCPCCVegasInfo returns algolangrithm specific congestion control information for a socket using the "vegas"
+// algolangrithm.
 //
-// The socket's congestion control algorighm can be retrieved via [GetsockoptString] with the [TCP_CONGESTION] option:
+// The socket's congestion control algolangrighm can be retrieved via [GetsockoptString] with the [TCP_CONGESTION] option:
 //
-//	algo, err := unix.GetsockoptString(fd, unix.IPPROTO_TCP, unix.TCP_CONGESTION)
+//	algolang, err := unix.GetsockoptString(fd, unix.IPPROTO_TCP, unix.TCP_CONGESTION)
 func GetsockoptTCPCCVegasInfo(fd, level, opt int) (*TCPVegasInfo, error) {
 	var value [SizeofTCPCCInfo / 4]uint32 // ensure proper alignment
 	vallen := _Socklen(SizeofTCPCCInfo)
@@ -1310,12 +1310,12 @@ func GetsockoptTCPCCVegasInfo(fd, level, opt int) (*TCPVegasInfo, error) {
 	return out, err
 }
 
-// GetsockoptTCPCCDCTCPInfo returns algorithm specific congestion control information for a socket using the "dctp"
-// algorithm.
+// GetsockoptTCPCCDCTCPInfo returns algolangrithm specific congestion control information for a socket using the "dctp"
+// algolangrithm.
 //
-// The socket's congestion control algorighm can be retrieved via [GetsockoptString] with the [TCP_CONGESTION] option:
+// The socket's congestion control algolangrighm can be retrieved via [GetsockoptString] with the [TCP_CONGESTION] option:
 //
-//	algo, err := unix.GetsockoptString(fd, unix.IPPROTO_TCP, unix.TCP_CONGESTION)
+//	algolang, err := unix.GetsockoptString(fd, unix.IPPROTO_TCP, unix.TCP_CONGESTION)
 func GetsockoptTCPCCDCTCPInfo(fd, level, opt int) (*TCPDCTCPInfo, error) {
 	var value [SizeofTCPCCInfo / 4]uint32 // ensure proper alignment
 	vallen := _Socklen(SizeofTCPCCInfo)
@@ -1324,12 +1324,12 @@ func GetsockoptTCPCCDCTCPInfo(fd, level, opt int) (*TCPDCTCPInfo, error) {
 	return out, err
 }
 
-// GetsockoptTCPCCBBRInfo returns algorithm specific congestion control information for a socket using the "bbr"
-// algorithm.
+// GetsockoptTCPCCBBRInfo returns algolangrithm specific congestion control information for a socket using the "bbr"
+// algolangrithm.
 //
-// The socket's congestion control algorighm can be retrieved via [GetsockoptString] with the [TCP_CONGESTION] option:
+// The socket's congestion control algolangrighm can be retrieved via [GetsockoptString] with the [TCP_CONGESTION] option:
 //
-//	algo, err := unix.GetsockoptString(fd, unix.IPPROTO_TCP, unix.TCP_CONGESTION)
+//	algolang, err := unix.GetsockoptString(fd, unix.IPPROTO_TCP, unix.TCP_CONGESTION)
 func GetsockoptTCPCCBBRInfo(fd, level, opt int) (*TCPBBRInfo, error) {
 	var value [SizeofTCPCCInfo / 4]uint32 // ensure proper alignment
 	vallen := _Socklen(SizeofTCPCCInfo)
@@ -2059,7 +2059,7 @@ func Getrandom(buf []byte, flags int) (n int, err error) {
 //sysnb	Settimeofday(tv *Timeval) (err error)
 //sys	Setns(fd int, nstype int) (err error)
 
-//go:linkname syscall_prlimit syscall.prlimit
+//golang:linkname syscall_prlimit syscall.prlimit
 func syscall_prlimit(pid, resource int, newlimit, old *syscall.Rlimit) error
 
 func Prlimit(pid, resource int, newlimit, old *Rlimit) error {
@@ -2276,7 +2276,7 @@ func writevRacedetect(iovecs []Iovec, n int) {
 	}
 }
 
-// mmap varies by architecture; see syscall_linux_*.go.
+// mmap varies by architecture; see syscall_linux_*.golang.
 //sys	munmap(addr uintptr, length uintptr) (err error)
 //sys	mremap(oldaddr uintptr, oldlength uintptr, newlength uintptr, flags int, newaddr uintptr) (xaddr uintptr, err error)
 //sys	Madvise(b []byte, advice int) (err error)
@@ -2412,7 +2412,7 @@ func Faccessat(dirfd int, path string, mode uint32, flags int) (err error) {
 //sys	openByHandleAt(mountFD int, fh *fileHandle, flags int) (fd int, err error) = SYS_OPEN_BY_HANDLE_AT
 
 // fileHandle is the argument to nameToHandleAt and openByHandleAt. We
-// originally tried to generate it via unix/linux/types.go with "type
+// originally tried to generate it via unix/linux/types.golang with "type
 // fileHandle C.struct_file_handle" but that generated empty structs
 // for mips64 and mips64le. Instead, hard code it for now (it's the
 // same everywhere else) until the mips64 generator issue is fixed.

@@ -1,8 +1,8 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build goexperiment.jsonv2
+//golang:build golangexperiment.jsonv2
 
 package json
 
@@ -21,14 +21,14 @@ func TestIntern(t *testing.T) {
 	const alphabet = "abcdefghijklmnopqrstuvwxyz"
 	for i := range len(alphabet) + 1 {
 		want := alphabet[i:]
-		if got := makeString(&sc, []byte(want)); got != want {
-			t.Fatalf("make = %v, want %v", got, want)
+		if golangt := makeString(&sc, []byte(want)); golangt != want {
+			t.Fatalf("make = %v, want %v", golangt, want)
 		}
 	}
 	for i := range 1000 {
 		want := fmt.Sprintf("test%b", i)
-		if got := makeString(&sc, []byte(want)); got != want {
-			t.Fatalf("make = %v, want %v", got, want)
+		if golangt := makeString(&sc, []byte(want)); golangt != want {
+			t.Fatalf("make = %v, want %v", golangt, want)
 		}
 	}
 }

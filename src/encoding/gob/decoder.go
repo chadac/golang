@@ -1,8 +1,8 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-package gob
+package golangb
 
 import (
 	"bufio"
@@ -20,10 +20,10 @@ const tooBig = (1 << 30) << (^uint(0) >> 62)
 
 // A Decoder manages the receipt of type and data information read from the
 // remote side of a connection.  It is safe for concurrent use by multiple
-// goroutines.
+// golangroutines.
 //
 // The Decoder does only basic sanity checking on decoded input sizes,
-// and its limits are not configurable. Take caution when decoding gob data
+// and its limits are not configurable. Take caution when decoding golangb data
 // from untrusted sources.
 type Decoder struct {
 	mutex        sync.Mutex                              // each item must be received atomically
@@ -61,7 +61,7 @@ func NewDecoder(r io.Reader) *Decoder {
 func (dec *Decoder) recvType(id typeId) {
 	// Have we already seen this type? That's an error
 	if id < firstUserId || dec.wireType[id] != nil {
-		dec.err = errors.New("gob: duplicate type received")
+		dec.err = errors.New("golangb: duplicate type received")
 		return
 	}
 
@@ -200,7 +200,7 @@ func (dec *Decoder) Decode(e any) error {
 	// If e represents a value as opposed to a pointer, the answer won't
 	// get back to the caller. Make sure it's a pointer.
 	if value.Kind() != reflect.Pointer {
-		dec.err = errors.New("gob: attempt to decode into a non-pointer")
+		dec.err = errors.New("golangb: attempt to decode into a non-pointer")
 		return dec.err
 	}
 	return dec.DecodeValue(value)
@@ -217,7 +217,7 @@ func (dec *Decoder) DecodeValue(v reflect.Value) error {
 		if v.Kind() == reflect.Pointer && !v.IsNil() {
 			// That's okay, we'll store through the pointer.
 		} else if !v.CanSet() {
-			return errors.New("gob: DecodeValue of unassignable value")
+			return errors.New("golangb: DecodeValue of unassignable value")
 		}
 	}
 	// Make sure we're single-threaded through here.
@@ -233,7 +233,7 @@ func (dec *Decoder) DecodeValue(v reflect.Value) error {
 	return dec.err
 }
 
-// If debug.go is compiled into the program, debugFunc prints a human-readable
-// representation of the gob data read from r by calling that file's Debug function.
+// If debug.golang is compiled into the program, debugFunc prints a human-readable
+// representation of the golangb data read from r by calling that file's Debug function.
 // Otherwise it is nil.
 var debugFunc func(io.Reader)

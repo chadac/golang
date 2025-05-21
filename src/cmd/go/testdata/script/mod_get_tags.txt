@@ -3,30 +3,30 @@ env GO111MODULE=on
 # get should add modules needed to build packages, even if those
 # dependencies are in sources excluded by build tags.
 # All build tags are considered true except "ignore".
-go mod init m
-go get .
-go list -m all
+golang mod init m
+golang get .
+golang list -m all
 stdout 'example.com/version v1.1.0'
 stdout 'rsc.io/quote v1.5.2'
 
--- empty.go --
+-- empty.golang --
 package m
 
--- excluded.go --
+-- excluded.golang --
 // +build windows,mips
 
 package m
 
 import _ "example.com/version"
 
--- tools.go --
+-- tools.golang --
 // +build tools
 
 package tools
 
 import _ "rsc.io/quote"
 
--- ignore.go --
+-- ignore.golang --
 // +build ignore
 
 package ignore

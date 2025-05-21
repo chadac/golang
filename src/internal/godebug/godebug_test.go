@@ -1,12 +1,12 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-package godebug_test
+package golangdebug_test
 
 import (
 	"fmt"
-	. "internal/godebug"
+	. "internal/golangdebug"
 	"internal/race"
 	"internal/testenv"
 	"os"
@@ -20,7 +20,7 @@ import (
 func TestGet(t *testing.T) {
 	foo := New("#foo")
 	tests := []struct {
-		godebug string
+		golangdebug string
 		setting *Setting
 		want    string
 	}{
@@ -38,10 +38,10 @@ func TestGet(t *testing.T) {
 		{"foo=bar,baz", New("#loooooooong"), ""},
 	}
 	for _, tt := range tests {
-		t.Setenv("GODEBUG", tt.godebug)
-		got := tt.setting.Value()
-		if got != tt.want {
-			t.Errorf("get(%q, %q) = %q; want %q", tt.godebug, tt.setting.Name(), got, tt.want)
+		t.Setenv("GODEBUG", tt.golangdebug)
+		golangt := tt.setting.Value()
+		if golangt != tt.want {
+			t.Errorf("get(%q, %q) = %q; want %q", tt.golangdebug, tt.setting.Name(), golangt, tt.want)
 		}
 	}
 }
@@ -50,7 +50,7 @@ func TestMetrics(t *testing.T) {
 	const name = "http2client" // must be a real name so runtime will accept it
 
 	var m [1]metrics.Sample
-	m[0].Name = "/godebug/non-default-behavior/" + name + ":events"
+	m[0].Name = "/golangdebug/non-default-behavior/" + name + ":events"
 	metrics.Read(m[:])
 	if kind := m[0].Value.Kind(); kind != metrics.KindUint64 {
 		t.Fatalf("NonDefault kind = %v, want uint64", kind)
@@ -102,27 +102,27 @@ func TestPanicNilRace(t *testing.T) {
 
 func TestCmdBisect(t *testing.T) {
 	testenv.MustHaveGoRun(t)
-	out, err := exec.Command(testenv.GoToolPath(t), "run", "cmd/vendor/golang.org/x/tools/cmd/bisect", "GODEBUG=buggy=1#PATTERN", os.Args[0], "-test.run=^TestBisectTestCase$").CombinedOutput()
+	out, err := exec.Command(testenv.GoToolPath(t), "run", "cmd/vendor/golanglang.org/x/tools/cmd/bisect", "GODEBUG=buggy=1#PATTERN", os.Args[0], "-test.run=^TestBisectTestCase$").CombinedOutput()
 	if err != nil {
 		t.Fatalf("exec bisect: %v\n%s", err, out)
 	}
 
 	var want []string
-	src, err := os.ReadFile("godebug_test.go")
+	src, err := os.ReadFile("golangdebug_test.golang")
 	if err != nil {
 		t.Fatal(err)
 	}
 	for i, line := range strings.Split(string(src), "\n") {
 		if strings.Contains(line, "BISECT"+" "+"BUG") {
-			want = append(want, fmt.Sprintf("godebug_test.go:%d", i+1))
+			want = append(want, fmt.Sprintf("golangdebug_test.golang:%d", i+1))
 		}
 	}
 	slices.Sort(want)
 
 	var have []string
 	for _, line := range strings.Split(string(out), "\n") {
-		if strings.Contains(line, "godebug_test.go:") {
-			have = append(have, line[strings.LastIndex(line, "godebug_test.go:"):])
+		if strings.Contains(line, "golangdebug_test.golang:") {
+			have = append(have, line[strings.LastIndex(line, "golangdebug_test.golang:"):])
 		}
 	}
 	slices.Sort(have)
@@ -134,7 +134,7 @@ func TestCmdBisect(t *testing.T) {
 
 // This test does nothing by itself, but you can run
 //
-//	bisect 'GODEBUG=buggy=1#PATTERN' go test -run='^TestBisectTestCase$'
+//	bisect 'GODEBUG=buggy=1#PATTERN' golang test -run='^TestBisectTestCase$'
 //
 // to see that the GODEBUG bisect support is working.
 // TestCmdBisect above does exactly that.
@@ -164,8 +164,8 @@ func TestBisectTestCase(t *testing.T) {
 }
 
 func TestImmutable(t *testing.T) {
-	defer func(godebug string) {
-		os.Setenv("GODEBUG", godebug)
+	defer func(golangdebug string) {
+		os.Setenv("GODEBUG", golangdebug)
 	}(os.Getenv("GODEBUG"))
 
 	setting := New("fips140")

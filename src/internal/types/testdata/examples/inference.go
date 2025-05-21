@@ -1,7 +1,7 @@
-// -lang=go1.20
+// -lang=golang1.20
 
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file shows some examples of type inference.
@@ -160,4 +160,4 @@ func _() {
 func f[P any](P) {}
 
 // This must not crash.
-var _ func(int) = f // ERROR "implicitly instantiated function in assignment requires go1.21 or later"
+var _ func(int) = f // ERROR "implicitly instantiated function in assignment requires golang1.21 or later"

@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package fmt_test
@@ -510,11 +510,11 @@ func testScan(t *testing.T, f func(string) io.Reader, scan func(r io.Reader, a .
 			if n > 0 {
 				m = Sprintf(" (%d fields ok)", n)
 			}
-			t.Errorf("got error scanning %q: %s%s", test.text, err, m)
+			t.Errorf("golangt error scanning %q: %s%s", test.text, err, m)
 			continue
 		}
 		if n != 1 {
-			t.Errorf("count error on entry %q: got %d", test.text, n)
+			t.Errorf("count error on entry %q: golangt %d", test.text, n)
 			continue
 		}
 		// The incoming value may be a pointer
@@ -524,7 +524,7 @@ func testScan(t *testing.T, f func(string) io.Reader, scan func(r io.Reader, a .
 		}
 		val := v.Interface()
 		if !reflect.DeepEqual(val, test.out) {
-			t.Errorf("scanning %q: expected %#v got %#v, type %T", test.text, test.out, val, val)
+			t.Errorf("scanning %q: expected %#v golangt %#v, type %T", test.text, test.out, val, val)
 		}
 	}
 }
@@ -596,13 +596,13 @@ func verifyNaN(str string, t *testing.T) {
 	text := str + " " + str + " " + str
 	n, err := Fscan(strings.NewReader(text), &f, &f32, &f64)
 	if err != nil {
-		t.Errorf("got error scanning %q: %s", text, err)
+		t.Errorf("golangt error scanning %q: %s", text, err)
 	}
 	if n != 3 {
-		t.Errorf("count error scanning %q: got %d", text, n)
+		t.Errorf("count error scanning %q: golangt %d", text, n)
 	}
 	if !math.IsNaN(float64(f)) || !math.IsNaN(float64(f32)) || !math.IsNaN(f64) {
-		t.Errorf("didn't get NaNs scanning %q: got %g %g %g", text, f, f32, f64)
+		t.Errorf("didn't get NaNs scanning %q: golangt %g %g %g", text, f, f32, f64)
 	}
 }
 
@@ -619,17 +619,17 @@ func verifyInf(str string, t *testing.T) {
 	text := str + " " + str + " " + str
 	n, err := Fscan(strings.NewReader(text), &f, &f32, &f64)
 	if err != nil {
-		t.Errorf("got error scanning %q: %s", text, err)
+		t.Errorf("golangt error scanning %q: %s", text, err)
 	}
 	if n != 3 {
-		t.Errorf("count error scanning %q: got %d", text, n)
+		t.Errorf("count error scanning %q: golangt %d", text, n)
 	}
 	sign := 1
 	if str[0] == '-' {
 		sign = -1
 	}
 	if !math.IsInf(float64(f), sign) || !math.IsInf(float64(f32), sign) || !math.IsInf(f64, sign) {
-		t.Errorf("didn't get right Infs scanning %q: got %g %g %g", text, f, f32, f64)
+		t.Errorf("didn't get right Infs scanning %q: golangt %g %g %g", text, f, f32, f64)
 	}
 }
 
@@ -646,9 +646,9 @@ func testScanfMulti(t *testing.T, f func(string) io.Reader) {
 		n, err := Fscanf(r, test.format, test.in...)
 		if err != nil {
 			if test.err == "" {
-				t.Errorf("got error scanning (%q, %q): %q", test.format, test.text, err)
+				t.Errorf("golangt error scanning (%q, %q): %q", test.format, test.text, err)
 			} else if !strings.Contains(err.Error(), test.err) {
-				t.Errorf("got wrong error scanning (%q, %q): %q; expected %q", test.format, test.text, err, test.err)
+				t.Errorf("golangt wrong error scanning (%q, %q): %q; expected %q", test.format, test.text, err, test.err)
 			}
 			continue
 		}
@@ -656,7 +656,7 @@ func testScanfMulti(t *testing.T, f func(string) io.Reader) {
 			t.Errorf("expected error %q error scanning (%q, %q)", test.err, test.format, test.text)
 		}
 		if n != len(test.out) {
-			t.Errorf("count error on entry (%q, %q): expected %d got %d", test.format, test.text, len(test.out), n)
+			t.Errorf("count error on entry (%q, %q): expected %d golangt %d", test.format, test.text, len(test.out), n)
 			continue
 		}
 		// Convert the slice of pointers into a slice of values
@@ -667,7 +667,7 @@ func testScanfMulti(t *testing.T, f func(string) io.Reader) {
 		}
 		result := resultVal.Interface()
 		if !reflect.DeepEqual(result, test.out) {
-			t.Errorf("scanning (%q, %q): expected %#v got %#v", test.format, test.text, test.out, result)
+			t.Errorf("scanning (%q, %q): expected %#v golangt %#v", test.format, test.text, test.out, result)
 		}
 	}
 }
@@ -685,23 +685,23 @@ func TestScanMultiple(t *testing.T) {
 	var s string
 	n, err := Sscan("123abc", &a, &s)
 	if n != 2 {
-		t.Errorf("Sscan count error: expected 2: got %d", n)
+		t.Errorf("Sscan count error: expected 2: golangt %d", n)
 	}
 	if err != nil {
-		t.Errorf("Sscan expected no error; got %s", err)
+		t.Errorf("Sscan expected no error; golangt %s", err)
 	}
 	if a != 123 || s != "abc" {
-		t.Errorf("Sscan wrong values: got (%d %q) expected (123 \"abc\")", a, s)
+		t.Errorf("Sscan wrong values: golangt (%d %q) expected (123 \"abc\")", a, s)
 	}
 	n, err = Sscan("asdf", &s, &a)
 	if n != 1 {
-		t.Errorf("Sscan count error: expected 1: got %d", n)
+		t.Errorf("Sscan count error: expected 1: golangt %d", n)
 	}
 	if err == nil {
-		t.Errorf("Sscan expected error; got none: %s", err)
+		t.Errorf("Sscan expected error; golangt none: %s", err)
 	}
 	if s != "asdf" {
-		t.Errorf("Sscan wrong values: got %q expected \"asdf\"", s)
+		t.Errorf("Sscan wrong values: golangt %q expected \"asdf\"", s)
 	}
 }
 
@@ -710,28 +710,28 @@ func TestScanEmpty(t *testing.T) {
 	var s1, s2 string
 	n, err := Sscan("abc", &s1, &s2)
 	if n != 1 {
-		t.Errorf("Sscan count error: expected 1: got %d", n)
+		t.Errorf("Sscan count error: expected 1: golangt %d", n)
 	}
 	if err == nil {
-		t.Error("Sscan <one item> expected error; got none")
+		t.Error("Sscan <one item> expected error; golangt none")
 	}
 	if s1 != "abc" {
-		t.Errorf("Sscan wrong values: got %q expected \"abc\"", s1)
+		t.Errorf("Sscan wrong values: golangt %q expected \"abc\"", s1)
 	}
 	n, err = Sscan("", &s1, &s2)
 	if n != 0 {
-		t.Errorf("Sscan count error: expected 0: got %d", n)
+		t.Errorf("Sscan count error: expected 0: golangt %d", n)
 	}
 	if err == nil {
-		t.Error("Sscan <empty> expected error; got none")
+		t.Error("Sscan <empty> expected error; golangt none")
 	}
 	// Quoted empty string is OK.
 	n, err = Sscanf(`""`, "%q", &s1)
 	if n != 1 {
-		t.Errorf("Sscanf count error: expected 1: got %d", n)
+		t.Errorf("Sscanf count error: expected 1: golangt %d", n)
 	}
 	if err != nil {
-		t.Errorf("Sscanf <empty> expected no error with quoted string; got %s", err)
+		t.Errorf("Sscanf <empty> expected no error with quoted string; golangt %s", err)
 	}
 }
 
@@ -742,7 +742,7 @@ func TestScanNotPointer(t *testing.T) {
 	if err == nil {
 		t.Error("expected error scanning non-pointer")
 	} else if !strings.Contains(err.Error(), "pointer") {
-		t.Errorf("expected pointer error scanning non-pointer, got: %s", err)
+		t.Errorf("expected pointer error scanning non-pointer, golangt: %s", err)
 	}
 }
 
@@ -752,7 +752,7 @@ func TestScanlnNoNewline(t *testing.T) {
 	if err == nil {
 		t.Error("expected error scanning string missing newline")
 	} else if !strings.Contains(err.Error(), "newline") {
-		t.Errorf("expected newline error scanning string missing newline, got: %s", err)
+		t.Errorf("expected newline error scanning string missing newline, golangt: %s", err)
 	}
 }
 
@@ -763,7 +763,7 @@ func TestScanlnWithMiddleNewline(t *testing.T) {
 	if err == nil {
 		t.Error("expected error scanning string with extra newline")
 	} else if !strings.Contains(err.Error(), "newline") {
-		t.Errorf("expected newline error scanning string with extra newline, got: %s", err)
+		t.Errorf("expected newline error scanning string with extra newline, golangt: %s", err)
 	}
 }
 
@@ -791,7 +791,7 @@ func TestEOF(t *testing.T) {
 		t.Error("unexpected error", err)
 	}
 	if n != 1 {
-		t.Error("expected to scan one item, got", n)
+		t.Error("expected to scan one item, golangt", n)
 	}
 	if ec.eofCount != 0 {
 		t.Error("expected zero EOFs", ec.eofCount)
@@ -802,10 +802,10 @@ func TestEOF(t *testing.T) {
 		t.Error("expected error scanning empty string")
 	}
 	if n != 0 {
-		t.Error("expected to scan zero items, got", n)
+		t.Error("expected to scan zero items, golangt", n)
 	}
 	if ec.eofCount != 1 {
-		t.Error("expected one EOF, got", ec.eofCount)
+		t.Error("expected one EOF, golangt", ec.eofCount)
 	}
 }
 
@@ -815,25 +815,25 @@ func TestEOFAtEndOfInput(t *testing.T) {
 	var i, j int
 	n, err := Sscanf("23", "%d %d", &i, &j)
 	if n != 1 || i != 23 {
-		t.Errorf("Sscanf expected one value of 23; got %d %d", n, i)
+		t.Errorf("Sscanf expected one value of 23; golangt %d %d", n, i)
 	}
 	if err != io.EOF {
-		t.Errorf("Sscanf expected EOF; got %q", err)
+		t.Errorf("Sscanf expected EOF; golangt %q", err)
 	}
 	n, err = Sscan("234", &i, &j)
 	if n != 1 || i != 234 {
-		t.Errorf("Sscan expected one value of 234; got %d %d", n, i)
+		t.Errorf("Sscan expected one value of 234; golangt %d %d", n, i)
 	}
 	if err != io.EOF {
-		t.Errorf("Sscan expected EOF; got %q", err)
+		t.Errorf("Sscan expected EOF; golangt %q", err)
 	}
 	// Trailing space is tougher.
 	n, err = Sscan("234 ", &i, &j)
 	if n != 1 || i != 234 {
-		t.Errorf("Sscan expected one value of 234; got %d %d", n, i)
+		t.Errorf("Sscan expected one value of 234; golangt %d %d", n, i)
 	}
 	if err != io.EOF {
-		t.Errorf("Sscan expected EOF; got %q", err)
+		t.Errorf("Sscan expected EOF; golangt %q", err)
 	}
 }
 
@@ -879,17 +879,17 @@ func TestUnreadRuneWithBufio(t *testing.T) {
 	var a string
 	n, err := Fscanf(r, "%d", &i)
 	if n != 1 || err != nil {
-		t.Errorf("reading int expected one item, no errors; got %d %q", n, err)
+		t.Errorf("reading int expected one item, no errors; golangt %d %q", n, err)
 	}
 	if i != 123 {
-		t.Errorf("expected 123; got %d", i)
+		t.Errorf("expected 123; golangt %d", i)
 	}
 	n, err = Fscanf(r, "%s", &a)
 	if n != 1 || err != nil {
-		t.Errorf("reading string expected one item, no errors; got %d %q", n, err)
+		t.Errorf("reading string expected one item, no errors; golangt %d %q", n, err)
 	}
 	if a != "αb" {
-		t.Errorf("expected αb; got %q", a)
+		t.Errorf("expected αb; golangt %q", a)
 	}
 }
 
@@ -919,36 +919,36 @@ func TestMultiLine(t *testing.T) {
 	var tscan TwoLines
 	n, err := Sscan(input, &tscan)
 	if n != 1 {
-		t.Errorf("Sscan: expected 1 item; got %d", n)
+		t.Errorf("Sscan: expected 1 item; golangt %d", n)
 	}
 	if err != nil {
-		t.Errorf("Sscan: expected no error; got %s", err)
+		t.Errorf("Sscan: expected no error; golangt %s", err)
 	}
 	if string(tscan) != input {
-		t.Errorf("Sscan: expected %q; got %q", input, tscan)
+		t.Errorf("Sscan: expected %q; golangt %q", input, tscan)
 	}
 	// Sscanf should work
 	var tscanf TwoLines
 	n, err = Sscanf(input, "%s", &tscanf)
 	if n != 1 {
-		t.Errorf("Sscanf: expected 1 item; got %d", n)
+		t.Errorf("Sscanf: expected 1 item; golangt %d", n)
 	}
 	if err != nil {
-		t.Errorf("Sscanf: expected no error; got %s", err)
+		t.Errorf("Sscanf: expected no error; golangt %s", err)
 	}
 	if string(tscanf) != input {
-		t.Errorf("Sscanf: expected %q; got %q", input, tscanf)
+		t.Errorf("Sscanf: expected %q; golangt %q", input, tscanf)
 	}
 	// Sscanln should not work
 	var tscanln TwoLines
 	n, err = Sscanln(input, &tscanln)
 	if n != 0 {
-		t.Errorf("Sscanln: expected 0 items; got %d: %q", n, tscanln)
+		t.Errorf("Sscanln: expected 0 items; golangt %d: %q", n, tscanln)
 	}
 	if err == nil {
-		t.Error("Sscanln: expected error; got none")
+		t.Error("Sscanln: expected error; golangt none")
 	} else if err != io.ErrUnexpectedEOF {
-		t.Errorf("Sscanln: expected io.ErrUnexpectedEOF (ha!); got %s", err)
+		t.Errorf("Sscanln: expected io.ErrUnexpectedEOF (ha!); golangt %s", err)
 	}
 }
 
@@ -966,7 +966,7 @@ func TestLineByLineFscanf(t *testing.T) {
 		t.Fatalf("second read: %d %q", n, err)
 	}
 	if i != 1 || j != 2 {
-		t.Errorf("wrong values; wanted 1 2 got %d %d", i, j)
+		t.Errorf("wrong values; wanted 1 2 golangt %d %d", i, j)
 	}
 }
 
@@ -992,7 +992,7 @@ func TestScanStateCount(t *testing.T) {
 		t.Fatal(err)
 	}
 	if n != 3 {
-		t.Fatalf("expected 3 items consumed, got %d", n)
+		t.Fatalf("expected 3 items consumed, golangt %d", n)
 	}
 	if a.rune != '1' || b.rune != '2' || c.rune != '➂' {
 		t.Errorf("bad scan rune: %q %q %q should be '1' '2' '➂'", a.rune, b.rune, c.rune)
@@ -1071,7 +1071,7 @@ func TestScanInts(t *testing.T) {
 	})
 }
 
-// 800 is small enough to not overflow the stack when using gccgo on a
+// 800 is small enough to not overflow the stack when using gccgolang on a
 // platform that does not support split stack.
 const intCount = 800
 
@@ -1086,12 +1086,12 @@ func testScanInts(t *testing.T, scan func(*RecursiveInt, *bytes.Buffer) error) {
 	i := 1
 	for ; r != nil; r = r.next {
 		if r.i != i {
-			t.Fatalf("bad scan: expected %d got %d", i, r.i)
+			t.Fatalf("bad scan: expected %d golangt %d", i, r.i)
 		}
 		i++
 	}
 	if i-1 != intCount {
-		t.Fatalf("bad scan count: expected %d got %d", intCount, i-1)
+		t.Fatalf("bad scan count: expected %d golangt %d", intCount, i-1)
 	}
 }
 
@@ -1137,7 +1137,7 @@ func TestHexBytes(t *testing.T) {
 	var a, b []byte
 	n, err := Sscanf("00010203", "%x", &a)
 	if n != 1 || err != nil {
-		t.Errorf("simple: got count, err = %d, %v; expected 1, nil", n, err)
+		t.Errorf("simple: golangt count, err = %d, %v; expected 1, nil", n, err)
 	}
 	check := func(msg string, x []byte) {
 		if len(x) != 4 {
@@ -1154,7 +1154,7 @@ func TestHexBytes(t *testing.T) {
 
 	n, err = Sscanf("00010203 00010203", "%x %x", &a, &b)
 	if n != 2 || err != nil {
-		t.Errorf("simple pair: got count, err = %d, %v; expected 2, nil", n, err)
+		t.Errorf("simple pair: golangt count, err = %d, %v; expected 2, nil", n, err)
 	}
 	check("simple pair a", a)
 	check("simple pair b", b)
@@ -1163,14 +1163,14 @@ func TestHexBytes(t *testing.T) {
 
 	n, err = Sscanf("00010203:", "%x", &a)
 	if n != 1 || err != nil {
-		t.Errorf("colon: got count, err = %d, %v; expected 1, nil", n, err)
+		t.Errorf("colon: golangt count, err = %d, %v; expected 1, nil", n, err)
 	}
 	check("colon", a)
 	a = nil
 
 	n, err = Sscanf("00010203:00010203", "%x:%x", &a, &b)
 	if n != 2 || err != nil {
-		t.Errorf("colon pair: got count, err = %d, %v; expected 2, nil", n, err)
+		t.Errorf("colon pair: golangt count, err = %d, %v; expected 2, nil", n, err)
 	}
 	check("colon pair a", a)
 	check("colon pair b", b)
@@ -1181,7 +1181,7 @@ func TestHexBytes(t *testing.T) {
 	// that is, an odd number of hex input bytes.
 	n, err = Sscanf("000102034:", "%x", &a)
 	if n != 0 || err == nil {
-		t.Errorf("odd count: got count, err = %d, %v; expected 0, error", n, err)
+		t.Errorf("odd count: golangt count, err = %d, %v; expected 0, error", n, err)
 	}
 }
 
@@ -1230,7 +1230,7 @@ func TestScanlnNewlinesTerminate(t *testing.T) {
 			t.Errorf("%s: unexpected error: %s", test.name, err)
 		}
 		if !test.ok && err == nil {
-			t.Errorf("%s: expected error; got none", test.name)
+			t.Errorf("%s: expected error; golangt none", test.name)
 		}
 	}
 }
@@ -1300,7 +1300,7 @@ func TestScanfNewlineMatchFormat(t *testing.T) {
 			t.Errorf("%s: unexpected error: %s", test.name, err)
 		}
 		if !test.ok && err == nil {
-			t.Errorf("%s: expected error; got none", test.name)
+			t.Errorf("%s: expected error; golangt none", test.name)
 		}
 	}
 }
@@ -1329,6 +1329,6 @@ func TestHexByte(t *testing.T) {
 		t.Fatalf("expected 1 item; scanned %d", n)
 	}
 	if h[0] != 0x01 || h[1] != 0x23 {
-		t.Fatalf("expected 0123 got %x", h)
+		t.Fatalf("expected 0123 golangt %x", h)
 	}
 }

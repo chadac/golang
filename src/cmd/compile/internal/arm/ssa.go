@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package arm
@@ -12,7 +12,7 @@ import (
 
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/ir"
-	"cmd/compile/internal/logopt"
+	"cmd/compile/internal/logolangpt"
 	"cmd/compile/internal/ssa"
 	"cmd/compile/internal/ssagen"
 	"cmd/compile/internal/types"
@@ -75,7 +75,7 @@ func storeByType(t *types.Type) obj.As {
 // shift type is used as Offset in obj.TYPE_SHIFT operands to encode shifted register operands.
 type shift int64
 
-// copied from ../../../internal/obj/util.go:/TYPE_SHIFT
+// copied from ../../../internal/obj/util.golang:/TYPE_SHIFT
 func (v shift) String() string {
 	op := "<<>>->@>"[((v>>5)&3)<<1:]
 	if v&(1<<4) != 0 {
@@ -744,8 +744,8 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 		ssagen.AddAux(&p.From, v)
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = arm.REGTMP
-		if logopt.Enabled() {
-			logopt.LogOpt(v.Pos, "nilcheck", "genssa", v.Block.Func.Name)
+		if logolangpt.Enabled() {
+			logolangpt.LogOpt(v.Pos, "nilcheck", "genssa", v.Block.Func.Name)
 		}
 		if base.Debug.Nil != 0 && v.Pos.Line() > 1 { // v.Pos.Line()==1 in generated wrappers
 			base.WarnfAt(v.Pos, "generated nil check")

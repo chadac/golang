@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package slog
@@ -98,20 +98,20 @@ func TestConnections(t *testing.T) {
 	log.SetOutput(&logbuf)
 	log.SetFlags(log.Lshortfile &^ log.LstdFlags)
 	Info("msg", "a", 1)
-	checkLogOutput(t, logbuf.String(), `logger_test.go:\d+: INFO msg a=1`)
+	checkLogOutput(t, logbuf.String(), `logger_test.golang:\d+: INFO msg a=1`)
 	logbuf.Reset()
 	Info("msg", "p", nil)
-	checkLogOutput(t, logbuf.String(), `logger_test.go:\d+: INFO msg p=<nil>`)
+	checkLogOutput(t, logbuf.String(), `logger_test.golang:\d+: INFO msg p=<nil>`)
 	logbuf.Reset()
 	var r *regexp.Regexp
 	Info("msg", "r", r)
-	checkLogOutput(t, logbuf.String(), `logger_test.go:\d+: INFO msg r=<nil>`)
+	checkLogOutput(t, logbuf.String(), `logger_test.golang:\d+: INFO msg r=<nil>`)
 	logbuf.Reset()
 	Warn("msg", "b", 2)
-	checkLogOutput(t, logbuf.String(), `logger_test.go:\d+: WARN msg b=2`)
+	checkLogOutput(t, logbuf.String(), `logger_test.golang:\d+: WARN msg b=2`)
 	logbuf.Reset()
 	Error("msg", "err", io.EOF, "c", 3)
-	checkLogOutput(t, logbuf.String(), `logger_test.go:\d+: ERROR msg err=EOF c=3`)
+	checkLogOutput(t, logbuf.String(), `logger_test.golang:\d+: ERROR msg err=EOF c=3`)
 
 	// Levels below Info are not printed.
 	logbuf.Reset()
@@ -124,21 +124,21 @@ func TestConnections(t *testing.T) {
 		// to get the source line, rather than a call depth.
 		logger := New(wrappingHandler{Default().Handler()})
 		logger.Info("msg", "d", 4)
-		checkLogOutput(t, logbuf.String(), `logger_test.go:\d+: INFO msg d=4`)
+		checkLogOutput(t, logbuf.String(), `logger_test.golang:\d+: INFO msg d=4`)
 	})
 
 	// Once slog.SetDefault is called, the direction is reversed: the default
-	// log.Logger's output goes through the handler.
+	// log.Logger's output golanges through the handler.
 	SetDefault(New(NewTextHandler(&slogbuf, &HandlerOptions{AddSource: true})))
 	log.Print("msg2")
-	checkLogOutput(t, slogbuf.String(), "time="+textTimeRE+` level=INFO source=.*logger_test.go:\d{3}"? msg=msg2`)
+	checkLogOutput(t, slogbuf.String(), "time="+textTimeRE+` level=INFO source=.*logger_test.golang:\d{3}"? msg=msg2`)
 
 	// The default log.Logger always outputs at Info level.
 	slogbuf.Reset()
 	SetDefault(New(NewTextHandler(&slogbuf, &HandlerOptions{Level: LevelWarn})))
 	log.Print("should not appear")
-	if got := slogbuf.String(); got != "" {
-		t.Errorf("got %q, want empty", got)
+	if golangt := slogbuf.String(); golangt != "" {
+		t.Errorf("golangt %q, want empty", golangt)
 	}
 
 	// Setting log's output again breaks the connection.
@@ -147,9 +147,9 @@ func TestConnections(t *testing.T) {
 	log.SetOutput(&logbuf)
 	log.SetFlags(log.Lshortfile &^ log.LstdFlags)
 	log.Print("msg3")
-	checkLogOutput(t, logbuf.String(), `logger_test.go:\d+: msg3`)
-	if got := slogbuf.String(); got != "" {
-		t.Errorf("got %q, want empty", got)
+	checkLogOutput(t, logbuf.String(), `logger_test.golang:\d+: msg3`)
+	if golangt := slogbuf.String(); golangt != "" {
+		t.Errorf("golangt %q, want empty", golangt)
 	}
 }
 
@@ -165,10 +165,10 @@ func (h wrappingHandler) WithAttrs(as []Attr) Handler                { return h.
 func (h wrappingHandler) Handle(ctx context.Context, r Record) error { return h.h.Handle(ctx, r) }
 
 func TestAttrs(t *testing.T) {
-	check := func(got []Attr, want ...Attr) {
+	check := func(golangt []Attr, want ...Attr) {
 		t.Helper()
-		if !attrsEqual(got, want) {
-			t.Errorf("got %v, want %v", got, want)
+		if !attrsEqual(golangt, want) {
+			t.Errorf("golangt %v, want %v", golangt, want)
 		}
 	}
 
@@ -188,16 +188,16 @@ func TestCallDepth(t *testing.T) {
 	check := func(count int) {
 		t.Helper()
 		const wantFunc = "log/slog.TestCallDepth"
-		const wantFile = "logger_test.go"
+		const wantFile = "logger_test.golang"
 		wantLine := startLine + count*2
-		got := h.r.Source()
-		if got == nil {
-			t.Fatal("got nil source")
+		golangt := h.r.Source()
+		if golangt == nil {
+			t.Fatal("golangt nil source")
 		}
-		gotFile := filepath.Base(got.File)
-		if got.Function != wantFunc || gotFile != wantFile || got.Line != wantLine {
-			t.Errorf("got (%s, %s, %d), want (%s, %s, %d)",
-				got.Function, gotFile, got.Line, wantFunc, wantFile, wantLine)
+		golangtFile := filepath.Base(golangt.File)
+		if golangt.Function != wantFunc || golangtFile != wantFile || golangt.Line != wantLine {
+			t.Errorf("golangt (%s, %s, %d), want (%s, %s, %d)",
+				golangt.Function, golangtFile, golangt.Line, wantFunc, wantFile, wantLine)
 		}
 	}
 
@@ -312,16 +312,16 @@ func TestCallDepthConnection(t *testing.T) {
 			if err != nil {
 				t.Fatalf("failed to split line: %v", err)
 			}
-			got := string(firstLine)
+			golangt := string(firstLine)
 
 			want := fmt.Sprintf(
-				`source=:0 msg="logger_test.go:%d: %s"`,
+				`source=:0 msg="logger_test.golang:%d: %s"`,
 				line+i, tt.name,
 			)
-			if got != want {
+			if golangt != want {
 				t.Errorf(
-					"output from %s() mismatch:\n\t got: %s\n\twant: %s",
-					tt.name, got, want,
+					"output from %s() mismatch:\n\t golangt: %s\n\twant: %s",
+					tt.name, golangt, want,
 				)
 			}
 		})
@@ -440,9 +440,9 @@ func TestSetAttrs(t *testing.T) {
 	} {
 		r := NewRecord(time.Time{}, 0, "", 0)
 		r.Add(test.args...)
-		got := attrsSlice(r)
-		if !attrsEqual(got, test.want) {
-			t.Errorf("%v:\ngot  %v\nwant %v", test.args, got, test.want)
+		golangt := attrsSlice(r)
+		if !attrsEqual(golangt, test.want) {
+			t.Errorf("%v:\ngolangt  %v\nwant %v", test.args, golangt, test.want)
 		}
 	}
 }
@@ -453,7 +453,7 @@ func TestSetDefault(t *testing.T) {
 	defer cancel()
 	defer func(w io.Writer) { log.SetOutput(w) }(log.Writer())
 	log.SetOutput(io.Discard)
-	go func() {
+	golang func() {
 		Info("A")
 		SetDefault(Default())
 		Info("B")
@@ -461,7 +461,7 @@ func TestSetDefault(t *testing.T) {
 	}()
 	<-ctx.Done()
 	if err := ctx.Err(); err != context.Canceled {
-		t.Errorf("wanted canceled, got %v", err)
+		t.Errorf("wanted canceled, golangt %v", err)
 	}
 }
 
@@ -596,21 +596,21 @@ func TestContext(t *testing.T) {
 
 		test.f(ctx, "msg")
 		if gv := h.ctx.Value("L"); gv != test.wantLevel || h.r.Level != test.wantLevel {
-			t.Errorf("got context value %v, level %s; want %s for both", gv, h.r.Level, test.wantLevel)
+			t.Errorf("golangt context value %v, level %s; want %s for both", gv, h.r.Level, test.wantLevel)
 		}
 	}
 }
 
-func checkLogOutput(t *testing.T, got, wantRegexp string) {
+func checkLogOutput(t *testing.T, golangt, wantRegexp string) {
 	t.Helper()
-	got = clean(got)
+	golangt = clean(golangt)
 	wantRegexp = "^" + wantRegexp + "$"
-	matched, err := regexp.MatchString(wantRegexp, got)
+	matched, err := regexp.MatchString(wantRegexp, golangt)
 	if err != nil {
 		t.Fatal(err)
 	}
 	if !matched {
-		t.Errorf("\ngot  %s\nwant %s", got, wantRegexp)
+		t.Errorf("\ngolangt  %s\nwant %s", golangt, wantRegexp)
 	}
 }
 
@@ -749,9 +749,9 @@ func wantAllocs(t *testing.T, want int, f func()) {
 	}
 	testenv.SkipIfOptimizationOff(t)
 	t.Helper()
-	got := int(testing.AllocsPerRun(5, f))
-	if got != want {
-		t.Errorf("got %d allocs, want %d", got, want)
+	golangt := int(testing.AllocsPerRun(5, f))
+	if golangt != want {
+		t.Errorf("golangt %d allocs, want %d", golangt, want)
 	}
 }
 
@@ -790,10 +790,10 @@ func TestPanics(t *testing.T) {
 		in  any
 		out string
 	}{
-		{(*panicTextAndJsonMarshaler)(nil), `logger_test.go:\d+: INFO msg p=<nil>`},
-		{panicTextAndJsonMarshaler{io.ErrUnexpectedEOF}, `logger_test.go:\d+: INFO msg p="!PANIC: unexpected EOF"`},
-		{panicTextAndJsonMarshaler{"panicking"}, `logger_test.go:\d+: INFO msg p="!PANIC: panicking"`},
-		{panicTextAndJsonMarshaler{42}, `logger_test.go:\d+: INFO msg p="!PANIC: 42"`},
+		{(*panicTextAndJsonMarshaler)(nil), `logger_test.golang:\d+: INFO msg p=<nil>`},
+		{panicTextAndJsonMarshaler{io.ErrUnexpectedEOF}, `logger_test.golang:\d+: INFO msg p="!PANIC: unexpected EOF"`},
+		{panicTextAndJsonMarshaler{"panicking"}, `logger_test.golang:\d+: INFO msg p="!PANIC: panicking"`},
+		{panicTextAndJsonMarshaler{42}, `logger_test.golang:\d+: INFO msg p="!PANIC: 42"`},
 	} {
 		Info("msg", "p", pt.in)
 		checkLogOutput(t, logBuf.String(), pt.out)

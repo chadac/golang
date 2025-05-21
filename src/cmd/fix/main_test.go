@@ -1,13 +1,13 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
 
 import (
 	"fmt"
-	"go/ast"
-	"go/parser"
+	"golang/ast"
+	"golang/parser"
 	"internal/diff"
 	"internal/testenv"
 	"strings"
@@ -45,13 +45,13 @@ func parseFixPrint(t *testing.T, fn func(*ast.File) bool, desc, in string, mustB
 		return
 	}
 
-	outb, err := gofmtFile(file)
+	outb, err := golangfmtFile(file)
 	if err != nil {
 		t.Errorf("printing: %v", err)
 		return
 	}
 	if s := string(outb); in != s && mustBeGofmt {
-		t.Errorf("not gofmt-formatted.\n--- %s\n%s\n--- %s | gofmt\n%s",
+		t.Errorf("not golangfmt-formatted.\n--- %s\n%s\n--- %s | golangfmt\n%s",
 			desc, in, desc, s)
 		tdiff(t, "want", in, "have", s)
 		return
@@ -67,7 +67,7 @@ func parseFixPrint(t *testing.T, fn func(*ast.File) bool, desc, in string, mustB
 		fixed = fn(file)
 	}
 
-	outb, err = gofmtFile(file)
+	outb, err = golangfmtFile(file)
 	if err != nil {
 		t.Errorf("printing: %v", err)
 		return
@@ -77,20 +77,20 @@ func parseFixPrint(t *testing.T, fn func(*ast.File) bool, desc, in string, mustB
 }
 
 func TestRewrite(t *testing.T) {
-	// If cgo is enabled, enforce that cgo commands invoked by cmd/fix
+	// If cgolang is enabled, enforce that cgolang commands invoked by cmd/fix
 	// do not fail during testing.
 	if testenv.HasCGO() {
-		testenv.MustHaveGoBuild(t) // Really just 'go tool cgo', but close enough.
+		testenv.MustHaveGoBuild(t) // Really just 'golang tool cgolang', but close enough.
 
-		// The reportCgoError hook is global, so we can't set it per-test
+		// The reportCgolangError hook is global, so we can't set it per-test
 		// if we want to be able to run those tests in parallel.
-		// Instead, simply set it to panic on error: the goroutine dump
+		// Instead, simply set it to panic on error: the golangroutine dump
 		// from the panic should help us determine which test failed.
-		prevReportCgoError := reportCgoError
-		reportCgoError = func(err error) {
-			panic(fmt.Sprintf("unexpected cgo error: %v", err))
+		prevReportCgolangError := reportCgolangError
+		reportCgolangError = func(err error) {
+			panic(fmt.Sprintf("unexpected cgolang error: %v", err))
 		}
-		t.Cleanup(func() { reportCgoError = prevReportCgoError })
+		t.Cleanup(func() { reportCgolangError = prevReportCgolangError })
 	}
 
 	for _, tt := range testCases {
@@ -105,10 +105,10 @@ func TestRewrite(t *testing.T) {
 					t.Parallel()
 				}
 			} else {
-				old := *goVersion
-				*goVersion = tt.Version
+				old := *golangVersion
+				*golangVersion = tt.Version
 				defer func() {
-					*goVersion = old
+					*golangVersion = old
 				}()
 			}
 

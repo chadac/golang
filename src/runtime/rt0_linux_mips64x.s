@@ -1,8 +1,8 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build linux && (mips64 || mips64le)
+//golang:build linux && (mips64 || mips64le)
 
 #include "textflag.h"
 
@@ -34,5 +34,5 @@ TEXT main(SB),NOSPLIT|NOFRAME,$0
 	SRLV	$32, R31, RSB
 	SLLV	$32, RSB
 
-	MOVV	$runtime·rt0_go(SB), R1
+	MOVV	$runtime·rt0_golang(SB), R1
 	JMP	(R1)

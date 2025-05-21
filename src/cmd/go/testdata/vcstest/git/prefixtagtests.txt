@@ -1,7 +1,7 @@
 handle git
 
 env GIT_AUTHOR_NAME='Jay Conrod'
-env GIT_AUTHOR_EMAIL='jayconrod@google.com'
+env GIT_AUTHOR_EMAIL='jayconrod@golangogle.com'
 env GIT_COMMITTER_NAME=$GIT_AUTHOR_NAME
 env GIT_COMMITTER_EMAIL=$GIT_AUTHOR_EMAIL
 
@@ -47,7 +47,7 @@ c3ee5d0dfbb9bf3c4d8bb2bce24cd8d14d2d4238 refs/heads/master
 883885166298d79a0561d571a3044ec5db2e7c28 refs/tags/sub/v0.0.9
 db89fc573cfb939faf0aa0660671eb4cf8b8b673 refs/tags/v0.1.0
 1abe41965749e50828dd41de8d12c6ebc8e4e131 refs/tags/v0.2.0
--- sub/go.mod --
-module vcs-test.golang.org/git/prefixtagtests.git/sub
--- sub/sub.go --
+-- sub/golang.mod --
+module vcs-test.golanglang.org/git/prefixtagtests.git/sub
+-- sub/sub.golang --
 package sub

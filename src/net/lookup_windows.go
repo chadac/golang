@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package net
@@ -14,10 +14,10 @@ import (
 	"unsafe"
 )
 
-// cgoAvailable set to true to indicate that the cgo resolver
-// is available on Windows. Note that on Windows the cgo resolver
-// does not actually use cgo.
-const cgoAvailable = true
+// cgolangAvailable set to true to indicate that the cgolang resolver
+// is available on Windows. Note that on Windows the cgolang resolver
+// does not actually use cgolang.
+const cgolangAvailable = true
 
 const (
 	_DNS_ERROR_RCODE_NAME_ERROR = syscall.Errno(9003)
@@ -52,8 +52,8 @@ func lookupProtocol(ctx context.Context, name string) (int, error) {
 		proto int
 		err   error
 	}
-	ch := make(chan result, 1) // buffer so that next goroutine never blocks
-	go func() {
+	ch := make(chan result, 1) // buffer so that next golangroutine never blocks
+	golang func() {
 		if err := acquireThread(ctx); err != nil {
 			ch <- result{err: mapErr(err)}
 			return
@@ -91,8 +91,8 @@ func (r *Resolver) lookupHost(ctx context.Context, name string) ([]string, error
 }
 
 func (r *Resolver) lookupIP(ctx context.Context, network, name string) ([]IPAddr, error) {
-	if order, conf := systemConf().hostLookupOrder(r, name); order != hostLookupCgo {
-		return r.goLookupIP(ctx, network, name, order, conf)
+	if order, conf := systemConf().hostLookupOrder(r, name); order != hostLookupCgolang {
+		return r.golangLookupIP(ctx, network, name, order, conf)
 	}
 
 	// TODO(bradfitz,brainman): use ctx more. See TODO below.
@@ -161,7 +161,7 @@ func (r *Resolver) lookupIP(ctx context.Context, network, name string) ([]IPAddr
 	var ch chan ret
 	if ctx.Err() == nil {
 		ch = make(chan ret, 1)
-		go func() {
+		golang func() {
 			addr, err := getaddr()
 			ch <- ret{addrs: addr, err: err}
 		}()
@@ -171,7 +171,7 @@ func (r *Resolver) lookupIP(ctx context.Context, network, name string) ([]IPAddr
 	case r := <-ch:
 		return r.addrs, r.err
 	case <-ctx.Done():
-		// TODO(bradfitz,brainman): cancel the ongoing
+		// TODO(bradfitz,brainman): cancel the ongolanging
 		// GetAddrInfoW? It would require conditionally using
 		// GetAddrInfoEx with lpOverlapped, which requires
 		// Windows 8 or newer. I guess we'll need oldLookupIP,
@@ -224,8 +224,8 @@ func (r *Resolver) lookupPort(ctx context.Context, network, service string) (int
 
 		// The _WSATYPE_NOT_FOUND error is returned by GetAddrInfoW
 		// when the service name is unknown. We are also checking
-		// for _WSAHOST_NOT_FOUND here to match the cgo (unix) version
-		// cgo_unix.go (cgoLookupServicePort).
+		// for _WSAHOST_NOT_FOUND here to match the cgolang (unix) version
+		// cgolang_unix.golang (cgolangLookupServicePort).
 		if e == _WSATYPE_NOT_FOUND || e == _WSAHOST_NOT_FOUND {
 			return 0, newDNSError(errUnknownPort, network+"/"+service, "")
 		}
@@ -248,8 +248,8 @@ func (r *Resolver) lookupPort(ctx context.Context, network, service string) (int
 }
 
 func (r *Resolver) lookupCNAME(ctx context.Context, name string) (string, error) {
-	if order, conf := systemConf().hostLookupOrder(r, name); order != hostLookupCgo {
-		return r.goLookupCNAME(ctx, name, order, conf)
+	if order, conf := systemConf().hostLookupOrder(r, name); order != hostLookupCgolang {
+		return r.golangLookupCNAME(ctx, name, order, conf)
 	}
 
 	// TODO(bradfitz): finish ctx plumbing
@@ -276,7 +276,7 @@ func (r *Resolver) lookupCNAME(ctx context.Context, name string) (string, error)
 
 func (r *Resolver) lookupSRV(ctx context.Context, service, proto, name string) (string, []*SRV, error) {
 	if systemConf().mustUseGoResolver(r) {
-		return r.goLookupSRV(ctx, service, proto, name)
+		return r.golangLookupSRV(ctx, service, proto, name)
 	}
 	// TODO(bradfitz): finish ctx plumbing
 	if err := acquireThread(ctx); err != nil {
@@ -307,7 +307,7 @@ func (r *Resolver) lookupSRV(ctx context.Context, service, proto, name string) (
 
 func (r *Resolver) lookupMX(ctx context.Context, name string) ([]*MX, error) {
 	if systemConf().mustUseGoResolver(r) {
-		return r.goLookupMX(ctx, name)
+		return r.golangLookupMX(ctx, name)
 	}
 	// TODO(bradfitz): finish ctx plumbing.
 	if err := acquireThread(ctx); err != nil {
@@ -332,7 +332,7 @@ func (r *Resolver) lookupMX(ctx context.Context, name string) ([]*MX, error) {
 
 func (r *Resolver) lookupNS(ctx context.Context, name string) ([]*NS, error) {
 	if systemConf().mustUseGoResolver(r) {
-		return r.goLookupNS(ctx, name)
+		return r.golangLookupNS(ctx, name)
 	}
 	// TODO(bradfitz): finish ctx plumbing.
 	if err := acquireThread(ctx); err != nil {
@@ -356,7 +356,7 @@ func (r *Resolver) lookupNS(ctx context.Context, name string) ([]*NS, error) {
 
 func (r *Resolver) lookupTXT(ctx context.Context, name string) ([]string, error) {
 	if systemConf().mustUseGoResolver(r) {
-		return r.goLookupTXT(ctx, name)
+		return r.golangLookupTXT(ctx, name)
 	}
 	// TODO(bradfitz): finish ctx plumbing.
 	if err := acquireThread(ctx); err != nil {
@@ -383,8 +383,8 @@ func (r *Resolver) lookupTXT(ctx context.Context, name string) ([]string, error)
 }
 
 func (r *Resolver) lookupAddr(ctx context.Context, addr string) ([]string, error) {
-	if order, conf := systemConf().addrLookupOrder(r, addr); order != hostLookupCgo {
-		return r.goLookupPTR(ctx, addr, order, conf)
+	if order, conf := systemConf().addrLookupOrder(r, addr); order != hostLookupCgolang {
+		return r.golangLookupPTR(ctx, addr, order, conf)
 	}
 
 	// TODO(bradfitz): finish ctx plumbing.

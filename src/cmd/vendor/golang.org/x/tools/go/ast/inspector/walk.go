@@ -1,5 +1,5 @@
 // Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package inspector
@@ -11,9 +11,9 @@ package inspector
 
 import (
 	"fmt"
-	"go/ast"
+	"golang/ast"
 
-	"golang.org/x/tools/internal/astutil/edge"
+	"golanglang.org/x/tools/internal/astutil/edge"
 )
 
 func walkList[N ast.Node](v *visitor, ek edge.Kind, list []N) {
@@ -27,7 +27,7 @@ func walk(v *visitor, ek edge.Kind, index int, node ast.Node) {
 
 	// walk children
 	// (the order of the cases matches the order
-	// of the corresponding node types in ast.go)
+	// of the corresponding node types in ast.golang)
 	switch n := node.(type) {
 	// Comments and fields
 	case *ast.Comment:

@@ -1,20 +1,20 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Suffix array construction by induced sorting (SAIS).
 // See Ge Nong, Sen Zhang, and Wai Hong Chen,
-// "Two Efficient Algorithms for Linear Time Suffix Array Construction",
+// "Two Efficient Algolangrithms for Linear Time Suffix Array Construction",
 // especially section 3 (https://ieeexplore.ieee.org/document/5582081).
 // See also http://zork.net/~st/jottings/sais.html.
 //
 // With optimizations inspired by Yuta Mori's sais-lite
-// (https://sites.google.com/site/yuta256/sais).
+// (https://sites.golangogle.com/site/yuta256/sais).
 //
 // And with other new optimizations.
 
 // Many of these functions are parameterized by the sizes of
-// the types they operate on. The generator gen.go makes
+// the types they operate on. The generator gen.golang makes
 // copies of these functions for use with other sizes.
 // Specifically:
 //
@@ -118,7 +118,7 @@
 //
 // That line runs for 0.23s on the Go text and 2.02s on random text.
 
-//go:generate go run gen.go
+//golang:generate golang run gen.golang
 
 package suffixarray
 
@@ -138,7 +138,7 @@ func text_32(text []byte, sa []int32) {
 // must ensure is already zeroed.
 // The caller must also provide temporary space tmp
 // with len(tmp) ≥ textMax. If len(tmp) ≥ 2*textMax
-// then the algorithm runs a little faster.
+// then the algolangrithm runs a little faster.
 // If sais_8_32 modifies tmp, it sets tmp[0] = -1 on return.
 func sais_8_32(text []byte, textMax int, sa, tmp []int32) {
 	if len(sa) != len(text) || len(tmp) < textMax {
@@ -167,10 +167,10 @@ func sais_8_32(text []byte, textMax int, sa, tmp []int32) {
 		freq, bucket = nil, tmp[:textMax]
 	}
 
-	// The SAIS algorithm.
+	// The SAIS algolangrithm.
 	// Each of these calls makes one scan through sa.
 	// See the individual functions for documentation
-	// about each's role in the algorithm.
+	// about each's role in the algolangrithm.
 	numLMS := placeLMS_8_32(text, sa, freq, bucket)
 	if numLMS <= 1 {
 		// 0 or 1 items are already sorted. Do nothing.
@@ -254,9 +254,9 @@ func bucketMax_8_32(text []byte, freq, bucket []int32) {
 	}
 }
 
-// The SAIS algorithm proceeds in a sequence of scans through sa.
+// The SAIS algolangrithm proceeds in a sequence of scans through sa.
 // Each of the following functions implements one scan,
-// and the functions appear here in the order they execute in the algorithm.
+// and the functions appear here in the order they execute in the algolangrithm.
 
 // placeLMS_8_32 places into sa the indexes of the
 // final characters of the LMS substrings of text,
@@ -332,7 +332,7 @@ func placeLMS_8_32(text []byte, sa, freq, bucket []int32) int {
 	// does not end an earlier LMS-substring, so as an optimization we can omit
 	// that leftmost LMS-substring start index (the last one we wrote).
 	//
-	// Exception: if numLMS <= 1, the caller is not going to bother with
+	// Exception: if numLMS <= 1, the caller is not golanging to bother with
 	// the recursion at all and will treat the result as containing LMS-substring starts.
 	// In that case, we don't remove the final entry.
 	if numLMS > 1 {
@@ -390,7 +390,7 @@ func induceSubL_8_32(text []byte, sa, freq, bucket []int32) {
 	// we're processing suffixes in sorted order
 	// and accessing buckets indexed by the
 	// byte before the sorted order, which still
-	// has very good locality.
+	// has very golangod locality.
 	// Invariant: b is cached, possibly dirty copy of bucket[cB].
 	cB := c1
 	b := bucket[cB]
@@ -447,7 +447,7 @@ func induceSubS_8_32(text []byte, sa, freq, bucket []int32) {
 	bucketMax_8_32(text, freq, bucket)
 	bucket = bucket[:256] // eliminate bounds check for bucket[cB] below
 
-	// Analogous to induceSubL_8_32 above,
+	// Analogolangus to induceSubL_8_32 above,
 	// as we scan the array right-to-left, each sa[i] = j > 0 is a correctly
 	// sorted suffix array entry (for text[j:]) for which we know that j-1 is type S.
 	// Because j-1 is type S, inserting it into sa now will sort it correctly.
@@ -596,11 +596,11 @@ func assignID_8_32(text []byte, sa []int32, numLMS int) int {
 		// Is the LMS-substring at index j new, or is it the same as the last one we saw?
 		n := sa[j/2]
 		if n != lastLen {
-			goto New
+			golangto New
 		}
 		if uint32(n) >= uint32(len(text)) {
 			// “Length” is really encoded full text, and they match.
-			goto Same
+			golangto Same
 		}
 		{
 			// Compare actual texts.
@@ -609,10 +609,10 @@ func assignID_8_32(text []byte, sa []int32, numLMS int) int {
 			last := text[lastPos:][:n]
 			for i := 0; i < n; i++ {
 				if this[i] != last[i] {
-					goto New
+					golangto New
 				}
 			}
-			goto Same
+			golangto Same
 		}
 	New:
 		id++

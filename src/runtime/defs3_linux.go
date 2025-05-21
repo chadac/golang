@@ -1,20 +1,20 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build ignore
+//golang:build ignore
 
 /*
-Input to cgo -cdefs
+Input to cgolang -cdefs
 
-GOARCH=ppc64 cgo -cdefs defs_linux.go defs3_linux.go > defs_linux_ppc64.h
+GOARCH=ppc64 cgolang -cdefs defs_linux.golang defs3_linux.golang > defs_linux_ppc64.h
 */
 
 package runtime
 
 /*
 #define size_t __kernel_size_t
-#define sigset_t __sigset_t // rename the sigset_t here otherwise cgo will complain about "inconsistent definitions for C.sigset_t"
+#define sigset_t __sigset_t // rename the sigset_t here otherwise cgolang will complain about "inconsistent definitions for C.sigset_t"
 #define	_SYS_TYPES_H	// avoid inclusion of sys/types.h
 #include <asm/ucontext.h>
 #include <asm-generic/fcntl.h>

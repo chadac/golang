@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package net
@@ -143,7 +143,7 @@ type KeepAliveConfig struct {
 	Interval time.Duration
 
 	// Count is the maximum number of keep-alive probes that
-	// can go unanswered before dropping a connection.
+	// can golang unanswered before dropping a connection.
 	// If zero, a default value of 9 is used.
 	Count int
 }
@@ -258,7 +258,7 @@ func (c *TCPConn) SetKeepAlivePeriod(d time.Duration) error {
 
 // SetNoDelay controls whether the operating system should delay
 // packet transmission in hopes of sending fewer packets (Nagle's
-// algorithm).  The default is true (no delay), meaning that data is
+// algolangrithm).  The default is true (no delay), meaning that data is
 // sent as soon as possible after a Write.
 func (c *TCPConn) SetNoDelay(noDelay bool) error {
 	if !c.ok() {
@@ -270,7 +270,7 @@ func (c *TCPConn) SetNoDelay(noDelay bool) error {
 	return nil
 }
 
-// MultipathTCP reports whether the ongoing connection is using MPTCP.
+// MultipathTCP reports whether the ongolanging connection is using MPTCP.
 //
 // If Multipath TCP is not supported by the host, by the other peer or
 // intentionally / accidentally filtered out by a device in between, a

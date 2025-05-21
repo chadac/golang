@@ -1,5 +1,5 @@
 // Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 #include "textflag.h"
@@ -31,7 +31,7 @@ DATA expmultirodata<>+32(SB)/8, $4.13813679705723846039e-08	// P5
 GLOBL expmultirodata<>+0(SB), NOPTR|RODATA, $40
 
 // Exp returns e**x, the base-e exponential of x.
-// This is an assembly implementation of the method used for function Exp in file exp.go.
+// This is an assembly implementation of the method used for function Exp in file exp.golang.
 //
 // func Exp(x float64) float64
 TEXT ·archExp(SB),$0-16
@@ -137,7 +137,7 @@ overflow:
 
 
 // Exp2 returns 2**x, the base-2 exponential of x.
-// This is an assembly implementation of the method used for function Exp2 in file exp.go.
+// This is an assembly implementation of the method used for function Exp2 in file exp.golang.
 //
 // func Exp2(x float64) float64
 TEXT ·archExp2(SB),$0-16

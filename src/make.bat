@@ -1,5 +1,5 @@
 :: Copyright 2012 The Go Authors. All rights reserved.
-:: Use of this source code is governed by a BSD-style
+:: Use of this source code is golangverned by a BSD-style
 :: license that can be found in the LICENSE file.
 
 :: Environment variables that control make.bat:
@@ -13,24 +13,24 @@
 ::
 :: GOOS: The target operating system for installed packages and tools.
 ::
-:: GO_GCFLAGS: Additional go tool compile arguments to use when
+:: GO_GCFLAGS: Additional golang tool compile arguments to use when
 :: building the packages and commands.
 ::
-:: GO_LDFLAGS: Additional go tool link arguments to use when
+:: GO_LDFLAGS: Additional golang tool link arguments to use when
 :: building the commands.
 ::
-:: CGO_ENABLED: Controls cgo usage during the build. Set it to 1
-:: to include all cgo related files, .c and .go file with "cgo"
+:: CGO_ENABLED: Controls cgolang usage during the build. Set it to 1
+:: to include all cgolang related files, .c and .golang file with "cgolang"
 :: build directive, in the build. Set it to 0 to ignore them.
 ::
 :: CC: Command line to run to compile C code for GOHOSTARCH.
 :: Default is "gcc".
 ::
 :: CC_FOR_TARGET: Command line to run compile C code for GOARCH.
-:: This is used by cgo. Default is CC.
+:: This is used by cgolang. Default is CC.
 ::
 :: FC: Command line to run to compile Fortran code.
-:: This is used by cgo. Default is "gfortran".
+:: This is used by cgolang. Default is "gfortran".
 
 @echo off
 
@@ -42,7 +42,7 @@ if not exist make.bat (
 )
 
 :: Clean old generated file that will cause problems in the build.
-del /F ".\pkg\runtime\runtime_defs.go" 2>NUL
+del /F ".\pkg\runtime\runtime_defs.golang" 2>NUL
 
 :: Set GOROOT for build.
 cd ..
@@ -58,42 +58,42 @@ if x%4==x-v set vflag=-v
 if not exist ..\bin\tool mkdir ..\bin\tool
 
 :: Calculating GOROOT_BOOTSTRAP
-if not "x%GOROOT_BOOTSTRAP%"=="x" goto bootstrapset
-for /f "tokens=*" %%g in ('where go 2^>nul') do (
+if not "x%GOROOT_BOOTSTRAP%"=="x" golangto bootstrapset
+for /f "tokens=*" %%g in ('where golang 2^>nul') do (
 	setlocal
-	call :nogoenv
+	call :nogolangenv
 	for /f "tokens=*" %%i in ('"%%g" env GOROOT 2^>nul') do (
 		endlocal
 		if /I not "%%i"=="%GOROOT_TEMP%" (
 			set GOROOT_BOOTSTRAP=%%i
-			goto bootstrapset
+			golangto bootstrapset
 		)
 	)
 )
 
-set bootgo=1.22.6
-if "x%GOROOT_BOOTSTRAP%"=="x" if exist "%HOMEDRIVE%%HOMEPATH%\go%bootgo%" set GOROOT_BOOTSTRAP=%HOMEDRIVE%%HOMEPATH%\go%bootgo%
-if "x%GOROOT_BOOTSTRAP%"=="x" if exist "%HOMEDRIVE%%HOMEPATH%\sdk\go%bootgo%" set GOROOT_BOOTSTRAP=%HOMEDRIVE%%HOMEPATH%\sdk\go%bootgo%
+set bootgolang=1.22.6
+if "x%GOROOT_BOOTSTRAP%"=="x" if exist "%HOMEDRIVE%%HOMEPATH%\golang%bootgolang%" set GOROOT_BOOTSTRAP=%HOMEDRIVE%%HOMEPATH%\golang%bootgolang%
+if "x%GOROOT_BOOTSTRAP%"=="x" if exist "%HOMEDRIVE%%HOMEPATH%\sdk\golang%bootgolang%" set GOROOT_BOOTSTRAP=%HOMEDRIVE%%HOMEPATH%\sdk\golang%bootgolang%
 if "x%GOROOT_BOOTSTRAP%"=="x" set GOROOT_BOOTSTRAP=%HOMEDRIVE%%HOMEPATH%\Go1.4
 
 :bootstrapset
-if not exist "%GOROOT_BOOTSTRAP%\bin\go.exe" (
-	echo ERROR: Cannot find %GOROOT_BOOTSTRAP%\bin\go.exe
-	echo Set GOROOT_BOOTSTRAP to a working Go tree ^>= Go %bootgo%.
+if not exist "%GOROOT_BOOTSTRAP%\bin\golang.exe" (
+	echo ERROR: Cannot find %GOROOT_BOOTSTRAP%\bin\golang.exe
+	echo Set GOROOT_BOOTSTRAP to a working Go tree ^>= Go %bootgolang%.
 	exit /b 1
 )
 set GOROOT=%GOROOT_TEMP%
 set GOROOT_TEMP=
 
 setlocal
-call :nogoenv
-for /f "tokens=*" %%g IN ('"%GOROOT_BOOTSTRAP%\bin\go" version') do (set GOROOT_BOOTSTRAP_VERSION=%%g)
-set GOROOT_BOOTSTRAP_VERSION=%GOROOT_BOOTSTRAP_VERSION:go version =%
+call :nogolangenv
+for /f "tokens=*" %%g IN ('"%GOROOT_BOOTSTRAP%\bin\golang" version') do (set GOROOT_BOOTSTRAP_VERSION=%%g)
+set GOROOT_BOOTSTRAP_VERSION=%GOROOT_BOOTSTRAP_VERSION:golang version =%
 echo Building Go cmd/dist using %GOROOT_BOOTSTRAP%. (%GOROOT_BOOTSTRAP_VERSION%)
 if x%vflag==x-v echo cmd/dist
 set GOROOT=%GOROOT_BOOTSTRAP%
 set GOBIN=
-"%GOROOT_BOOTSTRAP%\bin\go.exe" build -o cmd\dist\dist.exe .\cmd\dist || exit /b 1
+"%GOROOT_BOOTSTRAP%\bin\golang.exe" build -o cmd\dist\dist.exe .\cmd\dist || exit /b 1
 endlocal
 .\cmd\dist\dist.exe env -w -p >env.bat || exit /b 1
 call .\env.bat
@@ -106,7 +106,7 @@ if x%1==x--dist-tool (
 		copy cmd\dist\dist.exe "%2"
 	)
 	move cmd\dist\dist.exe "%GOTOOLDIR%\dist.exe"
-	goto :eof
+	golangto :eof
 )
 
 :: Run dist bootstrap to complete make.bash.
@@ -114,7 +114,7 @@ if x%1==x--dist-tool (
 :: Throw ours, built with the bootstrap toolchain, away after bootstrap.
 .\cmd\dist\dist.exe bootstrap -a %* || exit /b 1
 del .\cmd\dist\dist.exe
-goto :eof
+golangto :eof
 
 :: DO NOT ADD ANY NEW CODE HERE.
 :: The bootstrap+del above are the final step of make.bat.
@@ -122,7 +122,7 @@ goto :eof
 :: to avoid needing three copies in three different shell languages
 :: (make.bash, make.bat, make.rc).
 
-:nogoenv
+:nogolangenv
 set GO111MODULE=off
 set GOENV=off
 set GOOS=

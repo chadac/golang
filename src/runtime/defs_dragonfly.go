@@ -1,13 +1,13 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build ignore
+//golang:build ignore
 
 /*
-Input to cgo.
+Input to cgolang.
 
-GOARCH=amd64 go tool cgo -cdefs defs_dragonfly.go >defs_dragonfly_amd64.h
+GOARCH=amd64 golang tool cgolang -cdefs defs_dragolangnfly.golang >defs_dragolangnfly_amd64.h
 */
 
 package runtime

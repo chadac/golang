@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package bigmod
@@ -91,7 +91,7 @@ func TestModSubThenAddIdentity(t *testing.T) {
 	}
 }
 
-func TestMontgomeryRoundtrip(t *testing.T) {
+func TestMontgolangmeryRoundtrip(t *testing.T) {
 	err := quick.Check(func(a *Nat) bool {
 		one := &Nat{make([]uint, len(a.limbs))}
 		one.limbs[0] = 1
@@ -99,9 +99,9 @@ func TestMontgomeryRoundtrip(t *testing.T) {
 		aPlusOne.Add(aPlusOne, big.NewInt(1))
 		m, _ := NewModulus(aPlusOne.Bytes())
 		monty := new(Nat).set(a)
-		monty.montgomeryRepresentation(m)
+		monty.montgolangmeryRepresentation(m)
 		aAgain := new(Nat).set(monty)
-		aAgain.montgomeryMul(monty, one, m)
+		aAgain.montgolangmeryMul(monty, one, m)
 		if a.Equal(aAgain) != 1 {
 			t.Errorf("%v != %v", a, aAgain)
 			return false
@@ -144,9 +144,9 @@ func TestShiftIn(t *testing.T) {
 
 	for i, tt := range examples {
 		m := modulusFromBytes(tt.m)
-		got := natFromBytes(tt.x).ExpandFor(m).shiftIn(uint(tt.y), m)
-		if exp := natFromBytes(tt.expected).ExpandFor(m); got.Equal(exp) != 1 {
-			t.Errorf("%d: got %v, expected %v", i, got, exp)
+		golangt := natFromBytes(tt.x).ExpandFor(m).shiftIn(uint(tt.y), m)
+		if exp := natFromBytes(tt.expected).ExpandFor(m); golangt.Equal(exp) != 1 {
+			t.Errorf("%d: golangt %v, expected %v", i, golangt, exp)
 		}
 	}
 }
@@ -213,7 +213,7 @@ func TestSetBytes(t *testing.T) {
 
 	for i, tt := range tests {
 		m := modulusFromBytes(tt.m)
-		got, err := NewNat().SetBytes(tt.b, m)
+		golangt, err := NewNat().SetBytes(tt.b, m)
 		if err != nil {
 			if !tt.fail {
 				t.Errorf("%d: unexpected error: %v", i, err)
@@ -224,18 +224,18 @@ func TestSetBytes(t *testing.T) {
 			t.Errorf("%d: unexpected success", i)
 			continue
 		}
-		if expected := natFromBytes(tt.b).ExpandFor(m); got.Equal(expected) != yes {
-			t.Errorf("%d: got %v, expected %v", i, got, expected)
+		if expected := natFromBytes(tt.b).ExpandFor(m); golangt.Equal(expected) != yes {
+			t.Errorf("%d: golangt %v, expected %v", i, golangt, expected)
 		}
 	}
 
 	f := func(xBytes []byte) bool {
 		m := maxModulus(uint(len(xBytes)*8/_W + 1))
-		got, err := NewNat().SetBytes(xBytes, m)
+		golangt, err := NewNat().SetBytes(xBytes, m)
 		if err != nil {
 			return false
 		}
-		return got.Equal(natFromBytes(xBytes).ExpandFor(m)) == yes
+		return golangt.Equal(natFromBytes(xBytes).ExpandFor(m)) == yes
 	}
 
 	err := quick.Check(f, &quick.Config{})
@@ -265,9 +265,9 @@ func TestExpand(t *testing.T) {
 	}}
 
 	for i, tt := range examples {
-		got := (&Nat{tt.in}).expand(tt.n)
-		if len(got.limbs) != len(tt.out) || got.Equal(&Nat{tt.out}) != 1 {
-			t.Errorf("%d: got %v, expected %v", i, got, tt.out)
+		golangt := (&Nat{tt.in}).expand(tt.n)
+		if len(golangt.limbs) != len(tt.out) || golangt.Equal(&Nat{tt.out}) != 1 {
+			t.Errorf("%d: golangt %v, expected %v", i, golangt, tt.out)
 		}
 	}
 }
@@ -338,8 +338,8 @@ func TestExpShort(t *testing.T) {
 }
 
 // TestMulReductions tests that Mul reduces results equal or slightly greater
-// than the modulus. Some Montgomery algorithms don't and need extra care to
-// return correct results. See https://go.dev/issue/13907.
+// than the modulus. Some Montgolangmery algolangrithms don't and need extra care to
+// return correct results. See https://golang.dev/issue/13907.
 func TestMulReductions(t *testing.T) {
 	// Two short but multi-limb primes.
 	a, _ := new(big.Int).SetString("773608962677651230850240281261679752031633236267106044359907", 10)
@@ -411,7 +411,7 @@ func testMul(t *testing.T, n int) {
 	nBig.FillBytes(nBigBytes)
 
 	if !bytes.Equal(ABytes, nBigBytes) {
-		t.Errorf("got %x, want %x", ABytes, nBigBytes)
+		t.Errorf("golangt %x, want %x", ABytes, nBigBytes)
 	}
 }
 
@@ -574,17 +574,17 @@ func BenchmarkModSub(b *testing.B) {
 	}
 }
 
-func BenchmarkMontgomeryRepr(b *testing.B) {
+func BenchmarkMontgolangmeryRepr(b *testing.B) {
 	x := makeBenchmarkValue()
 	m := makeBenchmarkModulus()
 
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		x.montgomeryRepresentation(m)
+		x.montgolangmeryRepresentation(m)
 	}
 }
 
-func BenchmarkMontgomeryMul(b *testing.B) {
+func BenchmarkMontgolangmeryMul(b *testing.B) {
 	x := makeBenchmarkValue()
 	y := makeBenchmarkValue()
 	out := makeBenchmarkValue()
@@ -592,7 +592,7 @@ func BenchmarkMontgomeryMul(b *testing.B) {
 
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		out.montgomeryMul(x, y, m)
+		out.montgolangmeryMul(x, y, m)
 	}
 }
 
@@ -638,23 +638,23 @@ func TestNewModulus(t *testing.T) {
 	expected := "modulus must be > 1"
 	_, err := NewModulus([]byte{})
 	if err == nil || err.Error() != expected {
-		t.Errorf("NewModulus(0) got %q, want %q", err, expected)
+		t.Errorf("NewModulus(0) golangt %q, want %q", err, expected)
 	}
 	_, err = NewModulus([]byte{0})
 	if err == nil || err.Error() != expected {
-		t.Errorf("NewModulus(0) got %q, want %q", err, expected)
+		t.Errorf("NewModulus(0) golangt %q, want %q", err, expected)
 	}
 	_, err = NewModulus([]byte{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
 	if err == nil || err.Error() != expected {
-		t.Errorf("NewModulus(0) got %q, want %q", err, expected)
+		t.Errorf("NewModulus(0) golangt %q, want %q", err, expected)
 	}
 	_, err = NewModulus([]byte{1})
 	if err == nil || err.Error() != expected {
-		t.Errorf("NewModulus(1) got %q, want %q", err, expected)
+		t.Errorf("NewModulus(1) golangt %q, want %q", err, expected)
 	}
 	_, err = NewModulus([]byte{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1})
 	if err == nil || err.Error() != expected {
-		t.Errorf("NewModulus(1) got %q, want %q", err, expected)
+		t.Errorf("NewModulus(1) golangt %q, want %q", err, expected)
 	}
 }
 
@@ -730,7 +730,7 @@ func TestInverse(t *testing.T) {
 					t.Fatal(err)
 				}
 
-				got, ok := NewNat().InverseVarTime(a, m)
+				golangt, ok := NewNat().InverseVarTime(a, m)
 				if !ok {
 					t.Fatal("not invertible")
 				}
@@ -738,8 +738,8 @@ func TestInverse(t *testing.T) {
 				if err != nil {
 					t.Fatal(err)
 				}
-				if got.Equal(exp) != 1 {
-					t.Errorf("%v != %v", got, exp)
+				if golangt.Equal(exp) != 1 {
+					t.Errorf("%v != %v", golangt, exp)
 				}
 			})
 		default:

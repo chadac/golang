@@ -1,9 +1,9 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-#include "go_asm.h"
-#include "go_tls.h"
+#include "golang_asm.h"
+#include "golang_tls.h"
 #include "textflag.h"
 
 TEXT _rt0_amd64_windows(SB),NOSPLIT|NOFRAME,$-8
@@ -21,16 +21,16 @@ TEXT _rt0_amd64_windows_lib(SB),NOSPLIT|NOFRAME,$40
 	MOVQ	BX, 32(SP) // callee-saved, preserved across the CALL
 	MOVQ	SP, BX
 	ANDQ	$~15, SP // alignment as per Windows requirement
-	MOVQ	_cgo_sys_thread_create(SB), AX
-	MOVQ	$_rt0_amd64_windows_lib_go(SB), CX
+	MOVQ	_cgolang_sys_thread_create(SB), AX
+	MOVQ	$_rt0_amd64_windows_lib_golang(SB), CX
 	MOVQ	$0, DX
 	CALL	AX
 	MOVQ	BX, SP
 	MOVQ	32(SP), BX
 	RET
 
-TEXT _rt0_amd64_windows_lib_go(SB),NOSPLIT|NOFRAME,$0
+TEXT _rt0_amd64_windows_lib_golang(SB),NOSPLIT|NOFRAME,$0
 	MOVQ  $0, DI
 	MOVQ	$0, SI
-	MOVQ	$runtime·rt0_go(SB), AX
+	MOVQ	$runtime·rt0_golang(SB), AX
 	JMP	AX

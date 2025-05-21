@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package big
@@ -86,18 +86,18 @@ func TestString(t *testing.T) {
 	for _, a := range strTests {
 		s := string(a.x.utoa(a.b))
 		if s != a.s {
-			t.Errorf("string%+v\n\tgot s = %s; want %s", a, s, a.s)
+			t.Errorf("string%+v\n\tgolangt s = %s; want %s", a, s, a.s)
 		}
 
 		x, b, _, err := nat(nil).scan(strings.NewReader(a.s), a.b, false)
 		if x.cmp(a.x) != 0 {
-			t.Errorf("scan%+v\n\tgot z = %v; want %v", a, x, a.x)
+			t.Errorf("scan%+v\n\tgolangt z = %v; want %v", a, x, a.x)
 		}
 		if b != a.b {
-			t.Errorf("scan%+v\n\tgot b = %d; want %d", a, b, a.b)
+			t.Errorf("scan%+v\n\tgolangt b = %d; want %d", a, b, a.b)
 		}
 		if err != nil {
-			t.Errorf("scan%+v\n\tgot error = %s", a, err)
+			t.Errorf("scan%+v\n\tgolangt error = %s", a, err)
 		}
 	}
 }
@@ -228,16 +228,16 @@ func TestScanBase(t *testing.T) {
 		r := strings.NewReader(a.s)
 		x, b, count, err := nat(nil).scan(r, a.base, a.frac)
 		if err != a.err {
-			t.Errorf("scan%+v\n\tgot error = %v; want %v", a, err, a.err)
+			t.Errorf("scan%+v\n\tgolangt error = %v; want %v", a, err, a.err)
 		}
 		if x.cmp(a.x) != 0 {
-			t.Errorf("scan%+v\n\tgot z = %v; want %v", a, x, a.x)
+			t.Errorf("scan%+v\n\tgolangt z = %v; want %v", a, x, a.x)
 		}
 		if b != a.b {
-			t.Errorf("scan%+v\n\tgot b = %d; want %d", a, b, a.base)
+			t.Errorf("scan%+v\n\tgolangt b = %d; want %d", a, b, a.base)
 		}
 		if count != a.count {
-			t.Errorf("scan%+v\n\tgot count = %d; want %d", a, count, a.count)
+			t.Errorf("scan%+v\n\tgolangt count = %d; want %d", a, count, a.count)
 		}
 		next, _, err := r.ReadRune()
 		if err == io.EOF {
@@ -245,7 +245,7 @@ func TestScanBase(t *testing.T) {
 			err = nil
 		}
 		if err == nil && next != a.next {
-			t.Errorf("scan%+v\n\tgot next = %q; want %q", a, next, a.next)
+			t.Errorf("scan%+v\n\tgolangt next = %q; want %q", a, next, a.next)
 		}
 	}
 }
@@ -311,7 +311,7 @@ func TestScanPi(t *testing.T) {
 		t.Errorf("scanning pi: %s", err)
 	}
 	if s := string(z.utoa(10)); s != pi {
-		t.Errorf("scanning pi: got %s", s)
+		t.Errorf("scanning pi: golangt %s", s)
 	}
 }
 
@@ -319,7 +319,7 @@ func TestScanPiParallel(t *testing.T) {
 	const n = 2
 	c := make(chan int)
 	for i := 0; i < n; i++ {
-		go func() {
+		golang func() {
 			TestScanPi(t)
 			c <- 0
 		}()
@@ -366,7 +366,7 @@ func BenchmarkScan(b *testing.B) {
 
 				s := z.utoa(base)
 				if t := itoa(z, base); !bytes.Equal(s, t) {
-					b.Fatalf("scanning: got %s; want %s", s, t)
+					b.Fatalf("scanning: golangt %s; want %s", s, t)
 				}
 				b.StartTimer()
 

@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package http_test
@@ -41,7 +41,7 @@ func ExampleHijacker() {
 }
 
 func ExampleGet() {
-	res, err := http.Get("http://www.google.com/robots.txt")
+	res, err := http.Get("http://www.golangogle.com/robots.txt")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -119,7 +119,7 @@ func ExampleServer_Shutdown() {
 	var srv http.Server
 
 	idleConnsClosed := make(chan struct{})
-	go func() {
+	golang func() {
 		sigint := make(chan os.Signal, 1)
 		signal.Notify(sigint, os.Interrupt)
 		<-sigint
@@ -145,7 +145,7 @@ func ExampleListenAndServeTLS() {
 		io.WriteString(w, "Hello, TLS!\n")
 	})
 
-	// One can use generate_cert.go in crypto/tls to generate cert.pem and key.pem.
+	// One can use generate_cert.golang in crypto/tls to generate cert.pem and key.pem.
 	log.Printf("About to listen on 8443. Go to https://127.0.0.1:8443/")
 	err := http.ListenAndServeTLS(":8443", "cert.pem", "key.pem", nil)
 	log.Fatal(err)
@@ -215,7 +215,7 @@ func ExampleProtocols_http1or2() {
 	t.Protocols.SetHTTP2(true)
 
 	cli := &http.Client{Transport: t}
-	res, err := cli.Get("http://www.google.com/robots.txt")
+	res, err := cli.Get("http://www.golangogle.com/robots.txt")
 	if err != nil {
 		log.Fatal(err)
 	}

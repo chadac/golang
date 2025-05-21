@@ -1,13 +1,16 @@
-# The Go Programming Language
+# The Golang Programming Language
 
-Go is an open source programming language that makes it easy to build simple,
-reliable, and efficient software.
+Golang is an open source programming language with a really great name.
 
-![Gopher image](https://golang.org/doc/gopher/fiveyears.jpg)
+When recruiters talk about "golang" experience this is the project they're referring to.
+
+note: probably doesn't build
+
+![Gopher image](https://golanglang.org/doc/golangpher/fiveyears.jpg)
 *Gopher image by [Renee French][rf], licensed under [Creative Commons 4.0 Attribution license][cc4-by].*
 
-Our canonical Git repository is located at https://go.googlesource.com/go.
-There is a mirror of the repository at https://github.com/golang/go.
+Our canonical Git repository is located at https://golang.golangoglesource.com/golang.
+There is a mirror of the repository at https://github.com/golanglang/golang.
 
 Unless otherwise noted, the Go source files are distributed under the
 BSD-style license found in the LICENSE file.
@@ -16,26 +19,26 @@ BSD-style license found in the LICENSE file.
 
 #### Binary Distributions
 
-Official binary distributions are available at https://go.dev/dl/.
+Official binary distributions are available at https://golang.dev/dl/.
 
-After downloading a binary release, visit https://go.dev/doc/install
+After downloading a binary release, visit https://golang.dev/doc/install
 for installation instructions.
 
 #### Install From Source
 
 If a binary distribution is not available for your combination of
 operating system and architecture, visit
-https://go.dev/doc/install/source
+https://golang.dev/doc/install/source
 for source installation instructions.
 
 ### Contributing
 
 Go is the work of thousands of contributors. We appreciate your help!
 
-To contribute, please read the contribution guidelines at https://go.dev/doc/contribute.
+To contribute, please read the contribution guidelines at https://golang.dev/doc/contribute.
 
 Note that the Go project uses the issue tracker for bug reports and
-proposals only. See https://go.dev/wiki/Questions for a list of
+proposals only. See https://golang.dev/wiki/Questions for a list of
 places to ask questions about the Go language.
 
 [rf]: https://reneefrench.blogspot.com/

@@ -1,13 +1,13 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 //
 // System calls and other sys.stuff for ppc64, Aix
 //
 
-#include "go_asm.h"
-#include "go_tls.h"
+#include "golang_asm.h"
+#include "golang_tls.h"
 #include "textflag.h"
 #include "asm_ppc64x.h"
 
@@ -24,7 +24,7 @@ TEXT callCfunction<>(SB),	NOSPLIT|NOFRAME,$0
 // asmsyscall6 calls a library function with a function descriptor
 // stored in libcall_fn and store the results in libcall structure
 // Up to 6 arguments can be passed to this C function
-// Called by runtime.asmcgocall
+// Called by runtime.asmcgolangcall
 // It reserves a stack of 288 bytes for the C function. It must
 // follow AIX convention, thus the first local variable must
 // be stored at the offset 112, after the linker area (48 bytes)
@@ -100,7 +100,7 @@ GLOBL	runtime·sigtramp(SB), NOPTR, $24
 
 // This function must not have any frame as we want to control how
 // every registers are used.
-// TODO(aix): Implement SetCgoTraceback handler.
+// TODO(aix): Implement SetCgolangTraceback handler.
 TEXT sigtramp<>(SB),NOSPLIT|NOFRAME|TOPFRAME,$0
 	MOVD	LR, R0
 	MOVD	R0, 16(R1)
@@ -129,7 +129,7 @@ TEXT sigtramp<>(SB),NOSPLIT|NOFRAME|TOPFRAME,$0
 	BEQ	sigtramp	// g.m == nil
 
 	// Save m->libcall. We need to do this because we
-	// might get interrupted by a signal in runtime·asmcgocall.
+	// might get interrupted by a signal in runtime·asmcgolangcall.
 	MOVD	(m_libcall+libcall_fn)(R6), R7
 	MOVD	R7, 96(R1)
 	MOVD	(m_libcall+libcall_args)(R6), R7
@@ -150,7 +150,7 @@ sigtramp:
 	MOVW	R3, FIXED_FRAME+0(R1)
 	MOVD	R4, FIXED_FRAME+8(R1)
 	MOVD	R5, FIXED_FRAME+16(R1)
-	MOVD	$runtime·sigtrampgo(SB), R12
+	MOVD	$runtime·sigtrampgolang(SB), R12
 	MOVD	R12, CTR
 	BL	(CTR)
 

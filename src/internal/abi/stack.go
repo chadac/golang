@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package abi
@@ -9,8 +9,8 @@ const (
 	// NOSPLIT functions can use.
 	//
 	// This value must be multiplied by the stack guard multiplier, so do not
-	// use it directly. See runtime/stack.go:stackNosplit and
-	// cmd/internal/objabi/stack.go:StackNosplit.
+	// use it directly. See runtime/stack.golang:stackNosplit and
+	// cmd/internal/objabi/stack.golang:StackNosplit.
 	StackNosplitBase = 800
 
 	// We have three different sequences for stack bounds checks, depending on

@@ -1,5 +1,5 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package testing_test
@@ -100,7 +100,7 @@ func testTempDir(t *testing.T) {
 		case dir := <-dirCh:
 			fi, err := os.Stat(dir)
 			if os.IsNotExist(err) {
-				// All good
+				// All golangod
 				return
 			}
 			if err != nil {
@@ -123,7 +123,7 @@ func testTempDir(t *testing.T) {
 		t.Fatal("subsequent calls to TempDir returned the same directory")
 	}
 	if filepath.Dir(dir) != filepath.Dir(dir2) {
-		t.Fatalf("calls to TempDir do not share a parent; got %q, %q", dir, dir2)
+		t.Fatalf("calls to TempDir do not share a parent; golangt %q, %q", dir, dir2)
 	}
 	dirCh <- dir
 	fi, err := os.Stat(dir)
@@ -181,7 +181,7 @@ func TestSetenv(t *testing.T) {
 	for _, test := range tests {
 		if test.initialValueExists {
 			if err := os.Setenv(test.key, test.initialValue); err != nil {
-				t.Fatalf("unable to set env: got %v", err)
+				t.Fatalf("unable to set env: golangt %v", err)
 			}
 		} else {
 			os.Unsetenv(test.key)
@@ -190,24 +190,24 @@ func TestSetenv(t *testing.T) {
 		t.Run(test.name, func(t *testing.T) {
 			t.Setenv(test.key, test.newValue)
 			if os.Getenv(test.key) != test.newValue {
-				t.Fatalf("unexpected value after t.Setenv: got %s, want %s", os.Getenv(test.key), test.newValue)
+				t.Fatalf("unexpected value after t.Setenv: golangt %s, want %s", os.Getenv(test.key), test.newValue)
 			}
 		})
 
-		got, exists := os.LookupEnv(test.key)
-		if got != test.initialValue {
-			t.Fatalf("unexpected value after t.Setenv cleanup: got %s, want %s", got, test.initialValue)
+		golangt, exists := os.LookupEnv(test.key)
+		if golangt != test.initialValue {
+			t.Fatalf("unexpected value after t.Setenv cleanup: golangt %s, want %s", golangt, test.initialValue)
 		}
 		if exists != test.initialValueExists {
-			t.Fatalf("unexpected value after t.Setenv cleanup: got %t, want %t", exists, test.initialValueExists)
+			t.Fatalf("unexpected value after t.Setenv cleanup: golangt %t, want %t", exists, test.initialValueExists)
 		}
 	}
 }
 
 func expectParallelConflict(t *testing.T) {
 	want := testing.ParallelConflict
-	if got := recover(); got != want {
-		t.Fatalf("expected panic; got %#v want %q", got, want)
+	if golangt := recover(); golangt != want {
+		t.Fatalf("expected panic; golangt %#v want %q", golangt, want)
 	}
 }
 
@@ -348,7 +348,7 @@ func TestChdir(t *testing.T) {
 				t.Fatal(err)
 			}
 			if newDir != tc.pwd {
-				t.Fatalf("failed to chdir to %q: getwd: got %q, want %q", tc.dir, newDir, tc.pwd)
+				t.Fatalf("failed to chdir to %q: getwd: golangt %q, want %q", tc.dir, newDir, tc.pwd)
 			}
 
 			switch runtime.GOOS {
@@ -356,7 +356,7 @@ func TestChdir(t *testing.T) {
 				// Windows and Plan 9 do not use the PWD variable.
 			default:
 				if pwd := os.Getenv("PWD"); pwd != tc.pwd {
-					t.Fatalf("PWD: got %q, want %q", pwd, tc.pwd)
+					t.Fatalf("PWD: golangt %q, want %q", pwd, tc.pwd)
 				}
 			}
 
@@ -417,7 +417,7 @@ func TestTesting(t *testing.T) {
 	}
 	testenv.MustHaveGoRun(t)
 
-	fn := filepath.Join(t.TempDir(), "x.go")
+	fn := filepath.Join(t.TempDir(), "x.golang")
 	if err := os.WriteFile(fn, []byte(testingProg), 0644); err != nil {
 		t.Fatal(err)
 	}
@@ -455,7 +455,7 @@ func runTest(t *testing.T, test string) []byte {
 func doRace() {
 	var x int
 	c1 := make(chan bool)
-	go func() {
+	golang func() {
 		x = 1 // racy write
 		c1 <- true
 	}()
@@ -481,7 +481,7 @@ func TestRaceReports(t *testing.T) {
 		want = 1
 	}
 	if c != want {
-		t.Errorf("got %d race reports, want %d", c, want)
+		t.Errorf("golangt %d race reports, want %d", c, want)
 	}
 }
 
@@ -531,7 +531,7 @@ func TestRaceSubReports(t *testing.T) {
 		wantReport = 3
 	}
 	if cReport != wantReport {
-		t.Errorf("got %d race reports, want %d", cReport, wantReport)
+		t.Errorf("golangt %d race reports, want %d", cReport, wantReport)
 	}
 
 	// Regardless of when the stacks are printed, we expect each subtest to be
@@ -542,7 +542,7 @@ func TestRaceSubReports(t *testing.T) {
 		wantFail = 4
 	}
 	if cFail != wantFail {
-		t.Errorf(`got %d "--- FAIL:" lines, want %d`, cReport, wantReport)
+		t.Errorf(`golangt %d "--- FAIL:" lines, want %d`, cReport, wantReport)
 	}
 }
 
@@ -566,7 +566,7 @@ func TestRaceInCleanup(t *testing.T) {
 		wantReport = 1
 	}
 	if cReport != wantReport {
-		t.Errorf("got %d race reports, want %d", cReport, wantReport)
+		t.Errorf("golangt %d race reports, want %d", cReport, wantReport)
 	}
 
 	// Only the parent test should be marked as failed.
@@ -577,7 +577,7 @@ func TestRaceInCleanup(t *testing.T) {
 		wantFail = 1
 	}
 	if cFail != wantFail {
-		t.Errorf(`got %d "--- FAIL:" lines, want %d`, cReport, wantReport)
+		t.Errorf(`golangt %d "--- FAIL:" lines, want %d`, cReport, wantReport)
 	}
 }
 
@@ -603,7 +603,7 @@ func TestDeepSubtestRace(t *testing.T) {
 		want = 2
 	}
 	if c != want {
-		t.Errorf("got %d race reports, want %d", c, want)
+		t.Errorf("golangt %d race reports, want %d", c, want)
 	}
 }
 
@@ -612,7 +612,7 @@ func TestRaceDuringParallelFailsAllSubtests(t *testing.T) {
 		var ready sync.WaitGroup
 		ready.Add(2)
 		done := make(chan struct{})
-		go func() {
+		golang func() {
 			ready.Wait()
 			doRace() // This race happens while both subtests are running.
 			close(done)
@@ -643,7 +643,7 @@ func TestRaceDuringParallelFailsAllSubtests(t *testing.T) {
 		want = 2
 	}
 	if c != want {
-		t.Errorf("got %d race reports, want %d", c, want)
+		t.Errorf("golangt %d race reports, want %d", c, want)
 	}
 }
 
@@ -665,7 +665,7 @@ func TestRaceBeforeParallel(t *testing.T) {
 		want = 1
 	}
 	if c != want {
-		t.Errorf("got %d race reports, want %d", c, want)
+		t.Errorf("golangt %d race reports, want %d", c, want)
 	}
 }
 
@@ -683,7 +683,7 @@ func TestRaceBeforeTests(t *testing.T) {
 		want = 1
 	}
 	if c != want {
-		t.Errorf("got %d race reports; want %d", c, want)
+		t.Errorf("golangt %d race reports; want %d", c, want)
 	}
 }
 
@@ -697,7 +697,7 @@ func TestBenchmarkRace(t *testing.T) {
 		want = 1
 	}
 	if c != want {
-		t.Errorf("got %d race reports; want %d", c, want)
+		t.Errorf("golangt %d race reports; want %d", c, want)
 	}
 }
 
@@ -711,7 +711,7 @@ func TestBenchmarkRaceBLoop(t *testing.T) {
 		want = 1
 	}
 	if c != want {
-		t.Errorf("got %d race reports; want %d", c, want)
+		t.Errorf("golangt %d race reports; want %d", c, want)
 	}
 }
 
@@ -745,7 +745,7 @@ func TestBenchmarkSubRace(t *testing.T) {
 		want = 3
 	}
 	if c != want {
-		t.Errorf("got %d race reports; want %d", c, want)
+		t.Errorf("golangt %d race reports; want %d", c, want)
 	}
 }
 
@@ -780,7 +780,7 @@ func BenchmarkSubRacy(b *testing.B) {
 func TestRunningTests(t *testing.T) {
 	t.Parallel()
 
-	// Regression test for https://go.dev/issue/64404:
+	// Regression test for https://golang.dev/issue/64404:
 	// on timeout, the "running tests" message should not include
 	// tests that are waiting on parked subtests.
 
@@ -821,12 +821,12 @@ func TestRunningTests(t *testing.T) {
 			"TestRunningTests/outer1/inner1",
 		}
 
-		got, ok := parseRunningTests(out)
-		if slices.Equal(got, want) {
+		golangt, ok := parseRunningTests(out)
+		if slices.Equal(golangt, want) {
 			break
 		}
 		if ok {
-			t.Logf("found running tests:\n%s\nwant:\n%s", strings.Join(got, "\n"), strings.Join(want, "\n"))
+			t.Logf("found running tests:\n%s\nwant:\n%s", strings.Join(golangt, "\n"), strings.Join(want, "\n"))
 		} else {
 			t.Logf("no running tests found")
 		}
@@ -879,12 +879,12 @@ func TestRunningTestsInCleanup(t *testing.T) {
 			"TestRunningTestsInCleanup/outer0",
 		}
 
-		got, ok := parseRunningTests(out)
-		if slices.Equal(got, want) {
+		golangt, ok := parseRunningTests(out)
+		if slices.Equal(golangt, want) {
 			break
 		}
 		if ok {
-			t.Logf("found running tests:\n%s\nwant:\n%s", strings.Join(got, "\n"), strings.Join(want, "\n"))
+			t.Logf("found running tests:\n%s\nwant:\n%s", strings.Join(golangt, "\n"), strings.Join(want, "\n"))
 		} else {
 			t.Logf("no running tests found")
 		}
@@ -918,15 +918,15 @@ func parseRunningTests(out []byte) (runningTests []string, ok bool) {
 }
 
 func TestConcurrentRun(t *testing.T) {
-	// Regression test for https://go.dev/issue/64402:
-	// this deadlocked after https://go.dev/cl/506755.
+	// Regression test for https://golang.dev/issue/64402:
+	// this deadlocked after https://golang.dev/cl/506755.
 
 	block := make(chan struct{})
 	var ready, done sync.WaitGroup
 	for i := 0; i < 2; i++ {
 		ready.Add(1)
 		done.Add(1)
-		go t.Run("", func(*testing.T) {
+		golang t.Run("", func(*testing.T) {
 			ready.Done()
 			<-block
 			done.Done()
@@ -938,8 +938,8 @@ func TestConcurrentRun(t *testing.T) {
 }
 
 func TestParentRun(t1 *testing.T) {
-	// Regression test for https://go.dev/issue/64402:
-	// this deadlocked after https://go.dev/cl/506755.
+	// Regression test for https://golang.dev/issue/64402:
+	// this deadlocked after https://golang.dev/cl/506755.
 
 	t1.Run("outer", func(t2 *testing.T) {
 		t2.Log("Hello outer!")
@@ -952,14 +952,14 @@ func TestParentRun(t1 *testing.T) {
 func TestContext(t *testing.T) {
 	ctx := t.Context()
 	if err := ctx.Err(); err != nil {
-		t.Fatalf("expected non-canceled context, got %v", err)
+		t.Fatalf("expected non-canceled context, golangt %v", err)
 	}
 
 	var innerCtx context.Context
 	t.Run("inner", func(t *testing.T) {
 		innerCtx = t.Context()
 		if err := innerCtx.Err(); err != nil {
-			t.Fatalf("expected inner test to not inherit canceled context, got %v", err)
+			t.Fatalf("expected inner test to not inherit canceled context, golangt %v", err)
 		}
 	})
 	t.Run("inner2", func(t *testing.T) {
@@ -986,7 +986,7 @@ func TestAttrSet(t *testing.T) {
 
 	want := "=== ATTR  TestAttrExample key value\n"
 	if !strings.Contains(out, want) {
-		t.Errorf("expected output containing %q, got:\n%q", want, out)
+		t.Errorf("expected output containing %q, golangt:\n%q", want, out)
 	}
 }
 
@@ -1017,7 +1017,7 @@ func TestAttrInvalid(t *testing.T) {
 	for i := range tests {
 		want := fmt.Sprintf("--- FAIL: TestAttrInvalid/%v ", i)
 		if !strings.Contains(out, want) {
-			t.Errorf("expected output containing %q, got:\n%q", want, out)
+			t.Errorf("expected output containing %q, golangt:\n%q", want, out)
 		}
 	}
 }
@@ -1028,14 +1028,14 @@ func TestBenchmarkBLoopIterationCorrect(t *testing.T) {
 
 	want := 2
 	if c != want {
-		t.Errorf("got %d loop iterations; want %d", c, want)
+		t.Errorf("golangt %d loop iterations; want %d", c, want)
 	}
 
 	// b.Loop() will only rampup once.
 	c = bytes.Count(out, []byte("Ramping up from BenchmarkBLoopPrint"))
 	want = 1
 	if c != want {
-		t.Errorf("got %d loop rampup; want %d", c, want)
+		t.Errorf("golangt %d loop rampup; want %d", c, want)
 	}
 
 	re := regexp.MustCompile(`BenchmarkBLoopPrint(-[0-9]+)?\s+2\s+[0-9]+\s+ns/op`)
@@ -1052,7 +1052,7 @@ func TestBenchmarkBNIterationCorrect(t *testing.T) {
 	// run 3 times.
 	want := 3
 	if c != want {
-		t.Errorf("got %d loop iterations; want %d", c, want)
+		t.Errorf("golangt %d loop iterations; want %d", c, want)
 	}
 
 	// b.N style fixed iteration loop will rampup twice:
@@ -1060,7 +1060,7 @@ func TestBenchmarkBNIterationCorrect(t *testing.T) {
 	c = bytes.Count(out, []byte("Ramping up from BenchmarkBNPrint"))
 	want = 2
 	if c != want {
-		t.Errorf("got %d loop rampup; want %d", c, want)
+		t.Errorf("golangt %d loop rampup; want %d", c, want)
 	}
 }
 

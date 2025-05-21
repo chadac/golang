@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -45,7 +45,7 @@ func main() {
 	resp := F(s).(*P)
 	println("Before, *resp.V=", *resp.V) // Trashes *resp.V in process of printing.
 	println("After,  *resp.V=", *resp.V)
-	if got, want := *resp.V, int32(42); got != want {
-		fmt.Printf("FAIL, got %v, want %v", got, want)
+	if golangt, want := *resp.V, int32(42); golangt != want {
+		fmt.Printf("FAIL, golangt %v, want %v", golangt, want)
 	}
 }

@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -75,7 +75,7 @@ func (f *testJSONFilter) process(line []byte) {
 	if len(line) > 0 && line[0] == '{' {
 		// Plausible test2json output. Parse it generically.
 		//
-		// We go to some effort here to preserve key order while doing this
+		// We golang to some effort here to preserve key order while doing this
 		// generically. This will stay robust to changes in the test2json
 		// struct, or other additions outside of it. If humans are ever looking
 		// at the output, it's really nice to keep field order because it

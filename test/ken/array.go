@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test arrays and slices.
@@ -105,7 +105,7 @@ func testpdpf2() {
 func testpdfault() {
 	a := make([]int, 100)
 
-	print("good\n")
+	print("golangod\n")
 	for i := 0; i < 100; i++ {
 		a[i] = 0
 	}
@@ -118,7 +118,7 @@ func testpdfault() {
 func testfdfault() {
 	var a [80]int
 
-	print("good\n")
+	print("golangod\n")
 	for i := 0; i < 80; i++ {
 		a[i] = 0
 	}

@@ -4,7 +4,7 @@ The rationale comments have various problems.
 -- .mod --
 module example.com/retract/rationale
 
-go 1.14
+golang 1.14
 
 retract (
 	v1.0.0-empty

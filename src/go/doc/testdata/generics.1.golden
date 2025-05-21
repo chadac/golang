@@ -5,7 +5,7 @@ IMPORTPATH
 	testdata/generics
 
 FILENAMES
-	testdata/generics.go
+	testdata/generics.golang
 
 FUNCTIONS
 	// AnotherFunc has an implicit constraint interface.  Neither type ...

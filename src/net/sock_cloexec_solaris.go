@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file implements sysSocket for platforms that provide a fast path for
@@ -29,7 +29,7 @@ func sysSocket(family, sotype, proto int) (int, error) {
 		return s, nil
 	}
 
-	// See ../syscall/exec_unix.go for description of ForkLock.
+	// See ../syscall/exec_unix.golang for description of ForkLock.
 	syscall.ForkLock.RLock()
 	s, err := socketFunc(family, sotype, proto)
 	if err == nil {

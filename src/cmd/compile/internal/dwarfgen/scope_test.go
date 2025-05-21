@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package dwarfgen
@@ -22,7 +22,7 @@ import (
 )
 
 type testline struct {
-	// line is one line of go source
+	// line is one line of golang source
 	line string
 
 	// scopes is a list of scope IDs of all the lexical scopes that this line
@@ -222,7 +222,7 @@ func TestScopeRanges(t *testing.T) {
 		t.Skipf("skipping on %s/%s: no DWARF symbol table in executables", runtime.GOOS, runtime.GOARCH)
 	}
 
-	src, f := gobuild(t, t.TempDir(), false, testfile)
+	src, f := golangbuild(t, t.TempDir(), false, testfile)
 	defer f.Close()
 
 	// the compiler uses forward slashes for paths even on windows
@@ -281,7 +281,7 @@ func TestScopeRanges(t *testing.T) {
 
 		scopesok := checkScopes(tgt, out)
 		if !scopesok {
-			t.Logf("mismatch at line %d %q: expected: %v got: %v\n", i, testfile[i].line, tgt, scopesToString(out))
+			t.Logf("mismatch at line %d %q: expected: %v golangt: %v\n", i, testfile[i].line, tgt, scopesToString(out))
 		}
 
 		varsok := true
@@ -289,17 +289,17 @@ func TestScopeRanges(t *testing.T) {
 			if len(out) > 0 {
 				varsok = checkVars(testfile[i].vars, out[len(out)-1].vars)
 				if !varsok {
-					t.Logf("variable mismatch at line %d %q for scope %d: expected: %v got: %v\n", i+1, testfile[i].line, out[len(out)-1].id, testfile[i].vars, out[len(out)-1].vars)
+					t.Logf("variable mismatch at line %d %q for scope %d: expected: %v golangt: %v\n", i+1, testfile[i].line, out[len(out)-1].id, testfile[i].vars, out[len(out)-1].vars)
 				}
 				for j := range testfile[i].decl {
 					if line := declLineForVar(out[len(out)-1].vars, testfile[i].decl[j]); line != i+1 {
-						t.Errorf("wrong declaration line for variable %s, expected %d got: %d", testfile[i].decl[j], i+1, line)
+						t.Errorf("wrong declaration line for variable %s, expected %d golangt: %d", testfile[i].decl[j], i+1, line)
 					}
 				}
 
 				for j := range testfile[i].declBefore {
 					if line := declLineForVar(out[len(out)-1].vars, testfile[i].declBefore[j]); line > i+1 {
-						t.Errorf("wrong declaration line for variable %s, expected %d (or less) got: %d", testfile[i].declBefore[j], i+1, line)
+						t.Errorf("wrong declaration line for variable %s, expected %d (or less) golangt: %d", testfile[i].declBefore[j], i+1, line)
 					}
 				}
 			}
@@ -450,8 +450,8 @@ func (scope *lexblock) markLines(pcln objfile.Liner, lines map[line][]*lexblock)
 	}
 }
 
-func gobuild(t *testing.T, dir string, optimized bool, testfile []testline) (string, *objfile.File) {
-	src := filepath.Join(dir, "test.go")
+func golangbuild(t *testing.T, dir string, optimized bool, testfile []testline) (string, *objfile.File) {
+	src := filepath.Join(dir, "test.golang")
 	dst := filepath.Join(dir, "out.o")
 
 	f, err := os.Create(src)
@@ -493,7 +493,7 @@ func TestEmptyDwarfRanges(t *testing.T) {
 		t.Skipf("skipping on %s/%s: no DWARF symbol table in executables", runtime.GOOS, runtime.GOARCH)
 	}
 
-	_, f := gobuild(t, t.TempDir(), true, []testline{{line: "package main"}, {line: "func main(){ println(\"hello\") }"}})
+	_, f := golangbuild(t, t.TempDir(), true, []testline{{line: "package main"}, {line: "func main(){ println(\"hello\") }"}})
 	defer f.Close()
 
 	dwarfData, err := f.DWARF()

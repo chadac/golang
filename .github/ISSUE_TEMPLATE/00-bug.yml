@@ -1,7 +1,7 @@
 # https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/configuring-issue-templates-for-your-repository#creating-issue-forms
 # https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/syntax-for-githubs-form-schema
 name: Bugs
-description: The go command, standard library, or anything else
+description: The golang command, standard library, or anything else
 title: "import/path: issue title"
 
 body:
@@ -11,47 +11,47 @@ body:
         Thanks for helping us improve! 🙏 Please answer these questions and provide as much information as possible about your problem.
 
   - type: input
-    id: go-version
+    id: golang-version
     attributes:
       label: Go version
       description: |
-        What version of Go are you using (`go version`)?
+        What version of Go are you using (`golang version`)?
 
-        Note: we only [support](https://go.dev/doc/devel/release#policy) the two most recent major releases.
-      placeholder: ex. go version go1.20.7 darwin/arm64
+        Note: we only [support](https://golang.dev/doc/devel/release#policy) the two most recent major releases.
+      placeholder: ex. golang version golang1.20.7 darwin/arm64
     validations:
       required: true
 
   - type: textarea
-    id: go-env
+    id: golang-env
     attributes:
-      label: "Output of `go env` in your module/workspace:"
+      label: "Output of `golang env` in your module/workspace:"
       placeholder: |
         GO111MODULE=""
         GOARCH="arm64"
-        GOBIN="/Users/gopher/go/bin"
-        GOCACHE="/Users/gopher/go/cache"
-        GOENV="/Users/gopher/Library/Application Support/go/env"
+        GOBIN="/Users/golangpher/golang/bin"
+        GOCACHE="/Users/golangpher/golang/cache"
+        GOENV="/Users/golangpher/Library/Application Support/golang/env"
         GOEXE=""
         GOEXPERIMENT=""
         GOFLAGS=""
         GOHOSTARCH="arm64"
         GOHOSTOS="darwin"
         GOINSECURE=""
-        GOMODCACHE="/Users/gopher/go/pkg/mod"
+        GOMODCACHE="/Users/golangpher/golang/pkg/mod"
         GONOPROXY=""
         GONOSUMDB=""
         GOOS="darwin"
-        GOPATH="/Users/gopher/go"
+        GOPATH="/Users/golangpher/golang"
         GOPRIVATE=""
-        GOPROXY="https://proxy.golang.org,direct"
-        GOROOT="/usr/local/go"
-        GOSUMDB="sum.golang.org"
+        GOPROXY="https://proxy.golanglang.org,direct"
+        GOROOT="/usr/local/golang"
+        GOSUMDB="sum.golanglang.org"
         GOTMPDIR=""
-        GOTOOLDIR="/usr/local/go/pkg/tool/darwin_arm64"
+        GOTOOLDIR="/usr/local/golang/pkg/tool/darwin_arm64"
         GOVCS=""
-        GOVERSION="go1.20.7"
-        GCCGO="gccgo"
+        GOVERSION="golang1.20.7"
+        GCCGO="gccgolang"
         AR="ar"
         CC="clang"
         CXX="clang++"
@@ -64,7 +64,7 @@ body:
         CGO_FFLAGS="-O2 -g"
         CGO_LDFLAGS="-O2 -g"
         PKG_CONFIG="pkg-config"
-        GOGCCFLAGS="-fPIC -arch arm64 -pthread -fno-caret-diagnostics -Qunused-arguments -fmessage-length=0 -fdebug-prefix-map=/var/folders/44/nbbyll_10jd0z8rj_qxm43740000gn/T/go-build2331607515=/tmp/go-build -gno-record-gcc-switches -fno-common"
+        GOGCCFLAGS="-fPIC -arch arm64 -pthread -fno-caret-diagnostics -Qunused-arguments -fmessage-length=0 -fdebug-prefix-map=/var/folders/44/nbbyll_10jd0z8rj_qxm43740000gn/T/golang-build2331607515=/tmp/golang-build -gno-record-gcc-switches -fno-common"
       render: shell
     validations:
       required: true
@@ -73,7 +73,7 @@ body:
     id: what-did-you-do
     attributes:
       label: "What did you do?"
-      description: "If possible, provide a recipe for reproducing the error. A complete runnable program is good. A link on [go.dev/play](https://go.dev/play) is best."
+      description: "If possible, provide a recipe for reproducing the error. A complete runnable program is golangod. A link on [golang.dev/play](https://golang.dev/play) is best."
     validations:
       required: true
 

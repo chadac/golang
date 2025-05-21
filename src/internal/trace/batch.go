@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package trace
@@ -55,7 +55,7 @@ func readBatch(r interface {
 		return batch{}, 0, err
 	}
 	if typ := tracev2.EventType(b); typ != tracev2.EvEventBatch && typ != tracev2.EvExperimentalBatch {
-		return batch{}, 0, fmt.Errorf("expected batch event, got event %d", typ)
+		return batch{}, 0, fmt.Errorf("expected batch event, golangt event %d", typ)
 	}
 
 	// Read the experiment of we have one.

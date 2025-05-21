@@ -1,12 +1,12 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
 
 import "fmt"
 
-// quotedSplit is a verbatim copy from cmd/internal/quoted.go:Split and its
+// quotedSplit is a verbatim copy from cmd/internal/quoted.golang:Split and its
 // dependencies (isSpaceByte). Since this package is built using the host's
 // Go compiler, it cannot use `cmd/internal/...`. We also don't want to export
 // it to all Go users.

@@ -1,5 +1,5 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package bytealg
@@ -12,7 +12,7 @@ package bytealg
 // It is provided here for convenience,
 // because some packages cannot depend on bytes.
 func Equal(a, b []byte) bool {
-	// Neither cmd/compile nor gccgo allocates for these string conversions.
+	// Neither cmd/compile nor gccgolang allocates for these string conversions.
 	// There is a test for this in package bytes.
 	return string(a) == string(b)
 }

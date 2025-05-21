@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package pprof
@@ -118,7 +118,7 @@ func locationToStrings(loc *profile.Location, funcs []string) []string {
 	return funcs
 }
 
-// This is a regression test for https://go.dev/issue/64528.
+// This is a regression test for https://golang.dev/issue/64528.
 func TestGenericsHashKeyInPprofBuilder(t *testing.T) {
 	if asan.Enabled {
 		t.Skip("extra allocations with -asan throw off the test; see #70079")
@@ -147,10 +147,10 @@ func TestGenericsHashKeyInPprofBuilder(t *testing.T) {
 
 	actual := profileToStrings(p)
 	expected := []string{
-		"testing.tRunner;runtime/pprof.TestGenericsHashKeyInPprofBuilder;runtime/pprof.genericAllocFunc[go.shape.uint32] [1 128 0 0]",
-		"testing.tRunner;runtime/pprof.TestGenericsHashKeyInPprofBuilder;runtime/pprof.genericAllocFunc[go.shape.uint32] [1 256 0 0]",
-		"testing.tRunner;runtime/pprof.TestGenericsHashKeyInPprofBuilder;runtime/pprof.genericAllocFunc[go.shape.uint64] [1 64 0 0]",
-		"testing.tRunner;runtime/pprof.TestGenericsHashKeyInPprofBuilder;runtime/pprof.genericAllocFunc[go.shape.uint64] [1 128 0 0]",
+		"testing.tRunner;runtime/pprof.TestGenericsHashKeyInPprofBuilder;runtime/pprof.genericAllocFunc[golang.shape.uint32] [1 128 0 0]",
+		"testing.tRunner;runtime/pprof.TestGenericsHashKeyInPprofBuilder;runtime/pprof.genericAllocFunc[golang.shape.uint32] [1 256 0 0]",
+		"testing.tRunner;runtime/pprof.TestGenericsHashKeyInPprofBuilder;runtime/pprof.genericAllocFunc[golang.shape.uint64] [1 64 0 0]",
+		"testing.tRunner;runtime/pprof.TestGenericsHashKeyInPprofBuilder;runtime/pprof.genericAllocFunc[golang.shape.uint64] [1 128 0 0]",
 	}
 
 	for _, l := range expected {
@@ -210,8 +210,8 @@ func TestGenericsInlineLocations(t *testing.T) {
 		t.Fatalf("profile.Parse: %v", err)
 	}
 
-	const expectedSample = "testing.tRunner;runtime/pprof.TestGenericsInlineLocations;runtime/pprof.nonRecursiveGenericAllocFunction[go.shape.struct {},go.shape.struct { runtime/pprof.buf [128]uint8 }];runtime/pprof.nonRecursiveGenericAllocFunction[go.shape.struct { runtime/pprof.buf [128]uint8 },go.shape.struct {}];runtime/pprof.storeAlloc [1 16 1 16]"
-	const expectedLocation = "runtime/pprof.nonRecursiveGenericAllocFunction[go.shape.struct {},go.shape.struct { runtime/pprof.buf [128]uint8 }];runtime/pprof.nonRecursiveGenericAllocFunction[go.shape.struct { runtime/pprof.buf [128]uint8 },go.shape.struct {}];runtime/pprof.storeAlloc"
+	const expectedSample = "testing.tRunner;runtime/pprof.TestGenericsInlineLocations;runtime/pprof.nonRecursiveGenericAllocFunction[golang.shape.struct {},golang.shape.struct { runtime/pprof.buf [128]uint8 }];runtime/pprof.nonRecursiveGenericAllocFunction[golang.shape.struct { runtime/pprof.buf [128]uint8 },golang.shape.struct {}];runtime/pprof.storeAlloc [1 16 1 16]"
+	const expectedLocation = "runtime/pprof.nonRecursiveGenericAllocFunction[golang.shape.struct {},golang.shape.struct { runtime/pprof.buf [128]uint8 }];runtime/pprof.nonRecursiveGenericAllocFunction[golang.shape.struct { runtime/pprof.buf [128]uint8 },golang.shape.struct {}];runtime/pprof.storeAlloc"
 	const expectedLocationNewInliner = "runtime/pprof.TestGenericsInlineLocations;" + expectedLocation
 	var s *profile.Sample
 	for _, sample := range p.Sample {
@@ -221,12 +221,12 @@ func TestGenericsInlineLocations(t *testing.T) {
 		}
 	}
 	if s == nil {
-		t.Fatalf("expected \n%s\ngot\n%s", expectedSample, strings.Join(profileToStrings(p), "\n"))
+		t.Fatalf("expected \n%s\ngolangt\n%s", expectedSample, strings.Join(profileToStrings(p), "\n"))
 	}
 	loc := s.Location[0]
 	actual := strings.Join(locationToStrings(loc, nil), ";")
 	if expectedLocation != actual && expectedLocationNewInliner != actual {
-		t.Errorf("expected a location with at least 3 functions\n%s\ngot\n%s\n", expectedLocation, actual)
+		t.Errorf("expected a location with at least 3 functions\n%s\ngolangt\n%s\n", expectedLocation, actual)
 	}
 }
 
@@ -238,7 +238,7 @@ func growMap() {
 }
 
 // Runtime frames are hidden in heap profiles.
-// This is a regression test for https://go.dev/issue/71174.
+// This is a regression test for https://golang.dev/issue/71174.
 func TestHeapRuntimeFrames(t *testing.T) {
 	previousRate := runtime.MemProfileRate
 	runtime.MemProfileRate = 1
@@ -270,17 +270,17 @@ func TestHeapRuntimeFrames(t *testing.T) {
 
 		// Runtime frames like mapassign and map internals should be hidden.
 		if strings.Contains(l, "runtime.") {
-			t.Errorf("Sample got %s, want no runtime frames", l)
+			t.Errorf("Sample golangt %s, want no runtime frames", l)
 		}
 		if strings.Contains(l, "internal/runtime/") {
-			t.Errorf("Sample got %s, want no runtime frames", l)
+			t.Errorf("Sample golangt %s, want no runtime frames", l)
 		}
 		if strings.Contains(l, "mapassign") { // in case mapassign moves to a package not matching above paths.
-			t.Errorf("Sample got %s, want no mapassign frames", l)
+			t.Errorf("Sample golangt %s, want no mapassign frames", l)
 		}
 	}
 
 	if !foundGrowMap {
-		t.Errorf("Profile got:\n%s\nwant sample in runtime/pprof.growMap", strings.Join(actual, "\n"))
+		t.Errorf("Profile golangt:\n%s\nwant sample in runtime/pprof.growMap", strings.Join(actual, "\n"))
 	}
 }

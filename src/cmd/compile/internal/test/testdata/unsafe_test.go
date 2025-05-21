@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -133,8 +133,8 @@ func testdse(t *testing.T) {
 	// construct two pointers that alias one another
 	ui64 := (*uint64)(unsafe.Pointer(&x))
 	ui32 := (*uint32)(unsafe.Pointer(&x))
-	if want, got := uint32(0), alias_ssa(ui64, ui32); got != want {
-		t.Fatalf("alias_ssa: wanted %d, got %d\n", want, got)
+	if want, golangt := uint32(0), alias_ssa(ui64, ui32); golangt != want {
+		t.Fatalf("alias_ssa: wanted %d, golangt %d\n", want, golangt)
 	}
 }
 

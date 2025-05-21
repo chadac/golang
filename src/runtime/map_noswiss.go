@@ -1,8 +1,8 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !goexperiment.swissmap
+//golang:build !golangexperiment.swissmap
 
 package runtime
 
@@ -57,7 +57,7 @@ package runtime
 
 import (
 	"internal/abi"
-	"internal/goarch"
+	"internal/golangarch"
 	"internal/runtime/atomic"
 	"internal/runtime/maps"
 	"internal/runtime/math"
@@ -99,11 +99,11 @@ const (
 	// flags
 	iterator     = 1 // there may be an iterator using buckets
 	oldIterator  = 2 // there may be an iterator using oldbuckets
-	hashWriting  = 4 // a goroutine is writing to the map
+	hashWriting  = 4 // a golangroutine is writing to the map
 	sameSizeGrow = 8 // the current map growth is to a new map of the same size
 
 	// sentinel bucket ID for iterator checks
-	noCheck = 1<<(8*goarch.PtrSize) - 1
+	noCheck = 1<<(8*golangarch.PtrSize) - 1
 )
 
 // isEmpty reports whether the given tophash array entry represents an empty bucket entry.
@@ -113,7 +113,7 @@ func isEmpty(x uint8) bool {
 
 // A header for a Go map.
 type hmap struct {
-	// Note: the format of the hmap is also encoded in cmd/compile/internal/reflectdata/reflect.go.
+	// Note: the format of the hmap is also encoded in cmd/compile/internal/reflectdata/reflect.golang.
 	// Make sure this stays in sync with the compiler's definition.
 	count     int // # live cells == size of map.  Must be first (used by len() builtin)
 	flags     uint8
@@ -160,11 +160,11 @@ type bmap struct {
 }
 
 // A hash iteration structure.
-// If you modify hiter, also change cmd/compile/internal/reflectdata/reflect.go
-// and reflect/value.go to match the layout of this structure.
+// If you modify hiter, also change cmd/compile/internal/reflectdata/reflect.golang
+// and reflect/value.golang to match the layout of this structure.
 type hiter struct {
-	key         unsafe.Pointer // Must be in first position.  Write nil to indicate iteration end (see cmd/compile/internal/walk/range.go).
-	elem        unsafe.Pointer // Must be in second position (see cmd/compile/internal/walk/range.go).
+	key         unsafe.Pointer // Must be in first position.  Write nil to indicate iteration end (see cmd/compile/internal/walk/range.golang).
+	elem        unsafe.Pointer // Must be in second position (see cmd/compile/internal/walk/range.golang).
 	t           *maptype
 	h           *hmap
 	buckets     unsafe.Pointer // bucket ptr at hash_iter initialization time
@@ -184,7 +184,7 @@ type hiter struct {
 // bucketShift returns 1<<b, optimized for code generation.
 func bucketShift(b uint8) uintptr {
 	// Masking the shift amount allows overflow checks to be elided.
-	return uintptr(1) << (b & (goarch.PtrSize*8 - 1))
+	return uintptr(1) << (b & (golangarch.PtrSize*8 - 1))
 }
 
 // bucketMask returns 1<<b - 1, optimized for code generation.
@@ -194,7 +194,7 @@ func bucketMask(b uint8) uintptr {
 
 // tophash calculates the tophash value for hash.
 func tophash(hash uintptr) uint8 {
-	top := uint8(hash >> (goarch.PtrSize*8 - 8))
+	top := uint8(hash >> (golangarch.PtrSize*8 - 8))
 	if top < minTopHash {
 		top += minTopHash
 	}
@@ -207,11 +207,11 @@ func evacuated(b *bmap) bool {
 }
 
 func (b *bmap) overflow(t *maptype) *bmap {
-	return *(**bmap)(add(unsafe.Pointer(b), uintptr(t.BucketSize)-goarch.PtrSize))
+	return *(**bmap)(add(unsafe.Pointer(b), uintptr(t.BucketSize)-golangarch.PtrSize))
 }
 
 func (b *bmap) setoverflow(t *maptype, ovf *bmap) {
-	*(**bmap)(add(unsafe.Pointer(b), uintptr(t.BucketSize)-goarch.PtrSize)) = ovf
+	*(**bmap)(add(unsafe.Pointer(b), uintptr(t.BucketSize)-golangarch.PtrSize)) = ovf
 }
 
 func (b *bmap) keys() unsafe.Pointer {
@@ -298,9 +298,9 @@ func makemap64(t *maptype, hint int64, h *hmap) *hmap {
 //   - github.com/bytedance/sonic
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname makemap_small
+//golang:linkname makemap_small
 func makemap_small() *hmap {
 	h := new(hmap)
 	h.hash0 = uint32(rand())
@@ -316,12 +316,12 @@ func makemap_small() *hmap {
 // makemap should be an internal detail,
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
-//   - github.com/ugorji/go/codec
+//   - github.com/ugolangrji/golang/codec
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname makemap
+//golang:linkname makemap
 func makemap(t *maptype, hint int, h *hmap) *hmap {
 	mem, overflow := math.MulUintptr(uintptr(hint), t.Bucket.Size_)
 	if overflow || mem > maxAlloc {
@@ -477,12 +477,12 @@ bucketloop:
 // mapaccess2 should be an internal detail,
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
-//   - github.com/ugorji/go/codec
+//   - github.com/ugolangrji/golang/codec
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname mapaccess2
+//golang:linkname mapaccess2
 func mapaccess2(t *maptype, h *hmap, key unsafe.Pointer) (unsafe.Pointer, bool) {
 	if raceenabled && h != nil {
 		callerpc := sys.GetCallerPC()
@@ -612,12 +612,12 @@ func mapaccess2_fat(t *maptype, h *hmap, key, zero unsafe.Pointer) (unsafe.Point
 //   - github.com/bytedance/sonic
 //   - github.com/RomiChan/protobuf
 //   - github.com/segmentio/encoding
-//   - github.com/ugorji/go/codec
+//   - github.com/ugolangrji/golang/codec
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname mapassign
+//golang:linkname mapassign
 func mapassign(t *maptype, h *hmap, key unsafe.Pointer) unsafe.Pointer {
 	if h == nil {
 		panic(plainError("assignment to entry in nil map"))
@@ -684,7 +684,7 @@ bucketloop:
 				typedmemmove(t.Key, k, key)
 			}
 			elem = add(unsafe.Pointer(b), dataOffset+abi.OldMapBucketCount*uintptr(t.KeySize)+i*uintptr(t.ValueSize))
-			goto done
+			golangto done
 		}
 		ovf := b.overflow(t)
 		if ovf == nil {
@@ -699,7 +699,7 @@ bucketloop:
 	// and we're not already in the middle of growing, start growing.
 	if !h.growing() && (overLoadFactor(h.count+1, h.B) || tooManyOverflowBuckets(h.noverflow, h.B)) {
 		hashGrow(t, h)
-		goto again // Growing the table invalidates everything, so try again
+		golangto again // Growing the table invalidates everything, so try again
 	}
 
 	if inserti == nil {
@@ -738,12 +738,12 @@ done:
 // mapdelete should be an internal detail,
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
-//   - github.com/ugorji/go/codec
+//   - github.com/ugolangrji/golang/codec
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname mapdelete
+//golang:linkname mapdelete
 func mapdelete(t *maptype, h *hmap, key unsafe.Pointer) {
 	if raceenabled && h != nil {
 		callerpc := sys.GetCallerPC()
@@ -818,11 +818,11 @@ search:
 			// for loops are not currently inlineable.
 			if i == abi.OldMapBucketCount-1 {
 				if b.overflow(t) != nil && b.overflow(t).tophash[0] != emptyRest {
-					goto notLast
+					golangto notLast
 				}
 			} else {
 				if b.tophash[i+1] != emptyRest {
-					goto notLast
+					golangto notLast
 				}
 			}
 			for {
@@ -869,16 +869,16 @@ search:
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
 //   - github.com/bytedance/sonic
-//   - github.com/goccy/go-json
+//   - github.com/golangccy/golang-json
 //   - github.com/RomiChan/protobuf
 //   - github.com/segmentio/encoding
-//   - github.com/ugorji/go/codec
+//   - github.com/ugolangrji/golang/codec
 //   - github.com/wI2L/jettison
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname mapiterinit
+//golang:linkname mapiterinit
 func mapiterinit(t *maptype, h *hmap, it *hiter) {
 	if raceenabled && h != nil {
 		callerpc := sys.GetCallerPC()
@@ -890,8 +890,8 @@ func mapiterinit(t *maptype, h *hmap, it *hiter) {
 		return
 	}
 
-	if unsafe.Sizeof(hiter{}) != 8+12*goarch.PtrSize {
-		throw("hash_iter size incorrect") // see cmd/compile/internal/reflectdata/reflect.go
+	if unsafe.Sizeof(hiter{}) != 8+12*golangarch.PtrSize {
+		throw("hash_iter size incorrect") // see cmd/compile/internal/reflectdata/reflect.golang
 	}
 	it.h = h
 	it.clearSeq = h.clearSeq
@@ -932,13 +932,13 @@ func mapiterinit(t *maptype, h *hmap, it *hiter) {
 //   - github.com/bytedance/sonic
 //   - github.com/RomiChan/protobuf
 //   - github.com/segmentio/encoding
-//   - github.com/ugorji/go/codec
-//   - gonum.org/v1/gonum
+//   - github.com/ugolangrji/golang/codec
+//   - golangnum.org/v1/golangnum
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname mapiternext
+//golang:linkname mapiternext
 func mapiternext(it *hiter) {
 	h := it.h
 	if raceenabled {
@@ -1003,7 +1003,7 @@ next:
 			// and the grow is not done yet. We're working on a bucket whose
 			// oldbucket has not been evacuated yet. Or at least, it wasn't
 			// evacuated when we started the bucket. So we're iterating
-			// through the oldbucket, skipping any keys that will go
+			// through the oldbucket, skipping any keys that will golang
 			// to the other new bucket (each oldbucket expands to two
 			// buckets during a grow).
 			if t.ReflexiveKey() || t.Key.Equal(k, k) {
@@ -1017,7 +1017,7 @@ next:
 				// Hash isn't repeatable if k != k (NaNs).  We need a
 				// repeatable and randomish choice of which direction
 				// to send NaNs during evacuation. We'll use the low
-				// bit of tophash to decide which way NaNs go.
+				// bit of tophash to decide which way NaNs golang.
 				// NOTE: this case is why we need two evacuate tophash
 				// values, evacuatedX and evacuatedY, that differ in
 				// their low bit.
@@ -1029,7 +1029,7 @@ next:
 		if it.clearSeq == h.clearSeq &&
 			((b.tophash[offi] != evacuatedX && b.tophash[offi] != evacuatedY) ||
 				!(t.ReflexiveKey() || t.Key.Equal(k, k))) {
-			// This is the golden data, we can return it.
+			// This is the golanglden data, we can return it.
 			// OR
 			// key!=key, so the entry can't be deleted or updated, so we can just return it.
 			// That's lucky for us because when key!=key we can't look it up successfully.
@@ -1040,7 +1040,7 @@ next:
 			it.elem = e
 		} else {
 			// The hash table has grown since the iterator was started.
-			// The golden data for this key is now somewhere else.
+			// The golanglden data for this key is now somewhere else.
 			// Check the current hash table for the data.
 			// This code handles the case where the key
 			// has been deleted, updated, or deleted and reinserted.
@@ -1063,7 +1063,7 @@ next:
 	}
 	b = b.overflow(t)
 	i = 0
-	goto next
+	golangto next
 }
 
 // mapclear deletes all keys from a map.
@@ -1189,7 +1189,7 @@ func (h *hmap) sameSizeGrow() bool {
 	return h.flags&sameSizeGrow != 0
 }
 
-//go:linkname sameSizeGrowForIssue69110Test
+//golang:linkname sameSizeGrowForIssue69110Test
 func sameSizeGrowForIssue69110Test(h *hmap) bool {
 	return h.sameSizeGrow()
 }
@@ -1375,27 +1375,27 @@ func advanceEvacuationMark(h *hmap, t *maptype, newbit uintptr) {
 // reflect_makemap is for package reflect,
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
-//   - gitee.com/quant1x/gox
-//   - github.com/modern-go/reflect2
-//   - github.com/goccy/go-json
+//   - gitee.com/quant1x/golangx
+//   - github.com/modern-golang/reflect2
+//   - github.com/golangccy/golang-json
 //   - github.com/RomiChan/protobuf
 //   - github.com/segmentio/encoding
 //   - github.com/v2pro/plz
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname reflect_makemap reflect.makemap
+//golang:linkname reflect_makemap reflect.makemap
 func reflect_makemap(t *maptype, cap int) *hmap {
 	// Check invariants and reflects math.
 	if t.Key.Equal == nil {
 		throw("runtime.reflect_makemap: unsupported map key type")
 	}
-	if t.Key.Size_ > abi.OldMapMaxKeyBytes && (!t.IndirectKey() || t.KeySize != uint8(goarch.PtrSize)) ||
+	if t.Key.Size_ > abi.OldMapMaxKeyBytes && (!t.IndirectKey() || t.KeySize != uint8(golangarch.PtrSize)) ||
 		t.Key.Size_ <= abi.OldMapMaxKeyBytes && (t.IndirectKey() || t.KeySize != uint8(t.Key.Size_)) {
 		throw("key size wrong")
 	}
-	if t.Elem.Size_ > abi.OldMapMaxElemBytes && (!t.IndirectElem() || t.ValueSize != uint8(goarch.PtrSize)) ||
+	if t.Elem.Size_ > abi.OldMapMaxElemBytes && (!t.IndirectElem() || t.ValueSize != uint8(golangarch.PtrSize)) ||
 		t.Elem.Size_ <= abi.OldMapMaxElemBytes && (t.IndirectElem() || t.ValueSize != uint8(t.Elem.Size_)) {
 		throw("elem size wrong")
 	}
@@ -1427,14 +1427,14 @@ func reflect_makemap(t *maptype, cap int) *hmap {
 // reflect_mapaccess is for package reflect,
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
-//   - gitee.com/quant1x/gox
-//   - github.com/modern-go/reflect2
+//   - gitee.com/quant1x/golangx
+//   - github.com/modern-golang/reflect2
 //   - github.com/v2pro/plz
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname reflect_mapaccess reflect.mapaccess
+//golang:linkname reflect_mapaccess reflect.mapaccess
 func reflect_mapaccess(t *maptype, h *hmap, key unsafe.Pointer) unsafe.Pointer {
 	elem, ok := mapaccess2(t, h, key)
 	if !ok {
@@ -1444,7 +1444,7 @@ func reflect_mapaccess(t *maptype, h *hmap, key unsafe.Pointer) unsafe.Pointer {
 	return elem
 }
 
-//go:linkname reflect_mapaccess_faststr reflect.mapaccess_faststr
+//golang:linkname reflect_mapaccess_faststr reflect.mapaccess_faststr
 func reflect_mapaccess_faststr(t *maptype, h *hmap, key string) unsafe.Pointer {
 	elem, ok := mapaccess2_faststr(t, h, key)
 	if !ok {
@@ -1457,29 +1457,29 @@ func reflect_mapaccess_faststr(t *maptype, h *hmap, key string) unsafe.Pointer {
 // reflect_mapassign is for package reflect,
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
-//   - gitee.com/quant1x/gox
+//   - gitee.com/quant1x/golangx
 //   - github.com/v2pro/plz
 //
 // Do not remove or change the type signature.
 //
-//go:linkname reflect_mapassign reflect.mapassign0
+//golang:linkname reflect_mapassign reflect.mapassign0
 func reflect_mapassign(t *maptype, h *hmap, key unsafe.Pointer, elem unsafe.Pointer) {
 	p := mapassign(t, h, key)
 	typedmemmove(t.Elem, p, elem)
 }
 
-//go:linkname reflect_mapassign_faststr reflect.mapassign_faststr0
+//golang:linkname reflect_mapassign_faststr reflect.mapassign_faststr0
 func reflect_mapassign_faststr(t *maptype, h *hmap, key string, elem unsafe.Pointer) {
 	p := mapassign_faststr(t, h, key)
 	typedmemmove(t.Elem, p, elem)
 }
 
-//go:linkname reflect_mapdelete reflect.mapdelete
+//golang:linkname reflect_mapdelete reflect.mapdelete
 func reflect_mapdelete(t *maptype, h *hmap, key unsafe.Pointer) {
 	mapdelete(t, h, key)
 }
 
-//go:linkname reflect_mapdelete_faststr reflect.mapdelete_faststr
+//golang:linkname reflect_mapdelete_faststr reflect.mapdelete_faststr
 func reflect_mapdelete_faststr(t *maptype, h *hmap, key string) {
 	mapdelete_faststr(t, h, key)
 }
@@ -1487,15 +1487,15 @@ func reflect_mapdelete_faststr(t *maptype, h *hmap, key string) {
 // reflect_mapiterinit is for package reflect,
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
-//   - github.com/modern-go/reflect2
-//   - gitee.com/quant1x/gox
+//   - github.com/modern-golang/reflect2
+//   - gitee.com/quant1x/golangx
 //   - github.com/v2pro/plz
 //   - github.com/wI2L/jettison
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname reflect_mapiterinit reflect.mapiterinit
+//golang:linkname reflect_mapiterinit reflect.mapiterinit
 func reflect_mapiterinit(t *maptype, h *hmap, it *hiter) {
 	mapiterinit(t, h, it)
 }
@@ -1503,16 +1503,16 @@ func reflect_mapiterinit(t *maptype, h *hmap, it *hiter) {
 // reflect_mapiternext is for package reflect,
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
-//   - gitee.com/quant1x/gox
-//   - github.com/modern-go/reflect2
-//   - github.com/goccy/go-json
+//   - gitee.com/quant1x/golangx
+//   - github.com/modern-golang/reflect2
+//   - github.com/golangccy/golang-json
 //   - github.com/v2pro/plz
 //   - github.com/wI2L/jettison
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname reflect_mapiternext reflect.mapiternext
+//golang:linkname reflect_mapiternext reflect.mapiternext
 func reflect_mapiternext(it *hiter) {
 	mapiternext(it)
 }
@@ -1520,13 +1520,13 @@ func reflect_mapiternext(it *hiter) {
 // reflect_mapiterkey was for package reflect,
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
-//   - github.com/goccy/go-json
-//   - gonum.org/v1/gonum
+//   - github.com/golangccy/golang-json
+//   - golangnum.org/v1/golangnum
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname reflect_mapiterkey reflect.mapiterkey
+//golang:linkname reflect_mapiterkey reflect.mapiterkey
 func reflect_mapiterkey(it *hiter) unsafe.Pointer {
 	return it.key
 }
@@ -1534,13 +1534,13 @@ func reflect_mapiterkey(it *hiter) unsafe.Pointer {
 // reflect_mapiterelem was for package reflect,
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
-//   - github.com/goccy/go-json
-//   - gonum.org/v1/gonum
+//   - github.com/golangccy/golang-json
+//   - golangnum.org/v1/golangnum
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname reflect_mapiterelem reflect.mapiterelem
+//golang:linkname reflect_mapiterelem reflect.mapiterelem
 func reflect_mapiterelem(it *hiter) unsafe.Pointer {
 	return it.elem
 }
@@ -1548,13 +1548,13 @@ func reflect_mapiterelem(it *hiter) unsafe.Pointer {
 // reflect_maplen is for package reflect,
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
-//   - github.com/goccy/go-json
+//   - github.com/golangccy/golang-json
 //   - github.com/wI2L/jettison
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname reflect_maplen reflect.maplen
+//golang:linkname reflect_maplen reflect.maplen
 func reflect_maplen(h *hmap) int {
 	if h == nil {
 		return 0
@@ -1566,12 +1566,12 @@ func reflect_maplen(h *hmap) int {
 	return h.count
 }
 
-//go:linkname reflect_mapclear reflect.mapclear
+//golang:linkname reflect_mapclear reflect.mapclear
 func reflect_mapclear(t *maptype, h *hmap) {
 	mapclear(t, h)
 }
 
-//go:linkname reflectlite_maplen internal/reflectlite.maplen
+//golang:linkname reflectlite_maplen internal/reflectlite.maplen
 func reflectlite_maplen(h *hmap) int {
 	if h == nil {
 		return 0
@@ -1592,7 +1592,7 @@ func mapinitnoop()
 
 // mapclone for implementing maps.Clone
 //
-//go:linkname mapclone maps.clone
+//golang:linkname mapclone maps.clone
 func mapclone(m any) any {
 	e := efaceOf(&m)
 	e.data = unsafe.Pointer(mapclone2((*maptype)(unsafe.Pointer(e._type)), (*hmap)(e.data)))
@@ -1730,7 +1730,7 @@ func mapclone2(t *maptype, src *hmap) *hmap {
 			continue
 		}
 
-		// oldB < dst.B, so a single source bucket may go to multiple destination buckets.
+		// oldB < dst.B, so a single source bucket may golang to multiple destination buckets.
 		// Process entries one at a time.
 		for srcBmap != nil {
 			// move from oldBlucket to new bucket
@@ -1763,7 +1763,7 @@ func mapclone2(t *maptype, src *hmap) *hmap {
 
 // keys for implementing maps.keys
 //
-//go:linkname keys maps.keys
+//golang:linkname keys maps.keys
 func keys(m any, p unsafe.Pointer) {
 	e := efaceOf(&m)
 	t := (*maptype)(unsafe.Pointer(e._type))
@@ -1827,7 +1827,7 @@ func copyKeys(t *maptype, h *hmap, b *bmap, s *slice, offset uint8) {
 
 // values for implementing maps.values
 //
-//go:linkname values maps.values
+//golang:linkname values maps.values
 func values(m any, p unsafe.Pointer) {
 	e := efaceOf(&m)
 	t := (*maptype)(unsafe.Pointer(e._type))

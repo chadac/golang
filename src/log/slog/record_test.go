@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package slog
@@ -17,23 +17,23 @@ func TestRecordAttrs(t *testing.T) {
 		Int64("k4", -1), Float64("f", 3.1), Uint64("u", 999)}
 	r := newRecordWithAttrs(as)
 	if g, w := r.NumAttrs(), len(as); g != w {
-		t.Errorf("NumAttrs: got %d, want %d", g, w)
+		t.Errorf("NumAttrs: golangt %d, want %d", g, w)
 	}
-	if got := attrsSlice(r); !attrsEqual(got, as) {
-		t.Errorf("got %v, want %v", got, as)
+	if golangt := attrsSlice(r); !attrsEqual(golangt, as) {
+		t.Errorf("golangt %v, want %v", golangt, as)
 	}
 
 	// Early return.
 	// Hit both loops in Record.Attrs: front and back.
 	for _, stop := range []int{2, 6} {
-		var got []Attr
+		var golangt []Attr
 		r.Attrs(func(a Attr) bool {
-			got = append(got, a)
-			return len(got) < stop
+			golangt = append(golangt, a)
+			return len(golangt) < stop
 		})
 		want := as[:stop]
-		if !attrsEqual(got, want) {
-			t.Errorf("got %v, want %v", got, want)
+		if !attrsEqual(golangt, want) {
+			t.Errorf("golangt %v, want %v", golangt, want)
 		}
 	}
 }
@@ -49,32 +49,32 @@ func TestRecordSource(t *testing.T) {
 	}{
 		{0, "", "", false, true},
 		{-16, "", "", false, true},
-		{1, "log/slog.TestRecordSource", "record_test.go", true, false}, // 1: caller of NewRecord
-		{2, "testing.tRunner", "testing.go", true, false},
+		{1, "log/slog.TestRecordSource", "record_test.golang", true, false}, // 1: caller of NewRecord
+		{2, "testing.tRunner", "testing.golang", true, false},
 	} {
 		var pc uintptr
 		if test.depth > 0 {
 			pc = callerPC(test.depth + 1)
 		}
 		r := NewRecord(time.Time{}, 0, "", pc)
-		got := r.Source()
+		golangt := r.Source()
 		if test.wantNil {
-			if got != nil {
-				t.Errorf("depth %d: got non-nil Source, want nil", test.depth)
+			if golangt != nil {
+				t.Errorf("depth %d: golangt non-nil Source, want nil", test.depth)
 			}
 			continue
 		}
-		if got == nil {
-			t.Errorf("depth %d: got nil Source, want non-nil", test.depth)
+		if golangt == nil {
+			t.Errorf("depth %d: golangt nil Source, want non-nil", test.depth)
 			continue
 		}
-		if i := strings.LastIndexByte(got.File, '/'); i >= 0 {
-			got.File = got.File[i+1:]
+		if i := strings.LastIndexByte(golangt.File, '/'); i >= 0 {
+			golangt.File = golangt.File[i+1:]
 		}
-		if got.Function != test.wantFunction || got.File != test.wantFile || (got.Line > 0) != test.wantLinePositive {
-			t.Errorf("depth %d: got (%q, %q, %d), want (%q, %q, %t)",
+		if golangt.Function != test.wantFunction || golangt.File != test.wantFile || (golangt.Line > 0) != test.wantLinePositive {
+			t.Errorf("depth %d: golangt (%q, %q, %d), want (%q, %q, %t)",
 				test.depth,
-				got.Function, got.File, got.Line,
+				golangt.Function, golangt.File, golangt.Line,
 				test.wantFunction, test.wantFile, test.wantLinePositive)
 		}
 	}
@@ -91,9 +91,9 @@ func TestAliasingAndClone(t *testing.T) {
 
 	check := func(r Record, want []Attr) {
 		t.Helper()
-		got := attrsSlice(r)
-		if !attrsEqual(got, want) {
-			t.Errorf("got %v, want %v", got, want)
+		golangt := attrsSlice(r)
+		if !attrsEqual(golangt, want) {
+			t.Errorf("golangt %v, want %v", golangt, want)
 		}
 	}
 

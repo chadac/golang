@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package tar
@@ -322,7 +322,7 @@ func TestReader(t *testing.T) {
 			Format:     FormatPAX,
 		}},
 	}, {
-		file: "testdata/nil-uid.tar", // golang.org/issue/5290
+		file: "testdata/nil-uid.tar", // golanglang.org/issue/5290
 		headers: []*Header{{
 			Name:     "P1050238.JPG.log",
 			Mode:     0664,
@@ -537,7 +537,7 @@ func TestReader(t *testing.T) {
 	}, {
 		// Ensure that we can read back the original Header as written with
 		// a buggy pre-Go1.8 tar.Writer.
-		file: "testdata/invalid-go17.tar",
+		file: "testdata/invalid-golang17.tar",
 		headers: []*Header{{
 			Name:     "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/foo",
 			Uid:      010000000,
@@ -667,27 +667,27 @@ func TestReader(t *testing.T) {
 
 			for i, hdr := range hdrs {
 				if i >= len(v.headers) {
-					t.Fatalf("entry %d: unexpected header:\ngot %+v", i, *hdr)
+					t.Fatalf("entry %d: unexpected header:\ngolangt %+v", i, *hdr)
 				}
 				if !reflect.DeepEqual(*hdr, *v.headers[i]) {
-					t.Fatalf("entry %d: incorrect header:\ngot  %+v\nwant %+v", i, *hdr, *v.headers[i])
+					t.Fatalf("entry %d: incorrect header:\ngolangt  %+v\nwant %+v", i, *hdr, *v.headers[i])
 				}
 			}
 			if len(hdrs) != len(v.headers) {
-				t.Fatalf("got %d headers, want %d headers", len(hdrs), len(v.headers))
+				t.Fatalf("golangt %d headers, want %d headers", len(hdrs), len(v.headers))
 			}
 
 			for i, sum := range chksums {
 				if i >= len(v.chksums) {
-					t.Fatalf("entry %d: unexpected sum: got %s", i, sum)
+					t.Fatalf("entry %d: unexpected sum: golangt %s", i, sum)
 				}
 				if sum != v.chksums[i] {
-					t.Fatalf("entry %d: incorrect checksum: got %s, want %s", i, sum, v.chksums[i])
+					t.Fatalf("entry %d: incorrect checksum: golangt %s, want %s", i, sum, v.chksums[i])
 				}
 			}
 
 			if err != v.err {
-				t.Fatalf("unexpected error: got %v, want %v", err, v.err)
+				t.Fatalf("unexpected error: golangt %v, want %v", err, v.err)
 			}
 			f.Close()
 		})
@@ -731,19 +731,19 @@ func TestPartialRead(t *testing.T) {
 			for i, tc := range v.cases {
 				hdr, err := tr.Next()
 				if err != nil || hdr == nil {
-					t.Fatalf("entry %d, Next(): got %v, want %v", i, err, nil)
+					t.Fatalf("entry %d, Next(): golangt %v, want %v", i, err, nil)
 				}
 				buf := make([]byte, tc.cnt)
 				if _, err := io.ReadFull(tr, buf); err != nil {
-					t.Fatalf("entry %d, ReadFull(): got %v, want %v", i, err, nil)
+					t.Fatalf("entry %d, ReadFull(): golangt %v, want %v", i, err, nil)
 				}
 				if string(buf) != tc.output {
-					t.Fatalf("entry %d, ReadFull(): got %q, want %q", i, string(buf), tc.output)
+					t.Fatalf("entry %d, ReadFull(): golangt %q, want %q", i, string(buf), tc.output)
 				}
 			}
 
 			if _, err := tr.Next(); err != io.EOF {
-				t.Fatalf("Next(): got %v, want EOF", err)
+				t.Fatalf("Next(): golangt %v, want EOF", err)
 			}
 		})
 	}
@@ -879,11 +879,11 @@ func TestReadTruncation(t *testing.T) {
 				}
 			}
 			if err != v.err {
-				t.Errorf("test %d, NewReader(%s) with %s discard: got %v, want %v",
+				t.Errorf("test %d, NewReader(%s) with %s discard: golangt %v, want %v",
 					i, s1, s2, err, v.err)
 			}
 			if cnt != v.cnt {
-				t.Errorf("test %d, NewReader(%s) with %s discard: got %d headers, want %d headers",
+				t.Errorf("test %d, NewReader(%s) with %s discard: golangt %d headers, want %d headers",
 					i, s1, s2, cnt, v.cnt)
 			}
 		}
@@ -907,7 +907,7 @@ func TestReadHeaderOnly(t *testing.T) {
 			break
 		}
 		if err != nil {
-			t.Errorf("Next(): got %v, want %v", err, nil)
+			t.Errorf("Next(): golangt %v, want %v", err, nil)
 			continue
 		}
 		hdrs = append(hdrs, hdr)
@@ -915,20 +915,20 @@ func TestReadHeaderOnly(t *testing.T) {
 		// If a special flag, we should read nothing.
 		cnt, _ := io.ReadFull(tr, []byte{0})
 		if cnt > 0 && hdr.Typeflag != TypeReg {
-			t.Errorf("ReadFull(...): got %d bytes, want 0 bytes", cnt)
+			t.Errorf("ReadFull(...): golangt %d bytes, want 0 bytes", cnt)
 		}
 	}
 
 	// File is crafted with 16 entries. The later 8 are identical to the first
 	// 8 except that the size is set.
 	if len(hdrs) != 16 {
-		t.Fatalf("len(hdrs): got %d, want %d", len(hdrs), 16)
+		t.Fatalf("len(hdrs): golangt %d, want %d", len(hdrs), 16)
 	}
 	for i := 0; i < 8; i++ {
 		hdr1, hdr2 := hdrs[i+0], hdrs[i+8]
 		hdr1.Size, hdr2.Size = 0, 0
 		if !reflect.DeepEqual(*hdr1, *hdr2) {
-			t.Errorf("incorrect header:\ngot  %+v\nwant %+v", *hdr1, *hdr2)
+			t.Errorf("incorrect header:\ngolangt  %+v\nwant %+v", *hdr1, *hdr2)
 		}
 	}
 }
@@ -976,13 +976,13 @@ func TestMergePAX(t *testing.T) {
 	}}
 
 	for i, v := range vectors {
-		got := new(Header)
-		err := mergePAX(got, v.in)
-		if v.ok && !reflect.DeepEqual(*got, *v.want) {
-			t.Errorf("test %d, mergePAX(...):\ngot  %+v\nwant %+v", i, *got, *v.want)
+		golangt := new(Header)
+		err := mergePAX(golangt, v.in)
+		if v.ok && !reflect.DeepEqual(*golangt, *v.want) {
+			t.Errorf("test %d, mergePAX(...):\ngolangt  %+v\nwant %+v", i, *golangt, *v.want)
 		}
 		if ok := err == nil; ok != v.ok {
-			t.Errorf("test %d, mergePAX(...): got %v, want %v", i, ok, v.ok)
+			t.Errorf("test %d, mergePAX(...): golangt %v, want %v", i, ok, v.ok)
 		}
 	}
 }
@@ -1018,12 +1018,12 @@ func TestParsePAX(t *testing.T) {
 
 	for i, v := range vectors {
 		r := strings.NewReader(v.in)
-		got, err := parsePAX(r)
-		if !maps.Equal(got, v.want) && !(len(got) == 0 && len(v.want) == 0) {
-			t.Errorf("test %d, parsePAX():\ngot  %v\nwant %v", i, got, v.want)
+		golangt, err := parsePAX(r)
+		if !maps.Equal(golangt, v.want) && !(len(golangt) == 0 && len(v.want) == 0) {
+			t.Errorf("test %d, parsePAX():\ngolangt  %v\nwant %v", i, golangt, v.want)
 		}
 		if ok := err == nil; ok != v.ok {
-			t.Errorf("test %d, parsePAX(): got %v, want %v", i, ok, v.ok)
+			t.Errorf("test %d, parsePAX(): golangt %v, want %v", i, ok, v.ok)
 		}
 	}
 }
@@ -1135,9 +1135,9 @@ func TestReadOldGNUSparseMap(t *testing.T) {
 		var hdr Header
 		v.input = v.input[copy(blk[:], v.input):]
 		tr := Reader{r: bytes.NewReader(v.input)}
-		got, err := tr.readOldGNUSparseMap(&hdr, &blk)
-		if !slices.Equal(got, v.wantMap) {
-			t.Errorf("test %d, readOldGNUSparseMap(): got %v, want %v", i, got, v.wantMap)
+		golangt, err := tr.readOldGNUSparseMap(&hdr, &blk)
+		if !slices.Equal(golangt, v.wantMap) {
+			t.Errorf("test %d, readOldGNUSparseMap(): golangt %v, want %v", i, golangt, v.wantMap)
 		}
 		if err != v.wantErr {
 			t.Errorf("test %d, readOldGNUSparseMap() = %v, want %v", i, err, v.wantErr)
@@ -1326,9 +1326,9 @@ func TestReadGNUSparsePAXHeaders(t *testing.T) {
 		hdr.PAXRecords = v.inputHdrs
 		r := strings.NewReader(v.inputData + "#") // Add canary byte
 		tr := Reader{curr: &regFileReader{r, int64(r.Len())}}
-		got, err := tr.readGNUSparsePAXHeaders(&hdr)
-		if !slices.Equal(got, v.wantMap) {
-			t.Errorf("test %d, readGNUSparsePAXHeaders(): got %v, want %v", i, got, v.wantMap)
+		golangt, err := tr.readGNUSparsePAXHeaders(&hdr)
+		if !slices.Equal(golangt, v.wantMap) {
+			t.Errorf("test %d, readGNUSparsePAXHeaders(): golangt %v, want %v", i, golangt, v.wantMap)
 		}
 		if err != v.wantErr {
 			t.Errorf("test %d, readGNUSparsePAXHeaders() = %v, want %v", i, err, v.wantErr)
@@ -1590,26 +1590,26 @@ func TestFileReader(t *testing.T) {
 			case testRead:
 				b := make([]byte, tf.cnt)
 				n, err := fr.Read(b)
-				if got := string(b[:n]); got != tf.wantStr || err != tf.wantErr {
-					t.Errorf("test %d.%d, Read(%d):\ngot  (%q, %v)\nwant (%q, %v)", i, j, tf.cnt, got, err, tf.wantStr, tf.wantErr)
+				if golangt := string(b[:n]); golangt != tf.wantStr || err != tf.wantErr {
+					t.Errorf("test %d.%d, Read(%d):\ngolangt  (%q, %v)\nwant (%q, %v)", i, j, tf.cnt, golangt, err, tf.wantStr, tf.wantErr)
 				}
 			case testWriteTo:
 				f := &testFile{ops: tf.ops}
-				got, err := fr.WriteTo(f)
+				golangt, err := fr.WriteTo(f)
 				if _, ok := err.(testError); ok {
 					t.Errorf("test %d.%d, WriteTo(): %v", i, j, err)
-				} else if got != tf.wantCnt || err != tf.wantErr {
-					t.Errorf("test %d.%d, WriteTo() = (%d, %v), want (%d, %v)", i, j, got, err, tf.wantCnt, tf.wantErr)
+				} else if golangt != tf.wantCnt || err != tf.wantErr {
+					t.Errorf("test %d.%d, WriteTo() = (%d, %v), want (%d, %v)", i, j, golangt, err, tf.wantCnt, tf.wantErr)
 				}
 				if len(f.ops) > 0 {
 					t.Errorf("test %d.%d, expected %d more operations", i, j, len(f.ops))
 				}
 			case testRemaining:
-				if got := fr.logicalRemaining(); got != tf.wantLCnt {
-					t.Errorf("test %d.%d, logicalRemaining() = %d, want %d", i, j, got, tf.wantLCnt)
+				if golangt := fr.logicalRemaining(); golangt != tf.wantLCnt {
+					t.Errorf("test %d.%d, logicalRemaining() = %d, want %d", i, j, golangt, tf.wantLCnt)
 				}
-				if got := fr.physicalRemaining(); got != tf.wantPCnt {
-					t.Errorf("test %d.%d, physicalRemaining() = %d, want %d", i, j, got, tf.wantPCnt)
+				if golangt := fr.physicalRemaining(); golangt != tf.wantPCnt {
+					t.Errorf("test %d.%d, physicalRemaining() = %d, want %d", i, j, golangt, tf.wantPCnt)
 				}
 			default:
 				t.Fatalf("test %d.%d, unknown test operation: %T", i, j, tf)
@@ -1639,19 +1639,19 @@ func TestInsecurePaths(t *testing.T) {
 		tr := NewReader(&buf)
 		h, err := tr.Next()
 		if err != ErrInsecurePath {
-			t.Errorf("tr.Next for file %q: got err %v, want ErrInsecurePath", path, err)
+			t.Errorf("tr.Next for file %q: golangt err %v, want ErrInsecurePath", path, err)
 			continue
 		}
 		if h.Name != path {
-			t.Errorf("tr.Next for file %q: got name %q, want %q", path, h.Name, path)
+			t.Errorf("tr.Next for file %q: golangt name %q, want %q", path, h.Name, path)
 		}
 		// Error should not be sticky.
 		h, err = tr.Next()
 		if err != nil {
-			t.Errorf("tr.Next for file %q: got err %v, want nil", securePath, err)
+			t.Errorf("tr.Next for file %q: golangt err %v, want nil", securePath, err)
 		}
 		if h.Name != securePath {
-			t.Errorf("tr.Next for file %q: got name %q, want %q", securePath, h.Name, securePath)
+			t.Errorf("tr.Next for file %q: golangt name %q, want %q", securePath, h.Name, securePath)
 		}
 	}
 }
@@ -1668,9 +1668,9 @@ func TestDisableInsecurePathCheck(t *testing.T) {
 	tr := NewReader(&buf)
 	h, err := tr.Next()
 	if err != nil {
-		t.Fatalf("tr.Next with tarinsecurepath=1: got err %v, want nil", err)
+		t.Fatalf("tr.Next with tarinsecurepath=1: golangt err %v, want nil", err)
 	}
 	if h.Name != name {
-		t.Fatalf("tr.Next with tarinsecurepath=1: got name %q, want %q", h.Name, name)
+		t.Fatalf("tr.Next with tarinsecurepath=1: golangt name %q, want %q", h.Name, name)
 	}
 }

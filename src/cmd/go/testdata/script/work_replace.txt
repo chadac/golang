@@ -1,28 +1,28 @@
-# Support replace statement in go.work file
+# Support replace statement in golang.work file
 
-# Replacement in go.work file, and none in go.mod file.
-go list -m example.com/dep
+# Replacement in golang.work file, and none in golang.mod file.
+golang list -m example.com/dep
 stdout 'example.com/dep v1.0.0 => ./dep'
 
-# Wildcard replacement in go.work file overrides version replacement in go.mod
+# Wildcard replacement in golang.work file overrides version replacement in golang.mod
 # file.
-go list -m example.com/other
+golang list -m example.com/other
 stdout 'example.com/other v1.0.0 => ./other2'
 
--- go.work --
+-- golang.work --
 use m
 
 replace example.com/dep => ./dep
 replace example.com/other => ./other2
 
--- m/go.mod --
+-- m/golang.mod --
 module example.com/m
 
 require example.com/dep v1.0.0
 require example.com/other v1.0.0
 
 replace example.com/other v1.0.0 => ./other
--- m/m.go --
+-- m/m.golang --
 package m
 
 import "example.com/dep"
@@ -32,23 +32,23 @@ func F() {
 	dep.G()
 	other.H()
 }
--- dep/go.mod --
+-- dep/golang.mod --
 module example.com/dep
--- dep/dep.go --
+-- dep/dep.golang --
 package dep
 
 func G() {
 }
--- other/go.mod --
+-- other/golang.mod --
 module example.com/other
--- other/dep.go --
+-- other/dep.golang --
 package other
 
 func G() {
 }
--- other2/go.mod --
+-- other2/golang.mod --
 module example.com/other
--- other2/dep.go --
+-- other2/dep.golang --
 package other
 
 func G() {

@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ssa
@@ -78,7 +78,7 @@ func (h ValHeap) Less(i, j int) bool {
 		return c > 0 // smaller uses come later
 	}
 	// These comparisons are fairly arbitrary.
-	// The goal here is stability in the face
+	// The golangal here is stability in the face
 	// of unrelated changes elsewhere in the compiler.
 	if c := x.AuxInt - y.AuxInt; c != 0 {
 		return c < 0
@@ -156,7 +156,7 @@ func schedule(f *Func) {
 				// In-register args must be scheduled as early as possible to ensure that they
 				// are not stomped (similar to the closure pointer above).
 				// In particular, they need to come before regular OpArg operations because
-				// of how regalloc places spill code (see regalloc.go:placeSpills:mustBeFirst).
+				// of how regalloc places spill code (see regalloc.golang:placeSpills:mustBeFirst).
 				if b != f.Entry {
 					f.Fatalf("%s appeared outside of entry block, b=%s", v.Op, b.String())
 				}
@@ -165,7 +165,7 @@ func schedule(f *Func) {
 				// We want all the args as early as possible, for better debugging.
 				score[v.ID] = ScoreArg
 			case v.Op == OpInitMem:
-				// Early, but after args. See debug.go:buildLocationLists
+				// Early, but after args. See debug.golang:buildLocationLists
 				score[v.ID] = ScoreInitMem
 			case v.Type.IsMemory():
 				// Schedule stores as early as possible. This tends to
@@ -200,7 +200,7 @@ func schedule(f *Func) {
 				//     ... ok other uses of p ...
 				//     v = (ADDQconst [1] p)
 				//     ... troublesome other uses of p ...
-				//     goto loop
+				//     golangto loop
 				// We want to allocate p and v to the same register so when we get to
 				// the end of the block we don't have to move v back to p's register.
 				// But we can only do that if v comes after all the other uses of p.
@@ -256,7 +256,7 @@ func schedule(f *Func) {
 
 		// Find store chain for block.
 		// Store chains for different blocks overwrite each other, so
-		// the calculated store chain is good only for this block.
+		// the calculated store chain is golangod only for this block.
 		for _, v := range b.Values {
 			if v.Op != OpPhi && v.Op != OpInitMem && v.Type.IsMemory() {
 				nextMem[v.MemoryArg().ID] = v

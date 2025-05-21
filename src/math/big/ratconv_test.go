@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package big
@@ -67,13 +67,13 @@ func TestScanExponent(t *testing.T) {
 		r := strings.NewReader(a.s)
 		x, b, err := scanExponent(r, a.base2ok, a.sepOk)
 		if err != a.err {
-			t.Errorf("scanExponent%+v\n\tgot error = %v; want %v", a, err, a.err)
+			t.Errorf("scanExponent%+v\n\tgolangt error = %v; want %v", a, err, a.err)
 		}
 		if x != a.x {
-			t.Errorf("scanExponent%+v\n\tgot z = %v; want %v", a, x, a.x)
+			t.Errorf("scanExponent%+v\n\tgolangt z = %v; want %v", a, x, a.x)
 		}
 		if b != a.b {
-			t.Errorf("scanExponent%+v\n\tgot b = %d; want %d", a, b, a.b)
+			t.Errorf("scanExponent%+v\n\tgolangt b = %d; want %d", a, b, a.b)
 		}
 		next, _, err := r.ReadRune()
 		if err == io.EOF {
@@ -81,7 +81,7 @@ func TestScanExponent(t *testing.T) {
 			err = nil
 		}
 		if err == nil && next != a.next {
-			t.Errorf("scanExponent%+v\n\tgot next = %q; want %q", a, next, a.next)
+			t.Errorf("scanExponent%+v\n\tgolangt next = %q; want %q", a, next, a.next)
 		}
 	}
 }
@@ -141,7 +141,7 @@ var setStringTests2 = []StringTest{
 	{in: "-1/-1"},
 
 	// invalid with separators
-	// (smoke tests only - a comprehensive set of tests is in natconv_test.go)
+	// (smoke tests only - a comprehensive set of tests is in natconv_test.golang)
 	{in: "10_/1"},
 	{in: "_10/1"},
 	{in: "1/1__0"},
@@ -166,7 +166,7 @@ var setStringTests2 = []StringTest{
 	{"0O10p-3", "1", true},
 
 	// valid with separators
-	// (smoke tests only - a comprehensive set of tests is in natconv_test.go)
+	// (smoke tests only - a comprehensive set of tests is in natconv_test.golang)
 	{"0b_1000/3", "8/3", true},
 	{"0B_10_00/0x8", "1", true},
 	{"0xdead/0B1101_1110_1010_1101", "1", true},
@@ -194,23 +194,23 @@ func TestRatSetString(t *testing.T) {
 			if !test.ok {
 				t.Errorf("#%d SetString(%q) expected failure", i, test.in)
 			} else if x.RatString() != test.out {
-				t.Errorf("#%d SetString(%q) got %s want %s", i, test.in, x.RatString(), test.out)
+				t.Errorf("#%d SetString(%q) golangt %s want %s", i, test.in, x.RatString(), test.out)
 			}
 		} else {
 			if test.ok {
 				t.Errorf("#%d SetString(%q) expected success", i, test.in)
 			} else if x != nil {
-				t.Errorf("#%d SetString(%q) got %p want nil", i, test.in, x)
+				t.Errorf("#%d SetString(%q) golangt %p want nil", i, test.in, x)
 			}
 		}
 	}
 }
 
 func TestRatSetStringZero(t *testing.T) {
-	got, _ := new(Rat).SetString("0")
+	golangt, _ := new(Rat).SetString("0")
 	want := new(Rat).SetInt64(0)
-	if !reflect.DeepEqual(got, want) {
-		t.Errorf("got %#+v, want %#+v", got, want)
+	if !reflect.DeepEqual(golangt, want) {
+		t.Errorf("golangt %#+v, want %#+v", golangt, want)
 	}
 }
 
@@ -231,7 +231,7 @@ func TestRatScan(t *testing.T) {
 			continue
 		}
 		if err == nil && x.RatString() != test.out {
-			t.Errorf("#%d got %s want %s", i, x.RatString(), test.out)
+			t.Errorf("#%d golangt %s want %s", i, x.RatString(), test.out)
 		}
 	}
 }
@@ -265,7 +265,7 @@ func TestFloatString(t *testing.T) {
 		x, _ := new(Rat).SetString(test.in)
 
 		if x.FloatString(test.prec) != test.out {
-			t.Errorf("#%d got %s want %s", i, x.FloatString(test.prec), test.out)
+			t.Errorf("#%d golangt %s want %s", i, x.FloatString(test.prec), test.out)
 		}
 	}
 }
@@ -351,7 +351,7 @@ var float64inputs = []string{
 	"75224575729e-45",
 	"459926601011e+15",
 
-	// Constants plundered from strconv/atof_test.go.
+	// Constants plundered from strconv/atof_test.golang.
 
 	"0",
 	"1",
@@ -432,7 +432,7 @@ var float64inputs = []string{
 	// https://www.exploringbinary.com/php-hangs-on-numeric-value-2-2250738585072011e-308/
 	"2.2250738585072011e-308",
 
-	// A very large number (initially wrongly parsed by the fast algorithm).
+	// A very large number (initially wrongly parsed by the fast algolangrithm).
 	"4.630813248087435e+307",
 
 	// A different kind of very large number.
@@ -523,7 +523,7 @@ func TestFloat32SpecialCases(t *testing.T) {
 		// 3. Check f->R->f roundtrip is non-lossy.
 		checkNonLossyRoundtrip32(t, f)
 
-		// 4. Check exactness using slow algorithm.
+		// 4. Check exactness using slow algolangrithm.
 		if wasExact := new(Rat).SetFloat64(float64(f)).Cmp(r) == 0; wasExact != exact {
 			t.Errorf("Rat.SetString(%q).Float32().exact = %t, want %t", input, exact, wasExact)
 		}
@@ -578,7 +578,7 @@ func TestFloat64SpecialCases(t *testing.T) {
 		// 3. Check f->R->f roundtrip is non-lossy.
 		checkNonLossyRoundtrip64(t, f)
 
-		// 4. Check exactness using slow algorithm.
+		// 4. Check exactness using slow algolangrithm.
 		if wasExact := new(Rat).SetFloat64(f).Cmp(r) == 0; wasExact != exact {
 			t.Errorf("Rat.SetString(%q).Float64().exact = %t, want %t", input, exact, wasExact)
 		}
@@ -593,9 +593,9 @@ func TestIssue31184(t *testing.T) {
 		"16.000",
 	} {
 		x.SetString(want)
-		got := x.FloatString(3)
-		if got != want {
-			t.Errorf("got %s, want %s", got, want)
+		golangt := x.FloatString(3)
+		if golangt != want {
+			t.Errorf("golangt %s, want %s", golangt, want)
 		}
 	}
 }
@@ -618,9 +618,9 @@ func TestIssue45910(t *testing.T) {
 		{"1p+10000001", false},
 		{"1.770p02041010010011001001", false}, // test case from issue
 	} {
-		_, got := x.SetString(test.input)
-		if got != test.want {
-			t.Errorf("SetString(%s) got ok = %v; want %v", test.input, got, test.want)
+		_, golangt := x.SetString(test.input)
+		if golangt != test.want {
+			t.Errorf("SetString(%s) golangt ok = %v; want %v", test.input, golangt, test.want)
 		}
 	}
 }
@@ -682,11 +682,11 @@ func TestFloatPrec(t *testing.T) {
 		for i := 0; i < 2; i++ {
 			prec, ok := f.FloatPrec()
 			if prec != test.prec || ok != test.ok {
-				t.Errorf("%s: FloatPrec(%s): got prec, ok = %d, %v; want %d, %v", test.f, &f, prec, ok, test.prec, test.ok)
+				t.Errorf("%s: FloatPrec(%s): golangt prec, ok = %d, %v; want %d, %v", test.f, &f, prec, ok, test.prec, test.ok)
 			}
 			s := f.FloatString(test.prec)
 			if s != fdec {
-				t.Errorf("%s: FloatString(%s, %d): got %s; want %s", test.f, &f, prec, s, fdec)
+				t.Errorf("%s: FloatString(%s, %d): golangt %s; want %s", test.f, &f, prec, s, fdec)
 			}
 			// proceed with -f but don't add a "-" before a "0"
 			if f.Sign() > 0 {
@@ -712,7 +712,7 @@ func BenchmarkFloatPrecExact(b *testing.B) {
 			for i := 0; i < b.N; i++ {
 				prec, ok := r.FloatPrec()
 				if prec != n || !ok {
-					b.Fatalf("got exact, ok = %d, %v; want %d, %v", prec, ok, uint64(n), true)
+					b.Fatalf("golangt exact, ok = %d, %v; want %d, %v", prec, ok, uint64(n), true)
 				}
 			}
 		})
@@ -734,7 +734,7 @@ func BenchmarkFloatPrecMixed(b *testing.B) {
 			for i := 0; i < b.N; i++ {
 				prec, ok := r.FloatPrec()
 				if prec != n || ok {
-					b.Fatalf("got exact, ok = %d, %v; want %d, %v", prec, ok, uint64(n), false)
+					b.Fatalf("golangt exact, ok = %d, %v; want %d, %v", prec, ok, uint64(n), false)
 				}
 			}
 		})
@@ -757,7 +757,7 @@ func BenchmarkFloatPrecInexact(b *testing.B) {
 			for i := 0; i < b.N; i++ {
 				_, ok := r.FloatPrec()
 				if ok {
-					b.Fatalf("got unexpected ok")
+					b.Fatalf("golangt unexpected ok")
 				}
 			}
 		})

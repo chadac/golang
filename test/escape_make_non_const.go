@@ -1,7 +1,7 @@
 // errorcheck -0 -m
 
 // Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package escape
@@ -10,7 +10,7 @@ const globalConstSize = 128
 
 var globalVarSize = 128
 
-//go:noinline
+//golang:noinline
 func testSlices() {
 	{
 		size := 128
@@ -86,7 +86,7 @@ func newT(l int) t { // ERROR "can inline"
 	return t{make([]byte, l)} // ERROR "make.*escapes to heap"
 }
 
-//go:noinline
+//golang:noinline
 func testMaps() {
 	size := 128
 	_ = make(map[string]int, size) // ERROR "does not escape"

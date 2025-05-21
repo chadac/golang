@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
@@ -8,13 +8,13 @@ import (
 	"internal/runtime/atomic"
 )
 
-// This is a copy of sync/rwmutex.go rewritten to work in the runtime.
+// This is a copy of sync/rwmutex.golang rewritten to work in the runtime.
 
 // A rwmutex is a reader/writer mutual exclusion lock.
 // The lock can be held by an arbitrary number of readers or a single writer.
 // This is a variant of sync.RWMutex, for the runtime package.
 // Like mutex, rwmutex blocks the calling M.
-// It does not interact with the goroutine scheduler.
+// It does not interact with the golangroutine scheduler.
 type rwmutex struct {
 	rLock      mutex    // protects readers, readerPass, writer
 	readers    muintptr // list of pending readers

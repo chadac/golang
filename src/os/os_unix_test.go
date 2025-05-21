@@ -1,8 +1,8 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build unix || (js && wasm) || wasip1
+//golang:build unix || (js && wasm) || wasip1
 
 package os_test
 
@@ -265,10 +265,10 @@ func TestMkdirStickyUmask(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	got := fi.Mode()
+	golangt := fi.Mode()
 	want := cfi.Mode() | ModeSticky
-	if got != want {
-		t.Errorf("Mkdir(_, ModeSticky|0755) created dir with mode %v; want %v", got, want)
+	if golangt != want {
+		t.Errorf("Mkdir(_, ModeSticky|0755) created dir with mode %v; want %v", golangt, want)
 	}
 }
 
@@ -340,7 +340,7 @@ func TestNewFileInvalid(t *testing.T) {
 	t.Parallel()
 	const negOne = ^uintptr(0)
 	if f := NewFile(negOne, "invalid"); f != nil {
-		t.Errorf("NewFile(-1) got %v want nil", f)
+		t.Errorf("NewFile(-1) golangt %v want nil", f)
 	}
 }
 
@@ -372,11 +372,11 @@ func TestSplitPath(t *testing.T) {
 // Test that copying to files opened with O_APPEND works and
 // the copy_file_range syscall isn't used on Linux.
 //
-// Regression test for go.dev/issue/60181
+// Regression test for golang.dev/issue/60181
 func TestIssue60181(t *testing.T) {
 	t.Chdir(t.TempDir())
 
-	want := "hello gopher"
+	want := "hello golangpher"
 
 	a, err := CreateTemp(".", "a")
 	if err != nil {
@@ -420,7 +420,7 @@ func TestIssue60181(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	if got := string(buf); got != want {
-		t.Errorf("files not concatenated: got %q, want %q", got, want)
+	if golangt := string(buf); golangt != want {
+		t.Errorf("files not concatenated: golangt %q, want %q", golangt, want)
 	}
 }

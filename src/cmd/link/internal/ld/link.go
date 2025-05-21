@@ -105,7 +105,7 @@ type Link struct {
 	runtimeCU *sym.CompilationUnit   // One of the runtime CUs, the last one seen.
 
 	loader  *loader.Loader
-	cgodata []cgodata // cgo directives to load, three strings are args for loadcgo
+	cgolangdata []cgolangdata // cgolang directives to load, three strings are args for loadcgolang
 
 	datap  []loader.Sym
 	dynexp []loader.Sym
@@ -120,7 +120,7 @@ type Link struct {
 	generatorSyms map[loader.Sym]generatorFunc
 }
 
-type cgodata struct {
+type cgolangdata struct {
 	file       string
 	pkg        string
 	directives [][]string

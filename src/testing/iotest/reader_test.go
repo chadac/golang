@@ -1,5 +1,5 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package iotest
@@ -26,7 +26,7 @@ func TestOneByteReader_nonEmptyReader(t *testing.T) {
 
 	b = make([]byte, 3)
 	// Read from obr until EOF.
-	got := new(strings.Builder)
+	golangt := new(strings.Builder)
 	for i := 0; ; i++ {
 		n, err = obr.Read(b)
 		if err != nil {
@@ -35,12 +35,12 @@ func TestOneByteReader_nonEmptyReader(t *testing.T) {
 		if g, w := n, 1; g != w {
 			t.Errorf("Iteration #%d read %d bytes, want %d", i, g, w)
 		}
-		got.Write(b[:n])
+		golangt.Write(b[:n])
 	}
 	if g, w := err, io.EOF; g != w {
 		t.Errorf("Unexpected error after reading all bytes\n\tGot:  %v\n\tWant: %v", g, w)
 	}
-	if g, w := got.String(), "Hello, World!"; g != w {
+	if g, w := golangt.String(), "Hello, World!"; g != w {
 		t.Errorf("Read mismatch\n\tGot:  %q\n\tWant: %q", g, w)
 	}
 }
@@ -77,7 +77,7 @@ func TestHalfReader_nonEmptyReader(t *testing.T) {
 	}
 	// non empty read buffer
 	b = make([]byte, 2)
-	got := new(strings.Builder)
+	golangt := new(strings.Builder)
 	for i := 0; ; i++ {
 		n, err = hr.Read(b)
 		if err != nil {
@@ -86,12 +86,12 @@ func TestHalfReader_nonEmptyReader(t *testing.T) {
 		if g, w := n, 1; g != w {
 			t.Errorf("Iteration #%d read %d bytes, want %d", i, g, w)
 		}
-		got.Write(b[:n])
+		golangt.Write(b[:n])
 	}
 	if g, w := err, io.EOF; g != w {
 		t.Errorf("Unexpected error after reading all bytes\n\tGot:  %v\n\tWant: %v", g, w)
 	}
-	if g, w := got.String(), "Hello, World!"; g != w {
+	if g, w := golangt.String(), "Hello, World!"; g != w {
 		t.Errorf("Read mismatch\n\tGot:  %q\n\tWant: %q", g, w)
 	}
 }
@@ -190,12 +190,12 @@ func TestDataErrReader_nonEmptyReader(t *testing.T) {
 	der := DataErrReader(buf)
 
 	b := make([]byte, 3)
-	got := new(strings.Builder)
+	golangt := new(strings.Builder)
 	var n int
 	var err error
 	for {
 		n, err = der.Read(b)
-		got.Write(b[:n])
+		golangt.Write(b[:n])
 		if err != nil {
 			break
 		}
@@ -203,7 +203,7 @@ func TestDataErrReader_nonEmptyReader(t *testing.T) {
 	if err != io.EOF || n == 0 {
 		t.Errorf("Last Read returned n=%d err=%v", n, err)
 	}
-	if g, w := got.String(), "Hello, World!"; g != w {
+	if g, w := golangt.String(), "Hello, World!"; g != w {
 		t.Errorf("Read mismatch\n\tGot:  %q\n\tWant: %q", g, w)
 	}
 }
@@ -245,14 +245,14 @@ func TestErrReader(t *testing.T) {
 				t.Fatalf("Error mismatch\nGot:  %v\nWant: %v", err, tt.err)
 			}
 			if n != 0 {
-				t.Fatalf("Byte count mismatch: got %d want 0", n)
+				t.Fatalf("Byte count mismatch: golangt %d want 0", n)
 			}
 		})
 	}
 }
 
 func TestStringsReader(t *testing.T) {
-	const msg = "Now is the time for all good gophers."
+	const msg = "Now is the time for all golangod golangphers."
 
 	r := strings.NewReader(msg)
 	if err := TestReader(r, []byte(msg)); err != nil {

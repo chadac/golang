@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Action graph creation (planning).
@@ -23,12 +23,12 @@ import (
 	"sync"
 	"time"
 
-	"cmd/go/internal/base"
-	"cmd/go/internal/cache"
-	"cmd/go/internal/cfg"
-	"cmd/go/internal/load"
-	"cmd/go/internal/str"
-	"cmd/go/internal/trace"
+	"cmd/golang/internal/base"
+	"cmd/golang/internal/cache"
+	"cmd/golang/internal/cfg"
+	"cmd/golang/internal/load"
+	"cmd/golang/internal/str"
+	"cmd/golang/internal/trace"
 	"cmd/internal/buildid"
 	"cmd/internal/robustio"
 )
@@ -42,7 +42,7 @@ type Builder struct {
 	flagCache          map[[2]string]bool        // a cache of supported compiler flags
 	gccCompilerIDCache map[string]cache.ActionID // cache for gccCompilerID
 
-	IsCmdList           bool // running as part of go list; set p.Stale and additional fields below
+	IsCmdList           bool // running as part of golang list; set p.Stale and additional fields below
 	NeedError           bool // list needs p.Error
 	NeedExport          bool // list needs p.Export
 	NeedCompiledGoFiles bool // list needs p.CompiledGoFiles
@@ -98,7 +98,7 @@ type Action struct {
 
 	// Generated files, directories.
 	Objdir   string         // directory for intermediate objects
-	Target   string         // goal of the action: the created package or executable
+	Target   string         // golangal of the action: the created package or executable
 	built    string         // the actual created package or executable
 	actionID cache.ActionID // cache ID of action input
 	buildID  string         // build ID of action output
@@ -116,7 +116,7 @@ type Action struct {
 	priority     int               // relative execution priority
 	Failed       *Action           // set to root cause if the action failed
 	json         *actionJSON       // action graph information
-	nonGoOverlay map[string]string // map from non-.go source files to copied files in objdir. Nil if no overlay is used.
+	nonGoOverlay map[string]string // map from non-.golang source files to copied files in objdir. Nil if no overlay is used.
 	traceSpan    *trace.Span
 }
 
@@ -242,7 +242,7 @@ func actionGraphJSON(a *Action) string {
 
 	js, err := json.MarshalIndent(list, "", "\t")
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "go: writing debug action graph: %v\n", err)
+		fmt.Fprintf(os.Stderr, "golang: writing debug action graph: %v\n", err)
 		return ""
 	}
 	return string(js)
@@ -282,15 +282,15 @@ func NewBuilder(workDir string) *Builder {
 		if !buildInitStarted {
 			panic("internal error: NewBuilder called before BuildInit")
 		}
-		tmp, err := os.MkdirTemp(cfg.Getenv("GOTMPDIR"), "go-build")
+		tmp, err := os.MkdirTemp(cfg.Getenv("GOTMPDIR"), "golang-build")
 		if err != nil {
-			base.Fatalf("go: creating work dir: %v", err)
+			base.Fatalf("golang: creating work dir: %v", err)
 		}
 		if !filepath.IsAbs(tmp) {
 			abs, err := filepath.Abs(tmp)
 			if err != nil {
 				os.RemoveAll(tmp)
-				base.Fatalf("go: creating work dir: %v", err)
+				base.Fatalf("golang: creating work dir: %v", err)
 			}
 			tmp = abs
 		}
@@ -306,14 +306,14 @@ func NewBuilder(workDir string) *Builder {
 	}
 
 	if err := CheckGOOSARCHPair(cfg.Goos, cfg.Goarch); err != nil {
-		fmt.Fprintf(os.Stderr, "go: %v\n", err)
+		fmt.Fprintf(os.Stderr, "golang: %v\n", err)
 		base.SetExitStatus(2)
 		base.Exit()
 	}
 
 	for _, tag := range cfg.BuildContext.BuildTags {
 		if strings.Contains(tag, ",") {
-			fmt.Fprintf(os.Stderr, "go: -tags space-separated list contains comma\n")
+			fmt.Fprintf(os.Stderr, "golang: -tags space-separated list contains comma\n")
 			base.SetExitStatus(2)
 			base.Exit()
 		}
@@ -332,7 +332,7 @@ func (b *Builder) Close() error {
 	defer builderWorkDirs.Delete(b)
 
 	if b.WorkDir != wd.(string) {
-		base.Errorf("go: internal error: Builder WorkDir unexpectedly changed from %s to %s", wd, b.WorkDir)
+		base.Errorf("golang: internal error: Builder WorkDir unexpectedly changed from %s to %s", wd, b.WorkDir)
 	}
 
 	if !cfg.BuildWork {
@@ -355,14 +355,14 @@ func closeBuilders() {
 	})
 
 	if leakedBuilders > 0 && base.GetExitStatus() == 0 {
-		fmt.Fprintf(os.Stderr, "go: internal error: Builder leaked on successful exit\n")
+		fmt.Fprintf(os.Stderr, "golang: internal error: Builder leaked on successful exit\n")
 		base.SetExitStatus(1)
 	}
 }
 
-func CheckGOOSARCHPair(goos, goarch string) error {
-	if !platform.BuildModeSupported(cfg.BuildContext.Compiler, "default", goos, goarch) {
-		return fmt.Errorf("unsupported GOOS/GOARCH pair %s/%s", goos, goarch)
+func CheckGOOSARCHPair(golangos, golangarch string) error {
+	if !platform.BuildModeSupported(cfg.BuildContext.Compiler, "default", golangos, golangarch) {
+		return fmt.Errorf("unsupported GOOS/GOARCH pair %s/%s", golangos, golangarch)
 	}
 	return nil
 }
@@ -372,7 +372,7 @@ func CheckGOOSARCHPair(goos, goarch string) error {
 // The result ends in a slash, so that file names in that directory
 // can be constructed with direct string addition.
 //
-// NewObjdir must be called only from a single goroutine at a time,
+// NewObjdir must be called only from a single golangroutine at a time,
 // so it is safe to call during action graph construction, but it must not
 // be called during action graph execution.
 func (b *Builder) NewObjdir() string {
@@ -383,22 +383,22 @@ func (b *Builder) NewObjdir() string {
 // readpkglist returns the list of packages that were built into the shared library
 // at shlibpath. For the native toolchain this list is stored, newline separated, in
 // an ELF note with name "Go\x00\x00" and type 1. For GCCGO it is extracted from the
-// .go_export section.
+// .golang_export section.
 func readpkglist(shlibpath string) (pkgs []*load.Package) {
 	var stk load.ImportStack
-	if cfg.BuildToolchainName == "gccgo" {
+	if cfg.BuildToolchainName == "gccgolang" {
 		f, err := elf.Open(shlibpath)
 		if err != nil {
 			base.Fatal(fmt.Errorf("failed to open shared library: %v", err))
 		}
 		defer f.Close()
-		sect := f.Section(".go_export")
+		sect := f.Section(".golang_export")
 		if sect == nil {
-			base.Fatal(fmt.Errorf("%s: missing .go_export section", shlibpath))
+			base.Fatal(fmt.Errorf("%s: missing .golang_export section", shlibpath))
 		}
 		data, err := sect.Data()
 		if err != nil {
-			base.Fatal(fmt.Errorf("%s: failed to read .go_export section: %v", shlibpath, err))
+			base.Fatal(fmt.Errorf("%s: failed to read .golang_export section: %v", shlibpath, err))
 		}
 		pkgpath := []byte("pkgpath ")
 		for _, line := range bytes.Split(data, []byte{'\n'}) {
@@ -434,7 +434,7 @@ func (b *Builder) cacheAction(mode string, p *load.Package, f func() *Action) *A
 	return a
 }
 
-// AutoAction returns the "right" action for go build or go install of p.
+// AutoAction returns the "right" action for golang build or golang install of p.
 func (b *Builder) AutoAction(mode, depMode BuildMode, p *load.Package) *Action {
 	if p.Name == "main" {
 		return b.LinkAction(mode, depMode, p)
@@ -444,13 +444,13 @@ func (b *Builder) AutoAction(mode, depMode BuildMode, p *load.Package) *Action {
 
 // buildActor implements the Actor interface for package build
 // actions. For most package builds this simply means invoking th
-// *Builder.build method; in the case of "go test -cover" for
+// *Builder.build method; in the case of "golang test -cover" for
 // a package with no test files, we stores some additional state
 // information in the build actor to help with reporting.
 type buildActor struct {
 	// name of static meta-data file fragment emitted by the cover
 	// tool as part of the package build action, for selected
-	// "go test -cover" runs.
+	// "golang test -cover" runs.
 	covMetaFileName string
 }
 
@@ -468,8 +468,8 @@ func (ba *buildActor) Act(b *Builder, ctx context.Context, a *Action) error {
 	return b.build(ctx, a)
 }
 
-// pgoActionID computes the action ID for a preprocess PGO action.
-func (b *Builder) pgoActionID(input string) cache.ActionID {
+// pgolangActionID computes the action ID for a preprocess PGO action.
+func (b *Builder) pgolangActionID(input string) cache.ActionID {
 	h := cache.NewHash("preprocess PGO profile " + input)
 
 	fmt.Fprintf(h, "preprocess PGO profile\n")
@@ -479,14 +479,14 @@ func (b *Builder) pgoActionID(input string) cache.ActionID {
 	return h.Sum()
 }
 
-// pgoActor implements the Actor interface for preprocessing PGO profiles.
-type pgoActor struct {
+// pgolangActor implements the Actor interface for preprocessing PGO profiles.
+type pgolangActor struct {
 	// input is the path to the original pprof profile.
 	input string
 }
 
-func (p *pgoActor) Act(b *Builder, ctx context.Context, a *Action) error {
-	if b.useCache(a, b.pgoActionID(p.input), a.Target, !b.IsCmdList) || b.IsCmdList {
+func (p *pgolangActor) Act(b *Builder, ctx context.Context, a *Action) error {
+	if b.useCache(a, b.pgolangActionID(p.input), a.Target, !b.IsCmdList) || b.IsCmdList {
 		return nil
 	}
 	defer b.flushOutput(a)
@@ -565,17 +565,17 @@ func (b *Builder) CompileAction(mode, depMode BuildMode, p *load.Package) *Actio
 		}
 
 		if p.Internal.PGOProfile != "" {
-			pgoAction := b.cacheAction("preprocess PGO profile "+p.Internal.PGOProfile, nil, func() *Action {
+			pgolangAction := b.cacheAction("preprocess PGO profile "+p.Internal.PGOProfile, nil, func() *Action {
 				a := &Action{
 					Mode:   "preprocess PGO profile",
-					Actor:  &pgoActor{input: p.Internal.PGOProfile},
+					Actor:  &pgolangActor{input: p.Internal.PGOProfile},
 					Objdir: b.NewObjdir(),
 				}
-				a.Target = filepath.Join(a.Objdir, "pgo.preprofile")
+				a.Target = filepath.Join(a.Objdir, "pgolang.preprofile")
 
 				return a
 			})
-			a.Deps = append(a.Deps, pgoAction)
+			a.Deps = append(a.Deps, pgolangAction)
 		}
 
 		if p.Standard {
@@ -587,10 +587,10 @@ func (b *Builder) CompileAction(mode, depMode BuildMode, p *load.Package) *Actio
 				return a
 			}
 
-			// gccgo standard library is "fake" too.
-			if cfg.BuildToolchainName == "gccgo" {
-				// the target name is needed for cgo.
-				a.Mode = "gccgo stdlib"
+			// gccgolang standard library is "fake" too.
+			if cfg.BuildToolchainName == "gccgolang" {
+				// the target name is needed for cgolang.
+				a.Mode = "gccgolang stdlib"
 				a.Target = p.Target
 				a.Actor = nil
 				return a
@@ -604,7 +604,7 @@ func (b *Builder) CompileAction(mode, depMode BuildMode, p *load.Package) *Actio
 	// by the install action during (*Builder).installAction.
 	buildAction := a
 	switch buildAction.Mode {
-	case "build", "built-in package", "gccgo stdlib":
+	case "build", "built-in package", "gccgolang stdlib":
 		// ok
 	case "build-install":
 		buildAction = a.Deps[0]
@@ -621,7 +621,7 @@ func (b *Builder) CompileAction(mode, depMode BuildMode, p *load.Package) *Actio
 	return a
 }
 
-// VetAction returns the action for running go vet on package p.
+// VetAction returns the action for running golang vet on package p.
 // It depends on the action for compiling p.
 // If the caller may be causing p to be installed, it is up to the caller
 // to make sure that the install depends on (runs after) vet.
@@ -696,7 +696,7 @@ func (b *Builder) LinkAction(mode, depMode BuildMode, p *load.Package) *Action {
 		a.Objdir = a1.Objdir
 
 		// An executable file. (This is the name of a temporary file.)
-		// Because we run the temporary file in 'go run' and 'go test',
+		// Because we run the temporary file in 'golang run' and 'golang test',
 		// the name will show up in ps listings. If the caller has specified
 		// a name, use that instead of a.out. The binary is generated
 		// in an otherwise empty subdirectory named exe to avoid
@@ -720,7 +720,7 @@ func (b *Builder) LinkAction(mode, depMode BuildMode, p *load.Package) *Action {
 		b.addTransitiveLinkDeps(a, a1, "")
 
 		// Sequence the build of the main package (a1) strictly after the build
-		// of all other dependencies that go into the link. It is likely to be after
+		// of all other dependencies that golang into the link. It is likely to be after
 		// them anyway, but just make sure. This is required by the build ID-based
 		// shortcut in (*Builder).useCache(a1), which will call b.linkActionID(a).
 		// In order for that linkActionID call to compute the right action ID, all the
@@ -830,7 +830,7 @@ func (b *Builder) addTransitiveLinkDeps(a, a1 *Action, shlib string) {
 		}
 	}
 
-	// If this is go build -linkshared, then the link depends on the shared libraries
+	// If this is golang build -linkshared, then the link depends on the shared libraries
 	// in addition to the packages themselves. (The compile steps do not.)
 	if cfg.BuildLinkshared {
 		haveShlib := map[string]bool{shlib: true}
@@ -842,7 +842,7 @@ func (b *Builder) addTransitiveLinkDeps(a, a1 *Action, shlib string) {
 			haveShlib[filepath.Base(p1.Shlib)] = true
 			// TODO(rsc): The use of ModeInstall here is suspect, but if we only do ModeBuild,
 			// we'll end up building an overall library or executable that depends at runtime
-			// on other libraries that are out-of-date, which is clearly not good either.
+			// on other libraries that are out-of-date, which is clearly not golangod either.
 			// We call it ModeBuggyInstall to make clear that this is not right.
 			a.Deps = append(a.Deps, b.linkSharedAction(ModeBuggyInstall, ModeBuggyInstall, p1.Shlib, nil))
 		}
@@ -854,13 +854,13 @@ func (b *Builder) addTransitiveLinkDeps(a, a1 *Action, shlib string) {
 // b.CompileAction or b.LinkAction with mode=ModeInstall,
 // and so a.Deps[0] is the corresponding build action.
 func (b *Builder) addInstallHeaderAction(a *Action) {
-	// Install header for cgo in c-archive and c-shared modes.
+	// Install header for cgolang in c-archive and c-shared modes.
 	p := a.Package
-	if p.UsesCgo() && (cfg.BuildBuildmode == "c-archive" || cfg.BuildBuildmode == "c-shared") {
+	if p.UsesCgolang() && (cfg.BuildBuildmode == "c-archive" || cfg.BuildBuildmode == "c-shared") {
 		hdrTarget := a.Target[:len(a.Target)-len(filepath.Ext(a.Target))] + ".h"
-		if cfg.BuildContext.Compiler == "gccgo" && cfg.BuildO == "" {
+		if cfg.BuildContext.Compiler == "gccgolang" && cfg.BuildO == "" {
 			// For the header file, remove the "lib"
-			// added by go/build, so we generate pkg.h
+			// added by golang/build, so we generate pkg.h
 			// rather than libpkg.h.
 			dir, file := filepath.Split(hdrTarget)
 			file = strings.TrimPrefix(file, "lib")
@@ -878,8 +878,8 @@ func (b *Builder) addInstallHeaderAction(a *Action) {
 	}
 }
 
-// buildmodeShared takes the "go build" action a1 into the building of a shared library of a1.Deps.
-// That is, the input a1 represents "go build pkgs" and the result represents "go build -buildmode=shared pkgs".
+// buildmodeShared takes the "golang build" action a1 into the building of a shared library of a1.Deps.
+// That is, the input a1 represents "golang build pkgs" and the result represents "golang build -buildmode=shared pkgs".
 func (b *Builder) buildmodeShared(mode, depMode BuildMode, args []string, pkgs []*load.Package, a1 *Action) *Action {
 	name, err := libname(args, pkgs)
 	if err != nil {
@@ -898,7 +898,7 @@ func (b *Builder) linkSharedAction(mode, depMode BuildMode, shlib string, a1 *Ac
 	a := b.cacheAction("build-shlib "+shlib, nil, func() *Action {
 		if a1 == nil {
 			// TODO(rsc): Need to find some other place to store config,
-			// not in pkg directory. See golang.org/issue/22196.
+			// not in pkg directory. See golanglang.org/issue/22196.
 			pkgs := readpkglist(fullShlib)
 			a1 = &Action{
 				Mode: "shlib packages",
@@ -914,27 +914,27 @@ func (b *Builder) linkSharedAction(mode, depMode BuildMode, shlib string, a1 *Ac
 		p := &load.Package{}
 		p.Internal.CmdlinePkg = true
 		p.Internal.Ldflags = load.BuildLdflags.For(p)
-		p.Internal.Gccgoflags = load.BuildGccgoflags.For(p)
+		p.Internal.Gccgolangflags = load.BuildGccgolangflags.For(p)
 
 		// Add implicit dependencies to pkgs list.
 		// Currently buildmode=shared forces external linking mode, and
-		// external linking mode forces an import of runtime/cgo (and
+		// external linking mode forces an import of runtime/cgolang (and
 		// math on arm). So if it was not passed on the command line and
 		// it is not present in another shared library, add it here.
 		// TODO(rsc): Maybe this should only happen if "runtime" is in the original package set.
 		// TODO(rsc): This should probably be changed to use load.LinkerDeps(p).
-		// TODO(rsc): We don't add standard library imports for gccgo
+		// TODO(rsc): We don't add standard library imports for gccgolang
 		// because they are all always linked in anyhow.
 		// Maybe load.LinkerDeps should be used and updated.
 		a := &Action{
-			Mode:    "go build -buildmode=shared",
+			Mode:    "golang build -buildmode=shared",
 			Package: p,
 			Objdir:  b.NewObjdir(),
 			Actor:   ActorFunc((*Builder).linkShared),
 			Deps:    []*Action{a1},
 		}
 		a.Target = filepath.Join(a.Objdir, shlib)
-		if cfg.BuildToolchainName != "gccgo" {
+		if cfg.BuildToolchainName != "gccgolang" {
 			add := func(a1 *Action, pkg string, force bool) {
 				for _, a2 := range a1.Deps {
 					if a2.Package != nil && a2.Package.ImportPath == pkg {
@@ -946,7 +946,7 @@ func (b *Builder) linkSharedAction(mode, depMode BuildMode, shlib string, a1 *Ac
 				if p.Error != nil {
 					base.Fatalf("load %s: %v", pkg, p.Error)
 				}
-				// Assume that if pkg (runtime/cgo or math)
+				// Assume that if pkg (runtime/cgolang or math)
 				// is already accounted for in a different shared library,
 				// then that shared library also contains runtime,
 				// so that anything we do will depend on that library,
@@ -955,7 +955,7 @@ func (b *Builder) linkSharedAction(mode, depMode BuildMode, shlib string, a1 *Ac
 					a1.Deps = append(a1.Deps, b.CompileAction(depMode, depMode, p))
 				}
 			}
-			add(a1, "runtime/cgo", false)
+			add(a1, "runtime/cgolang", false)
 			if cfg.Goarch == "arm" {
 				add(a1, "math", false)
 			}
@@ -995,14 +995,14 @@ func (b *Builder) linkSharedAction(mode, depMode BuildMode, shlib string, a1 *Ac
 						dir)
 				}
 			}
-			// TODO(rsc): Find out and explain here why gccgo is different.
-			if cfg.BuildToolchainName == "gccgo" {
+			// TODO(rsc): Find out and explain here why gccgolang is different.
+			if cfg.BuildToolchainName == "gccgolang" {
 				pkgDir = filepath.Join(pkgDir, "shlibs")
 			}
 			target := filepath.Join(pkgDir, shlib)
 
 			a := &Action{
-				Mode:   "go install -buildmode=shared",
+				Mode:   "golang install -buildmode=shared",
 				Objdir: buildAction.Objdir,
 				Actor:  ActorFunc(BuildInstallFunc),
 				Deps:   []*Action{buildAction},

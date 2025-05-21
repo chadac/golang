@@ -1,12 +1,12 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package aliases
 
 import (
-	"go/token"
-	"go/types"
+	"golang/token"
+	"golang/types"
 )
 
 // Package aliases defines backward compatible shims
@@ -19,7 +19,7 @@ import (
 // The enabled parameter determines whether the resulting [TypeName]'s
 // type is an [types.Alias]. Its value must be the result of a call to
 // [Enabled], which computes the effective value of
-// GODEBUG=gotypesalias=... by invoking the type checker. The Enabled
+// GODEBUG=golangtypesalias=... by invoking the type checker. The Enabled
 // function is expensive and should be called once per task (e.g.
 // package import), not once per call to NewAlias.
 //
@@ -32,7 +32,7 @@ func NewAlias(enabled bool, pos token.Pos, pkg *types.Package, name string, rhs 
 		return tname
 	}
 	if len(tparams) > 0 {
-		panic("cannot create an alias with type parameters when gotypesalias is not enabled")
+		panic("cannot create an alias with type parameters when golangtypesalias is not enabled")
 	}
 	return types.NewTypeName(pos, pkg, name, rhs)
 }

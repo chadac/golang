@@ -1,12 +1,12 @@
-! go mod tidy
-stderr '^go: warning: ignoring go.mod in \$GOPATH'
-stderr '^go: go.mod file not found in current directory or any parent directory; see ''go help modules'''
+! golang mod tidy
+stderr '^golang: warning: ignoring golang.mod in \$GOPATH'
+stderr '^golang: golang.mod file not found in current directory or any parent directory; see ''golang help modules'''
 
-go env
+golang env
 stdout 'GOPATH='
-stderr '^go: warning: ignoring go.mod in \$GOPATH'
+stderr '^golang: warning: ignoring golang.mod in \$GOPATH'
 
--- $GOPATH/go.mod --
+-- $GOPATH/golang.mod --
 module bug
 
-go 1.21
+golang 1.21

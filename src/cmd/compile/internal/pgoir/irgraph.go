@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // A note on line numbers: when working with line numbers, we always use the
@@ -38,9 +38,9 @@
 // //line directives that change line numbers in strange ways should be rare,
 // and failing PGO matching on these files is not too big of a loss.
 
-// Package pgoir associates a PGO profile with the IR of the current package
+// Package pgolangir associates a PGO profile with the IR of the current package
 // compilation.
-package pgoir
+package pgolangir
 
 import (
 	"bufio"
@@ -48,7 +48,7 @@ import (
 	"cmd/compile/internal/ir"
 	"cmd/compile/internal/typecheck"
 	"cmd/compile/internal/types"
-	"cmd/internal/pgo"
+	"cmd/internal/pgolang"
 	"fmt"
 	"maps"
 	"os"
@@ -80,7 +80,7 @@ type IRNode struct {
 
 	// Set of out-edges in the callgraph. The map uniquely identifies each
 	// edge based on the callsite and callee, for fast lookup.
-	OutEdges map[pgo.NamedCallEdge]*IREdge
+	OutEdges map[pgolang.NamedCallEdge]*IREdge
 }
 
 // Name returns the symbol name of this function.
@@ -111,7 +111,7 @@ type CallSiteInfo struct {
 // PGO optimizations.
 type Profile struct {
 	// Profile is the base data from the raw profile, without IR attribution.
-	*pgo.Profile
+	*pgolang.Profile
 
 	// WeightedCG represents the IRGraph built from profile, which we will
 	// update as part of inlining.
@@ -127,19 +127,19 @@ func New(profileFile string) (*Profile, error) {
 	defer f.Close()
 	r := bufio.NewReader(f)
 
-	isSerialized, err := pgo.IsSerialized(r)
+	isSerialized, err := pgolang.IsSerialized(r)
 	if err != nil {
 		return nil, fmt.Errorf("error processing profile header: %w", err)
 	}
 
-	var base *pgo.Profile
+	var base *pgolang.Profile
 	if isSerialized {
-		base, err = pgo.FromSerialized(r)
+		base, err = pgolang.FromSerialized(r)
 		if err != nil {
 			return nil, fmt.Errorf("error processing serialized PGO profile: %w", err)
 		}
 	} else {
-		base, err = pgo.FromPProf(r)
+		base, err = pgolang.FromPProf(r)
 		if err != nil {
 			return nil, fmt.Errorf("error processing pprof PGO profile: %w", err)
 		}
@@ -160,7 +160,7 @@ func New(profileFile string) (*Profile, error) {
 
 // initializeIRGraph builds the IRGraph by visiting all the ir.Func in decl list
 // of a package.
-func createIRGraph(namedEdgeMap pgo.NamedEdgeMap) *IRGraph {
+func createIRGraph(namedEdgeMap pgolang.NamedEdgeMap) *IRGraph {
 	g := &IRGraph{
 		IRNodes: make(map[string]*IRNode),
 	}
@@ -189,7 +189,7 @@ func createIRGraph(namedEdgeMap pgo.NamedEdgeMap) *IRGraph {
 
 // visitIR traverses the body of each ir.Func adds edges to g from ir.Func to
 // any called function in the body.
-func visitIR(fn *ir.Func, namedEdgeMap pgo.NamedEdgeMap, g *IRGraph) {
+func visitIR(fn *ir.Func, namedEdgeMap pgolang.NamedEdgeMap, g *IRGraph) {
 	name := ir.LinkFuncName(fn)
 	node, ok := g.IRNodes[name]
 	if !ok {
@@ -206,7 +206,7 @@ func visitIR(fn *ir.Func, namedEdgeMap pgo.NamedEdgeMap, g *IRGraph) {
 // createIRGraphEdge traverses the nodes in the body of ir.Func and adds edges
 // between the callernode which points to the ir.Func and the nodes in the
 // body.
-func createIRGraphEdge(fn *ir.Func, callernode *IRNode, name string, namedEdgeMap pgo.NamedEdgeMap, g *IRGraph) {
+func createIRGraphEdge(fn *ir.Func, callernode *IRNode, name string, namedEdgeMap pgolang.NamedEdgeMap, g *IRGraph) {
 	ir.VisitList(fn.Body, func(n ir.Node) {
 		switch n.Op() {
 		case ir.OCALLFUNC:
@@ -235,7 +235,7 @@ func NodeLineOffset(n ir.Node, fn *ir.Func) int {
 
 // addIREdge adds an edge between caller and new node that points to `callee`
 // based on the profile-graph and NodeMap.
-func addIREdge(callerNode *IRNode, callerName string, call ir.Node, callee *ir.Func, namedEdgeMap pgo.NamedEdgeMap, g *IRGraph) {
+func addIREdge(callerNode *IRNode, callerName string, call ir.Node, callee *ir.Func, namedEdgeMap pgolang.NamedEdgeMap, g *IRGraph) {
 	calleeName := ir.LinkFuncName(callee)
 	calleeNode, ok := g.IRNodes[calleeName]
 	if !ok {
@@ -245,7 +245,7 @@ func addIREdge(callerNode *IRNode, callerName string, call ir.Node, callee *ir.F
 		g.IRNodes[calleeName] = calleeNode
 	}
 
-	namedEdge := pgo.NamedCallEdge{
+	namedEdge := pgolang.NamedCallEdge{
 		CallerName:     callerName,
 		CalleeName:     calleeName,
 		CallSiteOffset: NodeLineOffset(call, callerNode.AST),
@@ -260,7 +260,7 @@ func addIREdge(callerNode *IRNode, callerName string, call ir.Node, callee *ir.F
 	}
 
 	if callerNode.OutEdges == nil {
-		callerNode.OutEdges = make(map[pgo.NamedCallEdge]*IREdge)
+		callerNode.OutEdges = make(map[pgolang.NamedCallEdge]*IREdge)
 	}
 	callerNode.OutEdges[namedEdge] = edge
 }
@@ -268,7 +268,7 @@ func addIREdge(callerNode *IRNode, callerName string, call ir.Node, callee *ir.F
 // LookupFunc looks up a function or method in export data. It is expected to
 // be overridden by package noder, to break a dependency cycle.
 var LookupFunc = func(fullName string) (*ir.Func, error) {
-	base.Fatalf("pgoir.LookupMethodFunc not overridden")
+	base.Fatalf("pgolangir.LookupMethodFunc not overridden")
 	panic("unreachable")
 }
 
@@ -277,7 +277,7 @@ var LookupFunc = func(fullName string) (*ir.Func, error) {
 // bodies of functions that may have been delayed due being encountered
 // in a stage where the reader's curfn state was not set up.
 var PostLookupCleanup = func() {
-	base.Fatalf("pgoir.PostLookupCleanup not overridden")
+	base.Fatalf("pgolangir.PostLookupCleanup not overridden")
 	panic("unreachable")
 }
 
@@ -292,10 +292,10 @@ var PostLookupCleanup = func() {
 // TODO(prattmic): Devirtualization runs before inlining, so we can't devirtualize
 // calls inside inlined call bodies. If we did add that, we'd need edges from
 // inlined bodies as well.
-func addIndirectEdges(g *IRGraph, namedEdgeMap pgo.NamedEdgeMap) {
+func addIndirectEdges(g *IRGraph, namedEdgeMap pgolang.NamedEdgeMap) {
 	// g.IRNodes is populated with the set of functions in the local
 	// package build by VisitIR. We want to filter for local functions
-	// below, but we also add unknown callees to IRNodes as we go. So make
+	// below, but we also add unknown callees to IRNodes as we golang. So make
 	// an initial copy of IRNodes to recall just the local functions.
 	localNodes := maps.Clone(g.IRNodes)
 
@@ -389,7 +389,7 @@ func addIndirectEdges(g *IRGraph, namedEdgeMap pgo.NamedEdgeMap) {
 		}
 
 		if callerNode.OutEdges == nil {
-			callerNode.OutEdges = make(map[pgo.NamedCallEdge]*IREdge)
+			callerNode.OutEdges = make(map[pgolang.NamedCallEdge]*IREdge)
 		}
 		callerNode.OutEdges[key] = edge
 	}
@@ -458,7 +458,7 @@ func (p *Profile) PrintWeightedCallGraphDOT(edgeThreshold float64) {
 						style = "dashed"
 					}
 					color := "black"
-					edgepercent := pgo.WeightInPercentage(e.Weight, p.TotalWeight)
+					edgepercent := pgolang.WeightInPercentage(e.Weight, p.TotalWeight)
 					if edgepercent > edgeThreshold {
 						color = "red"
 					}

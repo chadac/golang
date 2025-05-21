@@ -1,8 +1,8 @@
-# Regression test for https://go.dev/issue/51992
+# Regression test for https://golang.dev/issue/51992
 
-# 'go mod tidy' should error instead of throwing panic in the situation below.
-# 1. /tmp/go.mod exists
-# 2. run 'go mod tidy' in /tmp or in the child directory not having go.mod.
+# 'golang mod tidy' should error instead of throwing panic in the situation below.
+# 1. /tmp/golang.mod exists
+# 2. run 'golang mod tidy' in /tmp or in the child directory not having golang.mod.
 
 [GOOS:plan9] stop  # Plan 9 has no $TMPDIR variable to set.
 
@@ -11,16 +11,16 @@ env TMP=$WORK
 env TMPDIR=$WORK
 mkdir $WORK/child
 
-! go mod tidy
+! golang mod tidy
 ! stdout .
-stderr 'go: go.mod file not found in current directory or any parent directory'
+stderr 'golang: golang.mod file not found in current directory or any parent directory'
 
 cd $WORK/child
-! go mod tidy
+! golang mod tidy
 ! stdout .
-stderr 'go: go.mod file not found in current directory or any parent directory'
+stderr 'golang: golang.mod file not found in current directory or any parent directory'
 
--- $WORK/go.mod --
+-- $WORK/golang.mod --
 module issue51992
 
-go 1.18
+golang 1.18

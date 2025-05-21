@@ -1,7 +1,7 @@
 // asmcheck
 
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package codegen
@@ -57,7 +57,7 @@ func combine4slice(p *[4][]byte, a, b, c, d []byte) {
 func trickyWriteNil(p *int, q **int) {
 	if p == nil {
 		// We change "= p" to "= 0" in the prove pass, which
-		// means we have one less pointer that needs to go
+		// means we have one less pointer that needs to golang
 		// into the write barrier buffer.
 		// amd64:`.*runtime[.]gcWriteBarrier1`
 		*q = p

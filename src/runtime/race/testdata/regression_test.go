@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Code patterns that caused problems in the past.
@@ -16,7 +16,7 @@ type LogImpl struct {
 
 func NewLog() (l LogImpl) {
 	c := make(chan bool)
-	go func() {
+	golang func() {
 		_ = l
 		c <- true
 	}()
@@ -49,7 +49,7 @@ func TestRaceUnaddressableMapLen(t *testing.T) {
 	m := make(map[int]map[int]int)
 	ch := make(chan int, 1)
 	m[0] = make(map[int]int)
-	go func() {
+	golang func() {
 		_ = len(m[0])
 		ch <- 0
 	}()
@@ -65,7 +65,7 @@ type Image struct {
 	min, max Rect
 }
 
-//go:noinline
+//golang:noinline
 func NewImage() Image {
 	return Image{}
 }
@@ -99,7 +99,7 @@ func (s *stack) pop() int {
 
 func TestNoRaceStackPushPop(t *testing.T) {
 	var s stack
-	go func(s *stack) {}(&s)
+	golang func(s *stack) {}(&s)
 	s.push(1)
 	x := s.pop()
 	_ = x
@@ -111,7 +111,7 @@ type RpcChan struct {
 
 var makeChanCalls int
 
-//go:noinline
+//golang:noinline
 func makeChan() *RpcChan {
 	makeChanCalls++
 	c := &RpcChan{make(chan bool, 1)}
@@ -145,11 +145,11 @@ func TestNoRaceReturn(t *testing.T) {
 }
 
 // Return used to do an implicit a = a, causing a read/write race
-// with the goroutine. Compiler has an optimization to avoid that now.
+// with the golangroutine. Compiler has an optimization to avoid that now.
 // See issue 4014.
 func noRaceReturn(c chan int) (a, b int) {
 	a = 42
-	go func() {
+	golang func() {
 		_ = a
 		c <- 1
 	}()

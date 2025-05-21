@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ssa
@@ -265,7 +265,7 @@ func fuseBlockPlain(b *Block) bool {
 	// Use c's storage if fused blocks will fit, else use the max if that will fit, else allocate new storage.
 
 	// Take care to avoid c.Values pointing to b.valstorage.
-	// See golang.org/issue/18602.
+	// See golanglang.org/issue/18602.
 
 	// It's important to keep the elements in the same order; maintenance of
 	// debugging information depends on the order of *Values in Blocks.

@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package exec
@@ -54,8 +54,8 @@ func TestPrefixSuffixSaver(t *testing.T) {
 				t.Errorf("%d. WriteString(%q) = %v, %v; want %v, %v", i, s, n, err, len(s), nil)
 			}
 		}
-		if got := string(w.Bytes()); got != tt.want {
-			t.Errorf("%d. Bytes = %q; want %q", i, got, tt.want)
+		if golangt := string(w.Bytes()); golangt != tt.want {
+			t.Errorf("%d. Bytes = %q; want %q", i, golangt, tt.want)
 		}
 	}
 }

@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package syntax
@@ -15,7 +15,7 @@ type Mode uint
 
 // Modes supported by the parser.
 const (
-	CheckBranches Mode = 1 << iota // check correct use of labels, break, continue, and goto statements
+	CheckBranches Mode = 1 << iota // check correct use of labels, break, continue, and golangto statements
 )
 
 // Error describes a syntax error. Error implements the error interface.
@@ -30,7 +30,7 @@ func (err Error) Error() string {
 
 var _ error = Error{} // verify that Error implements error
 
-// An ErrorHandler is called for each error encountered reading a .go file.
+// An ErrorHandler is called for each error encountered reading a .golang file.
 type ErrorHandler func(err error)
 
 // A Pragma value augments a package, import, const, func, type, or var declaration.
@@ -38,7 +38,7 @@ type ErrorHandler func(err error)
 // except that nil is used to mean “no pragma seen.”
 type Pragma interface{}
 
-// A PragmaHandler is used to process //go: directives while scanning.
+// A PragmaHandler is used to process //golang: directives while scanning.
 // It is passed the current pragma value, which starts out being nil,
 // and it returns an updated pragma value.
 // The text is the directive, with the "//" prefix stripped.

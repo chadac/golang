@@ -1,15 +1,15 @@
 # Test that calling t.Fatal in a benchmark causes a non-zero exit status.
 
-! go test -run '^$' -bench . benchfatal
+! golang test -run '^$' -bench . benchfatal
 ! stdout ^ok
 ! stderr ^ok
 stdout FAIL.*benchfatal
 
--- go.mod --
+-- golang.mod --
 module benchfatal
 
-go 1.16
--- x_test.go --
+golang 1.16
+-- x_test.golang --
 package benchfatal
 
 import "testing"

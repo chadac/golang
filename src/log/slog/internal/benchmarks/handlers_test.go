@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package benchmarks
@@ -22,9 +22,9 @@ func TestHandlers(t *testing.T) {
 		if err := h.Handle(ctx, r); err != nil {
 			t.Fatal(err)
 		}
-		got := b.String()
-		if got != wantText {
-			t.Errorf("\ngot  %q\nwant %q", got, wantText)
+		golangt := b.String()
+		if golangt != wantText {
+			t.Errorf("\ngolangt  %q\nwant %q", golangt, wantText)
 		}
 	})
 	t.Run("async", func(t *testing.T) {
@@ -32,9 +32,9 @@ func TestHandlers(t *testing.T) {
 		if err := h.Handle(ctx, r); err != nil {
 			t.Fatal(err)
 		}
-		got := h.ringBuffer[0]
-		if !got.Time.Equal(r.Time) || !slices.EqualFunc(attrSlice(got), attrSlice(r), slog.Attr.Equal) {
-			t.Errorf("got %+v, want %+v", got, r)
+		golangt := h.ringBuffer[0]
+		if !golangt.Time.Equal(r.Time) || !slices.EqualFunc(attrSlice(golangt), attrSlice(r), slog.Attr.Equal) {
+			t.Errorf("golangt %+v, want %+v", golangt, r)
 		}
 	})
 }

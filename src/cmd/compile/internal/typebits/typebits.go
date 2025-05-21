@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package typebits
@@ -40,7 +40,7 @@ func set(t *types.Type, off int64, bv bitvec.BitVec, skip bool) {
 		bv.Set(int32(off / int64(types.PtrSize))) // pointer
 
 	case types.TSTRING:
-		// struct { byte *str; intgo len; }
+		// struct { byte *str; intgolang len; }
 		if off&int64(types.PtrSize-1) != 0 {
 			base.Fatalf("typebits.Set: invalid alignment, %v", t)
 		}
@@ -68,7 +68,7 @@ func set(t *types.Type, off int64, bv bitvec.BitVec, skip bool) {
 		bv.Set(int32(off/int64(types.PtrSize) + 1)) // pointer in second slot
 
 	case types.TSLICE:
-		// struct { byte *array; uintgo len; uintgo cap; }
+		// struct { byte *array; uintgolang len; uintgolang cap; }
 		if off&int64(types.PtrSize-1) != 0 {
 			base.Fatalf("typebits.Set: invalid TARRAY alignment, %v", t)
 		}

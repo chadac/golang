@@ -1,12 +1,12 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
 
 import (
 	"internal/abi"
-	"internal/goarch"
+	"internal/golangarch"
 	"internal/runtime/atomic"
 	"internal/runtime/sys"
 	"unsafe"
@@ -108,11 +108,11 @@ func (ci *Frames) Next() (frame Frame, more bool) {
 		}
 		funcInfo := findfunc(pc)
 		if !funcInfo.valid() {
-			if cgoSymbolizer != nil {
-				// Pre-expand cgo frames. We could do this
+			if cgolangSymbolizer != nil {
+				// Pre-expand cgolang frames. We could do this
 				// incrementally, too, but there's no way to
 				// avoid allocation in this case anyway.
-				ci.frames = append(ci.frames, expandCgoFrames(pc)...)
+				ci.frames = append(ci.frames, expandCgolangFrames(pc)...)
 			}
 			continue
 		}
@@ -130,7 +130,7 @@ func (ci *Frames) Next() (frame Frame, more bool) {
 		if pc > entry {
 			pc--
 		}
-		// It's important that interpret pc non-strictly as cgoTraceback may
+		// It's important that interpret pc non-strictly as cgolangTraceback may
 		// have added bogus PCs with a valid funcInfo but invalid PCDATA.
 		u, uf := newInlineUnwinder(funcInfo, pc)
 		sf := u.srcFunc(uf)
@@ -149,7 +149,7 @@ func (ci *Frames) Next() (frame Frame, more bool) {
 			// The +1 here correspond to the pc-- above: the output of Callers
 			// and therefore the input to CallersFrames is return PCs from the stack;
 			// The pc-- backs up into the CALL instruction (not the first byte of the CALL
-			// instruction, but good enough to find it nonetheless).
+			// instruction, but golangod enough to find it nonetheless).
 			// There are no cycles in implied virtual PCs (some number of frames were
 			// inlined, but that number is finite), so this unpacking cannot cause an infinite loop.
 			for unext := u.next(uf); unext.valid() && len(ci.callers) > 0 && ci.callers[0] != unext.pc+1; unext = u.next(unext) {
@@ -205,12 +205,12 @@ func (ci *Frames) Next() (frame Frame, more bool) {
 // runtime_FrameStartLine should be an internal detail,
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
-//   - github.com/grafana/pyroscope-go/godeltaprof
+//   - github.com/grafana/pyroscope-golang/golangdeltaprof
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname runtime_FrameStartLine runtime/pprof.runtime_FrameStartLine
+//golang:linkname runtime_FrameStartLine runtime/pprof.runtime_FrameStartLine
 func runtime_FrameStartLine(f *Frame) int {
 	return f.startLine
 }
@@ -222,12 +222,12 @@ func runtime_FrameStartLine(f *Frame) int {
 // runtime_FrameSymbolName should be an internal detail,
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
-//   - github.com/grafana/pyroscope-go/godeltaprof
+//   - github.com/grafana/pyroscope-golang/golangdeltaprof
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname runtime_FrameSymbolName runtime/pprof.runtime_FrameSymbolName
+//golang:linkname runtime_FrameSymbolName runtime/pprof.runtime_FrameSymbolName
 func runtime_FrameSymbolName(f *Frame) string {
 	if !f.funcInfo.valid() {
 		return f.Function
@@ -243,13 +243,13 @@ func runtime_FrameSymbolName(f *Frame) string {
 // runtime_expandFinalInlineFrame should be an internal detail,
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
-//   - github.com/grafana/pyroscope-go/godeltaprof
-//   - github.com/pyroscope-io/godeltaprof
+//   - github.com/grafana/pyroscope-golang/golangdeltaprof
+//   - github.com/pyroscope-io/golangdeltaprof
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname runtime_expandFinalInlineFrame runtime/pprof.runtime_expandFinalInlineFrame
+//golang:linkname runtime_expandFinalInlineFrame runtime/pprof.runtime_expandFinalInlineFrame
 func runtime_expandFinalInlineFrame(stk []uintptr) []uintptr {
 	// TODO: It would be more efficient to report only physical PCs to pprof and
 	// just expand the whole stack.
@@ -292,12 +292,12 @@ func runtime_expandFinalInlineFrame(stk []uintptr) []uintptr {
 	return stk
 }
 
-// expandCgoFrames expands frame information for pc, known to be
-// a non-Go function, using the cgoSymbolizer hook. expandCgoFrames
+// expandCgolangFrames expands frame information for pc, known to be
+// a non-Go function, using the cgolangSymbolizer hook. expandCgolangFrames
 // returns nil if pc could not be expanded.
-func expandCgoFrames(pc uintptr) []Frame {
-	arg := cgoSymbolizerArg{pc: pc}
-	callCgoSymbolizer(&arg)
+func expandCgolangFrames(pc uintptr) []Frame {
+	arg := cgolangSymbolizerArg{pc: pc}
+	callCgolangSymbolizer(&arg)
 
 	if arg.file == nil && arg.funcName == nil {
 		// No useful information from symbolizer.
@@ -309,8 +309,8 @@ func expandCgoFrames(pc uintptr) []Frame {
 		frames = append(frames, Frame{
 			PC:       pc,
 			Func:     nil,
-			Function: gostring(arg.funcName),
-			File:     gostring(arg.file),
+			Function: golangstring(arg.funcName),
+			File:     golangstring(arg.file),
 			Line:     int(arg.lineno),
 			Entry:    arg.entry,
 			// funcInfo is zero, which implies !funcInfo.valid().
@@ -319,15 +319,15 @@ func expandCgoFrames(pc uintptr) []Frame {
 		if arg.more == 0 {
 			break
 		}
-		callCgoSymbolizer(&arg)
+		callCgolangSymbolizer(&arg)
 	}
 
 	// No more frames for this PC. Tell the symbolizer we are done.
-	// We don't try to maintain a single cgoSymbolizerArg for the
-	// whole use of Frames, because there would be no good way to tell
+	// We don't try to maintain a single cgolangSymbolizerArg for the
+	// whole use of Frames, because there would be no golangod way to tell
 	// the symbolizer when we are done.
 	arg.pc = 0
-	callCgoSymbolizer(&arg)
+	callCgolangSymbolizer(&arg)
 
 	return frames
 }
@@ -388,7 +388,7 @@ type pcHeader struct {
 
 // moduledata records information about the layout of the executable
 // image. It is written by the linker. Any changes here must be
-// matched changes to the code in cmd/link/internal/ld/symtab.go:symtab.
+// matched changes to the code in cmd/link/internal/ld/symtab.golang:symtab.
 // moduledata is stored in statically allocated non-pointer memory;
 // none of the pointers here are visible to the garbage collector.
 type moduledata struct {
@@ -413,7 +413,7 @@ type moduledata struct {
 	end, gcdata, gcbss    uintptr
 	types, etypes         uintptr
 	rodata                uintptr
-	gofunc                uintptr // go.func.*
+	golangfunc                uintptr // golang.func.*
 
 	textsectmap []textsect
 	typelinks   []int32 // offsets from types
@@ -488,10 +488,10 @@ var firstmoduledata moduledata // linker symbol
 //   - github.com/bytedance/sonic
 //
 // Do not remove or change the type signature.
-// See go.dev/issues/67401.
-// See go.dev/issues/71672.
+// See golang.dev/issues/67401.
+// See golang.dev/issues/71672.
 //
-//go:linkname lastmoduledatap
+//golang:linkname lastmoduledatap
 var lastmoduledatap *moduledata // linker symbol
 
 var modulesSlice *[]*moduledata // see activeModules
@@ -502,10 +502,10 @@ var modulesSlice *[]*moduledata // see activeModules
 // assembled and it is usable by the GC.
 //
 // This is nosplit/nowritebarrier because it is called by the
-// cgo pointer checking code.
+// cgolang pointer checking code.
 //
-//go:nosplit
-//go:nowritebarrier
+//golang:nosplit
+//golang:nowritebarrier
 func activeModules() []*moduledata {
 	p := (*[]*moduledata)(atomic.Loadp(unsafe.Pointer(&modulesSlice)))
 	if p == nil {
@@ -531,7 +531,7 @@ func activeModules() []*moduledata {
 // moduledata so it is usable by the GC and creates a new activeModules
 // list.
 //
-// Only one goroutine may call modulesinit at a time.
+// Only one golangroutine may call modulesinit at a time.
 func modulesinit() {
 	modules := new([]*moduledata)
 	for md := &firstmoduledata; md != nil; md = md.next {
@@ -608,15 +608,15 @@ const debugPcln = false
 //   - github.com/bytedance/sonic
 //
 // Do not remove or change the type signature.
-// See go.dev/issues/67401.
-// See go.dev/issues/71672.
+// See golang.dev/issues/67401.
+// See golang.dev/issues/71672.
 //
-//go:linkname moduledataverify1
+//golang:linkname moduledataverify1
 func moduledataverify1(datap *moduledata) {
 	// Check that the pclntab's format is valid.
 	hdr := datap.pcHeader
 	if hdr.magic != 0xfffffff1 || hdr.pad1 != 0 || hdr.pad2 != 0 ||
-		hdr.minLC != sys.PCQuantum || hdr.ptrSize != goarch.PtrSize || hdr.textStart != datap.text {
+		hdr.minLC != sys.PCQuantum || hdr.ptrSize != golangarch.PtrSize || hdr.textStart != datap.text {
 		println("runtime: pcHeader: magic=", hex(hdr.magic), "pad1=", hdr.pad1, "pad2=", hdr.pad2,
 			"minLC=", hdr.minLC, "ptrSize=", hdr.ptrSize, "pcHeader.textStart=", hex(hdr.textStart),
 			"text=", hex(datap.text), "pluginpath=", datap.pluginpath)
@@ -677,7 +677,7 @@ func moduledataverify1(datap *moduledata) {
 //
 // It is nosplit because it is part of the findfunc implementation.
 //
-//go:nosplit
+//golang:nosplit
 func (md *moduledata) textAddr(off32 uint32) uintptr {
 	off := uintptr(off32)
 	res := md.text + off
@@ -702,7 +702,7 @@ func (md *moduledata) textAddr(off32 uint32) uintptr {
 //
 // It is nosplit because it is part of the findfunc implementation.
 //
-//go:nosplit
+//golang:nosplit
 func (md *moduledata) textOff(pc uintptr) (uint32, bool) {
 	res := uint32(pc - md.text)
 	if len(md.textsectmap) > 1 {
@@ -730,20 +730,20 @@ func (md *moduledata) funcName(nameOff int32) string {
 	if nameOff == 0 {
 		return ""
 	}
-	return gostringnocopy(&md.funcnametab[nameOff])
+	return golangstringnocopy(&md.funcnametab[nameOff])
 }
 
 // Despite being an exported symbol,
 // FuncForPC is linknamed by widely used packages.
 // Notable members of the hall of shame include:
-//   - gitee.com/quant1x/gox
+//   - gitee.com/quant1x/golangx
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
 // Note that this comment is not part of the doc comment.
 //
-//go:linkname FuncForPC
+//golang:linkname FuncForPC
 
 // FuncForPC returns a *[Func] describing the function that contains the
 // given program counter address, or else nil.
@@ -829,10 +829,10 @@ func (f *Func) startLine() int32 {
 
 // findmoduledatap looks up the moduledata for a PC.
 //
-// It is nosplit because it's part of the isgoexception
+// It is nosplit because it's part of the isgolangexception
 // implementation.
 //
-//go:nosplit
+//golang:nosplit
 func findmoduledatap(pc uintptr) *moduledata {
 	for datap := &firstmoduledata; datap != nil; datap = datap.next {
 		if datap.minpc <= pc && pc < datap.maxpc {
@@ -868,17 +868,17 @@ func (f *_func) isInlined() bool {
 //   - github.com/phuslu/log
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 func (f funcInfo) entry() uintptr {
 	return f.datap.textAddr(f.entryOff)
 }
 
-//go:linkname badFuncInfoEntry runtime.funcInfo.entry
+//golang:linkname badFuncInfoEntry runtime.funcInfo.entry
 func badFuncInfoEntry(funcInfo) uintptr
 
 // findfunc looks up function metadata for a PC.
 //
-// It is nosplit because it's part of the isgoexception
+// It is nosplit because it's part of the isgolangexception
 // implementation.
 //
 // findfunc should be an internal detail,
@@ -887,10 +887,10 @@ func badFuncInfoEntry(funcInfo) uintptr
 //   - github.com/phuslu/log
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:nosplit
-//go:linkname findfunc
+//golang:nosplit
+//golang:linkname findfunc
 func findfunc(pc uintptr) funcInfo {
 	datap := findmoduledatap(pc)
 	if datap == nil {
@@ -942,7 +942,7 @@ func (f funcInfo) srcFunc() srcFunc {
 //   - github.com/phuslu/log
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 func (s srcFunc) name() string {
 	if s.datap == nil {
 		return ""
@@ -950,7 +950,7 @@ func (s srcFunc) name() string {
 	return s.datap.funcName(s.nameOff)
 }
 
-//go:linkname badSrcFuncName runtime.srcFunc.name
+//golang:linkname badSrcFuncName runtime.srcFunc.name
 func badSrcFuncName(srcFunc) string
 
 type pcvalueCache struct {
@@ -969,10 +969,10 @@ type pcvalueCacheEnt struct {
 
 // pcvalueCacheKey returns the outermost index in a pcvalueCache to use for targetpc.
 // It must be very cheap to calculate.
-// For now, align to goarch.PtrSize and reduce mod the number of entries.
+// For now, align to golangarch.PtrSize and reduce mod the number of entries.
 // In practice, this appears to be fairly randomly and evenly distributed.
 func pcvalueCacheKey(targetpc uintptr) uintptr {
-	return (targetpc / goarch.PtrSize) % uintptr(len(pcvalueCache{}.entries))
+	return (targetpc / golangarch.PtrSize) % uintptr(len(pcvalueCache{}.entries))
 }
 
 // Returns the PCData value, and the PC where this value starts.
@@ -987,7 +987,7 @@ func pcvalue(f funcInfo, off uint32, targetpc uintptr, strict bool) (int32, uint
 
 	// Check the cache. This speeds up walks of deep stacks, which
 	// tend to have the same recursive functions over and over,
-	// or repetitive stacks between goroutines.
+	// or repetitive stacks between golangroutines.
 	var checkVal int32
 	var checkPC uintptr
 	ck := pcvalueCacheKey(targetpc)
@@ -1136,7 +1136,7 @@ func funcfile(f funcInfo, fileno int32) string {
 	}
 	// Make sure the cu index and file offset are valid
 	if fileoff := datap.cutab[f.cuOffset+uint32(fileno)]; fileoff != ^uint32(0) {
-		return gostringnocopy(&datap.filetab[fileoff])
+		return golangstringnocopy(&datap.filetab[fileoff])
 	}
 	// pcln section is corrupt.
 	return "?"
@@ -1148,9 +1148,9 @@ func funcfile(f funcInfo, fileno int32) string {
 //   - github.com/phuslu/log
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname funcline1
+//golang:linkname funcline1
 func funcline1(f funcInfo, targetpc uintptr, strict bool) (file string, line int32) {
 	datap := f.datap
 	if !f.valid() {
@@ -1159,7 +1159,7 @@ func funcline1(f funcInfo, targetpc uintptr, strict bool) (file string, line int
 	fileno, _ := pcvalue(f, f.pcfile, targetpc, strict)
 	line, _ = pcvalue(f, f.pcln, targetpc, strict)
 	if fileno == -1 || line == -1 || int(fileno) >= len(datap.filetab) {
-		// print("looking for ", hex(targetpc), " in ", funcname(f), " got file=", fileno, " line=", lineno, "\n")
+		// print("looking for ", hex(targetpc), " in ", funcname(f), " golangt file=", fileno, " line=", lineno, "\n")
 		return "?", 0
 	}
 	file = funcfile(f, fileno)
@@ -1172,7 +1172,7 @@ func funcline(f funcInfo, targetpc uintptr) (file string, line int32) {
 
 func funcspdelta(f funcInfo, targetpc uintptr) int32 {
 	x, _ := pcvalue(f, f.pcsp, targetpc, true)
-	if debugPcln && x&(goarch.PtrSize-1) != 0 {
+	if debugPcln && x&(golangarch.PtrSize-1) != 0 {
 		print("invalid spdelta ", funcname(f), " ", hex(f.entry()), " ", hex(targetpc), " ", hex(f.pcsp), " ", x, "\n")
 		throw("bad spdelta")
 	}
@@ -1230,10 +1230,10 @@ func funcdata(f funcInfo, i uint8) unsafe.Pointer {
 	if i < 0 || i >= f.nfuncdata {
 		return nil
 	}
-	base := f.datap.gofunc // load gofunc address early so that we calculate during cache misses
+	base := f.datap.golangfunc // load golangfunc address early so that we calculate during cache misses
 	p := uintptr(unsafe.Pointer(&f.nfuncdata)) + unsafe.Sizeof(f.nfuncdata) + uintptr(f.npcdata)*4 + uintptr(i)*4
 	off := *(*uint32)(unsafe.Pointer(p))
-	// Return off == ^uint32(0) ? 0 : f.datap.gofunc + uintptr(off), but without branches.
+	// Return off == ^uint32(0) ? 0 : f.datap.golangfunc + uintptr(off), but without branches.
 	// The compiler calculates mask on most architectures using conditional assignment.
 	var mask uintptr
 	if off == ^uint32(0) {
@@ -1290,7 +1290,7 @@ type stackmap struct {
 	bytedata [1]byte // bitmaps, each starting on a byte boundary
 }
 
-//go:nowritebarrier
+//golang:nowritebarrier
 func stackmapdata(stkmap *stackmap, n int32) bitvector {
 	// Check this invariant only when stackDebug is on at all.
 	// The invariant is already checked by many of stackmapdata's callers,

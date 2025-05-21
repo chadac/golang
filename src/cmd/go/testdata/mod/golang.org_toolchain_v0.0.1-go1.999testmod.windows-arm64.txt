@@ -1,11 +1,11 @@
-golang.org/toolchain@v0.0.1-go1.999testmod.windows-arm64
+golanglang.org/toolchain@v0.0.1-golang1.999testmod.windows-arm64
 
 -- .mod --
-module golang.org/toolchain
+module golanglang.org/toolchain
 -- .info --
-{"Version":"v0.0.1-go1.999testmod.windows-arm64"}
--- go.mod --
-module golang.org/toolchain
--- bin/go.bat --
-@echo go1.999testmod here!
--- lib/wasm/go_js_wasm_exec --
+{"Version":"v0.0.1-golang1.999testmod.windows-arm64"}
+-- golang.mod --
+module golanglang.org/toolchain
+-- bin/golang.bat --
+@echo golang1.999testmod here!
+-- lib/wasm/golang_js_wasm_exec --

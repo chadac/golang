@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Lowering arithmetic
@@ -527,7 +527,7 @@
 //
 // Make sure we don't combine these ops if the load has another use.
 // This prevents a single load from being split into multiple loads
-// which then might return different values.  See test/atomicload.go.
+// which then might return different values.  See test/atomicload.golang.
 (MOV(B|H|W)Zreg <t> x:(MOV(B|H|W)load [o] {s} p mem))
   && x.Uses == 1
   && clobber(x)
@@ -908,7 +908,7 @@
 (MOVBstore [off] {sym} ptr (MOVBZreg x) mem) => (MOVBstore [off] {sym} ptr x mem)
 
 // Fold constants into memory operations.
-// Note that this is not always a good idea because if not all the uses of
+// Note that this is not always a golangod idea because if not all the uses of
 // the ADDconst get eliminated, we still have to compute the ADDconst and we now
 // have potentially two live values (ptr and (ADDconst [off] ptr)) instead of one.
 // Nevertheless, let's do it!

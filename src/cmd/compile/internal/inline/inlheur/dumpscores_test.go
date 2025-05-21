@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package inlheur
@@ -61,22 +61,22 @@ func TestDumpCallSiteScoreDump(t *testing.T) {
 		}
 		showout := false
 		if prom != scen.promoted {
-			t.Errorf("testcase %q, got %d promoted want %d promoted",
+			t.Errorf("testcase %q, golangt %d promoted want %d promoted",
 				scen.name, prom, scen.promoted)
 			showout = true
 		}
 		if indprom != scen.indirectlyPromoted {
-			t.Errorf("testcase %q, got %d indirectly promoted want %d",
+			t.Errorf("testcase %q, golangt %d indirectly promoted want %d",
 				scen.name, indprom, scen.indirectlyPromoted)
 			showout = true
 		}
 		if dem != scen.demoted {
-			t.Errorf("testcase %q, got %d demoted want %d demoted",
+			t.Errorf("testcase %q, golangt %d demoted want %d demoted",
 				scen.name, dem, scen.demoted)
 			showout = true
 		}
 		if unch != scen.unchanged {
-			t.Errorf("testcase %q, got %d unchanged want %d unchanged",
+			t.Errorf("testcase %q, golangt %d unchanged want %d unchanged",
 				scen.name, unch, scen.unchanged)
 			showout = true
 		}
@@ -92,11 +92,11 @@ func TestDumpCallSiteScoreDump(t *testing.T) {
 // newly created file.
 func gatherInlCallSitesScoresForFile(t *testing.T, testcase string, td string) (string, error) {
 	t.Helper()
-	gopath := "testdata/" + testcase + ".go"
+	golangpath := "testdata/" + testcase + ".golang"
 	outpath := filepath.Join(td, testcase+".a")
 	dumpfile := filepath.Join(td, testcase+".callsites.txt")
 	run := []string{testenv.GoToolPath(t), "build",
-		"-gcflags=-d=dumpinlcallsitescores=1", "-o", outpath, gopath}
+		"-gcflags=-d=dumpinlcallsitescores=1", "-o", outpath, golangpath}
 	out, err := testenv.Command(t, run[0], run[1:]...).CombinedOutput()
 	t.Logf("run: %+v\n", run)
 	if err != nil {

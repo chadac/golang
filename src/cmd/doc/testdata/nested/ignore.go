@@ -1,4 +1,4 @@
-//go:build ignore
+//golang:build ignore
 // +build ignore
 
 // Ignored package

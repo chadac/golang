@@ -1,11 +1,11 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test that setgid does not hang on Linux.
-// See https://golang.org/issue/3871 for details.
+// See https://golanglang.org/issue/3871 for details.
 
-package cgotest
+package cgolangtest
 
 /*
 #include <sys/types.h>
@@ -23,7 +23,7 @@ import (
 
 func runTestSetgid() bool {
 	c := make(chan bool)
-	go func() {
+	golang func() {
 		C.setgid(0)
 		c <- true
 	}()

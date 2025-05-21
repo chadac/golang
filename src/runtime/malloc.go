@@ -1,11 +1,11 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Memory allocator.
 //
 // This was originally based on tcmalloc, but has diverged quite a bit.
-// http://goog-perftools.sourceforge.net/doc/tcmalloc.html
+// http://golangog-perftools.sourceforge.net/doc/tcmalloc.html
 
 // The main allocator works in runs of pages.
 // Small allocation sizes (up to and including 32 kB) are
@@ -101,8 +101,8 @@
 package runtime
 
 import (
-	"internal/goarch"
-	"internal/goos"
+	"internal/golangarch"
+	"internal/golangos"
 	"internal/runtime/atomic"
 	"internal/runtime/gc"
 	"internal/runtime/math"
@@ -125,7 +125,7 @@ const (
 	// _64bit = 1 on 64-bit systems, 0 on 32-bit systems
 	_64bit = 1 << (^uintptr(0) >> 63) / 2
 
-	// Tiny allocator parameters, see "Tiny allocator" comment in malloc.go.
+	// Tiny allocator parameters, see "Tiny allocator" comment in malloc.golang.
 	_TinySize      = 16
 	_TinySizeClass = int8(2)
 
@@ -146,7 +146,7 @@ const (
 	//   windows/32       | 4KB        | 3
 	//   windows/64       | 8KB        | 2
 	//   plan9            | 4KB        | 3
-	_NumStackOrders = 4 - goarch.PtrSize/4*goos.IsWindows - 1*goos.IsPlan9
+	_NumStackOrders = 4 - golangarch.PtrSize/4*golangos.IsWindows - 1*golangos.IsPlan9
 
 	// heapAddrBits is the number of bits in a heap address. On
 	// amd64, addresses are sign-extended beyond heapAddrBits. On
@@ -209,7 +209,7 @@ const (
 	// to a 48-bit address space like every other arm64 platform.
 	//
 	// WebAssembly currently has a limit of 4GB linear memory.
-	heapAddrBits = (_64bit*(1-goarch.IsWasm)*(1-goos.IsIos*goarch.IsArm64))*48 + (1-_64bit+goarch.IsWasm)*(32-(goarch.IsMips+goarch.IsMipsle)) + 40*goos.IsIos*goarch.IsArm64
+	heapAddrBits = (_64bit*(1-golangarch.IsWasm)*(1-golangos.IsIos*golangarch.IsArm64))*48 + (1-_64bit+golangarch.IsWasm)*(32-(golangarch.IsMips+golangarch.IsMipsle)) + 40*golangos.IsIos*golangarch.IsArm64
 
 	// maxAlloc is the maximum size of an allocation. On 64-bit,
 	// it's theoretically possible to allocate 1<<heapAddrBits bytes. On
@@ -247,15 +247,15 @@ const (
 	// memory.
 	heapArenaBytes = 1 << logHeapArenaBytes
 
-	heapArenaWords = heapArenaBytes / goarch.PtrSize
+	heapArenaWords = heapArenaBytes / golangarch.PtrSize
 
 	// logHeapArenaBytes is log_2 of heapArenaBytes. For clarity,
 	// prefer using heapArenaBytes where possible (we need the
 	// constant to compute some other constants).
-	logHeapArenaBytes = (6+20)*(_64bit*(1-goos.IsWindows)*(1-goarch.IsWasm)*(1-goos.IsIos*goarch.IsArm64)) + (2+20)*(_64bit*goos.IsWindows) + (2+20)*(1-_64bit) + (2+20)*goarch.IsWasm + (2+20)*goos.IsIos*goarch.IsArm64
+	logHeapArenaBytes = (6+20)*(_64bit*(1-golangos.IsWindows)*(1-golangarch.IsWasm)*(1-golangos.IsIos*golangarch.IsArm64)) + (2+20)*(_64bit*golangos.IsWindows) + (2+20)*(1-_64bit) + (2+20)*golangarch.IsWasm + (2+20)*golangos.IsIos*golangarch.IsArm64
 
 	// heapArenaBitmapWords is the size of each heap arena's bitmap in uintptrs.
-	heapArenaBitmapWords = heapArenaWords / (8 * goarch.PtrSize)
+	heapArenaBitmapWords = heapArenaWords / (8 * golangarch.PtrSize)
 
 	pagesPerArena = heapArenaBytes / pageSize
 
@@ -272,7 +272,7 @@ const (
 	// We use the L1 map on 64-bit Windows because the arena size
 	// is small, but the address space is still 48 bits, and
 	// there's a high cost to having a large L2.
-	arenaL1Bits = 6 * (_64bit * goos.IsWindows)
+	arenaL1Bits = 6 * (_64bit * golangos.IsWindows)
 
 	// arenaL2Bits is the number of bits of the arena number
 	// covered by the second level arena index.
@@ -307,7 +307,7 @@ const (
 	//
 	// On other platforms, the user address space is contiguous
 	// and starts at 0, so no offset is necessary.
-	arenaBaseOffset = 0xffff800000000000*goarch.IsAmd64 + 0x0a00000000000000*goos.IsAix
+	arenaBaseOffset = 0xffff800000000000*golangarch.IsAmd64 + 0x0a00000000000000*golangos.IsAix
 	// A typed version of this constant that will make it into DWARF (for viewcore).
 	arenaBaseOffsetUintptr = uintptr(arenaBaseOffset)
 
@@ -326,7 +326,7 @@ const (
 
 	// minHeapForMetadataHugePages sets a threshold on when certain kinds of
 	// heap metadata, currently the arenas map L2 entries and page alloc bitmap
-	// mappings, are allowed to be backed by huge pages. If the heap goal ever
+	// mappings, are allowed to be backed by huge pages. If the heap golangal ever
 	// exceeds this threshold, then huge pages are enabled.
 	//
 	// These numbers are chosen with the assumption that huge pages are on the
@@ -339,7 +339,7 @@ const (
 	// heap). The benefit of huge pages is also not worth it for small heaps,
 	// because only a very, very small part of the metadata is used for small heaps.
 	//
-	// N.B. If the heap goal exceeds the threshold then shrinks to a very small size
+	// N.B. If the heap golangal exceeds the threshold then shrinks to a very small size
 	// again, then huge pages will still be enabled for this mapping. The reason is that
 	// there's no point unless we're also returning the physical memory for these
 	// metadata mappings back to the OS. That would be quite complex to do in general
@@ -451,7 +451,7 @@ func mallocinit() {
 	}
 	// Check that the pointer bitmap for all small sizes without a malloc header
 	// fits in a word.
-	if gc.MinSizeForMallocHeader/goarch.PtrSize > 8*goarch.PtrSize {
+	if gc.MinSizeForMallocHeader/golangarch.PtrSize > 8*golangarch.PtrSize {
 		throw("max pointer/scan bitmap size for headerless objects is too large")
 	}
 
@@ -475,7 +475,7 @@ func mallocinit() {
 	if isSbrkPlatform {
 		// Don't generate hints on sbrk platforms. We can
 		// only grow the break sequentially.
-	} else if goarch.PtrSize == 8 {
+	} else if golangarch.PtrSize == 8 {
 		// On a 64-bit machine, we pick the following hints
 		// because:
 		//
@@ -486,7 +486,7 @@ func mallocinit() {
 		// 2. This makes Go heap addresses more easily
 		// recognizable when debugging.
 		//
-		// 3. Stack scanning in gccgo is still conservative,
+		// 3. Stack scanning in gccgolang is still conservative,
 		// so it's important that addresses be distinguishable
 		// from other data.
 		//
@@ -535,14 +535,14 @@ func mallocinit() {
 			case GOOS == "aix":
 				if i == 0 {
 					// We don't use addresses directly after 0x0A00000000000000
-					// to avoid collisions with others mmaps done by non-go programs.
+					// to avoid collisions with others mmaps done by non-golang programs.
 					continue
 				}
 				p = uintptr(i)<<40 | uintptrMask&(0xa0<<52)
 			default:
 				p = uintptr(i)<<40 | uintptrMask&(0x00c0<<32)
 			}
-			// Switch to generating hints for user arenas if we've gone
+			// Switch to generating hints for user arenas if we've golangne
 			// through about half the hints. In race mode, take only about
 			// a quarter; we don't have very much space to work with.
 			hintList := &mheap_.arenaHints
@@ -623,13 +623,13 @@ func mallocinit() {
 		// Place the hint for user arenas just after the large reservation.
 		//
 		// While this potentially competes with the hint above, in practice we probably
-		// aren't going to be getting this far anyway on 32-bit platforms.
+		// aren't golanging to be getting this far anyway on 32-bit platforms.
 		userArenaHint := (*arenaHint)(mheap_.arenaHintAlloc.alloc())
 		userArenaHint.addr = p
 		userArenaHint.next, mheap_.userArena.arenaHints = mheap_.userArena.arenaHints, userArenaHint
 	}
-	// Initialize the memory limit here because the allocator is going to look at it
-	// but we haven't called gcinit yet and we're definitely going to allocate memory before then.
+	// Initialize the memory limit here because the allocator is golanging to look at it
+	// but we haven't called gcinit yet and we're definitely golanging to allocate memory before then.
 	gcController.memoryLimit.Store(math.MaxInt64)
 }
 
@@ -662,7 +662,7 @@ func (h *mheap) sysAlloc(n uintptr, hintList **arenaHint, arenaList *[]arenaIdx)
 		v = h.arena.alloc(n, heapArenaBytes, &gcController.heapReleased, "heap")
 		if v != nil {
 			size = n
-			goto mapped
+			golangto mapped
 		}
 	}
 
@@ -787,9 +787,9 @@ mapped:
 			throw("arena already initialized")
 		}
 		var r *heapArena
-		r = (*heapArena)(h.heapArenaAlloc.alloc(unsafe.Sizeof(*r), goarch.PtrSize, &memstats.gcMiscSys, "heap metadata"))
+		r = (*heapArena)(h.heapArenaAlloc.alloc(unsafe.Sizeof(*r), golangarch.PtrSize, &memstats.gcMiscSys, "heap metadata"))
 		if r == nil {
-			r = (*heapArena)(persistentalloc(unsafe.Sizeof(*r), goarch.PtrSize, &memstats.gcMiscSys))
+			r = (*heapArena)(persistentalloc(unsafe.Sizeof(*r), golangarch.PtrSize, &memstats.gcMiscSys))
 			if r == nil {
 				throw("out of memory allocating heap arena metadata")
 			}
@@ -797,16 +797,16 @@ mapped:
 
 		// Register the arena in allArenas if requested.
 		if len((*arenaList)) == cap((*arenaList)) {
-			size := 2 * uintptr(cap((*arenaList))) * goarch.PtrSize
+			size := 2 * uintptr(cap((*arenaList))) * golangarch.PtrSize
 			if size == 0 {
 				size = physPageSize
 			}
-			newArray := (*notInHeap)(persistentalloc(size, goarch.PtrSize, &memstats.gcMiscSys))
+			newArray := (*notInHeap)(persistentalloc(size, golangarch.PtrSize, &memstats.gcMiscSys))
 			if newArray == nil {
 				throw("out of memory allocating allArenas")
 			}
 			oldSlice := (*arenaList)
-			*(*notInHeapSlice)(unsafe.Pointer(&(*arenaList))) = notInHeapSlice{newArray, len((*arenaList)), int(size / goarch.PtrSize)}
+			*(*notInHeapSlice)(unsafe.Pointer(&(*arenaList))) = notInHeapSlice{newArray, len((*arenaList)), int(size / golangarch.PtrSize)}
 			copy((*arenaList), oldSlice)
 			// Do not free the old backing array because
 			// there may be concurrent readers. Since we
@@ -866,7 +866,7 @@ retry:
 			if retries++; retries == 100 {
 				throw("failed to allocate aligned heap memory; too many retries")
 			}
-			goto retry
+			golangto retry
 		}
 		// Success.
 		return p2, size
@@ -895,7 +895,7 @@ retry:
 //
 // Must be called on the system stack because it acquires the heap lock.
 //
-//go:systemstack
+//golang:systemstack
 func (h *mheap) enableMetadataHugePages() {
 	// Enable huge pages for page structure.
 	h.pages.enableChunkHugePages()
@@ -951,7 +951,7 @@ func nextFreeFast(s *mspan) gclinkptr {
 // returns that object along with a flag indicating that this was a heavy
 // weight allocation. If it is a heavy weight allocation the caller must
 // determine whether a new GC cycle needs to be started or if the GC is active
-// whether this goroutine needs to assist the GC.
+// whether this golangroutine needs to assist the GC.
 //
 // Must run in a non-preemptible context since otherwise the owner of
 // c could change.
@@ -1000,17 +1000,17 @@ const doubleCheckMalloc = false
 // mallocgc should be an internal detail,
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
-//   - github.com/bytedance/gopkg
+//   - github.com/bytedance/golangpkg
 //   - github.com/bytedance/sonic
-//   - github.com/cloudwego/frugal
+//   - github.com/cloudwegolang/frugal
 //   - github.com/cockroachdb/cockroach
 //   - github.com/cockroachdb/pebble
-//   - github.com/ugorji/go/codec
+//   - github.com/ugolangrji/golang/codec
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname mallocgc
+//golang:linkname mallocgc
 func mallocgc(size uintptr, typ *_type, needzero bool) unsafe.Pointer {
 	if doubleCheckMalloc {
 		if gcphase == _GCmarktermination {
@@ -1157,7 +1157,7 @@ func mallocgcTiny(size uintptr, typ *_type) (unsafe.Pointer, uintptr) {
 	// Align tiny pointer for required (conservative) alignment.
 	if size&7 == 0 {
 		off = alignUp(off, 8)
-	} else if goarch.PtrSize == 4 && size == 12 {
+	} else if golangarch.PtrSize == 4 && size == 12 {
 		// Conservatively align 12-byte objects to 8 bytes on 32-bit
 		// systems so that objects whose first field is a 64-bit
 		// value is aligned to 8 bytes and does not cause a fault on
@@ -1248,7 +1248,7 @@ func mallocgcTiny(size uintptr, typ *_type) (unsafe.Pointer, uintptr) {
 	if raceenabled {
 		// Pad tinysize allocations so they are aligned with the end
 		// of the tinyalloc region. This ensures that any arithmetic
-		// that goes off the top end of the object will be detectable
+		// that golanges off the top end of the object will be detectable
 		// by checkptr (issue 38872).
 		// Note that we disable tinyalloc when raceenabled for this to work.
 		// TODO: This padding is only performed when the race detector
@@ -1381,7 +1381,7 @@ func mallocgcSmallScanNoHeader(size uintptr, typ *_type) (unsafe.Pointer, uintpt
 	if span.needzero != 0 {
 		memclrNoHeapPointers(x, size)
 	}
-	if goarch.PtrSize == 8 && sizeclass == 1 {
+	if golangarch.PtrSize == 8 && sizeclass == 1 {
 		// initHeapBits already set the pointer bits for the 8-byte sizeclass
 		// on 64-bit platforms.
 		c.scanAlloc += 8
@@ -1628,7 +1628,7 @@ func mallocgcLarge(size uintptr, typ *_type, needzero bool) (unsafe.Pointer, uin
 	// Publish the object again, now with zeroed memory and initialized type information.
 	//
 	// Even if we didn't update any type information, this is necessary to ensure that, for example,
-	// x written to a global without any synchronization still results in other goroutines observing
+	// x written to a global without any synchronization still results in other golangroutines observing
 	// zeroed memory.
 	publicationBarrier()
 	releasem(mp)
@@ -1658,16 +1658,16 @@ func preMallocgcDebug(size uintptr, typ *_type) unsafe.Pointer {
 		}
 		return persistentalloc(size, align, &memstats.other_sys)
 	}
-	if inittrace.active && inittrace.id == getg().goid {
-		// Init functions are executed sequentially in a single goroutine.
+	if inittrace.active && inittrace.id == getg().golangid {
+		// Init functions are executed sequentially in a single golangroutine.
 		inittrace.allocs += 1
 	}
 	return nil
 }
 
 func postMallocgcDebug(x unsafe.Pointer, elemsize uintptr, typ *_type) {
-	if inittrace.active && inittrace.id == getg().goid {
-		// Init functions are executed sequentially in a single goroutine.
+	if inittrace.active && inittrace.id == getg().golangid {
+		// Init functions are executed sequentially in a single golangroutine.
 		inittrace.bytes += uint64(elemsize)
 	}
 
@@ -1723,13 +1723,13 @@ func deductAssistCredit(size uintptr) {
 // pointers, this allows the GC to run before it is all cleared.
 func memclrNoHeapPointersChunked(size uintptr, x unsafe.Pointer) {
 	v := uintptr(x)
-	// got this from benchmarking. 128k is too small, 512k is too large.
+	// golangt this from benchmarking. 128k is too small, 512k is too large.
 	const chunkBytes = 256 * 1024
 	vsize := v + size
 	for voff := v; voff < vsize; voff = voff + chunkBytes {
 		if getg().preempt {
 			// may hold locks, e.g., profiling
-			goschedguarded()
+			golangschedguarded()
 		}
 		// clear min(avail, lump) bytes
 		n := vsize - voff
@@ -1747,7 +1747,7 @@ func newobject(typ *_type) unsafe.Pointer {
 	return mallocgc(typ.Size_, typ, true)
 }
 
-//go:linkname maps_newobject internal/runtime/maps.newobject
+//golang:linkname maps_newobject internal/runtime/maps.newobject
 func maps_newobject(typ *_type) unsafe.Pointer {
 	return newobject(typ)
 }
@@ -1755,20 +1755,20 @@ func maps_newobject(typ *_type) unsafe.Pointer {
 // reflect_unsafe_New is meant for package reflect,
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
-//   - gitee.com/quant1x/gox
-//   - github.com/goccy/json
-//   - github.com/modern-go/reflect2
+//   - gitee.com/quant1x/golangx
+//   - github.com/golangccy/json
+//   - github.com/modern-golang/reflect2
 //   - github.com/v2pro/plz
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname reflect_unsafe_New reflect.unsafe_New
+//golang:linkname reflect_unsafe_New reflect.unsafe_New
 func reflect_unsafe_New(typ *_type) unsafe.Pointer {
 	return mallocgc(typ.Size_, typ, true)
 }
 
-//go:linkname reflectlite_unsafe_New internal/reflectlite.unsafe_New
+//golang:linkname reflectlite_unsafe_New internal/reflectlite.unsafe_New
 func reflectlite_unsafe_New(typ *_type) unsafe.Pointer {
 	return mallocgc(typ.Size_, typ, true)
 }
@@ -1780,12 +1780,12 @@ func reflectlite_unsafe_New(typ *_type) unsafe.Pointer {
 // Notable members of the hall of shame include:
 //   - github.com/RomiChan/protobuf
 //   - github.com/segmentio/encoding
-//   - github.com/ugorji/go/codec
+//   - github.com/ugolangrji/golang/codec
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname newarray
+//golang:linkname newarray
 func newarray(typ *_type, n int) unsafe.Pointer {
 	if n == 1 {
 		return mallocgc(typ.Size_, typ, true)
@@ -1800,23 +1800,23 @@ func newarray(typ *_type, n int) unsafe.Pointer {
 // reflect_unsafe_NewArray is meant for package reflect,
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
-//   - gitee.com/quant1x/gox
+//   - gitee.com/quant1x/golangx
 //   - github.com/bytedance/sonic
-//   - github.com/goccy/json
-//   - github.com/modern-go/reflect2
+//   - github.com/golangccy/json
+//   - github.com/modern-golang/reflect2
 //   - github.com/segmentio/encoding
-//   - github.com/segmentio/kafka-go
+//   - github.com/segmentio/kafka-golang
 //   - github.com/v2pro/plz
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname reflect_unsafe_NewArray reflect.unsafe_NewArray
+//golang:linkname reflect_unsafe_NewArray reflect.unsafe_NewArray
 func reflect_unsafe_NewArray(typ *_type, n int) unsafe.Pointer {
 	return newarray(typ, n)
 }
 
-//go:linkname maps_newarray internal/runtime/maps.newarray
+//golang:linkname maps_newarray internal/runtime/maps.newarray
 func maps_newarray(typ *_type, n int) unsafe.Pointer {
 	return newarray(typ, n)
 }
@@ -1835,7 +1835,7 @@ func profilealloc(mp *m, x unsafe.Pointer, size uintptr) {
 	mProf_Malloc(mp, x, size)
 }
 
-// nextSample returns the next sampling point for heap profiling. The goal is
+// nextSample returns the next sampling point for heap profiling. The golangal is
 // to sample allocations on average every MemProfileRate bytes, but with a
 // completely random distribution over the allocation timeline; this
 // corresponds to a Poisson process with parameter MemProfileRate. In Poisson
@@ -1915,7 +1915,7 @@ var persistentChunks *notInHeap
 //
 // nosplit because it is used during write barriers and must not be preempted.
 //
-//go:nosplit
+//golang:nosplit
 func persistentalloc(size, align uintptr, sysStat *sysMemStat) unsafe.Pointer {
 	var p *notInHeap
 	systemstack(func() {
@@ -1927,7 +1927,7 @@ func persistentalloc(size, align uintptr, sysStat *sysMemStat) unsafe.Pointer {
 // Must run on system stack because stack growth can (re)invoke it.
 // See issue 9174.
 //
-//go:systemstack
+//golang:systemstack
 func persistentalloc1(size, align uintptr, sysStat *sysMemStat) *notInHeap {
 	const (
 		maxBlock = 64 << 10 // VM reservation granularity is 64K on windows
@@ -1977,7 +1977,7 @@ func persistentalloc1(size, align uintptr, sysStat *sysMemStat) *notInHeap {
 				break
 			}
 		}
-		persistent.off = alignUp(goarch.PtrSize, align)
+		persistent.off = alignUp(golangarch.PtrSize, align)
 	}
 	p := persistent.base.add(persistent.off)
 	persistent.off += size
@@ -1995,9 +1995,9 @@ func persistentalloc1(size, align uintptr, sysStat *sysMemStat) *notInHeap {
 
 // inPersistentAlloc reports whether p points to memory allocated by
 // persistentalloc. This must be nosplit because it is called by the
-// cgo checker code, which is called by the write barrier code.
+// cgolang checker code, which is called by the write barrier code.
 //
-//go:nosplit
+//golang:nosplit
 func inPersistentAlloc(p uintptr) bool {
 	chunk := atomic.Loaduintptr((*uintptr)(unsafe.Pointer(&persistentChunks)))
 	for chunk != 0 {

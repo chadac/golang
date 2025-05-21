@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package sync_test
@@ -31,7 +31,7 @@ func benchmarkSema(b *testing.B, block, work bool) {
 	sem := uint32(0)
 	if block {
 		done := make(chan bool)
-		go func() {
+		golang func() {
 			for p := 0; p < runtime.GOMAXPROCS(0)/2; p++ {
 				Runtime_Semacquire(&sem)
 			}

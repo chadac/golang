@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package maps defines various functions useful with maps of any type.
@@ -42,7 +42,7 @@ func EqualFunc[M1 ~map[K]V1, M2 ~map[K]V2, K comparable, V1, V2 any](m1 M1, m2 M
 
 // clone is implemented in the runtime package.
 //
-//go:linkname clone maps.clone
+//golang:linkname clone maps.clone
 func clone(m any) any
 
 // Clone returns a copy of m.  This is a shallow clone:

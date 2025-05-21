@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -15,13 +15,13 @@ type frag struct {
 	out patchlist
 }
 
-//go:noinline
-//go:registerparams
+//golang:noinline
+//golang:registerparams
 func patch(l patchlist, i uint32) {
 }
 
-//go:noinline
-//go:registerparams
+//golang:noinline
+//golang:registerparams
 func badbad(f1, f2 frag) frag {
 	// concat of failure is failure
 	if f1.i == 0 || f2.i == 0 { // internal compiler error: 'badbad': incompatible OpArgIntReg [4]: v42 and v26

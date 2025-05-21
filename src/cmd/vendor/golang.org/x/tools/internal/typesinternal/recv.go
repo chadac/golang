@@ -1,11 +1,11 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package typesinternal
 
 import (
-	"go/types"
+	"golang/types"
 )
 
 // ReceiverNamed returns the named type (if any) associated with the
@@ -34,7 +34,7 @@ func ReceiverNamed(recv *types.Var) (isPtr bool, named *types.Named) {
 // (which is needed to compute the method set).
 //
 // See also [typeparams.MustDeref], which removes one level of
-// indirection from the type, regardless of named types (analogous to
+// indirection from the type, regardless of named types (analogolangus to
 // a LOAD instruction).
 func Unpointer(t types.Type) types.Type {
 	if ptr, ok := types.Unalias(t).(*types.Pointer); ok {

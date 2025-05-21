@@ -2,19 +2,19 @@ package main
 
 import "testing"
 
-//go:noinline
+//golang:noinline
 func testSliceLenCap12_ssa(a [10]int, i, j int) (int, int) {
 	b := a[i:j]
 	return len(b), cap(b)
 }
 
-//go:noinline
+//golang:noinline
 func testSliceLenCap1_ssa(a [10]int, i, j int) (int, int) {
 	b := a[i:]
 	return len(b), cap(b)
 }
 
-//go:noinline
+//golang:noinline
 func testSliceLenCap2_ssa(a [10]int, i, j int) (int, int) {
 	b := a[:j]
 	return len(b), cap(b)
@@ -50,7 +50,7 @@ func testSliceLenCap(t *testing.T) {
 	}
 }
 
-//go:noinline
+//golang:noinline
 func testSliceGetElement_ssa(a [10]int, i, j, p int) int {
 	return a[i:j][p]
 }
@@ -68,13 +68,13 @@ func testSliceGetElement(t *testing.T) {
 	}
 
 	for i, test := range tests {
-		if got := testSliceGetElement_ssa(a, test.i, test.j, test.p); got != test.want {
-			t.Errorf("#%d a[%d:%d][%d] = %d, wanted %d", i, test.i, test.j, test.p, got, test.want)
+		if golangt := testSliceGetElement_ssa(a, test.i, test.j, test.p); golangt != test.want {
+			t.Errorf("#%d a[%d:%d][%d] = %d, wanted %d", i, test.i, test.j, test.p, golangt, test.want)
 		}
 	}
 }
 
-//go:noinline
+//golang:noinline
 func testSliceSetElement_ssa(a *[10]int, i, j, p, x int) {
 	(*a)[i:j][p] = x
 }
@@ -93,8 +93,8 @@ func testSliceSetElement(t *testing.T) {
 
 	for i, test := range tests {
 		testSliceSetElement_ssa(&a, test.i, test.j, test.p, test.want)
-		if got := a[test.i+test.p]; got != test.want {
-			t.Errorf("#%d a[%d:%d][%d] = %d, wanted %d", i, test.i, test.j, test.p, got, test.want)
+		if golangt := a[test.i+test.p]; golangt != test.want {
+			t.Errorf("#%d a[%d:%d][%d] = %d, wanted %d", i, test.i, test.j, test.p, golangt, test.want)
 		}
 	}
 }

@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package x86_test
@@ -20,7 +20,7 @@ VMOVUPS zeros<>(SB), %s // PC relative relocation is off by 1, for Y8-Y15, Z8-15
 RET
 `
 
-const goData = `
+const golangData = `
 package main
 
 func testASM()
@@ -32,7 +32,7 @@ func main() {
 
 func objdumpOutput(t *testing.T, mname, source string) []byte {
 	tmpdir := t.TempDir()
-	err := os.WriteFile(filepath.Join(tmpdir, "go.mod"), []byte(fmt.Sprintf("module %s\n", mname)), 0666)
+	err := os.WriteFile(filepath.Join(tmpdir, "golang.mod"), []byte(fmt.Sprintf("module %s\n", mname)), 0666)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -45,12 +45,12 @@ func objdumpOutput(t *testing.T, mname, source string) []byte {
 	if err != nil {
 		t.Fatal(err)
 	}
-	tmpfile2, err := os.Create(filepath.Join(tmpdir, "input.go"))
+	tmpfile2, err := os.Create(filepath.Join(tmpdir, "input.golang"))
 	if err != nil {
 		t.Fatal(err)
 	}
 	defer tmpfile2.Close()
-	_, err = tmpfile2.WriteString(goData)
+	_, err = tmpfile2.WriteString(golangData)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -60,7 +60,7 @@ func objdumpOutput(t *testing.T, mname, source string) []byte {
 		filepath.Join(tmpdir, "output"))
 
 	cmd.Env = append(os.Environ(),
-		"GOARCH=amd64", "GOOS=linux", "GOPATH="+filepath.Join(tmpdir, "_gopath"))
+		"GOARCH=amd64", "GOOS=linux", "GOPATH="+filepath.Join(tmpdir, "_golangpath"))
 	cmd.Dir = tmpdir
 
 	out, err := cmd.CombinedOutput()

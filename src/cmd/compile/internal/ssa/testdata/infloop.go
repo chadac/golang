@@ -2,10 +2,10 @@ package main
 
 var sink int
 
-//go:noinline
+//golang:noinline
 func test() {
 	// This is for #30167, incorrect line numbers in an infinite loop
-	go func() {}()
+	golang func() {}()
 
 	for {
 	}

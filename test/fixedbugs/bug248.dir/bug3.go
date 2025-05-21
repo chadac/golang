@@ -1,5 +1,5 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file
 
 package main
@@ -41,7 +41,7 @@ func main() {
 	// check that reflect paths are correct,
 	// meaning that reflect data for v0, v1 didn't get confused.
 
-	// path is full (rooted) path name.  check suffix for gc, prefix for gccgo
+	// path is full (rooted) path name.  check suffix for gc, prefix for gccgolang
 	if s := reflect.TypeOf(v0).PkgPath(); !strings.HasSuffix(s, "/bug0") && !strings.HasPrefix(s, "bug0") {
 		println("bad v0 path", len(s), s)
 		panic("fail")

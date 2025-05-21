@@ -1,8 +1,8 @@
 # Matches no subtests, parallel
-go test -run Test/Sub/ThisWillNotMatch standalone_parallel_sub_test.go
+golang test -run Test/Sub/ThisWillNotMatch standalone_parallel_sub_test.golang
 stdout '^ok.*\[no tests to run\]'
 
--- standalone_parallel_sub_test.go --
+-- standalone_parallel_sub_test.golang --
 package standalone_parallel_sub_test
 
 import "testing"

@@ -1,5 +1,5 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime_test
@@ -41,7 +41,7 @@ func TestOpenAndNonOpenDefers(t *testing.T) {
 	panic("testNonOpenDefer")
 }
 
-//go:noinline
+//golang:noinline
 func testOpen(t *testing.T, arg int) {
 	defer func(n int) {
 		if recover() != "testOpenDefer" {
@@ -84,7 +84,7 @@ func TestConditionalDefers(t *testing.T) {
 		}
 		want := []int{4, 2, 1}
 		if !slices.Equal(want, list) {
-			t.Fatalf("wanted %v, got %v", want, list)
+			t.Fatalf("wanted %v, golangt %v", want, list)
 		}
 
 	}()
@@ -132,13 +132,13 @@ func TestAbortedPanic(t *testing.T) {
 	defer func() {
 		r := recover()
 		if r != nil {
-			t.Fatalf("wanted nil recover, got %v", r)
+			t.Fatalf("wanted nil recover, golangt %v", r)
 		}
 	}()
 	defer func() {
 		r := recover()
 		if r != "panic2" {
-			t.Fatalf("wanted %v, got %v", "panic2", r)
+			t.Fatalf("wanted %v, golangt %v", "panic2", r)
 		}
 	}()
 	defer func() {
@@ -155,7 +155,7 @@ func TestRecoverMatching(t *testing.T) {
 	defer func() {
 		r := recover()
 		if r != "panic1" {
-			t.Fatalf("wanted %v, got %v", "panic1", r)
+			t.Fatalf("wanted %v, golangt %v", "panic1", r)
 		}
 	}()
 	defer func() {
@@ -165,7 +165,7 @@ func TestRecoverMatching(t *testing.T) {
 			// not directly called by the panic.
 			r := recover()
 			if r != nil {
-				t.Fatalf("wanted nil recover, got %v", r)
+				t.Fatalf("wanted nil recover, golangt %v", r)
 			}
 		}()
 	}()
@@ -189,7 +189,7 @@ func mknonSSAable() nonSSAable {
 
 var globint1, globint2, globint3 int
 
-//go:noinline
+//golang:noinline
 func sideeffect(n int64) int64 {
 	globint2++
 	return n
@@ -212,25 +212,25 @@ func TestNonSSAableArgs(t *testing.T) {
 
 	defer func() {
 		if globint1 != 1 {
-			t.Fatalf("globint1:  wanted: 1, got %v", globint1)
+			t.Fatalf("globint1:  wanted: 1, golangt %v", globint1)
 		}
 		if save1 != 5 {
-			t.Fatalf("save1:  wanted: 5, got %v", save1)
+			t.Fatalf("save1:  wanted: 5, golangt %v", save1)
 		}
 		if globint2 != 1 {
-			t.Fatalf("globint2:  wanted: 1, got %v", globint2)
+			t.Fatalf("globint2:  wanted: 1, golangt %v", globint2)
 		}
 		if save2 != 2 {
-			t.Fatalf("save2:  wanted: 2, got %v", save2)
+			t.Fatalf("save2:  wanted: 2, golangt %v", save2)
 		}
 		if save3 != 4 {
-			t.Fatalf("save3:  wanted: 4, got %v", save3)
+			t.Fatalf("save3:  wanted: 4, golangt %v", save3)
 		}
 		if globint3 != 1 {
-			t.Fatalf("globint3:  wanted: 1, got %v", globint3)
+			t.Fatalf("globint3:  wanted: 1, golangt %v", globint3)
 		}
 		if save4 != 4 {
-			t.Fatalf("save1:  wanted: 4, got %v", save4)
+			t.Fatalf("save1:  wanted: 4, golangt %v", save4)
 		}
 	}()
 
@@ -254,7 +254,7 @@ func TestNonSSAableArgs(t *testing.T) {
 	}(sideeffect2(foo).element)
 }
 
-//go:noinline
+//golang:noinline
 func doPanic() {
 	panic("Test panic")
 }
@@ -263,7 +263,7 @@ func TestDeferForFuncWithNoExit(t *testing.T) {
 	cond := 1
 	defer func() {
 		if cond != 2 {
-			t.Fatalf("cond: wanted 2, got %v", cond)
+			t.Fatalf("cond: wanted 2, golangt %v", cond)
 		}
 		if recover() != "Test panic" {
 			t.Fatal("Didn't find expected panic")
@@ -350,11 +350,11 @@ func TestIssue37688(t *testing.T) {
 type foo struct {
 }
 
-//go:noinline
+//golang:noinline
 func (f *foo) method1() {
 }
 
-//go:noinline
+//golang:noinline
 func (f *foo) method2() {
 }
 

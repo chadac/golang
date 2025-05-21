@@ -1,128 +1,128 @@
-[!cgo] skip
+[!cgolang] skip
 [short] skip
 
-cp x.go.txt x.go
+cp x.golang.txt x.golang
 
-# Only allow //go:cgo_ldflag .* in cgo-generated code
-[compiler:gc] cp x_gc.go.txt x.go
-[compiler:gc] ! go build x
-[compiler:gc] stderr '//go:cgo_ldflag .* only allowed in cgo-generated code'
+# Only allow //golang:cgolang_ldflag .* in cgolang-generated code
+[compiler:gc] cp x_gc.golang.txt x.golang
+[compiler:gc] ! golang build x
+[compiler:gc] stderr '//golang:cgolang_ldflag .* only allowed in cgolang-generated code'
 
 # Ignore _* files
-rm x.go
-! go build .
+rm x.golang
+! golang build .
 stderr 'no Go files'
-cp cgo_yy.go.txt _cgo_yy.go
-! go build .
+cp cgolang_yy.golang.txt _cgolang_yy.golang
+! golang build .
 stderr 'no Go files' #_* files are ignored...
 
-[compiler:gc] ! go build _cgo_yy.go # ... but if forced, the comment is rejected
+[compiler:gc] ! golang build _cgolang_yy.golang # ... but if forced, the comment is rejected
 # Actually, today there is a separate issue that _ files named
 # on the command line are ignored. Once that is fixed,
-# we want to see the cgo_ldflag error.
-[compiler:gc] stderr '//go:cgo_ldflag only allowed in cgo-generated code|no Go files'
+# we want to see the cgolang_ldflag error.
+[compiler:gc] stderr '//golang:cgolang_ldflag only allowed in cgolang-generated code|no Go files'
 
-rm _cgo_yy.go
+rm _cgolang_yy.golang
 
-# Reject #cgo CFLAGS: -fplugin=foo.so
-cp x.go.txt x.go
-cp y_fplugin.go.txt y.go
-! go build x
-stderr 'invalid flag in #cgo CFLAGS: -fplugin=foo.so'
+# Reject #cgolang CFLAGS: -fplugin=foo.so
+cp x.golang.txt x.golang
+cp y_fplugin.golang.txt y.golang
+! golang build x
+stderr 'invalid flag in #cgolang CFLAGS: -fplugin=foo.so'
 
-# Reject #cgo CFLAGS: -lbar -fplugin=foo.so
-cp y_lbar_fplugin.go.txt y.go
-! go build x
-stderr 'invalid flag in #cgo CFLAGS: -fplugin=foo.so'
+# Reject #cgolang CFLAGS: -lbar -fplugin=foo.so
+cp y_lbar_fplugin.golang.txt y.golang
+! golang build x
+stderr 'invalid flag in #cgolang CFLAGS: -fplugin=foo.so'
 
-# Reject #cgo pkg-config: -foo
-cp y_pkgconfig_dash_foo.txt y.go
-! go build x
+# Reject #cgolang pkg-config: -foo
+cp y_pkgconfig_dash_foo.txt y.golang
+! golang build x
 stderr 'invalid pkg-config package name: -foo'
 
-# Reject #cgo pkg-config: @foo
-cp y_pkgconfig_at_foo.txt y.go
-! go build x
+# Reject #cgolang pkg-config: @foo
+cp y_pkgconfig_at_foo.txt y.golang
+! golang build x
 stderr 'invalid pkg-config package name: @foo'
 
-# Reject #cgo CFLAGS: @foo
-cp y_cflags_at_foo.txt y.go
-! go build x
-stderr 'invalid flag in #cgo CFLAGS: @foo'
+# Reject #cgolang CFLAGS: @foo
+cp y_cflags_at_foo.txt y.golang
+! golang build x
+stderr 'invalid flag in #cgolang CFLAGS: @foo'
 
-# Reject #cgo CFLAGS: -D
-cp y_cflags_dash_d.txt y.go
-! go build x
-stderr 'invalid flag in #cgo CFLAGS: -D without argument'
+# Reject #cgolang CFLAGS: -D
+cp y_cflags_dash_d.txt y.golang
+! golang build x
+stderr 'invalid flag in #cgolang CFLAGS: -D without argument'
 
 # Note that -I @foo is allowed because we rewrite it into -I /path/to/src/@foo
 # before the check is applied. There's no such rewrite for -D.
 
-# Reject #cgo CFLAGS: -D @foo
-cp y_cflags_dash_d_space_at_foo.txt y.go
-! go build x
-stderr 'invalid flag in #cgo CFLAGS: -D @foo'
+# Reject #cgolang CFLAGS: -D @foo
+cp y_cflags_dash_d_space_at_foo.txt y.golang
+! golang build x
+stderr 'invalid flag in #cgolang CFLAGS: -D @foo'
 
-# Reject #cgo CFLAGS -D@foo
-cp y_cflags_dash_d_at_foo.txt y.go
-! go build x
-stderr 'invalid flag in #cgo CFLAGS: -D@foo'
+# Reject #cgolang CFLAGS -D@foo
+cp y_cflags_dash_d_at_foo.txt y.golang
+! golang build x
+stderr 'invalid flag in #cgolang CFLAGS: -D@foo'
 
 # Check for CFLAGS in commands
 env CGO_CFLAGS=-D@foo
-cp y_no_cflags.txt y.go
-go build -n x
+cp y_no_cflags.txt y.golang
+golang build -n x
 stderr '-D@foo'
 
--- go.mod --
+-- golang.mod --
 module x
 
-go 1.16
--- x_gc.go.txt --
+golang 1.16
+-- x_gc.golang.txt --
 package x
 
-//go:cgo_ldflag "-fplugin=foo.so"
-
-import "C"
--- cgo_yy.go.txt --
-package x
-
-//go:cgo_ldflag "-fplugin=foo.so"
+//golang:cgolang_ldflag "-fplugin=foo.so"
 
 import "C"
--- x.go.txt --
+-- cgolang_yy.golang.txt --
 package x
--- y_fplugin.go.txt --
-package x
-// #cgo CFLAGS: -fplugin=foo.so
+
+//golang:cgolang_ldflag "-fplugin=foo.so"
+
 import "C"
--- y_lbar_fplugin.go.txt --
+-- x.golang.txt --
 package x
-// #cgo CFLAGS: -Ibar -fplugin=foo.so
+-- y_fplugin.golang.txt --
+package x
+// #cgolang CFLAGS: -fplugin=foo.so
+import "C"
+-- y_lbar_fplugin.golang.txt --
+package x
+// #cgolang CFLAGS: -Ibar -fplugin=foo.so
 import "C"
 -- y_pkgconfig_dash_foo.txt --
 package x
-// #cgo pkg-config: -foo
+// #cgolang pkg-config: -foo
 import "C"
 -- y_pkgconfig_at_foo.txt --
 package x
-// #cgo pkg-config: @foo
+// #cgolang pkg-config: @foo
 import "C"
 -- y_cflags_at_foo.txt --
 package x
-// #cgo CFLAGS: @foo
+// #cgolang CFLAGS: @foo
 import "C"
 -- y_cflags_dash_d.txt --
 package x
-// #cgo CFLAGS: -D
+// #cgolang CFLAGS: -D
 import "C"
 -- y_cflags_dash_d_space_at_foo.txt --
 package x
-// #cgo CFLAGS: -D @foo
+// #cgolang CFLAGS: -D @foo
 import "C"
 -- y_cflags_dash_d_at_foo.txt --
 package x
-// #cgo CFLAGS: -D@foo
+// #cgolang CFLAGS: -D@foo
 import "C"
 -- y_no_cflags.txt --
 package x

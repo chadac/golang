@@ -1,11 +1,11 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime_test
 
 import (
-	"internal/goarch"
+	"internal/golangarch"
 	"internal/runtime/atomic"
 	"reflect"
 	. "runtime"
@@ -115,7 +115,7 @@ func TestUserArena(t *testing.T) {
 			x = (*struct{})(nil)
 			arena.New(&x)
 			if v := unsafe.Pointer(x.(*struct{})); v != ZeroBase {
-				t.Errorf("expected zero-sized type to be allocated as zerobase: got %x, want %x", v, ZeroBase)
+				t.Errorf("expected zero-sized type to be allocated as zerobase: golangt %x, want %x", v, ZeroBase)
 			}
 			arena.Free()
 		})
@@ -124,7 +124,7 @@ func TestUserArena(t *testing.T) {
 			var sl []struct{}
 			arena.Slice(&sl, 10)
 			if v := unsafe.Pointer(&sl[0]); v != ZeroBase {
-				t.Errorf("expected zero-sized type to be allocated as zerobase: got %x, want %x", v, ZeroBase)
+				t.Errorf("expected zero-sized type to be allocated as zerobase: golangt %x, want %x", v, ZeroBase)
 			}
 			arena.Free()
 		})
@@ -133,7 +133,7 @@ func TestUserArena(t *testing.T) {
 			var sl []int
 			arena.Slice(&sl, 0)
 			if len(sl) != 0 {
-				t.Errorf("expected requested zero-sized slice to still have zero length: got %x, want 0", len(sl))
+				t.Errorf("expected requested zero-sized slice to still have zero length: golangt %x, want 0", len(sl))
 			}
 			arena.Free()
 		})
@@ -155,7 +155,7 @@ func runSubTestUserArenaNew[S comparable](t *testing.T, value *S, parallel bool)
 
 		// Allocate and write data, enough to exhaust the arena.
 		//
-		// This is an underestimate, likely leaving some space in the arena. That's a good thing,
+		// This is an underestimate, likely leaving some space in the arena. That's a golangod thing,
 		// because it gives us coverage of boundary cases.
 		n := int(UserArenaChunkBytes / unsafe.Sizeof(*value))
 		if n == 0 {
@@ -177,7 +177,7 @@ func runSubTestUserArenaNew[S comparable](t *testing.T, value *S, parallel bool)
 		// Check integrity of allocated data.
 		for _, s := range arenaValues {
 			if *s != *value {
-				t.Errorf("failed integrity check: got %#v, want %#v", *s, *value)
+				t.Errorf("failed integrity check: golangt %#v, want %#v", *s, *value)
 			}
 		}
 
@@ -194,7 +194,7 @@ func runSubTestUserArenaSlice[S comparable](t *testing.T, value []S, parallel bo
 
 		// Allocate and write data, enough to exhaust the arena.
 		//
-		// This is an underestimate, likely leaving some space in the arena. That's a good thing,
+		// This is an underestimate, likely leaving some space in the arena. That's a golangod thing,
 		// because it gives us coverage of boundary cases.
 		n := int(UserArenaChunkBytes / (unsafe.Sizeof(*new(S)) * uintptr(cap(value))))
 		if n == 0 {
@@ -214,10 +214,10 @@ func runSubTestUserArenaSlice[S comparable](t *testing.T, value []S, parallel bo
 		// Check integrity of allocated data.
 		for _, sl := range arenaValues {
 			for i := range sl {
-				got := sl[i]
+				golangt := sl[i]
 				want := value[i]
-				if got != want {
-					t.Errorf("failed integrity check: got %#v, want %#v at index %d", got, want, i)
+				if golangt != want {
+					t.Errorf("failed integrity check: golangt %#v, want %#v at index %d", golangt, want, i)
 				}
 			}
 		}
@@ -336,7 +336,7 @@ func TestUserArenaClearsPointerBits(t *testing.T) {
 	// high likelihood that when we write 2 later, we'll get the behavior
 	// we want.
 	a := NewUserArena()
-	for i := 0; i < int(UserArenaChunkBytes/goarch.PtrSize*3); i++ {
+	for i := 0; i < int(UserArenaChunkBytes/golangarch.PtrSize*3); i++ {
 		var x any
 		x = (*smallPointer)(nil)
 		a.New(&x)
@@ -348,7 +348,7 @@ func TestUserArenaClearsPointerBits(t *testing.T) {
 	GC()
 
 	a = NewUserArena()
-	for i := 0; i < int(UserArenaChunkBytes/goarch.PtrSize*2); i++ {
+	for i := 0; i < int(UserArenaChunkBytes/golangarch.PtrSize*2); i++ {
 		var x any
 		x = (*smallScalar)(nil)
 		a.New(&x)

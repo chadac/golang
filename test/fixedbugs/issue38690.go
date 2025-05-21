@@ -1,7 +1,7 @@
 // compile
 
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Make sure that literal value can be passed to struct
@@ -58,7 +58,7 @@ func f3() {
 func mustPanic(f func()) {
 	defer func() {
 		if recover() == nil {
-			panic("expected panic, got nil")
+			panic("expected panic, golangt nil")
 		}
 	}()
 	f()

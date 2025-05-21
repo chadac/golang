@@ -2,70 +2,70 @@ env GO111MODULE=on
 env GOFLAGS=-mod=mod
 [short] skip
 
-# TODO(bcmills): Convert the 'go test' calls below to 'go list -test' once 'go
+# TODO(bcmills): Convert the 'golang test' calls below to 'golang list -test' once 'golang
 # list' is more sensitive to package loading errors.
 
 # A test in the module's root package should work.
 cd a/
-cp go.mod.empty go.mod
-go list -test
+cp golang.mod.empty golang.mod
+golang list -test
 ! stderr error
 
-cp go.mod.empty go.mod
-go list -deps
+cp golang.mod.empty golang.mod
+golang list -deps
 ! stdout ^testing$
 
 # list all should include test dependencies, like testing
-cp go.mod.empty go.mod
-go list all
+cp golang.mod.empty golang.mod
+golang list all
 stdout ^testing$
 stdout ^rsc.io/quote$
 stdout ^rsc.io/testonly$
 
 # list -deps -tests should also include testing
 # but not deps of tests of deps (rsc.io/testonly).
-go list -deps -test
+golang list -deps -test
 stdout ^testing$
 stdout ^rsc.io/quote$
 ! stdout ^rsc.io/testonly$
 
 # list -test all should succeed
-cp go.mod.empty go.mod
-go list -test all
+cp golang.mod.empty golang.mod
+golang list -test all
 stdout '^testing'
 
-cp go.mod.empty go.mod
-go list -test
+cp golang.mod.empty golang.mod
+golang list -test
 ! stderr error
 
 # A test with the "_test" suffix in the module root should also work.
 cd ../b/
-go list -test
+golang list -test
 ! stderr error
 
 # A test with the "_test" suffix of a *package* with a "_test" suffix should
 # even work (not that you should ever do that).
 cd ../c_test
-go list -test
+golang list -test
 ! stderr error
 
 cd ../d_test
-go list -test
+golang list -test
 ! stderr error
 
 cd ../e
-go list -test
+golang list -test
 ! stderr error
 
--- a/go.mod.empty --
+-- a/golang.mod.empty --
 module example.com/user/a
 
-go 1.11
+golang 1.11
 
--- a/a.go --
+-- a/a.golang --
 package a
 
--- a/a_test.go --
+-- a/a_test.golang --
 package a
 
 import "testing"
@@ -73,56 +73,56 @@ import _ "rsc.io/quote"
 
 func Test(t *testing.T) {}
 
--- b/go.mod --
+-- b/golang.mod --
 module example.com/user/b
 
--- b/b.go --
+-- b/b.golang --
 package b
 
--- b/b_test.go --
+-- b/b_test.golang --
 package b_test
 
 import "testing"
 
 func Test(t *testing.T) {}
 
--- c_test/go.mod --
+-- c_test/golang.mod --
 module example.com/c_test
 
--- c_test/umm.go --
+-- c_test/umm.golang --
 // Package c_test is the non-test package for its import path!
 package c_test
 
--- c_test/c_test_test.go --
+-- c_test/c_test_test.golang --
 package c_test_test
 
 import "testing"
 
 func Test(t *testing.T) {}
 
--- d_test/go.mod --
+-- d_test/golang.mod --
 // Package d is an ordinary package in a deceptively-named directory.
 module example.com/d
 
--- d_test/d.go --
+-- d_test/d.golang --
 package d
 
--- d_test/d_test.go --
+-- d_test/d_test.golang --
 package d_test
 
 import "testing"
 
 func Test(t *testing.T) {}
 
--- e/go.mod --
+-- e/golang.mod --
 module example.com/e_test
 
--- e/wat.go --
+-- e/wat.golang --
 // Package e_test is the non-test package for its import path,
 // in a deceptively-named directory!
 package e_test
 
--- e/e_test.go --
+-- e/e_test.golang --
 package e_test_test
 
 import "testing"

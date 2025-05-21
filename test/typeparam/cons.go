@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -94,7 +94,7 @@ func main() {
 	cs2 := cs1.Tail.(Cons[bool])
 	_, ok := cs2.Tail.(Nil[bool])
 	if cs1.Head != false || cs2.Head != true || !ok {
-		panic(fmt.Sprintf("got %v, %v, %v, expected false, true, true",
+		panic(fmt.Sprintf("golangt %v, %v, %v, expected false, true, true",
 			cs1.Head, cs2.Head, ok))
 	}
 }

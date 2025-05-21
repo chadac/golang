@@ -1,5 +1,5 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Address range data structure.
@@ -10,7 +10,7 @@
 package runtime
 
 import (
-	"internal/goarch"
+	"internal/golangarch"
 	"internal/runtime/atomic"
 	"unsafe"
 )
@@ -255,7 +255,7 @@ func (a *addrRanges) init(sysStat *sysMemStat) {
 	ranges := (*notInHeapSlice)(unsafe.Pointer(&a.ranges))
 	ranges.len = 0
 	ranges.cap = 16
-	ranges.array = (*notInHeap)(persistentalloc(unsafe.Sizeof(addrRange{})*uintptr(ranges.cap), goarch.PtrSize, sysStat))
+	ranges.array = (*notInHeap)(persistentalloc(unsafe.Sizeof(addrRange{})*uintptr(ranges.cap), golangarch.PtrSize, sysStat))
 	a.sysStat = sysStat
 	a.totalBytes = 0
 }
@@ -382,7 +382,7 @@ func (a *addrRanges) add(r addrRange) {
 			ranges := (*notInHeapSlice)(unsafe.Pointer(&a.ranges))
 			ranges.len = len(oldRanges) + 1
 			ranges.cap = cap(oldRanges) * 2
-			ranges.array = (*notInHeap)(persistentalloc(unsafe.Sizeof(addrRange{})*uintptr(ranges.cap), goarch.PtrSize, a.sysStat))
+			ranges.array = (*notInHeap)(persistentalloc(unsafe.Sizeof(addrRange{})*uintptr(ranges.cap), golangarch.PtrSize, a.sysStat))
 
 			// Copy in the old array, but make space for the new range.
 			copy(a.ranges[:i], oldRanges[:i])
@@ -452,7 +452,7 @@ func (a *addrRanges) cloneInto(b *addrRanges) {
 		ranges := (*notInHeapSlice)(unsafe.Pointer(&b.ranges))
 		ranges.len = 0
 		ranges.cap = cap(a.ranges)
-		ranges.array = (*notInHeap)(persistentalloc(unsafe.Sizeof(addrRange{})*uintptr(ranges.cap), goarch.PtrSize, b.sysStat))
+		ranges.array = (*notInHeap)(persistentalloc(unsafe.Sizeof(addrRange{})*uintptr(ranges.cap), golangarch.PtrSize, b.sysStat))
 	}
 	b.ranges = b.ranges[:len(a.ranges)]
 	b.totalBytes = a.totalBytes

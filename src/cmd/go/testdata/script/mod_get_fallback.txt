@@ -1,16 +1,16 @@
 env GO111MODULE=on
 
-[!net:golang.org] skip
-[!net:proxy.golang.org] skip
+[!net:golanglang.org] skip
+[!net:proxy.golanglang.org] skip
 
-env GOPROXY=https://proxy.golang.org,direct
+env GOPROXY=https://proxy.golanglang.org,direct
 env GOSUMDB=off
 
-go get -x -v golang.org/x/tools/cmd/goimports
-stderr '# get https://proxy.golang.org/golang.org/x/tools/@v/list'
-! stderr '# get https://golang.org'
+golang get -x -v golanglang.org/x/tools/cmd/golangimports
+stderr '# get https://proxy.golanglang.org/golanglang.org/x/tools/@v/list'
+! stderr '# get https://golanglang.org'
 
--- go.mod --
+-- golang.mod --
 module m
 
-go 1.18
+golang 1.18

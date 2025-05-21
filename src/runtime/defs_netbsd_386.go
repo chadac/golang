@@ -1,13 +1,13 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build ignore
+//golang:build ignore
 
 /*
-Input to cgo.
+Input to cgolang.
 
-GOARCH=386 go tool cgo -cdefs defs_netbsd.go defs_netbsd_386.go >defs_netbsd_386.h
+GOARCH=386 golang tool cgolang -cdefs defs_netbsd.golang defs_netbsd_386.golang >defs_netbsd_386.h
 */
 
 package runtime

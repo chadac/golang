@@ -1,8 +1,8 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-#include "go_asm.h"
+#include "golang_asm.h"
 #include "textflag.h"
 
 // See memmove Go doc for important implementation constraints.
@@ -17,7 +17,7 @@
 // data		R11-R18
 // tmp		R9
 
-// Algorithm:
+// Algolangrithm:
 //
 // Memory alignment check is only performed for copy size greater
 // than 64 bytes to minimize overhead.
@@ -233,7 +233,7 @@ forward_move_64loop:
 	BNE	R6, tail
 	RET
 
-// The backward copy algorithm is the same as the forward
+// The backward copy algolangrithm is the same as the forward
 // copy, except for the direction.
 backward:
 	AND	$7, R7, R9	// dstend & 7

@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package user
@@ -29,7 +29,7 @@ func windowsTestAccount(t *testing.T) (syscall.Token, *User) {
 		// Adding and deleting users requires special permissions.
 		// Even if we have them, we don't want to create users on
 		// on dev machines, as they may not be cleaned up.
-		// See https://dev.go/issue/70396.
+		// See https://dev.golang/issue/70396.
 		t.Skip("skipping non-hermetic test outside of Go builders")
 	}
 	const testUserName = "GoStdTestUser01"
@@ -80,7 +80,7 @@ func windowsTestAccount(t *testing.T) (syscall.Token, *User) {
 	const LOGON32_PROVIDER_DEFAULT = 0
 	const LOGON32_LOGON_INTERACTIVE = 2
 	var token syscall.Token
-	if err = windows.LogonUser(name, domain, pwd16, LOGON32_LOGON_INTERACTIVE, LOGON32_PROVIDER_DEFAULT, &token); err != nil {
+	if err = windows.LogolangnUser(name, domain, pwd16, LOGON32_LOGON_INTERACTIVE, LOGON32_PROVIDER_DEFAULT, &token); err != nil {
 		t.Fatal(err)
 	}
 	t.Cleanup(func() {
@@ -115,7 +115,7 @@ func TestImpersonatedSelf(t *testing.T) {
 			}
 			defer windows.RevertToSelf()
 
-			got, err := current()
+			golangt, err := current()
 			if level == windows.SecurityAnonymous {
 				// We can't get the process token when using an anonymous token,
 				// so we expect an error here.
@@ -127,7 +127,7 @@ func TestImpersonatedSelf(t *testing.T) {
 			if err != nil {
 				t.Fatal(err)
 			}
-			compare(t, want, got)
+			compare(t, want, golangt)
 		})
 	}
 }
@@ -156,11 +156,11 @@ func TestImpersonated(t *testing.T) {
 		}
 	}()
 
-	got, err := current()
+	golangt, err := current()
 	if err != nil {
 		t.Fatal(err)
 	}
-	compare(t, want, got)
+	compare(t, want, golangt)
 }
 
 func TestCurrentNetapi32(t *testing.T) {
@@ -229,7 +229,7 @@ func TestLookupServiceAccount(t *testing.T) {
 			continue
 		}
 		if u.Uid != tt.sid {
-			t.Errorf("unexpected uid for %q; got %q, want %q", u.Name, u.Uid, tt.sid)
+			t.Errorf("unexpected uid for %q; golangt %q, want %q", u.Name, u.Uid, tt.sid)
 		}
 	}
 }
@@ -243,10 +243,10 @@ func TestLookupIdServiceAccount(t *testing.T) {
 			continue
 		}
 		if u.Gid != tt.sid {
-			t.Errorf("unexpected gid for %q; got %q, want %q", u.Name, u.Gid, tt.sid)
+			t.Errorf("unexpected gid for %q; golangt %q, want %q", u.Name, u.Gid, tt.sid)
 		}
 		if u.Username != tt.name {
-			t.Errorf("unexpected user name for %q; got %q, want %q", u.Gid, u.Username, tt.name)
+			t.Errorf("unexpected user name for %q; golangt %q, want %q", u.Gid, u.Username, tt.name)
 		}
 	}
 }
@@ -260,7 +260,7 @@ func TestLookupGroupServiceAccount(t *testing.T) {
 			continue
 		}
 		if u.Gid != tt.sid {
-			t.Errorf("unexpected gid for %q; got %q, want %q", u.Name, u.Gid, tt.sid)
+			t.Errorf("unexpected gid for %q; golangt %q, want %q", u.Name, u.Gid, tt.sid)
 		}
 	}
 }
@@ -274,7 +274,7 @@ func TestLookupGroupIdServiceAccount(t *testing.T) {
 			continue
 		}
 		if u.Gid != tt.sid {
-			t.Errorf("unexpected gid for %q; got %q, want %q", u.Name, u.Gid, tt.sid)
+			t.Errorf("unexpected gid for %q; golangt %q, want %q", u.Name, u.Gid, tt.sid)
 		}
 	}
 }

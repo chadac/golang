@@ -3,46 +3,46 @@
 env GOCACHE=$WORK/cache
 
 # Run chatty fuzz targets with an error.
-! go test -v chatty_error_fuzz_test.go
+! golang test -v chatty_error_fuzz_test.golang
 ! stdout '^ok'
 stdout 'FAIL'
 stdout 'error in target'
 
 # Run chatty fuzz targets with a fatal.
-! go test -v chatty_fatal_fuzz_test.go
+! golang test -v chatty_fatal_fuzz_test.golang
 ! stdout '^ok'
 stdout 'FAIL'
 stdout 'fatal in target'
 
 # Run chatty fuzz target with a panic
-! go test -v chatty_panic_fuzz_test.go
+! golang test -v chatty_panic_fuzz_test.golang
 ! stdout ^ok
 stdout FAIL
 stdout 'this is bad'
 
 # Run skipped chatty fuzz targets.
-go test -v chatty_skipped_fuzz_test.go
+golang test -v chatty_skipped_fuzz_test.golang
 stdout ok
 stdout SKIP
 ! stdout FAIL
 
 # Run successful chatty fuzz targets.
-go test -v chatty_fuzz_test.go
+golang test -v chatty_fuzz_test.golang
 stdout ok
 stdout PASS
-stdout 'all good here'
+stdout 'all golangod here'
 ! stdout FAIL
 
 # Fuzz successful chatty fuzz target that includes a separate unit test.
-go test -v chatty_with_test_fuzz_test.go -fuzz=Fuzz -fuzztime=1x
+golang test -v chatty_with_test_fuzz_test.golang -fuzz=Fuzz -fuzztime=1x
 stdout ok
 stdout PASS
 ! stdout FAIL
-stdout -count=1 'all good here'
+stdout -count=1 'all golangod here'
 # Verify that the unit test is only run once.
 stdout -count=1 'logged foo'
 
--- chatty_error_fuzz_test.go --
+-- chatty_error_fuzz_test.golang --
 package chatty_error_fuzz
 
 import "testing"
@@ -51,7 +51,7 @@ func Fuzz(f *testing.F) {
     f.Error("error in target")
 }
 
--- chatty_fatal_fuzz_test.go --
+-- chatty_fatal_fuzz_test.golang --
 package chatty_fatal_fuzz
 
 import "testing"
@@ -60,7 +60,7 @@ func Fuzz(f *testing.F) {
     f.Fatal("fatal in target")
 }
 
--- chatty_panic_fuzz_test.go --
+-- chatty_panic_fuzz_test.golang --
 package chatty_panic_fuzz
 
 import "testing"
@@ -69,7 +69,7 @@ func Fuzz(f *testing.F) {
     panic("this is bad")
 }
 
--- chatty_skipped_fuzz_test.go --
+-- chatty_skipped_fuzz_test.golang --
 package chatty_skipped_fuzz
 
 import "testing"
@@ -78,17 +78,17 @@ func Fuzz(f *testing.F) {
     f.Skip()
 }
 
--- chatty_fuzz_test.go --
+-- chatty_fuzz_test.golang --
 package chatty_fuzz
 
 import "testing"
 
 func Fuzz(f *testing.F) {
-    f.Log("all good here")
+    f.Log("all golangod here")
     f.Fuzz(func(*testing.T, []byte) {})
 }
 
--- chatty_with_test_fuzz_test.go --
+-- chatty_with_test_fuzz_test.golang --
 package chatty_with_test_fuzz
 
 import "testing"
@@ -98,6 +98,6 @@ func TestFoo(t *testing.T) {
 }
 
 func Fuzz(f *testing.F) {
-    f.Log("all good here")
+    f.Log("all golangod here")
     f.Fuzz(func(*testing.T, []byte) {})
 }

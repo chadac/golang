@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This test makes sure that we don't split a single
@@ -9,7 +9,7 @@ package main
 
 import "testing"
 
-//go:noinline
+//golang:noinline
 func read1(b []byte) (uint16, uint16) {
 	// There is only a single read of b[0].  The two
 	// returned values must have the same low byte.
@@ -21,14 +21,14 @@ func main1(t *testing.T) {
 	const N = 100000
 	done := make(chan bool, 2)
 	b := make([]byte, 2)
-	go func() {
+	golang func() {
 		for i := 0; i < N; i++ {
 			b[0] = byte(i)
 			b[1] = byte(i)
 		}
 		done <- true
 	}()
-	go func() {
+	golang func() {
 		for i := 0; i < N; i++ {
 			x, y := read1(b)
 			if byte(x) != byte(y) {
@@ -43,7 +43,7 @@ func main1(t *testing.T) {
 	<-done
 }
 
-//go:noinline
+//golang:noinline
 func read2(b []byte) (uint16, uint16) {
 	// There is only a single read of b[1].  The two
 	// returned values must have the same high byte.
@@ -55,14 +55,14 @@ func main2(t *testing.T) {
 	const N = 100000
 	done := make(chan bool, 2)
 	b := make([]byte, 2)
-	go func() {
+	golang func() {
 		for i := 0; i < N; i++ {
 			b[0] = byte(i)
 			b[1] = byte(i)
 		}
 		done <- true
 	}()
-	go func() {
+	golang func() {
 		for i := 0; i < N; i++ {
 			x, y := read2(b)
 			if x&0xff00 != y&0xff00 {

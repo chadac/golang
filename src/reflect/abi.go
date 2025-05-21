@@ -1,17 +1,17 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package reflect
 
 import (
 	"internal/abi"
-	"internal/goarch"
+	"internal/golangarch"
 	"unsafe"
 )
 
 // These variables are used by the register assignment
-// algorithm in this file.
+// algolangrithm in this file.
 //
 // They should be modified with care (no other reflect code
 // may be executing) and are generally only modified
@@ -24,7 +24,7 @@ import (
 //
 // Currently they're set to zero because using the actual
 // constants will break every part of the toolchain that
-// uses reflect to call functions (e.g. go test, or anything
+// uses reflect to call functions (e.g. golang test, or anything
 // that uses text/template). The values that are currently
 // commented out there should be the actual values once
 // we're ready to use the register ABI everywhere.
@@ -167,7 +167,7 @@ func (a *abiSeq) addRcvr(rcvr *abi.Type) (*abiStep, bool) {
 	a.valueStart = append(a.valueStart, len(a.steps))
 	var ok, ptr bool
 	if rcvr.IfaceIndir() || rcvr.Pointers() {
-		ok = a.assignIntN(0, goarch.PtrSize, 1, 0b1)
+		ok = a.assignIntN(0, golangarch.PtrSize, 1, 0b1)
 		ptr = true
 	} else {
 		// TODO(mknyszek): Is this case even possible?
@@ -176,11 +176,11 @@ func (a *abiSeq) addRcvr(rcvr *abi.Type) (*abiStep, bool) {
 		// in the reflect package which only conditionally added
 		// a pointer bit to the reflect.(Value).Call stack frame's
 		// GC bitmap.
-		ok = a.assignIntN(0, goarch.PtrSize, 1, 0b0)
+		ok = a.assignIntN(0, golangarch.PtrSize, 1, 0b0)
 		ptr = false
 	}
 	if !ok {
-		a.stackAssign(goarch.PtrSize, goarch.PtrSize)
+		a.stackAssign(golangarch.PtrSize, golangarch.PtrSize)
 		return &a.steps[len(a.steps)-1], ptr
 	}
 	return nil, ptr
@@ -194,7 +194,7 @@ func (a *abiSeq) addRcvr(rcvr *abi.Type) (*abiStep, bool) {
 // must undo that work by adjusting a.steps if it fails.
 //
 // This method along with the assign* methods represent the
-// complete register-assignment algorithm for the Go ABI.
+// complete register-assignment algolangrithm for the Go ABI.
 func (a *abiSeq) regAssign(t *abi.Type, offset uintptr) bool {
 	switch Kind(t.Kind()) {
 	case UnsafePointer, Pointer, Chan, Map, Func:
@@ -202,7 +202,7 @@ func (a *abiSeq) regAssign(t *abi.Type, offset uintptr) bool {
 	case Bool, Int, Uint, Int8, Uint8, Int16, Uint16, Int32, Uint32, Uintptr:
 		return a.assignIntN(offset, t.Size(), 1, 0b0)
 	case Int64, Uint64:
-		switch goarch.PtrSize {
+		switch golangarch.PtrSize {
 		case 4:
 			return a.assignIntN(offset, 4, 2, 0b0)
 		case 8:
@@ -215,11 +215,11 @@ func (a *abiSeq) regAssign(t *abi.Type, offset uintptr) bool {
 	case Complex128:
 		return a.assignFloatN(offset, 8, 2)
 	case String:
-		return a.assignIntN(offset, goarch.PtrSize, 2, 0b01)
+		return a.assignIntN(offset, golangarch.PtrSize, 2, 0b01)
 	case Interface:
-		return a.assignIntN(offset, goarch.PtrSize, 2, 0b10)
+		return a.assignIntN(offset, golangarch.PtrSize, 2, 0b10)
 	case Slice:
-		return a.assignIntN(offset, goarch.PtrSize, 3, 0b001)
+		return a.assignIntN(offset, golangarch.PtrSize, 3, 0b001)
 	case Array:
 		tt := (*arrayType)(unsafe.Pointer(t))
 		switch tt.Len {
@@ -262,7 +262,7 @@ func (a *abiSeq) assignIntN(offset, size uintptr, n int, ptrMap uint8) bool {
 	if n > 8 || n < 0 {
 		panic("invalid n")
 	}
-	if ptrMap != 0 && size != goarch.PtrSize {
+	if ptrMap != 0 && size != golangarch.PtrSize {
 		panic("non-empty pointer map passed for non-pointer-size values")
 	}
 	if a.iregs+n > intArgRegs {
@@ -413,7 +413,7 @@ func newAbiDesc(t *funcType, rcvr *abi.Type) abiDesc {
 				stackPtrs.append(0)
 			}
 		} else {
-			spill += goarch.PtrSize
+			spill += golangarch.PtrSize
 		}
 	}
 	for i, arg := range t.InSlice() {
@@ -430,12 +430,12 @@ func newAbiDesc(t *funcType, rcvr *abi.Type) abiDesc {
 			}
 		}
 	}
-	spill = align(spill, goarch.PtrSize)
+	spill = align(spill, golangarch.PtrSize)
 
 	// From the input parameters alone, we now know
 	// the stackCallArgsSize and retOffset.
 	stackCallArgsSize := in.stackBytes
-	retOffset := align(in.stackBytes, goarch.PtrSize)
+	retOffset := align(in.stackBytes, golangarch.PtrSize)
 
 	// Compute the stack frame pointer bitmap and register
 	// pointer bitmap for return values.

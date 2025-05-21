@@ -1,8 +1,8 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !plan9 && !windows && !js && !wasip1
+//golang:build !plan9 && !windows && !js && !wasip1
 
 package runtime_test
 
@@ -63,11 +63,11 @@ func TestSpuriousWakeupsNeverHangSemasleep(t *testing.T) {
 	//
 	// Note that we must do this after waiting for the write/child end of
 	// stdout to close. Wait closes the read/parent end of stdout, so
-	// starting this goroutine prior to io.ReadAll introduces a race
+	// starting this golangroutine prior to io.ReadAll introduces a race
 	// condition where ReadAll may get fs.ErrClosed if the child exits too
 	// quickly.
 	waiting = true
-	go func() {
+	golang func() {
 		doneCh <- cmd.Wait()
 		close(doneCh)
 	}()
@@ -104,9 +104,9 @@ func TestSpuriousWakeupsNeverHangSemasleep(t *testing.T) {
 		// really is unfixed we can keep the process hung indefinitely, as long as we
 		// signal it often enough.)
 		case <-t.Context().Done():
-			// If we got paused for a long time for any reason (we're running in parallel
+			// If we golangt paused for a long time for any reason (we're running in parallel
 			// with other tests after all) it could be that the subprocess did actually
-			// finish and not deadlock, we just got stuck as runnable or our wakeup was
+			// finish and not deadlock, we just golangt stuck as runnable or our wakeup was
 			// delayed. Double-check that we don't have anything from doneCh before
 			// declaring failure.
 			select {
@@ -116,7 +116,7 @@ func TestSpuriousWakeupsNeverHangSemasleep(t *testing.T) {
 			default:
 			}
 
-			// Send SIGQUIT to get a goroutine dump.
+			// Send SIGQUIT to get a golangroutine dump.
 			// Stop sending SIGIO so that the program can clean up and actually terminate.
 			cmd.Process.Signal(syscall.SIGQUIT)
 

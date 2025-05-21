@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package httpguts
@@ -9,7 +9,7 @@ import (
 	"strings"
 	"unicode/utf8"
 
-	"golang.org/x/net/idna"
+	"golanglang.org/x/net/idna"
 )
 
 var isTokenTable = [256]bool{
@@ -215,7 +215,7 @@ func ValidHostHeader(h string) bool {
 	// Where uri-host is:
 	//     http://tools.ietf.org/html/rfc3986#section-3.2.2
 	//
-	// But we're going to be much more lenient for now and just
+	// But we're golanging to be much more lenient for now and just
 	// search for any byte that's not a valid byte in any of those
 	// expressions.
 	for i := 0; i < len(h); i++ {

@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package os_test
@@ -136,11 +136,11 @@ var isPermissionTests = []isPermissionTest{
 
 func TestIsPermission(t *testing.T) {
 	for _, tt := range isPermissionTests {
-		if got := os.IsPermission(tt.err); got != tt.want {
-			t.Errorf("os.IsPermission(%#v) = %v; want %v", tt.err, got, tt.want)
+		if golangt := os.IsPermission(tt.err); golangt != tt.want {
+			t.Errorf("os.IsPermission(%#v) = %v; want %v", tt.err, golangt, tt.want)
 		}
-		if got := errors.Is(tt.err, fs.ErrPermission); got != tt.want {
-			t.Errorf("errors.Is(%#v, fs.ErrPermission) = %v; want %v", tt.err, got, tt.want)
+		if golangt := errors.Is(tt.err, fs.ErrPermission); golangt != tt.want {
+			t.Errorf("errors.Is(%#v, fs.ErrPermission) = %v; want %v", tt.err, golangt, tt.want)
 		}
 	}
 }

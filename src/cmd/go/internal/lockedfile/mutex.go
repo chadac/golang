@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package lockedfile
@@ -42,7 +42,7 @@ func (mu *Mutex) String() string {
 //
 // If successful, Lock returns a non-nil unlock function: it is provided as a
 // return-value instead of a separate method to remind the caller to check the
-// accompanying error. (See https://golang.org/issue/20803.)
+// accompanying error. (See https://golanglang.org/issue/20803.)
 func (mu *Mutex) Lock() (unlock func(), err error) {
 	if mu.Path == "" {
 		panic("lockedfile.Mutex: missing Path during Lock")

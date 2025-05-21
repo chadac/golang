@@ -1,8 +1,8 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-package gosym
+package golangsym
 
 import (
 	"fmt"
@@ -25,10 +25,10 @@ func TestStandardLibPackage(t *testing.T) {
 }
 
 func TestStandardLibPathPackage(t *testing.T) {
-	s1 := Sym{Name: "debug/gosym.(*LineTable).PCToLine"}
-	s2 := Sym{Name: "debug/gosym.NewTable"}
-	assertString(t, fmt.Sprintf("package of %q", s1.Name), s1.PackageName(), "debug/gosym")
-	assertString(t, fmt.Sprintf("package of %q", s2.Name), s2.PackageName(), "debug/gosym")
+	s1 := Sym{Name: "debug/golangsym.(*LineTable).PCToLine"}
+	s2 := Sym{Name: "debug/golangsym.NewTable"}
+	assertString(t, fmt.Sprintf("package of %q", s1.Name), s1.PackageName(), "debug/golangsym")
+	assertString(t, fmt.Sprintf("package of %q", s2.Name), s2.PackageName(), "debug/golangsym")
 	assertString(t, fmt.Sprintf("receiver of %q", s1.Name), s1.ReceiverName(), "(*LineTable)")
 	assertString(t, fmt.Sprintf("receiver of %q", s2.Name), s2.ReceiverName(), "")
 }
@@ -66,19 +66,19 @@ func TestIssue29551(t *testing.T) {
 		sym     Sym
 		pkgName string
 	}{
-		{Sym{goVersion: ver120, Name: "type:.eq.[9]debug/elf.intName"}, ""},
-		{Sym{goVersion: ver120, Name: "type:.hash.debug/elf.ProgHeader"}, ""},
-		{Sym{goVersion: ver120, Name: "type:.eq.runtime._panic"}, ""},
-		{Sym{goVersion: ver120, Name: "type:.hash.struct { runtime.gList; runtime.n int32 }"}, ""},
-		{Sym{goVersion: ver120, Name: "go:(*struct { sync.Mutex; math/big.table [64]math/big"}, ""},
-		{Sym{goVersion: ver120, Name: "go.uber.org/zap/buffer.(*Buffer).AppendString"}, "go.uber.org/zap/buffer"},
-		{Sym{goVersion: ver118, Name: "type..eq.[9]debug/elf.intName"}, ""},
-		{Sym{goVersion: ver118, Name: "type..hash.debug/elf.ProgHeader"}, ""},
-		{Sym{goVersion: ver118, Name: "type..eq.runtime._panic"}, ""},
-		{Sym{goVersion: ver118, Name: "type..hash.struct { runtime.gList; runtime.n int32 }"}, ""},
-		{Sym{goVersion: ver118, Name: "go.(*struct { sync.Mutex; math/big.table [64]math/big"}, ""},
+		{Sym{golangVersion: ver120, Name: "type:.eq.[9]debug/elf.intName"}, ""},
+		{Sym{golangVersion: ver120, Name: "type:.hash.debug/elf.ProgHeader"}, ""},
+		{Sym{golangVersion: ver120, Name: "type:.eq.runtime._panic"}, ""},
+		{Sym{golangVersion: ver120, Name: "type:.hash.struct { runtime.gList; runtime.n int32 }"}, ""},
+		{Sym{golangVersion: ver120, Name: "golang:(*struct { sync.Mutex; math/big.table [64]math/big"}, ""},
+		{Sym{golangVersion: ver120, Name: "golang.uber.org/zap/buffer.(*Buffer).AppendString"}, "golang.uber.org/zap/buffer"},
+		{Sym{golangVersion: ver118, Name: "type..eq.[9]debug/elf.intName"}, ""},
+		{Sym{golangVersion: ver118, Name: "type..hash.debug/elf.ProgHeader"}, ""},
+		{Sym{golangVersion: ver118, Name: "type..eq.runtime._panic"}, ""},
+		{Sym{golangVersion: ver118, Name: "type..hash.struct { runtime.gList; runtime.n int32 }"}, ""},
+		{Sym{golangVersion: ver118, Name: "golang.(*struct { sync.Mutex; math/big.table [64]math/big"}, ""},
 		// unfortunate
-		{Sym{goVersion: ver118, Name: "go.uber.org/zap/buffer.(*Buffer).AppendString"}, ""},
+		{Sym{golangVersion: ver118, Name: "golang.uber.org/zap/buffer.(*Buffer).AppendString"}, ""},
 	}
 
 	for _, tc := range tests {

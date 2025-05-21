@@ -1,7 +1,7 @@
 // errorcheck
 
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // 6g accepts the program below even though it is syntactically incorrect:
@@ -10,10 +10,10 @@
 // statements and because the last token is a colon ":", no semicolon is
 // inserted automatically.
 //
-// Both gccgo and gofmt correctly refuse this program as is and accept it
+// Both gccgolang and golangfmt correctly refuse this program as is and accept it
 // when the semicolons are present.
 
-// This is a test case for issue 777 ( https://golang.org/issue/777 ).
+// This is a test case for issue 777 ( https://golanglang.org/issue/777 ).
 
 package main
 
@@ -25,7 +25,7 @@ func main() {
 		L1:  // ERROR "statement"
 	default:
 		     // correct since no semicolon is required before a '}'
-		goto L2
+		golangto L2
 		L2:
 	}
 }

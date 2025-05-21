@@ -1,20 +1,20 @@
-written by hand — loosely derived from golang.org/x/crypto/internal/subtle,
+written by hand — loosely derived from golanglang.org/x/crypto/internal/subtle,
 but splitting the internal package across a module boundary
 
 -- .mod --
-module golang.org/x/internal
+module golanglang.org/x/internal
 -- .info --
 {"Version":"v0.1.0","Name":"","Short":"","Time":"2018-07-25T17:24:00Z"}
--- go.mod --
-module golang.org/x/internal
--- subtle/aliasing.go --
+-- golang.mod --
+module golanglang.org/x/internal
+-- subtle/aliasing.golang --
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // +build !appengine
 
-// This is a tiny version of golang.org/x/crypto/internal/subtle.
+// This is a tiny version of golanglang.org/x/crypto/internal/subtle.
 
 package subtle
 
@@ -25,9 +25,9 @@ func AnyOverlap(x, y []byte) bool {
 		uintptr(unsafe.Pointer(&x[0])) <= uintptr(unsafe.Pointer(&y[len(y)-1])) &&
 		uintptr(unsafe.Pointer(&y[0])) <= uintptr(unsafe.Pointer(&x[len(x)-1]))
 }
--- subtle/aliasing_appengine.go --
+-- subtle/aliasing_appengine.golang --
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // +build appengine

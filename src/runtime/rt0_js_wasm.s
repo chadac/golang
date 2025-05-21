@@ -1,8 +1,8 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-#include "go_asm.h"
+#include "golang_asm.h"
 #include "textflag.h"
 
 // _rt0_wasm_js is not used itself. It only exists to mark the exported functions as alive.
@@ -32,7 +32,7 @@ TEXT wasm_export_run(SB),NOSPLIT,$0
 	I64Store $8
 
 	I32Const $0 // entry PC_B
-	Call runtime·rt0_go(SB)
+	Call runtime·rt0_golang(SB)
 	Drop
 	Call wasm_pc_f_loop(SB)
 

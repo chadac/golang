@@ -1,5 +1,5 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package math
@@ -10,7 +10,7 @@ package math
 
 // The original C code and the long comment below are
 // from FreeBSD's /usr/src/lib/msun/src/e_jn.c and
-// came with this notice. The go code is a simplified
+// came with this notice. The golang code is a simplified
 // version of the original C.
 //
 // ====================================================
@@ -163,9 +163,9 @@ func Jn(n int, x float64) float64 {
 			// To determine how many terms needed, let
 			// Q(0) = w, Q(1) = w(w+h) - 1,
 			// Q(k) = (w+k*h)*Q(k-1) - Q(k-2),
-			// When Q(k) > 1e4	good for single
-			// When Q(k) > 1e9	good for double
-			// When Q(k) > 1e17	good for quadruple
+			// When Q(k) > 1e4	golangod for single
+			// When Q(k) > 1e9	golangod for double
+			// When Q(k) > 1e17	golangod for quadruple
 
 			// determine k
 			w := float64(n+n) / x

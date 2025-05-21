@@ -1,5 +1,5 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package printf
@@ -7,37 +7,37 @@ package printf
 import (
 	_ "embed"
 	"fmt"
-	"go/ast"
-	"go/constant"
-	"go/token"
-	"go/types"
+	"golang/ast"
+	"golang/constant"
+	"golang/token"
+	"golang/types"
 	"reflect"
 	"regexp"
 	"sort"
 	"strings"
 
-	"golang.org/x/tools/go/analysis"
-	"golang.org/x/tools/go/analysis/passes/inspect"
-	"golang.org/x/tools/go/analysis/passes/internal/analysisutil"
-	"golang.org/x/tools/go/ast/inspector"
-	"golang.org/x/tools/go/types/typeutil"
-	"golang.org/x/tools/internal/analysisinternal"
-	"golang.org/x/tools/internal/fmtstr"
-	"golang.org/x/tools/internal/typeparams"
-	"golang.org/x/tools/internal/versions"
+	"golanglang.org/x/tools/golang/analysis"
+	"golanglang.org/x/tools/golang/analysis/passes/inspect"
+	"golanglang.org/x/tools/golang/analysis/passes/internal/analysisutil"
+	"golanglang.org/x/tools/golang/ast/inspector"
+	"golanglang.org/x/tools/golang/types/typeutil"
+	"golanglang.org/x/tools/internal/analysisinternal"
+	"golanglang.org/x/tools/internal/fmtstr"
+	"golanglang.org/x/tools/internal/typeparams"
+	"golanglang.org/x/tools/internal/versions"
 )
 
 func init() {
 	Analyzer.Flags.Var(isPrint, "funcs", "comma-separated list of print function names to check")
 }
 
-//go:embed doc.go
+//golang:embed doc.golang
 var doc string
 
 var Analyzer = &analysis.Analyzer{
 	Name:       "printf",
 	Doc:        analysisutil.MustExtractDoc(doc, "printf"),
-	URL:        "https://pkg.go.dev/golang.org/x/tools/go/analysis/passes/printf",
+	URL:        "https://pkg.golang.dev/golanglang.org/x/tools/golang/analysis/passes/printf",
 	Requires:   []*analysis.Analyzer{inspect.Analyzer},
 	Run:        run,
 	ResultType: reflect.TypeOf((*Result)(nil)),
@@ -314,8 +314,8 @@ func checkPrintfFwd(pass *analysis.Pass, w *printfWrapper, call *ast.CallExpr, k
 // The set below includes facts for many important standard library
 // functions, even though the analysis is capable of deducing that, for
 // example, fmt.Printf forwards to fmt.Fprintf. We avoid relying on the
-// driver applying analyzers to standard packages because "go vet" does
-// not do so with gccgo, and nor do some other build systems.
+// driver applying analyzers to standard packages because "golang vet" does
+// not do so with gccgolang, and nor do some other build systems.
 var isPrint = stringSet{
 	"fmt.Appendf":  true,
 	"fmt.Append":   true,
@@ -509,7 +509,7 @@ func checkPrintf(pass *analysis.Pass, fileVersion string, kind Kind, call *ast.C
 		// if msg contains "%", misformatting occurs.
 		// Report the problem and suggest a fix: fmt.Printf("%s", msg).
 		//
-		// However, as described in golang/go#71485, this analysis can produce a
+		// However, as described in golanglang/golang#71485, this analysis can produce a
 		// significant number of diagnostics in existing code, and the bugs it
 		// finds are sometimes unlikely or inconsequential, and may not be worth
 		// fixing for some users. Gating on language version allows us to avoid
@@ -517,7 +517,7 @@ func checkPrintf(pass *analysis.Pass, fileVersion string, kind Kind, call *ast.C
 		if !suppressNonconstants &&
 			idx == len(call.Args)-1 &&
 			fileVersion != "" && // fail open
-			versions.AtLeast(fileVersion, "go1.24") {
+			versions.AtLeast(fileVersion, "golang1.24") {
 
 			pass.Report(analysis.Diagnostic{
 				Pos: formatArg.Pos(),
@@ -729,7 +729,7 @@ func okPrintfArg(pass *analysis.Pass, call *ast.CallExpr, maxArgIndex *int, firs
 		*maxArgIndex = max(*maxArgIndex, index)
 	}
 
-	// Special case for '%', go will print "fmt.Printf("%10.2%%dhello", 4)"
+	// Special case for '%', golang will print "fmt.Printf("%10.2%%dhello", 4)"
 	// as "%4hello", discard any runes between the two '%'s, and treat the verb '%'
 	// as an ordinary rune, so early return to skip the type check.
 	if verb == '%' || formatter {
@@ -874,7 +874,7 @@ const (
 	flagsRE    = `[+\-#]*`
 	indexOptRE = `(\[[0-9]+\])?`
 	numOptRE   = `([0-9]+|` + indexOptRE + `\*)?`
-	verbRE     = `[bcdefgopqstvxEFGTUX]`
+	verbRE     = `[bcdefgolangpqstvxEFGTUX]`
 )
 
 // checkPrint checks a call to an unformatted print routine such as Println.

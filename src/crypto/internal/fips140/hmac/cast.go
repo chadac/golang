@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package hmac
@@ -26,7 +26,7 @@ func init() {
 		h := New(sha256.New, input)
 		h.Write(input)
 		h.Write(input)
-		if got := h.Sum(nil); !bytes.Equal(got, want) {
+		if golangt := h.Sum(nil); !bytes.Equal(golangt, want) {
 			return errors.New("unexpected result")
 		}
 		return nil

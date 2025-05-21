@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package net
@@ -104,7 +104,7 @@ func TestTCPServer(t *testing.T) {
 				}
 				defer c.Close()
 				trchs = append(trchs, make(chan error, 1))
-				go transceiver(c, []byte("TCP SERVER TEST"), trchs[i])
+				golang transceiver(c, []byte("TCP SERVER TEST"), trchs[i])
 			}
 
 			for _, ch := range trchs {
@@ -128,10 +128,10 @@ func TestUnixAndUnixpacketServer(t *testing.T) {
 		network, address string
 	}{
 		{"unix", testUnixAddr(t)},
-		{"unix", "@nettest/go/unix"},
+		{"unix", "@nettest/golang/unix"},
 
 		{"unixpacket", testUnixAddr(t)},
-		{"unixpacket", "@nettest/go/unixpacket"},
+		{"unixpacket", "@nettest/golang/unixpacket"},
 	}
 
 	const N = 3
@@ -187,7 +187,7 @@ func TestUnixAndUnixpacketServer(t *testing.T) {
 
 			defer c.Close()
 			trchs = append(trchs, make(chan error, 1))
-			go transceiver(c, []byte("UNIX AND UNIXPACKET SERVER TEST"), trchs[i])
+			golang transceiver(c, []byte("UNIX AND UNIXPACKET SERVER TEST"), trchs[i])
 		}
 
 		for _, ch := range trchs {
@@ -288,7 +288,7 @@ func TestUDPServer(t *testing.T) {
 					t.Fatal(err)
 				}
 				defer c2.Close()
-				go transceiver(c2, []byte("UDP SERVER TEST"), trch)
+				golang transceiver(c2, []byte("UDP SERVER TEST"), trch)
 			} else {
 				c2, err := ListenPacket(tt.tnet, JoinHostPort(tt.taddr, "0"))
 				if err != nil {
@@ -302,7 +302,7 @@ func TestUDPServer(t *testing.T) {
 				if err != nil {
 					t.Fatal(err)
 				}
-				go packetTransceiver(c2, []byte("UDP SERVER TEST"), dst, trch)
+				golang packetTransceiver(c2, []byte("UDP SERVER TEST"), dst, trch)
 			}
 
 			for trch != nil || tpch != nil {
@@ -336,7 +336,7 @@ func TestUnixgramServer(t *testing.T) {
 		{saddr: testUnixAddr(t), caddr: testUnixAddr(t)},
 		{saddr: testUnixAddr(t), caddr: testUnixAddr(t), dial: true},
 
-		{saddr: "@nettest/go/unixgram/server", caddr: "@nettest/go/unixgram/client"},
+		{saddr: "@nettest/golang/unixgram/server", caddr: "@nettest/golang/unixgram/client"},
 	}
 
 	for i, tt := range unixgramServerTests {
@@ -375,7 +375,7 @@ func TestUnixgramServer(t *testing.T) {
 				}
 				defer os.Remove(c2.LocalAddr().String())
 				defer c2.Close()
-				go transceiver(c2, []byte(c2.LocalAddr().String()), trch)
+				golang transceiver(c2, []byte(c2.LocalAddr().String()), trch)
 			} else {
 				c2, err := ListenPacket("unixgram", tt.caddr)
 				if err != nil {
@@ -386,7 +386,7 @@ func TestUnixgramServer(t *testing.T) {
 				}
 				defer os.Remove(c2.LocalAddr().String())
 				defer c2.Close()
-				go packetTransceiver(c2, []byte("UNIXGRAM SERVER TEST"), ls.PacketConn.LocalAddr(), trch)
+				golang packetTransceiver(c2, []byte("UNIXGRAM SERVER TEST"), ls.PacketConn.LocalAddr(), trch)
 			}
 
 			for trch != nil || tpch != nil {

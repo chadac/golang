@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package cryptotest
@@ -52,7 +52,7 @@ func TestStream(t *testing.T, ms MakeStream) {
 					ms().XORKeyStream(ciphertext, plaintext) // Encrypt plaintext
 					ms().XORKeyStream(decrypted, ciphertext) // Decrypt ciphertext
 					if !bytes.Equal(decrypted, plaintext) {
-						t.Errorf("plaintext is different after an encrypt/decrypt cycle; got %s, want %s", truncateHex(decrypted), truncateHex(plaintext))
+						t.Errorf("plaintext is different after an encrypt/decrypt cycle; golangt %s, want %s", truncateHex(decrypted), truncateHex(plaintext))
 					}
 				})
 			}
@@ -79,7 +79,7 @@ func TestStream(t *testing.T, ms MakeStream) {
 					ciphertext := make([]byte, length)
 					ms().XORKeyStream(ciphertext, plaintext)
 					if !bytes.Equal(ciphertext, directXOR) {
-						t.Errorf("xor semantics were not preserved; got %s, want %s", truncateHex(ciphertext), truncateHex(directXOR))
+						t.Errorf("xor semantics were not preserved; golangt %s, want %s", truncateHex(ciphertext), truncateHex(directXOR))
 					}
 				})
 			}
@@ -95,7 +95,7 @@ func TestStream(t *testing.T, ms MakeStream) {
 
 		ms().XORKeyStream(dst, src[:0])
 		if !bytes.Equal(dst, before) {
-			t.Errorf("XORKeyStream modified dst on empty input; got %s, want %s", truncateHex(dst), truncateHex(before))
+			t.Errorf("XORKeyStream modified dst on empty input; golangt %s, want %s", truncateHex(dst), truncateHex(before))
 		}
 	})
 
@@ -111,7 +111,7 @@ func TestStream(t *testing.T, ms MakeStream) {
 
 				ms().XORKeyStream(dst[:length], src[:length])
 				if !bytes.Equal(src, before) {
-					t.Errorf("XORKeyStream modified src; got %s, want %s", truncateHex(src), truncateHex(before))
+					t.Errorf("XORKeyStream modified src; golangt %s, want %s", truncateHex(src), truncateHex(before))
 				}
 			})
 		}
@@ -131,7 +131,7 @@ func TestStream(t *testing.T, ms MakeStream) {
 			// memory
 			ms().XORKeyStream(buff[:length], buff[:length])
 			if !bytes.Equal(buff[:length], expectedOutput[:length]) {
-				t.Errorf("block cipher produced different output when dst = src; got %x, want %x", buff[:length], expectedOutput[:length])
+				t.Errorf("block cipher produced different output when dst = src; golangt %x, want %x", buff[:length], expectedOutput[:length])
 			}
 		}
 	})
@@ -150,7 +150,7 @@ func TestStream(t *testing.T, ms MakeStream) {
 				mustPanic(t, "output smaller than input", func() { ms().XORKeyStream(ciphertext[:length], plaintext) })
 
 				if !bytes.Equal(ciphertext[length:], plaintext[length:]) {
-					t.Errorf("XORKeyStream did out of bounds write; got %s, want %s", truncateHex(ciphertext[length:]), truncateHex(plaintext[length:]))
+					t.Errorf("XORKeyStream did out of bounds write; golangt %s, want %s", truncateHex(ciphertext[length:]), truncateHex(plaintext[length:]))
 				}
 			})
 		}
@@ -214,7 +214,7 @@ func TestStream(t *testing.T, ms MakeStream) {
 			stream.XORKeyStream(dst[i:], plaintext[i:])
 
 			if !bytes.Equal(dst, ciphertext) {
-				t.Errorf(stepMsg+"successive XORKeyStream calls returned a different result than a single one; got %s, want %s", truncateHex(dst), truncateHex(ciphertext))
+				t.Errorf(stepMsg+"successive XORKeyStream calls returned a different result than a single one; golangt %s, want %s", truncateHex(dst), truncateHex(ciphertext))
 			}
 		}
 	})

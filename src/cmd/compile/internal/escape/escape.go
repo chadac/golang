@@ -1,17 +1,17 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package escape
 
 import (
 	"fmt"
-	"go/constant"
-	"go/token"
+	"golang/constant"
+	"golang/token"
 
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/ir"
-	"cmd/compile/internal/logopt"
+	"cmd/compile/internal/logolangpt"
 	"cmd/compile/internal/typecheck"
 	"cmd/compile/internal/types"
 	"cmd/internal/src"
@@ -65,7 +65,7 @@ import (
 //
 // Note that the & operator can only be applied to addressable
 // expressions, and the expression &x itself is not addressable, so
-// derefs cannot go below -1.
+// derefs cannot golang below -1.
 //
 // Every Go language construct is lowered into this representation,
 // generally without sensitivity to flow, path, or context; and
@@ -116,7 +116,7 @@ type escape struct {
 
 	// loopDepth counts the current loop nesting depth within
 	// curfn. It increments within each "for" loop and at each
-	// label with a corresponding backwards "goto" (i.e.,
+	// label with a corresponding backwards "golangto" (i.e.,
 	// unstructured loop).
 	loopDepth int
 }
@@ -227,7 +227,7 @@ func (b *batch) walkFunc(fn *ir.Func) {
 			e.labels[n.Label] = nonlooping
 
 		case ir.OGOTO:
-			// If we visited the label before the goto,
+			// If we visited the label before the golangto,
 			// then this is a looping label.
 			n := n.(*ir.BranchStmt)
 			if e.labels[n.Label] == nonlooping {
@@ -300,10 +300,10 @@ func (b *batch) finish(fns []*ir.Func) {
 
 		// Update n.Esc based on escape analysis results.
 
-		// Omit escape diagnostics for go/defer wrappers, at least for now.
+		// Omit escape diagnostics for golang/defer wrappers, at least for now.
 		// Historically, we haven't printed them, and test cases don't expect them.
 		// TODO(mdempsky): Update tests to expect this.
-		goDeferWrapper := n.Op() == ir.OCLOSURE && n.(*ir.ClosureExpr).Func.Wrapper()
+		golangDeferWrapper := n.Op() == ir.OCLOSURE && n.(*ir.ClosureExpr).Func.Wrapper()
 
 		if loc.hasAttr(attrEscapes) {
 			if n.Op() == ir.ONAME {
@@ -314,21 +314,21 @@ func (b *batch) finish(fns []*ir.Func) {
 					base.WarnfAt(n.Pos(), "moved to heap: %v", n)
 				}
 			} else {
-				if base.Flag.LowerM != 0 && !goDeferWrapper {
+				if base.Flag.LowerM != 0 && !golangDeferWrapper {
 					if n.Op() == ir.OAPPEND {
 						base.WarnfAt(n.Pos(), "append escapes to heap")
 					} else {
 						base.WarnfAt(n.Pos(), "%v escapes to heap", n)
 					}
 				}
-				if logopt.Enabled() {
+				if logolangpt.Enabled() {
 					var e_curfn *ir.Func // TODO(mdempsky): Fix.
-					logopt.LogOpt(n.Pos(), "escape", "escape", ir.FuncName(e_curfn))
+					logolangpt.LogOpt(n.Pos(), "escape", "escape", ir.FuncName(e_curfn))
 				}
 			}
 			n.SetEsc(ir.EscHeap)
 		} else {
-			if base.Flag.LowerM != 0 && n.Op() != ir.ONAME && !goDeferWrapper {
+			if base.Flag.LowerM != 0 && n.Op() != ir.ONAME && !golangDeferWrapper {
 				if n.Op() == ir.OAPPEND {
 					base.WarnfAt(n.Pos(), "append does not escape")
 				} else {
@@ -410,7 +410,7 @@ func (b *batch) paramTag(fn *ir.Func, narg int, f *types.Field) string {
 	if len(fn.Body) == 0 {
 		// Assume that uintptr arguments must be held live across the call.
 		// This is most important for syscall.Syscall.
-		// See golang.org/issue/13372.
+		// See golanglang.org/issue/13372.
 		// This really doesn't have much to do with escape analysis per se,
 		// but we are reusing the ability to annotate an individual function
 		// argument and pass those annotations along to importing code.
@@ -430,7 +430,7 @@ func (b *batch) paramTag(fn *ir.Func, narg int, f *types.Field) string {
 		var esc leaks
 
 		// External functions are assumed unsafe, unless
-		// //go:noescape is given before the declaration.
+		// //golang:noescape is given before the declaration.
 		if fn.Pragma&ir.Noescape != 0 {
 			if diagnose && f.Sym != nil {
 				base.WarnfAt(f.Pos, "%v does not escape", name())

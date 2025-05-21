@@ -1,11 +1,11 @@
 // errorcheck -0 -live -wb=0
 
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // liveness tests with inlining ENABLED
-// see also live.go.
+// see also live.golang.
 
 package main
 
@@ -13,7 +13,7 @@ package main
 
 func printnl()
 
-//go:noescape
+//golang:noescape
 func useT40(*T40)
 
 type T40 struct {
@@ -32,7 +32,7 @@ func bad40() {
 	useT40(t)
 }
 
-func good40() {
+func golangod40() {
 	ret := T40{}                  // ERROR "stack object ret T40$"
 	ret.m = make(map[int]int, 42) // ERROR "stack object .autotmp_[0-9]+ (runtime.hmap|internal/runtime/maps.Map)$"
 	t := &ret

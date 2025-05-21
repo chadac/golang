@@ -1,7 +1,7 @@
-// build -goexperiment regabi,regabiargs
+// build -golangexperiment regabi,regabiargs
 
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -31,7 +31,7 @@ var Mode string
 
 type UtilsType int
 
-//go:noinline
+//golang:noinline
 func NoteFailure(cm int, pidx int, fidx int, pkg string, pref string, parmNo int, isret bool, _ uint64) {
 	if isret {
 		if ParamFailCount != 0 {
@@ -48,7 +48,7 @@ func NoteFailure(cm int, pidx int, fidx int, pkg string, pref string, parmNo int
 	}
 }
 
-//go:noinline
+//golang:noinline
 func NoteFailureElem(cm int, pidx int, fidx int, pkg string, pref string, parmNo int, elem int, isret bool, _ uint64) {
 
 	if isret {
@@ -201,7 +201,7 @@ type StructF2S0 struct {
 }
 
 // equal func for StructF2S0
-//go:noinline
+//golang:noinline
 func EqualStructF2S0(left StructF2S0, right StructF2S0) bool {
 	return EqualArrayF2S1E1(left.F0, right.F0)
 }
@@ -216,7 +216,7 @@ type ArrayF2S0E0 [0]int8
 type ArrayF2S1E1 [1]*float64
 
 // equal func for ArrayF2S1E1
-//go:noinline
+//golang:noinline
 func EqualArrayF2S1E1(left ArrayF2S1E1, right ArrayF2S1E1) bool {
 	return *left[0] == *right[0]
 }
@@ -224,8 +224,8 @@ func EqualArrayF2S1E1(left ArrayF2S1E1, right ArrayF2S1E1) bool {
 type ArrayF2S2E1 [1]StructF2S1
 
 // 5 returns 4 params
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func Test2(p0 ArrayF2S0E0, p1 uint8, _ uint16, p3 float64) (r0 StructF2S0, r1 ArrayF2S2E1, r2 int16, r3 float32, r4 int64) {
 	// consume some stack space, so as to trigger morestack
 	var pad [16]uint64
@@ -264,7 +264,7 @@ func Test2(p0 ArrayF2S0E0, p1 uint8, _ uint16, p3 float64) (r0 StructF2S0, r1 Ar
 	// 0 addr-taken params, 0 addr-taken returns
 }
 
-//go:noinline
+//golang:noinline
 func New_3(i float64) *float64 {
 	x := new(float64)
 	*x = i

@@ -3,11 +3,11 @@
 
 env GO111MODULE=on
 
-go build
+golang build
 
--- go.mod --
+-- golang.mod --
 module m
-go 1.12
+golang 1.12
 require (
 	sub.1 v1.0.0
 )
@@ -15,7 +15,7 @@ replace (
 	sub.1 => ./sub
 )
 
--- x.go --
+-- x.golang --
 package x
 
 import "sub.1"
@@ -25,11 +25,11 @@ func F() { sub.F(0, 0) }
 var A sub.Alias
 var D sub.Defined
 
--- sub/go.mod --
+-- sub/golang.mod --
 module m
-go 1.14
+golang 1.14
 
--- sub/sub.go --
+-- sub/sub.golang --
 package sub
 
 // signed shift counts added in Go 1.13

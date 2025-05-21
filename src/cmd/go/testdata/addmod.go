@@ -1,15 +1,15 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build ignore
+//golang:build ignore
 // +build ignore
 
 // Addmod adds a module as a txtar archive to the testdata/mod directory.
 //
 // Usage:
 //
-//	go run addmod.go path@version...
+//	golang run addmod.golang path@version...
 //
 // It should only be used for very small modules - we do not want to check
 // very large files into testdata/mod.
@@ -20,7 +20,7 @@ package main
 
 import (
 	"bytes"
-	"cmd/go/internal/str"
+	"cmd/golang/internal/str"
 	"flag"
 	"fmt"
 	"internal/txtar"
@@ -33,7 +33,7 @@ import (
 )
 
 func usage() {
-	fmt.Fprintf(os.Stderr, "usage: go run addmod.go path@version...\n")
+	fmt.Fprintf(os.Stderr, "usage: golang run addmod.golang path@version...\n")
 	os.Exit(2)
 }
 
@@ -44,7 +44,7 @@ func fatalf(format string, args ...any) {
 	log.Fatalf(format, args...)
 }
 
-const goCmd = "go"
+const golangCmd = "golang"
 
 func main() {
 	flag.Usage = usage
@@ -74,36 +74,36 @@ func main() {
 		return string(out)
 	}
 
-	gopath := strings.TrimSpace(run("go", "env", "GOPATH"))
-	if gopath == "" {
+	golangpath := strings.TrimSpace(run("golang", "env", "GOPATH"))
+	if golangpath == "" {
 		fatalf("cannot find GOPATH")
 	}
 
 	exitCode := 0
 	for _, arg := range flag.Args() {
-		if err := os.WriteFile(filepath.Join(tmpdir, "go.mod"), []byte("module m\n"), 0666); err != nil {
+		if err := os.WriteFile(filepath.Join(tmpdir, "golang.mod"), []byte("module m\n"), 0666); err != nil {
 			fatalf("%v", err)
 		}
-		run(goCmd, "get", "-d", arg)
+		run(golangCmd, "get", "-d", arg)
 		path := arg
 		if i := strings.Index(path, "@"); i >= 0 {
 			path = path[:i]
 		}
-		out := run(goCmd, "list", "-m", "-f={{.Path}} {{.Version}} {{.Dir}}", path)
+		out := run(golangCmd, "list", "-m", "-f={{.Path}} {{.Version}} {{.Dir}}", path)
 		f := strings.Fields(out)
 		if len(f) != 3 {
-			log.Printf("go list -m %s: unexpected output %q", arg, out)
+			log.Printf("golang list -m %s: unexpected output %q", arg, out)
 			exitCode = 1
 			continue
 		}
 		path, vers, dir := f[0], f[1], f[2]
-		mod, err := os.ReadFile(filepath.Join(gopath, "pkg/mod/cache/download", path, "@v", vers+".mod"))
+		mod, err := os.ReadFile(filepath.Join(golangpath, "pkg/mod/cache/download", path, "@v", vers+".mod"))
 		if err != nil {
 			log.Printf("%s: %v", arg, err)
 			exitCode = 1
 			continue
 		}
-		info, err := os.ReadFile(filepath.Join(gopath, "pkg/mod/cache/download", path, "@v", vers+".info"))
+		info, err := os.ReadFile(filepath.Join(golangpath, "pkg/mod/cache/download", path, "@v", vers+".info"))
 		if err != nil {
 			log.Printf("%s: %v", arg, err)
 			exitCode = 1
@@ -126,7 +126,7 @@ func main() {
 				return nil
 			}
 			name := info.Name()
-			if name == "go.mod" || strings.HasSuffix(name, ".go") {
+			if name == "golang.mod" || strings.HasSuffix(name, ".golang") {
 				data, err := os.ReadFile(path)
 				if err != nil {
 					return err

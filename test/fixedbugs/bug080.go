@@ -1,7 +1,7 @@
 // compile
 
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -19,7 +19,7 @@ func main() {
 }
 
 /*
-bug080.go:12: illegal types for operand: CALL
+bug080.golang:12: illegal types for operand: CALL
 	(<int32>INT32)
 	({<x><int32>INT32;<y><float32>FLOAT32;})
 */

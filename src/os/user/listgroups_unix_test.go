@@ -1,8 +1,8 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build ((darwin || dragonfly || freebsd || (js && wasm) || wasip1 || (!android && linux) || netbsd || openbsd || solaris) && ((!cgo && !darwin) || osusergo)) || aix || illumos
+//golang:build ((darwin || dragolangnfly || freebsd || (js && wasm) || wasip1 || (!android && linux) || netbsd || openbsd || solaris) && ((!cgolang && !darwin) || osusergolang)) || aix || illumos
 
 package user
 
@@ -71,37 +71,37 @@ var listGroupsTests = []struct {
 func TestListGroups(t *testing.T) {
 	for _, tc := range listGroupsTests {
 		u := &User{Username: tc.user, Gid: tc.gid}
-		got, err := listGroupsFromReader(u, strings.NewReader(tc.in))
+		golangt, err := listGroupsFromReader(u, strings.NewReader(tc.in))
 		if tc.err {
 			if err == nil {
-				t.Errorf("listGroups(%q): got nil; want error", tc.user)
+				t.Errorf("listGroups(%q): golangt nil; want error", tc.user)
 			}
 			continue // no more checks
 		}
 		if err != nil {
-			t.Errorf("listGroups(%q): got %v error, want nil", tc.user, err)
+			t.Errorf("listGroups(%q): golangt %v error, want nil", tc.user, err)
 			continue // no more checks
 		}
-		checkSameIDs(t, got, tc.gids)
+		checkSameIDs(t, golangt, tc.gids)
 	}
 }
 
-func checkSameIDs(t *testing.T, got, want []string) {
+func checkSameIDs(t *testing.T, golangt, want []string) {
 	t.Helper()
-	if len(got) != len(want) {
-		t.Errorf("ID list mismatch: got %v; want %v", got, want)
+	if len(golangt) != len(want) {
+		t.Errorf("ID list mismatch: golangt %v; want %v", golangt, want)
 		return
 	}
-	slices.Sort(got)
+	slices.Sort(golangt)
 	slices.Sort(want)
 	mismatch := -1
 	for i, g := range want {
-		if got[i] != g {
+		if golangt[i] != g {
 			mismatch = i
 			break
 		}
 	}
 	if mismatch != -1 {
-		t.Errorf("ID list mismatch (at index %d): got %v; want %v", mismatch, got, want)
+		t.Errorf("ID list mismatch (at index %d): golangt %v; want %v", mismatch, golangt, want)
 	}
 }

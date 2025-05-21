@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package counter
@@ -19,8 +19,8 @@ import (
 	"time"
 	"unsafe"
 
-	"golang.org/x/telemetry/internal/mmap"
-	"golang.org/x/telemetry/internal/telemetry"
+	"golanglang.org/x/telemetry/internal/mmap"
+	"golanglang.org/x/telemetry/internal/telemetry"
 )
 
 // A file is a counter file.
@@ -279,10 +279,10 @@ func (f *file) rotate1() time.Time {
 	}
 	f.timeBegin, f.timeEnd = begin, end
 
-	goVers, progPath, progVers := telemetry.ProgramInfo(f.buildInfo)
+	golangVers, progPath, progVers := telemetry.ProgramInfo(f.buildInfo)
 	meta := fmt.Sprintf("TimeBegin: %s\nTimeEnd: %s\nProgram: %s\nVersion: %s\nGoVersion: %s\nGOOS: %s\nGOARCH: %s\n\n",
 		f.timeBegin.Format(time.RFC3339), f.timeEnd.Format(time.RFC3339),
-		progPath, progVers, goVers, runtime.GOOS, runtime.GOARCH)
+		progPath, progVers, golangVers, runtime.GOOS, runtime.GOARCH)
 	if len(meta) > maxMetaLen { // should be impossible for our use
 		fail(fmt.Errorf("metadata too long"))
 		return time.Time{}
@@ -294,7 +294,7 @@ func (f *file) rotate1() time.Time {
 	baseName := fmt.Sprintf("%s%s-%s-%s-%s-%s.%s.count",
 		path.Base(progPath),
 		progVers,
-		goVers,
+		golangVers,
 		runtime.GOOS,
 		runtime.GOARCH,
 		f.timeBegin.Format(telemetry.DateOnly),
@@ -361,7 +361,7 @@ var (
 	openOnce sync.Once
 	// rotating reports whether the call to Open had rotate = true.
 	//
-	// In golang/go#68497, we observed that file rotation can break runtime
+	// In golanglang/golang#68497, we observed that file rotation can break runtime
 	// deadlock detection. To minimize the fix for 1.23, we are splitting the
 	// Open API into one version that rotates the counter file, and another that
 	// does not. The rotating variable guards against use of both APIs from the
@@ -800,7 +800,7 @@ func (m *mappedFile) extend(end uint32) (*mappedFile, error) {
 	}
 	if int64(len(newM.mapping.Data)) < int64(end) {
 		// File system or logic bug: new file is somehow not extended.
-		// See go.dev/issue/68311, where this appears to have been happening.
+		// See golang.dev/issue/68311, where this appears to have been happening.
 		newM.close()
 		return nil, errCorrupt
 	}

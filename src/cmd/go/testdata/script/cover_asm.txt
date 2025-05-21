@@ -1,18 +1,18 @@
 [short] skip
-[compiler:gccgo] skip # gccgo has no cover tool
+[compiler:gccgolang] skip # gccgolang has no cover tool
 
 # Test cover for a package that has an assembly function.
 
-go test -outputdir=$WORK -coverprofile=cover.out coverasm
-go tool cover -func=$WORK/cover.out
+golang test -outputdir=$WORK -coverprofile=cover.out coverasm
+golang tool cover -func=$WORK/cover.out
 stdout '\tg\t*100.0%' # Check g is 100% covered.
 ! stdout '\tf\t*[0-9]' # Check for no coverage on the assembly function
 
--- go.mod --
+-- golang.mod --
 module coverasm
 
-go 1.16
--- p.go --
+golang 1.16
+-- p.golang --
 package p
 
 func f()
@@ -22,8 +22,8 @@ func g() {
 }
 -- p.s --
 // empty asm file,
-// so go test doesn't complain about declaration of f in p.go.
--- p_test.go --
+// so golang test doesn't complain about declaration of f in p.golang.
+-- p_test.golang --
 package p
 
 import "testing"

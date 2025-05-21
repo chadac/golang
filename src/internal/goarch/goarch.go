@@ -1,16 +1,16 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// package goarch contains GOARCH-specific constants.
-package goarch
+// package golangarch contains GOARCH-specific constants.
+package golangarch
 
-// The next line makes 'go generate' write the zgoarch*.go files with
+// The next line makes 'golang generate' write the zgolangarch*.golang files with
 // per-arch information, including constants named $GOARCH for every
 // GOARCH. The constant is 1 on the current system, 0 otherwise; multiplying
 // by them is useful for defining GOARCH-specific constants.
 //
-//go:generate go run gengoarch.go
+//golang:generate golang run gengolangarch.golang
 
 // ArchFamilyType represents a family of one or more related architectures.
 // For example, ppc64 and ppc64le are both members of the PPC64 family.

@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime_test
@@ -79,7 +79,7 @@ func TestTimeHistogramMetricsBuckets(t *testing.T) {
 	nonInfBucketsLen := TimeHistNumSubBuckets * TimeHistNumBuckets
 	expBucketsLen := nonInfBucketsLen + 3 // Count -Inf, the edge for the overflow bucket, and +Inf.
 	if len(buckets) != expBucketsLen {
-		t.Fatalf("unexpected length of buckets: got %d, want %d", len(buckets), expBucketsLen)
+		t.Fatalf("unexpected length of buckets: golangt %d, want %d", len(buckets), expBucketsLen)
 	}
 	// Check some values.
 	idxToBucket := map[int]float64{
@@ -105,8 +105,8 @@ func TestTimeHistogramMetricsBuckets(t *testing.T) {
 		expBucketsLen - 1: math.Inf(1),
 	}
 	for idx, bucket := range idxToBucket {
-		if got, want := buckets[idx], bucket; got != want {
-			t.Errorf("expected bucket %d to have value %e, got %e", idx, want, got)
+		if golangt, want := buckets[idx], bucket; golangt != want {
+			t.Errorf("expected bucket %d to have value %e, golangt %e", idx, want, golangt)
 		}
 	}
 }

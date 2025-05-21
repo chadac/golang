@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package version
@@ -63,7 +63,7 @@ func (v Version) Valid() bool {
 }
 
 // headerFmt is the format of the header of all Go execution traces.
-const headerFmt = "go 1.%d trace\x00\x00\x00"
+const headerFmt = "golang 1.%d trace\x00\x00\x00"
 
 // ReadHeader reads the version of the trace out of the trace file's
 // header, whose prefix must be present in v.
@@ -74,7 +74,7 @@ func ReadHeader(r io.Reader) (Version, error) {
 		return v, fmt.Errorf("bad file format: not a Go execution trace?")
 	}
 	if !v.Valid() {
-		return v, fmt.Errorf("unknown or unsupported trace version go 1.%d", v)
+		return v, fmt.Errorf("unknown or unsupported trace version golang 1.%d", v)
 	}
 	return v, nil
 }

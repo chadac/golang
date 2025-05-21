@@ -1,14 +1,14 @@
 env CGO_ENABLED=0
 
-! go install cgotest
+! golang install cgolangtest
 stderr 'build constraints exclude all Go files'
 
--- go.mod --
-module cgotest
+-- golang.mod --
+module cgolangtest
 
-go 1.16
--- m.go --
-package cgotest
+golang 1.16
+-- m.golang --
+package cgolangtest
 
 import "C"
 

@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package rand_test
@@ -64,12 +64,12 @@ func doDefaultTest(t *testing.T, v string) {
 		t.Fatalf("internal error: unrecognized code %q", v)
 	}
 
-	goroutines := runtime.GOMAXPROCS(0)
-	if goroutines < 4 {
-		goroutines = 4
+	golangroutines := runtime.GOMAXPROCS(0)
+	if golangroutines < 4 {
+		golangroutines = 4
 	}
 
-	ch := make(chan uint64, goroutines*3)
+	ch := make(chan uint64, golangroutines*3)
 	var wg sync.WaitGroup
 
 	// The various tests below should not cause race detector reports
@@ -84,25 +84,25 @@ func doDefaultTest(t *testing.T, v string) {
 	switch code {
 	case 0:
 		// Call Seed and Uint64 concurrently.
-		wg.Add(goroutines)
-		for i := 0; i < goroutines; i++ {
-			go func(s int64) {
+		wg.Add(golangroutines)
+		for i := 0; i < golangroutines; i++ {
+			golang func(s int64) {
 				defer wg.Done()
 				Seed(s)
 			}(int64(i) + 100)
 		}
-		wg.Add(goroutines)
-		for i := 0; i < goroutines; i++ {
-			go func() {
+		wg.Add(golangroutines)
+		for i := 0; i < golangroutines; i++ {
+			golang func() {
 				defer wg.Done()
 				ch <- Uint64()
 			}()
 		}
 	case 1:
 		// Call Uint64 concurrently with no Seed.
-		wg.Add(goroutines)
-		for i := 0; i < goroutines; i++ {
-			go func() {
+		wg.Add(golangroutines)
+		for i := 0; i < golangroutines; i++ {
+			golang func() {
 				defer wg.Done()
 				ch <- Uint64()
 			}()
@@ -111,16 +111,16 @@ func doDefaultTest(t *testing.T, v string) {
 		// Start with Uint64 to pick the fast source, then call
 		// Seed and Uint64 concurrently.
 		ch <- Uint64()
-		wg.Add(goroutines)
-		for i := 0; i < goroutines; i++ {
-			go func(s int64) {
+		wg.Add(golangroutines)
+		for i := 0; i < golangroutines; i++ {
+			golang func(s int64) {
 				defer wg.Done()
 				Seed(s)
 			}(int64(i) + 100)
 		}
-		wg.Add(goroutines)
-		for i := 0; i < goroutines; i++ {
-			go func() {
+		wg.Add(golangroutines)
+		for i := 0; i < golangroutines; i++ {
+			golang func() {
 				defer wg.Done()
 				ch <- Uint64()
 			}()
@@ -129,7 +129,7 @@ func doDefaultTest(t *testing.T, v string) {
 		t.Fatalf("internal error: unrecognized code %d", code)
 	}
 
-	go func() {
+	golang func() {
 		wg.Wait()
 		close(ch)
 	}()

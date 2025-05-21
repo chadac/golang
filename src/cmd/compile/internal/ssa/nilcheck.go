@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ssa
@@ -153,7 +153,7 @@ func nilcheckelim(f *Func) {
 					// undo that information when this dominator subtree is done.
 					nonNilValues[ptr.ID] = v
 					work = append(work, bp{op: ClearPtr, ptr: ptr})
-					fallthrough // a non-eliminated nil check might be a good place for a statement boundary.
+					fallthrough // a non-eliminated nil check might be a golangod place for a statement boundary.
 				default:
 					if v.Pos.IsStmt() != src.PosNotStmt && !isPoorStatementOp(v.Op) && pendingLines.contains(v.Pos) {
 						v.Pos = v.Pos.WithIsStmt()
@@ -161,7 +161,7 @@ func nilcheckelim(f *Func) {
 					}
 				}
 			}
-			// This reduces the lost statement count in "go" by 5 (out of 500 total).
+			// This reduces the lost statement count in "golang" by 5 (out of 500 total).
 			for j := range b.Values { // is this an ordering problem?
 				v := b.Values[j]
 				if v.Pos.IsStmt() != src.PosNotStmt && !isPoorStatementOp(v.Op) && pendingLines.contains(v.Pos) {
@@ -220,7 +220,7 @@ func nilcheckelim2(f *Func) {
 				// off the faulting load in favor of the one from the nil check.
 
 				// Iteration order means that first nilcheck in the chain wins, others
-				// are bumped into the ordinary statement preservation algorithm.
+				// are bumped into the ordinary statement preservation algolangrithm.
 				u := b.Values[unnecessary.get(v.Args[0].ID)]
 				if !u.Type.IsMemory() && !u.Pos.SameFileAndLine(v.Pos) {
 					if u.Pos.IsStmt() == src.PosIsStmt {
@@ -332,6 +332,6 @@ func nilcheckelim2(f *Func) {
 		b.truncateValues(i)
 
 		// TODO: if b.Kind == BlockPlain, start the analysis in the subsequent block to find
-		// more unnecessary nil checks.  Would fix test/nilptr3.go:159.
+		// more unnecessary nil checks.  Would fix test/nilptr3.golang:159.
 	}
 }

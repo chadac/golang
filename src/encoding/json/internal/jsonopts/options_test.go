@@ -1,8 +1,8 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build goexperiment.jsonv2
+//golang:build golangexperiment.jsonv2
 
 package jsonopts_test
 
@@ -136,15 +136,15 @@ func TestJoin(t *testing.T) {
 			return &v2
 		}(),
 	}}
-	got := new(Struct)
+	golangt := new(Struct)
 	for i, tt := range tests {
 		if tt.excludeCoders {
-			got.JoinWithoutCoderOptions(tt.in)
+			golangt.JoinWithoutCoderOptions(tt.in)
 		} else {
-			got.Join(tt.in)
+			golangt.Join(tt.in)
 		}
-		if !reflect.DeepEqual(got, tt.want) {
-			t.Fatalf("%d: Join:\n\tgot:  %+v\n\twant: %+v", i, got, tt.want)
+		if !reflect.DeepEqual(golangt, tt.want) {
+			t.Fatalf("%d: Join:\n\tgolangt:  %+v\n\twant: %+v", i, golangt, tt.want)
 		}
 	}
 }

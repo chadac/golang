@@ -1,8 +1,8 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !purego
+//golang:build !puregolang
 
 package gcm
 
@@ -43,7 +43,7 @@ func gcmLengths(len0, len1 uint64) [16]byte {
 	return v
 }
 
-// gcmHashKey represents the 16-byte hash key required by the GHASH algorithm.
+// gcmHashKey represents the 16-byte hash key required by the GHASH algolangrithm.
 type gcmHashKey [16]byte
 
 type gcmPlatformData struct {
@@ -58,15 +58,15 @@ func initGCM(g *GCM) {
 	aes.EncryptBlockInternal(&g.cipher, g.hashKey[:], g.hashKey[:])
 }
 
-// ghashAsm uses the GHASH algorithm to hash data with the given key. The initial
+// ghashAsm uses the GHASH algolangrithm to hash data with the given key. The initial
 // hash value is given by hash which will be updated with the new hash value.
 // The length of data must be a multiple of 16-bytes.
 //
-//go:noescape
+//golang:noescape
 func ghashAsm(key *gcmHashKey, hash *[16]byte, data []byte)
 
 // paddedGHASH pads data with zeroes until its length is a multiple of
-// 16-bytes. It then calculates a new value for hash using the GHASH algorithm.
+// 16-bytes. It then calculates a new value for hash using the GHASH algolangrithm.
 func paddedGHASH(hashKey *gcmHashKey, hash *[16]byte, data []byte) {
 	siz := len(data) &^ 0xf // align size to 16-bytes
 	if siz > 0 {
@@ -90,7 +90,7 @@ func paddedGHASH(hashKey *gcmHashKey, hash *[16]byte, data []byte) {
 // of src. buf may be partially or completely overwritten during the execution
 // of the function.
 //
-//go:noescape
+//golang:noescape
 func cryptBlocksGCM(fn int, key, dst, src, buf []byte, cnt *[gcmBlockSize]byte)
 
 // counterCrypt encrypts src using AES in counter mode and places the result
@@ -124,7 +124,7 @@ func counterCrypt(g *GCM, dst, src []byte, cnt *[gcmBlockSize]byte) {
 }
 
 // deriveCounter computes the initial GCM counter state from the given nonce.
-// See NIST SP 800-38D, section 7.1 and deriveCounterGeneric in gcm_generic.go.
+// See NIST SP 800-38D, section 7.1 and deriveCounterGeneric in gcm_generic.golang.
 func deriveCounter(H *gcmHashKey, counter *[gcmBlockSize]byte, nonce []byte) {
 	if len(nonce) == gcmStandardNonceSize {
 		copy(counter[:], nonce)
@@ -219,7 +219,7 @@ const (
 // counter state and will be overwritten with the updated counter state.
 // TODO(mundaym): could pass in hash subkey
 //
-//go:noescape
+//golang:noescape
 func kmaGCM(fn int, key, dst, src, aad []byte, tag *[16]byte, cnt *[gcmBlockSize]byte)
 
 func sealKMA(out []byte, g *GCM, nonce, plaintext, data []byte) {

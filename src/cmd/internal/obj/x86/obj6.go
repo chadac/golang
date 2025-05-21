@@ -449,7 +449,7 @@ func rewriteToUseGot(ctxt *obj.Link, p *obj.Prog, newprog obj.ProgAlloc) {
 		// We disable open-coded defers in buildssa() on 386 ONLY with shared
 		// libraries because of this extra code added before deferreturn calls.
 		//
-		// computeDeferReturn in cmd/link/internal/ld/pcln.go depends
+		// computeDeferReturn in cmd/link/internal/ld/pcln.golang depends
 		// on the size of these instructions.
 		if ctxt.Arch.Family == sys.AMD64 || (p.To.Sym != nil && p.To.Sym.Local()) || p.RegTo2 != 0 {
 			return
@@ -473,7 +473,7 @@ func rewriteToUseGot(ctxt *obj.Link, p *obj.Prog, newprog obj.ProgAlloc) {
 		p2.Reg = p.Reg
 		p2.To = p.To
 		// p.To.Type was set to TYPE_BRANCH above, but that makes checkaddr
-		// in ../pass.go complain, so set it back to TYPE_MEM here, until p2
+		// in ../pass.golang complain, so set it back to TYPE_MEM here, until p2
 		// itself gets passed to progedit.
 		p2.To.Type = obj.TYPE_MEM
 		p2.RegTo2 = 1

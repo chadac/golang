@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 #include "textflag.h"
@@ -24,7 +24,7 @@ TEXT ·IndexByte<ABIInternal>(SB),NOSPLIT,$0-40
 // return
 //   R0: result
 TEXT ·IndexByteString<ABIInternal>(SB),NOSPLIT,$0-32
-	// Core algorithm:
+	// Core algolangrithm:
 	// For each 32-byte chunk we calculate a 64-bit syndrome value,
 	// with two bits per byte. For each tuple, bit 0 is set if the
 	// relevant byte matched the requested character and bit 1 is

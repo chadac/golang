@@ -1,5 +1,5 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package tlog
@@ -14,7 +14,7 @@ import (
 	"unicode/utf8"
 )
 
-// A Tree is a tree description, to be signed by a go.sum database server.
+// A Tree is a tree description, to be signed by a golang.sum database server.
 type Tree struct {
 	N    int64
 	Hash Hash
@@ -24,7 +24,7 @@ type Tree struct {
 //
 // The encoded form is three lines, each ending in a newline (U+000A):
 //
-//	go.sum database tree
+//	golang.sum database tree
 //	N
 //	Hash
 //
@@ -33,19 +33,19 @@ type Tree struct {
 // A future backwards-compatible encoding may add additional lines,
 // which the parser can ignore.
 // A future backwards-incompatible encoding would use a different
-// first line (for example, "go.sum database tree v2").
+// first line (for example, "golang.sum database tree v2").
 func FormatTree(tree Tree) []byte {
-	return []byte(fmt.Sprintf("go.sum database tree\n%d\n%s\n", tree.N, tree.Hash))
+	return []byte(fmt.Sprintf("golang.sum database tree\n%d\n%s\n", tree.N, tree.Hash))
 }
 
 var errMalformedTree = errors.New("malformed tree note")
-var treePrefix = []byte("go.sum database tree\n")
+var treePrefix = []byte("golang.sum database tree\n")
 
 // ParseTree parses a formatted tree root description.
 func ParseTree(text []byte) (tree Tree, err error) {
 	// The message looks like:
 	//
-	//	go.sum database tree
+	//	golang.sum database tree
 	//	2
 	//	nND/nri/U0xuHUrYSy0HtMeal2vzD9V4k/BO79C+QeI=
 	//

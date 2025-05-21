@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package jpeg
@@ -59,7 +59,7 @@ commercial products, provided that all warranty or liability claims are
 assumed by the product vendor.
 */
 
-// Trigonometric constants in 13-bit fixed point format.
+// Trigolangnometric constants in 13-bit fixed point format.
 const (
 	fix_0_298631336 = 2446
 	fix_0_390180644 = 3196
@@ -87,7 +87,7 @@ func fdct(b *block) {
 	// Pass 1: process rows.
 	for y := 0; y < 8; y++ {
 		y8 := y * 8
-		s := b[y8 : y8+8 : y8+8] // Small cap improves performance, see https://golang.org/issue/27857
+		s := b[y8 : y8+8 : y8+8] // Small cap improves performance, see https://golanglang.org/issue/27857
 		x0 := s[0]
 		x1 := s[1]
 		x2 := s[2]

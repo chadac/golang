@@ -1,8 +1,8 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !purego
+//golang:build !puregolang
 
 #include "textflag.h"
 
@@ -580,7 +580,7 @@ TEXT ·p256FromMont(SB), NOSPLIT, $0-16
 
 	// Reorder the bytes so STXVD2X can be used.
 	// TT0, TT1 used for VPERM result in case
-	// the caller expects T0, T1 to be good.
+	// the caller expects T0, T1 to be golangod.
 	XXPERMDI T0, T0, $2, TT0
 	XXPERMDI T1, T1, $2, TT1
 

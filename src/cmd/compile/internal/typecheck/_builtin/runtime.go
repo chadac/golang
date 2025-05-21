@@ -1,17 +1,17 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// NOTE: If you change this file you must run "go generate"
+// NOTE: If you change this file you must run "golang generate"
 // in cmd/compile/internal/typecheck
-// to update builtin.go. This is not done automatically
+// to update builtin.golang. This is not done automatically
 // to avoid depending on having a working compiler binary.
 
-//go:build ignore
+//golang:build ignore
 
 package runtime
 
-// emitted by compiler, not referred to by go programs
+// emitted by compiler, not referred to by golang programs
 
 import "unsafe"
 
@@ -24,29 +24,29 @@ func panicmakeslicecap()
 func throwinit()
 func panicwrap()
 
-func gopanic(interface{})
-func gorecover(*int32) interface{}
-func goschedguarded()
+func golangpanic(interface{})
+func golangrecover(*int32) interface{}
+func golangschedguarded()
 
 // Note: these declarations are just for wasm port.
 // Other ports call assembly stubs instead.
-func goPanicIndex(x int, y int)
-func goPanicIndexU(x uint, y int)
-func goPanicSliceAlen(x int, y int)
-func goPanicSliceAlenU(x uint, y int)
-func goPanicSliceAcap(x int, y int)
-func goPanicSliceAcapU(x uint, y int)
-func goPanicSliceB(x int, y int)
-func goPanicSliceBU(x uint, y int)
-func goPanicSlice3Alen(x int, y int)
-func goPanicSlice3AlenU(x uint, y int)
-func goPanicSlice3Acap(x int, y int)
-func goPanicSlice3AcapU(x uint, y int)
-func goPanicSlice3B(x int, y int)
-func goPanicSlice3BU(x uint, y int)
-func goPanicSlice3C(x int, y int)
-func goPanicSlice3CU(x uint, y int)
-func goPanicSliceConvert(x int, y int)
+func golangPanicIndex(x int, y int)
+func golangPanicIndexU(x uint, y int)
+func golangPanicSliceAlen(x int, y int)
+func golangPanicSliceAlenU(x uint, y int)
+func golangPanicSliceAcap(x int, y int)
+func golangPanicSliceAcapU(x uint, y int)
+func golangPanicSliceB(x int, y int)
+func golangPanicSliceBU(x uint, y int)
+func golangPanicSlice3Alen(x int, y int)
+func golangPanicSlice3AlenU(x uint, y int)
+func golangPanicSlice3Acap(x int, y int)
+func golangPanicSlice3AcapU(x uint, y int)
+func golangPanicSlice3B(x int, y int)
+func golangPanicSlice3BU(x uint, y int)
+func golangPanicSlice3C(x int, y int)
+func golangPanicSlice3CU(x uint, y int)
+func golangPanicSliceConvert(x int, y int)
 
 func printbool(bool)
 func printfloat(float64)
@@ -175,7 +175,7 @@ func chancap(hchan any) int
 var writeBarrier struct {
 	enabled bool
 	pad     [3]byte
-	cgo     bool
+	cgolang     bool
 	alignme uint64
 }
 
@@ -188,7 +188,7 @@ func selectnbsend(hchan chan<- any, elem *any) bool
 func selectnbrecv(elem *any, hchan <-chan any) (bool, bool)
 
 func selectsetpc(pc *uintptr)
-func selectgo(cas0 *byte, order0 *byte, pc0 *uintptr, nsends int, nrecvs int, block bool) (int, bool)
+func selectgolang(cas0 *byte, order0 *byte, pc0 *uintptr, nsends int, nrecvs int, block bool) (int, bool)
 func block()
 
 func makeslice(typ *byte, len int, cap int) unsafe.Pointer

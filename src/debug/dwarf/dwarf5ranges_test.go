@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package dwarf
@@ -36,6 +36,6 @@ func TestDwarf5Ranges(t *testing.T) {
 	tgt := [][2]uint64{{0x0000000000006712, 0x000000000000679f}, {0x00000000000067af}, {0x00000000000067b3}}
 
 	if reflect.DeepEqual(ret, tgt) {
-		t.Errorf("expected %#v got %#x", tgt, ret)
+		t.Errorf("expected %#v golangt %#x", tgt, ret)
 	}
 }

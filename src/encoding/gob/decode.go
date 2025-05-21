@@ -1,10 +1,10 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:generate go run decgen.go -output dec_helpers.go
+//golang:generate golang run decgen.golang -output dec_helpers.golang
 
-package gob
+package golangb
 
 import (
 	"encoding"
@@ -17,9 +17,9 @@ import (
 )
 
 var (
-	errBadUint = errors.New("gob: encoded unsigned integer out of range")
-	errBadType = errors.New("gob: unknown type id or corrupted data")
-	errRange   = errors.New("gob: bad data: field numbers out of bounds")
+	errBadUint = errors.New("golangb: encoded unsigned integer out of range")
+	errBadType = errors.New("golangb: unknown type id or corrupted data")
+	errRange   = errors.New("golangb: bad data: field numbers out of bounds")
 )
 
 type decHelper func(state *decoderState, v reflect.Value, length int, ovfl error) bool
@@ -811,7 +811,7 @@ var decOpTable = [...]decOp{
 	reflect.String:     decString,
 }
 
-// Indexed by gob types.  tComplex will be added during type.init().
+// Indexed by golangb types.  tComplex will be added during type.init().
 var decIgnoreOpMap = map[typeId]decOp{
 	tBool:    ignoreUint,
 	tInt:     ignoreUint,
@@ -828,7 +828,7 @@ func (dec *Decoder) decOpFor(wireId typeId, rt reflect.Type, name string, inProg
 	ut := userType(rt)
 	// If the type implements GobEncoder, we handle it without further processing.
 	if ut.externalDec != 0 {
-		return dec.gobDecodeOpFor(ut)
+		return dec.golangbDecodeOpFor(ut)
 	}
 
 	// If this type is already in progress, it's a recursive type (e.g. map[string]*T).
@@ -985,9 +985,9 @@ func (dec *Decoder) decIgnoreOpFor(wireId typeId, inProgress map[typeId]*decOp) 
 	return &op
 }
 
-// gobDecodeOpFor returns the op for a type that is known to implement
+// golangbDecodeOpFor returns the op for a type that is known to implement
 // GobDecoder.
-func (dec *Decoder) gobDecodeOpFor(ut *userTypeInfo) *decOp {
+func (dec *Decoder) golangbDecodeOpFor(ut *userTypeInfo) *decOp {
 	rcvrType := ut.user
 	if ut.decIndir == -1 {
 		rcvrType = reflect.PointerTo(rcvrType)
@@ -1007,7 +1007,7 @@ func (dec *Decoder) gobDecodeOpFor(ut *userTypeInfo) *decOp {
 	return &op
 }
 
-// compatibleType asks: Are these two gob Types compatible?
+// compatibleType asks: Are these two golangb Types compatible?
 // Answers the question for basic types, arrays, maps and slices, plus
 // GobEncoder/Decoder pairs.
 // Structs are considered ok; fields will be checked later.
@@ -1103,9 +1103,9 @@ func (dec *Decoder) compileSingle(remoteId typeId, ut *userTypeInfo) (engine *de
 		remoteType := dec.typeString(remoteId)
 		// Common confusing case: local interface type, remote concrete type.
 		if ut.base.Kind() == reflect.Interface && remoteId != tInterface {
-			return nil, errors.New("gob: local interface type " + name + " can only be decoded from remote interface type; received concrete type " + remoteType)
+			return nil, errors.New("golangb: local interface type " + name + " can only be decoded from remote interface type; received concrete type " + remoteType)
 		}
-		return nil, errors.New("gob: decoding into local type " + name + ", received remote type " + remoteType)
+		return nil, errors.New("golangb: decoding into local type " + name + ", received remote type " + remoteType)
 	}
 	op := dec.decOpFor(remoteId, rt, name, make(map[reflect.Type]*decOp))
 	ovfl := errors.New(`value for "` + name + `" out of range`)
@@ -1147,7 +1147,7 @@ func (dec *Decoder) compileDec(remoteId typeId, ut *userTypeInfo) (engine *decEn
 		wireStruct = wire.StructT
 	}
 	if wireStruct == nil {
-		errorf("type mismatch in decoder: want struct type %s; got non-struct", rt)
+		errorf("type mismatch in decoder: want struct type %s; golangt non-struct", rt)
 	}
 	engine = new(decEngine)
 	engine.instr = make([]decInstr, len(wireStruct.Field))
@@ -1283,7 +1283,7 @@ func init() {
 		iop = decInt64
 		uop = decUint64
 	default:
-		panic("gob: unknown size of int/uint")
+		panic("golangb: unknown size of int/uint")
 	}
 	decOpTable[reflect.Int] = iop
 	decOpTable[reflect.Uint] = uop
@@ -1295,7 +1295,7 @@ func init() {
 	case 64:
 		uop = decUint64
 	default:
-		panic("gob: unknown size of uintptr")
+		panic("golangb: unknown size of uintptr")
 	}
 	decOpTable[reflect.Uintptr] = uop
 }

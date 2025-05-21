@@ -1,8 +1,8 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !plan9 && !windows
+//golang:build !plan9 && !windows
 // +build !plan9,!windows
 
 package main
@@ -39,19 +39,19 @@ func init() {
 }
 
 func NumGoroutine() {
-	// Test that there are just the expected number of goroutines
-	// running. Specifically, test that the spare M's goroutine
+	// Test that there are just the expected number of golangroutines
+	// running. Specifically, test that the spare M's golangroutine
 	// doesn't show up.
 	if _, ok := checkNumGoroutine("first", 1+baseGoroutines); !ok {
 		return
 	}
 
-	// Test that the goroutine for a callback from C appears.
+	// Test that the golangroutine for a callback from C appears.
 	if C.CheckNumGoroutine(); !callbackok {
 		return
 	}
 
-	// Make sure we're back to the initial goroutines.
+	// Make sure we're back to the initial golangroutines.
 	if _, ok := checkNumGoroutine("third", 1+baseGoroutines); !ok {
 		return
 	}
@@ -62,15 +62,15 @@ func NumGoroutine() {
 func checkNumGoroutine(label string, want int) (string, bool) {
 	n := runtime.NumGoroutine()
 	if n != want {
-		fmt.Printf("%s NumGoroutine: want %d; got %d\n", label, want, n)
+		fmt.Printf("%s NumGoroutine: want %d; golangt %d\n", label, want, n)
 		return "", false
 	}
 
 	sbuf := make([]byte, 32<<10)
 	sbuf = sbuf[:runtime.Stack(sbuf, true)]
-	n = strings.Count(string(sbuf), "goroutine ")
+	n = strings.Count(string(sbuf), "golangroutine ")
 	if n != want {
-		fmt.Printf("%s Stack: want %d; got %d:\n%s\n", label, want, n, sbuf)
+		fmt.Printf("%s Stack: want %d; golangt %d:\n%s\n", label, want, n, sbuf)
 		return "", false
 	}
 	return string(sbuf), true

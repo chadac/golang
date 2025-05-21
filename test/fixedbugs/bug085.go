@@ -1,7 +1,7 @@
 // errorcheck
 
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package P
@@ -13,8 +13,8 @@ func foo() {
 }
 
 /*
-uetli:~/Source/go1/test/bugs gri$ 6g bug085.go
-bug085.go:6: P: undefined
+uetli:~/Source/golang1/test/bugs gri$ 6g bug085.golang
+bug085.golang:6: P: undefined
 Bus error
 */
 

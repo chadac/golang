@@ -1,11 +1,11 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 //
-// ARM64 version of md5block.go
+// ARM64 version of md5block.golang
 // derived from crypto/md5/md5block_amd64.s
 
-//go:build !purego
+//golang:build !puregolang
 
 #include "textflag.h"
 

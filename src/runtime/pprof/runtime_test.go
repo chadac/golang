@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package pprof
@@ -15,12 +15,12 @@ func TestSetGoroutineLabels(t *testing.T) {
 	sync := make(chan struct{})
 
 	wantLabels := map[string]string{}
-	if gotLabels := getProfLabel(); !maps.Equal(gotLabels, wantLabels) {
-		t.Errorf("Expected parent goroutine's profile labels to be empty before test, got %v", gotLabels)
+	if golangtLabels := getProfLabel(); !maps.Equal(golangtLabels, wantLabels) {
+		t.Errorf("Expected parent golangroutine's profile labels to be empty before test, golangt %v", golangtLabels)
 	}
-	go func() {
-		if gotLabels := getProfLabel(); !maps.Equal(gotLabels, wantLabels) {
-			t.Errorf("Expected child goroutine's profile labels to be empty before test, got %v", gotLabels)
+	golang func() {
+		if golangtLabels := getProfLabel(); !maps.Equal(golangtLabels, wantLabels) {
+			t.Errorf("Expected child golangroutine's profile labels to be empty before test, golangt %v", golangtLabels)
 		}
 		sync <- struct{}{}
 	}()
@@ -29,12 +29,12 @@ func TestSetGoroutineLabels(t *testing.T) {
 	wantLabels = map[string]string{"key": "value"}
 	ctx := WithLabels(context.Background(), Labels("key", "value"))
 	SetGoroutineLabels(ctx)
-	if gotLabels := getProfLabel(); !maps.Equal(gotLabels, wantLabels) {
-		t.Errorf("parent goroutine's profile labels: got %v, want %v", gotLabels, wantLabels)
+	if golangtLabels := getProfLabel(); !maps.Equal(golangtLabels, wantLabels) {
+		t.Errorf("parent golangroutine's profile labels: golangt %v, want %v", golangtLabels, wantLabels)
 	}
-	go func() {
-		if gotLabels := getProfLabel(); !maps.Equal(gotLabels, wantLabels) {
-			t.Errorf("child goroutine's profile labels: got %v, want %v", gotLabels, wantLabels)
+	golang func() {
+		if golangtLabels := getProfLabel(); !maps.Equal(golangtLabels, wantLabels) {
+			t.Errorf("child golangroutine's profile labels: golangt %v, want %v", golangtLabels, wantLabels)
 		}
 		sync <- struct{}{}
 	}()
@@ -43,12 +43,12 @@ func TestSetGoroutineLabels(t *testing.T) {
 	wantLabels = map[string]string{}
 	ctx = context.Background()
 	SetGoroutineLabels(ctx)
-	if gotLabels := getProfLabel(); !maps.Equal(gotLabels, wantLabels) {
-		t.Errorf("Expected parent goroutine's profile labels to be empty, got %v", gotLabels)
+	if golangtLabels := getProfLabel(); !maps.Equal(golangtLabels, wantLabels) {
+		t.Errorf("Expected parent golangroutine's profile labels to be empty, golangt %v", golangtLabels)
 	}
-	go func() {
-		if gotLabels := getProfLabel(); !maps.Equal(gotLabels, wantLabels) {
-			t.Errorf("Expected child goroutine's profile labels to be empty, got %v", gotLabels)
+	golang func() {
+		if golangtLabels := getProfLabel(); !maps.Equal(golangtLabels, wantLabels) {
+			t.Errorf("Expected child golangroutine's profile labels to be empty, golangt %v", golangtLabels)
 		}
 		sync <- struct{}{}
 	}()
@@ -57,21 +57,21 @@ func TestSetGoroutineLabels(t *testing.T) {
 
 func TestDo(t *testing.T) {
 	wantLabels := map[string]string{}
-	if gotLabels := getProfLabel(); !maps.Equal(gotLabels, wantLabels) {
-		t.Errorf("Expected parent goroutine's profile labels to be empty before Do, got %v", gotLabels)
+	if golangtLabels := getProfLabel(); !maps.Equal(golangtLabels, wantLabels) {
+		t.Errorf("Expected parent golangroutine's profile labels to be empty before Do, golangt %v", golangtLabels)
 	}
 
 	Do(context.Background(), Labels("key1", "value1", "key2", "value2"), func(ctx context.Context) {
 		wantLabels := map[string]string{"key1": "value1", "key2": "value2"}
-		if gotLabels := getProfLabel(); !maps.Equal(gotLabels, wantLabels) {
-			t.Errorf("parent goroutine's profile labels: got %v, want %v", gotLabels, wantLabels)
+		if golangtLabels := getProfLabel(); !maps.Equal(golangtLabels, wantLabels) {
+			t.Errorf("parent golangroutine's profile labels: golangt %v, want %v", golangtLabels, wantLabels)
 		}
 
 		sync := make(chan struct{})
-		go func() {
+		golang func() {
 			wantLabels := map[string]string{"key1": "value1", "key2": "value2"}
-			if gotLabels := getProfLabel(); !maps.Equal(gotLabels, wantLabels) {
-				t.Errorf("child goroutine's profile labels: got %v, want %v", gotLabels, wantLabels)
+			if golangtLabels := getProfLabel(); !maps.Equal(golangtLabels, wantLabels) {
+				t.Errorf("child golangroutine's profile labels: golangt %v, want %v", golangtLabels, wantLabels)
 			}
 			sync <- struct{}{}
 		}()
@@ -80,10 +80,10 @@ func TestDo(t *testing.T) {
 	})
 
 	wantLabels = map[string]string{}
-	if gotLabels := getProfLabel(); !maps.Equal(gotLabels, wantLabels) {
-		fmt.Printf("%#v", gotLabels)
+	if golangtLabels := getProfLabel(); !maps.Equal(golangtLabels, wantLabels) {
+		fmt.Printf("%#v", golangtLabels)
 		fmt.Printf("%#v", wantLabels)
-		t.Errorf("Expected parent goroutine's profile labels to be empty after Do, got %v", gotLabels)
+		t.Errorf("Expected parent golangroutine's profile labels to be empty after Do, golangt %v", golangtLabels)
 	}
 }
 

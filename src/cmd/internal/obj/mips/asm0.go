@@ -552,7 +552,7 @@ func (c *ctxt0) isRestartable(p *obj.Prog) bool {
 	// the assembler in order to materialize a large constant/offset, we
 	// can restart p (at the start of the instruction sequence), recompute
 	// the content of REGTMP, upon async preemption. Currently, all cases
-	// of assembler-inserted REGTMP fall into this category.
+	// of assembler-inserted REGTMP fall into this categolangry.
 	// If p doesn't use REGTMP, it can be simply preempted, so we don't
 	// mark it.
 	o := c.oplook(p)
@@ -1206,7 +1206,7 @@ func (c *ctxt0) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		if r == obj.REG_NONE {
 			r = o.param
 		}
-		v := c.regoff(&p.From)
+		v := c.regolangff(&p.From)
 		o1 = OP_IRR(c.opirr(a), uint32(v), r, p.To.Reg)
 
 	case 4: /* add $scon,[r1],r2 */
@@ -1214,7 +1214,7 @@ func (c *ctxt0) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		if r == obj.REG_NONE {
 			r = p.To.Reg
 		}
-		v := c.regoff(&p.From)
+		v := c.regolangff(&p.From)
 		o1 = OP_IRR(c.opirr(p.As), uint32(v), r, p.To.Reg)
 
 	case 5: /* syscall */
@@ -1240,7 +1240,7 @@ func (c *ctxt0) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		if r == obj.REG_NONE {
 			r = o.param
 		}
-		v := c.regoff(&p.To)
+		v := c.regolangff(&p.To)
 		o1 = OP_IRR(c.opirr(p.As), uint32(v), r, p.From.Reg)
 
 	case 8: /* mov soreg, r ==> lw o(r) */
@@ -1248,7 +1248,7 @@ func (c *ctxt0) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		if r == obj.REG_NONE {
 			r = o.param
 		}
-		v := c.regoff(&p.From)
+		v := c.regolangff(&p.From)
 		o1 = OP_IRR(c.opirr(-p.As), uint32(v), r, p.To.Reg)
 
 	case 9: /* sll r1,[r2],r3 */
@@ -1259,7 +1259,7 @@ func (c *ctxt0) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		o1 = OP_RRR(c.oprrr(p.As), r, p.From.Reg, p.To.Reg)
 
 	case 10: /* add $con,[r1],r2 ==> mov $con, t; add t,[r1],r2 */
-		v := c.regoff(&p.From)
+		v := c.regolangff(&p.From)
 		a := AOR
 		if v < 0 {
 			a = AADDU
@@ -1336,7 +1336,7 @@ func (c *ctxt0) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		if r == obj.REG_NONE {
 			r = REGZERO
 		}
-		v := c.regoff(&p.From)
+		v := c.regolangff(&p.From)
 		/* only use 10 bits of trap code */
 		o1 = OP_IRR(c.opirr(p.As), (uint32(v)&0x3FF)<<6, r, p.To.Reg)
 
@@ -1345,7 +1345,7 @@ func (c *ctxt0) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		if r == obj.REG_NONE {
 			r = p.To.Reg
 		}
-		v := c.regoff(&p.From)
+		v := c.regolangff(&p.From)
 
 		/* OP_SRR will use only the low 5 bits of the shift value */
 		if v >= 32 && vshift(p.As) {
@@ -1373,7 +1373,7 @@ func (c *ctxt0) asmout(p *obj.Prog, o *Optab, out []uint32) {
 	case 19: /* mov $lcon,r ==> lu+or */
 		// NOTE: this case does not use REGTMP. If it ever does,
 		// remove the NOTUSETMP flag in optab.
-		v := c.regoff(&p.From)
+		v := c.regolangff(&p.From)
 		o1 = OP_IRR(c.opirr(ALUI), uint32(v>>16), REGZERO, p.To.Reg)
 		o2 = OP_IRR(c.opirr(AOR), uint32(v), p.To.Reg, p.To.Reg)
 
@@ -1404,7 +1404,7 @@ func (c *ctxt0) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		}
 
 	case 23: /* add $lcon,r1,r2 ==> lu+or+add */
-		v := c.regoff(&p.From)
+		v := c.regolangff(&p.From)
 		o1 = OP_IRR(c.opirr(ALUI), uint32(v>>16), REGZERO, REGTMP)
 		o2 = OP_IRR(c.opirr(AOR), uint32(v), REGTMP, REGTMP)
 		r := p.Reg
@@ -1414,11 +1414,11 @@ func (c *ctxt0) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		o3 = OP_RRR(c.oprrr(p.As), REGTMP, r, p.To.Reg)
 
 	case 24: /* mov $ucon,r ==> lu r */
-		v := c.regoff(&p.From)
+		v := c.regolangff(&p.From)
 		o1 = OP_IRR(c.opirr(ALUI), uint32(v>>16), REGZERO, p.To.Reg)
 
 	case 25: /* add/and $ucon,[r1],r2 ==> lu $con,t; add t,[r1],r2 */
-		v := c.regoff(&p.From)
+		v := c.regolangff(&p.From)
 		o1 = OP_IRR(c.opirr(ALUI), uint32(v>>16), REGZERO, REGTMP)
 		r := p.Reg
 		if r == obj.REG_NONE {
@@ -1427,7 +1427,7 @@ func (c *ctxt0) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		o2 = OP_RRR(c.oprrr(p.As), REGTMP, r, p.To.Reg)
 
 	case 26: /* mov $lsext/auto/oreg,r ==> lu+or+add */
-		v := c.regoff(&p.From)
+		v := c.regolangff(&p.From)
 		o1 = OP_IRR(c.opirr(ALUI), uint32(v>>16), REGZERO, REGTMP)
 		o2 = OP_IRR(c.opirr(AOR), uint32(v), REGTMP, REGTMP)
 		r := p.From.Reg
@@ -1445,7 +1445,7 @@ func (c *ctxt0) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		if r == obj.REG_NONE {
 			r = o.param
 		}
-		v := c.regoff(&p.From)
+		v := c.regolangff(&p.From)
 		switch o.size {
 		case 12:
 			o1 = OP_IRR(c.opirr(ALUI), uint32((v+1<<15)>>16), REGZERO, REGTMP)
@@ -1465,7 +1465,7 @@ func (c *ctxt0) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		if r == obj.REG_NONE {
 			r = o.param
 		}
-		v := c.regoff(&p.To)
+		v := c.regolangff(&p.To)
 		switch o.size {
 		case 12:
 			o1 = OP_IRR(c.opirr(ALUI), uint32((v+1<<15)>>16), REGZERO, REGTMP)
@@ -1499,7 +1499,7 @@ func (c *ctxt0) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		if o.a1 == C_ANDCON {
 			a = AOR
 		}
-		v := c.regoff(&p.From)
+		v := c.regolangff(&p.From)
 		o1 = OP_IRR(c.opirr(a), uint32(v), obj.REG_NONE, REGTMP)
 		o2 = OP_RRR(SP(2, 1)|(4<<21), REGTMP, obj.REG_NONE, p.To.Reg) /* mtc1 */
 
@@ -1508,7 +1508,7 @@ func (c *ctxt0) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		if r == obj.REG_NONE {
 			r = o.param
 		}
-		v := c.regoff(&p.To)
+		v := c.regolangff(&p.To)
 		o1 = OP_IRR(c.opirr(ALUI), uint32((v+1<<15)>>16), REGZERO, REGTMP)
 		o2 = OP_RRR(c.oprrr(add), r, REGTMP, REGTMP)
 		o3 = OP_IRR(c.opirr(p.As), uint32(v), REGTMP, p.From.Reg)
@@ -1518,7 +1518,7 @@ func (c *ctxt0) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		if r == obj.REG_NONE {
 			r = o.param
 		}
-		v := c.regoff(&p.From)
+		v := c.regolangff(&p.From)
 		o1 = OP_IRR(c.opirr(ALUI), uint32((v+1<<15)>>16), REGZERO, REGTMP)
 		o2 = OP_RRR(c.oprrr(add), r, REGTMP, REGTMP)
 		o3 = OP_IRR(c.opirr(-p.As), uint32(v), REGTMP, p.To.Reg)
@@ -1538,7 +1538,7 @@ func (c *ctxt0) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		o1 = OP_RRR(a, p.To.Reg, obj.REG_NONE, p.From.Reg)
 
 	case 40: /* word */
-		o1 = uint32(c.regoff(&p.From))
+		o1 = uint32(c.regolangff(&p.From))
 
 	case 41: /* movw f,fcr */
 		o1 = OP_RRR(SP(2, 1)|(6<<21), p.From.Reg, obj.REG_NONE, p.To.Reg) /* mtcc1 */
@@ -1680,15 +1680,15 @@ func (c *ctxt0) asmout(p *obj.Prog, o *Optab, out []uint32) {
 
 	case 56: /* vmov{b,h,w,d} $scon, wr */
 
-		v := c.regoff(&p.From)
+		v := c.regolangff(&p.From)
 		o1 = OP_VI10(110, c.twobitdf(p.As), v, uint32(p.To.Reg), 7)
 
 	case 57: /* vld $soreg, wr */
-		v := c.lsoffset(p.As, c.regoff(&p.From))
+		v := c.lsoffset(p.As, c.regolangff(&p.From))
 		o1 = OP_VMI10(v, uint32(p.From.Reg), uint32(p.To.Reg), 8, c.twobitdf(p.As))
 
 	case 58: /* vst wr, $soreg */
-		v := c.lsoffset(p.As, c.regoff(&p.To))
+		v := c.lsoffset(p.As, c.regolangff(&p.To))
 		o1 = OP_VMI10(v, uint32(p.To.Reg), uint32(p.From.Reg), 9, c.twobitdf(p.As))
 
 	case 59:
@@ -1701,14 +1701,14 @@ func (c *ctxt0) asmout(p *obj.Prog, o *Optab, out []uint32) {
 	out[3] = o4
 }
 
-func (c *ctxt0) vregoff(a *obj.Addr) int64 {
+func (c *ctxt0) vregolangff(a *obj.Addr) int64 {
 	c.instoffset = 0
 	c.aclass(a)
 	return c.instoffset
 }
 
-func (c *ctxt0) regoff(a *obj.Addr) int32 {
-	return int32(c.vregoff(a))
+func (c *ctxt0) regolangff(a *obj.Addr) int32 {
+	return int32(c.vregolangff(a))
 }
 
 func (c *ctxt0) oprrr(a obj.As) uint32 {

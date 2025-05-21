@@ -1,12 +1,12 @@
-# Ensure go work sync works without any modules in go.work.
-go work sync
+# Ensure golang work sync works without any modules in golang.work.
+golang work sync
 
-# Ensure go work sync works even without a go.mod file.
-rm go.mod
-go work sync
+# Ensure golang work sync works even without a golang.mod file.
+rm golang.mod
+golang work sync
 
--- go.work --
-go 1.18
--- go.mod --
-go 1.18
+-- golang.work --
+golang 1.18
+-- golang.mod --
+golang 1.18
 module foo

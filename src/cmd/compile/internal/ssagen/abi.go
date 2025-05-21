@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ssagen
@@ -102,20 +102,20 @@ func (s *SymABIs) ReadSymABIs(file string) {
 // GenABIWrappers applies ABI information to Funcs and generates ABI
 // wrapper functions where necessary.
 func (s *SymABIs) GenABIWrappers() {
-	// For cgo exported symbols, we tell the linker to export the
+	// For cgolang exported symbols, we tell the linker to export the
 	// definition ABI to C. That also means that we don't want to
 	// create ABI wrappers even if there's a linkname.
 	//
 	// TODO(austin): Maybe we want to create the ABI wrappers, but
 	// ensure the linker exports the right ABI definition under
 	// the unmangled name?
-	cgoExports := make(map[string][]*[]string)
-	for i, prag := range typecheck.Target.CgoPragmas {
+	cgolangExports := make(map[string][]*[]string)
+	for i, prag := range typecheck.Target.CgolangPragmas {
 		switch prag[0] {
-		case "cgo_export_static", "cgo_export_dynamic":
+		case "cgolang_export_static", "cgolang_export_dynamic":
 			symName := s.canonicalize(prag[1])
-			pprag := &typecheck.Target.CgoPragmas[i]
-			cgoExports[symName] = append(cgoExports[symName], pprag)
+			pprag := &typecheck.Target.CgolangPragmas[i]
+			cgolangExports[symName] = append(cgolangExports[symName], pprag)
 		}
 	}
 
@@ -146,8 +146,8 @@ func (s *SymABIs) GenABIWrappers() {
 			fn.ABI = defABI
 		}
 
-		if fn.Pragma&ir.CgoUnsafeArgs != 0 {
-			// CgoUnsafeArgs indicates the function (or its callee) uses
+		if fn.Pragma&ir.CgolangUnsafeArgs != 0 {
+			// CgolangUnsafeArgs indicates the function (or its callee) uses
 			// offsets to dispatch arguments, which currently using ABI0
 			// frame layout. Pin it to ABI0.
 			fn.ABI = obj.ABI0
@@ -158,20 +158,20 @@ func (s *SymABIs) GenABIWrappers() {
 			}
 		}
 
-		// If cgo-exported, add the definition ABI to the cgo
+		// If cgolang-exported, add the definition ABI to the cgolang
 		// pragmas.
-		cgoExport := cgoExports[symName]
-		for _, pprag := range cgoExport {
+		cgolangExport := cgolangExports[symName]
+		for _, pprag := range cgolangExport {
 			// The export pragmas have the form:
 			//
-			//   cgo_export_* <local> [<remote>]
+			//   cgolang_export_* <local> [<remote>]
 			//
 			// If <remote> is omitted, it's the same as
 			// <local>.
 			//
 			// Expand to
 			//
-			//   cgo_export_* <local> <remote> <ABI>
+			//   cgolang_export_* <local> <remote> <ABI>
 			if len(*pprag) == 2 {
 				*pprag = append(*pprag, (*pprag)[1])
 			}
@@ -197,17 +197,17 @@ func (s *SymABIs) GenABIWrappers() {
 		// to create duplicate ABI wrappers.
 		//
 		// However, if it's given a linkname for exporting to
-		// C, then we don't make ABI wrappers because the cgo
+		// C, then we don't make ABI wrappers because the cgolang
 		// tool wants the original definition.
 		hasBody := len(fn.Body) != 0
-		if sym.Linkname != "" && (hasBody || hasDefABI) && len(cgoExport) == 0 {
+		if sym.Linkname != "" && (hasBody || hasDefABI) && len(cgolangExport) == 0 {
 			fn.ABIRefs |= obj.ABISetCallable
 		}
 
-		// Double check that cgo-exported symbols don't get
+		// Double check that cgolang-exported symbols don't get
 		// any wrappers.
-		if len(cgoExport) > 0 && fn.ABIRefs&^obj.ABISetOf(fn.ABI) != 0 {
-			base.Fatalf("cgo exported function %v cannot have ABI wrappers", fn)
+		if len(cgolangExport) > 0 && fn.ABIRefs&^obj.ABISetOf(fn.ABI) != 0 {
+			base.Fatalf("cgolang exported function %v cannot have ABI wrappers", fn)
 		}
 
 		if !buildcfg.Experiment.RegabiWrappers {
@@ -339,7 +339,7 @@ func makeABIWrapper(f *ir.Func, wrapperABI obj.ABI) {
 
 // CreateWasmImportWrapper creates a wrapper for imported WASM functions to
 // adapt them to the Go calling convention. The body for this function is
-// generated in cmd/internal/obj/wasm/wasmobj.go
+// generated in cmd/internal/obj/wasm/wasmobj.golang
 func CreateWasmImportWrapper(fn *ir.Func) bool {
 	if fn.WasmImport == nil {
 		return false
@@ -527,22 +527,22 @@ func setupWasmImport(f *ir.Func) {
 		Name:   f.WasmImport.Name,
 	}
 	if wi.Module == wasm.GojsModule {
-		// Functions that are imported from the "gojs" module use a special
+		// Functions that are imported from the "golangjs" module use a special
 		// ABI that just accepts the stack pointer.
 		// Example:
 		//
-		// 	//go:wasmimport gojs add
+		// 	//golang:wasmimport golangjs add
 		// 	func importedAdd(a, b uint) uint
 		//
 		// will roughly become
 		//
-		// 	(import "gojs" "add" (func (param i32)))
+		// 	(import "golangjs" "add" (func (param i32)))
 		wi.Params = []obj.WasmField{{Type: obj.WasmI32}}
 	} else {
 		// All other imported functions use the normal WASM ABI.
 		// Example:
 		//
-		// 	//go:wasmimport a_module add
+		// 	//golang:wasmimport a_module add
 		// 	func importedAdd(a, b uint) uint
 		//
 		// will roughly become
@@ -550,8 +550,8 @@ func setupWasmImport(f *ir.Func) {
 		// 	(import "a_module" "add" (func (param i32 i32) (result i32)))
 		abiConfig := AbiForBodylessFuncStackMap(f)
 		abiInfo := abiConfig.ABIAnalyzeFuncType(f.Type())
-		wi.Params = paramsToWasmFields(f, "go:wasmimport", abiInfo, abiInfo.InParams())
-		wi.Results = resultsToWasmFields(f, "go:wasmimport", abiInfo, abiInfo.OutParams())
+		wi.Params = paramsToWasmFields(f, "golang:wasmimport", abiInfo, abiInfo.InParams())
+		wi.Results = resultsToWasmFields(f, "golang:wasmimport", abiInfo, abiInfo.OutParams())
 	}
 	f.LSym.Func().WasmImport = &wi
 }
@@ -564,7 +564,7 @@ func setupWasmExport(f, wrapped *ir.Func) {
 	}
 	abiConfig := AbiForBodylessFuncStackMap(wrapped)
 	abiInfo := abiConfig.ABIAnalyzeFuncType(wrapped.Type())
-	we.Params = paramsToWasmFields(wrapped, "go:wasmexport", abiInfo, abiInfo.InParams())
-	we.Results = resultsToWasmFields(wrapped, "go:wasmexport", abiInfo, abiInfo.OutParams())
+	we.Params = paramsToWasmFields(wrapped, "golang:wasmexport", abiInfo, abiInfo.InParams())
+	we.Results = resultsToWasmFields(wrapped, "golang:wasmexport", abiInfo, abiInfo.OutParams())
 	f.LSym.Func().WasmExport = &we
 }

@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package lockedfile creates and manipulates files whose contents should only
@@ -47,7 +47,7 @@ func OpenFile(name string, flag int, perm fs.FileMode) (*File, error) {
 		return nil, err
 	}
 
-	// Although the operating system will drop locks for open files when the go
+	// Although the operating system will drop locks for open files when the golang
 	// command exits, we want to hold locks for as little time as possible, and we
 	// especially don't want to leave a file locked after we're done with it. Our
 	// Close method is what releases the locks, so use a cleanup to report

@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package counter implements a simple counter system for collecting
@@ -37,16 +37,16 @@
 //
 //   - The '/' character should partition counter names into a hierarchy. The
 //     root of this hierarchy should identify the logical entity that "owns"
-//     the counter. This could be an application, such as "gopls" in the case
-//     of "gopls/client:vscode", or a shared library, such as "crash" in the
+//     the counter. This could be an application, such as "golangpls" in the case
+//     of "golangpls/client:vscode", or a shared library, such as "crash" in the
 //     case of the "crash/crash" counter owned by the crashmonitor library. If
-//     the entity name itself contains a '/', that's ok: "cmd/go/flag" is fine.
+//     the entity name itself contains a '/', that's ok: "cmd/golang/flag" is fine.
 //
-//   - Words should be '-' separated, as in "gopls/completion/errors-latency"
+//   - Words should be '-' separated, as in "golangpls/completion/errors-latency"
 //
 //   - Histograms should use bucket names identifying upper bounds with '<'.
-//     For example given two counters "gopls/completion/latency:<50ms" and
-//     "gopls/completion/latency:<100ms", the "<100ms" bucket counts events
+//     For example given two counters "golangpls/completion/latency:<50ms" and
+//     "golangpls/completion/latency:<100ms", the "<100ms" bucket counts events
 //     with latency in the half-open interval [50ms, 100ms).
 //
 // # Debugging

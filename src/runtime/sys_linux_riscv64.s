@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 //
@@ -7,7 +7,7 @@
 //
 
 #include "textflag.h"
-#include "go_asm.h"
+#include "golang_asm.h"
 
 #define AT_FDCWD -100
 #define CLOCK_REALTIME 0
@@ -221,7 +221,7 @@ TEXT runtime·walltime(SB),NOSPLIT,$40-12
 	BNE	g, T1, noswitch
 
 	MOV	m_g0(S3), T1
-	MOV	(g_sched+gobuf_sp)(T1), X2
+	MOV	(g_sched+golangbuf_sp)(T1), X2
 
 noswitch:
 	SUB	$24, X2 // Space for result
@@ -229,7 +229,7 @@ noswitch:
 	MOV	$8(X2), A1
 
 	// Store g on gsignal's stack, see sys_linux_arm64.s for detail
-	MOVBU	runtime·iscgo(SB), S4
+	MOVBU	runtime·iscgolang(SB), S4
 	BNEZ	S4, nosaveg
 	MOV	m_gsignal(S3), S4 // g.m.gsignal
 	BEQZ	S4, nosaveg
@@ -293,7 +293,7 @@ TEXT runtime·nanotime1(SB),NOSPLIT,$40-8
 	BNE	g, T1, noswitch
 
 	MOV	m_g0(S3), T1
-	MOV	(g_sched+gobuf_sp)(T1), X2
+	MOV	(g_sched+golangbuf_sp)(T1), X2
 
 noswitch:
 	SUB	$24, X2 // Space for result
@@ -301,7 +301,7 @@ noswitch:
 	MOV	$8(X2), A1
 
 	// Store g on gsignal's stack, see sys_linux_arm64.s for detail
-	MOVBU	runtime·iscgo(SB), S4
+	MOVBU	runtime·iscgolang(SB), S4
 	BNEZ	S4, nosaveg
 	MOV	m_gsignal(S3), S4 // g.m.gsignal
 	BEQZ	S4, nosaveg
@@ -383,16 +383,16 @@ TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME,$64
 
 	// this might be called in external code context,
 	// where g is not set.
-	MOVBU	runtime·iscgo(SB), A0
+	MOVBU	runtime·iscgolang(SB), A0
 	BEQ	A0, ZERO, 2(PC)
 	CALL	runtime·load_g(SB)
 
-	MOV	$runtime·sigtrampgo(SB), A0
+	MOV	$runtime·sigtrampgolang(SB), A0
 	JALR	RA, A0
 	RET
 
-// func cgoSigtramp()
-TEXT runtime·cgoSigtramp(SB),NOSPLIT,$0
+// func cgolangSigtramp()
+TEXT runtime·cgolangSigtramp(SB),NOSPLIT,$0
 	MOV	$runtime·sigtramp(SB), T1
 	JALR	ZERO, T1
 
@@ -468,10 +468,10 @@ child:
 	// In child, on new stack.
 	MOV	-32(X2), T0
 	MOV	$1234, A0
-	BEQ	A0, T0, good
+	BEQ	A0, T0, golangod
 	WORD	$0	// crash
 
-good:
+golangod:
 	// Initialize m->procid to Linux tid
 	MOV	$SYS_gettid, A7
 	ECALL

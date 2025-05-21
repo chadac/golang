@@ -1,7 +1,7 @@
 // errorcheck -0 -m -l
 
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package p
@@ -28,7 +28,7 @@ func z() {
 	z()
 }
 
-// Should match cmd/compile/internal/ir/cfg.go:MaxStackVarSize.
+// Should match cmd/compile/internal/ir/cfg.golang:MaxStackVarSize.
 const maxStack = 128 * 1024
 
 func w(i int) byte {

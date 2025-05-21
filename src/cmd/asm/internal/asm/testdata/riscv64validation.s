@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file is for validation errors only, i.e., errors reported by the validate function.
@@ -9,8 +9,8 @@
 // errors.
 
 TEXT validation(SB),$0
-	SRLI	$1, X5, F1			// ERROR "expected integer register in rd position but got non-integer register F1"
-	SRLI	$1, F1, X5			// ERROR "expected integer register in rs1 position but got non-integer register F1"
+	SRLI	$1, X5, F1			// ERROR "expected integer register in rd position but golangt non-integer register F1"
+	SRLI	$1, F1, X5			// ERROR "expected integer register in rs1 position but golangt non-integer register F1"
 
 	//
 	// "V" Standard Extension for Vector Operations, Version 1.0

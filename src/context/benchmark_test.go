@@ -1,5 +1,5 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package context_test
@@ -47,16 +47,16 @@ func BenchmarkWithTimeout(b *testing.B) {
 }
 
 func benchmarkWithTimeout(b *testing.B, concurrentContexts int) {
-	gomaxprocs := runtime.GOMAXPROCS(0)
-	perPContexts := concurrentContexts / gomaxprocs
+	golangmaxprocs := runtime.GOMAXPROCS(0)
+	perPContexts := concurrentContexts / golangmaxprocs
 	root := Background()
 
 	// Generate concurrent contexts.
 	var wg sync.WaitGroup
-	ccf := make([][]CancelFunc, gomaxprocs)
+	ccf := make([][]CancelFunc, golangmaxprocs)
 	for i := range ccf {
 		wg.Add(1)
-		go func(i int) {
+		golang func(i int) {
 			defer wg.Done()
 			cf := make([]CancelFunc, perPContexts)
 			for j := range cf {
@@ -164,7 +164,7 @@ func BenchmarkDeepValueNewGoRoutine(b *testing.B) {
 			for i := 0; i < b.N; i++ {
 				var wg sync.WaitGroup
 				wg.Add(1)
-				go func() {
+				golang func() {
 					defer wg.Done()
 					ctx.Value(-1)
 				}()

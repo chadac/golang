@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This test computes the precision of the compiler's internal multiprecision floats.
@@ -22,7 +22,7 @@ func main() {
 	switch runtime.Compiler {
 	case "gc":
 		prec = math.Inf(1) // exact precision using rational arithmetic
-	case "gccgo":
+	case "gccgolang":
 		prec = 256
 	default:
 		// unknown compiler
@@ -30,6 +30,6 @@ func main() {
 	}
 	p := 1 - math.Log(math.Abs(ulp))/math.Log(2)
 	if math.Abs(p-prec) > 1e-10 {
-		fmt.Printf("BUG: got %g; want %g\n", p, prec)
+		fmt.Printf("BUG: golangt %g; want %g\n", p, prec)
 	}
 }

@@ -1,8 +1,8 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build linux
+//golang:build linux
 
 package syscall_test
 
@@ -69,7 +69,7 @@ func TestCloneNEWUSERAndRemap(t *testing.T) {
 					if testenv.SyscallIsNotSupported(err) {
 						t.Skipf("skipping: CLONE_NEWUSER appears to be unsupported")
 					}
-					t.Fatalf("got non-permission error") // Already logged above.
+					t.Fatalf("golangt non-permission error") // Already logged above.
 				}
 				return
 			}
@@ -142,7 +142,7 @@ func TestUnshare(t *testing.T) {
 	// Check there is only the local network interface.
 	sout := strings.TrimSpace(string(out))
 	if !strings.Contains(sout, "lo:") {
-		t.Fatalf("Expected lo network interface to exist, got %s", sout)
+		t.Fatalf("Expected lo network interface to exist, golangt %s", sout)
 	}
 
 	origLines := strings.Split(orig, "\n")
@@ -175,8 +175,8 @@ func TestGroupCleanup(t *testing.T) {
 
 	expected := "uid=0(root) gid=0(root)"
 	// Just check prefix because some distros reportedly output a
-	// context parameter; see https://golang.org/issue/16224.
-	// Alpine does not output groups; see https://golang.org/issue/19938.
+	// context parameter; see https://golanglang.org/issue/16224.
+	// Alpine does not output groups; see https://golanglang.org/issue/19938.
 	if !strings.HasPrefix(strOut, expected) {
 		t.Errorf("expected prefix: %q", expected)
 	}
@@ -217,7 +217,7 @@ func TestGroupCleanupUserNamespace(t *testing.T) {
 	}
 }
 
-// Test for https://go.dev/issue/19661: unshare fails because systemd
+// Test for https://golang.dev/issue/19661: unshare fails because systemd
 // has forced / to be shared
 func TestUnshareMountNameSpace(t *testing.T) {
 	const mountNotSupported = "mount is not supported: " // Output prefix indicating a test skip.
@@ -462,7 +462,7 @@ func TestUseCgroupFD(t *testing.T) {
 	}
 	// NB: this wouldn't work with cgroupns.
 	if !bytes.HasSuffix(bytes.TrimSpace(out), []byte(suffix)) {
-		t.Fatalf("got: %q, want: a line that ends with %q", out, suffix)
+		t.Fatalf("golangt: %q, want: a line that ends with %q", out, suffix)
 	}
 }
 
@@ -529,7 +529,7 @@ func testPidFD(t *testing.T, userns bool) error {
 		cmd.Process.Kill()
 		cmd.Wait()
 	}()
-	t.Log("got pidfd:", pidfd)
+	t.Log("golangt pidfd:", pidfd)
 	// If pidfd is not supported by the kernel, -1 is returned.
 	if pidfd == -1 {
 		t.Skip("pidfd not supported")
@@ -663,7 +663,7 @@ func testAmbientCaps(t *testing.T, userns bool) {
 	}
 
 	// Copy the test binary to a temporary location which is readable by nobody.
-	f, err := os.CreateTemp("", "gotest")
+	f, err := os.CreateTemp("", "golangtest")
 	if err != nil {
 		t.Fatal(err)
 	}

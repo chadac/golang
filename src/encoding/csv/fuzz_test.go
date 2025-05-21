@@ -1,5 +1,5 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package csv
@@ -89,7 +89,7 @@ func FuzzRoundtrip(f *testing.F) {
 			}
 
 			if !reflect.DeepEqual(records, result) {
-				t.Fatalf("first read got %#v, second got %#v", records, result)
+				t.Fatalf("first read golangt %#v, second golangt %#v", records, result)
 			}
 		}
 	})

@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -10,11 +10,11 @@ import (
 	"runtime/metrics"
 )
 
-// This program ensures system goroutines (GC workers, finalizer goroutine)
+// This program ensures system golangroutines (GC workers, finalizer golangroutine)
 // started from within a synctest bubble do not participate in that bubble.
 //
-// To ensure none of these goroutines start before synctest.Run,
-// it must have no dependencies on packages which may start system goroutines.
+// To ensure none of these golangroutines start before synctest.Run,
+// it must have no dependencies on packages which may start system golangroutines.
 // This includes the os package, which creates finalizers at init time.
 
 func numGCCycles() uint64 {
@@ -28,7 +28,7 @@ func numGCCycles() uint64 {
 
 func main() {
 	synctest.Run(func() {
-		// Start the finalizer goroutine.
+		// Start the finalizer golangroutine.
 		p := new(int)
 		runtime.SetFinalizer(p, func(*int) {})
 
@@ -36,7 +36,7 @@ func main() {
 		ch1 := make(chan *int)
 		ch2 := make(chan *int)
 		defer close(ch1)
-		go func() {
+		golang func() {
 			for i := range ch1 {
 				v := *i + 1
 				ch2 <- &v
@@ -53,8 +53,8 @@ func main() {
 				<-ch2
 			}
 
-			// If we've improperly put a GC goroutine into the synctest group,
-			// this Wait is going to hang.
+			// If we've improperly put a GC golangroutine into the synctest group,
+			// this Wait is golanging to hang.
 			synctest.Wait()
 
 			// End the test after a couple of GC cycles have passed.

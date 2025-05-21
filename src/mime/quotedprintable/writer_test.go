@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package quotedprintable
@@ -110,9 +110,9 @@ func testWriter(t *testing.T, binary bool) {
 			t.Errorf("Close(): %v", err)
 			continue
 		}
-		got := buf.String()
-		if got != want {
-			t.Errorf("Write(%q), got:\n%q\nwant:\n%q", tt.in, got, want)
+		golangt := buf.String()
+		if golangt != want {
+			t.Errorf("Write(%q), golangt:\n%q\nwant:\n%q", tt.in, golangt, want)
 		}
 	}
 }
@@ -128,13 +128,13 @@ func TestRoundTrip(t *testing.T) {
 	}
 
 	r := NewReader(buf)
-	gotBytes, err := io.ReadAll(r)
+	golangtBytes, err := io.ReadAll(r)
 	if err != nil {
 		t.Fatalf("Error while reading from Reader: %v", err)
 	}
-	got := string(gotBytes)
-	if got != string(testMsg) {
-		t.Errorf("Encoding and decoding changed the message, got:\n%s", got)
+	golangt := string(golangtBytes)
+	if golangt != string(testMsg) {
+		t.Errorf("Encoding and decoding changed the message, golangt:\n%s", golangt)
 	}
 }
 

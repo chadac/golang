@@ -1,10 +1,10 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build libfuzzer
+//golang:build libfuzzer
 
-#include "go_asm.h"
+#include "golang_asm.h"
 #include "textflag.h"
 
 // Based on race_arm64.s; see commentary there.
@@ -39,7 +39,7 @@ TEXT	runtime·libfuzzerCallTraceIntCmp(SB), NOSPLIT, $8-32
 	MOVD	m_g0(R10), R11
 	CMP	R11, g
 	BEQ	call	// already on g0
-	MOVD	(g_sched+gobuf_sp)(R11), R12
+	MOVD	(g_sched+golangbuf_sp)(R11), R12
 	MOVD	R12, RSP
 call:
 	// Load address of the ret sled into the default register for the return
@@ -86,7 +86,7 @@ TEXT	runtime·libfuzzerCall4(SB), NOSPLIT, $0-40
 	MOVD	m_g0(R10), R11
 	CMP	R11, g
 	BEQ	call	// already on g0
-	MOVD	(g_sched+gobuf_sp)(R11), R12
+	MOVD	(g_sched+golangbuf_sp)(R11), R12
 	MOVD	R12, RSP
 call:
 	BL	R9
@@ -107,7 +107,7 @@ TEXT	runtime·libfuzzerCallWithTwoByteBuffers(SB), NOSPLIT, $0-24
 	MOVD	m_g0(R10), R11
 	CMP	R11, g
 	BEQ	call	// already on g0
-	MOVD	(g_sched+gobuf_sp)(R11), R12
+	MOVD	(g_sched+golangbuf_sp)(R11), R12
 	MOVD	R12, RSP
 call:
 	BL	R9

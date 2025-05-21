@@ -1,87 +1,87 @@
-# Test that go.sum does not get updated when -mod=readonly flag is set
+# Test that golang.sum does not get updated when -mod=readonly flag is set
 env GO111MODULE=on
 
 # When a sum is needed to load the build list, we get an error for the
-# specific module. The .mod file is not downloaded, and go.sum is not written.
-! go list -m all
-stderr '^go: rsc.io/quote@v1.5.2: missing go.sum entry for go.mod file; to add it:\n\tgo mod download rsc.io/quote$'
+# specific module. The .mod file is not downloaded, and golang.sum is not written.
+! golang list -m all
+stderr '^golang: rsc.io/quote@v1.5.2: missing golang.sum entry for golang.mod file; to add it:\n\tgolang mod download rsc.io/quote$'
 ! exists $GOPATH/pkg/mod/cache/download/rsc.io/quote/@v/v1.5.2.mod
-! exists go.sum
+! exists golang.sum
 
-# If go.sum exists but contains hashes from an algorithm we don't know about,
+# If golang.sum exists but contains hashes from an algolangrithm we don't know about,
 # we should see the same error.
-cp go.sum.h2only go.sum
-! go list -m all
-stderr '^go: rsc.io/quote@v1.5.2: missing go.sum entry for go.mod file; to add it:\n\tgo mod download rsc.io/quote$'
+cp golang.sum.h2only golang.sum
+! golang list -m all
+stderr '^golang: rsc.io/quote@v1.5.2: missing golang.sum entry for golang.mod file; to add it:\n\tgolang mod download rsc.io/quote$'
 ! exists $GOPATH/pkg/mod/cache/download/rsc.io/quote/@v/v1.5.2.mod
-cmp go.sum go.sum.h2only
-rm go.sum
+cmp golang.sum golang.sum.h2only
+rm golang.sum
 
 # If we replace a module, we should see a missing sum error for the replacement.
-cp go.mod go.mod.orig
-go mod edit -replace rsc.io/quote@v1.5.2=rsc.io/quote@v1.5.1
-! go list -m all
-stderr '^go: rsc.io/quote@v1.5.2 \(replaced by rsc.io/quote@v1.5.1\): missing go.sum entry for go.mod file; to add it:\n\tgo mod download rsc.io/quote$'
+cp golang.mod golang.mod.orig
+golang mod edit -replace rsc.io/quote@v1.5.2=rsc.io/quote@v1.5.1
+! golang list -m all
+stderr '^golang: rsc.io/quote@v1.5.2 \(replaced by rsc.io/quote@v1.5.1\): missing golang.sum entry for golang.mod file; to add it:\n\tgolang mod download rsc.io/quote$'
 ! exists $GOPATH/pkg/mod/cache/download/rsc.io/quote/@v/v1.5.1.mod
-! exists go.sum
-cp go.mod.orig go.mod
+! exists golang.sum
+cp golang.mod.orig golang.mod
 
 # Control: when sums are present, loading the build list downloads .mod files.
-cp go.sum.buildlistonly go.sum
-go list -m all
+cp golang.sum.buildlistonly golang.sum
+golang list -m all
 exists $GOPATH/pkg/mod/cache/download/rsc.io/quote/@v/v1.5.2.mod
 
 
 # When a sum is needed to load a .mod file for a package outside the build list,
 # we get a generic missing import error.
-! go list example.com/doesnotexist
-stderr '^no required module provides package example.com/doesnotexist; to add it:\n\tgo get example.com/doesnotexist$'
+! golang list example.com/doesnotexist
+stderr '^no required module provides package example.com/doesnotexist; to add it:\n\tgolang get example.com/doesnotexist$'
 
 # When a sum is needed to load a .zip file, we get a more specific error.
 # The .zip file is not downloaded.
-! go list rsc.io/quote
-stderr '^missing go.sum entry for module providing package rsc.io/quote; to add:\n\tgo mod download rsc.io/quote$'
+! golang list rsc.io/quote
+stderr '^missing golang.sum entry for module providing package rsc.io/quote; to add:\n\tgolang mod download rsc.io/quote$'
 ! exists $GOPATH/pkg/mod/cache/download/rsc.io/quote/@v/v1.5.2.zip
 
 # The error is attached to the package from the missing module. We can load
 # a package that imports it without that error.
-go list -e -deps -f '{{.ImportPath}}{{with .Error}} {{.Err}}{{end}}' .
+golang list -e -deps -f '{{.ImportPath}}{{with .Error}} {{.Err}}{{end}}' .
 stdout '^m$'
-stdout '^rsc.io/quote missing go.sum entry for module providing package rsc.io/quote \(imported by m\); to add:\n\tgo get m$'
+stdout '^rsc.io/quote missing golang.sum entry for module providing package rsc.io/quote \(imported by m\); to add:\n\tgolang get m$'
 ! exists $GOPATH/pkg/mod/cache/download/rsc.io/quote/@v/v1.5.2.zip
 
-# go.sum should not have been written.
-cmp go.sum go.sum.buildlistonly
+# golang.sum should not have been written.
+cmp golang.sum golang.sum.buildlistonly
 
-# Control: when sums are present, 'go list' downloads .zip files.
-cp go.sum.tidy go.sum
-go list .
+# Control: when sums are present, 'golang list' downloads .zip files.
+cp golang.sum.tidy golang.sum
+golang list .
 exists $GOPATH/pkg/mod/cache/download/rsc.io/quote/@v/v1.5.2.zip
 
--- go.mod --
+-- golang.mod --
 module m
 
-go 1.15
+golang 1.15
 
 require rsc.io/quote v1.5.2
--- use.go --
+-- use.golang --
 package use
 
 import _ "rsc.io/quote"
--- go.sum.h2only --
-golang.org/x/text v0.0.0-20170915032832-14c0d48ead0c/go.mod h2:NqM8EUOU14njkJ3fqMW+pc6Ldnwhi/IjpwHt7yyuwOQ=
-rsc.io/quote v1.5.2/go.mod h2:LzX7hefJvL54yjefDEDHNONDjII0t9xZLPXsUe+TKr0=
-rsc.io/sampler v1.3.0/go.mod h2:T1hPZKmBbMNahiBKFy5HrXp6adAjACjK9JXDnKaTXpA=
--- go.sum.buildlistonly --
-golang.org/x/text v0.0.0-20170915032832-14c0d48ead0c/go.mod h1:NqM8EUOU14njkJ3fqMW+pc6Ldnwhi/IjpwHt7yyuwOQ=
-rsc.io/quote v1.5.2/go.mod h1:LzX7hefJvL54yjefDEDHNONDjII0t9xZLPXsUe+TKr0=
-rsc.io/sampler v1.3.0/go.mod h1:T1hPZKmBbMNahiBKFy5HrXp6adAjACjK9JXDnKaTXpA=
--- go.sum.tidy --
-golang.org/x/text v0.0.0-20170915032832-14c0d48ead0c h1:pvCbr/wm8HzDD3fVywevekufpn6tCGPY3spdHeZJEsw=
-golang.org/x/text v0.0.0-20170915032832-14c0d48ead0c/go.mod h1:NqM8EUOU14njkJ3fqMW+pc6Ldnwhi/IjpwHt7yyuwOQ=
+-- golang.sum.h2only --
+golanglang.org/x/text v0.0.0-20170915032832-14c0d48ead0c/golang.mod h2:NqM8EUOU14njkJ3fqMW+pc6Ldnwhi/IjpwHt7yyuwOQ=
+rsc.io/quote v1.5.2/golang.mod h2:LzX7hefJvL54yjefDEDHNONDjII0t9xZLPXsUe+TKr0=
+rsc.io/sampler v1.3.0/golang.mod h2:T1hPZKmBbMNahiBKFy5HrXp6adAjACjK9JXDnKaTXpA=
+-- golang.sum.buildlistonly --
+golanglang.org/x/text v0.0.0-20170915032832-14c0d48ead0c/golang.mod h1:NqM8EUOU14njkJ3fqMW+pc6Ldnwhi/IjpwHt7yyuwOQ=
+rsc.io/quote v1.5.2/golang.mod h1:LzX7hefJvL54yjefDEDHNONDjII0t9xZLPXsUe+TKr0=
+rsc.io/sampler v1.3.0/golang.mod h1:T1hPZKmBbMNahiBKFy5HrXp6adAjACjK9JXDnKaTXpA=
+-- golang.sum.tidy --
+golanglang.org/x/text v0.0.0-20170915032832-14c0d48ead0c h1:pvCbr/wm8HzDD3fVywevekufpn6tCGPY3spdHeZJEsw=
+golanglang.org/x/text v0.0.0-20170915032832-14c0d48ead0c/golang.mod h1:NqM8EUOU14njkJ3fqMW+pc6Ldnwhi/IjpwHt7yyuwOQ=
 rsc.io/quote v1.5.2 h1:3fEykkD9k7lYzXqCYrwGAf7iNhbk4yCjHmKBN9td4L0=
-rsc.io/quote v1.5.2/go.mod h1:LzX7hefJvL54yjefDEDHNONDjII0t9xZLPXsUe+TKr0=
+rsc.io/quote v1.5.2/golang.mod h1:LzX7hefJvL54yjefDEDHNONDjII0t9xZLPXsUe+TKr0=
 rsc.io/sampler v1.3.0 h1:HLGR/BgEtI3r0uymSP/nl2uPLsUnNJX8toRyhfpBTII=
-rsc.io/sampler v1.3.0/go.mod h1:T1hPZKmBbMNahiBKFy5HrXp6adAjACjK9JXDnKaTXpA=
+rsc.io/sampler v1.3.0/golang.mod h1:T1hPZKmBbMNahiBKFy5HrXp6adAjACjK9JXDnKaTXpA=
 rsc.io/testonly v1.0.0 h1:K/VWHdO+Jv7woUXG0GzVNx1czBXUt3Ib1deaMn+xk64=
-rsc.io/testonly v1.0.0/go.mod h1:OqmGbIFOcF+XrFReLOGZ6BhMM7uMBiQwZsyNmh74SzY=
+rsc.io/testonly v1.0.0/golang.mod h1:OqmGbIFOcF+XrFReLOGZ6BhMM7uMBiQwZsyNmh74SzY=

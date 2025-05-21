@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // To create a test case for a new export format version,
@@ -9,7 +9,7 @@
 //
 // In the testdata/versions:
 //
-// go build -o test_go1.$X_$Y.a test.go
+// golang build -o test_golang1.$X_$Y.a test.golang
 //
 // with $X = Go version and $Y = export format version
 // (add 'b' or 'i' to distinguish between binary and

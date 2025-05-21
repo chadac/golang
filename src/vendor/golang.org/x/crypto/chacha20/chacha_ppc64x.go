@@ -1,14 +1,14 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build gc && !purego && (ppc64 || ppc64le)
+//golang:build gc && !puregolang && (ppc64 || ppc64le)
 
 package chacha20
 
 const bufSize = 256
 
-//go:noescape
+//golang:noescape
 func chaCha20_ctr32_vsx(out, inp *byte, len int, key *[8]uint32, counter *uint32)
 
 func (c *Cipher) xorKeyStreamBlocks(dst, src []byte) {

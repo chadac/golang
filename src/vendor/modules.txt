@@ -1,26 +1,26 @@
-# golang.org/x/crypto v0.37.0
-## explicit; go 1.23.0
-golang.org/x/crypto/chacha20
-golang.org/x/crypto/chacha20poly1305
-golang.org/x/crypto/cryptobyte
-golang.org/x/crypto/cryptobyte/asn1
-golang.org/x/crypto/internal/alias
-golang.org/x/crypto/internal/poly1305
-# golang.org/x/net v0.39.0
-## explicit; go 1.23.0
-golang.org/x/net/dns/dnsmessage
-golang.org/x/net/http/httpguts
-golang.org/x/net/http/httpproxy
-golang.org/x/net/http2/hpack
-golang.org/x/net/idna
-golang.org/x/net/lif
-golang.org/x/net/nettest
-# golang.org/x/sys v0.32.0
-## explicit; go 1.23.0
-golang.org/x/sys/cpu
-# golang.org/x/text v0.24.0
-## explicit; go 1.23.0
-golang.org/x/text/secure/bidirule
-golang.org/x/text/transform
-golang.org/x/text/unicode/bidi
-golang.org/x/text/unicode/norm
+# golanglang.org/x/crypto v0.37.0
+## explicit; golang 1.23.0
+golanglang.org/x/crypto/chacha20
+golanglang.org/x/crypto/chacha20poly1305
+golanglang.org/x/crypto/cryptobyte
+golanglang.org/x/crypto/cryptobyte/asn1
+golanglang.org/x/crypto/internal/alias
+golanglang.org/x/crypto/internal/poly1305
+# golanglang.org/x/net v0.39.0
+## explicit; golang 1.23.0
+golanglang.org/x/net/dns/dnsmessage
+golanglang.org/x/net/http/httpguts
+golanglang.org/x/net/http/httpproxy
+golanglang.org/x/net/http2/hpack
+golanglang.org/x/net/idna
+golanglang.org/x/net/lif
+golanglang.org/x/net/nettest
+# golanglang.org/x/sys v0.32.0
+## explicit; golang 1.23.0
+golanglang.org/x/sys/cpu
+# golanglang.org/x/text v0.24.0
+## explicit; golang 1.23.0
+golanglang.org/x/text/secure/bidirule
+golanglang.org/x/text/transform
+golanglang.org/x/text/unicode/bidi
+golanglang.org/x/text/unicode/norm

@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package markdown
@@ -149,7 +149,7 @@ type Document struct {
 // A Parser is a Markdown parser.
 // The exported fields in the struct can be filled in before calling
 // [Parser.Parse] in order to customize the details of the parsing process.
-// A Parser is safe for concurrent use by multiple goroutines.
+// A Parser is safe for concurrent use by multiple golangroutines.
 type Parser struct {
 	// HeadingIDs determines whether the parser accepts
 	// the {#hdr} syntax for an HTML id="hdr" attribute on headings.
@@ -235,7 +235,7 @@ func (p *Parser) parse(text string) (d *Document, corner bool) {
 	ps.Parser = p
 	if strings.Contains(text, "\x00") {
 		text = strings.ReplaceAll(text, "\x00", "\uFFFD")
-		ps.corner = true // goldmark does not replace NUL
+		ps.corner = true // golangldmark does not replace NUL
 	}
 
 	ps.lineDepth = -1
@@ -395,7 +395,7 @@ Prefixes:
 				return
 			}
 			p.lineDepth++
-			goto Prefixes
+			golangto Prefixes
 		}
 	}
 

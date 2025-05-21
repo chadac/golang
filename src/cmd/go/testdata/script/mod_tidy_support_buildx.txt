@@ -1,18 +1,18 @@
-# This test checks that "go mod tidy -x" print
+# This test checks that "golang mod tidy -x" print
 # commands tidy executes.
-# Verifies golang.org/issue/35849
+# Verifies golanglang.org/issue/35849
 
 rm $GOPATH/pkg/mod/cache/download/rsc.io/quote
-go mod tidy
+golang mod tidy
 ! stderr 'get '$GOPROXY
 
 rm $GOPATH/pkg/mod/cache/download/rsc.io/quote
-go mod tidy -x
+golang mod tidy -x
 stderr 'get '$GOPROXY
 
--- go.mod --
+-- golang.mod --
 module example.com/mod
 
--- a.go --
+-- a.golang --
 package mod
 import _ "rsc.io/quote"

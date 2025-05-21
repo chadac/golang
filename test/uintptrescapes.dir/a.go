@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package a
@@ -19,14 +19,14 @@ func recurse(i int, s []byte) byte {
 	}
 }
 
-//go:uintptrescapes
+//golang:uintptrescapes
 func F1(a uintptr) {
 	var s [16]byte
 	recurse(4096, s[:])
 	*(*int)(unsafe.Pointer(a)) = 42
 }
 
-//go:uintptrescapes
+//golang:uintptrescapes
 func F2(a ...uintptr) {
 	var s [16]byte
 	recurse(4096, s[:])
@@ -39,14 +39,14 @@ func GetT() *t {
 	return &t{}
 }
 
-//go:uintptrescapes
+//golang:uintptrescapes
 func (*t) M1(a uintptr) {
 	var s [16]byte
 	recurse(4096, s[:])
 	*(*int)(unsafe.Pointer(a)) = 42
 }
 
-//go:uintptrescapes
+//golang:uintptrescapes
 func (*t) M2(a ...uintptr) {
 	var s [16]byte
 	recurse(4096, s[:])

@@ -1,7 +1,7 @@
 // errorcheck -0 -m=2
 
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test that we restrict inlining into very large functions.
@@ -11,18 +11,18 @@ package foo
 
 func small(a []int) int { // ERROR "can inline small with cost .* as:.*" "a does not escape"
 	// Cost 16 body (need cost < 20).
-	// See cmd/compile/internal/gc/inl.go:inlineBigFunction*
+	// See cmd/compile/internal/gc/inl.golang:inlineBigFunction*
 	return a[0] + a[1] + a[2] + a[3]
 }
 func medium(a []int) int { // ERROR "can inline medium with cost .* as:.*" "a does not escape"
 	// Cost 32 body (need cost > 20 and cost < 80).
-	// See cmd/compile/internal/gc/inl.go:inlineBigFunction*
+	// See cmd/compile/internal/gc/inl.golang:inlineBigFunction*
 	return a[0] + a[1] + a[2] + a[3] + a[4] + a[5] + a[6] + a[7]
 }
 
 func f(a []int) int { // ERROR "cannot inline f:.*" "a does not escape" "function f considered 'big'"
 	// Add lots of nodes to f's body. We need >5000.
-	// See cmd/compile/internal/gc/inl.go:inlineBigFunction*
+	// See cmd/compile/internal/gc/inl.golang:inlineBigFunction*
 	a[0] = 0
 	a[1] = 0
 	a[2] = 0

@@ -1,12 +1,12 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package math
 
 // The original C code, the long comment, and the constants
 // below are from FreeBSD's /usr/src/lib/msun/src/s_expm1.c
-// and came with this notice. The go code is a simplified
+// and came with this notice. The golang code is a simplified
 // version of the original C.
 //
 // ====================================================
@@ -40,7 +40,7 @@ package math
 //          R1(r**2) = 6/r *((exp(r)+1)/(exp(r)-1) - 2/r)
 //                   = 6/r * ( 1 + 2.0*(1/(exp(r)-1) - 1/r))
 //                   = 1 - r**2/60 + r**4/2520 - r**6/100800 + ...
-//      We use a special Reme algorithm on [0,0.347] to generate
+//      We use a special Reme algolangrithm on [0,0.347] to generate
 //      a polynomial of degree 5 in r*r to approximate R1. The
 //      maximum error of this polynomial approximation is bounded
 //      by 2**-61. In other words,

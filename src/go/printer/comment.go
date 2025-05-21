@@ -1,12 +1,12 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package printer
 
 import (
-	"go/ast"
-	"go/doc/comment"
+	"golang/ast"
+	"golang/doc/comment"
 	"strings"
 )
 
@@ -40,7 +40,7 @@ func formatDocComment(list []*ast.Comment) []*ast.Comment {
 			if !found {
 				return list
 			}
-			// Accumulate //go:build etc lines separately.
+			// Accumulate //golang:build etc lines separately.
 			if isDirective(after) {
 				directives = append(directives, c)
 				continue
@@ -108,12 +108,12 @@ func formatDocComment(list []*ast.Comment) []*ast.Comment {
 }
 
 // isDirective reports whether c is a comment directive.
-// See go.dev/issue/37974.
-// This code is also in go/ast.
+// See golang.dev/issue/37974.
+// This code is also in golang/ast.
 func isDirective(c string) bool {
 	// "//line " is a line directive.
-	// "//extern " is for gccgo.
-	// "//export " is for cgo.
+	// "//extern " is for gccgolang.
+	// "//export " is for cgolang.
 	// (The // has been removed.)
 	if strings.HasPrefix(c, "line ") || strings.HasPrefix(c, "extern ") || strings.HasPrefix(c, "export ") {
 		return true

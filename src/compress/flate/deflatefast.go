@@ -1,13 +1,13 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package flate
 
 import "math"
 
-// This encoding algorithm, which prioritizes speed over output size, is
-// based on Snappy's LZ77-style encoder: github.com/golang/snappy
+// This encoding algolangrithm, which prioritizes speed over output size, is
+// based on Snappy's LZ77-style encoder: github.com/golanglang/snappy
 
 const (
 	tableBits  = 14             // Bits used in the table.
@@ -97,7 +97,7 @@ func (e *deflateFast) encode(dst []token, src []byte) []token {
 		// Heuristic match skipping: If 32 bytes are scanned with no matches
 		// found, start looking only at every other byte. If 32 more bytes are
 		// scanned (or skipped), look at every third byte, etc.. When a match
-		// is found, immediately go back to looking at every byte. This is a
+		// is found, immediately golang back to looking at every byte. This is a
 		// small loss (~5% performance, ~0.1% density) for compressible data
 		// due to more bookkeeping, but for non-compressible data (such as
 		// JPEG) it's a huge win since the compressor quickly "realizes" the
@@ -117,7 +117,7 @@ func (e *deflateFast) encode(dst []token, src []byte) []token {
 			nextS = s + bytesBetweenHashLookups
 			skip += bytesBetweenHashLookups
 			if nextS > sLimit {
-				goto emitRemainder
+				golangto emitRemainder
 			}
 			candidate = e.table[nextHash&tableMask]
 			now := load32(src, nextS)
@@ -145,7 +145,7 @@ func (e *deflateFast) encode(dst []token, src []byte) []token {
 		// If we exit this loop normally then we need to call emitLiteral next,
 		// though we don't yet know how big the literal will be. We handle that
 		// by proceeding to the next iteration of the main loop. We also can
-		// exit this loop via goto if we get close to exhausting the input.
+		// exit this loop via golangto if we get close to exhausting the input.
 		for {
 			// Invariant: we have a 4-byte match at s, and no need to emit any
 			// literal bytes prior to s.
@@ -161,7 +161,7 @@ func (e *deflateFast) encode(dst []token, src []byte) []token {
 			s += l
 			nextEmit = s
 			if s >= sLimit {
-				goto emitRemainder
+				golangto emitRemainder
 			}
 
 			// We could immediately start working at s now, but to improve
@@ -282,7 +282,7 @@ func (e *deflateFast) reset() {
 // shiftOffsets will shift down all match offset.
 // This is only called in rare situations to prevent integer overflow.
 //
-// See https://golang.org/issue/18636 and https://github.com/golang/go/issues/34121.
+// See https://golanglang.org/issue/18636 and https://github.com/golanglang/golang/issues/34121.
 func (e *deflateFast) shiftOffsets() {
 	if len(e.prev) == 0 {
 		// We have no history; just clear the table.

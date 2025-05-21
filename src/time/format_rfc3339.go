@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package time
@@ -9,7 +9,7 @@ import "errors"
 // RFC 3339 is the most commonly used format.
 //
 // It is implicitly used by the Time.(Marshal|Unmarshal)(Text|JSON) methods.
-// Also, according to analysis on https://go.dev/issue/52746,
+// Also, according to analysis on https://golang.dev/issue/52746,
 // RFC 3339 accounts for 57% of all explicitly specified time formats,
 // with the second most popular format only being used 8% of the time.
 // The overwhelming use of RFC 3339 compared to all other formats justifies
@@ -65,7 +65,7 @@ func (t Time) appendStrictRFC3339(b []byte) ([]byte, error) {
 
 	// Not all valid Go timestamps can be serialized as valid RFC 3339.
 	// Explicitly check for these edge cases.
-	// See https://go.dev/issue/4556 and https://go.dev/issue/54580.
+	// See https://golang.dev/issue/4556 and https://golang.dev/issue/54580.
 	num2 := func(b []byte) byte { return 10*(b[0]-'0') + (b[1] - '0') }
 	switch {
 	case b[n0+len("9999")] != '-': // year must be exactly 4 digits wide
@@ -162,10 +162,10 @@ func parseStrictRFC3339(b []byte) (Time, error) {
 
 		// The parse template syntax cannot correctly validate RFC 3339.
 		// Explicitly check for cases that Parse is unable to validate for.
-		// See https://go.dev/issue/54580.
+		// See https://golang.dev/issue/54580.
 		num2 := func(b []byte) byte { return 10*(b[0]-'0') + (b[1] - '0') }
 		switch {
-		// TODO(https://go.dev/issue/54580): Strict parsing is disabled for now.
+		// TODO(https://golang.dev/issue/54580): Strict parsing is disabled for now.
 		// Enable this again with a GODEBUG opt-out.
 		case true:
 			return t, nil

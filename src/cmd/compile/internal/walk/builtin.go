@@ -1,13 +1,13 @@
 // Copyright 2009 The Go Authors. All rights reserved.walk/bui
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package walk
 
 import (
 	"fmt"
-	"go/constant"
-	"go/token"
+	"golang/constant"
+	"golang/token"
 	"internal/abi"
 	"internal/buildcfg"
 	"strings"
@@ -366,12 +366,12 @@ func walkMakeSwissMap(n *ir.MakeExpr, init *ir.Nodes) ir.Node {
 			empty := ir.NewBasicLit(base.Pos, types.UntypedInt, constant.MakeUint64(abi.SwissMapCtrlEmpty))
 
 			// g.ctrl = abi.SwissMapCtrlEmpty
-			csym := groupType.Field(0).Sym // g.ctrl see reflectdata/map_swiss.go
+			csym := groupType.Field(0).Sym // g.ctrl see reflectdata/map_swiss.golang
 			ca := ir.NewAssignStmt(base.Pos, ir.NewSelectorExpr(base.Pos, ir.ODOT, g, csym), empty)
 			nif.Body.Append(ca)
 
 			// m.dirPtr = g
-			dsym := mapType.Field(2).Sym // m.dirPtr see reflectdata/map_swiss.go
+			dsym := mapType.Field(2).Sym // m.dirPtr see reflectdata/map_swiss.golang
 			na := ir.NewAssignStmt(base.Pos, ir.NewSelectorExpr(base.Pos, ir.ODOT, m, dsym), typecheck.ConvNop(g, types.Types[types.TUNSAFEPTR]))
 			nif.Body.Append(na)
 			appendWalkStmt(init, nif)
@@ -391,7 +391,7 @@ func walkMakeSwissMap(n *ir.MakeExpr, init *ir.Nodes) ir.Node {
 			// m map has been allocated on the stack already.
 			// m.seed = uintptr(rand())
 			rand := mkcall("rand", types.Types[types.TUINT64], init)
-			seedSym := mapType.Field(1).Sym // m.seed see reflectdata/map_swiss.go
+			seedSym := mapType.Field(1).Sym // m.seed see reflectdata/map_swiss.golang
 			appendWalkStmt(init, ir.NewAssignStmt(base.Pos, ir.NewSelectorExpr(base.Pos, ir.ODOT, m, seedSym), typecheck.Conv(rand, types.Types[types.TUINTPTR])))
 			return typecheck.ConvNop(m, t)
 		}
@@ -467,7 +467,7 @@ func walkMakeOldMap(n *ir.MakeExpr, init *ir.Nodes) ir.Node {
 			b := stackTempAddr(&nif.Body, reflectdata.OldMapBucketType(t))
 
 			// h.buckets = b
-			bsym := hmapType.Field(5).Sym // hmap.buckets see reflect.go:hmap
+			bsym := hmapType.Field(5).Sym // hmap.buckets see reflect.golang:hmap
 			na := ir.NewAssignStmt(base.Pos, ir.NewSelectorExpr(base.Pos, ir.ODOT, h, bsym), typecheck.ConvNop(b, types.Types[types.TUNSAFEPTR]))
 			nif.Body.Append(na)
 			appendWalkStmt(init, nif)
@@ -487,7 +487,7 @@ func walkMakeOldMap(n *ir.MakeExpr, init *ir.Nodes) ir.Node {
 			// hmap h has been allocated on the stack already.
 			// h.hash0 = rand32()
 			rand := mkcall("rand32", types.Types[types.TUINT32], init)
-			hashsym := hmapType.Field(4).Sym // hmap.hash0 see reflect.go:hmap
+			hashsym := hmapType.Field(4).Sym // hmap.hash0 see reflect.golang:hmap
 			appendWalkStmt(init, ir.NewAssignStmt(base.Pos, ir.NewSelectorExpr(base.Pos, ir.ODOT, h, hashsym), rand))
 			return typecheck.ConvNop(h, t)
 		}
@@ -862,7 +862,7 @@ func walkPrint(nn *ir.CallExpr, init *ir.Nodes) ir.Node {
 
 // walkRecoverFP walks an ORECOVERFP node.
 func walkRecoverFP(nn *ir.CallExpr, init *ir.Nodes) ir.Node {
-	return mkcall("gorecover", nn.Type(), init, walkExpr(nn.Args[0], init))
+	return mkcall("golangrecover", nn.Type(), init, walkExpr(nn.Args[0], init))
 }
 
 // walkUnsafeData walks an OUNSAFESLICEDATA or OUNSAFESTRINGDATA expression.

@@ -1,11 +1,11 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package tabwriter implements a write filter (tabwriter.Writer) that
 // translates tabbed columns in input into properly aligned text.
 //
-// The package is using the Elastic Tabstops algorithm described at
+// The package is using the Elastic Tabstops algolangrithm described at
 // http://nickgravgaard.com/elastictabstops/index.html.
 //
 // The text/tabwriter package is frozen and is not accepting new features.
@@ -107,7 +107,7 @@ type Writer struct {
 
 // addLine adds a new line.
 // flushed is a hint indicating whether the underlying writer was just flushed.
-// If so, the previous line is not likely to be a good indicator of the new line's cells.
+// If so, the previous line is not likely to be a golangod indicator of the new line's cells.
 func (b *Writer) addLine(flushed bool) {
 	// Grow slice instead of appending,
 	// as that gives us an opportunity
@@ -120,7 +120,7 @@ func (b *Writer) addLine(flushed bool) {
 	}
 
 	if !flushed {
-		// The previous line is probably a good indicator
+		// The previous line is probably a golangod indicator
 		// of how many cells the current line will have.
 		// If the current line's capacity is smaller than that,
 		// abandon it and make a new one.

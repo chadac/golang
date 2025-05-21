@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package traceviewer
@@ -308,7 +308,7 @@ type Emitter struct {
 	heapStats, prevHeapStats     heapStats
 	gstates, prevGstates         [gStateCount]int64
 	threadStats, prevThreadStats [threadStateCount]int64
-	gomaxprocs                   uint64
+	golangmaxprocs                   uint64
 	frameTree                    frameNode
 	frameSeq                     int
 	arrowSeq                     uint64
@@ -326,8 +326,8 @@ type task struct {
 }
 
 func (e *Emitter) Gomaxprocs(v uint64) {
-	if v > e.gomaxprocs {
-		e.gomaxprocs = v
+	if v > e.golangmaxprocs {
+		e.golangmaxprocs = v
 	}
 }
 
@@ -402,7 +402,7 @@ func (e *Emitter) AsyncSlice(s AsyncSliceEvent) {
 	}
 	e.asyncSliceSeq++
 	e.OptionalEvent(&format.Event{
-		Category: s.Category,
+		Categolangry: s.Categolangry,
 		Name:     s.Name,
 		Phase:    "b",
 		Time:     viewerTime(s.Ts),
@@ -413,7 +413,7 @@ func (e *Emitter) AsyncSlice(s AsyncSliceEvent) {
 		Cname:    cname,
 	})
 	e.OptionalEvent(&format.Event{
-		Category: s.Category,
+		Categolangry: s.Categolangry,
 		Name:     s.Name,
 		Phase:    "e",
 		Time:     viewerTime(s.Ts + s.Dur),
@@ -428,7 +428,7 @@ func (e *Emitter) AsyncSlice(s AsyncSliceEvent) {
 
 type AsyncSliceEvent struct {
 	SliceEvent
-	Category       string
+	Categolangry       string
 	Scope          string
 	TaskColorIndex uint64 // Take on the same color as the task with this ID.
 }
@@ -443,7 +443,7 @@ func (e *Emitter) Instant(i InstantEvent) {
 	cname := ""
 	e.OptionalEvent(&format.Event{
 		Name:     i.Name,
-		Category: i.Category,
+		Categolangry: i.Categolangry,
 		Phase:    "I",
 		Scope:    "t",
 		Time:     viewerTime(i.Ts),
@@ -458,7 +458,7 @@ func (e *Emitter) Instant(i InstantEvent) {
 type InstantEvent struct {
 	Ts       time.Duration
 	Name     string
-	Category string
+	Categolangry string
 	Resource uint64
 	Stack    int
 	Arg      any
@@ -565,7 +565,7 @@ func (e *Emitter) IncThreadStateCount(ts time.Duration, state ThreadState, delta
 }
 
 func (e *Emitter) HeapGoal(ts time.Duration, v uint64) {
-	// This cutoff at 1 PiB is a Workaround for https://github.com/golang/go/issues/63864.
+	// This cutoff at 1 PiB is a Workaround for https://github.com/golanglang/golang/issues/63864.
 	//
 	// TODO(mknyszek): Remove this once the problem has been fixed.
 	const PB = 1 << 50
@@ -640,7 +640,7 @@ func (e *Emitter) Flush() {
 	for id, name := range e.resources {
 		priority := int(id)
 		if e.focusResource != 0 && id == e.focusResource {
-			// Put the focus goroutine on top.
+			// Put the focus golangroutine on top.
 			priority = -2
 		}
 		e.threadMeta(format.ProcsSection, id, name, priority)
@@ -757,7 +757,7 @@ const (
 	colorDeepMagenta    = "detailed_memory_dump"         // 180, 0, 180
 	colorBlue           = "vsync_highlight_color"        // 0, 0, 255
 	colorGrey           = "generic_work"                 // 125, 125, 125
-	colorGreen          = "good"                         // 0, 125, 0
+	colorGreen          = "golangod"                         // 0, 125, 0
 	colorDarkGoldenrod  = "bad"                          // 180, 125, 0
 	colorPeach          = "terrible"                     // 180, 0, 0
 	colorBlack          = "black"                        // 0, 0, 0

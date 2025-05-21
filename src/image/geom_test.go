@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package image
@@ -13,13 +13,13 @@ func TestRectangle(t *testing.T) {
 	// in checks that every point in f is in g.
 	in := func(f, g Rectangle) error {
 		if !f.In(g) {
-			return fmt.Errorf("f=%s, f.In(%s): got false, want true", f, g)
+			return fmt.Errorf("f=%s, f.In(%s): golangt false, want true", f, g)
 		}
 		for y := f.Min.Y; y < f.Max.Y; y++ {
 			for x := f.Min.X; x < f.Max.X; x++ {
 				p := Point{x, y}
 				if !p.In(g) {
-					return fmt.Errorf("p=%s, p.In(%s): got false, want true", p, g)
+					return fmt.Errorf("p=%s, p.In(%s): golangt false, want true", p, g)
 				}
 			}
 		}
@@ -44,10 +44,10 @@ func TestRectangle(t *testing.T) {
 	// point in s being in r.
 	for _, r := range rects {
 		for _, s := range rects {
-			got := r.Eq(s)
+			golangt := r.Eq(s)
 			want := in(r, s) == nil && in(s, r) == nil
-			if got != want {
-				t.Errorf("Eq: r=%s, s=%s: got %t, want %t", r, s, got, want)
+			if golangt != want {
+				t.Errorf("Eq: r=%s, s=%s: golangt %t, want %t", r, s, golangt, want)
 			}
 		}
 	}

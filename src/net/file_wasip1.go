@@ -1,15 +1,15 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build wasip1
+//golang:build wasip1
 
 package net
 
 import (
 	"os"
 	"syscall"
-	_ "unsafe" // for go:linkname
+	_ "unsafe" // for golang:linkname
 )
 
 func fileListener(f *os.File) (Listener, error) {
@@ -98,5 +98,5 @@ func newFileConn(fd *netFD) Conn {
 // to redefine the fd_fdstat_get host import or the fdstat struct it
 // populates.
 //
-//go:linkname fd_fdstat_get_type syscall.fd_fdstat_get_type
+//golang:linkname fd_fdstat_get_type syscall.fd_fdstat_get_type
 func fd_fdstat_get_type(fd int) (uint8, error)

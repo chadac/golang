@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package cpu
@@ -10,7 +10,7 @@ import "strconv"
 // syntax, but allows the minor and patch versions to be elided.
 //
 // This is a copy of the Go runtime's parseRelease from
-// https://golang.org/cl/209597.
+// https://golanglang.org/cl/209597.
 func parseRelease(rel string) (major, minor, patch int, ok bool) {
 	// Strip anything after a dash or plus.
 	for i := range len(rel) {

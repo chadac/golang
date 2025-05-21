@@ -9,7 +9,7 @@
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
+// See the License for the specific language golangverning permissions and
 // limitations under the License.
 
 // Package graph collects a set of samples into a directed graph.
@@ -24,7 +24,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/google/pprof/profile"
+	"github.com/golangogle/pprof/profile"
 )
 
 var (
@@ -33,9 +33,9 @@ var (
 	javaRegExp = regexp.MustCompile(`^(?:[a-z]\w*\.)*([A-Z][\w\$]*\.(?:<init>|[a-z][\w\$]*(?:\$\d+)?))(?:(?:\()|$)`)
 	// Removes package name and method arguments for Go function names.
 	// See tests for examples.
-	goRegExp = regexp.MustCompile(`^(?:[\w\-\.]+\/)+([^.]+\..+)`)
+	golangRegExp = regexp.MustCompile(`^(?:[\w\-\.]+\/)+([^.]+\..+)`)
 	// Removes potential module versions in a package path.
-	goVerRegExp = regexp.MustCompile(`^(.*?)/v(?:[2-9]|[1-9][0-9]+)([./].*)$`)
+	golangVerRegExp = regexp.MustCompile(`^(.*?)/v(?:[2-9]|[1-9][0-9]+)([./].*)$`)
 	// Strips C++ namespace prefix from a C++ function / method name.
 	// NOTE: Make sure to keep the template parameters in the name. Normally,
 	// template parameters are stripped from the C++ names but when
@@ -249,7 +249,7 @@ func (nm NodeMap) FindOrInsertNode(info NodeInfo, kept NodeSet) *Node {
 	return n
 }
 
-// EdgeMap is used to represent the incoming/outgoing edges from a node.
+// EdgeMap is used to represent the incoming/outgolanging edges from a node.
 type EdgeMap map[*Node]*Edge
 
 // Edge contains any attributes to be represented about edges in a graph.
@@ -343,7 +343,7 @@ func newGraph(prof *profile.Profile, o *Options) (*Graph, map[uint64]Nodes) {
 			delete(seenEdge, k)
 		}
 		var parent *Node
-		// A residual edge goes over one or more nodes that were not kept.
+		// A residual edge golanges over one or more nodes that were not kept.
 		residual := false
 
 		labels := joinLabels(sample)
@@ -454,8 +454,8 @@ func newTree(prof *profile.Profile, o *Options) (g *Graph) {
 // ShortenFunctionName returns a shortened version of a function's name.
 func ShortenFunctionName(f string) string {
 	f = cppAnonymousPrefixRegExp.ReplaceAllString(f, "")
-	f = goVerRegExp.ReplaceAllString(f, `${1}${2}`)
-	for _, re := range []*regexp.Regexp{goRegExp, javaRegExp, cppRegExp} {
+	f = golangVerRegExp.ReplaceAllString(f, `${1}${2}`)
+	for _, re := range []*regexp.Regexp{golangRegExp, javaRegExp, cppRegExp} {
 		if matches := re.FindStringSubmatch(f); len(matches) >= 2 {
 			return strings.Join(matches[1:], "")
 		}
@@ -890,7 +890,7 @@ func countTags(n *Node) int {
 // be reached through another path. This is done to simplify the graph
 // while preserving connectivity.
 func (g *Graph) RemoveRedundantEdges() {
-	// Walk the nodes and outgoing edges in reverse order to prefer
+	// Walk the nodes and outgolanging edges in reverse order to prefer
 	// removing edges with the lowest weight.
 	for i := len(g.Nodes); i > 0; i-- {
 		n := g.Nodes[i-1]
@@ -1059,9 +1059,9 @@ func compareNodes(l, r *Node) bool {
 // it is to include this node on a graph visualization. It is used to
 // sort the nodes and select which ones to display if we have more
 // nodes than desired in the graph. This number is computed by looking
-// at the flat and cum weights of the node and the incoming/outgoing
+// at the flat and cum weights of the node and the incoming/outgolanging
 // edges. The fundamental idea is to penalize nodes that have a simple
-// fallthrough from their incoming to the outgoing edge.
+// fallthrough from their incoming to the outgolanging edge.
 func entropyScore(n *Node) int64 {
 	score := float64(0)
 

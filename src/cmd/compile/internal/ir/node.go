@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // “Abstract” syntax representation.
@@ -8,7 +8,7 @@ package ir
 
 import (
 	"fmt"
-	"go/constant"
+	"golang/constant"
 
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/types"
@@ -102,7 +102,7 @@ func TakeInit(n Node) Nodes {
 	return init
 }
 
-//go:generate stringer -type=Op -trimprefix=O node.go
+//golang:generate stringer -type=Op -trimprefix=O node.golang
 
 type Op uint8
 
@@ -265,10 +265,10 @@ const (
 	ODEFER    // defer Call
 	OFALL     // fallthrough
 	OFOR      // for Init; Cond; Post { Body }
-	OGOTO     // goto Label
+	OGOTO     // golangto Label
 	OIF       // if Init; Cond { Then } else { Else }
 	OLABEL    // Label:
-	OGO       // go Call
+	OGO       // golang Call
 	ORANGE    // for Key, Value = range X { Body }
 	ORETURN   // return Results
 	OSELECT   // select { Cases }
@@ -287,7 +287,7 @@ const (
 	OITAB            // rtype/itab pointer of an interface value
 	OIDATA           // data pointer of an interface value
 	OSPTR            // base pointer of a slice or string. Bounded==1 means known non-nil.
-	OCFUNC           // reference to c function pointer (not go func value)
+	OCFUNC           // reference to c function pointer (not golang func value)
 	OCHECKNIL        // emit code to ensure pointer/interface not nil
 	ORESULT          // result of a function call; Xoffset is stack offset
 	OINLMARK         // start of an inlined body, with file/line of caller. Xoffset is an index into the inline tree.
@@ -437,7 +437,7 @@ const (
 	Nosplit                     // func should not execute on separate stack
 	Noinline                    // func should not be inlined
 	NoCheckPtr                  // func should not be instrumented by checkptr
-	CgoUnsafeArgs               // treat a pointer to one arg as a pointer to them all
+	CgolangUnsafeArgs               // treat a pointer to one arg as a pointer to them all
 	UintptrKeepAlive            // pointers converted to uintptr must be kept alive
 	UintptrEscapes              // pointers converted to uintptr escape
 

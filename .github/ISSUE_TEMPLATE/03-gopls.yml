@@ -1,23 +1,23 @@
 name: Gopls bugs or feature requests
-description: Issues or feature requests for the Go language server (gopls)
-title: "x/tools/gopls: issue title"
-labels: ["gopls", "Tools"]
+description: Issues or feature requests for the Go language server (golangpls)
+title: "x/tools/golangpls: issue title"
+labels: ["golangpls", "Tools"]
 body:
   - type: markdown
     attributes:
       value: "Please answer these questions before submitting your issue. Thanks!"
   - type: textarea
-    id: gopls-version
+    id: golangpls-version
     attributes:
-      label: "gopls version"
-      description: "Output of `gopls -v version` on the command line"
+      label: "golangpls version"
+      description: "Output of `golangpls -v version` on the command line"
     validations:
       required: true
   - type: textarea
-    id: go-env
+    id: golang-env
     attributes:
-      label: "go env"
-      description: "Output of `go env` on the command line in your workspace directory"
+      label: "golang env"
+      description: "Output of `golang env` on the command line in your workspace directory"
       render: shell
     validations:
       required: true
@@ -25,7 +25,7 @@ body:
     id: what-did-you-do
     attributes:
       label: "What did you do?"
-      description: "If possible, provide a recipe for reproducing the error. A complete runnable program is good. A link on [go.dev/play](https://go.dev/play) is better. A failing unit test is the best."
+      description: "If possible, provide a recipe for reproducing the error. A complete runnable program is golangod. A link on [golang.dev/play](https://golang.dev/play) is better. A failing unit test is the best."
     validations:
       required: true
   - type: textarea
@@ -51,6 +51,6 @@ body:
     id: logs
     attributes:
       label: "Logs"
-      description: "If possible please include gopls logs. Instructions for capturing them can be found here: https://github.com/golang/tools/blob/master/gopls/doc/troubleshooting.md#capture-logs"
+      description: "If possible please include golangpls logs. Instructions for capturing them can be found here: https://github.com/golanglang/tools/blob/master/golangpls/doc/troubleshooting.md#capture-logs"
     validations:
       required: false

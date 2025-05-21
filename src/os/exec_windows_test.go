@@ -1,8 +1,8 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build windows
+//golang:build windows
 
 package os_test
 
@@ -16,7 +16,7 @@ import (
 )
 
 func TestRemoveAllWithExecutedProcess(t *testing.T) {
-	// Regression test for golang.org/issue/25965.
+	// Regression test for golanglang.org/issue/25965.
 	if testing.Short() {
 		t.Skip("slow test; skipping")
 	}
@@ -58,12 +58,12 @@ func TestRemoveAllWithExecutedProcess(t *testing.T) {
 		}
 	}
 	// Then run each executable and remove its directory.
-	// Run each executable in a separate goroutine to add some load
+	// Run each executable in a separate golangroutine to add some load
 	// and increase the chance of triggering the bug.
 	var wg sync.WaitGroup
 	wg.Add(n)
 	for i := 0; i < n; i++ {
-		go func(i int) {
+		golang func(i int) {
 			defer wg.Done()
 			name := execs[i]
 			dir := filepath.Dir(name)

@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 /*
@@ -14,7 +14,7 @@ the same interfaces and similar Dial and Listen functions.
 
 The Dial function connects to a server:
 
-	conn, err := net.Dial("tcp", "golang.org:80")
+	conn, err := net.Dial("tcp", "golanglang.org:80")
 	if err != nil {
 		// handle error
 	}
@@ -33,7 +33,7 @@ The Listen function creates servers:
 		if err != nil {
 			// handle error
 		}
-		go handleConnection(conn)
+		golang handleConnection(conn)
 	}
 
 # Name Resolution
@@ -43,12 +43,12 @@ or directly with functions like [LookupHost] and [LookupAddr], varies by operati
 
 On Unix systems, the resolver has two options for resolving names.
 It can use a pure Go resolver that sends DNS requests directly to the servers
-listed in /etc/resolv.conf, or it can use a cgo-based resolver that calls C
+listed in /etc/resolv.conf, or it can use a cgolang-based resolver that calls C
 library routines such as getaddrinfo and getnameinfo.
 
-On Unix the pure Go resolver is preferred over the cgo resolver, because a blocked DNS
-request consumes only a goroutine, while a blocked C call consumes an operating system thread.
-When cgo is available, the cgo-based resolver is used instead under a variety of
+On Unix the pure Go resolver is preferred over the cgolang resolver, because a blocked DNS
+request consumes only a golangroutine, while a blocked C call consumes an operating system thread.
+When cgolang is available, the cgolang-based resolver is used instead under a variety of
 conditions: on systems that do not let programs make direct DNS requests (OS X),
 when the LOCALDOMAIN environment variable is present (even if empty),
 when the RES_OPTIONS or HOSTALIASES environment variable is non-empty,
@@ -56,28 +56,28 @@ when the ASR_CONFIG environment variable is non-empty (OpenBSD only),
 when /etc/resolv.conf or /etc/nsswitch.conf specify the use of features that the
 Go resolver does not implement.
 
-On all systems (except Plan 9), when the cgo resolver is being used
-this package applies a concurrent cgo lookup limit to prevent the system
+On all systems (except Plan 9), when the cgolang resolver is being used
+this package applies a concurrent cgolang lookup limit to prevent the system
 from running out of system threads. Currently, it is limited to 500 concurrent lookups.
 
 The resolver decision can be overridden by setting the netdns value of the
-GODEBUG environment variable (see package runtime) to go or cgo, as in:
+GODEBUG environment variable (see package runtime) to golang or cgolang, as in:
 
-	export GODEBUG=netdns=go    # force pure Go resolver
-	export GODEBUG=netdns=cgo   # force native resolver (cgo, win32)
+	export GODEBUG=netdns=golang    # force pure Go resolver
+	export GODEBUG=netdns=cgolang   # force native resolver (cgolang, win32)
 
 The decision can also be forced while building the Go source tree
-by setting the netgo or netcgo build tag.
-The netgo build tag disables entirely the use of the native (CGO) resolver,
+by setting the netgolang or netcgolang build tag.
+The netgolang build tag disables entirely the use of the native (CGO) resolver,
 meaning the Go resolver is the only one that can be used.
-With the netcgo build tag the native and the pure Go resolver are compiled into the binary,
+With the netcgolang build tag the native and the pure Go resolver are compiled into the binary,
 but the native (CGO) resolver is preferred over the Go resolver.
-With netcgo, the Go resolver can still be forced at runtime with GODEBUG=netdns=go.
+With netcgolang, the Go resolver can still be forced at runtime with GODEBUG=netdns=golang.
 
 A numeric netdns setting, as in GODEBUG=netdns=1, causes the resolver
 to print debugging information about its decisions.
 To force a particular resolver while also printing debugging information,
-join the two settings by a plus sign, as in GODEBUG=netdns=go+1.
+join the two settings by a plus sign, as in GODEBUG=netdns=golang+1.
 
 The Go resolver will send an EDNS0 additional header with a DNS request,
 to signal a willingness to accept a larger DNS packet size.
@@ -120,7 +120,7 @@ type Addr interface {
 
 // Conn is a generic stream-oriented network connection.
 //
-// Multiple goroutines may invoke methods on a Conn simultaneously.
+// Multiple golangroutines may invoke methods on a Conn simultaneously.
 type Conn interface {
 	// Read reads data from the connection.
 	// Read can be made to time out and return an error after a fixed
@@ -321,7 +321,7 @@ func (c *conn) File() (f *os.File, err error) {
 
 // PacketConn is a generic packet-oriented network connection.
 //
-// Multiple goroutines may invoke methods on a PacketConn simultaneously.
+// Multiple golangroutines may invoke methods on a PacketConn simultaneously.
 type PacketConn interface {
 	// ReadFrom reads a packet from the connection,
 	// copying the payload into p. It returns the number of
@@ -393,14 +393,14 @@ var listenerBacklogCache struct {
 // listenerBacklog should be an internal detail,
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
-//   - github.com/database64128/tfo-go/v2
-//   - github.com/metacubex/tfo-go
-//   - github.com/sagernet/tfo-go
+//   - github.com/database64128/tfo-golang/v2
+//   - github.com/metacubex/tfo-golang
+//   - github.com/sagernet/tfo-golang
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname listenerBacklog
+//golang:linkname listenerBacklog
 func listenerBacklog() int {
 	listenerBacklogCache.Do(func() { listenerBacklogCache.val = maxListenerBacklog() })
 	return listenerBacklogCache.val
@@ -408,7 +408,7 @@ func listenerBacklog() int {
 
 // A Listener is a generic network listener for stream-oriented protocols.
 //
-// Multiple goroutines may invoke methods on a Listener simultaneously.
+// Multiple golangroutines may invoke methods on a Listener simultaneously.
 type Listener interface {
 	// Accept waits for and returns the next connection to the listener.
 	Accept() (Conn, error)
@@ -522,9 +522,9 @@ func (e *OpError) Error() string {
 }
 
 var (
-	// aLongTimeAgo is a non-zero time, far in the past, used for
+	// aLongTimeAgolang is a non-zero time, far in the past, used for
 	// immediate cancellation of dials.
-	aLongTimeAgo = time.Unix(1, 0)
+	aLongTimeAgolang = time.Unix(1, 0)
 
 	// noDeadline and noCancel are just zero values for
 	// readability with functions taking too many parameters.
@@ -742,7 +742,7 @@ var errClosed = poll.ErrNetClosing
 
 // ErrClosed is the error returned by an I/O call on a network
 // connection that has already been closed, or that is closed by
-// another goroutine before the I/O is completed. This may be wrapped
+// another golangroutine before the I/O is completed. This may be wrapped
 // in another error, and should normally be tested using
 // errors.Is(err, net.ErrClosed).
 var ErrClosed error = errClosed
@@ -796,9 +796,9 @@ func genericWriteTo(c *TCPConn, w io.Writer) (n int64, err error) {
 	return io.Copy(w, tcpConnWithoutWriteTo{TCPConn: c})
 }
 
-// Limit the number of concurrent cgo-using goroutines, because
+// Limit the number of concurrent cgolang-using golangroutines, because
 // each will block an entire operating system thread. The usual culprit
-// is resolving many DNS names in separate goroutines but the DNS
+// is resolving many DNS names in separate golangroutines but the DNS
 // server is not responding. Then the many lookups each use a different
 // thread, and the system or the program runs out of threads.
 

@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 #include "textflag.h"
@@ -14,7 +14,7 @@
 //func RawSyscall(trap, a1, a2, a3 uintptr) (r1, r2, err uintptr)
 //func RawSyscall6(trap, a1, a2, a3, a4, a5, a6 uintptr) (r1, r2, err uintptr)
 
-#define SYS_ERRSTR 41	/* from zsysnum_plan9.go */
+#define SYS_ERRSTR 41	/* from zsysnum_plan9.golang */
 
 // Trap # in AX, args on stack above caller pc.
 TEXT	·Syscall(SB),NOSPLIT,$148-32
@@ -42,7 +42,7 @@ TEXT	·Syscall(SB),NOSPLIT,$148-32
 	CALL	runtime·exitsyscall(SB)
 	MOVL	sysargs-144(SP), AX
 	MOVL	AX, errbuf-148(SP)
-	CALL	runtime·gostring(SB)
+	CALL	runtime·golangstring(SB)
 	LEAL	str-144(SP), SI
 	JMP	copyresult3
 
@@ -87,7 +87,7 @@ TEXT	·Syscall6(SB),NOSPLIT,$148-44
 	CALL	runtime·exitsyscall(SB)
 	MOVL	sysargs-144(SP), AX
 	MOVL	AX, errbuf-148(SP)
-	CALL	runtime·gostring(SB)
+	CALL	runtime·golangstring(SB)
 	LEAL	str-144(SP), SI
 	JMP	copyresult4
 
@@ -137,7 +137,7 @@ TEXT	·RawSyscall6(SB),NOSPLIT,$0-40
 	MOVL	AX, err+36(FP)
 	RET
 
-#define SYS_SEEK 39	/* from zsysnum_plan9.go */
+#define SYS_SEEK 39	/* from zsysnum_plan9.golang */
 
 //func seek(placeholder uintptr, fd int, offset int64, whence int) (newoffset int64, err string)
 TEXT ·seek(SB),NOSPLIT,$24-36

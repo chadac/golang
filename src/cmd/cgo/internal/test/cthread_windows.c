@@ -1,11 +1,11 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <process.h>
-#include "_cgo_export.h"
+#include "_cgolang_export.h"
 
 __stdcall
 static unsigned int
@@ -38,13 +38,13 @@ doAdd(int max, int nthread)
 
 __stdcall
 static unsigned int
-goDummyCallbackThread(void* p)
+golangDummyCallbackThread(void* p)
 {
 	int i, max;
 
 	max = *(int*)p;
 	for(i=0; i<max; i++)
-		goDummy();
+		golangDummy();
 	return 0;
 }
 
@@ -52,7 +52,7 @@ int
 callGoInCThread(int max)
 {
 	uintptr_t thread_id;
-	thread_id = _beginthreadex(0, 0, goDummyCallbackThread, &max, 0, 0);
+	thread_id = _beginthreadex(0, 0, golangDummyCallbackThread, &max, 0, 0);
 	WaitForSingleObject((HANDLE)thread_id, INFINITE);
 	CloseHandle((HANDLE)thread_id);
 	return max;

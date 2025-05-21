@@ -1,12 +1,12 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !cmd_go_bootstrap
+//golang:build !cmd_golang_bootstrap
 
-// This code is compiled into the real 'go' binary, but it is not
+// This code is compiled into the real 'golang' binary, but it is not
 // compiled into the binary that is built during all.bash, so as
-// to avoid needing to build net (and thus use cgo) during the
+// to avoid needing to build net (and thus use cgolang) during the
 // bootstrap process.
 
 package web
@@ -24,10 +24,10 @@ import (
 	"strings"
 	"time"
 
-	"cmd/go/internal/auth"
-	"cmd/go/internal/base"
-	"cmd/go/internal/cfg"
-	"cmd/go/internal/web/intercept"
+	"cmd/golang/internal/auth"
+	"cmd/golang/internal/base"
+	"cmd/golang/internal/cfg"
+	"cmd/golang/internal/web/intercept"
 	"cmd/internal/browser"
 )
 
@@ -82,7 +82,7 @@ func get(security SecurityMode, url *urlpkg.URL) (*Response, error) {
 
 	if intercept.TestHooksEnabled {
 		switch url.Host {
-		case "proxy.golang.org":
+		case "proxy.golanglang.org":
 			if os.Getenv("TESTGOPROXY404") == "1" {
 				res := &Response{
 					URL:        url.Redacted(),
@@ -118,7 +118,7 @@ func get(security SecurityMode, url *urlpkg.URL) (*Response, error) {
 
 	fetch := func(url *urlpkg.URL) (*http.Response, error) {
 		// Note: The -v build flag does not mean "print logging information",
-		// despite its historical misuse for this in GOPATH-based go get.
+		// despite its historical misuse for this in GOPATH-based golang get.
 		// We print extra logging in -x mode instead, which traces what
 		// commands are executed.
 		if cfg.BuildX {
@@ -159,7 +159,7 @@ func get(security SecurityMode, url *urlpkg.URL) (*Response, error) {
 		res, err := client.Do(req)
 		// If the initial request fails with a 4xx client error and the
 		// response body didn't satisfy the request
-		// (e.g. a valid <meta name="go-import"> tag),
+		// (e.g. a valid <meta name="golang-import"> tag),
 		// retry the request with credentials obtained by invoking GOAUTH
 		// with the request URL.
 		if url.Scheme == "https" && err == nil && res.StatusCode >= 400 && res.StatusCode < 500 {

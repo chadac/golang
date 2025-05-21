@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -13,7 +13,7 @@ import (
 )
 
 func usage() {
-	xprintf(`usage: go tool dist [command]
+	xprintf(`usage: golang tool dist [command]
 Commands are:
 
 banner                  print installation banner
@@ -54,14 +54,14 @@ func main() {
 		os.Exit(0)
 	}
 
-	gohostos = runtime.GOOS
-	switch gohostos {
+	golanghostos = runtime.GOOS
+	switch golanghostos {
 	case "aix":
 		// uname -m doesn't work under AIX
-		gohostarch = "ppc64"
+		golanghostarch = "ppc64"
 	case "plan9":
-		gohostarch = os.Getenv("objtype")
-		if gohostarch == "" {
+		golanghostarch = os.Getenv("objtype")
+		if golanghostarch == "" {
 			fatalf("$objtype is unset")
 		}
 	case "solaris", "illumos":
@@ -71,10 +71,10 @@ func main() {
 		// native (widest) instruction set on the running kernel:
 		out := run("", CheckExit, "isainfo", "-n")
 		if strings.Contains(out, "amd64") {
-			gohostarch = "amd64"
+			golanghostarch = "amd64"
 		}
 		if strings.Contains(out, "i386") {
-			gohostarch = "386"
+			golanghostarch = "386"
 		}
 	case "windows":
 		exe = ".exe"
@@ -82,7 +82,7 @@ func main() {
 
 	sysinit()
 
-	if gohostarch == "" {
+	if golanghostarch == "" {
 		// Default Unix system.
 		out := run("", CheckExit, "uname", "-m")
 		outAll := run("", CheckExit, "uname", "-a")
@@ -93,63 +93,63 @@ func main() {
 			// on ARM64 laptops when there is an x86 parent in the
 			// process tree. Look for the RELEASE_ARM64 to avoid being
 			// confused into building an x86 toolchain.
-			gohostarch = "arm64"
+			golanghostarch = "arm64"
 		case strings.Contains(out, "x86_64"), strings.Contains(out, "amd64"):
-			gohostarch = "amd64"
+			golanghostarch = "amd64"
 		case strings.Contains(out, "86"):
-			gohostarch = "386"
-			if gohostos == "darwin" {
+			golanghostarch = "386"
+			if golanghostos == "darwin" {
 				// Even on 64-bit platform, some versions of macOS uname -m prints i386.
 				// We don't support any of the OS X versions that run on 32-bit-only hardware anymore.
-				gohostarch = "amd64"
+				golanghostarch = "amd64"
 			}
 		case strings.Contains(out, "aarch64"), strings.Contains(out, "arm64"):
-			gohostarch = "arm64"
+			golanghostarch = "arm64"
 		case strings.Contains(out, "arm"):
-			gohostarch = "arm"
-			if gohostos == "netbsd" && strings.Contains(run("", CheckExit, "uname", "-p"), "aarch64") {
-				gohostarch = "arm64"
+			golanghostarch = "arm"
+			if golanghostos == "netbsd" && strings.Contains(run("", CheckExit, "uname", "-p"), "aarch64") {
+				golanghostarch = "arm64"
 			}
 		case strings.Contains(out, "ppc64le"):
-			gohostarch = "ppc64le"
+			golanghostarch = "ppc64le"
 		case strings.Contains(out, "ppc64"):
-			gohostarch = "ppc64"
+			golanghostarch = "ppc64"
 		case strings.Contains(out, "mips64"):
-			gohostarch = "mips64"
+			golanghostarch = "mips64"
 			if elfIsLittleEndian(os.Args[0]) {
-				gohostarch = "mips64le"
+				golanghostarch = "mips64le"
 			}
 		case strings.Contains(out, "mips"):
-			gohostarch = "mips"
+			golanghostarch = "mips"
 			if elfIsLittleEndian(os.Args[0]) {
-				gohostarch = "mipsle"
+				golanghostarch = "mipsle"
 			}
 		case strings.Contains(out, "loongarch64"):
-			gohostarch = "loong64"
+			golanghostarch = "loong64"
 		case strings.Contains(out, "riscv64"):
-			gohostarch = "riscv64"
+			golanghostarch = "riscv64"
 		case strings.Contains(out, "s390x"):
-			gohostarch = "s390x"
-		case gohostos == "darwin", gohostos == "ios":
+			golanghostarch = "s390x"
+		case golanghostos == "darwin", golanghostos == "ios":
 			if strings.Contains(run("", CheckExit, "uname", "-v"), "RELEASE_ARM64_") {
-				gohostarch = "arm64"
+				golanghostarch = "arm64"
 			}
-		case gohostos == "freebsd":
+		case golanghostos == "freebsd":
 			if strings.Contains(run("", CheckExit, "uname", "-p"), "riscv64") {
-				gohostarch = "riscv64"
+				golanghostarch = "riscv64"
 			}
-		case gohostos == "openbsd" && strings.Contains(out, "powerpc64"):
-			gohostarch = "ppc64"
-		case gohostos == "openbsd":
+		case golanghostos == "openbsd" && strings.Contains(out, "powerpc64"):
+			golanghostarch = "ppc64"
+		case golanghostos == "openbsd":
 			if strings.Contains(run("", CheckExit, "uname", "-p"), "mips64") {
-				gohostarch = "mips64"
+				golanghostarch = "mips64"
 			}
 		default:
 			fatalf("unknown architecture: %s", out)
 		}
 	}
 
-	if gohostarch == "arm" || gohostarch == "mips64" || gohostarch == "mips64le" {
+	if golanghostarch == "arm" || golanghostarch == "mips64" || golanghostarch == "mips64le" {
 		maxbg = min(maxbg, runtime.NumCPU())
 	}
 	// For deterministic make.bash debugging and for smallest-possible footprint,
@@ -160,7 +160,7 @@ func main() {
 	}
 	bginit()
 
-	if len(os.Args) > 1 && os.Args[1] == "-check-goarm" {
+	if len(os.Args) > 1 && os.Args[1] == "-check-golangarm" {
 		useVFPv1() // might fail with SIGILL
 		println("VFPv1 OK.")
 		useVFPv3() // might fail with SIGILL
@@ -181,7 +181,7 @@ func xmain() {
 	cmd := os.Args[1]
 	os.Args = os.Args[1:] // for flag parsing during cmd
 	flag.Usage = func() {
-		fmt.Fprintf(os.Stderr, "usage: go tool dist %s [options]\n", cmd)
+		fmt.Fprintf(os.Stderr, "usage: golang tool dist %s [options]\n", cmd)
 		flag.PrintDefaults()
 		os.Exit(2)
 	}

@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test compound types made of complex numbers.
@@ -36,7 +36,7 @@ func main() {
 
 	// chan
 	c = make(chan complex128)
-	go chantest(c)
+	golang chantest(c)
 	vc := <-c
 	if vc != 5-5i {
 		panic(vc)

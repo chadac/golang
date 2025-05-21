@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package modindex
@@ -9,11 +9,11 @@ import (
 	"encoding/binary"
 	"errors"
 	"fmt"
-	"go/build"
-	"go/build/constraint"
-	"go/token"
-	"internal/godebug"
-	"internal/goroot"
+	"golang/build"
+	"golang/build/constraint"
+	"golang/token"
+	"internal/golangdebug"
+	"internal/golangroot"
 	"path"
 	"path/filepath"
 	"runtime"
@@ -24,17 +24,17 @@ import (
 	"time"
 	"unsafe"
 
-	"cmd/go/internal/base"
-	"cmd/go/internal/cache"
-	"cmd/go/internal/cfg"
-	"cmd/go/internal/fsys"
-	"cmd/go/internal/imports"
-	"cmd/go/internal/str"
+	"cmd/golang/internal/base"
+	"cmd/golang/internal/cache"
+	"cmd/golang/internal/cfg"
+	"cmd/golang/internal/fsys"
+	"cmd/golang/internal/imports"
+	"cmd/golang/internal/str"
 	"cmd/internal/par"
 )
 
 // enabled is used to flag off the behavior of the module index on tip, for debugging.
-var enabled = godebug.New("#goindex").Value() != "0"
+var enabled = golangdebug.New("#golangindex").Value() != "0"
 
 // Module represents and encoded module index file. It is used to
 // do the equivalent of build.Import of packages in the module and answer other
@@ -59,8 +59,8 @@ func moduleHash(modroot string, ismodcache bool) (cache.ActionID, error) {
 		// Note that this is true even for modules in GOROOT/src: non-release builds
 		// of the Go toolchain may have arbitrary development changes on top of the
 		// commit reported by runtime.Version, or could be completely artificial due
-		// to lacking a `git` binary (like "devel gomote.XXXXX", as synthesized by
-		// "gomote push" as of 2022-06-15). (Release builds shouldn't have
+		// to lacking a `git` binary (like "devel golangmote.XXXXX", as synthesized by
+		// "golangmote push" as of 2022-06-15). (Release builds shouldn't have
 		// modifications, but we don't want to use a behavior for releases that we
 		// haven't tested during development.)
 		return cache.ActionID{}, ErrNotIndexed
@@ -103,7 +103,7 @@ func dirHash(modroot, pkgdir string) (cache.ActionID, error) {
 		// is less than modTimeCutoff old.
 		//
 		// This is the same strategy used for hashing test inputs.
-		// See hashOpen in cmd/go/internal/test/test.go for the
+		// See hashOpen in cmd/golang/internal/test/test.golang for the
 		// corresponding code.
 		info, err := d.Info()
 		if err != nil {
@@ -138,8 +138,8 @@ func GetPackage(modroot, pkgdir string) (*IndexPackage, error) {
 	if !errors.Is(err, errNotFromModuleCache) {
 		return nil, err
 	}
-	if cfg.BuildContext.Compiler == "gccgo" && str.HasPathPrefix(modroot, cfg.GOROOTsrc) {
-		return nil, err // gccgo has no sources for GOROOT packages.
+	if cfg.BuildContext.Compiler == "gccgolang" && str.HasPathPrefix(modroot, cfg.GOROOTsrc) {
+		return nil, err // gccgolang has no sources for GOROOT packages.
 	}
 	// The pkgdir for fips140 has been replaced in the fsys overlay,
 	// but the module index does not see that. Do not try to use the module index.
@@ -376,7 +376,7 @@ func relPath(path, modroot string) string {
 	return str.TrimFilePathPrefix(filepath.Clean(path), filepath.Clean(modroot))
 }
 
-var installgorootAll = godebug.New("installgoroot").Value() == "all"
+var installgolangrootAll = golangdebug.New("installgolangroot").Value() == "all"
 
 // Import is the equivalent of build.Import given the information in Module.
 func (rp *IndexPackage) Import(bctxt build.Context, mode build.ImportMode) (p *build.Package, err error) {
@@ -391,7 +391,7 @@ func (rp *IndexPackage) Import(bctxt build.Context, mode build.ImportMode) (p *b
 
 	var pkgerr error
 	switch ctxt.Compiler {
-	case "gccgo", "gc":
+	case "gccgolang", "gc":
 	default:
 		// Save error for end of function.
 		pkgerr = fmt.Errorf("import %q: unknown compiler %q", p.Dir, ctxt.Compiler)
@@ -401,13 +401,13 @@ func (rp *IndexPackage) Import(bctxt build.Context, mode build.ImportMode) (p *b
 		return p, fmt.Errorf("import %q: import of unknown directory", p.Dir)
 	}
 
-	// goroot and gopath
+	// golangroot and golangpath
 	inTestdata := func(sub string) bool {
 		return strings.Contains(sub, "/testdata/") || strings.HasSuffix(sub, "/testdata") || str.HasPathPrefix(sub, "testdata")
 	}
 	var pkga string
 	if !inTestdata(rp.dir) {
-		// In build.go, p.Root should only be set in the non-local-import case, or in
+		// In build.golang, p.Root should only be set in the non-local-import case, or in
 		// GOROOT or GOPATH. Since module mode only calls Import with path set to "."
 		// and the module index doesn't apply outside modules, the GOROOT case is
 		// the only case where p.Root needs to be set.
@@ -429,8 +429,8 @@ func (rp *IndexPackage) Import(bctxt build.Context, mode build.ImportMode) (p *b
 				suffix = "_" + ctxt.InstallSuffix
 			}
 			switch ctxt.Compiler {
-			case "gccgo":
-				pkgtargetroot = "pkg/gccgo_" + ctxt.GOOS + "_" + ctxt.GOARCH + suffix
+			case "gccgolang":
+				pkgtargetroot = "pkg/gccgolang_" + ctxt.GOOS + "_" + ctxt.GOARCH + suffix
 				dir, elem := path.Split(p.ImportPath)
 				pkga = pkgtargetroot + "/" + dir + "lib" + elem + ".a"
 			case "gc":
@@ -446,7 +446,7 @@ func (rp *IndexPackage) Import(bctxt build.Context, mode build.ImportMode) (p *b
 				p.PkgTargetRoot = ctxt.joinPath(p.Root, pkgtargetroot)
 
 				// Set the install target if applicable.
-				if !p.Goroot || (installgorootAll && p.ImportPath != "unsafe" && p.ImportPath != "builtin") {
+				if !p.Goroot || (installgolangrootAll && p.ImportPath != "unsafe" && p.ImportPath != "builtin") {
 					p.PkgObj = ctxt.joinPath(p.Root, pkga)
 				}
 			}
@@ -454,7 +454,7 @@ func (rp *IndexPackage) Import(bctxt build.Context, mode build.ImportMode) (p *b
 	}
 
 	if rp.error != nil {
-		if errors.Is(rp.error, errCannotFindPackage) && ctxt.Compiler == "gccgo" && p.Goroot {
+		if errors.Is(rp.error, errCannotFindPackage) && ctxt.Compiler == "gccgolang" && p.Goroot {
 			return p, nil
 		}
 		return p, rp.error
@@ -488,9 +488,9 @@ func (rp *IndexPackage) Import(bctxt build.Context, mode build.ImportMode) (p *b
 	allTags := make(map[string]bool)
 	for _, tf := range rp.sourceFiles {
 		name := tf.name()
-		// Check errors for go files and call badGoFiles to put them in
+		// Check errors for golang files and call badGoFiles to put them in
 		// InvalidGoFiles if they do have an error.
-		if strings.HasSuffix(name, ".go") {
+		if strings.HasSuffix(name, ".golang") {
 			if error := tf.error(); error != "" {
 				badGoFile(name, errors.New(tf.error()))
 				continue
@@ -501,12 +501,12 @@ func (rp *IndexPackage) Import(bctxt build.Context, mode build.ImportMode) (p *b
 		}
 
 		var shouldBuild = true
-		if !ctxt.goodOSArchFile(name, allTags) && !ctxt.UseAllFiles {
+		if !ctxt.golangodOSArchFile(name, allTags) && !ctxt.UseAllFiles {
 			shouldBuild = false
-		} else if goBuildConstraint := tf.goBuildConstraint(); goBuildConstraint != "" {
-			x, err := constraint.Parse(goBuildConstraint)
+		} else if golangBuildConstraint := tf.golangBuildConstraint(); golangBuildConstraint != "" {
+			x, err := constraint.Parse(golangBuildConstraint)
 			if err != nil {
-				return p, fmt.Errorf("%s: parsing //go:build line: %v", name, err)
+				return p, fmt.Errorf("%s: parsing //golang:build line: %v", name, err)
 			}
 			shouldBuild = ctxt.eval(x, allTags)
 		} else if plusBuildConstraints := tf.plusBuildConstraints(); len(plusBuildConstraints) > 0 {
@@ -521,7 +521,7 @@ func (rp *IndexPackage) Import(bctxt build.Context, mode build.ImportMode) (p *b
 
 		ext := nameExt(name)
 		if !shouldBuild || tf.ignoreFile() {
-			if ext == ".go" {
+			if ext == ".golang" {
 				p.IgnoredGoFiles = append(p.IgnoredGoFiles, name)
 			} else if fileListForExt(p, ext) != nil {
 				p.IgnoredOtherFiles = append(p.IgnoredOtherFiles, name)
@@ -531,10 +531,10 @@ func (rp *IndexPackage) Import(bctxt build.Context, mode build.ImportMode) (p *b
 
 		// Going to save the file. For non-Go files, can stop here.
 		switch ext {
-		case ".go":
-			// keep going
+		case ".golang":
+			// keep golanging
 		case ".S", ".sx":
-			// special case for cgo, handled at end
+			// special case for cgolang, handled at end
 			Sfiles = append(Sfiles, name)
 			continue
 		default:
@@ -549,7 +549,7 @@ func (rp *IndexPackage) Import(bctxt build.Context, mode build.ImportMode) (p *b
 			p.IgnoredGoFiles = append(p.IgnoredGoFiles, name)
 			continue
 		}
-		isTest := strings.HasSuffix(name, "_test.go")
+		isTest := strings.HasSuffix(name, "_test.golang")
 		isXTest := false
 		if isTest && strings.HasSuffix(tf.pkgName(), "_test") && p.Name != tf.pkgName() {
 			isXTest = true
@@ -580,20 +580,20 @@ func (rp *IndexPackage) Import(bctxt build.Context, mode build.ImportMode) (p *b
 			}
 		}
 
-		// Record Imports and information about cgo.
-		isCgo := false
+		// Record Imports and information about cgolang.
+		isCgolang := false
 		imports := tf.imports()
 		for _, imp := range imports {
 			if imp.path == "C" {
 				if isTest {
-					badGoFile(name, fmt.Errorf("use of cgo in test %s not supported", name))
+					badGoFile(name, fmt.Errorf("use of cgolang in test %s not supported", name))
 					continue
 				}
-				isCgo = true
+				isCgolang = true
 			}
 		}
-		if directives := tf.cgoDirectives(); directives != "" {
-			if err := ctxt.saveCgo(name, p, directives); err != nil {
+		if directives := tf.cgolangDirectives(); directives != "" {
+			if err := ctxt.saveCgolang(name, p, directives); err != nil {
 				badGoFile(name, err)
 			}
 		}
@@ -602,15 +602,15 @@ func (rp *IndexPackage) Import(bctxt build.Context, mode build.ImportMode) (p *b
 		var importMap, embedMap map[string][]token.Position
 		var directives *[]build.Directive
 		switch {
-		case isCgo:
-			allTags["cgo"] = true
-			if ctxt.CgoEnabled {
-				fileList = &p.CgoFiles
+		case isCgolang:
+			allTags["cgolang"] = true
+			if ctxt.CgolangEnabled {
+				fileList = &p.CgolangFiles
 				importMap = importPos
 				embedMap = embedPos
 				directives = &p.Directives
 			} else {
-				// Ignore Imports and Embeds from cgo files if cgo is disabled.
+				// Ignore Imports and Embeds from cgolang files if cgolang is disabled.
 				fileList = &p.IgnoredGoFiles
 			}
 		case isXTest:
@@ -658,7 +658,7 @@ func (rp *IndexPackage) Import(bctxt build.Context, mode build.ImportMode) (p *b
 	}
 	sort.Strings(p.AllTags)
 
-	if len(p.CgoFiles) > 0 {
+	if len(p.CgolangFiles) > 0 {
 		p.SFiles = append(p.SFiles, Sfiles...)
 		sort.Strings(p.SFiles)
 	} else {
@@ -669,22 +669,22 @@ func (rp *IndexPackage) Import(bctxt build.Context, mode build.ImportMode) (p *b
 	if badGoError != nil {
 		return p, badGoError
 	}
-	if len(p.GoFiles)+len(p.CgoFiles)+len(p.TestGoFiles)+len(p.XTestGoFiles) == 0 {
+	if len(p.GoFiles)+len(p.CgolangFiles)+len(p.TestGoFiles)+len(p.XTestGoFiles) == 0 {
 		return p, &build.NoGoError{Dir: p.Dir}
 	}
 	return p, pkgerr
 }
 
 // IsStandardPackage reports whether path is a standard package
-// for the goroot and compiler using the module index if possible,
-// and otherwise falling back to internal/goroot.IsStandardPackage
-func IsStandardPackage(goroot_, compiler, path string) bool {
+// for the golangroot and compiler using the module index if possible,
+// and otherwise falling back to internal/golangroot.IsStandardPackage
+func IsStandardPackage(golangroot_, compiler, path string) bool {
 	if !enabled || compiler != "gc" {
-		return goroot.IsStandardPackage(goroot_, compiler, path)
+		return golangroot.IsStandardPackage(golangroot_, compiler, path)
 	}
 
 	reldir := filepath.FromSlash(path) // relative dir path in module index for package
-	modroot := filepath.Join(goroot_, "src")
+	modroot := filepath.Join(golangroot_, "src")
 	if str.HasFilePathPrefix(reldir, "cmd") {
 		reldir = str.TrimFilePathPrefix(reldir, "cmd")
 		modroot = filepath.Join(modroot, "cmd")
@@ -695,7 +695,7 @@ func IsStandardPackage(goroot_, compiler, path string) bool {
 	} else if errors.Is(err, ErrNotIndexed) {
 		// Fall back because package isn't indexable. (Probably because
 		// a file was modified recently)
-		return goroot.IsStandardPackage(goroot_, compiler, path)
+		return golangroot.IsStandardPackage(golangroot_, compiler, path)
 	}
 	return false
 }
@@ -708,7 +708,7 @@ func (rp *IndexPackage) IsGoDir() (_ bool, err error) {
 		}
 	}()
 	for _, sf := range rp.sourceFiles {
-		if strings.HasSuffix(sf.name(), ".go") {
+		if strings.HasSuffix(sf.name(), ".golang") {
 			return true, nil
 		}
 	}
@@ -733,24 +733,24 @@ func (rp *IndexPackage) ScanDir(tags map[string]bool) (sortedImports []string, s
 Files:
 	for _, sf := range rp.sourceFiles {
 		name := sf.name()
-		if strings.HasPrefix(name, "_") || strings.HasPrefix(name, ".") || !strings.HasSuffix(name, ".go") || !imports.MatchFile(name, tags) {
+		if strings.HasPrefix(name, "_") || strings.HasPrefix(name, ".") || !strings.HasSuffix(name, ".golang") || !imports.MatchFile(name, tags) {
 			continue
 		}
 
 		// The following section exists for backwards compatibility reasons:
 		// scanDir ignores files with import "C" when collecting the list
-		// of imports unless the "cgo" tag is provided. The following comment
+		// of imports unless the "cgolang" tag is provided. The following comment
 		// is copied from the original.
 		//
-		// import "C" is implicit requirement of cgo tag.
+		// import "C" is implicit requirement of cgolang tag.
 		// When listing files on the command line (explicitFiles=true)
 		// we do not apply build tag filtering but we still do apply
-		// cgo filtering, so no explicitFiles check here.
+		// cgolang filtering, so no explicitFiles check here.
 		// Why? Because we always have, and it's not worth breaking
 		// that behavior now.
 		imps := sf.imports() // TODO(matloob): directly read import paths to avoid the extra strings?
 		for _, imp := range imps {
-			if imp.path == "C" && !tags["cgo"] && !tags["*"] {
+			if imp.path == "C" && !tags["cgolang"] && !tags["*"] {
 				continue Files
 			}
 		}
@@ -760,7 +760,7 @@ Files:
 		}
 		numFiles++
 		m := imports_
-		if strings.HasSuffix(name, "_test.go") {
+		if strings.HasSuffix(name, "_test.golang") {
 			m = testImports
 		}
 		for _, p := range imps {
@@ -784,8 +784,8 @@ func keys(m map[string]bool) []string {
 
 // implements imports.ShouldBuild in terms of an index sourcefile.
 func shouldBuild(sf *sourceFile, tags map[string]bool) bool {
-	if goBuildConstraint := sf.goBuildConstraint(); goBuildConstraint != "" {
-		x, err := constraint.Parse(goBuildConstraint)
+	if golangBuildConstraint := sf.golangBuildConstraint(); golangBuildConstraint != "" {
+		x, err := constraint.Parse(golangBuildConstraint)
 		if err != nil {
 			return false
 		}
@@ -869,7 +869,7 @@ const (
 	sourceFilePkgName
 	sourceFileIgnoreFile
 	sourceFileBinaryOnly
-	sourceFileCgoDirectives
+	sourceFileCgolangDirectives
 	sourceFileGoBuildConstraint
 	sourceFileNumPlusBuildConstraints
 )
@@ -895,10 +895,10 @@ func (sf *sourceFile) ignoreFile() bool {
 func (sf *sourceFile) binaryOnly() bool {
 	return sf.d.boolAt(sf.pos + sourceFileBinaryOnly)
 }
-func (sf *sourceFile) cgoDirectives() string {
-	return sf.d.stringAt(sf.pos + sourceFileCgoDirectives)
+func (sf *sourceFile) cgolangDirectives() string {
+	return sf.d.stringAt(sf.pos + sourceFileCgolangDirectives)
 }
-func (sf *sourceFile) goBuildConstraint() string {
+func (sf *sourceFile) golangBuildConstraint() string {
 	return sf.d.stringAt(sf.pos + sourceFileGoBuildConstraint)
 }
 

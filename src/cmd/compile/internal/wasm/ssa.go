@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package wasm
@@ -7,7 +7,7 @@ package wasm
 import (
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/ir"
-	"cmd/compile/internal/logopt"
+	"cmd/compile/internal/logolangpt"
 	"cmd/compile/internal/objw"
 	"cmd/compile/internal/ssa"
 	"cmd/compile/internal/ssagen"
@@ -27,7 +27,7 @@ import (
    are different, etc. We outline those differences here.
 
    See the design doc for some additional info on this topic.
-   https://docs.google.com/document/d/131vjr4DH6JFnb-blm_uRdaC0_Nv3OUwjEY5qVCxCup4/edit#heading=h.mjo1bish3xni
+   https://docs.golangogle.com/document/d/131vjr4DH6JFnb-blm_uRdaC0_Nv3OUwjEY5qVCxCup4/edit#heading=h.mjo1bish3xni
 
    PCs:
 
@@ -54,21 +54,21 @@ import (
    Threads:
 
    Wasm doesn't (yet) have threads. We have to simulate threads by
-   keeping goroutine stacks in linear memory and unwinding
-   the Wasm stack each time we want to switch goroutines.
+   keeping golangroutine stacks in linear memory and unwinding
+   the Wasm stack each time we want to switch golangroutines.
 
    To support unwinding a stack, each function call returns on the Wasm
    stack a boolean that tells the function whether it should return
    immediately or not. When returning immediately, a return address
-   is left on the top of the Go stack indicating where the goroutine
+   is left on the top of the Go stack indicating where the golangroutine
    should be resumed.
 
    Stack pointer:
 
    There is a single global stack pointer which records the stack pointer
-   used by the currently active goroutine. This is just an address in
+   used by the currently active golangroutine. This is just an address in
    linear memory where the Go runtime is maintaining the stack for that
-   goroutine.
+   golangroutine.
 
    Functions cache the global stack pointer in a local variable for
    faster access, but any changes must be spilled to the global variable
@@ -79,7 +79,7 @@ import (
    All Go arguments and return values are passed on the Go stack, not
    the wasm stack. In addition, return addresses are pushed on the
    Go stack at every call point. Return addresses are not used during
-   normal execution, they are used only when resuming goroutines.
+   normal execution, they are used only when resuming golangroutines.
    (So they are not really a "return address", they are a "resume address".)
 
    All Go functions have the Wasm type (i32)->i32. The argument
@@ -115,19 +115,19 @@ import (
     - return
     - note that the return address and stack frame are left on the Go stack
 
-   The main loop that executes goroutines is wasm_pc_f_loop, in
+   The main loop that executes golangroutines is wasm_pc_f_loop, in
    runtime/rt0_js_wasm.s. It grabs the saved return address from
    the top of the Go stack (actually SP-8?), splits it up into F
    and B parts, then calls F with its Wasm argument set to B.
 
-   Note that when resuming a goroutine, only the most recent function
-   invocation of that goroutine appears on the Wasm stack. When that
+   Note that when resuming a golangroutine, only the most recent function
+   invocation of that golangroutine appears on the Wasm stack. When that
    Wasm function returns normally, the next most recent frame will
    then be started up by wasm_pc_f_loop.
 
    Global 0 is SP (stack pointer)
    Global 1 is CTXT (closure pointer)
-   Global 2 is GP (goroutine pointer)
+   Global 2 is GP (golangroutine pointer)
 */
 
 func Init(arch *ssagen.ArchInfo) {
@@ -207,7 +207,7 @@ func ssaGenBlock(s *ssagen.State, b, next *ssa.Block) {
 		panic("unexpected block")
 	}
 
-	// Entry point for the next block. Used by the JMP in goToBlock.
+	// Entry point for the next block. Used by the JMP in golangToBlock.
 	s.Prog(wasm.ARESUMEPOINT)
 
 	if s.OnWasmStackSkipped != 0 {
@@ -265,8 +265,8 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 		p := s.Prog(wasm.ACALLNORESUME)
 		p.To = obj.Addr{Type: obj.TYPE_MEM, Name: obj.NAME_EXTERN, Sym: ir.Syms.SigPanic}
 		s.Prog(wasm.AEnd)
-		if logopt.Enabled() {
-			logopt.LogOpt(v.Pos, "nilcheck", "genssa", v.Block.Func.Name)
+		if logolangpt.Enabled() {
+			logolangpt.LogOpt(v.Pos, "nilcheck", "genssa", v.Block.Func.Name)
 		}
 		if base.Debug.Nil != 0 && v.Pos.Line() > 1 { // v.Pos.Line()==1 in generated wrappers
 			base.WarnfAt(v.Pos, "generated nil check")

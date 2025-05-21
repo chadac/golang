@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package p
@@ -32,7 +32,7 @@ func reverse[T any](list []T) []T {
 }
 
 var _ = reverse /* ERROR "cannot use generic function reverse" */
-var _ = reverse[int, float32 /* ERROR "got 2 type arguments" */ ] ([]int{1, 2, 3})
+var _ = reverse[int, float32 /* ERROR "golangt 2 type arguments" */ ] ([]int{1, 2, 3})
 var _ = reverse[int]([ /* ERROR "cannot use" */ ]float32{1, 2, 3})
 var f = reverse[chan int]
 var _ = f(0 /* ERRORx `cannot use 0 .* as \[\]chan int` */ )

@@ -1,5 +1,5 @@
 // Copyright 2014 The Go Authors.  All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Table-driven decoding of x86 instructions.
@@ -272,7 +272,7 @@ func decode1(src []byte, mode int, gnuCompat bool) (Inst, error) {
 		haveModrm bool
 		modrm     int
 		mod       int
-		regop     int
+		regolangp     int
 		rm        int
 
 		// if ModR/M is memory reference, Mem form
@@ -494,11 +494,11 @@ Decode:
 				opshift -= 8
 			}
 			mod = modrm >> 6
-			regop = (modrm >> 3) & 07
+			regolangp = (modrm >> 3) & 07
 			rm = modrm & 07
 			if rex&PrefixREXR != 0 {
 				rexUsed |= PrefixREXR
-				regop |= 8
+				regolangp |= 8
 			}
 			if addrMode == 16 {
 				// 16-bit modrm form
@@ -880,7 +880,7 @@ Decode:
 					case PrefixDataSize:
 						// Looking for 66 mandatory prefix.
 						// The F2/F3 mandatory prefixes take priority when both are present.
-						// If we got this far in the xCondPrefix table and an F2/F3 is present,
+						// If we golangt this far in the xCondPrefix table and an F2/F3 is present,
 						// it means the table didn't have any entry for that prefix. But if 66 has
 						// special meaning, perhaps F2/F3 have special meaning that we don't know.
 						// Intel xed works this way, treating the F2/F3 as inhibiting the 66.
@@ -910,7 +910,7 @@ Decode:
 			break Decode
 
 		case xCondSlashR:
-			pc = int(decoder[pc+regop&7])
+			pc = int(decoder[pc+regolangp&7])
 
 		// Input.
 
@@ -1117,7 +1117,7 @@ Decode:
 
 		case xArgYmm1:
 			base := baseReg[x]
-			index := Reg(regop)
+			index := Reg(regolangp)
 			if inst.Prefix[vexIndex+1]&0x80 == 0 {
 				index += 8
 			}
@@ -1126,7 +1126,7 @@ Decode:
 
 		case xArgR8, xArgR16, xArgR32, xArgR64, xArgXmm, xArgXmm1, xArgDR0dashDR7:
 			base := baseReg[x]
-			index := Reg(regop)
+			index := Reg(regolangp)
 			if rex != 0 && base == AL && index >= 4 {
 				rexUsed |= PrefixREX
 				index -= 4
@@ -1136,7 +1136,7 @@ Decode:
 			narg++
 
 		case xArgMm, xArgMm1, xArgTR0dashTR7:
-			inst.Args[narg] = baseReg[x] + Reg(regop&7)
+			inst.Args[narg] = baseReg[x] + Reg(regolangp&7)
 			narg++
 
 		case xArgCR0dashCR7:
@@ -1146,18 +1146,18 @@ Decode:
 			// all modes, provided the corresponding CPUID bit is set.
 			if lockIndex >= 0 {
 				inst.Prefix[lockIndex] |= PrefixImplicit
-				regop += 8
+				regolangp += 8
 			}
-			inst.Args[narg] = CR0 + Reg(regop)
+			inst.Args[narg] = CR0 + Reg(regolangp)
 			narg++
 
 		case xArgSreg:
-			regop &= 7
-			if regop >= 6 {
+			regolangp &= 7
+			if regolangp >= 6 {
 				inst.Op = 0
 				break Decode
 			}
-			inst.Args[narg] = ES + Reg(regop)
+			inst.Args[narg] = ES + Reg(regolangp)
 			narg++
 
 		case xArgRmf16, xArgRmf32, xArgRmf64:
@@ -1218,7 +1218,7 @@ Decode:
 			}
 			narg++
 
-		case xArgMm2: // register only; TODO(rsc): Handle with tag modrm_regonly tag
+		case xArgMm2: // register only; TODO(rsc): Handle with tag modrm_regolangnly tag
 			if haveMem {
 				inst.Op = 0
 				break Decode
@@ -1226,7 +1226,7 @@ Decode:
 			inst.Args[narg] = baseReg[x] + Reg(rm&7)
 			narg++
 
-		case xArgXmm2: // register only; TODO(rsc): Handle with tag modrm_regonly tag
+		case xArgXmm2: // register only; TODO(rsc): Handle with tag modrm_regolangnly tag
 			if haveMem {
 				inst.Op = 0
 				break Decode
@@ -1566,7 +1566,7 @@ func baseRegForBits(bits int) Reg {
 }
 
 // baseReg records the base register for argument types that specify
-// a range of registers indexed by op, regop, or rm.
+// a range of registers indexed by op, regolangp, or rm.
 var baseReg = [...]Reg{
 	xArgDR0dashDR7: DR0,
 	xArgMm1:        M0,

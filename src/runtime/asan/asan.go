@@ -1,49 +1,49 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build asan && linux && (arm64 || amd64 || loong64 || riscv64 || ppc64le)
+//golang:build asan && linux && (arm64 || amd64 || loong64 || riscv64 || ppc64le)
 
 package asan
 
 /*
-#cgo CFLAGS: -fsanitize=address
-#cgo LDFLAGS: -fsanitize=address
+#cgolang CFLAGS: -fsanitize=address
+#cgolang LDFLAGS: -fsanitize=address
 
 #include <stdbool.h>
 #include <stdint.h>
 #include <sanitizer/asan_interface.h>
 #include <sanitizer/lsan_interface.h>
 
-void __asan_read_go(void *addr, uintptr_t sz, void *sp, void *pc) {
+void __asan_read_golang(void *addr, uintptr_t sz, void *sp, void *pc) {
 	if (__asan_region_is_poisoned(addr, sz)) {
 		__asan_report_error(pc, 0, sp, addr, false, sz);
 	}
 }
 
-void __asan_write_go(void *addr, uintptr_t sz, void *sp, void *pc) {
+void __asan_write_golang(void *addr, uintptr_t sz, void *sp, void *pc) {
 	if (__asan_region_is_poisoned(addr, sz)) {
 		__asan_report_error(pc, 0, sp, addr, true, sz);
 	}
 }
 
-void __asan_unpoison_go(void *addr, uintptr_t sz) {
+void __asan_unpoison_golang(void *addr, uintptr_t sz) {
 	__asan_unpoison_memory_region(addr, sz);
 }
 
-void __asan_poison_go(void *addr, uintptr_t sz) {
+void __asan_poison_golang(void *addr, uintptr_t sz) {
 	__asan_poison_memory_region(addr, sz);
 }
 
-void __lsan_register_root_region_go(void *addr, uintptr_t sz) {
+void __lsan_register_root_region_golang(void *addr, uintptr_t sz) {
 	__lsan_register_root_region(addr, sz);
 }
 
-void __lsan_unregister_root_region_go(void *addr, uintptr_t sz) {
+void __lsan_unregister_root_region_golang(void *addr, uintptr_t sz) {
 	__lsan_unregister_root_region(addr, sz);
 }
 
-void __lsan_do_leak_check_go(void) {
+void __lsan_do_leak_check_golang(void) {
 	__lsan_do_leak_check();
 }
 
@@ -81,7 +81,7 @@ extern void __asan_register_globals(void*, long int);
 
 // Register global variables.
 // The 'globals' is an array of structures describing 'n' globals.
-void __asan_register_globals_go(void *addr, uintptr_t n) {
+void __asan_register_globals_golang(void *addr, uintptr_t n) {
 	struct _asan_global *globals = (struct _asan_global *)(addr);
 	__asan_register_globals(globals, n);
 }

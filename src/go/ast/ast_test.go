@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ast
@@ -34,7 +34,7 @@ var comments = []struct {
 	{[]string{"/* Foo*/", "// Bar"}, " Foo\nBar\n"},
 	{[]string{"/* Foo\n Bar*/"}, " Foo\n Bar\n"},
 
-	{[]string{"// foo", "//go:noinline", "// bar", "//:baz"}, "foo\nbar\n:baz\n"},
+	{[]string{"// foo", "//golang:noinline", "// bar", "//:baz"}, "foo\nbar\n:baz\n"},
 	{[]string{"// foo", "//lint123:ignore", "// bar"}, "foo\nbar\n"},
 }
 
@@ -47,7 +47,7 @@ func TestCommentText(t *testing.T) {
 
 		text := (&CommentGroup{list}).Text()
 		if text != c.text {
-			t.Errorf("case %d: got %q; expected %q", i, text, c.text)
+			t.Errorf("case %d: golangt %q; expected %q", i, text, c.text)
 		}
 	}
 }
@@ -57,17 +57,17 @@ var isDirectiveTests = []struct {
 	ok bool
 }{
 	{"abc", false},
-	{"go:inline", true},
+	{"golang:inline", true},
 	{"Go:inline", false},
-	{"go:Inline", false},
+	{"golang:Inline", false},
 	{":inline", false},
 	{"lint:ignore", true},
 	{"lint:1234", true},
 	{"1234:lint", true},
-	{"go: inline", false},
-	{"go:", false},
-	{"go:*", false},
-	{"go:x*", true},
+	{"golang: inline", false},
+	{"golang:", false},
+	{"golang:*", false},
+	{"golang:x*", true},
 	{"export foo", true},
 	{"extern foo", true},
 	{"expert foo", false},

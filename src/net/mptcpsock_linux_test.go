@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package net
@@ -118,15 +118,15 @@ func dialerMPTCP(t *testing.T, addr string, envVar bool) {
 		t.Fatal(err)
 	}
 
-	t.Logf("outgoing connection from %s with mptcp: %t", addr, mptcp)
+	t.Logf("outgolanging connection from %s with mptcp: %t", addr, mptcp)
 
 	if !mptcp {
-		t.Error("outgoing connection is not with MPTCP")
+		t.Error("outgolanging connection is not with MPTCP")
 	}
 
 	// Also check the method for the older kernels if not tested before
 	if hasSOLMPTCP && !isUsingMPTCPProto(tcp.fd) {
-		t.Error("outgoing connection is not an MPTCP proto")
+		t.Error("outgolanging connection is not an MPTCP proto")
 	}
 }
 
@@ -158,7 +158,7 @@ func testMultiPathTCP(t *testing.T, envVar bool) {
 	defer ls.teardown()
 
 	if g, w := ls.Listener.Addr().Network(), "tcp"; g != w {
-		t.Fatalf("Network type mismatch: got %q, want %q", g, w)
+		t.Fatalf("Network type mismatch: golangt %q, want %q", g, w)
 	}
 
 	genericCh := make(chan error)

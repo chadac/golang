@@ -9,7 +9,7 @@ import (
 )
 
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 func main() {
@@ -20,7 +20,7 @@ func main() {
 		}
 		text := fmt.Sprintf("%s", e) // handles both string and runtime.errorString
 		if !strings.HasPrefix(text, "reflect:") {
-			panic("wanted a reflect error, got this instead:\n" + text)
+			panic("wanted a reflect error, golangt this instead:\n" + text)
 		}
 	}()
 	r := reflect.MakeFunc(reflect.TypeOf(func() error { return nil }),

@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package inlheur
@@ -52,12 +52,12 @@ func TestInlScoreAdjFlagParse(t *testing.T) {
 		t.Logf("for value=%q err is %v\n", scenario.value, err)
 		if scenario.expok {
 			if err != nil {
-				t.Errorf("expected parseScoreAdj(%s) ok, got err %v",
+				t.Errorf("expected parseScoreAdj(%s) ok, golangt err %v",
 					scenario.value, err)
 			}
 		} else {
 			if err == nil {
-				t.Errorf("expected parseScoreAdj(%s) failure, got success",
+				t.Errorf("expected parseScoreAdj(%s) failure, golangt success",
 					scenario.value)
 			}
 		}

@@ -182,7 +182,7 @@ func FoldSubSymbolOffset(ldr *loader.Loader, s loader.Sym) (loader.Sym, int64) {
 // architecture-specific, requiring calls into the 'archreloc' and/or
 // 'archrelocvariant' functions for the architecture. When external
 // linking is in effect, it may not be  possible to completely resolve
-// the address/offset for a symbol, in which case the goal is to lay
+// the address/offset for a symbol, in which case the golangal is to lay
 // the groundwork for turning a given relocation into an external reloc
 // (to be applied by the external linker). For more on how relocations
 // work in general, see
@@ -231,8 +231,8 @@ func (st *relocSymState) relocsym(s loader.Sym, P []byte) {
 				if ldr.SymName(rs) == "main.main" || (!target.IsPlugin() && ldr.SymName(rs) == "main..inittask") {
 					sb := ldr.MakeSymbolUpdater(rs)
 					sb.SetType(sym.SDYNIMPORT)
-				} else if strings.HasPrefix(ldr.SymName(rs), "go:info.") {
-					// Skip go.info symbols. They are only needed to communicate
+				} else if strings.HasPrefix(ldr.SymName(rs), "golang:info.") {
+					// Skip golang.info symbols. They are only needed to communicate
 					// DWARF info between the compiler and linker.
 					continue
 				}
@@ -335,7 +335,7 @@ func (st *relocSymState) relocsym(s loader.Sym, P []byte) {
 					o = r.Add()
 				}
 				if target.Is386() {
-					nExtReloc++ // need two ELF relocations on 386, see ../x86/asm.go:elfreloc1
+					nExtReloc++ // need two ELF relocations on 386, see ../x86/asm.golang:elfreloc1
 				}
 				break
 			}
@@ -403,7 +403,7 @@ func (st *relocSymState) relocsym(s loader.Sym, P []byte) {
 				// same address once loaded, this is possible.
 				// TODO: .text (including rodata) to .data relocation
 				// doesn't work correctly, so we should really disallow it.
-				// See also aixStaticDataBase in symtab.go and in runtime.
+				// See also aixStaticDataBase in symtab.golang and in runtime.
 				if ldr.SymSect(s).Seg == &Segdata {
 					Xcoffadddynrel(target, ldr, syms, s, r, ri)
 				}
@@ -418,7 +418,7 @@ func (st *relocSymState) relocsym(s loader.Sym, P []byte) {
 
 			// On amd64, 4-byte offsets will be sign-extended, so it is impossible to
 			// access more than 2GB of static data; fail at link time is better than
-			// fail at runtime. See https://golang.org/issue/7980.
+			// fail at runtime. See https://golanglang.org/issue/7980.
 			// Instead of special casing only amd64, we treat this as an error on all
 			// 64-bit architectures so as to be future-proof.
 			if int32(o) < 0 && target.Arch.PtrSize > 4 && siz == 4 {
@@ -454,7 +454,7 @@ func (st *relocSymState) relocsym(s loader.Sym, P []byte) {
 				// as it combines DWARF sections. However, on Darwin, dsymutil does the
 				// DWARF linking, and it understands how to follow section offsets.
 				// Leaving in the relocation records confuses it (see
-				// https://golang.org/issue/22068) so drop them for Darwin.
+				// https://golanglang.org/issue/22068) so drop them for Darwin.
 				if !target.IsDarwin() {
 					nExtReloc++
 				}
@@ -513,7 +513,7 @@ func (st *relocSymState) relocsym(s loader.Sym, P []byte) {
 				break
 			}
 			if target.Is386() && target.IsExternal() && target.IsELF {
-				nExtReloc++ // need two ELF relocations on 386, see ../x86/asm.go:elfreloc1
+				nExtReloc++ // need two ELF relocations on 386, see ../x86/asm.golang:elfreloc1
 			}
 			fallthrough
 		case objabi.R_CALL, objabi.R_PCREL:
@@ -684,7 +684,7 @@ func extreloc(ctxt *Link, ldr *loader.Loader, s loader.Sym, r loader.Reloc) (loa
 		// as it combines DWARF sections. However, on Darwin, dsymutil does the
 		// DWARF linking, and it understands how to follow section offsets.
 		// Leaving in the relocation records confuses it (see
-		// https://golang.org/issue/22068) so drop them for Darwin.
+		// https://golanglang.org/issue/22068) so drop them for Darwin.
 		if target.IsDarwin() {
 			return rr, false
 		}
@@ -793,7 +793,7 @@ func (ctxt *Link) makeRelocSymState() *relocSymState {
 // windynrelocsym examines a text symbol 's' and looks for relocations
 // from it that correspond to references to symbols defined in DLLs,
 // then fixes up those relocations as needed. A reference to a symbol
-// XYZ from some DLL will fall into one of two categories: an indirect
+// XYZ from some DLL will fall into one of two categolangries: an indirect
 // ref via "__imp_XYZ", or a direct ref to "XYZ". Here's an example of
 // an indirect ref (this is an excerpt from objdump -ldr):
 //
@@ -840,8 +840,8 @@ func windynrelocsym(ctxt *Link, rel *loader.SymbolBuilder, s loader.Sym) error {
 			return fmt.Errorf("dynamic relocation to unreachable symbol %s",
 				ctxt.loader.SymName(targ))
 		}
-		tgot := ctxt.loader.SymGot(targ)
-		if tgot == loadpe.RedirectToDynImportGotToken {
+		tgolangt := ctxt.loader.SymGot(targ)
+		if tgolangt == loadpe.RedirectToDynImportGotToken {
 
 			// Consistency check: name should be __imp_X
 			sname := ctxt.loader.SymName(targ)
@@ -869,8 +869,8 @@ func windynrelocsym(ctxt *Link, rel *loader.SymbolBuilder, s loader.Sym) error {
 		if tplt == loadpe.CreateImportStubPltToken {
 
 			// Consistency check: don't want to see both PLT and GOT tokens.
-			if tgot != -1 {
-				return fmt.Errorf("internal error in windynrelocsym: invalid GOT setting %d for reloc to %s", tgot, ctxt.loader.SymName(targ))
+			if tgolangt != -1 {
+				return fmt.Errorf("internal error in windynrelocsym: invalid GOT setting %d for reloc to %s", tgolangt, ctxt.loader.SymName(targ))
 			}
 
 			// make dynimport JMP table for PE object files.
@@ -919,7 +919,7 @@ func windynrelocsym(ctxt *Link, rel *loader.SymbolBuilder, s loader.Sym) error {
 // windynrelocsyms generates jump table to C library functions that will be
 // added later. windynrelocsyms writes the table into .rel symbol.
 func (ctxt *Link) windynrelocsyms() {
-	if !(ctxt.IsWindows() && iscgo && ctxt.IsInternal()) {
+	if !(ctxt.IsWindows() && iscgolang && ctxt.IsInternal()) {
 		return
 	}
 
@@ -999,7 +999,7 @@ const blockSize = 1 << 20 // 1MB chunks written at a time.
 
 // writeBlocks writes a specified chunk of symbols to the output buffer. It
 // breaks the write up into ≥blockSize chunks to write them out, and schedules
-// as many goroutines as necessary to accomplish this task. This call then
+// as many golangroutines as necessary to accomplish this task. This call then
 // blocks, waiting on the writes to complete. Note that we use the sem parameter
 // to limit the number of concurrent writes taking place.
 func writeBlocks(ctxt *Link, out *OutBuf, sem chan int, ldr *loader.Loader, syms []loader.Sym, addr, size int64, pad []byte) {
@@ -1027,10 +1027,10 @@ func writeBlocks(ctxt *Link, out *OutBuf, sem chan int, ldr *loader.Loader, syms
 				break
 			}
 
-			// We're gonna write this symbol.
+			// We're golangnna write this symbol.
 			idx = i
 
-			// If we cross over the max size, we've got enough symbols.
+			// If we cross over the max size, we've golangt enough symbols.
 			if end > addr+max {
 				break
 			}
@@ -1067,7 +1067,7 @@ func writeBlocks(ctxt *Link, out *OutBuf, sem chan int, ldr *loader.Loader, syms
 			o := out.View(uint64(out.Offset() + written))
 			sem <- 1
 			wg.Add(1)
-			go func(o *OutBuf, ldr *loader.Loader, syms []loader.Sym, addr, size int64, pad []byte) {
+			golang func(o *OutBuf, ldr *loader.Loader, syms []loader.Sym, addr, size int64, pad []byte) {
 				writeBlock(ctxt, o, ldr, syms, addr, size, pad)
 				wg.Done()
 				<-sem
@@ -1146,7 +1146,7 @@ func writeParallel(wg *sync.WaitGroup, fn writeFn, ctxt *Link, seek, vaddr, leng
 	if ctxt.Out.isMmapped() {
 		out := ctxt.Out.View(seek)
 		wg.Add(1)
-		go func() {
+		golang func() {
 			defer wg.Done()
 			fn(ctxt, out, int64(vaddr), int64(length))
 		}()
@@ -1232,9 +1232,9 @@ func addstrdata(arch *sys.Arch, l *loader.Loader, name, value string) {
 	if s == 0 {
 		return
 	}
-	if goType := l.SymGoType(s); goType == 0 {
+	if golangType := l.SymGoType(s); golangType == 0 {
 		return
-	} else if typeName := l.SymName(goType); typeName != "type:string" {
+	} else if typeName := l.SymName(golangType); typeName != "type:string" {
 		Errorf("%s: cannot set with -X: not a var of type string (%s)", name, typeName)
 		return
 	}
@@ -1267,12 +1267,12 @@ func (ctxt *Link) dostrdata() {
 	}
 }
 
-// addgostring adds str, as a Go string value, to s. symname is the name of the
+// addgolangstring adds str, as a Go string value, to s. symname is the name of the
 // symbol used to define the string data and must be unique per linked object.
-func addgostring(ctxt *Link, ldr *loader.Loader, s *loader.SymbolBuilder, symname, str string) {
+func addgolangstring(ctxt *Link, ldr *loader.Loader, s *loader.SymbolBuilder, symname, str string) {
 	sdata := ldr.CreateSymForUpdate(symname, 0)
 	if sdata.Type() != sym.Sxxx {
-		ctxt.Errorf(s.Sym(), "duplicate symname in addgostring: %s", symname)
+		ctxt.Errorf(s.Sym(), "duplicate symname in addgolangstring: %s", symname)
 	}
 	sdata.SetLocal(true)
 	sdata.SetType(sym.SRODATA)
@@ -1530,7 +1530,7 @@ func (state *dodataState) makeRelroForSharedLib(target *Link) {
 		return
 	}
 
-	// "read only" data with relocations needs to go in its own section
+	// "read only" data with relocations needs to golang in its own section
 	// when building a shared library. We do this by boosting objects of
 	// type SXXX with relocations to type SXXXRELRO.
 	ldr := target.loader
@@ -1699,7 +1699,7 @@ func (ctxt *Link) dodata(symGroupType []sym.SymKind) {
 	for symn := range state.data {
 		symn := sym.SymKind(symn)
 		wg.Add(1)
-		go func() {
+		golang func() {
 			state.data[symn], state.dataMaxAlign[symn] = state.dodataSect(ctxt, symn, state.data[symn])
 			wg.Done()
 		}()
@@ -1793,13 +1793,13 @@ func (ctxt *Link) dodata(symGroupType []sym.SymKind) {
 
 // allocateDataSectionForSym creates a new sym.Section into which a
 // single symbol will be placed. Here "seg" is the segment into which
-// the section will go, "s" is the symbol to be placed into the new
+// the section will golang, "s" is the symbol to be placed into the new
 // section, and "rwx" contains permissions for the section.
 func (state *dodataState) allocateDataSectionForSym(seg *sym.Segment, s loader.Sym, rwx int) *sym.Section {
 	ldr := state.ctxt.loader
 	sname := ldr.SymName(s)
-	if strings.HasPrefix(sname, "go:") {
-		sname = ".go." + sname[len("go:"):]
+	if strings.HasPrefix(sname, "golang:") {
+		sname = ".golang." + sname[len("golang:"):]
 	}
 	sect := addsection(ldr, state.ctxt.Arch, seg, sname, rwx)
 	sect.Align = symalign(ldr, s)
@@ -1808,9 +1808,9 @@ func (state *dodataState) allocateDataSectionForSym(seg *sym.Segment, s loader.S
 	return sect
 }
 
-// allocateNamedDataSection creates a new sym.Section for a category
+// allocateNamedDataSection creates a new sym.Section for a categolangry
 // of data symbols. Here "seg" is the segment into which the section
-// will go, "sName" is the name to give to the section, "types" is a
+// will golang, "sName" is the name to give to the section, "types" is a
 // range of symbol types to be put into the section, and "rwx"
 // contains permissions for the section.
 func (state *dodataState) allocateNamedDataSection(seg *sym.Segment, sName string, types []sym.SymKind, rwx int) *sym.Section {
@@ -1911,12 +1911,12 @@ func (state *dodataState) allocateDataSections(ctxt *Link) {
 	}
 	ldr := ctxt.loader
 
-	// writable .got (note that for PIE binaries .got goes in relro)
+	// writable .golangt (note that for PIE binaries .golangt golanges in relro)
 	if len(state.data[sym.SELFGOT]) > 0 {
-		state.allocateNamedSectionAndAssignSyms(&Segdata, ".got", sym.SELFGOT, sym.SDATA, 06)
+		state.allocateNamedSectionAndAssignSyms(&Segdata, ".golangt", sym.SELFGOT, sym.SDATA, 06)
 	}
 	if len(state.data[sym.SMACHOGOT]) > 0 {
-		state.allocateNamedSectionAndAssignSyms(&Segdata, ".got", sym.SMACHOGOT, sym.SDATA, 06)
+		state.allocateNamedSectionAndAssignSyms(&Segdata, ".golangt", sym.SMACHOGOT, sym.SDATA, 06)
 	}
 
 	/* pointer-free data */
@@ -2005,7 +2005,7 @@ func (state *dodataState) allocateDataSections(ctxt *Link) {
 
 	// Coverage instrumentation counters for libfuzzer.
 	if len(state.data[sym.SLIBFUZZER_8BIT_COUNTER]) > 0 {
-		sect := state.allocateNamedSectionAndAssignSyms(&Segdata, ".go.fuzzcntrs", sym.SLIBFUZZER_8BIT_COUNTER, sym.Sxxx, 06)
+		sect := state.allocateNamedSectionAndAssignSyms(&Segdata, ".golang.fuzzcntrs", sym.SLIBFUZZER_8BIT_COUNTER, sym.Sxxx, 06)
 		ldr.SetSymSect(ldr.LookupOrCreateSym("runtime.__start___sancov_cntrs", 0), sect)
 		ldr.SetSymSect(ldr.LookupOrCreateSym("runtime.__stop___sancov_cntrs", 0), sect)
 		ldr.SetSymSect(ldr.LookupOrCreateSym("internal/fuzz._counters", 0), sect)
@@ -2212,13 +2212,13 @@ func (state *dodataState) allocateDataSections(ctxt *Link) {
 	state.checkdatsize(sym.SITABLINK)
 	sect.Length = uint64(state.datsize) - sect.Vaddr
 
-	/* gosymtab */
-	sect = state.allocateNamedSectionAndAssignSyms(seg, genrelrosecname(".gosymtab"), sym.SSYMTAB, sym.SRODATA, relroSecPerm)
+	/* golangsymtab */
+	sect = state.allocateNamedSectionAndAssignSyms(seg, genrelrosecname(".golangsymtab"), sym.SSYMTAB, sym.SRODATA, relroSecPerm)
 	ldr.SetSymSect(ldr.LookupOrCreateSym("runtime.symtab", 0), sect)
 	ldr.SetSymSect(ldr.LookupOrCreateSym("runtime.esymtab", 0), sect)
 
-	/* gopclntab */
-	sect = state.allocateNamedSectionAndAssignSyms(seg, genrelrosecname(".gopclntab"), sym.SPCLNTAB, sym.SRODATA, relroSecPerm)
+	/* golangpclntab */
+	sect = state.allocateNamedSectionAndAssignSyms(seg, genrelrosecname(".golangpclntab"), sym.SPCLNTAB, sym.SRODATA, relroSecPerm)
 	ldr.SetSymSect(ldr.LookupOrCreateSym("runtime.pclntab", 0), sect)
 	ldr.SetSymSect(ldr.LookupOrCreateSym("runtime.pcheader", 0), sect)
 	ldr.SetSymSect(ldr.LookupOrCreateSym("runtime.funcnametab", 0), sect)
@@ -2309,10 +2309,10 @@ func (state *dodataState) dodataSect(ctxt *Link, symn sym.SymKind, syms []loader
 	ldr := ctxt.loader
 	sl := make([]symNameSize, len(syms))
 
-	// For ppc64, we want to interleave the .got and .toc sections
+	// For ppc64, we want to interleave the .golangt and .toc sections
 	// from input files. Both are type sym.SELFGOT, so in that case
 	// we skip size comparison and do the name comparison instead
-	// (conveniently, .got sorts before .toc).
+	// (conveniently, .golangt sorts before .toc).
 	sortBySize := symn != sym.SELFGOT
 
 	for k, s := range syms {
@@ -2404,14 +2404,14 @@ func (state *dodataState) dodataSect(ctxt *Link, symn sym.SymKind, syms []loader
 // Non-ELF binary formats are not always flexible enough to
 // give us a place to put the Go build ID. On those systems, we put it
 // at the very beginning of the text segment.
-// This “header” is read by cmd/go.
+// This “header” is read by cmd/golang.
 func (ctxt *Link) textbuildid() {
 	if ctxt.IsELF || *flagBuildid == "" {
 		return
 	}
 
 	ldr := ctxt.loader
-	s := ldr.CreateSymForUpdate("go:buildid", 0)
+	s := ldr.CreateSymForUpdate("golang:buildid", 0)
 	// The \xff is invalid UTF-8, meant to make it less likely
 	// to find one of these accidentally.
 	data := "\xff Go build ID: " + strconv.Quote(*flagBuildid) + "\n \xff"
@@ -2425,10 +2425,10 @@ func (ctxt *Link) textbuildid() {
 }
 
 func (ctxt *Link) buildinfo() {
-	// Write the buildinfo symbol, which go version looks for.
+	// Write the buildinfo symbol, which golang version looks for.
 	// The code reading this data is in package debug/buildinfo.
 	ldr := ctxt.loader
-	s := ldr.CreateSymForUpdate("go:buildinfo", 0)
+	s := ldr.CreateSymForUpdate("golang:buildinfo", 0)
 	s.SetType(sym.SBUILDINFO)
 	s.SetAlign(16)
 
@@ -2437,7 +2437,7 @@ func (ctxt *Link) buildinfo() {
 	const prefix = "\xff Go buildinf:" // 14 bytes, plus 1 data byte filled in below
 
 	// Header is always 32-bytes, a hold-over from before
-	// https://go.dev/cl/369977.
+	// https://golang.dev/cl/369977.
 	data := make([]byte, 32)
 	copy(data, prefix)
 	data[len(prefix)] = byte(ctxt.Arch.PtrSize)
@@ -2455,10 +2455,10 @@ func (ctxt *Link) buildinfo() {
 	s.SetData(data)
 	s.SetSize(int64(len(data)))
 
-	// Add reference to go:buildinfo from the rodata section,
+	// Add reference to golang:buildinfo from the rodata section,
 	// so that external linking with -Wl,--gc-sections does not
 	// delete the build info.
-	sr := ldr.CreateSymForUpdate("go:buildinfo.ref", 0)
+	sr := ldr.CreateSymForUpdate("golang:buildinfo.ref", 0)
 	sr.SetType(sym.SRODATA)
 	sr.SetAlign(int32(ctxt.Arch.PtrSize))
 	sr.AddAddr(ctxt.Arch, s.Sym())
@@ -2491,7 +2491,7 @@ func (ctxt *Link) textaddress() {
 		textp := ctxt.Textp
 		i := 0
 		// don't move the buildid symbol
-		if len(textp) > 0 && ldr.SymName(textp[0]) == "go:buildid" {
+		if len(textp) > 0 && ldr.SymName(textp[0]) == "golang:buildid" {
 			i++
 		}
 		// Skip over C symbols, as functions in a (C object) section must stay together.
@@ -2550,7 +2550,7 @@ func (ctxt *Link) textaddress() {
 
 	if ctxt.IsAIX() && ctxt.IsExternal() {
 		// On AIX, normally we won't generate direct calls to external symbols,
-		// except in one test, cmd/go/testdata/script/link_syso_issue33139.txt.
+		// except in one test, cmd/golang/testdata/script/link_syso_issue33139.txt.
 		// That test doesn't make much sense, and I'm not sure it ever works.
 		// Just generate trampoline for now (which will turn a direct call to
 		// an indirect call, which at least builds).
@@ -2819,7 +2819,7 @@ func (ctxt *Link) address() []*sym.Segment {
 		// align to page boundary so as not to mix
 		// rodata and executable text.
 		//
-		// Note: gold or GNU ld will reduce the size of the executable
+		// Note: golangld or GNU ld will reduce the size of the executable
 		// file by arranging for the relro segment to end at a page
 		// boundary, and overlap the end of the text segment with the
 		// start of the relro segment in the file.  The PT_LOAD segments
@@ -2898,7 +2898,7 @@ func (ctxt *Link) address() []*sym.Segment {
 			bss = s
 		case ".noptrbss":
 			noptrbss = s
-		case ".go.fuzzcntrs":
+		case ".golang.fuzzcntrs":
 			fuzzCounters = s
 		}
 	}
@@ -3000,8 +3000,8 @@ func (ctxt *Link) address() []*sym.Segment {
 	}
 
 	if ctxt.BuildMode == BuildModeShared {
-		s := ldr.LookupOrCreateSym("go:link.abihashbytes", 0)
-		sect := ldr.SymSect(ldr.LookupOrCreateSym(".note.go.abihash", 0))
+		s := ldr.LookupOrCreateSym("golang:link.abihashbytes", 0)
+		sect := ldr.SymSect(ldr.LookupOrCreateSym(".note.golang.abihash", 0))
 		ldr.SetSymSect(s, sect)
 		ldr.SetSymValue(s, int64(sect.Vaddr+16))
 	}
@@ -3095,8 +3095,8 @@ func (ctxt *Link) address() []*sym.Segment {
 		// GOT section is present, compute it as suggested by the ELFv2 ABI. Otherwise,
 		// choose a similar offset from the start of the data segment.
 		tocAddr := int64(Segdata.Vaddr) + 0x8000
-		if gotAddr := ldr.SymValue(ctxt.GOT); gotAddr != 0 {
-			tocAddr = gotAddr + 0x8000
+		if golangtAddr := ldr.SymValue(ctxt.GOT); golangtAddr != 0 {
+			tocAddr = golangtAddr + 0x8000
 		}
 		for i := range ctxt.DotTOC {
 			if i >= sym.SymVerABICount && i < sym.SymVerStatic { // these versions are not used currently

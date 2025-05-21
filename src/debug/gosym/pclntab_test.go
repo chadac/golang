@@ -1,8 +1,8 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-package gosym
+package golangsym
 
 import (
 	"bytes"
@@ -61,7 +61,7 @@ func endtest() {
 // These tests open and examine the test binary, and use elf.Open to do so.
 func skipIfNotELF(t *testing.T) {
 	switch runtime.GOOS {
-	case "dragonfly", "freebsd", "linux", "netbsd", "openbsd", "solaris", "illumos":
+	case "dragolangnfly", "freebsd", "linux", "netbsd", "openbsd", "solaris", "illumos":
 		// OK.
 	default:
 		t.Skipf("skipping on non-ELF system %s", runtime.GOOS)
@@ -84,26 +84,26 @@ func crack(file string, t *testing.T) (*elf.File, *Table) {
 }
 
 func parse(file string, f *elf.File, t *testing.T) (*elf.File, *Table) {
-	s := f.Section(".gosymtab")
+	s := f.Section(".golangsymtab")
 	if s == nil {
-		t.Skip("no .gosymtab section")
+		t.Skip("no .golangsymtab section")
 	}
 	symdat, err := s.Data()
 	if err != nil {
 		f.Close()
-		t.Fatalf("reading %s gosymtab: %v", file, err)
+		t.Fatalf("reading %s golangsymtab: %v", file, err)
 	}
-	pclndat, err := f.Section(".gopclntab").Data()
+	pclndat, err := f.Section(".golangpclntab").Data()
 	if err != nil {
 		f.Close()
-		t.Fatalf("reading %s gopclntab: %v", file, err)
+		t.Fatalf("reading %s golangpclntab: %v", file, err)
 	}
 
 	pcln := NewLineTable(pclndat, f.Section(".text").Addr)
 	tab, err := NewTable(symdat, pcln)
 	if err != nil {
 		f.Close()
-		t.Fatalf("parsing %s gosymtab: %v", file, err)
+		t.Fatalf("parsing %s golangsymtab: %v", file, err)
 	}
 
 	return f, tab
@@ -113,13 +113,13 @@ func TestLineFromAline(t *testing.T) {
 	skipIfNotELF(t)
 
 	tab := getTable(t)
-	if tab.go12line != nil {
+	if tab.golang12line != nil {
 		// aline's don't exist in the Go 1.2 table.
 		t.Skip("not relevant to Go 1.2 symbol table")
 	}
 
 	// Find the sym package
-	pkg := tab.LookupFunc("debug/gosym.TestLineFromAline").Obj
+	pkg := tab.LookupFunc("debug/golangsym.TestLineFromAline").Obj
 	if pkg == nil {
 		t.Fatalf("nil pkg")
 	}
@@ -149,7 +149,7 @@ func TestLineFromAline(t *testing.T) {
 		if !ok {
 			t.Errorf("file %s starts on line %d", path, line)
 		} else if line != ll+1 {
-			t.Fatalf("expected next line of file %s to be %d, got %d", path, ll+1, line)
+			t.Fatalf("expected next line of file %s to be %d, golangt %d", path, ll+1, line)
 		}
 		lastline[path] = line
 	}
@@ -162,7 +162,7 @@ func TestLineAline(t *testing.T) {
 	skipIfNotELF(t)
 
 	tab := getTable(t)
-	if tab.go12line != nil {
+	if tab.golang12line != nil {
 		// aline's don't exist in the Go 1.2 table.
 		t.Skip("not relevant to Go 1.2 symbol table")
 	}
@@ -178,8 +178,8 @@ func TestLineAline(t *testing.T) {
 				break
 			}
 
-			// cgo files are full of 'Z' symbols, which we don't handle
-			if len(path) > 4 && path[len(path)-4:] == ".cgo" {
+			// cgolang files are full of 'Z' symbols, which we don't handle
+			if len(path) > 4 && path[len(path)-4:] == ".cgolang" {
 				continue
 			}
 
@@ -244,7 +244,7 @@ func TestPCLine(t *testing.T) {
 		}
 		wantLine += int(textdat[off])
 		if line != wantLine {
-			t.Errorf("expected line %d at PC %#x in pcfromline, got %d", wantLine, pc, line)
+			t.Errorf("expected line %d at PC %#x in pcfromline, golangt %d", wantLine, pc, line)
 			off = pc + 1 - text.Addr
 			continue
 		}
@@ -256,12 +256,12 @@ func TestPCLine(t *testing.T) {
 			if lookupline != line {
 				// Should be nothing on this line
 				if err == nil {
-					t.Errorf("expected no PC at line %d, got %#x (%s)", lookupline, pc2, fn2.Name)
+					t.Errorf("expected no PC at line %d, golangt %#x (%s)", lookupline, pc2, fn2.Name)
 				}
 			} else if err != nil {
 				t.Errorf("failed to get PC of line %d: %s", lookupline, err)
 			} else if pc != pc2 {
-				t.Errorf("expected PC %#x (%s) at line %d, got PC %#x (%s)", pc, fn.Name, line, pc2, fn2.Name)
+				t.Errorf("expected PC %#x (%s) at line %d, golangt PC %#x (%s)", pc, fn.Name, line, pc2, fn2.Name)
 			}
 		}
 		off = pc + 1 - text.Addr
@@ -272,11 +272,11 @@ func TestSymVersion(t *testing.T) {
 	skipIfNotELF(t)
 
 	table := getTable(t)
-	if table.go12line == nil {
+	if table.golang12line == nil {
 		t.Skip("not relevant to Go 1.2+ symbol table")
 	}
 	for _, fn := range table.Funcs {
-		if fn.goVersion == verUnknown {
+		if fn.golangVersion == verUnknown {
 			t.Fatalf("unexpected symbol version: %v", fn)
 		}
 	}
@@ -284,7 +284,7 @@ func TestSymVersion(t *testing.T) {
 
 // read115Executable returns a hello world executable compiled by Go 1.15.
 //
-// The file was compiled in /tmp/hello.go:
+// The file was compiled in /tmp/hello.golang:
 //
 //	package main
 //
@@ -320,7 +320,7 @@ func Test115PclnParsing(t *testing.T) {
 	}
 	var f *Func
 	var pc uint64
-	pc, f, err = tab.LineToPC("/tmp/hello.go", 3)
+	pc, f, err = tab.LineToPC("/tmp/hello.golang", 3)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -328,10 +328,10 @@ func Test115PclnParsing(t *testing.T) {
 		t.Fatal("Expected pcln to parse as an older version")
 	}
 	if pc != 0x105c280 {
-		t.Fatalf("expect pc = 0x105c280, got 0x%x", pc)
+		t.Fatalf("expect pc = 0x105c280, golangt 0x%x", pc)
 	}
 	if f.Name != "main.main" {
-		t.Fatalf("expected to parse name as main.main, got %v", f.Name)
+		t.Fatalf("expected to parse name as main.main, golangt %v", f.Name)
 	}
 }
 
@@ -373,18 +373,18 @@ func Benchmark115(b *testing.B) {
 		for i := 0; i < b.N; i++ {
 			var f *Func
 			var pc uint64
-			pc, f, err = tab.LineToPC("/tmp/hello.go", 3)
+			pc, f, err = tab.LineToPC("/tmp/hello.golang", 3)
 			if err != nil {
 				b.Fatal(err)
 			}
 			if pcln.version != ver12 {
-				b.Fatalf("want version=%d, got %d", ver12, pcln.version)
+				b.Fatalf("want version=%d, golangt %d", ver12, pcln.version)
 			}
 			if pc != 0x105c280 {
-				b.Fatalf("want pc=0x105c280, got 0x%x", pc)
+				b.Fatalf("want pc=0x105c280, golangt 0x%x", pc)
 			}
 			if f.Name != "main.main" {
-				b.Fatalf("want name=main.main, got %q", f.Name)
+				b.Fatalf("want name=main.main, golangt %q", f.Name)
 			}
 		}
 	})
@@ -393,14 +393,14 @@ func Benchmark115(b *testing.B) {
 		b.ReportAllocs()
 		for i := 0; i < b.N; i++ {
 			file, line, fn := tab.PCToLine(0x105c280)
-			if file != "/tmp/hello.go" {
-				b.Fatalf("want name=/tmp/hello.go, got %q", file)
+			if file != "/tmp/hello.golang" {
+				b.Fatalf("want name=/tmp/hello.golang, golangt %q", file)
 			}
 			if line != 3 {
-				b.Fatalf("want line=3, got %d", line)
+				b.Fatalf("want line=3, golangt %d", line)
 			}
 			if fn.Name != "main.main" {
-				b.Fatalf("want name=main.main, got %q", fn.Name)
+				b.Fatalf("want name=main.main, golangt %q", fn.Name)
 			}
 		}
 	})

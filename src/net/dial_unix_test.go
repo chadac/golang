@@ -1,8 +1,8 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build unix
+//golang:build unix
 
 package net
 
@@ -33,7 +33,7 @@ func TestDialContextCancelRace(t *testing.T) {
 
 	ln := newLocalListener(t, "tcp")
 	listenerDone := make(chan struct{})
-	go func() {
+	golang func() {
 		defer close(listenerDone)
 		c, err := ln.Accept()
 		if err == nil {
@@ -76,7 +76,7 @@ func TestDialContextCancelRace(t *testing.T) {
 			// caused the race in issue 16523.
 			cancelCtx()
 
-			// And wait for the "interrupter" goroutine to
+			// And wait for the "interrupter" golangroutine to
 			// cancel the dial by messing with its write
 			// timeout before returning.
 			select {

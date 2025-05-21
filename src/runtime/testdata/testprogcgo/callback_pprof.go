@@ -1,27 +1,27 @@
 // Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !plan9 && !windows
+//golang:build !plan9 && !windows
 
 package main
 
-// Regression test for https://go.dev/issue/72870. Go code called from C should
+// Regression test for https://golang.dev/issue/72870. Go code called from C should
 // never be reported as external code.
 
 /*
 #include <pthread.h>
 
-void go_callback1();
-void go_callback2();
+void golang_callback1();
+void golang_callback2();
 
 static void *callback_pprof_thread(void *arg) {
-    go_callback1();
+    golang_callback1();
     return 0;
 }
 
 static void c_callback(void) {
-    go_callback2();
+    golang_callback2();
 }
 
 static void start_callback_pprof_thread() {
@@ -44,10 +44,10 @@ import (
 )
 
 func init() {
-	register("CgoCallbackPprof", CgoCallbackPprof)
+	register("CgolangCallbackPprof", CgolangCallbackPprof)
 }
 
-func CgoCallbackPprof() {
+func CgolangCallbackPprof() {
 	C.start_callback_pprof_thread()
 
 	var buf bytes.Buffer
@@ -72,7 +72,7 @@ func CgoCallbackPprof() {
 		}
 
 		leaf := funcs[0]
-		if leaf.Name != "main.go_callback1_callee" {
+		if leaf.Name != "main.golang_callback1_callee" {
 			continue
 		}
 		foundCallee = true
@@ -83,24 +83,24 @@ func CgoCallbackPprof() {
 			for i := range funcs {
 				frames[i] = funcs[i].Name
 			}
-			fmt.Printf("FAIL: main.go_callback1_callee sample missing caller in frames %v\n", frames)
+			fmt.Printf("FAIL: main.golang_callback1_callee sample missing caller in frames %v\n", frames)
 			os.Exit(1)
 		}
 
-		if funcs[1].Name != "main.go_callback1" {
-			// In https://go.dev/issue/72870, this will be runtime._ExternalCode.
+		if funcs[1].Name != "main.golang_callback1" {
+			// In https://golang.dev/issue/72870, this will be runtime._ExternalCode.
 			fmt.Printf("Profile: %s\n", p)
 			frames := make([]string, len(funcs))
 			for i := range funcs {
 				frames[i] = funcs[i].Name
 			}
-			fmt.Printf("FAIL: main.go_callback1_callee sample caller got %s want main.go_callback1 in frames %v\n", funcs[1].Name, frames)
+			fmt.Printf("FAIL: main.golang_callback1_callee sample caller golangt %s want main.golang_callback1 in frames %v\n", funcs[1].Name, frames)
 			os.Exit(1)
 		}
 	}
 
 	if !foundCallee {
-		fmt.Printf("Missing main.go_callback1_callee sample in profile %s\n", p)
+		fmt.Printf("Missing main.golang_callback1_callee sample in profile %s\n", p)
 		os.Exit(1)
 	}
 
@@ -118,14 +118,14 @@ func flattenFrames(s *profile.Sample) []*profile.Function {
 	return ret
 }
 
-//export go_callback1
-func go_callback1() {
+//export golang_callback1
+func golang_callback1() {
 	// This is a separate function just to ensure we have another Go
 	// function as the caller in the profile.
-	go_callback1_callee()
+	golang_callback1_callee()
 }
 
-func go_callback1_callee() {
+func golang_callback1_callee() {
 	C.c_callback()
 
 	// Spin for CPU samples.
@@ -133,6 +133,6 @@ func go_callback1_callee() {
 	}
 }
 
-//export go_callback2
-func go_callback2() {
+//export golang_callback2
+func golang_callback2() {
 }

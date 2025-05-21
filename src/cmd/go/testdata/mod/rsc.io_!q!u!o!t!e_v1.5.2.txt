@@ -6,13 +6,13 @@ module rsc.io/QUOTE
 require rsc.io/quote v1.5.2
 -- .info --
 {"Version":"v1.5.2","Name":"","Short":"","Time":"2018-07-15T16:25:34Z"}
--- go.mod --
+-- golang.mod --
 module rsc.io/QUOTE
 
 require rsc.io/quote v1.5.2
--- QUOTE/quote.go --
+-- QUOTE/quote.golang --
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // PACKAGE QUOTE COLLECTS LOUD SAYINGS.
@@ -43,9 +43,9 @@ func GO() string {
 func OPT() string {
 	return strings.ToUpper(quote.OPT())
 }
--- QUOTE/quote_test.go --
+-- QUOTE/quote_test.golang --
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package QUOTE
@@ -74,9 +74,9 @@ func TestGLASS(t *testing.T) {
 }
 
 func TestGO(t *testing.T) {
-	go1 := "DON'T COMMUNICATE BY SHARING MEMORY, SHARE MEMORY BY COMMUNICATING."
-	if out := GO(); out != go1 {
-		t.Errorf("GO() = %q, want %q", out, go1)
+	golang1 := "DON'T COMMUNICATE BY SHARING MEMORY, SHARE MEMORY BY COMMUNICATING."
+	if out := GO(); out != golang1 {
+		t.Errorf("GO() = %q, want %q", out, golang1)
 	}
 }
 

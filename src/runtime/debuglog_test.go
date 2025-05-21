@@ -1,5 +1,5 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // TODO(austin): All of these tests are skipped if the debuglog build
@@ -49,9 +49,9 @@ func TestDebugLog(t *testing.T) {
 	skipDebugLog(t)
 	runtime.ResetDebugLog()
 	runtime.Dlog().S("testing").End()
-	got := dlogCanonicalize(runtime.DumpDebugLog())
-	if want := "[] testing\n"; got != want {
-		t.Fatalf("want %q, got %q", want, got)
+	golangt := dlogCanonicalize(runtime.DumpDebugLog())
+	if want := "[] testing\n"; golangt != want {
+		t.Fatalf("want %q, golangt %q", want, golangt)
 	}
 }
 
@@ -60,9 +60,9 @@ func TestDebugLogTypes(t *testing.T) {
 	runtime.ResetDebugLog()
 	var varString = strings.Repeat("a", 4)
 	runtime.Dlog().B(true).B(false).I(-42).I16(0x7fff).U64(^uint64(0)).Hex(0xfff).P(nil).S(varString).S("const string").End()
-	got := dlogCanonicalize(runtime.DumpDebugLog())
-	if want := "[] true false -42 32767 18446744073709551615 0xfff 0x0 aaaa const string\n"; got != want {
-		t.Fatalf("want %q, got %q", want, got)
+	golangt := dlogCanonicalize(runtime.DumpDebugLog())
+	if want := "[] true false -42 32767 18446744073709551615 0xfff 0x0 aaaa const string\n"; golangt != want {
+		t.Fatalf("want %q, golangt %q", want, golangt)
 	}
 }
 
@@ -71,10 +71,10 @@ func TestDebugLogSym(t *testing.T) {
 	runtime.ResetDebugLog()
 	pc, _, _, _ := runtime.Caller(0)
 	runtime.Dlog().PC(pc).End()
-	got := dlogCanonicalize(runtime.DumpDebugLog())
-	want := regexp.MustCompile(`\[\] 0x[0-9a-f]+ \[runtime_test\.TestDebugLogSym\+0x[0-9a-f]+ .*/debuglog_test\.go:[0-9]+\]\n`)
-	if !want.MatchString(got) {
-		t.Fatalf("want matching %s, got %q", want, got)
+	golangt := dlogCanonicalize(runtime.DumpDebugLog())
+	want := regexp.MustCompile(`\[\] 0x[0-9a-f]+ \[runtime_test\.TestDebugLogSym\+0x[0-9a-f]+ .*/debuglog_test\.golang:[0-9]+\]\n`)
+	if !want.MatchString(golangt) {
+		t.Fatalf("want matching %s, golangt %q", want, golangt)
 	}
 }
 
@@ -88,14 +88,14 @@ func TestDebugLogInterleaving(t *testing.T) {
 	const limit = 1000
 	const concurrency = 10
 
-	// Start several goroutines writing to the log simultaneously.
+	// Start several golangroutines writing to the log simultaneously.
 	var wg sync.WaitGroup
 	i := 0
 	chans := make([]chan bool, concurrency)
 	for gid := range concurrency {
 		chans[gid] = make(chan bool)
 		wg.Add(1)
-		go func() {
+		golang func() {
 			defer wg.Done()
 			var log *runtime.Dlogger
 			for {
@@ -113,7 +113,7 @@ func TestDebugLogInterleaving(t *testing.T) {
 				// shards.
 				log = runtime.Dlog().I(i)
 				i++
-				// Wake up the next logger goroutine.
+				// Wake up the next logger golangroutine.
 				next <- true
 			}
 		}()
@@ -123,8 +123,8 @@ func TestDebugLogInterleaving(t *testing.T) {
 
 	// Wait for them to finish and get the log.
 	wg.Wait()
-	gotFull := runtime.DumpDebugLog()
-	got := dlogCanonicalize(gotFull)
+	golangtFull := runtime.DumpDebugLog()
+	golangt := dlogCanonicalize(golangtFull)
 
 	n2 := runtime.CountDebugLog()
 	t.Logf("number of log shards at end: %d", n2)
@@ -138,11 +138,11 @@ func TestDebugLogInterleaving(t *testing.T) {
 		fmt.Fprintf(&want, "[] %d\n", i)
 	}
 
-	if got != want.String() {
+	if golangt != want.String() {
 		// Since the timestamps are useful in understand
 		// failures of this test, we print the uncanonicalized
 		// output.
-		t.Fatalf("want %q, got (uncanonicalized) %q", want.String(), gotFull)
+		t.Fatalf("want %q, golangt (uncanonicalized) %q", want.String(), golangtFull)
 	}
 }
 
@@ -165,7 +165,7 @@ func TestDebugLogWraparound(t *testing.T) {
 	// Check for "lost" message.
 	lost := regexp.MustCompile(`^>> begin log \d+; lost first \d+KB <<\n`)
 	if !lost.MatchString(log) {
-		t.Fatalf("want matching %s, got %q", lost, log)
+		t.Fatalf("want matching %s, golangt %q", lost, log)
 	}
 	idx := lost.FindStringIndex(log)
 	// Strip lost message.
@@ -183,9 +183,9 @@ func TestDebugLogLongString(t *testing.T) {
 	runtime.ResetDebugLog()
 	var longString = strings.Repeat("a", runtime.DebugLogStringLimit+1)
 	runtime.Dlog().S(longString).End()
-	got := dlogCanonicalize(runtime.DumpDebugLog())
+	golangt := dlogCanonicalize(runtime.DumpDebugLog())
 	want := "[] " + strings.Repeat("a", runtime.DebugLogStringLimit) + " ..(1 more bytes)..\n"
-	if got != want {
-		t.Fatalf("want %q, got %q", want, got)
+	if golangt != want {
+		t.Fatalf("want %q, golangt %q", want, golangt)
 	}
 }

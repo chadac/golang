@@ -1,5 +1,5 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
@@ -17,10 +17,10 @@ import (
 //   - fortio.org/log
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname add
-//go:nosplit
+//golang:linkname add
+//golang:nosplit
 func add(p unsafe.Pointer, x uintptr) unsafe.Pointer {
 	return unsafe.Pointer(uintptr(p) + x)
 }
@@ -31,17 +31,17 @@ func add(p unsafe.Pointer, x uintptr) unsafe.Pointer {
 func getg() *g
 
 // mcall switches from the g to the g0 stack and invokes fn(g),
-// where g is the goroutine that made the call.
+// where g is the golangroutine that made the call.
 // mcall saves g's current PC/SP in g->sched so that it can be restored later.
 // It is up to fn to arrange for that later execution, typically by recording
 // g in a data structure, causing something to call ready(g) later.
-// mcall returns to the original goroutine g later, when g has been rescheduled.
+// mcall returns to the original golangroutine g later, when g has been rescheduled.
 // fn must not return at all; typically it ends by calling schedule, to let the m
-// run other goroutines.
+// run other golangroutines.
 //
 // mcall can only be called from g stacks (not g0, not gsignal).
 //
-// This must NOT be go:noescape: if fn is a stack-allocated closure,
+// This must NOT be golang:noescape: if fn is a stack-allocated closure,
 // fn puts g on a run queue, and g executes before fn returns, the
 // closure will be invalidated while it is still executing.
 func mcall(fn func(*g))
@@ -51,7 +51,7 @@ func mcall(fn func(*g))
 // if systemstack is called from the signal handling (gsignal) stack,
 // systemstack calls fn directly and returns.
 // Otherwise, systemstack is being called from the limited stack
-// of an ordinary goroutine. In this case, systemstack switches
+// of an ordinary golangroutine. In this case, systemstack switches
 // to the per-OS-thread stack, calls fn, and switches back.
 // It is common to use a func literal as the argument, in order
 // to share inputs and outputs with the code around the call
@@ -63,13 +63,13 @@ func mcall(fn func(*g))
 //	})
 //	... use x ...
 //
-//go:noescape
+//golang:noescape
 func systemstack(fn func())
 
-//go:nosplit
-//go:nowritebarrierrec
+//golang:nosplit
+//golang:nowritebarrierrec
 func badsystemstack() {
-	writeErrStr("fatal: systemstack called from unexpected goroutine")
+	writeErrStr("fatal: systemstack called from unexpected golangroutine")
 }
 
 // memclrNoHeapPointers clears n bytes starting at ptr.
@@ -101,13 +101,13 @@ func badsystemstack() {
 //   - github.com/outcaste-io/ristretto
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname memclrNoHeapPointers
-//go:noescape
+//golang:linkname memclrNoHeapPointers
+//golang:noescape
 func memclrNoHeapPointers(ptr unsafe.Pointer, n uintptr)
 
-//go:linkname reflect_memclrNoHeapPointers reflect.memclrNoHeapPointers
+//golang:linkname reflect_memclrNoHeapPointers reflect.memclrNoHeapPointers
 func reflect_memclrNoHeapPointers(ptr unsafe.Pointer, n uintptr) {
 	memclrNoHeapPointers(ptr, n)
 }
@@ -130,21 +130,21 @@ func reflect_memclrNoHeapPointers(ptr unsafe.Pointer, n uintptr) {
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
 //   - github.com/bytedance/sonic
-//   - github.com/cloudwego/dynamicgo
-//   - github.com/ebitengine/purego
+//   - github.com/cloudwegolang/dynamicgolang
+//   - github.com/ebitengine/puregolang
 //   - github.com/tetratelabs/wazero
-//   - github.com/ugorji/go/codec
+//   - github.com/ugolangrji/golang/codec
 //   - gvisor.dev/gvisor
 //   - github.com/sagernet/gvisor
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname memmove
-//go:noescape
+//golang:linkname memmove
+//golang:noescape
 func memmove(to, from unsafe.Pointer, n uintptr)
 
-//go:linkname reflect_memmove reflect.memmove
+//golang:linkname reflect_memmove reflect.memmove
 func reflect_memmove(to, from unsafe.Pointer, n uintptr) {
 	memmove(to, from, n)
 }
@@ -160,10 +160,10 @@ const hashLoad = float32(loadFactorNum) / float32(loadFactorDen)
 //   - github.com/bytedance/sonic
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname memequal
-//go:noescape
+//golang:linkname memequal
+//golang:noescape
 func memequal(a, b unsafe.Pointer, size uintptr) bool
 
 // noescape hides a pointer from escape analysis.  noescape is
@@ -175,17 +175,17 @@ func memequal(a, b unsafe.Pointer, size uintptr) bool
 // noescape should be an internal detail,
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
-//   - github.com/bytedance/gopkg
-//   - github.com/ebitengine/purego
+//   - github.com/bytedance/golangpkg
+//   - github.com/ebitengine/puregolang
 //   - github.com/hamba/avro/v2
 //   - github.com/puzpuzpuz/xsync/v3
 //   - github.com/songzhibin97/gkit
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname noescape
-//go:nosplit
+//golang:linkname noescape
+//golang:nosplit
 func noescape(p unsafe.Pointer) unsafe.Pointer {
 	x := uintptr(p)
 	return unsafe.Pointer(x ^ 0)
@@ -194,24 +194,24 @@ func noescape(p unsafe.Pointer) unsafe.Pointer {
 // noEscapePtr hides a pointer from escape analysis. See noescape.
 // USE CAREFULLY!
 //
-//go:nosplit
+//golang:nosplit
 func noEscapePtr[T any](p *T) *T {
 	x := uintptr(unsafe.Pointer(p))
 	return (*T)(unsafe.Pointer(x ^ 0))
 }
 
-// Not all cgocallback frames are actually cgocallback,
+// Not all cgolangcallback frames are actually cgolangcallback,
 // so not all have these arguments. Mark them uintptr so that the GC
 // does not misinterpret memory when the arguments are not present.
-// cgocallback is not called from Go, only from crosscall2.
-// This in turn calls cgocallbackg, which is where we'll find
+// cgolangcallback is not called from Go, only from crosscall2.
+// This in turn calls cgolangcallbackg, which is where we'll find
 // pointer-declared arguments.
 //
 // When fn is nil (frame is saved g), call dropm instead,
 // this is used when the C thread is exiting.
-func cgocallback(fn, frame, ctxt uintptr)
+func cgolangcallback(fn, frame, ctxt uintptr)
 
-func gogo(buf *gobuf)
+func golanggolang(buf *golangbuf)
 
 func asminit()
 func setg(gg *g)
@@ -237,7 +237,7 @@ func breakpoint()
 // Arguments passed in registers must be laid out in regArgs according to the ABI.
 // regArgs will hold any return values passed in registers after the call.
 //
-// reflectcall copies stack arguments from stackArgs to the goroutine stack, and
+// reflectcall copies stack arguments from stackArgs to the golangroutine stack, and
 // then copies back stackArgsSize-stackRetOffset bytes back to the return space
 // in stackArgs once fn has completed. It also "unspills" argument registers from
 // regArgs before calling fn, and spills them back into regArgs immediately
@@ -250,7 +250,7 @@ func breakpoint()
 // these pointers in regArgs.Ptrs such that they are visible to the GC.
 //
 // Package reflect passes a frame type. In package runtime, there is only
-// one call that copies results back, in callbackWrap in syscall_windows.go, and it
+// one call that copies results back, in callbackWrap in syscall_windows.golang, and it
 // does NOT pass a frame type, meaning there are no write barriers invoked. See that
 // call site for justification.
 //
@@ -260,7 +260,7 @@ func breakpoint()
 // only in a very limited callee of reflectcall, the stackArgs are copied, and
 // regArgs is only used in the reflectcall frame.
 //
-//go:noescape
+//golang:noescape
 func reflectcall(stackArgsType *_type, fn, stackArgs unsafe.Pointer, stackArgsSize, stackRetOffset, frameSize uint32, regArgs *abi.RegArgs)
 
 // procyield should be an internal detail,
@@ -268,27 +268,27 @@ func reflectcall(stackArgsType *_type, fn, stackArgs unsafe.Pointer, stackArgsSi
 // Notable members of the hall of shame include:
 //   - github.com/sagernet/sing-tun
 //   - github.com/slackhq/nebula
-//   - golang.zx2c4.com/wireguard
+//   - golanglang.zx2c4.com/wireguard
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname procyield
+//golang:linkname procyield
 func procyield(cycles uint32)
 
 type neverCallThisFunction struct{}
 
-// goexit is the return stub at the top of every goroutine call stack.
-// Each goroutine stack is constructed as if goexit called the
-// goroutine's entry point function, so that when the entry point
-// function returns, it will return to goexit, which will call goexit1
+// golangexit is the return stub at the top of every golangroutine call stack.
+// Each golangroutine stack is constructed as if golangexit called the
+// golangroutine's entry point function, so that when the entry point
+// function returns, it will return to golangexit, which will call golangexit1
 // to perform the actual exit.
 //
-// This function must never be called directly. Call goexit1 instead.
-// gentraceback assumes that goexit terminates the stack. A direct
+// This function must never be called directly. Call golangexit1 instead.
+// gentraceback assumes that golangexit terminates the stack. A direct
 // call on the stack will cause gentraceback to stop walking the stack
 // prematurely and if there is leftover state it may panic.
-func goexit(neverCallThisFunction)
+func golangexit(neverCallThisFunction)
 
 // publicationBarrier performs a store/store barrier (a "publication"
 // or "export" barrier). Some form of synchronization is required
@@ -307,8 +307,8 @@ func goexit(neverCallThisFunction)
 // data dependency ordering.
 func publicationBarrier()
 
-//go:noescape
-func asmcgocall(fn, arg unsafe.Pointer) int32
+//golang:noescape
+func asmcgolangcall(fn, arg unsafe.Pointer) int32
 
 func morestack()
 
@@ -318,13 +318,13 @@ func morestack()
 //   - github.com/bytedance/sonic
 //
 // Do not remove or change the type signature.
-// See go.dev/issues/67401.
-// See go.dev/issues/71672.
+// See golang.dev/issues/67401.
+// See golang.dev/issues/71672.
 //
-//go:linkname morestack_noctxt
+//golang:linkname morestack_noctxt
 func morestack_noctxt()
 
-func rt0_go()
+func rt0_golang()
 
 // in asm_*.s
 // not called directly; definitions here supply type information for traceback.
@@ -361,21 +361,21 @@ func systemstack_switch()
 
 // alignUp rounds n up to a multiple of a. a must be a power of 2.
 //
-//go:nosplit
+//golang:nosplit
 func alignUp(n, a uintptr) uintptr {
 	return (n + a - 1) &^ (a - 1)
 }
 
 // alignDown rounds n down to a multiple of a. a must be a power of 2.
 //
-//go:nosplit
+//golang:nosplit
 func alignDown(n, a uintptr) uintptr {
 	return n &^ (a - 1)
 }
 
 // divRoundUp returns ceil(n / a).
 //
-//go:nosplit
+//golang:nosplit
 func divRoundUp(n, a uintptr) uintptr {
 	// a is generally a power of two. This will get inlined and
 	// the compiler will optimize the division.
@@ -410,9 +410,9 @@ func gcWriteBarrier1()
 //   - github.com/bytedance/sonic
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname gcWriteBarrier2
+//golang:linkname gcWriteBarrier2
 func gcWriteBarrier2()
 
 func gcWriteBarrier3()
@@ -424,7 +424,7 @@ func gcWriteBarrier8()
 func duffzero()
 func duffcopy()
 
-// Called from linker-generated .initarray; declared for go vet; do NOT call from Go.
+// Called from linker-generated .initarray; declared for golang vet; do NOT call from Go.
 func addmoduledata()
 
 // Injected by the signal handler for panicking signals.
@@ -434,11 +434,11 @@ func addmoduledata()
 func sigpanic0()
 
 // intArgRegs is used by the various register assignment
-// algorithm implementations in the runtime. These include:.
-// - Finalizers (mfinal.go)
-// - Windows callbacks (syscall_windows.go)
+// algolangrithm implementations in the runtime. These include:.
+// - Finalizers (mfinal.golang)
+// - Windows callbacks (syscall_windows.golang)
 //
-// Both are stripped-down versions of the algorithm since they
+// Both are stripped-down versions of the algolangrithm since they
 // only have to deal with a subset of cases (finalizers only
 // take a pointer or interface argument, Go Windows callbacks
 // don't support floating point).

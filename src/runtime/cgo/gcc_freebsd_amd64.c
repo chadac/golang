@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 #include <sys/types.h>
@@ -8,14 +8,14 @@
 #include <pthread.h>
 #include <signal.h>
 #include <string.h>
-#include "libcgo.h"
-#include "libcgo_unix.h"
+#include "libcgolang.h"
+#include "libcgolang_unix.h"
 
 static void* threadentry(void*);
 static void (*setg_gcc)(void*);
 
 void
-x_cgo_init(G *g, void (*setg)(void*))
+x_cgolang_init(G *g, void (*setg)(void*))
 {
 	uintptr *pbounds;
 
@@ -26,12 +26,12 @@ x_cgo_init(G *g, void (*setg)(void*))
 	if (pbounds == NULL) {
 		fatalf("malloc failed: %s", strerror(errno));
 	}
-	_cgo_set_stacklo(g, pbounds);
+	_cgolang_set_stacklo(g, pbounds);
 	free(pbounds);
 }
 
 void
-_cgo_sys_thread_start(ThreadStart *ts)
+_cgolang_sys_thread_start(ThreadStart *ts)
 {
 	pthread_attr_t attr;
 	sigset_t ign, oset;
@@ -47,7 +47,7 @@ _cgo_sys_thread_start(ThreadStart *ts)
 	pthread_attr_getstacksize(&attr, &size);
 	// Leave stacklo=0 and set stackhi=size; mstart will do the rest.
 	ts->g->stackhi = size;
-	err = _cgo_try_pthread_create(&p, &attr, threadentry, ts);
+	err = _cgolang_try_pthread_create(&p, &attr, threadentry, ts);
 
 	pthread_sigmask(SIG_SETMASK, &oset, nil);
 
@@ -63,9 +63,9 @@ threadentry(void *v)
 	ThreadStart ts;
 
 	ts = *(ThreadStart*)v;
-	_cgo_tsan_acquire();
+	_cgolang_tsan_acquire();
 	free(v);
-	_cgo_tsan_release();
+	_cgolang_tsan_release();
 
 	crosscall1(ts.fn, setg_gcc, (void*)ts.g);
 	return nil;

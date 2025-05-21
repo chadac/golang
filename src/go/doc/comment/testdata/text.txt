@@ -17,7 +17,7 @@ Loose list
 # Heading
 
 More text.
--- gofmt --
+-- golangfmt --
 Hello, world
 
 	Code block here.

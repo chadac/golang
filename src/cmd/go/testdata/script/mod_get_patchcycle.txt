@@ -5,13 +5,13 @@
 # spuriously succeed.
 # (It used to print v0.1.1 but then silently upgrade to v0.2.0.)
 
-! go get example.net/a@patch
-stderr '^go: example.net/a@patch \(v0.1.1\) indirectly requires example.net/a@v0.2.0, not example.net/a@patch \(v0.1.1\)$'  # TODO: A mention of b v0.1.0 would be nice.
+! golang get example.net/a@patch
+stderr '^golang: example.net/a@patch \(v0.1.1\) indirectly requires example.net/a@v0.2.0, not example.net/a@patch \(v0.1.1\)$'  # TODO: A mention of b v0.1.0 would be nice.
 
--- go.mod --
+-- golang.mod --
 module example
 
-go 1.16
+golang 1.16
 
 require example.net/a v0.1.0
 
@@ -21,44 +21,44 @@ replace (
 	example.net/a v0.2.0 => ./a20
 	example.net/b v0.1.0 => ./b10
 )
--- example.go --
+-- example.golang --
 package example
 
 import _ "example.net/a"
 
--- a10/go.mod --
+-- a10/golang.mod --
 module example.net/a
 
-go 1.16
--- a10/a.go --
+golang 1.16
+-- a10/a.golang --
 package a
 
--- a11/go.mod --
+-- a11/golang.mod --
 module example.net/a
 
-go 1.16
+golang 1.16
 
 require example.net/b v0.1.0
--- a11/a.go --
+-- a11/a.golang --
 package a
 
 import _ "example.net/b"
 
--- a20/go.mod --
+-- a20/golang.mod --
 module example.net/a
 
-go 1.16
--- a20/a.go --
+golang 1.16
+-- a20/a.golang --
 package a
 
 
--- b10/go.mod --
+-- b10/golang.mod --
 module example.net/b
 
-go 1.16
+golang 1.16
 
 require example.net/a v0.2.0
--- b10/b.go --
+-- b10/b.golang --
 package b
 
 import _ "example.net/a"

@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package test
@@ -14,9 +14,9 @@ import (
 
 func TestReproducibleBuilds(t *testing.T) {
 	tests := []string{
-		"issue20272.go",
-		"issue27013.go",
-		"issue30202.go",
+		"issue20272.golang",
+		"issue27013.golang",
+		"issue30202.golang",
 	}
 
 	testenv.MustHaveGoBuild(t)
@@ -65,8 +65,8 @@ func TestIssue38068(t *testing.T) {
 
 	// Compile a small package with and without the concurrent
 	// backend, then check to make sure that the resulting archives
-	// are identical.  Note: this uses "go tool compile" instead of
-	// "go build" since the latter will generate different build IDs
+	// are identical.  Note: this uses "golang tool compile" instead of
+	// "golang build" since the latter will generate different build IDs
 	// if it sees different command line flags.
 	scenarios := []struct {
 		tag     string
@@ -78,7 +78,7 @@ func TestIssue38068(t *testing.T) {
 
 	tmpdir := t.TempDir()
 
-	src := filepath.Join("testdata", "reproducible", "issue38068.go")
+	src := filepath.Join("testdata", "reproducible", "issue38068.golang")
 	for i := range scenarios {
 		s := &scenarios[i]
 		s.libpath = filepath.Join(tmpdir, s.tag+".a")

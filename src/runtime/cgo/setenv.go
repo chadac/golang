@@ -1,21 +1,21 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build unix
+//golang:build unix
 
-package cgo
+package cgolang
 
-import _ "unsafe" // for go:linkname
+import _ "unsafe" // for golang:linkname
 
-//go:cgo_import_static x_cgo_setenv
-//go:linkname x_cgo_setenv x_cgo_setenv
-//go:linkname _cgo_setenv runtime._cgo_setenv
-var x_cgo_setenv byte
-var _cgo_setenv = &x_cgo_setenv
+//golang:cgolang_import_static x_cgolang_setenv
+//golang:linkname x_cgolang_setenv x_cgolang_setenv
+//golang:linkname _cgolang_setenv runtime._cgolang_setenv
+var x_cgolang_setenv byte
+var _cgolang_setenv = &x_cgolang_setenv
 
-//go:cgo_import_static x_cgo_unsetenv
-//go:linkname x_cgo_unsetenv x_cgo_unsetenv
-//go:linkname _cgo_unsetenv runtime._cgo_unsetenv
-var x_cgo_unsetenv byte
-var _cgo_unsetenv = &x_cgo_unsetenv
+//golang:cgolang_import_static x_cgolang_unsetenv
+//golang:linkname x_cgolang_unsetenv x_cgolang_unsetenv
+//golang:linkname _cgolang_unsetenv runtime._cgolang_unsetenv
+var x_cgolang_unsetenv byte
+var _cgolang_unsetenv = &x_cgolang_unsetenv

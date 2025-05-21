@@ -1,5 +1,5 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package token
@@ -13,18 +13,18 @@ import (
 	"testing"
 )
 
-func checkPos(t *testing.T, msg string, got, want Position) {
-	if got.Filename != want.Filename {
-		t.Errorf("%s: got filename = %q; want %q", msg, got.Filename, want.Filename)
+func checkPos(t *testing.T, msg string, golangt, want Position) {
+	if golangt.Filename != want.Filename {
+		t.Errorf("%s: golangt filename = %q; want %q", msg, golangt.Filename, want.Filename)
 	}
-	if got.Offset != want.Offset {
-		t.Errorf("%s: got offset = %d; want %d", msg, got.Offset, want.Offset)
+	if golangt.Offset != want.Offset {
+		t.Errorf("%s: golangt offset = %d; want %d", msg, golangt.Offset, want.Offset)
 	}
-	if got.Line != want.Line {
-		t.Errorf("%s: got line = %d; want %d", msg, got.Line, want.Line)
+	if golangt.Line != want.Line {
+		t.Errorf("%s: golangt line = %d; want %d", msg, golangt.Line, want.Line)
 	}
-	if got.Column != want.Column {
-		t.Errorf("%s: got column = %d; want %d", msg, got.Column, want.Column)
+	if golangt.Column != want.Column {
+		t.Errorf("%s: golangt column = %d; want %d", msg, golangt.Column, want.Column)
 	}
 }
 
@@ -70,7 +70,7 @@ func verifyPositions(t *testing.T, fset *FileSet, f *File, lines []int) {
 		p := f.Pos(offs)
 		offs2 := f.Offset(p)
 		if offs2 != offs {
-			t.Errorf("%s, Offset: got offset %d; want %d", f.Name(), offs2, offs)
+			t.Errorf("%s, Offset: golangt offset %d; want %d", f.Name(), offs2, offs)
 		}
 		line, col := linecol(lines, offs)
 		msg := fmt.Sprintf("%s (offs = %d, p = %d)", f.Name(), offs, p)
@@ -95,16 +95,16 @@ func TestPositions(t *testing.T) {
 	for _, test := range tests {
 		// verify consistency of test case
 		if test.source != nil && len(test.source) != test.size {
-			t.Errorf("%s: inconsistent test case: got file size %d; want %d", test.filename, len(test.source), test.size)
+			t.Errorf("%s: inconsistent test case: golangt file size %d; want %d", test.filename, len(test.source), test.size)
 		}
 
 		// add file and verify name and size
 		f := fset.AddFile(test.filename, fset.Base()+delta, test.size)
 		if f.Name() != test.filename {
-			t.Errorf("got filename %q; want %q", f.Name(), test.filename)
+			t.Errorf("golangt filename %q; want %q", f.Name(), test.filename)
 		}
 		if f.Size() != test.size {
-			t.Errorf("%s: got file size %d; want %d", f.Name(), f.Size(), test.size)
+			t.Errorf("%s: golangt file size %d; want %d", f.Name(), f.Size(), test.size)
 		}
 		if fset.File(f.Pos(0)) != f {
 			t.Errorf("%s: f.Pos(0) was not found in f", f.Name())
@@ -114,12 +114,12 @@ func TestPositions(t *testing.T) {
 		for i, offset := range test.lines {
 			f.AddLine(offset)
 			if f.LineCount() != i+1 {
-				t.Errorf("%s, AddLine: got line count %d; want %d", f.Name(), f.LineCount(), i+1)
+				t.Errorf("%s, AddLine: golangt line count %d; want %d", f.Name(), f.LineCount(), i+1)
 			}
 			// adding the same offset again should be ignored
 			f.AddLine(offset)
 			if f.LineCount() != i+1 {
-				t.Errorf("%s, AddLine: got unchanged line count %d; want %d", f.Name(), f.LineCount(), i+1)
+				t.Errorf("%s, AddLine: golangt unchanged line count %d; want %d", f.Name(), f.LineCount(), i+1)
 			}
 			verifyPositions(t, fset, f, test.lines[0:i+1])
 		}
@@ -129,10 +129,10 @@ func TestPositions(t *testing.T) {
 			t.Errorf("%s: SetLines failed", f.Name())
 		}
 		if f.LineCount() != len(test.lines) {
-			t.Errorf("%s, SetLines: got line count %d; want %d", f.Name(), f.LineCount(), len(test.lines))
+			t.Errorf("%s, SetLines: golangt line count %d; want %d", f.Name(), f.LineCount(), len(test.lines))
 		}
 		if !slices.Equal(f.Lines(), test.lines) {
-			t.Errorf("%s, Lines after SetLines(v): got %v; want %v", f.Name(), f.Lines(), test.lines)
+			t.Errorf("%s, Lines after SetLines(v): golangt %v; want %v", f.Name(), f.Lines(), test.lines)
 		}
 		verifyPositions(t, fset, f, test.lines)
 
@@ -144,7 +144,7 @@ func TestPositions(t *testing.T) {
 		}
 		f.SetLinesForContent(src)
 		if f.LineCount() != len(test.lines) {
-			t.Errorf("%s, SetLinesForContent: got line count %d; want %d", f.Name(), f.LineCount(), len(test.lines))
+			t.Errorf("%s, SetLinesForContent: golangt line count %d; want %d", f.Name(), f.LineCount(), len(test.lines))
 		}
 		verifyPositions(t, fset, f, test.lines)
 	}
@@ -182,13 +182,13 @@ func TestFiles(t *testing.T) {
 		j := 0
 		fset.Iterate(func(f *File) bool {
 			if f.Name() != tests[j].filename {
-				t.Errorf("got filename = %s; want %s", f.Name(), tests[j].filename)
+				t.Errorf("golangt filename = %s; want %s", f.Name(), tests[j].filename)
 			}
 			j++
 			return true
 		})
 		if j != i+1 {
-			t.Errorf("got %d files; want %d", j, i+1)
+			t.Errorf("golangt %d files; want %d", j, i+1)
 		}
 	}
 }
@@ -200,7 +200,7 @@ func TestFileSetPastEnd(t *testing.T) {
 		fset.AddFile(test.filename, fset.Base(), test.size)
 	}
 	if f := fset.File(Pos(fset.Base())); f != nil {
-		t.Errorf("got %v, want nil", f)
+		t.Errorf("golangt %v, want nil", f)
 	}
 }
 
@@ -214,7 +214,7 @@ func TestFileSetCacheUnlikely(t *testing.T) {
 	for file, pos := range offsets {
 		f := fset.File(Pos(pos))
 		if f.Name() != file {
-			t.Errorf("got %q at position %d, want %q", f.Name(), pos, file)
+			t.Errorf("golangt %q at position %d, want %q", f.Name(), pos, file)
 		}
 	}
 }
@@ -232,7 +232,7 @@ func TestFileSetRace(t *testing.T) {
 	for i := 0; i < 2; i++ {
 		r := rand.New(rand.NewSource(r.Int63()))
 		stop.Add(1)
-		go func() {
+		golang func() {
 			for i := 0; i < 1000; i++ {
 				fset.Position(Pos(r.Int31n(max)))
 			}
@@ -252,14 +252,14 @@ func TestFileSetRace2(t *testing.T) {
 		ch   = make(chan int, 2)
 	)
 
-	go func() {
+	golang func() {
 		for i := 0; i < N; i++ {
 			file.AddLine(i)
 		}
 		ch <- 1
 	}()
 
-	go func() {
+	golang func() {
 		pos := file.Pos(0)
 		for i := 0; i < N; i++ {
 			fset.PositionFor(pos, false)
@@ -289,13 +289,13 @@ done
 
 	// verify position info
 	for i, offs := range f.lines {
-		got1 := f.PositionFor(f.Pos(offs), false)
-		got2 := f.PositionFor(f.Pos(offs), true)
-		got3 := f.Position(f.Pos(offs))
+		golangt1 := f.PositionFor(f.Pos(offs), false)
+		golangt2 := f.PositionFor(f.Pos(offs), true)
+		golangt3 := f.Position(f.Pos(offs))
 		want := Position{filename, offs, i + 1, 1}
-		checkPos(t, "1. PositionFor unadjusted", got1, want)
-		checkPos(t, "1. PositionFor adjusted", got2, want)
-		checkPos(t, "1. Position", got3, want)
+		checkPos(t, "1. PositionFor unadjusted", golangt1, want)
+		checkPos(t, "1. PositionFor adjusted", golangt2, want)
+		checkPos(t, "1. Position", golangt3, want)
 	}
 
 	// manually add //line info on lines l1, l2
@@ -305,15 +305,15 @@ done
 
 	// unadjusted position info must remain unchanged
 	for i, offs := range f.lines {
-		got1 := f.PositionFor(f.Pos(offs), false)
+		golangt1 := f.PositionFor(f.Pos(offs), false)
 		want := Position{filename, offs, i + 1, 1}
-		checkPos(t, "2. PositionFor unadjusted", got1, want)
+		checkPos(t, "2. PositionFor unadjusted", golangt1, want)
 	}
 
 	// adjusted position info should have changed
 	for i, offs := range f.lines {
-		got2 := f.PositionFor(f.Pos(offs), true)
-		got3 := f.Position(f.Pos(offs))
+		golangt2 := f.PositionFor(f.Pos(offs), true)
+		golangt3 := f.Position(f.Pos(offs))
 		want := Position{filename, offs, i + 1, 1}
 		// manually compute wanted filename and line
 		line := want.Line
@@ -325,8 +325,8 @@ done
 			want.Filename = "bar"
 			want.Line = line - l2 + 3
 		}
-		checkPos(t, "3. PositionFor adjusted", got2, want)
-		checkPos(t, "3. Position", got3, want)
+		checkPos(t, "3. PositionFor adjusted", golangt2, want)
+		checkPos(t, "3. Position", golangt3, want)
 	}
 }
 
@@ -355,15 +355,15 @@ func TestRemoveFile(t *testing.T) {
 	b.SetLinesForContent(contentB)
 
 	checkPos := func(pos Pos, want string) {
-		if got := fset.Position(pos).String(); got != want {
-			t.Errorf("Position(%d) = %s, want %s", pos, got, want)
+		if golangt := fset.Position(pos).String(); golangt != want {
+			t.Errorf("Position(%d) = %s, want %s", pos, golangt, want)
 		}
 	}
 	checkNumFiles := func(want int) {
-		got := 0
-		fset.Iterate(func(*File) bool { got++; return true })
-		if got != want {
-			t.Errorf("Iterate called %d times, want %d", got, want)
+		golangt := 0
+		fset.Iterate(func(*File) bool { golangt++; return true })
+		if golangt != want {
+			t.Errorf("Iterate called %d times, want %d", golangt, want)
 		}
 	}
 
@@ -388,7 +388,7 @@ func TestRemoveFile(t *testing.T) {
 
 func TestFileAddLineColumnInfo(t *testing.T) {
 	const (
-		filename = "test.go"
+		filename = "test.golang"
 		filesize = 100
 	)
 
@@ -474,7 +474,7 @@ func TestFileAddLineColumnInfo(t *testing.T) {
 				f.AddLineColumnInfo(info.Offset, info.Filename, info.Line, info.Column)
 			}
 			if !slices.Equal(f.infos, test.want) {
-				t.Errorf("\ngot %+v, \nwant %+v", f.infos, test.want)
+				t.Errorf("\ngolangt %+v, \nwant %+v", f.infos, test.want)
 			}
 		})
 	}
@@ -485,7 +485,7 @@ func TestIssue57490(t *testing.T) {
 	if debug {
 		defer func() {
 			if recover() == nil {
-				t.Errorf("got no panic")
+				t.Errorf("golangt no panic")
 			}
 		}()
 	}
@@ -496,45 +496,45 @@ func TestIssue57490(t *testing.T) {
 	f := fset.AddFile("f", base, fsize)
 
 	// out-of-bounds positions must not lead to a panic when calling f.Offset
-	if got := f.Offset(NoPos); got != 0 {
-		t.Errorf("offset = %d, want %d", got, 0)
+	if golangt := f.Offset(NoPos); golangt != 0 {
+		t.Errorf("offset = %d, want %d", golangt, 0)
 	}
-	if got := f.Offset(Pos(-1)); got != 0 {
-		t.Errorf("offset = %d, want %d", got, 0)
+	if golangt := f.Offset(Pos(-1)); golangt != 0 {
+		t.Errorf("offset = %d, want %d", golangt, 0)
 	}
-	if got := f.Offset(Pos(base + fsize + 1)); got != fsize {
-		t.Errorf("offset = %d, want %d", got, fsize)
+	if golangt := f.Offset(Pos(base + fsize + 1)); golangt != fsize {
+		t.Errorf("offset = %d, want %d", golangt, fsize)
 	}
 
 	// out-of-bounds offsets must not lead to a panic when calling f.Pos
-	if got := f.Pos(-1); got != Pos(base) {
-		t.Errorf("pos = %d, want %d", got, base)
+	if golangt := f.Pos(-1); golangt != Pos(base) {
+		t.Errorf("pos = %d, want %d", golangt, base)
 	}
-	if got := f.Pos(fsize + 1); got != Pos(base+fsize) {
-		t.Errorf("pos = %d, want %d", got, base+fsize)
+	if golangt := f.Pos(fsize + 1); golangt != Pos(base+fsize) {
+		t.Errorf("pos = %d, want %d", golangt, base+fsize)
 	}
 
 	// out-of-bounds Pos values must not lead to a panic when calling f.Position
 	want := fmt.Sprintf("%s:1:1", f.Name())
-	if got := f.Position(Pos(-1)).String(); got != want {
-		t.Errorf("position = %s, want %s", got, want)
+	if golangt := f.Position(Pos(-1)).String(); golangt != want {
+		t.Errorf("position = %s, want %s", golangt, want)
 	}
 	want = fmt.Sprintf("%s:1:%d", f.Name(), fsize+1)
-	if got := f.Position(Pos(fsize + 1)).String(); got != want {
-		t.Errorf("position = %s, want %s", got, want)
+	if golangt := f.Position(Pos(fsize + 1)).String(); golangt != want {
+		t.Errorf("position = %s, want %s", golangt, want)
 	}
 
 	// check invariants
 	const xsize = fsize + 5
 	for offset := -xsize; offset < xsize; offset++ {
 		want1 := f.Offset(Pos(f.base + offset))
-		if got := f.Offset(f.Pos(offset)); got != want1 {
-			t.Errorf("offset = %d, want %d", got, want1)
+		if golangt := f.Offset(f.Pos(offset)); golangt != want1 {
+			t.Errorf("offset = %d, want %d", golangt, want1)
 		}
 
 		want2 := f.Pos(offset)
-		if got := f.Pos(f.Offset(want2)); got != want2 {
-			t.Errorf("pos = %d, want %d", got, want2)
+		if golangt := f.Pos(f.Offset(want2)); golangt != want2 {
+			t.Errorf("pos = %d, want %d", golangt, want2)
 		}
 	}
 }
@@ -544,8 +544,8 @@ func TestFileSet_AddExistingFiles(t *testing.T) {
 
 	check := func(descr, want string) {
 		t.Helper()
-		if got := fsetString(fset); got != want {
-			t.Errorf("%s: got %s, want %s", descr, got, want)
+		if golangt := fsetString(fset); golangt != want {
+			t.Errorf("%s: golangt %s, want %s", descr, golangt, want)
 		}
 	}
 

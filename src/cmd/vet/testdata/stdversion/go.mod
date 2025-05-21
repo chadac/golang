@@ -1,3 +1,3 @@
 module stdversion
 
-go 1.21
+golang 1.21

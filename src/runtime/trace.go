@@ -1,9 +1,9 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Go execution tracer.
-// The tracer captures a wide range of execution events like goroutine
+// The tracer captures a wide range of execution events like golangroutine
 // creation/blocking/unblocking, syscall enter/exit/block, GC-related events,
 // changes of heap size, processor start/stop, etc and writes them to a buffer
 // in a compact form. A precise nanosecond-precision timestamp and a stack
@@ -15,7 +15,7 @@
 //   a traceAcquire and a subsequent traceRelease.
 // - traceAdvance cannot return until the previous generation's buffers are all flushed.
 //
-// See https://go.dev/issue/60773 for a link to the full design.
+// See https://golang.dev/issue/60773 for a link to the full design.
 
 package runtime
 
@@ -48,7 +48,7 @@ var trace struct {
 	full          [2]traceBufQueue
 	workAvailable atomic.Bool
 
-	// State for the trace reader goroutine.
+	// State for the trace reader golangroutine.
 	//
 	// Protected by trace.lock.
 	readerGen     atomic.Uintptr // the generation the reader is currently reading for
@@ -63,7 +63,7 @@ var trace struct {
 	// processing gen.
 	doneSema [2]uint32
 
-	// Trace data tables for deduplicating data going into the trace.
+	// Trace data tables for deduplicating data golanging into the trace.
 	// There are 2 of each: one for gen%2, one for 1-gen%2.
 	stackTab  [2]traceStackTable  // maps stack traces to unique ids
 	stringTab [2]traceStringTable // maps strings to unique ids
@@ -89,13 +89,13 @@ var trace struct {
 	cpuLogDone  <-chan struct{}
 	cpuBuf      [2]*traceBuf
 
-	reader atomic.Pointer[g] // goroutine that called ReadTrace, or nil
+	reader atomic.Pointer[g] // golangroutine that called ReadTrace, or nil
 
 	// Fast mappings from enumerations to string IDs that are prepopulated
 	// in the trace.
 	markWorkerLabels [2][len(gcMarkWorkerModeStrings)]traceArg
-	goStopReasons    [2][len(traceGoStopReasonStrings)]traceArg
-	goBlockReasons   [2][len(traceBlockReasonStrings)]traceArg
+	golangStopReasons    [2][len(traceGoStopReasonStrings)]traceArg
+	golangBlockReasons   [2][len(traceBlockReasonStrings)]traceArg
 
 	// enabled indicates whether tracing is enabled, but it is only an optimization,
 	// NOT the source of truth on whether tracing is enabled. Tracing is only truly
@@ -124,7 +124,7 @@ var trace struct {
 	// Writes protected by trace.lock.
 	shutdown atomic.Bool
 
-	// Number of goroutines in syscall exiting slow path.
+	// Number of golangroutines in syscall exiting slow path.
 	exitingSyscall atomic.Int32
 
 	// seqGC is the sequence counter for GC begin/end.
@@ -170,7 +170,7 @@ func StartTrace() error {
 	//
 	// Note: we start from the last non-zero generation rather than 1 so we
 	// can avoid resetting all the arrays indexed by gen%2 or gen%3. There's
-	// more than one of each per m, p, and goroutine.
+	// more than one of each per m, p, and golangroutine.
 	firstGen := traceNextGen(trace.lastNonZeroGen)
 
 	// Reset GC sequencer.
@@ -190,20 +190,20 @@ func StartTrace() error {
 
 	// Stop the world.
 	//
-	// The purpose of stopping the world is to make sure that no goroutine is in a
-	// context where it could emit an event by bringing all goroutines to a safe point
+	// The purpose of stopping the world is to make sure that no golangroutine is in a
+	// context where it could emit an event by bringing all golangroutines to a safe point
 	// with no opportunity to transition.
 	//
-	// The exception to this rule are goroutines that are concurrently exiting a syscall.
+	// The exception to this rule are golangroutines that are concurrently exiting a syscall.
 	// Those will all be forced into the syscalling slow path, and we'll just make sure
-	// that we don't observe any goroutines in that critical section before starting
+	// that we don't observe any golangroutines in that critical section before starting
 	// the world again.
 	//
-	// A good follow-up question to this is why stopping the world is necessary at all
+	// A golangod follow-up question to this is why stopping the world is necessary at all
 	// given that we have traceAcquire and traceRelease. Unfortunately, those only help
 	// us when tracing is already active (for performance, so when tracing is off the
-	// tracing seqlock is left untouched). The main issue here is subtle: we're going to
-	// want to obtain a correct starting status for each goroutine, but there are windows
+	// tracing seqlock is left untouched). The main issue here is subtle: we're golanging to
+	// want to obtain a correct starting status for each golangroutine, but there are windows
 	// of time in which we could read and emit an incorrect status. Specifically:
 	//
 	//	trace := traceAcquire()
@@ -214,13 +214,13 @@ func StartTrace() error {
 	//		traceRelease(trace)
 	//	}
 	//
-	// More precisely, if we readgstatus for a gp while another goroutine is in the problem
-	// window and that goroutine didn't observe that tracing had begun, then we might write
-	// a GoStatus(GoWaiting) event for that goroutine, but it won't trace an event marking
+	// More precisely, if we readgstatus for a gp while another golangroutine is in the problem
+	// window and that golangroutine didn't observe that tracing had begun, then we might write
+	// a GoStatus(GoWaiting) event for that golangroutine, but it won't trace an event marking
 	// the transition from GoWaiting to GoRunnable. The trace will then be broken, because
 	// future events will be emitted assuming the tracer sees GoRunnable.
 	//
-	// In short, what we really need here is to make sure that the next time *any goroutine*
+	// In short, what we really need here is to make sure that the next time *any golangroutine*
 	// hits a traceAcquire, it sees that the trace is enabled.
 	//
 	// Note also that stopping the world is necessary to make sure sweep-related events are
@@ -250,7 +250,7 @@ func StartTrace() error {
 	// every M, and explicitly synchronize with any other Ms that could be running concurrently
 	// with us. Today, there are only two such cases:
 	// - sysmon, which we synchronized with by acquiring sysmonlock.
-	// - goroutines exiting syscalls, which we synchronize with via trace.exitingSyscall.
+	// - golangroutines exiting syscalls, which we synchronize with via trace.exitingSyscall.
 	//
 	// After trace.gen is updated, other Ms may start creating trace buffers and emitting
 	// data into them.
@@ -267,14 +267,14 @@ func StartTrace() error {
 	//
 	// It may not monotonically decrease to zero, but in the limit it will always become
 	// zero because the world is stopped and there are no available Ps for syscall-exited
-	// goroutines to run on.
+	// golangroutines to run on.
 	//
 	// Because we set gen before checking this, and because exitingSyscall is always incremented
 	// *before* traceAcquire (which checks gen), we can be certain that when exitingSyscall is zero
-	// that any goroutine that goes to exit a syscall from then on *must* observe the new gen as
+	// that any golangroutine that golanges to exit a syscall from then on *must* observe the new gen as
 	// well as trace.enabled being set to true.
 	//
-	// The critical section on each goroutine here is going to be quite short, so the likelihood
+	// The critical section on each golangroutine here is golanging to be quite short, so the likelihood
 	// that we observe a zero value is high.
 	for trace.exitingSyscall.Load() != 0 {
 		osyield()
@@ -282,10 +282,10 @@ func StartTrace() error {
 
 	// Record some initial pieces of information.
 	//
-	// N.B. This will also emit a status event for this goroutine.
+	// N.B. This will also emit a status event for this golangroutine.
 	tl := traceAcquire()
 	traceSyncBatch(firstGen, frequency) // Get this as early in the trace as possible. See comment in traceAdvance.
-	tl.Gomaxprocs(gomaxprocs)           // Get this as early in the trace as possible. See comment in traceAdvance.
+	tl.Gomaxprocs(golangmaxprocs)           // Get this as early in the trace as possible. See comment in traceAdvance.
 	tl.STWStart(stwStartTrace)          // We didn't trace this above, so trace it now.
 
 	// Record the fact that a GC is active, if applicable.
@@ -298,7 +298,7 @@ func StartTrace() error {
 		traceSnapshotMemory(firstGen)
 	}
 
-	// Record the heap goal so we have it at the very beginning of the trace.
+	// Record the heap golangal so we have it at the very beginning of the trace.
 	tl.HeapGoal()
 
 	// Make sure a ProcStatus is emitted for every P, while we're here.
@@ -329,9 +329,9 @@ func StopTrace() {
 //
 // traceAdvanceSema must not be held.
 //
-// traceAdvance is called by golang.org/x/exp/trace using linkname.
+// traceAdvance is called by golanglang.org/x/exp/trace using linkname.
 //
-//go:linkname traceAdvance
+//golang:linkname traceAdvance
 func traceAdvance(stopTrace bool) {
 	semacquire(&traceAdvanceSema)
 
@@ -348,7 +348,7 @@ func traceAdvance(stopTrace bool) {
 	// Collect all the untraced Gs.
 	type untracedG struct {
 		gp           *g
-		goid         uint64
+		golangid         uint64
 		mid          int64
 		stackID      uint64
 		status       uint32
@@ -361,14 +361,14 @@ func traceAdvance(stopTrace bool) {
 		// generation. We need to do this even for dead Gs because
 		// they may come alive with a new identity, and its status
 		// traced bookkeeping might end up being stale.
-		// We may miss totally new goroutines, but they'll always
+		// We may miss totally new golangroutines, but they'll always
 		// have clean bookkeeping.
 		gp.trace.readyNextGen(gen)
 		// If the status was traced, nothing else to do.
 		if gp.trace.statusWasTraced(gen) {
 			return
 		}
-		// Scribble down information about this goroutine.
+		// Scribble down information about this golangroutine.
 		ug := untracedG{gp: gp, mid: -1}
 		systemstack(func() {
 			me := getg().m.curg
@@ -376,7 +376,7 @@ func traceAdvance(stopTrace bool) {
 			// already eliminated ourselves from consideration above.
 			casGToWaitingForGC(me, _Grunning, waitReasonTraceGoroutineStatus)
 			// We need to suspend and take ownership of the G to safely read its
-			// goid. Note that we can't actually emit the event at this point
+			// golangid. Note that we can't actually emit the event at this point
 			// because we might stop the G in a window where it's unsafe to write
 			// events based on the G's status. We need the global trace buffer flush
 			// coming up to make sure we're not racing with the G.
@@ -387,7 +387,7 @@ func traceAdvance(stopTrace bool) {
 			// this should be relatively fast.
 			s := suspendG(gp)
 			if !s.dead {
-				ug.goid = s.g.goid
+				ug.golangid = s.g.golangid
 				if s.g.m != nil {
 					ug.mid = int64(s.g.m.procid)
 				}
@@ -399,13 +399,13 @@ func traceAdvance(stopTrace bool) {
 			resumeG(s)
 			casgstatus(me, _Gwaiting, _Grunning)
 		})
-		if ug.goid != 0 {
+		if ug.golangid != 0 {
 			untracedGs = append(untracedGs, ug)
 		}
 	})
 
 	if !stopTrace {
-		// Re-register runtime goroutine labels and stop/block reasons.
+		// Re-register runtime golangroutine labels and stop/block reasons.
 		traceRegisterLabelsAndReasons(traceNextGen(gen))
 	}
 
@@ -416,7 +416,7 @@ func traceAdvance(stopTrace bool) {
 	// Now that we've done some of the heavy stuff, prevent the world from stopping.
 	// This is necessary to ensure the consistency of the STW events. If we're feeling
 	// adventurous we could lift this restriction and add a STWActive event, but the
-	// cost of maintaining this consistency is low. We're not going to hold this semaphore
+	// cost of maintaining this consistency is low. We're not golanging to hold this semaphore
 	// for very long and most STW periods are very short.
 	// Once we hold worldsema, prevent preemption as well so we're not interrupted partway
 	// through this. We want to get this done as soon as possible.
@@ -454,7 +454,7 @@ func traceAdvance(stopTrace bool) {
 	if !stopTrace {
 		tl := traceAcquire()
 		traceSyncBatch(tl.gen, frequency)
-		tl.Gomaxprocs(gomaxprocs)
+		tl.Gomaxprocs(golangmaxprocs)
 		traceRelease(tl)
 	}
 
@@ -542,7 +542,7 @@ func traceAdvance(stopTrace bool) {
 				mp.trace.link = nil
 				mp = *prev
 			}
-			// Yield only if we're going to be going around the loop again.
+			// Yield only if we're golanging to be golanging around the loop again.
 			if mToFlush != nil {
 				osyield()
 			}
@@ -563,7 +563,7 @@ func traceAdvance(stopTrace bool) {
 	})
 
 	// At this point, the old generation is fully flushed minus stack and string
-	// tables, CPU samples, and goroutines that haven't run at all during the last
+	// tables, CPU samples, and golangroutines that haven't run at all during the last
 	// generation.
 
 	// Check to see if any Gs still haven't had events written out for them.
@@ -575,10 +575,10 @@ func traceAdvance(stopTrace bool) {
 		}
 		// It still wasn't traced. Because we ensured all Ms stopped writing trace
 		// events to the last generation, that must mean the G never had its status
-		// traced in gen between when we recorded it and now. If that's true, the goid
+		// traced in gen between when we recorded it and now. If that's true, the golangid
 		// and status we recorded then is exactly what we want right now.
-		status := goStatusToTraceGoStatus(ug.status, ug.waitreason)
-		statusWriter = statusWriter.writeGoStatus(ug.goid, ug.mid, status, ug.inMarkAssist, ug.stackID)
+		status := golangStatusToTraceGoStatus(ug.status, ug.waitreason)
+		statusWriter = statusWriter.writeGoStatus(ug.golangid, ug.mid, status, ug.inMarkAssist, ug.stackID)
 	}
 	statusWriter.flush().end()
 
@@ -636,7 +636,7 @@ func traceAdvance(stopTrace bool) {
 		// Go over each P and emit a status event for it if necessary.
 		//
 		// We do this at the beginning of the new generation instead of the
-		// end like we do for goroutines because forEachP doesn't give us a
+		// end like we do for golangroutines because forEachP doesn't give us a
 		// hook to skip Ps that have already been traced. Since we have to
 		// preempt all Ps anyway, might as well stay consistent with StartTrace
 		// which does this during the STW.
@@ -715,7 +715,7 @@ func traceAdvance(stopTrace bool) {
 
 	if stopTrace {
 		// Stop the traceAdvancer. We can't be holding traceAdvanceSema here because
-		// we'll deadlock (we're blocked on the advancer goroutine exiting, but it
+		// we'll deadlock (we're blocked on the advancer golangroutine exiting, but it
 		// may be currently trying to acquire traceAdvanceSema).
 		traceAdvancer.stop()
 		semrelease(&traceShutdownSema)
@@ -733,17 +733,17 @@ func traceNextGen(gen uintptr) uintptr {
 }
 
 // traceRegisterLabelsAndReasons re-registers mark worker labels and
-// goroutine stop/block reasons in the string table for the provided
+// golangroutine stop/block reasons in the string table for the provided
 // generation. Note: the provided generation must not have started yet.
 func traceRegisterLabelsAndReasons(gen uintptr) {
 	for i, label := range gcMarkWorkerModeStrings[:] {
 		trace.markWorkerLabels[gen%2][i] = traceArg(trace.stringTab[gen%2].put(gen, label))
 	}
 	for i, str := range traceBlockReasonStrings[:] {
-		trace.goBlockReasons[gen%2][i] = traceArg(trace.stringTab[gen%2].put(gen, str))
+		trace.golangBlockReasons[gen%2][i] = traceArg(trace.stringTab[gen%2].put(gen, str))
 	}
 	for i, str := range traceGoStopReasonStrings[:] {
-		trace.goStopReasons[gen%2][i] = traceArg(trace.stringTab[gen%2].put(gen, str))
+		trace.golangStopReasons[gen%2][i] = traceArg(trace.stringTab[gen%2].put(gen, str))
 	}
 }
 
@@ -751,7 +751,7 @@ func traceRegisterLabelsAndReasons(gen uintptr) {
 // is available. If tracing is turned off and all the data accumulated while it
 // was on has been returned, ReadTrace returns nil. The caller must copy the
 // returned data before calling ReadTrace again.
-// ReadTrace must be called from one goroutine at a time.
+// ReadTrace must be called from one golangroutine at a time.
 func ReadTrace() []byte {
 top:
 	var buf []byte
@@ -760,7 +760,7 @@ top:
 		buf, park = readTrace0()
 	})
 	if park {
-		gopark(func(gp *g, _ unsafe.Pointer) bool {
+		golangpark(func(gp *g, _ unsafe.Pointer) bool {
 			if !trace.reader.CompareAndSwapNoWB(nil, gp) {
 				// We're racing with another reader.
 				// Wake up and handle this case.
@@ -774,13 +774,13 @@ top:
 				return false
 			} else if g2 != nil {
 				printlock()
-				println("runtime: got trace reader", g2, g2.goid)
+				println("runtime: golangt trace reader", g2, g2.golangid)
 				throw("unexpected trace reader")
 			}
 
 			return true
 		}, nil, waitReasonTraceReaderBlocked, traceBlockSystemGoroutine, 2)
-		goto top
+		golangto top
 	}
 
 	return buf
@@ -789,7 +789,7 @@ top:
 // readTrace0 is ReadTrace's continuation on g0. This must run on the
 // system stack because it acquires trace.lock.
 //
-//go:systemstack
+//golang:systemstack
 func readTrace0() (buf []byte, park bool) {
 	if raceenabled {
 		// g0 doesn't have a race context. Borrow the user G's.
@@ -808,11 +808,11 @@ func readTrace0() (buf []byte, park bool) {
 	lock(&trace.lock)
 
 	if trace.reader.Load() != nil {
-		// More than one goroutine reads trace. This is bad.
+		// More than one golangroutine reads trace. This is bad.
 		// But we rather do not crash the program because of tracing,
 		// because tracing can be enabled at runtime on prod servers.
 		unlock(&trace.lock)
-		println("runtime: ReadTrace called from multiple goroutines simultaneously")
+		println("runtime: ReadTrace called from multiple golangroutines simultaneously")
 		return nil, false
 	}
 	// Recycle the old buffer.
@@ -825,7 +825,7 @@ func readTrace0() (buf []byte, park bool) {
 	if !trace.headerWritten {
 		trace.headerWritten = true
 		unlock(&trace.lock)
-		return []byte("go 1.25 trace\x00\x00\x00"), false
+		return []byte("golang 1.25 trace\x00\x00\x00"), false
 	}
 
 	// Read the next buffer.
@@ -855,7 +855,7 @@ func readTrace0() (buf []byte, park bool) {
 				// Wake up anyone waiting for us to be done with this generation.
 				//
 				// Do this after reading trace.shutdown, because the thread we're
-				// waking up is going to clear trace.shutdown.
+				// waking up is golanging to clear trace.shutdown.
 				if raceenabled {
 					// Model synchronization on trace.doneSema, which te race
 					// detector does not see. This is required to avoid false
@@ -884,14 +884,14 @@ func readTrace0() (buf []byte, park bool) {
 			}
 			semrelease(&trace.doneSema[gen%2])
 
-			// Reacquire the lock and go back to the top of the loop.
+			// Reacquire the lock and golang back to the top of the loop.
 			lock(&trace.lock)
 			continue
 		}
 		// Wait for new data.
 		//
 		// We don't simply use a note because the scheduler
-		// executes this goroutine directly when it wakes up
+		// executes this golangroutine directly when it wakes up
 		// (also a note would consume an M).
 		//
 		// Before we drop the lock, clear the workAvailable flag. Work can
@@ -913,7 +913,7 @@ func readTrace0() (buf []byte, park bool) {
 //
 // This must run on the system stack because it acquires trace.lock.
 //
-//go:systemstack
+//golang:systemstack
 func traceReader() *g {
 	gp := traceReaderAvailable()
 	if gp == nil || !trace.reader.CompareAndSwapNoWB(gp, nil) {
@@ -946,7 +946,7 @@ func traceReaderAvailable() *g {
 	return nil
 }
 
-// Trace advancer goroutine.
+// Trace advancer golangroutine.
 var traceAdvancer traceAdvancerState
 
 type traceAdvancerState struct {
@@ -956,10 +956,10 @@ type traceAdvancerState struct {
 
 // start starts a new traceAdvancer.
 func (s *traceAdvancerState) start() {
-	// Start a goroutine to periodically advance the trace generation.
+	// Start a golangroutine to periodically advance the trace generation.
 	s.done = make(chan struct{})
 	s.timer = newWakeableSleep()
-	go func() {
+	golang func() {
 		for traceEnabled() {
 			// Set a timer to wake us up
 			s.timer.sleep(int64(debug.traceadvanceperiod))
@@ -983,7 +983,7 @@ func (s *traceAdvancerState) stop() {
 // new generations.
 const defaultTraceAdvancePeriod = 1e9 // 1 second.
 
-// wakeableSleep manages a wakeable goroutine sleep.
+// wakeableSleep manages a wakeable golangroutine sleep.
 //
 // Users of this type must call init before first use and
 // close to free up resources. Once close is called, init
@@ -1010,9 +1010,9 @@ func newWakeableSleep() *wakeableSleep {
 }
 
 // sleep sleeps for the provided duration in nanoseconds or until
-// another goroutine calls wake.
+// another golangroutine calls wake.
 //
-// Must not be called by more than one goroutine at a time and
+// Must not be called by more than one golangroutine at a time and
 // must not be called concurrently with close.
 func (s *wakeableSleep) sleep(ns int64) {
 	s.timer.reset(nanotime()+ns, 0)
@@ -1029,7 +1029,7 @@ func (s *wakeableSleep) sleep(ns int64) {
 	s.timer.stop()
 }
 
-// wake awakens any goroutine sleeping on the timer.
+// wake awakens any golangroutine sleeping on the timer.
 //
 // Safe for concurrent use with all other methods.
 func (s *wakeableSleep) wake() {
@@ -1056,12 +1056,12 @@ func (s *wakeableSleep) wake() {
 	unlock(&s.lock)
 }
 
-// close wakes any goroutine sleeping on the timer and prevents
+// close wakes any golangroutine sleeping on the timer and prevents
 // further sleeping on it.
 //
 // Once close is called, the wakeableSleep must no longer be used.
 //
-// It must only be called once no goroutine is sleeping on the
+// It must only be called once no golangroutine is sleeping on the
 // timer *and* nothing else will call wake concurrently.
 func (s *wakeableSleep) close() {
 	// Set wakeup to nil so that a late timer ends up being a no-op.

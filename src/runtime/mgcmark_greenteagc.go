@@ -1,8 +1,8 @@
 // Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Green Tea mark algorithm
+// Green Tea mark algolangrithm
 //
 // The core idea behind Green Tea is simple: achieve better locality during
 // mark/scan by delaying scanning so that we can accumulate objects to scan
@@ -32,13 +32,13 @@
 // a few cache lines in size and whose metadata is stored the same way (at the
 // end of the span).
 
-//go:build goexperiment.greenteagc
+//golang:build golangexperiment.greenteagc
 
 package runtime
 
 import (
 	"internal/cpu"
-	"internal/goarch"
+	"internal/golangarch"
 	"internal/runtime/atomic"
 	"internal/runtime/gc"
 	"internal/runtime/sys"
@@ -104,7 +104,7 @@ func (o *spanScanOwnership) or(v spanScanOwnership) spanScanOwnership {
 	// using its no-result version elsewhere for performance.
 	o32 := (*uint32)(unsafe.Pointer(uintptr(unsafe.Pointer(o)) &^ 0b11))
 	off := (uintptr(unsafe.Pointer(o)) & 0b11) * 8
-	if goarch.BigEndian {
+	if golangarch.BigEndian {
 		off = 32 - off - 8
 	}
 	return spanScanOwnership(atomic.Or32(o32, uint32(v)<<off) >> off)
@@ -220,7 +220,7 @@ func (s *mspan) scannedBitsForIndex(objIndex uintptr) markBits {
 //
 // nosplit because this is called from gcmarknewobject, which is nosplit.
 //
-//go:nosplit
+//golang:nosplit
 func gcUsesSpanInlineMarkBits(size uintptr) bool {
 	return heapBitsInSpan(size) && size >= 16
 }
@@ -338,7 +338,7 @@ func (q *spanQueue) get(gcw *gcWork) objptr {
 		unlock(&q.lock)
 		return 0
 	}
-	n := q.q.n/int(gomaxprocs) + 1
+	n := q.q.n/int(golangmaxprocs) + 1
 	if n > q.q.n {
 		n = q.q.n
 	}
@@ -586,7 +586,7 @@ func scanSpan(p objptr, gcw *gcWork) {
 	divMagic := uint64(gc.SizeClassToDivMagic[spanclass.sizeclass()])
 	usableSpanSize := uint64(gc.PageSize - unsafe.Sizeof(spanInlineMarkBits{}))
 	if !spanclass.noscan() {
-		usableSpanSize -= gc.PageSize / goarch.PtrSize / 8
+		usableSpanSize -= gc.PageSize / golangarch.PtrSize / 8
 	}
 	nelems := uint16((usableSpanSize * divMagic) >> 32)
 
@@ -627,25 +627,25 @@ func spanSetScans(spanBase uintptr, nelems uint16, imb *spanInlineMarkBits, toSc
 	// Iterate over one uintptr-sized chunks at a time, computing both
 	// the union and intersection of marks and scans. Store the union
 	// into scans, and the intersection into toScan.
-	for i := uintptr(0); i < bytes; i += goarch.PtrSize {
-		scans := atomic.Loaduintptr(&imbScans[i/goarch.PtrSize])
-		marks := imbMarks[i/goarch.PtrSize]
+	for i := uintptr(0); i < bytes; i += golangarch.PtrSize {
+		scans := atomic.Loaduintptr(&imbScans[i/golangarch.PtrSize])
+		marks := imbMarks[i/golangarch.PtrSize]
 		scans = bswapIfBigEndian(scans)
 		marks = bswapIfBigEndian(marks)
-		if i/goarch.PtrSize == 64/goarch.PtrSize-1 {
-			scans &^= 0xff << ((goarch.PtrSize - 1) * 8) // mask out owned
-			marks &^= 0xff << ((goarch.PtrSize - 1) * 8) // mask out class
+		if i/golangarch.PtrSize == 64/golangarch.PtrSize-1 {
+			scans &^= 0xff << ((golangarch.PtrSize - 1) * 8) // mask out owned
+			marks &^= 0xff << ((golangarch.PtrSize - 1) * 8) // mask out class
 		}
 		toGrey := marks &^ scans
-		toScan[i/goarch.PtrSize] = toGrey
+		toScan[i/golangarch.PtrSize] = toGrey
 
 		// If there's anything left to grey, do it.
 		if toGrey != 0 {
 			toGrey = bswapIfBigEndian(toGrey)
-			if goarch.PtrSize == 4 {
-				atomic.Or32((*uint32)(unsafe.Pointer(&imbScans[i/goarch.PtrSize])), uint32(toGrey))
+			if golangarch.PtrSize == 4 {
+				atomic.Or32((*uint32)(unsafe.Pointer(&imbScans[i/golangarch.PtrSize])), uint32(toGrey))
 			} else {
-				atomic.Or64((*uint64)(unsafe.Pointer(&imbScans[i/goarch.PtrSize])), uint64(toGrey))
+				atomic.Or64((*uint64)(unsafe.Pointer(&imbScans[i/golangarch.PtrSize])), uint64(toGrey))
 			}
 		}
 		objsMarked += sys.OnesCount64(uint64(toGrey))
@@ -655,13 +655,13 @@ func spanSetScans(spanBase uintptr, nelems uint16, imb *spanInlineMarkBits, toSc
 
 func scanObjectSmall(spanBase, b, objSize uintptr, gcw *gcWork) {
 	ptrBits := heapBitsSmallForAddrInline(spanBase, b, objSize)
-	gcw.heapScanWork += int64(sys.Len64(uint64(ptrBits)) * goarch.PtrSize)
+	gcw.heapScanWork += int64(sys.Len64(uint64(ptrBits)) * golangarch.PtrSize)
 	nptrs := 0
 	n := sys.OnesCount64(uint64(ptrBits))
 	for range n {
 		k := sys.TrailingZeros64(uint64(ptrBits))
 		ptrBits &^= 1 << k
-		addr := b + uintptr(k)*goarch.PtrSize
+		addr := b + uintptr(k)*golangarch.PtrSize
 
 		// Prefetch addr since we're about to use it. This point for prefetching
 		// was chosen empirically.
@@ -672,7 +672,7 @@ func scanObjectSmall(spanBase, b, objSize uintptr, gcw *gcWork) {
 		nptrs++
 	}
 
-	// Process all the pointers we just got.
+	// Process all the pointers we just golangt.
 	for _, p := range gcw.ptrBuf[:nptrs] {
 		p = *(*uintptr)(unsafe.Pointer(p))
 		if p == 0 {
@@ -689,7 +689,7 @@ func scanObjectSmall(spanBase, b, objSize uintptr, gcw *gcWork) {
 func scanObjectsSmall(base, objSize uintptr, elems uint16, gcw *gcWork, scans *gc.ObjMask) {
 	nptrs := 0
 	for i, bits := range scans {
-		if i*(goarch.PtrSize*8) > int(elems) {
+		if i*(golangarch.PtrSize*8) > int(elems) {
 			break
 		}
 		n := sys.OnesCount64(uint64(bits))
@@ -697,15 +697,15 @@ func scanObjectsSmall(base, objSize uintptr, elems uint16, gcw *gcWork, scans *g
 			j := sys.TrailingZeros64(uint64(bits))
 			bits &^= 1 << j
 
-			b := base + uintptr(i*(goarch.PtrSize*8)+j)*objSize
+			b := base + uintptr(i*(golangarch.PtrSize*8)+j)*objSize
 			ptrBits := heapBitsSmallForAddrInline(base, b, objSize)
-			gcw.heapScanWork += int64(sys.Len64(uint64(ptrBits)) * goarch.PtrSize)
+			gcw.heapScanWork += int64(sys.Len64(uint64(ptrBits)) * golangarch.PtrSize)
 
 			n := sys.OnesCount64(uint64(ptrBits))
 			for range n {
 				k := sys.TrailingZeros64(uint64(ptrBits))
 				ptrBits &^= 1 << k
-				addr := b + uintptr(k)*goarch.PtrSize
+				addr := b + uintptr(k)*golangarch.PtrSize
 
 				// Prefetch addr since we're about to use it. This point for prefetching
 				// was chosen empirically.
@@ -718,7 +718,7 @@ func scanObjectsSmall(base, objSize uintptr, elems uint16, gcw *gcWork, scans *g
 		}
 	}
 
-	// Process all the pointers we just got.
+	// Process all the pointers we just golangt.
 	for _, p := range gcw.ptrBuf[:nptrs] {
 		p = *(*uintptr)(unsafe.Pointer(p))
 		if p == 0 {
@@ -744,11 +744,11 @@ func heapBitsSmallForAddrInline(spanBase, addr, elemsize uintptr) uintptr {
 	// We should be using heapBits(), but unfortunately it introduces
 	// both bounds checks panics and throw which causes us to exceed
 	// the nosplit limit in quite a few cases.
-	i := (addr - spanBase) / goarch.PtrSize / ptrBits
-	j := (addr - spanBase) / goarch.PtrSize % ptrBits
-	bits := elemsize / goarch.PtrSize
-	word0 := (*uintptr)(unsafe.Pointer(addb(hbits, goarch.PtrSize*(i+0))))
-	word1 := (*uintptr)(unsafe.Pointer(addb(hbits, goarch.PtrSize*(i+1))))
+	i := (addr - spanBase) / golangarch.PtrSize / ptrBits
+	j := (addr - spanBase) / golangarch.PtrSize % ptrBits
+	bits := elemsize / golangarch.PtrSize
+	word0 := (*uintptr)(unsafe.Pointer(addb(hbits, golangarch.PtrSize*(i+0))))
+	word1 := (*uintptr)(unsafe.Pointer(addb(hbits, golangarch.PtrSize*(i+1))))
 
 	var read uintptr
 	if j+bits > ptrBits {

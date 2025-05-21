@@ -5,7 +5,7 @@ import (
 )
 
 func F(s string) *unicode.RangeTable {
-	return unicode.Categories[s]
+	return unicode.Categolangries[s]
 }
 
 func main() {}

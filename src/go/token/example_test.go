@@ -1,14 +1,14 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package token_test
 
 import (
 	"fmt"
-	"go/ast"
-	"go/parser"
-	"go/token"
+	"golang/ast"
+	"golang/parser"
+	"golang/token"
 )
 
 func Example_retrievePositionInfo() {
@@ -18,14 +18,14 @@ func Example_retrievePositionInfo() {
 
 import "fmt"
 
-import "go/token"
+import "golang/token"
 
 //line :1:5
 type p = token.Pos
 
 const bad = token.NoPos
 
-//line fake.go:42:11
+//line fake.golang:42:11
 func ok(pos p) bool {
 	return pos != bad
 }
@@ -35,7 +35,7 @@ func ok(pos p) bool {
 }
 `
 
-	f, err := parser.ParseFile(fset, "main.go", src, 0)
+	f, err := parser.ParseFile(fset, "main.golang", src, 0)
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -68,10 +68,10 @@ func ok(pos p) bool {
 
 	// Output:
 	//
-	// main.go:3:1: import
-	// main.go:5:1: import
-	// main.go:1:5[main.go:8:1]: type
-	// main.go:3:1[main.go:10:1]: const
-	// fake.go:42:11[main.go:13:1]: func
-	// fake.go:7:9[main.go:17:14]: func
+	// main.golang:3:1: import
+	// main.golang:5:1: import
+	// main.golang:1:5[main.golang:8:1]: type
+	// main.golang:3:1[main.golang:10:1]: const
+	// fake.golang:42:11[main.golang:13:1]: func
+	// fake.golang:7:9[main.golang:17:14]: func
 }

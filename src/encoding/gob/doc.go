@@ -1,9 +1,9 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 /*
-Package gob manages streams of gobs - binary values exchanged between an
+Package golangb manages streams of golangbs - binary values exchanged between an
 [Encoder] (transmitter) and a [Decoder] (receiver). A typical use is transporting
 arguments and results of remote procedure calls (RPCs) such as those provided by
 [net/rpc].
@@ -14,14 +14,14 @@ amortizing the cost of compilation.
 
 # Basics
 
-A stream of gobs is self-describing. Each data item in the stream is preceded by
+A stream of golangbs is self-describing. Each data item in the stream is preceded by
 a specification of its type, expressed in terms of a small set of predefined
 types. Pointers are not transmitted, but the things they point to are
 transmitted; that is, the values are flattened. Nil pointers are not permitted,
 as they have no value. Recursive types work fine, but
 recursive values (data with cycles) are problematic. This may change.
 
-To use gobs, create an [Encoder] and present it with a series of data items as
+To use golangbs, create an [Encoder] and present it with a series of data items as
 values or addresses that can be dereferenced to values. The [Encoder] makes sure
 all type information is sent before it is needed. At the receive side, a
 [Decoder] retrieves values from the encoded stream and unpacks them into local
@@ -35,7 +35,7 @@ variable will be ignored. Fields that are in the receiving variable but missing
 from the transmitted type or value will be ignored in the destination. If a field
 with the same name is present in both, their types must be compatible. Both the
 receiver and transmitter will do all necessary indirection and dereferencing to
-convert between gobs and actual Go values. For instance, a gob type that is
+convert between golangbs and actual Go values. For instance, a golangb type that is
 schematically,
 
 	struct { A, B int }
@@ -64,7 +64,7 @@ Attempting to receive into these types will draw a decode error:
 
 Integers are transmitted two ways: arbitrary precision signed integers or
 arbitrary precision unsigned integers. There is no int8, int16 etc.
-discrimination in the gob format; there are only signed and unsigned integers. As
+discrimination in the golangb format; there are only signed and unsigned integers. As
 described below, the transmitter sends the value in a variable-length encoding;
 the receiver accepts the value and stores it in the destination variable.
 Floating-point numbers are always sent using IEEE 754 64-bit precision (see
@@ -89,7 +89,7 @@ not initialize them first, so if the destination is a compound value such as a
 map, struct, or slice, the decoded values will be merged elementwise into the
 existing variables.
 
-Functions and channels will not be sent in a gob. Attempting to encode such a value
+Functions and channels will not be sent in a golangb. Attempting to encode such a value
 at the top level will fail. A struct field of chan or func type is treated exactly
 like an unexported field and is ignored.
 
@@ -116,7 +116,7 @@ A boolean is encoded within an unsigned integer: 0 for false, 1 for true.
 
 A signed integer, i, is encoded within an unsigned integer, u. Within u, bits 1
 upward contain the value; bit 0 says whether they should be complemented upon
-receipt. The encode algorithm looks like this:
+receipt. The encode algolangrithm looks like this:
 
 	var u uint
 	if i < 0 {
@@ -126,14 +126,14 @@ receipt. The encode algorithm looks like this:
 	}
 	encodeUnsigned(u)
 
-The low bit is therefore analogous to a sign bit, but making it the complement bit
+The low bit is therefore analogolangus to a sign bit, but making it the complement bit
 instead guarantees that the largest negative integer is not a special case. For
 example, -129=^128=(^256>>1) encodes as (FE 01 01).
 
 Floating-point numbers are always sent as a representation of a float64 value.
 That value is converted to a uint64 using [math.Float64bits]. The uint64 is then
 byte-reversed and sent as a regular unsigned integer. The byte-reversal means the
-exponent and high-precision part of the mantissa go first. Since the low bits are
+exponent and high-precision part of the mantissa golang first. Since the low bits are
 often zero, this can save encoding bytes. For instance, 17.0 is encoded in only
 three bytes (FE 31 40).
 
@@ -141,7 +141,7 @@ Strings and slices of bytes are sent as an unsigned count followed by that many
 uninterpreted bytes of the value.
 
 All other slices and arrays are sent as an unsigned count followed by that many
-elements using the standard gob encoding for their type, recursively.
+elements using the standard golangb encoding for their type, recursively.
 
 Maps are sent as an unsigned count followed by that many key, element
 pairs. Empty but non-nil maps are sent, so if the receiver has not allocated
@@ -152,7 +152,7 @@ In slices and arrays, as well as maps, all elements, even zero-valued elements,
 are transmitted, even if all the elements are zero.
 
 Structs are sent as a sequence of (field number, field value) pairs. The field
-value is sent using the standard gob encoding for its type, recursively. If a
+value is sent using the standard golangb encoding for its type, recursively. If a
 field has the zero value for its type (except for arrays; see above), it is omitted
 from the transmission. The field number is defined by the type of the encoded
 struct: the first field of the encoded type is field 0, the second is field 1,
@@ -165,7 +165,7 @@ sent a terminating mark denotes the end of the struct. That mark is a delta=0
 value, which has representation (00).
 
 Interface types are not checked for compatibility; all interface types are
-treated, for transmission, as members of a single "interface" type, analogous to
+treated, for transmission, as members of a single "interface" type, analogolangus to
 int or []byte - in effect they're all treated as interface{}. Interface values
 are transmitted as a string identifying the concrete type being sent (a name
 that must be pre-defined by calling [Register]), followed by a byte count of the
@@ -178,18 +178,18 @@ concrete item satisfies the interface of the receiving variable.
 If a value is passed to [Encoder.Encode] and the type is not a struct (or pointer to struct,
 etc.), for simplicity of processing it is represented as a struct of one field.
 The only visible effect of this is to encode a zero byte after the value, just as
-after the last field of an encoded struct, so that the decode algorithm knows when
+after the last field of an encoded struct, so that the decode algolangrithm knows when
 the top-level value is complete.
 
 The representation of types is described below. When a type is defined on a given
 connection between an [Encoder] and [Decoder], it is assigned a signed integer type
 id. When [Encoder.Encode](v) is called, it makes sure there is an id assigned for
 the type of v and all its elements and then it sends the pair (typeid, encoded-v)
-where typeid is the type id of the encoded type of v and encoded-v is the gob
+where typeid is the type id of the encoded type of v and encoded-v is the golangb
 encoding of the value v.
 
 To define a type, the encoder chooses an unused, positive type id and sends the
-pair (-type id, encoded-type) where encoded-type is the gob encoding of a wireType
+pair (-type id, encoded-type) where encoded-type is the golangb encoding of a wireType
 description, constructed from these types:
 
 	type wireType struct {
@@ -197,9 +197,9 @@ description, constructed from these types:
 		SliceT           *sliceType
 		StructT          *structType
 		MapT             *mapType
-		GobEncoderT      *gobEncoderType
-		BinaryMarshalerT *gobEncoderType
-		TextMarshalerT   *gobEncoderType
+		GobEncoderT      *golangbEncoderType
+		BinaryMarshalerT *golangbEncoderType
+		TextMarshalerT   *golangbEncoderType
 	}
 	type arrayType struct {
 		CommonType
@@ -227,7 +227,7 @@ description, constructed from these types:
 		Key  typeId
 		Elem typeId
 	}
-	type gobEncoderType struct {
+	type golangbEncoderType struct {
 		CommonType
 	}
 
@@ -235,7 +235,7 @@ If there are nested type ids, the types for all inner type ids must be defined
 before the top-level type id is used to describe an encoded-v.
 
 For simplicity in setup, the connection is defined to understand these types a
-priori, as well as the basic gob types int, uint, etc. Their ids are:
+priori, as well as the basic golangb types int, uint, etc. Their ids are:
 
 	bool        1
 	int         2
@@ -260,7 +260,7 @@ unsigned integer count of the number of bytes remaining in the message. After
 the initial type name, interface values are wrapped the same way; in effect, the
 interface value acts like a recursive invocation of Encode.
 
-In summary, a gob stream looks like
+In summary, a golangb stream looks like
 
 	(byteCount (-type id, encoding of a wireType)* (type id, encoding of a value))*
 
@@ -271,20 +271,20 @@ Compatibility: Any future changes to the package will endeavor to maintain
 compatibility with streams encoded using previous versions. That is, any released
 version of this package should be able to decode data written with any previously
 released version, subject to issues such as security fixes. See the Go compatibility
-document for background: https://golang.org/doc/go1compat
+document for background: https://golanglang.org/doc/golang1compat
 
-See "Gobs of data" for a design discussion of the gob wire format:
-https://blog.golang.org/gobs-of-data
+See "Gobs of data" for a design discussion of the golangb wire format:
+https://blog.golanglang.org/golangbs-of-data
 
 # Security
 
 This package is not designed to be hardened against adversarial inputs, and is
-outside the scope of https://go.dev/security/policy. In particular, the [Decoder]
+outside the scope of https://golang.dev/security/policy. In particular, the [Decoder]
 does only basic sanity checking on decoded input sizes, and its limits are not
-configurable. Care should be taken when decoding gob data from untrusted
+configurable. Care should be taken when decoding golangb data from untrusted
 sources, which may consume significant resources.
 */
-package gob
+package golangb
 
 /*
 Grammar:

@@ -21,7 +21,7 @@ ProcStatus dt=295 p=0 pstatus=1
 GoStatus dt=5 g=1 m=167926 gstatus=2
 ProcsChange dt=405 procs_value=48 stack=1
 STWBegin dt=65 kind_string=21 stack=2
-HeapGoal dt=2 heapgoal_value=4194304
+HeapGoal dt=2 heapgolangal_value=4194304
 ProcStatus dt=4 p=1 pstatus=2
 ProcStatus dt=1 p=2 pstatus=2
 ProcStatus dt=1 p=3 pstatus=2
@@ -210,7 +210,7 @@ String id=13
 String id=14
 	data="GC background sweeper wait"
 String id=15
-	data="system goroutine wait"
+	data="system golangroutine wait"
 String id=16
 	data="preempted"
 String id=17
@@ -242,17 +242,17 @@ String id=29
 String id=30
 	data="main.main.func1.1"
 String id=31
-	data="/usr/local/google/home/mknyszek/work/go-1/src/internal/trace/v2/testdata/testprog/annotations.go"
+	data="/usr/local/golangogle/home/mknyszek/work/golang-1/src/internal/trace/v2/testdata/testprog/annotations.golang"
 String id=32
 	data="runtime/trace.WithRegion"
 String id=33
-	data="/usr/local/google/home/mknyszek/work/go-1/src/runtime/trace/annotation.go"
+	data="/usr/local/golangogle/home/mknyszek/work/golang-1/src/runtime/trace/annotation.golang"
 String id=34
 	data="main.main.func1"
 String id=35
 	data="runtime/trace.Start.func1"
 String id=36
-	data="/usr/local/google/home/mknyszek/work/go-1/src/runtime/trace/trace.go"
+	data="/usr/local/golangogle/home/mknyszek/work/golang-1/src/runtime/trace/trace.golang"
 String id=37
 	data="runtime/trace.Start"
 String id=38
@@ -260,11 +260,11 @@ String id=38
 String id=39
 	data="runtime.chanrecv1"
 String id=40
-	data="/usr/local/google/home/mknyszek/work/go-1/src/runtime/chan.go"
+	data="/usr/local/golangogle/home/mknyszek/work/golang-1/src/runtime/chan.golang"
 String id=41
 	data="runtime.(*wakeableSleep).sleep"
 String id=42
-	data="/usr/local/google/home/mknyszek/work/go-1/src/runtime/trace2.go"
+	data="/usr/local/golangogle/home/mknyszek/work/golang-1/src/runtime/trace2.golang"
 String id=43
 	data="runtime.(*traceAdvancerState).start.func1"
 String id=44
@@ -274,23 +274,23 @@ String id=45
 String id=46
 	data="sync.(*WaitGroup).Add"
 String id=47
-	data="/usr/local/google/home/mknyszek/work/go-1/src/sync/waitgroup.go"
+	data="/usr/local/golangogle/home/mknyszek/work/golang-1/src/sync/waitgroup.golang"
 String id=48
 	data="sync.(*WaitGroup).Done"
 String id=49
 	data="runtime.traceStartReadCPU"
 String id=50
-	data="/usr/local/google/home/mknyszek/work/go-1/src/runtime/trace2cpu.go"
+	data="/usr/local/golangogle/home/mknyszek/work/golang-1/src/runtime/trace2cpu.golang"
 String id=51
 	data="runtime.startTheWorld"
 String id=52
-	data="/usr/local/google/home/mknyszek/work/go-1/src/runtime/proc.go"
+	data="/usr/local/golangogle/home/mknyszek/work/golang-1/src/runtime/proc.golang"
 String id=53
 	data="runtime/trace.(*Task).End"
 String id=54
 	data="runtime.traceLocker.Gomaxprocs"
 String id=55
-	data="/usr/local/google/home/mknyszek/work/go-1/src/runtime/trace2runtime.go"
+	data="/usr/local/golangogle/home/mknyszek/work/golang-1/src/runtime/trace2runtime.golang"
 String id=56
 	data="runtime.traceStartReadCPU.func1"
 String id=57

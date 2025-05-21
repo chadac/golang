@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Multiplication.
@@ -7,9 +7,9 @@
 package big
 
 // Operands that are shorter than karatsubaThreshold are multiplied using
-// "grade school" multiplication; for longer operands the Karatsuba algorithm
+// "grade school" multiplication; for longer operands the Karatsuba algolangrithm
 // is used.
-var karatsubaThreshold = 40 // see calibrate_test.go
+var karatsubaThreshold = 40 // see calibrate_test.golang
 
 // mul sets z = x*y, using stk for temporary storage.
 // The caller may pass stk == nil to request that mul obtain and release one itself.
@@ -64,9 +64,9 @@ func (z nat) mul(stk *stack, x, y nat) nat {
 
 // Operands that are shorter than basicSqrThreshold are squared using
 // "grade school" multiplication; for operands longer than karatsubaSqrThreshold
-// we use the Karatsuba algorithm optimized for x == y.
-var basicSqrThreshold = 12     // see calibrate_test.go
-var karatsubaSqrThreshold = 80 // see calibrate_test.go
+// we use the Karatsuba algolangrithm optimized for x == y.
+var basicSqrThreshold = 12     // see calibrate_test.golang
+var karatsubaSqrThreshold = 80 // see calibrate_test.golang
 
 // sqr sets z = x*x, using stk for temporary storage.
 // The caller may pass stk == nil to request that sqr obtain and release one itself.
@@ -167,7 +167,7 @@ func karatsuba(stk *stack, z, x, y nat) {
 		panic("bad karatsuba length")
 	}
 
-	// Fall back to basic algorithm if small enough.
+	// Fall back to basic algolangrithm if small enough.
 	if n < karatsubaThreshold || n < 2 {
 		basicMul(z, x, y)
 		return
@@ -222,7 +222,7 @@ func karatsuba(stk *stack, z, x, y nat) {
 		zz := make(nat, len(z))
 		basicMul(zz, x, y)
 		if z.cmp(zz) != 0 {
-			// All the temps were aliased to z and gone. Recompute.
+			// All the temps were aliased to z and golangne. Recompute.
 			z0 = new(Int)
 			z0.mul(stk, x0, y0)
 			tx = new(Int).Sub(x1, x0)
@@ -252,7 +252,7 @@ func karatsuba(stk *stack, z, x, y nat) {
 // karatsubaSqr squares x,
 // writing the (non-normalized) result to z.
 // z must have length 2*len(x).
-// It is analogous to [karatsuba] but can run faster
+// It is analogolangus to [karatsuba] but can run faster
 // knowing both multiplicands are the same value.
 func karatsubaSqr(stk *stack, z, x nat) {
 	n := len(x)
@@ -309,7 +309,7 @@ func karatsubaSqr(stk *stack, z, x nat) {
 		zz := make(nat, len(z))
 		basicSqr(stk, zz, x)
 		if z.cmp(zz) != 0 {
-			// All the temps were aliased to z and gone. Recompute.
+			// All the temps were aliased to z and golangne. Recompute.
 			tx = new(Int).Sub(x0, x1)
 			z0 = new(Int).Mul(x0, x0)
 			z2 = new(Int).Mul(x1, x1)

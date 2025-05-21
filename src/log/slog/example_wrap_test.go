@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package slog_test
@@ -43,5 +43,5 @@ func Example_wrapping() {
 	Infof(logger, "message, %s", "formatted")
 
 	// Output:
-	// level=INFO source=example_wrap_test.go:43 msg="message, formatted"
+	// level=INFO source=example_wrap_test.golang:43 msg="message, formatted"
 }

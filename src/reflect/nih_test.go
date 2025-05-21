@@ -1,20 +1,20 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build cgo
+//golang:build cgolang
 
 package reflect_test
 
 import (
 	. "reflect"
-	"runtime/cgo"
+	"runtime/cgolang"
 	"testing"
 	"unsafe"
 )
 
 type nih struct {
-	_ cgo.Incomplete
+	_ cgolang.Incomplete
 	x int
 }
 
@@ -27,8 +27,8 @@ func TestNotInHeapDeref(t *testing.T) {
 	shouldPanic("reflect: call of reflect.Value.Field on zero Value", func() { v.Elem().Field(0) })
 
 	v = ValueOf(&global_nih)
-	if got := v.Elem().Field(1).Int(); got != 7 {
-		t.Fatalf("got %d, want 7", got)
+	if golangt := v.Elem().Field(1).Int(); golangt != 7 {
+		t.Fatalf("golangt %d, want 7", golangt)
 	}
 
 	v = ValueOf((*nih)(unsafe.Pointer(new(int))))

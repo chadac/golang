@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 #include <pthread.h>
@@ -7,17 +7,17 @@
 #include <string.h> // strerror
 #include <signal.h>
 #include <stdlib.h>
-#include "libcgo.h"
-#include "libcgo_unix.h"
+#include "libcgolang.h"
+#include "libcgolang_unix.h"
 
 static void* threadentry(void*);
 static void (*setg_gcc)(void*);
 
 // This will be set in gcc_android.c for android-specific customization.
-void (*x_cgo_inittls)(void **tlsg, void **tlsbase) __attribute__((common));
+void (*x_cgolang_inittls)(void **tlsg, void **tlsbase) __attribute__((common));
 
 void
-x_cgo_init(G *g, void (*setg)(void*), void **tlsg, void **tlsbase)
+x_cgolang_init(G *g, void (*setg)(void*), void **tlsg, void **tlsbase)
 {
 	uintptr *pbounds;
 
@@ -31,7 +31,7 @@ x_cgo_init(G *g, void (*setg)(void*), void **tlsg, void **tlsbase)
 	   unfortunate that we always run it.  It should be possible
 	   to remove this when we no longer care about versions of
 	   clang before 3.8.  The test for this is
-	   misc/cgo/testsanitizers.
+	   misc/cgolang/testsanitizers.
 
 	   GCC works hard to eliminate a seemingly unnecessary call to
 	   malloc, so we actually use the memory we allocate.  */
@@ -41,17 +41,17 @@ x_cgo_init(G *g, void (*setg)(void*), void **tlsg, void **tlsbase)
 	if (pbounds == NULL) {
 		fatalf("malloc failed: %s", strerror(errno));
 	}
-	_cgo_set_stacklo(g, pbounds);
+	_cgolang_set_stacklo(g, pbounds);
 	free(pbounds);
 
-	if (x_cgo_inittls) {
-		x_cgo_inittls(tlsg, tlsbase);
+	if (x_cgolang_inittls) {
+		x_cgolang_inittls(tlsg, tlsbase);
 	}
 }
 
 
 void
-_cgo_sys_thread_start(ThreadStart *ts)
+_cgolang_sys_thread_start(ThreadStart *ts)
 {
 	pthread_attr_t attr;
 	sigset_t ign, oset;
@@ -67,7 +67,7 @@ _cgo_sys_thread_start(ThreadStart *ts)
 	pthread_attr_getstacksize(&attr, &size);
 	// Leave stacklo=0 and set stackhi=size; mstart will do the rest.
 	ts->g->stackhi = size;
-	err = _cgo_try_pthread_create(&p, &attr, threadentry, ts);
+	err = _cgolang_try_pthread_create(&p, &attr, threadentry, ts);
 
 	pthread_sigmask(SIG_SETMASK, &oset, nil);
 
@@ -83,9 +83,9 @@ threadentry(void *v)
 	ThreadStart ts;
 
 	ts = *(ThreadStart*)v;
-	_cgo_tsan_acquire();
+	_cgolang_tsan_acquire();
 	free(v);
-	_cgo_tsan_release();
+	_cgolang_tsan_release();
 
 	crosscall1(ts.fn, setg_gcc, (void*)ts.g);
 	return nil;

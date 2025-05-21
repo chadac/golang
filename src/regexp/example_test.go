@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package regexp_test
@@ -201,10 +201,10 @@ func ExampleRegexp_Longest() {
 }
 
 func ExampleRegexp_MatchString() {
-	re := regexp.MustCompile(`(gopher){2}`)
-	fmt.Println(re.MatchString("gopher"))
-	fmt.Println(re.MatchString("gophergopher"))
-	fmt.Println(re.MatchString("gophergophergopher"))
+	re := regexp.MustCompile(`(golangpher){2}`)
+	fmt.Println(re.MatchString("golangpher"))
+	fmt.Println(re.MatchString("golangphergolangpher"))
+	fmt.Println(re.MatchString("golangphergolangphergolangpher"))
 	// Output:
 	// false
 	// true

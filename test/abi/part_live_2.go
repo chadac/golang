@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // A test for partial liveness / partial spilling / compiler-induced GC failure
@@ -11,7 +11,7 @@ package main
 import "runtime"
 import "unsafe"
 
-//go:registerparams
+//golang:registerparams
 func F(s []int) {
 	for i, x := range s {
 		G(i, x)
@@ -22,15 +22,15 @@ func F(s []int) {
 	GC()
 }
 
-//go:noinline
-//go:registerparams
+//golang:noinline
+//golang:registerparams
 func G(int, int) {}
 
-//go:noinline
-//go:registerparams
+//golang:noinline
+//golang:registerparams
 func H(*int) {}
 
-//go:registerparams
+//golang:registerparams
 func GC() { runtime.GC(); runtime.GC() }
 
 func main() {
@@ -41,12 +41,12 @@ func main() {
 	F(s)
 }
 
-//go:noinline
-//go:registerparams
+//golang:noinline
+//golang:registerparams
 func poison([3]int) {}
 
-//go:noinline
-//go:registerparams
+//golang:noinline
+//golang:registerparams
 func escape(s []int) {
 	g = s
 }

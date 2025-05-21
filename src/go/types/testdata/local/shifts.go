@@ -1,13 +1,13 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // The following shift tests are disabled in the shared
-// testdata/check/shifts.go file because they don't work
-// correctly with types2 at the moment. See go.dev/issue/52080.
-// Make sure we keep testing them with go/types.
+// testdata/check/shifts.golang file because they don't work
+// correctly with types2 at the moment. See golang.dev/issue/52080.
+// Make sure we keep testing them with golang/types.
 //
-// TODO(gri) Once go.dev/issue/52080 is fixed, this file can be
+// TODO(gri) Once golang.dev/issue/52080 is fixed, this file can be
 //           deleted in favor of the re-enabled tests
 //           in the shared file.
 

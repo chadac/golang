@@ -33,7 +33,7 @@ import (
 	"cmd/internal/obj"
 )
 
-//go:generate go run ../stringer.go -i $GOFILE -o anames.go -p mips
+//golang:generate golang run ../stringer.golang -i $GOFILE -o anames.golang -p mips
 
 /*
  * mips 64
@@ -250,7 +250,7 @@ func init() {
 		}
 	}
 	f(REG_R0, REG_R31, 0)
-	f(REG_F0, REG_F31, 32) // For 32-bit MIPS, compiler only uses even numbered registers --  see cmd/compile/internal/ssa/gen/MIPSOps.go
+	f(REG_F0, REG_F31, 32) // For 32-bit MIPS, compiler only uses even numbered registers --  see cmd/compile/internal/ssa/gen/MIPSOps.golang
 	MIPSDWARFRegisters[REG_HI] = 64
 	MIPSDWARFRegisters[REG_LO] = 65
 	// The lower bits of W registers are alias to F registers
@@ -275,7 +275,7 @@ const (
 	NSCHED = 20
 )
 
-//go:generate go run ../mkcnames.go -i a.out.go -o anames0.go -p mips
+//golang:generate golang run ../mkcnames.golang -i a.out.golang -o anames0.golang -p mips
 const (
 	C_NONE = iota
 	C_REG

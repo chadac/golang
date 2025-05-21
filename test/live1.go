@@ -1,7 +1,7 @@
 // compile
 
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test that code compiles without
@@ -12,7 +12,7 @@
 // trigger the generation of wrapper functions with no
 // clear line number (they end up using line 1), and those
 // would have annotations printed if we used -live=1,
-// like the live.go test does.
+// like the live.golang test does.
 // Instead, this test relies on the fact that the liveness
 // analysis turns any non-live parameter on entry into
 // a compile error. Compiling successfully means that bug

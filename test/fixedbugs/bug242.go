@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test order of evaluation in tuple assignments.
@@ -29,7 +29,7 @@ func x() (byte, byte) {
 }
 func e1(c chan byte, expected byte) chan byte {
 	if i != expected {
-		println("e1: got", i, "expected", expected)
+		println("e1: golangt", i, "expected", expected)
 		panic("fail")
 	}
 	i++
@@ -52,7 +52,7 @@ type S2 struct {
 
 func e2(p Empty, expected byte) Empty {
 	if i != expected {
-		println("e2: got", i, "expected", expected)
+		println("e2: golangt", i, "expected", expected)
 		panic("fail")
 	}
 	i++
@@ -60,7 +60,7 @@ func e2(p Empty, expected byte) Empty {
 }
 func e3(p *I, expected byte) *I {
 	if i != expected {
-		println("e3: got", i, "expected", expected)
+		println("e3: golangt", i, "expected", expected)
 		panic("fail")
 	}
 	i++

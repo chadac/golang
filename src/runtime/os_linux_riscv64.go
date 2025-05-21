@@ -1,5 +1,5 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
@@ -22,9 +22,9 @@ type riscvHWProbePairs = struct {
 // supported on all cores, which is what we're doing here. However, as we're only calling
 // this syscall once, it may not be worth the added effort to implement the VDSO call.
 
-//go:linkname internal_cpu_riscvHWProbe internal/cpu.riscvHWProbe
+//golang:linkname internal_cpu_riscvHWProbe internal/cpu.riscvHWProbe
 func internal_cpu_riscvHWProbe(pairs []riscvHWProbePairs, flags uint) bool {
-	// sys_RISCV_HWPROBE is copied from golang.org/x/sys/unix/zsysnum_linux_riscv64.go.
+	// sys_RISCV_HWPROBE is copied from golanglang.org/x/sys/unix/zsysnum_linux_riscv64.golang.
 	const sys_RISCV_HWPROBE uintptr = 258
 
 	if len(pairs) == 0 {

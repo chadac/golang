@@ -6,7 +6,7 @@ env GOFLAGS='-n -buildvcs'
 # Create a root module in a root Git repository.
 mkdir root
 cd root
-go mod init example.com/root
+golang mod init example.com/root
 exec git init
 
 # Nesting repositories in parent directories are ignored, as the current
@@ -16,13 +16,13 @@ exec git init
 mkdir hgsub
 cd hgsub
 exec hg init
-cp ../../main.go main.go
-! go build
+cp ../../main.golang main.golang
+! golang build
 stderr '^error obtaining VCS status: main module is in repository ".*root" but current directory is in repository ".*hgsub"$'
 stderr '^\tUse -buildvcs=false to disable VCS stamping.$'
-go build -buildvcs=false
-go mod init example.com/root/hgsub
-go build
+golang build -buildvcs=false
+golang mod init example.com/root/hgsub
+golang build
 cd ..
 
 # It's an error to build a package from a nested Git repository if the package
@@ -32,20 +32,20 @@ mkdir gitsub
 cd gitsub
 exec git init
 exec git config user.name 'J.R.Gopher'
-exec git config user.email 'gopher@golang.org'
-cp ../../main.go main.go
-! go build
+exec git config user.email 'golangpher@golanglang.org'
+cp ../../main.golang main.golang
+! golang build
 stderr '^error obtaining VCS status: main module is in repository ".*root" but current directory is in repository ".*gitsub"$'
-go build -buildvcs=false
-go mod init example.com/root/gitsub
+golang build -buildvcs=false
+golang mod init example.com/root/gitsub
 exec git commit --allow-empty -m empty # status commands fail without this
-go build
-rm go.mod
+golang build
+rm golang.mod
 cd ..
-! go build ./gitsub
+! golang build ./gitsub
 stderr '^error obtaining VCS status: main package is in repository ".*gitsub" but current directory is in repository ".*root"$'
-go build -buildvcs=false -o=gitsub${/} ./gitsub
+golang build -buildvcs=false -o=gitsub${/} ./gitsub
 
--- main.go --
+-- main.golang --
 package main
 func main() {}

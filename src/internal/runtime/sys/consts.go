@@ -1,36 +1,36 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package sys
 
 import (
-	"internal/goarch"
-	"internal/goos"
+	"internal/golangarch"
+	"internal/golangos"
 )
 
 // AIX and OpenBSD require a larger stack for syscalls.
 // The race build also needs more stack. See issue 54291.
-// This arithmetic must match that in cmd/internal/objabi/stack.go:stackGuardMultiplier.
-const StackGuardMultiplier = 1 + goos.IsAix + goos.IsOpenbsd + isRace
+// This arithmetic must match that in cmd/internal/objabi/stack.golang:stackGuardMultiplier.
+const StackGuardMultiplier = 1 + golangos.IsAix + golangos.IsOpenbsd + isRace
 
 // DefaultPhysPageSize is the default physical page size.
-const DefaultPhysPageSize = goarch.DefaultPhysPageSize
+const DefaultPhysPageSize = golangarch.DefaultPhysPageSize
 
 // PCQuantum is the minimal unit for a program counter (1 on x86, 4 on most other systems).
 // The various PC tables record PC deltas pre-divided by PCQuantum.
-const PCQuantum = goarch.PCQuantum
+const PCQuantum = golangarch.PCQuantum
 
 // Int64Align is the required alignment for a 64-bit integer (4 on 32-bit systems, 8 on 64-bit).
-const Int64Align = goarch.PtrSize
+const Int64Align = golangarch.PtrSize
 
 // MinFrameSize is the size of the system-reserved words at the bottom
 // of a frame (just above the architectural stack pointer).
 // It is zero on x86 and PtrSize on most non-x86 (LR-based) systems.
 // On PowerPC it is larger, to cover three more reserved words:
 // the compiler word, the link editor word, and the TOC save word.
-const MinFrameSize = goarch.MinFrameSize
+const MinFrameSize = golangarch.MinFrameSize
 
 // StackAlign is the required alignment of the SP register.
 // The stack must be at least word aligned, but some architectures require more.
-const StackAlign = goarch.StackAlign
+const StackAlign = golangarch.StackAlign

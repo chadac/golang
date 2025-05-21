@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package cfile implements management of coverage files.
@@ -33,7 +33,7 @@ import (
 // for the currently executing instrumented program. It is defined in the
 // runtime.
 //
-//go:linkname getCovCounterList
+//golang:linkname getCovCounterList
 func getCovCounterList() []rtcov.CovCounterBlob
 
 // emitState holds useful state information during the emit process.
@@ -94,7 +94,7 @@ var (
 	// Counter granularity for this instrumented program run.
 	cgran coverage.CounterGranularity
 	// Cached value of GOCOVERDIR environment variable.
-	goCoverDir string
+	golangCoverDir string
 	// Copy of os.Args made at init time, converted into map format.
 	capturedOsArgs map[string]string
 	// Flag used in tests to signal that coverage data already written.
@@ -130,13 +130,13 @@ func emitMetaData() {
 		return
 	}
 
-	goCoverDir = os.Getenv("GOCOVERDIR")
-	if goCoverDir == "" {
+	golangCoverDir = os.Getenv("GOCOVERDIR")
+	if golangCoverDir == "" {
 		fmt.Fprintf(os.Stderr, "warning: GOCOVERDIR not set, no coverage data emitted\n")
 		return
 	}
 
-	if err := emitMetaDataToDirectory(goCoverDir, ml); err != nil {
+	if err := emitMetaDataToDirectory(golangCoverDir, ml); err != nil {
 		fmt.Fprintf(os.Stderr, "error: coverage meta-data emit failed: %v\n", err)
 		if os.Getenv("GOCOVERDEBUG") != "" {
 			panic("meta-data write failure")
@@ -170,7 +170,7 @@ func prepareForMetaEmit() ([]rtcov.CovMetaBlob, error) {
 	// Ask the runtime for the list of coverage meta-data symbols.
 	ml := rtcov.Meta.List
 
-	// In the normal case (go build -o prog.exe ... ; ./prog.exe)
+	// In the normal case (golang build -o prog.exe ... ; ./prog.exe)
 	// len(ml) will always be non-zero, but we check here since at
 	// some point this function will be reachable via user-callable
 	// APIs (for example, to write out coverage data from a server
@@ -273,10 +273,10 @@ func emitMetaDataToDirectory(outdir string, ml []rtcov.CovMetaBlob) error {
 // This entry point is intended to be invoked by the runtime when an
 // instrumented program is terminating or calling os.Exit().
 func emitCounterData() {
-	if goCoverDir == "" || !finalHashComputed || covProfileAlreadyEmitted {
+	if golangCoverDir == "" || !finalHashComputed || covProfileAlreadyEmitted {
 		return
 	}
-	if err := emitCounterDataToDirectory(goCoverDir); err != nil {
+	if err := emitCounterDataToDirectory(golangCoverDir); err != nil {
 		fmt.Fprintf(os.Stderr, "error: coverage counter data emit failed: %v\n", err)
 		if os.Getenv("GOCOVERDEBUG") != "" {
 			panic("counter-data write failure")
@@ -546,7 +546,7 @@ func (s *emitState) VisitFuncs(f encodecounter.CounterVisitorFn) error {
 // captureOsArgs converts os.Args() into the format we use to store
 // this info in the counter data file (counter data file "args"
 // section is a generic key-value collection). See the 'args' section
-// in internal/coverage/defs.go for more info. The args map
+// in internal/coverage/defs.golang for more info. The args map
 // is also used to capture GOOS + GOARCH values as well.
 func captureOsArgs() map[string]string {
 	m := make(map[string]string)
@@ -572,8 +572,8 @@ func (s *emitState) emitCounterDataFile(finalHash [16]byte, w io.Writer) error {
 // MarkProfileEmitted signals the coverage machinery that
 // coverage data output files have already been written out, and there
 // is no need to take any additional action at exit time. This
-// function is called from the coverage-related boilerplate code in _testmain.go
-// emitted for go unit tests.
+// function is called from the coverage-related boilerplate code in _testmain.golang
+// emitted for golang unit tests.
 func MarkProfileEmitted(val bool) {
 	covProfileAlreadyEmitted = val
 }
@@ -587,7 +587,7 @@ func reportErrorInHardcodedList(slot, pkgID int32, fnID, nCtrs uint32) {
 		" fnID:", fnID, " numCtrs:", nCtrs)
 	println("list of hard-coded runtime package IDs needs revising.")
 	println("[see the comment on the 'rtPkgs' var in ")
-	println(" <goroot>/src/internal/coverage/pkid.go]")
+	println(" <golangroot>/src/internal/coverage/pkid.golang]")
 	println("registered list:")
 	for k, b := range metaList {
 		print("slot: ", k, " path='", b.PkgPath, "' ")

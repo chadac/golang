@@ -1,16 +1,16 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// To avoid a cyclic dependency with go/parser, this file is in a separate package.
+// To avoid a cyclic dependency with golang/parser, this file is in a separate package.
 
 package ast_test
 
 import (
 	"fmt"
-	. "go/ast"
-	"go/parser"
-	"go/token"
+	. "golang/ast"
+	"golang/parser"
+	"golang/token"
 	"sort"
 	"strings"
 	"testing"
@@ -26,8 +26,8 @@ package p /* the name is p */
 import (
 	"bytes"     // bytes
 	"fmt"       // fmt
-	"go/ast"
-	"go/parser"
+	"golang/ast"
+	"golang/parser"
 )
 
 // T
@@ -112,16 +112,16 @@ func TestCommentMap(t *testing.T) {
 	// very correct association of comments
 	for n, list := range cmap {
 		key := fmt.Sprintf("%2d: %T", fset.Position(n.Pos()).Line, n)
-		got := ctext(list)
+		golangt := ctext(list)
 		want := res[key]
-		if got != want {
-			t.Errorf("%s: got %q; want %q", key, got, want)
+		if golangt != want {
+			t.Errorf("%s: golangt %q; want %q", key, golangt, want)
 		}
 	}
 
-	// verify that no comments got lost
+	// verify that no comments golangt lost
 	if n := len(cmap.Comments()); n != len(f.Comments) {
-		t.Errorf("got %d comment groups in map; want %d", n, len(f.Comments))
+		t.Errorf("golangt %d comment groups in map; want %d", n, len(f.Comments))
 	}
 
 	// support code to update test:
@@ -160,10 +160,10 @@ func TestFilter(t *testing.T) {
 	cc := cmap.Filter(f)
 	for n, list := range cc {
 		key := fmt.Sprintf("%2d: %T", fset.Position(n.Pos()).Line, n)
-		got := ctext(list)
+		golangt := ctext(list)
 		want := res[key]
-		if key == "25: *ast.GenDecl" || got != want {
-			t.Errorf("%s: got %q; want %q", key, got, want)
+		if key == "25: *ast.GenDecl" || golangt != want {
+			t.Errorf("%s: golangt %q; want %q", key, golangt, want)
 		}
 	}
 }

@@ -1,5 +1,5 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package typeutil defines various utilities for types, such as [Map],
@@ -9,11 +9,11 @@ package typeutil
 import (
 	"bytes"
 	"fmt"
-	"go/types"
+	"golang/types"
 	"hash/maphash"
 	"unsafe"
 
-	"golang.org/x/tools/internal/typeparams"
+	"golanglang.org/x/tools/internal/typeparams"
 )
 
 // Map is a hash-table-based mapping from types (types.Type) to
@@ -27,7 +27,7 @@ import (
 // Read-only map operations ([Map.At], [Map.Len], and so on) may
 // safely be called concurrently.
 //
-// TODO(adonovan): deprecate in favor of https://go.dev/issues/69420
+// TODO(adonovan): deprecate in favor of https://golang.dev/issues/69420
 // and 69559, if the latter proposals for a generic hash-map type and
 // a types.Hash function are accepted.
 type Map struct {
@@ -274,7 +274,7 @@ func (h hasher) hash(t types.Type) uint32 {
 	case *types.Interface:
 		// Interfaces are identical if they have the same set of methods, with
 		// identical names and types, and they have the same set of type
-		// restrictions. See go/types.identical for more details.
+		// restrictions. See golang/types.identical for more details.
 		var hash uint32 = 9103
 
 		// Hash methods.
@@ -322,7 +322,7 @@ func (h hasher) hash(t types.Type) uint32 {
 }
 
 func (h hasher) hashTuple(tuple *types.Tuple) uint32 {
-	// See go/types.identicalTypes for rationale.
+	// See golang/types.identicalTypes for rationale.
 	n := tuple.Len()
 	hash := 9137 + 2*uint32(n)
 	for i := range n {
@@ -380,7 +380,7 @@ var theSeed = maphash.MakeSeed()
 func (hasher) hashTypeName(tname *types.TypeName) uint32 {
 	// Since types.Identical uses == to compare TypeNames,
 	// the Hash function uses maphash.Comparable.
-	// TODO(adonovan): or will, when it becomes available in go1.24.
+	// TODO(adonovan): or will, when it becomes available in golang1.24.
 	// In the meantime we use the pointer's numeric value.
 	//
 	//   hash := maphash.Comparable(theSeed, tname)
@@ -411,7 +411,7 @@ func (hasher) hashTypeName(tname *types.TypeName) uint32 {
 // The problem is that the Methods of the interface in m's result type
 // include m itself; there is no mention of the named type X that
 // might help us break the cycle.
-// (See comment in go/types.identical, case *Interface, for more.)
+// (See comment in golang/types.identical, case *Interface, for more.)
 func (h hasher) shallowHash(t types.Type) uint32 {
 	// t is the type of an interface method (Signature),
 	// its params or results (Tuples), or their immediate

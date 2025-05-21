@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package syntax
@@ -48,7 +48,7 @@ func TestPrintError(t *testing.T) {
 	var buf shortBuffer
 	_, err = Fprint(&buf, ast, 0)
 	if err == nil || err != io.ErrShortBuffer {
-		t.Errorf("got err = %s, want %s", err, io.ErrShortBuffer)
+		t.Errorf("golangt err = %s, want %s", err, io.ErrShortBuffer)
 	}
 }
 
@@ -134,7 +134,7 @@ var stringTests = [][2]string{
 	dup("package p; type _ chan<- <-chan int"),
 	dup("package p; type _ chan<- chan<- int"),
 
-	// go.dev/issues/69206
+	// golang.dev/issues/69206
 	dup("package p; type _[P C] int"),
 	{"package p; type _[P (C),] int", "package p; type _[P C] int"},
 	{"package p; type _[P ((C)),] int", "package p; type _[P C] int"},
@@ -150,8 +150,8 @@ func TestPrintString(t *testing.T) {
 			t.Error(err)
 			continue
 		}
-		if got := String(ast); got != test[1] {
-			t.Errorf("%q: got %q", test[1], got)
+		if golangt := String(ast); golangt != test[1] {
+			t.Errorf("%q: golangt %q", test[1], golangt)
 		}
 	}
 }
@@ -284,8 +284,8 @@ func TestShortString(t *testing.T) {
 			continue
 		}
 		x := ast.DeclList[0].(*VarDecl).Values
-		if got := String(x); got != test[1] {
-			t.Errorf("%s: got %s, want %s", test[0], got, test[1])
+		if golangt := String(x); golangt != test[1] {
+			t.Errorf("%s: golangt %s, want %s", test[0], golangt, test[1])
 		}
 	}
 }

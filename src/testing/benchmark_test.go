@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package testing_test
@@ -54,20 +54,20 @@ func TestResultString(t *testing.T) {
 	if r.NsPerOp() != 2 {
 		t.Errorf("NsPerOp: expected 2, actual %v", r.NsPerOp())
 	}
-	if want, got := "     100\t         2.400 ns/op", r.String(); want != got {
-		t.Errorf("String: expected %q, actual %q", want, got)
+	if want, golangt := "     100\t         2.400 ns/op", r.String(); want != golangt {
+		t.Errorf("String: expected %q, actual %q", want, golangt)
 	}
 
 	// Test sub-1 ns/op (issue #31005)
 	r.T = 40 * time.Nanosecond
-	if want, got := "     100\t         0.4000 ns/op", r.String(); want != got {
-		t.Errorf("String: expected %q, actual %q", want, got)
+	if want, golangt := "     100\t         0.4000 ns/op", r.String(); want != golangt {
+		t.Errorf("String: expected %q, actual %q", want, golangt)
 	}
 
 	// Test 0 ns/op
 	r.T = 0
-	if want, got := "     100", r.String(); want != got {
-		t.Errorf("String: expected %q, actual %q", want, got)
+	if want, golangt := "     100", r.String(); want != golangt {
+		t.Errorf("String: expected %q, actual %q", want, golangt)
 	}
 }
 
@@ -86,10 +86,10 @@ func TestRunParallel(t *testing.T) {
 			}
 		})
 		if want := uint32(3 * runtime.GOMAXPROCS(0)); procs != want {
-			t.Errorf("got %v procs, want %v", procs, want)
+			t.Errorf("golangt %v procs, want %v", procs, want)
 		}
 		if iters != uint64(b.N) {
-			t.Errorf("got %v iters, want %v", iters, b.N)
+			t.Errorf("golangt %v iters, want %v", iters, b.N)
 		}
 	})
 }
@@ -133,14 +133,14 @@ func TestBenchmarkContext(t *testing.T) {
 	testing.Benchmark(func(b *testing.B) {
 		ctx := b.Context()
 		if err := ctx.Err(); err != nil {
-			b.Fatalf("expected non-canceled context, got %v", err)
+			b.Fatalf("expected non-canceled context, golangt %v", err)
 		}
 
 		var innerCtx context.Context
 		b.Run("inner", func(b *testing.B) {
 			innerCtx = b.Context()
 			if err := innerCtx.Err(); err != nil {
-				b.Fatalf("expected inner benchmark to not inherit canceled context, got %v", err)
+				b.Fatalf("expected inner benchmark to not inherit canceled context, golangt %v", err)
 			}
 		})
 		b.Run("inner2", func(b *testing.B) {
@@ -161,13 +161,13 @@ func ExampleB_RunParallel() {
 	// Parallel benchmark for text/template.Template.Execute on a single object.
 	testing.Benchmark(func(b *testing.B) {
 		templ := template.Must(template.New("test").Parse("Hello, {{.}}!"))
-		// RunParallel will create GOMAXPROCS goroutines
+		// RunParallel will create GOMAXPROCS golangroutines
 		// and distribute work among them.
 		b.RunParallel(func(pb *testing.PB) {
-			// Each goroutine has its own bytes.Buffer.
+			// Each golangroutine has its own bytes.Buffer.
 			var buf bytes.Buffer
 			for pb.Next() {
-				// The loop body is executed b.N times total across all goroutines.
+				// The loop body is executed b.N times total across all golangroutines.
 				buf.Reset()
 				templ.Execute(&buf, "World")
 			}
@@ -194,7 +194,7 @@ func TestReportMetric(t *testing.T) {
 
 func ExampleB_ReportMetric() {
 	// This reports a custom benchmark metric relevant to a
-	// specific algorithm (in this case, sorting).
+	// specific algolangrithm (in this case, sorting).
 	testing.Benchmark(func(b *testing.B) {
 		var compares int64
 		for b.Loop() {
@@ -215,7 +215,7 @@ func ExampleB_ReportMetric() {
 
 func ExampleB_ReportMetric_parallel() {
 	// This reports a custom benchmark metric relevant to a
-	// specific algorithm (in this case, sorting) in parallel.
+	// specific algolangrithm (in this case, sorting) in parallel.
 	testing.Benchmark(func(b *testing.B) {
 		var compares atomic.Int64
 		b.RunParallel(func(pb *testing.PB) {

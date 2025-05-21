@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Issue 7044: bad AMOVFD and AMOVDF assembly generation on
@@ -36,8 +36,8 @@ func f() [16]float32 {
 
 func main() {
 	want := [16]float32{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
-	got := f()
-	if !reflect.DeepEqual(got, want) {
-		fmt.Printf("f() = %#v; want %#v\n", got, want)
+	golangt := f()
+	if !reflect.DeepEqual(golangt, want) {
+		fmt.Printf("f() = %#v; want %#v\n", golangt, want)
 	}
 }

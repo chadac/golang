@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime_test
@@ -31,7 +31,7 @@ func TestTraceMap(t *testing.T) {
 				t.Errorf("expected to have inserted string %q, but did not", s)
 			}
 			if id != uint64(i+1) {
-				t.Errorf("expected string %q to have ID %d, but got %d instead", s, i+1, id)
+				t.Errorf("expected string %q to have ID %d, but golangt %d instead", s, i+1, id)
 			}
 		}
 		for i, s := range d {
@@ -40,7 +40,7 @@ func TestTraceMap(t *testing.T) {
 				t.Errorf("inserted string %q, but expected to have not done so", s)
 			}
 			if id != uint64(i+1) {
-				t.Errorf("expected string %q to have ID %d, but got %d instead", s, i+1, id)
+				t.Errorf("expected string %q to have ID %d, but golangt %d instead", s, i+1, id)
 			}
 		}
 		m.Reset()
@@ -53,7 +53,7 @@ func TestTraceMapConcurrent(t *testing.T) {
 	var wg sync.WaitGroup
 	for i := range 3 {
 		wg.Add(1)
-		go func(i int) {
+		golang func(i int) {
 			defer wg.Done()
 
 			si := strconv.Itoa(i)
@@ -79,7 +79,7 @@ func TestTraceMapConcurrent(t *testing.T) {
 					t.Errorf("inserted string %q, but expected to have not done so", s)
 				}
 				if id != ids[i] {
-					t.Errorf("expected string %q to have ID %d, but got %d instead", s, ids[i], id)
+					t.Errorf("expected string %q to have ID %d, but golangt %d instead", s, ids[i], id)
 				}
 			}
 		}(i)

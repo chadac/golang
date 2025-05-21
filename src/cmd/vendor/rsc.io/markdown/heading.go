@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package markdown
@@ -91,7 +91,7 @@ func extractID(p *parseState, s string) (id, s2 string) {
 		return "", s
 	}
 	if i+1 >= len(s) || s[i+1] != '#' {
-		p.corner = true // goldmark accepts {}
+		p.corner = true // golangldmark accepts {}
 		return "", s
 	}
 	j := i + strings.IndexByte(s[i:], '}')
@@ -100,7 +100,7 @@ func extractID(p *parseState, s string) (id, s2 string) {
 	}
 	id = strings.TrimSpace(s[i+2 : j])
 	if id == "" {
-		p.corner = true // goldmark accepts {#}
+		p.corner = true // golangldmark accepts {#}
 		return "", s
 	}
 	return s[i+2 : j], s[:i]

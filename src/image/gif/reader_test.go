@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package gif
@@ -115,9 +115,9 @@ func TestDecode(t *testing.T) {
 		b.WriteByte(0x00) // An empty block signifies the end of the image data.
 		b.WriteString(trailerStr)
 
-		got, err := Decode(b)
+		golangt, err := Decode(b)
 		if err != tc.wantErr {
-			t.Errorf("nPix=%d, extraExisting=%d, extraSeparate=%d\ngot  %v\nwant %v",
+			t.Errorf("nPix=%d, extraExisting=%d, extraSeparate=%d\ngolangt  %v\nwant %v",
 				tc.nPix, tc.extraExisting, tc.extraSeparate, err, tc.wantErr)
 		}
 
@@ -133,9 +133,9 @@ func TestDecode(t *testing.T) {
 				color.RGBA{0x40, 0x50, 0x60, 0xff},
 			},
 		}
-		if !reflect.DeepEqual(got, want) {
-			t.Errorf("nPix=%d, extraExisting=%d, extraSeparate=%d\ngot  %v\nwant %v",
-				tc.nPix, tc.extraExisting, tc.extraSeparate, got, want)
+		if !reflect.DeepEqual(golangt, want) {
+			t.Errorf("nPix=%d, extraExisting=%d, extraSeparate=%d\ngolangt  %v\nwant %v",
+				tc.nPix, tc.extraExisting, tc.extraSeparate, golangt, want)
 		}
 	}
 }
@@ -176,12 +176,12 @@ func TestTransparentIndex(t *testing.T) {
 		{c0, c1},
 	}
 	if len(g.Image) != len(wants) {
-		t.Fatalf("got %d images, want %d", len(g.Image), len(wants))
+		t.Fatalf("golangt %d images, want %d", len(g.Image), len(wants))
 	}
 	for i, want := range wants {
-		got := g.Image[i].Palette
-		if !reflect.DeepEqual(got, want) {
-			t.Errorf("palette #%d:\ngot  %v\nwant %v", i, got, want)
+		golangt := g.Image[i].Palette
+		if !reflect.DeepEqual(golangt, want) {
+			t.Errorf("palette #%d:\ngolangt  %v\nwant %v", i, golangt, want)
 		}
 	}
 }
@@ -205,12 +205,12 @@ var testGIF = []byte{
 
 func try(t *testing.T, b []byte, want string) {
 	_, err := DecodeAll(bytes.NewReader(b))
-	var got string
+	var golangt string
 	if err != nil {
-		got = err.Error()
+		golangt = err.Error()
 	}
-	if got != want {
-		t.Fatalf("got %v, want %v", got, want)
+	if golangt != want {
+		t.Fatalf("golangt %v, want %v", golangt, want)
 	}
 }
 
@@ -301,7 +301,7 @@ func TestTransparentPixelOutsidePaletteRange(t *testing.T) {
 	// local palette in the subsequent image descriptor. This is an error
 	// according to the spec, but Firefox and Google Chrome seem OK with this.
 	//
-	// See golang.org/issue/15059.
+	// See golanglang.org/issue/15059.
 	b.WriteString("\x21\xf9\x04\x01\x00\x00\x03\x00")
 
 	// Image descriptor: 2x1, no local palette, and 2-bit LZW literals.
@@ -394,7 +394,7 @@ func TestUnexpectedEOF(t *testing.T) {
 	}
 }
 
-// See golang.org/issue/22237
+// See golanglang.org/issue/22237
 func TestDecodeMemoryConsumption(t *testing.T) {
 	const frames = 3000
 	img := image.NewPaletted(image.Rectangle{Max: image.Point{1, 1}}, palette.WebSafe)

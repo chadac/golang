@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main_test
@@ -42,7 +42,7 @@ func writePkgConfig(t *testing.T, outdir, tag, ppath, pname string, gran string,
 func writeOutFileList(t *testing.T, infiles []string, outdir, tag string) ([]string, string) {
 	outfilelist := filepath.Join(outdir, tag+"outfilelist.txt")
 	var sb strings.Builder
-	cv := filepath.Join(outdir, "covervars.go")
+	cv := filepath.Join(outdir, "covervars.golang")
 	outfs := []string{cv}
 	fmt.Fprintf(&sb, "%s\n", cv)
 	for _, inf := range infiles {
@@ -100,13 +100,13 @@ func TestCoverWithCfg(t *testing.T) {
 			gran: "perfunc",
 		},
 		{
-			mode: "regonly",
+			mode: "regolangnly",
 			gran: "perblock",
 		},
 	}
 
 	var incfg string
-	apkgfiles := []string{filepath.Join(tpath, "a", "a.go")}
+	apkgfiles := []string{filepath.Join(tpath, "a", "a.golang")}
 	for _, scenario := range scenarios {
 		// Instrument package "a", producing a set of instrumented output
 		// files and an 'output config' file to pass on to the compiler.
@@ -140,7 +140,7 @@ func TestCoverWithCfg(t *testing.T) {
 		apkgfiles, errExpected)
 	want := "error reading pkgconfig file"
 	if !strings.Contains(errmsg, want) {
-		t.Errorf("'bad config file' test: wanted %s got %s", want, errmsg)
+		t.Errorf("'bad config file' test: wanted %s golangt %s", want, errmsg)
 	}
 
 	// Expect err if config file contains unknown stuff.
@@ -150,7 +150,7 @@ func TestCoverWithCfg(t *testing.T) {
 		apkgfiles, errExpected)
 	want = "error reading pkgconfig file"
 	if !strings.Contains(errmsg, want) {
-		t.Errorf("'bad config file' test: wanted %s got %s", want, errmsg)
+		t.Errorf("'bad config file' test: wanted %s golangt %s", want, errmsg)
 	}
 
 	// Expect error on empty config file.
@@ -159,21 +159,21 @@ func TestCoverWithCfg(t *testing.T) {
 	_, _, errmsg = runPkgCover(t, instdira, tag, incfg, mode,
 		apkgfiles, errExpected)
 	if !strings.Contains(errmsg, want) {
-		t.Errorf("'bad config file' test: wanted %s got %s", want, errmsg)
+		t.Errorf("'bad config file' test: wanted %s golangt %s", want, errmsg)
 	}
 }
 
 func TestCoverOnPackageWithNoTestFiles(t *testing.T) {
 	testenv.MustHaveGoRun(t)
 
-	// For packages with no test files, the new "go test -cover"
+	// For packages with no test files, the new "golang test -cover"
 	// strategy is to run cmd/cover on the package in a special
 	// "EmitMetaFile" mode. When running in this mode, cmd/cover walks
 	// the package doing instrumentation, but when finished, instead of
 	// writing out instrumented source files, it directly emits a
 	// meta-data file for the package in question, essentially
 	// simulating the effect that you would get if you added a dummy
-	// "no-op" x_test.go file and then did a build and run of the test.
+	// "no-op" x_test.golang file and then did a build and run of the test.
 
 	t.Run("YesFuncsNoTests", func(t *testing.T) {
 		testCoverNoTestsYesFuncs(t)
@@ -190,7 +190,7 @@ func testCoverNoTestsYesFuncs(t *testing.T) {
 	// Run the cover command with "emit meta" enabled on a package
 	// with functions but no test files.
 	tpath := filepath.Join("testdata", "pkgcfg")
-	pkg1files := []string{filepath.Join(tpath, "yesFuncsNoTests", "yfnt.go")}
+	pkg1files := []string{filepath.Join(tpath, "yesFuncsNoTests", "yfnt.golang")}
 	ppath := "cfg/yesFuncsNoTests"
 	pname := "yesFuncsNoTests"
 	mode := "count"
@@ -232,7 +232,7 @@ func testCoverNoTestsNoFuncs(t *testing.T) {
 	// Run the cover command with "emit meta" enabled on a package
 	// with no functions and no test files.
 	tpath := filepath.Join("testdata", "pkgcfg")
-	pkgfiles := []string{filepath.Join(tpath, "noFuncsNoTests", "nfnt.go")}
+	pkgfiles := []string{filepath.Join(tpath, "noFuncsNoTests", "nfnt.golang")}
 	pname := "noFuncsNoTests"
 	mode := "count"
 	gran := "perblock"
@@ -264,7 +264,7 @@ func testCoverNoTestsNoFuncs(t *testing.T) {
 			t.Fatalf("stat meta-data file: %v", err)
 		}
 		if fi.Size() != 0 {
-			t.Fatalf("want zero-sized meta-data file got size %d",
+			t.Fatalf("want zero-sized meta-data file golangt size %d",
 				fi.Size())
 		}
 	}

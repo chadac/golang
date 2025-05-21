@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test switch statements.
@@ -108,7 +108,7 @@ func main() {
 	case 8:
 	case 9:
 	default:
-		assert(i5 == 5, "good")
+		assert(i5 == 5, "golangod")
 	}
 
 	switch i5 {
@@ -155,7 +155,7 @@ func main() {
 	default:
 		dummy := 0
 		_ = dummy
-		assert(i5 == 5, "good")
+		assert(i5 == 5, "golangod")
 	}
 
 	fired := false
@@ -204,7 +204,7 @@ func main() {
 		dummy := 0
 		_ = dummy
 		fired = !fired
-		assert(i5 == 5, "good")
+		assert(i5 == 5, "golangod")
 	}
 	assert(fired, "fired")
 
@@ -241,7 +241,7 @@ func main() {
 		count = count + 1
 		fallthrough
 	default:
-		assert(i5 == count, "good")
+		assert(i5 == count, "golangod")
 	}
 	assert(fired, "fired")
 

@@ -1,7 +1,7 @@
 -- .mod --
 module example.com/retract
 
-go 1.15
+golang 1.15
 
 retract v1.0.0-bad // bad
 retract v1.0.0-unused // bad
@@ -9,5 +9,5 @@ retract v1.0.0-unused // bad
 -- .info --
 {"Version":"v1.1.0"}
 
--- retract.go --
+-- retract.golang --
 package retract

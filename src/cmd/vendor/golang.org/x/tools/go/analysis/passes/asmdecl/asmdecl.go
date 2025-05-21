@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package asmdecl defines an Analyzer that reports mismatches between
@@ -9,17 +9,17 @@ package asmdecl
 import (
 	"bytes"
 	"fmt"
-	"go/ast"
-	"go/build"
-	"go/token"
-	"go/types"
+	"golang/ast"
+	"golang/build"
+	"golang/token"
+	"golang/types"
 	"log"
 	"regexp"
 	"strconv"
 	"strings"
 
-	"golang.org/x/tools/go/analysis"
-	"golang.org/x/tools/go/analysis/passes/internal/analysisutil"
+	"golanglang.org/x/tools/golang/analysis"
+	"golanglang.org/x/tools/golang/analysis/passes/internal/analysisutil"
 )
 
 const Doc = "report mismatches between assembly files and Go declarations"
@@ -27,7 +27,7 @@ const Doc = "report mismatches between assembly files and Go declarations"
 var Analyzer = &analysis.Analyzer{
 	Name: "asmdecl",
 	Doc:  Doc,
-	URL:  "https://pkg.go.dev/golang.org/x/tools/go/analysis/passes/asmdecl",
+	URL:  "https://pkg.golang.dev/golanglang.org/x/tools/golang/analysis/passes/asmdecl",
 	Run:  run,
 }
 
@@ -572,7 +572,7 @@ func asmParseDecl(pass *analysis.Pass, decl *ast.FuncDecl) map[string]*asmFunc {
 		for _, fld := range list {
 			t := pass.TypesInfo.Types[fld.Type].Type
 
-			// Work around https://golang.org/issue/28277.
+			// Work around https://golanglang.org/issue/28277.
 			if t == nil {
 				if ell, ok := fld.Type.(*ast.Ellipsis); ok {
 					t = types.NewSlice(pass.TypesInfo.Types[ell.Elt].Type)

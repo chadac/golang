@@ -1,14 +1,14 @@
 // errorcheck -0 -m
 
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Issue 23521: improve early DCE for if without explicit else.
 
 package p
 
-//go:noinline
+//golang:noinline
 func nonleaf() {}
 
 const truth = true

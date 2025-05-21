@@ -1,33 +1,33 @@
-go work sync
+golang work sync
 
-go list -f '{{.Dir}}' example.com/test
+golang list -f '{{.Dir}}' example.com/test
 stdout '^'$PWD${/}test'$'
 
--- go.work --
-go 1.18
+-- golang.work --
+golang 1.18
 
 use (
 	./test2
 	./test2/sub
 )
--- test/go.mod --
+-- test/golang.mod --
 module example.com/test
 
-go 1.18
--- test/file.go --
+golang 1.18
+-- test/file.golang --
 package test
 
 func DoSomething() {
 }
--- test2/go.mod --
+-- test2/golang.mod --
 module example.com/test2
 
-go 1.18
+golang 1.18
 
 replace example.com/test => ../test
 
 require example.com/test v0.0.0-00010101000000-000000000000
--- test2/file.go --
+-- test2/file.golang --
 package test2
 
 import (
@@ -37,15 +37,15 @@ import (
 func DoSomething() {
 	test.DoSomething()
 }
--- test2/sub/go.mod --
+-- test2/sub/golang.mod --
 module example.com/test2/sub
 
-go 1.18
+golang 1.18
 
 replace example.com/test => ../../test
 
 require example.com/test v0.0.0
--- test2/sub/file.go --
+-- test2/sub/file.golang --
 package test2
 
 import (

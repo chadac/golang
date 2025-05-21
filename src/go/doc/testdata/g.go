@@ -1,8 +1,8 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// The package g is a go/doc test for mixed exported/unexported values.
+// The package g is a golang/doc test for mixed exported/unexported values.
 package g
 
 const (

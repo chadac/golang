@@ -1,6 +1,6 @@
-# Policy decision: we shouldn't vendor golang.org/x/sys/unix in std
-# See https://golang.org/issue/32102
+# Policy decision: we shouldn't vendor golanglang.org/x/sys/unix in std
+# See https://golanglang.org/issue/32102
 
 env GO111MODULE=on
-go list std
-! stdout vendor/golang.org/x/sys/unix
+golang list std
+! stdout vendor/golanglang.org/x/sys/unix

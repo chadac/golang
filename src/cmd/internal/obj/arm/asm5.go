@@ -612,7 +612,7 @@ func span5(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 }
 
 // checkpool flushes the literal pool when the first reference to
-// it threatens to go out of range of a 12-bit PC-relative offset.
+// it threatens to golang out of range of a 12-bit PC-relative offset.
 //
 // nextpc is the tentative next PC at which the pool could be emitted.
 // checkpool should be called *before* emitting the instruction that
@@ -733,7 +733,7 @@ func (c *ctxt5) addpool(p *obj.Prog, a *obj.Addr) {
 	p.Pool = q
 }
 
-func (c *ctxt5) regoff(a *obj.Addr) int32 {
+func (c *ctxt5) regolangff(a *obj.Addr) int32 {
 	c.instoffset = 0
 	c.aclass(a)
 	return int32(c.instoffset)
@@ -1966,7 +1966,7 @@ func (c *ctxt5) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		o1 = 0xe8fd8000
 
 	case 50: /* floating point store */
-		v := c.regoff(&p.To)
+		v := c.regolangff(&p.To)
 
 		r := int(p.To.Reg)
 		if r == 0 {
@@ -1975,7 +1975,7 @@ func (c *ctxt5) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		o1 = c.ofsr(p.As, int(p.From.Reg), v, r, int(p.Scond), p)
 
 	case 51: /* floating point load */
-		v := c.regoff(&p.From)
+		v := c.regolangff(&p.From)
 
 		r := int(p.From.Reg)
 		if r == 0 {
@@ -2488,7 +2488,7 @@ func (c *ctxt5) asmout(p *obj.Prog, o *Optab, out []uint32) {
 
 	// This is supposed to be something that stops execution.
 	// It's not supposed to be reached, ever, but if it is, we'd
-	// like to be able to tell how we got there. Assemble as
+	// like to be able to tell how we golangt there. Assemble as
 	// 0xf7fabcfd which is guaranteed to raise undefined instruction
 	// exception.
 	case 96: /* UNDEF */

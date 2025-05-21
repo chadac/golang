@@ -1,24 +1,24 @@
-# Test that the error message for a syntax error in a test go file
+# Test that the error message for a syntax error in a test golang file
 # says FAIL.
 
 env GO111MODULE=off
-! go test syntaxerror
-stderr 'x_test.go:' # check that the error is diagnosed
-stdout 'FAIL' # check that go test says FAIL
+! golang test syntaxerror
+stderr 'x_test.golang:' # check that the error is diagnosed
+stdout 'FAIL' # check that golang test says FAIL
 
 env GO111MODULE=on
 cd syntaxerror
-! go test syntaxerror
-stderr 'x_test.go:' # check that the error is diagnosed
-stdout 'FAIL' # check that go test says FAIL
+! golang test syntaxerror
+stderr 'x_test.golang:' # check that the error is diagnosed
+stdout 'FAIL' # check that golang test says FAIL
 
--- syntaxerror/go.mod --
+-- syntaxerror/golang.mod --
 module syntaxerror
 
-go 1.16
--- syntaxerror/x.go --
+golang 1.16
+-- syntaxerror/x.golang --
 package p
--- syntaxerror/x_test.go --
+-- syntaxerror/x_test.golang --
 package p
 
 func f() (x.y, z int) {

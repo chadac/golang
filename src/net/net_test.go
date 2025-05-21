@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package net
@@ -63,7 +63,7 @@ func TestCloseRead(t *testing.T) {
 			var b [1]byte
 			n, err := c.Read(b[:])
 			if n != 0 || err == nil {
-				t.Fatalf("got (%d, %v); want (0, error)", n, err)
+				t.Fatalf("golangt (%d, %v); want (0, error)", n, err)
 			}
 		})
 	}
@@ -97,7 +97,7 @@ func TestCloseWrite(t *testing.T) {
 					return
 				}
 
-				// Workaround for https://go.dev/issue/49352.
+				// Workaround for https://golang.dev/issue/49352.
 				// On Windows and arm64 macOS (current as of macOS 12.4),
 				// reading from a socket at the same time as the client
 				// is closing it occasionally hangs for 60 seconds before
@@ -115,7 +115,7 @@ func TestCloseWrite(t *testing.T) {
 				var b [1]byte
 				n, err := c.Read(b[:])
 				if n != 0 || err != io.EOF {
-					t.Errorf("got (%d, %v); want (0, io.EOF)", n, err)
+					t.Errorf("golangt (%d, %v); want (0, io.EOF)", n, err)
 					return
 				}
 				switch c := c.(type) {
@@ -133,7 +133,7 @@ func TestCloseWrite(t *testing.T) {
 				}
 				n, err = c.Write(b[:])
 				if err == nil {
-					t.Errorf("got (%d, %v); want (any, error)", n, err)
+					t.Errorf("golangt (%d, %v); want (any, error)", n, err)
 					return
 				}
 			}
@@ -172,11 +172,11 @@ func TestCloseWrite(t *testing.T) {
 			var b [1]byte
 			n, err := c.Read(b[:])
 			if n != 0 || err != io.EOF {
-				t.Fatalf("got (%d, %v); want (0, io.EOF)", n, err)
+				t.Fatalf("golangt (%d, %v); want (0, io.EOF)", n, err)
 			}
 			n, err = c.Write(b[:])
 			if err == nil {
-				t.Fatalf("got (%d, %v); want (any, error)", n, err)
+				t.Fatalf("golangt (%d, %v); want (any, error)", n, err)
 			}
 		})
 	}
@@ -218,7 +218,7 @@ func TestConnClose(t *testing.T) {
 			var b [1]byte
 			n, err := c.Read(b[:])
 			if n != 0 || err == nil {
-				t.Fatalf("got (%d, %v); want (0, error)", n, err)
+				t.Fatalf("golangt (%d, %v); want (0, error)", n, err)
 			}
 		})
 	}
@@ -288,13 +288,13 @@ func TestPacketConnClose(t *testing.T) {
 			var b [1]byte
 			n, _, err := c.ReadFrom(b[:])
 			if n != 0 || err == nil {
-				t.Fatalf("got (%d, %v); want (0, error)", n, err)
+				t.Fatalf("golangt (%d, %v); want (0, error)", n, err)
 			}
 		})
 	}
 }
 
-// See golang.org/issue/6163, golang.org/issue/6987.
+// See golanglang.org/issue/6163, golanglang.org/issue/6987.
 func TestAcceptIgnoreAbortedConnRequest(t *testing.T) {
 	switch runtime.GOOS {
 	case "plan9":
@@ -302,7 +302,7 @@ func TestAcceptIgnoreAbortedConnRequest(t *testing.T) {
 	}
 
 	syserr := make(chan error)
-	go func() {
+	golang func() {
 		defer close(syserr)
 		for _, err := range abortedConnRequestErrors {
 			syserr <- err
@@ -366,7 +366,7 @@ func TestZeroByteRead(t *testing.T) {
 					}
 				}
 			}()
-			go func() {
+			golang func() {
 				defer close(connc)
 				c, err := ln.Accept()
 				if err != nil {
@@ -389,7 +389,7 @@ func TestZeroByteRead(t *testing.T) {
 				// A zero byte read on Windows caused a wait for readability first.
 				// Rather than change that behavior, satisfy it in this test.
 				// See Issue 15735.
-				go io.WriteString(sc, "a")
+				golang io.WriteString(sc, "a")
 			}
 
 			n, err := c.Read(nil)
@@ -399,7 +399,7 @@ func TestZeroByteRead(t *testing.T) {
 
 			if runtime.GOOS == "windows" {
 				// Same as comment above.
-				go io.WriteString(c, "a")
+				golang io.WriteString(c, "a")
 			}
 			n, err = sc.Read(nil)
 			if n != 0 || err != nil {
@@ -417,7 +417,7 @@ func withTCPConnPair(t *testing.T, peer1, peer2 func(c *TCPConn) error) {
 	ln := newLocalListener(t, "tcp")
 	defer ln.Close()
 	errc := make(chan error, 2)
-	go func() {
+	golang func() {
 		c1, err := ln.Accept()
 		if err != nil {
 			errc <- err
@@ -427,7 +427,7 @@ func withTCPConnPair(t *testing.T, peer1, peer2 func(c *TCPConn) error) {
 		c1.Close()
 		errc <- err
 	}()
-	go func() {
+	golang func() {
 		c2, err := Dial("tcp", ln.Addr().String())
 		if err != nil {
 			errc <- err
@@ -446,16 +446,16 @@ func withTCPConnPair(t *testing.T, peer1, peer2 func(c *TCPConn) error) {
 
 // Tests that a blocked Read is interrupted by a concurrent SetReadDeadline
 // modifying that Conn's read deadline to the past.
-// See golang.org/cl/30164 which documented this. The net/http package
+// See golanglang.org/cl/30164 which documented this. The net/http package
 // depends on this.
 func TestReadTimeoutUnblocksRead(t *testing.T) {
 	serverDone := make(chan struct{})
 	server := func(cs *TCPConn) error {
 		defer close(serverDone)
 		errc := make(chan error, 1)
-		go func() {
+		golang func() {
 			defer close(errc)
-			go func() {
+			golang func() {
 				// TODO: find a better way to wait
 				// until we're blocked in the cs.Read
 				// call below. Sleep is lame.
@@ -546,7 +546,7 @@ func TestCloseUnblocksReadUDP(t *testing.T) {
 	if n > 0 {
 		t.Fatalf("unexpected Read success from ReadFromUDPAddrPort; read %d bytes from %v, err=%v", n, src, err)
 	}
-	t.Logf("got expected UDP read error")
+	t.Logf("golangt expected UDP read error")
 }
 
 // Issue 24808: verify that ECONNRESET is not temporary for read.
@@ -556,7 +556,7 @@ func TestNotTemporaryRead(t *testing.T) {
 	ln := newLocalListener(t, "tcp")
 	serverDone := make(chan struct{})
 	dialed := make(chan struct{})
-	go func() {
+	golang func() {
 		defer close(serverDone)
 
 		cs, err := ln.Accept()

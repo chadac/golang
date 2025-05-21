@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package jpeg
@@ -66,14 +66,14 @@ const (
 // number of bits for the fractional component varying over the intermediate
 // stages.
 //
-// For more on the actual algorithm, see Z. Wang, "Fast algorithms for the
+// For more on the actual algolangrithm, see Z. Wang, "Fast algolangrithms for the
 // discrete W transform and for the discrete Fourier transform", IEEE Trans. on
 // ASSP, Vol. ASSP- 32, pp. 803-816, Aug. 1984.
 func idct(src *block) {
 	// Horizontal 1-D IDCT.
 	for y := 0; y < 8; y++ {
 		y8 := y * 8
-		s := src[y8 : y8+8 : y8+8] // Small cap improves performance, see https://golang.org/issue/27857
+		s := src[y8 : y8+8 : y8+8] // Small cap improves performance, see https://golanglang.org/issue/27857
 		// If all the AC components are zero, then the IDCT is trivial.
 		if s[1] == 0 && s[2] == 0 && s[3] == 0 &&
 			s[4] == 0 && s[5] == 0 && s[6] == 0 && s[7] == 0 {
@@ -142,7 +142,7 @@ func idct(src *block) {
 		// Similar to the horizontal 1-D IDCT case, if all the AC components are zero, then the IDCT is trivial.
 		// However, after performing the horizontal 1-D IDCT, there are typically non-zero AC components, so
 		// we do not bother to check for the all-zero case.
-		s := src[x : x+57 : x+57] // Small cap improves performance, see https://golang.org/issue/27857
+		s := src[x : x+57 : x+57] // Small cap improves performance, see https://golanglang.org/issue/27857
 
 		// Prescale.
 		y0 := (s[8*0] << 8) + 8192

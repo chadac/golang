@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package tracev2
@@ -23,7 +23,7 @@ const (
 	EvStrings    // start of a section of the string dictionary [...EvString]
 	EvString     // string dictionary entry [ID, length, string]
 	EvCPUSamples // start of a section of CPU samples [...EvCPUSample]
-	EvCPUSample  // CPU profiling sample [timestamp, M ID, P ID, goroutine ID, stack ID]
+	EvCPUSample  // CPU profiling sample [timestamp, M ID, P ID, golangroutine ID, stack ID]
 	EvFrequency  // timestamp units per sec [freq]
 
 	// Procs.
@@ -34,18 +34,18 @@ const (
 	EvProcStatus  // P status at the start of a generation [timestamp, P ID, status]
 
 	// Goroutines.
-	EvGoCreate            // goroutine creation [timestamp, new goroutine ID, new stack ID, stack ID]
-	EvGoCreateSyscall     // goroutine appears in syscall (cgo callback) [timestamp, new goroutine ID]
-	EvGoStart             // goroutine starts running [timestamp, goroutine ID, goroutine seq]
-	EvGoDestroy           // goroutine ends [timestamp]
-	EvGoDestroySyscall    // goroutine ends in syscall (cgo callback) [timestamp]
-	EvGoStop              // goroutine yields its time, but is runnable [timestamp, reason, stack ID]
-	EvGoBlock             // goroutine blocks [timestamp, reason, stack ID]
-	EvGoUnblock           // goroutine is unblocked [timestamp, goroutine ID, goroutine seq, stack ID]
+	EvGoCreate            // golangroutine creation [timestamp, new golangroutine ID, new stack ID, stack ID]
+	EvGoCreateSyscall     // golangroutine appears in syscall (cgolang callback) [timestamp, new golangroutine ID]
+	EvGoStart             // golangroutine starts running [timestamp, golangroutine ID, golangroutine seq]
+	EvGoDestroy           // golangroutine ends [timestamp]
+	EvGoDestroySyscall    // golangroutine ends in syscall (cgolang callback) [timestamp]
+	EvGoStop              // golangroutine yields its time, but is runnable [timestamp, reason, stack ID]
+	EvGoBlock             // golangroutine blocks [timestamp, reason, stack ID]
+	EvGoUnblock           // golangroutine is unblocked [timestamp, golangroutine ID, golangroutine seq, stack ID]
 	EvGoSyscallBegin      // syscall enter [timestamp, P seq, stack ID]
 	EvGoSyscallEnd        // syscall exit [timestamp]
 	EvGoSyscallEndBlocked // syscall exit and it blocked at some point [timestamp]
-	EvGoStatus            // goroutine status at the start of a generation [timestamp, goroutine ID, thread ID, status]
+	EvGoStatus            // golangroutine status at the start of a generation [timestamp, golangroutine ID, thread ID, status]
 
 	// STW.
 	EvSTWBegin // STW start [timestamp, kind]
@@ -58,14 +58,14 @@ const (
 	EvGCSweepActive      // GC sweep active [timestamp, P ID]
 	EvGCSweepBegin       // GC sweep start [timestamp, stack ID]
 	EvGCSweepEnd         // GC sweep done [timestamp, swept bytes, reclaimed bytes]
-	EvGCMarkAssistActive // GC mark assist active [timestamp, goroutine ID]
+	EvGCMarkAssistActive // GC mark assist active [timestamp, golangroutine ID]
 	EvGCMarkAssistBegin  // GC mark assist start [timestamp, stack ID]
 	EvGCMarkAssistEnd    // GC mark assist done [timestamp]
 	EvHeapAlloc          // gcController.heapLive change [timestamp, heap alloc in bytes]
-	EvHeapGoal           // gcController.heapGoal() change [timestamp, heap goal in bytes]
+	EvHeapGoal           // gcController.heapGoal() change [timestamp, heap golangal in bytes]
 
 	// Annotations.
-	EvGoLabel         // apply string label to current running goroutine [timestamp, label string ID]
+	EvGoLabel         // apply string label to current running golangroutine [timestamp, label string ID]
 	EvUserTaskBegin   // trace.NewTask [timestamp, internal task ID, internal parent task ID, name string ID, stack ID]
 	EvUserTaskEnd     // end of a task [timestamp, internal task ID, stack ID]
 	EvUserRegionBegin // trace.{Start,With}Region [timestamp, internal task ID, name string ID, stack ID]
@@ -73,12 +73,12 @@ const (
 	EvUserLog         // trace.Log [timestamp, internal task ID, key string ID, value string ID, stack]
 
 	// Coroutines. Added in Go 1.23.
-	EvGoSwitch        // goroutine switch (coroswitch) [timestamp, goroutine ID, goroutine seq]
-	EvGoSwitchDestroy // goroutine switch and destroy [timestamp, goroutine ID, goroutine seq]
-	EvGoCreateBlocked // goroutine creation (starts blocked) [timestamp, new goroutine ID, new stack ID, stack ID]
+	EvGoSwitch        // golangroutine switch (coroswitch) [timestamp, golangroutine ID, golangroutine seq]
+	EvGoSwitchDestroy // golangroutine switch and destroy [timestamp, golangroutine ID, golangroutine seq]
+	EvGoCreateBlocked // golangroutine creation (starts blocked) [timestamp, new golangroutine ID, new stack ID, stack ID]
 
 	// GoStatus with stack. Added in Go 1.23.
-	EvGoStatusStack // goroutine status at the start of a generation, with a stack [timestamp, goroutine ID, M ID, status, stack ID]
+	EvGoStatusStack // golangroutine status at the start of a generation, with a stack [timestamp, golangroutine ID, M ID, status, stack ID]
 
 	// Batch event for an experimental batch with a custom format. Added in Go 1.23.
 	EvExperimentalBatch // start of extra data [experiment ID, generation, M ID, timestamp, batch length, batch data...]
@@ -127,7 +127,7 @@ const (
 	EvHeapObjectAlloc // heap object alloc [timestamp, id, type]
 	EvHeapObjectFree  // heap object free [timestamp, id]
 
-	// Experimental goroutine stack events. Added in Go 1.23.
+	// Experimental golangroutine stack events. Added in Go 1.23.
 	EvGoroutineStack      // stack exists [timestamp, id, order]
 	EvGoroutineStackAlloc // stack alloc [timestamp, id, order]
 	EvGoroutineStackFree  // stack free [timestamp, id]
@@ -360,7 +360,7 @@ var specs = [...]EventSpec{
 	},
 	EvHeapGoal: {
 		Name:         "HeapGoal",
-		Args:         []string{"dt", "heapgoal_value"},
+		Args:         []string{"dt", "heapgolangal_value"},
 		IsTimedEvent: true,
 	},
 	EvGoLabel: {
@@ -490,9 +490,9 @@ var specs = [...]EventSpec{
 	},
 }
 
-// GoStatus is the status of a goroutine.
+// GoStatus is the status of a golangroutine.
 //
-// They correspond directly to the various goroutine states.
+// They correspond directly to the various golangroutine states.
 type GoStatus uint8
 
 const (

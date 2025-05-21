@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package types2
@@ -9,7 +9,7 @@ import (
 	"fmt"
 )
 
-// This file should not be copied to go/types.  See go.dev/issue/67477
+// This file should not be copied to golang/types.  See golang.dev/issue/67477
 
 // RenameResult takes an array of (result) fields and an index, and if the indexed field
 // does not have a name and if the result in the signature also does not have a name,

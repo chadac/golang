@@ -1,8 +1,8 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build goexperiment.jsonv2
+//golang:build golangexperiment.jsonv2
 
 package json
 
@@ -87,7 +87,7 @@ func TestInline(t *testing.T) {
 	}
 
 	for pkg, fncs := range pkgs {
-		cmd := exec.Command("go", "build", "-gcflags=-m", pkg)
+		cmd := exec.Command("golang", "build", "-gcflags=-m", pkg)
 		b, err := cmd.CombinedOutput()
 		if err != nil {
 			t.Fatalf("exec.Command error: %v\n\n%s", err, b)

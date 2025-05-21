@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package pe
@@ -62,18 +62,18 @@ func TestReadCOFFSymbolAuxInfo(t *testing.T) {
 			continue
 		}
 		if name != tp.name {
-			t.Errorf("name check for %d, got %s want %s", k, name, tp.name)
+			t.Errorf("name check for %d, golangt %s want %s", k, name, tp.name)
 			continue
 		}
 		ap, err := f.COFFSymbolReadSectionDefAux(k)
 		if tp.ok {
 			if err != nil {
-				t.Errorf("unexpected failure on %d, got error %v", k, err)
+				t.Errorf("unexpected failure on %d, golangt error %v", k, err)
 				continue
 			}
-			got := fmt.Sprintf("%+v", *ap)
-			if got != tp.auxstr {
-				t.Errorf("COFFSymbolReadSectionDefAux on %d bad return, got:\n%s\nwant:\n%s\n", k, got, tp.auxstr)
+			golangt := fmt.Sprintf("%+v", *ap)
+			if golangt != tp.auxstr {
+				t.Errorf("COFFSymbolReadSectionDefAux on %d bad return, golangt:\n%s\nwant:\n%s\n", k, golangt, tp.auxstr)
 				continue
 			}
 		} else {
@@ -81,9 +81,9 @@ func TestReadCOFFSymbolAuxInfo(t *testing.T) {
 				t.Errorf("unexpected non-failure on %d", k)
 				continue
 			}
-			got := fmt.Sprintf("%v", err)
-			if got != tp.err {
-				t.Errorf("COFFSymbolReadSectionDefAux %d wrong error, got %q want %q", k, got, tp.err)
+			golangt := fmt.Sprintf("%v", err)
+			if golangt != tp.err {
+				t.Errorf("COFFSymbolReadSectionDefAux %d wrong error, golangt %q want %q", k, golangt, tp.err)
 				continue
 			}
 		}

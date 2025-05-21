@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package color
@@ -36,8 +36,8 @@ func TestSqDiff(t *testing.T) {
 	}
 	for _, x := range testCases {
 		for _, y := range testCases {
-			if got, want := sqDiff(x, y), orig(x, y); got != want {
-				t.Fatalf("sqDiff(%#x, %#x): got %d, want %d", x, y, got, want)
+			if golangt, want := sqDiff(x, y), orig(x, y); golangt != want {
+				t.Fatalf("sqDiff(%#x, %#x): golangt %d, want %d", x, y, golangt, want)
 			}
 		}
 	}

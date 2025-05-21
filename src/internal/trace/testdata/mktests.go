@@ -1,8 +1,8 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build ignore
+//golang:build ignore
 
 package main
 
@@ -29,10 +29,10 @@ func main() {
 	if err := ctx.runGenerators(); err != nil {
 		log.Fatal(err)
 	}
-	if err := ctx.runTestProg("./testprog/annotations.go"); err != nil {
+	if err := ctx.runTestProg("./testprog/annotations.golang"); err != nil {
 		log.Fatal(err)
 	}
-	if err := ctx.runTestProg("./testprog/annotations-stress.go"); err != nil {
+	if err := ctx.runTestProg("./testprog/annotations-stress.golang"); err != nil {
 		log.Fatal(err)
 	}
 }
@@ -68,7 +68,7 @@ func (ctx *context) register(testName string) (skip bool, err error) {
 }
 
 func (ctx *context) runGenerators() error {
-	generators, err := filepath.Glob("./generators/*.go")
+	generators, err := filepath.Glob("./generators/*.golang")
 	if err != nil {
 		return fmt.Errorf("reading generators: %v", err)
 	}
@@ -96,7 +96,7 @@ func (ctx *context) runGenerators() error {
 		testPath := filepath.Join(genroot, fmt.Sprintf("%s.test", name))
 
 		// Run generator.
-		cmd := exec.Command("go", "run", path, testPath)
+		cmd := exec.Command("golang", "run", path, testPath)
 		if out, err := cmd.CombinedOutput(); err != nil {
 			return fmt.Errorf("running generator %s: %v:\n%s", name, err, out)
 		}
@@ -108,7 +108,7 @@ func (ctx *context) runGenerators() error {
 func (ctx *context) runTestProg(progPath string) error {
 	name := filepath.Base(progPath)
 	name = name[:len(name)-len(filepath.Ext(name))]
-	name = fmt.Sprintf("go1%d-%s", version.Current, name)
+	name = fmt.Sprintf("golang1%d-%s", version.Current, name)
 
 	// Skip if we have a pattern and this test doesn't match.
 	skip, err := ctx.register(name)
@@ -121,7 +121,7 @@ func (ctx *context) runTestProg(progPath string) error {
 
 	// Create command.
 	var trace, stderr bytes.Buffer
-	cmd := exec.Command("go", "run", progPath)
+	cmd := exec.Command("golang", "run", progPath)
 	cmd.Stdout = &trace
 	cmd.Stderr = &stderr
 

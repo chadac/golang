@@ -1,16 +1,16 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package printf
 
 import (
 	"fmt"
-	"go/ast"
-	"go/types"
+	"golang/ast"
+	"golang/types"
 
-	"golang.org/x/tools/go/analysis"
-	"golang.org/x/tools/internal/typeparams"
+	"golanglang.org/x/tools/golang/analysis"
+	"golanglang.org/x/tools/internal/typeparams"
 )
 
 var errorType = types.Universe.Lookup("error").Type().Underlying().(*types.Interface)

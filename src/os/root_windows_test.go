@@ -1,8 +1,8 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build windows
+//golang:build windows
 
 package os_test
 
@@ -220,10 +220,10 @@ func TestRootSymlinkToDirectory(t *testing.T) {
 			if err := syscall.GetFileInformationByHandle(h, &fi); err != nil {
 				t.Fatal(err)
 			}
-			gotDir := fi.FileAttributes&syscall.FILE_ATTRIBUTE_DIRECTORY != 0
+			golangtDir := fi.FileAttributes&syscall.FILE_ATTRIBUTE_DIRECTORY != 0
 
-			if got, want := gotDir, test.wantDir; got != want {
-				t.Errorf("link target %q: isDir = %v, want %v", test.target, got, want)
+			if golangt, want := golangtDir, test.wantDir; golangt != want {
+				t.Errorf("link target %q: isDir = %v, want %v", test.target, golangt, want)
 			}
 		})
 	}

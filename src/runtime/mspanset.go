@@ -1,12 +1,12 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
 
 import (
 	"internal/cpu"
-	"internal/goarch"
+	"internal/golangarch"
 	"internal/runtime/atomic"
 	"unsafe"
 )
@@ -100,7 +100,7 @@ retry:
 		spineLen = b.spineLen.Load()
 		if top < spineLen {
 			unlock(&b.spineLock)
-			goto retry
+			golangto retry
 		}
 
 		spine := b.spine.Load()
@@ -110,11 +110,11 @@ retry:
 			if newCap == 0 {
 				newCap = spanSetInitSpineCap
 			}
-			newSpine := persistentalloc(newCap*goarch.PtrSize, cpu.CacheLineSize, &memstats.gcMiscSys)
+			newSpine := persistentalloc(newCap*golangarch.PtrSize, cpu.CacheLineSize, &memstats.gcMiscSys)
 			if b.spineCap != 0 {
 				// Blocks are allocated off-heap, so
 				// no write barriers.
-				memmove(newSpine, spine.p, b.spineCap*goarch.PtrSize)
+				memmove(newSpine, spine.p, b.spineCap*golangarch.PtrSize)
 			}
 			spine = spanSetSpinePointer{newSpine}
 
@@ -181,7 +181,7 @@ claimLoop:
 			head, tail = headtail.split()
 		}
 		// We failed to claim the spot we were after and the head changed,
-		// meaning a popper got ahead of us. Try again from the top because
+		// meaning a popper golangt ahead of us. Try again from the top because
 		// the buf may not be empty.
 	}
 	top, bottom := head/spanSetBlockEntries, head%spanSetBlockEntries
@@ -247,7 +247,7 @@ func (b *spanSet) reset() {
 		// If the head catches up to the tail and the set is empty,
 		// we may not clean up the block containing the head and tail
 		// since it may be pushed into again. In order to avoid leaking
-		// memory since we're going to reset the head and tail, clean
+		// memory since we're golanging to reset the head and tail, clean
 		// up such a block now, if it exists.
 		blockp := b.spine.Load().lookup(uintptr(top))
 		block := blockp.Load()
@@ -305,7 +305,7 @@ type spanSetSpinePointer struct {
 
 // lookup returns &s[idx].
 func (s spanSetSpinePointer) lookup(idx uintptr) *atomic.Pointer[spanSetBlock] {
-	return (*atomic.Pointer[spanSetBlock])(add(s.p, goarch.PtrSize*idx))
+	return (*atomic.Pointer[spanSetBlock])(add(s.p, golangarch.PtrSize*idx))
 }
 
 // spanSetBlockPool is a global pool of spanSetBlocks.

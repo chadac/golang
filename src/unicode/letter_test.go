@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package unicode_test
@@ -439,7 +439,7 @@ func TestSimpleFold(t *testing.T) {
 	}
 }
 
-// Running 'go test -calibrate' runs the calibration to find a plausible
+// Running 'golang test -calibrate' runs the calibration to find a plausible
 // cutoff point for linear search of a range list vs. binary search.
 // We create a fake table and then time how long it takes to do a
 // sequence of searches within that table, for all possible inputs
@@ -534,8 +534,8 @@ func binary(ranges []Range16, r uint16) bool {
 
 func TestLatinOffset(t *testing.T) {
 	var maps = []map[string]*RangeTable{
-		Categories,
-		FoldCategory,
+		Categolangries,
+		FoldCategolangry,
 		FoldScript,
 		Properties,
 		Scripts,
@@ -557,10 +557,10 @@ func TestSpecialCaseNoMapping(t *testing.T) {
 	// Issue 25636
 	// no change for rune 'A', zero delta, under upper/lower/title case change.
 	var noChangeForCapitalA = CaseRange{'A', 'A', [MaxCase]rune{0, 0, 0}}
-	got := strings.ToLowerSpecial(SpecialCase([]CaseRange{noChangeForCapitalA}), "ABC")
+	golangt := strings.ToLowerSpecial(SpecialCase([]CaseRange{noChangeForCapitalA}), "ABC")
 	want := "Abc"
-	if got != want {
-		t.Errorf("got %q; want %q", got, want)
+	if golangt != want {
+		t.Errorf("golangt %q; want %q", golangt, want)
 	}
 }
 
@@ -570,7 +570,7 @@ func TestNegativeRune(t *testing.T) {
 	// when cast to uint8 or uint16, look like a particular valid rune.
 	// This package has Latin-1-specific optimizations, so we test all of
 	// Latin-1 and representative non-Latin-1 values in the character
-	// categories covered by IsGraphic, etc.
+	// categolangries covered by IsGraphic, etc.
 	nonLatin1 := []uint32{
 		// Lu: LATIN CAPITAL LETTER A WITH MACRON
 		0x0100,

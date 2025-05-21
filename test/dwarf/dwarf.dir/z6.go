@@ -1,4 +1,4 @@
 
-//line x6.go:4
+//line x6.golang:4
 package main
 func F6() {}

@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package pprof
@@ -26,7 +26,7 @@ func readMainModuleMapping() (start, end uint64, exe, buildID string, err error)
 			exe, buildID = file, build
 		}
 		// May see multiple text segments if rosetta is used for running
-		// the go toolchain itself.
+		// the golang toolchain itself.
 		first = false
 	})
 	if !ok {

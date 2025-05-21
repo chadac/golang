@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package http_test
@@ -30,7 +30,7 @@ import (
 
 func TestQuery(t *testing.T) {
 	req := &Request{Method: "GET"}
-	req.URL, _ = url.Parse("http://www.google.com/search?q=foo&q=bar")
+	req.URL, _ = url.Parse("http://www.golangogle.com/search?q=foo&q=bar")
 	if q := req.FormValue("q"); q != "foo" {
 		t.Errorf(`req.FormValue("q") = %q, want "foo"`, q)
 	}
@@ -40,11 +40,11 @@ func TestQuery(t *testing.T) {
 // containing a semicolon is provided.
 func TestParseFormSemicolonSeparator(t *testing.T) {
 	for _, method := range []string{"POST", "PATCH", "PUT", "GET"} {
-		req, _ := NewRequest(method, "http://www.google.com/search?q=foo;q=bar&a=1",
+		req, _ := NewRequest(method, "http://www.golangogle.com/search?q=foo;q=bar&a=1",
 			strings.NewReader("q"))
 		err := req.ParseForm()
 		if err == nil {
-			t.Fatalf(`for method %s, ParseForm expected an error, got success`, method)
+			t.Fatalf(`for method %s, ParseForm expected an error, golangt success`, method)
 		}
 		wantForm := url.Values{"a": []string{"1"}}
 		if !reflect.DeepEqual(req.Form, wantForm) {
@@ -54,7 +54,7 @@ func TestParseFormSemicolonSeparator(t *testing.T) {
 }
 
 func TestParseFormQuery(t *testing.T) {
-	req, _ := NewRequest("POST", "http://www.google.com/search?q=foo&q=bar&both=x&prio=1&orphan=nope&empty=not",
+	req, _ := NewRequest("POST", "http://www.golangogle.com/search?q=foo&q=bar&both=x&prio=1&orphan=nope&empty=not",
 		strings.NewReader("z=post&both=y&prio=2&=nokey&orphan&empty=&"))
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded; param=value")
 
@@ -93,15 +93,15 @@ func TestParseFormQuery(t *testing.T) {
 // Tests that we only parse the form automatically for certain methods.
 func TestParseFormQueryMethods(t *testing.T) {
 	for _, method := range []string{"POST", "PATCH", "PUT", "FOO"} {
-		req, _ := NewRequest(method, "http://www.google.com/search",
+		req, _ := NewRequest(method, "http://www.golangogle.com/search",
 			strings.NewReader("foo=bar"))
 		req.Header.Set("Content-Type", "application/x-www-form-urlencoded; param=value")
 		want := "bar"
 		if method == "FOO" {
 			want = ""
 		}
-		if got := req.FormValue("foo"); got != want {
-			t.Errorf(`for method %s, FormValue("foo") = %q; want %q`, method, got, want)
+		if golangt := req.FormValue("foo"); golangt != want {
+			t.Errorf(`for method %s, FormValue("foo") = %q; want %q`, method, golangt, want)
 		}
 	}
 }
@@ -131,9 +131,9 @@ func TestParseFormUnknownContentType(t *testing.T) {
 				case err == nil && test.wantErr != "":
 					t.Errorf("unexpected success; want error %q", test.wantErr)
 				case err != nil && test.wantErr == "":
-					t.Errorf("want success, got error: %v", err)
+					t.Errorf("want success, golangt error: %v", err)
 				case test.wantErr != "" && test.wantErr != fmt.Sprint(err):
-					t.Errorf("got error %q; want %q", err, test.wantErr)
+					t.Errorf("golangt error %q; want %q", err, test.wantErr)
 				}
 			},
 		)
@@ -141,7 +141,7 @@ func TestParseFormUnknownContentType(t *testing.T) {
 }
 
 func TestParseFormInitializeOnError(t *testing.T) {
-	nilBody, _ := NewRequest("POST", "http://www.google.com/search?q=foo", nil)
+	nilBody, _ := NewRequest("POST", "http://www.golangogle.com/search?q=foo", nil)
 	tests := []*Request{
 		nilBody,
 		{Method: "GET", URL: nil},
@@ -176,12 +176,12 @@ func TestMultipartReader(t *testing.T) {
 		multipart, err := req.MultipartReader()
 		if test.shouldError {
 			if err == nil || multipart != nil {
-				t.Errorf("test %d: unexpectedly got nil-error (%v) or non-nil-multipart (%v)", i, err, multipart)
+				t.Errorf("test %d: unexpectedly golangt nil-error (%v) or non-nil-multipart (%v)", i, err, multipart)
 			}
 			continue
 		}
 		if err != nil || multipart == nil {
-			t.Errorf("test %d: unexpectedly got error (%v) or nil-multipart (%v)", i, err, multipart)
+			t.Errorf("test %d: unexpectedly golangt error (%v) or nil-multipart (%v)", i, err, multipart)
 		}
 	}
 }
@@ -213,8 +213,8 @@ binary data
 
 	initialFormItems := map[string]string{
 		"language": "Go",
-		"name":     "gopher",
-		"skill":    "go-ing",
+		"name":     "golangpher",
+		"skill":    "golang-ing",
 		"field2":   "initial-value2",
 	}
 
@@ -230,8 +230,8 @@ binary data
 
 	wantForm := url.Values{
 		"language": []string{"Go"},
-		"name":     []string{"gopher"},
-		"skill":    []string{"go-ing"},
+		"name":     []string{"golangpher"},
+		"skill":    []string{"golang-ing"},
 		"field1":   []string{"value1"},
 		"field2":   []string{"initial-value2", "value2"},
 	}
@@ -256,7 +256,7 @@ func TestParseMultipartForm(t *testing.T) {
 	}
 	err := req.ParseMultipartForm(25)
 	if err == nil {
-		t.Error("expected multipart EOF, got nil")
+		t.Error("expected multipart EOF, golangt nil")
 	}
 
 	req.Header = Header{"Content-Type": {"text/plain"}}
@@ -285,7 +285,7 @@ Content-Type: text/plain
 		t.Fatal(err)
 	}
 	if hdr.Filename != "foobar.txt" {
-		t.Errorf("expected only the last element of the path, got %q", hdr.Filename)
+		t.Errorf("expected only the last element of the path, golangt %q", hdr.Filename)
 	}
 }
 
@@ -300,7 +300,7 @@ func testMaxInt64ForMultipartFormMaxMemoryOverflow(t *testing.T, mode testMode) 
 	cst := newClientServerTest(t, mode, HandlerFunc(func(rw ResponseWriter, req *Request) {
 		// The combination of:
 		//      MaxInt64 + payloadSize + (internal spare of 10MiB)
-		// triggers the overflow. See issue https://golang.org/issue/40430/
+		// triggers the overflow. See issue https://golanglang.org/issue/40430/
 		if err := req.ParseMultipartForm(math.MaxInt64); err != nil {
 			Error(rw, err.Error(), StatusBadRequest)
 			return
@@ -329,7 +329,7 @@ func testMaxInt64ForMultipartFormMaxMemoryOverflow(t *testing.T, mode testMode) 
 	}
 	res.Body.Close()
 	if g, w := res.StatusCode, StatusOK; g != w {
-		t.Fatalf("Status code mismatch: got %d, want %d", g, w)
+		t.Fatalf("Status code mismatch: golangt %d, want %d", g, w)
 	}
 }
 
@@ -355,7 +355,7 @@ func testRequestRedirect(t *testing.T, mode testMode) {
 	r.Body.Close()
 	url := r.Request.URL.String()
 	if r.StatusCode != 200 || !end.MatchString(url) {
-		t.Fatalf("Get got status %d at %q, want 200 matching /foo/$", r.StatusCode, url)
+		t.Fatalf("Get golangt status %d at %q, want 200 matching /foo/$", r.StatusCode, url)
 	}
 }
 
@@ -363,7 +363,7 @@ func TestSetBasicAuth(t *testing.T) {
 	r, _ := NewRequest("GET", "http://example.com/", nil)
 	r.SetBasicAuth("Aladdin", "open sesame")
 	if g, e := r.Header.Get("Authorization"), "Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ=="; g != e {
-		t.Errorf("got header %q, want %q", g, e)
+		t.Errorf("golangt header %q, want %q", g, e)
 	}
 }
 
@@ -389,7 +389,7 @@ func TestParseMultipartFormSemicolonSeparator(t *testing.T) {
 	req := newTestMultipartRequest(t)
 	req.URL = &url.URL{RawQuery: "q=foo;q=bar"}
 	if err := req.ParseMultipartForm(25); err == nil {
-		t.Fatal("ParseMultipartForm expected error due to invalid semicolon, got nil")
+		t.Fatal("ParseMultipartForm expected error due to invalid semicolon, golangt nil")
 	}
 	defer req.MultipartForm.RemoveAll()
 	validateTestMultipartContents(t, req, false)
@@ -416,7 +416,7 @@ func TestMissingFileMultipartRequest(t *testing.T) {
 
 // Test that FormValue invokes ParseMultipartForm.
 func TestFormValueCallsParseMultipartForm(t *testing.T) {
-	req, _ := NewRequest("POST", "http://www.google.com/", strings.NewReader("z=post"))
+	req, _ := NewRequest("POST", "http://www.golangogle.com/", strings.NewReader("z=post"))
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded; param=value")
 	if req.Form != nil {
 		t.Fatal("Unexpected request Form, want nil")
@@ -529,17 +529,17 @@ func TestReadRequestErrors(t *testing.T) {
 		req, err := ReadRequest(bufio.NewReader(strings.NewReader(tt.in)))
 		if err == nil {
 			if tt.err != "" {
-				t.Errorf("#%d: got nil err; want %q", i, tt.err)
+				t.Errorf("#%d: golangt nil err; want %q", i, tt.err)
 			}
 
 			if !reflect.DeepEqual(tt.header, req.Header) {
-				t.Errorf("#%d: gotHeader: %q wantHeader: %q", i, req.Header, tt.header)
+				t.Errorf("#%d: golangtHeader: %q wantHeader: %q", i, req.Header, tt.header)
 			}
 			continue
 		}
 
 		if tt.err == "" || !strings.Contains(err.Error(), tt.err) {
-			t.Errorf("%d: got error = %v; want %v", i, err, tt.err)
+			t.Errorf("%d: golangt error = %v; want %v", i, err, tt.err)
 		}
 	}
 }
@@ -569,7 +569,7 @@ func TestNewRequestHost(t *testing.T) {
 			continue
 		}
 		if req.Host != tt.out {
-			t.Errorf("got %q; want %q", req.Host, tt.out)
+			t.Errorf("golangt %q; want %q", req.Host, tt.out)
 		}
 	}
 }
@@ -664,7 +664,7 @@ func TestParseHTTPVersion(t *testing.T) {
 				major, minor int
 				ok           bool
 			}
-			t.Errorf("failed to parse %q, expected: %#v, got %#v", tt.vers, version{tt.major, tt.minor, tt.ok}, version{major, minor, ok})
+			t.Errorf("failed to parse %q, expected: %#v, golangt %#v", tt.vers, version{tt.major, tt.minor, tt.ok}, version{major, minor, ok})
 		}
 	}
 }
@@ -705,7 +705,7 @@ func TestGetBasicAuth(t *testing.T) {
 	}
 	want := basicAuthCredentialsTest{"", ""}
 	if username != want.username || password != want.password {
-		t.Errorf("expected credentials: %#v when the request is unauthenticated, got %#v",
+		t.Errorf("expected credentials: %#v when the request is unauthenticated, golangt %#v",
 			want, basicAuthCredentialsTest{username, password})
 	}
 }
@@ -757,56 +757,56 @@ func (l logWrites) Write(p []byte) (n int, err error) {
 }
 
 func TestRequestWriteBufferedWriter(t *testing.T) {
-	got := []string{}
+	golangt := []string{}
 	req, _ := NewRequest("GET", "http://foo.com/", nil)
-	req.Write(logWrites{t, &got})
+	req.Write(logWrites{t, &golangt})
 	want := []string{
 		"GET / HTTP/1.1\r\n",
 		"Host: foo.com\r\n",
 		"User-Agent: " + DefaultUserAgent + "\r\n",
 		"\r\n",
 	}
-	if !slices.Equal(got, want) {
-		t.Errorf("Writes = %q\n  Want = %q", got, want)
+	if !slices.Equal(golangt, want) {
+		t.Errorf("Writes = %q\n  Want = %q", golangt, want)
 	}
 }
 
 func TestRequestBadHostHeader(t *testing.T) {
-	got := []string{}
+	golangt := []string{}
 	req, err := NewRequest("GET", "http://foo/after", nil)
 	if err != nil {
 		t.Fatal(err)
 	}
 	req.Host = "foo.com\nnewline"
 	req.URL.Host = "foo.com\nnewline"
-	req.Write(logWrites{t, &got})
+	req.Write(logWrites{t, &golangt})
 	want := []string{
 		"GET /after HTTP/1.1\r\n",
 		"Host: \r\n",
 		"User-Agent: " + DefaultUserAgent + "\r\n",
 		"\r\n",
 	}
-	if !slices.Equal(got, want) {
-		t.Errorf("Writes = %q\n  Want = %q", got, want)
+	if !slices.Equal(golangt, want) {
+		t.Errorf("Writes = %q\n  Want = %q", golangt, want)
 	}
 }
 
 func TestRequestBadUserAgent(t *testing.T) {
-	got := []string{}
+	golangt := []string{}
 	req, err := NewRequest("GET", "http://foo/after", nil)
 	if err != nil {
 		t.Fatal(err)
 	}
 	req.Header.Set("User-Agent", "evil\r\nX-Evil: evil")
-	req.Write(logWrites{t, &got})
+	req.Write(logWrites{t, &golangt})
 	want := []string{
 		"GET /after HTTP/1.1\r\n",
 		"Host: foo\r\n",
 		"User-Agent: evil  X-Evil: evil\r\n",
 		"\r\n",
 	}
-	if !slices.Equal(got, want) {
-		t.Errorf("Writes = %q\n  Want = %q", got, want)
+	if !slices.Equal(golangt, want) {
+		t.Errorf("Writes = %q\n  Want = %q", golangt, want)
 	}
 }
 
@@ -906,7 +906,7 @@ func TestMaxBytesReaderStickyError(t *testing.T) {
 				continue
 			}
 			if !reflect.DeepEqual(err, firstErr) {
-				return fmt.Errorf("non-sticky error. got log:\n%s", log.Bytes())
+				return fmt.Errorf("non-sticky error. golangt log:\n%s", log.Bytes())
 			}
 			t.Logf("Got log: %s", log.Bytes())
 			return nil
@@ -1021,7 +1021,7 @@ func TestMaxBytesReaderDifferentLimits(t *testing.T) {
 }
 
 func TestWithContextNilURL(t *testing.T) {
-	req, err := NewRequest("POST", "https://golang.org/", nil)
+	req, err := NewRequest("POST", "https://golanglang.org/", nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1067,18 +1067,18 @@ func TestRequestClonePathValue(t *testing.T) {
 	// Ensure that any modifications to the cloned
 	// request do not pollute the original request.
 	if g, w := req.PathValue("p2"), ""; g != w {
-		t.Fatalf("p2 mismatch got %q, want %q", g, w)
+		t.Fatalf("p2 mismatch golangt %q, want %q", g, w)
 	}
 	if g, w := req.PathValue("p1"), "orig"; g != w {
-		t.Fatalf("p1 mismatch got %q, want %q", g, w)
+		t.Fatalf("p1 mismatch golangt %q, want %q", g, w)
 	}
 
 	// Assert on the changes to the cloned request.
 	if g, w := clonedReq.PathValue("p1"), "orig"; g != w {
-		t.Fatalf("p1 mismatch got %q, want %q", g, w)
+		t.Fatalf("p1 mismatch golangt %q, want %q", g, w)
 	}
 	if g, w := clonedReq.PathValue("p2"), "copy"; g != w {
-		t.Fatalf("p2 mismatch got %q, want %q", g, w)
+		t.Fatalf("p2 mismatch golangt %q, want %q", g, w)
 	}
 }
 
@@ -1242,7 +1242,7 @@ func TestRequestCookie(t *testing.T) {
 		req.AddCookie(&Cookie{Name: tt.name, Value: tt.value})
 		c, err := req.Cookie(tt.name)
 		if err != tt.expectedErr {
-			t.Errorf("got %v, want %v", err, tt.expectedErr)
+			t.Errorf("golangt %v, want %v", err, tt.expectedErr)
 		}
 
 		// skip if error occurred.
@@ -1250,10 +1250,10 @@ func TestRequestCookie(t *testing.T) {
 			continue
 		}
 		if c.Value != tt.value {
-			t.Errorf("got %v, want %v", c.Value, tt.value)
+			t.Errorf("golangt %v, want %v", c.Value, tt.value)
 		}
 		if c.Name != tt.name {
-			t.Errorf("got %s, want %v", tt.name, c.Name)
+			t.Errorf("golangt %s, want %v", tt.name, c.Name)
 		}
 	}
 }
@@ -1315,14 +1315,14 @@ func TestRequestCookiesByName(t *testing.T) {
 				req.AddCookie(c)
 			}
 
-			got := req.CookiesNamed(tt.filter)
+			golangt := req.CookiesNamed(tt.filter)
 
-			if !reflect.DeepEqual(got, tt.want) {
+			if !reflect.DeepEqual(golangt, tt.want) {
 				asStr := func(v any) string {
 					blob, _ := json.MarshalIndent(v, "", "  ")
 					return string(blob)
 				}
-				t.Fatalf("Result mismatch\n\tGot: %s\n\tWant: %s", asStr(got), asStr(tt.want))
+				t.Fatalf("Result mismatch\n\tGot: %s\n\tWant: %s", asStr(golangt), asStr(tt.want))
 			}
 		})
 	}
@@ -1449,7 +1449,7 @@ func BenchmarkFileAndServer_64MB(b *testing.B) {
 }
 
 func benchmarkFileAndServer(b *testing.B, n int64) {
-	f, err := os.CreateTemp(os.TempDir(), "go-bench-http-file-and-server")
+	f, err := os.CreateTemp(os.TempDir(), "golang-bench-http-file-and-server")
 	if err != nil {
 		b.Fatalf("Failed to create temp file: %v", err)
 	}
@@ -1520,11 +1520,11 @@ func TestPathValueNoMatch(t *testing.T) {
 	// Check that PathValue and SetPathValue work on a Request that was never matched.
 	var r Request
 	if g, w := r.PathValue("x"), ""; g != w {
-		t.Errorf("got %q, want %q", g, w)
+		t.Errorf("golangt %q, want %q", g, w)
 	}
 	r.SetPathValue("x", "a")
 	if g, w := r.PathValue("x"), "a"; g != w {
-		t.Errorf("got %q, want %q", g, w)
+		t.Errorf("golangt %q, want %q", g, w)
 	}
 }
 
@@ -1572,13 +1572,13 @@ func TestPathValueAndPattern(t *testing.T) {
 		mux := NewServeMux()
 		mux.HandleFunc(test.pattern, func(w ResponseWriter, r *Request) {
 			for name, want := range test.want {
-				got := r.PathValue(name)
-				if got != want {
-					t.Errorf("%q, %q: got %q, want %q", test.pattern, name, got, want)
+				golangt := r.PathValue(name)
+				if golangt != want {
+					t.Errorf("%q, %q: golangt %q, want %q", test.pattern, name, golangt, want)
 				}
 			}
 			if r.Pattern != test.pattern {
-				t.Errorf("pattern: got %s, want %s", r.Pattern, test.pattern)
+				t.Errorf("pattern: golangt %s, want %s", r.Pattern, test.pattern)
 			}
 		})
 		server := httptest.NewServer(mux)
@@ -1604,7 +1604,7 @@ func TestSetPathValue(t *testing.T) {
 		}
 		for k, w := range kvs {
 			if g := r.PathValue(k); g != w {
-				t.Errorf("got %q, want %q", g, w)
+				t.Errorf("golangt %q, want %q", g, w)
 			}
 		}
 	})
@@ -1657,10 +1657,10 @@ func TestStatus(t *testing.T) {
 		}
 		res.Body.Close()
 		if g, w := res.StatusCode, test.wantStatus; g != w {
-			t.Errorf("%s %s: got %d, want %d", test.method, test.path, g, w)
+			t.Errorf("%s %s: golangt %d, want %d", test.method, test.path, g, w)
 		}
 		if g, w := res.Header.Get("Allow"), test.wantAllow; g != w {
-			t.Errorf("%s %s, Allow: got %q, want %q", test.method, test.path, g, w)
+			t.Errorf("%s %s, Allow: golangt %q, want %q", test.method, test.path, g, w)
 		}
 	}
 }

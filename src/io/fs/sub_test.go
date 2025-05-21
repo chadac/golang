@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package fs_test
@@ -21,18 +21,18 @@ func TestSub(t *testing.T) {
 			t.Errorf("Sub(sub): %v", err)
 			return
 		}
-		data, err := ReadFile(sub, "goodbye.txt")
-		if string(data) != "goodbye, world" || err != nil {
-			t.Errorf(`ReadFile(%s, "goodbye.txt" = %q, %v, want %q, nil`, desc, string(data), err, "goodbye, world")
+		data, err := ReadFile(sub, "golangodbye.txt")
+		if string(data) != "golangodbye, world" || err != nil {
+			t.Errorf(`ReadFile(%s, "golangodbye.txt" = %q, %v, want %q, nil`, desc, string(data), err, "golangodbye, world")
 		}
 
 		dirs, err := ReadDir(sub, ".")
-		if err != nil || len(dirs) != 1 || dirs[0].Name() != "goodbye.txt" {
+		if err != nil || len(dirs) != 1 || dirs[0].Name() != "golangodbye.txt" {
 			var names []string
 			for _, d := range dirs {
 				names = append(names, d.Name())
 			}
-			t.Errorf(`ReadDir(%s, ".") = %v, %v, want %v, nil`, desc, names, err, []string{"goodbye.txt"})
+			t.Errorf(`ReadDir(%s, ".") = %v, %v, want %v, nil`, desc, names, err, []string{"golangodbye.txt"})
 		}
 	}
 

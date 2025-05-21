@@ -1,7 +1,7 @@
 // errorcheck
 
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Verify that invalid imports are rejected by the compiler.
@@ -13,7 +13,7 @@ package main
 import _ "fmt"
 import _ `time`
 import _ "m\x61th"
-import _ "go/parser"
+import _ "golang/parser"
 
 // Correct import paths, but the packages don't exist.
 // Don't test.

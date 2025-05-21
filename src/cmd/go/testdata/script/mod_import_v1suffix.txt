@@ -1,11 +1,11 @@
 env GO111MODULE=on
 
-! go get example.com/invalidpath/v1
-! go install .
+! golang get example.com/invalidpath/v1
+! golang install .
 
--- go.mod --
+-- golang.mod --
 module example.com
--- main.go --
+-- main.golang --
 package main
 import _ "example.com/invalidpath/v1"
 func main() {}

@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package syntax
@@ -383,7 +383,7 @@ type (
 		Label *Name
 		// Target is the continuation of the control flow after executing
 		// the branch; it is computed by the parser if CheckBranches is set.
-		// Target is a *LabeledStmt for gotos, and a *SwitchStmt, *SelectStmt,
+		// Target is a *LabeledStmt for golangtos, and a *SwitchStmt, *SelectStmt,
 		// or *ForStmt for breaks and continues, depending on the context of
 		// the branch. Target is not set for fallthroughs.
 		Target Stmt

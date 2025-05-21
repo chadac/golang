@@ -1,8 +1,8 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build goexperiment.swissmap
+//golang:build golangexperiment.swissmap
 
 package reflect
 
@@ -61,7 +61,7 @@ func MapOf(key, elem Type) Type {
 
 	// Make a map type.
 	// Note: flag values must match those used in the TMAP case
-	// in ../cmd/compile/internal/reflectdata/reflect.go:writeType.
+	// in ../cmd/compile/internal/reflectdata/reflect.golang:writeType.
 	var imap any = (map[unsafe.Pointer]unsafe.Pointer)(nil)
 	mt := **(**mapType)(unsafe.Pointer(&imap))
 	mt.Str = resolveReflectName(newName(s, "", false, false))
@@ -180,7 +180,7 @@ func (v Value) MapIndex(key Value) Value {
 
 // Equivalent to runtime.mapIterStart.
 //
-//go:noinline
+//golang:noinline
 func mapIterStart(t *abi.SwissMapType, m *maps.Map, it *maps.Iter) {
 	if race.Enabled && m != nil {
 		callerpc := sys.GetCallerPC()
@@ -193,7 +193,7 @@ func mapIterStart(t *abi.SwissMapType, m *maps.Map, it *maps.Iter) {
 
 // Equivalent to runtime.mapIterNext.
 //
-//go:noinline
+//golang:noinline
 func mapIterNext(it *maps.Iter) {
 	if race.Enabled {
 		callerpc := sys.GetCallerPC()
@@ -391,7 +391,7 @@ func (v Value) MapRange() *MapIter {
 	// This is inlinable to take advantage of "function outlining".
 	// The allocation of MapIter can be stack allocated if the caller
 	// does not allow it to escape.
-	// See https://blog.filippo.io/efficient-go-apis-with-the-inliner/
+	// See https://blog.filippo.io/efficient-golang-apis-with-the-inliner/
 	if v.kind() != Map {
 		v.panicNotMap()
 	}
@@ -454,7 +454,7 @@ func (v Value) SetMapIndex(key, elem Value) {
 // inlining budget of the caller.
 // TODO: undo when the inliner is no longer bottom-up only.
 //
-//go:noinline
+//golang:noinline
 func (f flag) panicNotMap() {
 	f.mustBe(Map)
 }

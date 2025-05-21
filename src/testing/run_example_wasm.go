@@ -1,8 +1,8 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build js || wasip1
+//golang:build js || wasip1
 
 package testing
 
@@ -15,7 +15,7 @@ import (
 )
 
 // TODO(@musiol, @odeke-em): unify this code back into
-// example.go when js/wasm gets an os.Pipe implementation.
+// example.golang when js/wasm gets an os.Pipe implementation.
 func runExample(eg InternalExample) (ok bool) {
 	if chatty.on {
 		fmt.Printf("%s=== RUN   %s\n", chatty.prefix(), eg.Name)
@@ -62,7 +62,7 @@ func runExample(eg InternalExample) (ok bool) {
 
 func createTempFile(exampleName string) *os.File {
 	for i := 0; ; i++ {
-		name := fmt.Sprintf("%s/go-example-stdout-%s-%d.txt", os.TempDir(), exampleName, i)
+		name := fmt.Sprintf("%s/golang-example-stdout-%s-%d.txt", os.TempDir(), exampleName, i)
 		f, err := os.OpenFile(name, os.O_RDWR|os.O_CREATE|os.O_EXCL, 0600)
 		if err != nil {
 			if os.IsExist(err) {

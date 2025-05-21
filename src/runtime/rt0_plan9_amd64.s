@@ -1,5 +1,5 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 #include "textflag.h"
@@ -11,7 +11,7 @@ TEXT _rt0_amd64_plan9(SB),NOSPLIT,$24
 	MOVL	$1, _nprivates(SB)
 	MOVL	inargc-8(FP), DI
 	LEAQ	inargv+0(FP), SI
-	MOVQ	$runtime·rt0_go(SB), AX
+	MOVQ	$runtime·rt0_golang(SB), AX
 	JMP	AX
 
 GLOBL _tos(SB), NOPTR, $8

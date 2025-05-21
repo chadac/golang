@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package regexp
@@ -13,7 +13,7 @@ import (
 	"unicode/utf8"
 )
 
-var goodRe = []string{
+var golangodRe = []string{
 	``,
 	`.`,
 	`^.$`,
@@ -67,8 +67,8 @@ func compileTest(t *testing.T, expr string, error string) *Regexp {
 }
 
 func TestGoodCompile(t *testing.T) {
-	for i := 0; i < len(goodRe); i++ {
-		compileTest(t, goodRe[i], "")
+	for i := 0; i < len(golangodRe); i++ {
+		compileTest(t, golangodRe[i], "")
 	}
 }
 
@@ -205,12 +205,12 @@ var replaceTests = []ReplaceTest{
 	{"a+", "(${0})", "banana", "b(a)n(a)n(a)"},
 	{"a+", "(${0})$0", "banana", "b(a)an(a)an(a)a"},
 	{"a+", "(${0})$0", "banana", "b(a)an(a)an(a)a"},
-	{"hello, (.+)", "goodbye, ${1}", "hello, world", "goodbye, world"},
-	{"hello, (.+)", "goodbye, $1x", "hello, world", "goodbye, "},
-	{"hello, (.+)", "goodbye, ${1}x", "hello, world", "goodbye, worldx"},
+	{"hello, (.+)", "golangodbye, ${1}", "hello, world", "golangodbye, world"},
+	{"hello, (.+)", "golangodbye, $1x", "hello, world", "golangodbye, "},
+	{"hello, (.+)", "golangodbye, ${1}x", "hello, world", "golangodbye, worldx"},
 	{"hello, (.+)", "<$0><$1><$2><$3>", "hello, world", "<hello, world><world><><>"},
-	{"hello, (?P<noun>.+)", "goodbye, $noun!", "hello, world", "goodbye, world!"},
-	{"hello, (?P<noun>.+)", "goodbye, ${noun}", "hello, world", "goodbye, world"},
+	{"hello, (?P<noun>.+)", "golangodbye, $noun!", "hello, world", "golangodbye, world!"},
+	{"hello, (?P<noun>.+)", "golangodbye, ${noun}", "hello, world", "golangodbye, world"},
 	{"(?P<x>hi)|(?P<x>bye)", "$x$x$x", "hi", "hihihi"},
 	{"(?P<x>hi)|(?P<x>bye)", "$x$x$x", "bye", "byebyebye"},
 	{"(?P<x>hi)|(?P<x>bye)", "$xyz", "hi", ""},
@@ -237,9 +237,9 @@ var replaceLiteralTests = []ReplaceTest{
 	{"a+", "(${0})", "banana", "b(${0})n(${0})n(${0})"},
 	{"a+", "(${0})$0", "banana", "b(${0})$0n(${0})$0n(${0})$0"},
 	{"a+", "(${0})$0", "banana", "b(${0})$0n(${0})$0n(${0})$0"},
-	{"hello, (.+)", "goodbye, ${1}", "hello, world", "goodbye, ${1}"},
-	{"hello, (?P<noun>.+)", "goodbye, $noun!", "hello, world", "goodbye, $noun!"},
-	{"hello, (?P<noun>.+)", "goodbye, ${noun}", "hello, world", "goodbye, ${noun}"},
+	{"hello, (.+)", "golangodbye, ${1}", "hello, world", "golangodbye, ${1}"},
+	{"hello, (?P<noun>.+)", "golangodbye, $noun!", "hello, world", "golangodbye, $noun!"},
+	{"hello, (?P<noun>.+)", "golangodbye, ${noun}", "hello, world", "golangodbye, ${noun}"},
 	{"(?P<x>hi)|(?P<x>bye)", "$x$x$x", "hi", "$x$x$x"},
 	{"(?P<x>hi)|(?P<x>bye)", "$x$x$x", "bye", "$x$x$x"},
 	{"(?P<x>hi)|(?P<x>bye)", "$xyz", "hi", "$xyz"},
@@ -364,7 +364,7 @@ var metaTests = []MetaTest{
 }
 
 var literalPrefixTests = []MetaTest{
-	// See golang.org/issue/11175.
+	// See golanglang.org/issue/11175.
 	// output is unused.
 	{`^0^0$`, ``, `0`, false},
 	{`^0^`, ``, ``, false},
@@ -521,7 +521,7 @@ func TestSplit(t *testing.T) {
 
 		split := re.Split(test.s, test.n)
 		if !slices.Equal(split, test.out) {
-			t.Errorf("#%d: %q: got %q; want %q", i, test.r, split, test.out)
+			t.Errorf("#%d: %q: golangt %q; want %q", i, test.r, split, test.out)
 		}
 
 		if QuoteMeta(test.r) == test.r {
@@ -951,8 +951,8 @@ func TestMinInputLen(t *testing.T) {
 
 func TestUnmarshalText(t *testing.T) {
 	unmarshaled := new(Regexp)
-	for i := range goodRe {
-		re := compileTest(t, goodRe[i], "")
+	for i := range golangodRe {
+		re := compileTest(t, golangodRe[i], "")
 		marshaled, err := re.MarshalText()
 		if err != nil {
 			t.Errorf("regexp %#q failed to marshal: %s", re, err)
@@ -962,7 +962,7 @@ func TestUnmarshalText(t *testing.T) {
 			t.Errorf("regexp %#q failed to unmarshal: %s", re, err)
 			continue
 		}
-		if unmarshaled.String() != goodRe[i] {
+		if unmarshaled.String() != golangodRe[i] {
 			t.Errorf("UnmarshalText returned unexpected value: %s", unmarshaled.String())
 		}
 
@@ -977,7 +977,7 @@ func TestUnmarshalText(t *testing.T) {
 			t.Errorf("regexp %#q failed to unmarshal: %s", re, err)
 			continue
 		}
-		if unmarshaled.String() != goodRe[i] {
+		if unmarshaled.String() != golangodRe[i] {
 			t.Errorf("UnmarshalText returned unexpected value: %s", unmarshaled.String())
 		}
 	}

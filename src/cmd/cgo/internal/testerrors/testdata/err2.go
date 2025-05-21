@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -65,7 +65,7 @@ func main() {
 	)
 
 	// issue 13830
-	// cgo converts C void* to Go unsafe.Pointer, so despite appearances C
+	// cgolang converts C void* to Go unsafe.Pointer, so despite appearances C
 	// void** is Go *unsafe.Pointer. This test verifies that we detect the
 	// problem at build time.
 	{
@@ -82,7 +82,7 @@ func main() {
 	_ = C.fvi(1) // ERROR HERE
 
 	// Issue 16591: Test that we detect an invalid call that was being
-	// hidden by a type conversion inserted by cgo checking.
+	// hidden by a type conversion inserted by cgolang checking.
 	{
 		type x *C.int
 		var p *x

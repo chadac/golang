@@ -1,15 +1,15 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build goexperiment.jsonv2
+//golang:build golangexperiment.jsonv2
 
 // Package json implements encoding and decoding of JSON as defined in
 // RFC 7159. The mapping between JSON and Go values is described
 // in the documentation for the Marshal and Unmarshal functions.
 //
 // See "JSON and Go" for an introduction to this package:
-// https://golang.org/doc/articles/json_and_go.html
+// https://golanglang.org/doc/articles/json_and_golang.html
 package json
 
 import (

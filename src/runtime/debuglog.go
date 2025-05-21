@@ -1,5 +1,5 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file provides an internal debug logging facility. The debug
@@ -20,7 +20,7 @@
 // to one or the other depending on the debuglog build tag. However, both types
 // always exist and are always built. This helps ensure we compile as much of
 // the implementation as possible in the default build configuration, while also
-// enabling us to achieve good test coverage of the real debuglog implementation
+// enabling us to achieve golangod test coverage of the real debuglog implementation
 // even when the debuglog build tag is not set.
 
 package runtime
@@ -57,21 +57,21 @@ const debugLogStringLimit = debugLogBytes / 8
 // are not literals or trivial expressions, consider protecting the
 // call with "if dlogEnabled".
 //
-//go:nosplit
-//go:nowritebarrierrec
+//golang:nosplit
+//golang:nowritebarrierrec
 func dlog() dlogger {
 	// dlog1 is defined to either dlogImpl or dlogFake.
 	return dlog1()
 }
 
-//go:nosplit
-//go:nowritebarrierrec
+//golang:nosplit
+//golang:nowritebarrierrec
 func dlogFake() dloggerFake {
 	return dloggerFake{}
 }
 
-//go:nosplit
-//go:nowritebarrierrec
+//golang:nosplit
+//golang:nowritebarrierrec
 func dlogImpl() *dloggerImpl {
 	// Get the time.
 	tick, nano := uint64(cputicks()), uint64(nanotime())
@@ -163,10 +163,10 @@ var allDloggers *dloggerImpl
 // A dloggerFake is a no-op implementation of dlogger.
 type dloggerFake struct{}
 
-//go:nosplit
+//golang:nosplit
 func (l dloggerFake) end() {}
 
-//go:nosplit
+//golang:nosplit
 func (l *dloggerImpl) end() {
 	// Fill in framing header.
 	size := l.w.write - l.w.r.end
@@ -202,10 +202,10 @@ const (
 	debugLogTraceback
 )
 
-//go:nosplit
+//golang:nosplit
 func (l dloggerFake) b(x bool) dloggerFake { return l }
 
-//go:nosplit
+//golang:nosplit
 func (l *dloggerImpl) b(x bool) *dloggerImpl {
 	if x {
 		l.w.byte(debugLogBoolTrue)
@@ -215,112 +215,112 @@ func (l *dloggerImpl) b(x bool) *dloggerImpl {
 	return l
 }
 
-//go:nosplit
+//golang:nosplit
 func (l dloggerFake) i(x int) dloggerFake { return l }
 
-//go:nosplit
+//golang:nosplit
 func (l *dloggerImpl) i(x int) *dloggerImpl {
 	return l.i64(int64(x))
 }
 
-//go:nosplit
+//golang:nosplit
 func (l dloggerFake) i8(x int8) dloggerFake { return l }
 
-//go:nosplit
+//golang:nosplit
 func (l *dloggerImpl) i8(x int8) *dloggerImpl {
 	return l.i64(int64(x))
 }
 
-//go:nosplit
+//golang:nosplit
 func (l dloggerFake) i16(x int16) dloggerFake { return l }
 
-//go:nosplit
+//golang:nosplit
 func (l *dloggerImpl) i16(x int16) *dloggerImpl {
 	return l.i64(int64(x))
 }
 
-//go:nosplit
+//golang:nosplit
 func (l dloggerFake) i32(x int32) dloggerFake { return l }
 
-//go:nosplit
+//golang:nosplit
 func (l *dloggerImpl) i32(x int32) *dloggerImpl {
 	return l.i64(int64(x))
 }
 
-//go:nosplit
+//golang:nosplit
 func (l dloggerFake) i64(x int64) dloggerFake { return l }
 
-//go:nosplit
+//golang:nosplit
 func (l *dloggerImpl) i64(x int64) *dloggerImpl {
 	l.w.byte(debugLogInt)
 	l.w.varint(x)
 	return l
 }
 
-//go:nosplit
+//golang:nosplit
 func (l dloggerFake) u(x uint) dloggerFake { return l }
 
-//go:nosplit
+//golang:nosplit
 func (l *dloggerImpl) u(x uint) *dloggerImpl {
 	return l.u64(uint64(x))
 }
 
-//go:nosplit
+//golang:nosplit
 func (l dloggerFake) uptr(x uintptr) dloggerFake { return l }
 
-//go:nosplit
+//golang:nosplit
 func (l *dloggerImpl) uptr(x uintptr) *dloggerImpl {
 	return l.u64(uint64(x))
 }
 
-//go:nosplit
+//golang:nosplit
 func (l dloggerFake) u8(x uint8) dloggerFake { return l }
 
-//go:nosplit
+//golang:nosplit
 func (l *dloggerImpl) u8(x uint8) *dloggerImpl {
 	return l.u64(uint64(x))
 }
 
-//go:nosplit
+//golang:nosplit
 func (l dloggerFake) u16(x uint16) dloggerFake { return l }
 
-//go:nosplit
+//golang:nosplit
 func (l *dloggerImpl) u16(x uint16) *dloggerImpl {
 	return l.u64(uint64(x))
 }
 
-//go:nosplit
+//golang:nosplit
 func (l dloggerFake) u32(x uint32) dloggerFake { return l }
 
-//go:nosplit
+//golang:nosplit
 func (l *dloggerImpl) u32(x uint32) *dloggerImpl {
 	return l.u64(uint64(x))
 }
 
-//go:nosplit
+//golang:nosplit
 func (l dloggerFake) u64(x uint64) dloggerFake { return l }
 
-//go:nosplit
+//golang:nosplit
 func (l *dloggerImpl) u64(x uint64) *dloggerImpl {
 	l.w.byte(debugLogUint)
 	l.w.uvarint(x)
 	return l
 }
 
-//go:nosplit
+//golang:nosplit
 func (l dloggerFake) hex(x uint64) dloggerFake { return l }
 
-//go:nosplit
+//golang:nosplit
 func (l *dloggerImpl) hex(x uint64) *dloggerImpl {
 	l.w.byte(debugLogHex)
 	l.w.uvarint(x)
 	return l
 }
 
-//go:nosplit
+//golang:nosplit
 func (l dloggerFake) p(x any) dloggerFake { return l }
 
-//go:nosplit
+//golang:nosplit
 func (l *dloggerImpl) p(x any) *dloggerImpl {
 	l.w.byte(debugLogPtr)
 	if x == nil {
@@ -337,10 +337,10 @@ func (l *dloggerImpl) p(x any) *dloggerImpl {
 	return l
 }
 
-//go:nosplit
+//golang:nosplit
 func (l dloggerFake) s(x string) dloggerFake { return l }
 
-//go:nosplit
+//golang:nosplit
 func (l *dloggerImpl) s(x string) *dloggerImpl {
 	strData := unsafe.StringData(x)
 	datap := &firstmoduledata
@@ -372,20 +372,20 @@ func (l *dloggerImpl) s(x string) *dloggerImpl {
 	return l
 }
 
-//go:nosplit
+//golang:nosplit
 func (l dloggerFake) pc(x uintptr) dloggerFake { return l }
 
-//go:nosplit
+//golang:nosplit
 func (l *dloggerImpl) pc(x uintptr) *dloggerImpl {
 	l.w.byte(debugLogPC)
 	l.w.uvarint(uint64(x))
 	return l
 }
 
-//go:nosplit
+//golang:nosplit
 func (l dloggerFake) traceback(x []uintptr) dloggerFake { return l }
 
-//go:nosplit
+//golang:nosplit
 func (l *dloggerImpl) traceback(x []uintptr) *dloggerImpl {
 	l.w.byte(debugLogTraceback)
 	l.w.uvarint(uint64(len(x)))
@@ -441,7 +441,7 @@ const (
 	debugLogSyncSize = debugLogHeaderSize + 2*8
 )
 
-//go:nosplit
+//golang:nosplit
 func (l *debugLogWriter) ensure(n uint64) {
 	for l.write+n >= l.r.begin+uint64(len(l.data.b)) {
 		// Consume record at begin.
@@ -457,14 +457,14 @@ func (l *debugLogWriter) ensure(n uint64) {
 	}
 }
 
-//go:nosplit
+//golang:nosplit
 func (l *debugLogWriter) writeFrameAt(pos, size uint64) bool {
 	l.data.b[pos%uint64(len(l.data.b))] = uint8(size)
 	l.data.b[(pos+1)%uint64(len(l.data.b))] = uint8(size >> 8)
 	return size <= 0xFFFF
 }
 
-//go:nosplit
+//golang:nosplit
 func (l *debugLogWriter) writeSync(tick, nano uint64) {
 	l.tick, l.nano = tick, nano
 	l.ensure(debugLogHeaderSize)
@@ -475,14 +475,14 @@ func (l *debugLogWriter) writeSync(tick, nano uint64) {
 	l.r.end = l.write
 }
 
-//go:nosplit
+//golang:nosplit
 func (l *debugLogWriter) writeUint64LE(x uint64) {
 	var b [8]byte
 	byteorder.LEPutUint64(b[:], x)
 	l.bytes(b[:])
 }
 
-//go:nosplit
+//golang:nosplit
 func (l *debugLogWriter) byte(x byte) {
 	l.ensure(1)
 	pos := l.write
@@ -490,7 +490,7 @@ func (l *debugLogWriter) byte(x byte) {
 	l.data.b[pos%uint64(len(l.data.b))] = x
 }
 
-//go:nosplit
+//golang:nosplit
 func (l *debugLogWriter) bytes(x []byte) {
 	l.ensure(uint64(len(x)))
 	pos := l.write
@@ -502,7 +502,7 @@ func (l *debugLogWriter) bytes(x []byte) {
 	}
 }
 
-//go:nosplit
+//golang:nosplit
 func (l *debugLogWriter) varint(x int64) {
 	var u uint64
 	if x < 0 {
@@ -513,7 +513,7 @@ func (l *debugLogWriter) varint(x int64) {
 	l.uvarint(u)
 }
 
-//go:nosplit
+//golang:nosplit
 func (l *debugLogWriter) uvarint(u uint64) {
 	i := 0
 	for u >= 0x80 {
@@ -537,7 +537,7 @@ type debugLogReader struct {
 	tick, nano uint64
 }
 
-//go:nosplit
+//golang:nosplit
 func (r *debugLogReader) skip() uint64 {
 	// Read size at pos.
 	if r.begin+debugLogHeaderSize > r.end {
@@ -557,13 +557,13 @@ func (r *debugLogReader) skip() uint64 {
 	return size
 }
 
-//go:nosplit
+//golang:nosplit
 func (r *debugLogReader) readUint16LEAt(pos uint64) uint16 {
 	return uint16(r.data.b[pos%uint64(len(r.data.b))]) |
 		uint16(r.data.b[(pos+1)%uint64(len(r.data.b))])<<8
 }
 
-//go:nosplit
+//golang:nosplit
 func (r *debugLogReader) readUint64LEAt(pos uint64) uint64 {
 	var b [8]byte
 	for i := range b {

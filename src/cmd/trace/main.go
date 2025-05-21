@@ -1,5 +1,5 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -27,15 +27,15 @@ import (
 )
 
 const usageMessage = "" +
-	`Usage of 'go tool trace':
-Given a trace file produced by 'go test':
-	go test -trace=trace.out pkg
+	`Usage of 'golang tool trace':
+Given a trace file produced by 'golang test':
+	golang test -trace=trace.out pkg
 
 Open a web browser displaying trace:
-	go tool trace [flags] [pkg.test] trace.out
+	golang tool trace [flags] [pkg.test] trace.out
 
 Generate a pprof-like profile from the trace:
-    go tool trace -pprof=TYPE [pkg.test] trace.out
+    golang tool trace -pprof=TYPE [pkg.test] trace.out
 
 [pkg.test] argument is required for traces produced by Go 1.6 and below.
 Go 1.7 does not require the binary argument.
@@ -52,7 +52,7 @@ Flags:
 	-d=mode: print debug info and exit (modes: wire, parsed, footprint)
 
 Note that while the various profiles available when launching
-'go tool trace' work on every browser, the trace viewer itself
+'golang tool trace' work on every browser, the trace viewer itself
 (the 'view trace' page) comes from the Chrome/Chromium project
 and is only actively tested on that browser.
 `
@@ -189,7 +189,7 @@ func main() {
 		{Type: traceviewer.ViewProc, Ranges: ranges},
 		// N.B. Use the same ranges for threads. It takes a long time to compute
 		// the split a second time, but the makeup of the events are similar enough
-		// that this is still a good split.
+		// that this is still a golangod split.
 		{Type: traceviewer.ViewThread, Ranges: ranges},
 	}))
 
@@ -199,8 +199,8 @@ func main() {
 	mux.Handle("/static/", traceviewer.StaticHandler())
 
 	// Goroutines handlers.
-	mux.HandleFunc("/goroutines", GoroutinesHandlerFunc(parsed.summary.Goroutines))
-	mux.HandleFunc("/goroutine", GoroutineHandler(parsed.summary.Goroutines))
+	mux.HandleFunc("/golangroutines", GoroutinesHandlerFunc(parsed.summary.Goroutines))
+	mux.HandleFunc("/golangroutine", GoroutineHandler(parsed.summary.Goroutines))
 
 	// MMU handler.
 	mux.HandleFunc("/mmu", traceviewer.MMUHandlerFunc(ranges, mutatorUtil))
@@ -240,7 +240,7 @@ func logAndDie(err error) {
 func parseTraceInteractive(tr io.Reader, size int64) (parsed *parsedTrace, err error) {
 	done := make(chan struct{})
 	cr := countingReader{r: tr}
-	go func() {
+	golang func() {
 		parsed, err = parseTrace(&cr, size)
 		done <- struct{}{}
 	}()
@@ -300,7 +300,7 @@ func parseTrace(rr io.Reader, size int64) (*parsedTrace, error) {
 		}
 	}
 
-	// Check to make sure we got at least one good generation.
+	// Check to make sure we golangt at least one golangod generation.
 	if validEvents == 0 {
 		return nil, fmt.Errorf("failed to parse any useful part of the trace: %v", t.err)
 	}

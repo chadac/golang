@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package codehost
@@ -7,8 +7,8 @@ package codehost
 import (
 	"archive/zip"
 	"bytes"
-	"cmd/go/internal/cfg"
-	"cmd/go/internal/vcweb/vcstest"
+	"cmd/golang/internal/cfg"
+	"cmd/golang/internal/vcweb/vcstest"
 	"context"
 	"flag"
 	"internal/testenv"
@@ -33,7 +33,7 @@ func TestMain(m *testing.M) {
 	}
 }
 
-var gitrepo1, gitsha256repo, hgrepo1, vgotest1 string
+var gitrepo1, gitsha256repo, hgrepo1, vgolangtest1 string
 
 var altRepos = func() []string {
 	return []string{
@@ -43,7 +43,7 @@ var altRepos = func() []string {
 }
 
 // TODO: Convert gitrepo1 to svn, bzr, fossil and add tests.
-// For now, at least the hgrepo1 tests check the general vcs.go logic.
+// For now, at least the hgrepo1 tests check the general vcs.golang logic.
 
 // localGitRepo is like gitrepo1 but allows archive access
 // (although that doesn't really matter after CL 120041),
@@ -77,7 +77,7 @@ func localGitURL(t testing.TB) string {
 	}
 	// Convert absolute path to file URL. LocalGitRepo will not accept
 	// Windows absolute paths because they look like a host:path remote.
-	// TODO(golang.org/issue/32456): use url.FromFilePath when implemented.
+	// TODO(golanglang.org/issue/32456): use url.FromFilePath when implemented.
 	if strings.HasPrefix(localGitRepo, "/") {
 		return "file://" + localGitRepo
 	} else {
@@ -106,7 +106,7 @@ func testMain(m *testing.M) (err error) {
 	gitrepo1 = srv.HTTP.URL + "/git/gitrepo1"
 	gitsha256repo = srv.HTTP.URL + "/git/gitrepo-sha256"
 	hgrepo1 = srv.HTTP.URL + "/hg/hgrepo1"
-	vgotest1 = srv.HTTP.URL + "/git/vgotest1"
+	vgolangtest1 = srv.HTTP.URL + "/git/vgolangtest1"
 
 	dir, err := os.MkdirTemp("", "gitrepo-test-")
 	if err != nil {
@@ -722,15 +722,15 @@ func TestReadZip(t *testing.T) {
 		},
 
 		{
-			repo:   vgotest1,
+			repo:   vgolangtest1,
 			rev:    "submod/v1.0.4",
 			subdir: "submod",
 			files: map[string]uint64{
 				"prefix/":                0,
 				"prefix/submod/":         0,
-				"prefix/submod/go.mod":   53,
+				"prefix/submod/golang.mod":   53,
 				"prefix/submod/pkg/":     0,
-				"prefix/submod/pkg/p.go": 31,
+				"prefix/submod/pkg/p.golang": 31,
 			},
 		},
 	} {

@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package jpeg
@@ -100,7 +100,7 @@ type huffmanSpec struct {
 // This encoder uses the same Huffman encoding for all images. It is also the
 // same Huffman encoding used by section K.3 of the spec.
 //
-// The DC tables have 12 decoded values, called categories.
+// The DC tables have 12 decoded values, called categolangries.
 //
 // The AC tables have 162 decoded values: bytes that pack a 4-bit Run and a
 // 4-bit Size. There are 16 valid Runs and 10 valid Sizes, plus two special R|S

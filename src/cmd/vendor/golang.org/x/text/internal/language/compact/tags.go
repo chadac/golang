@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package compact
@@ -54,7 +54,7 @@ var (
 	Latvian              Tag = Tag{language: lvIndex, locale: lvIndex}
 	Macedonian           Tag = Tag{language: mkIndex, locale: mkIndex}
 	Malayalam            Tag = Tag{language: mlIndex, locale: mlIndex}
-	Mongolian            Tag = Tag{language: mnIndex, locale: mnIndex}
+	Mongolanglian            Tag = Tag{language: mnIndex, locale: mnIndex}
 	Marathi              Tag = Tag{language: mrIndex, locale: mrIndex}
 	Malay                Tag = Tag{language: msIndex, locale: msIndex}
 	Burmese              Tag = Tag{language: myIndex, locale: myIndex}

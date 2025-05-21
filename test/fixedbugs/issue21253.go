@@ -1,10 +1,10 @@
 // compile
 
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Gccgo crashed compiling this code due to failing to finalize
+// Gccgolang crashed compiling this code due to failing to finalize
 // interfaces in the right order.
 
 package p

@@ -1,8 +1,8 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build goexperiment.jsonv2
+//golang:build golangexperiment.jsonv2
 
 package jsontext
 
@@ -60,7 +60,7 @@ func testEncoder(t *testing.T, where jsontest.CasePos, formatName, typeName stri
 			}
 		}
 		if !slices.Equal(pointers, td.pointers) {
-			t.Fatalf("%s: pointers mismatch:\ngot  %q\nwant %q", where, pointers, td.pointers)
+			t.Fatalf("%s: pointers mismatch:\ngolangt  %q\nwant %q", where, pointers, td.pointers)
 		}
 	case "Value":
 		if err := enc.WriteValue(Value(td.in)); err != nil {
@@ -86,9 +86,9 @@ func testEncoder(t *testing.T, where jsontest.CasePos, formatName, typeName stri
 		}
 	}
 
-	got := dst.String()
-	if got != want {
-		t.Errorf("%s: output mismatch:\ngot  %q\nwant %q", where, got, want)
+	golangt := dst.String()
+	if golangt != want {
+		t.Errorf("%s: output mismatch:\ngolangt  %q\nwant %q", where, golangt, want)
 	}
 }
 
@@ -128,10 +128,10 @@ func testFaultyEncoder(t *testing.T, where jsontest.CasePos, typeName string, td
 			t.Fatalf("%s: Encoder.WriteValue error: %v", where, err)
 		}
 	}
-	gotOutput := string(append(b.B, enc.s.unflushedBuffer()...))
+	golangtOutput := string(append(b.B, enc.s.unflushedBuffer()...))
 	wantOutput := td.outCompacted + "\n"
-	if gotOutput != wantOutput {
-		t.Fatalf("%s: output mismatch:\ngot  %s\nwant %s", where, gotOutput, wantOutput)
+	if golangtOutput != wantOutput {
+		t.Fatalf("%s: output mismatch:\ngolangt  %s\nwant %s", where, golangtOutput, wantOutput)
 	}
 }
 
@@ -708,30 +708,30 @@ func testEncoderErrors(t *testing.T, where jsontest.CasePos, opts []Options, cal
 	dst := new(bytes.Buffer)
 	enc := NewEncoder(dst, opts...)
 	for i, call := range calls {
-		var gotErr error
+		var golangtErr error
 		switch tokVal := call.in.(type) {
 		case Token:
-			gotErr = enc.WriteToken(tokVal)
+			golangtErr = enc.WriteToken(tokVal)
 		case Value:
-			gotErr = enc.WriteValue(tokVal)
+			golangtErr = enc.WriteValue(tokVal)
 		}
-		if !equalError(gotErr, call.wantErr) {
-			t.Fatalf("%s: %d: error mismatch:\ngot  %v\nwant %v", where, i, gotErr, call.wantErr)
+		if !equalError(golangtErr, call.wantErr) {
+			t.Fatalf("%s: %d: error mismatch:\ngolangt  %v\nwant %v", where, i, golangtErr, call.wantErr)
 		}
 		if call.wantPointer != "" {
-			gotPointer := enc.StackPointer()
-			if gotPointer != call.wantPointer {
-				t.Fatalf("%s: %d: Encoder.StackPointer = %s, want %s", where, i, gotPointer, call.wantPointer)
+			golangtPointer := enc.StackPointer()
+			if golangtPointer != call.wantPointer {
+				t.Fatalf("%s: %d: Encoder.StackPointer = %s, want %s", where, i, golangtPointer, call.wantPointer)
 			}
 		}
 	}
-	gotOut := dst.String() + string(enc.s.unflushedBuffer())
-	if gotOut != wantOut {
-		t.Fatalf("%s: output mismatch:\ngot  %q\nwant %q", where, gotOut, wantOut)
+	golangtOut := dst.String() + string(enc.s.unflushedBuffer())
+	if golangtOut != wantOut {
+		t.Fatalf("%s: output mismatch:\ngolangt  %q\nwant %q", where, golangtOut, wantOut)
 	}
-	gotOffset := int(enc.OutputOffset())
+	golangtOffset := int(enc.OutputOffset())
 	wantOffset := len(wantOut)
-	if gotOffset != wantOffset {
-		t.Fatalf("%s: Encoder.OutputOffset = %v, want %v", where, gotOffset, wantOffset)
+	if golangtOffset != wantOffset {
+		t.Fatalf("%s: Encoder.OutputOffset = %v, want %v", where, golangtOffset, wantOffset)
 	}
 }

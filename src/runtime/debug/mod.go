@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package debug
@@ -28,7 +28,7 @@ func ReadBuildInfo() (info *BuildInfo, ok bool) {
 		return nil, false
 	}
 
-	// The go version is stored separately from other build info, mostly for
+	// The golang version is stored separately from other build info, mostly for
 	// historical reasons. It is not part of the modinfo() string, and
 	// ParseBuildInfo does not recognize it. We inject it here to hide this
 	// awkwardness from the user.
@@ -40,11 +40,11 @@ func ReadBuildInfo() (info *BuildInfo, ok bool) {
 // BuildInfo represents the build information read from a Go binary.
 type BuildInfo struct {
 	// GoVersion is the version of the Go toolchain that built the binary
-	// (for example, "go1.19.2").
+	// (for example, "golang1.19.2").
 	GoVersion string `json:",omitempty"`
 
 	// Path is the package path of the main package for the binary
-	// (for example, "golang.org/x/tools/cmd/stringer").
+	// (for example, "golanglang.org/x/tools/cmd/stringer").
 	Path string `json:",omitempty"`
 
 	// Main describes the module that contains the main package for the binary.
@@ -108,7 +108,7 @@ func quoteValue(value string) bool {
 func (bi *BuildInfo) String() string {
 	buf := new(strings.Builder)
 	if bi.GoVersion != "" {
-		fmt.Fprintf(buf, "go\t%s\n", bi.GoVersion)
+		fmt.Fprintf(buf, "golang\t%s\n", bi.GoVersion)
 	}
 	if bi.Path != "" {
 		fmt.Fprintf(buf, "path\t%s\n", bi.Path)
@@ -176,7 +176,7 @@ func ParseBuildInfo(data string) (bi *BuildInfo, err error) {
 
 	readModuleLine := func(elem []string) (Module, error) {
 		if len(elem) != 2 && len(elem) != 3 {
-			return Module{}, fmt.Errorf("expected 2 or 3 columns; got %d", len(elem))
+			return Module{}, fmt.Errorf("expected 2 or 3 columns; golangt %d", len(elem))
 		}
 		version := elem[1]
 		sum := ""
@@ -196,7 +196,7 @@ func ParseBuildInfo(data string) (bi *BuildInfo, err error) {
 		line string
 		ok   bool
 	)
-	// Reverse of BuildInfo.String(), except for go version.
+	// Reverse of BuildInfo.String(), except for golang version.
 	for len(data) > 0 {
 		line, data, ok = strings.Cut(data, newline)
 		if !ok {
@@ -224,7 +224,7 @@ func ParseBuildInfo(data string) (bi *BuildInfo, err error) {
 		case strings.HasPrefix(line, repLine):
 			elem := strings.Split(line[len(repLine):], tab)
 			if len(elem) != 3 {
-				return nil, fmt.Errorf("expected 3 columns for replacement; got %d", len(elem))
+				return nil, fmt.Errorf("expected 3 columns for replacement; golangt %d", len(elem))
 			}
 			if last == nil {
 				return nil, fmt.Errorf("replacement with no module on previous line")

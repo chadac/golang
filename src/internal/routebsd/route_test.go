@@ -1,8 +1,8 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build darwin || dragonfly || freebsd || netbsd || openbsd
+//golang:build darwin || dragolangnfly || freebsd || netbsd || openbsd
 
 package routebsd
 
@@ -47,9 +47,9 @@ var addrAttrNames = [...]string{
 	"ifa",
 	"author",
 	"brd",
-	"df:mpls1-n:tag-o:src", // mpls1 for dragonfly, tag for netbsd, src for openbsd
-	"df:mpls2-o:srcmask",   // mpls2 for dragonfly, srcmask for openbsd
-	"df:mpls3-o:label",     // mpls3 for dragonfly, label for openbsd
+	"df:mpls1-n:tag-o:src", // mpls1 for dragolangnfly, tag for netbsd, src for openbsd
+	"df:mpls2-o:srcmask",   // mpls2 for dragolangnfly, srcmask for openbsd
+	"df:mpls3-o:label",     // mpls3 for dragolangnfly, label for openbsd
 	"o:bfd",                // bfd for openbsd
 	"o:dns",                // dns for openbsd
 	"o:static",             // static for openbsd
@@ -216,19 +216,19 @@ func (as addrs) match(attrs addrAttrs) error {
 		}
 		switch addr := as[i].(type) {
 		case *InetAddr:
-			got := 0
+			golangt := 0
 			if addr.IP.Is4() {
-				got = syscall.AF_INET
+				golangt = syscall.AF_INET
 			} else if addr.IP.Is6() {
-				got = syscall.AF_INET6
+				golangt = syscall.AF_INET6
 			}
 			if af == syscall.AF_UNSPEC {
-				if got != 0 {
-					af = got
+				if golangt != 0 {
+					af = golangt
 				}
 			}
-			if got != 0 && af != got {
-				return fmt.Errorf("got %v; want %v", addrs(as), addrFamily(af))
+			if golangt != 0 && af != golangt {
+				return fmt.Errorf("golangt %v; want %v", addrs(as), addrFamily(af))
 			}
 		}
 	}

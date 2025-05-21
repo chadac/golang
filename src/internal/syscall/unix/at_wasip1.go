@@ -1,8 +1,8 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build wasip1
+//golang:build wasip1
 
 package unix
 
@@ -16,7 +16,7 @@ const (
 	// UTIME_OMIT is the sentinel value to indicate that a time value should not
 	// be changed. It is useful for example to indicate for example with UtimesNano
 	// to avoid changing AccessTime or ModifiedTime.
-	// Its value must match syscall/fs_wasip1.go
+	// Its value must match syscall/fs_wasip1.golang
 	UTIME_OMIT = -0x2
 
 	AT_REMOVEDIR        = 0x200
@@ -39,12 +39,12 @@ func Unlinkat(dirfd int, path string, flags int) error {
 	}
 }
 
-//go:wasmimport wasi_snapshot_preview1 path_unlink_file
-//go:noescape
+//golang:wasmimport wasi_snapshot_preview1 path_unlink_file
+//golang:noescape
 func path_unlink_file(fd int32, path *byte, pathLen size) syscall.Errno
 
-//go:wasmimport wasi_snapshot_preview1 path_remove_directory
-//go:noescape
+//golang:wasmimport wasi_snapshot_preview1 path_remove_directory
+//golang:noescape
 func path_remove_directory(fd int32, path *byte, pathLen size) syscall.Errno
 
 func Openat(dirfd int, path string, flags int, perm uint32) (int, error) {
@@ -65,8 +65,8 @@ func Fstatat(dirfd int, path string, stat *syscall.Stat_t, flags int) error {
 	))
 }
 
-//go:wasmimport wasi_snapshot_preview1 path_filestat_get
-//go:noescape
+//golang:wasmimport wasi_snapshot_preview1 path_filestat_get
+//golang:noescape
 func path_filestat_get(fd int32, flags uint32, path *byte, pathLen size, buf unsafe.Pointer) syscall.Errno
 
 func Readlinkat(dirfd int, path string, buf []byte) (int, error) {
@@ -86,8 +86,8 @@ type (
 	size = uint32
 )
 
-//go:wasmimport wasi_snapshot_preview1 path_readlink
-//go:noescape
+//golang:wasmimport wasi_snapshot_preview1 path_readlink
+//golang:noescape
 func path_readlink(fd int32, path *byte, pathLen size, buf *byte, bufLen size, nwritten *size) syscall.Errno
 
 func Mkdirat(dirfd int, path string, mode uint32) error {
@@ -101,8 +101,8 @@ func Mkdirat(dirfd int, path string, mode uint32) error {
 	))
 }
 
-//go:wasmimport wasi_snapshot_preview1 path_create_directory
-//go:noescape
+//golang:wasmimport wasi_snapshot_preview1 path_create_directory
+//golang:noescape
 func path_create_directory(fd int32, path *byte, pathLen size) syscall.Errno
 
 func Fchmodat(dirfd int, path string, mode uint32, flags int) error {
@@ -129,8 +129,8 @@ func Renameat(olddirfd int, oldpath string, newdirfd int, newpath string) error 
 	))
 }
 
-//go:wasmimport wasi_snapshot_preview1 path_rename
-//go:noescape
+//golang:wasmimport wasi_snapshot_preview1 path_rename
+//golang:noescape
 func path_rename(oldFd int32, oldPath *byte, oldPathLen size, newFd int32, newPath *byte, newPathLen size) syscall.Errno
 
 func Linkat(olddirfd int, oldpath string, newdirfd int, newpath string, flag int) error {
@@ -148,8 +148,8 @@ func Linkat(olddirfd int, oldpath string, newdirfd int, newpath string, flag int
 	))
 }
 
-//go:wasmimport wasi_snapshot_preview1 path_link
-//go:noescape
+//golang:wasmimport wasi_snapshot_preview1 path_link
+//golang:noescape
 func path_link(oldFd int32, oldFlags uint32, oldPath *byte, oldPathLen size, newFd int32, newPath *byte, newPathLen size) syscall.Errno
 
 func Symlinkat(oldpath string, newdirfd int, newpath string) error {
@@ -165,8 +165,8 @@ func Symlinkat(oldpath string, newdirfd int, newpath string) error {
 	))
 }
 
-//go:wasmimport wasi_snapshot_preview1 path_symlink
-//go:noescape
+//golang:wasmimport wasi_snapshot_preview1 path_symlink
+//golang:noescape
 func path_symlink(oldPath *byte, oldPathLen size, fd int32, newPath *byte, newPathLen size) syscall.Errno
 
 func errnoErr(errno syscall.Errno) error {

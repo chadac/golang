@@ -1,9 +1,9 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file is a modified concatenation of the files
-// $GOROOT/test/label.go and $GOROOT/test/label1.go.
+// $GOROOT/test/label.golang and $GOROOT/test/label1.golang.
 
 package labels
 
@@ -29,7 +29,7 @@ L6:
 L6 /* ERROR "label L6 already declared" */ :
 	f0()
 	if x == 20 {
-		goto L6
+		golangto L6
 	}
 
 L7:
@@ -70,7 +70,7 @@ L10:
 		break L9 /* ERROR "invalid break label L9" */
 	}
 
-	goto L10a
+	golangto L10a
 L10a: L10b:
 	select {
 	default:
@@ -89,7 +89,7 @@ L1:
 		if x == 1 {
 			continue L1
 		}
-		goto L1
+		golangto L1
 	}
 
 L2:
@@ -101,7 +101,7 @@ L2:
 		if x == 1 {
 			continue L2 /* ERROR "invalid continue label L2" */
 		}
-		goto L2
+		golangto L2
 	}
 
 L3:
@@ -113,7 +113,7 @@ L3:
 		if x == 12 {
 			continue L3 /* ERROR "invalid continue label L3" */
 		}
-		goto L3
+		golangto L3
 	}
 
 L4:
@@ -125,7 +125,7 @@ L4:
 			continue L4 /* ERROR "invalid continue label L4" */
 		}
 		if x == 15 {
-			goto L4
+			golangto L4
 		}
 	}
 
@@ -138,7 +138,7 @@ L5:
 		continue L5 /* ERROR "invalid continue label L5" */
 	}
 	if x == 18 {
-		goto L5
+		golangto L5
 	}
 
 	for {
@@ -149,7 +149,7 @@ L5:
 			continue L1 /* ERROR "invalid continue label L1" */
 		}
 		if x == 21 {
-			goto L1
+			golangto L1
 		}
 	}
 }
@@ -176,9 +176,9 @@ L3:
 		continue L1 /* ERROR "invalid continue label L1" */
 		continue L2 /* ERROR "invalid continue label L2" */
 		continue L3
-		goto L1
-		goto L2
-		goto L3
+		golangto L1
+		golangto L2
+		golangto L3
 	}
 }
 
@@ -187,7 +187,7 @@ L3:
 func f4() {
 _:
 _: // multiple blank labels are ok
-	goto _ /* ERROR "label _ not declared" */
+	golangto _ /* ERROR "label _ not declared" */
 }
 
 func f5() {

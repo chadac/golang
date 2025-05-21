@@ -31,7 +31,7 @@ func test(t *thing, u *thing) {
 	}
 }
 
-//go:noinline
+//golang:noinline
 func isFoo(t *thing, b big) bool {
 	return true
 }
@@ -45,7 +45,7 @@ func main() {
 
 var snk string
 
-//go:noinline
+//golang:noinline
 func growstack() {
 	snk = fmt.Sprintf("%#v,%#v,%#v", 1, true, "cat")
 }

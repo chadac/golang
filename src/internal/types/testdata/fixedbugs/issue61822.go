@@ -1,10 +1,10 @@
-// -lang=go1.19
+// -lang=golang1.19
 
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build go1.20
+//golang:build golang1.20
 
 package p
 

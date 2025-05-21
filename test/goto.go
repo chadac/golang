@@ -1,10 +1,10 @@
 // errorcheck
 
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Verify goto semantics.
+// Verify golangto semantics.
 // Does not compile.
 //
 // Each test is in a separate function just so that if the
@@ -21,33 +21,33 @@ var (
 	s    string
 )
 
-// goto after declaration okay
+// golangto after declaration okay
 func _() {
 	x := 1
-	goto L
+	golangto L
 L:
 	_ = x
 }
 
-// goto before declaration okay
+// golangto before declaration okay
 func _() {
-	goto L
+	golangto L
 L:
 	x := 1
 	_ = x
 }
 
-// goto across declaration not okay
+// golangto across declaration not okay
 func _() {
-	goto L // ERROR "goto L jumps over declaration of x at LINE+1|goto jumps over declaration"
+	golangto L // ERROR "golangto L jumps over declaration of x at LINE+1|golangto jumps over declaration"
 	x := 1 // GCCGO_ERROR "defined here"
 	_ = x
 L:
 }
 
-// goto across declaration in inner scope okay
+// golangto across declaration in inner scope okay
 func _() {
-	goto L
+	golangto L
 	{
 		x := 1
 		_ = x
@@ -55,9 +55,9 @@ func _() {
 L:
 }
 
-// goto across declaration after inner scope not okay
+// golangto across declaration after inner scope not okay
 func _() {
-	goto L // ERROR "goto L jumps over declaration of x at LINE+5|goto jumps over declaration"
+	golangto L // ERROR "golangto L jumps over declaration of x at LINE+5|golangto jumps over declaration"
 	{
 		x := 1
 		_ = x
@@ -67,17 +67,17 @@ func _() {
 L:
 }
 
-// goto across declaration in reverse okay
+// golangto across declaration in reverse okay
 func _() {
 L:
 	x := 1
 	_ = x
-	goto L
+	golangto L
 }
 
 // error shows first offending variable
 func _() {
-	goto L // ERROR "goto L jumps over declaration of y at LINE+3|goto jumps over declaration"
+	golangto L // ERROR "golangto L jumps over declaration of y at LINE+3|golangto jumps over declaration"
 	x := 1 // GCCGO_ERROR "defined here"
 	_ = x
 	y := 1
@@ -85,9 +85,9 @@ func _() {
 L:
 }
 
-// goto not okay even if code path is dead
+// golangto not okay even if code path is dead
 func _() {
-	goto L // ERROR "goto L jumps over declaration of y at LINE+3|goto jumps over declaration"
+	golangto L // ERROR "golangto L jumps over declaration of y at LINE+3|golangto jumps over declaration"
 	x := 1 // GCCGO_ERROR "defined here"
 	_ = x
 	y := 1
@@ -96,41 +96,41 @@ func _() {
 L:
 }
 
-// goto into outer block okay
+// golangto into outer block okay
 func _() {
 	{
-		goto L
+		golangto L
 	}
 L:
 }
 
-// goto backward into outer block okay
+// golangto backward into outer block okay
 func _() {
 L:
 	{
-		goto L
+		golangto L
 	}
 }
 
-// goto into inner block not okay
+// golangto into inner block not okay
 func _() {
-	goto L // ERROR "goto L jumps into block starting at LINE+1|goto jumps into block"
+	golangto L // ERROR "golangto L jumps into block starting at LINE+1|golangto jumps into block"
 	{      // GCCGO_ERROR "block starts here"
 	L:
 	}
 }
 
-// goto backward into inner block still not okay
+// golangto backward into inner block still not okay
 func _() {
 	{ // GCCGO_ERROR "block starts here"
 	L:
 	}
-	goto L // ERROR "goto L jumps into block starting at LINE-3|goto jumps into block"
+	golangto L // ERROR "golangto L jumps into block starting at LINE-3|golangto jumps into block"
 }
 
 // error shows first (outermost) offending block
 func _() {
-	goto L // ERROR "goto L jumps into block starting at LINE+3|goto jumps into block"
+	golangto L // ERROR "golangto L jumps into block starting at LINE+3|golangto jumps into block"
 	{
 		{
 			{ // GCCGO_ERROR "block starts here"
@@ -142,7 +142,7 @@ func _() {
 
 // error prefers block diagnostic over declaration diagnostic
 func _() {
-	goto L // ERROR "goto L jumps into block starting at LINE+3|goto jumps into block"
+	golangto L // ERROR "golangto L jumps into block starting at LINE+3|golangto jumps into block"
 	x := 1
 	_ = x
 	{ // GCCGO_ERROR "block starts here"
@@ -158,14 +158,14 @@ func _() {
 func _() {
 L:
 	if true {
-		goto L
+		golangto L
 	}
 }
 
 func _() {
 L:
 	if true {
-		goto L
+		golangto L
 	} else {
 	}
 }
@@ -174,19 +174,19 @@ func _() {
 L:
 	if false {
 	} else {
-		goto L
+		golangto L
 	}
 }
 
 func _() {
-	goto L    // ERROR "goto L jumps into block starting at LINE+1|goto jumps into block"
+	golangto L    // ERROR "golangto L jumps into block starting at LINE+1|golangto jumps into block"
 	if true { // GCCGO_ERROR "block starts here"
 	L:
 	}
 }
 
 func _() {
-	goto L    // ERROR "goto L jumps into block starting at LINE+1|goto jumps into block"
+	golangto L    // ERROR "golangto L jumps into block starting at LINE+1|golangto jumps into block"
 	if true { // GCCGO_ERROR "block starts here"
 	L:
 	} else {
@@ -194,7 +194,7 @@ func _() {
 }
 
 func _() {
-	goto L // ERROR "goto L jumps into block starting at LINE+2|goto jumps into block"
+	golangto L // ERROR "golangto L jumps into block starting at LINE+2|golangto jumps into block"
 	if true {
 	} else { // GCCGO_ERROR "block starts here"
 	L:
@@ -205,13 +205,13 @@ func _() {
 	if false { // GCCGO_ERROR "block starts here"
 	L:
 	} else {
-		goto L // ERROR "goto L jumps into block starting at LINE-3|goto jumps into block"
+		golangto L // ERROR "golangto L jumps into block starting at LINE-3|golangto jumps into block"
 	}
 }
 
 func _() {
 	if true {
-		goto L // ERROR "goto L jumps into block starting at LINE+1|goto jumps into block"
+		golangto L // ERROR "golangto L jumps into block starting at LINE+1|golangto jumps into block"
 	} else { // GCCGO_ERROR "block starts here"
 	L:
 	}
@@ -219,7 +219,7 @@ func _() {
 
 func _() {
 	if true {
-		goto L // ERROR "goto L jumps into block starting at LINE+1|goto jumps into block"
+		golangto L // ERROR "golangto L jumps into block starting at LINE+1|golangto jumps into block"
 	} else if false { // GCCGO_ERROR "block starts here"
 	L:
 	}
@@ -227,7 +227,7 @@ func _() {
 
 func _() {
 	if true {
-		goto L // ERROR "goto L jumps into block starting at LINE+1|goto jumps into block"
+		golangto L // ERROR "golangto L jumps into block starting at LINE+1|golangto jumps into block"
 	} else if false { // GCCGO_ERROR "block starts here"
 	L:
 	} else {
@@ -241,21 +241,21 @@ func _() {
 	// really is LINE+1 (like in the previous test),
 	// even though it looks like it might be LINE+3 instead.
 	if true {
-		goto L // ERROR "goto L jumps into block starting at LINE+2|goto jumps into block"
+		golangto L // ERROR "golangto L jumps into block starting at LINE+2|golangto jumps into block"
 	} else if false {
 	} else { // GCCGO_ERROR "block starts here"
 	L:
 	}
 }
 
-/* Want to enable these tests but gofmt mangles them.  Issue 1972.
+/* Want to enable these tests but golangfmt mangles them.  Issue 1972.
 
 func _() {
 	// This one is okay, because the else is in the
 	// implicit whole-if block and has no inner block
 	// (no { }) around it.
 	if true {
-		goto L
+		golangto L
 	} else
 		L:
 }
@@ -265,7 +265,7 @@ func _() {
 	if true {	//// GCCGO_ERROR "block starts here"
 	L:
 	} else
-		goto L //// ERROR "goto L jumps into block starting at LINE-3|goto jumps into block"
+		golangto L //// ERROR "golangto L jumps into block starting at LINE-3|golangto jumps into block"
 }
 
 */
@@ -274,14 +274,14 @@ func _() {
 
 func _() {
 	for {
-		goto L
+		golangto L
 	}
 L:
 }
 
 func _() {
 	for {
-		goto L
+		golangto L
 	L:
 	}
 }
@@ -290,58 +290,58 @@ func _() {
 	for { // GCCGO_ERROR "block starts here"
 	L:
 	}
-	goto L // ERROR "goto L jumps into block starting at LINE-3|goto jumps into block"
+	golangto L // ERROR "golangto L jumps into block starting at LINE-3|golangto jumps into block"
 }
 
 func _() {
 	for { // GCCGO_ERROR "block starts here"
-		goto L
+		golangto L
 	L1:
 	}
 L:
-	goto L1 // ERROR "goto L1 jumps into block starting at LINE-5|goto jumps into block"
+	golangto L1 // ERROR "golangto L1 jumps into block starting at LINE-5|golangto jumps into block"
 }
 
 func _() {
 	for i < n { // GCCGO_ERROR "block starts here"
 	L:
 	}
-	goto L // ERROR "goto L jumps into block starting at LINE-3|goto jumps into block"
+	golangto L // ERROR "golangto L jumps into block starting at LINE-3|golangto jumps into block"
 }
 
 func _() {
 	for i = 0; i < n; i++ { // GCCGO_ERROR "block starts here"
 	L:
 	}
-	goto L // ERROR "goto L jumps into block starting at LINE-3|goto jumps into block"
+	golangto L // ERROR "golangto L jumps into block starting at LINE-3|golangto jumps into block"
 }
 
 func _() {
 	for i = range x { // GCCGO_ERROR "block starts here"
 	L:
 	}
-	goto L // ERROR "goto L jumps into block starting at LINE-3|goto jumps into block"
+	golangto L // ERROR "golangto L jumps into block starting at LINE-3|golangto jumps into block"
 }
 
 func _() {
 	for i = range c { // GCCGO_ERROR "block starts here"
 	L:
 	}
-	goto L // ERROR "goto L jumps into block starting at LINE-3|goto jumps into block"
+	golangto L // ERROR "golangto L jumps into block starting at LINE-3|golangto jumps into block"
 }
 
 func _() {
 	for i = range m { // GCCGO_ERROR "block starts here"
 	L:
 	}
-	goto L // ERROR "goto L jumps into block starting at LINE-3|goto jumps into block"
+	golangto L // ERROR "golangto L jumps into block starting at LINE-3|golangto jumps into block"
 }
 
 func _() {
 	for i = range s { // GCCGO_ERROR "block starts here"
 	L:
 	}
-	goto L // ERROR "goto L jumps into block starting at LINE-3|goto jumps into block"
+	golangto L // ERROR "golangto L jumps into block starting at LINE-3|golangto jumps into block"
 }
 
 // switch
@@ -350,7 +350,7 @@ func _() {
 L:
 	switch i {
 	case 0:
-		goto L
+		golangto L
 	}
 }
 
@@ -360,7 +360,7 @@ L:
 	case 0:
 
 	default:
-		goto L
+		golangto L
 	}
 }
 
@@ -370,7 +370,7 @@ func _() {
 
 	default:
 	L:
-		goto L
+		golangto L
 	}
 }
 
@@ -379,7 +379,7 @@ func _() {
 	case 0:
 
 	default:
-		goto L
+		golangto L
 	L:
 	}
 }
@@ -387,7 +387,7 @@ func _() {
 func _() {
 	switch i {
 	case 0:
-		goto L
+		golangto L
 	L:
 		;
 	default:
@@ -395,7 +395,7 @@ func _() {
 }
 
 func _() {
-	goto L // ERROR "goto L jumps into block starting at LINE+2|goto jumps into block"
+	golangto L // ERROR "golangto L jumps into block starting at LINE+2|golangto jumps into block"
 	switch i {
 	case 0:
 	L: // GCCGO_ERROR "block starts here"
@@ -403,7 +403,7 @@ func _() {
 }
 
 func _() {
-	goto L // ERROR "goto L jumps into block starting at LINE+2|goto jumps into block"
+	golangto L // ERROR "golangto L jumps into block starting at LINE+2|golangto jumps into block"
 	switch i {
 	case 0:
 	L: // GCCGO_ERROR "block starts here"
@@ -413,7 +413,7 @@ func _() {
 }
 
 func _() {
-	goto L // ERROR "goto L jumps into block starting at LINE+3|goto jumps into block"
+	golangto L // ERROR "golangto L jumps into block starting at LINE+3|golangto jumps into block"
 	switch i {
 	case 0:
 	default:
@@ -424,7 +424,7 @@ func _() {
 func _() {
 	switch i {
 	default:
-		goto L // ERROR "goto L jumps into block starting at LINE+1|goto jumps into block"
+		golangto L // ERROR "golangto L jumps into block starting at LINE+1|golangto jumps into block"
 	case 0:
 	L: // GCCGO_ERROR "block starts here"
 	}
@@ -436,7 +436,7 @@ func _() {
 	L: // GCCGO_ERROR "block starts here"
 		;
 	default:
-		goto L // ERROR "goto L jumps into block starting at LINE-4|goto jumps into block"
+		golangto L // ERROR "golangto L jumps into block starting at LINE-4|golangto jumps into block"
 	}
 }
 
@@ -447,7 +447,7 @@ func _() {
 L:
 	select {
 	case <-c:
-		goto L
+		golangto L
 	}
 }
 
@@ -457,7 +457,7 @@ L:
 	case c <- 1:
 
 	default:
-		goto L
+		golangto L
 	}
 }
 
@@ -467,7 +467,7 @@ func _() {
 
 	default:
 	L:
-		goto L
+		golangto L
 	}
 }
 
@@ -476,7 +476,7 @@ func _() {
 	case c <- 1:
 
 	default:
-		goto L
+		golangto L
 	L:
 	}
 }
@@ -484,7 +484,7 @@ func _() {
 func _() {
 	select {
 	case <-c:
-		goto L
+		golangto L
 	L:
 		;
 	default:
@@ -492,7 +492,7 @@ func _() {
 }
 
 func _() {
-	goto L // ERROR "goto L jumps into block starting at LINE+2|goto jumps into block"
+	golangto L // ERROR "golangto L jumps into block starting at LINE+2|golangto jumps into block"
 	select {
 	case c <- 1:
 	L: // GCCGO_ERROR "block starts here"
@@ -500,7 +500,7 @@ func _() {
 }
 
 func _() {
-	goto L // ERROR "goto L jumps into block starting at LINE+2|goto jumps into block"
+	golangto L // ERROR "golangto L jumps into block starting at LINE+2|golangto jumps into block"
 	select {
 	case c <- 1:
 	L: // GCCGO_ERROR "block starts here"
@@ -510,7 +510,7 @@ func _() {
 }
 
 func _() {
-	goto L // ERROR "goto L jumps into block starting at LINE+3|goto jumps into block"
+	golangto L // ERROR "golangto L jumps into block starting at LINE+3|golangto jumps into block"
 	select {
 	case <-c:
 	default:
@@ -521,7 +521,7 @@ func _() {
 func _() {
 	select {
 	default:
-		goto L // ERROR "goto L jumps into block starting at LINE+1|goto jumps into block"
+		golangto L // ERROR "golangto L jumps into block starting at LINE+1|golangto jumps into block"
 	case <-c:
 	L: // GCCGO_ERROR "block starts here"
 	}
@@ -533,6 +533,6 @@ func _() {
 	L: // GCCGO_ERROR "block starts here"
 		;
 	default:
-		goto L // ERROR "goto L jumps into block starting at LINE-4|goto jumps into block"
+		golangto L // ERROR "golangto L jumps into block starting at LINE-4|golangto jumps into block"
 	}
 }

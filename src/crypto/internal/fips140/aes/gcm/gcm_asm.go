@@ -1,8 +1,8 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build (amd64 || arm64) && !purego
+//golang:build (amd64 || arm64) && !puregolang
 
 package gcm
 
@@ -15,19 +15,19 @@ import (
 
 // The following functions are defined in gcm_*.s.
 
-//go:noescape
+//golang:noescape
 func gcmAesInit(productTable *[256]byte, ks []uint32)
 
-//go:noescape
+//golang:noescape
 func gcmAesData(productTable *[256]byte, data []byte, T *[16]byte)
 
-//go:noescape
+//golang:noescape
 func gcmAesEnc(productTable *[256]byte, dst, src []byte, ctr, T *[16]byte, ks []uint32)
 
-//go:noescape
+//golang:noescape
 func gcmAesDec(productTable *[256]byte, dst, src []byte, ctr, T *[16]byte, ks []uint32)
 
-//go:noescape
+//golang:noescape
 func gcmAesFinish(productTable *[256]byte, tagMask, T *[16]byte, pLen, dLen uint64)
 
 // Keep in sync with crypto/tls.hasAESGCMHardwareSupport.

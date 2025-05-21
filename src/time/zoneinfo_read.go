@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Parse "zoneinfo" time zone file.
@@ -20,7 +20,7 @@ import (
 // registerLoadFromEmbeddedTZData is called by the time/tzdata package,
 // if it is imported.
 //
-//go:linkname registerLoadFromEmbeddedTZData
+//golang:linkname registerLoadFromEmbeddedTZData
 func registerLoadFromEmbeddedTZData(f func(string) (string, error)) {
 	loadFromEmbeddedTZData = f
 }
@@ -246,7 +246,7 @@ func LoadLocationFromTZData(name string, data []byte) (*Location, error) {
 	nzone := n[NZone]
 	if nzone == 0 {
 		// Reject tzdata files with no zones. There's nothing useful in them.
-		// This also avoids a panic later when we add and then use a fake transition (golang.org/issue/29437).
+		// This also avoids a panic later when we add and then use a fake transition (golanglang.org/issue/29437).
 		return nil, errBadData
 	}
 	zones := make([]zone, nzone)
@@ -551,7 +551,7 @@ func loadLocation(name string, sources []string) (z *Location, firstErr error) {
 			firstErr = err
 		}
 	}
-	if source, ok := gorootZoneSource(runtime.GOROOT()); ok {
+	if source, ok := golangrootZoneSource(runtime.GOROOT()); ok {
 		zoneData, err := loadTzinfo(name, source)
 		if err == nil {
 			if z, err = LoadLocationFromTZData(name, zoneData); err == nil {

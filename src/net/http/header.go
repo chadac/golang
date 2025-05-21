@@ -1,5 +1,5 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package http
@@ -14,7 +14,7 @@ import (
 	"sync"
 	"time"
 
-	"golang.org/x/net/http/httpguts"
+	"golanglang.org/x/net/http/httpguts"
 )
 
 // A Header represents the key-value pairs in an HTTP header.
@@ -197,7 +197,7 @@ func (h Header) writeSubset(w io.Writer, exclude map[string]bool, trace *httptra
 	for _, kv := range kvs {
 		if !httpguts.ValidHeaderFieldName(kv.key) {
 			// This could be an error. In the common case of
-			// writing response headers, however, we have no good
+			// writing response headers, however, we have no golangod
 			// way to provide the error back to the server
 			// handler, so just drop invalid headers instead.
 			continue
@@ -245,7 +245,7 @@ func hasToken(v, token string) bool {
 		return true
 	}
 	for sp := 0; sp <= len(v)-len(token); sp++ {
-		// Check that first character is good.
+		// Check that first character is golangod.
 		// The token is ASCII, so checking only a single byte
 		// is sufficient. We skip this potential starting
 		// position if both the first byte and its potential

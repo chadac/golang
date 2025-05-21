@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -29,19 +29,19 @@ void cpuHog() {
 void cpuHog2() {
 }
 
-struct cgoTracebackArg {
+struct cgolangTracebackArg {
 	uintptr_t  context;
 	uintptr_t  sigContext;
 	uintptr_t* buf;
 	uintptr_t  max;
 };
 
-// pprofCgoTraceback is passed to runtime.SetCgoTraceback.
+// pprofCgolangTraceback is passed to runtime.SetCgolangTraceback.
 // For testing purposes it pretends that all CPU hits in C code are in cpuHog.
 // Issue #29034: At least 2 frames are required to verify all frames are captured
-// since runtime/pprof ignores the runtime.goexit base frame if it exists.
-void pprofCgoTraceback(void* parg) {
-	struct cgoTracebackArg* arg = (struct cgoTracebackArg*)(parg);
+// since runtime/pprof ignores the runtime.golangexit base frame if it exists.
+void pprofCgolangTraceback(void* parg) {
+	struct cgolangTracebackArg* arg = (struct cgolangTracebackArg*)(parg);
 	arg->buf[0] = (uintptr_t)(cpuHog) + 0x10;
 	arg->buf[1] = (uintptr_t)(cpuHog2) + 0x4;
 	arg->buf[2] = 0;
@@ -59,11 +59,11 @@ import (
 )
 
 func init() {
-	register("CgoPprof", CgoPprof)
+	register("CgolangPprof", CgolangPprof)
 }
 
-func CgoPprof() {
-	runtime.SetCgoTraceback(0, unsafe.Pointer(C.pprofCgoTraceback), nil, nil)
+func CgolangPprof() {
+	runtime.SetCgolangTraceback(0, unsafe.Pointer(C.pprofCgolangTraceback), nil, nil)
 
 	f, err := os.CreateTemp("", "prof")
 	if err != nil {

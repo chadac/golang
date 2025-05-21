@@ -4,7 +4,7 @@
 [io] is a doc link.
 
 [math]: https://example.com
--- gofmt --
+-- golangfmt --
 [math] is a package but this is not a doc link.
 
 [io] is a doc link.

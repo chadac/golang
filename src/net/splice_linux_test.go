@@ -1,8 +1,8 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build linux
+//golang:build linux
 
 package net
 
@@ -98,7 +98,7 @@ func (tc spliceTestCase) test(t *testing.T) {
 	}
 
 	if want := int64(size); want != n {
-		t.Errorf("want %d bytes spliced, got %d", want, n)
+		t.Errorf("want %d bytes spliced, golangt %d", want, n)
 	}
 
 	if tc.limitReadSize > 0 {
@@ -125,7 +125,7 @@ func (tc spliceTestCase) test(t *testing.T) {
 
 		// poll.Splice is expected to handle the data transmission successfully.
 		if !hook.handled || hook.written != int64(size) || hook.err != nil {
-			t.Errorf("expected handled = true, written = %d, err = nil, but got handled = %t, written = %d, err = %v",
+			t.Errorf("expected handled = true, written = %d, err = nil, but golangt handled = %t, written = %d, err = %v",
 				size, hook.handled, hook.written, hook.err)
 		}
 	} else if hook.called {
@@ -157,7 +157,7 @@ func verifySpliceFds(t *testing.T, c Conn, hook *spliceHook, fdType string) {
 	}
 	if err := rc.Control(func(fd uintptr) {
 		if hook.called && hookFd != int(fd) {
-			t.Fatalf("wrong %s file descriptor: got %d, want %d", fdType, hook.dstfd, int(fd))
+			t.Fatalf("wrong %s file descriptor: golangt %d, want %d", fdType, hook.dstfd, int(fd))
 		}
 	}); err != nil {
 		t.Fatalf("syscall.RawConn.Control error: %v", err)
@@ -201,19 +201,19 @@ func (tc spliceTestCase) testFile(t *testing.T) {
 		}
 	}
 
-	got, err := io.Copy(f, r)
+	golangt, err := io.Copy(f, r)
 	if err != nil {
 		t.Fatalf("failed to ReadFrom with error: %v", err)
 	}
 
 	// We shouldn't have called poll.Splice in TCPConn.WriteTo,
 	// it's supposed to be called from File.ReadFrom.
-	if got > 0 && hook.called {
+	if golangt > 0 && hook.called {
 		t.Error("expected not poll.Splice to be called")
 	}
 
-	if want := int64(actualSize); got != want {
-		t.Errorf("got %d bytes, want %d", got, want)
+	if want := int64(actualSize); golangt != want {
+		t.Errorf("golangt %d bytes, want %d", golangt, want)
 	}
 	if tc.limitReadSize > 0 {
 		wantN := 0
@@ -221,8 +221,8 @@ func (tc spliceTestCase) testFile(t *testing.T) {
 			wantN = tc.limitReadSize - actualSize
 		}
 
-		if gotN := r.(*io.LimitedReader).N; gotN != int64(wantN) {
-			t.Errorf("r.N = %d, want %d", gotN, wantN)
+		if golangtN := r.(*io.LimitedReader).N; golangtN != int64(wantN) {
+			t.Errorf("r.N = %d, want %d", golangtN, wantN)
 		}
 	}
 }
@@ -260,9 +260,9 @@ func testSpliceReaderAtEOF(t *testing.T, upNet, downNet string) {
 	//
 	// The following ReadFrom should return immediately, regardless of
 	// whether splice is disabled or not. The other side should then
-	// get a goodbye signal. Test for the goodbye signal.
+	// get a golangodbye signal. Test for the golangodbye signal.
 	msg := "bye"
-	go func() {
+	golang func() {
 		serverDown.(io.ReaderFrom).ReadFrom(serverUp)
 		io.WriteString(serverDown, msg)
 	}()
@@ -273,7 +273,7 @@ func testSpliceReaderAtEOF(t *testing.T, upNet, downNet string) {
 		t.Errorf("clientDown: %v", err)
 	}
 	if string(buf) != msg {
-		t.Errorf("clientDown got %q, want %q", buf, msg)
+		t.Errorf("clientDown golangt %q, want %q", buf, msg)
 	}
 
 	// We should have called poll.Splice with the right file descriptor arguments.
@@ -286,7 +286,7 @@ func testSpliceReaderAtEOF(t *testing.T, upNet, downNet string) {
 	// poll.Splice is expected to handle the data transmission but fail
 	// when working with a closed endpoint, return an error.
 	if !hook.handled || hook.written > 0 || hook.err == nil {
-		t.Errorf("expected handled = true, written = 0, err != nil, but got handled = %t, written = %d, err = %v",
+		t.Errorf("expected handled = true, written = 0, err != nil, but golangt handled = %t, written = %d, err = %v",
 			hook.handled, hook.written, hook.err)
 	}
 }
@@ -311,17 +311,17 @@ func testSpliceIssue25985(t *testing.T, upNet, downNet string) {
 		}
 		defer dst.Close()
 		defer src.Close()
-		go func() {
+		golang func() {
 			io.Copy(src, dst)
 			wg.Done()
 		}()
-		go func() {
+		golang func() {
 			io.Copy(dst, src)
 			wg.Done()
 		}()
 	}
 
-	go proxy()
+	golang proxy()
 
 	toFront, err := Dial(upNet, front.Addr().String())
 	if err != nil {
@@ -362,7 +362,7 @@ func testSpliceNoUnixpacket(t *testing.T) {
 	// called poll.Splice, because we know the unix socket's network.
 	_, err, handled := spliceFrom(serverDown.(*TCPConn).fd, serverUp)
 	if err != nil || handled != false {
-		t.Fatalf("got err = %v, handled = %t, want nil error, handled == false", err, handled)
+		t.Fatalf("golangt err = %v, handled = %t, want nil error, handled == false", err, handled)
 	}
 }
 
@@ -380,10 +380,10 @@ func testSpliceNoUnixgram(t *testing.T) {
 	clientDown, serverDown := spawnTestSocketPair(t, "tcp")
 	defer clientDown.Close()
 	defer serverDown.Close()
-	// Analogous to testSpliceNoUnixpacket.
+	// Analogolangus to testSpliceNoUnixpacket.
 	_, err, handled := spliceFrom(serverDown.(*TCPConn).fd, up)
 	if err != nil || handled != false {
-		t.Fatalf("got err = %v, handled = %t, want nil error, handled == false", err, handled)
+		t.Fatalf("golangt err = %v, handled = %t, want nil error, handled == false", err, handled)
 	}
 }
 
@@ -493,12 +493,12 @@ func (bench spliceFileBench) benchSpliceFile(b *testing.B) {
 	b.SetBytes(int64(bench.chunkSize))
 	b.ResetTimer()
 
-	got, err := io.Copy(f, server)
+	golangt, err := io.Copy(f, server)
 	if err != nil {
 		b.Fatalf("failed to ReadFrom with error: %v", err)
 	}
-	if want := int64(totalSize); got != want {
-		b.Errorf("bytes sent mismatch, got: %d, want: %d", got, want)
+	if want := int64(totalSize); golangt != want {
+		b.Errorf("bytes sent mismatch, golangt: %d, want: %d", golangt, want)
 	}
 }
 

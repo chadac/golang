@@ -1,9 +1,9 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 /*
-Package fmt implements formatted I/O with functions analogous
+Package fmt implements formatted I/O with functions analogolangus
 to C's printf and scanf.  The format 'verbs' are derived from C's but
 are simpler.
 
@@ -289,7 +289,7 @@ string, "<nil>".
 
 # Scanning
 
-An analogous set of functions scans formatted text to yield
+An analogolangus set of functions scans formatted text to yield
 values.  [Scan], [Scanf] and [Scanln] read from [os.Stdin]; [Fscan],
 [Fscanf] and [Fscanln] read from a specified [io.Reader]; [Sscan],
 [Sscanf] and [Sscanln] read from an argument string.
@@ -300,7 +300,7 @@ values.  [Scan], [Scanf] and [Scanln] read from [os.Stdin]; [Fscan],
 require that the items be followed by a newline or EOF.
 
 [Scanf], [Fscanf], and [Sscanf] parse the arguments according to a
-format string, analogous to that of [Printf]. In the text that
+format string, analogolangus to that of [Printf]. In the text that
 follows, 'space' means any Unicode whitespace character
 except newline.
 
@@ -323,7 +323,7 @@ scanf family: in C, newlines are treated as any other space,
 and it is never an error when a run of spaces in the format
 string finds no spaces to consume in the input.
 
-The verbs behave analogously to those of [Printf].
+The verbs behave analogolangusly to those of [Printf].
 For example, %x will scan an integer as a hexadecimal number,
 and %v will scan the default representation format for the value.
 The [Printf] verbs %p and %T and the flags # and + are not implemented.

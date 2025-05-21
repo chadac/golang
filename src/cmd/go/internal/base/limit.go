@@ -1,21 +1,21 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package base
 
 import (
 	"fmt"
-	"internal/godebug"
+	"internal/golangdebug"
 	"runtime"
 	"strconv"
 	"sync"
 )
 
-var NetLimitGodebug = godebug.New("#cmdgonetlimit")
+var NetLimitGodebug = golangdebug.New("#cmdgolangnetlimit")
 
 // NetLimit returns the limit on concurrent network operations
-// configured by GODEBUG=cmdgonetlimit, if any.
+// configured by GODEBUG=cmdgolangnetlimit, if any.
 //
 // A limit of 0 (indicated by 0, true) means that network operations should not
 // be allowed.

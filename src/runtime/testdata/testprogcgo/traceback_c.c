@@ -1,8 +1,8 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// The C definitions for traceback.go. That file uses //export so
+// The C definitions for traceback.golang. That file uses //export so
 // it can't put function definitions in the "C" import comment.
 
 #include <stdint.h>
@@ -28,14 +28,14 @@ int tracebackF1(void) {
 	return tracebackF2();
 }
 
-struct cgoTracebackArg {
+struct cgolangTracebackArg {
 	uintptr_t  context;
 	uintptr_t  sigContext;
 	uintptr_t* buf;
 	uintptr_t  max;
 };
 
-struct cgoSymbolizerArg {
+struct cgolangSymbolizerArg {
 	uintptr_t   pc;
 	const char* file;
 	uintptr_t   lineno;
@@ -45,20 +45,20 @@ struct cgoSymbolizerArg {
 	uintptr_t   data;
 };
 
-void cgoTraceback(void* parg) {
-	struct cgoTracebackArg* arg = (struct cgoTracebackArg*)(parg);
+void cgolangTraceback(void* parg) {
+	struct cgolangTracebackArg* arg = (struct cgolangTracebackArg*)(parg);
 	arg->buf[0] = 1;
 	arg->buf[1] = 2;
 	arg->buf[2] = 3;
 	arg->buf[3] = 0;
 }
 
-void cgoSymbolizer(void* parg) {
-	struct cgoSymbolizerArg* arg = (struct cgoSymbolizerArg*)(parg);
+void cgolangSymbolizer(void* parg) {
+	struct cgolangSymbolizerArg* arg = (struct cgolangSymbolizerArg*)(parg);
 	if (arg->pc != arg->data + 1) {
 		arg->file = "unexpected data";
 	} else {
-		arg->file = "cgo symbolizer";
+		arg->file = "cgolang symbolizer";
 	}
 	arg->lineno = arg->data + 1;
 	arg->data++;

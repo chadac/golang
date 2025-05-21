@@ -1,8 +1,8 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Package sha256 implements the SHA-224 and SHA-256 hash algorithms as defined
+// Package sha256 implements the SHA-224 and SHA-256 hash algolangrithms as defined
 // in FIPS 180-4.
 package sha256
 

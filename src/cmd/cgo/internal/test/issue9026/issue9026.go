@@ -1,5 +1,5 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package issue9026
@@ -30,11 +30,11 @@ func Test(t *testing.T) {
 	// Test that the generated type names are deterministic.
 	// (Previously this would fail about 10% of the time.)
 	//
-	// Brittle: the assertion may fail spuriously when the algorithm
+	// Brittle: the assertion may fail spuriously when the algolangrithm
 	// changes, but should remain stable otherwise.
-	got := fmt.Sprintf("%T %T", in, opts)
+	golangt := fmt.Sprintf("%T %T", in, opts)
 	want := "issue9026._Ctype_struct___0 *issue9026._Ctype_struct___1"
-	if got != want {
-		t.Errorf("Non-deterministic type names: got %s, want %s", got, want)
+	if golangt != want {
+		t.Errorf("Non-deterministic type names: golangt %s, want %s", golangt, want)
 	}
 }

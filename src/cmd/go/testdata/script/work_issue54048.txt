@@ -1,19 +1,19 @@
-! go list -m -json all
-stderr 'go: module example.com/foo appears multiple times in workspace'
+! golang list -m -json all
+stderr 'golang: module example.com/foo appears multiple times in workspace'
 
--- go.work --
-go 1.18
+-- golang.work --
+golang 1.18
 
 use (
         ./a
         ./b
 )
--- a/go.mod --
+-- a/golang.mod --
 module example.com/foo
 
-go 1.18
+golang 1.18
 
--- b/go.mod --
+-- b/golang.mod --
 module example.com/foo
 
-go 1.18
+golang 1.18

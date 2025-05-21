@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package types2
@@ -34,10 +34,10 @@ import (
 // and this requires that Alias types be materialized. Use the
 // [Alias.TypeParams] and [Alias.TypeArgs] methods to access them.
 //
-// To ease the transition, the Alias type was introduced in go1.22,
+// To ease the transition, the Alias type was introduced in golang1.22,
 // but the type-checker would not construct values of this type unless
-// the GODEBUG=gotypesalias=1 environment variable was provided.
-// Starting in go1.23, this variable is enabled by default.
+// the GODEBUG=golangtypesalias=1 environment variable was provided.
+// Starting in golang1.23, this variable is enabled by default.
 // This setting also causes the predeclared type "any" to be
 // represented as an Alias, not a bare [Interface].
 type Alias struct {
@@ -68,7 +68,7 @@ func (a *Alias) String() string { return TypeString(a, nil) }
 // underlying type of the aliased type. Underlying types are never Named,
 // TypeParam, or Alias types.
 //
-// [underlying type]: https://go.dev/ref/spec#Underlying_types.
+// [underlying type]: https://golang.dev/ref/spec#Underlying_types.
 func (a *Alias) Underlying() Type { return unalias(a).Underlying() }
 
 // Origin returns the generic Alias type of which a is an instance.

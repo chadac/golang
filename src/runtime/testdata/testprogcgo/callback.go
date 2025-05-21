@@ -1,8 +1,8 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !plan9 && !windows
+//golang:build !plan9 && !windows
 // +build !plan9,!windows
 
 package main
@@ -10,10 +10,10 @@ package main
 /*
 #include <pthread.h>
 
-void go_callback();
+void golang_callback();
 
 static void *thr(void *arg) {
-    go_callback();
+    golang_callback();
     return 0;
 }
 
@@ -33,28 +33,28 @@ import (
 	"os"
 	"runtime"
 	"sync/atomic"
-	_ "unsafe" // for go:linkname
+	_ "unsafe" // for golang:linkname
 )
 
 func init() {
-	register("CgoCallbackGC", CgoCallbackGC)
-	register("CgoToGoCallGoexit", CgoToGoCallGoexit)
+	register("CgolangCallbackGC", CgolangCallbackGC)
+	register("CgolangToGoCallGoexit", CgolangToGoCallGoexit)
 }
 
-func CgoToGoCallGoexit() {
-	goexit = true
+func CgolangToGoCallGoexit() {
+	golangexit = true
 	C.foo()
 }
 
-var goexit = false
+var golangexit = false
 
-//export go_callback
-func go_callback() {
-	if goexit {
+//export golang_callback
+func golang_callback() {
+	if golangexit {
 		runtime.Goexit()
 	}
 	if e := extraMInUse.Load(); e == 0 {
-		fmt.Printf("in callback extraMInUse got %d want >0\n", e)
+		fmt.Printf("in callback extraMInUse golangt %d want >0\n", e)
 		os.Exit(1)
 	}
 
@@ -82,21 +82,21 @@ func grow1(x, sum *int) int {
 	return grow1(x, &sum1)
 }
 
-func CgoCallbackGC() {
+func CgolangCallbackGC() {
 	P := 100
 	if os.Getenv("RUNTIME_TEST_SHORT") != "" {
 		P = 10
 	}
 
 	if e := extraMInUse.Load(); e != 0 {
-		fmt.Printf("before testing extraMInUse got %d want 0\n", e)
+		fmt.Printf("before testing extraMInUse golangt %d want 0\n", e)
 		os.Exit(1)
 	}
 
 	done := make(chan bool)
 	// allocate a bunch of stack frames and spray them with pointers
 	for i := 0; i < P; i++ {
-		go func() {
+		golang func() {
 			grow()
 			done <- true
 		}()
@@ -104,9 +104,9 @@ func CgoCallbackGC() {
 	for i := 0; i < P; i++ {
 		<-done
 	}
-	// now give these stack frames to cgo callbacks
+	// now give these stack frames to cgolang callbacks
 	for i := 0; i < P; i++ {
-		go func() {
+		golang func() {
 			C.foo()
 			done <- true
 		}()
@@ -116,12 +116,12 @@ func CgoCallbackGC() {
 	}
 
 	if e := extraMInUse.Load(); e != 0 {
-		fmt.Printf("after testing extraMInUse got %d want 0\n", e)
+		fmt.Printf("after testing extraMInUse golangt %d want 0\n", e)
 		os.Exit(1)
 	}
 
 	fmt.Printf("OK\n")
 }
 
-//go:linkname extraMInUse runtime.extraMInUse
+//golang:linkname extraMInUse runtime.extraMInUse
 var extraMInUse atomic.Uint32

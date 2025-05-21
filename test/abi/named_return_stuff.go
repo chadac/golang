@@ -1,9 +1,9 @@
 // run
 
-//go:build !wasm
+//golang:build !wasm
 
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // wasm is excluded because the compiler chatter about register abi pragma ends up
@@ -19,8 +19,8 @@ var sink *string
 
 var y int
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func F(a, b, c *int) (x int) {
 	x = *a
 	G(&x)
@@ -31,21 +31,21 @@ func F(a, b, c *int) (x int) {
 	return
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func G(x *int) {
 	y += *x
 	fmt.Println("y = ", y)
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func X() {
 	*sink += " !!!!!!!!!!!!!!!"
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func H(s, t string) (result string) { // result leaks to heap
 	result = "Aloha! " + s + " " + t
 	sink = &result
@@ -57,8 +57,8 @@ func H(s, t string) (result string) { // result leaks to heap
 	return r + result
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func K(s, t string) (result string) { // result spills
 	result = "Aloha! " + s + " " + t
 	r := ""

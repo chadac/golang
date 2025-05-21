@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package debug
@@ -103,8 +103,8 @@ func FreeOSMemory() {
 }
 
 // SetMaxStack sets the maximum amount of memory that
-// can be used by a single goroutine stack.
-// If any goroutine exceeds this limit while growing its stack,
+// can be used by a single golangroutine stack.
+// If any golangroutine exceeds this limit while growing its stack,
 // the program crashes.
 // SetMaxStack returns the previous setting.
 // The initial setting is 1 GB on 64-bit systems, 250 MB on 32-bit systems.
@@ -112,7 +112,7 @@ func FreeOSMemory() {
 // of the value provided to SetMaxStack.
 //
 // SetMaxStack is useful mainly for limiting the damage done by
-// goroutines that enter an infinite recursion. It only limits future
+// golangroutines that enter an infinite recursion. It only limits future
 // stack growth.
 func SetMaxStack(bytes int) int {
 	return setMaxStack(bytes)
@@ -125,9 +125,9 @@ func SetMaxStack(bytes int) int {
 // The initial setting is 10,000 threads.
 //
 // The limit controls the number of operating system threads, not the number
-// of goroutines. A Go program creates a new thread only when a goroutine
-// is ready to run but all the existing threads are blocked in system calls, cgo calls,
-// or are locked to other goroutines due to use of runtime.LockOSThread.
+// of golangroutines. A Go program creates a new thread only when a golangroutine
+// is ready to run but all the existing threads are blocked in system calls, cgolang calls,
+// or are locked to other golangroutines due to use of runtime.LockOSThread.
 //
 // SetMaxThreads is useful mainly for limiting the damage done by
 // programs that create an unbounded number of threads. The idea is
@@ -150,7 +150,7 @@ func SetMaxThreads(threads int) int {
 // If that method exists, it returns the memory address which triggered the fault.
 // The results of Addr are best-effort and the veracity of the result
 // may depend on the platform.
-// SetPanicOnFault applies only to the current goroutine.
+// SetPanicOnFault applies only to the current golangroutine.
 // It returns the previous setting.
 func SetPanicOnFault(enabled bool) bool {
 	return setPanicOnFault(enabled)
@@ -159,12 +159,12 @@ func SetPanicOnFault(enabled bool) bool {
 // WriteHeapDump writes a description of the heap and the objects in
 // it to the given file descriptor.
 //
-// WriteHeapDump suspends the execution of all goroutines until the heap
+// WriteHeapDump suspends the execution of all golangroutines until the heap
 // dump is completely written.  Thus, the file descriptor must not be
 // connected to a pipe or socket whose other end is in the same Go
 // process; instead, use a temporary file or network socket.
 //
-// The heap dump format is defined at https://golang.org/s/go15heapdump.
+// The heap dump format is defined at https://golanglang.org/s/golang15heapdump.
 func WriteHeapDump(fd uintptr)
 
 // SetTraceback sets the amount of detail printed by the runtime in
@@ -172,7 +172,7 @@ func WriteHeapDump(fd uintptr)
 // or an internal runtime error.
 // The level argument takes the same values as the GOTRACEBACK
 // environment variable. For example, SetTraceback("all") ensure
-// that the program prints all goroutines when it crashes.
+// that the program prints all golangroutines when it crashes.
 // See the package runtime documentation for details.
 // If SetTraceback is called with a level lower than that of the
 // environment variable, the call is ignored.
@@ -216,7 +216,7 @@ func SetTraceback(level string)
 // but values much greater than the available memory on the underlying
 // system work just as well.
 //
-// See https://go.dev/doc/gc-guide for a detailed guide explaining
+// See https://golang.dev/doc/gc-guide for a detailed guide explaining
 // the soft memory limit in more detail, as well as a variety of common
 // use-cases and scenarios.
 //

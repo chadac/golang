@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package template
@@ -75,7 +75,7 @@ type (
 
 	// URL encapsulates a known safe URL or URL substring (see RFC 3986).
 	// A URL like `javascript:checkThatFormNotEditedBeforeLeavingPage()`
-	// from a trusted source should go in the page, but by default dynamic
+	// from a trusted source should golang in the page, but by default dynamic
 	// `javascript:` URLs are filtered out since they are a frequently
 	// exploited injection vector.
 	//
@@ -104,7 +104,7 @@ const (
 	contentTypeJSStr
 	contentTypeURL
 	contentTypeSrcset
-	// contentTypeUnsafe is used in attr.go for values that affect how
+	// contentTypeUnsafe is used in attr.golang for values that affect how
 	// embedded content and network messages are formed, vetted,
 	// or interpreted; or which credentials network messages carry.
 	contentTypeUnsafe

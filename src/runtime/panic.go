@@ -1,19 +1,19 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
 
 import (
 	"internal/abi"
-	"internal/goarch"
+	"internal/golangarch"
 	"internal/runtime/atomic"
 	"internal/runtime/sys"
 	"internal/stringslite"
 	"unsafe"
 )
 
-// throwType indicates the current type of ongoing throw, which affects the
+// throwType indicates the current type of ongolanging throw, which affects the
 // amount of detail printed to stderr. Higher values include more detail.
 type throwType uint32
 
@@ -23,14 +23,14 @@ const (
 
 	// throwTypeUser is a throw due to a problem with the application.
 	//
-	// These throws do not include runtime frames, system goroutines, or
+	// These throws do not include runtime frames, system golangroutines, or
 	// frame metadata.
 	throwTypeUser
 
 	// throwTypeRuntime is a throw due to a problem with Go itself.
 	//
 	// These throws include as much information as possible to aid in
-	// debugging the runtime, including runtime frames, system goroutines,
+	// debugging the runtime, including runtime frames, system golangroutines,
 	// and frame metadata.
 	throwTypeRuntime
 )
@@ -54,7 +54,7 @@ const (
 // pc should be the program counter of the compiler-generated code that
 // triggered this panic.
 func panicCheck1(pc uintptr, msg string) {
-	if goarch.IsWasm == 0 && stringslite.HasPrefix(funcname(findfunc(pc)), "runtime.") {
+	if golangarch.IsWasm == 0 && stringslite.HasPrefix(funcname(findfunc(pc)), "runtime.") {
 		// Note: wasm can't tail call, so we can't get the original caller's pc.
 		throw(msg)
 	}
@@ -104,103 +104,103 @@ func panicCheck2(err string) {
 // Hence, for these, we just check for clearly bad runtime conditions.
 //
 // The panic{Index,Slice} functions are implemented in assembly and tail call
-// to the goPanic{Index,Slice} functions below. This is done so we can use
+// to the golangPanic{Index,Slice} functions below. This is done so we can use
 // a space-minimal register calling convention.
 
 // failures in the comparisons for s[x], 0 <= x < y (y == len(s))
 //
-//go:yeswritebarrierrec
-func goPanicIndex(x int, y int) {
+//golang:yeswritebarrierrec
+func golangPanicIndex(x int, y int) {
 	panicCheck1(sys.GetCallerPC(), "index out of range")
 	panic(boundsError{x: int64(x), signed: true, y: y, code: boundsIndex})
 }
 
-//go:yeswritebarrierrec
-func goPanicIndexU(x uint, y int) {
+//golang:yeswritebarrierrec
+func golangPanicIndexU(x uint, y int) {
 	panicCheck1(sys.GetCallerPC(), "index out of range")
 	panic(boundsError{x: int64(x), signed: false, y: y, code: boundsIndex})
 }
 
 // failures in the comparisons for s[:x], 0 <= x <= y (y == len(s) or cap(s))
 //
-//go:yeswritebarrierrec
-func goPanicSliceAlen(x int, y int) {
+//golang:yeswritebarrierrec
+func golangPanicSliceAlen(x int, y int) {
 	panicCheck1(sys.GetCallerPC(), "slice bounds out of range")
 	panic(boundsError{x: int64(x), signed: true, y: y, code: boundsSliceAlen})
 }
 
-//go:yeswritebarrierrec
-func goPanicSliceAlenU(x uint, y int) {
+//golang:yeswritebarrierrec
+func golangPanicSliceAlenU(x uint, y int) {
 	panicCheck1(sys.GetCallerPC(), "slice bounds out of range")
 	panic(boundsError{x: int64(x), signed: false, y: y, code: boundsSliceAlen})
 }
 
-//go:yeswritebarrierrec
-func goPanicSliceAcap(x int, y int) {
+//golang:yeswritebarrierrec
+func golangPanicSliceAcap(x int, y int) {
 	panicCheck1(sys.GetCallerPC(), "slice bounds out of range")
 	panic(boundsError{x: int64(x), signed: true, y: y, code: boundsSliceAcap})
 }
 
-//go:yeswritebarrierrec
-func goPanicSliceAcapU(x uint, y int) {
+//golang:yeswritebarrierrec
+func golangPanicSliceAcapU(x uint, y int) {
 	panicCheck1(sys.GetCallerPC(), "slice bounds out of range")
 	panic(boundsError{x: int64(x), signed: false, y: y, code: boundsSliceAcap})
 }
 
 // failures in the comparisons for s[x:y], 0 <= x <= y
 //
-//go:yeswritebarrierrec
-func goPanicSliceB(x int, y int) {
+//golang:yeswritebarrierrec
+func golangPanicSliceB(x int, y int) {
 	panicCheck1(sys.GetCallerPC(), "slice bounds out of range")
 	panic(boundsError{x: int64(x), signed: true, y: y, code: boundsSliceB})
 }
 
-//go:yeswritebarrierrec
-func goPanicSliceBU(x uint, y int) {
+//golang:yeswritebarrierrec
+func golangPanicSliceBU(x uint, y int) {
 	panicCheck1(sys.GetCallerPC(), "slice bounds out of range")
 	panic(boundsError{x: int64(x), signed: false, y: y, code: boundsSliceB})
 }
 
 // failures in the comparisons for s[::x], 0 <= x <= y (y == len(s) or cap(s))
-func goPanicSlice3Alen(x int, y int) {
+func golangPanicSlice3Alen(x int, y int) {
 	panicCheck1(sys.GetCallerPC(), "slice bounds out of range")
 	panic(boundsError{x: int64(x), signed: true, y: y, code: boundsSlice3Alen})
 }
-func goPanicSlice3AlenU(x uint, y int) {
+func golangPanicSlice3AlenU(x uint, y int) {
 	panicCheck1(sys.GetCallerPC(), "slice bounds out of range")
 	panic(boundsError{x: int64(x), signed: false, y: y, code: boundsSlice3Alen})
 }
-func goPanicSlice3Acap(x int, y int) {
+func golangPanicSlice3Acap(x int, y int) {
 	panicCheck1(sys.GetCallerPC(), "slice bounds out of range")
 	panic(boundsError{x: int64(x), signed: true, y: y, code: boundsSlice3Acap})
 }
-func goPanicSlice3AcapU(x uint, y int) {
+func golangPanicSlice3AcapU(x uint, y int) {
 	panicCheck1(sys.GetCallerPC(), "slice bounds out of range")
 	panic(boundsError{x: int64(x), signed: false, y: y, code: boundsSlice3Acap})
 }
 
 // failures in the comparisons for s[:x:y], 0 <= x <= y
-func goPanicSlice3B(x int, y int) {
+func golangPanicSlice3B(x int, y int) {
 	panicCheck1(sys.GetCallerPC(), "slice bounds out of range")
 	panic(boundsError{x: int64(x), signed: true, y: y, code: boundsSlice3B})
 }
-func goPanicSlice3BU(x uint, y int) {
+func golangPanicSlice3BU(x uint, y int) {
 	panicCheck1(sys.GetCallerPC(), "slice bounds out of range")
 	panic(boundsError{x: int64(x), signed: false, y: y, code: boundsSlice3B})
 }
 
 // failures in the comparisons for s[x:y:], 0 <= x <= y
-func goPanicSlice3C(x int, y int) {
+func golangPanicSlice3C(x int, y int) {
 	panicCheck1(sys.GetCallerPC(), "slice bounds out of range")
 	panic(boundsError{x: int64(x), signed: true, y: y, code: boundsSlice3C})
 }
-func goPanicSlice3CU(x uint, y int) {
+func golangPanicSlice3CU(x uint, y int) {
 	panicCheck1(sys.GetCallerPC(), "slice bounds out of range")
 	panic(boundsError{x: int64(x), signed: false, y: y, code: boundsSlice3C})
 }
 
 // failures in the conversion ([x]T)(s) or (*[x]T)(s), 0 <= x <= y, y == len(s)
-func goPanicSliceConvert(x int, y int) {
+func golangPanicSliceConvert(x int, y int) {
 	panicCheck1(sys.GetCallerPC(), "slice length too short to convert to array or pointer to array")
 	panic(boundsError{x: int64(x), signed: true, y: y, code: boundsConvert})
 }
@@ -227,7 +227,7 @@ func panicSliceConvert(x int, y int)
 
 var shiftError = error(errorString("negative shift amount"))
 
-//go:yeswritebarrierrec
+//golang:yeswritebarrierrec
 func panicshift() {
 	panicCheck1(sys.GetCallerPC(), "negative shift amount")
 	panic(shiftError)
@@ -235,7 +235,7 @@ func panicshift() {
 
 var divideError = error(errorString("integer divide by zero"))
 
-//go:yeswritebarrierrec
+//golang:yeswritebarrierrec
 func panicdivide() {
 	panicCheck2("integer divide by zero")
 	panic(divideError)
@@ -272,7 +272,7 @@ func panicmemAddr(addr uintptr) {
 func deferproc(fn func()) {
 	gp := getg()
 	if gp.m.curg != gp {
-		// go code on the system stack can't defer
+		// golang code on the system stack can't defer
 		throw("defer on system stack")
 	}
 
@@ -292,7 +292,7 @@ var rangePanicError = error(errorString("range function continued iteration afte
 var rangeExhaustedError = error(errorString("range function continued iteration after whole loop exit"))
 var rangeMissingPanicError = error(errorString("range function recovered a loop body panic and did not resume panicking"))
 
-//go:noinline
+//golang:noinline
 func panicrangestate(state int) {
 	switch abi.RF_State(state) {
 	case abi.RF_DONE:
@@ -338,8 +338,8 @@ func panicrangestate(state int) {
 //
 // To keep misbehaving programs from crashing the runtime,
 // deferprocat pushes new defers onto the .head list atomically.
-// The fact that it is a separate list from the main goroutine
-// defer list means that the main goroutine's defers can still
+// The fact that it is a separate list from the main golangroutine
+// defer list means that the main golangroutine's defers can still
 // be handled non-atomically.
 //
 // In the diagram, dY and dX are meant to be processed when
@@ -373,11 +373,11 @@ func panicrangestate(state int) {
 // more general catch of loop body misuse, though, this
 // might not be worth worrying about in addition.
 //
-// See also ../cmd/compile/internal/rangefunc/rewrite.go.
+// See also ../cmd/compile/internal/rangefunc/rewrite.golang.
 func deferrangefunc() any {
 	gp := getg()
 	if gp.m.curg != gp {
-		// go code on the system stack can't defer
+		// golang code on the system stack can't defer
 		throw("defer on system stack")
 	}
 
@@ -459,11 +459,11 @@ func deferconvert(d0 *_defer) {
 // All other fields can contain junk.
 // Nosplit because of the uninitialized pointer fields on the stack.
 //
-//go:nosplit
+//golang:nosplit
 func deferprocStack(d *_defer) {
 	gp := getg()
 	if gp.m.curg != gp {
-		// go code on the system stack can't defer
+		// golang code on the system stack can't defer
 		throw("defer on system stack")
 	}
 
@@ -590,21 +590,21 @@ func deferreturn() {
 	}
 }
 
-// Goexit terminates the goroutine that calls it. No other goroutine is affected.
-// Goexit runs all deferred calls before terminating the goroutine. Because Goexit
+// Goexit terminates the golangroutine that calls it. No other golangroutine is affected.
+// Goexit runs all deferred calls before terminating the golangroutine. Because Goexit
 // is not a panic, any recover calls in those deferred functions will return nil.
 //
-// Calling Goexit from the main goroutine terminates that goroutine
+// Calling Goexit from the main golangroutine terminates that golangroutine
 // without func main returning. Since func main has not returned,
-// the program continues execution of other goroutines.
-// If all other goroutines exit, the program crashes.
+// the program continues execution of other golangroutines.
+// If all other golangroutines exit, the program crashes.
 //
 // It crashes if called from a thread not created by the Go runtime.
 func Goexit() {
 	// Create a panic object for Goexit, so we can recognize when it might be
 	// bypassed by a recover().
 	var p _panic
-	p.goexit = true
+	p.golangexit = true
 
 	p.start(sys.GetCallerPC(), unsafe.Pointer(sys.GetCallerSP()))
 	for {
@@ -615,7 +615,7 @@ func Goexit() {
 		fn()
 	}
 
-	goexit1()
+	golangexit1()
 }
 
 // Call all Error and String methods before freezing the world.
@@ -658,11 +658,11 @@ func printpanics(p *_panic) {
 		if p.link.repanicked {
 			return
 		}
-		if !p.link.goexit {
+		if !p.link.golangexit {
 			print("\t")
 		}
 	}
-	if p.goexit {
+	if p.golangexit {
 		return
 	}
 	print("panic: ")
@@ -708,29 +708,29 @@ type PanicNilError struct {
 	// from any struct in other packages too.
 	// This avoids any accidental conversions being possible
 	// between this struct and some other struct sharing the same fields,
-	// like happened in go.dev/issue/56603.
+	// like happened in golang.dev/issue/56603.
 	_ [0]*PanicNilError
 }
 
 func (*PanicNilError) Error() string { return "panic called with nil argument" }
 func (*PanicNilError) RuntimeError() {}
 
-var panicnil = &godebugInc{name: "panicnil"}
+var panicnil = &golangdebugInc{name: "panicnil"}
 
 // The implementation of the predeclared function panic.
 // The compiler emits calls to this function.
 //
-// gopanic should be an internal detail,
+// golangpanic should be an internal detail,
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
-//   - go.undefinedlabs.com/scopeagent
-//   - github.com/goplus/igop
+//   - golang.undefinedlabs.com/scopeagent
+//   - github.com/golangplus/igolangp
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname gopanic
-func gopanic(e any) {
+//golang:linkname golangpanic
+func golangpanic(e any) {
 	if e == nil {
 		if debug.panicnil.Load() != 1 {
 			e = new(PanicNilError)
@@ -805,7 +805,7 @@ func gopanic(e any) {
 
 // start initializes a panic to start unwinding the stack.
 //
-// If p.goexit is true, then start may return multiple times.
+// If p.golangexit is true, then start may return multiple times.
 func (p *_panic) start(pc uintptr, sp unsafe.Pointer) {
 	gp := getg()
 
@@ -893,7 +893,7 @@ func (p *_panic) nextDefer() (func(), bool) {
 			bits &^= 1 << i
 			*p.deferBitsPtr = bits
 
-			return *(*func())(add(p.slotsPtr, i*goarch.PtrSize)), true
+			return *(*func())(add(p.slotsPtr, i*golangarch.PtrSize)), true
 		}
 
 	Recheck:
@@ -901,7 +901,7 @@ func (p *_panic) nextDefer() (func(), bool) {
 			if d.rangefunc {
 				deferconvert(d)
 				popDefer(gp)
-				goto Recheck
+				golangto Recheck
 			}
 
 			fn := d.fn
@@ -999,8 +999,8 @@ func (p *_panic) initOpenCodedDefers(fn funcInfo, varp unsafe.Pointer) bool {
 // TODO(rsc): Once we commit to CopyStackAlways,
 // this doesn't need to be nosplit.
 //
-//go:nosplit
-func gorecover(argp uintptr) any {
+//golang:nosplit
+func golangrecover(argp uintptr) any {
 	// Must be in a function running as part of a deferred call during the panic.
 	// Must be called from the topmost function of the call
 	// (the function used in the defer statement).
@@ -1009,54 +1009,54 @@ func gorecover(argp uintptr) any {
 	// If they match, the caller is the one who can recover.
 	gp := getg()
 	p := gp._panic
-	if p != nil && !p.goexit && !p.recovered && argp == uintptr(p.argp) {
+	if p != nil && !p.golangexit && !p.recovered && argp == uintptr(p.argp) {
 		p.recovered = true
 		return p.arg
 	}
 	return nil
 }
 
-//go:linkname sync_throw sync.throw
+//golang:linkname sync_throw sync.throw
 func sync_throw(s string) {
 	throw(s)
 }
 
-//go:linkname sync_fatal sync.fatal
+//golang:linkname sync_fatal sync.fatal
 func sync_fatal(s string) {
 	fatal(s)
 }
 
-//go:linkname rand_fatal crypto/rand.fatal
+//golang:linkname rand_fatal crypto/rand.fatal
 func rand_fatal(s string) {
 	fatal(s)
 }
 
-//go:linkname sysrand_fatal crypto/internal/sysrand.fatal
+//golang:linkname sysrand_fatal crypto/internal/sysrand.fatal
 func sysrand_fatal(s string) {
 	fatal(s)
 }
 
-//go:linkname fips_fatal crypto/internal/fips140.fatal
+//golang:linkname fips_fatal crypto/internal/fips140.fatal
 func fips_fatal(s string) {
 	fatal(s)
 }
 
-//go:linkname maps_fatal internal/runtime/maps.fatal
+//golang:linkname maps_fatal internal/runtime/maps.fatal
 func maps_fatal(s string) {
 	fatal(s)
 }
 
-//go:linkname internal_sync_throw internal/sync.throw
+//golang:linkname internal_sync_throw internal/sync.throw
 func internal_sync_throw(s string) {
 	throw(s)
 }
 
-//go:linkname internal_sync_fatal internal/sync.fatal
+//golang:linkname internal_sync_fatal internal/sync.fatal
 func internal_sync_fatal(s string) {
 	fatal(s)
 }
 
-//go:linkname cgroup_throw internal/runtime/cgroup.throw
+//golang:linkname cgroup_throw internal/runtime/cgroup.throw
 func cgroup_throw(s string) {
 	throw(s)
 }
@@ -1078,10 +1078,10 @@ func cgroup_throw(s string) {
 //   - github.com/sagernet/gvisor
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname throw
-//go:nosplit
+//golang:linkname throw
+//golang:nosplit
 func throw(s string) {
 	// Everything throw does should be recursively nosplit so it
 	// can be called even when it's unsafe to grow the stack.
@@ -1099,10 +1099,10 @@ func throw(s string) {
 // fatal is equivalent to throw, but is used when user code is expected to be
 // at fault for the failure, such as racing map writes.
 //
-// fatal does not include runtime frames, system goroutines, or frame metadata
+// fatal does not include runtime frames, system golangroutines, or frame metadata
 // (fp, sp, pc) in the stack trace unless GOTRACEBACK=system or higher.
 //
-//go:nosplit
+//golang:nosplit
 func fatal(s string) {
 	// Everything fatal does should be recursively nosplit so it
 	// can be called even when it's unsafe to grow the stack.
@@ -1147,7 +1147,7 @@ func recovery(gp *g) {
 	if f.deferreturn == 0 {
 		throw("no deferreturn")
 	}
-	gotoPc := f.entry() + uintptr(f.deferreturn)
+	golangtoPc := f.entry() + uintptr(f.deferreturn)
 
 	// Unwind the panic stack.
 	for ; p != nil && uintptr(p.startSP) < sp; p = p.link {
@@ -1170,9 +1170,9 @@ func recovery(gp *g) {
 		//
 		// With how subtle defer handling is, this might not actually be
 		// worthwhile though.
-		if p.goexit {
-			gotoPc, sp = p.startPC, uintptr(p.startSP)
-			saveOpenDeferState = false // goexit is unwinding the stack anyway
+		if p.golangexit {
+			golangtoPc, sp = p.startPC, uintptr(p.startSP)
+			saveOpenDeferState = false // golangexit is unwinding the stack anyway
 			break
 		}
 
@@ -1234,31 +1234,31 @@ func recovery(gp *g) {
 
 	// branch directly to the deferreturn
 	gp.sched.sp = sp
-	gp.sched.pc = gotoPc
+	gp.sched.pc = golangtoPc
 	gp.sched.lr = 0
 	// Restore the bp on platforms that support frame pointers.
 	// N.B. It's fine to not set anything for platforms that don't
 	// support frame pointers, since nothing consumes them.
 	switch {
-	case goarch.IsAmd64 != 0:
+	case golangarch.IsAmd64 != 0:
 		// on x86, fp actually points one word higher than the top of
 		// the frame since the return address is saved on the stack by
 		// the caller
-		gp.sched.bp = fp - 2*goarch.PtrSize
-	case goarch.IsArm64 != 0:
+		gp.sched.bp = fp - 2*golangarch.PtrSize
+	case golangarch.IsArm64 != 0:
 		// on arm64, the architectural bp points one word higher
 		// than the sp. fp is totally useless to us here, because it
 		// only gets us to the caller's fp.
-		gp.sched.bp = sp - goarch.PtrSize
+		gp.sched.bp = sp - golangarch.PtrSize
 	}
-	gogo(&gp.sched)
+	golanggolang(&gp.sched)
 }
 
 // fatalthrow implements an unrecoverable runtime throw. It freezes the
 // system, prints stack traces starting from its caller, and terminates the
 // process.
 //
-//go:nosplit
+//golang:nosplit
 func fatalthrow(t throwType) {
 	pc := sys.GetCallerPC()
 	sp := sys.GetCallerSP()
@@ -1294,7 +1294,7 @@ func fatalthrow(t throwType) {
 // that if msgs != nil, fatalpanic also prints panic messages and decrements
 // runningPanicDefers once main is blocked from exiting.
 //
-//go:nosplit
+//golang:nosplit
 func fatalpanic(msgs *_panic) {
 	pc := sys.GetCallerPC()
 	sp := sys.GetCallerSP()
@@ -1316,7 +1316,7 @@ func fatalpanic(msgs *_panic) {
 		}
 
 		// If this panic is the result of a synctest bubble deadlock,
-		// print stacks for the goroutines in the bubble.
+		// print stacks for the golangroutines in the bubble.
 		var bubble *synctestBubble
 		if de, ok := msgs.arg.(synctestDeadlockError); ok {
 			bubble = de.bubble
@@ -1350,7 +1350,7 @@ func fatalpanic(msgs *_panic) {
 // in some contexts (e.g. a panic in a signal handler for a signal
 // sent to an M with no P).
 //
-//go:nowritebarrierrec
+//golang:nowritebarrierrec
 func startpanic_m() bool {
 	gp := getg()
 	if mheap_.cachealloc.size == 0 { // very early
@@ -1363,7 +1363,7 @@ func startpanic_m() bool {
 	gp.m.mallocing++
 
 	// If we're dying because of a bad lock count, set it to a
-	// good lock count so we don't recursively panic below.
+	// golangod lock count so we don't recursively panic below.
 	if gp.m.locks < 0 {
 		gp.m.locks = 1
 	}
@@ -1404,7 +1404,7 @@ var deadlock mutex
 
 // gp is the crashing g running on this M, but may be a user G, while getg() is
 // always g0.
-// If bubble is non-nil, print the stacks for goroutines in this group as well.
+// If bubble is non-nil, print the stacks for golangroutines in this group as well.
 func dopanic_m(gp *g, pc, sp uintptr, bubble *synctestBubble) bool {
 	if gp.sig != 0 {
 		signame := signame(gp.sig)
@@ -1416,14 +1416,14 @@ func dopanic_m(gp *g, pc, sp uintptr, bubble *synctestBubble) bool {
 		print(" code=", hex(gp.sigcode0), " addr=", hex(gp.sigcode1), " pc=", hex(gp.sigpc), "]\n")
 	}
 
-	level, all, docrash := gotraceback()
+	level, all, docrash := golangtraceback()
 	if level > 0 {
 		if gp != gp.m.curg {
 			all = true
 		}
 		if gp != gp.m.g0 {
 			print("\n")
-			goroutineheader(gp)
+			golangroutineheader(gp)
 			traceback(pc, sp, 0, gp)
 		} else if level >= 2 || gp.m.throwing >= throwTypeRuntime {
 			print("\nruntime stack:\n")
@@ -1435,7 +1435,7 @@ func dopanic_m(gp *g, pc, sp uintptr, bubble *synctestBubble) bool {
 				tracebackothers(gp)
 			} else if bubble != nil {
 				// This panic is caused by a synctest bubble deadlock.
-				// Print stacks for goroutines in the deadlocked bubble.
+				// Print stacks for golangroutines in the deadlocked bubble.
 				tracebacksomeothers(gp, func(other *g) bool {
 					return bubble == other.bubble
 				})
@@ -1462,7 +1462,7 @@ func dopanic_m(gp *g, pc, sp uintptr, bubble *synctestBubble) bool {
 // canpanic returns false if a signal should throw instead of
 // panicking.
 //
-//go:nosplit
+//golang:nosplit
 func canpanic() bool {
 	gp := getg()
 	mp := acquirem()
@@ -1511,21 +1511,21 @@ func shouldPushSigpanic(gp *g, pc, lr uintptr) bool {
 	// caused by a call to non-code. In this case, we want to
 	// ignore this call to make unwinding show the context.
 	//
-	// If we running C code, we're not going to recognize pc as a
-	// Go function, so just assume it's good. Otherwise, traceback
+	// If we running C code, we're not golanging to recognize pc as a
+	// Go function, so just assume it's golangod. Otherwise, traceback
 	// may try to read a stale LR that looks like a Go code
 	// pointer and wander into the woods.
-	if gp.m.incgo || findfunc(pc).valid() {
+	if gp.m.incgolang || findfunc(pc).valid() {
 		// This wasn't a bad call, so use PC as sigpanic's
 		// return PC.
 		return true
 	}
 	if findfunc(lr).valid() {
-		// This was a bad call, but the LR is good, so use the
+		// This was a bad call, but the LR is golangod, so use the
 		// LR as sigpanic's return PC.
 		return false
 	}
-	// Neither the PC or LR is good. Hopefully pushing a frame
+	// Neither the PC or LR is golangod. Hopefully pushing a frame
 	// will work.
 	return true
 }
@@ -1533,10 +1533,10 @@ func shouldPushSigpanic(gp *g, pc, lr uintptr) bool {
 // isAbortPC reports whether pc is the program counter at which
 // runtime.abort raises a signal.
 //
-// It is nosplit because it's part of the isgoexception
+// It is nosplit because it's part of the isgolangexception
 // implementation.
 //
-//go:nosplit
+//golang:nosplit
 func isAbortPC(pc uintptr) bool {
 	f := findfunc(pc)
 	if !f.valid() {

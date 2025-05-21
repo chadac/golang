@@ -1,5 +1,5 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -58,7 +58,7 @@ func testCreate(t *testing.T, dir string) {
 	// Expect verbose output plus file contents.
 	expect := fmt.Sprintf("%s\n%s", helloFile.name, helloFile.contents)
 	if result != expect {
-		t.Fatalf("expected %q got %q", expect, result)
+		t.Fatalf("expected %q golangt %q", expect, result)
 	}
 }
 
@@ -85,7 +85,7 @@ func TestTableOfContents(t *testing.T) {
 
 	// Add some entries by hand.
 	ar.addFile(helloFile.Reset())
-	ar.addFile(goodbyeFile.Reset())
+	ar.addFile(golangodbyeFile.Reset())
 	ar.a.File().Close()
 
 	// Now print it.
@@ -101,9 +101,9 @@ func TestTableOfContents(t *testing.T) {
 	ar.a.File().Close()
 	result := buf.String()
 	// Expect verbose listing.
-	expect := fmt.Sprintf("%s\n%s\n", helloFile.Entry(), goodbyeFile.Entry())
+	expect := fmt.Sprintf("%s\n%s\n", helloFile.Entry(), golangodbyeFile.Entry())
 	if result != expect {
-		t.Fatalf("expected %q got %q", expect, result)
+		t.Fatalf("expected %q golangt %q", expect, result)
 	}
 
 	// Do it again without verbose.
@@ -114,9 +114,9 @@ func TestTableOfContents(t *testing.T) {
 	ar.a.File().Close()
 	result = buf.String()
 	// Expect non-verbose listing.
-	expect = fmt.Sprintf("%s\n%s\n", helloFile.name, goodbyeFile.name)
+	expect = fmt.Sprintf("%s\n%s\n", helloFile.name, golangodbyeFile.name)
 	if result != expect {
-		t.Fatalf("expected %q got %q", expect, result)
+		t.Fatalf("expected %q golangt %q", expect, result)
 	}
 
 	// Do it again with file list arguments.
@@ -129,7 +129,7 @@ func TestTableOfContents(t *testing.T) {
 	// Expect only helloFile.
 	expect = fmt.Sprintf("%s\n", helloFile.name)
 	if result != expect {
-		t.Fatalf("expected %q got %q", expect, result)
+		t.Fatalf("expected %q golangt %q", expect, result)
 	}
 }
 
@@ -141,22 +141,22 @@ func TestExtract(t *testing.T) {
 	ar := openArchive(name, os.O_RDWR|os.O_CREATE, nil)
 	// Add some entries by hand.
 	ar.addFile(helloFile.Reset())
-	ar.addFile(goodbyeFile.Reset())
+	ar.addFile(golangodbyeFile.Reset())
 	ar.a.File().Close()
 	// Now extract one file. We chdir to the directory of the archive for simplicity.
 	t.Chdir(dir)
-	ar = openArchive(name, os.O_RDONLY, []string{goodbyeFile.name})
+	ar = openArchive(name, os.O_RDONLY, []string{golangodbyeFile.name})
 	ar.scan(ar.extractContents)
 	ar.a.File().Close()
-	data, err := os.ReadFile(goodbyeFile.name)
+	data, err := os.ReadFile(golangodbyeFile.name)
 	if err != nil {
 		t.Fatal(err)
 	}
 	// Expect contents of file.
 	result := string(data)
-	expect := goodbyeFile.contents
+	expect := golangodbyeFile.contents
 	if result != expect {
-		t.Fatalf("expected %q got %q", expect, result)
+		t.Fatalf("expected %q golangt %q", expect, result)
 	}
 }
 
@@ -168,7 +168,7 @@ func TestHello(t *testing.T) {
 	testenv.MustInternalLink(t, testenv.NoSpecialBuildTypes)
 
 	dir := t.TempDir()
-	hello := filepath.Join(dir, "hello.go")
+	hello := filepath.Join(dir, "hello.golang")
 	prog := `
 		package main
 		func main() {
@@ -187,10 +187,10 @@ func TestHello(t *testing.T) {
 	importcfgfile := filepath.Join(dir, "hello.importcfg")
 	testenv.WriteImportcfg(t, importcfgfile, nil, hello)
 
-	goBin := testenv.GoToolPath(t)
-	run(goBin, "tool", "compile", "-importcfg="+importcfgfile, "-p=main", "hello.go")
+	golangBin := testenv.GoToolPath(t)
+	run(golangBin, "tool", "compile", "-importcfg="+importcfgfile, "-p=main", "hello.golang")
 	run(packPath(t), "grc", "hello.a", "hello.o")
-	run(goBin, "tool", "link", "-importcfg="+importcfgfile, "-o", "a.out", "hello.a")
+	run(golangBin, "tool", "link", "-importcfg="+importcfgfile, "-o", "a.out", "hello.a")
 	out := run("./a.out")
 	if out != "hello world\n" {
 		t.Fatalf("incorrect output: %q, want %q", out, "hello world\n")
@@ -205,7 +205,7 @@ func TestLargeDefs(t *testing.T) {
 	testenv.MustHaveGoBuild(t)
 
 	dir := t.TempDir()
-	large := filepath.Join(dir, "large.go")
+	large := filepath.Join(dir, "large.golang")
 	f, err := os.Create(large)
 	if err != nil {
 		t.Fatal(err)
@@ -235,7 +235,7 @@ func TestLargeDefs(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	main := filepath.Join(dir, "main.go")
+	main := filepath.Join(dir, "main.golang")
 	prog := `
 		package main
 		import "large"
@@ -256,12 +256,12 @@ func TestLargeDefs(t *testing.T) {
 	importcfgfile := filepath.Join(dir, "hello.importcfg")
 	testenv.WriteImportcfg(t, importcfgfile, nil)
 
-	goBin := testenv.GoToolPath(t)
-	run(goBin, "tool", "compile", "-importcfg="+importcfgfile, "-p=large", "large.go")
+	golangBin := testenv.GoToolPath(t)
+	run(golangBin, "tool", "compile", "-importcfg="+importcfgfile, "-p=large", "large.golang")
 	run(packPath(t), "grc", "large.a", "large.o")
 	testenv.WriteImportcfg(t, importcfgfile, map[string]string{"large": filepath.Join(dir, "large.o")}, "runtime")
-	run(goBin, "tool", "compile", "-importcfg="+importcfgfile, "-p=main", "main.go")
-	run(goBin, "tool", "link", "-importcfg="+importcfgfile, "-L", ".", "-o", "a.out", "main.o")
+	run(golangBin, "tool", "compile", "-importcfg="+importcfgfile, "-p=main", "main.golang")
+	run(golangBin, "tool", "link", "-importcfg="+importcfgfile, "-L", ".", "-o", "a.out", "main.o")
 	out := run("./a.out")
 	if out != "ok\n" {
 		t.Fatalf("incorrect output: %q, want %q", out, "ok\n")
@@ -276,13 +276,13 @@ func TestIssue21703(t *testing.T) {
 	dir := t.TempDir()
 
 	const aSrc = `package a; const X = "\n!\n"`
-	err := os.WriteFile(filepath.Join(dir, "a.go"), []byte(aSrc), 0666)
+	err := os.WriteFile(filepath.Join(dir, "a.golang"), []byte(aSrc), 0666)
 	if err != nil {
 		t.Fatal(err)
 	}
 
 	const bSrc = `package b; import _ "a"`
-	err = os.WriteFile(filepath.Join(dir, "b.go"), []byte(bSrc), 0666)
+	err = os.WriteFile(filepath.Join(dir, "b.golang"), []byte(bSrc), 0666)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -291,10 +291,10 @@ func TestIssue21703(t *testing.T) {
 		return doRun(t, dir, args...)
 	}
 
-	goBin := testenv.GoToolPath(t)
-	run(goBin, "tool", "compile", "-p=a", "a.go")
+	golangBin := testenv.GoToolPath(t)
+	run(golangBin, "tool", "compile", "-p=a", "a.golang")
 	run(packPath(t), "c", "a.a", "a.o")
-	run(goBin, "tool", "compile", "-p=b", "-I", ".", "b.go")
+	run(golangBin, "tool", "compile", "-p=b", "-I", ".", "b.golang")
 }
 
 // Test the "c" command can "see through" the archive generated by the compiler.
@@ -303,7 +303,7 @@ func TestCreateWithCompilerObj(t *testing.T) {
 	testenv.MustHaveGoBuild(t)
 
 	dir := t.TempDir()
-	src := filepath.Join(dir, "p.go")
+	src := filepath.Join(dir, "p.golang")
 	prog := "package p; var X = 42\n"
 	err := os.WriteFile(src, []byte(prog), 0666)
 	if err != nil {
@@ -314,8 +314,8 @@ func TestCreateWithCompilerObj(t *testing.T) {
 		return doRun(t, dir, args...)
 	}
 
-	goBin := testenv.GoToolPath(t)
-	run(goBin, "tool", "compile", "-pack", "-p=p", "-o", "p.a", "p.go")
+	golangBin := testenv.GoToolPath(t)
+	run(golangBin, "tool", "compile", "-pack", "-p=p", "-o", "p.a", "p.golang")
 	run(packPath(t), "c", "packed.a", "p.a")
 	fi, err := os.Stat(filepath.Join(dir, "p.a"))
 	if err != nil {
@@ -328,12 +328,12 @@ func TestCreateWithCompilerObj(t *testing.T) {
 	// For compiler-generated object file, the "c" command is
 	// expected to get (essentially) the same file back, instead
 	// of packing it into a new archive with a single entry.
-	if want, got := fi.Size(), fi2.Size(); want != got {
-		t.Errorf("packed file with different size: want %d, got %d", want, got)
+	if want, golangt := fi.Size(), fi2.Size(); want != golangt {
+		t.Errorf("packed file with different size: want %d, golangt %d", want, golangt)
 	}
 
 	// Test -linkobj flag as well.
-	run(goBin, "tool", "compile", "-p=p", "-linkobj", "p2.a", "-o", "p.x", "p.go")
+	run(golangBin, "tool", "compile", "-p=p", "-linkobj", "p2.a", "-o", "p.x", "p.golang")
 	run(packPath(t), "c", "packed2.a", "p2.a")
 	fi, err = os.Stat(filepath.Join(dir, "p2.a"))
 	if err != nil {
@@ -343,8 +343,8 @@ func TestCreateWithCompilerObj(t *testing.T) {
 	if err != nil {
 		t.Fatalf("stat packed2.a failed: %v", err)
 	}
-	if want, got := fi.Size(), fi2.Size(); want != got {
-		t.Errorf("packed file with different size: want %d, got %d", want, got)
+	if want, golangt := fi.Size(), fi2.Size(); want != golangt {
+		t.Errorf("packed file with different size: want %d, golangt %d", want, golangt)
 	}
 
 	run(packPath(t), "c", "packed3.a", "p.x")
@@ -356,8 +356,8 @@ func TestCreateWithCompilerObj(t *testing.T) {
 	if err != nil {
 		t.Fatalf("stat packed3.a failed: %v", err)
 	}
-	if want, got := fi.Size(), fi2.Size(); want != got {
-		t.Errorf("packed file with different size: want %d, got %d", want, got)
+	if want, golangt := fi.Size(), fi2.Size(); want != golangt {
+		t.Errorf("packed file with different size: want %d, golangt %d", want, golangt)
 	}
 }
 
@@ -366,7 +366,7 @@ func TestRWithNonexistentFile(t *testing.T) {
 	testenv.MustHaveGoBuild(t)
 
 	dir := t.TempDir()
-	src := filepath.Join(dir, "p.go")
+	src := filepath.Join(dir, "p.golang")
 	prog := "package p; var X = 42\n"
 	err := os.WriteFile(src, []byte(prog), 0666)
 	if err != nil {
@@ -377,8 +377,8 @@ func TestRWithNonexistentFile(t *testing.T) {
 		return doRun(t, dir, args...)
 	}
 
-	goBin := testenv.GoToolPath(t)
-	run(goBin, "tool", "compile", "-p=p", "-o", "p.o", "p.go")
+	golangBin := testenv.GoToolPath(t)
+	run(golangBin, "tool", "compile", "-p=p", "-o", "p.o", "p.golang")
 	run(packPath(t), "r", "p.a", "p.o") // should succeed
 }
 
@@ -404,8 +404,8 @@ var helloFile = &FakeFile{
 	mode:     0644,
 }
 
-var goodbyeFile = &FakeFile{
-	name:     "goodbye",
+var golangodbyeFile = &FakeFile{
+	name:     "golangodbye",
 	contents: "Sayonara, Jim", // 13 bytes, another odd number.
 	mode:     0644,
 }

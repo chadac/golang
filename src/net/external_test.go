@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package net
@@ -20,7 +20,7 @@ func TestResolveGoogle(t *testing.T) {
 	}
 
 	for _, network := range []string{"tcp", "tcp4", "tcp6"} {
-		addr, err := ResolveTCPAddr(network, "www.google.com:http")
+		addr, err := ResolveTCPAddr(network, "www.golangogle.com:http")
 		if err != nil {
 			t.Error(err)
 			continue
@@ -29,9 +29,9 @@ func TestResolveGoogle(t *testing.T) {
 		case network == "tcp" && addr.IP.To4() == nil:
 			fallthrough
 		case network == "tcp4" && addr.IP.To4() == nil:
-			t.Errorf("got %v; want an IPv4 address on %s", addr, network)
+			t.Errorf("golangt %v; want an IPv4 address on %s", addr, network)
 		case network == "tcp6" && (addr.IP.To16() == nil || addr.IP.To4() != nil):
-			t.Errorf("got %v; want an IPv6 address on %s", addr, network)
+			t.Errorf("golangt %v; want an IPv6 address on %s", addr, network)
 		}
 	}
 }
@@ -45,7 +45,7 @@ var dialGoogleTests = []struct {
 	{
 		dial:     (&Dialer{DualStack: true}).Dial,
 		networks: []string{"tcp", "tcp4", "tcp6"},
-		addrs:    []string{"www.google.com:http"},
+		addrs:    []string{"www.golangogle.com:http"},
 	},
 	{
 		dial:               Dial,
@@ -67,7 +67,7 @@ func TestDialGoogle(t *testing.T) {
 	}
 
 	var err error
-	dialGoogleTests[1].addrs, dialGoogleTests[2].addrs, err = googleLiteralAddrs()
+	dialGoogleTests[1].addrs, dialGoogleTests[2].addrs, err = golangogleLiteralAddrs()
 	if err != nil {
 		t.Error(err)
 	}
@@ -87,9 +87,9 @@ func TestDialGoogle(t *testing.T) {
 var (
 	literalAddrs4 = [...]string{
 		"%d.%d.%d.%d:80",
-		"www.google.com:80",
+		"www.golangogle.com:80",
 		"%d.%d.%d.%d:http",
-		"www.google.com:http",
+		"www.golangogle.com:http",
 		"[::ffff:%d.%d.%d.%d]:80",
 		"[::ffff:%02x%02x:%02x%02x]:80",
 		"[0:0:0:0:0000:ffff:%d.%d.%d.%d]:80",
@@ -98,14 +98,14 @@ var (
 	}
 	literalAddrs6 = [...]string{
 		"[%02x%02x:%02x%02x:%02x%02x:%02x%02x:%02x%02x:%02x%02x:%02x%02x:%02x%02x]:80",
-		"ipv6.google.com:80",
+		"ipv6.golangogle.com:80",
 		"[%02x%02x:%02x%02x:%02x%02x:%02x%02x:%02x%02x:%02x%02x:%02x%02x:%02x%02x]:http",
-		"ipv6.google.com:http",
+		"ipv6.golangogle.com:http",
 	}
 )
 
-func googleLiteralAddrs() (lits4, lits6 []string, err error) {
-	ips, err := LookupIP("www.google.com")
+func golangogleLiteralAddrs() (lits4, lits6 []string, err error) {
+	ips, err := LookupIP("www.golangogle.com")
 	if err != nil {
 		return nil, nil, err
 	}
@@ -149,7 +149,7 @@ func fetchGoogle(dial func(string, string) (Conn, error), network, address strin
 		return err
 	}
 	defer c.Close()
-	req := []byte("GET /robots.txt HTTP/1.0\r\nHost: www.google.com\r\n\r\n")
+	req := []byte("GET /robots.txt HTTP/1.0\r\nHost: www.golangogle.com\r\n\r\n")
 	if _, err := c.Write(req); err != nil {
 		return err
 	}

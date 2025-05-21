@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package parse
@@ -434,7 +434,7 @@ func TestLex(t *testing.T) {
 	for _, test := range lexTests {
 		items := collect(&test, "", "")
 		if !equal(items, test.items, false) {
-			t.Errorf("%s: got\n\t%+v\nexpected\n\t%v", test.name, items, test.items)
+			t.Errorf("%s: golangt\n\t%+v\nexpected\n\t%v", test.name, items, test.items)
 			return // TODO
 		}
 		t.Log(test.name, "OK")
@@ -470,7 +470,7 @@ func TestDelims(t *testing.T) {
 	for _, test := range lexDelimTests {
 		items := collect(&test, "$$", "@@")
 		if !equal(items, test.items, false) {
-			t.Errorf("%s: got\n\t%v\nexpected\n\t%v", test.name, items, test.items)
+			t.Errorf("%s: golangt\n\t%v\nexpected\n\t%v", test.name, items, test.items)
 		}
 	}
 }
@@ -487,7 +487,7 @@ func TestDelimsAlphaNumeric(t *testing.T) {
 	items := collect(&test, "{{hub", "hub}}")
 
 	if !equal(items, test.items, false) {
-		t.Errorf("%s: got\n\t%v\nexpected\n\t%v", test.name, items, test.items)
+		t.Errorf("%s: golangt\n\t%v\nexpected\n\t%v", test.name, items, test.items)
 	}
 }
 
@@ -504,7 +504,7 @@ func TestDelimsAndMarkers(t *testing.T) {
 	items := collect(&test, "{{- ", " -}}")
 
 	if !equal(items, test.items, false) {
-		t.Errorf("%s: got\n\t%v\nexpected\n\t%v", test.name, items, test.items)
+		t.Errorf("%s: golangt\n\t%v\nexpected\n\t%v", test.name, items, test.items)
 	}
 }
 
@@ -563,14 +563,14 @@ func TestPos(t *testing.T) {
 	for _, test := range lexPosTests {
 		items := collect(&test, "", "")
 		if !equal(items, test.items, true) {
-			t.Errorf("%s: got\n\t%v\nexpected\n\t%v", test.name, items, test.items)
+			t.Errorf("%s: golangt\n\t%v\nexpected\n\t%v", test.name, items, test.items)
 			if len(items) == len(test.items) {
 				// Detailed print; avoid item.String() to expose the position value.
 				for i := range items {
 					if !equal(items[i:i+1], test.items[i:i+1], true) {
 						i1 := items[i]
 						i2 := test.items[i]
-						t.Errorf("\t#%d: got {%v %d %q %d} expected {%v %d %q %d}",
+						t.Errorf("\t#%d: golangt {%v %d %q %d} expected {%v %d %q %d}",
 							i, i1.typ, i1.pos, i1.val, i1.line, i2.typ, i2.pos, i2.val, i2.line)
 					}
 				}

@@ -1,10 +1,10 @@
 # example.net/pkgremoved@v0.1.0 refers to a package.
-go get example.net/pkgremoved@v0.1.0
+golang get example.net/pkgremoved@v0.1.0
 
-go list example.net/pkgremoved
+golang list example.net/pkgremoved
 stdout '^example.net/pkgremoved'
 
-cp go.mod go.mod.orig
+cp golang.mod golang.mod.orig
 
 
 # When we resolve a new dependency on example.net/other,
@@ -15,36 +15,36 @@ cp go.mod go.mod.orig
 # be constrained to the latest patch of its originally-selected version (v0.1.0),
 # not upgraded to the latest patch of the new transitive dependency.
 
-! go get example.net/pkgremoved@patch example.net/other@v0.1.0
-stderr '^go: example.net/other@v0.1.0 requires example.net/pkgremoved@v0.2.0, not example.net/pkgremoved@patch \(v0.1.1\)$'
-cmp go.mod.orig go.mod
+! golang get example.net/pkgremoved@patch example.net/other@v0.1.0
+stderr '^golang: example.net/other@v0.1.0 requires example.net/pkgremoved@v0.2.0, not example.net/pkgremoved@patch \(v0.1.1\)$'
+cmp golang.mod.orig golang.mod
 
 
 # However, we should be able to patch from a package to a module and vice-versa.
 
 # Package to module ...
 
-go get example.net/pkgremoved@v0.3.0
-go list example.net/pkgremoved
+golang get example.net/pkgremoved@v0.3.0
+golang list example.net/pkgremoved
 stdout 'example.net/pkgremoved'
 
-go get example.net/pkgremoved@patch
-! go list example.net/pkgremoved
+golang get example.net/pkgremoved@patch
+! golang list example.net/pkgremoved
 
 # ... and module to package.
 
-go get example.net/pkgremoved@v0.4.0
-! go list example.net/pkgremoved
+golang get example.net/pkgremoved@v0.4.0
+! golang list example.net/pkgremoved
 
-go get example.net/pkgremoved@patch
-go list example.net/pkgremoved
+golang get example.net/pkgremoved@patch
+golang list example.net/pkgremoved
 stdout 'example.net/pkgremoved'
 
 
--- go.mod --
+-- golang.mod --
 module example
 
-go 1.16
+golang 1.16
 
 replace (
 	example.net/other v0.1.0 => ./other
@@ -61,21 +61,21 @@ replace (
 	example.net/pkgremoved v0.4.0 => ./prmod
 	example.net/pkgremoved v0.4.1 => ./prpkg
 )
--- other/go.mod --
+-- other/golang.mod --
 module example.net/other
 
-go 1.16
+golang 1.16
 
 require example.net/pkgremoved v0.2.0
--- other/other.go --
+-- other/other.golang --
 package other
--- prpkg/go.mod --
+-- prpkg/golang.mod --
 module example.net/pkgremoved
 
-go 1.16
--- prpkg/pkgremoved.go --
+golang 1.16
+-- prpkg/pkgremoved.golang --
 package pkgremoved
--- prmod/go.mod --
+-- prmod/golang.mod --
 module example.net/pkgremoved
 -- prmod/README.txt --
 Package pkgremoved was removed in v0.2.0 and v0.3.1,

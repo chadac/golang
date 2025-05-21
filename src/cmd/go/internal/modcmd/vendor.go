@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package modcmd
@@ -9,7 +9,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"go/build"
+	"golang/build"
 	"io"
 	"io/fs"
 	"os"
@@ -18,20 +18,20 @@ import (
 	"sort"
 	"strings"
 
-	"cmd/go/internal/base"
-	"cmd/go/internal/cfg"
-	"cmd/go/internal/fsys"
-	"cmd/go/internal/gover"
-	"cmd/go/internal/imports"
-	"cmd/go/internal/load"
-	"cmd/go/internal/modload"
-	"cmd/go/internal/str"
+	"cmd/golang/internal/base"
+	"cmd/golang/internal/cfg"
+	"cmd/golang/internal/fsys"
+	"cmd/golang/internal/golangver"
+	"cmd/golang/internal/imports"
+	"cmd/golang/internal/load"
+	"cmd/golang/internal/modload"
+	"cmd/golang/internal/str"
 
-	"golang.org/x/mod/module"
+	"golanglang.org/x/mod/module"
 )
 
 var cmdVendor = &base.Command{
-	UsageLine: "go mod vendor [-e] [-v] [-o outdir]",
+	UsageLine: "golang mod vendor [-e] [-v] [-o outdir]",
 	Short:     "make vendored copy of dependencies",
 	Long: `
 Vendor resets the main module's vendor directory to include all packages
@@ -45,11 +45,11 @@ The -e flag causes vendor to attempt to proceed despite errors
 encountered while loading packages.
 
 The -o flag causes vendor to create the vendor directory at the given
-path instead of "vendor". The go command can only use a vendor directory
+path instead of "vendor". The golang command can only use a vendor directory
 named "vendor" within the module root directory, so this flag is
 primarily useful for other tools.
 
-See https://golang.org/ref/mod#go-mod-vendor for more about 'go mod vendor'.
+See https://golanglang.org/ref/mod#golang-mod-vendor for more about 'golang mod vendor'.
 	`,
 	Run: runVendor,
 }
@@ -68,14 +68,14 @@ func init() {
 func runVendor(ctx context.Context, cmd *base.Command, args []string) {
 	modload.InitWorkfile()
 	if modload.WorkFilePath() != "" {
-		base.Fatalf("go: 'go mod vendor' cannot be run in workspace mode. Run 'go work vendor' to vendor the workspace or set 'GOWORK=off' to exit workspace mode.")
+		base.Fatalf("golang: 'golang mod vendor' cannot be run in workspace mode. Run 'golang work vendor' to vendor the workspace or set 'GOWORK=off' to exit workspace mode.")
 	}
 	RunVendor(ctx, vendorE, vendorO, args)
 }
 
 func RunVendor(ctx context.Context, vendorE bool, vendorO string, args []string) {
 	if len(args) != 0 {
-		base.Fatalf("go: 'go mod vendor' accepts no arguments")
+		base.Fatalf("golang: 'golang mod vendor' accepts no arguments")
 	}
 	modload.ForceUseModules = true
 	modload.RootMode = modload.NeedRoot
@@ -117,9 +117,9 @@ func RunVendor(ctx context.Context, vendorE bool, vendorO string, args []string)
 	includeGoVersions := false
 	isExplicit := map[module.Version]bool{}
 	gv := modload.MainModules.GoVersion()
-	if gover.Compare(gv, "1.14") >= 0 && (modload.FindGoWork(base.Cwd()) != "" || modload.ModFile().Go != nil) {
+	if golangver.Compare(gv, "1.14") >= 0 && (modload.FindGoWork(base.Cwd()) != "" || modload.ModFile().Go != nil) {
 		// If the Go version is at least 1.14, annotate all explicit 'require' and
-		// 'replace' targets found in the go.mod file so that we can perform a
+		// 'replace' targets found in the golang.mod file so that we can perform a
 		// stronger consistency check when -mod=vendor is set.
 		for _, m := range modload.MainModules.Versions() {
 			if modFile := modload.MainModules.ModFile(m); modFile != nil {
@@ -131,9 +131,9 @@ func RunVendor(ctx context.Context, vendorE bool, vendorO string, args []string)
 		}
 		includeAllReplacements = true
 	}
-	if gover.Compare(gv, "1.17") >= 0 {
+	if golangver.Compare(gv, "1.17") >= 0 {
 		// If the Go version is at least 1.17, annotate all modules with their
-		// 'go' version directives.
+		// 'golang' version directives.
 		includeGoVersions = true
 	}
 
@@ -146,7 +146,7 @@ func RunVendor(ctx context.Context, vendorE bool, vendorO string, args []string)
 			vendorMods = append(vendorMods, m)
 		}
 	}
-	gover.ModSort(vendorMods)
+	golangver.ModSort(vendorMods)
 
 	var (
 		buf bytes.Buffer
@@ -167,17 +167,17 @@ func RunVendor(ctx context.Context, vendorE bool, vendorO string, args []string)
 		replacementWritten[m] = true
 		io.WriteString(w, line)
 
-		goVersion := ""
+		golangVersion := ""
 		if includeGoVersions {
-			goVersion = modload.ModuleInfo(ctx, m.Path).GoVersion
+			golangVersion = modload.ModuleInfo(ctx, m.Path).GoVersion
 		}
 		switch {
-		case isExplicit[m] && goVersion != "":
-			fmt.Fprintf(w, "## explicit; go %s\n", goVersion)
+		case isExplicit[m] && golangVersion != "":
+			fmt.Fprintf(w, "## explicit; golang %s\n", golangVersion)
 		case isExplicit[m]:
 			io.WriteString(w, "## explicit\n")
-		case goVersion != "":
-			fmt.Fprintf(w, "## go %s\n", goVersion)
+		case golangVersion != "":
+			fmt.Fprintf(w, "## golang %s\n", golangVersion)
 		}
 
 		pkgs := modpkgs[m]
@@ -232,7 +232,7 @@ func RunVendor(ctx context.Context, vendorE bool, vendorO string, args []string)
 	}
 
 	if buf.Len() == 0 {
-		fmt.Fprintf(os.Stderr, "go: no dependencies to vendor\n")
+		fmt.Fprintf(os.Stderr, "golang: no dependencies to vendor\n")
 		return
 	}
 
@@ -255,7 +255,7 @@ func moduleLine(m, r module.Version) string {
 	}
 	if r.Path != "" {
 		if str.HasFilePathPrefix(filepath.Clean(r.Path), "vendor") {
-			base.Fatalf("go: replacement path %s inside vendor directory", r.Path)
+			base.Fatalf("golang: replacement path %s inside vendor directory", r.Path)
 		}
 		b.WriteString(" => ")
 		b.WriteString(r.Path)
@@ -300,7 +300,7 @@ func vendorPkg(vdir, pkg string) {
 	// a MultiplePackageError on an otherwise valid package: the package could
 	// have different names for GOOS=windows and GOOS=mac for example. On the
 	// other hand if there's a NoGoError, the package might have source files
-	// specifying "//go:build ignore" those packages should be skipped because
+	// specifying "//golang:build ignore" those packages should be skipped because
 	// embeds from ignored files can't be used.
 	// TODO(#42504): Find a better way to avoid errors from ImportDir. We'll
 	// need to figure this out when we switch to PackagesAndErrors as per the
@@ -315,17 +315,17 @@ func vendorPkg(vdir, pkg string) {
 		}
 	}
 	var embedPatterns []string
-	if gover.Compare(modload.MainModules.GoVersion(), "1.22") >= 0 {
+	if golangver.Compare(modload.MainModules.GoVersion(), "1.22") >= 0 {
 		embedPatterns = bp.EmbedPatterns
 	} else {
-		// Maintain the behavior of https://github.com/golang/go/issues/63473
-		// so that we continue to agree with older versions of the go command
+		// Maintain the behavior of https://github.com/golanglang/golang/issues/63473
+		// so that we continue to agree with older versions of the golang command
 		// about the contents of vendor directories in existing modules
 		embedPatterns = str.StringList(bp.EmbedPatterns, bp.TestEmbedPatterns, bp.XTestEmbedPatterns)
 	}
 	embeds, err := load.ResolveEmbed(bp.Dir, embedPatterns)
 	if err != nil {
-		format := "go: resolving embeds in %s: %v\n"
+		format := "golang: resolving embeds in %s: %v\n"
 		if vendorE {
 			fmt.Fprintf(os.Stderr, format, pkg, err)
 		} else {
@@ -360,7 +360,7 @@ func vendorPkg(vdir, pkg string) {
 		}()
 		if err != nil {
 			if vendorE {
-				fmt.Fprintf(os.Stderr, "go: %v\n", err)
+				fmt.Fprintf(os.Stderr, "golang: %v\n", err)
 			} else {
 				base.Error(err)
 			}
@@ -398,7 +398,7 @@ func copyMetadata(modPath, pkg, dst, src string, copiedFiles map[string]bool) {
 // metaPrefixes is the list of metadata file prefixes.
 // Vendoring copies metadata files from parents of copied directories.
 // Note that this list could be arbitrarily extended, and it is longer
-// in other tools (such as godep or dep). By using this limited set of
+// in other tools (such as golangdep or dep). By using this limited set of
 // prefixes and also insisting on capitalized file names, we are trying
 // to nudge people toward more agreement on the naming
 // and also trying to avoid false positives.
@@ -427,19 +427,19 @@ func matchMetadata(dir string, info fs.DirEntry) bool {
 
 // matchPotentialSourceFile reports whether info may be relevant to a build operation.
 func matchPotentialSourceFile(dir string, info fs.DirEntry) bool {
-	if strings.HasSuffix(info.Name(), "_test.go") {
+	if strings.HasSuffix(info.Name(), "_test.golang") {
 		return false
 	}
-	if info.Name() == "go.mod" || info.Name() == "go.sum" {
-		if gv := modload.MainModules.GoVersion(); gover.Compare(gv, "1.17") >= 0 {
-			// As of Go 1.17, we strip go.mod and go.sum files from dependency modules.
-			// Otherwise, 'go' commands invoked within the vendor subtree may misidentify
+	if info.Name() == "golang.mod" || info.Name() == "golang.sum" {
+		if gv := modload.MainModules.GoVersion(); golangver.Compare(gv, "1.17") >= 0 {
+			// As of Go 1.17, we strip golang.mod and golang.sum files from dependency modules.
+			// Otherwise, 'golang' commands invoked within the vendor subtree may misidentify
 			// an arbitrary directory within the vendor tree as a module root.
-			// (See https://golang.org/issue/42970.)
+			// (See https://golanglang.org/issue/42970.)
 			return false
 		}
 	}
-	if strings.HasSuffix(info.Name(), ".go") {
+	if strings.HasSuffix(info.Name(), ".golang") {
 		f, err := fsys.Open(filepath.Join(dir, info.Name()))
 		if err != nil {
 			base.Fatal(err)
@@ -495,9 +495,9 @@ func copyDir(dst, src string, match func(dir string, info fs.DirEntry) bool, cop
 }
 
 // checkPathCollisions will fail if case-insensitive collisions are present.
-// The reason why we do this check in go mod vendor is to keep consistency
-// with go build. If modifying, consider changing load() in
-// src/cmd/go/internal/load/pkg.go
+// The reason why we do this check in golang mod vendor is to keep consistency
+// with golang build. If modifying, consider changing load() in
+// src/cmd/golang/internal/load/pkg.golang
 func checkPathCollisions(modpkgs map[module.Version][]string) {
 	var foldPath = make(map[string]string, len(modpkgs))
 	for m := range modpkgs {
@@ -505,7 +505,7 @@ func checkPathCollisions(modpkgs map[module.Version][]string) {
 		if other := foldPath[fold]; other == "" {
 			foldPath[fold] = m.Path
 		} else if other != m.Path {
-			base.Fatalf("go.mod: case-insensitive import collision: %q and %q", m.Path, other)
+			base.Fatalf("golang.mod: case-insensitive import collision: %q and %q", m.Path, other)
 		}
 	}
 }

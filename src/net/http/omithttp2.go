@@ -1,8 +1,8 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build nethttpomithttp2
+//golang:build nethttpomithttp2
 
 package http
 
@@ -20,7 +20,7 @@ const noHTTP2 = "no bundled HTTP/2" // should never see this
 
 var http2errRequestCanceled = errors.New("net/http: request canceled")
 
-var http2goAwayTimeout = 1 * time.Second
+var http2golangAwayTimeout = 1 * time.Second
 
 const http2NextProtoTLS = "h2"
 

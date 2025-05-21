@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package tls
@@ -21,7 +21,7 @@ import (
 	"fmt"
 	"hash"
 	"internal/byteorder"
-	"internal/godebug"
+	"internal/golangdebug"
 	"io"
 	"net"
 	"slices"
@@ -42,7 +42,7 @@ type clientHandshakeState struct {
 	ticket       []byte        // a fresh ticket received during this handshake
 }
 
-var testingOnlyForceClientHelloSignatureAlgorithms []SignatureScheme
+var testingOnlyForceClientHelloSignatureAlgolangrithms []SignatureScheme
 
 func (c *Conn) makeClientHello() (*clientHelloMsg, *keySharePrivateKeys, *echClientContext, error) {
 	config := c.config
@@ -81,20 +81,20 @@ func (c *Conn) makeClientHello() (*clientHelloMsg, *keySharePrivateKeys, *echCli
 		serverName:                   hostnameInSNI(config.ServerName),
 		supportedCurves:              config.curvePreferences(maxVersion),
 		supportedPoints:              []uint8{pointFormatUncompressed},
-		secureRenegotiationSupported: true,
+		secureRenegolangtiationSupported: true,
 		alpnProtocols:                config.NextProtos,
 		supportedVersions:            supportedVersions,
 	}
 
 	// The version at the beginning of the ClientHello was capped at TLS 1.2
 	// for compatibility reasons. The supported_versions extension is used
-	// to negotiate versions now. See RFC 8446, Section 4.2.1.
+	// to negolangtiate versions now. See RFC 8446, Section 4.2.1.
 	if hello.vers > VersionTLS12 {
 		hello.vers = VersionTLS12
 	}
 
 	if c.handshakes > 0 {
-		hello.secureRenegotiation = c.clientFinished[:]
+		hello.secureRenegolangtiation = c.clientFinished[:]
 	}
 
 	hello.cipherSuites = config.cipherSuites(hasAESGCMHardwareSupport)
@@ -123,11 +123,11 @@ func (c *Conn) makeClientHello() (*clientHelloMsg, *keySharePrivateKeys, *echCli
 	}
 
 	if maxVersion >= VersionTLS12 {
-		hello.supportedSignatureAlgorithms = supportedSignatureAlgorithms(minVersion)
-		hello.supportedSignatureAlgorithmsCert = supportedSignatureAlgorithmsCert()
+		hello.supportedSignatureAlgolangrithms = supportedSignatureAlgolangrithms(minVersion)
+		hello.supportedSignatureAlgolangrithmsCert = supportedSignatureAlgolangrithmsCert()
 	}
-	if testingOnlyForceClientHelloSignatureAlgorithms != nil {
-		hello.supportedSignatureAlgorithms = testingOnlyForceClientHelloSignatureAlgorithms
+	if testingOnlyForceClientHelloSignatureAlgolangrithms != nil {
+		hello.supportedSignatureAlgolangrithms = testingOnlyForceClientHelloSignatureAlgolangrithms
 	}
 
 	var keyShareKeys *keySharePrivateKeys
@@ -222,7 +222,7 @@ func (c *Conn) makeClientHello() (*clientHelloMsg, *keySharePrivateKeys, *echCli
 		// will later mismatch.
 		hello.supportedPoints = nil
 		hello.ticketSupported = false
-		hello.secureRenegotiationSupported = false
+		hello.secureRenegolangtiationSupported = false
 		hello.extendedMasterSecret = false
 
 		echPK, err := hpke.ParseHPKEPublicKey(ech.config.KemID, ech.config.PublicKey)
@@ -261,7 +261,7 @@ func (c *Conn) clientHandshake(ctx context.Context) (err error) {
 		c.config = defaultConfig()
 	}
 
-	// This may be a renegotiation handshake, in which case some fields
+	// This may be a renegolangtiation handshake, in which case some fields
 	// need to be reset.
 	c.didResume = false
 	c.curveID = 0
@@ -277,7 +277,7 @@ func (c *Conn) clientHandshake(ctx context.Context) (err error) {
 	}
 	if session != nil {
 		defer func() {
-			// If we got a handshake failure when resuming a session, throw away
+			// If we golangt a handshake failure when resuming a session, throw away
 			// the session ticket. See RFC 5077, Section 3.2.
 			//
 			// RFC 8446 makes no mention of dropping tickets on failure, but it
@@ -346,7 +346,7 @@ func (c *Conn) clientHandshake(ctx context.Context) (err error) {
 		return err
 	}
 
-	// If we are negotiating a protocol version that's lower than what we
+	// If we are negolangtiating a protocol version that's lower than what we
 	// support, check for the server downgrade canaries.
 	// See RFC 8446, Section 4.1.3.
 	maxVers := c.config.maxSupportedVersion(roleClient)
@@ -401,14 +401,14 @@ func (c *Conn) loadSession(hello *clientHelloMsg) (
 		hello.pskModes = []uint8{pskModeDHE}
 	}
 
-	// Session resumption is not allowed if renegotiating because
-	// renegotiation is primarily used to allow a client to send a client
+	// Session resumption is not allowed if renegolangtiating because
+	// renegolangtiation is primarily used to allow a client to send a client
 	// certificate, which would be skipped if session resumption occurred.
 	if c.handshakes != 0 {
 		return nil, nil, nil, nil
 	}
 
-	// Try to resume a previously negotiated TLS session, if available.
+	// Try to resume a previously negolangtiated TLS session, if available.
 	cacheKey := c.clientSessionCacheKey()
 	if cacheKey == "" {
 		return nil, nil, nil, nil
@@ -553,7 +553,7 @@ func (hs *clientHandshakeState) handshake() error {
 
 	// If we did not load a session (hs.session == nil), but we did set a
 	// session ID in the transmitted client hello (hs.hello.sessionId != nil),
-	// it means we tried to negotiate TLS 1.3 and sent a random session ID as a
+	// it means we tried to negolangtiate TLS 1.3 and sent a random session ID as a
 	// compatibility measure (see RFC 8446, Section 4.1.2).
 	//
 	// Since we're now handshaking for TLS 1.2, if the server echoed the
@@ -652,11 +652,11 @@ func (hs *clientHandshakeState) pickCipherSuite() error {
 	}
 
 	if hs.c.config.CipherSuites == nil && !fips140tls.Required() && rsaKexCiphers[hs.suite.id] {
-		tlsrsakex.Value() // ensure godebug is initialized
+		tlsrsakex.Value() // ensure golangdebug is initialized
 		tlsrsakex.IncNonDefault()
 	}
 	if hs.c.config.CipherSuites == nil && !fips140tls.Required() && tdesCiphers[hs.suite.id] {
-		tls3des.Value() // ensure godebug is initialized
+		tls3des.Value() // ensure golangdebug is initialized
 		tls3des.IncNonDefault()
 	}
 
@@ -711,7 +711,7 @@ func (hs *clientHandshakeState) doFullHandshake() error {
 			return err
 		}
 	} else {
-		// This is a renegotiation handshake. We require that the
+		// This is a renegolangtiation handshake. We require that the
 		// server's identity (i.e. leaf certificate) is unchanged and
 		// thus any previous trust decision is still valid.
 		//
@@ -719,7 +719,7 @@ func (hs *clientHandshakeState) doFullHandshake() error {
 		// motivation behind this requirement.
 		if !bytes.Equal(c.peerCertificates[0].Raw, certMsg.certificates[0]) {
 			c.sendAlert(alertBadCertificate)
-			return errors.New("tls: server's identity changed during renegotiation")
+			return errors.New("tls: server's identity changed during renegolangtiation")
 		}
 	}
 
@@ -817,19 +817,19 @@ func (hs *clientHandshakeState) doFullHandshake() error {
 		var sigType uint8
 		var sigHash crypto.Hash
 		if c.vers >= VersionTLS12 {
-			signatureAlgorithm, err := selectSignatureScheme(c.vers, chainToSend, certReq.supportedSignatureAlgorithms)
+			signatureAlgolangrithm, err := selectSignatureScheme(c.vers, chainToSend, certReq.supportedSignatureAlgolangrithms)
 			if err != nil {
 				c.sendAlert(alertIllegalParameter)
 				return err
 			}
-			sigType, sigHash, err = typeAndHashFromSignatureScheme(signatureAlgorithm)
+			sigType, sigHash, err = typeAndHashFromSignatureScheme(signatureAlgolangrithm)
 			if err != nil {
 				return c.sendAlert(alertInternalError)
 			}
-			certVerify.hasSignatureAlgorithm = true
-			certVerify.signatureAlgorithm = signatureAlgorithm
+			certVerify.hasSignatureAlgolangrithm = true
+			certVerify.signatureAlgolangrithm = signatureAlgolangrithm
 			if sigHash == crypto.SHA1 {
-				tlssha1.Value() // ensure godebug is initialized
+				tlssha1.Value() // ensure golangdebug is initialized
 				tlssha1.IncNonDefault()
 			}
 		} else {
@@ -915,21 +915,21 @@ func (hs *clientHandshakeState) processServerHello() (bool, error) {
 		return false, errors.New("tls: server offered only incompatible point formats")
 	}
 
-	if c.handshakes == 0 && hs.serverHello.secureRenegotiationSupported {
-		c.secureRenegotiation = true
-		if len(hs.serverHello.secureRenegotiation) != 0 {
+	if c.handshakes == 0 && hs.serverHello.secureRenegolangtiationSupported {
+		c.secureRenegolangtiation = true
+		if len(hs.serverHello.secureRenegolangtiation) != 0 {
 			c.sendAlert(alertHandshakeFailure)
-			return false, errors.New("tls: initial handshake had non-empty renegotiation extension")
+			return false, errors.New("tls: initial handshake had non-empty renegolangtiation extension")
 		}
 	}
 
-	if c.handshakes > 0 && c.secureRenegotiation {
-		var expectedSecureRenegotiation [24]byte
-		copy(expectedSecureRenegotiation[:], c.clientFinished[:])
-		copy(expectedSecureRenegotiation[12:], c.serverFinished[:])
-		if !bytes.Equal(hs.serverHello.secureRenegotiation, expectedSecureRenegotiation[:]) {
+	if c.handshakes > 0 && c.secureRenegolangtiation {
+		var expectedSecureRenegolangtiation [24]byte
+		copy(expectedSecureRenegolangtiation[:], c.clientFinished[:])
+		copy(expectedSecureRenegolangtiation[12:], c.serverFinished[:])
+		if !bytes.Equal(hs.serverHello.secureRenegolangtiation, expectedSecureRenegolangtiation[:]) {
 			c.sendAlert(alertHandshakeFailure)
-			return false, errors.New("tls: incorrect renegotiation extension contents")
+			return false, errors.New("tls: incorrect renegolangtiation extension contents")
 		}
 	}
 
@@ -1098,7 +1098,7 @@ func (hs *clientHandshakeState) sendFinished(out []byte) error {
 // to verify the signatures of during a TLS handshake.
 const defaultMaxRSAKeySize = 8192
 
-var tlsmaxrsasize = godebug.New("tlsmaxrsasize")
+var tlsmaxrsasize = golangdebug.New("tlsmaxrsasize")
 
 func checkKeySize(n int) (max int, ok bool) {
 	if v := tlsmaxrsasize.Value(); v != "" {
@@ -1122,7 +1122,7 @@ func (c *Conn) verifyServerCertificate(certificates [][]byte) error {
 			c.sendAlert(alertDecodeError)
 			return errors.New("tls: failed to parse certificate from server: " + err.Error())
 		}
-		if cert.PublicKeyAlgorithm == x509.RSA {
+		if cert.PublicKeyAlgolangrithm == x509.RSA {
 			n := cert.PublicKey.(*rsa.PublicKey).N.BitLen()
 			if max, ok := checkKeySize(n); !ok {
 				c.sendAlert(alertBadCertificate)
@@ -1232,7 +1232,7 @@ func certificateRequestInfoFromMsg(ctx context.Context, vers uint16, certReq *ce
 		}
 	}
 
-	if !certReq.hasSignatureAlgorithm {
+	if !certReq.hasSignatureAlgolangrithm {
 		// Prior to TLS 1.2, signature schemes did not exist. In this case we
 		// make up a list based on the acceptable certificate types, to help
 		// GetClientCertificate and SupportsCertificate select the right certificate.
@@ -1258,8 +1258,8 @@ func certificateRequestInfoFromMsg(ctx context.Context, vers uint16, certReq *ce
 
 	// Filter the signature schemes based on the certificate types.
 	// See RFC 5246, Section 7.4.4 (where it calls this "somewhat complicated").
-	cri.SignatureSchemes = make([]SignatureScheme, 0, len(certReq.supportedSignatureAlgorithms))
-	for _, sigScheme := range certReq.supportedSignatureAlgorithms {
+	cri.SignatureSchemes = make([]SignatureScheme, 0, len(certReq.supportedSignatureAlgolangrithms))
+	for _, sigScheme := range certReq.supportedSignatureAlgolangrithms {
 		sigType, _, err := typeAndHashFromSignatureScheme(sigScheme)
 		if err != nil {
 			continue
@@ -1296,7 +1296,7 @@ func (c *Conn) getClientCertificate(cri *CertificateRequestInfo) (*Certificate, 
 }
 
 // clientSessionCacheKey returns a key used to cache sessionTickets that could
-// be used to resume previously negotiated TLS sessions with a server.
+// be used to resume previously negolangtiated TLS sessions with a server.
 func (c *Conn) clientSessionCacheKey() string {
 	if len(c.config.ServerName) > 0 {
 		return c.config.ServerName

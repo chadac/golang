@@ -1,3 +1,3 @@
-//go:main1
+//golang:main1
 
 package p

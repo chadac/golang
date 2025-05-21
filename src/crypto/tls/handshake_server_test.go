@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package tls
@@ -35,7 +35,7 @@ func testClientHello(t *testing.T, serverConfig *Config, m handshakeMessage) {
 }
 
 // testFatal is a hack to prevent the compiler from complaining that there is a
-// call to t.Fatal from a non-test goroutine
+// call to t.Fatal from a non-test golangroutine
 func testFatal(t *testing.T, err error) {
 	t.Helper()
 	t.Fatal(err)
@@ -43,7 +43,7 @@ func testFatal(t *testing.T, err error) {
 
 func testClientHelloFailure(t *testing.T, serverConfig *Config, m handshakeMessage, expectedSubStr string) {
 	c, s := localPipe(t)
-	go func() {
+	golang func() {
 		cli := Client(c, testConfig)
 		if ch, ok := m.(*clientHelloMsg); ok {
 			cli.vers = ch.vers
@@ -211,21 +211,21 @@ func TestDontSelectRSAWithECDSAKey(t *testing.T) {
 	testClientHelloFailure(t, serverConfig, clientHello, "no cipher suite supported by both client and server")
 }
 
-func TestRenegotiationExtension(t *testing.T) {
+func TestRenegolangtiationExtension(t *testing.T) {
 	skipFIPS(t) // #70505
 
 	clientHello := &clientHelloMsg{
 		vers:                         VersionTLS12,
 		compressionMethods:           []uint8{compressionNone},
 		random:                       make([]byte, 32),
-		secureRenegotiationSupported: true,
+		secureRenegolangtiationSupported: true,
 		cipherSuites:                 []uint16{TLS_RSA_WITH_RC4_128_SHA},
 	}
 
 	bufChan := make(chan []byte, 1)
 	c, s := localPipe(t)
 
-	go func() {
+	golang func() {
 		cli := Client(c, testConfig)
 		cli.vers = clientHello.vers
 		if _, err := cli.writeHandshakeRecord(clientHello, nil); err != nil {
@@ -259,8 +259,8 @@ func TestRenegotiationExtension(t *testing.T) {
 		t.Fatalf("Failed to parse ServerHello")
 	}
 
-	if !serverHello.secureRenegotiationSupported {
-		t.Errorf("Secure renegotiation extension was not echoed.")
+	if !serverHello.secureRenegolangtiationSupported {
+		t.Errorf("Secure renegolangtiation extension was not echoed.")
 	}
 }
 
@@ -268,7 +268,7 @@ func TestTLS12OnlyCipherSuites(t *testing.T) {
 	skipFIPS(t) // No TLS 1.1 in FIPS mode.
 
 	// Test that a Server doesn't select a TLS 1.2-only cipher suite when
-	// the client negotiates TLS 1.1.
+	// the client negolangtiates TLS 1.1.
 	clientHello := &clientHelloMsg{
 		vers:   VersionTLS11,
 		random: make([]byte, 32),
@@ -287,7 +287,7 @@ func TestTLS12OnlyCipherSuites(t *testing.T) {
 
 	c, s := localPipe(t)
 	replyChan := make(chan any)
-	go func() {
+	golang func() {
 		cli := Client(c, testConfig)
 		cli.vers = clientHello.vers
 		if _, err := cli.writeHandshakeRecord(clientHello, nil); err != nil {
@@ -320,7 +320,7 @@ func TestTLS12OnlyCipherSuites(t *testing.T) {
 
 func TestTLSPointFormats(t *testing.T) {
 	// Test that a Server returns the ec_point_format extension when ECC is
-	// negotiated, and not on a RSA handshake or if ec_point_format is missing.
+	// negolangtiated, and not on a RSA handshake or if ec_point_format is missing.
 	tests := []struct {
 		name                string
 		cipherSuites        []uint16
@@ -352,7 +352,7 @@ func TestTLSPointFormats(t *testing.T) {
 
 			c, s := localPipe(t)
 			replyChan := make(chan any)
-			go func() {
+			golang func() {
 				clientConfig := testConfig.Clone()
 				clientConfig.Certificates = []Certificate{{Certificate: [][]byte{testRSA2048Certificate}, PrivateKey: testRSA2048PrivateKey}}
 				cli := Client(c, clientConfig)
@@ -396,7 +396,7 @@ func TestTLSPointFormats(t *testing.T) {
 
 func TestAlertForwarding(t *testing.T) {
 	c, s := localPipe(t)
-	go func() {
+	golang func() {
 		Client(c, testConfig).sendAlert(alertUnknownCA)
 		c.Close()
 	}()
@@ -411,7 +411,7 @@ func TestAlertForwarding(t *testing.T) {
 
 func TestClose(t *testing.T) {
 	c, s := localPipe(t)
-	go c.Close()
+	golang c.Close()
 
 	err := Server(s, testConfig).Handshake()
 	s.Close()
@@ -500,7 +500,7 @@ func testSCTHandshake(t *testing.T, version uint16) {
 	}
 	actual := state.SignedCertificateTimestamps
 	if len(actual) != len(expected) {
-		t.Fatalf("got %d scts, want %d", len(actual), len(expected))
+		t.Fatalf("golangt %d scts, want %d", len(actual), len(expected))
 	}
 	for i, sct := range expected {
 		if !bytes.Equal(sct, actual[i]) {
@@ -575,7 +575,7 @@ func testCrossVersionResume(t *testing.T, version uint16) {
 	}
 }
 
-// Note: see comment in handshake_test.go for details of how the reference
+// Note: see comment in handshake_test.golang for details of how the reference
 // tests work.
 
 // serverTest represents a test of the TLS server handshake against a reference
@@ -638,7 +638,7 @@ func (test *serverTest) connFromCommand() (conn *recordingConn, child *exec.Cmd,
 	}
 
 	connChan := make(chan any, 1)
-	go func() {
+	golang func() {
 		tcpConn, err := l.Accept()
 		if err != nil {
 			connChan <- err
@@ -713,7 +713,7 @@ func (test *serverTest) run(t *testing.T, write bool) {
 		if err == nil {
 			t.Errorf("Error expected, but no error returned")
 		} else if s := err.Error(); !strings.Contains(s, test.expectHandshakeErrorIncluding) {
-			t.Errorf("Error expected containing '%s' but got '%s'", test.expectHandshakeErrorIncluding, s)
+			t.Errorf("Error expected containing '%s' but golangt '%s'", test.expectHandshakeErrorIncluding, s)
 		}
 	} else {
 		if err != nil {
@@ -732,7 +732,7 @@ func (test *serverTest) run(t *testing.T, write bool) {
 			}
 		}
 	} else {
-		t.Fatalf("%s: mismatch on peer list length: %d (wanted) != %d (got)", test.name, len(test.expectedPeerCerts), len(peerCerts))
+		t.Fatalf("%s: mismatch on peer list length: %d (wanted) != %d (golangt)", test.name, len(test.expectedPeerCerts), len(peerCerts))
 	}
 
 	if test.validate != nil && !t.Failed() {
@@ -762,7 +762,7 @@ func (test *serverTest) run(t *testing.T, write bool) {
 }
 
 func runServerTestForVersion(t *testing.T, template *serverTest, version, option string) {
-	// Make a deep copy of the template before going parallel.
+	// Make a deep copy of the template before golanging parallel.
 	test := *template
 	if template.config != nil {
 		test.config = template.config.Clone()
@@ -952,8 +952,8 @@ func TestHandshakeServerALPN(t *testing.T) {
 		config:  config,
 		validate: func(state ConnectionState) error {
 			// The server's preferences should override the client.
-			if state.NegotiatedProtocol != "proto1" {
-				return fmt.Errorf("Got protocol %q, wanted proto1", state.NegotiatedProtocol)
+			if state.NegolangtiatedProtocol != "proto1" {
+				return fmt.Errorf("Got protocol %q, wanted proto1", state.NegolangtiatedProtocol)
 			}
 			return nil
 		},
@@ -989,8 +989,8 @@ func TestHandshakeServerALPNNotConfigured(t *testing.T) {
 		command: []string{"openssl", "s_client", "-alpn", "proto2,proto1", "-cipher", "ECDHE-RSA-CHACHA20-POLY1305", "-ciphersuites", "TLS_CHACHA20_POLY1305_SHA256"},
 		config:  config,
 		validate: func(state ConnectionState) error {
-			if state.NegotiatedProtocol != "" {
-				return fmt.Errorf("Got protocol %q, wanted nothing", state.NegotiatedProtocol)
+			if state.NegolangtiatedProtocol != "" {
+				return fmt.Errorf("Got protocol %q, wanted nothing", state.NegolangtiatedProtocol)
 			}
 			return nil
 		},
@@ -1010,8 +1010,8 @@ func TestHandshakeServerALPNFallback(t *testing.T) {
 		command: []string{"openssl", "s_client", "-alpn", "proto3,http/1.1,proto4", "-cipher", "ECDHE-RSA-CHACHA20-POLY1305", "-ciphersuites", "TLS_CHACHA20_POLY1305_SHA256"},
 		config:  config,
 		validate: func(state ConnectionState) error {
-			if state.NegotiatedProtocol != "" {
-				return fmt.Errorf("Got protocol %q, wanted nothing", state.NegotiatedProtocol)
+			if state.NegolangtiatedProtocol != "" {
+				return fmt.Errorf("Got protocol %q, wanted nothing", state.NegolangtiatedProtocol)
 			}
 			return nil
 		},
@@ -1090,15 +1090,15 @@ func TestHandshakeServerGetCertificateExtensions(t *testing.T) {
 				serverName:                   "test",
 				keyShares:                    []keyShare{{group: CurveP256, data: pk.PublicKey().Bytes()}},
 				supportedCurves:              []CurveID{CurveP256},
-				supportedSignatureAlgorithms: []SignatureScheme{ECDSAWithP256AndSHA256},
+				supportedSignatureAlgolangrithms: []SignatureScheme{ECDSAWithP256AndSHA256},
 			}
 
 			// the clientHelloMsg initialized just above is serialized with
-			// two extensions: server_name(0) and application_layer_protocol_negotiation(16)
+			// two extensions: server_name(0) and application_layer_protocol_negolangtiation(16)
 			expectedExtensions := []uint16{
 				extensionServerName,
 				extensionSupportedCurves,
-				extensionSignatureAlgorithms,
+				extensionSignatureAlgolangrithms,
 				extensionKeyShare,
 			}
 
@@ -1316,7 +1316,7 @@ func TestHandshakeServerRSAPSS(t *testing.T) {
 	test = &serverTest{
 		name:                          "RSA-RSAPSS-TooSmall",
 		command:                       []string{"openssl", "s_client", "-no_ticket", "-ciphersuites", "TLS_CHACHA20_POLY1305_SHA256", "-sigalgs", "rsa_pss_rsae_sha512"},
-		expectHandshakeErrorIncluding: "peer doesn't support any of the certificate's signature algorithms",
+		expectHandshakeErrorIncluding: "peer doesn't support any of the certificate's signature algolangrithms",
 	}
 	runServerTestTLS13(t, test)
 }
@@ -1348,7 +1348,7 @@ func benchmarkHandshakeServer(b *testing.B, version uint16, cipherSuite uint16, 
 
 	clientConn, serverConn := localPipe(b)
 	serverConn = &recordingConn{Conn: serverConn}
-	go func() {
+	golang func() {
 		config := testConfig.Clone()
 		config.MaxVersion = version
 		config.CurvePreferences = []CurveID{curve}
@@ -1509,7 +1509,7 @@ func TestSNIGivenOnFailure(t *testing.T) {
 	serverConfig.CipherSuites = nil
 
 	c, s := localPipe(t)
-	go func() {
+	golang func() {
 		cli := Client(c, testConfig)
 		cli.vers = clientHello.vers
 		if _, err := cli.writeHandshakeRecord(clientHello, nil); err != nil {
@@ -1543,7 +1543,7 @@ func TestSNIGivenOnFailure(t *testing.T) {
 	}
 
 	if cs.ServerName != expectedServerName {
-		t.Errorf("Expected ServerName of %q, but got %q", expectedServerName, cs.ServerName)
+		t.Errorf("Expected ServerName of %q, but golangt %q", expectedServerName, cs.ServerName)
 	}
 }
 
@@ -1647,7 +1647,7 @@ func TestGetConfigForClient(t *testing.T) {
 		c, s := localPipe(t)
 		done := make(chan error)
 
-		go func() {
+		golang func() {
 			defer s.Close()
 			done <- Server(s, serverConfig).Handshake()
 		}()
@@ -1659,7 +1659,7 @@ func TestGetConfigForClient(t *testing.T) {
 
 		if len(test.errorSubstring) == 0 {
 			if serverErr != nil || clientErr != nil {
-				t.Errorf("test[%d]: expected no error but got serverErr: %q, clientErr: %q", i, serverErr, clientErr)
+				t.Errorf("test[%d]: expected no error but golangt serverErr: %q, clientErr: %q", i, serverErr, clientErr)
 			}
 			if test.verify != nil {
 				if err := test.verify(configReturned); err != nil {
@@ -1668,7 +1668,7 @@ func TestGetConfigForClient(t *testing.T) {
 			}
 		} else {
 			if serverErr == nil {
-				t.Errorf("test[%d]: expected error containing %q but got no error", i, test.errorSubstring)
+				t.Errorf("test[%d]: expected error containing %q but golangt no error", i, test.errorSubstring)
 			} else if !strings.Contains(serverErr.Error(), test.errorSubstring) {
 				t.Errorf("test[%d]: expected error to contain %q but it was %q", i, test.errorSubstring, serverErr)
 			}
@@ -1679,7 +1679,7 @@ func TestGetConfigForClient(t *testing.T) {
 func TestCloseServerConnectionOnIdleClient(t *testing.T) {
 	clientConn, serverConn := localPipe(t)
 	server := Server(serverConn, testConfig.Clone())
-	go func() {
+	golang func() {
 		clientConn.Write([]byte{'0'})
 		server.Close()
 	}()
@@ -1687,7 +1687,7 @@ func TestCloseServerConnectionOnIdleClient(t *testing.T) {
 	err := server.Handshake()
 	if err != nil {
 		if err, ok := err.(net.Error); ok && err.Timeout() {
-			t.Errorf("Expected a closed network connection error but got '%s'", err.Error())
+			t.Errorf("Expected a closed network connection error but golangt '%s'", err.Error())
 		}
 	} else {
 		t.Errorf("Error expected, but no error returned")
@@ -1707,9 +1707,9 @@ func TestCloneHash(t *testing.T) {
 
 func expectError(t *testing.T, err error, sub string) {
 	if err == nil {
-		t.Errorf(`expected error %q, got nil`, sub)
+		t.Errorf(`expected error %q, golangt nil`, sub)
 	} else if !strings.Contains(err.Error(), sub) {
-		t.Errorf(`expected error %q, got %q`, sub, err)
+		t.Errorf(`expected error %q, golangt %q`, sub, err)
 	}
 }
 
@@ -1739,7 +1739,7 @@ T+E0J8wlH24pgwQHzy7Ko2qLwn1b5PW8ecrlvP1g
 	clientConn, serverConn := localPipe(t)
 	client := Client(clientConn, testConfig)
 	done := make(chan struct{})
-	go func() {
+	golang func() {
 		config := testConfig.Clone()
 		config.Certificates = []Certificate{cert}
 		config.MinVersion = VersionTLS13
@@ -1771,8 +1771,8 @@ func TestMultipleCertificates(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if got := clientState.PeerCertificates[0].PublicKeyAlgorithm; got != x509.RSA {
-		t.Errorf("expected RSA certificate, got %v", got)
+	if golangt := clientState.PeerCertificates[0].PublicKeyAlgolangrithm; golangt != x509.RSA {
+		t.Errorf("expected RSA certificate, golangt %v", golangt)
 	}
 }
 
@@ -1915,7 +1915,7 @@ func TestAESCipherReordering(t *testing.T) {
 			}
 
 			if tc.expectedCipher != hs.suite.id {
-				t.Errorf("unexpected cipher chosen: want %d, got %d", tc.expectedCipher, hs.suite.id)
+				t.Errorf("unexpected cipher chosen: want %d, golangt %d", tc.expectedCipher, hs.suite.id)
 			}
 		})
 	}
@@ -2015,7 +2015,7 @@ func TestAESCipherReorderingTLS13(t *testing.T) {
 			}
 
 			if tc.expectedCipher != hs.suite.id {
-				t.Errorf("unexpected cipher chosen: want %d, got %d", tc.expectedCipher, hs.suite.id)
+				t.Errorf("unexpected cipher chosen: want %d, golangt %d", tc.expectedCipher, hs.suite.id)
 			}
 		})
 	}
@@ -2029,7 +2029,7 @@ func TestServerHandshakeContextCancellation(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	unblockClient := make(chan struct{})
 	defer close(unblockClient)
-	go func() {
+	golang func() {
 		cancel()
 		<-unblockClient
 		_ = c.Close()
@@ -2067,7 +2067,7 @@ func TestHandshakeContextHierarchy(t *testing.T) {
 	defer cancel()
 	key := struct{}{}
 	ctx = context.WithValue(ctx, key, true)
-	go func() {
+	golang func() {
 		defer close(clientErr)
 		defer c.Close()
 		var innerCtx context.Context

@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package base64
@@ -114,8 +114,8 @@ func testEqual(t *testing.T, msg string, args ...any) bool {
 func TestEncode(t *testing.T) {
 	for _, p := range pairs {
 		for _, tt := range encodingTests {
-			got := tt.enc.EncodeToString([]byte(p.decoded))
-			testEqual(t, "Encode(%q) = %q, want %q", p.decoded, got, tt.conv(p.encoded))
+			golangt := tt.enc.EncodeToString([]byte(p.decoded))
+			testEqual(t, "Encode(%q) = %q, want %q", p.decoded, golangt, tt.conv(p.encoded))
 			dst := tt.enc.AppendEncode([]byte("lead"), []byte(p.decoded))
 			testEqual(t, `AppendEncode("lead", %q) = %q, want %q`, p.decoded, string(dst), "lead"+tt.conv(p.encoded))
 		}
@@ -174,7 +174,7 @@ func TestDecode(t *testing.T) {
 			testEqual(t, "AppendDecode(%q) = error %v, want %v", p.encoded, err, error(nil))
 			testEqual(t, `AppendDecode("", %q) = %q, want %q`, p.encoded, string(dst2), p.decoded)
 			if len(dst) > 0 && len(dst2) > 0 && &dst[0] != &dst2[0] {
-				t.Errorf("unexpected capacity growth: got %d, want %d", cap(dst2), cap(dst))
+				t.Errorf("unexpected capacity growth: golangt %d, want %d", cap(dst2), cap(dst))
 			}
 		}
 	}
@@ -306,8 +306,8 @@ func TestEncodedLen(t *testing.T) {
 		tests = append(tests, test{RawStdEncoding, math.MaxInt/4*3 + 2, math.MaxInt})
 	}
 	for _, tt := range tests {
-		if got := tt.enc.EncodedLen(tt.n); int64(got) != tt.want {
-			t.Errorf("EncodedLen(%d): got %d, want %d", tt.n, got, tt.want)
+		if golangt := tt.enc.EncodedLen(tt.n); int64(golangt) != tt.want {
+			t.Errorf("EncodedLen(%d): golangt %d, want %d", tt.n, golangt, tt.want)
 		}
 	}
 }
@@ -338,8 +338,8 @@ func TestDecodedLen(t *testing.T) {
 		tests = append(tests, test{RawStdEncoding, math.MaxInt, 6917529027641081855})
 	}
 	for _, tt := range tests {
-		if got := tt.enc.DecodedLen(tt.n); int64(got) != tt.want {
-			t.Errorf("DecodedLen(%d): got %d, want %d", tt.n, got, tt.want)
+		if golangt := tt.enc.DecodedLen(tt.n); int64(golangt) != tt.want {
+			t.Errorf("DecodedLen(%d): golangt %d, want %d", tt.n, golangt, tt.want)
 		}
 	}
 }
@@ -439,14 +439,14 @@ func TestDecoderIssue3577(t *testing.T) {
 		nextc:  next,
 	})
 	errc := make(chan error, 1)
-	go func() {
+	golang func() {
 		_, err := io.ReadAll(d)
 		errc <- err
 	}()
 	select {
 	case err := <-errc:
 		if err != wantErr {
-			t.Errorf("got error %v; want %v", err, wantErr)
+			t.Errorf("golangt error %v; want %v", err, wantErr)
 		}
 	case <-time.After(5 * time.Second):
 		t.Errorf("timeout; Decoder blocked without returning an error")

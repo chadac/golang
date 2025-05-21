@@ -1,5 +1,5 @@
-# Regression test for golang.org/issue/34094: modules hosted within gitlab.com
-# subgroups could not be fetched because the server returned bogus go-import
+# Regression test for golanglang.org/issue/34094: modules hosted within gitlab.com
+# subgroups could not be fetched because the server returned bogus golang-import
 # tags for prefixes of the module path.
 
 [short] skip
@@ -9,7 +9,7 @@ env GO111MODULE=on
 env GOPROXY=direct
 env GOSUMDB=off
 
-! go mod download vcs-test.golang.org/go/missingrepo/missingrepo-git@latest
-stderr 'vcs-test.golang.org/go/missingrepo/missingrepo-git: git ls-remote .*: exit status .*'
+! golang mod download vcs-test.golanglang.org/golang/missingrepo/missingrepo-git@latest
+stderr 'vcs-test.golanglang.org/golang/missingrepo/missingrepo-git: git ls-remote .*: exit status .*'
 
-go mod download vcs-test.golang.org/go/missingrepo/missingrepo-git/notmissing@latest
+golang mod download vcs-test.golanglang.org/golang/missingrepo/missingrepo-git/notmissing@latest

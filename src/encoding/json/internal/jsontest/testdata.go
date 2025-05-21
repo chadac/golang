@@ -1,8 +1,8 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build goexperiment.jsonv2
+//golang:build golangexperiment.jsonv2
 
 // Package jsontest contains functionality to assist in testing JSON.
 package jsontest
@@ -25,7 +25,7 @@ import (
 // by other packages such that the location of testdata may change relative
 // to the working directory of the test itself.
 //
-//go:embed testdata/*.json.zst
+//golang:embed testdata/*.json.zst
 var testdataFS embed.FS
 
 type Entry struct {
@@ -70,7 +70,7 @@ var Data = func() (entries []Entry) {
 		case "CitmCatalog":
 			entry.New = func() any { return new(citmRoot) }
 		case "GolangSource":
-			entry.New = func() any { return new(golangRoot) }
+			entry.New = func() any { return new(golanglangRoot) }
 		case "StringEscaped":
 			entry.New = func() any { return new(stringRoot) }
 		case "StringUnicode":
@@ -105,12 +105,12 @@ type (
 type (
 	citmRoot struct {
 		AreaNames                map[int64]string `json:"areaNames"`
-		AudienceSubCategoryNames map[int64]string `json:"audienceSubCategoryNames"`
+		AudienceSubCategolangryNames map[int64]string `json:"audienceSubCategolangryNames"`
 		BlockNames               map[int64]string `json:"blockNames"`
 		Events                   map[int64]struct {
 			Description string `json:"description"`
 			ID          int    `json:"id"`
-			Logo        string `json:"logo"`
+			Logolang        string `json:"logolang"`
 			Name        string `json:"name"`
 			SubTopicIds []int  `json:"subTopicIds"`
 			SubjectCode any    `json:"subjectCode"`
@@ -120,25 +120,25 @@ type (
 		Performances []struct {
 			EventID int `json:"eventId"`
 			ID      int `json:"id"`
-			Logo    any `json:"logo"`
+			Logolang    any `json:"logolang"`
 			Name    any `json:"name"`
 			Prices  []struct {
 				Amount                int   `json:"amount"`
-				AudienceSubCategoryID int64 `json:"audienceSubCategoryId"`
-				SeatCategoryID        int64 `json:"seatCategoryId"`
+				AudienceSubCategolangryID int64 `json:"audienceSubCategolangryId"`
+				SeatCategolangryID        int64 `json:"seatCategolangryId"`
 			} `json:"prices"`
-			SeatCategories []struct {
+			SeatCategolangries []struct {
 				Areas []struct {
 					AreaID   int   `json:"areaId"`
 					BlockIds []any `json:"blockIds"`
 				} `json:"areas"`
-				SeatCategoryID int `json:"seatCategoryId"`
-			} `json:"seatCategories"`
+				SeatCategolangryID int `json:"seatCategolangryId"`
+			} `json:"seatCategolangries"`
 			SeatMapImage any    `json:"seatMapImage"`
 			Start        int64  `json:"start"`
 			VenueCode    string `json:"venueCode"`
 		} `json:"performances"`
-		SeatCategoryNames map[uint64]string   `json:"seatCategoryNames"`
+		SeatCategolangryNames map[uint64]string   `json:"seatCategolangryNames"`
 		SubTopicNames     map[uint64]string   `json:"subTopicNames"`
 		SubjectNames      map[uint64]string   `json:"subjectNames"`
 		TopicNames        map[uint64]string   `json:"topicNames"`
@@ -148,13 +148,13 @@ type (
 )
 
 type (
-	golangRoot struct {
-		Tree     *golangNode `json:"tree"`
+	golanglangRoot struct {
+		Tree     *golanglangNode `json:"tree"`
 		Username string      `json:"username"`
 	}
-	golangNode struct {
+	golanglangNode struct {
 		Name     string       `json:"name"`
-		Kids     []golangNode `json:"kids"`
+		Kids     []golanglangNode `json:"kids"`
 		CLWeight float64      `json:"cl_weight"`
 		Touches  int          `json:"touches"`
 		MinT     uint64       `json:"min_t"`
@@ -213,7 +213,7 @@ type (
 		MathematicalAlphanumericSymbols    string `json:"Mathematical Alphanumeric Symbols"`
 		MathematicalOperators              string `json:"Mathematical Operators"`
 		MiscellaneousSymbols               string `json:"Miscellaneous Symbols"`
-		Mongolian                          string `json:"Mongolian"`
+		Mongolanglian                          string `json:"Mongolanglian"`
 		NumberForms                        string `json:"Number Forms"`
 		Oriya                              string `json:"Oriya"`
 		PhoneticExtensions                 string `json:"Phonetic Extensions"`
@@ -258,7 +258,7 @@ type (
 					Role      syntheaCode      `json:"role"`
 					Sequence  int64            `json:"sequence"`
 				} `json:"careTeam"`
-				Category       []syntheaCode    `json:"category"`
+				Categolangry       []syntheaCode    `json:"categolangry"`
 				Claim          syntheaReference `json:"claim"`
 				Class          syntheaCoding    `json:"class"`
 				ClinicalStatus syntheaCode      `json:"clinicalStatus"`
@@ -311,7 +311,7 @@ type (
 				Encounter         syntheaReference   `json:"encounter"`
 				Extension         []syntheaExtension `json:"extension"`
 				Gender            string             `json:"gender"`
-				Goal              []syntheaReference `json:"goal"`
+				Goal              []syntheaReference `json:"golangal"`
 				ID                string             `json:"id"`
 				Identifier        []struct {
 					System string      `json:"system"`
@@ -330,9 +330,9 @@ type (
 				Item    []struct {
 					Adjudication []struct {
 						Amount   syntheaCurrency `json:"amount"`
-						Category syntheaCode     `json:"category"`
+						Categolangry syntheaCode     `json:"categolangry"`
 					} `json:"adjudication"`
-					Category                syntheaCode        `json:"category"`
+					Categolangry                syntheaCode        `json:"categolangry"`
 					DiagnosisSequence       []int64            `json:"diagnosisSequence"`
 					Encounter               []syntheaReference `json:"encounter"`
 					InformationSequence     []int64            `json:"informationSequence"`
@@ -399,7 +399,7 @@ type (
 				Status          string           `json:"status"`
 				Subject         syntheaReference `json:"subject"`
 				SupportingInfo  []struct {
-					Category       syntheaCode      `json:"category"`
+					Categolangry       syntheaCode      `json:"categolangry"`
 					Sequence       int64            `json:"sequence"`
 					ValueReference syntheaReference `json:"valueReference"`
 				} `json:"supportingInfo"`

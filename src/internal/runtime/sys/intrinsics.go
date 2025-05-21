@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package sys
@@ -93,9 +93,9 @@ const len8tab = "" +
 
 // Len64 returns the minimum number of bits required to represent x; the result is 0 for x == 0.
 //
-// nosplit because this is used in src/runtime/histogram.go, which make run in sensitive contexts.
+// nosplit because this is used in src/runtime/histogram.golang, which make run in sensitive contexts.
 //
-//go:nosplit
+//golang:nosplit
 func Len64(x uint64) (n int) {
 	if x >= 1<<32 {
 		x >>= 32
@@ -236,12 +236,12 @@ func GetCallerSP() uintptr
 
 // GetClosurePtr returns the pointer to the current closure.
 // GetClosurePtr can only be used in an assignment statement
-// at the entry of a function. Moreover, go:nosplit directive
+// at the entry of a function. Moreover, golang:nosplit directive
 // must be specified at the declaration of caller function,
 // so that the function prolog does not clobber the closure register.
 // for example:
 //
-//	//go:nosplit
+//	//golang:nosplit
 //	func f(arg1, arg2, arg3 int) {
 //		dx := GetClosurePtr()
 //	}
@@ -252,5 +252,5 @@ func GetCallerSP() uintptr
 // WARNING: PGO-based devirtualization cannot detect that caller of
 // GetClosurePtr requires closure context, and thus must maintain a list of
 // these functions, which is in
-// cmd/compile/internal/devirtualize/pgo.maybeDevirtualizeFunctionCall.
+// cmd/compile/internal/devirtualize/pgolang.maybeDevirtualizeFunctionCall.
 func GetClosurePtr() uintptr

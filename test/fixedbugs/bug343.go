@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // issue 1900
@@ -29,5 +29,5 @@ func main() {
 /*
 typecheck [1008592b0]
 .   INDREG a(1) l(15) x(24) tc(2) runtime.ret G0 string
-bug343.go:15: internal compiler error: typecheck INDREG
+bug343.golang:15: internal compiler error: typecheck INDREG
 */

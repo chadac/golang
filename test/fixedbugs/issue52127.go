@@ -1,9 +1,9 @@
 // run
 
-//go:build !js && !wasip1
+//golang:build !js && !wasip1
 
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Issue 52127: Too many syntax errors in many files can
@@ -27,9 +27,9 @@ func main() {
 	}
 	defer os.RemoveAll(dir)
 
-	args := []string{"go", "build"}
+	args := []string{"golang", "build"}
 	write := func(prefix string, i int, data string) {
-		filename := filepath.Join(dir, fmt.Sprintf("%s%d.go", prefix, i))
+		filename := filepath.Join(dir, fmt.Sprintf("%s%d.golang", prefix, i))
 		if err := os.WriteFile(filename, []byte(data), 0o644); err != nil {
 			panic(err)
 		}
@@ -56,7 +56,7 @@ var
 		panic("compile succeeded unexpectedly")
 	}
 	if !bytes.Contains(output, []byte("syntax error:")) {
-		panic(fmt.Sprintf(`missing "syntax error" in compiler output; got: 
+		panic(fmt.Sprintf(`missing "syntax error" in compiler output; golangt: 
 %s`, output))
 	}
 }

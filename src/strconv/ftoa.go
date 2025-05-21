@@ -1,9 +1,9 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Binary to decimal floating point conversion.
-// Algorithm:
+// Algolangrithm:
 //   1) store mantissa in multiprecision decimal
 //   2) shift decimal by exponent
 //   3) read digits out & format
@@ -115,7 +115,7 @@ func genericFtoa(dst []byte, val float64, fmt byte, prec, bitSize int) []byte {
 	// Negative precision means "only as much as needed to be exact."
 	shortest := prec < 0
 	if shortest {
-		// Use Ryu algorithm.
+		// Use Ryu algolangrithm.
 		var buf [32]byte
 		digs.d = buf[:]
 		ryuFtoaShortest(&digs, mant, exp-int(flt.mantbits), flt)

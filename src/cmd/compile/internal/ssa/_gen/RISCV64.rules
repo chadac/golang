@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Lowering arithmetic
@@ -377,7 +377,7 @@
 				(MOVDstore ptr (MOVDconst [0]) mem))))
 
 // Medium 8-aligned zeroing uses a Duff's device
-// 8 and 128 are magic constants, see runtime/mkduff.go
+// 8 and 128 are magic constants, see runtime/mkduff.golang
 (Zero [s] {t} ptr mem)
 	&& s%8 == 0 && s <= 8*128
 	&& t.Alignment()%8 == 0 =>
@@ -466,7 +466,7 @@
 				(MOVDstore dst (MOVDload src mem) mem))))
 
 // Medium 8-aligned move uses a Duff's device
-// 16 and 128 are magic constants, see runtime/mkduff.go
+// 16 and 128 are magic constants, see runtime/mkduff.golang
 (Move [s] {t} dst src mem)
 	&& s%8 == 0 && s <= 8*128 && t.Alignment()%8 == 0
 	&& logLargeCopy(v, s) =>

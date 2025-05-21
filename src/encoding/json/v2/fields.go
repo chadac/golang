@@ -1,8 +1,8 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build goexperiment.jsonv2
+//golang:build golangexperiment.jsonv2
 
 package json
 
@@ -178,7 +178,7 @@ func makeStructFields(root reflect.Type) (fs structFields, serr *SemanticError) 
 				// JSON object members back by a Go map or jsontext.Value.
 				switch {
 				case tf == jsontextValueType:
-					f.fncs = nil // specially handled in arshal_inlined.go
+					f.fncs = nil // specially handled in arshal_inlined.golang
 				case tf.Kind() == reflect.Map && tf.Key().Kind() == reflect.String:
 					if implementsAny(tf.Key(), allMethodTypes...) {
 						serr = orErrorf(serr, t, "inlined map field %s of type %s must have a string key that does not implement marshal or unmarshal methods", sf.Name, tf)
@@ -418,7 +418,7 @@ func parseFieldOptions(sf reflect.StructField) (out fieldOptions, ignored bool, 
 	// This technically operates on the edge of what is permissible by
 	// the Go language, but the most recent decision is to permit this.
 	//
-	// See https://go.dev/issue/24153 and https://go.dev/issue/32772.
+	// See https://golang.dev/issue/24153 and https://golang.dev/issue/32772.
 	if !sf.IsExported() && !sf.Anonymous {
 		// Tag options specified on an unexported field suggests user error.
 		if hasTag {
@@ -430,7 +430,7 @@ func parseFieldOptions(sf reflect.StructField) (out fieldOptions, ignored bool, 
 	// Determine the JSON member name for this Go field. A user-specified name
 	// may be provided as either an identifier or a single-quoted string.
 	// The single-quoted string allows arbitrary characters in the name.
-	// See https://go.dev/issue/2718 and https://go.dev/issue/3546.
+	// See https://golang.dev/issue/2718 and https://golang.dev/issue/3546.
 	out.name = sf.Name // always starts with an uppercase character
 	if len(tag) > 0 && !strings.HasPrefix(tag, ",") {
 		// For better compatibility with v1, accept almost any unescaped name.

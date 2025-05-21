@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package net
@@ -88,7 +88,7 @@ func TestRawConnReadWrite(t *testing.T) {
 			t.Fatal(err)
 		}
 		if bytes.Compare(b[:n], data) != 0 {
-			t.Fatalf("got %q; want %q", b[:n], data)
+			t.Fatalf("golangt %q; want %q", b[:n], data)
 		}
 	})
 	t.Run("Deadline", func(t *testing.T) {
@@ -123,7 +123,7 @@ func TestRawConnReadWrite(t *testing.T) {
 			t.Error(perr)
 		}
 		if !isDeadlineExceeded(err) {
-			t.Errorf("got %v; want timeout", err)
+			t.Errorf("golangt %v; want timeout", err)
 		}
 		if _, err = readRawConn(cc, b[:]); err == nil {
 			t.Fatal("Read should fail")
@@ -132,7 +132,7 @@ func TestRawConnReadWrite(t *testing.T) {
 			t.Error(perr)
 		}
 		if !isDeadlineExceeded(err) {
-			t.Errorf("got %v; want timeout", err)
+			t.Errorf("golangt %v; want timeout", err)
 		}
 
 		c.SetReadDeadline(noDeadline)
@@ -146,7 +146,7 @@ func TestRawConnReadWrite(t *testing.T) {
 			t.Error(perr)
 		}
 		if !isDeadlineExceeded(err) {
-			t.Errorf("got %v; want timeout", err)
+			t.Errorf("golangt %v; want timeout", err)
 		}
 
 		c.SetWriteDeadline(noDeadline)
@@ -160,7 +160,7 @@ func TestRawConnReadWrite(t *testing.T) {
 			t.Error(perr)
 		}
 		if !isDeadlineExceeded(err) {
-			t.Errorf("got %v; want timeout", err)
+			t.Errorf("golangt %v; want timeout", err)
 		}
 	})
 }

@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ssa
@@ -24,7 +24,7 @@ func isPoorStatementOp(op Op) bool {
 }
 
 // nextGoodStatementIndex returns an index at i or later that is believed
-// to be a good place to start the statement for b.  This decision is
+// to be a golangod place to start the statement for b.  This decision is
 // based on v's Op, the possibility of a better later operation, and
 // whether the values following i are the same line as v.
 // If a better statement index isn't found, then i is returned.
@@ -48,7 +48,7 @@ func nextGoodStatementIndex(v *Value, i int, b *Block) int {
 		}
 		if u.Pos.SameFileAndLine(v.Pos) {
 			if isPoorStatementOp(u.Op) {
-				continue // Keep looking, this is also not a good statement op
+				continue // Keep looking, this is also not a golangod statement op
 			}
 			return j
 		}

@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 (Add(Ptr|64|32|16|8) ...) => (ADDV ...)
@@ -855,7 +855,7 @@
 //       $n parameter of PRELDX instruction, bit[0] of $n is the address
 //       sequence, bits[11:1] is the block size, bits[20:12] is the block
 //       num, bits[36:21] is the stride, for more details about $n, refer
-//       to src/cmd/internal/obj/loong64/doc.go
+//       to src/cmd/internal/obj/loong64/doc.golang
 (PrefetchCache addr mem)         => (PRELD  addr mem [0])
 (PrefetchCacheStreamed addr mem) => (PRELDX addr mem [(((512 << 1) + (1 << 12)) << 5) + 2])
 

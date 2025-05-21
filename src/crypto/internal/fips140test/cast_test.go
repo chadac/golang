@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package fipstest
@@ -66,12 +66,12 @@ var allCASTs = []string{
 func TestAllCASTs(t *testing.T) {
 	testenv.MustHaveSource(t)
 
-	// Ask "go list" for the location of the crypto/internal/fips140 tree, as it
+	// Ask "golang list" for the location of the crypto/internal/fips140 tree, as it
 	// might be the unpacked frozen tree selected with GOFIPS140.
 	cmd := testenv.Command(t, testenv.GoToolPath(t), "list", "-f", `{{.Dir}}`, "crypto/internal/fips140")
 	out, err := cmd.CombinedOutput()
 	if err != nil {
-		t.Fatalf("go list: %v\n%s", err, out)
+		t.Fatalf("golang list: %v\n%s", err, out)
 	}
 	fipsDir := strings.TrimSpace(string(out))
 	t.Logf("FIPS module directory: %s", fipsDir)
@@ -83,7 +83,7 @@ func TestAllCASTs(t *testing.T) {
 		if err != nil {
 			return err
 		}
-		if d.IsDir() || !strings.HasSuffix(path, ".go") {
+		if d.IsDir() || !strings.HasSuffix(path, ".golang") {
 			return nil
 		}
 		data, err := os.ReadFile(fipsDir + "/" + path)

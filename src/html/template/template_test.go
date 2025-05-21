@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package template_test
@@ -14,7 +14,7 @@ import (
 )
 
 func TestTemplateClone(t *testing.T) {
-	// https://golang.org/issue/12996
+	// https://golanglang.org/issue/12996
 	orig := New("name")
 	clone, err := orig.Clone()
 	if err != nil {
@@ -31,8 +31,8 @@ func TestTemplateClone(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if got := buf.String(); got != want {
-		t.Fatalf("got %q; want %q", got, want)
+	if golangt := buf.String(); golangt != want {
+		t.Fatalf("golangt %q; want %q", golangt, want)
 	}
 }
 
@@ -89,7 +89,7 @@ func TestRedefineSafety(t *testing.T) {
 	c.mustExecute(c.root, nil, `<html><a href="">`)
 	// Note: Every version of Go prior to Go 1.8 accepted the redefinition of "X"
 	// on the next line, but luckily kept it from being used in the outer template.
-	// Now we reject it, which makes clearer that we're not going to use it.
+	// Now we reject it, which makes clearer that we're not golanging to use it.
 	c.mustNotParse(c.root, `{{define "X"}}" bar="baz{{end}}`)
 	c.mustExecute(c.root, nil, `<html><a href="">`)
 }
@@ -150,12 +150,12 @@ func TestStringsInScriptsWithJsonContentTypeAreCorrectlyEscaped(t *testing.T) {
 				t.Fatalf("Cannot render template: %v", err)
 			}
 			trimmed := bytes.TrimSuffix(bytes.TrimPrefix(buf.Bytes(), []byte(prefix)), []byte(suffix))
-			var got string
-			if err := json.Unmarshal(trimmed, &got); err != nil {
+			var golangt string
+			if err := json.Unmarshal(trimmed, &golangt); err != nil {
 				t.Fatalf("Cannot parse JS string %q as JSON: %v", trimmed[1:len(trimmed)-1], err)
 			}
-			if got != tt.in {
-				t.Errorf("Serialization changed the string value: got %q want %q", got, tt.in)
+			if golangt != tt.in {
+				t.Errorf("Serialization changed the string value: golangt %q want %q", golangt, tt.in)
 			}
 		})
 	}

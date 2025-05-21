@@ -1,11 +1,11 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test that SIGSETXID runs on signal stack, since it's likely to
 // overflow if it runs on the Go stack.
 
-package cgotest
+package cgolangtest
 
 /*
 #include <sys/types.h>
@@ -19,7 +19,7 @@ import (
 	"sync/atomic"
 	"testing"
 
-	"cmd/cgo/internal/test/issue9400"
+	"cmd/cgolang/internal/test/issue9400"
 )
 
 func test9400(t *testing.T) {
@@ -28,7 +28,7 @@ func test9400(t *testing.T) {
 
 	// Start signaller
 	atomic.StoreInt32(&issue9400.Baton, 0)
-	go func() {
+	golang func() {
 		// Wait for RewindAndSetgid
 		for atomic.LoadInt32(&issue9400.Baton) == 0 {
 			runtime.Gosched()

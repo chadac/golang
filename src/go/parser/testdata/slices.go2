@@ -1,4 +1,4 @@
-// Package slices implements various slice algorithms.
+// Package slices implements various slice algolangrithms.
 package slices
 
 // Map turns a []T1 to a []T2 using a mapping function.

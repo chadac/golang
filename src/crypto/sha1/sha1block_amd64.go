@@ -1,8 +1,8 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !purego
+//golang:build !puregolang
 
 package sha1
 
@@ -11,10 +11,10 @@ import (
 	"internal/cpu"
 )
 
-//go:noescape
+//golang:noescape
 func blockAVX2(dig *digest, p []byte)
 
-//go:noescape
+//golang:noescape
 func blockSHANI(dig *digest, p []byte)
 
 var useAVX2 = cpu.X86.HasAVX && cpu.X86.HasAVX2 && cpu.X86.HasBMI1 && cpu.X86.HasBMI2

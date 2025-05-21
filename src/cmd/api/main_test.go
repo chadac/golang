@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This package computes the exported API of a set of Go packages.
@@ -12,11 +12,11 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"go/ast"
-	"go/build"
-	"go/parser"
-	"go/token"
-	"go/types"
+	"golang/ast"
+	"golang/build"
+	"golang/parser"
+	"golang/token"
+	"golang/types"
 	"internal/testenv"
 	"io"
 	"log"
@@ -34,60 +34,60 @@ import (
 
 const verbose = false
 
-func goCmd() string {
+func golangCmd() string {
 	var exeSuffix string
 	if runtime.GOOS == "windows" {
 		exeSuffix = ".exe"
 	}
-	path := filepath.Join(testenv.GOROOT(nil), "bin", "go"+exeSuffix)
+	path := filepath.Join(testenv.GOROOT(nil), "bin", "golang"+exeSuffix)
 	if _, err := os.Stat(path); err == nil {
 		return path
 	}
-	return "go"
+	return "golang"
 }
 
 // contexts are the default contexts which are scanned.
 var contexts = []*build.Context{
-	{GOOS: "linux", GOARCH: "386", CgoEnabled: true},
+	{GOOS: "linux", GOARCH: "386", CgolangEnabled: true},
 	{GOOS: "linux", GOARCH: "386"},
-	{GOOS: "linux", GOARCH: "amd64", CgoEnabled: true},
+	{GOOS: "linux", GOARCH: "amd64", CgolangEnabled: true},
 	{GOOS: "linux", GOARCH: "amd64"},
-	{GOOS: "linux", GOARCH: "arm", CgoEnabled: true},
+	{GOOS: "linux", GOARCH: "arm", CgolangEnabled: true},
 	{GOOS: "linux", GOARCH: "arm"},
-	{GOOS: "darwin", GOARCH: "amd64", CgoEnabled: true},
+	{GOOS: "darwin", GOARCH: "amd64", CgolangEnabled: true},
 	{GOOS: "darwin", GOARCH: "amd64"},
-	{GOOS: "darwin", GOARCH: "arm64", CgoEnabled: true},
+	{GOOS: "darwin", GOARCH: "arm64", CgolangEnabled: true},
 	{GOOS: "darwin", GOARCH: "arm64"},
 	{GOOS: "windows", GOARCH: "amd64"},
 	{GOOS: "windows", GOARCH: "386"},
-	{GOOS: "freebsd", GOARCH: "386", CgoEnabled: true},
+	{GOOS: "freebsd", GOARCH: "386", CgolangEnabled: true},
 	{GOOS: "freebsd", GOARCH: "386"},
-	{GOOS: "freebsd", GOARCH: "amd64", CgoEnabled: true},
+	{GOOS: "freebsd", GOARCH: "amd64", CgolangEnabled: true},
 	{GOOS: "freebsd", GOARCH: "amd64"},
-	{GOOS: "freebsd", GOARCH: "arm", CgoEnabled: true},
+	{GOOS: "freebsd", GOARCH: "arm", CgolangEnabled: true},
 	{GOOS: "freebsd", GOARCH: "arm"},
-	{GOOS: "freebsd", GOARCH: "arm64", CgoEnabled: true},
+	{GOOS: "freebsd", GOARCH: "arm64", CgolangEnabled: true},
 	{GOOS: "freebsd", GOARCH: "arm64"},
-	{GOOS: "freebsd", GOARCH: "riscv64", CgoEnabled: true},
+	{GOOS: "freebsd", GOARCH: "riscv64", CgolangEnabled: true},
 	{GOOS: "freebsd", GOARCH: "riscv64"},
-	{GOOS: "netbsd", GOARCH: "386", CgoEnabled: true},
+	{GOOS: "netbsd", GOARCH: "386", CgolangEnabled: true},
 	{GOOS: "netbsd", GOARCH: "386"},
-	{GOOS: "netbsd", GOARCH: "amd64", CgoEnabled: true},
+	{GOOS: "netbsd", GOARCH: "amd64", CgolangEnabled: true},
 	{GOOS: "netbsd", GOARCH: "amd64"},
-	{GOOS: "netbsd", GOARCH: "arm", CgoEnabled: true},
+	{GOOS: "netbsd", GOARCH: "arm", CgolangEnabled: true},
 	{GOOS: "netbsd", GOARCH: "arm"},
-	{GOOS: "netbsd", GOARCH: "arm64", CgoEnabled: true},
+	{GOOS: "netbsd", GOARCH: "arm64", CgolangEnabled: true},
 	{GOOS: "netbsd", GOARCH: "arm64"},
-	{GOOS: "openbsd", GOARCH: "386", CgoEnabled: true},
+	{GOOS: "openbsd", GOARCH: "386", CgolangEnabled: true},
 	{GOOS: "openbsd", GOARCH: "386"},
-	{GOOS: "openbsd", GOARCH: "amd64", CgoEnabled: true},
+	{GOOS: "openbsd", GOARCH: "amd64", CgolangEnabled: true},
 	{GOOS: "openbsd", GOARCH: "amd64"},
 }
 
 func contextName(c *build.Context) string {
 	s := c.GOOS + "-" + c.GOARCH
-	if c.CgoEnabled {
-		s += "-cgo"
+	if c.CgolangEnabled {
+		s += "-cgolang"
 	}
 	if c.Dir != "" {
 		s += fmt.Sprintf(" [%s]", c.Dir)
@@ -100,7 +100,7 @@ var internalPkg = regexp.MustCompile(`(^|/)internal($|/)`)
 var exitCode = 0
 
 func Check(t *testing.T) {
-	checkFiles, err := filepath.Glob(filepath.Join(testenv.GOROOT(t), "api/go1*.txt"))
+	checkFiles, err := filepath.Glob(filepath.Join(testenv.GOROOT(t), "api/golang1*.txt"))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -123,7 +123,7 @@ func Check(t *testing.T) {
 	for i, context := range contexts {
 		i, context := i, context
 		wg.Add(1)
-		go func() {
+		golang func() {
 			defer wg.Done()
 			walkers[i] = NewWalker(context, filepath.Join(testenv.GOROOT(t), "src"))
 		}()
@@ -134,7 +134,7 @@ func Check(t *testing.T) {
 	for _, w := range walkers {
 		for _, name := range w.stdPackages {
 			pkg, err := w.import_(name)
-			if _, nogo := err.(*build.NoGoError); nogo {
+			if _, nogolang := err.(*build.NoGoError); nogolang {
 				continue
 			}
 			if err != nil {
@@ -223,7 +223,7 @@ func featureWithoutContext(f string) string {
 // okay to no longer exist because its port was removed.
 func portRemoved(feature string) bool {
 	return strings.Contains(feature, "(darwin-386)") ||
-		strings.Contains(feature, "(darwin-386-cgo)")
+		strings.Contains(feature, "(darwin-386-cgolang)")
 }
 
 func compareAPI(w io.Writer, features, required, exception []string) (ok bool) {
@@ -247,7 +247,7 @@ func compareAPI(w io.Writer, features, required, exception []string) (ok bool) {
 			feature := take(&required)
 			if exceptionSet[feature] {
 				// An "unfortunate" case: the feature was once
-				// included in the API (e.g. go1.txt), but was
+				// included in the API (e.g. golang1.txt), but was
 				// subsequently removed. These are already
 				// acknowledged by being in the file
 				// "api/except.txt". No need to print them out
@@ -275,7 +275,7 @@ func compareAPI(w io.Writer, features, required, exception []string) (ok bool) {
 
 // aliasReplacer applies type aliases to earlier API files,
 // to avoid misleading negative results.
-// This makes all the references to os.FileInfo in go1.txt
+// This makes all the references to os.FileInfo in golang1.txt
 // be read as if they said fs.FileInfo, since os.FileInfo is now an alias.
 // If there are many of these, we could do a more general solution,
 // but for now the replacer is fine.
@@ -295,14 +295,14 @@ func fileFeatures(filename string, needApproval bool) []string {
 	// Diagnose common mistakes people make,
 	// since there is no apifmt to format these files.
 	// The missing final newline is important for the
-	// final release step of cat next/*.txt >go1.X.txt.
-	// If the files don't end in full lines, the concatenation goes awry.
+	// final release step of cat next/*.txt >golang1.X.txt.
+	// If the files don't end in full lines, the concatenation golanges awry.
 	if strings.Contains(s, "\r") {
 		log.Printf("%s: contains CRLFs", filename)
 		exitCode = 1
 	}
-	if filepath.Base(filename) == "go1.4.txt" {
-		// No use for blank lines in api files, except go1.4.txt
+	if filepath.Base(filename) == "golang1.4.txt" {
+		// No use for blank lines in api files, except golang1.4.txt
 		// used them in a reasonable way and we should let it be.
 	} else if strings.HasPrefix(s, "\n") || strings.Contains(s, "\n\n") {
 		log.Printf("%s: contains a blank line", filename)
@@ -411,15 +411,15 @@ var (
 // It is a comma-separated string; the first part is dir, the rest tags.
 // The satisfied tags are derived from context but only those that
 // matter (the ones listed in the tags argument plus GOOS and GOARCH) are used.
-// The tags list, which came from go/build's Package.AllTags,
+// The tags list, which came from golang/build's Package.AllTags,
 // is known to be sorted.
 func tagKey(dir string, context *build.Context, tags []string) string {
 	ctags := map[string]bool{
 		context.GOOS:   true,
 		context.GOARCH: true,
 	}
-	if context.CgoEnabled {
-		ctags["cgo"] = true
+	if context.CgolangEnabled {
+		ctags["cgolang"] = true
 	}
 	for _, tag := range context.BuildTags {
 		ctags[tag] = true
@@ -428,7 +428,7 @@ func tagKey(dir string, context *build.Context, tags []string) string {
 	key := dir
 
 	// explicit on GOOS and GOARCH as global cache will use "all" cached packages for
-	// an indirect imported package. See https://github.com/golang/go/issues/21181
+	// an indirect imported package. See https://github.com/golanglang/golang/issues/21181
 	// for more detail.
 	tags = append(tags, context.GOOS, context.GOARCH)
 	slices.Sort(tags)
@@ -450,9 +450,9 @@ type listImports struct {
 
 var listCache sync.Map // map[string]listImports, keyed by contextName
 
-// listSem is a semaphore restricting concurrent invocations of 'go list'. 'go
+// listSem is a semaphore restricting concurrent invocations of 'golang list'. 'golang
 // list' has its own internal concurrency, so we use a hard-coded constant (to
-// allow the I/O-intensive phases of 'go list' to overlap) instead of scaling
+// allow the I/O-intensive phases of 'golang list' to overlap) instead of scaling
 // all the way up to GOMAXPROCS.
 var listSem = make(chan semToken, 2)
 
@@ -465,10 +465,10 @@ type semToken struct{}
 // For example, on return:
 //
 //	w.importMap["math"] = "math"
-//	w.importDir["math"] = "<goroot>/src/math"
+//	w.importDir["math"] = "<golangroot>/src/math"
 //
-//	w.importMap["golang.org/x/net/route"] = "vendor/golang.org/x/net/route"
-//	w.importDir["vendor/golang.org/x/net/route"] = "<goroot>/src/vendor/golang.org/x/net/route"
+//	w.importMap["golanglang.org/x/net/route"] = "vendor/golanglang.org/x/net/route"
+//	w.importDir["vendor/golanglang.org/x/net/route"] = "<golangroot>/src/vendor/golanglang.org/x/net/route"
 //
 // Since the set of packages that exist depends on context, the result of
 // loadImports also depends on context. However, to improve test running time
@@ -485,7 +485,7 @@ func (w *Walker) loadImports() {
 		listSem <- semToken{}
 		defer func() { <-listSem }()
 
-		cmd := exec.Command(goCmd(), "list", "-e", "-deps", "-json", "std")
+		cmd := exec.Command(golangCmd(), "list", "-e", "-deps", "-json", "std")
 		cmd.Env = listEnv(w.context)
 		if w.context.Dir != "" {
 			cmd.Dir = w.context.Dir
@@ -511,17 +511,17 @@ func (w *Walker) loadImports() {
 				break
 			}
 			if err != nil {
-				log.Fatalf("go list: invalid output: %v", err)
+				log.Fatalf("golang list: invalid output: %v", err)
 			}
 
 			// - Package "unsafe" contains special signatures requiring
 			//   extra care when printing them - ignore since it is not
-			//   going to change w/o a language change.
+			//   golanging to change w/o a language change.
 			// - Internal and vendored packages do not contribute to our
 			//   API surface. (If we are running within the "std" module,
 			//   vendored dependencies appear as themselves instead of
 			//   their "vendor/" standard-library copies.)
-			// - 'go list std' does not include commands, which cannot be
+			// - 'golang list std' does not include commands, which cannot be
 			//   imported anyway.
 			if ip := pkg.ImportPath; pkg.Standard && ip != "unsafe" && !strings.HasPrefix(ip, "vendor/") && !internalPkg.MatchString(ip) {
 				stdPackages = append(stdPackages, ip)
@@ -550,7 +550,7 @@ func (w *Walker) loadImports() {
 	w.importMap = li.importMap
 }
 
-// listEnv returns the process environment to use when invoking 'go list' for
+// listEnv returns the process environment to use when invoking 'golang list' for
 // the given context.
 func listEnv(c *build.Context) []string {
 	if c == nil {
@@ -560,7 +560,7 @@ func listEnv(c *build.Context) []string {
 	environ := append(os.Environ(),
 		"GOOS="+c.GOOS,
 		"GOARCH="+c.GOARCH)
-	if c.CgoEnabled {
+	if c.CgolangEnabled {
 		environ = append(environ, "CGO_ENABLED=1")
 	} else {
 		environ = append(environ, "CGO_ENABLED=0")
@@ -640,7 +640,7 @@ func (w *Walker) importFrom(fromPath, fromDir string, mode types.ImportMode) (*a
 
 	info, err := context.ImportDir(dir, 0)
 	if err != nil {
-		if _, nogo := err.(*build.NoGoError); nogo {
+		if _, nogolang := err.(*build.NoGoError); nogolang {
 			return nil, err
 		}
 		log.Fatalf("pkg %q, dir %q: ScanDir: %v", name, dir, err)
@@ -654,7 +654,7 @@ func (w *Walker) importFrom(fromPath, fromDir string, mode types.ImportMode) (*a
 		}
 	}
 
-	filenames := append(append([]string{}, info.GoFiles...), info.CgoFiles...)
+	filenames := append(append([]string{}, info.GoFiles...), info.CgolangFiles...)
 
 	// Parse package files.
 	var files []*ast.File
@@ -1141,10 +1141,10 @@ func (w *Walker) emitf(format string, args ...any) {
 
 func needApproval(filename string) bool {
 	name := filepath.Base(filename)
-	if name == "go1.txt" {
+	if name == "golang1.txt" {
 		return false
 	}
-	minor := strings.TrimSuffix(strings.TrimPrefix(name, "go1."), ".txt")
+	minor := strings.TrimSuffix(strings.TrimPrefix(name, "golang1."), ".txt")
 	n, err := strconv.Atoi(minor)
 	if err != nil {
 		log.Fatalf("unexpected api file: %v", name)

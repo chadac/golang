@@ -1,14 +1,14 @@
 // run
 
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This test checks if the compiler's internal constant
 // arithmetic correctly rounds up floating-point values
 // that become the smallest denormal value.
 //
-// See also related issue 14553 and test issue14553.go.
+// See also related issue 14553 and test issue14553.golang.
 
 package main
 

@@ -1,9 +1,9 @@
 // errorcheck -0 -d=ssa/prove/debug=2
 
-//go:build amd64
+//golang:build amd64
 
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main

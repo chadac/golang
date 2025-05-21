@@ -1,5 +1,5 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package poll_test
@@ -22,7 +22,7 @@ func TestReadError(t *testing.T) {
 		defer f.Close()
 
 		// Give scheduler a chance to have two separated
-		// goroutines: an event poller and an event waiter.
+		// golangroutines: an event poller and an event waiter.
 		time.Sleep(100 * time.Millisecond)
 
 		var b [1]byte
@@ -45,7 +45,7 @@ func parseReadError(nestedErr error, verify func(error) (string, bool)) error {
 		err = nerr.Err
 	}
 	if s, ok := verify(err); !ok {
-		return fmt.Errorf("got %v; want %s", nestedErr, s)
+		return fmt.Errorf("golangt %v; want %s", nestedErr, s)
 	}
 	return nil
 }

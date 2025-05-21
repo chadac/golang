@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ssa_test
@@ -78,11 +78,11 @@ func TestStmtLines(t *testing.T) {
 		}
 	}
 
-	// Build cmd/go forcing DWARF enabled, as a large test case.
+	// Build cmd/golang forcing DWARF enabled, as a large test case.
 	dir := t.TempDir()
-	out, err := testenv.Command(t, testenv.GoToolPath(t), "build", "-ldflags=-w=0", "-o", dir+"/test.exe", "cmd/go").CombinedOutput()
+	out, err := testenv.Command(t, testenv.GoToolPath(t), "build", "-ldflags=-w=0", "-o", dir+"/test.exe", "cmd/golang").CombinedOutput()
 	if err != nil {
-		t.Fatalf("go build: %v\n%s", err, out)
+		t.Fatalf("golang build: %v\n%s", err, out)
 	}
 
 	lines := map[Line]bool{}
@@ -104,7 +104,7 @@ func TestStmtLines(t *testing.T) {
 			continue
 		}
 		if pkgname == "crypto/internal/fips140/nistec/fiat" {
-			continue // golang.org/issue/49372
+			continue // golanglang.org/issue/49372
 		}
 		if e.Val(dwarf.AttrStmtList) == nil {
 			continue

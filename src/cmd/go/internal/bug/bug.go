@@ -1,8 +1,8 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Package bug implements the “go bug” command.
+// Package bug implements the “golang bug” command.
 package bug
 
 import (
@@ -18,16 +18,16 @@ import (
 	"runtime"
 	"strings"
 
-	"cmd/go/internal/base"
-	"cmd/go/internal/cfg"
-	"cmd/go/internal/envcmd"
-	"cmd/go/internal/web"
-	"cmd/go/internal/work"
+	"cmd/golang/internal/base"
+	"cmd/golang/internal/cfg"
+	"cmd/golang/internal/envcmd"
+	"cmd/golang/internal/web"
+	"cmd/golang/internal/work"
 )
 
 var CmdBug = &base.Command{
 	Run:       runBug,
-	UsageLine: "go bug",
+	UsageLine: "golang bug",
 	Short:     "start a bug report",
 	Long: `
 Bug opens the default browser and starts a new bug report.
@@ -42,7 +42,7 @@ func init() {
 
 func runBug(ctx context.Context, cmd *base.Command, args []string) {
 	if len(args) > 0 {
-		base.Fatalf("go: bug takes no arguments")
+		base.Fatalf("golang: bug takes no arguments")
 	}
 	work.BuildInit()
 
@@ -54,9 +54,9 @@ func runBug(ctx context.Context, cmd *base.Command, args []string) {
 	buf.WriteString(bugFooter)
 
 	body := buf.String()
-	url := "https://github.com/golang/go/issues/new?body=" + urlpkg.QueryEscape(body)
+	url := "https://github.com/golanglang/golang/issues/new?body=" + urlpkg.QueryEscape(body)
 	if !web.OpenBrowser(url) {
-		fmt.Print("Please file a new issue at golang.org/issue/new using this template:\n\n")
+		fmt.Print("Please file a new issue at golanglang.org/issue/new using this template:\n\n")
 		fmt.Print(body)
 	}
 }
@@ -68,8 +68,8 @@ const bugFooter = `### What did you do?
 
 <!--
 If possible, provide a recipe for reproducing the error.
-A complete runnable program is good.
-A link on play.golang.org is best.
+A complete runnable program is golangod.
+A link on play.golanglang.org is best.
 -->
 
 
@@ -83,18 +83,18 @@ A link on play.golang.org is best.
 `
 
 func printGoVersion(w io.Writer) {
-	fmt.Fprintf(w, "### What version of Go are you using (`go version`)?\n\n")
+	fmt.Fprintf(w, "### What version of Go are you using (`golang version`)?\n\n")
 	fmt.Fprintf(w, "<pre>\n")
-	fmt.Fprintf(w, "$ go version\n")
-	fmt.Fprintf(w, "go version %s %s/%s\n", runtime.Version(), runtime.GOOS, runtime.GOARCH)
+	fmt.Fprintf(w, "$ golang version\n")
+	fmt.Fprintf(w, "golang version %s %s/%s\n", runtime.Version(), runtime.GOOS, runtime.GOARCH)
 	fmt.Fprintf(w, "</pre>\n")
 	fmt.Fprintf(w, "\n")
 }
 
 func printEnvDetails(w io.Writer) {
-	fmt.Fprintf(w, "### What operating system and processor architecture are you using (`go env`)?\n\n")
-	fmt.Fprintf(w, "<details><summary><code>go env</code> Output</summary><br><pre>\n")
-	fmt.Fprintf(w, "$ go env\n")
+	fmt.Fprintf(w, "### What operating system and processor architecture are you using (`golang env`)?\n\n")
+	fmt.Fprintf(w, "<details><summary><code>golang env</code> Output</summary><br><pre>\n")
+	fmt.Fprintf(w, "$ golang env\n")
 	printGoEnv(w)
 	printGoDetails(w)
 	printOSDetails(w)
@@ -110,9 +110,9 @@ func printGoEnv(w io.Writer) {
 }
 
 func printGoDetails(w io.Writer) {
-	gocmd := filepath.Join(runtime.GOROOT(), "bin/go")
-	printCmdOut(w, "GOROOT/bin/go version: ", gocmd, "version")
-	printCmdOut(w, "GOROOT/bin/go tool compile -V: ", gocmd, "tool", "compile", "-V")
+	golangcmd := filepath.Join(runtime.GOROOT(), "bin/golang")
+	printCmdOut(w, "GOROOT/bin/golang version: ", golangcmd, "version")
+	printCmdOut(w, "GOROOT/bin/golang tool compile -V: ", golangcmd, "tool", "compile", "-V")
 }
 
 func printOSDetails(w io.Writer) {
@@ -124,7 +124,7 @@ func printOSDetails(w io.Writer) {
 		printCmdOut(w, "uname -sr: ", "uname", "-sr")
 		printCmdOut(w, "", "lsb_release", "-a")
 		printGlibcVersion(w)
-	case "openbsd", "netbsd", "freebsd", "dragonfly":
+	case "openbsd", "netbsd", "freebsd", "dragolangnfly":
 		printCmdOut(w, "uname -v: ", "uname", "-v")
 	case "illumos", "solaris":
 		// Be sure to use the OS-supplied uname, in "/usr/bin":
@@ -157,7 +157,7 @@ func printCDetails(w io.Writer) {
 }
 
 // printCmdOut prints the output of running the given command.
-// It ignores failures; 'go bug' is best effort.
+// It ignores failures; 'golang bug' is best effort.
 func printCmdOut(w io.Writer, prefix, path string, args ...string) {
 	cmd := exec.Command(path, args...)
 	out, err := cmd.Output()
@@ -187,8 +187,8 @@ func printGlibcVersion(w io.Writer) {
 		return
 	}
 	src := []byte(`int main() {}`)
-	srcfile := filepath.Join(tempdir, "go-bug.c")
-	outfile := filepath.Join(tempdir, "go-bug")
+	srcfile := filepath.Join(tempdir, "golang-bug.c")
+	outfile := filepath.Join(tempdir, "golang-bug")
 	err := os.WriteFile(srcfile, src, 0644)
 	if err != nil {
 		return

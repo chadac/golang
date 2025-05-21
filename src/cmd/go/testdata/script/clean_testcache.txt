@@ -1,25 +1,25 @@
 env GO111MODULE=off
 [short] skip
 
-# go clean -testcache
-# should work (see golang.org/issue/29757).
+# golang clean -testcache
+# should work (see golanglang.org/issue/29757).
 cd x
-go test x_test.go
-go clean -testcache
-go test x_test.go
+golang test x_test.golang
+golang clean -testcache
+golang test x_test.golang
 ! stdout 'cached'
-! go clean -testcache ../x
-stderr 'go: clean -testcache cannot be used with package arguments'
+! golang clean -testcache ../x
+stderr 'golang: clean -testcache cannot be used with package arguments'
 
-# golang.org/issue/29100: 'go clean -testcache' should succeed
+# golanglang.org/issue/29100: 'golang clean -testcache' should succeed
 # if the cache directory doesn't exist at all.
 # It should not write a testexpire.txt file, since there are no
 # test results that need to be invalidated in the first place.
 env GOCACHE=$WORK/nonexistent
-go clean -testcache
+golang clean -testcache
 ! exists $WORK/nonexistent
 
--- x/x_test.go --
+-- x/x_test.golang --
 package x_test
 import (
     "testing"

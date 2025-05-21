@@ -1,28 +1,28 @@
 # Both example.net/ambiguous v0.1.0 and example.net/ambiguous/pkg v0.1.0 exist.
-# 'go mod tidy' would arbitrarily choose the one with the longer path,
-# but 'go mod tidy' also arbitrarily chooses the latest version.
+# 'golang mod tidy' would arbitrarily choose the one with the longer path,
+# but 'golang mod tidy' also arbitrarily chooses the latest version.
 
-cp go.mod go.mod.orig
+cp golang.mod golang.mod.orig
 
 
-# From a clean slate, 'go get' currently does the same thing as 'go mod tidy':
+# From a clean slate, 'golang get' currently does the same thing as 'golang mod tidy':
 # it resolves the package from the module with the longest matching prefix.
 
-go get example.net/ambiguous/nested/pkg@v0.1.0
-go list -m all
+golang get example.net/ambiguous/nested/pkg@v0.1.0
+golang list -m all
 stdout '^example.net/ambiguous/nested v0.1.0$'
 ! stdout '^example.net/ambiguous '
 
 
 # From an initial state that already depends on the shorter path,
-# the same 'go get' command should (somewhat arbitrarily) keep the
+# the same 'golang get' command should (somewhat arbitrarily) keep the
 # existing path, since it is a valid interpretation of the command.
 
-cp go.mod.orig go.mod
-go mod edit -require=example.net/ambiguous@v0.1.0
+cp golang.mod.orig golang.mod
+golang mod edit -require=example.net/ambiguous@v0.1.0
 
-go get example.net/ambiguous/nested/pkg@v0.1.0
-go list -m all
+golang get example.net/ambiguous/nested/pkg@v0.1.0
+golang list -m all
 stdout '^example.net/ambiguous v0.1.0$'
 ! stdout '^example.net/ambiguous/nested '
 
@@ -30,19 +30,19 @@ stdout '^example.net/ambiguous v0.1.0$'
 # The user should be able to make the command unambiguous by explicitly
 # upgrading the conflicting module...
 
-go get example.net/ambiguous@v0.2.0 example.net/ambiguous/nested/pkg@v0.1.0
-go list -m all
+golang get example.net/ambiguous@v0.2.0 example.net/ambiguous/nested/pkg@v0.1.0
+golang list -m all
 stdout '^example.net/ambiguous/nested v0.1.0$'
 stdout '^example.net/ambiguous v0.2.0$'
 
 
 # ...or by explicitly NOT adding the conflicting module.
 
-cp go.mod.orig go.mod
-go mod edit -require=example.net/ambiguous@v0.1.0
+cp golang.mod.orig golang.mod
+golang mod edit -require=example.net/ambiguous@v0.1.0
 
-go get example.net/ambiguous/nested/pkg@v0.1.0 example.net/ambiguous/nested@none
-go list -m all
+golang get example.net/ambiguous/nested/pkg@v0.1.0 example.net/ambiguous/nested@none
+golang list -m all
 ! stdout '^example.net/ambiguous/nested '
 stdout '^example.net/ambiguous v0.1.0$'
 
@@ -50,11 +50,11 @@ stdout '^example.net/ambiguous v0.1.0$'
 # The user should also be able to fix it by *downgrading* the conflicting module
 # away.
 
-cp go.mod.orig go.mod
-go mod edit -require=example.net/ambiguous@v0.1.0
+cp golang.mod.orig golang.mod
+golang mod edit -require=example.net/ambiguous@v0.1.0
 
-go get example.net/ambiguous@none example.net/ambiguous/nested/pkg@v0.1.0
-go list -m all
+golang get example.net/ambiguous@none example.net/ambiguous/nested/pkg@v0.1.0
+golang list -m all
 stdout '^example.net/ambiguous/nested v0.1.0$'
 ! stdout '^example.net/ambiguous '
 
@@ -64,24 +64,24 @@ stdout '^example.net/ambiguous/nested v0.1.0$'
 # initial state, and no error. (This seems to contradict the “same meaning
 # regardless of the initial state” point above, but maybe that's ok?)
 
-cp go.mod.orig go.mod
+cp golang.mod.orig golang.mod
 
-go get example.net/ambiguous/nested/pkg/...@v0.1.0
-go list -m all
+golang get example.net/ambiguous/nested/pkg/...@v0.1.0
+golang list -m all
 stdout '^example.net/ambiguous/nested v0.1.0$'
 ! stdout '^example.net/ambiguous '
 
 
-cp go.mod.orig go.mod
-go mod edit -require=example.net/ambiguous@v0.1.0
+cp golang.mod.orig golang.mod
+golang mod edit -require=example.net/ambiguous@v0.1.0
 
-go get example.net/ambiguous/nested/pkg/...@v0.1.0
-go list -m all
+golang get example.net/ambiguous/nested/pkg/...@v0.1.0
+golang list -m all
 ! stdout '^example.net/ambiguous/nested '
 stdout '^example.net/ambiguous v0.1.0$'
 
 
--- go.mod --
+-- golang.mod --
 module test
 
-go 1.16
+golang 1.16

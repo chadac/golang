@@ -5,7 +5,7 @@ written by hand
 module rsc.io/fortune
 -- .info --
 {"Version":"v1.0.0"}
--- fortune.go --
+-- fortune.golang --
 package main
 
 import "rsc.io/quote"

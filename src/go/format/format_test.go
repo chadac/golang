@@ -1,20 +1,20 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package format
 
 import (
 	"bytes"
-	"go/ast"
-	"go/parser"
-	"go/token"
+	"golang/ast"
+	"golang/parser"
+	"golang/token"
 	"os"
 	"strings"
 	"testing"
 )
 
-const testfile = "format_test.go"
+const testfile = "format_test.golang"
 
 func diff(t *testing.T, dst, src []byte) {
 	line := 1
@@ -63,7 +63,7 @@ func TestNode(t *testing.T) {
 func TestNodeNoModify(t *testing.T) {
 	const (
 		src    = "package p\n\nconst _ = 0000000123i\n"
-		golden = "package p\n\nconst _ = 123i\n"
+		golanglden = "package p\n\nconst _ = 123i\n"
 	)
 
 	fset := token.NewFileSet()
@@ -73,7 +73,7 @@ func TestNodeNoModify(t *testing.T) {
 	}
 
 	// Capture original address and value of a BasicLit node
-	// which will undergo formatting changes during printing.
+	// which will undergolang formatting changes during printing.
 	wantLit := file.Decls[0].(*ast.GenDecl).Specs[0].(*ast.ValueSpec).Values[0].(*ast.BasicLit)
 	wantVal := wantLit.Value
 
@@ -81,17 +81,17 @@ func TestNodeNoModify(t *testing.T) {
 	if err = Node(&buf, fset, file); err != nil {
 		t.Fatal("Node failed:", err)
 	}
-	diff(t, buf.Bytes(), []byte(golden))
+	diff(t, buf.Bytes(), []byte(golanglden))
 
 	// Check if anything changed after Node returned.
-	gotLit := file.Decls[0].(*ast.GenDecl).Specs[0].(*ast.ValueSpec).Values[0].(*ast.BasicLit)
-	gotVal := gotLit.Value
+	golangtLit := file.Decls[0].(*ast.GenDecl).Specs[0].(*ast.ValueSpec).Values[0].(*ast.BasicLit)
+	golangtVal := golangtLit.Value
 
-	if gotLit != wantLit {
-		t.Errorf("got *ast.BasicLit address %p, want %p", gotLit, wantLit)
+	if golangtLit != wantLit {
+		t.Errorf("golangt *ast.BasicLit address %p, want %p", golangtLit, wantLit)
 	}
-	if gotVal != wantVal {
-		t.Errorf("got *ast.BasicLit value %q, want %q", gotVal, wantVal)
+	if golangtVal != wantVal {
+		t.Errorf("golangt *ast.BasicLit value %q, want %q", golangtVal, wantVal)
 	}
 }
 
@@ -113,7 +113,7 @@ func TestSource(t *testing.T) {
 // The formatted result must look the same as the input for successful tests.
 var tests = []string{
 	// declaration lists
-	`import "go/format"`,
+	`import "golang/format"`,
 	"var x int",
 	"var x int\n\ntype T struct{}",
 
@@ -122,10 +122,10 @@ var tests = []string{
 	"f(a, b, c)\nvar x int = f(1, 2, 3)",
 
 	// indentation, leading and trailing space
-	"\tx := 0\n\tgo f()",
-	"\tx := 0\n\tgo f()\n\n\n",
-	"\n\t\t\n\n\tx := 0\n\tgo f()\n\n\n",
-	"\n\t\t\n\n\t\t\tx := 0\n\t\t\tgo f()\n\n\n",
+	"\tx := 0\n\tgolang f()",
+	"\tx := 0\n\tgolang f()\n\n\n",
+	"\n\t\t\n\n\tx := 0\n\tgolang f()\n\n\n",
+	"\n\t\t\n\n\t\t\tx := 0\n\t\t\tgolang f()\n\n\n",
 	"\n\t\t\n\n\t\t\tx := 0\n\t\t\tconst s = `\nfoo\n`\n\n\n",     // no indentation added inside raw strings
 	"\n\t\t\n\n\t\t\tx := 0\n\t\t\tconst s = `\n\t\tfoo\n`\n\n\n", // no indentation removed inside raw strings
 
@@ -153,8 +153,8 @@ var tests = []string{
 	"ERRORx :=  0",
 
 	// build comments
-	"// copyright\n\n//go:build x\n\npackage p\n",
-	"// copyright\n\n//go:build x\n// +build x\n\npackage p\n",
+	"// copyright\n\n//golang:build x\n\npackage p\n",
+	"// copyright\n\n//golang:build x\n// +build x\n\npackage p\n",
 }
 
 func String(s string) (string, error) {

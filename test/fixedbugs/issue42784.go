@@ -1,7 +1,7 @@
 // compile
 
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Ensure that late expansion correctly set OpLoad argument type interface{}
@@ -22,5 +22,5 @@ func f() {
 	g(e)
 }
 
-//go:noinline
+//golang:noinline
 func g(i it) {}

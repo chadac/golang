@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package tracev1
@@ -16,14 +16,14 @@ import (
 func TestCorruptedInputs(t *testing.T) {
 	// These inputs crashed parser previously.
 	tests := []string{
-		"gotrace\x00\x020",
-		"gotrace\x00Q00\x020",
-		"gotrace\x00T00\x020",
-		"gotrace\x00\xc3\x0200",
-		"go 1.5 trace\x00\x00\x00\x00\x020",
-		"go 1.5 trace\x00\x00\x00\x00Q00\x020",
-		"go 1.5 trace\x00\x00\x00\x00T00\x020",
-		"go 1.5 trace\x00\x00\x00\x00\xc3\x0200",
+		"golangtrace\x00\x020",
+		"golangtrace\x00Q00\x020",
+		"golangtrace\x00T00\x020",
+		"golangtrace\x00\xc3\x0200",
+		"golang 1.5 trace\x00\x00\x00\x00\x020",
+		"golang 1.5 trace\x00\x00\x00\x00Q00\x020",
+		"golang 1.5 trace\x00\x00\x00\x00T00\x020",
+		"golang 1.5 trace\x00\x00\x00\x00\xc3\x0200",
 	}
 	for _, data := range tests {
 		res, err := Parse(strings.NewReader(data), 5)
@@ -54,13 +54,13 @@ func TestParseCanned(t *testing.T) {
 		r := bytes.NewReader(data)
 		v, err := version.ReadHeader(r)
 		if err != nil {
-			t.Errorf("failed to parse good trace %s: %s", f.Name(), err)
+			t.Errorf("failed to parse golangod trace %s: %s", f.Name(), err)
 		}
 		trace, err := Parse(r, v)
 		switch {
-		case strings.HasSuffix(f.Name(), "_good"):
+		case strings.HasSuffix(f.Name(), "_golangod"):
 			if err != nil {
-				t.Errorf("failed to parse good trace %v: %v", f.Name(), err)
+				t.Errorf("failed to parse golangod trace %v: %v", f.Name(), err)
 			}
 			checkTrace(t, int(v), trace)
 		case strings.HasSuffix(f.Name(), "_unordered"):
@@ -73,7 +73,7 @@ func TestParseCanned(t *testing.T) {
 	}
 }
 
-// checkTrace walks over a good trace and makes a bunch of additional checks
+// checkTrace walks over a golangod trace and makes a bunch of additional checks
 // that may not cause the parser to outright fail.
 func checkTrace(t *testing.T, ver int, res Trace) {
 	for i := 0; i < res.Events.Len(); i++ {
@@ -95,11 +95,11 @@ func TestBuckets(t *testing.T) {
 	}
 
 	if n := len(evs.buckets); n != 4 {
-		t.Fatalf("got %d buckets, want %d", n, 4)
+		t.Fatalf("golangt %d buckets, want %d", n, 4)
 	}
 
 	if n := evs.Len(); n != N {
-		t.Fatalf("got %d events, want %d", n, N)
+		t.Fatalf("golangt %d events, want %d", n, N)
 	}
 
 	var n int
@@ -128,12 +128,12 @@ func TestBuckets(t *testing.T) {
 	}
 
 	if n := evs.Len(); n != N-consume {
-		t.Fatalf("got %d remaining elements, expected %d", n, N-consume)
+		t.Fatalf("golangt %d remaining elements, expected %d", n, N-consume)
 	}
 
 	ev := evs.Ptr(0)
 	if ev.Ts != consume {
-		t.Fatalf("got event %d, expected %d", int(ev.Ts), consume)
+		t.Fatalf("golangt event %d, expected %d", int(ev.Ts), consume)
 	}
 
 	for {

@@ -3,10 +3,10 @@
 -- .mod --
 module example.com/dotname
 
-go 1.16
--- go.mod --
+golang 1.16
+-- golang.mod --
 module example.com/dotname
 
-go 1.16
--- .dot/dot.go --
+golang 1.16
+-- .dot/dot.golang --
 package dot

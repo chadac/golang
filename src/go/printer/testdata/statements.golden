@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package statements
@@ -356,7 +356,7 @@ func _() {
 		a[i] = i
 	}	// multiple lines
 
-	go func() {
+	golang func() {
 		for {
 			a <- <-b
 		}
@@ -477,7 +477,7 @@ func _() {
 
 	// Each use(x) call below should have at most one empty line before and after.
 	// Known bug: The first use call may have more than one empty line before
-	//            (see go/printer/nodes.go, func linebreak).
+	//            (see golang/printer/nodes.golang, func linebreak).
 
 	use(x)
 
@@ -578,7 +578,7 @@ L:
 
 func _() {
 	for {
-		goto L
+		golangto L
 	}
 L:
 
@@ -587,18 +587,18 @@ L:
 
 func _() {
 	for {
-		goto L
+		golangto L
 	}
 L:	// A comment on the same line as the label, followed by a single empty line.
 	// Known bug: There may be more than one empty line before MoreCode()
-	//            (see go/printer/nodes.go, func linebreak).
+	//            (see golang/printer/nodes.golang, func linebreak).
 
 	MoreCode()
 }
 
 func _() {
 	for {
-		goto L
+		golangto L
 	}
 L:
 
@@ -608,7 +608,7 @@ L:
 
 func _() {
 	for {
-		goto AVeryLongLabelThatShouldNotAffectFormatting
+		golangto AVeryLongLabelThatShouldNotAffectFormatting
 	}
 AVeryLongLabelThatShouldNotAffectFormatting:
 	// There should be a single empty line after this comment.

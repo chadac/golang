@@ -5,22 +5,22 @@ env GO111MODULE=off
 # Run tests outside GOPATH.
 env GOPATH=$WORK/tmp
 
-go test ./testimport/p.go ./testimport/p_test.go ./testimport/x_test.go
+golang test ./testimport/p.golang ./testimport/p_test.golang ./testimport/x_test.golang
 stdout '^ok'
 
--- testimport/p.go --
+-- testimport/p.golang --
 package p
 
 func F() int { return 1 }
--- testimport/p1/p1.go --
+-- testimport/p1/p1.golang --
 package p1
 
 func F() int { return 1 }
--- testimport/p2/p2.go --
+-- testimport/p2/p2.golang --
 package p2
 
 func F() int { return 1 }
--- testimport/p_test.go --
+-- testimport/p_test.golang --
 package p
 
 import (
@@ -34,7 +34,7 @@ func TestF(t *testing.T) {
 		t.Fatal(F())
 	}
 }
--- testimport/x_test.go --
+-- testimport/x_test.golang --
 package p_test
 
 import (

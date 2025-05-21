@@ -1,8 +1,8 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Test case for go.dev/issue/3106: Better synchronization of
+// Test case for golang.dev/issue/3106: Better synchronization of
 // parser after certain syntax errors.
 
 package main
@@ -13,7 +13,7 @@ func f() {
 	percent := 0
 	const step = 10
 	for i := 0; i < 5; i++ {
-		go func() {
+		golang func() {
 			for {
 				// Emulates some useful work.
 				time.Sleep(1e8)

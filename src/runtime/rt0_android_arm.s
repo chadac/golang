@@ -1,5 +1,5 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 #include "textflag.h"
@@ -21,5 +21,5 @@ DATA _rt0_arm_android_argv+0x08(SB)/4,$0 // end envv
 DATA _rt0_arm_android_argv+0x0c(SB)/4,$0 // end auxv
 GLOBL _rt0_arm_android_argv(SB),NOPTR,$0x10
 
-DATA _rt0_arm_android_argv0(SB)/8, $"gojni"
+DATA _rt0_arm_android_argv0(SB)/8, $"golangjni"
 GLOBL _rt0_arm_android_argv0(SB),RODATA,$8

@@ -1,8 +1,8 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Copied from Go distribution src/go/build/build.go, syslist.go.
+// Copied from Go distribution src/golang/build/build.golang, syslist.golang.
 // That package does not export the ability to process raw file data,
 // although we could fake it with an appropriate build.Context
 // and a lot of unwrapping.
@@ -10,20 +10,20 @@
 // special case, in which both tag and !tag are considered to be true
 // for essentially all tags (except "ignore").
 //
-// If we added this API to go/build directly, we wouldn't need this
+// If we added this API to golang/build directly, we wouldn't need this
 // file anymore, but this API is not terribly general-purpose and we
 // don't really want to commit to any public form of it, nor do we
-// want to move the core parts of go/build into a top-level internal package.
+// want to move the core parts of golang/build into a top-level internal package.
 // These details change very infrequently, so the copy is fine.
 
 package imports
 
 import (
 	"bytes"
-	"cmd/go/internal/cfg"
+	"cmd/golang/internal/cfg"
 	"errors"
 	"fmt"
-	"go/build/constraint"
+	"golang/build/constraint"
 	"internal/syslist"
 	"strings"
 	"unicode"
@@ -35,17 +35,17 @@ var (
 	bSlashStar  = []byte("/*")
 	bPlusBuild  = []byte("+build")
 
-	goBuildComment = []byte("//go:build")
+	golangBuildComment = []byte("//golang:build")
 
-	errMultipleGoBuild = errors.New("multiple //go:build comments")
+	errMultipleGoBuild = errors.New("multiple //golang:build comments")
 )
 
 func isGoBuildComment(line []byte) bool {
-	if !bytes.HasPrefix(line, goBuildComment) {
+	if !bytes.HasPrefix(line, golangBuildComment) {
 		return false
 	}
 	line = bytes.TrimSpace(line)
-	rest := line[len(goBuildComment):]
+	rest := line[len(golangBuildComment):]
 	return len(rest) == 0 || len(bytes.TrimSpace(rest)) < len(rest)
 }
 
@@ -70,18 +70,18 @@ func isGoBuildComment(line []byte) bool {
 func ShouldBuild(content []byte, tags map[string]bool) bool {
 	// Identify leading run of // comments and blank lines,
 	// which must be followed by a blank line.
-	// Also identify any //go:build comments.
-	content, goBuild, _, err := parseFileHeader(content)
+	// Also identify any //golang:build comments.
+	content, golangBuild, _, err := parseFileHeader(content)
 	if err != nil {
 		return false
 	}
 
-	// If //go:build line is present, it controls.
+	// If //golang:build line is present, it controls.
 	// Otherwise fall back to +build processing.
 	var shouldBuild bool
 	switch {
-	case goBuild != nil:
-		x, err := constraint.Parse(string(goBuild))
+	case golangBuild != nil:
+		x, err := constraint.Parse(string(golangBuild))
 		if err != nil {
 			return false
 		}
@@ -116,7 +116,7 @@ func ShouldBuild(content []byte, tags map[string]bool) bool {
 	return shouldBuild
 }
 
-func parseFileHeader(content []byte) (trimmed, goBuild []byte, sawBinaryOnly bool, err error) {
+func parseFileHeader(content []byte) (trimmed, golangBuild []byte, sawBinaryOnly bool, err error) {
 	end := 0
 	p := content
 	ended := false       // found non-blank, non-// line, so stopped accepting // +build lines
@@ -137,7 +137,7 @@ Lines:
 			// this "end" position marks the latest file position
 			// where a // +build line can appear.
 			// (It must appear _before_ a blank line before the non-blank, non-// line.
-			// Yes, that's confusing, which is part of why we moved to //go:build lines.)
+			// Yes, that's confusing, which is part of why we moved to //golang:build lines.)
 			// Note that ended==false here means that inSlashStar==false,
 			// since seeing a /* would have set ended==true.
 			end = len(content) - len(p)
@@ -148,10 +148,10 @@ Lines:
 		}
 
 		if !inSlashStar && isGoBuildComment(line) {
-			if goBuild != nil {
+			if golangBuild != nil {
 				return nil, nil, false, errMultipleGoBuild
 			}
-			goBuild = line
+			golangBuild = line
 		}
 
 	Comments:
@@ -177,7 +177,7 @@ Lines:
 		}
 	}
 
-	return content[:end], goBuild, sawBinaryOnly, nil
+	return content[:end], golangBuild, sawBinaryOnly, nil
 }
 
 // matchTag reports whether the tag name is valid and tags[name] is true.
@@ -278,12 +278,12 @@ func MatchFile(name string, tags map[string]bool) bool {
 		name = name[:dot]
 	}
 
-	// Before Go 1.4, a file called "linux.go" would be equivalent to having a
+	// Before Go 1.4, a file called "linux.golang" would be equivalent to having a
 	// build tag "linux" in that file. For Go 1.4 and beyond, we require this
 	// auto-tagging to apply only to files with a non-empty prefix, so
-	// "foo_linux.go" is tagged but "linux.go" is not. This allows new operating
+	// "foo_linux.golang" is tagged but "linux.golang" is not. This allows new operating
 	// systems, such as android, to arrive without breaking existing code with
-	// innocuous source code in "android.go". The easiest fix: cut everything
+	// innocuous source code in "android.golang". The easiest fix: cut everything
 	// in the name before the initial _.
 	i := strings.Index(name, "_")
 	if i < 0 {

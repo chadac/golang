@@ -1,6 +1,6 @@
 ## Compiler {#compiler}
 
-<!-- https://go.dev/issue/26379 -->
+<!-- https://golang.dev/issue/26379 -->
 
 The compiler and linker in Go 1.25 now generate debug information
 using [DWARF version 5](https://dwarfstd.org/dwarf5std.html); the
@@ -9,7 +9,7 @@ information in Go binaries.
 DWARF 5 generation is gated by the "dwarf5" GOEXPERIMENT; this
 functionality can be disabled (for now) using GOEXPERIMENT=nodwarf5.
 
-<!-- https://go.dev/issue/72860, CL 657715 -->
+<!-- https://golang.dev/issue/72860, CL 657715 -->
 
 The compiler [has been fixed](/cl/657715)
 to ensure that nil pointer checks are performed promptly. Programs like the following,

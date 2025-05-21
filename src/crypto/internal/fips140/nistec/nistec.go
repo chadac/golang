@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package nistec implements the elliptic curves from NIST SP 800-186.
@@ -14,4 +14,4 @@ package nistec
 
 import _ "crypto/internal/fips140/check"
 
-//go:generate go run generate.go
+//golang:generate golang run generate.golang

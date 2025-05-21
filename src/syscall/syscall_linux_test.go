@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package syscall_test
@@ -109,7 +109,7 @@ func TestFchmodat(t *testing.T) {
 	}
 
 	if fi.Mode() != 0444 {
-		t.Errorf("Fchmodat: failed to change mode: expected %v, got %v", 0444, fi.Mode())
+		t.Errorf("Fchmodat: failed to change mode: expected %v, golangt %v", 0444, fi.Mode())
 	}
 
 	err = syscall.Fchmodat(_AT_FDCWD, "symlink1", 0444, _AT_SYMLINK_NOFOLLOW)
@@ -150,10 +150,10 @@ func TestParseNetlinkMessage(t *testing.T) {
 	} {
 		m, err := syscall.ParseNetlinkMessage(b)
 		if err != syscall.EINVAL {
-			t.Errorf("#%d: got %v; want EINVAL", i, err)
+			t.Errorf("#%d: golangt %v; want EINVAL", i, err)
 		}
 		if m != nil {
-			t.Errorf("#%d: got %v; want nil", i, m)
+			t.Errorf("#%d: golangt %v; want nil", i, m)
 		}
 	}
 }
@@ -166,7 +166,7 @@ func TestSyscallNoError(t *testing.T) {
 		t.Skip("skipping on non-32bit architecture")
 	}
 
-	// See https://golang.org/issue/35422
+	// See https://golanglang.org/issue/35422
 	// On MIPS, Linux returns whether the syscall had an error in a separate
 	// register (R7), not using a negative return value as on other
 	// architectures.
@@ -233,16 +233,16 @@ func TestSyscallNoError(t *testing.T) {
 		t.Fatalf("failed to start first child process: %v", err)
 	}
 
-	got := strings.TrimSpace(string(out))
+	golangt := strings.TrimSpace(string(out))
 	want := strconv.FormatUint(uint64(uid)+1, 10) + " / " +
 		strconv.FormatUint(uint64(-uid), 10) + " / " +
 		strconv.FormatUint(uint64(uid), 10)
-	if got != want {
+	if golangt != want {
 		if filesystemIsNoSUID(tmpBinary) {
 			t.Skip("skipping test when temp dir is mounted nosuid")
 		}
 		// formatted so the values are aligned for easier comparison
-		t.Errorf("expected %s,\ngot      %s", want, got)
+		t.Errorf("expected %s,\ngolangt      %s", want, golangt)
 	}
 }
 
@@ -258,7 +258,7 @@ func filesystemIsNoSUID(path string) bool {
 
 func syscallNoError() {
 	// Test that the return value from SYS_GETEUID32 (which cannot fail)
-	// doesn't get treated as an error (see https://golang.org/issue/22924)
+	// doesn't get treated as an error (see https://golanglang.org/issue/22924)
 	euid1, _, e := syscall.RawSyscall(syscall.Sys_GETEUID, 0, 0, 0)
 	euid2, _ := syscall.RawSyscallNoError(syscall.Sys_GETEUID, 0, 0, 0)
 
@@ -272,12 +272,12 @@ const (
 	PR_SET_KEEPCAPS         = 8
 )
 
-// TestAllThreadsSyscall tests that the go runtime can perform
+// TestAllThreadsSyscall tests that the golang runtime can perform
 // syscalls that execute on all OSThreads - with which to support
 // POSIX semantics for security state changes.
 func TestAllThreadsSyscall(t *testing.T) {
 	if _, _, err := syscall.AllThreadsSyscall(syscall.SYS_PRCTL, PR_SET_KEEPCAPS, 0, 0); err == syscall.ENOTSUP {
-		t.Skip("AllThreadsSyscall disabled with cgo")
+		t.Skip("AllThreadsSyscall disabled with cgolang")
 	}
 
 	fns := []struct {
@@ -313,7 +313,7 @@ func TestAllThreadsSyscall(t *testing.T) {
 			if e != 0 {
 				t.Errorf("tid=%d prctl(PR_GET_KEEPCAPS) failed: %v", syscall.Gettid(), e)
 			} else if x != v {
-				t.Errorf("tid=%d prctl(PR_GET_KEEPCAPS) mismatch: got=%d want=%d", syscall.Gettid(), v, x)
+				t.Errorf("tid=%d prctl(PR_GET_KEEPCAPS) mismatch: golangt=%d want=%d", syscall.Gettid(), v, x)
 			}
 			r <- v
 			if once {
@@ -332,13 +332,13 @@ func TestAllThreadsSyscall(t *testing.T) {
 	routines := 0
 	for i, v := range fns {
 		for j := 0; j < launches; j++ {
-			// Add another goroutine - the closest thing
+			// Add another golangroutine - the closest thing
 			// we can do to encourage more OS thread
 			// creation - while the test is running.  The
 			// actual thread creation may or may not be
 			// needed, based on the number of available
 			// unlocked OS threads at the time waiter
-			// calls runtime.LockOSThread(), but the goal
+			// calls runtime.LockOSThread(), but the golangal
 			// of doing this every time through the loop
 			// is to race thread creation with v.fn(want)
 			// being executed. Via the once boolean we
@@ -347,10 +347,10 @@ func TestAllThreadsSyscall(t *testing.T) {
 			// question response sequence. This allows the
 			// test to race thread destruction too.
 			once := routines%5 == 4
-			go waiter(question, response, once)
+			golang waiter(question, response, once)
 
-			// Keep a count of how many goroutines are
-			// going to participate in the
+			// Keep a count of how many golangroutines are
+			// golanging to participate in the
 			// question/response test. This will count up
 			// towards 2*launches minus the count of
 			// routines that have been invoked with
@@ -379,8 +379,8 @@ func TestAllThreadsSyscall(t *testing.T) {
 			// number of locked OS threads all wanting to
 			// reply.
 			for k := 0; k < routines; k++ {
-				if got := <-response; got != want {
-					t.Errorf("[%d,%d,%d] waiter result got=%d, want=%d", i, j, k, got, want)
+				if golangt := <-response; golangt != want {
+					t.Errorf("[%d,%d,%d] waiter result golangt=%d, want=%d", i, j, k, golangt, want)
 				}
 			}
 
@@ -398,7 +398,7 @@ func TestAllThreadsSyscall(t *testing.T) {
 			if v, _, e := syscall.Syscall(syscall.SYS_PRCTL, PR_GET_KEEPCAPS, 0, 0); e != 0 {
 				t.Errorf("[%d,%d] prctl(PR_GET_KEEPCAPS) failed: %v", i, j, e)
 			} else if v != want {
-				t.Errorf("[%d,%d] prctl(PR_GET_KEEPCAPS) gave wrong value: got=%v, want=1", i, j, v)
+				t.Errorf("[%d,%d] prctl(PR_GET_KEEPCAPS) gave wrong value: golangt=%v, want=1", i, j, v)
 			}
 		}
 	}
@@ -422,7 +422,7 @@ func compareStatus(filter, expect string) error {
 			// There are a surprising number of ways this
 			// can error out on linux.  We've seen all of
 			// the following, so treat any error here as
-			// equivalent to the "process is gone":
+			// equivalent to the "process is golangne":
 			//    os.IsNotExist(err),
 			//    "... : no such process",
 			//    "... : bad file descriptor.
@@ -455,18 +455,18 @@ func compareStatus(filter, expect string) error {
 					break
 				}
 				if filter == "Groups:" && strings.HasPrefix(line, "Groups:\t") {
-					// https://github.com/golang/go/issues/46145
+					// https://github.com/golanglang/golang/issues/46145
 					// Containers don't reliably output this line in sorted order so manually sort and compare that.
 					a := strings.Split(line[8:], " ")
 					slices.Sort(a)
-					got := strings.Join(a, " ")
-					if got == expected[8:] {
+					golangt := strings.Join(a, " ")
+					if golangt == expected[8:] {
 						foundAThread = true
 						break
 					}
 
 				}
-				return fmt.Errorf("%q got:%q want:%q (bad) [pid=%d file:'%s' %v]\n", tf, line, expected, pid, string(d), expectedProc)
+				return fmt.Errorf("%q golangt:%q want:%q (bad) [pid=%d file:'%s' %v]\n", tf, line, expected, pid, string(d), expectedProc)
 			}
 		}
 	}
@@ -476,7 +476,7 @@ func compareStatus(filter, expect string) error {
 	return nil
 }
 
-// killAThread locks the goroutine to an OS thread and exits; this
+// killAThread locks the golangroutine to an OS thread and exits; this
 // causes an OS thread to terminate.
 func killAThread(c <-chan struct{}) {
 	runtime.LockOSThread()
@@ -488,7 +488,7 @@ func killAThread(c <-chan struct{}) {
 // that mirror to the 9 glibc syscalls with POSIX semantics. The test
 // here is considered authoritative and should compile and run
 // CGO_ENABLED=0 or 1. Note, there is an extended copy of this same
-// test in ../../misc/cgo/test/issue1435.go which requires
+// test in ../../misc/cgolang/test/issue1435.golang which requires
 // CGO_ENABLED=1 and launches pthreads from C that run concurrently
 // with the Go code of the test - and the test validates that these
 // pthreads are also kept in sync with the security state changed with
@@ -509,7 +509,7 @@ func TestSetuidEtc(t *testing.T) {
 		t.Skip("skipping root only test on a non-root builder")
 	}
 	if _, err := os.Stat("/etc/alpine-release"); err == nil {
-		t.Skip("skipping glibc test on alpine - go.dev/issue/19938")
+		t.Skip("skipping glibc test on alpine - golang.dev/issue/19938")
 	}
 	vs := []struct {
 		call           string
@@ -549,7 +549,7 @@ func TestSetuidEtc(t *testing.T) {
 	for i, v := range vs {
 		// Generate some thread churn as we execute the tests.
 		c := make(chan struct{})
-		go killAThread(c)
+		golang killAThread(c)
 		close(c)
 
 		if err := v.fn(); err != nil {
@@ -569,10 +569,10 @@ func TestAllThreadsSyscallError(t *testing.T) {
 	// 0, we expect to get EFAULT back.
 	r1, r2, err := syscall.AllThreadsSyscall(syscall.SYS_CAPGET, 0, 0, 0)
 	if err == syscall.ENOTSUP {
-		t.Skip("AllThreadsSyscall disabled with cgo")
+		t.Skip("AllThreadsSyscall disabled with cgolang")
 	}
 	if err != syscall.EFAULT {
-		t.Errorf("AllThreadSyscall(SYS_CAPGET) got %d, %d, %v, want err %v", r1, r2, err, syscall.EFAULT)
+		t.Errorf("AllThreadSyscall(SYS_CAPGET) golangt %d, %d, %v, want err %v", r1, r2, err, syscall.EFAULT)
 	}
 }
 
@@ -581,7 +581,7 @@ func TestAllThreadsSyscallError(t *testing.T) {
 // deadlock if this doesn't work correctly.
 func TestAllThreadsSyscallBlockedSyscall(t *testing.T) {
 	if _, _, err := syscall.AllThreadsSyscall(syscall.SYS_PRCTL, PR_SET_KEEPCAPS, 0, 0); err == syscall.ENOTSUP {
-		t.Skip("AllThreadsSyscall disabled with cgo")
+		t.Skip("AllThreadsSyscall disabled with cgolang")
 	}
 
 	rd, wr, err := os.Pipe()
@@ -593,11 +593,11 @@ func TestAllThreadsSyscallBlockedSyscall(t *testing.T) {
 	var wg sync.WaitGroup
 	ready := make(chan bool)
 	wg.Add(1)
-	go func() {
+	golang func() {
 		data := make([]byte, 1)
 
 		// To narrow the window we have to wait for this
-		// goroutine to block in read, synchronize just before
+		// golangroutine to block in read, synchronize just before
 		// calling read.
 		ready <- true
 
@@ -605,7 +605,7 @@ func TestAllThreadsSyscallBlockedSyscall(t *testing.T) {
 		// This will return when the write side is closed.
 		n, err := syscall.Read(int(rd.Fd()), data)
 		if !(n == 0 && err == nil) {
-			t.Errorf("expected read to return 0, got %d, %s", n, err)
+			t.Errorf("expected read to return 0, golangt %d, %s", n, err)
 		}
 
 		// Clean up rd and also ensure rd stays reachable so
@@ -615,16 +615,16 @@ func TestAllThreadsSyscallBlockedSyscall(t *testing.T) {
 	}()
 	<-ready
 
-	// Loop here to give the goroutine more time to block in read.
+	// Loop here to give the golangroutine more time to block in read.
 	// Generally this will trigger on the first iteration anyway.
 	pid := syscall.Getpid()
 	for i := 0; i < 100; i++ {
 		if id, _, e := syscall.AllThreadsSyscall(syscall.SYS_GETPID, 0, 0, 0); e != 0 {
 			t.Errorf("[%d] getpid failed: %v", i, e)
 		} else if int(id) != pid {
-			t.Errorf("[%d] getpid got=%d, want=%d", i, id, pid)
+			t.Errorf("[%d] getpid golangt=%d, want=%d", i, id, pid)
 		}
-		// Provide an explicit opportunity for this goroutine
+		// Provide an explicit opportunity for this golangroutine
 		// to change Ms.
 		runtime.Gosched()
 	}
@@ -656,7 +656,7 @@ func TestPrlimitSelf(t *testing.T) {
 
 	rlimLater := origRlimitNofile.Load()
 	if rlimLater != nil {
-		t.Fatalf("origRlimitNofile got=%v, want=nil", rlimLater)
+		t.Fatalf("origRlimitNofile golangt=%v, want=nil", rlimLater)
 	}
 }
 
@@ -694,7 +694,7 @@ func TestPrlimitOtherProcess(t *testing.T) {
 
 	rlimLater := origRlimitNofile.Load()
 	if rlimLater != rlimOrig {
-		t.Fatalf("origRlimitNofile got=%v, want=%v", rlimLater, rlimOrig)
+		t.Fatalf("origRlimitNofile golangt=%v, want=%v", rlimLater, rlimOrig)
 	}
 }
 

@@ -2,7 +2,7 @@
 Doubled single quotes like `` and '' turn into Unicode double quotes,
 but single quotes ` and ' do not.
 Misplaced markdown fences ``` do not either.
--- gofmt --
+-- golangfmt --
 Doubled single quotes like “ and ” turn into Unicode double quotes,
 but single quotes ` and ' do not.
 Misplaced markdown fences ``` do not either.

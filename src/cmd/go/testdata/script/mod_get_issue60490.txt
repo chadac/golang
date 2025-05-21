@@ -1,12 +1,12 @@
-# Regression test for https://go.dev/issue/60490: 'go get' should not cause an
+# Regression test for https://golang.dev/issue/60490: 'golang get' should not cause an
 # infinite loop for cycles introduced in the pruned module graph.
 
-go get example.net/c@v0.1.0
+golang get example.net/c@v0.1.0
 
--- go.mod --
+-- golang.mod --
 module example
 
-go 1.19
+golang 1.19
 
 require (
 	example.net/a v0.1.0
@@ -20,29 +20,29 @@ replace (
 	example.net/b v0.2.0 => ./b2
 	example.net/c v0.1.0 => ./c1
 )
--- a1/go.mod --
+-- a1/golang.mod --
 module example.net/a
 
-go 1.19
--- a2/go.mod --
+golang 1.19
+-- a2/golang.mod --
 module example.net/a
 
-go 1.19
+golang 1.19
 
 require example.net/b v0.2.0
--- b1/go.mod --
+-- b1/golang.mod --
 module example.net/b
 
-go 1.19
--- b2/go.mod --
+golang 1.19
+-- b2/golang.mod --
 module example.net/b
 
-go 1.19
+golang 1.19
 
 require example.net/a v0.2.0
--- c1/go.mod --
+-- c1/golang.mod --
 module example.net/c
 
-go 1.19
+golang 1.19
 
 require example.net/a v0.2.0

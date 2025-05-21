@@ -1,17 +1,17 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build darwin || linux
+//golang:build darwin || linux
 
-package cgo
+package cgolang
 
-import _ "unsafe" // for go:linkname
+import _ "unsafe" // for golang:linkname
 
-// Calls the traceback function passed to SetCgoTraceback.
+// Calls the traceback function passed to SetCgolangTraceback.
 
-//go:cgo_import_static x_cgo_callers
-//go:linkname x_cgo_callers x_cgo_callers
-//go:linkname _cgo_callers _cgo_callers
-var x_cgo_callers byte
-var _cgo_callers = &x_cgo_callers
+//golang:cgolang_import_static x_cgolang_callers
+//golang:linkname x_cgolang_callers x_cgolang_callers
+//golang:linkname _cgolang_callers _cgolang_callers
+var x_cgolang_callers byte
+var _cgolang_callers = &x_cgolang_callers

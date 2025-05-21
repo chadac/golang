@@ -1,45 +1,45 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
 
-import _ "unsafe" // for go:linkname
+import _ "unsafe" // for golang:linkname
 
-//go:cgo_import_dynamic libc_chdir chdir "libc.so"
-//go:cgo_import_dynamic libc_chroot chroot "libc.so"
-//go:cgo_import_dynamic libc_close close "libc.so"
-//go:cgo_import_dynamic libc_execve execve "libc.so"
-//go:cgo_import_dynamic libc_fcntl fcntl "libc.so"
-//go:cgo_import_dynamic libc_forkx forkx "libc.so"
-//go:cgo_import_dynamic libc_gethostname gethostname "libc.so"
-//go:cgo_import_dynamic libc_getpid getpid "libc.so"
-//go:cgo_import_dynamic libc_ioctl ioctl "libc.so"
-//go:cgo_import_dynamic libc_setgid setgid "libc.so"
-//go:cgo_import_dynamic libc_setgroups setgroups "libc.so"
-//go:cgo_import_dynamic libc_setrlimit setrlimit "libc.so"
-//go:cgo_import_dynamic libc_setsid setsid "libc.so"
-//go:cgo_import_dynamic libc_setuid setuid "libc.so"
-//go:cgo_import_dynamic libc_setpgid setpgid "libc.so"
-//go:cgo_import_dynamic libc_syscall syscall "libc.so"
-//go:cgo_import_dynamic libc_wait4 wait4 "libc.so"
-//go:cgo_import_dynamic libc_issetugid issetugid "libc.so"
+//golang:cgolang_import_dynamic libc_chdir chdir "libc.so"
+//golang:cgolang_import_dynamic libc_chroot chroot "libc.so"
+//golang:cgolang_import_dynamic libc_close close "libc.so"
+//golang:cgolang_import_dynamic libc_execve execve "libc.so"
+//golang:cgolang_import_dynamic libc_fcntl fcntl "libc.so"
+//golang:cgolang_import_dynamic libc_forkx forkx "libc.so"
+//golang:cgolang_import_dynamic libc_gethostname gethostname "libc.so"
+//golang:cgolang_import_dynamic libc_getpid getpid "libc.so"
+//golang:cgolang_import_dynamic libc_ioctl ioctl "libc.so"
+//golang:cgolang_import_dynamic libc_setgid setgid "libc.so"
+//golang:cgolang_import_dynamic libc_setgroups setgroups "libc.so"
+//golang:cgolang_import_dynamic libc_setrlimit setrlimit "libc.so"
+//golang:cgolang_import_dynamic libc_setsid setsid "libc.so"
+//golang:cgolang_import_dynamic libc_setuid setuid "libc.so"
+//golang:cgolang_import_dynamic libc_setpgid setpgid "libc.so"
+//golang:cgolang_import_dynamic libc_syscall syscall "libc.so"
+//golang:cgolang_import_dynamic libc_wait4 wait4 "libc.so"
+//golang:cgolang_import_dynamic libc_issetugid issetugid "libc.so"
 
-//go:linkname libc_chdir libc_chdir
-//go:linkname libc_chroot libc_chroot
-//go:linkname libc_close libc_close
-//go:linkname libc_execve libc_execve
-//go:linkname libc_fcntl libc_fcntl
-//go:linkname libc_forkx libc_forkx
-//go:linkname libc_gethostname libc_gethostname
-//go:linkname libc_getpid libc_getpid
-//go:linkname libc_ioctl libc_ioctl
-//go:linkname libc_setgid libc_setgid
-//go:linkname libc_setgroups libc_setgroups
-//go:linkname libc_setrlimit libc_setrlimit
-//go:linkname libc_setsid libc_setsid
-//go:linkname libc_setuid libc_setuid
-//go:linkname libc_setpgid libc_setpgid
-//go:linkname libc_syscall libc_syscall
-//go:linkname libc_wait4 libc_wait4
-//go:linkname libc_issetugid libc_issetugid
+//golang:linkname libc_chdir libc_chdir
+//golang:linkname libc_chroot libc_chroot
+//golang:linkname libc_close libc_close
+//golang:linkname libc_execve libc_execve
+//golang:linkname libc_fcntl libc_fcntl
+//golang:linkname libc_forkx libc_forkx
+//golang:linkname libc_gethostname libc_gethostname
+//golang:linkname libc_getpid libc_getpid
+//golang:linkname libc_ioctl libc_ioctl
+//golang:linkname libc_setgid libc_setgid
+//golang:linkname libc_setgroups libc_setgroups
+//golang:linkname libc_setrlimit libc_setrlimit
+//golang:linkname libc_setsid libc_setsid
+//golang:linkname libc_setuid libc_setuid
+//golang:linkname libc_setpgid libc_setpgid
+//golang:linkname libc_syscall libc_syscall
+//golang:linkname libc_wait4 libc_wait4
+//golang:linkname libc_issetugid libc_issetugid

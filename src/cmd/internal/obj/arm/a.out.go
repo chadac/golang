@@ -32,7 +32,7 @@ package arm
 
 import "cmd/internal/obj"
 
-//go:generate go run ../stringer.go -i $GOFILE -o anames.go -p arm
+//golang:generate golang run ../stringer.golang -i $GOFILE -o anames.golang -p arm
 
 const (
 	NSNAME = 8

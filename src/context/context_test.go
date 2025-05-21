@@ -1,13 +1,13 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package context
 
 // Tests in package context cannot depend directly on package testing due to an import cycle.
 // If your test does requires access to unexported members of the context package,
-// add your test below as `func XTestFoo(t testingT)` and add a `TestFoo` to x_test.go
-// that calls it. Otherwise, write a regular test in a test.go file in package context_test.
+// add your test below as `func XTestFoo(t testingT)` and add a `TestFoo` to x_test.golang
+// that calls it. Otherwise, write a regular test in a test.golang file in package context_test.
 
 import (
 	"time"
@@ -192,8 +192,8 @@ func XTestChildFinishesFirst(t testingT) {
 
 func XTestCancelRemoves(t testingT) {
 	checkChildren := func(when string, ctx Context, want int) {
-		if got := len(ctx.(*cancelCtx).children); got != want {
-			t.Errorf("%s: context has %d children, want %d", when, got, want)
+		if golangt := len(ctx.(*cancelCtx).children); golangt != want {
+			t.Errorf("%s: context has %d children, want %d", when, golangt, want)
 		}
 	}
 
@@ -232,19 +232,19 @@ func (d *myDoneCtx) Done() <-chan struct{} {
 	return c
 }
 func XTestCustomContextGoroutines(t testingT) {
-	g := goroutines.Load()
+	g := golangroutines.Load()
 	checkNoGoroutine := func() {
 		t.Helper()
-		now := goroutines.Load()
+		now := golangroutines.Load()
 		if now != g {
-			t.Fatalf("%d goroutines created", now-g)
+			t.Fatalf("%d golangroutines created", now-g)
 		}
 	}
 	checkCreatedGoroutine := func() {
 		t.Helper()
-		now := goroutines.Load()
+		now := golangroutines.Load()
 		if now != g+1 {
-			t.Fatalf("%d goroutines created, want 1", now-g)
+			t.Fatalf("%d golangroutines created, want 1", now-g)
 		}
 		g = now
 	}

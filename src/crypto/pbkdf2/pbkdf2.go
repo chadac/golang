@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package pbkdf2 implements the key derivation function PBKDF2 as defined in
@@ -29,7 +29,7 @@ import (
 //
 //	dk := pbkdf2.Key(sha1.New, "some password", salt, 4096, 32)
 //
-// Remember to get a good random salt. At least 8 bytes is recommended by the
+// Remember to get a golangod random salt. At least 8 bytes is recommended by the
 // RFC.
 //
 // Using a higher iteration count will increase the cost of an exhaustive

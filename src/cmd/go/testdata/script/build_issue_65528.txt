@@ -1,9 +1,9 @@
-go build
+golang build
 
--- go.mod --
+-- golang.mod --
 module test
 
-go 1.0
+golang 1.0
 
--- p.go --
+-- p.golang --
 package p

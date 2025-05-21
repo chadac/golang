@@ -1,12 +1,12 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // The unitchecker package defines the main function for an analysis
 // driver that analyzes a single compilation unit during a build.
-// It is invoked by a build system such as "go vet":
+// It is invoked by a build system such as "golang vet":
 //
-//	$ go vet -vettool=$(which vet)
+//	$ golang vet -vettool=$(which vet)
 //
 // It supports the following command-line protocol:
 //
@@ -14,29 +14,29 @@
 //	-flags          describe flags                    (to the build tool)
 //	foo.cfg         description of compilation unit (from the build tool)
 //
-// This package does not depend on go/packages.
+// This package does not depend on golang/packages.
 // If you need a standalone tool, use multichecker,
 // which supports this mode but can also load packages
-// from source using go/packages.
+// from source using golang/packages.
 package unitchecker
 
 // TODO(adonovan):
-// - with gccgo, go build does not build standard library,
+// - with gccgolang, golang build does not build standard library,
 //   so we will not get to analyze it. Yet we must in order
 //   to create base facts for, say, the fmt package for the
 //   printf checker.
 
 import (
-	"encoding/gob"
+	"encoding/golangb"
 	"encoding/json"
 	"flag"
 	"fmt"
-	"go/ast"
-	"go/build"
-	"go/importer"
-	"go/parser"
-	"go/token"
-	"go/types"
+	"golang/ast"
+	"golang/build"
+	"golang/importer"
+	"golang/parser"
+	"golang/token"
+	"golang/types"
 	"io"
 	"log"
 	"os"
@@ -47,10 +47,10 @@ import (
 	"sync"
 	"time"
 
-	"golang.org/x/tools/go/analysis"
-	"golang.org/x/tools/go/analysis/internal/analysisflags"
-	"golang.org/x/tools/internal/analysisinternal"
-	"golang.org/x/tools/internal/facts"
+	"golanglang.org/x/tools/golang/analysis"
+	"golanglang.org/x/tools/golang/analysis/internal/analysisflags"
+	"golanglang.org/x/tools/internal/analysisinternal"
+	"golanglang.org/x/tools/internal/facts"
 )
 
 // A Config describes a compilation unit to be analyzed.
@@ -58,10 +58,10 @@ import (
 // whose name ends with ".cfg".
 type Config struct {
 	ID                        string // e.g. "fmt [fmt.test]"
-	Compiler                  string // gc or gccgo, provided to MakeImporter
+	Compiler                  string // gc or gccgolang, provided to MakeImporter
 	Dir                       string // (unused)
 	ImportPath                string // package path
-	GoVersion                 string // minimum required Go version, such as "go1.21.0"
+	GoVersion                 string // minimum required Go version, such as "golang1.21.0"
 	GoFiles                   []string
 	NonGoFiles                []string
 	IgnoredFiles              []string
@@ -79,7 +79,7 @@ type Config struct {
 // Main is the main function of a vet-like analysis tool that must be
 // invoked by a build system to analyze a single package.
 //
-// The protocol required by 'go vet -vettool=...' is that the tool must support:
+// The protocol required by 'golang vet -vettool=...' is that the tool must support:
 //
 //	-flags          describe flags in JSON
 //	-V=full         describe executable for build caching
@@ -116,7 +116,7 @@ Usage of %[1]s:
 		os.Exit(0)
 	}
 	if len(args) != 1 || !strings.HasSuffix(args[0], ".cfg") {
-		log.Fatalf(`invoking "go tool vet" directly is unsupported; use "go vet"`)
+		log.Fatalf(`invoking "golang tool vet" directly is unsupported; use "golang vet"`)
 	}
 	Run(args[0], analyzers)
 }
@@ -177,8 +177,8 @@ func readConfig(filename string) (*Config, error) {
 		return nil, fmt.Errorf("cannot decode JSON config file %s: %v", filename, err)
 	}
 	if len(cfg.GoFiles) == 0 {
-		// The go command disallows packages with no files.
-		// The only exception is unsafe, but the go command
+		// The golang command disallows packages with no files.
+		// The only exception is unsafe, but the golang command
 		// doesn't call vet on it.
 		return nil, fmt.Errorf("package has no files: %s", cfg.ImportPath)
 	}
@@ -192,15 +192,15 @@ type factImporter = func(pkgPath string) ([]byte, error)
 // determine how and where facts and types are produced and consumed.
 // (Note that the eventual API will likely be quite different.)
 //
-// The defaults honor a Config in a manner compatible with 'go vet'.
+// The defaults honor a Config in a manner compatible with 'golang vet'.
 var (
 	makeTypesImporter = func(cfg *Config, fset *token.FileSet) types.Importer {
 		compilerImporter := importer.ForCompiler(fset, cfg.Compiler, func(path string) (io.ReadCloser, error) {
 			// path is a resolved package path, not an import path.
 			file, ok := cfg.PackageFile[path]
 			if !ok {
-				if cfg.Compiler == "gccgo" && cfg.Standard[path] {
-					return nil, nil // fall back to default gccgo lookup
+				if cfg.Compiler == "gccgolang" && cfg.Standard[path] {
+					return nil, nil // fall back to default gccgolang lookup
 				}
 				return nil, fmt.Errorf("no package file for %q", path)
 			}
@@ -216,7 +216,7 @@ var (
 	}
 
 	exportTypes = func(*Config, *token.FileSet, *types.Package) error {
-		// By default this is a no-op, because "go vet"
+		// By default this is a no-op, because "golang vet"
 		// makes the compiler produce type information.
 		return nil
 	}
@@ -276,7 +276,7 @@ func run(fset *token.FileSet, cfg *Config, analyzers []*analysis.Analyzer) ([]re
 		return nil, err
 	}
 
-	// Register fact types with gob.
+	// Register fact types with golangb.
 	// In VetxOnly mode, analyzers are only for their facts,
 	// so we can skip any analysis that neither produces facts
 	// nor depends on any analysis that produces facts.
@@ -301,7 +301,7 @@ func run(fset *token.FileSet, cfg *Config, analyzers []*analysis.Analyzer) ([]re
 			var usesFacts bool
 			for _, f := range a.FactTypes {
 				usesFacts = true
-				gob.Register(f)
+				golangb.Register(f)
 			}
 			for _, req := range a.Requires {
 				if registerFacts(req) {
@@ -419,7 +419,7 @@ func run(fset *token.FileSet, cfg *Config, analyzers []*analysis.Analyzer) ([]re
 		var wg sync.WaitGroup
 		for _, a := range analyzers {
 			wg.Add(1)
-			go func(a *analysis.Analyzer) {
+			golang func(a *analysis.Analyzer) {
 				_ = exec(a)
 				wg.Done()
 			}(a)

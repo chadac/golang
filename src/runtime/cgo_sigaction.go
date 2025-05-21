@@ -1,25 +1,25 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Support for sanitizers. See runtime/cgo/sigaction.go.
+// Support for sanitizers. See runtime/cgolang/sigaction.golang.
 
-//go:build (linux && (amd64 || arm64 || loong64 || ppc64le)) || (freebsd && amd64)
+//golang:build (linux && (amd64 || arm64 || loong64 || ppc64le)) || (freebsd && amd64)
 
 package runtime
 
 import "unsafe"
 
-// _cgo_sigaction is filled in by runtime/cgo when it is linked into the
-// program, so it is only non-nil when using cgo.
+// _cgolang_sigaction is filled in by runtime/cgolang when it is linked into the
+// program, so it is only non-nil when using cgolang.
 //
-//go:linkname _cgo_sigaction _cgo_sigaction
-var _cgo_sigaction unsafe.Pointer
+//golang:linkname _cgolang_sigaction _cgolang_sigaction
+var _cgolang_sigaction unsafe.Pointer
 
-//go:nosplit
-//go:nowritebarrierrec
+//golang:nosplit
+//golang:nowritebarrierrec
 func sigaction(sig uint32, new, old *sigactiont) {
-	// racewalk.go avoids adding sanitizing instrumentation to package runtime,
+	// racewalk.golang avoids adding sanitizing instrumentation to package runtime,
 	// but we might be calling into instrumented C functions here,
 	// so we need the pointer parameters to be properly marked.
 	//
@@ -31,13 +31,13 @@ func sigaction(sig uint32, new, old *sigactiont) {
 	if asanenabled && new != nil {
 		asanwrite(unsafe.Pointer(new), unsafe.Sizeof(*new))
 	}
-	if _cgo_sigaction == nil || inForkedChild {
+	if _cgolang_sigaction == nil || inForkedChild {
 		sysSigaction(sig, new, old)
 	} else {
-		// We need to call _cgo_sigaction, which means we need a big enough stack
+		// We need to call _cgolang_sigaction, which means we need a big enough stack
 		// for C.  To complicate matters, we may be in libpreinit (before the
 		// runtime has been initialized) or in an asynchronous signal handler (with
-		// the current thread in transition between goroutines, or with the g0
+		// the current thread in transition between golangroutines, or with the g0
 		// system stack already in use).
 
 		var ret int32
@@ -50,12 +50,12 @@ func sigaction(sig uint32, new, old *sigactiont) {
 		switch {
 		case g == nil:
 			// No g: we're on a C stack or a signal stack.
-			ret = callCgoSigaction(uintptr(sig), new, old)
+			ret = callCgolangSigaction(uintptr(sig), new, old)
 		case sp < g.stack.lo || sp >= g.stack.hi:
 			// We're no longer on g's stack, so we must be handling a signal.  It's
 			// possible that we interrupted the thread during a transition between g
 			// and g0, so we should stay on the current stack to avoid corrupting g0.
-			ret = callCgoSigaction(uintptr(sig), new, old)
+			ret = callCgolangSigaction(uintptr(sig), new, old)
 		default:
 			// We're running on g's stack, so either we're not in a signal handler or
 			// the signal handler has set the correct g.  If we're on gsignal or g0,
@@ -66,7 +66,7 @@ func sigaction(sig uint32, new, old *sigactiont) {
 			// that's ok: we'll be running on a fresh, clean system stack so the stack
 			// check will always succeed anyway.
 			systemstack(func() {
-				ret = callCgoSigaction(uintptr(sig), new, old)
+				ret = callCgolangSigaction(uintptr(sig), new, old)
 			})
 		}
 
@@ -87,8 +87,8 @@ func sigaction(sig uint32, new, old *sigactiont) {
 	}
 }
 
-// callCgoSigaction calls the sigaction function in the runtime/cgo package
+// callCgolangSigaction calls the sigaction function in the runtime/cgolang package
 // using the GCC calling convention. It is implemented in assembly.
 //
-//go:noescape
-func callCgoSigaction(sig uintptr, new, old *sigactiont) int32
+//golang:noescape
+func callCgolangSigaction(sig uintptr, new, old *sigactiont) int32

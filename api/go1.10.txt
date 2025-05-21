@@ -32,7 +32,7 @@ pkg crypto/x509, const UnconstrainedName InvalidReason
 pkg crypto/x509, func MarshalPKCS1PublicKey(*rsa.PublicKey) []uint8
 pkg crypto/x509, func MarshalPKCS8PrivateKey(interface{}) ([]uint8, error)
 pkg crypto/x509, func ParsePKCS1PublicKey([]uint8) (*rsa.PublicKey, error)
-pkg crypto/x509, method (PublicKeyAlgorithm) String() string
+pkg crypto/x509, method (PublicKeyAlgolangrithm) String() string
 pkg crypto/x509, type Certificate struct, ExcludedEmailAddresses []string
 pkg crypto/x509, type Certificate struct, ExcludedIPRanges []*net.IPNet
 pkg crypto/x509, type Certificate struct, ExcludedURIDomains []string
@@ -604,16 +604,16 @@ pkg strings, method (*Builder) WriteString(string) (int, error)
 pkg strings, type Builder struct
 pkg syscall (freebsd-386), const SYS_UTIMENSAT = 547
 pkg syscall (freebsd-386), const SYS_UTIMENSAT ideal-int
-pkg syscall (freebsd-386-cgo), const SYS_UTIMENSAT = 547
-pkg syscall (freebsd-386-cgo), const SYS_UTIMENSAT ideal-int
+pkg syscall (freebsd-386-cgolang), const SYS_UTIMENSAT = 547
+pkg syscall (freebsd-386-cgolang), const SYS_UTIMENSAT ideal-int
 pkg syscall (freebsd-amd64), const SYS_UTIMENSAT = 547
 pkg syscall (freebsd-amd64), const SYS_UTIMENSAT ideal-int
-pkg syscall (freebsd-amd64-cgo), const SYS_UTIMENSAT = 547
-pkg syscall (freebsd-amd64-cgo), const SYS_UTIMENSAT ideal-int
+pkg syscall (freebsd-amd64-cgolang), const SYS_UTIMENSAT = 547
+pkg syscall (freebsd-amd64-cgolang), const SYS_UTIMENSAT ideal-int
 pkg syscall (freebsd-arm), const SYS_UTIMENSAT = 547
 pkg syscall (freebsd-arm), const SYS_UTIMENSAT ideal-int
-pkg syscall (freebsd-arm-cgo), const SYS_UTIMENSAT = 547
-pkg syscall (freebsd-arm-cgo), const SYS_UTIMENSAT ideal-int
+pkg syscall (freebsd-arm-cgolang), const SYS_UTIMENSAT = 547
+pkg syscall (freebsd-arm-cgolang), const SYS_UTIMENSAT ideal-int
 pkg syscall (windows-386), func CreateProcessAsUser(Token, *uint16, *uint16, *SecurityAttributes, *SecurityAttributes, bool, uint32, *uint16, *uint16, *StartupInfo, *ProcessInformation) error
 pkg syscall (windows-386), type SysProcAttr struct, Token Token
 pkg syscall (windows-amd64), func CreateProcessAsUser(Token, *uint16, *uint16, *SecurityAttributes, *SecurityAttributes, bool, uint32, *uint16, *uint16, *StartupInfo, *ProcessInformation) error

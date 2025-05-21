@@ -5,8 +5,8 @@ IMPORTPATH
 	testdata/d
 
 FILENAMES
-	testdata/d1.go
-	testdata/d2.go
+	testdata/d1.golang
+	testdata/d2.golang
 
 CONSTANTS
 	// CBx constants should appear before CAx constants. 

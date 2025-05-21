@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime_test
@@ -83,7 +83,7 @@ func TestUsplit(t *testing.T) {
 	}
 }
 
-//go:noinline
+//golang:noinline
 func armFloatWrite(a *[129]float64) {
 	// This used to miscompile on arm5.
 	// The offset is too big to fit in a load.
@@ -113,7 +113,7 @@ func TestArmFloatBigOffsetWrite(t *testing.T) {
 	}
 }
 
-//go:noinline
+//golang:noinline
 func armFloatRead(a *[129]float64) float64 {
 	return a[128]
 }

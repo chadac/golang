@@ -9,7 +9,7 @@
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
+// See the License for the specific language golangverning permissions and
 // limitations under the License.
 
 // Package profile provides a representation of profile.proto and
@@ -213,7 +213,7 @@ func parseLegacy(data []byte) (*Profile, error) {
 	parsers := []func([]byte) (*Profile, error){
 		parseCPU,
 		parseHeap,
-		parseGoCount, // goroutine, threadcreate
+		parseGoCount, // golangroutine, threadcreate
 		parseThread,
 		parseContention,
 		parseJavaProfile,
@@ -794,7 +794,7 @@ func (p *Profile) Scale(ratio float64) {
 // and keeps only samples that have at least one non-zero value.
 func (p *Profile) ScaleN(ratios []float64) error {
 	if len(p.SampleType) != len(ratios) {
-		return fmt.Errorf("mismatched scale ratios, got %d, want %d", len(ratios), len(p.SampleType))
+		return fmt.Errorf("mismatched scale ratios, golangt %d, want %d", len(ratios), len(p.SampleType))
 	}
 	allOnes := true
 	for _, r := range ratios {

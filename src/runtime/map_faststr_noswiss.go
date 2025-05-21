@@ -1,14 +1,14 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !goexperiment.swissmap
+//golang:build !golangexperiment.swissmap
 
 package runtime
 
 import (
 	"internal/abi"
-	"internal/goarch"
+	"internal/golangarch"
 	"internal/runtime/sys"
 	"unsafe"
 )
@@ -30,7 +30,7 @@ func mapaccess1_faststr(t *maptype, h *hmap, ky string) unsafe.Pointer {
 		b := (*bmap)(h.buckets)
 		if key.len < 32 {
 			// short key, doing lots of comparisons is ok
-			for i, kptr := uintptr(0), b.keys(); i < abi.OldMapBucketCount; i, kptr = i+1, add(kptr, 2*goarch.PtrSize) {
+			for i, kptr := uintptr(0), b.keys(); i < abi.OldMapBucketCount; i, kptr = i+1, add(kptr, 2*golangarch.PtrSize) {
 				k := (*stringStruct)(kptr)
 				if k.len != key.len || isEmpty(b.tophash[i]) {
 					if b.tophash[i] == emptyRest {
@@ -39,14 +39,14 @@ func mapaccess1_faststr(t *maptype, h *hmap, ky string) unsafe.Pointer {
 					continue
 				}
 				if k.str == key.str || memequal(k.str, key.str, uintptr(key.len)) {
-					return add(unsafe.Pointer(b), dataOffset+abi.OldMapBucketCount*2*goarch.PtrSize+i*uintptr(t.ValueSize))
+					return add(unsafe.Pointer(b), dataOffset+abi.OldMapBucketCount*2*golangarch.PtrSize+i*uintptr(t.ValueSize))
 				}
 			}
 			return unsafe.Pointer(&zeroVal[0])
 		}
 		// long key, try not to do more comparisons than necessary
 		keymaybe := uintptr(abi.OldMapBucketCount)
-		for i, kptr := uintptr(0), b.keys(); i < abi.OldMapBucketCount; i, kptr = i+1, add(kptr, 2*goarch.PtrSize) {
+		for i, kptr := uintptr(0), b.keys(); i < abi.OldMapBucketCount; i, kptr = i+1, add(kptr, 2*golangarch.PtrSize) {
 			k := (*stringStruct)(kptr)
 			if k.len != key.len || isEmpty(b.tophash[i]) {
 				if b.tophash[i] == emptyRest {
@@ -55,7 +55,7 @@ func mapaccess1_faststr(t *maptype, h *hmap, ky string) unsafe.Pointer {
 				continue
 			}
 			if k.str == key.str {
-				return add(unsafe.Pointer(b), dataOffset+abi.OldMapBucketCount*2*goarch.PtrSize+i*uintptr(t.ValueSize))
+				return add(unsafe.Pointer(b), dataOffset+abi.OldMapBucketCount*2*golangarch.PtrSize+i*uintptr(t.ValueSize))
 			}
 			// check first 4 bytes
 			if *((*[4]byte)(key.str)) != *((*[4]byte)(k.str)) {
@@ -67,14 +67,14 @@ func mapaccess1_faststr(t *maptype, h *hmap, ky string) unsafe.Pointer {
 			}
 			if keymaybe != abi.OldMapBucketCount {
 				// Two keys are potential matches. Use hash to distinguish them.
-				goto dohash
+				golangto dohash
 			}
 			keymaybe = i
 		}
 		if keymaybe != abi.OldMapBucketCount {
-			k := (*stringStruct)(add(unsafe.Pointer(b), dataOffset+keymaybe*2*goarch.PtrSize))
+			k := (*stringStruct)(add(unsafe.Pointer(b), dataOffset+keymaybe*2*golangarch.PtrSize))
 			if memequal(k.str, key.str, uintptr(key.len)) {
-				return add(unsafe.Pointer(b), dataOffset+abi.OldMapBucketCount*2*goarch.PtrSize+keymaybe*uintptr(t.ValueSize))
+				return add(unsafe.Pointer(b), dataOffset+abi.OldMapBucketCount*2*golangarch.PtrSize+keymaybe*uintptr(t.ValueSize))
 			}
 		}
 		return unsafe.Pointer(&zeroVal[0])
@@ -95,13 +95,13 @@ dohash:
 	}
 	top := tophash(hash)
 	for ; b != nil; b = b.overflow(t) {
-		for i, kptr := uintptr(0), b.keys(); i < abi.OldMapBucketCount; i, kptr = i+1, add(kptr, 2*goarch.PtrSize) {
+		for i, kptr := uintptr(0), b.keys(); i < abi.OldMapBucketCount; i, kptr = i+1, add(kptr, 2*golangarch.PtrSize) {
 			k := (*stringStruct)(kptr)
 			if k.len != key.len || b.tophash[i] != top {
 				continue
 			}
 			if k.str == key.str || memequal(k.str, key.str, uintptr(key.len)) {
-				return add(unsafe.Pointer(b), dataOffset+abi.OldMapBucketCount*2*goarch.PtrSize+i*uintptr(t.ValueSize))
+				return add(unsafe.Pointer(b), dataOffset+abi.OldMapBucketCount*2*golangarch.PtrSize+i*uintptr(t.ValueSize))
 			}
 		}
 	}
@@ -111,12 +111,12 @@ dohash:
 // mapaccess2_faststr should be an internal detail,
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
-//   - github.com/ugorji/go/codec
+//   - github.com/ugolangrji/golang/codec
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname mapaccess2_faststr
+//golang:linkname mapaccess2_faststr
 func mapaccess2_faststr(t *maptype, h *hmap, ky string) (unsafe.Pointer, bool) {
 	if raceenabled && h != nil {
 		callerpc := sys.GetCallerPC()
@@ -134,7 +134,7 @@ func mapaccess2_faststr(t *maptype, h *hmap, ky string) (unsafe.Pointer, bool) {
 		b := (*bmap)(h.buckets)
 		if key.len < 32 {
 			// short key, doing lots of comparisons is ok
-			for i, kptr := uintptr(0), b.keys(); i < abi.OldMapBucketCount; i, kptr = i+1, add(kptr, 2*goarch.PtrSize) {
+			for i, kptr := uintptr(0), b.keys(); i < abi.OldMapBucketCount; i, kptr = i+1, add(kptr, 2*golangarch.PtrSize) {
 				k := (*stringStruct)(kptr)
 				if k.len != key.len || isEmpty(b.tophash[i]) {
 					if b.tophash[i] == emptyRest {
@@ -143,14 +143,14 @@ func mapaccess2_faststr(t *maptype, h *hmap, ky string) (unsafe.Pointer, bool) {
 					continue
 				}
 				if k.str == key.str || memequal(k.str, key.str, uintptr(key.len)) {
-					return add(unsafe.Pointer(b), dataOffset+abi.OldMapBucketCount*2*goarch.PtrSize+i*uintptr(t.ValueSize)), true
+					return add(unsafe.Pointer(b), dataOffset+abi.OldMapBucketCount*2*golangarch.PtrSize+i*uintptr(t.ValueSize)), true
 				}
 			}
 			return unsafe.Pointer(&zeroVal[0]), false
 		}
 		// long key, try not to do more comparisons than necessary
 		keymaybe := uintptr(abi.OldMapBucketCount)
-		for i, kptr := uintptr(0), b.keys(); i < abi.OldMapBucketCount; i, kptr = i+1, add(kptr, 2*goarch.PtrSize) {
+		for i, kptr := uintptr(0), b.keys(); i < abi.OldMapBucketCount; i, kptr = i+1, add(kptr, 2*golangarch.PtrSize) {
 			k := (*stringStruct)(kptr)
 			if k.len != key.len || isEmpty(b.tophash[i]) {
 				if b.tophash[i] == emptyRest {
@@ -159,7 +159,7 @@ func mapaccess2_faststr(t *maptype, h *hmap, ky string) (unsafe.Pointer, bool) {
 				continue
 			}
 			if k.str == key.str {
-				return add(unsafe.Pointer(b), dataOffset+abi.OldMapBucketCount*2*goarch.PtrSize+i*uintptr(t.ValueSize)), true
+				return add(unsafe.Pointer(b), dataOffset+abi.OldMapBucketCount*2*golangarch.PtrSize+i*uintptr(t.ValueSize)), true
 			}
 			// check first 4 bytes
 			if *((*[4]byte)(key.str)) != *((*[4]byte)(k.str)) {
@@ -171,14 +171,14 @@ func mapaccess2_faststr(t *maptype, h *hmap, ky string) (unsafe.Pointer, bool) {
 			}
 			if keymaybe != abi.OldMapBucketCount {
 				// Two keys are potential matches. Use hash to distinguish them.
-				goto dohash
+				golangto dohash
 			}
 			keymaybe = i
 		}
 		if keymaybe != abi.OldMapBucketCount {
-			k := (*stringStruct)(add(unsafe.Pointer(b), dataOffset+keymaybe*2*goarch.PtrSize))
+			k := (*stringStruct)(add(unsafe.Pointer(b), dataOffset+keymaybe*2*golangarch.PtrSize))
 			if memequal(k.str, key.str, uintptr(key.len)) {
-				return add(unsafe.Pointer(b), dataOffset+abi.OldMapBucketCount*2*goarch.PtrSize+keymaybe*uintptr(t.ValueSize)), true
+				return add(unsafe.Pointer(b), dataOffset+abi.OldMapBucketCount*2*golangarch.PtrSize+keymaybe*uintptr(t.ValueSize)), true
 			}
 		}
 		return unsafe.Pointer(&zeroVal[0]), false
@@ -199,13 +199,13 @@ dohash:
 	}
 	top := tophash(hash)
 	for ; b != nil; b = b.overflow(t) {
-		for i, kptr := uintptr(0), b.keys(); i < abi.OldMapBucketCount; i, kptr = i+1, add(kptr, 2*goarch.PtrSize) {
+		for i, kptr := uintptr(0), b.keys(); i < abi.OldMapBucketCount; i, kptr = i+1, add(kptr, 2*golangarch.PtrSize) {
 			k := (*stringStruct)(kptr)
 			if k.len != key.len || b.tophash[i] != top {
 				continue
 			}
 			if k.str == key.str || memequal(k.str, key.str, uintptr(key.len)) {
-				return add(unsafe.Pointer(b), dataOffset+abi.OldMapBucketCount*2*goarch.PtrSize+i*uintptr(t.ValueSize)), true
+				return add(unsafe.Pointer(b), dataOffset+abi.OldMapBucketCount*2*golangarch.PtrSize+i*uintptr(t.ValueSize)), true
 			}
 		}
 	}
@@ -216,12 +216,12 @@ dohash:
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
 //   - github.com/bytedance/sonic
-//   - github.com/ugorji/go/codec
+//   - github.com/ugolangrji/golang/codec
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname mapassign_faststr
+//golang:linkname mapassign_faststr
 func mapassign_faststr(t *maptype, h *hmap, s string) unsafe.Pointer {
 	if h == nil {
 		panic(plainError("assignment to entry in nil map"))
@@ -268,7 +268,7 @@ bucketloop:
 				}
 				continue
 			}
-			k := (*stringStruct)(add(unsafe.Pointer(b), dataOffset+i*2*goarch.PtrSize))
+			k := (*stringStruct)(add(unsafe.Pointer(b), dataOffset+i*2*golangarch.PtrSize))
 			if k.len != key.len {
 				continue
 			}
@@ -281,7 +281,7 @@ bucketloop:
 			// Overwrite existing key, so it can be garbage collected.
 			// The size is already guaranteed to be set correctly.
 			k.str = key.str
-			goto done
+			golangto done
 		}
 		ovf := b.overflow(t)
 		if ovf == nil {
@@ -296,7 +296,7 @@ bucketloop:
 	// and we're not already in the middle of growing, start growing.
 	if !h.growing() && (overLoadFactor(h.count+1, h.B) || tooManyOverflowBuckets(h.noverflow, h.B)) {
 		hashGrow(t, h)
-		goto again // Growing the table invalidates everything, so try again
+		golangto again // Growing the table invalidates everything, so try again
 	}
 
 	if insertb == nil {
@@ -306,13 +306,13 @@ bucketloop:
 	}
 	insertb.tophash[inserti&(abi.OldMapBucketCount-1)] = top // mask inserti to avoid bounds checks
 
-	insertk = add(unsafe.Pointer(insertb), dataOffset+inserti*2*goarch.PtrSize)
+	insertk = add(unsafe.Pointer(insertb), dataOffset+inserti*2*golangarch.PtrSize)
 	// store new key at insert position
 	*((*stringStruct)(insertk)) = *key
 	h.count++
 
 done:
-	elem := add(unsafe.Pointer(insertb), dataOffset+abi.OldMapBucketCount*2*goarch.PtrSize+inserti*uintptr(t.ValueSize))
+	elem := add(unsafe.Pointer(insertb), dataOffset+abi.OldMapBucketCount*2*golangarch.PtrSize+inserti*uintptr(t.ValueSize))
 	if h.flags&hashWriting == 0 {
 		fatal("concurrent map writes")
 	}
@@ -347,7 +347,7 @@ func mapdelete_faststr(t *maptype, h *hmap, ky string) {
 	top := tophash(hash)
 search:
 	for ; b != nil; b = b.overflow(t) {
-		for i, kptr := uintptr(0), b.keys(); i < abi.OldMapBucketCount; i, kptr = i+1, add(kptr, 2*goarch.PtrSize) {
+		for i, kptr := uintptr(0), b.keys(); i < abi.OldMapBucketCount; i, kptr = i+1, add(kptr, 2*golangarch.PtrSize) {
 			k := (*stringStruct)(kptr)
 			if k.len != key.len || b.tophash[i] != top {
 				continue
@@ -357,7 +357,7 @@ search:
 			}
 			// Clear key's pointer.
 			k.str = nil
-			e := add(unsafe.Pointer(b), dataOffset+abi.OldMapBucketCount*2*goarch.PtrSize+i*uintptr(t.ValueSize))
+			e := add(unsafe.Pointer(b), dataOffset+abi.OldMapBucketCount*2*golangarch.PtrSize+i*uintptr(t.ValueSize))
 			if t.Elem.Pointers() {
 				memclrHasPointers(e, t.Elem.Size_)
 			} else {
@@ -368,11 +368,11 @@ search:
 			// change those to emptyRest states.
 			if i == abi.OldMapBucketCount-1 {
 				if b.overflow(t) != nil && b.overflow(t).tophash[0] != emptyRest {
-					goto notLast
+					golangto notLast
 				}
 			} else {
 				if b.tophash[i+1] != emptyRest {
-					goto notLast
+					golangto notLast
 				}
 			}
 			for {
@@ -433,7 +433,7 @@ func evacuate_faststr(t *maptype, h *hmap, oldbucket uintptr) {
 		x := &xy[0]
 		x.b = (*bmap)(add(h.buckets, oldbucket*uintptr(t.BucketSize)))
 		x.k = add(unsafe.Pointer(x.b), dataOffset)
-		x.e = add(x.k, abi.OldMapBucketCount*2*goarch.PtrSize)
+		x.e = add(x.k, abi.OldMapBucketCount*2*golangarch.PtrSize)
 
 		if !h.sameSizeGrow() {
 			// Only calculate y pointers if we're growing bigger.
@@ -441,13 +441,13 @@ func evacuate_faststr(t *maptype, h *hmap, oldbucket uintptr) {
 			y := &xy[1]
 			y.b = (*bmap)(add(h.buckets, (oldbucket+newbit)*uintptr(t.BucketSize)))
 			y.k = add(unsafe.Pointer(y.b), dataOffset)
-			y.e = add(y.k, abi.OldMapBucketCount*2*goarch.PtrSize)
+			y.e = add(y.k, abi.OldMapBucketCount*2*golangarch.PtrSize)
 		}
 
 		for ; b != nil; b = b.overflow(t) {
 			k := add(unsafe.Pointer(b), dataOffset)
-			e := add(k, abi.OldMapBucketCount*2*goarch.PtrSize)
-			for i := 0; i < abi.OldMapBucketCount; i, k, e = i+1, add(k, 2*goarch.PtrSize), add(e, uintptr(t.ValueSize)) {
+			e := add(k, abi.OldMapBucketCount*2*golangarch.PtrSize)
+			for i := 0; i < abi.OldMapBucketCount; i, k, e = i+1, add(k, 2*golangarch.PtrSize), add(e, uintptr(t.ValueSize)) {
 				top := b.tophash[i]
 				if isEmpty(top) {
 					b.tophash[i] = evacuatedEmpty
@@ -473,7 +473,7 @@ func evacuate_faststr(t *maptype, h *hmap, oldbucket uintptr) {
 					dst.b = h.newoverflow(t, dst.b)
 					dst.i = 0
 					dst.k = add(unsafe.Pointer(dst.b), dataOffset)
-					dst.e = add(dst.k, abi.OldMapBucketCount*2*goarch.PtrSize)
+					dst.e = add(dst.k, abi.OldMapBucketCount*2*golangarch.PtrSize)
 				}
 				dst.b.tophash[dst.i&(abi.OldMapBucketCount-1)] = top // mask dst.i as an optimization, to avoid a bounds check
 
@@ -486,7 +486,7 @@ func evacuate_faststr(t *maptype, h *hmap, oldbucket uintptr) {
 				// key or elem arrays.  That's ok, as we have the overflow pointer
 				// at the end of the bucket to protect against pointing past the
 				// end of the bucket.
-				dst.k = add(dst.k, 2*goarch.PtrSize)
+				dst.k = add(dst.k, 2*golangarch.PtrSize)
 				dst.e = add(dst.e, uintptr(t.ValueSize))
 			}
 		}

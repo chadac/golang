@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package hkdf
@@ -24,8 +24,8 @@ func init() {
 			0xa6, 0xc1, 0xde, 0x42, 0x4f, 0x2c, 0x99, 0x60,
 			0x64, 0xdb, 0x66, 0x3e, 0xec, 0xa6, 0x37, 0xff,
 		}
-		got := Key(sha256.New, input, input, string(input), len(want))
-		if !bytes.Equal(got, want) {
+		golangt := Key(sha256.New, input, input, string(input), len(want))
+		if !bytes.Equal(golangt, want) {
 			return errors.New("unexpected result")
 		}
 		return nil

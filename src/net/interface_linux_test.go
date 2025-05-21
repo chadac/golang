@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package net
@@ -11,7 +11,7 @@ import (
 )
 
 func (ti *testInterface) setBroadcast(suffix int) error {
-	ti.name = fmt.Sprintf("gotest%d", suffix)
+	ti.name = fmt.Sprintf("golangtest%d", suffix)
 	xname, err := exec.LookPath("ip")
 	if err != nil {
 		return err
@@ -36,7 +36,7 @@ func (ti *testInterface) setBroadcast(suffix int) error {
 }
 
 func (ti *testInterface) setLinkLocal(suffix int) error {
-	ti.name = fmt.Sprintf("gotest%d", suffix)
+	ti.name = fmt.Sprintf("golangtest%d", suffix)
 	xname, err := exec.LookPath("ip")
 	if err != nil {
 		return err
@@ -61,7 +61,7 @@ func (ti *testInterface) setLinkLocal(suffix int) error {
 }
 
 func (ti *testInterface) setPointToPoint(suffix int) error {
-	ti.name = fmt.Sprintf("gotest%d", suffix)
+	ti.name = fmt.Sprintf("golangtest%d", suffix)
 	xname, err := exec.LookPath("ip")
 	if err != nil {
 		return err
@@ -119,7 +119,7 @@ func TestParseProcNet(t *testing.T) {
 		ifmat4 = append(ifmat4, ifmat...)
 	}
 	if len(ifmat4) != numOfTestIPv4MCAddrs {
-		t.Fatalf("got %d; want %d", len(ifmat4), numOfTestIPv4MCAddrs)
+		t.Fatalf("golangt %d; want %d", len(ifmat4), numOfTestIPv4MCAddrs)
 	}
 
 	var ifmat6 []Addr
@@ -128,6 +128,6 @@ func TestParseProcNet(t *testing.T) {
 		ifmat6 = append(ifmat6, ifmat...)
 	}
 	if len(ifmat6) != numOfTestIPv6MCAddrs {
-		t.Fatalf("got %d; want %d", len(ifmat6), numOfTestIPv6MCAddrs)
+		t.Fatalf("golangt %d; want %d", len(ifmat6), numOfTestIPv6MCAddrs)
 	}
 }

@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test that when a function recovers from a panic, it
@@ -19,8 +19,8 @@ type S struct {
 
 var a0, b0, c0, d0 = 10, "hello", S{1, 2, 3, 4}, [2]int{111, 222}
 
-//go:noinline
-//go:registerparams
+//golang:noinline
+//golang:registerparams
 func F() (a int, b string, _ int, c S, d [2]int) {
 	a, b, c, d = a0, b0, c0, d0
 	defer func() { recover() }()

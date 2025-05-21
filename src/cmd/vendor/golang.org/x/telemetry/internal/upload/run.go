@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package upload
@@ -15,8 +15,8 @@ import (
 	"strings"
 	"time"
 
-	"golang.org/x/telemetry/internal/configstore"
-	"golang.org/x/telemetry/internal/telemetry"
+	"golanglang.org/x/telemetry/internal/configstore"
+	"golanglang.org/x/telemetry/internal/telemetry"
 )
 
 // RunConfig configures non-default behavior of a call to Run.
@@ -78,7 +78,7 @@ func newUploader(rcfg RunConfig) (*uploader, error) {
 	// Determine the upload URL.
 	uploadURL := rcfg.UploadURL
 	if uploadURL == "" {
-		uploadURL = "https://telemetry.go.dev/upload"
+		uploadURL = "https://telemetry.golang.dev/upload"
 	}
 
 	// Determine the upload logger.
@@ -118,7 +118,7 @@ func newUploader(rcfg RunConfig) (*uploader, error) {
 	)
 
 	if mode, _ := dir.Mode(); mode == "on" {
-		// golang/go#68946: only download the upload config if it will be used.
+		// golanglang/golang#68946: only download the upload config if it will be used.
 		//
 		// TODO(rfindley): This is a narrow change aimed at minimally fixing the
 		// associated bug. In the future, we should read the mode only once during
@@ -194,10 +194,10 @@ func debugLogFile(debugDir string) (*os.File, error) {
 		return nil, fmt.Errorf("no build info")
 	}
 	year, month, day := time.Now().UTC().Date()
-	goVers := info.GoVersion
-	// E.g.,  goVers:"go1.22-20240109-RC01 cl/597041403 +dcbe772469 X:loopvar"
-	words := strings.Fields(goVers)
-	goVers = words[0]
+	golangVers := info.GoVersion
+	// E.g.,  golangVers:"golang1.22-20240109-RC01 cl/597041403 +dcbe772469 X:loopvar"
+	words := strings.Fields(golangVers)
+	golangVers = words[0]
 	progPkgPath := info.Path
 	if progPkgPath == "" {
 		progPkgPath = strings.TrimSuffix(filepath.Base(os.Args[0]), ".exe")
@@ -208,7 +208,7 @@ func debugLogFile(debugDir string) (*os.File, error) {
 		progVers = "devel"
 	}
 	logBase := strings.ReplaceAll(
-		fmt.Sprintf("%s-%s-%s-%4d%02d%02d-%d.log", prog, progVers, goVers, year, month, day, os.Getpid()),
+		fmt.Sprintf("%s-%s-%s-%4d%02d%02d-%d.log", prog, progVers, golangVers, year, month, day, os.Getpid()),
 		" ", "")
 	fname := filepath.Join(debugDir, logBase)
 	if _, err := os.Stat(fname); err == nil {

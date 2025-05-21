@@ -1,15 +1,15 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Malloc profiling.
-// Patterned after tcmalloc's algorithms; shorter code.
+// Patterned after tcmalloc's algolangrithms; shorter code.
 
 package runtime
 
 import (
 	"internal/abi"
-	"internal/goarch"
+	"internal/golangarch"
 	"internal/profilerecord"
 	"internal/runtime/atomic"
 	"internal/runtime/sys"
@@ -480,7 +480,7 @@ func mProf_Free(b *bucket, size uintptr) {
 
 var blockprofilerate uint64 // in CPU ticks
 
-// SetBlockProfileRate controls the fraction of goroutine blocking events
+// SetBlockProfileRate controls the fraction of golangroutine blocking events
 // that are reported in the blocking profile. The profiler aims to sample
 // an average of one blocking event per rate nanoseconds spent blocked.
 //
@@ -527,7 +527,7 @@ func blocksampled(cycles, rate int64) bool {
 // cycles is the quantity associated with this event and rate is the sampling rate,
 // used to adjust the cycles value in the manner determined by the profile type.
 // skip is the number of frames to omit from the traceback associated with the event.
-// The traceback will be recorded from the stack of the goroutine associated with the current m.
+// The traceback will be recorded from the stack of the golangroutine associated with the current m.
 // skip should be positive if this event is recorded from the current stack
 // (e.g. when this is not called from a system stack)
 func saveblockevent(cycles, rate int64, skip int, which bucketType) {
@@ -544,7 +544,7 @@ func saveblockevent(cycles, rate int64, skip int, which bucketType) {
 	mp := acquirem() // we must not be preempted while accessing profstack
 
 	var nstk int
-	if tracefpunwindoff() || gp.m.hasCgoOnStack() {
+	if tracefpunwindoff() || gp.m.hasCgolangOnStack() {
 		if gp.m.curg == nil || gp.m.curg == gp {
 			nstk = callers(skip, mp.profStack)
 		} else {
@@ -589,7 +589,7 @@ func fpTracebackPartialExpand(skip int, fp unsafe.Pointer, pcBuf []uintptr) int 
 	}
 	for n < len(pcBuf) && fp != nil {
 		// return addr sits one word above the frame pointer
-		pc := *(*uintptr)(unsafe.Pointer(uintptr(fp) + goarch.PtrSize))
+		pc := *(*uintptr)(unsafe.Pointer(uintptr(fp) + golangarch.PtrSize))
 
 		if skip > 0 {
 			callPC := pc - 1
@@ -675,7 +675,7 @@ func (prof *mLockProfile) end(start int64) {
 //
 // From unlock2, we might not be holding a p in this code.
 //
-//go:nowritebarrierrec
+//golang:nowritebarrierrec
 func (prof *mLockProfile) recordUnlock(cycles int64) {
 	if cycles < 0 {
 		cycles = 0
@@ -691,7 +691,7 @@ func (prof *mLockProfile) recordUnlock(cycles int64) {
 
 	if prev := prof.cycles; prev > 0 {
 		// We can only store one call stack for runtime-internal lock contention
-		// on this M, and we've already got one. Decide which should stay, and
+		// on this M, and we've already golangt one. Decide which should stay, and
 		// add the other to the report for runtime._LostContendedRuntimeLock.
 		if cycles == 0 {
 			return
@@ -751,7 +751,7 @@ func (prof *mLockProfile) captureStack() {
 //
 // From unlock2, we might not be holding a p in this code.
 //
-//go:nowritebarrierrec
+//golang:nowritebarrierrec
 func (prof *mLockProfile) store() {
 	if gp := getg(); gp.m.locks == 1 && gp.m.mLockProfile.haveStack {
 		prof.storeSlow()
@@ -803,7 +803,7 @@ func saveBlockEventStack(cycles, rate int64, stk []uintptr, which bucketType) {
 	// otherwise. For mutex profile events, the sample probability is 1 / rate.
 	// We scale the events by 1 / (probability the event was sampled).
 	if which == blockProfile && cycles < rate {
-		// Remove sampling bias, see discussion on http://golang.org/cl/299991.
+		// Remove sampling bias, see discussion on http://golanglang.org/cl/299991.
 		bp.count += float64(rate) / float64(cycles)
 		bp.cycles += rate
 	} else if which == mutexProfile {
@@ -834,7 +834,7 @@ func SetMutexProfileFraction(rate int) int {
 	return int(old)
 }
 
-//go:linkname mutexevent sync.event
+//golang:linkname mutexevent sync.event
 func mutexevent(cycles int64, skip int) {
 	if cycles < 0 {
 		cycles = 0
@@ -947,9 +947,9 @@ func MemProfile(p []MemProfileRecord, inuseZero bool) (n int, ok bool) {
 // The linker set disableMemoryProfiling to true to disable memory profiling
 // if this function is not reachable. Mark it noinline to ensure the symbol exists.
 // (This function is big and normally not inlined anyway.)
-// See also disableMemoryProfiling above and cmd/link/internal/ld/lib.go:linksetup.
+// See also disableMemoryProfiling above and cmd/link/internal/ld/lib.golang:linksetup.
 //
-//go:noinline
+//golang:noinline
 func memProfileInternal(size int, inuseZero bool, copyFn func(profilerecord.MemProfileRecord)) (n int, ok bool) {
 	cycle := mProfCycle.read()
 	// If we're between mProf_NextCycle and mProf_Flush, take care
@@ -1028,7 +1028,7 @@ func copyMemProfileRecord(dst *MemProfileRecord, src profilerecord.MemProfileRec
 	clear(dst.Stack0[i:])
 }
 
-//go:linkname pprof_memProfileInternal
+//golang:linkname pprof_memProfileInternal
 func pprof_memProfileInternal(p []profilerecord.MemProfileRecord, inuseZero bool) (n int, ok bool) {
 	return memProfileInternal(len(p), inuseZero, func(r profilerecord.MemProfileRecord) {
 		p[0] = r
@@ -1112,7 +1112,7 @@ func blockProfileInternal(size int, copyFn func(profilerecord.BlockProfileRecord
 				Stack:  b.stk(),
 			}
 			// Prevent callers from having to worry about division by zero errors.
-			// See discussion on http://golang.org/cl/299991.
+			// See discussion on http://golanglang.org/cl/299991.
 			if r.Count == 0 {
 				r.Count = 1
 			}
@@ -1146,7 +1146,7 @@ func copyBlockProfileRecord(dst *BlockProfileRecord, src profilerecord.BlockProf
 	clear(dst.Stack0[i:])
 }
 
-//go:linkname pprof_blockProfileInternal
+//golang:linkname pprof_blockProfileInternal
 func pprof_blockProfileInternal(p []profilerecord.BlockProfileRecord) (n int, ok bool) {
 	return blockProfileInternal(len(p), func(r profilerecord.BlockProfileRecord) {
 		p[0] = r
@@ -1197,7 +1197,7 @@ func mutexProfileInternal(size int, copyFn func(profilerecord.BlockProfileRecord
 	return
 }
 
-//go:linkname pprof_mutexProfileInternal
+//golang:linkname pprof_mutexProfileInternal
 func pprof_mutexProfileInternal(p []profilerecord.BlockProfileRecord) (n int, ok bool) {
 	return mutexProfileInternal(len(p), func(r profilerecord.BlockProfileRecord) {
 		p[0] = r
@@ -1237,7 +1237,7 @@ func threadCreateProfileInternal(size int, copyFn func(profilerecord.StackRecord
 	return
 }
 
-//go:linkname pprof_threadCreateInternal
+//golang:linkname pprof_threadCreateInternal
 func pprof_threadCreateInternal(p []profilerecord.StackRecord) (n int, ok bool) {
 	return threadCreateProfileInternal(len(p), func(r profilerecord.StackRecord) {
 		p[0] = r
@@ -1245,21 +1245,21 @@ func pprof_threadCreateInternal(p []profilerecord.StackRecord) (n int, ok bool) 
 	})
 }
 
-//go:linkname pprof_goroutineProfileWithLabels
-func pprof_goroutineProfileWithLabels(p []profilerecord.StackRecord, labels []unsafe.Pointer) (n int, ok bool) {
-	return goroutineProfileWithLabels(p, labels)
+//golang:linkname pprof_golangroutineProfileWithLabels
+func pprof_golangroutineProfileWithLabels(p []profilerecord.StackRecord, labels []unsafe.Pointer) (n int, ok bool) {
+	return golangroutineProfileWithLabels(p, labels)
 }
 
 // labels may be nil. If labels is non-nil, it must have the same length as p.
-func goroutineProfileWithLabels(p []profilerecord.StackRecord, labels []unsafe.Pointer) (n int, ok bool) {
+func golangroutineProfileWithLabels(p []profilerecord.StackRecord, labels []unsafe.Pointer) (n int, ok bool) {
 	if labels != nil && len(labels) != len(p) {
 		labels = nil
 	}
 
-	return goroutineProfileWithLabelsConcurrent(p, labels)
+	return golangroutineProfileWithLabelsConcurrent(p, labels)
 }
 
-var goroutineProfile = struct {
+var golangroutineProfile = struct {
 	sema    uint32
 	active  bool
 	offset  atomic.Int64
@@ -1269,40 +1269,40 @@ var goroutineProfile = struct {
 	sema: 1,
 }
 
-// goroutineProfileState indicates the status of a goroutine's stack for the
-// current in-progress goroutine profile. Goroutines' stacks are initially
+// golangroutineProfileState indicates the status of a golangroutine's stack for the
+// current in-progress golangroutine profile. Goroutines' stacks are initially
 // "Absent" from the profile, and end up "Satisfied" by the time the profile is
-// complete. While a goroutine's stack is being captured, its
-// goroutineProfileState will be "InProgress" and it will not be able to run
+// complete. While a golangroutine's stack is being captured, its
+// golangroutineProfileState will be "InProgress" and it will not be able to run
 // until the capture completes and the state moves to "Satisfied".
 //
-// Some goroutines (the finalizer goroutine, which at various times can be
-// either a "system" or a "user" goroutine, and the goroutine that is
-// coordinating the profile, any goroutines created during the profile) move
+// Some golangroutines (the finalizer golangroutine, which at various times can be
+// either a "system" or a "user" golangroutine, and the golangroutine that is
+// coordinating the profile, any golangroutines created during the profile) move
 // directly to the "Satisfied" state.
-type goroutineProfileState uint32
+type golangroutineProfileState uint32
 
 const (
-	goroutineProfileAbsent goroutineProfileState = iota
-	goroutineProfileInProgress
-	goroutineProfileSatisfied
+	golangroutineProfileAbsent golangroutineProfileState = iota
+	golangroutineProfileInProgress
+	golangroutineProfileSatisfied
 )
 
-type goroutineProfileStateHolder atomic.Uint32
+type golangroutineProfileStateHolder atomic.Uint32
 
-func (p *goroutineProfileStateHolder) Load() goroutineProfileState {
-	return goroutineProfileState((*atomic.Uint32)(p).Load())
+func (p *golangroutineProfileStateHolder) Load() golangroutineProfileState {
+	return golangroutineProfileState((*atomic.Uint32)(p).Load())
 }
 
-func (p *goroutineProfileStateHolder) Store(value goroutineProfileState) {
+func (p *golangroutineProfileStateHolder) Store(value golangroutineProfileState) {
 	(*atomic.Uint32)(p).Store(uint32(value))
 }
 
-func (p *goroutineProfileStateHolder) CompareAndSwap(old, new goroutineProfileState) bool {
+func (p *golangroutineProfileStateHolder) CompareAndSwap(old, new golangroutineProfileState) bool {
 	return (*atomic.Uint32)(p).CompareAndSwap(uint32(old), uint32(new))
 }
 
-func goroutineProfileWithLabelsConcurrent(p []profilerecord.StackRecord, labels []unsafe.Pointer) (n int, ok bool) {
+func golangroutineProfileWithLabelsConcurrent(p []profilerecord.StackRecord, labels []unsafe.Pointer) (n int, ok bool) {
 	if len(p) == 0 {
 		// An empty slice is obviously too small. Return a rough
 		// allocation estimate without bothering to STW. As long as
@@ -1311,19 +1311,19 @@ func goroutineProfileWithLabelsConcurrent(p []profilerecord.StackRecord, labels 
 		return int(gcount()), false
 	}
 
-	semacquire(&goroutineProfile.sema)
+	semacquire(&golangroutineProfile.sema)
 
 	ourg := getg()
 
 	pcbuf := makeProfStack() // see saveg() for explanation
 	stw := stopTheWorld(stwGoroutineProfile)
 	// Using gcount while the world is stopped should give us a consistent view
-	// of the number of live goroutines, minus the number of goroutines that are
+	// of the number of live golangroutines, minus the number of golangroutines that are
 	// alive and permanently marked as "system". But to make this count agree
 	// with what we'd get from isSystemGoroutine, we need special handling for
-	// goroutines that can vary between user and system to ensure that the count
-	// doesn't change during the collection. So, check the finalizer goroutine
-	// and cleanup goroutines in particular.
+	// golangroutines that can vary between user and system to ensure that the count
+	// doesn't change during the collection. So, check the finalizer golangroutine
+	// and cleanup golangroutines in particular.
 	n = int(gcount())
 	if fingStatus.Load()&fingRunningFinalizer != 0 {
 		n++
@@ -1335,11 +1335,11 @@ func goroutineProfileWithLabelsConcurrent(p []profilerecord.StackRecord, labels 
 		// contract of runtime.GoroutineProfile) we're not allowed to write to p
 		// at all and must return n, false.
 		startTheWorld(stw)
-		semrelease(&goroutineProfile.sema)
+		semrelease(&golangroutineProfile.sema)
 		return n, false
 	}
 
-	// Save current goroutine.
+	// Save current golangroutine.
 	sp := sys.GetCallerSP()
 	pc := sys.GetCallerPC()
 	systemstack(func() {
@@ -1348,28 +1348,28 @@ func goroutineProfileWithLabelsConcurrent(p []profilerecord.StackRecord, labels 
 	if labels != nil {
 		labels[0] = ourg.labels
 	}
-	ourg.goroutineProfiled.Store(goroutineProfileSatisfied)
-	goroutineProfile.offset.Store(1)
+	ourg.golangroutineProfiled.Store(golangroutineProfileSatisfied)
+	golangroutineProfile.offset.Store(1)
 
-	// Prepare for all other goroutines to enter the profile. Aside from ourg,
-	// every goroutine struct in the allgs list has its goroutineProfiled field
-	// cleared. Any goroutine created from this point on (while
-	// goroutineProfile.active is set) will start with its goroutineProfiled
-	// field set to goroutineProfileSatisfied.
-	goroutineProfile.active = true
-	goroutineProfile.records = p
-	goroutineProfile.labels = labels
+	// Prepare for all other golangroutines to enter the profile. Aside from ourg,
+	// every golangroutine struct in the allgs list has its golangroutineProfiled field
+	// cleared. Any golangroutine created from this point on (while
+	// golangroutineProfile.active is set) will start with its golangroutineProfiled
+	// field set to golangroutineProfileSatisfied.
+	golangroutineProfile.active = true
+	golangroutineProfile.records = p
+	golangroutineProfile.labels = labels
 	startTheWorld(stw)
 
-	// Visit each goroutine that existed as of the startTheWorld call above.
+	// Visit each golangroutine that existed as of the startTheWorld call above.
 	//
-	// New goroutines may not be in this list, but we didn't want to know about
-	// them anyway. If they do appear in this list (via reusing a dead goroutine
+	// New golangroutines may not be in this list, but we didn't want to know about
+	// them anyway. If they do appear in this list (via reusing a dead golangroutine
 	// struct, or racing to launch between the world restarting and us getting
-	// the list), they will already have their goroutineProfiled field set to
-	// goroutineProfileSatisfied before their state transitions out of _Gdead.
+	// the list), they will already have their golangroutineProfiled field set to
+	// golangroutineProfileSatisfied before their state transitions out of _Gdead.
 	//
-	// Any goroutine that the scheduler tries to execute concurrently with this
+	// Any golangroutine that the scheduler tries to execute concurrently with this
 	// call will start by adding itself to the profile (before the act of
 	// executing can cause any changes in its stack).
 	forEachGRace(func(gp1 *g) {
@@ -1377,16 +1377,16 @@ func goroutineProfileWithLabelsConcurrent(p []profilerecord.StackRecord, labels 
 	})
 
 	stw = stopTheWorld(stwGoroutineProfileCleanup)
-	endOffset := goroutineProfile.offset.Swap(0)
-	goroutineProfile.active = false
-	goroutineProfile.records = nil
-	goroutineProfile.labels = nil
+	endOffset := golangroutineProfile.offset.Swap(0)
+	golangroutineProfile.active = false
+	golangroutineProfile.records = nil
+	golangroutineProfile.labels = nil
 	startTheWorld(stw)
 
-	// Restore the invariant that every goroutine struct in allgs has its
-	// goroutineProfiled field cleared.
+	// Restore the invariant that every golangroutine struct in allgs has its
+	// golangroutineProfiled field cleared.
 	forEachGRace(func(gp1 *g) {
-		gp1.goroutineProfiled.Store(goroutineProfileAbsent)
+		gp1.golangroutineProfiled.Store(golangroutineProfileAbsent)
 	})
 
 	if raceenabled {
@@ -1394,25 +1394,25 @@ func goroutineProfileWithLabelsConcurrent(p []profilerecord.StackRecord, labels 
 	}
 
 	if n != int(endOffset) {
-		// It's a big surprise that the number of goroutines changed while we
+		// It's a big surprise that the number of golangroutines changed while we
 		// were collecting the profile. But probably better to return a
 		// truncated profile than to crash the whole process.
 		//
-		// For instance, needm moves a goroutine out of the _Gdead state and so
-		// might be able to change the goroutine count without interacting with
+		// For instance, needm moves a golangroutine out of the _Gdead state and so
+		// might be able to change the golangroutine count without interacting with
 		// the scheduler. For code like that, the race windows are small and the
 		// combination of features is uncommon, so it's hard to be (and remain)
 		// sure we've caught them all.
 	}
 
-	semrelease(&goroutineProfile.sema)
+	semrelease(&golangroutineProfile.sema)
 	return n, true
 }
 
 // tryRecordGoroutineProfileWB asserts that write barriers are allowed and calls
 // tryRecordGoroutineProfile.
 //
-//go:yeswritebarrierrec
+//golang:yeswritebarrierrec
 func tryRecordGoroutineProfileWB(gp1 *g) {
 	if getg().m.p.ptr() == nil {
 		throw("no P available, write barriers are forbidden")
@@ -1421,87 +1421,87 @@ func tryRecordGoroutineProfileWB(gp1 *g) {
 }
 
 // tryRecordGoroutineProfile ensures that gp1 has the appropriate representation
-// in the current goroutine profile: either that it should not be profiled, or
+// in the current golangroutine profile: either that it should not be profiled, or
 // that a snapshot of its call stack and labels are now in the profile.
 func tryRecordGoroutineProfile(gp1 *g, pcbuf []uintptr, yield func()) {
 	if readgstatus(gp1) == _Gdead {
-		// Dead goroutines should not appear in the profile. Goroutines that
-		// start while profile collection is active will get goroutineProfiled
-		// set to goroutineProfileSatisfied before transitioning out of _Gdead,
+		// Dead golangroutines should not appear in the profile. Goroutines that
+		// start while profile collection is active will get golangroutineProfiled
+		// set to golangroutineProfileSatisfied before transitioning out of _Gdead,
 		// so here we check _Gdead first.
 		return
 	}
 	if isSystemGoroutine(gp1, false) {
-		// System goroutines should not appear in the profile.
+		// System golangroutines should not appear in the profile.
 		return
 	}
 
 	for {
-		prev := gp1.goroutineProfiled.Load()
-		if prev == goroutineProfileSatisfied {
-			// This goroutine is already in the profile (or is new since the
+		prev := gp1.golangroutineProfiled.Load()
+		if prev == golangroutineProfileSatisfied {
+			// This golangroutine is already in the profile (or is new since the
 			// start of collection, so shouldn't appear in the profile).
 			break
 		}
-		if prev == goroutineProfileInProgress {
-			// Something else is adding gp1 to the goroutine profile right now.
+		if prev == golangroutineProfileInProgress {
+			// Something else is adding gp1 to the golangroutine profile right now.
 			// Give that a moment to finish.
 			yield()
 			continue
 		}
 
-		// While we have gp1.goroutineProfiled set to
-		// goroutineProfileInProgress, gp1 may appear _Grunnable but will not
+		// While we have gp1.golangroutineProfiled set to
+		// golangroutineProfileInProgress, gp1 may appear _Grunnable but will not
 		// actually be able to run. Disable preemption for ourselves, to make
 		// sure we finish profiling gp1 right away instead of leaving it stuck
 		// in this limbo.
 		mp := acquirem()
-		if gp1.goroutineProfiled.CompareAndSwap(goroutineProfileAbsent, goroutineProfileInProgress) {
+		if gp1.golangroutineProfiled.CompareAndSwap(golangroutineProfileAbsent, golangroutineProfileInProgress) {
 			doRecordGoroutineProfile(gp1, pcbuf)
-			gp1.goroutineProfiled.Store(goroutineProfileSatisfied)
+			gp1.golangroutineProfiled.Store(golangroutineProfileSatisfied)
 		}
 		releasem(mp)
 	}
 }
 
 // doRecordGoroutineProfile writes gp1's call stack and labels to an in-progress
-// goroutine profile. Preemption is disabled.
+// golangroutine profile. Preemption is disabled.
 //
 // This may be called via tryRecordGoroutineProfile in two ways: by the
-// goroutine that is coordinating the goroutine profile (running on its own
+// golangroutine that is coordinating the golangroutine profile (running on its own
 // stack), or from the scheduler in preparation to execute gp1 (running on the
 // system stack).
 func doRecordGoroutineProfile(gp1 *g, pcbuf []uintptr) {
 	if readgstatus(gp1) == _Grunning {
-		print("doRecordGoroutineProfile gp1=", gp1.goid, "\n")
-		throw("cannot read stack of running goroutine")
+		print("doRecordGoroutineProfile gp1=", gp1.golangid, "\n")
+		throw("cannot read stack of running golangroutine")
 	}
 
-	offset := int(goroutineProfile.offset.Add(1)) - 1
+	offset := int(golangroutineProfile.offset.Add(1)) - 1
 
-	if offset >= len(goroutineProfile.records) {
+	if offset >= len(golangroutineProfile.records) {
 		// Should be impossible, but better to return a truncated profile than
 		// to crash the entire process at this point. Instead, deal with it in
-		// goroutineProfileWithLabelsConcurrent where we have more context.
+		// golangroutineProfileWithLabelsConcurrent where we have more context.
 		return
 	}
 
-	// saveg calls gentraceback, which may call cgo traceback functions. When
+	// saveg calls gentraceback, which may call cgolang traceback functions. When
 	// called from the scheduler, this is on the system stack already so
-	// traceback.go:cgoContextPCs will avoid calling back into the scheduler.
+	// traceback.golang:cgolangContextPCs will avoid calling back into the scheduler.
 	//
-	// When called from the goroutine coordinating the profile, we still have
-	// set gp1.goroutineProfiled to goroutineProfileInProgress and so are still
+	// When called from the golangroutine coordinating the profile, we still have
+	// set gp1.golangroutineProfiled to golangroutineProfileInProgress and so are still
 	// preventing it from being truly _Grunnable. So we'll use the system stack
 	// to avoid schedule delays.
-	systemstack(func() { saveg(^uintptr(0), ^uintptr(0), gp1, &goroutineProfile.records[offset], pcbuf) })
+	systemstack(func() { saveg(^uintptr(0), ^uintptr(0), gp1, &golangroutineProfile.records[offset], pcbuf) })
 
-	if goroutineProfile.labels != nil {
-		goroutineProfile.labels[offset] = gp1.labels
+	if golangroutineProfile.labels != nil {
+		golangroutineProfile.labels[offset] = gp1.labels
 	}
 }
 
-func goroutineProfileWithLabelsSync(p []profilerecord.StackRecord, labels []unsafe.Pointer) (n int, ok bool) {
+func golangroutineProfileWithLabelsSync(p []profilerecord.StackRecord, labels []unsafe.Pointer) (n int, ok bool) {
 	gp := getg()
 
 	isOK := func(gp1 *g) bool {
@@ -1525,7 +1525,7 @@ func goroutineProfileWithLabelsSync(p []profilerecord.StackRecord, labels []unsa
 		ok = true
 		r, lbl := p, labels
 
-		// Save current goroutine.
+		// Save current golangroutine.
 		sp := sys.GetCallerSP()
 		pc := sys.GetCallerPC()
 		systemstack(func() {
@@ -1533,13 +1533,13 @@ func goroutineProfileWithLabelsSync(p []profilerecord.StackRecord, labels []unsa
 		})
 		r = r[1:]
 
-		// If we have a place to put our goroutine labelmap, insert it there.
+		// If we have a place to put our golangroutine labelmap, insert it there.
 		if labels != nil {
 			lbl[0] = gp.labels
 			lbl = lbl[1:]
 		}
 
-		// Save other goroutines.
+		// Save other golangroutines.
 		forEachGRace(func(gp1 *g) {
 			if !isOK(gp1) {
 				return
@@ -1550,10 +1550,10 @@ func goroutineProfileWithLabelsSync(p []profilerecord.StackRecord, labels []unsa
 				// truncated profile than to crash the entire process.
 				return
 			}
-			// saveg calls gentraceback, which may call cgo traceback functions.
-			// The world is stopped, so it cannot use cgocall (which will be
+			// saveg calls gentraceback, which may call cgolang traceback functions.
+			// The world is stopped, so it cannot use cgolangcall (which will be
 			// blocked at exitsyscall). Do it on the system stack so it won't
-			// call into the schedular (see traceback.go:cgoContextPCs).
+			// call into the schedular (see traceback.golang:cgolangContextPCs).
 			systemstack(func() { saveg(^uintptr(0), ^uintptr(0), gp1, &r[0], pcbuf) })
 			if labels != nil {
 				lbl[0] = gp1.labels
@@ -1571,7 +1571,7 @@ func goroutineProfileWithLabelsSync(p []profilerecord.StackRecord, labels []unsa
 	return n, ok
 }
 
-// GoroutineProfile returns n, the number of records in the active goroutine stack profile.
+// GoroutineProfile returns n, the number of records in the active golangroutine stack profile.
 // If len(p) >= n, GoroutineProfile copies the profile into p and returns n, true.
 // If len(p) < n, GoroutineProfile does not change p and returns n, false.
 //
@@ -1579,7 +1579,7 @@ func goroutineProfileWithLabelsSync(p []profilerecord.StackRecord, labels []unsa
 // of calling GoroutineProfile directly.
 func GoroutineProfile(p []StackRecord) (n int, ok bool) {
 	records := make([]profilerecord.StackRecord, len(p))
-	n, ok = goroutineProfileInternal(records)
+	n, ok = golangroutineProfileInternal(records)
 	if !ok {
 		return
 	}
@@ -1590,8 +1590,8 @@ func GoroutineProfile(p []StackRecord) (n int, ok bool) {
 	return
 }
 
-func goroutineProfileInternal(p []profilerecord.StackRecord) (n int, ok bool) {
-	return goroutineProfileWithLabels(p, nil)
+func golangroutineProfileInternal(p []profilerecord.StackRecord) (n int, ok bool) {
+	return golangroutineProfileWithLabels(p, nil)
 }
 
 func saveg(pc, sp uintptr, gp *g, r *profilerecord.StackRecord, pcbuf []uintptr) {
@@ -1602,9 +1602,9 @@ func saveg(pc, sp uintptr, gp *g, r *profilerecord.StackRecord, pcbuf []uintptr)
 	// allocation profiling, so it could get overwritten if the slice allocation
 	// gets profiled. So instead we record the stack trace into a temporary
 	// pcbuf which is usually given to us by our caller. When it's not, we have
-	// to allocate one here. This will only happen for goroutines that were in a
-	// syscall when the goroutine profile started or for goroutines that manage
-	// to execute before we finish iterating over all the goroutines.
+	// to allocate one here. This will only happen for golangroutines that were in a
+	// syscall when the golangroutine profile started or for golangroutines that manage
+	// to execute before we finish iterating over all the golangroutines.
 	if pcbuf == nil {
 		pcbuf = makeProfStack()
 	}
@@ -1616,10 +1616,10 @@ func saveg(pc, sp uintptr, gp *g, r *profilerecord.StackRecord, pcbuf []uintptr)
 	copy(r.Stack, pcbuf)
 }
 
-// Stack formats a stack trace of the calling goroutine into buf
+// Stack formats a stack trace of the calling golangroutine into buf
 // and returns the number of bytes written to buf.
-// If all is true, Stack formats stack traces of all other goroutines
-// into buf after the trace for the current goroutine.
+// If all is true, Stack formats stack traces of all other golangroutines
+// into buf after the trace for the current golangroutine.
 func Stack(buf []byte, all bool) int {
 	var stw worldStop
 	if all {
@@ -1638,7 +1638,7 @@ func Stack(buf []byte, all bool) int {
 			// GOTRACEBACK is only about crash dumps.
 			g0.m.traceback = 1
 			g0.writebuf = buf[0:0:len(buf)]
-			goroutineheader(gp)
+			golangroutineheader(gp)
 			traceback(pc, sp, 0, gp)
 			if all {
 				tracebackothers(gp)

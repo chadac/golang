@@ -1,8 +1,8 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build gccgo
+//golang:build gccgolang
 
 package issue9400
 
@@ -12,7 +12,7 @@ import (
 )
 
 // The test for the gc compiler resets the stack pointer so that the
-// stack gets modified.  We don't have a way to do that for gccgo
+// stack gets modified.  We don't have a way to do that for gccgolang
 // without writing more assembly code, which we haven't bothered to
 // do.  So this is not much of a test.
 

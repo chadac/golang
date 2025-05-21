@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package dnsmessage provides a mostly RFC 1035 compliant implementation of
@@ -1219,7 +1219,7 @@ type Builder struct {
 	// section keeps track of the current section being built.
 	section section
 
-	// header keeps track of what should go in the header when Finish is
+	// header keeps track of what should golang in the header when Finish is
 	// called.
 	header header
 
@@ -2060,7 +2060,7 @@ Loop:
 			}
 
 			// Reject names containing dots.
-			// See issue golang/go#56246
+			// See issue golanglang/golang#56246
 			for _, v := range msg[currOff:endOff] {
 				if v == '.' {
 					return off, errInvalidName
@@ -2483,7 +2483,7 @@ func unpackTXTResource(msg []byte, off int, length uint16) (TXTResource, error) 
 		if t, off, err = unpackText(msg, off); err != nil {
 			return TXTResource{}, &nestedError{"text", err}
 		}
-		// Check if we got too many bytes.
+		// Check if we golangt too many bytes.
 		if length-n < uint16(len(t))+1 {
 			return TXTResource{}, errCalcLen
 		}

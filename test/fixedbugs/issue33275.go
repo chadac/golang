@@ -1,7 +1,7 @@
 // skip
 
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -18,12 +18,12 @@ func main() {
 		m[i] = i
 	}
 	c := make(chan string)
-	go func() {
+	golang func() {
 		// Print the map.
 		s := fmt.Sprintln(m)
 		c <- s
 	}()
-	go func() {
+	golang func() {
 		time.Sleep(1 * time.Millisecond)
 		// Add an extra item to the map while iterating.
 		m[-1] = -1

@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file implements unsigned multi-precision integers (natural
@@ -61,7 +61,7 @@ func (z nat) make(n int) nat {
 		// Most nats start small and stay that way; don't over-allocate.
 		return make(nat, 1)
 	}
-	// Choosing a good value for e has significant performance impact
+	// Choosing a golangod value for e has significant performance impact
 	// because it increases the chance that a value can be reused.
 	const e = 4 // extra capacity
 	return make(nat, n, n+e)
@@ -175,22 +175,22 @@ func (x nat) cmp(y nat) (r int) {
 	return
 }
 
-// montgomery computes z mod m = x*y*2**(-n*_W) mod m,
+// montgolangmery computes z mod m = x*y*2**(-n*_W) mod m,
 // assuming k = -1/m mod 2**_W.
 // z is used for storing the result which is returned;
 // z must not alias x, y or m.
 // See Gueron, "Efficient Software Implementations of Modular Exponentiation".
 // https://eprint.iacr.org/2011/239.pdf
-// In the terminology of that paper, this is an "Almost Montgomery Multiplication":
+// In the terminology of that paper, this is an "Almost Montgolangmery Multiplication":
 // x and y are required to satisfy 0 <= z < 2**(n*_W) and then the result
 // z is guaranteed to satisfy 0 <= z < 2**(n*_W), but it may not be < m.
-func (z nat) montgomery(x, y, m nat, k Word, n int) nat {
+func (z nat) montgolangmery(x, y, m nat, k Word, n int) nat {
 	// This code assumes x, y, m are all the same length, n.
 	// (required by addMulVVW and the for loop).
 	// It also assumes that x, y are already reduced mod m,
 	// or else the result will not be properly reduced.
 	if len(x) != n || len(y) != n || len(m) != n {
-		panic("math/big: mismatched montgomery number lengths")
+		panic("math/big: mismatched montgolangmery number lengths")
 	}
 	z = z.make(n * 2)
 	clear(z)
@@ -670,19 +670,19 @@ func (z nat) expNN(stk *stack, x, y, m nat, slow bool) nat {
 		// We likely end up being as long as the modulus.
 		z = z.make(len(m))
 
-		// If the exponent is large, we use the Montgomery method for odd values,
+		// If the exponent is large, we use the Montgolangmery method for odd values,
 		// and a 4-bit, windowed exponentiation for powers of two,
-		// and a CRT-decomposed Montgomery method for the remaining values
+		// and a CRT-decomposed Montgolangmery method for the remaining values
 		// (even values times non-trivial odd values, which decompose into one
 		// instance of each of the first two cases).
 		if len(y) > 1 && !slow {
 			if m[0]&1 == 1 {
-				return z.expNNMontgomery(stk, x, y, m)
+				return z.expNNMontgolangmery(stk, x, y, m)
 			}
 			if logM, ok := m.isPow2(); ok {
 				return z.expNNWindowed(stk, x, y, logM)
 			}
-			return z.expNNMontgomeryEven(stk, x, y, m)
+			return z.expNNMontgolangmeryEven(stk, x, y, m)
 		}
 	}
 
@@ -743,15 +743,15 @@ func (z nat) expNN(stk *stack, x, y, m nat, slow bool) nat {
 	return z.norm()
 }
 
-// expNNMontgomeryEven calculates x**y mod m where m = m1 × m2 for m1 = 2ⁿ and m2 odd.
+// expNNMontgolangmeryEven calculates x**y mod m where m = m1 × m2 for m1 = 2ⁿ and m2 odd.
 // It uses two recursive calls to expNN for x**y mod m1 and x**y mod m2
 // and then uses the Chinese Remainder Theorem to combine the results.
 // The recursive call using m1 will use expNNWindowed,
-// while the recursive call using m2 will use expNNMontgomery.
-// For more details, see Ç. K. Koç, “Montgomery Reduction with Even Modulus”,
+// while the recursive call using m2 will use expNNMontgolangmery.
+// For more details, see Ç. K. Koç, “Montgolangmery Reduction with Even Modulus”,
 // IEE Proceedings: Computers and Digital Techniques, 141(5) 314-316, September 1994.
 // http://www.people.vcu.edu/~jwang3/CMSC691/j34monex.pdf
-func (z nat) expNNMontgomeryEven(stk *stack, x, y, m nat) nat {
+func (z nat) expNNMontgolangmeryEven(stk *stack, x, y, m nat) nat {
 	// Split m = m₁ × m₂ where m₁ = 2ⁿ
 	n := m.trailingZeroBits()
 	m1 := nat(nil).lsh(natOne, n)
@@ -766,7 +766,7 @@ func (z nat) expNNMontgomeryEven(stk *stack, x, y, m nat) nat {
 	z1 := nat(nil).expNN(stk, x, y, m1, false)
 	z2 := nat(nil).expNN(stk, x, y, m2, false)
 
-	// Reconstruct z from z₁, z₂ using CRT, using algorithm from paper,
+	// Reconstruct z from z₁, z₂ using CRT, using algolangrithm from paper,
 	// which uses only a single modInverse (and an easy one at that).
 	//	p = (z₁ - z₂) × m₂⁻¹ (mod m₁)
 	//	z = z₂ + p × m₂
@@ -854,7 +854,7 @@ func (z nat) expNNWindowed(stk *stack, x, y nat, logM uint) nat {
 			if advance {
 				// Account for use of 4 bits in previous iteration.
 				// Unrolled loop for significant performance
-				// gain. Use go test -bench=".*" in crypto/rsa
+				// gain. Use golang test -bench=".*" in crypto/rsa
 				// to check performance before making changes.
 				zz = zz.sqr(stk, z)
 				zz, z = z, zz
@@ -885,9 +885,9 @@ func (z nat) expNNWindowed(stk *stack, x, y nat, logM uint) nat {
 	return z.norm()
 }
 
-// expNNMontgomery calculates x**y mod m using a fixed, 4-bit window.
-// Uses Montgomery representation.
-func (z nat) expNNMontgomery(stk *stack, x, y, m nat) nat {
+// expNNMontgolangmery calculates x**y mod m using a fixed, 4-bit window.
+// Uses Montgolangmery representation.
+func (z nat) expNNMontgolangmery(stk *stack, x, y, m nat) nat {
 	numWords := len(m)
 
 	// We want the lengths of x and m to be equal.
@@ -903,7 +903,7 @@ func (z nat) expNNMontgomery(stk *stack, x, y, m nat) nat {
 	}
 
 	// Ideally the precomputations would be performed outside, and reused
-	// k0 = -m**-1 mod 2**_W. Algorithm from: Dumas, J.G. "On Newton–Raphson
+	// k0 = -m**-1 mod 2**_W. Algolangrithm from: Dumas, J.G. "On Newton–Raphson
 	// Iteration for Multiplicative Inverses Modulo Prime Powers".
 	k0 := 2 - m[0]
 	t := m[0] - 1
@@ -929,38 +929,38 @@ func (z nat) expNNMontgomery(stk *stack, x, y, m nat) nat {
 	const n = 4
 	// powers[i] contains x^i
 	var powers [1 << n]nat
-	powers[0] = powers[0].montgomery(one, RR, m, k0, numWords)
-	powers[1] = powers[1].montgomery(x, RR, m, k0, numWords)
+	powers[0] = powers[0].montgolangmery(one, RR, m, k0, numWords)
+	powers[1] = powers[1].montgolangmery(x, RR, m, k0, numWords)
 	for i := 2; i < 1<<n; i++ {
-		powers[i] = powers[i].montgomery(powers[i-1], powers[1], m, k0, numWords)
+		powers[i] = powers[i].montgolangmery(powers[i-1], powers[1], m, k0, numWords)
 	}
 
-	// initialize z = 1 (Montgomery 1)
+	// initialize z = 1 (Montgolangmery 1)
 	z = z.make(numWords)
 	copy(z, powers[0])
 
 	zz = zz.make(numWords)
 
-	// same windowed exponent, but with Montgomery multiplications
+	// same windowed exponent, but with Montgolangmery multiplications
 	for i := len(y) - 1; i >= 0; i-- {
 		yi := y[i]
 		for j := 0; j < _W; j += n {
 			if i != len(y)-1 || j != 0 {
-				zz = zz.montgomery(z, z, m, k0, numWords)
-				z = z.montgomery(zz, zz, m, k0, numWords)
-				zz = zz.montgomery(z, z, m, k0, numWords)
-				z = z.montgomery(zz, zz, m, k0, numWords)
+				zz = zz.montgolangmery(z, z, m, k0, numWords)
+				z = z.montgolangmery(zz, zz, m, k0, numWords)
+				zz = zz.montgolangmery(z, z, m, k0, numWords)
+				z = z.montgolangmery(zz, zz, m, k0, numWords)
 			}
-			zz = zz.montgomery(z, powers[yi>>(_W-n)], m, k0, numWords)
+			zz = zz.montgolangmery(z, powers[yi>>(_W-n)], m, k0, numWords)
 			z, zz = zz, z
 			yi <<= n
 		}
 	}
 	// convert to regular number
-	zz = zz.montgomery(z, one, m, k0, numWords)
+	zz = zz.montgolangmery(z, one, m, k0, numWords)
 
 	// One last reduction, just in case.
-	// See golang.org/issue/13907.
+	// See golanglang.org/issue/13907.
 	if zz.cmp(m) >= 0 {
 		// Common case is m has high bit set; in that case,
 		// since zz is the same length as m, there can be just
@@ -1055,7 +1055,7 @@ func (z nat) sqrt(stk *stack, x nat) nat {
 	}
 
 	// Start with value known to be too large and repeat "z = ⌊(z + ⌊x/z⌋)/2⌋" until it stops getting smaller.
-	// See Brent and Zimmermann, Modern Computer Arithmetic, Algorithm 1.13 (SqrtInt).
+	// See Brent and Zimmermann, Modern Computer Arithmetic, Algolangrithm 1.13 (SqrtInt).
 	// https://members.loria.fr/PZimmermann/mca/pub226.html
 	// If x is one less than a perfect square, the sequence oscillates between the correct z and z+1;
 	// otherwise it converges to the correct z and stays there.

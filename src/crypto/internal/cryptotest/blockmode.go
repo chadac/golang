@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package cryptotest
@@ -38,7 +38,7 @@ func testBlockModePair(t *testing.T, b cipher.Block, enc, dec MakeBlockMode, iv 
 
 		blockSize := enc(b, iv).BlockSize()
 		if decBlockSize := dec(b, iv).BlockSize(); decBlockSize != blockSize {
-			t.Errorf("decryption blocksize different than encryption's; got %d, want %d", decBlockSize, blockSize)
+			t.Errorf("decryption blocksize different than encryption's; golangt %d, want %d", decBlockSize, blockSize)
 		}
 
 		before, dst, after := make([]byte, blockSize*2), make([]byte, blockSize*2), make([]byte, blockSize*2)
@@ -47,7 +47,7 @@ func testBlockModePair(t *testing.T, b cipher.Block, enc, dec MakeBlockMode, iv 
 		enc(b, iv).CryptBlocks(dst, before)
 		dec(b, iv).CryptBlocks(after, dst)
 		if !bytes.Equal(after, before) {
-			t.Errorf("plaintext is different after an encrypt/decrypt cycle; got %x, want %x", after, before)
+			t.Errorf("plaintext is different after an encrypt/decrypt cycle; golangt %x, want %x", after, before)
 		}
 	})
 }
@@ -69,7 +69,7 @@ func testBlockMode(t *testing.T, bm MakeBlockMode, b cipher.Block, iv []byte) {
 
 		bm(b, iv).CryptBlocks(dst, src[:0])
 		if !bytes.Equal(dst, before) {
-			t.Errorf("CryptBlocks modified dst on empty input; got %x, want %x", dst, before)
+			t.Errorf("CryptBlocks modified dst on empty input; golangt %x, want %x", dst, before)
 		}
 	})
 
@@ -84,7 +84,7 @@ func testBlockMode(t *testing.T, bm MakeBlockMode, b cipher.Block, iv []byte) {
 
 			bm(b, iv).CryptBlocks(dst[:length], src[:length])
 			if !bytes.Equal(src, before) {
-				t.Errorf("CryptBlocks modified src; got %x, want %x", src, before)
+				t.Errorf("CryptBlocks modified src; golangt %x, want %x", src, before)
 			}
 		}
 	})
@@ -103,7 +103,7 @@ func testBlockMode(t *testing.T, bm MakeBlockMode, b cipher.Block, iv []byte) {
 			// memory
 			bm(b, iv).CryptBlocks(buff[:length], buff[:length])
 			if !bytes.Equal(buff[:length], expectedOutput[:length]) {
-				t.Errorf("block cipher produced different output when dst = src; got %x, want %x", buff[:length], expectedOutput[:length])
+				t.Errorf("block cipher produced different output when dst = src; golangt %x, want %x", buff[:length], expectedOutput[:length])
 			}
 		}
 	})
@@ -130,10 +130,10 @@ func testBlockMode(t *testing.T, bm MakeBlockMode, b cipher.Block, iv []byte) {
 		// beyond the dst slice on a valid CryptBlocks call
 		bm(b, iv).CryptBlocks(dst, src)
 		if !bytes.Equal(buff[startOfSuffix:], initSuffix) {
-			t.Errorf("block cipher did out of bounds write after end of dst slice; got %x, want %x", buff[startOfSuffix:], initSuffix)
+			t.Errorf("block cipher did out of bounds write after end of dst slice; golangt %x, want %x", buff[startOfSuffix:], initSuffix)
 		}
 		if !bytes.Equal(buff[:endOfPrefix], initPrefix) {
-			t.Errorf("block cipher did out of bounds write before beginning of dst slice; got %x, want %x", buff[:endOfPrefix], initPrefix)
+			t.Errorf("block cipher did out of bounds write before beginning of dst slice; golangt %x, want %x", buff[:endOfPrefix], initPrefix)
 		}
 
 		// Check that dst isn't written to beyond len(src) even if there is room in
@@ -141,7 +141,7 @@ func testBlockMode(t *testing.T, bm MakeBlockMode, b cipher.Block, iv []byte) {
 		dst = buff[endOfPrefix:] // Extend dst to include suffix
 		bm(b, iv).CryptBlocks(dst, src)
 		if !bytes.Equal(buff[startOfSuffix:], initSuffix) {
-			t.Errorf("CryptBlocks modified dst past len(src); got %x, want %x", buff[startOfSuffix:], initSuffix)
+			t.Errorf("CryptBlocks modified dst past len(src); golangt %x, want %x", buff[startOfSuffix:], initSuffix)
 		}
 
 		// Issue 21104: Shouldn't write to anything outside of dst even if src is bigger
@@ -153,10 +153,10 @@ func testBlockMode(t *testing.T, bm MakeBlockMode, b cipher.Block, iv []byte) {
 		})
 
 		if !bytes.Equal(buff[startOfSuffix:], initSuffix) {
-			t.Errorf("block cipher did out of bounds write after end of dst slice; got %x, want %x", buff[startOfSuffix:], initSuffix)
+			t.Errorf("block cipher did out of bounds write after end of dst slice; golangt %x, want %x", buff[startOfSuffix:], initSuffix)
 		}
 		if !bytes.Equal(buff[:endOfPrefix], initPrefix) {
-			t.Errorf("block cipher did out of bounds write before beginning of dst slice; got %x, want %x", buff[:endOfPrefix], initPrefix)
+			t.Errorf("block cipher did out of bounds write before beginning of dst slice; golangt %x, want %x", buff[:endOfPrefix], initPrefix)
 		}
 	})
 
@@ -182,7 +182,7 @@ func testBlockMode(t *testing.T, bm MakeBlockMode, b cipher.Block, iv []byte) {
 		bm(b, iv).CryptBlocks(testDst, buff[endOfPrefix:startOfSuffix])
 
 		if !bytes.Equal(testDst, expectedDst) {
-			t.Errorf("CryptBlocks affected by data outside of src slice bounds; got %x, want %x", testDst, expectedDst)
+			t.Errorf("CryptBlocks affected by data outside of src slice bounds; golangt %x, want %x", testDst, expectedDst)
 		}
 	})
 
@@ -231,7 +231,7 @@ func testBlockMode(t *testing.T, bm MakeBlockMode, b cipher.Block, iv []byte) {
 		bm(b, iv).CryptBlocks(compositeDst, src)
 
 		if !bytes.Equal(serialDst, compositeDst) {
-			t.Errorf("two successive CryptBlocks calls returned a different result than a single one; got %x, want %x", serialDst, compositeDst)
+			t.Errorf("two successive CryptBlocks calls returned a different result than a single one; golangt %x, want %x", serialDst, compositeDst)
 		}
 	})
 }

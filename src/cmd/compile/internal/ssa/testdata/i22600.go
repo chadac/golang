@@ -21,7 +21,7 @@ func main() {
 
 var snk string
 
-//go:noinline
+//golang:noinline
 func growstack() {
 	snk = fmt.Sprintf("%#v,%#v,%#v", 1, true, "cat")
 }

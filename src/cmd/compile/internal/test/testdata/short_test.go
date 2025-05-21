@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Tests short circuiting.
@@ -18,7 +18,7 @@ func or_ssa(arg1, arg2 bool) bool {
 
 var rightCalled bool
 
-//go:noinline
+//golang:noinline
 func rightCall(v bool) bool {
 	rightCalled = true
 	return v
@@ -34,12 +34,12 @@ func testOr(t *testing.T, arg1, arg2, wantRes bool) {
 
 func testShortCircuit(t *testing.T, opName string, arg1, arg2 bool, fn func(bool, bool) bool, wantRightCall, wantRes bool) {
 	rightCalled = false
-	got := fn(arg1, arg2)
+	golangt := fn(arg1, arg2)
 	if rightCalled != wantRightCall {
 		t.Errorf("failed for %t %s %t; rightCalled=%t want=%t", arg1, opName, arg2, rightCalled, wantRightCall)
 	}
-	if wantRes != got {
-		t.Errorf("failed for %t %s %t; res=%t want=%t", arg1, opName, arg2, got, wantRes)
+	if wantRes != golangt {
+		t.Errorf("failed for %t %s %t; res=%t want=%t", arg1, opName, arg2, golangt, wantRes)
 	}
 }
 

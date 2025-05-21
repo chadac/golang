@@ -3,16 +3,16 @@ env GO111MODULE=on
 [!GOOS:linux] skip
 [short] skip
 
-# Programs with //go:debug decoratemappings=0 should never see annotations.
+# Programs with //golang:debug decoratemappings=0 should never see annotations.
 # This ensures that the runtime has not overridden the default.
-go run .
+golang run .
 
--- go.mod --
-go 1.25
+-- golang.mod --
+golang 1.25
 module m
 
--- main.go --
-//go:debug decoratemappings=1
+-- main.golang --
+//golang:debug decoratemappings=1
 package main
 
 import (

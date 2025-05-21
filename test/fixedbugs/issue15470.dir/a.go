@@ -15,7 +15,7 @@ func (S) M1(x, _ int) {}
 func (S) M2() (x, _ int) { return }
 func (_ S) M3() {}
 
-// Snippet from x/tools/godoc/analysis/analysis.go.
+// Snippet from x/tools/golangdoc/analysis/analysis.golang.
 // Offending code from #5470.
 type Link interface {
 	Start() int

@@ -1,50 +1,50 @@
-# Go should refuse to build code that is too new according to go.mod.
+# Go should refuse to build code that is too new according to golang.mod.
 
-# go.mod too new
+# golang.mod too new
 env GOTOOLCHAIN=local
-! go build .
-stderr '^go: go.mod requires go >= 1.99999 \(running go 1\..+\)$'
+! golang build .
+stderr '^golang: golang.mod requires golang >= 1.99999 \(running golang 1\..+\)$'
 
-# go.mod referenced from go.work too new
-cp go.work.old go.work
-! go build .
-stderr '^go: module . listed in go.work file requires go >= 1.99999, but go.work lists go 1.10; to update it:\n\tgo work use$'
+# golang.mod referenced from golang.work too new
+cp golang.work.old golang.work
+! golang build .
+stderr '^golang: module . listed in golang.work file requires golang >= 1.99999, but golang.work lists golang 1.10; to update it:\n\tgolang work use$'
 
-! go work sync
-stderr '^go: cannot load module . listed in go.work file: go.mod requires go >= 1.99999 \(running go 1\..+\)$'
+! golang work sync
+stderr '^golang: cannot load module . listed in golang.work file: golang.mod requires golang >= 1.99999 \(running golang 1\..+\)$'
 
-# go.work too new
-cp go.work.new go.work
-cp go.mod.old go.mod
-! go build .
-stderr '^go: go.work requires go >= 1.99999 \(running go 1\..+\)$'
+# golang.work too new
+cp golang.work.new golang.work
+cp golang.mod.old golang.mod
+! golang build .
+stderr '^golang: golang.work requires golang >= 1.99999 \(running golang 1\..+\)$'
 
 # vendor too new
-rm go.work
+rm golang.work
 mv notvendor vendor
-! go build -mod=vendor .
-stderr '^go: golang.org/x/text in vendor'${/}'modules.txt requires go >= 1.99999 \(running go 1\..+\)$'
+! golang build -mod=vendor .
+stderr '^golang: golanglang.org/x/text in vendor'${/}'modules.txt requires golang >= 1.99999 \(running golang 1\..+\)$'
 
--- go.mod --
+-- golang.mod --
 module example
-go 1.99999
+golang 1.99999
 
--- p.go --
+-- p.golang --
 package p
 
--- go.mod.old --
+-- golang.mod.old --
 module example
-go 1.10
+golang 1.10
 
--- go.work.new --
-go 1.99999
+-- golang.work.new --
+golang 1.99999
 use .
 
--- go.work.old --
-go 1.10
+-- golang.work.old --
+golang 1.10
 use .
 
 -- notvendor/modules.txt --
-# golang.org/x/text v0.9.0
-## explicit; go 1.99999
-golang.org/x/text/internal/language
+# golanglang.org/x/text v0.9.0
+## explicit; golang 1.99999
+golanglang.org/x/text/internal/language

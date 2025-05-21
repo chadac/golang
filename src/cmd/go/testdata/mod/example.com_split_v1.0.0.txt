@@ -5,5 +5,5 @@ Test case for getting a package that has been moved to a different module.
 module example.com/split
 -- .info --
 {"Version": "v1.0.0"}
--- subpkg/x.go --
+-- subpkg/x.golang --
 package subpkg

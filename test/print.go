@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test internal print routines that are generated
@@ -31,7 +31,7 @@ func main() {
 	println("hello")            // printstring
 	println("one", "two")       // printsp
 
-	// test goprintf
+	// test golangprintf
 	defer println((interface{})(nil))
 	defer println((interface {
 		f()

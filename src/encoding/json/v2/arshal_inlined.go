@@ -1,8 +1,8 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build goexperiment.jsonv2
+//golang:build golangexperiment.jsonv2
 
 package json
 
@@ -50,7 +50,7 @@ func marshalInlinedFallbackAll(enc *jsontext.Encoder, va addressableValue, mo *j
 	}
 
 	if v.Type() == jsontextValueType {
-		// TODO(https://go.dev/issue/62121): Use reflect.Value.AssertTo.
+		// TODO(https://golang.dev/issue/62121): Use reflect.Value.AssertTo.
 		b := *v.Addr().Interface().(*jsontext.Value)
 		if len(b) == 0 { // TODO: Should this be nil? What if it were all whitespace?
 			return nil
@@ -153,7 +153,7 @@ func marshalInlinedFallbackAll(enc *jsontext.Encoder, va addressableValue, mo *j
 				if err := marshalKey(mk); err != nil {
 					return err
 				}
-				// TODO(https://go.dev/issue/57061): Use mv.SetMapIndexOf.
+				// TODO(https://golang.dev/issue/57061): Use mv.SetMapIndexOf.
 				mv.Set(m.MapIndex(mk.Value))
 				if err := marshalVal(enc, mv, mo); err != nil {
 					return err

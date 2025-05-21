@@ -1,10 +1,10 @@
 // run
 
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Test len constants and non-constants, https://golang.org/issue/3244.
+// Test len constants and non-constants, https://golanglang.org/issue/3244.
 
 package main
 
@@ -22,7 +22,7 @@ const (
 	n3 = len(s[10])
 )
 
-// Non-constants (see also const5.go).
+// Non-constants (see also const5.golang).
 var (
 	n4 = len(f())
 	n5 = len(<-c)

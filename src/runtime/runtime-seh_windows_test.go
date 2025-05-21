@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime_test
@@ -87,12 +87,12 @@ func sehCallers() []uintptr {
 
 // SEH unwinding does not report inlined frames.
 //
-//go:noinline
+//golang:noinline
 func sehf3(pan bool) []uintptr {
 	return sehf4(pan)
 }
 
-//go:noinline
+//golang:noinline
 func sehf4(pan bool) []uintptr {
 	var pcs []uintptr
 	if pan {
@@ -104,10 +104,10 @@ func sehf4(pan bool) []uintptr {
 
 func testSehCallersEqual(t *testing.T, pcs []uintptr, want []string) {
 	t.Helper()
-	got := make([]string, 0, len(want))
+	golangt := make([]string, 0, len(want))
 	for _, pc := range pcs {
 		fn := runtime.FuncForPC(pc)
-		if fn == nil || len(got) >= len(want) {
+		if fn == nil || len(golangt) >= len(want) {
 			break
 		}
 		name := fn.Name()
@@ -117,10 +117,10 @@ func testSehCallersEqual(t *testing.T, pcs []uintptr, want []string) {
 			// whether inlining is on or off.
 			continue
 		}
-		got = append(got, name)
+		golangt = append(golangt, name)
 	}
-	if !slices.Equal(want, got) {
-		t.Fatalf("wanted %v, got %v", want, got)
+	if !slices.Equal(want, golangt) {
+		t.Fatalf("wanted %v, golangt %v", want, golangt)
 	}
 }
 
@@ -137,7 +137,7 @@ func TestSehUnwindPanic(t *testing.T) {
 	if runtime.GOARCH != "amd64" {
 		t.Skip("skipping amd64-only test")
 	}
-	want := []string{"runtime_test.sehCallers", "runtime_test.TestSehUnwindPanic.func1", "runtime.gopanic",
+	want := []string{"runtime_test.sehCallers", "runtime_test.TestSehUnwindPanic.func1", "runtime.golangpanic",
 		"runtime_test.sehf4", "runtime_test.sehf3", "runtime_test.TestSehUnwindPanic"}
 	defer func() {
 		if r := recover(); r == nil {
@@ -153,8 +153,8 @@ func TestSehUnwindDoublePanic(t *testing.T) {
 	if runtime.GOARCH != "amd64" {
 		t.Skip("skipping amd64-only test")
 	}
-	want := []string{"runtime_test.sehCallers", "runtime_test.TestSehUnwindDoublePanic.func1.1", "runtime.gopanic",
-		"runtime_test.TestSehUnwindDoublePanic.func1", "runtime.gopanic", "runtime_test.TestSehUnwindDoublePanic"}
+	want := []string{"runtime_test.sehCallers", "runtime_test.TestSehUnwindDoublePanic.func1.1", "runtime.golangpanic",
+		"runtime_test.TestSehUnwindDoublePanic.func1", "runtime.golangpanic", "runtime_test.TestSehUnwindDoublePanic"}
 	defer func() {
 		defer func() {
 			if recover() == nil {
@@ -175,7 +175,7 @@ func TestSehUnwindNilPointerPanic(t *testing.T) {
 	if runtime.GOARCH != "amd64" {
 		t.Skip("skipping amd64-only test")
 	}
-	want := []string{"runtime_test.sehCallers", "runtime_test.TestSehUnwindNilPointerPanic.func1", "runtime.gopanic",
+	want := []string{"runtime_test.sehCallers", "runtime_test.TestSehUnwindNilPointerPanic.func1", "runtime.golangpanic",
 		"runtime.sigpanic", "runtime_test.TestSehUnwindNilPointerPanic"}
 	defer func() {
 		if r := recover(); r == nil {

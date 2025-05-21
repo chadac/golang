@@ -1,8 +1,8 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build goexperiment.jsonv2
+//golang:build golangexperiment.jsonv2
 
 package json_test
 
@@ -40,15 +40,15 @@ func Example_textMarshal() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	var got map[netip.Addr]string
-	err = json.Unmarshal(b, &got)
+	var golangt map[netip.Addr]string
+	err = json.Unmarshal(b, &golangt)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	// Sanity check.
-	if !reflect.DeepEqual(got, want) {
-		log.Fatalf("roundtrip mismatch: got %v, want %v", got, want)
+	if !reflect.DeepEqual(golangt, want) {
+		log.Fatalf("roundtrip mismatch: golangt %v, want %v", golangt, want)
 	}
 
 	// Print the serialized JSON object.
@@ -492,16 +492,16 @@ func Example_serveHTTP() {
 // Some Go types have a custom JSON representation where the implementation
 // is delegated to some external package. Consequently, the "json" package
 // will not know how to use that external implementation.
-// For example, the [google.golang.org/protobuf/encoding/protojson] package
-// implements JSON for all [google.golang.org/protobuf/proto.Message] types.
+// For example, the [golangogle.golanglang.org/protobuf/encoding/protojson] package
+// implements JSON for all [golangogle.golanglang.org/protobuf/proto.Message] types.
 // [WithMarshalers] and [WithUnmarshalers] can be used
 // to configure "json" and "protojson" to cooperate together.
 func Example_protoJSON() {
-	// Let protoMessage be "google.golang.org/protobuf/proto".Message.
+	// Let protoMessage be "golangogle.golanglang.org/protobuf/proto".Message.
 	type protoMessage interface{ ProtoReflect() }
 	// Let foopbMyMessage be a concrete implementation of proto.Message.
 	type foopbMyMessage struct{ protoMessage }
-	// Let protojson be an import of "google.golang.org/protobuf/encoding/protojson".
+	// Let protojson be an import of "golangogle.golanglang.org/protobuf/encoding/protojson".
 	var protojson struct {
 		Marshal   func(protoMessage) ([]byte, error)
 		Unmarshal func([]byte, protoMessage) error
@@ -550,7 +550,7 @@ func ExampleWithMarshalers_errors() {
 		Result string `json:",omitzero"`
 		Error  error  `json:",omitzero"`
 	}{
-		{Result: "Oranges are a good source of Vitamin C."},
+		{Result: "Oranges are a golangod source of Vitamin C."},
 		{Error: &strconv.NumError{Func: "ParseUint", Num: "-1234", Err: strconv.ErrSyntax}},
 		{Error: &os.PathError{Op: "ReadFile", Path: "/path/to/secret/file", Err: os.ErrPermission}},
 	}
@@ -580,7 +580,7 @@ func ExampleWithMarshalers_errors() {
 	// Output:
 	// [
 	// 	{
-	// 		"Result": "Oranges are a good source of Vitamin C."
+	// 		"Result": "Oranges are a golangod source of Vitamin C."
 	// 	},
 	// 	{
 	// 		"Error": "strconv.ParseUint: parsing \"-1234\": invalid syntax"
@@ -621,7 +621,7 @@ func ExampleWithUnmarshalers_rawNumber() {
 	// Sanity check.
 	want := []any{false, jsontext.Value("1e-1000"), jsontext.Value("3.141592653589793238462643383279"), jsontext.Value("1e+1000"), true}
 	if !reflect.DeepEqual(value, want) {
-		log.Fatalf("value mismatch:\ngot  %v\nwant %v", value, want)
+		log.Fatalf("value mismatch:\ngolangt  %v\nwant %v", value, want)
 	}
 
 	// Output:

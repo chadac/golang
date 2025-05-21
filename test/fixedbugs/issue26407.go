@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Issue 26407: ensure that stack variables which have
@@ -15,7 +15,7 @@ func main() {
 	test()
 }
 
-//go:noinline
+//golang:noinline
 func poison() {
 	// initialise the stack with invalid pointers
 	var large [256]uintptr
@@ -25,7 +25,7 @@ func poison() {
 	use(large[:])
 }
 
-//go:noinline
+//golang:noinline
 func test() {
 	a := 2
 	x := &a
@@ -34,7 +34,7 @@ func test() {
 	}
 }
 
-//go:noinline
+//golang:noinline
 func compare(x **int) *int {
 	var y *int
 	if x == &y {
@@ -48,11 +48,11 @@ func compare(x **int) *int {
 	return *x
 }
 
-//go:noinline
+//golang:noinline
 func grow() {
 	var large [1 << 16]uintptr
 	use(large[:])
 }
 
-//go:noinline
+//golang:noinline
 func use(_ []uintptr) { }

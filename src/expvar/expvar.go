@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package expvar provides a standardized interface to public variables, such
@@ -24,7 +24,7 @@ package expvar
 
 import (
 	"encoding/json"
-	"internal/godebug"
+	"internal/golangdebug"
 	"log"
 	"math"
 	"net/http"
@@ -378,7 +378,7 @@ func memstats() any {
 }
 
 func init() {
-	if godebug.New("httpmuxgo121").Value() == "1" {
+	if golangdebug.New("httpmuxgolang121").Value() == "1" {
 		http.HandleFunc("/debug/vars", expvarHandler)
 	} else {
 		http.HandleFunc("GET /debug/vars", expvarHandler)

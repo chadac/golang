@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package cryptotest
@@ -36,7 +36,7 @@ func TestBlock(t *testing.T, keySize int, mb MakeBlock) {
 	})
 
 	// Checks baseline Encrypt/Decrypt functionality.  More thorough
-	// implementation-specific characterization/golden tests should be done
+	// implementation-specific characterization/golanglden tests should be done
 	// for each block cipher implementation.
 	t.Run("Roundtrip", func(t *testing.T) {
 		rng := newRandReader(t)
@@ -50,7 +50,7 @@ func TestBlock(t *testing.T, keySize int, mb MakeBlock) {
 		block.Decrypt(after, ciphertext)
 
 		if !bytes.Equal(after, before) {
-			t.Errorf("plaintext is different after an encrypt/decrypt cycle; got %x, want %x", after, before)
+			t.Errorf("plaintext is different after an encrypt/decrypt cycle; golangt %x, want %x", after, before)
 		}
 
 		// Check Encrypt inverts Decrypt (assumes block ciphers are deterministic)
@@ -62,7 +62,7 @@ func TestBlock(t *testing.T, keySize int, mb MakeBlock) {
 		block.Encrypt(after, plaintext)
 
 		if !bytes.Equal(after, before) {
-			t.Errorf("ciphertext is different after a decrypt/encrypt cycle; got %x, want %x", after, before)
+			t.Errorf("ciphertext is different after a decrypt/encrypt cycle; golangt %x, want %x", after, before)
 		}
 	})
 
@@ -82,7 +82,7 @@ func testCipher(t *testing.T, cipher func(dst, src []byte), blockSize int) {
 
 		cipher(dst, src)
 		if !bytes.Equal(src, before) {
-			t.Errorf("block cipher modified src; got %x, want %x", src, before)
+			t.Errorf("block cipher modified src; golangt %x, want %x", src, before)
 		}
 	})
 
@@ -99,7 +99,7 @@ func testCipher(t *testing.T, cipher func(dst, src []byte), blockSize int) {
 		// memory
 		cipher(buff, buff)
 		if !bytes.Equal(buff, expectedOutput) {
-			t.Errorf("block cipher produced different output when dst = src; got %x, want %x", buff, expectedOutput)
+			t.Errorf("block cipher produced different output when dst = src; golangt %x, want %x", buff, expectedOutput)
 		}
 	})
 
@@ -125,10 +125,10 @@ func testCipher(t *testing.T, cipher func(dst, src []byte), blockSize int) {
 		// beyond the dst slice
 		cipher(dst, src)
 		if !bytes.Equal(buff[startOfSuffix:], initSuffix) {
-			t.Errorf("block cipher did out of bounds write after end of dst slice; got %x, want %x", buff[startOfSuffix:], initSuffix)
+			t.Errorf("block cipher did out of bounds write after end of dst slice; golangt %x, want %x", buff[startOfSuffix:], initSuffix)
 		}
 		if !bytes.Equal(buff[:endOfPrefix], initPrefix) {
-			t.Errorf("block cipher did out of bounds write before beginning of dst slice; got %x, want %x", buff[:endOfPrefix], initPrefix)
+			t.Errorf("block cipher did out of bounds write before beginning of dst slice; golangt %x, want %x", buff[:endOfPrefix], initPrefix)
 		}
 
 		// Check that dst isn't written to beyond BlockSize even if there is room
@@ -136,7 +136,7 @@ func testCipher(t *testing.T, cipher func(dst, src []byte), blockSize int) {
 		dst = buff[endOfPrefix:] // Extend dst to include suffix
 		cipher(dst, src)
 		if !bytes.Equal(buff[startOfSuffix:], initSuffix) {
-			t.Errorf("block cipher modified dst past BlockSize bytes; got %x, want %x", buff[startOfSuffix:], initSuffix)
+			t.Errorf("block cipher modified dst past BlockSize bytes; golangt %x, want %x", buff[startOfSuffix:], initSuffix)
 		}
 	})
 
@@ -162,14 +162,14 @@ func testCipher(t *testing.T, cipher func(dst, src []byte), blockSize int) {
 		testDst := make([]byte, blockSize)
 		cipher(testDst, buff[endOfPrefix:startOfSuffix])
 		if !bytes.Equal(testDst, expectedDst) {
-			t.Errorf("block cipher affected by data outside of src slice bounds; got %x, want %x", testDst, expectedDst)
+			t.Errorf("block cipher affected by data outside of src slice bounds; golangt %x, want %x", testDst, expectedDst)
 		}
 
 		// Check that src isn't read from beyond BlockSize even if the slice is
 		// longer and contains data in the suffix
 		cipher(testDst, buff[endOfPrefix:]) // Input long src
 		if !bytes.Equal(testDst, expectedDst) {
-			t.Errorf("block cipher affected by src data beyond BlockSize bytes; got %x, want %x", buff[startOfSuffix:], expectedDst)
+			t.Errorf("block cipher affected by src data beyond BlockSize bytes; golangt %x, want %x", buff[startOfSuffix:], expectedDst)
 		}
 	})
 
@@ -192,7 +192,7 @@ func testCipher(t *testing.T, cipher func(dst, src []byte), blockSize int) {
 
 		cipher(dst, src)
 		if !bytes.Equal(dst, expectedDst) {
-			t.Errorf("block cipher behavior differs when given non-zero dst; got %x, want %x", dst, expectedDst)
+			t.Errorf("block cipher behavior differs when given non-zero dst; golangt %x, want %x", dst, expectedDst)
 		}
 	})
 

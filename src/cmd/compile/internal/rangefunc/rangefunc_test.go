@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package rangefunc_test
@@ -88,14 +88,14 @@ func PanickyOfSliceIndex[T any, S ~[]T](s S) Seq2[int, T] {
 	}
 }
 
-// CooperativeBadOfSliceIndex calls the loop body from a goroutine after
+// CooperativeBadOfSliceIndex calls the loop body from a golangroutine after
 // a ping on a channel, and returns recover()on that same channel.
 func CooperativeBadOfSliceIndex[T any, S ~[]T](s S, proceed chan any) Seq2[int, T] {
 	return func(yield func(int, T) bool) {
 		for i, v := range s {
 			if !yield(i, v) {
-				// if the body breaks, call yield just once in a goroutine
-				go func() {
+				// if the body breaks, call yield just once in a golangroutine
+				golang func() {
 					<-proceed
 					defer func() {
 						proceed <- recover()
@@ -300,10 +300,10 @@ func TestNoVars(t *testing.T) {
 		k += j
 	}
 	if i != 10 {
-		t.Errorf("Expected 10, got %d", i)
+		t.Errorf("Expected 10, golangt %d", i)
 	}
 	if k != 45 {
-		t.Errorf("Expected 45, got %d", k)
+		t.Errorf("Expected 45, golangt %d", k)
 	}
 }
 
@@ -586,7 +586,7 @@ func TestBreak1(t *testing.T) {
 		result = append(result, x)
 	}
 	if !slices.Equal(expect, result) {
-		t.Errorf("Expected %v, got %v", expect, result)
+		t.Errorf("Expected %v, golangt %v", expect, result)
 	}
 }
 
@@ -610,7 +610,7 @@ outer:
 		result = append(result, x)
 	}
 	if !slices.Equal(expect, result) {
-		t.Errorf("Expected %v, got %v", expect, result)
+		t.Errorf("Expected %v, golangt %v", expect, result)
 	}
 }
 
@@ -635,7 +635,7 @@ outer:
 		result = append(result, x-10)
 	}
 	if !slices.Equal(expect, result) {
-		t.Errorf("Expected %v, got %v", expect, result)
+		t.Errorf("Expected %v, golangt %v", expect, result)
 	}
 }
 
@@ -670,7 +670,7 @@ X:
 		result = append(result, x)
 	}
 	if !slices.Equal(expect, result) {
-		t.Errorf("Expected %v, got %v", expect, result)
+		t.Errorf("Expected %v, golangt %v", expect, result)
 	}
 }
 
@@ -688,7 +688,7 @@ func TestBreak1BadA(t *testing.T) {
 				t.Errorf("Saw wrong panic '%v'", r)
 			}
 			if !slices.Equal(expect, result) {
-				t.Errorf("Expected %v, got %v", expect, result)
+				t.Errorf("Expected %v, golangt %v", expect, result)
 			}
 		} else {
 			t.Error("Wanted to see a failure")
@@ -723,7 +723,7 @@ func TestBreak1BadB(t *testing.T) {
 				t.Errorf("Saw wrong panic '%v'", r)
 			}
 			if !slices.Equal(expect, result) {
-				t.Errorf("Expected %v, got %v", expect, result)
+				t.Errorf("Expected %v, golangt %v", expect, result)
 			}
 		} else {
 			t.Error("Wanted to see a failure")
@@ -774,7 +774,7 @@ W:
 		}
 	}
 	if !slices.Equal(expect, result) {
-		t.Errorf("Expected %v, got %v", expect, result)
+		t.Errorf("Expected %v, golangt %v", expect, result)
 	}
 }
 
@@ -791,7 +791,7 @@ func TestMultiCont1(t *testing.T) {
 				t.Errorf("Saw wrong panic '%v'", r)
 			}
 			if !slices.Equal(expect, result) {
-				t.Errorf("Expected %v, got %v", expect, result)
+				t.Errorf("Expected %v, golangt %v", expect, result)
 			}
 		} else {
 			t.Errorf("Wanted to see a failure, result was %v", result)
@@ -822,7 +822,7 @@ W:
 		}
 	}
 	if !slices.Equal(expect, result) {
-		t.Errorf("Expected %v, got %v", expect, result)
+		t.Errorf("Expected %v, golangt %v", expect, result)
 	}
 }
 
@@ -839,7 +839,7 @@ func TestMultiCont2(t *testing.T) {
 				t.Errorf("Saw wrong panic '%v'", r)
 			}
 			if !slices.Equal(expect, result) {
-				t.Errorf("Expected %v, got %v", expect, result)
+				t.Errorf("Expected %v, golangt %v", expect, result)
 			}
 		} else {
 			t.Errorf("Wanted to see a failure, result was %v", result)
@@ -870,7 +870,7 @@ W:
 		}
 	}
 	if !slices.Equal(expect, result) {
-		t.Errorf("Expected %v, got %v", expect, result)
+		t.Errorf("Expected %v, golangt %v", expect, result)
 	}
 }
 
@@ -887,7 +887,7 @@ func TestMultiCont3(t *testing.T) {
 				t.Errorf("Saw wrong panic '%v'", r)
 			}
 			if !slices.Equal(expect, result) {
-				t.Errorf("Expected %v, got %v", expect, result)
+				t.Errorf("Expected %v, golangt %v", expect, result)
 			}
 		} else {
 			t.Errorf("Wanted to see a failure, result was %v", result)
@@ -918,7 +918,7 @@ W:
 		}
 	}
 	if !slices.Equal(expect, result) {
-		t.Errorf("Expected %v, got %v", expect, result)
+		t.Errorf("Expected %v, golangt %v", expect, result)
 	}
 }
 
@@ -935,7 +935,7 @@ func TestMultiBreak0(t *testing.T) {
 				t.Errorf("Saw wrong panic '%v'", r)
 			}
 			if !slices.Equal(expect, result) {
-				t.Errorf("Expected %v, got %v", expect, result)
+				t.Errorf("Expected %v, golangt %v", expect, result)
 			}
 		} else {
 			t.Errorf("Wanted to see a failure, result was %v", result)
@@ -966,7 +966,7 @@ W:
 		}
 	}
 	if !slices.Equal(expect, result) {
-		t.Errorf("Expected %v, got %v", expect, result)
+		t.Errorf("Expected %v, golangt %v", expect, result)
 	}
 }
 
@@ -983,7 +983,7 @@ func TestMultiBreak1(t *testing.T) {
 				t.Errorf("Saw wrong panic '%v'", r)
 			}
 			if !slices.Equal(expect, result) {
-				t.Errorf("Expected %v, got %v", expect, result)
+				t.Errorf("Expected %v, golangt %v", expect, result)
 			}
 		} else {
 			t.Errorf("Wanted to see a failure, result was %v", result)
@@ -1014,7 +1014,7 @@ W:
 		}
 	}
 	if !slices.Equal(expect, result) {
-		t.Errorf("Expected %v, got %v", expect, result)
+		t.Errorf("Expected %v, golangt %v", expect, result)
 	}
 }
 
@@ -1031,7 +1031,7 @@ func TestMultiBreak2(t *testing.T) {
 				t.Errorf("Saw wrong panic '%v'", r)
 			}
 			if !slices.Equal(expect, result) {
-				t.Errorf("Expected %v, got %v", expect, result)
+				t.Errorf("Expected %v, golangt %v", expect, result)
 			}
 		} else {
 			t.Errorf("Wanted to see a failure, result was %v", result)
@@ -1062,7 +1062,7 @@ W:
 		}
 	}
 	if !slices.Equal(expect, result) {
-		t.Errorf("Expected %v, got %v", expect, result)
+		t.Errorf("Expected %v, golangt %v", expect, result)
 	}
 }
 
@@ -1079,7 +1079,7 @@ func TestMultiBreak3(t *testing.T) {
 				t.Errorf("Saw wrong panic '%v'", r)
 			}
 			if !slices.Equal(expect, result) {
-				t.Errorf("Expected %v, got %v", expect, result)
+				t.Errorf("Expected %v, golangt %v", expect, result)
 			}
 		} else {
 			t.Errorf("Wanted to see a failure, result was %v", result)
@@ -1110,7 +1110,7 @@ W:
 		}
 	}
 	if !slices.Equal(expect, result) {
-		t.Errorf("Expected %v, got %v", expect, result)
+		t.Errorf("Expected %v, golangt %v", expect, result)
 	}
 }
 
@@ -1125,7 +1125,7 @@ func TestPanickyIterator1(t *testing.T) {
 				t.Errorf("Saw wrong panic '%v'", r)
 			}
 			if !slices.Equal(expect, result) {
-				t.Errorf("Expected %v, got %v", expect, result)
+				t.Errorf("Expected %v, golangt %v", expect, result)
 			}
 		} else {
 			t.Errorf("Wanted to see a failure, result was %v", result)
@@ -1150,7 +1150,7 @@ func TestPanickyIterator1Check(t *testing.T) {
 				t.Errorf("Saw wrong panic '%v'", r)
 			}
 			if !slices.Equal(expect, result) {
-				t.Errorf("Expected %v, got %v", expect, result)
+				t.Errorf("Expected %v, golangt %v", expect, result)
 			}
 		} else {
 			t.Errorf("Wanted to see a failure, result was %v", result)
@@ -1175,7 +1175,7 @@ func TestPanickyIterator2(t *testing.T) {
 				t.Errorf("Saw wrong panic '%v'", r)
 			}
 			if !slices.Equal(expect, result) {
-				t.Errorf("Expected %v, got %v", expect, result)
+				t.Errorf("Expected %v, golangt %v", expect, result)
 			}
 		} else {
 			t.Errorf("Wanted to see a failure, result was %v", result)
@@ -1210,7 +1210,7 @@ func TestPanickyIterator2Check(t *testing.T) {
 				t.Errorf("Saw wrong panic '%v'", r)
 			}
 			if !slices.Equal(expect, result) {
-				t.Errorf("Expected %v, got %v", expect, result)
+				t.Errorf("Expected %v, golangt %v", expect, result)
 			}
 		} else {
 			t.Errorf("Wanted to see a panic, result was %v", result)
@@ -1245,7 +1245,7 @@ func TestPanickyIterator3(t *testing.T) {
 				t.Errorf("Saw wrong panic '%v'", r)
 			}
 			if !slices.Equal(expect, result) {
-				t.Errorf("Expected %v, got %v", expect, result)
+				t.Errorf("Expected %v, golangt %v", expect, result)
 			}
 		} else {
 			t.Errorf("Wanted to see a panic, result was %v", result)
@@ -1279,7 +1279,7 @@ func TestPanickyIterator3Check(t *testing.T) {
 				t.Errorf("Saw wrong panic '%v'", r)
 			}
 			if !slices.Equal(expect, result) {
-				t.Errorf("Expected %v, got %v", expect, result)
+				t.Errorf("Expected %v, golangt %v", expect, result)
 			}
 		} else {
 			t.Errorf("Wanted to see a panic, result was %v", result)
@@ -1313,7 +1313,7 @@ func TestPanickyIterator4(t *testing.T) {
 				t.Errorf("Saw wrong panic '%v'", r)
 			}
 			if !slices.Equal(expect, result) {
-				t.Errorf("Expected %v, got %v", expect, result)
+				t.Errorf("Expected %v, golangt %v", expect, result)
 			}
 		} else {
 			t.Errorf("Wanted to see a panic, result was %v", result)
@@ -1338,7 +1338,7 @@ func TestPanickyIterator4Check(t *testing.T) {
 				t.Errorf("Saw wrong panic '%v'", r)
 			}
 			if !slices.Equal(expect, result) {
-				t.Errorf("Expected %v, got %v", expect, result)
+				t.Errorf("Expected %v, golangt %v", expect, result)
 			}
 		} else {
 			t.Errorf("Wanted to see a panic, result was %v", result)
@@ -1434,7 +1434,7 @@ func TestVeryBad1(t *testing.T) {
 		if r := recover(); r != nil {
 			expectPanic(t, r, RERR_MISSING)
 			if !slices.Equal(expect, result) {
-				t.Errorf("(Inner) Expected %v, got %v", expect, result)
+				t.Errorf("(Inner) Expected %v, golangt %v", expect, result)
 			}
 		} else {
 			t.Error("Wanted to see a failure")
@@ -1470,7 +1470,7 @@ func TestVeryBad2(t *testing.T) {
 		if r := recover(); r != nil {
 			expectPanic(t, r, RERR_MISSING)
 			if !slices.Equal(expect, result) {
-				t.Errorf("(Inner) Expected %v, got %v", expect, result)
+				t.Errorf("(Inner) Expected %v, golangt %v", expect, result)
 			}
 		} else {
 			t.Error("Wanted to see a failure")
@@ -1491,7 +1491,7 @@ func TestVeryBadCheck(t *testing.T) {
 			expectPanic(t, r, CERR_MISSING)
 		}
 		if !slices.Equal(expect, result) {
-			t.Errorf("Expected %v, got %v", expect, result)
+			t.Errorf("Expected %v, golangt %v", expect, result)
 		}
 	}()
 
@@ -1505,7 +1505,7 @@ func TestOk(t *testing.T) {
 	expect := []int{1, 10}
 
 	if !slices.Equal(expect, result) {
-		t.Errorf("Expected %v, got %v", expect, result)
+		t.Errorf("Expected %v, golangt %v", expect, result)
 	}
 }
 
@@ -1523,7 +1523,7 @@ func testBreak1BadDefer(t *testing.T) (result []int) {
 				t.Errorf("Saw wrong panic '%v'", r)
 			}
 			if !slices.Equal(expect, result) {
-				t.Errorf("(Inner) Expected %v, got %v", expect, result)
+				t.Errorf("(Inner) Expected %v, golangt %v", expect, result)
 			}
 		} else {
 			t.Error("Wanted to see a failure")
@@ -1553,7 +1553,7 @@ func TestBreak1BadDefer(t *testing.T) {
 	var expect = []int{1, 2, -1, 1, 2, -2, 1, 2, -3, -30, -20, -10}
 	result = testBreak1BadDefer(t)
 	if !slices.Equal(expect, result) {
-		t.Errorf("(Outer) Expected %v, got %v", expect, result)
+		t.Errorf("(Outer) Expected %v, golangt %v", expect, result)
 	}
 }
 
@@ -1666,7 +1666,7 @@ func TestReturns(t *testing.T) {
 
 	result, err = testReturn1(t)
 	if !slices.Equal(expect, result) {
-		t.Errorf("Expected %v, got %v", expect, result)
+		t.Errorf("Expected %v, golangt %v", expect, result)
 	}
 	if err != nil {
 		t.Errorf("Unexpected error %v", err)
@@ -1674,7 +1674,7 @@ func TestReturns(t *testing.T) {
 
 	result, err = testReturn2(t)
 	if !slices.Equal(expect, result) {
-		t.Errorf("Expected %v, got %v", expect, result)
+		t.Errorf("Expected %v, golangt %v", expect, result)
 	}
 	if err == nil {
 		t.Errorf("Missing expected error")
@@ -1688,7 +1688,7 @@ func TestReturns(t *testing.T) {
 
 	result, err = testReturn3(t)
 	if !slices.Equal(expect, result) {
-		t.Errorf("Expected %v, got %v", expect, result)
+		t.Errorf("Expected %v, golangt %v", expect, result)
 	}
 	if err == nil {
 		t.Errorf("Missing expected error")
@@ -1702,17 +1702,17 @@ func TestReturns(t *testing.T) {
 
 	result, result2, err = testReturn4(t)
 	if !slices.Equal(expect2, result) {
-		t.Errorf("Expected %v, got %v", expect2, result)
+		t.Errorf("Expected %v, golangt %v", expect2, result)
 	}
 	if !slices.Equal(expect2, result2) {
-		t.Errorf("Expected %v, got %v", expect2, result2)
+		t.Errorf("Expected %v, golangt %v", expect2, result2)
 	}
 	if err != nil {
 		t.Errorf("Unexpected error %v", err)
 	}
 }
 
-// testGotoA1 tests loop-nest-internal goto, no bad iterators.
+// testGotoA1 tests loop-nest-internal golangto, no bad iterators.
 func testGotoA1(t *testing.T) (result []int, err any) {
 	defer func() {
 		err = recover()
@@ -1727,7 +1727,7 @@ func testGotoA1(t *testing.T) (result []int, err any) {
 		}()
 		for _, y := range OfSliceIndex([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}) {
 			if y == 3 {
-				goto A
+				golangto A
 			}
 			result = append(result, y)
 		}
@@ -1737,7 +1737,7 @@ func testGotoA1(t *testing.T) (result []int, err any) {
 	return
 }
 
-// testGotoA2 tests loop-nest-internal goto, outer bad iterator.
+// testGotoA2 tests loop-nest-internal golangto, outer bad iterator.
 func testGotoA2(t *testing.T) (result []int, err any) {
 	defer func() {
 		err = recover()
@@ -1752,7 +1752,7 @@ func testGotoA2(t *testing.T) (result []int, err any) {
 		}()
 		for _, y := range OfSliceIndex([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}) {
 			if y == 3 {
-				goto A
+				golangto A
 			}
 			result = append(result, y)
 		}
@@ -1762,7 +1762,7 @@ func testGotoA2(t *testing.T) (result []int, err any) {
 	return
 }
 
-// testGotoA3 tests loop-nest-internal goto, inner bad iterator.
+// testGotoA3 tests loop-nest-internal golangto, inner bad iterator.
 func testGotoA3(t *testing.T) (result []int, err any) {
 	defer func() {
 		err = recover()
@@ -1777,7 +1777,7 @@ func testGotoA3(t *testing.T) (result []int, err any) {
 		}()
 		for _, y := range BadOfSliceIndex([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}) {
 			if y == 3 {
-				goto A
+				golangto A
 			}
 			result = append(result, y)
 		}
@@ -1790,12 +1790,12 @@ func testGotoA3(t *testing.T) (result []int, err any) {
 func TestGotoA(t *testing.T) {
 	var result []int
 	var expect = []int{-1, 1, 2, -2, 1, 2, -3, 1, 2, -4, -30, -20, -10}
-	var expect3 = []int{-1, 1, 2, -10} // first goto becomes a panic
+	var expect3 = []int{-1, 1, 2, -10} // first golangto becomes a panic
 	var err any
 
 	result, err = testGotoA1(t)
 	if !slices.Equal(expect, result) {
-		t.Errorf("Expected %v, got %v", expect, result)
+		t.Errorf("Expected %v, golangt %v", expect, result)
 	}
 	if err != nil {
 		t.Errorf("Unexpected error %v", err)
@@ -1803,7 +1803,7 @@ func TestGotoA(t *testing.T) {
 
 	result, err = testGotoA2(t)
 	if !slices.Equal(expect, result) {
-		t.Errorf("Expected %v, got %v", expect, result)
+		t.Errorf("Expected %v, golangt %v", expect, result)
 	}
 	if err == nil {
 		t.Errorf("Missing expected error")
@@ -1817,7 +1817,7 @@ func TestGotoA(t *testing.T) {
 
 	result, err = testGotoA3(t)
 	if !slices.Equal(expect3, result) {
-		t.Errorf("Expected %v, got %v", expect3, result)
+		t.Errorf("Expected %v, golangt %v", expect3, result)
 	}
 	if err == nil {
 		t.Errorf("Missing expected error")
@@ -1830,7 +1830,7 @@ func TestGotoA(t *testing.T) {
 	}
 }
 
-// testGotoB1 tests loop-nest-exiting goto, no bad iterators.
+// testGotoB1 tests loop-nest-exiting golangto, no bad iterators.
 func testGotoB1(t *testing.T) (result []int, err any) {
 	defer func() {
 		err = recover()
@@ -1845,7 +1845,7 @@ func testGotoB1(t *testing.T) (result []int, err any) {
 		}()
 		for _, y := range OfSliceIndex([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}) {
 			if y == 3 {
-				goto B
+				golangto B
 			}
 			result = append(result, y)
 		}
@@ -1856,7 +1856,7 @@ B:
 	return
 }
 
-// testGotoB2 tests loop-nest-exiting goto, outer bad iterator.
+// testGotoB2 tests loop-nest-exiting golangto, outer bad iterator.
 func testGotoB2(t *testing.T) (result []int, err any) {
 	defer func() {
 		err = recover()
@@ -1871,7 +1871,7 @@ func testGotoB2(t *testing.T) (result []int, err any) {
 		}()
 		for _, y := range OfSliceIndex([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}) {
 			if y == 3 {
-				goto B
+				golangto B
 			}
 			result = append(result, y)
 		}
@@ -1882,7 +1882,7 @@ B:
 	return
 }
 
-// testGotoB3 tests loop-nest-exiting goto, inner bad iterator.
+// testGotoB3 tests loop-nest-exiting golangto, inner bad iterator.
 func testGotoB3(t *testing.T) (result []int, err any) {
 	defer func() {
 		err = recover()
@@ -1897,7 +1897,7 @@ func testGotoB3(t *testing.T) (result []int, err any) {
 		}()
 		for _, y := range BadOfSliceIndex([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}) {
 			if y == 3 {
-				goto B
+				golangto B
 			}
 			result = append(result, y)
 		}
@@ -1916,7 +1916,7 @@ func TestGotoB(t *testing.T) {
 
 	result, err = testGotoB1(t)
 	if !slices.Equal(expect, result) {
-		t.Errorf("Expected %v, got %v", expect, result)
+		t.Errorf("Expected %v, golangt %v", expect, result)
 	}
 	if err != nil {
 		t.Errorf("Unexpected error %v", err)
@@ -1924,7 +1924,7 @@ func TestGotoB(t *testing.T) {
 
 	result, err = testGotoB2(t)
 	if !slices.Equal(expectX, result) {
-		t.Errorf("Expected %v, got %v", expectX, result)
+		t.Errorf("Expected %v, golangt %v", expectX, result)
 	}
 	if err == nil {
 		t.Errorf("Missing expected error")
@@ -1938,7 +1938,7 @@ func TestGotoB(t *testing.T) {
 
 	result, err = testGotoB3(t)
 	if !slices.Equal(expectX, result) {
-		t.Errorf("Expected %v, got %v", expectX, result)
+		t.Errorf("Expected %v, golangt %v", expectX, result)
 	}
 	if err == nil {
 		t.Errorf("Missing expected error")
@@ -1955,7 +1955,7 @@ func once[T any](x T) Seq[T] {
 }
 
 // terrify converts an iterator into one that panics with the supplied string
-// if/when the loop body terminates early (returns false, for break, goto, outer
+// if/when the loop body terminates early (returns false, for break, golangto, outer
 // continue, or return).
 func terrify[T any](s string, forall Seq[T]) Seq[T] {
 	return func(yield func(T) bool) {
@@ -2071,11 +2071,11 @@ func TestPanicReturns(t *testing.T) {
 	}
 
 	for _, tc := range tcs {
-		got := tc.f()
-		if got != tc.e {
-			t.Errorf("Got %s expected %s", got, tc.e)
+		golangt := tc.f()
+		if golangt != tc.e {
+			t.Errorf("Got %s expected %s", golangt, tc.e)
 		} else {
-			t.Logf("Got expected %s", got)
+			t.Logf("Got expected %s", golangt)
 		}
 	}
 }
@@ -2158,7 +2158,7 @@ func TestTwoLevelReturn(t *testing.T) {
 	}
 	y := f()
 	if y != 3 {
-		t.Errorf("Expected y=3, got y=%d\n", y)
+		t.Errorf("Expected y=3, golangt y=%d\n", y)
 	}
 }
 
@@ -2177,7 +2177,7 @@ func TestTwoLevelReturnCheck(t *testing.T) {
 	}
 	y := f()
 	if y != 3 {
-		t.Errorf("Expected y=3, got y=%d\n", y)
+		t.Errorf("Expected y=3, golangt y=%d\n", y)
 	}
 }
 
@@ -2198,9 +2198,9 @@ func Bug70035(s1, s2, s3 []string) string {
 }
 
 func Test70035(t *testing.T) {
-	got := Bug70035([]string{"1", "2", "3"}, []string{"a", "b", "c"}, []string{"A", "B", "C"})
+	golangt := Bug70035([]string{"1", "2", "3"}, []string{"a", "b", "c"}, []string{"A", "B", "C"})
 	want := "1aABCbABCcABC2aABCbABCcABC3aABCbABCcABC"
-	if got != want {
-		t.Errorf("got %v, want %v", got, want)
+	if golangt != want {
+		t.Errorf("golangt %v, want %v", golangt, want)
 	}
 }

@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file implements tests for various issues.
@@ -22,7 +22,7 @@ func TestIssue5770(t *testing.T) {
 	_, err := typecheck(`package p; type S struct{T}`, nil, nil)
 	const want = "undefined: T"
 	if err == nil || !strings.Contains(err.Error(), want) {
-		t.Errorf("got: %v; want: %s", err, want)
+		t.Errorf("golangt: %v; want: %s", err, want)
 	}
 }
 
@@ -59,11 +59,11 @@ var (
 			}
 		case *syntax.Name:
 			if x.Value == "nil" {
-				want = NewInterfaceType(nil, nil) // interface{} (for now, go/types types this as "untyped nil")
+				want = NewInterfaceType(nil, nil) // interface{} (for now, golang/types types this as "untyped nil")
 			}
 		}
 		if want != nil && !Identical(tv.Type, want) {
-			t.Errorf("got %s; want %s", tv.Type, want)
+			t.Errorf("golangt %s; want %s", tv.Type, want)
 		}
 	}
 }
@@ -73,7 +73,7 @@ func TestIssue6413(t *testing.T) {
 package p
 func f() int {
 	defer f()
-	go f()
+	golang f()
 	return 0
 }
 `
@@ -85,14 +85,14 @@ func f() int {
 	for x, tv := range types {
 		if _, ok := x.(*syntax.CallExpr); ok {
 			if tv.Type != want {
-				t.Errorf("%s: got %s; want %s", x.Pos(), tv.Type, want)
+				t.Errorf("%s: golangt %s; want %s", x.Pos(), tv.Type, want)
 			}
 			n++
 		}
 	}
 
 	if n != 2 {
-		t.Errorf("got %d CallExprs; want 2", n)
+		t.Errorf("golangt %d CallExprs; want 2", n)
 	}
 }
 
@@ -116,7 +116,7 @@ type T struct{} // receiver type after method declaration
 	res2 := defs[m.Type.ResultList[0].Name].(*Var)
 
 	if res1 != res2 {
-		t.Errorf("got %s (%p) != %s (%p)", res1, res2, res1, res2)
+		t.Errorf("golangt %s (%p) != %s (%p)", res1, res2, res1, res2)
 	}
 }
 
@@ -166,17 +166,17 @@ L7 uses var z int`
 	}
 	slices.Sort(facts)
 
-	got := strings.Join(facts, "\n")
-	if got != want {
-		t.Errorf("Unexpected defs/uses\ngot:\n%s\nwant:\n%s", got, want)
+	golangt := strings.Join(facts, "\n")
+	if golangt != want {
+		t.Errorf("Unexpected defs/uses\ngolangt:\n%s\nwant:\n%s", golangt, want)
 	}
 }
 
 // This tests that the package associated with the types2.Object.Pkg method
 // is the type's package independent of the order in which the imports are
 // listed in the sources src1, src2 below.
-// The actual issue is in go/internal/gcimporter which has a corresponding
-// test; we leave this test here to verify correct behavior at the go/types
+// The actual issue is in golang/internal/gcimporter which has a corresponding
+// test; we leave this test here to verify correct behavior at the golang/types
 // level.
 func TestIssue13898(t *testing.T) {
 	testenv.MustHaveGoBuild(t)
@@ -184,7 +184,7 @@ func TestIssue13898(t *testing.T) {
 	const src0 = `
 package main
 
-import "go/types"
+import "golang/types"
 
 func main() {
 	var info types.Info
@@ -193,13 +193,13 @@ func main() {
 	}
 }
 `
-	// like src0, but also imports go/importer
+	// like src0, but also imports golang/importer
 	const src1 = `
 package main
 
 import (
-	"go/types"
-	_ "go/importer"
+	"golang/types"
+	_ "golang/importer"
 )
 
 func main() {
@@ -215,8 +215,8 @@ func main() {
 package main
 
 import (
-	_ "go/importer"
-	"go/types"
+	_ "golang/importer"
+	"golang/types"
 )
 
 func main() {
@@ -239,10 +239,10 @@ func main() {
 			}
 		}
 		if count != 1 {
-			t.Fatalf("%s: got %d entries named Pkg; want 1", test, count)
+			t.Fatalf("%s: golangt %d entries named Pkg; want 1", test, count)
 		}
 		if pkg.Name() != "types" {
-			t.Fatalf("%s: got %v; want package types2", test, pkg)
+			t.Fatalf("%s: golangt %v; want package types2", test, pkg)
 		}
 	}
 
@@ -254,8 +254,8 @@ func main() {
 func TestIssue22525(t *testing.T) {
 	const src = `package p; func f() { var a, b, c, d, e int }`
 
-	got := "\n"
-	conf := Config{Error: func(err error) { got += err.Error() + "\n" }}
+	golangt := "\n"
+	conf := Config{Error: func(err error) { golangt += err.Error() + "\n" }}
 	typecheck(src, &conf, nil) // do not crash
 	want := "\n" +
 		"p:1:27: declared and not used: a\n" +
@@ -263,8 +263,8 @@ func TestIssue22525(t *testing.T) {
 		"p:1:33: declared and not used: c\n" +
 		"p:1:36: declared and not used: d\n" +
 		"p:1:39: declared and not used: e\n"
-	if got != want {
-		t.Errorf("got: %swant: %s", got, want)
+	if golangt != want {
+		t.Errorf("golangt: %swant: %s", golangt, want)
 	}
 }
 
@@ -296,8 +296,8 @@ func TestIssue25627(t *testing.T) {
 			if decl, _ := n.(*syntax.TypeDecl); decl != nil {
 				if tv, ok := info.Types[decl.Type]; ok && decl.Name.Value == "T" {
 					want := strings.Count(src, ";") + 1
-					if got := tv.Type.(*Struct).NumFields(); got != want {
-						t.Errorf("%s: got %d fields; want %d", src, got, want)
+					if golangt := tv.Type.(*Struct).NumFields(); golangt != want {
+						t.Errorf("%s: golangt %d fields; want %d", src, golangt, want)
 					}
 				}
 			}
@@ -363,7 +363,7 @@ func TestIssue28005(t *testing.T) {
 			m := iface.Method(i)
 			recvName := m.Type().(*Signature).Recv().Type().(*Named).Obj().Name()
 			if recvName != m.Name() {
-				t.Errorf("perm %v: got recv %s; want %s", perm, recvName, m.Name())
+				t.Errorf("perm %v: golangt recv %s; want %s", perm, recvName, m.Name())
 			}
 		}
 	}
@@ -377,18 +377,18 @@ func TestIssue28282(t *testing.T) {
 	// (interfaces are "completed" lazily now, so the completion happens implicitly when
 	// accessing Method(0))
 	want := et.Underlying().(*Interface).Method(0)
-	got := it.Method(0)
-	if got != want {
-		t.Fatalf("%s.Method(0): got %q (%p); want %q (%p)", it, got, got, want, want)
+	golangt := it.Method(0)
+	if golangt != want {
+		t.Fatalf("%s.Method(0): golangt %q (%p); want %q (%p)", it, golangt, golangt, want, want)
 	}
 	// verify that lookup finds the same method in both interfaces (redundant check)
 	obj, _, _ := LookupFieldOrMethod(et, false, nil, "Error")
 	if obj != want {
-		t.Fatalf("%s.Lookup: got %q (%p); want %q (%p)", et, obj, obj, want, want)
+		t.Fatalf("%s.Lookup: golangt %q (%p); want %q (%p)", et, obj, obj, want, want)
 	}
 	obj, _, _ = LookupFieldOrMethod(it, false, nil, "Error")
 	if obj != want {
-		t.Fatalf("%s.Lookup: got %q (%p); want %q (%p)", it, obj, obj, want, want)
+		t.Fatalf("%s.Lookup: golangt %q (%p); want %q (%p)", it, obj, obj, want, want)
 	}
 }
 
@@ -429,10 +429,10 @@ func TestIssue29029(t *testing.T) {
 	if err := check.Files([]*syntax.File{f2}); err != nil {
 		t.Fatal(err)
 	}
-	got := printInfo(info)
+	golangt := printInfo(info)
 
-	if got != want {
-		t.Errorf("\ngot : %swant: %s", got, want)
+	if golangt != want {
+		t.Errorf("\ngolangt : %swant: %s", golangt, want)
 	}
 }
 
@@ -456,7 +456,7 @@ func (h importHelper) Import(path string) (*Package, error) {
 		return h.pkg, nil
 	}
 	if h.fallback == nil {
-		return nil, fmt.Errorf("got package path %q; want %q", path, h.pkg.Path())
+		return nil, fmt.Errorf("golangt package path %q; want %q", path, h.pkg.Path())
 	}
 	return h.fallback.Import(path)
 }
@@ -514,10 +514,10 @@ func TestIssue43088(t *testing.T) {
 func TestIssue44515(t *testing.T) {
 	typ := Unsafe.Scope().Lookup("Pointer").Type()
 
-	got := TypeString(typ, nil)
+	golangt := TypeString(typ, nil)
 	want := "unsafe.Pointer"
-	if got != want {
-		t.Errorf("got %q; want %q", got, want)
+	if golangt != want {
+		t.Errorf("golangt %q; want %q", golangt, want)
 	}
 
 	qf := func(pkg *Package) string {
@@ -526,17 +526,17 @@ func TestIssue44515(t *testing.T) {
 		}
 		return ""
 	}
-	got = TypeString(typ, qf)
+	golangt = TypeString(typ, qf)
 	want = "foo.Pointer"
-	if got != want {
-		t.Errorf("got %q; want %q", got, want)
+	if golangt != want {
+		t.Errorf("golangt %q; want %q", golangt, want)
 	}
 }
 
 func TestIssue43124(t *testing.T) {
 	// TODO(rFindley) move this to testdata by enhancing support for importing.
 
-	testenv.MustHaveGoBuild(t) // The go command is needed for the importer to determine the locations of stdlib .a files.
+	testenv.MustHaveGoBuild(t) // The golang command is needed for the importer to determine the locations of stdlib .a files.
 
 	// All involved packages have the same name (template). Error messages should
 	// disambiguate between text/template and html/template by printing the full
@@ -566,7 +566,7 @@ import (
 	"html/template"
 )
 
-// go.dev/issue/46905: make sure template is not the first package qualified.
+// golang.dev/issue/46905: make sure template is not the first package qualified.
 var _ fmt.Stringer = 1 // ERRORx "cannot use 1.*as fmt\\.Stringer"
 
 // Packages should be fully qualified when there is ambiguity in reachable
@@ -594,9 +594,9 @@ var _ T = template /* ERRORx "cannot use.*text/template.* as T value" */.Templat
 		cfg.Importer = imp
 	}
 
-	testFiles(t, []string{"b.go"}, [][]byte{[]byte(bsrc)}, 0, false, withImporter)
-	testFiles(t, []string{"c.go"}, [][]byte{[]byte(csrc)}, 0, false, withImporter)
-	testFiles(t, []string{"t.go"}, [][]byte{[]byte(tsrc)}, 0, false, withImporter)
+	testFiles(t, []string{"b.golang"}, [][]byte{[]byte(bsrc)}, 0, false, withImporter)
+	testFiles(t, []string{"c.golang"}, [][]byte{[]byte(csrc)}, 0, false, withImporter)
+	testFiles(t, []string{"t.golang"}, [][]byte{[]byte(tsrc)}, 0, false, withImporter)
 }
 
 func TestIssue50646(t *testing.T) {
@@ -721,20 +721,20 @@ func TestIssue51093(t *testing.T) {
 				n++
 				tpar, _ := tv.Type.(*TypeParam)
 				if tpar == nil {
-					t.Fatalf("%s: got type %s, want type parameter", ExprString(x), tv.Type)
+					t.Fatalf("%s: golangt type %s, want type parameter", ExprString(x), tv.Type)
 				}
 				if name := tpar.Obj().Name(); name != "P" {
-					t.Fatalf("%s: got type parameter name %s, want P", ExprString(x), name)
+					t.Fatalf("%s: golangt type parameter name %s, want P", ExprString(x), name)
 				}
 				// P(val) must not be constant
 				if tv.Value != nil {
-					t.Errorf("%s: got constant value %s (%s), want no constant", ExprString(x), tv.Value, tv.Value.String())
+					t.Errorf("%s: golangt constant value %s (%s), want no constant", ExprString(x), tv.Value, tv.Value.String())
 				}
 			}
 		}
 
 		if n != 1 {
-			t.Fatalf("%s: got %d CallExpr nodes; want 1", src, 1)
+			t.Fatalf("%s: golangt %d CallExpr nodes; want 1", src, 1)
 		}
 	}
 }
@@ -848,8 +848,8 @@ func (S) M5(struct {S;t}) {}
 		_, err := conf.Check(mast.PkgName.Value, []*syntax.File{mast}, nil)
 		if err == nil {
 			t.Error("Expected failure, but it did not")
-		} else if got := err.Error(); !re.MatchString(got) {
-			t.Errorf("Wanted match for\n\t%s\n but got\n\t%s", want, got)
+		} else if golangt := err.Error(); !re.MatchString(golangt) {
+			t.Errorf("Wanted match for\n\t%s\n but golangt\n\t%s", want, golangt)
 		} else if testing.Verbose() {
 			t.Logf("Saw expected\n\t%s", err.Error())
 		}
@@ -862,8 +862,8 @@ func (S) M5(struct {S;t}) {}
 func TestIssue59944(t *testing.T) {
 	testenv.MustHaveCGO(t)
 
-	// Methods declared on aliases of cgo types are not permitted.
-	const src = `// -gotypesalias=1
+	// Methods declared on aliases of cgolang types are not permitted.
+	const src = `// -golangtypesalias=1
 
 package p
 
@@ -877,9 +877,9 @@ type Layout = C.struct_layout
 func (*Layout /* ERROR "cannot define new methods on non-local type Layout" */) Binding() {}
 `
 
-	// code generated by cmd/cgo for the above source.
-	const cgoTypes = `
-// Code generated by cmd/cgo; DO NOT EDIT.
+	// code generated by cmd/cgolang for the above source.
+	const cgolangTypes = `
+// Code generated by cmd/cgolang; DO NOT EDIT.
 
 package p
 
@@ -887,39 +887,39 @@ import "unsafe"
 
 import "syscall"
 
-import _cgopackage "runtime/cgo"
+import _cgolangpackage "runtime/cgolang"
 
-type _ _cgopackage.Incomplete
+type _ _cgolangpackage.Incomplete
 var _ syscall.Errno
-func _Cgo_ptr(ptr unsafe.Pointer) unsafe.Pointer { return ptr }
+func _Cgolang_ptr(ptr unsafe.Pointer) unsafe.Pointer { return ptr }
 
-//go:linkname _Cgo_always_false runtime.cgoAlwaysFalse
-var _Cgo_always_false bool
-//go:linkname _Cgo_use runtime.cgoUse
-func _Cgo_use(interface{})
-//go:linkname _Cgo_keepalive runtime.cgoKeepAlive
-//go:noescape
-func _Cgo_keepalive(interface{})
-//go:linkname _Cgo_no_callback runtime.cgoNoCallback
-func _Cgo_no_callback(bool)
+//golang:linkname _Cgolang_always_false runtime.cgolangAlwaysFalse
+var _Cgolang_always_false bool
+//golang:linkname _Cgolang_use runtime.cgolangUse
+func _Cgolang_use(interface{})
+//golang:linkname _Cgolang_keepalive runtime.cgolangKeepAlive
+//golang:noescape
+func _Cgolang_keepalive(interface{})
+//golang:linkname _Cgolang_no_callback runtime.cgolangNoCallback
+func _Cgolang_no_callback(bool)
 type _Ctype_struct_layout struct {
 }
 
 type _Ctype_void [0]byte
 
-//go:linkname _cgo_runtime_cgocall runtime.cgocall
-func _cgo_runtime_cgocall(unsafe.Pointer, uintptr) int32
+//golang:linkname _cgolang_runtime_cgolangcall runtime.cgolangcall
+func _cgolang_runtime_cgolangcall(unsafe.Pointer, uintptr) int32
 
-//go:linkname _cgoCheckPointer runtime.cgoCheckPointer
-//go:noescape
-func _cgoCheckPointer(interface{}, interface{})
+//golang:linkname _cgolangCheckPointer runtime.cgolangCheckPointer
+//golang:noescape
+func _cgolangCheckPointer(interface{}, interface{})
 
-//go:linkname _cgoCheckResult runtime.cgoCheckResult
-//go:noescape
-func _cgoCheckResult(interface{})
+//golang:linkname _cgolangCheckResult runtime.cgolangCheckResult
+//golang:noescape
+func _cgolangCheckResult(interface{})
 `
-	testFiles(t, []string{"p.go", "_cgo_gotypes.go"}, [][]byte{[]byte(src), []byte(cgoTypes)}, 0, false, func(cfg *Config) {
-		*boolFieldAddr(cfg, "go115UsesCgo") = true
+	testFiles(t, []string{"p.golang", "_cgolang_golangtypes.golang"}, [][]byte{[]byte(src), []byte(cgolangTypes)}, 0, false, func(cfg *Config) {
+		*boolFieldAddr(cfg, "golang115UsesCgolang") = true
 	})
 }
 
@@ -982,7 +982,7 @@ func f[I *T, T any]() {
 	// get type parameter T in signature of f
 	T := pkg.Scope().Lookup("f").Type().(*Signature).TypeParams().At(1)
 	if T.Obj().Name() != "T" {
-		t.Fatalf("got type parameter %s, want T", T)
+		t.Fatalf("golangt type parameter %s, want T", T)
 	}
 
 	// get type of variable v in body of f
@@ -1019,10 +1019,10 @@ type S struct{ A }
 		t.Fatal("object S not found")
 	}
 
-	got := S.String()
+	golangt := S.String()
 	const want = "type p.S struct{p.A}"
-	if got != want {
-		t.Fatalf("got %q; want %q", got, want)
+	if golangt != want {
+		t.Fatalf("golangt %q; want %q", golangt, want)
 	}
 }
 
@@ -1080,12 +1080,12 @@ func TestIssue59831(t *testing.T) {
 		pkg, err := typecheck(test.src, &conf, nil)
 		if err == nil {
 			if test.err != "" {
-				t.Errorf("package %s: got no error, want %q", pkg.Name(), test.err)
+				t.Errorf("package %s: golangt no error, want %q", pkg.Name(), test.err)
 			}
 			continue
 		}
 		if test.err == "" {
-			t.Errorf("package %s: got %q, want not error", pkg.Name(), err.Error())
+			t.Errorf("package %s: golangt %q, want not error", pkg.Name(), err.Error())
 		}
 
 		// flatten reported error message
@@ -1094,14 +1094,14 @@ func TestIssue59831(t *testing.T) {
 
 		// verify error message
 		if !strings.Contains(errmsg, test.err) {
-			t.Errorf("package %s: got %q, want %q", pkg.Name(), errmsg, test.err)
+			t.Errorf("package %s: golangt %q, want %q", pkg.Name(), errmsg, test.err)
 		}
 	}
 }
 
 func TestIssue64759(t *testing.T) {
 	const src = `
-//go:build go1.18
+//golang:build golang1.18
 package p
 
 func f[S ~[]E, E any](S) {}
@@ -1110,9 +1110,9 @@ func _() {
 	f([]string{})
 }
 `
-	// Per the go:build directive, the source must typecheck
-	// even though the (module) Go version is set to go1.17.
-	conf := Config{GoVersion: "go1.17"}
+	// Per the golang:build directive, the source must typecheck
+	// even though the (module) Go version is set to golang1.17.
+	conf := Config{GoVersion: "golang1.17"}
 	mustTypecheck(src, &conf, nil)
 }
 
@@ -1131,17 +1131,17 @@ func f(x int) {
 }
 `
 
-	got := ""
+	golangt := ""
 	conf := Config{
-		GoVersion: "go1.21",                                      // #68334 requires GoVersion <= 1.21
-		Error:     func(err error) { got += err.Error() + "\n" }, // #68334 requires Error != nil
+		GoVersion: "golang1.21",                                      // #68334 requires GoVersion <= 1.21
+		Error:     func(err error) { golangt += err.Error() + "\n" }, // #68334 requires Error != nil
 	}
 	typecheck(src, &conf, nil) // do not crash
 
-	want := "p:5:20: cannot range over x (variable of type int): requires go1.22 or later\n" +
-		"p:9:19: cannot range over x (variable of type int): requires go1.22 or later\n"
-	if got != want {
-		t.Errorf("got: %s want: %s", got, want)
+	want := "p:5:20: cannot range over x (variable of type int): requires golang1.22 or later\n" +
+		"p:9:19: cannot range over x (variable of type int): requires golang1.22 or later\n"
+	if golangt != want {
+		t.Errorf("golangt: %s want: %s", golangt, want)
 	}
 }
 
@@ -1158,10 +1158,10 @@ type (
 	conf := Config{EnableAlias: true}
 	pkg := mustTypecheck(src, &conf, nil)
 	T := pkg.Scope().Lookup("T").(*TypeName)
-	got := T.String() // this must not panic (was issue)
+	golangt := T.String() // this must not panic (was issue)
 	const want = "type p.T struct{}"
-	if got != want {
-		t.Errorf("got %s, want %s", got, want)
+	if golangt != want {
+		t.Errorf("golangt %s, want %s", golangt, want)
 	}
 }
 

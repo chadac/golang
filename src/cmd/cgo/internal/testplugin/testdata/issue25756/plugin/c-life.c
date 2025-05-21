@@ -1,10 +1,10 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 #include <assert.h>
 #include "life.h"
-#include "_cgo_export.h"
+#include "_cgolang_export.h"
 
 const int MYCONST = 0;
 
@@ -16,7 +16,7 @@ Step(int x, int y, int *a, int *n)
 {
 	struct GoStart_return r;
 
-	// Use Go to start 4 goroutines each of which handles 1/4 of the
+	// Use Go to start 4 golangroutines each of which handles 1/4 of the
 	// board.
 	r = GoStart(0, x, y, 0, x / 2, 0, y / 2, a, n);
 	assert(r.r0 == 0 && r.r1 == 100);	// test multiple returns

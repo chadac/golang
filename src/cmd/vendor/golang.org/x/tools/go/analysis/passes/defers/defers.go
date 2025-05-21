@@ -1,29 +1,29 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package defers
 
 import (
 	_ "embed"
-	"go/ast"
+	"golang/ast"
 
-	"golang.org/x/tools/go/analysis"
-	"golang.org/x/tools/go/analysis/passes/inspect"
-	"golang.org/x/tools/go/analysis/passes/internal/analysisutil"
-	"golang.org/x/tools/go/ast/inspector"
-	"golang.org/x/tools/go/types/typeutil"
-	"golang.org/x/tools/internal/analysisinternal"
+	"golanglang.org/x/tools/golang/analysis"
+	"golanglang.org/x/tools/golang/analysis/passes/inspect"
+	"golanglang.org/x/tools/golang/analysis/passes/internal/analysisutil"
+	"golanglang.org/x/tools/golang/ast/inspector"
+	"golanglang.org/x/tools/golang/types/typeutil"
+	"golanglang.org/x/tools/internal/analysisinternal"
 )
 
-//go:embed doc.go
+//golang:embed doc.golang
 var doc string
 
 // Analyzer is the defers analyzer.
 var Analyzer = &analysis.Analyzer{
 	Name:     "defers",
 	Requires: []*analysis.Analyzer{inspect.Analyzer},
-	URL:      "https://pkg.go.dev/golang.org/x/tools/go/analysis/passes/defers",
+	URL:      "https://pkg.golang.dev/golanglang.org/x/tools/golang/analysis/passes/defers",
 	Doc:      analysisutil.MustExtractDoc(doc, "defers"),
 	Run:      run,
 }

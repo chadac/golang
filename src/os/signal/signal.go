@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package signal
@@ -97,7 +97,7 @@ func Ignored(sig os.Signal) bool {
 var (
 	// watchSignalLoopOnce guards calling the conditionally
 	// initialized watchSignalLoop. If watchSignalLoop is non-nil,
-	// it will be run in a goroutine lazily once Notify is invoked.
+	// it will be run in a golangroutine lazily once Notify is invoked.
 	// See Issue 21576.
 	watchSignalLoopOnce sync.Once
 	watchSignalLoop     func()
@@ -149,7 +149,7 @@ func Notify(c chan<- os.Signal, sig ...os.Signal) {
 				// signal before starting the watcher.
 				watchSignalLoopOnce.Do(func() {
 					if watchSignalLoop != nil {
-						go watchSignalLoop()
+						golang watchSignalLoop()
 					}
 				})
 			}
@@ -285,7 +285,7 @@ func NotifyContext(parent context.Context, signals ...os.Signal) (ctx context.Co
 	c.ch = make(chan os.Signal, 1)
 	Notify(c.ch, c.signals...)
 	if ctx.Err() == nil {
-		go func() {
+		golang func() {
 			select {
 			case <-c.ch:
 				c.cancel()

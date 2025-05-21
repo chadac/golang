@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package mvs
@@ -8,12 +8,12 @@ import (
 	"fmt"
 	"slices"
 
-	"cmd/go/internal/gover"
+	"cmd/golang/internal/golangver"
 
-	"golang.org/x/mod/module"
+	"golanglang.org/x/mod/module"
 )
 
-// Graph implements an incremental version of the MVS algorithm, with the
+// Graph implements an incremental version of the MVS algolangrithm, with the
 // requirements pushed by the caller instead of pulled by the MVS traversal.
 type Graph struct {
 	cmp   func(p, v1, v2 string) int
@@ -140,7 +140,7 @@ func (g *Graph) BuildList() []module.Version {
 			list = append(list, module.Version{Path: path, Version: version})
 		}
 	}
-	gover.ModSort(list[len(uniqueRoots):])
+	golangver.ModSort(list[len(uniqueRoots):])
 
 	return list
 }

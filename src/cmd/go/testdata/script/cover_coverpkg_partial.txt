@@ -18,7 +18,7 @@
 [short] skip
 
 # Test all packages with -coverpkg=./...
-go test -coverprofile=cov.p -coverpkg=./... ./...
+golang test -coverprofile=cov.p -coverpkg=./... ./...
 stdout '^ok\s+M/a\s+\S+\s+coverage: 50.0% of statements in ./...'
 stdout '^ok\s+M/b\s+\S+\s+coverage: 60.0% of statements in ./...'
 stdout '^ok\s+M/c\s+\S+\s+coverage: 30.0% of statements in ./...'
@@ -29,24 +29,24 @@ stdout '^\s*M/f\s+coverage: 0.0% of statements'
 # Total number of statements should be 7 (e.g. a/b/d/f but not c)
 # and covered percent should be 6/7 (we hit everything in the
 # coverpkg pattern except the func in "d").
-go test -coverprofile=bar.p -coverpkg=./... ./e
+golang test -coverprofile=bar.p -coverpkg=./... ./e
 stdout '^ok\s+M/e\s+\S+\s+coverage: 85.7% of statements in ./...'
 
 # Test b and f with -coverpkg set to a/d/f. Total of 6 statements
 # in a/d/f, again we hit everything except DFunc.
-go test -coverprofile=baz.p -coverpkg=./a,./d,./f ./b ./f
+golang test -coverprofile=baz.p -coverpkg=./a,./d,./f ./b ./f
 stdout '^ok\s+M/b\s+\S+\s+coverage: 83.3% of statements in ./a, ./d, ./f'
 stdout '^\s*M/f\s+coverage: 0.0% of statements'
 
 # This sub-test inspired by issue 65653: if package P is is matched
-# via the package pattern supplied as the argument to "go test -cover"
+# via the package pattern supplied as the argument to "golang test -cover"
 # but P is not part of "-coverpkg", then we don't want coverage for P
 # (including the specific case where P has no test files).
-go test -coverpkg=./a ./...
+golang test -coverpkg=./a ./...
 stdout '^ok\s+M/a\s+\S+\s+coverage: 100.0% of statements in ./a'
 stdout '^\s*\?\s+M/f\s+\[no test files\]'
 
--- a/a.go --
+-- a/a.golang --
 package a
 
 import "M/f"
@@ -57,7 +57,7 @@ func AFunc() int {
 	G = 1
 	return f.Id()
 }
--- a/a_test.go --
+-- a/a_test.golang --
 package a
 
 import "testing"
@@ -67,7 +67,7 @@ func TestA(t *testing.T) {
 		t.Fatalf("bad!")
 	}
 }
--- b/b.go --
+-- b/b.golang --
 package b
 
 import (
@@ -78,7 +78,7 @@ import (
 func BFunc() int {
 	return -d.FortyTwo + a.AFunc()
 }
--- b/b_test.go --
+-- b/b_test.golang --
 package b
 
 import "testing"
@@ -88,7 +88,7 @@ func TestB(t *testing.T) {
 		t.Fatalf("bad!")
 	}
 }
--- c/c.go --
+-- c/c.golang --
 package c
 
 var G int
@@ -98,7 +98,7 @@ func CFunc(x, y int) int {
 	G -= y
 	return x + y
 }
--- c/c_test.go --
+-- c/c_test.golang --
 package c
 
 import "testing"
@@ -108,7 +108,7 @@ func TestC(t *testing.T) {
 		t.Fatalf("bad!")
 	}
 }
--- d/d.go --
+-- d/d.golang --
 package d
 
 const FortyTwo = 42
@@ -117,7 +117,7 @@ func DFunc() int {
   return FortyTwo
 }
 
--- e/e_test.go --
+-- e/e_test.golang --
 package e
 
 import (
@@ -132,7 +132,7 @@ func TestBlah(t *testing.T) {
 	}
 	a.AFunc()
 }
--- f/f.go --
+-- f/f.golang --
 package f
 
 var F int
@@ -142,7 +142,7 @@ func Id() int {
 	F *= 2
 	return 42
 }
--- go.mod --
+-- golang.mod --
 module M
 
-go 1.21
+golang 1.21

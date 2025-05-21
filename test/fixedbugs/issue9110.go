@@ -1,11 +1,11 @@
 // run
 
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Scenario that used to leak arbitrarily many SudoG structs.
-// See golang.org/issue/9110.
+// See golanglang.org/issue/9110.
 
 package main
 
@@ -31,7 +31,7 @@ func main() {
 
 		c := make(chan int)
 		for i := 0; i < 10; i++ {
-			go func() {
+			golang func() {
 				select {
 				case <-c:
 				case <-c:
@@ -49,7 +49,7 @@ func main() {
 		var cond1 sync.Cond
 		var mu1 sync.Mutex
 		cond1.L = &mu1
-		go func() {
+		golang func() {
 			mu1.Lock()
 			cond1.Wait()
 			mu1.Unlock()
@@ -60,7 +60,7 @@ func main() {
 		var cond2 sync.Cond
 		var mu2 sync.Mutex
 		cond2.L = &mu2
-		go func() {
+		golang func() {
 			mu2.Lock()
 			cond2.Wait()
 			mu2.Unlock()
@@ -74,7 +74,7 @@ func main() {
 		// drop cache on floor
 		runtime.GC()
 
-		// release cond2 after select has gotten to run
+		// release cond2 after select has golangtten to run
 		release = func() {
 			cond2.Broadcast()
 			time.Sleep(1 * time.Millisecond)

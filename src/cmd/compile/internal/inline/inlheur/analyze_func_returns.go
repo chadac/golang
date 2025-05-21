@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package inlheur
@@ -7,8 +7,8 @@ package inlheur
 import (
 	"cmd/compile/internal/ir"
 	"fmt"
-	"go/constant"
-	"go/token"
+	"golang/constant"
+	"golang/token"
 	"os"
 )
 

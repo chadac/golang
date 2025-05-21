@@ -1,5 +1,5 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package rand provides cryptographically secure random bytes from the
@@ -22,7 +22,7 @@ func warnBlocked() {
 
 // fatal is [runtime.fatal], pushed via linkname.
 //
-//go:linkname fatal
+//golang:linkname fatal
 func fatal(string)
 
 var testingOnlyFailRead bool
@@ -45,7 +45,7 @@ func Read(b []byte) {
 		} else {
 			errStr = "testing simulated failure"
 		}
-		fatal("crypto/rand: failed to read random data (see https://go.dev/issue/66821): " + errStr)
+		fatal("crypto/rand: failed to read random data (see https://golang.dev/issue/66821): " + errStr)
 		panic("unreachable") // To be sure.
 	}
 }
@@ -67,7 +67,7 @@ func urandomRead(b []byte) error {
 		n, err := urandomFile.Read(b)
 		// Note that we don't ignore EAGAIN because it should not be possible to
 		// hit for a blocking read from urandom, although there were
-		// unreproducible reports of it at https://go.dev/issue/9205.
+		// unreproducible reports of it at https://golang.dev/issue/9205.
 		if err != nil {
 			return err
 		}

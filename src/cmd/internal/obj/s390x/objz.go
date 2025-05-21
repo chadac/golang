@@ -1,4 +1,4 @@
-// Based on cmd/internal/obj/ppc64/obj9.go.
+// Based on cmd/internal/obj/ppc64/obj9.golang.
 //
 //	Copyright © 1994-1999 Lucent Technologies Inc.  All rights reserved.
 //	Portions Copyright © 1995-1997 C H Forsyth (forsyth@terzarima.net)
@@ -360,7 +360,7 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 
 				q = c.ctxt.EndUnsafePoint(q, c.newprog, -1)
 
-				// On Linux, in a cgo binary we may get a SIGSETXID signal early on
+				// On Linux, in a cgolang binary we may get a SIGSETXID signal early on
 				// before the signal stack is set, as glibc doesn't allow us to block
 				// SIGSETXID. So a signal may land on the current stack and clobber
 				// the content below the SP. We store the LR again after the SP is
@@ -374,7 +374,7 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 				q.To.Offset = 0
 			} else if c.cursym.Func().Text.Mark&LEAF == 0 {
 				// A very few functions that do not return to their caller
-				// (e.g. gogo) are not identified as leaves but still have
+				// (e.g. golanggolang) are not identified as leaves but still have
 				// no frame.
 				c.cursym.Func().Text.Mark |= LEAF
 			}
@@ -616,7 +616,7 @@ func (c *ctxtz) stacksplitPre(p *obj.Prog, framesize int32) (pPre, pPreempt, pCh
 		// BL maymorestack
 		p = obj.Appendp(p, c.newprog)
 		p.As = ABL
-		// See ../x86/obj6.go
+		// See ../x86/obj6.golang
 		sym := c.ctxt.LookupABI(c.ctxt.Flag_maymorestack, c.cursym.ABI())
 		p.To = obj.Addr{Type: obj.TYPE_BRANCH, Sym: sym}
 

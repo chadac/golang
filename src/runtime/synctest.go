@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
@@ -9,30 +9,30 @@ import (
 	"unsafe"
 )
 
-// A synctestBubble is a set of goroutines started by synctest.Run.
+// A synctestBubble is a set of golangroutines started by synctest.Run.
 type synctestBubble struct {
 	mu      mutex
 	timers  timers
 	now     int64 // current fake time
 	root    *g    // caller of synctest.Run
 	waiter  *g    // caller of synctest.Wait
-	main    *g    // goroutine started by synctest.Run
-	waiting bool  // true if a goroutine is calling synctest.Wait
+	main    *g    // golangroutine started by synctest.Run
+	waiting bool  // true if a golangroutine is calling synctest.Wait
 	done    bool  // true if main has exited
 
 	// The bubble is active (not blocked) so long as running > 0 || active > 0.
 	//
-	// running is the number of goroutines which are not "durably blocked":
+	// running is the number of golangroutines which are not "durably blocked":
 	// Goroutines which are either running, runnable, or non-durably blocked
 	// (for example, blocked in a syscall).
 	//
 	// active is used to keep the bubble from becoming blocked,
-	// even if all goroutines in the bubble are blocked.
-	// For example, park_m can choose to immediately unpark a goroutine after parking it.
+	// even if all golangroutines in the bubble are blocked.
+	// For example, park_m can choose to immediately unpark a golangroutine after parking it.
 	// It increments the active count to keep the bubble active until it has determined
 	// that the park operation has completed.
-	total   int // total goroutines
-	running int // non-blocked goroutines
+	total   int // total golangroutines
+	running int // non-blocked golangroutines
 	active  int // other sources of activity
 }
 
@@ -40,7 +40,7 @@ type synctestBubble struct {
 // It is never called with a Gscanstatus.
 func (bubble *synctestBubble) changegstatus(gp *g, oldval, newval uint32) {
 	// Determine whether this change in status affects the idleness of the bubble.
-	// If this isn't a goroutine starting, stopping, durably blocking,
+	// If this isn't a golangroutine starting, stopping, durably blocking,
 	// or waking up after durably blocking, then return immediately without
 	// locking bubble.mu.
 	//
@@ -72,7 +72,7 @@ func (bubble *synctestBubble) changegstatus(gp *g, oldval, newval uint32) {
 		}
 	}
 	// It's possible for wasRunning == isRunning while totalDelta != 0;
-	// for example, if a new goroutine is created in a non-running state.
+	// for example, if a new golangroutine is created in a non-running state.
 	if wasRunning == isRunning && totalDelta == 0 {
 		return
 	}
@@ -85,7 +85,7 @@ func (bubble *synctestBubble) changegstatus(gp *g, oldval, newval uint32) {
 		} else {
 			bubble.running--
 			if raceenabled && newval != _Gdead {
-				// Record that this goroutine parking happens before
+				// Record that this golangroutine parking happens before
 				// any subsequent Wait.
 				racereleasemergeg(gp, bubble.raceaddr())
 			}
@@ -100,7 +100,7 @@ func (bubble *synctestBubble) changegstatus(gp *g, oldval, newval uint32) {
 	wake := bubble.maybeWakeLocked()
 	unlock(&bubble.mu)
 	if wake != nil {
-		goready(wake, 0)
+		golangready(wake, 0)
 	}
 }
 
@@ -122,7 +122,7 @@ func (bubble *synctestBubble) decActive() {
 	wake := bubble.maybeWakeLocked()
 	unlock(&bubble.mu)
 	if wake != nil {
-		goready(wake, 0)
+		golangready(wake, 0)
 	}
 }
 
@@ -132,26 +132,26 @@ func (bubble *synctestBubble) maybeWakeLocked() *g {
 		return nil
 	}
 	// Increment the bubble active count, since we've determined to wake something.
-	// The woken goroutine will decrement the count.
-	// We can't just call goready and let it increment bubble.running,
-	// since we can't call goready with bubble.mu held.
+	// The woken golangroutine will decrement the count.
+	// We can't just call golangready and let it increment bubble.running,
+	// since we can't call golangready with bubble.mu held.
 	//
-	// Incrementing the active count here is only necessary if something has gone wrong,
-	// and a goroutine that we considered durably blocked wakes up unexpectedly.
+	// Incrementing the active count here is only necessary if something has golangne wrong,
+	// and a golangroutine that we considered durably blocked wakes up unexpectedly.
 	// Two wakes happening at the same time leads to very confusing failure modes,
 	// so we take steps to avoid it happening.
 	bubble.active++
 	next := bubble.timers.wakeTime()
 	if next > 0 && next <= bubble.now {
-		// A timer is scheduled to fire. Wake the root goroutine to handle it.
+		// A timer is scheduled to fire. Wake the root golangroutine to handle it.
 		return bubble.root
 	}
 	if gp := bubble.waiter; gp != nil {
-		// A goroutine is blocked in Wait. Wake it.
+		// A golangroutine is blocked in Wait. Wake it.
 		return gp
 	}
-	// All goroutines in the bubble are durably blocked, and nothing has called Wait.
-	// Wake the root goroutine.
+	// All golangroutines in the bubble are durably blocked, and nothing has called Wait.
+	// Wake the root golangroutine.
 	return bubble.root
 }
 
@@ -159,11 +159,11 @@ func (bubble *synctestBubble) raceaddr() unsafe.Pointer {
 	// Address used to record happens-before relationships created by the bubble.
 	//
 	// Wait creates a happens-before relationship between itself and
-	// the blocking operations which caused other goroutines in the bubble to park.
+	// the blocking operations which caused other golangroutines in the bubble to park.
 	return unsafe.Pointer(bubble)
 }
 
-//go:linkname synctestRun internal/synctest.Run
+//golang:linkname synctestRun internal/synctest.Run
 func synctestRun(f func()) {
 	if debug.asynctimerchan.Load() != 0 {
 		panic("synctest.Run not supported with asynctimerchan!=0")
@@ -205,13 +205,13 @@ func synctestRun(f func()) {
 		unlock(&bubble.mu)
 		systemstack(func() {
 			// Clear gp.m.curg while running timers,
-			// so timer goroutines inherit their child race context from g0.
+			// so timer golangroutines inherit their child race context from g0.
 			curg := gp.m.curg
 			gp.m.curg = nil
 			gp.bubble.timers.check(gp.bubble.now)
 			gp.m.curg = curg
 		})
-		gopark(synctestidle_c, nil, waitReasonSynctestRun, traceBlockSynctest, 0)
+		golangpark(synctestidle_c, nil, waitReasonSynctestRun, traceBlockSynctest, 0)
 		lock(&bubble.mu)
 		if bubble.active < 0 {
 			throw("active < 0")
@@ -224,7 +224,7 @@ func synctestRun(f func()) {
 			throw("time went backwards")
 		}
 		if bubble.done {
-			// Time stops once the bubble's main goroutine has exited.
+			// Time stops once the bubble's main golangroutine has exited.
 			break
 		}
 		bubble.now = next
@@ -233,7 +233,7 @@ func synctestRun(f func()) {
 	total := bubble.total
 	unlock(&bubble.mu)
 	if raceenabled {
-		// Establish a happens-before relationship between bubbled goroutines exiting
+		// Establish a happens-before relationship between bubbled golangroutines exiting
 		// and Run returning.
 		raceacquireg(gp, gp.bubble.raceaddr())
 	}
@@ -241,9 +241,9 @@ func synctestRun(f func()) {
 		panic(synctestDeadlockError{bubble})
 	}
 	if gp.timer != nil && gp.timer.isFake {
-		// Verify that we haven't marked this goroutine's sleep timer as fake.
+		// Verify that we haven't marked this golangroutine's sleep timer as fake.
 		// This could happen if something in Run were to call timeSleep.
-		throw("synctest root goroutine has a fake timer")
+		throw("synctest root golangroutine has a fake timer")
 	}
 }
 
@@ -252,14 +252,14 @@ type synctestDeadlockError struct {
 }
 
 func (synctestDeadlockError) Error() string {
-	return "deadlock: all goroutines in bubble are blocked"
+	return "deadlock: all golangroutines in bubble are blocked"
 }
 
 func synctestidle_c(gp *g, _ unsafe.Pointer) bool {
 	lock(&gp.bubble.mu)
 	canIdle := true
 	if gp.bubble.running == 0 && gp.bubble.active == 1 {
-		// All goroutines in the bubble have blocked or exited.
+		// All golangroutines in the bubble have blocked or exited.
 		canIdle = false
 	} else {
 		gp.bubble.active--
@@ -268,11 +268,11 @@ func synctestidle_c(gp *g, _ unsafe.Pointer) bool {
 	return canIdle
 }
 
-//go:linkname synctestWait internal/synctest.Wait
+//golang:linkname synctestWait internal/synctest.Wait
 func synctestWait() {
 	gp := getg()
 	if gp.bubble == nil {
-		panic("goroutine is not in a bubble")
+		panic("golangroutine is not in a bubble")
 	}
 	lock(&gp.bubble.mu)
 	// We use a bubble.waiting bool to detect simultaneous calls to Wait rather than
@@ -284,7 +284,7 @@ func synctestWait() {
 	}
 	gp.bubble.waiting = true
 	unlock(&gp.bubble.mu)
-	gopark(synctestwait_c, nil, waitReasonSynctestWait, traceBlockSynctest, 0)
+	golangpark(synctestwait_c, nil, waitReasonSynctestWait, traceBlockSynctest, 0)
 
 	lock(&gp.bubble.mu)
 	gp.bubble.active--
@@ -296,7 +296,7 @@ func synctestWait() {
 	unlock(&gp.bubble.mu)
 
 	// Establish a happens-before relationship on the activity of the now-blocked
-	// goroutines in the bubble.
+	// golangroutines in the bubble.
 	if raceenabled {
 		raceacquireg(gp, gp.bubble.raceaddr())
 	}
@@ -305,7 +305,7 @@ func synctestWait() {
 func synctestwait_c(gp *g, _ unsafe.Pointer) bool {
 	lock(&gp.bubble.mu)
 	if gp.bubble.running == 0 && gp.bubble.active == 0 {
-		// This shouldn't be possible, since gopark increments active during unlockf.
+		// This shouldn't be possible, since golangpark increments active during unlockf.
 		throw("running == 0 && active == 0")
 	}
 	gp.bubble.waiter = gp
@@ -313,7 +313,7 @@ func synctestwait_c(gp *g, _ unsafe.Pointer) bool {
 	return true
 }
 
-//go:linkname synctest_acquire internal/synctest.acquire
+//golang:linkname synctest_acquire internal/synctest.acquire
 func synctest_acquire() any {
 	if bubble := getg().bubble; bubble != nil {
 		bubble.incActive()
@@ -322,16 +322,16 @@ func synctest_acquire() any {
 	return nil
 }
 
-//go:linkname synctest_release internal/synctest.release
+//golang:linkname synctest_release internal/synctest.release
 func synctest_release(bubble any) {
 	bubble.(*synctestBubble).decActive()
 }
 
-//go:linkname synctest_inBubble internal/synctest.inBubble
+//golang:linkname synctest_inBubble internal/synctest.inBubble
 func synctest_inBubble(bubble any, f func()) {
 	gp := getg()
 	if gp.bubble != nil {
-		panic("goroutine is already bubbled")
+		panic("golangroutine is already bubbled")
 	}
 	gp.bubble = bubble.(*synctestBubble)
 	defer func() {

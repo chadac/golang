@@ -1,10 +1,10 @@
 // run
 
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// The gofrontend used to mishandle this code due to a pass ordering issue.
+// The golangfrontend used to mishandle this code due to a pass ordering issue.
 // It was inconsistent as to whether unsafe.Sizeof(byte(0)) was a constant,
 // and therefore as to whether it was a direct-iface type.
 

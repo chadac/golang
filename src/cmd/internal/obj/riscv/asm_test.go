@@ -1,5 +1,5 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package riscv
@@ -65,7 +65,7 @@ func TestLargeCall(t *testing.T) {
 
 	dir := t.TempDir()
 
-	if err := os.WriteFile(filepath.Join(dir, "go.mod"), []byte("module largecall"), 0644); err != nil {
+	if err := os.WriteFile(filepath.Join(dir, "golang.mod"), []byte("module largecall"), 0644); err != nil {
 		t.Fatalf("Failed to write file: %v\n", err)
 	}
 	main := `package main
@@ -76,7 +76,7 @@ func main() {
 func x()
 func y()
 `
-	if err := os.WriteFile(filepath.Join(dir, "x.go"), []byte(main), 0644); err != nil {
+	if err := os.WriteFile(filepath.Join(dir, "x.golang"), []byte(main), 0644); err != nil {
 		t.Fatalf("failed to write main: %v\n", err)
 	}
 
@@ -133,7 +133,7 @@ func TestLargeJump(t *testing.T) {
 
 	dir := t.TempDir()
 
-	if err := os.WriteFile(filepath.Join(dir, "go.mod"), []byte("module largejump"), 0644); err != nil {
+	if err := os.WriteFile(filepath.Join(dir, "golang.mod"), []byte("module largejump"), 0644); err != nil {
 		t.Fatalf("Failed to write file: %v\n", err)
 	}
 	main := `package main
@@ -146,7 +146,7 @@ func main() {
 
 func x() uint64
 `
-	if err := os.WriteFile(filepath.Join(dir, "x.go"), []byte(main), 0644); err != nil {
+	if err := os.WriteFile(filepath.Join(dir, "x.golang"), []byte(main), 0644); err != nil {
 		t.Fatalf("failed to write main: %v\n", err)
 	}
 
@@ -304,6 +304,6 @@ TEXT _stub(SB),$0-0
 	//	RET
 	want := "0f 00 f0 0f 13 00 00 00 0f 00 f0 0f 67 80 00 00"
 	if !strings.Contains(string(out), want) {
-		t.Errorf("PCALIGN test failed - got %s\nwant %s", out, want)
+		t.Errorf("PCALIGN test failed - golangt %s\nwant %s", out, want)
 	}
 }

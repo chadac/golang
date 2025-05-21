@@ -1,7 +1,7 @@
 // build -gcflags=-l=4
 
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package p
@@ -16,11 +16,11 @@ func Autodetect() Interface {
 		Do(func() {
 			var ad, gd Interface
 
-			go func() {
+			golang func() {
 				defer gd.Done()
 				ad = aad()
 			}()
-			go func() {
+			golang func() {
 				defer ad.Done()
 				gd = aad()
 				defer func() { recover() }()
@@ -44,17 +44,17 @@ func (x If) MonitoredResource() (resType string, labels map[string]string) {
 	return "", nil
 }
 
-//go:noinline
+//golang:noinline
 func (x If) Done() {
 	G++
 }
 
-//go:noinline
+//golang:noinline
 func Do(fn func()) {
 	fn()
 }
 
-//go:noinline
+//golang:noinline
 func aad() Interface {
 	var x If
 	return x

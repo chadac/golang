@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package zstd
@@ -50,7 +50,7 @@ func (r *Reader) readRawRLELiterals(data block, off int, hdr byte, outbuf []byte
 		off += 2
 	}
 
-	// We are going to use the entire literal block in the output.
+	// We are golanging to use the entire literal block in the output.
 	// The maximum size of one decompressed block is 128K,
 	// so we can't have more literals than that.
 	if regeneratedSize > 128<<10 {
@@ -118,7 +118,7 @@ func (r *Reader) readHuffLiterals(data block, off int, hdr byte, outbuf []byte) 
 		streams = 4
 	}
 
-	// We are going to use the entire literal block in the output.
+	// We are golanging to use the entire literal block in the output.
 	// The maximum size of one decompressed block is 128K,
 	// so we can't have more literals than that.
 	if regeneratedSize > 128<<10 {

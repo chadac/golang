@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package base
@@ -50,7 +50,7 @@ func (d *HashDebug) SetInlineSuffixOnly(b bool) *HashDebug {
 	return d
 }
 
-// The default compiler-debugging HashDebug, for "-d=gossahash=..."
+// The default compiler-debugging HashDebug, for "-d=golangssahash=..."
 var hashDebug *HashDebug
 
 var FmaHash *HashDebug          // for debugging fused-multiply-add floating point changes
@@ -111,18 +111,18 @@ var VariableMakeHash *HashDebug // for debugging variable-sized make optimizatio
 //     }
 //
 //  4. rebuild w/o the bad code,
-//     GOCOMPILEDEBUG=gossahash=n ./all.bash
+//     GOCOMPILEDEBUG=golangssahash=n ./all.bash
 //     to verify that you put the guard in the right place with the right sense of the test.
 //
-//  5. use github.com/dr2chase/gossahash to search for the error:
+//  5. use github.com/dr2chase/golangssahash to search for the error:
 //
-//     go install github.com/dr2chase/gossahash@latest
+//     golang install github.com/dr2chase/golangssahash@latest
 //
-//     gossahash -- <the thing that fails>
+//     golangssahash -- <the thing that fails>
 //
-//     for example: GOMAXPROCS=1 gossahash -- ./all.bash
+//     for example: GOMAXPROCS=1 golangssahash -- ./all.bash
 //
-//  6. gossahash should return a single function whose miscompilation
+//  6. golangssahash should return a single function whose miscompilation
 //     causes the problem, and you can focus on that.
 func DebugHashMatchPkgFunc(pkg, fn string) bool {
 	return hashDebug.MatchPkgFunc(pkg, fn, nil)

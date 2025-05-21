@@ -1,5 +1,5 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Serving of pprof-like profiles.
@@ -42,7 +42,7 @@ func pprofByRegion(compute computePprofFunc, t *parsedTrace) traceviewer.Profile
 	}
 }
 
-// pprofMatchingGoroutines returns the ids of goroutines of the matching name and its interval.
+// pprofMatchingGoroutines returns the ids of golangroutines of the matching name and its interval.
 // If the id string is empty, returns nil without an error.
 func pprofMatchingGoroutines(name string, t *parsedTrace) (map[trace.GoID][]interval, error) {
 	res := make(map[trace.GoID][]interval)
@@ -52,18 +52,18 @@ func pprofMatchingGoroutines(name string, t *parsedTrace) (map[trace.GoID][]inte
 		}
 		endTime := g.EndTime
 		if g.EndTime == 0 {
-			endTime = t.endTime() // Use the trace end time, since the goroutine is still live then.
+			endTime = t.endTime() // Use the trace end time, since the golangroutine is still live then.
 		}
 		res[g.ID] = []interval{{start: g.StartTime, end: endTime}}
 	}
 	if len(res) == 0 {
-		return nil, fmt.Errorf("failed to find matching goroutines for name: %s", name)
+		return nil, fmt.Errorf("failed to find matching golangroutines for name: %s", name)
 	}
 	return res, nil
 }
 
 // pprofMatchingRegions returns the time intervals of matching regions
-// grouped by the goroutine id. If the filter is nil, returns nil without an error.
+// grouped by the golangroutine id. If the filter is nil, returns nil without an error.
 func pprofMatchingRegions(filter *regionFilter, t *parsedTrace) (map[trace.GoID][]interval, error) {
 	if filter == nil {
 		return nil, nil
@@ -133,14 +133,14 @@ func computePprofSyscall() computePprofFunc {
 }
 
 // computePprofSched returns a computePprofFunc that generates a scheduler latency pprof-like profile
-// (time between a goroutine become runnable and actually scheduled for execution).
+// (time between a golangroutine become runnable and actually scheduled for execution).
 func computePprofSched() computePprofFunc {
 	return makeComputePprofFunc(trace.GoRunnable, func(_ string) bool {
 		return true
 	})
 }
 
-// makeComputePprofFunc returns a computePprofFunc that generates a profile of time goroutines spend
+// makeComputePprofFunc returns a computePprofFunc that generates a profile of time golangroutines spend
 // in a particular state for the specified reasons.
 func makeComputePprofFunc(state trace.GoState, trackReason func(string) bool) computePprofFunc {
 	return func(gToIntervals map[trace.GoID][]interval, events []trace.Event) ([]traceviewer.ProfileRecord, error) {
@@ -158,7 +158,7 @@ func makeComputePprofFunc(state trace.GoState, trackReason func(string) bool) co
 				continue
 			}
 
-			// The state transition has to apply to a goroutine.
+			// The state transition has to apply to a golangroutine.
 			st := ev.StateTransition()
 			if st.Resource.Kind != trace.ResourceGoroutine {
 				continue
@@ -166,7 +166,7 @@ func makeComputePprofFunc(state trace.GoState, trackReason func(string) bool) co
 			id := st.Resource.Goroutine()
 			_, new := st.Goroutine()
 
-			// Check if we're tracking this goroutine.
+			// Check if we're tracking this golangroutine.
 			startEv := tracking[id]
 			if startEv == nil {
 				// We're not. Start tracking if the new state
@@ -177,13 +177,13 @@ func makeComputePprofFunc(state trace.GoState, trackReason func(string) bool) co
 				}
 				continue
 			}
-			// We're tracking this goroutine.
+			// We're tracking this golangroutine.
 			if new == state {
-				// We're tracking this goroutine, but it's just transitioning
+				// We're tracking this golangroutine, but it's just transitioning
 				// to the same state (this is a no-ip
 				continue
 			}
-			// The goroutine has transitioned out of the state we care about,
+			// The golangroutine has transitioned out of the state we care about,
 			// so remove it from tracking and record the stack.
 			delete(tracking, id)
 
@@ -310,7 +310,7 @@ func (m *stackMap) profile() []traceviewer.ProfileRecord {
 		for frame := range stack.Frames() {
 			rec.Stack = append(rec.Stack, frame)
 			// Cut this off at pprofMaxStack because that's as far
-			// as our deduplication goes.
+			// as our deduplication golanges.
 			if i >= pprofMaxStack {
 				break
 			}

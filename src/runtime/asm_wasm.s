@@ -1,13 +1,13 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-#include "go_asm.h"
-#include "go_tls.h"
+#include "golang_asm.h"
+#include "golang_tls.h"
 #include "funcdata.h"
 #include "textflag.h"
 
-TEXT runtime·rt0_go(SB), NOSPLIT|NOFRAME|TOPFRAME, $0
+TEXT runtime·rt0_golang(SB), NOSPLIT|NOFRAME|TOPFRAME, $0
 	// save m->g0 = g0
 	MOVD $runtime·g0(SB), runtime·m0+m_g0(SB)
 	// save m0 to g0->m
@@ -22,7 +22,7 @@ TEXT runtime·rt0_go(SB), NOSPLIT|NOFRAME|TOPFRAME, $0
 	CALLNORESUME runtime·schedinit(SB)
 	MOVD $runtime·mainPC(SB), 0(SP)
 	CALLNORESUME runtime·newproc(SB)
-	CALL runtime·mstart(SB) // WebAssembly stack will unwind when switching to another goroutine
+	CALL runtime·mstart(SB) // WebAssembly stack will unwind when switching to another golangroutine
 	UNDEF
 
 TEXT runtime·mstart(SB),NOSPLIT|TOPFRAME,$0
@@ -37,31 +37,31 @@ TEXT ·checkASM(SB), NOSPLIT, $0-1
 	MOVB $1, ret+0(FP)
 	RET
 
-TEXT runtime·gogo(SB), NOSPLIT, $0-8
+TEXT runtime·golanggolang(SB), NOSPLIT, $0-8
 	MOVD buf+0(FP), R0
-	MOVD gobuf_g(R0), R1
+	MOVD golangbuf_g(R0), R1
 	MOVD 0(R1), R2	// make sure g != nil
 	MOVD R1, g
-	MOVD gobuf_sp(R0), SP
+	MOVD golangbuf_sp(R0), SP
 
 	// Put target PC at -8(SP), wasm_pc_f_loop will pick it up
 	Get SP
 	I32Const $8
 	I32Sub
-	I64Load gobuf_pc(R0)
+	I64Load golangbuf_pc(R0)
 	I64Store $0
 
-	MOVD gobuf_ctxt(R0), CTXT
+	MOVD golangbuf_ctxt(R0), CTXT
 	// clear to help garbage collector
-	MOVD $0, gobuf_sp(R0)
-	MOVD $0, gobuf_ctxt(R0)
+	MOVD $0, golangbuf_sp(R0)
+	MOVD $0, golangbuf_ctxt(R0)
 
 	I32Const $1
 	Return
 
 // func mcall(fn func(*g))
 // Switch to m->g0's stack, call fn(g).
-// Fn must never return. It should gogo(&g->sched)
+// Fn must never return. It should golanggolang(&g->sched)
 // to keep running g.
 TEXT runtime·mcall(SB), NOSPLIT, $0-8
 	// CTXT = fn
@@ -72,8 +72,8 @@ TEXT runtime·mcall(SB), NOSPLIT, $0-8
 	MOVD m_g0(R1), R2
 
 	// save state in g->sched
-	MOVD 0(SP), g_sched+gobuf_pc(g)     // caller's PC
-	MOVD $fn+0(FP), g_sched+gobuf_sp(g) // caller's SP
+	MOVD 0(SP), g_sched+golangbuf_pc(g)     // caller's PC
+	MOVD $fn+0(FP), g_sched+golangbuf_sp(g) // caller's SP
 
 	// if g == g0 call badmcall
 	Get g
@@ -84,7 +84,7 @@ TEXT runtime·mcall(SB), NOSPLIT, $0-8
 	End
 
 	// switch to g0's stack
-	I64Load (g_sched+gobuf_sp)(R2)
+	I64Load (g_sched+golangbuf_sp)(R2)
 	I64Const $8
 	I64Sub
 	I32WrapI64
@@ -145,15 +145,15 @@ TEXT runtime·systemstack(SB), NOSPLIT, $0-8
 
 	// save state in g->sched. Pretend to
 	// be systemstack_switch if the G stack is scanned.
-	MOVD $runtime·systemstack_switch(SB), g_sched+gobuf_pc(g)
+	MOVD $runtime·systemstack_switch(SB), g_sched+golangbuf_pc(g)
 
-	MOVD SP, g_sched+gobuf_sp(g)
+	MOVD SP, g_sched+golangbuf_sp(g)
 
 	// switch to g0
 	MOVD R2, g
 
 	// make it look like mstart called systemstack on g0, to stop traceback
-	I64Load (g_sched+gobuf_sp)(R2)
+	I64Load (g_sched+golangbuf_sp)(R2)
 	I64Const $8
 	I64Sub
 	Set R3
@@ -173,8 +173,8 @@ TEXT runtime·systemstack(SB), NOSPLIT, $0-8
 	MOVD g_m(g), R1
 	MOVD m_curg(R1), R2
 	MOVD R2, g
-	MOVD g_sched+gobuf_sp(R2), SP
-	MOVD $0, g_sched+gobuf_sp(R2)
+	MOVD g_sched+golangbuf_sp(R2), SP
+	MOVD $0, g_sched+golangbuf_sp(R2)
 	RET
 
 TEXT runtime·systemstack_switch(SB), NOSPLIT, $0-0
@@ -248,9 +248,9 @@ TEXT runtime·morestack(SB), NOSPLIT, $0-0
 
 	// Set g->sched to context in f.
 	NOP	SP	// tell vet SP changed - stop checking offsets
-	MOVD 0(SP), g_sched+gobuf_pc(g)
-	MOVD $8(SP), g_sched+gobuf_sp(g) // f's SP
-	MOVD CTXT, g_sched+gobuf_ctxt(g)
+	MOVD 0(SP), g_sched+golangbuf_pc(g)
+	MOVD $8(SP), g_sched+golangbuf_sp(g) // f's SP
+	MOVD CTXT, g_sched+golangbuf_ctxt(g)
 
 	// Cannot grow scheduler stack (m->g0).
 	Get g
@@ -272,13 +272,13 @@ TEXT runtime·morestack(SB), NOSPLIT, $0-0
 
 	// Called from f.
 	// Set m->morebuf to f's caller.
-	MOVD 8(SP), m_morebuf+gobuf_pc(R1)
-	MOVD $16(SP), m_morebuf+gobuf_sp(R1) // f's caller's SP
-	MOVD g, m_morebuf+gobuf_g(R1)
+	MOVD 8(SP), m_morebuf+golangbuf_pc(R1)
+	MOVD $16(SP), m_morebuf+golangbuf_sp(R1) // f's caller's SP
+	MOVD g, m_morebuf+golangbuf_g(R1)
 
 	// Call newstack on m->g0's stack.
 	MOVD R2, g
-	MOVD g_sched+gobuf_sp(R2), SP
+	MOVD g_sched+golangbuf_sp(R2), SP
 	CALL runtime·newstack(SB)
 	UNDEF // crash if newstack returns
 
@@ -287,7 +287,7 @@ TEXT runtime·morestack_noctxt(SB),NOSPLIT,$0
 	MOVD $0, CTXT
 	JMP runtime·morestack(SB)
 
-TEXT ·asmcgocall(SB), NOSPLIT, $0-0
+TEXT ·asmcgolangcall(SB), NOSPLIT, $0-0
 	UNDEF
 
 #define DISPATCH(NAME, MAXSIZE) \
@@ -425,12 +425,12 @@ CALLFN(·call268435456, 268435456)
 CALLFN(·call536870912, 536870912)
 CALLFN(·call1073741824, 1073741824)
 
-TEXT runtime·goexit(SB), NOSPLIT|TOPFRAME, $0-0
-	NOP // first PC of goexit is skipped
-	CALL runtime·goexit1(SB) // does not return
+TEXT runtime·golangexit(SB), NOSPLIT|TOPFRAME, $0-0
+	NOP // first PC of golangexit is skipped
+	CALL runtime·golangexit1(SB) // does not return
 	UNDEF
 
-TEXT runtime·cgocallback(SB), NOSPLIT, $0-24
+TEXT runtime·cgolangcallback(SB), NOSPLIT, $0-24
 	UNDEF
 
 // gcWriteBarrier informs the GC about heap pointer writes.
@@ -514,7 +514,7 @@ TEXT runtime·gcWriteBarrier8<ABIInternal>(SB),NOSPLIT,$0
 
 TEXT wasm_pc_f_loop(SB),NOSPLIT,$0
 // Call the function for the current PC_F. Repeat until PAUSE != 0 indicates pause or exit.
-// The WebAssembly stack may unwind, e.g. when switching goroutines.
+// The WebAssembly stack may unwind, e.g. when switching golangroutines.
 // The Go stack on the linear memory is then used to jump to the correct functions
 // with this loop, without having to restore the full WebAssembly stack.
 // It is expected to have a pending call before entering the loop, so check PAUSE first.

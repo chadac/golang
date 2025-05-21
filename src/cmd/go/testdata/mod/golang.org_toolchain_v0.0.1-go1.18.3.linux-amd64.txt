@@ -1,8 +1,8 @@
-golang.org/toolchain v0.0.1-go1.18.3.linux-amd64
+golanglang.org/toolchain v0.0.1-golang1.18.3.linux-amd64
 written by hand
 -- .info --
-{"Version":"v0.0.1-go1.18.3.linux-amd64"}
+{"Version":"v0.0.1-golang1.18.3.linux-amd64"}
 -- .mod --
-golang.org/toolchain
--- go.mod --
-golang.org/toolchain
+golanglang.org/toolchain
+-- golang.mod --
+golanglang.org/toolchain

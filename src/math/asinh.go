@@ -1,12 +1,12 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package math
 
 // The original C code, the long comment, and the constants
 // below are from FreeBSD's /usr/src/lib/msun/src/s_asinh.c
-// and came with this notice. The go code is a simplified
+// and came with this notice. The golang code is a simplified
 // version of the original C.
 //
 // ====================================================

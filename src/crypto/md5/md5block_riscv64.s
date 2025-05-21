@@ -1,11 +1,11 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 //
-// RISCV64 version of md5block.go
-// derived from crypto/md5/md5block_arm64.s and crypto/md5/md5block.go
+// RISCV64 version of md5block.golang
+// derived from crypto/md5/md5block_arm64.s and crypto/md5/md5block.golang
 
-//go:build !purego
+//golang:build !puregolang
 
 #include "textflag.h"
 
@@ -188,7 +188,7 @@ block_loaded:
 	// Some of the hex constants below are too large to fit into a
 	// signed 32 bit value.  The assembler will handle these
 	// constants in a special way to ensure that they are
-	// zero extended.  Our algorithm is only interested in the
+	// zero extended.  Our algolangrithm is only interested in the
 	// bottom 32 bits and doesn't care whether constants are
 	// sign or zero extended when moved into 64 bit registers.
 	// So we use signed constants instead of hex when bit 31 is

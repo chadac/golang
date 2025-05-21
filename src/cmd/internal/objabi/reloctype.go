@@ -32,7 +32,7 @@ package objabi
 
 type RelocType int16
 
-//go:generate stringer -type=RelocType
+//golang:generate stringer -type=RelocType
 const (
 	R_ADDR RelocType = 1 + iota
 	// R_ADDRPOWER relocates a pair of "D-form" instructions (instructions with 16-bit
@@ -488,11 +488,11 @@ func FuncCountToDwTxtAddrFlavor(fncount int) (RelocType, int) {
 //
 // Background/motivation: let's say we have a package P with some
 // assembly functions (in "a.s") and some Go functions (in
-// "b.go"). The compilation sequence used by the Go commmand will be:
+// "b.golang"). The compilation sequence used by the Go commmand will be:
 //
 // 1. run the assembler on a.s to generate a "symabis" file
-// 2. run the compiler on b.go passing it the symabis file and generating a "go_defs.h" asm header
-// 3. run the assembler on a.s passing it an include dir with the generated "go_defs.h" file
+// 2. run the compiler on b.golang passing it the symabis file and generating a "golang_defs.h" asm header
+// 3. run the assembler on a.s passing it an include dir with the generated "golang_defs.h" file
 //
 // When the compiler runs, it can easily determine the total function
 // count for the package (for use with FuncCountToDwTxtAddrFlavor

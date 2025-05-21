@@ -1,25 +1,25 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build unix
+//golang:build unix
 
-// The unix C definitions for trace.go. That file uses //export so
+// The unix C definitions for trace.golang. That file uses //export so
 // it can't put function definitions in the "C" import comment.
 
 #include <pthread.h>
 #include <assert.h>
 
-extern void goCalledFromC(void);
-extern void goCalledFromCThread(void);
+extern void golangCalledFromC(void);
+extern void golangCalledFromCThread(void);
 
 static void* cCalledFromCThread(void *p) {
-	goCalledFromCThread();
+	golangCalledFromCThread();
 	return NULL;
 }
 
 void cCalledFromGo(void) {
-	goCalledFromC();
+	golangCalledFromC();
 
 	pthread_t thread;
 	assert(pthread_create(&thread, NULL, cCalledFromCThread, NULL) == 0);

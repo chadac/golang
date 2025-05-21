@@ -1,8 +1,8 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !math_big_pure_go
+//golang:build !math_big_pure_golang
 
 #include "textflag.h"
 
@@ -20,7 +20,7 @@ TEXT ·addVVvec(SB), NOSPLIT, $0
 	SUB $4, R3
 	BLT v1
 	SUB $12, R3 // n -= 16
-	BLT A1      // if n < 0 goto A1
+	BLT A1      // if n < 0 golangto A1
 
 	MOVD R8, R5
 	MOVD R9, R6
@@ -98,7 +98,7 @@ UU1:
 	ADD   $128, R7
 	ADD   $128, R10           // i += 16
 	SUB   $16, R3             // n -= 16
-	BGE   UU1                 // if n >= 0 goto U1
+	BGE   UU1                 // if n >= 0 golangto U1
 	VLGVG $1, V0, R4          // put cf into R4
 	NEG   R4, R4              // save cf
 
@@ -106,7 +106,7 @@ A1:
 	ADD $12, R3 // n += 16
 
 	// s/JL/JMP/ below to disable the unrolled loop
-	BLT v1 // if n < 0 goto v1
+	BLT v1 // if n < 0 golangto v1
 
 U1:  // n >= 0
 	// regular loop body unrolled 4x
@@ -133,11 +133,11 @@ U1:  // n >= 0
 
 	ADD $32, R10 // i += 4
 	SUB $4, R3   // n -= 4
-	BGE U1       // if n >= 0 goto U1
+	BGE U1       // if n >= 0 golangto U1
 
 v1:
 	ADD $4, R3 // n += 4
-	BLE E1     // if n <= 0 goto E1
+	BLE E1     // if n <= 0 golangto E1
 
 L1:  // n > 0
 	ADDC R4, R4            // restore CF
@@ -151,7 +151,7 @@ L1:  // n > 0
 
 	ADD $8, R10 // i++
 	SUB $1, R3  // n--
-	BGT L1      // if n > 0 goto L1
+	BGT L1      // if n > 0 golangto L1
 
 E1:
 	NEG  R4, R4
@@ -169,9 +169,9 @@ TEXT ·subVVvec(SB), NOSPLIT, $0
 
 	// s/JL/JMP/ below to disable the unrolled loop
 	SUB $4, R3  // n -= 4
-	BLT v1      // if n < 0 goto v1
+	BLT v1      // if n < 0 golangto v1
 	SUB $12, R3 // n -= 16
-	BLT A1      // if n < 0 goto A1
+	BLT A1      // if n < 0 golangto A1
 
 	MOVD R8, R5
 	MOVD R9, R6
@@ -251,13 +251,13 @@ UU1:
 	ADD   $128, R7
 	ADD   $128, R10           // i += 16
 	SUB   $16, R3             // n -= 16
-	BGE   UU1                 // if n >= 0 goto U1
+	BGE   UU1                 // if n >= 0 golangto U1
 	VLGVG $1, V0, R4          // put cf into R4
 	SUB   $1, R4              // save cf
 
 A1:
 	ADD $12, R3 // n += 16
-	BLT v1      // if n < 0 goto v1
+	BLT v1      // if n < 0 golangto v1
 
 U1:  // n >= 0
 	// regular loop body unrolled 4x
@@ -284,11 +284,11 @@ U1:  // n >= 0
 
 	ADD $32, R10 // i += 4
 	SUB $4, R3   // n -= 4
-	BGE U1       // if n >= 0 goto U1n
+	BGE U1       // if n >= 0 golangto U1n
 
 v1:
 	ADD $4, R3 // n += 4
-	BLE E1     // if n <= 0 goto E1
+	BLE E1     // if n <= 0 golangto E1
 
 L1:  // n > 0
 	MOVD R0, R11
@@ -302,7 +302,7 @@ L1:  // n > 0
 
 	ADD $8, R10 // i++
 	SUB $1, R3  // n--
-	BGT L1      // if n > 0 goto L1n
+	BGT L1      // if n > 0 golangto L1n
 
 E1:
 	NEG  R4, R4

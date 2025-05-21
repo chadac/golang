@@ -1,32 +1,32 @@
-# https://golang.org/issue/45932: "indirect" comments missing spaces
+# https://golanglang.org/issue/45932: "indirect" comments missing spaces
 # should not be corrupted when the comment is removed.
 
-go mod tidy
-cmp go.mod go.mod.direct
+golang mod tidy
+cmp golang.mod golang.mod.direct
 
--- go.mod --
+-- golang.mod --
 module example.net/m
 
-go 1.16
+golang 1.16
 
 require example.net/x v0.1.0 //indirect
 
 replace example.net/x v0.1.0 => ./x
--- go.mod.direct --
+-- golang.mod.direct --
 module example.net/m
 
-go 1.16
+golang 1.16
 
 require example.net/x v0.1.0
 
 replace example.net/x v0.1.0 => ./x
--- m.go --
+-- m.golang --
 package m
 import _ "example.net/x"
 
--- x/go.mod --
+-- x/golang.mod --
 module example.net/x
 
-go 1.16
--- x/x.go --
+golang 1.16
+-- x/x.golang --
 package x

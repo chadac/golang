@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test method calls on type parameters
@@ -70,19 +70,19 @@ func stringify3[T Stringer](s []T) (ret []string) {
 func main() {
 	x := []myint{myint(1), myint(2), myint(3)}
 
-	got := stringify(x)
+	golangt := stringify(x)
 	want := []string{"1", "2", "3"}
-	if !reflect.DeepEqual(got, want) {
-		panic(fmt.Sprintf("got %s, want %s", got, want))
+	if !reflect.DeepEqual(golangt, want) {
+		panic(fmt.Sprintf("golangt %s, want %s", golangt, want))
 	}
 
-	got = stringify2(x)
-	if !reflect.DeepEqual(got, want) {
-		panic(fmt.Sprintf("got %s, want %s", got, want))
+	golangt = stringify2(x)
+	if !reflect.DeepEqual(golangt, want) {
+		panic(fmt.Sprintf("golangt %s, want %s", golangt, want))
 	}
 
-	got = stringify3(x)
-	if !reflect.DeepEqual(got, want) {
-		panic(fmt.Sprintf("got %s, want %s", got, want))
+	golangt = stringify3(x)
+	if !reflect.DeepEqual(golangt, want) {
+		panic(fmt.Sprintf("golangt %s, want %s", golangt, want))
 	}
 }

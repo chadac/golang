@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package heap provides heap operations for any type that implements
@@ -12,7 +12,7 @@
 // queue, implement the Heap interface with the (negative) priority as the
 // ordering for the Less method, so Push adds items while Pop removes the
 // highest-priority item from the queue. The Examples include such an
-// implementation; the file example_pq_test.go has the complete source.
+// implementation; the file example_pq_test.golang has the complete source.
 package heap
 
 import "sort"

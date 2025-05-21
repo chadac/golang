@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package test
@@ -26,7 +26,7 @@ func TestGenericSorted(t *testing.T) {
 		genericSorted(data)
 	}
 	if n := testing.AllocsPerRun(10, f); n > 0 {
-		t.Errorf("got %f allocs, want 0", n)
+		t.Errorf("golangt %f allocs, want 0", n)
 	}
 }
 
@@ -55,8 +55,8 @@ func TestGenericEscape(t *testing.T) {
 		f(p)
 	}
 	for i, p := range esc {
-		if got, want := *p, 77+i; got != want {
-			panic(fmt.Sprintf("entry %d: got %d, want %d", i, got, want))
+		if golangt, want := *p, 77+i; golangt != want {
+			panic(fmt.Sprintf("entry %d: golangt %d, want %d", i, golangt, want))
 		}
 	}
 }

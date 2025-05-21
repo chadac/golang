@@ -1,8 +1,8 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build unix
+//golang:build unix
 
 package bio
 
@@ -18,7 +18,7 @@ import (
 // distinct mapped regions per process. As of this writing:
 //
 //	Darwin    unlimited
-//	DragonFly   1000000 (vm.max_proc_mmap)
+//	DragolangnFly   1000000 (vm.max_proc_mmap)
 //	FreeBSD   unlimited
 //	Linux         65530 (vm.max_map_count) // TODO: query /proc/sys/vm/max_map_count?
 //	NetBSD    unlimited

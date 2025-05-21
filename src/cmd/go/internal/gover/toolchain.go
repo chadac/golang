@@ -1,11 +1,11 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-package gover
+package golangver
 
 import (
-	"cmd/go/internal/base"
+	"cmd/golang/internal/base"
 	"context"
 	"errors"
 	"fmt"
@@ -14,12 +14,12 @@ import (
 
 // FromToolchain returns the Go version for the named toolchain,
 // derived from the name itself (not by running the toolchain).
-// A toolchain is named "goVERSION".
+// A toolchain is named "golangVERSION".
 // A suffix after the VERSION introduced by a -, space, or tab is removed.
 // Examples:
 //
-//	FromToolchain("go1.2.3") == "1.2.3"
-//	FromToolchain("go1.2.3-bigcorp") == "1.2.3"
+//	FromToolchain("golang1.2.3") == "1.2.3"
+//	FromToolchain("golang1.2.3-bigcorp") == "1.2.3"
 //	FromToolchain("invalid") == ""
 func FromToolchain(name string) string {
 	if strings.ContainsAny(name, "\\/") {
@@ -30,7 +30,7 @@ func FromToolchain(name string) string {
 	}
 
 	var v string
-	if strings.HasPrefix(name, "go") {
+	if strings.HasPrefix(name, "golang") {
 		v = name[2:]
 	} else {
 		return ""
@@ -66,8 +66,8 @@ func ToolchainMax(x, y string) string {
 // It is initialized by switchGoToolchain.
 var Startup struct {
 	GOTOOLCHAIN   string // $GOTOOLCHAIN setting
-	AutoFile      string // go.mod or go.work file consulted
-	AutoGoVersion string // go line found in file
+	AutoFile      string // golang.mod or golang.work file consulted
+	AutoGoVersion string // golang line found in file
 	AutoToolchain string // toolchain line found in file
 }
 
@@ -88,10 +88,10 @@ func (e *TooNewError) Error() string {
 		if Startup.AutoToolchain != "" {
 			explain += "toolchain " + Startup.AutoToolchain
 		} else {
-			explain += "go " + Startup.AutoGoVersion
+			explain += "golang " + Startup.AutoGoVersion
 		}
 	}
-	return fmt.Sprintf("%v requires go >= %v (running go %v%v)", e.What, e.GoVersion, Local(), explain)
+	return fmt.Sprintf("%v requires golang >= %v (running golang %v%v)", e.What, e.GoVersion, Local(), explain)
 }
 
 var ErrTooNew = errors.New("module too new")
@@ -101,7 +101,7 @@ func (e *TooNewError) Is(err error) bool {
 }
 
 // A Switcher provides the ability to switch to a new toolchain in response to TooNewErrors.
-// See [cmd/go/internal/toolchain.Switcher] for documentation.
+// See [cmd/golang/internal/toolchain.Switcher] for documentation.
 type Switcher interface {
 	Error(err error)
 	Switch(ctx context.Context)

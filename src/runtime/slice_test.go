@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime_test
@@ -342,10 +342,10 @@ func TestSideEffectOrder(t *testing.T) {
 func TestAppendOverlap(t *testing.T) {
 	x := []byte("1234")
 	x = append(x[1:], x...) // p > q in runtime·appendslice.
-	got := string(x)
+	golangt := string(x)
 	want := "2341234"
-	if got != want {
-		t.Errorf("overlap failed: got %q want %q", got, want)
+	if golangt != want {
+		t.Errorf("overlap failed: golangt %q want %q", golangt, want)
 	}
 }
 

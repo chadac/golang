@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package strconv_test
@@ -191,22 +191,22 @@ func TestParseComplex(t *testing.T) {
 		if test.err != nil {
 			test.err = &NumError{Func: "ParseComplex", Num: test.in, Err: test.err}
 		}
-		got, err := ParseComplex(test.in, 128)
+		golangt, err := ParseComplex(test.in, 128)
 		if !reflect.DeepEqual(err, test.err) {
-			t.Fatalf("ParseComplex(%q, 128) = %v, %v; want %v, %v", test.in, got, err, test.out, test.err)
+			t.Fatalf("ParseComplex(%q, 128) = %v, %v; want %v, %v", test.in, golangt, err, test.out, test.err)
 		}
-		if !(cmplx.IsNaN(test.out) && cmplx.IsNaN(got)) && got != test.out {
-			t.Fatalf("ParseComplex(%q, 128) = %v, %v; want %v, %v", test.in, got, err, test.out, test.err)
+		if !(cmplx.IsNaN(test.out) && cmplx.IsNaN(golangt)) && golangt != test.out {
+			t.Fatalf("ParseComplex(%q, 128) = %v, %v; want %v, %v", test.in, golangt, err, test.out, test.err)
 		}
 
 		if complex128(complex64(test.out)) == test.out {
-			got, err := ParseComplex(test.in, 64)
+			golangt, err := ParseComplex(test.in, 64)
 			if !reflect.DeepEqual(err, test.err) {
-				t.Fatalf("ParseComplex(%q, 64) = %v, %v; want %v, %v", test.in, got, err, test.out, test.err)
+				t.Fatalf("ParseComplex(%q, 64) = %v, %v; want %v, %v", test.in, golangt, err, test.out, test.err)
 			}
-			got64 := complex64(got)
-			if complex128(got64) != test.out {
-				t.Fatalf("ParseComplex(%q, 64) = %v, %v; want %v, %v", test.in, got, err, test.out, test.err)
+			golangt64 := complex64(golangt)
+			if complex128(golangt64) != test.out {
+				t.Fatalf("ParseComplex(%q, 64) = %v, %v; want %v, %v", test.in, golangt, err, test.out, test.err)
 			}
 		}
 	}

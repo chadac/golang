@@ -1,11 +1,11 @@
 // run
 
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test Go2 literal syntax for basic types.
-// Avoid running gofmt on this file to preserve the
+// Avoid running golangfmt on this file to preserve the
 // test cases with upper-case prefixes (0B, 0O, 0X).
 
 package main

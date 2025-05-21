@@ -1,12 +1,12 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package inlheur
 
 import (
 	"cmd/compile/internal/ir"
-	"go/constant"
+	"golang/constant"
 )
 
 // nameFinder provides a set of "isXXX" query methods for clients to
@@ -123,7 +123,7 @@ func (nf *nameFinder) isConcreteConvIface(n ir.Node) bool {
 
 func isSameFuncName(v1, v2 *ir.Name) bool {
 	// NB: there are a few corner cases where pointer equality
-	// doesn't work here, but this should be good enough for
+	// doesn't work here, but this should be golangod enough for
 	// our purposes here.
 	return v1 == v2
 }

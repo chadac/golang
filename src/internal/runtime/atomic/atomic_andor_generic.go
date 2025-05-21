@@ -1,23 +1,23 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build arm || wasm
+//golang:build arm || wasm
 
 // Export some functions via linkname to assembly in sync/atomic.
 //
-//go:linkname And32
-//go:linkname Or32
-//go:linkname And64
-//go:linkname Or64
-//go:linkname Anduintptr
-//go:linkname Oruintptr
+//golang:linkname And32
+//golang:linkname Or32
+//golang:linkname And64
+//golang:linkname Or64
+//golang:linkname Anduintptr
+//golang:linkname Oruintptr
 
 package atomic
 
 import _ "unsafe" // For linkname
 
-//go:nosplit
+//golang:nosplit
 func And32(ptr *uint32, val uint32) uint32 {
 	for {
 		old := *ptr
@@ -27,7 +27,7 @@ func And32(ptr *uint32, val uint32) uint32 {
 	}
 }
 
-//go:nosplit
+//golang:nosplit
 func Or32(ptr *uint32, val uint32) uint32 {
 	for {
 		old := *ptr
@@ -37,7 +37,7 @@ func Or32(ptr *uint32, val uint32) uint32 {
 	}
 }
 
-//go:nosplit
+//golang:nosplit
 func And64(ptr *uint64, val uint64) uint64 {
 	for {
 		old := *ptr
@@ -47,7 +47,7 @@ func And64(ptr *uint64, val uint64) uint64 {
 	}
 }
 
-//go:nosplit
+//golang:nosplit
 func Or64(ptr *uint64, val uint64) uint64 {
 	for {
 		old := *ptr
@@ -57,7 +57,7 @@ func Or64(ptr *uint64, val uint64) uint64 {
 	}
 }
 
-//go:nosplit
+//golang:nosplit
 func Anduintptr(ptr *uintptr, val uintptr) uintptr {
 	for {
 		old := *ptr
@@ -67,7 +67,7 @@ func Anduintptr(ptr *uintptr, val uintptr) uintptr {
 	}
 }
 
-//go:nosplit
+//golang:nosplit
 func Oruintptr(ptr *uintptr, val uintptr) uintptr {
 	for {
 		old := *ptr

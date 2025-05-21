@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -14,7 +14,7 @@ func (ch Chan[T]) recv() Chan[T] {
 
 func main() {
 	ch := Chan[int](make(chan Chan[int]))
-	go func() {
+	golang func() {
 		ch <- make(Chan[int])
 	}()
 	ch.recv()

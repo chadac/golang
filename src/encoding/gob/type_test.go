@@ -1,8 +1,8 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-package gob
+package golangb
 
 import (
 	"bytes"
@@ -25,7 +25,7 @@ var basicTypes = []typeT{
 	{tString, "string"},
 }
 
-func getTypeUnlocked(name string, rt reflect.Type) gobType {
+func getTypeUnlocked(name string, rt reflect.Type) golangbType {
 	typeLock.Lock()
 	defer typeLock.Unlock()
 	t, err := getBaseType(name, rt)
@@ -39,7 +39,7 @@ func getTypeUnlocked(name string, rt reflect.Type) gobType {
 func TestBasic(t *testing.T) {
 	for _, tt := range basicTypes {
 		if tt.id.string() != tt.str {
-			t.Errorf("checkType: expected %q got %s", tt.str, tt.id.string())
+			t.Errorf("checkType: expected %q golangt %s", tt.str, tt.id.string())
 		}
 		if tt.id == 0 {
 			t.Errorf("id for %q is zero", tt.str)
@@ -50,16 +50,16 @@ func TestBasic(t *testing.T) {
 // Reregister some basic types to check registration is idempotent.
 func TestReregistration(t *testing.T) {
 	newtyp := getTypeUnlocked("int", reflect.TypeFor[int]())
-	if newtyp != tInt.gobType() {
-		t.Errorf("reregistration of %s got new type", newtyp.string())
+	if newtyp != tInt.golangbType() {
+		t.Errorf("reregistration of %s golangt new type", newtyp.string())
 	}
 	newtyp = getTypeUnlocked("uint", reflect.TypeFor[uint]())
-	if newtyp != tUint.gobType() {
-		t.Errorf("reregistration of %s got new type", newtyp.string())
+	if newtyp != tUint.golangbType() {
+		t.Errorf("reregistration of %s golangt new type", newtyp.string())
 	}
 	newtyp = getTypeUnlocked("string", reflect.TypeFor[string]())
-	if newtyp != tString.gobType() {
-		t.Errorf("reregistration of %s got new type", newtyp.string())
+	if newtyp != tString.golangbType() {
+		t.Errorf("reregistration of %s golangt new type", newtyp.string())
 	}
 }
 
@@ -71,7 +71,7 @@ func TestArrayType(t *testing.T) {
 		t.Errorf("second registration of [3]int creates new type")
 	}
 	var a4 [4]int
-	a4int := getTypeUnlocked("goo", reflect.TypeOf(a4))
+	a4int := getTypeUnlocked("golango", reflect.TypeOf(a4))
 	if a3int == a4int {
 		t.Errorf("registration of [3]int creates same type as [4]int")
 	}
@@ -131,7 +131,7 @@ type Bar struct {
 	X string
 }
 
-// This structure has pointers and refers to itself, making it a good test case.
+// This structure has pointers and refers to itself, making it a golangod test case.
 type Foo struct {
 	A int
 	B int32 // will become int
@@ -165,14 +165,14 @@ func TestRegistration(t *testing.T) {
 type N1 struct{}
 type N2 struct{}
 
-// See comment in type.go/Register.
+// See comment in type.golang/Register.
 func TestRegistrationNaming(t *testing.T) {
 	testCases := []struct {
 		t    any
 		name string
 	}{
-		{&N1{}, "*gob.N1"},
-		{N2{}, "encoding/gob.N2"},
+		{&N1{}, "*golangb.N1"},
+		{N2{}, "encoding/golangb.N2"},
 	}
 
 	for _, tc := range testCases {
@@ -188,7 +188,7 @@ func TestRegistrationNaming(t *testing.T) {
 			tct = tct.Elem()
 		}
 		if n, _ := concreteTypeToName.Load(tct); n != tc.name {
-			t.Errorf("concreteTypeToName[%v] got %v, want %v", tct, n, tc.name)
+			t.Errorf("concreteTypeToName[%v] golangt %v, want %v", tct, n, tc.name)
 		}
 	}
 }
@@ -198,7 +198,7 @@ func TestStressParallel(t *testing.T) {
 	c := make(chan bool)
 	const N = 10
 	for i := 0; i < N; i++ {
-		go func() {
+		golang func() {
 			p := new(T2)
 			Register(p)
 			b := new(bytes.Buffer)
@@ -220,13 +220,13 @@ func TestStressParallel(t *testing.T) {
 	}
 }
 
-// Issue 23328. Note that this test name is known to cmd/dist/test.go.
+// Issue 23328. Note that this test name is known to cmd/dist/test.golang.
 func TestTypeRace(t *testing.T) {
 	c := make(chan bool)
 	var wg sync.WaitGroup
 	for i := 0; i < 2; i++ {
 		wg.Add(1)
-		go func(i int) {
+		golang func(i int) {
 			defer wg.Done()
 			var buf bytes.Buffer
 			enc := NewEncoder(&buf)

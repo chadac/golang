@@ -1,22 +1,22 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build gc && !purego
+//golang:build gc && !puregolang
 
 package chacha20poly1305
 
 import (
 	"encoding/binary"
 
-	"golang.org/x/crypto/internal/alias"
-	"golang.org/x/sys/cpu"
+	"golanglang.org/x/crypto/internal/alias"
+	"golanglang.org/x/sys/cpu"
 )
 
-//go:noescape
+//golang:noescape
 func chacha20Poly1305Open(dst []byte, key []uint32, src, ad []byte) bool
 
-//go:noescape
+//golang:noescape
 func chacha20Poly1305Seal(dst []byte, key []uint32, src, ad []byte)
 
 var (

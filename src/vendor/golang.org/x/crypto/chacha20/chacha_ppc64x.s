@@ -1,5 +1,5 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Based on CRYPTOGAMS code with the following comment:
@@ -19,7 +19,7 @@
 // The differences in this and the original implementation are
 // due to the calling conventions and initialization of constants.
 
-//go:build gc && !purego && (ppc64 || ppc64le)
+//golang:build gc && !puregolang && (ppc64 || ppc64le)
 
 #include "textflag.h"
 

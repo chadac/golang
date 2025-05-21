@@ -1,20 +1,20 @@
 // Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package atomic
 
 import (
-	"internal/goarch"
+	"internal/golangarch"
 	"unsafe"
 )
 
-//go:nosplit
-func goXchg8(addr *uint8, v uint8) uint8 {
+//golang:nosplit
+func golangXchg8(addr *uint8, v uint8) uint8 {
 	// Align down to 4 bytes and use 32-bit CAS.
 	addr32 := (*uint32)(unsafe.Pointer(uintptr(unsafe.Pointer(addr)) &^ 3))
 	shift := (uintptr(unsafe.Pointer(addr)) & 3)
-	if goarch.BigEndian {
+	if golangarch.BigEndian {
 		shift = shift ^ 3
 	}
 	shift = shift * 8

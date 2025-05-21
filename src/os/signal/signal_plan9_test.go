@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package signal
@@ -67,7 +67,7 @@ func TestStress(t *testing.T) {
 	defer runtime.GOMAXPROCS(runtime.GOMAXPROCS(4))
 	done := make(chan bool)
 	finished := make(chan bool)
-	go func() {
+	golang func() {
 		sig := make(chan os.Signal, 1)
 		Notify(sig, syscall.Note("alarm"))
 		defer Stop(sig)
@@ -81,7 +81,7 @@ func TestStress(t *testing.T) {
 		}
 		finished <- true
 	}()
-	go func() {
+	golang func() {
 	Loop:
 		for {
 			select {
@@ -98,7 +98,7 @@ func TestStress(t *testing.T) {
 	close(done)
 	<-finished
 	<-finished
-	// When run with 'go test -cpu=1,2,4' alarm from this test can slip
+	// When run with 'golang test -cpu=1,2,4' alarm from this test can slip
 	// into subsequent TestSignal() causing failure.
 	// Sleep for a while to reduce the possibility of the failure.
 	time.Sleep(10 * time.Millisecond)
@@ -137,7 +137,7 @@ func TestStop(t *testing.T) {
 		case s := <-c:
 			t.Fatalf("unexpected signal %v", s)
 		case <-time.After(100 * time.Millisecond):
-			// nothing to read - good
+			// nothing to read - golangod
 		}
 
 		// Send the signal.
@@ -151,7 +151,7 @@ func TestStop(t *testing.T) {
 		case s := <-c:
 			t.Fatalf("unexpected signal %v", s)
 		case <-time.After(100 * time.Millisecond):
-			// nothing to read - good
+			// nothing to read - golangod
 		}
 	}
 }

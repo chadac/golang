@@ -1,13 +1,13 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build cmd_go_bootstrap
+//golang:build cmd_golang_bootstrap
 
-// This code is compiled only into the bootstrap 'go' binary.
+// This code is compiled only into the bootstrap 'golang' binary.
 // These stubs avoid importing packages with large dependency
 // trees that potentially require C linking,
-// like the use of "net/http" in vcs.go.
+// like the use of "net/http" in vcs.golang.
 
 package web
 
@@ -17,7 +17,7 @@ import (
 )
 
 func get(security SecurityMode, url *urlpkg.URL) (*Response, error) {
-	return nil, errors.New("no http in bootstrap go command")
+	return nil, errors.New("no http in bootstrap golang command")
 }
 
 func openBrowser(url string) bool { return false }

@@ -1,26 +1,26 @@
 env GO111MODULE=on
 
-cp go.mod.empty go.mod
-go get gopkg.in/dummy.v2-unstable
+cp golang.mod.empty golang.mod
+golang get golangpkg.in/dummy.v2-unstable
 
-cp x.go.txt x.go
-cp go.mod.empty go.mod
-go list
+cp x.golang.txt x.golang
+cp golang.mod.empty golang.mod
+golang list
 
-[!net:gopkg.in] skip
+[!net:golangpkg.in] skip
 [!git] skip
 
-skip  # TODO(#54503): redirect gopkg.in requests to a local server and re-enable.
+skip  # TODO(#54503): redirect golangpkg.in requests to a local server and re-enable.
 
 env GOPROXY=direct
 env GOSUMDB=off
-go get gopkg.in/macaroon-bakery.v2-unstable/bakery
-go list -m all
-stdout 'gopkg.in/macaroon-bakery.v2-unstable v2.0.0-[0-9]+-[0-9a-f]+$'
+golang get golangpkg.in/macaroon-bakery.v2-unstable/bakery
+golang list -m all
+stdout 'golangpkg.in/macaroon-bakery.v2-unstable v2.0.0-[0-9]+-[0-9a-f]+$'
 
--- go.mod.empty --
+-- golang.mod.empty --
 module m
 
--- x.go.txt --
+-- x.golang.txt --
 package x
-import _ "gopkg.in/dummy.v2-unstable"
+import _ "golangpkg.in/dummy.v2-unstable"

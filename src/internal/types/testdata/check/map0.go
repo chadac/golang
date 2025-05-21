@@ -1,5 +1,5 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package orderedmap provides an ordered map, implemented as a binary tree.
@@ -28,7 +28,7 @@ func New[K, V any](compare func(K, K) int) *Map[K, V] {
 
 // find looks up key in the map, and returns either a pointer
 // to the node holding key, or a pointer to the location where
-// such a node would go.
+// such a node would golang.
 func (m *Map[K, V]) find(key K) **node[K, V] {
 	pn := &m.root
 	for *pn != nil {
@@ -88,7 +88,7 @@ func (m *Map[K, V]) InOrder() *Iterator[K, V] {
                         sender.Send(keyValue[K, V]{n.key, n.val}) &&
 			f(n.right)
 	}
-	go func() {
+	golang func() {
 		f(m.root)
 		sender.Close()
 	}()

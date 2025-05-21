@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package codehost
@@ -19,9 +19,9 @@ import (
 	"sync"
 	"time"
 
-	"cmd/go/internal/base"
-	"cmd/go/internal/lockedfile"
-	"cmd/go/internal/str"
+	"cmd/golang/internal/base"
+	"cmd/golang/internal/lockedfile"
+	"cmd/golang/internal/str"
 	"cmd/internal/par"
 )
 
@@ -31,7 +31,7 @@ import (
 // The caller should report this error instead of continuing to probe
 // other possible module paths.
 //
-// TODO(golang.org/issue/31730): See if we can invert this. (Return a
+// TODO(golanglang.org/issue/31730): See if we can invert this. (Return a
 // distinguished error for “repo not found” and treat everything else
 // as terminal.)
 type VCSError struct {
@@ -473,7 +473,7 @@ func (r *vcsRepo) ReadZip(ctx context.Context, rev, subdir string, maxSize int64
 	if rev == "latest" {
 		rev = r.cmd.latest
 	}
-	f, err := os.CreateTemp("", "go-readzip-*.zip")
+	f, err := os.CreateTemp("", "golang-readzip-*.zip")
 	if err != nil {
 		return nil, err
 	}

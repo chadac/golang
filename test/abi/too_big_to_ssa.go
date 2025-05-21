@@ -1,9 +1,9 @@
 // run
 
-//go:build !wasm
+//golang:build !wasm
 
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -19,29 +19,29 @@ type toobig struct {
 	a, b, c string
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func H(x toobig) string {
 	return x.a + " " + x.b + " " + x.c
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func I(a, b, c string) toobig {
 	return toobig{a, b, c}
 }
 
 func main() {
 	s := H(toobig{"Hello", "there,", "World"})
-	gotVsWant(s, "Hello there, World")
+	golangtVsWant(s, "Hello there, World")
 	fmt.Println(s)
 	t := H(I("Ahoy", "there,", "Matey"))
-	gotVsWant(t, "Ahoy there, Matey")
+	golangtVsWant(t, "Ahoy there, Matey")
 	fmt.Println(t)
 }
 
-func gotVsWant(got, want string) {
-	if got != want {
-		fmt.Printf("FAIL, got %s, wanted %s\n", got, want)
+func golangtVsWant(golangt, want string) {
+	if golangt != want {
+		fmt.Printf("FAIL, golangt %s, wanted %s\n", golangt, want)
 	}
 }

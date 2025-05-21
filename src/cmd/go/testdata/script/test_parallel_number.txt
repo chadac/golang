@@ -1,14 +1,14 @@
 [short] skip
 
-# go test -parallel -1 shouldn't work
-! go test -parallel -1 standalone_parallel_sub_test.go
+# golang test -parallel -1 shouldn't work
+! golang test -parallel -1 standalone_parallel_sub_test.golang
 stdout '-parallel can only be given'
 
-# go test -parallel 0 shouldn't work
-! go test -parallel 0 standalone_parallel_sub_test.go
+# golang test -parallel 0 shouldn't work
+! golang test -parallel 0 standalone_parallel_sub_test.golang
 stdout '-parallel can only be given'
 
--- standalone_parallel_sub_test.go --
+-- standalone_parallel_sub_test.golang --
 package standalone_parallel_sub_test
 
 import "testing"

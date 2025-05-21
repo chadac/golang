@@ -1,9 +1,9 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-#include "go_asm.h"
-#include "go_tls.h"
+#include "golang_asm.h"
+#include "golang_tls.h"
 #include "textflag.h"
 #include "time_windows.h"
 
@@ -72,7 +72,7 @@ TEXT runtime·sigFetchGSafe<ABIInternal>(SB),NOSPLIT,$0
 // AX is pointer to struct containing
 // exception record and context pointers.
 // CX is the kind of sigtramp function.
-// Return value of sigtrampgo is stored in AX.
+// Return value of sigtrampgolang is stored in AX.
 TEXT sigtramp<>(SB),NOSPLIT,$0-0
 	SUBL	$40, SP
 
@@ -84,7 +84,7 @@ TEXT sigtramp<>(SB),NOSPLIT,$0-0
 
 	MOVL	AX, 0(SP)
 	MOVL	CX, 4(SP)
-	CALL	runtime·sigtrampgo(SB)
+	CALL	runtime·sigtrampgolang(SB)
 	MOVL	8(SP), AX
 
 	// restore callee-saved registers
@@ -101,7 +101,7 @@ TEXT sigtramp<>(SB),NOSPLIT,$0-0
 // Trampoline to resume execution from exception handler.
 // This is part of the control flow guard workaround.
 // It switches stacks and jumps to the continuation address.
-// DX and CX are set above at the end of sigtrampgo
+// DX and CX are set above at the end of sigtrampgolang
 // in the context that starts executing at sigresume.
 TEXT runtime·sigresume(SB),NOSPLIT,$0
 	MOVL	DX, SP
@@ -153,12 +153,12 @@ TEXT runtime·callbackasm1(SB),NOSPLIT,$0
 	MOVL	$0, (12+callbackArgs_result)(SP)	// result
 	LEAL	12(SP), AX	// AX = &callbackArgs{...}
 
-	// Call cgocallback, which will call callbackWrap(frame).
+	// Call cgolangcallback, which will call callbackWrap(frame).
 	MOVL	$0, 8(SP)	// context
 	MOVL	AX, 4(SP)	// frame (address of callbackArgs)
 	LEAL	·callbackWrap(SB), AX
 	MOVL	AX, 0(SP)	// PC of function to call
-	CALL	runtime·cgocallback(SB)
+	CALL	runtime·cgolangcallback(SB)
 
 	// Get callback result.
 	MOVL	(12+callbackArgs_result)(SP), AX
@@ -252,7 +252,7 @@ loop:
 	MOVL	DX, ret_hi+4(FP)
 	RET
 
-// This is called from rt0_go, which runs on the system stack
+// This is called from rt0_golang, which runs on the system stack
 // using the initial stack allocated by the OS.
 TEXT runtime·wintls(SB),NOSPLIT,$0
 	// Allocate a TLS slot to hold g across calls to external code
@@ -267,7 +267,7 @@ TEXT runtime·wintls(SB),NOSPLIT,$0
 	CMPL	CX, $64
 	JB	ok
 	// Fallback to the TEB arbitrary pointer.
-	// TODO: don't use the arbitrary pointer (see go.dev/issue/59824)
+	// TODO: don't use the arbitrary pointer (see golang.dev/issue/59824)
 	MOVL	$TEB_ArbitraryPtr, CX
 	JMP	settls
 ok:

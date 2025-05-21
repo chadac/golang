@@ -5,5 +5,5 @@ Test case for package moved into a parent module.
 module example.com/join
 -- .info --
 {"Version": "v1.1.0"}
--- subpkg/x.go --
+-- subpkg/x.golang --
 package subpkg

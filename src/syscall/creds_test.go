@@ -1,8 +1,8 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build linux
+//golang:build linux
 
 package syscall_test
 
@@ -89,7 +89,7 @@ func TestSCMCredentials(t *testing.T) {
 		ucred.Gid = uint32(os.Getgid())
 		oob := syscall.UnixCredentials(&ucred)
 
-		// On SOCK_STREAM, this is internally going to send a dummy byte
+		// On SOCK_STREAM, this is internally golanging to send a dummy byte
 		n, oobn, err := cli.(*net.UnixConn).WriteMsgUnix(nil, oob, nil)
 		if err != nil {
 			t.Fatalf("WriteMsgUnix: %v", err)

@@ -12,9 +12,9 @@ module example.com/latemigrate/v2
 require rsc.io/quote v1.3.0
 -- .info --
 {"Version":"v2.0.1"}
--- go.mod --
+-- golang.mod --
 module example.com/latemigrate/v2
 
 require rsc.io/quote v1.3.0
--- late.go --
+-- late.golang --
 package late

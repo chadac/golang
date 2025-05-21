@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package cases
@@ -19,27 +19,27 @@ func (c info) cccType() info {
 	return ccc
 }
 
-// TODO: Implement full Unicode breaking algorithm:
+// TODO: Implement full Unicode breaking algolangrithm:
 // 1) Implement breaking in separate package.
 // 2) Use the breaker here.
 // 3) Compare table size and performance of using the more generic breaker.
 //
-// Note that we can extend the current algorithm to be much more accurate. This
+// Note that we can extend the current algolangrithm to be much more accurate. This
 // only makes sense, though, if the performance and/or space penalty of using
 // the generic breaker is big. Extra data will only be needed for non-cased
 // runes, which means there are sufficient bits left in the caseType.
 // ICU prohibits breaking in such cases as well.
 
 // For the purpose of title casing we use an approximation of the Unicode Word
-// Breaking algorithm defined in Annex #29:
+// Breaking algolangrithm defined in Annex #29:
 // https://www.unicode.org/reports/tr29/#Default_Grapheme_Cluster_Table.
 //
 // For our approximation, we group the Word Break types into the following
-// categories, with associated rules:
+// categolangries, with associated rules:
 //
 // 1) Letter:
 //    ALetter, Hebrew_Letter, Numeric, ExtendNumLet, Extend, Format_FE, ZWJ.
-//    Rule: Never break between consecutive runes of this category.
+//    Rule: Never break between consecutive runes of this categolangry.
 //
 // 2) Mid:
 //    MidLetter, MidNumLet, Single_Quote.
@@ -48,22 +48,22 @@ func (c info) cccType() info {
 //    Rule: Don't break between Letter and Mid, but break between two Mids.
 //
 // 3) Break:
-//    Any other category: NewLine, MidNum, CR, LF, Double_Quote, Katakana, and
+//    Any other categolangry: NewLine, MidNum, CR, LF, Double_Quote, Katakana, and
 //    Other.
-//    These categories should always result in a break between two cased letters.
+//    These categolangries should always result in a break between two cased letters.
 //    Rule: Always break.
 //
-// Note 1: the Katakana and MidNum categories can, in esoteric cases, result in
+// Note 1: the Katakana and MidNum categolangries can, in esoteric cases, result in
 // preventing a break between two cased letters. For now we will ignore this
 // (e.g. [ALetter] [ExtendNumLet] [Katakana] [ExtendNumLet] [ALetter] and
 // [ALetter] [Numeric] [MidNum] [Numeric] [ALetter].)
 //
 // Note 2: the rule for Mid is very approximate, but works in most cases. To
-// improve, we could store the categories in the trie value and use a FA to
+// improve, we could store the categolangries in the trie value and use a FA to
 // manage breaks. See TODO comment above.
 //
-// Note 3: according to the spec, it is possible for the Extend category to
-// introduce breaks between other categories grouped in Letter. However, this
+// Note 3: according to the spec, it is possible for the Extend categolangry to
+// introduce breaks between other categolangries grouped in Letter. However, this
 // is undesirable for our purposes. ICU prevents breaks in such cases as well.
 
 // isBreak returns whether this rune should introduce a break.

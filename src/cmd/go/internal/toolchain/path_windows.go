@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package toolchain
@@ -11,7 +11,7 @@ import (
 	"strings"
 	"sync"
 
-	"cmd/go/internal/gover"
+	"cmd/golang/internal/golangver"
 )
 
 var pathExts = sync.OnceValue(func() []string {
@@ -46,7 +46,7 @@ func pathVersion(dir string, de fs.DirEntry, info fs.FileInfo) (string, bool) {
 	if !ok {
 		return "", false
 	}
-	v := gover.FromToolchain(name)
+	v := golangver.FromToolchain(name)
 	if v == "" {
 		return "", false
 	}

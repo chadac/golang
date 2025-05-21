@@ -1,8 +1,8 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// White-box tests for transport.go (in package http instead of http_test).
+// White-box tests for transport.golang (in package http instead of http_test).
 
 package http
 
@@ -24,7 +24,7 @@ func TestTransportPersistConnReadLoopEOF(t *testing.T) {
 	defer ln.Close()
 
 	connc := make(chan net.Conn, 1)
-	go func() {
+	golang func() {
 		defer close(connc)
 		c, err := ln.Accept()
 		if err != nil {
@@ -48,7 +48,7 @@ func TestTransportPersistConnReadLoopEOF(t *testing.T) {
 
 	conn := <-connc
 	if conn == nil {
-		// Already called t.Error in the accept goroutine.
+		// Already called t.Error in the accept golangroutine.
 		return
 	}
 	conn.Close() // simulate the server hanging up on the client
@@ -107,7 +107,7 @@ func dummyRequestWithBodyNoGetBody(method string) *Request {
 	return req
 }
 
-// issue22091Error acts like a golang.org/x/net/http2.ErrNoCachedConn.
+// issue22091Error acts like a golanglang.org/x/net/http2.ErrNoCachedConn.
 type issue22091Error struct{}
 
 func (issue22091Error) IsHTTP2NoCachedConnError() {}
@@ -183,9 +183,9 @@ func TestTransportShouldRetryRequest(t *testing.T) {
 		},
 	}
 	for i, tt := range tests {
-		got := tt.pc.shouldRetryRequest(tt.req, tt.err)
-		if got != tt.want {
-			t.Errorf("%d. shouldRetryRequest = %v; want %v", i, got, tt.want)
+		golangt := tt.pc.shouldRetryRequest(tt.req, tt.err)
+		if golangt != tt.want {
+			t.Errorf("%d. shouldRetryRequest = %v; want %v", i, golangt, tt.want)
 		}
 	}
 }
@@ -205,7 +205,7 @@ func TestTransportBodyAltRewind(t *testing.T) {
 	ln := newLocalListener(t)
 	defer ln.Close()
 
-	go func() {
+	golang func() {
 		tln := tls.NewListener(ln, &tls.Config{
 			NextProtos:   []string{"foo"},
 			Certificates: []tls.Certificate{cert},

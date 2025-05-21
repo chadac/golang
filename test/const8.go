@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test that identifiers in implicit (omitted) RHS
@@ -20,7 +20,7 @@ func main() {
 		C           // 1
 	)
 	if A != 0 || B != 1 || C != 1 {
-		println("got", A, B, C, "want 0 1 1")
+		println("golangt", A, B, C, "want 0 1 1")
 		panic("FAILED")
 	}
 
@@ -30,7 +30,7 @@ func main() {
 		Z = iota
 	)
 	if X != 4 || Y != 8 || Z != 1 {
-		println("got", X, Y, Z, "want 4 8 1")
+		println("golangt", X, Y, Z, "want 4 8 1")
 		panic("FAILED")
 	}
 }

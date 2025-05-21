@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package http
@@ -9,7 +9,7 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
-	"internal/godebug"
+	"internal/golangdebug"
 	"io"
 	"maps"
 	"net/http/httptrace"
@@ -23,7 +23,7 @@ import (
 	"sync"
 	"time"
 
-	"golang.org/x/net/http/httpguts"
+	"golanglang.org/x/net/http/httpguts"
 )
 
 // ErrLineTooLong is returned when reading request or response bodies
@@ -92,7 +92,7 @@ func newTransferWriter(r any) (t *transferWriter, err error) {
 		t.Trailer = rr.Trailer
 		t.Body = rr.Body
 		t.BodyCloser = rr.Body
-		t.ContentLength = rr.outgoingLength()
+		t.ContentLength = rr.outgolangingLength()
 		if t.ContentLength < 0 && len(t.TransferEncoding) == 0 && t.shouldSendChunkedRequestBody() {
 			t.TransferEncoding = []string{"chunked"}
 		}
@@ -169,7 +169,7 @@ func newTransferWriter(r any) (t *transferWriter, err error) {
 // a body.
 func (t *transferWriter) shouldSendChunkedRequestBody() bool {
 	// Note that t.ContentLength is the corrected content length
-	// from rr.outgoingLength, so 0 actually means zero, not unknown.
+	// from rr.outgolangingLength, so 0 actually means zero, not unknown.
 	if t.ContentLength >= 0 || t.Body == nil { // redundant checks; caller did them
 		return false
 	}
@@ -207,7 +207,7 @@ func (t *transferWriter) shouldSendChunkedRequestBody() bool {
 // are workarounds if it does.
 func (t *transferWriter) probeRequestBody() {
 	t.ByteReadCh = make(chan readResult, 1)
-	go func(body io.Reader) {
+	golang func(body io.Reader) {
 		var buf [1]byte
 		var rres readResult
 		rres.n, rres.err = body.Read(buf[:])
@@ -671,7 +671,7 @@ func fixLength(isResponse bool, status int, requestMethod string, header Header,
 		first := textproto.TrimString(contentLens[0])
 		for _, ct := range contentLens[1:] {
 			if first != textproto.TrimString(ct) {
-				return 0, fmt.Errorf("http: message cannot contain multiple Content-Length headers; got %q", contentLens)
+				return 0, fmt.Errorf("http: message cannot contain multiple Content-Length headers; golangt %q", contentLens)
 			}
 		}
 
@@ -853,7 +853,7 @@ func (b *body) readLocked(p []byte) (n int, err error) {
 				// Something went wrong in the trailer, we must not allow any
 				// further reads of any kind to succeed from body, nor any
 				// subsequent requests on the server connection. See
-				// golang.org/issue/12027
+				// golanglang.org/issue/12027
 				b.sawEOF = false
 				b.closed = true
 			}
@@ -977,7 +977,7 @@ func (b *body) Close() error {
 	var err error
 	switch {
 	case b.sawEOF:
-		// Already saw EOF, so no need going to look for it.
+		// Already saw EOF, so no need golanging to look for it.
 	case b.hdr == nil && b.closing:
 		// no trailer and closing the connection next.
 		// no point in reading to EOF.
@@ -1042,7 +1042,7 @@ func (bl bodyLocked) Read(p []byte) (n int, err error) {
 	return bl.b.readLocked(p)
 }
 
-var httplaxcontentlength = godebug.New("httplaxcontentlength")
+var httplaxcontentlength = golangdebug.New("httplaxcontentlength")
 
 // parseContentLength checks that the header is valid and then trims
 // whitespace. It returns -1 if no value is set otherwise the value

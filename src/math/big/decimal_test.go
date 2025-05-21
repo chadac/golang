@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package big
@@ -21,8 +21,8 @@ func TestDecimalString(t *testing.T) {
 		{decimal{[]byte("12345"), +3}, "123.45"},
 		{decimal{[]byte("12345"), +10}, "1234500000"},
 	} {
-		if got := test.x.String(); got != test.want {
-			t.Errorf("%v == %s; want %s", test.x, got, test.want)
+		if golangt := test.x.String(); golangt != test.want {
+			t.Errorf("%v == %s; want %s", test.x, golangt, test.want)
 		}
 	}
 }
@@ -47,8 +47,8 @@ func TestDecimalInit(t *testing.T) {
 	} {
 		var d decimal
 		d.init(nat{test.x}.norm(), test.shift)
-		if got := d.String(); got != test.want {
-			t.Errorf("%d << %d == %s; want %s", test.x, test.shift, got, test.want)
+		if golangt := d.String(); golangt != test.want {
+			t.Errorf("%d << %d == %s; want %s", test.x, test.shift, golangt, test.want)
 		}
 	}
 }
@@ -90,20 +90,20 @@ func TestDecimalRounding(t *testing.T) {
 		var d decimal
 		d.init(x, 0)
 		d.roundDown(test.n)
-		if got := d.String(); got != test.down {
-			t.Errorf("roundDown(%d, %d) = %s; want %s", test.x, test.n, got, test.down)
+		if golangt := d.String(); golangt != test.down {
+			t.Errorf("roundDown(%d, %d) = %s; want %s", test.x, test.n, golangt, test.down)
 		}
 
 		d.init(x, 0)
 		d.round(test.n)
-		if got := d.String(); got != test.even {
-			t.Errorf("round(%d, %d) = %s; want %s", test.x, test.n, got, test.even)
+		if golangt := d.String(); golangt != test.even {
+			t.Errorf("round(%d, %d) = %s; want %s", test.x, test.n, golangt, test.even)
 		}
 
 		d.init(x, 0)
 		d.roundUp(test.n)
-		if got := d.String(); got != test.up {
-			t.Errorf("roundUp(%d, %d) = %s; want %s", test.x, test.n, got, test.up)
+		if golangt := d.String(); golangt != test.up {
+			t.Errorf("roundUp(%d, %d) = %s; want %s", test.x, test.n, golangt, test.up)
 		}
 	}
 }

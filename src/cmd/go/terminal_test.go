@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main_test
@@ -12,19 +12,19 @@ import (
 	"os"
 	"testing"
 
-	"golang.org/x/term"
+	"golanglang.org/x/term"
 )
 
 func TestTerminalPassthrough(t *testing.T) {
-	// Check that if 'go test' is run with a terminal connected to stdin/stdout,
-	// then the go command passes that terminal down to the test binary
+	// Check that if 'golang test' is run with a terminal connected to stdin/stdout,
+	// then the golang command passes that terminal down to the test binary
 	// invocation (rather than, e.g., putting a pipe in the way).
 	//
 	// See issue 18153.
 	testenv.MustHaveGoBuild(t)
 
 	// Start with a "self test" to make sure that if we *don't* pass in a
-	// terminal, the test can correctly detect that. (cmd/go doesn't guarantee
+	// terminal, the test can correctly detect that. (cmd/golang doesn't guarantee
 	// that it won't add a terminal in the middle, but that would be pretty weird.)
 	t.Run("pipe", func(t *testing.T) {
 		r, w, err := os.Pipe()
@@ -74,7 +74,7 @@ func runTerminalPassthrough(t *testing.T, r, w *os.File) (stdout, stderr bool) {
 
 	// The behavior of reading from a PTY after the child closes it is very
 	// strange: on Linux, Read returns EIO, and on at least some versions of
-	// macOS, unread output may be discarded (see https://go.dev/issue/57141).
+	// macOS, unread output may be discarded (see https://golang.dev/issue/57141).
 	//
 	// To avoid that situation, we keep the child process running until the
 	// parent has finished reading from the PTY, at which point we unblock the
@@ -101,7 +101,7 @@ func runTerminalPassthrough(t *testing.T, r, w *os.File) (stdout, stderr bool) {
 	n, err := io.ReadFull(r, buf)
 	if err != nil || !(buf[0] == '1' || buf[0] == 'X') || !(buf[1] == '2' || buf[1] == 'X') {
 		t.Logf("read error: %v", err)
-		t.Fatalf("expected 2 bytes matching `[1X][2X]`; got %q", buf[:n])
+		t.Fatalf("expected 2 bytes matching `[1X][2X]`; golangt %q", buf[:n])
 	}
 	return buf[0] == '1', buf[1] == '2'
 }

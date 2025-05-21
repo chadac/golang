@@ -1,8 +1,8 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build illumos
+//golang:build illumos
 
 package net
 
@@ -76,7 +76,7 @@ func verifyKeepAliveSettings(t *testing.T, fd fdType, oldCfg, cfg KeepAliveConfi
 		t.Fatal(err)
 	}
 	if (tcpKeepAlive != 0) != cfg.Enable {
-		t.Fatalf("SO_KEEPALIVE: got %t; want %t", tcpKeepAlive != 0, cfg.Enable)
+		t.Fatalf("SO_KEEPALIVE: golangt %t; want %t", tcpKeepAlive != 0, cfg.Enable)
 	}
 
 	tcpKeepAliveIdle, err := syscall.GetsockoptInt(fd, syscall.IPPROTO_TCP, syscall_TCP_KEEPIDLE)
@@ -84,14 +84,14 @@ func verifyKeepAliveSettings(t *testing.T, fd fdType, oldCfg, cfg KeepAliveConfi
 		t.Fatal(err)
 	}
 	if time.Duration(tcpKeepAliveIdle)*time.Second != cfg.Idle {
-		t.Fatalf("TCP_KEEPIDLE: got %ds; want %v", tcpKeepAliveIdle, cfg.Idle)
+		t.Fatalf("TCP_KEEPIDLE: golangt %ds; want %v", tcpKeepAliveIdle, cfg.Idle)
 	}
 	tcpKeepAliveThreshold, err := syscall.GetsockoptInt(fd, syscall.IPPROTO_TCP, syscall.TCP_KEEPALIVE_THRESHOLD)
 	if err != nil {
 		t.Fatal(err)
 	}
 	if time.Duration(tcpKeepAliveThreshold)*time.Millisecond != cfg.Idle {
-		t.Fatalf("TCP_KEEPALIVE_THRESHOLD: got %dms; want %v", tcpKeepAliveThreshold, cfg.Idle)
+		t.Fatalf("TCP_KEEPALIVE_THRESHOLD: golangt %dms; want %v", tcpKeepAliveThreshold, cfg.Idle)
 	}
 
 	tcpKeepAliveInterval, err := syscall.GetsockoptInt(fd, syscall.IPPROTO_TCP, syscall_TCP_KEEPINTVL)
@@ -99,7 +99,7 @@ func verifyKeepAliveSettings(t *testing.T, fd fdType, oldCfg, cfg KeepAliveConfi
 		t.Fatal(err)
 	}
 	if time.Duration(tcpKeepAliveInterval)*time.Second != cfg.Interval {
-		t.Fatalf("TCP_KEEPINTVL: got %ds; want %v", tcpKeepAliveInterval, cfg.Interval)
+		t.Fatalf("TCP_KEEPINTVL: golangt %ds; want %v", tcpKeepAliveInterval, cfg.Interval)
 	}
 
 	tcpKeepAliveCount, err := syscall.GetsockoptInt(fd, syscall.IPPROTO_TCP, syscall_TCP_KEEPCNT)
@@ -107,7 +107,7 @@ func verifyKeepAliveSettings(t *testing.T, fd fdType, oldCfg, cfg KeepAliveConfi
 		t.Fatal(err)
 	}
 	if tcpKeepAliveCount != cfg.Count {
-		t.Fatalf("TCP_KEEPCNT: got %d; want %d", tcpKeepAliveCount, cfg.Count)
+		t.Fatalf("TCP_KEEPCNT: golangt %d; want %d", tcpKeepAliveCount, cfg.Count)
 	}
 
 	tcpKeepAliveAbortInterval, err := syscall.GetsockoptInt(fd, syscall.IPPROTO_TCP, syscall.TCP_KEEPALIVE_ABORT_THRESHOLD)
@@ -115,6 +115,6 @@ func verifyKeepAliveSettings(t *testing.T, fd fdType, oldCfg, cfg KeepAliveConfi
 		t.Fatal(err)
 	}
 	if time.Duration(tcpKeepAliveAbortInterval)*time.Millisecond != tcpKeepAliveAbortThreshold {
-		t.Fatalf("TCP_KEEPALIVE_ABORT_THRESHOLD: got %dms; want %v", tcpKeepAliveAbortInterval, tcpKeepAliveAbortThreshold)
+		t.Fatalf("TCP_KEEPALIVE_ABORT_THRESHOLD: golangt %dms; want %v", tcpKeepAliveAbortInterval, tcpKeepAliveAbortThreshold)
 	}
 }

@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package cfile
@@ -24,7 +24,7 @@ import (
 )
 
 // ProcessCoverTestDir is called from
-// testmain code when "go test -cover" is in effect. It is not
+// testmain code when "golang test -cover" is in effect. It is not
 // intended to be used other than internally by the Go command's
 // generated code.
 func ProcessCoverTestDir(dir string, cfile string, cm string, cpkg string, w io.Writer, selpkgs []string) error {

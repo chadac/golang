@@ -1,5 +1,5 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
@@ -11,8 +11,8 @@ type sigctxt struct {
 	ctxt unsafe.Pointer
 }
 
-//go:nosplit
-//go:nowritebarrierrec
+//golang:nosplit
+//golang:nowritebarrierrec
 func (c *sigctxt) regs() *sigcontext {
 	return (*sigcontext)(c.ctxt)
 }
@@ -50,8 +50,8 @@ func (c *sigctxt) r29() uint64 { return (uint64)(c.regs().sc_x[29]) }
 func (c *sigctxt) lr() uint64  { return (uint64)(c.regs().sc_lr) }
 func (c *sigctxt) sp() uint64  { return (uint64)(c.regs().sc_sp) }
 
-//go:nosplit
-//go:nowritebarrierrec
+//golang:nosplit
+//golang:nowritebarrierrec
 func (c *sigctxt) rip() uint64 { return (uint64)(c.regs().sc_lr) } /* XXX */
 
 func (c *sigctxt) fault() uintptr  { return uintptr(c.sigaddr()) }
@@ -60,8 +60,8 @@ func (c *sigctxt) sigaddr() uint64 {
 	return *(*uint64)(add(unsafe.Pointer(c.info), 16))
 }
 
-//go:nosplit
-//go:nowritebarrierrec
+//golang:nosplit
+//golang:nowritebarrierrec
 func (c *sigctxt) pc() uint64 { return uint64(c.regs().sc_elr) }
 
 func (c *sigctxt) set_pc(x uint64)  { c.regs().sc_elr = uintptr(x) }

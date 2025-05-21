@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -16,6 +16,6 @@ func main() {
 }
 
 /*
-uetli:~/Source/go/test/bugs gri$ 6g bug082.go
-bug082.go:7: fatal error: optoas: no entry COM-<int32>INT32
+uetli:~/Source/golang/test/bugs gri$ 6g bug082.golang
+bug082.golang:7: fatal error: optoas: no entry COM-<int32>INT32
 */

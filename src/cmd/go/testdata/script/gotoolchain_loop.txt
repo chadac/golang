@@ -1,48 +1,48 @@
 env GOTOOLCHAIN=auto
-env TESTGO_VERSION=go1.21.1
+env TESTGO_VERSION=golang1.21.1
 
 # Basic switch should work.
 env TESTGO_VERSION_SWITCH=switch
-go version
-stdout go1.21.99
+golang version
+stdout golang1.21.99
 
 # Toolchain target mismatch should be detected.
 env TESTGO_VERSION_SWITCH=mismatch
-! go version
-stderr '^go: toolchain go1.21.1 invoked to provide go1.21.99$'
+! golang version
+stderr '^golang: toolchain golang1.21.1 invoked to provide golang1.21.99$'
 
 # Toolchain loop should be detected.
 env TESTGO_VERSION_SWITCH=loop
-! go version
-stderr -count=10 '^go: switching from go1.21.1 to go1.21.99 \[depth 9[0-9]\]$'
-stderr -count=1 '^go: switching from go1.21.1 to go1.21.99 \[depth 100\]$'
-stderr '^go: too many toolchain switches$'
+! golang version
+stderr -count=10 '^golang: switching from golang1.21.1 to golang1.21.99 \[depth 9[0-9]\]$'
+stderr -count=1 '^golang: switching from golang1.21.1 to golang1.21.99 \[depth 100\]$'
+stderr '^golang: too many toolchain switches$'
 
 [short] skip
 
-# Internal env vars should not leak to go test or go run.
+# Internal env vars should not leak to golang test or golang run.
 env TESTGO_VERSION_SWITCH=switch
-go version
-stdout go1.21.99
-go test
+golang version
+stdout golang1.21.99
+golang test
 stdout clean
-go run .
+golang run .
 stdout clean
 
--- go.mod --
+-- golang.mod --
 module m
-go 1.21.99
+golang 1.21.99
 
--- m_test.go --
+-- m_test.golang --
 package main
 
 import "testing"
 
 func TestEnv(t *testing.T) {
-	// the check is in func init in m.go
+	// the check is in func init in m.golang
 }
 
--- m.go --
+-- m.golang --
 package main
 
 import "os"

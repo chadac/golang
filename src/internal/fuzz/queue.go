@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package fuzz
@@ -9,7 +9,7 @@ package fuzz
 // For now, this is a simple ring buffer
 // (https://en.wikipedia.org/wiki/Circular_buffer).
 //
-// TODO(golang.org/issue/46224): use a prioritization algorithm based on input
+// TODO(golanglang.org/issue/46224): use a prioritization algolangrithm based on input
 // size, previous duration, coverage, and any other metrics that seem useful.
 type queue struct {
 	// elems holds a ring buffer.

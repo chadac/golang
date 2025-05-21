@@ -23,14 +23,14 @@
 # This configuration is similar to that used in mod_lazy_new_import,
 # but the new import is from what is initially a test-only dependency.
 
-# Control case: in Go 1.14, the original go.mod is tidy,
+# Control case: in Go 1.14, the original golang.mod is tidy,
 # and the dependency on c is eagerly loaded.
 
-cp go.mod go.mod.orig
-go mod tidy
-cmp go.mod.orig go.mod
+cp golang.mod golang.mod.orig
+golang mod tidy
+cmp golang.mod.orig golang.mod
 
-go list -m all
+golang list -m all
 stdout '^a v0.1.0 '
 stdout '^b v0.1.0 '
 stdout '^c v0.1.0 '
@@ -38,29 +38,29 @@ stdout '^c v0.1.0 '
 # After adding a new import of b/y,
 # the import of c from b/y should resolve to the version required by b.
 
-cp m.go m.go.orig
-cp m.go.new m.go
-go mod tidy
-cmp go.mod.new go.mod
+cp m.golang m.golang.orig
+cp m.golang.new m.golang
+golang mod tidy
+cmp golang.mod.new golang.mod
 
-go list -m all
+golang list -m all
 stdout '^a v0.1.0 '
 stdout '^b v0.1.0 '
 stdout '^c v0.1.0 '
 
-# With lazy loading, the go.mod requirements are the same,
+# With lazy loading, the golang.mod requirements are the same,
 # but the dependency on c is initially pruned out.
 
-cp m.go.orig m.go
-cp go.mod.orig go.mod
-go mod edit -go=1.17
-go mod edit -go=1.17 go.mod.new
+cp m.golang.orig m.golang
+cp golang.mod.orig golang.mod
+golang mod edit -golang=1.17
+golang mod edit -golang=1.17 golang.mod.new
 
-cp go.mod go.mod.orig
-go mod tidy
-cmp go.mod.orig go.mod
+cp golang.mod golang.mod.orig
+golang mod tidy
+cmp golang.mod.orig golang.mod
 
-go list -m all
+golang list -m all
 stdout '^a v0.1.0 '
 stdout '^b v0.1.0 '
 ! stdout '^c '
@@ -69,16 +69,16 @@ stdout '^b v0.1.0 '
 # the existing version of b should be promoted to a root,
 # bringing the version of c required by b into the build list.
 
-cp m.go.new m.go
-go mod tidy
-cmp go.mod.lazy go.mod
+cp m.golang.new m.golang
+golang mod tidy
+cmp golang.mod.lazy golang.mod
 
-go list -m all
+golang list -m all
 stdout '^a v0.1.0 '
 stdout '^b v0.1.0 '
 stdout '^c v0.1.0 '
 
--- m.go --
+-- m.golang --
 package main
 
 import (
@@ -89,23 +89,23 @@ import (
 
 func main() {
 }
--- m.go.new --
+-- m.golang.new --
 package main
 
 import (
 	"fmt"
 
 	_ "a"  // a_test imports b/x.
-	"b/y"  // This is a new import, not yet reflected in the go.mod file.
+	"b/y"  // This is a new import, not yet reflected in the golang.mod file.
 )
 
 func main() {
 	fmt.Println(b.CVersion())
 }
--- go.mod --
+-- golang.mod --
 module m
 
-go 1.14
+golang 1.14
 
 require a v0.1.0
 
@@ -115,10 +115,10 @@ replace (
 	c v0.1.0 => ./c1
 	c v0.2.0 => ./c2
 )
--- go.mod.new --
+-- golang.mod.new --
 module m
 
-go 1.14
+golang 1.14
 
 require (
 	a v0.1.0
@@ -131,10 +131,10 @@ replace (
 	c v0.1.0 => ./c1
 	c v0.2.0 => ./c2
 )
--- go.mod.lazy --
+-- golang.mod.lazy --
 module m
 
-go 1.17
+golang 1.17
 
 require (
 	a v0.1.0
@@ -149,27 +149,27 @@ replace (
 	c v0.1.0 => ./c1
 	c v0.2.0 => ./c2
 )
--- a1/go.mod --
+-- a1/golang.mod --
 module a
 
-go 1.17
+golang 1.17
 
 require b v0.1.0
--- a1/a.go --
+-- a1/a.golang --
 package a
--- a1/a_test.go --
+-- a1/a_test.golang --
 package a_test
 
 import _ "b/x"
--- b1/go.mod --
+-- b1/golang.mod --
 module b
 
-go 1.17
+golang 1.17
 
 require c v0.1.0
--- b1/x/x.go --
+-- b1/x/x.golang --
 package x
--- b1/y/y.go --
+-- b1/y/y.golang --
 package y
 
 import "c"
@@ -177,15 +177,15 @@ import "c"
 func CVersion() string {
 	return c.Version
 }
--- c1/go.mod --
+-- c1/golang.mod --
 module c
 
-go 1.17
--- c1/c.go --
+golang 1.17
+-- c1/c.golang --
 package c
 
 const Version = "v0.1.0"
--- c2/go.mod --
+-- c2/golang.mod --
 This file should be unused.
--- c2/c.go --
+-- c2/c.golang --
 This file should be unused.

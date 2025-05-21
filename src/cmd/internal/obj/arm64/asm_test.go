@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package arm64
@@ -160,11 +160,11 @@ func TestSplitImm24uScaled(t *testing.T) {
 		case err != nil && !test.wantErr:
 			t.Errorf("splitImm24uScaled(%v, %v) failed: %v", test.v, test.shift, err)
 		case !test.wantErr:
-			if got, want := hi, test.wantHi; got != want {
-				t.Errorf("splitImm24uScaled(%x, %x) - got hi %x, want %x", test.v, test.shift, got, want)
+			if golangt, want := hi, test.wantHi; golangt != want {
+				t.Errorf("splitImm24uScaled(%x, %x) - golangt hi %x, want %x", test.v, test.shift, golangt, want)
 			}
-			if got, want := lo, test.wantLo; got != want {
-				t.Errorf("splitImm24uScaled(%x, %x) - got lo %x, want %x", test.v, test.shift, got, want)
+			if golangt, want := lo, test.wantLo; golangt != want {
+				t.Errorf("splitImm24uScaled(%x, %x) - golangt lo %x, want %x", test.v, test.shift, golangt, want)
 			}
 		}
 	}

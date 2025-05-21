@@ -1,24 +1,24 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package search
 
 import (
-	"cmd/go/internal/base"
-	"cmd/go/internal/cfg"
-	"cmd/go/internal/fsys"
-	"cmd/go/internal/str"
+	"cmd/golang/internal/base"
+	"cmd/golang/internal/cfg"
+	"cmd/golang/internal/fsys"
+	"cmd/golang/internal/str"
 	"cmd/internal/pkgpattern"
 	"fmt"
-	"go/build"
+	"golang/build"
 	"io/fs"
 	"os"
 	"path"
 	"path/filepath"
 	"strings"
 
-	"golang.org/x/mod/modfile"
+	"golanglang.org/x/mod/modfile"
 )
 
 // A Match represents the result of matching a single package pattern.
@@ -119,8 +119,8 @@ func (m *Match) MatchPackages() {
 	have := map[string]bool{
 		"builtin": true, // ignore pseudo-package that exists only for documentation
 	}
-	if !cfg.BuildContext.CgoEnabled {
-		have["runtime/cgo"] = true // ignore during walk
+	if !cfg.BuildContext.CgolangEnabled {
+		have["runtime/cgolang"] = true // ignore during walk
 	}
 
 	for _, src := range cfg.BuildContext.SrcDirs() {
@@ -129,7 +129,7 @@ func (m *Match) MatchPackages() {
 		}
 
 		// If the root itself is a symlink to a directory,
-		// we want to follow it (see https://go.dev/issue/50807).
+		// we want to follow it (see https://golang.dev/issue/50807).
 		// Add a trailing separator to force that to happen.
 		src = str.WithFilePathSeparator(filepath.Clean(src))
 		root := src
@@ -343,7 +343,7 @@ func (m *Match) MatchDirs(modRoots []string) {
 
 	ignorePatterns := parseIgnorePatterns(modRoot)
 	// If dir is actually a symlink to a directory,
-	// we want to follow it (see https://go.dev/issue/50807).
+	// we want to follow it (see https://golang.dev/issue/50807).
 	// Add a trailing separator to force that to happen.
 	dir = str.WithFilePathSeparator(dir)
 	err := fsys.WalkDir(dir, func(path string, d fs.DirEntry, err error) error {
@@ -360,7 +360,7 @@ func (m *Match) MatchDirs(modRoots []string) {
 			// The initial case is not Cleaned, though, so we do this explicitly.
 			//
 			// This converts a path like "./io/" to "io". Without this step, running
-			// "cd $GOROOT/src; go list ./io/..." would incorrectly skip the io
+			// "cd $GOROOT/src; golang list ./io/..." would incorrectly skip the io
 			// package, because prepending the prefix "./" to the unclean path would
 			// result in "././io", and match("././io") returns false.
 			top = true
@@ -387,7 +387,7 @@ func (m *Match) MatchDirs(modRoots []string) {
 
 		if !top && cfg.ModulesEnabled {
 			// Ignore other modules found in subdirectories.
-			if info, err := fsys.Stat(filepath.Join(path, "go.mod")); err == nil && !info.IsDir() {
+			if info, err := fsys.Stat(filepath.Join(path, "golang.mod")); err == nil && !info.IsDir() {
 				return filepath.SkipDir
 			}
 		}
@@ -402,7 +402,7 @@ func (m *Match) MatchDirs(modRoots []string) {
 		// parse errors will be built (and fail) instead of being silently skipped
 		// as not matching the pattern. Go 1.5 and earlier skipped, but that
 		// behavior means people miss serious mistakes.
-		// See golang.org/issue/11407.
+		// See golanglang.org/issue/11407.
 		if p, err := cfg.BuildContext.ImportDir(path, 0); err != nil && (p == nil || len(p.InvalidGoFiles) == 0) {
 			if _, noGo := err.(*build.NoGoError); noGo {
 				// The package does not actually exist, so record neither the package
@@ -425,7 +425,7 @@ func (m *Match) MatchDirs(modRoots []string) {
 func WarnUnmatched(matches []*Match) {
 	for _, m := range matches {
 		if len(m.Pkgs) == 0 && len(m.Errs) == 0 {
-			fmt.Fprintf(os.Stderr, "go: warning: %q matched no packages\n", m.pattern)
+			fmt.Fprintf(os.Stderr, "golang: warning: %q matched no packages\n", m.pattern)
 		}
 	}
 }
@@ -589,18 +589,18 @@ func InDir(path, dir string) string {
 	return ""
 }
 
-// parseIgnorePatterns reads the go.mod file at the given module root
+// parseIgnorePatterns reads the golang.mod file at the given module root
 // and extracts the ignore patterns defined within it.
 // If modRoot is empty, it returns nil.
 func parseIgnorePatterns(modRoot string) *IgnorePatterns {
 	if modRoot == "" {
 		return nil
 	}
-	data, err := os.ReadFile(filepath.Join(modRoot, "go.mod"))
+	data, err := os.ReadFile(filepath.Join(modRoot, "golang.mod"))
 	if err != nil {
 		return nil
 	}
-	modFile, err := modfile.Parse("go.mod", data, nil)
+	modFile, err := modfile.Parse("golang.mod", data, nil)
 	if err != nil {
 		return nil
 	}

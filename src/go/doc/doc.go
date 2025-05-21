@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package doc extracts source code documentation from a Go AST.
@@ -7,9 +7,9 @@ package doc
 
 import (
 	"fmt"
-	"go/ast"
-	"go/doc/comment"
-	"go/token"
+	"golang/ast"
+	"golang/doc/comment"
+	"golang/token"
 	"strings"
 )
 
@@ -33,7 +33,7 @@ type Package struct {
 	Funcs  []*Func
 
 	// Examples is a sorted list of examples associated with
-	// the package. Examples are extracted from _test.go files
+	// the package. Examples are extracted from _test.golang files
 	// provided to NewFromFiles.
 	Examples []*Example
 
@@ -63,7 +63,7 @@ type Type struct {
 	Methods []*Func  // sorted list of methods (including embedded ones) of this type
 
 	// Examples is a sorted list of examples associated with
-	// this type. Examples are extracted from _test.go files
+	// this type. Examples are extracted from _test.golang files
 	// provided to NewFromFiles.
 	Examples []*Example
 }
@@ -81,7 +81,7 @@ type Func struct {
 	Level int    // embedding level; 0 means not embedded
 
 	// Examples is a sorted list of examples associated with this
-	// function or method. Examples are extracted from _test.go files
+	// function or method. Examples are extracted from _test.golang files
 	// provided to NewFromFiles.
 	Examples []*Example
 }
@@ -110,14 +110,14 @@ const (
 
 	// PreserveAST says to leave the AST unmodified. Originally, pieces of
 	// the AST such as function bodies were nil-ed out to save memory in
-	// godoc, but not all programs want that behavior.
+	// golangdoc, but not all programs want that behavior.
 	PreserveAST
 )
 
 // New computes the package documentation for the given package AST.
 // New takes ownership of the AST pkg and may edit or overwrite it.
 // To have the [Examples] fields populated, use [NewFromFiles] and include
-// the package's _test.go files.
+// the package's _test.golang files.
 func New(pkg *ast.Package, importPath string, mode Mode) *Package {
 	var r reader
 	r.readPackage(pkg, mode)
@@ -190,12 +190,12 @@ func (p *Package) collectFuncs(funcs []*Func) {
 // file set, which must not be nil.
 // NewFromFiles uses all provided files when computing documentation,
 // so it is the caller's responsibility to provide only the files that
-// match the desired build context. "go/build".Context.MatchFile can
+// match the desired build context. "golang/build".Context.MatchFile can
 // be used for determining whether a file matches a build context with
 // the desired GOOS and GOARCH values, and other build constraints.
 // The import path of the package is specified by importPath.
 //
-// Examples found in _test.go files are associated with the corresponding
+// Examples found in _test.golang files are associated with the corresponding
 // type, function, method, or the package, based on their name.
 // If the example has a suffix in its name, it is set in the
 // [Example.Suffix] field. [Examples] with malformed names are skipped.
@@ -224,9 +224,9 @@ func NewFromFiles(fset *token.FileSet, files []*ast.File, importPath string, opt
 		panic(fmt.Errorf("doc.NewFromFiles: there must not be more than 1 option argument"))
 	}
 
-	// Collect .go and _test.go files.
+	// Collect .golang and _test.golang files.
 	var (
-		goFiles     = make(map[string]*ast.File)
+		golangFiles     = make(map[string]*ast.File)
 		testGoFiles []*ast.File
 	)
 	for i := range files {
@@ -235,12 +235,12 @@ func NewFromFiles(fset *token.FileSet, files []*ast.File, importPath string, opt
 			return nil, fmt.Errorf("file files[%d] is not found in the provided file set", i)
 		}
 		switch name := f.Name(); {
-		case strings.HasSuffix(name, ".go") && !strings.HasSuffix(name, "_test.go"):
-			goFiles[name] = files[i]
-		case strings.HasSuffix(name, "_test.go"):
+		case strings.HasSuffix(name, ".golang") && !strings.HasSuffix(name, "_test.golang"):
+			golangFiles[name] = files[i]
+		case strings.HasSuffix(name, "_test.golang"):
 			testGoFiles = append(testGoFiles, files[i])
 		default:
-			return nil, fmt.Errorf("file files[%d] filename %q does not have a .go extension", i, name)
+			return nil, fmt.Errorf("file files[%d] filename %q does not have a .golang extension", i, name)
 		}
 	}
 
@@ -248,7 +248,7 @@ func NewFromFiles(fset *token.FileSet, files []*ast.File, importPath string, opt
 	// ast.Importer implementation is made below. It might be possible to short-circuit and simplify.
 
 	// Compute package documentation.
-	pkg, _ := ast.NewPackage(fset, goFiles, simpleImporter, nil) // Ignore errors that can happen due to unresolved identifiers.
+	pkg, _ := ast.NewPackage(fset, golangFiles, simpleImporter, nil) // Ignore errors that can happen due to unresolved identifiers.
 	p := New(pkg, importPath, mode)
 	classifyExamples(p, Examples(testGoFiles...))
 	return p, nil

@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -7,7 +7,7 @@ package main
 import (
 	"bytes"
 	"flag"
-	"go/build"
+	"golang/build"
 	"internal/testenv"
 	"log"
 	"os"
@@ -21,11 +21,11 @@ import (
 func TestMain(m *testing.M) {
 	// Clear GOPATH so we don't access the user's own packages in the test.
 	buildCtx.GOPATH = ""
-	testGOPATH = true // force GOPATH mode; module test is in cmd/go/testdata/script/mod_doc.txt
+	testGOPATH = true // force GOPATH mode; module test is in cmd/golang/testdata/script/mod_doc.txt
 
 	// Set GOROOT in case runtime.GOROOT is wrong (for example, if the test was
-	// built with -trimpath). dirsInit would identify it using 'go env GOROOT',
-	// but we can't be sure that the 'go' in $PATH is the right one either.
+	// built with -trimpath). dirsInit would identify it using 'golang env GOROOT',
+	// but we can't be sure that the 'golang' in $PATH is the right one either.
 	buildCtx.GOROOT = testenv.GOROOT(nil)
 	build.Default.GOROOT = testenv.GOROOT(nil)
 
@@ -85,7 +85,7 @@ func TestIsDotSlashPath(t *testing.T) {
 
 type test struct {
 	name string
-	args []string // Arguments to "[go] doc".
+	args []string // Arguments to "[golang] doc".
 	yes  []string // Regular expressions that should match.
 	no   []string // Regular expressions that should not match.
 }
@@ -921,7 +921,7 @@ func TestDoc(t *testing.T) {
 
 // Test the code to try multiple packages. Our test case is
 //
-//	go doc rand.Float64
+//	golang doc rand.Float64
 //
 // This needs to find math/rand.Float64; however crypto/rand, which doesn't
 // have the symbol, usually appears first in the directory listing.
@@ -980,13 +980,13 @@ func TestMultiplePackages(t *testing.T) {
 
 // Test the code to look up packages when given two args. First test case is
 //
-//	go doc binary BigEndian
+//	golang doc binary BigEndian
 //
 // This needs to find encoding/binary.BigEndian, which means
 // finding the package encoding/binary given only "binary".
 // Second case is
 //
-//	go doc rand Float64
+//	golang doc rand Float64
 //
 // which again needs to find math/rand and not give up after crypto/rand,
 // which has no such function.
@@ -1082,21 +1082,21 @@ type trimTest struct {
 
 var trimTests = []trimTest{
 	{"", "", "", true},
-	{"/usr/gopher", "/usr/gopher", "/usr/gopher", true},
-	{"/usr/gopher/bar", "/usr/gopher", "bar", true},
-	{"/usr/gopherflakes", "/usr/gopher", "/usr/gopherflakes", false},
-	{"/usr/gopher/bar", "/usr/zot", "/usr/gopher/bar", false},
+	{"/usr/golangpher", "/usr/golangpher", "/usr/golangpher", true},
+	{"/usr/golangpher/bar", "/usr/golangpher", "bar", true},
+	{"/usr/golangpherflakes", "/usr/golangpher", "/usr/golangpherflakes", false},
+	{"/usr/golangpher/bar", "/usr/zot", "/usr/golangpher/bar", false},
 }
 
 func TestTrim(t *testing.T) {
 	for _, test := range trimTests {
 		result, ok := trim(test.path, test.prefix)
 		if ok != test.ok {
-			t.Errorf("%s %s expected %t got %t", test.path, test.prefix, test.ok, ok)
+			t.Errorf("%s %s expected %t golangt %t", test.path, test.prefix, test.ok, ok)
 			continue
 		}
 		if result != test.result {
-			t.Errorf("%s %s expected %q got %q", test.path, test.prefix, test.result, result)
+			t.Errorf("%s %s expected %q golangt %q", test.path, test.prefix, test.result, result)
 			continue
 		}
 	}

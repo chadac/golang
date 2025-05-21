@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package http
@@ -69,7 +69,7 @@ const (
 	StatusServiceUnavailable            = 503 // RFC 9110, 15.6.4
 	StatusGatewayTimeout                = 504 // RFC 9110, 15.6.5
 	StatusHTTPVersionNotSupported       = 505 // RFC 9110, 15.6.6
-	StatusVariantAlsoNegotiates         = 506 // RFC 2295, 8.1
+	StatusVariantAlsoNegolangtiates         = 506 // RFC 2295, 8.1
 	StatusInsufficientStorage           = 507 // RFC 4918, 11.5
 	StatusLoopDetected                  = 508 // RFC 5842, 7.2
 	StatusNotExtended                   = 510 // RFC 2774, 7
@@ -194,8 +194,8 @@ func StatusText(code int) string {
 		return "Gateway Timeout"
 	case StatusHTTPVersionNotSupported:
 		return "HTTP Version Not Supported"
-	case StatusVariantAlsoNegotiates:
-		return "Variant Also Negotiates"
+	case StatusVariantAlsoNegolangtiates:
+		return "Variant Also Negolangtiates"
 	case StatusInsufficientStorage:
 		return "Insufficient Storage"
 	case StatusLoopDetected:

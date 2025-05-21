@@ -3,15 +3,15 @@
 -- .mod --
 module example.com/deprecated/a
 
-go 1.17
--- go.mod --
+golang 1.17
+-- golang.mod --
 module example.com/deprecated/a
 
-go 1.17
--- a.go --
+golang 1.17
+-- a.golang --
 package a
 
--- cmd/a/a.go --
+-- cmd/a/a.golang --
 package main
 
 import "fmt"

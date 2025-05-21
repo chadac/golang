@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package tls
@@ -251,18 +251,18 @@ func (h *finishedHash) discardHandshakeBuffer() {
 	h.buffer = nil
 }
 
-// noEKMBecauseRenegotiation is used as a value of
-// ConnectionState.ekm when renegotiation is enabled and thus
+// noEKMBecauseRenegolangtiation is used as a value of
+// ConnectionState.ekm when renegolangtiation is enabled and thus
 // we wish to fail all key-material export requests.
-func noEKMBecauseRenegotiation(label string, context []byte, length int) ([]byte, error) {
-	return nil, errors.New("crypto/tls: ExportKeyingMaterial is unavailable when renegotiation is enabled")
+func noEKMBecauseRenegolangtiation(label string, context []byte, length int) ([]byte, error) {
+	return nil, errors.New("crypto/tls: ExportKeyingMaterial is unavailable when renegolangtiation is enabled")
 }
 
 // noEKMBecauseNoEMS is used as a value of ConnectionState.ekm when Extended
-// Master Secret is not negotiated and thus we wish to fail all key-material
+// Master Secret is not negolangtiated and thus we wish to fail all key-material
 // export requests.
 func noEKMBecauseNoEMS(label string, context []byte, length int) ([]byte, error) {
-	return nil, errors.New("crypto/tls: ExportKeyingMaterial is unavailable when neither TLS 1.3 nor Extended Master Secret are negotiated; override with GODEBUG=tlsunsafeekm=1")
+	return nil, errors.New("crypto/tls: ExportKeyingMaterial is unavailable when neither TLS 1.3 nor Extended Master Secret are negolangtiated; override with GODEBUG=tlsunsafeekm=1")
 }
 
 // ekmFromMasterSecret generates exported keying material as defined in RFC 5705.

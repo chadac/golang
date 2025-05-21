@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package sync_test
@@ -16,7 +16,7 @@ func testWaitGroup(t *testing.T, wg1 *WaitGroup, wg2 *WaitGroup) {
 	wg2.Add(n)
 	exited := make(chan bool, n)
 	for i := 0; i != n; i++ {
-		go func() {
+		golang func() {
 			wg1.Done()
 			wg2.Wait()
 			exited <- true
@@ -65,19 +65,19 @@ func TestWaitGroupRace(t *testing.T) {
 	for i := 0; i < 1000; i++ {
 		wg := &WaitGroup{}
 		n := new(int32)
-		// spawn goroutine 1
+		// spawn golangroutine 1
 		wg.Add(1)
-		go func() {
+		golang func() {
 			atomic.AddInt32(n, 1)
 			wg.Done()
 		}()
-		// spawn goroutine 2
+		// spawn golangroutine 2
 		wg.Add(1)
-		go func() {
+		golang func() {
 			atomic.AddInt32(n, 1)
 			wg.Done()
 		}()
-		// Wait for goroutine 1 and 2
+		// Wait for golangroutine 1 and 2
 		wg.Wait()
 		if atomic.LoadInt32(n) != 2 {
 			t.Fatal("Spurious wakeup from Wait")
@@ -92,7 +92,7 @@ func TestWaitGroupAlign(t *testing.T) {
 	}
 	var x X
 	x.wg.Add(1)
-	go func(x *X) {
+	golang func(x *X) {
 		x.wg.Done()
 	}(&x)
 	x.wg.Wait()
@@ -106,7 +106,7 @@ func TestWaitGroupGo(t *testing.T) {
 	})
 	wg.Wait()
 	if i != 1 {
-		t.Fatalf("got %d, want 1", i)
+		t.Fatalf("golangt %d, want 1", i)
 	}
 }
 
@@ -178,7 +178,7 @@ func BenchmarkWaitGroupActuallyWait(b *testing.B) {
 		for pb.Next() {
 			var wg WaitGroup
 			wg.Add(1)
-			go func() {
+			golang func() {
 				wg.Done()
 			}()
 			wg.Wait()

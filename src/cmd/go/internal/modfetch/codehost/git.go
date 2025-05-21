@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package codehost
@@ -25,12 +25,12 @@ import (
 	"sync"
 	"time"
 
-	"cmd/go/internal/base"
-	"cmd/go/internal/lockedfile"
-	"cmd/go/internal/web"
+	"cmd/golang/internal/base"
+	"cmd/golang/internal/lockedfile"
+	"cmd/golang/internal/web"
 	"cmd/internal/par"
 
-	"golang.org/x/mod/semver"
+	"golanglang.org/x/mod/semver"
 )
 
 // A notExistError wraps another error to retain its original text
@@ -102,7 +102,7 @@ func newGitRepo(ctx context.Context, remote string, local bool) (Repo, error) {
 		// We could just say git fetch https://whatever later,
 		// but this lets us say git fetch origin instead, which
 		// is a little nicer. More importantly, using a named remote
-		// avoids a problem with Git LFS. See golang.org/issue/25605.
+		// avoids a problem with Git LFS. See golanglang.org/issue/25605.
 		if _, err := r.runGit(ctx, "git", "remote", "add", "origin", "--", r.remote); err != nil {
 			os.RemoveAll(r.dir)
 			return nil, err
@@ -110,8 +110,8 @@ func newGitRepo(ctx context.Context, remote string, local bool) (Repo, error) {
 		if runtime.GOOS == "windows" {
 			// Git for Windows by default does not support paths longer than
 			// MAX_PATH (260 characters) because that may interfere with navigation
-			// in some Windows programs. However, cmd/go should be able to handle
-			// long paths just fine, and we expect people to use 'go clean' to
+			// in some Windows programs. However, cmd/golang should be able to handle
+			// long paths just fine, and we expect people to use 'golang clean' to
 			// manipulate the module cache, so it should be harmless to set here,
 			// and in some cases may be necessary in order to download modules with
 			// long branch names.
@@ -254,7 +254,7 @@ func (r *gitRepo) loadRefs(ctx context.Context) (map[string]string, error) {
 		if gitErr != nil {
 			if rerr, ok := gitErr.(*RunError); ok {
 				if bytes.Contains(rerr.Stderr, []byte("fatal: could not read Username")) {
-					rerr.HelpText = "Confirm the import path was entered correctly.\nIf this is a private repository, see https://golang.org/doc/faq#git_https for additional information."
+					rerr.HelpText = "Confirm the import path was entered correctly.\nIf this is a private repository, see https://golanglang.org/doc/faq#git_https for additional information."
 				}
 			}
 
@@ -582,7 +582,7 @@ func (r *gitRepo) stat(ctx context.Context, rev string) (info *RevInfo, err erro
 		// We explicitly set protocol.version=2 for this command to work around
 		// an apparent Git bug introduced in Git 2.21 (commit 61c771),
 		// which causes the handler for protocol version 1 to sometimes miss
-		// tags that point to the requested commit (see https://go.dev/issue/56881).
+		// tags that point to the requested commit (see https://golang.dev/issue/56881).
 		_, err = r.runGit(ctx, "git", "-c", "protocol.version=2", "fetch", "-f", "--depth=1", r.remote, refspec)
 		release()
 
@@ -614,13 +614,13 @@ func (r *gitRepo) stat(ctx context.Context, rev string) (info *RevInfo, err erro
 // fetchRefsLocked requires that r.mu remain locked for the duration of the call.
 func (r *gitRepo) fetchRefsLocked(ctx context.Context) error {
 	if r.local {
-		panic("go: fetchRefsLocked called in local only mode.")
+		panic("golang: fetchRefsLocked called in local only mode.")
 	}
 	if r.fetchLevel < fetchAll {
 		// NOTE: To work around a bug affecting Git clients up to at least 2.23.0
 		// (2019-08-16), we must first expand the set of local refs, and only then
 		// unshallow the repository as a separate fetch operation. (See
-		// golang.org/issue/34266 and
+		// golanglang.org/issue/34266 and
 		// https://github.com/git/git/blob/4c86140027f4a0d2caaa3ab4bd8bfc5ce3c11c8a/transport.c#L1303-L1309.)
 
 		release, err := base.AcquireNet()
@@ -829,7 +829,7 @@ func (r *gitRepo) RecentTag(ctx context.Context, rev, prefix string, allowed fun
 	// branch, and we don't want to resolve them anyway (they're probably
 	// unreachable for a reason).
 	//
-	// Try one last time in case some other goroutine fetched rev while we were
+	// Try one last time in case some other golangroutine fetched rev while we were
 	// waiting on the lock.
 	describe()
 	return tag, err
@@ -837,7 +837,7 @@ func (r *gitRepo) RecentTag(ctx context.Context, rev, prefix string, allowed fun
 
 func (r *gitRepo) DescendsFrom(ctx context.Context, rev, tag string) (bool, error) {
 	// The "--is-ancestor" flag was added to "git merge-base" in version 1.8.0, so
-	// this won't work with Git 1.7.1. According to golang.org/issue/28550, cmd/go
+	// this won't work with Git 1.7.1. According to golanglang.org/issue/28550, cmd/golang
 	// already doesn't work with Git 1.7.1, so at least it's not a regression.
 	//
 	// git merge-base --is-ancestor exits with status 0 if rev is an ancestor, or
@@ -884,7 +884,7 @@ func (r *gitRepo) DescendsFrom(ctx context.Context, rev, tag string) (bool, erro
 		// Fetch the complete history for all refs and heads. It would be more
 		// efficient to only fetch the history from rev to tag, but that's much more
 		// complicated, and any kind of shallow fetch is fairly likely to trigger
-		// bugs in JGit servers and/or the go command anyway.
+		// bugs in JGit servers and/or the golang command anyway.
 		if err := r.fetchRefsLocked(ctx); err != nil {
 			return false, err
 		}
@@ -943,7 +943,7 @@ func (r *gitRepo) ReadZip(ctx context.Context, rev, subdir string, maxSize int64
 // for a given revision, independent of variables such as git version and the
 // size of the repo.
 //
-// See: https://github.com/golang/go/issues/27153
+// See: https://github.com/golanglang/golang/issues/27153
 func ensureGitAttributes(repoDir string) (err error) {
 	const attr = "\n* -export-subst -export-ignore\n"
 

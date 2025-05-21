@@ -1,8 +1,8 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build ignore
+//golang:build ignore
 
 package main
 
@@ -69,5 +69,5 @@ func main() {
 		}
 	}
 
-	fmt.Printf("\n%d calls; bit sizes: %d %d %d\n", runtime.NumCgoCall(), numer.Len(), accum.Len(), denom.Len())
+	fmt.Printf("\n%d calls; bit sizes: %d %d %d\n", runtime.NumCgolangCall(), numer.Len(), accum.Len(), denom.Len())
 }

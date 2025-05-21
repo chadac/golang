@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // package importer implements package reading for gc-generated object files.
@@ -185,7 +185,7 @@ func (r *reader) doPkg() *types2.Package {
 	r.p.imports[path] = pkg
 
 	// TODO(mdempsky): The list of imported packages is important for
-	// go/types, but we could probably skip populating it for types2.
+	// golang/types, but we could probably skip populating it for types2.
 	imports := make([]*types2.Package, r.Len())
 	for i := range imports {
 		imports[i] = r.pkg()
@@ -444,7 +444,7 @@ func (pr *pkgReader) objIdx(idx pkgbits.Index) (*types2.Package, string) {
 				tparams = r.typeParamNames()
 
 				// TODO(mdempsky): Rewrite receiver types to underlying is an
-				// Interface? The go/types importer does this (I think because
+				// Interface? The golang/types importer does this (I think because
 				// unit tests expected that), but cmd/compile doesn't care
 				// about it, so maybe we can avoid worrying about that here.
 				underlying = r.typ().Underlying()
@@ -538,7 +538,7 @@ func (r *reader) method() *types2.Func {
 	rtparams := r.typeParamNames()
 	sig := r.signature(r.param(), rtparams, nil)
 
-	_ = r.pos() // TODO(mdempsky): Remove; this is a hacker for linker.go.
+	_ = r.pos() // TODO(mdempsky): Remove; this is a hacker for linker.golang.
 	return types2.NewFunc(pos, pkg, name, sig)
 }
 
@@ -554,7 +554,7 @@ func (r *reader) ident(marker pkgbits.SyncMarker) (*types2.Package, string) {
 // newAliasTypeName returns a new TypeName, with a materialized *types2.Alias if supported.
 func newAliasTypeName(aliases bool, pos syntax.Pos, pkg *types2.Package, name string, rhs types2.Type, tparams []*types2.TypeParam) *types2.TypeName {
 	// Copied from x/tools/internal/aliases.NewAlias via
-	// GOROOT/src/go/internal/gcimporter/ureader.go.
+	// GOROOT/src/golang/internal/gcimporter/ureader.golang.
 	if aliases {
 		tname := types2.NewTypeName(pos, pkg, name, nil)
 		a := types2.NewAlias(tname, rhs) // form TypeName -> Alias cycle

@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package reflect_test
@@ -17,7 +17,7 @@ func TestTypeFor(t *testing.T) {
 
 	testcases := []struct {
 		wantFrom any
-		got      reflect.Type
+		golangt      reflect.Type
 	}{
 		{new(int), reflect.TypeFor[int]()},
 		{new(int64), reflect.TypeFor[int64]()},
@@ -28,8 +28,8 @@ func TestTypeFor(t *testing.T) {
 	}
 	for _, tc := range testcases {
 		want := reflect.ValueOf(tc.wantFrom).Elem().Type()
-		if want != tc.got {
-			t.Errorf("unexpected reflect.Type: got %v; want %v", tc.got, want)
+		if want != tc.golangt {
+			t.Errorf("unexpected reflect.Type: golangt %v; want %v", tc.golangt, want)
 		}
 	}
 }
@@ -97,8 +97,8 @@ func TestIsRegularMemory(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := reflect.IsRegularMemory(tt.args.t); got != tt.want {
-				t.Errorf("isRegularMemory() = %v, want %v", got, tt.want)
+			if golangt := reflect.IsRegularMemory(tt.args.t); golangt != tt.want {
+				t.Errorf("isRegularMemory() = %v, want %v", golangt, tt.want)
 			}
 		})
 	}
@@ -138,8 +138,8 @@ func TestType_CanSeq(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := tt.tr.CanSeq(); got != tt.want {
-				t.Errorf("Type.CanSeq() = %v, want %v", got, tt.want)
+			if golangt := tt.tr.CanSeq(); golangt != tt.want {
+				t.Errorf("Type.CanSeq() = %v, want %v", golangt, tt.want)
 			}
 		})
 	}
@@ -165,8 +165,8 @@ func TestType_CanSeq2(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := tt.tr.CanSeq2(); got != tt.want {
-				t.Errorf("Type.CanSeq2() = %v, want %v", got, tt.want)
+			if golangt := tt.tr.CanSeq2(); golangt != tt.want {
+				t.Errorf("Type.CanSeq2() = %v, want %v", golangt, tt.want)
 			}
 		})
 	}

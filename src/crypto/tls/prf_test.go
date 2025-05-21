@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package tls
@@ -28,7 +28,7 @@ func TestSplitPreMasterSecret(t *testing.T) {
 		s1 := hex.EncodeToString(out1)
 		s2 := hex.EncodeToString(out2)
 		if s1 != test.out1 || s2 != test.out2 {
-			t.Errorf("#%d: got: (%s, %s) want: (%s, %s)", i, s1, s2, test.out1, test.out2)
+			t.Errorf("#%d: golangt: (%s, %s) want: (%s, %s)", i, s1, s2, test.out1, test.out2)
 		}
 	}
 }
@@ -66,7 +66,7 @@ func TestKeysFromPreMasterSecret(t *testing.T) {
 			serverMACString != test.serverMAC ||
 			clientKeyString != test.clientKey ||
 			serverKeyString != test.serverKey {
-			t.Errorf("#%d: got: (%s, %s, %s, %s) want: (%s, %s, %s, %s)", i, clientMACString, serverMACString, clientKeyString, serverKeyString, test.clientMAC, test.serverMAC, test.clientKey, test.serverKey)
+			t.Errorf("#%d: golangt: (%s, %s, %s, %s) want: (%s, %s, %s, %s)", i, clientMACString, serverMACString, clientKeyString, serverKeyString, test.clientMAC, test.serverMAC, test.clientKey, test.serverKey)
 		}
 
 		ekm := ekmFromMasterSecret(test.version, test.suite, masterSecret, clientRandom, serverRandom)
@@ -82,7 +82,7 @@ func TestKeysFromPreMasterSecret(t *testing.T) {
 
 		if hex.EncodeToString(contextKeyingMaterial) != test.contextKeyingMaterial ||
 			hex.EncodeToString(noContextKeyingMaterial) != test.noContextKeyingMaterial {
-			t.Errorf("#%d: got keying material: (%s, %s) want: (%s, %s)", i, contextKeyingMaterial, noContextKeyingMaterial, test.contextKeyingMaterial, test.noContextKeyingMaterial)
+			t.Errorf("#%d: golangt keying material: (%s, %s) want: (%s, %s)", i, contextKeyingMaterial, noContextKeyingMaterial, test.contextKeyingMaterial, test.noContextKeyingMaterial)
 		}
 	}
 }

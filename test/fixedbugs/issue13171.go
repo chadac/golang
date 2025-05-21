@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -10,7 +10,7 @@ package main
 
 import "fmt"
 
-//go:noinline
+//golang:noinline
 func f(x float64) float64 {
 	// y is allocated to X0
 	y := x + 5
@@ -19,7 +19,7 @@ func f(x float64) float64 {
 	return g(z, y)
 }
 
-//go:noinline
+//golang:noinline
 func g(b [64]byte, y float64) float64 {
 	return y
 }
@@ -27,8 +27,8 @@ func g(b [64]byte, y float64) float64 {
 var z [64]byte
 
 func main() {
-	got := f(5)
-	if got != 10 {
-		panic(fmt.Sprintf("want 10, got %f", got))
+	golangt := f(5)
+	if golangt != 10 {
+		panic(fmt.Sprintf("want 10, golangt %f", golangt))
 	}
 }

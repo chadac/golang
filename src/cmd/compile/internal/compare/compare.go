@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package compare contains code for generating comparison
@@ -80,7 +80,7 @@ func EqCanPanic(t *types.Type) bool {
 
 // EqStructCost returns the cost of an equality comparison of two structs.
 //
-// The cost is determined using an algorithm which takes into consideration
+// The cost is determined using an algolangrithm which takes into consideration
 // the size of the registers in the current architecture and the size of the
 // memory-only fields in the struct.
 func EqStructCost(t *types.Type) int64 {

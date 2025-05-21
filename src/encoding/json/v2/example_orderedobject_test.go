@@ -1,8 +1,8 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build goexperiment.jsonv2
+//golang:build golangexperiment.jsonv2
 
 package json_test
 
@@ -89,15 +89,15 @@ func Example_orderedObject() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	var got OrderedObject[string]
-	err = json.Unmarshal(b, &got, jsontext.AllowDuplicateNames(true))
+	var golangt OrderedObject[string]
+	err = json.Unmarshal(b, &golangt, jsontext.AllowDuplicateNames(true))
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	// Sanity check.
-	if !reflect.DeepEqual(got, want) {
-		log.Fatalf("roundtrip mismatch: got %v, want %v", got, want)
+	if !reflect.DeepEqual(golangt, want) {
+		log.Fatalf("roundtrip mismatch: golangt %v, want %v", golangt, want)
 	}
 
 	// Print the serialized JSON object.

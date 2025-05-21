@@ -1,8 +1,8 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-#include "go_asm.h"
+#include "golang_asm.h"
 #include "asm_amd64.h"
 #include "textflag.h"
 
@@ -185,7 +185,7 @@ avx2_loop:
 	// skip to the end.
 	//
 	// This check is NOT an optimization; if the input length is a
-	// multiple of 64, we must not go through the last leg of the
+	// multiple of 64, we must not golang through the last leg of the
 	// function because the bit shift count passed to SALQ below would
 	// be 64, which is outside of the 0-63 range supported by those
 	// instructions.

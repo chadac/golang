@@ -1,14 +1,14 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Tests to make sure the runtime doesn't generate futile wakeups. For example,
 // it makes sure that a block on a channel send that unblocks briefly only to
-// immediately go back to sleep (in such a way that doesn't reveal any useful
+// immediately golang back to sleep (in such a way that doesn't reveal any useful
 // information, and is purely an artifact of the runtime implementation) doesn't
 // make it into the trace.
 
-//go:build ignore
+//golang:build ignore
 
 package main
 
@@ -35,7 +35,7 @@ func main() {
 	done.Add(4 * procs)
 	for p := 0; p < procs; p++ {
 		const iters = 1e3
-		go func() {
+		golang func() {
 			trace.WithRegion(context.Background(), "special", func() {
 				for i := 0; i < iters; i++ {
 					runtime.Gosched()
@@ -44,7 +44,7 @@ func main() {
 				done.Done()
 			})
 		}()
-		go func() {
+		golang func() {
 			trace.WithRegion(context.Background(), "special", func() {
 				for i := 0; i < iters; i++ {
 					runtime.Gosched()
@@ -53,7 +53,7 @@ func main() {
 				done.Done()
 			})
 		}()
-		go func() {
+		golang func() {
 			trace.WithRegion(context.Background(), "special", func() {
 				for i := 0; i < iters; i++ {
 					runtime.Gosched()
@@ -65,7 +65,7 @@ func main() {
 				done.Done()
 			})
 		}()
-		go func() {
+		golang func() {
 			trace.WithRegion(context.Background(), "special", func() {
 				for i := 0; i < iters; i++ {
 					runtime.Gosched()

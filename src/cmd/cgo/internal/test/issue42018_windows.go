@@ -1,8 +1,8 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-package cgotest
+package cgolangtest
 
 /*
 typedef void *HANDLE;
@@ -17,9 +17,9 @@ import (
 )
 
 func test42018(t *testing.T) {
-	// Test that Windows handles are marked go:notinheap, by growing the
+	// Test that Windows handles are marked golang:notinheap, by growing the
 	// stack and checking for pointer adjustments. Trick from
-	// test/fixedbugs/issue40954.go.
+	// test/fixedbugs/issue40954.golang.
 	var i int
 	handle := C.HANDLE(unsafe.Pointer(uintptr(unsafe.Pointer(&i))))
 	recurseHANDLE(100, handle, uintptr(unsafe.Pointer(&i)))
@@ -27,7 +27,7 @@ func test42018(t *testing.T) {
 	recurseHWND(400, hwnd, uintptr(unsafe.Pointer(&i)))
 }
 
-//go:noinline
+//golang:noinline
 func recurseHANDLE(n int, p C.HANDLE, v uintptr) {
 	if n > 0 {
 		recurseHANDLE(n-1, p, v)
@@ -37,7 +37,7 @@ func recurseHANDLE(n int, p C.HANDLE, v uintptr) {
 	}
 }
 
-//go:noinline
+//golang:noinline
 func recurseHWND(n int, p C.HWND, v uintptr) {
 	if n > 0 {
 		recurseHWND(n-1, p, v)

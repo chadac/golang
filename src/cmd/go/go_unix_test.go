@@ -1,8 +1,8 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build unix
+//golang:build unix
 
 package main_test
 
@@ -24,16 +24,16 @@ func TestGoBuildUmask(t *testing.T) {
 	mask := syscall.Umask(0077) // prohibit low bits
 	defer syscall.Umask(mask)
 
-	tg := testgo(t)
+	tg := testgolang(t)
 	defer tg.cleanup()
-	tg.tempFile("x.go", `package main; func main() {}`)
+	tg.tempFile("x.golang", `package main; func main() {}`)
 
 	// We have set a umask, but if the parent directory happens to have a default
 	// ACL, the umask may be ignored. To prevent spurious failures from an ACL,
-	// we compare the file created by "go build" against a file written explicitly
+	// we compare the file created by "golang build" against a file written explicitly
 	// by os.WriteFile.
 	//
-	// (See https://go.dev/issue/62724, https://go.dev/issue/17909.)
+	// (See https://golang.dev/issue/62724, https://golang.dev/issue/17909.)
 	control := tg.path("control")
 	tg.creatingTemp(control)
 	if err := os.WriteFile(control, []byte("#!/bin/sh\nexit 0"), 0777); err != nil {
@@ -46,22 +46,22 @@ func TestGoBuildUmask(t *testing.T) {
 
 	exe := tg.path("x")
 	tg.creatingTemp(exe)
-	tg.run("build", "-o", exe, tg.path("x.go"))
+	tg.run("build", "-o", exe, tg.path("x.golang"))
 	fi, err := os.Stat(exe)
 	if err != nil {
 		t.Fatal(err)
 	}
-	got, want := fi.Mode(), cfi.Mode()
-	if got == want {
-		t.Logf("wrote x with mode %v", got)
+	golangt, want := fi.Mode(), cfi.Mode()
+	if golangt == want {
+		t.Logf("wrote x with mode %v", golangt)
 	} else {
-		t.Fatalf("wrote x with mode %v, wanted no 0077 bits (%v)", got, want)
+		t.Fatalf("wrote x with mode %v, wanted no 0077 bits (%v)", golangt, want)
 	}
 }
 
 // TestTestInterrupt verifies the fix for issue #60203.
 //
-// If the whole process group for a 'go test' invocation receives
+// If the whole process group for a 'golang test' invocation receives
 // SIGINT (as would be sent by pressing ^C on a console),
 // it should return quickly, not deadlock.
 func TestTestInterrupt(t *testing.T) {
@@ -70,12 +70,12 @@ func TestTestInterrupt(t *testing.T) {
 	}
 	// Don't run this test in parallel, for the same reason.
 
-	tg := testgo(t)
+	tg := testgolang(t)
 	defer tg.cleanup()
 	tg.setenv("GOROOT", testGOROOT)
 
 	ctx, cancel := context.WithCancel(context.Background())
-	cmd := testenv.CommandContext(t, ctx, tg.goTool(), "test", "std", "-short", "-count=1")
+	cmd := testenv.CommandContext(t, ctx, tg.golangTool(), "test", "std", "-short", "-count=1")
 	cmd.Dir = tg.execDir
 
 	// Override $TMPDIR when running the tests: since we're terminating the tests
@@ -130,7 +130,7 @@ func TestTestInterrupt(t *testing.T) {
 		t.Logf("stderr:\n%s", ee.Stderr)
 	}
 	if !ee.Exited() {
-		t.Fatalf("'go test' did not exit after interrupt: %v", err)
+		t.Fatalf("'golang test' did not exit after interrupt: %v", err)
 	}
 
 	t.Logf("interrupted tests without deadlocking")

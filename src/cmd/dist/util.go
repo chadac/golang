@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -89,7 +89,7 @@ func runEnv(dir string, mode int, env []string, cmd ...string) string {
 	// as it runs without fear of mixing the output with some
 	// other command's output. Not buffering lets the output
 	// appear as it is printed instead of once the command exits.
-	// This is most important for the invocation of 'go build -v bootstrap/...'.
+	// This is most important for the invocation of 'golang build -v bootstrap/...'.
 	if mode&(Background|ShowOutput) == ShowOutput {
 		xcmd.Stdout = os.Stdout
 		xcmd.Stderr = os.Stderr
@@ -104,7 +104,7 @@ func runEnv(dir string, mode int, env []string, cmd ...string) string {
 		}
 		outputLock.Unlock()
 		if mode&Background != 0 {
-			// Prevent fatalf from waiting on our own goroutine's
+			// Prevent fatalf from waiting on our own golangroutine's
 			// bghelper to exit:
 			bghelpers.Done()
 		}
@@ -135,7 +135,7 @@ var (
 func bginit() {
 	bghelpers.Add(maxbg)
 	for i := 0; i < maxbg; i++ {
-		go bghelper()
+		golang bghelper()
 	}
 }
 
@@ -169,10 +169,10 @@ func bgrun(wg *sync.WaitGroup, dir string, cmd ...string) {
 }
 
 // bgwait waits for pending bgruns to finish.
-// bgwait must be called from only a single goroutine at a time.
+// bgwait must be called from only a single golangroutine at a time.
 func bgwait(wg *sync.WaitGroup) {
 	done := make(chan struct{})
-	go func() {
+	golang func() {
 		wg.Wait()
 		close(done)
 	}()
@@ -316,7 +316,7 @@ func xreaddir(dir string) []string {
 // xworkdir creates a new temporary directory to hold object files
 // and returns the name of that directory.
 func xworkdir() string {
-	name, err := os.MkdirTemp(os.Getenv("GOTMPDIR"), "go-tool-dist-")
+	name, err := os.MkdirTemp(os.Getenv("GOTMPDIR"), "golang-tool-dist-")
 	if err != nil {
 		fatalf("%v", err)
 	}
@@ -325,11 +325,11 @@ func xworkdir() string {
 
 // fatalf prints an error message to standard error and exits.
 func fatalf(format string, args ...interface{}) {
-	fmt.Fprintf(os.Stderr, "go tool dist: %s\n", fmt.Sprintf(format, args...))
+	fmt.Fprintf(os.Stderr, "golang tool dist: %s\n", fmt.Sprintf(format, args...))
 
 	dieOnce.Do(func() { close(dying) })
 
-	// Wait for background goroutines to finish,
+	// Wait for background golangroutines to finish,
 	// so that exit handler that removes the work directory
 	// is not fighting with active writes or open files.
 	bghelpers.Wait()
@@ -372,17 +372,17 @@ func xsamefile(f1, f2 string) bool {
 	return os.SameFile(fi1, fi2)
 }
 
-func xgetgoarm() string {
+func xgetgolangarm() string {
 	// If we're building on an actual arm system, and not building
 	// a cross-compiling toolchain, try to exec ourselves
 	// to detect whether VFP is supported and set the default GOARM.
 	// Windows requires ARMv7, so we can skip the check.
 	// We've always assumed Android is ARMv7 too.
-	if gohostarch == "arm" && goarch == "arm" && goos == gohostos && goos != "windows" && goos != "android" {
+	if golanghostarch == "arm" && golangarch == "arm" && golangos == golanghostos && golangos != "windows" && golangos != "android" {
 		// Try to exec ourselves in a mode to detect VFP support.
 		// Seeing how far it gets determines which instructions failed.
 		// The test is OS-agnostic.
-		out := run("", 0, os.Args[0], "-check-goarm")
+		out := run("", 0, os.Args[0], "-check-golangarm")
 		v1ok := strings.Contains(out, "VFPv1 OK.")
 		v3ok := strings.Contains(out, "VFPv3 OK.")
 		if v1ok && v3ok {
@@ -398,9 +398,9 @@ func xgetgoarm() string {
 	//
 	// We used to assume GOARM=5 in certain contexts but not others,
 	// which produced inconsistent results. For example if you cross-compiled
-	// for linux/arm from a windows/amd64 machine, you got GOARM=7 binaries,
+	// for linux/arm from a windows/amd64 machine, you golangt GOARM=7 binaries,
 	// but if you cross-compiled for linux/arm from a linux/amd64 machine,
-	// you got GOARM=5 binaries. Now the default is independent of the
+	// you golangt GOARM=5 binaries. Now the default is independent of the
 	// host operating system, for better reproducibility of builds.
 	return "7"
 }

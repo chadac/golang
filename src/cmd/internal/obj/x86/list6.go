@@ -251,7 +251,7 @@ func rconv(r int) string {
 	if REG_AL <= r && r-REG_AL < len(Register) {
 		return Register[r-REG_AL]
 	}
-	return fmt.Sprintf("Rgok(%d)", r-obj.RBaseAMD64)
+	return fmt.Sprintf("Rgolangk(%d)", r-obj.RBaseAMD64)
 }
 
 func rlconv(bits int64) string {

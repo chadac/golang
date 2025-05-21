@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package debug_test
@@ -21,7 +21,7 @@ import (
 
 func TestMain(m *testing.M) {
 	switch os.Getenv("GO_RUNTIME_DEBUG_TEST_ENTRYPOINT") {
-	case "dumpgoroot":
+	case "dumpgolangroot":
 		fmt.Println(runtime.GOROOT())
 		os.Exit(0)
 
@@ -54,19 +54,19 @@ func (t T) method() []byte {
 The traceback should look something like this, modulo line numbers and hex constants.
 Don't worry much about the base levels, but check the ones in our own package.
 
-	goroutine 10 [running]:
+	golangroutine 10 [running]:
 	runtime/debug.Stack(0x0, 0x0, 0x0)
-		/Users/r/go/src/runtime/debug/stack.go:28 +0x80
+		/Users/r/golang/src/runtime/debug/stack.golang:28 +0x80
 	runtime/debug.(*T).ptrmethod(0xc82005ee70, 0x0, 0x0, 0x0)
-		/Users/r/go/src/runtime/debug/stack_test.go:15 +0x29
+		/Users/r/golang/src/runtime/debug/stack_test.golang:15 +0x29
 	runtime/debug.T.method(0x0, 0x0, 0x0, 0x0)
-		/Users/r/go/src/runtime/debug/stack_test.go:18 +0x32
+		/Users/r/golang/src/runtime/debug/stack_test.golang:18 +0x32
 	runtime/debug.TestStack(0xc8201ce000)
-		/Users/r/go/src/runtime/debug/stack_test.go:37 +0x38
+		/Users/r/golang/src/runtime/debug/stack_test.golang:37 +0x38
 	testing.tRunner(0xc8201ce000, 0x664b58)
-		/Users/r/go/src/testing/testing.go:456 +0x98
+		/Users/r/golang/src/testing/testing.golang:456 +0x98
 	created by testing.RunTests
-		/Users/r/go/src/testing/testing.go:561 +0x86d
+		/Users/r/golang/src/testing/testing.golang:561 +0x86d
 */
 func TestStack(t *testing.T) {
 	b := T(0).method()
@@ -88,7 +88,7 @@ func TestStack(t *testing.T) {
 		// real baked-in GOROOT.
 		t.Logf("found GOROOT %q from environment; checking embedded GOROOT value", envGoroot)
 		cmd := exec.Command(testenv.Executable(t))
-		cmd.Env = append(os.Environ(), "GOROOT=", "GO_RUNTIME_DEBUG_TEST_ENTRYPOINT=dumpgoroot")
+		cmd.Env = append(os.Environ(), "GOROOT=", "GO_RUNTIME_DEBUG_TEST_ENTRYPOINT=dumpgolangroot")
 		out, err := cmd.Output()
 		if err != nil {
 			t.Fatal(err)
@@ -124,11 +124,11 @@ func TestStack(t *testing.T) {
 	}
 	n++
 
-	frame("runtime/debug/stack.go", "runtime/debug.Stack")
-	frame("runtime/debug/stack_test.go", "runtime/debug_test.(*T).ptrmethod")
-	frame("runtime/debug/stack_test.go", "runtime/debug_test.T.method")
-	frame("runtime/debug/stack_test.go", "runtime/debug_test.TestStack")
-	frame("testing/testing.go", "")
+	frame("runtime/debug/stack.golang", "runtime/debug.Stack")
+	frame("runtime/debug/stack_test.golang", "runtime/debug_test.(*T).ptrmethod")
+	frame("runtime/debug/stack_test.golang", "runtime/debug_test.T.method")
+	frame("runtime/debug/stack_test.golang", "runtime/debug_test.TestStack")
+	frame("testing/testing.golang", "")
 }
 
 func TestSetCrashOutput(t *testing.T) {
@@ -149,11 +149,11 @@ func TestSetCrashOutput(t *testing.T) {
 	//
 	// panic: oops
 	//
-	// goroutine 1 [running]:
+	// golangroutine 1 [running]:
 	// runtime/debug_test.TestMain(0x1400007e0a0)
-	// 	GOROOT/src/runtime/debug/stack_test.go:33 +0x18c
+	// 	GOROOT/src/runtime/debug/stack_test.golang:33 +0x18c
 	// main.main()
-	// 	_testmain.go:71 +0x170
+	// 	_testmain.golang:71 +0x170
 	data, err := os.ReadFile(crashOutput)
 	if err != nil {
 		t.Fatalf("child process failed to write crash report: %v", err)
@@ -165,7 +165,7 @@ func TestSetCrashOutput(t *testing.T) {
 	// Check that the crash file and the stderr both contain the panic and stack trace.
 	for _, want := range []string{
 		"panic: oops",
-		"goroutine 1",
+		"golangroutine 1",
 		"debug_test.TestMain",
 	} {
 		if !strings.Contains(crash, want) {

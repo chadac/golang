@@ -1,10 +1,10 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package syntax
 
-import "go/constant"
+import "golang/constant"
 
 // A Type represents a type of Go.
 // All types implement the Type interface.
@@ -15,7 +15,7 @@ type Type interface {
 	// Underlying returns the underlying type of a type.
 	// Underlying types are never Named, TypeParam, or Alias types.
 	//
-	// See https://go.dev/ref/spec#Underlying_types.
+	// See https://golang.dev/ref/spec#Underlying_types.
 	Underlying() Type
 
 	// String returns a string representation of a type.

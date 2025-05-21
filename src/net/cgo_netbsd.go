@@ -1,8 +1,8 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build cgo && !netgo
+//golang:build cgolang && !netgolang
 
 package net
 
@@ -11,4 +11,4 @@ package net
 */
 import "C"
 
-const cgoAddrInfoFlags = C.AI_CANONNAME
+const cgolangAddrInfoFlags = C.AI_CANONNAME

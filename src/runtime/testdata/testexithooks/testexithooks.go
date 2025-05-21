@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -19,7 +19,7 @@ func main() {
 	switch *modeflag {
 	case "simple":
 		testSimple()
-	case "goodexit":
+	case "golangodexit":
 		testGoodExit()
 	case "badexit":
 		testBadExit()
@@ -68,7 +68,7 @@ func testBadExit() {
 func testPanics() {
 	f1 := func() { println("ok") }
 	f2 := func() { panic("BADBADBAD") }
-	f3 := func() { println("good") }
+	f3 := func() { println("golangod") }
 	exithook.Add(exithook.Hook{F: f1, RunOnFailure: true})
 	exithook.Add(exithook.Hook{F: f2, RunOnFailure: true})
 	exithook.Add(exithook.Hook{F: f3, RunOnFailure: true})
@@ -78,7 +78,7 @@ func testPanics() {
 func testHookCallsExit() {
 	f1 := func() { println("ok") }
 	f2 := func() { os.Exit(1) }
-	f3 := func() { println("good") }
+	f3 := func() { println("golangod") }
 	exithook.Add(exithook.Hook{F: f1, RunOnFailure: true})
 	exithook.Add(exithook.Hook{F: f2, RunOnFailure: true})
 	exithook.Add(exithook.Hook{F: f3, RunOnFailure: true})
@@ -89,7 +89,7 @@ func testExit2() {
 	f1 := func() { time.Sleep(100 * time.Millisecond) }
 	exithook.Add(exithook.Hook{F: f1})
 	for range 10 {
-		go os.Exit(0)
+		golang os.Exit(0)
 	}
 	os.Exit(0)
 }

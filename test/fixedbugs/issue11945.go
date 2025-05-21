@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -52,7 +52,7 @@ const (
 
 var tests = []struct {
 	code      string
-	got, want interface{}
+	golangt, want interface{}
 }{
 	{"real(1)", real(1), 1.0},
 	{"real('a')", real('a'), float64('a')},
@@ -68,8 +68,8 @@ var tests = []struct {
 func main() {
 	// verify compile-time evaluated constant expressions
 	for _, test := range tests {
-		if test.got != test.want {
-			panic(fmt.Sprintf("%s: %v (%T) != %v (%T)", test.code, test.got, test.got, test.want, test.want))
+		if test.golangt != test.want {
+			panic(fmt.Sprintf("%s: %v (%T) != %v (%T)", test.code, test.golangt, test.golangt, test.want, test.want))
 		}
 	}
 }

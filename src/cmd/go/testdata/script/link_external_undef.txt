@@ -2,20 +2,20 @@
 # Test case for issue 47993, in which the linker crashes
 # on a bad input instead of issuing an error and exiting.
 
-# This test requires external linking, so use cgo as a proxy 
-[!cgo] skip
+# This test requires external linking, so use cgolang as a proxy 
+[!cgolang] skip
 
-! go build -ldflags='-linkmode=external' .
+! golang build -ldflags='-linkmode=external' .
 ! stderr 'panic'
 stderr '^.*undefined symbol in relocation.*'
 
--- go.mod --
+-- golang.mod --
 
 module issue47993
 
-go 1.16
+golang 1.16
 
--- main.go --
+-- main.golang --
 
 package main
 

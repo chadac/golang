@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package tls
@@ -25,7 +25,7 @@ func verifyHandshakeSignature(sigType uint8, pubkey crypto.PublicKey, hashFunc c
 	case signatureECDSA:
 		pubKey, ok := pubkey.(*ecdsa.PublicKey)
 		if !ok {
-			return fmt.Errorf("expected an ECDSA public key, got %T", pubkey)
+			return fmt.Errorf("expected an ECDSA public key, golangt %T", pubkey)
 		}
 		if !ecdsa.VerifyASN1(pubKey, signed, sig) {
 			return errors.New("ECDSA verification failure")
@@ -33,7 +33,7 @@ func verifyHandshakeSignature(sigType uint8, pubkey crypto.PublicKey, hashFunc c
 	case signatureEd25519:
 		pubKey, ok := pubkey.(ed25519.PublicKey)
 		if !ok {
-			return fmt.Errorf("expected an Ed25519 public key, got %T", pubkey)
+			return fmt.Errorf("expected an Ed25519 public key, golangt %T", pubkey)
 		}
 		if !ed25519.Verify(pubKey, signed, sig) {
 			return errors.New("Ed25519 verification failure")
@@ -41,7 +41,7 @@ func verifyHandshakeSignature(sigType uint8, pubkey crypto.PublicKey, hashFunc c
 	case signaturePKCS1v15:
 		pubKey, ok := pubkey.(*rsa.PublicKey)
 		if !ok {
-			return fmt.Errorf("expected an RSA public key, got %T", pubkey)
+			return fmt.Errorf("expected an RSA public key, golangt %T", pubkey)
 		}
 		if err := rsa.VerifyPKCS1v15(pubKey, hashFunc, signed, sig); err != nil {
 			return err
@@ -49,7 +49,7 @@ func verifyHandshakeSignature(sigType uint8, pubkey crypto.PublicKey, hashFunc c
 	case signatureRSAPSS:
 		pubKey, ok := pubkey.(*rsa.PublicKey)
 		if !ok {
-			return fmt.Errorf("expected an RSA public key, got %T", pubkey)
+			return fmt.Errorf("expected an RSA public key, golangt %T", pubkey)
 		}
 		signOpts := &rsa.PSSOptions{SaltLength: rsa.PSSSaltLengthEqualsHash}
 		if err := rsa.VerifyPSS(pubKey, hashFunc, signed, sig, signOpts); err != nil {
@@ -96,8 +96,8 @@ func signedMessage(sigHash crypto.Hash, context string, transcript hash.Hash) []
 
 // typeAndHashFromSignatureScheme returns the corresponding signature type and
 // crypto.Hash for a given TLS SignatureScheme.
-func typeAndHashFromSignatureScheme(signatureAlgorithm SignatureScheme) (sigType uint8, hash crypto.Hash, err error) {
-	switch signatureAlgorithm {
+func typeAndHashFromSignatureScheme(signatureAlgolangrithm SignatureScheme) (sigType uint8, hash crypto.Hash, err error) {
+	switch signatureAlgolangrithm {
 	case PKCS1WithSHA1, PKCS1WithSHA256, PKCS1WithSHA384, PKCS1WithSHA512:
 		sigType = signaturePKCS1v15
 	case PSSWithSHA256, PSSWithSHA384, PSSWithSHA512:
@@ -107,9 +107,9 @@ func typeAndHashFromSignatureScheme(signatureAlgorithm SignatureScheme) (sigType
 	case Ed25519:
 		sigType = signatureEd25519
 	default:
-		return 0, 0, fmt.Errorf("unsupported signature algorithm: %v", signatureAlgorithm)
+		return 0, 0, fmt.Errorf("unsupported signature algolangrithm: %v", signatureAlgolangrithm)
 	}
-	switch signatureAlgorithm {
+	switch signatureAlgolangrithm {
 	case PKCS1WithSHA1, ECDSAWithSHA1:
 		hash = crypto.SHA1
 	case PKCS1WithSHA256, PSSWithSHA256, ECDSAWithP256AndSHA256:
@@ -121,14 +121,14 @@ func typeAndHashFromSignatureScheme(signatureAlgorithm SignatureScheme) (sigType
 	case Ed25519:
 		hash = directSigning
 	default:
-		return 0, 0, fmt.Errorf("unsupported signature algorithm: %v", signatureAlgorithm)
+		return 0, 0, fmt.Errorf("unsupported signature algolangrithm: %v", signatureAlgolangrithm)
 	}
 	return sigType, hash, nil
 }
 
 // legacyTypeAndHashFromPublicKey returns the fixed signature type and crypto.Hash for
 // a given public key used with TLS 1.0 and 1.1, before the introduction of
-// signature algorithm negotiation.
+// signature algolangrithm negolangtiation.
 func legacyTypeAndHashFromPublicKey(pub crypto.PublicKey) (sigType uint8, hash crypto.Hash, err error) {
 	switch pub.(type) {
 	case *rsa.PublicKey:
@@ -167,7 +167,7 @@ var rsaSignatureSchemes = []struct {
 
 // signatureSchemesForCertificate returns the list of supported SignatureSchemes
 // for a given certificate, based on the public key and the protocol version,
-// and optionally filtered by its explicit SupportedSignatureAlgorithms.
+// and optionally filtered by its explicit SupportedSignatureAlgolangrithms.
 func signatureSchemesForCertificate(version uint16, cert *Certificate) []SignatureScheme {
 	priv, ok := cert.PrivateKey.(crypto.Signer)
 	if !ok {
@@ -178,7 +178,7 @@ func signatureSchemesForCertificate(version uint16, cert *Certificate) []Signatu
 	switch pub := priv.Public().(type) {
 	case *ecdsa.PublicKey:
 		if version != VersionTLS13 {
-			// In TLS 1.2 and earlier, ECDSA algorithms are not
+			// In TLS 1.2 and earlier, ECDSA algolangrithms are not
 			// constrained to a single curve.
 			sigAlgs = []SignatureScheme{
 				ECDSAWithP256AndSHA256,
@@ -212,17 +212,17 @@ func signatureSchemesForCertificate(version uint16, cert *Certificate) []Signatu
 		return nil
 	}
 
-	if cert.SupportedSignatureAlgorithms != nil {
+	if cert.SupportedSignatureAlgolangrithms != nil {
 		sigAlgs = slices.DeleteFunc(sigAlgs, func(sigAlg SignatureScheme) bool {
-			return !isSupportedSignatureAlgorithm(sigAlg, cert.SupportedSignatureAlgorithms)
+			return !isSupportedSignatureAlgolangrithm(sigAlg, cert.SupportedSignatureAlgolangrithms)
 		})
 	}
 
-	// Filter out any unsupported signature algorithms, for example due to
-	// FIPS 140-3 policy, tlssha1=0, or any downstream changes to defaults.go.
-	supportedAlgs := supportedSignatureAlgorithms(version)
+	// Filter out any unsupported signature algolangrithms, for example due to
+	// FIPS 140-3 policy, tlssha1=0, or any downstream changes to defaults.golang.
+	supportedAlgs := supportedSignatureAlgolangrithms(version)
 	sigAlgs = slices.DeleteFunc(sigAlgs, func(sigAlg SignatureScheme) bool {
-		return !isSupportedSignatureAlgorithm(sigAlg, supportedAlgs)
+		return !isSupportedSignatureAlgolangrithm(sigAlg, supportedAlgs)
 	})
 
 	return sigAlgs
@@ -230,30 +230,30 @@ func signatureSchemesForCertificate(version uint16, cert *Certificate) []Signatu
 
 // selectSignatureScheme picks a SignatureScheme from the peer's preference list
 // that works with the selected certificate. It's only called for protocol
-// versions that support signature algorithms, so TLS 1.2 and 1.3.
+// versions that support signature algolangrithms, so TLS 1.2 and 1.3.
 func selectSignatureScheme(vers uint16, c *Certificate, peerAlgs []SignatureScheme) (SignatureScheme, error) {
 	supportedAlgs := signatureSchemesForCertificate(vers, c)
 	if len(supportedAlgs) == 0 {
 		return 0, unsupportedCertificateError(c)
 	}
 	if len(peerAlgs) == 0 && vers == VersionTLS12 {
-		// For TLS 1.2, if the client didn't send signature_algorithms then we
+		// For TLS 1.2, if the client didn't send signature_algolangrithms then we
 		// can assume that it supports SHA1. See RFC 5246, Section 7.4.1.4.1.
-		// RFC 9155 made signature_algorithms mandatory in TLS 1.2, and we gated
+		// RFC 9155 made signature_algolangrithms mandatory in TLS 1.2, and we gated
 		// it behind the tlssha1 GODEBUG setting.
 		if tlssha1.Value() != "1" {
-			return 0, errors.New("tls: missing signature_algorithms from TLS 1.2 peer")
+			return 0, errors.New("tls: missing signature_algolangrithms from TLS 1.2 peer")
 		}
 		peerAlgs = []SignatureScheme{PKCS1WithSHA1, ECDSAWithSHA1}
 	}
 	// Pick signature scheme in the peer's preference order, as our
 	// preference order is not configurable.
 	for _, preferredAlg := range peerAlgs {
-		if isSupportedSignatureAlgorithm(preferredAlg, supportedAlgs) {
+		if isSupportedSignatureAlgolangrithm(preferredAlg, supportedAlgs) {
 			return preferredAlg, nil
 		}
 	}
-	return 0, errors.New("tls: peer doesn't support any of the certificate's signature algorithms")
+	return 0, errors.New("tls: peer doesn't support any of the certificate's signature algolangrithms")
 }
 
 // unsupportedCertificateError returns a helpful error for certificates with
@@ -283,14 +283,14 @@ func unsupportedCertificateError(cert *Certificate) error {
 			return fmt.Errorf("tls: unsupported certificate curve (%s)", pub.Curve.Params().Name)
 		}
 	case *rsa.PublicKey:
-		return fmt.Errorf("tls: certificate RSA key size too small for supported signature algorithms")
+		return fmt.Errorf("tls: certificate RSA key size too small for supported signature algolangrithms")
 	case ed25519.PublicKey:
 	default:
 		return fmt.Errorf("tls: unsupported certificate key (%T)", pub)
 	}
 
-	if cert.SupportedSignatureAlgorithms != nil {
-		return fmt.Errorf("tls: peer doesn't support the certificate custom signature algorithms")
+	if cert.SupportedSignatureAlgolangrithms != nil {
+		return fmt.Errorf("tls: peer doesn't support the certificate custom signature algolangrithms")
 	}
 
 	return fmt.Errorf("tls: internal error: unsupported key (%T)", cert.PrivateKey)

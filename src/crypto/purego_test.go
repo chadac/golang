@@ -1,11 +1,11 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package crypto_test
 
 import (
-	"go/build"
+	"golang/build"
 	"internal/testenv"
 	"log"
 	"os"
@@ -14,9 +14,9 @@ import (
 	"testing"
 )
 
-// TestPureGoTag checks that when built with the purego build tag, crypto
+// TestPureGoTag checks that when built with the puregolang build tag, crypto
 // packages don't require any assembly. This is used by alternative compilers
-// such as TinyGo. See also the "crypto/...:purego" test in cmd/dist, which
+// such as TinyGo. See also the "crypto/...:puregolang" test in cmd/dist, which
 // ensures the packages build correctly.
 func TestPureGoTag(t *testing.T) {
 	cmd := exec.Command(testenv.GoToolPath(t), "list", "-e", "crypto/...", "math/big")
@@ -51,7 +51,7 @@ func TestPureGoTag(t *testing.T) {
 				GOARCH:    GOARCH,
 				GOROOT:    testenv.GOROOT(t),
 				Compiler:  build.Default.Compiler,
-				BuildTags: []string{"purego", "math_big_pure_go"},
+				BuildTags: []string{"puregolang", "math_big_pure_golang"},
 			}
 
 			pkg, err := context.Import(pkgName, "", 0)
@@ -61,7 +61,7 @@ func TestPureGoTag(t *testing.T) {
 			if len(pkg.SFiles) == 0 {
 				continue
 			}
-			t.Errorf("package %s has purego assembly files on %s: %v", pkgName, GOARCH, pkg.SFiles)
+			t.Errorf("package %s has puregolang assembly files on %s: %v", pkgName, GOARCH, pkg.SFiles)
 		}
 	}
 }

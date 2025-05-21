@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This test makes sure unsafe-uintptr arguments are handled correctly.
@@ -21,8 +21,8 @@ func setup() unsafe.Pointer {
 	return unsafe.Pointer(&s)
 }
 
-//go:noinline
-//go:uintptrescapes
+//golang:noinline
+//golang:uintptrescapes
 func test(s string, p, q uintptr, rest ...uintptr) int {
 	runtime.GC()
 	runtime.GC()
@@ -43,15 +43,15 @@ func test(s string, p, q uintptr, rest ...uintptr) int {
 	return 0
 }
 
-//go:noinline
+//golang:noinline
 func f() int {
 	return test("return", uintptr(setup()), uintptr(setup()), uintptr(setup()), uintptr(setup()))
 }
 
 type S struct{}
 
-//go:noinline
-//go:uintptrescapes
+//golang:noinline
+//golang:uintptrescapes
 func (S) test(s string, p, q uintptr, rest ...uintptr) int {
 	return test(s, p, q, rest...)
 }
@@ -60,7 +60,7 @@ func main() {
 	test("normal", uintptr(setup()), uintptr(setup()), uintptr(setup()), uintptr(setup()))
 	<-done
 
-	go test("go", uintptr(setup()), uintptr(setup()), uintptr(setup()), uintptr(setup()))
+	golang test("golang", uintptr(setup()), uintptr(setup()), uintptr(setup()), uintptr(setup()))
 	<-done
 
 	func() {

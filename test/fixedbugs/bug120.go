@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -31,7 +31,7 @@ var tests = []Test{
 	// that ends up computing 1e23-8388608 + 8388608 = 1e23,
 	// which rounds back to 1e23-8388608.
 	// The correct answer, of course, would be "1e23+8388608" = 1e23+8388608.
-	// This is not going to be correct until 6g has multiprecision floating point.
+	// This is not golanging to be correct until 6g has multiprecision floating point.
 	// A simpler case is "1e23+1", which should also round to 1e23+8388608.
 	Test{1e23 + 8.388608e6, "1e23+8.388608e6", "1.0000000000000001e+23"},
 	Test{1e23 + 1, "1e23+1", "1.0000000000000001e+23"},
@@ -43,14 +43,14 @@ func main() {
 		t := tests[i]
 		v := strconv.FormatFloat(t.f, 'g', -1, 64)
 		if v != t.out {
-			println("Bad float64 const:", t.in, "want", t.out, "got", v)
+			println("Bad float64 const:", t.in, "want", t.out, "golangt", v)
 			x, err := strconv.ParseFloat(t.out, 64)
 			if err != nil {
 				println("bug120: strconv.Atof64", t.out)
 				panic("fail")
 			}
 			println("\twant exact:", strconv.FormatFloat(x, 'g', 1000, 64))
-			println("\tgot exact: ", strconv.FormatFloat(t.f, 'g', 1000, 64))
+			println("\tgolangt exact: ", strconv.FormatFloat(t.f, 'g', 1000, 64))
 			ok = false
 		}
 	}

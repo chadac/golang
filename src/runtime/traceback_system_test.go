@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime_test
@@ -30,7 +30,7 @@ func crashViaPanic() {
 	writeSentinel(os.Stdout)
 	debug.SetCrashOutput(os.Stdout, debug.CrashOptions{})
 
-	go func() {
+	golang func() {
 		// This call is typically inlined.
 		child1()
 	}()
@@ -45,7 +45,7 @@ func crashViaTrap() {
 	writeSentinel(os.Stdout)
 	debug.SetCrashOutput(os.Stdout, debug.CrashOptions{})
 
-	go func() {
+	golang func() {
 		// This call is typically inlined.
 		trap1()
 	}()
@@ -68,27 +68,27 @@ func child4() {
 	child5()
 }
 
-//go:noinline
+//golang:noinline
 func child5() { // test trace through second of two call instructions
 	child6bad()
 	child6() // appears in stack trace
 }
 
-//go:noinline
+//golang:noinline
 func child6bad() {
 }
 
-//go:noinline
+//golang:noinline
 func child6() { // test trace through first of two call instructions
 	child7() // appears in stack trace
 	child7bad()
 }
 
-//go:noinline
+//golang:noinline
 func child7bad() {
 }
 
-//go:noinline
+//golang:noinline
 func child7() {
 	// Write runtime.Caller's view of the stack to stderr, for debugging.
 	var pcs [16]uintptr
@@ -116,13 +116,13 @@ func trap3(i *int) {
 
 // TestTracebackSystem tests that the syntax of crash reports produced
 // by GOTRACEBACK=system (see traceback2) contains a complete,
-// parseable list of program counters for the running goroutine that
+// parseable list of program counters for the running golangroutine that
 // can be parsed and fed to runtime.CallersFrames to obtain accurate
 // information about the logical call stack, even in the presence of
 // inlining.
 //
 // The test is a distillation of the crash monitor in
-// golang.org/x/telemetry/crashmonitor.
+// golanglang.org/x/telemetry/crashmonitor.
 func TestTracebackSystem(t *testing.T) {
 	testenv.MustHaveExec(t)
 	if runtime.GOOS == "android" {
@@ -135,16 +135,16 @@ func TestTracebackSystem(t *testing.T) {
 	}{
 		{
 			name: "panic",
-			want: `redacted.go:0: runtime.gopanic
-traceback_system_test.go:100: runtime_test.child7: 	panic("oops")
-traceback_system_test.go:83: runtime_test.child6: 	child7() // appears in stack trace
-traceback_system_test.go:74: runtime_test.child5: 	child6() // appears in stack trace
-traceback_system_test.go:68: runtime_test.child4: 	child5()
-traceback_system_test.go:64: runtime_test.child3: 	child4()
-traceback_system_test.go:60: runtime_test.child2: 	child3()
-traceback_system_test.go:56: runtime_test.child1: 	child2()
-traceback_system_test.go:35: runtime_test.crashViaPanic.func1: 		child1()
-redacted.go:0: runtime.goexit
+			want: `redacted.golang:0: runtime.golangpanic
+traceback_system_test.golang:100: runtime_test.child7: 	panic("oops")
+traceback_system_test.golang:83: runtime_test.child6: 	child7() // appears in stack trace
+traceback_system_test.golang:74: runtime_test.child5: 	child6() // appears in stack trace
+traceback_system_test.golang:68: runtime_test.child4: 	child5()
+traceback_system_test.golang:64: runtime_test.child3: 	child4()
+traceback_system_test.golang:60: runtime_test.child2: 	child3()
+traceback_system_test.golang:56: runtime_test.child1: 	child2()
+traceback_system_test.golang:35: runtime_test.crashViaPanic.func1: 		child1()
+redacted.golang:0: runtime.golangexit
 `,
 		},
 		{
@@ -153,14 +153,14 @@ redacted.go:0: runtime.goexit
 			// incremented to offset the decrement done by
 			// CallersFrames.
 			name: "trap",
-			want: `redacted.go:0: runtime.gopanic
-redacted.go:0: runtime.panicmem
-redacted.go:0: runtime.sigpanic
-traceback_system_test.go:114: runtime_test.trap3: 	*i = 42
-traceback_system_test.go:110: runtime_test.trap2: 	trap3(sinkPtr)
-traceback_system_test.go:104: runtime_test.trap1: 	trap2()
-traceback_system_test.go:50: runtime_test.crashViaTrap.func1: 		trap1()
-redacted.go:0: runtime.goexit
+			want: `redacted.golang:0: runtime.golangpanic
+redacted.golang:0: runtime.panicmem
+redacted.golang:0: runtime.sigpanic
+traceback_system_test.golang:114: runtime_test.trap3: 	*i = 42
+traceback_system_test.golang:110: runtime_test.trap2: 	trap3(sinkPtr)
+traceback_system_test.golang:104: runtime_test.trap1: 	trap2()
+traceback_system_test.golang:50: runtime_test.crashViaTrap.func1: 		trap1()
+redacted.golang:0: runtime.golangexit
 `,
 		},
 	}
@@ -193,16 +193,16 @@ redacted.go:0: runtime.goexit
 			}
 
 			// Unwind the stack using this executable's symbol table.
-			got := formatStack(pcs)
-			if strings.TrimSpace(got) != strings.TrimSpace(tc.want) {
-				t.Errorf("got:\n%swant:\n%s", got, tc.want)
+			golangt := formatStack(pcs)
+			if strings.TrimSpace(golangt) != strings.TrimSpace(tc.want) {
+				t.Errorf("golangt:\n%swant:\n%s", golangt, tc.want)
 			}
 		})
 	}
 }
 
 // parseStackPCs parses the parent process's program counters for the
-// first running goroutine out of a GOTRACEBACK=system traceback,
+// first running golangroutine out of a GOTRACEBACK=system traceback,
 // adjusting them so that they are valid for the child process's text
 // segment.
 //
@@ -210,7 +210,7 @@ redacted.go:0: runtime.goexit
 // there is no possibility of strings from the crash report (which may
 // contain PII) leaking into the telemetry system.
 //
-// (Copied from golang.org/x/telemetry/crashmonitor.parseStackPCs.)
+// (Copied from golanglang.org/x/telemetry/crashmonitor.parseStackPCs.)
 func parseStackPCs(crash string) ([]uintptr, error) {
 	// getSymbol parses the symbol name out of a line of the form:
 	// SYMBOL(ARGS)
@@ -255,9 +255,9 @@ func parseStackPCs(crash string) ([]uintptr, error) {
 		pcs            []uintptr
 		parentSentinel uint64
 		childSentinel  = sentinel()
-		on             = false // are we in the first running goroutine?
+		on             = false // are we in the first running golangroutine?
 		lines          = strings.Split(crash, "\n")
-		symLine        = true // within a goroutine, every other line is a symbol or file/line/pc location, starting with symbol.
+		symLine        = true // within a golangroutine, every other line is a symbol or file/line/pc location, starting with symbol.
 		currSymbol     string
 		prevSymbol     string // symbol of the most recent previous frame with a PC.
 	)
@@ -273,9 +273,9 @@ func parseStackPCs(crash string) ([]uintptr, error) {
 			continue
 		}
 
-		// Search for "goroutine GID [STATUS]"
+		// Search for "golangroutine GID [STATUS]"
 		if !on {
-			if strings.HasPrefix(line, "goroutine ") &&
+			if strings.HasPrefix(line, "golangroutine ") &&
 				strings.Contains(line, " [running]:") {
 				on = true
 
@@ -286,12 +286,12 @@ func parseStackPCs(crash string) ([]uintptr, error) {
 			continue
 		}
 
-		// A blank line marks end of a goroutine stack.
+		// A blank line marks end of a golangroutine stack.
 		if line == "" {
 			break
 		}
 
-		// Skip the final "created by SYMBOL in goroutine GID" part.
+		// Skip the final "created by SYMBOL in golangroutine GID" part.
 		if strings.HasPrefix(line, "created by ") {
 			break
 		}
@@ -405,7 +405,7 @@ func formatStack(pcs []uintptr) string {
 			fmt.Fprintf(&buf, "pc=%x ", pcs[i])
 			i++
 		}
-		if base := filepath.Base(fr.File); base == "traceback_system_test.go" || debug {
+		if base := filepath.Base(fr.File); base == "traceback_system_test.golang" || debug {
 			content, err := os.ReadFile(fr.File)
 			if err != nil {
 				panic(err)
@@ -414,7 +414,7 @@ func formatStack(pcs []uintptr) string {
 			fmt.Fprintf(&buf, "%s:%d: %s: %s\n", base, fr.Line, fr.Function, lines[fr.Line-1])
 		} else {
 			// For robustness, don't show file/line for functions from other files.
-			fmt.Fprintf(&buf, "redacted.go:0: %s\n", fr.Function)
+			fmt.Fprintf(&buf, "redacted.golang:0: %s\n", fr.Function)
 		}
 
 		if !more {

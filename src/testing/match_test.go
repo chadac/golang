@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package testing
@@ -213,8 +213,8 @@ func TestNaming(t *T) {
 	parent := &common{name: "x", level: 1} // top-level test.
 
 	for i, tc := range namingTestCases {
-		if got, _, _ := m.fullName(parent, tc.name); got != tc.want {
-			t.Errorf("%d:%s: got %q; want %q", i, tc.name, got, tc.want)
+		if golangt, _, _ := m.fullName(parent, tc.name); golangt != tc.want {
+			t.Errorf("%d:%s: golangt %q; want %q", i, tc.name, golangt, tc.want)
 		}
 	}
 }

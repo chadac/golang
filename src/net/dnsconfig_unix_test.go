@@ -1,8 +1,8 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build unix
+//golang:build unix
 
 package net
 
@@ -187,7 +187,7 @@ func TestDNSReadConfig(t *testing.T) {
 		}
 		conf.mtime = time.Time{}
 		if !reflect.DeepEqual(conf, &want) {
-			t.Errorf("%s:\ngot: %+v\nwant: %+v", tt.name, conf, want)
+			t.Errorf("%s:\ngolangt: %+v\nwant: %+v", tt.name, conf, want)
 		}
 	}
 }
@@ -199,7 +199,7 @@ func TestDNSReadMissingFile(t *testing.T) {
 
 	conf := dnsReadConfig("a-nonexistent-file")
 	if !os.IsNotExist(conf.err) {
-		t.Errorf("missing resolv.conf:\ngot: %v\nwant: %v", conf.err, fs.ErrNotExist)
+		t.Errorf("missing resolv.conf:\ngolangt: %v\nwant: %v", conf.err, fs.ErrNotExist)
 	}
 	conf.err = nil
 	want := &dnsConfig{
@@ -210,7 +210,7 @@ func TestDNSReadMissingFile(t *testing.T) {
 		search:   []string{"domain.local."},
 	}
 	if !reflect.DeepEqual(conf, want) {
-		t.Errorf("missing resolv.conf:\ngot: %+v\nwant: %+v", conf, want)
+		t.Errorf("missing resolv.conf:\ngolangt: %+v\nwant: %+v", conf, want)
 	}
 }
 
@@ -250,9 +250,9 @@ func TestDNSDefaultSearch(t *testing.T) {
 
 	for _, tt := range dnsDefaultSearchTests {
 		getHostname = func() (string, error) { return tt.name, tt.err }
-		got := dnsDefaultSearch()
-		if !slices.Equal(got, tt.want) {
-			t.Errorf("dnsDefaultSearch with hostname %q and error %+v = %q, wanted %q", tt.name, tt.err, got, tt.want)
+		golangt := dnsDefaultSearch()
+		if !slices.Equal(golangt, tt.want) {
+			t.Errorf("dnsDefaultSearch with hostname %q and error %+v = %q, wanted %q", tt.name, tt.err, golangt, tt.want)
 		}
 	}
 }
@@ -294,7 +294,7 @@ func TestDNSNameLength(t *testing.T) {
 		}
 		for _, fqdn := range conf.nameList(longName) {
 			if len(fqdn) > 254 {
-				t.Errorf("got %d; want less than or equal to 254", len(fqdn))
+				t.Errorf("golangt %d; want less than or equal to 254", len(fqdn))
 			}
 		}
 

@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ssagen
@@ -9,7 +9,7 @@ import (
 	"bytes"
 	"cmp"
 	"fmt"
-	"go/constant"
+	"golang/constant"
 	"html"
 	"internal/buildcfg"
 	"os"
@@ -108,8 +108,8 @@ func InitConfig() {
 	// Set up some runtime functions we'll need to call.
 	ir.Syms.AssertE2I = typecheck.LookupRuntimeFunc("assertE2I")
 	ir.Syms.AssertE2I2 = typecheck.LookupRuntimeFunc("assertE2I2")
-	ir.Syms.CgoCheckMemmove = typecheck.LookupRuntimeFunc("cgoCheckMemmove")
-	ir.Syms.CgoCheckPtrWrite = typecheck.LookupRuntimeFunc("cgoCheckPtrWrite")
+	ir.Syms.CgolangCheckMemmove = typecheck.LookupRuntimeFunc("cgolangCheckMemmove")
+	ir.Syms.CgolangCheckPtrWrite = typecheck.LookupRuntimeFunc("cgolangCheckPtrWrite")
 	ir.Syms.CheckPtrAlignment = typecheck.LookupRuntimeFunc("checkptrAlignment")
 	ir.Syms.Deferproc = typecheck.LookupRuntimeFunc("deferproc")
 	ir.Syms.Deferprocat = typecheck.LookupRuntimeFunc("deferprocat")
@@ -125,7 +125,7 @@ func InitConfig() {
 	ir.Syms.GCWriteBarrier[5] = typecheck.LookupRuntimeFunc("gcWriteBarrier6")
 	ir.Syms.GCWriteBarrier[6] = typecheck.LookupRuntimeFunc("gcWriteBarrier7")
 	ir.Syms.GCWriteBarrier[7] = typecheck.LookupRuntimeFunc("gcWriteBarrier8")
-	ir.Syms.Goschedguarded = typecheck.LookupRuntimeFunc("goschedguarded")
+	ir.Syms.Goschedguarded = typecheck.LookupRuntimeFunc("golangschedguarded")
 	ir.Syms.Growslice = typecheck.LookupRuntimeFunc("growslice")
 	ir.Syms.InterfaceSwitch = typecheck.LookupRuntimeFunc("interfaceSwitch")
 	ir.Syms.MallocGC = typecheck.LookupRuntimeFunc("mallocgc")
@@ -169,23 +169,23 @@ func InitConfig() {
 	ir.Syms.ZeroVal = typecheck.LookupRuntimeVar("zeroVal")
 
 	if Arch.LinkArch.Family == sys.Wasm {
-		BoundsCheckFunc[ssa.BoundsIndex] = typecheck.LookupRuntimeFunc("goPanicIndex")
-		BoundsCheckFunc[ssa.BoundsIndexU] = typecheck.LookupRuntimeFunc("goPanicIndexU")
-		BoundsCheckFunc[ssa.BoundsSliceAlen] = typecheck.LookupRuntimeFunc("goPanicSliceAlen")
-		BoundsCheckFunc[ssa.BoundsSliceAlenU] = typecheck.LookupRuntimeFunc("goPanicSliceAlenU")
-		BoundsCheckFunc[ssa.BoundsSliceAcap] = typecheck.LookupRuntimeFunc("goPanicSliceAcap")
-		BoundsCheckFunc[ssa.BoundsSliceAcapU] = typecheck.LookupRuntimeFunc("goPanicSliceAcapU")
-		BoundsCheckFunc[ssa.BoundsSliceB] = typecheck.LookupRuntimeFunc("goPanicSliceB")
-		BoundsCheckFunc[ssa.BoundsSliceBU] = typecheck.LookupRuntimeFunc("goPanicSliceBU")
-		BoundsCheckFunc[ssa.BoundsSlice3Alen] = typecheck.LookupRuntimeFunc("goPanicSlice3Alen")
-		BoundsCheckFunc[ssa.BoundsSlice3AlenU] = typecheck.LookupRuntimeFunc("goPanicSlice3AlenU")
-		BoundsCheckFunc[ssa.BoundsSlice3Acap] = typecheck.LookupRuntimeFunc("goPanicSlice3Acap")
-		BoundsCheckFunc[ssa.BoundsSlice3AcapU] = typecheck.LookupRuntimeFunc("goPanicSlice3AcapU")
-		BoundsCheckFunc[ssa.BoundsSlice3B] = typecheck.LookupRuntimeFunc("goPanicSlice3B")
-		BoundsCheckFunc[ssa.BoundsSlice3BU] = typecheck.LookupRuntimeFunc("goPanicSlice3BU")
-		BoundsCheckFunc[ssa.BoundsSlice3C] = typecheck.LookupRuntimeFunc("goPanicSlice3C")
-		BoundsCheckFunc[ssa.BoundsSlice3CU] = typecheck.LookupRuntimeFunc("goPanicSlice3CU")
-		BoundsCheckFunc[ssa.BoundsConvert] = typecheck.LookupRuntimeFunc("goPanicSliceConvert")
+		BoundsCheckFunc[ssa.BoundsIndex] = typecheck.LookupRuntimeFunc("golangPanicIndex")
+		BoundsCheckFunc[ssa.BoundsIndexU] = typecheck.LookupRuntimeFunc("golangPanicIndexU")
+		BoundsCheckFunc[ssa.BoundsSliceAlen] = typecheck.LookupRuntimeFunc("golangPanicSliceAlen")
+		BoundsCheckFunc[ssa.BoundsSliceAlenU] = typecheck.LookupRuntimeFunc("golangPanicSliceAlenU")
+		BoundsCheckFunc[ssa.BoundsSliceAcap] = typecheck.LookupRuntimeFunc("golangPanicSliceAcap")
+		BoundsCheckFunc[ssa.BoundsSliceAcapU] = typecheck.LookupRuntimeFunc("golangPanicSliceAcapU")
+		BoundsCheckFunc[ssa.BoundsSliceB] = typecheck.LookupRuntimeFunc("golangPanicSliceB")
+		BoundsCheckFunc[ssa.BoundsSliceBU] = typecheck.LookupRuntimeFunc("golangPanicSliceBU")
+		BoundsCheckFunc[ssa.BoundsSlice3Alen] = typecheck.LookupRuntimeFunc("golangPanicSlice3Alen")
+		BoundsCheckFunc[ssa.BoundsSlice3AlenU] = typecheck.LookupRuntimeFunc("golangPanicSlice3AlenU")
+		BoundsCheckFunc[ssa.BoundsSlice3Acap] = typecheck.LookupRuntimeFunc("golangPanicSlice3Acap")
+		BoundsCheckFunc[ssa.BoundsSlice3AcapU] = typecheck.LookupRuntimeFunc("golangPanicSlice3AcapU")
+		BoundsCheckFunc[ssa.BoundsSlice3B] = typecheck.LookupRuntimeFunc("golangPanicSlice3B")
+		BoundsCheckFunc[ssa.BoundsSlice3BU] = typecheck.LookupRuntimeFunc("golangPanicSlice3BU")
+		BoundsCheckFunc[ssa.BoundsSlice3C] = typecheck.LookupRuntimeFunc("golangPanicSlice3C")
+		BoundsCheckFunc[ssa.BoundsSlice3CU] = typecheck.LookupRuntimeFunc("golangPanicSlice3CU")
+		BoundsCheckFunc[ssa.BoundsConvert] = typecheck.LookupRuntimeFunc("golangPanicSliceConvert")
 	} else {
 		BoundsCheckFunc[ssa.BoundsIndex] = typecheck.LookupRuntimeFunc("panicIndex")
 		BoundsCheckFunc[ssa.BoundsIndexU] = typecheck.LookupRuntimeFunc("panicIndexU")
@@ -309,7 +309,7 @@ func (s *state) emitOpenDeferInfo() {
 
 // buildssa builds an SSA function for fn.
 // worker indicates which of the backend workers is doing the processing.
-func buildssa(fn *ir.Func, worker int, isPgoHot bool) *ssa.Func {
+func buildssa(fn *ir.Func, worker int, isPgolangHot bool) *ssa.Func {
 	name := ir.FuncName(fn)
 
 	abiSelf := abiForFunc(fn, ssaConfig.ABI0, ssaConfig.ABI1)
@@ -349,8 +349,8 @@ func buildssa(fn *ir.Func, worker int, isPgoHot bool) *ssa.Func {
 	defer s.popLine()
 
 	s.hasdefer = fn.HasDefer()
-	if fn.Pragma&ir.CgoUnsafeArgs != 0 {
-		s.cgoUnsafeArgs = true
+	if fn.Pragma&ir.CgolangUnsafeArgs != 0 {
+		s.cgolangUnsafeArgs = true
 	}
 	s.checkPtrEnabled = ir.ShouldCheckPtr(fn, 1)
 
@@ -391,7 +391,7 @@ func buildssa(fn *ir.Func, worker int, isPgoHot bool) *ssa.Func {
 	// Allocate starting block
 	s.f.Entry = s.f.NewBlock(ssa.BlockPlain)
 	s.f.Entry.Pos = fn.Pos()
-	s.f.IsPgoHot = isPgoHot
+	s.f.IsPgolangHot = isPgolangHot
 
 	if printssa {
 		ssaDF := ssaDumpFile
@@ -420,7 +420,7 @@ func buildssa(fn *ir.Func, worker int, isPgoHot bool) *ssa.Func {
 		// libraries, because there is extra code (added by rewriteToUseGot())
 		// preceding the deferreturn/ret code that we don't track correctly.
 		//
-		// TODO this restriction can be removed given adjusted offset in computeDeferReturn in cmd/link/internal/ld/pcln.go
+		// TODO this restriction can be removed given adjusted offset in computeDeferReturn in cmd/link/internal/ld/pcln.golang
 		s.hasOpenDefers = false
 	}
 	if s.hasOpenDefers && s.instrumentEnterExit {
@@ -663,7 +663,7 @@ func (s *state) zeroResults() {
 		if !n.OnStack() {
 			// The local which points to the return value is the
 			// thing that needs zeroing. This is already handled
-			// by a Needzero annotation in plive.go:(*liveness).epilogue.
+			// by a Needzero annotation in plive.golang:(*liveness).epilogue.
 			continue
 		}
 		// Zero the stack location containing f.
@@ -1029,7 +1029,7 @@ type state struct {
 	// Used to deduplicate panic calls.
 	panics map[funcLine]*ssa.Block
 
-	cgoUnsafeArgs       bool
+	cgolangUnsafeArgs       bool
 	hasdefer            bool // whether the function contains a defer statement
 	softFloat           bool
 	hasOpenDefers       bool // whether we are doing open-coded defers
@@ -1534,7 +1534,7 @@ func (s *state) moveWhichMayOverlap(t *types.Type, dst, src *ssa.Value, mayOverl
 		// There are 2 cases where this isn't true:
 		//  1) Using unsafe you can arrange partial overlaps.
 		//  2) Since Go 1.17, you can use a cast from a slice to a ptr-to-array.
-		//     https://go.dev/ref/spec#Conversions_from_slice_to_array_pointer
+		//     https://golang.dev/ref/spec#Conversions_from_slice_to_array_pointer
 		//     This feature can be used to construct partial overlaps of array types.
 		//       var a [3]int
 		//       p := (*[2]int)(a[:])
@@ -1581,7 +1581,7 @@ func (s *state) stmt(n ir.Node) {
 	s.pushLine(n.Pos())
 	defer s.popLine()
 
-	// If s.curBlock is nil, and n isn't a label (which might have an associated goto somewhere),
+	// If s.curBlock is nil, and n isn't a label (which might have an associated golangto somewhere),
 	// then this code is dead. Stop here.
 	if s.curBlock == nil && n.Op() != ir.OLABEL {
 		return
@@ -1611,7 +1611,7 @@ func (s *state) stmt(n ir.Node) {
 		if n.Op() == ir.OCALLFUNC && n.Fun.Op() == ir.ONAME && n.Fun.(*ir.Name).Class == ir.PFUNC {
 			if fn := n.Fun.Sym().Name; base.Flag.CompilingRuntime && fn == "throw" ||
 				n.Fun.Sym().Pkg == ir.Pkgs.Runtime &&
-					(fn == "throwinit" || fn == "gopanic" || fn == "panicwrap" || fn == "block" ||
+					(fn == "throwinit" || fn == "golangpanic" || fn == "panicwrap" || fn == "block" ||
 						fn == "panicmakeslicelen" || fn == "panicmakeslicecap" || fn == "panicunsafeslicelen" ||
 						fn == "panicunsafeslicenilptr" || fn == "panicunsafestringlen" || fn == "panicunsafestringnilptr" ||
 						fn == "panicrangestate") {
@@ -1621,7 +1621,7 @@ func (s *state) stmt(n ir.Node) {
 				b.SetControl(m)
 				// TODO: never rewrite OPANIC to OCALLFUNC in the
 				// first place. Need to wait until all backends
-				// go through SSA.
+				// golang through SSA.
 			}
 		}
 	case ir.ODEFER:
@@ -1703,13 +1703,13 @@ func (s *state) stmt(n ir.Node) {
 		}
 		lab := s.label(sym)
 
-		// The label might already have a target block via a goto.
+		// The label might already have a target block via a golangto.
 		if lab.target == nil {
 			lab.target = s.f.NewBlock(ssa.BlockPlain)
 		}
 
 		// Go to that label.
-		// (We pretend "label:" is preceded by "goto label", unless the predecessor is unreachable.)
+		// (We pretend "label:" is preceded by "golangto label", unless the predecessor is unreachable.)
 		if s.curBlock != nil {
 			b := s.endBlock()
 			b.AddEdgeTo(lab.target)
@@ -2006,7 +2006,7 @@ func (s *state) stmt(n ir.Node) {
 			lab.breakTarget = nil
 		}
 
-		// done with body, goto incr
+		// done with body, golangto incr
 		if b := s.endBlock(); b != nil {
 			b.AddEdgeTo(bIncr)
 		}
@@ -2121,7 +2121,7 @@ func (s *state) stmt(n ir.Node) {
 		}
 		jt.SetControl(idx)
 
-		// Figure out where we should go for each index in the table.
+		// Figure out where we should golang for each index in the table.
 		table := make([]*ssa.Block, max-min+1)
 		for i := range table {
 			table[i] = bEnd // default target
@@ -2211,7 +2211,7 @@ func (s *state) stmt(n ir.Node) {
 			s.vars[hashVar] = s.newValue2(add, typs.Uintptr, s.variable(hashVar, typs.Uintptr), s.uintptrConstant(1))
 
 			// Look for a cache hit.
-			//   if e.Typ == t { goto hit }
+			//   if e.Typ == t { golangto hit }
 			eTyp := s.newValue2(ssa.OpLoad, typs.Uintptr, e, s.mem())
 			cmp1 := s.newValue2(ssa.OpEqPtr, typs.Bool, t, eTyp)
 			b = s.endBlock()
@@ -2221,7 +2221,7 @@ func (s *state) stmt(n ir.Node) {
 			b.AddEdgeTo(loopBody)
 
 			// Look for an empty entry, the tombstone for this hash table.
-			//   if e.Typ == nil { goto miss }
+			//   if e.Typ == nil { golangto miss }
 			s.startBlock(loopBody)
 			cmp2 := s.newValue2(ssa.OpEqPtr, typs.Bool, eTyp, s.constNil(typs.BytePtr))
 			b = s.endBlock()
@@ -2605,22 +2605,22 @@ var fpConvOpToSSA = map[twoTypes]twoOpsAndType{
 	// unsigned
 	{types.TUINT8, types.TFLOAT32}:  {ssa.OpZeroExt8to32, ssa.OpCvt32to32F, types.TINT32},
 	{types.TUINT16, types.TFLOAT32}: {ssa.OpZeroExt16to32, ssa.OpCvt32to32F, types.TINT32},
-	{types.TUINT32, types.TFLOAT32}: {ssa.OpZeroExt32to64, ssa.OpCvt64to32F, types.TINT64}, // go wide to dodge unsigned
+	{types.TUINT32, types.TFLOAT32}: {ssa.OpZeroExt32to64, ssa.OpCvt64to32F, types.TINT64}, // golang wide to dodge unsigned
 	{types.TUINT64, types.TFLOAT32}: {ssa.OpCopy, ssa.OpInvalid, types.TUINT64},            // Cvt64Uto32F, branchy code expansion instead
 
 	{types.TUINT8, types.TFLOAT64}:  {ssa.OpZeroExt8to32, ssa.OpCvt32to64F, types.TINT32},
 	{types.TUINT16, types.TFLOAT64}: {ssa.OpZeroExt16to32, ssa.OpCvt32to64F, types.TINT32},
-	{types.TUINT32, types.TFLOAT64}: {ssa.OpZeroExt32to64, ssa.OpCvt64to64F, types.TINT64}, // go wide to dodge unsigned
+	{types.TUINT32, types.TFLOAT64}: {ssa.OpZeroExt32to64, ssa.OpCvt64to64F, types.TINT64}, // golang wide to dodge unsigned
 	{types.TUINT64, types.TFLOAT64}: {ssa.OpCopy, ssa.OpInvalid, types.TUINT64},            // Cvt64Uto64F, branchy code expansion instead
 
 	{types.TFLOAT32, types.TUINT8}:  {ssa.OpCvt32Fto32, ssa.OpTrunc32to8, types.TINT32},
 	{types.TFLOAT32, types.TUINT16}: {ssa.OpCvt32Fto32, ssa.OpTrunc32to16, types.TINT32},
-	{types.TFLOAT32, types.TUINT32}: {ssa.OpCvt32Fto64, ssa.OpTrunc64to32, types.TINT64}, // go wide to dodge unsigned
+	{types.TFLOAT32, types.TUINT32}: {ssa.OpCvt32Fto64, ssa.OpTrunc64to32, types.TINT64}, // golang wide to dodge unsigned
 	{types.TFLOAT32, types.TUINT64}: {ssa.OpInvalid, ssa.OpCopy, types.TUINT64},          // Cvt32Fto64U, branchy code expansion instead
 
 	{types.TFLOAT64, types.TUINT8}:  {ssa.OpCvt64Fto32, ssa.OpTrunc32to8, types.TINT32},
 	{types.TFLOAT64, types.TUINT16}: {ssa.OpCvt64Fto32, ssa.OpTrunc32to16, types.TINT32},
-	{types.TFLOAT64, types.TUINT32}: {ssa.OpCvt64Fto64, ssa.OpTrunc64to32, types.TINT64}, // go wide to dodge unsigned
+	{types.TFLOAT64, types.TUINT32}: {ssa.OpCvt64Fto64, ssa.OpTrunc64to32, types.TINT64}, // golang wide to dodge unsigned
 	{types.TFLOAT64, types.TUINT64}: {ssa.OpInvalid, ssa.OpCopy, types.TUINT64},          // Cvt64Fto64U, branchy code expansion instead
 
 	// float
@@ -3355,10 +3355,10 @@ func (s *state) exprCheckPtr(n ir.Node, checkPtrOK bool) *ssa.Value {
 		a := s.expr(n.X)
 		if n.Type().IsComplex() {
 			tp := types.FloatForComplex(n.Type())
-			negop := s.ssaOp(n.Op(), tp)
+			negolangp := s.ssaOp(n.Op(), tp)
 			return s.newValue2(ssa.OpComplexMake, n.Type(),
-				s.newValue1(negop, tp, s.newValue1(ssa.OpComplexReal, tp, a)),
-				s.newValue1(negop, tp, s.newValue1(ssa.OpComplexImag, tp, a)))
+				s.newValue1(negolangp, tp, s.newValue1(ssa.OpComplexReal, tp, a)),
+				s.newValue1(negolangp, tp, s.newValue1(ssa.OpComplexImag, tp, a)))
 		}
 		return s.newValue1(s.ssaOp(n.Op(), n.Type()), a.Type, a)
 	case ir.ONOT, ir.OBITNOT:
@@ -3428,7 +3428,7 @@ func (s *state) exprCheckPtr(n ir.Node, checkPtrOK bool) *ssa.Value {
 			if n.Bounded() && ir.IsConst(n.X, constant.String) && ir.IsConst(n.Index, constant.Int) {
 				// Replace "abc"[1] with 'b'.
 				// Delayed until now because "abc"[1] is not an ideal constant.
-				// See test/fixedbugs/issue11370.go.
+				// See test/fixedbugs/issue11370.golang.
 				return s.newValue0I(ssa.OpConst8, types.Types[types.TUINT8], int64(int8(ir.StringVal(n.X)[ir.Int64Val(n.Index)])))
 			}
 			a := s.expr(n.X)
@@ -3783,7 +3783,7 @@ func (s *state) append(n *ir.CallExpr, inplace bool) *ssa.Value {
 		// Allowing oldLen>0 would add complication. Worth it? I would guess not.
 		//
 		// TODO: instead of the used boolean, we could insist that this only applies
-		// to monotonic slices, those which once they have >0 entries never go back
+		// to monotonic slices, those which once they have >0 entries never golang back
 		// to 0 entries. Then oldLen==0 is enough.
 		//
 		// We also do this for append(x, ...) once for every x.
@@ -4671,7 +4671,7 @@ func (s *state) call(n *ir.CallExpr, k callKind, returnResultAddr bool, deferExt
 	callABI := s.f.ABIDefault
 
 	if k != callNormal && k != callTail && (len(n.Args) != 0 || n.Op() == ir.OCALLINTER || n.Fun.Type().NumResults() != 0) {
-		s.Fatalf("go/defer call with arguments: %v", n)
+		s.Fatalf("golang/defer call with arguments: %v", n)
 	}
 
 	isCallDeferRangeFunc := false
@@ -4758,10 +4758,10 @@ func (s *state) call(n *ir.CallExpr, k callKind, returnResultAddr bool, deferExt
 		call.AddArgs(callArgs...)
 		call.AuxInt = int64(types.PtrSize) // deferprocStack takes a *_defer arg
 	} else {
-		// Store arguments to stack, including defer/go arguments and receiver for method calls.
+		// Store arguments to stack, including defer/golang arguments and receiver for method calls.
 		// These are written in SP-offset order.
 		argStart := base.Ctxt.Arch.FixedFrameSize
-		// Defer/go args.
+		// Defer/golang args.
 		if k != callNormal && k != callTail {
 			// Write closure (arg to newproc/deferproc).
 			ACArgs = append(ACArgs, types.Types[types.TUINTPTR]) // not argExtra
@@ -4894,7 +4894,7 @@ func (s *state) call(n *ir.CallExpr, k callKind, returnResultAddr bool, deferExt
 // architecture-dependent situations and, if so, emits the nil check.
 func (s *state) maybeNilCheckClosure(closure *ssa.Value, k callKind) {
 	if Arch.LinkArch.Family == sys.Wasm || buildcfg.GOOS == "aix" && k != callGo {
-		// On AIX, the closure needs to be verified as fn can be nil, except if it's a call go. This needs to be handled by the runtime to have the "go of nil func value" error.
+		// On AIX, the closure needs to be verified as fn can be nil, except if it's a call golang. This needs to be handled by the runtime to have the "golang of nil func value" error.
 		// TODO(neelance): On other architectures this should be eliminated by the optimization steps
 		s.nilCheck(closure)
 	}
@@ -5080,8 +5080,8 @@ func (s *state) canSSAName(name *ir.Name) bool {
 			// must be written back so if a defer recovers, the caller can see them.
 			return false
 		}
-		if s.cgoUnsafeArgs {
-			// Cgo effectively takes the address of all result args,
+		if s.cgolangUnsafeArgs {
+			// Cgolang effectively takes the address of all result args,
 			// but the compiler can't see that.
 			return false
 		}
@@ -5606,7 +5606,7 @@ func (s *state) uint64Tofloat(cvttab *u642fcvtTab, n ir.Node, x *ssa.Value, ft, 
 	// }
 	//
 	// Code borrowed from old code generator.
-	// What's going on: large 64-bit "unsigned" looks like
+	// What's golanging on: large 64-bit "unsigned" looks like
 	// negative number to hardware's integer-to-float
 	// conversion. However, because the mantissa is only
 	// 63 bits, we don't need the LSB, so instead we do an
@@ -6093,7 +6093,7 @@ func (s *state) dottype1(pos src.XPos, src, dst *types.Type, iface, source, targ
 				s.vars[hashVar] = s.newValue2(add, typs.Uintptr, s.variable(hashVar, typs.Uintptr), s.uintptrConstant(1))
 
 				// Look for a cache hit.
-				//   if e.Typ == typ { goto hit }
+				//   if e.Typ == typ { golangto hit }
 				eTyp := s.newValue2(ssa.OpLoad, typs.Uintptr, e, s.mem())
 				cmp1 := s.newValue2(ssa.OpEqPtr, typs.Bool, typ, eTyp)
 				b = s.endBlock()
@@ -6103,7 +6103,7 @@ func (s *state) dottype1(pos src.XPos, src, dst *types.Type, iface, source, targ
 				b.AddEdgeTo(loopBody)
 
 				// Look for an empty entry, the tombstone for this hash table.
-				//   if e.Typ == nil { goto miss }
+				//   if e.Typ == nil { golangto miss }
 				s.startBlock(loopBody)
 				cmp2 := s.newValue2(ssa.OpEqPtr, typs.Bool, eTyp, s.constNil(typs.BytePtr))
 				b = s.endBlock()
@@ -6334,7 +6334,7 @@ type State struct {
 	pp *objw.Progs
 
 	// Branches remembers all the branch instructions we've seen
-	// and where they would like to go.
+	// and where they would like to golang.
 	Branches []Branch
 
 	// JumpTables remembers all the jump tables we've seen.
@@ -6680,7 +6680,7 @@ func genssa(f *ssa.Func, pp *objw.Progs) {
 		switch base.Ctxt.Arch.Name {
 		// enable this on a case-by-case basis, with benchmarking.
 		// currently shown:
-		//   good for amd64
+		//   golangod for amd64
 		//   not helpful for Apple Silicon
 		//
 		case "amd64", "386":
@@ -6698,11 +6698,11 @@ func genssa(f *ssa.Func, pp *objw.Progs) {
 		s.lineRunStart = nil
 		s.SetPos(s.pp.Pos.WithNotStmt()) // It needs a non-empty Pos, but cannot be a statement boundary (yet).
 
-		if hotAlign > 0 && b.Hotness&ssa.HotPgoInitial == ssa.HotPgoInitial {
+		if hotAlign > 0 && b.Hotness&ssa.HotPgolangInitial == ssa.HotPgolangInitial {
 			// So far this has only been shown profitable for PGO-hot loop headers.
 			// The Hotness values allows distinctions between initial blocks that are "hot" or not, and "flow-in" or not.
 			// Currently only the initial blocks of loops are tagged in this way;
-			// there are no blocks tagged "pgo-hot" that are not also tagged "initial".
+			// there are no blocks tagged "pgolang-hot" that are not also tagged "initial".
 			// TODO more heuristics, more architectures.
 			p := s.pp.Prog(obj.APCALIGNMAX)
 			p.From.SetConst(hotAlign)
@@ -6803,7 +6803,7 @@ func genssa(f *ssa.Func, pp *objw.Progs) {
 					b.Pos = s.pp.Text.Pos // Sometimes p.Pos is empty.  See #35695.
 				}
 			}
-			b.Pos = b.Pos.WithBogusLine() // Debuggers are not good about infinite loops, force a change in line number
+			b.Pos = b.Pos.WithBogusLine() // Debuggers are not golangod about infinite loops, force a change in line number
 		}
 
 		// Set unsafe mark for any end-of-block generated instructions
@@ -6871,7 +6871,7 @@ func genssa(f *ssa.Func, pp *objw.Progs) {
 		hasCall := false
 
 		// We have some inline marks. Try to find other instructions we're
-		// going to emit anyway, and use those instructions instead of the
+		// golanging to emit anyway, and use those instructions instead of the
 		// inline marks.
 		for p := s.pp.Text; p != nil; p = p.Link {
 			if p.As == obj.ANOP || p.As == obj.AFUNCDATA || p.As == obj.APCDATA || p.As == obj.ATEXT ||
@@ -7654,7 +7654,7 @@ func (e *ssafn) UseWriteBarrier() bool {
 
 func (e *ssafn) Syslook(name string) *obj.LSym {
 	switch name {
-	case "goschedguarded":
+	case "golangschedguarded":
 		return ir.Syms.Goschedguarded
 	case "writeBarrier":
 		return ir.Syms.WriteBarrier
@@ -7662,10 +7662,10 @@ func (e *ssafn) Syslook(name string) *obj.LSym {
 		return ir.Syms.WBZero
 	case "wbMove":
 		return ir.Syms.WBMove
-	case "cgoCheckMemmove":
-		return ir.Syms.CgoCheckMemmove
-	case "cgoCheckPtrWrite":
-		return ir.Syms.CgoCheckPtrWrite
+	case "cgolangCheckMemmove":
+		return ir.Syms.CgolangCheckMemmove
+	case "cgolangCheckPtrWrite":
+		return ir.Syms.CgolangCheckPtrWrite
 	}
 	e.Fatalf(src.NoXPos, "unknown Syslook func %v", name)
 	return nil
@@ -7709,7 +7709,7 @@ const deferStructFnField = 4
 var deferType *types.Type
 
 // deferstruct returns a type interchangeable with runtime._defer.
-// Make sure this stays in sync with runtime/runtime2.go:_defer.
+// Make sure this stays in sync with runtime/runtime2.golang:_defer.
 func deferstruct() *types.Type {
 	if deferType != nil {
 		return deferType

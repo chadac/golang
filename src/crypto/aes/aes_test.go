@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package aes
@@ -12,7 +12,7 @@ import (
 )
 
 // Test vectors are from FIPS 197:
-//	https://csrc.nist.gov/publications/fips/fips197/fips-197.pdf
+//	https://csrc.nist.golangv/publications/fips/fips197/fips-197.pdf
 
 // Appendix B, C of FIPS 197: Cipher examples, Example vectors.
 type CryptTest struct {

@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test the semantics of the select statement
@@ -35,11 +35,11 @@ func testPanic(signal string, f func()) {
 // Calls f and empirically verifies that f always/never blocks depending on signal.
 func testBlock(signal string, f func()) {
 	c := make(chan string)
-	go func() {
+	golang func() {
 		f()
 		c <- never // f didn't block
 	}()
-	go func() {
+	golang func() {
 		if signal == never {
 			// Wait a long time to make sure that we don't miss our window by accident on a slow machine.
 			time.Sleep(10 * time.Second)

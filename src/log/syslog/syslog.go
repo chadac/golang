@@ -1,8 +1,8 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !windows && !plan9
+//golang:build !windows && !plan9
 
 package syslog
 
@@ -84,10 +84,10 @@ type Writer struct {
 	conn serverConn
 }
 
-// This interface and the separate syslog_unix.go file exist for
-// Solaris support as implemented by gccgo. On Solaris you cannot
-// simply open a TCP connection to the syslog daemon. The gccgo
-// sources have a syslog_solaris.go file that implements unixSyslog to
+// This interface and the separate syslog_unix.golang file exist for
+// Solaris support as implemented by gccgolang. On Solaris you cannot
+// simply open a TCP connection to the syslog daemon. The gccgolang
+// sources have a syslog_solaris.golang file that implements unixSyslog to
 // return a type that satisfies this interface and simply calls the C
 // library syslog function.
 type serverConn interface {

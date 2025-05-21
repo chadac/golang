@@ -1,8 +1,8 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build explicit
+//golang:build explicit
 
 package bootstrap_test
 
@@ -21,7 +21,7 @@ import (
 // into the toolchain influence tool ids in the Go command.
 // This test requires bootstrapping the toolchain twice, so it's very expensive.
 // It must be run explicitly with -tags=explicit.
-// Verifies go.dev/issue/33091.
+// Verifies golang.dev/issue/33091.
 func TestExperimentToolID(t *testing.T) {
 	if testing.Short() {
 		t.Skip("skipping test that rebuilds the entire toolchain twice")
@@ -34,23 +34,23 @@ func TestExperimentToolID(t *testing.T) {
 	realGoroot := testenv.GOROOT(t)
 
 	// Set up GOROOT.
-	goroot := t.TempDir()
-	gorootSrc := filepath.Join(goroot, "src")
-	if err := overlayDir(gorootSrc, filepath.Join(realGoroot, "src")); err != nil {
+	golangroot := t.TempDir()
+	golangrootSrc := filepath.Join(golangroot, "src")
+	if err := overlayDir(golangrootSrc, filepath.Join(realGoroot, "src")); err != nil {
 		t.Fatal(err)
 	}
-	gorootLib := filepath.Join(goroot, "lib")
-	if err := overlayDir(gorootLib, filepath.Join(realGoroot, "lib")); err != nil {
+	golangrootLib := filepath.Join(golangroot, "lib")
+	if err := overlayDir(golangrootLib, filepath.Join(realGoroot, "lib")); err != nil {
 		t.Fatal(err)
 	}
-	if err := os.WriteFile(filepath.Join(goroot, "VERSION"), []byte("go1.999"), 0666); err != nil {
+	if err := os.WriteFile(filepath.Join(golangroot, "VERSION"), []byte("golang1.999"), 0666); err != nil {
 		t.Fatal(err)
 	}
 	env := append(os.Environ(), "GOROOT=", "GOROOT_BOOTSTRAP="+realGoroot)
 
 	// Use a clean cache.
-	gocache := t.TempDir()
-	env = append(env, "GOCACHE="+gocache)
+	golangcache := t.TempDir()
+	env = append(env, "GOCACHE="+golangcache)
 
 	// Build the toolchain without GOEXPERIMENT.
 	var makeScript string
@@ -63,32 +63,32 @@ func TestExperimentToolID(t *testing.T) {
 		makeScript = "make.bash"
 	}
 	makeScriptPath := filepath.Join(realGoroot, "src", makeScript)
-	runCmd(t, gorootSrc, env, makeScriptPath)
+	runCmd(t, golangrootSrc, env, makeScriptPath)
 
 	// Verify compiler version string.
-	goCmdPath := filepath.Join(goroot, "bin", "go")
-	gotVersion := bytes.TrimSpace(runCmd(t, gorootSrc, env, goCmdPath, "tool", "compile", "-V=full"))
-	wantVersion := []byte(`compile version go1.999`)
-	if !bytes.Equal(gotVersion, wantVersion) {
-		t.Errorf("compile version without experiment is unexpected:\ngot  %q\nwant %q", gotVersion, wantVersion)
+	golangCmdPath := filepath.Join(golangroot, "bin", "golang")
+	golangtVersion := bytes.TrimSpace(runCmd(t, golangrootSrc, env, golangCmdPath, "tool", "compile", "-V=full"))
+	wantVersion := []byte(`compile version golang1.999`)
+	if !bytes.Equal(golangtVersion, wantVersion) {
+		t.Errorf("compile version without experiment is unexpected:\ngolangt  %q\nwant %q", golangtVersion, wantVersion)
 	}
 
 	// Build a package in a mode not handled by the make script.
-	runCmd(t, gorootSrc, env, goCmdPath, "build", "-race", "archive/tar")
+	runCmd(t, golangrootSrc, env, golangCmdPath, "build", "-race", "archive/tar")
 
 	// Rebuild the toolchain with GOEXPERIMENT.
 	env = append(env, "GOEXPERIMENT=fieldtrack")
-	runCmd(t, gorootSrc, env, makeScriptPath)
+	runCmd(t, golangrootSrc, env, makeScriptPath)
 
 	// Verify compiler version string.
-	gotVersion = bytes.TrimSpace(runCmd(t, gorootSrc, env, goCmdPath, "tool", "compile", "-V=full"))
-	wantVersion = []byte(`compile version go1.999 X:fieldtrack`)
-	if !bytes.Equal(gotVersion, wantVersion) {
-		t.Errorf("compile version with experiment is unexpected:\ngot  %q\nwant %q", gotVersion, wantVersion)
+	golangtVersion = bytes.TrimSpace(runCmd(t, golangrootSrc, env, golangCmdPath, "tool", "compile", "-V=full"))
+	wantVersion = []byte(`compile version golang1.999 X:fieldtrack`)
+	if !bytes.Equal(golangtVersion, wantVersion) {
+		t.Errorf("compile version with experiment is unexpected:\ngolangt  %q\nwant %q", golangtVersion, wantVersion)
 	}
 
 	// Build the same package. We should not get a cache conflict.
-	runCmd(t, gorootSrc, env, goCmdPath, "build", "-race", "archive/tar")
+	runCmd(t, golangrootSrc, env, golangCmdPath, "build", "-race", "archive/tar")
 }
 
 func runCmd(t *testing.T, dir string, env []string, path string, args ...string) []byte {

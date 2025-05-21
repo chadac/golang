@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -10,7 +10,7 @@ import "runtime"
 
 type T [4]int // N.B., [4]int avoids runtime's tiny object allocator
 
-//go:noinline
+//golang:noinline
 func g(x []*T) ([]*T, []*T) { return x, x }
 
 func main() {

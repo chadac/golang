@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package vcweb
@@ -43,7 +43,7 @@ func (h *hgHandler) Handler(dir string, env []string, logger *log.Logger) (http.
 		// Mercurial has a CGI server implementation (called hgweb). In theory we
 		// could use that — however, assuming that hgweb is even installed, the
 		// configuration for hgweb varies by Python version (2 vs 3), and we would
-		// rather not go rooting around trying to find the right Python version to
+		// rather not golang rooting around trying to find the right Python version to
 		// run.
 		//
 		// Instead, we'll take a somewhat more roundabout approach: we assume that
@@ -65,7 +65,7 @@ func (h *hgHandler) Handler(dir string, env []string, logger *log.Logger) (http.
 			return err
 		}
 		// This WaitDelay is arbitrary. After 'hg serve' prints its URL, any further
-		// I/O is only for debugging. (The actual output goes through the HTTP URL,
+		// I/O is only for debugging. (The actual output golanges through the HTTP URL,
 		// not the standard I/O streams.)
 		cmd.WaitDelay = 10 * time.Second
 
@@ -104,7 +104,7 @@ func (h *hgHandler) Handler(dir string, env []string, logger *log.Logger) (http.
 		// Keep the stdout pipe open so that 'hg serve' won't get a SIGPIPE, but
 		// actively discard its output so that it won't hang on a blocking write.
 		wg.Add(1)
-		go func() {
+		golang func() {
 			io.Copy(io.Discard, r)
 			wg.Done()
 		}()

@@ -7,7 +7,7 @@ Loose lists.
     D
   - E
   - F
--- gofmt --
+-- golangfmt --
 Loose lists.
 
   - A

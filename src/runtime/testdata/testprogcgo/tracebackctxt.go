@@ -1,10 +1,10 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
 
-// Test the context argument to SetCgoTraceback.
+// Test the context argument to SetCgolangTraceback.
 // Use fake context, traceback, and symbolizer functions.
 
 /*
@@ -40,10 +40,10 @@ func init() {
 var tracebackOK bool
 
 func TracebackContext() {
-	runtime.SetCgoTraceback(0, unsafe.Pointer(C.tcTraceback), unsafe.Pointer(C.tcContext), unsafe.Pointer(C.tcSymbolizer))
+	runtime.SetCgolangTraceback(0, unsafe.Pointer(C.tcTraceback), unsafe.Pointer(C.tcContext), unsafe.Pointer(C.tcSymbolizer))
 	C.C1()
-	if got := C.getContextCount(); got != 0 {
-		fmt.Printf("at end contextCount == %d, expected 0\n", got)
+	if golangt := C.getContextCount(); golangt != 0 {
+		fmt.Printf("at end contextCount == %d, expected 0\n", golangt)
 		tracebackOK = false
 	}
 	if tracebackOK {
@@ -107,22 +107,22 @@ wantLoop:
 		break
 	}
 	tracebackOK = ok
-	if got := C.getContextCount(); got != 2 {
-		fmt.Printf("at bottom contextCount == %d, expected 2\n", got)
+	if golangt := C.getContextCount(); golangt != 2 {
+		fmt.Printf("at bottom contextCount == %d, expected 2\n", golangt)
 		tracebackOK = false
 	}
 }
 
 // Issue 47441.
 func TracebackContextPreemption() {
-	runtime.SetCgoTraceback(0, unsafe.Pointer(C.tcTraceback), unsafe.Pointer(C.tcContextSimple), unsafe.Pointer(C.tcSymbolizer))
+	runtime.SetCgolangTraceback(0, unsafe.Pointer(C.tcTraceback), unsafe.Pointer(C.tcContextSimple), unsafe.Pointer(C.tcSymbolizer))
 
 	const funcs = 10
 	const calls = 1e5
 	var wg sync.WaitGroup
 	for i := 0; i < funcs; i++ {
 		wg.Add(1)
-		go func(i int) {
+		golang func(i int) {
 			defer wg.Done()
 			for j := 0; j < calls; j++ {
 				C.TracebackContextPreemptionCallGo(C.int(i*calls + j))
@@ -142,10 +142,10 @@ func TracebackContextPreemptionGoFunction(i C.int) {
 
 // Regression test for issue 71395.
 //
-// The SIGPROF handler can call the SetCgoTraceback traceback function if the
+// The SIGPROF handler can call the SetCgolangTraceback traceback function if the
 // context function is also provided. Ensure that call is safe.
 func TracebackContextProfile() {
-	runtime.SetCgoTraceback(0, unsafe.Pointer(C.tcTraceback), unsafe.Pointer(C.tcContextSimple), unsafe.Pointer(C.tcSymbolizer))
+	runtime.SetCgolangTraceback(0, unsafe.Pointer(C.tcTraceback), unsafe.Pointer(C.tcContextSimple), unsafe.Pointer(C.tcSymbolizer))
 
 	if err := pprof.StartCPUProfile(io.Discard); err != nil {
 		panic(fmt.Sprintf("error starting CPU profile: %v", err))
@@ -156,7 +156,7 @@ func TracebackContextProfile() {
 	var wg sync.WaitGroup
 	for i := 0; i < runtime.GOMAXPROCS(0); i++ {
 		wg.Add(1)
-		go func() {
+		golang func() {
 			defer wg.Done()
 			for j := 0; j < calls; j++ {
 				C.TracebackContextProfileCallGo()
@@ -173,7 +173,7 @@ var sink atomic.Pointer[byte]
 //export TracebackContextProfileGoFunction
 func TracebackContextProfileGoFunction() {
 	// Issue 71395 occurs when SIGPROF lands on code running on the system
-	// stack in a cgo callback. The allocator uses the system stack.
+	// stack in a cgolang callback. The allocator uses the system stack.
 	b := make([]byte, 128)
 	sink.Store(&b[0])
 }

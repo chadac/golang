@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package xml
@@ -33,8 +33,8 @@ const atomFeedString = `
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en-us" updated="2009-10-04T01:35:58+00:00"><title>Code Review - My issues</title><link href="http://codereview.appspot.com/" rel="alternate"></link><link href="http://codereview.appspot.com/rss/mine/rsc" rel="self"></link><id>http://codereview.appspot.com/</id><author><name>rietveld&lt;&gt;</name></author><entry><title>rietveld: an attempt at pubsubhubbub
 </title><link href="http://codereview.appspot.com/126085" rel="alternate"></link><updated>2009-10-04T01:35:58+00:00</updated><author><name>email-address-removed</name></author><id>urn:md5:134d9179c41f806be79b3a5f7877d19a</id><summary type="html">
   An attempt at adding pubsubhubbub support to Rietveld.
-http://code.google.com/p/pubsubhubbub
-http://code.google.com/p/rietveld/issues/detail?id=155
+http://code.golangogle.com/p/pubsubhubbub
+http://code.golangogle.com/p/rietveld/issues/detail?id=155
 
 The server side of the protocol is trivial:
   1. add a &amp;lt;link rel=&amp;quot;hub&amp;quot; href=&amp;quot;hub-server&amp;quot;&amp;gt; tag to all
@@ -43,7 +43,7 @@ The server side of the protocol is trivial:
      with a simple POST request.
 
 I have tested this by adding debug prints to a local hub
-server and checking that the server got the right publish
+server and checking that the server golangt the right publish
 requests.
 
 I can&amp;#39;t quite get the server to work, but I think the bug
@@ -52,7 +52,7 @@ able to grab the feed and see the feed&amp;#39;s actual URL in
 the link rel=&amp;quot;self&amp;quot;, but the default value for that drops
 the :port from the URL, and I cannot for the life of me
 figure out how to get the Atom generator deep inside
-django not to do that, or even where it is doing that,
+djangolang not to do that, or even where it is doing that,
 or even what code is running to generate the Atom feed.
 (I thought I knew but I added some assert False statements
 and it kept running!)
@@ -148,8 +148,8 @@ var atomFeed = Feed{
 				Type: "html",
 				Body: `
   An attempt at adding pubsubhubbub support to Rietveld.
-http://code.google.com/p/pubsubhubbub
-http://code.google.com/p/rietveld/issues/detail?id=155
+http://code.golangogle.com/p/pubsubhubbub
+http://code.golangogle.com/p/rietveld/issues/detail?id=155
 
 The server side of the protocol is trivial:
   1. add a &lt;link rel=&quot;hub&quot; href=&quot;hub-server&quot;&gt; tag to all
@@ -158,7 +158,7 @@ The server side of the protocol is trivial:
      with a simple POST request.
 
 I have tested this by adding debug prints to a local hub
-server and checking that the server got the right publish
+server and checking that the server golangt the right publish
 requests.
 
 I can&#39;t quite get the server to work, but I think the bug
@@ -167,7 +167,7 @@ able to grab the feed and see the feed&#39;s actual URL in
 the link rel=&quot;self&quot;, but the default value for that drops
 the :port from the URL, and I cannot for the life of me
 figure out how to get the Atom generator deep inside
-django not to do that, or even where it is doing that,
+djangolang not to do that, or even where it is doing that,
 or even what code is running to generate the Atom feed.
 (I thought I knew but I added some assert False statements
 and it kept running!)
@@ -508,10 +508,10 @@ type TAttr struct {
 	HTable string `xml:"http://www.w3.org/TR/html4/ table,attr"`
 	FTable string `xml:"http://www.w3schools.com/furniture table,attr"`
 	Lang   string `xml:"http://www.w3.org/XML/1998/namespace lang,attr,omitempty"`
-	Other1 string `xml:"http://golang.org/xml/ other,attr,omitempty"`
-	Other2 string `xml:"http://golang.org/xmlfoo/ other,attr,omitempty"`
-	Other3 string `xml:"http://golang.org/json/ other,attr,omitempty"`
-	Other4 string `xml:"http://golang.org/2/json/ other,attr,omitempty"`
+	Other1 string `xml:"http://golanglang.org/xml/ other,attr,omitempty"`
+	Other2 string `xml:"http://golanglang.org/xmlfoo/ other,attr,omitempty"`
+	Other3 string `xml:"http://golanglang.org/json/ other,attr,omitempty"`
+	Other4 string `xml:"http://golanglang.org/2/json/ other,attr,omitempty"`
 }
 
 var tableAttrs = []struct {
@@ -610,7 +610,7 @@ func TestMarshalNSAttr(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Marshal: %v", err)
 	}
-	want := `<TableAttrs><TAttr xmlns:html4="http://www.w3.org/TR/html4/" html4:table="hello" xmlns:furniture="http://www.w3schools.com/furniture" furniture:table="world" xml:lang="en_US" xmlns:_xml="http://golang.org/xml/" _xml:other="other1" xmlns:_xmlfoo="http://golang.org/xmlfoo/" _xmlfoo:other="other2" xmlns:json="http://golang.org/json/" json:other="other3" xmlns:json_1="http://golang.org/2/json/" json_1:other="other4"></TAttr></TableAttrs>`
+	want := `<TableAttrs><TAttr xmlns:html4="http://www.w3.org/TR/html4/" html4:table="hello" xmlns:furniture="http://www.w3schools.com/furniture" furniture:table="world" xml:lang="en_US" xmlns:_xml="http://golanglang.org/xml/" _xml:other="other1" xmlns:_xmlfoo="http://golanglang.org/xmlfoo/" _xmlfoo:other="other2" xmlns:json="http://golanglang.org/json/" json:other="other3" xmlns:json_1="http://golanglang.org/2/json/" json_1:other="other4"></TAttr></TableAttrs>`
 	str := string(data)
 	if str != want {
 		t.Errorf("Marshal:\nhave: %#q\nwant: %#q\n", str, want)
@@ -697,7 +697,7 @@ type Pod struct {
 	Pea any `xml:"Pea"`
 }
 
-// https://golang.org/issue/6836
+// https://golanglang.org/issue/6836
 func TestUnmarshalIntoInterface(t *testing.T) {
 	pod := new(Pod)
 	pod.Pea = new(Pea)
@@ -746,7 +746,7 @@ type IXField struct {
 func TestInvalidInnerXMLType(t *testing.T) {
 	v := new(IXField)
 	if err := Unmarshal([]byte(`<tag><five>5</five><innertag/></tag>`), v); err != nil {
-		t.Errorf("Unmarshal failed: got %v", err)
+		t.Errorf("Unmarshal failed: golangt %v", err)
 	}
 	if v.Five != 5 {
 		t.Errorf("Five = %v, want 5", v.Five)
@@ -822,12 +822,12 @@ const (
 `
 )
 
-// golang.org/issues/13417
+// golanglang.org/issues/13417
 func TestUnmarshalEmptyValues(t *testing.T) {
 	// Test first with a zero-valued dst.
 	v := new(Parent)
 	if err := Unmarshal([]byte(emptyXML), v); err != nil {
-		t.Fatalf("zero: Unmarshal failed: got %v", err)
+		t.Fatalf("zero: Unmarshal failed: golangt %v", err)
 	}
 
 	zBytes, zInt, zStr, zFloat, zBool := []byte{}, 0, "", float32(0), false
@@ -885,7 +885,7 @@ func TestUnmarshalEmptyValues(t *testing.T) {
 		ChildToEmbed: ChildToEmbed{X: vBool0},
 	}
 	if err := Unmarshal([]byte(emptyXML), v); err != nil {
-		t.Fatalf("populated: Unmarshal failed: got %v", err)
+		t.Fatalf("populated: Unmarshal failed: golangt %v", err)
 	}
 
 	want = &Parent{
@@ -962,11 +962,11 @@ const whitespaceValuesXML = `
 </WhitespaceValuesParent>
 `
 
-// golang.org/issues/22146
+// golanglang.org/issues/22146
 func TestUnmarshalWhitespaceValues(t *testing.T) {
 	v := WhitespaceValuesParent{}
 	if err := Unmarshal([]byte(whitespaceValuesXML), &v); err != nil {
-		t.Fatalf("whitespace values: Unmarshal failed: got %v", err)
+		t.Fatalf("whitespace values: Unmarshal failed: golangt %v", err)
 	}
 
 	want := WhitespaceValuesParent{
@@ -1048,11 +1048,11 @@ const whitespaceAttrsXML = `
 </WhitespaceAttrsParent>
 `
 
-// golang.org/issues/22146
+// golanglang.org/issues/22146
 func TestUnmarshalWhitespaceAttrs(t *testing.T) {
 	v := WhitespaceAttrsParent{}
 	if err := Unmarshal([]byte(whitespaceAttrsXML), &v); err != nil {
-		t.Fatalf("whitespace attrs: Unmarshal failed: got %v", err)
+		t.Fatalf("whitespace attrs: Unmarshal failed: golangt %v", err)
 	}
 
 	want := WhitespaceAttrsParent{
@@ -1083,7 +1083,7 @@ func TestUnmarshalWhitespaceAttrs(t *testing.T) {
 	}
 }
 
-// golang.org/issues/53350
+// golanglang.org/issues/53350
 func TestUnmarshalIntoNil(t *testing.T) {
 	type T struct {
 		A int `xml:"A"`
@@ -1107,7 +1107,7 @@ func TestCVE202228131(t *testing.T) {
 	if err == nil {
 		t.Fatal("Unmarshal did not fail")
 	} else if !errors.Is(err, errUnmarshalDepth) {
-		t.Fatalf("Unmarshal unexpected error: got %q, want %q", err, errUnmarshalDepth)
+		t.Fatalf("Unmarshal unexpected error: golangt %q, want %q", err, errUnmarshalDepth)
 	}
 }
 

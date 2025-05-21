@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ssa
@@ -96,7 +96,7 @@ func TestStoreOrder(t *testing.T) {
 	}
 	if ai < si || bi < si || ci < si {
 		t.Logf("Func: %s", fun.f)
-		t.Errorf("store order is wrong: got %v, want v2 v3 v4 after v5", order)
+		t.Errorf("store order is wrong: golangt %v, want v2 v3 v4 after v5", order)
 	}
 }
 
@@ -153,7 +153,7 @@ func TestCarryChainOrder(t *testing.T) {
 	}
 	if !(ai < bi && bi < ci && ci < di && di < ei && ei < fi) {
 		t.Logf("Func: %s", fun.f)
-		t.Errorf("carry chain order is wrong: got %v, want V%d after V%d after V%d after V%d after V%d after V%d,",
+		t.Errorf("carry chain order is wrong: golangt %v, want V%d after V%d after V%d after V%d after V%d after V%d,",
 			fun.f.Blocks[0], fun.values["A1"].ID, fun.values["A1carry"].ID, fun.values["A1Carryvalue"].ID,
 			fun.values["A2"].ID, fun.values["A2carry"].ID, fun.values["A2Carryvalue"].ID)
 	}

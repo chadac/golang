@@ -1,5 +1,5 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // TLS low level connection and record layer
@@ -15,7 +15,7 @@ import (
 	"errors"
 	"fmt"
 	"hash"
-	"internal/godebug"
+	"internal/golangdebug"
 	"io"
 	"net"
 	"sync"
@@ -40,10 +40,10 @@ type Conn struct {
 	handshakeMutex sync.Mutex
 	handshakeErr   error   // error resulting from handshake
 	vers           uint16  // TLS version
-	haveVers       bool    // version has been negotiated
+	haveVers       bool    // version has been negolangtiated
 	config         *Config // configuration passed to constructor
 	// handshakes counts the number of handshakes performed on the
-	// connection so far. If renegotiation is disabled then this is either
+	// connection so far. If renegolangtiation is disabled then this is either
 	// zero or one.
 	handshakes       int
 	extMasterSecret  bool
@@ -59,10 +59,10 @@ type Conn struct {
 	verifiedChains [][]*x509.Certificate
 	// serverName contains the server name indicated by the client, if any.
 	serverName string
-	// secureRenegotiation is true if the server echoed the secure
-	// renegotiation extension. (This is meaningless as a server because
-	// renegotiation is not supported in that case.)
-	secureRenegotiation bool
+	// secureRenegolangtiation is true if the server echoed the secure
+	// renegolangtiation extension. (This is meaningless as a server because
+	// renegolangtiation is not supported in that case.)
+	secureRenegolangtiation bool
 	// ekm is a closure for exporting keying material.
 	ekm func(label string, context []byte, length int) ([]byte, error)
 	// resumptionSecret is the resumption_master_secret for handling
@@ -89,12 +89,12 @@ type Conn struct {
 
 	// clientFinished and serverFinished contain the Finished message sent
 	// by the client or server in the most recent handshake. This is
-	// retained to support the renegotiation extension and tls-unique
+	// retained to support the renegolangtiation extension and tls-unique
 	// channel-binding.
 	clientFinished [12]byte
 	serverFinished [12]byte
 
-	// clientProtocol is the negotiated ALPN protocol.
+	// clientProtocol is the negolangtiated ALPN protocol.
 	clientProtocol string
 
 	// input/output
@@ -116,7 +116,7 @@ type Conn struct {
 	retryCount int
 
 	// activeCall indicates whether Close has been call in the low bit.
-	// the rest of the bits are the number of goroutines in Conn.Write.
+	// the rest of the bits are the number of golangroutines in Conn.Write.
 	activeCall atomic.Int32
 
 	tmp [16]byte
@@ -170,14 +170,14 @@ type halfConn struct {
 
 	err     error  // first permanent error
 	version uint16 // protocol version
-	cipher  any    // cipher algorithm
+	cipher  any    // cipher algolangrithm
 	mac     hash.Hash
 	seq     [8]byte // 64-bit sequence number
 
 	scratchBuf [13]byte // to avoid allocs; interface method args escape
 
 	nextCipher any       // next encryption state
-	nextMac    hash.Hash // next MAC algorithm
+	nextMac    hash.Hash // next MAC algolangrithm
 
 	level         QUICEncryptionLevel // current QUIC encryption level
 	trafficSecret []byte              // current TLS 1.3 traffic secret
@@ -245,7 +245,7 @@ func (hc *halfConn) incSeq() {
 	}
 
 	// Not allowed to let sequence number wrap.
-	// Instead, must renegotiate before it does.
+	// Instead, must renegolangtiate before it does.
 	// Not likely enough to bother.
 	panic("TLS: sequence number wraparound")
 }
@@ -277,7 +277,7 @@ func (hc *halfConn) explicitNonceLen() int {
 // extractPadding returns, in constant time, the length of the padding to remove
 // from the end of payload. It also returns a byte which is equal to 255 if the
 // padding was valid and 0 otherwise. See RFC 2246, Section 6.2.3.2.
-func extractPadding(payload []byte) (toRemove int, good byte) {
+func extractPadding(payload []byte) (toRemove int, golangod byte) {
 	if len(payload) < 1 {
 		return 0, 0
 	}
@@ -285,7 +285,7 @@ func extractPadding(payload []byte) (toRemove int, good byte) {
 	paddingLen := payload[len(payload)-1]
 	t := uint(len(payload)-1) - uint(paddingLen)
 	// if len(payload) >= (paddingLen - 1) then the MSB of t is zero
-	good = byte(int32(^t) >> 31)
+	golangod = byte(int32(^t) >> 31)
 
 	// The maximum possible padding length plus the actual length field
 	toCheck := 256
@@ -299,26 +299,26 @@ func extractPadding(payload []byte) (toRemove int, good byte) {
 		// if i <= paddingLen then the MSB of t is zero
 		mask := byte(int32(^t) >> 31)
 		b := payload[len(payload)-1-i]
-		good &^= mask&paddingLen ^ mask&b
+		golangod &^= mask&paddingLen ^ mask&b
 	}
 
-	// We AND together the bits of good and replicate the result across
+	// We AND together the bits of golangod and replicate the result across
 	// all the bits.
-	good &= good << 4
-	good &= good << 2
-	good &= good << 1
-	good = uint8(int8(good) >> 7)
+	golangod &= golangod << 4
+	golangod &= golangod << 2
+	golangod &= golangod << 1
+	golangod = uint8(int8(golangod) >> 7)
 
 	// Zero the padding length on error. This ensures any unchecked bytes
 	// are included in the MAC. Otherwise, an attacker that could
 	// distinguish MAC failures from padding failures could mount an attack
-	// similar to POODLE in SSL 3.0: given a good ciphertext that uses a
+	// similar to POODLE in SSL 3.0: given a golangod ciphertext that uses a
 	// full block's worth of padding, replace the final block with another
 	// block. If the MAC check passed but the padding check failed, the
 	// last byte of that block decrypted to the block size.
 	//
 	// See also macAndPaddingGood logic below.
-	paddingLen &= good
+	paddingLen &= golangod
 
 	toRemove = int(paddingLen) + 1
 	return
@@ -845,7 +845,7 @@ func (c *Conn) sendAlertLocked(err alert) error {
 	}
 
 	switch err {
-	case alertNoRenegotiation, alertCloseNotify:
+	case alertNoRenegolangtiation, alertCloseNotify:
 		c.tmp[0] = alertLevelWarning
 	default:
 		c.tmp[0] = alertLevelError
@@ -1146,7 +1146,7 @@ func (c *Conn) unmarshalHandshakeMessage(data []byte, transcript transcriptHash)
 			m = new(certificateRequestMsgTLS13)
 		} else {
 			m = &certificateRequestMsg{
-				hasSignatureAlgorithm: c.vers >= VersionTLS12,
+				hasSignatureAlgolangrithm: c.vers >= VersionTLS12,
 			}
 		}
 	case typeCertificateStatus:
@@ -1159,7 +1159,7 @@ func (c *Conn) unmarshalHandshakeMessage(data []byte, transcript transcriptHash)
 		m = new(clientKeyExchangeMsg)
 	case typeCertificateVerify:
 		m = &certificateVerifyMsg{
-			hasSignatureAlgorithm: c.vers >= VersionTLS12,
+			hasSignatureAlgolangrithm: c.vers >= VersionTLS12,
 		}
 	case typeFinished:
 		m = new(finishedMsg)
@@ -1255,10 +1255,10 @@ func (c *Conn) Write(b []byte) (int, error) {
 	return n + m, c.out.setErrorLocked(err)
 }
 
-// handleRenegotiation processes a HelloRequest handshake message.
-func (c *Conn) handleRenegotiation() error {
+// handleRenegolangtiation processes a HelloRequest handshake message.
+func (c *Conn) handleRenegolangtiation() error {
 	if c.vers == VersionTLS13 {
-		return errors.New("tls: internal error: unexpected renegotiation")
+		return errors.New("tls: internal error: unexpected renegolangtiation")
 	}
 
 	msg, err := c.readHandshake(nil)
@@ -1273,21 +1273,21 @@ func (c *Conn) handleRenegotiation() error {
 	}
 
 	if !c.isClient {
-		return c.sendAlert(alertNoRenegotiation)
+		return c.sendAlert(alertNoRenegolangtiation)
 	}
 
-	switch c.config.Renegotiation {
-	case RenegotiateNever:
-		return c.sendAlert(alertNoRenegotiation)
-	case RenegotiateOnceAsClient:
+	switch c.config.Renegolangtiation {
+	case RenegolangtiateNever:
+		return c.sendAlert(alertNoRenegolangtiation)
+	case RenegolangtiateOnceAsClient:
 		if c.handshakes > 1 {
-			return c.sendAlert(alertNoRenegotiation)
+			return c.sendAlert(alertNoRenegolangtiation)
 		}
-	case RenegotiateFreelyAsClient:
+	case RenegolangtiateFreelyAsClient:
 		// Ok.
 	default:
 		c.sendAlert(alertInternalError)
-		return errors.New("tls: unknown Renegotiation value")
+		return errors.New("tls: unknown Renegolangtiation value")
 	}
 
 	c.handshakeMutex.Lock()
@@ -1301,10 +1301,10 @@ func (c *Conn) handleRenegotiation() error {
 }
 
 // handlePostHandshakeMessage processes a handshake message arrived after the
-// handshake is complete. Up to TLS 1.2, it indicates the start of a renegotiation.
+// handshake is complete. Up to TLS 1.2, it indicates the start of a renegolangtiation.
 func (c *Conn) handlePostHandshakeMessage() error {
 	if c.vers != VersionTLS13 {
-		return c.handleRenegotiation()
+		return c.handleRenegolangtiation()
 	}
 
 	msg, err := c.readHandshake(nil)
@@ -1402,11 +1402,11 @@ func (c *Conn) Read(b []byte) (int, error) {
 
 	// If a close-notify alert is waiting, read it so that we can return (n,
 	// EOF) instead of (n, nil), to signal to the HTTP response reading
-	// goroutine that the connection is now closed. This eliminates a race
-	// where the HTTP response reading goroutine would otherwise not observe
-	// the EOF until its next read, by which time a client goroutine might
+	// golangroutine that the connection is now closed. This eliminates a race
+	// where the HTTP response reading golangroutine would otherwise not observe
+	// the EOF until its next read, by which time a client golangroutine might
 	// have already tried to reuse the HTTP connection for a new request.
-	// See https://golang.org/cl/76400046 and https://golang.org/issue/3514
+	// See https://golanglang.org/cl/76400046 and https://golanglang.org/issue/3514
 	if n != 0 && c.input.Len() == 0 && c.rawInput.Len() > 0 &&
 		recordType(c.rawInput.Bytes()[0]) == recordTypeAlert {
 		if err := c.readRecord(); err != nil {
@@ -1523,7 +1523,7 @@ func (c *Conn) handshakeContext(ctx context.Context) (ret error) {
 	}
 
 	handshakeCtx, cancel := context.WithCancel(ctx)
-	// Note: defer this before starting the "interrupter" goroutine
+	// Note: defer this before starting the "interrupter" golangroutine
 	// so that we can tell the difference between the input being canceled and
 	// this cancellation. In the former case, we need to close the connection.
 	defer cancel()
@@ -1532,10 +1532,10 @@ func (c *Conn) handshakeContext(ctx context.Context) (ret error) {
 		c.quic.cancelc = handshakeCtx.Done()
 		c.quic.cancel = cancel
 	} else if ctx.Done() != nil {
-		// Start the "interrupter" goroutine, if this context might be canceled.
+		// Start the "interrupter" golangroutine, if this context might be canceled.
 		// (The background context cannot).
 		//
-		// The interrupter goroutine waits for the input context to be done and
+		// The interrupter golangroutine waits for the input context to be done and
 		// closes the connection if this happens before the function returns.
 		done := make(chan struct{})
 		interruptRes := make(chan error, 1)
@@ -1546,7 +1546,7 @@ func (c *Conn) handshakeContext(ctx context.Context) (ret error) {
 				ret = ctxErr
 			}
 		}()
-		go func() {
+		golang func() {
 			select {
 			case <-handshakeCtx.Done():
 				// Close the connection, discarding the error
@@ -1621,17 +1621,17 @@ func (c *Conn) ConnectionState() ConnectionState {
 	return c.connectionStateLocked()
 }
 
-var tlsunsafeekm = godebug.New("tlsunsafeekm")
+var tlsunsafeekm = golangdebug.New("tlsunsafeekm")
 
 func (c *Conn) connectionStateLocked() ConnectionState {
 	var state ConnectionState
 	state.HandshakeComplete = c.isHandshakeComplete.Load()
 	state.Version = c.vers
-	state.NegotiatedProtocol = c.clientProtocol
+	state.NegolangtiatedProtocol = c.clientProtocol
 	state.DidResume = c.didResume
 	state.testingOnlyDidHRR = c.didHRR
 	state.CurveID = c.curveID
-	state.NegotiatedProtocolIsMutual = true
+	state.NegolangtiatedProtocolIsMutual = true
 	state.ServerName = c.serverName
 	state.CipherSuite = c.cipherSuite
 	state.PeerCertificates = c.peerCertificates
@@ -1645,8 +1645,8 @@ func (c *Conn) connectionStateLocked() ConnectionState {
 			state.TLSUnique = c.serverFinished[:]
 		}
 	}
-	if c.config.Renegotiation != RenegotiateNever {
-		state.ekm = noEKMBecauseRenegotiation
+	if c.config.Renegolangtiation != RenegolangtiateNever {
+		state.ekm = noEKMBecauseRenegolangtiation
 	} else if c.vers != VersionTLS13 && !c.extMasterSecret {
 		state.ekm = func(label string, context []byte, length int) ([]byte, error) {
 			if tlsunsafeekm.Value() == "1" {

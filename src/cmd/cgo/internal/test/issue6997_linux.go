@@ -1,17 +1,17 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !android
+//golang:build !android
 
 // Test that pthread_cancel works as expected
 // (NPTL uses SIGRTMIN to implement thread cancellation)
-// See https://golang.org/issue/6997
-package cgotest
+// See https://golanglang.org/issue/6997
+package cgolangtest
 
 /*
-#cgo CFLAGS: -pthread
-#cgo LDFLAGS: -pthread
+#cgolang CFLAGS: -pthread
+#cgolang LDFLAGS: -pthread
 extern int StartThread();
 extern int CancelThread();
 */
@@ -28,7 +28,7 @@ func test6997(t *testing.T) {
 		t.Error("pthread_create failed")
 	}
 	c := make(chan C.int)
-	go func() {
+	golang func() {
 		time.Sleep(500 * time.Millisecond)
 		c <- C.CancelThread()
 	}()

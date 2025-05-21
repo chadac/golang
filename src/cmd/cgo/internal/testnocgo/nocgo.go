@@ -1,20 +1,20 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Test that -static works when not using cgo.  This test is in
-// misc/cgo to take advantage of the testing framework support for
+// Test that -static works when not using cgolang.  This test is in
+// misc/cgolang to take advantage of the testing framework support for
 // when -static is expected to work.
 
-package nocgo
+package nocgolang
 
-func NoCgo() int {
+func NoCgolang() int {
 	c := make(chan int)
 
 	// The test is run with external linking, which means that
-	// goroutines will be created via the runtime/cgo package.
+	// golangroutines will be created via the runtime/cgolang package.
 	// Make sure that works.
-	go func() {
+	golang func() {
 		c <- 42
 	}()
 

@@ -1,24 +1,24 @@
 # Check that mod tidy does not introduce repeated
-# require statements when input go.mod has quoted requirements.
+# require statements when input golang.mod has quoted requirements.
 env GO111MODULE=on
 
-go mod tidy
-grep -count=1 rsc.io/quote go.mod
+golang mod tidy
+grep -count=1 rsc.io/quote golang.mod
 
-cp go.mod2 go.mod
-go mod tidy
-grep -count=1 rsc.io/quote go.mod
+cp golang.mod2 golang.mod
+golang mod tidy
+grep -count=1 rsc.io/quote golang.mod
 
 
--- go.mod --
+-- golang.mod --
 module x
 
--- x.go --
+-- x.golang --
 package x
 import "rsc.io/quote"
 func main() { _ = quote.Hello }
 
--- go.mod2 --
+-- golang.mod2 --
 module x
 require (
 	"rsc.io/sampler" v1.3.0

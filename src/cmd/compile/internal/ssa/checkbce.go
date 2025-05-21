@@ -1,17 +1,17 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ssa
 
-import "cmd/compile/internal/logopt"
+import "cmd/compile/internal/logolangpt"
 
 // checkbce prints all bounds checks that are present in the function.
 // Useful to find regressions. checkbce is only activated when with
 // corresponding debug options, so it's off by default.
-// See test/checkbce.go
+// See test/checkbce.golang
 func checkbce(f *Func) {
-	if f.pass.debug <= 0 && !logopt.Enabled() {
+	if f.pass.debug <= 0 && !logolangpt.Enabled() {
 		return
 	}
 
@@ -24,12 +24,12 @@ func checkbce(f *Func) {
 				if f.pass.debug > 0 {
 					f.Warnl(v.Pos, "Found %v", v.Op)
 				}
-				if logopt.Enabled() {
+				if logolangpt.Enabled() {
 					if v.Op == OpIsInBounds {
-						logopt.LogOpt(v.Pos, "isInBounds", "checkbce", f.Name)
+						logolangpt.LogOpt(v.Pos, "isInBounds", "checkbce", f.Name)
 					}
 					if v.Op == OpIsSliceInBounds {
-						logopt.LogOpt(v.Pos, "isSliceInBounds", "checkbce", f.Name)
+						logolangpt.LogOpt(v.Pos, "isSliceInBounds", "checkbce", f.Name)
 					}
 				}
 			}

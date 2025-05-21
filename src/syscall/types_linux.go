@@ -1,15 +1,15 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build ignore
+//golang:build ignore
 
 /*
-Input to cgo -godefs.  See also mkerrors.sh and mkall.sh
+Input to cgolang -golangdefs.  See also mkerrors.sh and mkall.sh
 */
 
-// +godefs map struct_in_addr [4]byte /* in_addr */
-// +godefs map struct_in6_addr [16]byte /* in6_addr */
+// +golangdefs map struct_in_addr [4]byte /* in_addr */
+// +golangdefs map struct_in6_addr [16]byte /* in6_addr */
 
 package syscall
 
@@ -109,7 +109,7 @@ typedef struct {} ptraceFpregs;
 typedef struct {} ptracePer;
 #endif
 
-// The real epoll_event is a union, and godefs doesn't handle it well.
+// The real epoll_event is a union, and golangdefs doesn't handle it well.
 struct my_epoll_event {
 	uint32_t events;
 #if defined(__ARM_EABI__) || defined(__aarch64__) || (defined(__mips__) && _MIPS_SIM == _ABIO32)
@@ -396,7 +396,7 @@ const SizeofInotifyEvent = C.sizeof_struct_inotify_event
 // Register structures
 type PtraceRegs C.PtraceRegs
 
-// Structures contained in PtraceRegs on s390x (exported by post.go)
+// Structures contained in PtraceRegs on s390x (exported by post.golang)
 type ptracePsw C.ptracePsw
 
 type ptraceFpregs C.ptraceFpregs

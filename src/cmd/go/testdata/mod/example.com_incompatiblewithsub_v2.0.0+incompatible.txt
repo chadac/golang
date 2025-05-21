@@ -4,5 +4,5 @@ and a package in a subdirectory.
 {"Version":"v2.0.0+incompatible"}
 -- .mod --
 module example.com/incompatiblewithsub
--- sub/sub.go --
+-- sub/sub.golang --
 package sub

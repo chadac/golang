@@ -1,8 +1,8 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build unix || js || wasip1 || windows
+//golang:build unix || js || wasip1 || windows
 
 package net
 
@@ -28,7 +28,7 @@ import (
 func (p *ipStackCapabilities) probe() {
 	switch runtime.GOOS {
 	case "js", "wasip1":
-		// Both ipv4 and ipv6 are faked; see net_fake.go.
+		// Both ipv4 and ipv6 are faked; see net_fake.golang.
 		p.ipv4Enabled = true
 		p.ipv6Enabled = true
 		p.ipv4MappedIPv6Enabled = true
@@ -52,8 +52,8 @@ func (p *ipStackCapabilities) probe() {
 		{laddr: TCPAddr{IP: IPv4(127, 0, 0, 1)}, value: 0},
 	}
 	switch runtime.GOOS {
-	case "dragonfly", "openbsd":
-		// The latest DragonFly BSD and OpenBSD kernels don't
+	case "dragolangnfly", "openbsd":
+		// The latest DragolangnFly BSD and OpenBSD kernels don't
 		// support IPV6_V6ONLY=0. They always return an error
 		// and we don't need to probe the capability.
 		probes = probes[:1]
@@ -116,21 +116,21 @@ func (p *ipStackCapabilities) probe() {
 // or else returns AF_INET6. It also returns a boolean value what
 // designates IPV6_V6ONLY option.
 //
-// Note that the latest DragonFly BSD and OpenBSD kernels allow
+// Note that the latest DragolangnFly BSD and OpenBSD kernels allow
 // neither "net.inet6.ip6.v6only=1" change nor IPPROTO_IPV6 level
 // IPV6_V6ONLY socket option setting.
 //
 // favoriteAddrFamily should be an internal detail,
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
-//   - github.com/database64128/tfo-go/v2
-//   - github.com/metacubex/tfo-go
-//   - github.com/sagernet/tfo-go
+//   - github.com/database64128/tfo-golang/v2
+//   - github.com/metacubex/tfo-golang
+//   - github.com/sagernet/tfo-golang
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname favoriteAddrFamily
+//golang:linkname favoriteAddrFamily
 func favoriteAddrFamily(network string, laddr, raddr sockaddr, mode string) (family int, ipv6only bool) {
 	switch network[len(network)-1] {
 	case '4':
@@ -208,14 +208,14 @@ func ipToSockaddrInet6(ip IP, port int, zone string) (syscall.SockaddrInet6, err
 // ipToSockaddr should be an internal detail,
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
-//   - github.com/database64128/tfo-go/v2
-//   - github.com/metacubex/tfo-go
-//   - github.com/sagernet/tfo-go
+//   - github.com/database64128/tfo-golang/v2
+//   - github.com/metacubex/tfo-golang
+//   - github.com/sagernet/tfo-golang
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname ipToSockaddr
+//golang:linkname ipToSockaddr
 func ipToSockaddr(family int, ip IP, port int, zone string) (syscall.Sockaddr, error) {
 	switch family {
 	case syscall.AF_INET:

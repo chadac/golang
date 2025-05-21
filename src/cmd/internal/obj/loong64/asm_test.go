@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package loong64
@@ -151,7 +151,7 @@ func TestLargeCall(t *testing.T) {
 
 	dir := t.TempDir()
 
-	if err := os.WriteFile(filepath.Join(dir, "go.mod"), []byte("module largecall"), 0644); err != nil {
+	if err := os.WriteFile(filepath.Join(dir, "golang.mod"), []byte("module largecall"), 0644); err != nil {
 		t.Fatalf("Failed to write file: %v\n", err)
 	}
 	main := `package main
@@ -162,7 +162,7 @@ func main() {
 
 func a()
 `
-	if err := os.WriteFile(filepath.Join(dir, "largecall.go"), []byte(main), 0644); err != nil {
+	if err := os.WriteFile(filepath.Join(dir, "largecall.golang"), []byte(main), 0644); err != nil {
 		t.Fatalf("failed to write main: %v\n", err)
 	}
 

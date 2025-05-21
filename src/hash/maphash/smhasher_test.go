@@ -1,8 +1,8 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !race
+//golang:build !race
 
 package maphash
 
@@ -19,7 +19,7 @@ import (
 )
 
 // Smhasher is a torture test for hash functions.
-// https://code.google.com/p/smhasher/
+// https://code.golangogle.com/p/smhasher/
 // This code is a port of some of the Smhasher tests to Go.
 
 // Note: due to the long running time of these tests, they are
@@ -113,7 +113,7 @@ func (s *hashSet) check(t *testing.T) {
 	expected := float64(pairs) / math.Pow(2.0, float64(hashSize))
 	stddev := math.Sqrt(expected)
 	if float64(collisions) > expected+SLOP*(3*stddev+1) {
-		t.Errorf("unexpected number of collisions: got=%d mean=%f stddev=%f", collisions, expected, stddev)
+		t.Errorf("unexpected number of collisions: golangt=%d mean=%f stddev=%f", collisions, expected, stddev)
 	}
 	// Reset for reuse
 	s.list = s.list[:0]

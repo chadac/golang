@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package telemetry manages the telemetry mode file.
@@ -25,7 +25,7 @@ import (
 // outside of tests.
 //
 // TODO(rfindley): it would be nice to completely eliminate this global state,
-// or at least push it in the golang.org/x/telemetry package
+// or at least push it in the golanglang.org/x/telemetry package
 var Default Dir
 
 // A Dir holds paths to telemetry data inside a directory.
@@ -52,7 +52,7 @@ func init() {
 	if err != nil {
 		return
 	}
-	Default = NewDir(filepath.Join(cfgDir, "go", "telemetry"))
+	Default = NewDir(filepath.Join(cfgDir, "golang", "telemetry"))
 }
 
 func (d Dir) Dir() string {
@@ -132,7 +132,7 @@ func (d Dir) Mode() (string, time.Time) {
 	mode := string(data)
 	mode = strings.TrimSpace(mode)
 
-	// Forward compatibility for https://go.dev/issue/63142#issuecomment-1734025130
+	// Forward compatibility for https://golang.dev/issue/63142#issuecomment-1734025130
 	//
 	// If the modefile contains a date, return it.
 	if idx := strings.Index(mode, " "); idx >= 0 {
@@ -159,5 +159,5 @@ const DisabledOnPlatform = false ||
 	// These platforms fundamentally can't be supported:
 	runtime.GOOS == "js" || // #60971
 	runtime.GOOS == "wasip1" || // #60971
-	runtime.GOOS == "plan9" || // https://github.com/golang/go/issues/57540#issuecomment-1470766639
+	runtime.GOOS == "plan9" || // https://github.com/golanglang/golang/issues/57540#issuecomment-1470766639
 	runtime.GOARCH == "mips" || runtime.GOARCH == "mipsle" // mips lacks cross-process 64-bit atomics

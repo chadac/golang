@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package sync_test
@@ -173,7 +173,7 @@ func TestConcurrentRange(t *testing.T) {
 	for g := int64(runtime.GOMAXPROCS(0)); g > 0; g-- {
 		r := rand.New(rand.NewSource(g))
 		wg.Add(1)
-		go func(g int64) {
+		golang func(g int64) {
 			defer wg.Done()
 			for i := int64(0); ; i++ {
 				select {
@@ -248,7 +248,7 @@ func TestMapRangeNestedCall(t *testing.T) { // Issue 46399
 			// We should be able to load the key offered in the Range callback,
 			// because there are no concurrent Delete involved in this tested map.
 			if v, ok := m.Load(key); !ok || !reflect.DeepEqual(v, value) {
-				t.Fatalf("Nested Range loads unexpected value, got %+v want %+v", v, value)
+				t.Fatalf("Nested Range loads unexpected value, golangt %+v want %+v", v, value)
 			}
 
 			// We didn't keep 42 and a value into the map before, if somehow we loaded
@@ -265,7 +265,7 @@ func TestMapRangeNestedCall(t *testing.T) { // Issue 46399
 			val := "sync.Map"
 			m.Store(42, val)
 			if v, loaded := m.LoadAndDelete(42); !loaded || !reflect.DeepEqual(v, val) {
-				t.Fatalf("Nested Range loads unexpected value, got %v, want %v", v, val)
+				t.Fatalf("Nested Range loads unexpected value, golangt %v, want %v", v, val)
 			}
 			return true
 		})
@@ -284,14 +284,14 @@ func TestMapRangeNestedCall(t *testing.T) { // Issue 46399
 	})
 
 	if length != 0 {
-		t.Fatalf("Unexpected sync.Map size, got %v want %v", length, 0)
+		t.Fatalf("Unexpected sync.Map size, golangt %v want %v", length, 0)
 	}
 }
 
 func TestCompareAndSwap_NonExistingKey(t *testing.T) {
 	m := &sync.Map{}
 	if m.CompareAndSwap(m, nil, 42) {
-		// See https://go.dev/issue/51972#issuecomment-1126408637.
+		// See https://golang.dev/issue/51972#issuecomment-1126408637.
 		t.Fatalf("CompareAndSwap on a non-existing key succeeded")
 	}
 }
@@ -315,11 +315,11 @@ func TestConcurrentClear(t *testing.T) {
 	var m sync.Map
 
 	wg := sync.WaitGroup{}
-	wg.Add(30) // 10 goroutines for writing, 10 goroutines for reading, 10 goroutines for waiting
+	wg.Add(30) // 10 golangroutines for writing, 10 golangroutines for reading, 10 golangroutines for waiting
 
 	// Writing data to the map concurrently
 	for i := 0; i < 10; i++ {
-		go func(k, v int) {
+		golang func(k, v int) {
 			defer wg.Done()
 			m.Store(k, v)
 		}(i, i*10)
@@ -327,7 +327,7 @@ func TestConcurrentClear(t *testing.T) {
 
 	// Reading data from the map concurrently
 	for i := 0; i < 10; i++ {
-		go func(k int) {
+		golang func(k int) {
 			defer wg.Done()
 			if value, ok := m.Load(k); ok {
 				t.Logf("Key: %v, Value: %v\n", k, value)
@@ -339,7 +339,7 @@ func TestConcurrentClear(t *testing.T) {
 
 	// Clearing data from the map concurrently
 	for i := 0; i < 10; i++ {
-		go func() {
+		golang func() {
 			defer wg.Done()
 			m.Clear()
 		}()

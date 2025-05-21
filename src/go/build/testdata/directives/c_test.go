@@ -1,5 +1,5 @@
-//go:xtest1
+//golang:xtest1
 
 package p_test
 
-//go:ignored
+//golang:ignored

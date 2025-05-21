@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file implements rat-to-string conversion functions.
@@ -385,7 +385,7 @@ func (x *Rat) FloatString(prec int) string {
 	return string(buf)
 }
 
-// Note: FloatPrec (below) is in this file rather than rat.go because
+// Note: FloatPrec (below) is in this file rather than rat.golang because
 //       its results are relevant for decimal representation/printing.
 
 // FloatPrec returns the number n of non-repeating digits immediately

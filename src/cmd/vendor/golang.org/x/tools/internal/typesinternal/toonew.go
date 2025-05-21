@@ -1,14 +1,14 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package typesinternal
 
 import (
-	"go/types"
+	"golang/types"
 
-	"golang.org/x/tools/internal/stdlib"
-	"golang.org/x/tools/internal/versions"
+	"golanglang.org/x/tools/internal/stdlib"
+	"golanglang.org/x/tools/internal/versions"
 )
 
 // TooNewStdSymbols computes the set of package-level symbols
@@ -37,29 +37,29 @@ func TooNewStdSymbols(pkg *types.Package, version string) map[types.Object]strin
 	// disallowed, as otherwise we would report false positives
 	// for compatibility shims. Consider:
 	//
-	//   //go:build go1.22
+	//   //golang:build golang1.22
 	//   type T struct { F std.Real } // correct new API
 	//
-	//   //go:build !go1.22
+	//   //golang:build !golang1.22
 	//   type T struct { F fake } // shim
 	//   type fake struct { ... }
 	//   func (fake) M () {}
 	//
 	// These alternative declarations of T use either the std.Real
-	// type, introduced in go1.22, or a fake type, for the field
+	// type, introduced in golang1.22, or a fake type, for the field
 	// F. (The fakery could be arbitrarily deep, involving more
 	// nested fields and methods than are shown here.) Clients
 	// that use the compatibility shim T will compile with any
-	// version of go, whether older or newer than go1.22, but only
+	// version of golang, whether older or newer than golang1.22, but only
 	// the newer version will use the std.Real implementation.
 	//
 	// Now consider a reference to method M in new(T).F.M() in a
-	// module that requires a minimum of go1.21. The analysis may
+	// module that requires a minimum of golang1.21. The analysis may
 	// occur using a version of Go higher than 1.21, selecting the
 	// first version of T, so the method M is Real.M. This would
 	// spuriously cause the analyzer to report a reference to a
 	// too-new symbol even though this expression compiles just
-	// fine (with the fake implementation) using go1.21.
+	// fine (with the fake implementation) using golang1.21.
 	for _, sym := range symbols {
 		symVersion := sym.Version.String()
 		if !versions.Before(version, symVersion) {

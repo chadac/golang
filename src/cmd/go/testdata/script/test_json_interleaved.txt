@@ -1,16 +1,16 @@
-# Regression test for https://golang.org/issue/40657: output from the main test
+# Regression test for https://golanglang.org/issue/40657: output from the main test
 # function should be attributed correctly even if interleaved with the PAUSE
 # line for a new parallel subtest.
 
 [short] skip
 
-go test -json
+golang test -json
 stdout '"Test":"TestWeirdTiming","Output":"[^"]* logging to outer again\\n"'
 
--- go.mod --
+-- golang.mod --
 module example.com
-go 1.15
--- main_test.go --
+golang 1.15
+-- main_test.golang --
 package main
 
 import (

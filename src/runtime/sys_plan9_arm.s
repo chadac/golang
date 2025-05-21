@@ -1,12 +1,12 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-#include "go_asm.h"
-#include "go_tls.h"
+#include "golang_asm.h"
+#include "golang_tls.h"
 #include "textflag.h"
 
-// from ../syscall/zsysnum_plan9.go
+// from ../syscall/zsysnum_plan9.golang
 
 #define SYS_SYSR1       0
 #define SYS_BIND        2
@@ -280,7 +280,7 @@ TEXT runtime·setfpmasks(SB),NOSPLIT,$0
 // func errstr() string
 // Only used by package syscall.
 // Grab error string due to a syscall made
-// in entersyscall mode, without going
+// in entersyscall mode, without golanging
 // through the allocator (issue 4994).
 // See ../syscall/asm_plan9_arm.s:/·Syscall/
 TEXT runtime·errstr(SB),NOSPLIT,$0-8
@@ -304,7 +304,7 @@ TEXT runtime·errstr(SB),NOSPLIT,$0-8
 TEXT ·publicationBarrier(SB),NOSPLIT|NOFRAME,$0-0
 	B	runtime·armPublicationBarrier(SB)
 
-// never called (cgo not supported)
+// never called (cgolang not supported)
 TEXT runtime·read_tls_fallback(SB),NOSPLIT|NOFRAME,$0
 	MOVW	$0, R0
 	MOVW	R0, (R0)

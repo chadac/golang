@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test for declaration and use of a parameterized embedded field.
@@ -40,7 +40,7 @@ func main() {
 	var li Lockable[int]
 
 	li.Set(5)
-	if got, want := li.Get(), 5; got != want {
-		panic(fmt.Sprintf("got %d, want %d", got, want))
+	if golangt, want := li.Get(), 5; golangt != want {
+		panic(fmt.Sprintf("golangt %d, want %d", golangt, want))
 	}
 }

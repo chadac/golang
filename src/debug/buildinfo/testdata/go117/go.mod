@@ -1,3 +1,3 @@
-module example.com/go117
+module example.com/golang117
 
-go 1.17
+golang 1.17

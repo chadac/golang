@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package big
@@ -23,7 +23,7 @@ var primes = []string{
 	"10953742525620032441",
 	"17908251027575790097",
 
-	// https://golang.org/issue/638
+	// https://golanglang.org/issue/638
 	"18699199384836356663",
 
 	"98920366548084643601728869055592650835572950932266967461790948584315647051443",
@@ -226,6 +226,6 @@ func testPseudoprimes(t *testing.T, name string, cond func(nat) bool, want []int
 		}
 	}
 	if len(want) > 0 {
-		t.Fatalf("forgot to test %v", want)
+		t.Fatalf("forgolangt to test %v", want)
 	}
 }

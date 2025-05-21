@@ -1,9 +1,9 @@
 env GO111MODULE=on
 
-go mod vendor
-stderr '^go: no dependencies to vendor'
+golang mod vendor
+stderr '^golang: no dependencies to vendor'
 
--- go.mod --
+-- golang.mod --
 module x
--- x.go --
+-- x.golang --
 package x

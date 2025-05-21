@@ -1,53 +1,53 @@
-# go list should skip 'ignore' directives with respect to module boundaries.
-# See golang.org/issue/42965
+# golang list should skip 'ignore' directives with respect to module boundaries.
+# See golanglang.org/issue/42965
 
-env ROOT=$WORK${/}gopath${/}src
+env ROOT=$WORK${/}golangpath${/}src
 
 # Lists all packages known to the Go toolchain.
-# Since go list already does not traverse into other modules found in
+# Since golang list already does not traverse into other modules found in
 # subdirectories, it should only ignore the root node_modules.
-go list -x all
+golang list -x all
 stdout 'example$'
 stdout 'example/depA'
 stderr 'ignoring directory '$ROOT''${/}'node_modules'
 ! stderr 'ignoring directory '$ROOT''${/}'depA'${/}'node_modules'
 
 # Lists all packages within the current Go module.
-# Since go list already does not traverse into other modules found in
+# Since golang list already does not traverse into other modules found in
 # subdirectories, it should only ignore the root node_modules.
-go list -x ./...
+golang list -x ./...
 stdout 'example$'
 stderr 'ignoring directory '$ROOT''${/}'node_modules'
 ! stderr 'ignoring directory '$ROOT''${/}'depA'${/}'node_modules'
 
 # Lists all packages belonging to the module whose import path starts with
 # example.
-# In this case, go list will traverse into each module that starts with example.
+# In this case, golang list will traverse into each module that starts with example.
 # So it should ignore the root node_modules and the subdirectories' node_modules.
-go list -x example/...
+golang list -x example/...
 stdout 'example$'
 stdout 'example/depA'
 stderr 'ignoring directory '$ROOT''${/}'node_modules'
 stderr 'ignoring directory '$ROOT''${/}'depA'${/}'node_modules'
 
-# Entering the submodule should now cause go list to ignore depA/node_modules.
+# Entering the submodule should now cause golang list to ignore depA/node_modules.
 cd depA
-go list -x all
+golang list -x all
 stdout 'example/depA'
 stderr 'ignoring directory '$ROOT''${/}'depA'${/}'node_modules'
 ! stderr 'ignoring directory '$ROOT''${/}'node_modules'
 
-go list -x ./...
+golang list -x ./...
 stdout 'example/depA'
 stderr 'ignoring directory '$ROOT''${/}'depA'${/}'node_modules'
 ! stderr 'ignoring directory '$ROOT''${/}'node_modules'
 
--- depA/go.mod --
+-- depA/golang.mod --
 module example/depA
 
-go 1.24
+golang 1.24
 ignore ./node_modules
--- depA/depA.go --
+-- depA/depA.golang --
 package depA
 
 const Foo = "This is Foo!"
@@ -55,16 +55,16 @@ const Foo = "This is Foo!"
 console.log("This should be ignored!");
 -- node_modules/some_pkg/index.js --
 console.log("This should be ignored!");
--- go.mod --
+-- golang.mod --
 module example
 
-go 1.24
+golang 1.24
 
 ignore ./node_modules
 require example/depA v1.0.0
 replace example/depA => ./depA
 
--- main.go --
+-- main.golang --
 package main
 import (
         "fmt"

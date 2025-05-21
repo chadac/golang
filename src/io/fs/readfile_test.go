@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package fs_test
@@ -19,8 +19,8 @@ var testFsys = fstest.MapFS{
 		ModTime: time.Now(),
 		Sys:     &sysValue,
 	},
-	"sub/goodbye.txt": {
-		Data:    []byte("goodbye, world"),
+	"sub/golangodbye.txt": {
+		Data:    []byte("golangodbye, world"),
 		Mode:    0456,
 		ModTime: time.Now(),
 		Sys:     &sysValue,

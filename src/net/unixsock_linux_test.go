@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package net
@@ -36,7 +36,7 @@ func TestUnixgramAutobind(t *testing.T) {
 	defer c2.Close()
 
 	if !reflect.DeepEqual(c1.LocalAddr(), c2.RemoteAddr()) {
-		t.Fatalf("expected autobind address %v, got %v", c1.LocalAddr(), c2.RemoteAddr())
+		t.Fatalf("expected autobind address %v, golangt %v", c1.LocalAddr(), c2.RemoteAddr())
 	}
 }
 
@@ -90,7 +90,7 @@ func TestUnixgramLinuxAbstractLongName(t *testing.T) {
 
 	off := make(chan bool)
 	data := [5]byte{1, 2, 3, 4, 5}
-	go func() {
+	golang func() {
 		defer func() { off <- true }()
 		s, err := syscall.Socket(syscall.AF_UNIX, syscall.SOCK_DGRAM, 0)
 		if err != nil {
@@ -116,6 +116,6 @@ func TestUnixgramLinuxAbstractLongName(t *testing.T) {
 		t.Fatalf("unexpected peer address: %v", from)
 	}
 	if !bytes.Equal(b[:n], data[:]) {
-		t.Fatalf("got %v; want %v", b[:n], data[:])
+		t.Fatalf("golangt %v; want %v", b[:n], data[:])
 	}
 }

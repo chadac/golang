@@ -1,13 +1,13 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package gcimporter
 
 import (
-	"go/token"
-	"go/types"
-	"internal/godebug"
+	"golang/token"
+	"golang/types"
+	"internal/golangdebug"
 	"internal/pkgbits"
 	"slices"
 	"strings"
@@ -181,7 +181,7 @@ func (pr *pkgReader) posBaseIdx(idx pkgbits.Index) string {
 		// Within types2, position bases have a lot more details (e.g.,
 		// keeping track of where //line directives appeared exactly).
 		//
-		// For go/types, we just track the file name.
+		// For golang/types, we just track the file name.
 
 		filename = r.String()
 
@@ -633,7 +633,7 @@ func (r *reader) typeParamNames() []*types.TypeParam {
 	//
 	// TODO(mdempsky): Is it safe to have a single "later" slice or do
 	// we need to have multiple passes? See comments on CL 386002 and
-	// go.dev/issue/52104.
+	// golang.dev/issue/52104.
 	tparams := r.dict.tparams
 	r.p.later(func() {
 		for i, typ := range typs {
@@ -652,7 +652,7 @@ func (r *reader) method() *types.Func {
 	rparams := r.typeParamNames()
 	sig := r.signature(r.param(types.RecvVar), rparams, nil)
 
-	_ = r.pos() // TODO(mdempsky): Remove; this is a hacker for linker.go.
+	_ = r.pos() // TODO(mdempsky): Remove; this is a hacker for linker.golang.
 	return types.NewFunc(pos, pkg, name, sig)
 }
 
@@ -678,9 +678,9 @@ func pkgScope(pkg *types.Package) *types.Scope {
 
 // newAliasTypeName returns a new TypeName, with a materialized *types.Alias if supported.
 func newAliasTypeName(pos token.Pos, pkg *types.Package, name string, rhs types.Type, tparams []*types.TypeParam) *types.TypeName {
-	// When GODEBUG=gotypesalias=1 or unset, the Type() of the return value is a
+	// When GODEBUG=golangtypesalias=1 or unset, the Type() of the return value is a
 	// *types.Alias. Copied from x/tools/internal/aliases.NewAlias.
-	switch godebug.New("gotypesalias").Value() {
+	switch golangdebug.New("golangtypesalias").Value() {
 	case "", "1":
 		tname := types.NewTypeName(pos, pkg, name, nil)
 		a := types.NewAlias(tname, rhs) // form TypeName -> Alias cycle

@@ -1,8 +1,8 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !windows && !plan9
+//golang:build !windows && !plan9
 
 package filepath_test
 
@@ -43,7 +43,7 @@ func ExampleSplit() {
 		"/home/arnie/amelia.jpg",
 		"/mnt/photos/",
 		"rabbit.jpg",
-		"/usr/local//go",
+		"/usr/local//golang",
 	}
 	fmt.Println("On Unix:")
 	for _, p := range paths {
@@ -61,9 +61,9 @@ func ExampleSplit() {
 	// input: "rabbit.jpg"
 	// 	dir: ""
 	// 	file: "rabbit.jpg"
-	// input: "/usr/local//go"
+	// input: "/usr/local//golang"
 	// 	dir: "/usr/local//"
-	// 	file: "go"
+	// 	file: "golang"
 }
 
 func ExampleJoin() {
@@ -88,7 +88,7 @@ func ExampleMatch() {
 	fmt.Println("On Unix:")
 	fmt.Println(filepath.Match("/home/catch/*", "/home/catch/foo"))
 	fmt.Println(filepath.Match("/home/catch/*", "/home/catch/foo/bar"))
-	fmt.Println(filepath.Match("/home/?opher", "/home/gopher"))
+	fmt.Println(filepath.Match("/home/?opher", "/home/golangpher"))
 	fmt.Println(filepath.Match("/home/\\*", "/home/*"))
 
 	// Output:
@@ -153,7 +153,7 @@ func ExampleDir() {
 
 func ExampleIsAbs() {
 	fmt.Println("On Unix:")
-	fmt.Println(filepath.IsAbs("/home/gopher"))
+	fmt.Println(filepath.IsAbs("/home/golangpher"))
 	fmt.Println(filepath.IsAbs(".bashrc"))
 	fmt.Println(filepath.IsAbs(".."))
 	fmt.Println(filepath.IsAbs("."))

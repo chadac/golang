@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package test
@@ -12,500 +12,500 @@ import (
 
 // Tests shifts of zero.
 
-//go:noinline
+//golang:noinline
 func ofz64l64(n uint64) int64 {
 	var x int64
 	return x << n
 }
 
-//go:noinline
+//golang:noinline
 func ofz64l32(n uint32) int64 {
 	var x int64
 	return x << n
 }
 
-//go:noinline
+//golang:noinline
 func ofz64l16(n uint16) int64 {
 	var x int64
 	return x << n
 }
 
-//go:noinline
+//golang:noinline
 func ofz64l8(n uint8) int64 {
 	var x int64
 	return x << n
 }
 
-//go:noinline
+//golang:noinline
 func ofz64r64(n uint64) int64 {
 	var x int64
 	return x >> n
 }
 
-//go:noinline
+//golang:noinline
 func ofz64r32(n uint32) int64 {
 	var x int64
 	return x >> n
 }
 
-//go:noinline
+//golang:noinline
 func ofz64r16(n uint16) int64 {
 	var x int64
 	return x >> n
 }
 
-//go:noinline
+//golang:noinline
 func ofz64r8(n uint8) int64 {
 	var x int64
 	return x >> n
 }
 
-//go:noinline
+//golang:noinline
 func ofz64ur64(n uint64) uint64 {
 	var x uint64
 	return x >> n
 }
 
-//go:noinline
+//golang:noinline
 func ofz64ur32(n uint32) uint64 {
 	var x uint64
 	return x >> n
 }
 
-//go:noinline
+//golang:noinline
 func ofz64ur16(n uint16) uint64 {
 	var x uint64
 	return x >> n
 }
 
-//go:noinline
+//golang:noinline
 func ofz64ur8(n uint8) uint64 {
 	var x uint64
 	return x >> n
 }
 
-//go:noinline
+//golang:noinline
 func ofz32l64(n uint64) int32 {
 	var x int32
 	return x << n
 }
 
-//go:noinline
+//golang:noinline
 func ofz32l32(n uint32) int32 {
 	var x int32
 	return x << n
 }
 
-//go:noinline
+//golang:noinline
 func ofz32l16(n uint16) int32 {
 	var x int32
 	return x << n
 }
 
-//go:noinline
+//golang:noinline
 func ofz32l8(n uint8) int32 {
 	var x int32
 	return x << n
 }
 
-//go:noinline
+//golang:noinline
 func ofz32r64(n uint64) int32 {
 	var x int32
 	return x >> n
 }
 
-//go:noinline
+//golang:noinline
 func ofz32r32(n uint32) int32 {
 	var x int32
 	return x >> n
 }
 
-//go:noinline
+//golang:noinline
 func ofz32r16(n uint16) int32 {
 	var x int32
 	return x >> n
 }
 
-//go:noinline
+//golang:noinline
 func ofz32r8(n uint8) int32 {
 	var x int32
 	return x >> n
 }
 
-//go:noinline
+//golang:noinline
 func ofz32ur64(n uint64) uint32 {
 	var x uint32
 	return x >> n
 }
 
-//go:noinline
+//golang:noinline
 func ofz32ur32(n uint32) uint32 {
 	var x uint32
 	return x >> n
 }
 
-//go:noinline
+//golang:noinline
 func ofz32ur16(n uint16) uint32 {
 	var x uint32
 	return x >> n
 }
 
-//go:noinline
+//golang:noinline
 func ofz32ur8(n uint8) uint32 {
 	var x uint32
 	return x >> n
 }
 
-//go:noinline
+//golang:noinline
 func ofz16l64(n uint64) int16 {
 	var x int16
 	return x << n
 }
 
-//go:noinline
+//golang:noinline
 func ofz16l32(n uint32) int16 {
 	var x int16
 	return x << n
 }
 
-//go:noinline
+//golang:noinline
 func ofz16l16(n uint16) int16 {
 	var x int16
 	return x << n
 }
 
-//go:noinline
+//golang:noinline
 func ofz16l8(n uint8) int16 {
 	var x int16
 	return x << n
 }
 
-//go:noinline
+//golang:noinline
 func ofz16r64(n uint64) int16 {
 	var x int16
 	return x >> n
 }
 
-//go:noinline
+//golang:noinline
 func ofz16r32(n uint32) int16 {
 	var x int16
 	return x >> n
 }
 
-//go:noinline
+//golang:noinline
 func ofz16r16(n uint16) int16 {
 	var x int16
 	return x >> n
 }
 
-//go:noinline
+//golang:noinline
 func ofz16r8(n uint8) int16 {
 	var x int16
 	return x >> n
 }
 
-//go:noinline
+//golang:noinline
 func ofz16ur64(n uint64) uint16 {
 	var x uint16
 	return x >> n
 }
 
-//go:noinline
+//golang:noinline
 func ofz16ur32(n uint32) uint16 {
 	var x uint16
 	return x >> n
 }
 
-//go:noinline
+//golang:noinline
 func ofz16ur16(n uint16) uint16 {
 	var x uint16
 	return x >> n
 }
 
-//go:noinline
+//golang:noinline
 func ofz16ur8(n uint8) uint16 {
 	var x uint16
 	return x >> n
 }
 
-//go:noinline
+//golang:noinline
 func ofz8l64(n uint64) int8 {
 	var x int8
 	return x << n
 }
 
-//go:noinline
+//golang:noinline
 func ofz8l32(n uint32) int8 {
 	var x int8
 	return x << n
 }
 
-//go:noinline
+//golang:noinline
 func ofz8l16(n uint16) int8 {
 	var x int8
 	return x << n
 }
 
-//go:noinline
+//golang:noinline
 func ofz8l8(n uint8) int8 {
 	var x int8
 	return x << n
 }
 
-//go:noinline
+//golang:noinline
 func ofz8r64(n uint64) int8 {
 	var x int8
 	return x >> n
 }
 
-//go:noinline
+//golang:noinline
 func ofz8r32(n uint32) int8 {
 	var x int8
 	return x >> n
 }
 
-//go:noinline
+//golang:noinline
 func ofz8r16(n uint16) int8 {
 	var x int8
 	return x >> n
 }
 
-//go:noinline
+//golang:noinline
 func ofz8r8(n uint8) int8 {
 	var x int8
 	return x >> n
 }
 
-//go:noinline
+//golang:noinline
 func ofz8ur64(n uint64) uint8 {
 	var x uint8
 	return x >> n
 }
 
-//go:noinline
+//golang:noinline
 func ofz8ur32(n uint32) uint8 {
 	var x uint8
 	return x >> n
 }
 
-//go:noinline
+//golang:noinline
 func ofz8ur16(n uint16) uint8 {
 	var x uint8
 	return x >> n
 }
 
-//go:noinline
+//golang:noinline
 func ofz8ur8(n uint8) uint8 {
 	var x uint8
 	return x >> n
 }
 
 func TestShiftOfZero(t *testing.T) {
-	if got := ofz64l64(5); got != 0 {
-		t.Errorf("0<<5 == %d, want 0", got)
+	if golangt := ofz64l64(5); golangt != 0 {
+		t.Errorf("0<<5 == %d, want 0", golangt)
 	}
-	if got := ofz64l32(5); got != 0 {
-		t.Errorf("0<<5 == %d, want 0", got)
+	if golangt := ofz64l32(5); golangt != 0 {
+		t.Errorf("0<<5 == %d, want 0", golangt)
 	}
-	if got := ofz64l16(5); got != 0 {
-		t.Errorf("0<<5 == %d, want 0", got)
+	if golangt := ofz64l16(5); golangt != 0 {
+		t.Errorf("0<<5 == %d, want 0", golangt)
 	}
-	if got := ofz64l8(5); got != 0 {
-		t.Errorf("0<<5 == %d, want 0", got)
+	if golangt := ofz64l8(5); golangt != 0 {
+		t.Errorf("0<<5 == %d, want 0", golangt)
 	}
-	if got := ofz64r64(5); got != 0 {
-		t.Errorf("0>>5 == %d, want 0", got)
+	if golangt := ofz64r64(5); golangt != 0 {
+		t.Errorf("0>>5 == %d, want 0", golangt)
 	}
-	if got := ofz64r32(5); got != 0 {
-		t.Errorf("0>>5 == %d, want 0", got)
+	if golangt := ofz64r32(5); golangt != 0 {
+		t.Errorf("0>>5 == %d, want 0", golangt)
 	}
-	if got := ofz64r16(5); got != 0 {
-		t.Errorf("0>>5 == %d, want 0", got)
+	if golangt := ofz64r16(5); golangt != 0 {
+		t.Errorf("0>>5 == %d, want 0", golangt)
 	}
-	if got := ofz64r8(5); got != 0 {
-		t.Errorf("0>>5 == %d, want 0", got)
+	if golangt := ofz64r8(5); golangt != 0 {
+		t.Errorf("0>>5 == %d, want 0", golangt)
 	}
-	if got := ofz64ur64(5); got != 0 {
-		t.Errorf("0>>>5 == %d, want 0", got)
+	if golangt := ofz64ur64(5); golangt != 0 {
+		t.Errorf("0>>>5 == %d, want 0", golangt)
 	}
-	if got := ofz64ur32(5); got != 0 {
-		t.Errorf("0>>>5 == %d, want 0", got)
+	if golangt := ofz64ur32(5); golangt != 0 {
+		t.Errorf("0>>>5 == %d, want 0", golangt)
 	}
-	if got := ofz64ur16(5); got != 0 {
-		t.Errorf("0>>>5 == %d, want 0", got)
+	if golangt := ofz64ur16(5); golangt != 0 {
+		t.Errorf("0>>>5 == %d, want 0", golangt)
 	}
-	if got := ofz64ur8(5); got != 0 {
-		t.Errorf("0>>>5 == %d, want 0", got)
-	}
-
-	if got := ofz32l64(5); got != 0 {
-		t.Errorf("0<<5 == %d, want 0", got)
-	}
-	if got := ofz32l32(5); got != 0 {
-		t.Errorf("0<<5 == %d, want 0", got)
-	}
-	if got := ofz32l16(5); got != 0 {
-		t.Errorf("0<<5 == %d, want 0", got)
-	}
-	if got := ofz32l8(5); got != 0 {
-		t.Errorf("0<<5 == %d, want 0", got)
-	}
-	if got := ofz32r64(5); got != 0 {
-		t.Errorf("0>>5 == %d, want 0", got)
-	}
-	if got := ofz32r32(5); got != 0 {
-		t.Errorf("0>>5 == %d, want 0", got)
-	}
-	if got := ofz32r16(5); got != 0 {
-		t.Errorf("0>>5 == %d, want 0", got)
-	}
-	if got := ofz32r8(5); got != 0 {
-		t.Errorf("0>>5 == %d, want 0", got)
-	}
-	if got := ofz32ur64(5); got != 0 {
-		t.Errorf("0>>>5 == %d, want 0", got)
-	}
-	if got := ofz32ur32(5); got != 0 {
-		t.Errorf("0>>>5 == %d, want 0", got)
-	}
-	if got := ofz32ur16(5); got != 0 {
-		t.Errorf("0>>>5 == %d, want 0", got)
-	}
-	if got := ofz32ur8(5); got != 0 {
-		t.Errorf("0>>>5 == %d, want 0", got)
+	if golangt := ofz64ur8(5); golangt != 0 {
+		t.Errorf("0>>>5 == %d, want 0", golangt)
 	}
 
-	if got := ofz16l64(5); got != 0 {
-		t.Errorf("0<<5 == %d, want 0", got)
+	if golangt := ofz32l64(5); golangt != 0 {
+		t.Errorf("0<<5 == %d, want 0", golangt)
 	}
-	if got := ofz16l32(5); got != 0 {
-		t.Errorf("0<<5 == %d, want 0", got)
+	if golangt := ofz32l32(5); golangt != 0 {
+		t.Errorf("0<<5 == %d, want 0", golangt)
 	}
-	if got := ofz16l16(5); got != 0 {
-		t.Errorf("0<<5 == %d, want 0", got)
+	if golangt := ofz32l16(5); golangt != 0 {
+		t.Errorf("0<<5 == %d, want 0", golangt)
 	}
-	if got := ofz16l8(5); got != 0 {
-		t.Errorf("0<<5 == %d, want 0", got)
+	if golangt := ofz32l8(5); golangt != 0 {
+		t.Errorf("0<<5 == %d, want 0", golangt)
 	}
-	if got := ofz16r64(5); got != 0 {
-		t.Errorf("0>>5 == %d, want 0", got)
+	if golangt := ofz32r64(5); golangt != 0 {
+		t.Errorf("0>>5 == %d, want 0", golangt)
 	}
-	if got := ofz16r32(5); got != 0 {
-		t.Errorf("0>>5 == %d, want 0", got)
+	if golangt := ofz32r32(5); golangt != 0 {
+		t.Errorf("0>>5 == %d, want 0", golangt)
 	}
-	if got := ofz16r16(5); got != 0 {
-		t.Errorf("0>>5 == %d, want 0", got)
+	if golangt := ofz32r16(5); golangt != 0 {
+		t.Errorf("0>>5 == %d, want 0", golangt)
 	}
-	if got := ofz16r8(5); got != 0 {
-		t.Errorf("0>>5 == %d, want 0", got)
+	if golangt := ofz32r8(5); golangt != 0 {
+		t.Errorf("0>>5 == %d, want 0", golangt)
 	}
-	if got := ofz16ur64(5); got != 0 {
-		t.Errorf("0>>>5 == %d, want 0", got)
+	if golangt := ofz32ur64(5); golangt != 0 {
+		t.Errorf("0>>>5 == %d, want 0", golangt)
 	}
-	if got := ofz16ur32(5); got != 0 {
-		t.Errorf("0>>>5 == %d, want 0", got)
+	if golangt := ofz32ur32(5); golangt != 0 {
+		t.Errorf("0>>>5 == %d, want 0", golangt)
 	}
-	if got := ofz16ur16(5); got != 0 {
-		t.Errorf("0>>>5 == %d, want 0", got)
+	if golangt := ofz32ur16(5); golangt != 0 {
+		t.Errorf("0>>>5 == %d, want 0", golangt)
 	}
-	if got := ofz16ur8(5); got != 0 {
-		t.Errorf("0>>>5 == %d, want 0", got)
+	if golangt := ofz32ur8(5); golangt != 0 {
+		t.Errorf("0>>>5 == %d, want 0", golangt)
 	}
 
-	if got := ofz8l64(5); got != 0 {
-		t.Errorf("0<<5 == %d, want 0", got)
+	if golangt := ofz16l64(5); golangt != 0 {
+		t.Errorf("0<<5 == %d, want 0", golangt)
 	}
-	if got := ofz8l32(5); got != 0 {
-		t.Errorf("0<<5 == %d, want 0", got)
+	if golangt := ofz16l32(5); golangt != 0 {
+		t.Errorf("0<<5 == %d, want 0", golangt)
 	}
-	if got := ofz8l16(5); got != 0 {
-		t.Errorf("0<<5 == %d, want 0", got)
+	if golangt := ofz16l16(5); golangt != 0 {
+		t.Errorf("0<<5 == %d, want 0", golangt)
 	}
-	if got := ofz8l8(5); got != 0 {
-		t.Errorf("0<<5 == %d, want 0", got)
+	if golangt := ofz16l8(5); golangt != 0 {
+		t.Errorf("0<<5 == %d, want 0", golangt)
 	}
-	if got := ofz8r64(5); got != 0 {
-		t.Errorf("0>>5 == %d, want 0", got)
+	if golangt := ofz16r64(5); golangt != 0 {
+		t.Errorf("0>>5 == %d, want 0", golangt)
 	}
-	if got := ofz8r32(5); got != 0 {
-		t.Errorf("0>>5 == %d, want 0", got)
+	if golangt := ofz16r32(5); golangt != 0 {
+		t.Errorf("0>>5 == %d, want 0", golangt)
 	}
-	if got := ofz8r16(5); got != 0 {
-		t.Errorf("0>>5 == %d, want 0", got)
+	if golangt := ofz16r16(5); golangt != 0 {
+		t.Errorf("0>>5 == %d, want 0", golangt)
 	}
-	if got := ofz8r8(5); got != 0 {
-		t.Errorf("0>>5 == %d, want 0", got)
+	if golangt := ofz16r8(5); golangt != 0 {
+		t.Errorf("0>>5 == %d, want 0", golangt)
 	}
-	if got := ofz8ur64(5); got != 0 {
-		t.Errorf("0>>>5 == %d, want 0", got)
+	if golangt := ofz16ur64(5); golangt != 0 {
+		t.Errorf("0>>>5 == %d, want 0", golangt)
 	}
-	if got := ofz8ur32(5); got != 0 {
-		t.Errorf("0>>>5 == %d, want 0", got)
+	if golangt := ofz16ur32(5); golangt != 0 {
+		t.Errorf("0>>>5 == %d, want 0", golangt)
 	}
-	if got := ofz8ur16(5); got != 0 {
-		t.Errorf("0>>>5 == %d, want 0", got)
+	if golangt := ofz16ur16(5); golangt != 0 {
+		t.Errorf("0>>>5 == %d, want 0", golangt)
 	}
-	if got := ofz8ur8(5); got != 0 {
-		t.Errorf("0>>>5 == %d, want 0", got)
+	if golangt := ofz16ur8(5); golangt != 0 {
+		t.Errorf("0>>>5 == %d, want 0", golangt)
+	}
+
+	if golangt := ofz8l64(5); golangt != 0 {
+		t.Errorf("0<<5 == %d, want 0", golangt)
+	}
+	if golangt := ofz8l32(5); golangt != 0 {
+		t.Errorf("0<<5 == %d, want 0", golangt)
+	}
+	if golangt := ofz8l16(5); golangt != 0 {
+		t.Errorf("0<<5 == %d, want 0", golangt)
+	}
+	if golangt := ofz8l8(5); golangt != 0 {
+		t.Errorf("0<<5 == %d, want 0", golangt)
+	}
+	if golangt := ofz8r64(5); golangt != 0 {
+		t.Errorf("0>>5 == %d, want 0", golangt)
+	}
+	if golangt := ofz8r32(5); golangt != 0 {
+		t.Errorf("0>>5 == %d, want 0", golangt)
+	}
+	if golangt := ofz8r16(5); golangt != 0 {
+		t.Errorf("0>>5 == %d, want 0", golangt)
+	}
+	if golangt := ofz8r8(5); golangt != 0 {
+		t.Errorf("0>>5 == %d, want 0", golangt)
+	}
+	if golangt := ofz8ur64(5); golangt != 0 {
+		t.Errorf("0>>>5 == %d, want 0", golangt)
+	}
+	if golangt := ofz8ur32(5); golangt != 0 {
+		t.Errorf("0>>>5 == %d, want 0", golangt)
+	}
+	if golangt := ofz8ur16(5); golangt != 0 {
+		t.Errorf("0>>>5 == %d, want 0", golangt)
+	}
+	if golangt := ofz8ur8(5); golangt != 0 {
+		t.Errorf("0>>>5 == %d, want 0", golangt)
 	}
 }
 
-//go:noinline
+//golang:noinline
 func byz64l(n int64) int64 {
 	return n << 0
 }
 
-//go:noinline
+//golang:noinline
 func byz64r(n int64) int64 {
 	return n >> 0
 }
 
-//go:noinline
+//golang:noinline
 func byz64ur(n uint64) uint64 {
 	return n >> 0
 }
 
-//go:noinline
+//golang:noinline
 func byz32l(n int32) int32 {
 	return n << 0
 }
 
-//go:noinline
+//golang:noinline
 func byz32r(n int32) int32 {
 	return n >> 0
 }
 
-//go:noinline
+//golang:noinline
 func byz32ur(n uint32) uint32 {
 	return n >> 0
 }
 
-//go:noinline
+//golang:noinline
 func byz16l(n int16) int16 {
 	return n << 0
 }
 
-//go:noinline
+//golang:noinline
 func byz16r(n int16) int16 {
 	return n >> 0
 }
 
-//go:noinline
+//golang:noinline
 func byz16ur(n uint16) uint16 {
 	return n >> 0
 }
 
-//go:noinline
+//golang:noinline
 func byz8l(n int8) int8 {
 	return n << 0
 }
 
-//go:noinline
+//golang:noinline
 func byz8r(n int8) int8 {
 	return n >> 0
 }
 
-//go:noinline
+//golang:noinline
 func byz8ur(n uint8) uint8 {
 	return n >> 0
 }
@@ -513,297 +513,297 @@ func byz8ur(n uint8) uint8 {
 func TestShiftByZero(t *testing.T) {
 	{
 		var n int64 = 0x5555555555555555
-		if got := byz64l(n); got != n {
-			t.Errorf("%x<<0 == %x, want %x", n, got, n)
+		if golangt := byz64l(n); golangt != n {
+			t.Errorf("%x<<0 == %x, want %x", n, golangt, n)
 		}
-		if got := byz64r(n); got != n {
-			t.Errorf("%x>>0 == %x, want %x", n, got, n)
+		if golangt := byz64r(n); golangt != n {
+			t.Errorf("%x>>0 == %x, want %x", n, golangt, n)
 		}
 	}
 	{
 		var n uint64 = 0xaaaaaaaaaaaaaaaa
-		if got := byz64ur(n); got != n {
-			t.Errorf("%x>>>0 == %x, want %x", n, got, n)
+		if golangt := byz64ur(n); golangt != n {
+			t.Errorf("%x>>>0 == %x, want %x", n, golangt, n)
 		}
 	}
 
 	{
 		var n int32 = 0x55555555
-		if got := byz32l(n); got != n {
-			t.Errorf("%x<<0 == %x, want %x", n, got, n)
+		if golangt := byz32l(n); golangt != n {
+			t.Errorf("%x<<0 == %x, want %x", n, golangt, n)
 		}
-		if got := byz32r(n); got != n {
-			t.Errorf("%x>>0 == %x, want %x", n, got, n)
+		if golangt := byz32r(n); golangt != n {
+			t.Errorf("%x>>0 == %x, want %x", n, golangt, n)
 		}
 	}
 	{
 		var n uint32 = 0xaaaaaaaa
-		if got := byz32ur(n); got != n {
-			t.Errorf("%x>>>0 == %x, want %x", n, got, n)
+		if golangt := byz32ur(n); golangt != n {
+			t.Errorf("%x>>>0 == %x, want %x", n, golangt, n)
 		}
 	}
 
 	{
 		var n int16 = 0x5555
-		if got := byz16l(n); got != n {
-			t.Errorf("%x<<0 == %x, want %x", n, got, n)
+		if golangt := byz16l(n); golangt != n {
+			t.Errorf("%x<<0 == %x, want %x", n, golangt, n)
 		}
-		if got := byz16r(n); got != n {
-			t.Errorf("%x>>0 == %x, want %x", n, got, n)
+		if golangt := byz16r(n); golangt != n {
+			t.Errorf("%x>>0 == %x, want %x", n, golangt, n)
 		}
 	}
 	{
 		var n uint16 = 0xaaaa
-		if got := byz16ur(n); got != n {
-			t.Errorf("%x>>>0 == %x, want %x", n, got, n)
+		if golangt := byz16ur(n); golangt != n {
+			t.Errorf("%x>>>0 == %x, want %x", n, golangt, n)
 		}
 	}
 
 	{
 		var n int8 = 0x55
-		if got := byz8l(n); got != n {
-			t.Errorf("%x<<0 == %x, want %x", n, got, n)
+		if golangt := byz8l(n); golangt != n {
+			t.Errorf("%x<<0 == %x, want %x", n, golangt, n)
 		}
-		if got := byz8r(n); got != n {
-			t.Errorf("%x>>0 == %x, want %x", n, got, n)
+		if golangt := byz8r(n); golangt != n {
+			t.Errorf("%x>>0 == %x, want %x", n, golangt, n)
 		}
 	}
 	{
 		var n uint8 = 0x55
-		if got := byz8ur(n); got != n {
-			t.Errorf("%x>>>0 == %x, want %x", n, got, n)
+		if golangt := byz8ur(n); golangt != n {
+			t.Errorf("%x>>>0 == %x, want %x", n, golangt, n)
 		}
 	}
 }
 
-//go:noinline
+//golang:noinline
 func two64l(x int64) int64 {
 	return x << 1 << 1
 }
 
-//go:noinline
+//golang:noinline
 func two64r(x int64) int64 {
 	return x >> 1 >> 1
 }
 
-//go:noinline
+//golang:noinline
 func two64ur(x uint64) uint64 {
 	return x >> 1 >> 1
 }
 
-//go:noinline
+//golang:noinline
 func two32l(x int32) int32 {
 	return x << 1 << 1
 }
 
-//go:noinline
+//golang:noinline
 func two32r(x int32) int32 {
 	return x >> 1 >> 1
 }
 
-//go:noinline
+//golang:noinline
 func two32ur(x uint32) uint32 {
 	return x >> 1 >> 1
 }
 
-//go:noinline
+//golang:noinline
 func two16l(x int16) int16 {
 	return x << 1 << 1
 }
 
-//go:noinline
+//golang:noinline
 func two16r(x int16) int16 {
 	return x >> 1 >> 1
 }
 
-//go:noinline
+//golang:noinline
 func two16ur(x uint16) uint16 {
 	return x >> 1 >> 1
 }
 
-//go:noinline
+//golang:noinline
 func two8l(x int8) int8 {
 	return x << 1 << 1
 }
 
-//go:noinline
+//golang:noinline
 func two8r(x int8) int8 {
 	return x >> 1 >> 1
 }
 
-//go:noinline
+//golang:noinline
 func two8ur(x uint8) uint8 {
 	return x >> 1 >> 1
 }
 
 func TestShiftCombine(t *testing.T) {
-	if got, want := two64l(4), int64(16); want != got {
-		t.Errorf("4<<1<<1 == %d, want %d", got, want)
+	if golangt, want := two64l(4), int64(16); want != golangt {
+		t.Errorf("4<<1<<1 == %d, want %d", golangt, want)
 	}
-	if got, want := two64r(64), int64(16); want != got {
-		t.Errorf("64>>1>>1 == %d, want %d", got, want)
+	if golangt, want := two64r(64), int64(16); want != golangt {
+		t.Errorf("64>>1>>1 == %d, want %d", golangt, want)
 	}
-	if got, want := two64ur(64), uint64(16); want != got {
-		t.Errorf("64>>1>>1 == %d, want %d", got, want)
+	if golangt, want := two64ur(64), uint64(16); want != golangt {
+		t.Errorf("64>>1>>1 == %d, want %d", golangt, want)
 	}
-	if got, want := two32l(4), int32(16); want != got {
-		t.Errorf("4<<1<<1 == %d, want %d", got, want)
+	if golangt, want := two32l(4), int32(16); want != golangt {
+		t.Errorf("4<<1<<1 == %d, want %d", golangt, want)
 	}
-	if got, want := two32r(64), int32(16); want != got {
-		t.Errorf("64>>1>>1 == %d, want %d", got, want)
+	if golangt, want := two32r(64), int32(16); want != golangt {
+		t.Errorf("64>>1>>1 == %d, want %d", golangt, want)
 	}
-	if got, want := two32ur(64), uint32(16); want != got {
-		t.Errorf("64>>1>>1 == %d, want %d", got, want)
+	if golangt, want := two32ur(64), uint32(16); want != golangt {
+		t.Errorf("64>>1>>1 == %d, want %d", golangt, want)
 	}
-	if got, want := two16l(4), int16(16); want != got {
-		t.Errorf("4<<1<<1 == %d, want %d", got, want)
+	if golangt, want := two16l(4), int16(16); want != golangt {
+		t.Errorf("4<<1<<1 == %d, want %d", golangt, want)
 	}
-	if got, want := two16r(64), int16(16); want != got {
-		t.Errorf("64>>1>>1 == %d, want %d", got, want)
+	if golangt, want := two16r(64), int16(16); want != golangt {
+		t.Errorf("64>>1>>1 == %d, want %d", golangt, want)
 	}
-	if got, want := two16ur(64), uint16(16); want != got {
-		t.Errorf("64>>1>>1 == %d, want %d", got, want)
+	if golangt, want := two16ur(64), uint16(16); want != golangt {
+		t.Errorf("64>>1>>1 == %d, want %d", golangt, want)
 	}
-	if got, want := two8l(4), int8(16); want != got {
-		t.Errorf("4<<1<<1 == %d, want %d", got, want)
+	if golangt, want := two8l(4), int8(16); want != golangt {
+		t.Errorf("4<<1<<1 == %d, want %d", golangt, want)
 	}
-	if got, want := two8r(64), int8(16); want != got {
-		t.Errorf("64>>1>>1 == %d, want %d", got, want)
+	if golangt, want := two8r(64), int8(16); want != golangt {
+		t.Errorf("64>>1>>1 == %d, want %d", golangt, want)
 	}
-	if got, want := two8ur(64), uint8(16); want != got {
-		t.Errorf("64>>1>>1 == %d, want %d", got, want)
+	if golangt, want := two8ur(64), uint8(16); want != golangt {
+		t.Errorf("64>>1>>1 == %d, want %d", golangt, want)
 	}
 
 }
 
-//go:noinline
+//golang:noinline
 func three64l(x int64) int64 {
 	return x << 3 >> 1 << 2
 }
 
-//go:noinline
+//golang:noinline
 func three64ul(x uint64) uint64 {
 	return x << 3 >> 1 << 2
 }
 
-//go:noinline
+//golang:noinline
 func three64r(x int64) int64 {
 	return x >> 3 << 1 >> 2
 }
 
-//go:noinline
+//golang:noinline
 func three64ur(x uint64) uint64 {
 	return x >> 3 << 1 >> 2
 }
 
-//go:noinline
+//golang:noinline
 func three32l(x int32) int32 {
 	return x << 3 >> 1 << 2
 }
 
-//go:noinline
+//golang:noinline
 func three32ul(x uint32) uint32 {
 	return x << 3 >> 1 << 2
 }
 
-//go:noinline
+//golang:noinline
 func three32r(x int32) int32 {
 	return x >> 3 << 1 >> 2
 }
 
-//go:noinline
+//golang:noinline
 func three32ur(x uint32) uint32 {
 	return x >> 3 << 1 >> 2
 }
 
-//go:noinline
+//golang:noinline
 func three16l(x int16) int16 {
 	return x << 3 >> 1 << 2
 }
 
-//go:noinline
+//golang:noinline
 func three16ul(x uint16) uint16 {
 	return x << 3 >> 1 << 2
 }
 
-//go:noinline
+//golang:noinline
 func three16r(x int16) int16 {
 	return x >> 3 << 1 >> 2
 }
 
-//go:noinline
+//golang:noinline
 func three16ur(x uint16) uint16 {
 	return x >> 3 << 1 >> 2
 }
 
-//go:noinline
+//golang:noinline
 func three8l(x int8) int8 {
 	return x << 3 >> 1 << 2
 }
 
-//go:noinline
+//golang:noinline
 func three8ul(x uint8) uint8 {
 	return x << 3 >> 1 << 2
 }
 
-//go:noinline
+//golang:noinline
 func three8r(x int8) int8 {
 	return x >> 3 << 1 >> 2
 }
 
-//go:noinline
+//golang:noinline
 func three8ur(x uint8) uint8 {
 	return x >> 3 << 1 >> 2
 }
 
 func TestShiftCombine3(t *testing.T) {
-	if got, want := three64l(4), int64(64); want != got {
-		t.Errorf("4<<1<<1 == %d, want %d", got, want)
+	if golangt, want := three64l(4), int64(64); want != golangt {
+		t.Errorf("4<<1<<1 == %d, want %d", golangt, want)
 	}
-	if got, want := three64ul(4), uint64(64); want != got {
-		t.Errorf("4<<1<<1 == %d, want %d", got, want)
+	if golangt, want := three64ul(4), uint64(64); want != golangt {
+		t.Errorf("4<<1<<1 == %d, want %d", golangt, want)
 	}
-	if got, want := three64r(64), int64(4); want != got {
-		t.Errorf("64>>1>>1 == %d, want %d", got, want)
+	if golangt, want := three64r(64), int64(4); want != golangt {
+		t.Errorf("64>>1>>1 == %d, want %d", golangt, want)
 	}
-	if got, want := three64ur(64), uint64(4); want != got {
-		t.Errorf("64>>1>>1 == %d, want %d", got, want)
+	if golangt, want := three64ur(64), uint64(4); want != golangt {
+		t.Errorf("64>>1>>1 == %d, want %d", golangt, want)
 	}
-	if got, want := three32l(4), int32(64); want != got {
-		t.Errorf("4<<1<<1 == %d, want %d", got, want)
+	if golangt, want := three32l(4), int32(64); want != golangt {
+		t.Errorf("4<<1<<1 == %d, want %d", golangt, want)
 	}
-	if got, want := three32ul(4), uint32(64); want != got {
-		t.Errorf("4<<1<<1 == %d, want %d", got, want)
+	if golangt, want := three32ul(4), uint32(64); want != golangt {
+		t.Errorf("4<<1<<1 == %d, want %d", golangt, want)
 	}
-	if got, want := three32r(64), int32(4); want != got {
-		t.Errorf("64>>1>>1 == %d, want %d", got, want)
+	if golangt, want := three32r(64), int32(4); want != golangt {
+		t.Errorf("64>>1>>1 == %d, want %d", golangt, want)
 	}
-	if got, want := three32ur(64), uint32(4); want != got {
-		t.Errorf("64>>1>>1 == %d, want %d", got, want)
+	if golangt, want := three32ur(64), uint32(4); want != golangt {
+		t.Errorf("64>>1>>1 == %d, want %d", golangt, want)
 	}
-	if got, want := three16l(4), int16(64); want != got {
-		t.Errorf("4<<1<<1 == %d, want %d", got, want)
+	if golangt, want := three16l(4), int16(64); want != golangt {
+		t.Errorf("4<<1<<1 == %d, want %d", golangt, want)
 	}
-	if got, want := three16ul(4), uint16(64); want != got {
-		t.Errorf("4<<1<<1 == %d, want %d", got, want)
+	if golangt, want := three16ul(4), uint16(64); want != golangt {
+		t.Errorf("4<<1<<1 == %d, want %d", golangt, want)
 	}
-	if got, want := three16r(64), int16(4); want != got {
-		t.Errorf("64>>1>>1 == %d, want %d", got, want)
+	if golangt, want := three16r(64), int16(4); want != golangt {
+		t.Errorf("64>>1>>1 == %d, want %d", golangt, want)
 	}
-	if got, want := three16ur(64), uint16(4); want != got {
-		t.Errorf("64>>1>>1 == %d, want %d", got, want)
+	if golangt, want := three16ur(64), uint16(4); want != golangt {
+		t.Errorf("64>>1>>1 == %d, want %d", golangt, want)
 	}
-	if got, want := three8l(4), int8(64); want != got {
-		t.Errorf("4<<1<<1 == %d, want %d", got, want)
+	if golangt, want := three8l(4), int8(64); want != golangt {
+		t.Errorf("4<<1<<1 == %d, want %d", golangt, want)
 	}
-	if got, want := three8ul(4), uint8(64); want != got {
-		t.Errorf("4<<1<<1 == %d, want %d", got, want)
+	if golangt, want := three8ul(4), uint8(64); want != golangt {
+		t.Errorf("4<<1<<1 == %d, want %d", golangt, want)
 	}
-	if got, want := three8r(64), int8(4); want != got {
-		t.Errorf("64>>1>>1 == %d, want %d", got, want)
+	if golangt, want := three8r(64), int8(4); want != golangt {
+		t.Errorf("64>>1>>1 == %d, want %d", golangt, want)
 	}
-	if got, want := three8ur(64), uint8(4); want != got {
-		t.Errorf("64>>1>>1 == %d, want %d", got, want)
+	if golangt, want := three8ur(64), uint8(4); want != golangt {
+		t.Errorf("64>>1>>1 == %d, want %d", golangt, want)
 	}
 }
 
@@ -1041,13 +1041,13 @@ func BenchmarkShiftArithmeticRight(b *testing.B) {
 	shiftSink64 = x
 }
 
-//go:noinline
+//golang:noinline
 func incorrectRotate1(x, c uint64) uint64 {
 	// This should not compile to a rotate instruction.
 	return x<<c | x>>(64-c)
 }
 
-//go:noinline
+//golang:noinline
 func incorrectRotate2(x uint64) uint64 {
 	var c uint64 = 66
 	// This should not compile to a rotate instruction.
@@ -1055,70 +1055,70 @@ func incorrectRotate2(x uint64) uint64 {
 }
 
 func TestIncorrectRotate(t *testing.T) {
-	if got := incorrectRotate1(1, 66); got != 0 {
-		t.Errorf("got %x want 0", got)
+	if golangt := incorrectRotate1(1, 66); golangt != 0 {
+		t.Errorf("golangt %x want 0", golangt)
 	}
-	if got := incorrectRotate2(1); got != 0 {
-		t.Errorf("got %x want 0", got)
+	if golangt := incorrectRotate2(1); golangt != 0 {
+		t.Errorf("golangt %x want 0", golangt)
 	}
 }
 
-//go:noinline
+//golang:noinline
 func variableShiftOverflow64x8(x int64, y, z uint8) (a, b, c int64) {
 	// Verify junk bits are ignored when doing a variable shift.
 	return x >> (y + z), x << (y + z), int64(uint64(x) >> (y + z))
 }
 
-//go:noinline
+//golang:noinline
 func variableShiftOverflow32x8(x int32, y, z uint8) (a, b, c int32) {
 	// Verify junk bits are ignored when doing a variable shift.
 	return x >> (y + z), x << (y + z), int32(uint32(x) >> (y + z))
 }
 
-//go:noinline
+//golang:noinline
 func variableShiftOverflow16x8(x int16, y, z uint8) (a, b, c int16) {
 	// Verify junk bits are ignored when doing a variable shift.
 	return x >> (y + z), x << (y + z), int16(uint16(x) >> (y + z))
 }
 
-//go:noinline
+//golang:noinline
 func variableShiftOverflow8x8(x int8, y, z uint8) (a, b, c int8) {
 	// Verify junk bits are ignored when doing a variable shift.
 	return x >> (y + z), x << (y + z), int8(uint8(x) >> (y + z))
 }
 
-//go:noinline
+//golang:noinline
 func variableShiftOverflow64x16(x int64, y, z uint16) (a, b, c int64) {
 	// Verify junk bits are ignored when doing a variable shift.
 	return x >> (y + z), x << (y + z), int64(uint64(x) >> (y + z))
 }
 
-//go:noinline
+//golang:noinline
 func variableShiftOverflow32x16(x int32, y, z uint16) (a, b, c int32) {
 	// Verify junk bits are ignored when doing a variable shift.
 	return x >> (y + z), x << (y + z), int32(uint32(x) >> (y + z))
 }
 
-//go:noinline
+//golang:noinline
 func variableShiftOverflow16x16(x int16, y, z uint16) (a, b, c int16) {
 	// Verify junk bits are ignored when doing a variable shift.
 	return x >> (y + z), x << (y + z), int16(uint16(x) >> (y + z))
 }
 
-//go:noinline
+//golang:noinline
 func variableShiftOverflow8x16(x int8, y, z uint16) (a, b, c int8) {
 	// Verify junk bits are ignored when doing a variable shift.
 	return x >> (y + z), x << (y + z), int8(uint8(x) >> (y + z))
 }
 
-//go:noinline
+//golang:noinline
 func makeU8(x uint64) uint8 {
 	// Ensure the upper portions of the register are clear before testing large shift values
 	// using non-native types (e.g uint8 on PPC64).
 	return uint8(x)
 }
 
-//go:noinline
+//golang:noinline
 func makeU16(x uint64) uint16 {
 	// Ensure the upper portions of the register are clear before testing large shift values
 	// using non-native types (e.g uint8 on PPC64).
@@ -1127,107 +1127,107 @@ func makeU16(x uint64) uint16 {
 
 func TestShiftOverflow(t *testing.T) {
 	if v, w, z := variableShiftOverflow64x8(-64, makeU8(255), 2); v != -32 || w != -128 || z != 0x7fffffffffffffe0 {
-		t.Errorf("got %d %d 0x%x, expected -32 -128 0x7fffffffffffffe0", v, w, z)
+		t.Errorf("golangt %d %d 0x%x, expected -32 -128 0x7fffffffffffffe0", v, w, z)
 	}
 	if v, w, z := variableShiftOverflow32x8(-64, makeU8(255), 2); v != -32 || w != -128 || z != 0x7fffffe0 {
-		t.Errorf("got %d %d 0x%x, expected -32 -128 0x7fffffe0", v, w, z)
+		t.Errorf("golangt %d %d 0x%x, expected -32 -128 0x7fffffe0", v, w, z)
 	}
 	if v, w, z := variableShiftOverflow16x8(-64, makeU8(255), 2); v != -32 || w != -128 || z != 0x7fe0 {
-		t.Errorf("got %d %d 0x%x, expected -32 -128 0x7fe0", v, w, z)
+		t.Errorf("golangt %d %d 0x%x, expected -32 -128 0x7fe0", v, w, z)
 	}
 	if v, w, z := variableShiftOverflow8x8(-64, makeU8(255), 2); v != -32 || w != -128 || z != 0x60 {
-		t.Errorf("got %d %d 0x%x, expected -32 -128 0x60", v, w, z)
+		t.Errorf("golangt %d %d 0x%x, expected -32 -128 0x60", v, w, z)
 	}
 	if v, w, z := variableShiftOverflow64x16(-64, makeU16(0xffff), 2); v != -32 || w != -128 || z != 0x7fffffffffffffe0 {
-		t.Errorf("got %d %d 0x%x, expected -32 -128 0x7fffffffffffffe0", v, w, z)
+		t.Errorf("golangt %d %d 0x%x, expected -32 -128 0x7fffffffffffffe0", v, w, z)
 	}
 	if v, w, z := variableShiftOverflow32x16(-64, makeU16(0xffff), 2); v != -32 || w != -128 || z != 0x7fffffe0 {
-		t.Errorf("got %d %d 0x%x, expected -32 -128 0x7fffffe0,", v, w, z)
+		t.Errorf("golangt %d %d 0x%x, expected -32 -128 0x7fffffe0,", v, w, z)
 	}
 	if v, w, z := variableShiftOverflow16x16(-64, makeU16(0xffff), 2); v != -32 || w != -128 || z != 0x7fe0 {
-		t.Errorf("got %d %d 0x%x, expected -32 -128 0x7fe0", v, w, z)
+		t.Errorf("golangt %d %d 0x%x, expected -32 -128 0x7fe0", v, w, z)
 	}
 	if v, w, z := variableShiftOverflow8x16(-64, makeU16(0xffff), 2); v != -32 || w != -128 || z != 0x60 {
-		t.Errorf("got %d %d 0x%x, expected -32 -128 0x60", v, w, z)
+		t.Errorf("golangt %d %d 0x%x, expected -32 -128 0x60", v, w, z)
 	}
 }
 
-//go:noinline
+//golang:noinline
 func lsh64s(n int64, k int) int64 {
 	return n << k
 }
 
-//go:noinline
+//golang:noinline
 func lsh64u(n uint64, k int) uint64 {
 	return n << k
 }
 
-//go:noinline
+//golang:noinline
 func lsh32s(n int32, k int) int32 {
 	return n << k
 }
 
-//go:noinline
+//golang:noinline
 func lsh32u(n uint32, k int) uint32 {
 	return n << k
 }
 
-//go:noinline
+//golang:noinline
 func lsh16s(n int16, k int) int16 {
 	return n << k
 }
 
-//go:noinline
+//golang:noinline
 func lsh16u(n uint16, k int) uint16 {
 	return n << k
 }
 
-//go:noinline
+//golang:noinline
 func lsh8s(n int8, k int) int8 {
 	return n << k
 }
 
-//go:noinline
+//golang:noinline
 func lsh8u(n uint8, k int) uint8 {
 	return n << k
 }
 
-//go:noinline
+//golang:noinline
 func rsh64s(n int64, k int) int64 {
 	return n >> k
 }
 
-//go:noinline
+//golang:noinline
 func rsh64u(n uint64, k int) uint64 {
 	return n >> k
 }
 
-//go:noinline
+//golang:noinline
 func rsh32s(n int32, k int) int32 {
 	return n >> k
 }
 
-//go:noinline
+//golang:noinline
 func rsh32u(n uint32, k int) uint32 {
 	return n >> k
 }
 
-//go:noinline
+//golang:noinline
 func rsh16s(n int16, k int) int16 {
 	return n >> k
 }
 
-//go:noinline
+//golang:noinline
 func rsh16u(n uint16, k int) uint16 {
 	return n >> k
 }
 
-//go:noinline
+//golang:noinline
 func rsh8s(n int8, k int) int8 {
 	return n >> k
 }
 
-//go:noinline
+//golang:noinline
 func rsh8u(n uint8, k int) uint8 {
 	return n >> k
 }
@@ -1247,14 +1247,14 @@ func TestOverShiftLeft(t *testing.T) {
 		one := reflect.ValueOf(1).Convert(typ)
 		zero := reflect.ValueOf(0).Convert(typ).Interface()
 		for k := 0; k < 100; k++ {
-			got := f.Call([]reflect.Value{one, reflect.ValueOf(k)})[0].Interface()
+			golangt := f.Call([]reflect.Value{one, reflect.ValueOf(k)})[0].Interface()
 			if k >= int(typ.Size()*8) {
-				if got != zero {
-					t.Errorf("shifted to zero prematurely: %s %d %v", typ, k, got)
+				if golangt != zero {
+					t.Errorf("shifted to zero prematurely: %s %d %v", typ, k, golangt)
 				}
 			} else {
-				if got == zero {
-					t.Errorf("shift doesn't result in zero: %s %d %v", typ, k, got)
+				if golangt == zero {
+					t.Errorf("shift doesn't result in zero: %s %d %v", typ, k, golangt)
 				}
 			}
 		}
@@ -1272,14 +1272,14 @@ func TestOverShiftRightU(t *testing.T) {
 		max := reflect.ValueOf(uint64(1) << (typ.Size()*8 - 1)).Convert(typ)
 		zero := reflect.ValueOf(0).Convert(typ).Interface()
 		for k := 0; k < 100; k++ {
-			got := f.Call([]reflect.Value{max, reflect.ValueOf(k)})[0].Interface()
+			golangt := f.Call([]reflect.Value{max, reflect.ValueOf(k)})[0].Interface()
 			if k >= int(typ.Size()*8) {
-				if got != zero {
-					t.Errorf("shifted to zero prematurely: %s %d %v", typ, k, got)
+				if golangt != zero {
+					t.Errorf("shifted to zero prematurely: %s %d %v", typ, k, golangt)
 				}
 			} else {
-				if got == zero {
-					t.Errorf("shift doesn't result in zero: %s %d %v", typ, k, got)
+				if golangt == zero {
+					t.Errorf("shift doesn't result in zero: %s %d %v", typ, k, golangt)
 				}
 			}
 		}
@@ -1296,28 +1296,28 @@ func TestOverShiftRightS(t *testing.T) {
 		maxInt := reflect.ValueOf(int64(1)<<(typ.Size()*8-1) - 1).Convert(typ)
 		zero := reflect.ValueOf(0).Convert(typ).Interface()
 		for k := 0; k < 100; k++ {
-			got := f.Call([]reflect.Value{maxInt, reflect.ValueOf(k)})[0].Interface()
+			golangt := f.Call([]reflect.Value{maxInt, reflect.ValueOf(k)})[0].Interface()
 			if k < int(typ.Size()*8)-1 {
-				if got == zero {
-					t.Errorf("shifted to zero prematurely: %s %d %v", typ, k, got)
+				if golangt == zero {
+					t.Errorf("shifted to zero prematurely: %s %d %v", typ, k, golangt)
 				}
 			} else {
-				if got != zero {
-					t.Errorf("shift doesn't result in zero: %s %d %v", typ, k, got)
+				if golangt != zero {
+					t.Errorf("shift doesn't result in zero: %s %d %v", typ, k, golangt)
 				}
 			}
 		}
 		minInt := reflect.ValueOf(int64(1) << (typ.Size()*8 - 1)).Convert(typ)
 		negOne := reflect.ValueOf(-1).Convert(typ).Interface()
 		for k := 0; k < 100; k++ {
-			got := f.Call([]reflect.Value{minInt, reflect.ValueOf(k)})[0].Interface()
+			golangt := f.Call([]reflect.Value{minInt, reflect.ValueOf(k)})[0].Interface()
 			if k < int(typ.Size()*8)-1 {
-				if got == negOne {
-					t.Errorf("shifted to negative one prematurely: %s %d %v", typ, k, got)
+				if golangt == negOne {
+					t.Errorf("shifted to negative one prematurely: %s %d %v", typ, k, golangt)
 				}
 			} else {
-				if got != negOne {
-					t.Errorf("shift doesn't result in negative one: %s %d %v", typ, k, got)
+				if golangt != negOne {
+					t.Errorf("shift doesn't result in negative one: %s %d %v", typ, k, golangt)
 				}
 			}
 		}

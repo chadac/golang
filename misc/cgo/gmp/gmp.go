@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 /*
@@ -8,9 +8,9 @@ multiprecision library gmp's integer type mpz_t wrapped to look like
 the Go package big's integer type Int.
 
 This is a syntactically valid Go program—it can be parsed with the Go
-parser and processed by godoc—but it is not compiled directly by gc.
-Instead, a separate tool, cgo, processes it to produce three output
-files.  The first two, 6g.go and 6c.c, are a Go source file for 6g and
+parser and processed by golangdoc—but it is not compiled directly by gc.
+Instead, a separate tool, cgolang, processes it to produce three output
+files.  The first two, 6g.golang and 6c.c, are a Go source file for 6g and
 a C source file for 6c; both compile as part of the named package
 (gmp, in this example).  The third, gcc.c, is a C source file for gcc;
 it compiles into a shared object (.so) that is dynamically linked into
@@ -21,12 +21,12 @@ The stanza
 	// #include <gmp.h>
 	import "C"
 
-is a signal to cgo.  The doc comment on the import of "C" provides
+is a signal to cgolang.  The doc comment on the import of "C" provides
 additional context for the C file.  Here it is just a single #include
 but it could contain arbitrary C definitions to be imported and used.
 
-Cgo recognizes any use of a qualified identifier C.xxx and uses gcc to
-find the definition of xxx.  If xxx is a type, cgo replaces C.xxx with
+Cgolang recognizes any use of a qualified identifier C.xxx and uses gcc to
+find the definition of xxx.  If xxx is a type, cgolang replaces C.xxx with
 a Go translation.  C arithmetic types translate to precisely-sized Go
 arithmetic types.  A C struct translates to a Go struct, field by
 field; unrepresentable fields are replaced with opaque byte arrays.  A
@@ -48,7 +48,7 @@ For example, mpz_t is defined in <gmp.h> as:
 
 	typedef __mpz_struct mpz_t[1];
 
-Cgo generates:
+Cgolang generates:
 
 	type _C_int int32
 	type _C_mp_limb_t uint64
@@ -61,22 +61,22 @@ Cgo generates:
 
 and then replaces each occurrence of a type C.xxx with _C_xxx.
 
-If xxx is data, cgo arranges for C.xxx to refer to the C variable,
-with the type translated as described above.  To do this, cgo must
+If xxx is data, cgolang arranges for C.xxx to refer to the C variable,
+with the type translated as described above.  To do this, cgolang must
 introduce a Go variable that points at the C variable (the linker can
 be told to initialize this pointer).  For example, if the gmp library
 provided
 
 	mpz_t zero;
 
-then cgo would rewrite a reference to C.zero by introducing
+then cgolang would rewrite a reference to C.zero by introducing
 
 	var _C_zero *C.mpz_t
 
 and then replacing all instances of C.zero with (*_C_zero).
 
-Cgo's most interesting translation is for functions.  If xxx is a C
-function, then cgo rewrites C.xxx into a new function _C_xxx that
+Cgolang's most interesting translation is for functions.  If xxx is a C
+function, then cgolang rewrites C.xxx into a new function _C_xxx that
 calls the C xxx in a standard pthread.  The new function translates
 its arguments, calls xxx, and translates the return value.
 
@@ -99,7 +99,7 @@ Go to hang on to a reference to the pointer until C is done with it.
 package gmp
 
 /*
-#cgo LDFLAGS: -lgmp
+#cgolang LDFLAGS: -lgmp
 #include <gmp.h>
 #include <stdlib.h>
 

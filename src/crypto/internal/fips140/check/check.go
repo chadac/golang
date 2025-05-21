@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package check implements the FIPS 140 load-time code+data verification.
@@ -17,7 +17,7 @@ import (
 	"crypto/internal/fips140/hmac"
 	"crypto/internal/fips140/sha256"
 	"crypto/internal/fips140deps/byteorder"
-	"crypto/internal/fips140deps/godebug"
+	"crypto/internal/fips140deps/golangdebug"
 	"io"
 	"unsafe"
 )
@@ -26,10 +26,10 @@ import (
 // true when [fips140.Enabled] is true, or init would have panicked.
 var Verified bool
 
-// Linkinfo holds the go:fipsinfo symbol prepared by the linker.
-// See cmd/link/internal/ld/fips.go for details.
+// Linkinfo holds the golang:fipsinfo symbol prepared by the linker.
+// See cmd/link/internal/ld/fips.golang for details.
 //
-//go:linkname Linkinfo go:fipsinfo
+//golang:linkname Linkinfo golang:fipsinfo
 var Linkinfo struct {
 	Magic [16]byte
 	Sum   [32]byte
@@ -38,7 +38,7 @@ var Linkinfo struct {
 		// Note: These must be unsafe.Pointer, not uintptr,
 		// or else checkptr panics about turning uintptrs
 		// into pointers into the data segment during
-		// go test -race.
+		// golang test -race.
 		Start unsafe.Pointer
 		End   unsafe.Pointer
 	}
@@ -78,7 +78,7 @@ func init() {
 		w = io.MultiWriter(h, f)
 	*/
 
-	w.Write([]byte("go fips object v1\n"))
+	w.Write([]byte("golang fips object v1\n"))
 
 	var nbuf [8]byte
 	for _, sect := range Linkinfo.Sects {
@@ -100,7 +100,7 @@ func init() {
 	clear(nbuf[:])
 	h.Reset()
 
-	if godebug.Value("fips140") == "debug" {
+	if golangdebug.Value("fips140") == "debug" {
 		println("fips140: verified code+data")
 	}
 

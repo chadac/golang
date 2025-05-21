@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2016 The Go Authors.  All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Previously, cmd/compile would rewrite
@@ -56,7 +56,7 @@ func main() {
 func check(p, q unsafe.Pointer) {
 	a, b := *(*int)(p), *(*int)(q)
 	if a != 1 || b != 2 {
-		fmt.Printf("got %v, %v; expected 1, 2\n", a, b)
+		fmt.Printf("golangt %v, %v; expected 1, 2\n", a, b)
 	}
 }
 

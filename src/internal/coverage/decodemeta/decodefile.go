@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package decodemeta
@@ -78,7 +78,7 @@ func (r *CoverageMetaFileReader) readFileHeader() error {
 		return fmt.Errorf("meta-data file withn unknown version %d (expected %d)", r.hdr.Version, coverage.MetaFileVersion)
 	}
 
-	// Read package offsets for good measure
+	// Read package offsets for golangod measure
 	r.pkgOffsets = make([]uint64, r.hdr.Entries)
 	for i := uint64(0); i < r.hdr.Entries; i++ {
 		if r.pkgOffsets[i], err = r.rdUint64(); err != nil {

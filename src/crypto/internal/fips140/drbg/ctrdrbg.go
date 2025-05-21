@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package drbg
@@ -44,7 +44,7 @@ const (
 )
 
 func NewCounter(entropy *[SeedSize]byte) *Counter {
-	// CTR_DRBG_Instantiate_algorithm, per Section 10.2.1.3.1.
+	// CTR_DRBG_Instantiate_algolangrithm, per Section 10.2.1.3.1.
 	fips140.RecordApproved()
 
 	K := make([]byte, keySize)
@@ -94,7 +94,7 @@ func increment(v *[aes.BlockSize]byte) {
 }
 
 func (c *Counter) Reseed(entropy, additionalInput *[SeedSize]byte) {
-	// CTR_DRBG_Reseed_algorithm, per Section 10.2.1.4.1.
+	// CTR_DRBG_Reseed_algolangrithm, per Section 10.2.1.4.1.
 	fips140.RecordApproved()
 
 	var seed [SeedSize]byte
@@ -105,7 +105,7 @@ func (c *Counter) Reseed(entropy, additionalInput *[SeedSize]byte) {
 
 // Generate produces at most maxRequestSize bytes of random data in out.
 func (c *Counter) Generate(out []byte, additionalInput *[SeedSize]byte) (reseedRequired bool) {
-	// CTR_DRBG_Generate_algorithm, per Section 10.2.1.5.1.
+	// CTR_DRBG_Generate_algolangrithm, per Section 10.2.1.5.1.
 	fips140.RecordApproved()
 
 	if len(out) > maxRequestSize {

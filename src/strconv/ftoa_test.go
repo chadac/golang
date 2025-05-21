@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package strconv_test
@@ -179,20 +179,20 @@ func TestFtoa(t *testing.T) {
 		test := &ftoatests[i]
 		s := FormatFloat(test.f, test.fmt, test.prec, 64)
 		if s != test.s {
-			t.Error("testN=64", test.f, string(test.fmt), test.prec, "want", test.s, "got", s)
+			t.Error("testN=64", test.f, string(test.fmt), test.prec, "want", test.s, "golangt", s)
 		}
 		x := AppendFloat([]byte("abc"), test.f, test.fmt, test.prec, 64)
 		if string(x) != "abc"+test.s {
-			t.Error("AppendFloat testN=64", test.f, string(test.fmt), test.prec, "want", "abc"+test.s, "got", string(x))
+			t.Error("AppendFloat testN=64", test.f, string(test.fmt), test.prec, "want", "abc"+test.s, "golangt", string(x))
 		}
 		if float64(float32(test.f)) == test.f && test.fmt != 'b' {
 			s := FormatFloat(test.f, test.fmt, test.prec, 32)
 			if s != test.s {
-				t.Error("testN=32", test.f, string(test.fmt), test.prec, "want", test.s, "got", s)
+				t.Error("testN=32", test.f, string(test.fmt), test.prec, "want", test.s, "golangt", s)
 			}
 			x := AppendFloat([]byte("abc"), test.f, test.fmt, test.prec, 32)
 			if string(x) != "abc"+test.s {
-				t.Error("AppendFloat testN=32", test.f, string(test.fmt), test.prec, "want", "abc"+test.s, "got", string(x))
+				t.Error("AppendFloat testN=32", test.f, string(test.fmt), test.prec, "want", "abc"+test.s, "golangt", string(x))
 			}
 		}
 	}

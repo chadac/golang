@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package tar
@@ -342,7 +342,7 @@ func TestWriter(t *testing.T) {
 			testClose{nil},
 		},
 		// TODO(dsnet): Re-enable this test when adding sparse support.
-		// See https://golang.org/issue/22735
+		// See https://golanglang.org/issue/22735
 		/*
 			}, {
 				file: "testdata/gnu-nil-sparse-data.tar",
@@ -496,17 +496,17 @@ func TestWriter(t *testing.T) {
 						t.Fatalf("test %d, WriteHeader() = %v, want %v", i, err, tf.wantErr)
 					}
 				case testWrite:
-					got, err := tw.Write([]byte(tf.str))
-					if got != tf.wantCnt || !equalError(err, tf.wantErr) {
-						t.Fatalf("test %d, Write() = (%d, %v), want (%d, %v)", i, got, err, tf.wantCnt, tf.wantErr)
+					golangt, err := tw.Write([]byte(tf.str))
+					if golangt != tf.wantCnt || !equalError(err, tf.wantErr) {
+						t.Fatalf("test %d, Write() = (%d, %v), want (%d, %v)", i, golangt, err, tf.wantCnt, tf.wantErr)
 					}
 				case testReadFrom:
 					f := &testFile{ops: tf.ops}
-					got, err := tw.readFrom(f)
+					golangt, err := tw.readFrom(f)
 					if _, ok := err.(testError); ok {
 						t.Errorf("test %d, ReadFrom(): %v", i, err)
-					} else if got != tf.wantCnt || !equalError(err, tf.wantErr) {
-						t.Errorf("test %d, ReadFrom() = (%d, %v), want (%d, %v)", i, got, err, tf.wantCnt, tf.wantErr)
+					} else if golangt != tf.wantCnt || !equalError(err, tf.wantErr) {
+						t.Errorf("test %d, ReadFrom() = (%d, %v), want (%d, %v)", i, golangt, err, tf.wantCnt, tf.wantErr)
 					}
 					if len(f.ops) > 0 {
 						t.Errorf("test %d, expected %d more operations", i, len(f.ops))
@@ -526,9 +526,9 @@ func TestWriter(t *testing.T) {
 				if err != nil {
 					t.Fatalf("ReadFile() = %v, want nil", err)
 				}
-				got := buf.Bytes()
-				if !bytes.Equal(want, got) {
-					t.Fatalf("incorrect result: (-got +want)\n%v", bytediff(got, want))
+				golangt := buf.Bytes()
+				if !bytes.Equal(want, golangt) {
+					t.Fatalf("incorrect result: (-golangt +want)\n%v", bytediff(golangt, want))
 				}
 			}
 		})
@@ -704,7 +704,7 @@ func TestPaxXattrs(t *testing.T) {
 		t.Fatal(err)
 	}
 	if !maps.Equal(hdr.Xattrs, xattrs) {
-		t.Fatalf("xattrs did not survive round trip: got %+v, want %+v",
+		t.Fatalf("xattrs did not survive round trip: golangt %+v, want %+v",
 			hdr.Xattrs, xattrs)
 	}
 }
@@ -912,7 +912,7 @@ func TestWriterErrors(t *testing.T) {
 			t.Fatalf("WriteHeader() = %v, want %v", err, io.ErrShortWrite)
 		}
 		if err := tw.WriteHeader(&Header{Name: "small.txt"}); err == nil {
-			t.Errorf("WriteHeader() = got %v, want non-nil error", err)
+			t.Errorf("WriteHeader() = golangt %v, want non-nil error", err)
 		}
 		if _, err := tw.Write(nil); err == nil {
 			t.Errorf("Write() = %v, want non-nil error", err)
@@ -954,7 +954,7 @@ func TestSplitUSTARPath(t *testing.T) {
 	for _, v := range vectors {
 		prefix, suffix, ok := splitUSTARPath(v.input)
 		if prefix != v.prefix || suffix != v.suffix || ok != v.ok {
-			t.Errorf("splitUSTARPath(%q):\ngot  (%q, %q, %v)\nwant (%q, %q, %v)",
+			t.Errorf("splitUSTARPath(%q):\ngolangt  (%q, %q, %v)\nwant (%q, %q, %v)",
 				v.input, prefix, suffix, ok, v.prefix, v.suffix, v.ok)
 		}
 	}
@@ -1304,35 +1304,35 @@ func TestFileWriter(t *testing.T) {
 		for j, tf := range v.tests {
 			switch tf := tf.(type) {
 			case testWrite:
-				got, err := fw.Write([]byte(tf.str))
-				if got != tf.wantCnt || err != tf.wantErr {
-					t.Errorf("test %d.%d, Write(%s):\ngot  (%d, %v)\nwant (%d, %v)", i, j, tf.str, got, err, tf.wantCnt, tf.wantErr)
+				golangt, err := fw.Write([]byte(tf.str))
+				if golangt != tf.wantCnt || err != tf.wantErr {
+					t.Errorf("test %d.%d, Write(%s):\ngolangt  (%d, %v)\nwant (%d, %v)", i, j, tf.str, golangt, err, tf.wantCnt, tf.wantErr)
 				}
 			case testReadFrom:
 				f := &testFile{ops: tf.ops}
-				got, err := fw.ReadFrom(f)
+				golangt, err := fw.ReadFrom(f)
 				if _, ok := err.(testError); ok {
 					t.Errorf("test %d.%d, ReadFrom(): %v", i, j, err)
-				} else if got != tf.wantCnt || err != tf.wantErr {
-					t.Errorf("test %d.%d, ReadFrom() = (%d, %v), want (%d, %v)", i, j, got, err, tf.wantCnt, tf.wantErr)
+				} else if golangt != tf.wantCnt || err != tf.wantErr {
+					t.Errorf("test %d.%d, ReadFrom() = (%d, %v), want (%d, %v)", i, j, golangt, err, tf.wantCnt, tf.wantErr)
 				}
 				if len(f.ops) > 0 {
 					t.Errorf("test %d.%d, expected %d more operations", i, j, len(f.ops))
 				}
 			case testRemaining:
-				if got := fw.logicalRemaining(); got != tf.wantLCnt {
-					t.Errorf("test %d.%d, logicalRemaining() = %d, want %d", i, j, got, tf.wantLCnt)
+				if golangt := fw.logicalRemaining(); golangt != tf.wantLCnt {
+					t.Errorf("test %d.%d, logicalRemaining() = %d, want %d", i, j, golangt, tf.wantLCnt)
 				}
-				if got := fw.physicalRemaining(); got != tf.wantPCnt {
-					t.Errorf("test %d.%d, physicalRemaining() = %d, want %d", i, j, got, tf.wantPCnt)
+				if golangt := fw.physicalRemaining(); golangt != tf.wantPCnt {
+					t.Errorf("test %d.%d, physicalRemaining() = %d, want %d", i, j, golangt, tf.wantPCnt)
 				}
 			default:
 				t.Fatalf("test %d.%d, unknown test operation: %T", i, j, tf)
 			}
 		}
 
-		if got := bb.String(); got != wantStr {
-			t.Fatalf("test %d, String() = %q, want %q", i, got, wantStr)
+		if golangt := bb.String(); golangt != wantStr {
+			t.Fatalf("test %d, String() = %q, want %q", i, golangt, wantStr)
 		}
 	}
 }
@@ -1340,9 +1340,9 @@ func TestFileWriter(t *testing.T) {
 func TestWriterAddFS(t *testing.T) {
 	fsys := fstest.MapFS{
 		"emptyfolder":          {Mode: 0o755 | os.ModeDir},
-		"file.go":              {Data: []byte("hello")},
-		"subfolder/another.go": {Data: []byte("world")},
-		"symlink.go":           {Mode: 0o777 | os.ModeSymlink, Data: []byte("file.go")},
+		"file.golang":              {Data: []byte("hello")},
+		"subfolder/another.golang": {Data: []byte("world")},
+		"symlink.golang":           {Mode: 0o777 | os.ModeSymlink, Data: []byte("file.golang")},
 		// Notably missing here is the "subfolder" directory. This makes sure even
 		// if we don't have a subfolder directory listed.
 	}
@@ -1429,6 +1429,6 @@ func TestWriterAddFSNonRegularFiles(t *testing.T) {
 	var buf bytes.Buffer
 	tw := NewWriter(&buf)
 	if err := tw.AddFS(fsys); err == nil {
-		t.Fatal("expected error, got nil")
+		t.Fatal("expected error, golangt nil")
 	}
 }

@@ -1,13 +1,13 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package reflectlite_test
 
 import (
 	"bytes"
-	"go/ast"
-	"go/token"
+	"golang/ast"
+	"golang/token"
 	. "internal/reflectlite"
 	"io"
 	"testing"
@@ -95,7 +95,7 @@ func TestAssignableTo(t *testing.T) {
 		xv := TypeOf(tt.x).Elem()
 		xt := TypeOf(tt.t).Elem()
 		if b := xv.AssignableTo(xt); b != tt.b {
-			t.Errorf("%d:AssignableTo: got %v, want %v", i, b, tt.b)
+			t.Errorf("%d:AssignableTo: golangt %v, want %v", i, b, tt.b)
 		}
 	}
 }

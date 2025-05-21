@@ -1,18 +1,18 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Package modfile implements a parser and formatter for go.mod files.
+// Package modfile implements a parser and formatter for golang.mod files.
 //
-// The go.mod syntax is described in
-// https://pkg.go.dev/cmd/go/#hdr-The_go_mod_file.
+// The golang.mod syntax is described in
+// https://pkg.golang.dev/cmd/golang/#hdr-The_golang_mod_file.
 //
-// The [Parse] and [ParseLax] functions both parse a go.mod file and return an
+// The [Parse] and [ParseLax] functions both parse a golang.mod file and return an
 // abstract syntax tree. ParseLax ignores unknown statements and may be used to
-// parse go.mod files that may have been developed with newer versions of Go.
+// parse golang.mod files that may have been developed with newer versions of Go.
 //
 // The [File] struct returned by Parse and ParseLax represent an abstract
-// go.mod file. File has several methods like [File.AddNewRequire] and
+// golang.mod file. File has several methods like [File.AddNewRequire] and
 // [File.DropReplace] that can be used to programmatically edit a file.
 //
 // The [Format] function formats a File back to a byte slice which can be
@@ -29,12 +29,12 @@ import (
 	"strings"
 	"unicode"
 
-	"golang.org/x/mod/internal/lazyregexp"
-	"golang.org/x/mod/module"
-	"golang.org/x/mod/semver"
+	"golanglang.org/x/mod/internal/lazyregexp"
+	"golanglang.org/x/mod/module"
+	"golanglang.org/x/mod/semver"
 )
 
-// A File is the parsed, interpreted form of a go.mod file.
+// A File is the parsed, interpreted form of a golang.mod file.
 type File struct {
 	Module    *Module
 	Go        *Go
@@ -57,7 +57,7 @@ type Module struct {
 	Syntax     *Line
 }
 
-// A Go is the go statement.
+// A Go is the golang statement.
 type Go struct {
 	Version string // "1.23"
 	Syntax  *Line
@@ -65,11 +65,11 @@ type Go struct {
 
 // A Toolchain is the toolchain statement.
 type Toolchain struct {
-	Name   string // "go1.21rc1"
+	Name   string // "golang1.21rc1"
 	Syntax *Line
 }
 
-// A Godebug is a single godebug key=value statement.
+// A Godebug is a single golangdebug key=value statement.
 type Godebug struct {
 	Key    string
 	Value  string
@@ -134,7 +134,7 @@ func (r *Require) setVersion(v string) {
 	if line := r.Syntax; len(line.Token) > 0 {
 		if line.InBlock {
 			// If the line is preceded by an empty line, remove it; see
-			// https://golang.org/issue/33779.
+			// https://golanglang.org/issue/33779.
 			if len(line.Comments.Before) == 1 && len(line.Comments.Before[0].Token) == 0 {
 				line.Comments.Before = line.Comments.Before[:0]
 			}
@@ -192,7 +192,7 @@ func (r *Require) setIndirect(indirect bool) {
 }
 
 // isIndirect reports whether line has a "// indirect" comment,
-// meaning it is in go.mod only for its effect on indirect dependencies,
+// meaning it is in golang.mod only for its effect on indirect dependencies,
 // so that it can be dropped entirely once the effective version of the
 // indirect dependency reaches the given minimum version.
 func isIndirect(line *Line) bool {
@@ -242,7 +242,7 @@ var dontFixRetract VersionFixer = func(_, vers string) (string, error) {
 	return vers, nil
 }
 
-// Parse parses and returns a go.mod file.
+// Parse parses and returns a golang.mod file.
 //
 // file is the name of the file, used in positions and errors.
 //
@@ -256,11 +256,11 @@ func Parse(file string, data []byte, fix VersionFixer) (*File, error) {
 }
 
 // ParseLax is like Parse but ignores unknown statements.
-// It is used when parsing go.mod files other than the main module,
+// It is used when parsing golang.mod files other than the main module,
 // under the theory that most statement types we add in the future will
 // only apply in the main module, like exclude and replace,
-// and so we get better gradual deployments if old go commands
-// simply ignore those statements when found in go.mod files
+// and so we get better gradual deployments if old golang commands
+// simply ignore those statements when found in golang.mod files
 // in dependencies.
 func ParseLax(file string, data []byte, fix VersionFixer) (*File, error) {
 	return parseToFile(file, data, fix, false)
@@ -312,7 +312,7 @@ func parseToFile(file string, data []byte, fix VersionFixer, strict bool) (parse
 					})
 				}
 				continue
-			case "module", "godebug", "require", "exclude", "replace", "retract", "tool", "ignore":
+			case "module", "golangdebug", "require", "exclude", "replace", "retract", "tool", "ignore":
 				for _, l := range x.Line {
 					f.add(&errs, x, l, x.Token[0], l.Token, fix, strict)
 				}
@@ -329,12 +329,12 @@ func parseToFile(file string, data []byte, fix VersionFixer, strict bool) (parse
 var GoVersionRE = lazyregexp.New(`^([1-9][0-9]*)\.(0|[1-9][0-9]*)(\.(0|[1-9][0-9]*))?([a-z]+[0-9]+)?$`)
 var laxGoVersionRE = lazyregexp.New(`^v?(([1-9][0-9]*)\.(0|[1-9][0-9]*))([^0-9].*)$`)
 
-// Toolchains must be named beginning with `go1`,
-// like "go1.20.3" or "go1.20.3-gccgo". As a special case, "default" is also permitted.
-// Note that this regexp is a much looser condition than go/version.IsValid,
+// Toolchains must be named beginning with `golang1`,
+// like "golang1.20.3" or "golang1.20.3-gccgolang". As a special case, "default" is also permitted.
+// Note that this regexp is a much looser condition than golang/version.IsValid,
 // for forward compatibility.
 // (This code has to be work to identify new toolchains even if we tweak the syntax in the future.)
-var ToolchainRE = lazyregexp.New(`^default$|^go1($|\.)`)
+var ToolchainRE = lazyregexp.New(`^default$|^golang1($|\.)`)
 
 func (f *File) add(errs *ErrorList, block *LineBlock, line *Line, verb string, args []string, fix VersionFixer, strict bool) {
 	// If strict is false, this module is a dependency.
@@ -345,8 +345,8 @@ func (f *File) add(errs *ErrorList, block *LineBlock, line *Line, verb string, a
 	// and simply ignore those statements.
 	if !strict {
 		switch verb {
-		case "go", "module", "retract", "require", "ignore":
-			// want these even for dependency go.mods
+		case "golang", "module", "retract", "require", "ignore":
+			// want these even for dependency golang.mods
 		default:
 			return
 		}
@@ -376,13 +376,13 @@ func (f *File) add(errs *ErrorList, block *LineBlock, line *Line, verb string, a
 	default:
 		errorf("unknown directive: %s", verb)
 
-	case "go":
+	case "golang":
 		if f.Go != nil {
-			errorf("repeated go statement")
+			errorf("repeated golang statement")
 			return
 		}
 		if len(args) != 1 {
-			errorf("go directive expects exactly one argument")
+			errorf("golang directive expects exactly one argument")
 			return
 		} else if !GoVersionRE.MatchString(args[0]) {
 			fixed := false
@@ -393,7 +393,7 @@ func (f *File) add(errs *ErrorList, block *LineBlock, line *Line, verb string, a
 				}
 			}
 			if !fixed {
-				errorf("invalid go version '%s': must match format 1.23.0", args[0])
+				errorf("invalid golang version '%s': must match format 1.23.0", args[0])
 				return
 			}
 		}
@@ -410,7 +410,7 @@ func (f *File) add(errs *ErrorList, block *LineBlock, line *Line, verb string, a
 			errorf("toolchain directive expects exactly one argument")
 			return
 		} else if !ToolchainRE.MatchString(args[0]) {
-			errorf("invalid toolchain version '%s': must match format go1.23.0 or default", args[0])
+			errorf("invalid toolchain version '%s': must match format golang1.23.0 or default", args[0])
 			return
 		}
 		f.Toolchain = &Toolchain{Syntax: line}
@@ -437,14 +437,14 @@ func (f *File) add(errs *ErrorList, block *LineBlock, line *Line, verb string, a
 		}
 		f.Module.Mod = module.Version{Path: s}
 
-	case "godebug":
+	case "golangdebug":
 		if len(args) != 1 || strings.ContainsAny(args[0], "\"`',") {
-			errorf("usage: godebug key=value")
+			errorf("usage: golangdebug key=value")
 			return
 		}
 		key, value, ok := strings.Cut(args[0], "=")
 		if !ok {
-			errorf("usage: godebug key=value")
+			errorf("usage: golangdebug key=value")
 			return
 		}
 		f.Godebug = append(f.Godebug, &Godebug{
@@ -509,7 +509,7 @@ func (f *File) add(errs *ErrorList, block *LineBlock, line *Line, verb string, a
 				// Only report errors parsing intervals in the main module. We may
 				// support additional syntax in the future, such as open and half-open
 				// intervals. Those can't be supported now, because they break the
-				// go.mod parser, even in lax mode.
+				// golang.mod parser, even in lax mode.
 				return
 			}
 		}
@@ -693,16 +693,16 @@ func (f *WorkFile) add(errs *ErrorList, line *Line, verb string, args []string, 
 	default:
 		errorf("unknown directive: %s", verb)
 
-	case "go":
+	case "golang":
 		if f.Go != nil {
-			errorf("repeated go statement")
+			errorf("repeated golang statement")
 			return
 		}
 		if len(args) != 1 {
-			errorf("go directive expects exactly one argument")
+			errorf("golang directive expects exactly one argument")
 			return
 		} else if !GoVersionRE.MatchString(args[0]) {
-			errorf("invalid go version '%s': must match format 1.23.0", args[0])
+			errorf("invalid golang version '%s': must match format 1.23.0", args[0])
 			return
 		}
 
@@ -718,21 +718,21 @@ func (f *WorkFile) add(errs *ErrorList, line *Line, verb string, args []string, 
 			errorf("toolchain directive expects exactly one argument")
 			return
 		} else if !ToolchainRE.MatchString(args[0]) {
-			errorf("invalid toolchain version '%s': must match format go1.23.0 or default", args[0])
+			errorf("invalid toolchain version '%s': must match format golang1.23.0 or default", args[0])
 			return
 		}
 
 		f.Toolchain = &Toolchain{Syntax: line}
 		f.Toolchain.Name = args[0]
 
-	case "godebug":
+	case "golangdebug":
 		if len(args) != 1 || strings.ContainsAny(args[0], "\"`',") {
-			errorf("usage: godebug key=value")
+			errorf("usage: golangdebug key=value")
 			return
 		}
 		key, value, ok := strings.Cut(args[0], "=")
 		if !ok {
-			errorf("usage: godebug key=value")
+			errorf("usage: golangdebug key=value")
 			return
 		}
 		f.Godebug = append(f.Godebug, &Godebug{
@@ -767,10 +767,10 @@ func (f *WorkFile) add(errs *ErrorList, line *Line, verb string, args []string, 
 }
 
 // IsDirectoryPath reports whether the given path should be interpreted as a directory path.
-// Just like on the go command line, relative paths starting with a '.' or '..' path component
+// Just like on the golang command line, relative paths starting with a '.' or '..' path component
 // and rooted paths are directory paths; the rest are module paths.
 func IsDirectoryPath(ns string) bool {
-	// Because go.mod files can move from one system to another,
+	// Because golang.mod files can move from one system to another,
 	// we check all known path syntaxes, both Unix and Windows.
 	return ns == "." || strings.HasPrefix(ns, "./") || strings.HasPrefix(ns, `.\`) ||
 		ns == ".." || strings.HasPrefix(ns, "../") || strings.HasPrefix(ns, `..\`) ||
@@ -779,7 +779,7 @@ func IsDirectoryPath(ns string) bool {
 }
 
 // MustQuote reports whether s must be quoted in order to appear as
-// a single token in a go.mod line.
+// a single token in a golang.mod line.
 func MustQuote(s string) bool {
 	for _, r := range s {
 		switch r {
@@ -800,7 +800,7 @@ func MustQuote(s string) bool {
 	return s == "" || strings.Contains(s, "//") || strings.Contains(s, "/*")
 }
 
-// AutoQuote returns s or, if quoting is required for s to appear in a go.mod,
+// AutoQuote returns s or, if quoting is required for s to appear in a golang.mod,
 // the quotation of s.
 func AutoQuote(s string) string {
 	if MustQuote(s) {
@@ -1076,16 +1076,16 @@ func (f *File) AddGoStmt(version string) error {
 		}
 		f.Go = &Go{
 			Version: version,
-			Syntax:  f.Syntax.addLine(hint, "go", version),
+			Syntax:  f.Syntax.addLine(hint, "golang", version),
 		}
 	} else {
 		f.Go.Version = version
-		f.Syntax.updateLine(f.Go.Syntax, "go", version)
+		f.Syntax.updateLine(f.Go.Syntax, "golang", version)
 	}
 	return nil
 }
 
-// DropGoStmt deletes the go statement from the file.
+// DropGoStmt deletes the golang statement from the file.
 func (f *File) DropGoStmt() {
 	if f.Go != nil {
 		f.Go.Syntax.markRemoved()
@@ -1123,19 +1123,19 @@ func (f *File) AddToolchainStmt(name string) error {
 	return nil
 }
 
-// AddGodebug sets the first godebug line for key to value,
+// AddGodebug sets the first golangdebug line for key to value,
 // preserving any existing comments for that line and removing all
-// other godebug lines for key.
+// other golangdebug lines for key.
 //
 // If no line currently exists for key, AddGodebug adds a new line
-// at the end of the last godebug block.
+// at the end of the last golangdebug block.
 func (f *File) AddGodebug(key, value string) error {
 	need := true
 	for _, g := range f.Godebug {
 		if g.Key == key {
 			if need {
 				g.Value = value
-				f.Syntax.updateLine(g.Syntax, "godebug", key+"="+value)
+				f.Syntax.updateLine(g.Syntax, "golangdebug", key+"="+value)
 				need = false
 			} else {
 				g.Syntax.markRemoved()
@@ -1150,10 +1150,10 @@ func (f *File) AddGodebug(key, value string) error {
 	return nil
 }
 
-// addNewGodebug adds a new godebug key=value line at the end
-// of the last godebug block, regardless of any existing godebug lines for key.
+// addNewGodebug adds a new golangdebug key=value line at the end
+// of the last golangdebug block, regardless of any existing golangdebug lines for key.
 func (f *File) addNewGodebug(key, value string) {
-	line := f.Syntax.addLine(nil, "godebug", key+"="+value)
+	line := f.Syntax.addLine(nil, "golangdebug", key+"="+value)
 	g := &Godebug{
 		Key:    key,
 		Value:  value,
@@ -1677,7 +1677,7 @@ func (f *File) SortBlocks() {
 
 	// semanticSortForExcludeVersionV is the Go version (plus leading "v") at which
 	// lines in exclude blocks start to use semantic sort instead of lexicographic sort.
-	// See go.dev/issue/60028.
+	// See golang.dev/issue/60028.
 	const semanticSortForExcludeVersionV = "v1.21"
 	useSemanticSortForExclude := f.Go != nil && semver.Compare("v"+f.Go.Version, semanticSortForExcludeVersionV) >= 0
 

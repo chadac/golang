@@ -1,25 +1,25 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !purego
+//golang:build !puregolang
 
 package maphash
 
 import (
 	"internal/abi"
-	"internal/goarch"
-	"internal/goexperiment"
+	"internal/golangarch"
+	"internal/golangexperiment"
 	"unsafe"
 )
 
-const purego = false
+const puregolang = false
 
-//go:linkname runtime_rand runtime.rand
+//golang:linkname runtime_rand runtime.rand
 func runtime_rand() uint64
 
-//go:linkname runtime_memhash runtime.memhash
-//go:noescape
+//golang:linkname runtime_memhash runtime.memhash
+//golang:noescape
 func runtime_memhash(p unsafe.Pointer, seed, s uintptr) uintptr
 
 func rthash(buf []byte, seed uint64) uint64 {
@@ -30,7 +30,7 @@ func rthash(buf []byte, seed uint64) uint64 {
 	// The runtime hasher only works on uintptr. For 64-bit
 	// architectures, we use the hasher directly. Otherwise,
 	// we use two parallel hashers on the lower and upper 32 bits.
-	if goarch.PtrSize == 8 {
+	if golangarch.PtrSize == 8 {
 		return uint64(runtime_memhash(unsafe.Pointer(&buf[0]), uintptr(seed), uintptr(len)))
 	}
 	lo := runtime_memhash(unsafe.Pointer(&buf[0]), uintptr(seed), uintptr(len))
@@ -52,12 +52,12 @@ func comparableHash[T comparable](v T, seed Seed) uint64 {
 	var m map[T]struct{}
 	mTyp := abi.TypeOf(m)
 	var hasher func(unsafe.Pointer, uintptr) uintptr
-	if goexperiment.SwissMap {
+	if golangexperiment.SwissMap {
 		hasher = (*abi.SwissMapType)(unsafe.Pointer(mTyp)).Hasher
 	} else {
 		hasher = (*abi.OldMapType)(unsafe.Pointer(mTyp)).Hasher
 	}
-	if goarch.PtrSize == 8 {
+	if golangarch.PtrSize == 8 {
 		return uint64(hasher(abi.NoEscape(unsafe.Pointer(&v)), uintptr(s)))
 	}
 	lo := hasher(abi.NoEscape(unsafe.Pointer(&v)), uintptr(s))

@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package rand_test
@@ -21,7 +21,7 @@ func TestConcurrent(t *testing.T) {
 	defer wg.Wait()
 	wg.Add(numRoutines)
 	for i := 0; i < numRoutines; i++ {
-		go func(i int) {
+		golang func(i int) {
 			defer wg.Done()
 			var seed int64
 			for j := 0; j < numCycles; j++ {

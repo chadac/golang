@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package http
@@ -33,8 +33,8 @@ func TestCacheKeys(t *testing.T) {
 			proxy = u
 		}
 		cm := connectMethod{proxyURL: proxy, targetScheme: tt.scheme, targetAddr: tt.addr}
-		if got := cm.key().String(); got != tt.key {
-			t.Fatalf("{%q, %q, %q} cache key = %q; want %q", tt.proxy, tt.scheme, tt.addr, got, tt.key)
+		if golangt := cm.key().String(); golangt != tt.key {
+			t.Fatalf("{%q, %q, %q} cache key = %q; want %q", tt.proxy, tt.scheme, tt.addr, golangt, tt.key)
 		}
 	}
 }
@@ -79,8 +79,8 @@ func TestProxyAuthKeys(t *testing.T) {
 			proxy = u
 		}
 		cm := connectMethod{proxyURL: proxy}
-		if got := cm.proxyAuth(); got != tt.key {
-			t.Fatalf("{%q} proxyAuth key = %q; want %q", tt.proxy, got, tt.key)
+		if golangt := cm.proxyAuth(); golangt != tt.key {
+			t.Fatalf("{%q} proxyAuth key = %q; want %q", tt.proxy, golangt, tt.key)
 		}
 	}
 }

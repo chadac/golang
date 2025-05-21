@@ -68,7 +68,7 @@ const (
 	funcAlign = 4 // single-instruction alignment
 )
 
-/* Used by ../internal/ld/dwarf.go */
+/* Used by ../internal/ld/dwarf.golang */
 const (
 	dwarfRegSP = 13
 	dwarfRegLR = 14

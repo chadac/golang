@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package dwarfgen
@@ -278,7 +278,7 @@ func createDwarfVars(fnsym *obj.LSym, complexOK bool, fn *ir.Func, apDecls []*ir
 			DictIndex:     n.DictIndex,
 			ClosureOffset: closureOffset(n, closureVars),
 		})
-		// Record go type of to insure that it gets emitted by the linker.
+		// Record golang type of to insure that it gets emitted by the linker.
 		fnsym.Func().RecordAutoType(reflectdata.TypeLinksym(n.Type()))
 	}
 
@@ -292,7 +292,7 @@ func createDwarfVars(fnsym *obj.LSym, complexOK bool, fn *ir.Func, apDecls []*ir
 // parameter declaration order, so as to insure that when a subprogram
 // DIE is emitted, its parameter children appear in declaration order.
 // Prior to the advent of the register ABI, sorting by frame offset
-// would achieve this; with the register we now need to go back to the
+// would achieve this; with the register we now need to golang back to the
 // original function signature.
 func sortDeclsAndVars(fn *ir.Func, decls []*ir.Name, vars []*dwarf.Var) {
 	paramOrder := make(map[*ir.Name]int)
@@ -508,9 +508,9 @@ func createComplexVar(fnsym *obj.LSym, fn *ir.Func, varID ssa.VarID, closureVars
 		return nil
 	}
 
-	gotype := reflectdata.TypeLinksym(n.Type())
-	delete(fnsym.Func().Autot, gotype)
-	typename := dwarf.InfoPrefix + gotype.Name[len("type:"):]
+	golangtype := reflectdata.TypeLinksym(n.Type())
+	delete(fnsym.Func().Autot, golangtype)
+	typename := dwarf.InfoPrefix + golangtype.Name[len("type:"):]
 	inlIndex := 0
 	if base.Flag.GenDwarfInl > 1 {
 		if n.InlFormal() || n.InlLocal() {

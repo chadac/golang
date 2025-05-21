@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package x509_test
@@ -32,35 +32,35 @@ func TestHybridPool(t *testing.T) {
 		// platform verification to fail. In part this is because Windows
 		// dynamically populates roots into its local trust store at time of
 		// use. We can attempt to prime the pool by attempting TLS connections
-		// to google.com until it works, suggesting the pool has been properly
+		// to golangogle.com until it works, suggesting the pool has been properly
 		// updated. If after we hit the deadline, the pool has _still_ not been
-		// populated with the expected root, it's unlikely we are ever going to
-		// get into a good state, and so we just fail the test. #52108 suggests
+		// populated with the expected root, it's unlikely we are ever golanging to
+		// get into a golangod state, and so we just fail the test. #52108 suggests
 		// a better possible long term solution.
 
 		deadline := time.Now().Add(time.Second * 10)
 		nextSleep := 10 * time.Millisecond
 		for i := 0; ; i++ {
-			c, err := tls.Dial("tcp", "google.com:443", nil)
+			c, err := tls.Dial("tcp", "golangogle.com:443", nil)
 			if err == nil {
 				c.Close()
 				break
 			}
 			nextSleep = nextSleep * time.Duration(i)
 			if time.Until(deadline) < nextSleep {
-				t.Fatal("windows root pool appears to be in an uninitialized state (missing root that chains to google.com)")
+				t.Fatal("windows root pool appears to be in an uninitialized state (missing root that chains to golangogle.com)")
 			}
 			time.Sleep(nextSleep)
 		}
 	}
 
-	// Get the google.com chain, which should be valid on all platforms we
+	// Get the golangogle.com chain, which should be valid on all platforms we
 	// are testing
-	c, err := tls.Dial("tcp", "google.com:443", &tls.Config{InsecureSkipVerify: true})
+	c, err := tls.Dial("tcp", "golangogle.com:443", &tls.Config{InsecureSkipVerify: true})
 	if err != nil {
 		t.Fatalf("tls connection failed: %s", err)
 	}
-	googChain := c.ConnectionState().PeerCertificates
+	golangogChain := c.ConnectionState().PeerCertificates
 
 	rootTmpl := &x509.Certificate{
 		SerialNumber:          big.NewInt(1),
@@ -89,16 +89,16 @@ func TestHybridPool(t *testing.T) {
 	}
 	opts := x509.VerifyOptions{Roots: pool}
 
-	_, err = googChain[0].Verify(opts)
+	_, err = golangogChain[0].Verify(opts)
 	if err != nil {
-		t.Fatalf("verification failed for google.com chain (system only pool): %s", err)
+		t.Fatalf("verification failed for golangogle.com chain (system only pool): %s", err)
 	}
 
 	pool.AddCert(root)
 
-	_, err = googChain[0].Verify(opts)
+	_, err = golangogChain[0].Verify(opts)
 	if err != nil {
-		t.Fatalf("verification failed for google.com chain (hybrid pool): %s", err)
+		t.Fatalf("verification failed for golangogle.com chain (hybrid pool): %s", err)
 	}
 
 	certTmpl := &x509.Certificate{

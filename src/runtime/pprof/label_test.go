@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package pprof
@@ -28,7 +28,7 @@ func TestContextLabels(t *testing.T) {
 	ctx := context.Background()
 	labels := labelsSorted(ctx)
 	if len(labels) != 0 {
-		t.Errorf("labels on background context: want [], got %v ", labels)
+		t.Errorf("labels on background context: want [], golangt %v ", labels)
 	}
 
 	// Add a single label.
@@ -36,48 +36,48 @@ func TestContextLabels(t *testing.T) {
 	// Retrieve it with Label.
 	v, ok := Label(ctx, "key")
 	if !ok || v != "value" {
-		t.Errorf(`Label(ctx, "key"): got %v, %v; want "value", ok`, v, ok)
+		t.Errorf(`Label(ctx, "key"): golangt %v, %v; want "value", ok`, v, ok)
 	}
-	gotLabels := labelsSorted(ctx)
+	golangtLabels := labelsSorted(ctx)
 	wantLabels := []label{{"key", "value"}}
-	if !reflect.DeepEqual(gotLabels, wantLabels) {
-		t.Errorf("(sorted) labels on context: got %v, want %v", gotLabels, wantLabels)
+	if !reflect.DeepEqual(golangtLabels, wantLabels) {
+		t.Errorf("(sorted) labels on context: golangt %v, want %v", golangtLabels, wantLabels)
 	}
 
 	// Add a label with a different key.
 	ctx = WithLabels(ctx, Labels("key2", "value2"))
 	v, ok = Label(ctx, "key2")
 	if !ok || v != "value2" {
-		t.Errorf(`Label(ctx, "key2"): got %v, %v; want "value2", ok`, v, ok)
+		t.Errorf(`Label(ctx, "key2"): golangt %v, %v; want "value2", ok`, v, ok)
 	}
-	gotLabels = labelsSorted(ctx)
+	golangtLabels = labelsSorted(ctx)
 	wantLabels = []label{{"key", "value"}, {"key2", "value2"}}
-	if !reflect.DeepEqual(gotLabels, wantLabels) {
-		t.Errorf("(sorted) labels on context: got %v, want %v", gotLabels, wantLabels)
+	if !reflect.DeepEqual(golangtLabels, wantLabels) {
+		t.Errorf("(sorted) labels on context: golangt %v, want %v", golangtLabels, wantLabels)
 	}
 
 	// Add label with first key to test label replacement.
 	ctx = WithLabels(ctx, Labels("key", "value3"))
 	v, ok = Label(ctx, "key")
 	if !ok || v != "value3" {
-		t.Errorf(`Label(ctx, "key3"): got %v, %v; want "value3", ok`, v, ok)
+		t.Errorf(`Label(ctx, "key3"): golangt %v, %v; want "value3", ok`, v, ok)
 	}
-	gotLabels = labelsSorted(ctx)
+	golangtLabels = labelsSorted(ctx)
 	wantLabels = []label{{"key", "value3"}, {"key2", "value2"}}
-	if !reflect.DeepEqual(gotLabels, wantLabels) {
-		t.Errorf("(sorted) labels on context: got %v, want %v", gotLabels, wantLabels)
+	if !reflect.DeepEqual(golangtLabels, wantLabels) {
+		t.Errorf("(sorted) labels on context: golangt %v, want %v", golangtLabels, wantLabels)
 	}
 
 	// Labels called with two labels with the same key should pick the second.
 	ctx = WithLabels(ctx, Labels("key4", "value4a", "key4", "value4b"))
 	v, ok = Label(ctx, "key4")
 	if !ok || v != "value4b" {
-		t.Errorf(`Label(ctx, "key4"): got %v, %v; want "value4b", ok`, v, ok)
+		t.Errorf(`Label(ctx, "key4"): golangt %v, %v; want "value4b", ok`, v, ok)
 	}
-	gotLabels = labelsSorted(ctx)
+	golangtLabels = labelsSorted(ctx)
 	wantLabels = []label{{"key", "value3"}, {"key2", "value2"}, {"key4", "value4b"}}
-	if !reflect.DeepEqual(gotLabels, wantLabels) {
-		t.Errorf("(sorted) labels on context: got %v, want %v", gotLabels, wantLabels)
+	if !reflect.DeepEqual(golangtLabels, wantLabels) {
+		t.Errorf("(sorted) labels on context: golangt %v, want %v", golangtLabels, wantLabels)
 	}
 }
 
@@ -109,8 +109,8 @@ func TestLabelMapStringer(t *testing.T) {
 			expected: `{"foo":"bar", "key1":"value1", "key2":"value2", "key3":"value3", "key4WithNewline":"\nvalue4"}`,
 		},
 	} {
-		if got := tbl.m.String(); tbl.expected != got {
-			t.Errorf("%#v.String() = %q; want %q", tbl.m, got, tbl.expected)
+		if golangt := tbl.m.String(); tbl.expected != golangt {
+			t.Errorf("%#v.String() = %q; want %q", tbl.m, golangt, tbl.expected)
 		}
 	}
 }

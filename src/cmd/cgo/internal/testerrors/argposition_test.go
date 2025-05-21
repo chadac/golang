@@ -1,17 +1,17 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Issue 42580: cmd/cgo: shifting identifier position in ast
+// Issue 42580: cmd/cgolang: shifting identifier position in ast
 
 package errorstest
 
 import (
 	"bytes"
 	"fmt"
-	"go/ast"
-	"go/parser"
-	"go/token"
+	"golang/ast"
+	"golang/parser"
+	"golang/token"
 	"internal/testenv"
 	"os"
 	"os/exec"
@@ -37,27 +37,27 @@ type Visitor struct {
 func (v *Visitor) Visit(node ast.Node) ast.Visitor {
 	if ident, ok := node.(*ast.Ident); ok {
 		if expectedPositions, ok := v.identPosInfo[ident.Name]; ok {
-			gotMatch := false
+			golangtMatch := false
 			var errorMessage strings.Builder
 			for caseIndex, expectedPos := range expectedPositions {
 				actualPosition := v.fset.PositionFor(ident.Pos(), true)
 				errorOccurred := false
 				if expectedPos.Line != actualPosition.Line {
-					fmt.Fprintf(&errorMessage, "wrong line number for ident %s: expected: %d got: %d\n", ident.Name, expectedPos.Line, actualPosition.Line)
+					fmt.Fprintf(&errorMessage, "wrong line number for ident %s: expected: %d golangt: %d\n", ident.Name, expectedPos.Line, actualPosition.Line)
 					errorOccurred = true
 				}
 				if expectedPos.Column != actualPosition.Column {
-					fmt.Fprintf(&errorMessage, "wrong column number for ident %s: expected: %d got: %d\n", ident.Name, expectedPos.Column, actualPosition.Column)
+					fmt.Fprintf(&errorMessage, "wrong column number for ident %s: expected: %d golangt: %d\n", ident.Name, expectedPos.Column, actualPosition.Column)
 					errorOccurred = true
 				}
 				if errorOccurred {
 					continue
 				}
-				gotMatch = true
+				golangtMatch = true
 				expectedPositions[caseIndex].Visited = true
 			}
 
-			if !gotMatch {
+			if !golangtMatch {
 				v.t.Error(errorMessage.String())
 			}
 		}
@@ -81,17 +81,17 @@ func TestArgumentsPositions(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	cmd := exec.Command(testenv.GoToolPath(t), "tool", "cgo",
+	cmd := exec.Command(testenv.GoToolPath(t), "tool", "cgolang",
 		"-srcdir", testdata,
 		"-objdir", dir,
-		"issue42580.go")
+		"issue42580.golang")
 	cmd.Stderr = new(bytes.Buffer)
 
 	err = cmd.Run()
 	if err != nil {
 		t.Fatalf("%s: %v\n%s", cmd, err, cmd.Stderr)
 	}
-	mainProcessed, err := os.ReadFile(filepath.Join(dir, "issue42580.cgo1.go"))
+	mainProcessed, err := os.ReadFile(filepath.Join(dir, "issue42580.cgolang1.golang"))
 	if err != nil {
 		t.Fatal(err)
 	}

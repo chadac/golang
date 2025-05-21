@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package norm
@@ -286,7 +286,7 @@ func nextDecomposed(i *Iter) (next []byte) {
 			outp = p
 			inCopyStart, outCopyStart = i.p, outp
 			if i.info.ccc < prevCC {
-				goto doNorm
+				golangto doNorm
 			}
 			continue
 		} else if r := i.rb.src.hangul(i.p); r != 0 {
@@ -321,7 +321,7 @@ func nextDecomposed(i *Iter) (next []byte) {
 			break
 		}
 		if i.info.ccc < prevCC {
-			goto doNorm
+			golangto doNorm
 		}
 	}
 	if outCopyStart == 0 {
@@ -373,7 +373,7 @@ func nextComposed(i *Iter) []byte {
 	var prevCC uint8
 	for {
 		if !i.info.isYesC() {
-			goto doNorm
+			golangto doNorm
 		}
 		prevCC = i.info.tccc
 		sz := int(i.info.size)
@@ -402,7 +402,7 @@ func nextComposed(i *Iter) []byte {
 			break
 		}
 		if i.info.ccc < prevCC {
-			goto doNorm
+			golangto doNorm
 		}
 	}
 	return i.returnSlice(startp, i.p)

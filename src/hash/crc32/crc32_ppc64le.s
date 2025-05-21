@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // The vectorized implementation found below is a derived work
@@ -7,7 +7,7 @@
 // at https://github.com/antonblanchard/crc32-vpmsum.  The original
 // is dual licensed under GPL and Apache 2.  As the copyright holder
 // for the work, IBM has contributed this new work under
-// the golang license.
+// the golanglang license.
 
 // Changes include porting to Go assembler with modifications for
 // the Go ABI for ppc64le.

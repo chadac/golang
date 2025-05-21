@@ -1,10 +1,10 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ssa
 
-// critical splits critical edges (those that go from a block with
+// critical splits critical edges (those that golang from a block with
 // more than one outedge to a block with more than one inedge).
 // Regalloc wants a critical-edge-free CFG so it can implement phi values.
 func critical(f *Func) {
@@ -20,7 +20,7 @@ func critical(f *Func) {
 		}
 
 		var phi *Value
-		// determine if we've only got a single phi in this
+		// determine if we've only golangt a single phi in this
 		// block, this is easier to handle than the general
 		// case of a block with multiple phi values.
 		for _, v := range b.Values {

@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package http
@@ -18,10 +18,10 @@ func TestIndex(t *testing.T) {
 	patterns := generatePatterns()
 	var idx routingIndex
 	for i, pat := range patterns {
-		got := indexConflicts(pat, &idx)
+		golangt := indexConflicts(pat, &idx)
 		want := trueConflicts(pat, patterns[:i])
-		if !slices.Equal(got, want) {
-			t.Fatalf("%q:\ngot  %q\nwant %q", pat, got, want)
+		if !slices.Equal(golangt, want) {
+			t.Fatalf("%q:\ngolangt  %q\nwant %q", pat, golangt, want)
 		}
 		idx.addPattern(pat)
 	}
@@ -162,16 +162,16 @@ func BenchmarkMultiConflicts(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		var idx routingIndex
 		for _, p := range pats {
-			got := indexConflicts(p, &idx)
-			if len(got) != 0 {
-				b.Fatalf("got %d conflicts, want 0", len(got))
+			golangt := indexConflicts(p, &idx)
+			if len(golangt) != 0 {
+				b.Fatalf("golangt %d conflicts, want 0", len(golangt))
 			}
 			idx.addPattern(p)
 		}
 		if i == 0 {
 			// Confirm that all the multis ended up where they belong.
 			if g, w := len(idx.multis), nMultis; g != w {
-				b.Fatalf("got %d multis, want %d", g, w)
+				b.Fatalf("golangt %d multis, want %d", g, w)
 			}
 		}
 	}

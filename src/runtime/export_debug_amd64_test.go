@@ -1,14 +1,14 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build amd64 && linux
+//golang:build amd64 && linux
 
 package runtime
 
 import (
 	"internal/abi"
-	"internal/goarch"
+	"internal/golangarch"
 	"unsafe"
 )
 
@@ -33,7 +33,7 @@ func sigctxtStatus(ctxt *sigctxt) uint64 {
 
 func (h *debugCallHandler) saveSigContext(ctxt *sigctxt) {
 	// Push current PC on the stack.
-	rsp := ctxt.rsp() - goarch.PtrSize
+	rsp := ctxt.rsp() - golangarch.PtrSize
 	*(*uint64)(unsafe.Pointer(uintptr(rsp))) = ctxt.rip()
 	ctxt.set_rsp(rsp)
 	// Write the argument frame size.
@@ -52,7 +52,7 @@ func (h *debugCallHandler) debugCallRun(ctxt *sigctxt) {
 		storeRegArgs(ctxt.regs(), h.regArgs)
 	}
 	// Push return PC.
-	rsp -= goarch.PtrSize
+	rsp -= golangarch.PtrSize
 	ctxt.set_rsp(rsp)
 	// The signal PC is the next PC of the trap instruction.
 	*(*uint64)(unsafe.Pointer(uintptr(rsp))) = ctxt.rip()
@@ -73,7 +73,7 @@ func (h *debugCallHandler) debugCallReturn(ctxt *sigctxt) {
 // case 2
 func (h *debugCallHandler) debugCallPanicOut(ctxt *sigctxt) {
 	rsp := ctxt.rsp()
-	memmove(unsafe.Pointer(&h.panic), unsafe.Pointer(uintptr(rsp)), 2*goarch.PtrSize)
+	memmove(unsafe.Pointer(&h.panic), unsafe.Pointer(uintptr(rsp)), 2*golangarch.PtrSize)
 }
 
 // case 8

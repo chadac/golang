@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test reordering of assignments.
@@ -141,18 +141,18 @@ func p9() {
 	checkOAS2XXX(x, "x, x = i.(bool)")
 }
 
-//go:noinline
+//golang:noinline
 func fn() (bool, bool) { return false, true }
 
 // checks the order of OAS2XXX.
 func checkOAS2XXX(x bool, s string) {
 	if !x {
-		fmt.Printf("%s; got=(false); want=(true)\n", s)
+		fmt.Printf("%s; golangt=(false); want=(true)\n", s)
 		panic("failed")
 	}
 }
 
-//go:noinline
+//golang:noinline
 func fp() (*int, int) { return nil, 42 }
 
 func p10() {

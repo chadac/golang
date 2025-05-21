@@ -1,7 +1,7 @@
 handle git
 
 env GIT_AUTHOR_NAME='Bryan C. Mills'
-env GIT_AUTHOR_EMAIL='bcmills@google.com'
+env GIT_AUTHOR_EMAIL='bcmills@golangogle.com'
 env GIT_COMMITTER_NAME=$GIT_AUTHOR_NAME
 env GIT_COMMITTER_EMAIL=$GIT_AUTHOR_EMAIL
 
@@ -9,8 +9,8 @@ at 2023-11-14T13:00:00-05:00
 
 git init
 
-git add go.mod nested
-git commit -m 'nested: add go.mod'
+git add golang.mod nested
+git commit -m 'nested: add golang.mod'
 git branch -m main
 
 git tag has-nested
@@ -31,12 +31,12 @@ f213069baa68ec26412fb373c7cf6669db1f8e69 refs/heads/main
 08a4fa6bb9c04ffba03b26ae427b0d6335d90a2a refs/tags/has-nested
 -- .git-log --
 f213069baa68ec26412fb373c7cf6669db1f8e69 nested: delete subdirectory
-08a4fa6bb9c04ffba03b26ae427b0d6335d90a2a nested: add go.mod
--- go.mod --
-module vcs-test.golang.org/git/issue61415.git
+08a4fa6bb9c04ffba03b26ae427b0d6335d90a2a nested: add golang.mod
+-- golang.mod --
+module vcs-test.golanglang.org/git/issue61415.git
 
-go 1.20
--- nested/go.mod --
-module vcs-test.golang.org/git/issue61415.git/nested
+golang 1.20
+-- nested/golang.mod --
+module vcs-test.golanglang.org/git/issue61415.git/nested
 
-go 1.20
+golang 1.20

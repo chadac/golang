@@ -1,10 +1,10 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package obscuretestdata contains functionality used by tests to more easily
 // work with testdata that must be obscured primarily due to
-// golang.org/issue/34986.
+// golanglang.org/issue/34986.
 package obscuretestdata
 
 import (

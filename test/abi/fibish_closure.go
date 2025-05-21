@@ -1,9 +1,9 @@
 // run
 
-//go:build !wasm
+//golang:build !wasm
 
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -14,7 +14,7 @@ import "fmt"
 
 type MagicLastTypeNameForTestingRegisterABI func(int, MagicLastTypeNameForTestingRegisterABI) (int, int)
 
-//go:noinline
+//golang:noinline
 func f(x int, unused MagicLastTypeNameForTestingRegisterABI) (int, int) {
 
 	if x < 3 {

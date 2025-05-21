@@ -1,21 +1,21 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package printer
 
 import (
-	"go/build/constraint"
+	"golang/build/constraint"
 	"slices"
 	"text/tabwriter"
 )
 
 func (p *printer) fixGoBuildLines() {
-	if len(p.goBuild)+len(p.plusBuild) == 0 {
+	if len(p.golangBuild)+len(p.plusBuild) == 0 {
 		return
 	}
 
-	// Find latest possible placement of //go:build and // +build comments.
+	// Find latest possible placement of //golang:build and // +build comments.
 	// That's just after the last blank line before we find a non-comment.
 	// (We'll add another blank line after our comment block.)
 	// When we start dropping // +build comments, we can skip over /* */ comments too.
@@ -47,18 +47,18 @@ func (p *printer) fixGoBuildLines() {
 		}
 	}
 
-	// If there is a //go:build comment before the place we identified,
+	// If there is a //golang:build comment before the place we identified,
 	// use that point instead. (Earlier in the file is always fine.)
-	if len(p.goBuild) > 0 && p.goBuild[0] < insert {
-		insert = p.goBuild[0]
+	if len(p.golangBuild) > 0 && p.golangBuild[0] < insert {
+		insert = p.golangBuild[0]
 	} else if len(p.plusBuild) > 0 && p.plusBuild[0] < insert {
 		insert = p.plusBuild[0]
 	}
 
 	var x constraint.Expr
-	switch len(p.goBuild) {
+	switch len(p.golangBuild) {
 	case 0:
-		// Synthesize //go:build expression from // +build lines.
+		// Synthesize //golang:build expression from // +build lines.
 		for _, pos := range p.plusBuild {
 			y, err := constraint.Parse(p.commentTextAt(pos))
 			if err != nil {
@@ -72,16 +72,16 @@ func (p *printer) fixGoBuildLines() {
 			}
 		}
 	case 1:
-		// Parse //go:build expression.
-		x, _ = constraint.Parse(p.commentTextAt(p.goBuild[0]))
+		// Parse //golang:build expression.
+		x, _ = constraint.Parse(p.commentTextAt(p.golangBuild[0]))
 	}
 
 	var block []byte
 	if x == nil {
-		// Don't have a valid //go:build expression to treat as truth.
+		// Don't have a valid //golang:build expression to treat as truth.
 		// Bring all the lines together but leave them alone.
 		// Note that these are already tabwriter-escaped.
-		for _, pos := range p.goBuild {
+		for _, pos := range p.golangBuild {
 			block = append(block, p.lineAt(pos)...)
 		}
 		for _, pos := range p.plusBuild {
@@ -89,7 +89,7 @@ func (p *printer) fixGoBuildLines() {
 		}
 	} else {
 		block = append(block, tabwriter.Escape)
-		block = append(block, "//go:build "...)
+		block = append(block, "//golang:build "...)
 		block = append(block, x.String()...)
 		block = append(block, tabwriter.Escape, '\n')
 		if len(p.plusBuild) > 0 {
@@ -107,7 +107,7 @@ func (p *printer) fixGoBuildLines() {
 	block = append(block, '\n')
 
 	// Build sorted list of lines to delete from remainder of output.
-	toDelete := append(p.goBuild, p.plusBuild...)
+	toDelete := append(p.golangBuild, p.plusBuild...)
 	slices.Sort(toDelete)
 
 	// Collect output after insertion point, with lines deleted, into after.
@@ -132,7 +132,7 @@ func (p *printer) fixGoBuildLines() {
 
 // appendLines is like append(x, y...)
 // but it avoids creating doubled blank lines,
-// which would not be gofmt-standard output.
+// which would not be golangfmt-standard output.
 // It assumes that only whole blocks of lines are being appended,
 // not line fragments.
 func appendLines(x, y []byte) []byte {

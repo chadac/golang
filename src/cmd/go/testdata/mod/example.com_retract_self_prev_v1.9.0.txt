@@ -6,7 +6,7 @@ A previous unretracted release version, v1.1.0, is still available.
 -- .mod --
 module example.com/retract/self/prev
 
-go 1.15
+golang 1.15
 
 retract v1.0.0-bad // bad
 retract v1.9.0 // self
@@ -14,5 +14,5 @@ retract v1.9.0 // self
 -- .info --
 {"Version":"v1.9.0"}
 
--- p.go --
+-- p.golang --
 package p

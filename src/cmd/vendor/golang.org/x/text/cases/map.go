@@ -1,5 +1,5 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package cases
@@ -13,10 +13,10 @@ import (
 	"unicode"
 	"unicode/utf8"
 
-	"golang.org/x/text/internal"
-	"golang.org/x/text/language"
-	"golang.org/x/text/transform"
-	"golang.org/x/text/unicode/norm"
+	"golanglang.org/x/text/internal"
+	"golanglang.org/x/text/language"
+	"golanglang.org/x/text/transform"
+	"golanglang.org/x/text/unicode/norm"
 )
 
 // A mapFunc takes a context set to the current rune and writes the mapped
@@ -176,7 +176,7 @@ func (t undUpperCaser) Span(src []byte, atEOF bool) (n int, err error) {
 
 // undLowerIgnoreSigmaCaser implements the Transformer interface for doing
 // a lower case mapping for the root locale (und) ignoring final sigma
-// handling. This casing algorithm is used in some performance-critical packages
+// handling. This casing algolangrithm is used in some performance-critical packages
 // like secure/precis and x/net/http/idna, which warrants its special-casing.
 type undLowerIgnoreSigmaCaser struct{ transform.NopResetter }
 
@@ -227,7 +227,7 @@ func (t *simpleCaser) Span(src []byte, atEOF bool) (n int, err error) {
 
 // undLowerCaser implements the Transformer interface for doing a lower case
 // mapping for the root locale (und) ignoring final sigma handling. This casing
-// algorithm is used in some performance-critical packages like secure/precis
+// algolangrithm is used in some performance-critical packages like secure/precis
 // and x/net/http/idna, which warrants its special-casing.
 type undLowerCaser struct{ transform.NopResetter }
 
@@ -311,13 +311,13 @@ func (t *lowerCaser) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, err
 	return c.ret()
 }
 
-// titleCaser implements the Transformer interface. Title casing algorithms
+// titleCaser implements the Transformer interface. Title casing algolangrithms
 // distinguish between the first letter of a word and subsequent letters of the
 // same word. It uses state to avoid requiring a potentially infinite lookahead.
 type titleCaser struct {
 	context
 
-	// rune mappings used by the actual casing algorithms.
+	// rune mappings used by the actual casing algolangrithms.
 	title     mapFunc
 	lower     mapFunc
 	titleSpan spanFunc
@@ -325,7 +325,7 @@ type titleCaser struct {
 	rewrite func(*context)
 }
 
-// Transform implements the standard Unicode title case algorithm as defined in
+// Transform implements the standard Unicode title case algolangrithm as defined in
 // Chapter 3 of The Unicode Standard:
 // toTitlecase(X): Find the word boundaries in X according to Unicode Standard
 // Annex #29, "Unicode Text Segmentation." For each word boundary, find the
@@ -553,7 +553,7 @@ func elUpper(c *context) bool {
 			case cccAbove:
 				return c.copy()
 			default:
-				// Some other modifier. We're still allowed to gobble Greek
+				// Some other modifier. We're still allowed to golangbble Greek
 				// modifiers after this.
 				c.copy()
 			}
@@ -568,7 +568,7 @@ func ltLower(c *context) bool {
 	// From CLDR:
 	// # Introduce an explicit dot above when lowercasing capital I's and J's
 	// # whenever there are more accents above.
-	// # (of the accents used in Lithuanian: grave, acute, tilde above, and ogonek)
+	// # (of the accents used in Lithuanian: grave, acute, tilde above, and ogolangnek)
 	// # 0049; 0069 0307; 0049; 0049; lt More_Above; # LATIN CAPITAL LETTER I
 	// # 004A; 006A 0307; 004A; 004A; lt More_Above; # LATIN CAPITAL LETTER J
 	// # 012E; 012F 0307; 012E; 012E; lt More_Above; # LATIN CAPITAL LETTER I WITH OGONEK

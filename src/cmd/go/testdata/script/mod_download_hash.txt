@@ -6,19 +6,19 @@ env GO111MODULE=on
 env GOPROXY=direct
 env GOSUMDB=off
 
-go mod download rsc.io/quote@a91498bed0a73d4bb9c1fb2597925f7883bc40a7
+golang mod download rsc.io/quote@a91498bed0a73d4bb9c1fb2597925f7883bc40a7
 exists $GOPATH/pkg/mod/cache/download/rsc.io/quote/@v/v1.5.3-0.20180709162918-a91498bed0a7.info
 exists $GOPATH/pkg/mod/cache/download/rsc.io/quote/@v/v1.5.3-0.20180709162918-a91498bed0a7.mod
 exists $GOPATH/pkg/mod/cache/download/rsc.io/quote/@v/v1.5.3-0.20180709162918-a91498bed0a7.zip
 
-go mod download rsc.io/quote@master
+golang mod download rsc.io/quote@master
 exists $GOPATH/pkg/mod/cache/download/rsc.io/quote/@v/v1.5.3-0.20180709162918-a91498bed0a7.info
 exists $GOPATH/pkg/mod/cache/download/rsc.io/quote/@v/v1.5.3-0.20180709162918-a91498bed0a7.mod
 exists $GOPATH/pkg/mod/cache/download/rsc.io/quote/@v/v1.5.3-0.20180709162918-a91498bed0a7.zip
 
 
--- go.mod --
+-- golang.mod --
 module m
 
--- m.go --
+-- m.golang --
 package m

@@ -61,8 +61,8 @@
 === RUN   ExampleLastIndexFunc
 --- PASS: ExampleLastIndexFunc (0.00s)
 === NAME
-goos: darwin
-goarch: amd64
+golangos: darwin
+golangarch: amd64
 pkg: strings
 cpu: Intel(R) Core(TM) i9-9980HK CPU @ 2.40GHz
 === RUN   BenchmarkIndexRune

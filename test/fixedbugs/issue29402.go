@@ -1,7 +1,7 @@
 // run
   
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Issue 29402: wrong optimization of comparison of
@@ -9,7 +9,7 @@
 
 package main
 
-//go:noinline
+//golang:noinline
 func F(s []int) bool {
 	half := len(s) / 2
 	return half >= 0

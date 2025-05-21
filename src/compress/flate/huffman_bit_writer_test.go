@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package flate
@@ -30,7 +30,7 @@ func TestBlockHuff(t *testing.T) {
 	for _, in := range match {
 		out := in // for files where input and output are identical
 		if strings.HasSuffix(in, ".in") {
-			out = in[:len(in)-len(".in")] + ".golden"
+			out = in[:len(in)-len(".in")] + ".golanglden"
 		}
 		testBlockHuff(t, in, out)
 	}
@@ -46,7 +46,7 @@ func testBlockHuff(t *testing.T, in, out string) {
 	bw := newHuffmanBitWriter(&buf)
 	bw.writeBlockHuff(false, all)
 	bw.flush()
-	got := buf.Bytes()
+	golangt := buf.Bytes()
 
 	want, err := os.ReadFile(out)
 	if err != nil && !*update {
@@ -55,11 +55,11 @@ func testBlockHuff(t *testing.T, in, out string) {
 	}
 
 	t.Logf("Testing %q", in)
-	if !bytes.Equal(got, want) {
+	if !bytes.Equal(golangt, want) {
 		if *update {
 			if in != out {
 				t.Logf("Updating %q", out)
-				if err := os.WriteFile(out, got, 0666); err != nil {
+				if err := os.WriteFile(out, golangt, 0666); err != nil {
 					t.Error(err)
 				}
 				return
@@ -68,8 +68,8 @@ func testBlockHuff(t *testing.T, in, out string) {
 			t.Errorf("WARNING: -update did not rewrite input file %s", in)
 		}
 
-		t.Errorf("%q != %q (see %q)", in, out, in+".got")
-		if err := os.WriteFile(in+".got", got, 0666); err != nil {
+		t.Errorf("%q != %q (see %q)", in, out, in+".golangt")
+		if err := os.WriteFile(in+".golangt", golangt, 0666); err != nil {
 			t.Error(err)
 		}
 		return
@@ -81,10 +81,10 @@ func testBlockHuff(t *testing.T, in, out string) {
 	bw.reset(&buf)
 	bw.writeBlockHuff(false, all)
 	bw.flush()
-	got = buf.Bytes()
-	if !bytes.Equal(got, want) {
-		t.Errorf("after reset %q != %q (see %q)", in, out, in+".reset.got")
-		if err := os.WriteFile(in+".reset.got", got, 0666); err != nil {
+	golangt = buf.Bytes()
+	if !bytes.Equal(golangt, want) {
+		t.Errorf("after reset %q != %q (see %q)", in, out, in+".reset.golangt")
+		if err := os.WriteFile(in+".reset.golangt", golangt, 0666); err != nil {
 			t.Error(err)
 		}
 		return
@@ -229,10 +229,10 @@ func testBlock(t *testing.T, test huffTest, ttype string) {
 		bw := newHuffmanBitWriter(&buf)
 		writeToType(t, ttype, bw, test.tokens, input)
 
-		got := buf.Bytes()
-		if !bytes.Equal(got, want) {
-			t.Errorf("writeBlock did not yield expected result for file %q with input. See %q", test.want, test.want+".got")
-			if err := os.WriteFile(test.want+".got", got, 0666); err != nil {
+		golangt := buf.Bytes()
+		if !bytes.Equal(golangt, want) {
+			t.Errorf("writeBlock did not yield expected result for file %q with input. See %q", test.want, test.want+".golangt")
+			if err := os.WriteFile(test.want+".golangt", golangt, 0666); err != nil {
 				t.Error(err)
 			}
 		}
@@ -243,10 +243,10 @@ func testBlock(t *testing.T, test huffTest, ttype string) {
 		bw.reset(&buf)
 		writeToType(t, ttype, bw, test.tokens, input)
 		bw.flush()
-		got = buf.Bytes()
-		if !bytes.Equal(got, want) {
-			t.Errorf("reset: writeBlock did not yield expected result for file %q with input. See %q", test.want, test.want+".reset.got")
-			if err := os.WriteFile(test.want+".reset.got", got, 0666); err != nil {
+		golangt = buf.Bytes()
+		if !bytes.Equal(golangt, want) {
+			t.Errorf("reset: writeBlock did not yield expected result for file %q with input. See %q", test.want, test.want+".reset.golangt")
+			if err := os.WriteFile(test.want+".reset.golangt", golangt, 0666); err != nil {
 				t.Error(err)
 			}
 			return
@@ -264,14 +264,14 @@ func testBlock(t *testing.T, test huffTest, ttype string) {
 	bw := newHuffmanBitWriter(&buf)
 	writeToType(t, ttype, bw, test.tokens, nil)
 
-	got := buf.Bytes()
-	if !bytes.Equal(got, wantNI) {
-		t.Errorf("writeBlock did not yield expected result for file %q with input. See %q", test.wantNoInput, test.wantNoInput+".got")
-		if err := os.WriteFile(test.want+".got", got, 0666); err != nil {
+	golangt := buf.Bytes()
+	if !bytes.Equal(golangt, wantNI) {
+		t.Errorf("writeBlock did not yield expected result for file %q with input. See %q", test.wantNoInput, test.wantNoInput+".golangt")
+		if err := os.WriteFile(test.want+".golangt", golangt, 0666); err != nil {
 			t.Error(err)
 		}
-	} else if got[0]&1 == 1 {
-		t.Error("got unexpected EOF")
+	} else if golangt[0]&1 == 1 {
+		t.Error("golangt unexpected EOF")
 		return
 	}
 
@@ -282,10 +282,10 @@ func testBlock(t *testing.T, test huffTest, ttype string) {
 	bw.reset(&buf)
 	writeToType(t, ttype, bw, test.tokens, nil)
 	bw.flush()
-	got = buf.Bytes()
-	if !bytes.Equal(got, wantNI) {
-		t.Errorf("reset: writeBlock did not yield expected result for file %q without input. See %q", test.want, test.want+".reset.got")
-		if err := os.WriteFile(test.want+".reset.got", got, 0666); err != nil {
+	golangt = buf.Bytes()
+	if !bytes.Equal(golangt, wantNI) {
+		t.Errorf("reset: writeBlock did not yield expected result for file %q without input. See %q", test.want, test.want+".reset.golangt")
+		if err := os.WriteFile(test.want+".reset.golangt", golangt, 0666); err != nil {
 			t.Error(err)
 		}
 		return

@@ -1,10 +1,10 @@
 // run
 
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Make sure the runtime can scan args of an unstarted goroutine
+// Make sure the runtime can scan args of an unstarted golangroutine
 // which starts with a reflect-generated function.
 
 package main
@@ -29,7 +29,7 @@ func main() {
 	c := make(chan bool, N)
 	for i := 0; i < N; i++ {
 		f := reflect.ValueOf(t).MethodByName("Foo").Interface().(func(chan bool))
-		go f(c)
+		golang f(c)
 	}
 	runtime.GC()
 	for i := 0; i < N; i++ {

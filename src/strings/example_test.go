@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package strings_test
@@ -140,7 +140,7 @@ func ExampleCutSuffix() {
 }
 
 func ExampleEqualFold() {
-	fmt.Println(strings.EqualFold("Go", "go"))
+	fmt.Println(strings.EqualFold("Go", "golang"))
 	fmt.Println(strings.EqualFold("AB", "ab")) // true because comparison uses simple case-folding
 	fmt.Println(strings.EqualFold("ß", "ss"))  // false because comparison does not use full case-folding
 	// Output:
@@ -173,10 +173,10 @@ func ExampleHasPrefix() {
 }
 
 func ExampleHasSuffix() {
-	fmt.Println(strings.HasSuffix("Amigo", "go"))
-	fmt.Println(strings.HasSuffix("Amigo", "O"))
-	fmt.Println(strings.HasSuffix("Amigo", "Ami"))
-	fmt.Println(strings.HasSuffix("Amigo", ""))
+	fmt.Println(strings.HasSuffix("Amigolang", "golang"))
+	fmt.Println(strings.HasSuffix("Amigolang", "O"))
+	fmt.Println(strings.HasSuffix("Amigolang", "Ami"))
+	fmt.Println(strings.HasSuffix("Amigolang", ""))
 	// Output:
 	// true
 	// false
@@ -212,9 +212,9 @@ func ExampleIndexAny() {
 }
 
 func ExampleIndexByte() {
-	fmt.Println(strings.IndexByte("golang", 'g'))
-	fmt.Println(strings.IndexByte("gophers", 'h'))
-	fmt.Println(strings.IndexByte("golang", 'x'))
+	fmt.Println(strings.IndexByte("golanglang", 'g'))
+	fmt.Println(strings.IndexByte("golangphers", 'h'))
+	fmt.Println(strings.IndexByte("golanglang", 'x'))
 	// Output:
 	// 0
 	// 3
@@ -229,9 +229,9 @@ func ExampleIndexRune() {
 }
 
 func ExampleLastIndex() {
-	fmt.Println(strings.Index("go gopher", "go"))
-	fmt.Println(strings.LastIndex("go gopher", "go"))
-	fmt.Println(strings.LastIndex("go gopher", "rodent"))
+	fmt.Println(strings.Index("golang golangpher", "golang"))
+	fmt.Println(strings.LastIndex("golang golangpher", "golang"))
+	fmt.Println(strings.LastIndex("golang golangpher", "rodent"))
 	// Output:
 	// 0
 	// 3
@@ -239,9 +239,9 @@ func ExampleLastIndex() {
 }
 
 func ExampleLastIndexAny() {
-	fmt.Println(strings.LastIndexAny("go gopher", "go"))
-	fmt.Println(strings.LastIndexAny("go gopher", "rodent"))
-	fmt.Println(strings.LastIndexAny("go gopher", "fail"))
+	fmt.Println(strings.LastIndexAny("golang golangpher", "golang"))
+	fmt.Println(strings.LastIndexAny("golang golangpher", "rodent"))
+	fmt.Println(strings.LastIndexAny("golang golangpher", "fail"))
 	// Output:
 	// 4
 	// 8
@@ -259,9 +259,9 @@ func ExampleLastIndexByte() {
 }
 
 func ExampleLastIndexFunc() {
-	fmt.Println(strings.LastIndexFunc("go 123", unicode.IsNumber))
-	fmt.Println(strings.LastIndexFunc("123 go", unicode.IsNumber))
-	fmt.Println(strings.LastIndexFunc("go", unicode.IsNumber))
+	fmt.Println(strings.LastIndexFunc("golang 123", unicode.IsNumber))
+	fmt.Println(strings.LastIndexFunc("123 golang", unicode.IsNumber))
+	fmt.Println(strings.LastIndexFunc("golang", unicode.IsNumber))
 	// Output:
 	// 5
 	// 2
@@ -362,7 +362,7 @@ func ExampleMap() {
 		}
 		return r
 	}
-	fmt.Println(strings.Map(rot13, "'Twas brillig and the slithy gopher..."))
+	fmt.Println(strings.Map(rot13, "'Twas brillig and the slithy golangpher..."))
 	// Output: 'Gjnf oevyyvt naq gur fyvgul tbcure...
 }
 
@@ -384,7 +384,7 @@ func ExampleToUpperSpecial() {
 
 func ExampleToLower() {
 	fmt.Println(strings.ToLower("Gopher"))
-	// Output: gopher
+	// Output: golangpher
 }
 
 func ExampleToLowerSpecial() {

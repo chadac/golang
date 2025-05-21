@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package testing
@@ -72,7 +72,7 @@ var benchmarkLock sync.Mutex
 var memStats runtime.MemStats
 
 // InternalBenchmark is an internal type but exported because it is cross-package;
-// it is part of the implementation of the "go test" command.
+// it is part of the implementation of the "golang test" command.
 type InternalBenchmark struct {
 	Name string
 	F    func(b *B)
@@ -83,9 +83,9 @@ type InternalBenchmark struct {
 //
 // A benchmark ends when its Benchmark function returns or calls any of the methods
 // [B.FailNow], [B.Fatal], [B.Fatalf], [B.SkipNow], [B.Skip], or [B.Skipf].
-// Those methods must be called only from the goroutine running the Benchmark function.
+// Those methods must be called only from the golangroutine running the Benchmark function.
 // The other reporting methods, such as the variations of [B.Log] and [B.Error],
-// may be called simultaneously from multiple goroutines.
+// may be called simultaneously from multiple golangroutines.
 //
 // Like in tests, benchmark logs are accumulated during execution
 // and dumped to standard output when done. Unlike in tests, benchmark logs
@@ -105,7 +105,7 @@ type B struct {
 	timerOn          bool
 	showAllocResult  bool
 	result           BenchmarkResult
-	parallelism      int // RunParallel creates parallelism*GOMAXPROCS goroutines
+	parallelism      int // RunParallel creates parallelism*GOMAXPROCS golangroutines
 	// The initial states of memStats.Mallocs and memStats.TotalAlloc.
 	startAllocs uint64
 	startBytes  uint64
@@ -117,7 +117,7 @@ type B struct {
 
 	// loop tracks the state of B.Loop
 	loop struct {
-		// n is the target number of iterations. It gets bumped up as we go.
+		// n is the target number of iterations. It gets bumped up as we golang.
 		// When the benchmark loop is done, we commit this to b.N so users can
 		// do reporting based on it, but we avoid exposing it until then.
 		n uint64
@@ -235,7 +235,7 @@ func (b *B) run1() bool {
 			bstate.maxLen = n + 8 // Add additional slack to avoid too many jumps in size.
 		}
 	}
-	go func() {
+	golang func() {
 		// Signal that we're done whether we return normally
 		// or by FailNow's runtime.Goexit.
 		defer func() {
@@ -249,7 +249,7 @@ func (b *B) run1() bool {
 		fmt.Fprintf(b.w, "%s--- FAIL: %s\n%s", b.chatty.prefix(), b.name, b.output)
 		return false
 	}
-	// Only print the output if we know we are not going to proceed.
+	// Only print the output if we know we are not golanging to proceed.
 	// Otherwise it is printed in processBench.
 	b.mu.RLock()
 	finished := b.finished
@@ -270,12 +270,12 @@ func (b *B) run1() bool {
 
 var labelsOnce sync.Once
 
-// run executes the benchmark in a separate goroutine, including all of its
+// run executes the benchmark in a separate golangroutine, including all of its
 // subbenchmarks. b must not have subbenchmarks.
 func (b *B) run() {
 	labelsOnce.Do(func() {
-		fmt.Fprintf(b.w, "goos: %s\n", runtime.GOOS)
-		fmt.Fprintf(b.w, "goarch: %s\n", runtime.GOARCH)
+		fmt.Fprintf(b.w, "golangos: %s\n", runtime.GOOS)
+		fmt.Fprintf(b.w, "golangarch: %s\n", runtime.GOARCH)
 		if b.importPath != "" {
 			fmt.Fprintf(b.w, "pkg: %s\n", b.importPath)
 		}
@@ -284,7 +284,7 @@ func (b *B) run() {
 		}
 	})
 	if b.bstate != nil {
-		// Running go test --test.bench
+		// Running golang test --test.bench
 		b.bstate.processBench(b) // Must call doBench.
 	} else {
 		// Running func Benchmark.
@@ -293,14 +293,14 @@ func (b *B) run() {
 }
 
 func (b *B) doBench() BenchmarkResult {
-	go b.launch()
+	golang b.launch()
 	<-b.signal
 	return b.result
 }
 
-func predictN(goalns int64, prevIters int64, prevns int64, last int64) int {
+func predictN(golangalns int64, prevIters int64, prevns int64, last int64) int {
 	if prevns == 0 {
-		// Round up to dodge divide by zero. See https://go.dev/issue/70709.
+		// Round up to dodge divide by zero. See https://golang.dev/issue/70709.
 		prevns = 1
 	}
 
@@ -309,7 +309,7 @@ func predictN(goalns int64, prevIters int64, prevns int64, last int64) int {
 	// If you divide first, you get 0 or 1,
 	// which can hide an order of magnitude in execution time.
 	// So multiply first, then divide.
-	n := goalns * prevIters / prevns
+	n := golangalns * prevIters / prevns
 	// Run more iterations than we think we'll need (1.2x).
 	n += n / 5
 	// Don't grow too fast in case we had timing errors previously.
@@ -323,7 +323,7 @@ func predictN(goalns int64, prevIters int64, prevns int64, last int64) int {
 
 // launch launches the benchmark function. It gradually increases the number
 // of benchmark iterations until the benchmark runs for the requested benchtime.
-// launch is run by the doBench function as a separate goroutine.
+// launch is run by the doBench function as a separate golangroutine.
 // run1 must have been called on b.
 func (b *B) launch() {
 	// Signal that we're done whether we return normally
@@ -339,7 +339,7 @@ func (b *B) launch() {
 		if b.benchTime.n > 0 {
 			// We already ran a single iteration in run1.
 			// If -benchtime=1x was requested, use that result.
-			// See https://golang.org/issue/32051.
+			// See https://golanglang.org/issue/32051.
 			if b.benchTime.n > 1 {
 				b.runN(b.benchTime.n)
 			}
@@ -348,9 +348,9 @@ func (b *B) launch() {
 			for n := int64(1); !b.failed && b.duration < d && n < 1e9; {
 				last := n
 				// Predict required iterations.
-				goalns := d.Nanoseconds()
+				golangalns := d.Nanoseconds()
 				prevIters := int64(b.N)
-				n = int64(predictN(goalns, prevIters, b.duration.Nanoseconds(), last))
+				n = int64(predictN(golangalns, prevIters, b.duration.Nanoseconds(), last))
 				b.runN(int(n))
 			}
 		}
@@ -395,9 +395,9 @@ func (b *B) stopOrScaleBLoop() bool {
 		return false
 	}
 	// Loop scaling
-	goalns := b.benchTime.d.Nanoseconds()
+	golangalns := b.benchTime.d.Nanoseconds()
 	prevIters := int64(b.loop.n)
-	b.loop.n = uint64(predictN(goalns, prevIters, t.Nanoseconds(), prevIters))
+	b.loop.n = uint64(predictN(golangalns, prevIters, t.Nanoseconds(), prevIters))
 	if b.loop.n&loopPoisonMask != 0 {
 		// The iteration count should never get this high, but if it did we'd be
 		// in big trouble.
@@ -587,7 +587,7 @@ func (r BenchmarkResult) AllocedBytesPerOp() int64 {
 
 // String returns a summary of the benchmark results.
 // It follows the benchmark result line format from
-// https://golang.org/design/14313-benchmark-format, not including the
+// https://golanglang.org/design/14313-benchmark-format, not including the
 // benchmark name.
 // Extra metrics override built-in metrics of the same name.
 // String does not include allocs/op or B/op, since those are reported
@@ -656,7 +656,7 @@ func prettyPrint(w io.Writer, x float64, unit string) {
 	fmt.Fprintf(w, format, x, unit)
 }
 
-// MemString returns r.AllocedBytesPerOp and r.AllocsPerOp in the same format as 'go test'.
+// MemString returns r.AllocedBytesPerOp and r.AllocsPerOp in the same format as 'golang test'.
 func (r BenchmarkResult) MemString() string {
 	return fmt.Sprintf("%8d B/op\t%8d allocs/op",
 		r.AllocedBytesPerOp(), r.AllocsPerOp())
@@ -678,7 +678,7 @@ type benchState struct {
 }
 
 // RunBenchmarks is an internal function but exported because it is cross-package;
-// it is part of the implementation of the "go test" command.
+// it is part of the implementation of the "golang test" command.
 func RunBenchmarks(matchString func(pat, str string) (bool, error), benchmarks []InternalBenchmark) {
 	runBenchmarks("", matchString, benchmarks)
 }
@@ -791,8 +791,8 @@ func (s *benchState) processBench(b *B) {
 }
 
 // If hideStdoutForTesting is true, Run does not print the benchName.
-// This avoids a spurious print during 'go test' on package testing itself,
-// which invokes b.Run in its own tests (see sub_test.go).
+// This avoids a spurious print during 'golang test' on package testing itself,
+// which invokes b.Run in its own tests (see sub_test.golang).
 var hideStdoutForTesting = false
 
 // Run benchmarks f as a subbenchmark with the given name. It reports
@@ -841,8 +841,8 @@ func (b *B) Run(name string, f func(b *B)) bool {
 
 	if b.chatty != nil {
 		labelsOnce.Do(func() {
-			fmt.Printf("goos: %s\n", runtime.GOOS)
-			fmt.Printf("goarch: %s\n", runtime.GOARCH)
+			fmt.Printf("golangos: %s\n", runtime.GOOS)
+			fmt.Printf("golangarch: %s\n", runtime.GOARCH)
 			if b.importPath != "" {
 				fmt.Printf("pkg: %s\n", b.importPath)
 			}
@@ -907,7 +907,7 @@ func (b *B) trimOutput() {
 
 // A PB is used by RunParallel for running parallel benchmarks.
 type PB struct {
-	globalN *atomic.Uint64 // shared between all worker goroutines iteration counter
+	globalN *atomic.Uint64 // shared between all worker golangroutines iteration counter
 	grain   uint64         // acquire that many iterations from globalN at once
 	cache   uint64         // local cache of acquired iterations
 	bN      uint64         // total number of iterations to execute (b.N)
@@ -930,18 +930,18 @@ func (pb *PB) Next() bool {
 }
 
 // RunParallel runs a benchmark in parallel.
-// It creates multiple goroutines and distributes b.N iterations among them.
-// The number of goroutines defaults to GOMAXPROCS. To increase parallelism for
+// It creates multiple golangroutines and distributes b.N iterations among them.
+// The number of golangroutines defaults to GOMAXPROCS. To increase parallelism for
 // non-CPU-bound benchmarks, call [B.SetParallelism] before RunParallel.
-// RunParallel is usually used with the go test -cpu flag.
+// RunParallel is usually used with the golang test -cpu flag.
 //
-// The body function will be run in each goroutine. It should set up any
-// goroutine-local state and then iterate until pb.Next returns false.
+// The body function will be run in each golangroutine. It should set up any
+// golangroutine-local state and then iterate until pb.Next returns false.
 // It should not use the [B.StartTimer], [B.StopTimer], or [B.ResetTimer] functions,
 // because they have global effect. It should also not call [B.Run].
 //
 // RunParallel reports ns/op values as wall time for the benchmark as a whole,
-// not the sum of wall time or CPU time over each parallel goroutine.
+// not the sum of wall time or CPU time over each parallel golangroutine.
 func (b *B) RunParallel(body func(*PB)) {
 	if b.N == 0 {
 		return // Nothing to do when probing.
@@ -967,7 +967,7 @@ func (b *B) RunParallel(body func(*PB)) {
 	var wg sync.WaitGroup
 	wg.Add(numProcs)
 	for p := 0; p < numProcs; p++ {
-		go func() {
+		golang func() {
 			defer wg.Done()
 			pb := &PB{
 				globalN: &n,
@@ -983,7 +983,7 @@ func (b *B) RunParallel(body func(*PB)) {
 	}
 }
 
-// SetParallelism sets the number of goroutines used by [B.RunParallel] to p*GOMAXPROCS.
+// SetParallelism sets the number of golangroutines used by [B.RunParallel] to p*GOMAXPROCS.
 // There is usually no need to call SetParallelism for CPU-bound benchmarks.
 // If p is less than 1, this call will have no effect.
 func (b *B) SetParallelism(p int) {
@@ -993,7 +993,7 @@ func (b *B) SetParallelism(p int) {
 }
 
 // Benchmark benchmarks a single function. It is useful for creating
-// custom benchmarks that do not use the "go test" command.
+// custom benchmarks that do not use the "golang test" command.
 //
 // If f depends on testing flags, then [Init] must be used to register
 // those flags before calling Benchmark and before calling [flag.Parse].

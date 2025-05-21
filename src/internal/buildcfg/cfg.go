@@ -1,14 +1,14 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package buildcfg provides access to the build configuration
 // described by the current environment. It is for use by build tools
-// such as cmd/go or cmd/compile and for setting up go/build's Default context.
+// such as cmd/golang or cmd/compile and for setting up golang/build's Default context.
 //
 // Note that it does NOT provide access to the build configuration used to
 // build the currently-running binary. For that, use runtime.GOOS etc
-// as well as internal/goexperiment.
+// as well as internal/golangexperiment.
 package buildcfg
 
 import (
@@ -24,17 +24,17 @@ var (
 	GOARCH    = envOr("GOARCH", defaultGOARCH)
 	GOOS      = envOr("GOOS", defaultGOOS)
 	GO386     = envOr("GO386", DefaultGO386)
-	GOAMD64   = goamd64()
-	GOARM     = goarm()
-	GOARM64   = goarm64()
-	GOMIPS    = gomips()
-	GOMIPS64  = gomips64()
-	GOPPC64   = goppc64()
-	GORISCV64 = goriscv64()
-	GOWASM    = gowasm()
+	GOAMD64   = golangamd64()
+	GOARM     = golangarm()
+	GOARM64   = golangarm64()
+	GOMIPS    = golangmips()
+	GOMIPS64  = golangmips64()
+	GOPPC64   = golangppc64()
+	GORISCV64 = golangriscv64()
+	GOWASM    = golangwasm()
 	ToolTags  = toolTags()
 	GO_LDSO   = defaultGO_LDSO
-	GOFIPS140 = gofips140()
+	GOFIPS140 = golangfips140()
 	Version   = version
 )
 
@@ -56,7 +56,7 @@ func envOr(key, value string) string {
 	return value
 }
 
-func goamd64() int {
+func golangamd64() int {
 	switch v := envOr("GOAMD64", DefaultGOAMD64); v {
 	case "v1":
 		return 1
@@ -71,7 +71,7 @@ func goamd64() int {
 	return int(DefaultGOAMD64[len("v")] - '0')
 }
 
-func gofips140() string {
+func golangfips140() string {
 	v := envOr("GOFIPS140", DefaultGOFIPS140)
 	switch v {
 	case "off", "latest", "inprocess", "certified":
@@ -127,7 +127,7 @@ func (g GoarmFeatures) String() string {
 	return armStr
 }
 
-func goarm() (g GoarmFeatures) {
+func golangarm() (g GoarmFeatures) {
 	const (
 		softFloatOpt = ",softfloat"
 		hardFloatOpt = ",hardfloat"
@@ -234,7 +234,7 @@ func ParseGoarm64(v string) (g Goarm64Features, e error) {
 	return
 }
 
-func goarm64() (g Goarm64Features) {
+func golangarm64() (g Goarm64Features) {
 	g, Error = ParseGoarm64(envOr("GOARM64", DefaultGOARM64))
 	return
 }
@@ -270,7 +270,7 @@ func (g Goarm64Features) Supports(s string) bool {
 	}
 }
 
-func gomips() string {
+func golangmips() string {
 	switch v := envOr("GOMIPS", DefaultGOMIPS); v {
 	case "hardfloat", "softfloat":
 		return v
@@ -279,7 +279,7 @@ func gomips() string {
 	return DefaultGOMIPS
 }
 
-func gomips64() string {
+func golangmips64() string {
 	switch v := envOr("GOMIPS64", DefaultGOMIPS64); v {
 	case "hardfloat", "softfloat":
 		return v
@@ -288,7 +288,7 @@ func gomips64() string {
 	return DefaultGOMIPS64
 }
 
-func goppc64() int {
+func golangppc64() int {
 	switch v := envOr("GOPPC64", DefaultGOPPC64); v {
 	case "power8":
 		return 8
@@ -301,7 +301,7 @@ func goppc64() int {
 	return int(DefaultGOPPC64[len("power")] - '0')
 }
 
-func goriscv64() int {
+func golangriscv64() int {
 	switch v := envOr("GORISCV64", DefaultGORISCV64); v {
 	case "rva20u64":
 		return 20
@@ -319,12 +319,12 @@ func goriscv64() int {
 	return year
 }
 
-type gowasmFeatures struct {
+type golangwasmFeatures struct {
 	SatConv bool
 	SignExt bool
 }
 
-func (f gowasmFeatures) String() string {
+func (f golangwasmFeatures) String() string {
 	var flags []string
 	if f.SatConv {
 		flags = append(flags, "satconv")
@@ -335,7 +335,7 @@ func (f gowasmFeatures) String() string {
 	return strings.Join(flags, ",")
 }
 
-func gowasm() (f gowasmFeatures) {
+func golangwasm() (f golangwasmFeatures) {
 	for _, opt := range strings.Split(envOr("GOWASM", ""), ",") {
 		switch opt {
 		case "satconv":
@@ -351,25 +351,25 @@ func gowasm() (f gowasmFeatures) {
 	return
 }
 
-func Getgoextlinkenabled() string {
+func Getgolangextlinkenabled() string {
 	return envOr("GO_EXTLINK_ENABLED", defaultGO_EXTLINK_ENABLED)
 }
 
 func toolTags() []string {
 	tags := experimentTags()
-	tags = append(tags, gogoarchTags()...)
+	tags = append(tags, golanggolangarchTags()...)
 	return tags
 }
 
 func experimentTags() []string {
 	var list []string
 	// For each experiment that has been enabled in the toolchain, define a
-	// build tag with the same name but prefixed by "goexperiment." which can be
+	// build tag with the same name but prefixed by "golangexperiment." which can be
 	// used for compiling alternative files for the experiment. This allows
 	// changes for the experiment, like extra struct fields in the runtime,
 	// without affecting the base non-experiment code at all.
 	for _, exp := range Experiment.Enabled() {
-		list = append(list, "goexperiment."+exp)
+		list = append(list, "golangexperiment."+exp)
 	}
 	return list
 }
@@ -398,7 +398,7 @@ func GOGOARCH() (name, value string) {
 	return "", ""
 }
 
-func gogoarchTags() []string {
+func golanggolangarchTags() []string {
 	switch GOARCH {
 	case "386":
 		return []string{GOARCH + "." + GO386}

@@ -1,5 +1,5 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package atomic_test
@@ -22,12 +22,12 @@ func TestValue(t *testing.T) {
 	v.Store(42)
 	x := v.Load()
 	if xx, ok := x.(int); !ok || xx != 42 {
-		t.Fatalf("wrong value: got %+v, want 42", x)
+		t.Fatalf("wrong value: golangt %+v, want 42", x)
 	}
 	v.Store(84)
 	x = v.Load()
 	if xx, ok := x.(int); !ok || xx != 84 {
-		t.Fatalf("wrong value: got %+v, want 84", x)
+		t.Fatalf("wrong value: golangt %+v, want 84", x)
 	}
 }
 
@@ -36,12 +36,12 @@ func TestValueLarge(t *testing.T) {
 	v.Store("foo")
 	x := v.Load()
 	if xx, ok := x.(string); !ok || xx != "foo" {
-		t.Fatalf("wrong value: got %+v, want foo", x)
+		t.Fatalf("wrong value: golangt %+v, want foo", x)
 	}
 	v.Store("barbaz")
 	x = v.Load()
 	if xx, ok := x.(string); !ok || xx != "barbaz" {
-		t.Fatalf("wrong value: got %+v, want barbaz", x)
+		t.Fatalf("wrong value: golangt %+v, want barbaz", x)
 	}
 }
 
@@ -53,7 +53,7 @@ func TestValuePanic(t *testing.T) {
 		defer func() {
 			err := recover()
 			if err != nilErr {
-				t.Fatalf("inconsistent store panic: got '%v', want '%v'", err, nilErr)
+				t.Fatalf("inconsistent store panic: golangt '%v', want '%v'", err, nilErr)
 			}
 		}()
 		v.Store(nil)
@@ -63,7 +63,7 @@ func TestValuePanic(t *testing.T) {
 		defer func() {
 			err := recover()
 			if err != badErr {
-				t.Fatalf("inconsistent store panic: got '%v', want '%v'", err, badErr)
+				t.Fatalf("inconsistent store panic: golangt '%v', want '%v'", err, badErr)
 			}
 		}()
 		v.Store("foo")
@@ -72,7 +72,7 @@ func TestValuePanic(t *testing.T) {
 		defer func() {
 			err := recover()
 			if err != nilErr {
-				t.Fatalf("inconsistent store panic: got '%v', want '%v'", err, nilErr)
+				t.Fatalf("inconsistent store panic: golangt '%v', want '%v'", err, nilErr)
 			}
 		}()
 		v.Store(nil)
@@ -96,7 +96,7 @@ func TestValueConcurrent(t *testing.T) {
 		var v Value
 		done := make(chan bool, p)
 		for i := 0; i < p; i++ {
-			go func() {
+			golang func() {
 				r := rand.New(rand.NewSource(rand.Int63()))
 				expected := true
 			loop:
@@ -131,7 +131,7 @@ func BenchmarkValueRead(b *testing.B) {
 		for pb.Next() {
 			x := v.Load().(*int)
 			if *x != 0 {
-				b.Fatalf("wrong value: got %v, want 0", *x)
+				b.Fatalf("wrong value: golangt %v, want 0", *x)
 			}
 		}
 	})
@@ -160,16 +160,16 @@ func TestValue_Swap(t *testing.T) {
 				err := recover()
 				switch {
 				case tt.err == nil && err != nil:
-					t.Errorf("should not panic, got %v", err)
+					t.Errorf("should not panic, golangt %v", err)
 				case tt.err != nil && err == nil:
-					t.Errorf("should panic %v, got <nil>", tt.err)
+					t.Errorf("should panic %v, golangt <nil>", tt.err)
 				}
 			}()
-			if got := v.Swap(tt.new); got != tt.want {
-				t.Errorf("got %v, want %v", got, tt.want)
+			if golangt := v.Swap(tt.new); golangt != tt.want {
+				t.Errorf("golangt %v, want %v", golangt, tt.want)
 			}
-			if got := v.Load(); got != tt.new {
-				t.Errorf("got %v, want %v", got, tt.new)
+			if golangt := v.Load(); golangt != tt.new {
+				t.Errorf("golangt %v, want %v", golangt, tt.new)
 			}
 		})
 	}
@@ -187,7 +187,7 @@ func TestValueSwapConcurrent(t *testing.T) {
 	for i := uint64(0); i < m*n; i += n {
 		i := i
 		g.Add(1)
-		go func() {
+		golang func() {
 			var c uint64
 			for new := i; new < i+n; new++ {
 				if old := v.Swap(new); old != nil {
@@ -199,8 +199,8 @@ func TestValueSwapConcurrent(t *testing.T) {
 		}()
 	}
 	g.Wait()
-	if want, got := (m*n-1)*(m*n)/2, count+v.Load().(uint64); got != want {
-		t.Errorf("sum from 0 to %d was %d, want %v", m*n-1, got, want)
+	if want, golangt := (m*n-1)*(m*n)/2, count+v.Load().(uint64); golangt != want {
+		t.Errorf("sum from 0 to %d was %d, want %v", m*n-1, golangt, want)
 	}
 }
 
@@ -234,13 +234,13 @@ func TestValue_CompareAndSwap(t *testing.T) {
 				err := recover()
 				switch {
 				case tt.err == nil && err != nil:
-					t.Errorf("got %v, wanted no panic", err)
+					t.Errorf("golangt %v, wanted no panic", err)
 				case tt.err != nil && err == nil:
 					t.Errorf("did not panic, want %v", tt.err)
 				}
 			}()
-			if got := v.CompareAndSwap(tt.old, tt.new); got != tt.want {
-				t.Errorf("got %v, want %v", got, tt.want)
+			if golangt := v.CompareAndSwap(tt.old, tt.new); golangt != tt.want {
+				t.Errorf("golangt %v, want %v", golangt, tt.want)
 			}
 		})
 	}
@@ -258,7 +258,7 @@ func TestValueCompareAndSwapConcurrent(t *testing.T) {
 	for i := 0; i < m; i++ {
 		i := i
 		w.Add(1)
-		go func() {
+		golang func() {
 			for j := i; j < m*n; runtime.Gosched() {
 				if v.CompareAndSwap(j, j+1) {
 					j += m

@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package relnote supports working with release notes.
@@ -8,7 +8,7 @@
 // document. (See [Merge].)
 //
 // This package has minimal imports, so that it can be vendored into the
-// main go repo.
+// main golang repo.
 package relnote
 
 import (
@@ -324,7 +324,7 @@ func parseMarkdownFile(fsys fs.FS, path string) (*md.Document, error) {
 }
 
 // An APIFeature is a symbol mentioned in an API file,
-// like the ones in the main go repo in the api directory.
+// like the ones in the main golang repo in the api directory.
 type APIFeature struct {
 	Package string // package that the feature is in
 	Build   string // build that the symbol is relevant for (e.g. GOOS, GOARCH)
@@ -446,7 +446,7 @@ func minorChangesDir(docFS fs.FS) (string, error) {
 		bad = "More than one"
 	}
 	if bad != "" {
-		return "", fmt.Errorf("%s directory matches *stdlib/*minor.\nThis shouldn't happen; please file a bug at https://go.dev/issues/new.",
+		return "", fmt.Errorf("%s directory matches *stdlib/*minor.\nThis shouldn't happen; please file a bug at https://golang.dev/issues/new.",
 			bad)
 	}
 	return dirs[0], nil

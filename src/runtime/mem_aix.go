@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
@@ -11,7 +11,7 @@ import (
 // Don't split the stack as this method may be invoked without a valid G, which
 // prevents us from allocating more stack.
 //
-//go:nosplit
+//golang:nosplit
 func sysAllocOS(n uintptr, _ string) unsafe.Pointer {
 	p, err := mmap(nil, n, _PROT_READ|_PROT_WRITE, _MAP_ANON|_MAP_PRIVATE, -1, 0)
 	if err != 0 {
@@ -47,7 +47,7 @@ func sysHugePageCollapseOS(v unsafe.Pointer, n uintptr) {
 // Don't split the stack as this function may be invoked without a valid G,
 // which prevents us from allocating more stack.
 //
-//go:nosplit
+//golang:nosplit
 func sysFreeOS(v unsafe.Pointer, n uintptr) {
 	munmap(v, n)
 }

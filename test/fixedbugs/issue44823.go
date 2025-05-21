@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Issue 44823: miscompilation with store combining.
@@ -10,7 +10,7 @@ package main
 
 import "encoding/binary"
 
-//go:noinline
+//golang:noinline
 func Id(a [8]byte) (x [8]byte) {
 	binary.LittleEndian.PutUint64(x[:], binary.LittleEndian.Uint64(a[:]))
 	return

@@ -1,14 +1,14 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
 
 import (
 	"fmt"
-	"go/ast"
-	"go/parser"
-	"go/token"
+	"golang/ast"
+	"golang/parser"
+	"golang/token"
 	"os"
 	"reflect"
 	"strings"
@@ -272,7 +272,7 @@ func subst(m map[string]reflect.Value, pattern reflect.Value, pos reflect.Value)
 	switch p := pattern; p.Kind() {
 	case reflect.Slice:
 		if p.IsNil() {
-			// Do not turn nil slices into empty slices. go/ast
+			// Do not turn nil slices into empty slices. golang/ast
 			// guarantees that certain lists will be nil if not
 			// populated.
 			return reflect.Zero(p.Type())

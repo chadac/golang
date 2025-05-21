@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -36,8 +36,8 @@ func makelist(x *T, n int64) {
 		i := int64(1)
 		for ; x != nil; x, i = x.next, i+1 {
 			// Make sure x.data hasn't been collected.
-			if got := *x.data; got != i {
-				panic(fmt.Sprintf("bad data want %d, got %d", i, got))
+			if golangt := *x.data; golangt != i {
+				panic(fmt.Sprintf("bad data want %d, golangt %d", i, golangt))
 			}
 		}
 		return

@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ir
@@ -11,8 +11,8 @@ package ir
 //
 // Finding these sets is finding strongly connected components
 // by reverse topological order in the static call graph.
-// The algorithm (known as Tarjan's algorithm) for doing that is taken from
-// Sedgewick, Algorithms, Second Edition, p. 482, with two adaptations.
+// The algolangrithm (known as Tarjan's algolangrithm) for doing that is taken from
+// Sedgewick, Algolangrithms, Second Edition, p. 482, with two adaptations.
 //
 // First, a closure function (fn.IsClosure()) cannot be
 // the root of a connected component. Refusing to use it as a root forces

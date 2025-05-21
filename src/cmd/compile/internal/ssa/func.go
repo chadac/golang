@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ssa
@@ -34,7 +34,7 @@ type Func struct {
 	vid idAlloc // value ID allocator
 
 	HTMLWriter     *HTMLWriter    // html writer, for debugging
-	PrintOrHtmlSSA bool           // true if GOSSAFUNC matches, true even if fe.Log() (spew phase results to stdout) is false.  There's an odd dependence on this in debug.go for method logf.
+	PrintOrHtmlSSA bool           // true if GOSSAFUNC matches, true even if fe.Log() (spew phase results to stdout) is false.  There's an odd dependence on this in debug.golang for method logf.
 	ruleMatches    map[string]int // number of times countRule was called during compilation for any given string
 	ABI0           *abi.ABIConfig // A copy, for no-sync access
 	ABI1           *abi.ABIConfig // A copy, for no-sync access
@@ -45,7 +45,7 @@ type Func struct {
 	laidout     bool  // Blocks are ordered
 	NoSplit     bool  // true if function is marked as nosplit.  Used by schedule check pass.
 	dumpFileSeq uint8 // the sequence numbers of dump file. (%s_%02d__%s.dump", funcname, dumpFileSeq, phaseName)
-	IsPgoHot    bool
+	IsPgolangHot    bool
 	DeferReturn *Block // avoid creating more than one deferreturn if there's multiple calls to deferproc-etc.
 
 	// when register allocation is done, maps value ids to locations
@@ -797,7 +797,7 @@ func (f *Func) invalidateCFG() {
 //	base.DebugHashMatch(this function's package.name)
 //
 // for use in bug isolation.  The return value is true unless
-// environment variable GOCOMPILEDEBUG=gossahash=X is set, in which case "it depends on X".
+// environment variable GOCOMPILEDEBUG=golangssahash=X is set, in which case "it depends on X".
 // See [base.DebugHashMatch] for more information.
 func (f *Func) DebugHashMatch() bool {
 	if !base.HasDebugHash() {
@@ -808,7 +808,7 @@ func (f *Func) DebugHashMatch() bool {
 }
 
 func (f *Func) spSb() (sp, sb *Value) {
-	initpos := src.NoXPos // These are originally created with no position in ssa.go; if they are optimized out then recreated, should be the same.
+	initpos := src.NoXPos // These are originally created with no position in ssa.golang; if they are optimized out then recreated, should be the same.
 	for _, v := range f.Entry.Values {
 		if v.Op == OpSB {
 			sb = v

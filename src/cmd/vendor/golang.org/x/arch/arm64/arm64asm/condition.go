@@ -2,13 +2,13 @@
 // DO NOT EDIT
 
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package arm64asm
 
 // Following functions are used as the predicator: canDecode of according instruction
-// Refer to instFormat inside decode.go for more details
+// Refer to instFormat inside decode.golang for more details
 
 func at_sys_cr_system_cond(instr uint32) bool {
 	return sys_op_4((instr>>16)&0x7, 0x7, 0x8, (instr>>5)&0x7) == sys_AT

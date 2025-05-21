@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // GC checkmarks
@@ -13,7 +13,7 @@
 package runtime
 
 import (
-	"internal/goarch"
+	"internal/golangarch"
 	"internal/runtime/atomic"
 	"internal/runtime/sys"
 	"unsafe"
@@ -25,7 +25,7 @@ import (
 // allocation.
 type checkmarksMap struct {
 	_ sys.NotInHeap
-	b [heapArenaBytes / goarch.PtrSize / 8]uint8
+	b [heapArenaBytes / golangarch.PtrSize / 8]uint8
 }
 
 // If useCheckmark is true, marking of an object uses the checkmark
@@ -111,7 +111,7 @@ func getCheckmark(obj uintptr) (bytep *byte, mask uint8) {
 		// Non-heap pointer.
 		return nil, 0
 	}
-	wordIdx := (obj - alignDown(obj, heapArenaBytes)) / goarch.PtrSize
+	wordIdx := (obj - alignDown(obj, heapArenaBytes)) / golangarch.PtrSize
 	arenaWord := wordIdx / 8
 	mask = byte(1 << (wordIdx % 8))
 	bytep = &arena.checkmarks.b[arenaWord]
@@ -127,7 +127,7 @@ func runCheckmark(prepareRootSet func(*gcWork)) {
 	assertWorldStopped()
 
 	// Turn off gcwaiting because that will force
-	// gcDrain to return early if this goroutine
+	// gcDrain to return early if this golangroutine
 	// happens to have its preemption flag set.
 	// This is fine because the world is stopped.
 	// Restore it after we're done just to be safe.

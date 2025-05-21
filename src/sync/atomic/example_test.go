@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package atomic_test
@@ -19,12 +19,12 @@ func requests() chan int {
 }
 
 // The following example shows how to use Value for periodic program config updates
-// and propagation of the changes to worker goroutines.
+// and propagation of the changes to worker golangroutines.
 func ExampleValue_config() {
 	var config atomic.Value // holds current server configuration
 	// Create initial config value and store into config.
 	config.Store(loadConfig())
-	go func() {
+	golang func() {
 		// Reload config every 10 seconds
 		// and update config value with the new version.
 		for {
@@ -32,10 +32,10 @@ func ExampleValue_config() {
 			config.Store(loadConfig())
 		}
 	}()
-	// Create worker goroutines that handle incoming requests
+	// Create worker golangroutines that handle incoming requests
 	// using the latest config value.
 	for i := 0; i < 10; i++ {
-		go func() {
+		golang func() {
 			for r := range requests() {
 				c := config.Load()
 				// Handle request r using config c.

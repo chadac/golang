@@ -1,8 +1,8 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build darwin || dragonfly || freebsd || linux || netbsd || openbsd || solaris
+//golang:build darwin || dragolangnfly || freebsd || linux || netbsd || openbsd || solaris
 
 package net
 
@@ -126,7 +126,7 @@ func TestSortByRFC6724(t *testing.T) {
 		copy(srcCopy, tt.srcs)
 		sortByRFC6724withSrcs(inCopy, srcCopy)
 		if !reflect.DeepEqual(inCopy, tt.want) {
-			t.Errorf("test %d:\nin = %s\ngot: %s\nwant: %s\n", i, tt.in, inCopy, tt.want)
+			t.Errorf("test %d:\nin = %s\ngolangt: %s\nwant: %s\n", i, tt.in, inCopy, tt.want)
 		}
 		if tt.reverse {
 			copy(inCopy, tt.in)
@@ -138,7 +138,7 @@ func TestSortByRFC6724(t *testing.T) {
 			}
 			sortByRFC6724withSrcs(inCopy, srcCopy)
 			if !reflect.DeepEqual(inCopy, tt.want) {
-				t.Errorf("test %d, starting backwards:\nin = %s\ngot: %s\nwant: %s\n", i, tt.in, inCopy, tt.want)
+				t.Errorf("test %d, starting backwards:\nin = %s\ngolangt: %s\nwant: %s\n", i, tt.in, inCopy, tt.want)
 			}
 		}
 
@@ -246,9 +246,9 @@ func TestRFC6724PolicyTableClassify(t *testing.T) {
 		},
 	}
 	for i, tt := range tests {
-		got := rfc6724policyTable.Classify(tt.ip)
-		if !reflect.DeepEqual(got, tt.want) {
-			t.Errorf("%d. Classify(%s) = %v; want %v", i, tt.ip, got, tt.want)
+		golangt := rfc6724policyTable.Classify(tt.ip)
+		if !reflect.DeepEqual(golangt, tt.want) {
+			t.Errorf("%d. Classify(%s) = %v; want %v", i, tt.ip, golangt, tt.want)
 		}
 	}
 }
@@ -275,9 +275,9 @@ func TestRFC6724ClassifyScope(t *testing.T) {
 		{netip.AddrFrom4([4]byte{0xe0, 2, 2, 2}), scopeGlobal},                                       // IPv4 global multicast as 4 bytes
 	}
 	for i, tt := range tests {
-		got := classifyScope(tt.ip)
-		if got != tt.want {
-			t.Errorf("%d. classifyScope(%s) = %x; want %x", i, tt.ip, got, tt.want)
+		golangt := classifyScope(tt.ip)
+		if golangt != tt.want {
+			t.Errorf("%d. classifyScope(%s) = %x; want %x", i, tt.ip, golangt, tt.want)
 		}
 	}
 }
@@ -303,9 +303,9 @@ func TestRFC6724CommonPrefixLength(t *testing.T) {
 		{netip.AddrFrom4([4]byte{1, 2, 0, 255}), IP{1, 2, 0, 0}, 24},
 	}
 	for i, tt := range tests {
-		got := commonPrefixLen(tt.a, tt.b)
-		if got != tt.want {
-			t.Errorf("%d. commonPrefixLen(%s, %s) = %d; want %d", i, tt.a, tt.b, got, tt.want)
+		golangt := commonPrefixLen(tt.a, tt.b)
+		if golangt != tt.want {
+			t.Errorf("%d. commonPrefixLen(%s, %s) = %d; want %d", i, tt.a, tt.b, golangt, tt.want)
 		}
 	}
 

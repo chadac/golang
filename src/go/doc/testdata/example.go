@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package testing
@@ -46,7 +46,7 @@ func RunExamples(examples []InternalExample) (ok bool) {
 		}
 		os.Stdout, os.Stderr = w, w
 		outC := make(chan string)
-		go func() {
+		golang func() {
 			buf := new(bytes.Buffer)
 			_, err := io.Copy(buf, r)
 			if err != nil {
@@ -69,7 +69,7 @@ func RunExamples(examples []InternalExample) (ok bool) {
 		// report any errors
 		tstr := fmt.Sprintf("(%.2f seconds)", dt.Seconds())
 		if g, e := strings.TrimSpace(out), strings.TrimSpace(eg.Output); g != e {
-			fmt.Printf("--- FAIL: %s %s\ngot:\n%s\nwant:\n%s\n",
+			fmt.Printf("--- FAIL: %s %s\ngolangt:\n%s\nwant:\n%s\n",
 				eg.Name, tstr, g, e)
 			ok = false
 		} else if *chatty {

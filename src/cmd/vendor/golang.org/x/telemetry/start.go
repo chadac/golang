@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package telemetry
@@ -13,11 +13,11 @@ import (
 	"sync"
 	"time"
 
-	"golang.org/x/sync/errgroup"
-	"golang.org/x/telemetry/counter"
-	"golang.org/x/telemetry/internal/crashmonitor"
-	"golang.org/x/telemetry/internal/telemetry"
-	"golang.org/x/telemetry/internal/upload"
+	"golanglang.org/x/sync/errgroup"
+	"golanglang.org/x/telemetry/counter"
+	"golanglang.org/x/telemetry/internal/crashmonitor"
+	"golanglang.org/x/telemetry/internal/telemetry"
+	"golanglang.org/x/telemetry/internal/upload"
 )
 
 // Config controls the behavior of [Start].
@@ -26,18 +26,18 @@ type Config struct {
 	// ReportCrashes uses the [debug.SetCrashOutput] mechanism, which is a
 	// process-wide resource.
 	// Do not make other calls to that function within your application.
-	// ReportCrashes is a non-functional unless the program is built with go1.23+.
+	// ReportCrashes is a non-functional unless the program is built with golang1.23+.
 	ReportCrashes bool
 
 	// Upload causes this program to periodically upload approved counters
-	// from the local telemetry database to telemetry.go.dev.
+	// from the local telemetry database to telemetry.golang.dev.
 	//
 	// This option has no effect unless the user has given consent
 	// to enable data collection, for example by running
-	// cmd/gotelemetry or affirming the gopls dialog.
+	// cmd/golangtelemetry or affirming the golangpls dialog.
 	//
-	// (This feature is expected to be used only by gopls.
-	// Longer term, the go command may become the sole program
+	// (This feature is expected to be used only by golangpls.
+	// Longer term, the golang command may become the sole program
 	// responsible for uploading.)
 	Upload bool
 
@@ -57,7 +57,7 @@ type Config struct {
 	UploadStartTime time.Time
 
 	// UploadURL, if set, overrides the URL used to receive uploaded reports. If
-	// unset, this URL defaults to https://telemetry.go.dev/upload.
+	// unset, this URL defaults to https://telemetry.golang.dev/upload.
 	UploadURL string
 }
 
@@ -68,11 +68,11 @@ type Config struct {
 //
 // If [Config.Upload] is set, and the user has opted in to telemetry
 // uploading, this process may attempt to upload approved counters
-// to telemetry.go.dev.
+// to telemetry.golang.dev.
 //
 // If [Config.ReportCrashes] is set, any fatal crash will be
 // recorded by incrementing a counter named for the stack of the
-// first running goroutine in the traceback.
+// first running golangroutine in the traceback.
 //
 // If either of these flags is set, Start re-executes the current
 // executable as a child process, in a special mode in which it
@@ -242,7 +242,7 @@ func startChild(reportCrashes, upload bool, result *StartResult) {
 		crashmonitor.Parent(crashOutputFile)
 	}
 	result.wg.Add(1)
-	go func() {
+	golang func() {
 		cmd.Wait() // Release resources if cmd happens not to outlive this process.
 		result.wg.Done()
 	}()
@@ -255,14 +255,14 @@ func child(config Config) {
 		telemetry.Default = telemetry.NewDir(config.TelemetryDir)
 	}
 
-	// golang/go#67211: be sure to set telemetryChildVar before running the
-	// child, because the child itself invokes the go command to download the
+	// golanglang/golang#67211: be sure to set telemetryChildVar before running the
+	// child, because the child itself invokes the golang command to download the
 	// upload config. If the telemetryChildVar variable is still set to "1",
-	// that delegated go command may think that it is itself a telemetry
+	// that delegated golang command may think that it is itself a telemetry
 	// child.
 	//
 	// On the other hand, if telemetryChildVar were simply unset, then the
-	// delegated go commands would fork themselves recursively. Short-circuit
+	// delegated golang commands would fork themselves recursively. Short-circuit
 	// this recursion.
 	os.Setenv(telemetryChildVar, "2")
 	upload := os.Getenv(telemetryUploadVar) == "1"

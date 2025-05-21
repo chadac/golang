@@ -1,5 +1,5 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package types2
@@ -76,7 +76,7 @@ func (check *Checker) initOrder() {
 			cycle := findPath(check.objMap, n.obj, n.obj, make(map[Object]bool))
 			// If n.obj is not part of the cycle (e.g., n.obj->b->c->d->c),
 			// cycle will be nil. Don't report anything in that case since
-			// the cycle is reported when the algorithm gets to an object
+			// the cycle is reported when the algolangrithm gets to an object
 			// in the cycle.
 			// Furthermore, once an object in the cycle is encountered,
 			// the cycle will be broken (dependency count will be reduced
@@ -320,7 +320,7 @@ func (a nodeQueue) Swap(i, j int) {
 func (a nodeQueue) Less(i, j int) bool {
 	x, y := a[i], a[j]
 
-	// Prioritize all constants before non-constants. See go.dev/issue/66575/.
+	// Prioritize all constants before non-constants. See golang.dev/issue/66575/.
 	_, xConst := x.obj.(*Const)
 	_, yConst := y.obj.(*Const)
 	if xConst != yConst {

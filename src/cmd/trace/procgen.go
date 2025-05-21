@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -62,19 +62,19 @@ func (g *procGenerator) GoroutineRange(ctx *traceContext, ev *trace.Event) {
 
 func (g *procGenerator) GoroutineTransition(ctx *traceContext, ev *trace.Event) {
 	st := ev.StateTransition()
-	goID := st.Resource.Goroutine()
+	golangID := st.Resource.Goroutine()
 
-	// If we haven't seen this goroutine before, create a new
+	// If we haven't seen this golangroutine before, create a new
 	// gState for it.
-	gs, ok := g.gStates[goID]
+	gs, ok := g.gStates[golangID]
 	if !ok {
-		gs = newGState[trace.ProcID](goID)
-		g.gStates[goID] = gs
+		gs = newGState[trace.ProcID](golangID)
+		g.gStates[golangID] = gs
 	}
-	// If we haven't already named this goroutine, try to name it.
+	// If we haven't already named this golangroutine, try to name it.
 	gs.augmentName(st.Stack)
 
-	// Handle the goroutine state transition.
+	// Handle the golangroutine state transition.
 	from, to := st.Goroutine()
 	if from == to {
 		// Filter out no-op events.
@@ -118,7 +118,7 @@ func (g *procGenerator) GoroutineTransition(ctx *traceContext, ev *trace.Event) 
 			start = ctx.startTime
 		}
 		// Write down that we've entered a syscall. Note: we might have no P here
-		// if we're in a cgo callback or this is a transition from GoUndetermined
+		// if we're in a cgolang callback or this is a transition from GoUndetermined
 		// (i.e. the G has been blocked in a syscall).
 		gs.syscallBegin(start, ev.Proc(), ev.Stack())
 		g.inSyscall[ev.Proc()] = gs
@@ -130,7 +130,7 @@ func (g *procGenerator) GoroutineTransition(ctx *traceContext, ev *trace.Event) 
 		delete(g.inSyscall, ev.Proc())
 	}
 
-	// Note down the goroutine transition.
+	// Note down the golangroutine transition.
 	_, inMarkAssist := gs.activeRanges["GC mark assist"]
 	ctx.GoroutineTransition(ctx.elapsed(ev.Time()), viewerGState(from, inMarkAssist), viewerGState(to, inMarkAssist))
 }
@@ -195,12 +195,12 @@ func (g *procGenerator) Finish(ctx *traceContext) {
 	ctx.SetResourceType("PROCS")
 
 	// Finish off ranges first. It doesn't really matter for the global ranges,
-	// but the proc ranges need to either be a subset of a goroutine slice or
+	// but the proc ranges need to either be a subset of a golangroutine slice or
 	// their own slice entirely. If the former, it needs to end first.
 	g.procRangeGenerator.Finish(ctx)
 	g.globalRangeGenerator.Finish(ctx)
 
-	// Finish off all the goroutine slices.
+	// Finish off all the golangroutine slices.
 	for _, gs := range g.gStates {
 		gs.finish(ctx)
 	}

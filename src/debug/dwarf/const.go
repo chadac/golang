@@ -1,12 +1,12 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Constants
 
 package dwarf
 
-//go:generate stringer -type Attr -trimprefix=Attr
+//golang:generate stringer -type Attr -trimprefix=Attr
 
 // An Attr identifies the attribute type in a DWARF [Entry.Field].
 type Attr uint32
@@ -201,7 +201,7 @@ const (
 	formGnuStrpAlt format = 0x1f21
 )
 
-//go:generate stringer -type Tag -trimprefix=Tag
+//golang:generate stringer -type Tag -trimprefix=Tag
 
 // A Tag is the classification (the type) of an [Entry].
 type Tag uint32

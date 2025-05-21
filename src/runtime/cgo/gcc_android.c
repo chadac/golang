@@ -1,12 +1,12 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 #include <stdarg.h>
 #include <android/log.h>
 #include <pthread.h>
 #include <dlfcn.h>
-#include "libcgo.h"
+#include "libcgolang.h"
 
 void
 fatalf(const char* format, ...)
@@ -19,14 +19,14 @@ fatalf(const char* format, ...)
 	// redirect to /dev/null. And when running a test binary
 	// via adb shell, it's easy to miss logcat.
 
-	fprintf(stderr, "runtime/cgo: ");
+	fprintf(stderr, "runtime/cgolang: ");
 	va_start(ap, format);
 	vfprintf(stderr, format, ap);
 	va_end(ap);
 	fprintf(stderr, "\n");
 
 	va_start(ap, format);
-	__android_log_vprint(ANDROID_LOG_FATAL, "runtime/cgo", format, ap);
+	__android_log_vprint(ANDROID_LOG_FATAL, "runtime/cgolang", format, ap);
 	va_end(ap);
 
 	abort();
@@ -35,7 +35,7 @@ fatalf(const char* format, ...)
 // Truncated to a different magic value on 32-bit; that's ok.
 #define magic1 (0x23581321345589ULL)
 
-// From https://android.googlesource.com/platform/bionic/+/refs/heads/android10-tests-release/libc/private/bionic_asm_tls.h#69.
+// From https://android.golangoglesource.com/platform/bionic/+/refs/heads/android10-tests-release/libc/private/bionic_asm_tls.h#69.
 #define TLS_SLOT_APP 2
 
 // inittls allocates a thread-local storage slot for g.
@@ -63,7 +63,7 @@ inittls(void **tlsg, void **tlsbase)
 		off = (void *)(TLS_SLOT_APP*sizeof(void *));
 		// tlsg is initialized to Q's free TLS slot. Verify it while we're here.
 		if (*tlsg != off) {
-			fatalf("tlsg offset wrong, got %ld want %ld\n", *tlsg, off);
+			fatalf("tlsg offset wrong, golangt %ld want %ld\n", *tlsg, off);
 		}
 		return;
 	}
@@ -87,4 +87,4 @@ inittls(void **tlsg, void **tlsbase)
 	fatalf("inittls: could not find pthread key");
 }
 
-void (*x_cgo_inittls)(void **tlsg, void **tlsbase) = inittls;
+void (*x_cgolang_inittls)(void **tlsg, void **tlsbase) = inittls;

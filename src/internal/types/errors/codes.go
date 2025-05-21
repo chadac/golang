@@ -1,10 +1,10 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package errors
 
-//go:generate go run golang.org/x/tools/cmd/stringer@latest -type Code codes.go
+//golang:generate golang run golanglang.org/x/tools/cmd/stringer@latest -type Code codes.golang
 
 type Code int
 
@@ -16,7 +16,7 @@ type Code int
 //
 // Error codes should be fine-grained enough that the exact nature of the error
 // can be easily determined, but coarse enough that they are not an
-// implementation detail of the type checking algorithm. As a rule-of-thumb,
+// implementation detail of the type checking algolangrithm. As a rule-of-thumb,
 // errors should be considered equivalent if there is a theoretical refactoring
 // of the type checker in which they are emitted in exactly one place. For
 // example, the type checker emits different error messages for "too many
@@ -290,7 +290,7 @@ const (
 	IncomparableMapKey
 
 	// InvalidIfaceEmbed occurs when a non-interface type is embedded in an
-	// interface (for go 1.17 or earlier).
+	// interface (for golang 1.17 or earlier).
 	_ // not used anymore
 
 	// InvalidPtrEmbed occurs when an embedded field is of the pointer form *T,
@@ -664,7 +664,7 @@ const (
 	// undeclared by the imported package.
 	//
 	// Example:
-	//  import "go/types"
+	//  import "golang/types"
 	//
 	//  var _ = types.NotAnActualIdentifier
 	UndeclaredImportedName
@@ -752,7 +752,7 @@ const (
 	// InvalidCap occurs when an argument to the cap built-in function is not of
 	// supported type.
 	//
-	// See https://golang.org/ref/spec#Length_and_capacity for information on
+	// See https://golanglang.org/ref/spec#Length_and_capacity for information on
 	// which underlying types are supported as arguments to cap and len.
 	//
 	// Example:
@@ -773,7 +773,7 @@ const (
 	// InvalidCopy occurs when the arguments are not of slice type or do not
 	// have compatible type.
 	//
-	// See https://golang.org/ref/spec#Appending_and_copying_slices for more
+	// See https://golanglang.org/ref/spec#Appending_and_copying_slices for more
 	// information on the type requirements for the copy built-in.
 	//
 	// Example:
@@ -811,7 +811,7 @@ const (
 	// InvalidLen occurs when an argument to the len built-in function is not of
 	// supported type.
 	//
-	// See https://golang.org/ref/spec#Length_and_capacity for information on
+	// See https://golanglang.org/ref/spec#Length_and_capacity for information on
 	// which underlying types are supported as arguments to cap and len.
 	//
 	// Example:
@@ -828,7 +828,7 @@ const (
 
 	// InvalidMake occurs when make is called with an unsupported type argument.
 	//
-	// See https://golang.org/ref/spec#Making_slices_maps_and_channels for
+	// See https://golanglang.org/ref/spec#Making_slices_maps_and_channels for
 	// information on the types that may be created using make.
 	//
 	// Example:
@@ -868,7 +868,7 @@ const (
 	// InvalidConversion occurs when the argument type cannot be converted to the
 	// target.
 	//
-	// See https://golang.org/ref/spec#Conversions for the rules of
+	// See https://golanglang.org/ref/spec#Conversions for the rules of
 	// convertibility.
 	//
 	// Example:
@@ -1133,7 +1133,7 @@ const (
 	//
 	// Example:
 	//  func f() {
-	//  	goto L
+	//  	golangto L
 	//  }
 	UndeclaredLabel
 
@@ -1175,7 +1175,7 @@ const (
 	//
 	// Example:
 	//  func f() int {
-	//  	goto L
+	//  	golangto L
 	//  	x := 2
 	//  L:
 	//  	x++
@@ -1183,12 +1183,12 @@ const (
 	//  }
 	JumpOverDecl
 
-	// JumpIntoBlock occurs when a forward jump goes to a label inside a nested
+	// JumpIntoBlock occurs when a forward jump golanges to a label inside a nested
 	// block.
 	//
 	// Example:
 	//  func f(x int) {
-	//  	goto L
+	//  	golangto L
 	//  	if x > 0 {
 	//  	L:
 	//  		print("inside block")
@@ -1224,7 +1224,7 @@ const (
 	InvalidCall
 
 	// UnusedResults occurs when a restricted expression-only built-in function
-	// is suspended via go or defer. Such a suspension discards the results of
+	// is suspended via golang or defer. Such a suspension discards the results of
 	// these side-effect free built-in functions, and therefore is ineffectual.
 	//
 	// Example:
@@ -1244,12 +1244,12 @@ const (
 	//  }
 	InvalidDefer
 
-	// InvalidGo occurs when a go expression is not a function call, for example
+	// InvalidGo occurs when a golang expression is not a function call, for example
 	// if the expression is a type conversion.
 	//
 	// Example:
 	//  func f(i int) int {
-	//  	go int32(i)
+	//  	golang int32(i)
 	//  	return i
 	//  }
 	InvalidGo
@@ -1271,7 +1271,7 @@ const (
 	// InvalidUnsafeAdd occurs when unsafe.Add is called with a
 	// length argument that is not of integer type.
 	// It also occurs if it is used in a package compiled for a
-	// language version before go1.17.
+	// language version before golang1.17.
 	//
 	// Example:
 	//  import "unsafe"
@@ -1284,7 +1284,7 @@ const (
 	// pointer argument that is not of pointer type or a length argument
 	// that is not of integer type, negative, or out of bounds.
 	// It also occurs if it is used in a package compiled for a language
-	// version before go1.17.
+	// version before golang1.17.
 	//
 	// Example:
 	//  import "unsafe"
@@ -1390,7 +1390,7 @@ const (
 
 	// InvalidMethodTypeParams occurs when methods have type parameters.
 	//
-	// It cannot be encountered with an AST parsed using go/parser.
+	// It cannot be encountered with an AST parsed using golang/parser.
 	InvalidMethodTypeParams
 
 	// MisplacedTypeParam occurs when a type parameter is used in a place where
@@ -1405,7 +1405,7 @@ const (
 
 	// InvalidUnsafeSliceData occurs when unsafe.SliceData is called with
 	// an argument that is not of slice type. It also occurs if it is used
-	// in a package compiled for a language version before go1.20.
+	// in a package compiled for a language version before golang1.20.
 	//
 	// Example:
 	//  import "unsafe"
@@ -1417,7 +1417,7 @@ const (
 	// InvalidUnsafeString occurs when unsafe.String is called with
 	// a length argument that is not of integer type, negative, or
 	// out of bounds. It also occurs if it is used in a package
-	// compiled for a language version before go1.20.
+	// compiled for a language version before golang1.20.
 	//
 	// Example:
 	//  import "unsafe"
@@ -1427,7 +1427,7 @@ const (
 	InvalidUnsafeString
 
 	// InvalidUnsafeStringData occurs if it is used in a package
-	// compiled for a language version before go1.20.
+	// compiled for a language version before golang1.20.
 	_ // not used anymore
 
 	// InvalidClear occurs when clear is called with an argument
@@ -1472,7 +1472,7 @@ const (
 	//  var _ = max(s, t)
 	InvalidMinMaxOperand
 
-	// TooNew indicates that, through build tags or a go.mod file,
+	// TooNew indicates that, through build tags or a golang.mod file,
 	// a source file requires a version of Go that is newer than
 	// the logic of the type checker. As a consequence, the type
 	// checker may produce spurious errors or fail to report real

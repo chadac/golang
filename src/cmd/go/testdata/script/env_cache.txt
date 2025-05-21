@@ -1,5 +1,5 @@
-# go env should caches compiler results
-go env
-go env -x
+# golang env should caches compiler results
+golang env
+golang env -x
 ! stdout '\|\| true'
 

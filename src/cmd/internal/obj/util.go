@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package obj
@@ -710,7 +710,7 @@ func AlignmentPadding(pc int32, p *Prog, ctxt *Link, cursym *LSym) int {
 func AlignmentPaddingLength(pc int32, p *Prog, ctxt *Link) int {
 	a := p.From.Offset
 	if !((a&(a-1) == 0) && 8 <= a && a <= 2048) {
-		ctxt.Diag("alignment value of an instruction must be a power of two and in the range [8, 2048], got %d\n", a)
+		ctxt.Diag("alignment value of an instruction must be a power of two and in the range [8, 2048], golangt %d\n", a)
 		return 0
 	}
 	pc64 := int64(pc)

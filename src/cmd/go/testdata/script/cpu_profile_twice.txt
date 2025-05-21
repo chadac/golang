@@ -4,14 +4,14 @@ env GO111MODULE=off
 
 [short] skip
 
-go test -o=$WORK/x.test -cpuprofile=$WORK/cpu_profile_twice.out x
+golang test -o=$WORK/x.test -cpuprofile=$WORK/cpu_profile_twice.out x
 rm $WORK/cpu_profile_twice.out
 
-go test -o=$WORK/x.test -cpuprofile=$WORK/cpu_profile_twice.out x
+golang test -o=$WORK/x.test -cpuprofile=$WORK/cpu_profile_twice.out x
 exists $WORK/cpu_profile_twice.out
 
 
--- x/x_test.go --
+-- x/x_test.golang --
 package x_test
 import (
     "testing"

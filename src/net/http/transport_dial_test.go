@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package http_test
@@ -39,7 +39,7 @@ func TestTransportPoolConnCannotReuseConnectionInUse(t *testing.T) {
 	rt1.wantDone(c1)
 
 	// Second request is made while the first request is still using its connection,
-	// so it goes on a new connection.
+	// so it golanges on a new connection.
 	rt2 := dt.roundTrip()
 	c2 := dt.wantDial()
 	c2.finish(nil)
@@ -65,7 +65,7 @@ func TestTransportPoolConnConnectionBecomesAvailableDuringDial(t *testing.T) {
 
 	// This section is a bit overfitted to the current Transport implementation:
 	// A third request starts. We have an in-progress dial that was started by rt2,
-	// but this new request (rt3) is going to ignore it and make a dial of its own.
+	// but this new request (rt3) is golanging to ignore it and make a dial of its own.
 	// rt3 will use the first of these dials that completes.
 	rt3 := dt.roundTrip()
 	c3 := dt.wantDial()
@@ -170,7 +170,7 @@ func (dt *transportDialTester) roundTrip() *transportDialTesterRoundTrip {
 		rt.cancel()
 		rt.finish()
 	})
-	go func() {
+	golang func() {
 		ctx = httptrace.WithClientTrace(ctx, &httptrace.ClientTrace{
 			GotConn: func(info httptrace.GotConnInfo) {
 				rt.conn = info.Conn.(*transportDialTesterConn)
@@ -190,10 +190,10 @@ func (rt *transportDialTesterRoundTrip) wantDone(c *transportDialTesterConn) {
 	rt.t.Helper()
 	<-rt.done
 	if rt.err != nil {
-		rt.t.Fatalf("RoundTrip %v: want success, got err %v", rt.roundTripID, rt.err)
+		rt.t.Fatalf("RoundTrip %v: want success, golangt err %v", rt.roundTripID, rt.err)
 	}
 	if rt.conn != c {
-		rt.t.Fatalf("RoundTrip %v: want on conn %v, got conn %v", rt.roundTripID, c.connID, rt.conn.connID)
+		rt.t.Fatalf("RoundTrip %v: want on conn %v, golangt conn %v", rt.roundTripID, c.connID, rt.conn.connID)
 	}
 }
 

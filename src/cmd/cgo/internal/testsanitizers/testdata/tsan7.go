@@ -1,15 +1,15 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
 
-// Setting an environment variable in a cgo program changes the C
+// Setting an environment variable in a cgolang program changes the C
 // environment. Test that this does not confuse the race detector.
 
 /*
-#cgo CFLAGS: -fsanitize=thread
-#cgo LDFLAGS: -fsanitize=thread
+#cgolang CFLAGS: -fsanitize=thread
+#cgolang LDFLAGS: -fsanitize=thread
 */
 import "C"
 
@@ -34,7 +34,7 @@ func main() {
 		}
 	}
 	wg.Add(2)
-	go f()
-	go f()
+	golang f()
+	golang f()
 	wg.Wait()
 }

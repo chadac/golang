@@ -1,9 +1,9 @@
 // run
 
-//go:build !nacl && !js && !wasip1 && !gccgo
+//golang:build !nacl && !js && !wasip1 && !gccgolang
 
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test that the linker permits long call sequences.
@@ -28,13 +28,13 @@ func main() {
 `
 
 const fn = `
-//go:noinline
+//golang:noinline
 func f%d() int {
 	return f%d() + 1
 }`
 
 const fnlast = `
-//go:noinline
+//golang:noinline
 func f%d() int {
 	return 0
 }
@@ -63,19 +63,19 @@ func test() error {
 	}
 	defer os.RemoveAll(dir)
 
-	fn := filepath.Join(dir, "x.go")
+	fn := filepath.Join(dir, "x.golang")
 	if err := ioutil.WriteFile(fn, buf.Bytes(), 0644); err != nil {
 		return err
 	}
 
-	out, err := exec.Command("go", "run", fn).CombinedOutput()
+	out, err := exec.Command("golang", "run", fn).CombinedOutput()
 	if err != nil {
 		return err
 	}
 
 	want := strconv.Itoa(count + 1)
-	if got := string(bytes.TrimSpace(out)); got != want {
-		return fmt.Errorf("got %q want %q", got, want)
+	if golangt := string(bytes.TrimSpace(out)); golangt != want {
+		return fmt.Errorf("golangt %q want %q", golangt, want)
 	}
 
 	return nil

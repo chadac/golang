@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Extract example functions from file ASTs.
@@ -8,8 +8,8 @@ package doc
 
 import (
 	"cmp"
-	"go/ast"
-	"go/token"
+	"golang/ast"
+	"golang/token"
 	"internal/lazyregexp"
 	"path"
 	"slices"
@@ -36,7 +36,7 @@ type Example struct {
 // Examples returns the examples found in testFiles, sorted by Name field.
 // The Order fields record the order in which the examples were encountered.
 // The Suffix field is not populated when Examples is called directly, it is
-// only populated by [NewFromFiles] for examples it finds in _test.go files.
+// only populated by [NewFromFiles] for examples it finds in _test.golang files.
 //
 // Playable Examples must be in a package whose name ends in "_test".
 // An Example is "playable" (the Play field is non-nil) in either of these
@@ -194,7 +194,7 @@ func playExample(file *ast.File, f *ast.FuncDecl) *ast.File {
 
 	// Use unresolved identifiers to determine the imports used by this
 	// example. The heuristic assumes package names match base import
-	// paths for imports w/o renames (should be good enough most of the time).
+	// paths for imports w/o renames (should be golangod enough most of the time).
 	var namedImports []ast.Spec
 	var blankImports []ast.Spec // _ imports
 
@@ -252,7 +252,7 @@ func playExample(file *ast.File, f *ast.FuncDecl) *ast.File {
 	}
 
 	// If there are other unresolved identifiers, give up because this
-	// synthesized file is not going to build.
+	// synthesized file is not golanging to build.
 	if len(unresolved) > 0 {
 		return nil
 	}
@@ -385,7 +385,7 @@ func findDeclsAndUnresolved(body ast.Node, topDecls map[*ast.Object]ast.Decl, ty
 	// Find the decls immediately referenced by body.
 	ast.Inspect(body, inspectFunc)
 	// Now loop over them, adding to the list when we find a new decl that the
-	// body depends on. Keep going until we don't find anything new.
+	// body depends on. Keep golanging until we don't find anything new.
 	for i := 0; i < len(depDecls); i++ {
 		switch d := depDecls[i].(type) {
 		case *ast.FuncDecl:
@@ -425,7 +425,7 @@ func findDeclsAndUnresolved(body ast.Node, topDecls map[*ast.Object]ast.Decl, ty
 	// constant declarations in the group may have no value and so cannot stand
 	// on their own, and removing any constant from the group could change the
 	// values of subsequent ones.
-	// See testdata/examples/iota.go for a minimal example.
+	// See testdata/examples/iota.golang for a minimal example.
 	var ds []ast.Decl
 	for _, d := range depDecls {
 		switch d := d.(type) {
@@ -521,7 +521,7 @@ func findImportGroupStarts1(origImps []*ast.ImportSpec) []*ast.ImportSpec {
 	slices.SortFunc(imps, func(a, b *ast.ImportSpec) int {
 		return cmp.Compare(a.Pos(), b.Pos())
 	})
-	// Assume gofmt has been applied, so there is a blank line between adjacent imps
+	// Assume golangfmt has been applied, so there is a blank line between adjacent imps
 	// if and only if they are more than 2 positions apart (newline, tab).
 	var groupStarts []*ast.ImportSpec
 	prevEnd := token.Pos(-2)
@@ -685,7 +685,7 @@ func classifyExamples(p *Package, examples []*Example) {
 // brackets, then it returns name with all the contents between (and including)
 // the outermost left and right bracket removed.
 //
-// Adapted from debug/gosym/symtab.go:Sym.nameWithoutInst.
+// Adapted from debug/golangsym/symtab.golang:Sym.nameWithoutInst.
 func nameWithoutInst(name string) string {
 	start := strings.Index(name, "[")
 	if start < 0 {

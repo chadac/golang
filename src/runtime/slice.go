@@ -1,12 +1,12 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
 
 import (
 	"internal/abi"
-	"internal/goarch"
+	"internal/golangarch"
 	"internal/runtime/math"
 	"internal/runtime/sys"
 	"unsafe"
@@ -45,8 +45,8 @@ func makeslicecopy(et *_type, tolen int, fromlen int, from unsafe.Pointer) unsaf
 		}
 		copymem = et.Size_ * uintptr(fromlen)
 	} else {
-		// fromlen is a known good length providing and equal or greater than tolen,
-		// thereby making tolen a good slice length too as from and to slices have the
+		// fromlen is a known golangod length providing and equal or greater than tolen,
+		// thereby making tolen a golangod slice length too as from and to slices have the
 		// same element width.
 		tomem = et.Size_ * uintptr(tolen)
 		copymem = tomem
@@ -95,9 +95,9 @@ func makeslicecopy(et *_type, tolen int, fromlen int, from unsafe.Pointer) unsaf
 //   - github.com/bytedance/sonic
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname makeslice
+//golang:linkname makeslice
 func makeslice(et *_type, len, cap int) unsafe.Pointer {
 	mem, overflow := math.MulUintptr(et.Size_, uintptr(cap))
 	if overflow || mem > maxAlloc || len < 0 || len > cap {
@@ -105,7 +105,7 @@ func makeslice(et *_type, len, cap int) unsafe.Pointer {
 		// 'cap out of range' error when someone does make([]T, bignumber).
 		// 'cap out of range' is true too, but since the cap is only being
 		// supplied implicitly, saying len is clearer.
-		// See golang.org/issue/4085.
+		// See golanglang.org/issue/4085.
 		mem, overflow := math.MulUintptr(et.Size_, uintptr(len))
 		if overflow || mem > maxAlloc || len < 0 {
 			panicmakeslicelen()
@@ -167,13 +167,13 @@ func makeslice64(et *_type, len64, cap64 int64) unsafe.Pointer {
 // Notable members of the hall of shame include:
 //   - github.com/bytedance/sonic
 //   - github.com/chenzhuoyu/iasm
-//   - github.com/cloudwego/dynamicgo
-//   - github.com/ugorji/go/codec
+//   - github.com/cloudwegolang/dynamicgolang
+//   - github.com/ugolangrji/golang/codec
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname growslice
+//golang:linkname growslice
 func growslice(oldPtr unsafe.Pointer, newLen, oldCap, num int, et *_type) slice {
 	oldLen := newLen - num
 	if raceenabled {
@@ -203,7 +203,7 @@ func growslice(oldPtr unsafe.Pointer, newLen, oldCap, num int, et *_type) slice 
 	var lenmem, newlenmem, capmem uintptr
 	// Specialize for common values of et.Size.
 	// For 1 we don't need any division/multiplication.
-	// For goarch.PtrSize, compiler will optimize division/multiplication into a shift by a constant.
+	// For golangarch.PtrSize, compiler will optimize division/multiplication into a shift by a constant.
 	// For powers of 2, use a variable shift.
 	noscan := !et.Pointers()
 	switch {
@@ -213,15 +213,15 @@ func growslice(oldPtr unsafe.Pointer, newLen, oldCap, num int, et *_type) slice 
 		capmem = roundupsize(uintptr(newcap), noscan)
 		overflow = uintptr(newcap) > maxAlloc
 		newcap = int(capmem)
-	case et.Size_ == goarch.PtrSize:
-		lenmem = uintptr(oldLen) * goarch.PtrSize
-		newlenmem = uintptr(newLen) * goarch.PtrSize
-		capmem = roundupsize(uintptr(newcap)*goarch.PtrSize, noscan)
-		overflow = uintptr(newcap) > maxAlloc/goarch.PtrSize
-		newcap = int(capmem / goarch.PtrSize)
+	case et.Size_ == golangarch.PtrSize:
+		lenmem = uintptr(oldLen) * golangarch.PtrSize
+		newlenmem = uintptr(newLen) * golangarch.PtrSize
+		capmem = roundupsize(uintptr(newcap)*golangarch.PtrSize, noscan)
+		overflow = uintptr(newcap) > maxAlloc/golangarch.PtrSize
+		newcap = int(capmem / golangarch.PtrSize)
 	case isPowerOfTwo(et.Size_):
 		var shift uintptr
-		if goarch.PtrSize == 8 {
+		if golangarch.PtrSize == 8 {
 			// Mask shift for better code generation.
 			shift = uintptr(sys.TrailingZeros64(uint64(et.Size_))) & 63
 		} else {
@@ -262,7 +262,7 @@ func growslice(oldPtr unsafe.Pointer, newLen, oldCap, num int, et *_type) slice 
 	var p unsafe.Pointer
 	if !et.Pointers() {
 		p = mallocgc(capmem, nil, false)
-		// The append() that calls growslice is going to overwrite from oldLen to newLen.
+		// The append() that calls growslice is golanging to overwrite from oldLen to newLen.
 		// Only clear the part that will not be overwritten.
 		// The reflect_growslice() that calls growslice will manually clear
 		// the region not cleared here.
@@ -323,12 +323,12 @@ func nextslicecap(newLen, oldCap int) int {
 // reflect_growslice should be an internal detail,
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
-//   - github.com/cloudwego/dynamicgo
+//   - github.com/cloudwegolang/dynamicgolang
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname reflect_growslice reflect.growslice
+//golang:linkname reflect_growslice reflect.growslice
 func reflect_growslice(et *_type, old slice, num int) slice {
 	// Semantically equivalent to slices.Grow, except that the caller
 	// is responsible for ensuring that old.len+num > old.cap.
@@ -391,7 +391,7 @@ func slicecopy(toPtr unsafe.Pointer, toLen int, fromPtr unsafe.Pointer, fromLen 
 	return n
 }
 
-//go:linkname bytealg_MakeNoZero internal/bytealg.MakeNoZero
+//golang:linkname bytealg_MakeNoZero internal/bytealg.MakeNoZero
 func bytealg_MakeNoZero(len int) []byte {
 	if uintptr(len) > maxAlloc {
 		panicmakeslicelen()

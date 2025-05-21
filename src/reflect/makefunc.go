@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // MakeFunc implementation.
@@ -159,7 +159,7 @@ type makeFuncCtxt struct {
 // having our stack scanned now could lead to accidentally freeing
 // memory.
 //
-//go:nosplit
+//golang:nosplit
 func moveMakeFuncArgPtrs(ctxt *makeFuncCtxt, args *abi.RegArgs) {
 	for i, arg := range args.Ints {
 		// Avoid write barriers! Because our write barrier enqueues what

@@ -1,8 +1,8 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build goexperiment.jsonv2
+//golang:build golangexperiment.jsonv2
 
 package json
 
@@ -59,9 +59,9 @@ var equalFoldTestdata = []struct {
 
 func TestEqualFold(t *testing.T) {
 	for _, tt := range equalFoldTestdata {
-		got := equalFold([]byte(tt.in1), []byte(tt.in2))
-		if got != tt.want {
-			t.Errorf("equalFold(%q, %q) = %v, want %v", tt.in1, tt.in2, got, tt.want)
+		golangt := equalFold([]byte(tt.in1), []byte(tt.in2))
+		if golangt != tt.want {
+			t.Errorf("equalFold(%q, %q) = %v, want %v", tt.in1, tt.in2, golangt, tt.want)
 		}
 	}
 }

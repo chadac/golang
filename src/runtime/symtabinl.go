@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
@@ -52,7 +52,7 @@ type inlineFrame struct {
 // inlined frame at PC. PC should be a "call PC" (not a "return PC").
 //
 // This unwinder uses non-strict handling of PC because it's assumed this is
-// only ever used for symbolic debugging. If things go really wrong, it'll just
+// only ever used for symbolic debugging. If things golang really wrong, it'll just
 // fall back to the outermost frame.
 //
 // newInlineUnwinder should be an internal detail,
@@ -61,9 +61,9 @@ type inlineFrame struct {
 //   - github.com/phuslu/log
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname newInlineUnwinder
+//golang:linkname newInlineUnwinder
 func newInlineUnwinder(f funcInfo, pc uintptr) (inlineUnwinder, inlineFrame) {
 	inldata := funcdata(f, abi.FUNCDATA_InlTree)
 	if inldata == nil {
@@ -110,9 +110,9 @@ func (u *inlineUnwinder) isInlined(uf inlineFrame) bool {
 //   - github.com/phuslu/log
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-// The go:linkname is below.
+// The golang:linkname is below.
 func (u *inlineUnwinder) srcFunc(uf inlineFrame) srcFunc {
 	if uf.index < 0 {
 		return u.f.srcFunc()
@@ -126,7 +126,7 @@ func (u *inlineUnwinder) srcFunc(uf inlineFrame) srcFunc {
 	}
 }
 
-//go:linkname badSrcFunc runtime.(*inlineUnwinder).srcFunc
+//golang:linkname badSrcFunc runtime.(*inlineUnwinder).srcFunc
 func badSrcFunc(*inlineUnwinder, inlineFrame) srcFunc
 
 // fileLine returns the file name and line number of the call within the given
@@ -134,7 +134,7 @@ func badSrcFunc(*inlineUnwinder, inlineFrame) srcFunc
 // line of the PC this unwinder was started at (often this is a call to another
 // physical function).
 //
-// It returns "?", 0 if something goes wrong.
+// It returns "?", 0 if something golanges wrong.
 func (u *inlineUnwinder) fileLine(uf inlineFrame) (file string, line int) {
 	file, line32 := funcline1(u.f, uf.pc, false)
 	return file, int(line32)

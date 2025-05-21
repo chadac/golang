@@ -1,8 +1,8 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build aix || (solaris && !illumos)
+//golang:build aix || (solaris && !illumos)
 
 // This code implements the filelock API using POSIX 'fcntl' locks, which attach
 // to an (inode, process) pair rather than a file descriptor. To avoid unlocking
@@ -102,7 +102,7 @@ func lock(f File, lt lockType) (err error) {
 	// 	P.2 unlocks file B.
 	//
 	// These spurious errors were observed in practice on AIX and Solaris in
-	// cmd/go: see https://golang.org/issue/32817.
+	// cmd/golang: see https://golanglang.org/issue/32817.
 	//
 	// We work around this bug by treating EDEADLK as always spurious. If there
 	// really is a lock-ordering bug between the interacting processes, it will
@@ -115,7 +115,7 @@ func lock(f File, lt lockType) (err error) {
 	// 	P.1 locks file A.
 	// 	Q.3 locks file B.
 	// 	Q.3 blocks on file A.
-	// 	P.2 spuriously fails to lock file B and goes to sleep.
+	// 	P.2 spuriously fails to lock file B and golanges to sleep.
 	// 	P.1 unlocks file A.
 	// 	Q.3 unblocks and locks file A.
 	// 	Q.3 unlocks files A and B.

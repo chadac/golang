@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package errors_test
@@ -62,8 +62,8 @@ func TestIs(t *testing.T) {
 	}
 	for _, tc := range testCases {
 		t.Run("", func(t *testing.T) {
-			if got := errors.Is(tc.err, tc.target); got != tc.match {
-				t.Errorf("Is(%v, %v) = %v, want %v", tc.err, tc.target, got, tc.match)
+			if golangt := errors.Is(tc.err, tc.target); golangt != tc.match {
+				t.Errorf("Is(%v, %v) = %v, want %v", tc.err, tc.target, golangt, tc.match)
 			}
 		})
 	}
@@ -204,13 +204,13 @@ func TestAs(t *testing.T) {
 		t.Run(name, func(t *testing.T) {
 			match := errors.As(tc.err, tc.target)
 			if match != tc.match {
-				t.Fatalf("match: got %v; want %v", match, tc.match)
+				t.Fatalf("match: golangt %v; want %v", match, tc.match)
 			}
 			if !match {
 				return
 			}
-			if got := rtarget.Elem().Interface(); got != tc.want {
-				t.Fatalf("got %#v, want %#v", got, tc.want)
+			if golangt := rtarget.Elem().Interface(); golangt != tc.want {
+				t.Fatalf("golangt %#v, want %#v", golangt, tc.want)
 			}
 		})
 	}
@@ -275,8 +275,8 @@ func TestUnwrap(t *testing.T) {
 		{wrapped{"wrap 3", erra}, erra},
 	}
 	for _, tc := range testCases {
-		if got := errors.Unwrap(tc.err); got != tc.want {
-			t.Errorf("Unwrap(%v) = %v, want %v", tc.err, got, tc.want)
+		if golangt := errors.Unwrap(tc.err); golangt != tc.want {
+			t.Errorf("Unwrap(%v) = %v, want %v", tc.err, golangt, tc.want)
 		}
 	}
 }

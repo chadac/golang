@@ -1,18 +1,18 @@
 env GO111MODULE=off
 
-go list -f '{{join .TestImports "\n"}}' github.com/rsc/go-get-issue-11864/t
-stdout 'go-get-issue-11864/vendor/vendor.org/p'
+golang list -f '{{join .TestImports "\n"}}' github.com/rsc/golang-get-issue-11864/t
+stdout 'golang-get-issue-11864/vendor/vendor.org/p'
 
-go list -f '{{join .XTestImports "\n"}}' github.com/rsc/go-get-issue-11864/tx
-stdout 'go-get-issue-11864/vendor/vendor.org/p'
+golang list -f '{{join .XTestImports "\n"}}' github.com/rsc/golang-get-issue-11864/tx
+stdout 'golang-get-issue-11864/vendor/vendor.org/p'
 
-go list -f '{{join .XTestImports "\n"}}' github.com/rsc/go-get-issue-11864/vendor/vendor.org/tx2
-stdout 'go-get-issue-11864/vendor/vendor.org/tx2'
+golang list -f '{{join .XTestImports "\n"}}' github.com/rsc/golang-get-issue-11864/vendor/vendor.org/tx2
+stdout 'golang-get-issue-11864/vendor/vendor.org/tx2'
 
-go list -f '{{join .XTestImports "\n"}}' github.com/rsc/go-get-issue-11864/vendor/vendor.org/tx3
-stdout 'go-get-issue-11864/vendor/vendor.org/tx3'
+golang list -f '{{join .XTestImports "\n"}}' github.com/rsc/golang-get-issue-11864/vendor/vendor.org/tx3
+stdout 'golang-get-issue-11864/vendor/vendor.org/tx3'
 
--- $GOPATH/src/github.com/rsc/go-get-issue-11864/m.go --
+-- $GOPATH/src/github.com/rsc/golang-get-issue-11864/m.golang --
 package g
 
 import _ "vendor.org/p"
@@ -20,7 +20,7 @@ import _ "vendor.org/p1"
 
 func main() {}
 
--- $GOPATH/src/github.com/rsc/go-get-issue-11864/t/t_test.go --
+-- $GOPATH/src/github.com/rsc/golang-get-issue-11864/t/t_test.golang --
 package t
 
 import _ "vendor.org/p"
@@ -29,10 +29,10 @@ import "testing"
 
 func TestNop(t *testing.T) {}
 
--- $GOPATH/src/github.com/rsc/go-get-issue-11864/t/t.go --
+-- $GOPATH/src/github.com/rsc/golang-get-issue-11864/t/t.golang --
 package t
 
--- $GOPATH/src/github.com/rsc/go-get-issue-11864/tx/tx_test.go --
+-- $GOPATH/src/github.com/rsc/golang-get-issue-11864/tx/tx_test.golang --
 package tx_test
 
 import _ "vendor.org/p"
@@ -41,13 +41,13 @@ import "testing"
 
 func TestNop(t *testing.T) {}
 
--- $GOPATH/src/github.com/rsc/go-get-issue-11864/tx/tx.go --
+-- $GOPATH/src/github.com/rsc/golang-get-issue-11864/tx/tx.golang --
 package tx
 
--- $GOPATH/src/github.com/rsc/go-get-issue-11864/vendor/vendor.org/p1/p1.go --
+-- $GOPATH/src/github.com/rsc/golang-get-issue-11864/vendor/vendor.org/p1/p1.golang --
 package p1 // import "vendor.org/p1"
 
--- $GOPATH/src/github.com/rsc/go-get-issue-11864/vendor/vendor.org/tx3/tx3_test.go --
+-- $GOPATH/src/github.com/rsc/golang-get-issue-11864/vendor/vendor.org/tx3/tx3_test.golang --
 package tx3_test
 
 import "vendor.org/tx3"
@@ -57,15 +57,15 @@ var Found = tx3.Exported
 
 func TestNop(t *testing.T) {}
 
--- $GOPATH/src/github.com/rsc/go-get-issue-11864/vendor/vendor.org/tx3/export_test.go --
+-- $GOPATH/src/github.com/rsc/golang-get-issue-11864/vendor/vendor.org/tx3/export_test.golang --
 package tx3
 
 var Exported = true
 
--- $GOPATH/src/github.com/rsc/go-get-issue-11864/vendor/vendor.org/tx3/tx3.go --
+-- $GOPATH/src/github.com/rsc/golang-get-issue-11864/vendor/vendor.org/tx3/tx3.golang --
 package tx3
 
--- $GOPATH/src/github.com/rsc/go-get-issue-11864/vendor/vendor.org/tx2/tx2_test.go --
+-- $GOPATH/src/github.com/rsc/golang-get-issue-11864/vendor/vendor.org/tx2/tx2_test.golang --
 package tx2_test
 
 import . "vendor.org/tx2"
@@ -75,13 +75,13 @@ var Found = Exported
 
 func TestNop(t *testing.T) {}
 
--- $GOPATH/src/github.com/rsc/go-get-issue-11864/vendor/vendor.org/tx2/export_test.go --
+-- $GOPATH/src/github.com/rsc/golang-get-issue-11864/vendor/vendor.org/tx2/export_test.golang --
 package tx2
 
 var Exported = true
 
--- $GOPATH/src/github.com/rsc/go-get-issue-11864/vendor/vendor.org/tx2/tx2.go --
+-- $GOPATH/src/github.com/rsc/golang-get-issue-11864/vendor/vendor.org/tx2/tx2.golang --
 package tx2
 
--- $GOPATH/src/github.com/rsc/go-get-issue-11864/vendor/vendor.org/p/p.go --
+-- $GOPATH/src/github.com/rsc/golang-get-issue-11864/vendor/vendor.org/p/p.golang --
 package p

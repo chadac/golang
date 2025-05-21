@@ -1,10 +1,10 @@
 # Matches no subtests, but parent test still fails
-! go test -run TestThatFails/ThisWillNotMatch standalone_fail_sub_test.go
+! golang test -run TestThatFails/ThisWillNotMatch standalone_fail_sub_test.golang
 ! stdout '^ok.*\[no tests to run\]'
 ! stderr '^ok.*\[no tests to run\]'
 stdout 'FAIL'
 
--- standalone_fail_sub_test.go --
+-- standalone_fail_sub_test.golang --
 package standalone_fail_sub_test
 
 import "testing"

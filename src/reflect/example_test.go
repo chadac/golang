@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package reflect_test
@@ -75,7 +75,7 @@ func ExampleMakeFunc() {
 
 func ExampleStructTag() {
 	type S struct {
-		F string `species:"gopher" color:"blue"`
+		F string `species:"golangpher" color:"blue"`
 	}
 
 	s := S{}
@@ -84,7 +84,7 @@ func ExampleStructTag() {
 	fmt.Println(field.Tag.Get("color"), field.Tag.Get("species"))
 
 	// Output:
-	// blue gopher
+	// blue golangpher
 }
 
 func ExampleStructTag_Lookup() {

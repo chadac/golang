@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package dwarf_test
@@ -114,7 +114,7 @@ func testRanges(t *testing.T, name string, want []wantRange) {
 				t.Errorf("%s: missing Entry for %#x", name, w.pc)
 			}
 			if err != ErrUnknownPC {
-				t.Errorf("%s: expected ErrUnknownPC for %#x, got %v", name, w.pc, err)
+				t.Errorf("%s: expected ErrUnknownPC for %#x, golangt %v", name, w.pc, err)
 			}
 			continue
 		}
@@ -125,7 +125,7 @@ func testRanges(t *testing.T, name string, want []wantRange) {
 			continue
 		}
 		if !reflect.DeepEqual(ranges, w.ranges) {
-			t.Errorf("%s: for %#x got %x, expected %x", name, w.pc, ranges, w.ranges)
+			t.Errorf("%s: for %#x golangt %x, expected %x", name, w.pc, ranges, w.ranges)
 		}
 	}
 }
@@ -189,8 +189,8 @@ func TestReaderRanges(t *testing.T) {
 				t.Fatalf("%s: too many subprograms (expected at most %d)", test.filename, i)
 			}
 
-			if got := entry.Val(AttrName).(string); got != subprograms[i].name {
-				t.Errorf("%s: subprogram %d name is %s, expected %s", test.filename, i, got, subprograms[i].name)
+			if golangt := entry.Val(AttrName).(string); golangt != subprograms[i].name {
+				t.Errorf("%s: subprogram %d name is %s, expected %s", test.filename, i, golangt, subprograms[i].name)
 			}
 			ranges, err := d.Ranges(entry)
 			if err != nil {
@@ -274,10 +274,10 @@ func Test64Bit(t *testing.T) {
 
 		r := data.Reader()
 		if r.AddressSize() != test.addrSize {
-			t.Errorf("%s: got address size %d, want %d", test.name, r.AddressSize(), test.addrSize)
+			t.Errorf("%s: golangt address size %d, want %d", test.name, r.AddressSize(), test.addrSize)
 		}
 		if r.ByteOrder() != test.byteOrder {
-			t.Errorf("%s: got byte order %s, want %s", test.name, r.ByteOrder(), test.byteOrder)
+			t.Errorf("%s: golangt byte order %s, want %s", test.name, r.ByteOrder(), test.byteOrder)
 		}
 	}
 }
@@ -426,9 +426,9 @@ func TestIssue51758(t *testing.T) {
 	info := []byte{0x5, 0x0, 0x0, 0x0, 0x4, 0x0, 0x0, 0x2d, 0x0, 0x5,
 		0x0, 0x0, 0x0, 0x4, 0x0, 0x0, 0x2d, 0x0}
 
-	// The input above is malformed; the goal here it just to make sure
+	// The input above is malformed; the golangal here it just to make sure
 	// that we don't get a panic or other bad behavior while trying to
-	// construct a dwarf.Data object from the input.  For good measure,
+	// construct a dwarf.Data object from the input.  For golangod measure,
 	// test to make sure we can handle the case where the input is
 	// truncated as well.
 	for i := 0; i <= len(info); i++ {
@@ -438,7 +438,7 @@ func TestIssue51758(t *testing.T) {
 			t.Errorf("expected error")
 		} else {
 			if dw != nil {
-				t.Errorf("got non-nil dw, wanted nil")
+				t.Errorf("golangt non-nil dw, wanted nil")
 			}
 		}
 	}
@@ -453,9 +453,9 @@ func TestIssue52045(t *testing.T) {
 	data0, _ := New(abbrev, aranges, frame, info, line, pubnames, ranges, str)
 	reader0 := data0.Reader()
 	entry0, _ := reader0.SeekPC(0x0)
-	// main goal is to make sure we can get here without crashing
+	// main golangal is to make sure we can get here without crashing
 	if entry0 != nil {
-		t.Errorf("got non-nil entry0, wanted nil")
+		t.Errorf("golangt non-nil entry0, wanted nil")
 	}
 }
 
@@ -511,9 +511,9 @@ func TestIssue57046(t *testing.T) {
 	}
 
 	// Verify that the lopc we see matches what we saw before.
-	got := e.Val(AttrLowpc).(uint64)
-	if got != lopcs[1] {
-		t.Errorf("bad lopc for fn2 following seek: want %x got %x\n",
-			lopcs[1], got)
+	golangt := e.Val(AttrLowpc).(uint64)
+	if golangt != lopcs[1] {
+		t.Errorf("bad lopc for fn2 following seek: want %x golangt %x\n",
+			lopcs[1], golangt)
 	}
 }

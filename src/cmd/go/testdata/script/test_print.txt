@@ -1,12 +1,12 @@
 [short] skip
 
-go test ./...
+golang test ./...
 stdout 'pkg1(.|\n)*pkg2'
 
--- go.mod --
+-- golang.mod --
 module m
 
--- pkg1/x_test.go --
+-- pkg1/x_test.golang --
 package pkg1
 
 import (
@@ -23,5 +23,5 @@ func Test(t *testing.T) {
 	// be a problem on slow builders.
 	time.Sleep(1*time.Second)
 }
--- pkg2/x.go --
+-- pkg2/x.golang --
 package pkg2

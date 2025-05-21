@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package bytes
@@ -238,7 +238,7 @@ func growSlice(b []byte, n int) []byte {
 			panic(ErrTooLarge)
 		}
 	}()
-	// TODO(http://golang.org/issue/51462): We should rely on the append-make
+	// TODO(http://golanglang.org/issue/51462): We should rely on the append-make
 	// pattern so that the compiler can call runtime.growslice. For example:
 	//	return append(b, make([]byte, n)...)
 	// This avoids unnecessary zero-ing of the first len(b) bytes of the

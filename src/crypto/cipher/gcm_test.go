@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package cipher_test
@@ -461,7 +461,7 @@ func testAESGCM(t *testing.T, newCipher func(key []byte) cipher.Block) {
 
 		ct := aesgcm.Seal(nil, nonce, plaintext, ad)
 		if ctHex := hex.EncodeToString(ct); ctHex != test.result {
-			t.Errorf("#%d: got %s, want %s", i, ctHex, test.result)
+			t.Errorf("#%d: golangt %s, want %s", i, ctHex, test.result)
 			continue
 		}
 
@@ -472,7 +472,7 @@ func testAESGCM(t *testing.T, newCipher func(key []byte) cipher.Block) {
 		}
 
 		if !bytes.Equal(plaintext, plaintext2) {
-			t.Errorf("#%d: plaintext's don't match: got %x vs %x", i, plaintext2, plaintext)
+			t.Errorf("#%d: plaintext's don't match: golangt %x vs %x", i, plaintext2, plaintext)
 			continue
 		}
 
@@ -578,11 +578,11 @@ func testGCMCounterWrap(t *testing.T, newCipher func(key []byte) cipher.Block) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		got := aead.Seal(nil, nonce, plaintext, nil)
-		if !bytes.Equal(got[len(plaintext):], want) {
-			t.Errorf("test[%v]: got: %x, want: %x", i, got[len(plaintext):], want)
+		golangt := aead.Seal(nil, nonce, plaintext, nil)
+		if !bytes.Equal(golangt[len(plaintext):], want) {
+			t.Errorf("test[%v]: golangt: %x, want: %x", i, golangt[len(plaintext):], want)
 		}
-		_, err = aead.Open(nil, nonce, got, nil)
+		_, err = aead.Open(nil, nonce, golangt, nil)
 		if err != nil {
 			t.Errorf("test[%v]: authentication failed", i)
 		}
@@ -658,15 +658,15 @@ func TestGCMAsm(t *testing.T) {
 			return err
 		}
 		want := generic.Seal(nil, nonce, pt, ad)
-		got := asm.Seal(nil, nonce, pt, ad)
-		if !bytes.Equal(want, got) {
+		golangt := asm.Seal(nil, nonce, pt, ad)
+		if !bytes.Equal(want, golangt) {
 			return errors.New("incorrect Seal output")
 		}
-		got, err = asm.Open(nil, nonce, want, ad)
+		golangt, err = asm.Open(nil, nonce, want, ad)
 		if err != nil {
 			return errors.New("authentication failed")
 		}
-		if !bytes.Equal(pt, got) {
+		if !bytes.Equal(pt, golangt) {
 			return errors.New("incorrect Open output")
 		}
 		return nil
@@ -831,7 +831,7 @@ func TestFIPSServiceIndicator(t *testing.T) {
 }
 
 func TestGCMForSSH(t *testing.T) {
-	// incIV from x/crypto/ssh/cipher.go.
+	// incIV from x/crypto/ssh/cipher.golang.
 	incIV := func(iv []byte) {
 		for i := 4 + 7; i >= 4; i-- {
 			iv[i]++

@@ -1,8 +1,8 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build riscv64
+//golang:build riscv64
 // +build riscv64
 
 package testbranch
@@ -41,7 +41,7 @@ func TestBranchCondition(t *testing.T) {
 		a    int64
 		b    int64
 		fn   func(a, b int64) bool
-		goFn func(a, b int64) bool
+		golangFn func(a, b int64) bool
 		want bool
 	}{
 		{"BGE", 0, 1, testBGE, testGoBGE, false},
@@ -87,11 +87,11 @@ func TestBranchCondition(t *testing.T) {
 	}
 	for _, test := range tests {
 		t.Run(test.ins, func(t *testing.T) {
-			if got := test.fn(test.a, test.b); got != test.want {
-				t.Errorf("Assembly %v %v, %v = %v, want %v", test.ins, test.a, test.b, got, test.want)
+			if golangt := test.fn(test.a, test.b); golangt != test.want {
+				t.Errorf("Assembly %v %v, %v = %v, want %v", test.ins, test.a, test.b, golangt, test.want)
 			}
-			if got := test.goFn(test.a, test.b); got != test.want {
-				t.Errorf("Go %v %v, %v = %v, want %v", test.ins, test.a, test.b, got, test.want)
+			if golangt := test.golangFn(test.a, test.b); golangt != test.want {
+				t.Errorf("Go %v %v, %v = %v, want %v", test.ins, test.a, test.b, golangt, test.want)
 			}
 		})
 	}
@@ -125,8 +125,8 @@ func TestBranchZero(t *testing.T) {
 	}
 	for _, test := range tests {
 		t.Run(test.ins, func(t *testing.T) {
-			if got := test.fn(test.a); got != test.want {
-				t.Errorf("%v %v = %v, want %v", test.ins, test.a, got, test.want)
+			if golangt := test.fn(test.a); golangt != test.want {
+				t.Errorf("%v %v = %v, want %v", test.ins, test.a, golangt, test.want)
 			}
 		})
 	}

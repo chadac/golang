@@ -1,9 +1,9 @@
 // run -race
 
-//go:build cgo && linux && amd64
+//golang:build cgolang && linux && amd64
 
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -23,6 +23,6 @@ func main() {
 		x = unsafe.Pointer(uintptr(x) - 1)
 	})
 	if n > 0 {
-		panic(fmt.Sprintf("too many allocations; want 0 got %f", n))
+		panic(fmt.Sprintf("too many allocations; want 0 golangt %f", n))
 	}
 }

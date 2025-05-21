@@ -10,7 +10,7 @@ handle svn
 # However, the repo is probably accurate enough for the tests that need it.
 
 env GIT_AUTHOR_NAME='Russ Cox'
-env GIT_AUTHOR_EMAIL='rsc@golang.org'
+env GIT_AUTHOR_EMAIL='rsc@golanglang.org'
 env GIT_COMMITTER_NAME=$GIT_AUTHOR_NAME
 env GIT_COMMITTER_EMAIL=$GIT_AUTHOR_EMAIL
 
@@ -44,7 +44,7 @@ unquote '# pack-refs with: peeled fully-peeled \n7f800d2ac276dd7042ea0e8d7438527
 cp stdout .git/packed-refs
 git branch --set-upstream-to=origin/master
 
-git add pkg/pkg.go
+git add pkg/pkg.golang
 at 2017-09-22T11:41:28-04:00
 git commit -a -m 'add pkg'
 
@@ -63,8 +63,8 @@ svn commit -m 'add p1'
 svn propset svn:author rsc --revprop -r2
 svn propset svn:date 2017-09-27T18:16:14.650893Z --revprop -r2
 
-git remote set-url origin https://vcs-test.golang.org/git/README-only
-svn commit -m 'move from vcs-test.swtch.com to vcs-test.golang.org'
+git remote set-url origin https://vcs-test.golanglang.org/git/README-only
+svn commit -m 'move from vcs-test.swtch.com to vcs-test.golanglang.org'
 svn propset svn:author rsc --revprop -r3
 svn propset svn:date 2017-10-04T15:09:35.963034Z --revprop -r3
 
@@ -77,14 +77,14 @@ cmp stdout .svn-log
 -- .checkout/.git-log --
 ab9f66b (HEAD -> master) add pkg
 7f800d2 (origin/master, origin/HEAD) README
--- .checkout/p1/p1.go --
+-- .checkout/p1/p1.golang --
 package p1
--- .checkout/pkg/pkg.go --
+-- .checkout/pkg/pkg.golang --
 package pkg
 const Message = "code not in git-README-only"
 -- .checkout/README --
 README
--- .checkout/p1/p1.go --
+-- .checkout/p1/p1.golang --
 package p1
 -- .checkout/.svn-log --
 <?xml version="1.0" encoding="UTF-8"?>
@@ -93,7 +93,7 @@ package p1
    revision="3">
 <author>rsc</author>
 <date>2017-10-04T15:09:35.963034Z</date>
-<msg>move from vcs-test.swtch.com to vcs-test.golang.org</msg>
+<msg>move from vcs-test.swtch.com to vcs-test.golanglang.org</msg>
 </logentry>
 <logentry
    revision="2">

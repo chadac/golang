@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime_test
@@ -265,7 +265,7 @@ func TestNonEscapingConvT2E(t *testing.T) {
 		}
 	})
 	if n != 0 {
-		t.Fatalf("want 0 allocs, got %v", n)
+		t.Fatalf("want 0 allocs, golangt %v", n)
 	}
 }
 
@@ -285,7 +285,7 @@ func TestNonEscapingConvT2I(t *testing.T) {
 		}
 	})
 	if n != 0 {
-		t.Fatalf("want 0 allocs, got %v", n)
+		t.Fatalf("want 0 allocs, golangt %v", n)
 	}
 }
 
@@ -314,7 +314,7 @@ func TestZeroConvT2x(t *testing.T) {
 		t.Run(test.name, func(t *testing.T) {
 			n := testing.AllocsPerRun(1000, test.fn)
 			if n != 0 {
-				t.Errorf("want zero allocs, got %v", n)
+				t.Errorf("want zero allocs, golangt %v", n)
 			}
 		})
 	}

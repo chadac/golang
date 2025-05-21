@@ -1,11 +1,11 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package test
 
 // This file contains utility routines and harness infrastructure used
-// by the ABI tests in "abiutils_test.go".
+// by the ABI tests in "abiutils_test.golang".
 
 import (
 	"cmd/compile/internal/abi"
@@ -78,7 +78,7 @@ func tokenize(src string) []string {
 func verifyParamResultOffset(t *testing.T, f *types.Field, r abi.ABIParamAssignment, which string, idx int) int {
 	n := f.Nname.(*ir.Name)
 	if n.FrameOffset() != int64(r.Offset()) {
-		t.Errorf("%s %d: got offset %d wanted %d t=%v",
+		t.Errorf("%s %d: golangt offset %d wanted %d t=%v",
 			which, idx, r.Offset(), n.Offset_, f.Type)
 		return 1
 	}
@@ -91,7 +91,7 @@ func makeExpectedDump(e string) expectedDump {
 
 func difftokens(atoks []string, etoks []string) string {
 	if len(atoks) != len(etoks) {
-		return fmt.Sprintf("expected %d tokens got %d",
+		return fmt.Sprintf("expected %d tokens golangt %d",
 			len(etoks), len(atoks))
 	}
 	for i := 0; i < len(etoks); i++ {
@@ -99,7 +99,7 @@ func difftokens(atoks []string, etoks []string) string {
 			continue
 		}
 
-		return fmt.Sprintf("diff at token %d: expected %q got %q",
+		return fmt.Sprintf("diff at token %d: expected %q golangt %q",
 			i, etoks[i], atoks[i])
 	}
 	return ""
@@ -107,9 +107,9 @@ func difftokens(atoks []string, etoks []string) string {
 
 func nrtest(t *testing.T, ft *types.Type, expected int) {
 	types.CalcSize(ft)
-	got := configAMD64.NumParamRegs(ft)
-	if got != expected {
-		t.Errorf("]\nexpected num regs = %d, got %d, type %v", expected, got, ft)
+	golangt := configAMD64.NumParamRegs(ft)
+	if golangt != expected {
+		t.Errorf("]\nexpected num regs = %d, golangt %d, type %v", expected, golangt, ft)
 	}
 }
 
@@ -124,7 +124,7 @@ func abitest(t *testing.T, ft *types.Type, exp expectedDump) {
 	// Check results.
 	reason := difftokens(tokenize(regResString), tokenize(exp.dump))
 	if reason != "" {
-		t.Errorf("\nexpected:\n%s\ngot:\n%s\nreason: %s",
+		t.Errorf("\nexpected:\n%s\ngolangt:\n%s\nreason: %s",
 			strings.TrimSpace(exp.dump), regResString, reason)
 	}
 

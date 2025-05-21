@@ -1,10 +1,10 @@
 // run
 
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Excerpted from go/constant/value.go to capture a bug from there.
+// Excerpted from golang/constant/value.golang to capture a bug from there.
 
 package main
 
@@ -45,12 +45,12 @@ func (x complexVal) String() string { return fmt.Sprintf("(%s + %si)", x.re, x.i
 
 func newFloat() *big.Float { return new(big.Float).SetPrec(prec) }
 
-//go:noinline
-//go:registerparams
+//golang:noinline
+//golang:registerparams
 func itor(x intVal) ratVal       { return ratVal{nil} }
 
-//go:noinline
-//go:registerparams
+//golang:noinline
+//golang:registerparams
 func itof(x intVal) floatVal     { return floatVal{nil} }
 func rtof(x ratVal) floatVal     { return floatVal{newFloat().SetRat(x.val)} }
 
@@ -58,8 +58,8 @@ type Value interface {
 	String() string
 }
 
-//go:noinline
-//go:registerparams
+//golang:noinline
+//golang:registerparams
 func ToFloat(x Value) Value {
 	switch x := x.(type) {
 	case intVal:
@@ -77,14 +77,14 @@ func ToFloat(x Value) Value {
 	return unknownVal{}
 }
 
-//go:noinline
-//go:registerparams
+//golang:noinline
+//golang:registerparams
 func smallInt(x *big.Int) bool {
 	return false
 }
 
-//go:noinline
-//go:registerparams
+//golang:noinline
+//golang:registerparams
 func Sign(x Value) int {
 	return 0
 }

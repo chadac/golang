@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package language
@@ -10,7 +10,7 @@ import (
 	"sort"
 	"strconv"
 
-	"golang.org/x/text/internal/tag"
+	"golanglang.org/x/text/internal/tag"
 )
 
 // findIndex tries to find the given tag in idx and returns a standardized error
@@ -364,7 +364,7 @@ var (
 		[maxLen]byte{'i', '-', 'a', 'm', 'i'}:                          _ami, // i-ami
 		[maxLen]byte{'i', '-', 'b', 'n', 'n'}:                          _bnn, // i-bnn
 		[maxLen]byte{'i', '-', 'h', 'a', 'k'}:                          _hak, // i-hak
-		[maxLen]byte{'i', '-', 'k', 'l', 'i', 'n', 'g', 'o', 'n'}:      _tlh, // i-klingon
+		[maxLen]byte{'i', '-', 'k', 'l', 'i', 'n', 'g', 'o', 'n'}:      _tlh, // i-klingolangn
 		[maxLen]byte{'i', '-', 'l', 'u', 'x'}:                          _lb,  // i-lux
 		[maxLen]byte{'i', '-', 'n', 'a', 'v', 'a', 'j', 'o'}:           _nv,  // i-navajo
 		[maxLen]byte{'i', '-', 'p', 'w', 'n'}:                          _pwn, // i-pwn
@@ -387,7 +387,7 @@ var (
 		[maxLen]byte{'e', 'n', '-', 'g', 'b', '-', 'o', 'e', 'd'}:           -2, // en-GB-oed
 		[maxLen]byte{'i', '-', 'd', 'e', 'f', 'a', 'u', 'l', 't'}:           -3, // i-default
 		[maxLen]byte{'i', '-', 'e', 'n', 'o', 'c', 'h', 'i', 'a', 'n'}:      -4, // i-enochian
-		[maxLen]byte{'i', '-', 'm', 'i', 'n', 'g', 'o'}:                     -5, // i-mingo
+		[maxLen]byte{'i', '-', 'm', 'i', 'n', 'g', 'o'}:                     -5, // i-mingolang
 		[maxLen]byte{'z', 'h', '-', 'm', 'i', 'n'}:                          -6, // zh-min
 
 		// CLDR-specific tag.
@@ -397,7 +397,7 @@ var (
 
 	altTagIndex = [...]uint8{0, 17, 31, 45, 61, 74, 86, 102}
 
-	altTags = "xtg-x-cel-gaulishen-GB-oxendicten-x-i-defaultund-x-i-enochiansee-x-i-mingonan-x-zh-minen-US-u-va-posix"
+	altTags = "xtg-x-cel-gaulishen-GB-oxendicten-x-i-defaultund-x-i-enochiansee-x-i-mingolangnan-x-zh-minen-US-u-va-posix"
 )
 
 func grandfathered(s [maxAltTaglen]byte) (t Tag, ok bool) {

@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package buildid
@@ -40,7 +40,7 @@ func FindAndHash(r io.Reader, id string, bufSize int) (matches []int64, hash [32
 	// itself), including the buildid. So the buildid cannot contain the signature.
 	r = excludeMachoCodeSignature(r)
 
-	// With the "-B gobuildid" linker option (which will be the default on some
+	// With the "-B golangbuildid" linker option (which will be the default on some
 	// platforms), the host build ID (GNU build ID, Mach-O UUID) depends on the
 	// Go buildid. So ignore the host build ID, to avoid convergence problem.
 	r = excludeHostBuildID(r, r0)

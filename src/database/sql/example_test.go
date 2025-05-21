@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package sql_test
@@ -126,7 +126,7 @@ from
 	var roleMap = map[int64]string{
 		1: "user",
 		2: "admin",
-		3: "gopher",
+		3: "golangpher",
 	}
 	for rows.Next() {
 		var (
@@ -170,11 +170,11 @@ func ExampleDB_Prepare() {
 	}{
 		{"tux", 1991},
 		{"duke", 1996},
-		{"gopher", 2009},
+		{"golangpher", 2009},
 		{"moby dock", 2013},
 	}
 
-	stmt, err := db.Prepare("INSERT INTO projects(id, mascot, release, category) VALUES( ?, ?, ?, ? )")
+	stmt, err := db.Prepare("INSERT INTO projects(id, mascot, release, categolangry) VALUES( ?, ?, ?, ? )")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -194,7 +194,7 @@ func ExampleTx_Prepare() {
 	}{
 		{"tux", 1991},
 		{"duke", 1996},
-		{"gopher", 2009},
+		{"golangpher", 2009},
 		{"moby dock", 2013},
 	}
 
@@ -204,7 +204,7 @@ func ExampleTx_Prepare() {
 	}
 	defer tx.Rollback() // The rollback will be ignored if the tx has been committed later in the function.
 
-	stmt, err := tx.Prepare("INSERT INTO projects(id, mascot, release, category) VALUES( ?, ?, ?, ? )")
+	stmt, err := tx.Prepare("INSERT INTO projects(id, mascot, release, categolangry) VALUES( ?, ?, ?, ? )")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -254,7 +254,7 @@ func ExampleConn_ExecContext() {
 		log.Fatal(err)
 	}
 	if rows != 1 {
-		log.Fatalf("expected single row affected, got %d rows affected", rows)
+		log.Fatalf("expected single row affected, golangt %d rows affected", rows)
 	}
 }
 

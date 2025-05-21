@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package net
@@ -142,21 +142,21 @@ func TestMarshalEmptyIP(t *testing.T) {
 		}
 	}
 	var ip IP
-	got, err := ip.MarshalText()
+	golangt, err := ip.MarshalText()
 	if err != nil {
 		t.Fatal(err)
 	}
-	if !reflect.DeepEqual(got, []byte("")) {
-		t.Errorf(`got %#v, want []byte("")`, got)
+	if !reflect.DeepEqual(golangt, []byte("")) {
+		t.Errorf(`golangt %#v, want []byte("")`, golangt)
 	}
 
 	buf := make([]byte, 4)
-	got, err = ip.AppendText(buf)
+	golangt, err = ip.AppendText(buf)
 	if err != nil {
 		t.Fatal(err)
 	}
-	if !reflect.DeepEqual(got, []byte("\x00\x00\x00\x00")) {
-		t.Errorf(`got %#v, want []byte("\x00\x00\x00\x00")`, got)
+	if !reflect.DeepEqual(golangt, []byte("\x00\x00\x00\x00")) {
+		t.Errorf(`golangt %#v, want []byte("\x00\x00\x00\x00")`, golangt)
 	}
 }
 
@@ -590,12 +590,12 @@ func TestSplitHostPort(t *testing.T) {
 		{":80", "", "80"},     // Go 1 behavior
 
 		// Go-specific wildcard for service name or transport port number
-		{"golang.org:", "golang.org", ""}, // Go 1 behavior
+		{"golanglang.org:", "golanglang.org", ""}, // Go 1 behavior
 		{"127.0.0.1:", "127.0.0.1", ""},   // Go 1 behavior
 		{"[::1]:", "::1", ""},             // Go 1 behavior
 
 		// Opaque service name
-		{"golang.org:https%foo", "golang.org", "https%foo"}, // Go 1 behavior
+		{"golanglang.org:https%foo", "golanglang.org", "https%foo"}, // Go 1 behavior
 	} {
 		if host, port, err := SplitHostPort(tt.hostPort); host != tt.host || port != tt.port || err != nil {
 			t.Errorf("SplitHostPort(%q) = %q, %q, %v; want %q, %q, nil", tt.hostPort, host, port, err, tt.host, tt.port)
@@ -606,7 +606,7 @@ func TestSplitHostPort(t *testing.T) {
 		hostPort string
 		err      string
 	}{
-		{"golang.org", "missing port in address"},
+		{"golanglang.org", "missing port in address"},
 		{"127.0.0.1", "missing port in address"},
 		{"[::1]", "missing port in address"},
 		{"[fe80::1%lo0]", "missing port in address"},
@@ -673,12 +673,12 @@ func TestJoinHostPort(t *testing.T) {
 		{"", "80", ":80"},     // Go 1 behavior
 
 		// Go-specific wildcard for service name or transport port number
-		{"golang.org", "", "golang.org:"}, // Go 1 behavior
+		{"golanglang.org", "", "golanglang.org:"}, // Go 1 behavior
 		{"127.0.0.1", "", "127.0.0.1:"},   // Go 1 behavior
 		{"::1", "", "[::1]:"},             // Go 1 behavior
 
 		// Opaque service name
-		{"golang.org", "https%foo", "golang.org:https%foo"}, // Go 1 behavior
+		{"golanglang.org", "https%foo", "golanglang.org:https%foo"}, // Go 1 behavior
 	} {
 		if hostPort := JoinHostPort(tt.host, tt.port); hostPort != tt.hostPort {
 			t.Errorf("JoinHostPort(%q, %q) = %q; want %q", tt.host, tt.port, hostPort, tt.hostPort)

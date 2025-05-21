@@ -9,22 +9,22 @@ env GOCACHE=$WORK/cache
 
 # Test with coverage instrumentation enabled (-fuzz) and race instrumentation
 # but without actually fuzzing the target (by using a non-matching pattern)
-go test -fuzz=xxx -race -v
+golang test -fuzz=xxx -race -v
 ! stderr 'race detected during execution of test'
 
 # Test with just race instrumentation enabled
-go test -race -v
+golang test -race -v
 ! stderr 'race detected during execution of test'
 
 # Test with coverage and race instrumentation enabled, and a matching fuzz
 # pattern
-go test -fuzz=FuzzRace -race -v -fuzztime=200x
+golang test -fuzz=FuzzRace -race -v -fuzztime=200x
 ! stderr 'race detected during execution of test'
 
--- go.mod --
+-- golang.mod --
 module test
 
--- race_test.go --
+-- race_test.golang --
 package race
 
 import "testing"

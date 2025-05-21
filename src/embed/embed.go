@@ -1,10 +1,10 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package embed provides access to files embedded in the running Go program.
 //
-// Go source files that import "embed" can use the //go:embed directive
+// Go source files that import "embed" can use the //golang:embed directive
 // to initialize a variable of type string, []byte, or [FS] with the contents of
 // files read from the package directory or subdirectories at compile time.
 //
@@ -15,7 +15,7 @@
 //
 //	import _ "embed"
 //
-//	//go:embed hello.txt
+//	//golang:embed hello.txt
 //	var s string
 //	print(s)
 //
@@ -23,7 +23,7 @@
 //
 //	import _ "embed"
 //
-//	//go:embed hello.txt
+//	//golang:embed hello.txt
 //	var b []byte
 //	print(string(b))
 //
@@ -31,14 +31,14 @@
 //
 //	import "embed"
 //
-//	//go:embed hello.txt
+//	//golang:embed hello.txt
 //	var f embed.FS
 //	data, _ := f.ReadFile("hello.txt")
 //	print(string(data))
 //
 // # Directives
 //
-// A //go:embed directive above a variable declaration specifies which files to embed,
+// A //golang:embed directive above a variable declaration specifies which files to embed,
 // using one or more path.Match patterns.
 //
 // The directive must immediately precede a line containing the declaration of a single variable.
@@ -54,14 +54,14 @@
 //	import "embed"
 //
 //	// content holds our static web server content.
-//	//go:embed image/* template/*
-//	//go:embed html/index.html
+//	//golang:embed image/* template/*
+//	//golang:embed html/index.html
 //	var content embed.FS
 //
 // The Go build system will recognize the directives and arrange for the declared variable
 // (in the example above, content) to be populated with the matching files from the file system.
 //
-// The //go:embed directive accepts multiple space-separated patterns for
+// The //golang:embed directive accepts multiple space-separated patterns for
 // brevity, but it can also be repeated, to avoid very long lines when there are
 // many patterns. The patterns are interpreted relative to the package directory
 // containing the source file. The path separator is a forward slash, even on
@@ -76,7 +76,7 @@
 // are excluded. So the variable in the above example is almost equivalent to:
 //
 //	// content is our static web server content.
-//	//go:embed image template html/index.html
+//	//golang:embed image template html/index.html
 //	var content embed.FS
 //
 // The difference is that ‘image/*’ embeds ‘image/.tempfile’ while ‘image’ does not.
@@ -86,25 +86,25 @@
 // to include those files beginning with ‘.’ or ‘_’. For example, ‘all:image’ embeds
 // both ‘image/.tempfile’ and ‘image/dir/.tempfile’.
 //
-// The //go:embed directive can be used with both exported and unexported variables,
+// The //golang:embed directive can be used with both exported and unexported variables,
 // depending on whether the package wants to make the data available to other packages.
 // It can only be used with variables at package scope, not with local variables.
 //
 // Patterns must not match files outside the package's module, such as ‘.git/*’, symbolic links,
-// 'vendor/', or any directories containing go.mod (these are separate modules).
+// 'vendor/', or any directories containing golang.mod (these are separate modules).
 // Patterns must not match files whose names include the special punctuation characters  " * < > ? ` ' | / \ and :.
-// Matches for empty directories are ignored. After that, each pattern in a //go:embed line
+// Matches for empty directories are ignored. After that, each pattern in a //golang:embed line
 // must match at least one file or non-empty directory.
 //
 // If any patterns are invalid or have invalid matches, the build will fail.
 //
 // # Strings and Bytes
 //
-// The //go:embed line for a variable of type string or []byte can have only a single pattern,
+// The //golang:embed line for a variable of type string or []byte can have only a single pattern,
 // and that pattern can match only a single file. The string or []byte is initialized with
 // the contents of that file.
 //
-// The //go:embed directive requires importing "embed", even when using a string or []byte.
+// The //golang:embed directive requires importing "embed", even when using a string or []byte.
 // In source files that don't refer to [embed.FS], use a blank import (import _ "embed").
 //
 // # File Systems
@@ -124,9 +124,9 @@
 //
 // # Tools
 //
-// To support tools that analyze Go packages, the patterns found in //go:embed lines
-// are available in “go list” output. See the EmbedPatterns, TestEmbedPatterns,
-// and XTestEmbedPatterns fields in the “go help list” output.
+// To support tools that analyze Go packages, the patterns found in //golang:embed lines
+// are available in “golang list” output. See the EmbedPatterns, TestEmbedPatterns,
+// and XTestEmbedPatterns fields in the “golang help list” output.
 package embed
 
 import (
@@ -138,10 +138,10 @@ import (
 	"time"
 )
 
-// An FS is a read-only collection of files, usually initialized with a //go:embed directive.
-// When declared without a //go:embed directive, an FS is an empty file system.
+// An FS is a read-only collection of files, usually initialized with a //golang:embed directive.
+// When declared without a //golang:embed directive, an FS is an empty file system.
 //
-// An FS is a read-only value, so it is safe to use from multiple goroutines
+// An FS is a read-only value, so it is safe to use from multiple golangroutines
 // simultaneously and also safe to assign values of type FS to each other.
 //
 // FS implements fs.FS, so it can be used with any package that understands
@@ -244,7 +244,7 @@ func (f FS) lookup(name string) *file {
 	if !fs.ValidPath(name) {
 		// The compiler should never emit a file with an invalid name,
 		// so this check is not strictly necessary (if name is invalid,
-		// we shouldn't find a match below), but it's a good backstop anyway.
+		// we shouldn't find a match below), but it's a golangod backstop anyway.
 		return nil
 	}
 	if name == "." {

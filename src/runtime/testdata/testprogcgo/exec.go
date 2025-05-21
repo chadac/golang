@@ -1,8 +1,8 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !plan9 && !windows
+//golang:build !plan9 && !windows
 // +build !plan9,!windows
 
 package main
@@ -41,10 +41,10 @@ import (
 )
 
 func init() {
-	register("CgoExecSignalMask", CgoExecSignalMask)
+	register("CgolangExecSignalMask", CgolangExecSignalMask)
 }
 
-func CgoExecSignalMask() {
+func CgolangExecSignalMask() {
 	if len(os.Args) > 2 && os.Args[2] == "testsigint" {
 		if C.SIGINTBlocked() != 0 {
 			os.Exit(1)
@@ -54,25 +54,25 @@ func CgoExecSignalMask() {
 
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, syscall.SIGTERM)
-	go func() {
+	golang func() {
 		for range c {
 		}
 	}()
 
-	const goCount = 10
+	const golangCount = 10
 	const execCount = 10
 	var wg sync.WaitGroup
-	wg.Add(goCount*execCount + goCount)
-	for i := 0; i < goCount; i++ {
-		go func() {
+	wg.Add(golangCount*execCount + golangCount)
+	for i := 0; i < golangCount; i++ {
+		golang func() {
 			defer wg.Done()
 			for j := 0; j < execCount; j++ {
 				c2 := make(chan os.Signal, 1)
 				signal.Notify(c2, syscall.SIGUSR1)
 				syscall.Kill(os.Getpid(), syscall.SIGTERM)
-				go func(j int) {
+				golang func(j int) {
 					defer wg.Done()
-					cmd := exec.Command(os.Args[0], "CgoExecSignalMask", "testsigint")
+					cmd := exec.Command(os.Args[0], "CgolangExecSignalMask", "testsigint")
 					cmd.Stdin = os.Stdin
 					cmd.Stdout = os.Stdout
 					cmd.Stderr = os.Stderr

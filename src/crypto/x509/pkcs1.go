@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package x509
@@ -8,7 +8,7 @@ import (
 	"crypto/rsa"
 	"encoding/asn1"
 	"errors"
-	"internal/godebug"
+	"internal/golangdebug"
 	"math/big"
 )
 
@@ -43,7 +43,7 @@ type pkcs1PublicKey struct {
 
 // x509rsacrt, if zero, makes ParsePKCS1PrivateKey ignore and recompute invalid
 // CRT values in the RSA private key.
-var x509rsacrt = godebug.New("x509rsacrt")
+var x509rsacrt = golangdebug.New("x509rsacrt")
 
 // ParsePKCS1PrivateKey parses an [RSA] private key in PKCS #1, ASN.1 DER form.
 //

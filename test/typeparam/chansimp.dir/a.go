@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package a
@@ -45,11 +45,11 @@ func ReadAll[Elem any](ctx context.Context, c <-chan Elem) []Elem {
 }
 
 // Merge merges two channels into a single channel.
-// This will leave a goroutine running until either both channels are closed
+// This will leave a golangroutine running until either both channels are closed
 // or the context is canceled, at which point the returned channel is closed.
 func Merge[Elem any](ctx context.Context, c1, c2 <-chan Elem) <-chan Elem {
 	r := make(chan Elem)
-	go func(ctx context.Context, c1, c2 <-chan Elem, r chan<- Elem) {
+	golang func(ctx context.Context, c1, c2 <-chan Elem, r chan<- Elem) {
 		defer close(r)
 		for c1 != nil || c2 != nil {
 			select {
@@ -74,12 +74,12 @@ func Merge[Elem any](ctx context.Context, c1, c2 <-chan Elem) <-chan Elem {
 }
 
 // Filter calls f on each value read from c. If f returns true the value
-// is sent on the returned channel. This will leave a goroutine running
+// is sent on the returned channel. This will leave a golangroutine running
 // until c is closed or the context is canceled, at which point the
 // returned channel is closed.
 func Filter[Elem any](ctx context.Context, c <-chan Elem, f func(Elem) bool) <-chan Elem {
 	r := make(chan Elem)
-	go func(ctx context.Context, c <-chan Elem, f func(Elem) bool, r chan<- Elem) {
+	golang func(ctx context.Context, c <-chan Elem, f func(Elem) bool, r chan<- Elem) {
 		defer close(r)
 		for {
 			select {
@@ -99,11 +99,11 @@ func Filter[Elem any](ctx context.Context, c <-chan Elem, f func(Elem) bool) <-c
 }
 
 // Sink returns a channel that discards all values sent to it.
-// This will leave a goroutine running until the context is canceled
+// This will leave a golangroutine running until the context is canceled
 // or the returned channel is closed.
 func Sink[Elem any](ctx context.Context) chan<- Elem {
 	r := make(chan Elem)
-	go func(ctx context.Context, r <-chan Elem) {
+	golang func(ctx context.Context, r <-chan Elem) {
 		for {
 			select {
 			case <-ctx.Done():
@@ -118,7 +118,7 @@ func Sink[Elem any](ctx context.Context) chan<- Elem {
 	return r
 }
 
-// An Exclusive is a value that may only be used by a single goroutine
+// An Exclusive is a value that may only be used by a single golangroutine
 // at a time. This is implemented using channels rather than a mutex.
 type Exclusive[Val any] struct {
 	c chan Val
@@ -167,7 +167,7 @@ func (e *Exclusive[Val]) Release(v Val) {
 // method indicates when the Sender has been closed, and the Send
 // method indicates when the Receiver has been freed.
 //
-// This is a convenient way to exit a goroutine sending values when
+// This is a convenient way to exit a golangroutine sending values when
 // the receiver stops reading them.
 func Ranger[Elem any]() (*Sender[Elem], *Receiver[Elem]) {
 	c := make(chan Elem)

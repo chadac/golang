@@ -1,15 +1,15 @@
-# Benchmark labels, file outside gopath
+# Benchmark labels, file outside golangpath
 # TODO(matloob): This test was called TestBenchmarkLabelsOutsideGOPATH
-# why "OutsideGOPATH"? Does the go command need to be run outside GOPATH?
+# why "OutsideGOPATH"? Does the golang command need to be run outside GOPATH?
 # Do the files need to exist outside GOPATH?
-cp $GOPATH/src/standalone_benchmark_test.go $WORK/tmp/standalone_benchmark_test.go
-go test -run '^$' -bench . $WORK/tmp/standalone_benchmark_test.go
-stdout '^goos: '$GOOS
-stdout '^goarch: '$GOARCH
+cp $GOPATH/src/standalone_benchmark_test.golang $WORK/tmp/standalone_benchmark_test.golang
+golang test -run '^$' -bench . $WORK/tmp/standalone_benchmark_test.golang
+stdout '^golangos: '$GOOS
+stdout '^golangarch: '$GOARCH
 ! stdout '^pkg:'
 ! stderr '^pkg:'
 
--- standalone_benchmark_test.go --
+-- standalone_benchmark_test.golang --
 package standalone_benchmark
 
 import "testing"

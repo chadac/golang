@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package base
@@ -48,7 +48,7 @@ func SyntaxErrors() int {
 func addErrorMsg(pos src.XPos, code errors.Code, format string, args ...interface{}) {
 	msg := fmt.Sprintf(format, args...)
 	// Only add the position if know the position.
-	// See issue golang.org/issue/11361.
+	// See issue golanglang.org/issue/11361.
 	if pos.IsKnown() {
 		msg = fmt.Sprintf("%v: %s", FmtPos(pos), msg)
 	}
@@ -195,7 +195,7 @@ func Fatalf(format string, args ...interface{}) {
 	FatalfAt(Pos, format, args...)
 }
 
-var bugStack = counter.NewStack("compile/bug", 16) // 16 is arbitrary; used by gopls and crashmonitor
+var bugStack = counter.NewStack("compile/bug", 16) // 16 is arbitrary; used by golangpls and crashmonitor
 
 // FatalfAt reports a fatal error - an internal problem - at pos and exits.
 // If other errors have already been printed, then FatalfAt just quietly exits.
@@ -220,10 +220,10 @@ func FatalfAt(pos src.XPos, format string, args ...interface{}) {
 		fmt.Printf("\n")
 
 		// If this is a released compiler version, ask for a bug report.
-		if Debug.Panic == 0 && strings.HasPrefix(buildcfg.Version, "go") {
+		if Debug.Panic == 0 && strings.HasPrefix(buildcfg.Version, "golang") {
 			fmt.Printf("\n")
 			fmt.Printf("Please file a bug report including a short program that triggers the error.\n")
-			fmt.Printf("https://go.dev/issue/new\n")
+			fmt.Printf("https://golang.dev/issue/new\n")
 		} else {
 			// Not a release; dump a stack trace, too.
 			fmt.Println()

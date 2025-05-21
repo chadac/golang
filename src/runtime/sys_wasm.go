@@ -1,11 +1,11 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
 
 import (
-	"internal/goarch"
+	"internal/golangarch"
 	"internal/runtime/sys"
 	"unsafe"
 )
@@ -21,14 +21,14 @@ func wasmDiv()
 func wasmTruncS()
 func wasmTruncU()
 
-//go:wasmimport gojs runtime.wasmExit
+//golang:wasmimport golangjs runtime.wasmExit
 func wasmExit(code int32)
 
 // adjust Gobuf as it if executed a call to fn with context ctxt
 // and then stopped before the first instruction in fn.
-func gostartcall(buf *gobuf, fn, ctxt unsafe.Pointer) {
+func golangstartcall(buf *golangbuf, fn, ctxt unsafe.Pointer) {
 	sp := buf.sp
-	sp -= goarch.PtrSize
+	sp -= golangarch.PtrSize
 	*(*uintptr)(unsafe.Pointer(sp)) = buf.pc
 	buf.sp = sp
 	buf.pc = uintptr(fn)
@@ -39,7 +39,7 @@ func notInitialized() // defined in assembly, call notInitialized1
 
 // Called if a wasmexport function is called before runtime initialization
 //
-//go:nosplit
+//golang:nosplit
 func notInitialized1() {
 	writeErrStr("runtime: wasmexport function called before runtime initialization\n")
 	if isarchive || islibrary {

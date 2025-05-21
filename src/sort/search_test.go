@@ -1,5 +1,5 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package sort_test
@@ -53,7 +53,7 @@ func TestSearch(t *testing.T) {
 	for _, e := range tests {
 		i := Search(e.n, e.f)
 		if i != e.i {
-			t.Errorf("%s: expected index %d; got %d", e.name, e.i, i)
+			t.Errorf("%s: expected index %d; golangt %d", e.name, e.i, i)
 		}
 	}
 }
@@ -126,7 +126,7 @@ func TestFind(t *testing.T) {
 
 			pos, found := Find(len(tt.data), cmp)
 			if pos != tt.wantPos || found != tt.wantFound {
-				t.Errorf("Find got (%v, %v), want (%v, %v)", pos, found, tt.wantPos, tt.wantFound)
+				t.Errorf("Find golangt (%v, %v), want (%v, %v)", pos, found, tt.wantPos, tt.wantFound)
 			}
 		})
 	}
@@ -155,10 +155,10 @@ func TestSearchEfficiency(t *testing.T) {
 			count := 0
 			i := Search(n, func(i int) bool { count++; return i >= x })
 			if i != x {
-				t.Errorf("n = %d: expected index %d; got %d", n, x, i)
+				t.Errorf("n = %d: expected index %d; golangt %d", n, x, i)
 			}
 			if count > max {
-				t.Errorf("n = %d, x = %d: expected <= %d calls; got %d", n, x, max, count)
+				t.Errorf("n = %d, x = %d: expected <= %d calls; golangt %d", n, x, max, count)
 			}
 		}
 		n *= 10
@@ -187,7 +187,7 @@ var wrappertests = []struct {
 func TestSearchWrappers(t *testing.T) {
 	for _, e := range wrappertests {
 		if e.result != e.i {
-			t.Errorf("%s: expected index %d; got %d", e.name, e.i, e.result)
+			t.Errorf("%s: expected index %d; golangt %d", e.name, e.i, e.result)
 		}
 	}
 }
@@ -210,7 +210,7 @@ func TestSearchWrappersDontAlloc(t *testing.T) {
 	}
 	allocs := testing.AllocsPerRun(100, runSearchWrappers)
 	if allocs != 0 {
-		t.Errorf("expected no allocs for runSearchWrappers, got %v", allocs)
+		t.Errorf("expected no allocs for runSearchWrappers, golangt %v", allocs)
 	}
 }
 
@@ -259,7 +259,7 @@ func TestFindExhaustive(t *testing.T) {
 				wantFound = false
 			}
 			if found != wantFound || pos != wantPos {
-				t.Errorf("Find(%d, %d): got (%v, %v), want (%v, %v)", size, x, pos, found, wantPos, wantFound)
+				t.Errorf("Find(%d, %d): golangt (%v, %v), want (%v, %v)", size, x, pos, found, wantPos, wantFound)
 			}
 		}
 	}

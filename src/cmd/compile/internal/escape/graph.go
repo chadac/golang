@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package escape
@@ -7,7 +7,7 @@ package escape
 import (
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/ir"
-	"cmd/compile/internal/logopt"
+	"cmd/compile/internal/logolangpt"
 	"cmd/compile/internal/types"
 	"fmt"
 )
@@ -167,7 +167,7 @@ func (k hole) note(where ir.Node, why string) hole {
 	if where == nil || why == "" {
 		base.Fatalf("note: missing where/why")
 	}
-	if base.Flag.LowerM >= 2 || logopt.Enabled() {
+	if base.Flag.LowerM >= 2 || logolangpt.Enabled() {
 		k.notes = &note{
 			next:  k.notes,
 			where: where,
@@ -209,15 +209,15 @@ func (b *batch) flow(k hole, src *location) {
 		return
 	}
 	if dst.hasAttr(attrEscapes) && k.derefs < 0 { // dst = &src
-		if base.Flag.LowerM >= 2 || logopt.Enabled() {
+		if base.Flag.LowerM >= 2 || logolangpt.Enabled() {
 			pos := base.FmtPos(src.n.Pos())
 			if base.Flag.LowerM >= 2 {
 				fmt.Printf("%s: %v escapes to heap:\n", pos, src.n)
 			}
-			explanation := b.explainFlow(pos, dst, src, k.derefs, k.notes, []*logopt.LoggedOpt{})
-			if logopt.Enabled() {
+			explanation := b.explainFlow(pos, dst, src, k.derefs, k.notes, []*logolangpt.LoggedOpt{})
+			if logolangpt.Enabled() {
 				var e_curfn *ir.Func // TODO(mdempsky): Fix.
-				logopt.LogOpt(src.n.Pos(), "escapes", "escape", ir.FuncName(e_curfn), fmt.Sprintf("%v escapes to heap", src.n), explanation)
+				logolangpt.LogOpt(src.n.Pos(), "escapes", "escape", ir.FuncName(e_curfn), fmt.Sprintf("%v escapes to heap", src.n), explanation)
 			}
 
 		}

@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package loadmacho implements a Mach-O file reader.
@@ -607,7 +607,7 @@ func Load(l *loader.Loader, arch *sys.Arch, localSymVersion int, f *bio.Reader, 
 		if machsym.type_&N_EXT == 0 {
 			v = localSymVersion
 		}
-		s := l.LookupOrCreateCgoExport(name, v)
+		s := l.LookupOrCreateCgolangExport(name, v)
 		if machsym.type_&N_EXT == 0 {
 			l.SetAttrDuplicateOK(s, true)
 		}
@@ -642,7 +642,7 @@ func Load(l *loader.Loader, arch *sys.Arch, localSymVersion int, f *bio.Reader, 
 		}
 
 		bld.SetValue(int64(machsym.value - sect.addr))
-		if !l.AttrCgoExportDynamic(s) {
+		if !l.AttrCgolangExportDynamic(s) {
 			bld.SetDynimplib("") // satisfy dynimport
 		}
 		if l.SymType(outer).IsText() {

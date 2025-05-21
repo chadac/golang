@@ -1,13 +1,13 @@
 // Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package gc
 
-import "internal/goarch"
+import "internal/golangarch"
 
 const (
-	ptrBits = 8 * goarch.PtrSize
+	ptrBits = 8 * golangarch.PtrSize
 
 	// A malloc header is functionally a single type pointer, but
 	// we need to use 8 here to ensure 8-byte alignment of allocations
@@ -43,7 +43,7 @@ const (
 	// would not be invariant to size-class rounding. Eschewing this property means a
 	// more complex check or possibly storing additional state to determine whether a
 	// span has malloc headers.
-	MinSizeForMallocHeader = goarch.PtrSize * ptrBits
+	MinSizeForMallocHeader = golangarch.PtrSize * ptrBits
 
 	// PageSize is the increment in which spans are managed.
 	PageSize = 1 << PageShift

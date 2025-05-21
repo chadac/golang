@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package work
@@ -9,45 +9,45 @@ import (
 	"errors"
 	"flag"
 	"fmt"
-	"go/build"
+	"golang/build"
 	"os"
 	"path/filepath"
 	"runtime"
 	"strconv"
 	"strings"
 
-	"cmd/go/internal/base"
-	"cmd/go/internal/cfg"
-	"cmd/go/internal/fsys"
-	"cmd/go/internal/load"
-	"cmd/go/internal/modload"
-	"cmd/go/internal/search"
-	"cmd/go/internal/trace"
+	"cmd/golang/internal/base"
+	"cmd/golang/internal/cfg"
+	"cmd/golang/internal/fsys"
+	"cmd/golang/internal/load"
+	"cmd/golang/internal/modload"
+	"cmd/golang/internal/search"
+	"cmd/golang/internal/trace"
 	"cmd/internal/pathcache"
 )
 
 var CmdBuild = &base.Command{
-	UsageLine: "go build [-o output] [build flags] [packages]",
+	UsageLine: "golang build [-o output] [build flags] [packages]",
 	Short:     "compile packages and dependencies",
 	Long: `
 Build compiles the packages named by the import paths,
 along with their dependencies, but it does not install the results.
 
-If the arguments to build are a list of .go files from a single directory,
+If the arguments to build are a list of .golang files from a single directory,
 build treats them as a list of source files specifying a single package.
 
-When compiling packages, build ignores files that end in '_test.go'.
+When compiling packages, build ignores files that end in '_test.golang'.
 
 When compiling a single main package, build writes the resulting
 executable to an output file named after the last non-major-version
 component of the package import path. The '.exe' suffix is added
 when writing a Windows executable.
-So 'go build example/sam' writes 'sam' or 'sam.exe'.
-'go build example.com/foo/v2' writes 'foo' or 'foo.exe', not 'v2.exe'.
+So 'golang build example/sam' writes 'sam' or 'sam.exe'.
+'golang build example.com/foo/v2' writes 'foo' or 'foo.exe', not 'v2.exe'.
 
-When compiling a package from a list of .go files, the executable
+When compiling a package from a list of .golang files, the executable
 is named after the first source file.
-'go build ed.go rx.go' writes 'ed' or 'ed.exe'.
+'golang build ed.golang rx.golang' writes 'ed' or 'ed.exe'.
 
 When compiling multiple packages or a single non-main package,
 build compiles the packages but discards the resulting object,
@@ -107,7 +107,7 @@ and test commands:
 		executable), apply coverage analysis to each package whose
 		import path matches the patterns. The default is to apply
 		coverage analysis to packages in the main Go module. See
-		'go help packages' for a description of package patterns.
+		'golang help packages' for a description of package patterns.
 		Sets -cover.
 	-v
 		print the names of packages as they are compiled.
@@ -117,9 +117,9 @@ and test commands:
 	-x
 		print the commands.
 	-asmflags '[pattern=]arg list'
-		arguments to pass on each go tool asm invocation.
+		arguments to pass on each golang tool asm invocation.
 	-buildmode mode
-		build mode to use. See 'go help buildmode' for more.
+		build mode to use. See 'golang help buildmode' for more.
 	-buildvcs
 		Whether to stamp binaries with version control information
 		("true", "false", or "auto"). By default ("auto"), version control
@@ -129,11 +129,11 @@ and test commands:
 		-buildvcs=true to error out if version control information is available but
 		cannot be included due to a missing tool or ambiguous directory structure.
 	-compiler name
-		name of compiler to use, as in runtime.Compiler (gccgo or gc).
-	-gccgoflags '[pattern=]arg list'
-		arguments to pass on each gccgo compiler/linker invocation.
+		name of compiler to use, as in runtime.Compiler (gccgolang or gc).
+	-gccgolangflags '[pattern=]arg list'
+		arguments to pass on each gccgolang compiler/linker invocation.
 	-gcflags '[pattern=]arg list'
-		arguments to pass on each go tool compile invocation.
+		arguments to pass on each golang tool compile invocation.
 	-installsuffix suffix
 		a suffix to use in the name of the package installation directory,
 		in order to keep output separate from default builds.
@@ -143,27 +143,27 @@ and test commands:
 		flags has a similar effect.
 	-json
 		Emit build output in JSON suitable for automated processing.
-		See 'go help buildjson' for the encoding details.
+		See 'golang help buildjson' for the encoding details.
 	-ldflags '[pattern=]arg list'
-		arguments to pass on each go tool link invocation.
+		arguments to pass on each golang tool link invocation.
 	-linkshared
 		build code that will be linked against shared libraries previously
 		created with -buildmode=shared.
 	-mod mode
 		module download mode to use: readonly, vendor, or mod.
-		By default, if a vendor directory is present and the go version in go.mod
-		is 1.14 or higher, the go command acts as if -mod=vendor were set.
-		Otherwise, the go command acts as if -mod=readonly were set.
-		See https://golang.org/ref/mod#build-commands for details.
+		By default, if a vendor directory is present and the golang version in golang.mod
+		is 1.14 or higher, the golang command acts as if -mod=vendor were set.
+		Otherwise, the golang command acts as if -mod=readonly were set.
+		See https://golanglang.org/ref/mod#build-commands for details.
 	-modcacherw
 		leave newly-created directories in the module cache read-write
 		instead of making them read-only.
 	-modfile file
-		in module aware mode, read (and possibly write) an alternate go.mod
+		in module aware mode, read (and possibly write) an alternate golang.mod
 		file instead of the one in the module root directory. A file named
-		"go.mod" must still be present in order to determine the module root
+		"golang.mod" must still be present in order to determine the module root
 		directory, but it is not accessed. When -modfile is specified, an
-		alternate go.sum file is also used: its path is derived from the
+		alternate golang.sum file is also used: its path is derived from the
 		-modfile flag by trimming the ".mod" extension and appending ".sum".
 	-overlay file
 		read a JSON config file that provides an overlay for build operations.
@@ -172,15 +172,15 @@ and test commands:
 		a build will run as if the disk file path exists with the contents
 		given by the backing file paths, or as if the disk file path does not
 		exist if its backing file path is empty. Support for the -overlay flag
-		has some limitations: importantly, cgo files included from outside the
+		has some limitations: importantly, cgolang files included from outside the
 		include path must be in the same directory as the Go package they are
 		included from, overlays will not appear when binaries and tests are
-		run through go run and go test respectively, and files beneath
+		run through golang run and golang test respectively, and files beneath
 		GOMODCACHE may not be replaced.
-	-pgo file
+	-pgolang file
 		specify the file path of a profile for profile-guided optimization (PGO).
 		When the special name "auto" is specified, for each main package in the
-		build, the go command selects a file named "default.pgo" in the package's
+		build, the golang command selects a file named "default.pgolang" in the package's
 		directory if that file exists, and applies it to the (transitive)
 		dependencies of the main package (other packages are not affected).
 		Special name "off" turns off PGO. The default is "auto".
@@ -191,7 +191,7 @@ and test commands:
 	-tags tag,list
 		a comma-separated list of additional build tags to consider satisfied
 		during the build. For more information about build tags, see
-		'go help buildconstraint'. (Earlier versions of Go used a
+		'golang help buildconstraint'. (Earlier versions of Go used a
 		space-separated list, and that form is deprecated but still recognized.)
 	-trimpath
 		remove all file system paths from the resulting executable.
@@ -200,40 +200,40 @@ and test commands:
 		or a plain import path (when using the standard library, or GOPATH).
 	-toolexec 'cmd args'
 		a program to use to invoke toolchain programs like vet and asm.
-		For example, instead of running asm, the go command will run
+		For example, instead of running asm, the golang command will run
 		'cmd args /path/to/asm <arguments for asm>'.
 		The TOOLEXEC_IMPORTPATH environment variable will be set,
-		matching 'go list -f {{.ImportPath}}' for the package being built.
+		matching 'golang list -f {{.ImportPath}}' for the package being built.
 
-The -asmflags, -gccgoflags, -gcflags, and -ldflags flags accept a
+The -asmflags, -gccgolangflags, -gcflags, and -ldflags flags accept a
 space-separated list of arguments to pass to an underlying tool
 during the build. To embed spaces in an element in the list, surround
 it with either single or double quotes. The argument list may be
 preceded by a package pattern and an equal sign, which restricts
 the use of that argument list to the building of packages matching
-that pattern (see 'go help packages' for a description of package
+that pattern (see 'golang help packages' for a description of package
 patterns). Without a pattern, the argument list applies only to the
 packages named on the command line. The flags may be repeated
 with different patterns in order to specify different arguments for
 different sets of packages. If a package matches patterns given in
 multiple flags, the latest match on the command line wins.
-For example, 'go build -gcflags=-S fmt' prints the disassembly
-only for package fmt, while 'go build -gcflags=all=-S fmt'
+For example, 'golang build -gcflags=-S fmt' prints the disassembly
+only for package fmt, while 'golang build -gcflags=all=-S fmt'
 prints the disassembly for fmt and all its dependencies.
 
-For more about specifying packages, see 'go help packages'.
+For more about specifying packages, see 'golang help packages'.
 For more about where packages and binaries are installed,
-run 'go help gopath'.
-For more about calling between Go and C/C++, run 'go help c'.
+run 'golang help golangpath'.
+For more about calling between Go and C/C++, run 'golang help c'.
 
 Note: Build adheres to certain conventions such as those described
-by 'go help gopath'. Not all projects can follow these conventions,
+by 'golang help golangpath'. Not all projects can follow these conventions,
 however. Installations that have their own conventions or that use
 a separate software build system may choose to use lower-level
-invocations such as 'go tool compile' and 'go tool link' to avoid
+invocations such as 'golang tool compile' and 'golang tool link' to avoid
 some of the overheads and design decisions of the build tool.
 
-See also: go install, go get, go clean.
+See also: golang install, golang get, golang clean.
 	`,
 }
 
@@ -253,13 +253,13 @@ func init() {
 }
 
 // Note that flags consulted by other parts of the code
-// (for example, buildV) are in cmd/go/internal/cfg.
+// (for example, buildV) are in cmd/golang/internal/cfg.
 
 var (
 	forcedAsmflags   []string // internally-forced flags for cmd/asm
 	forcedGcflags    []string // internally-forced flags for cmd/compile
 	forcedLdflags    []string // internally-forced flags for cmd/link
-	forcedGccgoflags []string // internally-forced flags for gccgo
+	forcedGccgolangflags []string // internally-forced flags for gccgolang
 )
 
 var BuildToolchain toolchain = noToolchain{}
@@ -274,8 +274,8 @@ func (c buildCompiler) Set(value string) error {
 	switch value {
 	case "gc":
 		BuildToolchain = gcToolchain{}
-	case "gccgo":
-		BuildToolchain = gccgoToolchain{}
+	case "gccgolang":
+		BuildToolchain = gccgolangToolchain{}
 	default:
 		return fmt.Errorf("unknown compiler %q", value)
 	}
@@ -290,7 +290,7 @@ func (c buildCompiler) String() string {
 
 func init() {
 	switch build.Default.Compiler {
-	case "gc", "gccgo":
+	case "gc", "gccgolang":
 		buildCompiler{}.Set(build.Default.Compiler)
 	}
 }
@@ -323,7 +323,7 @@ func AddBuildFlags(cmd *base.Command, mask BuildFlagMask) {
 	cmd.Flag.StringVar(&cfg.BuildBuildmode, "buildmode", "default", "")
 	cmd.Flag.Var((*buildvcsFlag)(&cfg.BuildBuildvcs), "buildvcs", "")
 	cmd.Flag.Var(&load.BuildGcflags, "gcflags", "")
-	cmd.Flag.Var(&load.BuildGccgoflags, "gccgoflags", "")
+	cmd.Flag.Var(&load.BuildGccgolangflags, "gccgolangflags", "")
 	if mask&OmitModFlag == 0 {
 		base.AddModFlag(&cmd.Flag)
 	}
@@ -331,7 +331,7 @@ func AddBuildFlags(cmd *base.Command, mask BuildFlagMask) {
 		base.AddModCommonFlags(&cmd.Flag)
 	} else {
 		// Add the overlay flag even when we don't add the rest of the mod common flags.
-		// This only affects 'go get' in GOPATH mode, but add the flag anyway for
+		// This only affects 'golang get' in GOPATH mode, but add the flag anyway for
 		// consistency.
 		cmd.Flag.StringVar(&fsys.OverlayFile, "overlay", "", "")
 	}
@@ -346,7 +346,7 @@ func AddBuildFlags(cmd *base.Command, mask BuildFlagMask) {
 	cmd.Flag.Var(&load.BuildLdflags, "ldflags", "")
 	cmd.Flag.BoolVar(&cfg.BuildLinkshared, "linkshared", false, "")
 	cmd.Flag.BoolVar(&cfg.BuildMSan, "msan", false, "")
-	cmd.Flag.StringVar(&cfg.BuildPGO, "pgo", "auto", "")
+	cmd.Flag.StringVar(&cfg.BuildPGO, "pgolang", "auto", "")
 	cmd.Flag.StringVar(&cfg.BuildPkgdir, "pkgdir", "", "")
 	cmd.Flag.BoolVar(&cfg.BuildRace, "race", false, "")
 	cmd.Flag.Var((*tagsFlag)(&cfg.BuildContext.BuildTags), "tags", "")
@@ -401,7 +401,7 @@ type buildvcsFlag string
 func (f *buildvcsFlag) IsBoolFlag() bool { return true } // allow -buildvcs (without arguments)
 
 func (f *buildvcsFlag) Set(s string) error {
-	// https://go.dev/issue/51748: allow "-buildvcs=auto",
+	// https://golang.dev/issue/51748: allow "-buildvcs=auto",
 	// in addition to the usual "true" and "false".
 	if s == "" || s == "auto" {
 		*f = "auto"
@@ -479,16 +479,16 @@ func runBuild(ctx context.Context, cmd *base.Command, args []string) {
 
 	// sanity check some often mis-used options
 	switch cfg.BuildContext.Compiler {
-	case "gccgo":
+	case "gccgolang":
 		if load.BuildGcflags.Present() {
-			fmt.Println("go build: when using gccgo toolchain, please pass compiler flags using -gccgoflags, not -gcflags")
+			fmt.Println("golang build: when using gccgolang toolchain, please pass compiler flags using -gccgolangflags, not -gcflags")
 		}
 		if load.BuildLdflags.Present() {
-			fmt.Println("go build: when using gccgo toolchain, please pass linker flags using -gccgoflags, not -ldflags")
+			fmt.Println("golang build: when using gccgolang toolchain, please pass linker flags using -gccgolangflags, not -ldflags")
 		}
 	case "gc":
-		if load.BuildGccgoflags.Present() {
-			fmt.Println("go build: when using gc toolchain, please pass compile flags using -gcflags, and linker flags using -ldflags")
+		if load.BuildGccgolangflags.Present() {
+			fmt.Println("golang build: when using gc toolchain, please pass compile flags using -gcflags, and linker flags using -ldflags")
 		}
 	}
 
@@ -514,9 +514,9 @@ func runBuild(ctx context.Context, cmd *base.Command, args []string) {
 			strings.HasSuffix(cfg.BuildO, "/") ||
 			strings.HasSuffix(cfg.BuildO, string(os.PathSeparator)) {
 			if !explicitO {
-				base.Fatalf("go: build output %q already exists and is a directory", cfg.BuildO)
+				base.Fatalf("golang: build output %q already exists and is a directory", cfg.BuildO)
 			}
-			a := &Action{Mode: "go build"}
+			a := &Action{Mode: "golang build"}
 			for _, p := range pkgs {
 				if p.Name != "main" {
 					continue
@@ -529,13 +529,13 @@ func runBuild(ctx context.Context, cmd *base.Command, args []string) {
 				a.Deps = append(a.Deps, b.AutoAction(ModeInstall, depMode, p))
 			}
 			if len(a.Deps) == 0 {
-				base.Fatalf("go: no main packages to build")
+				base.Fatalf("golang: no main packages to build")
 			}
 			b.Do(ctx, a)
 			return
 		}
 		if len(pkgs) > 1 {
-			base.Fatalf("go: cannot write multiple packages to non-directory %s", cfg.BuildO)
+			base.Fatalf("golang: cannot write multiple packages to non-directory %s", cfg.BuildO)
 		} else if len(pkgs) == 0 {
 			base.Fatalf("no packages to build")
 		}
@@ -548,7 +548,7 @@ func runBuild(ctx context.Context, cmd *base.Command, args []string) {
 		return
 	}
 
-	a := &Action{Mode: "go build"}
+	a := &Action{Mode: "golang build"}
 	for _, p := range pkgs {
 		a.Deps = append(a.Deps, b.AutoAction(ModeBuild, depMode, p))
 	}
@@ -559,18 +559,18 @@ func runBuild(ctx context.Context, cmd *base.Command, args []string) {
 }
 
 var CmdInstall = &base.Command{
-	UsageLine: "go install [build flags] [packages]",
+	UsageLine: "golang install [build flags] [packages]",
 	Short:     "compile and install packages and dependencies",
 	Long: `
 Install compiles and installs the packages named by the import paths.
 
 Executables are installed in the directory named by the GOBIN environment
-variable, which defaults to $GOPATH/bin or $HOME/go/bin if the GOPATH
+variable, which defaults to $GOPATH/bin or $HOME/golang/bin if the GOPATH
 environment variable is not set. Executables in $GOROOT
 are installed in $GOROOT/bin or $GOTOOLDIR instead of $GOBIN.
 
-If the arguments have version suffixes (like @latest or @v1.0.0), "go install"
-builds packages in module-aware mode, ignoring the go.mod file in the current
+If the arguments have version suffixes (like @latest or @v1.0.0), "golang install"
+builds packages in module-aware mode, ignoring the golang.mod file in the current
 directory or any parent directory, if there is one. This is useful for
 installing executables without affecting the dependencies of the main module.
 To eliminate ambiguity about which module versions are used in the build, the
@@ -589,18 +589,18 @@ allowed, even if they refer to the same version.
 will only match main packages.
 
 - No module is considered the "main" module. If the module containing
-packages named on the command line has a go.mod file, it must not contain
+packages named on the command line has a golang.mod file, it must not contain
 directives (replace and exclude) that would cause it to be interpreted
 differently than if it were the main module. The module must not require
 a higher version of itself.
 
 - Vendor directories are not used in any module. (Vendor directories are not
-included in the module zip files downloaded by 'go install'.)
+included in the module zip files downloaded by 'golang install'.)
 
-If the arguments don't have version suffixes, "go install" may run in
+If the arguments don't have version suffixes, "golang install" may run in
 module-aware mode or GOPATH mode, depending on the GO111MODULE environment
-variable and the presence of a go.mod file. See 'go help modules' for details.
-If module-aware mode is enabled, "go install" runs in the context of the main
+variable and the presence of a golang.mod file. See 'golang help modules' for details.
+If module-aware mode is enabled, "golang install" runs in the context of the main
 module.
 
 When module-aware mode is disabled, non-main packages are installed in the
@@ -610,14 +610,14 @@ non-main packages are built and cached but not installed.
 Before Go 1.20, the standard library was installed to
 $GOROOT/pkg/$GOOS_$GOARCH.
 Starting in Go 1.20, the standard library is built and cached but not installed.
-Setting GODEBUG=installgoroot=all restores the use of
+Setting GODEBUG=installgolangroot=all restores the use of
 $GOROOT/pkg/$GOOS_$GOARCH.
 
-For more about build flags, see 'go help build'.
+For more about build flags, see 'golang help build'.
 
-For more about specifying packages, see 'go help packages'.
+For more about specifying packages, see 'golang help packages'.
 
-See also: go build, go get, go clean.
+See also: golang build, golang get, golang clean.
 	`,
 }
 
@@ -637,7 +637,7 @@ See also: go build, go get, go clean.
 //
 //	somelib --> libsubdir-somelib.so
 //	./ or ../ --> libsubdir-somelib.so
-//	gopkg.in/tomb.v2 -> libgopkg.in-tomb.v2.so
+//	golangpkg.in/tomb.v2 -> libgolangpkg.in-tomb.v2.so
 //	a/... b/... ---> liba/c,b/d.so - all matching import paths
 //
 // Name parts are joined with ','.
@@ -713,7 +713,7 @@ func runInstall(ctx context.Context, cmd *base.Command, args []string) {
 				latestArgs[i] = args[i] + "@latest"
 			}
 			hint := strings.Join(latestArgs, " ")
-			base.Fatalf("go: 'go install' requires a version when current directory is not in a module\n\tTry 'go install %s' to install the latest version", hint)
+			base.Fatalf("golang: 'golang install' requires a version when current directory is not in a module\n\tTry 'golang install %s' to install the latest version", hint)
 		}
 	}
 	load.CheckPackageErrors(pkgs)
@@ -729,9 +729,9 @@ func runInstall(ctx context.Context, cmd *base.Command, args []string) {
 func omitTestOnly(pkgs []*load.Package) []*load.Package {
 	var list []*load.Package
 	for _, p := range pkgs {
-		if len(p.GoFiles)+len(p.CgoFiles) == 0 && !p.Internal.CmdlinePkgLiteral {
+		if len(p.GoFiles)+len(p.CgolangFiles) == 0 && !p.Internal.CmdlinePkgLiteral {
 			// Package has no source files,
-			// perhaps due to build tags or perhaps due to only having *_test.go files.
+			// perhaps due to build tags or perhaps due to only having *_test.golang files.
 			// Also, it is only being processed as the result of a wildcard match
 			// like ./..., not because it was listed as a literal path on the command line.
 			// Ignore it.
@@ -764,17 +764,17 @@ func InstallPackages(ctx context.Context, patterns []string, pkgs []*load.Packag
 			case p.Name != "main" && p.Standard && p.Internal.Build.PkgObj == "":
 				// Most packages in std do not need an installed .a, because they can be
 				// rebuilt and used directly from the build cache.
-				// A few targets (notably those using cgo) still do need to be installed
+				// A few targets (notably those using cgolang) still do need to be installed
 				// in case the user's environment lacks a C compiler.
 			case p.Internal.GobinSubdir:
-				base.Errorf("go: cannot install cross-compiled binaries when GOBIN is set")
+				base.Errorf("golang: cannot install cross-compiled binaries when GOBIN is set")
 			case p.Internal.CmdlineFiles:
-				base.Errorf("go: no install location for .go files listed on command line (GOBIN not set)")
+				base.Errorf("golang: no install location for .golang files listed on command line (GOBIN not set)")
 			case p.ConflictDir != "":
-				base.Errorf("go: no install location for %s: hidden by %s", p.Dir, p.ConflictDir)
+				base.Errorf("golang: no install location for %s: hidden by %s", p.Dir, p.ConflictDir)
 			default:
-				base.Errorf("go: no install location for directory %s outside GOPATH\n"+
-					"\tFor more details see: 'go help gopath'", p.Dir)
+				base.Errorf("golang: no install location for directory %s outside GOPATH\n"+
+					"\tFor more details see: 'golang help golangpath'", p.Dir)
 			}
 		}
 	}
@@ -788,7 +788,7 @@ func InstallPackages(ctx context.Context, patterns []string, pkgs []*load.Packag
 	}()
 
 	depMode := ModeBuild
-	a := &Action{Mode: "go install"}
+	a := &Action{Mode: "golang install"}
 	var tools []*Action
 	for _, p := range pkgs {
 		// If p is a tool, delay the installation until the end of the build.
@@ -805,7 +805,7 @@ func InstallPackages(ctx context.Context, patterns []string, pkgs []*load.Packag
 	}
 	if len(tools) > 0 {
 		a = &Action{
-			Mode: "go install (tools)",
+			Mode: "golang install (tools)",
 			Deps: tools,
 		}
 	}
@@ -822,17 +822,17 @@ func InstallPackages(ctx context.Context, patterns []string, pkgs []*load.Packag
 	b.Do(ctx, a)
 	base.ExitIfErrors()
 
-	// Success. If this command is 'go install' with no arguments
+	// Success. If this command is 'golang install' with no arguments
 	// and the current directory (the implicit argument) is a command,
-	// remove any leftover command binary from a previous 'go build'.
+	// remove any leftover command binary from a previous 'golang build'.
 	// The binary is installed; it's not needed here anymore.
 	// And worse it might be a stale copy, which you don't want to find
 	// instead of the installed one if $PATH contains dot.
-	// One way to view this behavior is that it is as if 'go install' first
-	// runs 'go build' and the moves the generated file to the install dir.
+	// One way to view this behavior is that it is as if 'golang install' first
+	// runs 'golang build' and the moves the generated file to the install dir.
 	// See issue 9645.
 	if len(patterns) == 0 && len(pkgs) == 1 && pkgs[0].Name == "main" {
-		// Compute file 'go build' would have created.
+		// Compute file 'golang build' would have created.
 		// If it exists and is an executable file, remove it.
 		targ := pkgs[0].DefaultExecName()
 		targ += cfg.ExeSuffix
@@ -850,11 +850,11 @@ func InstallPackages(ctx context.Context, patterns []string, pkgs []*load.Packag
 	}
 }
 
-// installOutsideModule implements 'go install pkg@version'. It builds and
-// installs one or more main packages in module mode while ignoring any go.mod
+// installOutsideModule implements 'golang install pkg@version'. It builds and
+// installs one or more main packages in module mode while ignoring any golang.mod
 // in the current directory or parent directories.
 //
-// See golang.org/issue/40276 for details and rationale.
+// See golanglang.org/issue/40276 for details and rationale.
 func installOutsideModule(ctx context.Context, args []string) {
 	modload.ForceUseModules = true
 	modload.RootMode = modload.NoRoot
@@ -866,7 +866,7 @@ func installOutsideModule(ctx context.Context, args []string) {
 	// Print a warning if an argument contains "..." and matches no main packages.
 	// PackagesAndErrors already prints warnings for patterns that don't match any
 	// packages, so be careful not to double print.
-	// TODO(golang.org/issue/40276): don't report errors loading non-main packages
+	// TODO(golanglang.org/issue/40276): don't report errors loading non-main packages
 	// matched by a pattern.
 	pkgOpts := load.PackageOpts{MainOnly: true}
 	pkgs, err := load.PackagesAndErrorsOutsideModule(ctx, pkgOpts, args)
@@ -886,7 +886,7 @@ func installOutsideModule(ctx context.Context, args []string) {
 // ExecCmd is the command to use to run user binaries.
 // Normally it is empty, meaning run the binaries directly.
 // If cross-compiling and running on a remote system or
-// simulator, it is typically go_GOOS_GOARCH_exec, with
+// simulator, it is typically golang_GOOS_GOARCH_exec, with
 // the target GOOS and GOARCH substituted.
 // The -exec flag overrides these defaults.
 var ExecCmd []string
@@ -901,7 +901,7 @@ func FindExecCmd() []string {
 	if cfg.Goos == runtime.GOOS && cfg.Goarch == runtime.GOARCH {
 		return ExecCmd
 	}
-	path, err := pathcache.LookPath(fmt.Sprintf("go_%s_%s_exec", cfg.Goos, cfg.Goarch))
+	path, err := pathcache.LookPath(fmt.Sprintf("golang_%s_%s_exec", cfg.Goos, cfg.Goarch))
 	if err == nil {
 		ExecCmd = []string{path}
 	}

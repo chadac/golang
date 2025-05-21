@@ -16,54 +16,54 @@
 #               c.1
 
 
-cp go.mod go.mod.old
-cp lazy.go lazy.go.old
-go mod tidy
-cmp go.mod go.mod.old
+cp golang.mod golang.mod.old
+cp lazy.golang lazy.golang.old
+golang mod tidy
+cmp golang.mod golang.mod.old
 
-# Before adding a new import, the go.mod file should
+# Before adding a new import, the golang.mod file should
 # enumerate modules for all packages already imported.
-go list all
-cmp go.mod go.mod.old
+golang list all
+cmp golang.mod golang.mod.old
 
 # When we add a new import of a package in an existing dependency,
 # and that dependency is already tidy, its transitive dependencies
 # should already be present.
-cp lazy.go.new lazy.go
-go list all
-go list -m all
+cp lazy.golang.new lazy.golang
+golang list all
+golang list -m all
 stdout '^example.com/c v0.1.0' # not v0.2.0 as would be resolved by 'latest'
-cmp go.mod go.mod.old
+cmp golang.mod golang.mod.old
 
 # Now, we repeat the test with a lazy main module.
-cp lazy.go.old lazy.go
-cp go.mod.117 go.mod
+cp lazy.golang.old lazy.golang
+cp golang.mod.117 golang.mod
 
-# Before adding a new import, the go.mod file should
+# Before adding a new import, the golang.mod file should
 # enumerate modules for all packages already imported.
-go list all
-cmp go.mod go.mod.117
+golang list all
+cmp golang.mod golang.mod.117
 
 # When a new import is found, we should perform a deepening scan of the existing
 # dependencies and add a requirement on the version required by those
 # dependencies — not re-resolve 'latest'.
-cp lazy.go.new lazy.go
+cp lazy.golang.new lazy.golang
 
-! go list all
-stderr '^go: updates to go.mod needed; to update it:\n\tgo mod tidy$'
+! golang list all
+stderr '^golang: updates to golang.mod needed; to update it:\n\tgolang mod tidy$'
 
-go mod tidy
-go list all
-go list -m all
+golang mod tidy
+golang list all
+golang list -m all
 stdout '^example.com/c v0.1.0' # not v0.2.0 as would be resolved by 'latest'
 
-cmp go.mod go.mod.new
+cmp golang.mod golang.mod.new
 
 
--- go.mod --
+-- golang.mod --
 module example.com/lazy
 
-go 1.15
+golang 1.15
 
 require example.com/a v0.1.0
 
@@ -73,10 +73,10 @@ replace (
 	example.com/c v0.1.0 => ./c1
 	example.com/c v0.2.0 => ./c2
 )
--- go.mod.117 --
+-- golang.mod.117 --
 module example.com/lazy
 
-go 1.17
+golang 1.17
 
 require example.com/a v0.1.0
 
@@ -88,10 +88,10 @@ replace (
 	example.com/c v0.1.0 => ./c1
 	example.com/c v0.2.0 => ./c2
 )
--- go.mod.new --
+-- golang.mod.new --
 module example.com/lazy
 
-go 1.17
+golang 1.17
 
 require example.com/a v0.1.0
 
@@ -106,50 +106,50 @@ replace (
 	example.com/c v0.1.0 => ./c1
 	example.com/c v0.2.0 => ./c2
 )
--- lazy.go --
+-- lazy.golang --
 package lazy
 
 import (
 	_ "example.com/a/x"
 )
--- lazy.go.new --
+-- lazy.golang.new --
 package lazy
 
 import (
 	_ "example.com/a/x"
 	_ "example.com/a/y"
 )
--- a/go.mod --
+-- a/golang.mod --
 module example.com/a
 
-go 1.15
+golang 1.15
 
 require (
 	example.com/b v0.1.0
 	example.com/c v0.1.0
 )
--- a/x/x.go --
+-- a/x/x.golang --
 package x
 import _ "example.com/b"
--- a/y/y.go --
+-- a/y/y.golang --
 package y
 import _ "example.com/c"
--- b/go.mod --
+-- b/golang.mod --
 module example.com/b
 
-go 1.15
--- b/b.go --
+golang 1.15
+-- b/b.golang --
 package b
--- c1/go.mod --
+-- c1/golang.mod --
 module example.com/c
 
-go 1.15
--- c1/c.go --
+golang 1.15
+-- c1/c.golang --
 package c
--- c2/go.mod --
+-- c2/golang.mod --
 module example.com/c
 
-go 1.15
--- c2/c.go --
+golang 1.15
+-- c2/c.golang --
 package c
 This file should not be used, so this syntax error should be ignored.

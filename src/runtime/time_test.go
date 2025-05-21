@@ -1,5 +1,5 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime_test
@@ -21,7 +21,7 @@ func TestFakeTime(t *testing.T) {
 		t.Skip("faketime not supported on windows")
 	}
 
-	// Faketime is advanced in checkdead. External linking brings in cgo,
+	// Faketime is advanced in checkdead. External linking brings in cgolang,
 	// causing checkdead not working.
 	testenv.MustInternalLink(t, deadlockBuildTypes)
 
@@ -55,7 +55,7 @@ func TestFakeTime(t *testing.T) {
 	}
 
 	const time0 = 1257894000000000000
-	got := [][]fakeTimeFrame{f1, f2}
+	golangt := [][]fakeTimeFrame{f1, f2}
 	var want = [][]fakeTimeFrame{{
 		{time0 + 1, "line 2\n"},
 		{time0 + 1, "line 3\n"},
@@ -65,8 +65,8 @@ func TestFakeTime(t *testing.T) {
 		{time0, "line 1\n"},
 		{time0 + 2, "line 4\n"},
 	}}
-	if !reflect.DeepEqual(want, got) {
-		t.Fatalf("want %v, got %v", want, got)
+	if !reflect.DeepEqual(want, golangt) {
+		t.Fatalf("want %v, golangt %v", want, golangt)
 	}
 }
 

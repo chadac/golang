@@ -35,7 +35,7 @@ import (
 	"cmd/internal/obj"
 )
 
-//go:generate go run ../stringer.go -i $GOFILE -o anames.go -p riscv
+//golang:generate golang run ../stringer.golang -i $GOFILE -o anames.golang -p riscv
 
 const (
 	// Base register numberings.
@@ -331,7 +331,7 @@ const (
 //
 // See also "The RISC-V Instruction Set Manual" at https://riscv.org/technical/specifications/.
 //
-// If you modify this table, you MUST run 'go generate' to regenerate anames.go!
+// If you modify this table, you MUST run 'golang generate' to regenerate anames.golang!
 const (
 	//
 	// Unprivileged ISA (version 20240411)
@@ -1324,7 +1324,7 @@ func (so SpecialOperand) String() string {
 }
 
 // All unary instructions which write to their arguments (as opposed to reading
-// from them) go here. The assembly parser uses this information to populate
+// from them) golang here. The assembly parser uses this information to populate
 // its AST in a semantically reasonable way.
 //
 // Any instructions not listed here are assumed to either be non-unary or to read

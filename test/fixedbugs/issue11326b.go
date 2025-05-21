@@ -1,16 +1,16 @@
 // run
 
-// Does not work with gccgo, which uses a smaller (but still permitted)
+// Does not work with gccgolang, which uses a smaller (but still permitted)
 // exponent size.
-//go:build !gccgo
+//golang:build !gccgolang
 
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
 
-// Tests for golang.org/issue/11326.
+// Tests for golanglang.org/issue/11326.
 
 func main() {
 	{

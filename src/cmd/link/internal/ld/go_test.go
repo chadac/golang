@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ld
@@ -21,9 +21,9 @@ func TestDedupLibraries(t *testing.T) {
 
 	libs := []string{"libc.so", "libc.so.6"}
 
-	got := dedupLibraries(ctxt, libs)
-	if !reflect.DeepEqual(got, libs) {
-		t.Errorf("dedupLibraries(%v) = %v, want %v", libs, got, libs)
+	golangt := dedupLibraries(ctxt, libs)
+	if !reflect.DeepEqual(golangt, libs) {
+		t.Errorf("dedupLibraries(%v) = %v, want %v", libs, golangt, libs)
 	}
 }
 
@@ -67,9 +67,9 @@ func TestDedupLibrariesOpenBSD(t *testing.T) {
 
 	for _, test := range tests {
 		t.Run("dedup", func(t *testing.T) {
-			got := dedupLibraries(ctxt, test.libs)
-			if !reflect.DeepEqual(got, test.want) {
-				t.Errorf("dedupLibraries(%v) = %v, want %v", test.libs, got, test.want)
+			golangt := dedupLibraries(ctxt, test.libs)
+			if !reflect.DeepEqual(golangt, test.want) {
+				t.Errorf("dedupLibraries(%v) = %v, want %v", test.libs, golangt, test.want)
 			}
 		})
 	}
@@ -87,16 +87,16 @@ func TestDedupLibrariesOpenBSDLink(t *testing.T) {
 
 	dir := t.TempDir()
 
-	// cgo_import_dynamic both the unversioned libraries and pull in the
-	// net package to get a cgo package with a versioned library.
-	srcFile := filepath.Join(dir, "x.go")
+	// cgolang_import_dynamic both the unversioned libraries and pull in the
+	// net package to get a cgolang package with a versioned library.
+	srcFile := filepath.Join(dir, "x.golang")
 	src := `package main
 
 import (
 	_ "net"
 )
 
-//go:cgo_import_dynamic _ _ "libc.so"
+//golang:cgolang_import_dynamic _ _ "libc.so"
 
 func main() {}`
 	if err := os.WriteFile(srcFile, []byte(src), 0644); err != nil {

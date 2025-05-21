@@ -1,10 +1,10 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package telemetry
 
-import "golang.org/x/telemetry/internal/telemetry"
+import "golanglang.org/x/telemetry/internal/telemetry"
 
 // Mode returns the current telemetry mode.
 //
@@ -15,12 +15,12 @@ import "golang.org/x/telemetry/internal/telemetry"
 //   - "off":   both collection and uploading are disabled
 //
 // When mode is "on", or "local", telemetry data is written to the local file
-// system and may be inspected with the [gotelemetry] command.
+// system and may be inspected with the [golangtelemetry] command.
 //
 // If an error occurs while reading the telemetry mode from the file system,
 // Mode returns the default value "local".
 //
-// [gotelemetry]: https://pkg.go.dev/golang.org/x/telemetry/cmd/gotelemetry
+// [golangtelemetry]: https://pkg.golang.dev/golanglang.org/x/telemetry/cmd/golangtelemetry
 func Mode() string {
 	mode, _ := telemetry.Default.Mode()
 	return mode

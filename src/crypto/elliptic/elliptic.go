@@ -1,5 +1,5 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package elliptic implements the standard NIST P-224, P-256, P-384, and P-521
@@ -236,7 +236,7 @@ func initAll() {
 // Multiple invocations of this function will return the same value, so it can
 // be used for equality checks and switch statements.
 //
-// The cryptographic operations are implemented using constant-time algorithms.
+// The cryptographic operations are implemented using constant-time algolangrithms.
 func P224() Curve {
 	initonce.Do(initAll)
 	return p224
@@ -249,7 +249,7 @@ func P224() Curve {
 // Multiple invocations of this function will return the same value, so it can
 // be used for equality checks and switch statements.
 //
-// The cryptographic operations are implemented using constant-time algorithms.
+// The cryptographic operations are implemented using constant-time algolangrithms.
 func P256() Curve {
 	initonce.Do(initAll)
 	return p256
@@ -261,7 +261,7 @@ func P256() Curve {
 // Multiple invocations of this function will return the same value, so it can
 // be used for equality checks and switch statements.
 //
-// The cryptographic operations are implemented using constant-time algorithms.
+// The cryptographic operations are implemented using constant-time algolangrithms.
 func P384() Curve {
 	initonce.Do(initAll)
 	return p384
@@ -273,7 +273,7 @@ func P384() Curve {
 // Multiple invocations of this function will return the same value, so it can
 // be used for equality checks and switch statements.
 //
-// The cryptographic operations are implemented using constant-time algorithms.
+// The cryptographic operations are implemented using constant-time algolangrithms.
 func P521() Curve {
 	initonce.Do(initAll)
 	return p521

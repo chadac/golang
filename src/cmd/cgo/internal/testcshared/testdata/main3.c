@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 #include <stdint.h>
@@ -7,7 +7,7 @@
 #include <dlfcn.h>
 
 // Tests "main.main" is exported on android/arm,
-// which golang.org/x/mobile/app depends on.
+// which golanglang.org/x/mobile/app depends on.
 int main(int argc, char** argv) {
   void* handle = dlopen(argv[1], RTLD_LAZY | RTLD_GLOBAL);
   if (!handle) {

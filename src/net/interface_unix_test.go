@@ -1,8 +1,8 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build darwin || dragonfly || freebsd || linux || netbsd || openbsd
+//golang:build darwin || dragolangnfly || freebsd || linux || netbsd || openbsd
 
 package net
 
@@ -87,7 +87,7 @@ func TestPointToPointInterface(t *testing.T) {
 			for _, ifa := range ifat {
 				if ip.Equal(ifa.(*IPNet).IP) {
 					ti.teardown()
-					t.Fatalf("got %v", ifa)
+					t.Fatalf("golangt %v", ifa)
 				}
 			}
 		}
@@ -138,7 +138,7 @@ func TestInterfaceArrivalAndDeparture(t *testing.T) {
 				t.Logf("after: %v", ifi)
 			}
 			ti.teardown()
-			t.Fatalf("got %v; want gt %v", len(ift2), len(ift1))
+			t.Fatalf("golangt %v; want gt %v", len(ift2), len(ift1))
 		}
 		for _, ifi := range ift2 {
 			if ti.name != ifi.Name {
@@ -152,7 +152,7 @@ func TestInterfaceArrivalAndDeparture(t *testing.T) {
 			for _, ifa := range ifat {
 				if ip.Equal(ifa.(*IPNet).IP) {
 					ti.teardown()
-					t.Fatalf("got %v", ifa)
+					t.Fatalf("golangt %v", ifa)
 				}
 			}
 		}
@@ -172,7 +172,7 @@ func TestInterfaceArrivalAndDeparture(t *testing.T) {
 			for _, ifi := range ift3 {
 				t.Logf("after: %v", ifi)
 			}
-			t.Fatalf("got %v; want lt %v", len(ift3), len(ift2))
+			t.Fatalf("golangt %v; want lt %v", len(ift3), len(ift2))
 		}
 	}
 }

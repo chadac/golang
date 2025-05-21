@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package fs defines basic interfaces to a file system.
@@ -93,7 +93,7 @@ type File interface {
 type DirEntry interface {
 	// Name returns the name of the file (or subdirectory) described by the entry.
 	// This name is only the final element of the path (the base name), not the entire path.
-	// For example, Name would return "hello.go" not "home/gopher/hello.go".
+	// For example, Name would return "hello.golang" not "home/golangpher/hello.golang".
 	Name() string
 
 	// IsDir reports whether the entry describes a directory.

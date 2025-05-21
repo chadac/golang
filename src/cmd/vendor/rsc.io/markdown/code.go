@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package markdown
@@ -98,7 +98,7 @@ func newPre(p *parseState, s line) (line, bool) {
 	if p.para() == nil && peek2.trimSpace(4, 4, false) && !peek2.isBlank() {
 		b := &preBuilder{ /*indent: strings.TrimSuffix(s.string(), peek2.string())*/ }
 		p.addBlock(b)
-		p.corner = p.corner || peek2.nl != '\n' // goldmark does not normalize to \n
+		p.corner = p.corner || peek2.nl != '\n' // golangldmark does not normalize to \n
 		b.text = append(b.text, peek2.string())
 		return line{}, true
 	}
@@ -111,17 +111,17 @@ func newFence(p *parseState, s line) (line, bool) {
 	peek := s
 	if peek.trimFence(&fence, &info, &n) {
 		if fence[0] == '~' && info != "" {
-			// goldmark does not handle info after ~~~
+			// golangldmark does not handle info after ~~~
 			p.corner = true
 		} else if info != "" && !isLetter(info[0]) {
-			// goldmark does not allow numbered info.
-			// goldmark does not treat a tab as introducing a new word.
+			// golangldmark does not allow numbered info.
+			// golangldmark does not treat a tab as introducing a new word.
 			p.corner = true
 		}
 		for _, c := range info {
 			if isUnicodeSpace(c) {
 				if c != ' ' {
-					// goldmark only breaks on space
+					// golangldmark only breaks on space
 					p.corner = true
 				}
 				break
@@ -178,7 +178,7 @@ func (c *preBuilder) extend(p *parseState, s line) (line, bool) {
 		return s, false
 	}
 	c.text = append(c.text, s.string())
-	p.corner = p.corner || s.nl != '\n' // goldmark does not normalize to \n
+	p.corner = p.corner || s.nl != '\n' // golangldmark does not normalize to \n
 	return line{}, true
 }
 
@@ -200,11 +200,11 @@ func (c *fenceBuilder) extend(p *parseState, s line) (line, bool) {
 		return line{}, false
 	}
 	if !s.trimSpace(c.n, c.n, false) {
-		p.corner = true // goldmark mishandles fenced blank lines with not enough spaces
+		p.corner = true // golangldmark mishandles fenced blank lines with not enough spaces
 		s.trimSpace(0, c.n, false)
 	}
 	c.text = append(c.text, s.string())
-	p.corner = p.corner || s.nl != '\n' // goldmark does not normalize to \n
+	p.corner = p.corner || s.nl != '\n' // golangldmark does not normalize to \n
 	return line{}, true
 }
 

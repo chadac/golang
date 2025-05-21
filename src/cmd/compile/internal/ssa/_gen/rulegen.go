@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This program generates Go code that applies rewrite rules to a Value.
@@ -15,11 +15,11 @@ import (
 	"bytes"
 	"flag"
 	"fmt"
-	"go/ast"
-	"go/format"
-	"go/parser"
-	"go/printer"
-	"go/token"
+	"golang/ast"
+	"golang/format"
+	"golang/parser"
+	"golang/printer"
+	"golang/token"
 	"io"
 	"log"
 	"os"
@@ -29,7 +29,7 @@ import (
 	"strconv"
 	"strings"
 
-	"golang.org/x/tools/go/ast/astutil"
+	"golanglang.org/x/tools/golang/ast/astutil"
 )
 
 // rule syntax:
@@ -45,7 +45,7 @@ import (
 // aux      ::= variable | {code}
 // type     ::= variable | {code}
 // variable ::= some token
-// opcode   ::= one of the opcodes from the *Ops.go files
+// opcode   ::= one of the opcodes from the *Ops.golang files
 
 // special rules: trailing ellipsis "..." (in the outermost sexpr?) must match on both sides of a rule.
 //                trailing three underscore "___" in the outermost match sexpr indicate the presence of
@@ -278,7 +278,7 @@ func genRulesSuffix(arch arch, suff string) {
 	fset := token.NewFileSet()
 	file, err := parser.ParseFile(fset, "", buf, parser.ParseComments)
 	if err != nil {
-		filename := fmt.Sprintf("%s_broken.go", arch.name)
+		filename := fmt.Sprintf("%s_broken.golang", arch.name)
 		if err := os.WriteFile(filename, buf.Bytes(), 0644); err != nil {
 			log.Printf("failed to dump broken code to %s: %v", filename, err)
 		} else {
@@ -322,12 +322,12 @@ func genRulesSuffix(arch arch, suff string) {
 	file = astutil.Apply(file, pre, post).(*ast.File)
 
 	// Write the well-formatted source to file
-	f, err := os.Create("../rewrite" + arch.name + suff + ".go")
+	f, err := os.Create("../rewrite" + arch.name + suff + ".golang")
 	if err != nil {
 		log.Fatalf("can't write output: %v", err)
 	}
 	defer f.Close()
-	// gofmt result; use a buffered writer, as otherwise go/format spends
+	// golangfmt result; use a buffered writer, as otherwise golang/format spends
 	// far too much time in syscalls.
 	bw := bufio.NewWriter(f)
 	if err := format.Node(bw, fset, file); err != nil {
@@ -578,7 +578,7 @@ func fprint(w io.Writer, n Node) {
 	case *File:
 		file := n
 		seenRewrite := make(map[[3]string]string)
-		fmt.Fprintf(w, "// Code generated from _gen/%s%s.rules using 'go generate'; DO NOT EDIT.\n", n.Arch.name, n.Suffix)
+		fmt.Fprintf(w, "// Code generated from _gen/%s%s.rules using 'golang generate'; DO NOT EDIT.\n", n.Arch.name, n.Suffix)
 		fmt.Fprintf(w, "\npackage ssa\n")
 		for _, path := range append([]string{
 			"fmt",
@@ -691,7 +691,7 @@ func fprint(w io.Writer, n Node) {
 }
 
 var printConfig = printer.Config{
-	Mode: printer.RawFormat, // we use go/format later, so skip work here
+	Mode: printer.RawFormat, // we use golang/format later, so skip work here
 }
 
 var emptyFset = token.NewFileSet()
@@ -871,7 +871,7 @@ func genBlockRewrite(rule Rule, arch arch, data blockData) *RuleRewrite {
 
 	// check match of control values
 	if len(s) < data.controls {
-		log.Fatalf("incorrect number of arguments in %s, got %v wanted at least %v", rule, len(s), data.controls)
+		log.Fatalf("incorrect number of arguments in %s, golangt %v wanted at least %v", rule, len(s), data.controls)
 	}
 	controls := s[:data.controls]
 	pos := make([]string, data.controls)
@@ -928,7 +928,7 @@ func genBlockRewrite(rule Rule, arch arch, data blockData) *RuleRewrite {
 	outop, _, auxint, aux, t := extract(rr.Result) // remove parens, then split
 	blockName, outdata := getBlockInfo(outop, arch)
 	if len(t) < outdata.controls {
-		log.Fatalf("incorrect number of output arguments in %s, got %v wanted at least %v", rule, len(s), outdata.controls)
+		log.Fatalf("incorrect number of output arguments in %s, golangt %v wanted at least %v", rule, len(s), outdata.controls)
 	}
 
 	// Check if newsuccs is the same set as succs.
@@ -1369,12 +1369,12 @@ func parseValue(val string, arch arch, loc string) (op opData, oparch, typ, auxi
 	var s string
 	s, typ, auxint, aux, args = extract(val)
 
-	// match reports whether x is a good op to select.
+	// match reports whether x is a golangod op to select.
 	// If strict is true, rule generation might succeed.
 	// If strict is false, rule generation has failed,
 	// but we're trying to generate a useful error.
 	// Doing strict=true then strict=false allows
-	// precise op matching while retaining good error messages.
+	// precise op matching while retaining golangod error messages.
 	match := func(x opData, strict bool, archname string) bool {
 		if x.name != s {
 			return false

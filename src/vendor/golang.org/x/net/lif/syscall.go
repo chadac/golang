@@ -1,8 +1,8 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build solaris
+//golang:build solaris
 
 package lif
 
@@ -11,9 +11,9 @@ import (
 	"unsafe"
 )
 
-//go:cgo_import_dynamic libc_ioctl ioctl "libc.so"
+//golang:cgolang_import_dynamic libc_ioctl ioctl "libc.so"
 
-//go:linkname procIoctl libc_ioctl
+//golang:linkname procIoctl libc_ioctl
 
 var procIoctl uintptr
 

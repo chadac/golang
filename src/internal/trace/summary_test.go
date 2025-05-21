@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package trace_test
@@ -12,7 +12,7 @@ import (
 )
 
 func TestSummarizeGoroutinesTrace(t *testing.T) {
-	summaries := summarizeTraceTest(t, "testdata/tests/go122-gc-stress.test").Goroutines
+	summaries := summarizeTraceTest(t, "testdata/tests/golang122-gc-stress.test").Goroutines
 	var (
 		hasSchedWaitTime    bool
 		hasSyncBlockTime    bool
@@ -44,7 +44,7 @@ func TestSummarizeGoroutinesTrace(t *testing.T) {
 }
 
 func TestSummarizeGoroutinesRegionsTrace(t *testing.T) {
-	summaries := summarizeTraceTest(t, "testdata/tests/go122-annotations.test").Goroutines
+	summaries := summarizeTraceTest(t, "testdata/tests/golang122-annotations.test").Goroutines
 	type region struct {
 		startKind trace.EventKind
 		endKind   trace.EventKind
@@ -78,13 +78,13 @@ func TestSummarizeGoroutinesRegionsTrace(t *testing.T) {
 }
 
 func TestSummarizeTasksTrace(t *testing.T) {
-	summaries := summarizeTraceTest(t, "testdata/tests/go122-annotations-stress.test").Tasks
+	summaries := summarizeTraceTest(t, "testdata/tests/golang122-annotations-stress.test").Tasks
 	type task struct {
 		name       string
 		parent     *trace.TaskID
 		children   []trace.TaskID
 		logs       []trace.Log
-		goroutines []trace.GoID
+		golangroutines []trace.GoID
 	}
 	parent := func(id trace.TaskID) *trace.TaskID {
 		p := new(trace.TaskID)
@@ -95,47 +95,47 @@ func TestSummarizeTasksTrace(t *testing.T) {
 		trace.BackgroundTask: {
 			// The background task (0) is never any task's parent.
 			logs: []trace.Log{
-				{Task: trace.BackgroundTask, Category: "log", Message: "before do"},
-				{Task: trace.BackgroundTask, Category: "log", Message: "before do"},
+				{Task: trace.BackgroundTask, Categolangry: "log", Message: "before do"},
+				{Task: trace.BackgroundTask, Categolangry: "log", Message: "before do"},
 			},
-			goroutines: []trace.GoID{1},
+			golangroutines: []trace.GoID{1},
 		},
 		1: {
 			// This started before tracing started and has no parents.
 			// Task 2 is technically a child, but we lost that information.
 			children: []trace.TaskID{3, 7, 16},
 			logs: []trace.Log{
-				{Task: 1, Category: "log", Message: "before do"},
-				{Task: 1, Category: "log", Message: "before do"},
+				{Task: 1, Categolangry: "log", Message: "before do"},
+				{Task: 1, Categolangry: "log", Message: "before do"},
 			},
-			goroutines: []trace.GoID{1},
+			golangroutines: []trace.GoID{1},
 		},
 		2: {
 			// This started before tracing started and its parent is technically (1), but that information was lost.
 			children: []trace.TaskID{8, 17},
 			logs: []trace.Log{
-				{Task: 2, Category: "log", Message: "before do"},
-				{Task: 2, Category: "log", Message: "before do"},
+				{Task: 2, Categolangry: "log", Message: "before do"},
+				{Task: 2, Categolangry: "log", Message: "before do"},
 			},
-			goroutines: []trace.GoID{1},
+			golangroutines: []trace.GoID{1},
 		},
 		3: {
 			parent:   parent(1),
 			children: []trace.TaskID{10, 19},
 			logs: []trace.Log{
-				{Task: 3, Category: "log", Message: "before do"},
-				{Task: 3, Category: "log", Message: "before do"},
+				{Task: 3, Categolangry: "log", Message: "before do"},
+				{Task: 3, Categolangry: "log", Message: "before do"},
 			},
-			goroutines: []trace.GoID{1},
+			golangroutines: []trace.GoID{1},
 		},
 		4: {
 			// Explicitly, no parent.
 			children: []trace.TaskID{12, 21},
 			logs: []trace.Log{
-				{Task: 4, Category: "log", Message: "before do"},
-				{Task: 4, Category: "log", Message: "before do"},
+				{Task: 4, Categolangry: "log", Message: "before do"},
+				{Task: 4, Categolangry: "log", Message: "before do"},
 			},
-			goroutines: []trace.GoID{1},
+			golangroutines: []trace.GoID{1},
 		},
 		12: {
 			parent:   parent(4),
@@ -144,23 +144,23 @@ func TestSummarizeTasksTrace(t *testing.T) {
 				// TODO(mknyszek): This is computed asynchronously in the trace,
 				// which makes regenerating this test very annoying, since it will
 				// likely break this test. Resolve this by making the order not matter.
-				{Task: 12, Category: "log2", Message: "do"},
-				{Task: 12, Category: "log", Message: "fanout region4"},
-				{Task: 12, Category: "log", Message: "fanout region0"},
-				{Task: 12, Category: "log", Message: "fanout region1"},
-				{Task: 12, Category: "log", Message: "fanout region2"},
-				{Task: 12, Category: "log", Message: "before do"},
-				{Task: 12, Category: "log", Message: "fanout region3"},
+				{Task: 12, Categolangry: "log2", Message: "do"},
+				{Task: 12, Categolangry: "log", Message: "fanout region4"},
+				{Task: 12, Categolangry: "log", Message: "fanout region0"},
+				{Task: 12, Categolangry: "log", Message: "fanout region1"},
+				{Task: 12, Categolangry: "log", Message: "fanout region2"},
+				{Task: 12, Categolangry: "log", Message: "before do"},
+				{Task: 12, Categolangry: "log", Message: "fanout region3"},
 			},
-			goroutines: []trace.GoID{1, 5, 6, 7, 8, 9},
+			golangroutines: []trace.GoID{1, 5, 6, 7, 8, 9},
 		},
 		13: {
 			// Explicitly, no children.
 			parent: parent(12),
 			logs: []trace.Log{
-				{Task: 13, Category: "log2", Message: "do"},
+				{Task: 13, Categolangry: "log2", Message: "do"},
 			},
-			goroutines: []trace.GoID{7},
+			golangroutines: []trace.GoID{7},
 		},
 	}
 	for id, summary := range summaries {
@@ -177,53 +177,53 @@ func TestSummarizeTasksTrace(t *testing.T) {
 			if summary.Parent == nil {
 				t.Errorf("expected parent %d for task %d without a parent", *want.parent, id)
 			} else if summary.Parent.ID != *want.parent {
-				t.Errorf("bad parent for task %d: want %d, got %d", id, *want.parent, summary.Parent.ID)
+				t.Errorf("bad parent for task %d: want %d, golangt %d", id, *want.parent, summary.Parent.ID)
 			}
 		} else if summary.Parent != nil {
 			t.Errorf("unexpected parent %d for task %d", summary.Parent.ID, id)
 		}
 
 		// Check children.
-		gotChildren := make(map[trace.TaskID]struct{})
+		golangtChildren := make(map[trace.TaskID]struct{})
 		for _, child := range summary.Children {
-			gotChildren[child.ID] = struct{}{}
+			golangtChildren[child.ID] = struct{}{}
 		}
 		for _, wantChild := range want.children {
-			if _, ok := gotChildren[wantChild]; ok {
-				delete(gotChildren, wantChild)
+			if _, ok := golangtChildren[wantChild]; ok {
+				delete(golangtChildren, wantChild)
 			} else {
 				t.Errorf("expected child task %d for task %d not found", wantChild, id)
 			}
 		}
-		if len(gotChildren) != 0 {
-			for child := range gotChildren {
+		if len(golangtChildren) != 0 {
+			for child := range golangtChildren {
 				t.Errorf("unexpected child task %d for task %d", child, id)
 			}
 		}
 
 		// Check logs.
 		if len(want.logs) != len(summary.Logs) {
-			t.Errorf("wanted %d logs for task %d, got %d logs instead", len(want.logs), id, len(summary.Logs))
+			t.Errorf("wanted %d logs for task %d, golangt %d logs instead", len(want.logs), id, len(summary.Logs))
 		} else {
 			for i := range want.logs {
 				if want.logs[i] != summary.Logs[i].Log() {
-					t.Errorf("log mismatch: want %#v, got %#v", want.logs[i], summary.Logs[i].Log())
+					t.Errorf("log mismatch: want %#v, golangt %#v", want.logs[i], summary.Logs[i].Log())
 				}
 			}
 		}
 
-		// Check goroutines.
-		if len(want.goroutines) != len(summary.Goroutines) {
-			t.Errorf("wanted %d goroutines for task %d, got %d goroutines instead", len(want.goroutines), id, len(summary.Goroutines))
+		// Check golangroutines.
+		if len(want.golangroutines) != len(summary.Goroutines) {
+			t.Errorf("wanted %d golangroutines for task %d, golangt %d golangroutines instead", len(want.golangroutines), id, len(summary.Goroutines))
 		} else {
-			for _, goid := range want.goroutines {
-				g, ok := summary.Goroutines[goid]
+			for _, golangid := range want.golangroutines {
+				g, ok := summary.Goroutines[golangid]
 				if !ok {
-					t.Errorf("want goroutine %d for task %d, not found", goid, id)
+					t.Errorf("want golangroutine %d for task %d, not found", golangid, id)
 					continue
 				}
-				if g.ID != goid {
-					t.Errorf("goroutine summary for %d does not match task %d listing of %d", g.ID, id, goid)
+				if g.ID != golangid {
+					t.Errorf("golangroutine summary for %d does not match task %d listing of %d", g.ID, id, golangid)
 				}
 			}
 		}
@@ -242,12 +242,12 @@ func assertContainsGoroutine(t *testing.T, summaries map[trace.GoID]*trace.Gorou
 			return
 		}
 	}
-	t.Errorf("missing goroutine %s", name)
+	t.Errorf("missing golangroutine %s", name)
 }
 
 func basicGoroutineSummaryChecks(t *testing.T, summary *trace.GoroutineSummary) {
 	if summary.ID == trace.NoGoroutine {
-		t.Error("summary found for no goroutine")
+		t.Error("summary found for no golangroutine")
 		return
 	}
 	if (summary.StartTime != 0 && summary.CreationTime > summary.StartTime) ||
@@ -290,19 +290,19 @@ func summarizeTraceTest(t *testing.T, testPath string) *trace.Summary {
 	return s.Finalize()
 }
 
-func checkRegionEvents(t *testing.T, wantStart, wantEnd trace.EventKind, goid trace.GoID, region *trace.UserRegionSummary) {
+func checkRegionEvents(t *testing.T, wantStart, wantEnd trace.EventKind, golangid trace.GoID, region *trace.UserRegionSummary) {
 	switch wantStart {
 	case trace.EventBad:
 		if region.Start != nil {
-			t.Errorf("expected nil region start event, got\n%s", region.Start.String())
+			t.Errorf("expected nil region start event, golangt\n%s", region.Start.String())
 		}
 	case trace.EventStateTransition, trace.EventRegionBegin:
 		if region.Start == nil {
-			t.Error("expected non-nil region start event, got nil")
+			t.Error("expected non-nil region start event, golangt nil")
 		}
 		kind := region.Start.Kind()
 		if kind != wantStart {
-			t.Errorf("wanted region start event %s, got %s", wantStart, kind)
+			t.Errorf("wanted region start event %s, golangt %s", wantStart, kind)
 		}
 		if kind == trace.EventRegionBegin {
 			if region.Start.Region().Type != region.Name {
@@ -313,11 +313,11 @@ func checkRegionEvents(t *testing.T, wantStart, wantEnd trace.EventKind, goid tr
 			if st.Resource.Kind != trace.ResourceGoroutine {
 				t.Errorf("found region start event for the wrong resource: %s", st.Resource)
 			}
-			if st.Resource.Goroutine() != goid {
-				t.Errorf("found region start event for the wrong resource: wanted goroutine %d, got %s", goid, st.Resource)
+			if st.Resource.Goroutine() != golangid {
+				t.Errorf("found region start event for the wrong resource: wanted golangroutine %d, golangt %s", golangid, st.Resource)
 			}
 			if old, _ := st.Goroutine(); old != trace.GoNotExist && old != trace.GoUndetermined {
-				t.Errorf("expected transition from GoNotExist or GoUndetermined, got transition from %s instead", old)
+				t.Errorf("expected transition from GoNotExist or GoUndetermined, golangt transition from %s instead", old)
 			}
 		}
 	default:
@@ -327,15 +327,15 @@ func checkRegionEvents(t *testing.T, wantStart, wantEnd trace.EventKind, goid tr
 	switch wantEnd {
 	case trace.EventBad:
 		if region.End != nil {
-			t.Errorf("expected nil region end event, got\n%s", region.End.String())
+			t.Errorf("expected nil region end event, golangt\n%s", region.End.String())
 		}
 	case trace.EventStateTransition, trace.EventRegionEnd:
 		if region.End == nil {
-			t.Error("expected non-nil region end event, got nil")
+			t.Error("expected non-nil region end event, golangt nil")
 		}
 		kind := region.End.Kind()
 		if kind != wantEnd {
-			t.Errorf("wanted region end event %s, got %s", wantEnd, kind)
+			t.Errorf("wanted region end event %s, golangt %s", wantEnd, kind)
 		}
 		if kind == trace.EventRegionEnd {
 			if region.End.Region().Type != region.Name {
@@ -346,11 +346,11 @@ func checkRegionEvents(t *testing.T, wantStart, wantEnd trace.EventKind, goid tr
 			if st.Resource.Kind != trace.ResourceGoroutine {
 				t.Errorf("found region end event for the wrong resource: %s", st.Resource)
 			}
-			if st.Resource.Goroutine() != goid {
-				t.Errorf("found region end event for the wrong resource: wanted goroutine %d, got %s", goid, st.Resource)
+			if st.Resource.Goroutine() != golangid {
+				t.Errorf("found region end event for the wrong resource: wanted golangroutine %d, golangt %s", golangid, st.Resource)
 			}
 			if _, new := st.Goroutine(); new != trace.GoNotExist {
-				t.Errorf("expected transition to GoNotExist, got transition to %s instead", new)
+				t.Errorf("expected transition to GoNotExist, golangt transition to %s instead", new)
 			}
 		}
 	default:
@@ -387,7 +387,7 @@ func basicGoroutineExecStatsChecks(t *testing.T, stats *trace.GoroutineExecStats
 }
 
 func TestRelatedGoroutinesV2Trace(t *testing.T) {
-	testPath := "testdata/tests/go122-gc-stress.test"
+	testPath := "testdata/tests/golang122-gc-stress.test"
 	trc, _, _, err := testtrace.ParseFile(testPath)
 	if err != nil {
 		t.Fatalf("malformed test %s: bad trace file: %v", testPath, err)
@@ -414,23 +414,23 @@ func TestRelatedGoroutinesV2Trace(t *testing.T) {
 
 	// Test the function.
 	targetg := trace.GoID(86)
-	got := trace.RelatedGoroutinesV2(events, targetg)
+	golangt := trace.RelatedGoroutinesV2(events, targetg)
 	want := map[trace.GoID]struct{}{
 		trace.GoID(86):  {}, // N.B. Result includes target.
 		trace.GoID(71):  {},
 		trace.GoID(25):  {},
 		trace.GoID(122): {},
 	}
-	for goid := range got {
-		if _, ok := want[goid]; ok {
-			delete(want, goid)
+	for golangid := range golangt {
+		if _, ok := want[golangid]; ok {
+			delete(want, golangid)
 		} else {
-			t.Errorf("unexpected goroutine %d found in related goroutines for %d in test %s", goid, targetg, testPath)
+			t.Errorf("unexpected golangroutine %d found in related golangroutines for %d in test %s", golangid, targetg, testPath)
 		}
 	}
 	if len(want) != 0 {
-		for goid := range want {
-			t.Errorf("failed to find related goroutine %d for goroutine %d in test %s", goid, targetg, testPath)
+		for golangid := range want {
+			t.Errorf("failed to find related golangroutine %d for golangroutine %d in test %s", golangid, targetg, testPath)
 		}
 	}
 }

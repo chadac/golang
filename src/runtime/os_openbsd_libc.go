@@ -1,8 +1,8 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build openbsd && !mips64
+//golang:build openbsd && !mips64
 
 package runtime
 
@@ -16,7 +16,7 @@ func mstart_stub()
 
 // May run with m.p==nil, so write barriers are not allowed.
 //
-//go:nowritebarrierrec
+//golang:nowritebarrierrec
 func newosproc(mp *m) {
 	if false {
 		print("newosproc m=", mp, " g=", mp.g0, " id=", mp.id, " ostk=", &mp, "\n")

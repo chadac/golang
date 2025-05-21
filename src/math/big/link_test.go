@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package big
@@ -21,22 +21,22 @@ func TestLinkerGC(t *testing.T) {
 	}
 	t.Parallel()
 	tmp := t.TempDir()
-	goBin := testenv.GoToolPath(t)
-	goFile := filepath.Join(tmp, "x.go")
+	golangBin := testenv.GoToolPath(t)
+	golangFile := filepath.Join(tmp, "x.golang")
 	file := []byte(`package main
 import _ "math/big"
 func main() {}
 `)
-	if err := os.WriteFile(goFile, file, 0644); err != nil {
+	if err := os.WriteFile(golangFile, file, 0644); err != nil {
 		t.Fatal(err)
 	}
-	cmd := exec.Command(goBin, "build", "-o", "x.exe", "x.go")
+	cmd := exec.Command(golangBin, "build", "-o", "x.exe", "x.golang")
 	cmd.Dir = tmp
 	if out, err := cmd.CombinedOutput(); err != nil {
 		t.Fatalf("compile: %v, %s", err, out)
 	}
 
-	cmd = exec.Command(goBin, "tool", "nm", "x.exe")
+	cmd = exec.Command(golangBin, "tool", "nm", "x.exe")
 	cmd.Dir = tmp
 	nm, err := cmd.CombinedOutput()
 	if err != nil {

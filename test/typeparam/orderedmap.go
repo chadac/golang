@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package orderedmap provides an ordered map, implemented as a binary tree.
@@ -58,7 +58,7 @@ func _NewOrdered[K Ordered, V any]() *_Map[K, V] {
 }
 
 // find looks up key in the map, returning either a pointer to the slot of the
-// node holding key, or a pointer to the slot where should a node would go.
+// node holding key, or a pointer to the slot where should a node would golang.
 func (m *_Map[K, V]) find(key K) **node[K, V] {
 	pn := &m.root
 	for *pn != nil {
@@ -118,7 +118,7 @@ func (m *_Map[K, V]) Iterate() *_Iterator[K, V] {
 			sender.Send(context.Background(), keyValue[K, V]{n.key, n.val}) &&
 			f(n.right)
 	}
-	go func() {
+	golang func() {
 		f(m.root)
 		sender.Close()
 	}()
@@ -186,10 +186,10 @@ func TestMap() {
 			r = append(r, v)
 		}
 	}
-	got := gather(m.Iterate())
+	golangt := gather(m.Iterate())
 	want := []int{'a', 'b', 'x'}
-	if !_SliceEqual(got, want) {
-		panic(fmt.Sprintf("Iterate returned %v, want %v", got, want))
+	if !_SliceEqual(golangt, want) {
+		panic(fmt.Sprintf("Iterate returned %v, want %v", golangt, want))
 	}
 }
 
@@ -221,7 +221,7 @@ func _SliceEqual[Elem comparable](s1, s2 []Elem) bool {
 // method indicates when the Sender has been closed, and the Send
 // method indicates when the Receiver has been freed.
 //
-// This is a convenient way to exit a goroutine sending values when
+// This is a convenient way to exit a golangroutine sending values when
 // the receiver stops reading them.
 func _Ranger[Elem any]() (*_Sender[Elem], *_Receiver[Elem]) {
 	c := make(chan Elem)

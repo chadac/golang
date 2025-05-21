@@ -1,4 +1,4 @@
-go list -e -deps -json=ImportPath,Error,DepsErrors m/a
+golang list -e -deps -json=ImportPath,Error,DepsErrors m/a
 cmp stdout want
 
 -- want --
@@ -57,19 +57,19 @@ cmp stdout want
 		}
 	]
 }
--- go.mod --
+-- golang.mod --
 module m
 
-go 1.21
--- a/a.go --
+golang 1.21
+-- a/a.golang --
 package a
 
 import _ "m/b"
--- b/b.go --
+-- b/b.golang --
 package b
 
 import _ "m/c"
--- c/c.go --
+-- c/c.golang --
 package c
 
 import _ "m/a"

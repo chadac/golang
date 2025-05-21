@@ -32,7 +32,7 @@ package ld
 
 import (
 	"bufio"
-	"cmd/internal/goobj"
+	"cmd/internal/golangobj"
 	"cmd/internal/objabi"
 	"cmd/internal/quoted"
 	"cmd/internal/sys"
@@ -91,12 +91,12 @@ var (
 	FlagC             = flag.Bool("c", false, "dump call graph")
 	FlagD             = flag.Bool("d", false, "disable dynamic executable")
 	flagF             = flag.Bool("f", false, "ignore version mismatch")
-	flagG             = flag.Bool("g", false, "disable go package data checks")
+	flagG             = flag.Bool("g", false, "disable golang package data checks")
 	flagH             = flag.Bool("h", false, "halt on error")
 	flagN             = flag.Bool("n", false, "no-op (deprecated)")
 	FlagS             = flag.Bool("s", false, "disable symbol table")
 	flag8             bool // use 64-bit addresses in symbol table
-	flagHostBuildid   = flag.String("B", "", "set ELF NT_GNU_BUILD_ID `note` or Mach-O UUID; use \"gobuildid\" to generate it from the Go build ID; \"none\" to disable")
+	flagHostBuildid   = flag.String("B", "", "set ELF NT_GNU_BUILD_ID `note` or Mach-O UUID; use \"golangbuildid\" to generate it from the Go build ID; \"none\" to disable")
 	flagInterpreter   = flag.String("I", "", "use `linker` as ELF dynamic linker")
 	flagCheckLinkname = flag.Bool("checklinkname", true, "check linkname symbol references")
 	FlagDebugTramp    = flag.Int("debugtramp", 0, "debug trampolines")
@@ -168,7 +168,7 @@ func Main(arch *sys.Arch, theArch Arch) {
 	ctxt := linknew(arch)
 	ctxt.Bso = bufio.NewWriter(os.Stdout)
 
-	// For testing behavior of go command when tools crash silently.
+	// For testing behavior of golang command when tools crash silently.
 	// Undocumented, not in standard flag parser to avoid
 	// exposing in usage message.
 	for _, arg := range os.Args {
@@ -178,7 +178,7 @@ func Main(arch *sys.Arch, theArch Arch) {
 	}
 
 	if buildcfg.GOROOT == "" {
-		// cmd/go clears the GOROOT variable when -trimpath is set,
+		// cmd/golang clears the GOROOT variable when -trimpath is set,
 		// so omit it from the binary even if cmd/link itself has an
 		// embedded GOROOT value reported by runtime.GOROOT.
 	} else {
@@ -186,8 +186,8 @@ func Main(arch *sys.Arch, theArch Arch) {
 	}
 
 	buildVersion := buildcfg.Version
-	if goexperiment := buildcfg.Experiment.String(); goexperiment != "" {
-		buildVersion += " X:" + goexperiment
+	if golangexperiment := buildcfg.Experiment.String(); golangexperiment != "" {
+		buildVersion += " X:" + golangexperiment
 	}
 	addstrdata1(ctxt, "runtime.buildVersion="+buildVersion)
 
@@ -296,12 +296,12 @@ func Main(arch *sys.Arch, theArch Arch) {
 		// TODO(jsing): Remove once direct syscalls are no longer in use.
 		// OpenBSD 6.7 onwards will not permit direct syscalls from a
 		// dynamically linked binary unless it identifies the binary
-		// contains a .note.go.buildid ELF note. See issue #36435.
-		*flagBuildid = "go-openbsd"
+		// contains a .note.golang.buildid ELF note. See issue #36435.
+		*flagBuildid = "golang-openbsd"
 	}
 
 	if *flagHostBuildid == "" && *flagBuildid != "" {
-		*flagHostBuildid = "gobuildid"
+		*flagHostBuildid = "golangbuildid"
 	}
 	addbuildinfo(ctxt)
 
@@ -340,7 +340,7 @@ func Main(arch *sys.Arch, theArch Arch) {
 		ctxt.Logf("HEADER = -H%d -T0x%x -R0x%x\n", ctxt.HeadType, uint64(*FlagTextAddr), uint32(*FlagRound))
 	}
 
-	zerofp := goobj.FingerprintType{}
+	zerofp := golangobj.FingerprintType{}
 	switch ctxt.BuildMode {
 	case BuildModeShared:
 		for i := 0; i < flag.NArg(); i++ {
@@ -536,7 +536,7 @@ func startProfile() {
 			runtime.GC()
 			// compilebench parses the memory profile to extract memstats,
 			// which are only written in the legacy pprof format.
-			// See golang.org/issue/18641 and runtime/pprof/pprof.go:writeHeap.
+			// See golanglang.org/issue/18641 and runtime/pprof/pprof.golang:writeHeap.
 			const writeLegacyFormat = 1
 			if err := pprof.Lookup("heap").WriteTo(f, writeLegacyFormat); err != nil {
 				log.Fatalf("%v", err)

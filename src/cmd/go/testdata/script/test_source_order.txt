@@ -1,17 +1,17 @@
 [short] skip
 
 # Control
-! go test example2_test.go example1_test.go
+! golang test example2_test.golang example1_test.golang
 
 # This test only passes if the source order is preserved
-go test example1_test.go example2_test.go
+golang test example1_test.golang example2_test.golang
 
--- example1_test.go --
+-- example1_test.golang --
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Make sure that go test runs Example_z before Example_a, preserving source order.
+// Make sure that golang test runs Example_z before Example_a, preserving source order.
 
 package p
 
@@ -30,12 +30,12 @@ func Example_a() {
 	fmt.Println(n)
 	// Output: 2
 }
--- example2_test.go --
+-- example2_test.golang --
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Make sure that go test runs Example_y before Example_b, preserving source order.
+// Make sure that golang test runs Example_y before Example_b, preserving source order.
 
 package p
 

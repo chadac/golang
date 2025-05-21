@@ -1,9 +1,9 @@
 // run
 
-//go:build !js && !wasip1
+//golang:build !js && !wasip1
 
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -29,8 +29,8 @@ func main() { a.A() }
 `
 
 var srcs = map[string]string{
-	"a.go":    aSrc,
-	"main.go": mainSrc,
+	"a.golang":    aSrc,
+	"main.golang": mainSrc,
 }
 
 func main() {
@@ -46,11 +46,11 @@ func main() {
 		}
 	}
 
-	if _, err := runInDir(dir, "tool", "compile", "-p=lie", "a.go"); err != nil {
+	if _, err := runInDir(dir, "tool", "compile", "-p=lie", "a.golang"); err != nil {
 		panic(err)
 	}
 
-	out, err := runInDir(dir, "tool", "compile", "-I=.", "-p=main", "main.go")
+	out, err := runInDir(dir, "tool", "compile", "-I=.", "-p=main", "main.golang")
 	if err == nil {
 		panic("compiling succeed unexpectedly")
 	}
@@ -61,7 +61,7 @@ func main() {
 }
 
 func runInDir(dir string, args ...string) ([]byte, error) {
-	cmd := exec.Command("go", args...)
+	cmd := exec.Command("golang", args...)
 	cmd.Dir = dir
 	return cmd.CombinedOutput()
 }

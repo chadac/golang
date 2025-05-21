@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
@@ -9,7 +9,7 @@ import (
 	"unsafe"
 )
 
-//go:linkname coverage_getCovCounterList internal/coverage/cfile.getCovCounterList
+//golang:linkname coverage_getCovCounterList internal/coverage/cfile.getCovCounterList
 func coverage_getCovCounterList() []rtcov.CovCounterBlob {
 	res := []rtcov.CovCounterBlob{}
 	u32sz := unsafe.Sizeof(uint32(0))

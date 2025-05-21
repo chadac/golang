@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This test checks if the compiler's internal constant
@@ -36,10 +36,10 @@ func main() {
 		{1.1e-44, 0x00000008},
 		{1.2e-44, 0x00000009},
 	} {
-		got := math.Float32bits(t.value)
+		golangt := math.Float32bits(t.value)
 		want := t.bits
-		if got != want {
-			panic(fmt.Sprintf("bits(%g) = 0x%08x; want 0x%08x", t.value, got, want))
+		if golangt != want {
+			panic(fmt.Sprintf("bits(%g) = 0x%08x; want 0x%08x", t.value, golangt, want))
 		}
 	}
 }

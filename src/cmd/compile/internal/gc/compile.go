@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package gc
@@ -15,7 +15,7 @@ import (
 	"cmd/compile/internal/ir"
 	"cmd/compile/internal/liveness"
 	"cmd/compile/internal/objw"
-	"cmd/compile/internal/pgoir"
+	"cmd/compile/internal/pgolangir"
 	"cmd/compile/internal/ssagen"
 	"cmd/compile/internal/staticinit"
 	"cmd/compile/internal/types"
@@ -57,7 +57,7 @@ func enqueueFunc(fn *ir.Func) {
 		if fn.ABI == obj.ABI0 {
 			// The current args_stackmap generation assumes the function
 			// is ABI0, and only ABI0 assembly function can have a FUNCDATA
-			// reference to args_stackmap (see cmd/internal/obj/plist.go:Flushplist).
+			// reference to args_stackmap (see cmd/internal/obj/plist.golang:Flushplist).
 			// So avoid introducing an args_stackmap if the func is not ABI0.
 			liveness.WriteFuncMap(fn, abiInfo)
 
@@ -121,7 +121,7 @@ func prepareFunc(fn *ir.Func) {
 // compileFunctions compiles all functions in compilequeue.
 // It fans out nBackendWorkers to do the work
 // and waits for them to complete.
-func compileFunctions(profile *pgoir.Profile) {
+func compileFunctions(profile *pgolangir.Profile) {
 	if race.Enabled {
 		// Randomize compilation order to try to shake out races.
 		tmp := make([]*ir.Func, len(compilequeue))
@@ -139,7 +139,7 @@ func compileFunctions(profile *pgoir.Profile) {
 		})
 	}
 
-	// By default, we perform work right away on the current goroutine
+	// By default, we perform work right away on the current golangroutine
 	// as the solo worker.
 	queue := func(work func(int)) {
 		work(0)
@@ -151,7 +151,7 @@ func compileFunctions(profile *pgoir.Profile) {
 		// can be running concurrently.
 		workq := make(chan func(int))
 		done := make(chan int)
-		go func() {
+		golang func() {
 			ids := make([]int, nWorkers)
 			for i := range ids {
 				ids[i] = i
@@ -169,7 +169,7 @@ func compileFunctions(profile *pgoir.Profile) {
 					id := ids[len(ids)-1]
 					pending = pending[:len(pending)-1]
 					ids = ids[:len(ids)-1]
-					go func() {
+					golang func() {
 						work(id)
 						done <- id
 					}()

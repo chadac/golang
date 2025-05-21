@@ -1,8 +1,8 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !purego
+//golang:build !puregolang
 
 package sha512
 
@@ -17,7 +17,7 @@ func init() {
 	impl.Register("sha512", "AVX2", &useAVX2)
 }
 
-//go:noescape
+//golang:noescape
 func blockAVX2(dig *Digest, p []byte)
 
 func block(dig *Digest, p []byte) {

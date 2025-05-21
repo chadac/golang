@@ -13,9 +13,9 @@ you're not working on the scheduler.
 Gs, Ms, Ps
 ----------
 
-A "G" is simply a goroutine. It's represented by type `g`. When a
-goroutine exits, its `g` object is returned to a pool of free `g`s and
-can later be reused for some other goroutine.
+A "G" is simply a golangroutine. It's represented by type `g`. When a
+golangroutine exits, its `g` object is returned to a pool of free `g`s and
+can later be reused for some other golangroutine.
 
 An "M" is an OS thread that can be executing user Go code, runtime
 code, a system call, or be idle. It's represented by type `m`. There
@@ -26,9 +26,9 @@ Finally, a "P" represents the resources required to execute user Go
 code, such as scheduler and memory allocator state. It's represented
 by type `p`. There are exactly `GOMAXPROCS` Ps. A P can be thought of
 like a CPU in the OS scheduler and the contents of the `p` type like
-per-CPU state. This is a good place to put state that needs to be
+per-CPU state. This is a golangod place to put state that needs to be
 sharded for efficiency, but doesn't need to be per-thread or
-per-goroutine.
+per-golangroutine.
 
 The scheduler's job is to match up a G (the code to execute), an M
 (where to execute it), and a P (the rights and resources to execute
@@ -64,13 +64,13 @@ Every M has a *system stack* associated with it (also known as the M's
 "g0" stack because it's implemented as a stub G) and, on Unix
 platforms, a *signal stack* (also known as the M's "gsignal" stack).
 System and signal stacks cannot grow, but are large enough to execute
-runtime and cgo code (8K in a pure Go binary; system-allocated in a
-cgo binary).
+runtime and cgolang code (8K in a pure Go binary; system-allocated in a
+cgolang binary).
 
 Runtime code often temporarily switches to the system stack using
-`systemstack`, `mcall`, or `asmcgocall` to perform tasks that must not
+`systemstack`, `mcall`, or `asmcgolangcall` to perform tasks that must not
 be preempted, that must not grow the user stack, or that switch user
-goroutines. Code running on the system stack is implicitly
+golangroutines. Code running on the system stack is implicitly
 non-preemptible and the garbage collector does not scan system stacks.
 While running on the system stack, the current user stack is not used
 for execution.
@@ -82,7 +82,7 @@ Most functions start with a prologue that inspects the stack pointer
 and the current G's stack bound and calls `morestack` if the stack
 needs to grow.
 
-Functions can be marked `//go:nosplit` (or `NOSPLIT` in assembly) to
+Functions can be marked `//golang:nosplit` (or `NOSPLIT` in assembly) to
 indicate that they should not get this prologue. This has several
 uses:
 
@@ -94,13 +94,13 @@ uses:
 
 - Functions that may run without a valid G. For example, functions
   that run in early runtime start-up, or that may be entered from C
-  code such as cgo callbacks or the signal handler.
+  code such as cgolang callbacks or the signal handler.
 
 Splittable functions ensure there's some amount of space on the stack
 for nosplit functions to run in and the linker checks that any static
 chain of nosplit function calls cannot exceed this bound.
 
-Any function with a `//go:nosplit` annotation should explain why it is
+Any function with a `//golang:nosplit` annotation should explain why it is
 nosplit in its documentation comment.
 
 Error handling and reporting
@@ -124,7 +124,7 @@ failure (such as racing map writes), use `fatal`.
 For runtime error debugging, it may be useful to run with `GOTRACEBACK=system`
 or `GOTRACEBACK=crash`. The output of `panic` and `fatal` is as described by
 `GOTRACEBACK`. The output of `throw` always includes runtime frames, metadata
-and all goroutines regardless of `GOTRACEBACK` (i.e., equivalent to
+and all golangroutines regardless of `GOTRACEBACK` (i.e., equivalent to
 `GOTRACEBACK=system`). Whether `throw` crashes or not is still controlled by
 `GOTRACEBACK`.
 
@@ -133,7 +133,7 @@ Synchronization
 
 The runtime has multiple synchronization mechanisms. They differ in
 semantics and, in particular, in whether they interact with the
-goroutine scheduler or the OS scheduler.
+golangroutine scheduler or the OS scheduler.
 
 The simplest is `mutex`, which is manipulated using `lock` and
 `unlock`. This should be used to protect shared structures for short
@@ -153,11 +153,11 @@ P, while `notetsleepg` acts like a blocking system call that allows
 the P to be reused to run another G. This is still less efficient than
 blocking the G directly since it consumes an M.
 
-To interact directly with the goroutine scheduler, use `gopark` and
-`goready`. `gopark` parks the current goroutine—putting it in the
+To interact directly with the golangroutine scheduler, use `golangpark` and
+`golangready`. `golangpark` parks the current golangroutine—putting it in the
 "waiting" state and removing it from the scheduler's run queue—and
-schedules another goroutine on the current M/P. `goready` puts a
-parked goroutine back in the "runnable" state and adds it to the run
+schedules another golangroutine on the current M/P. `golangready` puts a
+parked golangroutine back in the "runnable" state and adds it to the run
 queue.
 
 In summary,
@@ -269,62 +269,62 @@ or `memclrHasPointers`. This performs write barriers.
 Runtime-only compiler directives
 ================================
 
-In addition to the "//go:" directives documented in "go doc compile",
+In addition to the "//golang:" directives documented in "golang doc compile",
 the compiler supports additional directives only in the runtime.
 
-go:systemstack
+golang:systemstack
 --------------
 
-`go:systemstack` indicates that a function must run on the system
+`golang:systemstack` indicates that a function must run on the system
 stack. This is checked dynamically by a special function prologue.
 
-go:nowritebarrier
+golang:nowritebarrier
 -----------------
 
-`go:nowritebarrier` directs the compiler to emit an error if the
+`golang:nowritebarrier` directs the compiler to emit an error if the
 following function contains any write barriers. (It *does not*
 suppress the generation of write barriers; it is simply an assertion.)
 
-Usually you want `go:nowritebarrierrec`. `go:nowritebarrier` is
+Usually you want `golang:nowritebarrierrec`. `golang:nowritebarrier` is
 primarily useful in situations where it's "nice" not to have write
 barriers, but not required for correctness.
 
-go:nowritebarrierrec and go:yeswritebarrierrec
+golang:nowritebarrierrec and golang:yeswritebarrierrec
 ----------------------------------------------
 
-`go:nowritebarrierrec` directs the compiler to emit an error if the
+`golang:nowritebarrierrec` directs the compiler to emit an error if the
 following function or any function it calls recursively, up to a
-`go:yeswritebarrierrec`, contains a write barrier.
+`golang:yeswritebarrierrec`, contains a write barrier.
 
 Logically, the compiler floods the call graph starting from each
-`go:nowritebarrierrec` function and produces an error if it encounters
+`golang:nowritebarrierrec` function and produces an error if it encounters
 a function containing a write barrier. This flood stops at
-`go:yeswritebarrierrec` functions.
+`golang:yeswritebarrierrec` functions.
 
-`go:nowritebarrierrec` is used in the implementation of the write
+`golang:nowritebarrierrec` is used in the implementation of the write
 barrier to prevent infinite loops.
 
 Both directives are used in the scheduler. The write barrier requires
 an active P (`getg().m.p != nil`) and scheduler code often runs
-without an active P. In this case, `go:nowritebarrierrec` is used on
+without an active P. In this case, `golang:nowritebarrierrec` is used on
 functions that release the P or may run without a P and
-`go:yeswritebarrierrec` is used when code re-acquires an active P.
+`golang:yeswritebarrierrec` is used when code re-acquires an active P.
 Since these are function-level annotations, code that releases or
 acquires a P may need to be split across two functions.
 
-go:uintptrkeepalive
+golang:uintptrkeepalive
 -------------------
 
-The //go:uintptrkeepalive directive must be followed by a function declaration.
+The //golang:uintptrkeepalive directive must be followed by a function declaration.
 
 It specifies that the function's uintptr arguments may be pointer values that
 have been converted to uintptr and must be kept alive for the duration of the
 call, even though from the types alone it would appear that the object is no
 longer needed during the call.
 
-This directive is similar to //go:uintptrescapes, but it does not force
+This directive is similar to //golang:uintptrescapes, but it does not force
 arguments to escape. Since stack growth does not understand these arguments,
-this directive must be used with //go:nosplit (in the marked function and all
+this directive must be used with //golang:nosplit (in the marked function and all
 transitive calls) to prevent stack growth.
 
 The conversion from pointer to uintptr must appear in the argument list of any
@@ -334,16 +334,16 @@ implementations.
 Execution tracer
 ================
 
-The execution tracer is a way for users to see what their goroutines are doing,
+The execution tracer is a way for users to see what their golangroutines are doing,
 but they're also useful for runtime hacking.
 
 Using execution traces to debug runtime problems
 ------------------------------------------------
 
 Execution traces contain a wealth of information about what the runtime is
-doing. They contain all goroutine scheduling actions, data about time spent in
+doing. They contain all golangroutine scheduling actions, data about time spent in
 the scheduler (P running without a G), data about time spent in the garbage
-collector, and more. Use `go tool trace` or [gotraceui](https://gotraceui.dev)
+collector, and more. Use `golang tool trace` or [golangtraceui](https://golangtraceui.dev)
 to inspect traces.
 
 Traces are especially useful for debugging latency issues, and especially if you

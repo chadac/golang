@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Lowering arithmetic
@@ -174,7 +174,7 @@
 
 // Floating-point min is tricky, as the hardware op isn't right for various special
 // cases (-0 and NaN). We use two hardware ops organized just right to make the
-// result come out how we want it. See https://github.com/golang/go/issues/59488#issuecomment-1553493207
+// result come out how we want it. See https://github.com/golanglang/golang/issues/59488#issuecomment-1553493207
 // (although that comment isn't exactly right, as the value overwritten is not simulated correctly).
 //    t1 = MINSD x, y   => incorrect if x==NaN or x==-0,y==+0
 //    t2 = MINSD t1, x  => fixes x==NaN case
@@ -964,7 +964,7 @@
 // multiple memory values alive simultaneously.
 // Make sure we don't combine these ops if the load has another use.
 // This prevents a single load from being split into multiple loads
-// which then might return different values.  See test/atomicload.go.
+// which then might return different values.  See test/atomicload.golang.
 (MOVBQSX x:(MOVBload [off] {sym} ptr mem)) && x.Uses == 1 && clobber(x) => @x.Block (MOVBQSXload <v.Type> [off] {sym} ptr mem)
 (MOVBQSX x:(MOVWload [off] {sym} ptr mem)) && x.Uses == 1 && clobber(x) => @x.Block (MOVBQSXload <v.Type> [off] {sym} ptr mem)
 (MOVBQSX x:(MOVLload [off] {sym} ptr mem)) && x.Uses == 1 && clobber(x) => @x.Block (MOVBQSXload <v.Type> [off] {sym} ptr mem)
@@ -1010,7 +1010,7 @@
 (MOVBstore [off] {sym} ptr (MOVBQZX x) mem) => (MOVBstore [off] {sym} ptr x mem)
 
 // fold constants into memory operations
-// Note that this is not always a good idea because if not all the uses of
+// Note that this is not always a golangod idea because if not all the uses of
 // the ADDQconst get eliminated, we still have to compute the ADDQconst and we now
 // have potentially two live values (ptr and (ADDQconst [off] ptr)) instead of one.
 // Nevertheless, let's do it!
@@ -1323,7 +1323,7 @@
 (ORLconst [c] _)  && c==-1 => (MOVLconst [-1])
 (XORQconst [0] x)          => x
 (XORLconst [c] x) && c==0  => x
-// TODO: since we got rid of the W/B versions, we might miss
+// TODO: since we golangt rid of the W/B versions, we might miss
 // things like (ANDLconst [0x100] x) which were formerly
 // (ANDBconst [0] x).  Probably doesn't happen very often.
 // If we cared, we might do:
@@ -1562,7 +1562,7 @@
 // See issue 22947 for details
 (ADD(Q|L)const [off] x:(SP)) => (LEA(Q|L) [off] x)
 
-// HMULx is commutative, but its first argument must go in AX.
+// HMULx is commutative, but its first argument must golang in AX.
 // If possible, put a rematerializeable value in the first argument slot,
 // to reduce the odds that another value will be have to spilled
 // specifically to free up AX.

@@ -1,8 +1,8 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// AMD64-specific hardware-assisted CRC32 algorithms. See crc32.go for a
+// AMD64-specific hardware-assisted CRC32 algolangrithms. See crc32.golang for a
 // description of the interface that each architecture-specific file
 // implements.
 
@@ -19,13 +19,13 @@ import (
 // castagnoliSSE42 is defined in crc32_amd64.s and uses the SSE 4.2 CRC32
 // instruction.
 //
-//go:noescape
+//golang:noescape
 func castagnoliSSE42(crc uint32, p []byte) uint32
 
 // castagnoliSSE42Triple is defined in crc32_amd64.s and uses the SSE 4.2 CRC32
 // instruction.
 //
-//go:noescape
+//golang:noescape
 func castagnoliSSE42Triple(
 	crcA, crcB, crcC uint32,
 	a, b, c []byte,
@@ -35,7 +35,7 @@ func castagnoliSSE42Triple(
 // ieeeCLMUL is defined in crc_amd64.s and uses the PCLMULQDQ
 // instruction as well as SSE 4.1.
 //
-//go:noescape
+//golang:noescape
 func ieeeCLMUL(crc uint32, p []byte) uint32
 
 const castagnoliK1 = 168
@@ -87,7 +87,7 @@ func archUpdateCastagnoli(crc uint32, p []byte) uint32 {
 		panic("not available")
 	}
 
-	// This method is inspired from the algorithm in Intel's white paper:
+	// This method is inspired from the algolangrithm in Intel's white paper:
 	//    "Fast CRC Computation for iSCSI Polynomial Using CRC32 Instruction"
 	// The same strategy of splitting the buffer in three is used but the
 	// combining calculation is different; the complete derivation is explained

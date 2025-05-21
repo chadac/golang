@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package unix
@@ -10,7 +10,7 @@ import (
 	"unsafe"
 )
 
-//go:cgo_import_dynamic libc_getgrouplist getgrouplist "/usr/lib/libSystem.B.dylib"
+//golang:cgolang_import_dynamic libc_getgrouplist getgrouplist "/usr/lib/libSystem.B.dylib"
 func libc_getgrouplist_trampoline()
 
 func Getgrouplist(name *byte, gid uint32, gids *uint32, n *int32) error {
@@ -48,7 +48,7 @@ type Group struct {
 	Mem    **byte
 }
 
-//go:cgo_import_dynamic libc_getpwnam_r getpwnam_r  "/usr/lib/libSystem.B.dylib"
+//golang:cgolang_import_dynamic libc_getpwnam_r getpwnam_r  "/usr/lib/libSystem.B.dylib"
 func libc_getpwnam_r_trampoline()
 
 func Getpwnam(name *byte, pwd *Passwd, buf *byte, size uintptr, result **Passwd) syscall.Errno {
@@ -63,7 +63,7 @@ func Getpwnam(name *byte, pwd *Passwd, buf *byte, size uintptr, result **Passwd)
 	return syscall.Errno(errno)
 }
 
-//go:cgo_import_dynamic libc_getpwuid_r getpwuid_r  "/usr/lib/libSystem.B.dylib"
+//golang:cgolang_import_dynamic libc_getpwuid_r getpwuid_r  "/usr/lib/libSystem.B.dylib"
 func libc_getpwuid_r_trampoline()
 
 func Getpwuid(uid uint32, pwd *Passwd, buf *byte, size uintptr, result **Passwd) syscall.Errno {
@@ -78,7 +78,7 @@ func Getpwuid(uid uint32, pwd *Passwd, buf *byte, size uintptr, result **Passwd)
 	return syscall.Errno(errno)
 }
 
-//go:cgo_import_dynamic libc_getgrnam_r getgrnam_r  "/usr/lib/libSystem.B.dylib"
+//golang:cgolang_import_dynamic libc_getgrnam_r getgrnam_r  "/usr/lib/libSystem.B.dylib"
 func libc_getgrnam_r_trampoline()
 
 func Getgrnam(name *byte, grp *Group, buf *byte, size uintptr, result **Group) syscall.Errno {
@@ -93,7 +93,7 @@ func Getgrnam(name *byte, grp *Group, buf *byte, size uintptr, result **Group) s
 	return syscall.Errno(errno)
 }
 
-//go:cgo_import_dynamic libc_getgrgid_r getgrgid_r  "/usr/lib/libSystem.B.dylib"
+//golang:cgolang_import_dynamic libc_getgrgid_r getgrgid_r  "/usr/lib/libSystem.B.dylib"
 func libc_getgrgid_r_trampoline()
 
 func Getgrgid(gid uint32, grp *Group, buf *byte, size uintptr, result **Group) syscall.Errno {
@@ -108,7 +108,7 @@ func Getgrgid(gid uint32, grp *Group, buf *byte, size uintptr, result **Group) s
 	return syscall.Errno(errno)
 }
 
-//go:cgo_import_dynamic libc_sysconf sysconf "/usr/lib/libSystem.B.dylib"
+//golang:cgolang_import_dynamic libc_sysconf sysconf "/usr/lib/libSystem.B.dylib"
 func libc_sysconf_trampoline()
 
 func Sysconf(key int32) int64 {

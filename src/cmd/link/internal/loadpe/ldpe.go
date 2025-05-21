@@ -1,5 +1,5 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package loadpe implements a PE/COFF file reader.
@@ -272,7 +272,7 @@ func Load(l *loader.Loader, arch *sys.Arch, localSymVersion int, input *bio.Read
 		}
 
 		name := fmt.Sprintf("%s(%s)", pkg, sect.Name)
-		s := state.l.LookupOrCreateCgoExport(name, localSymVersion)
+		s := state.l.LookupOrCreateCgolangExport(name, localSymVersion)
 		bld := l.MakeSymbolUpdater(s)
 
 		switch sect.Characteristics & (pe.IMAGE_SCN_CNT_UNINITIALIZED_DATA | pe.IMAGE_SCN_CNT_INITIALIZED_DATA | pe.IMAGE_SCN_MEM_READ | pe.IMAGE_SCN_MEM_WRITE | pe.IMAGE_SCN_CNT_CODE | pe.IMAGE_SCN_MEM_EXECUTE) {
@@ -348,11 +348,11 @@ func Load(l *loader.Loader, arch *sys.Arch, localSymVersion int, input *bio.Read
 				return nil, fmt.Errorf("relocation number %d symbol index idx=%d cannot be large then number of symbols %d", j, r.SymbolTableIndex, len(f.COFFSymbols))
 			}
 			pesym := &f.COFFSymbols[r.SymbolTableIndex]
-			_, gosym, err := state.readpesym(pesym)
+			_, golangsym, err := state.readpesym(pesym)
 			if err != nil {
 				return nil, err
 			}
-			if gosym == 0 {
+			if golangsym == 0 {
 				name, err := pesym.FullName(f.StringTable)
 				if err != nil {
 					name = string(pesym.Name[:])
@@ -360,7 +360,7 @@ func Load(l *loader.Loader, arch *sys.Arch, localSymVersion int, input *bio.Read
 				return nil, fmt.Errorf("reloc of invalid sym %s idx=%d type=%d", name, r.SymbolTableIndex, pesym.Type)
 			}
 
-			rSym := gosym
+			rSym := golangsym
 			rSize := uint8(4)
 			rOff := int32(r.VirtualAddress)
 			var rAdd int64
@@ -725,10 +725,10 @@ func (state *peLoaderState) readpesym(pesym *pe.COFFSymbol) (*loader.SymbolBuild
 	case IMAGE_SYM_DTYPE_FUNCTION, IMAGE_SYM_DTYPE_NULL:
 		switch pesym.StorageClass {
 		case IMAGE_SYM_CLASS_EXTERNAL: //global
-			s = state.l.LookupOrCreateCgoExport(name, 0)
+			s = state.l.LookupOrCreateCgolangExport(name, 0)
 
 		case IMAGE_SYM_CLASS_NULL, IMAGE_SYM_CLASS_STATIC, IMAGE_SYM_CLASS_LABEL:
-			s = state.l.LookupOrCreateCgoExport(name, state.localSymVersion)
+			s = state.l.LookupOrCreateCgolangExport(name, state.localSymVersion)
 			bld = makeUpdater(state.l, bld, s)
 			bld.SetDuplicateOK(true)
 

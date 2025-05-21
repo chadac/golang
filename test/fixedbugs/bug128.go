@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -17,7 +17,7 @@ func main() {
 }
 
 /*
-uetli:~/Source/go1/test/bugs gri$ 6g bug127.go 
-bug127.go:5: switch statement must have case labels
-bug127.go:9: switch statement must have case labels
+uetli:~/Source/golang1/test/bugs gri$ 6g bug127.golang 
+bug127.golang:5: switch statement must have case labels
+bug127.golang:9: switch statement must have case labels
 */

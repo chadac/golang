@@ -1,9 +1,9 @@
 // run
 
-//go:build !wasm
+//golang:build !wasm
 
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // wasm is excluded because the compiler chatter about register abi pragma ends up
@@ -17,8 +17,8 @@ type i4 struct {
 	a, b, c, d int
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func F(x i4) i4 {
 	ab := x.a + x.b
 	bc := x.b + x.c

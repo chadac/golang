@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package slices_test
@@ -64,13 +64,13 @@ var equalFloatTests = []struct {
 
 func TestEqual(t *testing.T) {
 	for _, test := range equalIntTests {
-		if got := Equal(test.s1, test.s2); got != test.want {
-			t.Errorf("Equal(%v, %v) = %t, want %t", test.s1, test.s2, got, test.want)
+		if golangt := Equal(test.s1, test.s2); golangt != test.want {
+			t.Errorf("Equal(%v, %v) = %t, want %t", test.s1, test.s2, golangt, test.want)
 		}
 	}
 	for _, test := range equalFloatTests {
-		if got := Equal(test.s1, test.s2); got != test.wantEqual {
-			t.Errorf("Equal(%v, %v) = %t, want %t", test.s1, test.s2, got, test.wantEqual)
+		if golangt := Equal(test.s1, test.s2); golangt != test.wantEqual {
+			t.Errorf("Equal(%v, %v) = %t, want %t", test.s1, test.s2, golangt, test.wantEqual)
 		}
 	}
 }
@@ -93,16 +93,16 @@ func offByOne(v1, v2 int) bool {
 
 func TestEqualFunc(t *testing.T) {
 	for _, test := range equalIntTests {
-		if got := EqualFunc(test.s1, test.s2, equal[int]); got != test.want {
-			t.Errorf("EqualFunc(%v, %v, equal[int]) = %t, want %t", test.s1, test.s2, got, test.want)
+		if golangt := EqualFunc(test.s1, test.s2, equal[int]); golangt != test.want {
+			t.Errorf("EqualFunc(%v, %v, equal[int]) = %t, want %t", test.s1, test.s2, golangt, test.want)
 		}
 	}
 	for _, test := range equalFloatTests {
-		if got := EqualFunc(test.s1, test.s2, equal[float64]); got != test.wantEqual {
-			t.Errorf("Equal(%v, %v, equal[float64]) = %t, want %t", test.s1, test.s2, got, test.wantEqual)
+		if golangt := EqualFunc(test.s1, test.s2, equal[float64]); golangt != test.wantEqual {
+			t.Errorf("Equal(%v, %v, equal[float64]) = %t, want %t", test.s1, test.s2, golangt, test.wantEqual)
 		}
-		if got := EqualFunc(test.s1, test.s2, equalNaN[float64]); got != test.wantEqualNaN {
-			t.Errorf("Equal(%v, %v, equalNaN[float64]) = %t, want %t", test.s1, test.s2, got, test.wantEqualNaN)
+		if golangt := EqualFunc(test.s1, test.s2, equalNaN[float64]); golangt != test.wantEqualNaN {
+			t.Errorf("Equal(%v, %v, equalNaN[float64]) = %t, want %t", test.s1, test.s2, golangt, test.wantEqualNaN)
 		}
 	}
 
@@ -259,24 +259,24 @@ func TestCompare(t *testing.T) {
 		return "!= 0"
 	}
 	for _, test := range equalIntTests {
-		if got := Compare(test.s1, test.s2); (got == 0) != test.want {
-			t.Errorf("Compare(%v, %v) = %d, want %s", test.s1, test.s2, got, intWant(test.want))
+		if golangt := Compare(test.s1, test.s2); (golangt == 0) != test.want {
+			t.Errorf("Compare(%v, %v) = %d, want %s", test.s1, test.s2, golangt, intWant(test.want))
 		}
 	}
 	for _, test := range equalFloatTests {
-		if got := Compare(test.s1, test.s2); (got == 0) != test.wantEqualNaN {
-			t.Errorf("Compare(%v, %v) = %d, want %s", test.s1, test.s2, got, intWant(test.wantEqualNaN))
+		if golangt := Compare(test.s1, test.s2); (golangt == 0) != test.wantEqualNaN {
+			t.Errorf("Compare(%v, %v) = %d, want %s", test.s1, test.s2, golangt, intWant(test.wantEqualNaN))
 		}
 	}
 
 	for _, test := range compareIntTests {
-		if got := Compare(test.s1, test.s2); got != test.want {
-			t.Errorf("Compare(%v, %v) = %d, want %d", test.s1, test.s2, got, test.want)
+		if golangt := Compare(test.s1, test.s2); golangt != test.want {
+			t.Errorf("Compare(%v, %v) = %d, want %d", test.s1, test.s2, golangt, test.want)
 		}
 	}
 	for _, test := range compareFloatTests {
-		if got := Compare(test.s1, test.s2); got != test.want {
-			t.Errorf("Compare(%v, %v) = %d, want %d", test.s1, test.s2, got, test.want)
+		if golangt := Compare(test.s1, test.s2); golangt != test.want {
+			t.Errorf("Compare(%v, %v) = %d, want %d", test.s1, test.s2, golangt, test.want)
 		}
 	}
 }
@@ -298,51 +298,51 @@ func TestCompareFunc(t *testing.T) {
 		return "!= 0"
 	}
 	for _, test := range equalIntTests {
-		if got := CompareFunc(test.s1, test.s2, equalToCmp(equal[int])); (got == 0) != test.want {
-			t.Errorf("CompareFunc(%v, %v, equalToCmp(equal[int])) = %d, want %s", test.s1, test.s2, got, intWant(test.want))
+		if golangt := CompareFunc(test.s1, test.s2, equalToCmp(equal[int])); (golangt == 0) != test.want {
+			t.Errorf("CompareFunc(%v, %v, equalToCmp(equal[int])) = %d, want %s", test.s1, test.s2, golangt, intWant(test.want))
 		}
 	}
 	for _, test := range equalFloatTests {
-		if got := CompareFunc(test.s1, test.s2, equalToCmp(equal[float64])); (got == 0) != test.wantEqual {
-			t.Errorf("CompareFunc(%v, %v, equalToCmp(equal[float64])) = %d, want %s", test.s1, test.s2, got, intWant(test.wantEqual))
+		if golangt := CompareFunc(test.s1, test.s2, equalToCmp(equal[float64])); (golangt == 0) != test.wantEqual {
+			t.Errorf("CompareFunc(%v, %v, equalToCmp(equal[float64])) = %d, want %s", test.s1, test.s2, golangt, intWant(test.wantEqual))
 		}
 	}
 
 	for _, test := range compareIntTests {
-		if got := CompareFunc(test.s1, test.s2, cmp.Compare[int]); got != test.want {
-			t.Errorf("CompareFunc(%v, %v, cmp[int]) = %d, want %d", test.s1, test.s2, got, test.want)
+		if golangt := CompareFunc(test.s1, test.s2, cmp.Compare[int]); golangt != test.want {
+			t.Errorf("CompareFunc(%v, %v, cmp[int]) = %d, want %d", test.s1, test.s2, golangt, test.want)
 		}
 	}
 	for _, test := range compareFloatTests {
-		if got := CompareFunc(test.s1, test.s2, cmp.Compare[float64]); got != test.want {
-			t.Errorf("CompareFunc(%v, %v, cmp[float64]) = %d, want %d", test.s1, test.s2, got, test.want)
+		if golangt := CompareFunc(test.s1, test.s2, cmp.Compare[float64]); golangt != test.want {
+			t.Errorf("CompareFunc(%v, %v, cmp[float64]) = %d, want %d", test.s1, test.s2, golangt, test.want)
 		}
 	}
 
 	s1 := []int{1, 2, 3}
 	s2 := []int{2, 3, 4}
-	if got := CompareFunc(s1, s2, equalToCmp(offByOne)); got != 0 {
-		t.Errorf("CompareFunc(%v, %v, offByOne) = %d, want 0", s1, s2, got)
+	if golangt := CompareFunc(s1, s2, equalToCmp(offByOne)); golangt != 0 {
+		t.Errorf("CompareFunc(%v, %v, offByOne) = %d, want 0", s1, s2, golangt)
 	}
 
 	s3 := []string{"a", "b", "c"}
 	s4 := []string{"A", "B", "C"}
-	if got := CompareFunc(s3, s4, strings.Compare); got != 1 {
-		t.Errorf("CompareFunc(%v, %v, strings.Compare) = %d, want 1", s3, s4, got)
+	if golangt := CompareFunc(s3, s4, strings.Compare); golangt != 1 {
+		t.Errorf("CompareFunc(%v, %v, strings.Compare) = %d, want 1", s3, s4, golangt)
 	}
 
 	compareLower := func(v1, v2 string) int {
 		return strings.Compare(strings.ToLower(v1), strings.ToLower(v2))
 	}
-	if got := CompareFunc(s3, s4, compareLower); got != 0 {
-		t.Errorf("CompareFunc(%v, %v, compareLower) = %d, want 0", s3, s4, got)
+	if golangt := CompareFunc(s3, s4, compareLower); golangt != 0 {
+		t.Errorf("CompareFunc(%v, %v, compareLower) = %d, want 0", s3, s4, golangt)
 	}
 
 	cmpIntString := func(v1 int, v2 string) int {
 		return strings.Compare(string(rune(v1)-1+'a'), v2)
 	}
-	if got := CompareFunc(s1, s3, cmpIntString); got != 0 {
-		t.Errorf("CompareFunc(%v, %v, cmpIntString) = %d, want 0", s1, s3, got)
+	if golangt := CompareFunc(s1, s3, cmpIntString); golangt != 0 {
+		t.Errorf("CompareFunc(%v, %v, cmpIntString) = %d, want 0", s1, s3, golangt)
 	}
 }
 
@@ -380,8 +380,8 @@ var indexTests = []struct {
 
 func TestIndex(t *testing.T) {
 	for _, test := range indexTests {
-		if got := Index(test.s, test.v); got != test.want {
-			t.Errorf("Index(%v, %v) = %d, want %d", test.s, test.v, got, test.want)
+		if golangt := Index(test.s, test.v); golangt != test.want {
+			t.Errorf("Index(%v, %v) = %d, want %d", test.s, test.v, golangt, test.want)
 		}
 	}
 }
@@ -403,17 +403,17 @@ func BenchmarkIndex_Large(b *testing.B) {
 
 func TestIndexFunc(t *testing.T) {
 	for _, test := range indexTests {
-		if got := IndexFunc(test.s, equalToIndex(equal[int], test.v)); got != test.want {
-			t.Errorf("IndexFunc(%v, equalToIndex(equal[int], %v)) = %d, want %d", test.s, test.v, got, test.want)
+		if golangt := IndexFunc(test.s, equalToIndex(equal[int], test.v)); golangt != test.want {
+			t.Errorf("IndexFunc(%v, equalToIndex(equal[int], %v)) = %d, want %d", test.s, test.v, golangt, test.want)
 		}
 	}
 
 	s1 := []string{"hi", "HI"}
-	if got := IndexFunc(s1, equalToIndex(equal[string], "HI")); got != 1 {
-		t.Errorf("IndexFunc(%v, equalToIndex(equal[string], %q)) = %d, want %d", s1, "HI", got, 1)
+	if golangt := IndexFunc(s1, equalToIndex(equal[string], "HI")); golangt != 1 {
+		t.Errorf("IndexFunc(%v, equalToIndex(equal[string], %q)) = %d, want %d", s1, "HI", golangt, 1)
 	}
-	if got := IndexFunc(s1, equalToIndex(strings.EqualFold, "HI")); got != 0 {
-		t.Errorf("IndexFunc(%v, equalToIndex(strings.EqualFold, %q)) = %d, want %d", s1, "HI", got, 0)
+	if golangt := IndexFunc(s1, equalToIndex(strings.EqualFold, "HI")); golangt != 0 {
+		t.Errorf("IndexFunc(%v, equalToIndex(strings.EqualFold, %q)) = %d, want %d", s1, "HI", golangt, 0)
 	}
 }
 
@@ -430,28 +430,28 @@ func BenchmarkIndexFunc_Large(b *testing.B) {
 
 func TestContains(t *testing.T) {
 	for _, test := range indexTests {
-		if got := Contains(test.s, test.v); got != (test.want != -1) {
-			t.Errorf("Contains(%v, %v) = %t, want %t", test.s, test.v, got, test.want != -1)
+		if golangt := Contains(test.s, test.v); golangt != (test.want != -1) {
+			t.Errorf("Contains(%v, %v) = %t, want %t", test.s, test.v, golangt, test.want != -1)
 		}
 	}
 }
 
 func TestContainsFunc(t *testing.T) {
 	for _, test := range indexTests {
-		if got := ContainsFunc(test.s, equalToIndex(equal[int], test.v)); got != (test.want != -1) {
-			t.Errorf("ContainsFunc(%v, equalToIndex(equal[int], %v)) = %t, want %t", test.s, test.v, got, test.want != -1)
+		if golangt := ContainsFunc(test.s, equalToIndex(equal[int], test.v)); golangt != (test.want != -1) {
+			t.Errorf("ContainsFunc(%v, equalToIndex(equal[int], %v)) = %t, want %t", test.s, test.v, golangt, test.want != -1)
 		}
 	}
 
 	s1 := []string{"hi", "HI"}
-	if got := ContainsFunc(s1, equalToIndex(equal[string], "HI")); got != true {
-		t.Errorf("ContainsFunc(%v, equalToContains(equal[string], %q)) = %t, want %t", s1, "HI", got, true)
+	if golangt := ContainsFunc(s1, equalToIndex(equal[string], "HI")); golangt != true {
+		t.Errorf("ContainsFunc(%v, equalToContains(equal[string], %q)) = %t, want %t", s1, "HI", golangt, true)
 	}
-	if got := ContainsFunc(s1, equalToIndex(equal[string], "hI")); got != false {
-		t.Errorf("ContainsFunc(%v, equalToContains(strings.EqualFold, %q)) = %t, want %t", s1, "hI", got, false)
+	if golangt := ContainsFunc(s1, equalToIndex(equal[string], "hI")); golangt != false {
+		t.Errorf("ContainsFunc(%v, equalToContains(strings.EqualFold, %q)) = %t, want %t", s1, "hI", golangt, false)
 	}
-	if got := ContainsFunc(s1, equalToIndex(strings.EqualFold, "hI")); got != true {
-		t.Errorf("ContainsFunc(%v, equalToContains(strings.EqualFold, %q)) = %t, want %t", s1, "hI", got, true)
+	if golangt := ContainsFunc(s1, equalToIndex(strings.EqualFold, "hI")); golangt != true {
+		t.Errorf("ContainsFunc(%v, equalToContains(strings.EqualFold, %q)) = %t, want %t", s1, "hI", golangt, true)
 	}
 }
 
@@ -489,13 +489,13 @@ var insertTests = []struct {
 
 func TestInsert(t *testing.T) {
 	s := []int{1, 2, 3}
-	if got := Insert(s, 0); !Equal(got, s) {
-		t.Errorf("Insert(%v, 0) = %v, want %v", s, got, s)
+	if golangt := Insert(s, 0); !Equal(golangt, s) {
+		t.Errorf("Insert(%v, 0) = %v, want %v", s, golangt, s)
 	}
 	for _, test := range insertTests {
 		copy := Clone(test.s)
-		if got := Insert(copy, test.i, test.add...); !Equal(got, test.want) {
-			t.Errorf("Insert(%v, %d, %v...) = %v, want %v", test.s, test.i, test.add, got, test.want)
+		if golangt := Insert(copy, test.i, test.add...); !Equal(golangt, test.want) {
+			t.Errorf("Insert(%v, %d, %v...) = %v, want %v", test.s, test.i, test.add, golangt, test.want)
 		}
 	}
 
@@ -509,7 +509,7 @@ func TestInsert(t *testing.T) {
 			}
 		})
 		if n > count/2 {
-			t.Errorf("too many allocations inserting %d elements: got %v, want less than %d", count, n, count/2)
+			t.Errorf("too many allocations inserting %d elements: golangt %v, want less than %d", count, n, count/2)
 		}
 	}
 }
@@ -529,9 +529,9 @@ func TestInsertOverlap(t *testing.T) {
 					want = append(want, a[:i]...)
 					want = append(want, a[x:y]...)
 					want = append(want, a[i:n]...)
-					got := Insert(a[:n], i, a[x:y]...)
-					if !Equal(got, want) {
-						t.Errorf("Insert with overlap failed n=%d i=%d x=%d y=%d, got %v want %v", n, i, x, y, got, want)
+					golangt := Insert(a[:n], i, a[x:y]...)
+					if !Equal(golangt, want) {
+						t.Errorf("Insert with overlap failed n=%d i=%d x=%d y=%d, golangt %v want %v", n, i, x, y, golangt, want)
 					}
 				}
 			}
@@ -561,7 +561,7 @@ func TestInsertPanics(t *testing.T) {
 		{"with out-of-bounds index and < cap", a[:1:3], 2, b[:]},
 	} {
 		if !panics(func() { _ = Insert(test.s, test.i, test.v...) }) {
-			t.Errorf("Insert %s: got no panic, want panic", test.name)
+			t.Errorf("Insert %s: golangt no panic, want panic", test.name)
 		}
 	}
 }
@@ -606,8 +606,8 @@ var deleteTests = []struct {
 func TestDelete(t *testing.T) {
 	for _, test := range deleteTests {
 		copy := Clone(test.s)
-		if got := Delete(copy, test.i, test.j); !Equal(got, test.want) {
-			t.Errorf("Delete(%v, %d, %d) = %v, want %v", test.s, test.i, test.j, got, test.want)
+		if golangt := Delete(copy, test.i, test.j); !Equal(golangt, test.want) {
+			t.Errorf("Delete(%v, %d, %d) = %v, want %v", test.s, test.i, test.j, golangt, test.want)
 		}
 	}
 }
@@ -652,8 +652,8 @@ var deleteFuncTests = []struct {
 func TestDeleteFunc(t *testing.T) {
 	for i, test := range deleteFuncTests {
 		copy := Clone(test.s)
-		if got := DeleteFunc(copy, test.fn); !Equal(got, test.want) {
-			t.Errorf("DeleteFunc case %d: got %v, want %v", i, got, test.want)
+		if golangt := DeleteFunc(copy, test.fn); !Equal(golangt, test.want) {
+			t.Errorf("DeleteFunc case %d: golangt %v, want %v", i, golangt, test.want)
 		}
 	}
 }
@@ -688,7 +688,7 @@ func TestDeletePanics(t *testing.T) {
 		{"s[i:j] is valid and i == j > len(s)", s, 3, 3},
 	} {
 		if !panics(func() { _ = Delete(test.s, test.i, test.j) }) {
-			t.Errorf("Delete %s: got no panic, want panic", test.name)
+			t.Errorf("Delete %s: golangt no panic, want panic", test.name)
 		}
 	}
 }
@@ -701,10 +701,10 @@ func TestDeleteClearTail(t *testing.T) {
 
 	if mem[3] != nil || mem[4] != nil {
 		// Check that potential memory leak is avoided
-		t.Errorf("Delete: want nil discarded elements, got %v, %v", mem[3], mem[4])
+		t.Errorf("Delete: want nil discarded elements, golangt %v, %v", mem[3], mem[4])
 	}
 	if mem[5] == nil {
-		t.Errorf("Delete: want unchanged elements beyond original len, got nil")
+		t.Errorf("Delete: want unchanged elements beyond original len, golangt nil")
 	}
 }
 
@@ -719,10 +719,10 @@ func TestDeleteFuncClearTail(t *testing.T) {
 
 	if mem[3] != nil || mem[4] != nil {
 		// Check that potential memory leak is avoided
-		t.Errorf("DeleteFunc: want nil discarded elements, got %v, %v", mem[3], mem[4])
+		t.Errorf("DeleteFunc: want nil discarded elements, golangt %v, %v", mem[3], mem[4])
 	}
 	if mem[5] == nil {
-		t.Errorf("DeleteFunc: want unchanged elements beyond original len, got nil")
+		t.Errorf("DeleteFunc: want unchanged elements beyond original len, golangt nil")
 	}
 }
 
@@ -737,11 +737,11 @@ func TestClone(t *testing.T) {
 	if !Equal(s2, want) {
 		t.Errorf("Clone(%v) changed unexpectedly to %v", want, s2)
 	}
-	if got := Clone([]int(nil)); got != nil {
-		t.Errorf("Clone(nil) = %#v, want nil", got)
+	if golangt := Clone([]int(nil)); golangt != nil {
+		t.Errorf("Clone(nil) = %#v, want nil", golangt)
 	}
-	if got := Clone(s1[:0]); got == nil || len(got) != 0 {
-		t.Errorf("Clone(%v) = %#v, want %#v", s1[:0], got, s1[:0])
+	if golangt := Clone(s1[:0]); golangt == nil || len(golangt) != 0 {
+		t.Errorf("Clone(%v) = %#v, want %#v", s1[:0], golangt, s1[:0])
 	}
 }
 
@@ -785,8 +785,8 @@ var compactTests = []struct {
 func TestCompact(t *testing.T) {
 	for _, test := range compactTests {
 		copy := Clone(test.s)
-		if got := Compact(copy); !Equal(got, test.want) {
-			t.Errorf("Compact(%v) = %v, want %v", test.s, got, test.want)
+		if golangt := Compact(copy); !Equal(golangt, test.want) {
+			t.Errorf("Compact(%v) = %v, want %v", test.s, golangt, test.want)
 		}
 	}
 }
@@ -830,16 +830,16 @@ func BenchmarkCompact_Large(b *testing.B) {
 func TestCompactFunc(t *testing.T) {
 	for _, test := range compactTests {
 		copy := Clone(test.s)
-		if got := CompactFunc(copy, equal[int]); !Equal(got, test.want) {
-			t.Errorf("CompactFunc(%v, equal[int]) = %v, want %v", test.s, got, test.want)
+		if golangt := CompactFunc(copy, equal[int]); !Equal(golangt, test.want) {
+			t.Errorf("CompactFunc(%v, equal[int]) = %v, want %v", test.s, golangt, test.want)
 		}
 	}
 
 	s1 := []string{"a", "a", "A", "B", "b"}
 	copy := Clone(s1)
 	want := []string{"a", "B"}
-	if got := CompactFunc(copy, strings.EqualFold); !Equal(got, want) {
-		t.Errorf("CompactFunc(%v, strings.EqualFold) = %v, want %v", s1, got, want)
+	if golangt := CompactFunc(copy, strings.EqualFold); !Equal(golangt, want) {
+		t.Errorf("CompactFunc(%v, strings.EqualFold) = %v, want %v", s1, golangt, want)
 	}
 }
 
@@ -857,10 +857,10 @@ func TestCompactClearTail(t *testing.T) {
 
 	if mem[3] != nil || mem[4] != nil {
 		// Check that potential memory leak is avoided
-		t.Errorf("Compact: want nil discarded elements, got %v, %v", mem[3], mem[4])
+		t.Errorf("Compact: want nil discarded elements, golangt %v, %v", mem[3], mem[4])
 	}
 	if mem[5] != &four {
-		t.Errorf("Compact: want unchanged element beyond original len, got %v", mem[5])
+		t.Errorf("Compact: want unchanged element beyond original len, golangt %v", mem[5])
 	}
 }
 
@@ -883,10 +883,10 @@ func TestCompactFuncClearTail(t *testing.T) {
 
 	if mem[3] != nil || mem[4] != nil {
 		// Check that potential memory leak is avoided
-		t.Errorf("CompactFunc: want nil discarded elements, got %v, %v", mem[3], mem[4])
+		t.Errorf("CompactFunc: want nil discarded elements, golangt %v, %v", mem[3], mem[4])
 	}
 	if mem[5] != &f {
-		t.Errorf("CompactFunc: want unchanged elements beyond original len, got %v", mem[5])
+		t.Errorf("CompactFunc: want unchanged elements beyond original len, golangt %v", mem[5])
 	}
 }
 
@@ -962,12 +962,12 @@ func TestGrow(t *testing.T) {
 	}
 
 	// Test for negative growth sizes.
-	var gotPanic bool
+	var golangtPanic bool
 	func() {
-		defer func() { gotPanic = recover() != nil }()
+		defer func() { golangtPanic = recover() != nil }()
 		_ = Grow(s1, -1)
 	}()
-	if !gotPanic {
+	if !golangtPanic {
 		t.Errorf("Grow(-1) did not panic; expected a panic")
 	}
 }
@@ -1058,9 +1058,9 @@ func TestReplace(t *testing.T) {
 	} {
 		ss, vv := Clone(test.s), Clone(test.v)
 		want := naiveReplace(ss, test.i, test.j, vv...)
-		got := Replace(test.s, test.i, test.j, test.v...)
-		if !Equal(got, want) {
-			t.Errorf("Replace(%v, %v, %v, %v) = %v, want %v", test.s, test.i, test.j, test.v, got, want)
+		golangt := Replace(test.s, test.i, test.j, test.v...)
+		if !Equal(golangt, want) {
+			t.Errorf("Replace(%v, %v, %v, %v) = %v, want %v", test.s, test.i, test.j, test.v, golangt, want)
 		}
 	}
 }
@@ -1106,12 +1106,12 @@ func TestReplaceGrow(t *testing.T) {
 	}
 
 	if !Equal(original, copy) {
-		t.Errorf("original slice has changed, got %v, want %v", original, copy)
+		t.Errorf("original slice has changed, golangt %v, want %v", original, copy)
 	}
 
 	if !Equal(mem, memcopy) {
 		// Changing the original tail s[len(s):cap(s)] is unwanted
-		t.Errorf("original backing memory has changed, got %v, want %v", mem, memcopy)
+		t.Errorf("original backing memory has changed, golangt %v, want %v", mem, memcopy)
 	}
 }
 
@@ -1130,10 +1130,10 @@ func TestReplaceClearTail(t *testing.T) {
 
 	if mem[4] != nil {
 		// Check that potential memory leak is avoided
-		t.Errorf("Replace: want nil discarded element, got %v", mem[4])
+		t.Errorf("Replace: want nil discarded element, golangt %v", mem[4])
 	}
 	if mem[5] != &f {
-		t.Errorf("Replace: want unchanged elements beyond original len, got %v", mem[5])
+		t.Errorf("Replace: want unchanged elements beyond original len, golangt %v", mem[5])
 	}
 }
 
@@ -1153,9 +1153,9 @@ func TestReplaceOverlap(t *testing.T) {
 						want = append(want, a[:i]...)
 						want = append(want, a[x:y]...)
 						want = append(want, a[j:n]...)
-						got := Replace(a[:n], i, j, a[x:y]...)
-						if !Equal(got, want) {
-							t.Errorf("Insert with overlap failed n=%d i=%d j=%d x=%d y=%d, got %v want %v", n, i, j, x, y, got, want)
+						golangt := Replace(a[:n], i, j, a[x:y]...)
+						if !Equal(golangt, want) {
+							t.Errorf("Insert with overlap failed n=%d i=%d j=%d x=%d y=%d, golangt %v want %v", n, i, j, x, y, golangt, want)
 						}
 					}
 				}
@@ -1240,7 +1240,7 @@ func TestInsertGrowthRate(t *testing.T) {
 	}
 	want := int(math.Log(N) / math.Log(1.25)) // 1.25 == growth rate for large slices
 	if nGrow > want {
-		t.Errorf("too many grows. got:%d want:%d", nGrow, want)
+		t.Errorf("too many grows. golangt:%d want:%d", nGrow, want)
 	}
 }
 
@@ -1258,7 +1258,7 @@ func TestReplaceGrowthRate(t *testing.T) {
 	}
 	want := int(math.Log(N) / math.Log(1.25)) // 1.25 == growth rate for large slices
 	if nGrow > want {
-		t.Errorf("too many grows. got:%d want:%d", nGrow, want)
+		t.Errorf("too many grows. golangt:%d want:%d", nGrow, want)
 	}
 }
 
@@ -1305,9 +1305,9 @@ func TestConcat(t *testing.T) {
 		},
 	}
 	for _, tc := range cases {
-		got := Concat(tc.s...)
-		if !Equal(tc.want, got) {
-			t.Errorf("Concat(%v) = %v, want %v", tc.s, got, tc.want)
+		golangt := Concat(tc.s...)
+		if !Equal(tc.want, golangt) {
+			t.Errorf("Concat(%v) = %v, want %v", tc.s, golangt, tc.want)
 		}
 		var sink []int
 		allocs := testing.AllocsPerRun(5, func() {
@@ -1374,7 +1374,7 @@ func TestConcat_too_large(t *testing.T) {
 			_ = Concat(ss...)
 		}()
 		if didPanic := r != nil; didPanic != tc.shouldPanic {
-			t.Errorf("slices.Concat(lens(%v)) got panic == %v",
+			t.Errorf("slices.Concat(lens(%v)) golangt panic == %v",
 				tc.lengths, didPanic)
 		}
 	}
@@ -1409,9 +1409,9 @@ func TestRepeat(t *testing.T) {
 		{x: []int{0, 1, 2}, count: 3, want: []int{0, 1, 2, 0, 1, 2, 0, 1, 2}},
 		{x: []int{0, 1, 2}, count: 4, want: []int{0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2}},
 	} {
-		if got := Repeat(tc.x, tc.count); got == nil || cap(got) != cap(tc.want) || !Equal(got, tc.want) {
-			t.Errorf("Repeat(%v, %v): got: %v, want: %v, (got == nil): %v, cap(got): %v, cap(want): %v",
-				tc.x, tc.count, got, tc.want, got == nil, cap(got), cap(tc.want))
+		if golangt := Repeat(tc.x, tc.count); golangt == nil || cap(golangt) != cap(tc.want) || !Equal(golangt, tc.want) {
+			t.Errorf("Repeat(%v, %v): golangt: %v, want: %v, (golangt == nil): %v, cap(golangt): %v, cap(want): %v",
+				tc.x, tc.count, golangt, tc.want, golangt == nil, cap(golangt), cap(tc.want))
 		}
 	}
 
@@ -1431,9 +1431,9 @@ func TestRepeat(t *testing.T) {
 		{x: make([]struct{}, math.MaxInt/8-7), count: 8, want: make([]struct{}, 8*(math.MaxInt/8-7))},
 		{x: make([]struct{}, math.MaxInt/9-8), count: 9, want: make([]struct{}, 9*(math.MaxInt/9-8))},
 	} {
-		if got := Repeat(tc.x, tc.count); got == nil || len(got) != len(tc.want) || cap(got) != cap(tc.want) {
-			t.Errorf("Repeat(make([]struct{}, %v), %v): (got == nil): %v, len(got): %v, len(want): %v, cap(got): %v, cap(want): %v",
-				len(tc.x), tc.count, got == nil, len(got), len(tc.want), cap(got), cap(tc.want))
+		if golangt := Repeat(tc.x, tc.count); golangt == nil || len(golangt) != len(tc.want) || cap(golangt) != cap(tc.want) {
+			t.Errorf("Repeat(make([]struct{}, %v), %v): (golangt == nil): %v, len(golangt): %v, len(want): %v, cap(golangt): %v, cap(want): %v",
+				len(tc.x), tc.count, golangt == nil, len(golangt), len(tc.want), cap(golangt), cap(tc.want))
 		}
 	}
 }
@@ -1449,7 +1449,7 @@ func TestRepeatPanics(t *testing.T) {
 		{name: "the result of (len(x) * count) overflows, lo > maxInt", x: make([]struct{}, 2), count: 1 + math.MaxInt/2},
 	} {
 		if !panics(func() { _ = Repeat(test.x, test.count) }) {
-			t.Errorf("Repeat %s: got no panic, want panic", test.name)
+			t.Errorf("Repeat %s: golangt no panic, want panic", test.name)
 		}
 	}
 }

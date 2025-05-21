@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package gcm
@@ -34,8 +34,8 @@ func init() {
 		if err != nil {
 			return err
 		}
-		got := NewCounterKDF(b).DeriveKey(0xFF, context)
-		if got != want {
+		golangt := NewCounterKDF(b).DeriveKey(0xFF, context)
+		if golangt != want {
 			return errors.New("unexpected result")
 		}
 		return nil

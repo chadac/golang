@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ssa
@@ -60,8 +60,8 @@ func loopRotate(f *Func) {
 			continue
 		}
 		p.Hotness |= HotInitial
-		if f.IsPgoHot {
-			p.Hotness |= HotPgo
+		if f.IsPgolangHot {
+			p.Hotness |= HotPgolang
 		}
 		// blocks will be arranged so that p is ordered first, if it isn't already.
 		if p == b { // p is header, already first (and also, only block in the loop)

@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package demangle
@@ -24,7 +24,7 @@ type AST interface {
 	// If the skip function returns true, no copy is required.
 	// If the copy function returns nil, no copy is required.
 	// The Copy method will do the right thing if copy returns nil
-	// for some components of an AST but not others, so a good
+	// for some components of an AST but not others, so a golangod
 	// copy function will only return non-nil for AST values that
 	// need to change.
 	// Copy itself returns either a copy or nil.
@@ -32,7 +32,7 @@ type AST interface {
 
 	// Implement the fmt.GoStringer interface.
 	GoString() string
-	goString(indent int, field string) string
+	golangString(indent int, field string) string
 }
 
 // ASTToString returns the demangled name of the AST.
@@ -246,10 +246,10 @@ func (n *Name) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 }
 
 func (n *Name) GoString() string {
-	return n.goString(0, "Name: ")
+	return n.golangString(0, "Name: ")
 }
 
-func (n *Name) goString(indent int, field string) string {
+func (n *Name) golangString(indent int, field string) string {
 	return fmt.Sprintf("%*s%s%s", indent, "", field, n.Name)
 }
 
@@ -313,13 +313,13 @@ func (t *Typed) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 }
 
 func (t *Typed) GoString() string {
-	return t.goString(0, "")
+	return t.golangString(0, "")
 }
 
-func (t *Typed) goString(indent int, field string) string {
+func (t *Typed) golangString(indent int, field string) string {
 	return fmt.Sprintf("%*s%sTyped:\n%s\n%s", indent, "", field,
-		t.Name.goString(indent+2, "Name: "),
-		t.Type.goString(indent+2, "Type: "))
+		t.Name.golangString(indent+2, "Name: "),
+		t.Type.golangString(indent+2, "Type: "))
 }
 
 // Qualified is a name in a scope.
@@ -371,17 +371,17 @@ func (q *Qualified) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 }
 
 func (q *Qualified) GoString() string {
-	return q.goString(0, "")
+	return q.golangString(0, "")
 }
 
-func (q *Qualified) goString(indent int, field string) string {
+func (q *Qualified) golangString(indent int, field string) string {
 	s := ""
 	if q.LocalName {
 		s = " LocalName: true"
 	}
 	return fmt.Sprintf("%*s%sQualified:%s\n%s\n%s", indent, "", field,
-		s, q.Scope.goString(indent+2, "Scope: "),
-		q.Name.goString(indent+2, "Name: "))
+		s, q.Scope.golangString(indent+2, "Scope: "),
+		q.Name.golangString(indent+2, "Name: "))
 }
 
 func (q *Qualified) prec() precedence {
@@ -465,10 +465,10 @@ func (t *Template) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 }
 
 func (t *Template) GoString() string {
-	return t.goString(0, "")
+	return t.golangString(0, "")
 }
 
-func (t *Template) goString(indent int, field string) string {
+func (t *Template) golangString(indent int, field string) string {
 	var args string
 	if len(t.Args) == 0 {
 		args = fmt.Sprintf("%*sArgs: nil", indent+2, "")
@@ -476,11 +476,11 @@ func (t *Template) goString(indent int, field string) string {
 		args = fmt.Sprintf("%*sArgs:", indent+2, "")
 		for i, a := range t.Args {
 			args += "\n"
-			args += a.goString(indent+4, fmt.Sprintf("%d: ", i))
+			args += a.golangString(indent+4, fmt.Sprintf("%d: ", i))
 		}
 	}
 	return fmt.Sprintf("%*s%sTemplate (%p):\n%s\n%s", indent, "", field, t,
-		t.Name.goString(indent+2, "Name: "), args)
+		t.Name.golangString(indent+2, "Name: "), args)
 }
 
 // TemplateParam is a template parameter.  The Template field is
@@ -515,10 +515,10 @@ func (tp *TemplateParam) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 }
 
 func (tp *TemplateParam) GoString() string {
-	return tp.goString(0, "")
+	return tp.golangString(0, "")
 }
 
-func (tp *TemplateParam) goString(indent int, field string) string {
+func (tp *TemplateParam) golangString(indent int, field string) string {
 	return fmt.Sprintf("%*s%sTemplateParam: Template: %p; Index %d", indent, "", field, tp.Template, tp.Index)
 }
 
@@ -549,10 +549,10 @@ func (la *LambdaAuto) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 }
 
 func (la *LambdaAuto) GoString() string {
-	return la.goString(0, "")
+	return la.golangString(0, "")
 }
 
-func (la *LambdaAuto) goString(indent int, field string) string {
+func (la *LambdaAuto) golangString(indent int, field string) string {
 	return fmt.Sprintf("%*s%sLambdaAuto: Index %d", indent, "", field, la.Index)
 }
 
@@ -602,13 +602,13 @@ func (tpqa *TemplateParamQualifiedArg) Copy(fn func(AST) AST, skip func(AST) boo
 }
 
 func (tpqa *TemplateParamQualifiedArg) GoString() string {
-	return tpqa.goString(0, "")
+	return tpqa.golangString(0, "")
 }
 
-func (tpqa *TemplateParamQualifiedArg) goString(indent int, field string) string {
+func (tpqa *TemplateParamQualifiedArg) golangString(indent int, field string) string {
 	return fmt.Sprintf("%*s%sTemplateParamQualifiedArg:\n%s\n%s", indent, "", field,
-		tpqa.Param.goString(indent+2, "Param: "),
-		tpqa.Arg.goString(indent+2, "Arg: "))
+		tpqa.Param.golangString(indent+2, "Param: "),
+		tpqa.Arg.golangString(indent+2, "Arg: "))
 }
 
 // Qualifiers is an ordered list of type qualifiers.
@@ -661,14 +661,14 @@ func (qs *Qualifiers) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 }
 
 func (qs *Qualifiers) GoString() string {
-	return qs.goString(0, "")
+	return qs.golangString(0, "")
 }
 
-func (qs *Qualifiers) goString(indent int, field string) string {
+func (qs *Qualifiers) golangString(indent int, field string) string {
 	quals := fmt.Sprintf("%*s%s", indent, "", field)
 	for _, q := range qs.Qualifiers {
 		quals += "\n"
-		quals += q.goString(indent+2, "")
+		quals += q.golangString(indent+2, "")
 	}
 	return quals
 }
@@ -732,15 +732,15 @@ func (q *Qualifier) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 }
 
 func (q *Qualifier) GoString() string {
-	return q.goString(0, "Qualifier: ")
+	return q.golangString(0, "Qualifier: ")
 }
 
-func (q *Qualifier) goString(indent int, field string) string {
+func (q *Qualifier) golangString(indent int, field string) string {
 	qs := fmt.Sprintf("%*s%s%s", indent, "", field, q.Name)
 	if len(q.Exprs) > 0 {
 		for i, e := range q.Exprs {
 			qs += "\n"
-			qs += e.goString(indent+2, fmt.Sprintf("%d: ", i))
+			qs += e.golangString(indent+2, fmt.Sprintf("%d: ", i))
 		}
 	}
 	return qs
@@ -799,13 +799,13 @@ func (twq *TypeWithQualifiers) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 }
 
 func (twq *TypeWithQualifiers) GoString() string {
-	return twq.goString(0, "")
+	return twq.golangString(0, "")
 }
 
-func (twq *TypeWithQualifiers) goString(indent int, field string) string {
+func (twq *TypeWithQualifiers) golangString(indent int, field string) string {
 	return fmt.Sprintf("%*s%sTypeWithQualifiers:\n%s\n%s", indent, "", field,
-		twq.Qualifiers.goString(indent+2, "Qualifiers: "),
-		twq.Base.goString(indent+2, "Base: "))
+		twq.Qualifiers.golangString(indent+2, "Qualifiers: "),
+		twq.Base.golangString(indent+2, "Base: "))
 }
 
 // MethodWithQualifiers is a method with qualifiers.
@@ -875,13 +875,13 @@ func (mwq *MethodWithQualifiers) Copy(fn func(AST) AST, skip func(AST) bool) AST
 }
 
 func (mwq *MethodWithQualifiers) GoString() string {
-	return mwq.goString(0, "")
+	return mwq.golangString(0, "")
 }
 
-func (mwq *MethodWithQualifiers) goString(indent int, field string) string {
+func (mwq *MethodWithQualifiers) golangString(indent int, field string) string {
 	var q string
 	if mwq.Qualifiers != nil {
-		q += "\n" + mwq.Qualifiers.goString(indent+2, "Qualifiers: ")
+		q += "\n" + mwq.Qualifiers.golangString(indent+2, "Qualifiers: ")
 	}
 	if mwq.RefQualifier != "" {
 		if q != "" {
@@ -890,7 +890,7 @@ func (mwq *MethodWithQualifiers) goString(indent int, field string) string {
 		q += fmt.Sprintf("%*s%s%s", indent+2, "", "RefQualifier: ", mwq.RefQualifier)
 	}
 	return fmt.Sprintf("%*s%sMethodWithQualifiers:%s\n%s", indent, "", field,
-		q, mwq.Method.goString(indent+2, "Method: "))
+		q, mwq.Method.golangString(indent+2, "Method: "))
 }
 
 // BuiltinType is a builtin type, like "int".
@@ -918,10 +918,10 @@ func (bt *BuiltinType) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 }
 
 func (bt *BuiltinType) GoString() string {
-	return bt.goString(0, "")
+	return bt.golangString(0, "")
 }
 
-func (bt *BuiltinType) goString(indent int, field string) string {
+func (bt *BuiltinType) golangString(indent int, field string) string {
 	return fmt.Sprintf("%*s%sBuiltinType: %s", indent, "", field, bt.Name)
 }
 
@@ -975,12 +975,12 @@ func (pt *PointerType) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 }
 
 func (pt *PointerType) GoString() string {
-	return pt.goString(0, "")
+	return pt.golangString(0, "")
 }
 
-func (pt *PointerType) goString(indent int, field string) string {
+func (pt *PointerType) golangString(indent int, field string) string {
 	return fmt.Sprintf("%*s%sPointerType:\n%s", indent, "", field,
-		pt.Base.goString(indent+2, ""))
+		pt.Base.golangString(indent+2, ""))
 }
 
 // ReferenceType is a reference type.
@@ -1018,12 +1018,12 @@ func (rt *ReferenceType) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 }
 
 func (rt *ReferenceType) GoString() string {
-	return rt.goString(0, "")
+	return rt.golangString(0, "")
 }
 
-func (rt *ReferenceType) goString(indent int, field string) string {
+func (rt *ReferenceType) golangString(indent int, field string) string {
 	return fmt.Sprintf("%*s%sReferenceType:\n%s", indent, "", field,
-		rt.Base.goString(indent+2, ""))
+		rt.Base.golangString(indent+2, ""))
 }
 
 // RvalueReferenceType is an rvalue reference type.
@@ -1061,12 +1061,12 @@ func (rt *RvalueReferenceType) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 }
 
 func (rt *RvalueReferenceType) GoString() string {
-	return rt.goString(0, "")
+	return rt.golangString(0, "")
 }
 
-func (rt *RvalueReferenceType) goString(indent int, field string) string {
+func (rt *RvalueReferenceType) golangString(indent int, field string) string {
 	return fmt.Sprintf("%*s%sRvalueReferenceType:\n%s", indent, "", field,
-		rt.Base.goString(indent+2, ""))
+		rt.Base.golangString(indent+2, ""))
 }
 
 // ComplexType is a complex type.
@@ -1104,12 +1104,12 @@ func (ct *ComplexType) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 }
 
 func (ct *ComplexType) GoString() string {
-	return ct.goString(0, "")
+	return ct.golangString(0, "")
 }
 
-func (ct *ComplexType) goString(indent int, field string) string {
+func (ct *ComplexType) golangString(indent int, field string) string {
 	return fmt.Sprintf("%*s%sComplexType:\n%s", indent, "", field,
-		ct.Base.goString(indent+2, ""))
+		ct.Base.golangString(indent+2, ""))
 }
 
 // ImaginaryType is an imaginary type.
@@ -1147,12 +1147,12 @@ func (it *ImaginaryType) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 }
 
 func (it *ImaginaryType) GoString() string {
-	return it.goString(0, "")
+	return it.golangString(0, "")
 }
 
-func (it *ImaginaryType) goString(indent int, field string) string {
+func (it *ImaginaryType) golangString(indent int, field string) string {
 	return fmt.Sprintf("%*s%sImaginaryType:\n%s", indent, "", field,
-		it.Base.goString(indent+2, ""))
+		it.Base.golangString(indent+2, ""))
 }
 
 // SuffixType is an type with an arbitrary suffix.
@@ -1192,12 +1192,12 @@ func (st *SuffixType) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 }
 
 func (st *SuffixType) GoString() string {
-	return st.goString(0, "")
+	return st.golangString(0, "")
 }
 
-func (st *SuffixType) goString(indent int, field string) string {
+func (st *SuffixType) golangString(indent int, field string) string {
 	return fmt.Sprintf("%*s%sSuffixType: %s\n%s", indent, "", field,
-		st.Suffix, st.Base.goString(indent+2, "Base: "))
+		st.Suffix, st.Base.golangString(indent+2, "Base: "))
 }
 
 // TransformedType is a builtin type with a template argument.
@@ -1235,12 +1235,12 @@ func (tt *TransformedType) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 }
 
 func (tt *TransformedType) GoString() string {
-	return tt.goString(0, "")
+	return tt.golangString(0, "")
 }
 
-func (tt *TransformedType) goString(indent int, field string) string {
+func (tt *TransformedType) golangString(indent int, field string) string {
 	return fmt.Sprintf("%*s%sTransformedType: %s\n%s", indent, "", field,
-		tt.Name, tt.Base.goString(indent+2, "Base: "))
+		tt.Name, tt.Base.golangString(indent+2, "Base: "))
 }
 
 // VendorQualifier is a type qualified by a vendor-specific qualifier.
@@ -1297,13 +1297,13 @@ func (vq *VendorQualifier) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 }
 
 func (vq *VendorQualifier) GoString() string {
-	return vq.goString(0, "")
+	return vq.golangString(0, "")
 }
 
-func (vq *VendorQualifier) goString(indent int, field string) string {
+func (vq *VendorQualifier) golangString(indent int, field string) string {
 	return fmt.Sprintf("%*s%sVendorQualifier:\n%s\n%s", indent, "", field,
-		vq.Qualifier.goString(indent+2, "Qualifier: "),
-		vq.Type.goString(indent+2, "Type: "))
+		vq.Qualifier.golangString(indent+2, "Qualifier: "),
+		vq.Type.golangString(indent+2, "Type: "))
 }
 
 // ArrayType is an array type.
@@ -1331,7 +1331,7 @@ func (at *ArrayType) printInner(ps *printState) {
 func (at *ArrayType) printDimension(ps *printState) {
 	space := " "
 	for len(ps.inner) > 0 {
-		// We haven't gotten to the real type yet.  Use
+		// We haven't golangtten to the real type yet.  Use
 		// parentheses around that type, except that if it is
 		// an array type we print it as a multi-dimensional
 		// array
@@ -1387,13 +1387,13 @@ func (at *ArrayType) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 }
 
 func (at *ArrayType) GoString() string {
-	return at.goString(0, "")
+	return at.golangString(0, "")
 }
 
-func (at *ArrayType) goString(indent int, field string) string {
+func (at *ArrayType) golangString(indent int, field string) string {
 	return fmt.Sprintf("%*s%sArrayType:\n%s\n%s", indent, "", field,
-		at.Dimension.goString(indent+2, "Dimension: "),
-		at.Element.goString(indent+2, "Element: "))
+		at.Dimension.golangString(indent+2, "Dimension: "),
+		at.Element.golangString(indent+2, "Element: "))
 }
 
 // FunctionType is a function type.
@@ -1535,10 +1535,10 @@ func (ft *FunctionType) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 }
 
 func (ft *FunctionType) GoString() string {
-	return ft.goString(0, "")
+	return ft.golangString(0, "")
 }
 
-func (ft *FunctionType) goString(indent int, field string) string {
+func (ft *FunctionType) golangString(indent int, field string) string {
 	var forLocalName string
 	if ft.ForLocalName {
 		forLocalName = " ForLocalName: true"
@@ -1547,7 +1547,7 @@ func (ft *FunctionType) goString(indent int, field string) string {
 	if ft.Return == nil {
 		r = fmt.Sprintf("%*sReturn: nil", indent+2, "")
 	} else {
-		r = ft.Return.goString(indent+2, "Return: ")
+		r = ft.Return.golangString(indent+2, "Return: ")
 	}
 	var args string
 	if len(ft.Args) == 0 {
@@ -1556,7 +1556,7 @@ func (ft *FunctionType) goString(indent int, field string) string {
 		args = fmt.Sprintf("%*sArgs:", indent+2, "")
 		for i, a := range ft.Args {
 			args += "\n"
-			args += a.goString(indent+4, fmt.Sprintf("%d: ", i))
+			args += a.golangString(indent+4, fmt.Sprintf("%d: ", i))
 		}
 	}
 	return fmt.Sprintf("%*s%sFunctionType:%s\n%s\n%s", indent, "", field,
@@ -1595,10 +1595,10 @@ func (fp *FunctionParam) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 }
 
 func (fp *FunctionParam) GoString() string {
-	return fp.goString(0, "")
+	return fp.golangString(0, "")
 }
 
-func (fp *FunctionParam) goString(indent int, field string) string {
+func (fp *FunctionParam) golangString(indent int, field string) string {
 	return fmt.Sprintf("%*s%sFunctionParam: %d", indent, "", field, fp.Index)
 }
 
@@ -1658,13 +1658,13 @@ func (pm *PtrMem) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 }
 
 func (pm *PtrMem) GoString() string {
-	return pm.goString(0, "")
+	return pm.golangString(0, "")
 }
 
-func (pm *PtrMem) goString(indent int, field string) string {
+func (pm *PtrMem) golangString(indent int, field string) string {
 	return fmt.Sprintf("%*s%sPtrMem:\n%s\n%s", indent, "", field,
-		pm.Class.goString(indent+2, "Class: "),
-		pm.Member.goString(indent+2, "Member: "))
+		pm.Class.golangString(indent+2, "Class: "),
+		pm.Member.golangString(indent+2, "Member: "))
 }
 
 // FixedType is a fixed numeric type of unknown size.
@@ -1713,13 +1713,13 @@ func (ft *FixedType) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 }
 
 func (ft *FixedType) GoString() string {
-	return ft.goString(0, "")
+	return ft.golangString(0, "")
 }
 
-func (ft *FixedType) goString(indent int, field string) string {
+func (ft *FixedType) golangString(indent int, field string) string {
 	return fmt.Sprintf("%*s%sFixedType: Accum: %t; Sat: %t\n%s", indent, "", field,
 		ft.Accum, ft.Sat,
-		ft.Base.goString(indent+2, "Base: "))
+		ft.Base.golangString(indent+2, "Base: "))
 }
 
 // BinaryFP is a binary floating-point type.
@@ -1743,10 +1743,10 @@ func (bfp *BinaryFP) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 }
 
 func (bfp *BinaryFP) GoString() string {
-	return bfp.goString(0, "")
+	return bfp.golangString(0, "")
 }
 
-func (bfp *BinaryFP) goString(indent int, field string) string {
+func (bfp *BinaryFP) golangString(indent int, field string) string {
 	return fmt.Sprintf("%*s%sBinaryFP: %d", indent, "", field, bfp.Bits)
 }
 
@@ -1788,13 +1788,13 @@ func (bt *BitIntType) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 }
 
 func (bt *BitIntType) GoString() string {
-	return bt.goString(0, "")
+	return bt.golangString(0, "")
 }
 
-func (bt *BitIntType) goString(indent int, field string) string {
+func (bt *BitIntType) golangString(indent int, field string) string {
 	return fmt.Sprintf("%*s%sBitIntType: Signed: %t\n%s", indent, "", field,
 		bt.Signed,
-		bt.Size.goString(indent+2, "Size: "))
+		bt.Size.golangString(indent+2, "Size: "))
 }
 
 // VectorType is a vector type.
@@ -1853,13 +1853,13 @@ func (vt *VectorType) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 }
 
 func (vt *VectorType) GoString() string {
-	return vt.goString(0, "")
+	return vt.golangString(0, "")
 }
 
-func (vt *VectorType) goString(indent int, field string) string {
+func (vt *VectorType) golangString(indent int, field string) string {
 	return fmt.Sprintf("%*s%sVectorType:\n%s\n%s", indent, "", field,
-		vt.Dimension.goString(indent+2, "Dimension: "),
-		vt.Base.goString(indent+2, "Base: "))
+		vt.Dimension.golangString(indent+2, "Dimension: "),
+		vt.Base.golangString(indent+2, "Base: "))
 }
 
 // ElaboratedType is an elaborated struct/union/enum type.
@@ -1896,12 +1896,12 @@ func (et *ElaboratedType) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 }
 
 func (et *ElaboratedType) GoString() string {
-	return et.goString(0, "")
+	return et.golangString(0, "")
 }
 
-func (et *ElaboratedType) goString(indent int, field string) string {
+func (et *ElaboratedType) golangString(indent int, field string) string {
 	return fmt.Sprintf("%*s%sElaboratedtype: Kind: %s\n%s", indent, "", field,
-		et.Kind, et.Type.goString(indent+2, "Expr: "))
+		et.Kind, et.Type.golangString(indent+2, "Expr: "))
 }
 
 // Decltype is the decltype operator.
@@ -1941,12 +1941,12 @@ func (dt *Decltype) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 }
 
 func (dt *Decltype) GoString() string {
-	return dt.goString(0, "")
+	return dt.golangString(0, "")
 }
 
-func (dt *Decltype) goString(indent int, field string) string {
+func (dt *Decltype) golangString(indent int, field string) string {
 	return fmt.Sprintf("%*s%sDecltype:\n%s", indent, "", field,
-		dt.Expr.goString(indent+2, "Expr: "))
+		dt.Expr.golangString(indent+2, "Expr: "))
 }
 
 // Operator is an operator.
@@ -1977,10 +1977,10 @@ func (op *Operator) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 }
 
 func (op *Operator) GoString() string {
-	return op.goString(0, "")
+	return op.golangString(0, "")
 }
 
-func (op *Operator) goString(indent int, field string) string {
+func (op *Operator) golangString(indent int, field string) string {
 	return fmt.Sprintf("%*s%sOperator: %s", indent, "", field, op.Name)
 }
 
@@ -2034,16 +2034,16 @@ func (c *Constructor) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 }
 
 func (c *Constructor) GoString() string {
-	return c.goString(0, "")
+	return c.golangString(0, "")
 }
 
-func (c *Constructor) goString(indent int, field string) string {
+func (c *Constructor) golangString(indent int, field string) string {
 	var sb strings.Builder
 	fmt.Fprintf(&sb, "%*s%sConstructor:\n", indent, "", field)
 	if c.Base != nil {
-		fmt.Fprintf(&sb, "%s\n", c.Base.goString(indent+2, "Base: "))
+		fmt.Fprintf(&sb, "%s\n", c.Base.golangString(indent+2, "Base: "))
 	}
-	fmt.Fprintf(&sb, "%s", c.Name.goString(indent+2, "Name: "))
+	fmt.Fprintf(&sb, "%s", c.Name.golangString(indent+2, "Name: "))
 	return sb.String()
 }
 
@@ -2079,11 +2079,11 @@ func (d *Destructor) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 }
 
 func (d *Destructor) GoString() string {
-	return d.goString(0, "")
+	return d.golangString(0, "")
 }
 
-func (d *Destructor) goString(indent int, field string) string {
-	return fmt.Sprintf("%*s%sDestructor:\n%s", indent, "", field, d.Name.goString(indent+2, "Name: "))
+func (d *Destructor) golangString(indent int, field string) string {
+	return fmt.Sprintf("%*s%sDestructor:\n%s", indent, "", field, d.Name.golangString(indent+2, "Name: "))
 }
 
 // GlobalCDtor is a global constructor or destructor.
@@ -2125,12 +2125,12 @@ func (gcd *GlobalCDtor) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 }
 
 func (gcd *GlobalCDtor) GoString() string {
-	return gcd.goString(0, "")
+	return gcd.golangString(0, "")
 }
 
-func (gcd *GlobalCDtor) goString(indent int, field string) string {
+func (gcd *GlobalCDtor) golangString(indent int, field string) string {
 	return fmt.Sprintf("%*s%sGlobalCDtor: Ctor: %t\n%s", indent, "", field,
-		gcd.Ctor, gcd.Key.goString(indent+2, "Key: "))
+		gcd.Ctor, gcd.Key.golangString(indent+2, "Key: "))
 }
 
 // TaggedName is a name with an ABI tag.
@@ -2176,13 +2176,13 @@ func (t *TaggedName) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 }
 
 func (t *TaggedName) GoString() string {
-	return t.goString(0, "")
+	return t.golangString(0, "")
 }
 
-func (t *TaggedName) goString(indent int, field string) string {
+func (t *TaggedName) golangString(indent int, field string) string {
 	return fmt.Sprintf("%*s%sTaggedName:\n%s\n%s", indent, "", field,
-		t.Name.goString(indent+2, "Name: "),
-		t.Tag.goString(indent+2, "Tag: "))
+		t.Name.golangString(indent+2, "Name: "),
+		t.Tag.golangString(indent+2, "Tag: "))
 }
 
 // PackExpansion is a pack expansion.  The Pack field may be nil.
@@ -2229,12 +2229,12 @@ func (pe *PackExpansion) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 }
 
 func (pe *PackExpansion) GoString() string {
-	return pe.goString(0, "")
+	return pe.golangString(0, "")
 }
 
-func (pe *PackExpansion) goString(indent int, field string) string {
+func (pe *PackExpansion) golangString(indent int, field string) string {
 	return fmt.Sprintf("%*s%sPackExpansion: Pack: %p\n%s", indent, "", field,
-		pe.Pack, pe.Base.goString(indent+2, "Base: "))
+		pe.Pack, pe.Base.golangString(indent+2, "Base: "))
 }
 
 // ArgumentPack is an argument pack.
@@ -2285,17 +2285,17 @@ func (ap *ArgumentPack) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 }
 
 func (ap *ArgumentPack) GoString() string {
-	return ap.goString(0, "")
+	return ap.golangString(0, "")
 }
 
-func (ap *ArgumentPack) goString(indent int, field string) string {
+func (ap *ArgumentPack) golangString(indent int, field string) string {
 	if len(ap.Args) == 0 {
 		return fmt.Sprintf("%*s%sArgumentPack: nil", indent, "", field)
 	}
 	s := fmt.Sprintf("%*s%sArgumentPack:", indent, "", field)
 	for i, a := range ap.Args {
 		s += "\n"
-		s += a.goString(indent+2, fmt.Sprintf("%d: ", i))
+		s += a.golangString(indent+2, fmt.Sprintf("%d: ", i))
 	}
 	return s
 }
@@ -2333,10 +2333,10 @@ func (sp *SizeofPack) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 }
 
 func (sp *SizeofPack) GoString() string {
-	return sp.goString(0, "")
+	return sp.golangString(0, "")
 }
 
-func (sp *SizeofPack) goString(indent int, field string) string {
+func (sp *SizeofPack) golangString(indent int, field string) string {
 	return fmt.Sprintf("%*s%sSizeofPack: Pack: %p", indent, "", field, sp.Pack)
 }
 
@@ -2394,10 +2394,10 @@ func (sa *SizeofArgs) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 }
 
 func (sa *SizeofArgs) GoString() string {
-	return sa.goString(0, "")
+	return sa.golangString(0, "")
 }
 
-func (sa *SizeofArgs) goString(indent int, field string) string {
+func (sa *SizeofArgs) golangString(indent int, field string) string {
 	var args string
 	if len(sa.Args) == 0 {
 		args = fmt.Sprintf("%*sArgs: nil", indent+2, "")
@@ -2405,7 +2405,7 @@ func (sa *SizeofArgs) goString(indent int, field string) string {
 		args = fmt.Sprintf("%*sArgs:", indent+2, "")
 		for i, a := range sa.Args {
 			args += "\n"
-			args += a.goString(indent+4, fmt.Sprintf("%d: ", i))
+			args += a.golangString(indent+4, fmt.Sprintf("%d: ", i))
 		}
 	}
 	return fmt.Sprintf("%*s%sSizeofArgs:\n%s", indent, "", field, args)
@@ -2438,10 +2438,10 @@ func (tpn *TemplateParamName) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 }
 
 func (tpn *TemplateParamName) GoString() string {
-	return tpn.goString(0, "")
+	return tpn.golangString(0, "")
 }
 
-func (tpn *TemplateParamName) goString(indent int, field string) string {
+func (tpn *TemplateParamName) golangString(indent int, field string) string {
 	name := tpn.Prefix
 	if tpn.Index > 0 {
 		name += fmt.Sprintf("%d", tpn.Index-1)
@@ -2483,12 +2483,12 @@ func (ttp *TypeTemplateParam) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 }
 
 func (ttp *TypeTemplateParam) GoString() string {
-	return ttp.goString(0, "")
+	return ttp.golangString(0, "")
 }
 
-func (ttp *TypeTemplateParam) goString(indent int, field string) string {
+func (ttp *TypeTemplateParam) golangString(indent int, field string) string {
 	return fmt.Sprintf("%*s%sTypeTemplateParam:\n%s", indent, "", field,
-		ttp.Name.goString(indent+2, "Name"))
+		ttp.Name.golangString(indent+2, "Name"))
 }
 
 // NonTypeTemplateParam is a non-type template parameter that appears
@@ -2542,13 +2542,13 @@ func (nttp *NonTypeTemplateParam) Copy(fn func(AST) AST, skip func(AST) bool) AS
 }
 
 func (nttp *NonTypeTemplateParam) GoString() string {
-	return nttp.goString(0, "")
+	return nttp.golangString(0, "")
 }
 
-func (nttp *NonTypeTemplateParam) goString(indent int, field string) string {
+func (nttp *NonTypeTemplateParam) golangString(indent int, field string) string {
 	return fmt.Sprintf("%*s%sNonTypeTemplateParam:\n%s\n%s", indent, "", field,
-		nttp.Name.goString(indent+2, "Name: "),
-		nttp.Type.goString(indent+2, "Type: "))
+		nttp.Name.golangString(indent+2, "Name: "),
+		nttp.Type.golangString(indent+2, "Type: "))
 }
 
 // TemplateTemplateParam is a template template parameter that appears
@@ -2640,24 +2640,24 @@ func (ttp *TemplateTemplateParam) Copy(fn func(AST) AST, skip func(AST) bool) AS
 }
 
 func (ttp *TemplateTemplateParam) GoString() string {
-	return ttp.goString(0, "")
+	return ttp.golangString(0, "")
 }
 
-func (ttp *TemplateTemplateParam) goString(indent int, field string) string {
+func (ttp *TemplateTemplateParam) golangString(indent int, field string) string {
 	var params strings.Builder
 	fmt.Fprintf(&params, "%*sParams:", indent+2, "")
 	for i, p := range ttp.Params {
 		params.WriteByte('\n')
-		params.WriteString(p.goString(indent+4, fmt.Sprintf("%d: ", i)))
+		params.WriteString(p.golangString(indent+4, fmt.Sprintf("%d: ", i)))
 	}
 	var constraint string
 	if ttp.Constraint == nil {
 		constraint = fmt.Sprintf("%*sConstraint: nil", indent+2, "")
 	} else {
-		constraint = ttp.Constraint.goString(indent+2, "Constraint: ")
+		constraint = ttp.Constraint.golangString(indent+2, "Constraint: ")
 	}
 	return fmt.Sprintf("%*s%sTemplateTemplateParam:\n%s\n%s\n%s", indent, "", field,
-		ttp.Name.goString(indent+2, "Name: "),
+		ttp.Name.golangString(indent+2, "Name: "),
 		params.String(),
 		constraint)
 }
@@ -2713,13 +2713,13 @@ func (cttp *ConstrainedTypeTemplateParam) Copy(fn func(AST) AST, skip func(AST) 
 }
 
 func (cttp *ConstrainedTypeTemplateParam) GoString() string {
-	return cttp.goString(0, "")
+	return cttp.golangString(0, "")
 }
 
-func (cttp *ConstrainedTypeTemplateParam) goString(indent int, field string) string {
+func (cttp *ConstrainedTypeTemplateParam) golangString(indent int, field string) string {
 	return fmt.Sprintf("%*s%sConstrainedTypeTemplateParam\n%s\n%s", indent, "", field,
-		cttp.Name.goString(indent+2, "Name: "),
-		cttp.Constraint.goString(indent+2, "Constraint: "))
+		cttp.Name.golangString(indent+2, "Name: "),
+		cttp.Constraint.golangString(indent+2, "Constraint: "))
 }
 
 // TemplateParamPack is a template parameter pack that appears in a
@@ -2772,12 +2772,12 @@ func (tpp *TemplateParamPack) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 }
 
 func (tpp *TemplateParamPack) GoString() string {
-	return tpp.goString(0, "")
+	return tpp.golangString(0, "")
 }
 
-func (tpp *TemplateParamPack) goString(indent int, field string) string {
+func (tpp *TemplateParamPack) golangString(indent int, field string) string {
 	return fmt.Sprintf("%*s%sTemplateParamPack:\n%s", indent, "", field,
-		tpp.Param.goString(indent+2, "Param: "))
+		tpp.Param.golangString(indent+2, "Param: "))
 }
 
 // Cast is a type cast.
@@ -2812,12 +2812,12 @@ func (c *Cast) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 }
 
 func (c *Cast) GoString() string {
-	return c.goString(0, "")
+	return c.golangString(0, "")
 }
 
-func (c *Cast) goString(indent int, field string) string {
+func (c *Cast) golangString(indent int, field string) string {
 	return fmt.Sprintf("%*s%sCast\n%s", indent, "", field,
-		c.To.goString(indent+2, "To: "))
+		c.To.golangString(indent+2, "To: "))
 }
 
 func (c *Cast) prec() precedence {
@@ -2886,12 +2886,12 @@ func (n *Nullary) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 }
 
 func (n *Nullary) GoString() string {
-	return n.goString(0, "")
+	return n.golangString(0, "")
 }
 
-func (n *Nullary) goString(indent int, field string) string {
+func (n *Nullary) golangString(indent int, field string) string {
 	return fmt.Sprintf("%*s%sNullary:\n%s", indent, "", field,
-		n.Op.goString(indent+2, "Op: "))
+		n.Op.golangString(indent+2, "Op: "))
 }
 
 // Unary is a unary operation in an expression.
@@ -3038,10 +3038,10 @@ func (u *Unary) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 }
 
 func (u *Unary) GoString() string {
-	return u.goString(0, "")
+	return u.golangString(0, "")
 }
 
-func (u *Unary) goString(indent int, field string) string {
+func (u *Unary) golangString(indent int, field string) string {
 	var s string
 	if u.Suffix {
 		s = " Suffix: true"
@@ -3050,8 +3050,8 @@ func (u *Unary) goString(indent int, field string) string {
 		s += " SizeofType: true"
 	}
 	return fmt.Sprintf("%*s%sUnary:%s\n%s\n%s", indent, "", field,
-		s, u.Op.goString(indent+2, "Op: "),
-		u.Expr.goString(indent+2, "Expr: "))
+		s, u.Op.golangString(indent+2, "Op: "),
+		u.Expr.golangString(indent+2, "Expr: "))
 }
 
 func (u *Unary) prec() precedence {
@@ -3288,14 +3288,14 @@ func (b *Binary) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 }
 
 func (b *Binary) GoString() string {
-	return b.goString(0, "")
+	return b.golangString(0, "")
 }
 
-func (b *Binary) goString(indent int, field string) string {
+func (b *Binary) golangString(indent int, field string) string {
 	return fmt.Sprintf("%*s%sBinary:\n%s\n%s\n%s", indent, "", field,
-		b.Op.goString(indent+2, "Op: "),
-		b.Left.goString(indent+2, "Left: "),
-		b.Right.goString(indent+2, "Right: "))
+		b.Op.golangString(indent+2, "Op: "),
+		b.Left.golangString(indent+2, "Left: "),
+		b.Right.golangString(indent+2, "Right: "))
 }
 
 func (b *Binary) prec() precedence {
@@ -3443,15 +3443,15 @@ func (t *Trinary) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 }
 
 func (t *Trinary) GoString() string {
-	return t.goString(0, "")
+	return t.golangString(0, "")
 }
 
-func (t *Trinary) goString(indent int, field string) string {
+func (t *Trinary) golangString(indent int, field string) string {
 	return fmt.Sprintf("%*s%sTrinary:\n%s\n%s\n%s\n%s", indent, "", field,
-		t.Op.goString(indent+2, "Op: "),
-		t.First.goString(indent+2, "First: "),
-		t.Second.goString(indent+2, "Second: "),
-		t.Third.goString(indent+2, "Third: "))
+		t.Op.golangString(indent+2, "Op: "),
+		t.First.golangString(indent+2, "First: "),
+		t.Second.golangString(indent+2, "Second: "),
+		t.Third.golangString(indent+2, "Third: "))
 }
 
 // Fold is a C++17 fold-expression.  Arg2 is nil for a unary operator.
@@ -3564,19 +3564,19 @@ func (f *Fold) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 }
 
 func (f *Fold) GoString() string {
-	return f.goString(0, "")
+	return f.golangString(0, "")
 }
 
-func (f *Fold) goString(indent int, field string) string {
+func (f *Fold) golangString(indent int, field string) string {
 	if f.Arg2 == nil {
 		return fmt.Sprintf("%*s%sFold: Left: %t\n%s\n%s", indent, "", field,
-			f.Left, f.Op.goString(indent+2, "Op: "),
-			f.Arg1.goString(indent+2, "Arg1: "))
+			f.Left, f.Op.golangString(indent+2, "Op: "),
+			f.Arg1.golangString(indent+2, "Arg1: "))
 	} else {
 		return fmt.Sprintf("%*s%sFold: Left: %t\n%s\n%s\n%s", indent, "", field,
-			f.Left, f.Op.goString(indent+2, "Op: "),
-			f.Arg1.goString(indent+2, "Arg1: "),
-			f.Arg2.goString(indent+2, "Arg2: "))
+			f.Left, f.Op.golangString(indent+2, "Op: "),
+			f.Arg1.golangString(indent+2, "Arg1: "),
+			f.Arg2.golangString(indent+2, "Arg2: "))
 	}
 }
 
@@ -3636,18 +3636,18 @@ func (so *Subobject) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 }
 
 func (so *Subobject) GoString() string {
-	return so.goString(0, "")
+	return so.golangString(0, "")
 }
 
-func (so *Subobject) goString(indent int, field string) string {
+func (so *Subobject) golangString(indent int, field string) string {
 	var selectors string
 	for _, s := range so.Selectors {
 		selectors += fmt.Sprintf(" %d", s)
 	}
 	return fmt.Sprintf("%*s%sSubobject:\n%s\n%s\n%*sOffset: %d\n%*sSelectors:%s\n%*sPastEnd: %t",
 		indent, "", field,
-		so.Type.goString(indent+2, "Type: "),
-		so.SubExpr.goString(indent+2, "SubExpr: "),
+		so.Type.golangString(indent+2, "Type: "),
+		so.SubExpr.golangString(indent+2, "SubExpr: "),
 		indent+2, "", so.Offset,
 		indent+2, "", selectors,
 		indent+2, "", so.PastEnd)
@@ -3706,14 +3706,14 @@ func (pmc *PtrMemCast) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 }
 
 func (pmc *PtrMemCast) GoString() string {
-	return pmc.goString(0, "")
+	return pmc.golangString(0, "")
 }
 
-func (pmc *PtrMemCast) goString(indent int, field string) string {
+func (pmc *PtrMemCast) golangString(indent int, field string) string {
 	return fmt.Sprintf("%*s%sPtrMemCast:\n%s\n%s\n%*sOffset: %d",
 		indent, "", field,
-		pmc.Type.goString(indent+2, "Type: "),
-		pmc.Expr.goString(indent+2, "Expr: "),
+		pmc.Type.golangString(indent+2, "Type: "),
+		pmc.Expr.golangString(indent+2, "Expr: "),
 		indent+2, "", pmc.Offset)
 }
 
@@ -3800,25 +3800,25 @@ func (n *New) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 }
 
 func (n *New) GoString() string {
-	return n.goString(0, "")
+	return n.golangString(0, "")
 }
 
-func (n *New) goString(indent int, field string) string {
+func (n *New) golangString(indent int, field string) string {
 	var place string
 	if n.Place == nil {
 		place = fmt.Sprintf("%*sPlace: nil", indent, "")
 	} else {
-		place = n.Place.goString(indent+2, "Place: ")
+		place = n.Place.golangString(indent+2, "Place: ")
 	}
 	var ini string
 	if n.Init == nil {
 		ini = fmt.Sprintf("%*sInit: nil", indent, "")
 	} else {
-		ini = n.Init.goString(indent+2, "Init: ")
+		ini = n.Init.golangString(indent+2, "Init: ")
 	}
 	return fmt.Sprintf("%*s%sNew:\n%s\n%s\n%s\n%s", indent, "", field,
-		n.Op.goString(indent+2, "Op: "), place,
-		n.Type.goString(indent+2, "Type: "), ini)
+		n.Op.golangString(indent+2, "Op: "), place,
+		n.Type.golangString(indent+2, "Type: "), ini)
 }
 
 // Literal is a literal in an expression.
@@ -3916,16 +3916,16 @@ func (l *Literal) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 }
 
 func (l *Literal) GoString() string {
-	return l.goString(0, "")
+	return l.golangString(0, "")
 }
 
-func (l *Literal) goString(indent int, field string) string {
+func (l *Literal) golangString(indent int, field string) string {
 	var neg string
 	if l.Neg {
 		neg = " Neg: true"
 	}
 	return fmt.Sprintf("%*s%sLiteral:%s\n%s\n%*sVal: %s", indent, "", field,
-		neg, l.Type.goString(indent+2, "Type: "),
+		neg, l.Type.golangString(indent+2, "Type: "),
 		indent+2, "", l.Val)
 }
 
@@ -3966,12 +3966,12 @@ func (sl *StringLiteral) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 }
 
 func (sl *StringLiteral) GoString() string {
-	return sl.goString(0, "")
+	return sl.golangString(0, "")
 }
 
-func (sl *StringLiteral) goString(indent int, field string) string {
+func (sl *StringLiteral) golangString(indent int, field string) string {
 	return fmt.Sprintf("%*s%sStringLiteral:\n%s", indent, "", field,
-		sl.Type.goString(indent+2, ""))
+		sl.Type.golangString(indent+2, ""))
 }
 
 // LambdaExpr is a literal that is a lambda expression.
@@ -4009,12 +4009,12 @@ func (le *LambdaExpr) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 }
 
 func (le *LambdaExpr) GoString() string {
-	return le.goString(0, "")
+	return le.golangString(0, "")
 }
 
-func (le *LambdaExpr) goString(indent int, field string) string {
+func (le *LambdaExpr) golangString(indent int, field string) string {
 	return fmt.Sprintf("%*s%sLambdaExpr:\n%s", indent, "", field,
-		le.Type.goString(indent+2, ""))
+		le.Type.golangString(indent+2, ""))
 }
 
 // ExprList is a list of expressions, typically arguments to a
@@ -4061,17 +4061,17 @@ func (el *ExprList) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 }
 
 func (el *ExprList) GoString() string {
-	return el.goString(0, "")
+	return el.golangString(0, "")
 }
 
-func (el *ExprList) goString(indent int, field string) string {
+func (el *ExprList) golangString(indent int, field string) string {
 	if len(el.Exprs) == 0 {
 		return fmt.Sprintf("%*s%sExprList: nil", indent, "", field)
 	}
 	s := fmt.Sprintf("%*s%sExprList:", indent, "", field)
 	for i, e := range el.Exprs {
 		s += "\n"
-		s += e.goString(indent+2, fmt.Sprintf("%d: ", i))
+		s += e.golangString(indent+2, fmt.Sprintf("%d: ", i))
 	}
 	return s
 }
@@ -4131,18 +4131,18 @@ func (il *InitializerList) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 }
 
 func (il *InitializerList) GoString() string {
-	return il.goString(0, "")
+	return il.golangString(0, "")
 }
 
-func (il *InitializerList) goString(indent int, field string) string {
+func (il *InitializerList) golangString(indent int, field string) string {
 	var t string
 	if il.Type == nil {
 		t = fmt.Sprintf("%*sType: nil", indent+2, "")
 	} else {
-		t = il.Type.goString(indent+2, "Type: ")
+		t = il.Type.golangString(indent+2, "Type: ")
 	}
 	return fmt.Sprintf("%*s%sInitializerList:\n%s\n%s", indent, "", field,
-		t, il.Exprs.goString(indent+2, "Exprs: "))
+		t, il.Exprs.golangString(indent+2, "Exprs: "))
 }
 
 // DefaultArg holds a default argument for a local name.
@@ -4180,12 +4180,12 @@ func (da *DefaultArg) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 }
 
 func (da *DefaultArg) GoString() string {
-	return da.goString(0, "")
+	return da.golangString(0, "")
 }
 
-func (da *DefaultArg) goString(indent int, field string) string {
+func (da *DefaultArg) golangString(indent int, field string) string {
 	return fmt.Sprintf("%*s%sDefaultArg: Num: %d\n%s", indent, "", field, da.Num,
-		da.Arg.goString(indent+2, "Arg: "))
+		da.Arg.golangString(indent+2, "Arg: "))
 }
 
 // Closure is a closure, or lambda expression.
@@ -4323,10 +4323,10 @@ func (cl *Closure) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 }
 
 func (cl *Closure) GoString() string {
-	return cl.goString(0, "")
+	return cl.golangString(0, "")
 }
 
-func (cl *Closure) goString(indent int, field string) string {
+func (cl *Closure) golangString(indent int, field string) string {
 	var args strings.Builder
 	if len(cl.TemplateArgs) == 0 {
 		fmt.Fprintf(&args, "%*sTemplateArgs: nil", indent+2, "")
@@ -4334,13 +4334,13 @@ func (cl *Closure) goString(indent int, field string) string {
 		fmt.Fprintf(&args, "%*sTemplateArgs:", indent+2, "")
 		for i, a := range cl.TemplateArgs {
 			args.WriteByte('\n')
-			args.WriteString(a.goString(indent+4, fmt.Sprintf("%d: ", i)))
+			args.WriteString(a.golangString(indent+4, fmt.Sprintf("%d: ", i)))
 		}
 	}
 
 	var templateArgsConstraint string
 	if cl.TemplateArgsConstraint != nil {
-		templateArgsConstraint = "\n" + cl.TemplateArgsConstraint.goString(indent+2, "TemplateArgsConstraint: ")
+		templateArgsConstraint = "\n" + cl.TemplateArgsConstraint.golangString(indent+2, "TemplateArgsConstraint: ")
 	}
 
 	var types strings.Builder
@@ -4350,13 +4350,13 @@ func (cl *Closure) goString(indent int, field string) string {
 		fmt.Fprintf(&types, "%*sTypes:", indent+2, "")
 		for i, t := range cl.Types {
 			types.WriteByte('\n')
-			types.WriteString(t.goString(indent+4, fmt.Sprintf("%d: ", i)))
+			types.WriteString(t.golangString(indent+4, fmt.Sprintf("%d: ", i)))
 		}
 	}
 
 	var callConstraint string
 	if cl.CallConstraint != nil {
-		callConstraint = "\n" + cl.CallConstraint.goString(indent+2, "CallConstraint: ")
+		callConstraint = "\n" + cl.CallConstraint.golangString(indent+2, "CallConstraint: ")
 	}
 
 	return fmt.Sprintf("%*s%sClosure: Num: %d\n%s\n%s%s%s", indent, "", field,
@@ -4409,15 +4409,15 @@ func (sb *StructuredBindings) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 }
 
 func (sb *StructuredBindings) GoString() string {
-	return sb.goString(0, "")
+	return sb.golangString(0, "")
 }
 
-func (sb *StructuredBindings) goString(indent int, field string) string {
+func (sb *StructuredBindings) golangString(indent int, field string) string {
 	var strb strings.Builder
 	fmt.Fprintf(&strb, "%*s%sStructuredBinding:", indent, "", field)
 	for _, b := range sb.Bindings {
 		strb.WriteByte('\n')
-		strb.WriteString(b.goString(indent+2, ""))
+		strb.WriteString(b.golangString(indent+2, ""))
 	}
 	return strb.String()
 }
@@ -4451,10 +4451,10 @@ func (ut *UnnamedType) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 }
 
 func (ut *UnnamedType) GoString() string {
-	return ut.goString(0, "")
+	return ut.golangString(0, "")
 }
 
-func (ut *UnnamedType) goString(indent int, field string) string {
+func (ut *UnnamedType) golangString(indent int, field string) string {
 	return fmt.Sprintf("%*s%sUnnamedType: Num: %d", indent, "", field, ut.Num)
 }
 
@@ -4498,12 +4498,12 @@ func (c *Clone) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 }
 
 func (c *Clone) GoString() string {
-	return c.goString(0, "")
+	return c.golangString(0, "")
 }
 
-func (c *Clone) goString(indent int, field string) string {
+func (c *Clone) golangString(indent int, field string) string {
 	return fmt.Sprintf("%*s%sClone: Suffix: %s\n%s", indent, "", field,
-		c.Suffix, c.Base.goString(indent+2, "Base: "))
+		c.Suffix, c.Base.golangString(indent+2, "Base: "))
 }
 
 // Special is a special symbol, printed as a prefix plus another
@@ -4549,12 +4549,12 @@ func (s *Special) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 }
 
 func (s *Special) GoString() string {
-	return s.goString(0, "")
+	return s.golangString(0, "")
 }
 
-func (s *Special) goString(indent int, field string) string {
+func (s *Special) golangString(indent int, field string) string {
 	return fmt.Sprintf("%*s%sSpecial: Prefix: %s\n%s", indent, "", field,
-		s.Prefix, s.Val.goString(indent+2, "Val: "))
+		s.Prefix, s.Val.golangString(indent+2, "Val: "))
 }
 
 // Special2 is like special, but uses two values.
@@ -4602,13 +4602,13 @@ func (s *Special2) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 }
 
 func (s *Special2) GoString() string {
-	return s.goString(0, "")
+	return s.golangString(0, "")
 }
 
-func (s *Special2) goString(indent int, field string) string {
+func (s *Special2) golangString(indent int, field string) string {
 	return fmt.Sprintf("%*s%sSpecial2: Prefix: %s\n%s\n%*sMiddle: %s\n%s", indent, "", field,
-		s.Prefix, s.Val1.goString(indent+2, "Val1: "),
-		indent+2, "", s.Middle, s.Val2.goString(indent+2, "Val2: "))
+		s.Prefix, s.Val1.golangString(indent+2, "Val1: "),
+		indent+2, "", s.Middle, s.Val2.golangString(indent+2, "Val2: "))
 }
 
 // EnableIf is used by clang for an enable_if attribute.
@@ -4663,10 +4663,10 @@ func (ei *EnableIf) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 }
 
 func (ei *EnableIf) GoString() string {
-	return ei.goString(0, "")
+	return ei.golangString(0, "")
 }
 
-func (ei *EnableIf) goString(indent int, field string) string {
+func (ei *EnableIf) golangString(indent int, field string) string {
 	var args string
 	if len(ei.Args) == 0 {
 		args = fmt.Sprintf("%*sArgs: nil", indent+2, "")
@@ -4674,11 +4674,11 @@ func (ei *EnableIf) goString(indent int, field string) string {
 		args = fmt.Sprintf("%*sArgs:", indent+2, "")
 		for i, a := range ei.Args {
 			args += "\n"
-			args += a.goString(indent+4, fmt.Sprintf("%d: ", i))
+			args += a.golangString(indent+4, fmt.Sprintf("%d: ", i))
 		}
 	}
 	return fmt.Sprintf("%*s%sEnableIf:\n%s\n%s", indent, "", field,
-		ei.Type.goString(indent+2, "Type: "), args)
+		ei.Type.golangString(indent+2, "Type: "), args)
 }
 
 // ModuleName is a C++20 module.
@@ -4733,19 +4733,19 @@ func (mn *ModuleName) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 }
 
 func (mn *ModuleName) GoString() string {
-	return mn.goString(0, "")
+	return mn.golangString(0, "")
 }
 
-func (mn *ModuleName) goString(indent int, field string) string {
+func (mn *ModuleName) golangString(indent int, field string) string {
 	var parent string
 	if mn.Parent == nil {
 		parent = fmt.Sprintf("%*sParent: nil", indent+2, "")
 	} else {
-		parent = mn.Parent.goString(indent+2, "Parent: ")
+		parent = mn.Parent.golangString(indent+2, "Parent: ")
 	}
 	return fmt.Sprintf("%*s%sModuleName: IsPartition: %t\n%s\n%s", indent, "", field,
 		mn.IsPartition, parent,
-		mn.Name.goString(indent+2, "Name: "))
+		mn.Name.golangString(indent+2, "Name: "))
 }
 
 // ModuleEntity is a name inside a module.
@@ -4790,13 +4790,13 @@ func (me *ModuleEntity) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 }
 
 func (me *ModuleEntity) GoString() string {
-	return me.goString(0, "")
+	return me.golangString(0, "")
 }
 
-func (me *ModuleEntity) goString(indent int, field string) string {
+func (me *ModuleEntity) golangString(indent int, field string) string {
 	return fmt.Sprintf("%*s%sModuleEntity:\n%s\n%s", indent, "", field,
-		me.Module.goString(indent+2, "Module: "),
-		me.Name.goString(indent+2, "Name: "))
+		me.Module.golangString(indent+2, "Module: "),
+		me.Name.golangString(indent+2, "Name: "))
 }
 
 // Friend is a member like friend name.
@@ -4831,12 +4831,12 @@ func (f *Friend) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 }
 
 func (f *Friend) GoString() string {
-	return f.goString(0, "")
+	return f.golangString(0, "")
 }
 
-func (f *Friend) goString(indent int, field string) string {
+func (f *Friend) golangString(indent int, field string) string {
 	return fmt.Sprintf("%*s%sFriend:\n%s", indent, "", field,
-		f.Name.goString(indent+2, "Name: "))
+		f.Name.golangString(indent+2, "Name: "))
 }
 
 // Constraint represents an AST with a constraint.
@@ -4881,13 +4881,13 @@ func (c *Constraint) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 }
 
 func (c *Constraint) GoString() string {
-	return c.goString(0, "")
+	return c.golangString(0, "")
 }
 
-func (c *Constraint) goString(indent int, field string) string {
+func (c *Constraint) golangString(indent int, field string) string {
 	return fmt.Sprintf("%*s%sConstraint:\n%s\n%s", indent, "", field,
-		c.Name.goString(indent+2, "Name: "),
-		c.Requires.goString(indent+2, "Requires: "))
+		c.Name.golangString(indent+2, "Name: "),
+		c.Requires.golangString(indent+2, "Requires: "))
 }
 
 // RequiresExpr is a C++20 requires expression.
@@ -4968,10 +4968,10 @@ func (re *RequiresExpr) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 }
 
 func (re *RequiresExpr) GoString() string {
-	return re.goString(0, "")
+	return re.golangString(0, "")
 }
 
-func (re *RequiresExpr) goString(indent int, field string) string {
+func (re *RequiresExpr) golangString(indent int, field string) string {
 	var params strings.Builder
 	if len(re.Params) == 0 {
 		fmt.Fprintf(&params, "%*sParams: nil", indent+2, "")
@@ -4979,7 +4979,7 @@ func (re *RequiresExpr) goString(indent int, field string) string {
 		fmt.Fprintf(&params, "%*sParams:", indent+2, "")
 		for i, p := range re.Params {
 			params.WriteByte('\n')
-			params.WriteString(p.goString(indent+4, fmt.Sprintf("%d: ", i)))
+			params.WriteString(p.golangString(indent+4, fmt.Sprintf("%d: ", i)))
 		}
 	}
 
@@ -4987,7 +4987,7 @@ func (re *RequiresExpr) goString(indent int, field string) string {
 	fmt.Fprintf(&requirements, "%*sRequirements:", indent+2, "")
 	for i, r := range re.Requirements {
 		requirements.WriteByte('\n')
-		requirements.WriteString(r.goString(indent+4, fmt.Sprintf("%d: ", i)))
+		requirements.WriteString(r.golangString(indent+4, fmt.Sprintf("%d: ", i)))
 	}
 
 	return fmt.Sprintf("%*s%sRequirements:\n%s\n%s", indent, "", field,
@@ -5056,18 +5056,18 @@ func (er *ExprRequirement) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 }
 
 func (er *ExprRequirement) GoString() string {
-	return er.goString(0, "")
+	return er.golangString(0, "")
 }
 
-func (er *ExprRequirement) goString(indent int, field string) string {
+func (er *ExprRequirement) golangString(indent int, field string) string {
 	var typeReq string
 	if er.TypeReq != nil {
-		typeReq = "\n" + er.TypeReq.goString(indent+2, "TypeReq: ")
+		typeReq = "\n" + er.TypeReq.golangString(indent+2, "TypeReq: ")
 	}
 
 	return fmt.Sprintf("%*s%sExprRequirement: Noexcept: %t\n%s%s", indent, "", field,
 		er.Noexcept,
-		er.Expr.goString(indent+2, "Expr: "),
+		er.Expr.golangString(indent+2, "Expr: "),
 		typeReq)
 }
 
@@ -5104,12 +5104,12 @@ func (tr *TypeRequirement) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 }
 
 func (tr *TypeRequirement) GoString() string {
-	return tr.goString(0, "")
+	return tr.golangString(0, "")
 }
 
-func (tr *TypeRequirement) goString(indent int, field string) string {
+func (tr *TypeRequirement) golangString(indent int, field string) string {
 	return fmt.Sprintf("%*s%sTypeRequirement:\n%s", indent, "", field,
-		tr.Type.goString(indent+2, ""))
+		tr.Type.golangString(indent+2, ""))
 }
 
 // NestedRequirement is a nested requirement in a requires expression.
@@ -5145,12 +5145,12 @@ func (nr *NestedRequirement) Copy(fn func(AST) AST, skip func(AST) bool) AST {
 }
 
 func (nr *NestedRequirement) GoString() string {
-	return nr.goString(0, "")
+	return nr.golangString(0, "")
 }
 
-func (nr *NestedRequirement) goString(indent int, field string) string {
+func (nr *NestedRequirement) golangString(indent int, field string) string {
 	return fmt.Sprintf("%*s%sNestedRequirement:\n%s", indent, "", field,
-		nr.Constraint.goString(indent+2, ""))
+		nr.Constraint.golangString(indent+2, ""))
 }
 
 // ExplicitObjectParameter represents a C++23 explicit object parameter.
@@ -5185,12 +5185,12 @@ func (eop *ExplicitObjectParameter) Copy(fn func(AST) AST, skip func(AST) bool) 
 }
 
 func (eop *ExplicitObjectParameter) GoString() string {
-	return eop.goString(0, "")
+	return eop.golangString(0, "")
 }
 
-func (eop *ExplicitObjectParameter) goString(indent int, field string) string {
+func (eop *ExplicitObjectParameter) golangString(indent int, field string) string {
 	return fmt.Sprintf("%*s%sExplicitObjectParameter:\n%s", indent, "", field,
-		eop.Base.goString(indent+2, ""))
+		eop.Base.golangString(indent+2, ""))
 }
 
 // Print the inner types.

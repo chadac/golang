@@ -7,5 +7,5 @@ The [synctest.Test] function runs a test function in an isolated
 "bubble". Within the bubble, [time](/pkg/time) package functions
 operate on a fake clock.
 
-The [synctest.Wait] function waits for all goroutines in the
+The [synctest.Wait] function waits for all golangroutines in the
 current bubble to block.

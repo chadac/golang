@@ -9,7 +9,7 @@
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
+// See the License for the specific language golangverning permissions and
 // limitations under the License.
 
 // Package measurement export utility functions to manipulate/format performance profile sample values.
@@ -21,7 +21,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/google/pprof/profile"
+	"github.com/golangogle/pprof/profile"
 )
 
 // ScaleProfiles updates the units in a set of profiles to make them
@@ -186,7 +186,7 @@ type Unit struct {
 	Factor        float64
 }
 
-// UnitType includes a list of units that are within the same category (i.e.
+// UnitType includes a list of units that are within the same categolangry (i.e.
 // memory or time units) and a default unit to use for this type of unit.
 type UnitType struct {
 	DefaultUnit Unit

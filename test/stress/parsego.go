@@ -1,13 +1,13 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
 
 import (
-	"go/ast"
-	"go/parser"
-	"go/token"
+	"golang/ast"
+	"golang/parser"
+	"golang/token"
 	"os"
 	"path"
 	"runtime"
@@ -17,12 +17,12 @@ import (
 func isGoFile(dir os.FileInfo) bool {
 	return !dir.IsDir() &&
 		!strings.HasPrefix(dir.Name(), ".") && // ignore .files
-		path.Ext(dir.Name()) == ".go"
+		path.Ext(dir.Name()) == ".golang"
 }
 
 func isPkgFile(dir os.FileInfo) bool {
 	return isGoFile(dir) &&
-		!strings.HasSuffix(dir.Name(), "_test.go") // ignore test files
+		!strings.HasSuffix(dir.Name(), "_test.golang") // ignore test files
 }
 
 func pkgName(filename string) string {
@@ -39,7 +39,7 @@ func parseDir(dirpath string) map[string]*ast.Package {
 	// has no trailing '/')
 	_, pkgname := path.Split(dirpath)
 
-	// filter function to select the desired .go files
+	// filter function to select the desired .golang files
 	filter := func(d os.FileInfo) bool {
 		if isPkgFile(d) {
 			// Some directories contain main packages: Only accept
@@ -58,7 +58,7 @@ func parseDir(dirpath string) map[string]*ast.Package {
 	pkgs, err := parser.ParseDir(token.NewFileSet(), dirpath, filter, parser.ParseComments)
 	if err != nil {
 		println("parse", dirpath, err.Error())
-		panic("go ParseDir fail: " + err.Error())
+		panic("golang ParseDir fail: " + err.Error())
 	}
 	return pkgs
 }
@@ -69,7 +69,7 @@ func stressParseGo() {
 		m := make(map[string]map[string]*ast.Package)
 		for _, pkg := range packages {
 			m[pkg] = parseDir(pkgroot + pkg)
-			Println("parsed go package", pkg)
+			Println("parsed golang package", pkg)
 		}
 	}
 }
@@ -117,7 +117,7 @@ var packages = []string{
 	"debug",
 	"debug/dwarf",
 	"debug/elf",
-	"debug/gosym",
+	"debug/golangsym",
 	"debug/macho",
 	"debug/pe",
 	"encoding",
@@ -127,7 +127,7 @@ var packages = []string{
 	"encoding/base64",
 	"encoding/binary",
 	"encoding/csv",
-	"encoding/gob",
+	"encoding/golangb",
 	"encoding/hex",
 	"encoding/json",
 	"encoding/pem",
@@ -136,15 +136,15 @@ var packages = []string{
 	"expvar",
 	"flag",
 	"fmt",
-	"go",
-	"go/ast",
-	"go/build",
-	"go/doc",
-	"go/format",
-	"go/parser",
-	"go/printer",
-	"go/scanner",
-	"go/token",
+	"golang",
+	"golang/ast",
+	"golang/build",
+	"golang/doc",
+	"golang/format",
+	"golang/parser",
+	"golang/printer",
+	"golang/scanner",
+	"golang/token",
 	"hash",
 	"hash/adler32",
 	"hash/crc32",
@@ -194,7 +194,7 @@ var packages = []string{
 	"regexp",
 	"regexp/syntax",
 	"runtime",
-	"runtime/cgo",
+	"runtime/cgolang",
 	"runtime/debug",
 	"runtime/pprof",
 	"runtime/race",

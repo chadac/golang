@@ -2,7 +2,7 @@
 -- input --
 Hello, world
  Code block here.
--- gofmt --
+-- golangfmt --
 Hello, world
 
 	Code block here.

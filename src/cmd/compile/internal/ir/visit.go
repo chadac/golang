@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // IR visitors for walking the IR tree.
@@ -98,7 +98,7 @@ func DoChildren(n Node, do func(Node) bool) bool {
 // Node-typed fields tagged with `mknode:"-"`.
 //
 // TODO(mdempsky): Remove the `mknode:"-"` tags so this function can
-// go away.
+// golang away.
 func DoChildrenWithHidden(n Node, do func(Node) bool) bool {
 	if n == nil {
 		return false
@@ -212,7 +212,7 @@ func EditChildren(n Node, edit func(Node) Node) {
 // Node-typed fields tagged with `mknode:"-"`.
 //
 // TODO(mdempsky): Remove the `mknode:"-"` tags so this function can
-// go away.
+// golang away.
 func EditChildrenWithHidden(n Node, edit func(Node) Node) {
 	if n == nil {
 		return

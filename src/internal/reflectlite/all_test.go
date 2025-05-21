@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package reflectlite_test
@@ -356,8 +356,8 @@ func TestCanSetField(t *testing.T) {
 					}
 					f = Field(f, i)
 				}
-				if got := f.CanSet(); got != tc.canSet {
-					t.Errorf("CanSet() = %v, want %v", got, tc.canSet)
+				if golangt := f.CanSet(); golangt != tc.canSet {
+					t.Errorf("CanSet() = %v, want %v", golangt, tc.canSet)
 				}
 			}
 		})
@@ -394,7 +394,7 @@ func TestPtrSetNil(t *testing.T) {
 	vip := ValueOf(&ip)
 	vip.Elem().Set(Zero(vip.Elem().Type()))
 	if ip != nil {
-		t.Errorf("got non-nil (%d), want nil", *ip)
+		t.Errorf("golangt non-nil (%d), want nil", *ip)
 	}
 }
 
@@ -403,7 +403,7 @@ func TestMapSetNil(t *testing.T) {
 	vm := ValueOf(&m)
 	vm.Elem().Set(Zero(vm.Elem().Type()))
 	if m != nil {
-		t.Errorf("got non-nil (%p), want nil", m)
+		t.Errorf("golangt non-nil (%p), want nil", m)
 	}
 }
 
@@ -433,7 +433,7 @@ func TestInterfaceValue(t *testing.T) {
 
 	i3 := ToInterface(v2)
 	if _, ok := i3.(float64); !ok {
-		t.Error("v2.Interface() did not return float64, got ", TypeOf(i3))
+		t.Error("v2.Interface() did not return float64, golangt ", TypeOf(i3))
 	}
 }
 
@@ -593,7 +593,7 @@ var typeOfTests = []DeepEqualTest{
 func TestTypeOf(t *testing.T) {
 	// Special case for nil
 	if typ := TypeOf(nil); typ != nil {
-		t.Errorf("expected nil type for nil value; got %v", typ)
+		t.Errorf("expected nil type for nil value; golangt %v", typ)
 	}
 	for _, test := range typeOfTests {
 		v := ValueOf(test.a)
@@ -800,7 +800,7 @@ func noAlloc(t *testing.T, n int, f func(int)) {
 		i++
 	})
 	if allocs > 0 {
-		t.Errorf("%d iterations: got %v mallocs, want 0", n, allocs)
+		t.Errorf("%d iterations: golangt %v mallocs, want 0", n, allocs)
 	}
 }
 
@@ -982,8 +982,8 @@ var nameTests = []nameTest{
 func TestNames(t *testing.T) {
 	for _, test := range nameTests {
 		typ := TypeOf(test.v).Elem()
-		if got := typ.Name(); got != test.want {
-			t.Errorf("%v Name()=%q, want %q", typ, got, test.want)
+		if golangt := typ.Name(); golangt != test.want {
+			t.Errorf("%v Name()=%q, want %q", typ, golangt, test.want)
 		}
 	}
 }

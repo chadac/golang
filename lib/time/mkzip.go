@@ -1,15 +1,15 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build ignore
+//golang:build ignore
 
 // Mkzip writes a zoneinfo.zip with the content of the current directory
 // and its subdirectories, with no compression, suitable for package time.
 //
 // Usage:
 //
-//	go run ../../mkzip.go ../../zoneinfo.zip
+//	golang run ../../mkzip.golang ../../zoneinfo.zip
 //
 // We use this program instead of 'zip -0 -r ../../zoneinfo.zip *' to get
 // a reproducible generator that does not depend on which version of the
@@ -31,7 +31,7 @@ import (
 )
 
 func usage() {
-	fmt.Fprintf(os.Stderr, "usage: go run mkzip.go zoneinfo.zip\n")
+	fmt.Fprintf(os.Stderr, "usage: golang run mkzip.golang zoneinfo.zip\n")
 	os.Exit(2)
 }
 

@@ -3,17 +3,17 @@
 
 [short] skip
 
-go generate ./mod
-cmp ./mod/got.txt want.txt
+golang generate ./mod
+cmp ./mod/golangt.txt want.txt
 
--- go.work --
-go 1.22
+-- golang.work --
+golang 1.22
 
 use ./mod
--- mod/go.mod --
+-- mod/golang.mod --
 module example.com/mod
--- mod/gen.go --
-//go:generate go run gen.go got.txt
+-- mod/gen.golang --
+//golang:generate golang run gen.golang golangt.txt
 
 package main
 

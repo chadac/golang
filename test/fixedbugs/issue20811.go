@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Issue 20811: slice-in-bound check is lowered incorrectly on
@@ -16,7 +16,7 @@ func main() {
 	_ = "x"[:int32(j)]
 }
 
-//go:noinline
+//golang:noinline
 func g() int64 {
 	return 4398046511104
 }

@@ -603,7 +603,7 @@ function stackViewer(stacks, nodes) {
   function makeColor(index) {
     // Rotate hue around a circle. Multiple by phi to spread things
     // out better. Use 50% saturation to make subdued colors, and
-    // 80% lightness to have good contrast with black foreground text.
+    // 80% lightness to have golangod contrast with black foreground text.
     const PHI = 1.618033988;
     const hue = (index+1) * PHI * 2 * Math.PI; // +1 to avoid 0
     const hsl = `hsl(${hue}rad 50% 80%)`;

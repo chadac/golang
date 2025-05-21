@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Issue 19710: mishandled defer delete(...)
@@ -10,7 +10,7 @@ package main
 
 func main() {
 	if n := len(f()); n != 0 {
-		println("got", n, "want 0")
+		println("golangt", n, "want 0")
 		panic("bad defer delete")
 	}
 }

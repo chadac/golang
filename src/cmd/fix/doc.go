@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 /*
@@ -9,13 +9,13 @@ the necessary changes to your programs.
 
 Usage:
 
-	go tool fix [-r name,...] [path ...]
+	golang tool fix [-r name,...] [path ...]
 
 Without an explicit path, fix reads standard input and writes the
 result to standard output.
 
 If the named path is a file, fix rewrites the named files in place.
-If the named path is a directory, fix rewrites all .go files in that
+If the named path is a directory, fix rewrites all .golang files in that
 directory tree.  When fix rewrites a file, it prints a line to standard
 error giving the name of the file and the rewrite applied.
 
@@ -28,7 +28,7 @@ rewrites are idempotent, so that it is safe to apply fix to updated
 or partially updated code even without using the -r flag.
 
 Fix prints the full list of fixes it can apply in its help output;
-to see them, run go tool fix -help.
+to see them, run golang tool fix -help.
 
 Fix does not make backup copies of the files that it edits.
 Instead, use a version control system's “diff” functionality to inspect

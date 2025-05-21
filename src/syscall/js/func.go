@@ -1,8 +1,8 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build js && wasm
+//golang:build js && wasm
 
 package js
 
@@ -31,15 +31,15 @@ type Func struct {
 // the result of the Go function mapped back to JavaScript according to ValueOf.
 //
 // Invoking the wrapped Go function from JavaScript will
-// pause the event loop and spawn a new goroutine.
+// pause the event loop and spawn a new golangroutine.
 // Other wrapped functions which are triggered during a call from Go to JavaScript
-// get executed on the same goroutine.
+// get executed on the same golangroutine.
 //
 // As a consequence, if one wrapped function blocks, JavaScript's event loop
 // is blocked until that function returns. Hence, calling any async JavaScript
 // API, which requires the event loop, like fetch (http.Client), will cause an
 // immediate deadlock. Therefore a blocking function should explicitly start a
-// new goroutine.
+// new golangroutine.
 //
 // Func.Release must be called to free up resources when the function will not be invoked any more.
 func FuncOf(fn func(this Value, args []Value) any) Func {

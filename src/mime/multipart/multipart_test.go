@@ -1,5 +1,5 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package multipart
@@ -44,7 +44,7 @@ func expectEq(t *testing.T, expected, actual, what string) {
 	if expected == actual {
 		return
 	}
-	t.Errorf("Unexpected value for %s; got %s (len %d) but expected: %s (len %d)",
+	t.Errorf("Unexpected value for %s; golangt %s (len %d) but expected: %s (len %d)",
 		what, escapeString(actual), len(actual), escapeString(expected), len(expected))
 }
 
@@ -160,11 +160,11 @@ func testMultipart(t *testing.T, r io.Reader, onlyNewlines bool) {
 	// Part2
 	part, err = reader.NextPart()
 	if err != nil {
-		t.Fatalf("Expected part2; got: %v", err)
+		t.Fatalf("Expected part2; golangt: %v", err)
 		return
 	}
 	if e, g := "bigsection", part.Header.Get("name"); e != g {
-		t.Errorf("part2's name header: expected %q, got %q", e, g)
+		t.Errorf("part2's name header: expected %q, golangt %q", e, g)
 	}
 	buf.Reset()
 	if _, err := io.Copy(buf, part); err != nil {
@@ -172,7 +172,7 @@ func testMultipart(t *testing.T, r io.Reader, onlyNewlines bool) {
 	}
 	s := buf.String()
 	if len(s) != len(longLine) {
-		t.Errorf("part2 body expected long line of length %d; got length %d",
+		t.Errorf("part2 body expected long line of length %d; golangt length %d",
 			len(longLine), len(s))
 	}
 	if s != longLine {
@@ -208,7 +208,7 @@ func testMultipart(t *testing.T, r io.Reader, onlyNewlines bool) {
 		t.Error("Didn't expect a fifth part.")
 	}
 	if err != io.EOF {
-		t.Errorf("On fifth part expected io.EOF; got %v", err)
+		t.Errorf("On fifth part expected io.EOF; golangt %v", err)
 	}
 }
 
@@ -253,7 +253,7 @@ func TestVariousTextLineEndings(t *testing.T) {
 			t.Errorf("Unexpected part in test %d", testNum)
 		}
 		if err != io.EOF {
-			t.Errorf("On test %d expected io.EOF; got %v", testNum, err)
+			t.Errorf("On test %d expected io.EOF; golangt %v", testNum, err)
 		}
 
 	}
@@ -317,7 +317,7 @@ Oh no, premature EOF!
 		}
 		_, err = io.Copy(io.Discard, part)
 		if err != io.ErrUnexpectedEOF {
-			t.Fatalf("expected error io.ErrUnexpectedEOF; got %v", err)
+			t.Fatalf("expected error io.ErrUnexpectedEOF; golangt %v", err)
 		}
 	}
 }
@@ -348,7 +348,7 @@ func (s *sentinelReader) Read([]byte) (int, error) {
 
 // TestMultipartStreamReadahead tests that PartReader does not block
 // on reading past the end of a part, ensuring that it can be used on
-// a stream like multipart/x-mixed-replace. See golang.org/issue/15431
+// a stream like multipart/x-mixed-replace. See golanglang.org/issue/15431
 func TestMultipartStreamReadahead(t *testing.T) {
 	testBody1 := `
 This is a multi-part message.  This line is ignored.
@@ -436,7 +436,7 @@ func TestQuotedPrintableEncoding(t *testing.T) {
 }
 
 func testQuotedPrintableEncoding(t *testing.T, cte string) {
-	// From https://golang.org/issue/4411
+	// From https://golanglang.org/issue/4411
 	body := "--0016e68ee29c5d515f04cedf6733\r\nContent-Type: text/plain; charset=ISO-8859-1\r\nContent-Disposition: form-data; name=text\r\nContent-Transfer-Encoding: " + cte + "\r\n\r\nwords words words words words words words words words words words words wor=\r\nds words words words words words words words words words words words words =\r\nwords words words words words words words words words words words words wor=\r\nds words words words words words words words words words words words words =\r\nwords words words words words words words words words\r\n--0016e68ee29c5d515f04cedf6733\r\nContent-Type: text/plain; charset=ISO-8859-1\r\nContent-Disposition: form-data; name=submit\r\n\r\nSubmit\r\n--0016e68ee29c5d515f04cedf6733--"
 	r := NewReader(strings.NewReader(body), "0016e68ee29c5d515f04cedf6733")
 	part, err := r.NextPart()
@@ -451,15 +451,15 @@ func testQuotedPrintableEncoding(t *testing.T, cte string) {
 	if err != nil {
 		t.Error(err)
 	}
-	got := buf.String()
+	golangt := buf.String()
 	want := "words words words words words words words words words words words words words words words words words words words words words words words words words words words words words words words words words words words words words words words words words words words words words words words words words words words words words words words words words words words"
-	if got != want {
-		t.Errorf("wrong part value:\n got: %q\nwant: %q", got, want)
+	if golangt != want {
+		t.Errorf("wrong part value:\n golangt: %q\nwant: %q", golangt, want)
 	}
 }
 
 func TestRawPart(t *testing.T) {
-	// https://github.com/golang/go/issues/29090
+	// https://github.com/golanglang/golang/issues/29090
 
 	body := strings.Replace(`--0016e68ee29c5d515f04cedf6733
 Content-Type: text/plain; charset="utf-8"
@@ -489,11 +489,11 @@ Content-Transfer-Encoding: quoted-printable
 	if err != nil {
 		t.Error(err)
 	}
-	got := buf.String()
+	golangt := buf.String()
 	// Data is still quoted-printable.
 	want := `<div dir=3D"ltr">Hello World.</div>`
-	if got != want {
-		t.Errorf("wrong part value:\n got: %q\nwant: %q", got, want)
+	if golangt != want {
+		t.Errorf("wrong part value:\n golangt: %q\nwant: %q", golangt, want)
 	}
 
 	// This part is expected to have automatic decoding of quoted-printable.
@@ -510,11 +510,11 @@ Content-Transfer-Encoding: quoted-printable
 	if err != nil {
 		t.Error(err)
 	}
-	got = buf.String()
+	golangt = buf.String()
 	// QP data has been decoded.
 	want = `<div dir="ltr">Hello World.</div>`
-	if got != want {
-		t.Errorf("wrong part value:\n got: %q\nwant: %q", got, want)
+	if golangt != want {
+		t.Errorf("wrong part value:\n golangt: %q\nwant: %q", golangt, want)
 	}
 }
 
@@ -540,14 +540,14 @@ func TestNested(t *testing.T) {
 		t.Fatalf("reading text/plain part: %v", err)
 	}
 	if b, err := io.ReadAll(p); string(b) != "*body*\r\n" || err != nil {
-		t.Fatalf("reading text/plain part: got %q, %v", b, err)
+		t.Fatalf("reading text/plain part: golangt %q, %v", b, err)
 	}
 	p, err = mr2.NextPart()
 	if err != nil {
 		t.Fatalf("reading text/html part: %v", err)
 	}
 	if b, err := io.ReadAll(p); string(b) != "<b>body</b>\r\n" || err != nil {
-		t.Fatalf("reading text/html part: got %q, %v", b, err)
+		t.Fatalf("reading text/html part: golangt %q, %v", b, err)
 	}
 
 	p, err = mr2.NextPart()
@@ -899,7 +899,7 @@ func TestParse(t *testing.T) {
 Cases:
 	for _, tt := range parseTests {
 		r := NewReader(strings.NewReader(tt.in), tt.sep)
-		got := []headerBody{}
+		golangt := []headerBody{}
 		for {
 			p, err := r.NextPart()
 			if err == io.EOF {
@@ -914,16 +914,16 @@ Cases:
 				t.Errorf("in test %q, error reading part: %v", tt.name, err)
 				continue Cases
 			}
-			got = append(got, headerBody{p.Header, string(pbody)})
+			golangt = append(golangt, headerBody{p.Header, string(pbody)})
 		}
-		if !reflect.DeepEqual(tt.want, got) {
-			t.Errorf("test %q:\n got: %v\nwant: %v", tt.name, got, tt.want)
-			if len(tt.want) != len(got) {
-				t.Errorf("test %q: got %d parts, want %d", tt.name, len(got), len(tt.want))
-			} else if len(got) > 1 {
+		if !reflect.DeepEqual(tt.want, golangt) {
+			t.Errorf("test %q:\n golangt: %v\nwant: %v", tt.name, golangt, tt.want)
+			if len(tt.want) != len(golangt) {
+				t.Errorf("test %q: golangt %d parts, want %d", tt.name, len(golangt), len(tt.want))
+			} else if len(golangt) > 1 {
 				for pi, wantPart := range tt.want {
-					if !reflect.DeepEqual(wantPart, got[pi]) {
-						t.Errorf("test %q, part %d:\n got: %v\nwant: %v", tt.name, pi, got[pi], wantPart)
+					if !reflect.DeepEqual(wantPart, golangt[pi]) {
+						t.Errorf("test %q, part %d:\n golangt: %v\nwant: %v", tt.name, pi, golangt[pi], wantPart)
 					}
 				}
 			}
@@ -932,11 +932,11 @@ Cases:
 }
 
 func partsFromReader(r *Reader) ([]headerBody, error) {
-	got := []headerBody{}
+	golangt := []headerBody{}
 	for {
 		p, err := r.NextPart()
 		if err == io.EOF {
-			return got, nil
+			return golangt, nil
 		}
 		if err != nil {
 			return nil, fmt.Errorf("NextPart: %v", err)
@@ -945,7 +945,7 @@ func partsFromReader(r *Reader) ([]headerBody, error) {
 		if err != nil {
 			return nil, fmt.Errorf("error reading part: %v", err)
 		}
-		got = append(got, headerBody{p.Header, string(pbody)})
+		golangt = append(golangt, headerBody{p.Header, string(pbody)})
 	}
 }
 
@@ -967,17 +967,17 @@ func TestParseAllSizes(t *testing.T) {
 		part.Write([]byte("val"))
 		w.Close()
 		r := NewReader(&buf, w.Boundary())
-		got, err := partsFromReader(r)
+		golangt, err := partsFromReader(r)
 		if err != nil {
 			t.Errorf("For size %d: %v", size, err)
 			continue
 		}
-		if len(got) != 2 {
-			t.Errorf("For size %d, num parts = %d; want 2", size, len(got))
+		if len(golangt) != 2 {
+			t.Errorf("For size %d, num parts = %d; want 2", size, len(golangt))
 			continue
 		}
-		if got[0].body != body[:size] {
-			t.Errorf("For size %d, got unexpected len %d: %q", size, len(got[0].body), got[0].body)
+		if golangt[0].body != body[:size] {
+			t.Errorf("For size %d, golangt unexpected len %d: %q", size, len(golangt[0].body), golangt[0].body)
 		}
 	}
 }
@@ -1014,7 +1014,7 @@ func roundTripParseTest() parseTest {
 func TestNoBoundary(t *testing.T) {
 	mr := NewReader(strings.NewReader(""), "")
 	_, err := mr.NextPart()
-	if got, want := fmt.Sprint(err), "multipart: boundary is empty"; got != want {
-		t.Errorf("NextPart error = %v; want %v", got, want)
+	if golangt, want := fmt.Sprint(err), "multipart: boundary is empty"; golangt != want {
+		t.Errorf("NextPart error = %v; want %v", golangt, want)
 	}
 }

@@ -82,12 +82,12 @@ func (ctxt *Link) computeTLSOffset() {
 		objabi.Hfreebsd,
 		objabi.Hnetbsd,
 		objabi.Hopenbsd,
-		objabi.Hdragonfly,
+		objabi.Hdragolangnfly,
 		objabi.Hsolaris:
 		/*
 		 * ELF uses TLS offset negative from FS.
 		 * Translate 0(FS) and 8(FS) into -16(FS) and -8(FS).
-		 * Known to low-level assembly in package runtime and runtime/cgo.
+		 * Known to low-level assembly in package runtime and runtime/cgolang.
 		 */
 		ctxt.Tlsoffset = -1 * ctxt.Arch.PtrSize
 
@@ -104,7 +104,7 @@ func (ctxt *Link) computeTLSOffset() {
 			 * That slot is at offset 0x30 on amd64.
 			 * The slot will hold the G pointer.
 			 * These constants should match those in runtime/sys_darwin_amd64.s
-			 * and runtime/cgo/gcc_darwin_amd64.c.
+			 * and runtime/cgolang/gcc_darwin_amd64.c.
 			 */
 		case sys.AMD64:
 			ctxt.Tlsoffset = 0x30

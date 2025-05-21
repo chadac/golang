@@ -1,5 +1,5 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package os_test
@@ -8,7 +8,7 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
-	"internal/godebug"
+	"internal/golangdebug"
 	"internal/poll"
 	"internal/syscall/windows"
 	"internal/syscall/windows/registry"
@@ -31,8 +31,8 @@ import (
 	"unsafe"
 )
 
-var winsymlink = godebug.New("winsymlink")
-var winreadlinkvolume = godebug.New("winreadlinkvolume")
+var winsymlink = golangdebug.New("winsymlink")
+var winreadlinkvolume = golangdebug.New("winreadlinkvolume")
 
 // For TestRawConnReadWrite.
 type syscallDescriptor = syscall.Handle
@@ -524,20 +524,20 @@ func TestNetworkSymbolicLink(t *testing.T) {
 	}
 	defer os.Remove(link)
 
-	got, err := os.Readlink(link)
+	golangt, err := os.Readlink(link)
 	if err != nil {
 		t.Fatal(err)
 	}
-	if got != target {
-		t.Errorf(`os.Readlink(%#q): got %v, want %v`, link, got, target)
+	if golangt != target {
+		t.Errorf(`os.Readlink(%#q): golangt %v, want %v`, link, golangt, target)
 	}
 
-	got, err = filepath.EvalSymlinks(link)
+	golangt, err = filepath.EvalSymlinks(link)
 	if err != nil {
 		t.Fatal(err)
 	}
-	if got != target {
-		t.Errorf(`filepath.EvalSymlinks(%#q): got %v, want %v`, link, got, target)
+	if golangt != target {
+		t.Errorf(`filepath.EvalSymlinks(%#q): golangt %v, want %v`, link, golangt, target)
 	}
 }
 
@@ -575,7 +575,7 @@ func TestStatLxSymLink(t *testing.T) {
 	_, err = os.Stat(link)
 	const ERROR_CANT_ACCESS_FILE = syscall.Errno(1920)
 	if err == nil || !errors.Is(err, ERROR_CANT_ACCESS_FILE) {
-		t.Fatalf("os.Stat(%q): got %v, want ERROR_CANT_ACCESS_FILE", link, err)
+		t.Fatalf("os.Stat(%q): golangt %v, want ERROR_CANT_ACCESS_FILE", link, err)
 	}
 }
 
@@ -645,7 +645,7 @@ func TestOpenVolumeName(t *testing.T) {
 	tmpdir := t.TempDir()
 	t.Chdir(tmpdir)
 
-	want := []string{"file1", "file2", "file3", "gopher.txt"}
+	want := []string{"file1", "file2", "file3", "golangpher.txt"}
 	slices.Sort(want)
 	for _, name := range want {
 		err := os.WriteFile(filepath.Join(tmpdir, name), nil, 0777)
@@ -840,7 +840,7 @@ func main() {
 	fmt.Printf("%q", os.Args)
 }
 `
-	src := filepath.Join(tmpdir, "main.go")
+	src := filepath.Join(tmpdir, "main.golang")
 	if err := os.WriteFile(src, []byte(prog), 0666); err != nil {
 		t.Fatal(err)
 	}
@@ -1003,8 +1003,8 @@ func TestFileStatNUL(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if got, want := fi.Mode(), os.ModeDevice|os.ModeCharDevice|0666; got != want {
-		t.Errorf("Open(%q).Stat().Mode() = %v, want %v", "NUL", got, want)
+	if golangt, want := fi.Mode(), os.ModeDevice|os.ModeCharDevice|0666; golangt != want {
+		t.Errorf("Open(%q).Stat().Mode() = %v, want %v", "NUL", golangt, want)
 	}
 }
 
@@ -1015,8 +1015,8 @@ func TestStatNUL(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if got, want := fi.Mode(), os.ModeDevice|os.ModeCharDevice|0666; got != want {
-		t.Errorf("Stat(%q).Mode() = %v, want %v", "NUL", got, want)
+	if golangt, want := fi.Mode(), os.ModeDevice|os.ModeCharDevice|0666; golangt != want {
+		t.Errorf("Stat(%q).Mode() = %v, want %v", "NUL", golangt, want)
 	}
 }
 
@@ -1044,7 +1044,7 @@ func TestSymlinkCreation(t *testing.T) {
 // TestRootRelativeDirSymlink verifies that symlinks to paths relative to the
 // drive root (beginning with "\" but no volume name) are created with the
 // correct symlink type.
-// (See https://golang.org/issue/39183#issuecomment-632175728.)
+// (See https://golanglang.org/issue/39183#issuecomment-632175728.)
 func TestRootRelativeDirSymlink(t *testing.T) {
 	testenv.MustHaveSymlink(t)
 	t.Parallel()
@@ -1154,9 +1154,9 @@ func TestWorkingDirectoryRelativeSymlink(t *testing.T) {
 func TestStatOfInvalidName(t *testing.T) {
 	t.Parallel()
 
-	_, err := os.Stat("*.go")
+	_, err := os.Stat("*.golang")
 	if err == nil {
-		t.Fatal(`os.Stat("*.go") unexpectedly succeeded`)
+		t.Fatal(`os.Stat("*.golang") unexpectedly succeeded`)
 	}
 }
 
@@ -1317,12 +1317,12 @@ func TestReadlink(t *testing.T) {
 					t.Fatalf("Symlink(%#q, %#q): %v", target, link, err)
 				}
 			}
-			got, err := os.Readlink(link)
+			golangt, err := os.Readlink(link)
 			if err != nil {
 				t.Fatal(err)
 			}
-			if got != want {
-				t.Fatalf("Readlink(%#q) = %#q; want %#q", target, got, want)
+			if golangt != want {
+				t.Fatalf("Readlink(%#q) = %#q; want %#q", target, golangt, want)
 			}
 		})
 	}
@@ -1370,7 +1370,7 @@ func TestAppExecLinkStat(t *testing.T) {
 
 	lfi, err := os.Lstat(pythonPath)
 	if err != nil {
-		t.Skip("skipping test, because Python 3 is not installed via the Windows App Store on this system; see https://golang.org/issue/42919")
+		t.Skip("skipping test, because Python 3 is not installed via the Windows App Store on this system; see https://golanglang.org/issue/42919")
 	}
 
 	// An APPEXECLINK reparse point is not a symlink, so os.Readlink should return
@@ -1392,7 +1392,7 @@ func TestAppExecLinkStat(t *testing.T) {
 	}
 
 	if lfi.Name() != pythonExeName {
-		t.Errorf("Stat %s: got %q, but wanted %q", pythonPath, lfi.Name(), pythonExeName)
+		t.Errorf("Stat %s: golangt %q, but wanted %q", pythonPath, lfi.Name(), pythonExeName)
 	}
 	if tp := lfi.Mode().Type(); tp != fs.ModeIrregular {
 		// A reparse point is not a regular file, but we don't have a more appropriate
@@ -1401,7 +1401,7 @@ func TestAppExecLinkStat(t *testing.T) {
 	}
 
 	if sfi.Name() != pythonExeName {
-		t.Errorf("Stat %s: got %q, but wanted %q", pythonPath, sfi.Name(), pythonExeName)
+		t.Errorf("Stat %s: golangt %q, but wanted %q", pythonPath, sfi.Name(), pythonExeName)
 	}
 	if m := sfi.Mode(); m&fs.ModeSymlink != 0 {
 		t.Errorf("%q should be a file, not a link (mode=0x%x)", pythonPath, uint32(m))
@@ -1436,7 +1436,7 @@ func TestIllformedUTF16FileName(t *testing.T) {
 
 	// Create a file whose name contains unpaired surrogates.
 	// Use syscall.CreateFile instead of os.Create to simulate a file that is created by
-	// a non-Go program so the file name hasn't gone through syscall.UTF16FromString.
+	// a non-Go program so the file name hasn't golangne through syscall.UTF16FromString.
 	dirw := utf16.Encode([]rune(dir))
 	pathw := append(dirw, namew...)
 	fd, err := syscall.CreateFile(&pathw[0], syscall.GENERIC_ALL, 0, nil, syscall.CREATE_NEW, 0, 0)
@@ -1452,8 +1452,8 @@ func TestIllformedUTF16FileName(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if got := fi.Name(); got != name {
-		t.Errorf("got %q, want %q", got, name)
+	if golangt := fi.Name(); golangt != name {
+		t.Errorf("golangt %q, want %q", golangt, name)
 	}
 	// Verify that File.Readdirnames lists the file.
 	f, err := os.Open(dir)
@@ -1479,9 +1479,9 @@ func TestIllformedUTF16FileName(t *testing.T) {
 func TestUTF16Alloc(t *testing.T) {
 	allowsPerRun := func(want int, f func()) {
 		t.Helper()
-		got := int(testing.AllocsPerRun(5, f))
-		if got != want {
-			t.Errorf("got %d allocs, want %d", got, want)
+		golangt := int(testing.AllocsPerRun(5, f))
+		if golangt != want {
+			t.Errorf("golangt %d allocs, want %d", golangt, want)
 		}
 	}
 	allowsPerRun(1, func() {
@@ -1495,7 +1495,7 @@ func TestUTF16Alloc(t *testing.T) {
 func TestNewFileInvalid(t *testing.T) {
 	t.Parallel()
 	if f := os.NewFile(uintptr(syscall.InvalidHandle), "invalid"); f != nil {
-		t.Errorf("NewFile(InvalidHandle) got %v want nil", f)
+		t.Errorf("NewFile(InvalidHandle) golangt %v want nil", f)
 	}
 }
 
@@ -1570,7 +1570,7 @@ func TestReadDirNoFileID(t *testing.T) {
 }
 
 func TestReadWriteFileOverlapped(t *testing.T) {
-	// See https://go.dev/issue/15388.
+	// See https://golang.dev/issue/15388.
 	t.Parallel()
 
 	name := filepath.Join(t.TempDir(), "test.txt")
@@ -1598,18 +1598,18 @@ func TestReadWriteFileOverlapped(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	got, err := io.ReadAll(f)
+	golangt, err := io.ReadAll(f)
 	if err != nil {
 		t.Fatal(err)
 	}
-	if !bytes.Equal(got, data) {
-		t.Fatalf("Read = %q; want %q", got, data)
+	if !bytes.Equal(golangt, data) {
+		t.Fatalf("Read = %q; want %q", golangt, data)
 	}
 }
 
 func TestStdinOverlappedPipe(t *testing.T) {
 	// Test that we can read from a named pipe open with FILE_FLAG_OVERLAPPED.
-	// See https://go.dev/issue/15388.
+	// See https://golang.dev/issue/15388.
 	if os.Getenv("GO_WANT_HELPER_PROCESS") == "1" {
 		var buf string
 		_, err := fmt.Scanln(&buf)
@@ -1647,13 +1647,13 @@ func TestStdinOverlappedPipe(t *testing.T) {
 	cmd = testenv.CleanCmdEnv(cmd)
 	cmd.Env = append(cmd.Env, "GO_WANT_HELPER_PROCESS=1")
 	cmd.Stdin = r
-	got, err := cmd.CombinedOutput()
+	golangt, err := cmd.CombinedOutput()
 	if err != nil {
-		t.Fatalf("running %q failed: %v\n%s", cmd, err, got)
+		t.Fatalf("running %q failed: %v\n%s", cmd, err, golangt)
 	}
 
-	if !bytes.Contains(got, want) {
-		t.Fatalf("output %q does not contain %q", got, want)
+	if !bytes.Contains(golangt, want) {
+		t.Fatalf("output %q does not contain %q", golangt, want)
 	}
 }
 
@@ -1698,7 +1698,7 @@ func newMessagePipe(t testing.TB, name string, overlapped bool) *os.File {
 }
 
 func pipeName() string {
-	return `\\.\pipe\go-os-test-` + currentProcess() + `-` + strconv.FormatUint(pipeCounter.Add(1), 10)
+	return `\\.\pipe\golang-os-test-` + currentProcess() + `-` + strconv.FormatUint(pipeCounter.Add(1), 10)
 }
 
 func newPipe(t testing.TB, name string, message, overlapped bool) *os.File {
@@ -1731,7 +1731,7 @@ func newPipe(t testing.TB, name string, message, overlapped bool) *os.File {
 func testReadWrite(t *testing.T, fdr, fdw *os.File) {
 	write := make(chan string, 1)
 	read := make(chan struct{}, 1)
-	go func() {
+	golang func() {
 		for s := range write {
 			n, err := fdw.Write([]byte(s))
 			read <- struct{}{}
@@ -1739,7 +1739,7 @@ func testReadWrite(t *testing.T, fdr, fdw *os.File) {
 				t.Error(err)
 			}
 			if n != len(s) {
-				t.Errorf("expected to write %d bytes, got %d", len(s), n)
+				t.Errorf("expected to write %d bytes, golangt %d", len(s), n)
 			}
 		}
 	}()
@@ -1753,7 +1753,7 @@ func testReadWrite(t *testing.T, fdr, fdw *os.File) {
 			t.Fatalf("read failed: %v", err)
 		}
 		if !bytes.Equal(buf, []byte(s)) {
-			t.Fatalf("expected %q, got %q", s, buf)
+			t.Fatalf("expected %q, golangt %q", s, buf)
 		}
 	}
 	close(read)
@@ -1767,7 +1767,7 @@ func testPreadPwrite(t *testing.T, fdr, fdw *os.File) {
 	}
 	write := make(chan op, 1)
 	read := make(chan struct{}, 1)
-	go func() {
+	golang func() {
 		for o := range write {
 			n, err := fdw.WriteAt([]byte(o.s), o.off)
 			read <- struct{}{}
@@ -1775,7 +1775,7 @@ func testPreadPwrite(t *testing.T, fdr, fdw *os.File) {
 				t.Error(err)
 			}
 			if n != len(o.s) {
-				t.Errorf("expected to write %d bytes, got %d", len(o.s), n)
+				t.Errorf("expected to write %d bytes, golangt %d", len(o.s), n)
 			}
 		}
 	}()
@@ -1790,10 +1790,10 @@ func testPreadPwrite(t *testing.T, fdr, fdw *os.File) {
 			t.Fatal(err)
 		}
 		if n != len(s) {
-			t.Fatalf("expected to read %d bytes, got %d", len(s), n)
+			t.Fatalf("expected to read %d bytes, golangt %d", len(s), n)
 		}
 		if !bytes.Equal(buf, []byte(s)) {
-			t.Fatalf("expected %q, got %q", s, buf)
+			t.Fatalf("expected %q, golangt %q", s, buf)
 		}
 	}
 	close(read)
@@ -1808,18 +1808,18 @@ func testFileReadEOF(t *testing.T, f *os.File) {
 	var buf [1]byte
 	n, err := f.Read(buf[:])
 	if err != nil && err != io.EOF {
-		t.Errorf("expected EOF, got %v", err)
+		t.Errorf("expected EOF, golangt %v", err)
 	}
 	if n != 0 {
-		t.Errorf("expected 0 bytes, got %d", n)
+		t.Errorf("expected 0 bytes, golangt %d", n)
 	}
 
 	n, err = f.ReadAt(buf[:], end)
 	if err != nil && err != io.EOF {
-		t.Errorf("expected EOF, got %v", err)
+		t.Errorf("expected EOF, golangt %v", err)
 	}
 	if n != 0 {
-		t.Errorf("expected 0 bytes, got %d", n)
+		t.Errorf("expected 0 bytes, golangt %d", n)
 	}
 }
 
@@ -1902,10 +1902,10 @@ func TestPipeMessageReadEOF(t *testing.T) {
 	var buf [10]byte
 	n, err := file.Read(buf[:])
 	if err != io.EOF {
-		t.Errorf("expected EOF, got %v", err)
+		t.Errorf("expected EOF, golangt %v", err)
 	}
 	if n != 0 {
-		t.Errorf("expected 0 bytes, got %d", n)
+		t.Errorf("expected 0 bytes, golangt %d", n)
 	}
 }
 
@@ -1920,10 +1920,10 @@ func TestPipeClosedEOF(t *testing.T) {
 	var buf [10]byte
 	n, err := file.Read(buf[:])
 	if err != io.EOF {
-		t.Errorf("expected EOF, got %v", err)
+		t.Errorf("expected EOF, golangt %v", err)
 	}
 	if n != 0 {
-		t.Errorf("expected 0 bytes, got %d", n)
+		t.Errorf("expected 0 bytes, golangt %d", n)
 	}
 }
 
@@ -1941,7 +1941,7 @@ func TestPipeReadTimeout(t *testing.T) {
 	var buf [10]byte
 	_, err = file.Read(buf[:])
 	if !errors.Is(err, os.ErrDeadlineExceeded) {
-		t.Errorf("expected deadline exceeded, got %v", err)
+		t.Errorf("expected deadline exceeded, golangt %v", err)
 	}
 }
 
@@ -1951,7 +1951,7 @@ func TestPipeCanceled(t *testing.T) {
 	_ = newBytePipe(t, name, true)
 	file := newFileOverlapped(t, name, true)
 	ch := make(chan struct{}, 1)
-	go func() {
+	golang func() {
 		for {
 			select {
 			case <-ch:
@@ -1980,7 +1980,7 @@ func TestPipeCanceled(t *testing.T) {
 		t.Skip("took too long to cancel")
 	}
 	if !errors.Is(err, syscall.ERROR_OPERATION_ABORTED) {
-		t.Errorf("expected ERROR_OPERATION_ABORTED, got %v", err)
+		t.Errorf("expected ERROR_OPERATION_ABORTED, golangt %v", err)
 	}
 }
 
@@ -2017,7 +2017,7 @@ func TestFileAssociatedWithExternalIOCP(t *testing.T) {
 	}()
 
 	ch := make(chan error, 1)
-	go func() {
+	golang func() {
 		var bytes, key uint32
 		var overlapped *syscall.Overlapped
 		err := syscall.GetQueuedCompletionStatus(syscall.Handle(iocp), &bytes, &key, &overlapped, syscall.INFINITE)
@@ -2041,7 +2041,7 @@ func TestFileAssociatedWithExternalIOCP(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	// Wait fot he goroutine to call GetQueuedCompletionStatus.
+	// Wait fot he golangroutine to call GetQueuedCompletionStatus.
 	time.Sleep(100 * time.Millisecond)
 
 	// Trigger ERROR_ABANDONED_WAIT_0.
@@ -2071,7 +2071,7 @@ func TestFileWriteFdRace(t *testing.T) {
 	var wg sync.WaitGroup
 	wg.Add(2)
 
-	go func() {
+	golang func() {
 		defer wg.Done()
 		n, err := f.Write([]byte("hi"))
 		if err != nil {
@@ -2091,7 +2091,7 @@ func TestFileWriteFdRace(t *testing.T) {
 			return
 		}
 	}()
-	go func() {
+	golang func() {
 		defer wg.Done()
 		f.Fd()
 	}()

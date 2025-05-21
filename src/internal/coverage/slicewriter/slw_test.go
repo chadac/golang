@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package slicewriter
@@ -11,14 +11,14 @@ import (
 
 func TestSliceWriter(t *testing.T) {
 
-	sleq := func(t *testing.T, got []byte, want []byte) {
+	sleq := func(t *testing.T, golangt []byte, want []byte) {
 		t.Helper()
-		if len(got) != len(want) {
-			t.Fatalf("bad length got %d want %d", len(got), len(want))
+		if len(golangt) != len(want) {
+			t.Fatalf("bad length golangt %d want %d", len(golangt), len(want))
 		}
-		for i := range got {
-			if got[i] != want[i] {
-				t.Fatalf("bad read at %d got %d want %d", i, got[i], want[i])
+		for i := range golangt {
+			if golangt[i] != want[i] {
+				t.Fatalf("bad read at %d golangt %d want %d", i, golangt[i], want[i])
 			}
 		}
 	}
@@ -30,7 +30,7 @@ func TestSliceWriter(t *testing.T) {
 			t.Fatalf("unexpected write error: %v", werr)
 		}
 		if nw != len(p) {
-			t.Fatalf("wrong amount written want %d got %d", len(p), nw)
+			t.Fatalf("wrong amount written want %d golangt %d", len(p), nw)
 		}
 	}
 
@@ -42,7 +42,7 @@ func TestSliceWriter(t *testing.T) {
 			t.Fatalf("unexpected read error: %v", rerr)
 		}
 		if nr != len(p) {
-			t.Fatalf("wrong amount read want %d got %d", len(p), nr)
+			t.Fatalf("wrong amount read want %d golangt %d", len(p), nr)
 		}
 		sleq(t, b, p)
 	}

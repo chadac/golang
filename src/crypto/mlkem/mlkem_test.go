@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package mlkem
@@ -198,7 +198,7 @@ func TestAccumulated(t *testing.T) {
 			t.Fatal(err)
 		}
 		if !bytes.Equal(kk, k) {
-			t.Errorf("k: got %x, expected %x", kk, k)
+			t.Errorf("k: golangt %x, expected %x", kk, k)
 		}
 
 		s.Read(ct1)
@@ -209,9 +209,9 @@ func TestAccumulated(t *testing.T) {
 		o.Write(k1)
 	}
 
-	got := hex.EncodeToString(o.Sum(nil))
-	if got != expected {
-		t.Errorf("got %s, expected %s", got, expected)
+	golangt := hex.EncodeToString(o.Sum(nil))
+	if golangt != expected {
+		t.Errorf("golangt %s, expected %s", golangt, expected)
 	}
 }
 
@@ -308,26 +308,26 @@ func BenchmarkRoundTrip(b *testing.B) {
 // Test that the constants from the public API match the corresponding values from the internal API.
 func TestConstantSizes(t *testing.T) {
 	if SharedKeySize != mlkem.SharedKeySize {
-		t.Errorf("SharedKeySize mismatch: got %d, want %d", SharedKeySize, mlkem.SharedKeySize)
+		t.Errorf("SharedKeySize mismatch: golangt %d, want %d", SharedKeySize, mlkem.SharedKeySize)
 	}
 
 	if SeedSize != mlkem.SeedSize {
-		t.Errorf("SeedSize mismatch: got %d, want %d", SeedSize, mlkem.SeedSize)
+		t.Errorf("SeedSize mismatch: golangt %d, want %d", SeedSize, mlkem.SeedSize)
 	}
 
 	if CiphertextSize768 != mlkem.CiphertextSize768 {
-		t.Errorf("CiphertextSize768 mismatch: got %d, want %d", CiphertextSize768, mlkem.CiphertextSize768)
+		t.Errorf("CiphertextSize768 mismatch: golangt %d, want %d", CiphertextSize768, mlkem.CiphertextSize768)
 	}
 
 	if EncapsulationKeySize768 != mlkem.EncapsulationKeySize768 {
-		t.Errorf("EncapsulationKeySize768 mismatch: got %d, want %d", EncapsulationKeySize768, mlkem.EncapsulationKeySize768)
+		t.Errorf("EncapsulationKeySize768 mismatch: golangt %d, want %d", EncapsulationKeySize768, mlkem.EncapsulationKeySize768)
 	}
 
 	if CiphertextSize1024 != mlkem.CiphertextSize1024 {
-		t.Errorf("CiphertextSize1024 mismatch: got %d, want %d", CiphertextSize1024, mlkem.CiphertextSize1024)
+		t.Errorf("CiphertextSize1024 mismatch: golangt %d, want %d", CiphertextSize1024, mlkem.CiphertextSize1024)
 	}
 
 	if EncapsulationKeySize1024 != mlkem.EncapsulationKeySize1024 {
-		t.Errorf("EncapsulationKeySize1024 mismatch: got %d, want %d", EncapsulationKeySize1024, mlkem.EncapsulationKeySize1024)
+		t.Errorf("EncapsulationKeySize1024 mismatch: golangt %d, want %d", EncapsulationKeySize1024, mlkem.EncapsulationKeySize1024)
 	}
 }

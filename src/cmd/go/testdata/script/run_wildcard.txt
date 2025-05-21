@@ -1,7 +1,7 @@
 env GO111MODULE=off
 
-# Fix for https://github.com/golang/go/issues/28696:
-# go run x/... should not panic when directory x doesn't exist.
+# Fix for https://github.com/golanglang/golang/issues/28696:
+# golang run x/... should not panic when directory x doesn't exist.
 
-! go run nonexistent/...
-stderr '^go: no packages loaded from nonexistent/...$'
+! golang run nonexistent/...
+stderr '^golang: no packages loaded from nonexistent/...$'

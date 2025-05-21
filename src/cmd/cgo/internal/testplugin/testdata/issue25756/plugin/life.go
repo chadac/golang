@@ -1,5 +1,5 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -25,7 +25,7 @@ var chans [4]chan bool
 //export GoStart
 func GoStart(i, xdim, ydim, xstart, xend, ystart, yend C.int, a *C.int, n *C.int) (int, int) {
 	c := make(chan bool, int(C.MYCONST))
-	go func() {
+	golang func() {
 		C.DoStep(xdim, ydim, xstart, xend, ystart, yend, a, n)
 		c <- true
 	}()

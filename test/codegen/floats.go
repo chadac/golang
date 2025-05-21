@@ -1,14 +1,14 @@
 // asmcheck
 
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package codegen
 
 // This file contains codegen tests related to arithmetic
 // simplifications and optimizations on float types.
-// For codegen tests on integer types, see arithmetic.go.
+// For codegen tests on integer types, see arithmetic.golang.
 
 // --------------------- //
 //    Strength-reduce    //

@@ -1,5 +1,5 @@
 // Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package big
@@ -16,12 +16,12 @@ func TestEscape(t *testing.T) {
 	testenv.MustHaveGoBuild(t)
 	// The multiplication routines create many temporary Int values,
 	// expecting them to be stack-allocated. Make sure none escape to the heap.
-	out, err := exec.Command("go", "build", "-gcflags=-m").CombinedOutput()
+	out, err := exec.Command("golang", "build", "-gcflags=-m").CombinedOutput()
 	if err != nil {
-		t.Fatalf("go build -gcflags=-m: %v\n%s", err, out)
+		t.Fatalf("golang build -gcflags=-m: %v\n%s", err, out)
 	}
 	for line := range strings.Lines(string(out)) {
-		if strings.Contains(line, "natmul.go") && strings.Contains(line, "Int") && strings.Contains(line, "escapes") {
+		if strings.Contains(line, "natmul.golang") && strings.Contains(line, "Int") && strings.Contains(line, "escapes") {
 			t.Error(strings.TrimSpace(line))
 		}
 	}

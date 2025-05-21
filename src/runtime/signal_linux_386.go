@@ -1,11 +1,11 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
 
 import (
-	"internal/goarch"
+	"internal/golangarch"
 	"unsafe"
 )
 
@@ -14,8 +14,8 @@ type sigctxt struct {
 	ctxt unsafe.Pointer
 }
 
-//go:nosplit
-//go:nowritebarrierrec
+//golang:nosplit
+//golang:nowritebarrierrec
 func (c *sigctxt) regs() *sigcontext { return &(*ucontext)(c.ctxt).uc_mcontext }
 
 func (c *sigctxt) eax() uint32 { return c.regs().eax }
@@ -27,8 +27,8 @@ func (c *sigctxt) esi() uint32 { return c.regs().esi }
 func (c *sigctxt) ebp() uint32 { return c.regs().ebp }
 func (c *sigctxt) esp() uint32 { return c.regs().esp }
 
-//go:nosplit
-//go:nowritebarrierrec
+//golang:nosplit
+//golang:nowritebarrierrec
 func (c *sigctxt) eip() uint32 { return c.regs().eip }
 
 func (c *sigctxt) eflags() uint32  { return c.regs().eflags }
@@ -42,5 +42,5 @@ func (c *sigctxt) set_eip(x uint32)     { c.regs().eip = x }
 func (c *sigctxt) set_esp(x uint32)     { c.regs().esp = x }
 func (c *sigctxt) set_sigcode(x uint32) { c.info.si_code = int32(x) }
 func (c *sigctxt) set_sigaddr(x uint32) {
-	*(*uintptr)(add(unsafe.Pointer(c.info), 2*goarch.PtrSize)) = uintptr(x)
+	*(*uintptr)(add(unsafe.Pointer(c.info), 2*golangarch.PtrSize)) = uintptr(x)
 }

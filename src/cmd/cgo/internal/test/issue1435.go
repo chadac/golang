@@ -1,10 +1,10 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build linux && cgo
+//golang:build linux && cgolang
 
-package cgotest
+package cgolangtest
 
 import (
 	"fmt"
@@ -80,7 +80,7 @@ func compareStatus(filter, expect string) error {
 			// There are a surprising number of ways this
 			// can error out on linux.  We've seen all of
 			// the following, so treat any error here as
-			// equivalent to the "process is gone":
+			// equivalent to the "process is golangne":
 			//    os.IsNotExist(err),
 			//    "... : no such process",
 			//    "... : bad file descriptor.
@@ -113,18 +113,18 @@ func compareStatus(filter, expect string) error {
 					break
 				}
 				if filter == "Groups:" && strings.HasPrefix(line, "Groups:\t") {
-					// https://github.com/golang/go/issues/46145
+					// https://github.com/golanglang/golang/issues/46145
 					// Containers don't reliably output this line in sorted order so manually sort and compare that.
 					a := strings.Split(line[8:], " ")
 					sort.Strings(a)
-					got := strings.Join(a, " ")
-					if got == expected[8:] {
+					golangt := strings.Join(a, " ")
+					if golangt == expected[8:] {
 						foundAThread = true
 						break
 					}
 
 				}
-				return fmt.Errorf("%q got:%q want:%q (bad) [pid=%d file:'%s' %v]\n", tf, line, expected, pid, string(d), expectedProc)
+				return fmt.Errorf("%q golangt:%q want:%q (bad) [pid=%d file:'%s' %v]\n", tf, line, expected, pid, string(d), expectedProc)
 			}
 		}
 	}
@@ -136,7 +136,7 @@ func compareStatus(filter, expect string) error {
 
 // test1435 test 9 glibc implemented setuid/gid syscall functions are
 // mapped.  This test is a slightly more expansive test than that of
-// src/syscall/syscall_linux_test.go:TestSetuidEtc() insofar as it
+// src/syscall/syscall_linux_test.golang:TestSetuidEtc() insofar as it
 // launches concurrent threads from C code via CGo and validates that
 // they are subject to the system calls being tested. For the actual
 // Go functionality being tested here, the syscall_linux_test version
@@ -155,7 +155,7 @@ func test1435(t *testing.T) {
 	}
 	if runtime.GOOS == "linux" {
 		if _, err := os.Stat("/etc/alpine-release"); err == nil {
-			t.Skip("skipping failing test on alpine - go.dev/issue/19938")
+			t.Skip("skipping failing test on alpine - golang.dev/issue/19938")
 		}
 	}
 

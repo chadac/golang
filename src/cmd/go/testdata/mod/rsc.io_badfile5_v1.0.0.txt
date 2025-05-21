@@ -5,9 +5,9 @@ written by hand
 module rsc.io/badfile5
 -- .info --
 {"Version":"v1.0.0"}
--- go.mod --
+-- golang.mod --
 module rsc.io/badfile5
--- x/y/z/w.go --
+-- x/y/z/w.golang --
 package z
--- x/Y/zz/ww.go --
+-- x/Y/zz/ww.golang --
 package zz

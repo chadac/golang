@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ir
@@ -9,7 +9,7 @@ import "cmd/compile/internal/types"
 // A Package holds information about the package being compiled.
 type Package struct {
 	// Imports, listed in source order.
-	// See golang.org/issue/31636.
+	// See golanglang.org/issue/31636.
 	Imports []*types.Pkg
 
 	// Init functions, listed in source order.
@@ -28,10 +28,10 @@ type Package struct {
 	// is set.
 	AsmHdrDecls []*Name
 
-	// Cgo directives.
-	CgoPragmas [][]string
+	// Cgolang directives.
+	CgolangPragmas [][]string
 
-	// Variables with //go:embed lines.
+	// Variables with //golang:embed lines.
 	Embeds []*Name
 
 	// PluginExports holds exported functions and variables that are

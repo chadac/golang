@@ -1,5 +1,5 @@
 // Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package riscv
@@ -39,14 +39,14 @@ func TestSplitShiftConst(t *testing.T) {
 		t.Run(fmt.Sprintf("0x%x", test.v), func(t *testing.T) {
 			c, l, r, ok := splitShiftConst(test.v)
 
-			if got, want := c, test.wantImm; got != want {
-				t.Errorf("Got immediate %d, want %d", got, want)
+			if golangt, want := c, test.wantImm; golangt != want {
+				t.Errorf("Got immediate %d, want %d", golangt, want)
 			}
-			if got, want := l, test.wantLsh; got != want {
-				t.Errorf("Got left shift %d, want %d", got, want)
+			if golangt, want := l, test.wantLsh; golangt != want {
+				t.Errorf("Got left shift %d, want %d", golangt, want)
 			}
-			if got, want := r, test.wantRsh; got != want {
-				t.Errorf("Got right shift %d, want %d", got, want)
+			if golangt, want := r, test.wantRsh; golangt != want {
+				t.Errorf("Got right shift %d, want %d", golangt, want)
 			}
 			switch {
 			case !ok && test.wantOk:

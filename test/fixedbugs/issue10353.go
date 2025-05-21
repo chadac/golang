@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // issue 10253: cmd/gc: incorrect escape analysis of closures
@@ -11,8 +11,8 @@ package main
 
 func main() {
 	c := make(chan bool)
-	// Create a new goroutine to get a default-size stack segment.
-	go func() {
+	// Create a new golangroutine to get a default-size stack segment.
+	golang func() {
 		x := new(X)
 		clos(x.foo)()
 		c <- true
@@ -34,7 +34,7 @@ func clos(x func()) func() {
 	growstack(10000)
 	c := make(chan bool)
 	// Spoil the previous stack segment.
-	go func() {
+	golang func() {
 		c <- true
 	}()
 	<-c

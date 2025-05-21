@@ -1,8 +1,8 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build (aix || linux || openbsd) && (ppc64 || ppc64le)
+//golang:build (aix || linux || openbsd) && (ppc64 || ppc64le)
 
 package runtime
 
@@ -53,8 +53,8 @@ func dumpregs(c *sigctxt) {
 	print("trap ", hex(c.trap()), "\n")
 }
 
-//go:nosplit
-//go:nowritebarrierrec
+//golang:nosplit
+//golang:nowritebarrierrec
 func (c *sigctxt) sigpc() uintptr    { return uintptr(c.pc()) }
 func (c *sigctxt) setsigpc(x uint64) { c.set_pc(x) }
 
@@ -67,7 +67,7 @@ func (c *sigctxt) preparePanic(sig uint32, gp *g) {
 	// function calls sigpanic directly.
 	// Always save LINK to stack so that panics in leaf
 	// functions are correctly handled. This smashes
-	// the stack frame but we're not going back there
+	// the stack frame but we're not golanging back there
 	// anyway.
 	sp := c.sp() - sys.MinFrameSize
 	c.set_sp(sp)

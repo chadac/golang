@@ -1,9 +1,9 @@
-# The intent here is to verify that 'go test -n' works without crashing.
+# The intent here is to verify that 'golang test -n' works without crashing.
 # Any test will do.
 
-go test -n x_test.go
+golang test -n x_test.golang
 
--- x_test.go --
+-- x_test.golang --
 package x_test
 
 import (

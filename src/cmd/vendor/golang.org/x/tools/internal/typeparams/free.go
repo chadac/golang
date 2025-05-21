@@ -1,20 +1,20 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package typeparams
 
 import (
-	"go/types"
+	"golang/types"
 
-	"golang.org/x/tools/internal/aliases"
+	"golanglang.org/x/tools/internal/aliases"
 )
 
 // Free is a memoization of the set of free type parameters within a
 // type. It makes a sequence of calls to [Free.Has] for overlapping
 // types more efficient. The zero value is ready for use.
 //
-// NOTE: Adapted from go/types/infer.go. If it is later exported, factor.
+// NOTE: Adapted from golang/types/infer.golang. If it is later exported, factor.
 type Free struct {
 	seen map[types.Type]bool
 }

@@ -3,34 +3,34 @@
 env GOCACHE=$WORK/cache
 
 # Cleanup should run after F.Skip.
-go test -run=FuzzTargetSkip
+golang test -run=FuzzTargetSkip
 stdout cleanup
 
 # Cleanup should run after F.Fatal.
-! go test -run=FuzzTargetFatal
+! golang test -run=FuzzTargetFatal
 stdout cleanup
 
 # Cleanup should run after an unexpected runtime.Goexit.
-! go test -run=FuzzTargetGoexit
+! golang test -run=FuzzTargetGoexit
 stdout cleanup
 
 # Cleanup should run after panic.
-! go test -run=FuzzTargetPanic
+! golang test -run=FuzzTargetPanic
 stdout cleanup
 
 # Cleanup should run in fuzz function on seed corpus.
-go test -v -run=FuzzFunction
+golang test -v -run=FuzzFunction
 stdout '(?s)inner.*outer'
 
 # TODO(jayconrod): test cleanup while fuzzing. For now, the worker process's
 # stdout and stderr is connected to the coordinator's, but it should eventually
 # be connected to os.DevNull, so we wouldn't see t.Log output.
 
--- go.mod --
+-- golang.mod --
 module cleanup
 
-go 1.15
--- cleanup_test.go --
+golang 1.15
+-- cleanup_test.golang --
 package cleanup
 
 import (

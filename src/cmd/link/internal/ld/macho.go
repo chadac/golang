@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ld
@@ -232,7 +232,7 @@ var nsortsym int
 
 // Amount of space left for adding load commands
 // that refer to dynamic libraries. Because these have
-// to go in the Mach-O header, we can't just pick a
+// to golang in the Mach-O header, we can't just pick a
 // "big enough" header size. The initial header is
 // one page, the non-dynamic library stuff takes
 // up about 1300 bytes; we overestimate that as 2k.
@@ -427,11 +427,11 @@ func (ctxt *Link) domacho() {
 			var version uint32
 			switch ctxt.Arch.Family {
 			case sys.ARM64, sys.AMD64:
-				// This must be fairly recent for Apple signing (go.dev/issue/30488).
+				// This must be fairly recent for Apple signing (golang.dev/issue/30488).
 				// Having too old a version here was also implicated in some problems
-				// calling into macOS libraries (go.dev/issue/56784).
+				// calling into macOS libraries (golang.dev/issue/56784).
 				// CL 460476 noted that in general this can be the most recent supported
-				// macOS version, but we haven't tested if going higher than Go's oldest
+				// macOS version, but we haven't tested if golanging higher than Go's oldest
 				// supported macOS version could cause new problems.
 				version = 12<<16 | 0<<8 | 0<<0 // 12.0.0
 			}
@@ -463,7 +463,7 @@ func (ctxt *Link) domacho() {
 		sb.SetType(sym.SMACHOPLT)
 		sb.SetReachable(true)
 
-		s = ctxt.loader.LookupOrCreateSym(".got", 0) // will be __got
+		s = ctxt.loader.LookupOrCreateSym(".golangt", 0) // will be __golangt
 		sb = ctxt.loader.MakeSymbolUpdater(s)
 		if ctxt.UseRelro() {
 			sb.SetType(sym.SMACHORELROSECT)
@@ -478,7 +478,7 @@ func (ctxt *Link) domacho() {
 		sb.SetType(sym.SMACHOINDIRECTPLT)
 		sb.SetReachable(true)
 
-		s = ctxt.loader.LookupOrCreateSym(".linkedit.got", 0) // indirect table for .got
+		s = ctxt.loader.LookupOrCreateSym(".linkedit.golangt", 0) // indirect table for .golangt
 		sb = ctxt.loader.MakeSymbolUpdater(s)
 		sb.SetType(sym.SMACHOINDIRECTGOT)
 		sb.SetReachable(true)
@@ -509,17 +509,17 @@ func (ctxt *Link) domacho() {
 	//
 	// See issue #18190.
 	if ctxt.BuildMode == BuildModePlugin {
-		for _, name := range []string{"_cgo_topofstack", "__cgo_topofstack", "_cgo_panic", "crosscall2"} {
+		for _, name := range []string{"_cgolang_topofstack", "__cgolang_topofstack", "_cgolang_panic", "crosscall2"} {
 			// Most of these are data symbols or C
 			// symbols, so they have symbol version 0.
 			ver := 0
-			// _cgo_panic is a Go function, so it uses ABIInternal.
-			if name == "_cgo_panic" {
+			// _cgolang_panic is a Go function, so it uses ABIInternal.
+			if name == "_cgolang_panic" {
 				ver = abiInternalVer
 			}
 			s := ctxt.loader.Lookup(name, ver)
 			if s != 0 {
-				ctxt.loader.SetAttrCgoExportDynamic(s, false)
+				ctxt.loader.SetAttrCgolangExportDynamic(s, false)
 			}
 		}
 	}
@@ -588,8 +588,8 @@ func machoshbits(ctxt *Link, mseg *MachoSeg, sect *sym.Section, segname string) 
 		msect.res2 = 6
 	}
 
-	if sect.Name == ".got" {
-		msect.name = "__got"
+	if sect.Name == ".golangt" {
+		msect.name = "__golangt"
 		msect.flag = S_NON_LAZY_SYMBOL_POINTERS
 		msect.res1 = uint32(ctxt.loader.SymSize(ctxt.ArchSyms.LinkEditPLT) / 4) /* offset into indirect symbol table */
 	}
@@ -846,7 +846,7 @@ func symkind(ldr *loader.Loader, s loader.Sym) int {
 	if t := ldr.SymType(s); t == sym.SDYNIMPORT || t == sym.SHOSTOBJ || t == sym.SUNDEFEXT {
 		return SymKindUndef
 	}
-	if ldr.AttrCgoExport(s) {
+	if ldr.AttrCgolangExport(s) {
 		return SymKindExtdef
 	}
 	return SymKindLocal
@@ -866,7 +866,7 @@ func collectmachosyms(ctxt *Link) {
 
 	// Add special runtime.text and runtime.etext symbols (which are local).
 	// We've already included this symbol in Textp on darwin if ctxt.DynlinkingGo().
-	// See data.go:/textaddress
+	// See data.golang:/textaddress
 	// NOTE: runtime.text.N symbols (if we split text sections) are not added, though,
 	// so we handle them here.
 	if !*FlagS {
@@ -894,7 +894,7 @@ func collectmachosyms(ctxt *Link) {
 
 	// Add text symbols.
 	for _, s := range ctxt.Textp {
-		if *FlagS && !ldr.AttrCgoExportDynamic(s) {
+		if *FlagS && !ldr.AttrCgolangExportDynamic(s) {
 			continue
 		}
 		addsym(s)
@@ -919,13 +919,13 @@ func collectmachosyms(ctxt *Link) {
 		t := ldr.SymType(s)
 		if t >= sym.SELFRXSECT && t < sym.SXREF { // data sections handled in dodata
 			if t == sym.STLSBSS {
-				// TLSBSS is not used on darwin. See data.go:allocateDataSections
+				// TLSBSS is not used on darwin. See data.golang:allocateDataSections
 				continue
 			}
 			if !shouldBeInSymbolTable(s) {
 				continue
 			}
-			if *FlagS && !ldr.AttrCgoExportDynamic(s) {
+			if *FlagS && !ldr.AttrCgolangExportDynamic(s) {
 				continue
 			}
 			addsym(s)
@@ -966,7 +966,7 @@ func machosymorder(ctxt *Link) {
 
 	// On Mac OS X Mountain Lion, we must sort exported symbols
 	// So we sort them here and pre-allocate dynid for them
-	// See https://golang.org/issue/4029
+	// See https://golanglang.org/issue/4029
 	for _, s := range ctxt.dynexp {
 		if !ldr.AttrReachable(s) {
 			panic("dynexp symbol is not reachable")
@@ -1009,7 +1009,7 @@ func machoShouldExport(ctxt *Link, ldr *loader.Loader, s loader.Sym) bool {
 		return true
 	}
 	name := ldr.SymName(s)
-	if strings.HasPrefix(name, "go:itab.") {
+	if strings.HasPrefix(name, "golang:itab.") {
 		return true
 	}
 	if strings.HasPrefix(name, "type:") && !strings.HasPrefix(name, "type:.") {
@@ -1018,7 +1018,7 @@ func machoShouldExport(ctxt *Link, ldr *loader.Loader, s loader.Sym) bool {
 		// appear in pclntable.
 		return true
 	}
-	if strings.HasPrefix(name, "go:link.pkghash") {
+	if strings.HasPrefix(name, "golang:link.pkghash") {
 		return true
 	}
 	return ldr.SymType(s) >= sym.SFirstWritable // only writable sections
@@ -1052,9 +1052,9 @@ func machosymtab(ctxt *Link) {
 			symtab.AddUint16(ctxt.Arch, 0)                    // desc
 			symtab.AddUintXX(ctxt.Arch, 0, ctxt.Arch.PtrSize) // no value
 		} else {
-			if export || ldr.AttrCgoExportDynamic(s) {
+			if export || ldr.AttrCgolangExportDynamic(s) {
 				symtab.AddUint8(0x0f) // N_SECT | N_EXT
-			} else if ldr.AttrCgoExportStatic(s) {
+			} else if ldr.AttrCgolangExportStatic(s) {
 				// Only export statically, not dynamically. (N_PEXT is like hidden visibility)
 				symtab.AddUint8(0x1f) // N_SECT | N_EXT | N_PEXT
 			} else {
@@ -1130,13 +1130,13 @@ func doMachoLink(ctxt *Link) int64 {
 	size := ldr.SymSize(s1) + ldr.SymSize(s2) + ldr.SymSize(s3) + ldr.SymSize(s4) + ldr.SymSize(s5) + ldr.SymSize(s6)
 
 	// Force the linkedit section to end on a 16-byte
-	// boundary. This allows pure (non-cgo) Go binaries
+	// boundary. This allows pure (non-cgolang) Go binaries
 	// to be code signed correctly.
 	//
 	// Apple's codesign_allocate (a helper utility for
 	// the codesign utility) can do this fine itself if
 	// it is run on a dynamic Mach-O binary. However,
-	// when it is run on a pure (non-cgo) Go binary, where
+	// when it is run on a pure (non-cgolang) Go binary, where
 	// the linkedit section is mostly empty, it fails to
 	// account for the extra padding that it itself adds
 	// when adding the LC_CODE_SIGNATURE load command
@@ -1199,7 +1199,7 @@ func machorelocsect(ctxt *Link, out *OutBuf, sect *sym.Section, syms []loader.Sy
 			break
 		}
 
-		// Compute external relocations on the go, and pass to Machoreloc1
+		// Compute external relocations on the golang, and pass to Machoreloc1
 		// to stream out.
 		relocs := ldr.Relocs(s)
 		for ri := 0; ri < relocs.Count(); ri++ {
@@ -1322,7 +1322,7 @@ func peekMachoPlatform(m *macho.File) (*MachoPlatformLoad, error) {
 // For now, the only kind of entry we support is that the data is an absolute
 // address. That seems all we need.
 // In the binary it uses a compact stateful bytecode encoding. So we record
-// entries as we go and build the table at the end.
+// entries as we golang and build the table at the end.
 type machoRebaseRecord struct {
 	sym loader.Sym
 	off int64
@@ -1339,7 +1339,7 @@ func MachoAddRebase(s loader.Sym, off int64) {
 // For now, the only kind of entry we support is that the data is an absolute
 // address, and the source symbol is always the GOT. That seems all we need.
 // In the binary it uses a compact stateful bytecode encoding. So we record
-// entries as we go and build the table at the end.
+// entries as we golang and build the table at the end.
 type machoBindRecord struct {
 	off  int64
 	targ loader.Sym
@@ -1408,12 +1408,12 @@ func machoDyldInfo(ctxt *Link) {
 	// Bind table.
 	// TODO: compact encoding, as above.
 	// TODO: lazy binding?
-	got := ctxt.GOT
-	seg := ldr.SymSect(got).Seg
-	gotAddr := ldr.SymValue(got)
+	golangt := ctxt.GOT
+	seg := ldr.SymSect(golangt).Seg
+	golangtAddr := ldr.SymValue(golangt)
 	bind.AddUint8(BIND_OPCODE_SET_TYPE_IMM | BIND_TYPE_POINTER)
 	for _, r := range machobind {
-		off := uint64(gotAddr+r.off) - seg.Vaddr
+		off := uint64(golangtAddr+r.off) - seg.Vaddr
 		bind.AddUint8(BIND_OPCODE_SET_SEGMENT_AND_OFFSET_ULEB | segId(seg))
 		bind.AddUleb(off)
 

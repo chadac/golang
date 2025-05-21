@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -132,7 +132,7 @@ func checkNCPU(list []string) error {
 		return fmt.Errorf("fail to parse output from child %#q, error: %s, output: %s", cmd, err, output)
 	}
 	if n != len(list) {
-		return fmt.Errorf("runtime.NumCPU() expected to %d, got %d when run with CPU list %s", len(list), n, cListString)
+		return fmt.Errorf("runtime.NumCPU() expected to %d, golangt %d when run with CPU list %s", len(list), n, cListString)
 	}
 	return nil
 }

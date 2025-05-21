@@ -1,10 +1,10 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file contains tests of the GobEncoder/GobDecoder support.
 
-package gob
+package golangb
 
 import (
 	"bytes"
@@ -253,14 +253,14 @@ func TestGobEncoderField(t *testing.T) {
 		t.Fatal("decode error:", err)
 	}
 	if x.G.a != 'A' {
-		t.Errorf("expected 'A' got %c", x.G.a)
+		t.Errorf("expected 'A' golangt %c", x.G.a)
 	}
 	// Now a field that's not a structure.
 	b.Reset()
-	gobber := Gobber(23)
-	bgobber := BinaryGobber(24)
-	tgobber := TextGobber(25)
-	err = enc.Encode(GobTest3{17, &gobber, &bgobber, &tgobber})
+	golangbber := Gobber(23)
+	bgolangbber := BinaryGobber(24)
+	tgolangbber := TextGobber(25)
+	err = enc.Encode(GobTest3{17, &golangbber, &bgolangbber, &tgolangbber})
 	if err != nil {
 		t.Fatal("encode error:", err)
 	}
@@ -270,7 +270,7 @@ func TestGobEncoderField(t *testing.T) {
 		t.Fatal("decode error:", err)
 	}
 	if *y.G != 23 || *y.B != 24 || *y.T != 25 {
-		t.Errorf("expected '23 got %d", *y.G)
+		t.Errorf("expected '23 golangt %d", *y.G)
 	}
 }
 
@@ -291,7 +291,7 @@ func TestGobEncoderValueField(t *testing.T) {
 		t.Fatal("decode error:", err)
 	}
 	if x.G.s != "HIJKL" {
-		t.Errorf("expected `HIJKL` got %s", x.G.s)
+		t.Errorf("expected `HIJKL` golangt %s", x.G.s)
 	}
 }
 
@@ -314,7 +314,7 @@ func TestGobEncoderIndirectField(t *testing.T) {
 		t.Fatal("decode error:", err)
 	}
 	if (***x.G).s != "HIJKL" {
-		t.Errorf("expected `HIJKL` got %s", (***x.G).s)
+		t.Errorf("expected `HIJKL` golangt %s", (***x.G).s)
 	}
 }
 
@@ -339,7 +339,7 @@ func TestGobEncoderArrayField(t *testing.T) {
 	}
 	for i, v := range x.A.a {
 		if v != byte(i) {
-			t.Errorf("expected %x got %x", byte(i), v)
+			t.Errorf("expected %x golangt %x", byte(i), v)
 			break
 		}
 	}
@@ -370,7 +370,7 @@ func TestGobEncoderIndirectArrayField(t *testing.T) {
 	}
 	for i, v := range (***x.A).a {
 		if v != byte(i) {
-			t.Errorf("expected %x got %x", byte(i), v)
+			t.Errorf("expected %x golangt %x", byte(i), v)
 			break
 		}
 	}
@@ -396,7 +396,7 @@ func TestGobEncoderFieldsOfDifferentType(t *testing.T) {
 		t.Fatal("decode error:", err)
 	}
 	if x.G.a != 'A' {
-		t.Errorf("expected 'A' got %c", x.G.a)
+		t.Errorf("expected 'A' golangt %c", x.G.a)
 	}
 	// now the other direction, byte in field to string in field
 	b.Reset()
@@ -410,7 +410,7 @@ func TestGobEncoderFieldsOfDifferentType(t *testing.T) {
 		t.Fatal("decode error:", err)
 	}
 	if y.G.s != "XYZ" {
-		t.Fatalf("expected `XYZ` got %q", y.G.s)
+		t.Fatalf("expected `XYZ` golangt %q", y.G.s)
 	}
 }
 
@@ -430,7 +430,7 @@ func TestGobEncoderValueEncoder(t *testing.T) {
 		t.Fatal("decode error:", err)
 	}
 	if *x.V != "hello" || *x.BV != "Καλημέρα" || *x.TV != "こんにちは" {
-		t.Errorf("expected `hello` got %s", *x.V)
+		t.Errorf("expected `hello` golangt %s", *x.V)
 	}
 }
 
@@ -458,31 +458,31 @@ func TestGobEncoderValueThenPointer(t *testing.T) {
 		t.Fatal("decode error:", err)
 	}
 
-	if got, want := x.V, v; got != want {
-		t.Errorf("v = %q, want %q", got, want)
+	if golangt, want := x.V, v; golangt != want {
+		t.Errorf("v = %q, want %q", golangt, want)
 	}
-	if got, want := x.W, w; got == nil {
+	if golangt, want := x.W, w; golangt == nil {
 		t.Errorf("w = nil, want %q", want)
-	} else if *got != want {
-		t.Errorf("w = %q, want %q", *got, want)
+	} else if *golangt != want {
+		t.Errorf("w = %q, want %q", *golangt, want)
 	}
 
-	if got, want := x.BV, bv; got != want {
-		t.Errorf("bv = %q, want %q", got, want)
+	if golangt, want := x.BV, bv; golangt != want {
+		t.Errorf("bv = %q, want %q", golangt, want)
 	}
-	if got, want := x.BW, bw; got == nil {
+	if golangt, want := x.BW, bw; golangt == nil {
 		t.Errorf("bw = nil, want %q", want)
-	} else if *got != want {
-		t.Errorf("bw = %q, want %q", *got, want)
+	} else if *golangt != want {
+		t.Errorf("bw = %q, want %q", *golangt, want)
 	}
 
-	if got, want := x.TV, tv; got != want {
-		t.Errorf("tv = %q, want %q", got, want)
+	if golangt, want := x.TV, tv; golangt != want {
+		t.Errorf("tv = %q, want %q", golangt, want)
 	}
-	if got, want := x.TW, tw; got == nil {
+	if golangt, want := x.TW, tw; golangt == nil {
 		t.Errorf("tw = nil, want %q", want)
-	} else if *got != want {
-		t.Errorf("tw = %q, want %q", *got, want)
+	} else if *golangt != want {
+		t.Errorf("tw = %q, want %q", *golangt, want)
 	}
 }
 
@@ -507,31 +507,31 @@ func TestGobEncoderPointerThenValue(t *testing.T) {
 		t.Fatal("decode error:", err)
 	}
 
-	if got, want := x.V, v; got == nil {
+	if golangt, want := x.V, v; golangt == nil {
 		t.Errorf("v = nil, want %q", want)
-	} else if *got != want {
-		t.Errorf("v = %q, want %q", *got, want)
+	} else if *golangt != want {
+		t.Errorf("v = %q, want %q", *golangt, want)
 	}
-	if got, want := x.W, w; got != want {
-		t.Errorf("w = %q, want %q", got, want)
+	if golangt, want := x.W, w; golangt != want {
+		t.Errorf("w = %q, want %q", golangt, want)
 	}
 
-	if got, want := x.BV, bv; got == nil {
+	if golangt, want := x.BV, bv; golangt == nil {
 		t.Errorf("bv = nil, want %q", want)
-	} else if *got != want {
-		t.Errorf("bv = %q, want %q", *got, want)
+	} else if *golangt != want {
+		t.Errorf("bv = %q, want %q", *golangt, want)
 	}
-	if got, want := x.BW, bw; got != want {
-		t.Errorf("bw = %q, want %q", got, want)
+	if golangt, want := x.BW, bw; golangt != want {
+		t.Errorf("bw = %q, want %q", golangt, want)
 	}
 
-	if got, want := x.TV, tv; got == nil {
+	if golangt, want := x.TV, tv; golangt == nil {
 		t.Errorf("tv = nil, want %q", want)
-	} else if *got != want {
-		t.Errorf("tv = %q, want %q", *got, want)
+	} else if *golangt != want {
+		t.Errorf("tv = %q, want %q", *golangt, want)
 	}
-	if got, want := x.TW, tw; got != want {
-		t.Errorf("tw = %q, want %q", got, want)
+	if golangt, want := x.TW, tw; golangt != want {
+		t.Errorf("tw = %q, want %q", golangt, want)
 	}
 }
 
@@ -550,7 +550,7 @@ func TestGobEncoderFieldTypeError(t *testing.T) {
 		t.Fatal("expected decode error for mismatched fields (encoder to non-decoder)")
 	}
 	if !strings.Contains(err.Error(), "type") {
-		t.Fatal("expected type error; got", err)
+		t.Fatal("expected type error; golangt", err)
 	}
 	// Non-encoder to GobDecoder: error
 	b.Reset()
@@ -564,7 +564,7 @@ func TestGobEncoderFieldTypeError(t *testing.T) {
 		t.Fatal("expected decode error for mismatched fields (non-encoder to decoder)")
 	}
 	if !strings.Contains(err.Error(), "type") {
-		t.Fatal("expected type error; got", err)
+		t.Fatal("expected type error; golangt", err)
 	}
 }
 
@@ -583,7 +583,7 @@ func TestGobEncoderStructSingleton(t *testing.T) {
 		t.Fatal("decode error:", err)
 	}
 	if x.a != 'A' {
-		t.Errorf("expected 'A' got %c", x.a)
+		t.Errorf("expected 'A' golangt %c", x.a)
 	}
 }
 
@@ -602,7 +602,7 @@ func TestGobEncoderNonStructSingleton(t *testing.T) {
 		t.Fatal("decode error:", err)
 	}
 	if x != 1234 {
-		t.Errorf("expected 1234 got %d", x)
+		t.Errorf("expected 1234 golangt %d", x)
 	}
 }
 
@@ -621,7 +621,7 @@ func TestGobEncoderIgnoreStructField(t *testing.T) {
 		t.Fatal("decode error:", err)
 	}
 	if x.X != 17 {
-		t.Errorf("expected 17 got %c", x.X)
+		t.Errorf("expected 17 golangt %c", x.X)
 	}
 }
 
@@ -629,10 +629,10 @@ func TestGobEncoderIgnoreNonStructField(t *testing.T) {
 	b := new(bytes.Buffer)
 	// First a field that's a structure.
 	enc := NewEncoder(b)
-	gobber := Gobber(23)
-	bgobber := BinaryGobber(24)
-	tgobber := TextGobber(25)
-	err := enc.Encode(GobTest3{17, &gobber, &bgobber, &tgobber})
+	golangbber := Gobber(23)
+	bgolangbber := BinaryGobber(24)
+	tgolangbber := TextGobber(25)
+	err := enc.Encode(GobTest3{17, &golangbber, &bgolangbber, &tgolangbber})
 	if err != nil {
 		t.Fatal("encode error:", err)
 	}
@@ -643,7 +643,7 @@ func TestGobEncoderIgnoreNonStructField(t *testing.T) {
 		t.Fatal("decode error:", err)
 	}
 	if x.X != 17 {
-		t.Errorf("expected 17 got %c", x.X)
+		t.Errorf("expected 17 golangt %c", x.X)
 	}
 }
 
@@ -662,26 +662,26 @@ func TestGobEncoderIgnoreNilEncoder(t *testing.T) {
 		t.Fatal("decode error:", err)
 	}
 	if x.X != 18 {
-		t.Errorf("expected x.X = 18, got %v", x.X)
+		t.Errorf("expected x.X = 18, golangt %v", x.X)
 	}
 	if x.G != nil {
-		t.Errorf("expected x.G = nil, got %v", x.G)
+		t.Errorf("expected x.G = nil, golangt %v", x.G)
 	}
 }
 
-type gobDecoderBug0 struct {
+type golangbDecoderBug0 struct {
 	foo, bar string
 }
 
-func (br *gobDecoderBug0) String() string {
+func (br *golangbDecoderBug0) String() string {
 	return br.foo + "-" + br.bar
 }
 
-func (br *gobDecoderBug0) GobEncode() ([]byte, error) {
+func (br *golangbDecoderBug0) GobEncode() ([]byte, error) {
 	return []byte(br.String()), nil
 }
 
-func (br *gobDecoderBug0) GobDecode(b []byte) error {
+func (br *golangbDecoderBug0) GobDecode(b []byte) error {
 	br.foo = "foo"
 	br.bar = "bar"
 	return nil
@@ -690,24 +690,24 @@ func (br *gobDecoderBug0) GobDecode(b []byte) error {
 // This was a bug: the receiver has a different indirection level
 // than the variable.
 func TestGobEncoderExtraIndirect(t *testing.T) {
-	gdb := &gobDecoderBug0{"foo", "bar"}
+	gdb := &golangbDecoderBug0{"foo", "bar"}
 	buf := new(bytes.Buffer)
 	e := NewEncoder(buf)
 	if err := e.Encode(gdb); err != nil {
 		t.Fatalf("encode: %v", err)
 	}
 	d := NewDecoder(buf)
-	var got *gobDecoderBug0
-	if err := d.Decode(&got); err != nil {
+	var golangt *golangbDecoderBug0
+	if err := d.Decode(&golangt); err != nil {
 		t.Fatalf("decode: %v", err)
 	}
-	if got.foo != gdb.foo || got.bar != gdb.bar {
-		t.Errorf("got = %q, want %q", got, gdb)
+	if golangt.foo != gdb.foo || golangt.bar != gdb.bar {
+		t.Errorf("golangt = %q, want %q", golangt, gdb)
 	}
 }
 
 // Another bug: this caused a crash with the new Go1 Time type.
-// We throw in a gob-encoding array, to test another case of isZero,
+// We throw in a golangb-encoding array, to test another case of isZero,
 // and a struct containing a nil interface, to test a third.
 type isZeroBug struct {
 	T time.Time
@@ -780,7 +780,7 @@ func TestGobEncodePtrError(t *testing.T) {
 		t.Fatal("decode:", err)
 	}
 	if err2 != nil {
-		t.Fatalf("expected nil, got %v", err2)
+		t.Fatalf("expected nil, golangt %v", err2)
 	}
 }
 
@@ -819,7 +819,7 @@ func TestIgnoreDepthLimit(t *testing.T) {
 	var output struct{ Hello int }
 	expectedErr := "invalid nesting depth"
 	if err := dec.Decode(&output); err == nil || err.Error() != expectedErr {
-		t.Errorf("Decode didn't fail with depth limit of 100: want %q, got %q", expectedErr, err)
+		t.Errorf("Decode didn't fail with depth limit of 100: want %q, golangt %q", expectedErr, err)
 	}
 
 	// Nested struct
@@ -831,6 +831,6 @@ func TestIgnoreDepthLimit(t *testing.T) {
 	enc.Encode(badStruct.Interface())
 	dec = NewDecoder(b)
 	if err := dec.Decode(&output); err == nil || err.Error() != expectedErr {
-		t.Errorf("Decode didn't fail with depth limit of 100: want %q, got %q", expectedErr, err)
+		t.Errorf("Decode didn't fail with depth limit of 100: want %q, golangt %q", expectedErr, err)
 	}
 }

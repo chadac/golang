@@ -1,8 +1,8 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build (darwin || dragonfly || freebsd || (linux && !android) || netbsd || openbsd) && cgo
+//golang:build (darwin || dragolangnfly || freebsd || (linux && !android) || netbsd || openbsd) && cgolang
 
 // Note that this test does not work on Solaris: issue #22849.
 // Don't run the test on Android because at least some versions of the
@@ -37,7 +37,7 @@ const (
 // This test simulates stopping a Go process running in a shell with ^Z and
 // then resuming with `fg`.
 //
-// This is a regression test for https://go.dev/issue/22838. On Darwin, PTY
+// This is a regression test for https://golang.dev/issue/22838. On Darwin, PTY
 // reads return EINTR when this occurs, and Go should automatically retry.
 func TestTerminalSignal(t *testing.T) {
 	// This test simulates stopping a Go process running in a shell with ^Z
@@ -75,8 +75,8 @@ func TestTerminalSignal(t *testing.T) {
 	// group of subprocess 1, and is the original foreground process group
 	// for the PTY. This subprocess is the one that is SIGSTOP'd.
 
-	if runtime.GOOS == "dragonfly" {
-		t.Skip("skipping: wait hangs on dragonfly; see https://go.dev/issue/56132")
+	if runtime.GOOS == "dragolangnfly" {
+		t.Skip("skipping: wait hangs on dragolangnfly; see https://golang.dev/issue/56132")
 	}
 
 	scale := 1
@@ -212,7 +212,7 @@ func TestTerminalSignal(t *testing.T) {
 
 	// Restart the stopped program.
 	if err := process.Signal(syscall.SIGCONT); err != nil {
-		t.Fatalf("Signal(SIGCONT) got err %v want nil", err)
+		t.Fatalf("Signal(SIGCONT) golangt err %v want nil", err)
 	}
 
 	// Write some data for the program to read, which should cause it to

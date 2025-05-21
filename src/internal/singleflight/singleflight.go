@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package singleflight provides a duplicate function call suppression
@@ -83,7 +83,7 @@ func (g *Group) DoChan(key string, fn func() (any, error)) <-chan Result {
 	g.m[key] = c
 	g.mu.Unlock()
 
-	go g.doCall(c, key, fn)
+	golang g.doCall(c, key, fn)
 
 	return ch
 }
@@ -104,10 +104,10 @@ func (g *Group) doCall(c *call, key string, fn func() (any, error)) {
 }
 
 // ForgetUnshared tells the singleflight to forget about a key if it is not
-// shared with any other goroutines. Future calls to Do for a forgotten key
+// shared with any other golangroutines. Future calls to Do for a forgolangtten key
 // will call the function rather than waiting for an earlier call to complete.
-// Returns whether the key was forgotten or unknown--that is, whether no
-// other goroutines are waiting for the result.
+// Returns whether the key was forgolangtten or unknown--that is, whether no
+// other golangroutines are waiting for the result.
 func (g *Group) ForgetUnshared(key string) bool {
 	g.mu.Lock()
 	defer g.mu.Unlock()

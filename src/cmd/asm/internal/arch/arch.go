@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package arch defines architecture-specific information and support functions.
@@ -243,7 +243,7 @@ func archArm() *Arch {
 	instructions["B"] = obj.AJMP
 	instructions["BL"] = obj.ACALL
 	// MCR differs from MRC by the way fields of the word are encoded.
-	// (Details in arm.go). Here we add the instruction so parse will find
+	// (Details in arm.golang). Here we add the instruction so parse will find
 	// it, but give it an opcode number known only to us.
 	instructions["MCR"] = aMCR
 

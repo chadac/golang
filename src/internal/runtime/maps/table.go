@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package maps implements Go's builtin map type.
@@ -7,7 +7,7 @@ package maps
 
 import (
 	"internal/abi"
-	"internal/goarch"
+	"internal/golangarch"
 	"unsafe"
 )
 
@@ -123,7 +123,7 @@ func (t *table) maxGrowthLeft() uint16 {
 		// the slots except 1 (an empty slot is needed to terminate find
 		// operations).
 		//
-		// TODO(go.dev/issue/54766): With a special case in probing for
+		// TODO(golang.dev/issue/54766): With a special case in probing for
 		// single-group tables, we could fill all slots.
 		return t.capacity - 1
 	} else {
@@ -455,7 +455,7 @@ func (t *table) Delete(typ *abi.SwissMapType, m *Map, hash uintptr, key unsafe.P
 					// it contains no pointers), as compound
 					// assignment operations depend on cleared
 					// deleted values. See
-					// https://go.dev/issue/25936.
+					// https://golang.dev/issue/25936.
 					typedmemclr(typ.Elem, slotElem)
 				}
 
@@ -491,7 +491,7 @@ func (t *table) Delete(typ *abi.SwissMapType, m *Map, hash uintptr, key unsafe.P
 	}
 }
 
-// pruneTombstones goes through the table and tries to remove
+// pruneTombstones golanges through the table and tries to remove
 // tombstones that are no longer needed. Best effort.
 // Note that it only removes tombstones, it does not move elements.
 // Moving elements would do a better job but is infeasbile due to
@@ -612,8 +612,8 @@ func (t *table) Clear(typ *abi.SwissMapType) {
 }
 
 type Iter struct {
-	key  unsafe.Pointer // Must be in first position.  Write nil to indicate iteration end (see cmd/compile/internal/walk/range.go).
-	elem unsafe.Pointer // Must be in second position (see cmd/compile/internal/walk/range.go).
+	key  unsafe.Pointer // Must be in first position.  Write nil to indicate iteration end (see cmd/compile/internal/walk/range.golang).
+	elem unsafe.Pointer // Must be in second position (see cmd/compile/internal/walk/range.golang).
 	typ  *abi.SwissMapType
 	m    *Map
 
@@ -959,7 +959,7 @@ func (it *Iter) Next() {
 					// This entry doesn't exist
 					// anymore. Continue to the
 					// next one.
-					goto next
+					golangto next
 				} else {
 					key = newKey
 					elem = newElem
@@ -1142,7 +1142,7 @@ func (t *table) rehash(typ *abi.SwissMapType, m *Map) {
 
 // Bitmask for the last selection bit at this depth.
 func localDepthMask(localDepth uint8) uintptr {
-	if goarch.PtrSize == 4 {
+	if golangarch.PtrSize == 4 {
 		return uintptr(1) << (32 - localDepth)
 	}
 	return uintptr(1) << (64 - localDepth)

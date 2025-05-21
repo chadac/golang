@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package zip
@@ -32,7 +32,7 @@ type WriteTest struct {
 var writeTests = []WriteTest{
 	{
 		Name:   "foo",
-		Data:   []byte("Rabbits, guinea pigs, gophers, marsupial rats, and quolls."),
+		Data:   []byte("Rabbits, guinea pigs, golangphers, marsupial rats, and quolls."),
 		Method: Store,
 		Mode:   0666,
 	},
@@ -138,7 +138,7 @@ func TestWriterComment(t *testing.T) {
 		}
 
 		if w.closed != test.ok {
-			t.Fatalf("Writer.closed: got %v, want %v", w.closed, test.ok)
+			t.Fatalf("Writer.closed: golangt %v, want %v", w.closed, test.ok)
 		}
 
 		// skip read test in failure cases
@@ -152,7 +152,7 @@ func TestWriterComment(t *testing.T) {
 			t.Fatal(err)
 		}
 		if r.Comment != test.comment {
-			t.Fatalf("Reader.Comment: got %v, want %v", r.Comment, test.comment)
+			t.Fatalf("Reader.Comment: golangt %v, want %v", r.Comment, test.comment)
 		}
 	}
 }
@@ -252,13 +252,13 @@ func TestWriterTime(t *testing.T) {
 		t.Fatalf("unexpected Close error: %v", err)
 	}
 
-	want, err := os.ReadFile("testdata/time-go.zip")
+	want, err := os.ReadFile("testdata/time-golang.zip")
 	if err != nil {
 		t.Fatalf("unexpected ReadFile error: %v", err)
 	}
-	if got := buf.Bytes(); !bytes.Equal(got, want) {
-		fmt.Printf("%x\n%x\n", got, want)
-		t.Error("contents of time-go.zip differ")
+	if golangt := buf.Bytes(); !bytes.Equal(golangt, want) {
+		fmt.Printf("%x\n%x\n", golangt, want)
+		t.Error("contents of time-golang.zip differ")
 	}
 }
 
@@ -322,10 +322,10 @@ func TestWriterDir(t *testing.T) {
 		t.Fatal(err)
 	}
 	if _, err := dw.Write(nil); err != nil {
-		t.Errorf("Write(nil) to directory: got %v, want nil", err)
+		t.Errorf("Write(nil) to directory: golangt %v, want nil", err)
 	}
 	if _, err := dw.Write([]byte("hello")); err == nil {
-		t.Error(`Write("hello") to directory: got nil error, want non-nil`)
+		t.Error(`Write("hello") to directory: golangt nil error, want non-nil`)
 	}
 }
 
@@ -422,7 +422,7 @@ func TestWriterCreateRaw(t *testing.T) {
 	}{
 		{
 			name:    "small store w desc",
-			content: []byte("gophers"),
+			content: []byte("golangphers"),
 			method:  Store,
 			flags:   0x8,
 		},
@@ -481,7 +481,7 @@ func TestWriterCreateRaw(t *testing.T) {
 			_, err = w.Write(f.content)
 		}
 		if err != nil {
-			t.Fatalf("%s Write got %v; want nil", f.name, err)
+			t.Fatalf("%s Write golangt %v; want nil", f.name, err)
 		}
 	}
 
@@ -495,40 +495,40 @@ func TestWriterCreateRaw(t *testing.T) {
 		t.Fatal(err)
 	}
 	for i, want := range files {
-		got := r.File[i]
-		if got.Name != want.name {
-			t.Errorf("got Name %s; want %s", got.Name, want.name)
+		golangt := r.File[i]
+		if golangt.Name != want.name {
+			t.Errorf("golangt Name %s; want %s", golangt.Name, want.name)
 		}
-		if got.Method != want.method {
-			t.Errorf("%s: got Method %#x; want %#x", want.name, got.Method, want.method)
+		if golangt.Method != want.method {
+			t.Errorf("%s: golangt Method %#x; want %#x", want.name, golangt.Method, want.method)
 		}
-		if got.Flags != want.flags {
-			t.Errorf("%s: got Flags %#x; want %#x", want.name, got.Flags, want.flags)
+		if golangt.Flags != want.flags {
+			t.Errorf("%s: golangt Flags %#x; want %#x", want.name, golangt.Flags, want.flags)
 		}
-		if got.CRC32 != want.crc32 {
-			t.Errorf("%s: got CRC32 %#x; want %#x", want.name, got.CRC32, want.crc32)
+		if golangt.CRC32 != want.crc32 {
+			t.Errorf("%s: golangt CRC32 %#x; want %#x", want.name, golangt.CRC32, want.crc32)
 		}
-		if got.CompressedSize64 != want.compressedSize {
-			t.Errorf("%s: got CompressedSize64 %d; want %d", want.name, got.CompressedSize64, want.compressedSize)
+		if golangt.CompressedSize64 != want.compressedSize {
+			t.Errorf("%s: golangt CompressedSize64 %d; want %d", want.name, golangt.CompressedSize64, want.compressedSize)
 		}
-		if got.UncompressedSize64 != want.uncompressedSize {
-			t.Errorf("%s: got UncompressedSize64 %d; want %d", want.name, got.UncompressedSize64, want.uncompressedSize)
+		if golangt.UncompressedSize64 != want.uncompressedSize {
+			t.Errorf("%s: golangt UncompressedSize64 %d; want %d", want.name, golangt.UncompressedSize64, want.uncompressedSize)
 		}
 
-		r, err := got.Open()
+		r, err := golangt.Open()
 		if err != nil {
-			t.Errorf("%s: Open err = %v", got.Name, err)
+			t.Errorf("%s: Open err = %v", golangt.Name, err)
 			continue
 		}
 
 		buf, err := io.ReadAll(r)
 		if err != nil {
-			t.Errorf("%s: ReadAll err = %v", got.Name, err)
+			t.Errorf("%s: ReadAll err = %v", golangt.Name, err)
 			continue
 		}
 
 		if !bytes.Equal(buf, want.content) {
-			t.Errorf("%v: ReadAll returned unexpected bytes", got.Name)
+			t.Errorf("%v: ReadAll returned unexpected bytes", golangt.Name)
 		}
 	}
 }
@@ -553,7 +553,7 @@ func testCreate(t *testing.T, w *Writer, wt *WriteTest) {
 
 func testReadFile(t *testing.T, f *File, wt *WriteTest) {
 	if f.Name != wt.Name {
-		t.Fatalf("File name: got %q, want %q", f.Name, wt.Name)
+		t.Fatalf("File name: golangt %q, want %q", f.Name, wt.Name)
 	}
 	testFileMode(t, f, wt.Mode)
 	rc, err := f.Open()
@@ -620,8 +620,8 @@ func TestWriterAddFS(t *testing.T) {
 	w := NewWriter(buf)
 	tests := []WriteTest{
 		{Name: "emptyfolder", Mode: 0o755 | os.ModeDir},
-		{Name: "file.go", Data: []byte("hello"), Mode: 0644},
-		{Name: "subfolder/another.go", Data: []byte("world"), Mode: 0644},
+		{Name: "file.golang", Data: []byte("hello"), Mode: 0644},
+		{Name: "subfolder/another.golang", Data: []byte("world"), Mode: 0644},
 		// Notably missing here is the "subfolder" directory. This makes sure even
 		// if we don't have a subfolder directory listed.
 	}
@@ -668,6 +668,6 @@ func TestIssue61875(t *testing.T) {
 	}
 	err := w.AddFS(writeTestsToFS(tests))
 	if err == nil {
-		t.Errorf("expected error, got nil")
+		t.Errorf("expected error, golangt nil")
 	}
 }

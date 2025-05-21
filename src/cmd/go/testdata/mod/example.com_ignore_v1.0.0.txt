@@ -5,7 +5,7 @@ ignore ./foo
 -- .info --
 {"Version":"v1.0.0"}
 
--- foo/foo.go --
+-- foo/foo.golang --
 package foo
 
 const Bar = "Hello from foo!"

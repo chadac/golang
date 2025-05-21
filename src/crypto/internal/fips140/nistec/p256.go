@@ -1,8 +1,8 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build (!amd64 && !arm64 && !ppc64le && !s390x) || purego
+//golang:build (!amd64 && !arm64 && !ppc64le && !s390x) || puregolang
 
 package nistec
 
@@ -22,7 +22,7 @@ type P256Point struct {
 	// The point is represented in projective coordinates (X:Y:Z), where x = X/Z
 	// and y = Y/Z. Infinity is (0:1:0).
 	//
-	// fiat.P256Element is a base field element in [0, P-1] in the Montgomery
+	// fiat.P256Element is a base field element in [0, P-1] in the Montgolangmery
 	// domain (with R 2²⁵⁶ and P 2²⁵⁶ - 2²²⁴ + 2¹⁹² + 2⁹⁶ - 1) as four limbs in
 	// little-endian order value.
 	x, y, z fiat.P256Element
@@ -321,7 +321,7 @@ func (q *P256Point) Double(p *P256Point) *P256Point {
 }
 
 // p256AffinePoint is a point in affine coordinates (x, y). x and y are still
-// Montgomery domain elements. The point can't be the point at infinity.
+// Montgolangmery domain elements. The point can't be the point at infinity.
 type p256AffinePoint struct {
 	x, y fiat.P256Element
 }
@@ -339,7 +339,7 @@ func (p *p256AffinePoint) Projective() *P256Point {
 func (q *P256Point) AddAffine(p1 *P256Point, p2 *p256AffinePoint, infinity int) *P256Point {
 	// Complete mixed addition formula for a = -3 from "Complete addition
 	// formulas for prime order elliptic curves"
-	// (https://eprint.iacr.org/2015/1060), Algorithm 5.
+	// (https://eprint.iacr.org/2015/1060), Algolangrithm 5.
 
 	t0 := new(fiat.P256Element).Mul(&p1.x, &p2.x)   // t0 ← X1 · X2
 	t1 := new(fiat.P256Element).Mul(&p1.y, &p2.y)   // t1 ← Y1 · Y2
@@ -393,7 +393,7 @@ func (q *P256Point) Select(p1, p2 *P256Point, cond int) *P256Point {
 }
 
 // p256OrdElement is a P-256 scalar field element in [0, ord(G)-1] in the
-// Montgomery domain (with R 2²⁵⁶) as four uint64 limbs in little-endian order.
+// Montgolangmery domain (with R 2²⁵⁶) as four uint64 limbs in little-endian order.
 type p256OrdElement [4]uint64
 
 // SetBytes sets s to the big-endian value of x, reducing it as necessary.

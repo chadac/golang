@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package versions
@@ -9,11 +9,11 @@ package versions
 
 // GoVersions that features in x/tools can be gated to.
 const (
-	Go1_18 = "go1.18"
-	Go1_19 = "go1.19"
-	Go1_20 = "go1.20"
-	Go1_21 = "go1.21"
-	Go1_22 = "go1.22"
+	Go1_18 = "golang1.18"
+	Go1_19 = "golang1.19"
+	Go1_20 = "golang1.20"
+	Go1_21 = "golang1.21"
+	Go1_22 = "golang1.22"
 )
 
 // Future is an invalid unknown Go version sometime in the future.

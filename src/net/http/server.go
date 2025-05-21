@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // HTTP server. See RFC 7230 through 7235.
@@ -13,7 +13,7 @@ import (
 	"crypto/tls"
 	"errors"
 	"fmt"
-	"internal/godebug"
+	"internal/golangdebug"
 	"io"
 	"log"
 	"maps"
@@ -32,7 +32,7 @@ import (
 	"time"
 	_ "unsafe" // for linkname
 
-	"golang.org/x/net/http/httpguts"
+	"golanglang.org/x/net/http/httpguts"
 )
 
 // Errors used by the HTTP server.
@@ -207,7 +207,7 @@ type Hijacker interface {
 }
 
 // The CloseNotifier interface is implemented by ResponseWriters which
-// allow detecting when the underlying connection has gone away.
+// allow detecting when the underlying connection has golangne away.
 //
 // This mechanism can be used to cancel long operations on the server
 // if the client has disconnected before the response is ready.
@@ -216,7 +216,7 @@ type Hijacker interface {
 // New code should use [Request.Context] instead.
 type CloseNotifier interface {
 	// CloseNotify returns a channel that receives at most a
-	// single value (true) when the client connection has gone
+	// single value (true) when the client connection has golangne
 	// away.
 	//
 	// CloseNotify may wait to notify until Request.Body has been
@@ -266,8 +266,8 @@ type conn struct {
 	rwc net.Conn
 
 	// remoteAddr is rwc.RemoteAddr().String(). It is not populated synchronously
-	// inside the Listener's Accept goroutine, as some implementations block.
-	// It is populated immediately inside the (*conn).serve goroutine.
+	// inside the Listener's Accept golangroutine, as some implementations block.
+	// It is populated immediately inside the (*conn).serve golangroutine.
 	// This is the value of a Handler's (*Request).RemoteAddr.
 	remoteAddr string
 
@@ -520,8 +520,8 @@ func (c *response) EnableFullDuplex() error {
 // or known before the header is written, the normal Go trailers mechanism
 // is preferred:
 //
-//	https://pkg.go.dev/net/http#ResponseWriter
-//	https://pkg.go.dev/net/http#example-ResponseWriter-Trailers
+//	https://pkg.golang.dev/net/http#ResponseWriter
+//	https://pkg.golang.dev/net/http#example-ResponseWriter-Trailers
 const TrailerPrefix = "Trailer:"
 
 // finalTrailers is called after the Handler exits and returns a non-nil
@@ -600,7 +600,7 @@ func (w *response) ReadFrom(src io.Reader) (n int64, err error) {
 
 	// Copy the first sniffLen bytes before switching to ReadFrom.
 	// This ensures we don't start writing the response before the
-	// source is available (see golang.org/issue/5660) and provides
+	// source is available (see golanglang.org/issue/5660) and provides
 	// enough bytes to perform Content-Type sniffing when required.
 	if !w.cw.wroteHeader {
 		n0, err := io.CopyBuffer(writerOnly{w}, io.LimitReader(src, sniffLen), buf)
@@ -652,7 +652,7 @@ type readResult struct {
 // connReader is the io.Reader wrapper used by *conn. It combines a
 // selectively-activated io.LimitedReader (to bound request header
 // read sizes) with support for selectively keeping an io.Reader.Read
-// call blocked in a background goroutine to wait for activity and
+// call blocked in a background golangroutine to wait for activity and
 // trigger a CloseNotifier channel.
 // After a Handler has hijacked the conn and exited, connReader behaves like a
 // proxy for the net.Conn and the aforementioned behavior is bypassed.
@@ -695,7 +695,7 @@ func (cr *connReader) startBackgroundRead() {
 	}
 	cr.inRead = true
 	cr.rwc.SetReadDeadline(time.Time{})
-	go cr.backgroundRead()
+	golang cr.backgroundRead()
 }
 
 func (cr *connReader) backgroundRead() {
@@ -728,7 +728,7 @@ func (cr *connReader) backgroundRead() {
 	}
 	if ne, ok := err.(net.Error); ok && cr.aborted && ne.Timeout() {
 		// Ignore this error. It's the expected error from
-		// another goroutine calling abortPendingRead.
+		// another golangroutine calling abortPendingRead.
 	} else if err != nil {
 		cr.handleReadErrorLocked(err)
 	}
@@ -745,7 +745,7 @@ func (cr *connReader) abortPendingRead() {
 		return
 	}
 	cr.aborted = true
-	cr.rwc.SetReadDeadline(aLongTimeAgo)
+	cr.rwc.SetReadDeadline(aLongTimeAgolang)
 	for cr.inRead {
 		cr.cond.Wait()
 	}
@@ -857,12 +857,12 @@ func bufioWriterPool(size int) *sync.Pool {
 // newBufioReader should be an internal detail,
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
-//   - github.com/gobwas/ws
+//   - github.com/golangbwas/ws
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname newBufioReader
+//golang:linkname newBufioReader
 func newBufioReader(r io.Reader) *bufio.Reader {
 	if v := bufioReaderPool.Get(); v != nil {
 		br := v.(*bufio.Reader)
@@ -877,12 +877,12 @@ func newBufioReader(r io.Reader) *bufio.Reader {
 // putBufioReader should be an internal detail,
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
-//   - github.com/gobwas/ws
+//   - github.com/golangbwas/ws
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname putBufioReader
+//golang:linkname putBufioReader
 func putBufioReader(br *bufio.Reader) {
 	br.Reset(nil)
 	bufioReaderPool.Put(br)
@@ -891,12 +891,12 @@ func putBufioReader(br *bufio.Reader) {
 // newBufioWriterSize should be an internal detail,
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
-//   - github.com/gobwas/ws
+//   - github.com/golangbwas/ws
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname newBufioWriterSize
+//golang:linkname newBufioWriterSize
 func newBufioWriterSize(w io.Writer, size int) *bufio.Writer {
 	pool := bufioWriterPool(size)
 	if pool != nil {
@@ -912,12 +912,12 @@ func newBufioWriterSize(w io.Writer, size int) *bufio.Writer {
 // putBufioWriter should be an internal detail,
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
-//   - github.com/gobwas/ws
+//   - github.com/golangbwas/ws
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname putBufioWriter
+//golang:linkname putBufioWriter
 func putBufioWriter(bw *bufio.Writer) {
 	bw.Reset(nil)
 	if pool := bufioWriterPool(bw.Available()); pool != nil {
@@ -1395,7 +1395,7 @@ func (cw *chunkWriter) writeHeader(p []byte) {
 	// request body), don't reuse this connection.
 	//
 	// This behavior was first added on the theory that we don't know
-	// if the next bytes on the wire are going to be the remainder of
+	// if the next bytes on the wire are golanging to be the remainder of
 	// the request body or the subsequent request (see issue 11549),
 	// but that's not correct: If we keep using the connection,
 	// the client is required to send the request body whether we
@@ -1481,7 +1481,7 @@ func (cw *chunkWriter) writeHeader(p []byte) {
 
 	code := w.status
 	if bodyAllowedForStatus(code) {
-		// If no content type, apply sniffing algorithm to body.
+		// If no content type, apply sniffing algolangrithm to body.
 		_, haveType := header["Content-Type"]
 
 		// If the Content-Encoding was set and is non-blank,
@@ -1554,7 +1554,7 @@ func (cw *chunkWriter) writeHeader(p []byte) {
 
 	// Only override the Connection header if it is not a successful
 	// protocol switch response and if KeepAlives are not enabled.
-	// See https://golang.org/issue/36381.
+	// See https://golanglang.org/issue/36381.
 	delConnectionHeader := w.closeAfterReply &&
 		(!keepAlivesEnabled || !hasToken(cw.header.get("Connection"), "close")) &&
 		!isProtocolSwitchResponse(w.status, header)
@@ -1626,7 +1626,7 @@ func (w *response) bodyAllowed() bool {
 // sends an implicitly empty 200 OK header.
 //
 // If the handler didn't declare a Content-Length up front, we either
-// go into chunking mode or, if the handler finishes running before
+// golang into chunking mode or, if the handler finishes running before
 // the chunking buffer size, we compute a Content-Length and send that
 // in the header instead.
 //
@@ -1816,7 +1816,7 @@ var _ closeWriter = (*net.TCPConn)(nil)
 // pause for a bit, hoping the client processes it before any
 // subsequent RST.
 //
-// See https://golang.org/issue/3595
+// See https://golanglang.org/issue/3595
 func (c *conn) closeWriteAndWait() {
 	c.finalFlush()
 	if tcp, ok := c.rwc.(closeWriter); ok {
@@ -1838,7 +1838,7 @@ func (c *conn) closeWriteAndWait() {
 	// Unfortunately, we have no straightforward way to be “reasonably certain”
 	// that we have received the client's ACK, and at any rate we don't want to
 	// allow a misbehaving client to soak up server connections indefinitely by
-	// withholding an ACK, nor do we want to go through the complexity or overhead
+	// withholding an ACK, nor do we want to golang through the complexity or overhead
 	// of using low-level APIs to figure out when a TCP round-trip has completed.
 	//
 	// Instead, we declare that we are “reasonably certain” that we received the
@@ -1910,7 +1910,7 @@ var ErrAbortHandler = errors.New("net/http: abort Handler")
 
 // isCommonNetReadError reports whether err is a common error
 // encountered during reading a request off the network when the
-// client has gone away or had its read fail somehow. This is used to
+// client has golangne away or had its read fail somehow. This is used to
 // determine which logs are interesting enough to log about.
 func isCommonNetReadError(err error) bool {
 	if err == io.EOF {
@@ -1986,12 +1986,12 @@ func (c *conn) serve(ctx context.Context) {
 		}
 		c.tlsState = new(tls.ConnectionState)
 		*c.tlsState = tlsConn.ConnectionState()
-		if proto := c.tlsState.NegotiatedProtocol; validNextProto(proto) {
+		if proto := c.tlsState.NegolangtiatedProtocol; validNextProto(proto) {
 			if fn := c.server.TLSNextProto[proto]; fn != nil {
 				h := initALPNRequest{ctx, tlsConn, serverHandler{c.server}}
 				// Mark freshly created HTTP/2 as active and prevent any server state hooks
 				// from being run on these connections. This prevents closeIdleConns from
-				// closing such connections. See issue https://golang.org/issue/39776.
+				// closing such connections. See issue https://golanglang.org/issue/39776.
 				c.setState(c.rwc, StateActive, skipHooks)
 				fn(c.server, tlsConn, h)
 			}
@@ -2100,10 +2100,10 @@ func (c *conn) serve(ctx context.Context) {
 
 		// HTTP cannot have multiple simultaneous active requests.[*]
 		// Until the server replies to this request, it can't read another,
-		// so we might as well run the handler in this goroutine.
+		// so we might as well run the handler in this golangroutine.
 		// [*] Not strictly true: HTTP pipelining. We could let them all process
 		// in parallel even if their responses need to be serialized.
-		// But we're not going to implement HTTP pipelining because it
+		// But we're not golanging to implement HTTP pipelining because it
 		// was never deployed in the wild and the answer is HTTP/2.
 		inFlightResponse = w
 		serverHandler{c.server}.ServeHTTP(w, w.req)
@@ -2188,7 +2188,7 @@ func unencryptedTLSConn(c net.Conn) *tls.Conn {
 }
 
 // TLSNextProto key to use for unencrypted HTTP/2 connections.
-// Not actually a TLS-negotiated protocol.
+// Not actually a TLS-negolangtiated protocol.
 const nextProtoUnencryptedHTTP2 = "unencrypted_http2"
 
 func (c *conn) maybeServeUnencryptedHTTP2(ctx context.Context) bool {
@@ -2198,9 +2198,9 @@ func (c *conn) maybeServeUnencryptedHTTP2(ctx context.Context) bool {
 	}
 	hasPreface := func(c *conn, preface []byte) bool {
 		c.r.setReadLimit(int64(len(preface)) - int64(c.bufr.Buffered()))
-		got, err := c.bufr.Peek(len(preface))
+		golangt, err := c.bufr.Peek(len(preface))
 		c.r.setInfiniteReadLimit()
-		return err == nil && bytes.Equal(got, preface)
+		return err == nil && bytes.Equal(golangt, preface)
 	}
 	if !hasPreface(c, []byte("PRI * HTTP/2.0")) {
 		return false
@@ -2343,7 +2343,7 @@ func Error(w ResponseWriter, error string, code int) {
 	//
 	// We don't delete Content-Encoding, because some middleware sets
 	// Content-Encoding: gzip and wraps the ResponseWriter to compress on-the-fly.
-	// See https://go.dev/issue/66343.
+	// See https://golang.dev/issue/66343.
 	h.Del("Content-Length")
 
 	// There might be content type already set, but we reset it to
@@ -2591,7 +2591,7 @@ func RedirectHandler(url string, code int) Handler {
 //
 // The pattern syntax and matching behavior of ServeMux changed significantly
 // in Go 1.22. To restore the old behavior, set the GODEBUG environment variable
-// to "httpmuxgo121=1". This setting is read once, at program startup; changes
+// to "httpmuxgolang121=1". This setting is read once, at program startup; changes
 // during execution will be ignored.
 //
 // The backwards-incompatible changes include:
@@ -2607,12 +2607,12 @@ func RedirectHandler(url string, code int) Handler {
 //     but in 1.21 it would match only the path "/%2561" (where "%25" is the escape for the percent sign).
 //   - When matching patterns to paths, in 1.22 each segment of the path is unescaped; in 1.21, the entire path is unescaped.
 //     This change mostly affects how paths with %2F escapes adjacent to slashes are treated.
-//     See https://go.dev/issue/21955 for details.
+//     See https://golang.dev/issue/21955 for details.
 type ServeMux struct {
 	mu     sync.RWMutex
 	tree   routingNode
 	index  routingIndex
-	mux121 serveMux121 // used only when GODEBUG=httpmuxgo121=1
+	mux121 serveMux121 // used only when GODEBUG=httpmuxgolang121=1
 }
 
 // NewServeMux allocates and returns a new [ServeMux].
@@ -2955,7 +2955,7 @@ func (mux *ServeMux) registerErr(patstr string, handler Handler) error {
 }
 
 // Serve accepts incoming HTTP connections on the listener l,
-// creating a new service goroutine for each. The service goroutines
+// creating a new service golangroutine for each. The service golangroutines
 // read requests and then call handler to reply to them.
 //
 // The handler is typically nil, in which case [DefaultServeMux] is used.
@@ -2971,7 +2971,7 @@ func Serve(l net.Listener, handler Handler) error {
 }
 
 // ServeTLS accepts incoming HTTPS connections on the listener l,
-// creating a new service goroutine for each. The service goroutines
+// creating a new service golangroutine for each. The service golangroutines
 // read requests and then call handler to reply to them.
 //
 // The handler is typically nil, in which case [DefaultServeMux] is used.
@@ -3052,7 +3052,7 @@ type Server struct {
 	// TLSNextProto optionally specifies a function to take over
 	// ownership of the provided TLS connection when an ALPN
 	// protocol upgrade has occurred. The map key is the protocol
-	// name negotiated. The Handler argument should be used to
+	// name negolangtiated. The Handler argument should be used to
 	// handle HTTP requests and will initialize the Request's TLS
 	// and RemoteAddr if not already set. The connection is
 	// automatically closed when the function returns.
@@ -3088,7 +3088,7 @@ type Server struct {
 	// HTTP2 configures HTTP/2 connections.
 	//
 	// This field does not yet have any effect.
-	// See https://go.dev/issue/67813.
+	// See https://golang.dev/issue/67813.
 	HTTP2 *HTTP2Config
 
 	// Protocols is the set of protocols accepted by the server.
@@ -3181,7 +3181,7 @@ func (s *Server) Shutdown(ctx context.Context) error {
 	s.mu.Lock()
 	lnerr := s.closeListenersLocked()
 	for _, f := range s.onShutdown {
-		go f()
+		golang f()
 	}
 	s.mu.Unlock()
 	s.listenerGroup.Wait()
@@ -3215,7 +3215,7 @@ func (s *Server) Shutdown(ctx context.Context) error {
 
 // RegisterOnShutdown registers a function to call on [Server.Shutdown].
 // This can be used to gracefully shutdown connections that have
-// undergone ALPN protocol upgrade or that have been hijacked.
+// undergolangne ALPN protocol upgrade or that have been hijacked.
 // This function should start protocol-specific graceful shutdown,
 // but should not wait for shutdown to complete.
 func (s *Server) RegisterOnShutdown(f func()) {
@@ -3324,9 +3324,9 @@ type serverHandler struct {
 //   - github.com/erda-project/erda-infra
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname badServeHTTP net/http.serverHandler.ServeHTTP
+//golang:linkname badServeHTTP net/http.serverHandler.ServeHTTP
 func (sh serverHandler) ServeHTTP(rw ResponseWriter, req *Request) {
 	handler := sh.srv.Handler
 	if handler == nil {
@@ -3345,7 +3345,7 @@ func badServeHTTP(serverHandler, ResponseWriter, *Request)
 // unescaped semicolons in the URL query to ampersands, and invoking the handler h.
 //
 // This restores the pre-Go 1.17 behavior of splitting query parameters on both
-// semicolons and ampersands. (See golang.org/issue/25192). Note that this
+// semicolons and ampersands. (See golanglang.org/issue/25192). Note that this
 // behavior doesn't match that of many proxies, and the mismatch can lead to
 // security issues.
 //
@@ -3420,7 +3420,7 @@ func (s *Server) shouldConfigureHTTP2ForServe() bool {
 var ErrServerClosed = errors.New("http: Server closed")
 
 // Serve accepts incoming connections on the Listener l, creating a
-// new service goroutine for each. The service goroutines read requests and
+// new service golangroutine for each. The service golangroutines read requests and
 // then call s.Handler to reply to them.
 //
 // HTTP/2 support is only enabled if the Listener returns [*tls.Conn]
@@ -3489,12 +3489,12 @@ func (s *Server) Serve(l net.Listener) error {
 		tempDelay = 0
 		c := s.newConn(rw)
 		c.setState(c.rwc, StateNew, runHooks) // before Serve can return
-		go c.serve(connCtx)
+		golang c.serve(connCtx)
 	}
 }
 
 // ServeTLS accepts incoming connections on the Listener l, creating a
-// new service goroutine for each. The service goroutines perform TLS
+// new service golangroutine for each. The service golangroutines perform TLS
 // setup and then read requests, calling s.Handler to reply to them.
 //
 // Files containing a certificate and matching private key for the
@@ -3761,7 +3761,7 @@ func (s *Server) setupHTTP2_ServeTLS() error {
 // and may be called concurrently. See shouldConfigureHTTP2ForServe.
 //
 // The tests named TestTransportAutomaticHTTP2* and
-// TestConcurrentServerServe in server_test.go demonstrate some
+// TestConcurrentServerServe in server_test.golang demonstrate some
 // of the supported use cases and motivations.
 func (s *Server) setupHTTP2_Serve() error {
 	s.nextProtoOnce.Do(s.onceSetNextProtoDefaults_Serve)
@@ -3774,7 +3774,7 @@ func (s *Server) onceSetNextProtoDefaults_Serve() {
 	}
 }
 
-var http2server = godebug.New("http2server")
+var http2server = golangdebug.New("http2server")
 
 // onceSetNextProtoDefaults configures HTTP/2, if the user hasn't
 // configured otherwise. (by setting s.TLSNextProto non-nil)
@@ -3793,7 +3793,7 @@ func (s *Server) onceSetNextProtoDefaults() {
 	}
 	if _, ok := s.TLSNextProto["h2"]; ok {
 		// TLSNextProto already contains an HTTP/2 implementation.
-		// The user probably called golang.org/x/net/http2.ConfigureServer
+		// The user probably called golanglang.org/x/net/http2.ConfigureServer
 		// to add it.
 		return
 	}
@@ -3856,7 +3856,7 @@ func (h *timeoutHandler) ServeHTTP(w ResponseWriter, r *Request) {
 		req: r,
 	}
 	panicChan := make(chan any, 1)
-	go func() {
+	golang func() {
 		defer func() {
 			if p := recover(); p != nil {
 				panicChan <- p

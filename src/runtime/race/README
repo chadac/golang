@@ -2,7 +2,7 @@ runtime/race package contains the data race detector runtime library.
 It is based on ThreadSanitizer race detector, that is currently a part of
 the LLVM project (https://github.com/llvm/llvm-project/tree/main/compiler-rt).
 
-To update the .syso files use golang.org/x/build/cmd/racebuild.
+To update the .syso files use golanglang.org/x/build/cmd/racebuild.
 
 internal/amd64v1/race_darwin.syso built with LLVM 51bfeff0e4b0757ff773da6882f4d538996c9b04 and Go e7d582b55dda36e76ce4d0ce770139ca0915b7c5.
 internal/amd64v1/race_freebsd.syso built with LLVM 51bfeff0e4b0757ff773da6882f4d538996c9b04 and Go e7d582b55dda36e76ce4d0ce770139ca0915b7c5.

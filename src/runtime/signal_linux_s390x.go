@@ -1,12 +1,12 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
 
 import (
 	"internal/abi"
-	"internal/goarch"
+	"internal/golangarch"
 	"internal/runtime/sys"
 	"unsafe"
 )
@@ -16,8 +16,8 @@ type sigctxt struct {
 	ctxt unsafe.Pointer
 }
 
-//go:nosplit
-//go:nowritebarrierrec
+//golang:nosplit
+//golang:nowritebarrierrec
 func (c *sigctxt) regs() *sigcontext {
 	return (*sigcontext)(unsafe.Pointer(&(*ucontext)(c.ctxt).uc_mcontext))
 }
@@ -41,8 +41,8 @@ func (c *sigctxt) r15() uint64  { return c.regs().gregs[15] }
 func (c *sigctxt) link() uint64 { return c.regs().gregs[14] }
 func (c *sigctxt) sp() uint64   { return c.regs().gregs[15] }
 
-//go:nosplit
-//go:nowritebarrierrec
+//golang:nosplit
+//golang:nowritebarrierrec
 func (c *sigctxt) pc() uint64 { return c.regs().psw_addr }
 
 func (c *sigctxt) sigcode() uint32 { return uint32(c.info.si_code) }
@@ -55,7 +55,7 @@ func (c *sigctxt) set_sp(x uint64)      { c.regs().gregs[15] = x }
 func (c *sigctxt) set_pc(x uint64)      { c.regs().psw_addr = x }
 func (c *sigctxt) set_sigcode(x uint32) { c.info.si_code = int32(x) }
 func (c *sigctxt) set_sigaddr(x uint64) {
-	*(*uintptr)(add(unsafe.Pointer(c.info), 2*goarch.PtrSize)) = uintptr(x)
+	*(*uintptr)(add(unsafe.Pointer(c.info), 2*golangarch.PtrSize)) = uintptr(x)
 }
 
 func dumpregs(c *sigctxt) {
@@ -79,8 +79,8 @@ func dumpregs(c *sigctxt) {
 	print("link ", hex(c.link()), "\n")
 }
 
-//go:nosplit
-//go:nowritebarrierrec
+//golang:nosplit
+//golang:nowritebarrierrec
 func (c *sigctxt) sigpc() uintptr { return uintptr(c.pc()) }
 
 func (c *sigctxt) sigsp() uintptr { return uintptr(c.sp()) }
@@ -93,7 +93,7 @@ func (c *sigctxt) preparePanic(sig uint32, gp *g) {
 	// function calls sigpanic directly.
 	// Always save LINK to stack so that panics in leaf
 	// functions are correctly handled. This smashes
-	// the stack frame but we're not going back there
+	// the stack frame but we're not golanging back there
 	// anyway.
 	sp := c.sp() - sys.MinFrameSize
 	c.set_sp(sp)

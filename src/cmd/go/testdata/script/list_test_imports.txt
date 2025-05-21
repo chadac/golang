@@ -1,16 +1,16 @@
 env GO111MODULE=off
 
 # issue 26880: list with tests has wrong variant in imports
-go list -test -f '{{.ImportPath}}:{{with .Imports}} {{join . ", "}}{{end}}' a b
+golang list -test -f '{{.ImportPath}}:{{with .Imports}} {{join . ", "}}{{end}}' a b
 cmp stdout imports.txt
 
--- a/a.go --
+-- a/a.golang --
 package a; import _ "b"
--- b/b.go --
+-- b/b.golang --
 package b
--- b/b_test.go --
+-- b/b_test.golang --
 package b
--- b/b_x_test.go --
+-- b/b_x_test.golang --
 package b_test; import _ "a"
 
 -- imports.txt --

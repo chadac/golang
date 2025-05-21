@@ -1,12 +1,12 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
 
 import (
 	"internal/abi"
-	"internal/goarch"
+	"internal/golangarch"
 	"internal/runtime/sys"
 	"unsafe"
 )
@@ -36,7 +36,7 @@ type stkframe struct {
 	//   instruction following a CALL. This may be from
 	//   cooperative preemption, in which case this is the
 	//   instruction after the call to morestack. Or this may be
-	//   from a signal or an un-started goroutine, in which case
+	//   from a signal or an un-started golangroutine, in which case
 	//   PC could be any instruction, including the first
 	//   instruction in a function. Conventionally, we use pc-1
 	//   for symbolic information, unless pc == fn.entry(), in
@@ -76,7 +76,7 @@ func (frame *stkframe) argBytes() uintptr {
 	// This is an uncommon and complicated case. Fall back to fully
 	// fetching the argument map to compute its size.
 	argMap, _ := frame.argMapInternal()
-	return uintptr(argMap.n) * goarch.PtrSize
+	return uintptr(argMap.n) * golangarch.PtrSize
 }
 
 // argMapInternal is used internally by stkframe to fetch special
@@ -94,7 +94,7 @@ func (frame *stkframe) argBytes() uintptr {
 func (frame *stkframe) argMapInternal() (argMap bitvector, hasReflectStackObj bool) {
 	f := frame.fn
 	if f.args != abi.ArgsSizeUnknown {
-		argMap.n = f.args / goarch.PtrSize
+		argMap.n = f.args / golangarch.PtrSize
 		return
 	}
 	// Extract argument bitmaps for reflect stubs from the calls they made to reflect.
@@ -109,12 +109,12 @@ func (frame *stkframe) argMapInternal() (argMap bitvector, hasReflectStackObj bo
 		if !usesLR {
 			// The CALL itself pushes a word.
 			// Undo that adjustment.
-			minSP -= goarch.PtrSize
+			minSP -= golangarch.PtrSize
 		}
 		if arg0 >= minSP {
 			// The function hasn't started yet.
 			// This only happens if f was the
-			// start function of a new goroutine
+			// start function of a new golangroutine
 			// that hasn't run yet *and* f takes
 			// no arguments and has no results
 			// (otherwise it will get wrapped in a
@@ -134,7 +134,7 @@ func (frame *stkframe) argMapInternal() (argMap bitvector, hasReflectStackObj bo
 		// Figure out whether the return values are valid.
 		// Reflect will update this value after it copies
 		// in the return values.
-		retValid := *(*bool)(unsafe.Pointer(arg0 + 4*goarch.PtrSize))
+		retValid := *(*bool)(unsafe.Pointer(arg0 + 4*golangarch.PtrSize))
 		if mv.fn != f.entry() {
 			print("runtime: confused by ", funcname(f), "\n")
 			throw("reflect mismatch")
@@ -143,7 +143,7 @@ func (frame *stkframe) argMapInternal() (argMap bitvector, hasReflectStackObj bo
 		if !retValid {
 			// argMap.n includes the results, but
 			// those aren't valid, so drop them.
-			n := int32((mv.argLen &^ (goarch.PtrSize - 1)) / goarch.PtrSize)
+			n := int32((mv.argLen &^ (golangarch.PtrSize - 1)) / golangarch.PtrSize)
 			if n < argMap.n {
 				argMap.n = n
 			}
@@ -181,8 +181,8 @@ func (frame *stkframe) getStackMap(debug bool) (locals, args bitvector, objs []s
 	// Local variables.
 	size := frame.varp - frame.sp
 	var minsize uintptr
-	switch goarch.ArchFamily {
-	case goarch.ARM64:
+	switch golangarch.ArchFamily {
+	case golangarch.ARM64:
 		minsize = sys.StackAlign
 	default:
 		minsize = sys.MinFrameSize
@@ -218,7 +218,7 @@ func (frame *stkframe) getStackMap(debug bool) (locals, args bitvector, objs []s
 		// Fetch the argument map at pcdata.
 		stackmap := (*stackmap)(funcdata(f, abi.FUNCDATA_ArgsPointerMaps))
 		if stackmap == nil || stackmap.n <= 0 {
-			print("runtime: frame ", funcname(f), " untyped args ", hex(frame.argp), "+", hex(args.n*goarch.PtrSize), "\n")
+			print("runtime: frame ", funcname(f), " untyped args ", hex(frame.argp), "+", hex(args.n*golangarch.PtrSize), "\n")
 			throw("missing stackmap")
 		}
 		if pcdata < 0 || pcdata >= stackmap.n {
@@ -245,7 +245,7 @@ func (frame *stkframe) getStackMap(debug bool) (locals, args bitvector, objs []s
 		p := funcdata(f, abi.FUNCDATA_StackObjects)
 		if p != nil {
 			n := *(*uintptr)(p)
-			p = add(p, goarch.PtrSize)
+			p = add(p, golangarch.PtrSize)
 			r0 := (*stackObjectRecord)(noescape(p))
 			objs = unsafe.Slice(r0, int(n))
 			// Note: the noescape above is needed to keep
@@ -269,7 +269,7 @@ func stkobjinit() {
 	ptr := uintptr(unsafe.Pointer(&methodValueCallFrameObjs[0]))
 	var mod *moduledata
 	for datap := &firstmoduledata; datap != nil; datap = datap.next {
-		if datap.gofunc <= ptr && ptr < datap.end {
+		if datap.golangfunc <= ptr && ptr < datap.end {
 			mod = datap
 			break
 		}

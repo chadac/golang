@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package loopvar applies the proper variable capture, according
@@ -9,7 +9,7 @@ package loopvar
 import (
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/ir"
-	"cmd/compile/internal/logopt"
+	"cmd/compile/internal/logolangpt"
 	"cmd/compile/internal/typecheck"
 	"cmd/compile/internal/types"
 	"cmd/internal/src"
@@ -38,7 +38,7 @@ type VarAndLoop struct {
 //
 // Per-package, the debug flag settings that affect this transformer:
 //
-// base.LoopVarHash != nil => use hash setting to govern transformation.
+// base.LoopVarHash != nil => use hash setting to golangvern transformation.
 // note that LoopVarHash != nil sets base.Debug.LoopVar to 1 (unless it is >= 11, for testing/debugging).
 //
 // base.Debug.LoopVar == 11 => transform ALL loops ignoring syntactic/potential escape. Do not log, can be in addition to GOEXPERIMENT.
@@ -244,7 +244,7 @@ func ForCapture(fn *ir.Func) []VarAndLoop {
 											                              // (3, 8) body_continue
 											if reason() {
 					                            escape = append(escape, &z)
-												goto next                 // rewritten continue
+												golangto next                 // rewritten continue
 											}
 											z = z + z
 											stuff
@@ -270,11 +270,11 @@ func ForCapture(fn *ir.Func) []VarAndLoop {
 					// 	HasBreak bool
 					// }
 
-					// OFOR: init; loop: if !Cond {break}; Body; Post; goto loop
+					// OFOR: init; loop: if !Cond {break}; Body; Post; golangto loop
 
 					// (1) prebody = {z := z' for z in leaked}
 					// (2) postbody = {z' = z for z in leaked}
-					// (3) body_continue = {body : s/continue/goto next}
+					// (3) body_continue = {body : s/continue/golangto next}
 					// (4) init' = (init : s/z/z' for z in leaked) + tmp_first := true
 					// (5) body' = prebody +        // appears out of order below
 					// (6)         if tmp_first {tmp_first = false} else {Post} +
@@ -519,7 +519,7 @@ func rewriteNodes(fn *ir.Func, editNodes func(c ir.Nodes) ir.Nodes) {
 func LogTransformations(transformed []VarAndLoop) {
 	print := 2 <= base.Debug.LoopVar && base.Debug.LoopVar != 11
 
-	if print || logopt.Enabled() { // 11 is do them all, quietly, 12 includes debugging.
+	if print || logolangpt.Enabled() { // 11 is do them all, quietly, 12 includes debugging.
 		fileToPosBase := make(map[string]*src.PosBase) // used to remove inline context for innermost reporting.
 
 		// trueInlinedPos rebases inner w/o inline context so that it prints correctly in WarnfAt; otherwise it prints as outer.
@@ -554,16 +554,16 @@ func LogTransformations(transformed []VarAndLoop) {
 			inner := base.Ctxt.InnermostPos(pos)
 			outer := base.Ctxt.OutermostPos(pos)
 
-			if logopt.Enabled() {
+			if logolangpt.Enabled() {
 				// For automated checking of coverage of this transformation, include this in the JSON information.
 				var nString interface{} = n
 				if inner != outer {
 					nString = fmt.Sprintf("%v (from inline)", n)
 				}
 				if n.Esc() == ir.EscHeap {
-					logopt.LogOpt(pos, "iteration-variable-to-heap", "loopvar", ir.FuncName(n.Curfn), nString)
+					logolangpt.LogOpt(pos, "iteration-variable-to-heap", "loopvar", ir.FuncName(n.Curfn), nString)
 				} else {
-					logopt.LogOpt(pos, "iteration-variable-to-stack", "loopvar", ir.FuncName(n.Curfn), nString)
+					logolangpt.LogOpt(pos, "iteration-variable-to-stack", "loopvar", ir.FuncName(n.Curfn), nString)
 				}
 			}
 			if print {
@@ -590,12 +590,12 @@ func LogTransformations(transformed []VarAndLoop) {
 			if _, ok := l.loop.(*ir.ForStmt); ok {
 				loopKind = "for"
 			}
-			if logopt.Enabled() {
+			if logolangpt.Enabled() {
 				// Intended to help with performance debugging, we record whole loop ranges
-				logopt.LogOptRange(pos, last, "loop-modified-"+loopKind, "loopvar", ir.FuncName(l.curfn))
+				logolangpt.LogOptRange(pos, last, "loop-modified-"+loopKind, "loopvar", ir.FuncName(l.curfn))
 			}
 			if print && 4 <= base.Debug.LoopVar {
-				// TODO decide if we want to keep this, or not.  It was helpful for validating logopt, otherwise, eh.
+				// TODO decide if we want to keep this, or not.  It was helpful for validating logolangpt, otherwise, eh.
 				inner := base.Ctxt.InnermostPos(pos)
 				outer := base.Ctxt.OutermostPos(pos)
 

@@ -1,21 +1,21 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This program is processed by the cover command, and then testAll is called.
-// The test driver in main.go can then compare the coverage statistics with expectation.
+// The test driver in main.golang can then compare the coverage statistics with expectation.
 
 // The word LINE is replaced by the line number in this file. When the file is executed,
 // the coverage processing has changed the line numbers, so we can't use runtime.Caller.
 
 package main
 
-import _ "unsafe" // for go:linkname
+import _ "unsafe" // for golang:linkname
 
-//go:linkname some_name some_name
+//golang:linkname some_name some_name
 var some_name int
 
-const anything = 1e9 // Just some unlikely value that means "we got here, don't care how often"
+const anything = 1e9 // Just some unlikely value that means "we golangt here, don't care how often"
 
 func testAll() {
 	testSimple()
@@ -33,10 +33,10 @@ func testAll() {
 	testGoto()
 }
 
-// The indexes of the counters in testPanic are known to main.go
+// The indexes of the counters in testPanic are known to main.golang
 const panicIndex = 3
 
-// This test appears first because the index of its counters is known to main.go
+// This test appears first because the index of its counters is known to main.golang
 func testPanic() {
 	defer func() {
 		recover()
@@ -133,9 +133,9 @@ func testBlockRun() {
 
 func testSwitch() {
 	for i := 0; i < 5; func() { i++; check(LINE, 5) }() {
-		goto label2
+		golangto label2
 	label1:
-		goto label1
+		golangto label1
 	label2:
 		switch i {
 		case 0:
@@ -170,7 +170,7 @@ func testTypeSwitch() {
 
 func testSelect1() {
 	c := make(chan int)
-	go func() {
+	golang func() {
 		for i := 0; i < 1000; i++ {
 			c <- i
 		}
@@ -219,7 +219,7 @@ func testEmptySwitches() {
 	}
 	check(LINE, 1)
 	c := make(chan int)
-	go func() {
+	golang func() {
 		check(LINE, 1)
 		c <- 1
 		select {}
@@ -272,7 +272,7 @@ func testFunctionLiteral() {
 func testGoto() {
 	for i := 0; i < 2; i++ {
 		if i == 0 {
-			goto Label
+			golangto Label
 		}
 		check(LINE, 1)
 	Label:
@@ -287,7 +287,7 @@ loop:
 	}
 }
 
-// This comment didn't appear in generated go code.
+// This comment didn't appear in generated golang code.
 func haha() {
 	// Needed for cover to add counter increment here.
 	_ = 42
@@ -295,6 +295,6 @@ func haha() {
 
 // Some someFunction.
 //
-//go:nosplit
+//golang:nosplit
 func someFunction() {
 }

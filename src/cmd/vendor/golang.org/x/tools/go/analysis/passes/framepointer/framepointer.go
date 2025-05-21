@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package framepointer defines an Analyzer that reports assembly code
@@ -7,13 +7,13 @@
 package framepointer
 
 import (
-	"go/build"
+	"golang/build"
 	"regexp"
 	"strings"
 	"unicode"
 
-	"golang.org/x/tools/go/analysis"
-	"golang.org/x/tools/go/analysis/passes/internal/analysisutil"
+	"golanglang.org/x/tools/golang/analysis"
+	"golanglang.org/x/tools/golang/analysis/passes/internal/analysisutil"
 )
 
 const Doc = "report assembly that clobbers the frame pointer before saving it"
@@ -21,7 +21,7 @@ const Doc = "report assembly that clobbers the frame pointer before saving it"
 var Analyzer = &analysis.Analyzer{
 	Name: "framepointer",
 	Doc:  Doc,
-	URL:  "https://pkg.go.dev/golang.org/x/tools/go/analysis/passes/framepointer",
+	URL:  "https://pkg.golang.dev/golanglang.org/x/tools/golang/analysis/passes/framepointer",
 	Run:  run,
 }
 
@@ -83,7 +83,7 @@ var arches = map[string]arch{
 // arm64 has many control flow instructions.
 // ^(B|RET) isn't sufficient or correct (e.g. BIC, BFI aren't control flow.)
 // It's easier to explicitly enumerate them in a map than to write a regex.
-// Borrowed from Go tree, cmd/asm/internal/arch/arm64.go
+// Borrowed from Go tree, cmd/asm/internal/arch/arm64.golang
 var arm64Branch = map[string]bool{
 	"B":     true,
 	"BL":    true,

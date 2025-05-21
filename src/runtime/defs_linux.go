@@ -1,13 +1,13 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build ignore
+//golang:build ignore
 
 /*
-Input to cgo -cdefs
+Input to cgolang -cdefs
 
-GOARCH=amd64 go tool cgo -cdefs defs_linux.go defs1_linux.go >defs_linux_amd64.h
+GOARCH=amd64 golang tool cgolang -cdefs defs_linux.golang defs1_linux.golang >defs_linux_amd64.h
 */
 
 package runtime
@@ -18,7 +18,7 @@ package runtime
 // We want the kernel ones, which are in the asm/* headers.
 // But then we'd get conflicts when we include the system
 // headers for things like ucontext_t, so that happens in
-// a separate file, defs1.go.
+// a separate file, defs1.golang.
 
 #define	_SYS_TYPES_H	// avoid inclusion of sys/types.h
 #include <asm/posix_types.h>

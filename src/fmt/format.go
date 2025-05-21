@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package fmt
@@ -207,7 +207,7 @@ func (f *fmt) fmtInteger(u uint64, base int, isSigned bool, verb rune, digits st
 		// Account 3 extra bytes for possible addition of a sign and "0x".
 		width := 3 + f.wid + f.prec // wid and prec are always positive.
 		if width > len(buf) {
-			// We're going to need a bigger boat.
+			// We're golanging to need a bigger boat.
 			buf = make([]byte, width)
 		}
 	}

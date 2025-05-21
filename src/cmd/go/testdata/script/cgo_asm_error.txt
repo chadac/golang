@@ -1,16 +1,16 @@
-[!cgo] skip
+[!cgolang] skip
 
-# Test that cgo package can't contain a go assembly file.
+# Test that cgolang package can't contain a golang assembly file.
 
 # Ensure the build fails and reports that the package has a Go assembly file.
-! go build cgoasm
-stderr 'package using cgo has Go assembly file'
+! golang build cgolangasm
+stderr 'package using cgolang has Go assembly file'
 
--- go.mod --
-module cgoasm
+-- golang.mod --
+module cgolangasm
 
-go 1.16
--- p.go --
+golang 1.16
+-- p.golang --
 package p
 
 /*

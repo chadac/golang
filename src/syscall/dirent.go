@@ -1,14 +1,14 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build unix || (js && wasm) || wasip1
+//golang:build unix || (js && wasm) || wasip1
 
 package syscall
 
 import (
 	"internal/byteorder"
-	"internal/goarch"
+	"internal/golangarch"
 	"runtime"
 	"unsafe"
 )
@@ -18,7 +18,7 @@ func readInt(b []byte, off, size uintptr) (u uint64, ok bool) {
 	if len(b) < int(off+size) {
 		return 0, false
 	}
-	if goarch.BigEndian {
+	if golangarch.BigEndian {
 		return readIntBE(b[off:], size), true
 	}
 	return readIntLE(b[off:], size), true
@@ -72,7 +72,7 @@ func ParseDirent(buf []byte, max int, names []string) (consumed int, count int, 
 		if !ok {
 			break
 		}
-		// See src/os/dir_unix.go for the reason why this condition is
+		// See src/os/dir_unix.golang for the reason why this condition is
 		// excluded on wasip1.
 		if ino == 0 && runtime.GOOS != "wasip1" { // File absent in directory.
 			continue

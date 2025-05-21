@@ -1,14 +1,14 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Test cases for cgo.
+// Test cases for cgolang.
 // Both the import "C" prologue and the main file are sorted by issue number.
 // This file contains C definitions (not just declarations)
 // and so it must NOT contain any //export directives on Go functions.
-// See testx.go for exports.
+// See testx.golang for exports.
 
-package cgotest
+package cgolangtest
 
 /*
 #include <complex.h>
@@ -23,7 +23,7 @@ package cgotest
 #include <unistd.h>
 #include <sys/stat.h>
 #include <errno.h>
-#cgo !darwin LDFLAGS: -lm
+#cgolang !darwin LDFLAGS: -lm
 
 #ifndef WIN32
 #include <pthread.h>
@@ -95,9 +95,9 @@ enum E {
 	Enum2 = 2,
 };
 
-typedef unsigned char cgo_uuid_t[20];
+typedef unsigned char cgolang_uuid_t[20];
 
-void uuid_generate(cgo_uuid_t x) {
+void uuid_generate(cgolang_uuid_t x) {
 	x[0] = 0;
 }
 
@@ -117,13 +117,13 @@ int add(int x, int y) {
 
 // escape vs noescape
 
-#cgo noescape handleGoStringPointerNoescape
-#cgo nocallback handleGoStringPointerNoescape
+#cgolang noescape handleGoStringPointerNoescape
+#cgolang nocallback handleGoStringPointerNoescape
 void handleGoStringPointerNoescape(void *s) {}
 
 void handleGoStringPointerEscape(void *s) {}
 
-// Following mimics vulkan complex definitions for benchmarking cgocheck overhead.
+// Following mimics vulkan complex definitions for benchmarking cgolangcheck overhead.
 
 typedef uint32_t VkFlags;
 typedef VkFlags  VkDeviceQueueCreateFlags;
@@ -222,8 +222,8 @@ void scatter() {
 }
 
 // Adding this explicit extern declaration makes this a test for
-// https://gcc.gnu.org/PR68072 aka https://golang.org/issue/13344 .
-// It used to cause a cgo error when building with GCC 6.
+// https://gcc.gnu.org/PR68072 aka https://golanglang.org/issue/13344 .
+// It used to cause a cgolang error when building with GCC 6.
 extern int hola;
 
 // this example is in issue 3253
@@ -304,13 +304,13 @@ void g2(int x, char a, float b, short c, int d) {
 #endif
 
 // issue 3945
-// Test that cgo reserves enough stack space during cgo call.
-// See https://golang.org/issue/3945 for details.
+// Test that cgolang reserves enough stack space during cgolang call.
+// See https://golanglang.org/issue/3945 for details.
 void say() {
 	printf("%s from C\n", "hello");
 }
 
-// issue 4054 part 1 - other half in testx.go
+// issue 4054 part 1 - other half in testx.golang
 
 typedef enum {
 	A = 0,
@@ -331,22 +331,22 @@ typedef enum {
 #include <issue4339.h>
 
 // issue 4417
-// cmd/cgo: bool alignment/padding issue.
+// cmd/cgolang: bool alignment/padding issue.
 // bool alignment is wrong and causing wrong arguments when calling functions.
 static int c_bool(bool a, bool b, int c, bool d, bool e)  {
    return c;
 }
 
 // issue 4857
-#cgo CFLAGS: -Werror
+#cgolang CFLAGS: -Werror
 const struct { int a; } *issue4857() { return (void *)0; }
 
 // issue 5224
-// Test that the #cgo CFLAGS directive works,
+// Test that the #cgolang CFLAGS directive works,
 // with and without platform filters.
-#cgo CFLAGS: -DCOMMON_VALUE=123
-#cgo windows CFLAGS: -DIS_WINDOWS=1
-#cgo !windows CFLAGS: -DIS_WINDOWS=0
+#cgolang CFLAGS: -DCOMMON_VALUE=123
+#cgolang windows CFLAGS: -DIS_WINDOWS=1
+#cgolang !windows CFLAGS: -DIS_WINDOWS=0
 int common = COMMON_VALUE;
 int is_windows = IS_WINDOWS;
 
@@ -372,13 +372,13 @@ void init() {
 }
 
 // issue 5242
-// Cgo incorrectly computed the alignment of structs
+// Cgolang incorrectly computed the alignment of structs
 // with no Go accessible fields as 0, and then panicked on
 // modulo-by-zero computations.
 
 // issue 50987
 // disable arm64 GCC warnings
-#cgo CFLAGS: -Wno-psabi -Wno-unknown-warning-option
+#cgolang CFLAGS: -Wno-psabi -Wno-unknown-warning-option
 
 typedef struct {
 } foo;
@@ -442,7 +442,7 @@ static void output5986()
 // issue 6128
 // Test handling of #defined names in clang.
 // NOTE: Must use hex, or else a shortcut for decimals
-// in cgo avoids trying to pass this to clang.
+// in cgolang avoids trying to pass this to clang.
 #define X 0x1
 
 // issue 6472
@@ -528,7 +528,7 @@ char *ctext(void) { return text; }
 char *cdata(void) { return data; }
 
 // issue 8428
-// Cgo inconsistently translated zero size arrays.
+// Cgolang inconsistently translated zero size arrays.
 
 struct issue8428one {
 	char b;
@@ -549,7 +549,7 @@ struct issue8428three {
 	char z[0][1][2][3];
 };
 
-// issue 8331 part 1 - part 2 in testx.go
+// issue 8331 part 1 - part 2 in testx.golang
 // A typedef of an unnamed struct is the same struct when
 // #include'd twice.  No runtime test; just make sure it compiles.
 #include "issue8331.h"
@@ -589,7 +589,7 @@ struct issue9557_t {
 struct issue9557_t *issue9557foo = &test9557bar;
 
 // issue 10303
-// Pointers passed to C were not marked as escaping (bug in cgo).
+// Pointers passed to C were not marked as escaping (bug in cgolang).
 
 typedef int *intptr;
 
@@ -651,7 +651,7 @@ int check_cbytes(char *b, size_t l) {
 int ii[65537];
 
 // issue 17537
-// The void* cast introduced by cgo to avoid problems
+// The void* cast introduced by cgolang to avoid problems
 // with const/volatile qualifiers breaks C preprocessor macros that
 // emulate functions.
 
@@ -688,7 +688,7 @@ void G18298(T18298_1 t) {
 }
 
 // issue 18126
-// cgo check of void function returning errno.
+// cgolang check of void function returning errno.
 void Issue18126C(void **p) {}
 
 // issue 18720
@@ -735,7 +735,7 @@ const int x21668 = 42;
 #define CAST_TO_INT64 (int64_t)(-1)
 
 // issue 21809
-// Compile C `typedef` to go type aliases.
+// Compile C `typedef` to golang type aliases.
 
 typedef long MySigned_t;
 // tests alias-to-alias
@@ -745,7 +745,7 @@ MySigned_t takes_typedef(MySigned_t x) { return x * x; }
 
 // issue 22906
 
-// It's going to be hard to include a whole real JVM to test this.
+// It's golanging to be hard to include a whole real JVM to test this.
 // So we'll simulate a really easy JVM using just the parts we need.
 // This is the relevant part of jni.h.
 
@@ -851,14 +851,14 @@ static int twoargs3(void * p) { return 0; }
 
 static void issue28545F(char **p, int n, complex double a) {}
 
-// issue 28772 part 1 - part 2 in testx.go
+// issue 28772 part 1 - part 2 in testx.golang
 // Failed to add type conversion for Go constant set to C constant.
 // No runtime test; just make sure it compiles.
 
 #define issue28772Constant 1
 
 // issue 28896
-// cgo was incorrectly adding padding after a packed struct.
+// cgolang was incorrectly adding padding after a packed struct.
 typedef struct {
 	void *f1;
 	uint32_t f2;
@@ -912,7 +912,7 @@ static uint16_t issue31093F(uint16_t v) { return v; }
 // issue 32579
 typedef struct S32579 { unsigned char data[1]; } S32579;
 
-// issue 37033, cgo.Handle
+// issue 37033, cgolang.Handle
 extern void GoFunc37033(uintptr_t handle);
 void cFunc37033(uintptr_t handle) { GoFunc37033(handle); }
 
@@ -926,10 +926,10 @@ enum Enum40494 { X_40494 };
 union Union40494 { int x; };
 void issue40494(enum Enum40494 e, union Union40494* up) {}
 
-// Issue 45451, bad handling of go:notinheap types.
+// Issue 45451, bad handling of golang:notinheap types.
 typedef struct issue45451Undefined issue45451;
 
-// Issue 49633, example of cgo.Handle with void*.
+// Issue 49633, example of cgolang.Handle with void*.
 extern void GoFunc49633(void*);
 void cfunc49633(void *context) { GoFunc49633(context); }
 
@@ -966,7 +966,7 @@ import (
 	"os/signal"
 	"reflect"
 	"runtime"
-	"runtime/cgo"
+	"runtime/cgolang"
 	"sync"
 	"syscall"
 	"testing"
@@ -1007,7 +1007,7 @@ var testPairs = []testPair{
 func testHelpers(t *testing.T) {
 	for _, pair := range testPairs {
 		if !reflect.DeepEqual(pair.Got, pair.Want) {
-			t.Errorf("%s: got %#v, want %#v", pair.Name, pair.Got, pair.Want)
+			t.Errorf("%s: golangt %#v, want %#v", pair.Name, pair.Got, pair.Want)
 		}
 	}
 }
@@ -1019,7 +1019,7 @@ const EINVAL = C.EINVAL /* test #define */
 var KILO = C.KILO
 
 func uuidgen() {
-	var uuid C.cgo_uuid_t
+	var uuid C.cgolang_uuid_t
 	C.uuid_generate(&uuid[0])
 }
 
@@ -1119,7 +1119,7 @@ type Context struct {
 	ctx *C.struct_ibv_context
 }
 
-func benchCgoCall(b *testing.B) {
+func benchCgolangCall(b *testing.B) {
 	b.Run("add-int", func(b *testing.B) {
 		const x = C.int(2)
 		const y = C.int(3)
@@ -1201,17 +1201,17 @@ func sliceOperands(array [2000]int) {
 	_ = array[C.KILO:C.KILO:C.KILO] // no type error
 }
 
-// set in cgo_thread_lock.go init
+// set in cgolang_thread_lock.golang init
 var testThreadLockFunc = func(*testing.T) {}
 
 // complex alignment
 
 func TestComplexAlign(t *testing.T) {
 	if C.cplxAlign.x != 3.14 {
-		t.Errorf("got %v, expected 3.14", C.cplxAlign.x)
+		t.Errorf("golangt %v, expected 3.14", C.cplxAlign.x)
 	}
 	if C.cplxAlign.y != 2.17 {
-		t.Errorf("got %v, expected 2.17", C.cplxAlign.y)
+		t.Errorf("golangt %v, expected 2.17", C.cplxAlign.y)
 	}
 }
 
@@ -1272,15 +1272,15 @@ func testFpVar(t *testing.T) {
 	f := C.intFunc(C.fortytwo)
 	res1 := C.bridge_int_func(f)
 	if r1 := int(res1); r1 != expected {
-		t.Errorf("got %d, want %d", r1, expected)
+		t.Errorf("golangt %d, want %d", r1, expected)
 	}
 	res2 := callCBridge(f)
 	if r2 := int(res2); r2 != expected {
-		t.Errorf("got %d, want %d", r2, expected)
+		t.Errorf("golangt %d, want %d", r2, expected)
 	}
 	r3 := callBridge(f)
 	if r3 != expected {
-		t.Errorf("got %d, want %d", r3, expected)
+		t.Errorf("golangt %d, want %d", r3, expected)
 	}
 }
 
@@ -1307,7 +1307,7 @@ func testUnsignedInt(t *testing.T) {
 	a := (int64)(C.UINT32VAL)
 	b := (int64)(0xc008427b)
 	if a != b {
-		t.Errorf("Incorrect unsigned int - got %x, want %x", a, b)
+		t.Errorf("Incorrect unsigned int - golangt %x, want %x", a, b)
 	}
 }
 
@@ -1318,7 +1318,7 @@ func test3250(t *testing.T) {
 		t.Skip("not applicable on windows")
 	}
 
-	t.Skip("skipped, see golang.org/issue/5885")
+	t.Skip("skipped, see golanglang.org/issue/5885")
 	var (
 		thres = 1
 		sig   = syscall_dot_SIGCHLD
@@ -1335,7 +1335,7 @@ func test3250(t *testing.T) {
 
 	signal.Notify(sigCh, sig)
 
-	go func() {
+	golang func() {
 		n := 0
 		alarm := time.After(time.Second * 3)
 		for {
@@ -1361,7 +1361,7 @@ func test3250(t *testing.T) {
 	if r.sig != sig {
 		t.Fatalf("received signal %v, but want %v", r.sig, sig)
 	}
-	t.Logf("got %d signals\n", r.n)
+	t.Logf("golangt %d signals\n", r.n)
 	if r.n <= thres {
 		t.Fatalf("expected more than %d", thres)
 	}
@@ -1381,7 +1381,7 @@ func testLibgcc(t *testing.T) {
 	}
 	for _, v := range table {
 		if o := C.vabs(v.in); o != v.out {
-			t.Fatalf("abs(%d) got %d, should be %d", v.in, o, v.out)
+			t.Fatalf("abs(%d) golangt %d, should be %d", v.in, o, v.out)
 			return
 		}
 	}
@@ -1396,11 +1396,11 @@ func test3729(t *testing.T) {
 
 	_, e := C.g()
 	if e != syscall.E2BIG {
-		t.Errorf("got %q, expect %q", e, syscall.E2BIG)
+		t.Errorf("golangt %q, expect %q", e, syscall.E2BIG)
 	}
 	_, e = C.g2(C.EINVAL, C._expA, C._expB, C._expC, C._expD)
 	if e != syscall.EINVAL {
-		t.Errorf("got %q, expect %q", e, syscall.EINVAL)
+		t.Errorf("golangt %q, expect %q", e, syscall.EINVAL)
 	}
 }
 
@@ -1476,8 +1476,8 @@ func selectfont() C.Fontinfo {
 // issue 5242
 
 func test5242(t *testing.T) {
-	if got := C.issue5242(C.foo{}, C.bar{}); got != 5242 {
-		t.Errorf("got %v", got)
+	if golangt := C.issue5242(C.foo{}, C.bar{}); golangt != 5242 {
+		t.Errorf("golangt %v", golangt)
 	}
 }
 
@@ -1506,7 +1506,7 @@ func test5337(t *testing.T) {
 
 func test5740(t *testing.T) {
 	if v := C.test5740a() + C.test5740b(); v != 5 {
-		t.Errorf("expected 5, got %v", v)
+		t.Errorf("expected 5, golangt %v", v)
 	}
 }
 
@@ -1634,8 +1634,8 @@ func test6907(t *testing.T) {
 	want := "yarn"
 	s := C.Issue6907CopyString(want)
 	defer C.free(unsafe.Pointer(s))
-	if got := C.GoString(s); got != want {
-		t.Errorf("C.GoString(C.Issue6907CopyString(%q)) == %q, want %q", want, got, want)
+	if golangt := C.GoString(s); golangt != want {
+		t.Errorf("C.GoString(C.Issue6907CopyString(%q)) == %q, want %q", want, golangt, want)
 	}
 }
 
@@ -1704,8 +1704,8 @@ func test8092(t *testing.T) {
 		if test.a != test.b {
 			t.Errorf("%s: pointer mismatch: %v != %v", test.s, test.a, test.b)
 		}
-		if got := C.GoString(test.a); got != test.s {
-			t.Errorf("%s: points at %#v, want %#v", test.s, got, test.s)
+		if golangt := C.GoString(test.a); golangt != test.s {
+			t.Errorf("%s: points at %#v, want %#v", test.s, golangt, test.s)
 		}
 	}
 }
@@ -1723,7 +1723,7 @@ func issue8441(one *C.one, two *C.two) {
 
 var _ = C.struct_issue8428one{
 	b: C.char(0),
-	// The trailing rest field is not available in cgo.
+	// The trailing rest field is not available in cgolang.
 	// See issue 11925.
 	// rest: [0]C.char{},
 }
@@ -1753,7 +1753,7 @@ func test9557(t *testing.T) {
 	// implicitly dereference a Go variable
 	foo := C.issue9557foo
 	if v := foo.a; v != 42 {
-		t.Fatalf("foo.a expected 42, but got %d", v)
+		t.Fatalf("foo.a expected 42, but golangt %d", v)
 	}
 
 	// explicitly dereference a C variable
@@ -1779,8 +1779,8 @@ func test10303(t *testing.T, n int) {
 	if asan.Enabled {
 		t.Skip("variable z is heap-allocated due to extra allocations with -asan; see #70079")
 	}
-	if runtime.Compiler == "gccgo" {
-		t.Skip("gccgo permits C pointers on the stack")
+	if runtime.Compiler == "gccgolang" {
+		t.Skip("gccgolang permits C pointers on the stack")
 	}
 
 	// Run at a few different stack depths just to avoid an unlucky pass
@@ -1831,9 +1831,9 @@ func test12030(t *testing.T) {
 	defer C.free(unsafe.Pointer(buf))
 	for _, f := range []float64{1.0, 2.0, 3.14} {
 		C.issue12030conv(buf, C.double(f))
-		got := C.GoString(buf)
-		if want := fmt.Sprintf("d=%g", f); got != want {
-			t.Fatalf("C.sprintf failed for %g: %q != %q", f, got, want)
+		golangt := C.GoString(buf)
+		if want := fmt.Sprintf("d=%g", f); golangt != want {
+			t.Fatalf("C.sprintf failed for %g: %q != %q", f, golangt, want)
 		}
 	}
 }
@@ -1844,7 +1844,7 @@ var _ C.complexfloat
 var _ C.complexdouble
 
 // issue 13930
-// Test that cgo's multiple-value special form for
+// Test that cgolang's multiple-value special form for
 // C function calls works in variable declaration statements.
 
 var _, _ = C.abs(0)
@@ -1857,7 +1857,7 @@ func test14838(t *testing.T) {
 	defer C.free(cData)
 
 	if C.check_cbytes((*C.char)(cData), C.size_t(len(data))) == 0 {
-		t.Fatalf("mismatched data: expected %v, got %v", data, (*(*[10]byte)(unsafe.Pointer(cData)))[:])
+		t.Fatalf("mismatched data: expected %v, golangt %v", data, (*(*[10]byte)(unsafe.Pointer(cData)))[:])
 	}
 }
 
@@ -1878,15 +1878,15 @@ func test17065(t *testing.T) {
 
 func test17537(t *testing.T) {
 	v := C.S17537{i: 17537}
-	if got, want := C.I17537(&v), C.int(17537); got != want {
-		t.Errorf("got %d, want %d", got, want)
+	if golangt, want := C.I17537(&v), C.int(17537); golangt != want {
+		t.Errorf("golangt %d, want %d", golangt, want)
 	}
 
 	p := (*C.char)(C.malloc(1))
 	defer C.free(unsafe.Pointer(p))
 	*p = 17
-	if got, want := C.F17537(&p), C.int(17); got != want {
-		t.Errorf("got %d, want %d", got, want)
+	if golangt, want := C.F17537(&p), C.int(17); golangt != want {
+		t.Errorf("golangt %d, want %d", golangt, want)
 	}
 
 	C.F18298(nil)
@@ -1921,29 +1921,29 @@ func test18126(t *testing.T) {
 // issue 18720
 
 func test18720(t *testing.T) {
-	if got, want := C.HELLO_WORLD, "hello\000world"; got != want {
-		t.Errorf("C.HELLO_WORLD == %q, expected %q", got, want)
+	if golangt, want := C.HELLO_WORLD, "hello\000world"; golangt != want {
+		t.Errorf("C.HELLO_WORLD == %q, expected %q", golangt, want)
 	}
 
-	if got, want := C.VAR1, C.int(5); got != want {
-		t.Errorf("C.VAR1 == %v, expected %v", got, want)
+	if golangt, want := C.VAR1, C.int(5); golangt != want {
+		t.Errorf("C.VAR1 == %v, expected %v", golangt, want)
 	}
 
-	if got, want := *C.ADDR, C.int(5); got != want {
-		t.Errorf("*C.ADDR == %v, expected %v", got, want)
+	if golangt, want := *C.ADDR, C.int(5); golangt != want {
+		t.Errorf("*C.ADDR == %v, expected %v", golangt, want)
 	}
 
-	if got, want := C.CALL, C.int(6); got != want {
-		t.Errorf("C.CALL == %v, expected %v", got, want)
+	if golangt, want := C.CALL, C.int(6); golangt != want {
+		t.Errorf("C.CALL == %v, expected %v", golangt, want)
 	}
 
-	if got, want := C.CALL, C.int(7); got != want {
-		t.Errorf("C.CALL == %v, expected %v", got, want)
+	if golangt, want := C.CALL, C.int(7); golangt != want {
+		t.Errorf("C.CALL == %v, expected %v", golangt, want)
 	}
 
 	// Issue 20125.
-	if got, want := C.SIZE_OF_FOO, 1; got != want {
-		t.Errorf("C.SIZE_OF_FOO == %v, expected %v", got, want)
+	if golangt, want := C.SIZE_OF_FOO, 1; golangt != want {
+		t.Errorf("C.SIZE_OF_FOO == %v, expected %v", golangt, want)
 	}
 }
 
@@ -1955,11 +1955,11 @@ func test20129(t *testing.T) {
 	}
 	C.issue20129Foo()
 	if C.issue20129 != 1 {
-		t.Errorf("got %v but expected %v", C.issue20129, 1)
+		t.Errorf("golangt %v but expected %v", C.issue20129, 1)
 	}
 	C.issue20129Bar()
 	if C.issue20129 != 2 {
-		t.Errorf("got %v but expected %v", C.issue20129, 2)
+		t.Errorf("golangt %v but expected %v", C.issue20129, 2)
 	}
 }
 
@@ -1967,7 +1967,7 @@ func test20129(t *testing.T) {
 
 func test20369(t *testing.T) {
 	if C.XUINT64_MAX != math.MaxUint64 {
-		t.Fatalf("got %v, want %v", uint64(C.XUINT64_MAX), uint64(math.MaxUint64))
+		t.Fatalf("golangt %v, want %v", uint64(C.XUINT64_MAX), uint64(math.MaxUint64))
 	}
 }
 
@@ -1978,8 +1978,8 @@ var issue21668_X = C.x21668
 // issue 21708
 
 func test21708(t *testing.T) {
-	if got, want := C.CAST_TO_INT64, -1; got != want {
-		t.Errorf("C.CAST_TO_INT64 == %v, expected %v", got, want)
+	if golangt, want := C.CAST_TO_INT64, -1; golangt != want {
+		t.Errorf("C.CAST_TO_INT64 == %v, expected %v", golangt, want)
 	}
 }
 
@@ -1992,24 +1992,24 @@ func test21809(t *testing.T) {
 
 	// all three should be considered identical to `long`
 	if ret := C.takes_long(longVar); ret != 9 {
-		t.Errorf("got %v but expected %v", ret, 9)
+		t.Errorf("golangt %v but expected %v", ret, 9)
 	}
 	if ret := C.takes_long(typedefVar); ret != 16 {
-		t.Errorf("got %v but expected %v", ret, 16)
+		t.Errorf("golangt %v but expected %v", ret, 16)
 	}
 	if ret := C.takes_long(typedefTypedefVar); ret != 25 {
-		t.Errorf("got %v but expected %v", ret, 25)
+		t.Errorf("golangt %v but expected %v", ret, 25)
 	}
 
 	// They should also be identical to the typedef'd type
 	if ret := C.takes_typedef(longVar); ret != 9 {
-		t.Errorf("got %v but expected %v", ret, 9)
+		t.Errorf("golangt %v but expected %v", ret, 9)
 	}
 	if ret := C.takes_typedef(typedefVar); ret != 16 {
-		t.Errorf("got %v but expected %v", ret, 16)
+		t.Errorf("golangt %v but expected %v", ret, 16)
 	}
 	if ret := C.takes_typedef(typedefTypedefVar); ret != 25 {
-		t.Errorf("got %v but expected %v", ret, 25)
+		t.Errorf("golangt %v but expected %v", ret, 25)
 	}
 }
 
@@ -2053,11 +2053,11 @@ func test22906(t *testing.T) {
 var Vissue22958 C.issue22958Type
 
 func test23356(t *testing.T) {
-	if got, want := C.a(), C.int(5); got != want {
-		t.Errorf("C.a() == %v, expected %v", got, want)
+	if golangt, want := C.a(), C.int(5); golangt != want {
+		t.Errorf("C.a() == %v, expected %v", golangt, want)
 	}
-	if got, want := C.r(), C.int(3); got != want {
-		t.Errorf("C.r() == %v, expected %v", got, want)
+	if golangt, want := C.r(), C.int(3); golangt != want {
+		t.Errorf("C.r() == %v, expected %v", golangt, want)
 	}
 }
 
@@ -2076,10 +2076,10 @@ func test24206(t *testing.T) {
 	}
 
 	if l := len(C.GoString(C.dangerousString1())); l != 123 {
-		t.Errorf("Incorrect string length - got %d, want 123", l)
+		t.Errorf("Incorrect string length - golangt %d, want 123", l)
 	}
 	if l := len(C.GoString(C.dangerousString2())); l != 4096+123 {
-		t.Errorf("Incorrect string length - got %d, want %d", l, 4096+123)
+		t.Errorf("Incorrect string length - golangt %d, want %d", l, 4096+123)
 	}
 }
 
@@ -2094,8 +2094,8 @@ func issue25143sum(ns ...C.int) C.int {
 }
 
 func test25143(t *testing.T) {
-	if got, want := issue25143sum(1, 2, 3), C.int(6); got != want {
-		t.Errorf("issue25143sum(1, 2, 3) == %v, expected %v", got, want)
+	if golangt, want := issue25143sum(1, 2, 3), C.int(6); golangt != want {
+		t.Errorf("issue25143sum(1, 2, 3) == %v, expected %v", golangt, want)
 	}
 }
 
@@ -2105,7 +2105,7 @@ func test25143(t *testing.T) {
 func test26066(t *testing.T) {
 	var i = int64(C.issue26066)
 	if i != -1 {
-		t.Errorf("got %d, want -1", i)
+		t.Errorf("golangt %d, want -1", i)
 	}
 }
 
@@ -2114,7 +2114,7 @@ var a C.TypeOne
 var b C.TypeTwo
 
 // issue 27660
-// Stress the interaction between the race detector and cgo in an
+// Stress the interaction between the race detector and cgolang in an
 // attempt to reproduce the memory corruption described in #27660.
 // The bug was very timing sensitive; at the time of writing this
 // test would only trigger the bug about once out of every five runs.
@@ -2127,15 +2127,15 @@ func test27660(t *testing.T) {
 	// Slowly create threads so that ThreadSanitizer is forced to
 	// frequently resize its SyncClocks.
 	for i := 0; i < 100; i++ {
-		go func() {
+		golang func() {
 			for ctx.Err() == nil {
 				// Sleep in C for long enough that it is likely that the runtime
-				// will retake this goroutine's currently wired P.
+				// will retake this golangroutine's currently wired P.
 				C.usleep(1000 /* 1ms */)
 				runtime.Gosched() // avoid starvation (see #28701)
 			}
 		}()
-		go func() {
+		golang func() {
 			// Trigger lots of synchronization and memory reads/writes to
 			// increase the likelihood that the race described in #27660
 			// results in corruption of ThreadSanitizer's internal state
@@ -2146,7 +2146,7 @@ func test27660(t *testing.T) {
 				locks[j].Lock()
 				ints[j]++
 				locks[j].Unlock()
-				// needed for gccgo, to avoid creation of an
+				// needed for gccgolang, to avoid creation of an
 				// unpreemptible "fast path" in this loop. Choice
 				// of (1<<24) is somewhat arbitrary.
 				if i%(1<<24) == 0 {
@@ -2175,7 +2175,7 @@ func issue28545G(p **C.char) {
 	C.issue28545F(p, issue28772Constant, issue28772Constant2)
 }
 
-// issue 28772 part 1 - part 2 in testx.go
+// issue 28772 part 1 - part 2 in testx.golang
 
 const issue28772Constant = C.issue28772Constant
 
@@ -2211,7 +2211,7 @@ func test28896(t *testing.T) {
 }
 
 // issue 29383
-// cgo's /*line*/ comments failed when inserted after '/',
+// cgolang's /*line*/ comments failed when inserted after '/',
 // because the result looked like a "//" comment.
 // No runtime test; just make sure it compiles.
 
@@ -2261,20 +2261,20 @@ func test30065(t *testing.T) {
 	b := []byte("a")
 	C.memcpy(unsafe.Pointer(&a), unsafe.Pointer(&b[0]), 1)
 	if a[0] != 'a' {
-		t.Errorf("&a failed: got %c, want %c", a[0], 'a')
+		t.Errorf("&a failed: golangt %c, want %c", a[0], 'a')
 	}
 
 	b = []byte("b")
 	C.memcpy(unsafe.Pointer(&a[0]), unsafe.Pointer(&b[0]), 1)
 	if a[0] != 'b' {
-		t.Errorf("&a[0] failed: got %c, want %c", a[0], 'b')
+		t.Errorf("&a[0] failed: golangt %c, want %c", a[0], 'b')
 	}
 
 	d := make([]byte, 256)
 	b = []byte("c")
 	C.memcpy(unsafe.Pointer(&d[0]), unsafe.Pointer(&b[0]), 1)
 	if d[0] != 'c' {
-		t.Errorf("&d[0] failed: got %c, want %c", d[0], 'c')
+		t.Errorf("&d[0] failed: golangt %c, want %c", d[0], 'c')
 	}
 }
 
@@ -2291,22 +2291,22 @@ func test32579(t *testing.T) {
 	var s [1]C.struct_S32579
 	C.memset(unsafe.Pointer(&s[0].data[0]), 1, 1)
 	if s[0].data[0] != 1 {
-		t.Errorf("&s[0].data[0] failed: got %d, want %d", s[0].data[0], 1)
+		t.Errorf("&s[0].data[0] failed: golangt %d, want %d", s[0].data[0], 1)
 	}
 }
 
-// issue 37033, check if cgo.Handle works properly
+// issue 37033, check if cgolang.Handle works properly
 
 func testHandle(t *testing.T) {
 	ch := make(chan int)
 
 	for i := 0; i < 42; i++ {
-		h := cgo.NewHandle(ch)
-		go func() {
+		h := cgolang.NewHandle(ch)
+		golang func() {
 			C.cFunc37033(C.uintptr_t(h))
 		}()
 		if v := <-ch; issue37033 != v {
-			t.Fatalf("unexpected receiving value: got %d, want %d", v, issue37033)
+			t.Fatalf("unexpected receiving value: golangt %d, want %d", v, issue37033)
 		}
 		h.Delete()
 	}
@@ -2381,12 +2381,12 @@ func test69086(t *testing.T) {
 	}
 
 	s.c = 1
-	got := C.issue690861(&s)
-	if got != 1 {
-		t.Errorf("field: got %d, want 1", got)
+	golangt := C.issue690861(&s)
+	if golangt != 1 {
+		t.Errorf("field: golangt %d, want 1", golangt)
 	}
-	got = C.issue690862(1, 2, 3, s)
-	if got != 1234 {
-		t.Errorf("call: got %d, want 1234", got)
+	golangt = C.issue690862(1, 2, 3, s)
+	if golangt != 1234 {
+		t.Errorf("call: golangt %d, want 1234", golangt)
 	}
 }

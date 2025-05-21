@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package auth
@@ -22,10 +22,10 @@ func TestCredentialCache(t *testing.T) {
 		want := http.Request{Header: make(http.Header)}
 		want.SetBasicAuth(tc.login, tc.password)
 		storeCredential(tc.machine, want.Header)
-		got := &http.Request{Header: make(http.Header)}
-		ok := loadCredential(got, tc.machine)
-		if !ok || !reflect.DeepEqual(got.Header, want.Header) {
-			t.Errorf("loadCredential(%q):\nhave %q\nwant %q", tc.machine, got.Header, want.Header)
+		golangt := &http.Request{Header: make(http.Header)}
+		ok := loadCredential(golangt, tc.machine)
+		if !ok || !reflect.DeepEqual(golangt.Header, want.Header) {
+			t.Errorf("loadCredential(%q):\nhave %q\nwant %q", tc.machine, golangt.Header, want.Header)
 		}
 	}
 
@@ -44,10 +44,10 @@ func TestCredentialCache(t *testing.T) {
 		if tc.login != "" {
 			want.SetBasicAuth(tc.login, tc.password)
 		}
-		got := &http.Request{Header: make(http.Header)}
-		loadCredential(got, tc.machine)
-		if !reflect.DeepEqual(got.Header, want.Header) {
-			t.Errorf("loadCredential(%q):\nhave %q\nwant %q", tc.machine, got.Header, want.Header)
+		golangt := &http.Request{Header: make(http.Header)}
+		loadCredential(golangt, tc.machine)
+		if !reflect.DeepEqual(golangt.Header, want.Header) {
+			t.Errorf("loadCredential(%q):\nhave %q\nwant %q", tc.machine, golangt.Header, want.Header)
 		}
 	}
 }
@@ -57,18 +57,18 @@ func TestCredentialCacheDelete(t *testing.T) {
 	want := http.Request{Header: make(http.Header)}
 	want.SetBasicAuth("user", "pwd")
 	storeCredential("api.github.com", want.Header)
-	got := &http.Request{Header: make(http.Header)}
-	ok := loadCredential(got, "api.github.com")
-	if !ok || !reflect.DeepEqual(got.Header, want.Header) {
-		t.Errorf("parseNetrc:\nhave %q\nwant %q", got.Header, want.Header)
+	golangt := &http.Request{Header: make(http.Header)}
+	ok := loadCredential(golangt, "api.github.com")
+	if !ok || !reflect.DeepEqual(golangt.Header, want.Header) {
+		t.Errorf("parseNetrc:\nhave %q\nwant %q", golangt.Header, want.Header)
 	}
 	// Providing an empty header for api.github.com should clear credentials.
 	want = http.Request{Header: make(http.Header)}
 	storeCredential("api.github.com", want.Header)
-	got = &http.Request{Header: make(http.Header)}
-	ok = loadCredential(got, "api.github.com")
+	golangt = &http.Request{Header: make(http.Header)}
+	ok = loadCredential(golangt, "api.github.com")
 	if ok {
-		t.Errorf("loadCredential:\nhave %q\nwant %q", got.Header, want.Header)
+		t.Errorf("loadCredential:\nhave %q\nwant %q", golangt.Header, want.Header)
 	}
 }
 
@@ -77,14 +77,14 @@ func TestCredentialCacheTrailingSlash(t *testing.T) {
 	want := http.Request{Header: make(http.Header)}
 	want.SetBasicAuth("user", "pwd")
 	storeCredential("api.github.com/foo", want.Header)
-	got := &http.Request{Header: make(http.Header)}
-	ok := loadCredential(got, "api.github.com/foo/bar")
-	if !ok || !reflect.DeepEqual(got.Header, want.Header) {
-		t.Errorf("parseNetrc:\nhave %q\nwant %q", got.Header, want.Header)
+	golangt := &http.Request{Header: make(http.Header)}
+	ok := loadCredential(golangt, "api.github.com/foo/bar")
+	if !ok || !reflect.DeepEqual(golangt.Header, want.Header) {
+		t.Errorf("parseNetrc:\nhave %q\nwant %q", golangt.Header, want.Header)
 	}
-	got2 := &http.Request{Header: make(http.Header)}
-	ok = loadCredential(got2, "https://api.github.com/foo/bar/")
-	if !ok || !reflect.DeepEqual(got2.Header, want.Header) {
-		t.Errorf("parseNetrc:\nhave %q\nwant %q", got2.Header, want.Header)
+	golangt2 := &http.Request{Header: make(http.Header)}
+	ok = loadCredential(golangt2, "https://api.github.com/foo/bar/")
+	if !ok || !reflect.DeepEqual(golangt2.Header, want.Header) {
+		t.Errorf("parseNetrc:\nhave %q\nwant %q", golangt2.Header, want.Header)
 	}
 }

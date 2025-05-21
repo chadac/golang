@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package race_test
@@ -11,7 +11,7 @@ import (
 func TestRaceMapRW(t *testing.T) {
 	m := make(map[int]int)
 	ch := make(chan bool, 1)
-	go func() {
+	golang func() {
 		_ = m[1]
 		ch <- true
 	}()
@@ -22,7 +22,7 @@ func TestRaceMapRW(t *testing.T) {
 func TestRaceMapRW2(t *testing.T) {
 	m := make(map[int]int)
 	ch := make(chan bool, 1)
-	go func() {
+	golang func() {
 		_, _ = m[1]
 		ch <- true
 	}()
@@ -34,7 +34,7 @@ func TestRaceMapRWArray(t *testing.T) {
 	// Check instrumentation of unaddressable arrays (issue 4578).
 	m := make(map[int][2]int)
 	ch := make(chan bool, 1)
-	go func() {
+	golang func() {
 		_ = m[1][1]
 		ch <- true
 	}()
@@ -45,7 +45,7 @@ func TestRaceMapRWArray(t *testing.T) {
 func TestNoRaceMapRR(t *testing.T) {
 	m := make(map[int]int)
 	ch := make(chan bool, 1)
-	go func() {
+	golang func() {
 		_, _ = m[1]
 		ch <- true
 	}()
@@ -56,7 +56,7 @@ func TestNoRaceMapRR(t *testing.T) {
 func TestRaceMapRange(t *testing.T) {
 	m := make(map[int]int)
 	ch := make(chan bool, 1)
-	go func() {
+	golang func() {
 		for range m {
 		}
 		ch <- true
@@ -68,7 +68,7 @@ func TestRaceMapRange(t *testing.T) {
 func TestRaceMapRange2(t *testing.T) {
 	m := make(map[int]int)
 	ch := make(chan bool, 1)
-	go func() {
+	golang func() {
 		for range m {
 		}
 		ch <- true
@@ -84,7 +84,7 @@ func TestNoRaceMapRangeRange(t *testing.T) {
 	// so it is suspicious if this test passes and others don't
 	m[0] = 0
 	ch := make(chan bool, 1)
-	go func() {
+	golang func() {
 		for range m {
 		}
 		ch <- true
@@ -97,7 +97,7 @@ func TestNoRaceMapRangeRange(t *testing.T) {
 func TestRaceMapLen(t *testing.T) {
 	m := make(map[string]bool)
 	ch := make(chan bool, 1)
-	go func() {
+	golang func() {
 		_ = len(m)
 		ch <- true
 	}()
@@ -108,7 +108,7 @@ func TestRaceMapLen(t *testing.T) {
 func TestRaceMapDelete(t *testing.T) {
 	m := make(map[string]bool)
 	ch := make(chan bool, 1)
-	go func() {
+	golang func() {
 		delete(m, "")
 		ch <- true
 	}()
@@ -119,7 +119,7 @@ func TestRaceMapDelete(t *testing.T) {
 func TestRaceMapLenDelete(t *testing.T) {
 	m := make(map[string]bool)
 	ch := make(chan bool, 1)
-	go func() {
+	golang func() {
 		delete(m, "a")
 		ch <- true
 	}()
@@ -131,7 +131,7 @@ func TestRaceMapVariable(t *testing.T) {
 	ch := make(chan bool, 1)
 	m := make(map[int]int)
 	_ = m
-	go func() {
+	golang func() {
 		m = make(map[int]int)
 		ch <- true
 	}()
@@ -142,7 +142,7 @@ func TestRaceMapVariable(t *testing.T) {
 func TestRaceMapVariable2(t *testing.T) {
 	ch := make(chan bool, 1)
 	m := make(map[int]int)
-	go func() {
+	golang func() {
 		m[1] = 1
 		ch <- true
 	}()
@@ -153,7 +153,7 @@ func TestRaceMapVariable2(t *testing.T) {
 func TestRaceMapVariable3(t *testing.T) {
 	ch := make(chan bool, 1)
 	m := make(map[int]int)
-	go func() {
+	golang func() {
 		_ = m[1]
 		ch <- true
 	}()
@@ -169,7 +169,7 @@ func TestRaceMapLookupPartKey(t *testing.T) {
 	k := &Big{}
 	m := make(map[Big]bool)
 	ch := make(chan bool, 1)
-	go func() {
+	golang func() {
 		k.x[8] = 1
 		ch <- true
 	}()
@@ -181,7 +181,7 @@ func TestRaceMapLookupPartKey2(t *testing.T) {
 	k := &Big{}
 	m := make(map[Big]bool)
 	ch := make(chan bool, 1)
-	go func() {
+	golang func() {
 		k.x[8] = 1
 		ch <- true
 	}()
@@ -192,7 +192,7 @@ func TestRaceMapDeletePartKey(t *testing.T) {
 	k := &Big{}
 	m := make(map[Big]bool)
 	ch := make(chan bool, 1)
-	go func() {
+	golang func() {
 		k.x[8] = 1
 		ch <- true
 	}()
@@ -204,7 +204,7 @@ func TestRaceMapInsertPartKey(t *testing.T) {
 	k := &Big{}
 	m := make(map[Big]bool)
 	ch := make(chan bool, 1)
-	go func() {
+	golang func() {
 		k.x[8] = 1
 		ch <- true
 	}()
@@ -216,7 +216,7 @@ func TestRaceMapInsertPartVal(t *testing.T) {
 	v := &Big{}
 	m := make(map[int]Big)
 	ch := make(chan bool, 1)
-	go func() {
+	golang func() {
 		v.x[8] = 1
 		ch <- true
 	}()
@@ -232,7 +232,7 @@ func TestRaceMapAssignMultipleReturn(t *testing.T) {
 	ch := make(chan bool, 1)
 	var err error
 	_ = err
-	go func() {
+	golang func() {
 		conns[1][0], err = connect()
 		ch <- true
 	}()
@@ -254,7 +254,7 @@ func TestRaceMapBigKeyAccess1(t *testing.T) {
 	m := make(map[BigKey]int)
 	var k BigKey
 	ch := make(chan bool, 1)
-	go func() {
+	golang func() {
 		_ = m[k]
 		ch <- true
 	}()
@@ -266,7 +266,7 @@ func TestRaceMapBigKeyAccess2(t *testing.T) {
 	m := make(map[BigKey]int)
 	var k BigKey
 	ch := make(chan bool, 1)
-	go func() {
+	golang func() {
 		_, _ = m[k]
 		ch <- true
 	}()
@@ -278,7 +278,7 @@ func TestRaceMapBigKeyInsert(t *testing.T) {
 	m := make(map[BigKey]int)
 	var k BigKey
 	ch := make(chan bool, 1)
-	go func() {
+	golang func() {
 		m[k] = 1
 		ch <- true
 	}()
@@ -290,7 +290,7 @@ func TestRaceMapBigKeyDelete(t *testing.T) {
 	m := make(map[BigKey]int)
 	var k BigKey
 	ch := make(chan bool, 1)
-	go func() {
+	golang func() {
 		delete(m, k)
 		ch <- true
 	}()
@@ -302,7 +302,7 @@ func TestRaceMapBigValInsert(t *testing.T) {
 	m := make(map[int]BigVal)
 	var v BigVal
 	ch := make(chan bool, 1)
-	go func() {
+	golang func() {
 		m[1] = v
 		ch <- true
 	}()
@@ -314,7 +314,7 @@ func TestRaceMapBigValAccess1(t *testing.T) {
 	m := make(map[int]BigVal)
 	var v BigVal
 	ch := make(chan bool, 1)
-	go func() {
+	golang func() {
 		v = m[1]
 		ch <- true
 	}()
@@ -326,7 +326,7 @@ func TestRaceMapBigValAccess2(t *testing.T) {
 	m := make(map[int]BigVal)
 	var v BigVal
 	ch := make(chan bool, 1)
-	go func() {
+	golang func() {
 		v, _ = m[1]
 		ch <- true
 	}()

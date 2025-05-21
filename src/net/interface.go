@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package net
@@ -15,7 +15,7 @@ import (
 // BUG(mikio): On JS, methods and functions related to
 // Interface are not implemented.
 
-// BUG(mikio): On AIX, DragonFly BSD, NetBSD, OpenBSD, Plan 9 and
+// BUG(mikio): On AIX, DragolangnFly BSD, NetBSD, OpenBSD, Plan 9 and
 // Solaris, the MulticastAddrs method of Interface is not implemented.
 
 // errNoSuchInterface should be an internal detail,
@@ -24,9 +24,9 @@ import (
 //   - github.com/sagernet/sing
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname errNoSuchInterface
+//golang:linkname errNoSuchInterface
 
 var (
 	errInvalidInterface         = errors.New("invalid network interface")
@@ -202,7 +202,7 @@ var zoneCache = ipv6ZoneCache{
 }
 
 // update refreshes the network interface information if the cache was last
-// updated more than 1 minute ago, or if force is set. It reports whether the
+// updated more than 1 minute agolang, or if force is set. It reports whether the
 // cache was updated.
 func (zc *ipv6ZoneCache) update(ift []Interface, force bool) (updated bool) {
 	zc.Lock()

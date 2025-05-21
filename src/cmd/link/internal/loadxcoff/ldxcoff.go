@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package loadxcoff implements a XCOFF file reader.
@@ -121,7 +121,7 @@ func Load(l *loader.Loader, arch *sys.Arch, localSymVersion int, input *bio.Read
 		}
 		sb := l.MakeSymbolUpdater(sect.sym)
 		for _, rx := range sect.Relocs {
-			rSym := l.LookupOrCreateCgoExport(rx.Symbol.Name, 0)
+			rSym := l.LookupOrCreateCgolangExport(rx.Symbol.Name, 0)
 			if uint64(int32(rx.VirtualAddress)) != rx.VirtualAddress {
 				return errorf("virtual address of a relocation is too big: 0x%x", rx.VirtualAddress)
 			}

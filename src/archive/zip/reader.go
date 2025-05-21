@@ -1,5 +1,5 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package zip
@@ -11,7 +11,7 @@ import (
 	"fmt"
 	"hash"
 	"hash/crc32"
-	"internal/godebug"
+	"internal/golangdebug"
 	"io"
 	"io/fs"
 	"os"
@@ -23,11 +23,11 @@ import (
 	"time"
 )
 
-var zipinsecurepath = godebug.New("zipinsecurepath")
+var zipinsecurepath = golangdebug.New("zipinsecurepath")
 
 var (
 	ErrFormat       = errors.New("zip: not a valid zip file")
-	ErrAlgorithm    = errors.New("zip: unsupported compression algorithm")
+	ErrAlgolangrithm    = errors.New("zip: unsupported compression algolangrithm")
 	ErrChecksum     = errors.New("zip: checksum error")
 	ErrInsecurePath = errors.New("zip: insecure file path")
 )
@@ -240,7 +240,7 @@ func (f *File) Open() (io.ReadCloser, error) {
 	r := io.NewSectionReader(f.zipr, f.headerOffset+bodyOffset, size)
 	dcomp := f.zip.decompressor(f.Method)
 	if dcomp == nil {
-		return nil, ErrAlgorithm
+		return nil, ErrAlgolangrithm
 	}
 	var rc io.ReadCloser = dcomp(r)
 	var desr io.Reader
@@ -430,7 +430,7 @@ parseExtras:
 			// update directory values from the zip64 extra block.
 			// They should only be consulted if the sizes read earlier
 			// are maxed out.
-			// See golang.org/issue/13367.
+			// See golanglang.org/issue/13367.
 			if needUSize {
 				needUSize = false
 				if len(fieldBuf) < 8 {
@@ -696,7 +696,7 @@ func readDirectory64End(r io.ReaderAt, offset int64, d *directoryEnd) (err error
 
 func findSignatureInBlock(b []byte) int {
 	for i := len(b) - directoryEndLen; i >= 0; i-- {
-		// defined from directoryEndSignature in struct.go
+		// defined from directoryEndSignature in struct.golang
 		if b[i] == 'P' && b[i+1] == 'K' && b[i+2] == 0x05 && b[i+3] == 0x06 {
 			// n is length of comment
 			n := int(b[i+directoryEndLen-2]) | int(b[i+directoryEndLen-1])<<8

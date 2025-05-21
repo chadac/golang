@@ -1,16 +1,16 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package types_test
 
 import (
-	"go/token"
+	"golang/token"
 	"path/filepath"
 	"runtime"
 	"testing"
 
-	. "go/types"
+	. "golang/types"
 )
 
 // BenchmarkLookupFieldOrMethod measures types.LookupFieldOrMethod performance.

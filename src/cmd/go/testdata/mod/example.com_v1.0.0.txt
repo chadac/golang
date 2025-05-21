@@ -5,5 +5,5 @@ Test case for module at root of domain.
 module example.com
 -- .info --
 {"Version": "v1.0.0"}
--- x.go --
+-- x.golang --
 package x

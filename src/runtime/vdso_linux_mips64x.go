@@ -1,14 +1,14 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build linux && (mips64 || mips64le)
+//golang:build linux && (mips64 || mips64le)
 
 package runtime
 
 const (
 	// vdsoArrayMax is the byte-size of a maximally sized array on this architecture.
-	// See cmd/compile/internal/mips64/galign.go arch.MAXWIDTH initialization.
+	// See cmd/compile/internal/mips64/galign.golang arch.MAXWIDTH initialization.
 	vdsoArrayMax = 1<<50 - 1
 )
 

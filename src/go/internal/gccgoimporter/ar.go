@@ -1,8 +1,8 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-package gccgoimporter
+package gccgolangimporter
 
 import (
 	"bytes"
@@ -48,7 +48,7 @@ const arfmag = "`\n"
 // arExportData takes an archive file and returns a ReadSeeker for the
 // export data in that file. This assumes that there is only one
 // object in the archive containing export data, which is not quite
-// what gccgo does; gccgo concatenates together all the export data
+// what gccgolang does; gccgolang concatenates together all the export data
 // for all the objects in the file.  In practice that case does not arise.
 func arExportData(archive io.ReadSeeker) (io.ReadSeeker, error) {
 	if _, err := archive.Seek(0, io.SeekStart); err != nil {
@@ -120,7 +120,7 @@ func elfFromAr(member *io.SectionReader) (io.ReadSeeker, error) {
 	if err != nil {
 		return nil, err
 	}
-	sec := ef.Section(".go_export")
+	sec := ef.Section(".golang_export")
 	if sec == nil {
 		return nil, nil
 	}
@@ -140,13 +140,13 @@ func aixBigArExportData(archive io.ReadSeeker) (io.ReadSeeker, error) {
 		if err != nil {
 			return nil, err
 		}
-		sdat := f.CSect(".go_export")
+		sdat := f.CSect(".golang_export")
 		if sdat != nil {
 			return bytes.NewReader(sdat), nil
 		}
 	}
 
-	return nil, fmt.Errorf(".go_export not found in this archive")
+	return nil, fmt.Errorf(".golang_export not found in this archive")
 }
 
 // readerAtFromSeeker turns an io.ReadSeeker into an io.ReaderAt.

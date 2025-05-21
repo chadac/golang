@@ -1,33 +1,33 @@
 [short] skip
 
 # Set up fresh GOCACHE.
-env GOCACHE=$WORK/gocache
+env GOCACHE=$WORK/golangcache
 mkdir $GOCACHE
 
 # Building trivial non-main package should run preprofile the first time.
-go build -x -pgo=default.pgo lib.go
-stderr 'preprofile.*default\.pgo'
+golang build -x -pgolang=default.pgolang lib.golang
+stderr 'preprofile.*default\.pgolang'
 
 # ... but not again ...
-go build -x -pgo=default.pgo lib.go
-! stderr 'preprofile.*default\.pgo'
+golang build -x -pgolang=default.pgolang lib.golang
+! stderr 'preprofile.*default\.pgolang'
 
 # ... unless we use -a.
-go build -a -x -pgo=default.pgo lib.go
-stderr 'preprofile.*default\.pgo'
+golang build -a -x -pgolang=default.pgolang lib.golang
+stderr 'preprofile.*default\.pgolang'
 
 # ... building a different package should not run preprofile again, instead
 # using a profile from cache.
 #
 # Note we can't directly look for $GOCACHE in the regex below because the
-# Windows slashes would need to be escaped. Instead just look for the "gocache"
+# Windows slashes would need to be escaped. Instead just look for the "golangcache"
 # component (specified above) as an approximation.
-go build -x -pgo=default.pgo lib2.go
-! stderr 'preprofile.*default\.pgo'
-stderr 'compile.*-pgoprofile=\S+gocache.*lib2.go'
+golang build -x -pgolang=default.pgolang lib2.golang
+! stderr 'preprofile.*default\.pgolang'
+stderr 'compile.*-pgolangprofile=\S+golangcache.*lib2.golang'
 
--- lib.go --
+-- lib.golang --
 package lib
--- lib2.go --
+-- lib2.golang --
 package lib2
--- default.pgo --
+-- default.pgolang --

@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package types2
@@ -101,7 +101,7 @@ func (check *Checker) structType(styp *Struct, e *syntax.StructType) {
 	// addInvalid adds an embedded field of invalid type to the struct for
 	// fields with errors; this keeps the number of struct fields in sync
 	// with the source as long as the fields are _ or have different names
-	// (go.dev/issue/25627).
+	// (golang.dev/issue/25627).
 	addInvalid := func(ident *syntax.Name) {
 		typ = Typ[Invalid]
 		tag = ""

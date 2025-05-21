@@ -1,5 +1,5 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -25,9 +25,9 @@ func AsyncPreempt() {
 	// for instance tries to preempt Ps at the very beginning.
 	runtime.GC()
 
-	// Start a goroutine with no sync safe-points.
+	// Start a golangroutine with no sync safe-points.
 	var ready, ready2 uint32
-	go func() {
+	golang func() {
 		for {
 			atomic.StoreUint32(&ready, 1)
 			dummy()
@@ -37,24 +37,24 @@ func AsyncPreempt() {
 	// Also start one with a frameless function.
 	// This is an especially interesting case for
 	// LR machines.
-	go func() {
+	golang func() {
 		atomic.AddUint32(&ready2, 1)
 		frameless()
 	}()
 	// Also test empty infinite loop.
-	go func() {
+	golang func() {
 		atomic.AddUint32(&ready2, 1)
 		for {
 		}
 	}()
 
-	// Wait for the goroutine to stop passing through sync
+	// Wait for the golangroutine to stop passing through sync
 	// safe-points.
 	for atomic.LoadUint32(&ready) == 0 || atomic.LoadUint32(&ready2) < 2 {
 		runtime.Gosched()
 	}
 
-	// Run a GC, which will have to stop the goroutine for STW and
+	// Run a GC, which will have to stop the golangroutine for STW and
 	// for stack scanning. If this doesn't work, the test will
 	// deadlock and timeout.
 	runtime.GC()
@@ -62,7 +62,7 @@ func AsyncPreempt() {
 	println("OK")
 }
 
-//go:noinline
+//golang:noinline
 func frameless() {
 	for i := int64(0); i < 1<<62; i++ {
 		out += i * i * i * i * i * 12345
@@ -71,5 +71,5 @@ func frameless() {
 
 var out int64
 
-//go:noinline
+//golang:noinline
 func dummy() {}

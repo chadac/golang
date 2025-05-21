@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package tracev1 implements a parser for Go execution traces from versions
@@ -433,7 +433,7 @@ func (p *parser) parseEventBatches() (Events, error) {
 			g, init, _ := stateTransition(ev)
 
 			// TODO(dh): This implementation matches the behavior of the
-			// upstream 'go tool trace', and works in practice, but has run into
+			// upstream 'golang tool trace', and works in practice, but has run into
 			// the following inconsistency during fuzzing: what happens if
 			// multiple Ps have events for the same G? While building the
 			// frontier we will check all of the events against the current
@@ -566,7 +566,7 @@ func (p *parser) collectBatchesAndCPUSamples() error {
 			argOffset := 1
 			narg := raw.argNum()
 			if len(raw.args) != narg {
-				return fmt.Errorf("CPU sample has wrong number of arguments: want %d, got %d", narg, len(raw.args))
+				return fmt.Errorf("CPU sample has wrong number of arguments: want %d, golangt %d", narg, len(raw.args))
 			}
 			for i := argOffset; i < narg; i++ {
 				if i == narg-1 {
@@ -584,7 +584,7 @@ func (p *parser) collectBatchesAndCPUSamples() error {
 			// Most events are written out by the active P at the exact moment
 			// they describe. CPU profile samples are different because they're
 			// written to the tracing log after some delay, by a separate worker
-			// goroutine, into a separate buffer.
+			// golangroutine, into a separate buffer.
 			//
 			// We keep these in their own batch until all of the batches are
 			// merged in timestamp order. We also (right before the merge)
@@ -708,7 +708,7 @@ func (p *parser) readRawEvent(flags uint, ev *rawEvent) error {
 		return nil
 	case EvBatch:
 		if want := byte(2); narg != want {
-			return fmt.Errorf("EvBatch has wrong number of arguments: got %d, want %d", narg, want)
+			return fmt.Errorf("EvBatch has wrong number of arguments: golangt %d, want %d", narg, want)
 		}
 
 		// -1 because we've already read the first byte of the batch
@@ -837,7 +837,7 @@ func (p *parser) loadBatch(pid int32, events []Event) ([]Event, error) {
 		events = make([]Event, 0, n)
 	}
 
-	gotHeader := false
+	golangtHeader := false
 	var raw rawEvent
 	var ev Event
 	for {
@@ -852,10 +852,10 @@ func (p *parser) loadBatch(pid int32, events []Event) ([]Event, error) {
 			continue
 		}
 		if raw.typ == EvBatch {
-			if gotHeader {
+			if golangtHeader {
 				break
 			} else {
-				gotHeader = true
+				golangtHeader = true
 			}
 		}
 
@@ -898,7 +898,7 @@ func (p *parser) parseEvent(raw *rawEvent, ev *Event) error {
 	}
 	narg := raw.argNum()
 	if len(raw.args) != narg {
-		return fmt.Errorf("%s has wrong number of arguments: want %d, got %d", desc.Name, narg, len(raw.args))
+		return fmt.Errorf("%s has wrong number of arguments: want %d, golangt %d", desc.Name, narg, len(raw.args))
 	}
 	switch raw.typ {
 	case EvBatch:
@@ -925,7 +925,7 @@ func (p *parser) parseEvent(raw *rawEvent, ev *Event) error {
 		p.timerGoids[raw.args[0]] = true
 	case EvStack:
 		if len(raw.args) < 2 {
-			return fmt.Errorf("EvStack has wrong number of arguments: want at least 2, got %d", len(raw.args))
+			return fmt.Errorf("EvStack has wrong number of arguments: want at least 2, golangt %d", len(raw.args))
 		}
 		size := raw.args[1]
 		if size > 1000 {
@@ -933,7 +933,7 @@ func (p *parser) parseEvent(raw *rawEvent, ev *Event) error {
 		}
 		want := 2 + 4*size
 		if uint64(len(raw.args)) != want {
-			return fmt.Errorf("EvStack has wrong number of arguments: want %d, got %d", want, len(raw.args))
+			return fmt.Errorf("EvStack has wrong number of arguments: want %d, golangt %d", want, len(raw.args))
 		}
 		id := uint32(raw.args[0])
 		if id != 0 && size > 0 {
@@ -1034,7 +1034,7 @@ func (p *parser) postProcessTrace(events Events) error {
 	gs := make(map[uint64]gdesc)
 	ps := make(map[int32]pdesc)
 	tasks := make(map[uint64]*Event)           // task id to task creation events
-	activeRegions := make(map[uint64][]*Event) // goroutine id to stack of regions
+	activeRegions := make(map[uint64][]*Event) // golangroutine id to stack of regions
 	gs[0] = gdesc{state: gRunning}
 	var evGC, evSTW *Event
 
@@ -1070,7 +1070,7 @@ func (p *parser) postProcessTrace(events Events) error {
 				return fmt.Errorf("p %d is not running before stop (time %d)", ev.P, ev.Ts)
 			}
 			if p.g != 0 {
-				return fmt.Errorf("p %d is running a goroutine %d during stop (time %d)", ev.P, p.g, ev.Ts)
+				return fmt.Errorf("p %d is running a golangroutine %d during stop (time %d)", ev.P, p.g, ev.Ts)
 			}
 			p.running = false
 
@@ -1117,7 +1117,7 @@ func (p *parser) postProcessTrace(events Events) error {
 			gs[ev.G] = g
 		case EvGCMarkAssistDone:
 			// Unlike most events, mark assists can be in progress when a
-			// goroutine starts tracing, so we can't report an error here.
+			// golangroutine starts tracing, so we can't report an error here.
 			g := gs[ev.G]
 			if g.evMarkAssist != nil {
 				g.evMarkAssist = nil
@@ -1298,7 +1298,7 @@ func (p *parser) postProcessTrace(events Events) error {
 				if n > 0 { // matching region start event is in the trace.
 					s := regions[n-1]
 					if s.Args[0] != ev.Args[0] || s.Args[2] != ev.Args[2] { // task id, region name mismatch
-						return fmt.Errorf("misuse of region in goroutine %d: span end %q when the inner-most active span start event is %q", ev.G, ev, s)
+						return fmt.Errorf("misuse of region in golangroutine %d: span end %q when the inner-most active span start event is %q", ev.G, ev, s)
 					}
 
 					if n > 1 {
@@ -1378,7 +1378,7 @@ func (raw *rawEvent) argNum() int {
 type EventType uint8
 
 // Event types in the trace.
-// Verbatim copy from src/runtime/trace.go with the "trace" prefix removed.
+// Verbatim copy from src/runtime/trace.golang with the "trace" prefix removed.
 const (
 	EvNone              EventType = 0  // unused
 	EvBatch             EventType = 1  // start of per-P batch of events [pid, timestamp]
@@ -1393,43 +1393,43 @@ const (
 	EvSTWDone           EventType = 10 // GC mark termination done [timestamp]
 	EvGCSweepStart      EventType = 11 // GC sweep start [timestamp, stack id]
 	EvGCSweepDone       EventType = 12 // GC sweep done [timestamp, swept, reclaimed]
-	EvGoCreate          EventType = 13 // goroutine creation [timestamp, new goroutine id, new stack id, stack id]
-	EvGoStart           EventType = 14 // goroutine starts running [timestamp, goroutine id, seq]
-	EvGoEnd             EventType = 15 // goroutine ends [timestamp]
-	EvGoStop            EventType = 16 // goroutine stops (like in select{}) [timestamp, stack]
-	EvGoSched           EventType = 17 // goroutine calls Gosched [timestamp, stack]
-	EvGoPreempt         EventType = 18 // goroutine is preempted [timestamp, stack]
-	EvGoSleep           EventType = 19 // goroutine calls Sleep [timestamp, stack]
-	EvGoBlock           EventType = 20 // goroutine blocks [timestamp, stack]
-	EvGoUnblock         EventType = 21 // goroutine is unblocked [timestamp, goroutine id, seq, stack]
-	EvGoBlockSend       EventType = 22 // goroutine blocks on chan send [timestamp, stack]
-	EvGoBlockRecv       EventType = 23 // goroutine blocks on chan recv [timestamp, stack]
-	EvGoBlockSelect     EventType = 24 // goroutine blocks on select [timestamp, stack]
-	EvGoBlockSync       EventType = 25 // goroutine blocks on Mutex/RWMutex [timestamp, stack]
-	EvGoBlockCond       EventType = 26 // goroutine blocks on Cond [timestamp, stack]
-	EvGoBlockNet        EventType = 27 // goroutine blocks on network [timestamp, stack]
+	EvGoCreate          EventType = 13 // golangroutine creation [timestamp, new golangroutine id, new stack id, stack id]
+	EvGoStart           EventType = 14 // golangroutine starts running [timestamp, golangroutine id, seq]
+	EvGoEnd             EventType = 15 // golangroutine ends [timestamp]
+	EvGoStop            EventType = 16 // golangroutine stops (like in select{}) [timestamp, stack]
+	EvGoSched           EventType = 17 // golangroutine calls Gosched [timestamp, stack]
+	EvGoPreempt         EventType = 18 // golangroutine is preempted [timestamp, stack]
+	EvGoSleep           EventType = 19 // golangroutine calls Sleep [timestamp, stack]
+	EvGoBlock           EventType = 20 // golangroutine blocks [timestamp, stack]
+	EvGoUnblock         EventType = 21 // golangroutine is unblocked [timestamp, golangroutine id, seq, stack]
+	EvGoBlockSend       EventType = 22 // golangroutine blocks on chan send [timestamp, stack]
+	EvGoBlockRecv       EventType = 23 // golangroutine blocks on chan recv [timestamp, stack]
+	EvGoBlockSelect     EventType = 24 // golangroutine blocks on select [timestamp, stack]
+	EvGoBlockSync       EventType = 25 // golangroutine blocks on Mutex/RWMutex [timestamp, stack]
+	EvGoBlockCond       EventType = 26 // golangroutine blocks on Cond [timestamp, stack]
+	EvGoBlockNet        EventType = 27 // golangroutine blocks on network [timestamp, stack]
 	EvGoSysCall         EventType = 28 // syscall enter [timestamp, stack]
-	EvGoSysExit         EventType = 29 // syscall exit [timestamp, goroutine id, seq, real timestamp]
+	EvGoSysExit         EventType = 29 // syscall exit [timestamp, golangroutine id, seq, real timestamp]
 	EvGoSysBlock        EventType = 30 // syscall blocks [timestamp]
-	EvGoWaiting         EventType = 31 // denotes that goroutine is blocked when tracing starts [timestamp, goroutine id]
-	EvGoInSyscall       EventType = 32 // denotes that goroutine is in syscall when tracing starts [timestamp, goroutine id]
+	EvGoWaiting         EventType = 31 // denotes that golangroutine is blocked when tracing starts [timestamp, golangroutine id]
+	EvGoInSyscall       EventType = 32 // denotes that golangroutine is in syscall when tracing starts [timestamp, golangroutine id]
 	EvHeapAlloc         EventType = 33 // gcController.heapLive change [timestamp, heap live bytes]
-	EvHeapGoal          EventType = 34 // gcController.heapGoal change [timestamp, heap goal bytes]
-	EvTimerGoroutine    EventType = 35 // denotes timer goroutine [timer goroutine id]
-	EvFutileWakeup      EventType = 36 // denotes that the previous wakeup of this goroutine was futile [timestamp]
+	EvHeapGoal          EventType = 34 // gcController.heapGoal change [timestamp, heap golangal bytes]
+	EvTimerGoroutine    EventType = 35 // denotes timer golangroutine [timer golangroutine id]
+	EvFutileWakeup      EventType = 36 // denotes that the previous wakeup of this golangroutine was futile [timestamp]
 	EvString            EventType = 37 // string dictionary entry [ID, length, string]
-	EvGoStartLocal      EventType = 38 // goroutine starts running on the same P as the last event [timestamp, goroutine id]
-	EvGoUnblockLocal    EventType = 39 // goroutine is unblocked on the same P as the last event [timestamp, goroutine id, stack]
-	EvGoSysExitLocal    EventType = 40 // syscall exit on the same P as the last event [timestamp, goroutine id, real timestamp]
-	EvGoStartLabel      EventType = 41 // goroutine starts running with label [timestamp, goroutine id, seq, label string id]
-	EvGoBlockGC         EventType = 42 // goroutine blocks on GC assist [timestamp, stack]
+	EvGoStartLocal      EventType = 38 // golangroutine starts running on the same P as the last event [timestamp, golangroutine id]
+	EvGoUnblockLocal    EventType = 39 // golangroutine is unblocked on the same P as the last event [timestamp, golangroutine id, stack]
+	EvGoSysExitLocal    EventType = 40 // syscall exit on the same P as the last event [timestamp, golangroutine id, real timestamp]
+	EvGoStartLabel      EventType = 41 // golangroutine starts running with label [timestamp, golangroutine id, seq, label string id]
+	EvGoBlockGC         EventType = 42 // golangroutine blocks on GC assist [timestamp, stack]
 	EvGCMarkAssistStart EventType = 43 // GC mark assist start [timestamp, stack]
 	EvGCMarkAssistDone  EventType = 44 // GC mark assist done [timestamp]
 	EvUserTaskCreate    EventType = 45 // trace.NewTask [timestamp, internal task id, internal parent id, stack, name string]
 	EvUserTaskEnd       EventType = 46 // end of task [timestamp, internal task id, stack]
 	EvUserRegion        EventType = 47 // trace.WithRegion [timestamp, internal task id, mode(0:start, 1:end), name string]
 	EvUserLog           EventType = 48 // trace.Log [timestamp, internal id, key string id, stack, value string]
-	EvCPUSample         EventType = 49 // CPU profiling sample [timestamp, stack, real timestamp, real P id (-1 when absent), goroutine id]
+	EvCPUSample         EventType = 49 // CPU profiling sample [timestamp, stack, real timestamp, real P id (-1 when absent), golangroutine id]
 	EvCount             EventType = 50
 )
 
@@ -1488,7 +1488,7 @@ var EventDescriptions = [256]struct {
 	EvUserTaskCreate:    {"UserTaskCreate", 11, true, []string{"taskid", "pid", "typeid"}, []string{"name"}},
 	EvUserTaskEnd:       {"UserTaskEnd", 11, true, []string{"taskid"}, nil},
 	EvUserRegion:        {"UserRegion", 11, true, []string{"taskid", "mode", "typeid"}, []string{"name"}},
-	EvUserLog:           {"UserLog", 11, true, []string{"id", "keyid"}, []string{"category", "message"}},
+	EvUserLog:           {"UserLog", 11, true, []string{"id", "keyid"}, []string{"categolangry", "message"}},
 	EvCPUSample:         {"CPUSample", 19, true, []string{"ts", "p", "g"}, nil},
 }
 

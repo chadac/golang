@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package tar_test
@@ -21,7 +21,7 @@ func Example_minimal() {
 		Name, Body string
 	}{
 		{"readme.txt", "This archive contains some text files."},
-		{"gopher.txt", "Gopher names:\nGeorge\nGeoffrey\nGonzo"},
+		{"golangpher.txt", "Gopher names:\nGeorge\nGeoffrey\nGonzo"},
 		{"todo.txt", "Get animal handling license."},
 	}
 	for _, file := range files {
@@ -61,7 +61,7 @@ func Example_minimal() {
 	// Output:
 	// Contents of readme.txt:
 	// This archive contains some text files.
-	// Contents of gopher.txt:
+	// Contents of golangpher.txt:
 	// Gopher names:
 	// George
 	// Geoffrey

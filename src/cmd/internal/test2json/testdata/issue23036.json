@@ -2,7 +2,7 @@
 {"Action":"run","Test":"TestActualCase"}
 {"Action":"output","Test":"TestActualCase","Output":"=== RUN   TestActualCase\n"}
 {"Action":"output","Test":"TestActualCase","Output":"--- FAIL: TestActualCase (0.00s)\n"}
-{"Action":"output","Test":"TestActualCase","Output":"        foo_test.go:14: Differed.\n"}
+{"Action":"output","Test":"TestActualCase","Output":"        foo_test.golang:14: Differed.\n"}
 {"Action":"output","Test":"TestActualCase","Output":"                Expected: MyTest:\n"}
 {"Action":"output","Test":"TestActualCase","Output":"                --- FAIL: Test output from other tool\n"}
 {"Action":"output","Test":"TestActualCase","Output":"                Actual: not expected\n"}

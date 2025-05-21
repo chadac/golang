@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ssa
@@ -16,7 +16,7 @@ import (
 // An Op encodes the specific operation that a Value performs.
 // Opcodes' semantics can be modified by the type and aux fields of the Value.
 // For instance, OpAdd can be 32 or 64 bit, signed or unsigned, float or complex, depending on Value.Type.
-// Semantics of each op are described in the opcode files in _gen/*Ops.go.
+// Semantics of each op are described in the opcode files in _gen/*Ops.golang.
 // There is one file for generic (architecture-independent) ops and one file
 // for each architecture.
 type Op int32

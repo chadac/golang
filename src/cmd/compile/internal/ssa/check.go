@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ssa
@@ -396,7 +396,7 @@ func checkFunc(f *Func) {
 	// Check to make sure all args dominate uses.
 	if f.RegAlloc == nil {
 		// Note: regalloc introduces non-dominating args.
-		// See TODO in regalloc.go.
+		// See TODO in regalloc.golang.
 		sdom := f.Sdom()
 		for _, b := range f.Blocks {
 			for _, v := range b.Values {

@@ -1,10 +1,10 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package cookiejar
 
-// This file implements the Punycode algorithm from RFC 3492.
+// This file implements the Punycode algolangrithm from RFC 3492.
 
 import (
 	"fmt"
@@ -132,7 +132,7 @@ const acePrefix = "xn--"
 
 // toASCII converts a domain or domain label to its ASCII form. For example,
 // toASCII("bücher.example.com") is "xn--bcher-kva.example.com", and
-// toASCII("golang") is "golang".
+// toASCII("golanglang") is "golanglang".
 func toASCII(s string) (string, error) {
 	if ascii.Is(s) {
 		return s, nil

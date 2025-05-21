@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -11,18 +11,18 @@ package main
 
 #include <sanitizer/msan_interface.h>
 
-// cgoTracebackArg is the type of the argument passed to msanGoTraceback.
-struct cgoTracebackArg {
+// cgolangTracebackArg is the type of the argument passed to msanGoTraceback.
+struct cgolangTracebackArg {
 	uintptr_t context;
 	uintptr_t sigContext;
 	uintptr_t* buf;
 	uintptr_t max;
 };
 
-// msanGoTraceback is registered as the cgo traceback function.
+// msanGoTraceback is registered as the cgolang traceback function.
 // This will be called when a signal occurs.
 void msanGoTraceback(void* parg) {
-	struct cgoTracebackArg* arg = (struct cgoTracebackArg*)(parg);
+	struct cgolangTracebackArg* arg = (struct cgolangTracebackArg*)(parg);
         arg->buf[0] = 0;
 }
 
@@ -94,10 +94,10 @@ import (
 )
 
 func main() {
-	runtime.SetCgoTraceback(0, C.msanGoTraceback, nil, nil)
+	runtime.SetCgolangTraceback(0, C.msanGoTraceback, nil, nil)
 
 	c := make(chan bool)
-	go func() {
+	golang func() {
 		defer func() { c <- true }()
 		C.msanGoLoop()
 	}()

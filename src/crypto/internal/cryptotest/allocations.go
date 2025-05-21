@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package cryptotest
@@ -17,7 +17,7 @@ import (
 // SkipTestAllocations skips the test if there are any factors that interfere
 // with allocation optimizations.
 func SkipTestAllocations(t *testing.T) {
-	// Go+BoringCrypto uses cgo.
+	// Go+BoringCrypto uses cgolang.
 	if boring.Enabled {
 		t.Skip("skipping allocations test with BoringCrypto")
 	}

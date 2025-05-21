@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -41,7 +41,7 @@ func start(i int) {
 	C.poison()
 	// Tie up a thread.
 	// We won't actually wait for this sleep to complete.
-	go func() { C.sleep(1) }()
+	golang func() { C.sleep(1) }()
 	start(i - 1)
 }
 

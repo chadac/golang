@@ -1,7 +1,7 @@
 // run -gcflags=-d=softfloat
 
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -21,11 +21,11 @@ func main() {
 	test(x, y*y)
 }
 
-//go:noinline
+//golang:noinline
 func test(id int32, a float32) {
 
 	if id != x {
-		fmt.Printf("got: %d, want: %d\n", id, x)
+		fmt.Printf("golangt: %d, want: %d\n", id, x)
 		panic("FAIL")
 	}
 }

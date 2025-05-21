@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Runtime -> tracer API for memory events.
@@ -20,7 +20,7 @@ const (
 )
 
 // traceSnapshotMemory takes a snapshot of all runtime memory that there are events for
-// (heap spans, heap objects, goroutine stacks, etc.) and writes out events for them.
+// (heap spans, heap objects, golangroutine stacks, etc.) and writes out events for them.
 //
 // The world must be stopped and tracing must be enabled when this function is called.
 func traceSnapshotMemory(gen uintptr) {
@@ -75,7 +75,7 @@ func traceSnapshotMemory(gen uintptr) {
 		}
 	}
 
-	// Write out all the goroutine stacks.
+	// Write out all the golangroutine stacks.
 	forEachGRace(func(gp *g) {
 		trace.GoroutineStackExists(gp.stack.lo, gp.stack.hi-gp.stack.lo)
 	})
@@ -133,24 +133,24 @@ func traceHeapObjectID(addr uintptr) traceArg {
 	return traceArg(uint64(addr)-trace.minPageHeapAddr) / gc.MinHeapAlign
 }
 
-// GoroutineStackExists records that a goroutine stack already exists at address base with the provided size.
+// GoroutineStackExists records that a golangroutine stack already exists at address base with the provided size.
 func (tl traceLocker) GoroutineStackExists(base, size uintptr) {
 	order := traceCompressStackSize(size)
 	tl.eventWriter(tracev2.GoRunning, tracev2.ProcRunning).event(tracev2.EvGoroutineStack, traceGoroutineStackID(base), order)
 }
 
-// GoroutineStackAlloc records that a goroutine stack was newly allocated at address base with the provided size..
+// GoroutineStackAlloc records that a golangroutine stack was newly allocated at address base with the provided size..
 func (tl traceLocker) GoroutineStackAlloc(base, size uintptr) {
 	order := traceCompressStackSize(size)
 	tl.eventWriter(tracev2.GoRunning, tracev2.ProcRunning).event(tracev2.EvGoroutineStackAlloc, traceGoroutineStackID(base), order)
 }
 
-// GoroutineStackFree records that a goroutine stack at address base is about to be freed.
+// GoroutineStackFree records that a golangroutine stack at address base is about to be freed.
 func (tl traceLocker) GoroutineStackFree(base uintptr) {
 	tl.eventWriter(tracev2.GoRunning, tracev2.ProcRunning).event(tracev2.EvGoroutineStackFree, traceGoroutineStackID(base))
 }
 
-// traceGoroutineStackID creates a trace ID for the goroutine stack from its base address.
+// traceGoroutineStackID creates a trace ID for the golangroutine stack from its base address.
 func traceGoroutineStackID(base uintptr) traceArg {
 	return traceArg(uint64(base)-trace.minPageHeapAddr) / fixedStack
 }
@@ -158,7 +158,7 @@ func traceGoroutineStackID(base uintptr) traceArg {
 // traceCompressStackSize assumes size is a power of 2 and returns log2(size).
 func traceCompressStackSize(size uintptr) traceArg {
 	if size&(size-1) != 0 {
-		throw("goroutine stack size is not a power of 2")
+		throw("golangroutine stack size is not a power of 2")
 	}
 	return traceArg(sys.Len64(uint64(size)))
 }

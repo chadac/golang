@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ld
@@ -13,7 +13,7 @@ import (
 // A BuildMode indicates the sort of object we are building.
 //
 // Possible build modes are the same as those for the -buildmode flag
-// in cmd/go, and are documented in 'go help buildmode'.
+// in cmd/golang, and are documented in 'golang help buildmode'.
 type BuildMode uint8
 
 const (
@@ -136,8 +136,8 @@ func mustLinkExternal(ctxt *Link) (res bool, reason string) {
 		return true, "asan"
 	}
 
-	if iscgo && platform.MustLinkExternal(buildcfg.GOOS, buildcfg.GOARCH, true) {
-		return true, buildcfg.GOARCH + " does not support internal cgo"
+	if iscgolang && platform.MustLinkExternal(buildcfg.GOOS, buildcfg.GOARCH, true) {
+		return true, buildcfg.GOARCH + " does not support internal cgolang"
 	}
 
 	// Some build modes require work the internal linker cannot do (yet).
@@ -169,9 +169,9 @@ func mustLinkExternal(ctxt *Link) (res bool, reason string) {
 
 	if len(dynimportfail) > 0 {
 		// This error means that we were unable to generate
-		// the _cgo_import.go file for some packages.
+		// the _cgolang_import.golang file for some packages.
 		// This typically means that there are some dependencies
-		// that the cgo tool could not figure out.
+		// that the cgolang tool could not figure out.
 		// See issue #52863.
 		return true, fmt.Sprintf("some packages could not be built to support internal linking (%v)", dynimportfail)
 	}
@@ -183,7 +183,7 @@ func mustLinkExternal(ctxt *Link) (res bool, reason string) {
 //
 // It is called after flags are processed and inputs are processed,
 // so the ctxt.LinkMode variable has an initial value from the -linkmode
-// flag and the iscgo, externalobj, and unknownObjFormat variables are set.
+// flag and the iscgolang, externalobj, and unknownObjFormat variables are set.
 func determineLinkMode(ctxt *Link) {
 	extNeeded, extReason := mustLinkExternal(ctxt)
 	via := ""
@@ -193,7 +193,7 @@ func determineLinkMode(ctxt *Link) {
 		// default value of -linkmode. If it is not set when the
 		// linker is called we take the value it was set to when
 		// cmd/link was compiled. (See make.bash.)
-		switch buildcfg.Getgoextlinkenabled() {
+		switch buildcfg.Getgolangextlinkenabled() {
 		case "0":
 			ctxt.LinkMode = LinkInternal
 			via = "via GO_EXTLINK_ENABLED "
@@ -205,7 +205,7 @@ func determineLinkMode(ctxt *Link) {
 			if preferExternal && ctxt.Debugvlog > 0 {
 				ctxt.Logf("external linking prefer list is %v\n", preferlinkext)
 			}
-			if extNeeded || (iscgo && (externalobj || preferExternal)) {
+			if extNeeded || (iscgolang && (externalobj || preferExternal)) {
 				ctxt.LinkMode = LinkExternal
 			} else {
 				ctxt.LinkMode = LinkInternal

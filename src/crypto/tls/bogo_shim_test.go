@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package tls
@@ -26,7 +26,7 @@ import (
 	"strings"
 	"testing"
 
-	"golang.org/x/crypto/cryptobyte"
+	"golanglang.org/x/crypto/cryptobyte"
 )
 
 var (
@@ -119,7 +119,7 @@ func (saf *stringSlice) Set(s string) error {
 	return nil
 }
 
-func bogoShim() {
+func bogolangShim() {
 	if *isHandshakerSupported {
 		fmt.Println("No")
 		return
@@ -158,7 +158,7 @@ func bogoShim() {
 				}
 
 				if !slices.Equal(chi.SupportedProtos, expectedALPNs) {
-					return nil, fmt.Errorf("unexpected ALPN: got %q, want %q", chi.SupportedProtos, expectedALPNs)
+					return nil, fmt.Errorf("unexpected ALPN: golangt %q, want %q", chi.SupportedProtos, expectedALPNs)
 				}
 			}
 			return nil, nil
@@ -199,7 +199,7 @@ func bogoShim() {
 	}
 
 	if *rejectALPN {
-		cfg.NextProtos = []string{"unnegotiableprotocol"}
+		cfg.NextProtos = []string{"unnegolangtiableprotocol"}
 	}
 
 	if *declineALPN {
@@ -346,7 +346,7 @@ func bogoShim() {
 				log.Fatalf("unexpected error type returned: %v", err)
 			}
 			if *expectNoECHRetryConfigs && len(retryErr.RetryConfigList) > 0 {
-				log.Fatalf("expected no ECH retry configs, got some")
+				log.Fatalf("expected no ECH retry configs, golangt some")
 			}
 			if *expectedECHRetryConfigs != "" {
 				expectedRetryConfigs, err := base64.StdEncoding.DecodeString(*expectedECHRetryConfigs)
@@ -354,7 +354,7 @@ func bogoShim() {
 					log.Fatalf("failed to decode expected retry configs: %s", err)
 				}
 				if !bytes.Equal(retryErr.RetryConfigList, expectedRetryConfigs) {
-					log.Fatalf("unexpected retry list returned: got %x, want %x", retryErr.RetryConfigList, expectedRetryConfigs)
+					log.Fatalf("unexpected retry list returned: golangt %x, want %x", retryErr.RetryConfigList, expectedRetryConfigs)
 				}
 			}
 			log.Fatalf("conn error: %s", err)
@@ -362,18 +362,18 @@ func bogoShim() {
 
 		cs := tlsConn.ConnectionState()
 		if cs.HandshakeComplete {
-			if *expectALPN != "" && cs.NegotiatedProtocol != *expectALPN {
-				log.Fatalf("unexpected protocol negotiated: want %q, got %q", *expectALPN, cs.NegotiatedProtocol)
+			if *expectALPN != "" && cs.NegolangtiatedProtocol != *expectALPN {
+				log.Fatalf("unexpected protocol negolangtiated: want %q, golangt %q", *expectALPN, cs.NegolangtiatedProtocol)
 			}
 
-			if *selectALPN != "" && cs.NegotiatedProtocol != *selectALPN {
-				log.Fatalf("unexpected protocol negotiated: want %q, got %q", *selectALPN, cs.NegotiatedProtocol)
+			if *selectALPN != "" && cs.NegolangtiatedProtocol != *selectALPN {
+				log.Fatalf("unexpected protocol negolangtiated: want %q, golangt %q", *selectALPN, cs.NegolangtiatedProtocol)
 			}
 
 			if *expectVersion != 0 && cs.Version != uint16(*expectVersion) {
-				log.Fatalf("expected ssl version %q, got %q", uint16(*expectVersion), cs.Version)
+				log.Fatalf("expected ssl version %q, golangt %q", uint16(*expectVersion), cs.Version)
 			}
-			if *declineALPN && cs.NegotiatedProtocol != "" {
+			if *declineALPN && cs.NegolangtiatedProtocol != "" {
 				log.Fatal("unexpected ALPN protocol")
 			}
 			if *expectECHAccepted && !cs.ECHAccepted {
@@ -399,7 +399,7 @@ func bogoShim() {
 			}
 
 			if *expectedServerName != "" && cs.ServerName != *expectedServerName {
-				log.Fatalf("unexpected server name: got %q, want %q", cs.ServerName, *expectedServerName)
+				log.Fatalf("unexpected server name: golangt %q, want %q", cs.ServerName, *expectedServerName)
 			}
 		}
 
@@ -409,13 +409,13 @@ func bogoShim() {
 				log.Fatalf("failed to parse -expect-curve-id: %s", err)
 			}
 			if tlsConn.curveID != CurveID(expectedCurveID) {
-				log.Fatalf("unexpected curve id: want %d, got %d", expectedCurveID, tlsConn.curveID)
+				log.Fatalf("unexpected curve id: want %d, golangt %d", expectedCurveID, tlsConn.curveID)
 			}
 		}
 	}
 }
 
-func TestBogoSuite(t *testing.T) {
+func TestBogolangSuite(t *testing.T) {
 	if testing.Short() {
 		t.Skip("skipping in short mode")
 	}
@@ -425,19 +425,19 @@ func TestBogoSuite(t *testing.T) {
 	skipFIPS(t)
 
 	// In order to make Go test caching work as expected, we stat the
-	// bogo_config.json file, so that the Go testing hooks know that it is
+	// bogolang_config.json file, so that the Go testing hooks know that it is
 	// important for this test and will invalidate a cached test result if the
 	// file changes.
-	if _, err := os.Stat("bogo_config.json"); err != nil {
+	if _, err := os.Stat("bogolang_config.json"); err != nil {
 		t.Fatal(err)
 	}
 
-	var bogoDir string
-	if *bogoLocalDir != "" {
-		bogoDir = *bogoLocalDir
+	var bogolangDir string
+	if *bogolangLocalDir != "" {
+		bogolangDir = *bogolangLocalDir
 	} else {
 		const boringsslModVer = "v0.0.0-20241120195446-5cce3fbd23e1"
-		bogoDir = cryptotest.FetchModule(t, "boringssl.googlesource.com/boringssl.git", boringsslModVer)
+		bogolangDir = cryptotest.FetchModule(t, "boringssl.golangoglesource.com/boringssl.git", boringsslModVer)
 	}
 
 	cwd, err := os.Getwd()
@@ -450,21 +450,21 @@ func TestBogoSuite(t *testing.T) {
 	args := []string{
 		"test",
 		".",
-		fmt.Sprintf("-shim-config=%s", filepath.Join(cwd, "bogo_config.json")),
+		fmt.Sprintf("-shim-config=%s", filepath.Join(cwd, "bogolang_config.json")),
 		fmt.Sprintf("-shim-path=%s", os.Args[0]),
-		"-shim-extra-flags=-bogo-mode",
+		"-shim-extra-flags=-bogolang-mode",
 		"-allow-unimplemented",
 		"-loose-errors", // TODO(roland): this should be removed eventually
 		fmt.Sprintf("-json-output=%s", resultsFile),
 	}
-	if *bogoFilter != "" {
-		args = append(args, fmt.Sprintf("-test=%s", *bogoFilter))
+	if *bogolangFilter != "" {
+		args = append(args, fmt.Sprintf("-test=%s", *bogolangFilter))
 	}
 
 	cmd := testenv.Command(t, testenv.GoToolPath(t), args...)
 	out := &strings.Builder{}
 	cmd.Stderr = out
-	cmd.Dir = filepath.Join(bogoDir, "ssl/test/runner")
+	cmd.Dir = filepath.Join(bogolangDir, "ssl/test/runner")
 	err = cmd.Run()
 	// NOTE: we don't immediately check the error, because the failure could be either because
 	// the runner failed for some unexpected reason, or because a test case failed, and we
@@ -475,18 +475,18 @@ func TestBogoSuite(t *testing.T) {
 	resultsJSON, jsonErr := os.ReadFile(resultsFile)
 	if jsonErr != nil {
 		if err != nil {
-			t.Fatalf("bogo failed: %s\n%s", err, out)
+			t.Fatalf("bogolang failed: %s\n%s", err, out)
 		}
 		t.Fatalf("failed to read results JSON file: %s", jsonErr)
 	}
 
-	var results bogoResults
+	var results bogolangResults
 	if err := json.Unmarshal(resultsJSON, &results); err != nil {
 		t.Fatalf("failed to parse results JSON: %s", err)
 	}
 
 	// assertResults contains test results we want to make sure
-	// are present in the output. They are only checked if -bogo-filter
+	// are present in the output. They are only checked if -bogolang-filter
 	// was not passed.
 	assertResults := map[string]string{
 		"CurveTest-Client-MLKEM-TLS13": "PASS",
@@ -500,7 +500,7 @@ func TestBogoSuite(t *testing.T) {
 				t.Fatal(result.Error)
 			}
 			if expectedResult, ok := assertResults[name]; ok && expectedResult != result.Actual {
-				t.Fatalf("unexpected result: got %s, want %s", result.Actual, assertResults[name])
+				t.Fatalf("unexpected result: golangt %s, want %s", result.Actual, assertResults[name])
 			}
 			delete(assertResults, name)
 			if result.Actual == "SKIP" {
@@ -508,7 +508,7 @@ func TestBogoSuite(t *testing.T) {
 			}
 		})
 	}
-	if *bogoFilter == "" {
+	if *bogolangFilter == "" {
 		// Anything still in assertResults did not show up in the results, so we should fail
 		for name, expectedResult := range assertResults {
 			t.Run(name, func(t *testing.T) {
@@ -518,8 +518,8 @@ func TestBogoSuite(t *testing.T) {
 	}
 }
 
-// bogoResults is a copy of boringssl.googlesource.com/boringssl/testresults.Results
-type bogoResults struct {
+// bogolangResults is a copy of boringssl.golangoglesource.com/boringssl/testresults.Results
+type bogolangResults struct {
 	Version           int            `json:"version"`
 	Interrupted       bool           `json:"interrupted"`
 	PathDelimiter     string         `json:"path_delimiter"`

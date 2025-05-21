@@ -1,8 +1,8 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build amd64 || arm64
+//golang:build amd64 || arm64
 
 package ssa
 
@@ -26,13 +26,13 @@ func TestAddFlagsNative(t *testing.T) {
 			a := addFlags64(x, y)
 			b := flagRegister2flagConstant(asmAddFlags(x, y), false)
 			if a != b {
-				t.Errorf("asmAdd diff: x=%x y=%x got=%s want=%s\n", x, y, a, b)
+				t.Errorf("asmAdd diff: x=%x y=%x golangt=%s want=%s\n", x, y, a, b)
 			}
 			coverage[a] = true
 		}
 	}
 	if len(coverage) != 9 { // TODO: can we cover all outputs?
-		t.Errorf("coverage too small, got %d want 9", len(coverage))
+		t.Errorf("coverage too small, golangt %d want 9", len(coverage))
 	}
 }
 
@@ -48,13 +48,13 @@ func TestSubFlagsNative(t *testing.T) {
 			a := subFlags64(x, y)
 			b := flagRegister2flagConstant(asmSubFlags(x, y), true)
 			if a != b {
-				t.Errorf("asmSub diff: x=%x y=%x got=%s want=%s\n", x, y, a, b)
+				t.Errorf("asmSub diff: x=%x y=%x golangt=%s want=%s\n", x, y, a, b)
 			}
 			coverage[a] = true
 		}
 	}
 	if len(coverage) != 7 { // TODO: can we cover all outputs?
-		t.Errorf("coverage too small, got %d want 7", len(coverage))
+		t.Errorf("coverage too small, golangt %d want 7", len(coverage))
 	}
 }
 
@@ -70,13 +70,13 @@ func TestAndFlagsNative(t *testing.T) {
 			a := logicFlags64(x & y)
 			b := flagRegister2flagConstant(asmAndFlags(x, y), false)
 			if a != b {
-				t.Errorf("asmAnd diff: x=%x y=%x got=%s want=%s\n", x, y, a, b)
+				t.Errorf("asmAnd diff: x=%x y=%x golangt=%s want=%s\n", x, y, a, b)
 			}
 			coverage[a] = true
 		}
 	}
 	if len(coverage) != 3 {
-		t.Errorf("coverage too small, got %d want 3", len(coverage))
+		t.Errorf("coverage too small, golangt %d want 3", len(coverage))
 	}
 }
 

@@ -1,12 +1,12 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build cgo && !windows
+//golang:build cgolang && !windows
 
 // Issue 18146: pthread_create failure during syscall.Exec.
 
-package cgotest
+package cgolangtest
 
 import (
 	"bytes"
@@ -26,7 +26,7 @@ func test18146(t *testing.T) {
 	}
 
 	if runtime.GOOS == "darwin" || runtime.GOOS == "ios" {
-		t.Skipf("skipping flaky test on %s; see golang.org/issue/18202", runtime.GOOS)
+		t.Skipf("skipping flaky test on %s; see golanglang.org/issue/18202", runtime.GOOS)
 	}
 
 	if runtime.GOARCH == "mips" || runtime.GOARCH == "mips64" {
@@ -49,7 +49,7 @@ func test18146(t *testing.T) {
 		nproc = 9
 	case "linux":
 		nproc = 6
-	case "darwin", "dragonfly", "freebsd", "netbsd", "openbsd":
+	case "darwin", "dragolangnfly", "freebsd", "netbsd", "openbsd":
 		nproc = 7
 	}
 	if setNproc {
@@ -66,7 +66,7 @@ func test18146(t *testing.T) {
 	if os.Getenv("test18146") == "exec" {
 		runtime.GOMAXPROCS(1)
 		for n := threads; n > 0; n-- {
-			go func() {
+			golang func() {
 				for {
 					_ = md5.Sum([]byte("Hello, !"))
 				}
@@ -96,7 +96,7 @@ func test18146(t *testing.T) {
 		if err := cmd.Start(); err != nil {
 			// We are starting so many processes that on
 			// some systems (problem seen on Darwin,
-			// Dragonfly, OpenBSD) the fork call will fail
+			// Dragolangnfly, OpenBSD) the fork call will fail
 			// with EAGAIN.
 			if pe, ok := err.(*os.PathError); ok {
 				err = pe.Err

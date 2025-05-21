@@ -1,8 +1,8 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build aix || darwin
+//golang:build aix || darwin
 
 package os
 
@@ -13,7 +13,7 @@ import "syscall"
 func Pipe() (r *File, w *File, err error) {
 	var p [2]int
 
-	// See ../syscall/exec.go for description of lock.
+	// See ../syscall/exec.golang for description of lock.
 	syscall.ForkLock.RLock()
 	e := syscall.Pipe(p[0:])
 	if e != nil {

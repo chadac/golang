@@ -1,10 +1,10 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Tests user tasks, regions, and logging.
 
-//go:build ignore
+//golang:build ignore
 
 package main
 
@@ -66,7 +66,7 @@ func do(ctx context.Context, k int) {
 	// Create a region and spawn more tasks and more workers.
 	trace.WithRegion(ctx, "fanout", func() {
 		for i := 0; i < k; i++ {
-			go func(i int) {
+			golang func(i int) {
 				trace.WithRegion(ctx, fmt.Sprintf("region%d", i), func() {
 					trace.Logf(ctx, "log", "fanout region%d", i)
 					if i == 2 {

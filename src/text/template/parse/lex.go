@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package parse
@@ -222,7 +222,7 @@ func (l *lexer) errorf(format string, args ...any) stateFn {
 }
 
 // nextItem returns the next item from the input.
-// Called by the parser, not in the lexing goroutine.
+// Called by the parser, not in the lexing golangroutine.
 func (l *lexer) nextItem() item {
 	l.item = item{itemEOF, l.pos, "EOF", l.startLine}
 	state := lexText
@@ -470,7 +470,7 @@ func lexSpace(l *lexer) stateFn {
 	if hasRightTrimMarker(l.input[l.pos-1:]) && strings.HasPrefix(l.input[l.pos-1+trimMarkerLen:], l.rightDelim) {
 		l.backup() // Before the space.
 		if numSpaces == 1 {
-			return lexRightDelim // On the delim, so go right to that.
+			return lexRightDelim // On the delim, so golang right to that.
 		}
 	}
 	return l.emit(itemSpace)

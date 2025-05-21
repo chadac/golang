@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package flag_test
@@ -221,9 +221,9 @@ func testParse(f *FlagSet, t *testing.T) {
 		t.Error("duration flag should be 2m, is ", *durationFlag)
 	}
 	if len(f.Args()) != 1 {
-		t.Error("expected one argument, got", len(f.Args()))
+		t.Error("expected one argument, golangt", len(f.Args()))
 	} else if f.Args()[0] != extra {
-		t.Errorf("expected argument %q got %q", extra, f.Args()[0])
+		t.Errorf("expected argument %q golangt %q", extra, f.Args()[0])
 	}
 }
 
@@ -258,11 +258,11 @@ func TestUserDefined(t *testing.T) {
 		t.Error(err)
 	}
 	if len(v) != 3 {
-		t.Fatal("expected 3 args; got ", len(v))
+		t.Fatal("expected 3 args; golangt ", len(v))
 	}
 	expect := "[1 2 3]"
 	if v.String() != expect {
-		t.Errorf("expected value %q got %q", expect, v.String())
+		t.Errorf("expected value %q golangt %q", expect, v.String())
 	}
 }
 
@@ -278,11 +278,11 @@ func TestUserDefinedFunc(t *testing.T) {
 		t.Error(err)
 	}
 	if len(ss) != 3 {
-		t.Fatal("expected 3 args; got ", len(ss))
+		t.Fatal("expected 3 args; golangt ", len(ss))
 	}
 	expect := "[1 2 3]"
-	if got := fmt.Sprint(ss); got != expect {
-		t.Errorf("expected value %q got %q", expect, got)
+	if golangt := fmt.Sprint(ss); golangt != expect {
+		t.Errorf("expected value %q golangt %q", expect, golangt)
 	}
 	// test usage
 	var buf strings.Builder
@@ -303,9 +303,9 @@ func TestUserDefinedFunc(t *testing.T) {
 	}
 	// flag set, expect error
 	if err := flags.Parse([]string{"-v", "1"}); err == nil {
-		t.Error("expected error; got none")
+		t.Error("expected error; golangt none")
 	} else if errMsg := err.Error(); !strings.Contains(errMsg, "test error") {
-		t.Errorf(`error should contain "test error"; got %q`, errMsg)
+		t.Errorf(`error should contain "test error"; golangt %q`, errMsg)
 	}
 }
 
@@ -315,7 +315,7 @@ func TestUserDefinedForCommandLine(t *testing.T) {
 	ResetForTesting(func() { result = help })
 	Usage()
 	if result != help {
-		t.Fatalf("got %q; expected %q", result, help)
+		t.Fatalf("golangt %q; expected %q", result, help)
 	}
 }
 
@@ -353,11 +353,11 @@ func TestUserDefinedBool(t *testing.T) {
 	}
 
 	if b.count != 4 {
-		t.Errorf("want: %d; got: %d", 4, b.count)
+		t.Errorf("want: %d; golangt: %d", 4, b.count)
 	}
 
 	if err == nil {
-		t.Error("expected error; got none")
+		t.Error("expected error; golangt none")
 	}
 }
 
@@ -371,18 +371,18 @@ func TestUserDefinedBoolUsage(t *testing.T) {
 	b.count = 0
 	// b.IsBoolFlag() will return true and usage will look boolean.
 	flags.PrintDefaults()
-	got := buf.String()
+	golangt := buf.String()
 	want := "  -b\tX\n"
-	if got != want {
-		t.Errorf("false: want %q; got %q", want, got)
+	if golangt != want {
+		t.Errorf("false: want %q; golangt %q", want, golangt)
 	}
 	b.count = 4
 	// b.IsBoolFlag() will return false and usage will look non-boolean.
 	flags.PrintDefaults()
-	got = buf.String()
+	golangt = buf.String()
 	want = "  -b\tX\n  -b value\n    \tX\n"
-	if got != want {
-		t.Errorf("false: want %q; got %q", want, got)
+	if golangt != want {
+		t.Errorf("false: want %q; golangt %q", want, golangt)
 	}
 }
 
@@ -393,7 +393,7 @@ func TestSetOutput(t *testing.T) {
 	flags.Init("test", ContinueOnError)
 	flags.Parse([]string{"-unknown"})
 	if out := buf.String(); !strings.Contains(out, "-unknown") {
-		t.Logf("expected output mentioning unknown; got %q", out)
+		t.Logf("expected output mentioning unknown; golangt %q", out)
 	}
 }
 
@@ -415,7 +415,7 @@ func TestChangingArgs(t *testing.T) {
 	args := Args()
 
 	if !*before || cmd != "subcmd" || !*after || len(args) != 1 || args[0] != "args" {
-		t.Fatalf("expected true subcmd true [args] got %v %v %v %v", *before, cmd, *after, args)
+		t.Fatalf("expected true subcmd true [args] golangt %v %v %v %v", *before, cmd, *after, args)
 	}
 }
 
@@ -429,7 +429,7 @@ func TestHelp(t *testing.T) {
 	// Regular flag invocation should work
 	err := fs.Parse([]string{"-flag=true"})
 	if err != nil {
-		t.Fatal("expected no error; got ", err)
+		t.Fatal("expected no error; golangt ", err)
 	}
 	if !flag {
 		t.Error("flag was not set by -flag")
@@ -444,7 +444,7 @@ func TestHelp(t *testing.T) {
 		t.Fatal("error expected")
 	}
 	if err != ErrHelp {
-		t.Fatal("expected ErrHelp; got ", err)
+		t.Fatal("expected ErrHelp; golangt ", err)
 	}
 	if !helpCalled {
 		t.Fatal("help was not called")
@@ -455,7 +455,7 @@ func TestHelp(t *testing.T) {
 	helpCalled = false
 	err = fs.Parse([]string{"-help"})
 	if err != nil {
-		t.Fatal("expected no error for defined -help; got ", err)
+		t.Fatal("expected no error for defined -help; golangt ", err)
 	}
 	if helpCalled {
 		t.Fatal("help was called; should not have been for defined help flag")
@@ -536,9 +536,9 @@ func TestPrintDefaults(t *testing.T) {
 	fs.Var(&zeroPanicker{true, "something"}, "ZP1", "a flag whose String method panics when it is zero")
 	fs.Duration("maxT", 0, "set `timeout` for dial")
 	fs.PrintDefaults()
-	got := buf.String()
-	if got != defaultOutput {
-		t.Errorf("got:\n%q\nwant:\n%q", got, defaultOutput)
+	golangt := buf.String()
+	if golangt != defaultOutput {
+		t.Errorf("golangt:\n%q\nwant:\n%q", golangt, defaultOutput)
 	}
 }
 
@@ -567,8 +567,8 @@ func TestUsageOutput(t *testing.T) {
 	os.Args = []string{"app", "-i=1", "-unknown"}
 	Parse()
 	const want = "flag provided but not defined: -i\nUsage of app:\n"
-	if got := buf.String(); got != want {
-		t.Errorf("output = %q; want %q", got, want)
+	if golangt := buf.String(); golangt != want {
+		t.Errorf("output = %q; want %q", golangt, want)
 	}
 }
 
@@ -579,29 +579,29 @@ func TestGetters(t *testing.T) {
 	fs := NewFlagSet(expectedName, expectedErrorHandling)
 
 	if fs.Name() != expectedName {
-		t.Errorf("unexpected name: got %s, expected %s", fs.Name(), expectedName)
+		t.Errorf("unexpected name: golangt %s, expected %s", fs.Name(), expectedName)
 	}
 	if fs.ErrorHandling() != expectedErrorHandling {
-		t.Errorf("unexpected ErrorHandling: got %d, expected %d", fs.ErrorHandling(), expectedErrorHandling)
+		t.Errorf("unexpected ErrorHandling: golangt %d, expected %d", fs.ErrorHandling(), expectedErrorHandling)
 	}
 	if fs.Output() != expectedOutput {
-		t.Errorf("unexpected output: got %#v, expected %#v", fs.Output(), expectedOutput)
+		t.Errorf("unexpected output: golangt %#v, expected %#v", fs.Output(), expectedOutput)
 	}
 
-	expectedName = "gopher"
+	expectedName = "golangpher"
 	expectedErrorHandling = ExitOnError
 	expectedOutput = os.Stdout
 	fs.Init(expectedName, expectedErrorHandling)
 	fs.SetOutput(expectedOutput)
 
 	if fs.Name() != expectedName {
-		t.Errorf("unexpected name: got %s, expected %s", fs.Name(), expectedName)
+		t.Errorf("unexpected name: golangt %s, expected %s", fs.Name(), expectedName)
 	}
 	if fs.ErrorHandling() != expectedErrorHandling {
-		t.Errorf("unexpected ErrorHandling: got %d, expected %d", fs.ErrorHandling(), expectedErrorHandling)
+		t.Errorf("unexpected ErrorHandling: golangt %d, expected %d", fs.ErrorHandling(), expectedErrorHandling)
 	}
 	if fs.Output() != expectedOutput {
-		t.Errorf("unexpected output: got %v, expected %v", fs.Output(), expectedOutput)
+		t.Errorf("unexpected output: golangt %v, expected %v", fs.Output(), expectedOutput)
 	}
 }
 
@@ -708,14 +708,14 @@ func TestExitCode(t *testing.T) {
 			"GO_CHILD_FLAG_HANDLE="+test.flagHandle,
 		)
 		cmd.Run()
-		got := cmd.ProcessState.ExitCode()
+		golangt := cmd.ProcessState.ExitCode()
 		// ExitCode is either 0 or 1 on Plan 9.
 		if runtime.GOOS == "plan9" && test.expectExit != 0 {
 			test.expectExit = 1
 		}
-		if got != test.expectExit {
-			t.Errorf("unexpected exit code for test case %+v \n: got %d, expect %d",
-				test, got, test.expectExit)
+		if golangt != test.expectExit {
+			t.Errorf("unexpected exit code for test case %+v \n: golangt %d, expect %d",
+				test, golangt, test.expectExit)
 		}
 	}
 }
@@ -728,10 +728,10 @@ func mustPanic(t *testing.T, testName string, expected string, f func()) {
 			t.Errorf("%s\n: expected panic(%q), but did not panic", testName, expected)
 		case string:
 			if ok, _ := regexp.MatchString(expected, msg); !ok {
-				t.Errorf("%s\n: expected panic(%q), but got panic(%q)", testName, expected, msg)
+				t.Errorf("%s\n: expected panic(%q), but golangt panic(%q)", testName, expected, msg)
 			}
 		default:
-			t.Errorf("%s\n: expected panic(%q), but got panic(%T%v)", testName, expected, msg, msg)
+			t.Errorf("%s\n: expected panic(%q), but golangt panic(%T%v)", testName, expected, msg, msg)
 		}
 	}()
 	f()
@@ -764,7 +764,7 @@ func TestInvalidFlags(t *testing.T) {
 			fs.Var(&v, test.flag, "")
 		})
 		if msg := test.errorMsg + "\n"; msg != buf.String() {
-			t.Errorf("%s\n: unexpected output: expected %q, bug got %q", testName, msg, buf)
+			t.Errorf("%s\n: unexpected output: expected %q, bug golangt %q", testName, msg, buf)
 		}
 	}
 }
@@ -798,7 +798,7 @@ func TestRedefinedFlags(t *testing.T) {
 			fs.Var(&v, "foo", "")
 		})
 		if msg := test.errorMsg + "\n"; msg != buf.String() {
-			t.Errorf("%s\n: unexpected output: expected %q, bug got %q", testName, msg, buf)
+			t.Errorf("%s\n: unexpected output: expected %q, bug golangt %q", testName, msg, buf)
 		}
 	}
 }
@@ -815,11 +815,11 @@ func TestUserDefinedBoolFunc(t *testing.T) {
 		t.Error(err)
 	}
 	if len(ss) != 1 {
-		t.Fatalf("got %d args; want 1 arg", len(ss))
+		t.Fatalf("golangt %d args; want 1 arg", len(ss))
 	}
 	want := "[true]"
-	if got := fmt.Sprint(ss); got != want {
-		t.Errorf("got %q; want %q", got, want)
+	if golangt := fmt.Sprint(ss); golangt != want {
+		t.Errorf("golangt %q; want %q", golangt, want)
 	}
 	// test usage
 	var buf strings.Builder
@@ -840,9 +840,9 @@ func TestUserDefinedBoolFunc(t *testing.T) {
 	}
 	// flag set, expect error
 	if err := flags.Parse([]string{"-v", ""}); err == nil {
-		t.Error("got err == nil; want err != nil")
+		t.Error("golangt err == nil; want err != nil")
 	} else if errMsg := err.Error(); !strings.Contains(errMsg, "test error") {
-		t.Errorf(`got %q; error should contain "test error"`, errMsg)
+		t.Errorf(`golangt %q; error should contain "test error"`, errMsg)
 	}
 }
 
@@ -852,7 +852,7 @@ func TestDefineAfterSet(t *testing.T) {
 	flags.Set("myFlag", "value")
 
 	// Define-after-set panics.
-	mustPanic(t, "DefineAfterSet", "flag myFlag set at .*/flag_test.go:.* before being defined", func() {
+	mustPanic(t, "DefineAfterSet", "flag myFlag set at .*/flag_test.golang:.* before being defined", func() {
 		_ = flags.String("myFlag", "default", "usage")
 	})
 }

@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package http
@@ -9,10 +9,10 @@ import (
 	"encoding/binary"
 )
 
-// The algorithm uses at most sniffLen bytes to make its decision.
+// The algolangrithm uses at most sniffLen bytes to make its decision.
 const sniffLen = 512
 
-// DetectContentType implements the algorithm described
+// DetectContentType implements the algolangrithm described
 // at https://mimesniff.spec.whatwg.org/ to determine the
 // Content-Type of the given data. It considers at most the
 // first 512 bytes of data. DetectContentType always returns
@@ -213,8 +213,8 @@ type maskedSig struct {
 }
 
 func (m *maskedSig) match(data []byte, firstNonWS int) string {
-	// pattern matching algorithm section 6
-	// https://mimesniff.spec.whatwg.org/#pattern-matching-algorithm
+	// pattern matching algolangrithm section 6
+	// https://mimesniff.spec.whatwg.org/#pattern-matching-algolangrithm
 
 	if m.skipWS {
 		data = data[firstNonWS:]

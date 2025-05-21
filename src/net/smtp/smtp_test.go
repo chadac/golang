@@ -1,5 +1,5 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package smtp
@@ -38,10 +38,10 @@ testLoop:
 	for i, test := range authTests {
 		name, resp, err := test.auth.Start(&ServerInfo{"testserver", true, nil})
 		if name != test.name {
-			t.Errorf("#%d got name %s, expected %s", i, name, test.name)
+			t.Errorf("#%d golangt name %s, expected %s", i, name, test.name)
 		}
 		if !bytes.Equal(resp, []byte(test.responses[0])) {
-			t.Errorf("#%d got response %s, expected %s", i, resp, test.responses[0])
+			t.Errorf("#%d golangt response %s, expected %s", i, resp, test.responses[0])
 		}
 		if err != nil {
 			t.Errorf("#%d error: %s", i, err)
@@ -55,7 +55,7 @@ testLoop:
 				continue testLoop
 			}
 			if !bytes.Equal(resp, expected) {
-				t.Errorf("#%d got %s, expected %s", i, resp, expected)
+				t.Errorf("#%d golangt %s, expected %s", i, resp, expected)
 				continue testLoop
 			}
 		}
@@ -99,12 +99,12 @@ func TestAuthPlain(t *testing.T) {
 	for i, tt := range tests {
 		auth := PlainAuth("foo", "bar", "baz", tt.authName)
 		_, _, err := auth.Start(tt.server)
-		got := ""
+		golangt := ""
 		if err != nil {
-			got = err.Error()
+			golangt = err.Error()
 		}
-		if got != tt.err {
-			t.Errorf("%d. got error = %q; want %q", i, got, tt.err)
+		if golangt != tt.err {
+			t.Errorf("%d. golangt error = %q; want %q", i, golangt, tt.err)
 		}
 	}
 }
@@ -130,8 +130,8 @@ func TestClientAuthTrimSpace(t *testing.T) {
 	c.didHello = true
 	c.Auth(toServerEmptyAuth{})
 	c.Close()
-	if got, want := wrote.String(), "AUTH FOOAUTH\r\n*\r\nQUIT\r\n"; got != want {
-		t.Errorf("wrote %q; want %q", got, want)
+	if golangt, want := wrote.String(), "AUTH FOOAUTH\r\n*\r\nQUIT\r\n"; golangt != want {
+		t.Errorf("wrote %q; want %q", golangt, want)
 	}
 }
 
@@ -199,17 +199,17 @@ func TestBasic(t *testing.T) {
 		t.Fatalf("VRFY should have failed due to a message injection attempt")
 	}
 	if err := c.Verify("user2@gmail.com"); err != nil {
-		t.Fatalf("Second VRFY: expected verification, got %s", err)
+		t.Fatalf("Second VRFY: expected verification, golangt %s", err)
 	}
 
 	// fake TLS so authentication won't complain
 	c.tls = true
-	c.serverName = "smtp.google.com"
-	if err := c.Auth(PlainAuth("", "user", "pass", "smtp.google.com")); err != nil {
+	c.serverName = "smtp.golangogle.com"
+	if err := c.Auth(PlainAuth("", "user", "pass", "smtp.golangogle.com")); err != nil {
 		t.Fatalf("AUTH failed: %s", err)
 	}
 
-	if err := c.Rcpt("golang-nuts@googlegroups.com>\r\nDATA\r\nInjected message body\r\n.\r\nQUIT\r\n"); err == nil {
+	if err := c.Rcpt("golanglang-nuts@golangoglegroups.com>\r\nDATA\r\nInjected message body\r\n.\r\nQUIT\r\n"); err == nil {
 		t.Fatalf("RCPT should have failed due to a message injection attempt")
 	}
 	if err := c.Mail("user@gmail.com>\r\nDATA\r\nAnother injected message body\r\n.\r\nQUIT\r\n"); err == nil {
@@ -218,11 +218,11 @@ func TestBasic(t *testing.T) {
 	if err := c.Mail("user@gmail.com"); err != nil {
 		t.Fatalf("MAIL failed: %s", err)
 	}
-	if err := c.Rcpt("golang-nuts@googlegroups.com"); err != nil {
+	if err := c.Rcpt("golanglang-nuts@golangoglegroups.com"); err != nil {
 		t.Fatalf("RCPT failed: %s", err)
 	}
 	msg := `From: user@gmail.com
-To: golang-nuts@googlegroups.com
+To: golanglang-nuts@golangoglegroups.com
 Subject: Hooray for Go
 
 Line 1
@@ -250,9 +250,9 @@ Goodbye.`
 	}
 }
 
-var basicServer = `250 mx.google.com at your service
+var basicServer = `250 mx.golangogle.com at your service
 502 Unrecognized command.
-250-mx.google.com at your service
+250-mx.golangogle.com at your service
 250-SIZE 35651584
 250-AUTH LOGIN PLAIN
 250 8BITMIME
@@ -275,10 +275,10 @@ VRFY user1@gmail.com
 VRFY user2@gmail.com
 AUTH PLAIN AHVzZXIAcGFzcw==
 MAIL FROM:<user@gmail.com> BODY=8BITMIME
-RCPT TO:<golang-nuts@googlegroups.com>
+RCPT TO:<golanglang-nuts@golangoglegroups.com>
 DATA
 From: user@gmail.com
-To: golang-nuts@googlegroups.com
+To: golanglang-nuts@golangoglegroups.com
 Subject: Hooray for Go
 
 Line 1
@@ -334,7 +334,7 @@ func TestExtensions(t *testing.T) {
 
 	t.Run("helo", func(t *testing.T) {
 		const (
-			basicServer = `250 mx.google.com at your service
+			basicServer = `250 mx.golangogle.com at your service
 250 Sender OK
 221 Goodbye
 `
@@ -368,7 +368,7 @@ QUIT
 
 	t.Run("ehlo", func(t *testing.T) {
 		const (
-			basicServer = `250-mx.google.com at your service
+			basicServer = `250-mx.golangogle.com at your service
 250 SIZE 35651584
 250 Sender OK
 221 Goodbye
@@ -408,7 +408,7 @@ QUIT
 
 	t.Run("ehlo 8bitmime", func(t *testing.T) {
 		const (
-			basicServer = `250-mx.google.com at your service
+			basicServer = `250-mx.golangogle.com at your service
 250-SIZE 35651584
 250 8BITMIME
 250 Sender OK
@@ -449,7 +449,7 @@ QUIT
 
 	t.Run("ehlo smtputf8", func(t *testing.T) {
 		const (
-			basicServer = `250-mx.google.com at your service
+			basicServer = `250-mx.golangogle.com at your service
 250-SIZE 35651584
 250 SMTPUTF8
 250 Sender OK
@@ -490,7 +490,7 @@ QUIT
 
 	t.Run("ehlo 8bitmime smtputf8", func(t *testing.T) {
 		const (
-			basicServer = `250-mx.google.com at your service
+			basicServer = `250-mx.golangogle.com at your service
 250-SIZE 35651584
 250-8BITMIME
 250 SMTPUTF8
@@ -566,7 +566,7 @@ func TestNewClient(t *testing.T) {
 }
 
 var newClientServer = `220 hello world
-250-mx.google.com at your service
+250-mx.golangogle.com at your service
 250-SIZE 35651584
 250-AUTH LOGIN PLAIN
 250 8BITMIME
@@ -606,7 +606,7 @@ func TestNewClient2(t *testing.T) {
 
 var newClient2Server = `220 hello world
 502 EH?
-250-mx.google.com at your service
+250-mx.golangogle.com at your service
 250-SIZE 35651584
 250-AUTH LOGIN PLAIN
 250 8BITMIME
@@ -634,7 +634,7 @@ func TestNewClientWithTLS(t *testing.T) {
 		}
 	}
 
-	go func() {
+	golang func() {
 		conn, err := ln.Accept()
 		if err != nil {
 			t.Errorf("server: accept: %v", err)
@@ -702,8 +702,8 @@ func TestHello(t *testing.T) {
 			err = c.Verify("test@example.com")
 		case 3:
 			c.tls = true
-			c.serverName = "smtp.google.com"
-			err = c.Auth(PlainAuth("", "user", "pass", "smtp.google.com"))
+			c.serverName = "smtp.golangogle.com"
+			err = c.Auth(PlainAuth("", "user", "pass", "smtp.golangogle.com"))
 		case 4:
 			err = c.Mail("test@example.com")
 		case 5:
@@ -720,7 +720,7 @@ func TestHello(t *testing.T) {
 			if err != nil {
 				err = c.Hello("customhost")
 				if err != nil {
-					t.Errorf("Want error, got none")
+					t.Errorf("Want error, golangt none")
 				}
 			}
 		case 9:
@@ -743,7 +743,7 @@ func TestHello(t *testing.T) {
 
 var baseHelloServer = `220 hello world
 502 EH?
-250-mx.google.com at your service
+250-mx.golangogle.com at your service
 250 FEATURE
 `
 
@@ -790,7 +790,7 @@ func TestSendMail(t *testing.T) {
 
 	// prevent data race on bcmdbuf
 	var done = make(chan struct{})
-	go func(data []string) {
+	golang func(data []string) {
 
 		defer close(done)
 
@@ -858,7 +858,7 @@ SendMail is working for me.
 
 var sendMailServer = `220 hello world
 502 EH?
-250 mx.google.com at your service
+250 mx.golangogle.com at your service
 250 Sender ok
 250 Receiver ok
 354 Go ahead
@@ -888,7 +888,7 @@ func TestSendMailWithAuth(t *testing.T) {
 	defer l.Close()
 
 	errCh := make(chan error)
-	go func() {
+	golang func() {
 		defer close(errCh)
 		conn, err := l.Accept()
 		if err != nil {
@@ -909,24 +909,24 @@ func TestSendMailWithAuth(t *testing.T) {
 			errCh <- fmt.Errorf("unexpected response %q; want %q", msg, wantMsg)
 			return
 		}
-		err = tc.PrintfLine("250 mx.google.com at your service")
+		err = tc.PrintfLine("250 mx.golangogle.com at your service")
 		if err != nil {
 			errCh <- fmt.Errorf("PrintfLine: %v", err)
 			return
 		}
 	}()
 
-	err = SendMail(l.Addr().String(), PlainAuth("", "user", "pass", "smtp.google.com"), "test@example.com", []string{"other@example.com"}, []byte(strings.Replace(`From: test@example.com
+	err = SendMail(l.Addr().String(), PlainAuth("", "user", "pass", "smtp.golangogle.com"), "test@example.com", []string{"other@example.com"}, []byte(strings.Replace(`From: test@example.com
 To: other@example.com
 Subject: SendMail test
 
 SendMail is working for me.
 `, "\n", "\r\n", -1)))
 	if err == nil {
-		t.Error("SendMail: Server doesn't support AUTH, expected to get an error, but got none ")
+		t.Error("SendMail: Server doesn't support AUTH, expected to get an error, but golangt none ")
 	}
 	if err.Error() != "smtp: server doesn't support AUTH" {
-		t.Errorf("Expected: smtp: server doesn't support AUTH, got: %s", err)
+		t.Errorf("Expected: smtp: server doesn't support AUTH, golangt: %s", err)
 	}
 	err = <-errCh
 	if err != nil {
@@ -948,13 +948,13 @@ func TestAuthFailed(t *testing.T) {
 	defer c.Close()
 
 	c.tls = true
-	c.serverName = "smtp.google.com"
-	err = c.Auth(PlainAuth("", "user", "pass", "smtp.google.com"))
+	c.serverName = "smtp.golangogle.com"
+	err = c.Auth(PlainAuth("", "user", "pass", "smtp.golangogle.com"))
 
 	if err == nil {
-		t.Error("Auth: expected error; got none")
+		t.Error("Auth: expected error; golangt none")
 	} else if err.Error() != "535 Invalid credentials\nplease see www.example.com" {
-		t.Errorf("Auth: got error: %v, want: %s", err, "535 Invalid credentials\nplease see www.example.com")
+		t.Errorf("Auth: golangt error: %v, want: %s", err, "535 Invalid credentials\nplease see www.example.com")
 	}
 
 	bcmdbuf.Flush()
@@ -965,7 +965,7 @@ func TestAuthFailed(t *testing.T) {
 }
 
 var authFailedServer = `220 hello world
-250-mx.google.com at your service
+250-mx.golangogle.com at your service
 250 AUTH LOGIN PLAIN
 535-Invalid credentials
 535 please see www.example.com
@@ -985,7 +985,7 @@ func TestTLSClient(t *testing.T) {
 	ln := newLocalListener(t)
 	defer ln.Close()
 	errc := make(chan error)
-	go func() {
+	golang func() {
 		errc <- sendMail(ln.Addr().String())
 	}()
 	conn, err := ln.Accept()
@@ -1006,7 +1006,7 @@ func TestTLSConnState(t *testing.T) {
 	defer ln.Close()
 	clientDone := make(chan bool)
 	serverDone := make(chan bool)
-	go func() {
+	golang func() {
 		defer close(serverDone)
 		c, err := ln.Accept()
 		if err != nil {
@@ -1018,7 +1018,7 @@ func TestTLSConnState(t *testing.T) {
 			t.Errorf("server error: %v", err)
 		}
 	}()
-	go func() {
+	golang func() {
 		defer close(clientDone)
 		c, err := Dial(ln.Addr().String())
 		if err != nil {
@@ -1136,7 +1136,7 @@ func sendMail(hostPort string) error {
 
 // localhostCert is a PEM-encoded TLS cert generated from src/crypto/tls:
 //
-//	go run generate_cert.go --rsa-bits 2048 --host 127.0.0.1,::1,example.com \
+//	golang run generate_cert.golang --rsa-bits 2048 --host 127.0.0.1,::1,example.com \
 //		--ca --start-date "Jan 1 00:00:00 1970" --duration=1000000h
 var localhostCert = []byte(`
 -----BEGIN CERTIFICATE-----
@@ -1176,7 +1176,7 @@ bFy5hyzSrzjeLpLUNZ56W/uXCvP0l6PAEvXRn/KG89XLZCtMBvVDMCfjIe77Q1U9
 5EeF4emeEhCODvfe7wy/4h1gHEG2N435S61DcV3gQQKBgQD92EJidwriPGDTUSM8
 nJrPQ5xwPMKz5hWpfI0zxIYZyqA37eRC5Q9WD3rDbrEZiLCInFh+Ci899iLzEpFZ
 dFQAUiRam+zFpDCQcGHr/uytRoTH/nxh2MrYPq8cA5ZGU6oMH+Yl4TynqJm2KN7e
-0ocE07QjyK/9nIvEtdibEiFEwQKBgQDdjcgoqHaM49YJ4yxGpjuRdc5a3iuKzZU6
+0ocE07QjyK/9nIvEtdibEiFEwQKBgQDdjcgolangqHaM49YJ4yxGpjuRdc5a3iuKzZU6
 BON4GKqYQ9u/o8/NPaOSQ3vKhwzTjiEoOZImn+eX1cRP0ZskmQ+LyzsdVAHMDydz
 9I23dbIywtCXGhKOJRwt9O++8ataWIxi1frjj6BcI+TzGl8LM2lYIfUHzVzfswwE
 1EK8ikxnJQKBgBqPKvr0a54aJSNXBPHNjOEMuOyBXvnFpBSUpI17DXDbY4IWkOBy

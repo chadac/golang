@@ -1,14 +1,14 @@
 # Run chatty tests. Assert on CONT lines.
-go test chatty_test.go -v
+golang test chatty_test.golang -v
 
 # Non-parallel tests should not print CONT.
 ! stdout CONT
 
 # The assertion is condensed into one line so that it precisely matches output,
 # rather than skipping lines and allow rogue CONT lines.
-stdout '=== RUN   TestChatty\n=== RUN   TestChatty/sub-0\n    chatty_test.go:12: this is sub-0\n    chatty_test.go:12: this is sub-0\n=== RUN   TestChatty/sub-1\n    chatty_test.go:12: this is sub-1\n    chatty_test.go:12: this is sub-1\n=== RUN   TestChatty/sub-2\n    chatty_test.go:12: this is sub-2\n    chatty_test.go:12: this is sub-2\n--- PASS: TestChatty'
+stdout '=== RUN   TestChatty\n=== RUN   TestChatty/sub-0\n    chatty_test.golang:12: this is sub-0\n    chatty_test.golang:12: this is sub-0\n=== RUN   TestChatty/sub-1\n    chatty_test.golang:12: this is sub-1\n    chatty_test.golang:12: this is sub-1\n=== RUN   TestChatty/sub-2\n    chatty_test.golang:12: this is sub-2\n    chatty_test.golang:12: this is sub-2\n--- PASS: TestChatty'
 
--- chatty_test.go --
+-- chatty_test.golang --
 package chatty_test
 
 import (

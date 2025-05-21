@@ -1,10 +1,10 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Tests coroutine switches.
 
-//go:build ignore
+//golang:build ignore
 
 package main
 
@@ -31,13 +31,13 @@ func main() {
 		}
 	}
 
-	// Try bouncing the pull iterator between two goroutines.
+	// Try bouncing the pull iterator between two golangroutines.
 	var wg sync.WaitGroup
 	var iterChans [2]chan intIter
 	wg.Add(2)
 	iterChans[0] = make(chan intIter)
 	iterChans[1] = make(chan intIter)
-	go func() {
+	golang func() {
 		defer wg.Done()
 
 		iter := pullRange(100)
@@ -52,7 +52,7 @@ func main() {
 			iterChans[1] <- i
 		}
 	}()
-	go func() {
+	golang func() {
 		defer wg.Done()
 
 		for i := range iterChans[1] {

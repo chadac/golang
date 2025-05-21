@@ -1,4 +1,4 @@
-# https://golang.org/issue/43938: 'go build' should succeed
+# https://golanglang.org/issue/43938: 'golang build' should succeed
 # if GOPATH and the variables needed for its default value
 # are all unset but not relevant to the specific command.
 
@@ -6,10 +6,10 @@ env HOME=''
 env home=''
 env GOPATH=''
 
-go list -deps main.go
+golang list -deps main.golang
 stdout '^io$'
 
--- main.go --
+-- main.golang --
 package main
 
 import _ "io"

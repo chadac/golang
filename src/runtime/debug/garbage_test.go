@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package debug_test
@@ -180,7 +180,7 @@ func TestSetGCPercent(t *testing.T) {
 	runtime.GC()
 	runtime.ReadMemStats(&ms)
 	if abs64(baseline-int64(ms.Alloc)) > 10<<20 {
-		t.Fatalf("failed to set up baseline live heap; got %d MB, want %d MB", ms.Alloc>>20, baseline>>20)
+		t.Fatalf("failed to set up baseline live heap; golangt %d MB, want %d MB", ms.Alloc>>20, baseline>>20)
 	}
 	// NextGC should be ~200 MB.
 	const thresh = 20 << 20 // TODO: Figure out why this is so noisy on some builders

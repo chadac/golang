@@ -1,18 +1,18 @@
 [short] skip
-[!cgo] skip
+[!cgolang] skip
 
-# Test that cgo rejects attempts to declare methods
+# Test that cgolang rejects attempts to declare methods
 # on the types A or *A; see issue #60725.
 
-! go build ./a
+! golang build ./a
 stderr 'cannot define new methods on non-local type A'
 stderr 'cannot define new methods on non-local type A'
 
--- go.mod --
+-- golang.mod --
 module example.com
-go 1.24
+golang 1.24
 
--- a/a.go --
+-- a/a.golang --
 package a
 
 /*

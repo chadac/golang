@@ -1,9 +1,9 @@
 // run
 
-//go:build !wasm
+//golang:build !wasm
 
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // wasm is excluded because the compiler chatter about register abi pragma ends up
@@ -17,15 +17,15 @@ import (
 
 var sink int = 3
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func F(a, b, c, d, e, f *int) {
 	G(f, e, d, c, b, a)
 	sink += *a // *a == 6 after swapping in G
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func G(a, b, c, d, e, f *int) {
 	var scratch [1000 * 100]int
 	scratch[*a] = *f                    // scratch[6] = 1

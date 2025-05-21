@@ -1,11 +1,11 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 /*
 FIPS-140 Verification Support
 
-See ../../../internal/obj/fips.go for a basic overview.
+See ../../../internal/obj/fips.golang for a basic overview.
 This file is concerned with computing the hash of the FIPS code+data.
 Package obj has taken care of marking the FIPS symbols with the
 special types STEXTFIPS, SRODATAFIPS, SNOPTRDATAFIPS, and SDATAFIPS.
@@ -23,8 +23,8 @@ everything harder. For the FIPS sections, we avoid that subtlety by
 defining actual non-zero-length symbols bracketing each section and
 use those symbols as the boundaries.
 
-Specifically, we define a 1-byte symbol go:textfipsstart of type
-STEXTFIPSSTART and a 1-byte symbol go:textfipsend of type STEXTFIPSEND,
+Specifically, we define a 1-byte symbol golang:textfipsstart of type
+STEXTFIPSSTART and a 1-byte symbol golang:textfipsend of type STEXTFIPSEND,
 and we place those two symbols immediately before and after the
 STEXTFIPS symbols. We do the same for SRODATAFIPS, SNOPTRDATAFIPS,
 and SDATAFIPS. Because the symbols are real (but otherwise unused) data,
@@ -32,9 +32,9 @@ they can be treated as normal symbols for symbol table purposes and
 don't need the same kind of special handling that runtime.text and
 friends do.
 
-Note that treating the FIPS text as starting at &go:textfipsstart and
-ending at &go:textfipsend means that go:textfipsstart is included in
-the verified data while go:textfipsend is not. That's fine: they are
+Note that treating the FIPS text as starting at &golang:textfipsstart and
+ending at &golang:textfipsend means that golang:textfipsstart is included in
+the verified data while golang:textfipsend is not. That's fine: they are
 only framing and neither strictly needs to be in the hash.
 
 The new special symbols are created by [loadfips].
@@ -44,7 +44,7 @@ The new special symbols are created by [loadfips].
 Having collated the FIPS symbols, we need to compute the hash
 and then leave both the expected hash and the FIPS address ranges
 for the run-time check in crypto/internal/fips140/check.
-We do that by creating a special symbol named go:fipsinfo of the form
+We do that by creating a special symbol named golang:fipsinfo of the form
 
 	struct {
 		sum   [32]byte
@@ -62,16 +62,16 @@ which is of course not included in the hash.
 
 When using internal linking, [asmbfips] runs after writing the output
 binary but before code-signing it. It reads the relevant sections
-back from the output file, hashes them, and then writes the go:fipsinfo
+back from the output file, hashes them, and then writes the golang:fipsinfo
 content into the output file.
 
 When using external linking, especially with -buildmode=pie, we cannot
 predict the specific PLT index references that the linker will insert
 into the FIPS code sections, so we must read the final linked executable
 after external linking, compute the hash, and then write it back to the
-executable in the go:fipsinfo sum field. [hostlinkfips] does this.
-It finds go:fipsinfo easily because that symbol is given its own section
-(.go.fipsinfo on ELF, __go_fipsinfo on Mach-O), and then it can use the
+executable in the golang:fipsinfo sum field. [hostlinkfips] does this.
+It finds golang:fipsinfo easily because that symbol is given its own section
+(.golang.fipsinfo on ELF, __golang_fipsinfo on Mach-O), and then it can use the
 sections field to find the relevant parts of the executable, hash them,
 and fill in sum.
 
@@ -124,17 +124,17 @@ var fipsSyms = []struct {
 	sym  loader.Sym
 	seg  *sym.Segment
 }{
-	{name: "go:textfipsstart", kind: sym.STEXTFIPSSTART, seg: &Segtext},
-	{name: "go:textfipsend", kind: sym.STEXTFIPSEND},
-	{name: "go:rodatafipsstart", kind: sym.SRODATAFIPSSTART, seg: &Segrodata},
-	{name: "go:rodatafipsend", kind: sym.SRODATAFIPSEND},
-	{name: "go:noptrdatafipsstart", kind: sym.SNOPTRDATAFIPSSTART, seg: &Segdata},
-	{name: "go:noptrdatafipsend", kind: sym.SNOPTRDATAFIPSEND},
-	{name: "go:datafipsstart", kind: sym.SDATAFIPSSTART, seg: &Segdata},
-	{name: "go:datafipsend", kind: sym.SDATAFIPSEND},
+	{name: "golang:textfipsstart", kind: sym.STEXTFIPSSTART, seg: &Segtext},
+	{name: "golang:textfipsend", kind: sym.STEXTFIPSEND},
+	{name: "golang:rodatafipsstart", kind: sym.SRODATAFIPSSTART, seg: &Segrodata},
+	{name: "golang:rodatafipsend", kind: sym.SRODATAFIPSEND},
+	{name: "golang:noptrdatafipsstart", kind: sym.SNOPTRDATAFIPSSTART, seg: &Segdata},
+	{name: "golang:noptrdatafipsend", kind: sym.SNOPTRDATAFIPSEND},
+	{name: "golang:datafipsstart", kind: sym.SDATAFIPSSTART, seg: &Segdata},
+	{name: "golang:datafipsend", kind: sym.SDATAFIPSEND},
 }
 
-// fipsinfo is the loader symbol for go:fipsinfo.
+// fipsinfo is the loader symbol for golang:fipsinfo.
 var fipsinfo loader.Sym
 
 const (
@@ -143,7 +143,7 @@ const (
 	fipsSumLen   = 32
 )
 
-// loadfips creates the special bracketing symbols and go:fipsinfo.
+// loadfips creates the special bracketing symbols and golang:fipsinfo.
 func loadfips(ctxt *Link) {
 	if !obj.EnableFIPS() {
 		return
@@ -154,7 +154,7 @@ func loadfips(ctxt *Link) {
 	// Write the fipsinfo symbol, which crypto/internal/fips140/check uses.
 	ldr := ctxt.loader
 	// TODO lock down linkname
-	info := ldr.CreateSymForUpdate("go:fipsinfo", 0)
+	info := ldr.CreateSymForUpdate("golang:fipsinfo", 0)
 	info.SetType(sym.SFIPSINFO)
 
 	data := make([]byte, fipsMagicLen+fipsSumLen)
@@ -205,7 +205,7 @@ func newFipsObj(r io.ReaderAt, fipso string) (*fipsObj, error) {
 		f.w = io.MultiWriter(f.h, wf)
 	}
 
-	if _, err := f.w.Write([]byte("go fips object v1\n")); err != nil {
+	if _, err := f.w.Write([]byte("golang fips object v1\n")); err != nil {
 		f.Close()
 		return nil, err
 	}
@@ -237,7 +237,7 @@ func (f *fipsObj) Close() error {
 	return nil
 }
 
-// asmbfips is called from [asmb] to update go:fipsinfo
+// asmbfips is called from [asmb] to update golang:fipsinfo
 // when using internal linking.
 // See [hostlinkfips] for external linking.
 func asmbfips(ctxt *Link, fipso string) {
@@ -282,7 +282,7 @@ func asmbfips(ctxt *Link, fipso string) {
 		}
 	}
 
-	// Overwrite the go:fipsinfo sum field with the calculated sum.
+	// Overwrite the golang:fipsinfo sum field with the calculated sum.
 	addr := uint64(ldr.SymValue(fipsinfo))
 	seg := &Segdata
 	if !(seg.Vaddr <= addr && addr+32 < seg.Vaddr+seg.Filelen) {
@@ -298,7 +298,7 @@ func asmbfips(ctxt *Link, fipso string) {
 	}
 }
 
-// hostlinkfips is called from [hostlink] to update go:fipsinfo
+// hostlinkfips is called from [hostlink] to update golang:fipsinfo
 // when using external linking.
 // See [asmbfips] for internal linking.
 func hostlinkfips(ctxt *Link, exe, fipso string) error {
@@ -323,7 +323,7 @@ func hostlinkfips(ctxt *Link, exe, fipso string) error {
 	return fmt.Errorf("fips unsupported on %s", ctxt.HeadType)
 }
 
-// machofips updates go:fipsinfo after external linking
+// machofips updates golang:fipsinfo after external linking
 // on systems using Mach-O (GOOS=darwin, GOOS=ios).
 func machofips(ctxt *Link, exe, fipso string) error {
 	// Open executable both for reading Mach-O and for the fipsObj.
@@ -345,10 +345,10 @@ func machofips(ctxt *Link, exe, fipso string) error {
 	}
 	defer f.Close()
 
-	// Find the go:fipsinfo symbol.
-	sect := mf.Section("__go_fipsinfo")
+	// Find the golang:fipsinfo symbol.
+	sect := mf.Section("__golang_fipsinfo")
 	if sect == nil {
-		return fmt.Errorf("cannot find __go_fipsinfo")
+		return fmt.Errorf("cannot find __golang_fipsinfo")
 	}
 	data, err := sect.Data()
 	if err != nil {
@@ -362,7 +362,7 @@ func machofips(ctxt *Link, exe, fipso string) error {
 		}
 	}
 
-	// Add the sections listed in go:fipsinfo to the FIPS object.
+	// Add the sections listed in golang:fipsinfo to the FIPS object.
 	// On Mac, the debug/macho package is not reporting any relocations,
 	// but the addends are all in the data already, all relative to
 	// the same base.
@@ -388,7 +388,7 @@ func machofips(ctxt *Link, exe, fipso string) error {
 		}
 	}
 
-	// Overwrite the go:fipsinfo sum field with the calculated sum.
+	// Overwrite the golang:fipsinfo sum field with the calculated sum.
 	if _, err := wf.WriteAt(f.sum(), int64(sect.Offset)+fipsMagicLen); err != nil {
 		return err
 	}
@@ -398,7 +398,7 @@ func machofips(ctxt *Link, exe, fipso string) error {
 	return f.Close()
 }
 
-// machofips updates go:fipsinfo after external linking
+// machofips updates golang:fipsinfo after external linking
 // on systems using ELF (most Unix systems).
 func elffips(ctxt *Link, exe, fipso string) error {
 	// Open executable both for reading ELF and for the fipsObj.
@@ -420,10 +420,10 @@ func elffips(ctxt *Link, exe, fipso string) error {
 	}
 	defer f.Close()
 
-	// Find the go:fipsinfo symbol.
-	sect := ef.Section(".go.fipsinfo")
+	// Find the golang:fipsinfo symbol.
+	sect := ef.Section(".golang.fipsinfo")
 	if sect == nil {
-		return fmt.Errorf("cannot find .go.fipsinfo")
+		return fmt.Errorf("cannot find .golang.fipsinfo")
 	}
 
 	data, err := sect.Data()
@@ -438,7 +438,7 @@ func elffips(ctxt *Link, exe, fipso string) error {
 		}
 	}
 
-	// Add the sections listed in go:fipsinfo to the FIPS object.
+	// Add the sections listed in golang:fipsinfo to the FIPS object.
 	// We expect R_zzz_RELATIVE relocations where the zero-based
 	// values are already stored in the data. That is, the addend
 	// is in the data itself in addition to being in the relocation tables.
@@ -463,10 +463,10 @@ Addrs:
 				continue Addrs
 			}
 		}
-		return fmt.Errorf("invalid pointers found in .go.fipsinfo")
+		return fmt.Errorf("invalid pointers found in .golang.fipsinfo")
 	}
 
-	// Overwrite the go:fipsinfo sum field with the calculated sum.
+	// Overwrite the golang:fipsinfo sum field with the calculated sum.
 	if _, err := wf.WriteAt(f.sum(), int64(sect.Offset)+fipsMagicLen); err != nil {
 		return err
 	}
@@ -476,7 +476,7 @@ Addrs:
 	return f.Close()
 }
 
-// pefips updates go:fipsinfo after external linking
+// pefips updates golang:fipsinfo after external linking
 // on systems using PE (GOOS=windows).
 func pefips(ctxt *Link, exe, fipso string) error {
 	// Open executable both for reading Mach-O and for the fipsObj.
@@ -498,9 +498,9 @@ func pefips(ctxt *Link, exe, fipso string) error {
 	}
 	defer f.Close()
 
-	// Find the go:fipsinfo symbol.
+	// Find the golang:fipsinfo symbol.
 	// PE does not put it in its own section, so we have to scan for it.
-	// It is near the start of the data segment, right after go:buildinfo,
+	// It is near the start of the data segment, right after golang:buildinfo,
 	// so we should not have to scan too far.
 	const maxScan = 16 << 20
 	sect := pf.Section(".data")
@@ -532,7 +532,7 @@ func pefips(ctxt *Link, exe, fipso string) error {
 		}
 	}
 
-	// Add the sections listed in go:fipsinfo to the FIPS object.
+	// Add the sections listed in golang:fipsinfo to the FIPS object.
 	// Determine the base used for the self pointer, and then apply
 	// that base to the other uintptrs.
 	// For pie builds, the addends are in the data.
@@ -550,10 +550,10 @@ func pefips(ctxt *Link, exe, fipso string) error {
 	//	.data VirtualAddress = 0x2af000
 	//	.data (file) Offset = 0x2ac400
 	//	.data (file) Size = 0x1fc00
-	//	go:fipsinfo found at offset 0x2ac5e0 (off=0x1e0)
-	//	go:fipsinfo self pointer = 0x01402af1e0
+	//	golang:fipsinfo found at offset 0x2ac5e0 (off=0x1e0)
+	//	golang:fipsinfo self pointer = 0x01402af1e0
 	//
-	// From the section headers, the address of the go:fipsinfo symbol
+	// From the section headers, the address of the golang:fipsinfo symbol
 	// should be 0x2af000 + (0x2ac5e0 - 0x2ac400) = 0x2af1e0,
 	// yet in this case its pointer is 0x1402af1e0, meaning the
 	// data section's VirtualAddress is really 0x1402af000.
@@ -567,7 +567,7 @@ func pefips(ctxt *Link, exe, fipso string) error {
 	// must match between our computed address and the actual one.
 	peself := int64(sect.VirtualAddress) + off
 	if self&0xfff != off&0xfff {
-		return fmt.Errorf("corrupt pointer found in go:fipsinfo")
+		return fmt.Errorf("corrupt pointer found in golang:fipsinfo")
 	}
 	delta := peself - self
 
@@ -585,10 +585,10 @@ Addrs:
 				continue Addrs
 			}
 		}
-		return fmt.Errorf("invalid pointers found in go:fipsinfo")
+		return fmt.Errorf("invalid pointers found in golang:fipsinfo")
 	}
 
-	// Overwrite the go:fipsinfo sum field with the calculated sum.
+	// Overwrite the golang:fipsinfo sum field with the calculated sum.
 	if _, err := wf.WriteAt(f.sum(), int64(sect.Offset)+off+fipsMagicLen); err != nil {
 		return err
 	}

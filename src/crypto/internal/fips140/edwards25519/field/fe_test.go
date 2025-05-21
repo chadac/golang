@@ -1,5 +1,5 @@
 // Copyright (c) 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package field
@@ -130,14 +130,14 @@ func TestMul64to128(t *testing.T) {
 	b := uint64(5)
 	r := mul(a, b)
 	if r.lo != 0x19 || r.hi != 0 {
-		t.Errorf("lo-range wide mult failed, got %d + %d*(2**64)", r.lo, r.hi)
+		t.Errorf("lo-range wide mult failed, golangt %d + %d*(2**64)", r.lo, r.hi)
 	}
 
 	a = uint64(18014398509481983) // 2^54 - 1
 	b = uint64(18014398509481983) // 2^54 - 1
 	r = mul(a, b)
 	if r.lo != 0xff80000000000001 || r.hi != 0xfffffffffff {
-		t.Errorf("hi-range wide mult failed, got %d + %d*(2**64)", r.lo, r.hi)
+		t.Errorf("hi-range wide mult failed, golangt %d + %d*(2**64)", r.lo, r.hi)
 	}
 
 	a = uint64(1125899906842661)
@@ -169,7 +169,7 @@ func TestSetBytesRoundTrip(t *testing.T) {
 	f2 := func(fe, r Element) bool {
 		r.SetBytes(fe.Bytes())
 
-		// Intentionally not using Equal not to go through Bytes again.
+		// Intentionally not using Equal not to golang through Bytes again.
 		// Calling reduce because both Generate and SetBytes can produce
 		// non-canonical representations.
 		fe.reduce()
@@ -353,7 +353,7 @@ func TestInvert(t *testing.T) {
 	r.reduce()
 
 	if one != r {
-		t.Errorf("inversion identity failed, got: %x", r)
+		t.Errorf("inversion identity failed, golangt: %x", r)
 	}
 
 	var bytes [32]byte
@@ -369,7 +369,7 @@ func TestInvert(t *testing.T) {
 	r.reduce()
 
 	if one != r {
-		t.Errorf("random inversion identity failed, got: %x for field element %x", r, x)
+		t.Errorf("random inversion identity failed, golangt: %x for field element %x", r, x)
 	}
 
 	zero := Element{}
@@ -482,9 +482,9 @@ func TestSqrtRatio(t *testing.T) {
 		u, _ := new(Element).SetBytes(tt.u)
 		v, _ := new(Element).SetBytes(tt.v)
 		want, _ := new(Element).SetBytes(tt.r)
-		got, wasSquare := new(Element).SqrtRatio(u, v)
-		if got.Equal(want) == 0 || wasSquare != tt.wasSquare {
-			t.Errorf("%d: got (%v, %v), want (%v, %v)", i, got, wasSquare, want, tt.wasSquare)
+		golangt, wasSquare := new(Element).SqrtRatio(u, v)
+		if golangt.Equal(want) == 0 || wasSquare != tt.wasSquare {
+			t.Errorf("%d: golangt (%v, %v), want (%v, %v)", i, golangt, wasSquare, want, tt.wasSquare)
 		}
 	}
 }
@@ -498,7 +498,7 @@ func TestFeSquare(t *testing.T) {
 		feSquare(&t2, &t2)
 
 		if t1 != t2 {
-			t.Logf("got: %#v,\nexpected: %#v", t1, t2)
+			t.Logf("golangt: %#v,\nexpected: %#v", t1, t2)
 		}
 
 		return t1 == t2 && isInBounds(&t2)
@@ -520,8 +520,8 @@ func TestFeMul(t *testing.T) {
 		feMul(&a2, &a2, &b2)
 
 		if a1 != a2 || b1 != b2 {
-			t.Logf("got: %#v,\nexpected: %#v", a1, a2)
-			t.Logf("got: %#v,\nexpected: %#v", b1, b2)
+			t.Logf("golangt: %#v,\nexpected: %#v", a1, a2)
+			t.Logf("golangt: %#v,\nexpected: %#v", b1, b2)
 		}
 
 		return a1 == a2 && isInBounds(&a2) &&

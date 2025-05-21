@@ -1,15 +1,15 @@
-# For issue golang.org/issue/41084
+# For issue golanglang.org/issue/41084
 [short] skip
 
-! go test -v examplegoexit
+! golang test -v examplegolangexit
 stdout '(?s)--- PASS.*--- FAIL.*'
 stdout 'panic: test executed panic\(nil\) or runtime\.Goexit'
 
--- go.mod --
-module examplegoexit
+-- golang.mod --
+module examplegolangexit
 
-go 1.16
--- example_test.go --
+golang 1.16
+-- example_test.golang --
 package main
 
 import (
@@ -23,7 +23,7 @@ func Example_pass() {
 	// pass
 }
 
-func Example_goexit() {
+func Example_golangexit() {
 	runtime.Goexit()
 	// Output:
 }

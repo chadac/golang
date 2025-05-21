@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -10,7 +10,7 @@ package main
 // This is a regression test for issue 14599, where profiling fails when the
 // function is the first C function. Exported functions are the first C
 // functions, so we use an exported function. Exported functions are created in
-// lexicographical order of source files, so this file is named aprof.go to
+// lexicographical order of source files, so this file is named aprof.golang to
 // ensure its function is first.
 
 // extern void CallGoNop();
@@ -24,15 +24,15 @@ import (
 )
 
 func init() {
-	register("CgoCCodeSIGPROF", CgoCCodeSIGPROF)
+	register("CgolangCCodeSIGPROF", CgolangCCodeSIGPROF)
 }
 
 //export GoNop
 func GoNop() {}
 
-func CgoCCodeSIGPROF() {
+func CgolangCCodeSIGPROF() {
 	c := make(chan bool)
-	go func() {
+	golang func() {
 		<-c
 		start := time.Now()
 		for i := 0; i < 1e7; i++ {

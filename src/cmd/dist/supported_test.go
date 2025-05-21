@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -15,9 +15,9 @@ import (
 // the bootstrap compiler, and as such can't import internal packages.
 func TestSupported(t *testing.T) {
 	defer func(a, o string) {
-		goarch = a
-		goos = o
-	}(goarch, goos)
+		golangarch = a
+		golangos = o
+	}(golangarch, golangos)
 
 	var modes = []string{
 		// we assume that "exe" and "archive" always work
@@ -28,13 +28,13 @@ func TestSupported(t *testing.T) {
 		"plugin",
 	}
 
-	for _, a := range okgoarch {
-		goarch = a
-		for _, o := range okgoos {
-			if _, ok := cgoEnabled[o+"/"+a]; !ok {
+	for _, a := range okgolangarch {
+		golangarch = a
+		for _, o := range okgolangos {
+			if _, ok := cgolangEnabled[o+"/"+a]; !ok {
 				continue
 			}
-			goos = o
+			golangos = o
 			for _, mode := range modes {
 				var dt tester
 				dist := dt.supportedBuildmode(mode)

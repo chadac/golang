@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ld
@@ -37,7 +37,7 @@ func TestDeadcode(t *testing.T) {
 		test := test
 		t.Run(test.src, func(t *testing.T) {
 			t.Parallel()
-			src := filepath.Join("testdata", "deadcode", test.src+".go")
+			src := filepath.Join("testdata", "deadcode", test.src+".golang")
 			exe := filepath.Join(tmpdir, test.src+".exe")
 			cmd := testenv.Command(t, testenv.GoToolPath(t), "build", "-ldflags=-dumpdep", "-o", exe, src)
 			out, err := cmd.CombinedOutput()

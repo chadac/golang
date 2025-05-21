@@ -1,19 +1,19 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build icu
+//golang:build icu
 
 package cases
 
-// Ideally these functions would be defined in a test file, but go test doesn't
+// Ideally these functions would be defined in a test file, but golang test doesn't
 // allow CGO in tests. The build tag should ensure either way that these
 // functions will not end up in the package.
 
 // TODO: Ensure that the correct ICU version is set.
 
 /*
-#cgo LDFLAGS: -licui18n.57 -licuuc.57
+#cgolang LDFLAGS: -licui18n.57 -licuuc.57
 #include <stdlib.h>
 #include <unicode/ustring.h>
 #include <unicode/utypes.h>

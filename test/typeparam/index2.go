@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Testing various generic uses of indexing, both for reads and writes.
@@ -41,9 +41,9 @@ func Index4[T any](x map[int]T) T {
 	return x[3]
 }
 
-func test[T comparable](got, want T) {
-	if got != want {
-		panic(fmt.Sprintf("got %v, want %v", got, want))
+func test[T comparable](golangt, want T) {
+	if golangt != want {
+		panic(fmt.Sprintf("golangt %v, want %v", golangt, want))
 	}
 }
 

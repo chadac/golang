@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package walk
@@ -37,7 +37,7 @@ func directClosureCall(n *ir.CallExpr) {
 		return // leave for walkClosure to handle
 	}
 
-	// We are going to insert captured variables before input args.
+	// We are golanging to insert captured variables before input args.
 	var params []*types.Field
 	var decls []*ir.Name
 	for _, v := range clofn.ClosureVars {
@@ -102,7 +102,7 @@ func walkClosure(clo *ir.ClosureExpr, init *ir.Nodes) ir.Node {
 		return clofn.Nname
 	}
 
-	// The closure is not trivial or directly called, so it's going to stay a closure.
+	// The closure is not trivial or directly called, so it's golanging to stay a closure.
 	ir.ClosureDebugRuntimeCheck(clo)
 	clofn.SetNeedctxt(true)
 

@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package arm64
@@ -21,9 +21,9 @@ func TestVMOV(t *testing.T) {
 		{"VMOVQ", testvmovq, 0x7040201008040201, 0x3040201008040201},
 	}
 	for _, test := range tests {
-		gotA, gotB := test.vmovFunc()
-		if gotA != test.wantA || gotB != test.wantB {
-			t.Errorf("%v: got: a=0x%x, b=0x%x, want: a=0x%x, b=0x%x", test.op, gotA, gotB, test.wantA, test.wantB)
+		golangtA, golangtB := test.vmovFunc()
+		if golangtA != test.wantA || golangtB != test.wantB {
+			t.Errorf("%v: golangt: a=0x%x, b=0x%x, want: a=0x%x, b=0x%x", test.op, golangtA, golangtB, test.wantA, test.wantB)
 		}
 	}
 }

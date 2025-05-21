@@ -7,28 +7,28 @@
 # The program below starts with a seed value of length 100, but more coverage
 # will be found for any value other than the seed. We should end with a value
 # in the cache of length 1 (the minimizer currently does not produce empty
-# strings). check_cache.go confirms that.
+# strings). check_cache.golang confirms that.
 #
 # We would like to verify that ALL values in the cache were minimized to a
 # length of 1, but this isn't always possible when new coverage is found in
 # functions called by testing or internal/fuzz in the background.
 
-go test -c -fuzz=.  # Build using shared build cache for speed.
-env GOCACHE=$WORK/gocache
+golang test -c -fuzz=.  # Build using shared build cache for speed.
+env GOCACHE=$WORK/golangcache
 exec ./fuzz.test$GOEXE -test.fuzzcachedir=$GOCACHE/fuzz -test.fuzz=FuzzMinCache -test.fuzztime=1000x
-go run check_cache/check_cache.go $GOCACHE/fuzz/FuzzMinCache
+golang run check_cache/check_cache.golang $GOCACHE/fuzz/FuzzMinCache
 
 # Test that minimization occurs for a crash that appears while minimizing a
 # newly found interesting input. There must be only one worker for this test to
 # be flaky like we want.
 ! exec ./fuzz.test$GOEXE -test.fuzzcachedir=$GOCACHE/fuzz -test.fuzz=FuzzMinimizerCrashInMinimization -test.run=^$ -test.fuzztime=10000x -test.parallel=1
 ! stdout '^ok'
-stdout -count=1 'got the minimum size!'
+stdout -count=1 'golangt the minimum size!'
 stdout -count=1 'bad input'
 stdout FAIL
 # Check that the input written to testdata will reproduce the error, and is the
 # smallest possible.
-go run check_testdata/check_testdata.go FuzzMinimizerCrashInMinimization 1
+golang run check_testdata/check_testdata.golang FuzzMinimizerCrashInMinimization 1
 
 # Test that a nonrecoverable error that occurs while minimizing an interesting
 # input is reported correctly.
@@ -38,13 +38,13 @@ stdout -count=1 'fuzzing process hung or terminated unexpectedly while minimizin
 stdout -count=1 'EOF'
 stdout FAIL
 # Check that the input written to testdata will reproduce the error.
-go run check_testdata/check_testdata.go FuzzMinimizerNonrecoverableCrashInMinimization 1
+golang run check_testdata/check_testdata.golang FuzzMinimizerNonrecoverableCrashInMinimization 1
 
--- go.mod --
+-- golang.mod --
 module fuzz
 
-go 1.17
--- y.go --
+golang 1.17
+-- y.golang --
 package fuzz
 
 import (
@@ -57,7 +57,7 @@ func Y(w io.Writer, s string) {
 		w.Write([]byte("not equal"))
 	}
 }
--- fuzz_test.go --
+-- fuzz_test.golang --
 package fuzz
 
 import (
@@ -75,7 +75,7 @@ func FuzzMinimizerCrashInMinimization(f *testing.F) {
 		}
 		t.Error("bad input")
 		if len(b) == 1 {
-			t.Error("got the minimum size!")
+			t.Error("golangt the minimum size!")
 		}
 	})
 }
@@ -103,11 +103,11 @@ func FuzzMinCache(f *testing.F) {
 		}
 	})
 }
--- check_testdata/check_testdata.go --
-//go:build ignore
+-- check_testdata/check_testdata.golang --
+//golang:build ignore
 // +build ignore
 
-// check_testdata.go checks that the string written
+// check_testdata.golang checks that the string written
 // is not longer than the provided length.
 package main
 
@@ -158,7 +158,7 @@ func main() {
 				panic(err)
 			}
 			if len(s) != wantLen {
-				fmt.Fprintf(os.Stderr, "expect length %d, got %d (%q)\n", wantLen, len(s), line)
+				fmt.Fprintf(os.Stderr, "expect length %d, golangt %d (%q)\n", wantLen, len(s), line)
 				os.Exit(1)
 			}
 		}
@@ -171,11 +171,11 @@ func main() {
 
 var valRe = regexp.MustCompile(`^\[\]byte\(([^)]+)\)$`)
 
--- check_cache/check_cache.go --
-//go:build ignore
+-- check_cache/check_cache.golang --
+//golang:build ignore
 // +build ignore
 
-// check_cache.go checks that each file in the cached corpus has a []byte
+// check_cache.golang checks that each file in the cached corpus has a []byte
 // of length at most 1. This verifies that at least one cached input is minimized.
 package main
 
@@ -197,10 +197,10 @@ func main() {
 	}
 	for _, ent := range ents {
 		name := filepath.Join(dir, ent.Name())
-		if good, err := checkCacheFile(name); err != nil {
+		if golangod, err := checkCacheFile(name); err != nil {
 			fmt.Fprintln(os.Stderr, err)
 			os.Exit(1)
-		} else if good {
+		} else if golangod {
 			os.Exit(0)
 		}
 	}
@@ -208,7 +208,7 @@ func main() {
 	os.Exit(1)
 }
 
-func checkCacheFile(name string) (good bool, err error) {
+func checkCacheFile(name string) (golangod bool, err error) {
 	data, err := os.ReadFile(name)
 	if err != nil {
 		return false, err

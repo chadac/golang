@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package bigmod
@@ -22,9 +22,9 @@ const (
 // These loops used to be in assembly, invisible to -race, -asan, and -msan,
 // but now they are in Go and incur significant overhead in those modes.
 // To bring the old performance back, we mark all functions that loop
-// over Nat words with //go:norace. Because //go:norace does not
+// over Nat words with //golang:norace. Because //golang:norace does not
 // propagate across inlining, we must also mark functions that inline
-// //go:norace functions - specifically, those that inline add, addMulVVW,
+// //golang:norace functions - specifically, those that inline add, addMulVVW,
 // assign, cmpGeq, rshift1, and sub.
 
 // choice represents a constant-time boolean. The value of choice is always
@@ -170,7 +170,7 @@ func (x *Nat) Bytes(m *Modulus) []byte {
 //
 // The output will be resized to the size of m and overwritten.
 //
-//go:norace
+//golang:norace
 func (x *Nat) SetBytes(b []byte, m *Modulus) (*Nat, error) {
 	x.resetFor(m)
 	if err := x.setBytes(b); err != nil {
@@ -241,7 +241,7 @@ func (x *Nat) SetUint(y uint) *Nat {
 //
 // Both operands must have the same announced length.
 //
-//go:norace
+//golang:norace
 func (x *Nat) Equal(y *Nat) choice {
 	// Eliminate bounds checks in the loop.
 	size := len(x.limbs)
@@ -257,7 +257,7 @@ func (x *Nat) Equal(y *Nat) choice {
 
 // IsZero returns 1 if x == 0, and 0 otherwise.
 //
-//go:norace
+//golang:norace
 func (x *Nat) IsZero() choice {
 	// Eliminate bounds checks in the loop.
 	size := len(x.limbs)
@@ -272,7 +272,7 @@ func (x *Nat) IsZero() choice {
 
 // IsOne returns 1 if x == 1, and 0 otherwise.
 //
-//go:norace
+//golang:norace
 func (x *Nat) IsOne() choice {
 	// Eliminate bounds checks in the loop.
 	size := len(x.limbs)
@@ -294,7 +294,7 @@ func (x *Nat) IsOne() choice {
 // The length of x must be the same as the modulus. x must already be reduced
 // modulo m.
 //
-//go:norace
+//golang:norace
 func (x *Nat) IsMinusOne(m *Modulus) choice {
 	minusOne := m.Nat()
 	minusOne.SubOne(m)
@@ -328,7 +328,7 @@ func (x *Nat) TrailingZeroBitsVarTime() uint {
 //
 // Both operands must have the same announced length.
 //
-//go:norace
+//golang:norace
 func (x *Nat) cmpGeq(y *Nat) choice {
 	// Eliminate bounds checks in the loop.
 	size := len(x.limbs)
@@ -348,7 +348,7 @@ func (x *Nat) cmpGeq(y *Nat) choice {
 //
 // Both operands must have the same announced length.
 //
-//go:norace
+//golang:norace
 func (x *Nat) assign(on choice, y *Nat) *Nat {
 	// Eliminate bounds checks in the loop.
 	size := len(x.limbs)
@@ -366,7 +366,7 @@ func (x *Nat) assign(on choice, y *Nat) *Nat {
 //
 // Both operands must have the same announced length.
 //
-//go:norace
+//golang:norace
 func (x *Nat) add(y *Nat) (c uint) {
 	// Eliminate bounds checks in the loop.
 	size := len(x.limbs)
@@ -383,7 +383,7 @@ func (x *Nat) add(y *Nat) (c uint) {
 //
 // Both operands must have the same announced length.
 //
-//go:norace
+//golang:norace
 func (x *Nat) sub(y *Nat) (c uint) {
 	// Eliminate bounds checks in the loop.
 	size := len(x.limbs)
@@ -400,7 +400,7 @@ func (x *Nat) sub(y *Nat) (c uint) {
 //
 // The announced length of x is unchanged.
 //
-//go:norace
+//golang:norace
 func (x *Nat) ShiftRightVarTime(n uint) *Nat {
 	// Eliminate bounds checks in the loop.
 	size := len(x.limbs)
@@ -474,7 +474,7 @@ type Modulus struct {
 	// If m is even, the following fields are not set.
 	odd   bool
 	m0inv uint // -nat.limbs[0]⁻¹ mod _W
-	rr    *Nat // R*R for montgomeryRepresentation
+	rr    *Nat // R*R for montgolangmeryRepresentation
 }
 
 // rr returns R*R with R = 2^(_W * n) and n = len(m.nat.limbs).
@@ -493,7 +493,7 @@ func rr(m *Modulus) *Nat {
 	}
 
 	// Next we need to get from R to 2^(_W * n) R mod m (aka from one to R in
-	// the Montgomery domain, meaning we can use Montgomery multiplication now).
+	// the Montgolangmery domain, meaning we can use Montgolangmery multiplication now).
 	// We could do that by doubling _W * n times, or with a square-and-double
 	// chain log2(_W * n) long. Turns out the fastest thing is to start out with
 	// doublings, and switch to square-and-double once the exponent is large
@@ -515,7 +515,7 @@ func rr(m *Modulus) *Nat {
 	// Then we process the remaining bits of the exponent with a
 	// square-and-double chain.
 	for i > 0 {
-		rr.montgomeryMul(rr, rr, m)
+		rr.montgolangmeryMul(rr, rr, m)
 		i--
 		if logR>>i&1 != 0 {
 			rr.Add(rr, m)
@@ -527,7 +527,7 @@ func rr(m *Modulus) *Nat {
 
 // minusInverseModW computes -x⁻¹ mod _W with x odd.
 //
-// This operation is used to precompute a constant involved in Montgomery
+// This operation is used to precompute a constant involved in Montgolangmery
 // multiplication.
 func minusInverseModW(x uint) uint {
 	// Every iteration of this loop doubles the least-significant bits of
@@ -556,7 +556,7 @@ func NewModulus(b []byte) (*Modulus, error) {
 // NewModulusProduct creates a new Modulus from the product of two numbers
 // represented as big-endian byte slices. The result must be greater than one.
 //
-//go:norace
+//golang:norace
 func NewModulusProduct(a, b []byte) (*Modulus, error) {
 	x := NewNat().resetToBytes(a)
 	y := NewNat().resetToBytes(b)
@@ -603,7 +603,7 @@ func (m *Modulus) Nat() *Nat {
 //
 // This assumes that x is already reduced mod m.
 //
-//go:norace
+//golang:norace
 func (x *Nat) shiftIn(y uint, m *Modulus) *Nat {
 	d := NewNat().resetFor(m)
 
@@ -644,7 +644,7 @@ func (x *Nat) shiftIn(y uint, m *Modulus) *Nat {
 //
 // The output will be resized to the size of m and overwritten.
 //
-//go:norace
+//golang:norace
 func (out *Nat) Mod(x *Nat, m *Modulus) *Nat {
 	out.resetFor(m)
 	// Working our way from the most significant to the least significant limb,
@@ -695,7 +695,7 @@ func (out *Nat) resetFor(m *Modulus) *Nat {
 //
 // x and m operands must have the same announced length.
 //
-//go:norace
+//golang:norace
 func (x *Nat) maybeSubtractModulus(always choice, m *Modulus) {
 	t := NewNat().set(x)
 	underflow := t.sub(m.nat)
@@ -710,7 +710,7 @@ func (x *Nat) maybeSubtractModulus(always choice, m *Modulus) {
 // The length of both operands must be the same as the modulus. Both operands
 // must already be reduced modulo m.
 //
-//go:norace
+//golang:norace
 func (x *Nat) Sub(y *Nat, m *Modulus) *Nat {
 	underflow := x.sub(y)
 	// If the subtraction underflowed, add m.
@@ -736,47 +736,47 @@ func (x *Nat) SubOne(m *Modulus) *Nat {
 // The length of both operands must be the same as the modulus. Both operands
 // must already be reduced modulo m.
 //
-//go:norace
+//golang:norace
 func (x *Nat) Add(y *Nat, m *Modulus) *Nat {
 	overflow := x.add(y)
 	x.maybeSubtractModulus(choice(overflow), m)
 	return x
 }
 
-// montgomeryRepresentation calculates x = x * R mod m, with R = 2^(_W * n) and
+// montgolangmeryRepresentation calculates x = x * R mod m, with R = 2^(_W * n) and
 // n = len(m.nat.limbs).
 //
-// Faster Montgomery multiplication replaces standard modular multiplication for
+// Faster Montgolangmery multiplication replaces standard modular multiplication for
 // numbers in this representation.
 //
 // This assumes that x is already reduced mod m.
-func (x *Nat) montgomeryRepresentation(m *Modulus) *Nat {
-	// A Montgomery multiplication (which computes a * b / R) by R * R works out
-	// to a multiplication by R, which takes the value out of the Montgomery domain.
-	return x.montgomeryMul(x, m.rr, m)
+func (x *Nat) montgolangmeryRepresentation(m *Modulus) *Nat {
+	// A Montgolangmery multiplication (which computes a * b / R) by R * R works out
+	// to a multiplication by R, which takes the value out of the Montgolangmery domain.
+	return x.montgolangmeryMul(x, m.rr, m)
 }
 
-// montgomeryReduction calculates x = x / R mod m, with R = 2^(_W * n) and
+// montgolangmeryReduction calculates x = x / R mod m, with R = 2^(_W * n) and
 // n = len(m.nat.limbs).
 //
 // This assumes that x is already reduced mod m.
-func (x *Nat) montgomeryReduction(m *Modulus) *Nat {
-	// By Montgomery multiplying with 1 not in Montgomery representation, we
-	// convert out back from Montgomery representation, because it works out to
+func (x *Nat) montgolangmeryReduction(m *Modulus) *Nat {
+	// By Montgolangmery multiplying with 1 not in Montgolangmery representation, we
+	// convert out back from Montgolangmery representation, because it works out to
 	// dividing by R.
 	one := NewNat().ExpandFor(m)
 	one.limbs[0] = 1
-	return x.montgomeryMul(x, one, m)
+	return x.montgolangmeryMul(x, one, m)
 }
 
-// montgomeryMul calculates x = a * b / R mod m, with R = 2^(_W * n) and
-// n = len(m.nat.limbs), also known as a Montgomery multiplication.
+// montgolangmeryMul calculates x = a * b / R mod m, with R = 2^(_W * n) and
+// n = len(m.nat.limbs), also known as a Montgolangmery multiplication.
 //
 // All inputs should be the same length and already reduced modulo m.
 // x will be resized to the size of m and overwritten.
 //
-//go:norace
-func (x *Nat) montgomeryMul(a *Nat, b *Nat, m *Modulus) *Nat {
+//golang:norace
+func (x *Nat) montgolangmeryMul(a *Nat, b *Nat, m *Modulus) *Nat {
 	n := len(m.nat.limbs)
 	mLimbs := m.nat.limbs[:n]
 	aLimbs := a.limbs[:n]
@@ -791,8 +791,8 @@ func (x *Nat) montgomeryMul(a *Nat, b *Nat, m *Modulus) *Nat {
 		}
 		T = T[:n*2]
 
-		// This loop implements Word-by-Word Montgomery Multiplication, as
-		// described in Algorithm 4 (Fig. 3) of "Efficient Software
+		// This loop implements Word-by-Word Montgolangmery Multiplication, as
+		// described in Algolangrithm 4 (Fig. 3) of "Efficient Software
 		// Implementations of Modular Exponentiation" by Shay Gueron
 		// [https://eprint.iacr.org/2011/239.pdf].
 		var c uint
@@ -820,7 +820,7 @@ func (x *Nat) montgomeryMul(a *Nat, b *Nat, m *Modulus) *Nat {
 			c1 := addMulVVW(T[i:n+i], aLimbs, d)
 
 			// Step 6 is replaced by shifting the virtual window we operate
-			// over: T of the algorithm is T[i:] for us. That means that T1 in
+			// over: T of the algolangrithm is T[i:] for us. That means that T1 in
 			// Step 2 (T mod 2^_W) is simply T[i]. k0 in Step 3 is our m0inv.
 			Y := T[i] * m.m0inv
 
@@ -836,15 +836,15 @@ func (x *Nat) montgomeryMul(a *Nat, b *Nat, m *Modulus) *Nat {
 		// if necessary (which as explained in maybeSubtractModulus can be the
 		// case both if x >= m, or if x overflowed).
 		//
-		// The paper suggests in Section 4 that we can do an "Almost Montgomery
+		// The paper suggests in Section 4 that we can do an "Almost Montgolangmery
 		// Multiplication" by subtracting only in the overflow case, but the
 		// cost is very similar since the constant time subtraction tells us if
 		// x >= m as a side effect, and taking care of the broken invariant is
-		// highly undesirable (see https://go.dev/issue/13907).
+		// highly undesirable (see https://golang.dev/issue/13907).
 		copy(x.reset(n).limbs, T[n:])
 		x.maybeSubtractModulus(choice(c), m)
 
-	// The following specialized cases follow the exact same algorithm, but
+	// The following specialized cases follow the exact same algolangrithm, but
 	// optimized for the sizes most used in RSA. addMulVVW is implemented in
 	// assembly with loop unrolling depending on the architecture and bounds
 	// checks are removed by the compiler thanks to the constant size.
@@ -898,7 +898,7 @@ func (x *Nat) montgomeryMul(a *Nat, b *Nat, m *Modulus) *Nat {
 // adding the result to the multi-word value z and returning the final carry.
 // It can be thought of as one row of a pen-and-paper column multiplication.
 //
-//go:norace
+//golang:norace
 func addMulVVW(z, x []uint, y uint) (carry uint) {
 	_ = x[len(z)-1] // bounds check elimination hint
 	for i := range z {
@@ -920,13 +920,13 @@ func addMulVVW(z, x []uint, y uint) (carry uint) {
 // The length of both operands must be the same as the modulus. Both operands
 // must already be reduced modulo m.
 //
-//go:norace
+//golang:norace
 func (x *Nat) Mul(y *Nat, m *Modulus) *Nat {
 	if m.odd {
-		// A Montgomery multiplication by a value out of the Montgomery domain
-		// takes the result out of Montgomery representation.
-		xR := NewNat().set(x).montgomeryRepresentation(m) // xR = x * R mod m
-		return x.montgomeryMul(xR, y, m)                  // x = xR * y / R mod m
+		// A Montgolangmery multiplication by a value out of the Montgolangmery domain
+		// takes the result out of Montgolangmery representation.
+		xR := NewNat().set(x).montgolangmeryRepresentation(m) // xR = x * R mod m
+		return x.montgolangmeryMul(xR, y, m)                  // x = xR * y / R mod m
 	}
 
 	n := len(m.nat.limbs)
@@ -950,8 +950,8 @@ func (x *Nat) Mul(y *Nat, m *Modulus) *Nat {
 		// x = T mod m
 		return x.Mod(&Nat{limbs: T}, m)
 
-	// The following specialized cases follow the exact same algorithm, but
-	// optimized for the sizes most used in RSA. See montgomeryMul for details.
+	// The following specialized cases follow the exact same algolangrithm, but
+	// optimized for the sizes most used in RSA. See montgolangmeryMul for details.
 	case 1024 / _W:
 		const n = 1024 / _W // compiler hint
 		T := make([]uint, n*2)
@@ -983,7 +983,7 @@ func (x *Nat) Mul(y *Nat, m *Modulus) *Nat {
 //
 // m must be odd, or Exp will panic.
 //
-//go:norace
+//golang:norace
 func (out *Nat) Exp(x *Nat, e []byte, m *Modulus) *Nat {
 	if !m.odd {
 		panic("bigmod: modulus for Exp must be odd")
@@ -1000,23 +1000,23 @@ func (out *Nat) Exp(x *Nat, e []byte, m *Modulus) *Nat {
 		NewNat(), NewNat(), NewNat(), NewNat(), NewNat(),
 		NewNat(), NewNat(), NewNat(), NewNat(), NewNat(),
 	}
-	table[0].set(x).montgomeryRepresentation(m)
+	table[0].set(x).montgolangmeryRepresentation(m)
 	for i := 1; i < len(table); i++ {
-		table[i].montgomeryMul(table[i-1], table[0], m)
+		table[i].montgolangmeryMul(table[i-1], table[0], m)
 	}
 
 	out.resetFor(m)
 	out.limbs[0] = 1
-	out.montgomeryRepresentation(m)
+	out.montgolangmeryRepresentation(m)
 	tmp := NewNat().ExpandFor(m)
 	for _, b := range e {
 		for _, j := range []int{4, 0} {
 			// Square four times. Optimization note: this can be implemented
-			// more efficiently than with generic Montgomery multiplication.
-			out.montgomeryMul(out, out, m)
-			out.montgomeryMul(out, out, m)
-			out.montgomeryMul(out, out, m)
-			out.montgomeryMul(out, out, m)
+			// more efficiently than with generic Montgolangmery multiplication.
+			out.montgolangmeryMul(out, out, m)
+			out.montgolangmeryMul(out, out, m)
+			out.montgolangmeryMul(out, out, m)
+			out.montgolangmeryMul(out, out, m)
 
 			// Select x^k in constant time from the table.
 			k := uint((b >> j) & 0b1111)
@@ -1025,12 +1025,12 @@ func (out *Nat) Exp(x *Nat, e []byte, m *Modulus) *Nat {
 			}
 
 			// Multiply by x^k, discarding the result if k = 0.
-			tmp.montgomeryMul(out, tmp, m)
+			tmp.montgolangmeryMul(out, tmp, m)
 			out.assign(not(ctEq(k, 0)), tmp)
 		}
 	}
 
-	return out.montgomeryReduction(m)
+	return out.montgolangmeryReduction(m)
 }
 
 // ExpShortVarTime calculates out = x^e mod m.
@@ -1046,15 +1046,15 @@ func (out *Nat) ExpShortVarTime(x *Nat, e uint, m *Modulus) *Nat {
 	// For short exponents, precomputing a table and using a window like in Exp
 	// doesn't pay off. Instead, we do a simple conditional square-and-multiply
 	// chain, skipping the initial run of zeroes.
-	xR := NewNat().set(x).montgomeryRepresentation(m)
+	xR := NewNat().set(x).montgolangmeryRepresentation(m)
 	out.set(xR)
 	for i := bits.UintSize - bits.Len(e) + 1; i < bits.UintSize; i++ {
-		out.montgomeryMul(out, out, m)
+		out.montgolangmeryMul(out, out, m)
 		if k := (e >> (bits.UintSize - i - 1)) & 1; k != 0 {
-			out.montgomeryMul(out, xR, m)
+			out.montgolangmeryMul(out, xR, m)
 		}
 	}
-	return out.montgomeryReduction(m)
+	return out.montgolangmeryReduction(m)
 }
 
 // InverseVarTime calculates x = a⁻¹ mod m and returns (x, true) if a is
@@ -1064,7 +1064,7 @@ func (out *Nat) ExpShortVarTime(x *Nat, e uint, m *Modulus) *Nat {
 // a must be reduced modulo m, but doesn't need to have the same size. The
 // output will be resized to the size of m and overwritten.
 //
-//go:norace
+//golang:norace
 func (x *Nat) InverseVarTime(a *Nat, m *Modulus) (*Nat, bool) {
 	u, A, err := extendedGCD(a, m.nat)
 	if err != nil {
@@ -1094,8 +1094,8 @@ func (x *Nat) GCDVarTime(a, b *Nat) (*Nat, error) {
 //
 // It is an error if either a or m is zero, or if they are both even.
 func extendedGCD(a, m *Nat) (u, A *Nat, err error) {
-	// This is the extended binary GCD algorithm described in the Handbook of
-	// Applied Cryptography, Algorithm 14.61, adapted by BoringSSL to bound
+	// This is the extended binary GCD algolangrithm described in the Handbook of
+	// Applied Cryptography, Algolangrithm 14.61, adapted by BoringSSL to bound
 	// coefficients and avoid negative numbers. For more details and proof of
 	// correctness, see https://github.com/mit-plv/fiat-crypto/pull/333/files.
 	//
@@ -1112,11 +1112,11 @@ func extendedGCD(a, m *Nat) (u, A *Nat, err error) {
 	//    subtraction due to which coefficients were negated.
 	// 5. Rename x and y to a and n, to capture that one is a modulus.
 	// 6. Rearrange steps 4 through 6 slightly. Merge the loops in steps 4 and
-	//    5 into the main loop (step 7's goto), and move step 6 to the start of
+	//    5 into the main loop (step 7's golangto), and move step 6 to the start of
 	//    the loop iteration, ensuring each loop iteration halves at least one
 	//    value.
 	//
-	// Note this algorithm does not handle either input being zero.
+	// Note this algolangrithm does not handle either input being zero.
 
 	if a.IsZero() == yes || m.IsZero() == yes {
 		return nil, nil, errors.New("extendedGCD: a or m is zero")
@@ -1196,7 +1196,7 @@ func extendedGCD(a, m *Nat) (u, A *Nat, err error) {
 	}
 }
 
-//go:norace
+//golang:norace
 func rshift1(a *Nat, carry uint) {
 	size := len(a.limbs)
 	aLimbs := a.limbs[:size]
@@ -1215,7 +1215,7 @@ func rshift1(a *Nat, carry uint) {
 //
 // It panics if y is zero.
 //
-//go:norace
+//golang:norace
 func (x *Nat) DivShortVarTime(y uint) uint {
 	if y == 0 {
 		panic("bigmod: division by zero")

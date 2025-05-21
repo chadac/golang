@@ -1,12 +1,12 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package aes
 
 // This file contains AES constants - 8720 bytes of initialized data.
 
-// https://csrc.nist.gov/publications/fips/fips197/fips-197.pdf
+// https://csrc.nist.golangv/publications/fips/fips197/fips-197.pdf
 
 // AES is based on the mathematical behavior of binary polynomials
 // (polynomials over GF(2)) modulo the irreducible polynomial x⁸ + x⁴ + x³ + x + 1.
@@ -76,7 +76,7 @@ var sbox1 = [256]byte{
 }
 
 // Lookup tables for encryption.
-// These can be recomputed by adapting the tests in aes_test.go.
+// These can be recomputed by adapting the tests in aes_test.golang.
 
 var te0 = [256]uint32{
 	0xc66363a5, 0xf87c7c84, 0xee777799, 0xf67b7b8d, 0xfff2f20d, 0xd66b6bbd, 0xde6f6fb1, 0x91c5c554,
@@ -216,7 +216,7 @@ var te3 = [256]uint32{
 }
 
 // Lookup tables for decryption.
-// These can be recomputed by adapting the tests in aes_test.go.
+// These can be recomputed by adapting the tests in aes_test.golang.
 
 var td0 = [256]uint32{
 	0x51f4a750, 0x7e416553, 0x1a17a4c3, 0x3a275e96, 0x3bab6bcb, 0x1f9d45f1, 0xacfa58ab, 0x4be30393,

@@ -1,31 +1,31 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package tests
 
 import (
 	_ "embed"
-	"go/ast"
-	"go/token"
-	"go/types"
+	"golang/ast"
+	"golang/token"
+	"golang/types"
 	"regexp"
 	"strings"
 	"unicode"
 	"unicode/utf8"
 
-	"golang.org/x/tools/go/analysis"
-	"golang.org/x/tools/go/analysis/passes/internal/analysisutil"
-	"golang.org/x/tools/internal/analysisinternal"
+	"golanglang.org/x/tools/golang/analysis"
+	"golanglang.org/x/tools/golang/analysis/passes/internal/analysisutil"
+	"golanglang.org/x/tools/internal/analysisinternal"
 )
 
-//go:embed doc.go
+//golang:embed doc.golang
 var doc string
 
 var Analyzer = &analysis.Analyzer{
 	Name: "tests",
 	Doc:  analysisutil.MustExtractDoc(doc, "tests"),
-	URL:  "https://pkg.go.dev/golang.org/x/tools/go/analysis/passes/tests",
+	URL:  "https://pkg.golang.dev/golanglang.org/x/tools/golang/analysis/passes/tests",
 	Run:  run,
 }
 
@@ -49,7 +49,7 @@ var acceptedFuzzTypes = []types.Type{
 
 func run(pass *analysis.Pass) (any, error) {
 	for _, f := range pass.Files {
-		if !strings.HasSuffix(pass.Fset.File(f.FileStart).Name(), "_test.go") {
+		if !strings.HasSuffix(pass.Fset.File(f.FileStart).Name(), "_test.golang") {
 			continue
 		}
 		for _, decl := range f.Decls {
@@ -186,11 +186,11 @@ func checkAddCalls(pass *analysis.Pass, fn *ast.FuncDecl, params *types.Tuple) {
 				t := pass.TypesInfo.Types[expr].Type
 				pass.ReportRangef(expr, "mismatched type in call to (*testing.F).Add: %v, fuzz target expects %v", t, params.At(i+1).Type())
 			} else if len(mismatched) > 1 {
-				var gotArgs, wantArgs []types.Type
+				var golangtArgs, wantArgs []types.Type
 				for i := 0; i < len(call.Args); i++ {
-					gotArgs, wantArgs = append(gotArgs, pass.TypesInfo.Types[call.Args[i]].Type), append(wantArgs, params.At(i+1).Type())
+					golangtArgs, wantArgs = append(golangtArgs, pass.TypesInfo.Types[call.Args[i]].Type), append(wantArgs, params.At(i+1).Type())
 				}
-				pass.ReportRangef(call, "mismatched types in call to (*testing.F).Add: %v, fuzz target expects %v", gotArgs, wantArgs)
+				pass.ReportRangef(call, "mismatched types in call to (*testing.F).Add: %v, fuzz target expects %v", golangtArgs, wantArgs)
 			}
 		}
 		return true
@@ -252,7 +252,7 @@ func validateFuzzArgs(pass *analysis.Pass, params *types.Tuple, expr ast.Expr) b
 }
 
 func isTestingType(typ types.Type, testingType string) bool {
-	// No Unalias here: I doubt "go test" recognizes
+	// No Unalias here: I doubt "golang test" recognizes
 	// "type A = *testing.T; func Test(A) {}" as a test.
 	ptr, ok := typ.(*types.Pointer)
 	if !ok {
@@ -332,7 +332,7 @@ func lookup(pkg *types.Package, name string) []types.Object {
 	return ret
 }
 
-// This pattern is taken from /go/src/go/doc/example.go
+// This pattern is taken from /golang/src/golang/doc/example.golang
 var outputRe = regexp.MustCompile(`(?i)^[[:space:]]*(unordered )?output:`)
 
 type commentMetadata struct {
@@ -474,10 +474,10 @@ func checkTest(pass *analysis.Pass, fn *ast.FuncDecl, prefix string) {
 	}
 
 	if tparams := fn.Type.TypeParams; tparams != nil && len(tparams.List) > 0 {
-		// Note: cmd/go/internal/load also errors about TestXXX and BenchmarkXXX functions with type parameters.
+		// Note: cmd/golang/internal/load also errors about TestXXX and BenchmarkXXX functions with type parameters.
 		// We have currently decided to also warn before compilation/package loading. This can help users in IDEs.
 		at := tokenRange{tparams.Opening, tparams.Closing}
-		pass.ReportRangef(at, "%s has type parameters: it will not be run by go test as a %sXXX function", fn.Name.Name, prefix)
+		pass.ReportRangef(at, "%s has type parameters: it will not be run by golang test as a %sXXX function", fn.Name.Name, prefix)
 	}
 
 	if !isTestSuffix(fn.Name.Name[len(prefix):]) {

@@ -1,9 +1,9 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-#include "go_asm.h"
-#include "go_tls.h"
+#include "golang_asm.h"
+#include "golang_tls.h"
 #include "funcdata.h"
 #include "textflag.h"
 #include "tls_arm64.h"
@@ -12,8 +12,8 @@ TEXT runtime·load_g(SB),NOSPLIT,$0
 #ifndef GOOS_darwin
 #ifndef GOOS_openbsd
 #ifndef GOOS_windows
-	MOVB	runtime·iscgo(SB), R0
-	CBZ	R0, nocgo
+	MOVB	runtime·iscgolang(SB), R0
+	CBZ	R0, nocgolang
 #endif
 #endif
 #endif
@@ -26,15 +26,15 @@ TEXT runtime·load_g(SB),NOSPLIT,$0
 	MOVD	runtime·tls_g(SB), R27
 	MOVD	(R0)(R27), g
 
-nocgo:
+nocgolang:
 	RET
 
 TEXT runtime·save_g(SB),NOSPLIT,$0
 #ifndef GOOS_darwin
 #ifndef GOOS_openbsd
 #ifndef GOOS_windows
-	MOVB	runtime·iscgo(SB), R0
-	CBZ	R0, nocgo
+	MOVB	runtime·iscgolang(SB), R0
+	CBZ	R0, nocgolang
 #endif
 #endif
 #endif
@@ -47,7 +47,7 @@ TEXT runtime·save_g(SB),NOSPLIT,$0
 	MOVD	runtime·tls_g(SB), R27
 	MOVD	g, (R0)(R27)
 
-nocgo:
+nocgolang:
 	RET
 
 #ifdef TLSG_IS_VARIABLE

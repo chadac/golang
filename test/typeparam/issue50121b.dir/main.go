@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	if got, want := d.BuildInt(), 42; got != want {
-		panic(fmt.Sprintf("got %d, want %d", got, want))
+	if golangt, want := d.BuildInt(), 42; golangt != want {
+		panic(fmt.Sprintf("golangt %d, want %d", golangt, want))
 	}
 }

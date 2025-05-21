@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Based on CRYPTOGAMS code with the following comment:
@@ -10,15 +10,15 @@
 // # details see http://www.openssl.org/~appro/cryptogams/.
 // # ====================================================================
 
-//go:build (ppc64 || ppc64le) && !purego
+//golang:build (ppc64 || ppc64le) && !puregolang
 
 #include "textflag.h"
 
-// SHA512 block routine. See sha512block.go for Go equivalent.
+// SHA512 block routine. See sha512block.golang for Go equivalent.
 //
-// The algorithm is detailed in FIPS 180-4:
+// The algolangrithm is detailed in FIPS 180-4:
 //
-//  https://csrc.nist.gov/publications/fips/fips180-4/fips-180-4.pdf
+//  https://csrc.nist.golangv/publications/fips/fips180-4/fips-180-4.pdf
 //
 // Wt = Mt; for 0 <= t <= 15
 // Wt = SIGMA1(Wt-2) + SIGMA0(Wt-15) + Wt-16; for 16 <= t <= 79

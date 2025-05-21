@@ -9,7 +9,7 @@ Text.
  12. Doce
  13. Trece.
 
--- gofmt --
+-- golangfmt --
 Text.
  1. Uno
  2. Dos

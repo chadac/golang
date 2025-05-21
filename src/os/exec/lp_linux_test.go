@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package exec_test
@@ -50,7 +50,7 @@ func TestFindExecutableVsNoexec(t *testing.T) {
 	// Check that it works as expected.
 	_, err = exec.LookPath(path)
 	if err != nil {
-		t.Fatalf("LookPath: got %v, want nil", err)
+		t.Fatalf("LookPath: golangt %v, want nil", err)
 	}
 
 	for {
@@ -60,12 +60,12 @@ func TestFindExecutableVsNoexec(t *testing.T) {
 		}
 		if errors.Is(err, syscall.ETXTBSY) {
 			// A fork+exec in another process may be holding open the FD that we used
-			// to write the executable (see https://go.dev/issue/22315).
+			// to write the executable (see https://golang.dev/issue/22315).
 			// Since the descriptor should have CLOEXEC set, the problem should resolve
 			// as soon as the forked child reaches its exec call.
 			// Keep retrying until that happens.
 		} else {
-			t.Fatalf("exec: got %v, want nil", err)
+			t.Fatalf("exec: golangt %v, want nil", err)
 		}
 	}
 
@@ -78,11 +78,11 @@ func TestFindExecutableVsNoexec(t *testing.T) {
 	}
 
 	if err := exec.Command(path).Run(); err == nil {
-		t.Fatal("exec on noexec filesystem: got nil, want error")
+		t.Fatal("exec on noexec filesystem: golangt nil, want error")
 	}
 
 	_, err = exec.LookPath(path)
 	if err == nil {
-		t.Fatalf("LookPath: got nil, want error")
+		t.Fatalf("LookPath: golangt nil, want error")
 	}
 }

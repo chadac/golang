@@ -1,7 +1,7 @@
 // errorcheck
 
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Verify that incorrect comparisons are detected.
@@ -62,7 +62,7 @@ func main() {
 	use(a2 == a2) // ERROR "invalid operation|invalid comparison"
 	use(a3 == a3) // ERROR "invalid operation|invalid comparison"
 
-	// Comparison of structs should have a good message
+	// Comparison of structs should have a golangod message
 	use(t3 == t3) // ERROR "struct|expected|cannot compare"
 	use(t4 == t4) // ERROR "cannot be compared|non-comparable|cannot compare"
 

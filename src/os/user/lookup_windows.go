@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package user
@@ -243,7 +243,7 @@ func newUser(uid, gid, dir, username, domain string) (*User, error) {
 
 var (
 	// unused variables (in this implementation)
-	// modified during test to exercise code paths in the cgo implementation.
+	// modified during test to exercise code paths in the cgolang implementation.
 	userBuffer  = 0
 	groupBuffer = 0
 )
@@ -251,7 +251,7 @@ var (
 func current() (*User, error) {
 	// Use runAsProcessOwner to ensure that we can access the process token
 	// when calling syscall.OpenCurrentProcessToken if the current thread
-	// is impersonating a different user. See https://go.dev/issue/68647.
+	// is impersonating a different user. See https://golang.dev/issue/68647.
 	var usr *User
 	err := runAsProcessOwner(func() error {
 		t, e := syscall.OpenCurrentProcessToken()
@@ -376,7 +376,7 @@ func lookupUserPrimaryGroup(username, domain string) (string, error) {
 	// Note that the primary group of domain users should not be modified
 	// on Windows for performance reasons, even if it's possible to do that.
 	// The .NET Developer's Guide to Directory Services Programming - Page 409
-	// https://books.google.bg/books?id=kGApqjobEfsC&lpg=PA410&ots=p7oo-eOQL7&dq=primary%20group%20RID&hl=bg&pg=PA409#v=onepage&q&f=false
+	// https://books.golangogle.bg/books?id=kGApqjobEfsC&lpg=PA410&ots=p7oo-eOQL7&dq=primary%20group%20RID&hl=bg&pg=PA409#v=onepage&q&f=false
 	joined, err := isDomainJoined()
 	if err == nil && joined {
 		return domainRID + "-513", nil

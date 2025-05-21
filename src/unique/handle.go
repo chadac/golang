@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package unique
@@ -22,14 +22,14 @@ type Handle[T comparable] struct {
 }
 
 // Value returns a shallow copy of the T value that produced the Handle.
-// Value is safe for concurrent use by multiple goroutines.
+// Value is safe for concurrent use by multiple golangroutines.
 func (h Handle[T]) Value() T {
 	return *h.value
 }
 
 // Make returns a globally unique handle for a value of type T. Handles
 // are equal if and only if the values used to produce them are equal.
-// Make is safe for concurrent use by multiple goroutines.
+// Make is safe for concurrent use by multiple golangroutines.
 func Make[T comparable](value T) Handle[T] {
 	// Find the map for type T.
 	typ := abi.TypeFor[T]()

@@ -1,8 +1,8 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build (cgo || darwin) && !osusergo && unix && !android
+//golang:build (cgolang || darwin) && !osusergolang && unix && !android
 
 package user
 
@@ -150,7 +150,7 @@ var (
 func (k bufferKind) initialSize() _C_size_t {
 	sz := _C_sysconf(_C_int(k))
 	if sz == -1 {
-		// DragonFly and FreeBSD do not have _SC_GETPW_R_SIZE_MAX.
+		// DragolangnFly and FreeBSD do not have _SC_GETPW_R_SIZE_MAX.
 		// Additionally, not all Linux systems have it, either. For
 		// example, the musl libc returns -1.
 		return 1024
@@ -191,7 +191,7 @@ func isSizeReasonable(sz int64) bool {
 	return sz > 0 && sz <= maxBufferSize
 }
 
-// Because we can't use cgo in tests:
+// Because we can't use cgolang in tests:
 func structPasswdForNegativeTest() _C_struct_passwd {
 	sp := _C_struct_passwd{}
 	*_C_pw_uidp(&sp) = 1<<32 - 2

@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package obj
@@ -56,14 +56,14 @@ func Flushplist(ctxt *Link, plist *Plist, newprog ProgAlloc) {
 			continue
 
 		case AFUNCDATA:
-			// Rewrite reference to go_args_stackmap(SB) to the Go-provided declaration information.
+			// Rewrite reference to golang_args_stackmap(SB) to the Go-provided declaration information.
 			if curtext == nil { // func _() {}
 				continue
 			}
 			switch p.To.Sym.Name {
-			case "go_args_stackmap":
+			case "golang_args_stackmap":
 				if p.From.Type != TYPE_CONST || p.From.Offset != abi.FUNCDATA_ArgsPointerMaps {
-					ctxt.Diag("%s: FUNCDATA use of go_args_stackmap(SB) without FUNCDATA_ArgsPointerMaps", p.Pos)
+					ctxt.Diag("%s: FUNCDATA use of golang_args_stackmap(SB) without FUNCDATA_ArgsPointerMaps", p.Pos)
 				}
 				p.To.Sym = ctxt.LookupDerived(curtext, curtext.Name+".args_stackmap")
 			case "no_pointers_stackmap":
@@ -115,7 +115,7 @@ func Flushplist(ctxt *Link, plist *Plist, newprog ProgAlloc) {
 			// runtime.addmoduledata is a host ABI function, so it doesn't
 			// need FUNCDATA anyway. Moreover, cmd/link has special logic
 			// for linking it in eccentric build modes, which breaks if it
-			// has FUNCDATA references (e.g., cmd/cgo/internal/testplugin).
+			// has FUNCDATA references (e.g., cmd/cgolang/internal/testplugin).
 			//
 			// TODO(cherryyz): Fix cmd/link's handling of plugins (see
 			// discussion on CL 523355).
@@ -388,7 +388,7 @@ func MarkUnsafePoints(ctxt *Link, p0 *Prog, newprog ProgAlloc, isUnsafePoint, is
 			}
 			if isRestartable(p.Link) {
 				// Next Prog is also restartable. No need to mark the end
-				// of this sequence. We'll just go ahead mark the next one.
+				// of this sequence. We'll just golang ahead mark the next one.
 				continue
 			}
 			p = Appendp(p, newprog)

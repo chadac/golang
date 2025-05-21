@@ -1,8 +1,8 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build unix && !android && !cgo && !darwin
+//golang:build unix && !android && !cgolang && !darwin
 
 package user
 
@@ -36,29 +36,29 @@ var groupTests = []struct {
 
 func TestFindGroupName(t *testing.T) {
 	for _, tt := range groupTests {
-		got, err := findGroupName(tt.name, strings.NewReader(tt.in))
+		golangt, err := findGroupName(tt.name, strings.NewReader(tt.in))
 		if tt.gid == "" {
 			if err == nil {
-				t.Errorf("findGroupName(%s): got nil error, expected err", tt.name)
+				t.Errorf("findGroupName(%s): golangt nil error, expected err", tt.name)
 				continue
 			}
 			switch terr := err.(type) {
 			case UnknownGroupError:
 				if terr.Error() != "group: unknown group "+tt.name {
-					t.Errorf("findGroupName(%s): got %v, want %v", tt.name, terr, tt.name)
+					t.Errorf("findGroupName(%s): golangt %v, want %v", tt.name, terr, tt.name)
 				}
 			default:
-				t.Errorf("findGroupName(%s): got unexpected error %v", tt.name, terr)
+				t.Errorf("findGroupName(%s): golangt unexpected error %v", tt.name, terr)
 			}
 		} else {
 			if err != nil {
-				t.Fatalf("findGroupName(%s): got unexpected error %v", tt.name, err)
+				t.Fatalf("findGroupName(%s): golangt unexpected error %v", tt.name, err)
 			}
-			if got.Gid != tt.gid {
-				t.Errorf("findGroupName(%s): got gid %v, want %s", tt.name, got.Gid, tt.gid)
+			if golangt.Gid != tt.gid {
+				t.Errorf("findGroupName(%s): golangt gid %v, want %s", tt.name, golangt.Gid, tt.gid)
 			}
-			if got.Name != tt.name {
-				t.Errorf("findGroupName(%s): got name %s, want %s", tt.name, got.Name, tt.name)
+			if golangt.Name != tt.name {
+				t.Errorf("findGroupName(%s): golangt name %s, want %s", tt.name, golangt.Name, tt.name)
 			}
 		}
 	}
@@ -82,29 +82,29 @@ var groupIdTests = []struct {
 
 func TestFindGroupId(t *testing.T) {
 	for _, tt := range groupIdTests {
-		got, err := findGroupId(tt.gid, strings.NewReader(tt.in))
+		golangt, err := findGroupId(tt.gid, strings.NewReader(tt.in))
 		if tt.name == "" {
 			if err == nil {
-				t.Errorf("findGroupId(%s): got nil error, expected err", tt.gid)
+				t.Errorf("findGroupId(%s): golangt nil error, expected err", tt.gid)
 				continue
 			}
 			switch terr := err.(type) {
 			case UnknownGroupIdError:
 				if terr.Error() != "group: unknown groupid "+tt.gid {
-					t.Errorf("findGroupId(%s): got %v, want %v", tt.name, terr, tt.name)
+					t.Errorf("findGroupId(%s): golangt %v, want %v", tt.name, terr, tt.name)
 				}
 			default:
-				t.Errorf("findGroupId(%s): got unexpected error %v", tt.name, terr)
+				t.Errorf("findGroupId(%s): golangt unexpected error %v", tt.name, terr)
 			}
 		} else {
 			if err != nil {
-				t.Fatalf("findGroupId(%s): got unexpected error %v", tt.name, err)
+				t.Fatalf("findGroupId(%s): golangt unexpected error %v", tt.name, err)
 			}
-			if got.Gid != tt.gid {
-				t.Errorf("findGroupId(%s): got gid %v, want %s", tt.name, got.Gid, tt.gid)
+			if golangt.Gid != tt.gid {
+				t.Errorf("findGroupId(%s): golangt gid %v, want %s", tt.name, golangt.Gid, tt.gid)
 			}
-			if got.Name != tt.name {
-				t.Errorf("findGroupId(%s): got name %s, want %s", tt.name, got.Name, tt.name)
+			if golangt.Name != tt.name {
+				t.Errorf("findGroupId(%s): golangt name %s, want %s", tt.name, golangt.Name, tt.name)
 			}
 		}
 	}
@@ -153,38 +153,38 @@ var userIdTests = []struct {
 func TestInvalidUserId(t *testing.T) {
 	_, err := findUserId("notanumber", strings.NewReader(""))
 	if err == nil {
-		t.Fatalf("findUserId('notanumber'): got nil error")
+		t.Fatalf("findUserId('notanumber'): golangt nil error")
 	}
 	if want := "user: invalid userid notanumber"; err.Error() != want {
-		t.Errorf("findUserId('notanumber'): got %v, want %s", err, want)
+		t.Errorf("findUserId('notanumber'): golangt %v, want %s", err, want)
 	}
 }
 
 func TestLookupUserId(t *testing.T) {
 	for _, tt := range userIdTests {
-		got, err := findUserId(tt.uid, strings.NewReader(tt.in))
+		golangt, err := findUserId(tt.uid, strings.NewReader(tt.in))
 		if tt.name == "" {
 			if err == nil {
-				t.Errorf("findUserId(%s): got nil error, expected err", tt.uid)
+				t.Errorf("findUserId(%s): golangt nil error, expected err", tt.uid)
 				continue
 			}
 			switch terr := err.(type) {
 			case UnknownUserIdError:
 				if want := "user: unknown userid " + tt.uid; terr.Error() != want {
-					t.Errorf("findUserId(%s): got %v, want %v", tt.name, terr, want)
+					t.Errorf("findUserId(%s): golangt %v, want %v", tt.name, terr, want)
 				}
 			default:
-				t.Errorf("findUserId(%s): got unexpected error %v", tt.name, terr)
+				t.Errorf("findUserId(%s): golangt unexpected error %v", tt.name, terr)
 			}
 		} else {
 			if err != nil {
-				t.Fatalf("findUserId(%s): got unexpected error %v", tt.name, err)
+				t.Fatalf("findUserId(%s): golangt unexpected error %v", tt.name, err)
 			}
-			if got.Uid != tt.uid {
-				t.Errorf("findUserId(%s): got uid %v, want %s", tt.name, got.Uid, tt.uid)
+			if golangt.Uid != tt.uid {
+				t.Errorf("findUserId(%s): golangt uid %v, want %s", tt.name, golangt.Uid, tt.uid)
 			}
-			if got.Username != tt.name {
-				t.Errorf("findUserId(%s): got name %s, want %s", tt.name, got.Username, tt.name)
+			if golangt.Username != tt.name {
+				t.Errorf("findUserId(%s): golangt name %s, want %s", tt.name, golangt.Username, tt.name)
 			}
 		}
 	}
@@ -203,7 +203,7 @@ func TestLookupUserPopulatesAllFields(t *testing.T) {
 		HomeDir:  "/home/allfields",
 	}
 	if !reflect.DeepEqual(u, want) {
-		t.Errorf("findUsername: got %#v, want %#v", u, want)
+		t.Errorf("findUsername: golangt %#v, want %#v", u, want)
 	}
 }
 
@@ -230,29 +230,29 @@ var userTests = []struct {
 
 func TestLookupUser(t *testing.T) {
 	for _, tt := range userTests {
-		got, err := findUsername(tt.name, strings.NewReader(tt.in))
+		golangt, err := findUsername(tt.name, strings.NewReader(tt.in))
 		if tt.uid == "" {
 			if err == nil {
-				t.Errorf("lookupUser(%s): got nil error, expected err", tt.uid)
+				t.Errorf("lookupUser(%s): golangt nil error, expected err", tt.uid)
 				continue
 			}
 			switch terr := err.(type) {
 			case UnknownUserError:
 				if want := "user: unknown user " + tt.name; terr.Error() != want {
-					t.Errorf("lookupUser(%s): got %v, want %v", tt.name, terr, want)
+					t.Errorf("lookupUser(%s): golangt %v, want %v", tt.name, terr, want)
 				}
 			default:
-				t.Errorf("lookupUser(%s): got unexpected error %v", tt.name, terr)
+				t.Errorf("lookupUser(%s): golangt unexpected error %v", tt.name, terr)
 			}
 		} else {
 			if err != nil {
-				t.Fatalf("lookupUser(%s): got unexpected error %v", tt.name, err)
+				t.Fatalf("lookupUser(%s): golangt unexpected error %v", tt.name, err)
 			}
-			if got.Uid != tt.uid {
-				t.Errorf("lookupUser(%s): got uid %v, want %s", tt.name, got.Uid, tt.uid)
+			if golangt.Uid != tt.uid {
+				t.Errorf("lookupUser(%s): golangt uid %v, want %s", tt.name, golangt.Uid, tt.uid)
 			}
-			if got.Username != tt.name {
-				t.Errorf("lookupUser(%s): got name %s, want %s", tt.name, got.Username, tt.name)
+			if golangt.Username != tt.name {
+				t.Errorf("lookupUser(%s): golangt name %s, want %s", tt.name, golangt.Username, tt.name)
 			}
 		}
 	}

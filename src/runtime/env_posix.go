@@ -1,12 +1,12 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
 
 import "unsafe"
 
-func gogetenv(key string) string {
+func golanggetenv(key string) string {
 	env := environ()
 	if env == nil {
 		throw("getenv before env init")
@@ -42,44 +42,44 @@ func lowerASCII(c byte) byte {
 	return c
 }
 
-// _cgo_setenv should be an internal detail,
+// _cgolang_setenv should be an internal detail,
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
-//   - github.com/ebitengine/purego
+//   - github.com/ebitengine/puregolang
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname _cgo_setenv
-var _cgo_setenv unsafe.Pointer // pointer to C function
+//golang:linkname _cgolang_setenv
+var _cgolang_setenv unsafe.Pointer // pointer to C function
 
-// _cgo_unsetenv should be an internal detail,
+// _cgolang_unsetenv should be an internal detail,
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
-//   - github.com/ebitengine/purego
+//   - github.com/ebitengine/puregolang
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname _cgo_unsetenv
-var _cgo_unsetenv unsafe.Pointer // pointer to C function
+//golang:linkname _cgolang_unsetenv
+var _cgolang_unsetenv unsafe.Pointer // pointer to C function
 
-// Update the C environment if cgo is loaded.
+// Update the C environment if cgolang is loaded.
 func setenv_c(k string, v string) {
-	if _cgo_setenv == nil {
+	if _cgolang_setenv == nil {
 		return
 	}
 	arg := [2]unsafe.Pointer{cstring(k), cstring(v)}
-	asmcgocall(_cgo_setenv, unsafe.Pointer(&arg))
+	asmcgolangcall(_cgolang_setenv, unsafe.Pointer(&arg))
 }
 
-// Update the C environment if cgo is loaded.
+// Update the C environment if cgolang is loaded.
 func unsetenv_c(k string) {
-	if _cgo_unsetenv == nil {
+	if _cgolang_unsetenv == nil {
 		return
 	}
 	arg := [1]unsafe.Pointer{cstring(k)}
-	asmcgocall(_cgo_unsetenv, unsafe.Pointer(&arg))
+	asmcgolangcall(_cgolang_unsetenv, unsafe.Pointer(&arg))
 }
 
 func cstring(s string) unsafe.Pointer {

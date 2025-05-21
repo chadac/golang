@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package strconv_test
@@ -598,8 +598,8 @@ func TestNumError(t *testing.T) {
 			Num:  test.num,
 			Err:  errors.New("failed"),
 		}
-		if got := err.Error(); got != test.want {
-			t.Errorf(`(&NumError{"ParseFloat", %q, "failed"}).Error() = %v, want %v`, test.num, got, test.want)
+		if golangt := err.Error(); golangt != test.want {
+			t.Errorf(`(&NumError{"ParseFloat", %q, "failed"}).Error() = %v, want %v`, test.num, golangt, test.want)
 		}
 	}
 }

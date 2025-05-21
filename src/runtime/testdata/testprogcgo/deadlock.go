@@ -1,12 +1,12 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
 
 /*
 char *geterror() {
-	return "cgo error";
+	return "cgolang error";
 }
 */
 import "C"
@@ -15,16 +15,16 @@ import (
 )
 
 func init() {
-	register("CgoPanicDeadlock", CgoPanicDeadlock)
+	register("CgolangPanicDeadlock", CgolangPanicDeadlock)
 }
 
-type cgoError struct{}
+type cgolangError struct{}
 
-func (cgoError) Error() string {
+func (cgolangError) Error() string {
 	fmt.Print("") // necessary to trigger the deadlock
 	return C.GoString(C.geterror())
 }
 
-func CgoPanicDeadlock() {
-	panic(cgoError{})
+func CgolangPanicDeadlock() {
+	panic(cgolangError{})
 }

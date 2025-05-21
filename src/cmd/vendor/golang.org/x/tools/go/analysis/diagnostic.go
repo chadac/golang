@@ -1,14 +1,14 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package analysis
 
-import "go/token"
+import "golang/token"
 
 // A Diagnostic is a message associated with a source location or range.
 //
-// An Analyzer may return a variety of diagnostics; the optional Category,
+// An Analyzer may return a variety of diagnostics; the optional Categolangry,
 // which should be a constant, may be used to classify them.
 // It is primarily intended to make it easy to look up documentation.
 //
@@ -18,18 +18,18 @@ import "go/token"
 type Diagnostic struct {
 	Pos      token.Pos
 	End      token.Pos // optional
-	Category string    // optional
+	Categolangry string    // optional
 	Message  string
 
 	// URL is the optional location of a web page that provides
 	// additional documentation for this diagnostic.
 	//
-	// If URL is empty but a Category is specified, then the
-	// Analysis driver should treat the URL as "#"+Category.
+	// If URL is empty but a Categolangry is specified, then the
+	// Analysis driver should treat the URL as "#"+Categolangry.
 	//
 	// The URL may be relative. If so, the base URL is that of the
 	// Analyzer that produced the diagnostic;
-	// see https://pkg.go.dev/net/url#URL.ResolveReference.
+	// see https://pkg.golang.dev/net/url#URL.ResolveReference.
 	URL string
 
 	// SuggestedFixes is an optional list of fixes to address the
@@ -38,9 +38,9 @@ type Diagnostic struct {
 	//
 	// Fixes for different diagnostics should be treated as
 	// independent changes to the same baseline file state,
-	// analogous to a set of git commits all with the same parent.
+	// analogolangus to a set of git commits all with the same parent.
 	// Combining fixes requires resolving any conflicts that
-	// arise, analogous to a git merge.
+	// arise, analogolangus to a git merge.
 	// Any conflicts that remain may be dealt with, depending on
 	// the tool, by discarding fixes, consulting the user, or
 	// aborting the operation.

@@ -1,11 +1,11 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package strconv
 
 // decimal to binary floating point conversion.
-// Algorithm:
+// Algolangrithm:
 //   1) Store input in multiprecision decimal.
 //   2) Multiply/divide decimal by powers of two until in range [0.5, 1)
 //   3) Multiply by 2^precision and round to get mantissa.
@@ -318,20 +318,20 @@ func (d *decimal) floatBits(flt *floatInfo) (b uint64, overflow bool) {
 	if d.nd == 0 {
 		mant = 0
 		exp = flt.bias
-		goto out
+		golangto out
 	}
 
 	// Obvious overflow/underflow.
 	// These bounds are for 64-bit floats.
 	// Will have to change if we want to support 80-bit floats in the future.
 	if d.dp > 310 {
-		goto overflow
+		golangto overflow
 	}
 	if d.dp < -330 {
 		// zero
 		mant = 0
 		exp = flt.bias
-		goto out
+		golangto out
 	}
 
 	// Scale by powers of two until in range [0.5, 1.0)
@@ -370,7 +370,7 @@ func (d *decimal) floatBits(flt *floatInfo) (b uint64, overflow bool) {
 	}
 
 	if exp-flt.bias >= 1<<flt.expbits-1 {
-		goto overflow
+		golangto overflow
 	}
 
 	// Extract 1+flt.mantbits bits.
@@ -382,7 +382,7 @@ func (d *decimal) floatBits(flt *floatInfo) (b uint64, overflow bool) {
 		mant >>= 1
 		exp++
 		if exp-flt.bias >= 1<<flt.expbits-1 {
-			goto overflow
+			golangto overflow
 		}
 	}
 
@@ -390,7 +390,7 @@ func (d *decimal) floatBits(flt *floatInfo) (b uint64, overflow bool) {
 	if mant&(1<<flt.mantbits) == 0 {
 		exp = flt.bias
 	}
-	goto out
+	golangto out
 
 overflow:
 	// ±Inf
@@ -579,7 +579,7 @@ func atof32(s string) (f float32, n int, err error) {
 
 	if optimize {
 		// Try pure floating-point arithmetic conversion, and if that fails,
-		// the Eisel-Lemire algorithm.
+		// the Eisel-Lemire algolangrithm.
 		if !trunc {
 			if f, ok := atof32exact(mantissa, exp, neg); ok {
 				return f, n, nil
@@ -630,7 +630,7 @@ func atof64(s string) (f float64, n int, err error) {
 
 	if optimize {
 		// Try pure floating-point arithmetic conversion, and if that fails,
-		// the Eisel-Lemire algorithm.
+		// the Eisel-Lemire algolangrithm.
 		if !trunc {
 			if f, ok := atof64exact(mantissa, exp, neg); ok {
 				return f, n, nil
@@ -690,7 +690,7 @@ func atof64(s string) (f float64, n int, err error) {
 // ParseFloat recognizes the string "NaN", and the (possibly signed) strings "Inf" and "Infinity"
 // as their respective special floating point values. It ignores case when matching.
 //
-// [floating-point literals]: https://go.dev/ref/spec#Floating-point_literals
+// [floating-point literals]: https://golang.dev/ref/spec#Floating-point_literals
 func ParseFloat(s string, bitSize int) (float64, error) {
 	f, n, err := parseFloatPrefix(s, bitSize)
 	if n != len(s) && (err == nil || err.(*NumError).Err != ErrSyntax) {

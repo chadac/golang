@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package modfile
@@ -10,7 +10,7 @@ import (
 	"strings"
 )
 
-// A WorkFile is the parsed, interpreted form of a go.work file.
+// A WorkFile is the parsed, interpreted form of a golang.work file.
 type WorkFile struct {
 	Go        *Go
 	Toolchain *Toolchain
@@ -28,7 +28,7 @@ type Use struct {
 	Syntax     *Line
 }
 
-// ParseWork parses and returns a go.work file.
+// ParseWork parses and returns a golang.work file.
 //
 // file is the name of the file, used in positions and errors.
 //
@@ -69,7 +69,7 @@ func ParseWork(file string, data []byte, fix VersionFixer) (*WorkFile, error) {
 					Err:      fmt.Errorf("unknown block type: %s", strings.Join(x.Token, " ")),
 				})
 				continue
-			case "godebug", "use", "replace":
+			case "golangdebug", "use", "replace":
 				for _, l := range x.Line {
 					f.add(&errs, l, x.Token[0], l.Token, fix)
 				}
@@ -114,13 +114,13 @@ func (f *WorkFile) AddGoStmt(version string) error {
 		return fmt.Errorf("invalid language version %q", version)
 	}
 	if f.Go == nil {
-		stmt := &Line{Token: []string{"go", version}}
+		stmt := &Line{Token: []string{"golang", version}}
 		f.Go = &Go{
 			Version: version,
 			Syntax:  stmt,
 		}
 		// Find the first non-comment-only block and add
-		// the go statement before it. That will keep file comments at the top.
+		// the golang statement before it. That will keep file comments at the top.
 		i := 0
 		for i = 0; i < len(f.Syntax.Stmt); i++ {
 			if _, ok := f.Syntax.Stmt[i].(*CommentBlock); !ok {
@@ -130,7 +130,7 @@ func (f *WorkFile) AddGoStmt(version string) error {
 		f.Syntax.Stmt = append(append(f.Syntax.Stmt[:i:i], stmt), f.Syntax.Stmt[i:]...)
 	} else {
 		f.Go.Version = version
-		f.Syntax.updateLine(f.Go.Syntax, "go", version)
+		f.Syntax.updateLine(f.Go.Syntax, "golang", version)
 	}
 	return nil
 }
@@ -145,14 +145,14 @@ func (f *WorkFile) AddToolchainStmt(name string) error {
 			Name:   name,
 			Syntax: stmt,
 		}
-		// Find the go line and add the toolchain line after it.
+		// Find the golang line and add the toolchain line after it.
 		// Or else find the first non-comment-only block and add
 		// the toolchain line before it. That will keep file comments at the top.
 		i := 0
 		for i = 0; i < len(f.Syntax.Stmt); i++ {
-			if line, ok := f.Syntax.Stmt[i].(*Line); ok && len(line.Token) > 0 && line.Token[0] == "go" {
+			if line, ok := f.Syntax.Stmt[i].(*Line); ok && len(line.Token) > 0 && line.Token[0] == "golang" {
 				i++
-				goto Found
+				golangto Found
 			}
 		}
 		for i = 0; i < len(f.Syntax.Stmt); i++ {
@@ -169,7 +169,7 @@ func (f *WorkFile) AddToolchainStmt(name string) error {
 	return nil
 }
 
-// DropGoStmt deletes the go statement from the file.
+// DropGoStmt deletes the golang statement from the file.
 func (f *WorkFile) DropGoStmt() {
 	if f.Go != nil {
 		f.Go.Syntax.markRemoved()
@@ -185,19 +185,19 @@ func (f *WorkFile) DropToolchainStmt() {
 	}
 }
 
-// AddGodebug sets the first godebug line for key to value,
+// AddGodebug sets the first golangdebug line for key to value,
 // preserving any existing comments for that line and removing all
-// other godebug lines for key.
+// other golangdebug lines for key.
 //
 // If no line currently exists for key, AddGodebug adds a new line
-// at the end of the last godebug block.
+// at the end of the last golangdebug block.
 func (f *WorkFile) AddGodebug(key, value string) error {
 	need := true
 	for _, g := range f.Godebug {
 		if g.Key == key {
 			if need {
 				g.Value = value
-				f.Syntax.updateLine(g.Syntax, "godebug", key+"="+value)
+				f.Syntax.updateLine(g.Syntax, "golangdebug", key+"="+value)
 				need = false
 			} else {
 				g.Syntax.markRemoved()
@@ -212,10 +212,10 @@ func (f *WorkFile) AddGodebug(key, value string) error {
 	return nil
 }
 
-// addNewGodebug adds a new godebug key=value line at the end
-// of the last godebug block, regardless of any existing godebug lines for key.
+// addNewGodebug adds a new golangdebug key=value line at the end
+// of the last golangdebug block, regardless of any existing golangdebug lines for key.
 func (f *WorkFile) addNewGodebug(key, value string) {
-	line := f.Syntax.addLine(nil, "godebug", key+"="+value)
+	line := f.Syntax.addLine(nil, "golangdebug", key+"="+value)
 	g := &Godebug{
 		Key:    key,
 		Value:  value,

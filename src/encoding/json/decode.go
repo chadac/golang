@@ -1,11 +1,11 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Represents JSON data structure using native Go types: booleans, floats,
 // strings, arrays, and maps.
 
-//go:build !goexperiment.jsonv2
+//golang:build !golangexperiment.jsonv2
 
 package json
 
@@ -710,7 +710,7 @@ func (d *decodeState) object(v reflect.Value) error {
 							// it is not possible to set a newly allocated value
 							// since the field is unexported.
 							//
-							// See https://golang.org/issue/21357
+							// See https://golanglang.org/issue/21357
 							if !subv.CanSet() {
 								d.saveError(fmt.Errorf("json: cannot set embedded pointer to unexported struct: %v", subv.Type().Elem()))
 								// Invalidate subv to ensure d.value(subv) skips over
@@ -1193,9 +1193,9 @@ func unquote(s []byte) (t string, ok bool) {
 //   - github.com/bytedance/sonic
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname unquoteBytes
+//golang:linkname unquoteBytes
 func unquoteBytes(s []byte) (t []byte, ok bool) {
 	if len(s) < 2 || s[0] != '"' || s[len(s)-1] != '"' {
 		return

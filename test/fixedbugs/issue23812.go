@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -10,9 +10,9 @@ import "fmt"
 
 func main() {
 	want := int32(0x3edae8)
-	got := foo(1)
-	if want != got {
-		panic(fmt.Sprintf("want %x, got %x", want, got))
+	golangt := foo(1)
+	if want != golangt {
+		panic(fmt.Sprintf("want %x, golangt %x", want, golangt))
 	}
 }
 

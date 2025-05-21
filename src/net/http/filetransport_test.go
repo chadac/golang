@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package http
@@ -51,7 +51,7 @@ func TestFileTransport(t *testing.T) {
 		res.Body.Close()
 		check("ReadAll "+urlstr, err)
 		if string(slurp) != "Bar" {
-			t.Errorf("for %s, got content %q, want %q", urlstr, string(slurp), "Bar")
+			t.Errorf("for %s, golangt content %q, want %q", urlstr, string(slurp), "Bar")
 		}
 	}
 
@@ -92,7 +92,7 @@ func TestFileTransportFS(t *testing.T) {
 		res.Body.Close()
 		check("ReadAll "+urlstr, err)
 		if string(slurp) != string(mfile.Data) {
-			t.Errorf("for %s, got content %q, want %q", urlstr, string(slurp), "Bar")
+			t.Errorf("for %s, golangt content %q, want %q", urlstr, string(slurp), "Bar")
 		}
 	}
 

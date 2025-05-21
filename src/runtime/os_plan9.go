@@ -1,5 +1,5 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
@@ -22,50 +22,50 @@ type mOS struct {
 func dupfd(old, new int32) int32
 func closefd(fd int32) int32
 
-//go:noescape
+//golang:noescape
 func open(name *byte, mode, perm int32) int32
 
-//go:noescape
+//golang:noescape
 func pread(fd int32, buf unsafe.Pointer, nbytes int32, offset int64) int32
 
-//go:noescape
+//golang:noescape
 func pwrite(fd int32, buf unsafe.Pointer, nbytes int32, offset int64) int32
 
 func seek(fd int32, offset int64, whence int32) int64
 
-//go:noescape
+//golang:noescape
 func exits(msg *byte)
 
-//go:noescape
+//golang:noescape
 func brk_(addr unsafe.Pointer) int32
 
 func sleep(ms int32) int32
 
 func rfork(flags int32) int32
 
-//go:noescape
+//golang:noescape
 func plan9_semacquire(addr *uint32, block int32) int32
 
-//go:noescape
+//golang:noescape
 func plan9_tsemacquire(addr *uint32, ms int32) int32
 
-//go:noescape
+//golang:noescape
 func plan9_semrelease(addr *uint32, count int32) int32
 
-//go:noescape
+//golang:noescape
 func notify(fn unsafe.Pointer) int32
 
 func noted(mode int32) int32
 
-//go:noescape
+//golang:noescape
 func nsec(*int64) int64
 
-//go:noescape
+//golang:noescape
 func sigtramp(ureg, note unsafe.Pointer)
 
 func setfpmasks()
 
-//go:noescape
+//golang:noescape
 func tstart_plan9(newm *m)
 
 func errstr() string
@@ -78,7 +78,7 @@ func sigpanic() {
 		throw("unexpected signal during runtime execution")
 	}
 
-	note := gostringnocopy((*byte)(unsafe.Pointer(gp.m.notesig)))
+	note := golangstringnocopy((*byte)(unsafe.Pointer(gp.m.notesig)))
 	switch gp.sig {
 	case _SIGRFAULT, _SIGWFAULT:
 		i := indexNoFloat(note, "addr=")
@@ -181,7 +181,7 @@ type sigset struct{}
 // Called to initialize a new m (including the bootstrap m).
 // Called on the parent thread (main thread in case of bootstrap), can allocate memory.
 func mpreinit(mp *m) {
-	// Initialize stack and goroutine for note handling.
+	// Initialize stack and golangroutine for note handling.
 	mp.gsignal = malg(32 * 1024)
 	mp.gsignal.m = mp
 	mp.notesig = (*int8)(mallocgc(_ERRMAX, nil, true))
@@ -196,8 +196,8 @@ func sigsave(p *sigset) {
 func msigrestore(sigmask sigset) {
 }
 
-//go:nosplit
-//go:nowritebarrierrec
+//golang:nosplit
+//golang:nowritebarrierrec
 func clearSignalHandlers() {
 }
 
@@ -222,9 +222,9 @@ func unminit() {
 // Called from mexit, but not from dropm, to undo the effect of thread-owned
 // resources in minit, semacreate, or elsewhere. Do not take locks after calling this.
 //
-// This always runs without a P, so //go:nowritebarrierrec is required.
+// This always runs without a P, so //golang:nowritebarrierrec is required.
 //
-//go:nowritebarrierrec
+//golang:nowritebarrierrec
 func mdestroy(mp *m) {
 }
 
@@ -352,7 +352,7 @@ func osinit() {
 	}
 }
 
-//go:nosplit
+//golang:nosplit
 func crash() {
 	notify(nil)
 	*(*int)(nil) = 0
@@ -362,7 +362,7 @@ func crash() {
 // return a few hundred bits a second and would slow creation
 // of Go processes down significantly.
 //
-//go:nosplit
+//golang:nosplit
 func readRandom(r []byte) int {
 	return 0
 }
@@ -373,17 +373,17 @@ func initsig(preinit bool) {
 	}
 }
 
-//go:nosplit
+//golang:nosplit
 func osyield() {
 	sleep(0)
 }
 
-//go:nosplit
+//golang:nosplit
 func osyield_no_g() {
 	osyield()
 }
 
-//go:nosplit
+//golang:nosplit
 func usleep(µs uint32) {
 	ms := int32(µs / 1000)
 	if ms == 0 {
@@ -392,23 +392,23 @@ func usleep(µs uint32) {
 	sleep(ms)
 }
 
-//go:nosplit
+//golang:nosplit
 func usleep_no_g(usec uint32) {
 	usleep(usec)
 }
 
-var goexits = []byte("go: exit ")
+var golangexits = []byte("golang: exit ")
 var emptystatus = []byte("\x00")
 var exiting uint32
 
-func goexitsall(status *byte) {
+func golangexitsall(status *byte) {
 	var buf [_ERRMAX]byte
 	if !atomic.Cas(&exiting, 0, 1) {
 		return
 	}
 	getg().m.locks++
-	n := copy(buf[:], goexits)
-	n = copy(buf[n:], gostringnocopy(status))
+	n := copy(buf[:], golangexits)
+	n = copy(buf[n:], golangstringnocopy(status))
 	pid := getpid()
 	for mp := (*m)(atomic.Loadp(unsafe.Pointer(&allm))); mp != nil; mp = mp.alllink {
 		if mp.procid != 0 && mp.procid != pid {
@@ -440,7 +440,7 @@ func postnote(pid uint64, msg []byte) int {
 	return 0
 }
 
-//go:nosplit
+//golang:nosplit
 func exit(e int32) {
 	var status []byte
 	if e == 0 {
@@ -452,13 +452,13 @@ func exit(e int32) {
 		// Don't append, rely on the existing data being zero.
 		status = sl[:len(sl)+1]
 	}
-	goexitsall(&status[0])
+	golangexitsall(&status[0])
 	exits(&status[0])
 }
 
 // May run with m.p==nil, so write barriers are not allowed.
 //
-//go:nowritebarrier
+//golang:nowritebarrier
 func newosproc(mp *m) {
 	if false {
 		print("newosproc mp=", mp, " ostk=", &mp, "\n")
@@ -478,11 +478,11 @@ func exitThread(wait *atomic.Uint32) {
 	throw("exitThread")
 }
 
-//go:nosplit
+//golang:nosplit
 func semacreate(mp *m) {
 }
 
-//go:nosplit
+//golang:nosplit
 func semasleep(ns int64) int {
 	gp := getg()
 	if ns >= 0 {
@@ -497,22 +497,22 @@ func semasleep(ns int64) int {
 		return -1 // timeout or interrupted
 	}
 	for plan9_semacquire(&gp.m.waitsemacount, 1) < 0 {
-		// interrupted; try again (c.f. lock_sema.go)
+		// interrupted; try again (c.f. lock_sema.golang)
 	}
 	return 0 // success
 }
 
-//go:nosplit
+//golang:nosplit
 func semawakeup(mp *m) {
 	plan9_semrelease(&mp.waitsemacount, 1)
 }
 
-//go:nosplit
+//golang:nosplit
 func read(fd int32, buf unsafe.Pointer, n int32) int32 {
 	return pread(fd, buf, n, -1)
 }
 
-//go:nosplit
+//golang:nosplit
 func write1(fd uintptr, buf unsafe.Pointer, n int32) int32 {
 	return pwrite(int32(fd), buf, n, -1)
 }
@@ -521,7 +521,7 @@ var _badsignal = []byte("runtime: signal received on thread not created by Go.\n
 
 // This runs on a foreign stack, without an m or a g. No stack split.
 //
-//go:nosplit
+//golang:nosplit
 func badsignal2() {
 	pwrite(2, unsafe.Pointer(&_badsignal[0]), int32(len(_badsignal)), -1)
 	exits(&_badsignal[0])
@@ -555,7 +555,7 @@ func preemptM(mp *m) {
 	// TODO: Use a note like we use signals on POSIX OSes
 }
 
-//go:nosplit
+//golang:nosplit
 func readtime(t *uint64, min, n int) int {
 	if bintimeFD < 0 {
 		fatal("/dev/bintime not opened")
@@ -576,7 +576,7 @@ func frombe(u uint64) uint64 {
 	return byteorder.BEUint64(b[:])
 }
 
-//go:nosplit
+//golang:nosplit
 func nanotime1() int64 {
 	var t [4]uint64
 	if readtime(&t[0], 1, 4) == 4 {
@@ -588,7 +588,7 @@ func nanotime1() int64 {
 	return int64(frombe(t[0]))
 }
 
-//go:nosplit
+//golang:nosplit
 func walltime() (sec int64, nsec int32) {
 	var t [1]uint64
 	readtime(&t[0], 1, 1)

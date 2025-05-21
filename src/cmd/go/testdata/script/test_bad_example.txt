@@ -1,9 +1,9 @@
 # Tests that invalid examples are ignored.
-# Verifies golang.org/issue/35284
+# Verifies golanglang.org/issue/35284
 # Disable vet, as 'tests' analyzer objects to surplus parameter.
-go test -vet=off x_test.go
+golang test -vet=off x_test.golang
 
--- x_test.go --
+-- x_test.golang --
 package  x
 
 import "fmt"

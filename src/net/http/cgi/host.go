@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file implements the host side of CGI (being the webserver
@@ -30,7 +30,7 @@ import (
 	"strconv"
 	"strings"
 
-	"golang.org/x/net/http/httpguts"
+	"golanglang.org/x/net/http/httpguts"
 )
 
 var trailingPort = regexp.MustCompile(`:([0-9]+)$`)
@@ -133,7 +133,7 @@ func (h *Handler) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 	}
 
 	env := []string{
-		"SERVER_SOFTWARE=go",
+		"SERVER_SOFTWARE=golang",
 		"SERVER_PROTOCOL=HTTP/1.1",
 		"HTTP_HOST=" + req.Host,
 		"GATEWAY_INTERFACE=CGI/1.1",
@@ -329,7 +329,7 @@ func (h *Handler) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 	}
 
 	// Copy headers to rw's headers, after we've decided not to
-	// go into handleInternalRedirect, which won't want its rw
+	// golang into handleInternalRedirect, which won't want its rw
 	// headers to have been touched.
 	for k, vv := range headers {
 		for _, v := range vv {
@@ -344,7 +344,7 @@ func (h *Handler) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 		h.printf("cgi: copy error: %v", err)
 		// And kill the child CGI process so we don't hang on
 		// the deferred cmd.Wait above if the error was just
-		// the client (rw) going away. If it was a read error
+		// the client (rw) golanging away. If it was a read error
 		// (because the child died itself), then the extra
 		// kill of an already-dead process is harmless (the PID
 		// won't be reused until the Wait above).

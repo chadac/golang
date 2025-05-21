@@ -1,8 +1,8 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// This is a package for testing comment placement by go/printer.
+// This is a package for testing comment placement by golang/printer.
 //
 package main
 
@@ -720,10 +720,10 @@ func _() {
 func _() {
 var	finput		*bufio.Reader			// input file
 var	stderr		*bufio.Writer
-var	ftable		*bufio.Writer			// y.go file
+var	ftable		*bufio.Writer			// y.golang file
 var	foutput		*bufio.Writer			// y.output file
 
-var	oflag		string				// -o [y.go]		- y.go file
+var	oflag		string				// -o [y.golang]		- y.golang file
 var	vflag		string				// -v [y.output]	- y.output file
 var	lflag		bool				// -l			- disable line directives
 }
@@ -755,8 +755,8 @@ var _ = [][]T{
 	},
 }
 
-// TODO: gofmt doesn't add these tabs; make it so that these golden
-// tests run the printer in a way that it's exactly like gofmt.
+// TODO: golangfmt doesn't add these tabs; make it so that these golanglden
+// tests run the printer in a way that it's exactly like golangfmt.
 
 var _ = []T{// lone comment
 }

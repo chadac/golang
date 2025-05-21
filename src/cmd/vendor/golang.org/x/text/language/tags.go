@@ -1,10 +1,10 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package language
 
-import "golang.org/x/text/internal/language/compact"
+import "golanglang.org/x/text/internal/language/compact"
 
 // TODO: Various sets of commonly use tags and regions.
 
@@ -108,7 +108,7 @@ var (
 	Latvian              Tag = Tag(compact.Latvian)
 	Macedonian           Tag = Tag(compact.Macedonian)
 	Malayalam            Tag = Tag(compact.Malayalam)
-	Mongolian            Tag = Tag(compact.Mongolian)
+	Mongolanglian            Tag = Tag(compact.Mongolanglian)
 	Marathi              Tag = Tag(compact.Marathi)
 	Malay                Tag = Tag(compact.Malay)
 	Burmese              Tag = Tag(compact.Burmese)

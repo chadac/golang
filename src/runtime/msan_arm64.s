@@ -1,10 +1,10 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build msan
+//golang:build msan
 
-#include "go_asm.h"
+#include "golang_asm.h"
 #include "textflag.h"
 
 #define RARG0 R0
@@ -17,8 +17,8 @@
 TEXT	runtime·domsanread(SB), NOSPLIT, $0-16
 	MOVD	addr+0(FP), RARG0
 	MOVD	sz+8(FP), RARG1
-	// void __msan_read_go(void *addr, uintptr_t sz);
-	MOVD	$__msan_read_go(SB), FARG
+	// void __msan_read_golang(void *addr, uintptr_t sz);
+	MOVD	$__msan_read_golang(SB), FARG
 	JMP	msancall<>(SB)
 
 // func runtime·msanwrite(addr unsafe.Pointer, sz uintptr)
@@ -26,24 +26,24 @@ TEXT	runtime·domsanread(SB), NOSPLIT, $0-16
 TEXT	runtime·msanwrite(SB), NOSPLIT, $0-16
 	MOVD	addr+0(FP), RARG0
 	MOVD	sz+8(FP), RARG1
-	// void __msan_write_go(void *addr, uintptr_t sz);
-	MOVD	$__msan_write_go(SB), FARG
+	// void __msan_write_golang(void *addr, uintptr_t sz);
+	MOVD	$__msan_write_golang(SB), FARG
 	JMP	msancall<>(SB)
 
 // func runtime·msanmalloc(addr unsafe.Pointer, sz uintptr)
 TEXT	runtime·msanmalloc(SB), NOSPLIT, $0-16
 	MOVD	addr+0(FP), RARG0
 	MOVD	sz+8(FP), RARG1
-	// void __msan_malloc_go(void *addr, uintptr_t sz);
-	MOVD	$__msan_malloc_go(SB), FARG
+	// void __msan_malloc_golang(void *addr, uintptr_t sz);
+	MOVD	$__msan_malloc_golang(SB), FARG
 	JMP	msancall<>(SB)
 
 // func runtime·msanfree(addr unsafe.Pointer, sz uintptr)
 TEXT	runtime·msanfree(SB), NOSPLIT, $0-16
 	MOVD	addr+0(FP), RARG0
 	MOVD	sz+8(FP), RARG1
-	// void __msan_free_go(void *addr, uintptr_t sz);
-	MOVD	$__msan_free_go(SB), FARG
+	// void __msan_free_golang(void *addr, uintptr_t sz);
+	MOVD	$__msan_free_golang(SB), FARG
 	JMP	msancall<>(SB)
 
 // func runtime·msanmove(dst, src unsafe.Pointer, sz uintptr)
@@ -51,8 +51,8 @@ TEXT	runtime·msanmove(SB), NOSPLIT, $0-24
 	MOVD	dst+0(FP), RARG0
 	MOVD	src+8(FP), RARG1
 	MOVD	sz+16(FP), RARG2
-	// void __msan_memmove_go(void *dst, void *src, uintptr_t sz);
-	MOVD	$__msan_memmove_go(SB), FARG
+	// void __msan_memmove_golang(void *dst, void *src, uintptr_t sz);
+	MOVD	$__msan_memmove_golang(SB), FARG
 	JMP	msancall<>(SB)
 
 // Switches SP to g0 stack and calls (FARG). Arguments already set.
@@ -70,7 +70,7 @@ TEXT	msancall<>(SB), NOSPLIT, $0-0
 	CMP	R11, g
 	BEQ	call
 
-	MOVD	(g_sched+gobuf_sp)(R11), R4
+	MOVD	(g_sched+golangbuf_sp)(R11), R4
 	MOVD	R4, RSP
 
 call:

@@ -1,13 +1,13 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build ignore
+//golang:build ignore
 
 /*
-Input to cgo.
+Input to cgolang.
 
-GOARCH=arm go tool cgo -cdefs defs_netbsd.go defs_netbsd_arm.go >defs_netbsd_arm.h
+GOARCH=arm golang tool cgolang -cdefs defs_netbsd.golang defs_netbsd_arm.golang >defs_netbsd_arm.h
 */
 
 package runtime

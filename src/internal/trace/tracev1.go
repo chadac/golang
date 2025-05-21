@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file implements conversion from v1 (Go 1.11–Go 1.21) traces to the v2
@@ -16,7 +16,7 @@
 // The resulting trace treats the trace v1 as a single, large generation,
 // sharing a single evTable for all events.
 //
-// We use a new (compared to what was used for 'go tool trace' in earlier
+// We use a new (compared to what was used for 'golang tool trace' in earlier
 // versions of Go) parser for v1 traces that is optimized for speed, low memory
 // usage, and minimal GC pressure. It allocates events in batches so that even
 // though we have to load the entire trace into memory, the conversion process
@@ -159,9 +159,9 @@ func (it *traceV1Converter) init(pr tracev1.Trace) error {
 	addBuiltin(sSTWGCMarkTermination, "GC mark termination")
 	addBuiltin(sSTWGCSweepTermination, "GC sweep termination")
 	addBuiltin(sSTWWriteHeapDump, "write heap dump")
-	addBuiltin(sSTWGoroutineProfile, "goroutine profile")
-	addBuiltin(sSTWGoroutineProfileCleanup, "goroutine profile cleanup")
-	addBuiltin(sSTWAllGoroutinesStackTrace, "all goroutine stack trace")
+	addBuiltin(sSTWGoroutineProfile, "golangroutine profile")
+	addBuiltin(sSTWGoroutineProfileCleanup, "golangroutine profile cleanup")
+	addBuiltin(sSTWAllGoroutinesStackTrace, "all golangroutine stack trace")
 	addBuiltin(sSTWReadMemStats, "read mem stats")
 	addBuiltin(sSTWAllThreadsSyscall, "AllThreadsSyscall")
 	addBuiltin(sSTWGOMAXPROCS, "GOMAXPROCS")
@@ -261,11 +261,11 @@ func (it *traceV1Converter) convertEvent(ev *tracev1.Event) (OUT Event, ERR erro
 		mappedType = tracev2.EvProcsChange
 		if it.preInit {
 			// The first EvGomaxprocs signals the end of trace initialization. At this point we've seen
-			// all goroutines that already existed at trace begin.
+			// all golangroutines that already existed at trace begin.
 			it.preInit = false
 			for gid := range it.createdPreInit {
-				// These are goroutines that already existed when tracing started but for which we
-				// received neither GoWaiting, GoInSyscall, or GoStart. These are goroutines that are in
+				// These are golangroutines that already existed when tracing started but for which we
+				// received neither GoWaiting, GoInSyscall, or GoStart. These are golangroutines that are in
 				// the states _Gidle or _Grunnable.
 				it.extra = append(it.extra, Event{
 					ctx: schedCtx{

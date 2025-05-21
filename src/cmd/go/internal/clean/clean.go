@@ -1,8 +1,8 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Package clean implements the “go clean” command.
+// Package clean implements the “golang clean” command.
 package clean
 
 import (
@@ -18,25 +18,25 @@ import (
 	"strings"
 	"time"
 
-	"cmd/go/internal/base"
-	"cmd/go/internal/cache"
-	"cmd/go/internal/cfg"
-	"cmd/go/internal/load"
-	"cmd/go/internal/lockedfile"
-	"cmd/go/internal/modfetch"
-	"cmd/go/internal/modload"
-	"cmd/go/internal/str"
-	"cmd/go/internal/work"
+	"cmd/golang/internal/base"
+	"cmd/golang/internal/cache"
+	"cmd/golang/internal/cfg"
+	"cmd/golang/internal/load"
+	"cmd/golang/internal/lockedfile"
+	"cmd/golang/internal/modfetch"
+	"cmd/golang/internal/modload"
+	"cmd/golang/internal/str"
+	"cmd/golang/internal/work"
 )
 
 var CmdClean = &base.Command{
-	UsageLine: "go clean [-i] [-r] [-cache] [-testcache] [-modcache] [-fuzzcache] [build flags] [packages]",
+	UsageLine: "golang clean [-i] [-r] [-cache] [-testcache] [-modcache] [-fuzzcache] [build flags] [packages]",
 	Short:     "remove object files and cached files",
 	Long: `
 Clean removes object files from package source directories.
-The go command builds most objects in a temporary directory,
-so go clean is mainly concerned with object files left by other
-tools or by manual invocations of go build.
+The golang command builds most objects in a temporary directory,
+so golang clean is mainly concerned with object files left by other
+tools or by manual invocations of golang build.
 
 If a package argument is given or the -i or -r flag is set,
 clean removes the following files from each of the
@@ -44,14 +44,14 @@ source directories corresponding to the import paths:
 
 	_obj/            old object directory, left from Makefiles
 	_test/           old test directory, left from Makefiles
-	_testmain.go     old gotest file, left from Makefiles
+	_testmain.golang     old golangtest file, left from Makefiles
 	test.out         old test log, left from Makefiles
 	build.out        old test log, left from Makefiles
 	*.[568ao]        object files, left from Makefiles
 
-	DIR(.exe)        from go build
-	DIR.test(.exe)   from go test -c
-	MAINFILE(.exe)   from go build MAINFILE.go
+	DIR(.exe)        from golang build
+	DIR.test(.exe)   from golang test -c
+	MAINFILE(.exe)   from golang build MAINFILE.golang
 	*.so             from SWIG
 
 In the list, DIR represents the final path element of the
@@ -60,7 +60,7 @@ file in the directory that is not included when building
 the package.
 
 The -i flag causes clean to remove the corresponding installed
-archive or binary (what 'go install' would create).
+archive or binary (what 'golang install' would create).
 
 The -n flag causes clean to print the remove commands it would execute,
 but not run them.
@@ -70,10 +70,10 @@ dependencies of the packages named by the import paths.
 
 The -x flag causes clean to print remove commands as it executes them.
 
-The -cache flag causes clean to remove the entire go build cache.
+The -cache flag causes clean to remove the entire golang build cache.
 
 The -testcache flag causes clean to expire all test results in the
-go build cache.
+golang build cache.
 
 The -modcache flag causes clean to remove the entire module
 download cache, including unpacked source code of versioned
@@ -86,9 +86,9 @@ new inputs are found that provide the same coverage. These files are
 distinct from those stored in testdata directory; clean does not remove
 those files.
 
-For more about build flags, see 'go help build'.
+For more about build flags, see 'golang help build'.
 
-For more about specifying packages, see 'go help packages'.
+For more about specifying packages, see 'golang help packages'.
 	`,
 }
 
@@ -133,11 +133,11 @@ func runClean(ctx context.Context, cmd *base.Command, args []string) {
 			cacheFlag = "-modcache"
 		}
 		if cacheFlag != "" {
-			base.Fatalf("go: clean %s cannot be used with package arguments", cacheFlag)
+			base.Fatalf("golang: clean %s cannot be used with package arguments", cacheFlag)
 		}
 	}
 
-	// golang.org/issue/29925: only load packages before cleaning if
+	// golanglang.org/issue/29925: only load packages before cleaning if
 	// either the flags and arguments explicitly imply a package,
 	// or no other target (such as a cache) was requested to be cleaned.
 	cleanPkg := len(args) > 0 || cleanI || cleanR
@@ -216,7 +216,7 @@ func runClean(ctx context.Context, cmd *base.Command, args []string) {
 
 	if cleanModcache {
 		if cfg.GOMODCACHE == "" {
-			base.Fatalf("go: cannot clean -modcache without a module cache")
+			base.Fatalf("golang: cannot clean -modcache without a module cache")
 		}
 		if cfg.BuildN || cfg.BuildX {
 			sh.ShowCmd("", "rm -rf %s", cfg.GOMODCACHE)
@@ -263,9 +263,9 @@ func logFilesInGOMODCACHE() {
 		return nil
 	})
 	if werr != nil {
-		base.Errorf("walking files in GOMODCACHE (for debugging go.dev/issue/68087): %v", werr)
+		base.Errorf("walking files in GOMODCACHE (for debugging golang.dev/issue/68087): %v", werr)
 	}
-	base.Errorf("files in GOMODCACHE (for debugging go.dev/issue/68087):\n%s", strings.Join(found, "\n"))
+	base.Errorf("files in GOMODCACHE (for debugging golang.dev/issue/68087):\n%s", strings.Join(found, "\n"))
 }
 
 var cleaned = map[*load.Package]bool{}
@@ -278,7 +278,7 @@ var cleanDir = map[string]bool{
 }
 
 var cleanFile = map[string]bool{
-	"_testmain.go": true,
+	"_testmain.golang": true,
 	"test.out":     true,
 	"build.out":    true,
 	"a.out":        true,
@@ -305,7 +305,7 @@ func clean(p *load.Package) {
 	}
 	dirs, err := os.ReadDir(p.Dir)
 	if err != nil {
-		base.Errorf("go: %s: %v", p.Dir, err)
+		base.Errorf("golang: %s: %v", p.Dir, err)
 		return
 	}
 
@@ -321,7 +321,7 @@ func clean(p *load.Package) {
 			}
 		}
 		keep(p.GoFiles)
-		keep(p.CgoFiles)
+		keep(p.CgolangFiles)
 		keep(p.TestGoFiles)
 		keep(p.XTestGoFiles)
 	}
@@ -347,7 +347,7 @@ func clean(p *load.Package) {
 		p.DefaultExecName()+".test.exe",
 	)
 
-	// Remove a potential executable, test executable for each .go file in the directory that
+	// Remove a potential executable, test executable for each .golang file in the directory that
 	// is not part of the directory's package.
 	for _, dir := range dirs {
 		name := dir.Name()
@@ -359,12 +359,12 @@ func clean(p *load.Package) {
 			continue
 		}
 
-		if base, found := strings.CutSuffix(name, "_test.go"); found {
+		if base, found := strings.CutSuffix(name, "_test.golang"); found {
 			allRemove = append(allRemove, base+".test", base+".test.exe")
 		}
 
-		if base, found := strings.CutSuffix(name, ".go"); found {
-			// TODO(adg,rsc): check that this .go file is actually
+		if base, found := strings.CutSuffix(name, ".golang"); found {
+			// TODO(adg,rsc): check that this .golang file is actually
 			// in "package main", and therefore capable of building
 			// to an executable file.
 			allRemove = append(allRemove, base, base+".exe")
@@ -382,7 +382,7 @@ func clean(p *load.Package) {
 	for _, dir := range dirs {
 		name := dir.Name()
 		if dir.IsDir() {
-			// TODO: Remove once Makefiles are forgotten.
+			// TODO: Remove once Makefiles are forgolangtten.
 			if cleanDir[name] {
 				if err := sh.RemoveAll(filepath.Join(p.Dir, name)); err != nil {
 					base.Error(err)

@@ -1,14 +1,14 @@
 env GO111MODULE=off
 
-# Issue 30296. Verify that "go vet" uses only immediate dependencies.
+# Issue 30296. Verify that "golang vet" uses only immediate dependencies.
 
 # First run fills the cache.
-go vet a
+golang vet a
 
-go vet -x a
+golang vet -x a
 ! stderr 'transitive'
 
--- a/a.go --
+-- a/a.golang --
 package a
 
 import "b"
@@ -17,7 +17,7 @@ func F() {
 	b.F()
 }
 
--- b/b.go --
+-- b/b.golang --
 package b
 
 import "transitive"
@@ -26,7 +26,7 @@ func F() {
 	transitive.F()
 }
 
--- transitive/c.go --
+-- transitive/c.golang --
 package transitive
 
 func F() {

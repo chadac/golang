@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -10,9 +10,9 @@ func main() {
 	Foo: {
 		return;
 	}
-	goto Foo;
+	golangto Foo;
 }
 /*
-bug5.go:4: Foo undefined
-bug5.go:4: fatal error: walktype: switch 1 unknown op GOTO l(4)
+bug5.golang:4: Foo undefined
+bug5.golang:4: fatal error: walktype: switch 1 unknown op GOTO l(4)
 */

@@ -1,36 +1,36 @@
 [short] skip 'runs test'
 
-go test -v -run Test -skip T skip_test.go
+golang test -v -run Test -skip T skip_test.golang
 ! stdout RUN
 stdout '^ok.*\[no tests to run\]'
 
-go test -v -skip T skip_test.go
+golang test -v -skip T skip_test.golang
 ! stdout RUN
 
-go test -v -skip 1 skip_test.go
+golang test -v -skip 1 skip_test.golang
 ! stdout Test1
 stdout RUN.*Test2
 stdout RUN.*Test2/3
 
-go test -v -skip 2/3 skip_test.go
+golang test -v -skip 2/3 skip_test.golang
 stdout RUN.*Test1
 stdout RUN.*Test2
 stdout RUN.*ExampleTest1
 ! stdout Test2/3
 
-go test -v -skip 2/4 skip_test.go
+golang test -v -skip 2/4 skip_test.golang
 stdout RUN.*Test1
 stdout RUN.*Test2
 stdout RUN.*Test2/3
 stdout RUN.*ExampleTest1
 
-go test -v -skip Example skip_test.go
+golang test -v -skip Example skip_test.golang
 stdout RUN.*Test1
 stdout RUN.*Test2
 stdout RUN.*Test2/3
 ! stdout ExampleTest1
 
--- skip_test.go --
+-- skip_test.golang --
 package skip_test
 
 import "testing"

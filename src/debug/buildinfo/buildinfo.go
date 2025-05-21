@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package buildinfo provides access to information embedded in a Go binary
@@ -47,9 +47,9 @@ var errUnrecognizedFormat = errors.New("unrecognized file format")
 //   - github.com/quay/claircore
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname errNotGoExe
+//golang:linkname errNotGoExe
 var errNotGoExe = errors.New("not a Go executable")
 
 // The build info blob left by the linker is identified by a 32-byte header,
@@ -261,7 +261,7 @@ func readRawBuildInfo(r io.ReaderAt) (vers, mod string, err error) {
 	}
 	if len(mod) >= 33 && mod[len(mod)-17] == '\n' {
 		// Strip module framing: sentinel strings delimiting the module info.
-		// These are cmd/go/internal/modload.infoStart and infoEnd.
+		// These are cmd/golang/internal/modload.infoStart and infoEnd.
 		mod = mod[16 : len(mod)-16]
 	} else {
 		mod = ""
@@ -454,7 +454,7 @@ func (x *elfExe) DataReader(addr uint64) (io.ReaderAt, error) {
 
 func (x *elfExe) DataStart() (uint64, uint64) {
 	for _, s := range x.f.Sections {
-		if s.Name == ".go.buildinfo" {
+		if s.Name == ".golang.buildinfo" {
 			return s.Addr, s.Size
 		}
 	}
@@ -537,9 +537,9 @@ func (x *machoExe) DataReader(addr uint64) (io.ReaderAt, error) {
 }
 
 func (x *machoExe) DataStart() (uint64, uint64) {
-	// Look for section named "__go_buildinfo".
+	// Look for section named "__golang_buildinfo".
 	for _, sec := range x.f.Sections {
-		if sec.Name == "__go_buildinfo" {
+		if sec.Name == "__golang_buildinfo" {
 			return sec.Addr, sec.Size
 		}
 	}

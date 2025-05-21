@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test conversion from slice to array pointer.
@@ -14,8 +14,8 @@ func wantPanic(fn func(), s string) {
 		if err == nil {
 			panic("expected panic")
 		}
-		if got := err.(error).Error(); got != s {
-			panic("expected panic " + s + " got " + got)
+		if golangt := err.(error).Error(); golangt != s {
+			panic("expected panic " + s + " golangt " + golangt)
 		}
 	}()
 	fn()

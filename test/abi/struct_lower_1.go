@@ -1,17 +1,17 @@
 // run
 
-//go:build !wasm
+//golang:build !wasm
 
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
 
 import "fmt"
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func passStruct6(a Struct6) Struct6 {
 	return a
 }

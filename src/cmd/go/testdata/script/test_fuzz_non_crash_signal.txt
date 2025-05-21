@@ -7,7 +7,7 @@ env GOCACHE=$WORK/cache
 
 # FuzzNonCrash sends itself a signal that does not appear to be a crash.
 # We should not save a crasher.
-! go test -fuzz=FuzzNonCrash
+! golang test -fuzz=FuzzNonCrash
 ! exists testdata
 ! stdout unreachable
 ! stderr unreachable
@@ -16,7 +16,7 @@ stdout 'fuzzing process terminated by unexpected signal; no crash will be record
 # FuzzKill sends itself a signal that cannot be caught by the worker process
 # and does not appear to be a crash.
 # We should not save a crasher.
-! go test -fuzz=FuzzKill
+! golang test -fuzz=FuzzKill
 ! exists testdata
 ! stdout unreachable
 ! stderr unreachable
@@ -24,15 +24,15 @@ stdout 'fuzzing process terminated by unexpected signal; no crash will be record
 
 # FuzzCrash sends itself a signal that looks like a crash.
 # We should save a crasher.
-! go test -fuzz=FuzzCrash
+! golang test -fuzz=FuzzCrash
 exists testdata/fuzz/FuzzCrash
 stdout '^\s+fuzzing process hung or terminated unexpectedly: exit status'
 
--- go.mod --
+-- golang.mod --
 module test
 
-go 1.17
--- fuzz_posix_test.go --
+golang 1.17
+-- fuzz_posix_test.golang --
 // +build darwin freebsd linux
 
 package fuzz

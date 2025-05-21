@@ -1,11 +1,11 @@
-// The package g is a go/doc test for mixed exported/unexported ...
+// The package g is a golang/doc test for mixed exported/unexported ...
 PACKAGE g
 
 IMPORTPATH
 	testdata/g
 
 FILENAMES
-	testdata/g.go
+	testdata/g.golang
 
 CONSTANTS
 	// 

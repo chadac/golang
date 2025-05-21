@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 #include "textflag.h"
@@ -60,8 +60,8 @@ GLOBL sincoss7<>+0(SB), RODATA, $8
 //      Sin(±0) = ±0
 //      Sin(±Inf) = NaN
 //      Sin(NaN) = NaN
-// The algorithm used is minimax polynomial approximation.
-// with coefficients determined with a Remez exchange algorithm.
+// The algolangrithm used is minimax polynomial approximation.
+// with coefficients determined with a Remez exchange algolangrithm.
 
 TEXT ·sinAsm(SB),NOSPLIT,$0-16
 	FMOVD   x+0(FP), F0
@@ -220,8 +220,8 @@ sinIsZero:
 // Special cases are:
 //      Cos(±Inf) = NaN
 //      Cos(NaN) = NaN
-// The algorithm used is minimax polynomial approximation.
-// with coefficients determined with a Remez exchange algorithm.
+// The algolangrithm used is minimax polynomial approximation.
+// with coefficients determined with a Remez exchange algolangrithm.
 
 TEXT ·cosAsm(SB),NOSPLIT,$0-16
 	FMOVD   x+0(FP), F0

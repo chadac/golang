@@ -1,8 +1,8 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build unix
+//golang:build unix
 
 package syscall
 
@@ -14,9 +14,9 @@ import _ "unsafe"
 // This may change in the future. Please do not depend on them
 // in new code.
 
-// golang.org/x/sys linknames getsockopt.
+// golanglang.org/x/sys linknames getsockopt.
 // Do not remove or change the type signature.
 //
-//go:linkname getsockopt
+//golang:linkname getsockopt
 
-//go:linkname setsockopt
+//golang:linkname setsockopt

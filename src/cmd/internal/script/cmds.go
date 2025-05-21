@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package script
@@ -108,7 +108,7 @@ func Cat() Cmd {
 
 			var buf strings.Builder
 			errc := make(chan error, 1)
-			go func() {
+			golang func() {
 				for _, p := range paths {
 					b, err := os.ReadFile(p)
 					buf.Write(b)
@@ -457,7 +457,7 @@ func startCommand(s *State, name, path string, args []string, cancel func(*exec.
 		if isETXTBSY(err) {
 			// If the script (or its host process) just wrote the executable we're
 			// trying to run, a fork+exec in another thread may be holding open the FD
-			// that we used to write the executable (see https://go.dev/issue/22315).
+			// that we used to write the executable (see https://golang.dev/issue/22315).
 			// Since the descriptor should have CLOEXEC set, the problem should
 			// resolve as soon as the forked child reaches its exec call.
 			// Keep retrying until that happens.
@@ -610,7 +610,7 @@ func Exists() Cmd {
 // Like stdout/stderr and unlike Unix grep, it accepts Go regexp syntax.
 //
 // Grep does not modify the State's stdout or stderr buffers.
-// (Its output goes to the script log, not stdout.)
+// (Its output golanges to the script log, not stdout.)
 func Grep() Cmd {
 	return Command(
 		CmdUsage{

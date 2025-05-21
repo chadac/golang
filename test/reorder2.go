@@ -1,10 +1,10 @@
 // run
 
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Test reorderings; derived from fixedbugs/bug294.go.
+// Test reorderings; derived from fixedbugs/bug294.golang.
 
 package main
 
@@ -58,7 +58,7 @@ func f(x, y string) {
 	log += "f(" + x + ", " + y + ")"
 }
 
-//go:noinline
+//golang:noinline
 func ff(x, y string) {
 	log += "ff(" + x + ", " + y + ")"
 }
@@ -68,7 +68,7 @@ func h(x string) string {
 	return x
 }
 
-//go:noinline
+//golang:noinline
 func g(x string) string {
 	log += "g(" + x + ")"
 	return x
@@ -78,90 +78,90 @@ func main() {
 	err := 0
 	var t TT
 	if a("1")("2")("3"); log != "a(1)a(2)a(3)" {
-		println("expecting a(1)a(2)a(3) , got ", log)
+		println("expecting a(1)a(2)a(3) , golangt ", log)
 		err++
 	}
 	log = ""
 
 	if t.a("1").a(t.b("2")); log != "a(1)b(2)a(2)" {
-		println("expecting a(1)b(2)a(2), got ", log)
+		println("expecting a(1)b(2)a(2), golangt ", log)
 		err++
 	}
 	log = ""
 	if a("3")(b("4"))(b("5")); log != "a(3)b(4)a(4)b(5)a(5)" {
-		println("expecting a(3)b(4)a(4)b(5)a(5), got ", log)
+		println("expecting a(3)b(4)a(4)b(5)a(5), golangt ", log)
 		err++
 	}
 	log = ""
 	var i I = T1(0)
 	if i.a("6").a(i.b("7")).a(i.b("8")).a(i.b("9")); log != "a(6)b(7)a(7)b(8)a(8)b(9)a(9)" {
-		println("expecting a(6)ba(7)ba(8)ba(9), got", log)
+		println("expecting a(6)ba(7)ba(8)ba(9), golangt", log)
 		err++
 	}
 	log = ""
 
 	if s := t.a("1").b("3"); log != "a(1)b(3)" || s != "3" {
-		println("expecting a(1)b(3) and 3, got ", log, " and ", s)
+		println("expecting a(1)b(3) and 3, golangt ", log, " and ", s)
 		err++
 	}
 	log = ""
 
 	if s := t.a("1").a(t.b("2")).b("3") + t.a("4").b("5"); log != "a(1)b(2)a(2)b(3)a(4)b(5)" || s != "35" {
-		println("expecting a(1)b(2)a(2)b(3)a(4)b(5) and 35, got ", log, " and ", s)
+		println("expecting a(1)b(2)a(2)b(3)a(4)b(5) and 35, golangt ", log, " and ", s)
 		err++
 	}
 	log = ""
 
 	if s := t.a("4").b("5") + t.a("1").a(t.b("2")).b("3"); log != "a(4)b(5)a(1)b(2)a(2)b(3)" || s != "53" {
-		println("expecting a(4)b(5)a(1)b(2)a(2)b(3) and 35, got ", log, " and ", s)
+		println("expecting a(4)b(5)a(1)b(2)a(2)b(3) and 35, golangt ", log, " and ", s)
 		err++
 	}
 	log = ""
 
 	if ff(g("1"), g("2")); log != "g(1)g(2)ff(1, 2)" {
-		println("expecting g(1)g(2)ff..., got ", log)
+		println("expecting g(1)g(2)ff..., golangt ", log)
 		err++
 	}
 	log = ""
 
 	if ff(g("1"), h("2")); log != "g(1)h(2)ff(1, 2)" {
-		println("expecting g(1)h(2)ff..., got ", log)
+		println("expecting g(1)h(2)ff..., golangt ", log)
 		err++
 	}
 	log = ""
 
 	if ff(h("1"), g("2")); log != "h(1)g(2)ff(1, 2)" {
-		println("expecting h(1)g(2)ff..., got ", log)
+		println("expecting h(1)g(2)ff..., golangt ", log)
 		err++
 	}
 	log = ""
 
 	if ff(h("1"), h("2")); log != "h(1)h(2)ff(1, 2)" {
-		println("expecting h(1)h(2)ff..., got ", log)
+		println("expecting h(1)h(2)ff..., golangt ", log)
 		err++
 	}
 	log = ""
 
 	if s := g("1") + g("2"); log != "g(1)g(2)" || s != "12" {
-		println("expecting g1g2 and 12, got ", log, " and ", s)
+		println("expecting g1g2 and 12, golangt ", log, " and ", s)
 		err++
 	}
 	log = ""
 
 	if s := g("1") + h("2"); log != "g(1)h(2)" || s != "12" {
-		println("expecting g1h2 and 12, got ", log, " and ", s)
+		println("expecting g1h2 and 12, golangt ", log, " and ", s)
 		err++
 	}
 	log = ""
 
 	if s := h("1") + g("2"); log != "h(1)g(2)" || s != "12" {
-		println("expecting h1g2 and 12, got ", log, " and ", s)
+		println("expecting h1g2 and 12, golangt ", log, " and ", s)
 		err++
 	}
 	log = ""
 
 	if s := h("1") + h("2"); log != "h(1)h(2)" || s != "12" {
-		println("expecting h1h2 and 12, got ", log, " and ", s)
+		println("expecting h1h2 and 12, golangt ", log, " and ", s)
 		err++
 	}
 	log = ""
@@ -170,24 +170,24 @@ func main() {
 	switch x {
 	case 0:
 		if a("1")("2")("3"); log != "a(1)a(2)a(3)" {
-			println("in switch, expecting a(1)a(2)a(3) , got ", log)
+			println("in switch, expecting a(1)a(2)a(3) , golangt ", log)
 			err++
 		}
 		log = ""
 
 		if t.a("1").a(t.b("2")); log != "a(1)b(2)a(2)" {
-			println("in switch, expecting a(1)b(2)a(2), got ", log)
+			println("in switch, expecting a(1)b(2)a(2), golangt ", log)
 			err++
 		}
 		log = ""
 		if a("3")(b("4"))(b("5")); log != "a(3)b(4)a(4)b(5)a(5)" {
-			println("in switch, expecting a(3)b(4)a(4)b(5)a(5), got ", log)
+			println("in switch, expecting a(3)b(4)a(4)b(5)a(5), golangt ", log)
 			err++
 		}
 		log = ""
 		var i I = T1(0)
 		if i.a("6").a(i.b("7")).a(i.b("8")).a(i.b("9")); log != "a(6)b(7)a(7)b(8)a(8)b(9)a(9)" {
-			println("in switch, expecting a(6)ba(7)ba(8)ba(9), got", log)
+			println("in switch, expecting a(6)ba(7)ba(8)ba(9), golangt", log)
 			err++
 		}
 		log = ""
@@ -200,24 +200,24 @@ func main() {
 	case c <- 1:
 	case <-c:
 		if a("1")("2")("3"); log != "a(1)a(2)a(3)" {
-			println("in select1, expecting a(1)a(2)a(3) , got ", log)
+			println("in select1, expecting a(1)a(2)a(3) , golangt ", log)
 			err++
 		}
 		log = ""
 
 		if t.a("1").a(t.b("2")); log != "a(1)b(2)a(2)" {
-			println("in select1, expecting a(1)b(2)a(2), got ", log)
+			println("in select1, expecting a(1)b(2)a(2), golangt ", log)
 			err++
 		}
 		log = ""
 		if a("3")(b("4"))(b("5")); log != "a(3)b(4)a(4)b(5)a(5)" {
-			println("in select1, expecting a(3)b(4)a(4)b(5)a(5), got ", log)
+			println("in select1, expecting a(3)b(4)a(4)b(5)a(5), golangt ", log)
 			err++
 		}
 		log = ""
 		var i I = T1(0)
 		if i.a("6").a(i.b("7")).a(i.b("8")).a(i.b("9")); log != "a(6)b(7)a(7)b(8)a(8)b(9)a(9)" {
-			println("in select1, expecting a(6)ba(7)ba(8)ba(9), got", log)
+			println("in select1, expecting a(6)ba(7)ba(8)ba(9), golangt", log)
 			err++
 		}
 		log = ""
@@ -227,24 +227,24 @@ func main() {
 	select {
 	case <-c:
 		if a("1")("2")("3"); log != "a(1)a(2)a(3)" {
-			println("in select2, expecting a(1)a(2)a(3) , got ", log)
+			println("in select2, expecting a(1)a(2)a(3) , golangt ", log)
 			err++
 		}
 		log = ""
 
 		if t.a("1").a(t.b("2")); log != "a(1)b(2)a(2)" {
-			println("in select2, expecting a(1)b(2)a(2), got ", log)
+			println("in select2, expecting a(1)b(2)a(2), golangt ", log)
 			err++
 		}
 		log = ""
 		if a("3")(b("4"))(b("5")); log != "a(3)b(4)a(4)b(5)a(5)" {
-			println("in select2, expecting a(3)b(4)a(4)b(5)a(5), got ", log)
+			println("in select2, expecting a(3)b(4)a(4)b(5)a(5), golangt ", log)
 			err++
 		}
 		log = ""
 		var i I = T1(0)
 		if i.a("6").a(i.b("7")).a(i.b("8")).a(i.b("9")); log != "a(6)b(7)a(7)b(8)a(8)b(9)a(9)" {
-			println("in select2, expecting a(6)ba(7)ba(8)ba(9), got", log)
+			println("in select2, expecting a(6)ba(7)ba(8)ba(9), golangt", log)
 			err++
 		}
 		log = ""
@@ -256,24 +256,24 @@ func main() {
 	case c <- 1:
 	case <-c:
 		if a("1")("2")("3"); log != "a(1)a(2)a(3)" {
-			println("in select3, expecting a(1)a(2)a(3) , got ", log)
+			println("in select3, expecting a(1)a(2)a(3) , golangt ", log)
 			err++
 		}
 		log = ""
 
 		if t.a("1").a(t.b("2")); log != "a(1)b(2)a(2)" {
-			println("in select3, expecting a(1)b(2)a(2), got ", log)
+			println("in select3, expecting a(1)b(2)a(2), golangt ", log)
 			err++
 		}
 		log = ""
 		if a("3")(b("4"))(b("5")); log != "a(3)b(4)a(4)b(5)a(5)" {
-			println("in select3, expecting a(3)b(4)a(4)b(5)a(5), got ", log)
+			println("in select3, expecting a(3)b(4)a(4)b(5)a(5), golangt ", log)
 			err++
 		}
 		log = ""
 		var i I = T1(0)
 		if i.a("6").a(i.b("7")).a(i.b("8")).a(i.b("9")); log != "a(6)b(7)a(7)b(8)a(8)b(9)a(9)" {
-			println("in select3, expecting a(6)ba(7)ba(8)ba(9), got", log)
+			println("in select3, expecting a(6)ba(7)ba(8)ba(9), golangt", log)
 			err++
 		}
 		log = ""
@@ -284,24 +284,24 @@ func main() {
 	default:
 	case <-c:
 		if a("1")("2")("3"); log != "a(1)a(2)a(3)" {
-			println("in select4, expecting a(1)a(2)a(3) , got ", log)
+			println("in select4, expecting a(1)a(2)a(3) , golangt ", log)
 			err++
 		}
 		log = ""
 
 		if t.a("1").a(t.b("2")); log != "a(1)b(2)a(2)" {
-			println("in select4, expecting a(1)b(2)a(2), got ", log)
+			println("in select4, expecting a(1)b(2)a(2), golangt ", log)
 			err++
 		}
 		log = ""
 		if a("3")(b("4"))(b("5")); log != "a(3)b(4)a(4)b(5)a(5)" {
-			println("in select4, expecting a(3)b(4)a(4)b(5)a(5), got ", log)
+			println("in select4, expecting a(3)b(4)a(4)b(5)a(5), golangt ", log)
 			err++
 		}
 		log = ""
 		var i I = T1(0)
 		if i.a("6").a(i.b("7")).a(i.b("8")).a(i.b("9")); log != "a(6)b(7)a(7)b(8)a(8)b(9)a(9)" {
-			println("in select4, expecting a(6)ba(7)ba(8)ba(9), got", log)
+			println("in select4, expecting a(6)ba(7)ba(8)ba(9), golangt", log)
 			err++
 		}
 		log = ""
@@ -312,24 +312,24 @@ func main() {
 	case <-c:
 	default:
 		if a("1")("2")("3"); log != "a(1)a(2)a(3)" {
-			println("in select5, expecting a(1)a(2)a(3) , got ", log)
+			println("in select5, expecting a(1)a(2)a(3) , golangt ", log)
 			err++
 		}
 		log = ""
 
 		if t.a("1").a(t.b("2")); log != "a(1)b(2)a(2)" {
-			println("in select5, expecting a(1)b(2)a(2), got ", log)
+			println("in select5, expecting a(1)b(2)a(2), golangt ", log)
 			err++
 		}
 		log = ""
 		if a("3")(b("4"))(b("5")); log != "a(3)b(4)a(4)b(5)a(5)" {
-			println("in select5, expecting a(3)b(4)a(4)b(5)a(5), got ", log)
+			println("in select5, expecting a(3)b(4)a(4)b(5)a(5), golangt ", log)
 			err++
 		}
 		log = ""
 		var i I = T1(0)
 		if i.a("6").a(i.b("7")).a(i.b("8")).a(i.b("9")); log != "a(6)b(7)a(7)b(8)a(8)b(9)a(9)" {
-			println("in select5, expecting a(6)ba(7)ba(8)ba(9), got", log)
+			println("in select5, expecting a(6)ba(7)ba(8)ba(9), golangt", log)
 			err++
 		}
 		log = ""

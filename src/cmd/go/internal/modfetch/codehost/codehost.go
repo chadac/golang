@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package codehost defines the interface implemented by a code hosting source,
@@ -20,17 +20,17 @@ import (
 	"sync"
 	"time"
 
-	"cmd/go/internal/cfg"
-	"cmd/go/internal/lockedfile"
-	"cmd/go/internal/str"
+	"cmd/golang/internal/cfg"
+	"cmd/golang/internal/lockedfile"
+	"cmd/golang/internal/str"
 
-	"golang.org/x/mod/module"
-	"golang.org/x/mod/semver"
+	"golanglang.org/x/mod/module"
+	"golanglang.org/x/mod/semver"
 )
 
 // Downloaded size limits.
 const (
-	MaxGoMod   = 16 << 20  // maximum size of go.mod file
+	MaxGoMod   = 16 << 20  // maximum size of golang.mod file
 	MaxLICENSE = 16 << 20  // maximum size of LICENSE file
 	MaxZipFile = 500 << 20 // maximum size of downloaded zip file
 )
@@ -39,7 +39,7 @@ const (
 // Typical implementations include local version control repositories,
 // remote version control servers, and code hosting sites.
 //
-// A Repo must be safe for simultaneous use by multiple goroutines,
+// A Repo must be safe for simultaneous use by multiple golangroutines,
 // and callers must not modify returned values, which may be cached and shared.
 type Repo interface {
 	// CheckReuse checks whether the old origin information
@@ -88,7 +88,7 @@ type Repo interface {
 }
 
 // An Origin describes the provenance of a given repo method result.
-// It can be passed to CheckReuse (usually in a different go command invocation)
+// It can be passed to CheckReuse (usually in a different golang command invocation)
 // to see whether the result remains up-to-date.
 type Origin struct {
 	VCS    string `json:",omitempty"` // "git" etc
@@ -137,7 +137,7 @@ type Tag struct {
 // isOriginTag reports whether tag should be preserved
 // in the Tags method's Origin calculation.
 // We can safely ignore tags that are not look like pseudo-versions,
-// because ../coderepo.go's (*codeRepo).Versions ignores them too.
+// because ../coderepo.golang's (*codeRepo).Versions ignores them too.
 // We can also ignore non-semver tags, but we have to include semver
 // tags with extra suffixes, because the pseudo-version base finder uses them.
 func isOriginTag(tag string) bool {

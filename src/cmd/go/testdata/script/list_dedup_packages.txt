@@ -1,22 +1,22 @@
 # Setup
 env GO111MODULE=off
 mkdir $WORK/tmp/testdata/src/xtestonly
-cp f.go $WORK/tmp/testdata/src/xtestonly/f.go
-cp f_test.go $WORK/tmp/testdata/src/xtestonly/f_test.go
+cp f.golang $WORK/tmp/testdata/src/xtestonly/f.golang
+cp f_test.golang $WORK/tmp/testdata/src/xtestonly/f_test.golang
 env GOPATH=$WORK/tmp/testdata
 cd $WORK
 
-# Check output of go list to ensure no duplicates
-go list xtestonly ./tmp/testdata/src/xtestonly/...
-cmp stdout $WORK/gopath/src/wantstdout
+# Check output of golang list to ensure no duplicates
+golang list xtestonly ./tmp/testdata/src/xtestonly/...
+cmp stdout $WORK/golangpath/src/wantstdout
 
 -- wantstdout --
 xtestonly
--- f.go --
+-- f.golang --
 package xtestonly
 
 func F() int { return 42 }
--- f_test.go --
+-- f_test.golang --
 package xtestonly_test
 
 import (

@@ -10,7 +10,7 @@ handle svn
 # However, the repo is probably accurate enough for the tests that need it.
 
 env GIT_AUTHOR_NAME='Russ Cox'
-env GIT_AUTHOR_EMAIL='rsc@golang.org'
+env GIT_AUTHOR_EMAIL='rsc@golanglang.org'
 env GIT_COMMITTER_NAME=$GIT_AUTHOR_NAME
 env GIT_COMMITTER_EMAIL=$GIT_AUTHOR_EMAIL
 
@@ -45,7 +45,7 @@ unquote '# pack-refs with: peeled fully-peeled \n7f800d2ac276dd7042ea0e8d7438527
 cp stdout .git/packed-refs
 git branch --set-upstream-to=origin/master
 
-git add pkg/pkg.go
+git add pkg/pkg.golang
 at 2017-09-22T11:41:28-04:00
 git commit -a -m 'add pkg'
 
@@ -58,7 +58,7 @@ svn commit -m 'add modified git-README-only'
 svn propset svn:author rsc --revprop -r1
 svn propset svn:date 2017-09-22T15:41:54.145716Z --revprop -r1
 
-svn add pkg.go
+svn add pkg.golang
 svn commit -m 'use git-README-only/pkg'
 svn propset svn:author rsc --revprop -r2
 svn propset svn:date 2017-09-22T15:49:11.130406Z --revprop -r2
@@ -74,11 +74,11 @@ svn propset svn:author rsc --revprop -r4
 svn propset svn:date 2017-09-27T17:48:18.350817Z --revprop -r4
 
 cd git-README-only
-git remote set-url origin https://vcs-test.golang.org/git/README-only
+git remote set-url origin https://vcs-test.golanglang.org/git/README-only
 cd ..
-replace 'vcs-test.swtch.com' 'vcs-test.golang.org' other/pkg.go
-replace 'vcs-test.swtch.com' 'vcs-test.golang.org' pkg.go
-svn commit -m 'move from vcs-test.swtch.com to vcs-test.golang.org'
+replace 'vcs-test.swtch.com' 'vcs-test.golanglang.org' other/pkg.golang
+replace 'vcs-test.swtch.com' 'vcs-test.golanglang.org' pkg.golang
+svn commit -m 'move from vcs-test.swtch.com to vcs-test.golanglang.org'
 svn propset svn:author rsc --revprop -r5
 svn propset svn:date 2017-10-04T15:08:26.291877Z --revprop -r5
 
@@ -88,7 +88,7 @@ svn log --xml
 [GOOS:windows] replace '\n' '\r\n' .svn-log
 cmp stdout .svn-log
 
--- .checkout/git-README-only/pkg/pkg.go --
+-- .checkout/git-README-only/pkg/pkg.golang --
 package pkg
 const Message = "code not in git-README-only"
 -- .checkout/git-README-only/README --
@@ -96,17 +96,17 @@ README
 -- .checkout/.git-log --
 ab9f66b (HEAD -> master) add pkg
 7f800d2 (origin/master, origin/HEAD) README
--- .checkout/pkg.go --
+-- .checkout/pkg.golang --
 package p
 
-import "vcs-test.swtch.com/go/test1-svn-git/git-README-only/pkg"
+import "vcs-test.swtch.com/golang/test1-svn-git/git-README-only/pkg"
 
 const _ = pkg.Message
--- .checkout/other/pkg.go --
+-- .checkout/other/pkg.golang --
 package other
 
-import _ "vcs-test.swtch.com/go/test1-svn-git/git-README-only/other"
--- .checkout/tiny/tiny.go --
+import _ "vcs-test.swtch.com/golang/test1-svn-git/git-README-only/other"
+-- .checkout/tiny/tiny.golang --
 package tiny
 -- .checkout/.svn-log --
 <?xml version="1.0" encoding="UTF-8"?>
@@ -115,7 +115,7 @@ package tiny
    revision="5">
 <author>rsc</author>
 <date>2017-10-04T15:08:26.291877Z</date>
-<msg>move from vcs-test.swtch.com to vcs-test.golang.org</msg>
+<msg>move from vcs-test.swtch.com to vcs-test.golanglang.org</msg>
 </logentry>
 <logentry
    revision="4">

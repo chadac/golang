@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -12,7 +12,7 @@ import (
 
 var cnt32 int32
 
-//go:noinline
+//golang:noinline
 func test32(a, b []int) bool {
 	// Try to generate flag value, issue atomic
 	// adds and then re-use the flag value to see if
@@ -33,7 +33,7 @@ func test32(a, b []int) bool {
 
 var cnt64 int64
 
-//go:noinline
+//golang:noinline
 func test64(a, b []int) bool {
 	// Try to generate flag value, issue atomic
 	// adds and then re-use the flag value to see if

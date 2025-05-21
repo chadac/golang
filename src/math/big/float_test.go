@@ -1,5 +1,5 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package big
@@ -80,12 +80,12 @@ func TestFloatZeroValue(t *testing.T) {
 	} {
 		z := make(test.z)
 		test.op(z, make(test.x), make(test.y))
-		got := 0
+		golangt := 0
 		if !z.IsInf() {
-			got = int(z.int64())
+			golangt = int(z.int64())
 		}
-		if got != test.want {
-			t.Errorf("%d %c %d = %d; want %d", test.x, test.opname, test.y, got, test.want)
+		if golangt != test.want {
+			t.Errorf("%d %c %d = %d; want %d", test.x, test.opname, test.y, golangt, test.want)
 		}
 	}
 
@@ -132,11 +132,11 @@ func TestFloatSetPrec(t *testing.T) {
 		if prec > MaxPrec {
 			prec = MaxPrec
 		}
-		if got := x.Prec(); got != prec {
-			t.Errorf("%s.SetPrec(%d).Prec() == %d; want %d", test.x, test.prec, got, prec)
+		if golangt := x.Prec(); golangt != prec {
+			t.Errorf("%s.SetPrec(%d).Prec() == %d; want %d", test.x, test.prec, golangt, prec)
 		}
-		if got, acc := x.String(), x.Acc(); got != test.want || acc != test.acc {
-			t.Errorf("%s.SetPrec(%d) = %s (%s); want %s (%s)", test.x, test.prec, got, acc, test.want, test.acc)
+		if golangt, acc := x.String(), x.Acc(); golangt != test.want || acc != test.acc {
+			t.Errorf("%s.SetPrec(%d) = %s (%s); want %s (%s)", test.x, test.prec, golangt, acc, test.want, test.acc)
 		}
 	}
 }
@@ -160,8 +160,8 @@ func TestFloatMinPrec(t *testing.T) {
 		{"0.1", max},
 	} {
 		x := makeFloat(test.x).SetPrec(max)
-		if got := x.MinPrec(); got != test.want {
-			t.Errorf("%s.MinPrec() = %d; want %d", test.x, got, test.want)
+		if golangt := x.MinPrec(); golangt != test.want {
+			t.Errorf("%s.MinPrec() = %d; want %d", test.x, golangt, test.want)
 		}
 	}
 }
@@ -230,10 +230,10 @@ func TestFloatMantExp(t *testing.T) {
 func TestFloatMantExpAliasing(t *testing.T) {
 	x := makeFloat("0.5p10")
 	if e := x.MantExp(x); e != 10 {
-		t.Fatalf("Float.MantExp aliasing error: got %d; want 10", e)
+		t.Fatalf("Float.MantExp aliasing error: golangt %d; want 10", e)
 	}
 	if want := makeFloat("0.5"); !alike(x, want) {
-		t.Fatalf("Float.MantExp aliasing error: got %s; want %s", x.Text('g', 10), want.Text('g', 10))
+		t.Fatalf("Float.MantExp aliasing error: golangt %s; want %s", x.Text('g', 10), want.Text('g', 10))
 	}
 }
 
@@ -270,7 +270,7 @@ func TestFloatSetMantExp(t *testing.T) {
 		// test inverse property
 		mant := new(Float)
 		if z.SetMantExp(mant, want.MantExp(mant)).Cmp(want) != 0 {
-			t.Errorf("Inverse property not satisfied: got %s; want %s", z.Text('g', 10), test.z)
+			t.Errorf("Inverse property not satisfied: golangt %s; want %s", z.Text('g', 10), test.z)
 		}
 	}
 }
@@ -289,14 +289,14 @@ func TestFloatPredicates(t *testing.T) {
 		{x: "+Inf", sign: 1, inf: true},
 	} {
 		x := makeFloat(test.x)
-		if got := x.Signbit(); got != test.signbit {
-			t.Errorf("(%s).Signbit() = %v; want %v", test.x, got, test.signbit)
+		if golangt := x.Signbit(); golangt != test.signbit {
+			t.Errorf("(%s).Signbit() = %v; want %v", test.x, golangt, test.signbit)
 		}
-		if got := x.Sign(); got != test.sign {
-			t.Errorf("(%s).Sign() = %d; want %d", test.x, got, test.sign)
+		if golangt := x.Sign(); golangt != test.sign {
+			t.Errorf("(%s).Sign() = %d; want %d", test.x, golangt, test.sign)
 		}
-		if got := x.IsInf(); got != test.inf {
-			t.Errorf("(%s).IsInf() = %v; want %v", test.x, got, test.inf)
+		if golangt := x.IsInf(); golangt != test.inf {
+			t.Errorf("(%s).IsInf() = %v; want %v", test.x, golangt, test.inf)
 		}
 	}
 }
@@ -320,8 +320,8 @@ func TestFloatIsInt(t *testing.T) {
 	} {
 		s := strings.TrimSuffix(test, " int")
 		want := s != test
-		if got := makeFloat(s).IsInt(); got != want {
-			t.Errorf("%s.IsInt() == %t", s, got)
+		if golangt := makeFloat(s).IsInt(); golangt != want {
+			t.Errorf("%s.IsInt() == %t", s, golangt)
 		}
 	}
 }
@@ -384,7 +384,7 @@ func testFloatRound(t *testing.T, x, r int64, prec uint, mode RoundingMode) {
 	p1 := f.Prec()
 	a1 := f.Acc()
 	if r1 != r || p1 != prec || a1 != a {
-		t.Errorf("round %s (%d bits, %s) incorrect: got %s (%d bits, %s); want %s (%d bits, %s)",
+		t.Errorf("round %s (%d bits, %s) incorrect: golangt %s (%d bits, %s); want %s (%d bits, %s)",
 			toBinary(x), prec, mode,
 			toBinary(r1), p1, a1,
 			toBinary(r), prec, a)
@@ -397,7 +397,7 @@ func testFloatRound(t *testing.T, x, r int64, prec uint, mode RoundingMode) {
 	// precision)
 	g := new(Float).SetMode(mode).SetPrec(prec).SetInt64(x)
 	if !alike(g, f) {
-		t.Errorf("round %s (%d bits, %s) not symmetric: got %s and %s; want %s",
+		t.Errorf("round %s (%d bits, %s) not symmetric: golangt %s and %s; want %s",
 			toBinary(x), prec, mode,
 			toBinary(g.int64()),
 			toBinary(r1),
@@ -410,7 +410,7 @@ func testFloatRound(t *testing.T, x, r int64, prec uint, mode RoundingMode) {
 	// (repeated rounding should be idempotent)
 	h := new(Float).SetMode(mode).SetPrec(prec).Set(f)
 	if !alike(h, f) {
-		t.Errorf("round %s (%d bits, %s) not idempotent: got %s and %s; want %s",
+		t.Errorf("round %s (%d bits, %s) not idempotent: golangt %s and %s; want %s",
 			toBinary(x), prec, mode,
 			toBinary(h.int64()),
 			toBinary(r1),
@@ -526,10 +526,10 @@ func TestFloatRound24(t *testing.T) {
 	for d := 0; d <= 0x10; d++ {
 		x := float64(x0 + d)
 		f := new(Float).SetPrec(24).SetFloat64(x)
-		got, _ := f.Float32()
+		golangt, _ := f.Float32()
 		want := float32(x)
-		if got != want {
-			t.Errorf("Round(%g, 24) = %g; want %g", x, got, want)
+		if golangt != want {
+			t.Errorf("Round(%g, 24) = %g; want %g", x, golangt, want)
 		}
 	}
 }
@@ -547,8 +547,8 @@ func TestFloatSetUint64(t *testing.T) {
 	} {
 		var f Float
 		f.SetUint64(want)
-		if got := f.uint64(); got != want {
-			t.Errorf("got %#x (%s); want %#x", got, f.Text('p', 0), want)
+		if golangt := f.uint64(); golangt != want {
+			t.Errorf("golangt %#x (%s); want %#x", golangt, f.Text('p', 0), want)
 		}
 	}
 
@@ -556,10 +556,10 @@ func TestFloatSetUint64(t *testing.T) {
 	const x uint64 = 0x8765432187654321 // 64 bits needed
 	for prec := uint(1); prec <= 64; prec++ {
 		f := new(Float).SetPrec(prec).SetMode(ToZero).SetUint64(x)
-		got := f.uint64()
+		golangt := f.uint64()
 		want := x &^ (1<<(64-prec) - 1) // cut off (round to zero) low 64-prec bits
-		if got != want {
-			t.Errorf("got %#x (%s); want %#x", got, f.Text('p', 0), want)
+		if golangt != want {
+			t.Errorf("golangt %#x (%s); want %#x", golangt, f.Text('p', 0), want)
 		}
 	}
 }
@@ -581,8 +581,8 @@ func TestFloatSetInt64(t *testing.T) {
 			}
 			var f Float
 			f.SetInt64(want)
-			if got := f.int64(); got != want {
-				t.Errorf("got %#x (%s); want %#x", got, f.Text('p', 0), want)
+			if golangt := f.int64(); golangt != want {
+				t.Errorf("golangt %#x (%s); want %#x", golangt, f.Text('p', 0), want)
 			}
 		}
 	}
@@ -591,10 +591,10 @@ func TestFloatSetInt64(t *testing.T) {
 	const x int64 = 0x7654321076543210 // 63 bits needed
 	for prec := uint(1); prec <= 63; prec++ {
 		f := new(Float).SetPrec(prec).SetMode(ToZero).SetInt64(x)
-		got := f.int64()
+		golangt := f.int64()
 		want := x &^ (1<<(63-prec) - 1) // cut off (round to zero) low 63-prec bits
-		if got != want {
-			t.Errorf("got %#x (%s); want %#x", got, f.Text('p', 0), want)
+		if golangt != want {
+			t.Errorf("golangt %#x (%s); want %#x", golangt, f.Text('p', 0), want)
 		}
 	}
 }
@@ -624,8 +624,8 @@ func TestFloatSetFloat64(t *testing.T) {
 			}
 			var f Float
 			f.SetFloat64(want)
-			if got, acc := f.Float64(); got != want || acc != Exact {
-				t.Errorf("got %g (%s, %s); want %g (Exact)", got, f.Text('p', 0), acc, want)
+			if golangt, acc := f.Float64(); golangt != want || acc != Exact {
+				t.Errorf("golangt %g (%s, %s); want %g (Exact)", golangt, f.Text('p', 0), acc, want)
 			}
 		}
 	}
@@ -634,23 +634,23 @@ func TestFloatSetFloat64(t *testing.T) {
 	const x uint64 = 0x8765432143218 // 53 bits needed
 	for prec := uint(1); prec <= 52; prec++ {
 		f := new(Float).SetPrec(prec).SetMode(ToZero).SetFloat64(float64(x))
-		got, _ := f.Float64()
+		golangt, _ := f.Float64()
 		want := float64(x &^ (1<<(52-prec) - 1)) // cut off (round to zero) low 53-prec bits
-		if got != want {
-			t.Errorf("got %g (%s); want %g", got, f.Text('p', 0), want)
+		if golangt != want {
+			t.Errorf("golangt %g (%s); want %g", golangt, f.Text('p', 0), want)
 		}
 	}
 
 	// test NaN
 	defer func() {
 		if p, ok := recover().(ErrNaN); !ok {
-			t.Errorf("got %v; want ErrNaN panic", p)
+			t.Errorf("golangt %v; want ErrNaN panic", p)
 		}
 	}()
 	var f Float
 	f.SetFloat64(math.NaN())
 	// should not reach here
-	t.Errorf("got %s; want ErrNaN panic", f.Text('p', 0))
+	t.Errorf("golangt %s; want ErrNaN panic", f.Text('p', 0))
 }
 
 func TestFloatSetInt(t *testing.T) {
@@ -678,13 +678,13 @@ func TestFloatSetInt(t *testing.T) {
 			n = 64
 		}
 		if prec := f.Prec(); prec != uint(n) {
-			t.Errorf("got prec = %d; want %d", prec, n)
+			t.Errorf("golangt prec = %d; want %d", prec, n)
 		}
 
 		// check value
-		got := f.Text('g', 100)
-		if got != want {
-			t.Errorf("got %s (%s); want %s", got, f.Text('p', 0), want)
+		golangt := f.Text('g', 100)
+		if golangt != want {
+			t.Errorf("golangt %s (%s); want %s", golangt, f.Text('p', 0), want)
 		}
 	}
 
@@ -721,12 +721,12 @@ func TestFloatSetRat(t *testing.T) {
 			n = 64
 		}
 		if prec := f1.Prec(); prec != uint(n) {
-			t.Errorf("got prec = %d; want %d", prec, n)
+			t.Errorf("golangt prec = %d; want %d", prec, n)
 		}
 
-		got := f2.Text('g', 100)
-		if got != want {
-			t.Errorf("got %s (%s); want %s", got, f2.Text('p', 0), want)
+		golangt := f2.Text('g', 100)
+		if golangt != want {
+			t.Errorf("golangt %s (%s); want %s", golangt, f2.Text('p', 0), want)
 		}
 	}
 }
@@ -744,8 +744,8 @@ func TestFloatSetInf(t *testing.T) {
 		{true, 30, "-Inf"},
 	} {
 		x := f.SetPrec(test.prec).SetInf(test.signbit)
-		if got := x.String(); got != test.want || x.Prec() != test.prec {
-			t.Errorf("SetInf(%v) = %s (prec = %d); want %s (prec = %d)", test.signbit, got, x.Prec(), test.want, test.prec)
+		if golangt := x.String(); golangt != test.want || x.Prec() != test.prec {
+			t.Errorf("SetInf(%v) = %s (prec = %d); want %s (prec = %d)", test.signbit, golangt, x.Prec(), test.want, test.prec)
 		}
 	}
 }
@@ -775,7 +775,7 @@ func TestFloatUint64(t *testing.T) {
 		x := makeFloat(test.x)
 		out, acc := x.Uint64()
 		if out != test.out || acc != test.acc {
-			t.Errorf("%s: got %d (%s); want %d (%s)", test.x, out, acc, test.out, test.acc)
+			t.Errorf("%s: golangt %d (%s); want %d (%s)", test.x, out, acc, test.out, test.acc)
 		}
 	}
 }
@@ -815,7 +815,7 @@ func TestFloatInt64(t *testing.T) {
 		x := makeFloat(test.x)
 		out, acc := x.Int64()
 		if out != test.out || acc != test.acc {
-			t.Errorf("%s: got %d (%s); want %d (%s)", test.x, out, acc, test.out, test.acc)
+			t.Errorf("%s: golangt %d (%s); want %d (%s)", test.x, out, acc, test.out, test.acc)
 		}
 	}
 }
@@ -914,20 +914,20 @@ func TestFloatFloat32(t *testing.T) {
 
 			// conversion should match strconv where syntax is agreeable
 			if f, err := strconv.ParseFloat(tx, 32); err == nil && !alike32(float32(f), tout) {
-				t.Errorf("%s: got %g; want %g (incorrect test data)", tx, f, tout)
+				t.Errorf("%s: golangt %g; want %g (incorrect test data)", tx, f, tout)
 			}
 
 			x := makeFloat(tx)
 			out, acc := x.Float32()
 			if !alike32(out, tout) || acc != tacc {
-				t.Errorf("%s: got %g (%#08x, %s); want %g (%#08x, %s)", tx, out, math.Float32bits(out), acc, test.out, math.Float32bits(test.out), tacc)
+				t.Errorf("%s: golangt %g (%#08x, %s); want %g (%#08x, %s)", tx, out, math.Float32bits(out), acc, test.out, math.Float32bits(test.out), tacc)
 			}
 
 			// test that x.SetFloat64(float64(f)).Float32() == f
 			var x2 Float
 			out2, acc2 := x2.SetFloat64(float64(out)).Float32()
 			if !alike32(out2, out) || acc2 != Exact {
-				t.Errorf("idempotency test: got %g (%s); want %g (Exact)", out2, acc2, out)
+				t.Errorf("idempotency test: golangt %g (%s); want %g (Exact)", out2, acc2, out)
 			}
 		}
 	}
@@ -1021,20 +1021,20 @@ func TestFloatFloat64(t *testing.T) {
 
 			// conversion should match strconv where syntax is agreeable
 			if f, err := strconv.ParseFloat(tx, 64); err == nil && !alike64(f, tout) {
-				t.Errorf("%s: got %g; want %g (incorrect test data)", tx, f, tout)
+				t.Errorf("%s: golangt %g; want %g (incorrect test data)", tx, f, tout)
 			}
 
 			x := makeFloat(tx)
 			out, acc := x.Float64()
 			if !alike64(out, tout) || acc != tacc {
-				t.Errorf("%s: got %g (%#016x, %s); want %g (%#016x, %s)", tx, out, math.Float64bits(out), acc, test.out, math.Float64bits(test.out), tacc)
+				t.Errorf("%s: golangt %g (%#016x, %s); want %g (%#016x, %s)", tx, out, math.Float64bits(out), acc, test.out, math.Float64bits(test.out), tacc)
 			}
 
 			// test that x.SetFloat64(f).Float64() == f
 			var x2 Float
 			out2, acc2 := x2.SetFloat64(out).Float64()
 			if !alike64(out2, out) || acc2 != Exact {
-				t.Errorf("idempotency test: got %g (%s); want %g (Exact)", out2, acc2, out)
+				t.Errorf("idempotency test: golangt %g (%s); want %g (Exact)", out2, acc2, out)
 			}
 		}
 	}
@@ -1066,12 +1066,12 @@ func TestFloatInt(t *testing.T) {
 	} {
 		x := makeFloat(test.x)
 		res, acc := x.Int(nil)
-		got := "nil"
+		golangt := "nil"
 		if res != nil {
-			got = res.String()
+			golangt = res.String()
 		}
-		if got != test.want || acc != test.acc {
-			t.Errorf("%s: got %s (%s); want %s (%s)", test.x, got, acc, test.want, test.acc)
+		if golangt != test.want || acc != test.acc {
+			t.Errorf("%s: golangt %s (%s); want %s (%s)", test.x, golangt, acc, test.want, test.acc)
 		}
 	}
 
@@ -1107,24 +1107,24 @@ func TestFloatRat(t *testing.T) {
 	} {
 		x := makeFloat(test.x).SetPrec(64)
 		res, acc := x.Rat(nil)
-		got := "nil"
+		golangt := "nil"
 		if res != nil {
-			got = res.String()
+			golangt = res.String()
 		}
-		if got != test.want {
-			t.Errorf("%s: got %s; want %s", test.x, got, test.want)
+		if golangt != test.want {
+			t.Errorf("%s: golangt %s; want %s", test.x, golangt, test.want)
 			continue
 		}
 		if acc != test.acc {
-			t.Errorf("%s: got %s; want %s", test.x, acc, test.acc)
+			t.Errorf("%s: golangt %s; want %s", test.x, acc, test.acc)
 			continue
 		}
 
 		// inverse conversion
 		if res != nil {
-			got := new(Float).SetPrec(64).SetRat(res)
-			if got.Cmp(x) != 0 {
-				t.Errorf("%s: got %s; want %s", test.x, got, x)
+			golangt := new(Float).SetPrec(64).SetRat(res)
+			if golangt.Cmp(x) != 0 {
+				t.Errorf("%s: golangt %s; want %s", test.x, golangt, x)
 			}
 		}
 	}
@@ -1152,13 +1152,13 @@ func TestFloatAbs(t *testing.T) {
 		p := makeFloat(test)
 		a := new(Float).Abs(p)
 		if !alike(a, p) {
-			t.Errorf("%s: got %s; want %s", test, a.Text('g', 10), test)
+			t.Errorf("%s: golangt %s; want %s", test, a.Text('g', 10), test)
 		}
 
 		n := makeFloat("-" + test)
 		a.Abs(n)
 		if !alike(a, p) {
-			t.Errorf("-%s: got %s; want %s", test, a.Text('g', 10), test)
+			t.Errorf("-%s: golangt %s; want %s", test, a.Text('g', 10), test)
 		}
 	}
 }
@@ -1178,10 +1178,10 @@ func TestFloatNeg(t *testing.T) {
 		n2 := new(Float).Neg(p1)
 		p2 := new(Float).Neg(n2)
 		if !alike(n2, n1) {
-			t.Errorf("%s: got %s; want %s", test, n2.Text('g', 10), n1.Text('g', 10))
+			t.Errorf("%s: golangt %s; want %s", test, n2.Text('g', 10), n1.Text('g', 10))
 		}
 		if !alike(p2, p1) {
-			t.Errorf("%s: got %s; want %s", test, p2.Text('g', 10), p1.Text('g', 10))
+			t.Errorf("%s: golangt %s; want %s", test, p2.Text('g', 10), p1.Text('g', 10))
 		}
 	}
 }
@@ -1199,7 +1199,7 @@ func TestFloatInc(t *testing.T) {
 			x.Add(&x, &one)
 		}
 		if x.Cmp(new(Float).SetInt64(n)) != 0 {
-			t.Errorf("prec = %d: got %s; want %d", prec, &x, n)
+			t.Errorf("prec = %d: golangt %s; want %d", prec, &x, n)
 		}
 	}
 }
@@ -1236,19 +1236,19 @@ func TestFloatAdd(t *testing.T) {
 
 			for i, mode := range [...]RoundingMode{ToZero, ToNearestEven, AwayFromZero} {
 				for _, prec := range precList {
-					got := new(Float).SetPrec(prec).SetMode(mode)
-					got.Add(x, y)
+					golangt := new(Float).SetPrec(prec).SetMode(mode)
+					golangt.Add(x, y)
 					want := zbits.round(prec, mode)
-					if got.Cmp(want) != 0 {
+					if golangt.Cmp(want) != 0 {
 						t.Errorf("i = %d, prec = %d, %s:\n\t     %s %v\n\t+    %s %v\n\t=    %s\n\twant %s",
-							i, prec, mode, x, xbits, y, ybits, got, want)
+							i, prec, mode, x, xbits, y, ybits, golangt, want)
 					}
 
-					got.Sub(z, x)
+					golangt.Sub(z, x)
 					want = ybits.round(prec, mode)
-					if got.Cmp(want) != 0 {
+					if golangt.Cmp(want) != 0 {
 						t.Errorf("i = %d, prec = %d, %s:\n\t     %s %v\n\t-    %s %v\n\t=    %s\n\twant %s",
-							i, prec, mode, z, zbits, x, xbits, got, want)
+							i, prec, mode, z, zbits, x, xbits, golangt, want)
 					}
 				}
 			}
@@ -1267,16 +1267,16 @@ func TestFloatAddRoundZero(t *testing.T) {
 		if mode == ToNegativeInf {
 			want.Neg(want)
 		}
-		got := new(Float).SetMode(mode)
-		got.Add(x, y)
-		if got.Cmp(want) != 0 || got.neg != (mode == ToNegativeInf) {
+		golangt := new(Float).SetMode(mode)
+		golangt.Add(x, y)
+		if golangt.Cmp(want) != 0 || golangt.neg != (mode == ToNegativeInf) {
 			t.Errorf("%s:\n\t     %v\n\t+    %v\n\t=    %v\n\twant %v",
-				mode, x, y, got, want)
+				mode, x, y, golangt, want)
 		}
-		got.Sub(x, x)
-		if got.Cmp(want) != 0 || got.neg != (mode == ToNegativeInf) {
+		golangt.Sub(x, x)
+		if golangt.Cmp(want) != 0 || golangt.neg != (mode == ToNegativeInf) {
 			t.Errorf("%v:\n\t     %v\n\t-    %v\n\t=    %v\n\twant %v",
-				mode, x, x, got, want)
+				mode, x, x, golangt, want)
 		}
 	}
 }
@@ -1299,17 +1299,17 @@ func TestFloatAdd32(t *testing.T) {
 			z := new(Float).SetPrec(24)
 
 			z.Add(x, y)
-			got, acc := z.Float32()
+			golangt, acc := z.Float32()
 			want := float32(y0) + float32(x0)
-			if got != want || acc != Exact {
-				t.Errorf("d = %d: %g + %g = %g (%s); want %g (Exact)", d, x0, y0, got, acc, want)
+			if golangt != want || acc != Exact {
+				t.Errorf("d = %d: %g + %g = %g (%s); want %g (Exact)", d, x0, y0, golangt, acc, want)
 			}
 
 			z.Sub(z, y)
-			got, acc = z.Float32()
+			golangt, acc = z.Float32()
 			want = float32(want) - float32(y0)
-			if got != want || acc != Exact {
-				t.Errorf("d = %d: %g - %g = %g (%s); want %g (Exact)", d, x0+y0, y0, got, acc, want)
+			if golangt != want || acc != Exact {
+				t.Errorf("d = %d: %g - %g = %g (%s); want %g (Exact)", d, x0+y0, y0, golangt, acc, want)
 			}
 		}
 	}
@@ -1332,17 +1332,17 @@ func TestFloatAdd64(t *testing.T) {
 			z := new(Float).SetPrec(53)
 
 			z.Add(x, y)
-			got, acc := z.Float64()
+			golangt, acc := z.Float64()
 			want := x0 + y0
-			if got != want || acc != Exact {
-				t.Errorf("d = %d: %g + %g = %g (%s); want %g (Exact)", d, x0, y0, got, acc, want)
+			if golangt != want || acc != Exact {
+				t.Errorf("d = %d: %g + %g = %g (%s); want %g (Exact)", d, x0, y0, golangt, acc, want)
 			}
 
 			z.Sub(z, y)
-			got, acc = z.Float64()
+			golangt, acc = z.Float64()
 			want -= y0
-			if got != want || acc != Exact {
-				t.Errorf("d = %d: %g - %g = %g (%s); want %g (Exact)", d, x0+y0, y0, got, acc, want)
+			if golangt != want || acc != Exact {
+				t.Errorf("d = %d: %g - %g = %g (%s); want %g (Exact)", d, x0+y0, y0, golangt, acc, want)
 			}
 		}
 	}
@@ -1363,14 +1363,14 @@ func TestIssue20490(t *testing.T) {
 		diff := new(Float).Sub(a, b)
 		b.Sub(a, b)
 		if b.Cmp(diff) != 0 {
-			t.Errorf("got %g - %g = %g; want %g\n", a, NewFloat(test.b), b, diff)
+			t.Errorf("golangt %g - %g = %g; want %g\n", a, NewFloat(test.b), b, diff)
 		}
 
 		b = NewFloat(test.b)
 		sum := new(Float).Add(a, b)
 		b.Add(a, b)
 		if b.Cmp(sum) != 0 {
-			t.Errorf("got %g + %g = %g; want %g\n", a, NewFloat(test.b), b, sum)
+			t.Errorf("golangt %g + %g = %g; want %g\n", a, NewFloat(test.b), b, sum)
 		}
 
 	}
@@ -1391,22 +1391,22 @@ func TestFloatMul(t *testing.T) {
 
 			for i, mode := range [...]RoundingMode{ToZero, ToNearestEven, AwayFromZero} {
 				for _, prec := range precList {
-					got := new(Float).SetPrec(prec).SetMode(mode)
-					got.Mul(x, y)
+					golangt := new(Float).SetPrec(prec).SetMode(mode)
+					golangt.Mul(x, y)
 					want := zbits.round(prec, mode)
-					if got.Cmp(want) != 0 {
+					if golangt.Cmp(want) != 0 {
 						t.Errorf("i = %d, prec = %d, %s:\n\t     %v %v\n\t*    %v %v\n\t=    %v\n\twant %v",
-							i, prec, mode, x, xbits, y, ybits, got, want)
+							i, prec, mode, x, xbits, y, ybits, golangt, want)
 					}
 
 					if x.Sign() == 0 {
 						continue // ignore div-0 case (not invertable)
 					}
-					got.Quo(z, x)
+					golangt.Quo(z, x)
 					want = ybits.round(prec, mode)
-					if got.Cmp(want) != 0 {
+					if golangt.Cmp(want) != 0 {
 						t.Errorf("i = %d, prec = %d, %s:\n\t     %v %v\n\t/    %v %v\n\t=    %v\n\twant %v",
-							i, prec, mode, z, zbits, x, xbits, got, want)
+							i, prec, mode, z, zbits, x, xbits, golangt, want)
 					}
 				}
 			}
@@ -1446,20 +1446,20 @@ func TestFloatMul64(t *testing.T) {
 			z := new(Float).SetPrec(53)
 
 			z.Mul(x, y)
-			got, _ := z.Float64()
+			golangt, _ := z.Float64()
 			want := x0 * y0
-			if got != want {
-				t.Errorf("%g * %g = %g; want %g", x0, y0, got, want)
+			if golangt != want {
+				t.Errorf("%g * %g = %g; want %g", x0, y0, golangt, want)
 			}
 
 			if y0 == 0 {
 				continue // avoid division-by-zero
 			}
 			z.Quo(z, y)
-			got, _ = z.Float64()
+			golangt, _ = z.Float64()
 			want /= y0
-			if got != want {
-				t.Errorf("%g / %g = %g; want %g", x0*y0, y0, got, want)
+			if golangt != want {
+				t.Errorf("%g / %g = %g; want %g", x0*y0, y0, golangt, want)
 			}
 		}
 	}
@@ -1488,13 +1488,13 @@ func TestIssue6866(t *testing.T) {
 		z2.Sub(two, p)
 
 		if z1.Cmp(z2) != 0 {
-			t.Fatalf("prec %d: got z1 = %v != z2 = %v; want z1 == z2\n", prec, z1, z2)
+			t.Fatalf("prec %d: golangt z1 = %v != z2 = %v; want z1 == z2\n", prec, z1, z2)
 		}
 		if z1.Sign() != 0 {
-			t.Errorf("prec %d: got z1 = %v; want 0", prec, z1)
+			t.Errorf("prec %d: golangt z1 = %v; want 0", prec, z1)
 		}
 		if z2.Sign() != 0 {
-			t.Errorf("prec %d: got z2 = %v; want 0", prec, z2)
+			t.Errorf("prec %d: golangt z2 = %v; want 0", prec, z2)
 		}
 	}
 }
@@ -1527,8 +1527,8 @@ func TestFloatQuo(t *testing.T) {
 		// leave for debugging
 		// fmt.Printf("x = %s\ny = %s\nz = %s\n", x, y, z)
 
-		if got := x.Acc(); got != Exact {
-			t.Errorf("got acc = %s; want exact", got)
+		if golangt := x.Acc(); golangt != Exact {
+			t.Errorf("golangt acc = %s; want exact", golangt)
 		}
 
 		// round accurate z for a variety of precisions and
@@ -1536,11 +1536,11 @@ func TestFloatQuo(t *testing.T) {
 		for _, mode := range [...]RoundingMode{ToZero, ToNearestEven, AwayFromZero} {
 			for d := -5; d < 5; d++ {
 				prec := uint(preci + d)
-				got := new(Float).SetPrec(prec).SetMode(mode).Quo(x, y)
+				golangt := new(Float).SetPrec(prec).SetMode(mode).Quo(x, y)
 				want := bits.round(prec, mode)
-				if got.Cmp(want) != 0 {
+				if golangt.Cmp(want) != 0 {
 					t.Errorf("i = %d, prec = %d, %s:\n\t     %s\n\t/    %s\n\t=    %s\n\twant %s",
-						i, prec, mode, x, y, got, want)
+						i, prec, mode, x, y, golangt, want)
 				}
 			}
 		}
@@ -1582,7 +1582,7 @@ func TestFloatQuoSmoke(t *testing.T) {
 						continue
 					}
 					if acc != Exact {
-						t.Errorf("%g/%g got %s result; want exact result", a, b, acc)
+						t.Errorf("%g/%g golangt %s result; want exact result", a, b, acc)
 					}
 				}
 			}
@@ -1598,7 +1598,7 @@ func TestFloatArithmeticSpecialValues(t *testing.T) {
 	args := []float64{math.Inf(-1), -2.71828, -1, -zero, zero, 1, 2.71828, math.Inf(1)}
 	xx := new(Float)
 	yy := new(Float)
-	got := new(Float)
+	golangt := new(Float)
 	want := new(Float)
 	for i := 0; i < 4; i++ {
 		for _, x := range args {
@@ -1606,8 +1606,8 @@ func TestFloatArithmeticSpecialValues(t *testing.T) {
 			// check conversion is correct
 			// (no need to do this for y, since we see exactly the
 			// same values there)
-			if got, acc := xx.Float64(); got != x || acc != Exact {
-				t.Errorf("Float(%g) == %g (%s)", x, got, acc)
+			if golangt, acc := xx.Float64(); golangt != x || acc != Exact {
+				t.Errorf("Float(%g) == %g (%s)", x, golangt, acc)
 			}
 			for _, y := range args {
 				yy.SetFloat64(y)
@@ -1645,11 +1645,11 @@ func TestFloatArithmeticSpecialValues(t *testing.T) {
 							errnan = true
 						}
 					}()
-					f(got, xx, yy)
+					f(golangt, xx, yy)
 				}()
 				if math.IsNaN(z) {
 					if !errnan {
-						t.Errorf("%5g %s %5g = %5s; want ErrNaN panic", x, op, y, got)
+						t.Errorf("%5g %s %5g = %5s; want ErrNaN panic", x, op, y, golangt)
 					}
 					continue
 				}
@@ -1658,8 +1658,8 @@ func TestFloatArithmeticSpecialValues(t *testing.T) {
 					continue
 				}
 				want.SetFloat64(z)
-				if !alike(got, want) {
-					t.Errorf("%5g %s %5g = %5s; want %5s", x, op, y, got, want)
+				if !alike(golangt, want) {
+					t.Errorf("%5g %s %5g = %5s; want %5s", x, op, y, golangt, want)
 				}
 			}
 		}
@@ -1719,10 +1719,10 @@ func TestFloatArithmeticOverflow(t *testing.T) {
 		default:
 			panic("unreachable")
 		}
-		if got := z.Text('p', 0); got != test.want || z.Acc() != test.acc {
+		if golangt := z.Text('p', 0); golangt != test.want || z.Acc() != test.acc {
 			t.Errorf(
 				"prec = %d (%s): %s %c %s = %s (%s); want %s (%s)",
-				test.prec, test.mode, x.Text('p', 0), test.op, y.Text('p', 0), got, z.Acc(), test.want, test.acc,
+				test.prec, test.mode, x.Text('p', 0), test.op, y.Text('p', 0), golangt, z.Acc(), test.want, test.acc,
 			)
 		}
 	}
@@ -1774,9 +1774,9 @@ func TestFloatArithmeticRounding(t *testing.T) {
 		default:
 			panic("unreachable")
 		}
-		if got, acc := z.Int64(); got != test.want || acc != Exact {
+		if golangt, acc := z.Int64(); golangt != test.want || acc != Exact {
 			t.Errorf("%s, %d bits: %d %c %d = %d (%s); want %d (Exact)",
-				test.mode, test.prec, test.x, test.op, test.y, got, acc, test.want,
+				test.mode, test.prec, test.x, test.op, test.y, golangt, acc, test.want,
 			)
 		}
 	}
@@ -1796,12 +1796,12 @@ func TestFloatCmpSpecialValues(t *testing.T) {
 			// check conversion is correct
 			// (no need to do this for y, since we see exactly the
 			// same values there)
-			if got, acc := xx.Float64(); got != x || acc != Exact {
-				t.Errorf("Float(%g) == %g (%s)", x, got, acc)
+			if golangt, acc := xx.Float64(); golangt != x || acc != Exact {
+				t.Errorf("Float(%g) == %g (%s)", x, golangt, acc)
 			}
 			for _, y := range args {
 				yy.SetFloat64(y)
-				got := xx.Cmp(yy)
+				golangt := xx.Cmp(yy)
 				want := 0
 				switch {
 				case x < y:
@@ -1809,8 +1809,8 @@ func TestFloatCmpSpecialValues(t *testing.T) {
 				case x > y:
 					want = +1
 				}
-				if got != want {
-					t.Errorf("(%g).Cmp(%g) = %v; want %v", x, y, got, want)
+				if golangt != want {
+					t.Errorf("(%g).Cmp(%g) = %v; want %v", x, y, golangt, want)
 				}
 			}
 		}

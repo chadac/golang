@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file holds test cases for individual issues
@@ -41,8 +41,8 @@ func TestIssue67866(t *testing.T) {
 		Inspect(f, func(n Node) bool {
 			_, ok := n.(*KeyValueExpr)
 			if ok {
-				if got := StartPos(n).Col(); got != want {
-					t.Errorf("%s: got col = %d, want %d", src, got, want)
+				if golangt := StartPos(n).Col(); golangt != want {
+					t.Errorf("%s: golangt col = %d, want %d", src, golangt, want)
 				}
 			}
 			return !ok

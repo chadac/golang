@@ -1,9 +1,9 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build generate
+//golang:build generate
 
 package ssa
 
-//go:generate go run -C=_gen .
+//golang:generate golang run -C=_gen .

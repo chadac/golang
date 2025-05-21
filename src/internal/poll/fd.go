@@ -1,9 +1,9 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package poll supports non-blocking I/O on file descriptors with polling.
-// This supports I/O operations that block only a goroutine, not a thread.
+// This supports I/O operations that block only a golangroutine, not a thread.
 // This is used by the net and os packages.
 // It uses a poller built into the runtime, with support from the
 // runtime scheduler.
@@ -86,7 +86,7 @@ var TestHookDidWritev = func(wrote int) {}
 // that is not intended for use outside the standard libraries.
 //
 // Other packages in std that import internal/poll and have some
-// exported APIs (now we've got some in net.rawConn) which are only used
+// exported APIs (now we've golangt some in net.rawConn) which are only used
 // internally and are not intended to be used outside the standard libraries,
 // Therefore, we make those APIs use internal types like poll.FD or poll.String
 // in their function signatures to disable the usability of these APIs from

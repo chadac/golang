@@ -1,8 +1,8 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build test_run
+//golang:build test_run
 
 // Run the game of life in C using Go for parallelization.
 
@@ -12,7 +12,7 @@ import (
 	"flag"
 	"fmt"
 
-	"cgolife"
+	"cgolanglife"
 )
 
 const MAXDIM = 100
@@ -32,7 +32,7 @@ func main() {
 		}
 	}
 
-	cgolife.Run(*gen, *dim, *dim, a[:])
+	cgolanglife.Run(*gen, *dim, *dim, a[:])
 
 	for i := 0; i < *dim; i++ {
 		for j := 0; j < *dim; j++ {

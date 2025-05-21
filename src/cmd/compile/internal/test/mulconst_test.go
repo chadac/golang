@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package test
@@ -79,7 +79,7 @@ func TestConstantMultiplies(t *testing.T) {
 
 	// Make test file
 	tmpdir := t.TempDir()
-	src := filepath.Join(tmpdir, "x.go")
+	src := filepath.Join(tmpdir, "x.golang")
 	err := os.WriteFile(src, code.Bytes(), 0644)
 	if err != nil {
 		t.Fatalf("write file failed: %v", err)
@@ -88,10 +88,10 @@ func TestConstantMultiplies(t *testing.T) {
 	cmd := testenv.Command(t, testenv.GoToolPath(t), "run", src)
 	out, err := cmd.CombinedOutput()
 	if err != nil {
-		t.Fatalf("go run failed: %v\n%s", err, out)
+		t.Fatalf("golang run failed: %v\n%s", err, out)
 	}
 	if len(out) > 0 {
-		t.Fatalf("got output when expecting none: %s\n", string(out))
+		t.Fatalf("golangt output when expecting none: %s\n", string(out))
 	}
 }
 

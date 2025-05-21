@@ -43,7 +43,7 @@ import (
 // moduledata linked list at initialization time. This is only done if the runtime
 // is in a different module.
 //
-//	<go.link.addmoduledata>:
+//	<golang.link.addmoduledata>:
 //		larl  %r2, <local.moduledata>
 //		jg    <runtime.addmoduledata@plt>
 //		undef
@@ -309,7 +309,7 @@ func elfreloc1(ctxt *ld.Link, out *ld.OutBuf, ldr *loader.Loader, s loader.Sym, 
 	return true
 }
 
-func elfsetupplt(ctxt *ld.Link, ldr *loader.Loader, plt, got *loader.SymbolBuilder, dynamic loader.Sym) {
+func elfsetupplt(ctxt *ld.Link, ldr *loader.Loader, plt, golangt *loader.SymbolBuilder, dynamic loader.Sym) {
 	if plt.Size() == 0 {
 		// stg     %r1,56(%r15)
 		plt.AddUint8(0xe3)
@@ -321,7 +321,7 @@ func elfsetupplt(ctxt *ld.Link, ldr *loader.Loader, plt, got *loader.SymbolBuild
 		// larl    %r1,_GLOBAL_OFFSET_TABLE_
 		plt.AddUint8(0xc0)
 		plt.AddUint8(0x10)
-		plt.AddSymRef(ctxt.Arch, got.Sym(), 6, objabi.R_PCRELDBL, 4)
+		plt.AddSymRef(ctxt.Arch, golangt.Sym(), 6, objabi.R_PCRELDBL, 4)
 		// mvc     48(8,%r15),8(%r1)
 		plt.AddUint8(0xd2)
 		plt.AddUint8(0x07)
@@ -349,11 +349,11 @@ func elfsetupplt(ctxt *ld.Link, ldr *loader.Loader, plt, got *loader.SymbolBuild
 		plt.AddUint8(0x07)
 		plt.AddUint8(0x00)
 
-		// assume got->size == 0 too
-		got.AddAddrPlus(ctxt.Arch, dynamic, 0)
+		// assume golangt->size == 0 too
+		golangt.AddAddrPlus(ctxt.Arch, dynamic, 0)
 
-		got.AddUint64(ctxt.Arch, 0)
-		got.AddUint64(ctxt.Arch, 0)
+		golangt.AddUint64(ctxt.Arch, 0)
+		golangt.AddUint64(ctxt.Arch, 0)
 	}
 }
 
@@ -391,7 +391,7 @@ func addpltsym(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s loade
 
 	if target.IsElf() {
 		plt := ldr.MakeSymbolUpdater(syms.PLT)
-		got := ldr.MakeSymbolUpdater(syms.GOT)
+		golangt := ldr.MakeSymbolUpdater(syms.GOT)
 		rela := ldr.MakeSymbolUpdater(syms.RelaPLT)
 		if plt.Size() == 0 {
 			panic("plt is not set up")
@@ -400,12 +400,12 @@ func addpltsym(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s loade
 
 		plt.AddUint8(0xc0)
 		plt.AddUint8(0x10)
-		plt.AddPCRelPlus(target.Arch, got.Sym(), got.Size()+6)
+		plt.AddPCRelPlus(target.Arch, golangt.Sym(), golangt.Size()+6)
 		pltrelocs := plt.Relocs()
 		ldr.SetRelocVariant(plt.Sym(), pltrelocs.Count()-1, sym.RV_390_DBL)
 
-		// add to got: pointer to current pos in plt
-		got.AddAddrPlus(target.Arch, plt.Sym(), plt.Size()+8) // weird but correct
+		// add to golangt: pointer to current pos in plt
+		golangt.AddAddrPlus(target.Arch, plt.Sym(), plt.Size()+8) // weird but correct
 		// lg      %r1,0(%r1)
 		plt.AddUint8(0xe3)
 		plt.AddUint8(0x10)
@@ -435,7 +435,7 @@ func addpltsym(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s loade
 		plt.AddUint32(target.Arch, uint32(rela.Size())) // rela size before current entry
 
 		// rela
-		rela.AddAddrPlus(target.Arch, got.Sym(), got.Size()-8)
+		rela.AddAddrPlus(target.Arch, golangt.Sym(), golangt.Size()-8)
 
 		sDynid := ldr.SymDynid(s)
 		rela.AddUint64(target.Arch, elf.R_INFO(uint32(sDynid), uint32(elf.R_390_JMP_SLOT)))

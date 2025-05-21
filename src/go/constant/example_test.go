@@ -1,13 +1,13 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package constant_test
 
 import (
 	"fmt"
-	"go/constant"
-	"go/token"
+	"golang/constant"
+	"golang/token"
 	"math"
 	"slices"
 )
@@ -34,14 +34,14 @@ func Example_complexNumbers() {
 	C := complex(Ar, Ai)
 
 	fmt.Println("literal", 25.3+55i)
-	fmt.Println("go/constant", c)
+	fmt.Println("golang/constant", c)
 	fmt.Println("complex128", C)
 
 	// Output:
 	//
 	// Could not represent real part 25.3 exactly as float64
 	// literal (25.3+55i)
-	// go/constant (25.3 + 55i)
+	// golang/constant (25.3 + 55i)
 	// complex128 (25.299999999999997+55i)
 }
 
@@ -92,7 +92,7 @@ func ExampleCompare() {
 	vs := []constant.Value{
 		constant.MakeString("Z"),
 		constant.MakeString("bacon"),
-		constant.MakeString("go"),
+		constant.MakeString("golang"),
 		constant.MakeString("Frame"),
 		constant.MakeString("defer"),
 		constant.MakeFromLiteral(`"a"`, token.STRING, 0),
@@ -119,7 +119,7 @@ func ExampleCompare() {
 	// a
 	// bacon
 	// defer
-	// go
+	// golang
 }
 
 func ExampleSign() {

@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package tar
@@ -37,7 +37,7 @@ func TestFitsInBase256(t *testing.T) {
 	for _, v := range vectors {
 		ok := fitsInBase256(v.width, v.in)
 		if ok != v.ok {
-			t.Errorf("fitsInBase256(%d, %d): got %v, want %v", v.in, v.width, ok, v.ok)
+			t.Errorf("fitsInBase256(%d, %d): golangt %v, want %v", v.in, v.width, ok, v.ok)
 		}
 	}
 }
@@ -89,17 +89,17 @@ func TestParseNumeric(t *testing.T) {
 
 	for _, v := range vectors {
 		var p parser
-		got := p.parseNumeric([]byte(v.in))
+		golangt := p.parseNumeric([]byte(v.in))
 		ok := (p.err == nil)
 		if ok != v.ok {
 			if v.ok {
-				t.Errorf("parseNumeric(%q): got parsing failure, want success", v.in)
+				t.Errorf("parseNumeric(%q): golangt parsing failure, want success", v.in)
 			} else {
-				t.Errorf("parseNumeric(%q): got parsing success, want failure", v.in)
+				t.Errorf("parseNumeric(%q): golangt parsing success, want failure", v.in)
 			}
 		}
-		if ok && got != v.want {
-			t.Errorf("parseNumeric(%q): got %d, want %d", v.in, got, v.want)
+		if ok && golangt != v.want {
+			t.Errorf("parseNumeric(%q): golangt %d, want %d", v.in, golangt, v.want)
 		}
 	}
 }
@@ -158,18 +158,18 @@ func TestFormatNumeric(t *testing.T) {
 
 	for _, v := range vectors {
 		var f formatter
-		got := make([]byte, len(v.want))
-		f.formatNumeric(got, v.in)
+		golangt := make([]byte, len(v.want))
+		f.formatNumeric(golangt, v.in)
 		ok := (f.err == nil)
 		if ok != v.ok {
 			if v.ok {
-				t.Errorf("formatNumeric(%d): got formatting failure, want success", v.in)
+				t.Errorf("formatNumeric(%d): golangt formatting failure, want success", v.in)
 			} else {
-				t.Errorf("formatNumeric(%d): got formatting success, want failure", v.in)
+				t.Errorf("formatNumeric(%d): golangt formatting success, want failure", v.in)
 			}
 		}
-		if string(got) != v.want {
-			t.Errorf("formatNumeric(%d): got %q, want %q", v.in, got, v.want)
+		if string(golangt) != v.want {
+			t.Errorf("formatNumeric(%d): golangt %q, want %q", v.in, golangt, v.want)
 		}
 	}
 }
@@ -208,7 +208,7 @@ func TestFitsInOctal(t *testing.T) {
 	for _, v := range vectors {
 		ok := fitsInOctal(v.width, v.input)
 		if ok != v.ok {
-			t.Errorf("checkOctal(%d, %d): got %v, want %v", v.input, v.width, ok, v.ok)
+			t.Errorf("checkOctal(%d, %d): golangt %v, want %v", v.input, v.width, ok, v.ok)
 		}
 	}
 }
@@ -282,13 +282,13 @@ func TestParsePAXTime(t *testing.T) {
 		ok := (err == nil)
 		if v.ok != ok {
 			if v.ok {
-				t.Errorf("parsePAXTime(%q): got parsing failure, want success", v.in)
+				t.Errorf("parsePAXTime(%q): golangt parsing failure, want success", v.in)
 			} else {
-				t.Errorf("parsePAXTime(%q): got parsing success, want failure", v.in)
+				t.Errorf("parsePAXTime(%q): golangt parsing success, want failure", v.in)
 			}
 		}
 		if ok && !ts.Equal(v.want) {
-			t.Errorf("parsePAXTime(%q): got (%ds %dns), want (%ds %dns)",
+			t.Errorf("parsePAXTime(%q): golangt (%ds %dns), want (%ds %dns)",
 				v.in, ts.Unix(), ts.Nanosecond(), v.want.Unix(), v.want.Nanosecond())
 		}
 	}
@@ -331,10 +331,10 @@ func TestFormatPAXTime(t *testing.T) {
 	}
 
 	for _, v := range vectors {
-		got := formatPAXTime(time.Unix(v.sec, v.nsec))
-		if got != v.want {
-			t.Errorf("formatPAXTime(%ds, %dns): got %q, want %q",
-				v.sec, v.nsec, got, v.want)
+		golangt := formatPAXTime(time.Unix(v.sec, v.nsec))
+		if golangt != v.want {
+			t.Errorf("formatPAXTime(%ds, %dns): golangt %q, want %q",
+				v.sec, v.nsec, golangt, v.want)
 		}
 	}
 }
@@ -382,17 +382,17 @@ func TestParsePAXRecord(t *testing.T) {
 		ok := (err == nil)
 		if ok != v.ok {
 			if v.ok {
-				t.Errorf("parsePAXRecord(%q): got parsing failure, want success", v.in)
+				t.Errorf("parsePAXRecord(%q): golangt parsing failure, want success", v.in)
 			} else {
-				t.Errorf("parsePAXRecord(%q): got parsing success, want failure", v.in)
+				t.Errorf("parsePAXRecord(%q): golangt parsing success, want failure", v.in)
 			}
 		}
 		if v.ok && (key != v.wantKey || val != v.wantVal) {
-			t.Errorf("parsePAXRecord(%q): got (%q: %q), want (%q: %q)",
+			t.Errorf("parsePAXRecord(%q): golangt (%q: %q), want (%q: %q)",
 				v.in, key, val, v.wantKey, v.wantVal)
 		}
 		if res != v.wantRes {
-			t.Errorf("parsePAXRecord(%q): got residual %q, want residual %q",
+			t.Errorf("parsePAXRecord(%q): golangt residual %q, want residual %q",
 				v.in, res, v.wantRes)
 		}
 	}
@@ -424,18 +424,18 @@ func TestFormatPAXRecord(t *testing.T) {
 	}
 
 	for _, v := range vectors {
-		got, err := formatPAXRecord(v.inKey, v.inVal)
+		golangt, err := formatPAXRecord(v.inKey, v.inVal)
 		ok := (err == nil)
 		if ok != v.ok {
 			if v.ok {
-				t.Errorf("formatPAXRecord(%q, %q): got format failure, want success", v.inKey, v.inVal)
+				t.Errorf("formatPAXRecord(%q, %q): golangt format failure, want success", v.inKey, v.inVal)
 			} else {
-				t.Errorf("formatPAXRecord(%q, %q): got format success, want failure", v.inKey, v.inVal)
+				t.Errorf("formatPAXRecord(%q, %q): golangt format success, want failure", v.inKey, v.inVal)
 			}
 		}
-		if got != v.want {
-			t.Errorf("formatPAXRecord(%q, %q): got %q, want %q",
-				v.inKey, v.inVal, got, v.want)
+		if golangt != v.want {
+			t.Errorf("formatPAXRecord(%q, %q): golangt %q, want %q",
+				v.inKey, v.inVal, golangt, v.want)
 		}
 	}
 }

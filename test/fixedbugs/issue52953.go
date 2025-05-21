@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Issue 52953: miscompilation for composite literal assignment
@@ -21,7 +21,7 @@ func main() {
 	check(ret.Field1)
 }
 
-//go:noinline
+//golang:noinline
 func check(b bool) {
 	if !b {
 		panic("FAIL")

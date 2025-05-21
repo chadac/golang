@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package types2_test
@@ -72,7 +72,7 @@ func mustInstantiate(tb testing.TB, orig Type, targs ...Type) Type {
 	return inst
 }
 
-// Test that types do not expand infinitely, as in go.dev/issue/52715.
+// Test that types do not expand infinitely, as in golang.dev/issue/52715.
 func TestFiniteTypeExpansion(t *testing.T) {
 	const src = `
 package p
@@ -106,7 +106,7 @@ type Inst = *Tree[int]
 	Node := firstFieldType(Inst)
 	Tree := firstFieldType(Node)
 	if !Identical(Inst, Tree) {
-		t.Fatalf("Not a cycle: got %v, want %v", Tree, Inst)
+		t.Fatalf("Not a cycle: golangt %v, want %v", Tree, Inst)
 	}
 	if Inst != Tree {
 		t.Errorf("Duplicate instances in cycle: %s (%p) -> %s (%p) -> %s (%p)", Inst, Inst, Node, Node, Tree, Tree)
@@ -115,7 +115,7 @@ type Inst = *Tree[int]
 
 // TestMethodOrdering is a simple test verifying that the indices of methods of
 // a named type remain the same as long as the same source and AddMethod calls
-// are presented to the type checker in the same order (go.dev/issue/61298).
+// are presented to the type checker in the same order (golang.dev/issue/61298).
 func TestMethodOrdering(t *testing.T) {
 	const src = `
 package p
@@ -148,13 +148,13 @@ func (T) b() {}
 			}
 		} else {
 			// successive rounds: methods must appear in the same order
-			if got := T.NumMethods(); got != len(methods) {
-				t.Errorf("got %d methods, want %d", got, len(methods))
+			if golangt := T.NumMethods(); golangt != len(methods) {
+				t.Errorf("golangt %d methods, want %d", golangt, len(methods))
 				continue
 			}
 			for j, m := range methods {
-				if got := T.Method(j).Name(); got != m {
-					t.Errorf("got method %s, want %s", got, m)
+				if golangt := T.Method(j).Name(); golangt != m {
+					t.Errorf("golangt method %s, want %s", golangt, m)
 				}
 			}
 		}

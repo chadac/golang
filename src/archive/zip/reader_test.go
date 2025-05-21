@@ -1,5 +1,5 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package zip
@@ -27,7 +27,7 @@ type ZipTest struct {
 	Source   func() (r io.ReaderAt, size int64) // if non-nil, used instead of testdata/<Name> file
 	Comment  string
 	File     []ZipTestFile
-	Obscured bool  // needed for Apple notarization (golang.org/issue/34986)
+	Obscured bool  // needed for Apple notarization (golanglang.org/issue/34986)
 	Error    error // the error that Opening this file should return
 }
 
@@ -66,8 +66,8 @@ var tests = []ZipTest{
 				Mode:     0644,
 			},
 			{
-				Name:     "gophercolor16x16.png",
-				File:     "gophercolor16x16.png",
+				Name:     "golangphercolor16x16.png",
+				File:     "golangphercolor16x16.png",
 				Modified: time.Date(2010, 9, 5, 15, 52, 58, 0, timeZone(+10*time.Hour)),
 				Mode:     0644,
 			},
@@ -84,8 +84,8 @@ var tests = []ZipTest{
 				Mode:     0644,
 			},
 			{
-				Name:     "gophercolor16x16.png",
-				File:     "gophercolor16x16.png",
+				Name:     "golangphercolor16x16.png",
+				File:     "golangphercolor16x16.png",
 				Modified: time.Date(2010, 9, 5, 15, 52, 58, 0, timeZone(+10*time.Hour)),
 				Mode:     0644,
 			},
@@ -102,8 +102,8 @@ var tests = []ZipTest{
 				Mode:     0644,
 			},
 			{
-				Name:     "gophercolor16x16.png",
-				File:     "gophercolor16x16.png",
+				Name:     "golangphercolor16x16.png",
+				File:     "golangphercolor16x16.png",
 				Modified: time.Date(2010, 9, 5, 15, 52, 58, 0, timeZone(+10*time.Hour)),
 				Mode:     0644,
 			},
@@ -120,8 +120,8 @@ var tests = []ZipTest{
 				Mode:     0644,
 			},
 			{
-				Name:     "gophercolor16x16.png",
-				File:     "gophercolor16x16.png",
+				Name:     "golangphercolor16x16.png",
+				File:     "golangphercolor16x16.png",
 				Modified: time.Date(2010, 9, 5, 15, 52, 58, 0, timeZone(+10*time.Hour)),
 				Mode:     0644,
 			},
@@ -138,8 +138,8 @@ var tests = []ZipTest{
 				Mode:     0644,
 			},
 			{
-				Name:     "gophercolor16x16.png",
-				File:     "gophercolor16x16.png",
+				Name:     "golangphercolor16x16.png",
+				File:     "golangphercolor16x16.png",
 				Modified: time.Date(2010, 9, 5, 15, 52, 58, 0, timeZone(+10*time.Hour)),
 				Mode:     0644,
 			},
@@ -251,8 +251,8 @@ var tests = []ZipTest{
 		// descriptor signatures (which are required by macOS).
 		// Use obscured file to avoid Apple’s notarization service
 		// rejecting the toolchain due to an inability to unzip this archive.
-		// See golang.org/issue/34986
-		Name:     "go-no-datadesc-sig.zip.base64",
+		// See golanglang.org/issue/34986
+		Name:     "golang-no-datadesc-sig.zip.base64",
 		Obscured: true,
 		File: []ZipTestFile{
 			{
@@ -272,7 +272,7 @@ var tests = []ZipTest{
 	{
 		// created by Go, after we wrote the "optional" data
 		// descriptor signatures (which are required by macOS)
-		Name: "go-with-datadesc-sig.zip",
+		Name: "golang-with-datadesc-sig.zip",
 		File: []ZipTestFile{
 			{
 				Name:     "foo.txt",
@@ -358,7 +358,7 @@ var tests = []ZipTest{
 			},
 		},
 	},
-	// Another zip64 file with different Extras fields. (golang.org/issue/7069)
+	// Another zip64 file with different Extras fields. (golanglang.org/issue/7069)
 	{
 		Name: "zip64-2.zip",
 		File: []ZipTestFile{
@@ -519,7 +519,7 @@ var tests = []ZipTest{
 		},
 	},
 	{
-		Name: "time-go.zip",
+		Name: "time-golang.zip",
 		File: []ZipTestFile{
 			{
 				Name:     "test.txt",
@@ -661,7 +661,7 @@ func readTestZip(t *testing.T, zt ZipTest) {
 	done := make(chan bool)
 	for i := 0; i < 5; i++ {
 		for j, ft := range zt.File {
-			go func(j int, ft ZipTestFile) {
+			golang func(j int, ft ZipTestFile) {
 				readTestFile(t, zt, ft, z.File[j], raw)
 				done <- true
 			}(j, ft)
@@ -710,15 +710,15 @@ func readTestFile(t *testing.T, zt ZipTest, ft ZipTestFile, f *File, raw []byte)
 		t.Errorf("%v: DataOffset error=%v", f.Name, err)
 		return
 	}
-	got, err := io.ReadAll(rw)
+	golangt, err := io.ReadAll(rw)
 	if err != nil {
 		t.Errorf("%v: OpenRaw ReadAll error=%v", f.Name, err)
 		return
 	}
 	end := uint64(start) + f.CompressedSize64
 	want := raw[start:end]
-	if !bytes.Equal(got, want) {
-		t.Logf("got %q", got)
+	if !bytes.Equal(golangt, want) {
+		t.Logf("golangt %q", golangt)
 		t.Logf("want %q", want)
 		t.Errorf("%v: OpenRaw returned unexpected bytes", f.Name)
 		return
@@ -779,9 +779,9 @@ func readTestFile(t *testing.T, zt ZipTest, ft ZipTestFile, f *File, raw []byte)
 func testFileMode(t *testing.T, f *File, want fs.FileMode) {
 	mode := f.Mode()
 	if want == 0 {
-		t.Errorf("%s mode: got %v, want none", f.Name, mode)
+		t.Errorf("%s mode: golangt %v, want none", f.Name, mode)
 	} else if mode != want {
-		t.Errorf("%s mode: want %v, got %v", f.Name, want, mode)
+		t.Errorf("%s mode: want %v, golangt %v", f.Name, want, mode)
 	}
 }
 
@@ -823,7 +823,7 @@ func messWith(fileName string, corrupter func(b []byte)) (r io.ReaderAt, size in
 }
 
 func returnCorruptCRC32Zip() (r io.ReaderAt, size int64) {
-	return messWith("go-with-datadesc-sig.zip", func(b []byte) {
+	return messWith("golang-with-datadesc-sig.zip", func(b []byte) {
 		// Corrupt one of the CRC32s in the data descriptor:
 		b[0x2d]++
 	})
@@ -1132,10 +1132,10 @@ func TestIssue10956(t *testing.T) {
 		"0000\v\x00000\x00\x00\x00\x00\x00\x00\x000")
 	r, err := NewReader(bytes.NewReader(data), int64(len(data)))
 	if err == nil {
-		t.Errorf("got nil error, want ErrFormat")
+		t.Errorf("golangt nil error, want ErrFormat")
 	}
 	if r != nil {
-		t.Errorf("got non-nil Reader, want nil")
+		t.Errorf("golangt non-nil Reader, want nil")
 	}
 }
 
@@ -1276,7 +1276,7 @@ func TestFSWalk(t *testing.T) {
 				t.Error("unexpected error")
 			}
 			if test.want != nil && !slices.Equal(files, test.want) {
-				t.Errorf("got %v want %v", files, test.want)
+				t.Errorf("golangt %v want %v", files, test.want)
 			}
 		})
 	}
@@ -1351,8 +1351,8 @@ func TestFSModTime(t *testing.T) {
 			t.Errorf("%s: %v", test.name, err)
 			continue
 		}
-		if got := fi.ModTime(); !got.Equal(test.want) {
-			t.Errorf("%s: got modtime %v, want %v", test.name, got, test.want)
+		if golangt := fi.ModTime(); !golangt.Equal(test.want) {
+			t.Errorf("%s: golangt modtime %v, want %v", test.name, golangt, test.want)
 		}
 	}
 }
@@ -1433,7 +1433,7 @@ func TestOpenReaderInsecurePath(t *testing.T) {
 	name := filepath.Join(t.TempDir(), "test.zip")
 	err := os.WriteFile(name, data, 0644)
 	if err != nil {
-		t.Fatalf("Unable to write out the bugos zip entry")
+		t.Fatalf("Unable to write out the bugolangs zip entry")
 	}
 	r, err := OpenReader(name)
 	if r != nil {
@@ -1441,7 +1441,7 @@ func TestOpenReaderInsecurePath(t *testing.T) {
 	}
 
 	if err != ErrInsecurePath {
-		t.Fatalf("Error reading the archive, we expected ErrInsecurePath but got: %v", err)
+		t.Fatalf("Error reading the archive, we expected ErrInsecurePath but golangt: %v", err)
 	}
 	_, err = r.Open("test.txt")
 	if err != nil {
@@ -1492,7 +1492,7 @@ func TestCVE202133196(t *testing.T) {
 	}
 	_, err := NewReader(bytes.NewReader(data), int64(len(data)))
 	if err != ErrFormat {
-		t.Fatalf("unexpected error, got: %v, want: %v", err, ErrFormat)
+		t.Fatalf("unexpected error, golangt: %v, want: %v", err, ErrFormat)
 	}
 
 	// Also check that an archive containing a handful of empty
@@ -1513,7 +1513,7 @@ func TestCVE202133196(t *testing.T) {
 		t.Fatalf("NewReader failed: %s", err)
 	}
 	if len(r.File) != 5 {
-		t.Errorf("Archive has unexpected number of files, got %d, want 5", len(r.File))
+		t.Errorf("Archive has unexpected number of files, golangt %d, want 5", len(r.File))
 	}
 }
 
@@ -1531,7 +1531,7 @@ func TestCVE202139293(t *testing.T) {
 	}
 	_, err := NewReader(bytes.NewReader(data), int64(len(data)))
 	if err != ErrFormat {
-		t.Fatalf("unexpected error, got: %v, want: %v", err, ErrFormat)
+		t.Fatalf("unexpected error, golangt: %v, want: %v", err, ErrFormat)
 	}
 }
 
@@ -1702,9 +1702,9 @@ func TestIssue54801(t *testing.T) {
 				}
 				defer rd.Close()
 
-				n, got := io.Copy(io.Discard, rd)
-				if n != 0 || got != ErrFormat {
-					t.Fatalf("Error mismatch, got: %d, %v, want: %v", n, got, ErrFormat)
+				n, golangt := io.Copy(io.Discard, rd)
+				if n != 0 || golangt != ErrFormat {
+					t.Fatalf("Error mismatch, golangt: %d, %v, want: %v", n, golangt, ErrFormat)
 				}
 			})
 		}
@@ -1730,15 +1730,15 @@ func TestInsecurePaths(t *testing.T) {
 
 		zr, err := NewReader(bytes.NewReader(buf.Bytes()), int64(buf.Len()))
 		if err != ErrInsecurePath {
-			t.Errorf("NewReader for archive with file %q: got err %v, want ErrInsecurePath", path, err)
+			t.Errorf("NewReader for archive with file %q: golangt err %v, want ErrInsecurePath", path, err)
 			continue
 		}
-		var gotPaths []string
+		var golangtPaths []string
 		for _, f := range zr.File {
-			gotPaths = append(gotPaths, f.Name)
+			golangtPaths = append(golangtPaths, f.Name)
 		}
-		if !slices.Equal(gotPaths, []string{path}) {
-			t.Errorf("NewReader for archive with file %q: got files %q", path, gotPaths)
+		if !slices.Equal(golangtPaths, []string{path}) {
+			t.Errorf("NewReader for archive with file %q: golangt files %q", path, golangtPaths)
 			continue
 		}
 	}
@@ -1756,14 +1756,14 @@ func TestDisableInsecurePathCheck(t *testing.T) {
 	zw.Close()
 	zr, err := NewReader(bytes.NewReader(buf.Bytes()), int64(buf.Len()))
 	if err != nil {
-		t.Fatalf("NewReader with zipinsecurepath=1: got err %v, want nil", err)
+		t.Fatalf("NewReader with zipinsecurepath=1: golangt err %v, want nil", err)
 	}
-	var gotPaths []string
+	var golangtPaths []string
 	for _, f := range zr.File {
-		gotPaths = append(gotPaths, f.Name)
+		golangtPaths = append(golangtPaths, f.Name)
 	}
-	if want := []string{name}; !slices.Equal(gotPaths, want) {
-		t.Errorf("NewReader with zipinsecurepath=1: got files %q, want %q", gotPaths, want)
+	if want := []string{name}; !slices.Equal(golangtPaths, want) {
+		t.Errorf("NewReader with zipinsecurepath=1: golangt files %q, want %q", golangtPaths, want)
 	}
 }
 

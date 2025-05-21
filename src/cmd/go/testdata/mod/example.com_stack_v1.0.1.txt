@@ -4,10 +4,10 @@ different file names with -trimpath.
 -- .mod --
 module example.com/stack
 
-go 1.14
+golang 1.14
 -- .info --
 {"Version":"v1.0.1"}
--- stack.go --
+-- stack.golang --
 package stack
 
 import "runtime"

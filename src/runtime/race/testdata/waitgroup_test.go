@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package race_test
@@ -19,7 +19,7 @@ func TestNoRaceWaitGroup(t *testing.T) {
 	for i := 0; i < n; i++ {
 		wg.Add(1)
 		j := i
-		go func() {
+		golang func() {
 			x = j
 			wg.Done()
 		}()
@@ -35,7 +35,7 @@ func TestRaceWaitGroup(t *testing.T) {
 	for i := 0; i < n; i++ {
 		wg.Add(1)
 		j := i
-		go func() {
+		golang func() {
 			x = j
 			wg.Done()
 		}()
@@ -48,7 +48,7 @@ func TestNoRaceWaitGroup2(t *testing.T) {
 	_ = x
 	var wg sync.WaitGroup
 	wg.Add(1)
-	go func() {
+	golang func() {
 		x = 1
 		wg.Done()
 	}()
@@ -62,7 +62,7 @@ func TestRaceWaitGroupAsMutex(t *testing.T) {
 	_ = x
 	var wg sync.WaitGroup
 	c := make(chan bool, 2)
-	go func() {
+	golang func() {
 		wg.Wait()
 		time.Sleep(100 * time.Millisecond)
 		wg.Add(+1)
@@ -70,7 +70,7 @@ func TestRaceWaitGroupAsMutex(t *testing.T) {
 		wg.Add(-1)
 		c <- true
 	}()
-	go func() {
+	golang func() {
 		wg.Wait()
 		time.Sleep(100 * time.Millisecond)
 		wg.Add(+1)
@@ -88,14 +88,14 @@ func TestRaceWaitGroupWrongWait(t *testing.T) {
 	var x int
 	_ = x
 	var wg sync.WaitGroup
-	go func() {
+	golang func() {
 		wg.Add(1)
 		runtime.Gosched()
 		x = 1
 		wg.Done()
 		c <- true
 	}()
-	go func() {
+	golang func() {
 		wg.Add(1)
 		runtime.Gosched()
 		x = 2
@@ -110,13 +110,13 @@ func TestRaceWaitGroupWrongWait(t *testing.T) {
 func TestRaceWaitGroupWrongAdd(t *testing.T) {
 	c := make(chan bool, 2)
 	var wg sync.WaitGroup
-	go func() {
+	golang func() {
 		wg.Add(1)
 		time.Sleep(100 * time.Millisecond)
 		wg.Done()
 		c <- true
 	}()
-	go func() {
+	golang func() {
 		wg.Add(1)
 		time.Sleep(100 * time.Millisecond)
 		wg.Done()
@@ -131,11 +131,11 @@ func TestRaceWaitGroupWrongAdd(t *testing.T) {
 func TestNoRaceWaitGroupMultipleWait(t *testing.T) {
 	c := make(chan bool, 2)
 	var wg sync.WaitGroup
-	go func() {
+	golang func() {
 		wg.Wait()
 		c <- true
 	}()
-	go func() {
+	golang func() {
 		wg.Wait()
 		c <- true
 	}()
@@ -148,12 +148,12 @@ func TestNoRaceWaitGroupMultipleWait2(t *testing.T) {
 	c := make(chan bool, 2)
 	var wg sync.WaitGroup
 	wg.Add(2)
-	go func() {
+	golang func() {
 		wg.Done()
 		wg.Wait()
 		c <- true
 	}()
-	go func() {
+	golang func() {
 		wg.Done()
 		wg.Wait()
 		c <- true
@@ -170,13 +170,13 @@ func TestNoRaceWaitGroupMultipleWait3(t *testing.T) {
 	var wg sync.WaitGroup
 	wg.Add(P)
 	for p := 0; p < P; p++ {
-		go func(p int) {
+		golang func(p int) {
 			data[p] = 42
 			wg.Done()
 		}(p)
 	}
 	for p := 0; p < P; p++ {
-		go func() {
+		golang func() {
 			wg.Wait()
 			for p1 := 0; p1 < P; p1++ {
 				_ = data[p1]
@@ -195,11 +195,11 @@ func TestRaceWaitGroup2(t *testing.T) {
 	_ = x
 	var wg sync.WaitGroup
 	wg.Add(2)
-	go func() {
+	golang func() {
 		x = 1
 		wg.Done()
 	}()
-	go func() {
+	golang func() {
 		x = 2
 		wg.Done()
 	}()
@@ -233,12 +233,12 @@ func TestNoRaceWaitGroupPanicRecover2(t *testing.T) {
 		x = 2
 		ch <- true
 	}
-	go func() {
+	golang func() {
 		defer func() {
 			err := recover()
 			if err != "sync: negative WaitGroup counter" {
 			}
-			go f()
+			golang f()
 		}()
 		x = 1
 		wg.Add(-1)
@@ -251,11 +251,11 @@ func TestNoRaceWaitGroupTransitive(t *testing.T) {
 	x, y := 0, 0
 	var wg sync.WaitGroup
 	wg.Add(2)
-	go func() {
+	golang func() {
 		x = 42
 		wg.Done()
 	}()
-	go func() {
+	golang func() {
 		time.Sleep(1e7)
 		y = 42
 		wg.Done()
@@ -272,7 +272,7 @@ func TestNoRaceWaitGroupReuse(t *testing.T) {
 	for try := 0; try < 3; try++ {
 		wg.Add(P)
 		for p := 0; p < P; p++ {
-			go func(p int) {
+			golang func(p int) {
 				data[p]++
 				wg.Done()
 			}(p)
@@ -291,13 +291,13 @@ func TestNoRaceWaitGroupReuse2(t *testing.T) {
 	for try := 0; try < 3; try++ {
 		wg.Add(P)
 		for p := 0; p < P; p++ {
-			go func(p int) {
+			golang func(p int) {
 				data[p]++
 				wg.Done()
 			}(p)
 		}
 		done := make(chan bool)
-		go func() {
+		golang func() {
 			wg.Wait()
 			for p := 0; p < P; p++ {
 				data[p]++
@@ -321,13 +321,13 @@ func TestRaceWaitGroupReuse(t *testing.T) {
 		var data [P]int
 		wg.Add(P)
 		for p := 0; p < P; p++ {
-			go func(p int) {
+			golang func(p int) {
 				time.Sleep(50 * time.Millisecond)
 				data[p]++
 				wg.Done()
 			}(p)
 		}
-		go func() {
+		golang func() {
 			wg.Wait()
 			for p := 0; p < P; p++ {
 				data[p]++
@@ -347,7 +347,7 @@ func TestNoRaceWaitGroupConcurrentAdd(t *testing.T) {
 	waiting := make(chan bool, P)
 	var wg sync.WaitGroup
 	for p := 0; p < P; p++ {
-		go func() {
+		golang func() {
 			wg.Add(1)
 			waiting <- true
 			wg.Done()

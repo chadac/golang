@@ -1,7 +1,7 @@
 # Missing package error message
-! go build vend/x/vendor/p/p
+! golang build vend/x/vendor/p/p
 
--- vend/x/vendor/p/p/p.go --
+-- vend/x/vendor/p/p/p.golang --
 package p
 
 import _ "notfound"

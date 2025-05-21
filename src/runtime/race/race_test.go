@@ -1,8 +1,8 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build race
+//golang:build race
 
 // This program is used to verify the race detector
 // by running the tests and parsing their output.
@@ -102,15 +102,15 @@ func processLog(testName string, tsanLog []string) string {
 	if !strings.HasPrefix(testName, "Race") && !strings.HasPrefix(testName, "NoRace") {
 		return ""
 	}
-	gotRace := false
+	golangtRace := false
 	for _, s := range tsanLog {
 		if strings.Contains(s, "DATA RACE") {
-			gotRace = true
+			golangtRace = true
 			break
 		}
 		if strings.Contains(s, "fatal error: concurrent map") {
 			// Detected by the runtime, not the race detector.
-			gotRace = true
+			golangtRace = true
 			break
 		}
 		if strings.Contains(s, "--- SKIP:") {
@@ -120,7 +120,7 @@ func processLog(testName string, tsanLog []string) string {
 
 	failing := strings.Contains(testName, "Failing")
 	expRace := !strings.HasPrefix(testName, "No")
-	if expRace == gotRace {
+	if expRace == golangtRace {
 		passedTests++
 		totalTests++
 		if failing {
@@ -146,10 +146,10 @@ func processLog(testName string, tsanLog []string) string {
 }
 
 // runTests assures that the package and its dependencies is
-// built with instrumentation enabled and returns the output of 'go test'
+// built with instrumentation enabled and returns the output of 'golang test'
 // which includes possible data race reports from ThreadSanitizer.
 func runTests(t *testing.T) ([]byte, error) {
-	tests, err := filepath.Glob("./testdata/*_test.go")
+	tests, err := filepath.Glob("./testdata/*_test.golang")
 	if err != nil {
 		return nil, err
 	}
@@ -173,7 +173,7 @@ func runTests(t *testing.T) ([]byte, error) {
 	//    If the order is different, race does not happen at all.
 	// 2. Ironically, ThreadSanitizer runtime contains a logical race condition
 	//    that can lead to false negatives if racy accesses happen literally at the same time.
-	// Tests used to work reliably in the good old days of GOMAXPROCS=1.
+	// Tests used to work reliably in the golangod old days of GOMAXPROCS=1.
 	// So let's set it for now. A more reliable solution is to explicitly annotate tests
 	// with required execution order by means of a special "invisible" synchronization primitive
 	// (that's what is done for C++ ThreadSanitizer tests). This is issue #14119.
@@ -235,7 +235,7 @@ func BenchmarkSyncLeak(b *testing.B) {
 	var wg sync.WaitGroup
 	wg.Add(G)
 	for g := 0; g < G; g++ {
-		go func() {
+		golang func() {
 			defer wg.Done()
 			hold := make([][]uint32, H)
 			for i := 0; i < b.N; i++ {
@@ -252,7 +252,7 @@ func BenchmarkSyncLeak(b *testing.B) {
 func BenchmarkStackLeak(b *testing.B) {
 	done := make(chan bool, 1)
 	for i := 0; i < b.N; i++ {
-		go func() {
+		golang func() {
 			growStack(rand.Intn(100))
 			done <- true
 		}()

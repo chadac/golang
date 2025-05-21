@@ -1,5 +1,5 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package unix
@@ -34,6 +34,6 @@ func (cmsg *Cmsghdr) SetLen(length int) {
 	cmsg.Len = uint32(length)
 }
 
-// SYS___SYSCTL is used by syscall_bsd.go for all BSDs, but in modern versions
+// SYS___SYSCTL is used by syscall_bsd.golang for all BSDs, but in modern versions
 // of OpenBSD the syscall is called sysctl instead of __sysctl.
 const SYS___SYSCTL = SYS_SYSCTL

@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Generic sort function, tested with two different pointer types.
@@ -14,7 +14,7 @@ type LessConstraint[T any] interface {
 	Less(T) bool
 }
 
-//go:noinline
+//golang:noinline
 func Sort[T LessConstraint[T]](x []T) {
 	n := len(x)
 	for i := 1; i < n; i++ {
@@ -32,7 +32,7 @@ func (a *MyInt) Less(b *MyInt) bool {
 	return a.Value < b.Value
 }
 
-//go:noinline
+//golang:noinline
 func F() {
 	sl1 := []*MyInt{&MyInt{4}, &MyInt{3}, &MyInt{8}, &MyInt{7}}
 	Sort(sl1)

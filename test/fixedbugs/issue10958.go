@@ -1,9 +1,9 @@
 // buildrun -t 10  -gcflags=-d=ssa/insert_resched_checks/on,ssa/check/on
 
-//go:build !nacl && !js && disabled_see_issue_18589
+//golang:build !nacl && !js && disabled_see_issue_18589
 
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test is disabled because it flakes when run in all.bash
@@ -28,7 +28,7 @@ var someglobal1 int
 var someglobal2 int
 var someglobal3 int
 
-//go:noinline
+//golang:noinline
 func f() {}
 
 func standinacorner1() {
@@ -41,17 +41,17 @@ func standinacorner1() {
 func standinacorner2(i int) {
 	// contains an irreducible loop containing changes to memory
 	if i != 0 {
-		goto midloop
+		golangto midloop
 	}
 
 loop:
 	if someglobal2&1 != 0 {
-		goto done
+		golangto done
 	}
 	someglobal2++
 midloop:
 	someglobal2++
-	goto loop
+	golangto loop
 
 done:
 	return
@@ -75,9 +75,9 @@ func standinacorner3() {
 }
 
 func main() {
-	go standinacorner1()
-	go standinacorner2(0)
-	go standinacorner3()
+	golang standinacorner1()
+	golang standinacorner2(0)
+	golang standinacorner3()
 	// println("About to stand in a corner1")
 	for someglobal1 == 0 {
 		runtime.Gosched()

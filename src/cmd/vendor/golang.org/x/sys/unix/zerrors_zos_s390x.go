@@ -1,10 +1,10 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build zos && s390x
+//golang:build zos && s390x
 
-// Hand edited based on zerrors_linux_s390x.go
+// Hand edited based on zerrors_linux_s390x.golang
 // TODO: auto-generate.
 
 package unix
@@ -496,7 +496,7 @@ const (
 	TCSETSW                         = 1 // equivalent to TCSADRAIN for tcsetattr
 	TCSAFLUSH                       = 2
 	TCSETSF                         = 2 // equivalent to TCSAFLUSH for tcsetattr
-	TCGETS                          = 3 // not defined in ioctl.h -- zos golang only
+	TCGETS                          = 3 // not defined in ioctl.h -- zos golanglang only
 	TCIFLUSH                        = 0
 	TCOFLUSH                        = 1
 	TCIOFLUSH                       = 2

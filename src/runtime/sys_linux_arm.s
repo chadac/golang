@@ -1,13 +1,13 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 //
 // System calls and other sys.stuff for arm, Linux
 //
 
-#include "go_asm.h"
-#include "go_tls.h"
+#include "golang_asm.h"
+#include "golang_tls.h"
 #include "textflag.h"
 
 #define CLOCK_REALTIME	0
@@ -122,7 +122,7 @@ TEXT runtime·exitThread(SB),NOSPLIT|NOFRAME,$0-4
 	MOVW	wait+0(FP), R0
 	// We're done using the stack.
 	// Alas, there's no reliable way to make this write atomic
-	// without potentially using the stack. So it goes.
+	// without potentially using the stack. So it golanges.
 	MOVW	$0, R1
 	MOVW	R1, (R0)
 	MOVW	$0, R0	// exit code
@@ -295,7 +295,7 @@ TEXT runtime·vdsoCall(SB),NOSPLIT,$8-0
 	B.NE	noswitch
 
 	MOVW	m_g0(R6), R7
-	MOVW	(g_sched+gobuf_sp)(R7), R13	 // Set SP to g0 stack
+	MOVW	(g_sched+golangbuf_sp)(R7), R13	 // Set SP to g0 stack
 
 noswitch:
 	BIC	$0x7, R13	// Align for C code
@@ -303,8 +303,8 @@ noswitch:
 	// Store g on gsignal's stack, so if we receive a signal
 	// during VDSO code we can find the g.
 
-	// When using cgo, we already saved g on TLS, also don't save g here.
-	MOVB	runtime·iscgo(SB), R7
+	// When using cgolang, we already saved g on TLS, also don't save g here.
+	MOVB	runtime·iscgolang(SB), R7
 	CMP	$0, R7
 	BNE	nosaveg
 	// If we don't have a signal stack, we won't receive signal, so don't
@@ -525,13 +525,13 @@ TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME,$0
 	// where g is not set.
 	// first save R0, because runtime·load_g will clobber it
 	MOVW	R0, 4(R13)
-	MOVB	runtime·iscgo(SB), R0
+	MOVB	runtime·iscgolang(SB), R0
 	CMP 	$0, R0
 	BL.NE	runtime·load_g(SB)
 
 	MOVW	R1, 8(R13)
 	MOVW	R2, 12(R13)
-	MOVW  	$runtime·sigtrampgo(SB), R11
+	MOVW  	$runtime·sigtrampgolang(SB), R11
 	BL	(R11)
 
 	// Restore callee-save registers.
@@ -540,7 +540,7 @@ TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME,$0
 
 	RET
 
-TEXT runtime·cgoSigtramp(SB),NOSPLIT,$0
+TEXT runtime·cgolangSigtramp(SB),NOSPLIT,$0
 	MOVW  	$runtime·sigtramp(SB), R11
 	B	(R11)
 
@@ -591,7 +591,7 @@ TEXT kernelPublicationBarrier<>(SB),NOSPLIT,$0
 	RET
 
 TEXT ·publicationBarrier(SB),NOSPLIT,$0
-	MOVB	·goarm(SB), R11
+	MOVB	·golangarm(SB), R11
 	CMP	$7, R11
 	BLT	2(PC)
 	JMP	·armPublicationBarrier(SB)

@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package race_test
@@ -49,7 +49,7 @@ func TestNoRaceTimer(_ *testing.T) {
 	}
 	v = 2
 	t := time.NewTimer(1)
-	go func() {
+	golang func() {
 		<-t.C
 		f()
 	}()
@@ -66,7 +66,7 @@ func TestNoRaceTimerReset(_ *testing.T) {
 		c <- 0
 	}
 	t := time.NewTimer(time.Hour)
-	go func() {
+	golang func() {
 		<-t.C
 		f()
 	}()
@@ -87,7 +87,7 @@ func TestNoRaceTicker(_ *testing.T) {
 	}
 	v = 2
 	t := time.NewTicker(1)
-	go func() {
+	golang func() {
 		<-t.C
 		f()
 	}()
@@ -104,7 +104,7 @@ func TestNoRaceTickerReset(_ *testing.T) {
 		c <- 0
 	}
 	t := time.NewTicker(time.Hour)
-	go func() {
+	golang func() {
 		<-t.C
 		f()
 	}()

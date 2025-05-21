@@ -1,5 +1,5 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package shift defines an Analyzer that checks for shifts that exceed
@@ -11,17 +11,17 @@ package shift
 // expressions (such as runtime.GOARCH=="386").
 
 import (
-	"go/ast"
-	"go/constant"
-	"go/token"
-	"go/types"
+	"golang/ast"
+	"golang/constant"
+	"golang/token"
+	"golang/types"
 	"math"
 
-	"golang.org/x/tools/go/analysis"
-	"golang.org/x/tools/go/analysis/passes/inspect"
-	"golang.org/x/tools/go/ast/inspector"
-	"golang.org/x/tools/internal/analysisinternal"
-	"golang.org/x/tools/internal/typeparams"
+	"golanglang.org/x/tools/golang/analysis"
+	"golanglang.org/x/tools/golang/analysis/passes/inspect"
+	"golanglang.org/x/tools/golang/ast/inspector"
+	"golanglang.org/x/tools/internal/analysisinternal"
+	"golanglang.org/x/tools/internal/typeparams"
 )
 
 const Doc = "check for shifts that equal or exceed the width of the integer"
@@ -29,7 +29,7 @@ const Doc = "check for shifts that equal or exceed the width of the integer"
 var Analyzer = &analysis.Analyzer{
 	Name:     "shift",
 	Doc:      Doc,
-	URL:      "https://pkg.go.dev/golang.org/x/tools/go/analysis/passes/shift",
+	URL:      "https://pkg.golang.dev/golanglang.org/x/tools/golang/analysis/passes/shift",
 	Requires: []*analysis.Analyzer{inspect.Analyzer},
 	Run:      run,
 }

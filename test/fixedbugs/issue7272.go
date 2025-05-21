@@ -1,11 +1,11 @@
 // compile
 
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Issue 7272: test builtin functions in statement context and in
-// go/defer functions.
+// golang/defer functions.
 
 package p
 
@@ -30,13 +30,13 @@ func F() {
 	(println("bar"))
 	(recover())
 
-	go close(c)
-	go copy(a, a)
-	go delete(m, 0)
-	go panic(0)
-	go print("foo")
-	go println("bar")
-	go recover()
+	golang close(c)
+	golang copy(a, a)
+	golang delete(m, 0)
+	golang panic(0)
+	golang print("foo")
+	golang println("bar")
+	golang recover()
 
 	defer close(c)
 	defer copy(a, a)

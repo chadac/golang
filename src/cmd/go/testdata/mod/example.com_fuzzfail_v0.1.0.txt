@@ -1,14 +1,14 @@
 -- .mod --
 module example.com/fuzzfail
 
-go 1.18
+golang 1.18
 -- .info --
 {"Version":"v0.1.0"}
--- go.mod --
+-- golang.mod --
 module example.com/fuzzfail
 
-go 1.18
--- fuzzfail_test.go --
+golang 1.18
+-- fuzzfail_test.golang --
 package fuzzfail
 
 import "testing"

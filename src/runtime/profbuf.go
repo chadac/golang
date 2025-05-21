@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
@@ -310,7 +310,7 @@ func (b *profBuf) write(tagPtr *unsafe.Pointer, now int64, hdr []uint64, stk []u
 
 	if hasOverflow := b.hasOverflow(); hasOverflow && b.canWriteTwoRecords(1, len(stk)) {
 		// Room for both an overflow record and the one being written.
-		// Write the overflow record if the reader hasn't gotten to it yet.
+		// Write the overflow record if the reader hasn't golangtten to it yet.
 		// Only racing against reader, not other writers.
 		count, time := b.takeOverflow()
 		if count > 0 {
@@ -335,7 +335,7 @@ func (b *profBuf) write(tagPtr *unsafe.Pointer, now int64, hdr []uint64, stk []u
 	// The tag is a pointer, but we can't run a write barrier here.
 	// We have interrupted the OS-level execution of gp, but the
 	// runtime still sees gp as executing. In effect, we are running
-	// in place of the real gp. Since gp is the only goroutine that
+	// in place of the real gp. Since gp is the only golangroutine that
 	// can overwrite gp.labels, the value of gp.labels is stable during
 	// this signal handler: it will still be reachable from gp when
 	// we finish executing. If a GC is in progress right now, it must
@@ -460,8 +460,8 @@ Read:
 			// Racing with writer flushing b.overflow into a real record.
 			count, time := b.takeOverflow()
 			if count == 0 {
-				// Lost the race, go around again.
-				goto Read
+				// Lost the race, golang around again.
+				golangto Read
 			}
 			// Won the race, report overflow.
 			dst := b.overflowBuf
@@ -481,7 +481,7 @@ Read:
 			// If we fail to clear the notification it means b.w changed,
 			// so we still need to check again.
 			b.w.cas(bw, bw&^profWriteExtra)
-			goto Read
+			golangto Read
 		}
 
 		// Nothing to read right now.
@@ -491,12 +491,12 @@ Read:
 			return nil, nil, false
 		}
 		if !b.w.cas(bw, bw|profReaderSleeping) {
-			goto Read
+			golangto Read
 		}
 		// Committed to sleeping.
 		notetsleepg(&b.wait, -1)
 		noteclear(&b.wait)
-		goto Read
+		golangto Read
 	}
 	data = b.data[br.dataCount()%uint32(len(b.data)):]
 	if len(data) > numData {
@@ -547,7 +547,7 @@ Read:
 		// by our caller. The synchronization on labelSync itself is a fiction
 		// for the race detector. The actual synchronization is handled
 		// by the fact that the signal handler only reads from the current
-		// goroutine and uses atomics to write the updated queue indices,
+		// golangroutine and uses atomics to write the updated queue indices,
 		// and then the read-out from the signal handler buffer uses
 		// atomics to read those queue indices.
 		raceacquire(unsafe.Pointer(&labelSync))

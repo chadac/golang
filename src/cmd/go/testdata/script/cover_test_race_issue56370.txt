@@ -1,14 +1,14 @@
 [short] skip
 [!race] skip
 
-go test -race -cover issue.56370/filter
+golang test -race -cover issue.56370/filter
 
--- go.mod --
+-- golang.mod --
 module issue.56370
 
-go 1.20
+golang 1.20
 
--- filter/filter.go --
+-- filter/filter.golang --
 
 package filter
 
@@ -18,7 +18,7 @@ func New() func(error) bool {
 	}
 }
 
--- filter/filter_test.go --
+-- filter/filter_test.golang --
 
 package filter_test
 

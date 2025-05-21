@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test that using the Go profiler in a C program does not crash.
@@ -7,7 +7,7 @@
 #include <stddef.h>
 #include <sys/time.h>
 
-#include "libgo6.h"
+#include "libgolang6.h"
 
 int main(int argc, char **argv) {
 	struct timeval tvstart, tvnow;
@@ -15,7 +15,7 @@ int main(int argc, char **argv) {
 
 	gettimeofday(&tvstart, NULL);
 
-	go_start_profile();
+	golang_start_profile();
 
 	// Busy wait so we have something to profile.
 	// If we just sleep the profiling signal will never fire.
@@ -29,6 +29,6 @@ int main(int argc, char **argv) {
 			break;
 	}
 
-	go_stop_profile();
+	golang_stop_profile();
 	return 0;
 }

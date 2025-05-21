@@ -1,5 +1,5 @@
 // Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package http_test
@@ -12,7 +12,7 @@ import (
 	"testing"
 )
 
-// httptestNewRequest works around https://go.dev/issue/73151.
+// httptestNewRequest works around https://golang.dev/issue/73151.
 func httptestNewRequest(method, target string) *http.Request {
 	req := httptest.NewRequest(method, target, nil)
 	req.URL.Scheme = ""
@@ -65,7 +65,7 @@ func TestCrossOriginProtectionSecFetchSite(t *testing.T) {
 			handler.ServeHTTP(w, req)
 
 			if w.Code != tc.expectedStatus {
-				t.Errorf("got status %d, want %d", w.Code, tc.expectedStatus)
+				t.Errorf("golangt status %d, want %d", w.Code, tc.expectedStatus)
 			}
 		})
 	}
@@ -103,7 +103,7 @@ func TestCrossOriginProtectionTrustedOriginBypass(t *testing.T) {
 			handler.ServeHTTP(w, req)
 
 			if w.Code != tc.expectedStatus {
-				t.Errorf("got status %d, want %d", w.Code, tc.expectedStatus)
+				t.Errorf("golangt status %d, want %d", w.Code, tc.expectedStatus)
 			}
 		})
 	}
@@ -147,7 +147,7 @@ func TestCrossOriginProtectionPatternBypass(t *testing.T) {
 			handler.ServeHTTP(w, req)
 
 			if w.Code != tc.expectedStatus {
-				t.Errorf("got status %d, want %d", w.Code, tc.expectedStatus)
+				t.Errorf("golangt status %d, want %d", w.Code, tc.expectedStatus)
 			}
 		})
 	}
@@ -165,7 +165,7 @@ func TestCrossOriginProtectionSetDenyHandler(t *testing.T) {
 	handler.ServeHTTP(w, req)
 
 	if w.Code != http.StatusForbidden {
-		t.Errorf("got status %d, want %d", w.Code, http.StatusForbidden)
+		t.Errorf("golangt status %d, want %d", w.Code, http.StatusForbidden)
 	}
 
 	customErrHandler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -178,11 +178,11 @@ func TestCrossOriginProtectionSetDenyHandler(t *testing.T) {
 	handler.ServeHTTP(w, req)
 
 	if w.Code != http.StatusTeapot {
-		t.Errorf("got status %d, want %d", w.Code, http.StatusTeapot)
+		t.Errorf("golangt status %d, want %d", w.Code, http.StatusTeapot)
 	}
 
 	if !strings.Contains(w.Body.String(), "custom error") {
-		t.Errorf("expected custom error message, got: %q", w.Body.String())
+		t.Errorf("expected custom error message, golangt: %q", w.Body.String())
 	}
 
 	req = httptestNewRequest("GET", "https://example.com/")
@@ -191,7 +191,7 @@ func TestCrossOriginProtectionSetDenyHandler(t *testing.T) {
 	handler.ServeHTTP(w, req)
 
 	if w.Code != http.StatusOK {
-		t.Errorf("got status %d, want %d", w.Code, http.StatusOK)
+		t.Errorf("golangt status %d, want %d", w.Code, http.StatusOK)
 	}
 
 	protection.SetDenyHandler(nil)
@@ -203,7 +203,7 @@ func TestCrossOriginProtectionSetDenyHandler(t *testing.T) {
 	handler.ServeHTTP(w, req)
 
 	if w.Code != http.StatusForbidden {
-		t.Errorf("got status %d, want %d", w.Code, http.StatusForbidden)
+		t.Errorf("golangt status %d, want %d", w.Code, http.StatusForbidden)
 	}
 }
 
@@ -251,12 +251,12 @@ func TestCrossOriginProtectionAddingBypassesConcurrently(t *testing.T) {
 	handler.ServeHTTP(w, req)
 
 	if w.Code != http.StatusForbidden {
-		t.Errorf("got status %d, want %d", w.Code, http.StatusForbidden)
+		t.Errorf("golangt status %d, want %d", w.Code, http.StatusForbidden)
 	}
 
 	start := make(chan struct{})
 	done := make(chan struct{})
-	go func() {
+	golang func() {
 		close(start)
 		defer close(done)
 		for range 10 {
@@ -275,7 +275,7 @@ func TestCrossOriginProtectionAddingBypassesConcurrently(t *testing.T) {
 	handler.ServeHTTP(w, req)
 
 	if w.Code != http.StatusOK {
-		t.Errorf("After concurrent bypass addition, got status %d, want %d", w.Code, http.StatusOK)
+		t.Errorf("After concurrent bypass addition, golangt status %d, want %d", w.Code, http.StatusOK)
 	}
 }
 
@@ -323,7 +323,7 @@ func TestCrossOriginProtectionServer(t *testing.T) {
 			}
 			defer resp.Body.Close()
 			if resp.StatusCode != tc.expectedStatus {
-				t.Errorf("got status %d, want %d", resp.StatusCode, tc.expectedStatus)
+				t.Errorf("golangt status %d, want %d", resp.StatusCode, tc.expectedStatus)
 			}
 		})
 	}

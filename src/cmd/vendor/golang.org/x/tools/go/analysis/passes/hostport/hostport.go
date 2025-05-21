@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package hostport defines an analyzer for calls to net.Dial with
@@ -8,15 +8,15 @@ package hostport
 
 import (
 	"fmt"
-	"go/ast"
-	"go/constant"
-	"go/types"
+	"golang/ast"
+	"golang/constant"
+	"golang/types"
 
-	"golang.org/x/tools/go/analysis"
-	"golang.org/x/tools/go/analysis/passes/inspect"
-	"golang.org/x/tools/go/types/typeutil"
-	typeindexanalyzer "golang.org/x/tools/internal/analysisinternal/typeindex"
-	"golang.org/x/tools/internal/typesinternal/typeindex"
+	"golanglang.org/x/tools/golang/analysis"
+	"golanglang.org/x/tools/golang/analysis/passes/inspect"
+	"golanglang.org/x/tools/golang/types/typeutil"
+	typeindexanalyzer "golanglang.org/x/tools/internal/analysisinternal/typeindex"
+	"golanglang.org/x/tools/internal/typesinternal/typeindex"
 )
 
 const Doc = `check format of addresses passed to net.Dial
@@ -41,7 +41,7 @@ A similar diagnostic and fix are produced for a format string of "%s:%s".
 var Analyzer = &analysis.Analyzer{
 	Name:     "hostport",
 	Doc:      Doc,
-	URL:      "https://pkg.go.dev/golang.org/x/tools/go/analysis/passes/hostport",
+	URL:      "https://pkg.golang.dev/golanglang.org/x/tools/golang/analysis/passes/hostport",
 	Requires: []*analysis.Analyzer{inspect.Analyzer, typeindexanalyzer.Analyzer},
 	Run:      run,
 }

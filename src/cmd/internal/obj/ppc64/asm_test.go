@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ppc64
@@ -403,7 +403,7 @@ func TestRegValueAlignment(t *testing.T) {
 	tstFunc := func(rstart, rend, msk, rout int) {
 		for i := rstart; i <= rend; i++ {
 			if i&msk != rout {
-				t.Errorf("%v is not aligned to 0x%X (expected %d, got %d)\n", rconv(i), msk, rout, rstart&msk)
+				t.Errorf("%v is not aligned to 0x%X (expected %d, golangt %d)\n", rconv(i), msk, rout, rstart&msk)
 			}
 			rout++
 		}
@@ -475,7 +475,7 @@ func TestAddrClassifier(t *testing.T) {
 		{obj.Addr{Type: obj.TYPE_MEM, Name: obj.NAME_NONE, Offset: BIG}, C_LOREG},
 		{obj.Addr{Type: obj.TYPE_MEM, Name: obj.NAME_NONE, Offset: -BIG - 33}, C_LOREG},
 
-		// Misc (golang initializes -0.0 to 0.0, hence the obfuscation below)
+		// Misc (golanglang initializes -0.0 to 0.0, hence the obfuscation below)
 		{obj.Addr{Type: obj.TYPE_TEXTSIZE}, C_TEXTSIZE},
 		{obj.Addr{Type: obj.TYPE_FCONST, Val: 0.0}, C_ZCON},
 		{obj.Addr{Type: obj.TYPE_FCONST, Val: math.Float64frombits(0x8000000000000000)}, C_S16CON},

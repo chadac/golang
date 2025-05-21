@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
@@ -13,8 +13,8 @@ type sigctxt struct {
 	ctxt unsafe.Pointer
 }
 
-//go:nosplit
-//go:nowritebarrierrec
+//golang:nosplit
+//golang:nowritebarrierrec
 func (c *sigctxt) regs() *sigcontext {
 	return (*sigcontext)(c.ctxt)
 }
@@ -53,8 +53,8 @@ func (c *sigctxt) r30() uint64 { return c.regs().sc_regs[30] }
 func (c *sigctxt) r31() uint64 { return c.regs().sc_regs[31] }
 func (c *sigctxt) sp() uint64  { return c.regs().sc_regs[29] }
 
-//go:nosplit
-//go:nowritebarrierrec
+//golang:nosplit
+//golang:nowritebarrierrec
 func (c *sigctxt) pc() uint64 { return c.regs().sc_pc }
 
 func (c *sigctxt) link() uint64 { return c.regs().sc_regs[31] }

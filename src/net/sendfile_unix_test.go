@@ -1,8 +1,8 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build unix
+//golang:build unix
 
 package net
 
@@ -44,7 +44,7 @@ func TestCopyFromTTY(t *testing.T) {
 	defer wg.Wait()
 
 	wg.Add(1)
-	go func() {
+	golang func() {
 		defer wg.Done()
 		conn, err := ln.Accept()
 		if err != nil {
@@ -68,7 +68,7 @@ func TestCopyFromTTY(t *testing.T) {
 	defer conn.Close()
 
 	wg.Add(1)
-	go func() {
+	golang func() {
 		defer wg.Done()
 		if _, err := pty.Write([]byte(data)); err != nil {
 			t.Error(err)

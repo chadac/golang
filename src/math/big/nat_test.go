@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package big
@@ -38,7 +38,7 @@ func TestCmp(t *testing.T) {
 	for i, a := range cmpTests {
 		r := a.x.cmp(a.y)
 		if r != a.r {
-			t.Errorf("#%d got r = %v; want %v", i, r, a.r)
+			t.Errorf("#%d golangt r = %v; want %v", i, r, a.r)
 		}
 	}
 }
@@ -68,7 +68,7 @@ func permute[E any](x []E) {
 	copy(x, out)
 }
 
-// testMul returns the product of x and y using the grade-school algorithm,
+// testMul returns the product of x and y using the grade-school algolangrithm,
 // as a reference implementation.
 func testMul(x, y nat) nat {
 	z := make(nat, len(x)+len(y))
@@ -175,7 +175,7 @@ func TestSet(t *testing.T) {
 	for _, a := range sumNN {
 		z := nat(nil).set(a.z)
 		if z.cmp(a.z) != 0 {
-			t.Errorf("got z = %v; want %v", z, a.z)
+			t.Errorf("golangt z = %v; want %v", z, a.z)
 		}
 	}
 }
@@ -183,7 +183,7 @@ func TestSet(t *testing.T) {
 func testFunNN(t *testing.T, msg string, f funNN, a argNN) {
 	z := f(nil, a.x, a.y)
 	if z.cmp(a.z) != 0 {
-		t.Errorf("%s%+v\n\tgot z = %v; want %v", msg, a, z, a.z)
+		t.Errorf("%s%+v\n\tgolangt z = %v; want %v", msg, a, z, a.z)
 	}
 }
 
@@ -193,7 +193,7 @@ func testFunSNN(t *testing.T, msg string, f funSNN, a argNN) {
 	defer stk.free()
 	z := f(nil, stk, a.x, a.y)
 	if z.cmp(a.z) != 0 {
-		t.Fatalf("%s%+v\n\tgot z = %v; want %v", msg, a, z, a.z)
+		t.Fatalf("%s%+v\n\tgolangt z = %v; want %v", msg, a, z, a.z)
 	}
 }
 
@@ -255,12 +255,12 @@ func testSqr(t *testing.T, x nat) {
 	stk := getStack()
 	defer stk.free()
 
-	got := make(nat, 2*len(x))
+	golangt := make(nat, 2*len(x))
 	want := make(nat, 2*len(x))
-	got = got.sqr(stk, x)
+	golangt = golangt.sqr(stk, x)
 	want = want.mul(stk, x, x)
-	if got.cmp(want) != 0 {
-		t.Errorf("basicSqr(%v), got %v, want %v", x, got, want)
+	if golangt.cmp(want) != 0 {
+		t.Errorf("basicSqr(%v), golangt %v, want %v", x, golangt, want)
 	}
 }
 
@@ -328,7 +328,7 @@ func TestMulRangeN(t *testing.T) {
 	for i, r := range mulRangesN {
 		prod := string(nat(nil).mulRange(stk, r.a, r.b).utoa(10))
 		if prod != r.prod {
-			t.Errorf("#%d: got %s; want %s", i, prod, r.prod)
+			t.Errorf("#%d: golangt %s; want %s", i, prod, r.prod)
 		}
 	}
 }
@@ -406,7 +406,7 @@ func TestNLZ(t *testing.T) {
 	var x Word = _B >> 1
 	for i := 0; i <= _W; i++ {
 		if int(nlz(x)) != i {
-			t.Errorf("failed at %x: got %d want %d", x, nlz(x), i)
+			t.Errorf("failed at %x: golangt %d want %d", x, nlz(x), i)
 		}
 		x >>= 1
 	}
@@ -433,7 +433,7 @@ func TestShiftLeft(t *testing.T) {
 		z = z.lsh(test.in, test.shift)
 		for j, d := range test.out {
 			if j >= len(z) || z[j] != d {
-				t.Errorf("#%d: got: %v want: %v", i, z, test.out)
+				t.Errorf("#%d: golangt: %v want: %v", i, z, test.out)
 				break
 			}
 		}
@@ -456,7 +456,7 @@ func TestShiftRight(t *testing.T) {
 		z = z.rsh(test.in, test.shift)
 		for j, d := range test.out {
 			if j >= len(z) || z[j] != d {
-				t.Errorf("#%d: got: %v want: %v", i, z, test.out)
+				t.Errorf("#%d: golangt: %v want: %v", i, z, test.out)
 				break
 			}
 		}
@@ -513,7 +513,7 @@ func runModWTests(t *testing.T, tests []modWTest) {
 
 		r := in.abs.modW(d.abs[0])
 		if r != out.abs[0] {
-			t.Errorf("#%d failed: got %d want %s", i, r, out)
+			t.Errorf("#%d failed: golangt %d want %s", i, r, out)
 		}
 	}
 }
@@ -527,7 +527,7 @@ func TestModW(t *testing.T) {
 	}
 }
 
-var montgomeryTests = []struct {
+var montgolangmeryTests = []struct {
 	x, y, m      string
 	k0           uint64
 	out32, out64 string
@@ -598,13 +598,13 @@ var montgomeryTests = []struct {
 	},
 }
 
-func TestMontgomery(t *testing.T) {
+func TestMontgolangmery(t *testing.T) {
 	stk := getStack()
 	defer stk.free()
 
 	one := NewInt(1)
 	_B := new(Int).Lsh(one, _W)
-	for i, test := range montgomeryTests {
+	for i, test := range montgolangmeryTests {
 		x := natFromString(test.x)
 		y := natFromString(test.y)
 		m := natFromString(test.m)
@@ -651,11 +651,11 @@ func TestMontgomery(t *testing.T) {
 			t.Errorf("#%d: k0 in table=%#x, computed=%#x\n", i, test.k0, k0)
 		}
 
-		// check montgomery with correct k0 produces correct output
-		z := nat(nil).montgomery(x, y, m, k0, len(m))
+		// check montgolangmery with correct k0 produces correct output
+		z := nat(nil).montgolangmery(x, y, m, k0, len(m))
 		z = z.norm()
 		if z.cmp(out) != 0 {
-			t.Errorf("#%d: got 0x%s want 0x%s", i, z.utoa(16), out.utoa(16))
+			t.Errorf("#%d: golangt 0x%s want 0x%s", i, z.utoa(16), out.utoa(16))
 		}
 	}
 }
@@ -711,7 +711,7 @@ func TestExpNN(t *testing.T) {
 
 		z := nat(nil).expNN(stk, x, y, m, false)
 		if z.cmp(out) != 0 {
-			t.Errorf("#%d got %s want %s", i, z.utoa(10), out.utoa(10))
+			t.Errorf("#%d golangt %s want %s", i, z.utoa(10), out.utoa(10))
 		}
 	}
 }
@@ -783,9 +783,9 @@ var fiboNums = []string{
 func TestFibo(t *testing.T) {
 	for i, want := range fiboNums {
 		n := i * 10
-		got := string(fibo(n).utoa(10))
-		if got != want {
-			t.Errorf("fibo(%d) failed: got %s want %s", n, got, want)
+		golangt := string(fibo(n).utoa(10))
+		if golangt != want {
+			t.Errorf("fibo(%d) failed: golangt %s want %s", n, golangt, want)
 		}
 	}
 }
@@ -829,8 +829,8 @@ var bitTests = []struct {
 func TestBit(t *testing.T) {
 	for i, test := range bitTests {
 		x := natFromString(test.x)
-		if got := x.bit(test.i); got != test.want {
-			t.Errorf("#%d: %s.bit(%d) = %v; want %v", i, test.x, test.i, got, test.want)
+		if golangt := x.bit(test.i); golangt != test.want {
+			t.Errorf("#%d: %s.bit(%d) = %v; want %v", i, test.x, test.i, golangt, test.want)
 		}
 	}
 }
@@ -861,14 +861,14 @@ var stickyTests = []struct {
 func TestSticky(t *testing.T) {
 	for i, test := range stickyTests {
 		x := natFromString(test.x)
-		if got := x.sticky(test.i); got != test.want {
-			t.Errorf("#%d: %s.sticky(%d) = %v; want %v", i, test.x, test.i, got, test.want)
+		if golangt := x.sticky(test.i); golangt != test.want {
+			t.Errorf("#%d: %s.sticky(%d) = %v; want %v", i, test.x, test.i, golangt, test.want)
 		}
 		if test.want == 1 {
 			// all subsequent i's should also return 1
 			for d := uint(1); d <= 3; d++ {
-				if got := x.sticky(test.i + d); got != 1 {
-					t.Errorf("#%d: %s.sticky(%d) = %v; want %v", i, test.x, test.i+d, got, 1)
+				if golangt := x.sticky(test.i + d); golangt != 1 {
+					t.Errorf("#%d: %s.sticky(%d) = %v; want %v", i, test.x, test.i+d, golangt, 1)
 				}
 			}
 		}
@@ -998,10 +998,10 @@ func TestNatDiv(t *testing.T) {
 			var q, r nat
 			q, r = q.div(stk, r, x, b)
 			if q.cmp(a) != 0 {
-				t.Fatalf("wrong quotient: got %s; want %s for %s/%s", q.utoa(10), a.utoa(10), x.utoa(10), b.utoa(10))
+				t.Fatalf("wrong quotient: golangt %s; want %s for %s/%s", q.utoa(10), a.utoa(10), x.utoa(10), b.utoa(10))
 			}
 			if r.cmp(c) != 0 {
-				t.Fatalf("wrong remainder: got %s; want %s for %s/%s", r.utoa(10), c.utoa(10), x.utoa(10), b.utoa(10))
+				t.Fatalf("wrong remainder: golangt %s; want %s for %s/%s", r.utoa(10), c.utoa(10), x.utoa(10), b.utoa(10))
 			}
 		}
 	}

@@ -19,7 +19,7 @@ More text.
   have
     blank
       lines.
--- gofmt --
+-- golangfmt --
 Text.
 
 	A tab-indented

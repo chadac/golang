@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ld
@@ -12,7 +12,7 @@ import (
 	"sort"
 )
 
-// Inittasks finds inittask records, figures out a good
+// Inittasks finds inittask records, figures out a golangod
 // order to execute them in, and emits that order for the
 // runtime to use.
 //
@@ -31,7 +31,7 @@ import (
 // Package dependencies are encoded with relocations. If package
 // p imports package q, then package p's inittask record will
 // have a R_INITORDER relocation pointing to package q's inittask
-// record. See cmd/compile/internal/pkginit/init.go.
+// record. See cmd/compile/internal/pkginit/init.golang.
 //
 // This function computes an ordering of all of the inittask
 // records so that the order respects all the dependencies,
@@ -41,10 +41,10 @@ func (ctxt *Link) inittasks() {
 	switch ctxt.BuildMode {
 	case BuildModeExe, BuildModePIE, BuildModeCArchive, BuildModeCShared:
 		// Normally the inittask list will be run on program startup.
-		ctxt.mainInittasks = ctxt.inittaskSym([]string{"main..inittask"}, "go:main.inittasks")
+		ctxt.mainInittasks = ctxt.inittaskSym([]string{"main..inittask"}, "golang:main.inittasks")
 	case BuildModePlugin:
 		// For plugins, the list will be run on plugin load.
-		ctxt.mainInittasks = ctxt.inittaskSym([]string{fmt.Sprintf("%s..inittask", objabi.PathToPrefix(*flagPluginPath))}, "go:plugin.inittasks")
+		ctxt.mainInittasks = ctxt.inittaskSym([]string{fmt.Sprintf("%s..inittask", objabi.PathToPrefix(*flagPluginPath))}, "golang:plugin.inittasks")
 		// Make symbol local so multiple plugins don't clobber each other's inittask list.
 		ctxt.loader.SetAttrLocal(ctxt.mainInittasks, true)
 	case BuildModeShared:
@@ -53,7 +53,7 @@ func (ctxt *Link) inittasks() {
 		for _, lib := range ctxt.Library {
 			roots = append(roots, fmt.Sprintf("%s..inittask", objabi.PathToPrefix(lib.Pkg)))
 		}
-		ctxt.mainInittasks = ctxt.inittaskSym(roots, "go:shlib.inittasks")
+		ctxt.mainInittasks = ctxt.inittaskSym(roots, "golang:shlib.inittasks")
 		// Make symbol local so multiple plugins don't clobber each other's inittask list.
 		ctxt.loader.SetAttrLocal(ctxt.mainInittasks, true)
 	default:
@@ -64,9 +64,9 @@ func (ctxt *Link) inittasks() {
 	// initialize the runtime_inittasks variable.
 	ldr := ctxt.loader
 	if ldr.Lookup("runtime.runtime_inittasks", 0) != 0 {
-		t := ctxt.inittaskSym([]string{"runtime..inittask"}, "go:runtime.inittasks")
+		t := ctxt.inittaskSym([]string{"runtime..inittask"}, "golang:runtime.inittasks")
 
-		// This slice header is already defined in runtime/proc.go, so we update it here with new contents.
+		// This slice header is already defined in runtime/proc.golang, so we update it here with new contents.
 		sh := ldr.Lookup("runtime.runtime_inittasks", 0)
 		sb := ldr.MakeSymbolUpdater(sh)
 		sb.SetSize(0)

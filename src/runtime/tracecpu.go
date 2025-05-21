@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // CPU profile -> trace
@@ -16,7 +16,7 @@ func traceInitReadCPU() {
 		throw("traceInitReadCPU called with trace enabled")
 	}
 	// Create new profBuf for CPU samples that will be emitted as events.
-	// Format: after the timestamp, header is [pp.id, gp.goid, mp.procid].
+	// Format: after the timestamp, header is [pp.id, gp.golangid, mp.procid].
 	trace.cpuLogRead[0] = newProfBuf(3, profBufWordCount, profBufTagCount)
 	trace.cpuLogRead[1] = newProfBuf(3, profBufWordCount, profBufTagCount)
 	// We must not acquire trace.signalLock outside of a signal handler: a
@@ -30,7 +30,7 @@ func traceInitReadCPU() {
 	trace.cpuLogWrite[1].Store(trace.cpuLogRead[1])
 }
 
-// traceStartReadCPU creates a goroutine to start reading CPU profile
+// traceStartReadCPU creates a golangroutine to start reading CPU profile
 // data into an active trace.
 //
 // traceAdvanceSema must be held.
@@ -38,10 +38,10 @@ func traceStartReadCPU() {
 	if !traceEnabled() {
 		throw("traceStartReadCPU called with trace disabled")
 	}
-	// Spin up the logger goroutine.
+	// Spin up the logger golangroutine.
 	trace.cpuSleep = newWakeableSleep()
 	done := make(chan struct{}, 1)
-	go func() {
+	golang func() {
 		for traceEnabled() {
 			// Sleep here because traceReadCPU is non-blocking. This mirrors
 			// how the runtime/pprof package obtains CPU profile data.
@@ -51,7 +51,7 @@ func traceStartReadCPU() {
 			// non-blocking. See #61768 for more details.
 			//
 			// Like the runtime/pprof package, even if that bug didn't exist
-			// we would still want to do a goroutine-level sleep in between
+			// we would still want to do a golangroutine-level sleep in between
 			// reads to avoid frequent wakeups.
 			trace.cpuSleep.sleep(100_000_000)
 
@@ -71,7 +71,7 @@ func traceStartReadCPU() {
 	trace.cpuLogDone = done
 }
 
-// traceStopReadCPU blocks until the trace CPU reading goroutine exits.
+// traceStopReadCPU blocks until the trace CPU reading golangroutine exits.
 //
 // traceAdvanceSema must be held, and tracing must be disabled.
 func traceStopReadCPU() {
@@ -80,11 +80,11 @@ func traceStopReadCPU() {
 	}
 
 	// Once we close the profbuf, we'll be in one of two situations:
-	// - The logger goroutine has already exited because it observed
+	// - The logger golangroutine has already exited because it observed
 	//   that the trace is disabled.
-	// - The logger goroutine is asleep.
+	// - The logger golangroutine is asleep.
 	//
-	// Wake the goroutine so it can observe that their the buffer is
+	// Wake the golangroutine so it can observe that their the buffer is
 	// closed an exit.
 	trace.cpuLogWrite[0].Store(nil)
 	trace.cpuLogWrite[1].Store(nil)
@@ -92,7 +92,7 @@ func traceStopReadCPU() {
 	trace.cpuLogRead[1].close()
 	trace.cpuSleep.wake()
 
-	// Wait until the logger goroutine exits.
+	// Wait until the logger golangroutine exits.
 	<-trace.cpuLogDone
 
 	// Clear state for the next trace.
@@ -110,7 +110,7 @@ func traceStopReadCPU() {
 // the caller must be in a traceAcquire/traceRelease block, or must be calling
 // with traceAdvanceSema held.
 //
-// No more than one goroutine may be in traceReadCPU for the same
+// No more than one golangroutine may be in traceReadCPU for the same
 // profBuf at a time.
 //
 // Must not run on the system stack because profBuf.read performs race
@@ -137,7 +137,7 @@ func traceReadCPU(gen uintptr) bool {
 		if hasP := (data[2] & 0b1) != 0; !hasP {
 			ppid = ^uint64(0)
 		}
-		goid := data[3]
+		golangid := data[3]
 		mpid := data[4]
 		stk := data[5:recordLen]
 
@@ -147,7 +147,7 @@ func traceReadCPU(gen uintptr) bool {
 
 		// Move the data iterator forward.
 		data = data[recordLen:]
-		// No support here for reporting goroutine tags at the moment; if
+		// No support here for reporting golangroutine tags at the moment; if
 		// that information is to be part of the execution trace, we'd
 		// probably want to see when the tags are applied and when they
 		// change, instead of only seeing them when we get a CPU sample.
@@ -185,7 +185,7 @@ func traceReadCPU(gen uintptr) bool {
 		w.varint(timestamp)
 		w.varint(mpid)
 		w.varint(ppid)
-		w.varint(goid)
+		w.varint(golangid)
 		w.varint(stackID)
 
 		trace.cpuBuf[gen%2] = w.traceBuf
@@ -222,7 +222,7 @@ func traceCPUSample(gp *g, mp *m, pp *p, stk []uintptr) {
 		return
 	}
 
-	// We're going to conditionally write to one of two buffers based on the
+	// We're golanging to conditionally write to one of two buffers based on the
 	// generation. To make sure we write to the correct one, we need to make
 	// sure this thread's trace seqlock is held. If it already is, then we're
 	// in the tracer and we can just take advantage of that. If it isn't, then
@@ -244,9 +244,9 @@ func traceCPUSample(gp *g, mp *m, pp *p, stk []uintptr) {
 
 	now := traceClockNow()
 	// The "header" here is the ID of the M that was running the profiled code,
-	// followed by the IDs of the P and goroutine. (For normal CPU profiling, it's
+	// followed by the IDs of the P and golangroutine. (For normal CPU profiling, it's
 	// usually the number of samples with the given stack.) Near syscalls, pp
-	// may be nil. Reporting goid of 0 is fine for either g0 or a nil gp.
+	// may be nil. Reporting golangid of 0 is fine for either g0 or a nil gp.
 	var hdr [3]uint64
 	if pp != nil {
 		// Overflow records in profBuf have all header values set to zero. Make
@@ -256,13 +256,13 @@ func traceCPUSample(gp *g, mp *m, pp *p, stk []uintptr) {
 		hdr[0] = 0b10
 	}
 	if gp != nil {
-		hdr[1] = gp.goid
+		hdr[1] = gp.golangid
 	}
 	hdr[2] = uint64(mp.procid)
 
 	// Allow only one writer at a time
 	for !trace.signalLock.CompareAndSwap(0, 1) {
-		// TODO: Is it safe to osyield here? https://go.dev/issue/52672
+		// TODO: Is it safe to osyield here? https://golang.dev/issue/52672
 		osyield()
 	}
 

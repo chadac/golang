@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -27,21 +27,21 @@ func run() error {
 	runtime.SetFinalizer(&f1, func(f *func()) {
 		atomic.AddInt64(&count, -1)
 	})
-	go f2()
+	golang f2()
 	return nil
 }
 
 func main() {
-	// Does not work with gccgo, due to partially conservative GC.
+	// Does not work with gccgolang, due to partially conservative GC.
 	// Try to enable when we have fully precise GC.
-	if runtime.Compiler == "gccgo" {
+	if runtime.Compiler == "gccgolang" {
 		return
 	}
 	count = N
 	var wg sync.WaitGroup
 	wg.Add(N)
 	for i := 0; i < N; i++ {
-		go func() {
+		golang func() {
 			run()
 			wg.Done()
 		}()

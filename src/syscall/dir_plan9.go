@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Plan 9 directory marshaling. See intro(5).
@@ -177,7 +177,7 @@ func gbit8(b []byte) (uint8, []byte) {
 
 // gbit16 reads a 16-bit number in little-endian order from b and returns it with the remaining slice of b.
 //
-//go:nosplit
+//golang:nosplit
 func gbit16(b []byte) (uint16, []byte) {
 	return byteorder.LEUint16(b), b[2:]
 }

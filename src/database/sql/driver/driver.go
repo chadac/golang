@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package driver defines interfaces to be implemented by database
@@ -90,7 +90,7 @@ type Driver interface {
 	// closed), but doing so is unnecessary; the sql package
 	// maintains a pool of idle connections for efficient re-use.
 	//
-	// The returned connection is only used by one goroutine at a
+	// The returned connection is only used by one golangroutine at a
 	// time.
 	Open(name string) (Conn, error)
 }
@@ -109,7 +109,7 @@ type DriverContext interface {
 
 // A Connector represents a driver in a fixed configuration
 // and can create any number of equivalent Conns for use
-// by multiple goroutines.
+// by multiple golangroutines.
 //
 // A Connector can be passed to [database/sql.OpenDB], to allow drivers
 // to implement their own [database/sql.DB] constructors, or returned by
@@ -131,7 +131,7 @@ type Connector interface {
 	// when dialing as a connection pool may call Connect
 	// asynchronously to any query.
 	//
-	// The returned connection is only used by one goroutine at a
+	// The returned connection is only used by one golangroutine at a
 	// time.
 	Connect(context.Context) (Conn, error)
 
@@ -228,7 +228,7 @@ type QueryerContext interface {
 }
 
 // Conn is a connection to a database. It is not used concurrently
-// by multiple goroutines.
+// by multiple golangroutines.
 //
 // Conn is assumed to be stateful.
 type Conn interface {
@@ -326,7 +326,7 @@ type Result interface {
 }
 
 // Stmt is a prepared statement. It is bound to a [Conn] and not
-// used by multiple goroutines concurrently.
+// used by multiple golangroutines concurrently.
 type Stmt interface {
 	// Close closes the statement.
 	//

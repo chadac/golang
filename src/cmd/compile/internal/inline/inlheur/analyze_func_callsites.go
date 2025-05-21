@@ -1,12 +1,12 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package inlheur
 
 import (
 	"cmd/compile/internal/ir"
-	"cmd/compile/internal/pgoir"
+	"cmd/compile/internal/pgolangir"
 	"cmd/compile/internal/typecheck"
 	"fmt"
 	"os"
@@ -220,7 +220,7 @@ func (cstb *callSiteTableBuilder) nodeVisitPre(n ir.Node) {
 		}
 	case ir.OCALLFUNC:
 		ce := n.(*ir.CallExpr)
-		callee := pgoir.DirectCallee(ce.Fun)
+		callee := pgolangir.DirectCallee(ce.Fun)
 		if callee != nil && callee.Inl != nil {
 			cstb.addCallSite(callee, ce)
 		}
@@ -263,7 +263,7 @@ func loopBody(n ir.Node) ir.Nodes {
 //
 // Note that we don't look for GOTO statements here, so it's possible
 // we'll get the wrong result for a loop with complicated control
-// jumps via gotos.
+// jumps via golangtos.
 func hasTopLevelLoopBodyReturnOrBreak(loopBody ir.Nodes) bool {
 	for _, n := range loopBody {
 		if n.Op() == ir.ORETURN || n.Op() == ir.OBREAK {
@@ -285,7 +285,7 @@ func hasTopLevelLoopBodyReturnOrBreak(loopBody ir.Nodes) bool {
 // call is the assignment to x,y. For the baz() and blah() calls,
 // there is no top level assignment statement.
 //
-// The unstated goal here is that we want to use the containing
+// The unstated golangal here is that we want to use the containing
 // assignment to establish a connection between a given call and the
 // variables to which its results/returns are being assigned.
 //

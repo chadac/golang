@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package modindex
@@ -7,7 +7,7 @@ package modindex
 import (
 	"encoding/hex"
 	"encoding/json"
-	"go/build"
+	"golang/build"
 	"internal/diff"
 	"path/filepath"
 	"reflect"
@@ -17,7 +17,7 @@ import (
 
 func init() {
 	isTest = true
-	enabled = true // to allow GODEBUG=goindex=0 go test, when things are very broken
+	enabled = true // to allow GODEBUG=golangindex=0 golang test, when things are very broken
 }
 
 func TestIndex(t *testing.T) {
@@ -90,15 +90,15 @@ func TestImportRaw_IgnoreNonGo(t *testing.T) {
 	path := filepath.Join("testdata", "ignore_non_source")
 	p := importRaw(path, ".")
 
-	wantFiles := []string{"a.syso", "b.go", "c.c"}
+	wantFiles := []string{"a.syso", "b.golang", "c.c"}
 
-	var gotFiles []string
+	var golangtFiles []string
 	for i := range p.sourceFiles {
-		gotFiles = append(gotFiles, p.sourceFiles[i].name)
+		golangtFiles = append(golangtFiles, p.sourceFiles[i].name)
 	}
 
-	if !reflect.DeepEqual(gotFiles, wantFiles) {
-		t.Errorf("names of files in importRaw(testdata/ignore_non_source): got %v; want %v",
-			gotFiles, wantFiles)
+	if !reflect.DeepEqual(golangtFiles, wantFiles) {
+		t.Errorf("names of files in importRaw(testdata/ignore_non_source): golangt %v; want %v",
+			golangtFiles, wantFiles)
 	}
 }

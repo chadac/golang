@@ -1,9 +1,9 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package fuzz provides common fuzzing functionality for tests built with
-// "go test" and for programs that use fuzzing functionality in the testing
+// "golang test" and for programs that use fuzzing functionality in the testing
 // package.
 package fuzz
 
@@ -13,7 +13,7 @@ import (
 	"crypto/sha256"
 	"errors"
 	"fmt"
-	"internal/godebug"
+	"internal/golangdebug"
 	"io"
 	"math/bits"
 	"os"
@@ -181,7 +181,7 @@ func CoordinateFuzzing(ctx context.Context, opts CoordinateFuzzingOpts) (err err
 	}
 	for i := range workers {
 		w := workers[i]
-		go func() {
+		golang func() {
 			err := w.coordinate(fuzzCtx)
 			if fuzzCtx.Err() != nil || isInterruptError(err) {
 				err = nil
@@ -1090,7 +1090,7 @@ var zeroVals []any = []any{
 	uint64(0),
 }
 
-var debugInfo = godebug.New("#fuzzdebug").Value() == "1"
+var debugInfo = golangdebug.New("#fuzzdebug").Value() == "1"
 
 func shouldPrintDebugInfo() bool {
 	return debugInfo

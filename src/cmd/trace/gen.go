@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -139,8 +139,8 @@ func emitTask(ctx *traceContext, task *trace.UserTaskSummary, sortIndex int) {
 	}
 }
 
-// emitRegion emits goroutine-based slice events to the UI. The caller
-// must be emitting for a goroutine-oriented trace.
+// emitRegion emits golangroutine-based slice events to the UI. The caller
+// must be emitting for a golangroutine-oriented trace.
 //
 // TODO(mknyszek): Make regions part of the regular generator loop and
 // treat them like ranges so that we can emit regions in traces oriented
@@ -151,19 +151,19 @@ func emitRegion(ctx *traceContext, region *trace.UserRegionSummary) {
 	}
 	// Collect information about the region.
 	var startStack, endStack trace.Stack
-	goroutine := trace.NoGoroutine
+	golangroutine := trace.NoGoroutine
 	startTime, endTime := ctx.startTime, ctx.endTime
 	if region.Start != nil {
 		startStack = region.Start.Stack()
 		startTime = region.Start.Time()
-		goroutine = region.Start.Goroutine()
+		golangroutine = region.Start.Goroutine()
 	}
 	if region.End != nil {
 		endStack = region.End.Stack()
 		endTime = region.End.Time()
-		goroutine = region.End.Goroutine()
+		golangroutine = region.End.Goroutine()
 	}
-	if goroutine == trace.NoGoroutine {
+	if golangroutine == trace.NoGoroutine {
 		return
 	}
 	arg := struct {
@@ -176,12 +176,12 @@ func emitRegion(ctx *traceContext, region *trace.UserRegionSummary) {
 			Name:     region.Name,
 			Ts:       ctx.elapsed(startTime),
 			Dur:      endTime.Sub(startTime),
-			Resource: uint64(goroutine),
+			Resource: uint64(golangroutine),
 			Stack:    ctx.Stack(viewerFrames(startStack)),
 			EndStack: ctx.Stack(viewerFrames(endStack)),
 			Arg:      arg,
 		},
-		Category:       "Region",
+		Categolangry:       "Region",
 		Scope:          fmt.Sprintf("%x", region.TaskID),
 		TaskColorIndex: uint64(region.TaskID),
 	})
@@ -283,9 +283,9 @@ func (g *globalMetricGenerator) GlobalMetric(ctx *traceContext, ev *trace.Event)
 	switch m.Name {
 	case "/memory/classes/heap/objects:bytes":
 		ctx.HeapAlloc(ctx.elapsed(ev.Time()), m.Value.ToUint64())
-	case "/gc/heap/goal:bytes":
+	case "/gc/heap/golangal:bytes":
 		ctx.HeapGoal(ctx.elapsed(ev.Time()), m.Value.ToUint64())
-	case "/sched/gomaxprocs:threads":
+	case "/sched/golangmaxprocs:threads":
 		ctx.Gomaxprocs(m.Value.ToUint64())
 	}
 }
@@ -378,15 +378,15 @@ func (g *logEventGenerator[R]) Log(ctx *traceContext, ev *trace.Event) {
 	// Construct the name to present.
 	log := ev.Log()
 	name := log.Message
-	if log.Category != "" {
-		name = "[" + log.Category + "] " + name
+	if log.Categolangry != "" {
+		name = "[" + log.Categolangry + "] " + name
 	}
 
 	// Emit an instant event.
 	ctx.Instant(traceviewer.InstantEvent{
 		Name:     name,
 		Ts:       ctx.elapsed(ev.Time()),
-		Category: "user event",
+		Categolangry: "user event",
 		Resource: uint64(id),
 		Stack:    ctx.Stack(viewerFrames(ev.Stack())),
 	})

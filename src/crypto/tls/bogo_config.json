@@ -2,15 +2,15 @@
     "DisabledTests": {
         "*-Async": "We don't support boringssl concept of async",
 
-        "TLS-ECH-Client-Reject-NoClientCertificate-TLS12": "We won't attempt to negotiate 1.2 if ECH is enabled",
-        "TLS-ECH-Client-Reject-TLS12": "We won't attempt to negotiate 1.2 if ECH is enabled",
-        "TLS-ECH-Client-TLS12-RejectRetryConfigs": "We won't attempt to negotiate 1.2 if ECH is enabled",
-        "TLS-ECH-Client-Rejected-OverrideName-TLS12": "We won't attempt to negotiate 1.2 if ECH is enabled",
-        "TLS-ECH-Client-Reject-TLS12-NoFalseStart": "We won't attempt to negotiate 1.2 if ECH is enabled",
-        "TLS-ECH-Client-TLS12SessionTicket": "We won't attempt to negotiate 1.2 if ECH is enabled",
-        "TLS-ECH-Client-TLS12SessionID": "We won't attempt to negotiate 1.2 if ECH is enabled, and we don't support session ID resumption",
+        "TLS-ECH-Client-Reject-NoClientCertificate-TLS12": "We won't attempt to negolangtiate 1.2 if ECH is enabled",
+        "TLS-ECH-Client-Reject-TLS12": "We won't attempt to negolangtiate 1.2 if ECH is enabled",
+        "TLS-ECH-Client-TLS12-RejectRetryConfigs": "We won't attempt to negolangtiate 1.2 if ECH is enabled",
+        "TLS-ECH-Client-Rejected-OverrideName-TLS12": "We won't attempt to negolangtiate 1.2 if ECH is enabled",
+        "TLS-ECH-Client-Reject-TLS12-NoFalseStart": "We won't attempt to negolangtiate 1.2 if ECH is enabled",
+        "TLS-ECH-Client-TLS12SessionTicket": "We won't attempt to negolangtiate 1.2 if ECH is enabled",
+        "TLS-ECH-Client-TLS12SessionID": "We won't attempt to negolangtiate 1.2 if ECH is enabled, and we don't support session ID resumption",
 
-        "TLS-ECH-Client-Reject-ResumeInnerSession-TLS12": "We won't attempt to negotiate 1.2 if ECH is enabled (we could possibly test this if we had the ability to indicate not to send ECH on resumption?)",
+        "TLS-ECH-Client-Reject-ResumeInnerSession-TLS12": "We won't attempt to negolangtiate 1.2 if ECH is enabled (we could possibly test this if we had the ability to indicate not to send ECH on resumption?)",
 
         "TLS-ECH-Client-Reject-EarlyDataRejected": "Go does not support early (0-RTT) data",
 
@@ -20,14 +20,14 @@
         "TLS-ECH-Client-Reject-NoChannelID-TLS13": "We don't support sending channel ID",
         "TLS-ECH-Client-Reject-NoChannelID-TLS12": "We don't support sending channel ID",
 
-        "ServerAuth-SHA1-Fallback*": "We don't ever support SHA-1 in TLS 1.2, so we fail if there are no signature_algorithms",
+        "ServerAuth-SHA1-Fallback*": "We don't ever support SHA-1 in TLS 1.2, so we fail if there are no signature_algolangrithms",
 
         "TLS-ECH-Client-GREASE-IgnoreHRRExtension": "We don't support ECH GREASE because we don't fallback to plaintext",
         "TLS-ECH-Client-NoSupportedConfigs-GREASE": "We don't support ECH GREASE because we don't fallback to plaintext",
         "TLS-ECH-Client-GREASEExtensions": "We don't support ECH GREASE because we don't fallback to plaintext",
         "TLS-ECH-Client-GREASE-NoOverrideName": "We don't support ECH GREASE because we don't fallback to plaintext",
 
-        "TLS-ECH-Client-UnsolicitedInnerServerNameAck": "We don't allow sending empty SNI without skipping certificate verification, TODO: could add special flag to bogo to indicate 'empty sni'",
+        "TLS-ECH-Client-UnsolicitedInnerServerNameAck": "We don't allow sending empty SNI without skipping certificate verification, TODO: could add special flag to bogolang to indicate 'empty sni'",
 
         "TLS-ECH-Client-NoSupportedConfigs": "We don't support fallback to cleartext when there are no valid ECH configs",
         "TLS-ECH-Client-SkipInvalidPublicName": "We don't support fallback to cleartext when there are no valid ECH configs",
@@ -73,7 +73,7 @@
         "UnsolicitedServerNameAck-TLS-TLS12": "TODO: first pass, this should be fixed",
         "TicketSessionIDLength-33-TLS-TLS12": "TODO: first pass, this should be fixed",
         "UnsolicitedServerNameAck-TLS-TLS13": "TODO: first pass, this should be fixed",
-        "RenegotiationInfo-Forbidden-TLS13": "TODO: first pass, this should be fixed",
+        "RenegolangtiationInfo-Forbidden-TLS13": "TODO: first pass, this should be fixed",
         "EMS-Forbidden-TLS13": "TODO: first pass, this should be fixed",
         "SendUnsolicitedOCSPOnCertificate-TLS13": "TODO: first pass, this should be fixed",
         "SendUnsolicitedSCTOnCertificate-TLS13": "TODO: first pass, this should be fixed",
@@ -86,8 +86,8 @@
         "Resume-Server-PSKBinderFirstExtension-SecondBinder": "TODO: first pass, this should be fixed",
         "Resume-Server-NoPSKBinder-SecondBinder": "TODO: first pass, this should be fixed",
         "Resume-Server-OmitPSKsOnSecondClientHello": "TODO: first pass, this should be fixed",
-        "Renegotiate-Server-Forbidden": "TODO: first pass, this should be fixed",
-        "Renegotiate-Client-Forbidden-1": "TODO: first pass, this should be fixed",
+        "Renegolangtiate-Server-Forbidden": "TODO: first pass, this should be fixed",
+        "Renegolangtiate-Client-Forbidden-1": "TODO: first pass, this should be fixed",
         "Client-Sign-RSA_PKCS1_SHA1-TLS13": "TODO: first pass, this should be fixed",
         "Client-Sign-RSA_PKCS1_SHA256-TLS13": "TODO: first pass, this should be fixed",
         "Client-Sign-RSA_PKCS1_SHA384-TLS13": "TODO: first pass, this should be fixed",
@@ -100,7 +100,7 @@
         "ECDSACurveMismatch-Verify-TLS13": "TODO: first pass, this should be fixed",
         "Ed25519DefaultDisable-NoAdvertise": "TODO: first pass, this should be fixed",
         "Ed25519DefaultDisable-NoAccept": "TODO: first pass, this should be fixed",
-        "NoCommonSignatureAlgorithms-TLS12-Fallback": "TODO: first pass, this should be fixed",
+        "NoCommonSignatureAlgolangrithms-TLS12-Fallback": "TODO: first pass, this should be fixed",
         "UnknownExtension-Client": "TODO: first pass, this should be fixed",
         "UnknownUnencryptedExtension-Client-TLS13": "TODO: first pass, this should be fixed",
         "UnofferedExtension-Client-TLS13": "TODO: first pass, this should be fixed",

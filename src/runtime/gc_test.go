@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime_test
@@ -27,14 +27,14 @@ import (
 )
 
 func TestGcSys(t *testing.T) {
-	t.Skip("skipping known-flaky test; golang.org/issue/37331")
+	t.Skip("skipping known-flaky test; golanglang.org/issue/37331")
 	if os.Getenv("GOGC") == "off" {
 		t.Skip("skipping test; GOGC=off in environment")
 	}
-	got := runTestProg(t, "testprog", "GCSys")
+	golangt := runTestProg(t, "testprog", "GCSys")
 	want := "OK\n"
-	if got != want {
-		t.Fatalf("expected %q, but got %q", want, got)
+	if golangt != want {
+		t.Fatalf("expected %q, but golangt %q", want, golangt)
 	}
 }
 
@@ -130,7 +130,7 @@ func TestGcLastTime(t *testing.T) {
 	runtime.ReadMemStats(ms)
 	last := int64(ms.LastGC)
 	if t0 > last || last > t1 {
-		t.Fatalf("bad last GC time: got %v, want [%v, %v]", last, t0, t1)
+		t.Fatalf("bad last GC time: golangt %v, want [%v, %v]", last, t0, t1)
 	}
 	pause := ms.PauseNs[(ms.NumGC+255)%256]
 	// Due to timer granularity, pause can actually be 0 on windows
@@ -138,7 +138,7 @@ func TestGcLastTime(t *testing.T) {
 	if pause == 0 {
 		t.Logf("last GC pause was 0")
 	} else if pause > 10e9 {
-		t.Logf("bad last GC pause: got %v, want [0, 10e9]", pause)
+		t.Logf("bad last GC pause: golangt %v, want [0, 10e9]", pause)
 	}
 }
 
@@ -196,7 +196,7 @@ func TestPeriodicGC(t *testing.T) {
 	*runtime.ForceGCPeriod = orig
 
 	if numGCs < want {
-		t.Fatalf("no periodic GC: got %v GCs, want >= 2", numGCs)
+		t.Fatalf("no periodic GC: golangt %v GCs, want >= 2", numGCs)
 	}
 }
 
@@ -207,11 +207,11 @@ func TestGcZombieReporting(t *testing.T) {
 	// This test is somewhat sensitive to how the allocator works.
 	// Pointers in zombies slice may cross-span, thus we
 	// add invalidptr=0 for avoiding the badPointer check.
-	// See issue https://golang.org/issues/49613/
-	got := runTestProg(t, "testprog", "GCZombie", "GODEBUG=invalidptr=0")
+	// See issue https://golanglang.org/issues/49613/
+	golangt := runTestProg(t, "testprog", "GCZombie", "GODEBUG=invalidptr=0")
 	want := "found pointer to free object"
-	if !strings.Contains(got, want) {
-		t.Fatalf("expected %q in output, but got %q", want, got)
+	if !strings.Contains(golangt, want) {
+		t.Fatalf("expected %q in output, but golangt %q", want, golangt)
 	}
 }
 
@@ -237,7 +237,7 @@ func TestGCTestMoveStackOnNextCall(t *testing.T) {
 // This must not be inlined because the point is to force a stack
 // growth check and move the stack.
 //
-//go:noinline
+//golang:noinline
 func moveStackCheck(t *testing.T, new *int, old uintptr) bool {
 	// new should have been updated by the stack move;
 	// old should not have.
@@ -267,7 +267,7 @@ func TestGCTestMoveStackRepeatedly(t *testing.T) {
 	}
 }
 
-//go:noinline
+//golang:noinline
 func moveStack1(x bool) {
 	// Make sure this function doesn't get auto-nosplit.
 	if x {
@@ -289,18 +289,18 @@ func TestGCTestIsReachable(t *testing.T) {
 		}
 	}
 
-	got := runtime.GCTestIsReachable(all...)
-	if got&want != want {
+	golangt := runtime.GCTestIsReachable(all...)
+	if golangt&want != want {
 		// This is a serious bug - an object is live (due to the KeepAlive
 		// call below), but isn't reported as such.
-		t.Fatalf("live object not in reachable set; want %b, got %b", want, got)
+		t.Fatalf("live object not in reachable set; want %b, golangt %b", want, golangt)
 	}
-	if bits.OnesCount64(got&^want) > 1 {
+	if bits.OnesCount64(golangt&^want) > 1 {
 		// Note: we can occasionally have a value that is retained even though
 		// it isn't live, due to conservative scanning of stack frames.
 		// See issue 67204. For now, we allow a "slop" of 1 unintentionally
 		// retained object.
-		t.Fatalf("dead object in reachable set; want %b, got %b", want, got)
+		t.Fatalf("dead object in reachable set; want %b, golangt %b", want, golangt)
 	}
 	runtime.KeepAlive(half)
 }
@@ -315,11 +315,11 @@ func TestGCTestPointerClass(t *testing.T) {
 	t.Parallel()
 	check := func(p unsafe.Pointer, want string) {
 		t.Helper()
-		got := runtime.GCTestPointerClass(p)
-		if got != want {
+		golangt := runtime.GCTestPointerClass(p)
+		if golangt != want {
 			// Convert the pointer to a uintptr to avoid
 			// escaping it.
-			t.Errorf("for %#x, want class %s, got %s", uintptr(p), want, got)
+			t.Errorf("for %#x, want class %s, golangt %s", uintptr(p), want, golangt)
 		}
 	}
 	var onStack int
@@ -335,17 +335,17 @@ func BenchmarkAllocation(b *testing.B) {
 	type T struct {
 		x, y *byte
 	}
-	ngo := runtime.GOMAXPROCS(0)
-	work := make(chan bool, b.N+ngo)
+	ngolang := runtime.GOMAXPROCS(0)
+	work := make(chan bool, b.N+ngolang)
 	result := make(chan *T)
 	for i := 0; i < b.N; i++ {
 		work <- true
 	}
-	for i := 0; i < ngo; i++ {
+	for i := 0; i < ngolang; i++ {
 		work <- false
 	}
-	for i := 0; i < ngo; i++ {
-		go func() {
+	for i := 0; i < ngolang; i++ {
+		golang func() {
 			var x *T
 			for <-work {
 				for i := 0; i < 1000; i++ {
@@ -355,7 +355,7 @@ func BenchmarkAllocation(b *testing.B) {
 			result <- x
 		}()
 	}
-	for i := 0; i < ngo; i++ {
+	for i := 0; i < ngolang; i++ {
 		<-result
 	}
 }
@@ -366,7 +366,7 @@ func TestPrintGC(t *testing.T) {
 	}
 	defer runtime.GOMAXPROCS(runtime.GOMAXPROCS(2))
 	done := make(chan bool)
-	go func() {
+	golang func() {
 		for {
 			select {
 			case <-done:
@@ -411,7 +411,7 @@ func testAssertVar(x any) error {
 
 var a bool
 
-//go:noinline
+//golang:noinline
 func testIfaceEqual(x any) {
 	if x == "abc" {
 		a = true
@@ -421,7 +421,7 @@ func testIfaceEqual(x any) {
 func TestPageAccounting(t *testing.T) {
 	// Grow the heap in small increments. This used to drop the
 	// pages-in-use count below zero because of a rounding
-	// mismatch (golang.org/issue/15022).
+	// mismatch (golanglang.org/issue/15022).
 	const blockSize = 64 << 10
 	blocks := make([]*[blockSize]byte, (64<<20)/blockSize)
 	for i := range blocks {
@@ -448,27 +448,27 @@ func TestReadMemStats(t *testing.T) {
 	}
 }
 
-func logDiff(t *testing.T, prefix string, got, want reflect.Value) {
-	typ := got.Type()
+func logDiff(t *testing.T, prefix string, golangt, want reflect.Value) {
+	typ := golangt.Type()
 	switch typ.Kind() {
 	case reflect.Array, reflect.Slice:
-		if got.Len() != want.Len() {
-			t.Logf("len(%s): got %v, want %v", prefix, got, want)
+		if golangt.Len() != want.Len() {
+			t.Logf("len(%s): golangt %v, want %v", prefix, golangt, want)
 			return
 		}
-		for i := 0; i < got.Len(); i++ {
-			logDiff(t, fmt.Sprintf("%s[%d]", prefix, i), got.Index(i), want.Index(i))
+		for i := 0; i < golangt.Len(); i++ {
+			logDiff(t, fmt.Sprintf("%s[%d]", prefix, i), golangt.Index(i), want.Index(i))
 		}
 	case reflect.Struct:
 		for i := 0; i < typ.NumField(); i++ {
-			gf, wf := got.Field(i), want.Field(i)
+			gf, wf := golangt.Field(i), want.Field(i)
 			logDiff(t, prefix+"."+typ.Field(i).Name, gf, wf)
 		}
 	case reflect.Map:
 		t.Fatal("not implemented: logDiff for map")
 	default:
-		if got.Interface() != want.Interface() {
-			t.Logf("%s: got %v, want %v", prefix, got, want)
+		if golangt.Interface() != want.Interface() {
+			t.Logf("%s: golangt %v, want %v", prefix, golangt, want)
 		}
 	}
 }
@@ -490,7 +490,7 @@ func BenchmarkReadMemStats(b *testing.B) {
 }
 
 func applyGCLoad(b *testing.B) func() {
-	// We’ll apply load to the runtime with maxProcs-1 goroutines
+	// We’ll apply load to the runtime with maxProcs-1 golangroutines
 	// and use one more to actually benchmark. It doesn't make sense
 	// to try to run this test with only 1 P (that's what
 	// BenchmarkReadMemStats is for).
@@ -519,7 +519,7 @@ func applyGCLoad(b *testing.B) func() {
 	var wg sync.WaitGroup
 	for i := 0; i < maxProcs-1; i++ {
 		wg.Add(1)
-		go func() {
+		golang func() {
 			defer wg.Done()
 			var hold *node
 		loop:
@@ -551,7 +551,7 @@ func BenchmarkReadMemStatsLatency(b *testing.B) {
 	b.ResetTimer()
 	var ms runtime.MemStats
 	for i := 0; i < b.N; i++ {
-		// Sleep for a bit, otherwise we're just going to keep
+		// Sleep for a bit, otherwise we're just golanging to keep
 		// stopping the world and no one will get to do anything.
 		time.Sleep(100 * time.Millisecond)
 		start := time.Now()
@@ -604,7 +604,7 @@ func writeBarrierBenchmark(b *testing.B, f func()) {
 	// turn keeps the write barrier on continuously.
 	var stop uint32
 	done := make(chan bool)
-	go func() {
+	golang func() {
 		for atomic.LoadUint32(&stop) == 0 {
 			runtime.GC()
 		}
@@ -722,7 +722,7 @@ func BenchmarkScanStackNoLocals(b *testing.B) {
 	teardown := make(chan bool)
 	for j := 0; j < 10; j++ {
 		ready.Add(1)
-		go func() {
+		golang func() {
 			x := 100000
 			countpwg(&x, &ready, teardown)
 		}()
@@ -777,10 +777,10 @@ func TestMemoryLimit(t *testing.T) {
 	if runtime.NumCPU() < 4 {
 		t.Skip("want at least 4 CPUs for this test")
 	}
-	got := runTestProg(t, "testprog", "GCMemoryLimit")
+	golangt := runTestProg(t, "testprog", "GCMemoryLimit")
 	want := "OK\n"
-	if got != want {
-		t.Fatalf("expected %q, but got %q", want, got)
+	if golangt != want {
+		t.Fatalf("expected %q, but golangt %q", want, golangt)
 	}
 }
 
@@ -791,10 +791,10 @@ func TestMemoryLimitNoGCPercent(t *testing.T) {
 	if runtime.NumCPU() < 4 {
 		t.Skip("want at least 4 CPUs for this test")
 	}
-	got := runTestProg(t, "testprog", "GCMemoryLimitNoGCPercent")
+	golangt := runTestProg(t, "testprog", "GCMemoryLimitNoGCPercent")
 	want := "OK\n"
-	if got != want {
-		t.Fatalf("expected %q, but got %q", want, got)
+	if golangt != want {
+		t.Fatalf("expected %q, but golangt %q", want, golangt)
 	}
 }
 
@@ -830,15 +830,15 @@ func TestWeakToStrongMarkTermination(t *testing.T) {
 	runtime.SetSpinInGCMarkDone(true)
 
 	// Start a GC, and wait a little bit to get something spinning in mark termination.
-	// Simultaneously, fire off another goroutine to disable spinning. If everything's
+	// Simultaneously, fire off another golangroutine to disable spinning. If everything's
 	// working correctly, then weak.Value will block, so we need to make sure something
 	// prevents the GC from continuing to spin.
 	done := make(chan struct{})
-	go func() {
+	golang func() {
 		runtime.GC()
 		done <- struct{}{}
 	}()
-	go func() {
+	golang func() {
 		// Usleep here instead of time.Sleep. time.Sleep
 		// can allocate, and if we get unlucky, then it
 		// can end up stuck in gcMarkDone with nothing to
@@ -854,7 +854,7 @@ func TestWeakToStrongMarkTermination(t *testing.T) {
 	var wg sync.WaitGroup
 	for _, wp := range w {
 		wg.Add(1)
-		go func() {
+		golang func() {
 			defer wg.Done()
 			wp.Value()
 		}()
@@ -884,14 +884,14 @@ func TestWeakToStrongMarkTermination(t *testing.T) {
 func TestMSpanQueue(t *testing.T) {
 	expectSize := func(t *testing.T, q *runtime.MSpanQueue, want int) {
 		t.Helper()
-		if got := q.Size(); got != want {
-			t.Errorf("expected size %d, got %d", want, got)
+		if golangt := q.Size(); golangt != want {
+			t.Errorf("expected size %d, golangt %d", want, golangt)
 		}
 	}
-	expectMSpan := func(t *testing.T, got, want *runtime.MSpan, op string) {
+	expectMSpan := func(t *testing.T, golangt, want *runtime.MSpan, op string) {
 		t.Helper()
-		if got != want {
-			t.Errorf("expected mspan %p from %s, got %p", want, op, got)
+		if golangt != want {
+			t.Errorf("expected mspan %p from %s, golangt %p", want, op, golangt)
 		}
 	}
 	makeSpans := func(t *testing.T, n int) ([]*runtime.MSpan, func()) {
@@ -1075,23 +1075,23 @@ func TestMSpanQueue(t *testing.T) {
 }
 
 func TestDetectFinalizerAndCleanupLeaks(t *testing.T) {
-	got := runTestProg(t, "testprog", "DetectFinalizerAndCleanupLeaks", "GODEBUG=checkfinalizers=1")
-	sp := strings.SplitN(got, "detected possible issues with cleanups and/or finalizers", 2)
+	golangt := runTestProg(t, "testprog", "DetectFinalizerAndCleanupLeaks", "GODEBUG=checkfinalizers=1")
+	sp := strings.SplitN(golangt, "detected possible issues with cleanups and/or finalizers", 2)
 	if len(sp) != 2 {
-		t.Fatalf("expected the runtime to throw, got:\n%s", got)
+		t.Fatalf("expected the runtime to throw, golangt:\n%s", golangt)
 	}
 	if strings.Count(sp[0], "is reachable from") != 2 {
-		t.Fatalf("expected exactly two leaked cleanups and/or finalizers, got:\n%s", got)
+		t.Fatalf("expected exactly two leaked cleanups and/or finalizers, golangt:\n%s", golangt)
 	}
 	// N.B. Disable in race mode and in asan mode. Both disable the tiny allocator.
 	wantSymbolizedLocations := 2
 	if !race.Enabled && !asan.Enabled {
 		if strings.Count(sp[0], "is in a tiny block") != 1 {
-			t.Fatalf("expected exactly one report for allocation in a tiny block, got:\n%s", got)
+			t.Fatalf("expected exactly one report for allocation in a tiny block, golangt:\n%s", golangt)
 		}
 		wantSymbolizedLocations++
 	}
 	if strings.Count(sp[0], "main.DetectFinalizerAndCleanupLeaks()") != wantSymbolizedLocations {
-		t.Fatalf("expected %d symbolized locations, got:\n%s", wantSymbolizedLocations, got)
+		t.Fatalf("expected %d symbolized locations, golangt:\n%s", wantSymbolizedLocations, golangt)
 	}
 }

@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package net
@@ -121,7 +121,7 @@ type localServer struct {
 }
 
 func (ls *localServer) buildup(handler func(*localServer, Listener)) error {
-	go func() {
+	golang func() {
 		handler(ls, ls.Listener)
 		close(ls.done)
 	}()
@@ -177,7 +177,7 @@ type dualStackServer struct {
 
 func (dss *dualStackServer) buildup(handler func(*dualStackServer, Listener)) error {
 	for i := range dss.lns {
-		go func(i int) {
+		golang func(i int) {
 			handler(dss, dss.lns[i].Listener)
 			close(dss.lns[i].done)
 		}(i)
@@ -258,7 +258,7 @@ func (ls *localServer) transponder(ln Listener, ch chan<- error) {
 
 	network := ln.Addr().Network()
 	if c.LocalAddr().Network() != network || c.RemoteAddr().Network() != network {
-		ch <- fmt.Errorf("got %v->%v; expected %v->%v", c.LocalAddr().Network(), c.RemoteAddr().Network(), network, network)
+		ch <- fmt.Errorf("golangt %v->%v; expected %v->%v", c.LocalAddr().Network(), c.RemoteAddr().Network(), network, network)
 		return
 	}
 	c.SetDeadline(time.Now().Add(someTimeout))
@@ -399,7 +399,7 @@ type localPacketServer struct {
 }
 
 func (ls *localPacketServer) buildup(handler func(*localPacketServer, PacketConn)) error {
-	go func() {
+	golang func() {
 		handler(ls, ls.PacketConn)
 		close(ls.done)
 	}()
@@ -517,7 +517,7 @@ func spawnTestSocketPair(t testing.TB, net string) (client, server Conn) {
 	defer ln.Close()
 	var cerr, serr error
 	acceptDone := make(chan struct{})
-	go func() {
+	golang func() {
 		server, serr = ln.Accept()
 		acceptDone <- struct{}{}
 	}()
@@ -569,7 +569,7 @@ func startTestSocketPeer(t testing.TB, conn Conn, op string, chunkSize, totalSiz
 	}
 
 	cmdCh := make(chan error, 1)
-	go func() {
+	golang func() {
 		err := cmd.Wait()
 		conn.Close()
 		f.Close()

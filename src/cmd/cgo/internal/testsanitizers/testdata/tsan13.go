@@ -1,16 +1,16 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
 
 // This program failed when run under the C/C++ ThreadSanitizer.
-// There was no TSAN synchronization for the call to the cgo
+// There was no TSAN synchronization for the call to the cgolang
 // traceback routine.
 
 /*
-#cgo CFLAGS: -g -fsanitize=thread
-#cgo LDFLAGS: -g -fsanitize=thread
+#cgolang CFLAGS: -g -fsanitize=thread
+#cgolang LDFLAGS: -g -fsanitize=thread
 
 #include <pthread.h>
 #include <stdint.h>
@@ -83,7 +83,7 @@ import (
 )
 
 func main() {
-	runtime.SetCgoTraceback(0, unsafe.Pointer(C.tsanTraceback), nil, nil)
+	runtime.SetCgolangTraceback(0, unsafe.Pointer(C.tsanTraceback), nil, nil)
 	pprof.StartCPUProfile(io.Discard)
 	C.runThreads(C.int(runtime.GOMAXPROCS(0)))
 	pprof.StopCPUProfile()

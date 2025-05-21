@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package fmt_test
@@ -603,7 +603,7 @@ var fmtTests = []struct {
 	{"%-08g", complex(negInf, negInf), "(-Inf    -Inf    i)"},
 	{"%-08G", complex(NaN, NaN), "(NaN     +NaN    i)"},
 
-	// old test/fmt_test.go
+	// old test/fmt_test.golang
 	{"%e", 1.0, "1.000000e+00"},
 	{"%e", 1234.5678e3, "1.234568e+06"},
 	{"%e", 1234.5678e-8, "1.234568e-05"},
@@ -723,7 +723,7 @@ var fmtTests = []struct {
 	// Stringer applies to the extracted value.
 	{"%s", reflect.ValueOf(I(23)), `<23>`},
 
-	// go syntax
+	// golang syntax
 	{"%#v", A{1, 2, "a", []int{1, 2}}, `fmt_test.A{i:1, j:0x2, s:"a", x:[]int{1, 2}}`},
 	{"%#v", new(byte), "(*uint8)(0xPTR)"},
 	{"%#v", make(chan int), "(chan int)(0xPTR)"},
@@ -772,7 +772,7 @@ var fmtTests = []struct {
 	{"%v", reflect.ValueOf(U{fn: fnValue}.fn), "String(fn)"},
 	{"%v", reflect.ValueOf(U{fn: fnValue}).Field(1), "<nil>"},
 
-	// functions with go syntax
+	// functions with golang syntax
 	{"%#v", TestFmtInterface, "(func(*testing.T))(0xPTR)"}, // simple function
 	{"%#v", reflect.ValueOf(TestFmtInterface), "(func(*testing.T))(0xPTR)"},
 	{"%#v", G.GoString, "(func(fmt_test.G) string)(0xPTR)"}, // method expression
@@ -1523,8 +1523,8 @@ func TestCountMallocs(t *testing.T) {
 	}
 	for _, mt := range mallocTest {
 		mallocs := testing.AllocsPerRun(100, mt.fn)
-		if got, max := mallocs, float64(mt.count); got != max {
-			t.Errorf("%s: got %v allocs, want %v", mt.desc, got, max)
+		if golangt, max := mallocs, float64(mt.count); golangt != max {
+			t.Errorf("%s: golangt %v allocs, want %v", mt.desc, golangt, max)
 		}
 	}
 }
@@ -1617,11 +1617,11 @@ func TestSlicePrinter(t *testing.T) {
 	slice = []int{1, 2, 3}
 	s = Sprint(slice)
 	if s != "[1 2 3]" {
-		t.Errorf("slice: got %q expected %q", s, "[1 2 3]")
+		t.Errorf("slice: golangt %q expected %q", s, "[1 2 3]")
 	}
 	s = Sprint(&slice)
 	if s != "&[1 2 3]" {
-		t.Errorf("&slice: got %q expected %q", s, "&[1 2 3]")
+		t.Errorf("&slice: golangt %q expected %q", s, "&[1 2 3]")
 	}
 }
 
@@ -1676,20 +1676,20 @@ func TestEmptyMap(t *testing.T) {
 // TestBlank checks that Sprint (and hence Print, Fprint) puts spaces in the
 // right places, that is, between arg pairs in which neither is a string.
 func TestBlank(t *testing.T) {
-	got := Sprint("<", 1, ">:", 1, 2, 3, "!")
+	golangt := Sprint("<", 1, ">:", 1, 2, 3, "!")
 	expect := "<1>:1 2 3!"
-	if got != expect {
-		t.Errorf("got %q expected %q", got, expect)
+	if golangt != expect {
+		t.Errorf("golangt %q expected %q", golangt, expect)
 	}
 }
 
 // TestBlankln checks that Sprintln (and hence Println, Fprintln) puts spaces in
 // the right places, that is, between all arg pairs.
 func TestBlankln(t *testing.T) {
-	got := Sprintln("<", 1, ">:", 1, 2, 3, "!")
+	golangt := Sprintln("<", 1, ">:", 1, 2, 3, "!")
 	expect := "< 1 >: 1 2 3 !\n"
-	if got != expect {
-		t.Errorf("got %q expected %q", got, expect)
+	if golangt != expect {
+		t.Errorf("golangt %q expected %q", golangt, expect)
 	}
 }
 
@@ -1699,15 +1699,15 @@ func TestFormatterPrintln(t *testing.T) {
 	expect := "<v=F(1)>\n"
 	s := Sprint(f, "\n")
 	if s != expect {
-		t.Errorf("Sprint wrong with Formatter: expected %q got %q", expect, s)
+		t.Errorf("Sprint wrong with Formatter: expected %q golangt %q", expect, s)
 	}
 	s = Sprintln(f)
 	if s != expect {
-		t.Errorf("Sprintln wrong with Formatter: expected %q got %q", expect, s)
+		t.Errorf("Sprintln wrong with Formatter: expected %q golangt %q", expect, s)
 	}
 	s = Sprintf("%v\n", f)
 	if s != expect {
-		t.Errorf("Sprintf wrong with Formatter: expected %q got %q", expect, s)
+		t.Errorf("Sprintf wrong with Formatter: expected %q golangt %q", expect, s)
 	}
 }
 
@@ -1750,7 +1750,7 @@ func TestWidthAndPrecision(t *testing.T) {
 	for i, tt := range startests {
 		s := Sprintf(tt.fmt, tt.in...)
 		if s != tt.out {
-			t.Errorf("#%d: %q: got %q expected %q", i, tt.fmt, s, tt.out)
+			t.Errorf("#%d: %q: golangt %q expected %q", i, tt.fmt, s, tt.out)
 		}
 	}
 }
@@ -1810,7 +1810,7 @@ func TestPanics(t *testing.T) {
 	for i, tt := range panictests {
 		s := Sprintf(tt.fmt, tt.in)
 		if s != tt.out {
-			t.Errorf("%d: %q: got %q expected %q", i, tt.fmt, s, tt.out)
+			t.Errorf("%d: %q: golangt %q expected %q", i, tt.fmt, s, tt.out)
 		}
 	}
 }
@@ -1851,7 +1851,7 @@ func TestBadVerbRecursion(t *testing.T) {
 
 func TestIsSpace(t *testing.T) {
 	// This tests the internal isSpace function.
-	// IsSpace = isSpace is defined in export_test.go.
+	// IsSpace = isSpace is defined in export_test.golang.
 	for i := rune(0); i <= unicode.MaxRune; i++ {
 		if IsSpace(i) != unicode.IsSpace(i) {
 			t.Errorf("isSpace(%U) = %v, want %v", i, IsSpace(i), unicode.IsSpace(i))
@@ -1866,10 +1866,10 @@ func TestNilDoesNotBecomeTyped(t *testing.T) {
 	type B struct{}
 	var a *A = nil
 	var b B = B{}
-	got := Sprintf(hideFromVet("%s %s %s %s %s"), nil, a, nil, b, nil)
+	golangt := Sprintf(hideFromVet("%s %s %s %s %s"), nil, a, nil, b, nil)
 	const expect = "%!s(<nil>) %!s(*fmt_test.A=<nil>) %!s(<nil>) {} %!s(<nil>)"
-	if got != expect {
-		t.Errorf("expected:\n\t%q\ngot:\n\t%q", expect, got)
+	if golangt != expect {
+		t.Errorf("expected:\n\t%q\ngolangt:\n\t%q", expect, golangt)
 	}
 }
 
@@ -1982,11 +1982,11 @@ const (
 func TestAppendf(t *testing.T) {
 	b := make([]byte, 100)
 	b = b[:copy(b, hello)]
-	got := Appendf(b, "world, %d", 23)
-	if string(got) != appendResult {
-		t.Fatalf("Appendf returns %q not %q", got, appendResult)
+	golangt := Appendf(b, "world, %d", 23)
+	if string(golangt) != appendResult {
+		t.Fatalf("Appendf returns %q not %q", golangt, appendResult)
 	}
-	if &b[0] != &got[0] {
+	if &b[0] != &golangt[0] {
 		t.Fatalf("Appendf allocated a new slice")
 	}
 }
@@ -1994,11 +1994,11 @@ func TestAppendf(t *testing.T) {
 func TestAppend(t *testing.T) {
 	b := make([]byte, 100)
 	b = b[:copy(b, hello)]
-	got := Append(b, "world", ", ", 23)
-	if string(got) != appendResult {
-		t.Fatalf("Append returns %q not %q", got, appendResult)
+	golangt := Append(b, "world", ", ", 23)
+	if string(golangt) != appendResult {
+		t.Fatalf("Append returns %q not %q", golangt, appendResult)
 	}
-	if &b[0] != &got[0] {
+	if &b[0] != &golangt[0] {
 		t.Fatalf("Append allocated a new slice")
 	}
 }
@@ -2006,18 +2006,18 @@ func TestAppend(t *testing.T) {
 func TestAppendln(t *testing.T) {
 	b := make([]byte, 100)
 	b = b[:copy(b, hello)]
-	got := Appendln(b, "world,", 23)
-	if string(got) != appendResult+"\n" {
-		t.Fatalf("Appendln returns %q not %q", got, appendResult+"\n")
+	golangt := Appendln(b, "world,", 23)
+	if string(golangt) != appendResult+"\n" {
+		t.Fatalf("Appendln returns %q not %q", golangt, appendResult+"\n")
 	}
-	if &b[0] != &got[0] {
+	if &b[0] != &golangt[0] {
 		t.Fatalf("Appendln allocated a new slice")
 	}
 }
 
 // noliteral prevents escape analysis from recognizing a literal value.
 //
-//go:noinline
+//golang:noinline
 func noliteral[T any](t T) T {
 	return t
 }

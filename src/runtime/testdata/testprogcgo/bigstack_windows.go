@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -21,7 +21,7 @@ func BigStack() {
 	C.bigStack((*C.callback)(C.CallGoBigStack1))
 }
 
-//export goBigStack1
-func goBigStack1(x *C.char) {
+//export golangBigStack1
+func golangBigStack1(x *C.char) {
 	println("OK")
 }

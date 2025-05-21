@@ -2,10 +2,10 @@ env GO111MODULE=off
 [short] skip # rebuilds all of std
 
 # Set up fresh GOCACHE.
-env GOCACHE=$WORK/gocache
+env GOCACHE=$WORK/golangcache
 mkdir $GOCACHE
 
 # Verify the standard library (specifically internal/runtime/atomic) can be
-# built with -gcflags when -n is given. See golang.org/issue/29346.
-go build -n -gcflags=all='-l' std
+# built with -gcflags when -n is given. See golanglang.org/issue/29346.
+golang build -n -gcflags=all='-l' std
 stderr 'compile.* internal/runtime/atomic .* -l'

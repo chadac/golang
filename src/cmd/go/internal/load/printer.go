@@ -1,12 +1,12 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package load
 
 import (
-	"cmd/go/internal/base"
-	"cmd/go/internal/cfg"
+	"cmd/golang/internal/base"
+	"cmd/golang/internal/cfg"
 	"encoding/json"
 	"fmt"
 	"io"

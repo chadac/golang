@@ -1,7 +1,7 @@
 // errorcheck
 
 // Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test weak pointers.
@@ -13,7 +13,7 @@ import (
 	"weak"
 )
 
-// Adapted from example in https://github.com/golang/go/issues/67552#issuecomment-2639661220
+// Adapted from example in https://github.com/golanglang/golang/issues/67552#issuecomment-2639661220
 func conversion() {
 	p := "hello"
 	a := weak.Make(&p)

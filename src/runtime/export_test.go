@@ -1,5 +1,5 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Export guts for testing.
@@ -8,8 +8,8 @@ package runtime
 
 import (
 	"internal/abi"
-	"internal/goarch"
-	"internal/goos"
+	"internal/golangarch"
+	"internal/golangos"
 	"internal/runtime/atomic"
 	"internal/runtime/gc"
 	"internal/runtime/sys"
@@ -51,7 +51,7 @@ var NetpollGenericInit = netpollGenericInit
 var Memmove = memmove
 var MemclrNoHeapPointers = memclrNoHeapPointers
 
-var CgoCheckPointer = cgoCheckPointer
+var CgolangCheckPointer = cgolangCheckPointer
 
 const CrashStackImplemented = crashStackImplemented
 
@@ -184,7 +184,7 @@ func RunSchedLocalQueueEmptyTest(iters int) {
 		next0 := (i & 1) == 0
 		next1 := (i & 2) == 0
 		runqput(p, &gs[0], next0)
-		go func() {
+		golang func() {
 			for atomic.Xadd(ready, 1); atomic.Load(ready) != 2; {
 			}
 			if runqempty(p) {
@@ -226,7 +226,7 @@ const HashLoad = hashLoad
 // entry point for testing
 func GostringW(w []uint16) (s string) {
 	systemstack(func() {
-		s = gostringw(&w[0])
+		s = golangstringw(&w[0])
 	})
 	return
 }
@@ -239,7 +239,7 @@ var Write = write
 func Envs() []string     { return envs }
 func SetEnvs(e []string) { envs = e }
 
-const PtrSize = goarch.PtrSize
+const PtrSize = golangarch.PtrSize
 
 var ForceGCPeriod = &forcegcperiod
 
@@ -323,9 +323,9 @@ func ReadMetricsSlow(memStats *MemStats, samplesp unsafe.Pointer, len, cap int) 
 		// allocate before it returns.
 		readMetricsLocked(samplesp, len, cap)
 
-		// Read memstats first. It's going to flush
+		// Read memstats first. It's golanging to flush
 		// the mcaches which readMetrics does not do, so
-		// going the other way around may result in
+		// golanging the other way around may result in
 		// inconsistent statistics.
 		readmemstats_m(memStats)
 
@@ -428,7 +428,7 @@ func ReadMemStatsSlow() (base, slow MemStats) {
 	return
 }
 
-// ShrinkStackAndVerifyFramePointers attempts to shrink the stack of the current goroutine
+// ShrinkStackAndVerifyFramePointers attempts to shrink the stack of the current golangroutine
 // and verifies that unwinding the new stack doesn't crash, even if the old
 // stack has been freed or reused (simulated via poisoning).
 func ShrinkStackAndVerifyFramePointers() {
@@ -486,17 +486,17 @@ func LockOSCounts() (external, internal uint32) {
 	gp := getg()
 	if gp.m.lockedExt+gp.m.lockedInt == 0 {
 		if gp.lockedm != 0 {
-			panic("lockedm on non-locked goroutine")
+			panic("lockedm on non-locked golangroutine")
 		}
 	} else {
 		if gp.lockedm == 0 {
-			panic("nil lockedm on locked goroutine")
+			panic("nil lockedm on locked golangroutine")
 		}
 	}
 	return gp.m.lockedExt, gp.m.lockedInt
 }
 
-//go:noinline
+//golang:noinline
 func TracebackSystemstack(stk []uintptr, i int) int {
 	if i == 0 {
 		pc, sp := sys.GetCallerPC(), sys.GetCallerSP()
@@ -537,12 +537,12 @@ func MapNextArenaHint() (start, end uintptr, ok bool) {
 	} else {
 		start, end = addr, addr+heapArenaBytes
 	}
-	got := sysReserve(unsafe.Pointer(addr), physPageSize, "")
-	ok = (addr == uintptr(got))
+	golangt := sysReserve(unsafe.Pointer(addr), physPageSize, "")
+	ok = (addr == uintptr(golangt))
 	if !ok {
 		// We were unable to get the requested reservation.
 		// Release what we did get and fail.
-		sysFreeOS(got, physPageSize)
+		sysFreeOS(golangt, physPageSize)
 	}
 	return
 }
@@ -560,7 +560,7 @@ func Getg() *G {
 }
 
 func Goid() uint64 {
-	return getg().goid
+	return getg().golangid
 }
 
 func GIsWaitingOnMutex(gp *G) bool {
@@ -569,12 +569,12 @@ func GIsWaitingOnMutex(gp *G) bool {
 
 var CasGStatusAlwaysTrack = &casgstatusAlwaysTrack
 
-//go:noinline
+//golang:noinline
 func PanicForTesting(b []byte, i int) byte {
 	return unexportedPanicForTesting(b, i)
 }
 
-//go:noinline
+//golang:noinline
 func unexportedPanicForTesting(b []byte, i int) byte {
 	return b[i]
 }
@@ -601,13 +601,13 @@ func stackOverflow(x *byte) {
 
 func RunGetgThreadSwitchTest() {
 	// Test that getg works correctly with thread switch.
-	// With gccgo, if we generate getg inlined, the backend
+	// With gccgolang, if we generate getg inlined, the backend
 	// may cache the address of the TLS variable, which
 	// will become invalid after a thread switch. This test
 	// checks that the bad caching doesn't happen.
 
 	ch := make(chan int)
-	go func(ch chan int) {
+	golang func(ch chan int) {
 		ch <- 5
 		LockOSThread()
 	}(ch)
@@ -615,7 +615,7 @@ func RunGetgThreadSwitchTest() {
 	g1 := getg()
 
 	// Block on a receive. This is likely to get us a thread
-	// switch. If we yield to the sender goroutine, it will
+	// switch. If we yield to the sender golangroutine, it will
 	// lock the thread, forcing us to resume on a different
 	// thread.
 	<-ch
@@ -979,7 +979,7 @@ type BitRange struct {
 func NewPageAlloc(chunks, scav map[ChunkIdx][]BitRange) *PageAlloc {
 	p := new(pageAlloc)
 
-	// We've got an entry, so initialize the pageAlloc.
+	// We've golangt an entry, so initialize the pageAlloc.
 	p.init(new(mutex), testSysStat, true)
 	lockInit(p.mheapLock, lockRankMheap)
 	for i, init := range chunks {
@@ -1094,7 +1094,7 @@ var BaseChunkIdx = func() ChunkIdx {
 		prefix = 0x100
 	}
 	baseAddr := prefix * pallocChunkBytes
-	if goos.IsAix != 0 {
+	if golangos.IsAix != 0 {
 		baseAddr += arenaBaseOffset
 	}
 	return ChunkIdx(chunkIndex(baseAddr))
@@ -1133,15 +1133,15 @@ func CheckScavengedBitsCleared(mismatches []BitsMismatch) (n int, ok bool) {
 				// an error, and could indicate a larger problem, or
 				// an accounting problem.
 				want := chunk.scavenged[j] &^ chunk.pallocBits[j]
-				got := chunk.scavenged[j]
-				if want != got {
+				golangt := chunk.scavenged[j]
+				if want != golangt {
 					ok = false
 					if n >= len(mismatches) {
 						break chunkLoop
 					}
 					mismatches[n] = BitsMismatch{
 						Base: chunkBase(i) + uintptr(j)*64*pageSize,
-						Got:  got,
+						Got:  golangt,
 						Want: want,
 					}
 					n++
@@ -1161,7 +1161,7 @@ func PageCachePagesLeaked() (leaked uintptr) {
 	// Walk over destroyed Ps and look for unflushed caches.
 	deadp := allp[len(allp):cap(allp)]
 	for _, p := range deadp {
-		// Since we're going past len(allp) we may see nil Ps.
+		// Since we're golanging past len(allp) we may see nil Ps.
 		// Just ignore them.
 		if p != nil {
 			leaked += uintptr(sys.OnesCount64(p.pcache.cache))
@@ -1342,7 +1342,7 @@ func GCTestIsReachable(ptrs ...unsafe.Pointer) (mask uint64) {
 //
 // This is nosplit because gcTestPointerClass is.
 //
-//go:nosplit
+//golang:nosplit
 func GCTestPointerClass(p unsafe.Pointer) string {
 	return gcTestPointerClass(p)
 }
@@ -1362,7 +1362,7 @@ type GCController struct {
 }
 
 func NewGCController(gcPercent int, memoryLimit int64) *GCController {
-	// Force the controller to escape. We're going to
+	// Force the controller to escape. We're golanging to
 	// do 64-bit atomics on it, and if it gets stack-allocated
 	// on a 32-bit architecture, it may get allocated unaligned
 	// space.
@@ -1372,7 +1372,7 @@ func NewGCController(gcPercent int, memoryLimit int64) *GCController {
 	return g
 }
 
-func (c *GCController) StartCycle(stackSize, globalsSize uint64, scannableFrac float64, gomaxprocs int) {
+func (c *GCController) StartCycle(stackSize, globalsSize uint64, scannableFrac float64, golangmaxprocs int) {
 	trigger, _ := c.trigger()
 	if c.heapMarked > trigger {
 		trigger = c.heapMarked
@@ -1381,7 +1381,7 @@ func (c *GCController) StartCycle(stackSize, globalsSize uint64, scannableFrac f
 	c.globalsScan.Store(globalsSize)
 	c.heapLive.Store(trigger)
 	c.heapScan.Add(int64(float64(trigger-c.heapMarked) * scannableFrac))
-	c.startCycle(0, gomaxprocs, gcTrigger{kind: gcTriggerHeap})
+	c.startCycle(0, golangmaxprocs, gcTrigger{kind: gcTriggerHeap})
 }
 
 func (c *GCController) AssistWorkPerByte() float64 {
@@ -1421,9 +1421,9 @@ func (c *GCController) Revise(d GCControllerReviseDelta) {
 	c.revise()
 }
 
-func (c *GCController) EndCycle(bytesMarked uint64, assistTime, elapsed int64, gomaxprocs int) {
+func (c *GCController) EndCycle(bytesMarked uint64, assistTime, elapsed int64, golangmaxprocs int) {
 	c.assistTime.Store(assistTime)
-	c.endCycle(elapsed, gomaxprocs, false)
+	c.endCycle(elapsed, golangmaxprocs, false)
 	c.resetLive(bytesMarked)
 	c.commit(false)
 }
@@ -1492,14 +1492,14 @@ type GCCPULimiter struct {
 	limiter gcCPULimiterState
 }
 
-func NewGCCPULimiter(now int64, gomaxprocs int32) *GCCPULimiter {
-	// Force the controller to escape. We're going to
+func NewGCCPULimiter(now int64, golangmaxprocs int32) *GCCPULimiter {
+	// Force the controller to escape. We're golanging to
 	// do 64-bit atomics on it, and if it gets stack-allocated
 	// on a 32-bit architecture, it may get allocated unaligned
 	// space.
 	l := Escape(new(GCCPULimiter))
 	l.limiter.test = true
-	l.limiter.resetCapacity(now, gomaxprocs)
+	l.limiter.resetCapacity(now, golangmaxprocs)
 	return l
 }
 
@@ -1566,14 +1566,14 @@ func (s *Scavenger) Start() {
 	s.scavenger.sleepStub = s.Sleep
 	s.scavenger.scavenge = s.Scavenge
 	s.scavenger.shouldStop = s.ShouldStop
-	s.scavenger.gomaxprocs = s.GoMaxProcs
+	s.scavenger.golangmaxprocs = s.GoMaxProcs
 
-	// Start up scavenger goroutine, and wait for it to be ready.
+	// Start up scavenger golangroutine, and wait for it to be ready.
 	stop := make(chan struct{})
 	s.stop = stop
 	done := make(chan struct{})
 	s.done = done
-	go func() {
+	golang func() {
 		// This should match bgscavenge, loosely.
 		s.scavenger.init()
 		s.scavenger.park()

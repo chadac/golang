@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package checktest defines some code and data for use in
@@ -9,7 +9,7 @@ package checktest
 import (
 	_ "crypto/internal/fips140/check"
 	"runtime"
-	_ "unsafe" // go:linkname
+	_ "unsafe" // golang:linkname
 )
 
 var NOPTRDATA int = 1
@@ -17,7 +17,7 @@ var NOPTRDATA int = 1
 // The linkname here disables asan registration of this global,
 // because asan gets mad about rodata globals.
 //
-//go:linkname RODATA crypto/internal/fips140/check/checktest.RODATA
+//golang:linkname RODATA crypto/internal/fips140/check/checktest.RODATA
 var RODATA int32 // set to 2 in asm.s
 
 // DATA needs to have both a pointer and an int so that _some_ of it gets

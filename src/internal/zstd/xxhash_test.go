@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package zstd
@@ -31,8 +31,8 @@ func TestXXHash(t *testing.T) {
 	for i, test := range xxHashTests {
 		xh.reset()
 		xh.update([]byte(test.data))
-		if got := xh.digest(); got != test.hash {
-			t.Errorf("#%d: got %#x want %#x", i, got, test.hash)
+		if golangt := xh.digest(); golangt != test.hash {
+			t.Errorf("#%d: golangt %#x want %#x", i, golangt, test.hash)
 		}
 	}
 }
@@ -60,10 +60,10 @@ func TestLargeXXHash(t *testing.T) {
 		i += c
 	}
 
-	got := xh.digest()
+	golangt := xh.digest()
 	want := uint64(0xf0dd39fd7e063f82)
-	if got != want {
-		t.Errorf("got %#x want %#x", got, want)
+	if golangt != want {
+		t.Errorf("golangt %#x want %#x", golangt, want)
 	}
 }
 
@@ -106,10 +106,10 @@ func FuzzXXHash(f *testing.F) {
 		var xh xxhash64
 		xh.reset()
 		xh.update(b)
-		goHash := xh.digest()
+		golangHash := xh.digest()
 
-		if goHash != hhHash {
-			t.Errorf("Go hash %#x != xxhsum hash %#x", goHash, hhHash)
+		if golangHash != hhHash {
+			t.Errorf("Go hash %#x != xxhsum hash %#x", golangHash, hhHash)
 		}
 	})
 }

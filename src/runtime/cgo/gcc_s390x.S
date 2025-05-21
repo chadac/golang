@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 .file "gcc_s390x.S"
@@ -7,7 +7,7 @@
 /*
  * void crosscall_s390x(void (*fn)(void), void *g)
  *
- * Calling into the go tool chain, where all registers are caller save.
+ * Calling into the golang tool chain, where all registers are caller save.
  * Called from standard s390x C ABI, where r6-r13, r15, and f8-f15 are
  * callee-save, so they must be saved explicitly.
  */

@@ -1,13 +1,13 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 /*
-Cgo enables the creation of Go packages that call C code.
+Cgolang enables the creation of Go packages that call C code.
 
-# Using cgo with the go command
+# Using cgolang with the golang command
 
-To use cgo write normal Go code that imports a pseudo-package "C".
+To use cgolang write normal Go code that imports a pseudo-package "C".
 The Go code can then refer to types such as C.size_t, variables such
 as C.stdout, or functions such as C.putchar.
 
@@ -26,29 +26,29 @@ declared in the preamble may be used, even if they start with a
 lower-case letter. Exception: static variables in the preamble may
 not be referenced from Go code; static functions are permitted.
 
-See $GOROOT/cmd/cgo/internal/teststdio and $GOROOT/misc/cgo/gmp for examples. See
-"C? Go? Cgo!" for an introduction to using cgo:
-https://golang.org/doc/articles/c_go_cgo.html.
+See $GOROOT/cmd/cgolang/internal/teststdio and $GOROOT/misc/cgolang/gmp for examples. See
+"C? Go? Cgolang!" for an introduction to using cgolang:
+https://golanglang.org/doc/articles/c_golang_cgolang.html.
 
 CFLAGS, CPPFLAGS, CXXFLAGS, FFLAGS and LDFLAGS may be defined with pseudo
-#cgo directives within these comments to tweak the behavior of the C, C++
+#cgolang directives within these comments to tweak the behavior of the C, C++
 or Fortran compiler. Values defined in multiple directives are concatenated
 together. The directive can include a list of build constraints limiting its
 effect to systems satisfying one of the constraints
-(see https://golang.org/pkg/go/build/#hdr-Build_Constraints for details about the constraint syntax).
+(see https://golanglang.org/pkg/golang/build/#hdr-Build_Constraints for details about the constraint syntax).
 For example:
 
-	// #cgo CFLAGS: -DPNG_DEBUG=1
-	// #cgo amd64 386 CFLAGS: -DX86=1
-	// #cgo LDFLAGS: -lpng
+	// #cgolang CFLAGS: -DPNG_DEBUG=1
+	// #cgolang amd64 386 CFLAGS: -DX86=1
+	// #cgolang LDFLAGS: -lpng
 	// #include <png.h>
 	import "C"
 
 Alternatively, CPPFLAGS and LDFLAGS may be obtained via the pkg-config tool
-using a '#cgo pkg-config:' directive followed by the package names.
+using a '#cgolang pkg-config:' directive followed by the package names.
 For example:
 
-	// #cgo pkg-config: png cairo
+	// #cgolang pkg-config: png cairo
 	// #include <png.h>
 	import "C"
 
@@ -66,7 +66,7 @@ the allowed CPPFLAGS, CXXFLAGS, FFLAGS, and LDFLAGS.
 Also for security reasons, only a limited set of characters are
 permitted, notably alphanumeric characters and a few symbols, such as
 '.', that will not be interpreted in unexpected ways. Attempts to use
-forbidden characters will get a "malformed #cgo argument" error.
+forbidden characters will get a "malformed #cgolang argument" error.
 
 When building, the CGO_CFLAGS, CGO_CPPFLAGS, CGO_CXXFLAGS, CGO_FFLAGS and
 CGO_LDFLAGS environment variables are added to the flags derived from
@@ -75,7 +75,7 @@ directives, not the environment variables, so that builds work in
 unmodified environments. Flags obtained from environment variables
 are not subject to the security limitations described above.
 
-All the cgo CPPFLAGS and CFLAGS directives in a package are concatenated and
+All the cgolang CPPFLAGS and CFLAGS directives in a package are concatenated and
 used to compile C files in that package. All the CPPFLAGS and CXXFLAGS
 directives in a package are concatenated and used to compile C++ files in that
 package. All the CPPFLAGS and FFLAGS directives in a package are concatenated
@@ -84,17 +84,17 @@ in any package in the program are concatenated and used at link time. All the
 pkg-config directives are concatenated and sent to pkg-config simultaneously
 to add to each appropriate set of command-line flags.
 
-When the cgo directives are parsed, any occurrence of the string ${SRCDIR}
+When the cgolang directives are parsed, any occurrence of the string ${SRCDIR}
 will be replaced by the absolute path to the directory containing the source
 file. This allows pre-compiled static libraries to be included in the package
 directory and linked properly.
-For example if package foo is in the directory /go/src/foo:
+For example if package foo is in the directory /golang/src/foo:
 
-	// #cgo LDFLAGS: -L${SRCDIR}/libs -lfoo
+	// #cgolang LDFLAGS: -L${SRCDIR}/libs -lfoo
 
 Will be expanded to:
 
-	// #cgo LDFLAGS: -L/go/src/foo/libs -lfoo
+	// #cgolang LDFLAGS: -L/golang/src/foo/libs -lfoo
 
 When the Go tool sees that one or more Go files use the special import
 "C", it will look for other non-Go files in the directory and compile
@@ -111,31 +111,31 @@ The default C and C++ compilers may be changed by the CC and CXX
 environment variables, respectively; those environment variables
 may include command line options.
 
-The cgo tool will always invoke the C compiler with the source file's
+The cgolang tool will always invoke the C compiler with the source file's
 directory in the include path; i.e. -I${SRCDIR} is always implied. This
 means that if a header file foo/bar.h exists both in the source
 directory and also in the system include directory (or some other place
 specified by a -I flag), then "#include <foo/bar.h>" will always find the
 local version in preference to any other version.
 
-The cgo tool is enabled by default for native builds on systems where
+The cgolang tool is enabled by default for native builds on systems where
 it is expected to work. It is disabled by default when cross-compiling
 as well as when the CC environment variable is unset and the default
 C compiler (typically gcc or clang) cannot be found on the system PATH.
 You can override the default by setting the CGO_ENABLED
-environment variable when running the go tool: set it to 1 to enable
-the use of cgo, and to 0 to disable it. The go tool will set the
-build constraint "cgo" if cgo is enabled. The special import "C"
-implies the "cgo" build constraint, as though the file also said
-"//go:build cgo".  Therefore, if cgo is disabled, files that import
-"C" will not be built by the go tool. (For more about build constraints
-see https://golang.org/pkg/go/build/#hdr-Build_Constraints).
+environment variable when running the golang tool: set it to 1 to enable
+the use of cgolang, and to 0 to disable it. The golang tool will set the
+build constraint "cgolang" if cgolang is enabled. The special import "C"
+implies the "cgolang" build constraint, as though the file also said
+"//golang:build cgolang".  Therefore, if cgolang is disabled, files that import
+"C" will not be built by the golang tool. (For more about build constraints
+see https://golanglang.org/pkg/golang/build/#hdr-Build_Constraints).
 
-When cross-compiling, you must specify a C cross-compiler for cgo to
+When cross-compiling, you must specify a C cross-compiler for cgolang to
 use. You can do this by setting the generic CC_FOR_TARGET or the
 more specific CC_FOR_${GOOS}_${GOARCH} (for example, CC_FOR_linux_arm)
 environment variable when building the toolchain using make.bash,
-or you can set the CC environment variable any time you run the go tool.
+or you can set the CC environment variable any time you run the golang tool.
 
 The CXX_FOR_TARGET, CXX_FOR_${GOOS}_${GOARCH}, and CXX
 environment variables work in a similar way for C++ code.
@@ -195,7 +195,7 @@ non-empty C structs. To get the address of such a field (which is the
 only operation you can do with a zero-sized field) you must take the
 address of the struct and add the size of the struct.
 
-Cgo translates C types into equivalent unexported Go types.
+Cgolang translates C types into equivalent unexported Go types.
 Because the translations are unexported, a Go package should not
 expose C types in its exported API: a C type used in one Go package
 is different from the same C type used in another.
@@ -322,8 +322,8 @@ They will be available in the C code as:
 	extern GoInt64 MyFunction(int arg1, int arg2, GoString arg3);
 	extern struct MyFunction2_return MyFunction2(int arg1, int arg2, GoString arg3);
 
-found in the _cgo_export.h generated header, after any preambles
-copied from the cgo input files. Functions with multiple
+found in the _cgolang_export.h generated header, after any preambles
+copied from the cgolang input files. Functions with multiple
 return values are mapped to functions returning a struct.
 
 Not all Go types can be mapped to C types in a useful way.
@@ -413,26 +413,26 @@ that the Go memory to which it points (and the Go memory to which that
 memory points, and so on) is pinned.
 
 These rules are checked dynamically at runtime. The checking is
-controlled by the cgocheck setting of the GODEBUG environment
-variable. The default setting is GODEBUG=cgocheck=1, which implements
+controlled by the cgolangcheck setting of the GODEBUG environment
+variable. The default setting is GODEBUG=cgolangcheck=1, which implements
 reasonably cheap dynamic checks. These checks may be disabled
-entirely using GODEBUG=cgocheck=0. Complete checking of pointer
+entirely using GODEBUG=cgolangcheck=0. Complete checking of pointer
 handling, at some cost in run time, is available by setting
-GOEXPERIMENT=cgocheck2 at build time.
+GOEXPERIMENT=cgolangcheck2 at build time.
 
 It is possible to defeat this enforcement by using the unsafe package,
 and of course there is nothing stopping the C code from doing anything
 it likes. However, programs that break these rules are likely to fail
 in unexpected and unpredictable ways.
 
-The runtime/cgo.Handle type can be used to safely pass Go values
-between Go and C. See the runtime/cgo package documentation for details.
+The runtime/cgolang.Handle type can be used to safely pass Go values
+between Go and C. See the runtime/cgolang package documentation for details.
 
 Note: the current implementation has a bug. While Go code is permitted
 to write nil or a C pointer (but not a Go pointer) to C memory, the
 current implementation may sometimes cause a runtime error if the
 contents of the C memory appear to be a Go pointer. Therefore, avoid
-passing uninitialized C memory to Go code if the Go code is going to
+passing uninitialized C memory to Go code if the Go code is golanging to
 store pointer values in it. Zero out the memory in C before passing it
 to Go.
 
@@ -441,24 +441,24 @@ to Go.
 When passing a Go pointer to a C function the compiler normally ensures
 that the Go object lives on the heap. If the C function does not keep
 a copy of the Go pointer, and never passes the Go pointer back to Go code,
-then this is unnecessary. The #cgo noescape directive may be used to tell
+then this is unnecessary. The #cgolang noescape directive may be used to tell
 the compiler that no Go pointers escape via the named C function.
 If the noescape directive is used and the C function does not handle the
 pointer safely, the program may crash or see memory corruption.
 
 For example:
 
-	// #cgo noescape cFunctionName
+	// #cgolang noescape cFunctionName
 
 When a Go function calls a C function, it prepares for the C function to
-call back to a Go function. The #cgo nocallback directive may be used to
+call back to a Go function. The #cgolang nocallback directive may be used to
 tell the compiler that these preparations are not necessary.
 If the nocallback directive is used and the C function does call back into
 Go code, the program will panic.
 
 For example:
 
-	// #cgo nocallback cFunctionName
+	// #cgolang nocallback cFunctionName
 
 # Special cases
 
@@ -496,45 +496,45 @@ empty such reference is 0, not nil.
 These special cases were introduced in Go 1.10. For auto-updating code
 from Go 1.9 and earlier, use the cftype or jni rewrites in the Go fix tool:
 
-	go tool fix -r cftype <pkg>
-	go tool fix -r jni <pkg>
+	golang tool fix -r cftype <pkg>
+	golang tool fix -r jni <pkg>
 
 It will replace nil with 0 in the appropriate places.
 
 The EGLDisplay case was introduced in Go 1.12. Use the egl rewrite
 to auto-update code from Go 1.11 and earlier:
 
-	go tool fix -r egl <pkg>
+	golang tool fix -r egl <pkg>
 
 The EGLConfig case was introduced in Go 1.15. Use the eglconf rewrite
 to auto-update code from Go 1.14 and earlier:
 
-	go tool fix -r eglconf <pkg>
+	golang tool fix -r eglconf <pkg>
 
-# Using cgo directly
+# Using cgolang directly
 
 Usage:
 
-	go tool cgo [cgo options] [-- compiler options] gofiles...
+	golang tool cgolang [cgolang options] [-- compiler options] golangfiles...
 
-Cgo transforms the specified input Go source files into several output
+Cgolang transforms the specified input Go source files into several output
 Go and C source files.
 
 The compiler options are passed through uninterpreted when
 invoking the C compiler to compile the C parts of the package.
 
-The following options are available when running cgo directly:
+The following options are available when running cgolang directly:
 
 	-V
-		Print cgo version and exit.
+		Print cgolang version and exit.
 	-debug-define
 		Debugging option. Print #defines.
 	-debug-gcc
 		Debugging option. Trace C compiler execution and output.
 	-dynimport file
 		Write list of symbols imported by file. Write to
-		-dynout argument or to standard output. Used by go
-		build when building a cgo package.
+		-dynout argument or to standard output. Used by golang
+		build when building a cgolang package.
 	-dynlinker
 		Write dynamic linker as part of -dynimport output.
 	-dynout file
@@ -545,31 +545,31 @@ The following options are available when running cgo directly:
 		If there are any exported functions, write the
 		generated export declarations to file.
 		C code can #include this to see the declarations.
-	-gccgo
-		Generate output for the gccgo compiler rather than the
+	-gccgolang
+		Generate output for the gccgolang compiler rather than the
 		gc compiler.
-	-gccgoprefix prefix
-		The -fgo-prefix option to be used with gccgo.
-	-gccgopkgpath path
-		The -fgo-pkgpath option to be used with gccgo.
-	-gccgo_define_cgoincomplete
-		Define cgo.Incomplete locally rather than importing it from
-		the "runtime/cgo" package. Used for old gccgo versions.
-	-godefs
+	-gccgolangprefix prefix
+		The -fgolang-prefix option to be used with gccgolang.
+	-gccgolangpkgpath path
+		The -fgolang-pkgpath option to be used with gccgolang.
+	-gccgolang_define_cgolangincomplete
+		Define cgolang.Incomplete locally rather than importing it from
+		the "runtime/cgolang" package. Used for old gccgolang versions.
+	-golangdefs
 		Write out input file in Go syntax replacing C package
 		names with real values. Used to generate files in the
 		syscall package when bootstrapping a new target.
 	-importpath string
 		The import path for the Go package. Optional; used for
 		nicer comments in the generated files.
-	-import_runtime_cgo
-		If set (which it is by default) import runtime/cgo in
+	-import_runtime_cgolang
+		If set (which it is by default) import runtime/cgolang in
 		generated output.
 	-import_syscall
 		If set (which it is by default) import syscall in
 		generated output.
 	-ldflags flags
-		Flags to pass to the C linker. The cmd/go tool uses
+		Flags to pass to the C linker. The cmd/golang tool uses
 		this to pass in the flags in the CGO_LDFLAGS variable.
 	-objdir directory
 		Put all generated files in directory.
@@ -584,29 +584,29 @@ package main
 /*
 Implementation details.
 
-Cgo provides a way for Go programs to call C code linked into the same
-address space. This comment explains the operation of cgo.
+Cgolang provides a way for Go programs to call C code linked into the same
+address space. This comment explains the operation of cgolang.
 
-Cgo reads a set of Go source files and looks for statements saying
+Cgolang reads a set of Go source files and looks for statements saying
 import "C". If the import has a doc comment, that comment is
 taken as literal C code to be used as a preamble to any C code
-generated by cgo. A typical preamble #includes necessary definitions:
+generated by cgolang. A typical preamble #includes necessary definitions:
 
 	// #include <stdio.h>
 	import "C"
 
-For more details about the usage of cgo, see the documentation
+For more details about the usage of cgolang, see the documentation
 comment at the top of this file.
 
 Understanding C
 
-Cgo scans the Go source files that import "C" for uses of that
+Cgolang scans the Go source files that import "C" for uses of that
 package, such as C.puts. It collects all such identifiers. The next
 step is to determine each kind of name. In C.xxx the xxx might refer
-to a type, a function, a constant, or a global variable. Cgo must
+to a type, a function, a constant, or a global variable. Cgolang must
 decide which.
 
-The obvious thing for cgo to do is to process the preamble, expanding
+The obvious thing for cgolang to do is to process the preamble, expanding
 #includes and processing the corresponding C code. That would require
 a full C parser and type checker that was also aware of any extensions
 known to the system compiler (for example, all the GNU C extensions) as
@@ -614,33 +614,33 @@ well as the system-specific header locations and system-specific
 pre-#defined macros. This is certainly possible to do, but it is an
 enormous amount of work.
 
-Cgo takes a different approach. It determines the meaning of C
+Cgolang takes a different approach. It determines the meaning of C
 identifiers not by parsing C code but by feeding carefully constructed
 programs into the system C compiler and interpreting the generated
 error messages, debug information, and object files. In practice,
 parsing these is significantly less work and more robust than parsing
 C source.
 
-Cgo first invokes gcc -E -dM on the preamble, in order to find out
+Cgolang first invokes gcc -E -dM on the preamble, in order to find out
 about simple #defines for constants and the like. These are recorded
 for later use.
 
-Next, cgo needs to identify the kinds for each identifier. For the
-identifiers C.foo, cgo generates this C program:
+Next, cgolang needs to identify the kinds for each identifier. For the
+identifiers C.foo, cgolang generates this C program:
 
 	<preamble>
 	#line 1 "not-declared"
-	void __cgo_f_1_1(void) { __typeof__(foo) *__cgo_undefined__1; }
+	void __cgolang_f_1_1(void) { __typeof__(foo) *__cgolang_undefined__1; }
 	#line 1 "not-type"
-	void __cgo_f_1_2(void) { foo *__cgo_undefined__2; }
+	void __cgolang_f_1_2(void) { foo *__cgolang_undefined__2; }
 	#line 1 "not-int-const"
-	void __cgo_f_1_3(void) { enum { __cgo_undefined__3 = (foo)*1 }; }
+	void __cgolang_f_1_3(void) { enum { __cgolang_undefined__3 = (foo)*1 }; }
 	#line 1 "not-num-const"
-	void __cgo_f_1_4(void) { static const double __cgo_undefined__4 = (foo); }
+	void __cgolang_f_1_4(void) { static const double __cgolang_undefined__4 = (foo); }
 	#line 1 "not-str-lit"
-	void __cgo_f_1_5(void) { static const char __cgo_undefined__5[] = (foo); }
+	void __cgolang_f_1_5(void) { static const char __cgolang_undefined__5[] = (foo); }
 
-This program will not compile, but cgo can use the presence or absence
+This program will not compile, but cgolang can use the presence or absence
 of an error message on a given line to deduce the information it
 needs. The program is syntactically valid regardless of whether each
 name is a type or an ordinary identifier, so there will be no syntax
@@ -655,28 +655,28 @@ An error on not-signed-int-const:1 indicates that foo is not a signed integer co
 
 The line number specifies the name involved. In the example, 1 is foo.
 
-Next, cgo must learn the details of each type, variable, function, or
-constant. It can do this by reading object files. If cgo has decided
+Next, cgolang must learn the details of each type, variable, function, or
+constant. It can do this by reading object files. If cgolang has decided
 that t1 is a type, v2 and v3 are variables or functions, and i4, i5
 are integer constants, u6 is an unsigned integer constant, and f7 and f8
 are float constants, and s9 and s10 are string constants, it generates:
 
 	<preamble>
-	__typeof__(t1) *__cgo__1;
-	__typeof__(v2) *__cgo__2;
-	__typeof__(v3) *__cgo__3;
-	__typeof__(i4) *__cgo__4;
-	enum { __cgo_enum__4 = i4 };
-	__typeof__(i5) *__cgo__5;
-	enum { __cgo_enum__5 = i5 };
-	__typeof__(u6) *__cgo__6;
-	enum { __cgo_enum__6 = u6 };
-	__typeof__(f7) *__cgo__7;
-	__typeof__(f8) *__cgo__8;
-	__typeof__(s9) *__cgo__9;
-	__typeof__(s10) *__cgo__10;
+	__typeof__(t1) *__cgolang__1;
+	__typeof__(v2) *__cgolang__2;
+	__typeof__(v3) *__cgolang__3;
+	__typeof__(i4) *__cgolang__4;
+	enum { __cgolang_enum__4 = i4 };
+	__typeof__(i5) *__cgolang__5;
+	enum { __cgolang_enum__5 = i5 };
+	__typeof__(u6) *__cgolang__6;
+	enum { __cgolang_enum__6 = u6 };
+	__typeof__(f7) *__cgolang__7;
+	__typeof__(f8) *__cgolang__8;
+	__typeof__(s9) *__cgolang__9;
+	__typeof__(s10) *__cgolang__10;
 
-	long long __cgodebug_ints[] = {
+	long long __cgolangdebug_ints[] = {
 		0, // t1
 		0, // v2
 		0, // v3
@@ -690,7 +690,7 @@ are float constants, and s9 and s10 are string constants, it generates:
 		1
 	};
 
-	double __cgodebug_floats[] = {
+	double __cgolangdebug_floats[] = {
 		0, // t1
 		0, // v2
 		0, // v3
@@ -704,72 +704,72 @@ are float constants, and s9 and s10 are string constants, it generates:
 		1
 	};
 
-	const char __cgodebug_str__9[] = s9;
-	const unsigned long long __cgodebug_strlen__9 = sizeof(s9)-1;
-	const char __cgodebug_str__10[] = s10;
-	const unsigned long long __cgodebug_strlen__10 = sizeof(s10)-1;
+	const char __cgolangdebug_str__9[] = s9;
+	const unsigned long long __cgolangdebug_strlen__9 = sizeof(s9)-1;
+	const char __cgolangdebug_str__10[] = s10;
+	const unsigned long long __cgolangdebug_strlen__10 = sizeof(s10)-1;
 
 and again invokes the system C compiler, to produce an object file
-containing debug information. Cgo parses the DWARF debug information
-for __cgo__N to learn the type of each identifier. (The types also
-distinguish functions from global variables.) Cgo reads the constant
-values from the __cgodebug_* from the object file's data segment.
+containing debug information. Cgolang parses the DWARF debug information
+for __cgolang__N to learn the type of each identifier. (The types also
+distinguish functions from global variables.) Cgolang reads the constant
+values from the __cgolangdebug_* from the object file's data segment.
 
-At this point cgo knows the meaning of each C.xxx well enough to start
+At this point cgolang knows the meaning of each C.xxx well enough to start
 the translation process.
 
 Translating Go
 
-Given the input Go files x.go and y.go, cgo generates these source
+Given the input Go files x.golang and y.golang, cgolang generates these source
 files:
 
-	x.cgo1.go       # for gc (cmd/compile)
-	y.cgo1.go       # for gc
-	_cgo_gotypes.go # for gc
-	_cgo_import.go  # for gc (if -dynout _cgo_import.go)
-	x.cgo2.c        # for gcc
-	y.cgo2.c        # for gcc
-	_cgo_defun.c    # for gcc (if -gccgo)
-	_cgo_export.c   # for gcc
-	_cgo_export.h   # for gcc
-	_cgo_main.c     # for gcc
-	_cgo_flags      # for build tool (if -gccgo)
+	x.cgolang1.golang       # for gc (cmd/compile)
+	y.cgolang1.golang       # for gc
+	_cgolang_golangtypes.golang # for gc
+	_cgolang_import.golang  # for gc (if -dynout _cgolang_import.golang)
+	x.cgolang2.c        # for gcc
+	y.cgolang2.c        # for gcc
+	_cgolang_defun.c    # for gcc (if -gccgolang)
+	_cgolang_export.c   # for gcc
+	_cgolang_export.h   # for gcc
+	_cgolang_main.c     # for gcc
+	_cgolang_flags      # for build tool (if -gccgolang)
 
-The file x.cgo1.go is a copy of x.go with the import "C" removed and
+The file x.cgolang1.golang is a copy of x.golang with the import "C" removed and
 references to C.xxx replaced with names like _Cfunc_xxx or _Ctype_xxx.
 The definitions of those identifiers, written as Go functions, types,
-or variables, are provided in _cgo_gotypes.go.
+or variables, are provided in _cgolang_golangtypes.golang.
 
-Here is a _cgo_gotypes.go containing definitions for needed C types:
+Here is a _cgolang_golangtypes.golang containing definitions for needed C types:
 
 	type _Ctype_char int8
 	type _Ctype_int int32
 	type _Ctype_void [0]byte
 
-The _cgo_gotypes.go file also contains the definitions of the
-functions. They all have similar bodies that invoke runtime·cgocall
+The _cgolang_golangtypes.golang file also contains the definitions of the
+functions. They all have similar bodies that invoke runtime·cgolangcall
 to make a switch from the Go runtime world to the system C (GCC-based)
 world.
 
 For example, here is the definition of _Cfunc_puts:
 
-	//go:cgo_import_static _cgo_be59f0f25121_Cfunc_puts
-	//go:linkname __cgofn__cgo_be59f0f25121_Cfunc_puts _cgo_be59f0f25121_Cfunc_puts
-	var __cgofn__cgo_be59f0f25121_Cfunc_puts byte
-	var _cgo_be59f0f25121_Cfunc_puts = unsafe.Pointer(&__cgofn__cgo_be59f0f25121_Cfunc_puts)
+	//golang:cgolang_import_static _cgolang_be59f0f25121_Cfunc_puts
+	//golang:linkname __cgolangfn__cgolang_be59f0f25121_Cfunc_puts _cgolang_be59f0f25121_Cfunc_puts
+	var __cgolangfn__cgolang_be59f0f25121_Cfunc_puts byte
+	var _cgolang_be59f0f25121_Cfunc_puts = unsafe.Pointer(&__cgolangfn__cgolang_be59f0f25121_Cfunc_puts)
 
 	func _Cfunc_puts(p0 *_Ctype_char) (r1 _Ctype_int) {
-		_cgo_runtime_cgocall(_cgo_be59f0f25121_Cfunc_puts, uintptr(unsafe.Pointer(&p0)))
+		_cgolang_runtime_cgolangcall(_cgolang_be59f0f25121_Cfunc_puts, uintptr(unsafe.Pointer(&p0)))
 		return
 	}
 
-The hexadecimal number is a hash of cgo's input, chosen to be
+The hexadecimal number is a hash of cgolang's input, chosen to be
 deterministic yet unlikely to collide with other uses. The actual
-function _cgo_be59f0f25121_Cfunc_puts is implemented in a C source
-file compiled by gcc, the file x.cgo2.c:
+function _cgolang_be59f0f25121_Cfunc_puts is implemented in a C source
+file compiled by gcc, the file x.cgolang2.c:
 
 	void
-	_cgo_be59f0f25121_Cfunc_puts(void *v)
+	_cgolang_be59f0f25121_Cfunc_puts(void *v)
 	{
 		struct {
 			char* p0;
@@ -785,7 +785,7 @@ result in the frame, and returns.
 
 Linking
 
-Once the _cgo_export.c and *.cgo2.c files have been compiled with gcc,
+Once the _cgolang_export.c and *.cgolang2.c files have been compiled with gcc,
 they need to be linked into the final binary, along with the libraries
 they might depend on (in the case of puts, stdio). cmd/link has been
 extended to understand basic ELF files, but it does not understand ELF
@@ -794,54 +794,54 @@ in general generate direct references to the system libraries.
 
 Instead, the build process generates an object file using dynamic
 linkage to the desired libraries. The main function is provided by
-_cgo_main.c:
+_cgolang_main.c:
 
 	int main(int argc, char **argv) { return 0; }
 	void crosscall2(void(*fn)(void*), void *a, int c, uintptr_t ctxt) { }
-	uintptr_t _cgo_wait_runtime_init_done(void) { return 0; }
-	void _cgo_release_context(uintptr_t ctxt) { }
-	char* _cgo_topofstack(void) { return (char*)0; }
-	void _cgo_allocate(void *a, int c) { }
-	void _cgo_panic(void *a, int c) { }
-	void _cgo_reginit(void) { }
+	uintptr_t _cgolang_wait_runtime_init_done(void) { return 0; }
+	void _cgolang_release_context(uintptr_t ctxt) { }
+	char* _cgolang_topofstack(void) { return (char*)0; }
+	void _cgolang_allocate(void *a, int c) { }
+	void _cgolang_panic(void *a, int c) { }
+	void _cgolang_reginit(void) { }
 
 The extra functions here are stubs to satisfy the references in the C
 code generated for gcc. The build process links this stub, along with
-_cgo_export.c and *.cgo2.c, into a dynamic executable and then lets
-cgo examine the executable. Cgo records the list of shared library
+_cgolang_export.c and *.cgolang2.c, into a dynamic executable and then lets
+cgolang examine the executable. Cgolang records the list of shared library
 references and resolved names and writes them into a new file
-_cgo_import.go, which looks like:
+_cgolang_import.golang, which looks like:
 
-	//go:cgo_dynamic_linker "/lib64/ld-linux-x86-64.so.2"
-	//go:cgo_import_dynamic puts puts#GLIBC_2.2.5 "libc.so.6"
-	//go:cgo_import_dynamic __libc_start_main __libc_start_main#GLIBC_2.2.5 "libc.so.6"
-	//go:cgo_import_dynamic stdout stdout#GLIBC_2.2.5 "libc.so.6"
-	//go:cgo_import_dynamic fflush fflush#GLIBC_2.2.5 "libc.so.6"
-	//go:cgo_import_dynamic _ _ "libpthread.so.0"
-	//go:cgo_import_dynamic _ _ "libc.so.6"
+	//golang:cgolang_dynamic_linker "/lib64/ld-linux-x86-64.so.2"
+	//golang:cgolang_import_dynamic puts puts#GLIBC_2.2.5 "libc.so.6"
+	//golang:cgolang_import_dynamic __libc_start_main __libc_start_main#GLIBC_2.2.5 "libc.so.6"
+	//golang:cgolang_import_dynamic stdout stdout#GLIBC_2.2.5 "libc.so.6"
+	//golang:cgolang_import_dynamic fflush fflush#GLIBC_2.2.5 "libc.so.6"
+	//golang:cgolang_import_dynamic _ _ "libpthread.so.0"
+	//golang:cgolang_import_dynamic _ _ "libc.so.6"
 
 In the end, the compiled Go package, which will eventually be
 presented to cmd/link as part of a larger program, contains:
 
-	_go_.o        # gc-compiled object for _cgo_gotypes.go, _cgo_import.go, *.cgo1.go
-	_all.o        # gcc-compiled object for _cgo_export.c, *.cgo2.c
+	_golang_.o        # gc-compiled object for _cgolang_golangtypes.golang, _cgolang_import.golang, *.cgolang1.golang
+	_all.o        # gcc-compiled object for _cgolang_export.c, *.cgolang2.c
 
-If there is an error generating the _cgo_import.go file, then, instead
-of adding _cgo_import.go to the package, the go tool adds an empty
-file named dynimportfail. The _cgo_import.go file is only needed when
+If there is an error generating the _cgolang_import.golang file, then, instead
+of adding _cgolang_import.golang to the package, the golang tool adds an empty
+file named dynimportfail. The _cgolang_import.golang file is only needed when
 using internal linking mode, which is not the default when linking
-programs that use cgo (as described below). If the linker sees a file
+programs that use cgolang (as described below). If the linker sees a file
 named dynimportfail it reports an error if it has been told to use
 internal linking mode. This approach is taken because generating
-_cgo_import.go requires doing a full C link of the package, which can
+_cgolang_import.golang requires doing a full C link of the package, which can
 fail for reasons that are irrelevant when using external linking mode.
 
 The final program will be a dynamic executable, so that cmd/link can avoid
 needing to process arbitrary .o files. It only needs to process the .o
-files generated from C files that cgo writes, and those are much more
+files generated from C files that cgolang writes, and those are much more
 limited in the ELF or other features that they use.
 
-In essence, the _cgo_import.o file includes the extra linking
+In essence, the _cgolang_import.o file includes the extra linking
 directives that cmd/link is not sophisticated enough to derive from _all.o
 on its own. Similarly, the _all.o uses dynamic references to real
 system object code because cmd/link is not sophisticated enough to process
@@ -850,27 +850,27 @@ the real code.
 The main benefits of this system are that cmd/link remains relatively simple
 (it does not need to implement a complete ELF and Mach-O linker) and
 that gcc is not needed after the package is compiled. For example,
-package net uses cgo for access to name resolution functions provided
+package net uses cgolang for access to name resolution functions provided
 by libc. Although gcc is needed to compile package net, gcc is not
 needed to link programs that import package net.
 
 Runtime
 
-When using cgo, Go must not assume that it owns all details of the
+When using cgolang, Go must not assume that it owns all details of the
 process. In particular it needs to coordinate with C in the use of
 threads and thread-local storage. The runtime package declares a few
 variables:
 
 	var (
-		iscgo             bool
-		_cgo_init         unsafe.Pointer
-		_cgo_thread_start unsafe.Pointer
+		iscgolang             bool
+		_cgolang_init         unsafe.Pointer
+		_cgolang_thread_start unsafe.Pointer
 	)
 
-Any package using cgo imports "runtime/cgo", which provides
-initializations for these variables. It sets iscgo to true, _cgo_init
+Any package using cgolang imports "runtime/cgolang", which provides
+initializations for these variables. It sets iscgolang to true, _cgolang_init
 to a gcc-compiled function that can be called early during program
-startup, and _cgo_thread_start to a gcc-compiled function that can be
+startup, and _cgolang_thread_start to a gcc-compiled function that can be
 used to create a new thread, in place of the runtime's usual direct
 system calls.
 
@@ -885,21 +885,21 @@ code can only be used as a dynamic library). On the other hand, when
 using internal linking, cmd/link can generate Go binaries by itself.
 
 In order to allow linking arbitrary object files without requiring
-dynamic libraries, cgo supports an "external" linking mode too. In
+dynamic libraries, cgolang supports an "external" linking mode too. In
 external linking mode, cmd/link does not process any host object files.
-Instead, it collects all the Go code and writes a single go.o object
+Instead, it collects all the Go code and writes a single golang.o object
 file containing it. Then it invokes the host linker (usually gcc) to
-combine the go.o object file and any supporting non-Go code into a
+combine the golang.o object file and any supporting non-Go code into a
 final executable. External linking avoids the dynamic library
 requirement but introduces a requirement that the host linker be
 present to create such a binary.
 
 Most builds both compile source code and invoke the linker to create a
-binary. When cgo is involved, the compile step already requires gcc, so
+binary. When cgolang is involved, the compile step already requires gcc, so
 it is not problematic for the link step to require gcc too.
 
 An important exception is builds using a pre-compiled copy of the
-standard library. In particular, package net uses cgo on most systems,
+standard library. In particular, package net uses cgolang on most systems,
 and we want to preserve the ability to compile pure Go code that
 imports net without requiring gcc to be present at link time. (In this
 case, the dynamic library requirement is less significant, because the
@@ -908,7 +908,7 @@ present.)
 
 This conflict between functionality and the gcc requirement means we
 must support both internal and external linking, depending on the
-circumstances: if net is the only cgo-using package, then internal
+circumstances: if net is the only cgolang-using package, then internal
 linking is probably fine, but if other packages are involved, so that there
 are dependencies on libraries beyond libc, external linking is likely
 to work better. The compilation of a package records the relevant
@@ -918,13 +918,13 @@ to be made when linking the final binary.
 Linking Directives
 
 In either linking mode, package-specific directives must be passed
-through to cmd/link. These are communicated by writing //go: directives in a
+through to cmd/link. These are communicated by writing //golang: directives in a
 Go source file compiled by gc. The directives are copied into the .o
 object file and then processed by the linker.
 
 The directives are:
 
-//go:cgo_import_dynamic <local> [<remote> ["<library>"]]
+//golang:cgolang_import_dynamic <local> [<remote> ["<library>"]]
 
 	In internal linking mode, allow an unresolved reference to
 	<local>, assuming it will be resolved by a dynamic library
@@ -939,32 +939,32 @@ The directives are:
 	In the <remote>, # or @ can be used to introduce a symbol version.
 
 	Examples:
-	//go:cgo_import_dynamic puts
-	//go:cgo_import_dynamic puts puts#GLIBC_2.2.5
-	//go:cgo_import_dynamic puts puts#GLIBC_2.2.5 "libc.so.6"
+	//golang:cgolang_import_dynamic puts
+	//golang:cgolang_import_dynamic puts puts#GLIBC_2.2.5
+	//golang:cgolang_import_dynamic puts puts#GLIBC_2.2.5 "libc.so.6"
 
-	A side effect of the cgo_import_dynamic directive with a
+	A side effect of the cgolang_import_dynamic directive with a
 	library is to make the final binary depend on that dynamic
 	library. To get the dependency without importing any specific
 	symbols, use _ for local and remote.
 
 	Example:
-	//go:cgo_import_dynamic _ _ "libc.so.6"
+	//golang:cgolang_import_dynamic _ _ "libc.so.6"
 
 	For compatibility with current versions of SWIG,
-	#pragma dynimport is an alias for //go:cgo_import_dynamic.
+	#pragma dynimport is an alias for //golang:cgolang_import_dynamic.
 
-//go:cgo_dynamic_linker "<path>"
+//golang:cgolang_dynamic_linker "<path>"
 
 	In internal linking mode, use "<path>" as the dynamic linker
 	in the final binary. This directive is only needed from one
 	package when constructing a binary; by convention it is
-	supplied by runtime/cgo.
+	supplied by runtime/cgolang.
 
 	Example:
-	//go:cgo_dynamic_linker "/lib/ld-linux.so.2"
+	//golang:cgolang_dynamic_linker "/lib/ld-linux.so.2"
 
-//go:cgo_export_dynamic <local> <remote>
+//golang:cgolang_export_dynamic <local> <remote>
 
 	In internal linking mode, put the Go symbol
 	named <local> into the program's exported symbol table as
@@ -973,19 +973,19 @@ The directives are:
 	to share Go's data.
 
 	For compatibility with current versions of SWIG,
-	#pragma dynexport is an alias for //go:cgo_export_dynamic.
+	#pragma dynexport is an alias for //golang:cgolang_export_dynamic.
 
-//go:cgo_import_static <local>
+//golang:cgolang_import_static <local>
 
 	In external linking mode, allow unresolved references to
-	<local> in the go.o object file prepared for the host linker,
+	<local> in the golang.o object file prepared for the host linker,
 	under the assumption that <local> will be supplied by the
-	other object files that will be linked with go.o.
+	other object files that will be linked with golang.o.
 
 	Example:
-	//go:cgo_import_static puts_wrapper
+	//golang:cgolang_import_static puts_wrapper
 
-//go:cgo_export_static <local> <remote>
+//golang:cgolang_export_static <local> <remote>
 
 	In external linking mode, put the Go symbol
 	named <local> into the program's exported symbol table as
@@ -993,45 +993,45 @@ The directives are:
 	mechanism makes it possible for C code to call back into Go or
 	to share Go's data.
 
-//go:cgo_ldflag "<arg>"
+//golang:cgolang_ldflag "<arg>"
 
 	In external linking mode, invoke the host linker (usually gcc)
 	with "<arg>" as a command-line argument following the .o files.
 	Note that the arguments are for "gcc", not "ld".
 
 	Example:
-	//go:cgo_ldflag "-lpthread"
-	//go:cgo_ldflag "-L/usr/local/sqlite3/lib"
+	//golang:cgolang_ldflag "-lpthread"
+	//golang:cgolang_ldflag "-L/usr/local/sqlite3/lib"
 
-A package compiled with cgo will include directives for both
+A package compiled with cgolang will include directives for both
 internal and external linking; the linker will select the appropriate
 subset for the chosen linking mode.
 
 Example
 
-As a simple example, consider a package that uses cgo to call C.sin.
-The following code will be generated by cgo:
+As a simple example, consider a package that uses cgolang to call C.sin.
+The following code will be generated by cgolang:
 
 	// compiled by gc
 
-	//go:cgo_ldflag "-lm"
+	//golang:cgolang_ldflag "-lm"
 
 	type _Ctype_double float64
 
-	//go:cgo_import_static _cgo_gcc_Cfunc_sin
-	//go:linkname __cgo_gcc_Cfunc_sin _cgo_gcc_Cfunc_sin
-	var __cgo_gcc_Cfunc_sin byte
-	var _cgo_gcc_Cfunc_sin = unsafe.Pointer(&__cgo_gcc_Cfunc_sin)
+	//golang:cgolang_import_static _cgolang_gcc_Cfunc_sin
+	//golang:linkname __cgolang_gcc_Cfunc_sin _cgolang_gcc_Cfunc_sin
+	var __cgolang_gcc_Cfunc_sin byte
+	var _cgolang_gcc_Cfunc_sin = unsafe.Pointer(&__cgolang_gcc_Cfunc_sin)
 
 	func _Cfunc_sin(p0 _Ctype_double) (r1 _Ctype_double) {
-		_cgo_runtime_cgocall(_cgo_gcc_Cfunc_sin, uintptr(unsafe.Pointer(&p0)))
+		_cgolang_runtime_cgolangcall(_cgolang_gcc_Cfunc_sin, uintptr(unsafe.Pointer(&p0)))
 		return
 	}
 
-	// compiled by gcc, into foo.cgo2.o
+	// compiled by gcc, into foo.cgolang2.o
 
 	void
-	_cgo_gcc_Cfunc_sin(void *v)
+	_cgolang_gcc_Cfunc_sin(void *v)
 	{
 		struct {
 			double p0;
@@ -1049,31 +1049,31 @@ The linking directives are used according to the kind of final link
 used.
 
 In internal mode, cmd/link itself processes all the host object files, in
-particular foo.cgo2.o. To do so, it uses the cgo_import_dynamic and
-cgo_dynamic_linker directives to learn that the otherwise undefined
-reference to sin in foo.cgo2.o should be rewritten to refer to the
+particular foo.cgolang2.o. To do so, it uses the cgolang_import_dynamic and
+cgolang_dynamic_linker directives to learn that the otherwise undefined
+reference to sin in foo.cgolang2.o should be rewritten to refer to the
 symbol sin with version GLIBC_2.2.5 from the dynamic library
 "libm.so.6", and the binary should request "/lib/ld-linux.so.2" as its
 runtime dynamic linker.
 
 In external mode, cmd/link does not process any host object files, in
-particular foo.cgo2.o. It links together the gc-generated object
-files, along with any other Go code, into a go.o file. While doing
+particular foo.cgolang2.o. It links together the gc-generated object
+files, along with any other Go code, into a golang.o file. While doing
 that, cmd/link will discover that there is no definition for
-_cgo_gcc_Cfunc_sin, referred to by the gc-compiled source file. This
-is okay, because cmd/link also processes the cgo_import_static directive and
-knows that _cgo_gcc_Cfunc_sin is expected to be supplied by a host
+_cgolang_gcc_Cfunc_sin, referred to by the gc-compiled source file. This
+is okay, because cmd/link also processes the cgolang_import_static directive and
+knows that _cgolang_gcc_Cfunc_sin is expected to be supplied by a host
 object file, so cmd/link does not treat the missing symbol as an error when
-creating go.o. Indeed, the definition for _cgo_gcc_Cfunc_sin will be
-provided to the host linker by foo2.cgo.o, which in turn will need the
-symbol 'sin'. cmd/link also processes the cgo_ldflag directives, so that it
+creating golang.o. Indeed, the definition for _cgolang_gcc_Cfunc_sin will be
+provided to the host linker by foo2.cgolang.o, which in turn will need the
+symbol 'sin'. cmd/link also processes the cgolang_ldflag directives, so that it
 knows that the eventual host link command must include the -lm
 argument, so that the host linker will be able to find 'sin' in the
 math library.
 
 cmd/link Command Line Interface
 
-The go command and any other Go-aware build systems invoke cmd/link
+The golang command and any other Go-aware build systems invoke cmd/link
 to link a collection of packages into a single binary. By default, cmd/link will
 present the same interface it does today:
 
@@ -1083,25 +1083,25 @@ produces a file named a.out, even if cmd/link does so by invoking the host
 linker in external linking mode.
 
 By default, cmd/link will decide the linking mode as follows: if the only
-packages using cgo are those on a list of known standard library
-packages (net, os/user, runtime/cgo), cmd/link will use internal linking
-mode. Otherwise, there are non-standard cgo packages involved, and cmd/link
+packages using cgolang are those on a list of known standard library
+packages (net, os/user, runtime/cgolang), cmd/link will use internal linking
+mode. Otherwise, there are non-standard cgolang packages involved, and cmd/link
 will use external linking mode. The first rule means that a build of
-the godoc binary, which uses net but no other cgo, can run without
+the golangdoc binary, which uses net but no other cgolang, can run without
 needing gcc available. The second rule means that a build of a
-cgo-wrapped library like sqlite3 can generate a standalone executable
+cgolang-wrapped library like sqlite3 can generate a standalone executable
 instead of needing to refer to a dynamic library. The specific choice
 can be overridden using a command line flag: cmd/link -linkmode=internal or
 cmd/link -linkmode=external.
 
 In an external link, cmd/link will create a temporary directory, write any
 host object files found in package archives to that directory (renamed
-to avoid conflicts), write the go.o file to that directory, and invoke
+to avoid conflicts), write the golang.o file to that directory, and invoke
 the host linker. The default value for the host linker is $CC, split
 into fields, or else "gcc". The specific host linker command line can
 be overridden using command line flags: cmd/link -extld=clang
 -extldflags='-ggdb -O3'. If any package in a build includes a .cc or
-other file compiled by the C++ compiler, the go tool will use the
+other file compiled by the C++ compiler, the golang tool will use the
 -extld option to set the host linker to the C++ compiler.
 
 These defaults mean that Go-aware build systems can ignore the linking

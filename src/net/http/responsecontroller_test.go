@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package http_test
@@ -42,9 +42,9 @@ func testResponseControllerFlush(t *testing.T, mode testMode) {
 		t.Fatalf("Body.Read = %q, %v, want %q, nil", string(buf[:n]), err, "one")
 	}
 
-	got, err := io.ReadAll(res.Body)
-	if err != nil || string(got) != "two" {
-		t.Fatalf("Body.Read = %q, %v, want %q, nil", string(got), err, "two")
+	golangt, err := io.ReadAll(res.Body)
+	if err != nil || string(golangt) != "two" {
+		t.Fatalf("Body.Read = %q, %v, want %q, nil", string(golangt), err, "two")
 	}
 }
 
@@ -72,8 +72,8 @@ func testResponseControllerHijack(t *testing.T, mode testMode) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if got, want := res.Header.Get(header), value; got != want {
-		t.Errorf("response header %q = %q, want %q", header, got, want)
+	if golangt, want := res.Header.Get(header), value; golangt != want {
+		t.Errorf("response header %q = %q, want %q", header, golangt, want)
 	}
 }
 
@@ -147,11 +147,11 @@ func testResponseControllerSetFutureWriteDeadline(t *testing.T, mode testMode) {
 	defer res.Body.Close()
 	_, err = io.Copy(io.Discard, res.Body)
 	if err == nil {
-		t.Errorf("client reading from truncated request body: got nil error, want non-nil")
+		t.Errorf("client reading from truncated request body: golangt nil error, want non-nil")
 	}
 	err = <-errc // io.Copy error
 	if !errors.Is(err, os.ErrDeadlineExceeded) {
-		t.Errorf("server timed out writing request body: got err %v; want os.ErrDeadlineExceeded", err)
+		t.Errorf("server timed out writing request body: golangt err %v; want os.ErrDeadlineExceeded", err)
 	}
 }
 
@@ -196,7 +196,7 @@ func testResponseControllerSetPastReadDeadline(t *testing.T, mode testMode) {
 	pr, pw := io.Pipe()
 	var wg sync.WaitGroup
 	wg.Add(1)
-	go func() {
+	golang func() {
 		defer wg.Done()
 		defer pw.Close()
 		pw.Write([]byte("one"))
@@ -231,7 +231,7 @@ func testResponseControllerSetFutureReadDeadline(t *testing.T, mode testMode) {
 		}
 		_, err := io.Copy(io.Discard, req.Body)
 		if !errors.Is(err, os.ErrDeadlineExceeded) {
-			t.Errorf("server timed out reading request body: got err %v; want os.ErrDeadlineExceeded", err)
+			t.Errorf("server timed out reading request body: golangt err %v; want os.ErrDeadlineExceeded", err)
 		}
 		w.Write([]byte(respBody))
 	}))
@@ -241,9 +241,9 @@ func testResponseControllerSetFutureReadDeadline(t *testing.T, mode testMode) {
 		t.Fatal(err)
 	}
 	defer res.Body.Close()
-	got, err := io.ReadAll(res.Body)
-	if string(got) != respBody || err != nil {
-		t.Errorf("client read response body: %q, %v; want %q, nil", string(got), err, respBody)
+	golangt, err := io.ReadAll(res.Body)
+	if string(golangt) != respBody || err != nil {
+		t.Errorf("client read response body: %q, %v; want %q, nil", string(golangt), err, respBody)
 	}
 	pw.Close()
 }

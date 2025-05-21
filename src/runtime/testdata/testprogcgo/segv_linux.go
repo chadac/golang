@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -11,12 +11,12 @@ import "C"
 import "syscall"
 
 func init() {
-	register("TgkillSegvInCgo", TgkillSegvInCgo)
+	register("TgkillSegvInCgolang", TgkillSegvInCgolang)
 }
 
-func TgkillSegvInCgo() {
+func TgkillSegvInCgolang() {
 	c := make(chan bool)
-	go func() {
+	golang func() {
 		close(c)
 		for {
 			C.nop()

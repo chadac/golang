@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package netip defines an IP address type that's a small value type.
@@ -41,7 +41,7 @@ type Addr struct {
 	//
 	// hi and lo are constructed by interpreting a 16-byte IPv6
 	// address as a big-endian 128-bit number. The most significant
-	// bits of that number go into hi, the rest into lo.
+	// bits of that number golang into hi, the rest into lo.
 	//
 	// For example, 0011:2233:4455:6677:8899:aabb:ccdd:eeff is stored as:
 	//  addr.hi = 0x0011223344556677
@@ -1337,7 +1337,7 @@ func (p Prefix) IsSingleIP() bool { return p.IsValid() && p.Bits() == p.ip.BitLe
 // address.
 //
 // Unexported for Go 1.22 because we may want to compare by p.Addr first.
-// See post-acceptance discussion on go.dev/issue/61642.
+// See post-acceptance discussion on golang.dev/issue/61642.
 func (p Prefix) compare(p2 Prefix) int {
 	if c := cmp.Compare(p.Addr().BitLen(), p2.Addr().BitLen()); c != 0 {
 		return c
@@ -1373,7 +1373,7 @@ func ParsePrefix(s string) (Prefix, error) {
 	if err != nil {
 		return Prefix{}, parsePrefixError{in: s, msg: err.Error()}
 	}
-	// IPv6 zones are not allowed: https://go.dev/issue/51899
+	// IPv6 zones are not allowed: https://golang.dev/issue/51899
 	if ip.Is6() && ip.z != z6noz {
 		return Prefix{}, parsePrefixError{in: s, msg: "IPv6 zones cannot be present in a prefix"}
 	}

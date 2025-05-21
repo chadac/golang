@@ -1,13 +1,13 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ast_test
 
 import (
-	"go/ast"
-	"go/parser"
-	"go/token"
+	"golang/ast"
+	"golang/parser"
+	"golang/token"
 	"testing"
 )
 
@@ -22,7 +22,7 @@ import (
 `
 
 		fset := token.NewFileSet()
-		f, err := parser.ParseFile(fset, "test.go", src, parser.ParseComments|parser.SkipObjectResolution)
+		f, err := parser.ParseFile(fset, "test.golang", src, parser.ParseComments|parser.SkipObjectResolution)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -58,7 +58,7 @@ import (
 `
 
 		fset := token.NewFileSet()
-		f, err := parser.ParseFile(fset, "test.go", src, parser.ParseComments|parser.SkipObjectResolution)
+		f, err := parser.ParseFile(fset, "test.golang", src, parser.ParseComments|parser.SkipObjectResolution)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -87,7 +87,7 @@ import (
 "a")
 `
 	fset := token.NewFileSet()
-	f, err := parser.ParseFile(fset, "test.go", src, parser.ParseComments|parser.SkipObjectResolution)
+	f, err := parser.ParseFile(fset, "test.golang", src, parser.ParseComments|parser.SkipObjectResolution)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -103,7 +103,7 @@ func a() {}
 `
 
 	fset := token.NewFileSet()
-	f, err := parser.ParseFile(fset, "test.go", src, parser.ParseComments|parser.SkipObjectResolution)
+	f, err := parser.ParseFile(fset, "test.golang", src, parser.ParseComments|parser.SkipObjectResolution)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -111,7 +111,7 @@ func a() {}
 	fd := f.Decls[1].(*ast.FuncDecl)
 	fdPos := fset.Position(fd.Pos())
 	// After SortImports, the Position of the func, should still be at Column == 1.
-	// This is related to the issue: https://go.dev/issue/69183, we were merging lines
+	// This is related to the issue: https://golang.dev/issue/69183, we were merging lines
 	// incorrectly, which caused the position to be Column = 6, Line = 4.
 	if fdPos.Column != 1 {
 		t.Errorf("invalid fdPos.Column = %v; want = 1", fdPos.Column)

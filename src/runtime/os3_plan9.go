@@ -1,19 +1,19 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
 
 import (
 	"internal/abi"
-	"internal/goarch"
+	"internal/golangarch"
 	"internal/stringslite"
 	"unsafe"
 )
 
 // May run during STW, so write barriers are not allowed.
 //
-//go:nowritebarrierrec
+//golang:nowritebarrierrec
 func sighandler(_ureg *ureg, note *byte, gp *g) int {
 	gsignal := getg()
 	mp := gsignal.m
@@ -25,23 +25,23 @@ func sighandler(_ureg *ureg, note *byte, gp *g) int {
 	var level int32
 
 	c := &sigctxt{_ureg}
-	notestr := gostringnocopy(note)
+	notestr := golangstringnocopy(note)
 
 	// The kernel will never pass us a nil note or ureg so we probably
 	// made a mistake somewhere in sigtramp.
 	if _ureg == nil || note == nil {
 		print("sighandler: ureg ", _ureg, " note ", note, "\n")
-		goto Throw
+		golangto Throw
 	}
 	// Check that the note is no more than ERRMAX bytes (including
 	// the trailing NUL). We should never receive a longer note.
 	if len(notestr) > _ERRMAX-1 {
 		print("sighandler: note is longer than ERRMAX\n")
-		goto Throw
+		golangto Throw
 	}
 	if isAbortPC(c.pc()) {
 		// Never turn abort into a panic.
-		goto Throw
+		golangto Throw
 	}
 	// See if the note matches one of the patterns in sigtab.
 	// Notes that do not match any pattern can be handled at a higher
@@ -59,7 +59,7 @@ func sighandler(_ureg *ureg, note *byte, gp *g) int {
 		flags = (flags &^ _SigPanic) | _SigThrow
 	}
 	if flags&_SigGoExit != 0 {
-		exits((*byte)(add(unsafe.Pointer(note), 9))) // Strip "go: exit " prefix.
+		exits((*byte)(add(unsafe.Pointer(note), 9))) // Strip "golang: exit " prefix.
 	}
 	if flags&_SigPanic != 0 {
 		// Copy the error string from sigtramp's stack into m->notesig so
@@ -82,7 +82,7 @@ func sighandler(_ureg *ureg, note *byte, gp *g) int {
 		// IF LR exists, sigpanictramp must save it to the stack
 		// before entry to sigpanic so that panics in leaf
 		// functions are correctly handled. This will smash
-		// the stack frame but we're not going back there
+		// the stack frame but we're not golanging back there
 		// anyway.
 		if usesLR {
 			c.savelr(c.lr())
@@ -96,7 +96,7 @@ func sighandler(_ureg *ureg, note *byte, gp *g) int {
 			if usesLR {
 				c.setlr(pc)
 			} else {
-				sp -= goarch.PtrSize
+				sp -= golangarch.PtrSize
 				*(*uintptr)(unsafe.Pointer(sp)) = pc
 				c.setsp(sp)
 			}
@@ -117,7 +117,7 @@ func sighandler(_ureg *ureg, note *byte, gp *g) int {
 		}
 	}
 	if flags&_SigKill != 0 {
-		goto Exit
+		golangto Exit
 	}
 	if flags&_SigThrow == 0 {
 		return _NCONT
@@ -129,9 +129,9 @@ Throw:
 	print(notestr, "\n")
 	print("PC=", hex(c.pc()), "\n")
 	print("\n")
-	level, _, docrash = gotraceback()
+	level, _, docrash = golangtraceback()
 	if level > 0 {
-		goroutineheader(gp)
+		golangroutineheader(gp)
 		tracebacktrap(c.pc(), c.sp(), c.lr(), gp)
 		tracebackothers(gp)
 		print("\n")
@@ -141,7 +141,7 @@ Throw:
 		crash()
 	}
 Exit:
-	goexitsall(note)
+	golangexitsall(note)
 	exits(note)
 	return _NDFLT // not reached
 }

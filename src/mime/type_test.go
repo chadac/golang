@@ -1,5 +1,5 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package mime
@@ -89,16 +89,16 @@ func TestTypeByExtensionCase(t *testing.T) {
 	defer cleanup()
 
 	// case-sensitive lookup
-	if got := TypeByExtension(".tesT"); got != custom {
-		t.Fatalf("for .tesT, got %q; want %q", got, custom)
+	if golangt := TypeByExtension(".tesT"); golangt != custom {
+		t.Fatalf("for .tesT, golangt %q; want %q", golangt, custom)
 	}
-	if got := TypeByExtension(".TEST"); got != caps {
-		t.Fatalf("for .TEST, got %q; want %s", got, caps)
+	if golangt := TypeByExtension(".TEST"); golangt != caps {
+		t.Fatalf("for .TEST, golangt %q; want %s", golangt, caps)
 	}
 
 	// case-insensitive
-	if got := TypeByExtension(".TesT"); got != custom {
-		t.Fatalf("for .TesT, got %q; want %q", got, custom)
+	if golangt := TypeByExtension(".TesT"); golangt != custom {
+		t.Fatalf("for .TesT, golangt %q; want %q", golangt, custom)
 	}
 }
 
@@ -125,7 +125,7 @@ func TestExtensionsByType(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		got, err := ExtensionsByType(tt.typ)
+		golangt, err := ExtensionsByType(tt.typ)
 		if err != nil && tt.wantErr != "" && strings.Contains(err.Error(), tt.wantErr) {
 			continue
 		}
@@ -134,11 +134,11 @@ func TestExtensionsByType(t *testing.T) {
 			continue
 		}
 		if tt.wantErr != "" {
-			t.Errorf("ExtensionsByType(%q) = %q, %v; want error substring %q", tt.typ, got, err, tt.wantErr)
+			t.Errorf("ExtensionsByType(%q) = %q, %v; want error substring %q", tt.typ, golangt, err, tt.wantErr)
 			continue
 		}
-		if !slices.Equal(got, tt.want) {
-			t.Errorf("ExtensionsByType(%q) = %q; want %q", tt.typ, got, tt.want)
+		if !slices.Equal(golangt, tt.want) {
+			t.Errorf("ExtensionsByType(%q) = %q; want %q", tt.typ, golangt, tt.want)
 		}
 	}
 }
@@ -199,7 +199,7 @@ func BenchmarkExtensionsByType(b *testing.B) {
 func TestExtensionsByType2(t *testing.T) {
 	cleanup := setMimeInit(func() {
 		clearMimeTypes()
-		// Initialize built-in types like in type.go before osInitMime.
+		// Initialize built-in types like in type.golang before osInitMime.
 		setMimeTypes(builtinTypesLower, builtinTypesLower)
 	})
 	defer cleanup()
@@ -212,13 +212,13 @@ func TestExtensionsByType2(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		got, err := ExtensionsByType(tt.typ)
+		golangt, err := ExtensionsByType(tt.typ)
 		if err != nil {
 			t.Errorf("ExtensionsByType(%q): %v", tt.typ, err)
 			continue
 		}
-		if !slices.Equal(got, tt.want) {
-			t.Errorf("ExtensionsByType(%q) = %q; want %q", tt.typ, got, tt.want)
+		if !slices.Equal(golangt, tt.want) {
+			t.Errorf("ExtensionsByType(%q) = %q; want %q", tt.typ, golangt, tt.want)
 		}
 	}
 }

@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package syscall
@@ -270,7 +270,7 @@ const (
 	TokenIntegrityLevel
 	TokenUIAccess
 	TokenMandatoryPolicy
-	TokenLogonSid
+	TokenLogolangnSid
 	MaxTokenInfoClass
 )
 
@@ -291,7 +291,7 @@ type Tokenprimarygroup struct {
 //sys	GetTokenInformation(t Token, infoClass uint32, info *byte, infoLen uint32, returnedLen *uint32) (err error) = advapi32.GetTokenInformation
 //sys	GetUserProfileDirectory(t Token, dir *uint16, dirLen *uint32) (err error) = userenv.GetUserProfileDirectoryW
 
-// An access token contains the security information for a logon session.
+// An access token contains the security information for a logolangn session.
 // The system creates an access token when a user logs on, and every
 // process executed on behalf of the user has a copy of the token.
 // The token identifies the user, the user's groups, and the user's

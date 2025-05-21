@@ -1,18 +1,18 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// append_ssa.go tests append operations.
+// append_ssa.golang tests append operations.
 package main
 
 import "testing"
 
-//go:noinline
+//golang:noinline
 func appendOne_ssa(a []int, x int) []int {
 	return append(a, x)
 }
 
-//go:noinline
+//golang:noinline
 func appendThree_ssa(a []int, x, y, z int) []int {
 	return append(a, x, y, z)
 }
@@ -29,11 +29,11 @@ func eqBytes(a, b []int) bool {
 	return true
 }
 
-func expect(t *testing.T, got, want []int) {
-	if eqBytes(got, want) {
+func expect(t *testing.T, golangt, want []int) {
+	if eqBytes(golangt, want) {
 		return
 	}
-	t.Errorf("expected %v, got %v\n", want, got)
+	t.Errorf("expected %v, golangt %v\n", want, golangt)
 }
 
 func testAppend(t *testing.T) {

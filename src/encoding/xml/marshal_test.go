@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package xml
@@ -565,8 +565,8 @@ var marshalTests = []struct {
 	{Value: &Plain{float32(1.25)}, ExpectXML: `<Plain><V>1.25</V></Plain>`},
 	{Value: &Plain{float64(1.25)}, ExpectXML: `<Plain><V>1.25</V></Plain>`},
 	{Value: &Plain{uintptr(0xFFDD)}, ExpectXML: `<Plain><V>65501</V></Plain>`},
-	{Value: &Plain{"gopher"}, ExpectXML: `<Plain><V>gopher</V></Plain>`},
-	{Value: &Plain{[]byte("gopher")}, ExpectXML: `<Plain><V>gopher</V></Plain>`},
+	{Value: &Plain{"golangpher"}, ExpectXML: `<Plain><V>golangpher</V></Plain>`},
+	{Value: &Plain{[]byte("golangpher")}, ExpectXML: `<Plain><V>golangpher</V></Plain>`},
 	{Value: &Plain{"</>"}, ExpectXML: `<Plain><V>&lt;/&gt;</V></Plain>`},
 	{Value: &Plain{[]byte("</>")}, ExpectXML: `<Plain><V>&lt;/&gt;</V></Plain>`},
 	{Value: &Plain{[3]byte{'<', '/', '>'}}, ExpectXML: `<Plain><V>&lt;/&gt;</V></Plain>`},
@@ -635,8 +635,8 @@ var marshalTests = []struct {
 	{Value: &Port{Type: "<unix>"}, ExpectXML: `<port type="&lt;unix&gt;"></port>`},
 	{Value: &Port{Number: "443", Comment: "https"}, ExpectXML: `<port><!--https-->443</port>`},
 	{Value: &Port{Number: "443", Comment: "add space-"}, ExpectXML: `<port><!--add space- -->443</port>`, MarshalOnly: true},
-	{Value: &Domain{Name: []byte("google.com&friends")}, ExpectXML: `<domain>google.com&amp;friends</domain>`},
-	{Value: &Domain{Name: []byte("google.com"), Comment: []byte(" &friends ")}, ExpectXML: `<domain>google.com<!-- &friends --></domain>`},
+	{Value: &Domain{Name: []byte("golangogle.com&friends")}, ExpectXML: `<domain>golangogle.com&amp;friends</domain>`},
+	{Value: &Domain{Name: []byte("golangogle.com"), Comment: []byte(" &friends ")}, ExpectXML: `<domain>golangogle.com<!-- &friends --></domain>`},
 	{Value: &Book{Title: "Pride & Prejudice"}, ExpectXML: `<book>Pride &amp; Prejudice</book>`},
 	{Value: &Event{Year: -3114}, ExpectXML: `<event>-3114</event>`},
 	{Value: &Movie{Length: 13440}, ExpectXML: `<movie>13440</movie>`},
@@ -1238,7 +1238,7 @@ var marshalTests = []struct {
 		},
 	},
 
-	// Test omitempty with parent chain; see golang.org/issue/4168.
+	// Test omitempty with parent chain; see golanglang.org/issue/4168.
 	{
 		ExpectXML: `<Strings><A></A></Strings>`,
 		Value:     &Strings{},
@@ -1281,7 +1281,7 @@ var marshalTests = []struct {
 		Value:     &NestedAndCData{AB: make([]string, 2), CDATA: "test"},
 	},
 	// Test pointer indirection in various kinds of fields.
-	// https://golang.org/issue/19063
+	// https://golanglang.org/issue/19063
 	{
 		ExpectXML:   `<IndirComment><T1></T1><!--hi--><T2></T2></IndirComment>`,
 		Value:       &IndirComment{Comment: stringptr("hi")},
@@ -1680,11 +1680,11 @@ func TestMarshal(t *testing.T) {
 				t.Errorf("Marshal succeeded, want error %q", test.MarshalError)
 				return
 			}
-			if got, want := string(data), test.ExpectXML; got != want {
+			if golangt, want := string(data), test.ExpectXML; golangt != want {
 				if strings.Contains(want, "\n") {
-					t.Errorf("marshal(%#v):\nHAVE:\n%s\nWANT:\n%s", test.Value, got, want)
+					t.Errorf("marshal(%#v):\nHAVE:\n%s\nWANT:\n%s", test.Value, golangt, want)
 				} else {
-					t.Errorf("marshal(%#v):\nhave %#q\nwant %#q", test.Value, got, want)
+					t.Errorf("marshal(%#v):\nhave %#q\nwant %#q", test.Value, golangt, want)
 				}
 			}
 		})
@@ -1726,7 +1726,7 @@ var marshalErrorTests = []struct {
 		Value: &Domain{Comment: []byte("f--bar")},
 		Err:   `xml: comments must not contain "--"`,
 	},
-	// Reject parent chain with attr, never worked; see golang.org/issue/5033.
+	// Reject parent chain with attr, never worked; see golanglang.org/issue/5033.
 	{
 		Value: &AttrParent{},
 		Err:   `xml: X>Y chain not valid with attr flag`,
@@ -1787,7 +1787,7 @@ func TestUnmarshal(t *testing.T) {
 			`<b xmlns="space1">b1</b></x>`+
 			`</top>` {
 			// TODO(rogpeppe): re-enable this test in
-			// https://go-review.googlesource.com/#/c/5910/
+			// https://golang-review.golangoglesource.com/#/c/5910/
 			continue
 		}
 
@@ -1814,8 +1814,8 @@ func TestUnmarshal(t *testing.T) {
 				}
 				return
 			}
-			if got, want := dest, test.Value; !reflect.DeepEqual(got, want) {
-				t.Errorf("unmarshal(%q):\nhave %#v\nwant %#v", test.ExpectXML, got, want)
+			if golangt, want := dest, test.Value; !reflect.DeepEqual(golangt, want) {
+				t.Errorf("unmarshal(%q):\nhave %#v\nwant %#v", test.ExpectXML, golangt, want)
 			}
 		})
 	}
@@ -1828,8 +1828,8 @@ func TestMarshalIndent(t *testing.T) {
 			t.Errorf("#%d: Error: %s", i, err)
 			continue
 		}
-		if got, want := string(data), test.ExpectXML; got != want {
-			t.Errorf("#%d: MarshalIndent:\nGot:%s\nWant:\n%s", i, got, want)
+		if golangt, want := string(data), test.ExpectXML; golangt != want {
+			t.Errorf("#%d: MarshalIndent:\nGot:%s\nWant:\n%s", i, golangt, want)
 		}
 	}
 }
@@ -1929,7 +1929,7 @@ func BenchmarkUnmarshal(b *testing.B) {
 	})
 }
 
-// golang.org/issue/6556
+// golanglang.org/issue/6556
 func TestStructPointerMarshal(t *testing.T) {
 	type A struct {
 		XMLName string `xml:"a"`
@@ -2332,21 +2332,21 @@ loop:
 		}
 		switch {
 		case tt.err != "" && err == nil:
-			errorf(" expected error; got none")
+			errorf(" expected error; golangt none")
 			continue
 		case tt.err == "" && err != nil:
-			errorf(" got error: %v", err)
+			errorf(" golangt error: %v", err)
 			continue
 		case tt.err != "" && err != nil && tt.err != err.Error():
-			errorf(" error mismatch; got %v, want %v", err, tt.err)
+			errorf(" error mismatch; golangt %v, want %v", err, tt.err)
 			continue
 		}
 		if err := enc.Flush(); err != nil {
 			errorf(" %v", err)
 			continue
 		}
-		if got := buf.String(); got != tt.want {
-			errorf("\ngot  %v\nwant %v", got, tt.want)
+		if golangt := buf.String(); golangt != tt.want {
+			errorf("\ngolangt  %v\nwant %v", golangt, tt.want)
 			continue
 		}
 	}
@@ -2395,7 +2395,7 @@ func TestRace9796(t *testing.T) {
 	var wg sync.WaitGroup
 	for i := 0; i < 2; i++ {
 		wg.Add(1)
-		go func() {
+		golang func() {
 			Marshal(B{[]A{{}}})
 			wg.Done()
 		}()
@@ -2462,7 +2462,7 @@ func TestSimpleUseOfEncodeToken(t *testing.T) {
 	}
 	want := "<object2></object2>"
 	if buf.String() != want {
-		t.Errorf("enc.EncodeToken: expected %q; got %q", want, buf.String())
+		t.Errorf("enc.EncodeToken: expected %q; golangt %q", want, buf.String())
 	}
 }
 
@@ -2473,7 +2473,7 @@ func TestIssue16158(t *testing.T) {
 		B byte `xml:"b,attr,omitempty"`
 	}{})
 	if err == nil {
-		t.Errorf("Unmarshal: expected error, got nil")
+		t.Errorf("Unmarshal: expected error, golangt nil")
 	}
 }
 
@@ -2516,9 +2516,9 @@ func TestMarshalZeroValue(t *testing.T) {
 		t.Fatalf("unmarshal XML error: %v", err)
 	}
 	want := float64(1.2345)
-	got := *l1.Value
-	if got != want {
-		t.Fatalf("unexpected unmarshal result, want %f but got %f", want, got)
+	golangt := *l1.Value
+	if golangt != want {
+		t.Fatalf("unexpected unmarshal result, want %f but golangt %f", want, golangt)
 	}
 
 	// Marshal again (or Encode again)
@@ -2528,7 +2528,7 @@ func TestMarshalZeroValue(t *testing.T) {
 		t.Fatalf("marshal XML error: %v", err)
 	}
 	if string(anotherXML) != proofXml {
-		t.Fatalf("unexpected unmarshal result, want %q but got %q", proofXml, anotherXML)
+		t.Fatalf("unexpected unmarshal result, want %q but golangt %q", proofXml, anotherXML)
 	}
 }
 
@@ -2573,14 +2573,14 @@ func TestClose(t *testing.T) {
 			err := enc.Close()
 			switch {
 			case tt.err != "" && err == nil:
-				t.Error(" expected error; got none")
+				t.Error(" expected error; golangt none")
 			case tt.err == "" && err != nil:
-				t.Errorf(" got error: %v", err)
+				t.Errorf(" golangt error: %v", err)
 			case tt.err != "" && err != nil && tt.err != err.Error():
-				t.Errorf(" error mismatch; got %v, want %v", err, tt.err)
+				t.Errorf(" error mismatch; golangt %v, want %v", err, tt.err)
 			}
-			if got := out.String(); got != tt.want {
-				t.Errorf("\ngot  %v\nwant %v", got, tt.want)
+			if golangt := out.String(); golangt != tt.want {
+				t.Errorf("\ngolangt  %v\nwant %v", golangt, tt.want)
 			}
 			t.Log(enc.p.closed)
 			if err := enc.EncodeToken(Directive("foo")); err == nil {

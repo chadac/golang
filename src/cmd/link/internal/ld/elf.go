@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ld
@@ -193,7 +193,7 @@ var (
 
 // ELFArch includes target-specific hooks for ELF targets.
 // This is initialized by the target-specific Init function
-// called by the linker's main function in cmd/link/main.go.
+// called by the linker's main function in cmd/link/main.golang.
 type ELFArch struct {
 	// TODO: Document these fields.
 
@@ -203,12 +203,12 @@ type ELFArch struct {
 	Freebsddynld   string
 	Netbsddynld    string
 	Openbsddynld   string
-	Dragonflydynld string
+	Dragolangnflydynld string
 	Solarisdynld   string
 
 	Reloc1    func(*Link, *OutBuf, *loader.Loader, loader.Sym, loader.ExtReloc, int, int64) bool
 	RelocSize uint32 // size of an ELF relocation record, must match Reloc1.
-	SetupPLT  func(ctxt *Link, ldr *loader.Loader, plt, gotplt *loader.SymbolBuilder, dynamic loader.Sym)
+	SetupPLT  func(ctxt *Link, ldr *loader.Loader, plt, golangtplt *loader.SymbolBuilder, dynamic loader.Sym)
 
 	// DynamicReadOnly can be set to true to make the .dynamic
 	// section read-only. By default it is writable.
@@ -275,10 +275,10 @@ func Elfinit(ctxt *Link) {
 				// We set a value here that makes no indication of which
 				// float ABI the object uses, because this is information
 				// used by the dynamic linker to compare executables and
-				// shared libraries -- so it only matters for cgo calls, and
+				// shared libraries -- so it only matters for cgolang calls, and
 				// the information properly comes from the object files
 				// produced by the host C compiler. parseArmAttributes in
-				// ldelf.go reads that information and updates this field as
+				// ldelf.golang reads that information and updates this field as
 				// appropriate.
 				ehdr.Flags = 0x5000002 // has entry point, Version5 EABI
 			}
@@ -810,10 +810,10 @@ func addbuildinfo(ctxt *Link) {
 	if val == "" || val == "none" {
 		return
 	}
-	if val == "gobuildid" {
+	if val == "golangbuildid" {
 		buildID := *flagBuildid
 		if buildID == "" {
-			Exitf("-B gobuildid requires a Go build ID supplied via -buildid")
+			Exitf("-B golangbuildid requires a Go build ID supplied via -buildid")
 		}
 
 		if ctxt.IsDarwin() {
@@ -868,7 +868,7 @@ func elfbuildinfo(sh *ElfShdr, startva uint64, resoff uint64) int {
 	return elfnote(sh, startva, resoff, n)
 }
 
-func elfgobuildid(sh *ElfShdr, startva uint64, resoff uint64) int {
+func elfgolangbuildid(sh *ElfShdr, startva uint64, resoff uint64) int {
 	n := len(ELF_NOTE_GO_NAME) + int(Rnd(int64(len(*flagBuildid)), 4))
 	return elfnote(sh, startva, resoff, n)
 }
@@ -887,8 +887,8 @@ func elfwritebuildinfo(out *OutBuf) int {
 	return int(sh.Size)
 }
 
-func elfwritegobuildid(out *OutBuf) int {
-	sh := elfwritenotehdr(out, ".note.go.buildid", uint32(len(ELF_NOTE_GO_NAME)), uint32(len(*flagBuildid)), ELF_NOTE_GOBUILDID_TAG)
+func elfwritegolangbuildid(out *OutBuf) int {
+	sh := elfwritenotehdr(out, ".note.golang.buildid", uint32(len(ELF_NOTE_GO_NAME)), uint32(len(*flagBuildid)), ELF_NOTE_GOBUILDID_TAG)
 	if sh == nil {
 		return 0
 	}
@@ -930,7 +930,7 @@ func addelflib(list **Elflib, file string, vers string) *Elfaux {
 
 	for lib = *list; lib != nil; lib = lib.next {
 		if lib.file == file {
-			goto havelib
+			golangto havelib
 		}
 	}
 	lib = new(Elflib)
@@ -1319,7 +1319,7 @@ func elfrelocsect(ctxt *Link, out *OutBuf, sect *sym.Section, syms []loader.Sym)
 			break
 		}
 
-		// Compute external relocations on the go, and pass to
+		// Compute external relocations on the golang, and pass to
 		// ELF.Reloc1 to stream out.
 		relocs := ldr.Relocs(s)
 		for ri := 0; ri < relocs.Count(); ri++ {
@@ -1388,7 +1388,7 @@ func elfEmitReloc(ctxt *Link) {
 	wg.Wait()
 }
 
-func addgonote(ctxt *Link, sectionName string, tag uint32, desc []byte) {
+func addgolangnote(ctxt *Link, sectionName string, tag uint32, desc []byte) {
 	ldr := ctxt.loader
 	s := ldr.CreateSymForUpdate(sectionName, 0)
 	s.SetType(sym.SELFROSECT)
@@ -1435,9 +1435,9 @@ func (ctxt *Link) doelf() {
 	shstrtabAddstring(".data")
 	shstrtabAddstring(".bss")
 	shstrtabAddstring(".noptrbss")
-	shstrtabAddstring(".go.fuzzcntrs")
-	shstrtabAddstring(".go.buildinfo")
-	shstrtabAddstring(".go.fipsinfo")
+	shstrtabAddstring(".golang.fuzzcntrs")
+	shstrtabAddstring(".golang.buildinfo")
+	shstrtabAddstring(".golang.fipsinfo")
 	if ctxt.IsMIPS() {
 		shstrtabAddstring(".MIPS.abiflags")
 		shstrtabAddstring(".gnu.attributes")
@@ -1445,7 +1445,7 @@ func (ctxt *Link) doelf() {
 
 	// generate .tbss section for dynamic internal linker or external
 	// linking, so that various binutils could correctly calculate
-	// PT_TLS size. See https://golang.org/issue/5200.
+	// PT_TLS size. See https://golanglang.org/issue/5200.
 	if !*FlagD || ctxt.IsExternal() {
 		shstrtabAddstring(".tbss")
 	}
@@ -1465,11 +1465,11 @@ func (ctxt *Link) doelf() {
 		shstrtabAddstring(".note.gnu.build-id")
 	}
 	if *flagBuildid != "" {
-		shstrtabAddstring(".note.go.buildid")
+		shstrtabAddstring(".note.golang.buildid")
 	}
 	shstrtabAddstring(".elfdata")
 	shstrtabAddstring(".rodata")
-	// See the comment about data.rel.ro.FOO section names in data.go.
+	// See the comment about data.rel.ro.FOO section names in data.golang.
 	relro_prefix := ""
 	if ctxt.UseRelro() {
 		shstrtabAddstring(".data.rel.ro")
@@ -1477,8 +1477,8 @@ func (ctxt *Link) doelf() {
 	}
 	shstrtabAddstring(relro_prefix + ".typelink")
 	shstrtabAddstring(relro_prefix + ".itablink")
-	shstrtabAddstring(relro_prefix + ".gosymtab")
-	shstrtabAddstring(relro_prefix + ".gopclntab")
+	shstrtabAddstring(relro_prefix + ".golangsymtab")
+	shstrtabAddstring(relro_prefix + ".golangpclntab")
 
 	if ctxt.IsExternal() {
 		*FlagD = true
@@ -1487,15 +1487,15 @@ func (ctxt *Link) doelf() {
 		shstrtabAddstring(elfRelType + ".rodata")
 		shstrtabAddstring(elfRelType + relro_prefix + ".typelink")
 		shstrtabAddstring(elfRelType + relro_prefix + ".itablink")
-		shstrtabAddstring(elfRelType + relro_prefix + ".gosymtab")
-		shstrtabAddstring(elfRelType + relro_prefix + ".gopclntab")
+		shstrtabAddstring(elfRelType + relro_prefix + ".golangsymtab")
+		shstrtabAddstring(elfRelType + relro_prefix + ".golangpclntab")
 		shstrtabAddstring(elfRelType + ".noptrdata")
 		shstrtabAddstring(elfRelType + ".data")
 		if ctxt.UseRelro() {
 			shstrtabAddstring(elfRelType + ".data.rel.ro")
 		}
-		shstrtabAddstring(elfRelType + ".go.buildinfo")
-		shstrtabAddstring(elfRelType + ".go.fipsinfo")
+		shstrtabAddstring(elfRelType + ".golang.buildinfo")
+		shstrtabAddstring(elfRelType + ".golang.fipsinfo")
 		if ctxt.IsMIPS() {
 			shstrtabAddstring(elfRelType + ".MIPS.abiflags")
 			shstrtabAddstring(elfRelType + ".gnu.attributes")
@@ -1505,9 +1505,9 @@ func (ctxt *Link) doelf() {
 		shstrtabAddstring(".note.GNU-stack")
 
 		if ctxt.IsShared() {
-			shstrtabAddstring(".note.go.abihash")
-			shstrtabAddstring(".note.go.pkg-list")
-			shstrtabAddstring(".note.go.deps")
+			shstrtabAddstring(".note.golang.abihash")
+			shstrtabAddstring(".note.golang.pkg-list")
+			shstrtabAddstring(".note.golang.deps")
 		}
 	}
 
@@ -1537,11 +1537,11 @@ func (ctxt *Link) doelf() {
 	if !*FlagD { /* -d suppresses dynamic loader format */
 		shstrtabAddstring(".interp")
 		shstrtabAddstring(".hash")
-		shstrtabAddstring(".got")
+		shstrtabAddstring(".golangt")
 		if ctxt.IsPPC64() {
 			shstrtabAddstring(".glink")
 		}
-		shstrtabAddstring(".got.plt")
+		shstrtabAddstring(".golangt.plt")
 		shstrtabAddstring(".dynamic")
 		shstrtabAddstring(".dynsym")
 		shstrtabAddstring(".dynstr")
@@ -1575,11 +1575,11 @@ func (ctxt *Link) doelf() {
 		s.SetType(sym.SELFROSECT)
 
 		/* global offset table */
-		got := ldr.CreateSymForUpdate(".got", 0)
+		golangt := ldr.CreateSymForUpdate(".golangt", 0)
 		if ctxt.UseRelro() {
-			got.SetType(sym.SELFRELROSECT)
+			golangt.SetType(sym.SELFRELROSECT)
 		} else {
-			got.SetType(sym.SELFGOT) // writable
+			golangt.SetType(sym.SELFGOT) // writable
 		}
 
 		/* ppc64 glink resolver */
@@ -1592,11 +1592,11 @@ func (ctxt *Link) doelf() {
 		hash := ldr.CreateSymForUpdate(".hash", 0)
 		hash.SetType(sym.SELFROSECT)
 
-		gotplt := ldr.CreateSymForUpdate(".got.plt", 0)
+		golangtplt := ldr.CreateSymForUpdate(".golangt.plt", 0)
 		if ctxt.UseRelro() && *flagBindNow {
-			gotplt.SetType(sym.SELFRELROSECT)
+			golangtplt.SetType(sym.SELFRELROSECT)
 		} else {
-			gotplt.SetType(sym.SELFSECT) // writable
+			golangtplt.SetType(sym.SELFSECT) // writable
 		}
 
 		plt := ldr.CreateSymForUpdate(".plt", 0)
@@ -1629,10 +1629,10 @@ func (ctxt *Link) doelf() {
 		}
 
 		if ctxt.IsS390X() {
-			// S390X uses .got instead of .got.plt
-			gotplt = got
+			// S390X uses .golangt instead of .golangt.plt
+			golangtplt = golangt
 		}
-		thearch.ELF.SetupPLT(ctxt, ctxt.loader, plt, gotplt, dynamic.Sym())
+		thearch.ELF.SetupPLT(ctxt, ctxt.loader, plt, golangtplt, dynamic.Sym())
 
 		/*
 		 * .dynamic table
@@ -1666,7 +1666,7 @@ func (ctxt *Link) doelf() {
 		if ctxt.IsPPC64() {
 			elfWriteDynEntSym(ctxt, dynamic, elf.DT_PLTGOT, plt.Sym())
 		} else {
-			elfWriteDynEntSym(ctxt, dynamic, elf.DT_PLTGOT, gotplt.Sym())
+			elfWriteDynEntSym(ctxt, dynamic, elf.DT_PLTGOT, golangtplt.Sym())
 		}
 
 		if ctxt.IsPPC64() {
@@ -1682,9 +1682,9 @@ func (ctxt *Link) doelf() {
 	}
 
 	if ctxt.IsShared() {
-		// The go.link.abihashbytes symbol will be pointed at the appropriate
-		// part of the .note.go.abihash section in data.go:func address().
-		s := ldr.LookupOrCreateSym("go:link.abihashbytes", 0)
+		// The golang.link.abihashbytes symbol will be pointed at the appropriate
+		// part of the .note.golang.abihash section in data.golang:func address().
+		s := ldr.LookupOrCreateSym("golang:link.abihashbytes", 0)
 		sb := ldr.MakeSymbolUpdater(s)
 		ldr.SetAttrLocal(s, true)
 		sb.SetType(sym.SRODATA)
@@ -1698,17 +1698,17 @@ func (ctxt *Link) doelf() {
 		for _, l := range ctxt.Library {
 			h.Write(l.Fingerprint[:])
 		}
-		addgonote(ctxt, ".note.go.abihash", ELF_NOTE_GOABIHASH_TAG, h.Sum([]byte{}))
-		addgonote(ctxt, ".note.go.pkg-list", ELF_NOTE_GOPKGLIST_TAG, pkglistfornote)
+		addgolangnote(ctxt, ".note.golang.abihash", ELF_NOTE_GOABIHASH_TAG, h.Sum([]byte{}))
+		addgolangnote(ctxt, ".note.golang.pkg-list", ELF_NOTE_GOPKGLIST_TAG, pkglistfornote)
 		var deplist []string
 		for _, shlib := range ctxt.Shlibs {
 			deplist = append(deplist, filepath.Base(shlib.Path))
 		}
-		addgonote(ctxt, ".note.go.deps", ELF_NOTE_GODEPS_TAG, []byte(strings.Join(deplist, "\n")))
+		addgolangnote(ctxt, ".note.golang.deps", ELF_NOTE_GODEPS_TAG, []byte(strings.Join(deplist, "\n")))
 	}
 
 	if ctxt.LinkMode == LinkExternal && *flagBuildid != "" {
-		addgonote(ctxt, ".note.go.buildid", ELF_NOTE_GOBUILDID_TAG, []byte(*flagBuildid))
+		addgolangnote(ctxt, ".note.golang.buildid", ELF_NOTE_GOBUILDID_TAG, []byte(*flagBuildid))
 	}
 
 	//type mipsGnuAttributes struct {
@@ -1878,22 +1878,22 @@ func asmbElf(ctxt *Link) {
 		eh.Phentsize = 0
 
 		if ctxt.BuildMode == BuildModeShared {
-			sh := elfshname(".note.go.pkg-list")
+			sh := elfshname(".note.golang.pkg-list")
 			sh.Type = uint32(elf.SHT_NOTE)
-			sh = elfshname(".note.go.abihash")
+			sh = elfshname(".note.golang.abihash")
 			sh.Type = uint32(elf.SHT_NOTE)
 			sh.Flags = uint64(elf.SHF_ALLOC)
-			sh = elfshname(".note.go.deps")
+			sh = elfshname(".note.golang.deps")
 			sh.Type = uint32(elf.SHT_NOTE)
 		}
 
 		if *flagBuildid != "" {
-			sh := elfshname(".note.go.buildid")
+			sh := elfshname(".note.golang.buildid")
 			sh.Type = uint32(elf.SHT_NOTE)
 			sh.Flags = uint64(elf.SHF_ALLOC)
 		}
 
-		goto elfobj
+		golangto elfobj
 	}
 
 	/* program header info */
@@ -1962,8 +1962,8 @@ func asmbElf(ctxt *Link) {
 			case objabi.Hopenbsd:
 				interpreter = thearch.ELF.Openbsddynld
 
-			case objabi.Hdragonfly:
-				interpreter = thearch.ELF.Dragonflydynld
+			case objabi.Hdragolangnfly:
+				interpreter = thearch.ELF.Dragolangnflydynld
 
 			case objabi.Hsolaris:
 				interpreter = thearch.ELF.Solarisdynld
@@ -2007,8 +2007,8 @@ func asmbElf(ctxt *Link) {
 	}
 
 	if *flagBuildid != "" {
-		sh := elfshname(".note.go.buildid")
-		resoff -= int64(elfgobuildid(sh, uint64(startva), uint64(resoff)))
+		sh := elfshname(".note.golang.buildid")
+		resoff -= int64(elfgolangbuildid(sh, uint64(startva), uint64(resoff)))
 		phsh(getpnote(), sh)
 	}
 
@@ -2136,22 +2136,22 @@ func asmbElf(ctxt *Link) {
 		sh.Addralign = sh.Entsize
 		shsym(sh, ldr, ldr.Lookup(".plt", 0))
 
-		// On ppc64, .got comes from the input files, so don't
-		// create it here, and .got.plt is not used.
+		// On ppc64, .golangt comes from the input files, so don't
+		// create it here, and .golangt.plt is not used.
 		if elf.Machine(eh.Machine) != elf.EM_PPC64 {
-			sh := elfshname(".got")
+			sh := elfshname(".golangt")
 			sh.Type = uint32(elf.SHT_PROGBITS)
 			sh.Flags = uint64(elf.SHF_ALLOC + elf.SHF_WRITE)
 			sh.Entsize = uint64(ctxt.Arch.RegSize)
 			sh.Addralign = uint64(ctxt.Arch.RegSize)
-			shsym(sh, ldr, ldr.Lookup(".got", 0))
+			shsym(sh, ldr, ldr.Lookup(".golangt", 0))
 
-			sh = elfshname(".got.plt")
+			sh = elfshname(".golangt.plt")
 			sh.Type = uint32(elf.SHT_PROGBITS)
 			sh.Flags = uint64(elf.SHF_ALLOC + elf.SHF_WRITE)
 			sh.Entsize = uint64(ctxt.Arch.RegSize)
 			sh.Addralign = uint64(ctxt.Arch.RegSize)
-			shsym(sh, ldr, ldr.Lookup(".got.plt", 0))
+			shsym(sh, ldr, ldr.Lookup(".golangt.plt", 0))
 		}
 
 		sh = elfshname(".hash")
@@ -2318,7 +2318,7 @@ elfobj:
 		osabi = elf.ELFOSABI_NETBSD
 	case objabi.Hopenbsd:
 		osabi = elf.ELFOSABI_OPENBSD
-	case objabi.Hdragonfly:
+	case objabi.Hdragolangnfly:
 		osabi = elf.ELFOSABI_NONE
 	}
 	eh.Ident[elf.EI_OSABI] = byte(osabi)
@@ -2380,7 +2380,7 @@ elfobj:
 			a += int64(elfwritebuildinfo(ctxt.Out))
 		}
 		if *flagBuildid != "" {
-			a += int64(elfwritegobuildid(ctxt.Out))
+			a += int64(elfwritegolangbuildid(ctxt.Out))
 		}
 	}
 	if *flagRace && ctxt.IsNetbsd() {
@@ -2405,9 +2405,9 @@ func elfadddynsym(ldr *loader.Loader, target *Target, syms *ArchSyms, s loader.S
 	name := ldr.SymExtname(s)
 	dstru := ldr.MakeSymbolUpdater(syms.DynStr)
 	st := ldr.SymType(s)
-	cgoeStatic := ldr.AttrCgoExportStatic(s)
-	cgoeDynamic := ldr.AttrCgoExportDynamic(s)
-	cgoexp := (cgoeStatic || cgoeDynamic)
+	cgolangeStatic := ldr.AttrCgolangExportStatic(s)
+	cgolangeDynamic := ldr.AttrCgolangExportDynamic(s)
+	cgolangexp := (cgolangeStatic || cgolangeDynamic)
 
 	d.AddUint32(target.Arch, uint32(dstru.Addstring(name)))
 
@@ -2416,7 +2416,7 @@ func elfadddynsym(ldr *loader.Loader, target *Target, syms *ArchSyms, s loader.S
 		/* type */
 		var t uint8
 
-		if cgoexp && st.IsText() {
+		if cgolangexp && st.IsText() {
 			t = elf.ST_INFO(elf.STB_GLOBAL, elf.STT_FUNC)
 		} else {
 			t = elf.ST_INFO(elf.STB_GLOBAL, elf.STT_OBJECT)
@@ -2445,7 +2445,7 @@ func elfadddynsym(ldr *loader.Loader, target *Target, syms *ArchSyms, s loader.S
 
 		dil := ldr.SymDynimplib(s)
 
-		if !cgoeDynamic && dil != "" && !seenlib[dil] {
+		if !cgolangeDynamic && dil != "" && !seenlib[dil] {
 			du := ldr.MakeSymbolUpdater(syms.Dynamic)
 			Elfwritedynent(target.Arch, du, elf.DT_NEEDED, uint64(dstru.Addstring(dil)))
 			seenlib[dil] = true
@@ -2466,9 +2466,9 @@ func elfadddynsym(ldr *loader.Loader, target *Target, syms *ArchSyms, s loader.S
 		var t uint8
 
 		// TODO(mwhudson): presumably the behavior should actually be the same on both arm and 386.
-		if target.Arch.Family == sys.I386 && cgoexp && st.IsText() {
+		if target.Arch.Family == sys.I386 && cgolangexp && st.IsText() {
 			t = elf.ST_INFO(elf.STB_GLOBAL, elf.STT_FUNC)
-		} else if target.Arch.Family == sys.ARM && cgoeDynamic && st.IsText() {
+		} else if target.Arch.Family == sys.ARM && cgolangeDynamic && st.IsText() {
 			t = elf.ST_INFO(elf.STB_GLOBAL, elf.STT_FUNC)
 		} else {
 			t = elf.ST_INFO(elf.STB_GLOBAL, elf.STT_OBJECT)

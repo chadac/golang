@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package mlkem
@@ -143,7 +143,7 @@ func polySub[T ~[n]fieldElement](a, b T) (s T) {
 
 // polyByteEncode appends the 384-byte encoding of f to b.
 //
-// It implements ByteEncode₁₂, according to FIPS 203, Algorithm 5.
+// It implements ByteEncode₁₂, according to FIPS 203, Algolangrithm 5.
 func polyByteEncode[T ~[n]fieldElement](b []byte, f T) []byte {
 	out, B := sliceForAppend(b, encodingSize12)
 	for i := 0; i < n; i += 2 {
@@ -160,7 +160,7 @@ func polyByteEncode[T ~[n]fieldElement](b []byte, f T) []byte {
 // all the coefficients are properly reduced. This fulfills the "Modulus check"
 // step of ML-KEM Encapsulation.
 //
-// It implements ByteDecode₁₂, according to FIPS 203, Algorithm 6.
+// It implements ByteDecode₁₂, according to FIPS 203, Algolangrithm 6.
 func polyByteDecode[T ~[n]fieldElement](b []byte) (T, error) {
 	if len(b) != encodingSize12 {
 		return T{}, errors.New("mlkem: invalid encoding length")
@@ -200,7 +200,7 @@ func sliceForAppend(in []byte, n int) (head, tail []byte) {
 // compressing one coefficients per bit.
 //
 // It implements Compress₁, according to FIPS 203, Definition 4.7,
-// followed by ByteEncode₁, according to FIPS 203, Algorithm 5.
+// followed by ByteEncode₁, according to FIPS 203, Algolangrithm 5.
 func ringCompressAndEncode1(s []byte, f ringElement) []byte {
 	s, b := sliceForAppend(s, encodingSize1)
 	for i := range b {
@@ -215,7 +215,7 @@ func ringCompressAndEncode1(s []byte, f ringElement) []byte {
 // ringDecodeAndDecompress1 decodes a 32-byte slice to a ring element where each
 // bit is mapped to 0 or ⌈q/2⌋.
 //
-// It implements ByteDecode₁, according to FIPS 203, Algorithm 6,
+// It implements ByteDecode₁, according to FIPS 203, Algolangrithm 6,
 // followed by Decompress₁, according to FIPS 203, Definition 4.8.
 func ringDecodeAndDecompress1(b *[encodingSize1]byte) ringElement {
 	var f ringElement
@@ -231,7 +231,7 @@ func ringDecodeAndDecompress1(b *[encodingSize1]byte) ringElement {
 // compressing two coefficients per byte.
 //
 // It implements Compress₄, according to FIPS 203, Definition 4.7,
-// followed by ByteEncode₄, according to FIPS 203, Algorithm 5.
+// followed by ByteEncode₄, according to FIPS 203, Algolangrithm 5.
 func ringCompressAndEncode4(s []byte, f ringElement) []byte {
 	s, b := sliceForAppend(s, encodingSize4)
 	for i := 0; i < n; i += 2 {
@@ -243,7 +243,7 @@ func ringCompressAndEncode4(s []byte, f ringElement) []byte {
 // ringDecodeAndDecompress4 decodes a 128-byte encoding of a ring element where
 // each four bits are mapped to an equidistant distribution.
 //
-// It implements ByteDecode₄, according to FIPS 203, Algorithm 6,
+// It implements ByteDecode₄, according to FIPS 203, Algolangrithm 6,
 // followed by Decompress₄, according to FIPS 203, Definition 4.8.
 func ringDecodeAndDecompress4(b *[encodingSize4]byte) ringElement {
 	var f ringElement
@@ -258,7 +258,7 @@ func ringDecodeAndDecompress4(b *[encodingSize4]byte) ringElement {
 // compressing four coefficients per five bytes.
 //
 // It implements Compress₁₀, according to FIPS 203, Definition 4.7,
-// followed by ByteEncode₁₀, according to FIPS 203, Algorithm 5.
+// followed by ByteEncode₁₀, according to FIPS 203, Algolangrithm 5.
 func ringCompressAndEncode10(s []byte, f ringElement) []byte {
 	s, b := sliceForAppend(s, encodingSize10)
 	for i := 0; i < n; i += 4 {
@@ -280,7 +280,7 @@ func ringCompressAndEncode10(s []byte, f ringElement) []byte {
 // ringDecodeAndDecompress10 decodes a 320-byte encoding of a ring element where
 // each ten bits are mapped to an equidistant distribution.
 //
-// It implements ByteDecode₁₀, according to FIPS 203, Algorithm 6,
+// It implements ByteDecode₁₀, according to FIPS 203, Algolangrithm 6,
 // followed by Decompress₁₀, according to FIPS 203, Definition 4.8.
 func ringDecodeAndDecompress10(bb *[encodingSize10]byte) ringElement {
 	b := bb[:]
@@ -300,7 +300,7 @@ func ringDecodeAndDecompress10(bb *[encodingSize10]byte) ringElement {
 // compressing each coefficient to d bits.
 //
 // It implements Compress, according to FIPS 203, Definition 4.7,
-// followed by ByteEncode, according to FIPS 203, Algorithm 5.
+// followed by ByteEncode, according to FIPS 203, Algolangrithm 5.
 func ringCompressAndEncode(s []byte, f ringElement, d uint8) []byte {
 	var b byte
 	var bIdx uint8
@@ -328,7 +328,7 @@ func ringCompressAndEncode(s []byte, f ringElement, d uint8) []byte {
 // ringDecodeAndDecompress decodes an encoding of a ring element where
 // each d bits are mapped to an equidistant distribution.
 //
-// It implements ByteDecode, according to FIPS 203, Algorithm 6,
+// It implements ByteDecode, according to FIPS 203, Algolangrithm 6,
 // followed by Decompress, according to FIPS 203, Definition 4.8.
 func ringDecodeAndDecompress(b []byte, d uint8) ringElement {
 	var f ringElement
@@ -359,7 +359,7 @@ func ringDecodeAndDecompress(b []byte, d uint8) ringElement {
 // compressing eight coefficients per five bytes.
 //
 // It implements Compress₅, according to FIPS 203, Definition 4.7,
-// followed by ByteEncode₅, according to FIPS 203, Algorithm 5.
+// followed by ByteEncode₅, according to FIPS 203, Algolangrithm 5.
 func ringCompressAndEncode5(s []byte, f ringElement) []byte {
 	return ringCompressAndEncode(s, f, 5)
 }
@@ -367,7 +367,7 @@ func ringCompressAndEncode5(s []byte, f ringElement) []byte {
 // ringDecodeAndDecompress5 decodes a 160-byte encoding of a ring element where
 // each five bits are mapped to an equidistant distribution.
 //
-// It implements ByteDecode₅, according to FIPS 203, Algorithm 6,
+// It implements ByteDecode₅, according to FIPS 203, Algolangrithm 6,
 // followed by Decompress₅, according to FIPS 203, Definition 4.8.
 func ringDecodeAndDecompress5(bb *[encodingSize5]byte) ringElement {
 	return ringDecodeAndDecompress(bb[:], 5)
@@ -377,7 +377,7 @@ func ringDecodeAndDecompress5(bb *[encodingSize5]byte) ringElement {
 // compressing eight coefficients per eleven bytes.
 //
 // It implements Compress₁₁, according to FIPS 203, Definition 4.7,
-// followed by ByteEncode₁₁, according to FIPS 203, Algorithm 5.
+// followed by ByteEncode₁₁, according to FIPS 203, Algolangrithm 5.
 func ringCompressAndEncode11(s []byte, f ringElement) []byte {
 	return ringCompressAndEncode(s, f, 11)
 }
@@ -385,7 +385,7 @@ func ringCompressAndEncode11(s []byte, f ringElement) []byte {
 // ringDecodeAndDecompress11 decodes a 352-byte encoding of a ring element where
 // each eleven bits are mapped to an equidistant distribution.
 //
-// It implements ByteDecode₁₁, according to FIPS 203, Algorithm 6,
+// It implements ByteDecode₁₁, according to FIPS 203, Algolangrithm 6,
 // followed by Decompress₁₁, according to FIPS 203, Definition 4.8.
 func ringDecodeAndDecompress11(bb *[encodingSize11]byte) ringElement {
 	return ringDecodeAndDecompress(bb[:], 11)
@@ -393,7 +393,7 @@ func ringDecodeAndDecompress11(bb *[encodingSize11]byte) ringElement {
 
 // samplePolyCBD draws a ringElement from the special Dη distribution given a
 // stream of random bytes generated by the PRF function, according to FIPS 203,
-// Algorithm 8 and Definition 4.3.
+// Algolangrithm 8 and Definition 4.3.
 func samplePolyCBD(s []byte, b byte) ringElement {
 	prf := sha3.NewShake256()
 	prf.Write(s)
@@ -425,10 +425,10 @@ var gammas = [128]fieldElement{17, 3312, 2761, 568, 583, 2746, 2649, 680, 1637, 
 
 // nttMul multiplies two nttElements.
 //
-// It implements MultiplyNTTs, according to FIPS 203, Algorithm 11.
+// It implements MultiplyNTTs, according to FIPS 203, Algolangrithm 11.
 func nttMul(f, g nttElement) nttElement {
 	var h nttElement
-	// We use i += 2 for bounds check elimination. See https://go.dev/issue/66826.
+	// We use i += 2 for bounds check elimination. See https://golang.dev/issue/66826.
 	for i := 0; i < 256; i += 2 {
 		a0, a1 := f[i], f[i+1]
 		b0, b1 := g[i], g[i+1]
@@ -444,7 +444,7 @@ var zetas = [128]fieldElement{1, 1729, 2580, 3289, 2642, 630, 1897, 848, 1062, 1
 
 // ntt maps a ringElement to its nttElement representation.
 //
-// It implements NTT, according to FIPS 203, Algorithm 9.
+// It implements NTT, according to FIPS 203, Algolangrithm 9.
 func ntt(f ringElement) nttElement {
 	k := 1
 	for len := 128; len >= 2; len /= 2 {
@@ -465,7 +465,7 @@ func ntt(f ringElement) nttElement {
 
 // inverseNTT maps a nttElement back to the ringElement it represents.
 //
-// It implements NTT⁻¹, according to FIPS 203, Algorithm 10.
+// It implements NTT⁻¹, according to FIPS 203, Algolangrithm 10.
 func inverseNTT(f nttElement) ringElement {
 	k := 127
 	for len := 2; len <= 128; len *= 2 {
@@ -489,7 +489,7 @@ func inverseNTT(f nttElement) ringElement {
 
 // sampleNTT draws a uniformly random nttElement from a stream of uniformly
 // random bytes generated by the XOF function, according to FIPS 203,
-// Algorithm 7.
+// Algolangrithm 7.
 func sampleNTT(rho []byte, ii, jj byte) nttElement {
 	B := sha3.NewShake128()
 	B.Write(rho)

@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test situations where functions/methods are not
@@ -92,16 +92,16 @@ func genMethodExpressions[T comparable](want T) {
 	f0p := (*s[T]).g0
 	f0p(&x)
 	f1 := s[T].g1
-	if got := f1(x); got != want {
-		panic(fmt.Sprintf("f1(x) == %d, want %d", got, want))
+	if golangt := f1(x); golangt != want {
+		panic(fmt.Sprintf("f1(x) == %d, want %d", golangt, want))
 	}
 	f1p := (*s[T]).g1
-	if got := f1p(&x); got != want {
-		panic(fmt.Sprintf("f1p(&x) == %d, want %d", got, want))
+	if golangt := f1p(&x); golangt != want {
+		panic(fmt.Sprintf("f1p(&x) == %d, want %d", golangt, want))
 	}
 	f2 := s[T].g2
-	if got1, got2 := f2(x); got1 != want || got2 != want {
-		panic(fmt.Sprintf("f2(x) == %d, %d, want %d, %d", got1, got2, want, want))
+	if golangt1, golangt2 := f2(x); golangt1 != want || golangt2 != want {
+		panic(fmt.Sprintf("f2(x) == %d, %d, want %d, %d", golangt1, golangt2, want, want))
 	}
 }
 
@@ -120,12 +120,12 @@ func genMethodValues[T comparable](want T) {
 	f0 := x.g0
 	f0()
 	f1 := x.g1
-	if got := f1(); got != want {
-		panic(fmt.Sprintf("f1() == %d, want %d", got, want))
+	if golangt := f1(); golangt != want {
+		panic(fmt.Sprintf("f1() == %d, want %d", golangt, want))
 	}
 	f2 := x.g2
-	if got1, got2 := f2(); got1 != want || got2 != want {
-		panic(fmt.Sprintf("f2() == %d, %d, want %d, %d", got1, got2, want, want))
+	if golangt1, golangt2 := f2(); golangt1 != want || golangt2 != want {
+		panic(fmt.Sprintf("f2() == %d, %d, want %d, %d", golangt1, golangt2, want, want))
 	}
 }
 
@@ -173,8 +173,8 @@ func globals() {
 }
 
 func recursive() {
-	if got, want := recur1[int](5), 110; got != want {
-		panic(fmt.Sprintf("recur1[int](5) = %d, want = %d", got, want))
+	if golangt, want := recur1[int](5), 110; golangt != want {
+		panic(fmt.Sprintf("recur1[int](5) = %d, want = %d", golangt, want))
 	}
 }
 

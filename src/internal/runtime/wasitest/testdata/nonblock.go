@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -39,7 +39,7 @@ func main() {
 		spawnWait := make(chan struct{})
 
 		wg.Add(1)
-		go func(f *os.File) {
+		golang func(f *os.File) {
 			defer f.Close()
 			defer wg.Done()
 
@@ -55,7 +55,7 @@ func main() {
 			os.Stderr.Write(buf[:n])
 		}(f)
 
-		// Spawn one goroutine at a time.
+		// Spawn one golangroutine at a time.
 		<-spawnWait
 	}
 

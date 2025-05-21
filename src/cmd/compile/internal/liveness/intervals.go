@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package liveness
@@ -23,9 +23,9 @@ package liveness
 //  3        memset(xyz,0)
 //  4        abc.f1 = 2
 //  5        xyz.f3 = 9
-//  6        if q goto B4
+//  6        if q golangto B4
 //  7 B3:    z = xyz.x
-//  8        goto B5
+//  8        golangto B5
 //  9 B4:    z = abc.x
 //           // fallthrough
 // 10 B5:    z++

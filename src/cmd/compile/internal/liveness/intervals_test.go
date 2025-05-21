@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package liveness
@@ -64,18 +64,18 @@ func TestMakeAndPrint(t *testing.T) {
 			if !tc.err {
 				t.Fatalf("unexpected error on tc:%d %+v -> %v", k, tc.inp, err)
 			} else {
-				got := fmt.Sprintf("%v", err)
-				if got != want {
-					t.Fatalf("bad error on tc:%d %+v got %q want %q", k, tc.inp, got, want)
+				golangt := fmt.Sprintf("%v", err)
+				if golangt != want {
+					t.Fatalf("bad error on tc:%d %+v golangt %q want %q", k, tc.inp, golangt, want)
 				}
 			}
 			continue
 		} else if tc.err {
 			t.Fatalf("missing error on tc:%d %+v return was %q", k, tc.inp, is.String())
 		}
-		got := is.String()
-		if got != want {
-			t.Fatalf("exp mismatch on tc:%d %+v got %q want %q", k, tc.inp, got, want)
+		golangt := is.String()
+		if golangt != want {
+			t.Fatalf("exp mismatch on tc:%d %+v golangt %q want %q", k, tc.inp, golangt, want)
 		}
 	}
 }
@@ -109,10 +109,10 @@ func TestIntervalOverlap(t *testing.T) {
 
 	for _, tc := range testcases {
 		want := tc.exp
-		got := tc.i1.Overlaps(tc.i2)
-		if want != got {
-			t.Fatalf("Overlaps([%d,%d), [%d,%d)): got %v want %v",
-				tc.i1.st, tc.i1.en, tc.i2.st, tc.i2.en, got, want)
+		golangt := tc.i1.Overlaps(tc.i2)
+		if want != golangt {
+			t.Fatalf("Overlaps([%d,%d), [%d,%d)): golangt %v want %v",
+				tc.i1.st, tc.i1.en, tc.i2.st, tc.i2.en, golangt, want)
 		}
 	}
 }
@@ -146,10 +146,10 @@ func TestIntervalAdjacent(t *testing.T) {
 
 	for k, tc := range testcases {
 		want := tc.exp
-		got := tc.i1.adjacent(tc.i2)
-		if want != got {
-			t.Fatalf("tc=%d adjacent([%d,%d), [%d,%d)): got %v want %v",
-				k, tc.i1.st, tc.i1.en, tc.i2.st, tc.i2.en, got, want)
+		golangt := tc.i1.adjacent(tc.i2)
+		if want != golangt {
+			t.Fatalf("tc=%d adjacent([%d,%d), [%d,%d)): golangt %v want %v",
+				k, tc.i1.st, tc.i1.en, tc.i2.st, tc.i2.en, golangt, want)
 		}
 	}
 }
@@ -202,16 +202,16 @@ func TestIntervalMerge(t *testing.T) {
 		dst = tc.i1
 		err := dstp.MergeInto(tc.i2)
 		if (err != nil) != tc.err {
-			t.Fatalf("tc=%d MergeInto([%d,%d) <= [%d,%d)): got err=%v want err=%v", k, tc.i1.st, tc.i1.en, tc.i2.st, tc.i2.en, err, tc.err)
+			t.Fatalf("tc=%d MergeInto([%d,%d) <= [%d,%d)): golangt err=%v want err=%v", k, tc.i1.st, tc.i1.en, tc.i2.st, tc.i2.en, err, tc.err)
 		}
 		if err != nil {
 			continue
 		}
 		want := tc.exp.String()
-		got := dst.String()
-		if want != got {
-			t.Fatalf("tc=%d MergeInto([%d,%d) <= [%d,%d)): got %v want %v",
-				k, tc.i1.st, tc.i1.en, tc.i2.st, tc.i2.en, got, want)
+		golangt := dst.String()
+		if want != golangt {
+			t.Fatalf("tc=%d MergeInto([%d,%d) <= [%d,%d)): golangt %v want %v",
+				k, tc.i1.st, tc.i1.en, tc.i2.st, tc.i2.en, golangt, want)
 		}
 	}
 }
@@ -280,10 +280,10 @@ func TestIntervalsOverlap(t *testing.T) {
 		if err2 != nil {
 			t.Fatalf("unexpected error on tc:%d %+v: %v", k, tc.inp2, err2)
 		}
-		got := is1.Overlaps(is2)
+		golangt := is1.Overlaps(is2)
 		want := tc.exp
-		if got != want {
-			t.Fatalf("overlaps mismatch on tc:%d %+v %+v got %v want %v", k, tc.inp1, tc.inp2, got, want)
+		if golangt != want {
+			t.Fatalf("overlaps mismatch on tc:%d %+v %+v golangt %v want %v", k, tc.inp1, tc.inp2, golangt, want)
 		}
 	}
 }
@@ -329,11 +329,11 @@ func TestRandomIntervalsOverlap(t *testing.T) {
 		// Create two interval ranges and test if they overlap. Then
 		// compare the overlap with a brute-force overlap calculation.
 		i1, i2 := mk(), mk()
-		got := i1.Overlaps(i2)
+		golangt := i1.Overlaps(i2)
 		want := brute(i1, i2)
-		if got != want {
-			t.Fatalf("overlap mismatch on t:%d %v %v got %v want %v",
-				k, i1, i2, got, want)
+		if golangt != want {
+			t.Fatalf("overlap mismatch on t:%d %v %v golangt %v want %v",
+				k, i1, i2, golangt, want)
 		}
 	}
 }
@@ -396,9 +396,9 @@ func TestIntervalsMerge(t *testing.T) {
 			t.Fatalf("unexpected error on tc:%d %+v: %v", k, tc.exp, werr)
 		}
 		want := wis.String()
-		got := m.String()
-		if want != got {
-			t.Fatalf("k=%d Merge(%s, %s): got %v want %v",
+		golangt := m.String()
+		if want != golangt {
+			t.Fatalf("k=%d Merge(%s, %s): golangt %v want %v",
 				k, is1, is2, m, want)
 		}
 	}
@@ -498,14 +498,14 @@ func TestBuilder(t *testing.T) {
 			}
 			t.Fatalf("h=%d finish err mismatch: tc.ferr:%v ferr!=nil:%v", k, tc.ferr, ferr != nil)
 		}
-		got := ii.String()
+		golangt := ii.String()
 		wis, werr := makeIntervals(tc.exp...)
 		if werr != nil {
 			t.Fatalf("unexpected error on tc:%d %+v: %v", k, tc.exp, werr)
 		}
 		want := wis.String()
-		if want != got {
-			t.Fatalf("k=%d Ctor test: got %v want %v", k, got, want)
+		if want != golangt {
+			t.Fatalf("k=%d Ctor test: golangt %v want %v", k, golangt, want)
 		}
 	}
 }

@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package os
@@ -139,10 +139,10 @@ func dtToType(typ uint8) FileMode {
 	return ^FileMode(0)
 }
 
-// Implemented in syscall/syscall_darwin.go.
+// Implemented in syscall/syscall_darwin.golang.
 
-//go:linkname closedir syscall.closedir
+//golang:linkname closedir syscall.closedir
 func closedir(dir uintptr) (err error)
 
-//go:linkname readdir_r syscall.readdir_r
+//golang:linkname readdir_r syscall.readdir_r
 func readdir_r(dir uintptr, entry *syscall.Dirent, result **syscall.Dirent) (res syscall.Errno)

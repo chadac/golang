@@ -1,15 +1,15 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 //
 // System calls and other sys.stuff for AMD64, Linux
 //
 
-#include "go_asm.h"
-#include "go_tls.h"
+#include "golang_asm.h"
+#include "golang_tls.h"
 #include "textflag.h"
-#include "cgo/abi_amd64.h"
+#include "cgolang/abi_amd64.h"
 
 #define AT_FDCWD -100
 
@@ -249,7 +249,7 @@ TEXT runtime·nanotime1(SB),NOSPLIT,$16-8
 	JNE	noswitch
 
 	MOVQ	m_g0(BX), DX
-	MOVQ	(g_sched+gobuf_sp)(DX), SP	// Set SP to g0 stack
+	MOVQ	(g_sched+golangbuf_sp)(DX), SP	// Set SP to g0 stack
 
 noswitch:
 	SUBQ	$16, SP		// Space for results
@@ -307,12 +307,12 @@ TEXT runtime·rt_sigaction(SB),NOSPLIT,$0-36
 	MOVL	AX, ret+32(FP)
 	RET
 
-// Call the function stored in _cgo_sigaction using the GCC calling convention.
-TEXT runtime·callCgoSigaction(SB),NOSPLIT,$16
+// Call the function stored in _cgolang_sigaction using the GCC calling convention.
+TEXT runtime·callCgolangSigaction(SB),NOSPLIT,$16
 	MOVQ	sig+0(FP), DI
 	MOVQ	new+8(FP), SI
 	MOVQ	old+16(FP), DX
-	MOVQ	_cgo_sigaction(SB), AX
+	MOVQ	_cgolang_sigaction(SB), AX
 	MOVQ	SP, BX	// callee-saved
 	ANDQ	$~15, SP	// alignment as per amd64 psABI
 	CALL	AX
@@ -349,7 +349,7 @@ TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME|NOFRAME,$0
 	MOVQ	DI, AX	// sig
 	MOVQ	SI, BX	// info
 	MOVQ	DX, CX	// ctx
-	CALL	·sigtrampgo<ABIInternal>(SB)
+	CALL	·sigtrampgolang<ABIInternal>(SB)
 
 	ADJSP	$-24
 
@@ -381,21 +381,21 @@ TEXT runtime·sigprofNonGoWrapper<>(SB),NOSPLIT|NOFRAME,$0
 	POP_REGS_HOST_TO_ABI0()
 	RET
 
-// Used instead of sigtramp in programs that use cgo.
+// Used instead of sigtramp in programs that use cgolang.
 // Arguments from kernel are in DI, SI, DX.
-TEXT runtime·cgoSigtramp(SB),NOSPLIT,$0
+TEXT runtime·cgolangSigtramp(SB),NOSPLIT,$0
 	// If no traceback function, do usual sigtramp.
-	MOVQ	runtime·cgoTraceback(SB), AX
+	MOVQ	runtime·cgolangTraceback(SB), AX
 	TESTQ	AX, AX
 	JZ	sigtramp
 
 	// If no traceback support function, which means that
-	// runtime/cgo was not linked in, do usual sigtramp.
-	MOVQ	_cgo_callers(SB), AX
+	// runtime/cgolang was not linked in, do usual sigtramp.
+	MOVQ	_cgolang_callers(SB), AX
 	TESTQ	AX, AX
 	JZ	sigtramp
 
-	// Figure out if we are currently in a cgo call.
+	// Figure out if we are currently in a cgolang call.
 	// If not, just do usual sigtramp.
 	get_tls(CX)
 	MOVQ	g(CX),AX
@@ -404,30 +404,30 @@ TEXT runtime·cgoSigtramp(SB),NOSPLIT,$0
 	MOVQ	g_m(AX), AX
 	TESTQ	AX, AX
 	JZ	sigtramp        // g.m == nil
-	MOVL	m_ncgo(AX), CX
+	MOVL	m_ncgolang(AX), CX
 	TESTL	CX, CX
-	JZ	sigtramp        // g.m.ncgo == 0
+	JZ	sigtramp        // g.m.ncgolang == 0
 	MOVQ	m_curg(AX), CX
 	TESTQ	CX, CX
 	JZ	sigtramp        // g.m.curg == nil
 	MOVQ	g_syscallsp(CX), CX
 	TESTQ	CX, CX
 	JZ	sigtramp        // g.m.curg.syscallsp == 0
-	MOVQ	m_cgoCallers(AX), R8
+	MOVQ	m_cgolangCallers(AX), R8
 	TESTQ	R8, R8
-	JZ	sigtramp        // g.m.cgoCallers == nil
-	MOVL	m_cgoCallersUse(AX), CX
+	JZ	sigtramp        // g.m.cgolangCallers == nil
+	MOVL	m_cgolangCallersUse(AX), CX
 	TESTL	CX, CX
-	JNZ	sigtramp	// g.m.cgoCallersUse != 0
+	JNZ	sigtramp	// g.m.cgolangCallersUse != 0
 
-	// Jump to a function in runtime/cgo.
+	// Jump to a function in runtime/cgolang.
 	// That function, written in C, will call the user's traceback
 	// function with proper unwind info, and will then call back here.
 	// The first three arguments, and the fifth, are already in registers.
 	// Set the two remaining arguments now.
-	MOVQ	runtime·cgoTraceback(SB), CX
+	MOVQ	runtime·cgolangTraceback(SB), CX
 	MOVQ	$runtime·sigtramp(SB), R9
-	MOVQ	_cgo_callers(SB), AX
+	MOVQ	_cgolang_callers(SB), AX
 	JMP	AX
 
 sigtramp:
@@ -447,17 +447,17 @@ sigtrampnog:
 	CMPXCHGL	CX, 0(R11)
 	JNZ	sigtramp  // Skip stack trace if already locked.
 
-	// Jump to the traceback function in runtime/cgo.
+	// Jump to the traceback function in runtime/cgolang.
 	// It will call back to sigprofNonGo, via sigprofNonGoWrapper, to convert
 	// the arguments to the Go calling convention.
 	// First three arguments to traceback function are in registers already.
-	MOVQ	runtime·cgoTraceback(SB), CX
+	MOVQ	runtime·cgolangTraceback(SB), CX
 	MOVQ	$runtime·sigprofCallers(SB), R8
 	MOVQ	$runtime·sigprofNonGoWrapper<>(SB), R9
-	MOVQ	_cgo_callers(SB), AX
+	MOVQ	_cgolang_callers(SB), AX
 	JMP	AX
 
-// For cgo unwinding to work, this function must look precisely like
+// For cgolang unwinding to work, this function must look precisely like
 // the one in glibc. The glibc source code is:
 // https://sourceware.org/git/?p=glibc.git;a=blob;f=sysdeps/unix/sysv/linux/x86_64/libc_sigaction.c;h=afdce87381228f0cf32fa9fa6c8c4efa5179065c#l80
 // The code that cares about the precise instructions used is:
@@ -494,16 +494,16 @@ ok:
 	MOVQ	$0, err+40(FP)
 	RET
 
-// Call the function stored in _cgo_mmap using the GCC calling convention.
+// Call the function stored in _cgolang_mmap using the GCC calling convention.
 // This must be called on the system stack.
-TEXT runtime·callCgoMmap(SB),NOSPLIT,$16
+TEXT runtime·callCgolangMmap(SB),NOSPLIT,$16
 	MOVQ	addr+0(FP), DI
 	MOVQ	n+8(FP), SI
 	MOVL	prot+16(FP), DX
 	MOVL	flags+20(FP), CX
 	MOVL	fd+24(FP), R8
 	MOVL	off+28(FP), R9
-	MOVQ	_cgo_mmap(SB), AX
+	MOVQ	_cgolang_mmap(SB), AX
 	MOVQ	SP, BX
 	ANDQ	$~15, SP	// alignment as per amd64 psABI
 	MOVQ	BX, 0(SP)
@@ -522,12 +522,12 @@ TEXT runtime·sysMunmap(SB),NOSPLIT,$0
 	MOVL	$0xf1, 0xf1  // crash
 	RET
 
-// Call the function stored in _cgo_munmap using the GCC calling convention.
+// Call the function stored in _cgolang_munmap using the GCC calling convention.
 // This must be called on the system stack.
-TEXT runtime·callCgoMunmap(SB),NOSPLIT,$16-16
+TEXT runtime·callCgolangMunmap(SB),NOSPLIT,$16-16
 	MOVQ	addr+0(FP), DI
 	MOVQ	n+8(FP), SI
-	MOVQ	_cgo_munmap(SB), AX
+	MOVQ	_cgolang_munmap(SB), AX
 	MOVQ	SP, BX
 	ANDQ	$~15, SP	// alignment as per amd64 psABI
 	MOVQ	BX, 0(SP)

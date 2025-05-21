@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ssa
@@ -58,7 +58,7 @@ func liveValues(f *Func, reachable []bool) (live []bool, liveOrderStmts []*Value
 	liveOrderStmts = f.Cache.allocValueSlice(f.NumValues())[:0]
 
 	// After regalloc, consider all values to be live.
-	// See the comment at the top of regalloc.go and in deadcode for details.
+	// See the comment at the top of regalloc.golang and in deadcode for details.
 	if f.RegAlloc != nil {
 		for i := range live {
 			live[i] = true
@@ -162,7 +162,7 @@ func deadcode(f *Func) {
 	// deadcode after regalloc is forbidden for now. Regalloc
 	// doesn't quite generate legal SSA which will lead to some
 	// required moves being eliminated. See the comment at the
-	// top of regalloc.go for details.
+	// top of regalloc.golang for details.
 	if f.RegAlloc != nil {
 		f.Fatalf("deadcode after regalloc")
 	}
@@ -304,7 +304,7 @@ func deadcode(f *Func) {
 	f.Blocks = f.Blocks[:i]
 }
 
-// removeEdge removes the i'th outgoing edge from b (and
+// removeEdge removes the i'th outgolanging edge from b (and
 // the corresponding incoming edge from b.Succs[i].b).
 // Note that this potentially reorders successors of b, so it
 // must be used very carefully.
@@ -332,11 +332,11 @@ func (b *Block) removeEdge(i int) {
 		// whereas copies don't. This matters in loops like:
 		// 1: x = (Phi y)
 		//    y = (Add x 1)
-		//    goto 1
+		//    golangto 1
 		// If we replace Phi->Copy, we get
 		// 1: x = (Copy y)
 		//    y = (Add x 1)
-		//    goto 1
+		//    golangto 1
 		// (Phi y) refers to the *previous* value of y, whereas
 		// (Copy y) refers to the *current* value of y.
 		// The modified code has a cycle and the scheduler

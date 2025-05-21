@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package work
@@ -10,7 +10,7 @@ import (
 	"testing"
 )
 
-var goodCompilerFlags = [][]string{
+var golangodCompilerFlags = [][]string{
 	{"-DFOO"},
 	{"-Dfoo=bar"},
 	{"-Ufoo"},
@@ -145,7 +145,7 @@ var badCompilerFlags = [][]string{
 }
 
 func TestCheckCompilerFlags(t *testing.T) {
-	for _, f := range goodCompilerFlags {
+	for _, f := range golangodCompilerFlags {
 		if err := checkCompilerFlags("test", "test", f); err != nil {
 			t.Errorf("unexpected error for %q: %v", f, err)
 		}
@@ -157,7 +157,7 @@ func TestCheckCompilerFlags(t *testing.T) {
 	}
 }
 
-var goodLinkerFlags = [][]string{
+var golangodLinkerFlags = [][]string{
 	{"-Fbar"},
 	{"-lbar"},
 	{"-Lbar"},
@@ -191,7 +191,7 @@ var goodLinkerFlags = [][]string{
 	{"foo.so"},
 	{"_世界.dll"},
 	{"./x.o"},
-	{"libcgosotest.dylib"},
+	{"libcgolangsotest.dylib"},
 	{"-F", "framework"},
 	{"-l", "."},
 	{"-l", "/etc/passwd"},
@@ -207,8 +207,8 @@ var goodLinkerFlags = [][]string{
 	{"-Wl,-z,relro,-z,now"},
 	{"-Wl,-z,now"},
 	{"-Wl,-z,noexecstack"},
-	{"libcgotbdtest.tbd"},
-	{"./libcgotbdtest.tbd"},
+	{"libcgolangtbdtest.tbd"},
+	{"./libcgolangtbdtest.tbd"},
 	{"-Wl,--push-state"},
 	{"-Wl,--pop-state"},
 	{"-Wl,--push-state,--as-needed"},
@@ -293,7 +293,7 @@ var badLinkerFlags = [][]string{
 }
 
 func TestCheckLinkerFlags(t *testing.T) {
-	for _, f := range goodLinkerFlags {
+	for _, f := range golangodLinkerFlags {
 		if err := checkLinkerFlags("test", "test", f); err != nil {
 			t.Errorf("unexpected error for %q: %v", f, err)
 		}
@@ -349,9 +349,9 @@ func TestCheckCompilerFlagsForInternalLink(t *testing.T) {
 		}
 	}
 
-	// All "good" compiler flags should not trigger external linking,
+	// All "golangod" compiler flags should not trigger external linking,
 	// except for anything that begins with "-flto".
-	for _, f := range goodCompilerFlags {
+	for _, f := range golangodCompilerFlags {
 		foundLTO := false
 		for _, s := range f {
 			if strings.Contains(s, "-flto") {

@@ -1,18 +1,18 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build goexperiment.rangefunc && !windows
+//golang:build golangexperiment.rangefunc && !windows
 
 package main
 
 /*
 #include <stdint.h> // for uintptr_t
 
-void go_callback_coro(uintptr_t handle);
+void golang_callback_coro(uintptr_t handle);
 
-static void call_go(uintptr_t handle) {
-	go_callback_coro(handle);
+static void call_golang(uintptr_t handle) {
+	golang_callback_coro(handle);
 }
 */
 import "C"
@@ -20,62 +20,62 @@ import "C"
 import (
 	"fmt"
 	"iter"
-	"runtime/cgo"
+	"runtime/cgolang"
 )
 
 func init() {
-	register("CoroCgoIterCallback", func() {
+	register("CoroCgolangIterCallback", func() {
 		println("expect: OK")
-		CoroCgo(callerExhaust, iterCallback)
+		CoroCgolang(callerExhaust, iterCallback)
 	})
-	register("CoroCgoIterCallbackYield", func() {
+	register("CoroCgolangIterCallbackYield", func() {
 		println("expect: OS thread locking must match")
-		CoroCgo(callerExhaust, iterCallbackYield)
+		CoroCgolang(callerExhaust, iterCallbackYield)
 	})
-	register("CoroCgoCallback", func() {
+	register("CoroCgolangCallback", func() {
 		println("expect: OK")
-		CoroCgo(callerExhaustCallback, iterSimple)
+		CoroCgolang(callerExhaustCallback, iterSimple)
 	})
-	register("CoroCgoCallbackIterNested", func() {
+	register("CoroCgolangCallbackIterNested", func() {
 		println("expect: OK")
-		CoroCgo(callerExhaustCallback, iterNested)
+		CoroCgolang(callerExhaustCallback, iterNested)
 	})
-	register("CoroCgoCallbackIterCallback", func() {
+	register("CoroCgolangCallbackIterCallback", func() {
 		println("expect: OK")
-		CoroCgo(callerExhaustCallback, iterCallback)
+		CoroCgolang(callerExhaustCallback, iterCallback)
 	})
-	register("CoroCgoCallbackIterCallbackYield", func() {
+	register("CoroCgolangCallbackIterCallbackYield", func() {
 		println("expect: OS thread locking must match")
-		CoroCgo(callerExhaustCallback, iterCallbackYield)
+		CoroCgolang(callerExhaustCallback, iterCallbackYield)
 	})
-	register("CoroCgoCallbackAfterPull", func() {
+	register("CoroCgolangCallbackAfterPull", func() {
 		println("expect: OS thread locking must match")
-		CoroCgo(callerCallbackAfterPull, iterSimple)
+		CoroCgolang(callerCallbackAfterPull, iterSimple)
 	})
-	register("CoroCgoStopCallback", func() {
+	register("CoroCgolangStopCallback", func() {
 		println("expect: OK")
-		CoroCgo(callerStopCallback, iterSimple)
+		CoroCgolang(callerStopCallback, iterSimple)
 	})
-	register("CoroCgoStopCallbackIterNested", func() {
+	register("CoroCgolangStopCallbackIterNested", func() {
 		println("expect: OK")
-		CoroCgo(callerStopCallback, iterNested)
+		CoroCgolang(callerStopCallback, iterNested)
 	})
 }
 
 var toCall func()
 
-//export go_callback_coro
-func go_callback_coro(handle C.uintptr_t) {
-	h := cgo.Handle(handle)
+//export golang_callback_coro
+func golang_callback_coro(handle C.uintptr_t) {
+	h := cgolang.Handle(handle)
 	h.Value().(func())()
 	h.Delete()
 }
 
 func callFromC(f func()) {
-	C.call_go(C.uintptr_t(cgo.NewHandle(f)))
+	C.call_golang(C.uintptr_t(cgolang.NewHandle(f)))
 }
 
-func CoroCgo(driver func(iter.Seq[int]) error, seq iter.Seq[int]) {
+func CoroCgolang(driver func(iter.Seq[int]) error, seq iter.Seq[int]) {
 	if err := driver(seq); err != nil {
 		println("error:", err.Error())
 		return
@@ -91,7 +91,7 @@ func callerExhaust(i iter.Seq[int]) error {
 			break
 		}
 		if v != 5 {
-			return fmt.Errorf("bad iterator: wanted value %d, got %d", 5, v)
+			return fmt.Errorf("bad iterator: wanted value %d, golangt %d", 5, v)
 		}
 	}
 	return nil
@@ -106,7 +106,7 @@ func callerExhaustCallback(i iter.Seq[int]) (err error) {
 				break
 			}
 			if v != 5 {
-				err = fmt.Errorf("bad iterator: wanted value %d, got %d", 5, v)
+				err = fmt.Errorf("bad iterator: wanted value %d, golangt %d", 5, v)
 			}
 		}
 	})
@@ -119,7 +119,7 @@ func callerStopCallback(i iter.Seq[int]) (err error) {
 		v, _ := next()
 		stop()
 		if v != 5 {
-			err = fmt.Errorf("bad iterator: wanted value %d, got %d", 5, v)
+			err = fmt.Errorf("bad iterator: wanted value %d, golangt %d", 5, v)
 		}
 	})
 	return err
@@ -134,7 +134,7 @@ func callerCallbackAfterPull(i iter.Seq[int]) (err error) {
 				break
 			}
 			if v != 5 {
-				err = fmt.Errorf("bad iterator: wanted value %d, got %d", 5, v)
+				err = fmt.Errorf("bad iterator: wanted value %d, golangt %d", 5, v)
 			}
 		}
 	})

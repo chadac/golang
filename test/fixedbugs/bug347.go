@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -35,7 +35,7 @@ func main() {
 				print("BUG: bug347: cannot find caller\n")
 				return
 			}
-			if !strings.Contains(file, "bug347.go") || runtime.FuncForPC(pc).Name() != "main.f" {
+			if !strings.Contains(file, "bug347.golang") || runtime.FuncForPC(pc).Name() != "main.f" {
 				// walk past runtime frames
 				continue
 			}

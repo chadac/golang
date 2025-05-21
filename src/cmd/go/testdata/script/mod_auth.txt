@@ -8,28 +8,28 @@ env GOVCS='*:off'
 # Without credentials, downloading a module from a path that requires HTTPS
 # basic auth should fail.
 env NETRC=$WORK/empty
-! go mod tidy
+! golang mod tidy
 stderr '^\tserver response: ACCESS DENIED, buddy$'
 stderr '^\tserver response: File\? What file\?$'
 
 # With credentials from a netrc file, it should succeed.
 env NETRC=$WORK/netrc
-go mod tidy
-go list all
-stdout vcs-test.golang.org/auth/or401
-stdout vcs-test.golang.org/auth/or404
+golang mod tidy
+golang list all
+stdout vcs-test.golanglang.org/auth/or401
+stdout vcs-test.golanglang.org/auth/or404
 
--- go.mod --
+-- golang.mod --
 module private.example.com
--- main.go --
+-- main.golang --
 package useprivate
 
 import (
-	_ "vcs-test.golang.org/auth/or401"
-	_ "vcs-test.golang.org/auth/or404"
+	_ "vcs-test.golanglang.org/auth/or401"
+	_ "vcs-test.golanglang.org/auth/or404"
 )
 -- $WORK/empty --
 -- $WORK/netrc --
-machine vcs-test.golang.org
+machine vcs-test.golanglang.org
 	login aladdin
 	password opensesame

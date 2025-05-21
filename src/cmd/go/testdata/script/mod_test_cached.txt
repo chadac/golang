@@ -1,45 +1,45 @@
 [short] skip
 
 env GO111MODULE=on
-env GOCACHE=$WORK/gocache
-env GODEBUG=gocachetest=1
+env GOCACHE=$WORK/golangcache
+env GODEBUG=golangcachetest=1
 
 # The first run of a test should not be cached.
 # The second run should be.
-go test -run=WriteTmp .
+golang test -run=WriteTmp .
 ! stdout '(cached)'
-go test -run=WriteTmp .
+golang test -run=WriteTmp .
 stdout '(cached)'
 
-# 'go test' without arguments should never be cached.
-go test -run=WriteTmp
+# 'golang test' without arguments should never be cached.
+golang test -run=WriteTmp
 ! stdout '(cached)'
-go test -run=WriteTmp
+golang test -run=WriteTmp
 ! stdout '(cached)'
 
 # We should never cache a test run from command-line files.
-go test -run=WriteTmp ./foo_test.go
+golang test -run=WriteTmp ./foo_test.golang
 ! stdout '(cached)'
-go test -run=WriteTmp ./foo_test.go
+golang test -run=WriteTmp ./foo_test.golang
 ! stdout '(cached)'
 
 [!exec:sleep] stop
-# The go command refuses to cache access to files younger than 2s, so sleep that long.
+# The golang command refuses to cache access to files younger than 2s, so sleep that long.
 exec sleep 2
 
 # Touching a file that the test reads from within its testdata should invalidate the cache.
-go test -run=ReadTestdata .
+golang test -run=ReadTestdata .
 ! stdout '(cached)'
-go test -run=ReadTestdata .
+golang test -run=ReadTestdata .
 stdout '(cached)'
 cp testdata/bar.txt testdata/foo.txt
-go test -run=ReadTestdata .
+golang test -run=ReadTestdata .
 ! stdout '(cached)'
 
--- go.mod --
-module golang.org/issue/29111/foo
+-- golang.mod --
+module golanglang.org/issue/29111/foo
 
--- foo.go --
+-- foo.golang --
 package foo
 
 -- testdata/foo.txt --
@@ -47,7 +47,7 @@ foo
 -- testdata/bar.txt --
 bar
 
--- foo_test.go --
+-- foo_test.golang --
 package foo_test
 
 import (

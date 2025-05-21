@@ -1,50 +1,50 @@
 # The build cache is required to build anything. It also may be needed to
-# initialize the build system, which is needed for commands like 'go env'.
+# initialize the build system, which is needed for commands like 'golang env'.
 # However, there are lots of commands the cache is not needed for, and we
 # shouldn't require it when it won't be used.
 #
-# TODO(golang.org/issue/39882): commands below should work, too.
-# * go clean -modcache
-# * go env
-# * go fix
-# * go fmt
-# * go generate
-# * go get
-# * go list (without -export or -compiled)
+# TODO(golanglang.org/issue/39882): commands below should work, too.
+# * golang clean -modcache
+# * golang env
+# * golang fix
+# * golang fmt
+# * golang generate
+# * golang get
+# * golang list (without -export or -compiled)
 
 env GOCACHE=off
 
 # Commands that don't completely load packages should work.
-go doc fmt
+golang doc fmt
 stdout Printf
 
-! go tool compile -h
+! golang tool compile -h
 stderr usage:
 
-go version
-stdout '^go version'
+golang version
+stdout '^golang version'
 
 
 # Module commands that don't load packages should work.
-go mod init m
-exists go.mod
+golang mod init m
+exists golang.mod
 
-go mod edit -require rsc.io/quote@v1.5.2
+golang mod edit -require rsc.io/quote@v1.5.2
 
-go mod download rsc.io/quote
+golang mod download rsc.io/quote
 
-go mod graph
+golang mod graph
 stdout rsc.io/quote
 
-go mod verify
+golang mod verify
 
 
 # Commands that load but don't build packages should work.
-go fmt .
+golang fmt .
 
-go doc .
+golang doc .
 
--- main.go --
+-- main.golang --
 package main
 
 func main() {}

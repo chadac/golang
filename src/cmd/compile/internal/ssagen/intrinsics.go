@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ssagen
@@ -32,14 +32,14 @@ type intrinsicKey struct {
 type intrinsicBuildConfig struct {
 	instrumenting bool
 
-	go386     string
-	goamd64   int
-	goarm     buildcfg.GoarmFeatures
-	goarm64   buildcfg.Goarm64Features
-	gomips    string
-	gomips64  string
-	goppc64   int
-	goriscv64 int
+	golang386     string
+	golangamd64   int
+	golangarm     buildcfg.GoarmFeatures
+	golangarm64   buildcfg.Goarm64Features
+	golangmips    string
+	golangmips64  string
+	golangppc64   int
+	golangriscv64 int
 }
 
 type intrinsicBuilders map[intrinsicKey]intrinsicBuilder
@@ -94,14 +94,14 @@ func initIntrinsics(cfg *intrinsicBuildConfig) {
 	if cfg == nil {
 		cfg = &intrinsicBuildConfig{
 			instrumenting: base.Flag.Cfg.Instrumenting,
-			go386:         buildcfg.GO386,
-			goamd64:       buildcfg.GOAMD64,
-			goarm:         buildcfg.GOARM,
-			goarm64:       buildcfg.GOARM64,
-			gomips:        buildcfg.GOMIPS,
-			gomips64:      buildcfg.GOMIPS64,
-			goppc64:       buildcfg.GOPPC64,
-			goriscv64:     buildcfg.GORISCV64,
+			golang386:         buildcfg.GO386,
+			golangamd64:       buildcfg.GOAMD64,
+			golangarm:         buildcfg.GOARM,
+			golangarm64:       buildcfg.GOARM64,
+			golangmips:        buildcfg.GOMIPS,
+			golangmips64:      buildcfg.GOMIPS64,
+			golangppc64:       buildcfg.GOPPC64,
+			golangriscv64:     buildcfg.GORISCV64,
 		}
 	}
 	intrinsics = intrinsicBuilders{}
@@ -195,7 +195,7 @@ func initIntrinsics(cfg *intrinsicBuildConfig) {
 		},
 		sys.AMD64, sys.I386, sys.ARM64, sys.ARM, sys.Loong64, sys.S390X)
 
-	if cfg.goppc64 >= 10 {
+	if cfg.golangppc64 >= 10 {
 		// Use only on Power10 as the new byte reverse instructions that Power10 provide
 		// make it worthwhile as an intrinsic
 		addF("internal/runtime/sys", "Bswap32",
@@ -210,7 +210,7 @@ func initIntrinsics(cfg *intrinsicBuildConfig) {
 			sys.PPC64)
 	}
 
-	if cfg.goriscv64 >= 22 {
+	if cfg.golangriscv64 >= 22 {
 		addF("internal/runtime/sys", "Bswap32",
 			func(s *state, n *ir.CallExpr, args []*ssa.Value) *ssa.Value {
 				return s.newValue1(ssa.OpBswap32, types.Types[types.TUINT32], args[0])
@@ -402,7 +402,7 @@ func initIntrinsics(cfg *intrinsicBuildConfig) {
 	makeAtomicGuardedIntrinsicARM64common := func(op0, op1 ssa.Op, typ types.Kind, emit atomicOpEmitter, needReturn bool) intrinsicBuilder {
 
 		return func(s *state, n *ir.CallExpr, args []*ssa.Value) *ssa.Value {
-			if cfg.goarm64.LSE {
+			if cfg.golangarm64.LSE {
 				emit(s, n, args, op1, typ, needReturn)
 			} else {
 				// Target Atomic feature is identified by dynamic detection
@@ -789,7 +789,7 @@ func initIntrinsics(cfg *intrinsicBuildConfig) {
 		sys.ARM64, sys.Loong64, sys.PPC64, sys.RISCV64, sys.S390X)
 	addF("math", "FMA",
 		func(s *state, n *ir.CallExpr, args []*ssa.Value) *ssa.Value {
-			if cfg.goamd64 >= 3 {
+			if cfg.golangamd64 >= 3 {
 				return s.newValue3(ssa.OpFMA, types.Types[types.TFLOAT64], args[0], args[1], args[2])
 			}
 
@@ -851,7 +851,7 @@ func initIntrinsics(cfg *intrinsicBuildConfig) {
 
 	makeRoundAMD64 := func(op ssa.Op) func(s *state, n *ir.CallExpr, args []*ssa.Value) *ssa.Value {
 		return func(s *state, n *ir.CallExpr, args []*ssa.Value) *ssa.Value {
-			if cfg.goamd64 >= 2 {
+			if cfg.golangamd64 >= 2 {
 				return s.newValue1(op, types.Types[types.TFLOAT64], args[0])
 			}
 
@@ -923,7 +923,7 @@ func initIntrinsics(cfg *intrinsicBuildConfig) {
 		},
 		sys.AMD64, sys.ARM, sys.ARM64, sys.I386, sys.MIPS, sys.Loong64, sys.PPC64, sys.S390X, sys.Wasm)
 
-	if cfg.goriscv64 >= 22 {
+	if cfg.golangriscv64 >= 22 {
 		addF("math/bits", "TrailingZeros64",
 			func(s *state, n *ir.CallExpr, args []*ssa.Value) *ssa.Value {
 				return s.newValue1(ssa.OpCtz64, types.Types[types.TINT], args[0])
@@ -955,7 +955,7 @@ func initIntrinsics(cfg *intrinsicBuildConfig) {
 			return s.newValue1(ssa.OpBswap16, types.Types[types.TUINT16], args[0])
 		},
 		sys.Loong64)
-	if cfg.goppc64 >= 10 {
+	if cfg.golangppc64 >= 10 {
 		// On Power10, 16-bit rotate is not available so use BRH instruction
 		addF("math/bits", "ReverseBytes16",
 			func(s *state, n *ir.CallExpr, args []*ssa.Value) *ssa.Value {
@@ -963,7 +963,7 @@ func initIntrinsics(cfg *intrinsicBuildConfig) {
 			},
 			sys.PPC64)
 	}
-	if cfg.goriscv64 >= 22 {
+	if cfg.golangriscv64 >= 22 {
 		addF("math/bits", "ReverseBytes16",
 			func(s *state, n *ir.CallExpr, args []*ssa.Value) *ssa.Value {
 				return s.newValue1(ssa.OpBswap16, types.Types[types.TUINT16], args[0])
@@ -992,7 +992,7 @@ func initIntrinsics(cfg *intrinsicBuildConfig) {
 		},
 		sys.AMD64, sys.ARM, sys.ARM64, sys.Loong64, sys.MIPS, sys.PPC64, sys.S390X, sys.Wasm)
 
-	if cfg.goriscv64 >= 22 {
+	if cfg.golangriscv64 >= 22 {
 		addF("math/bits", "Len64",
 			func(s *state, n *ir.CallExpr, args []*ssa.Value) *ssa.Value {
 				return s.newValue1(ssa.OpBitLen64, types.Types[types.TINT], args[0])
@@ -1068,7 +1068,7 @@ func initIntrinsics(cfg *intrinsicBuildConfig) {
 
 	makeOnesCountAMD64 := func(op ssa.Op) func(s *state, n *ir.CallExpr, args []*ssa.Value) *ssa.Value {
 		return func(s *state, n *ir.CallExpr, args []*ssa.Value) *ssa.Value {
-			if cfg.goamd64 >= 2 {
+			if cfg.golangamd64 >= 2 {
 				return s.newValue1(op, types.Types[types.TINT], args[0])
 			}
 
@@ -1131,7 +1131,7 @@ func initIntrinsics(cfg *intrinsicBuildConfig) {
 
 	makeOnesCountRISCV64 := func(op ssa.Op) func(s *state, n *ir.CallExpr, args []*ssa.Value) *ssa.Value {
 		return func(s *state, n *ir.CallExpr, args []*ssa.Value) *ssa.Value {
-			if cfg.goriscv64 >= 22 {
+			if cfg.golangriscv64 >= 22 {
 				return s.newValue1(op, types.Types[types.TINT], args[0])
 			}
 
@@ -1211,7 +1211,7 @@ func initIntrinsics(cfg *intrinsicBuildConfig) {
 		},
 		sys.S390X, sys.PPC64, sys.Wasm)
 
-	if cfg.goriscv64 >= 22 {
+	if cfg.golangriscv64 >= 22 {
 		addF("math/bits", "OnesCount8",
 			makeOnesCountRISCV64(ssa.OpPopCount8),
 			sys.RISCV64)
@@ -1381,7 +1381,7 @@ func initIntrinsics(cfg *intrinsicBuildConfig) {
 			h := args[1]
 
 			// Explicit copies to fp registers. See
-			// https://go.dev/issue/70451.
+			// https://golang.dev/issue/70451.
 			gfp := s.newValue1(ssa.OpAMD64MOVQi2f, types.TypeInt128, g)
 			hfp := s.newValue1(ssa.OpAMD64MOVQi2f, types.TypeInt128, h)
 
@@ -1456,7 +1456,7 @@ func initIntrinsics(cfg *intrinsicBuildConfig) {
 			g := args[0]
 
 			// Explicit copy to fp register. See
-			// https://go.dev/issue/70451.
+			// https://golang.dev/issue/70451.
 			gfp := s.newValue1(ssa.OpAMD64MOVQi2f, types.TypeInt128, g)
 
 			if buildcfg.GOAMD64 >= 2 {
@@ -1511,7 +1511,7 @@ func initIntrinsics(cfg *intrinsicBuildConfig) {
 			var ctrlsEmpty uint64 = abi.SwissMapCtrlEmpty
 			e := s.constInt64(types.Types[types.TUINT64], int64(ctrlsEmpty))
 			// Explicit copy to fp register. See
-			// https://go.dev/issue/70451.
+			// https://golang.dev/issue/70451.
 			efp := s.newValue1(ssa.OpAMD64MOVQi2f, types.TypeInt128, e)
 
 			// Compare each byte of the control word with ctrlEmpty. Each
@@ -1548,7 +1548,7 @@ func initIntrinsics(cfg *intrinsicBuildConfig) {
 			g := args[0]
 
 			// Explicit copy to fp register. See
-			// https://go.dev/issue/70451.
+			// https://golang.dev/issue/70451.
 			gfp := s.newValue1(ssa.OpAMD64MOVQi2f, types.TypeInt128, g)
 
 			// Construct a "byte mask": each output bit is equal to
@@ -1580,7 +1580,7 @@ func initIntrinsics(cfg *intrinsicBuildConfig) {
 			g := args[0]
 
 			// Explicit copy to fp register. See
-			// https://go.dev/issue/70451.
+			// https://golang.dev/issue/70451.
 			gfp := s.newValue1(ssa.OpAMD64MOVQi2f, types.TypeInt128, g)
 
 			// Construct a "byte mask": each output bit is equal to

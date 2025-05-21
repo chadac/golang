@@ -1,8 +1,8 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build darwin || freebsd || linux || openbsd || windows
+//golang:build darwin || freebsd || linux || openbsd || windows
 
 package fuzz
 
@@ -150,10 +150,10 @@ func TestMinimizeInput(t *testing.T) {
 				t.Fatal("minimizeInput didn't provide an error")
 			}
 			if expected := fmt.Sprintf("bad %v", tc.expected[0]); err.Error() != expected {
-				t.Errorf("unexpected error: got %q, want %q", err, expected)
+				t.Errorf("unexpected error: golangt %q, want %q", err, expected)
 			}
 			if !reflect.DeepEqual(vals, tc.expected) {
-				t.Errorf("unexpected results: got %v, want %v", vals, tc.expected)
+				t.Errorf("unexpected results: golangt %v, want %v", vals, tc.expected)
 			}
 		})
 	}
@@ -177,6 +177,6 @@ func TestMinimizeFlaky(t *testing.T) {
 		t.Errorf("unexpected error: %v", err)
 	}
 	if count := mem.header().count; count != 1 {
-		t.Errorf("count: got %d, want 1", count)
+		t.Errorf("count: golangt %d, want 1", count)
 	}
 }

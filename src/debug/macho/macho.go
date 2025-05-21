@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Mach-O header data structures
@@ -328,10 +328,10 @@ type intName struct {
 	s string
 }
 
-func stringName(i uint32, names []intName, goSyntax bool) string {
+func stringName(i uint32, names []intName, golangSyntax bool) string {
 	for _, n := range names {
 		if n.i == i {
-			if goSyntax {
+			if golangSyntax {
 				return "macho." + n.s
 			}
 			return n.s

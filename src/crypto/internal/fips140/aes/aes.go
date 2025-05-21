@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package aes
@@ -66,10 +66,10 @@ func New(key []byte) (*Block, error) {
 	return newOutlined(&Block{}, key)
 }
 
-// newOutlined is marked go:noinline to avoid it inlining into New, and making New
+// newOutlined is marked golang:noinline to avoid it inlining into New, and making New
 // too complex to inline itself.
 //
-//go:noinline
+//golang:noinline
 func newOutlined(b *Block, key []byte) (*Block, error) {
 	switch len(key) {
 	case aes128KeySize, aes192KeySize, aes256KeySize:

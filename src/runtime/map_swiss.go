@@ -1,8 +1,8 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build goexperiment.swissmap
+//golang:build golangexperiment.swissmap
 
 package runtime
 
@@ -21,7 +21,7 @@ const (
 
 type maptype = abi.SwissMapType
 
-//go:linkname maps_errNilAssign internal/runtime/maps.errNilAssign
+//golang:linkname maps_errNilAssign internal/runtime/maps.errNilAssign
 var maps_errNilAssign error = plainError("assignment to entry in nil map")
 
 func makemap64(t *abi.SwissMapType, hint int64, m *maps.Map) *maps.Map {
@@ -41,9 +41,9 @@ func makemap64(t *abi.SwissMapType, hint int64, m *maps.Map) *maps.Map {
 //   - github.com/bytedance/sonic
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname makemap_small
+//golang:linkname makemap_small
 func makemap_small() *maps.Map {
 	return maps.NewEmptyMap()
 }
@@ -57,12 +57,12 @@ func makemap_small() *maps.Map {
 // makemap should be an internal detail,
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
-//   - github.com/ugorji/go/codec
+//   - github.com/ugolangrji/golang/codec
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname makemap
+//golang:linkname makemap
 func makemap(t *abi.SwissMapType, hint int, m *maps.Map) *maps.Map {
 	if hint < 0 {
 		hint = 0
@@ -80,18 +80,18 @@ func makemap(t *abi.SwissMapType, hint int, m *maps.Map) *maps.Map {
 // mapaccess1 is pushed from internal/runtime/maps. We could just call it, but
 // we want to avoid one layer of call.
 //
-//go:linkname mapaccess1
+//golang:linkname mapaccess1
 func mapaccess1(t *abi.SwissMapType, m *maps.Map, key unsafe.Pointer) unsafe.Pointer
 
 // mapaccess2 should be an internal detail,
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
-//   - github.com/ugorji/go/codec
+//   - github.com/ugolangrji/golang/codec
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname mapaccess2
+//golang:linkname mapaccess2
 func mapaccess2(t *abi.SwissMapType, m *maps.Map, key unsafe.Pointer) (unsafe.Pointer, bool)
 
 func mapaccess1_fat(t *abi.SwissMapType, m *maps.Map, key, zero unsafe.Pointer) unsafe.Pointer {
@@ -119,23 +119,23 @@ func mapaccess2_fat(t *abi.SwissMapType, m *maps.Map, key, zero unsafe.Pointer) 
 //   - github.com/bytedance/sonic
 //   - github.com/RomiChan/protobuf
 //   - github.com/segmentio/encoding
-//   - github.com/ugorji/go/codec
+//   - github.com/ugolangrji/golang/codec
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname mapassign
+//golang:linkname mapassign
 func mapassign(t *abi.SwissMapType, m *maps.Map, key unsafe.Pointer) unsafe.Pointer
 
 // mapdelete should be an internal detail,
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
-//   - github.com/ugorji/go/codec
+//   - github.com/ugolangrji/golang/codec
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname mapdelete
+//golang:linkname mapdelete
 func mapdelete(t *abi.SwissMapType, m *maps.Map, key unsafe.Pointer) {
 	if raceenabled && m != nil {
 		callerpc := sys.GetCallerPC()
@@ -194,17 +194,17 @@ func mapclear(t *abi.SwissMapType, m *maps.Map) {
 // reflect_makemap is for package reflect,
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
-//   - gitee.com/quant1x/gox
-//   - github.com/modern-go/reflect2
-//   - github.com/goccy/go-json
+//   - gitee.com/quant1x/golangx
+//   - github.com/modern-golang/reflect2
+//   - github.com/golangccy/golang-json
 //   - github.com/RomiChan/protobuf
 //   - github.com/segmentio/encoding
 //   - github.com/v2pro/plz
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname reflect_makemap reflect.makemap
+//golang:linkname reflect_makemap reflect.makemap
 func reflect_makemap(t *abi.SwissMapType, cap int) *maps.Map {
 	// Check invariants and reflects math.
 	if t.Key.Equal == nil {
@@ -218,14 +218,14 @@ func reflect_makemap(t *abi.SwissMapType, cap int) *maps.Map {
 // reflect_mapaccess is for package reflect,
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
-//   - gitee.com/quant1x/gox
-//   - github.com/modern-go/reflect2
+//   - gitee.com/quant1x/golangx
+//   - github.com/modern-golang/reflect2
 //   - github.com/v2pro/plz
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname reflect_mapaccess reflect.mapaccess
+//golang:linkname reflect_mapaccess reflect.mapaccess
 func reflect_mapaccess(t *abi.SwissMapType, m *maps.Map, key unsafe.Pointer) unsafe.Pointer {
 	elem, ok := mapaccess2(t, m, key)
 	if !ok {
@@ -235,7 +235,7 @@ func reflect_mapaccess(t *abi.SwissMapType, m *maps.Map, key unsafe.Pointer) uns
 	return elem
 }
 
-//go:linkname reflect_mapaccess_faststr reflect.mapaccess_faststr
+//golang:linkname reflect_mapaccess_faststr reflect.mapaccess_faststr
 func reflect_mapaccess_faststr(t *abi.SwissMapType, m *maps.Map, key string) unsafe.Pointer {
 	elem, ok := mapaccess2_faststr(t, m, key)
 	if !ok {
@@ -248,29 +248,29 @@ func reflect_mapaccess_faststr(t *abi.SwissMapType, m *maps.Map, key string) uns
 // reflect_mapassign is for package reflect,
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
-//   - gitee.com/quant1x/gox
+//   - gitee.com/quant1x/golangx
 //   - github.com/v2pro/plz
 //
 // Do not remove or change the type signature.
 //
-//go:linkname reflect_mapassign reflect.mapassign0
+//golang:linkname reflect_mapassign reflect.mapassign0
 func reflect_mapassign(t *abi.SwissMapType, m *maps.Map, key unsafe.Pointer, elem unsafe.Pointer) {
 	p := mapassign(t, m, key)
 	typedmemmove(t.Elem, p, elem)
 }
 
-//go:linkname reflect_mapassign_faststr reflect.mapassign_faststr0
+//golang:linkname reflect_mapassign_faststr reflect.mapassign_faststr0
 func reflect_mapassign_faststr(t *abi.SwissMapType, m *maps.Map, key string, elem unsafe.Pointer) {
 	p := mapassign_faststr(t, m, key)
 	typedmemmove(t.Elem, p, elem)
 }
 
-//go:linkname reflect_mapdelete reflect.mapdelete
+//golang:linkname reflect_mapdelete reflect.mapdelete
 func reflect_mapdelete(t *abi.SwissMapType, m *maps.Map, key unsafe.Pointer) {
 	mapdelete(t, m, key)
 }
 
-//go:linkname reflect_mapdelete_faststr reflect.mapdelete_faststr
+//golang:linkname reflect_mapdelete_faststr reflect.mapdelete_faststr
 func reflect_mapdelete_faststr(t *abi.SwissMapType, m *maps.Map, key string) {
 	mapdelete_faststr(t, m, key)
 }
@@ -278,13 +278,13 @@ func reflect_mapdelete_faststr(t *abi.SwissMapType, m *maps.Map, key string) {
 // reflect_maplen is for package reflect,
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
-//   - github.com/goccy/go-json
+//   - github.com/golangccy/golang-json
 //   - github.com/wI2L/jettison
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname reflect_maplen reflect.maplen
+//golang:linkname reflect_maplen reflect.maplen
 func reflect_maplen(m *maps.Map) int {
 	if m == nil {
 		return 0
@@ -296,12 +296,12 @@ func reflect_maplen(m *maps.Map) int {
 	return int(m.Used())
 }
 
-//go:linkname reflect_mapclear reflect.mapclear
+//golang:linkname reflect_mapclear reflect.mapclear
 func reflect_mapclear(t *abi.SwissMapType, m *maps.Map) {
 	mapclear(t, m)
 }
 
-//go:linkname reflectlite_maplen internal/reflectlite.maplen
+//golang:linkname reflectlite_maplen internal/reflectlite.maplen
 func reflectlite_maplen(m *maps.Map) int {
 	if m == nil {
 		return 0
@@ -322,7 +322,7 @@ func mapinitnoop()
 
 // mapclone for implementing maps.Clone
 //
-//go:linkname mapclone maps.clone
+//golang:linkname mapclone maps.clone
 func mapclone(m any) any {
 	e := efaceOf(&m)
 	typ := (*abi.SwissMapType)(unsafe.Pointer(e._type))
@@ -334,7 +334,7 @@ func mapclone(m any) any {
 
 // keys for implementing maps.keys
 //
-//go:linkname keys maps.keys
+//golang:linkname keys maps.keys
 func keys(m any, p unsafe.Pointer) {
 	// Currently unused in the maps package.
 	panic("unimplemented")
@@ -342,7 +342,7 @@ func keys(m any, p unsafe.Pointer) {
 
 // values for implementing maps.values
 //
-//go:linkname values maps.values
+//golang:linkname values maps.values
 func values(m any, p unsafe.Pointer) {
 	// Currently unused in the maps package.
 	panic("unimplemented")

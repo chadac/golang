@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package importer provides access to export data importers.
@@ -9,16 +9,16 @@
 // be relied on except for use in test cases using small programs that
 // depend only on the standard library. For reliable module-aware
 // loading of type information, use the packages.Load function from
-// golang.org/x/tools/go/packages.
+// golanglang.org/x/tools/golang/packages.
 package importer
 
 import (
-	"go/build"
-	"go/internal/gccgoimporter"
-	"go/internal/gcimporter"
-	"go/internal/srcimporter"
-	"go/token"
-	"go/types"
+	"golang/build"
+	"golang/internal/gccgolangimporter"
+	"golang/internal/gcimporter"
+	"golang/internal/srcimporter"
+	"golang/token"
+	"golang/types"
 	"io"
 	"runtime"
 )
@@ -28,11 +28,11 @@ import (
 type Lookup func(path string) (io.ReadCloser, error)
 
 // ForCompiler returns an Importer for importing from installed packages
-// for the compilers "gc" and "gccgo", or for importing directly
+// for the compilers "gc" and "gccgolang", or for importing directly
 // from the source if the compiler argument is "source". In this
 // latter case, importing may fail under circumstances where the
 // exported API is not entirely defined in pure Go source code
-// (if the package API depends on cgo-defined entities, the type
+// (if the package API depends on cgolang-defined entities, the type
 // checker won't have access to those).
 //
 // The lookup function is called each time the resulting importer needs
@@ -53,12 +53,12 @@ func ForCompiler(fset *token.FileSet, compiler string, lookup Lookup) types.Impo
 			lookup:   lookup,
 		}
 
-	case "gccgo":
-		var inst gccgoimporter.GccgoInstallation
-		if err := inst.InitFromDriver("gccgo"); err != nil {
+	case "gccgolang":
+		var inst gccgolangimporter.GccgolangInstallation
+		if err := inst.InitFromDriver("gccgolang"); err != nil {
 			return nil
 		}
-		return &gccgoimports{
+		return &gccgolangimports{
 			packages: make(map[string]*types.Package),
 			importer: inst.GetImporter(nil, nil),
 			lookup:   lookup,
@@ -81,7 +81,7 @@ func ForCompiler(fset *token.FileSet, compiler string, lookup Lookup) types.Impo
 // Deprecated: Use [ForCompiler], which populates a FileSet
 // with the positions of objects created by the importer.
 //
-//go:fix inline
+//golang:fix inline
 func For(compiler string, lookup Lookup) types.Importer {
 	return ForCompiler(token.NewFileSet(), compiler, lookup)
 }
@@ -117,19 +117,19 @@ func (m *gcimports) ImportFrom(path, srcDir string, mode types.ImportMode) (*typ
 	return gcimporter.Import(m.fset, m.packages, path, srcDir, m.lookup)
 }
 
-// gccgo importer
+// gccgolang importer
 
-type gccgoimports struct {
+type gccgolangimports struct {
 	packages map[string]*types.Package
-	importer gccgoimporter.Importer
+	importer gccgolangimporter.Importer
 	lookup   Lookup
 }
 
-func (m *gccgoimports) Import(path string) (*types.Package, error) {
+func (m *gccgolangimports) Import(path string) (*types.Package, error) {
 	return m.ImportFrom(path, "" /* no vendoring */, 0)
 }
 
-func (m *gccgoimports) ImportFrom(path, srcDir string, mode types.ImportMode) (*types.Package, error) {
+func (m *gccgolangimports) ImportFrom(path, srcDir string, mode types.ImportMode) (*types.Package, error) {
 	if mode != 0 {
 		panic("mode must be 0")
 	}

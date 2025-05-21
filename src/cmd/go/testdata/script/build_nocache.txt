@@ -9,17 +9,17 @@ env XDG_CACHE_HOME=
 env HOME=
 [GOOS:plan9] env home=
 [GOOS:windows] env LocalAppData=
-! go build -o triv triv.go
+! golang build -o triv triv.golang
 stderr 'build cache is required, but could not be located: GOCACHE is not defined and .*'
 
 # If GOCACHE is set but is not an absolute path, and we cannot build.
 env GOCACHE=test
-! go build -o triv triv.go
+! golang build -o triv triv.golang
 stderr 'build cache is required, but could not be located: GOCACHE is not an absolute path'
 
 # An explicit GOCACHE=off also disables builds.
 env GOCACHE=off
-! go build -o triv triv.go
+! golang build -o triv triv.golang
 stderr 'build cache is disabled by GOCACHE=off'
 
 # If GOCACHE is set to an unwritable directory, we should diagnose it as such.
@@ -32,9 +32,9 @@ chmod 0555 $WORK/unwritable/home
 [GOOS:plan9] env home=$WORK/unwritable/home
 
 env GOCACHE=$WORK/unwritable/home
-! go build -o triv triv.go
+! golang build -o triv triv.golang
 stderr 'failed to initialize build cache.* permission denied'
 
--- triv.go --
+-- triv.golang --
 package main
 func main() {}

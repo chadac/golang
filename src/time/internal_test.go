@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package time
@@ -41,7 +41,7 @@ func empty(arg any, seq uintptr, delta int64) {}
 // Test that a runtimeTimer with a period that would overflow when on
 // expiration does not throw or cause other timers to hang.
 //
-// This test has to be in internal_test.go since it fiddles with
+// This test has to be in internal_test.golang since it fiddles with
 // unexported data structures.
 func CheckRuntimeTimerPeriodOverflow() {
 	// We manually create a runtimeTimer with huge period, but that expires

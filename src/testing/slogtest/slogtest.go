@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package slogtest implements support for testing implementations of log/slog.Handler.
@@ -279,12 +279,12 @@ func TestHandler(h slog.Handler, results func() []map[string]any) error {
 	var errs []error
 	res := results()
 	if g, w := len(res), len(cases); g != w {
-		return fmt.Errorf("got %d results, want %d", g, w)
+		return fmt.Errorf("golangt %d results, want %d", g, w)
 	}
-	for i, got := range res {
+	for i, golangt := range res {
 		c := cases[i]
 		for _, check := range c.checks {
-			if problem := check(got); problem != "" {
+			if problem := check(golangt); problem != "" {
 				errs = append(errs, fmt.Errorf("%s: %s", problem, c.explanation))
 			}
 		}
@@ -305,9 +305,9 @@ func Run(t *testing.T, newHandler func(*testing.T) slog.Handler, result func(*te
 			}
 			l := slog.New(h)
 			c.f(l)
-			got := result(t)
+			golangt := result(t)
 			for _, check := range c.checks {
-				if p := check(got); p != "" {
+				if p := check(golangt); p != "" {
 					t.Errorf("%s: %s", p, c.explanation)
 				}
 			}
@@ -340,9 +340,9 @@ func hasAttr(key string, wantVal any) check {
 		if s := hasKey(key)(m); s != "" {
 			return s
 		}
-		gotVal := m[key]
-		if !reflect.DeepEqual(gotVal, wantVal) {
-			return fmt.Sprintf("%q: got %#v, want %#v", key, gotVal, wantVal)
+		golangtVal := m[key]
+		if !reflect.DeepEqual(golangtVal, wantVal) {
+			return fmt.Sprintf("%q: golangt %#v, want %#v", key, golangtVal, wantVal)
 		}
 		return ""
 	}

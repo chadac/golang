@@ -1,16 +1,16 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package types
 
 import "cmd/compile/internal/base"
 
-// AlgKind describes the kind of algorithms used for comparing and
+// AlgKind describes the kind of algolangrithms used for comparing and
 // hashing a Type.
 type AlgKind int8
 
-//go:generate stringer -type AlgKind -trimprefix A alg.go
+//golang:generate stringer -type AlgKind -trimprefix A alg.golang
 
 const (
 	AUNK   AlgKind = iota
@@ -37,8 +37,8 @@ const (
 // the higher priority kinds override lower priority kinds.
 var algPriority = [ASPECIAL + 1]int8{ASPECIAL: 1, ANOEQ: 2, ANOALG: 3, AMEM: -1}
 
-// setAlg sets the algorithm type of t to a, if it is of higher
-// priority to the current algorithm type.
+// setAlg sets the algolangrithm type of t to a, if it is of higher
+// priority to the current algolangrithm type.
 func (t *Type) setAlg(a AlgKind) {
 	if t.alg == AUNK {
 		base.Fatalf("setAlg(%v,%s) starting with unknown priority", t, a)
@@ -57,7 +57,7 @@ func AlgType(t *Type) AlgKind {
 }
 
 // TypeHasNoAlg reports whether t does not have any associated hash/eq
-// algorithms because t, or some component of t, is marked Noalg.
+// algolangrithms because t, or some component of t, is marked Noalg.
 func TypeHasNoAlg(t *Type) bool {
 	return AlgType(t) == ANOALG
 }

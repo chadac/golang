@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package markdown
@@ -118,19 +118,19 @@ func (p *parseState) startHTML(s *line) bool {
 	if i < len(t) {
 		switch t[i] {
 		default:
-			goto Next
+			golangto Next
 		case ' ', '\t', '>':
 			// ok
 			sep = t[i]
 		case '/':
 			if i+1 >= len(t) || t[i+1] != '>' {
-				goto Next
+				golangto Next
 			}
 		}
 	}
 
 	if len(buf) == 0 {
-		goto Next
+		golangto Next
 	}
 	{
 		c := buf[0]
@@ -147,7 +147,7 @@ func (p *parseState) startHTML(s *line) bool {
 			}
 		}
 		if !ok {
-			goto Next
+			golangto Next
 		}
 	}
 
@@ -415,7 +415,7 @@ func parseHTMLDecl(p *parseState, s string, i int) (Inline, int, bool) {
 	// zero or more characters not including the character >, and the character >.”
 	if i+2 < len(s) && isLetter(s[i+2]) {
 		if 'a' <= s[i+2] && s[i+2] <= 'z' {
-			p.corner = true // goldmark requires uppercase
+			p.corner = true // golangldmark requires uppercase
 		}
 		return parseHTMLMarker(s, i, "<!", ">")
 	}
@@ -474,7 +474,7 @@ func parseHTMLEntity(_ *parseState, s string, i int) (Inline, int, int, bool) {
 		return &Plain{string(rune(r))}, start, end, true
 	}
 
-	// Max name in list is 32 bytes. Try for 64 for good measure.
+	// Max name in list is 32 bytes. Try for 64 for golangod measure.
 	for j := i + 1; j < len(s) && j-i < 64; j++ {
 		if s[j] == '&' { // Stop possible quadratic search on &&&&&&&.
 			break

@@ -17,32 +17,32 @@ func checkDivByZero(f func()) (divByZero bool) {
 	return false
 }
 
-//go:noinline
+//golang:noinline
 func div_a(i uint, s []int) int {
 	return s[i%uint(len(s))]
 }
 
-//go:noinline
+//golang:noinline
 func div_b(i uint, j uint) uint {
 	return i / j
 }
 
-//go:noinline
+//golang:noinline
 func div_c(i int) int {
 	return 7 / (i - i)
 }
 
 func TestDivByZero(t *testing.T) {
-	if got := checkDivByZero(func() { div_b(7, 0) }); !got {
-		t.Errorf("expected div by zero for b(7, 0), got no error\n")
+	if golangt := checkDivByZero(func() { div_b(7, 0) }); !golangt {
+		t.Errorf("expected div by zero for b(7, 0), golangt no error\n")
 	}
-	if got := checkDivByZero(func() { div_b(7, 7) }); got {
-		t.Errorf("expected no error for b(7, 7), got div by zero\n")
+	if golangt := checkDivByZero(func() { div_b(7, 7) }); golangt {
+		t.Errorf("expected no error for b(7, 7), golangt div by zero\n")
 	}
-	if got := checkDivByZero(func() { div_a(4, nil) }); !got {
-		t.Errorf("expected div by zero for a(4, nil), got no error\n")
+	if golangt := checkDivByZero(func() { div_a(4, nil) }); !golangt {
+		t.Errorf("expected div by zero for a(4, nil), golangt no error\n")
 	}
-	if got := checkDivByZero(func() { div_c(5) }); !got {
-		t.Errorf("expected div by zero for c(5), got no error\n")
+	if golangt := checkDivByZero(func() { div_c(5) }); !golangt {
+		t.Errorf("expected div by zero for c(5), golangt no error\n")
 	}
 }

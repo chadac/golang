@@ -1,4 +1,4 @@
-// Code generated from _gen/Wasm.rules using 'go generate'; DO NOT EDIT.
+// Code generated from _gen/Wasm.rules using 'golang generate'; DO NOT EDIT.
 
 package ssa
 

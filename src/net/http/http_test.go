@@ -1,5 +1,5 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Tests of internal functions and things with no better homes.
@@ -37,26 +37,26 @@ func TestForeachHeaderElement(t *testing.T) {
 		{" Foo,Bar, Baz,lower,,Quux ", []string{"Foo", "Bar", "Baz", "lower", "Quux"}},
 	}
 	for _, tt := range tests {
-		var got []string
+		var golangt []string
 		foreachHeaderElement(tt.in, func(v string) {
-			got = append(got, v)
+			golangt = append(golangt, v)
 		})
-		if !slices.Equal(got, tt.want) {
-			t.Errorf("foreachHeaderElement(%q) = %q; want %q", tt.in, got, tt.want)
+		if !slices.Equal(golangt, tt.want) {
+			t.Errorf("foreachHeaderElement(%q) = %q; want %q", tt.in, golangt, tt.want)
 		}
 	}
 }
 
-// Test that cmd/go doesn't link in the HTTP server.
+// Test that cmd/golang doesn't link in the HTTP server.
 //
 // This catches accidental dependencies between the HTTP transport and
 // server code.
 func TestCmdGoNoHTTPServer(t *testing.T) {
 	t.Parallel()
-	goBin := testenv.GoToolPath(t)
-	out, err := testenv.Command(t, goBin, "tool", "nm", goBin).CombinedOutput()
+	golangBin := testenv.GoToolPath(t)
+	out, err := testenv.Command(t, golangBin, "tool", "nm", golangBin).CombinedOutput()
 	if err != nil {
-		t.Fatalf("go tool nm: %v: %s", err, out)
+		t.Fatalf("golang tool nm: %v: %s", err, out)
 	}
 	wantSym := map[string]bool{
 		// Verify these exist: (sanity checking this test)
@@ -70,12 +70,12 @@ func TestCmdGoNoHTTPServer(t *testing.T) {
 		"net/http.DefaultServeMux":       false,
 	}
 	for sym, want := range wantSym {
-		got := bytes.Contains(out, []byte(sym))
-		if !want && got {
-			t.Errorf("cmd/go unexpectedly links in HTTP server code; found symbol %q in cmd/go", sym)
+		golangt := bytes.Contains(out, []byte(sym))
+		if !want && golangt {
+			t.Errorf("cmd/golang unexpectedly links in HTTP server code; found symbol %q in cmd/golang", sym)
 		}
-		if want && !got {
-			t.Errorf("expected to find symbol %q in cmd/go; not found", sym)
+		if want && !golangt {
+			t.Errorf("expected to find symbol %q in cmd/golang; not found", sym)
 		}
 	}
 }
@@ -87,10 +87,10 @@ func TestOmitHTTP2(t *testing.T) {
 		t.Skip("skipping in short mode")
 	}
 	t.Parallel()
-	goTool := testenv.GoToolPath(t)
-	out, err := testenv.Command(t, goTool, "test", "-short", "-tags=nethttpomithttp2", "net/http").CombinedOutput()
+	golangTool := testenv.GoToolPath(t)
+	out, err := testenv.Command(t, golangTool, "test", "-short", "-tags=nethttpomithttp2", "net/http").CombinedOutput()
 	if err != nil {
-		t.Fatalf("go test -short failed: %v, %s", err, out)
+		t.Fatalf("golang test -short failed: %v, %s", err, out)
 	}
 }
 
@@ -99,10 +99,10 @@ func TestOmitHTTP2(t *testing.T) {
 // The TestOmitHTTP2 test above actually runs tests (in long mode).
 func TestOmitHTTP2Vet(t *testing.T) {
 	t.Parallel()
-	goTool := testenv.GoToolPath(t)
-	out, err := testenv.Command(t, goTool, "vet", "-tags=nethttpomithttp2", "net/http").CombinedOutput()
+	golangTool := testenv.GoToolPath(t)
+	out, err := testenv.Command(t, golangTool, "vet", "-tags=nethttpomithttp2", "net/http").CombinedOutput()
 	if err != nil {
-		t.Fatalf("go vet failed: %v, %s", err, out)
+		t.Fatalf("golang vet failed: %v, %s", err, out)
 	}
 }
 
@@ -162,10 +162,10 @@ func TestNoUnicodeStrings(t *testing.T) {
 		if path == "internal/ascii" {
 			return fs.SkipDir
 		}
-		if !strings.HasSuffix(path, ".go") ||
-			strings.HasSuffix(path, "_test.go") ||
-			path == "h2_bundle.go" ||
-			path == "internal/httpcommon/httpcommon.go" ||
+		if !strings.HasSuffix(path, ".golang") ||
+			strings.HasSuffix(path, "_test.golang") ||
+			path == "h2_bundle.golang" ||
+			path == "internal/httpcommon/httpcommon.golang" ||
 			d.IsDir() {
 			return nil
 		}

@@ -1,8 +1,8 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !(windows || js || wasip1)
+//golang:build !(windows || js || wasip1)
 
 package main
 
@@ -27,8 +27,8 @@ func TestExitCodeFilter(t *testing.T) {
 	}
 
 	// The "pre" output should all have been flushed already.
-	if want, got := pre, out.String(); want != got {
-		t.Errorf("filter should have already flushed %q, but flushed %q", want, got)
+	if want, golangt := pre, out.String(); want != golangt {
+		t.Errorf("filter should have already flushed %q, but flushed %q", want, golangt)
 	}
 
 	code, err := f.Finish()
@@ -37,11 +37,11 @@ func TestExitCodeFilter(t *testing.T) {
 	}
 
 	// Nothing more should have been written to out.
-	if want, got := pre, out.String(); want != got {
-		t.Errorf("want output %q, got %q", want, got)
+	if want, golangt := pre, out.String(); want != golangt {
+		t.Errorf("want output %q, golangt %q", want, golangt)
 	}
 	if want := 1; want != code {
-		t.Errorf("want exit code %d, got %d", want, code)
+		t.Errorf("want exit code %d, golangt %d", want, code)
 	}
 }
 
@@ -52,18 +52,18 @@ func TestExitCodeMissing(t *testing.T) {
 		var out strings.Builder
 		f, exitStr := newExitCodeFilter(&out)
 		if want := "exitcode="; want != exitStr {
-			t.Fatalf("test assumes exitStr will be %q, but got %q", want, exitStr)
+			t.Fatalf("test assumes exitStr will be %q, but golangt %q", want, exitStr)
 		}
 		f.Write([]byte(text))
 		_, err := f.Finish()
 		// We should get a no exit code error
 		if err == nil || !wantErr.MatchString(err.Error()) {
-			t.Errorf("want error matching %s, got %s", wantErr, err)
+			t.Errorf("want error matching %s, golangt %s", wantErr, err)
 		}
 		// And it should flush all output (even if it looks
 		// like we may be getting an exit code)
-		if got := out.String(); text != got {
-			t.Errorf("want full output %q, got %q", text, got)
+		if golangt := out.String(); text != golangt {
+			t.Errorf("want full output %q, golangt %q", text, golangt)
 		}
 	}
 	wantErr = regexp.MustCompile("^no exit code")

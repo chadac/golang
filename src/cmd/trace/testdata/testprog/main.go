@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -24,8 +24,8 @@ func main() {
 	// checkExecutionTimes relies on this.
 	var wg sync.WaitGroup
 	wg.Add(2)
-	go cpu10(&wg)
-	go cpu20(&wg)
+	golang cpu10(&wg)
+	golang cpu20(&wg)
 	wg.Wait()
 
 	// checkHeapMetrics relies on this.
@@ -35,7 +35,7 @@ func main() {
 	var wg2 sync.WaitGroup
 	for i := 0; i < runtime.GOMAXPROCS(0); i++ {
 		wg2.Add(1)
-		go func() {
+		golang func() {
 			defer wg2.Done()
 			cpuHog(50 * time.Millisecond)
 		}()
@@ -44,7 +44,7 @@ func main() {
 
 	// checkSyscalls relies on this.
 	done := make(chan error)
-	go blockingSyscall(50*time.Millisecond, done)
+	golang blockingSyscall(50*time.Millisecond, done)
 	if err := <-done; err != nil {
 		log.Fatal(err)
 	}
@@ -55,7 +55,7 @@ func main() {
 		log.Fatalf("listen failed: %v", err)
 	}
 	defer ln.Close()
-	go func() {
+	golang func() {
 		c, err := ln.Accept()
 		if err != nil {
 			return
@@ -76,7 +76,7 @@ func main() {
 	trace.Stop()
 }
 
-// blockingSyscall blocks the current goroutine for duration d in a syscall and
+// blockingSyscall blocks the current golangroutine for duration d in a syscall and
 // sends a message to done when it is done or if the syscall failed.
 func blockingSyscall(d time.Duration, done chan<- error) {
 	r, w, err := os.Pipe()
@@ -89,7 +89,7 @@ func blockingSyscall(d time.Duration, done chan<- error) {
 	time.AfterFunc(d, func() { w.Write(msg) })
 	_, err = syscall.Read(int(r.Fd()), make([]byte, len(msg)))
 	if err == nil && time.Since(start) < d {
-		err = fmt.Errorf("syscall returned too early: want=%s got=%s", d, time.Since(start))
+		err = fmt.Errorf("syscall returned too early: want=%s golangt=%s", d, time.Since(start))
 	}
 	done <- err
 }

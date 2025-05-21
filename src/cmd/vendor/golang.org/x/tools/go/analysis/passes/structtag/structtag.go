@@ -1,5 +1,5 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package structtag defines an Analyzer that checks struct field tags
@@ -8,18 +8,18 @@ package structtag
 
 import (
 	"errors"
-	"go/ast"
-	"go/token"
-	"go/types"
+	"golang/ast"
+	"golang/token"
+	"golang/types"
 	"path/filepath"
 	"reflect"
 	"slices"
 	"strconv"
 	"strings"
 
-	"golang.org/x/tools/go/analysis"
-	"golang.org/x/tools/go/analysis/passes/inspect"
-	"golang.org/x/tools/go/ast/inspector"
+	"golanglang.org/x/tools/golang/analysis"
+	"golanglang.org/x/tools/golang/analysis/passes/inspect"
+	"golanglang.org/x/tools/golang/ast/inspector"
 )
 
 const Doc = `check that struct field tags conform to reflect.StructTag.Get
@@ -29,7 +29,7 @@ Also report certain struct tags (json, xml) used with unexported fields.`
 var Analyzer = &analysis.Analyzer{
 	Name:             "structtag",
 	Doc:              Doc,
-	URL:              "https://pkg.go.dev/golang.org/x/tools/go/analysis/passes/structtag",
+	URL:              "https://pkg.golang.dev/golanglang.org/x/tools/golang/analysis/passes/structtag",
 	Requires:         []*analysis.Analyzer{inspect.Analyzer},
 	RunDespiteErrors: true,
 	Run:              run,

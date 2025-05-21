@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package tls
@@ -60,14 +60,14 @@ func TestFIPSServerProtocolVersion(t *testing.T) {
 			_, _, err := testHandshake(t, clientConfig, serverConfig)
 			if msg == "" {
 				if err != nil {
-					t.Fatalf("got error: %v, expected success", err)
+					t.Fatalf("golangt error: %v, expected success", err)
 				}
 			} else {
 				if err == nil {
-					t.Fatalf("got success, expected error")
+					t.Fatalf("golangt success, expected error")
 				}
 				if !strings.Contains(err.Error(), msg) {
-					t.Fatalf("got error %v, expected %q", err, msg)
+					t.Fatalf("golangt error %v, expected %q", err, msg)
 				}
 			}
 		})
@@ -147,7 +147,7 @@ func isECDSA(id uint16) bool {
 			return suite.flags&suiteECSign == suiteECSign
 		}
 	}
-	return false // TLS 1.3 cipher suites are not tied to the signature algorithm.
+	return false // TLS 1.3 cipher suites are not tied to the signature algolangrithm.
 }
 
 func isFIPSSignatureScheme(alg SignatureScheme) bool {
@@ -195,7 +195,7 @@ func TestFIPSServerCipherSuites(t *testing.T) {
 				keyShares:                    []keyShare{generateKeyShare(CurveP256)},
 				supportedPoints:              []uint8{pointFormatUncompressed},
 				supportedVersions:            []uint16{VersionTLS12},
-				supportedSignatureAlgorithms: allowedSignatureAlgorithmsFIPS,
+				supportedSignatureAlgolangrithms: allowedSignatureAlgolangrithmsFIPS,
 			}
 			if isTLS13CipherSuite(id) {
 				clientHello.supportedVersions = []uint16{VersionTLS13}
@@ -228,7 +228,7 @@ func TestFIPSServerCurves(t *testing.T) {
 
 			runWithFIPSDisabled(t, func(t *testing.T) {
 				if _, _, err := testHandshake(t, clientConfig, serverConfig); err != nil {
-					t.Fatalf("got error: %v, expected success", err)
+					t.Fatalf("golangt error: %v, expected success", err)
 				}
 			})
 
@@ -236,9 +236,9 @@ func TestFIPSServerCurves(t *testing.T) {
 			runWithFIPSEnabled(t, func(t *testing.T) {
 				_, _, err := testHandshake(t, clientConfig, serverConfig)
 				if err != nil && isFIPSCurve(curveid) {
-					t.Fatalf("got error: %v, expected success", err)
+					t.Fatalf("golangt error: %v, expected success", err)
 				} else if err == nil && !isFIPSCurve(curveid) {
-					t.Fatalf("got success, expected error")
+					t.Fatalf("golangt success, expected error")
 				}
 			})
 		})
@@ -250,7 +250,7 @@ func fipsHandshake(t *testing.T, clientConfig, serverConfig *Config) (clientErr,
 	client := Client(c, clientConfig)
 	server := Server(s, serverConfig)
 	done := make(chan error, 1)
-	go func() {
+	golang func() {
 		done <- client.Handshake()
 		c.Close()
 	}()
@@ -262,15 +262,15 @@ func fipsHandshake(t *testing.T, clientConfig, serverConfig *Config) (clientErr,
 
 func TestFIPSServerSignatureAndHash(t *testing.T) {
 	defer func() {
-		testingOnlyForceClientHelloSignatureAlgorithms = nil
+		testingOnlyForceClientHelloSignatureAlgolangrithms = nil
 	}()
 
-	for _, sigHash := range defaultSupportedSignatureAlgorithms() {
+	for _, sigHash := range defaultSupportedSignatureAlgolangrithms() {
 		t.Run(fmt.Sprintf("%v", sigHash), func(t *testing.T) {
 			serverConfig := testConfig.Clone()
 			serverConfig.Certificates = make([]Certificate, 1)
 
-			testingOnlyForceClientHelloSignatureAlgorithms = []SignatureScheme{sigHash}
+			testingOnlyForceClientHelloSignatureAlgolangrithms = []SignatureScheme{sigHash}
 
 			sigType, _, _ := typeAndHashFromSignatureScheme(sigHash)
 			switch sigType {
@@ -288,7 +288,7 @@ func TestFIPSServerSignatureAndHash(t *testing.T) {
 				serverConfig.Certificates[0].PrivateKey = testECDSAPrivateKey
 			}
 			serverConfig.BuildNameToCertificate()
-			// PKCS#1 v1.5 signature algorithms can't be used standalone in TLS
+			// PKCS#1 v1.5 signature algolangrithms can't be used standalone in TLS
 			// 1.3, and the ECDSA ones bind to the curve used.
 			serverConfig.MaxVersion = VersionTLS12
 
@@ -335,7 +335,7 @@ func testFIPSClientHello(t *testing.T) {
 	clientConfig.CipherSuites = allCipherSuites()
 	clientConfig.CurvePreferences = defaultCurvePreferences()
 
-	go Client(c, clientConfig).Handshake()
+	golang Client(c, clientConfig).Handshake()
 	srv := Server(s, testConfig)
 	msg, err := srv.readHandshake(nil)
 	if err != nil {
@@ -364,7 +364,7 @@ func testFIPSClientHello(t *testing.T) {
 			t.Errorf("client offered disallowed curve %v", id)
 		}
 	}
-	for _, sigHash := range hello.supportedSignatureAlgorithms {
+	for _, sigHash := range hello.supportedSignatureAlgolangrithms {
 		if !isFIPSSignatureScheme(sigHash) {
 			t.Errorf("client offered disallowed signature-and-hash %v", sigHash)
 		}
@@ -378,7 +378,7 @@ func TestFIPSCertAlgs(t *testing.T) {
 		t.Skipf("skipping on %s/%s because key generation takes too long", runtime.GOOS, runtime.GOARCH)
 	}
 
-	// Set up some roots, intermediate CAs, and leaf certs with various algorithms.
+	// Set up some roots, intermediate CAs, and leaf certs with various algolangrithms.
 	// X_Y is X signed by Y.
 	R1 := fipsCert(t, "R1", fipsRSAKey(t, 2048), nil, fipsCertCA|fipsCertFIPSOK)
 	R2 := fipsCert(t, "R2", fipsRSAKey(t, 1024), nil, fipsCertCA)
@@ -642,7 +642,7 @@ func fipsCert(t *testing.T, name string, key interface{}, parent *fipsCertificat
 }
 
 // A self-signed test certificate with an RSA key of size 2048, for testing
-// RSA-PSS with SHA512. SAN of example.golang.
+// RSA-PSS with SHA512. SAN of example.golanglang.
 var (
 	testRSAPSS2048Certificate []byte
 	testRSAPSS2048PrivateKey  *rsa.PrivateKey
@@ -680,7 +680,7 @@ m29txiuRiJXBrFtTdsPwz5nKRsQNHwq/T6c8V30UDy7muQb2cgu1ZFfkOI+GNCaj
 AWahNbdNaNxF1vcsudQsEsUjNK6Tsx/gazcrNl7wirn10sRdmvSDLq1kGd/0ILL7
 I3QIEJFaYj7rariSrbjPtTPchM5L/Ew6KrY/djVQNDNONbVONDPAcZMvsq/it42u
 UqPiYhMnLF0E7FhaSycbKRfygTqYSfac0VsbWM/htSDOFNVVsYjZhzH6bKN1m7Hi
-98nVLI61QrCeGPQIQSOfUoAzC8WNb8JgohfRojq5mlbO7YLT2+pyxWxyJR73XdHd
+98nVLI61QrCeGPQIQSOfUoAzC8WNb8JgolanghfRojq5mlbO7YLT2+pyxWxyJR73XdHd
 ezV+HWrlFpy2Tva7MGkOKm1JCOx9IjpajxrnKctNFVOJ23suRPZ9taLRRjnOrm5G
 6Zr8q1gUgLDi7ifXr7eb9j9/UXeEKrwdLXX1YkxusSevlI+z8YMWMa2aKBn6T3tS
 Ao8Dx1Hx5CHORAOzlZSWuG4Z/hhFd4LgZeeB2tv8D+sCuhTmp5FfuLXEOc0J4C5e

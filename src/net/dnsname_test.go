@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package net
@@ -16,7 +16,7 @@ type dnsNameTest struct {
 
 var dnsNameTests = []dnsNameTest{
 	// RFC 2181, section 11.
-	{"_xmpp-server._tcp.google.com", true},
+	{"_xmpp-server._tcp.golangogle.com", true},
 	{"foo.com", true},
 	{"1foo.com", true},
 	{"26.0.0.73.com", true},
@@ -59,7 +59,7 @@ func emitDNSNameTest(ch chan<- dnsNameTest) {
 
 func TestDNSName(t *testing.T) {
 	ch := make(chan dnsNameTest)
-	go emitDNSNameTest(ch)
+	golang emitDNSNameTest(ch)
 	for tc := range ch {
 		if isDomainName(tc.name) != tc.result {
 			t.Errorf("isDomainName(%q) = %v; want %v", tc.name, !tc.result, tc.result)

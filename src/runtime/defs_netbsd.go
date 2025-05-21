@@ -1,18 +1,18 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build ignore
+//golang:build ignore
 
 /*
-Input to cgo.
+Input to cgolang.
 
-GOARCH=amd64 go tool cgo -cdefs defs_netbsd.go defs_netbsd_amd64.go >defs_netbsd_amd64.h
-GOARCH=386 go tool cgo -cdefs defs_netbsd.go defs_netbsd_386.go >defs_netbsd_386.h
-GOARCH=arm go tool cgo -cdefs defs_netbsd.go defs_netbsd_arm.go >defs_netbsd_arm.h
+GOARCH=amd64 golang tool cgolang -cdefs defs_netbsd.golang defs_netbsd_amd64.golang >defs_netbsd_amd64.h
+GOARCH=386 golang tool cgolang -cdefs defs_netbsd.golang defs_netbsd_386.golang >defs_netbsd_386.h
+GOARCH=arm golang tool cgolang -cdefs defs_netbsd.golang defs_netbsd_arm.golang >defs_netbsd_arm.h
 */
 
-// +godefs map __fpregset_t [644]byte
+// +golangdefs map __fpregset_t [644]byte
 
 package runtime
 

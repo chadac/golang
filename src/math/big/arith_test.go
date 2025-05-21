@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file defines tests of consistent behavior between assembly and Go versions of basic operators,
@@ -555,12 +555,12 @@ func testShiftFunc(t *testing.T, f func(z, x []Word, s uint) Word, a argVU) {
 	c := f(z, x, a.s)
 	for i, zi := range z {
 		if zi != a.r[i] {
-			t.Errorf("d := %v, %s (d[%d:%d], d[%d:%d], %d)\n\tgot z[%d] = %#x; want %#x", a.d, a.m, a.zp, a.zp+a.l, a.xp, a.xp+a.l, a.s, i, zi, a.r[i])
+			t.Errorf("d := %v, %s (d[%d:%d], d[%d:%d], %d)\n\tgolangt z[%d] = %#x; want %#x", a.d, a.m, a.zp, a.zp+a.l, a.xp, a.xp+a.l, a.s, i, zi, a.r[i])
 			break
 		}
 	}
 	if c != a.c {
-		t.Errorf("d := %v, %s (d[%d:%d], d[%d:%d], %d)\n\tgot c = %#x; want %#x", a.d, a.m, a.zp, a.zp+a.l, a.xp, a.xp+a.l, a.s, c, a.c)
+		t.Errorf("d := %v, %s (d[%d:%d], d[%d:%d], %d)\n\tgolangt c = %#x; want %#x", a.d, a.m, a.zp, a.zp+a.l, a.xp, a.xp+a.l, a.s, c, a.c)
 	}
 }
 
@@ -584,10 +584,10 @@ func TestIssue31084(t *testing.T) {
 	const n = 165
 	p := nat(nil).expNN(stk, nat{5}, nat{n}, nil, false)
 	p = p.lsh(p, n)
-	got := string(p.utoa(10))
+	golangt := string(p.utoa(10))
 	want := "1" + strings.Repeat("0", n)
-	if got != want {
-		t.Errorf("lsh(%v, %v)\n\tgot  %s\n\twant %s", p, n, got, want)
+	if golangt != want {
+		t.Errorf("lsh(%v, %v)\n\tgolangt  %s\n\twant %s", p, n, golangt, want)
 	}
 }
 
@@ -597,10 +597,10 @@ func TestIssue42838(t *testing.T) {
 	const s = 192
 	z, _, _, _ := nat(nil).scan(strings.NewReader(issue42838Value), 0, false)
 	z = z.lsh(z, s)
-	got := string(z.utoa(10))
+	golangt := string(z.utoa(10))
 	want := "1" + strings.Repeat("0", s)
-	if got != want {
-		t.Errorf("lsh(%v, %v)\n\tgot  %s\n\twant %s", z, s, got, want)
+	if golangt != want {
+		t.Errorf("lsh(%v, %v)\n\tgolangt  %s\n\twant %s", z, s, golangt, want)
 	}
 }
 
@@ -642,12 +642,12 @@ func testFunVWW(t *testing.T, msg string, f funVWW, a argVWW) {
 	c := f(z, a.x, a.y, a.r)
 	for i, zi := range z {
 		if zi != a.z[i] {
-			t.Errorf("%s%+v\n\tgot z[%d] = %#x; want %#x", msg, a, i, zi, a.z[i])
+			t.Errorf("%s%+v\n\tgolangt z[%d] = %#x; want %#x", msg, a, i, zi, a.z[i])
 			break
 		}
 	}
 	if c != a.c {
-		t.Errorf("%s%+v\n\tgot c = %#x; want %#x", msg, a, c, a.c)
+		t.Errorf("%s%+v\n\tgolangt c = %#x; want %#x", msg, a, c, a.c)
 	}
 }
 
@@ -669,7 +669,7 @@ func testFunWVW(t *testing.T, msg string, f funWVW, a argWVW) {
 	if !slices.Equal(z, a.z) || r != a.r {
 		t.Errorf("%s%+v\nhave %v, %v\nwant %v, %v", msg, a, z, r, a.z, a.r)
 	} else {
-		t.Logf("%s%+v\ngood %v, %v", msg, a, z, r)
+		t.Logf("%s%+v\ngolangod %v, %v", msg, a, z, r)
 	}
 }
 
@@ -698,7 +698,7 @@ func TestMulWW(t *testing.T) {
 	for i, test := range mulWWTests {
 		q, r := mulWW(test.x, test.y)
 		if q != test.q || r != test.r {
-			t.Errorf("#%d got (%x, %x) want (%x, %x)", i, q, r, test.q, test.r)
+			t.Errorf("#%d golangt (%x, %x) want (%x, %x)", i, q, r, test.q, test.r)
 		}
 	}
 }
@@ -718,7 +718,7 @@ func TestMulAddWWW(t *testing.T) {
 	for i, test := range mulAddWWWTests {
 		q, r := mulAddWWW_g(test.x, test.y, test.c)
 		if q != test.q || r != test.r {
-			t.Errorf("#%d got (%x, %x) want (%x, %x)", i, q, r, test.q, test.r)
+			t.Errorf("#%d golangt (%x, %x) want (%x, %x)", i, q, r, test.q, test.r)
 		}
 	}
 }
@@ -739,7 +739,7 @@ func TestDivWW(t *testing.T) {
 		rec := reciprocalWord(test.y)
 		q, r := divWW(test.x1, test.x0, test.y, rec)
 		if q != test.q || r != test.r {
-			t.Errorf("#%d got (%x, %x) want (%x, %x)", i, q, r, test.q, test.r)
+			t.Errorf("#%d golangt (%x, %x) want (%x, %x)", i, q, r, test.q, test.r)
 		}
 	}
 	//random tests
@@ -754,7 +754,7 @@ func TestDivWW(t *testing.T) {
 		qGot, rGot := divWW(x1, x0, y, rec)
 		qWant, rWant := bits.Div(uint(x1), uint(x0), uint(y))
 		if uint(qGot) != qWant || uint(rGot) != rWant {
-			t.Errorf("#%d got (%x, %x) want (%x, %x)", i, qGot, rGot, qWant, rWant)
+			t.Errorf("#%d golangt (%x, %x) want (%x, %x)", i, qGot, rGot, qWant, rWant)
 		}
 	}
 }
@@ -768,10 +768,10 @@ var benchSizes = []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 16, 32, 64, 100, 1000, 10_
 type benchFunc func(z, x, y []Word)
 
 // bench runs benchmarks of fn for a variety of word sizes.
-// It adds the given suffix (for example "/impl=go") to the benchmark names it creates,
+// It adds the given suffix (for example "/impl=golang") to the benchmark names it creates,
 // after a "/words=N" parameter. Putting words first makes it easier to run
 // all benchmarks with a specific word size
-// (go test -run=NONE '-bench=V/words=100$')
+// (golang test -run=NONE '-bench=V/words=100$')
 // even if different benchmarks have different numbers of other parameters.
 func bench(b *testing.B, suffix string, fn benchFunc) {
 	for _, n := range benchSizes {
@@ -852,12 +852,12 @@ func arithVV(z, x, y []Word) Word {
 
 func BenchmarkAddVV(b *testing.B) {
 	bench(b, "/impl=asm", benchVV(addVV))
-	bench(b, "/impl=go", benchVV(addVV_g))
+	bench(b, "/impl=golang", benchVV(addVV_g))
 }
 
 func BenchmarkSubVV(b *testing.B) {
 	bench(b, "/impl=asm", benchVV(subVV))
-	bench(b, "/impl=go", benchVV(subVV_g))
+	bench(b, "/impl=golang", benchVV(subVV_g))
 }
 
 func benchVV(fn func(z, x, y []Word) Word) benchFunc {
@@ -883,7 +883,7 @@ func benchVW(fn func(z, x []Word, w Word) Word, w Word) benchFunc {
 func benchCarryVW(fn func(z, x []Word, w Word) Word, xi, w Word) benchFunc {
 	return func(z, x, y []Word) {
 		// Fill x with xi the first time we are called with a given x.
-		// Otherwise x is random, so checking the first two elements is good enough.
+		// Otherwise x is random, so checking the first two elements is golangod enough.
 		// Assume this is the warmup, so we don't need to worry about it taking longer.
 		if x[0] != w || len(x) >= 2 && x[1] != w {
 			for i := range x {
@@ -901,12 +901,12 @@ func benchShortVW(fn func(z, x []Word, w Word) Word, w Word) benchFunc {
 
 func BenchmarkLshVU(b *testing.B) {
 	bench(b, "/impl=asm", benchVU(lshVU, 3))
-	bench(b, "/impl=go", benchVU(lshVU_g, 3))
+	bench(b, "/impl=golang", benchVU(lshVU_g, 3))
 }
 
 func BenchmarkRshVU(b *testing.B) {
 	bench(b, "/impl=asm", benchVU(rshVU, 3))
-	bench(b, "/impl=go", benchVU(rshVU_g, 3))
+	bench(b, "/impl=golang", benchVU(rshVU_g, 3))
 }
 
 func benchVU(fn func(z, x []Word, s uint) Word, s uint) benchFunc {
@@ -915,7 +915,7 @@ func benchVU(fn func(z, x []Word, s uint) Word, s uint) benchFunc {
 
 func BenchmarkMulAddVWW(b *testing.B) {
 	bench(b, "/impl=asm", benchVWW(mulAddVWW, 42, 100))
-	bench(b, "/impl=go", benchVWW(mulAddVWW_g, 42, 100))
+	bench(b, "/impl=golang", benchVWW(mulAddVWW_g, 42, 100))
 }
 
 func benchVWW(fn func(z, x []Word, w1, w2 Word) Word, w1, w2 Word) benchFunc {
@@ -924,7 +924,7 @@ func benchVWW(fn func(z, x []Word, w1, w2 Word) Word, w1, w2 Word) benchFunc {
 
 func BenchmarkAddMulVVWW(b *testing.B) {
 	bench(b, "/impl=asm", benchVVWW(addMulVVWW, 42, 100))
-	bench(b, "/impl=go", benchVVWW(addMulVVWW_g, 42, 100))
+	bench(b, "/impl=golang", benchVVWW(addMulVVWW_g, 42, 100))
 }
 
 func benchVVWW(fn func(z, x, y []Word, w1, w2 Word) Word, w1, w2 Word) benchFunc {

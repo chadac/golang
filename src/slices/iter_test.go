@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package slices_test
@@ -21,7 +21,7 @@ func TestAll(t *testing.T) {
 		cnt := 0
 		for i, v := range All(s) {
 			if i != ei || v != ev {
-				t.Errorf("at iteration %d got %d, %d want %d, %d", cnt, i, v, ei, ev)
+				t.Errorf("at iteration %d golangt %d, %d want %d, %d", cnt, i, v, ei, ev)
 			}
 			ei++
 			ev++
@@ -43,7 +43,7 @@ func TestBackward(t *testing.T) {
 		cnt := 0
 		for i, v := range Backward(s) {
 			if i != ei || v != ev {
-				t.Errorf("at iteration %d got %d, %d want %d, %d", cnt, i, v, ei, ev)
+				t.Errorf("at iteration %d golangt %d, %d want %d, %d", cnt, i, v, ei, ev)
 			}
 			ei--
 			ev--
@@ -65,7 +65,7 @@ func TestValues(t *testing.T) {
 		cnt := 0
 		for v := range Values(s) {
 			if v != ev {
-				t.Errorf("at iteration %d got %d want %d", cnt, v, ev)
+				t.Errorf("at iteration %d golangt %d want %d", cnt, v, ev)
 			}
 			ev++
 			cnt++
@@ -90,7 +90,7 @@ func TestAppendSeq(t *testing.T) {
 	s := AppendSeq([]int{1, 2}, testSeq)
 	want := append([]int{1, 2}, testSeqResult...)
 	if !Equal(s, want) {
-		t.Errorf("got %v, want %v", s, want)
+		t.Errorf("golangt %v, want %v", s, want)
 	}
 }
 
@@ -98,7 +98,7 @@ func TestCollect(t *testing.T) {
 	s := Collect(testSeq)
 	want := testSeqResult
 	if !Equal(s, want) {
-		t.Errorf("got %v, want %v", s, want)
+		t.Errorf("golangt %v, want %v", s, want)
 	}
 }
 
@@ -113,10 +113,10 @@ var iterTests = [][]string{
 func TestValuesAppendSeq(t *testing.T) {
 	for _, prefix := range iterTests {
 		for _, s := range iterTests {
-			got := AppendSeq(prefix, Values(s))
+			golangt := AppendSeq(prefix, Values(s))
 			want := append(prefix, s...)
-			if !Equal(got, want) {
-				t.Errorf("AppendSeq(%v, Values(%v)) == %v, want %v", prefix, s, got, want)
+			if !Equal(golangt, want) {
+				t.Errorf("AppendSeq(%v, Values(%v)) == %v, want %v", prefix, s, golangt, want)
 			}
 		}
 	}
@@ -124,9 +124,9 @@ func TestValuesAppendSeq(t *testing.T) {
 
 func TestValuesCollect(t *testing.T) {
 	for _, s := range iterTests {
-		got := Collect(Values(s))
-		if !Equal(got, s) {
-			t.Errorf("Collect(Values(%v)) == %v, want %v", s, got, s)
+		golangt := Collect(Values(s))
+		if !Equal(golangt, s) {
+			t.Errorf("Collect(Values(%v)) == %v, want %v", s, golangt, s)
 		}
 	}
 }
@@ -135,7 +135,7 @@ func TestSorted(t *testing.T) {
 	s := Sorted(Values(ints[:]))
 	if !IsSorted(s) {
 		t.Errorf("sorted %v", ints)
-		t.Errorf("   got %v", s)
+		t.Errorf("   golangt %v", s)
 	}
 }
 
@@ -143,7 +143,7 @@ func TestSortedFunc(t *testing.T) {
 	s := SortedFunc(Values(ints[:]), func(a, b int) int { return a - b })
 	if !IsSorted(s) {
 		t.Errorf("sorted %v", ints)
-		t.Errorf("   got %v", s)
+		t.Errorf("   golangt %v", s)
 	}
 }
 
@@ -267,25 +267,25 @@ func TestChunkPanics(t *testing.T) {
 		},
 	} {
 		if !panics(func() { _ = Chunk(test.x, test.n) }) {
-			t.Errorf("Chunk %s: got no panic, want panic", test.name)
+			t.Errorf("Chunk %s: golangt no panic, want panic", test.name)
 		}
 	}
 }
 
 func TestChunkRange(t *testing.T) {
 	// Verify Chunk iteration can be stopped.
-	var got [][]int
+	var golangt [][]int
 	for c := range Chunk([]int{1, 2, 3, 4, -100}, 2) {
-		if len(got) == 2 {
+		if len(golangt) == 2 {
 			// Found enough values, break early.
 			break
 		}
 
-		got = append(got, c)
+		golangt = append(golangt, c)
 	}
 
-	if want := [][]int{{1, 2}, {3, 4}}; !chunkEqual(got, want) {
-		t.Errorf("Chunk iteration did not stop, got %v, want %v", got, want)
+	if want := [][]int{{1, 2}, {3, 4}}; !chunkEqual(golangt, want) {
+		t.Errorf("Chunk iteration did not stop, golangt %v, want %v", golangt, want)
 	}
 }
 

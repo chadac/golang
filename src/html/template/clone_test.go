@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package template
@@ -26,8 +26,8 @@ func TestAddParseTreeHTML(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if got, want := b.String(), ` 1&gt;0 <a href=" 1%3e0 "></a>`; got != want {
-		t.Errorf("got %q want %q", got, want)
+	if golangt, want := b.String(), ` 1&gt;0 <a href=" 1%3e0 "></a>`; golangt != want {
+		t.Errorf("golangt %q want %q", golangt, want)
 	}
 }
 
@@ -53,8 +53,8 @@ func TestClone(t *testing.T) {
 	if err := t1.ExecuteTemplate(b, "a", "<i>*/"); err != nil {
 		t.Fatal(err)
 	}
-	if got, want := b.String(), ` <a href=" %3ci%3e*/ "></a> `; got != want {
-		t.Errorf("t1: got %q want %q", got, want)
+	if golangt, want := b.String(), ` <a href=" %3ci%3e*/ "></a> `; golangt != want {
+		t.Errorf("t1: golangt %q want %q", golangt, want)
 	}
 
 	// Clone t0 as t2.
@@ -67,8 +67,8 @@ func TestClone(t *testing.T) {
 	if err := t2.ExecuteTemplate(b, "a", "<i>*/"); err != nil {
 		t.Fatal(err)
 	}
-	if got, want := b.String(), ` <p onclick="javascript: &#34;\u003ci\u003e*/&#34; "></p> `; got != want {
-		t.Errorf("t2: got %q want %q", got, want)
+	if golangt, want := b.String(), ` <p onclick="javascript: &#34;\u003ci\u003e*/&#34; "></p> `; golangt != want {
+		t.Errorf("t2: golangt %q want %q", golangt, want)
 	}
 
 	// Clone t0 as t3, but do not execute t3 yet.
@@ -83,15 +83,15 @@ func TestClone(t *testing.T) {
 	// Clone t0 as t4. Redefining the "lhs" template should not fail.
 	t4 := Must(t0.Clone())
 	if _, err := t4.Parse(`{{define "lhs"}} OK {{end}}`); err != nil {
-		t.Errorf(`redefine "lhs": got err %v want nil`, err)
+		t.Errorf(`redefine "lhs": golangt err %v want nil`, err)
 	}
 	// Cloning t1 should fail as it has been executed.
 	if _, err := t1.Clone(); err == nil {
-		t.Error("cloning t1: got nil err want non-nil")
+		t.Error("cloning t1: golangt nil err want non-nil")
 	}
 	// Redefining the "lhs" template in t1 should fail as it has been executed.
 	if _, err := t1.Parse(`{{define "lhs"}} OK {{end}}`); err == nil {
-		t.Error(`redefine "lhs": got nil err want non-nil`)
+		t.Error(`redefine "lhs": golangt nil err want non-nil`)
 	}
 
 	// Execute t0.
@@ -99,21 +99,21 @@ func TestClone(t *testing.T) {
 	if err := t0.ExecuteTemplate(b, "a", "<i>*/"); err != nil {
 		t.Fatal(err)
 	}
-	if got, want := b.String(), ` ( &lt;i&gt;*/ ) `; got != want {
-		t.Errorf("t0: got %q want %q", got, want)
+	if golangt, want := b.String(), ` ( &lt;i&gt;*/ ) `; golangt != want {
+		t.Errorf("t0: golangt %q want %q", golangt, want)
 	}
 
 	// Clone t0. This should fail, as t0 has already executed.
 	if _, err := t0.Clone(); err == nil {
-		t.Error(`t0.Clone(): got nil err want non-nil`)
+		t.Error(`t0.Clone(): golangt nil err want non-nil`)
 	}
 
 	// Similarly, cloning sub-templates should fail.
 	if _, err := t0.Lookup("a").Clone(); err == nil {
-		t.Error(`t0.Lookup("a").Clone(): got nil err want non-nil`)
+		t.Error(`t0.Lookup("a").Clone(): golangt nil err want non-nil`)
 	}
 	if _, err := t0.Lookup("lhs").Clone(); err == nil {
-		t.Error(`t0.Lookup("lhs").Clone(): got nil err want non-nil`)
+		t.Error(`t0.Lookup("lhs").Clone(): golangt nil err want non-nil`)
 	}
 
 	// Execute t3.
@@ -121,8 +121,8 @@ func TestClone(t *testing.T) {
 	if err := t3.ExecuteTemplate(b, "a", "<i>*/"); err != nil {
 		t.Fatal(err)
 	}
-	if got, want := b.String(), ` <style> ZgotmplZ </style> `; got != want {
-		t.Errorf("t3: got %q want %q", got, want)
+	if golangt, want := b.String(), ` <style> ZgolangtmplZ </style> `; golangt != want {
+		t.Errorf("t3: golangt %q want %q", golangt, want)
 	}
 }
 
@@ -136,7 +136,7 @@ func TestTemplates(t *testing.T) {
 	t0 := Must(New("t0").Parse(tmpl))
 	templates := t0.Templates()
 	if len(templates) != len(names) {
-		t.Errorf("expected %d templates; got %d", len(names), len(templates))
+		t.Errorf("expected %d templates; golangt %d", len(names), len(templates))
 	}
 	for _, name := range names {
 		found := false
@@ -152,7 +152,7 @@ func TestTemplates(t *testing.T) {
 	}
 }
 
-// This used to crash; https://golang.org/issue/3281
+// This used to crash; https://golanglang.org/issue/3281
 func TestCloneCrash(t *testing.T) {
 	t1 := New("all")
 	Must(t1.New("t1").Parse(`{{define "foo"}}foo{{end}}`))
@@ -176,7 +176,7 @@ func TestCloneThenParse(t *testing.T) {
 	}
 }
 
-// https://golang.org/issue/5980
+// https://golanglang.org/issue/5980
 func TestFuncMapWorksAfterClone(t *testing.T) {
 	funcs := FuncMap{"customFunc": func() (string, error) {
 		return "", errors.New("issue5980")
@@ -190,14 +190,14 @@ func TestFuncMapWorksAfterClone(t *testing.T) {
 	// since cloning cannot occur after execution.
 	toClone := Must(New("").Funcs(funcs).Parse("{{customFunc}}"))
 	cloned := Must(toClone.Clone())
-	gotErr := cloned.Execute(io.Discard, nil)
+	golangtErr := cloned.Execute(io.Discard, nil)
 
-	if wantErr.Error() != gotErr.Error() {
-		t.Errorf("clone error message mismatch want %q got %q", wantErr, gotErr)
+	if wantErr.Error() != golangtErr.Error() {
+		t.Errorf("clone error message mismatch want %q golangt %q", wantErr, golangtErr)
 	}
 }
 
-// https://golang.org/issue/16101
+// https://golanglang.org/issue/16101
 func TestTemplateCloneExecuteRace(t *testing.T) {
 	const (
 		input   = `<title>{{block "a" .}}a{{end}}</title><body>{{block "b" .}}b{{end}}<body>`
@@ -209,7 +209,7 @@ func TestTemplateCloneExecuteRace(t *testing.T) {
 	var wg sync.WaitGroup
 	for i := 0; i < 10; i++ {
 		wg.Add(1)
-		go func() {
+		golang func() {
 			defer wg.Done()
 			for i := 0; i < 100; i++ {
 				if err := tmpl.Execute(io.Discard, "data"); err != nil {
@@ -243,7 +243,7 @@ func TestCloneGrowth(t *testing.T) {
 	}
 }
 
-// https://golang.org/issue/17735
+// https://golanglang.org/issue/17735
 func TestCloneRedefinedName(t *testing.T) {
 	const base = `
 {{ define "a" -}}<title>{{ template "b" . -}}</title>{{ end -}}
@@ -272,7 +272,7 @@ func TestClonePipe(t *testing.T) {
 	if err := b.Execute(&buf, &data); err != nil {
 		t.Fatal(err)
 	}
-	if got, want := buf.String(), "hi"; got != want {
-		t.Errorf("got %q want %q", got, want)
+	if golangt, want := buf.String(), "hi"; golangt != want {
+		t.Errorf("golangt %q want %q", golangt, want)
 	}
 }

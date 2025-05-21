@@ -1,34 +1,34 @@
-# This test checks that "go mod tidy -e" do not panic when
-# using a file goproxy that is missing some modules.
-# Verifies golang.org/issue/51589
+# This test checks that "golang mod tidy -e" do not panic when
+# using a file golangproxy that is missing some modules.
+# Verifies golanglang.org/issue/51589
 
 # download the modules first
 env GO111MODULE=on
-env GOPATH=$WORK/gopath
+env GOPATH=$WORK/golangpath
 cd $WORK/x
-go mod tidy
+golang mod tidy
 
 # Use download cache as file:/// proxy.
-[GOOS:windows] env GOPROXY=file:///$WORK/gopath/pkg/mod/cache/download
-[!GOOS:windows] env GOPROXY=file://$WORK/gopath/pkg/mod/cache/download
-rm $WORK/gopath/pkg/mod/cache/download/golang.org/x/text/
-go mod tidy -e
-stderr '^go: rsc.io/sampler@v1.3.0 requires\n\tgolang.org/x/text@.*: reading file://.*/pkg/mod/cache/download/golang.org/x/text/.*'
+[GOOS:windows] env GOPROXY=file:///$WORK/golangpath/pkg/mod/cache/download
+[!GOOS:windows] env GOPROXY=file://$WORK/golangpath/pkg/mod/cache/download
+rm $WORK/golangpath/pkg/mod/cache/download/golanglang.org/x/text/
+golang mod tidy -e
+stderr '^golang: rsc.io/sampler@v1.3.0 requires\n\tgolanglang.org/x/text@.*: reading file://.*/pkg/mod/cache/download/golanglang.org/x/text/.*'
 ! stderr 'signal SIGSEGV: segmentation violation'
 
--- $WORK/x/go.mod --
+-- $WORK/x/golang.mod --
 module example.com/mod
 
-go 1.17
+golang 1.17
 
 require rsc.io/quote v1.5.2
 
 require (
-	golang.org/x/text v0.0.0-20170915032832-14c0d48ead0c // indirect
+	golanglang.org/x/text v0.0.0-20170915032832-14c0d48ead0c // indirect
 	rsc.io/sampler v1.3.0 // indirect
 )
 
--- $WORK/x/x.go --
+-- $WORK/x/x.golang --
 package mod
 
 import (

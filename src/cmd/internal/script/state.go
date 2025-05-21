@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package script
@@ -32,8 +32,8 @@ type State struct {
 	pwd     string            // current working directory during execution
 	env     []string          // environment list (for os/exec)
 	envMap  map[string]string // environment mapping (matches env)
-	stdout  string            // standard output from last 'go' command; for 'stdout' command
-	stderr  string            // standard error from last 'go' command; for 'stderr' command
+	stdout  string            // standard output from last 'golang' command; for 'stdout' command
+	stderr  string            // standard error from last 'golang' command; for 'stderr' command
 
 	background []backgroundCmd
 }
@@ -132,7 +132,7 @@ func (s *State) ExpandEnv(str string, inRegexp bool) string {
 	return os.Expand(str, func(key string) string {
 		e := s.envMap[key]
 		if inRegexp {
-			// Quote to literal strings: we want paths like C:\work\go1.4 to remain
+			// Quote to literal strings: we want paths like C:\work\golang1.4 to remain
 			// paths rather than regular expressions.
 			e = regexp.QuoteMeta(e)
 		}

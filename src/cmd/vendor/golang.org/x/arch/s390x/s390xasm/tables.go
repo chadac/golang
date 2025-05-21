@@ -2033,7 +2033,7 @@ var opstr = [...]string{
 	PKA:     "pka",
 	PKU:     "pku",
 	PGIN:    "pgin",
-	PGOUT:   "pgout",
+	PGOUT:   "pgolangut",
 	PCC:     "pcc",
 	PCKMO:   "pckmo",
 	PFPO:    "pfpo",

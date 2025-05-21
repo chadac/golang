@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
@@ -10,9 +10,9 @@ const (
 
 func getCntxct() uint32
 
-//go:nosplit
+//golang:nosplit
 func (th *vdsoTimehands) getTimecounter() (uint32, bool) {
-	switch th.algo {
+	switch th.algolang {
 	case _VDSO_TH_ALGO_RISCV_RDTIME:
 		return getCntxct(), true
 	default:

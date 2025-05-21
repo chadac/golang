@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime_test
@@ -29,16 +29,16 @@ func TestProfBuf(t *testing.T) {
 	}
 	readBlock := func(t *testing.T, b *ProfBuf, data []uint64, tags []unsafe.Pointer) func() {
 		c := make(chan int)
-		go func() {
+		golang func() {
 			eof := data == nil
 			rdata, rtags, reof := b.Read(ProfBufBlocking)
 			if !slices.Equal(rdata, data) || !slices.Equal(rtags, tags) || reof != eof {
-				// Errorf, not Fatalf, because called in goroutine.
+				// Errorf, not Fatalf, because called in golangroutine.
 				t.Errorf("unexpected profile read:\nhave data %#x\nwant data %#x\nhave tags %#x\nwant tags %#x\nhave eof=%v, want %v", rdata, data, rtags, tags, reof, eof)
 			}
 			c <- 1
 		}()
-		time.Sleep(10 * time.Millisecond) // let goroutine run and block
+		time.Sleep(10 * time.Millisecond) // let golangroutine run and block
 		return func() { <-c }
 	}
 	readEOF := func(t *testing.T, b *ProfBuf) {

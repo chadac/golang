@@ -1,11 +1,11 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Minimal copy of x/sys/unix so the cpu package can make a
 // system call on Darwin without depending on x/sys/unix.
 
-//go:build darwin && amd64 && gc
+//golang:build darwin && amd64 && gc
 
 package cpu
 
@@ -16,9 +16,9 @@ import (
 
 type _C_int int32
 
-// adapted from unix.Uname() at x/sys/unix/syscall_darwin.go L419
+// adapted from unix.Uname() at x/sys/unix/syscall_darwin.golang L419
 func darwinOSRelease(release *[256]byte) error {
-	// from x/sys/unix/zerrors_openbsd_amd64.go
+	// from x/sys/unix/zerrors_openbsd_amd64.golang
 	const (
 		CTL_KERN       = 0x1
 		KERN_OSRELEASE = 0x2
@@ -34,7 +34,7 @@ type Errno = syscall.Errno
 
 var _zero uintptr // Single-word zero for use when we need a valid pointer to 0 bytes.
 
-// from x/sys/unix/zsyscall_darwin_amd64.go L791-807
+// from x/sys/unix/zsyscall_darwin_amd64.golang L791-807
 func sysctl(mib []_C_int, old *byte, oldlen *uintptr, new *byte, newlen uintptr) error {
 	var _p0 unsafe.Pointer
 	if len(mib) > 0 {
@@ -59,7 +59,7 @@ func sysctl(mib []_C_int, old *byte, oldlen *uintptr, new *byte, newlen uintptr)
 
 var libc_sysctl_trampoline_addr uintptr
 
-// adapted from internal/cpu/cpu_arm64_darwin.go
+// adapted from internal/cpu/cpu_arm64_darwin.golang
 func darwinSysctlEnabled(name []byte) bool {
 	out := int32(0)
 	nout := unsafe.Sizeof(out)
@@ -69,11 +69,11 @@ func darwinSysctlEnabled(name []byte) bool {
 	return out > 0
 }
 
-//go:cgo_import_dynamic libc_sysctl sysctl "/usr/lib/libSystem.B.dylib"
+//golang:cgolang_import_dynamic libc_sysctl sysctl "/usr/lib/libSystem.B.dylib"
 
 var libc_sysctlbyname_trampoline_addr uintptr
 
-// adapted from runtime/sys_darwin.go in the pattern of sysctl() above, as defined in x/sys/unix
+// adapted from runtime/sys_darwin.golang in the pattern of sysctl() above, as defined in x/sys/unix
 func sysctlbyname(name *byte, old *byte, oldlen *uintptr, new *byte, newlen uintptr) error {
 	if _, _, err := syscall_syscall6(
 		libc_sysctlbyname_trampoline_addr,
@@ -90,9 +90,9 @@ func sysctlbyname(name *byte, old *byte, oldlen *uintptr, new *byte, newlen uint
 	return nil
 }
 
-//go:cgo_import_dynamic libc_sysctlbyname sysctlbyname "/usr/lib/libSystem.B.dylib"
+//golang:cgolang_import_dynamic libc_sysctlbyname sysctlbyname "/usr/lib/libSystem.B.dylib"
 
-// Implemented in the runtime package (runtime/sys_darwin.go)
+// Implemented in the runtime package (runtime/sys_darwin.golang)
 func syscall_syscall6(fn, a1, a2, a3, a4, a5, a6 uintptr) (r1, r2 uintptr, err Errno)
 
-//go:linkname syscall_syscall6 syscall.syscall6
+//golang:linkname syscall_syscall6 syscall.syscall6

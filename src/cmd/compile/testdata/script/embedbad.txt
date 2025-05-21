@@ -1,19 +1,19 @@
 # Check that compiler does not silently crash at bad embed error.
 
-! go build
+! golang build
 stderr 'multiple files for type string'
 stderr 'multiple files for type \[\]byte'
 
--- go.mod --
+-- golang.mod --
 module m
 
--- x.go --
+-- x.golang --
 package p
 
 import _ "embed"
 
-//go:embed x.go go.mod
+//golang:embed x.golang golang.mod
 var s string
 
-//go:embed x.go go.mod
+//golang:embed x.golang golang.mod
 var b []byte

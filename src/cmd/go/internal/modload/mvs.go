@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package modload
@@ -10,16 +10,16 @@ import (
 	"os"
 	"sort"
 
-	"cmd/go/internal/gover"
-	"cmd/go/internal/modfetch"
-	"cmd/go/internal/modfetch/codehost"
+	"cmd/golang/internal/golangver"
+	"cmd/golang/internal/modfetch"
+	"cmd/golang/internal/modfetch/codehost"
 
-	"golang.org/x/mod/module"
+	"golanglang.org/x/mod/module"
 )
 
 // cmpVersion implements the comparison for versions in the module loader.
 //
-// It is consistent with gover.ModCompare except that as a special case,
+// It is consistent with golangver.ModCompare except that as a special case,
 // the version "" is considered higher than all other versions.
 // The main module (also known as the target) has no version and must be chosen
 // over other versions of the same module in the module dependency graph.
@@ -33,7 +33,7 @@ func cmpVersion(p string, v1, v2 string) int {
 	if v1 == "" {
 		return 1
 	}
-	return gover.ModCompare(p, v1, v2)
+	return golangver.ModCompare(p, v1, v2)
 }
 
 // mvsReqs implements mvs.Reqs for module semantic versions,
@@ -53,14 +53,14 @@ func (r *mvsReqs) Required(mod module.Version) ([]module.Version, error) {
 		return nil, nil
 	}
 
-	summary, err := goModSummary(mod)
+	summary, err := golangModSummary(mod)
 	if err != nil {
 		return nil, err
 	}
 	return summary.require, nil
 }
 
-// Max returns the maximum of v1 and v2 according to gover.ModCompare.
+// Max returns the maximum of v1 and v2 according to golangver.ModCompare.
 //
 // As a special case, the version "" is considered higher than all other
 // versions. The main module (also known as the target) has no version and must
@@ -74,7 +74,7 @@ func (*mvsReqs) Max(p, v1, v2 string) string {
 }
 
 // Upgrade is a no-op, here to implement mvs.Reqs.
-// The upgrade logic for go get -u is in ../modget/get.go.
+// The upgrade logic for golang get -u is in ../modget/get.golang.
 func (*mvsReqs) Upgrade(m module.Version) (module.Version, error) {
 	return m, nil
 }
@@ -123,7 +123,7 @@ func previousVersion(ctx context.Context, m module.Version) (module.Version, err
 		}
 		return module.Version{}, err
 	}
-	i := sort.Search(len(list), func(i int) bool { return gover.ModCompare(m.Path, list[i], m.Version) >= 0 })
+	i := sort.Search(len(list), func(i int) bool { return golangver.ModCompare(m.Path, list[i], m.Version) >= 0 })
 	if i > 0 {
 		return module.Version{Path: m.Path, Version: list[i-1]}, nil
 	}
@@ -131,6 +131,6 @@ func previousVersion(ctx context.Context, m module.Version) (module.Version, err
 }
 
 func (*mvsReqs) Previous(m module.Version) (module.Version, error) {
-	// TODO(golang.org/issue/38714): thread tracing context through MVS.
+	// TODO(golanglang.org/issue/38714): thread tracing context through MVS.
 	return previousVersion(context.TODO(), m)
 }

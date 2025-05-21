@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package embedtest_test
@@ -18,19 +18,19 @@ var (
 	bbig2        = bbig
 )
 
-//go:embed testdata/*.txt
+//golang:embed testdata/*.txt
 var global embed.FS
 
-//go:embed c*txt
+//golang:embed c*txt
 var concurrency string
 
-//go:embed testdata/g*.txt
+//golang:embed testdata/g*.txt
 var glass []byte
 
-//go:embed testdata/ascii.txt
+//golang:embed testdata/ascii.txt
 var sbig string
 
-//go:embed testdata/ascii.txt
+//golang:embed testdata/ascii.txt
 var bbig []byte
 
 func testFiles(t *testing.T, f embed.FS, name, data string) {

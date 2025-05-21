@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package embedtest
@@ -13,14 +13,14 @@ import (
 	"testing/fstest"
 )
 
-//go:embed testdata/h*.txt
-//go:embed c*.txt testdata/g*.txt
+//golang:embed testdata/h*.txt
+//golang:embed c*.txt testdata/g*.txt
 var global embed.FS
 
-//go:embed c*txt
+//golang:embed c*txt
 var concurrency string
 
-//go:embed testdata/g*.txt
+//golang:embed testdata/g*.txt
 var glass []byte
 
 func testFiles(t *testing.T, f embed.FS, name, data string) {
@@ -80,7 +80,7 @@ func TestGlobal(t *testing.T) {
 	testString(t, string(glass), "glass", "I can eat glass and it doesn't hurt me.\n")
 }
 
-//go:embed testdata
+//golang:embed testdata
 var testDirAll embed.FS
 
 func TestDir(t *testing.T) {
@@ -97,10 +97,10 @@ func TestDir(t *testing.T) {
 }
 
 var (
-	//go:embed testdata
+	//golang:embed testdata
 	testHiddenDir embed.FS
 
-	//go:embed testdata/*
+	//golang:embed testdata/*
 	testHiddenStar embed.FS
 )
 
@@ -108,12 +108,12 @@ func TestHidden(t *testing.T) {
 	dir := testHiddenDir
 	star := testHiddenStar
 
-	t.Logf("//go:embed testdata")
+	t.Logf("//golang:embed testdata")
 
 	testDir(t, dir, "testdata",
 		"-not-hidden/", "ascii.txt", "glass.txt", "hello.txt", "i/", "ken.txt")
 
-	t.Logf("//go:embed testdata/*")
+	t.Logf("//golang:embed testdata/*")
 
 	testDir(t, star, "testdata",
 		"-not-hidden/", ".hidden/", "_hidden/", "ascii.txt", "glass.txt", "hello.txt", "i/", "ken.txt")
@@ -140,15 +140,15 @@ func TestUninitialized(t *testing.T) {
 }
 
 var (
-	//go:embed "testdata/hello.txt"
+	//golang:embed "testdata/hello.txt"
 	helloT []T
-	//go:embed "testdata/hello.txt"
+	//golang:embed "testdata/hello.txt"
 	helloUint8 []uint8
-	//go:embed "testdata/hello.txt"
+	//golang:embed "testdata/hello.txt"
 	helloEUint8 []EmbedUint8
-	//go:embed "testdata/hello.txt"
+	//golang:embed "testdata/hello.txt"
 	helloBytes EmbedBytes
-	//go:embed "testdata/hello.txt"
+	//golang:embed "testdata/hello.txt"
 	helloString EmbedString
 )
 
@@ -157,7 +157,7 @@ type EmbedUint8 uint8
 type EmbedBytes []byte
 type EmbedString string
 
-// golang.org/issue/47735
+// golanglang.org/issue/47735
 func TestAliases(t *testing.T) {
 	all := testDirAll
 	want, e := all.ReadFile("testdata/hello.txt")
@@ -165,10 +165,10 @@ func TestAliases(t *testing.T) {
 		t.Fatal("ReadFile:", e)
 	}
 	check := func(g any) {
-		got := reflect.ValueOf(g)
-		for i := 0; i < got.Len(); i++ {
-			if byte(got.Index(i).Uint()) != want[i] {
-				t.Fatalf("got %v want %v", got.Bytes(), want)
+		golangt := reflect.ValueOf(g)
+		for i := 0; i < golangt.Len(); i++ {
+			if byte(golangt.Index(i).Uint()) != want[i] {
+				t.Fatalf("golangt %v want %v", golangt.Bytes(), want)
 			}
 		}
 	}
@@ -188,16 +188,16 @@ func TestOffset(t *testing.T) {
 	want := "hello, world\n"
 
 	// Read the entire file.
-	got := make([]byte, len(want))
-	n, err := file.Read(got)
+	golangt := make([]byte, len(want))
+	n, err := file.Read(golangt)
 	if err != nil {
 		t.Fatal("Read:", err)
 	}
 	if n != len(want) {
 		t.Fatal("Read:", n)
 	}
-	if string(got) != want {
-		t.Fatalf("Read: %q", got)
+	if string(golangt) != want {
+		t.Fatalf("Read: %q", golangt)
 	}
 
 	// Try to read one byte; confirm we're at the EOF.
@@ -222,30 +222,30 @@ func TestOffset(t *testing.T) {
 
 	// Use ReadAt to read the entire file, ignoring the offset.
 	at := file.(io.ReaderAt)
-	got = make([]byte, len(want))
-	n, err = at.ReadAt(got, 0)
+	golangt = make([]byte, len(want))
+	n, err = at.ReadAt(golangt, 0)
 	if err != nil {
 		t.Fatal("ReadAt:", err)
 	}
 	if n != len(want) {
-		t.Fatalf("ReadAt: got %d bytes, want %d bytes", n, len(want))
+		t.Fatalf("ReadAt: golangt %d bytes, want %d bytes", n, len(want))
 	}
-	if string(got) != want {
-		t.Fatalf("ReadAt: got %q, want %q", got, want)
+	if string(golangt) != want {
+		t.Fatalf("ReadAt: golangt %q, want %q", golangt, want)
 	}
 
 	// Use ReadAt with non-zero offset.
 	off = int64(7)
 	want = want[off:]
-	got = make([]byte, len(want))
-	n, err = at.ReadAt(got, off)
+	golangt = make([]byte, len(want))
+	n, err = at.ReadAt(golangt, off)
 	if err != nil {
 		t.Fatal("ReadAt:", err)
 	}
 	if n != len(want) {
-		t.Fatalf("ReadAt: got %d bytes, want %d bytes", n, len(want))
+		t.Fatalf("ReadAt: golangt %d bytes, want %d bytes", n, len(want))
 	}
-	if string(got) != want {
-		t.Fatalf("ReadAt: got %q, want %q", got, want)
+	if string(golangt) != want {
+		t.Fatalf("ReadAt: golangt %q, want %q", golangt, want)
 	}
 }

@@ -1,9 +1,9 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package test2json implements conversion of test binary output to JSON.
-// It is used by cmd/test2json and cmd/go.
+// It is used by cmd/test2json and cmd/golang.
 //
 // See the cmd/test2json documentation for details of the JSON encoding.
 package test2json
@@ -43,7 +43,7 @@ type event struct {
 // textBytes is a hack to get JSON to emit a []byte as a string
 // without actually copying it to a string.
 // It implements encoding.TextMarshaler, which returns its text form as a []byte,
-// and then json encodes that text form as a string (which was our goal).
+// and then json encodes that text form as a string (which was our golangal).
 type textBytes []byte
 
 func (b textBytes) MarshalText() ([]byte, error) { return b, nil }
@@ -100,7 +100,7 @@ var (
 // so that it is safe to run multiple tests writing to multiple converters
 // writing to a single underlying output stream w.
 // As long as the underlying output w can handle concurrent writes
-// from multiple goroutines, the result will be a JSON stream
+// from multiple golangroutines, the result will be a JSON stream
 // describing the relative ordering of execution in all the concurrent tests.
 //
 // The mode flag adjusts the behavior of the converter.
@@ -163,7 +163,7 @@ var (
 	// printed by test after a normal test failure.
 	bigFail = []byte("FAIL")
 
-	// printed by 'go test' along with an error if the test binary terminates
+	// printed by 'golang test' along with an error if the test binary terminates
 	// with an error.
 	bigFailErrorPrefix = []byte("FAIL\t")
 
@@ -377,7 +377,7 @@ func (c *Converter) flushReport(depth int) {
 	}
 }
 
-// Close marks the end of the go test output.
+// Close marks the end of the golang test output.
 // It flushes any pending input and then output (only partial lines at this point)
 // and then emits the final overall package-level pass/fail event.
 func (c *Converter) Close() error {

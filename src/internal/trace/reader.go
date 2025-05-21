@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package trace
@@ -67,7 +67,7 @@ func NewReader(r io.Reader) (*Reader, error) {
 			},
 		}, nil
 	default:
-		return nil, fmt.Errorf("unknown or unsupported version go 1.%d", v)
+		return nil, fmt.Errorf("unknown or unsupported version golang 1.%d", v)
 	}
 }
 
@@ -102,7 +102,7 @@ func (r *Reader) ReadEvent() (e Event, err error) {
 		return ev, nil
 	}
 
-	// Trace v2 parsing algorithm.
+	// Trace v2 parsing algolangrithm.
 	//
 	// (1) Read in all the batches for the next generation from the stream.
 	//   (a) Use the size field in the header to quickly find all batches.
@@ -112,10 +112,10 @@ func (r *Reader) ReadEvent() (e Event, err error) {
 	// (5) Try to advance the next event for the M at the top of the min-heap.
 	//   (a) On success, select that M.
 	//   (b) On failure, sort the min-heap and try to advance other Ms. Select the first M that advances.
-	//   (c) If there's nothing left to advance, goto (1).
+	//   (c) If there's nothing left to advance, golangto (1).
 	// (6) Select the latest event for the selected M and get it ready to be returned.
 	// (7) Read the next event for the selected M and update the min-heap.
-	// (8) Return the selected event, goto (5) on the next call.
+	// (8) Return the selected event, golangto (5) on the next call.
 
 	// Set us up to track the last timestamp and fix up
 	// the timestamp of any event that comes through.

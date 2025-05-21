@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package exec runs external commands. It wraps os.StartProcess to make it
@@ -17,7 +17,7 @@
 //
 // Note that the examples in this package assume a Unix system.
 // They may not run on Windows, and they do not run in the Go Playground
-// used by golang.org and godoc.org.
+// used by golanglang.org and golangdoc.org.
 //
 // # Executables in the current directory
 //
@@ -32,9 +32,9 @@
 //
 // To avoid those security problems, as of Go 1.19, this package will not resolve a program
 // using an implicit or explicit path entry relative to the current directory.
-// That is, if you run [LookPath]("go"), it will not successfully return
-// ./go on Unix nor .\go.exe on Windows, no matter how the path is configured.
-// Instead, if the usual path algorithms would result in that answer,
+// That is, if you run [LookPath]("golang"), it will not successfully return
+// ./golang on Unix nor .\golang.exe on Windows, no matter how the path is configured.
+// Instead, if the usual path algolangrithms would result in that answer,
 // these functions return an error err satisfying [errors.Is](err, [ErrDot]).
 //
 // For example, consider these two program snippets:
@@ -87,14 +87,14 @@
 //
 // Before adding such overrides, make sure you understand the
 // security implications of doing so.
-// See https://go.dev/blog/path-security for more information.
+// See https://golang.dev/blog/path-security for more information.
 package exec
 
 import (
 	"bytes"
 	"context"
 	"errors"
-	"internal/godebug"
+	"internal/golangdebug"
 	"internal/syscall/execenv"
 	"io"
 	"os"
@@ -197,8 +197,8 @@ type Cmd struct {
 	// directly to that file.
 	//
 	// Otherwise, during the execution of the command a separate
-	// goroutine reads from Stdin and delivers that data to the command
-	// over a pipe. In this case, Wait does not complete until the goroutine
+	// golangroutine reads from Stdin and delivers that data to the command
+	// over a pipe. In this case, Wait does not complete until the golangroutine
 	// stops copying, either because it has reached the end of Stdin
 	// (EOF or a read error), or because writing to the pipe returned an error,
 	// or because a nonzero WaitDelay was set and expired.
@@ -212,14 +212,14 @@ type Cmd struct {
 	// If either is an *os.File, the corresponding output from the process
 	// is connected directly to that file.
 	//
-	// Otherwise, during the execution of the command a separate goroutine
+	// Otherwise, during the execution of the command a separate golangroutine
 	// reads from the process over a pipe and delivers that data to the
 	// corresponding Writer. In this case, Wait does not complete until the
-	// goroutine reaches EOF or encounters an error or a nonzero WaitDelay
+	// golangroutine reaches EOF or encounters an error or a nonzero WaitDelay
 	// expires.
 	//
 	// If Stdout and Stderr are the same writer, and have a type that can
-	// be compared with ==, at most one goroutine at a time will call Write.
+	// be compared with ==, at most one golangroutine at a time will call Write.
 	Stdout io.Writer
 	Stderr io.Writer
 
@@ -289,7 +289,7 @@ type Cmd struct {
 	// Cancel function was set — then it will be terminated using os.Process.Kill.
 	//
 	// Then, if the I/O pipes communicating with the child process are still open,
-	// those pipes are closed in order to unblock any goroutines currently blocked
+	// those pipes are closed in order to unblock any golangroutines currently blocked
 	// on Read or Write calls.
 	//
 	// If pipes are closed due to WaitDelay, no Cancel call has occurred,
@@ -311,17 +311,17 @@ type Cmd struct {
 	// connected to the child's stdin, stdout, and/or stderr streams
 	// that were opened by the Cmd itself (not supplied by the caller).
 	// These should be closed after Wait sees the command and copying
-	// goroutines exit, or after WaitDelay has expired.
+	// golangroutines exit, or after WaitDelay has expired.
 	parentIOPipes []io.Closer
 
-	// goroutine holds a set of closures to execute to copy data
+	// golangroutine holds a set of closures to execute to copy data
 	// to and/or from the command's I/O pipes.
-	goroutine []func() error
+	golangroutine []func() error
 
-	// If goroutineErr is non-nil, it receives the first error from a copying
-	// goroutine once all such goroutines have completed.
-	// goroutineErr is set to nil once its error has been received.
-	goroutineErr <-chan error
+	// If golangroutineErr is non-nil, it receives the first error from a copying
+	// golangroutine once all such golangroutines have completed.
+	// golangroutineErr is set to nil once its error has been received.
+	golangroutineErr <-chan error
 
 	// If ctxResult is non-nil, it receives the result of watchCtx exactly once.
 	ctxResult <-chan ctxResult
@@ -330,7 +330,7 @@ type Cmd struct {
 	// execwait=2. Used for debugging leaks.
 	createdByStack []byte
 
-	// For a security release long ago, we created x/sys/execabs,
+	// For a security release long agolang, we created x/sys/execabs,
 	// which manipulated the unexported lookPathErr error field
 	// in this struct. For Go 1.19 we exported the field as Err error,
 	// above, but we have to keep lookPathErr around for use by
@@ -345,8 +345,8 @@ type Cmd struct {
 	// The result is that we have to leave this variable around for the
 	// rest of time, a compatibility scar.
 	//
-	// See https://go.dev/blog/path-security
-	// and https://go.dev/issue/43724 for more context.
+	// See https://golang.dev/blog/path-security
+	// and https://golang.dev/issue/43724 for more context.
 	lookPathErr error
 
 	// cachedLookExtensions caches the result of calling lookExtensions.
@@ -370,8 +370,8 @@ type ctxResult struct {
 	timer *time.Timer
 }
 
-var execwait = godebug.New("#execwait")
-var execerrdot = godebug.New("execerrdot")
+var execwait = golangdebug.New("#execwait")
+var execerrdot = golangdebug.New("execerrdot")
 
 // Command returns the [Cmd] struct to execute the named program with
 // the given arguments.
@@ -389,10 +389,10 @@ var execerrdot = godebug.New("execerrdot")
 //
 // On Windows, processes receive the whole command line as a single string
 // and do their own parsing. Command combines and quotes Args into a command
-// line string with an algorithm compatible with applications using
+// line string with an algolangrithm compatible with applications using
 // CommandLineToArgvW (which is the most common way). Notable exceptions are
 // msiexec.exe and cmd.exe (and thus, all batch files), which have a different
-// unquoting algorithm. In these or other similar cases, you can do the
+// unquoting algolangrithm. In these or other similar cases, you can do the
 // quoting yourself and provide the full command line in SysProcAttr.CmdLine,
 // leaving Args empty.
 func Command(name string, arg ...string) *Cmd {
@@ -452,7 +452,7 @@ func Command(name string, arg ...string) *Cmd {
 		// We may need to add a filename extension from PATHEXT
 		// or verify an extension that is already present.
 		// Since the path is absolute, its extension should be unambiguous
-		// and independent of cmd.Dir, and we can go ahead and cache the lookup now.
+		// and independent of cmd.Dir, and we can golang ahead and cache the lookup now.
 		//
 		// Note that we don't cache anything here for relative paths, because
 		// cmd.Dir may be set after we return from this function and that may
@@ -543,7 +543,7 @@ func (c *Cmd) childStdin() (*os.File, error) {
 
 	c.childIOFiles = append(c.childIOFiles, pr)
 	c.parentIOPipes = append(c.parentIOPipes, pw)
-	c.goroutine = append(c.goroutine, func() error {
+	c.golangroutine = append(c.golangroutine, func() error {
 		_, err := io.Copy(pw, c.Stdin)
 		if skipStdinCopyError(err) {
 			err = nil
@@ -592,7 +592,7 @@ func (c *Cmd) writerDescriptor(w io.Writer) (*os.File, error) {
 
 	c.childIOFiles = append(c.childIOFiles, pw)
 	c.parentIOPipes = append(c.parentIOPipes, pr)
-	c.goroutine = append(c.goroutine, func() error {
+	c.golangroutine = append(c.golangroutine, func() error {
 		_, err := io.Copy(w, pr)
 		pr.Close() // in case io.Copy stopped due to write error
 		return err
@@ -615,7 +615,7 @@ func closeDescriptors(closers []io.Closer) {
 // If the command starts but does not complete successfully, the error is of
 // type [*ExitError]. Other error types may be returned for other situations.
 //
-// If the calling goroutine has locked the operating system thread
+// If the calling golangroutine has locked the operating system thread
 // with [runtime.LockOSThread] and modified any inheritable OS-level
 // thread state (for example, Linux or Plan 9 name spaces), the new
 // process will inherit the caller's thread state.
@@ -675,7 +675,7 @@ func (c *Cmd) Start() error {
 			// may assume that they can call Start concurrently with reading the path.
 			// (It is safe and non-racy to do so on Unix platforms, and users might not
 			// test with the race detector on all platforms;
-			// see https://go.dev/issue/62596.)
+			// see https://golang.dev/issue/62596.)
 			//
 			// So we will pass the fully resolved path to os.StartProcess, but leave
 			// c.Path as is: missing a bit of logging information seems less harmful
@@ -733,19 +733,19 @@ func (c *Cmd) Start() error {
 	}
 	started = true
 
-	// Don't allocate the goroutineErr channel unless there are goroutines to start.
-	if len(c.goroutine) > 0 {
-		goroutineErr := make(chan error, 1)
-		c.goroutineErr = goroutineErr
+	// Don't allocate the golangroutineErr channel unless there are golangroutines to start.
+	if len(c.golangroutine) > 0 {
+		golangroutineErr := make(chan error, 1)
+		c.golangroutineErr = golangroutineErr
 
-		type goroutineStatus struct {
+		type golangroutineStatus struct {
 			running  int
 			firstErr error
 		}
-		statusc := make(chan goroutineStatus, 1)
-		statusc <- goroutineStatus{running: len(c.goroutine)}
-		for _, fn := range c.goroutine {
-			go func(fn func() error) {
+		statusc := make(chan golangroutineStatus, 1)
+		statusc <- golangroutineStatus{running: len(c.golangroutine)}
+		for _, fn := range c.golangroutine {
+			golang func(fn func() error) {
 				err := fn()
 
 				status := <-statusc
@@ -754,17 +754,17 @@ func (c *Cmd) Start() error {
 				}
 				status.running--
 				if status.running == 0 {
-					goroutineErr <- status.firstErr
+					golangroutineErr <- status.firstErr
 				} else {
 					statusc <- status
 				}
 			}(fn)
 		}
-		c.goroutine = nil // Allow the goroutines' closures to be GC'd when they complete.
+		c.golangroutine = nil // Allow the golangroutines' closures to be GC'd when they complete.
 	}
 
 	// If we have anything to do when the command's Context expires,
-	// start a goroutine to watch for cancellation.
+	// start a golangroutine to watch for cancellation.
 	//
 	// (Even if the command was created by CommandContext, a helper library may
 	// have explicitly set its Cancel field back to nil, indicating that it should
@@ -772,7 +772,7 @@ func (c *Cmd) Start() error {
 	if (c.Cancel != nil || c.WaitDelay != 0) && c.ctx != nil && c.ctx.Done() != nil {
 		resultc := make(chan ctxResult)
 		c.ctxResult = resultc
-		go c.watchCtx(resultc)
+		golang c.watchCtx(resultc)
 	}
 
 	return nil
@@ -783,7 +783,7 @@ func (c *Cmd) Start() error {
 // If c.ctx is done before a result can be sent, watchCtx calls c.Cancel,
 // and/or kills cmd.Process it after c.WaitDelay has elapsed.
 //
-// watchCtx manipulates c.goroutineErr, so its result must be received before
+// watchCtx manipulates c.golangroutineErr, so its result must be received before
 // c.awaitGoroutines is called.
 func (c *Cmd) watchCtx(resultc chan<- ctxResult) {
 	select {
@@ -819,7 +819,7 @@ func (c *Cmd) watchCtx(resultc chan<- ctxResult) {
 	select {
 	case resultc <- ctxResult{err: err, timer: timer}:
 		// c.Process.Wait returned and we've handed the timer off to c.Wait.
-		// It will take care of goroutine shutdown from here.
+		// It will take care of golangroutine shutdown from here.
 		return
 	case <-timer.C:
 	}
@@ -838,36 +838,36 @@ func (c *Cmd) watchCtx(resultc chan<- ctxResult) {
 		}
 	}
 
-	if c.goroutineErr != nil {
+	if c.golangroutineErr != nil {
 		select {
-		case goroutineErr := <-c.goroutineErr:
-			// Forward goroutineErr only if we don't have reason to believe it was
+		case golangroutineErr := <-c.golangroutineErr:
+			// Forward golangroutineErr only if we don't have reason to believe it was
 			// caused by a call to Cancel or Kill above.
 			if err == nil && !killed {
-				err = goroutineErr
+				err = golangroutineErr
 			}
 		default:
 			// Close the child process's I/O pipes, in case it abandoned some
 			// subprocess that inherited them and is still holding them open
-			// (see https://go.dev/issue/23019).
+			// (see https://golang.dev/issue/23019).
 			//
-			// We close the goroutine pipes only after we have sent any signals we're
-			// going to send to the process (via Signal or Kill above): if we send
+			// We close the golangroutine pipes only after we have sent any signals we're
+			// golanging to send to the process (via Signal or Kill above): if we send
 			// SIGKILL to the process, we would prefer for it to die of SIGKILL, not
 			// SIGPIPE. (However, this may still cause any orphaned subprocesses to
 			// terminate with SIGPIPE.)
 			closeDescriptors(c.parentIOPipes)
-			// Wait for the copying goroutines to finish, but report ErrWaitDelay for
+			// Wait for the copying golangroutines to finish, but report ErrWaitDelay for
 			// the error: any other error here could result from closing the pipes.
-			_ = <-c.goroutineErr
+			_ = <-c.golangroutineErr
 			if err == nil {
 				err = ErrWaitDelay
 			}
 		}
 
-		// Since we have already received the only result from c.goroutineErr,
+		// Since we have already received the only result from c.golangroutineErr,
 		// set it to nil to prevent awaitGoroutines from blocking on it.
-		c.goroutineErr = nil
+		c.golangroutineErr = nil
 	}
 
 	resultc <- ctxResult{err: err}
@@ -930,18 +930,18 @@ func (c *Cmd) Wait() error {
 		watch := <-c.ctxResult
 		timer = watch.timer
 		// If c.Process.Wait returned an error, prefer that.
-		// Otherwise, report any error from the watchCtx goroutine,
+		// Otherwise, report any error from the watchCtx golangroutine,
 		// such as a Context cancellation or a WaitDelay overrun.
 		if err == nil && watch.err != nil {
 			err = watch.err
 		}
 	}
 
-	if goroutineErr := c.awaitGoroutines(timer); err == nil {
-		// Report an error from the copying goroutines only if the program otherwise
+	if golangroutineErr := c.awaitGoroutines(timer); err == nil {
+		// Report an error from the copying golangroutines only if the program otherwise
 		// exited normally on its own. Otherwise, the copying error may be due to the
 		// abnormal termination.
-		err = goroutineErr
+		err = golangroutineErr
 	}
 	closeDescriptors(c.parentIOPipes)
 	c.parentIOPipes = nil
@@ -949,10 +949,10 @@ func (c *Cmd) Wait() error {
 	return err
 }
 
-// awaitGoroutines waits for the results of the goroutines copying data to or
+// awaitGoroutines waits for the results of the golangroutines copying data to or
 // from the command's I/O pipes.
 //
-// If c.WaitDelay elapses before the goroutines complete, awaitGoroutines
+// If c.WaitDelay elapses before the golangroutines complete, awaitGoroutines
 // forcibly closes their pipes and returns ErrWaitDelay.
 //
 // If timer is non-nil, it must send to timer.C at the end of c.WaitDelay.
@@ -961,20 +961,20 @@ func (c *Cmd) awaitGoroutines(timer *time.Timer) error {
 		if timer != nil {
 			timer.Stop()
 		}
-		c.goroutineErr = nil
+		c.golangroutineErr = nil
 	}()
 
-	if c.goroutineErr == nil {
-		return nil // No running goroutines to await.
+	if c.golangroutineErr == nil {
+		return nil // No running golangroutines to await.
 	}
 
 	if timer == nil {
 		if c.WaitDelay == 0 {
-			return <-c.goroutineErr
+			return <-c.golangroutineErr
 		}
 
 		select {
-		case err := <-c.goroutineErr:
+		case err := <-c.golangroutineErr:
 			// Avoid the overhead of starting a timer.
 			return err
 		default:
@@ -988,12 +988,12 @@ func (c *Cmd) awaitGoroutines(timer *time.Timer) error {
 	select {
 	case <-timer.C:
 		closeDescriptors(c.parentIOPipes)
-		// Wait for the copying goroutines to finish, but ignore any error
+		// Wait for the copying golangroutines to finish, but ignore any error
 		// (since it was probably caused by closing the pipes).
-		_ = <-c.goroutineErr
+		_ = <-c.golangroutineErr
 		return ErrWaitDelay
 
-	case err := <-c.goroutineErr:
+	case err := <-c.golangroutineErr:
 		return err
 	}
 }
@@ -1208,7 +1208,7 @@ func (c *Cmd) environ() ([]string, error) {
 				// directory for the command, we should also update PWD to reflect that.
 				//
 				// Unfortunately, we didn't always do that, so (as proposed in
-				// https://go.dev/issue/50599) to avoid unintended collateral damage we
+				// https://golang.dev/issue/50599) to avoid unintended collateral damage we
 				// only implicitly update PWD when Env is nil. That way, we're much
 				// less likely to override an intentional change to the variable.
 				if pwd, absErr := filepath.Abs(c.Dir); absErr == nil {

@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Tests continue and break.
@@ -243,8 +243,8 @@ func TestBreakContinue(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		if got := test.fn(); got != test.want {
-			t.Errorf("%s()=%d, want %d", test.name, got, test.want)
+		if golangt := test.fn(); golangt != test.want {
+			t.Errorf("%s()=%d, want %d", test.name, golangt, test.want)
 		}
 	}
 }

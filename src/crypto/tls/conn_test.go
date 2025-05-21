@@ -1,5 +1,5 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package tls
@@ -29,7 +29,7 @@ var padding255Good = [256]byte{255}
 
 var paddingTests = []struct {
 	in          []byte
-	good        bool
+	golangod        bool
 	expectedLen int
 }{
 	{[]byte{1, 2, 3, 4, 0}, true, 4},
@@ -52,16 +52,16 @@ func TestRemovePadding(t *testing.T) {
 		padding255Good[i] = 255
 	}
 	for i, test := range paddingTests {
-		paddingLen, good := extractPadding(test.in)
+		paddingLen, golangod := extractPadding(test.in)
 		expectedGood := byte(255)
-		if !test.good {
+		if !test.golangod {
 			expectedGood = 0
 		}
-		if good != expectedGood {
-			t.Errorf("#%d: wrong validity, want:%d got:%d", i, expectedGood, good)
+		if golangod != expectedGood {
+			t.Errorf("#%d: wrong validity, want:%d golangt:%d", i, expectedGood, golangod)
 		}
-		if good == 255 && len(test.in)-paddingLen != test.expectedLen {
-			t.Errorf("#%d: got %d, want %d", i, len(test.in)-paddingLen, test.expectedLen)
+		if golangod == 255 && len(test.in)-paddingLen != test.expectedLen {
+			t.Errorf("#%d: golangt %d, want %d", i, len(test.in)-paddingLen, test.expectedLen)
 		}
 	}
 }
@@ -134,9 +134,9 @@ func runDynamicRecordSizingTest(t *testing.T, config *Config) {
 
 	handshakeDone := make(chan struct{})
 	recordSizesChan := make(chan []int, 1)
-	defer func() { <-recordSizesChan }() // wait for the goroutine to exit
-	go func() {
-		// This goroutine performs a TLS handshake over clientConn and
+	defer func() { <-recordSizesChan }() // wait for the golangroutine to exit
+	golang func() {
+		// This golangroutine performs a TLS handshake over clientConn and
 		// then reads TLS records until EOF. It writes a slice that
 		// contains all the record sizes to recordSizesChan.
 		defer close(recordSizesChan)
@@ -298,7 +298,7 @@ func TestRecordBadVersionTLS13(t *testing.T) {
 	config := testConfig.Clone()
 	config.MinVersion, config.MaxVersion = VersionTLS13, VersionTLS13
 
-	go func() {
+	golang func() {
 		tlsConn := Client(client, config)
 		if err := tlsConn.Handshake(); err != nil {
 			t.Errorf("Error from client handshake: %v", err)
@@ -318,6 +318,6 @@ func TestRecordBadVersionTLS13(t *testing.T) {
 
 	_, err := tlsConn.Read(make([]byte, 10))
 	if err.Error() != expectedErr {
-		t.Fatalf("unexpected error: got %q, want %q", err, expectedErr)
+		t.Fatalf("unexpected error: golangt %q, want %q", err, expectedErr)
 	}
 }

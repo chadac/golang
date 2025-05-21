@@ -1,10 +1,10 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package cases
 
-import "golang.org/x/text/transform"
+import "golanglang.org/x/text/transform"
 
 // A context is used for iterating over source bytes, fetching case info and
 // writing to a destination buffer.
@@ -14,7 +14,7 @@ import "golang.org/x/text/transform"
 // whenever it is known to be safe to return the runes processed so far.
 //
 // It is recommended for implementations to not allow for more than 30 case
-// ignorables as lookahead (analogous to the limit in norm) and to use state if
+// ignorables as lookahead (analogolangus to the limit in norm) and to use state if
 // unbounded lookahead is needed for cased runes.
 type context struct {
 	dst, src []byte

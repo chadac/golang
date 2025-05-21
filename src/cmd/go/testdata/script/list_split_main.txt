@@ -1,18 +1,18 @@
 # This test checks that a "main" package with an external test package
 # is recompiled only once.
-# Verifies golang.org/issue/34321.
+# Verifies golanglang.org/issue/34321.
 
 env GO111MODULE=off
 
-go list -e -test -deps -f '{{if not .Standard}}{{.ImportPath}}{{end}}' pkg
+golang list -e -test -deps -f '{{if not .Standard}}{{.ImportPath}}{{end}}' pkg
 cmp stdout want
 
--- $GOPATH/src/pkg/pkg.go --
+-- $GOPATH/src/pkg/pkg.golang --
 package main
 
 func main() {}
 
--- $GOPATH/src/pkg/pkg_test.go --
+-- $GOPATH/src/pkg/pkg_test.golang --
 package main
 
 import "testing"

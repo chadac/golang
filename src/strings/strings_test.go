@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package strings_test
@@ -75,7 +75,7 @@ var indexTests = []IndexTest{
 	{"foo", "", 0},
 	{"foo", "o", 1},
 	{"abcABCabc", "A", 3},
-	{"jrzm6jjhorimglljrea4w3rlgosts0w2gia17hno2td4qd1jz", "jz", 47},
+	{"jrzm6jjhorimglljrea4w3rlgolangsts0w2gia17hno2td4qd1jz", "jz", 47},
 	{"ekkuk5oft4eq0ocpacknhwouic1uua46unx12l37nioq9wbpnocqks6", "ks6", 52},
 	{"999f2xmimunbuyew5vrkla9cpwhmxan8o98ec", "98ec", 33},
 	{"9lpt9r98i04k8bz6c6dsrthb96bhi", "96bhi", 24},
@@ -365,8 +365,8 @@ func TestIndexRune(t *testing.T) {
 		{"aaKKKKKa鄄", '鄄', 18},
 	}
 	for _, tt := range tests {
-		if got := IndexRune(tt.in, tt.rune); got != tt.want {
-			t.Errorf("IndexRune(%q, %d) = %v; want %v", tt.in, tt.rune, got, tt.want)
+		if golangt := IndexRune(tt.in, tt.rune); golangt != tt.want {
+			t.Errorf("IndexRune(%q, %d) = %v; want %v", tt.in, tt.rune, golangt, tt.want)
 		}
 	}
 
@@ -381,15 +381,15 @@ func TestIndexRune(t *testing.T) {
 		}
 	})
 	if allocs != 0 && testing.CoverMode() == "" {
-		t.Errorf("expected no allocations, got %f", allocs)
+		t.Errorf("expected no allocations, golangt %f", allocs)
 	}
 }
 
 const benchmarkString = "some_text=some☺value"
 
 func BenchmarkIndexRune(b *testing.B) {
-	if got := IndexRune(benchmarkString, '☺'); got != 14 {
-		b.Fatalf("wrong index: expected 14, got=%d", got)
+	if golangt := IndexRune(benchmarkString, '☺'); golangt != 14 {
+		b.Fatalf("wrong index: expected 14, golangt=%d", golangt)
 	}
 	for i := 0; i < b.N; i++ {
 		IndexRune(benchmarkString, '☺')
@@ -399,8 +399,8 @@ func BenchmarkIndexRune(b *testing.B) {
 var benchmarkLongString = Repeat(" ", 100) + benchmarkString
 
 func BenchmarkIndexRuneLongString(b *testing.B) {
-	if got := IndexRune(benchmarkLongString, '☺'); got != 114 {
-		b.Fatalf("wrong index: expected 114, got=%d", got)
+	if golangt := IndexRune(benchmarkLongString, '☺'); golangt != 114 {
+		b.Fatalf("wrong index: expected 114, golangt=%d", golangt)
 	}
 	for i := 0; i < b.N; i++ {
 		IndexRune(benchmarkLongString, '☺')
@@ -408,8 +408,8 @@ func BenchmarkIndexRuneLongString(b *testing.B) {
 }
 
 func BenchmarkIndexRuneFastPath(b *testing.B) {
-	if got := IndexRune(benchmarkString, 'v'); got != 17 {
-		b.Fatalf("wrong index: expected 17, got=%d", got)
+	if golangt := IndexRune(benchmarkString, 'v'); golangt != 17 {
+		b.Fatalf("wrong index: expected 17, golangt=%d", golangt)
 	}
 	for i := 0; i < b.N; i++ {
 		IndexRune(benchmarkString, 'v')
@@ -417,8 +417,8 @@ func BenchmarkIndexRuneFastPath(b *testing.B) {
 }
 
 func BenchmarkIndex(b *testing.B) {
-	if got := Index(benchmarkString, "v"); got != 17 {
-		b.Fatalf("wrong index: expected 17, got=%d", got)
+	if golangt := Index(benchmarkString, "v"); golangt != 17 {
+		b.Fatalf("wrong index: expected 17, golangt=%d", golangt)
 	}
 	for i := 0; i < b.N; i++ {
 		Index(benchmarkString, "v")
@@ -426,8 +426,8 @@ func BenchmarkIndex(b *testing.B) {
 }
 
 func BenchmarkLastIndex(b *testing.B) {
-	if got := Index(benchmarkString, "v"); got != 17 {
-		b.Fatalf("wrong index: expected 17, got=%d", got)
+	if golangt := Index(benchmarkString, "v"); golangt != 17 {
+		b.Fatalf("wrong index: expected 17, golangt=%d", golangt)
 	}
 	for i := 0; i < b.N; i++ {
 		LastIndex(benchmarkString, "v")
@@ -435,8 +435,8 @@ func BenchmarkLastIndex(b *testing.B) {
 }
 
 func BenchmarkIndexByte(b *testing.B) {
-	if got := IndexByte(benchmarkString, 'v'); got != 17 {
-		b.Fatalf("wrong index: expected 17, got=%d", got)
+	if golangt := IndexByte(benchmarkString, 'v'); golangt != 17 {
+		b.Fatalf("wrong index: expected 17, golangt=%d", golangt)
 	}
 	for i := 0; i < b.N; i++ {
 		IndexByte(benchmarkString, 'v')
@@ -699,7 +699,7 @@ func TestMap(t *testing.T) {
 	m := Map(maxRune, a)
 	expect := tenRunes(unicode.MaxRune)
 	if m != expect {
-		t.Errorf("growing: expected %q got %q", expect, m)
+		t.Errorf("growing: expected %q golangt %q", expect, m)
 	}
 
 	// 2. Shrink
@@ -707,21 +707,21 @@ func TestMap(t *testing.T) {
 	m = Map(minRune, tenRunes(unicode.MaxRune))
 	expect = a
 	if m != expect {
-		t.Errorf("shrinking: expected %q got %q", expect, m)
+		t.Errorf("shrinking: expected %q golangt %q", expect, m)
 	}
 
 	// 3. Rot13
 	m = Map(rot13, "a to zed")
 	expect = "n gb mrq"
 	if m != expect {
-		t.Errorf("rot13: expected %q got %q", expect, m)
+		t.Errorf("rot13: expected %q golangt %q", expect, m)
 	}
 
 	// 4. Rot13^2
 	m = Map(rot13, Map(rot13, "a to zed"))
 	expect = "a to zed"
 	if m != expect {
-		t.Errorf("rot13: expected %q got %q", expect, m)
+		t.Errorf("rot13: expected %q golangt %q", expect, m)
 	}
 
 	// 5. Drop
@@ -734,7 +734,7 @@ func TestMap(t *testing.T) {
 	m = Map(dropNotLatin, "Hello, 세계")
 	expect = "Hello"
 	if m != expect {
-		t.Errorf("drop: expected %q got %q", expect, m)
+		t.Errorf("drop: expected %q golangt %q", expect, m)
 	}
 
 	// 6. Identity
@@ -757,7 +757,7 @@ func TestMap(t *testing.T) {
 	m = Map(replaceNotLatin, "Hello\255World")
 	expect = "Hello\uFFFDWorld"
 	if m != expect {
-		t.Errorf("replace invalid sequence: expected %q got %q", expect, m)
+		t.Errorf("replace invalid sequence: expected %q golangt %q", expect, m)
 	}
 
 	// 8. Check utf8.RuneSelf and utf8.MaxRune encoding
@@ -774,11 +774,11 @@ func TestMap(t *testing.T) {
 	r := string(utf8.MaxRune) + string(rune(utf8.RuneSelf)) // reverse of s
 	m = Map(encode, s)
 	if m != r {
-		t.Errorf("encoding not handled correctly: expected %q got %q", r, m)
+		t.Errorf("encoding not handled correctly: expected %q golangt %q", r, m)
 	}
 	m = Map(encode, r)
 	if m != s {
-		t.Errorf("encoding not handled correctly: expected %q got %q", s, m)
+		t.Errorf("encoding not handled correctly: expected %q golangt %q", s, m)
 	}
 
 	// 9. Check mapping occurs in the front, middle and back
@@ -791,7 +791,7 @@ func TestMap(t *testing.T) {
 	m = Map(trimSpaces, "   abc    123   ")
 	expect = "abc123"
 	if m != expect {
-		t.Errorf("trimSpaces: expected %q got %q", expect, m)
+		t.Errorf("trimSpaces: expected %q golangt %q", expect, m)
 	}
 }
 
@@ -822,9 +822,9 @@ var toValidUTF8Tests = []struct {
 
 func TestToValidUTF8(t *testing.T) {
 	for _, tc := range toValidUTF8Tests {
-		got := ToValidUTF8(tc.in, tc.repl)
-		if got != tc.out {
-			t.Errorf("ToValidUTF8(%q, %q) = %q; want %q", tc.in, tc.repl, got, tc.out)
+		golangt := ToValidUTF8(tc.in, tc.repl)
+		if golangt != tc.out {
+			t.Errorf("ToValidUTF8(%q, %q) = %q; want %q", tc.in, tc.repl, golangt, tc.out)
 		}
 	}
 }
@@ -1246,7 +1246,7 @@ func repeat(s string, count int) (err error) {
 	return
 }
 
-// See Issue golang.org/issue/16237
+// See Issue golanglang.org/issue/16237
 func TestRepeatCatchesOverflow(t *testing.T) {
 	type testCase struct {
 		s      string
@@ -1265,7 +1265,7 @@ func TestRepeatCatchesOverflow(t *testing.T) {
 			}
 
 			if err == nil || !Contains(err.Error(), tt.errStr) {
-				t.Errorf("%s#%d got %q want %q", prefix, i, err, tt.errStr)
+				t.Errorf("%s#%d golangt %q want %q", prefix, i, err, tt.errStr)
 			}
 		}
 	}
@@ -1276,7 +1276,7 @@ func TestRepeatCatchesOverflow(t *testing.T) {
 		0: {"--", -2147483647, "negative"},
 		1: {"", maxInt, ""},
 		2: {"-", 10, ""},
-		3: {"gopher", 0, ""},
+		3: {"golangpher", 0, ""},
 		4: {"-", -1, "negative"},
 		5: {"--", -102, "negative"},
 		6: {string(make([]byte, 255)), int((^uint(0))/255 + 1), "overflow"},
@@ -1365,7 +1365,7 @@ func TestReadByte(t *testing.T) {
 				break
 			}
 			if b1 != b {
-				t.Errorf("Reading %q after unreading: want byte %q, got %q", s, b, b1)
+				t.Errorf("Reading %q after unreading: want byte %q, golangt %q", s, b, b1)
 				break
 			}
 		}
@@ -1405,11 +1405,11 @@ func TestReadRune(t *testing.T) {
 				break
 			}
 			if r1 != r {
-				t.Errorf("Reading %q after unreading: want rune %q, got %q", s, r, r1)
+				t.Errorf("Reading %q after unreading: want rune %q, golangt %q", s, r, r1)
 				break
 			}
 			if z1 != z {
-				t.Errorf("Reading %q after unreading: want size %d, got %d", s, z, z1)
+				t.Errorf("Reading %q after unreading: want size %d, golangt %d", s, z, z1)
 				break
 			}
 		}

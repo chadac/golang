@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 (Add(Ptr|32|16|8) ...) => (ADD ...)
@@ -552,7 +552,7 @@
 // multiple memory values alive simultaneously.
 // Make sure we don't combine these ops if the load has another use.
 // This prevents a single load from being split into multiple loads
-// which then might return different values.  See test/atomicload.go.
+// which then might return different values.  See test/atomicload.golang.
 (MOVBreg <t> x:(MOVBUload [off] {sym} ptr mem)) && x.Uses == 1 && clobber(x) => @x.Block (MOVBload  <t> [off] {sym} ptr mem)
 (MOVBUreg <t> x:(MOVBload [off] {sym} ptr mem)) && x.Uses == 1 && clobber(x) => @x.Block (MOVBUload <t> [off] {sym} ptr mem)
 (MOVHreg <t> x:(MOVHUload [off] {sym} ptr mem)) && x.Uses == 1 && clobber(x) => @x.Block (MOVHload  <t> [off] {sym} ptr mem)

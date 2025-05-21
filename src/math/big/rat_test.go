@@ -1,5 +1,5 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package big
@@ -18,26 +18,26 @@ func TestZeroRat(t *testing.T) {
 	}
 
 	if s := x.String(); s != "0/1" {
-		t.Errorf("got x = %s, want 0/1", s)
+		t.Errorf("golangt x = %s, want 0/1", s)
 	}
 
 	if s := x.RatString(); s != "0" {
-		t.Errorf("got x = %s, want 0", s)
+		t.Errorf("golangt x = %s, want 0", s)
 	}
 
 	z.Add(&x, &y)
 	if s := z.RatString(); s != "0" {
-		t.Errorf("got x+y = %s, want 0", s)
+		t.Errorf("golangt x+y = %s, want 0", s)
 	}
 
 	z.Sub(&x, &y)
 	if s := z.RatString(); s != "0" {
-		t.Errorf("got x-y = %s, want 0", s)
+		t.Errorf("golangt x-y = %s, want 0", s)
 	}
 
 	z.Mul(&x, &y)
 	if s := z.RatString(); s != "0" {
-		t.Errorf("got x*y = %s, want 0", s)
+		t.Errorf("golangt x*y = %s, want 0", s)
 	}
 
 	// check for division by zero
@@ -59,7 +59,7 @@ func TestRatSign(t *testing.T) {
 		s := x.Sign()
 		e := x.Cmp(zero)
 		if s != e {
-			t.Errorf("got %d; want %d for z = %v", s, e, &x)
+			t.Errorf("golangt %d; want %d for z = %v", s, e, &x)
 		}
 	}
 }
@@ -86,7 +86,7 @@ func TestRatCmp(t *testing.T) {
 
 		out := x.Cmp(y)
 		if out != test.out {
-			t.Errorf("#%d got out = %v; want %v", i, out, test.out)
+			t.Errorf("#%d golangt out = %v; want %v", i, out, test.out)
 		}
 	}
 }
@@ -101,7 +101,7 @@ func TestIsInt(t *testing.T) {
 		i := x.IsInt()
 		e := x.Denom().Cmp(one) == 0
 		if i != e {
-			t.Errorf("got IsInt(%v) == %v; want %v", x, i, e)
+			t.Errorf("golangt IsInt(%v) == %v; want %v", x, i, e)
 		}
 	}
 }
@@ -119,7 +119,7 @@ func TestRatAbs(t *testing.T) {
 		}
 		z := new(Rat).Abs(x)
 		if z.Cmp(e) != 0 {
-			t.Errorf("got Abs(%v) = %v; want %v", x, z, e)
+			t.Errorf("golangt Abs(%v) = %v; want %v", x, z, e)
 		}
 	}
 }
@@ -134,7 +134,7 @@ func TestRatNeg(t *testing.T) {
 		e := new(Rat).Sub(zero, x)
 		z := new(Rat).Neg(x)
 		if z.Cmp(e) != 0 {
-			t.Errorf("got Neg(%v) = %v; want %v", x, z, e)
+			t.Errorf("golangt Neg(%v) = %v; want %v", x, z, e)
 		}
 	}
 }
@@ -152,7 +152,7 @@ func TestRatInv(t *testing.T) {
 		e := new(Rat).SetFrac(x.Denom(), x.Num())
 		z := new(Rat).Inv(x)
 		if z.Cmp(e) != 0 {
-			t.Errorf("got Inv(%v) = %v; want %v", x, z, e)
+			t.Errorf("golangt Inv(%v) = %v; want %v", x, z, e)
 		}
 	}
 }
@@ -169,7 +169,7 @@ func testRatBin(t *testing.T, i int, name string, f ratBinFun, a ratBinArg) {
 	out := f(new(Rat), x, y)
 
 	if out.Cmp(z) != 0 {
-		t.Errorf("%s #%d got %s want %s", name, i, out, z)
+		t.Errorf("%s #%d golangt %s want %s", name, i, out, z)
 	}
 }
 
@@ -235,7 +235,7 @@ func TestIssue820(t *testing.T) {
 	z := y.Quo(x, y)
 	q := NewRat(3, 2)
 	if z.Cmp(q) != 0 {
-		t.Errorf("got %s want %s", z, q)
+		t.Errorf("golangt %s want %s", z, q)
 	}
 
 	y = NewRat(3, 1)
@@ -243,14 +243,14 @@ func TestIssue820(t *testing.T) {
 	z = y.Quo(x, y)
 	q = NewRat(2, 3)
 	if z.Cmp(q) != 0 {
-		t.Errorf("got %s want %s", z, q)
+		t.Errorf("golangt %s want %s", z, q)
 	}
 
 	x = NewRat(3, 1)
 	z = x.Quo(x, x)
 	q = NewRat(3, 3)
 	if z.Cmp(q) != 0 {
-		t.Errorf("got %s want %s", z, q)
+		t.Errorf("golangt %s want %s", z, q)
 	}
 }
 
@@ -271,7 +271,7 @@ func TestRatSetFrac64Rat(t *testing.T) {
 	for i, test := range setFrac64Tests {
 		x := new(Rat).SetFrac64(test.a, test.b)
 		if x.RatString() != test.out {
-			t.Errorf("#%d got %s want %s", i, x.RatString(), test.out)
+			t.Errorf("#%d golangt %s want %s", i, x.RatString(), test.out)
 		}
 	}
 }
@@ -282,28 +282,28 @@ func TestIssue2379(t *testing.T) {
 	x := new(Rat)
 	x.SetFrac(NewInt(3), NewInt(2))
 	if x.Cmp(q) != 0 {
-		t.Errorf("1) got %s want %s", x, q)
+		t.Errorf("1) golangt %s want %s", x, q)
 	}
 
 	// 2) aliasing of numerator
 	x = NewRat(2, 3)
 	x.SetFrac(NewInt(3), x.Num())
 	if x.Cmp(q) != 0 {
-		t.Errorf("2) got %s want %s", x, q)
+		t.Errorf("2) golangt %s want %s", x, q)
 	}
 
 	// 3) aliasing of denominator
 	x = NewRat(2, 3)
 	x.SetFrac(x.Denom(), NewInt(2))
 	if x.Cmp(q) != 0 {
-		t.Errorf("3) got %s want %s", x, q)
+		t.Errorf("3) golangt %s want %s", x, q)
 	}
 
 	// 4) aliasing of numerator and denominator
 	x = NewRat(2, 3)
 	x.SetFrac(x.Denom(), x.Num())
 	if x.Cmp(q) != 0 {
-		t.Errorf("4) got %s want %s", x, q)
+		t.Errorf("4) golangt %s want %s", x, q)
 	}
 
 	// 5) numerator and denominator are the same
@@ -312,7 +312,7 @@ func TestIssue2379(t *testing.T) {
 	n := NewInt(7)
 	x.SetFrac(n, n)
 	if x.Cmp(q) != 0 {
-		t.Errorf("5) got %s want %s", x, q)
+		t.Errorf("5) golangt %s want %s", x, q)
 	}
 }
 
@@ -326,21 +326,21 @@ func TestIssue3521(t *testing.T) {
 	zero := new(Rat)
 	one := NewInt(1)
 	if zero.Denom().Cmp(one) != 0 {
-		t.Errorf("0) got %s want %s", zero.Denom(), one)
+		t.Errorf("0) golangt %s want %s", zero.Denom(), one)
 	}
 
 	// 1a) the denominator of an (uninitialized) zero value is not shared with the value
 	s := &zero.b
 	d := zero.Denom()
 	if d == s {
-		t.Errorf("1a) got %s (%p) == %s (%p) want different *Int values", d, d, s, s)
+		t.Errorf("1a) golangt %s (%p) == %s (%p) want different *Int values", d, d, s, s)
 	}
 
 	// 1b) the denominator of an (uninitialized) value is a new 1 each time
 	d1 := zero.Denom()
 	d2 := zero.Denom()
 	if d1 == d2 {
-		t.Errorf("1b) got %s (%p) == %s (%p) want different *Int values", d1, d1, d2, d2)
+		t.Errorf("1b) golangt %s (%p) == %s (%p) want different *Int values", d1, d1, d2, d2)
 	}
 
 	// 1c) the denominator of an initialized zero value is shared with the value
@@ -349,20 +349,20 @@ func TestIssue3521(t *testing.T) {
 	s = &x.b
 	d = x.Denom()
 	if d != s {
-		t.Errorf("1c) got %s (%p) != %s (%p) want identical *Int values", d, d, s, s)
+		t.Errorf("1c) golangt %s (%p) != %s (%p) want identical *Int values", d, d, s, s)
 	}
 
 	// 1d) a zero value remains zero independent of denominator
 	x.Denom().Set(new(Int).Neg(b))
 	if x.Cmp(zero) != 0 {
-		t.Errorf("1d) got %s want %s", x, zero)
+		t.Errorf("1d) golangt %s want %s", x, zero)
 	}
 
 	// 1e) a zero value may have a denominator != 0 and != 1
 	x.Num().Set(a)
 	qab := new(Rat).SetFrac(a, b)
 	if x.Cmp(qab) != 0 {
-		t.Errorf("1e) got %s want %s", x, qab)
+		t.Errorf("1e) golangt %s want %s", x, qab)
 	}
 
 	// 2a) an integral value becomes a fraction depending on denominator
@@ -370,14 +370,14 @@ func TestIssue3521(t *testing.T) {
 	x.Denom().SetInt64(3)
 	q53 := NewRat(5, 3)
 	if x.Cmp(q53) != 0 {
-		t.Errorf("2a) got %s want %s", x, q53)
+		t.Errorf("2a) golangt %s want %s", x, q53)
 	}
 
 	// 2b) an integral value becomes a fraction depending on denominator
 	x = NewRat(10, 2)
 	x.Denom().SetInt64(3)
 	if x.Cmp(q53) != 0 {
-		t.Errorf("2b) got %s want %s", x, q53)
+		t.Errorf("2b) golangt %s want %s", x, q53)
 	}
 
 	// 3) changing the numerator/denominator of a Rat changes the Rat
@@ -387,7 +387,7 @@ func TestIssue3521(t *testing.T) {
 	a.SetInt64(5)
 	b.SetInt64(3)
 	if x.Cmp(q53) != 0 {
-		t.Errorf("3) got %s want %s", x, q53)
+		t.Errorf("3) golangt %s want %s", x, q53)
 	}
 }
 
@@ -663,9 +663,9 @@ func TestRatSetInt64(t *testing.T) {
 		if !num.IsInt64() {
 			t.Errorf("#%d: Rat.SetInt64(%d) numerator is not an int64", i, want)
 		}
-		got := num.Int64()
-		if got != want {
-			t.Errorf("#%d: Rat.SetInt64(%d) = %d, but expected %d", i, want, got, want)
+		golangt := num.Int64()
+		if golangt != want {
+			t.Errorf("#%d: Rat.SetInt64(%d) = %d, but expected %d", i, want, golangt, want)
 		}
 	}
 }
@@ -687,9 +687,9 @@ func TestRatSetUint64(t *testing.T) {
 		if !num.IsUint64() {
 			t.Errorf("#%d: Rat.SetUint64(%d) numerator is not a uint64", i, want)
 		}
-		got := num.Uint64()
-		if got != want {
-			t.Errorf("#%d: Rat.SetUint64(%d) = %d, but expected %d", i, want, got, want)
+		golangt := num.Uint64()
+		if golangt != want {
+			t.Errorf("#%d: Rat.SetUint64(%d) = %d, but expected %d", i, want, golangt, want)
 		}
 	}
 }
@@ -722,7 +722,7 @@ func TestIssue34919(t *testing.T) {
 		r := &Rat{Int{abs: nat{991}}, Int{abs: make(nat, 0, 1)}}
 		acc.f(r)
 		if d := r.b.abs[:1][0]; d != 0 {
-			t.Errorf("%s modified denominator: got %d, want 0", acc.name, d)
+			t.Errorf("%s modified denominator: golangt %d, want 0", acc.name, d)
 		}
 	}
 }
@@ -732,7 +732,7 @@ func TestDenomRace(t *testing.T) {
 	const N = 3
 	c := make(chan bool, N)
 	for i := 0; i < N; i++ {
-		go func() {
+		golang func() {
 			// Denom (also used by Float.SetRat) used to mutate x unnecessarily,
 			// provoking race reports when run in the race detector.
 			x.Denom()

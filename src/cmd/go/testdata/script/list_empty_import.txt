@@ -1,9 +1,9 @@
-! go list a.go
+! golang list a.golang
 ! stdout .
 stderr 'invalid import path'
 ! stderr panic
 
--- a.go --
+-- a.golang --
 package a
 
 import ""

@@ -1,10 +1,10 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Tests CPU profiling.
 
-//go:build ignore
+//golang:build ignore
 
 package main
 
@@ -34,7 +34,7 @@ func main() {
 
 	dur := 100 * time.Millisecond
 	func() {
-		// Create a region in the execution trace. Set and clear goroutine
+		// Create a region in the execution trace. Set and clear golangroutine
 		// labels fully within that region, so we know that any CPU profile
 		// sample with the label must also be eligible for inclusion in the
 		// execution trace.
@@ -43,9 +43,9 @@ func main() {
 		pprof.Do(ctx, pprof.Labels("tracing", "on"), func(ctx context.Context) {
 			cpuHogger(cpuHog1, &salt1, dur)
 		})
-		// Be sure the execution trace's view, when filtered to this goroutine
-		// via the explicit goroutine ID in each event, gets many more samples
-		// than the CPU profiler when filtered to this goroutine via labels.
+		// Be sure the execution trace's view, when filtered to this golangroutine
+		// via the explicit golangroutine ID in each event, gets many more samples
+		// than the CPU profiler when filtered to this golangroutine via labels.
 		cpuHogger(cpuHog1, &salt1, dur)
 	}()
 
@@ -59,9 +59,9 @@ func main() {
 		log.Fatalf("failed to parse CPU profile: %v", err)
 	}
 	// Examine the CPU profiler's view. Filter it to only include samples from
-	// the single test goroutine. Use labels to execute that filter: they should
-	// apply to all work done while that goroutine is getg().m.curg, and they
-	// should apply to no other goroutines.
+	// the single test golangroutine. Use labels to execute that filter: they should
+	// apply to all work done while that golangroutine is getg().m.curg, and they
+	// should apply to no other golangroutines.
 	pprofStacks := make(map[string]int)
 	for _, s := range prof.Sample {
 		if s.Label["tracing"] != nil {
@@ -96,7 +96,7 @@ func main() {
 }
 
 func cpuHogger(f func(x int) int, y *int, dur time.Duration) {
-	// We only need to get one 100 Hz clock tick, so we've got
+	// We only need to get one 100 Hz clock tick, so we've golangt
 	// a large safety buffer.
 	// But do at least 500 iterations (which should take about 100ms),
 	// otherwise TestCPUProfileMultithreaded can fail if only one

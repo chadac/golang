@@ -1,5 +1,5 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This package defines the Go object file format, and provide "low-level" functions
@@ -10,13 +10,13 @@
 // logics, and use this package for the actual reading and writing. Specifically, the
 // code below:
 //
-// - cmd/internal/obj/objfile.go (used by cmd/asm and cmd/compile)
-// - cmd/internal/objfile/goobj.go (used cmd/nm, cmd/objdump)
+// - cmd/internal/obj/objfile.golang (used by cmd/asm and cmd/compile)
+// - cmd/internal/objfile/golangobj.golang (used cmd/nm, cmd/objdump)
 // - cmd/link/internal/loader package (used by cmd/link)
 //
 // If the object file format changes, they may (or may not) need to change.
 
-package goobj
+package golangobj
 
 import (
 	"cmd/internal/bio"
@@ -29,7 +29,7 @@ import (
 // New object file format.
 //
 //    Header struct {
-//       Magic       [...]byte   // "\x00go120ld"
+//       Magic       [...]byte   // "\x00golang120ld"
 //       Fingerprint [8]byte
 //       Flags       uint32
 //       Offsets     [...]uint32 // byte offset of each block below
@@ -215,7 +215,7 @@ type Header struct {
 	Offsets     [NBlk]uint32
 }
 
-const Magic = "\x00go120ld"
+const Magic = "\x00golang120ld"
 
 func (h *Header) Write(w *Writer) {
 	w.RawString(h.Magic)
@@ -283,7 +283,7 @@ const SymABIstatic = ^uint16(0)
 const (
 	ObjFlagShared       = 1 << iota // this object is built with -shared
 	_                               // was ObjFlagNeedNameExpansion
-	ObjFlagFromAssembly             // object is from asm src, not go
+	ObjFlagFromAssembly             // object is from asm src, not golang
 	ObjFlagUnlinkable               // unlinkable package (linker will emit an error)
 	ObjFlagStd                      // standard library package
 )

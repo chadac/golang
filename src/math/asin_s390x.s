@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 #include "textflag.h"
@@ -40,8 +40,8 @@ GLOBL ·asinrodataL15<> + 0(SB), RODATA, $224
 // Special cases are:
 //      Asin(±0) = ±0=
 //      Asin(x) = NaN if x < -1 or x > 1
-// The algorithm used is minimax polynomial approximation
-// with coefficients determined with a Remez exchange algorithm.
+// The algolangrithm used is minimax polynomial approximation
+// with coefficients determined with a Remez exchange algolangrithm.
 
 TEXT	·asinAsm(SB), NOSPLIT, $0-16
 	FMOVD	x+0(FP), F0

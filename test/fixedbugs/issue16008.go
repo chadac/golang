@@ -1,9 +1,9 @@
 // errorcheck -0 -race
 
-//go:build (linux && amd64) || (linux && ppc64le) || (darwin && amd64) || (freebsd && amd64) || (netbsd && amd64) || (windows && amd64)
+//golang:build (linux && amd64) || (linux && ppc64le) || (darwin && amd64) || (freebsd && amd64) || (netbsd && amd64) || (windows && amd64)
 
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package foo
@@ -38,19 +38,19 @@ type Node struct {
 type MemoryStore struct {
 }
 
-//go:noinline
+//golang:noinline
 func setupNodes(n int) (s *MemoryStore, nodeIDs []string) {
 	return
 }
 
-//go:noinline
+//golang:noinline
 func (s *MemoryStore) Update(cb func(Tx) error) error {
 	return nil
 }
 
 var sink interface{}
 
-//go:noinline
+//golang:noinline
 func UpdateNode(tx Tx, n *Node) error {
 	sink = tx
 	sink = n

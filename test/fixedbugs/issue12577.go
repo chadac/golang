@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Issue 12577: Test that there are no -0 floating-point constants.
@@ -31,21 +31,21 @@ var (
 
 func test32(f float32) {
 	if f != 0 || math.Signbit(float64(f)) {
-		println("BUG: got", f, "want 0.0")
+		println("BUG: golangt", f, "want 0.0")
 		return
 	}
 }
 
 func test64(f float64) {
 	if f != 0 || math.Signbit(f) {
-		println("BUG: got", f, "want 0.0")
+		println("BUG: golangt", f, "want 0.0")
 		return
 	}
 }
 
 func main() {
 	if f := -x0; f != 0 || !math.Signbit(float64(f)) {
-		println("BUG: got", f, "want -0.0")
+		println("BUG: golangt", f, "want -0.0")
 	}
 
 	test32(-0.0)
@@ -55,7 +55,7 @@ func main() {
 	test32(x3)
 
 	if f := -y0; f != 0 || !math.Signbit(f) {
-		println("BUG: got", f, "want -0.0")
+		println("BUG: golangt", f, "want -0.0")
 	}
 
 	test64(-0.0)

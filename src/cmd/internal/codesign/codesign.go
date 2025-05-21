@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package codesign provides basic functionalities for
@@ -7,7 +7,7 @@
 //
 // This is not a general tool for code-signing. It is made
 // specifically for the Go toolchain. It uses the same
-// ad-hoc signing algorithm as the Darwin linker.
+// ad-hoc signing algolangrithm as the Darwin linker.
 package codesign
 
 import (

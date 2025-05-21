@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package zstd
@@ -55,17 +55,17 @@ func testWindow(t *testing.T, size int, a, b, c []byte) {
 	}
 
 	if w.len() != uint32(len(tail)) {
-		t.Errorf("wrong data length: got: %d, want: %d", w.len(), len(tail))
+		t.Errorf("wrong data length: golangt: %d, want: %d", w.len(), len(tail))
 	}
 
 	var from, to uint32
 	for from = 0; from <= uint32(len(tail)); from++ {
 		for to = from; to <= uint32(len(tail)); to++ {
-			got := w.appendTo(nil, from, to)
+			golangt := w.appendTo(nil, from, to)
 			want := tail[from:to]
 
-			if !bytes.Equal(got, want) {
-				t.Errorf("wrong data at [%d:%d]: got %q, want %q", from, to, got, want)
+			if !bytes.Equal(golangt, want) {
+				t.Errorf("wrong data at [%d:%d]: golangt %q, want %q", from, to, golangt, want)
 			}
 		}
 	}

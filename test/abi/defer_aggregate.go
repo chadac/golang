@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -12,8 +12,8 @@ const p2exp = 3030303
 const p3exp = 505050505
 const p4exp = 70707070707
 
-//go:noinline
-//go:registerparams
+//golang:noinline
+//golang:registerparams
 func callee(p0 string, p1 uint64, p2 uint64, p3 uint64, p4 uint64) {
 	if p0 != p0exp {
 		panic("bad p0")

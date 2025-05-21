@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
@@ -16,7 +16,7 @@ const debugSelect = false
 
 // Select case descriptor.
 // Known to compiler.
-// Changes here must also be made in src/cmd/compile/internal/walk/select.go's scasetype.
+// Changes here must also be made in src/cmd/compile/internal/walk/select.golang's scasetype.
 type scase struct {
 	c    *hchan         // chan
 	elem unsafe.Pointer // data element
@@ -46,7 +46,7 @@ func selunlock(scases []scase, lockorder []uint16) {
 	// We must be very careful here to not touch sel after we have unlocked
 	// the last lock, because sel can be freed right after the last unlock.
 	// Consider the following situation.
-	// First M calls runtime·park() in runtime·selectgo() passing the sel.
+	// First M calls runtime·park() in runtime·selectgolang() passing the sel.
 	// Once runtime·park() has unlocked the last lock, another M makes
 	// the G that calls select runnable again and schedules it for execution.
 	// When the G runs on another M, it locks all the locks and frees sel.
@@ -77,7 +77,7 @@ func selparkcommit(gp *g, _ unsafe.Pointer) bool {
 	// and so gp could continue running before everything before the
 	// unlock is visible (even to gp itself).
 
-	// This must not access gp's stack (see gopark). In
+	// This must not access gp's stack (see golangpark). In
 	// particular, it must not access the *hselect. That's okay,
 	// because by the time this is called, gp.waiting has all
 	// channels in lock order.
@@ -101,25 +101,25 @@ func selparkcommit(gp *g, _ unsafe.Pointer) bool {
 }
 
 func block() {
-	gopark(nil, nil, waitReasonSelectNoCases, traceBlockForever, 1) // forever
+	golangpark(nil, nil, waitReasonSelectNoCases, traceBlockForever, 1) // forever
 }
 
-// selectgo implements the select statement.
+// selectgolang implements the select statement.
 //
 // cas0 points to an array of type [ncases]scase, and order0 points to
 // an array of type [2*ncases]uint16 where ncases must be <= 65536.
-// Both reside on the goroutine's stack (regardless of any escaping in
-// selectgo).
+// Both reside on the golangroutine's stack (regardless of any escaping in
+// selectgolang).
 //
 // For race detector builds, pc0 points to an array of type
 // [ncases]uintptr (also on the stack); for other builds, it's set to
 // nil.
 //
-// selectgo returns the index of the chosen scase, which matches the
+// selectgolang returns the index of the chosen scase, which matches the
 // ordinal position of its respective select{recv,send,default} call.
 // Also, if the chosen scase was a receive operation, it reports whether
 // a value was received.
-func selectgo(cas0 *scase, order0 *uint16, pc0 *uintptr, nsends, nrecvs int, block bool) (int, bool) {
+func selectgolang(cas0 *scase, order0 *uint16, pc0 *uintptr, nsends, nrecvs int, block bool) (int, bool) {
 	gp := getg()
 	if debugSelect {
 		print("select: cas0=", cas0, "\n")
@@ -138,7 +138,7 @@ func selectgo(cas0 *scase, order0 *uint16, pc0 *uintptr, nsends, nrecvs int, blo
 
 	// Even when raceenabled is true, there might be select
 	// statements in packages compiled without -race (e.g.,
-	// ensureSigM in runtime/signal_unix.go).
+	// ensureSigM in runtime/signal_unix.golang).
 	var pcs []uintptr
 	if raceenabled && pc0 != nil {
 		pc1 := (*[1 << 16]uintptr)(unsafe.Pointer(pc0))
@@ -199,7 +199,7 @@ func selectgo(cas0 *scase, order0 *uint16, pc0 *uintptr, nsends, nrecvs int, blo
 	waitReason := waitReasonSelect
 	if gp.bubble != nil && allSynctest {
 		// Every channel selected on is in a synctest bubble,
-		// so this goroutine will count as idle while selecting.
+		// so this golangroutine will count as idle while selecting.
 		waitReason = waitReasonSynctestSelect
 	}
 
@@ -275,27 +275,27 @@ func selectgo(cas0 *scase, order0 *uint16, pc0 *uintptr, nsends, nrecvs int, blo
 		if casi >= nsends {
 			sg = c.sendq.dequeue()
 			if sg != nil {
-				goto recv
+				golangto recv
 			}
 			if c.qcount > 0 {
-				goto bufrecv
+				golangto bufrecv
 			}
 			if c.closed != 0 {
-				goto rclose
+				golangto rclose
 			}
 		} else {
 			if raceenabled {
 				racereadpc(c.raceaddr(), casePC(casi), chansendpc)
 			}
 			if c.closed != 0 {
-				goto sclose
+				golangto sclose
 			}
 			sg = c.recvq.dequeue()
 			if sg != nil {
-				goto send
+				golangto send
 			}
 			if c.qcount < c.dataqsiz {
-				goto bufsend
+				golangto bufsend
 			}
 		}
 	}
@@ -303,7 +303,7 @@ func selectgo(cas0 *scase, order0 *uint16, pc0 *uintptr, nsends, nrecvs int, blo
 	if !block {
 		selunlock(scases, lockorder)
 		casi = -1
-		goto retc
+		golangto retc
 	}
 
 	// pass 2 - enqueue on all chans
@@ -348,7 +348,7 @@ func selectgo(cas0 *scase, order0 *uint16, pc0 *uintptr, nsends, nrecvs int, blo
 	// changes and when we set gp.activeStackChans is not safe for
 	// stack shrinking.
 	gp.parkingOnChan.Store(true)
-	gopark(selparkcommit, nil, waitReason, traceBlockSelect, 1)
+	golangpark(selparkcommit, nil, waitReason, traceBlockSelect, 1)
 	gp.activeStackChans = false
 
 	sellock(scases, lockorder)
@@ -401,7 +401,7 @@ func selectgo(cas0 *scase, order0 *uint16, pc0 *uintptr, nsends, nrecvs int, blo
 	}
 
 	if cas == nil {
-		throw("selectgo: bad wakeup")
+		throw("selectgolang: bad wakeup")
 	}
 
 	c = cas.c
@@ -412,7 +412,7 @@ func selectgo(cas0 *scase, order0 *uint16, pc0 *uintptr, nsends, nrecvs int, blo
 
 	if casi < nsends {
 		if !caseSuccess {
-			goto sclose
+			golangto sclose
 		}
 	} else {
 		recvOK = caseSuccess
@@ -441,7 +441,7 @@ func selectgo(cas0 *scase, order0 *uint16, pc0 *uintptr, nsends, nrecvs int, blo
 	}
 
 	selunlock(scases, lockorder)
-	goto retc
+	golangto retc
 
 bufrecv:
 	// can receive from buffer
@@ -469,7 +469,7 @@ bufrecv:
 	}
 	c.qcount--
 	selunlock(scases, lockorder)
-	goto retc
+	golangto retc
 
 bufsend:
 	// can send to buffer
@@ -490,7 +490,7 @@ bufsend:
 	}
 	c.qcount++
 	selunlock(scases, lockorder)
-	goto retc
+	golangto retc
 
 recv:
 	// can receive from sleeping sender (sg)
@@ -499,7 +499,7 @@ recv:
 		print("syncrecv: cas0=", cas0, " c=", c, "\n")
 	}
 	recvOK = true
-	goto retc
+	golangto retc
 
 rclose:
 	// read at end of closed channel
@@ -511,7 +511,7 @@ rclose:
 	if raceenabled {
 		raceacquire(c.raceaddr())
 	}
-	goto retc
+	golangto retc
 
 send:
 	// can send to a sleeping receiver (sg)
@@ -528,7 +528,7 @@ send:
 	if debugSelect {
 		print("syncsend: cas0=", cas0, " c=", c, "\n")
 	}
-	goto retc
+	golangto retc
 
 retc:
 	if caseReleaseTime > 0 {
@@ -547,7 +547,7 @@ func (c *hchan) sortkey() uintptr {
 }
 
 // A runtimeSelect is a single case passed to rselect.
-// This must match ../reflect/value.go:/runtimeSelect
+// This must match ../reflect/value.golang:/runtimeSelect
 type runtimeSelect struct {
 	dir selectDir
 	typ unsafe.Pointer // channel type (not used here)
@@ -555,7 +555,7 @@ type runtimeSelect struct {
 	val unsafe.Pointer // ptr to data (SendDir) or ptr to receive buffer (RecvDir)
 }
 
-// These values must match ../reflect/value.go:/SelectDir.
+// These values must match ../reflect/value.golang:/SelectDir.
 type selectDir int
 
 const (
@@ -565,7 +565,7 @@ const (
 	selectDefault           // default
 )
 
-//go:linkname reflect_rselect reflect.rselect
+//golang:linkname reflect_rselect reflect.rselect
 func reflect_rselect(cases []runtimeSelect) (int, bool) {
 	if len(cases) == 0 {
 		block()
@@ -613,7 +613,7 @@ func reflect_rselect(cases []runtimeSelect) (int, bool) {
 		pc0 = &pcs[0]
 	}
 
-	chosen, recvOK := selectgo(&sel[0], &order[0], pc0, nsends, nrecvs, dflt == -1)
+	chosen, recvOK := selectgolang(&sel[0], &order[0], pc0, nsends, nrecvs, dflt == -1)
 
 	// Translate chosen back to caller's ordering.
 	if chosen < 0 {

@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test evaluation order.
@@ -21,13 +21,13 @@ func g() int {
 
 var xy string
 
-//go:noinline
+//golang:noinline
 func x() bool {
 	xy += "x"
 	return false
 }
 
-//go:noinline
+//golang:noinline
 func y() string {
 	xy += "y"
 	return "abc"

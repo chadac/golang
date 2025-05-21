@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package test
@@ -118,7 +118,7 @@ func TestMergeLocalsIntegration(t *testing.T) {
 	// on and then pick up on the frame offsets of specific
 	// variables.
 	//
-	// Stack slot merging is a greedy algorithm, and there can
+	// Stack slot merging is a greedy algolangrithm, and there can
 	// be many possible ways to overlap a given set of candidate
 	// variables, all of them legal. Rather than locking down
 	// a specific set of overlappings or frame offsets, this
@@ -139,7 +139,7 @@ func TestMergeLocalsIntegration(t *testing.T) {
 	// 9: "r" frameoff -16408 ...
 	//
 	tmpdir := t.TempDir()
-	src := filepath.Join("testdata", "mergelocals", "integration.go")
+	src := filepath.Join("testdata", "mergelocals", "integration.golang")
 	obj := filepath.Join(tmpdir, "p.a")
 	out, err := testenv.Command(t, testenv.GoToolPath(t), "tool", "compile",
 		"-p=p", "-c", "1", "-o", obj, "-d=mergelocalstrace=2,mergelocals=1",
@@ -162,7 +162,7 @@ func TestMergeLocalsIntegration(t *testing.T) {
 		wantFields := 9
 		if len(fields) != wantFields {
 			t.Log(string(out))
-			t.Fatalf("bad trace output line, wanted %d fields got %d: %s",
+			t.Fatalf("bad trace output line, wanted %d fields golangt %d: %s",
 				wantFields, len(fields), line)
 		}
 		vname := fields[1]
@@ -171,24 +171,24 @@ func TestMergeLocalsIntegration(t *testing.T) {
 		vars[vname] = frameoff
 	}
 	wantvnum := 8
-	gotvnum := len(vars)
-	if wantvnum != gotvnum {
+	golangtvnum := len(vars)
+	if wantvnum != golangtvnum {
 		t.Log(string(out))
-		t.Fatalf("expected trace output on %d vars got %d\n", wantvnum, gotvnum)
+		t.Fatalf("expected trace output on %d vars golangt %d\n", wantvnum, golangtvnum)
 	}
 
 	// Expect at least one clump of at least 3.
 	n3 := 0
-	got := []int{}
+	golangt := []int{}
 	for _, v := range varsAtFrameOffset {
 		if v > 2 {
 			n3++
 		}
-		got = append(got, v)
+		golangt = append(golangt, v)
 	}
-	sort.Ints(got)
+	sort.Ints(golangt)
 	if n3 == 0 {
 		t.Logf("%s\n", string(out))
-		t.Fatalf("expected at least one clump of 3, got: %+v", got)
+		t.Fatalf("expected at least one clump of 3, golangt: %+v", golangt)
 	}
 }

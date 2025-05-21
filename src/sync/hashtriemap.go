@@ -1,8 +1,8 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build goexperiment.synchashtriemap
+//golang:build golangexperiment.synchashtriemap
 
 package sync
 
@@ -11,7 +11,7 @@ import (
 )
 
 // Map is like a Go map[any]any but is safe for concurrent use
-// by multiple goroutines without additional locking or coordination.
+// by multiple golangroutines without additional locking or coordination.
 // Loads, stores, and deletes run in amortized constant time.
 //
 // The Map type is specialized. Most code should use a plain Go map instead,
@@ -20,7 +20,7 @@ import (
 //
 // The Map type is optimized for two common use cases: (1) when the entry for a given
 // key is only ever written once but read many times, as in caches that only grow,
-// or (2) when multiple goroutines read, write, and overwrite entries for disjoint
+// or (2) when multiple golangroutines read, write, and overwrite entries for disjoint
 // sets of keys. In these two cases, use of a Map may significantly reduce lock
 // contention compared to a Go map paired with a separate [Mutex] or [RWMutex].
 //
@@ -36,7 +36,7 @@ import (
 // [Map.CompareAndSwap] is a write operation when it returns swapped set to true;
 // and [Map.CompareAndDelete] is a write operation when it returns deleted set to true.
 //
-// [the Go memory model]: https://go.dev/ref/mem
+// [the Go memory model]: https://golang.dev/ref/mem
 type Map struct {
 	_ noCopy
 

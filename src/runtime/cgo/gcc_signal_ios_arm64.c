@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Emulation of the Unix signal SIGSEGV.
@@ -17,7 +17,7 @@
 //
 // The dist tool enables this by build flag when testing.
 
-//go:build lldb
+//golang:build lldb
 
 #include <limits.h>
 #include <pthread.h>
@@ -34,11 +34,11 @@
 #include <mach/thread_act.h>
 #include <mach/thread_status.h>
 
-#include "libcgo.h"
-#include "libcgo_unix.h"
+#include "libcgolang.h"
+#include "libcgolang_unix.h"
 
-void xx_cgo_panicmem(void);
-uintptr_t x_cgo_panicmem = (uintptr_t)xx_cgo_panicmem;
+void xx_cgolang_panicmem(void);
+uintptr_t x_cgolang_panicmem = (uintptr_t)xx_cgolang_panicmem;
 
 static pthread_mutex_t mach_exception_handler_port_set_mu;
 static mach_port_t mach_exception_handler_port_set = MACH_PORT_NULL;
@@ -68,7 +68,7 @@ catch_exception_raise(
 
 	ret = thread_get_state(thread, ARM_UNIFIED_THREAD_STATE, (thread_state_t)&thread_state, &state_count);
 	if (ret) {
-		fprintf(stderr, "runtime/cgo: thread_get_state failed: %d\n", ret);
+		fprintf(stderr, "runtime/cgolang: thread_get_state failed: %d\n", ret);
 		abort();
 	}
 
@@ -77,11 +77,11 @@ catch_exception_raise(
 #ifdef __arm64__
 	thread_state.ts_64.__x[1] = thread_state.ts_64.__lr;
 	thread_state.ts_64.__x[2] = thread_state.ts_64.__pc;
-	thread_state.ts_64.__pc = x_cgo_panicmem;
+	thread_state.ts_64.__pc = x_cgolang_panicmem;
 #else
 	thread_state.ts_32.__r[1] = thread_state.ts_32.__lr;
 	thread_state.ts_32.__r[2] = thread_state.ts_32.__pc;
-	thread_state.ts_32.__pc = x_cgo_panicmem;
+	thread_state.ts_32.__pc = x_cgolang_panicmem;
 #endif
 
 	if (0) {
@@ -90,7 +90,7 @@ catch_exception_raise(
 		// Sends the first SIGSEGV and lets lldb catch the
 		// second one, avoiding a loop that locks up iOS
 		// devices requiring a hard reboot.
-		fprintf(stderr, "runtime/cgo: caught exc_bad_access\n");
+		fprintf(stderr, "runtime/cgolang: caught exc_bad_access\n");
 		fprintf(stderr, "__lr = %llx\n", thread_state.ts_64.__lr);
 		fprintf(stderr, "__pc = %llx\n", thread_state.ts_64.__pc);
 		static int pass1 = 0;
@@ -102,7 +102,7 @@ catch_exception_raise(
 
 	ret = thread_set_state(thread, ARM_UNIFIED_THREAD_STATE, (thread_state_t)&thread_state, state_count);
 	if (ret) {
-		fprintf(stderr, "runtime/cgo: thread_set_state failed: %d\n", ret);
+		fprintf(stderr, "runtime/cgolang: thread_set_state failed: %d\n", ret);
 		abort();
 	}
 
@@ -119,7 +119,7 @@ darwin_arm_init_thread_exception_port()
 
 	ret = mach_port_allocate(mach_task_self(), MACH_PORT_RIGHT_RECEIVE, &port);
 	if (ret) {
-		fprintf(stderr, "runtime/cgo: mach_port_allocate failed: %d\n", ret);
+		fprintf(stderr, "runtime/cgolang: mach_port_allocate failed: %d\n", ret);
 		abort();
 	}
 	ret = mach_port_insert_right(
@@ -128,7 +128,7 @@ darwin_arm_init_thread_exception_port()
 		port,
 		MACH_MSG_TYPE_MAKE_SEND);
 	if (ret) {
-		fprintf(stderr, "runtime/cgo: mach_port_insert_right failed: %d\n", ret);
+		fprintf(stderr, "runtime/cgolang: mach_port_insert_right failed: %d\n", ret);
 		abort();
 	}
 
@@ -139,13 +139,13 @@ darwin_arm_init_thread_exception_port()
 		EXCEPTION_DEFAULT,
 		THREAD_STATE_NONE);
 	if (ret) {
-		fprintf(stderr, "runtime/cgo: thread_set_exception_ports failed: %d\n", ret);
+		fprintf(stderr, "runtime/cgolang: thread_set_exception_ports failed: %d\n", ret);
 		abort();
 	}
 
 	ret = pthread_mutex_lock(&mach_exception_handler_port_set_mu);
 	if (ret) {
-		fprintf(stderr, "runtime/cgo: pthread_mutex_lock failed: %d\n", ret);
+		fprintf(stderr, "runtime/cgolang: pthread_mutex_lock failed: %d\n", ret);
 		abort();
 	}
 	ret = mach_port_move_member(
@@ -153,12 +153,12 @@ darwin_arm_init_thread_exception_port()
 		port,
 		mach_exception_handler_port_set);
 	if (ret) {
-		fprintf(stderr, "runtime/cgo: mach_port_move_member failed: %d\n", ret);
+		fprintf(stderr, "runtime/cgolang: mach_port_move_member failed: %d\n", ret);
 		abort();
 	}
 	ret = pthread_mutex_unlock(&mach_exception_handler_port_set_mu);
 	if (ret) {
-		fprintf(stderr, "runtime/cgo: pthread_mutex_unlock failed: %d\n", ret);
+		fprintf(stderr, "runtime/cgolang: pthread_mutex_unlock failed: %d\n", ret);
 		abort();
 	}
 }
@@ -189,7 +189,7 @@ darwin_arm_init_mach_exception_handler()
 		MACH_PORT_RIGHT_PORT_SET,
 		&mach_exception_handler_port_set);
 	if (ret) {
-		fprintf(stderr, "runtime/cgo: mach_port_allocate failed for port_set: %d\n", ret);
+		fprintf(stderr, "runtime/cgolang: mach_port_allocate failed for port_set: %d\n", ret);
 		abort();
 	}
 
@@ -201,12 +201,12 @@ darwin_arm_init_mach_exception_handler()
 	uintptr_t port_set = (uintptr_t)mach_exception_handler_port_set;
 	pthread_attr_init(&attr);
 	pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_DETACHED);
-	ret = _cgo_try_pthread_create(&thr, &attr, mach_exception_handler, (void*)port_set);
+	ret = _cgolang_try_pthread_create(&thr, &attr, mach_exception_handler, (void*)port_set);
 
 	pthread_sigmask(SIG_SETMASK, &oset, nil);
 
 	if (ret) {
-		fprintf(stderr, "runtime/cgo: pthread_create failed: %d\n", ret);
+		fprintf(stderr, "runtime/cgolang: pthread_create failed: %d\n", ret);
 		abort();
 	}
 	pthread_attr_destroy(&attr);

@@ -1,10 +1,10 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// This test applies gofmt to all Go files under -root.
+// This test applies golangfmt to all Go files under -root.
 // To test specific files provide a list of comma-separated
-// filenames via the -files flag: go test -files=gofmt.go .
+// filenames via the -files flag: golang test -files=golangfmt.golang .
 
 package main
 
@@ -12,9 +12,9 @@ import (
 	"bytes"
 	"flag"
 	"fmt"
-	"go/ast"
-	"go/printer"
-	"go/token"
+	"golang/ast"
+	"golang/printer"
+	"golang/token"
 	"internal/testenv"
 	"io"
 	"io/fs"
@@ -28,12 +28,12 @@ import (
 var (
 	root    = flag.String("root", runtime.GOROOT(), "test root directory")
 	files   = flag.String("files", "", "comma-separated list of files to test")
-	ngo     = flag.Int("n", runtime.NumCPU(), "number of goroutines used")
+	ngolang     = flag.Int("n", runtime.NumCPU(), "number of golangroutines used")
 	verbose = flag.Bool("verbose", false, "verbose mode")
 	nfiles  int // number of files processed
 )
 
-func gofmt(fset *token.FileSet, filename string, src *bytes.Buffer) error {
+func golangfmt(fset *token.FileSet, filename string, src *bytes.Buffer) error {
 	f, _, _, err := parse(fset, filename, src.Bytes(), false)
 	if err != nil {
 		return err
@@ -69,9 +69,9 @@ func testFile(t *testing.T, b1, b2 *bytes.Buffer, filename string) {
 		return
 	}
 
-	// gofmt file
-	if err = gofmt(fset, filename, b1); err != nil {
-		t.Errorf("1st gofmt failed: %v", err)
+	// golangfmt file
+	if err = golangfmt(fset, filename, b1); err != nil {
+		t.Errorf("1st golangfmt failed: %v", err)
 		return
 	}
 
@@ -79,21 +79,21 @@ func testFile(t *testing.T, b1, b2 *bytes.Buffer, filename string) {
 	b2.Reset()
 	b2.Write(b1.Bytes())
 
-	// gofmt result again
-	if err = gofmt(fset, filename, b2); err != nil {
-		t.Errorf("2nd gofmt failed: %v", err)
+	// golangfmt result again
+	if err = golangfmt(fset, filename, b2); err != nil {
+		t.Errorf("2nd golangfmt failed: %v", err)
 		return
 	}
 
 	// the first and 2nd result should be identical
 	if !bytes.Equal(b1.Bytes(), b2.Bytes()) {
-		// A known instance of gofmt not being idempotent
+		// A known instance of golangfmt not being idempotent
 		// (see Issue #24472)
-		if strings.HasSuffix(filename, "issue22662.go") {
-			t.Log("known gofmt idempotency bug (Issue #24472)")
+		if strings.HasSuffix(filename, "issue22662.golang") {
+			t.Log("known golangfmt idempotency bug (Issue #24472)")
 			return
 		}
-		t.Errorf("gofmt %s not idempotent", filename)
+		t.Errorf("golangfmt %s not idempotent", filename)
 	}
 }
 
@@ -132,11 +132,11 @@ func genFilenames(t *testing.T, filenames chan<- string) {
 	}
 
 	// otherwise, test all Go files under *root
-	goroot := *root
-	if goroot == "" {
-		goroot = testenv.GOROOT(t)
+	golangroot := *root
+	if golangroot == "" {
+		golangroot = testenv.GOROOT(t)
 	}
-	filepath.WalkDir(goroot, handleFile)
+	filepath.WalkDir(golangroot, handleFile)
 }
 
 func TestAll(t *testing.T) {
@@ -144,25 +144,25 @@ func TestAll(t *testing.T) {
 		return
 	}
 
-	if *ngo < 1 {
-		*ngo = 1 // make sure test is run
+	if *ngolang < 1 {
+		*ngolang = 1 // make sure test is run
 	}
 	if *verbose {
-		fmt.Printf("running test using %d goroutines\n", *ngo)
+		fmt.Printf("running test using %d golangroutines\n", *ngolang)
 	}
 
 	// generate filenames
 	filenames := make(chan string, 32)
-	go genFilenames(t, filenames)
+	golang genFilenames(t, filenames)
 
-	// launch test goroutines
+	// launch test golangroutines
 	done := make(chan int)
-	for i := 0; i < *ngo; i++ {
-		go testFiles(t, filenames, done)
+	for i := 0; i < *ngolang; i++ {
+		golang testFiles(t, filenames, done)
 	}
 
-	// wait for all test goroutines to complete
-	for i := 0; i < *ngo; i++ {
+	// wait for all test golangroutines to complete
+	for i := 0; i < *ngolang; i++ {
 		<-done
 	}
 

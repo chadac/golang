@@ -1,8 +1,8 @@
 // Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build go1.21 && (aix || darwin || dragonfly || freebsd || linux || netbsd || openbsd || solaris || zos)
+//golang:build golang1.21 && (aix || darwin || dragolangnfly || freebsd || linux || netbsd || openbsd || solaris || zos)
 
 package unix
 
@@ -11,7 +11,7 @@ import (
 	"unsafe"
 )
 
-//go:linkname runtime_getAuxv runtime.getAuxv
+//golang:linkname runtime_getAuxv runtime.getAuxv
 func runtime_getAuxv() []uintptr
 
 // Auxv returns the ELF auxiliary vector as a sequence of key/value pairs.

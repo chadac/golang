@@ -1,12 +1,12 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-package gccgoimporter
+package gccgolangimporter
 
 import (
 	"bytes"
-	"go/types"
+	"golang/types"
 	"strings"
 	"testing"
 	"text/scanner"
@@ -35,7 +35,7 @@ var typeParserTests = []struct {
 func TestTypeParser(t *testing.T) {
 	for _, test := range typeParserTests {
 		var p parser
-		p.init("test.gox", strings.NewReader(test.typ), make(map[string]*types.Package))
+		p.init("test.golangx", strings.NewReader(test.typ), make(map[string]*types.Package))
 		p.version = "v2"
 		p.pkgname = test.id
 		p.pkgpath = test.id
@@ -51,15 +51,15 @@ func TestTypeParser(t *testing.T) {
 			ityp.Complete()
 		}
 
-		got := typ.String()
-		if got != test.want {
-			t.Errorf("got type %q, expected %q", got, test.want)
+		golangt := typ.String()
+		if golangt != test.want {
+			t.Errorf("golangt type %q, expected %q", golangt, test.want)
 		}
 
 		if test.underlying != "" {
 			underlying := typ.Underlying().String()
 			if underlying != test.underlying {
-				t.Errorf("got underlying type %q, expected %q", underlying, test.underlying)
+				t.Errorf("golangt underlying type %q, expected %q", underlying, test.underlying)
 			}
 		}
 
@@ -71,7 +71,7 @@ func TestTypeParser(t *testing.T) {
 			}
 			methods := buf.String()
 			if methods != test.methods {
-				t.Errorf("got methods %q, expected %q", methods, test.methods)
+				t.Errorf("golangt methods %q, expected %q", methods, test.methods)
 			}
 		}
 	}

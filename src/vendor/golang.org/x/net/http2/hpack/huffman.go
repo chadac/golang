@@ -1,5 +1,5 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package hpack
@@ -169,7 +169,7 @@ func buildRootHuffmanNode() {
 // AppendHuffmanString appends s, as encoded in Huffman codes, to dst
 // and returns the extended buffer.
 func AppendHuffmanString(dst []byte, s string) []byte {
-	// This relies on the maximum huffman code length being 30 (See tables.go huffmanCodeLen array)
+	// This relies on the maximum huffman code length being 30 (See tables.golang huffmanCodeLen array)
 	// So if a uint64 buffer has less than 32 valid bits can always accommodate another huffmanCode.
 	var (
 		x uint64 // buffer

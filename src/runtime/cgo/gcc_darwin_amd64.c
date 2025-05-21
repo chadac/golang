@@ -1,26 +1,26 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 #include <string.h> /* for strerror */
 #include <pthread.h>
 #include <signal.h>
-#include "libcgo.h"
-#include "libcgo_unix.h"
+#include "libcgolang.h"
+#include "libcgolang_unix.h"
 
 static void* threadentry(void*);
 static void (*setg_gcc)(void*);
 
 void
-x_cgo_init(G *g, void (*setg)(void*), void **tlsg, void **tlsbase)
+x_cgolang_init(G *g, void (*setg)(void*), void **tlsg, void **tlsbase)
 {
 	setg_gcc = setg;
-	_cgo_set_stacklo(g, NULL);
+	_cgolang_set_stacklo(g, NULL);
 }
 
 
 void
-_cgo_sys_thread_start(ThreadStart *ts)
+_cgolang_sys_thread_start(ThreadStart *ts)
 {
 	pthread_attr_t attr;
 	sigset_t ign, oset;
@@ -37,12 +37,12 @@ _cgo_sys_thread_start(ThreadStart *ts)
 	pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_DETACHED);
 	// Leave stacklo=0 and set stackhi=size; mstart will do the rest.
 	ts->g->stackhi = size;
-	err = _cgo_try_pthread_create(&p, &attr, threadentry, ts);
+	err = _cgolang_try_pthread_create(&p, &attr, threadentry, ts);
 
 	pthread_sigmask(SIG_SETMASK, &oset, nil);
 
 	if (err != 0) {
-		fprintf(stderr, "runtime/cgo: pthread_create failed: %s\n", strerror(err));
+		fprintf(stderr, "runtime/cgolang: pthread_create failed: %s\n", strerror(err));
 		abort();
 	}
 }

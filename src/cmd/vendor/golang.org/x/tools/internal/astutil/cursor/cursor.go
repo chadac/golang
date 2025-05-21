@@ -1,8 +1,8 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build go1.23
+//golang:build golang1.23
 
 // Package cursor augments [inspector.Inspector] with [Cursor]
 // functionality allowing more flexibility and control during
@@ -16,13 +16,13 @@ package cursor
 
 import (
 	"fmt"
-	"go/ast"
-	"go/token"
+	"golang/ast"
+	"golang/token"
 	"iter"
 	"reflect"
 
-	"golang.org/x/tools/go/ast/inspector"
-	"golang.org/x/tools/internal/astutil/edge"
+	"golanglang.org/x/tools/golang/ast/inspector"
+	"golanglang.org/x/tools/internal/astutil/edge"
 )
 
 // A Cursor represents an [ast.Node]. It is immutable.
@@ -463,7 +463,7 @@ func (c Cursor) FindByPos(start, end token.Pos) (Cursor, bool) {
 	}
 	events := c.events()
 
-	// This algorithm could be implemented using c.Inspect,
+	// This algolangrithm could be implemented using c.Inspect,
 	// but it is about 2.5x slower.
 
 	best := int32(-1) // push index of latest (=innermost) node containing range

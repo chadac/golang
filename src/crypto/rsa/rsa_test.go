@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package rsa_test
@@ -163,7 +163,7 @@ func testKeyBasics(t *testing.T, priv *PrivateKey) {
 		return
 	}
 	if !bytes.Equal(dec, msg) {
-		t.Errorf("got:%x want:%x (%+v)", dec, msg, priv)
+		t.Errorf("golangt:%x want:%x (%+v)", dec, msg, priv)
 	}
 }
 
@@ -185,7 +185,7 @@ func TestAllocations(t *testing.T) {
 			t.Fatalf("unexpected output: %q", p)
 		}
 	}); allocs > 10 {
-		t.Errorf("expected less than 10 allocations, got %0.1f", allocs)
+		t.Errorf("expected less than 10 allocations, golangt %0.1f", allocs)
 	}
 }
 
@@ -247,7 +247,7 @@ func testEverything(t *testing.T, priv *PrivateKey) {
 			t.Errorf("DecryptPKCS1v15SessionKey: %v", err)
 		}
 		if !bytes.Equal(dec, msg) {
-			t.Errorf("got:%x want:%x (%+v)", dec, msg, priv)
+			t.Errorf("golangt:%x want:%x (%+v)", dec, msg, priv)
 		}
 	}
 
@@ -264,7 +264,7 @@ func testEverything(t *testing.T, priv *PrivateKey) {
 			t.Errorf("DecryptOAEP: %v", err)
 		}
 		if !bytes.Equal(dec, msg) {
-			t.Errorf("got:%x want:%x (%+v)", dec, msg, priv)
+			t.Errorf("golangt:%x want:%x (%+v)", dec, msg, priv)
 		}
 	}
 
@@ -575,7 +575,7 @@ c4Xp0XVy5EvYnmOp4sEru6/GtvUErDBqwaLIMMv8TY8AU+y8beaBPLsoVg1rn8gg
 yAklzExfT0/49QkEDFHizUOMIP7wpbLLsWSmZ4tKRV7CT3c+ZDXiZVECML84lmDm
 b6H7feQB2EhEZaU7L4Sc76ZCEkIZBoKeCz5JF46EdyxHs7erE61eO9xqC1+eXsNh
 Xr9BS0yWV69K4o/gmnS3p2747AHP6brFWuRM3fFDsB5kPScccQlSyF/j7yK+r+qi
-arGg/y+z0+sZAr6gooQ8Wnh5dJXtnBNCxSDJYw/DWHAeiyvk/gsndo3ZONlCZZ9u
+arGg/y+z0+sZAr6golangoQ8Wnh5dJXtnBNCxSDJYw/DWHAeiyvk/gsndo3ZONlCZZ9u
 bpwBYx3hA2wTa5GUQxFM0KlI7Ftr9Cescf2jN6Ia48C6FcQsepMzD3jaMkLir8Jk
 /YD/s5KPzNvwPAyLnf7x574JeWuuxTIPx6b/fHVtboDK6j6XQnzrN2Hy3ngvlEFo
 zuGYVvtrz5pJXWGVSjZWG1kc9iXCdHKpmFdPj7XhU0gugTzQ/e5uRIqdOqfNLI37
@@ -598,7 +598,7 @@ dVAL8x9b4DZeK7gGoE34SfsUfY1S5wmiyiHeHIOazs/ikjsxvwmJh3X2j20klafR
 8AJe9/InY2plunHz5tTfxQIQ+8iaaNbzntcXsrPRSZol2/9bX231uR4wHQGQGVj6
 A+HMwsOT0is5Pt7S8WCCl4b13vdf2eKD9xgK4a3emYEWzG985PwYqiXzOYs7RMEV
 cgr8ji57aPbRiJHtPbJ/7ob3z5BA07yR2aDz/0kCggEAZDyajHYNLAhHr98AIuGy
-NsS5CpnietzNoeaJEfkXL0tgoXxwQqVyzH7827XtmHnLgGP5NO4tosHdWbVflhEf
+NsS5CpnietzNoeaJEfkXL0tgolangXxwQqVyzH7827XtmHnLgGP5NO4tosHdWbVflhEf
 Z/dhZYb7MY5YthcMyvvGziXJ9jOBHo7Z8Nowd7Rk41x2EQGfve0QcfBd1idYoXch
 y47LL6OReW1Vv4z84Szw1fZ0o1yUPVDzxPS9uKP4uvcOevJUh53isuB3nVYArvK5
 p6fjbEY+zaxS33KPdVrajJa9Z+Ptg4/bRqSycTHr2jkN0ZnkC4hkQMH0OfFJb6vD
@@ -1137,7 +1137,7 @@ o3qGy0t6z09AIJtH+5OeRV1be+N4cDYJKffGzDa88vQENZiRm0GRq6a+HPGQMd2k
 TQIhAKMSvzIBnni7ot/OSie2TmJLY4SwTQAevXysE2RbFDYdAiEBCUEaRQnMnbp7
 9mxDXDf6AU0cN/RPBjb9qSHDcWZHGzUCIG2Es59z8ugGrDY+pxLQnwfotadxd+Uy
 v/Ow5T0q5gIJAiEAyS4RaI9YG8EWx/2w0T67ZUVAw8eOMB6BIUg0Xcu+3okCIBOs
-/5OiPgoTdSy7bcF9IGpSE8ZgGKzgYQVZeN97YE00
+/5OiPgolangTdSy7bcF9IGpSE8ZgGKzgYQVZeN97YE00
 -----END RSA TESTING KEY-----`))
 	t.Setenv("GODEBUG", "rsa1024min=0")
 	if boring.Enabled {

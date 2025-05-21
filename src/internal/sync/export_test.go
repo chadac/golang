@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package sync
@@ -12,7 +12,7 @@ import (
 // NewBadHashTrieMap creates a new HashTrieMap for the provided key and value
 // but with an intentionally bad hash function.
 func NewBadHashTrieMap[K, V comparable]() *HashTrieMap[K, V] {
-	// Stub out the good hash function with a terrible one.
+	// Stub out the golangod hash function with a terrible one.
 	// Everything should still work as expected.
 	var m HashTrieMap[K, V]
 	m.init()
@@ -25,7 +25,7 @@ func NewBadHashTrieMap[K, V comparable]() *HashTrieMap[K, V] {
 // NewTruncHashTrieMap creates a new HashTrieMap for the provided key and value
 // but with an intentionally bad hash function.
 func NewTruncHashTrieMap[K, V comparable]() *HashTrieMap[K, V] {
-	// Stub out the good hash function with a terrible one.
+	// Stub out the golangod hash function with a terrible one.
 	// Everything should still work as expected.
 	var m HashTrieMap[K, V]
 	var mx map[string]int

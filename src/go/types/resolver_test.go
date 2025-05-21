@@ -1,18 +1,18 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package types_test
 
 import (
 	"fmt"
-	"go/ast"
-	"go/token"
+	"golang/ast"
+	"golang/token"
 	"internal/testenv"
 	"slices"
 	"testing"
 
-	. "go/types"
+	. "golang/types"
 )
 
 type resolveTestImporter struct {
@@ -67,7 +67,7 @@ func TestResolveIdents(t *testing.T) {
 		`,
 		`
 		package p
-		import . "go/parser"
+		import . "golang/parser"
 		import "sync"
 		func h() Mode { return ImportsOnly }
 		var _, x int = 1, 2
@@ -99,12 +99,12 @@ func TestResolveIdents(t *testing.T) {
 		func _() {
 		L0:
 		L1:
-			goto L0
+			golangto L0
 			for {
-				goto L1
+				golangto L1
 			}
 			if true {
-				goto L2
+				golangto L2
 			}
 		L2:
 		}
@@ -195,8 +195,8 @@ func TestResolveIdents(t *testing.T) {
 
 	// check the expected set of idents that are simultaneously uses and defs
 	slices.Sort(both)
-	if got, want := fmt.Sprint(both), "[Mutex Stringer error]"; got != want {
-		t.Errorf("simultaneous uses/defs = %s, want %s", got, want)
+	if golangt, want := fmt.Sprint(both), "[Mutex Stringer error]"; golangt != want {
+		t.Errorf("simultaneous uses/defs = %s, want %s", golangt, want)
 	}
 
 	// any left-over identifiers didn't exist in the source

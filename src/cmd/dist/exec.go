@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -34,7 +34,7 @@ func unsetEnv(cmd *exec.Cmd, key string) {
 			continue
 		}
 		newEnv = append(newEnv, entry)
-		// key may appear multiple times, so keep going.
+		// key may appear multiple times, so keep golanging.
 	}
 	cmd.Env = newEnv
 }

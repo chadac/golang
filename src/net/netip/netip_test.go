@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package netip_test
@@ -137,7 +137,7 @@ func TestParseAddr(t *testing.T) {
 
 	for _, test := range validIPs {
 		t.Run(test.in, func(t *testing.T) {
-			got, err := ParseAddr(test.in)
+			golangt, err := ParseAddr(test.in)
 			if err != nil {
 				if err.Error() == test.wantErr {
 					return
@@ -145,29 +145,29 @@ func TestParseAddr(t *testing.T) {
 				t.Fatal(err)
 			}
 			if test.wantErr != "" {
-				t.Fatalf("wanted error %q; got none", test.wantErr)
+				t.Fatalf("wanted error %q; golangt none", test.wantErr)
 			}
-			if got != test.ip {
-				t.Errorf("got %#v, want %#v", got, test.ip)
+			if golangt != test.ip {
+				t.Errorf("golangt %#v, want %#v", golangt, test.ip)
 			}
 
 			// Check that ParseAddr is a pure function.
-			got2, err := ParseAddr(test.in)
+			golangt2, err := ParseAddr(test.in)
 			if err != nil {
 				t.Fatal(err)
 			}
-			if got != got2 {
-				t.Errorf("ParseAddr(%q) got 2 different results: %#v, %#v", test.in, got, got2)
+			if golangt != golangt2 {
+				t.Errorf("ParseAddr(%q) golangt 2 different results: %#v, %#v", test.in, golangt, golangt2)
 			}
 
 			// Check that ParseAddr(ip.String()) is the identity function.
-			s := got.String()
-			got3, err := ParseAddr(s)
+			s := golangt.String()
+			golangt3, err := ParseAddr(s)
 			if err != nil {
 				t.Fatal(err)
 			}
-			if got != got3 {
-				t.Errorf("ParseAddr(%q) != ParseAddr(ParseIP(%q).String()). Got %#v, want %#v", test.in, test.in, got3, got)
+			if golangt != golangt3 {
+				t.Errorf("ParseAddr(%q) != ParseAddr(ParseIP(%q).String()). Got %#v, want %#v", test.in, test.in, golangt3, golangt)
 			}
 
 			// Check that the slow-but-readable parser produces the same result.
@@ -175,36 +175,36 @@ func TestParseAddr(t *testing.T) {
 			if err != nil {
 				t.Fatal(err)
 			}
-			if got != slow {
-				t.Errorf("ParseAddr(%q) = %#v, parseIPSlow(%q) = %#v", test.in, got, test.in, slow)
+			if golangt != slow {
+				t.Errorf("ParseAddr(%q) = %#v, parseIPSlow(%q) = %#v", test.in, golangt, test.in, slow)
 			}
 
 			// Check that the parsed IP formats as expected.
-			s = got.String()
+			s = golangt.String()
 			wants := test.str
 			if wants == "" {
 				wants = test.in
 			}
 			if s != wants {
-				t.Errorf("ParseAddr(%q).String() got %q, want %q", test.in, s, wants)
+				t.Errorf("ParseAddr(%q).String() golangt %q, want %q", test.in, s, wants)
 			}
 
 			// Check that AppendTo matches MarshalText.
-			TestAppendToMarshal(t, got)
+			TestAppendToMarshal(t, golangt)
 
 			// Check that MarshalText/UnmarshalText work similarly to
 			// ParseAddr/String (see TestIPMarshalUnmarshal for
 			// marshal-specific behavior that's not common with
 			// ParseAddr/String).
 			js := `"` + test.in + `"`
-			var jsgot Addr
-			if err := json.Unmarshal([]byte(js), &jsgot); err != nil {
+			var jsgolangt Addr
+			if err := json.Unmarshal([]byte(js), &jsgolangt); err != nil {
 				t.Fatal(err)
 			}
-			if jsgot != got {
-				t.Errorf("json.Unmarshal(%q) = %#v, want %#v", test.in, jsgot, got)
+			if jsgolangt != golangt {
+				t.Errorf("json.Unmarshal(%q) = %#v, want %#v", test.in, jsgolangt, golangt)
 			}
-			jsb, err := json.Marshal(jsgot)
+			jsb, err := json.Marshal(jsgolangt)
 			if err != nil {
 				t.Fatal(err)
 			}
@@ -282,9 +282,9 @@ func TestParseAddr(t *testing.T) {
 
 	for _, s := range invalidIPs {
 		t.Run(s, func(t *testing.T) {
-			got, err := ParseAddr(s)
+			golangt, err := ParseAddr(s)
 			if err == nil {
-				t.Errorf("ParseAddr(%q) = %#v, want error", s, got)
+				t.Errorf("ParseAddr(%q) = %#v, want error", s, golangt)
 			}
 
 			slow, err := parseIPSlow(s)
@@ -302,10 +302,10 @@ func TestParseAddr(t *testing.T) {
 				// IPMarshalUnmarshal.
 				return
 			}
-			var jsgot Addr
+			var jsgolangt Addr
 			js := []byte(`"` + s + `"`)
-			if err := json.Unmarshal(js, &jsgot); err == nil {
-				t.Errorf("json.Unmarshal(%q) = %#v, want error", s, jsgot)
+			if err := json.Unmarshal(js, &jsgolangt); err == nil {
+				t.Errorf("json.Unmarshal(%q) = %#v, want error", s, jsgolangt)
 			}
 		})
 	}
@@ -406,7 +406,7 @@ func TestAddrMarshalUnmarshalBinary(t *testing.T) {
 			t.Fatal(err)
 		}
 		if ip != ip2 {
-			t.Fatalf("got %v; want %v", ip2, ip)
+			t.Fatalf("golangt %v; want %v", ip2, ip)
 		}
 
 		bAppend := make([]byte, 4, 32)
@@ -423,7 +423,7 @@ func TestAddrMarshalUnmarshalBinary(t *testing.T) {
 			t.Fatal(err)
 		}
 		if ip != ip3 {
-			t.Fatalf("got %v; want %v", ip3, ip)
+			t.Fatalf("golangt %v; want %v", ip3, ip)
 		}
 	}
 
@@ -449,8 +449,8 @@ func TestAddrPortMarshalTextString(t *testing.T) {
 		{mustIPPort("[::FFFF:192.168.140.255%en0]:80"), "[::ffff:192.168.140.255%en0]:80"},
 	}
 	for i, tt := range tests {
-		if got := tt.in.String(); got != tt.want {
-			t.Errorf("%d. for (%v, %v) String = %q; want %q", i, tt.in.Addr(), tt.in.Port(), got, tt.want)
+		if golangt := tt.in.String(); golangt != tt.want {
+			t.Errorf("%d. for (%v, %v) String = %q; want %q", i, tt.in.Addr(), tt.in.Port(), golangt, tt.want)
 		}
 		mt, err := tt.in.MarshalText()
 		if err != nil {
@@ -501,7 +501,7 @@ func TestAddrPortMarshalUnmarshalBinary(t *testing.T) {
 			t.Fatal(err)
 		}
 		if ipport != ipport2 {
-			t.Fatalf("got %v; want %v", ipport2, ipport)
+			t.Fatalf("golangt %v; want %v", ipport2, ipport)
 		}
 
 		bAppend := make([]byte, 4, 32)
@@ -518,7 +518,7 @@ func TestAddrPortMarshalUnmarshalBinary(t *testing.T) {
 			t.Fatal(err)
 		}
 		if ipport != ipport3 {
-			t.Fatalf("got %v; want %v", ipport3, ipport)
+			t.Fatalf("golangt %v; want %v", ipport3, ipport)
 		}
 	}
 
@@ -543,8 +543,8 @@ func TestPrefixMarshalTextString(t *testing.T) {
 		{PrefixFrom(mustIP("::ffff:c000:0280").WithZone("eth0"), 37), "::ffff:192.0.2.128/37"}, // Zone should be stripped
 	}
 	for i, tt := range tests {
-		if got := tt.in.String(); got != tt.want {
-			t.Errorf("%d. for %v String = %q; want %q", i, tt.in, got, tt.want)
+		if golangt := tt.in.String(); golangt != tt.want {
+			t.Errorf("%d. for %v String = %q; want %q", i, tt.in, golangt, tt.want)
 		}
 		mt, err := tt.in.MarshalText()
 		if err != nil {
@@ -596,7 +596,7 @@ func TestPrefixMarshalUnmarshalBinary(t *testing.T) {
 			t.Fatal(err)
 		}
 		if prefix != prefix2 {
-			t.Fatalf("got %v; want %v", prefix2, prefix)
+			t.Fatalf("golangt %v; want %v", prefix2, prefix)
 		}
 
 		bAppend := make([]byte, 4, 32)
@@ -613,7 +613,7 @@ func TestPrefixMarshalUnmarshalBinary(t *testing.T) {
 			t.Fatal(err)
 		}
 		if prefix != prefix3 {
-			t.Fatalf("got %v; want %v", prefix3, prefix)
+			t.Fatalf("golangt %v; want %v", prefix3, prefix)
 		}
 	}
 
@@ -633,7 +633,7 @@ func TestAddrMarshalUnmarshal(t *testing.T) {
 	orig := `""`
 	var ip Addr
 	if err := json.Unmarshal([]byte(orig), &ip); err != nil {
-		t.Fatalf("Unmarshal(%q) got error %v", orig, err)
+		t.Fatalf("Unmarshal(%q) golangt error %v", orig, err)
 	}
 	if ip != (Addr{}) {
 		t.Errorf("Unmarshal(%q) is not the zero Addr", orig)
@@ -641,11 +641,11 @@ func TestAddrMarshalUnmarshal(t *testing.T) {
 
 	jsb, err := json.Marshal(ip)
 	if err != nil {
-		t.Fatalf("Marshal(%v) got error %v", ip, err)
+		t.Fatalf("Marshal(%v) golangt error %v", ip, err)
 	}
 	back := string(jsb)
 	if back != orig {
-		t.Errorf("Marshal(Unmarshal(%q)) got %q, want %q", orig, back, orig)
+		t.Errorf("Marshal(Unmarshal(%q)) golangt %q, want %q", orig, back, orig)
 	}
 }
 
@@ -668,9 +668,9 @@ func TestAddrFrom16(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got := AddrFrom16(tt.in)
-			if got != tt.want {
-				t.Errorf("got %#v; want %#v", got, tt.want)
+			golangt := AddrFrom16(tt.in)
+			if golangt != tt.want {
+				t.Errorf("golangt %#v; want %#v", golangt, tt.want)
 			}
 		})
 	}
@@ -960,10 +960,10 @@ func TestAddrWellKnown(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			want := tt.std.String()
-			got := tt.ip.String()
+			golangt := tt.ip.String()
 
-			if got != want {
-				t.Fatalf("got %s, want %s", got, want)
+			if golangt != want {
+				t.Fatalf("golangt %s, want %s", golangt, want)
 			}
 		})
 	}
@@ -1004,12 +1004,12 @@ func TestAddrLessCompare(t *testing.T) {
 		{mustIP("::ffff:11.1.1.12"), mustIP("11.1.1.12"), false},
 	}
 	for _, tt := range tests {
-		got := tt.a.Less(tt.b)
-		if got != tt.want {
-			t.Errorf("Less(%q, %q) = %v; want %v", tt.a, tt.b, got, tt.want)
+		golangt := tt.a.Less(tt.b)
+		if golangt != tt.want {
+			t.Errorf("Less(%q, %q) = %v; want %v", tt.a, tt.b, golangt, tt.want)
 		}
 		cmp := tt.a.Compare(tt.b)
-		if got && cmp != -1 {
+		if golangt && cmp != -1 {
 			t.Errorf("Less(%q, %q) = true, but Compare = %v (not -1)", tt.a, tt.b, cmp)
 		}
 		if cmp < -1 || cmp > 1 {
@@ -1023,10 +1023,10 @@ func TestAddrLessCompare(t *testing.T) {
 		}
 
 		// Also check inverse.
-		if got == tt.want && got {
-			got2 := tt.b.Less(tt.a)
-			if got2 {
-				t.Errorf("Less(%q, %q) was correctly %v, but so was Less(%q, %q)", tt.a, tt.b, got, tt.b, tt.a)
+		if golangt == tt.want && golangt {
+			golangt2 := tt.b.Less(tt.a)
+			if golangt2 {
+				t.Errorf("Less(%q, %q) was correctly %v, but so was Less(%q, %q)", tt.a, tt.b, golangt, tt.b, tt.a)
 			}
 		}
 
@@ -1047,10 +1047,10 @@ func TestAddrLessCompare(t *testing.T) {
 		mustIP("::1%foo"),
 	}
 	slices.SortFunc(values, Addr.Compare)
-	got := fmt.Sprintf("%s", values)
+	golangt := fmt.Sprintf("%s", values)
 	want := `[invalid IP 1.2.3.4 8.8.8.8 ::1 ::1%foo ::2]`
-	if got != want {
-		t.Errorf("unexpected sort\n got: %s\nwant: %s\n", got, want)
+	if golangt != want {
+		t.Errorf("unexpected sort\n golangt: %s\nwant: %s\n", golangt, want)
 	}
 }
 
@@ -1074,16 +1074,16 @@ func TestAddrPortCompare(t *testing.T) {
 		{mustIPPort("1.2.3.4:80"), mustIPPort("[0102:0304::0]:80"), -1},
 	}
 	for _, tt := range tests {
-		got := tt.a.Compare(tt.b)
-		if got != tt.want {
-			t.Errorf("Compare(%q, %q) = %v; want %v", tt.a, tt.b, got, tt.want)
+		golangt := tt.a.Compare(tt.b)
+		if golangt != tt.want {
+			t.Errorf("Compare(%q, %q) = %v; want %v", tt.a, tt.b, golangt, tt.want)
 		}
 
 		// Also check inverse.
-		if got == tt.want {
-			got2 := tt.b.Compare(tt.a)
-			if want2 := -1 * tt.want; got2 != want2 {
-				t.Errorf("Compare(%q, %q) was correctly %v, but Compare(%q, %q) was %v", tt.a, tt.b, got, tt.b, tt.a, got2)
+		if golangt == tt.want {
+			golangt2 := tt.b.Compare(tt.a)
+			if want2 := -1 * tt.want; golangt2 != want2 {
+				t.Errorf("Compare(%q, %q) was correctly %v, but Compare(%q, %q) was %v", tt.a, tt.b, golangt, tt.b, tt.a, golangt2)
 			}
 		}
 	}
@@ -1098,10 +1098,10 @@ func TestAddrPortCompare(t *testing.T) {
 		mustIPPort("[::1%foo]:1024"),
 	}
 	slices.SortFunc(values, AddrPort.Compare)
-	got := fmt.Sprintf("%s", values)
+	golangt := fmt.Sprintf("%s", values)
 	want := `[invalid AddrPort 1.2.3.4:443 8.8.8.8:8080 [::1]:80 [::1%foo]:1024 [::2]:80]`
-	if got != want {
-		t.Errorf("unexpected sort\n got: %s\nwant: %s\n", got, want)
+	if golangt != want {
+		t.Errorf("unexpected sort\n golangt: %s\nwant: %s\n", golangt, want)
 	}
 }
 
@@ -1125,16 +1125,16 @@ func TestPrefixCompare(t *testing.T) {
 		{mustPrefix("1.2.3.0/24"), mustPrefix("fe80::/8"), -1},
 	}
 	for _, tt := range tests {
-		got := tt.a.Compare(tt.b)
-		if got != tt.want {
-			t.Errorf("Compare(%q, %q) = %v; want %v", tt.a, tt.b, got, tt.want)
+		golangt := tt.a.Compare(tt.b)
+		if golangt != tt.want {
+			t.Errorf("Compare(%q, %q) = %v; want %v", tt.a, tt.b, golangt, tt.want)
 		}
 
 		// Also check inverse.
-		if got == tt.want {
-			got2 := tt.b.Compare(tt.a)
-			if want2 := -1 * tt.want; got2 != want2 {
-				t.Errorf("Compare(%q, %q) was correctly %v, but Compare(%q, %q) was %v", tt.a, tt.b, got, tt.b, tt.a, got2)
+		if golangt == tt.want {
+			golangt2 := tt.b.Compare(tt.a)
+			if want2 := -1 * tt.want; golangt2 != want2 {
+				t.Errorf("Compare(%q, %q) was correctly %v, but Compare(%q, %q) was %v", tt.a, tt.b, golangt, tt.b, tt.a, golangt2)
 			}
 		}
 	}
@@ -1150,10 +1150,10 @@ func TestPrefixCompare(t *testing.T) {
 		mustPrefix("1.2.0.0/24"),
 	}
 	slices.SortFunc(values, Prefix.Compare)
-	got := fmt.Sprintf("%s", values)
+	golangt := fmt.Sprintf("%s", values)
 	want := `[invalid Prefix 1.2.0.0/16 1.2.0.0/24 1.2.3.0/24 fe80::/48 fe80::/64 fe90::/64]`
-	if got != want {
-		t.Errorf("unexpected sort\n got: %s\nwant: %s\n", got, want)
+	if golangt != want {
+		t.Errorf("unexpected sort\n golangt: %s\nwant: %s\n", golangt, want)
 	}
 }
 
@@ -1187,10 +1187,10 @@ func TestIPStringExpanded(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.ip.String(), func(t *testing.T) {
 			want := tt.s
-			got := tt.ip.StringExpanded()
+			golangt := tt.ip.StringExpanded()
 
-			if got != want {
-				t.Fatalf("got %s, want %s", got, want)
+			if golangt != want {
+				t.Fatalf("golangt %s, want %s", golangt, want)
 			}
 		})
 	}
@@ -1321,8 +1321,8 @@ func TestPrefixMasking(t *testing.T) {
 						t.Errorf("prefix = %q, want %q", p, st.p)
 					}
 
-					if got := st.ip.String(); got != orig {
-						t.Errorf("IP was mutated: %q, want %q", got, orig)
+					if golangt := st.ip.String(); golangt != orig {
+						t.Errorf("IP was mutated: %q, want %q", golangt, orig)
 					}
 				})
 			}
@@ -1386,14 +1386,14 @@ func TestIs4AndIs6(t *testing.T) {
 		{mustIP("::1%eth0"), false, true},
 	}
 	for _, tt := range tests {
-		got4 := tt.ip.Is4()
-		if got4 != tt.is4 {
-			t.Errorf("Is4(%q) = %v; want %v", tt.ip, got4, tt.is4)
+		golangt4 := tt.ip.Is4()
+		if golangt4 != tt.is4 {
+			t.Errorf("Is4(%q) = %v; want %v", tt.ip, golangt4, tt.is4)
 		}
 
-		got6 := tt.ip.Is6()
-		if got6 != tt.is6 {
-			t.Errorf("Is6(%q) = %v; want %v", tt.ip, got6, tt.is6)
+		golangt6 := tt.ip.Is6()
+		if golangt6 != tt.is6 {
+			t.Errorf("Is6(%q) = %v; want %v", tt.ip, golangt6, tt.is6)
 		}
 	}
 }
@@ -1417,9 +1417,9 @@ func TestIs4In6(t *testing.T) {
 		{mustIP("1.2.3.4"), false, mustIP("1.2.3.4")},
 	}
 	for _, tt := range tests {
-		got := tt.ip.Is4In6()
-		if got != tt.want {
-			t.Errorf("Is4In6(%q) = %v; want %v", tt.ip, got, tt.want)
+		golangt := tt.ip.Is4In6()
+		if golangt != tt.want {
+			t.Errorf("Is4In6(%q) = %v; want %v", tt.ip, golangt, tt.want)
 		}
 		u := tt.ip.Unmap()
 		if u != tt.wantUnmap {
@@ -1452,9 +1452,9 @@ func TestPrefixMasked(t *testing.T) {
 	}
 	for _, test := range tests {
 		t.Run(test.prefix.String(), func(t *testing.T) {
-			got := test.prefix.Masked()
-			if got != test.masked {
-				t.Errorf("Masked=%s, want %s", got, test.masked)
+			golangt := test.prefix.Masked()
+			if golangt != test.masked {
+				t.Errorf("Masked=%s, want %s", golangt, test.masked)
 			}
 		})
 	}
@@ -1545,8 +1545,8 @@ func TestPrefix(t *testing.T) {
 			if want == "" {
 				want = test.prefix
 			}
-			if got := prefix.String(); got != want {
-				t.Errorf("prefix.String()=%q, want %q", got, want)
+			if golangt := prefix.String(); golangt != want {
+				t.Errorf("prefix.String()=%q, want %q", golangt, want)
 			}
 
 			TestAppendToMarshal(t, prefix)
@@ -1577,8 +1577,8 @@ func TestPrefixFromInvalidBits(t *testing.T) {
 	}
 	for _, tt := range tests {
 		p := PrefixFrom(tt.ip, tt.in)
-		if got := p.Bits(); got != tt.want {
-			t.Errorf("for (%v, %v), Bits out = %v; want %v", tt.ip, tt.in, got, tt.want)
+		if golangt := p.Bits(); golangt != tt.want {
+			t.Errorf("for (%v, %v), Bits out = %v; want %v", tt.ip, tt.in, golangt, tt.want)
 		}
 	}
 }
@@ -1600,8 +1600,8 @@ func TestParsePrefixAllocs(t *testing.T) {
 			prefixAllocs := int(testing.AllocsPerRun(5, func() {
 				ParsePrefix(prefix)
 			}))
-			if got := prefixAllocs - ipAllocs; got != 0 {
-				t.Errorf("allocs=%d, want 0", got)
+			if golangt := prefixAllocs - ipAllocs; golangt != 0 {
+				t.Errorf("allocs=%d, want 0", golangt)
 			}
 		})
 	}
@@ -1636,7 +1636,7 @@ func TestParsePrefixError(t *testing.T) {
 			prefix: "2001::/129",
 			errstr: "out of range",
 		},
-		// Zones are not allowed: https://go.dev/issue/51899
+		// Zones are not allowed: https://golang.dev/issue/51899
 		{
 			prefix: "1.1.1.0%a/24",
 			errstr: "unexpected character",
@@ -1668,8 +1668,8 @@ func TestParsePrefixError(t *testing.T) {
 			if err == nil {
 				t.Fatal("no error")
 			}
-			if got := err.Error(); !strings.Contains(got, test.errstr) {
-				t.Errorf("error is missing substring %q: %s", test.errstr, got)
+			if golangt := err.Error(); !strings.Contains(golangt, test.errstr) {
+				t.Errorf("error is missing substring %q: %s", test.errstr, golangt)
 			}
 		})
 	}
@@ -1689,9 +1689,9 @@ func TestPrefixIsSingleIP(t *testing.T) {
 		{ipp: Prefix{}, want: false},
 	}
 	for _, tt := range tests {
-		got := tt.ipp.IsSingleIP()
-		if got != tt.want {
-			t.Errorf("IsSingleIP(%v) = %v want %v", tt.ipp, got, tt.want)
+		golangt := tt.ipp.IsSingleIP()
+		if golangt != tt.want {
+			t.Errorf("IsSingleIP(%v) = %v want %v", tt.ipp, golangt, tt.want)
 		}
 	}
 }
@@ -2039,10 +2039,10 @@ func TestAs4(t *testing.T) {
 			wantPanic: true,
 		},
 	}
-	as4 := func(ip Addr) (v [4]byte, gotPanic bool) {
+	as4 := func(ip Addr) (v [4]byte, golangtPanic bool) {
 		defer func() {
 			if recover() != nil {
-				gotPanic = true
+				golangtPanic = true
 				return
 			}
 		}()
@@ -2050,13 +2050,13 @@ func TestAs4(t *testing.T) {
 		return
 	}
 	for i, tt := range tests {
-		got, gotPanic := as4(tt.ip)
-		if gotPanic != tt.wantPanic {
-			t.Errorf("%d. panic on %v = %v; want %v", i, tt.ip, gotPanic, tt.wantPanic)
+		golangt, golangtPanic := as4(tt.ip)
+		if golangtPanic != tt.wantPanic {
+			t.Errorf("%d. panic on %v = %v; want %v", i, tt.ip, golangtPanic, tt.wantPanic)
 			continue
 		}
-		if got != tt.want {
-			t.Errorf("%d. %v = %v; want %v", i, tt.ip, got, tt.want)
+		if golangt != tt.want {
+			t.Errorf("%d. %v = %v; want %v", i, tt.ip, golangt, tt.want)
 		}
 	}
 }
@@ -2101,12 +2101,12 @@ func TestPrefixOverlaps(t *testing.T) {
 		{PrefixFrom(mustIP("2000::"), 129), pfx("2000::/64"), false},
 	}
 	for i, tt := range tests {
-		if got := tt.a.Overlaps(tt.b); got != tt.want {
-			t.Errorf("%d. (%v).Overlaps(%v) = %v; want %v", i, tt.a, tt.b, got, tt.want)
+		if golangt := tt.a.Overlaps(tt.b); golangt != tt.want {
+			t.Errorf("%d. (%v).Overlaps(%v) = %v; want %v", i, tt.a, tt.b, golangt, tt.want)
 		}
 		// Overlaps is commutative
-		if got := tt.b.Overlaps(tt.a); got != tt.want {
-			t.Errorf("%d. (%v).Overlaps(%v) = %v; want %v", i, tt.b, tt.a, got, tt.want)
+		if golangt := tt.b.Overlaps(tt.a); golangt != tt.want {
+			t.Errorf("%d. (%v).Overlaps(%v) = %v; want %v", i, tt.b, tt.a, golangt, tt.want)
 		}
 	}
 }
@@ -2277,8 +2277,8 @@ func TestPrefixString(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		if got := tt.ipp.String(); got != tt.want {
-			t.Errorf("(%#v).String() = %q want %q", tt.ipp, got, tt.want)
+		if golangt := tt.ipp.String(); golangt != tt.want {
+			t.Errorf("(%#v).String() = %q want %q", tt.ipp, golangt, tt.want)
 		}
 	}
 }
@@ -2296,8 +2296,8 @@ func TestAddrPortString(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		if got := tt.ipp.String(); got != tt.want {
-			t.Errorf("(%#v).String() = %q want %q", tt.ipp, got, tt.want)
+		if golangt := tt.ipp.String(); golangt != tt.want {
+			t.Errorf("(%#v).String() = %q want %q", tt.ipp, golangt, tt.want)
 		}
 	}
 }
@@ -2313,9 +2313,9 @@ func TestAsSlice(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		got := test.in.AsSlice()
-		if !bytes.Equal(got, test.want) {
-			t.Errorf("%v.AsSlice() = %v want %v", test.in, got, test.want)
+		golangt := test.in.AsSlice()
+		if !bytes.Equal(golangt, test.want) {
+			t.Errorf("%v.AsSlice() = %v want %v", test.in, golangt, test.want)
 		}
 	}
 }

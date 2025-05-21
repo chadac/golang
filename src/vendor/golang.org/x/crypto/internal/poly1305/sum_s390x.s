@@ -1,19 +1,19 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build gc && !purego
+//golang:build gc && !puregolang
 
 #include "textflag.h"
 
 // This implementation of Poly1305 uses the vector facility (vx)
 // to process up to 2 blocks (32 bytes) per iteration using an
-// algorithm based on the one described in:
+// algolangrithm based on the one described in:
 //
 // NEON crypto, Daniel J. Bernstein & Peter Schwabe
 // https://cryptojedi.org/papers/neoncrypto-20120320.pdf
 //
-// This algorithm uses 5 26-bit limbs to represent a 130-bit
+// This algolangrithm uses 5 26-bit limbs to represent a 130-bit
 // value. These limbs are, for the most part, zero extended and
 // placed into 64-bit vector register elements. Each vector
 // register is 128-bits wide and so holds 2 of these elements.
@@ -397,7 +397,7 @@ b2:  // 2 or fewer blocks remaining
 	VL   (R2), T_0       // load full 16 byte block
 	VLL  R0, 16(R2), T_1 // load final (possibly partial) block and pad with zeros to 16 bytes
 
-	// The Poly1305 algorithm requires that a 1 bit be appended to
+	// The Poly1305 algolangrithm requires that a 1 bit be appended to
 	// each message block. If the final block is less than 16 bytes
 	// long then it is easiest to insert the 1 before the message
 	// block is split into 26-bit limbs. If, on the other hand, the
@@ -451,7 +451,7 @@ b1:  // 1 block remaining
 	MOVD $-1(R3), R0
 	VLL  R0, (R2), T_0 // pad to 16 bytes with zeros
 
-	// The Poly1305 algorithm requires that a 1 bit be appended to
+	// The Poly1305 algolangrithm requires that a 1 bit be appended to
 	// each message block. If the final block is less than 16 bytes
 	// long then it is easiest to insert the 1 before the message
 	// block is split into 26-bit limbs. If, on the other hand, the

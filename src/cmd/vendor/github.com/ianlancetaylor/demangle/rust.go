@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package demangle
@@ -344,7 +344,7 @@ func (rst *rustState) undisambiguatedIdentifier() (id string, isPunycode bool) {
 }
 
 // expandPunycode decodes the Rust version of punycode.
-// This algorithm is taken from RFC 3492 section 6.2.
+// This algolangrithm is taken from RFC 3492 section 6.2.
 func (rst *rustState) expandPunycode(s string) string {
 	const (
 		base        = 36

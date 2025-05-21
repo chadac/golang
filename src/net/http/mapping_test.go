@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package http
@@ -24,7 +24,7 @@ func TestMapping(t *testing.T) {
 		g, _ := m.find(i)
 		w := strconv.Itoa(i)
 		if g != w {
-			t.Fatalf("%d: got %s, want %s", i, g, w)
+			t.Fatalf("%d: golangt %s, want %s", i, g, w)
 		}
 	}
 	m.add(4, "4")
@@ -36,7 +36,7 @@ func TestMapping(t *testing.T) {
 	}
 	g, _ := m.find(4)
 	if w := "4"; g != w {
-		t.Fatalf("got %s, want %s", g, w)
+		t.Fatalf("golangt %s, want %s", g, w)
 	}
 }
 
@@ -50,16 +50,16 @@ func TestMappingEachPair(t *testing.T) {
 
 	}
 
-	var got []entry[int, string]
+	var golangt []entry[int, string]
 	m.eachPair(func(k int, v string) bool {
-		got = append(got, entry[int, string]{k, v})
+		golangt = append(golangt, entry[int, string]{k, v})
 		return true
 	})
-	slices.SortFunc(got, func(e1, e2 entry[int, string]) int {
+	slices.SortFunc(golangt, func(e1, e2 entry[int, string]) int {
 		return cmp.Compare(e1.key, e2.key)
 	})
-	if !slices.Equal(got, want) {
-		t.Errorf("got %v, want %v", got, want)
+	if !slices.Equal(golangt, want) {
+		t.Errorf("golangt %v, want %v", golangt, want)
 	}
 }
 
@@ -73,25 +73,25 @@ func BenchmarkFindChild(b *testing.B) {
 		"contribute.html",
 		"debugging_with_gdb.html",
 		"docs.html",
-		"effective_go.html",
+		"effective_golang.html",
 		"files.log",
-		"gccgo_contribute.html",
-		"gccgo_install.html",
-		"go-logo-black.png",
-		"go-logo-blue.png",
-		"go-logo-white.png",
-		"go1.1.html",
-		"go1.2.html",
-		"go1.html",
-		"go1compat.html",
-		"go_faq.html",
-		"go_mem.html",
-		"go_spec.html",
+		"gccgolang_contribute.html",
+		"gccgolang_install.html",
+		"golang-logolang-black.png",
+		"golang-logolang-blue.png",
+		"golang-logolang-white.png",
+		"golang1.1.html",
+		"golang1.2.html",
+		"golang1.html",
+		"golang1compat.html",
+		"golang_faq.html",
+		"golang_mem.html",
+		"golang_spec.html",
 		"help.html",
 		"ie.css",
 		"install-source.html",
 		"install.html",
-		"logo-153x55.png",
+		"logolang-153x55.png",
 		"Makefile",
 		"root.html",
 		"share.png",

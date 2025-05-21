@@ -83,7 +83,7 @@ regexps
 -;-;-;-
 strings
 ""
-"hello\ngoodbye\n"
+"hello\ngolangodbye\n"
 regexps
 "h.*od?"
 -;-;-;-
@@ -99,7 +99,7 @@ regexps
 -;-;-;-
 strings
 ""
-"hello\ngoodbye\n"
+"hello\ngolangodbye\n"
 regexps
 "h.*o"
 -;-;-;-
@@ -115,7 +115,7 @@ regexps
 -;-;-;-
 strings
 ""
-"goodbye\nhello\n"
+"golangodbye\nhello\n"
 regexps
 "h.*o"
 -;-;-;-

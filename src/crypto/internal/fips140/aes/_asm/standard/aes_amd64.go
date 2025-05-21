@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -14,11 +14,11 @@ import (
 	. "github.com/mmcloughlin/avo/reg"
 )
 
-//go:generate go run . -out ../../aes_amd64.s
+//golang:generate golang run . -out ../../aes_amd64.s
 
 func main() {
 	Package("crypto/aes")
-	ConstraintExpr("!purego")
+	ConstraintExpr("!puregolang")
 	encryptBlockAsm()
 	decryptBlockAsm()
 	expandKeyAsm()

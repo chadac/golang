@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package metrics_test
@@ -8,12 +8,12 @@ import (
 	"bytes"
 	"flag"
 	"fmt"
-	"go/ast"
-	"go/doc"
-	"go/doc/comment"
-	"go/format"
-	"go/parser"
-	"go/token"
+	"golang/ast"
+	"golang/doc"
+	"golang/doc/comment"
+	"golang/format"
+	"golang/parser"
+	"golang/token"
 	"internal/diff"
 	"os"
 	"regexp"
@@ -26,7 +26,7 @@ import (
 
 // Implemented in the runtime.
 //
-//go:linkname runtime_readMetricNames
+//golang:linkname runtime_readMetricNames
 func runtime_readMetricNames() []string
 
 func TestNames(t *testing.T) {
@@ -84,23 +84,23 @@ func formatDesc(t *testing.T) string {
 	return b.String()
 }
 
-var generate = flag.Bool("generate", false, "update doc.go for go generate")
+var generate = flag.Bool("generate", false, "update doc.golang for golang generate")
 
 func TestDocs(t *testing.T) {
 	want := formatDesc(t)
 
-	src, err := os.ReadFile("doc.go")
+	src, err := os.ReadFile("doc.golang")
 	if err != nil {
 		t.Fatal(err)
 	}
 	fset := token.NewFileSet()
-	f, err := parser.ParseFile(fset, "doc.go", src, parser.ParseComments)
+	f, err := parser.ParseFile(fset, "doc.golang", src, parser.ParseComments)
 	if err != nil {
 		t.Fatal(err)
 	}
 	fdoc := f.Doc
 	if fdoc == nil {
-		t.Fatal("no doc comment in doc.go")
+		t.Fatal("no doc comment in doc.golang")
 	}
 	pkg, err := doc.NewFromFiles(fset, []*ast.File{f}, "runtime/metrics")
 	if err != nil {
@@ -125,7 +125,7 @@ func TestDocs(t *testing.T) {
 				foundCode = true
 				if b.Text != want {
 					if !*generate {
-						t.Fatalf("doc comment out of date; use go generate to rebuild\n%s", diff.Diff("old", []byte(b.Text), "want", []byte(want)))
+						t.Fatalf("doc comment out of date; use golang generate to rebuild\n%s", diff.Diff("old", []byte(b.Text), "want", []byte(want)))
 					}
 					b.Text = want
 					updated = true
@@ -135,10 +135,10 @@ func TestDocs(t *testing.T) {
 	}
 
 	if !foundCode {
-		t.Fatalf("did not find Supported metrics list in doc.go")
+		t.Fatalf("did not find Supported metrics list in doc.golang")
 	}
 	if updated {
-		fmt.Fprintf(os.Stderr, "go test -generate: writing new doc.go\n")
+		fmt.Fprintf(os.Stderr, "golang test -generate: writing new doc.golang\n")
 		var buf bytes.Buffer
 		buf.Write(src[:fdoc.Pos()-f.FileStart])
 		buf.WriteString("/*\n")
@@ -149,10 +149,10 @@ func TestDocs(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		if err := os.WriteFile("doc.go", src, 0666); err != nil {
+		if err := os.WriteFile("doc.golang", src, 0666); err != nil {
 			t.Fatal(err)
 		}
 	} else if *generate {
-		fmt.Fprintf(os.Stderr, "go test -generate: doc.go already up-to-date\n")
+		fmt.Fprintf(os.Stderr, "golang test -generate: doc.golang already up-to-date\n")
 	}
 }

@@ -1,11 +1,11 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-package godebugs_test
+package golangdebugs_test
 
 import (
-	"internal/godebugs"
+	"internal/golangdebugs"
 	"internal/testenv"
 	"os"
 	"os/exec"
@@ -19,7 +19,7 @@ import (
 func TestAll(t *testing.T) {
 	testenv.MustHaveGoBuild(t)
 
-	data, err := os.ReadFile("../../../doc/godebug.md")
+	data, err := os.ReadFile("../../../doc/golangdebug.md")
 	if err != nil {
 		if os.IsNotExist(err) && (testenv.Builder() == "" || runtime.GOOS != "linux") {
 			t.Skip(err)
@@ -31,7 +31,7 @@ func TestAll(t *testing.T) {
 	incs := incNonDefaults(t)
 
 	last := ""
-	for _, info := range godebugs.All {
+	for _, info := range golangdebugs.All {
 		if info.Name <= last {
 			t.Errorf("All not sorted: %s then %s", last, info.Name)
 		}
@@ -48,10 +48,10 @@ func TestAll(t *testing.T) {
 		}
 		if !strings.Contains(doc, "`"+info.Name+"`") &&
 			!strings.Contains(doc, "`"+info.Name+"=") {
-			t.Errorf("Name=%s not documented in doc/godebug.md", info.Name)
+			t.Errorf("Name=%s not documented in doc/golangdebug.md", info.Name)
 		}
 		if !info.Opaque && !incs[info.Name] {
-			t.Errorf("Name=%s missing IncNonDefault calls; see 'go doc internal/godebug'", info.Name)
+			t.Errorf("Name=%s missing IncNonDefault calls; see 'golang doc internal/golangdebug'", info.Name)
 		}
 	}
 }
@@ -59,13 +59,13 @@ func TestAll(t *testing.T) {
 var incNonDefaultRE = regexp.MustCompile(`([\pL\p{Nd}_]+)\.IncNonDefault\(\)`)
 
 func incNonDefaults(t *testing.T) map[string]bool {
-	// Build list of all files importing internal/godebug.
-	// Tried a more sophisticated search in go list looking for
-	// imports containing "internal/godebug", but that turned
-	// up a bug in go list instead. #66218
-	out, err := exec.Command("go", "list", "-f={{.Dir}}", "std", "cmd").CombinedOutput()
+	// Build list of all files importing internal/golangdebug.
+	// Tried a more sophisticated search in golang list looking for
+	// imports containing "internal/golangdebug", but that turned
+	// up a bug in golang list instead. #66218
+	out, err := exec.Command("golang", "list", "-f={{.Dir}}", "std", "cmd").CombinedOutput()
 	if err != nil {
-		t.Fatalf("go list: %v\n%s", err, out)
+		t.Fatalf("golang list: %v\n%s", err, out)
 	}
 
 	seen := map[string]bool{}
@@ -79,7 +79,7 @@ func incNonDefaults(t *testing.T) map[string]bool {
 		}
 		for _, file := range files {
 			name := file.Name()
-			if !strings.HasSuffix(name, ".go") || strings.HasSuffix(name, "_test.go") {
+			if !strings.HasSuffix(name, ".golang") || strings.HasSuffix(name, "_test.golang") {
 				continue
 			}
 			data, err := os.ReadFile(filepath.Join(dir, name))

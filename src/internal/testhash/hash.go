@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package testhash
@@ -82,17 +82,17 @@ func TestHashWithoutClone(t *testing.T, mh MakeHash) {
 
 			// Check that Sum didn't alter the prefix
 			if !bytes.Equal(sum[:len(prefix)], prefix) {
-				t.Errorf("Sum alters passed buffer instead of appending; got %x, want %x", sum[:len(prefix)], prefix)
+				t.Errorf("Sum alters passed buffer instead of appending; golangt %x, want %x", sum[:len(prefix)], prefix)
 			}
 
 			// Check that the appended sum wasn't affected by the prefix
 			if expectedSum := getSum(t, h, nil); !bytes.Equal(sum[len(prefix):], expectedSum) {
-				t.Errorf("Sum behavior affected by data in the input buffer; got %x, want %x", sum[len(prefix):], expectedSum)
+				t.Errorf("Sum behavior affected by data in the input buffer; golangt %x, want %x", sum[len(prefix):], expectedSum)
 			}
 
 			// Check size of append
-			if got, want := len(sum)-len(prefix), h.Size(); got != want {
-				t.Errorf("Sum appends number of bytes != Size; got %v , want %v", got, want)
+			if golangt, want := len(sum)-len(prefix), h.Size(); golangt != want {
+				t.Errorf("Sum appends number of bytes != Size; golangt %v , want %v", golangt, want)
 			}
 		}
 	})
@@ -129,7 +129,7 @@ func TestHashWithoutClone(t *testing.T, mh MakeHash) {
 		resetSum := getSum(t, h, nil)
 
 		if !bytes.Equal(emptySum, resetSum) {
-			t.Errorf("Reset hash yields different Sum than new hash; got %x, want %x", emptySum, resetSum)
+			t.Errorf("Reset hash yields different Sum than new hash; golangt %x, want %x", emptySum, resetSum)
 		}
 	})
 
@@ -158,7 +158,7 @@ func TestHashWithoutClone(t *testing.T, mh MakeHash) {
 		testDigest := getSum(t, h, nil)
 
 		if !bytes.Equal(testDigest, expectedDigest) {
-			t.Errorf("Write affected by data outside of input slice bounds; got %x, want %x", testDigest, expectedDigest)
+			t.Errorf("Write affected by data outside of input slice bounds; golangt %x, want %x", testDigest, expectedDigest)
 		}
 	})
 
@@ -184,7 +184,7 @@ func TestHashWithoutClone(t *testing.T, mh MakeHash) {
 
 		// Check that sequential writing results in the same as writing all at once
 		if !bytes.Equal(compositeSum, serialSum) {
-			t.Errorf("two successive Write calls resulted in a different Sum than a single one; got %x, want %x", compositeSum, serialSum)
+			t.Errorf("two successive Write calls resulted in a different Sum than a single one; golangt %x, want %x", compositeSum, serialSum)
 		}
 	})
 }
@@ -198,11 +198,11 @@ func writeToHash(t *testing.T, h hash.Hash, p []byte) {
 
 	n, err := h.Write(p)
 	if err != nil || n != len(p) {
-		t.Errorf("Write returned error; got (%v, %v), want (nil, %v)", err, n, len(p))
+		t.Errorf("Write returned error; golangt (%v, %v), want (nil, %v)", err, n, len(p))
 	}
 
 	if !bytes.Equal(p, before) {
-		t.Errorf("Write modified input slice; got %x, want %x", p, before)
+		t.Errorf("Write modified input slice; golangt %x, want %x", p, before)
 	}
 }
 
@@ -218,7 +218,7 @@ func getSum(t *testing.T, h hash.Hash, buff []byte) []byte {
 
 	// Check that Sum doesn't change underlying hash state
 	if !bytes.Equal(sum, testSum) {
-		t.Errorf("successive calls to Sum yield different results; got %x, want %x", sum, testSum)
+		t.Errorf("successive calls to Sum yield different results; golangt %x, want %x", sum, testSum)
 	}
 
 	return sum

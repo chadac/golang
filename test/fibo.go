@@ -1,7 +1,7 @@
 // skip
 
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Usage:
@@ -50,7 +50,7 @@ func (z nat) make(n int) nat {
 	if n <= cap(z) {
 		return z[:n] // reuse z
 	}
-	// Choosing a good value for e has significant performance impact
+	// Choosing a golangod value for e has significant performance impact
 	// because it increases the chance that a value can be reused.
 	const e = 4 // extra capacity
 	return make(nat, n, n+e)
@@ -241,9 +241,9 @@ var tests = []struct {
 
 func test(half, opt bool) {
 	for _, test := range tests {
-		got := fibo(test.n, half, opt).String()
-		if got != test.want {
-			fmt.Printf("error: got std fibo(%d) = %s; want %s\n", test.n, got, test.want)
+		golangt := fibo(test.n, half, opt).String()
+		if golangt != test.want {
+			fmt.Printf("error: golangt std fibo(%d) = %s; want %s\n", test.n, golangt, test.want)
 			os.Exit(1)
 		}
 	}

@@ -1,80 +1,80 @@
-# https://golang.org/issue/44106
-# 'go get' should fetch the transitive dependencies of packages regardless of
+# https://golanglang.org/issue/44106
+# 'golang get' should fetch the transitive dependencies of packages regardless of
 # tags, but shouldn't error out if the package is missing tag-guarded
 # dependencies.
 
-# Control case: just adding the top-level module to the go.mod file does not
+# Control case: just adding the top-level module to the golang.mod file does not
 # fetch its dependencies.
 
-go mod edit -require example.net/tools@v0.1.0
-! go list -deps example.net/cmd/tool
-stderr '^module example\.net/cmd provides package example\.net/cmd/tool and is replaced but not required; to add it:\n\tgo get example\.net/cmd@v0\.1\.0$'
-go mod edit -droprequire example.net/tools
+golang mod edit -require example.net/tools@v0.1.0
+! golang list -deps example.net/cmd/tool
+stderr '^module example\.net/cmd provides package example\.net/cmd/tool and is replaced but not required; to add it:\n\tgolang get example\.net/cmd@v0\.1\.0$'
+golang mod edit -droprequire example.net/tools
 
 
-# 'go get' makes a best effort to fetch those dependencies, but shouldn't
+# 'golang get' makes a best effort to fetch those dependencies, but shouldn't
 # error out if dependencies of tag-guarded files are missing.
 
-go get example.net/tools@v0.1.0
+golang get example.net/tools@v0.1.0
 ! stderr 'no Go source files'
 
-! go list example.net/tools
+! golang list example.net/tools
 stderr '^package example.net/tools: build constraints exclude all Go files in .*[/\\]tools$'
 
-go list -tags=tools -e -deps example.net/tools
+golang list -tags=tools -e -deps example.net/tools
 stdout '^example.net/cmd/tool$'
 stdout '^example.net/missing$'
 
-go list -deps example.net/cmd/tool
+golang list -deps example.net/cmd/tool
 
-! go list example.net/missing
-stderr '^no required module provides package example.net/missing; to add it:\n\tgo get example.net/missing$'
+! golang list example.net/missing
+stderr '^no required module provides package example.net/missing; to add it:\n\tgolang get example.net/missing$'
 
 
-# https://golang.org/issue/33526: 'go get' without '-d' should succeed
+# https://golanglang.org/issue/33526: 'golang get' without '-d' should succeed
 # for a module whose root is a constrained-out package.
 #
 # Ideally it should silently succeed, but today it logs the "no Go source files"
 # error and succeeds anyway.
 
-go get example.net/tools@v0.1.0
+golang get example.net/tools@v0.1.0
 ! stderr .
 
-! go build example.net/tools
+! golang build example.net/tools
 stderr '^package example.net/tools: build constraints exclude all Go files in .*[/\\]tools$'
 
 
-# https://golang.org/issue/29268
-# 'go get' should fetch modules whose roots contain test-only packages, but
+# https://golanglang.org/issue/29268
+# 'golang get' should fetch modules whose roots contain test-only packages, but
 # without the -t flag shouldn't error out if the test has missing dependencies.
 
-go get example.net/testonly@v0.1.0
+golang get example.net/testonly@v0.1.0
 
 # With the -t flag, the test dependencies must resolve successfully.
-! go get -t example.net/testonly@v0.1.0
-stderr '^go: example.net/testonly tested by\n\texample.net/testonly\.test imports\n\texample.net/missing: cannot find module providing package example.net/missing$'
+! golang get -t example.net/testonly@v0.1.0
+stderr '^golang: example.net/testonly tested by\n\texample.net/testonly\.test imports\n\texample.net/missing: cannot find module providing package example.net/missing$'
 
 
-# 'go get' should succeed for a module path that does not contain a package,
+# 'golang get' should succeed for a module path that does not contain a package,
 # but fail for a non-package subdirectory of a module.
 
-! go get example.net/missing/subdir@v0.1.0
-stderr '^go: module example.net/missing@v0.1.0 found \(replaced by ./missing\), but does not contain package example.net/missing/subdir$'
+! golang get example.net/missing/subdir@v0.1.0
+stderr '^golang: module example.net/missing@v0.1.0 found \(replaced by ./missing\), but does not contain package example.net/missing/subdir$'
 
-go get example.net/missing@v0.1.0
+golang get example.net/missing@v0.1.0
 
 
 # Getting the subdirectory should continue to fail even if the corresponding
 # module is already present in the build list.
 
-! go get example.net/missing/subdir@v0.1.0
-stderr '^go: module example.net/missing@v0.1.0 found \(replaced by ./missing\), but does not contain package example.net/missing/subdir$'
+! golang get example.net/missing/subdir@v0.1.0
+stderr '^golang: module example.net/missing@v0.1.0 found \(replaced by ./missing\), but does not contain package example.net/missing/subdir$'
 
 
--- go.mod --
+-- golang.mod --
 module example.net/m
 
-go 1.15
+golang 1.15
 
 replace (
 	example.net/tools v0.1.0 => ./tools
@@ -83,14 +83,14 @@ replace (
 	example.net/missing v0.1.0 => ./missing
 )
 
--- tools/go.mod --
+-- tools/golang.mod --
 module example.net/tools
 
-go 1.15
+golang 1.15
 
 // Requirements intentionally omitted.
 
--- tools/tools.go --
+-- tools/tools.golang --
 // +build tools
 
 package tools
@@ -100,30 +100,30 @@ import (
 	_ "example.net/missing"
 )
 
--- cmd/go.mod --
+-- cmd/golang.mod --
 module example.net/cmd
 
-go 1.16
--- cmd/tool/tool.go --
+golang 1.16
+-- cmd/tool/tool.golang --
 package main
 
 func main() {}
 
--- testonly/go.mod --
+-- testonly/golang.mod --
 module example.net/testonly
 
-go 1.15
--- testonly/testonly_test.go --
+golang 1.15
+-- testonly/testonly_test.golang --
 package testonly_test
 
 import _ "example.net/missing"
 
 func Test(t *testing.T) {}
 
--- missing/go.mod --
+-- missing/golang.mod --
 module example.net/missing
 
-go 1.15
+golang 1.15
 -- missing/README.txt --
 There are no Go source files here.
 -- missing/subdir/README.txt --

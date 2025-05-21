@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ir
@@ -12,7 +12,7 @@ import (
 	"cmd/internal/src"
 	"fmt"
 
-	"go/constant"
+	"golang/constant"
 )
 
 // An Ident is an identifier, possibly qualified.
@@ -238,7 +238,7 @@ func (n *Name) OnStack() bool {
 			return false
 		}
 	}
-	// Note: fmt.go:dumpNodeHeader calls all "func() bool"-typed
+	// Note: fmt.golang:dumpNodeHeader calls all "func() bool"-typed
 	// methods, but it can only recover from panics, not Fatalf.
 	panic(fmt.Sprintf("%v: not a variable: %v", base.FmtPos(n.Pos()), n))
 }
@@ -379,7 +379,7 @@ func DeclaredBy(x, stmt Node) bool {
 // called declaration contexts.
 type Class uint8
 
-//go:generate stringer -type=Class name.go
+//golang:generate stringer -type=Class name.golang
 const (
 	Pxxx       Class = iota // no class; used during ssa conversion to indicate pseudo-variables
 	PEXTERN                 // global variables

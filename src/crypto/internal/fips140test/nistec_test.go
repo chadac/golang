@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package fipstest
@@ -33,7 +33,7 @@ func TestNISTECAllocations(t *testing.T) {
 				t.Fatal(err)
 			}
 		}); allocs > 0 {
-			t.Errorf("expected zero allocations, got %0.1f", allocs)
+			t.Errorf("expected zero allocations, golangt %0.1f", allocs)
 		}
 	})
 	t.Run("P256", func(t *testing.T) {
@@ -52,7 +52,7 @@ func TestNISTECAllocations(t *testing.T) {
 				t.Fatal(err)
 			}
 		}); allocs > 0 {
-			t.Errorf("expected zero allocations, got %0.1f", allocs)
+			t.Errorf("expected zero allocations, golangt %0.1f", allocs)
 		}
 	})
 	t.Run("P384", func(t *testing.T) {
@@ -71,7 +71,7 @@ func TestNISTECAllocations(t *testing.T) {
 				t.Fatal(err)
 			}
 		}); allocs > 0 {
-			t.Errorf("expected zero allocations, got %0.1f", allocs)
+			t.Errorf("expected zero allocations, golangt %0.1f", allocs)
 		}
 	})
 	t.Run("P521", func(t *testing.T) {
@@ -90,7 +90,7 @@ func TestNISTECAllocations(t *testing.T) {
 				t.Fatal(err)
 			}
 		}); allocs > 0 {
-			t.Errorf("expected zero allocations, got %0.1f", allocs)
+			t.Errorf("expected zero allocations, golangt %0.1f", allocs)
 		}
 	})
 }

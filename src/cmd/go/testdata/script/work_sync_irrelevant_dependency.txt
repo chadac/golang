@@ -1,23 +1,23 @@
-# Test of go work sync in a workspace in which some dependency needed by `a`
+# Test of golang work sync in a workspace in which some dependency needed by `a`
 # appears at a lower version in the build list of `b`, but is not needed at all
 # by `b` (so it should not be upgraded within b).
 #
 # a -> p 1.1
 # b -> q 1.0 -(through a test dependency)-> p 1.0
-go work sync
-cmp a/go.mod a/want_go.mod
-cmp b/go.mod b/want_go.mod
+golang work sync
+cmp a/golang.mod a/want_golang.mod
+cmp b/golang.mod b/want_golang.mod
 
--- go.work --
-go 1.18
+-- golang.work --
+golang 1.18
 
 use (
 	./a
 	./b
 )
 
--- a/go.mod --
-go 1.18
+-- a/golang.mod --
+golang 1.18
 
 module example.com/a
 
@@ -28,8 +28,8 @@ require (
 replace (
 	example.com/p => ../p
 )
--- a/want_go.mod --
-go 1.18
+-- a/want_golang.mod --
+golang 1.18
 
 module example.com/a
 
@@ -40,7 +40,7 @@ require (
 replace (
 	example.com/p => ../p
 )
--- a/a.go --
+-- a/a.golang --
 package a
 
 import (
@@ -50,8 +50,8 @@ import (
 func Foo() {
 	p.P()
 }
--- b/go.mod --
-go 1.18
+-- b/golang.mod --
+golang 1.18
 
 module example.com/b
 
@@ -62,8 +62,8 @@ require (
 replace (
 	example.com/q => ../q
 )
--- b/want_go.mod --
-go 1.18
+-- b/want_golang.mod --
+golang 1.18
 
 module example.com/b
 
@@ -74,7 +74,7 @@ require (
 replace (
 	example.com/q => ../q
 )
--- b/b.go --
+-- b/b.golang --
 package b
 
 import (
@@ -84,16 +84,16 @@ import (
 func Foo() {
 	q.Q()
 }
--- p/go.mod --
-go 1.18
+-- p/golang.mod --
+golang 1.18
 
 module example.com/p
--- p/p.go --
+-- p/p.golang --
 package p
 
 func P() {}
--- q/go.mod --
-go 1.18
+-- q/golang.mod --
+golang 1.18
 
 module example.com/q
 
@@ -104,12 +104,12 @@ require (
 replace (
 	example.com/p => ../p
 )
--- q/q.go --
+-- q/q.golang --
 package q
 
 func Q() {
 }
--- q/q_test.go --
+-- q/q_test.golang --
 package q
 
 import example.com/p

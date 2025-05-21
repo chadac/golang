@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -28,23 +28,23 @@ func Abs(f float64) float64 {
 func main() {
 	vec1 := []int{3, 4}
 	vec2 := []float64{5.8, 9.6}
-	got := Sum[int](vec1)
+	golangt := Sum[int](vec1)
 	want := vec1[0] + vec1[1]
-	if got != want {
-		panic(fmt.Sprintf("got %d, want %d", got, want))
+	if golangt != want {
+		panic(fmt.Sprintf("golangt %d, want %d", golangt, want))
 	}
-	got = Sum(vec1)
-	if want != got {
-		panic(fmt.Sprintf("got %d, want %d", got, want))
+	golangt = Sum(vec1)
+	if want != golangt {
+		panic(fmt.Sprintf("golangt %d, want %d", golangt, want))
 	}
 
 	fwant := vec2[0] + vec2[1]
-	fgot := Sum[float64](vec2)
-	if Abs(fgot-fwant) > 1e-10 {
-		panic(fmt.Sprintf("got %f, want %f", fgot, fwant))
+	fgolangt := Sum[float64](vec2)
+	if Abs(fgolangt-fwant) > 1e-10 {
+		panic(fmt.Sprintf("golangt %f, want %f", fgolangt, fwant))
 	}
-	fgot = Sum(vec2)
-	if Abs(fgot-fwant) > 1e-10 {
-		panic(fmt.Sprintf("got %f, want %f", fgot, fwant))
+	fgolangt = Sum(vec2)
+	if Abs(fgolangt-fwant) > 1e-10 {
+		panic(fmt.Sprintf("golangt %f, want %f", fgolangt, fwant))
 	}
 }

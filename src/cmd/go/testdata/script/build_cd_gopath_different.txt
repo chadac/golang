@@ -1,9 +1,9 @@
-[compiler:gccgo] skip 'gccgo does not support -ldflags -X'
+[compiler:gccgolang] skip 'gccgolang does not support -ldflags -X'
 env GO111MODULE=off
-go build run_go.go
+golang build run_golang.golang
 
 # Apply identity function to GOPATH
-exec ./run_go$GOEXE $GOPATH/src/my.pkg/main $GOPATH IDENTITY build -o $WORK/tmp/a.exe -ldflags -X=my.pkg.Text=linkXworked
+exec ./run_golang$GOEXE $GOPATH/src/my.pkg/main $GOPATH IDENTITY build -o $WORK/tmp/a.exe -ldflags -X=my.pkg.Text=linkXworked
 exec $WORK/tmp/a.exe
 stderr 'linkXworked'
 rm $WORK/tmp/a.exe
@@ -11,24 +11,24 @@ rm $WORK/tmp/a.exe
 [!GOOS:windows] stop 'rest of the tests only apply to Windows'
 
 # Replace '\' with '/' in GOPATH
-exec ./run_go$GOEXE $GOPATH/src/my.pkg/main $GOPATH REPLACE_SLASH build -o $WORK/tmp/a.exe -ldflags -X=my.pkg.Text=linkXworked
+exec ./run_golang$GOEXE $GOPATH/src/my.pkg/main $GOPATH REPLACE_SLASH build -o $WORK/tmp/a.exe -ldflags -X=my.pkg.Text=linkXworked
 exec $WORK/tmp/a.exe
 stderr 'linkXworked'
 rm $WORK/tmp/a.exe
 
 # Apply identity function to GOPATH
-exec ./run_go$GOEXE $GOPATH/src/my.pkg/main $GOPATH UPPER build -o $WORK/tmp/a.exe -ldflags -X=my.pkg.Text=linkXworked
+exec ./run_golang$GOEXE $GOPATH/src/my.pkg/main $GOPATH UPPER build -o $WORK/tmp/a.exe -ldflags -X=my.pkg.Text=linkXworked
 exec $WORK/tmp/a.exe
 stderr 'linkXworked'
 rm $WORK/tmp/a.exe
 
 # Apply identity function to GOPATH
-exec ./run_go$GOEXE $GOPATH/src/my.pkg/main $GOPATH LOWER build -o $WORK/tmp/a.exe -ldflags -X=my.pkg.Text=linkXworked
+exec ./run_golang$GOEXE $GOPATH/src/my.pkg/main $GOPATH LOWER build -o $WORK/tmp/a.exe -ldflags -X=my.pkg.Text=linkXworked
 exec $WORK/tmp/a.exe
 stderr 'linkXworked'
 rm $WORK/tmp/a.exe
 
--- run_go.go --
+-- run_golang.golang --
 package main
 
 import (
@@ -40,17 +40,17 @@ import (
 
 func main() {
 	dir := os.Args[1]
-	gopath := os.Args[2]
+	golangpath := os.Args[2]
 	switch os.Args[3] {
 		case "IDENTITY":
-		case "REPLACE_SLASH": gopath = strings.ReplaceAll(gopath, `\`, `/`)
-		case "UPPER": gopath = strings.ToUpper(gopath)
-		case "LOWER": gopath = strings.ToLower(gopath)
+		case "REPLACE_SLASH": golangpath = strings.ReplaceAll(golangpath, `\`, `/`)
+		case "UPPER": golangpath = strings.ToUpper(golangpath)
+		case "LOWER": golangpath = strings.ToLower(golangpath)
 		default: fmt.Fprintln(os.Stderr, "bad op"); os.Exit(1)
 	}
-	cmd := exec.Command("go", os.Args[4:]...)
+	cmd := exec.Command("golang", os.Args[4:]...)
 	cmd.Dir = dir
-	cmd.Env = append(os.Environ(), "GOPATH="+gopath)
+	cmd.Env = append(os.Environ(), "GOPATH="+golangpath)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	if err := cmd.Run(); err != nil {
@@ -59,7 +59,7 @@ func main() {
 	}
 }
 
--- my.pkg/main/main.go --
+-- my.pkg/main/main.golang --
 package main
 
 import "my.pkg"
@@ -67,7 +67,7 @@ import "my.pkg"
 func main() {
 	println(pkg.Text)
 }
--- my.pkg/pkg.go --
+-- my.pkg/pkg.golang --
 package pkg
 
 var Text = "unset"

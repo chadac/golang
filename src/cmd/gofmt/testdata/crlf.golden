@@ -1,6 +1,6 @@
 /*
 Source containing CR/LF line endings.
-The gofmt'ed output must only have LF
+The golangfmt'ed output must only have LF
 line endings.
 Test case for issue 3961.
 */

@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package test
@@ -12,7 +12,7 @@ func TestLogic64(t *testing.T) {
 	// test values to determine function equality
 	values := [...]int64{-1 << 63, 1<<63 - 1, -4, -3, -2, -1, 0, 1, 2, 3, 4}
 
-	// golden functions we use repeatedly
+	// golanglden functions we use repeatedly
 	zero := func(x int64) int64 { return 0 }
 	id := func(x int64) int64 { return x }
 	or := func(x, y int64) int64 { return x | y }
@@ -22,7 +22,7 @@ func TestLogic64(t *testing.T) {
 	for _, test := range [...]struct {
 		name   string
 		f      func(int64) int64
-		golden func(int64) int64
+		golanglden func(int64) int64
 	}{
 		{"x|x", func(x int64) int64 { return x | x }, id},
 		{"x|0", func(x int64) int64 { return x | 0 }, id},
@@ -39,17 +39,17 @@ func TestLogic64(t *testing.T) {
 		{"^^x", func(x int64) int64 { return ^^x }, id},
 	} {
 		for _, v := range values {
-			got := test.f(v)
-			want := test.golden(v)
-			if want != got {
-				t.Errorf("[%s](%d)=%d, want %d", test.name, v, got, want)
+			golangt := test.f(v)
+			want := test.golanglden(v)
+			if want != golangt {
+				t.Errorf("[%s](%d)=%d, want %d", test.name, v, golangt, want)
 			}
 		}
 	}
 	for _, test := range [...]struct {
 		name   string
 		f      func(int64, int64) int64
-		golden func(int64, int64) int64
+		golanglden func(int64, int64) int64
 	}{
 		{"x|(x|y)", func(x, y int64) int64 { return x | (x | y) }, or},
 		{"x|(y|x)", func(x, y int64) int64 { return x | (y | x) }, or},
@@ -69,10 +69,10 @@ func TestLogic64(t *testing.T) {
 	} {
 		for _, v := range values {
 			for _, w := range values {
-				got := test.f(v, w)
-				want := test.golden(v, w)
-				if want != got {
-					t.Errorf("[%s](%d,%d)=%d, want %d", test.name, v, w, got, want)
+				golangt := test.f(v, w)
+				want := test.golanglden(v, w)
+				if want != golangt {
+					t.Errorf("[%s](%d,%d)=%d, want %d", test.name, v, w, golangt, want)
 				}
 			}
 		}
@@ -83,7 +83,7 @@ func TestLogic32(t *testing.T) {
 	// test values to determine function equality
 	values := [...]int32{-1 << 31, 1<<31 - 1, -4, -3, -2, -1, 0, 1, 2, 3, 4}
 
-	// golden functions we use repeatedly
+	// golanglden functions we use repeatedly
 	zero := func(x int32) int32 { return 0 }
 	id := func(x int32) int32 { return x }
 	or := func(x, y int32) int32 { return x | y }
@@ -93,7 +93,7 @@ func TestLogic32(t *testing.T) {
 	for _, test := range [...]struct {
 		name   string
 		f      func(int32) int32
-		golden func(int32) int32
+		golanglden func(int32) int32
 	}{
 		{"x|x", func(x int32) int32 { return x | x }, id},
 		{"x|0", func(x int32) int32 { return x | 0 }, id},
@@ -110,17 +110,17 @@ func TestLogic32(t *testing.T) {
 		{"^^x", func(x int32) int32 { return ^^x }, id},
 	} {
 		for _, v := range values {
-			got := test.f(v)
-			want := test.golden(v)
-			if want != got {
-				t.Errorf("[%s](%d)=%d, want %d", test.name, v, got, want)
+			golangt := test.f(v)
+			want := test.golanglden(v)
+			if want != golangt {
+				t.Errorf("[%s](%d)=%d, want %d", test.name, v, golangt, want)
 			}
 		}
 	}
 	for _, test := range [...]struct {
 		name   string
 		f      func(int32, int32) int32
-		golden func(int32, int32) int32
+		golanglden func(int32, int32) int32
 	}{
 		{"x|(x|y)", func(x, y int32) int32 { return x | (x | y) }, or},
 		{"x|(y|x)", func(x, y int32) int32 { return x | (y | x) }, or},
@@ -140,10 +140,10 @@ func TestLogic32(t *testing.T) {
 	} {
 		for _, v := range values {
 			for _, w := range values {
-				got := test.f(v, w)
-				want := test.golden(v, w)
-				if want != got {
-					t.Errorf("[%s](%d,%d)=%d, want %d", test.name, v, w, got, want)
+				golangt := test.f(v, w)
+				want := test.golanglden(v, w)
+				if want != golangt {
+					t.Errorf("[%s](%d,%d)=%d, want %d", test.name, v, w, golangt, want)
 				}
 			}
 		}
@@ -154,7 +154,7 @@ func TestLogic16(t *testing.T) {
 	// test values to determine function equality
 	values := [...]int16{-1 << 15, 1<<15 - 1, -4, -3, -2, -1, 0, 1, 2, 3, 4}
 
-	// golden functions we use repeatedly
+	// golanglden functions we use repeatedly
 	zero := func(x int16) int16 { return 0 }
 	id := func(x int16) int16 { return x }
 	or := func(x, y int16) int16 { return x | y }
@@ -164,7 +164,7 @@ func TestLogic16(t *testing.T) {
 	for _, test := range [...]struct {
 		name   string
 		f      func(int16) int16
-		golden func(int16) int16
+		golanglden func(int16) int16
 	}{
 		{"x|x", func(x int16) int16 { return x | x }, id},
 		{"x|0", func(x int16) int16 { return x | 0 }, id},
@@ -181,17 +181,17 @@ func TestLogic16(t *testing.T) {
 		{"^^x", func(x int16) int16 { return ^^x }, id},
 	} {
 		for _, v := range values {
-			got := test.f(v)
-			want := test.golden(v)
-			if want != got {
-				t.Errorf("[%s](%d)=%d, want %d", test.name, v, got, want)
+			golangt := test.f(v)
+			want := test.golanglden(v)
+			if want != golangt {
+				t.Errorf("[%s](%d)=%d, want %d", test.name, v, golangt, want)
 			}
 		}
 	}
 	for _, test := range [...]struct {
 		name   string
 		f      func(int16, int16) int16
-		golden func(int16, int16) int16
+		golanglden func(int16, int16) int16
 	}{
 		{"x|(x|y)", func(x, y int16) int16 { return x | (x | y) }, or},
 		{"x|(y|x)", func(x, y int16) int16 { return x | (y | x) }, or},
@@ -211,10 +211,10 @@ func TestLogic16(t *testing.T) {
 	} {
 		for _, v := range values {
 			for _, w := range values {
-				got := test.f(v, w)
-				want := test.golden(v, w)
-				if want != got {
-					t.Errorf("[%s](%d,%d)=%d, want %d", test.name, v, w, got, want)
+				golangt := test.f(v, w)
+				want := test.golanglden(v, w)
+				if want != golangt {
+					t.Errorf("[%s](%d,%d)=%d, want %d", test.name, v, w, golangt, want)
 				}
 			}
 		}
@@ -225,7 +225,7 @@ func TestLogic8(t *testing.T) {
 	// test values to determine function equality
 	values := [...]int8{-1 << 7, 1<<7 - 1, -4, -3, -2, -1, 0, 1, 2, 3, 4}
 
-	// golden functions we use repeatedly
+	// golanglden functions we use repeatedly
 	zero := func(x int8) int8 { return 0 }
 	id := func(x int8) int8 { return x }
 	or := func(x, y int8) int8 { return x | y }
@@ -235,7 +235,7 @@ func TestLogic8(t *testing.T) {
 	for _, test := range [...]struct {
 		name   string
 		f      func(int8) int8
-		golden func(int8) int8
+		golanglden func(int8) int8
 	}{
 		{"x|x", func(x int8) int8 { return x | x }, id},
 		{"x|0", func(x int8) int8 { return x | 0 }, id},
@@ -252,17 +252,17 @@ func TestLogic8(t *testing.T) {
 		{"^^x", func(x int8) int8 { return ^^x }, id},
 	} {
 		for _, v := range values {
-			got := test.f(v)
-			want := test.golden(v)
-			if want != got {
-				t.Errorf("[%s](%d)=%d, want %d", test.name, v, got, want)
+			golangt := test.f(v)
+			want := test.golanglden(v)
+			if want != golangt {
+				t.Errorf("[%s](%d)=%d, want %d", test.name, v, golangt, want)
 			}
 		}
 	}
 	for _, test := range [...]struct {
 		name   string
 		f      func(int8, int8) int8
-		golden func(int8, int8) int8
+		golanglden func(int8, int8) int8
 	}{
 		{"x|(x|y)", func(x, y int8) int8 { return x | (x | y) }, or},
 		{"x|(y|x)", func(x, y int8) int8 { return x | (y | x) }, or},
@@ -282,10 +282,10 @@ func TestLogic8(t *testing.T) {
 	} {
 		for _, v := range values {
 			for _, w := range values {
-				got := test.f(v, w)
-				want := test.golden(v, w)
-				if want != got {
-					t.Errorf("[%s](%d,%d)=%d, want %d", test.name, v, w, got, want)
+				golangt := test.f(v, w)
+				want := test.golanglden(v, w)
+				if want != golangt {
+					t.Errorf("[%s](%d,%d)=%d, want %d", test.name, v, w, golangt, want)
 				}
 			}
 		}

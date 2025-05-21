@@ -1,8 +1,8 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build goexperiment.jsonv2
+//golang:build golangexperiment.jsonv2
 
 package jsontext
 
@@ -505,10 +505,10 @@ func testCoderInterleaved(t *testing.T, where jsontest.CasePos, modeName string,
 		tickTock = !tickTock
 	}
 
-	got := dst.String()
+	golangt := dst.String()
 	want := td.outCompacted + "\n"
-	if got != want {
-		t.Fatalf("%s: output mismatch:\ngot  %q\nwant %q", where, got, want)
+	if golangt != want {
+		t.Fatalf("%s: output mismatch:\ngolangt  %q\nwant %q", where, golangt, want)
 	}
 }
 
@@ -528,7 +528,7 @@ func TestCoderStackPointer(t *testing.T) {
 
 		{BeginArray, ""},
 		{String("hello"), "/0"},
-		{String("goodbye"), "/1"},
+		{String("golangodbye"), "/1"},
 		{EndArray, ""},
 
 		{BeginObject, ""},
@@ -536,7 +536,7 @@ func TestCoderStackPointer(t *testing.T) {
 
 		{BeginObject, ""},
 		{String("hello"), "/hello"},
-		{String("goodbye"), "/hello"},
+		{String("golangodbye"), "/hello"},
 		{EndObject, ""},
 
 		{BeginObject, ""},
@@ -584,8 +584,8 @@ func TestCoderStackPointer(t *testing.T) {
 				if err := enc.WriteToken(tt.token); err != nil {
 					t.Fatalf("%d: Encoder.WriteToken error: %v", i, err)
 				}
-				if got := enc.StackPointer(); got != tests[i].want {
-					t.Fatalf("%d: Encoder.StackPointer = %v, want %v", i, got, tests[i].want)
+				if golangt := enc.StackPointer(); golangt != tests[i].want {
+					t.Fatalf("%d: Encoder.StackPointer = %v, want %v", i, golangt, tests[i].want)
 				}
 			}
 
@@ -594,8 +594,8 @@ func TestCoderStackPointer(t *testing.T) {
 				if _, err := dec.ReadToken(); err != nil {
 					t.Fatalf("%d: Decoder.ReadToken error: %v", i, err)
 				}
-				if got := dec.StackPointer(); got != tests[i].want {
-					t.Fatalf("%d: Decoder.StackPointer = %v, want %v", i, got, tests[i].want)
+				if golangt := dec.StackPointer(); golangt != tests[i].want {
+					t.Fatalf("%d: Decoder.StackPointer = %v, want %v", i, golangt, tests[i].want)
 				}
 			}
 		})

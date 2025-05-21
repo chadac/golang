@@ -1,8 +1,8 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build unix
+//golang:build unix
 
 package pprof
 
@@ -17,7 +17,7 @@ import (
 func addMaxRSS(w io.Writer) {
 	var rssToBytes uintptr
 	switch runtime.GOOS {
-	case "aix", "android", "dragonfly", "freebsd", "linux", "netbsd", "openbsd":
+	case "aix", "android", "dragolangnfly", "freebsd", "linux", "netbsd", "openbsd":
 		rssToBytes = 1024
 	case "darwin", "ios":
 		rssToBytes = 1

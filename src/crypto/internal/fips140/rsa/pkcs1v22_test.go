@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package rsa
@@ -55,7 +55,7 @@ func TestEMSAPSS(t *testing.T) {
 		t.Errorf("Error from emsaPSSEncode: %s\n", err)
 	}
 	if !bytes.Equal(encoded, expected) {
-		t.Errorf("Bad encoding. got %x, want %x", encoded, expected)
+		t.Errorf("Bad encoding. golangt %x, want %x", encoded, expected)
 	}
 
 	if err = emsaPSSVerify(hashed, encoded, 1023, len(salt), sha1.New()); err != nil {

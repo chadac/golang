@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package types2_test
@@ -76,7 +76,7 @@ var builtinCalls = []struct {
 	{"make", `_ = make([]int, 10)`, `func([]int, int) []int`},
 	{"make", `type T []byte; _ = make(T, 10, 20)`, `func(p.T, int, int) p.T`},
 
-	// go.dev/issue/37349
+	// golang.dev/issue/37349
 	{"make", `              _ = make([]int, 0   )`, `func([]int, int) []int`},
 	{"make", `var l    int; _ = make([]int, l   )`, `func([]int, int) []int`},
 	{"make", `              _ = make([]int, 0, 0)`, `func([]int, int, int) []int`},
@@ -84,7 +84,7 @@ var builtinCalls = []struct {
 	{"make", `var    c int; _ = make([]int, 0, c)`, `func([]int, int, int) []int`},
 	{"make", `var l, c int; _ = make([]int, l, c)`, `func([]int, int, int) []int`},
 
-	// go.dev/issue/37393
+	// golang.dev/issue/37393
 	{"make", `                _ = make([]int       , 0   )`, `func([]int, int) []int`},
 	{"make", `var l    byte ; _ = make([]int8      , l   )`, `func([]int8, byte) []int8`},
 	{"make", `                _ = make([]int16     , 0, 0)`, `func([]int16, int, int) []int16`},
@@ -92,7 +92,7 @@ var builtinCalls = []struct {
 	{"make", `var    c int32; _ = make([]float64   , 0, c)`, `func([]float64, int, int32) []float64`},
 	{"make", `var l, c uint ; _ = make([]complex128, l, c)`, `func([]complex128, uint, uint) []complex128`},
 
-	// go.dev/issue/45667
+	// golang.dev/issue/45667
 	{"make", `const l uint = 1; _ = make([]int, l)`, `func([]int, uint) []int`},
 
 	{"max", `               _ = max(0        )`, `invalid type`}, // constant
@@ -198,7 +198,7 @@ func testBuiltinSignature(t *testing.T, name, src0, want string) {
 		}
 	}
 	if n != 1 {
-		t.Errorf("%s: got %d CallExprs; want 1", src0, n)
+		t.Errorf("%s: golangt %d CallExprs; want 1", src0, n)
 		return
 	}
 
@@ -210,8 +210,8 @@ func testBuiltinSignature(t *testing.T, name, src0, want string) {
 			t.Errorf("%s: no type recorded for %s", src0, ExprString(fun))
 			return
 		}
-		if got := typ.String(); got != want {
-			t.Errorf("%s: got type %s; want %s", src0, got, want)
+		if golangt := typ.String(); golangt != want {
+			t.Errorf("%s: golangt type %s; want %s", src0, golangt, want)
 			return
 		}
 
@@ -230,7 +230,7 @@ func testBuiltinSignature(t *testing.T, name, src0, want string) {
 				return
 			}
 			if bin.Name() != name {
-				t.Errorf("%s: got built-in %s; want %s", src0, bin.Name(), name)
+				t.Errorf("%s: golangt built-in %s; want %s", src0, bin.Name(), name)
 				return
 			}
 			return // we're done

@@ -1,30 +1,30 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime_test
 
 import (
 	"fmt"
-	"internal/goos"
+	"internal/golangos"
 	. "runtime"
 	"testing"
 )
 
-func checkPageAlloc(t *testing.T, want, got *PageAlloc) {
+func checkPageAlloc(t *testing.T, want, golangt *PageAlloc) {
 	// Ensure start and end are correct.
 	wantStart, wantEnd := want.Bounds()
-	gotStart, gotEnd := got.Bounds()
-	if gotStart != wantStart {
-		t.Fatalf("start values not equal: got %d, want %d", gotStart, wantStart)
+	golangtStart, golangtEnd := golangt.Bounds()
+	if golangtStart != wantStart {
+		t.Fatalf("start values not equal: golangt %d, want %d", golangtStart, wantStart)
 	}
-	if gotEnd != wantEnd {
-		t.Fatalf("end values not equal: got %d, want %d", gotEnd, wantEnd)
+	if golangtEnd != wantEnd {
+		t.Fatalf("end values not equal: golangt %d, want %d", golangtEnd, wantEnd)
 	}
 
-	for i := gotStart; i < gotEnd; i++ {
+	for i := golangtStart; i < golangtEnd; i++ {
 		// Check the bitmaps. Note that we may have nil data.
-		gb, wb := got.PallocData(i), want.PallocData(i)
+		gb, wb := golangt.PallocData(i), want.PallocData(i)
 		if gb == nil && wb == nil {
 			continue
 		}
@@ -168,7 +168,7 @@ func TestPageAllocGrow(t *testing.T) {
 	}
 	// Disable these tests on iOS since we have a small address space.
 	// See #46860.
-	if PageAlloc64Bit != 0 && goos.IsIos == 0 {
+	if PageAlloc64Bit != 0 && golangos.IsIos == 0 {
 		tests["ExtremelyDiscontiguous"] = test{
 			chunks: []ChunkIdx{
 				BaseChunkIdx,
@@ -192,15 +192,15 @@ func TestPageAllocGrow(t *testing.T) {
 			b := NewPageAlloc(x, nil)
 			defer FreePageAlloc(b)
 
-			got := b.InUse()
+			golangt := b.InUse()
 			want := v.inUse
 
 			// Check for mismatches.
-			if len(got) != len(want) {
+			if len(golangt) != len(want) {
 				t.Fail()
 			} else {
 				for i := range want {
-					if !want[i].Equals(got[i]) {
+					if !want[i].Equals(golangt[i]) {
 						t.Fail()
 						break
 					}
@@ -208,8 +208,8 @@ func TestPageAllocGrow(t *testing.T) {
 			}
 			if t.Failed() {
 				t.Logf("found inUse mismatch")
-				t.Logf("got:")
-				for i, r := range got {
+				t.Logf("golangt:")
+				for i, r := range golangt {
 					t.Logf("\t#%d [0x%x, 0x%x)", i, r.Base(), r.Limit())
 				}
 				t.Logf("want:")
@@ -576,7 +576,7 @@ func TestPageAllocAlloc(t *testing.T) {
 	}
 	// Disable these tests on iOS since we have a small address space.
 	// See #46860.
-	if PageAlloc64Bit != 0 && goos.IsIos == 0 {
+	if PageAlloc64Bit != 0 && golangos.IsIos == 0 {
 		const chunkIdxBigJump = 0x100000 // chunk index offset which translates to O(TiB)
 
 		// This test attempts to trigger a bug wherein we look at unmapped summary
@@ -684,10 +684,10 @@ func TestPageAllocAlloc(t *testing.T) {
 			for iter, i := range v.hits {
 				a, s := b.Alloc(i.npages)
 				if a != i.base {
-					t.Fatalf("bad alloc #%d: want base 0x%x, got 0x%x", iter+1, i.base, a)
+					t.Fatalf("bad alloc #%d: want base 0x%x, golangt 0x%x", iter+1, i.base, a)
 				}
 				if s != i.scav {
-					t.Fatalf("bad alloc #%d: want scav %d, got %d", iter+1, i.scav, s)
+					t.Fatalf("bad alloc #%d: want scav %d, golangt %d", iter+1, i.scav, s)
 				}
 			}
 			want := NewPageAlloc(v.after, v.scav)
@@ -718,13 +718,13 @@ func TestPageAllocExhaust(t *testing.T) {
 			for i := 0; i < nAlloc; i++ {
 				addr := PageBase(BaseChunkIdx, uint(i)*uint(npages))
 				if a, _ := b.Alloc(npages); a != addr {
-					t.Fatalf("bad alloc #%d: want 0x%x, got 0x%x", i+1, addr, a)
+					t.Fatalf("bad alloc #%d: want 0x%x, golangt 0x%x", i+1, addr, a)
 				}
 			}
 
 			// Check to make sure the next allocation fails.
 			if a, _ := b.Alloc(npages); a != 0 {
-				t.Fatalf("bad alloc #%d: want 0, got 0x%x", nAlloc, a)
+				t.Fatalf("bad alloc #%d: want 0, golangt 0x%x", nAlloc, a)
 			}
 
 			// Construct what we want the heap to look like now.
@@ -1029,7 +1029,7 @@ func TestPageAllocAllocAndFree(t *testing.T) {
 			for iter, i := range v.hits {
 				if i.alloc {
 					if a, _ := b.Alloc(i.npages); a != i.base {
-						t.Fatalf("bad alloc #%d: want 0x%x, got 0x%x", iter+1, i.base, a)
+						t.Fatalf("bad alloc #%d: want 0x%x, golangt 0x%x", iter+1, i.base, a)
 					}
 				} else {
 					b.Free(i.base, i.npages)

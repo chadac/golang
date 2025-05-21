@@ -39,7 +39,7 @@ type SymKind uint8
 //
 // TODO(rsc): Give idiomatic Go names.
 //
-//go:generate stringer -type=SymKind
+//golang:generate stringer -type=SymKind
 const (
 	Sxxx SymKind = iota
 	STEXT

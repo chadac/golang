@@ -4,18 +4,18 @@
 [short] skip
 
 # Simple test.
-go test -v -cover -count=1
+golang test -v -cover -count=1
 
 # Make sure test still passes when test executable is built and
-# run outside the go command.
-go test -c -o t.exe -cover
+# run outside the golang command.
+golang test -c -o t.exe -cover
 exec ./t.exe
 
--- go.mod --
+-- golang.mod --
 module hello
 
-go 1.20
--- hello.go --
+golang 1.20
+-- hello.golang --
 package hello
 
 func Hello() {
@@ -36,7 +36,7 @@ func foo(n int) int {
 	return t
 }
 
--- hello_test.go --
+-- hello_test.golang --
 package hello
 
 import "testing"

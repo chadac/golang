@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Serving of pprof-like profiles.
@@ -71,8 +71,8 @@ func SVGProfileHandlerFunc(f ProfileFunc) http.HandlerFunc {
 			return
 		}
 		svgFilename := blockf.Name() + ".svg"
-		if output, err := exec.Command(goCmd(), "tool", "pprof", "-svg", "-output", svgFilename, blockf.Name()).CombinedOutput(); err != nil {
-			http.Error(w, fmt.Sprintf("failed to execute go tool pprof: %v\n%s", err, output), http.StatusInternalServerError)
+		if output, err := exec.Command(golangCmd(), "tool", "pprof", "-svg", "-output", svgFilename, blockf.Name()).CombinedOutput(); err != nil {
+			http.Error(w, fmt.Sprintf("failed to execute golang tool pprof: %v\n%s", err, output), http.StatusInternalServerError)
 			return
 		}
 		defer os.Remove(svgFilename)
@@ -137,14 +137,14 @@ func BuildProfile(prof []ProfileRecord) *profile.Profile {
 	return p
 }
 
-func goCmd() string {
+func golangCmd() string {
 	var exeSuffix string
 	if runtime.GOOS == "windows" {
 		exeSuffix = ".exe"
 	}
-	path := filepath.Join(runtime.GOROOT(), "bin", "go"+exeSuffix)
+	path := filepath.Join(runtime.GOROOT(), "bin", "golang"+exeSuffix)
 	if _, err := os.Stat(path); err == nil {
 		return path
 	}
-	return "go"
+	return "golang"
 }

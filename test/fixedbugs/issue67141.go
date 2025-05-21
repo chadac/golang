@@ -1,12 +1,12 @@
-// errorcheck -lang=go1.22
+// errorcheck -lang=golang1.22
 
-//go:build go1.21
+//golang:build golang1.21
 
 // We need a line directive before the package clause,
 // but don't change file name or position so that the
 // error message appears at the right place.
 
-//line issue67141.go:10
+//line issue67141.golang:10
 package p
 
 func _() {

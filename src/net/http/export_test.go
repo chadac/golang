@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Bridge package to expose http internals to tests in the http_test
@@ -292,9 +292,9 @@ func (r *Request) WithT(t *testing.T) *Request {
 }
 
 func ExportSetH2GoawayTimeout(d time.Duration) (restore func()) {
-	old := http2goAwayTimeout
-	http2goAwayTimeout = d
-	return func() { http2goAwayTimeout = old }
+	old := http2golangAwayTimeout
+	http2golangAwayTimeout = d
+	return func() { http2golangAwayTimeout = old }
 }
 
 func (r *Request) ExportIsReplayable() bool { return r.isReplayable() }

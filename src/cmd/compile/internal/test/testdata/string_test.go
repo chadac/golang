@@ -1,23 +1,23 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// string_ssa.go tests string operations.
+// string_ssa.golang tests string operations.
 package main
 
 import "testing"
 
-//go:noinline
+//golang:noinline
 func testStringSlice1_ssa(a string, i, j int) string {
 	return a[i:]
 }
 
-//go:noinline
+//golang:noinline
 func testStringSlice2_ssa(a string, i, j int) string {
 	return a[:j]
 }
 
-//go:noinline
+//golang:noinline
 func testStringSlice12_ssa(a string, i, j int) string {
 	return a[i:j]
 }
@@ -45,8 +45,8 @@ func testStringSlice(t *testing.T) {
 	}
 
 	for i, test := range tests {
-		if got := test.fn(test.s, test.low, test.high); test.want != got {
-			t.Errorf("#%d %s[%d,%d] = %s, want %s", i, test.s, test.low, test.high, got, test.want)
+		if golangt := test.fn(test.s, test.low, test.high); test.want != golangt {
+			t.Errorf("#%d %s[%d,%d] = %s, want %s", i, test.s, test.low, test.high, golangt, test.want)
 		}
 	}
 }
@@ -59,12 +59,12 @@ func (p *prefix) slice_ssa() {
 	p.prefix = p.prefix[:3]
 }
 
-//go:noinline
+//golang:noinline
 func testStructSlice(t *testing.T) {
 	p := &prefix{"prefix"}
 	p.slice_ssa()
 	if "pre" != p.prefix {
-		t.Errorf("wrong field slice: wanted %s got %s", "pre", p.prefix)
+		t.Errorf("wrong field slice: wanted %s golangt %s", "pre", p.prefix)
 	}
 }
 
@@ -76,14 +76,14 @@ func testStringSlicePanic(t *testing.T) {
 	}()
 
 	str := "foobar"
-	t.Errorf("got %s and expected to panic, but didn't", testStringSlice12_ssa(str, 3, 9))
+	t.Errorf("golangt %s and expected to panic, but didn't", testStringSlice12_ssa(str, 3, 9))
 }
 
 const _Accuracy_name = "BelowExactAbove"
 
 var _Accuracy_index = [...]uint8{0, 5, 10, 15}
 
-//go:noinline
+//golang:noinline
 func testSmallIndexType_ssa(i int) string {
 	return _Accuracy_name[_Accuracy_index[i]:_Accuracy_index[i+1]]
 }
@@ -99,18 +99,18 @@ func testSmallIndexType(t *testing.T) {
 	}
 
 	for i, test := range tests {
-		if got := testSmallIndexType_ssa(test.i); got != test.want {
-			t.Errorf("#%d got %s wanted %s", i, got, test.want)
+		if golangt := testSmallIndexType_ssa(test.i); golangt != test.want {
+			t.Errorf("#%d golangt %s wanted %s", i, golangt, test.want)
 		}
 	}
 }
 
-//go:noinline
+//golang:noinline
 func testInt64Index_ssa(s string, i int64) byte {
 	return s[i]
 }
 
-//go:noinline
+//golang:noinline
 func testInt64Slice_ssa(s string, i, j int64) string {
 	return s[i:j]
 }
@@ -129,11 +129,11 @@ func testInt64Index(t *testing.T) {
 
 	str := "BelowExactAbove"
 	for i, test := range tests {
-		if got := testInt64Index_ssa(str, test.i); got != test.b {
-			t.Errorf("#%d got %d wanted %d", i, got, test.b)
+		if golangt := testInt64Index_ssa(str, test.i); golangt != test.b {
+			t.Errorf("#%d golangt %d wanted %d", i, golangt, test.b)
 		}
-		if got := testInt64Slice_ssa(str, test.i, test.j); got != test.s {
-			t.Errorf("#%d got %s wanted %s", i, got, test.s)
+		if golangt := testInt64Slice_ssa(str, test.i, test.j); golangt != test.s {
+			t.Errorf("#%d golangt %s wanted %s", i, golangt, test.s)
 		}
 	}
 }
@@ -146,7 +146,7 @@ func testInt64IndexPanic(t *testing.T) {
 	}()
 
 	str := "foobar"
-	t.Errorf("got %d and expected to panic, but didn't", testInt64Index_ssa(str, 1<<32+1))
+	t.Errorf("golangt %d and expected to panic, but didn't", testInt64Index_ssa(str, 1<<32+1))
 }
 
 func testInt64SlicePanic(t *testing.T) {
@@ -157,10 +157,10 @@ func testInt64SlicePanic(t *testing.T) {
 	}()
 
 	str := "foobar"
-	t.Errorf("got %s and expected to panic, but didn't", testInt64Slice_ssa(str, 1<<32, 1<<32+1))
+	t.Errorf("golangt %s and expected to panic, but didn't", testInt64Slice_ssa(str, 1<<32, 1<<32+1))
 }
 
-//go:noinline
+//golang:noinline
 func testStringElem_ssa(s string, i int) byte {
 	return s[i]
 }
@@ -176,21 +176,21 @@ func testStringElem(t *testing.T) {
 		{"foobar", 5, 114},
 	}
 	for _, test := range tests {
-		if got := testStringElem_ssa(test.s, test.i); got != test.n {
-			t.Errorf("testStringElem \"%s\"[%d] = %d, wanted %d", test.s, test.i, got, test.n)
+		if golangt := testStringElem_ssa(test.s, test.i); golangt != test.n {
+			t.Errorf("testStringElem \"%s\"[%d] = %d, wanted %d", test.s, test.i, golangt, test.n)
 		}
 	}
 }
 
-//go:noinline
+//golang:noinline
 func testStringElemConst_ssa(i int) byte {
 	s := "foobar"
 	return s[i]
 }
 
 func testStringElemConst(t *testing.T) {
-	if got := testStringElemConst_ssa(3); got != 98 {
-		t.Errorf("testStringElemConst= %d, wanted 98", got)
+	if golangt := testStringElemConst_ssa(3); golangt != 98 {
+		t.Errorf("testStringElemConst= %d, wanted 98", golangt)
 	}
 }
 

@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -78,8 +78,8 @@ func checkJSONFilterWith(t *testing.T, want string, write func(*testJSONFilter))
 	f := &testJSONFilter{w: out, variant: "variant"}
 	write(f)
 	f.Flush()
-	got := out.String()
-	if want != got {
-		t.Errorf("want:\n%s\ngot:\n%s", want, got)
+	golangt := out.String()
+	if want != golangt {
+		t.Errorf("want:\n%s\ngolangt:\n%s", want, golangt)
 	}
 }

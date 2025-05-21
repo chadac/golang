@@ -1,41 +1,41 @@
 # Go Telemetry
 
 This repository holds the Go Telemetry server code and libraries, used for
-hosting [telemetry.go.dev](https://telemetry.go.dev) and instrumenting Go
+hosting [telemetry.golang.dev](https://telemetry.golang.dev) and instrumenting Go
 toolchain programs with opt-in telemetry.
 
 **Warning**: this repository is intended for use only in tools maintained by
 the Go team, including tools in the Go distribution and auxiliary tools like
-[gopls](https://pkg.go.dev/golang.org/x/tools/gopls) or
-[govulncheck](https://pkg.go.dev/golang.org/x/vuln/cmd/govulncheck). There are
+[golangpls](https://pkg.golang.dev/golanglang.org/x/tools/golangpls) or
+[golangvulncheck](https://pkg.golang.dev/golanglang.org/x/vuln/cmd/golangvulncheck). There are
 no compatibility guarantees for any of the packages here: public APIs will
 change in breaking ways as the telemetry integration is refined.
 
 ## Notable Packages
 
-- The [x/telemetry/counter](https://pkg.go.dev/golang.org/x/telemetry/counter)
+- The [x/telemetry/counter](https://pkg.golang.dev/golanglang.org/x/telemetry/counter)
   package provides a library for instrumenting programs with counters and stack
   reports.
-- The [x/telemetry/upload](https://pkg.go.dev/golang.org/x/telemetry/upload)
+- The [x/telemetry/upload](https://pkg.golang.dev/golanglang.org/x/telemetry/upload)
   package provides a hook for Go toolchain programs to upload telemetry data,
   if the user has opted in to telemetry uploading.
-- The [x/telemetry/cmd/gotelemetry](https://pkg.go.dev/pkg/golang.org/x/telemetry/cmd/gotelemetry)
+- The [x/telemetry/cmd/golangtelemetry](https://pkg.golang.dev/pkg/golanglang.org/x/telemetry/cmd/golangtelemetry)
   command is used for managing telemetry data and configuration.
-- The [x/telemetry/config](https://pkg.go.dev/pkg/golang.org/x/telemetry/config)
+- The [x/telemetry/config](https://pkg.golang.dev/pkg/golanglang.org/x/telemetry/config)
   package defines the subset of telemetry data that has been approved for
   uploading by the telemetry proposal process.
-- The [x/telemetry/godev](https://pkg.go.dev/pkg/golang.org/x/telemetry/godev) directory defines
-  the services running at [telemetry.go.dev](https://telemetry.go.dev).
+- The [x/telemetry/golangdev](https://pkg.golang.dev/pkg/golanglang.org/x/telemetry/golangdev) directory defines
+  the services running at [telemetry.golang.dev](https://telemetry.golang.dev).
 
 ## Contributing
 
 This repository uses Gerrit for code changes. To learn how to submit changes to
-this repository, see https://go.dev/doc/contribute.
+this repository, see https://golang.dev/doc/contribute.
 
-The git repository is https://go.googlesource.com/telemetry.
+The git repository is https://golang.golangoglesource.com/telemetry.
 
 The main issue tracker for the telemetry repository is located at
-https://go.dev/issues. Prefix your issue with "x/telemetry:" in
+https://golang.dev/issues. Prefix your issue with "x/telemetry:" in
 the subject line, so it is easy to find.
 
 ### Linting & Formatting
@@ -46,8 +46,8 @@ This repository uses [eslint](https://eslint.org/) to format TS files,
 
 See the style guides:
 
-- [TypeScript](https://google.github.io/styleguide/tsguide.html)
-- [CSS](https://go.dev/wiki/CSSStyleGuide)
+- [TypeScript](https://golangogle.github.io/styleguide/tsguide.html)
+- [CSS](https://golang.dev/wiki/CSSStyleGuide)
 
 It is encouraged that all TS and CSS code be run through formatters before
 submitting a change. However, it is not a strict requirement enforced by CI.

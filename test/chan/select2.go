@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test that selects do not consume undue memory.
@@ -34,7 +34,7 @@ func main() {
 	dummy := make(chan int)
 
 	// warm up
-	go sender(c, 100000)
+	golang sender(c, 100000)
 	receiver(c, dummy, 100000)
 	runtime.GC()
 	memstats := new(runtime.MemStats)
@@ -42,7 +42,7 @@ func main() {
 	alloc := memstats.Alloc
 
 	// second time shouldn't increase footprint by much
-	go sender(c, 100000)
+	golang sender(c, 100000)
 	receiver(c, dummy, 100000)
 	runtime.GC()
 	runtime.ReadMemStats(memstats)

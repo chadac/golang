@@ -12,15 +12,15 @@ env GO111MODULE=on
 # The latest pseudo-version is semantically higher than the latest tag.
 # 'list -u' should not suggest a lower version as an upgrade.
 
-go get example.com/pseudoupgrade@b5426c8
-go list -m -u all
+golang get example.com/pseudoupgrade@b5426c8
+golang list -m -u all
 stdout '^example.com/pseudoupgrade v0.1.1-0.20190429073117-b5426c86b553$'
 
-go get example.com/pseudoupgrade@v0.0.0-20190430073000-30950c05d534
-go list -m -u all
+golang get example.com/pseudoupgrade@v0.0.0-20190430073000-30950c05d534
+golang list -m -u all
 stdout '^example.com/pseudoupgrade v0.0.0-20190430073000-30950c05d534$'
 
--- go.mod --
+-- golang.mod --
 module x
 
-go 1.12
+golang 1.12

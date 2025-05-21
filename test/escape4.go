@@ -1,9 +1,9 @@
 // errorcheck -0 -m
 
-//go:build !goexperiment.newinliner
+//golang:build !golangexperiment.newinliner
 
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test, using compiler diagnostic flags, that the escape analysis is working.

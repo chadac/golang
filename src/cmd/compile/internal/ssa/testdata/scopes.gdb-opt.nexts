@@ -1,4 +1,4 @@
-  src/cmd/compile/internal/ssa/testdata/scopes.go
+  src/cmd/compile/internal/ssa/testdata/scopes.golang
 22:	func test() {
 23:		x := id(0)
 24:		y := id(0)
@@ -31,14 +31,14 @@ y = 5
 41:					f3(c)
 46:				f5(b)
 48:			f6(a)
-33:		for x := 0; x <= 1; x++ { // From delve scopetest.go
+33:		for x := 0; x <= 1; x++ { // From delve scopetest.golang
 35:			f1(a)
 38:				f2(b)
 39:				if gretbool() {
 44:					f4(int(c))
 46:				f5(b)
 48:			f6(a)
-33:		for x := 0; x <= 1; x++ { // From delve scopetest.go
+33:		for x := 0; x <= 1; x++ { // From delve scopetest.golang
 53:				j = id(1)
 54:				f = id(2)
 56:			for i := 0; i <= 5; i++ {

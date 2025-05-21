@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ssa
@@ -121,12 +121,12 @@ type posetNode struct {
 // poset is implemented as a forest of DAGs; in each DAG, if there is a path (directed)
 // from node A to B, it means that A<B (or A<=B). Equality is represented by mapping
 // two SSA values to the same DAG node; when a new equality relation is recorded
-// between two existing nodes, the nodes are merged, adjusting incoming and outgoing edges.
+// between two existing nodes, the nodes are merged, adjusting incoming and outgolanging edges.
 //
 // poset is designed to be memory efficient and do little allocations during normal usage.
 // Most internal data structures are pre-allocated and flat, so for instance adding a
 // new relation does not cause any allocation. For performance reasons,
-// each node has only up to two outgoing edges (like a binary tree), so intermediate
+// each node has only up to two outgolanging edges (like a binary tree), so intermediate
 // "extra" nodes are required to represent more than two relations. For instance,
 // to record that A<I, A<J, A<K (with no known relation between I,J,K), we create the
 // following DAG:
@@ -486,7 +486,7 @@ func (po *poset) collapsepath(n1, n2 *Value) bool {
 // findpaths is a recursive function that calculates all paths from cur to dst
 // and return them as a bitset (the index of a node is set in the bitset if
 // that node is on at least one path from cur to dst).
-// We do a DFS from cur (stopping going deep any time we reach dst, if ever),
+// We do a DFS from cur (stopping golanging deep any time we reach dst, if ever),
 // and mark as part of the paths any node that has a children which is already
 // part of the path (or is dst itself).
 func (po *poset) findpaths(cur, dst uint32) bitset {
@@ -847,7 +847,7 @@ func (po *poset) setOrder(n1, n2 *Value, strict bool) bool {
 			strict = true
 		}
 
-		// Both n1 and n2 are in the poset. This is the complex part of the algorithm
+		// Both n1 and n2 are in the poset. This is the complex part of the algolangrithm
 		// as we need to find many different cases and DAG shapes.
 
 		// Check if n1 somehow reaches n2

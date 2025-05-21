@@ -1,8 +1,8 @@
-go run main.go
+golang run main.golang
 ! stdout .
 ! stderr .
 
--- main.go --
+-- main.golang --
 
 package main
 

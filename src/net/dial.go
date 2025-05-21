@@ -1,5 +1,5 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package net
@@ -7,7 +7,7 @@ package net
 import (
 	"context"
 	"internal/bytealg"
-	"internal/godebug"
+	"internal/golangdebug"
 	"internal/nettrace"
 	"syscall"
 	"time"
@@ -15,11 +15,11 @@ import (
 
 const (
 	// defaultTCPKeepAliveIdle is a default constant value for TCP_KEEPIDLE.
-	// See go.dev/issue/31510 for details.
+	// See golang.dev/issue/31510 for details.
 	defaultTCPKeepAliveIdle = 15 * time.Second
 
 	// defaultTCPKeepAliveInterval is a default constant value for TCP_KEEPINTVL.
-	// It is the same as defaultTCPKeepAliveIdle, see go.dev/issue/31510 for details.
+	// It is the same as defaultTCPKeepAliveIdle, see golang.dev/issue/31510 for details.
 	defaultTCPKeepAliveInterval = 15 * time.Second
 
 	// defaultTCPKeepAliveCount is a default constant value for TCP_KEEPCNT.
@@ -27,7 +27,7 @@ const (
 
 	// For the moment, MultiPath TCP is used by default with listeners, if
 	// available, but not with dialers.
-	// See go.dev/issue/56539
+	// See golang.dev/issue/56539
 	defaultMPTCPEnabledListen = true
 	defaultMPTCPEnabledDial   = false
 )
@@ -38,10 +38,10 @@ const (
 //	1 == MPTCP enabled
 //	2 == MPTCP enabled on listeners only
 //	3 == MPTCP enabled on dialers only
-var multipathtcp = godebug.New("multipathtcp")
+var multipathtcp = golangdebug.New("multipathtcp")
 
 // mptcpStatusDial is a tristate for Multipath TCP on clients,
-// see go.dev/issue/56539
+// see golang.dev/issue/56539
 type mptcpStatusDial uint8
 
 const (
@@ -78,7 +78,7 @@ func (m *mptcpStatusDial) set(use bool) {
 }
 
 // mptcpStatusListen is a tristate for Multipath TCP on servers,
-// see go.dev/issue/56539
+// see golang.dev/issue/56539
 type mptcpStatusListen uint8
 
 const (
@@ -440,7 +440,7 @@ func (d *Dialer) SetMultipathTCP(use bool) {
 //
 // Examples:
 //
-//	Dial("tcp", "golang.org:http")
+//	Dial("tcp", "golanglang.org:http")
 //	Dial("tcp", "192.0.2.1:http")
 //	Dial("tcp", "198.51.100.1:80")
 //	Dial("udp", "[2001:db8::1]:domain")
@@ -538,7 +538,7 @@ func (d *Dialer) DialContext(ctx context.Context, network, address string) (Conn
 	if oldCancel := d.Cancel; oldCancel != nil {
 		subCtx, cancel := context.WithCancel(ctx)
 		defer cancel()
-		go func() {
+		golang func() {
 			select {
 			case <-oldCancel:
 				cancel()
@@ -618,7 +618,7 @@ func (sd *sysDialer) dialParallel(ctx context.Context, primaries, fallbacks addr
 	// Start the main racer.
 	primaryCtx, primaryCancel := context.WithCancel(ctx)
 	defer primaryCancel()
-	go startRacer(primaryCtx, true)
+	golang startRacer(primaryCtx, true)
 
 	// Start the timer for the fallback racer.
 	fallbackTimer := time.NewTimer(sd.fallbackDelay())
@@ -629,7 +629,7 @@ func (sd *sysDialer) dialParallel(ctx context.Context, primaries, fallbacks addr
 		case <-fallbackTimer.C:
 			fallbackCtx, fallbackCancel := context.WithCancel(ctx)
 			defer fallbackCancel()
-			go startRacer(fallbackCtx, false)
+			golang startRacer(fallbackCtx, false)
 
 		case res := <-results:
 			if res.error == nil {
@@ -646,7 +646,7 @@ func (sd *sysDialer) dialParallel(ctx context.Context, primaries, fallbacks addr
 			if res.primary && fallbackTimer.Stop() {
 				// If we were able to stop the timer, that means it
 				// was running (hadn't yet started the fallback), but
-				// we just got an error on the primary path, so start
+				// we just golangt an error on the primary path, so start
 				// the fallback immediately (in 0 nanoseconds).
 				fallbackTimer.Reset(0)
 			}

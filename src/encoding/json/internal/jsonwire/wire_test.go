@@ -1,8 +1,8 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build goexperiment.jsonv2
+//golang:build golangexperiment.jsonv2
 
 package jsonwire
 
@@ -26,9 +26,9 @@ func TestQuoteRune(t *testing.T) {
 		{"\U00101234", `'\U00101234'`},
 	}
 	for _, tt := range tests {
-		got := QuoteRune([]byte(tt.in))
-		if got != tt.want {
-			t.Errorf("quoteRune(%q) = %s, want %s", tt.in, got, tt.want)
+		golangt := QuoteRune([]byte(tt.in))
+		if golangt != tt.want {
+			t.Errorf("quoteRune(%q) = %s, want %s", tt.in, golangt, tt.want)
 		}
 	}
 }
@@ -38,10 +38,10 @@ var compareUTF16Testdata = []string{"", "\r", "1", "f\xfe", "f\xfe\xff", "f\xff"
 func TestCompareUTF16(t *testing.T) {
 	for i, si := range compareUTF16Testdata {
 		for j, sj := range compareUTF16Testdata {
-			got := CompareUTF16([]byte(si), []byte(sj))
+			golangt := CompareUTF16([]byte(si), []byte(sj))
 			want := cmp.Compare(i, j)
-			if got != want {
-				t.Errorf("CompareUTF16(%q, %q) = %v, want %v", si, sj, got, want)
+			if golangt != want {
+				t.Errorf("CompareUTF16(%q, %q) = %v, want %v", si, sj, golangt, want)
 			}
 		}
 	}
@@ -65,10 +65,10 @@ func FuzzCompareUTF16(f *testing.F) {
 
 	f.Fuzz(func(t *testing.T, s1, s2 []byte) {
 		// Compare the optimized and simplified implementations.
-		got := CompareUTF16(s1, s2)
+		golangt := CompareUTF16(s1, s2)
 		want := CompareUTF16Simple(s1, s2)
-		if got != want && utf8.Valid(s1) && utf8.Valid(s2) {
-			t.Errorf("CompareUTF16(%q, %q) = %v, want %v", s1, s2, got, want)
+		if golangt != want && utf8.Valid(s1) && utf8.Valid(s2) {
+			t.Errorf("CompareUTF16(%q, %q) = %v, want %v", s1, s2, golangt, want)
 		}
 	})
 }
@@ -89,9 +89,9 @@ func TestTruncatePointer(t *testing.T) {
 		{"/🎄❤️✨/🎁✅😊/🎅🔥⭐", "/🎄…/…/…⭐"},
 	}
 	for _, tt := range tests {
-		got := TruncatePointer(tt.in, 10)
-		if got != tt.want {
-			t.Errorf("TruncatePointer(%q) = %q, want %q", tt.in, got, tt.want)
+		golangt := TruncatePointer(tt.in, 10)
+		if golangt != tt.want {
+			t.Errorf("TruncatePointer(%q) = %q, want %q", tt.in, golangt, tt.want)
 		}
 	}
 

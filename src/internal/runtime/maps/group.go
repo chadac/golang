@@ -1,12 +1,12 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package maps
 
 import (
 	"internal/abi"
-	"internal/goarch"
+	"internal/golangarch"
 	"internal/runtime/sys"
 	"unsafe"
 )
@@ -128,7 +128,7 @@ type ctrlGroup uint64
 
 // get returns the i-th control byte.
 func (g *ctrlGroup) get(i uintptr) ctrl {
-	if goarch.BigEndian {
+	if golangarch.BigEndian {
 		return *(*ctrl)(unsafe.Add(unsafe.Pointer(g), 7-i))
 	}
 	return *(*ctrl)(unsafe.Add(unsafe.Pointer(g), i))
@@ -136,7 +136,7 @@ func (g *ctrlGroup) get(i uintptr) ctrl {
 
 // set sets the i-th control byte.
 func (g *ctrlGroup) set(i uintptr, c ctrl) {
-	if goarch.BigEndian {
+	if golangarch.BigEndian {
 		*(*ctrl)(unsafe.Add(unsafe.Pointer(g), 7-i)) = c
 		return
 	}

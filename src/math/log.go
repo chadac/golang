@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package math
@@ -10,7 +10,7 @@ package math
 
 // The original C code, the long comment, and the constants
 // below are from FreeBSD's /usr/src/lib/msun/src/e_log.c
-// and came with this notice. The go code is a simpler
+// and came with this notice. The golang code is a simpler
 // version of the original C.
 //
 // ====================================================
@@ -34,7 +34,7 @@ package math
 //	Let s = f/(2+f) ; based on log(1+f) = log(1+s) - log(1-s)
 //		 = 2s + 2/3 s**3 + 2/5 s**5 + .....,
 //	     	 = 2s + s*R
-//      We use a special Reme algorithm on [0,0.1716] to generate
+//      We use a special Reme algolangrithm on [0,0.1716] to generate
 //	a polynomial of degree 14 to approximate R.  The maximum error
 //	of this polynomial approximation is bounded by 2**-58.45. In
 //	other words,

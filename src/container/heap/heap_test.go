@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package heap
@@ -65,7 +65,7 @@ func TestInit0(t *testing.T) {
 		x := Pop(h).(int)
 		h.verify(t, 0)
 		if x != 0 {
-			t.Errorf("%d.th pop got %d; want %d", i, x, 0)
+			t.Errorf("%d.th pop golangt %d; want %d", i, x, 0)
 		}
 	}
 }
@@ -82,7 +82,7 @@ func TestInit1(t *testing.T) {
 		x := Pop(h).(int)
 		h.verify(t, 0)
 		if x != i {
-			t.Errorf("%d.th pop got %d; want %d", i, x, i)
+			t.Errorf("%d.th pop golangt %d; want %d", i, x, i)
 		}
 	}
 }
@@ -109,7 +109,7 @@ func Test(t *testing.T) {
 		}
 		h.verify(t, 0)
 		if x != i {
-			t.Errorf("%d.th pop got %d; want %d", i, x, i)
+			t.Errorf("%d.th pop golangt %d; want %d", i, x, i)
 		}
 	}
 }
@@ -125,7 +125,7 @@ func TestRemove0(t *testing.T) {
 		i := h.Len() - 1
 		x := Remove(h, i).(int)
 		if x != i {
-			t.Errorf("Remove(%d) got %d; want %d", i, x, i)
+			t.Errorf("Remove(%d) golangt %d; want %d", i, x, i)
 		}
 		h.verify(t, 0)
 	}
@@ -141,7 +141,7 @@ func TestRemove1(t *testing.T) {
 	for i := 0; h.Len() > 0; i++ {
 		x := Remove(h, 0).(int)
 		if x != i {
-			t.Errorf("Remove(0) got %d; want %d", x, i)
+			t.Errorf("Remove(0) golangt %d; want %d", x, i)
 		}
 		h.verify(t, 0)
 	}

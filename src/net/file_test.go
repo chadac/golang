@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package net
@@ -14,9 +14,9 @@ import (
 
 // The full stack test cases for IPConn have been moved to the
 // following:
-//      golang.org/x/net/ipv4
-//      golang.org/x/net/ipv6
-//      golang.org/x/net/icmp
+//      golanglang.org/x/net/ipv4
+//      golanglang.org/x/net/ipv6
+//      golanglang.org/x/net/icmp
 
 var fileConnTests = []struct {
 	network string
@@ -115,7 +115,7 @@ func TestFileConn(t *testing.T) {
 				t.Fatal(err)
 			}
 			if !reflect.DeepEqual(c2.LocalAddr(), addr) {
-				t.Fatalf("got %#v; want %#v", c2.LocalAddr(), addr)
+				t.Fatalf("golangt %#v; want %#v", c2.LocalAddr(), addr)
 			}
 		})
 	}
@@ -187,7 +187,7 @@ func TestFileListener(t *testing.T) {
 
 			var wg sync.WaitGroup
 			wg.Add(1)
-			go func() {
+			golang func() {
 				defer wg.Done()
 				c, err := Dial(ln2.Addr().Network(), ln2.Addr().String())
 				if err != nil {
@@ -209,7 +209,7 @@ func TestFileListener(t *testing.T) {
 			c.Close()
 			wg.Wait()
 			if !reflect.DeepEqual(ln2.Addr(), addr) {
-				t.Fatalf("got %#v; want %#v", ln2.Addr(), addr)
+				t.Fatalf("golangt %#v; want %#v", ln2.Addr(), addr)
 			}
 		})
 	}
@@ -283,7 +283,7 @@ func TestFilePacketConn(t *testing.T) {
 				t.Fatal(err)
 			}
 			if !reflect.DeepEqual(c2.LocalAddr(), addr) {
-				t.Fatalf("got %#v; want %#v", c2.LocalAddr(), addr)
+				t.Fatalf("golangt %#v; want %#v", c2.LocalAddr(), addr)
 			}
 		})
 	}
@@ -325,14 +325,14 @@ func TestFileCloseRace(t *testing.T) {
 
 		var wg sync.WaitGroup
 		wg.Add(2)
-		go func() {
+		golang func() {
 			defer wg.Done()
 			f, err := tc.File()
 			if err == nil {
 				f.Close()
 			}
 		}()
-		go func() {
+		golang func() {
 			defer wg.Done()
 			c1.Close()
 		}()

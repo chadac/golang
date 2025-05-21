@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This is an optimized implementation of AES-GCM using AES-NI and CLMUL-NI
@@ -18,7 +18,7 @@ import (
 	. "github.com/mmcloughlin/avo/reg"
 )
 
-//go:generate go run . -out ../../gcm_amd64.s
+//golang:generate golang run . -out ../../gcm_amd64.s
 
 var (
 	B0 VecPhysical = X0
@@ -43,7 +43,7 @@ var (
 
 func main() {
 	Package("crypto/aes")
-	ConstraintExpr("!purego")
+	ConstraintExpr("!puregolang")
 
 	gcmAesFinish()
 	gcmAesInit()

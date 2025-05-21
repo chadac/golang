@@ -6,7 +6,7 @@ module example.com/badchain/b
 require example.com/badchain/c v1.1.0
 -- .info --
 {"Version":"v1.1.0"}
--- b.go --
+-- b.golang --
 package b
 
 import _ "example.com/badchain/c"

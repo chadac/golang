@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file contains the Go wrapper for the constant-time, 64-bit assembly
@@ -10,7 +10,7 @@
 // https://link.springer.com/article/10.1007%2Fs13389-014-0090-x
 // https://eprint.iacr.org/2013/816.pdf
 
-//go:build (amd64 || arm64 || ppc64le || s390x) && !purego
+//golang:build (amd64 || arm64 || ppc64le || s390x) && !puregolang
 
 package nistec
 
@@ -22,17 +22,17 @@ import (
 	"unsafe"
 )
 
-// p256Element is a P-256 base field element in [0, P-1] in the Montgomery
+// p256Element is a P-256 base field element in [0, P-1] in the Montgolangmery
 // domain (with R 2²⁵⁶) as four limbs in little-endian order value.
 type p256Element [4]uint64
 
-// p256One is one in the Montgomery domain.
+// p256One is one in the Montgolangmery domain.
 var p256One = p256Element{0x0000000000000001, 0xffffffff00000000,
 	0xffffffffffffffff, 0x00000000fffffffe}
 
 var p256Zero = p256Element{}
 
-// p256P is 2²⁵⁶ - 2²²⁴ + 2¹⁹² + 2⁹⁶ - 1 in the Montgomery domain.
+// p256P is 2²⁵⁶ - 2²²⁴ + 2¹⁹² + 2⁹⁶ - 1 in the Montgolangmery domain.
 var p256P = p256Element{0xffffffffffffffff, 0x00000000ffffffff,
 	0x0000000000000000, 0xffffffff00000001}
 
@@ -76,8 +76,8 @@ const p256CompressedLength = 1 + p256ElementLength
 // the curve, it returns nil and an error, and the receiver is unchanged.
 // Otherwise, it returns p.
 func (p *P256Point) SetBytes(b []byte) (*P256Point, error) {
-	// p256Mul operates in the Montgomery domain with R = 2²⁵⁶ mod p. Thus rr
-	// here is R in the Montgomery domain, or R×R mod p. See comment in
+	// p256Mul operates in the Montgolangmery domain with R = 2²⁵⁶ mod p. Thus rr
+	// here is R in the Montgolangmery domain, or R×R mod p. See comment in
 	// P256OrdInverse about how this is used.
 	rr := p256Element{0x0000000000000003, 0xfffffffbffffffff,
 		0xfffffffffffffffe, 0x00000004fffffffd}
@@ -272,30 +272,30 @@ func p256Sqrt(e, x *p256Element) (isSquare bool) {
 
 // The following assembly functions are implemented in p256_asm_*.s
 
-// Montgomery multiplication. Sets res = in1 * in2 * R⁻¹ mod p.
+// Montgolangmery multiplication. Sets res = in1 * in2 * R⁻¹ mod p.
 //
-//go:noescape
+//golang:noescape
 func p256Mul(res, in1, in2 *p256Element)
 
-// Montgomery square, repeated n times (n >= 1).
+// Montgolangmery square, repeated n times (n >= 1).
 //
-//go:noescape
+//golang:noescape
 func p256Sqr(res, in *p256Element, n int)
 
-// Montgomery multiplication by R⁻¹, or 1 outside the domain.
-// Sets res = in * R⁻¹, bringing res out of the Montgomery domain.
+// Montgolangmery multiplication by R⁻¹, or 1 outside the domain.
+// Sets res = in * R⁻¹, bringing res out of the Montgolangmery domain.
 //
-//go:noescape
+//golang:noescape
 func p256FromMont(res, in *p256Element)
 
 // If cond is not 0, sets val = -val mod p.
 //
-//go:noescape
+//golang:noescape
 func p256NegCond(val *p256Element, cond int)
 
 // If cond is 0, sets res = b, otherwise sets res = a.
 //
-//go:noescape
+//golang:noescape
 func p256MovCond(res, a, b *P256Point, cond int)
 
 // p256Table is a table of the first 16 multiples of a point. Points are stored
@@ -306,11 +306,11 @@ type p256Table [16]P256Point
 // p256Select sets res to the point at index idx in the table.
 // idx must be in [0, 15]. It executes in constant time.
 //
-//go:noescape
+//golang:noescape
 func p256Select(res *P256Point, table *p256Table, idx int)
 
 // p256AffinePoint is a point in affine coordinates (x, y). x and y are still
-// Montgomery domain elements. The point can't be the point at infinity.
+// Montgolangmery domain elements. The point can't be the point at infinity.
 type p256AffinePoint struct {
 	x, y p256Element
 }
@@ -343,30 +343,30 @@ func init() {
 // p256SelectAffine sets res to the point at index idx in the table.
 // idx must be in [0, 31]. It executes in constant time.
 //
-//go:noescape
+//golang:noescape
 func p256SelectAffine(res *p256AffinePoint, table *p256AffineTable, idx int)
 
 // Point addition with an affine point and constant time conditions.
 // If zero is 0, sets res = in2. If sel is 0, sets res = in1.
 // If sign is not 0, sets res = in1 + -in2. Otherwise, sets res = in1 + in2
 //
-//go:noescape
+//golang:noescape
 func p256PointAddAffineAsm(res, in1 *P256Point, in2 *p256AffinePoint, sign, sel, zero int)
 
 // Point addition. Sets res = in1 + in2. Returns one if the two input points
 // were equal and zero otherwise. If in1 or in2 are the point at infinity, res
 // and the return value are undefined.
 //
-//go:noescape
+//golang:noescape
 func p256PointAddAsm(res, in1, in2 *P256Point) int
 
 // Point doubling. Sets res = in + in. in can be the point at infinity.
 //
-//go:noescape
+//golang:noescape
 func p256PointDoubleAsm(res, in *P256Point)
 
 // p256OrdElement is a P-256 scalar field element in [0, ord(G)-1] in the
-// Montgomery domain (with R 2²⁵⁶) as four uint64 limbs in little-endian order.
+// Montgolangmery domain (with R 2²⁵⁶) as four uint64 limbs in little-endian order.
 type p256OrdElement [4]uint64
 
 // p256OrdReduce ensures s is in the range [0, ord(G)-1].
@@ -495,7 +495,7 @@ func (p *P256Point) bytes(out *[p256UncompressedLength]byte) []byte {
 }
 
 // affineFromMont sets (x, y) to the affine coordinates of p, converted out of the
-// Montgomery domain.
+// Montgolangmery domain.
 func (p *P256Point) affineFromMont(x, y *p256Element) {
 	p256Inverse(y, &p.z)
 	p256Sqr(x, y, 1)

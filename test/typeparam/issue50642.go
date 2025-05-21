@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -56,8 +56,8 @@ func main() {
 	iter.HasNext()
 
 	iter2 := Temp2[MyInt]{}
-	if got, want := iter2.HasNext(), "a"; got != want {
-		panic(fmt.Sprintf("got %v, want %v", got, want))
+	if golangt, want := iter2.HasNext(), "a"; golangt != want {
+		panic(fmt.Sprintf("golangt %v, want %v", golangt, want))
 	}
 
 }

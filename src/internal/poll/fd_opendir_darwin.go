@@ -1,12 +1,12 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package poll
 
 import (
 	"syscall"
-	_ "unsafe" // for go:linkname
+	_ "unsafe" // for golang:linkname
 )
 
 // OpenDir returns a pointer to a DIR structure suitable for
@@ -33,7 +33,7 @@ func (fd *FD) OpenDir() (uintptr, string, error) {
 	return dir, "", nil
 }
 
-// Implemented in syscall/syscall_darwin.go.
+// Implemented in syscall/syscall_darwin.golang.
 //
-//go:linkname fdopendir syscall.fdopendir
+//golang:linkname fdopendir syscall.fdopendir
 func fdopendir(fd int) (dir uintptr, err error)

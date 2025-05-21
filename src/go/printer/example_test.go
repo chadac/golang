@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package printer_test
@@ -7,10 +7,10 @@ package printer_test
 import (
 	"bytes"
 	"fmt"
-	"go/ast"
-	"go/parser"
-	"go/printer"
-	"go/token"
+	"golang/ast"
+	"golang/parser"
+	"golang/printer"
+	"golang/token"
 	"strings"
 )
 
@@ -31,7 +31,7 @@ func printSelf() {
 	// Parse source file and extract the AST without comments for
 	// this function, with position information referring to the
 	// file set fset.
-	funcAST, fset := parseFunc("example_test.go", "printSelf")
+	funcAST, fset := parseFunc("example_test.golang", "printSelf")
 
 	// Print the function body into buffer buf.
 	// The file set is provided to the printer so that it knows
@@ -54,7 +54,7 @@ func ExampleFprint() {
 	printSelf()
 
 	// Output:
-	// funcAST, fset := parseFunc("example_test.go", "printSelf")
+	// funcAST, fset := parseFunc("example_test.golang", "printSelf")
 	//
 	// var buf bytes.Buffer
 	// printer.Fprint(&buf, fset, funcAST.Body)

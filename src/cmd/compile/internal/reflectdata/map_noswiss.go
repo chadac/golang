@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package reflectdata
@@ -22,7 +22,7 @@ func OldMapBucketType(t *types.Type) *types.Type {
 	// the given map type. This type is not visible to users -
 	// we include only enough information to generate a correct GC
 	// program for it.
-	// Make sure this stays in sync with runtime/map.go.
+	// Make sure this stays in sync with runtime/map.golang.
 	//
 	//	A "bucket" is a "struct" {
 	//	      tophash [abi.OldMapBucketCount]uint8
@@ -66,7 +66,7 @@ func OldMapBucketType(t *types.Type) *types.Type {
 	// buckets can be marked as having no pointers.
 	// Arrange for the bucket to have no pointers by changing
 	// the type of the overflow field to uintptr in this case.
-	// See comment on hmap.overflow in runtime/map.go.
+	// See comment on hmap.overflow in runtime/map.golang.
 	otyp := types.Types[types.TUNSAFEPTR]
 	if !elemtype.HasPointers() && !keytype.HasPointers() {
 		otyp = types.Types[types.TUINTPTR]
@@ -139,7 +139,7 @@ func OldMapBucketType(t *types.Type) *types.Type {
 var oldHmapType *types.Type
 
 // OldMapType returns a type interchangeable with runtime.hmap.
-// Make sure this stays in sync with runtime/map.go.
+// Make sure this stays in sync with runtime/map.golang.
 func OldMapType() *types.Type {
 	if oldHmapType != nil {
 		return oldHmapType
@@ -158,14 +158,14 @@ func OldMapType() *types.Type {
 	//    clearSeq   uint64
 	//    extra      unsafe.Pointer // *mapextra
 	// }
-	// must match runtime/map.go:hmap.
+	// must match runtime/map.golang:hmap.
 	fields := []*types.Field{
 		makefield("count", types.Types[types.TINT]),
 		makefield("flags", types.Types[types.TUINT8]),
 		makefield("B", types.Types[types.TUINT8]),
 		makefield("noverflow", types.Types[types.TUINT16]),
-		makefield("hash0", types.Types[types.TUINT32]),      // Used in walk.go for OMAKEMAP.
-		makefield("buckets", types.Types[types.TUNSAFEPTR]), // Used in walk.go for OMAKEMAP.
+		makefield("hash0", types.Types[types.TUINT32]),      // Used in walk.golang for OMAKEMAP.
+		makefield("buckets", types.Types[types.TUNSAFEPTR]), // Used in walk.golang for OMAKEMAP.
 		makefield("oldbuckets", types.Types[types.TUNSAFEPTR]),
 		makefield("nevacuate", types.Types[types.TUINTPTR]),
 		makefield("clearSeq", types.Types[types.TUINT64]),
@@ -183,7 +183,7 @@ func OldMapType() *types.Type {
 	// The size of hmap should be 56 bytes on 64 bit
 	// and 36 bytes on 32 bit platforms.
 	if size := int64(2*8 + 5*types.PtrSize); hmap.Size() != size {
-		base.Fatalf("hmap size not correct: got %d, want %d", hmap.Size(), size)
+		base.Fatalf("hmap size not correct: golangt %d, want %d", hmap.Size(), size)
 	}
 
 	oldHmapType = hmap
@@ -193,7 +193,7 @@ func OldMapType() *types.Type {
 var oldHiterType *types.Type
 
 // OldMapIterType returns a type interchangeable with runtime.hiter.
-// Make sure this stays in sync with runtime/map.go.
+// Make sure this stays in sync with runtime/map.golang.
 func OldMapIterType() *types.Type {
 	if oldHiterType != nil {
 		return oldHiterType
@@ -220,10 +220,10 @@ func OldMapIterType() *types.Type {
 	//    checkBucket uintptr
 	//    clearSeq    uint64
 	// }
-	// must match runtime/map.go:hiter.
+	// must match runtime/map.golang:hiter.
 	fields := []*types.Field{
-		makefield("key", types.Types[types.TUNSAFEPTR]),  // Used in range.go for TMAP.
-		makefield("elem", types.Types[types.TUNSAFEPTR]), // Used in range.go for TMAP.
+		makefield("key", types.Types[types.TUNSAFEPTR]),  // Used in range.golang for TMAP.
+		makefield("elem", types.Types[types.TUNSAFEPTR]), // Used in range.golang for TMAP.
 		makefield("t", types.Types[types.TUNSAFEPTR]),
 		makefield("h", types.NewPtr(hmap)),
 		makefield("buckets", types.Types[types.TUNSAFEPTR]),
@@ -268,8 +268,8 @@ func writeOldMapType(t *types.Type, lsym *obj.LSym, c rttype.Cursor) {
 	c.Field("Bucket").WritePtr(s3)
 	c.Field("Hasher").WritePtr(hasher)
 	var flags uint32
-	// Note: flags must match maptype accessors in ../../../../runtime/type.go
-	// and maptype builder in ../../../../reflect/type.go:MapOf.
+	// Note: flags must match maptype accessors in ../../../../runtime/type.golang
+	// and maptype builder in ../../../../reflect/type.golang:MapOf.
 	if t.Key().Size() > abi.OldMapMaxKeyBytes {
 		c.Field("KeySize").WriteUint8(uint8(types.PtrSize))
 		flags |= 1 // indirect key

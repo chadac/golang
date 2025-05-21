@@ -1,42 +1,42 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package directive defines an Analyzer that checks known Go toolchain directives.
 package directive
 
 import (
-	"go/ast"
-	"go/parser"
-	"go/token"
+	"golang/ast"
+	"golang/parser"
+	"golang/token"
 	"strings"
 	"unicode"
 	"unicode/utf8"
 
-	"golang.org/x/tools/go/analysis"
-	"golang.org/x/tools/go/analysis/passes/internal/analysisutil"
+	"golanglang.org/x/tools/golang/analysis"
+	"golanglang.org/x/tools/golang/analysis/passes/internal/analysisutil"
 )
 
-const Doc = `check Go toolchain directives such as //go:debug
+const Doc = `check Go toolchain directives such as //golang:debug
 
 This analyzer checks for problems with known Go toolchain directives
 in all Go source files in a package directory, even those excluded by
-//go:build constraints, and all non-Go source files too.
+//golang:build constraints, and all non-Go source files too.
 
-For //go:debug (see https://go.dev/doc/godebug), the analyzer checks
+For //golang:debug (see https://golang.dev/doc/golangdebug), the analyzer checks
 that the directives are placed only in Go source files, only above the
-package comment, and only in package main or *_test.go files.
+package comment, and only in package main or *_test.golang files.
 
 Support for other known directives may be added in the future.
 
-This analyzer does not check //go:build, which is handled by the
+This analyzer does not check //golang:build, which is handled by the
 buildtag analyzer.
 `
 
 var Analyzer = &analysis.Analyzer{
 	Name: "directive",
 	Doc:  Doc,
-	URL:  "https://pkg.go.dev/golang.org/x/tools/go/analysis/passes/directive",
+	URL:  "https://pkg.golang.dev/golanglang.org/x/tools/golang/analysis/passes/directive",
 	Run:  runDirective,
 }
 
@@ -50,7 +50,7 @@ func runDirective(pass *analysis.Pass) (any, error) {
 		}
 	}
 	for _, name := range pass.IgnoredFiles {
-		if strings.HasSuffix(name, ".go") {
+		if strings.HasSuffix(name, ".golang") {
 			f, err := parser.ParseFile(pass.Fset, name, nil, parser.ParseComments)
 			if err != nil {
 				// Not valid Go source code - not our job to diagnose, so ignore.
@@ -70,7 +70,7 @@ func checkGoFile(pass *analysis.Pass, f *ast.File) {
 	check := newChecker(pass, pass.Fset.File(f.Package).Name(), f)
 
 	for _, group := range f.Comments {
-		// A //go:build or a //go:debug comment is ignored after the package declaration
+		// A //golang:build or a //golang:debug comment is ignored after the package declaration
 		// (but adjoining it is OK, in contrast to +build comments).
 		if group.Pos() >= f.Package {
 			check.inHeader = false
@@ -146,7 +146,7 @@ func (check *checker) nonGoFile(pos token.Pos, fullText string) {
 		}
 		if line != "" {
 			// Found non-comment non-blank line.
-			// Ends space for valid //go:build comments,
+			// Ends space for valid //golang:build comments,
 			// but also ends the fraction of the file we can
 			// reliably parse. From this point on we might
 			// incorrectly flag "comments" inside multiline
@@ -158,7 +158,7 @@ func (check *checker) nonGoFile(pos token.Pos, fullText string) {
 }
 
 func (check *checker) comment(pos token.Pos, line string) {
-	if !strings.HasPrefix(line, "//go:") {
+	if !strings.HasPrefix(line, "//golang:") {
 		return
 	}
 	// testing hack: stop at // ERROR
@@ -177,20 +177,20 @@ func (check *checker) comment(pos token.Pos, line string) {
 
 	switch verb {
 	default:
-		// TODO: Use the go language version for the file.
+		// TODO: Use the golang language version for the file.
 		// If that version is not newer than us, then we can
 		// report unknown directives.
 
-	case "//go:build":
+	case "//golang:build":
 		// Ignore. The buildtag analyzer reports misplaced comments.
 
-	case "//go:debug":
+	case "//golang:debug":
 		if check.file == nil {
-			check.pass.Reportf(pos, "//go:debug directive only valid in Go source files")
-		} else if check.file.Name.Name != "main" && !strings.HasSuffix(check.filename, "_test.go") {
-			check.pass.Reportf(pos, "//go:debug directive only valid in package main or test")
+			check.pass.Reportf(pos, "//golang:debug directive only valid in Go source files")
+		} else if check.file.Name.Name != "main" && !strings.HasSuffix(check.filename, "_test.golang") {
+			check.pass.Reportf(pos, "//golang:debug directive only valid in package main or test")
 		} else if !check.inHeader {
-			check.pass.Reportf(pos, "//go:debug directive only valid before package declaration")
+			check.pass.Reportf(pos, "//golang:debug directive only valid before package declaration")
 		}
 	}
 }

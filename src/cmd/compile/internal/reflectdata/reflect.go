@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package reflectdata
@@ -188,7 +188,7 @@ func dimportpath(p *types.Pkg) {
 	p.Pathsym = s
 }
 
-func dgopkgpath(c rttype.Cursor, pkg *types.Pkg) {
+func dgolangpkgpath(c rttype.Cursor, pkg *types.Pkg) {
 	c = c.Field("Bytes")
 	if pkg == nil {
 		c.WritePtr(nil)
@@ -199,8 +199,8 @@ func dgopkgpath(c rttype.Cursor, pkg *types.Pkg) {
 	c.WritePtr(pkg.Pathsym)
 }
 
-// dgopkgpathOff writes an offset relocation to the pkg path symbol to c.
-func dgopkgpathOff(c rttype.Cursor, pkg *types.Pkg) {
+// dgolangpkgpathOff writes an offset relocation to the pkg path symbol to c.
+func dgolangpkgpathOff(c rttype.Cursor, pkg *types.Pkg) {
 	if pkg == nil {
 		c.WriteInt32(0)
 		return
@@ -232,7 +232,7 @@ func dnameData(s *obj.LSym, ot int, name, tag string, pkg *types.Pkg, exported, 
 	var tagLen [binary.MaxVarintLen64]byte
 	tagLenLen := binary.PutUvarint(tagLen[:], uint64(len(tag)))
 
-	// Encode name and tag. See reflect/type.go for details.
+	// Encode name and tag. See reflect/type.golang for details.
 	var bits byte
 	l := 1 + nameLenLen + len(name)
 	if exported {
@@ -262,7 +262,7 @@ func dnameData(s *obj.LSym, ot int, name, tag string, pkg *types.Pkg, exported, 
 
 	if pkg != nil {
 		c := rttype.NewCursor(s, int64(ot), types.Types[types.TUINT32])
-		dgopkgpathOff(c, pkg)
+		dgolangpkgpathOff(c, pkg)
 		ot += 4
 	}
 
@@ -330,7 +330,7 @@ func dextratype(lsym *obj.LSym, off int64, t *types.Type, dataAdd int) {
 	}
 
 	c := rttype.NewCursor(lsym, off, rttype.UncommonType)
-	dgopkgpathOff(c.Field("PkgPath"), typePkg(t))
+	dgolangpkgpathOff(c.Field("PkgPath"), typePkg(t))
 
 	dataAdd += uncommonSize(t)
 	mcount := len(m)
@@ -440,7 +440,7 @@ func dcommontype(c rttype.Cursor, t *types.Type) {
 		delete(gcsymset, t)
 	}
 
-	// ../../../../reflect/type.go:/^type.rtype
+	// ../../../../reflect/type.golang:/^type.rtype
 	// actual type structure
 	//	type rtype struct {
 	//		size          uintptr
@@ -527,7 +527,7 @@ func dcommontype(c rttype.Cursor, t *types.Type) {
 // TrackSym returns the symbol for tracking use of field/method f, assumed
 // to be a member of struct/interface type t.
 func TrackSym(t *types.Type, f *types.Field) *obj.LSym {
-	return base.PkgLinksym("go:track", t.LinkString()+"."+f.Sym.Name, obj.ABI0)
+	return base.PkgLinksym("golang:track", t.LinkString()+"."+f.Sym.Name, obj.ABI0)
 }
 
 func TypeSymPrefix(prefix string, t *types.Type) *types.Sym {
@@ -859,7 +859,7 @@ func writeType(t *types.Type) *obj.LSym {
 		if t.Sym() != nil && t != types.Types[t.Kind()] && t != types.ErrorType {
 			tpkg = t.Sym().Pkg
 		}
-		dgopkgpath(c.Field("PkgPath"), tpkg)
+		dgolangpkgpath(c.Field("PkgPath"), tpkg)
 		c.Field("Methods").WriteSlice(lsym, C, int64(n), int64(n))
 
 		array := rttype.NewArrayCursor(lsym, C, rttype.IMethod, n)
@@ -912,7 +912,7 @@ func writeType(t *types.Type) *obj.LSym {
 			}
 		}
 
-		dgopkgpath(c.Field("PkgPath"), spkg)
+		dgolangpkgpath(c.Field("PkgPath"), spkg)
 		c.Field("Fields").WriteSlice(lsym, C, int64(len(fields)), int64(len(fields)))
 
 		array := rttype.NewArrayCursor(lsym, C, rttype.StructField, len(fields))
@@ -1089,10 +1089,10 @@ func WritePluginTable() {
 		return
 	}
 
-	lsym := base.Ctxt.Lookup("go:plugin.tabs")
+	lsym := base.Ctxt.Lookup("golang:plugin.tabs")
 	ot := 0
 	for _, p := range ptabs {
-		// Dump ptab symbol into go.pluginsym package.
+		// Dump ptab symbol into golang.pluginsym package.
 		//
 		// type ptab struct {
 		//	name nameOff
@@ -1112,7 +1112,7 @@ func WritePluginTable() {
 	}
 	objw.Global(lsym, int32(ot), int16(obj.RODATA))
 
-	lsym = base.Ctxt.Lookup("go:plugin.exports")
+	lsym = base.Ctxt.Lookup("golang:plugin.exports")
 	ot = 0
 	for _, p := range ptabs {
 		ot = objw.SymPtr(lsym, ot, p.Linksym(), 0)
@@ -1152,7 +1152,7 @@ func WriteBasicTypes() {
 	// do basic types if compiling package runtime.
 	// they have to be in at least one package,
 	// and runtime is always loaded implicitly,
-	// so this is as good as any.
+	// so this is as golangod as any.
 	// another possible choice would be package main,
 	// but using runtime means fewer copies in object files.
 	// The code here needs to be in sync with writtenByWriteBasicTypes above.
@@ -1322,7 +1322,7 @@ func ZeroAddr(size int64) ir.Node {
 	if ZeroSize < size {
 		ZeroSize = size
 	}
-	lsym := base.PkgLinksym("go:map", "zero", obj.ABI0)
+	lsym := base.PkgLinksym("golang:map", "zero", obj.ABI0)
 	x := ir.NewLinksymExpr(base.Pos, lsym, types.Types[types.TUINT8])
 	return typecheck.Expr(typecheck.NodAddr(x))
 }

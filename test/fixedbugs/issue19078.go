@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Issue 19078: liveness & zero-initialization of results
@@ -27,14 +27,14 @@ func main() {
 	}
 }
 
-//go:noinline
+//golang:noinline
 func liveReturnSlot(x *int) *int {
 	defer func() {}() // causes return slot to be marked live
 	sink = &x         // causes x to be moved to the heap, triggering allocation
 	return x
 }
 
-//go:noinline
+//golang:noinline
 func identity(x uintptr) uintptr {
 	return x
 }

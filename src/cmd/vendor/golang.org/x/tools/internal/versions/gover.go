@@ -1,21 +1,21 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// This is a fork of internal/gover for use by x/tools until
-// go1.21 and earlier are no longer supported by x/tools.
+// This is a fork of internal/golangver for use by x/tools until
+// golang1.21 and earlier are no longer supported by x/tools.
 
 package versions
 
 import "strings"
 
-// A gover is a parsed Go gover: major[.Minor[.Patch]][kind[pre]]
+// A golangver is a parsed Go golangver: major[.Minor[.Patch]][kind[pre]]
 // The numbers are the original decimal strings to avoid integer overflows
 // and since there is very little actual math. (Probably overflow doesn't matter in practice,
 // but at the time this code was written, there was an existing test that used
-// go1.99999999999, which does not fit in an int on 32-bit platforms.
+// golang1.99999999999, which does not fit in an int on 32-bit platforms.
 // The "big decimal" representation avoids the problem entirely.)
-type gover struct {
+type golangver struct {
 	major string // decimal
 	minor string // decimal or ""
 	patch string // decimal or ""
@@ -25,7 +25,7 @@ type gover struct {
 
 // compare returns -1, 0, or +1 depending on whether
 // x < y, x == y, or x > y, interpreted as toolchain versions.
-// The versions x and y must not begin with a "go" prefix: just "1.21" not "go1.21".
+// The versions x and y must not begin with a "golang" prefix: just "1.21" not "golang1.21".
 // Malformed versions compare less than well-formed versions and equal to each other.
 // The language version "1.21" compares less than the release candidate and eventual releases "1.21rc1" and "1.21.0".
 func compare(x, y string) int {
@@ -61,19 +61,19 @@ func lang(x string) string {
 
 // isValid reports whether the version x is valid.
 func isValid(x string) bool {
-	return parse(x) != gover{}
+	return parse(x) != golangver{}
 }
 
 // parse parses the Go version string x into a version.
 // It returns the zero version if x is malformed.
-func parse(x string) gover {
-	var v gover
+func parse(x string) golangver {
+	var v golangver
 
 	// Parse major version.
 	var ok bool
 	v.major, x, ok = cutInt(x)
 	if !ok {
-		return gover{}
+		return golangver{}
 	}
 	if x == "" {
 		// Interpret "1" as "1.0.0".
@@ -84,13 +84,13 @@ func parse(x string) gover {
 
 	// Parse . before minor version.
 	if x[0] != '.' {
-		return gover{}
+		return golangver{}
 	}
 
 	// Parse minor version.
 	v.minor, x, ok = cutInt(x[1:])
 	if !ok {
-		return gover{}
+		return golangver{}
 	}
 	if x == "" {
 		// Patch missing is same as "0" for older versions.
@@ -111,7 +111,7 @@ func parse(x string) gover {
 			// But a prerelease of a patch would have the opposite effect:
 			//	1.21.3rc1 < 1.21.3
 			// We've never needed them before, so let's not start now.
-			return gover{}
+			return golangver{}
 		}
 		return v
 	}
@@ -120,12 +120,12 @@ func parse(x string) gover {
 	i := 0
 	for i < len(x) && (x[i] < '0' || '9' < x[i]) {
 		if x[i] < 'a' || 'z' < x[i] {
-			return gover{}
+			return golangver{}
 		}
 		i++
 	}
 	if i == 0 {
-		return gover{}
+		return golangver{}
 	}
 	v.kind, x = x[:i], x[i:]
 	if x == "" {
@@ -133,7 +133,7 @@ func parse(x string) gover {
 	}
 	v.pre, x, ok = cutInt(x)
 	if !ok || x != "" {
-		return gover{}
+		return golangver{}
 	}
 
 	return v
@@ -153,7 +153,7 @@ func cutInt(x string) (n, rest string, ok bool) {
 }
 
 // cmpInt returns cmp.Compare(x, y) interpreting x and y as decimal numbers.
-// (Copied from golang.org/x/mod/semver's compareInt.)
+// (Copied from golanglang.org/x/mod/semver's compareInt.)
 func cmpInt(x, y string) int {
 	if x == y {
 		return 0

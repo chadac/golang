@@ -1,8 +1,8 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build aix || dragonfly || freebsd || (js && wasm) || linux || netbsd || openbsd || solaris || wasip1
+//golang:build aix || dragolangnfly || freebsd || (js && wasm) || linux || netbsd || openbsd || solaris || wasip1
 
 package x509
 
@@ -53,7 +53,7 @@ func loadSystemRoots() (*CertPool, error) {
 	if d := os.Getenv(certDirEnv); d != "" {
 		// OpenSSL and BoringSSL both use ":" as the SSL_CERT_DIR separator.
 		// See:
-		//  * https://golang.org/issue/35325
+		//  * https://golanglang.org/issue/35325
 		//  * https://www.openssl.org/docs/man1.0.2/man1/c_rehash.html
 		dirs = strings.Split(d, ":")
 	}

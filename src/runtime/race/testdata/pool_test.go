@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package race_test
@@ -19,7 +19,7 @@ func TestRacePool(t *testing.T) {
 		x := p.Get().([]byte)
 		x[0] = 1
 		p.Put(x)
-		go func() {
+		golang func() {
 			y := p.Get().([]byte)
 			y[0] = 2
 			c <- 1
@@ -35,7 +35,7 @@ func TestNoRacePool(t *testing.T) {
 		x := p.Get().([]byte)
 		x[0] = 1
 		p.Put(x)
-		go func() {
+		golang func() {
 			y := p.Get().([]byte)
 			y[0] = 2
 			p.Put(y)

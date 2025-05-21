@@ -1,8 +1,8 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build unix
+//golang:build unix
 
 package os_test
 
@@ -85,7 +85,7 @@ func testGetwdDeep(t *testing.T, setPWD bool) {
 				}
 			}
 
-			t.Fatalf("Getwd: got %q, want same value as $PWD: %q", wd, dir)
+			t.Fatalf("Getwd: golangt %q, want same value as $PWD: %q", wd, dir)
 		}
 		// Ideally the success criterion should be len(wd) > syscall.PathMax,
 		// but the latter is not public for some platforms, so use Stat(wd).
@@ -99,11 +99,11 @@ func testGetwdDeep(t *testing.T, setPWD bool) {
 		if _, err := Stat(wd); err != nil || len(wd) > 4096 {
 			t.Logf("Done; len(wd)=%d", len(wd))
 			// Most systems return ENAMETOOLONG.
-			// Dragonfly returns EFAULT.
+			// Dragolangnfly returns EFAULT.
 			switch {
 			case err == nil:
 			case errors.Is(err, syscall.ENAMETOOLONG):
-			case runtime.GOOS == "dragonfly" && errors.Is(err, syscall.EFAULT):
+			case runtime.GOOS == "dragolangnfly" && errors.Is(err, syscall.EFAULT):
 			default:
 				t.Fatalf("unexpected Stat error: %v", err)
 			}

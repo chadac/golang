@@ -1,30 +1,30 @@
 env GO111MODULE=on
 env GOSUMDB=off
 
-go mod download example.com/join@v1.1.0
+golang mod download example.com/join@v1.1.0
 
 # If the proxy serves a bogus result for the @latest version,
-# reading that version should cause 'go get' to fail.
+# reading that version should cause 'golang get' to fail.
 env GOPROXY=file:///$WORK/badproxy
-cp go.mod.orig go.mod
-! go get example.com/join/subpkg
-stderr 'go: example.com/join/subpkg@v0.0.0-20190624000000-123456abcdef: .*'
+cp golang.mod.orig golang.mod
+! golang get example.com/join/subpkg
+stderr 'golang: example.com/join/subpkg@v0.0.0-20190624000000-123456abcdef: .*'
 
-# If @v/list is empty, the 'go' command should still try to resolve
+# If @v/list is empty, the 'golang' command should still try to resolve
 # other module paths.
 env GOPROXY=file:///$WORK/emptysub
-cp go.mod.orig go.mod
-go get example.com/join/subpkg
-go list -m example.com/join/...
+cp golang.mod.orig golang.mod
+golang get example.com/join/subpkg
+golang list -m example.com/join/...
 ! stdout 'example.com/join/subpkg'
 stdout 'example.com/join v1.1.0'
 
 # If @v/list includes a version that the proxy does not actually serve,
 # that version is treated as nonexistent.
 env GOPROXY=file:///$WORK/notfound
-cp go.mod.orig go.mod
-go get example.com/join/subpkg
-go list -m example.com/join/...
+cp golang.mod.orig golang.mod
+golang get example.com/join/subpkg
+golang list -m example.com/join/...
 ! stdout 'example.com/join/subpkg'
 stdout 'example.com/join v1.1.0'
 
@@ -33,18 +33,18 @@ stdout 'example.com/join v1.1.0'
 # that error should be reported to the user (and override a successful
 # result for other possible module paths).
 #
-# Depending on how the specific platform enforces permissions, the 'go get' may
+# Depending on how the specific platform enforces permissions, the 'golang get' may
 # fail either due to the intended permission error or due to a parse error.
 # We accept either failure message.
 env GOPROXY=file:///$WORK/gatekeeper
 chmod 0000 $WORK/gatekeeper/example.com/join/subpkg/@latest
-cp go.mod.orig go.mod
-! go get example.com/join/subpkg
-stderr 'go: module example.com/join/subpkg: (invalid response from proxy ".+": invalid character .+|reading file://.*/gatekeeper/example.com/join/subpkg/@latest: .+)'
+cp golang.mod.orig golang.mod
+! golang get example.com/join/subpkg
+stderr 'golang: module example.com/join/subpkg: (invalid response from proxy ".+": invalid character .+|reading file://.*/gatekeeper/example.com/join/subpkg/@latest: .+)'
 
--- go.mod.orig --
+-- golang.mod.orig --
 module example.com/othermodule
-go 1.13
+golang 1.13
 -- $WORK/badproxy/example.com/join/subpkg/@v/list --
 v0.0.0-20190624000000-123456abcdef
 -- $WORK/badproxy/example.com/join/subpkg/@v/v0.0.0-20190624000000-123456abcdef.info --

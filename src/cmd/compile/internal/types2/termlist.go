@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package types2
@@ -63,7 +63,7 @@ func (xl termlist) isAll() bool {
 
 // norm returns the normal form of xl.
 func (xl termlist) norm() termlist {
-	// Quadratic algorithm, but good enough for now.
+	// Quadratic algolangrithm, but golangod enough for now.
 	// TODO(gri) fix asymptotic performance
 	used := make([]bool, len(xl))
 	var rl termlist
@@ -106,7 +106,7 @@ func (xl termlist) intersect(yl termlist) termlist {
 		return nil
 	}
 
-	// Quadratic algorithm, but good enough for now.
+	// Quadratic algolangrithm, but golangod enough for now.
 	// TODO(gri) fix asymptotic performance
 	var rl termlist
 	for _, x := range xl {

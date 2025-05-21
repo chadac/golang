@@ -1,42 +1,42 @@
 # Issue #42565
 
-[!cgo] skip
+[!cgolang] skip
 
-# We can't build package bad, which uses #cgo LDFLAGS.
+# We can't build package bad, which uses #cgolang LDFLAGS.
 cd bad
-! go build
+! golang build
 stderr no-such-warning
 
 # We can build package ok with the same flags in CGO_LDFLAGS.
 env CGO_LDFLAGS=-Wno-such-warning -Wno-unknown-warning-option
 cd ../ok
-go build
+golang build
 
 # Build a main program that actually uses LDFLAGS.
 cd ..
-go build -ldflags=-v
+golang build -ldflags=-v
 
 # Because we passed -v the Go linker should print the external linker
 # command which should include the flag we passed in CGO_LDFLAGS.
 stderr no-such-warning
 
--- go.mod --
+-- golang.mod --
 module ldflag
 
--- bad/bad.go --
+-- bad/bad.golang --
 package bad
 
-// #cgo LDFLAGS: -Wno-such-warning -Wno-unknown-warning
+// #cgolang LDFLAGS: -Wno-such-warning -Wno-unknown-warning
 import "C"
 
 func F() {}
--- ok/ok.go --
+-- ok/ok.golang --
 package ok
 
 import "C"
 
 func F() {}
--- main.go --
+-- main.golang --
 package main
 
 import _ "ldflag/ok"

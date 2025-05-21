@@ -1,15 +1,15 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build ignore
+//golang:build ignore
 
 /*
-Input to cgo -godefs.  See also mkerrors.sh and mkall.sh
+Input to cgolang -golangdefs.  See also mkerrors.sh and mkall.sh
 */
 
-// +godefs map struct_in_addr [4]byte /* in_addr */
-// +godefs map struct_in6_addr [16]byte /* in6_addr */
+// +golangdefs map struct_in_addr [4]byte /* in_addr */
+// +golangdefs map struct_in6_addr [16]byte /* in6_addr */
 
 package syscall
 

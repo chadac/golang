@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package language
@@ -10,7 +10,7 @@ import (
 	"strconv"
 	"strings"
 
-	"golang.org/x/text/internal/language"
+	"golanglang.org/x/text/internal/language"
 )
 
 // ValueError is returned by any of the parsing functions when the

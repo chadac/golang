@@ -1,8 +1,8 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build linux && (amd64 || arm64 || loong64 || ppc64le)
+//golang:build linux && (amd64 || arm64 || loong64 || ppc64le)
 
 #include <errno.h>
 #include <stddef.h>
@@ -10,11 +10,11 @@
 #include <string.h>
 #include <signal.h>
 
-#include "libcgo.h"
+#include "libcgolang.h"
 
-// go_sigaction_t is a C version of the sigactiont struct from
-// defs_${goos}_${goarch}.go.  This definition — and its conversion
-// to and from struct sigaction — are specific to ${goos}/${goarch}.
+// golang_sigaction_t is a C version of the sigactiont struct from
+// defs_${golangos}_${golangarch}.golang.  This definition — and its conversion
+// to and from struct sigaction — are specific to ${golangos}/${golangarch}.
 typedef struct {
 	uintptr_t handler;
 	uint64_t flags;
@@ -25,7 +25,7 @@ typedef struct {
 	uintptr_t restorer;
 	uint64_t mask;
 #endif
-} go_sigaction_t;
+} golang_sigaction_t;
 
 // SA_RESTORER is part of the kernel interface.
 // This is Linux i386/amd64 specific.
@@ -34,54 +34,54 @@ typedef struct {
 #endif
 
 int32_t
-x_cgo_sigaction(intptr_t signum, const go_sigaction_t *goact, go_sigaction_t *oldgoact) {
+x_cgolang_sigaction(intptr_t signum, const golang_sigaction_t *golangact, golang_sigaction_t *oldgolangact) {
 	int32_t ret;
 	struct sigaction act;
 	struct sigaction oldact;
 	size_t i;
 
-	_cgo_tsan_acquire();
+	_cgolang_tsan_acquire();
 
 	memset(&act, 0, sizeof act);
 	memset(&oldact, 0, sizeof oldact);
 
-	if (goact) {
-		if (goact->flags & SA_SIGINFO) {
-			act.sa_sigaction = (void(*)(int, siginfo_t*, void*))(goact->handler);
+	if (golangact) {
+		if (golangact->flags & SA_SIGINFO) {
+			act.sa_sigaction = (void(*)(int, siginfo_t*, void*))(golangact->handler);
 		} else {
-			act.sa_handler = (void(*)(int))(goact->handler);
+			act.sa_handler = (void(*)(int))(golangact->handler);
 		}
 		sigemptyset(&act.sa_mask);
-		for (i = 0; i < 8 * sizeof(goact->mask); i++) {
-			if (goact->mask & ((uint64_t)(1)<<i)) {
+		for (i = 0; i < 8 * sizeof(golangact->mask); i++) {
+			if (golangact->mask & ((uint64_t)(1)<<i)) {
 				sigaddset(&act.sa_mask, (int)(i+1));
 			}
 		}
-		act.sa_flags = (int)(goact->flags & ~(uint64_t)SA_RESTORER);
+		act.sa_flags = (int)(golangact->flags & ~(uint64_t)SA_RESTORER);
 	}
 
-	ret = sigaction((int)signum, goact ? &act : NULL, oldgoact ? &oldact : NULL);
+	ret = sigaction((int)signum, golangact ? &act : NULL, oldgolangact ? &oldact : NULL);
 	if (ret == -1) {
-		// runtime.rt_sigaction expects _cgo_sigaction to return errno on error.
-		_cgo_tsan_release();
+		// runtime.rt_sigaction expects _cgolang_sigaction to return errno on error.
+		_cgolang_tsan_release();
 		return errno;
 	}
 
-	if (oldgoact) {
+	if (oldgolangact) {
 		if (oldact.sa_flags & SA_SIGINFO) {
-			oldgoact->handler = (uintptr_t)(oldact.sa_sigaction);
+			oldgolangact->handler = (uintptr_t)(oldact.sa_sigaction);
 		} else {
-			oldgoact->handler = (uintptr_t)(oldact.sa_handler);
+			oldgolangact->handler = (uintptr_t)(oldact.sa_handler);
 		}
-		oldgoact->mask = 0;
-		for (i = 0; i < 8 * sizeof(oldgoact->mask); i++) {
+		oldgolangact->mask = 0;
+		for (i = 0; i < 8 * sizeof(oldgolangact->mask); i++) {
 			if (sigismember(&oldact.sa_mask, (int)(i+1)) == 1) {
-				oldgoact->mask |= (uint64_t)(1)<<i;
+				oldgolangact->mask |= (uint64_t)(1)<<i;
 			}
 		}
-		oldgoact->flags = (uint64_t)oldact.sa_flags;
+		oldgolangact->flags = (uint64_t)oldact.sa_flags;
 	}
 
-	_cgo_tsan_release();
+	_cgolang_tsan_release();
 	return ret;
 }

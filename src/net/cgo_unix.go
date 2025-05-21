@@ -1,13 +1,13 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// This file is called cgo_unix.go, but to allow syscalls-to-libc-based
-// implementations to share the code, it does not use cgo directly.
+// This file is called cgolang_unix.golang, but to allow syscalls-to-libc-based
+// implementations to share the code, it does not use cgolang directly.
 // Instead of C.foo it uses _C_foo, which is defined in either
-// cgo_unix_cgo.go or cgo_unix_syscall.go
+// cgolang_unix_cgolang.golang or cgolang_unix_syscall.golang
 
-//go:build !netgo && ((cgo && unix) || darwin)
+//golang:build !netgolang && ((cgolang && unix) || darwin)
 
 package net
 
@@ -20,12 +20,12 @@ import (
 	"syscall"
 	"unsafe"
 
-	"golang.org/x/net/dns/dnsmessage"
+	"golanglang.org/x/net/dns/dnsmessage"
 )
 
-// cgoAvailable set to true to indicate that the cgo resolver
+// cgolangAvailable set to true to indicate that the cgolang resolver
 // is available on this system.
-const cgoAvailable = true
+const cgolangAvailable = true
 
 // An addrinfoErrno represents a getaddrinfo, getnameinfo-specific
 // error number. It's a signed number and a zero value is a non-error
@@ -39,9 +39,9 @@ func (eai addrinfoErrno) Timeout() bool   { return false }
 // isAddrinfoErrno is just for testing purposes.
 func (eai addrinfoErrno) isAddrinfoErrno() {}
 
-// doBlockingWithCtx executes a blocking function in a separate goroutine when the provided
+// doBlockingWithCtx executes a blocking function in a separate golangroutine when the provided
 // context is cancellable. It is intended for use with calls that don't support context
-// cancellation (cgo, syscalls). blocking func may still be running after this function finishes.
+// cancellation (cgolang, syscalls). blocking func may still be running after this function finishes.
 // For the duration of the execution of the blocking function, the thread is 'acquired' using [acquireThread],
 // blocking might not be executed when the context gets canceled early.
 func doBlockingWithCtx[T any](ctx context.Context, lookupName string, blocking func() (T, error)) (T, error) {
@@ -61,7 +61,7 @@ func doBlockingWithCtx[T any](ctx context.Context, lookupName string, blocking f
 	}
 
 	res := make(chan result, 1)
-	go func() {
+	golang func() {
 		defer releaseThread()
 		var r result
 		r.res, r.err = blocking()
@@ -77,8 +77,8 @@ func doBlockingWithCtx[T any](ctx context.Context, lookupName string, blocking f
 	}
 }
 
-func cgoLookupHost(ctx context.Context, name string) (hosts []string, err error) {
-	addrs, err := cgoLookupIP(ctx, "ip", name)
+func cgolangLookupHost(ctx context.Context, name string) (hosts []string, err error) {
+	addrs, err := cgolangLookupIP(ctx, "ip", name)
 	if err != nil {
 		return nil, err
 	}
@@ -88,7 +88,7 @@ func cgoLookupHost(ctx context.Context, name string) (hosts []string, err error)
 	return hosts, nil
 }
 
-func cgoLookupPort(ctx context.Context, network, service string) (port int, err error) {
+func cgolangLookupPort(ctx context.Context, network, service string) (port int, err error) {
 	var hints _C_struct_addrinfo
 	switch network {
 	case "ip": // no hints
@@ -109,11 +109,11 @@ func cgoLookupPort(ctx context.Context, network, service string) (port int, err 
 	}
 
 	return doBlockingWithCtx(ctx, network+"/"+service, func() (int, error) {
-		return cgoLookupServicePort(&hints, network, service)
+		return cgolangLookupServicePort(&hints, network, service)
 	})
 }
 
-func cgoLookupServicePort(hints *_C_struct_addrinfo, network, service string) (port int, err error) {
+func cgolangLookupServicePort(hints *_C_struct_addrinfo, network, service string) (port int, err error) {
 	cservice, err := syscall.ByteSliceFromString(service)
 	if err != nil {
 		return 0, &DNSError{Err: err.Error(), Name: network + "/" + service}
@@ -127,7 +127,7 @@ func cgoLookupServicePort(hints *_C_struct_addrinfo, network, service string) (p
 	if gerrno != 0 {
 		switch gerrno {
 		case _C_EAI_SYSTEM:
-			if err == nil { // see golang.org/issue/6232
+			if err == nil { // see golanglang.org/issue/6232
 				err = syscall.EMFILE
 			}
 			return 0, newDNSError(err, network+"/"+service, "")
@@ -154,9 +154,9 @@ func cgoLookupServicePort(hints *_C_struct_addrinfo, network, service string) (p
 	return 0, newDNSError(errUnknownPort, network+"/"+service, "")
 }
 
-func cgoLookupHostIP(network, name string) (addrs []IPAddr, err error) {
+func cgolangLookupHostIP(network, name string) (addrs []IPAddr, err error) {
 	var hints _C_struct_addrinfo
-	*_C_ai_flags(&hints) = cgoAddrInfoFlags
+	*_C_ai_flags(&hints) = cgolangAddrInfoFlags
 	*_C_ai_socktype(&hints) = _C_SOCK_STREAM
 	*_C_ai_family(&hints) = _C_AF_UNSPEC
 	switch ipVersion(network) {
@@ -182,7 +182,7 @@ func cgoLookupHostIP(network, name string) (addrs []IPAddr, err error) {
 				// open files, so use syscall.EMFILE (too many open files in system).
 				// Most system calls would return ENFILE (too many open files),
 				// so at the least EMFILE should be easy to recognize if this
-				// comes up again. golang.org/issue/6232.
+				// comes up again. golanglang.org/issue/6232.
 				err = syscall.EMFILE
 			}
 			return nil, newDNSError(err, name, "")
@@ -224,9 +224,9 @@ func cgoLookupHostIP(network, name string) (addrs []IPAddr, err error) {
 	return addrs, nil
 }
 
-func cgoLookupIP(ctx context.Context, network, name string) (addrs []IPAddr, err error) {
+func cgolangLookupIP(ctx context.Context, network, name string) (addrs []IPAddr, err error) {
 	return doBlockingWithCtx(ctx, name, func() ([]IPAddr, error) {
-		return cgoLookupHostIP(network, name)
+		return cgolangLookupHostIP(network, name)
 	})
 }
 
@@ -243,27 +243,27 @@ const (
 	maxNameinfoLen = 4096
 )
 
-func cgoLookupPTR(ctx context.Context, addr string) (names []string, err error) {
+func cgolangLookupPTR(ctx context.Context, addr string) (names []string, err error) {
 	ip, err := netip.ParseAddr(addr)
 	if err != nil {
 		return nil, &DNSError{Err: "invalid address", Name: addr}
 	}
-	sa, salen := cgoSockaddr(IP(ip.AsSlice()), ip.Zone())
+	sa, salen := cgolangSockaddr(IP(ip.AsSlice()), ip.Zone())
 	if sa == nil {
 		return nil, &DNSError{Err: "invalid address " + ip.String(), Name: addr}
 	}
 
 	return doBlockingWithCtx(ctx, addr, func() ([]string, error) {
-		return cgoLookupAddrPTR(addr, sa, salen)
+		return cgolangLookupAddrPTR(addr, sa, salen)
 	})
 }
 
-func cgoLookupAddrPTR(addr string, sa *_C_struct_sockaddr, salen _C_socklen_t) (names []string, err error) {
+func cgolangLookupAddrPTR(addr string, sa *_C_struct_sockaddr, salen _C_socklen_t) (names []string, err error) {
 	var gerrno int
 	var b []byte
 	for l := nameinfoLen; l <= maxNameinfoLen; l *= 2 {
 		b = make([]byte, l)
-		gerrno, err = cgoNameinfoPTR(b, sa, salen)
+		gerrno, err = cgolangNameinfoPTR(b, sa, salen)
 		if gerrno == 0 || gerrno != _C_EAI_OVERFLOW {
 			break
 		}
@@ -271,7 +271,7 @@ func cgoLookupAddrPTR(addr string, sa *_C_struct_sockaddr, salen _C_socklen_t) (
 	if gerrno != 0 {
 		switch gerrno {
 		case _C_EAI_SYSTEM:
-			if err == nil { // see golang.org/issue/6232
+			if err == nil { // see golanglang.org/issue/6232
 				err = syscall.EMFILE
 			}
 			return nil, newDNSError(err, addr, "")
@@ -287,17 +287,17 @@ func cgoLookupAddrPTR(addr string, sa *_C_struct_sockaddr, salen _C_socklen_t) (
 	return []string{absDomainName(string(b))}, nil
 }
 
-func cgoSockaddr(ip IP, zone string) (*_C_struct_sockaddr, _C_socklen_t) {
+func cgolangSockaddr(ip IP, zone string) (*_C_struct_sockaddr, _C_socklen_t) {
 	if ip4 := ip.To4(); ip4 != nil {
-		return cgoSockaddrInet4(ip4), _C_socklen_t(syscall.SizeofSockaddrInet4)
+		return cgolangSockaddrInet4(ip4), _C_socklen_t(syscall.SizeofSockaddrInet4)
 	}
 	if ip6 := ip.To16(); ip6 != nil {
-		return cgoSockaddrInet6(ip6, zoneCache.index(zone)), _C_socklen_t(syscall.SizeofSockaddrInet6)
+		return cgolangSockaddrInet6(ip6, zoneCache.index(zone)), _C_socklen_t(syscall.SizeofSockaddrInet6)
 	}
 	return nil, 0
 }
 
-func cgoLookupCNAME(ctx context.Context, name string) (cname string, err error, completed bool) {
+func cgolangLookupCNAME(ctx context.Context, name string) (cname string, err error, completed bool) {
 	resources, err := resSearch(ctx, name, int(dnsmessage.TypeCNAME), int(dnsmessage.ClassINET))
 	if err != nil {
 		return
@@ -313,11 +313,11 @@ func cgoLookupCNAME(ctx context.Context, name string) (cname string, err error, 
 // and parse the output as a slice of DNS resources.
 func resSearch(ctx context.Context, hostname string, rtype, class int) ([]dnsmessage.Resource, error) {
 	return doBlockingWithCtx(ctx, hostname, func() ([]dnsmessage.Resource, error) {
-		return cgoResSearch(hostname, rtype, class)
+		return cgolangResSearch(hostname, rtype, class)
 	})
 }
 
-func cgoResSearch(hostname string, rtype, class int) ([]dnsmessage.Resource, error) {
+func cgolangResSearch(hostname string, rtype, class int) ([]dnsmessage.Resource, error) {
 	resStateSize := unsafe.Sizeof(_C_struct___res_state{})
 	var state *_C_struct___res_state
 	if resStateSize > 0 {

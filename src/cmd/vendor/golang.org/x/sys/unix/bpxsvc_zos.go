@@ -1,8 +1,8 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build zos
+//golang:build zos
 
 package unix
 
@@ -12,13 +12,13 @@ import (
 	"unsafe"
 )
 
-//go:noescape
+//golang:noescape
 func bpxcall(plist []unsafe.Pointer, bpx_offset int64)
 
-//go:noescape
+//golang:noescape
 func A2e([]byte)
 
-//go:noescape
+//golang:noescape
 func E2a([]byte)
 
 const (

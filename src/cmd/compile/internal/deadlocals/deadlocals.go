@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // The deadlocals pass removes assignments to unused local variables.
@@ -11,7 +11,7 @@ import (
 	"cmd/compile/internal/types"
 	"cmd/internal/src"
 	"fmt"
-	"go/constant"
+	"golang/constant"
 )
 
 // Funcs applies the deadlocals pass to fns.
@@ -34,7 +34,7 @@ func Funcs(fns []*ir.Func) {
 			assigns := v.defs[k]
 			for _, as := range assigns {
 				// Kludge for "missing func info" linker panic.
-				// See also closureInitLSym in inline/inl.go.
+				// See also closureInitLSym in inline/inl.golang.
 				if clo, ok := (*as.rhs).(*ir.ClosureExpr); ok && clo.Op() == ir.OCLOSURE {
 					if clo.Func.IsClosure() {
 						ir.InitLSym(clo.Func, true)

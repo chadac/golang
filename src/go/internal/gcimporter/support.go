@@ -1,14 +1,14 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// This file implements support functionality for ureader.go.
+// This file implements support functionality for ureader.golang.
 
 package gcimporter
 
 import (
 	"fmt"
-	"go/token"
+	"golang/token"
 	"internal/pkgbits"
 	"sync"
 )
@@ -42,7 +42,7 @@ func (s *fakeFileSet) pos(file string, line, column int) token.Pos {
 	// Since we don't know the set of needed file positions, we reserve
 	// maxlines positions per file. We delay calling token.File.SetLines until
 	// all positions have been calculated (by way of fakeFileSet.setLines), so
-	// that we can avoid setting unnecessary lines. See also golang/go#46586.
+	// that we can avoid setting unnecessary lines. See also golanglang/golang#46586.
 	f := s.files[file]
 	if f == nil {
 		f = &fileInfo{file: s.fset.AddFile(file, -1, maxlines)}

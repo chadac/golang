@@ -1,8 +1,8 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-package goobj
+package golangobj
 
 import (
 	"bufio"
@@ -57,21 +57,21 @@ func TestReadWrite(t *testing.T) {
 	var s2 Sym
 	s2.fromBytes(b)
 	if s2.ABI() != 1 || s2.Type() != uint8(objabi.STEXT) || s2.Flag() != 0x12 || s2.Siz() != 12345 || s2.Align() != 8 {
-		t.Errorf("read Sym2 mismatch: got %v %v %v %v %v", s2.ABI(), s2.Type(), s2.Flag(), s2.Siz(), s2.Align())
+		t.Errorf("read Sym2 mismatch: golangt %v %v %v %v %v", s2.ABI(), s2.Type(), s2.Flag(), s2.Siz(), s2.Align())
 	}
 
 	b = b[SymSize:]
 	var r2 Reloc
 	r2.fromBytes(b)
 	if r2.Off() != 12 || r2.Siz() != 4 || r2.Type() != uint16(objabi.R_ADDR) || r2.Add() != 54321 || r2.Sym() != (SymRef{11, 22}) {
-		t.Errorf("read Reloc2 mismatch: got %v %v %v %v %v", r2.Off(), r2.Siz(), r2.Type(), r2.Add(), r2.Sym())
+		t.Errorf("read Reloc2 mismatch: golangt %v %v %v %v %v", r2.Off(), r2.Siz(), r2.Type(), r2.Add(), r2.Sym())
 	}
 
 	b = b[RelocSize:]
 	var a2 Aux
 	a2.fromBytes(b)
 	if a2.Type() != AuxFuncInfo || a2.Sym() != (SymRef{33, 44}) {
-		t.Errorf("read Aux2 mismatch: got %v %v", a2.Type(), a2.Sym())
+		t.Errorf("read Aux2 mismatch: golangt %v %v", a2.Type(), a2.Sym())
 	}
 }
 
@@ -105,15 +105,15 @@ func TestIssue41621LargeNumberOfRelocations(t *testing.T) {
 		fmt.Fprintf(&w, "\t\"%d\",\n", i)
 	}
 	w.WriteString(issue41621epilog)
-	err := os.WriteFile(tmpdir+"/large.go", w.Bytes(), 0666)
+	err := os.WriteFile(tmpdir+"/large.golang", w.Bytes(), 0666)
 	if err != nil {
 		t.Fatalf("can't write output: %v\n", err)
 	}
 
-	// Emit go.mod
+	// Emit golang.mod
 	w.Reset()
-	fmt.Fprintf(&w, "module issue41621\n\ngo 1.12\n")
-	err = os.WriteFile(tmpdir+"/go.mod", w.Bytes(), 0666)
+	fmt.Fprintf(&w, "module issue41621\n\ngolang 1.12\n")
+	err = os.WriteFile(tmpdir+"/golang.mod", w.Bytes(), 0666)
 	if err != nil {
 		t.Fatalf("can't write output: %v\n", err)
 	}

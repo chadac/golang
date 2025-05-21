@@ -6,7 +6,7 @@ This is nested below the top-level module.
 module example.com/nest/sub
 -- .info --
 {"Version": "v1.0.0"}
--- go.mod --
+-- golang.mod --
 module example.com/nest/sub
--- y/y.go --
+-- y/y.golang --
 package y

@@ -1,17 +1,17 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build ignore
+//golang:build ignore
 
 #ifdef WIN32
 // A Windows DLL is unable to call an arbitrary function in
 // the main executable. Work around that by making the main
 // executable pass the callback function pointer to us.
-void (*goCallback)(void);
+void (*golangCallback)(void);
 __declspec(dllexport) void setCallback(void *f)
 {
-	goCallback = (void (*)())f;
+	golangCallback = (void (*)())f;
 }
 __declspec(dllexport) void sofunc(void);
 #elif defined(_AIX)
@@ -19,12 +19,12 @@ __declspec(dllexport) void sofunc(void);
 // undefined symbol. It's possible to bypass this problem by
 // using -Wl,-G and -Wl,-brtl option which allows run-time linking.
 // However, that's not how most of AIX shared object works.
-// Therefore, it's better to consider goCallback as a pointer and
+// Therefore, it's better to consider golangCallback as a pointer and
 // to set up during an init function.
-void (*goCallback)(void);
-void setCallback(void *f) { goCallback = f; }
+void (*golangCallback)(void);
+void setCallback(void *f) { golangCallback = f; }
 #else
-extern void goCallback(void);
+extern void golangCallback(void);
 void setCallback(void *f) { (void)f; }
 #endif
 
@@ -35,5 +35,5 @@ __thread int tlsvar = 12345;
 
 void sofunc(void)
 {
-	goCallback();
+	golangCallback();
 }

@@ -1,83 +1,83 @@
-# go list -e -deps should list imports from any file it can read, even if
-# other files in the same package cause go/build.Import to return an error.
-# Verifies golang.org/issue/38568
+# golang list -e -deps should list imports from any file it can read, even if
+# other files in the same package cause golang/build.Import to return an error.
+# Verifies golanglang.org/issue/38568
 
-go list -e -deps ./scan
+golang list -e -deps ./scan
 stdout m/want
 
-go list -e -deps ./multi
+golang list -e -deps ./multi
 stdout m/want
 
-go list -e -deps ./constraint
+golang list -e -deps ./constraint
 stdout m/want
 
-[cgo] go list -e -test -deps ./cgotest
-[cgo] stdout m/want
+[cgolang] golang list -e -test -deps ./cgolangtest
+[cgolang] stdout m/want
 
-[cgo] go list -e -deps ./cgoflag
-[cgo] stdout m/want
+[cgolang] golang list -e -deps ./cgolangflag
+[cgolang] stdout m/want
 
 
-# go list -e should include files with errors in GoFiles, TestGoFiles, and
+# golang list -e should include files with errors in GoFiles, TestGoFiles, and
 # other lists, assuming they match constraints.
-# Verifies golang.org/issue/39986
-go list -e -f '{{range .GoFiles}}{{.}},{{end}}' ./scan
-stdout '^good.go,scan.go,$'
+# Verifies golanglang.org/issue/39986
+golang list -e -f '{{range .GoFiles}}{{.}},{{end}}' ./scan
+stdout '^golangod.golang,scan.golang,$'
 
-go list -e -f '{{range .GoFiles}}{{.}},{{end}}' ./multi
-stdout '^a.go,b.go,$'
+golang list -e -f '{{range .GoFiles}}{{.}},{{end}}' ./multi
+stdout '^a.golang,b.golang,$'
 
-go list -e -f '{{range .GoFiles}}{{.}},{{end}}' ./constraint
-stdout '^good.go,$'
-go list -e -f '{{range .IgnoredGoFiles}}{{.}},{{end}}' ./constraint
-stdout '^constraint.go,$'
+golang list -e -f '{{range .GoFiles}}{{.}},{{end}}' ./constraint
+stdout '^golangod.golang,$'
+golang list -e -f '{{range .IgnoredGoFiles}}{{.}},{{end}}' ./constraint
+stdout '^constraint.golang,$'
 
-[cgo] go list -e -f '{{range .XTestGoFiles}}{{.}},{{end}}' ./cgotest
-[cgo] stdout '^cgo_test.go,$'
+[cgolang] golang list -e -f '{{range .XTestGoFiles}}{{.}},{{end}}' ./cgolangtest
+[cgolang] stdout '^cgolang_test.golang,$'
 
-[cgo] go list -e -f '{{range .GoFiles}}{{.}},{{end}}' ./cgoflag
-[cgo] stdout '^cgoflag.go,$'
+[cgolang] golang list -e -f '{{range .GoFiles}}{{.}},{{end}}' ./cgolangflag
+[cgolang] stdout '^cgolangflag.golang,$'
 
--- go.mod --
+-- golang.mod --
 module m
 
-go 1.14
+golang 1.14
 
--- want/want.go --
+-- want/want.golang --
 package want
 
--- scan/scan.go --
+-- scan/scan.golang --
 // scan error
 ʕ◔ϖ◔ʔ
 
--- scan/good.go --
+-- scan/golangod.golang --
 package scan
 
 import _ "m/want"
 
--- multi/a.go --
+-- multi/a.golang --
 package a
 
--- multi/b.go --
+-- multi/b.golang --
 package b
 
 import _ "m/want"
 
--- constraint/constraint.go --
+-- constraint/constraint.golang --
 // +build !!nope
 
 package constraint
 
--- constraint/good.go --
+-- constraint/golangod.golang --
 package constraint
 
 import _ "m/want"
 
--- cgotest/cgo_test.go --
-package cgo_test
+-- cgolangtest/cgolang_test.golang --
+package cgolang_test
 
-// cgo is not allowed in tests.
-// See golang.org/issue/18647
+// cgolang is not allowed in tests.
+// See golanglang.org/issue/18647
 
 import "C"
 import (
@@ -87,9 +87,9 @@ import (
 
 func Test(t *testing.T) {}
 
--- cgoflag/cgoflag.go --
-package cgoflag
+-- cgolangflag/cgolangflag.golang --
+package cgolangflag
 
-// #cgo ʕ◔ϖ◔ʔ:
+// #cgolang ʕ◔ϖ◔ʔ:
 
 import _ "m/want"

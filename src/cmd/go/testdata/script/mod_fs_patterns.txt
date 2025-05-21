@@ -4,7 +4,7 @@ env GO111MODULE=on
 cd x
 
 # all packages
-go list all
+golang list all
 stdout ^m$
 stdout ^m/vendor$
 ! stdout vendor/
@@ -12,7 +12,7 @@ stdout ^m/y$
 ! stdout ^m/y/z
 
 # path pattern
-go list m/...
+golang list m/...
 stdout ^m$
 stdout ^m/vendor$
 ! stdout vendor/
@@ -20,7 +20,7 @@ stdout ^m/y$
 ! stdout ^m/y/z
 
 # directory pattern
-go list ./...
+golang list ./...
 stdout ^m$
 stdout ^m/vendor$
 ! stdout vendor/
@@ -28,70 +28,70 @@ stdout ^m/y$
 ! stdout ^m/y/z
 
 # non-existent directory should not prompt lookups
-! go build -mod=readonly example.com/nonexist
+! golang build -mod=readonly example.com/nonexist
 stderr 'import lookup disabled'
 
-! go build -mod=readonly ./nonexist
+! golang build -mod=readonly ./nonexist
 ! stderr 'import lookup disabled'
 stderr '^stat '$GOPATH'[/\\]src[/\\]x[/\\]nonexist: directory not found'
 
-! go build -mod=readonly ./go.mod
+! golang build -mod=readonly ./golang.mod
 ! stderr 'import lookup disabled'
-stderr 'main module \(m\) does not contain package m/go.mod'
+stderr 'main module \(m\) does not contain package m/golang.mod'
 
 
 # File system paths and patterns should allow the '@' character.
 cd ../@at
-go list $PWD
+golang list $PWD
 stdout '^at$'
-go list $PWD/...
+golang list $PWD/...
 stdout '^at$'
 
 # The '@' character is not allowed in directory paths that are part of
 # a package path.
 cd ../badat/bad@
-! go list .
+! golang list .
 stderr 'current directory outside main module or its selected dependencies'
-! go list $PWD
+! golang list $PWD
 stderr 'current directory outside main module or its selected dependencies'
-! go list $PWD/...
+! golang list $PWD/...
 stderr 'current directory outside main module or its selected dependencies'
 
--- x/go.mod --
+-- x/golang.mod --
 module m
 
--- x/x.go --
+-- x/x.golang --
 package x
 
--- x/vendor/v/v.go --
+-- x/vendor/v/v.golang --
 package v
-import _ "golang.org/x/crypto"
+import _ "golanglang.org/x/crypto"
 
--- x/vendor/v.go --
+-- x/vendor/v.golang --
 package main
 
--- x/y/y.go --
+-- x/y/y.golang --
 package y
 
--- x/y/z/go.mod --
+-- x/y/z/golang.mod --
 syntax error!
 
--- x/y/z/z.go --
+-- x/y/z/z.golang --
 package z
 
--- x/y/z/w/w.go --
+-- x/y/z/w/w.golang --
 package w
 
--- @at/go.mod --
+-- @at/golang.mod --
 module at
 
-go 1.14
--- @at/at.go --
+golang 1.14
+-- @at/at.golang --
 package at
 
--- badat/go.mod --
+-- badat/golang.mod --
 module badat
 
-go 1.14
--- badat/bad@/bad.go --
+golang 1.14
+-- badat/bad@/bad.golang --
 package bad

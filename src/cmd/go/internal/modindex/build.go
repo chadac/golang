@@ -1,22 +1,22 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// This file is a lightly modified copy go/build/build.go with unused parts
+// This file is a lightly modified copy golang/build/build.golang with unused parts
 // removed.
 
 package modindex
 
 import (
 	"bytes"
-	"cmd/go/internal/fsys"
-	"cmd/go/internal/str"
+	"cmd/golang/internal/fsys"
+	"cmd/golang/internal/str"
 	"errors"
 	"fmt"
-	"go/ast"
-	"go/build"
-	"go/build/constraint"
-	"go/token"
+	"golang/ast"
+	"golang/build"
+	"golang/build/constraint"
+	"golang/token"
 	"internal/syslist"
 	"io"
 	"io/fs"
@@ -43,8 +43,8 @@ type Context struct {
 	// be absolute.
 	Dir string
 
-	CgoEnabled  bool   // whether cgo files are included
-	UseAllFiles bool   // use files regardless of //go:build lines, file names
+	CgolangEnabled  bool   // whether cgolang files are included
+	UseAllFiles bool   // use files regardless of //golang:build lines, file names
 	Compiler    string // compiler to assume when computing target paths
 
 	// The build, tool, and release tags specify build constraints
@@ -64,7 +64,7 @@ type Context struct {
 	// The install suffix specifies a suffix to use in the name of the installation
 	// directory. By default it is empty, but custom builds that need to keep
 	// their outputs separate can set InstallSuffix to do so. For example, when
-	// using the race detector, the go command uses InstallSuffix = "race", so
+	// using the race detector, the golang command uses InstallSuffix = "race", so
 	// that on a Linux/386 system, packages are written to a directory named
 	// "linux_386_race" instead of the usual "linux_386".
 	InstallSuffix string
@@ -177,8 +177,8 @@ func hasSubdir(root, dir string) (rel string, ok bool) {
 	return filepath.ToSlash(dir[len(root):]), true
 }
 
-// gopath returns the list of Go path directories.
-func (ctxt *Context) gopath() []string {
+// golangpath returns the list of Go path directories.
+func (ctxt *Context) golangpath() []string {
 	var all []string
 	for _, p := range ctxt.splitPathList(ctxt.GOPATH) {
 		if p == "" || p == ctxt.GOROOT {
@@ -197,7 +197,7 @@ func (ctxt *Context) gopath() []string {
 			// Do not get confused by this, and do not try to use the path.
 			// It does not exist, and printing errors about it confuses
 			// those users even more, because they think "sure ~ exists!".
-			// The go command diagnoses this situation and prints a
+			// The golang command diagnoses this situation and prints a
 			// useful error.
 			// On Windows, ~ is used in short names, such as c:\progra~1
 			// for c:\program files.
@@ -387,9 +387,9 @@ type fileInfo struct {
 	embeds     []fileEmbed
 	directives []build.Directive
 
-	// Additional fields added to go/build's fileinfo for the purposes of the modindex package.
+	// Additional fields added to golang/build's fileinfo for the purposes of the modindex package.
 	binaryOnly           bool
-	goBuildConstraint    string
+	golangBuildConstraint    string
 	plusBuildConstraints []string
 }
 
@@ -406,7 +406,7 @@ type fileEmbed struct {
 
 var errNonSource = errors.New("non source file")
 
-// getFileInfo extracts the information needed from each go file for the module
+// getFileInfo extracts the information needed from each golang file for the module
 // index.
 //
 // If Name denotes a Go program, matchFile reads until the end of the
@@ -428,7 +428,7 @@ func getFileInfo(dir, name string, fset *token.FileSet) (*fileInfo, error) {
 	}
 	ext := name[i:]
 
-	if ext != ".go" && fileListForExt(&dummyPkg, ext) == nil {
+	if ext != ".golang" && fileListForExt(&dummyPkg, ext) == nil {
 		// skip
 		return nil, errNonSource
 	}
@@ -447,10 +447,10 @@ func getFileInfo(dir, name string, fset *token.FileSet) (*fileInfo, error) {
 	// TODO(matloob) should we decide whether to ignore binary only here or earlier
 	// when we create the index file?
 	var ignoreBinaryOnly bool
-	if strings.HasSuffix(name, ".go") {
+	if strings.HasSuffix(name, ".golang") {
 		err = readGoInfo(f, info)
-		if strings.HasSuffix(name, "_test.go") {
-			ignoreBinaryOnly = true // ignore //go:binary-only-package comments in _test.go files
+		if strings.HasSuffix(name, "_test.golang") {
+			ignoreBinaryOnly = true // ignore //golang:binary-only-package comments in _test.golang files
 		}
 	} else {
 		info.header, err = readComments(f)
@@ -461,7 +461,7 @@ func getFileInfo(dir, name string, fset *token.FileSet) (*fileInfo, error) {
 	}
 
 	// Look for +build comments to accept or reject the file.
-	info.goBuildConstraint, info.plusBuildConstraints, info.binaryOnly, err = getConstraints(info.header)
+	info.golangBuildConstraint, info.plusBuildConstraints, info.binaryOnly, err = getConstraints(info.header)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %v", name, err)
 	}
@@ -488,37 +488,37 @@ var (
 	bSlashStar  = []byte(slashStar)
 	bPlusBuild  = []byte("+build")
 
-	goBuildComment = []byte("//go:build")
+	golangBuildComment = []byte("//golang:build")
 
-	errMultipleGoBuild = errors.New("multiple //go:build comments")
+	errMultipleGoBuild = errors.New("multiple //golang:build comments")
 )
 
 func isGoBuildComment(line []byte) bool {
-	if !bytes.HasPrefix(line, goBuildComment) {
+	if !bytes.HasPrefix(line, golangBuildComment) {
 		return false
 	}
 	line = bytes.TrimSpace(line)
-	rest := line[len(goBuildComment):]
+	rest := line[len(golangBuildComment):]
 	return len(rest) == 0 || len(bytes.TrimSpace(rest)) < len(rest)
 }
 
 // Special comment denoting a binary-only package.
-// See https://golang.org/design/2775-binary-only-packages
+// See https://golanglang.org/design/2775-binary-only-packages
 // for more about the design of binary-only packages.
-var binaryOnlyComment = []byte("//go:binary-only-package")
+var binaryOnlyComment = []byte("//golang:binary-only-package")
 
-func getConstraints(content []byte) (goBuild string, plusBuild []string, binaryOnly bool, err error) {
+func getConstraints(content []byte) (golangBuild string, plusBuild []string, binaryOnly bool, err error) {
 	// Identify leading run of // comments and blank lines,
 	// which must be followed by a blank line.
-	// Also identify any //go:build comments.
-	content, goBuildBytes, sawBinaryOnly, err := parseFileHeader(content)
+	// Also identify any //golang:build comments.
+	content, golangBuildBytes, sawBinaryOnly, err := parseFileHeader(content)
 	if err != nil {
 		return "", nil, false, err
 	}
 
-	// If //go:build line is present, it controls, so no need to look for +build .
+	// If //golang:build line is present, it controls, so no need to look for +build .
 	// Otherwise, get plusBuild constraints.
-	if goBuildBytes == nil {
+	if golangBuildBytes == nil {
 		p := content
 		for len(p) > 0 {
 			line := p
@@ -539,10 +539,10 @@ func getConstraints(content []byte) (goBuild string, plusBuild []string, binaryO
 		}
 	}
 
-	return string(goBuildBytes), plusBuild, sawBinaryOnly, nil
+	return string(golangBuildBytes), plusBuild, sawBinaryOnly, nil
 }
 
-func parseFileHeader(content []byte) (trimmed, goBuild []byte, sawBinaryOnly bool, err error) {
+func parseFileHeader(content []byte) (trimmed, golangBuild []byte, sawBinaryOnly bool, err error) {
 	end := 0
 	p := content
 	ended := false       // found non-blank, non-// line, so stopped accepting // +build lines
@@ -563,7 +563,7 @@ Lines:
 			// this "end" position marks the latest file position
 			// where a // +build line can appear.
 			// (It must appear _before_ a blank line before the non-blank, non-// line.
-			// Yes, that's confusing, which is part of why we moved to //go:build lines.)
+			// Yes, that's confusing, which is part of why we moved to //golang:build lines.)
 			// Note that ended==false here means that inSlashStar==false,
 			// since seeing a /* would have set ended==true.
 			end = len(content) - len(p)
@@ -574,10 +574,10 @@ Lines:
 		}
 
 		if !inSlashStar && isGoBuildComment(line) {
-			if goBuild != nil {
+			if golangBuild != nil {
 				return nil, nil, false, errMultipleGoBuild
 			}
-			goBuild = line
+			golangBuild = line
 		}
 		if !inSlashStar && bytes.Equal(line, binaryOnlyComment) {
 			sawBinaryOnly = true
@@ -606,25 +606,25 @@ Lines:
 		}
 	}
 
-	return content[:end], goBuild, sawBinaryOnly, nil
+	return content[:end], golangBuild, sawBinaryOnly, nil
 }
 
-// saveCgo saves the information from the #cgo lines in the import "C" comment.
+// saveCgolang saves the information from the #cgolang lines in the import "C" comment.
 // These lines set CFLAGS, CPPFLAGS, CXXFLAGS and LDFLAGS and pkg-config directives
-// that affect the way cgo's C code is built.
-func (ctxt *Context) saveCgo(filename string, di *build.Package, text string) error {
+// that affect the way cgolang's C code is built.
+func (ctxt *Context) saveCgolang(filename string, di *build.Package, text string) error {
 	for _, line := range strings.Split(text, "\n") {
 		orig := line
 
 		// Line is
-		//	#cgo [GOOS/GOARCH...] LDFLAGS: stuff
+		//	#cgolang [GOOS/GOARCH...] LDFLAGS: stuff
 		//
 		line = strings.TrimSpace(line)
-		if len(line) < 5 || line[:4] != "#cgo" || (line[4] != ' ' && line[4] != '\t') {
+		if len(line) < 5 || line[:4] != "#cgolang" || (line[4] != ' ' && line[4] != '\t') {
 			continue
 		}
 
-		// #cgo (nocallback|noescape) <function name>
+		// #cgolang (nocallback|noescape) <function name>
 		if fields := strings.Fields(line); len(fields) == 3 && (fields[1] == "nocallback" || fields[1] == "noescape") {
 			continue
 		}
@@ -632,13 +632,13 @@ func (ctxt *Context) saveCgo(filename string, di *build.Package, text string) er
 		// Split at colon.
 		line, argstr, ok := strings.Cut(strings.TrimSpace(line[4:]), ":")
 		if !ok {
-			return fmt.Errorf("%s: invalid #cgo line: %s", filename, orig)
+			return fmt.Errorf("%s: invalid #cgolang line: %s", filename, orig)
 		}
 
 		// Parse GOOS/GOARCH stuff.
 		f := strings.Fields(line)
 		if len(f) < 1 {
-			return fmt.Errorf("%s: invalid #cgo line: %s", filename, orig)
+			return fmt.Errorf("%s: invalid #cgolang line: %s", filename, orig)
 		}
 
 		cond, verb := f[:len(f)-1], f[len(f)-1]
@@ -657,11 +657,11 @@ func (ctxt *Context) saveCgo(filename string, di *build.Package, text string) er
 
 		args, err := splitQuoted(argstr)
 		if err != nil {
-			return fmt.Errorf("%s: invalid #cgo line: %s", filename, orig)
+			return fmt.Errorf("%s: invalid #cgolang line: %s", filename, orig)
 		}
 		for i, arg := range args {
 			if arg, ok = expandSrcDir(arg, di.Dir); !ok {
-				return fmt.Errorf("%s: malformed #cgo argument: %s", filename, arg)
+				return fmt.Errorf("%s: malformed #cgolang argument: %s", filename, arg)
 			}
 			args[i] = arg
 		}
@@ -674,19 +674,19 @@ func (ctxt *Context) saveCgo(filename string, di *build.Package, text string) er
 
 		switch verb {
 		case "CFLAGS":
-			di.CgoCFLAGS = append(di.CgoCFLAGS, args...)
+			di.CgolangCFLAGS = append(di.CgolangCFLAGS, args...)
 		case "CPPFLAGS":
-			di.CgoCPPFLAGS = append(di.CgoCPPFLAGS, args...)
+			di.CgolangCPPFLAGS = append(di.CgolangCPPFLAGS, args...)
 		case "CXXFLAGS":
-			di.CgoCXXFLAGS = append(di.CgoCXXFLAGS, args...)
+			di.CgolangCXXFLAGS = append(di.CgolangCXXFLAGS, args...)
 		case "FFLAGS":
-			di.CgoFFLAGS = append(di.CgoFFLAGS, args...)
+			di.CgolangFFLAGS = append(di.CgolangFFLAGS, args...)
 		case "LDFLAGS":
-			di.CgoLDFLAGS = append(di.CgoLDFLAGS, args...)
+			di.CgolangLDFLAGS = append(di.CgolangLDFLAGS, args...)
 		case "pkg-config":
-			di.CgoPkgConfig = append(di.CgoPkgConfig, args...)
+			di.CgolangPkgConfig = append(di.CgolangPkgConfig, args...)
 		default:
-			return fmt.Errorf("%s: invalid #cgo verb: %s", filename, orig)
+			return fmt.Errorf("%s: invalid #cgolang verb: %s", filename, orig)
 		}
 	}
 	return nil
@@ -695,20 +695,20 @@ func (ctxt *Context) saveCgo(filename string, di *build.Package, text string) er
 // expandSrcDir expands any occurrence of ${SRCDIR}, making sure
 // the result is safe for the shell.
 func expandSrcDir(str string, srcdir string) (string, bool) {
-	// "\" delimited paths cause safeCgoName to fail
+	// "\" delimited paths cause safeCgolangName to fail
 	// so convert native paths with a different delimiter
 	// to "/" before starting (eg: on windows).
 	srcdir = filepath.ToSlash(srcdir)
 
 	chunks := strings.Split(str, "${SRCDIR}")
 	if len(chunks) < 2 {
-		return str, safeCgoName(str)
+		return str, safeCgolangName(str)
 	}
 	ok := true
 	for _, chunk := range chunks {
-		ok = ok && (chunk == "" || safeCgoName(chunk))
+		ok = ok && (chunk == "" || safeCgolangName(chunk))
 	}
-	ok = ok && (srcdir == "" || safeCgoName(srcdir))
+	ok = ok && (srcdir == "" || safeCgolangName(srcdir))
 	res := strings.Join(chunks, srcdir)
 	return res, ok && res != ""
 }
@@ -746,14 +746,14 @@ func (ctxt *Context) makePathsAbsolute(args []string, srcDir string) {
 
 // NOTE: $ is not safe for the shell, but it is allowed here because of linker options like -Wl,$ORIGIN.
 // We never pass these arguments to a shell (just to programs we construct argv for), so this should be okay.
-// See golang.org/issue/6038.
-// The @ is for OS X. See golang.org/issue/13720.
-// The % is for Jenkins. See golang.org/issue/16959.
-// The ! is because module paths may use them. See golang.org/issue/26716.
-// The ~ and ^ are for sr.ht. See golang.org/issue/32260.
+// See golanglang.org/issue/6038.
+// The @ is for OS X. See golanglang.org/issue/13720.
+// The % is for Jenkins. See golanglang.org/issue/16959.
+// The ! is because module paths may use them. See golanglang.org/issue/26716.
+// The ~ and ^ are for sr.ht. See golanglang.org/issue/32260.
 const safeString = "+-.,/0123456789=ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz:$@%! ~^"
 
-func safeCgoName(s string) bool {
+func safeCgolangName(s string) bool {
 	if s == "" {
 		return false
 	}
@@ -825,14 +825,14 @@ func splitQuoted(s string) (r []string, err error) {
 	return args, err
 }
 
-// matchAuto interprets text as either a +build or //go:build expression (whichever works),
+// matchAuto interprets text as either a +build or //golang:build expression (whichever works),
 // reporting whether the expression matches the build context.
 //
 // matchAuto is only used for testing of tag evaluation
-// and in #cgo lines, which accept either syntax.
+// and in #cgolang lines, which accept either syntax.
 func (ctxt *Context) matchAuto(text string, allTags map[string]bool) bool {
 	if strings.ContainsAny(text, "&|()") {
-		text = "//go:build " + text
+		text = "//golang:build " + text
 	} else {
 		text = "// +build " + text
 	}
@@ -849,7 +849,7 @@ func (ctxt *Context) eval(x constraint.Expr, allTags map[string]bool) bool {
 
 // matchTag reports whether the name is one of:
 //
-//	cgo (if cgo is enabled)
+//	cgolang (if cgolang is enabled)
 //	$GOOS
 //	$GOARCH
 //	boringcrypto
@@ -865,7 +865,7 @@ func (ctxt *Context) matchTag(name string, allTags map[string]bool) bool {
 	}
 
 	// special tags
-	if ctxt.CgoEnabled && name == "cgo" {
+	if ctxt.CgolangEnabled && name == "cgolang" {
 		return true
 	}
 	if name == ctxt.GOOS || name == ctxt.GOARCH || name == ctxt.Compiler {
@@ -884,7 +884,7 @@ func (ctxt *Context) matchTag(name string, allTags map[string]bool) bool {
 		return true
 	}
 	if name == "boringcrypto" {
-		name = "goexperiment.boringcrypto" // boringcrypto is an old name for goexperiment.boringcrypto
+		name = "golangexperiment.boringcrypto" // boringcrypto is an old name for golangexperiment.boringcrypto
 	}
 
 	// other tags
@@ -892,7 +892,7 @@ func (ctxt *Context) matchTag(name string, allTags map[string]bool) bool {
 		slices.Contains(ctxt.ReleaseTags, name)
 }
 
-// goodOSArchFile returns false if the name contains a $GOOS or $GOARCH
+// golangodOSArchFile returns false if the name contains a $GOOS or $GOARCH
 // suffix which does not match the current system.
 // The recognized name formats are:
 //
@@ -907,15 +907,15 @@ func (ctxt *Context) matchTag(name string, allTags map[string]bool) bool {
 // if GOOS=android, then files with GOOS=linux are also matched.
 // if GOOS=illumos, then files with GOOS=solaris are also matched.
 // if GOOS=ios, then files with GOOS=darwin are also matched.
-func (ctxt *Context) goodOSArchFile(name string, allTags map[string]bool) bool {
+func (ctxt *Context) golangodOSArchFile(name string, allTags map[string]bool) bool {
 	name, _, _ = strings.Cut(name, ".")
 
-	// Before Go 1.4, a file called "linux.go" would be equivalent to having a
+	// Before Go 1.4, a file called "linux.golang" would be equivalent to having a
 	// build tag "linux" in that file. For Go 1.4 and beyond, we require this
 	// auto-tagging to apply only to files with a non-empty prefix, so
-	// "foo_linux.go" is tagged but "linux.go" is not. This allows new operating
+	// "foo_linux.golang" is tagged but "linux.golang" is not. This allows new operating
 	// systems, such as android, to arrive without breaking existing code with
-	// innocuous source code in "android.go". The easiest fix: cut everything
+	// innocuous source code in "android.golang". The easiest fix: cut everything
 	// in the name before the initial _.
 	i := strings.Index(name, "_")
 	if i < 0 {

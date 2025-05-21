@@ -1,7 +1,7 @@
 // errorcheck -0 -l -d=wb
 
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test where write barriers are and are not emitted.
@@ -164,7 +164,7 @@ type T17 struct {
 }
 
 func f17(x *T17) {
-	// Originally from golang.org/issue/13901, but the hybrid
+	// Originally from golanglang.org/issue/13901, but the hybrid
 	// barrier requires both to have barriers.
 	x.f = f17                      // ERROR "write barrier"
 	x.f = func(y *T17) { *y = *x } // ERROR "write barrier"

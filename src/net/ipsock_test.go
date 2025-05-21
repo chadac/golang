@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package net
@@ -222,28 +222,28 @@ func TestAddrList(t *testing.T) {
 	for i, tt := range addrListTests {
 		addrs, err := filterAddrList(tt.filter, tt.ips, tt.inetaddr, "ADDR")
 		if !reflect.DeepEqual(err, tt.err) {
-			t.Errorf("#%v: got %v; want %v", i, err, tt.err)
+			t.Errorf("#%v: golangt %v; want %v", i, err, tt.err)
 		}
 		if tt.err != nil {
 			if len(addrs) != 0 {
-				t.Errorf("#%v: got %v; want 0", i, len(addrs))
+				t.Errorf("#%v: golangt %v; want 0", i, len(addrs))
 			}
 			continue
 		}
 		first := addrs.first(isIPv4)
 		if !reflect.DeepEqual(first, tt.first) {
-			t.Errorf("#%v: got %v; want %v", i, first, tt.first)
+			t.Errorf("#%v: golangt %v; want %v", i, first, tt.first)
 		}
 		primaries, fallbacks := addrs.partition(isIPv4)
 		if !reflect.DeepEqual(primaries, tt.primaries) {
-			t.Errorf("#%v: got %v; want %v", i, primaries, tt.primaries)
+			t.Errorf("#%v: golangt %v; want %v", i, primaries, tt.primaries)
 		}
 		if !reflect.DeepEqual(fallbacks, tt.fallbacks) {
-			t.Errorf("#%v: got %v; want %v", i, fallbacks, tt.fallbacks)
+			t.Errorf("#%v: golangt %v; want %v", i, fallbacks, tt.fallbacks)
 		}
 		expectedLen := len(primaries) + len(fallbacks)
 		if len(addrs) != expectedLen {
-			t.Errorf("#%v: got %v; want %v", i, len(addrs), expectedLen)
+			t.Errorf("#%v: golangt %v; want %v", i, len(addrs), expectedLen)
 		}
 	}
 }
@@ -272,10 +272,10 @@ func TestAddrListPartition(t *testing.T) {
 				return (ip[len(ip)-1] == tt.lastByte) != invert
 			})
 			if !reflect.DeepEqual(primaries, tt.primaries) {
-				t.Errorf("#%v: got %v; want %v", i, primaries, tt.primaries)
+				t.Errorf("#%v: golangt %v; want %v", i, primaries, tt.primaries)
 			}
 			if !reflect.DeepEqual(fallbacks, tt.fallbacks) {
-				t.Errorf("#%v: got %v; want %v", i, fallbacks, tt.fallbacks)
+				t.Errorf("#%v: golangt %v; want %v", i, fallbacks, tt.fallbacks)
 			}
 		}
 	}

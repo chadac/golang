@@ -1,15 +1,15 @@
-# Regression test for https://go.dev/issue/60313: 'go mod tidy' did not preserve
+# Regression test for https://golang.dev/issue/60313: 'golang mod tidy' did not preserve
 # dependencies needed to prevent 'ambiguous import' errors in external test
 # dependencies.
 
-cp go.mod go.mod.orig
-go mod tidy
-cmp go.mod go.mod.orig
+cp golang.mod golang.mod.orig
+golang mod tidy
+cmp golang.mod golang.mod.orig
 
--- go.mod --
+-- golang.mod --
 module example
 
-go 1.21
+golang 1.21
 
 require (
 	example.net/a v0.1.0
@@ -24,46 +24,46 @@ replace (
 	example.net/outer v0.1.0 => ./outer
 	example.net/outer/inner v0.1.0 => ./inner
 )
--- example.go --
+-- example.golang --
 package example
 
 import (
 	_ "example.net/a"
 	_ "example.net/b"
 )
--- a/go.mod --
+-- a/golang.mod --
 module example.net/a
 
-go 1.21
+golang 1.21
 
 require example.net/outer/inner v0.1.0
--- a/a.go --
+-- a/a.golang --
 package a
--- a/a_test.go --
+-- a/a_test.golang --
 package a_test
 
 import _ "example.net/outer/inner"
--- b/go.mod --
+-- b/golang.mod --
 module example.net/b
 
-go 1.21
+golang 1.21
 
 require example.net/outer v0.1.0
--- b/b.go --
+-- b/b.golang --
 package b
--- b/b_test.go --
+-- b/b_test.golang --
 package b_test
 
 import _ "example.net/outer/inner"
--- inner/go.mod --
+-- inner/golang.mod --
 module example.net/outer/inner
 
-go 1.21
--- inner/inner.go --
+golang 1.21
+-- inner/inner.golang --
 package inner
--- outer/go.mod --
+-- outer/golang.mod --
 module example.net/outer
 
-go 1.21
--- outer/inner/inner.go --
+golang 1.21
+-- outer/inner/inner.golang --
 package inner

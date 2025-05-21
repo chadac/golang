@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package covcmd
@@ -11,7 +11,7 @@ import (
 )
 
 // CoverPkgConfig is a bundle of information passed from the Go
-// command to the cover command during "go build -cover" runs. The
+// command to the cover command during "golang build -cover" runs. The
 // Go command creates and fills in a struct as below, then passes
 // file containing the encoded JSON for the struct to the "cover"
 // tool when instrumenting the source files in a Go package.
@@ -29,21 +29,21 @@ type CoverPkgConfig struct {
 	// Instrumentation granularity: one of "perfunc" or "perblock" (default)
 	Granularity string
 
-	// Module path for this package (empty if no go.mod in use)
+	// Module path for this package (empty if no golang.mod in use)
 	ModulePath string
 
 	// Local mode indicates we're doing a coverage build or test of a
 	// package selected via local import path, e.g. "./..." or
 	// "./foo/bar" as opposed to a non-relative import path. See the
-	// corresponding field in cmd/go's PackageInternal struct for more
+	// corresponding field in cmd/golang's PackageInternal struct for more
 	// info.
 	Local bool
 
 	// EmitMetaFile if non-empty is the path to which the cover tool should
 	// directly emit a coverage meta-data file for the package, if the
-	// package has any functions in it. The go command will pass in a value
-	// here if we've been asked to run "go test -cover" on a package that
-	// doesn't have any *_test.go files.
+	// package has any functions in it. The golang command will pass in a value
+	// here if we've been asked to run "golang test -cover" on a package that
+	// doesn't have any *_test.golang files.
 	EmitMetaFile string
 }
 

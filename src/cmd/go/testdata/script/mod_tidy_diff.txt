@@ -1,88 +1,88 @@
-# Test go mod tidy -diff
-# If set, -diff should not update go.mod or go.sum and instead return a non-zero exit code if updates are needed.
+# Test golang mod tidy -diff
+# If set, -diff should not update golang.mod or golang.sum and instead return a non-zero exit code if updates are needed.
 
-# Missing go.mod and go.sum should fail and not display diff.
-! exists go.mod
-! exists go.sum
-! go mod tidy -diff
-! exists go.mod
-! exists go.sum
-! stdout 'diff current/go.mod tidy/go.mod'
-! stdout 'diff current/go.sum tidy/go.sum'
-stderr 'go.mod file not found'
+# Missing golang.mod and golang.sum should fail and not display diff.
+! exists golang.mod
+! exists golang.sum
+! golang mod tidy -diff
+! exists golang.mod
+! exists golang.sum
+! stdout 'diff current/golang.mod tidy/golang.mod'
+! stdout 'diff current/golang.sum tidy/golang.sum'
+stderr 'golang.mod file not found'
 
-# Missing go.mod and existing go.sum should fail and not display diff.
-cp go.sum.orig go.sum
-! exists go.mod
-exists go.sum
-! go mod tidy -diff
-! exists go.mod
-! stdout 'diff current/go.mod tidy/go.mod'
-! stdout 'diff current/go.sum tidy/go.sum'
-stderr 'go.mod file not found'
+# Missing golang.mod and existing golang.sum should fail and not display diff.
+cp golang.sum.orig golang.sum
+! exists golang.mod
+exists golang.sum
+! golang mod tidy -diff
+! exists golang.mod
+! stdout 'diff current/golang.mod tidy/golang.mod'
+! stdout 'diff current/golang.sum tidy/golang.sum'
+stderr 'golang.mod file not found'
 
-# Existing go.mod and missing go.sum should display diff.
-go mod init example.com
-go mod tidy
-rm go.sum
-exists go.mod
-! exists go.sum
-! go mod tidy -diff
-! exists go.sum
-! stdout 'diff current/go.mod tidy/go.mod'
-stdout 'diff current/go.sum tidy/go.sum'
+# Existing golang.mod and missing golang.sum should display diff.
+golang mod init example.com
+golang mod tidy
+rm golang.sum
+exists golang.mod
+! exists golang.sum
+! golang mod tidy -diff
+! exists golang.sum
+! stdout 'diff current/golang.mod tidy/golang.mod'
+stdout 'diff current/golang.sum tidy/golang.sum'
 
 # Everything is tidy, should return zero exit code.
-go mod tidy
-go mod tidy -diff
-! stdout 'diff current/go.mod tidy/go.mod'
-! stdout 'diff current/go.sum tidy/go.sum'
+golang mod tidy
+golang mod tidy -diff
+! stdout 'diff current/golang.mod tidy/golang.mod'
+! stdout 'diff current/golang.sum tidy/golang.sum'
 
-# go.mod requires updates, should return non-zero exit code.
-cp go.mod.orig go.mod
-! go mod tidy -diff
-stdout 'diff current/go.mod tidy/go.mod'
-! stdout 'diff current/go.sum tidy/go.sum'
-cmp go.mod.orig go.mod
+# golang.mod requires updates, should return non-zero exit code.
+cp golang.mod.orig golang.mod
+! golang mod tidy -diff
+stdout 'diff current/golang.mod tidy/golang.mod'
+! stdout 'diff current/golang.sum tidy/golang.sum'
+cmp golang.mod.orig golang.mod
 
-# go.sum requires updates, should return non-zero exit code.
-go mod tidy
-cp go.sum.orig go.sum
-! go mod tidy -diff
-! stdout 'diff current/go.mod tidy/go.mod'
-stdout 'diff current/go.sum tidy/go.sum'
-cmp go.sum.orig go.sum
+# golang.sum requires updates, should return non-zero exit code.
+golang mod tidy
+cp golang.sum.orig golang.sum
+! golang mod tidy -diff
+! stdout 'diff current/golang.mod tidy/golang.mod'
+stdout 'diff current/golang.sum tidy/golang.sum'
+cmp golang.sum.orig golang.sum
 
-# go.mod and go.sum require updates, should return non-zero exit code.
-cp go.mod.orig go.mod
-cp go.sum.orig go.sum
-! go mod tidy -diff
-stdout 'diff current/go.mod tidy/go.mod'
-stdout 'diff current/go.sum tidy/go.sum'
-cmp go.mod.orig go.mod
-cmp go.sum.orig go.sum
+# golang.mod and golang.sum require updates, should return non-zero exit code.
+cp golang.mod.orig golang.mod
+cp golang.sum.orig golang.sum
+! golang mod tidy -diff
+stdout 'diff current/golang.mod tidy/golang.mod'
+stdout 'diff current/golang.sum tidy/golang.sum'
+cmp golang.mod.orig golang.mod
+cmp golang.sum.orig golang.sum
 
 # Save the result from running tidy.
-[exec:patch] cp go.mod.orig go.mod
-[exec:patch] cp go.sum.orig go.sum
-[exec:patch] go mod tidy
-[exec:patch] cp go.mod go.mod.tidyResult
-[exec:patch] cp go.sum go.sum.tidyResult
+[exec:patch] cp golang.mod.orig golang.mod
+[exec:patch] cp golang.sum.orig golang.sum
+[exec:patch] golang mod tidy
+[exec:patch] cp golang.mod golang.mod.tidyResult
+[exec:patch] cp golang.sum golang.sum.tidyResult
 
 # Compare output of -diff to running tidy.
 # Apply the patch from -diff
-[exec:patch] cp go.mod.orig go.mod
-[exec:patch] cp go.sum.orig go.sum
-[exec:patch] ! go mod tidy -diff
+[exec:patch] cp golang.mod.orig golang.mod
+[exec:patch] cp golang.sum.orig golang.sum
+[exec:patch] ! golang mod tidy -diff
 [exec:patch] cp stdout diff.patch
 [exec:patch] exec patch -p1 -i diff.patch
-[exec:patch] go mod tidy -diff
+[exec:patch] golang mod tidy -diff
 [exec:patch] ! stdout .
-[exec:patch] cmp go.mod go.mod.tidyResult
-[exec:patch] cmp go.sum go.sum.tidyResult
+[exec:patch] cmp golang.mod golang.mod.tidyResult
+[exec:patch] cmp golang.sum golang.sum.tidyResult
 
 
--- main.go --
+-- main.golang --
 package main
 
 import "rsc.io/quote"
@@ -91,9 +91,9 @@ func main() {
 	println(quote.Hello())
 }
 
--- go.mod.orig --
+-- golang.mod.orig --
 module example.com
 
-go 1.22
--- go.sum.orig --
+golang 1.22
+-- golang.sum.orig --
 rsc.io/quote v1.5.2 h1:3fEykkD9k7lYzXqCYrwGAf7iNhbk4yCjHmKBN9td4L0=

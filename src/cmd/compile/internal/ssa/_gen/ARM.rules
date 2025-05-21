@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 (Add(Ptr|32|16|8) ...) => (ADD ...)
@@ -294,7 +294,7 @@
 			(MOVBstore [0] ptr (MOVWconst [0]) mem)))
 
 // Medium zeroing uses a duff device
-// 4 and 128 are magic constants, see runtime/mkduff.go
+// 4 and 128 are magic constants, see runtime/mkduff.golang
 (Zero [s] {t} ptr mem)
 	&& s%4 == 0 && s > 4 && s <= 512
 	&& t.Alignment()%4 == 0 =>
@@ -334,7 +334,7 @@
 			(MOVBstore dst (MOVBUload src mem) mem)))
 
 // Medium move uses a duff device
-// 8 and 128 are magic constants, see runtime/mkduff.go
+// 8 and 128 are magic constants, see runtime/mkduff.golang
 (Move [s] {t} dst src mem)
 	&& s%4 == 0 && s > 4 && s <= 512
 	&& t.Alignment()%4 == 0 && logLargeCopy(v, s) =>

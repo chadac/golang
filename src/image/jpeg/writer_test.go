@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package jpeg
@@ -73,10 +73,10 @@ func TestUnscaledQuant(t *testing.T) {
 	bad := false
 	for i := quantIndex(0); i < nQuantIndex; i++ {
 		for zig := 0; zig < blockSize; zig++ {
-			got := unscaledQuant[i][zig]
+			golangt := unscaledQuant[i][zig]
 			want := unscaledQuantInNaturalOrder[i][unzig[zig]]
-			if got != want {
-				t.Errorf("i=%d, zig=%d: got %d, want %d", i, zig, got, want)
+			if golangt != want {
+				t.Errorf("i=%d, zig=%d: golangt %d, want %d", i, zig, golangt, want)
 				bad = true
 			}
 		}
@@ -180,12 +180,12 @@ func TestWriteGrayscale(t *testing.T) {
 		t.Fatalf("bounds differ: %v and %v", m0.Bounds(), m1.Bounds())
 	}
 	if _, ok := m1.(*image.Gray); !ok {
-		t.Errorf("got %T, want *image.Gray", m1)
+		t.Errorf("golangt %T, want *image.Gray", m1)
 	}
 	// Compare the average delta to the tolerance level.
 	want := int64(2 << 8)
-	if got := averageDelta(m0, m1); got > want {
-		t.Errorf("average delta too high; got %d, want <= %d", got, want)
+	if golangt := averageDelta(m0, m1); golangt > want {
+		t.Errorf("average delta too high; golangt %d, want <= %d", golangt, want)
 	}
 }
 

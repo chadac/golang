@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-// exprParser is a //go:build expression parser and evaluator.
+// exprParser is a //golang:build expression parser and evaluator.
 // The parser is a trivial precedence-based parser which is still
 // almost overkill for these very simple expressions.
 type exprParser struct {
@@ -45,12 +45,12 @@ func init() { // init to break init cycle
 	}
 }
 
-// matchexpr parses and evaluates the //go:build expression x.
+// matchexpr parses and evaluates the //golang:build expression x.
 func matchexpr(x string) (matched bool, err error) {
 	defer func() {
 		if e := recover(); e != nil {
 			matched = false
-			err = fmt.Errorf("parsing //go:build line: %v", e)
+			err = fmt.Errorf("parsing //golang:build line: %v", e)
 		}
 	}()
 

@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package cpu implements processor feature detection
@@ -98,7 +98,7 @@ var MIPS64X struct {
 }
 
 // For ppc64(le), it is safe to check only for ISA level starting on ISA v3.00,
-// since there are no optional categories. There are some exceptions that also
+// since there are no optional categolangries. There are some exceptions that also
 // require kernel support to work (darn, scv), so there are feature bits for
 // those as well. The minimum processor requirement is POWER8 (ISA 2.07).
 // The struct is padded to avoid false sharing.
@@ -151,14 +151,14 @@ var RISCV64 struct {
 }
 
 // CPU feature variables are accessed by assembly code in various packages.
-//go:linkname X86
-//go:linkname ARM
-//go:linkname ARM64
-//go:linkname Loong64
-//go:linkname MIPS64X
-//go:linkname PPC64
-//go:linkname S390X
-//go:linkname RISCV64
+//golang:linkname X86
+//golang:linkname ARM
+//golang:linkname ARM64
+//golang:linkname Loong64
+//golang:linkname MIPS64X
+//golang:linkname PPC64
+//golang:linkname S390X
+//golang:linkname RISCV64
 
 // Initialize examines the processor and sets the relevant variables above.
 // This is called by the runtime package early in program initialization,

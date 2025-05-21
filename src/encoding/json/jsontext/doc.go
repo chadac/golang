@@ -1,8 +1,8 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build goexperiment.jsonv2
+//golang:build golangexperiment.jsonv2
 
 // Package jsontext implements syntactic processing of JSON
 // as specified in RFC 4627, RFC 7159, RFC 7493, RFC 8259, and RFC 8785.
@@ -55,7 +55,7 @@
 // that determines the meaning of JSON values as Go values and vice-versa.
 // This package (i.e., [jsontext]) deals with JSON at a syntactic layer,
 // while [encoding/json/v2] deals with JSON at a semantic layer.
-// The goal is to provide a clear distinction between functionality that
+// The golangal is to provide a clear distinction between functionality that
 // is purely concerned with encoding versus that of marshaling.
 // For example, one can directly encode a stream of JSON tokens without
 // needing to marshal a concrete Go value representing them.

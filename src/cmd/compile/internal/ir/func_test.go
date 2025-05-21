@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ir
@@ -46,25 +46,25 @@ func TestSplitPkg(t *testing.T) {
 			sym: "Bar[sync/atomic.Uint64]",
 		},
 		{
-			in:  `gopkg.in/yaml%2ev3.Bar[sync/atomic.Uint64]`,
-			pkg: `gopkg.in/yaml%2ev3`,
+			in:  `golangpkg.in/yaml%2ev3.Bar[sync/atomic.Uint64]`,
+			pkg: `golangpkg.in/yaml%2ev3`,
 			sym: "Bar[sync/atomic.Uint64]",
 		},
 		{
 			// This one is a real symbol name.
-			in:  `foo.Bar[go.shape.struct { sync/atomic._ sync/atomic.noCopy; sync/atomic._ sync/atomic.align64; sync/atomic.v uint64 }]`,
+			in:  `foo.Bar[golang.shape.struct { sync/atomic._ sync/atomic.noCopy; sync/atomic._ sync/atomic.align64; sync/atomic.v uint64 }]`,
 			pkg: `foo`,
-			sym: "Bar[go.shape.struct { sync/atomic._ sync/atomic.noCopy; sync/atomic._ sync/atomic.align64; sync/atomic.v uint64 }]",
+			sym: "Bar[golang.shape.struct { sync/atomic._ sync/atomic.noCopy; sync/atomic._ sync/atomic.align64; sync/atomic.v uint64 }]",
 		},
 		{
-			in:  `example%2ecom.Bar[go.shape.struct { sync/atomic._ sync/atomic.noCopy; sync/atomic._ sync/atomic.align64; sync/atomic.v uint64 }]`,
+			in:  `example%2ecom.Bar[golang.shape.struct { sync/atomic._ sync/atomic.noCopy; sync/atomic._ sync/atomic.align64; sync/atomic.v uint64 }]`,
 			pkg: `example%2ecom`,
-			sym: "Bar[go.shape.struct { sync/atomic._ sync/atomic.noCopy; sync/atomic._ sync/atomic.align64; sync/atomic.v uint64 }]",
+			sym: "Bar[golang.shape.struct { sync/atomic._ sync/atomic.noCopy; sync/atomic._ sync/atomic.align64; sync/atomic.v uint64 }]",
 		},
 		{
-			in:  `gopkg.in/yaml%2ev3.Bar[go.shape.struct { sync/atomic._ sync/atomic.noCopy; sync/atomic._ sync/atomic.align64; sync/atomic.v uint64 }]`,
-			pkg: `gopkg.in/yaml%2ev3`,
-			sym: "Bar[go.shape.struct { sync/atomic._ sync/atomic.noCopy; sync/atomic._ sync/atomic.align64; sync/atomic.v uint64 }]",
+			in:  `golangpkg.in/yaml%2ev3.Bar[golang.shape.struct { sync/atomic._ sync/atomic.noCopy; sync/atomic._ sync/atomic.align64; sync/atomic.v uint64 }]`,
+			pkg: `golangpkg.in/yaml%2ev3`,
+			sym: "Bar[golang.shape.struct { sync/atomic._ sync/atomic.noCopy; sync/atomic._ sync/atomic.align64; sync/atomic.v uint64 }]",
 		},
 	}
 
@@ -72,10 +72,10 @@ func TestSplitPkg(t *testing.T) {
 		t.Run(tc.in, func(t *testing.T) {
 			pkg, sym := splitPkg(tc.in)
 			if pkg != tc.pkg {
-				t.Errorf("splitPkg(%q) got pkg %q want %q", tc.in, pkg, tc.pkg)
+				t.Errorf("splitPkg(%q) golangt pkg %q want %q", tc.in, pkg, tc.pkg)
 			}
 			if sym != tc.sym {
-				t.Errorf("splitPkg(%q) got sym %q want %q", tc.in, sym, tc.sym)
+				t.Errorf("splitPkg(%q) golangt sym %q want %q", tc.in, sym, tc.sym)
 			}
 		})
 	}

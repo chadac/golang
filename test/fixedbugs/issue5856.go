@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -30,8 +30,8 @@ func f() {
 
 func g() {
 	_, file, line, _ := runtime.Caller(2)
-	if !strings.HasSuffix(file, "issue5856.go") || line != 28 {
-		fmt.Printf("BUG: defer called from %s:%d, want issue5856.go:28\n", file, line)
+	if !strings.HasSuffix(file, "issue5856.golang") || line != 28 {
+		fmt.Printf("BUG: defer called from %s:%d, want issue5856.golang:28\n", file, line)
 		os.Exit(1)
 	}
 	os.Exit(0)

@@ -67,7 +67,7 @@ const (
 	funcAlign = 16
 )
 
-/* Used by ../internal/ld/dwarf.go */
+/* Used by ../internal/ld/dwarf.golang */
 const (
 	dwarfRegSP = 31
 	dwarfRegLR = 30

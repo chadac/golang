@@ -1,4 +1,4 @@
-name: Pkg.go.dev bugs or feature requests
+name: Pkg.golang.dev bugs or feature requests
 description: Issues or feature requests for the documentation site
 title: "x/pkgsite: issue title"
 labels: ["pkgsite"]
@@ -16,7 +16,7 @@ body:
     id: user-agent
     attributes:
       label: "What is your user agent?"
-      description: "You can find your user agent here: https://www.google.com/search?q=what+is+my+user+agent"
+      description: "You can find your user agent here: https://www.golangogle.com/search?q=what+is+my+user+agent"
     validations:
       required: true
   - type: textarea

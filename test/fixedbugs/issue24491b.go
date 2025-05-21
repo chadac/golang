@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This test makes sure unsafe-uintptr arguments are not
@@ -22,8 +22,8 @@ func setup() unsafe.Pointer {
 	return unsafe.Pointer(&s)
 }
 
-//go:noinline
-//go:uintptrescapes
+//golang:noinline
+//golang:uintptrescapes
 func before(p uintptr) int {
 	runtime.GC()
 	select {

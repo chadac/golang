@@ -1,8 +1,8 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build ppc64 || ppc64le
+//golang:build ppc64 || ppc64le
 
 package cpu
 
@@ -21,5 +21,5 @@ func osinit() {
 	PPC64.IsPOWER10 = isSet(impl, _IMPL_POWER10)
 }
 
-// getsystemcfg is defined in runtime/os2_aix.go
+// getsystemcfg is defined in runtime/os2_aix.golang
 func getsystemcfg(label uint) uint

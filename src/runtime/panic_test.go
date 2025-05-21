@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime_test
@@ -11,7 +11,7 @@ import (
 
 // Test that panics print out the underlying value
 // when the underlying kind is directly printable.
-// Issue: https://golang.org/issues/37531
+// Issue: https://golanglang.org/issues/37531
 func TestPanicWithDirectlyPrintableCustomTypes(t *testing.T) {
 	tests := []struct {
 		name            string

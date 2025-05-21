@@ -1,5 +1,5 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package sumdb implements the HTTP protocols for serving or accessing a module checksum database.
@@ -12,9 +12,9 @@ import (
 	"os"
 	"strings"
 
-	"golang.org/x/mod/internal/lazyregexp"
-	"golang.org/x/mod/module"
-	"golang.org/x/mod/sumdb/tlog"
+	"golanglang.org/x/mod/internal/lazyregexp"
+	"golanglang.org/x/mod/module"
+	"golanglang.org/x/mod/sumdb/tlog"
 )
 
 // A ServerOps provides the external operations

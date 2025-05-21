@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file implements isTerminating.
@@ -64,7 +64,7 @@ func (check *Checker) isTerminating(s syntax.Stmt, label string) bool {
 	case *syntax.ForStmt:
 		if _, ok := s.Init.(*syntax.RangeClause); ok {
 			// Range clauses guarantee that the loop terminates,
-			// so the loop is not a terminating statement. See go.dev/issue/49003.
+			// so the loop is not a terminating statement. See golang.dev/issue/49003.
 			break
 		}
 		if s.Cond == nil && !hasBreak(s.Body, label, true) {

@@ -51,11 +51,11 @@ pkg crypto/tls, type SignatureScheme uint16
 pkg crypto/x509, const NameMismatch = 5
 pkg crypto/x509, const NameMismatch InvalidReason
 pkg crypto/x509, const SHA256WithRSAPSS = 13
-pkg crypto/x509, const SHA256WithRSAPSS SignatureAlgorithm
+pkg crypto/x509, const SHA256WithRSAPSS SignatureAlgolangrithm
 pkg crypto/x509, const SHA384WithRSAPSS = 14
-pkg crypto/x509, const SHA384WithRSAPSS SignatureAlgorithm
+pkg crypto/x509, const SHA384WithRSAPSS SignatureAlgolangrithm
 pkg crypto/x509, const SHA512WithRSAPSS = 15
-pkg crypto/x509, const SHA512WithRSAPSS SignatureAlgorithm
+pkg crypto/x509, const SHA512WithRSAPSS SignatureAlgolangrithm
 pkg crypto/x509, type UnknownAuthorityError struct, Cert *Certificate
 pkg database/sql, const LevelDefault = 0
 pkg database/sql, const LevelDefault IsolationLevel
@@ -176,9 +176,9 @@ pkg expvar, method (*Float) Value() float64
 pkg expvar, method (Func) Value() interface{}
 pkg expvar, method (*Int) Value() int64
 pkg expvar, method (*String) Value() string
-pkg go/doc, func IsPredeclared(string) bool
-pkg go/types, func Default(Type) Type
-pkg go/types, func IdenticalIgnoreTags(Type, Type) bool
+pkg golang/doc, func IsPredeclared(string) bool
+pkg golang/types, func Default(Type) Type
+pkg golang/types, func IdenticalIgnoreTags(Type, Type) bool
 pkg math/big, method (*Float) Scan(fmt.ScanState, int32) error
 pkg math/big, method (*Int) Sqrt(*Int) *Int
 pkg math/rand, func Uint64() uint64
@@ -243,12 +243,12 @@ pkg runtime, type MemStats struct, NumForcedGC uint32
 pkg sort, func Slice(interface{}, func(int, int) bool)
 pkg sort, func SliceIsSorted(interface{}, func(int, int) bool) bool
 pkg sort, func SliceStable(interface{}, func(int, int) bool)
-pkg syscall (linux-arm-cgo), func TimevalToNsec(Timeval) int64
+pkg syscall (linux-arm-cgolang), func TimevalToNsec(Timeval) int64
 pkg syscall (linux-arm), func TimevalToNsec(Timeval) int64
 pkg syscall (openbsd-386), const SYS_KILL = 122
-pkg syscall (openbsd-386-cgo), const SYS_KILL = 122
+pkg syscall (openbsd-386-cgolang), const SYS_KILL = 122
 pkg syscall (openbsd-amd64), const SYS_KILL = 122
-pkg syscall (openbsd-amd64-cgo), const SYS_KILL = 122
+pkg syscall (openbsd-amd64-cgolang), const SYS_KILL = 122
 pkg syscall (windows-386), const ERROR_DIR_NOT_EMPTY = 145
 pkg syscall (windows-386), const ERROR_DIR_NOT_EMPTY Errno
 pkg syscall (windows-amd64), const ERROR_DIR_NOT_EMPTY = 145

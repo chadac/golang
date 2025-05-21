@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
@@ -17,7 +17,7 @@ const (
 	nameOffset = 39
 )
 
-// goenvs caches the Plan 9 environment variables at start of execution into
+// golangenvs caches the Plan 9 environment variables at start of execution into
 // string array envs, to supply the initial contents for os.Environ.
 // Subsequent calls to os.Setenv will change this cache, without writing back
 // to the (possibly shared) Plan 9 environment, so that Setenv and Getenv
@@ -26,8 +26,8 @@ const (
 // Setenv(key, value), one can use os.ReadFile("/env/" + key) and
 // os.WriteFile("/env/" + key, value, 0666) respectively.
 //
-//go:nosplit
-func goenvs() {
+//golang:nosplit
+func golangenvs() {
 	buf := make([]byte, envBufSize)
 	copy(buf, envDir)
 	dirfd := open(&buf[0], _OREAD|_OCEXEC, 0)
@@ -73,7 +73,7 @@ func goenvs() {
 // dofiles reads the directory opened with file descriptor fd, applying function f
 // to each filename in it.
 //
-//go:nosplit
+//golang:nosplit
 func dofiles(dirfd int32, f func([]byte)) {
 	dirbuf := new([dirBufSize]byte)
 
@@ -99,7 +99,7 @@ func dofiles(dirfd int32, f func([]byte)) {
 // and a slice containing the remaining directory entries.
 // If the buffer doesn't start with a valid directory entry, the returned name is nil.
 //
-//go:nosplit
+//golang:nosplit
 func gdirname(buf []byte) (name []byte, rest []byte) {
 	if 2+nameOffset+2 > len(buf) {
 		return
@@ -120,7 +120,7 @@ func gdirname(buf []byte) (name []byte, rest []byte) {
 // gbit16 reads a 16-bit little-endian binary number from b and returns it
 // with the remaining slice of b.
 //
-//go:nosplit
+//golang:nosplit
 func gbit16(b []byte) (int, []byte) {
 	return int(b[0]) | int(b[1])<<8, b[2:]
 }

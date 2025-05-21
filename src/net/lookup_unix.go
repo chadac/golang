@@ -1,8 +1,8 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build unix || js || wasip1
+//golang:build unix || js || wasip1
 
 package net
 
@@ -52,68 +52,68 @@ func lookupProtocol(_ context.Context, name string) (int, error) {
 
 func (r *Resolver) lookupHost(ctx context.Context, host string) (addrs []string, err error) {
 	order, conf := systemConf().hostLookupOrder(r, host)
-	if order == hostLookupCgo {
-		return cgoLookupHost(ctx, host)
+	if order == hostLookupCgolang {
+		return cgolangLookupHost(ctx, host)
 	}
-	return r.goLookupHostOrder(ctx, host, order, conf)
+	return r.golangLookupHostOrder(ctx, host, order, conf)
 }
 
 func (r *Resolver) lookupIP(ctx context.Context, network, host string) (addrs []IPAddr, err error) {
 	order, conf := systemConf().hostLookupOrder(r, host)
-	if order == hostLookupCgo {
-		return cgoLookupIP(ctx, network, host)
+	if order == hostLookupCgolang {
+		return cgolangLookupIP(ctx, network, host)
 	}
-	ips, _, err := r.goLookupIPCNAMEOrder(ctx, network, host, order, conf)
+	ips, _, err := r.golangLookupIPCNAMEOrder(ctx, network, host, order, conf)
 	return ips, err
 }
 
 func (r *Resolver) lookupPort(ctx context.Context, network, service string) (int, error) {
 	// Port lookup is not a DNS operation.
-	// Prefer the cgo resolver if possible.
+	// Prefer the cgolang resolver if possible.
 	if !systemConf().mustUseGoResolver(r) {
-		port, err := cgoLookupPort(ctx, network, service)
+		port, err := cgolangLookupPort(ctx, network, service)
 		if err != nil {
-			// Issue 18213: if cgo fails, first check to see whether we
+			// Issue 18213: if cgolang fails, first check to see whether we
 			// have the answer baked-in to the net package.
-			if port, err := goLookupPort(network, service); err == nil {
+			if port, err := golangLookupPort(network, service); err == nil {
 				return port, nil
 			}
 		}
 		return port, err
 	}
-	return goLookupPort(network, service)
+	return golangLookupPort(network, service)
 }
 
 func (r *Resolver) lookupCNAME(ctx context.Context, name string) (string, error) {
 	order, conf := systemConf().hostLookupOrder(r, name)
-	if order == hostLookupCgo {
-		if cname, err, ok := cgoLookupCNAME(ctx, name); ok {
+	if order == hostLookupCgolang {
+		if cname, err, ok := cgolangLookupCNAME(ctx, name); ok {
 			return cname, err
 		}
 	}
-	return r.goLookupCNAME(ctx, name, order, conf)
+	return r.golangLookupCNAME(ctx, name, order, conf)
 }
 
 func (r *Resolver) lookupSRV(ctx context.Context, service, proto, name string) (string, []*SRV, error) {
-	return r.goLookupSRV(ctx, service, proto, name)
+	return r.golangLookupSRV(ctx, service, proto, name)
 }
 
 func (r *Resolver) lookupMX(ctx context.Context, name string) ([]*MX, error) {
-	return r.goLookupMX(ctx, name)
+	return r.golangLookupMX(ctx, name)
 }
 
 func (r *Resolver) lookupNS(ctx context.Context, name string) ([]*NS, error) {
-	return r.goLookupNS(ctx, name)
+	return r.golangLookupNS(ctx, name)
 }
 
 func (r *Resolver) lookupTXT(ctx context.Context, name string) ([]string, error) {
-	return r.goLookupTXT(ctx, name)
+	return r.golangLookupTXT(ctx, name)
 }
 
 func (r *Resolver) lookupAddr(ctx context.Context, addr string) ([]string, error) {
 	order, conf := systemConf().addrLookupOrder(r, addr)
-	if order == hostLookupCgo {
-		return cgoLookupPTR(ctx, addr)
+	if order == hostLookupCgolang {
+		return cgolangLookupPTR(ctx, addr)
 	}
-	return r.goLookupPTR(ctx, addr, order, conf)
+	return r.golangLookupPTR(ctx, addr, order, conf)
 }

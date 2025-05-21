@@ -1,9 +1,9 @@
 env GO111MODULE=off
 
 # hello world
-go run hello.go
+golang run hello.golang
 stderr 'hello world'
 
--- hello.go --
+-- hello.golang --
 package main
 func main() { println("hello world") }

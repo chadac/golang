@@ -1,18 +1,18 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Test cases for cgo.
+// Test cases for cgolang.
 // Both the import "C" prologue and the main file are sorted by issue number.
 // This file contains //export directives on Go functions
 // and so it must NOT contain C definitions (only declarations).
-// See test.go for C definitions.
+// See test.golang for C definitions.
 
-package cgotest
+package cgolangtest
 
 import (
 	"runtime"
-	"runtime/cgo"
+	"runtime/cgolang"
 	"runtime/debug"
 	"strings"
 	"sync"
@@ -40,7 +40,7 @@ long long twoSleep(int);
 void lockOSThreadC(void);
 int usleep(unsigned usec);
 
-// issue 4054 part 2 - part 1 in test.go
+// issue 4054 part 2 - part 1 in test.golang
 typedef enum {
 	A = 0,
 	B,
@@ -71,7 +71,7 @@ extern int CheckIssue6907C(_GoString_);
 extern void f7665(void);
 
 // issue 7978
-// Stack tracing didn't work during cgo code after calling a Go
+// Stack tracing didn't work during cgolang code after calling a Go
 // callback.  Make sure GC works and the stack trace is correct.
 
 #include <stdint.h>
@@ -80,7 +80,7 @@ extern void f7665(void);
 // Go code or OS dependencies
 void issue7978c(uint32_t *sync);
 
-// issue 8331 part 2 - part 1 in test.go
+// issue 8331 part 2 - part 1 in test.golang
 // A typedef of an unnamed struct is the same struct when
 // #include'd twice.  No runtime test; just make sure it compiles.
 #include "issue8331.h"
@@ -88,12 +88,12 @@ void issue7978c(uint32_t *sync);
 // issue 8945
 
 typedef void (*PFunc8945)();
-extern PFunc8945 func8945; // definition is in test.go
+extern PFunc8945 func8945; // definition is in test.golang
 
 // issue 20910
 void callMulti(void);
 
-// issue 28772 part 2 - part 1 in issuex.go
+// issue 28772 part 2 - part 1 in issuex.golang
 #define issue28772Constant2 2
 
 
@@ -112,7 +112,7 @@ typedef struct {
 	int i;
 } Issue38408, *PIssue38408;
 
-extern void cfunc49633(void*); // definition is in test.go
+extern void cfunc49633(void*); // definition is in test.golang
 */
 import "C"
 
@@ -147,8 +147,8 @@ func Add(x int) {
 	*p = 2
 }
 
-//export goDummy
-func goDummy() {
+//export golangDummy
+func golangDummy() {
 }
 
 func testCthread(t *testing.T) {
@@ -225,8 +225,8 @@ func Issue1560FromGo() {
 }
 
 func test1560(t *testing.T) {
-	go Issue1560FromGo()
-	go C.Issue1560InC()
+	golang Issue1560FromGo()
+	golang C.Issue1560InC()
 	<-issue1560Ch
 	<-issue1560Ch
 }
@@ -353,7 +353,7 @@ func init() {
 	}
 	// Same as test3775 but run during init so that
 	// there are two levels of internal runtime lock
-	// (1 for init, 1 for cgo).
+	// (1 for init, 1 for cgolang).
 	// This would have been broken by CL 11663043.
 	C.lockOSThreadC()
 }
@@ -370,11 +370,11 @@ func test3775(t *testing.T) {
 func lockOSThreadCallback() {
 	runtime.LockOSThread()
 	runtime.UnlockOSThread()
-	go C.usleep(10000)
+	golang C.usleep(10000)
 	runtime.Gosched()
 }
 
-// issue 4054 part 2 - part 1 in test.go
+// issue 4054 part 2 - part 1 in test.golang
 
 var issue4054b = []int{C.A, C.B, C.C, C.D, C.E, C.F, C.G, C.H, C.II, C.J}
 
@@ -383,7 +383,7 @@ func issue5548FromC(s string, i int) int {
 	if len(s) == 4 && s == "test" && i == 42 {
 		return 12345
 	}
-	println("got", len(s), i)
+	println("golangt", len(s), i)
 	return 9876
 }
 
@@ -423,19 +423,19 @@ func CheckIssue6907Go(s string) C.int {
 }
 
 func test6907Go(t *testing.T) {
-	if got := C.CheckIssue6907C(CString); got != 1 {
-		t.Errorf("C.CheckIssue6907C() == %d, want %d", got, 1)
+	if golangt := C.CheckIssue6907C(CString); golangt != 1 {
+		t.Errorf("C.CheckIssue6907C() == %d, want %d", golangt, 1)
 	}
 }
 
 // issue 7665
 
 var bad7665 unsafe.Pointer = C.f7665
-var good7665 uintptr = uintptr(C.f7665)
+var golangod7665 uintptr = uintptr(C.f7665)
 
 func test7665(t *testing.T) {
-	if bad7665 == nil || uintptr(bad7665) != good7665 {
-		t.Errorf("ptrs = %p, %#x, want same non-nil pointer", bad7665, good7665)
+	if bad7665 == nil || uintptr(bad7665) != golangod7665 {
+		t.Errorf("ptrs = %p, %#x, want same non-nil pointer", bad7665, golangod7665)
 	}
 }
 
@@ -447,24 +447,24 @@ func issue7978check(t *testing.T, wantFunc string, badFunc string, depth int) {
 	runtime.GC()
 	buf := make([]byte, 65536)
 	trace := string(buf[:runtime.Stack(buf, true)])
-	for _, goroutine := range strings.Split(trace, "\n\n") {
-		if strings.Contains(goroutine, "test.issue7978go") {
-			trace := strings.Split(goroutine, "\n")
+	for _, golangroutine := range strings.Split(trace, "\n\n") {
+		if strings.Contains(golangroutine, "test.issue7978golang") {
+			trace := strings.Split(golangroutine, "\n")
 			// look for the expected function in the stack
 			for i := 0; i < depth; i++ {
 				if badFunc != "" && strings.Contains(trace[1+2*i], badFunc) {
-					t.Errorf("bad stack: found %s in the stack:\n%s", badFunc, goroutine)
+					t.Errorf("bad stack: found %s in the stack:\n%s", badFunc, golangroutine)
 					return
 				}
 				if strings.Contains(trace[1+2*i], wantFunc) {
 					return
 				}
 			}
-			t.Errorf("bad stack: didn't find %s in the stack:\n%s", wantFunc, goroutine)
+			t.Errorf("bad stack: didn't find %s in the stack:\n%s", wantFunc, golangroutine)
 			return
 		}
 	}
-	t.Errorf("bad stack: goroutine not found. Full stack dump:\n%s", trace)
+	t.Errorf("bad stack: golangroutine not found. Full stack dump:\n%s", trace)
 }
 
 func issue7978wait(store uint32, wait uint32) {
@@ -492,30 +492,30 @@ func growStack(n int) int {
 	return buf[growStack(n-1)]
 }
 
-func issue7978go() {
+func issue7978golang() {
 	C.issue7978c((*C.uint32_t)(&issue7978sync))
 	issue7978wait(7, 8)
 }
 
 func test7978(t *testing.T) {
-	if runtime.Compiler == "gccgo" {
-		t.Skip("gccgo can not do stack traces of C code")
+	if runtime.Compiler == "gccgolang" {
+		t.Skip("gccgolang can not do stack traces of C code")
 	}
 	debug.SetTraceback("2")
 	issue7978sync = 0
-	go issue7978go()
+	golang issue7978golang()
 	// test in c code, before callback
 	issue7978wait(0, 1)
 	issue7978check(t, "_Cfunc_issue7978c(", "", 1)
-	// test in go code, during callback
+	// test in golang code, during callback
 	issue7978wait(2, 3)
-	issue7978check(t, "test.issue7978cb(", "test.issue7978go", 3)
+	issue7978check(t, "test.issue7978cb(", "test.issue7978golang", 3)
 	// test in c code, after callback
 	issue7978wait(4, 5)
-	issue7978check(t, "_Cfunc_issue7978c(", "_cgoexpwrap", 1)
-	// test in go code, after return from cgo
+	issue7978check(t, "_Cfunc_issue7978c(", "_cgolangexpwrap", 1)
+	// test in golang code, after return from cgolang
 	issue7978wait(6, 7)
-	issue7978check(t, "test.issue7978go(", "", 3)
+	issue7978check(t, "test.issue7978golang(", "", 3)
 	atomic.StoreUint32(&issue7978sync, 8)
 }
 
@@ -557,13 +557,13 @@ func test31891(t *testing.T) {
 	C.callIssue31891()
 }
 
-// issue 37033, check if cgo.Handle works properly
+// issue 37033, check if cgolang.Handle works properly
 
 var issue37033 = 42
 
 //export GoFunc37033
 func GoFunc37033(handle C.uintptr_t) {
-	h := cgo.Handle(handle)
+	h := cgolang.Handle(handle)
 	ch := h.Value().(chan int)
 	ch <- issue37033
 }
@@ -573,7 +573,7 @@ func GoFunc37033(handle C.uintptr_t) {
 // No runtime test; just make sure it compiles.
 var _ C.PIssue38408 = &C.Issue38408{i: 1}
 
-// issue 49633, example use of cgo.Handle with void*
+// issue 49633, example use of cgolang.Handle with void*
 
 type data49633 struct {
 	msg string
@@ -581,14 +581,14 @@ type data49633 struct {
 
 //export GoFunc49633
 func GoFunc49633(context unsafe.Pointer) {
-	h := *(*cgo.Handle)(context)
+	h := *(*cgolang.Handle)(context)
 	v := h.Value().(*data49633)
 	v.msg = "hello"
 }
 
 func test49633(t *testing.T) {
 	v := &data49633{}
-	h := cgo.NewHandle(v)
+	h := cgolang.NewHandle(v)
 	defer h.Delete()
 	C.cfunc49633(unsafe.Pointer(&h))
 	if v.msg != "hello" {

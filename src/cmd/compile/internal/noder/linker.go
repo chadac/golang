@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package noder
@@ -13,7 +13,7 @@ import (
 	"cmd/compile/internal/ir"
 	"cmd/compile/internal/reflectdata"
 	"cmd/compile/internal/types"
-	"cmd/internal/goobj"
+	"cmd/internal/golangobj"
 	"cmd/internal/obj"
 )
 
@@ -25,11 +25,11 @@ import (
 //
 // TODO(mdempsky): Using the name "linker" here is confusing, because
 // readers are likely to mistake references to it for cmd/link. But
-// there's a shortage of good names for "something that combines
+// there's a shortage of golangod names for "something that combines
 // multiple parts into a cohesive whole"... e.g., "assembler" and
 // "compiler" are also already taken.
 
-// TODO(mdempsky): Should linker go into pkgbits? Probably the
+// TODO(mdempsky): Should linker golang into pkgbits? Probably the
 // low-level linking details can be moved there, but the logic for
 // handling extension data needs to stay in the compiler.
 
@@ -120,7 +120,7 @@ func (l *linker) relocPkg(pr *pkgReader, idx index) index {
 	// TODO(mdempsky): We end up leaving an empty string reference here
 	// from when the package was originally written as "". Probably not
 	// a big deal, but a little annoying. Maybe relocating
-	// cross-references in place is the way to go after all.
+	// cross-references in place is the way to golang after all.
 	w.Relocs = l.relocAll(pr, r.Relocs)
 
 	_ = r.String() // original path
@@ -232,7 +232,7 @@ func (l *linker) exportBody(obj *ir.Name, local bool) {
 	// function body is available for inlining.
 	//
 	// TODO(mdempsky): Reimplement the reachable method crawling logic
-	// from typecheck/crawler.go.
+	// from typecheck/crawler.golang.
 	exportBody := local || fn.Inl.HaveDcl
 	if !exportBody {
 		return
@@ -342,7 +342,7 @@ func (l *linker) linkname(w *pkgbits.Encoder, name *ir.Name) {
 }
 
 func (l *linker) lsymIdx(w *pkgbits.Encoder, linkname string, lsym *obj.LSym) bool {
-	if lsym.PkgIdx > goobj.PkgIdxSelf || (lsym.PkgIdx == goobj.PkgIdxInvalid && !lsym.Indexed()) || linkname != "" {
+	if lsym.PkgIdx > golangobj.PkgIdxSelf || (lsym.PkgIdx == golangobj.PkgIdxInvalid && !lsym.Indexed()) || linkname != "" {
 		w.Int64(-1)
 		return false
 	}

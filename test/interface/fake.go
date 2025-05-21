@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test interface comparisons using types hidden
@@ -82,16 +82,16 @@ comparing uncomparable type float32
 throw: interface compare
 
 panic PC=0x28ceb8 [1]
-throw+0x41 /Users/rsc/goX/src/runtime/runtime.c:54
+throw+0x41 /Users/rsc/golangX/src/runtime/runtime.c:54
 	throw(0x3014a, 0x0)
-ifaceeq+0x15c /Users/rsc/goX/src/runtime/iface.c:501
+ifaceeq+0x15c /Users/rsc/golangX/src/runtime/iface.c:501
 	ifaceeq(0x2aa7c0, 0x0, 0x0, 0x0, 0x2aa7c0, ...)
-sys·ifaceeq+0x48 /Users/rsc/goX/src/runtime/iface.c:527
+sys·ifaceeq+0x48 /Users/rsc/golangX/src/runtime/iface.c:527
 	sys·ifaceeq(0x2aa7c0, 0x0, 0x0, 0x0, 0x2aa7c0, ...)
-main·main+0x190 /Users/rsc/goX/src/cmd/gc/x.go:10
+main·main+0x190 /Users/rsc/golangX/src/cmd/gc/x.golang:10
 	main·main()
-mainstart+0xf /Users/rsc/goX/src/runtime/amd64/asm.s:53
+mainstart+0xf /Users/rsc/golangX/src/runtime/amd64/asm.s:53
 	mainstart()
-sys·Goexit /Users/rsc/goX/src/runtime/proc.c:124
+sys·Goexit /Users/rsc/golangX/src/runtime/proc.c:124
 	sys·Goexit()
 */

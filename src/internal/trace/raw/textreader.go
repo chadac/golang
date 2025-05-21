@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package raw
@@ -36,11 +36,11 @@ func NewTextReader(r io.Reader) (*TextReader, error) {
 	if trace != "Trace" {
 		return nil, fmt.Errorf("failed to parse header")
 	}
-	gover, line := readToken(line)
-	if !strings.HasPrefix(gover, "Go1.") {
+	golangver, line := readToken(line)
+	if !strings.HasPrefix(golangver, "Go1.") {
 		return nil, fmt.Errorf("failed to parse header Go version")
 	}
-	rawv, err := strconv.ParseUint(gover[len("Go1."):], 10, 64)
+	rawv, err := strconv.ParseUint(golangver[len("Go1."):], 10, 64)
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse header Go version: %v", err)
 	}
@@ -146,7 +146,7 @@ func readArgs(s string, names []string) ([]uint64, error) {
 			return nil, err
 		}
 		if arg != name {
-			return nil, fmt.Errorf("expected argument %q, but got %q", name, arg)
+			return nil, fmt.Errorf("expected argument %q, but golangt %q", name, arg)
 		}
 		args = append(args, value)
 		s = rest

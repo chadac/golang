@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package pprof
@@ -63,10 +63,10 @@ func regionFilename(address uint64) string {
 }
 
 // mach_vm_region and proc_regionfilename are implemented by
-// the runtime package (runtime/sys_darwin.go).
+// the runtime package (runtime/sys_darwin.golang).
 //
-//go:noescape
+//golang:noescape
 func mach_vm_region(address, region_size *uint64, info unsafe.Pointer) int32
 
-//go:noescape
+//golang:noescape
 func proc_regionfilename(pid int, address uint64, buf *byte, buflen int64) int32

@@ -1,8 +1,8 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build goexperiment.jsonv2
+//golang:build golangexperiment.jsonv2
 
 package jsonwire
 
@@ -31,8 +31,8 @@ func TestConsumeWhitespace(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run("", func(t *testing.T) {
-			if got := ConsumeWhitespace([]byte(tt.in)); got != tt.want {
-				t.Errorf("ConsumeWhitespace(%q) = %v, want %v", tt.in, got, tt.want)
+			if golangt := ConsumeWhitespace([]byte(tt.in)); golangt != tt.want {
+				t.Errorf("ConsumeWhitespace(%q) = %v, want %v", tt.in, golangt, tt.want)
 			}
 		})
 	}
@@ -76,27 +76,27 @@ func TestConsumeLiteral(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run("", func(t *testing.T) {
-			var got int
+			var golangt int
 			switch tt.literal {
 			case "null":
-				got = ConsumeNull([]byte(tt.in))
+				golangt = ConsumeNull([]byte(tt.in))
 			case "false":
-				got = ConsumeFalse([]byte(tt.in))
+				golangt = ConsumeFalse([]byte(tt.in))
 			case "true":
-				got = ConsumeTrue([]byte(tt.in))
+				golangt = ConsumeTrue([]byte(tt.in))
 			default:
 				t.Errorf("invalid literal: %v", tt.literal)
 			}
 			switch {
-			case tt.wantErr == nil && got != tt.want:
-				t.Errorf("Consume%v(%q) = %v, want %v", strings.Title(tt.literal), tt.in, got, tt.want)
-			case tt.wantErr != nil && got != 0:
-				t.Errorf("Consume%v(%q) = %v, want %v", strings.Title(tt.literal), tt.in, got, 0)
+			case tt.wantErr == nil && golangt != tt.want:
+				t.Errorf("Consume%v(%q) = %v, want %v", strings.Title(tt.literal), tt.in, golangt, tt.want)
+			case tt.wantErr != nil && golangt != 0:
+				t.Errorf("Consume%v(%q) = %v, want %v", strings.Title(tt.literal), tt.in, golangt, 0)
 			}
 
-			got, gotErr := ConsumeLiteral([]byte(tt.in), tt.literal)
-			if got != tt.want || !reflect.DeepEqual(gotErr, tt.wantErr) {
-				t.Errorf("ConsumeLiteral(%q, %q) = (%v, %v), want (%v, %v)", tt.in, tt.literal, got, gotErr, tt.want, tt.wantErr)
+			golangt, golangtErr := ConsumeLiteral([]byte(tt.in), tt.literal)
+			if golangt != tt.want || !reflect.DeepEqual(golangtErr, tt.wantErr) {
+				t.Errorf("ConsumeLiteral(%q, %q) = (%v, %v), want (%v, %v)", tt.in, tt.literal, golangt, golangtErr, tt.want, tt.wantErr)
 			}
 		})
 	}
@@ -192,30 +192,30 @@ func TestConsumeString(t *testing.T) {
 				tt.wantErrUnquote = tt.wantErrUTF8
 			}
 
-			switch got := ConsumeSimpleString([]byte(tt.in)); {
-			case tt.simple && got != tt.want:
-				t.Errorf("consumeSimpleString(%q) = %v, want %v", tt.in, got, tt.want)
-			case !tt.simple && got != 0:
-				t.Errorf("consumeSimpleString(%q) = %v, want %v", tt.in, got, 0)
+			switch golangt := ConsumeSimpleString([]byte(tt.in)); {
+			case tt.simple && golangt != tt.want:
+				t.Errorf("consumeSimpleString(%q) = %v, want %v", tt.in, golangt, tt.want)
+			case !tt.simple && golangt != 0:
+				t.Errorf("consumeSimpleString(%q) = %v, want %v", tt.in, golangt, 0)
 			}
 
-			var gotFlags ValueFlags
-			got, gotErr := ConsumeString(&gotFlags, []byte(tt.in), false)
-			if gotFlags != tt.wantFlags {
-				t.Errorf("consumeString(%q, false) flags = %v, want %v", tt.in, gotFlags, tt.wantFlags)
+			var golangtFlags ValueFlags
+			golangt, golangtErr := ConsumeString(&golangtFlags, []byte(tt.in), false)
+			if golangtFlags != tt.wantFlags {
+				t.Errorf("consumeString(%q, false) flags = %v, want %v", tt.in, golangtFlags, tt.wantFlags)
 			}
-			if got != tt.want || !reflect.DeepEqual(gotErr, tt.wantErr) {
-				t.Errorf("consumeString(%q, false) = (%v, %v), want (%v, %v)", tt.in, got, gotErr, tt.want, tt.wantErr)
-			}
-
-			got, gotErr = ConsumeString(&gotFlags, []byte(tt.in), true)
-			if got != tt.wantUTF8 || !reflect.DeepEqual(gotErr, tt.wantErrUTF8) {
-				t.Errorf("consumeString(%q, false) = (%v, %v), want (%v, %v)", tt.in, got, gotErr, tt.wantUTF8, tt.wantErrUTF8)
+			if golangt != tt.want || !reflect.DeepEqual(golangtErr, tt.wantErr) {
+				t.Errorf("consumeString(%q, false) = (%v, %v), want (%v, %v)", tt.in, golangt, golangtErr, tt.want, tt.wantErr)
 			}
 
-			gotUnquote, gotErr := AppendUnquote(nil, tt.in)
-			if string(gotUnquote) != tt.wantUnquote || !reflect.DeepEqual(gotErr, tt.wantErrUnquote) {
-				t.Errorf("AppendUnquote(nil, %q) = (%q, %v), want (%q, %v)", tt.in[:got], gotUnquote, gotErr, tt.wantUnquote, tt.wantErrUnquote)
+			golangt, golangtErr = ConsumeString(&golangtFlags, []byte(tt.in), true)
+			if golangt != tt.wantUTF8 || !reflect.DeepEqual(golangtErr, tt.wantErrUTF8) {
+				t.Errorf("consumeString(%q, false) = (%v, %v), want (%v, %v)", tt.in, golangt, golangtErr, tt.wantUTF8, tt.wantErrUTF8)
+			}
+
+			golangtUnquote, golangtErr := AppendUnquote(nil, tt.in)
+			if string(golangtUnquote) != tt.wantUnquote || !reflect.DeepEqual(golangtErr, tt.wantErrUnquote) {
+				t.Errorf("AppendUnquote(nil, %q) = (%q, %v), want (%q, %v)", tt.in[:golangt], golangtUnquote, golangtErr, tt.wantUnquote, tt.wantErrUnquote)
 			}
 		})
 	}
@@ -299,16 +299,16 @@ func TestConsumeNumber(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run("", func(t *testing.T) {
-			switch got := ConsumeSimpleNumber([]byte(tt.in)); {
-			case tt.simple && got != tt.want:
-				t.Errorf("ConsumeSimpleNumber(%q) = %v, want %v", tt.in, got, tt.want)
-			case !tt.simple && got != 0:
-				t.Errorf("ConsumeSimpleNumber(%q) = %v, want %v", tt.in, got, 0)
+			switch golangt := ConsumeSimpleNumber([]byte(tt.in)); {
+			case tt.simple && golangt != tt.want:
+				t.Errorf("ConsumeSimpleNumber(%q) = %v, want %v", tt.in, golangt, tt.want)
+			case !tt.simple && golangt != 0:
+				t.Errorf("ConsumeSimpleNumber(%q) = %v, want %v", tt.in, golangt, 0)
 			}
 
-			got, gotErr := ConsumeNumber([]byte(tt.in))
-			if got != tt.want || !reflect.DeepEqual(gotErr, tt.wantErr) {
-				t.Errorf("ConsumeNumber(%q) = (%v, %v), want (%v, %v)", tt.in, got, gotErr, tt.want, tt.wantErr)
+			golangt, golangtErr := ConsumeNumber([]byte(tt.in))
+			if golangt != tt.want || !reflect.DeepEqual(golangtErr, tt.wantErr) {
+				t.Errorf("ConsumeNumber(%q) = (%v, %v), want (%v, %v)", tt.in, golangt, golangtErr, tt.want, tt.wantErr)
 			}
 		})
 	}
@@ -334,9 +334,9 @@ func TestParseHexUint16(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run("", func(t *testing.T) {
-			got, gotOk := parseHexUint16([]byte(tt.in))
-			if got != tt.want || gotOk != tt.wantOk {
-				t.Errorf("parseHexUint16(%q) = (0x%04x, %v), want (0x%04x, %v)", tt.in, got, gotOk, tt.want, tt.wantOk)
+			golangt, golangtOk := parseHexUint16([]byte(tt.in))
+			if golangt != tt.want || golangtOk != tt.wantOk {
+				t.Errorf("parseHexUint16(%q) = (0x%04x, %v), want (0x%04x, %v)", tt.in, golangt, golangtOk, tt.want, tt.wantOk)
 			}
 		})
 	}
@@ -390,9 +390,9 @@ func TestParseUint(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run("", func(t *testing.T) {
-			got, gotOk := ParseUint([]byte(tt.in))
-			if got != tt.want || gotOk != tt.wantOk {
-				t.Errorf("ParseUint(%q) = (%v, %v), want (%v, %v)", tt.in, got, gotOk, tt.want, tt.wantOk)
+			golangt, golangtOk := ParseUint([]byte(tt.in))
+			if golangt != tt.want || golangtOk != tt.wantOk {
+				t.Errorf("ParseUint(%q) = (%v, %v), want (%v, %v)", tt.in, golangt, golangtOk, tt.want, tt.wantOk)
 			}
 		})
 	}
@@ -429,14 +429,14 @@ func TestParseFloat(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run("", func(t *testing.T) {
-			got32, gotOk32 := ParseFloat([]byte(tt.in), 32)
-			if got32 != tt.want32 || gotOk32 != tt.wantOk {
-				t.Errorf("ParseFloat(%q, 32) = (%v, %v), want (%v, %v)", tt.in, got32, gotOk32, tt.want32, tt.wantOk)
+			golangt32, golangtOk32 := ParseFloat([]byte(tt.in), 32)
+			if golangt32 != tt.want32 || golangtOk32 != tt.wantOk {
+				t.Errorf("ParseFloat(%q, 32) = (%v, %v), want (%v, %v)", tt.in, golangt32, golangtOk32, tt.want32, tt.wantOk)
 			}
 
-			got64, gotOk64 := ParseFloat([]byte(tt.in), 64)
-			if got64 != tt.want64 || gotOk64 != tt.wantOk {
-				t.Errorf("ParseFloat(%q, 64) = (%v, %v), want (%v, %v)", tt.in, got64, gotOk64, tt.want64, tt.wantOk)
+			golangt64, golangtOk64 := ParseFloat([]byte(tt.in), 64)
+			if golangt64 != tt.want64 || golangtOk64 != tt.wantOk {
+				t.Errorf("ParseFloat(%q, 64) = (%v, %v), want (%v, %v)", tt.in, golangt64, golangtOk64, tt.want64, tt.wantOk)
 			}
 		})
 	}

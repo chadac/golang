@@ -1,8 +1,8 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build dragonfly || freebsd || linux || netbsd || openbsd
+//golang:build dragolangnfly || freebsd || linux || netbsd || openbsd
 
 package runtime
 
@@ -35,8 +35,8 @@ func dumpregs(c *sigctxt) {
 	print("fault   ", hex(c.fault()), "\n")
 }
 
-//go:nosplit
-//go:nowritebarrierrec
+//golang:nosplit
+//golang:nowritebarrierrec
 func (c *sigctxt) sigpc() uintptr { return uintptr(c.pc()) }
 
 func (c *sigctxt) sigsp() uintptr { return uintptr(c.sp()) }
@@ -48,7 +48,7 @@ func (c *sigctxt) preparePanic(sig uint32, gp *g) {
 	// function calls sigpanic directly.
 	// Always save LR to stack so that panics in leaf
 	// functions are correctly handled. This smashes
-	// the stack frame but we're not going back there
+	// the stack frame but we're not golanging back there
 	// anyway.
 	sp := c.sp() - 4
 	c.set_sp(sp)

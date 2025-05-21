@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package signal
@@ -48,7 +48,7 @@ func main() {
 	select {
 	case s := <-c:
 		if s != os.Interrupt {
-			log.Fatalf("Wrong signal received: got %q, want %q\n", s, os.Interrupt)
+			log.Fatalf("Wrong signal received: golangt %q, want %q\n", s, os.Interrupt)
 		}
 	case <-time.After(3 * time.Second):
 		log.Fatalf("Timeout waiting for Ctrl+Break\n")
@@ -57,9 +57,9 @@ func main() {
 `
 	tmp := t.TempDir()
 
-	// write ctrlbreak.go
+	// write ctrlbreak.golang
 	name := filepath.Join(tmp, "ctlbreak")
-	src := name + ".go"
+	src := name + ".golang"
 	f, err := os.Create(src)
 	if err != nil {
 		t.Fatalf("Failed to create %v: %v", src, err)
@@ -87,7 +87,7 @@ func main() {
 	if err != nil {
 		t.Fatalf("Start failed: %v", err)
 	}
-	go func() {
+	golang func() {
 		time.Sleep(1 * time.Second)
 		sendCtrlBreak(t, cmd.Process.Pid)
 	}()

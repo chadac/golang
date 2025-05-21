@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package template_test
@@ -144,7 +144,7 @@ func ExampleTemplate_helpers() {
 		log.Fatal("parsing driver2: ", err)
 	}
 	// We load all the templates before execution. This package does not require
-	// that behavior but html/template's escaping does, so it's a good habit.
+	// that behavior but html/template's escaping does, so it's a golangod habit.
 	err = templates.ExecuteTemplate(os.Stdout, "driver1", nil)
 	if err != nil {
 		log.Fatalf("driver1 execution: %s", err)

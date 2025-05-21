@@ -1,12 +1,12 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package deepequal_test
 
 import (
         "testing"
-        "google3/spam/archer/frontend/deepequal"
+        "golangogle3/spam/archer/frontend/deepequal"
 )
 
 func TestTwoNilValues(t *testing.T) {
@@ -53,7 +53,7 @@ entries: map[int]interface{}{
 entries: map[int]interface{}{
 0: &Foo{},
 -2: &Bar{},
--11: &Baz{ whatever: "we need to go deeper" }}}},
+-11: &Baz{ whatever: "we need to golang deeper" }}}},
         bang: &Bar{foo: []*Foo{
 &Foo{bar: &Bar{ baz: &Baz{
 entries: map[int]interface{}{

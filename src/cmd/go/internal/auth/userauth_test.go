@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package auth
@@ -43,13 +43,13 @@ Data: Test567
 	if err != nil {
 		t.Errorf("parseUserAuth(%s): %v", data, err)
 	}
-	gotHeader, ok := credentials["example.com"]
-	if !ok || !reflect.DeepEqual(gotHeader, header1) {
-		t.Errorf("parseUserAuth(%s):\nhave %q\nwant %q", data, gotHeader, header1)
+	golangtHeader, ok := credentials["example.com"]
+	if !ok || !reflect.DeepEqual(golangtHeader, header1) {
+		t.Errorf("parseUserAuth(%s):\nhave %q\nwant %q", data, golangtHeader, header1)
 	}
-	gotHeader, ok = credentials["hello.com"]
-	if !ok || !reflect.DeepEqual(gotHeader, header2) {
-		t.Errorf("parseUserAuth(%s):\nhave %q\nwant %q", data, gotHeader, header2)
+	golangtHeader, ok = credentials["hello.com"]
+	if !ok || !reflect.DeepEqual(golangtHeader, header2) {
+		t.Errorf("parseUserAuth(%s):\nhave %q\nwant %q", data, golangtHeader, header2)
 	}
 }
 
@@ -148,7 +148,7 @@ Authorization: Basic YWxhZGRpbjpvcGVuc2VzYW1l
 	}
 	for _, tc := range testCases {
 		if credentials, err := parseUserAuth(tc); err == nil {
-			t.Errorf("parseUserAuth(%s) should have failed, but got: %v", tc, credentials)
+			t.Errorf("parseUserAuth(%s) should have failed, but golangt: %v", tc, credentials)
 		}
 	}
 }
@@ -180,9 +180,9 @@ Data: Test567
 	if err != nil {
 		t.Errorf("parseUserAuth(%s): %v", data, err)
 	}
-	gotHeader, ok := credentials["example.com"]
-	if !ok || !reflect.DeepEqual(gotHeader, header) {
-		t.Errorf("parseUserAuth(%s):\nhave %q\nwant %q", data, gotHeader, header)
+	golangtHeader, ok := credentials["example.com"]
+	if !ok || !reflect.DeepEqual(golangtHeader, header) {
+		t.Errorf("parseUserAuth(%s):\nhave %q\nwant %q", data, golangtHeader, header)
 	}
 }
 
@@ -194,9 +194,9 @@ func TestParseUserAuthEmptyHeader(t *testing.T) {
 	if err != nil {
 		t.Errorf("parseUserAuth(%s): %v", data, err)
 	}
-	gotHeader, ok := credentials["example.com"]
-	if !ok || !reflect.DeepEqual(gotHeader, header) {
-		t.Errorf("parseUserAuth(%s):\nhave %q\nwant %q", data, gotHeader, header)
+	golangtHeader, ok := credentials["example.com"]
+	if !ok || !reflect.DeepEqual(golangtHeader, header) {
+		t.Errorf("parseUserAuth(%s):\nhave %q\nwant %q", data, golangtHeader, header)
 	}
 }
 
@@ -208,6 +208,6 @@ func TestParseUserAuthEmpty(t *testing.T) {
 		t.Errorf("parseUserAuth(%s) should have succeeded", data)
 	}
 	if credentials == nil {
-		t.Errorf("parseUserAuth(%s) should have returned a non-nil credential map, but got %v", data, credentials)
+		t.Errorf("parseUserAuth(%s) should have returned a non-nil credential map, but golangt %v", data, credentials)
 	}
 }

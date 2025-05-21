@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package slog
@@ -15,8 +15,8 @@ import (
 )
 
 func TestKindString(t *testing.T) {
-	if got, want := KindGroup.String(), "Group"; got != want {
-		t.Errorf("got %q, want %q", got, want)
+	if golangt, want := KindGroup.String(), "Group"; golangt != want {
+		t.Errorf("golangt %q, want %q", golangt, want)
 	}
 }
 
@@ -47,10 +47,10 @@ func TestValueEqual(t *testing.T) {
 	}
 	for i, v1 := range vals {
 		for j, v2 := range vals {
-			got := v1.Equal(v2)
+			golangt := v1.Equal(v2)
 			want := i == j
-			if got != want {
-				t.Errorf("%v.Equal(%v): got %t, want %t", v1, v2, got, want)
+			if golangt != want {
+				t.Errorf("%v.Equal(%v): golangt %t, want %t", v1, v2, golangt, want)
 			}
 		}
 	}
@@ -80,8 +80,8 @@ func TestValueString(t *testing.T) {
 		{AnyValue(time.Duration(3 * time.Second)), "3s"},
 		{GroupValue(Int("a", 1), Bool("b", true)), "[a=1 b=true]"},
 	} {
-		if got := test.v.String(); got != test.want {
-			t.Errorf("%#v:\ngot  %q\nwant %q", test.v, got, test.want)
+		if golangt := test.v.String(); golangt != test.want {
+			t.Errorf("%#v:\ngolangt  %q\nwant %q", test.v, golangt, test.want)
 		}
 	}
 }
@@ -114,7 +114,7 @@ func TestValueNoAlloc(t *testing.T) {
 		x = AnyValue(p).Any()
 	}))
 	if a != 0 {
-		t.Errorf("got %d allocs, want zero", a)
+		t.Errorf("golangt %d allocs, want zero", a)
 	}
 	_ = u
 	_ = f
@@ -158,10 +158,10 @@ func TestAnyValue(t *testing.T) {
 		{int32(10), Int64Value(10)},
 		{int64(11), Int64Value(11)},
 	} {
-		got := AnyValue(test.in)
-		if !got.Equal(test.want) {
-			t.Errorf("%v (%[1]T): got %v (kind %s), want %v (kind %s)",
-				test.in, got, got.Kind(), test.want, test.want.Kind())
+		golangt := AnyValue(test.in)
+		if !golangt.Equal(test.want) {
+			t.Errorf("%v (%[1]T): golangt %v (kind %s), want %v (kind %s)",
+				test.in, golangt, golangt.Kind(), test.want, test.want.Kind())
 		}
 	}
 }
@@ -182,9 +182,9 @@ func TestValueAny(t *testing.T) {
 		"foo",
 	} {
 		v := AnyValue(want)
-		got := v.Any()
-		if !reflect.DeepEqual(got, want) {
-			t.Errorf("got %v, want %v", got, want)
+		golangt := v.Any()
+		if !reflect.DeepEqual(golangt, want) {
+			t.Errorf("golangt %v, want %v", golangt, want)
 		}
 	}
 }
@@ -194,46 +194,46 @@ func TestLogValue(t *testing.T) {
 	r := &replace{StringValue(want)}
 	v := AnyValue(r)
 	if g, w := v.Kind(), KindLogValuer; g != w {
-		t.Errorf("got %s, want %s", g, w)
+		t.Errorf("golangt %s, want %s", g, w)
 	}
-	got := v.LogValuer().LogValue().Any()
-	if got != want {
-		t.Errorf("got %#v, want %#v", got, want)
+	golangt := v.LogValuer().LogValue().Any()
+	if golangt != want {
+		t.Errorf("golangt %#v, want %#v", golangt, want)
 	}
 
 	// Test Resolve.
-	got = v.Resolve().Any()
-	if got != want {
-		t.Errorf("got %#v, want %#v", got, want)
+	golangt = v.Resolve().Any()
+	if golangt != want {
+		t.Errorf("golangt %#v, want %#v", golangt, want)
 	}
 
 	// Test Resolve max iteration.
 	r.v = AnyValue(r) // create a cycle
-	got = AnyValue(r).Resolve().Any()
-	if _, ok := got.(error); !ok {
-		t.Errorf("expected error, got %T", got)
+	golangt = AnyValue(r).Resolve().Any()
+	if _, ok := golangt.(error); !ok {
+		t.Errorf("expected error, golangt %T", golangt)
 	}
 
 	// Groups are not recursively resolved.
 	c := Any("c", &replace{StringValue("d")})
 	v = AnyValue(&replace{GroupValue(Int("a", 1), Group("b", c))})
-	got2 := v.Resolve().Any().([]Attr)
+	golangt2 := v.Resolve().Any().([]Attr)
 	want2 := []Attr{Int("a", 1), Group("b", c)}
-	if !attrsEqual(got2, want2) {
-		t.Errorf("got %v, want %v", got2, want2)
+	if !attrsEqual(golangt2, want2) {
+		t.Errorf("golangt %v, want %v", golangt2, want2)
 	}
 
 	// Verify that panics in Resolve are caught and turn into errors.
 	v = AnyValue(panickingLogValue{})
-	got = v.Resolve().Any()
-	gotErr, ok := got.(error)
+	golangt = v.Resolve().Any()
+	golangtErr, ok := golangt.(error)
 	if !ok {
-		t.Errorf("expected error, got %T", got)
+		t.Errorf("expected error, golangt %T", golangt)
 	}
 	// The error should provide some context information.
 	// We'll just check that this function name appears in it.
-	if got, want := gotErr.Error(), "TestLogValue"; !strings.Contains(got, want) {
-		t.Errorf("got %q, want substring %q", got, want)
+	if golangt, want := golangtErr.Error(), "TestLogValue"; !strings.Contains(golangt, want) {
+		t.Errorf("golangt %q, want substring %q", golangt, want)
 	}
 }
 
@@ -244,12 +244,12 @@ func TestValueTime(t *testing.T) {
 		time.Unix(0, 1e15), // UnixNanos is defined
 		time.Date(2300, 1, 1, 0, 0, 0, 0, time.UTC), // overflows UnixNanos
 	} {
-		got := TimeValue(tm).Time()
-		if !got.Equal(tm) {
-			t.Errorf("got %s (%#[1]v), want %s (%#[2]v)", got, tm)
+		golangt := TimeValue(tm).Time()
+		if !golangt.Equal(tm) {
+			t.Errorf("golangt %s (%#[1]v), want %s (%#[2]v)", golangt, tm)
 		}
-		if g, w := got.Location(), tm.Location(); g != w {
-			t.Errorf("%s: location: got %v, want %v", tm, g, w)
+		if g, w := golangt.Location(), tm.Location(); g != w {
+			t.Errorf("%s: location: golangt %v, want %v", tm, g, w)
 		}
 	}
 }
@@ -259,10 +259,10 @@ func TestEmptyGroup(t *testing.T) {
 		Int("a", 1),
 		Group("g1", Group("g2")),
 		Group("g3", Group("g4", Int("b", 2))))
-	got := g.Group()
+	golangt := g.Group()
 	want := []Attr{Int("a", 1), Group("g3", Group("g4", Int("b", 2)))}
-	if !attrsEqual(got, want) {
-		t.Errorf("\ngot  %v\nwant %v", got, want)
+	if !attrsEqual(golangt, want) {
+		t.Errorf("\ngolangt  %v\nwant %v", golangt, want)
 	}
 }
 

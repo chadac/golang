@@ -1,5 +1,5 @@
-//go:build windows && cgo
-// +build windows,cgo
+//golang:build windows && cgolang
+// +build windows,cgolang
 
 package main
 

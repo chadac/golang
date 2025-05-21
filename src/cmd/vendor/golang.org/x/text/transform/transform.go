@@ -1,12 +1,12 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package transform provides reader and writer wrappers that transform the
 // bytes passing through as well as various transformations. Example
 // transformations provided by other packages include normalization and
 // conversion between character sets.
-package transform // import "golang.org/x/text/transform"
+package transform // import "golanglang.org/x/text/transform"
 
 import (
 	"bytes"
@@ -401,7 +401,7 @@ func (c *chain) Reset() {
 	}
 }
 
-// TODO: make chain use Span (is going to be fun to implement!)
+// TODO: make chain use Span (is golanging to be fun to implement!)
 
 // Transform applies the transformers of c in sequence.
 func (c *chain) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, err error) {
@@ -653,7 +653,7 @@ func String(t Transformer, s string) (result string, n int, err error) {
 		pDst += nDst
 		pSrc += nSrc
 
-		// If we got ErrShortDst or ErrShortSrc, do not grow as long as we can
+		// If we golangt ErrShortDst or ErrShortSrc, do not grow as long as we can
 		// make progress. This may avoid excessive allocations.
 		if err == ErrShortDst {
 			if nDst == 0 {

@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
@@ -61,7 +61,7 @@ func initExceptionHandler() {
 // isAbort returns true, if context r describes exception raised
 // by calling runtime.abort function.
 //
-//go:nosplit
+//golang:nosplit
 func isAbort(r *context) bool {
 	pc := r.ip()
 	if GOARCH == "386" || GOARCH == "amd64" || GOARCH == "arm" {
@@ -73,14 +73,14 @@ func isAbort(r *context) bool {
 	return isAbortPC(pc)
 }
 
-// isgoexception reports whether this exception should be translated
+// isgolangexception reports whether this exception should be translated
 // into a Go panic or throw.
 //
 // It is nosplit to avoid growing the stack in case we're aborting
 // because of a stack overflow.
 //
-//go:nosplit
-func isgoexception(info *exceptionrecord, r *context) bool {
+//golang:nosplit
+func isgolangexception(info *exceptionrecord, r *context) bool {
 	// Only handle exception if executing instructions in Go binary
 	// (not Windows library code).
 	// TODO(mwhudson): needs to loop to support shared libs
@@ -127,15 +127,15 @@ func sigFetchG() *g {
 	return getg()
 }
 
-// sigtrampgo is called from the exception handler function, sigtramp,
+// sigtrampgolang is called from the exception handler function, sigtramp,
 // written in assembly code.
 // Return EXCEPTION_CONTINUE_EXECUTION if the exception is handled,
 // else return EXCEPTION_CONTINUE_SEARCH.
 //
 // It is nosplit for the same reason as exceptionhandler.
 //
-//go:nosplit
-func sigtrampgo(ep *exceptionpointers, kind int) int32 {
+//golang:nosplit
+func sigtrampgolang(ep *exceptionpointers, kind int) int32 {
 	gp := sigFetchG()
 	if gp == nil {
 		return _EXCEPTION_CONTINUE_SEARCH
@@ -160,7 +160,7 @@ func sigtrampgo(ep *exceptionpointers, kind int) int32 {
 	// A closure can't be marked as nosplit, so it might
 	// call morestack if we are at the g0 stack limit.
 	// If that happens, the runtime will call abort
-	// and end up in sigtrampgo again.
+	// and end up in sigtrampgolang again.
 	// TODO: revisit this workaround if/when closures
 	// can be compiled as nosplit.
 	//
@@ -207,16 +207,16 @@ func sigtrampgo(ep *exceptionpointers, kind int) int32 {
 // This is nosplit to avoid growing the stack until we've checked for
 // _EXCEPTION_BREAKPOINT, which is raised by abort() if we overflow the g0 stack.
 //
-//go:nosplit
+//golang:nosplit
 func exceptionhandler(info *exceptionrecord, r *context, gp *g) int32 {
-	if !isgoexception(info, r) {
+	if !isgolangexception(info, r) {
 		return _EXCEPTION_CONTINUE_SEARCH
 	}
 
 	if gp.throwsplit || isAbort(r) {
 		// We can't safely sigpanic because it may grow the stack.
 		// Or this is a call to abort.
-		// Don't go through any more of the Windows handler chain.
+		// Don't golang through any more of the Windows handler chain.
 		// Crash now.
 		winthrow(info, r, gp)
 	}
@@ -258,7 +258,7 @@ func exceptionhandler(info *exceptionrecord, r *context, gp *g) int32 {
 //
 // It is nosplit for the same reason as exceptionhandler.
 //
-//go:nosplit
+//golang:nosplit
 func sehhandler(_ *exceptionrecord, _ uint64, _ *context, dctxt *_DISPATCHER_CONTEXT) int32 {
 	g0 := getg()
 	if g0 == nil || g0.m.curg == nil {
@@ -269,11 +269,11 @@ func sehhandler(_ *exceptionrecord, _ uint64, _ *context, dctxt *_DISPATCHER_CON
 	// a frame with a handler for the exception or until the frame is
 	// outside the stack boundaries, in which case it will call the
 	// UnhandledExceptionFilter. Unfortunately, it doesn't know about
-	// the goroutine stack, so it will stop unwinding when it reaches the
+	// the golangroutine stack, so it will stop unwinding when it reaches the
 	// first frame not running in g0. As a result, neither non-Go exceptions
 	// handlers higher up the stack nor UnhandledExceptionFilter will be called.
 	//
-	// To work around this, manually unwind the stack until the top of the goroutine
+	// To work around this, manually unwind the stack until the top of the golangroutine
 	// stack is reached, and then pass the control back to Windows.
 	gp := g0.m.curg
 	ctxt := dctxt.ctx()
@@ -298,9 +298,9 @@ func sehhandler(_ *exceptionrecord, _ uint64, _ *context, dctxt *_DISPATCHER_CON
 //
 // It is nosplit for the same reason as exceptionhandler.
 //
-//go:nosplit
+//golang:nosplit
 func firstcontinuehandler(info *exceptionrecord, r *context, gp *g) int32 {
-	if !isgoexception(info, r) {
+	if !isgolangexception(info, r) {
 		return _EXCEPTION_CONTINUE_SEARCH
 	}
 	return _EXCEPTION_CONTINUE_EXECUTION
@@ -311,11 +311,11 @@ func firstcontinuehandler(info *exceptionrecord, r *context, gp *g) int32 {
 //
 // It is nosplit for the same reason as exceptionhandler.
 //
-//go:nosplit
+//golang:nosplit
 func lastcontinuehandler(info *exceptionrecord, r *context, gp *g) int32 {
 	if islibrary || isarchive {
-		// Go DLL/archive has been loaded in a non-go program.
-		// If the exception does not originate from go, the go runtime
+		// Go DLL/archive has been loaded in a non-golang program.
+		// If the exception does not originate from golang, the golang runtime
 		// should not take responsibility of crashing the process.
 		return _EXCEPTION_CONTINUE_SEARCH
 	}
@@ -337,7 +337,7 @@ func lastcontinuehandler(info *exceptionrecord, r *context, gp *g) int32 {
 
 // Always called on g0. gp is the G where the exception occurred.
 //
-//go:nosplit
+//golang:nosplit
 func winthrow(info *exceptionrecord, r *context, gp *g) {
 	g0 := getg()
 
@@ -356,8 +356,8 @@ func winthrow(info *exceptionrecord, r *context, gp *g) {
 	print("Exception ", hex(info.exceptioncode), " ", hex(info.exceptioninformation[0]), " ", hex(info.exceptioninformation[1]), " ", hex(r.ip()), "\n")
 
 	print("PC=", hex(r.ip()), "\n")
-	if g0.m.incgo && gp == g0.m.g0 && g0.m.curg != nil {
-		if iscgo {
+	if g0.m.incgolang && gp == g0.m.g0 && g0.m.curg != nil {
+		if iscgolang {
 			print("signal arrived during external code execution\n")
 		}
 		gp = g0.m.curg
@@ -367,7 +367,7 @@ func winthrow(info *exceptionrecord, r *context, gp *g) {
 	g0.m.throwing = throwTypeRuntime
 	g0.m.caughtsig.set(gp)
 
-	level, _, docrash := gotraceback()
+	level, _, docrash := golangtraceback()
 	if level > 0 {
 		tracebacktrap(r.ip(), r.sp(), r.lr(), gp)
 		tracebackothers(gp)
@@ -436,7 +436,7 @@ func signame(sig uint32) string {
 	return ""
 }
 
-//go:nosplit
+//golang:nosplit
 func crash() {
 	dieFromException(nil, nil)
 }
@@ -444,7 +444,7 @@ func crash() {
 // dieFromException raises an exception that bypasses all exception handlers.
 // This provides the expected exit status for the shell.
 //
-//go:nosplit
+//golang:nosplit
 func dieFromException(info *exceptionrecord, r *context) {
 	if info == nil {
 		gp := getg()

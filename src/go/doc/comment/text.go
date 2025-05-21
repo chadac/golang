@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package comment
@@ -189,12 +189,12 @@ func (p *textPrinter) oneLongLine(out *strings.Builder, x []Text) {
 // ..., words[seq[len(seq)-2]:seq[len(seq)-1]].
 //
 // The implementation runs in O(n log n) time, where n = len(words),
-// using the algorithm described in D. S. Hirschberg and L. L. Larmore,
+// using the algolangrithm described in D. S. Hirschberg and L. L. Larmore,
 // “[The least weight subsequence problem],” FOCS 1985, pp. 137-143.
 //
 // [The least weight subsequence problem]: https://doi.org/10.1109/SFCS.1985.60
 func wrap(words []string, max int) (seq []int) {
-	// The algorithm requires that our scoring function be concave,
+	// The algolangrithm requires that our scoring function be concave,
 	// meaning that for all i₀ ≤ i₁ < j₀ ≤ j₁,
 	// weight(i₀, j₀) + weight(i₁, j₁) ≤ weight(i₀, j₁) + weight(i₁, j₀).
 	//
@@ -202,7 +202,7 @@ func wrap(words []string, max int) (seq []int) {
 	// ordered by elementwise comparison.
 	// The hi entry counts the weight for lines that are longer than max,
 	// and the lo entry counts the weight for lines that are not.
-	// This forces the algorithm to first minimize the number of lines
+	// This forces the algolangrithm to first minimize the number of lines
 	// that are longer than max, which correspond to lines with
 	// single very long words. Having done that, it can move on to
 	// minimizing the lo score, which is more interesting.
@@ -260,8 +260,8 @@ func wrap(words []string, max int) (seq []int) {
 		}
 
 		// Otherwise the weight is the penalty plus the square of the number of
-		// characters remaining on the line or by which the line goes over.
-		// In the latter case, that value goes in the hi part of the score.
+		// characters remaining on the line or by which the line golanges over.
+		// In the latter case, that value golanges in the hi part of the score.
 		// (See note above.)
 		p := wrapPenalty(words[j-1])
 		v := int64(max-n) * int64(max-n)
@@ -271,7 +271,7 @@ func wrap(words []string, max int) (seq []int) {
 		return score{0, v + p}
 	}
 
-	// The rest of this function is “The Basic Algorithm” from
+	// The rest of this function is “The Basic Algolangrithm” from
 	// Hirschberg and Larmore's conference paper,
 	// using the same names as in the paper.
 	f := []score{{0, 0}}

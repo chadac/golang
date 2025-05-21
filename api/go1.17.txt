@@ -25,9 +25,9 @@ pkg database/sql, type NullInt16 struct, Valid bool
 pkg debug/elf, const SHT_MIPS_ABIFLAGS = 1879048234
 pkg debug/elf, const SHT_MIPS_ABIFLAGS SectionType
 pkg encoding/csv, method (*Reader) FieldPos(int) (int, int)
-pkg go/build, type Context struct, ToolTags []string
-pkg go/parser, const SkipObjectResolution = 64
-pkg go/parser, const SkipObjectResolution Mode
+pkg golang/build, type Context struct, ToolTags []string
+pkg golang/parser, const SkipObjectResolution = 64
+pkg golang/parser, const SkipObjectResolution Mode
 pkg image, method (*Alpha) RGBA64At(int, int) color.RGBA64
 pkg image, method (*Alpha) SetRGBA64(int, int, color.RGBA64)
 pkg image, method (*Alpha16) RGBA64At(int, int) color.RGBA64
@@ -66,93 +66,93 @@ pkg io/fs, func FileInfoToDirEntry(FileInfo) DirEntry
 pkg math (darwin-amd64), const MaxInt = 9223372036854775807
 pkg math (darwin-amd64), const MaxUint = 18446744073709551615
 pkg math (darwin-amd64), const MinInt = -9223372036854775808
-pkg math (darwin-amd64-cgo), const MaxInt = 9223372036854775807
-pkg math (darwin-amd64-cgo), const MaxUint = 18446744073709551615
-pkg math (darwin-amd64-cgo), const MinInt = -9223372036854775808
+pkg math (darwin-amd64-cgolang), const MaxInt = 9223372036854775807
+pkg math (darwin-amd64-cgolang), const MaxUint = 18446744073709551615
+pkg math (darwin-amd64-cgolang), const MinInt = -9223372036854775808
 pkg math (darwin-arm64), const MaxInt = 9223372036854775807
 pkg math (darwin-arm64), const MaxUint = 18446744073709551615
 pkg math (darwin-arm64), const MinInt = -9223372036854775808
-pkg math (darwin-arm64-cgo), const MaxInt = 9223372036854775807
-pkg math (darwin-arm64-cgo), const MaxUint = 18446744073709551615
-pkg math (darwin-arm64-cgo), const MinInt = -9223372036854775808
+pkg math (darwin-arm64-cgolang), const MaxInt = 9223372036854775807
+pkg math (darwin-arm64-cgolang), const MaxUint = 18446744073709551615
+pkg math (darwin-arm64-cgolang), const MinInt = -9223372036854775808
 pkg math (freebsd-386), const MaxInt = 2147483647
 pkg math (freebsd-386), const MaxUint = 4294967295
 pkg math (freebsd-386), const MinInt = -2147483648
-pkg math (freebsd-386-cgo), const MaxInt = 2147483647
-pkg math (freebsd-386-cgo), const MaxUint = 4294967295
-pkg math (freebsd-386-cgo), const MinInt = -2147483648
+pkg math (freebsd-386-cgolang), const MaxInt = 2147483647
+pkg math (freebsd-386-cgolang), const MaxUint = 4294967295
+pkg math (freebsd-386-cgolang), const MinInt = -2147483648
 pkg math (freebsd-amd64), const MaxInt = 9223372036854775807
 pkg math (freebsd-amd64), const MaxUint = 18446744073709551615
 pkg math (freebsd-amd64), const MinInt = -9223372036854775808
-pkg math (freebsd-amd64-cgo), const MaxInt = 9223372036854775807
-pkg math (freebsd-amd64-cgo), const MaxUint = 18446744073709551615
-pkg math (freebsd-amd64-cgo), const MinInt = -9223372036854775808
+pkg math (freebsd-amd64-cgolang), const MaxInt = 9223372036854775807
+pkg math (freebsd-amd64-cgolang), const MaxUint = 18446744073709551615
+pkg math (freebsd-amd64-cgolang), const MinInt = -9223372036854775808
 pkg math (freebsd-arm), const MaxInt = 2147483647
 pkg math (freebsd-arm), const MaxUint = 4294967295
 pkg math (freebsd-arm), const MinInt = -2147483648
-pkg math (freebsd-arm-cgo), const MaxInt = 2147483647
-pkg math (freebsd-arm-cgo), const MaxUint = 4294967295
-pkg math (freebsd-arm-cgo), const MinInt = -2147483648
+pkg math (freebsd-arm-cgolang), const MaxInt = 2147483647
+pkg math (freebsd-arm-cgolang), const MaxUint = 4294967295
+pkg math (freebsd-arm-cgolang), const MinInt = -2147483648
 pkg math (freebsd-arm64), const MaxInt = 9223372036854775807
 pkg math (freebsd-arm64), const MaxUint = 18446744073709551615
 pkg math (freebsd-arm64), const MinInt = -9223372036854775808
-pkg math (freebsd-arm64-cgo), const MaxInt = 9223372036854775807
-pkg math (freebsd-arm64-cgo), const MaxUint = 18446744073709551615
-pkg math (freebsd-arm64-cgo), const MinInt = -9223372036854775808
+pkg math (freebsd-arm64-cgolang), const MaxInt = 9223372036854775807
+pkg math (freebsd-arm64-cgolang), const MaxUint = 18446744073709551615
+pkg math (freebsd-arm64-cgolang), const MinInt = -9223372036854775808
 pkg math (linux-386), const MaxInt = 2147483647
 pkg math (linux-386), const MaxUint = 4294967295
 pkg math (linux-386), const MinInt = -2147483648
-pkg math (linux-386-cgo), const MaxInt = 2147483647
-pkg math (linux-386-cgo), const MaxUint = 4294967295
-pkg math (linux-386-cgo), const MinInt = -2147483648
+pkg math (linux-386-cgolang), const MaxInt = 2147483647
+pkg math (linux-386-cgolang), const MaxUint = 4294967295
+pkg math (linux-386-cgolang), const MinInt = -2147483648
 pkg math (linux-amd64), const MaxInt = 9223372036854775807
 pkg math (linux-amd64), const MaxUint = 18446744073709551615
 pkg math (linux-amd64), const MinInt = -9223372036854775808
-pkg math (linux-amd64-cgo), const MaxInt = 9223372036854775807
-pkg math (linux-amd64-cgo), const MaxUint = 18446744073709551615
-pkg math (linux-amd64-cgo), const MinInt = -9223372036854775808
+pkg math (linux-amd64-cgolang), const MaxInt = 9223372036854775807
+pkg math (linux-amd64-cgolang), const MaxUint = 18446744073709551615
+pkg math (linux-amd64-cgolang), const MinInt = -9223372036854775808
 pkg math (linux-arm), const MaxInt = 2147483647
 pkg math (linux-arm), const MaxUint = 4294967295
 pkg math (linux-arm), const MinInt = -2147483648
-pkg math (linux-arm-cgo), const MaxInt = 2147483647
-pkg math (linux-arm-cgo), const MaxUint = 4294967295
-pkg math (linux-arm-cgo), const MinInt = -2147483648
+pkg math (linux-arm-cgolang), const MaxInt = 2147483647
+pkg math (linux-arm-cgolang), const MaxUint = 4294967295
+pkg math (linux-arm-cgolang), const MinInt = -2147483648
 pkg math (netbsd-386), const MaxInt = 2147483647
 pkg math (netbsd-386), const MaxUint = 4294967295
 pkg math (netbsd-386), const MinInt = -2147483648
-pkg math (netbsd-386-cgo), const MaxInt = 2147483647
-pkg math (netbsd-386-cgo), const MaxUint = 4294967295
-pkg math (netbsd-386-cgo), const MinInt = -2147483648
+pkg math (netbsd-386-cgolang), const MaxInt = 2147483647
+pkg math (netbsd-386-cgolang), const MaxUint = 4294967295
+pkg math (netbsd-386-cgolang), const MinInt = -2147483648
 pkg math (netbsd-amd64), const MaxInt = 9223372036854775807
 pkg math (netbsd-amd64), const MaxUint = 18446744073709551615
 pkg math (netbsd-amd64), const MinInt = -9223372036854775808
-pkg math (netbsd-amd64-cgo), const MaxInt = 9223372036854775807
-pkg math (netbsd-amd64-cgo), const MaxUint = 18446744073709551615
-pkg math (netbsd-amd64-cgo), const MinInt = -9223372036854775808
+pkg math (netbsd-amd64-cgolang), const MaxInt = 9223372036854775807
+pkg math (netbsd-amd64-cgolang), const MaxUint = 18446744073709551615
+pkg math (netbsd-amd64-cgolang), const MinInt = -9223372036854775808
 pkg math (netbsd-arm), const MaxInt = 2147483647
 pkg math (netbsd-arm), const MaxUint = 4294967295
 pkg math (netbsd-arm), const MinInt = -2147483648
-pkg math (netbsd-arm-cgo), const MaxInt = 2147483647
-pkg math (netbsd-arm-cgo), const MaxUint = 4294967295
-pkg math (netbsd-arm-cgo), const MinInt = -2147483648
+pkg math (netbsd-arm-cgolang), const MaxInt = 2147483647
+pkg math (netbsd-arm-cgolang), const MaxUint = 4294967295
+pkg math (netbsd-arm-cgolang), const MinInt = -2147483648
 pkg math (netbsd-arm64), const MaxInt = 9223372036854775807
 pkg math (netbsd-arm64), const MaxUint = 18446744073709551615
 pkg math (netbsd-arm64), const MinInt = -9223372036854775808
-pkg math (netbsd-arm64-cgo), const MaxInt = 9223372036854775807
-pkg math (netbsd-arm64-cgo), const MaxUint = 18446744073709551615
-pkg math (netbsd-arm64-cgo), const MinInt = -9223372036854775808
+pkg math (netbsd-arm64-cgolang), const MaxInt = 9223372036854775807
+pkg math (netbsd-arm64-cgolang), const MaxUint = 18446744073709551615
+pkg math (netbsd-arm64-cgolang), const MinInt = -9223372036854775808
 pkg math (openbsd-386), const MaxInt = 2147483647
 pkg math (openbsd-386), const MaxUint = 4294967295
 pkg math (openbsd-386), const MinInt = -2147483648
-pkg math (openbsd-386-cgo), const MaxInt = 2147483647
-pkg math (openbsd-386-cgo), const MaxUint = 4294967295
-pkg math (openbsd-386-cgo), const MinInt = -2147483648
+pkg math (openbsd-386-cgolang), const MaxInt = 2147483647
+pkg math (openbsd-386-cgolang), const MaxUint = 4294967295
+pkg math (openbsd-386-cgolang), const MinInt = -2147483648
 pkg math (openbsd-amd64), const MaxInt = 9223372036854775807
 pkg math (openbsd-amd64), const MaxUint = 18446744073709551615
 pkg math (openbsd-amd64), const MinInt = -9223372036854775808
-pkg math (openbsd-amd64-cgo), const MaxInt = 9223372036854775807
-pkg math (openbsd-amd64-cgo), const MaxUint = 18446744073709551615
-pkg math (openbsd-amd64-cgo), const MinInt = -9223372036854775808
+pkg math (openbsd-amd64-cgolang), const MaxInt = 9223372036854775807
+pkg math (openbsd-amd64-cgolang), const MaxUint = 18446744073709551615
+pkg math (openbsd-amd64-cgolang), const MinInt = -9223372036854775808
 pkg math (windows-386), const MaxInt = 2147483647
 pkg math (windows-386), const MaxUint = 4294967295
 pkg math (windows-386), const MinInt = -2147483648
@@ -175,66 +175,66 @@ pkg reflect, method (Method) IsExported() bool
 pkg reflect, method (StructField) IsExported() bool
 pkg reflect, method (Value) CanConvert(Type) bool
 pkg reflect, method (Value) InterfaceData //deprecated
-pkg runtime/cgo (darwin-amd64-cgo), func NewHandle(interface{}) Handle
-pkg runtime/cgo (darwin-amd64-cgo), method (Handle) Delete()
-pkg runtime/cgo (darwin-amd64-cgo), method (Handle) Value() interface{}
-pkg runtime/cgo (darwin-amd64-cgo), type Handle uintptr
-pkg runtime/cgo (darwin-arm64-cgo), func NewHandle(interface{}) Handle
-pkg runtime/cgo (darwin-arm64-cgo), method (Handle) Delete()
-pkg runtime/cgo (darwin-arm64-cgo), method (Handle) Value() interface{}
-pkg runtime/cgo (darwin-arm64-cgo), type Handle uintptr
-pkg runtime/cgo (freebsd-386-cgo), func NewHandle(interface{}) Handle
-pkg runtime/cgo (freebsd-386-cgo), method (Handle) Delete()
-pkg runtime/cgo (freebsd-386-cgo), method (Handle) Value() interface{}
-pkg runtime/cgo (freebsd-386-cgo), type Handle uintptr
-pkg runtime/cgo (freebsd-amd64-cgo), func NewHandle(interface{}) Handle
-pkg runtime/cgo (freebsd-amd64-cgo), method (Handle) Delete()
-pkg runtime/cgo (freebsd-amd64-cgo), method (Handle) Value() interface{}
-pkg runtime/cgo (freebsd-amd64-cgo), type Handle uintptr
-pkg runtime/cgo (freebsd-arm-cgo), func NewHandle(interface{}) Handle
-pkg runtime/cgo (freebsd-arm-cgo), method (Handle) Delete()
-pkg runtime/cgo (freebsd-arm-cgo), method (Handle) Value() interface{}
-pkg runtime/cgo (freebsd-arm-cgo), type Handle uintptr
-pkg runtime/cgo (freebsd-arm64-cgo), func NewHandle(interface{}) Handle
-pkg runtime/cgo (freebsd-arm64-cgo), method (Handle) Delete()
-pkg runtime/cgo (freebsd-arm64-cgo), method (Handle) Value() interface{}
-pkg runtime/cgo (freebsd-arm64-cgo), type Handle uintptr
-pkg runtime/cgo (linux-386-cgo), func NewHandle(interface{}) Handle
-pkg runtime/cgo (linux-386-cgo), method (Handle) Delete()
-pkg runtime/cgo (linux-386-cgo), method (Handle) Value() interface{}
-pkg runtime/cgo (linux-386-cgo), type Handle uintptr
-pkg runtime/cgo (linux-amd64-cgo), func NewHandle(interface{}) Handle
-pkg runtime/cgo (linux-amd64-cgo), method (Handle) Delete()
-pkg runtime/cgo (linux-amd64-cgo), method (Handle) Value() interface{}
-pkg runtime/cgo (linux-amd64-cgo), type Handle uintptr
-pkg runtime/cgo (linux-arm-cgo), func NewHandle(interface{}) Handle
-pkg runtime/cgo (linux-arm-cgo), method (Handle) Delete()
-pkg runtime/cgo (linux-arm-cgo), method (Handle) Value() interface{}
-pkg runtime/cgo (linux-arm-cgo), type Handle uintptr
-pkg runtime/cgo (netbsd-386-cgo), func NewHandle(interface{}) Handle
-pkg runtime/cgo (netbsd-386-cgo), method (Handle) Delete()
-pkg runtime/cgo (netbsd-386-cgo), method (Handle) Value() interface{}
-pkg runtime/cgo (netbsd-386-cgo), type Handle uintptr
-pkg runtime/cgo (netbsd-amd64-cgo), func NewHandle(interface{}) Handle
-pkg runtime/cgo (netbsd-amd64-cgo), method (Handle) Delete()
-pkg runtime/cgo (netbsd-amd64-cgo), method (Handle) Value() interface{}
-pkg runtime/cgo (netbsd-amd64-cgo), type Handle uintptr
-pkg runtime/cgo (netbsd-arm-cgo), func NewHandle(interface{}) Handle
-pkg runtime/cgo (netbsd-arm-cgo), method (Handle) Delete()
-pkg runtime/cgo (netbsd-arm-cgo), method (Handle) Value() interface{}
-pkg runtime/cgo (netbsd-arm-cgo), type Handle uintptr
-pkg runtime/cgo (netbsd-arm64-cgo), func NewHandle(interface{}) Handle
-pkg runtime/cgo (netbsd-arm64-cgo), method (Handle) Delete()
-pkg runtime/cgo (netbsd-arm64-cgo), method (Handle) Value() interface{}
-pkg runtime/cgo (netbsd-arm64-cgo), type Handle uintptr
-pkg runtime/cgo (openbsd-386-cgo), func NewHandle(interface{}) Handle
-pkg runtime/cgo (openbsd-386-cgo), method (Handle) Delete()
-pkg runtime/cgo (openbsd-386-cgo), method (Handle) Value() interface{}
-pkg runtime/cgo (openbsd-386-cgo), type Handle uintptr
-pkg runtime/cgo (openbsd-amd64-cgo), func NewHandle(interface{}) Handle
-pkg runtime/cgo (openbsd-amd64-cgo), method (Handle) Delete()
-pkg runtime/cgo (openbsd-amd64-cgo), method (Handle) Value() interface{}
-pkg runtime/cgo (openbsd-amd64-cgo), type Handle uintptr
+pkg runtime/cgolang (darwin-amd64-cgolang), func NewHandle(interface{}) Handle
+pkg runtime/cgolang (darwin-amd64-cgolang), method (Handle) Delete()
+pkg runtime/cgolang (darwin-amd64-cgolang), method (Handle) Value() interface{}
+pkg runtime/cgolang (darwin-amd64-cgolang), type Handle uintptr
+pkg runtime/cgolang (darwin-arm64-cgolang), func NewHandle(interface{}) Handle
+pkg runtime/cgolang (darwin-arm64-cgolang), method (Handle) Delete()
+pkg runtime/cgolang (darwin-arm64-cgolang), method (Handle) Value() interface{}
+pkg runtime/cgolang (darwin-arm64-cgolang), type Handle uintptr
+pkg runtime/cgolang (freebsd-386-cgolang), func NewHandle(interface{}) Handle
+pkg runtime/cgolang (freebsd-386-cgolang), method (Handle) Delete()
+pkg runtime/cgolang (freebsd-386-cgolang), method (Handle) Value() interface{}
+pkg runtime/cgolang (freebsd-386-cgolang), type Handle uintptr
+pkg runtime/cgolang (freebsd-amd64-cgolang), func NewHandle(interface{}) Handle
+pkg runtime/cgolang (freebsd-amd64-cgolang), method (Handle) Delete()
+pkg runtime/cgolang (freebsd-amd64-cgolang), method (Handle) Value() interface{}
+pkg runtime/cgolang (freebsd-amd64-cgolang), type Handle uintptr
+pkg runtime/cgolang (freebsd-arm-cgolang), func NewHandle(interface{}) Handle
+pkg runtime/cgolang (freebsd-arm-cgolang), method (Handle) Delete()
+pkg runtime/cgolang (freebsd-arm-cgolang), method (Handle) Value() interface{}
+pkg runtime/cgolang (freebsd-arm-cgolang), type Handle uintptr
+pkg runtime/cgolang (freebsd-arm64-cgolang), func NewHandle(interface{}) Handle
+pkg runtime/cgolang (freebsd-arm64-cgolang), method (Handle) Delete()
+pkg runtime/cgolang (freebsd-arm64-cgolang), method (Handle) Value() interface{}
+pkg runtime/cgolang (freebsd-arm64-cgolang), type Handle uintptr
+pkg runtime/cgolang (linux-386-cgolang), func NewHandle(interface{}) Handle
+pkg runtime/cgolang (linux-386-cgolang), method (Handle) Delete()
+pkg runtime/cgolang (linux-386-cgolang), method (Handle) Value() interface{}
+pkg runtime/cgolang (linux-386-cgolang), type Handle uintptr
+pkg runtime/cgolang (linux-amd64-cgolang), func NewHandle(interface{}) Handle
+pkg runtime/cgolang (linux-amd64-cgolang), method (Handle) Delete()
+pkg runtime/cgolang (linux-amd64-cgolang), method (Handle) Value() interface{}
+pkg runtime/cgolang (linux-amd64-cgolang), type Handle uintptr
+pkg runtime/cgolang (linux-arm-cgolang), func NewHandle(interface{}) Handle
+pkg runtime/cgolang (linux-arm-cgolang), method (Handle) Delete()
+pkg runtime/cgolang (linux-arm-cgolang), method (Handle) Value() interface{}
+pkg runtime/cgolang (linux-arm-cgolang), type Handle uintptr
+pkg runtime/cgolang (netbsd-386-cgolang), func NewHandle(interface{}) Handle
+pkg runtime/cgolang (netbsd-386-cgolang), method (Handle) Delete()
+pkg runtime/cgolang (netbsd-386-cgolang), method (Handle) Value() interface{}
+pkg runtime/cgolang (netbsd-386-cgolang), type Handle uintptr
+pkg runtime/cgolang (netbsd-amd64-cgolang), func NewHandle(interface{}) Handle
+pkg runtime/cgolang (netbsd-amd64-cgolang), method (Handle) Delete()
+pkg runtime/cgolang (netbsd-amd64-cgolang), method (Handle) Value() interface{}
+pkg runtime/cgolang (netbsd-amd64-cgolang), type Handle uintptr
+pkg runtime/cgolang (netbsd-arm-cgolang), func NewHandle(interface{}) Handle
+pkg runtime/cgolang (netbsd-arm-cgolang), method (Handle) Delete()
+pkg runtime/cgolang (netbsd-arm-cgolang), method (Handle) Value() interface{}
+pkg runtime/cgolang (netbsd-arm-cgolang), type Handle uintptr
+pkg runtime/cgolang (netbsd-arm64-cgolang), func NewHandle(interface{}) Handle
+pkg runtime/cgolang (netbsd-arm64-cgolang), method (Handle) Delete()
+pkg runtime/cgolang (netbsd-arm64-cgolang), method (Handle) Value() interface{}
+pkg runtime/cgolang (netbsd-arm64-cgolang), type Handle uintptr
+pkg runtime/cgolang (openbsd-386-cgolang), func NewHandle(interface{}) Handle
+pkg runtime/cgolang (openbsd-386-cgolang), method (Handle) Delete()
+pkg runtime/cgolang (openbsd-386-cgolang), method (Handle) Value() interface{}
+pkg runtime/cgolang (openbsd-386-cgolang), type Handle uintptr
+pkg runtime/cgolang (openbsd-amd64-cgolang), func NewHandle(interface{}) Handle
+pkg runtime/cgolang (openbsd-amd64-cgolang), method (Handle) Delete()
+pkg runtime/cgolang (openbsd-amd64-cgolang), method (Handle) Value() interface{}
+pkg runtime/cgolang (openbsd-amd64-cgolang), type Handle uintptr
 pkg strconv, func QuotedPrefix(string) (string, error)
 pkg sync/atomic, method (*Value) CompareAndSwap(interface{}, interface{}) bool
 pkg sync/atomic, method (*Value) Swap(interface{}) interface{}
@@ -242,42 +242,42 @@ pkg syscall (netbsd-386), const SYS_WAIT6 = 481
 pkg syscall (netbsd-386), const SYS_WAIT6 ideal-int
 pkg syscall (netbsd-386), const WEXITED = 32
 pkg syscall (netbsd-386), const WEXITED ideal-int
-pkg syscall (netbsd-386-cgo), const SYS_WAIT6 = 481
-pkg syscall (netbsd-386-cgo), const SYS_WAIT6 ideal-int
-pkg syscall (netbsd-386-cgo), const WEXITED = 32
-pkg syscall (netbsd-386-cgo), const WEXITED ideal-int
+pkg syscall (netbsd-386-cgolang), const SYS_WAIT6 = 481
+pkg syscall (netbsd-386-cgolang), const SYS_WAIT6 ideal-int
+pkg syscall (netbsd-386-cgolang), const WEXITED = 32
+pkg syscall (netbsd-386-cgolang), const WEXITED ideal-int
 pkg syscall (netbsd-amd64), const SYS_WAIT6 = 481
 pkg syscall (netbsd-amd64), const SYS_WAIT6 ideal-int
 pkg syscall (netbsd-amd64), const WEXITED = 32
 pkg syscall (netbsd-amd64), const WEXITED ideal-int
-pkg syscall (netbsd-amd64-cgo), const SYS_WAIT6 = 481
-pkg syscall (netbsd-amd64-cgo), const SYS_WAIT6 ideal-int
-pkg syscall (netbsd-amd64-cgo), const WEXITED = 32
-pkg syscall (netbsd-amd64-cgo), const WEXITED ideal-int
+pkg syscall (netbsd-amd64-cgolang), const SYS_WAIT6 = 481
+pkg syscall (netbsd-amd64-cgolang), const SYS_WAIT6 ideal-int
+pkg syscall (netbsd-amd64-cgolang), const WEXITED = 32
+pkg syscall (netbsd-amd64-cgolang), const WEXITED ideal-int
 pkg syscall (netbsd-arm), const SYS_WAIT6 = 481
 pkg syscall (netbsd-arm), const SYS_WAIT6 ideal-int
 pkg syscall (netbsd-arm), const WEXITED = 32
 pkg syscall (netbsd-arm), const WEXITED ideal-int
-pkg syscall (netbsd-arm-cgo), const SYS_WAIT6 = 481
-pkg syscall (netbsd-arm-cgo), const SYS_WAIT6 ideal-int
-pkg syscall (netbsd-arm-cgo), const WEXITED = 32
-pkg syscall (netbsd-arm-cgo), const WEXITED ideal-int
+pkg syscall (netbsd-arm-cgolang), const SYS_WAIT6 = 481
+pkg syscall (netbsd-arm-cgolang), const SYS_WAIT6 ideal-int
+pkg syscall (netbsd-arm-cgolang), const WEXITED = 32
+pkg syscall (netbsd-arm-cgolang), const WEXITED ideal-int
 pkg syscall (netbsd-arm64), const SYS_WAIT6 = 481
 pkg syscall (netbsd-arm64), const SYS_WAIT6 ideal-int
 pkg syscall (netbsd-arm64), const WEXITED = 32
 pkg syscall (netbsd-arm64), const WEXITED ideal-int
-pkg syscall (netbsd-arm64-cgo), const SYS_WAIT6 = 481
-pkg syscall (netbsd-arm64-cgo), const SYS_WAIT6 ideal-int
-pkg syscall (netbsd-arm64-cgo), const WEXITED = 32
-pkg syscall (netbsd-arm64-cgo), const WEXITED ideal-int
+pkg syscall (netbsd-arm64-cgolang), const SYS_WAIT6 = 481
+pkg syscall (netbsd-arm64-cgolang), const SYS_WAIT6 ideal-int
+pkg syscall (netbsd-arm64-cgolang), const WEXITED = 32
+pkg syscall (netbsd-arm64-cgolang), const WEXITED ideal-int
 pkg syscall (openbsd-386), const MSG_CMSG_CLOEXEC = 2048
 pkg syscall (openbsd-386), const MSG_CMSG_CLOEXEC ideal-int
-pkg syscall (openbsd-386-cgo), const MSG_CMSG_CLOEXEC = 2048
-pkg syscall (openbsd-386-cgo), const MSG_CMSG_CLOEXEC ideal-int
+pkg syscall (openbsd-386-cgolang), const MSG_CMSG_CLOEXEC = 2048
+pkg syscall (openbsd-386-cgolang), const MSG_CMSG_CLOEXEC ideal-int
 pkg syscall (openbsd-amd64), const MSG_CMSG_CLOEXEC = 2048
 pkg syscall (openbsd-amd64), const MSG_CMSG_CLOEXEC ideal-int
-pkg syscall (openbsd-amd64-cgo), const MSG_CMSG_CLOEXEC = 2048
-pkg syscall (openbsd-amd64-cgo), const MSG_CMSG_CLOEXEC ideal-int
+pkg syscall (openbsd-amd64-cgolang), const MSG_CMSG_CLOEXEC = 2048
+pkg syscall (openbsd-amd64-cgolang), const MSG_CMSG_CLOEXEC ideal-int
 pkg syscall (windows-386), func CreateIoCompletionPort //deprecated
 pkg syscall (windows-386), func GetQueuedCompletionStatus //deprecated
 pkg syscall (windows-386), func PostQueuedCompletionStatus //deprecated

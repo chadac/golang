@@ -1,17 +1,17 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build go1.23
+//golang:build golang1.23
 
 package cursor
 
 import (
-	"go/ast"
-	_ "unsafe" // for go:linkname
+	"golang/ast"
+	_ "unsafe" // for golang:linkname
 
-	"golang.org/x/tools/go/ast/inspector"
-	"golang.org/x/tools/internal/astutil/edge"
+	"golanglang.org/x/tools/golang/ast/inspector"
+	"golanglang.org/x/tools/internal/astutil/edge"
 )
 
 // This file defines backdoor access to inspector.
@@ -25,16 +25,16 @@ type event struct {
 	parent int32  // index of parent's push node (push nodes only); or edge and index, bit packed (pop nodes only)
 }
 
-//go:linkname maskOf golang.org/x/tools/go/ast/inspector.maskOf
+//golang:linkname maskOf golanglang.org/x/tools/golang/ast/inspector.maskOf
 func maskOf(nodes []ast.Node) uint64
 
-//go:linkname events golang.org/x/tools/go/ast/inspector.events
+//golang:linkname events golanglang.org/x/tools/golang/ast/inspector.events
 func events(in *inspector.Inspector) []event
 
-//go:linkname packEdgeKindAndIndex golang.org/x/tools/go/ast/inspector.packEdgeKindAndIndex
+//golang:linkname packEdgeKindAndIndex golanglang.org/x/tools/golang/ast/inspector.packEdgeKindAndIndex
 func packEdgeKindAndIndex(edge.Kind, int) int32
 
-//go:linkname unpackEdgeKindAndIndex golang.org/x/tools/go/ast/inspector.unpackEdgeKindAndIndex
+//golang:linkname unpackEdgeKindAndIndex golanglang.org/x/tools/golang/ast/inspector.unpackEdgeKindAndIndex
 func unpackEdgeKindAndIndex(int32) (edge.Kind, int)
 
 func (c Cursor) events() []event { return events(c.in) }

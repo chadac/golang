@@ -1,22 +1,22 @@
-# Test that the go command does not panic if it tries to read
+# Test that the golang command does not panic if it tries to read
 # a file from the cache that has an index entry, but is missing
 # an entry for the output. This test creates that situation by
-# running a go list (creating index and output cache entries for
+# running a golang list (creating index and output cache entries for
 # the module index) and then removing just the output entries.
 
-[short] skip 'runs go build'
+[short] skip 'runs golang build'
 
-go build -o roe$GOEXE ./remove_output_entries.go
+golang build -o roe$GOEXE ./remove_output_entries.golang
 
 # populate new cache
 env GOCACHE=$WORK/newcache
-go list runtime
+golang list runtime
 
 # remove output entries and check the panic doesn't happen
 exec ./roe$GOEXE $WORK/newcache
-go list runtime
+golang list runtime
 
--- remove_output_entries.go --
+-- remove_output_entries.golang --
 package main
 
 import (

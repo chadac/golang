@@ -1,4 +1,4 @@
-// Code generated from _gen/generic.rules using 'go generate'; DO NOT EDIT.
+// Code generated from _gen/generic.rules using 'golang generate'; DO NOT EDIT.
 
 package ssa
 

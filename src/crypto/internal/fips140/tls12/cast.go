@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package tls12
@@ -30,7 +30,7 @@ func init() {
 			0xe2, 0xb9, 0xd1, 0x03, 0x5e, 0xb2, 0x60, 0x5d,
 			0x12, 0x68, 0x4f, 0x49, 0xdf, 0xa9, 0x9d, 0xcc,
 		}
-		if got := MasterSecret(sha256.New, input, transcript); !bytes.Equal(got, want) {
+		if golangt := MasterSecret(sha256.New, input, transcript); !bytes.Equal(golangt, want) {
 			return errors.New("unexpected result")
 		}
 		return nil

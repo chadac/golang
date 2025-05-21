@@ -1,10 +1,10 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file lives in the runtime package
 // so we can get access to the runtime guts.
-// The rest of the implementation of this test is in align_test.go.
+// The rest of the implementation of this test is in align_test.golang.
 
 package runtime
 
@@ -38,7 +38,7 @@ var AtomicFields = []uintptr{
 // AtomicVariables is the set of global variables on which we perform
 // 64-bit atomic operations.
 var AtomicVariables = []unsafe.Pointer{
-	unsafe.Pointer(&ncgocall),
+	unsafe.Pointer(&ncgolangcall),
 	unsafe.Pointer(&test_z64),
 	unsafe.Pointer(&blockprofilerate),
 	unsafe.Pointer(&mutexprofilerate),

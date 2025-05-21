@@ -1,11 +1,11 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build boringcrypto
+//golang:build boringcrypto
 
 // Note: Can run these tests against the non-BoringCrypto
-// version of the code by using "CGO_ENABLED=0 go test".
+// version of the code by using "CGO_ENABLED=0 golang test".
 
 package rsa
 
@@ -120,7 +120,7 @@ func TestBoringFinalizers(t *testing.T) {
 		var wg sync.WaitGroup
 		for i := 0; i < 10; i++ {
 			wg.Add(1)
-			go func() {
+			golang func() {
 				defer wg.Done()
 				sum := make([]byte, 32)
 				_, err := SignPKCS1v15(rand.Reader, k, crypto.SHA256, sum)

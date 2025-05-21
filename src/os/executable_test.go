@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package os_test
@@ -93,7 +93,7 @@ func TestExecutableDeleted(t *testing.T) {
 
 	dir := t.TempDir()
 
-	src := filepath.Join(dir, "testdel.go")
+	src := filepath.Join(dir, "testdel.golang")
 	exe := filepath.Join(dir, "testdel.exe")
 
 	err := os.WriteFile(src, []byte(testExecutableDeletion), 0666)

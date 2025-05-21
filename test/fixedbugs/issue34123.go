@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Make sure that the line number is reported correctly
@@ -17,7 +17,7 @@ import (
 var x byte
 var p *byte
 
-//go:noinline
+//golang:noinline
 func f() {
 	q := p
 	x = 11  // line 23
@@ -32,7 +32,7 @@ func main() {
 		for {
 			f, more := frames.Next()
 			if f.Function == "main.f" && f.Line != 24 {
-				panic(fmt.Errorf("expected line 24, got line %d", f.Line))
+				panic(fmt.Errorf("expected line 24, golangt line %d", f.Line))
 			}
 			if !more {
 				break

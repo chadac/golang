@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // +build !plan9,!windows
@@ -8,12 +8,12 @@
 #include <stdio.h>
 #include <pthread.h>
 
-void gopanic(void);
+void golangpanic(void);
 
 static void*
 die(void* x)
 {
-	gopanic();
+	golangpanic();
 	return 0;
 }
 

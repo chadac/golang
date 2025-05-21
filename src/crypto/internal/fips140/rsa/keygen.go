@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package rsa
@@ -244,7 +244,7 @@ func isPrime(w []byte) bool {
 	// context of RSA key generation, we can use a smaller number of iterations.
 	// The exact number depends on the size of the prime (and the implied
 	// security level). See BoringSSL for the full formula.
-	// https://cs.opensource.google/boringssl/boringssl/+/master:crypto/fipsmodule/bn/prime.c.inc;l=208-283;drc=3a138e43
+	// https://cs.opensource.golangogle/boringssl/boringssl/+/master:crypto/fipsmodule/bn/prime.c.inc;l=208-283;drc=3a138e43
 	bits := mr.w.BitLen()
 	var iterations int
 	switch {
@@ -327,7 +327,7 @@ type millerRabin struct {
 func millerRabinSetup(w []byte) (*millerRabin, error) {
 	mr := &millerRabin{}
 
-	// Check that w is odd, and precompute Montgomery parameters.
+	// Check that w is odd, and precompute Montgolangmery parameters.
 	wm, err := bigmod.NewModulus(w)
 	if err != nil {
 		return nil, err

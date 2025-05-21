@@ -1,9 +1,9 @@
 // run
 
-//go:build linux && !ppc64 && gc && cgo
+//golang:build linux && !ppc64 && gc && cgolang
 
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test that a -B option is passed through when using both internal
@@ -20,11 +20,11 @@ import (
 
 func main() {
 	test("internal")
-	test("external") // The 'cgo' build constraint should imply that a linker is available.
+	test("external") // The 'cgolang' build constraint should imply that a linker is available.
 }
 
 func test(linkmode string) {
-	out, err := exec.Command("go", "run", "-ldflags", "-B=0x12345678 -linkmode="+linkmode, filepath.Join("fixedbugs", "issue10607a.go")).CombinedOutput()
+	out, err := exec.Command("golang", "run", "-ldflags", "-B=0x12345678 -linkmode="+linkmode, filepath.Join("fixedbugs", "issue10607a.golang")).CombinedOutput()
 	if err != nil {
 		fmt.Printf("BUG: linkmode=%s %v\n%s\n", linkmode, err, out)
 		os.Exit(1)

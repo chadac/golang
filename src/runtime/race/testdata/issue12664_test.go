@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package race_test
@@ -13,7 +13,7 @@ var issue12664 = "hi"
 
 func TestRaceIssue12664(t *testing.T) {
 	c := make(chan struct{})
-	go func() {
+	golang func() {
 		issue12664 = "bye"
 		close(c)
 	}()
@@ -34,7 +34,7 @@ var issue12664_2 MyT = 0
 
 func TestRaceIssue12664_2(t *testing.T) {
 	c := make(chan struct{})
-	go func() {
+	golang func() {
 		issue12664_2 = 1
 		close(c)
 	}()
@@ -51,7 +51,7 @@ var issue12664_3 MyT = 0
 
 func TestRaceIssue12664_3(t *testing.T) {
 	c := make(chan struct{})
-	go func() {
+	golang func() {
 		issue12664_3 = 1
 		close(c)
 	}()
@@ -65,7 +65,7 @@ var issue12664_4 MyT = 0
 
 func TestRaceIssue12664_4(t *testing.T) {
 	c := make(chan struct{})
-	go func() {
+	golang func() {
 		issue12664_4 = 1
 		close(c)
 	}()

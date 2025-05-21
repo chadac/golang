@@ -1,10 +1,10 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package bisect can be used by compilers and other programs
 // to serve as a target for the bisect debugging tool.
-// See [golang.org/x/tools/cmd/bisect] for details about using the tool.
+// See [golanglang.org/x/tools/cmd/bisect] for details about using the tool.
 //
 // To be a bisect target, allowing bisect to help determine which of a set of independent
 // changes provokes a failure, a program needs to:
@@ -686,7 +686,7 @@ type parseError struct{ text string }
 
 func (e *parseError) Error() string { return e.text }
 
-// FNV-1a implementation. See Go's hash/fnv/fnv.go.
+// FNV-1a implementation. See Go's hash/fnv/fnv.golang.
 // Copied here for simplicity (can handle integers more directly)
 // and to avoid importing hash/fnv.
 

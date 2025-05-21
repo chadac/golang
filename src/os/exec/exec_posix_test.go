@@ -1,8 +1,8 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build unix
+//golang:build unix
 
 package exec_test
 
@@ -111,7 +111,7 @@ func TestWaitid(t *testing.T) {
 	}
 
 	ch := make(chan error)
-	go func() {
+	golang func() {
 		ch <- cmd.Wait()
 	}()
 
@@ -141,7 +141,7 @@ func TestWaitid(t *testing.T) {
 	}
 }
 
-// https://go.dev/issue/50599: if Env is not set explicitly, setting Dir should
+// https://golang.dev/issue/50599: if Env is not set explicitly, setting Dir should
 // implicitly update PWD to the correct path, and Environ should list the
 // updated value.
 func TestImplicitPWD(t *testing.T) {
@@ -197,9 +197,9 @@ func TestImplicitPWD(t *testing.T) {
 			if err != nil {
 				t.Fatalf("%v:\n%s", err, cmd.Stderr)
 			}
-			got := strings.Trim(string(out), "\r\n")
-			t.Logf("in\n\t%s\n`pwd` reported\n\t%s", tc.dir, got)
-			if got != tc.want {
+			golangt := strings.Trim(string(out), "\r\n")
+			t.Logf("in\n\t%s\n`pwd` reported\n\t%s", tc.dir, golangt)
+			if golangt != tc.want {
 				t.Errorf("want\n\t%s", tc.want)
 			}
 		})
@@ -207,7 +207,7 @@ func TestImplicitPWD(t *testing.T) {
 }
 
 // However, if cmd.Env is set explicitly, setting Dir should not override it.
-// (This checks that the implementation for https://go.dev/issue/50599 doesn't
+// (This checks that the implementation for https://golang.dev/issue/50599 doesn't
 // break existing users who may have explicitly mismatched the PWD variable.)
 func TestExplicitPWD(t *testing.T) {
 	t.Parallel()
@@ -270,9 +270,9 @@ func TestExplicitPWD(t *testing.T) {
 			if err != nil {
 				t.Fatalf("%v:\n%s", err, cmd.Stderr)
 			}
-			got := strings.Trim(string(out), "\r\n")
-			t.Logf("in\n\t%s\nwith PWD=%s\nsubprocess os.Getwd() reported\n\t%s", tc.dir, tc.pwd, got)
-			if got != tc.pwd {
+			golangt := strings.Trim(string(out), "\r\n")
+			t.Logf("in\n\t%s\nwith PWD=%s\nsubprocess os.Getwd() reported\n\t%s", tc.dir, tc.pwd, golangt)
+			if golangt != tc.pwd {
 				t.Errorf("want\n\t%s", tc.pwd)
 			}
 		})
@@ -298,7 +298,7 @@ func cmdSignalTest(...string) {
 
 	var wg sync.WaitGroup
 	wg.Add(1)
-	go func() {
+	golang func() {
 		defer wg.Done()
 		c := 0
 		for range chSig {

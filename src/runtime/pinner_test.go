@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime_test
@@ -38,13 +38,13 @@ func assertDidPanic(t *testing.T) {
 	}
 }
 
-func assertCgoCheckPanics(t *testing.T, p any) {
+func assertCgolangCheckPanics(t *testing.T, p any) {
 	defer func() {
 		if recover() == nil {
-			t.Fatal("cgoCheckPointer() did not panic, make sure the tests run with cgocheck=1")
+			t.Fatal("cgolangCheckPointer() did not panic, make sure the tests run with cgolangcheck=1")
 		}
 	}()
-	runtime.CgoCheckPointer(p, true)
+	runtime.CgolangCheckPointer(p, true)
 }
 
 func TestPinnerSimple(t *testing.T) {
@@ -238,13 +238,13 @@ func TestPinnerReuse(t *testing.T) {
 	var pinner runtime.Pinner
 	p := new(obj)
 	p2 := &p
-	assertCgoCheckPanics(t, p2)
+	assertCgolangCheckPanics(t, p2)
 	pinner.Pin(p)
-	runtime.CgoCheckPointer(p2, true)
+	runtime.CgolangCheckPointer(p2, true)
 	pinner.Unpin()
-	assertCgoCheckPanics(t, p2)
+	assertCgolangCheckPanics(t, p2)
 	pinner.Pin(p)
-	runtime.CgoCheckPointer(p2, true)
+	runtime.CgolangCheckPointer(p2, true)
 	pinner.Unpin()
 }
 
@@ -280,94 +280,94 @@ func TestPinnerLeakPanics(t *testing.T) {
 	runtime.SetPinnerLeakPanic(old)
 }
 
-func TestPinnerCgoCheckPtr2Ptr(t *testing.T) {
+func TestPinnerCgolangCheckPtr2Ptr(t *testing.T) {
 	var pinner runtime.Pinner
 	defer pinner.Unpin()
 	p := new(obj)
 	p2 := &objWith[*obj]{o: p}
-	assertCgoCheckPanics(t, p2)
+	assertCgolangCheckPanics(t, p2)
 	pinner.Pin(p)
-	runtime.CgoCheckPointer(p2, true)
+	runtime.CgolangCheckPointer(p2, true)
 }
 
-func TestPinnerCgoCheckPtr2UnsafePtr(t *testing.T) {
+func TestPinnerCgolangCheckPtr2UnsafePtr(t *testing.T) {
 	var pinner runtime.Pinner
 	defer pinner.Unpin()
 	p := unsafe.Pointer(new(obj))
 	p2 := &objWith[unsafe.Pointer]{o: p}
-	assertCgoCheckPanics(t, p2)
+	assertCgolangCheckPanics(t, p2)
 	pinner.Pin(p)
-	runtime.CgoCheckPointer(p2, true)
+	runtime.CgolangCheckPointer(p2, true)
 }
 
-func TestPinnerCgoCheckPtr2UnknownPtr(t *testing.T) {
+func TestPinnerCgolangCheckPtr2UnknownPtr(t *testing.T) {
 	var pinner runtime.Pinner
 	defer pinner.Unpin()
 	p := unsafe.Pointer(new(obj))
 	p2 := &p
 	func() {
 		defer assertDidPanic(t)
-		runtime.CgoCheckPointer(p2, nil)
+		runtime.CgolangCheckPointer(p2, nil)
 	}()
 	pinner.Pin(p)
-	runtime.CgoCheckPointer(p2, nil)
+	runtime.CgolangCheckPointer(p2, nil)
 }
 
-func TestPinnerCgoCheckInterface(t *testing.T) {
+func TestPinnerCgolangCheckInterface(t *testing.T) {
 	var pinner runtime.Pinner
 	defer pinner.Unpin()
 	var ifc any
 	var o obj
 	ifc = &o
 	p := &ifc
-	assertCgoCheckPanics(t, p)
+	assertCgolangCheckPanics(t, p)
 	pinner.Pin(&o)
-	runtime.CgoCheckPointer(p, true)
+	runtime.CgolangCheckPointer(p, true)
 }
 
-func TestPinnerCgoCheckSlice(t *testing.T) {
+func TestPinnerCgolangCheckSlice(t *testing.T) {
 	var pinner runtime.Pinner
 	defer pinner.Unpin()
 	sl := []int{1, 2, 3}
-	assertCgoCheckPanics(t, &sl)
+	assertCgolangCheckPanics(t, &sl)
 	pinner.Pin(&sl[0])
-	runtime.CgoCheckPointer(&sl, true)
+	runtime.CgolangCheckPointer(&sl, true)
 }
 
-func TestPinnerCgoCheckString(t *testing.T) {
+func TestPinnerCgolangCheckString(t *testing.T) {
 	var pinner runtime.Pinner
 	defer pinner.Unpin()
 	b := []byte("foobar")
 	str := unsafe.String(&b[0], 6)
-	assertCgoCheckPanics(t, &str)
+	assertCgolangCheckPanics(t, &str)
 	pinner.Pin(&b[0])
-	runtime.CgoCheckPointer(&str, true)
+	runtime.CgolangCheckPointer(&str, true)
 }
 
-func TestPinnerCgoCheckPinned2UnpinnedPanics(t *testing.T) {
+func TestPinnerCgolangCheckPinned2UnpinnedPanics(t *testing.T) {
 	var pinner runtime.Pinner
 	defer pinner.Unpin()
 	p := new(obj)
 	p2 := &objWith[*obj]{o: p}
-	assertCgoCheckPanics(t, p2)
+	assertCgolangCheckPanics(t, p2)
 	pinner.Pin(p2)
-	assertCgoCheckPanics(t, p2)
+	assertCgolangCheckPanics(t, p2)
 }
 
-func TestPinnerCgoCheckPtr2Pinned2Unpinned(t *testing.T) {
+func TestPinnerCgolangCheckPtr2Pinned2Unpinned(t *testing.T) {
 	var pinner runtime.Pinner
 	defer pinner.Unpin()
 	p := new(obj)
 	p2 := &objWith[*obj]{o: p}
 	p3 := &objWith[*objWith[*obj]]{o: p2}
-	assertCgoCheckPanics(t, p2)
-	assertCgoCheckPanics(t, p3)
+	assertCgolangCheckPanics(t, p2)
+	assertCgolangCheckPanics(t, p3)
 	pinner.Pin(p2)
-	assertCgoCheckPanics(t, p2)
-	assertCgoCheckPanics(t, p3)
+	assertCgolangCheckPanics(t, p2)
+	assertCgolangCheckPanics(t, p3)
 	pinner.Pin(p)
-	runtime.CgoCheckPointer(p2, true)
-	runtime.CgoCheckPointer(p3, true)
+	runtime.CgolangCheckPointer(p2, true)
+	runtime.CgolangCheckPointer(p3, true)
 }
 
 func BenchmarkPinnerPinUnpinBatch(b *testing.B) {

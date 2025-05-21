@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test a C thread that calls sigaltstack and then calls Go code.
@@ -12,7 +12,7 @@
 #include <sched.h>
 #include <pthread.h>
 
-#include "libgo4.h"
+#include "libgolang4.h"
 
 #ifdef _AIX
 // On AIX, CSIGSTKSZ is too small to handle Go sighandler.

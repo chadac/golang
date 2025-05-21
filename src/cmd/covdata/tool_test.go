@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main_test
@@ -28,11 +28,11 @@ var preserveTmp = flag.Bool("preservetmp", false, "keep tmpdir files for debuggi
 
 // TestMain used here so that we can leverage the test executable
 // itself as a cmd/covdata executable; compare to similar usage in
-// the cmd/go tests.
+// the cmd/golang tests.
 func TestMain(m *testing.M) {
 	// When CMDCOVDATA_TEST_RUN_MAIN is set, we're reusing the test
 	// binary as cmd/cover. In this case we run the main func exported
-	// via export_test.go, and exit; CMDCOVDATA_TEST_RUN_MAIN is set below
+	// via export_test.golang, and exit; CMDCOVDATA_TEST_RUN_MAIN is set below
 	// for actual test invocations.
 	if os.Getenv("CMDCOVDATA_TEST_RUN_MAIN") != "" {
 		cmdcovdata.Main()
@@ -69,7 +69,7 @@ func tempDir(t *testing.T) string {
 
 const debugtrace = false
 
-func gobuild(t *testing.T, indir string, bargs []string) {
+func golangbuild(t *testing.T, indir string, bargs []string) {
 	t.Helper()
 
 	if debugtrace {
@@ -113,23 +113,23 @@ func buildProg(t *testing.T, prog string, dir string, tag string, flags []string
 	}
 
 	// Emit program.
-	insrc := filepath.Join("testdata", prog+".go")
-	src := filepath.Join(subdir, prog+".go")
+	insrc := filepath.Join("testdata", prog+".golang")
+	src := filepath.Join(subdir, prog+".golang")
 	emitFile(t, src, insrc)
-	indep := filepath.Join("testdata", "dep.go")
-	dep := filepath.Join(depdir, "dep.go")
+	indep := filepath.Join("testdata", "dep.golang")
+	dep := filepath.Join(depdir, "dep.golang")
 	emitFile(t, dep, indep)
 
-	// Emit go.mod.
-	mod := filepath.Join(subdir, "go.mod")
-	modsrc := "\nmodule " + mainPkgPath + "\n\ngo 1.19\n"
+	// Emit golang.mod.
+	mod := filepath.Join(subdir, "golang.mod")
+	modsrc := "\nmodule " + mainPkgPath + "\n\ngolang 1.19\n"
 	if err := os.WriteFile(mod, []byte(modsrc), 0666); err != nil {
 		t.Fatal(err)
 	}
 	exepath := filepath.Join(subdir, prog+".exe")
 	bargs := []string{"build", "-cover", "-o", exepath}
 	bargs = append(bargs, flags...)
-	gobuild(t, subdir, bargs)
+	golangbuild(t, subdir, bargs)
 	return exepath, subdir
 }
 
@@ -183,10 +183,10 @@ func TestCovTool(t *testing.T) {
 	// Run instrumented program to generate some coverage data output files,
 	// as follows:
 	//
-	//   <tmp>/covdata0   -- prog1.go compiled -cover
-	//   <tmp>/covdata1   -- prog1.go compiled -cover
-	//   <tmp>/covdata2   -- prog1.go compiled -covermode=atomic
-	//   <tmp>/covdata3   -- prog1.go compiled -covermode=atomic
+	//   <tmp>/covdata0   -- prog1.golang compiled -cover
+	//   <tmp>/covdata1   -- prog1.golang compiled -cover
+	//   <tmp>/covdata2   -- prog1.golang compiled -covermode=atomic
+	//   <tmp>/covdata3   -- prog1.golang compiled -covermode=atomic
 	//
 	for m := 0; m < 2; m++ {
 		for k := 0; k < 2; k++ {
@@ -381,7 +381,7 @@ func testPkgList(t *testing.T, s state) {
 		for i := 0; i < 2; i++ {
 			lines[i] = strings.TrimSpace(lines[i])
 			if want[i] != lines[i] {
-				t.Errorf("line %d want %s got %s", i, want[i], lines[i])
+				t.Errorf("line %d want %s golangt %s", i, want[i], lines[i])
 				bad = true
 			}
 		}
@@ -400,7 +400,7 @@ func testTextfmt(t *testing.T, s state) {
 	// No output expected.
 	if len(lines) != 0 {
 		dumplines(lines)
-		t.Errorf("unexpected output from go tool covdata textfmt")
+		t.Errorf("unexpected output from golang tool covdata textfmt")
 	}
 
 	// Open and read the first few bits of the file.
@@ -412,12 +412,12 @@ func testTextfmt(t *testing.T, s state) {
 	want0 := "mode: set"
 	if lines[0] != want0 {
 		dumplines(lines[0:10])
-		t.Errorf("textfmt: want %s got %s", want0, lines[0])
+		t.Errorf("textfmt: want %s golangt %s", want0, lines[0])
 	}
-	want1 := mainPkgPath + "/prog1.go:13.14,15.2 1 1"
+	want1 := mainPkgPath + "/prog1.golang:13.14,15.2 1 1"
 	if lines[1] != want1 {
 		dumplines(lines[0:10])
-		t.Errorf("textfmt: want %s got %s", want1, lines[1])
+		t.Errorf("textfmt: want %s golangt %s", want1, lines[1])
 	}
 }
 
@@ -435,7 +435,7 @@ type dumpCheck struct {
 	zero    bool
 }
 
-// runDumpChecks examines the output of "go tool covdata debugdump"
+// runDumpChecks examines the output of "golang tool covdata debugdump"
 // for a given output directory, looking for the presence or absence
 // of specific markers.
 func runDumpChecks(t *testing.T, s state, dir string, flags []string, checks []dumpCheck) {
@@ -520,11 +520,11 @@ func testMergeSimple(t *testing.T, s state, indir1, indir2, tag string) {
 		t.Fatal(err)
 	}
 	if len(podlist) != 1 {
-		t.Fatalf("expected 1 pod, got %d pods", len(podlist))
+		t.Fatalf("expected 1 pod, golangt %d pods", len(podlist))
 	}
 	ncdfs := len(podlist[0].CounterDataFiles)
 	if ncdfs != 1 {
-		t.Fatalf("expected 1 counter data file, got %d", ncdfs)
+		t.Fatalf("expected 1 counter data file, golangt %d", ncdfs)
 	}
 
 	// Sift through the output to make sure it has some key elements.
@@ -665,11 +665,11 @@ func testMergeCombinePrograms(t *testing.T, s state) {
 		t.Fatal(err)
 	}
 	if len(podlist) != 1 {
-		t.Fatalf("expected 1 pod, got %d pods", len(podlist))
+		t.Fatalf("expected 1 pod, golangt %d pods", len(podlist))
 	}
 	ncdfs := len(podlist[0].CounterDataFiles)
 	if ncdfs != 1 {
-		t.Fatalf("expected 1 counter data file, got %d", ncdfs)
+		t.Fatalf("expected 1 counter data file, golangt %d", ncdfs)
 	}
 
 	// Sift through the output to make sure it has some key elements.
@@ -791,8 +791,8 @@ func testCounterClash(t *testing.T, s state) {
 		t.Fatalf("can't create outdir %s: %v", ccoutdir, err)
 	}
 
-	// Try to merge covdata0 (from prog1.go -countermode=set) with
-	// covdata1 (from prog1.go -countermode=atomic"). This should
+	// Try to merge covdata0 (from prog1.golang -countermode=set) with
+	// covdata1 (from prog1.golang -countermode=atomic"). This should
 	// work properly, but result in multiple meta-data files.
 	ins := fmt.Sprintf("-i=%s,%s", s.outdirs[0], s.outdirs[3])
 	out := fmt.Sprintf("-o=%s", ccoutdir)
@@ -820,10 +820,10 @@ func testCounterClash(t *testing.T, s state) {
 	if err == nil {
 		t.Fatalf("expected mode clash")
 	}
-	got := string(b)
+	golangt := string(b)
 	want := "counter mode clash while reading meta-data"
-	if !strings.Contains(got, want) {
-		t.Errorf("counter clash textfmt: wanted %s got %s", want, got)
+	if !strings.Contains(golangt, want) {
+		t.Errorf("counter clash textfmt: wanted %s golangt %s", want, golangt)
 	}
 }
 
@@ -935,7 +935,7 @@ func testCommandLineErrors(t *testing.T, s state, outdir string) {
 				s.tool, x.args)
 		} else {
 			if !strings.Contains(string(b), x.exp) {
-				t.Fatalf("command %s %+v:\ngot:\n%s\nwanted to see: %v\n",
+				t.Fatalf("command %s %+v:\ngolangt:\n%s\nwanted to see: %v\n",
 					s.tool, x.args, string(b), x.exp)
 			}
 		}

@@ -1,8 +1,8 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build linux
+//golang:build linux
 
 package syscall
 
@@ -92,7 +92,7 @@ type SysProcAttr struct {
 	// Pdeathsig, if non-zero, is a signal that the kernel will send to
 	// the child process when the creating thread dies. Note that the signal
 	// is sent on thread termination, which may happen before process termination.
-	// There are more details at https://go.dev/issue/27505.
+	// There are more details at https://golang.dev/issue/27505.
 	Pdeathsig    Signal
 	Cloneflags   uintptr        // Flags for clone calls.
 	Unshareflags uintptr        // Flags for unshare calls.
@@ -134,7 +134,7 @@ func runtime_AfterForkInChild()
 // The calls to RawSyscall are okay because they are assembly
 // functions that do not grow the stack.
 //
-//go:norace
+//golang:norace
 func forkAndExecInChild(argv0 *byte, argv, envv []*byte, chroot, dir *byte, attr *ProcAttr, sys *SysProcAttr, pipe int) (pid int, err Errno) {
 	// Set up and fork. This returns immediately in the parent or
 	// if there's an error.
@@ -212,12 +212,12 @@ type cloneArgs struct {
 // separate the child's and parent's stack frames if we're using
 // vfork.
 //
-// This is go:noinline because the point is to keep the stack frames
+// This is golang:noinline because the point is to keep the stack frames
 // of this and forkAndExecInChild separate.
 //
-//go:noinline
-//go:norace
-//go:nocheckptr
+//golang:noinline
+//golang:norace
+//golang:nocheckptr
 func forkAndExecInChild1(argv0 *byte, argv, envv []*byte, chroot, dir *byte, attr *ProcAttr, sys *SysProcAttr, pipe int) (pid uintptr, pidfd int32, err1 Errno, mapPipe [2]int, locked bool) {
 	// Defined in linux/prctl.h starting with Linux 4.3.
 	const (
@@ -356,26 +356,26 @@ func forkAndExecInChild1(argv0 *byte, argv, envv []*byte, chroot, dir *byte, att
 	if len(sys.AmbientCaps) > 0 {
 		_, _, err1 = RawSyscall6(SYS_PRCTL, PR_SET_KEEPCAPS, 1, 0, 0, 0, 0)
 		if err1 != 0 {
-			goto childerror
+			golangto childerror
 		}
 	}
 
 	// Wait for User ID/Group ID mappings to be written.
 	if sys.UidMappings != nil || sys.GidMappings != nil {
 		if _, _, err1 = RawSyscall(SYS_CLOSE, uintptr(mapPipe[1]), 0, 0); err1 != 0 {
-			goto childerror
+			golangto childerror
 		}
 		pid, _, err1 = RawSyscall(SYS_READ, uintptr(mapPipe[0]), uintptr(unsafe.Pointer(&err2)), unsafe.Sizeof(err2))
 		if err1 != 0 {
-			goto childerror
+			golangto childerror
 		}
 		if pid != unsafe.Sizeof(err2) {
 			err1 = EINVAL
-			goto childerror
+			golangto childerror
 		}
 		if err2 != 0 {
 			err1 = err2
-			goto childerror
+			golangto childerror
 		}
 	}
 
@@ -383,7 +383,7 @@ func forkAndExecInChild1(argv0 *byte, argv, envv []*byte, chroot, dir *byte, att
 	if sys.Setsid {
 		_, _, err1 = RawSyscall(SYS_SETSID, 0, 0, 0)
 		if err1 != 0 {
-			goto childerror
+			golangto childerror
 		}
 	}
 
@@ -392,7 +392,7 @@ func forkAndExecInChild1(argv0 *byte, argv, envv []*byte, chroot, dir *byte, att
 		// Place child in process group.
 		_, _, err1 = RawSyscall(SYS_SETPGID, 0, uintptr(sys.Pgid), 0)
 		if err1 != 0 {
-			goto childerror
+			golangto childerror
 		}
 	}
 
@@ -407,7 +407,7 @@ func forkAndExecInChild1(argv0 *byte, argv, envv []*byte, chroot, dir *byte, att
 		// Place process group in foreground.
 		_, _, err1 = RawSyscall(SYS_IOCTL, uintptr(sys.Ctty), uintptr(TIOCSPGRP), uintptr(unsafe.Pointer(&pgrp)))
 		if err1 != 0 {
-			goto childerror
+			golangto childerror
 		}
 	}
 
@@ -419,45 +419,45 @@ func forkAndExecInChild1(argv0 *byte, argv, envv []*byte, chroot, dir *byte, att
 	if sys.Unshareflags != 0 {
 		_, _, err1 = RawSyscall(SYS_UNSHARE, sys.Unshareflags, 0, 0)
 		if err1 != 0 {
-			goto childerror
+			golangto childerror
 		}
 
 		if sys.Unshareflags&CLONE_NEWUSER != 0 && sys.GidMappings != nil {
 			dirfd = int(_AT_FDCWD)
 			if fd1, _, err1 = RawSyscall6(SYS_OPENAT, uintptr(dirfd), uintptr(unsafe.Pointer(&psetgroups[0])), uintptr(O_WRONLY), 0, 0, 0); err1 != 0 {
-				goto childerror
+				golangto childerror
 			}
 			pid, _, err1 = RawSyscall(SYS_WRITE, fd1, uintptr(unsafe.Pointer(&setgroups[0])), uintptr(len(setgroups)))
 			if err1 != 0 {
-				goto childerror
+				golangto childerror
 			}
 			if _, _, err1 = RawSyscall(SYS_CLOSE, fd1, 0, 0); err1 != 0 {
-				goto childerror
+				golangto childerror
 			}
 
 			if fd1, _, err1 = RawSyscall6(SYS_OPENAT, uintptr(dirfd), uintptr(unsafe.Pointer(&pgid[0])), uintptr(O_WRONLY), 0, 0, 0); err1 != 0 {
-				goto childerror
+				golangto childerror
 			}
 			pid, _, err1 = RawSyscall(SYS_WRITE, fd1, uintptr(unsafe.Pointer(&gidmap[0])), uintptr(len(gidmap)))
 			if err1 != 0 {
-				goto childerror
+				golangto childerror
 			}
 			if _, _, err1 = RawSyscall(SYS_CLOSE, fd1, 0, 0); err1 != 0 {
-				goto childerror
+				golangto childerror
 			}
 		}
 
 		if sys.Unshareflags&CLONE_NEWUSER != 0 && sys.UidMappings != nil {
 			dirfd = int(_AT_FDCWD)
 			if fd1, _, err1 = RawSyscall6(SYS_OPENAT, uintptr(dirfd), uintptr(unsafe.Pointer(&puid[0])), uintptr(O_WRONLY), 0, 0, 0); err1 != 0 {
-				goto childerror
+				golangto childerror
 			}
 			pid, _, err1 = RawSyscall(SYS_WRITE, fd1, uintptr(unsafe.Pointer(&uidmap[0])), uintptr(len(uidmap)))
 			if err1 != 0 {
-				goto childerror
+				golangto childerror
 			}
 			if _, _, err1 = RawSyscall(SYS_CLOSE, fd1, 0, 0); err1 != 0 {
-				goto childerror
+				golangto childerror
 			}
 		}
 
@@ -471,7 +471,7 @@ func forkAndExecInChild1(argv0 *byte, argv, envv []*byte, chroot, dir *byte, att
 		if sys.Unshareflags&CLONE_NEWNS == CLONE_NEWNS {
 			_, _, err1 = RawSyscall6(SYS_MOUNT, uintptr(unsafe.Pointer(&none[0])), uintptr(unsafe.Pointer(&slash[0])), 0, MS_REC|MS_PRIVATE, 0, 0)
 			if err1 != 0 {
-				goto childerror
+				golangto childerror
 			}
 		}
 	}
@@ -480,7 +480,7 @@ func forkAndExecInChild1(argv0 *byte, argv, envv []*byte, chroot, dir *byte, att
 	if chroot != nil {
 		_, _, err1 = RawSyscall(SYS_CHROOT, uintptr(unsafe.Pointer(chroot)), 0, 0)
 		if err1 != 0 {
-			goto childerror
+			golangto childerror
 		}
 	}
 
@@ -494,16 +494,16 @@ func forkAndExecInChild1(argv0 *byte, argv, envv []*byte, chroot, dir *byte, att
 		if !(sys.GidMappings != nil && !sys.GidMappingsEnableSetgroups && ngroups == 0) && !cred.NoSetGroups {
 			_, _, err1 = RawSyscall(_SYS_setgroups, ngroups, groups, 0)
 			if err1 != 0 {
-				goto childerror
+				golangto childerror
 			}
 		}
 		_, _, err1 = RawSyscall(sys_SETGID, uintptr(cred.Gid), 0, 0)
 		if err1 != 0 {
-			goto childerror
+			golangto childerror
 		}
 		_, _, err1 = RawSyscall(sys_SETUID, uintptr(cred.Uid), 0, 0)
 		if err1 != 0 {
-			goto childerror
+			golangto childerror
 		}
 	}
 
@@ -513,7 +513,7 @@ func forkAndExecInChild1(argv0 *byte, argv, envv []*byte, chroot, dir *byte, att
 		caps.hdr.version = _LINUX_CAPABILITY_VERSION_3
 
 		if _, _, err1 = RawSyscall(SYS_CAPGET, uintptr(unsafe.Pointer(&caps.hdr)), uintptr(unsafe.Pointer(&caps.data[0])), 0); err1 != 0 {
-			goto childerror
+			golangto childerror
 		}
 
 		for _, c = range sys.AmbientCaps {
@@ -524,13 +524,13 @@ func forkAndExecInChild1(argv0 *byte, argv, envv []*byte, chroot, dir *byte, att
 		}
 
 		if _, _, err1 = RawSyscall(SYS_CAPSET, uintptr(unsafe.Pointer(&caps.hdr)), uintptr(unsafe.Pointer(&caps.data[0])), 0); err1 != 0 {
-			goto childerror
+			golangto childerror
 		}
 
 		for _, c = range sys.AmbientCaps {
 			_, _, err1 = RawSyscall6(SYS_PRCTL, PR_CAP_AMBIENT, uintptr(PR_CAP_AMBIENT_RAISE), c, 0, 0, 0)
 			if err1 != 0 {
-				goto childerror
+				golangto childerror
 			}
 		}
 	}
@@ -539,7 +539,7 @@ func forkAndExecInChild1(argv0 *byte, argv, envv []*byte, chroot, dir *byte, att
 	if dir != nil {
 		_, _, err1 = RawSyscall(SYS_CHDIR, uintptr(unsafe.Pointer(dir)), 0, 0)
 		if err1 != 0 {
-			goto childerror
+			golangto childerror
 		}
 	}
 
@@ -547,7 +547,7 @@ func forkAndExecInChild1(argv0 *byte, argv, envv []*byte, chroot, dir *byte, att
 	if sys.Pdeathsig != 0 {
 		_, _, err1 = RawSyscall6(SYS_PRCTL, PR_SET_PDEATHSIG, uintptr(sys.Pdeathsig), 0, 0, 0, 0)
 		if err1 != 0 {
-			goto childerror
+			golangto childerror
 		}
 
 		// Signal self if parent is already dead. This might cause a
@@ -558,7 +558,7 @@ func forkAndExecInChild1(argv0 *byte, argv, envv []*byte, chroot, dir *byte, att
 			pid, _ = rawSyscallNoError(SYS_GETPID, 0, 0, 0)
 			_, _, err1 = RawSyscall(SYS_KILL, pid, uintptr(sys.Pdeathsig), 0)
 			if err1 != 0 {
-				goto childerror
+				golangto childerror
 			}
 		}
 	}
@@ -568,7 +568,7 @@ func forkAndExecInChild1(argv0 *byte, argv, envv []*byte, chroot, dir *byte, att
 	if pipe < nextfd {
 		_, _, err1 = RawSyscall(SYS_DUP3, uintptr(pipe), uintptr(nextfd), O_CLOEXEC)
 		if err1 != 0 {
-			goto childerror
+			golangto childerror
 		}
 		pipe = nextfd
 		nextfd++
@@ -580,7 +580,7 @@ func forkAndExecInChild1(argv0 *byte, argv, envv []*byte, chroot, dir *byte, att
 			}
 			_, _, err1 = RawSyscall(SYS_DUP3, uintptr(fd[i]), uintptr(nextfd), O_CLOEXEC)
 			if err1 != 0 {
-				goto childerror
+				golangto childerror
 			}
 			fd[i] = nextfd
 			nextfd++
@@ -598,7 +598,7 @@ func forkAndExecInChild1(argv0 *byte, argv, envv []*byte, chroot, dir *byte, att
 			// probably not elsewhere either.
 			_, _, err1 = RawSyscall(fcntl64Syscall, uintptr(fd[i]), F_SETFD, 0)
 			if err1 != 0 {
-				goto childerror
+				golangto childerror
 			}
 			continue
 		}
@@ -606,7 +606,7 @@ func forkAndExecInChild1(argv0 *byte, argv, envv []*byte, chroot, dir *byte, att
 		// which is exactly what we want.
 		_, _, err1 = RawSyscall(SYS_DUP3, uintptr(fd[i]), uintptr(i), 0)
 		if err1 != 0 {
-			goto childerror
+			golangto childerror
 		}
 	}
 
@@ -622,7 +622,7 @@ func forkAndExecInChild1(argv0 *byte, argv, envv []*byte, chroot, dir *byte, att
 	if sys.Noctty {
 		_, _, err1 = RawSyscall(SYS_IOCTL, 0, uintptr(TIOCNOTTY), 0)
 		if err1 != 0 {
-			goto childerror
+			golangto childerror
 		}
 	}
 
@@ -630,7 +630,7 @@ func forkAndExecInChild1(argv0 *byte, argv, envv []*byte, chroot, dir *byte, att
 	if sys.Setctty {
 		_, _, err1 = RawSyscall(SYS_IOCTL, uintptr(sys.Ctty), uintptr(TIOCSCTTY), 1)
 		if err1 != 0 {
-			goto childerror
+			golangto childerror
 		}
 	}
 
@@ -639,7 +639,7 @@ func forkAndExecInChild1(argv0 *byte, argv, envv []*byte, chroot, dir *byte, att
 		// Some other process may have changed our rlimit by
 		// calling prlimit. We can check for that case because
 		// our current rlimit will not be the value we set when
-		// caching the rlimit in the init function in rlimit.go.
+		// caching the rlimit in the init function in rlimit.golang.
 		//
 		// Note that this test is imperfect, since it won't catch
 		// the case in which some other process used prlimit to
@@ -658,7 +658,7 @@ func forkAndExecInChild1(argv0 *byte, argv, envv []*byte, chroot, dir *byte, att
 	if sys.Ptrace {
 		_, _, err1 = RawSyscall(SYS_PTRACE, uintptr(PTRACE_TRACEME), 0, 0)
 		if err1 != 0 {
-			goto childerror
+			golangto childerror
 		}
 	}
 
@@ -764,7 +764,7 @@ func forkAndExecFailureCleanup(attr *ProcAttr, sys *SysProcAttr) {
 // checkClonePidfd verifies that clone(CLONE_PIDFD) works by actually doing a
 // clone.
 //
-//go:linkname os_checkClonePidfd os.checkClonePidfd
+//golang:linkname os_checkClonePidfd os.checkClonePidfd
 func os_checkClonePidfd() error {
 	pidfd := int32(-1)
 	pid, errno := doCheckClonePidfd(&pidfd)
@@ -843,10 +843,10 @@ func os_checkClonePidfd() error {
 // child execution. This is a separate function so we can separate the child's
 // and parent's stack frames if we're using vfork.
 //
-// This is go:noinline because the point is to keep the stack frames of this
+// This is golang:noinline because the point is to keep the stack frames of this
 // and os_checkClonePidfd separate.
 //
-//go:noinline
+//golang:noinline
 func doCheckClonePidfd(pidfd *int32) (pid uintptr, errno Errno) {
 	flags := uintptr(CLONE_VFORK | CLONE_VM | CLONE_PIDFD)
 	if runtime.GOARCH == "s390x" {

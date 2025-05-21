@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test select when discarding a value.
@@ -30,14 +30,14 @@ func recv3(c <-chan int) {
 
 func send1(recv func(<-chan int)) {
 	c := make(chan int)
-	go recv(c)
+	golang recv(c)
 	runtime.Gosched()
 	c <- 1
 }
 
 func send2(recv func(<-chan int)) {
 	c := make(chan int)
-	go recv(c)
+	golang recv(c)
 	runtime.Gosched()
 	select {
 	case c <- 1:
@@ -46,7 +46,7 @@ func send2(recv func(<-chan int)) {
 
 func send3(recv func(<-chan int)) {
 	c := make(chan int)
-	go recv(c)
+	golang recv(c)
 	runtime.Gosched()
 	c2 := make(chan int)
 	select {

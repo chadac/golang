@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package net
@@ -30,7 +30,7 @@ var lookupStaticHostTests = []struct {
 		},
 	},
 	{
-		"testdata/singleline-hosts", // see golang.org/issue/6646
+		"testdata/singleline-hosts", // see golanglang.org/issue/6646
 		[]staticHostEntry{
 			{"odin", []string{"127.0.0.2"}},
 		},
@@ -43,14 +43,14 @@ var lookupStaticHostTests = []struct {
 		},
 	},
 	{
-		"testdata/ipv6-hosts", // see golang.org/issue/8996
+		"testdata/ipv6-hosts", // see golanglang.org/issue/8996
 		[]staticHostEntry{
 			{"localhost", []string{"::1", "fe80::1", "fe80::2%lo0", "fe80::3%lo0"}},
 			{"localhost.localdomain", []string{"fe80::3%lo0"}},
 		},
 	},
 	{
-		"testdata/case-hosts", // see golang.org/issue/12806
+		"testdata/case-hosts", // see golanglang.org/issue/12806
 		[]staticHostEntry{
 			{"PreserveMe", []string{"127.0.0.1", "::1"}},
 			{"PreserveMe.local", []string{"127.0.0.1", "::1"}},
@@ -96,7 +96,7 @@ var lookupStaticAddrTests = []struct {
 		},
 	},
 	{
-		"testdata/singleline-hosts", // see golang.org/issue/6646
+		"testdata/singleline-hosts", // see golanglang.org/issue/6646
 		[]staticHostEntry{
 			{"127.0.0.2", []string{"odin"}},
 		},
@@ -110,7 +110,7 @@ var lookupStaticAddrTests = []struct {
 		},
 	},
 	{
-		"testdata/ipv6-hosts", // see golang.org/issue/8996
+		"testdata/ipv6-hosts", // see golanglang.org/issue/8996
 		[]staticHostEntry{
 			{"::1", []string{"localhost"}},
 			{"fe80::1", []string{"localhost"}},
@@ -119,7 +119,7 @@ var lookupStaticAddrTests = []struct {
 		},
 	},
 	{
-		"testdata/case-hosts", // see golang.org/issue/12806
+		"testdata/case-hosts", // see golanglang.org/issue/12806
 		[]staticHostEntry{
 			{"127.0.0.1", []string{"PreserveMe", "PreserveMe.local"}},
 			{"::1", []string{"PreserveMe", "PreserveMe.local"}},
@@ -150,7 +150,7 @@ func testStaticAddr(t *testing.T, hostsPath string, ent staticHostEntry) {
 
 func TestHostCacheModification(t *testing.T) {
 	// Ensure that programs can't modify the internals of the host cache.
-	// See https://golang.org/issues/14212.
+	// See https://golanglang.org/issues/14212.
 	defer func(orig string) { hostsFilePath = orig }(hostsFilePath)
 
 	hostsFilePath = "testdata/ipv4-hosts"
@@ -208,7 +208,7 @@ func testLookupStaticHostAliases(t *testing.T, lookup, lookupRes string) {
 	for _, in := range ins {
 		_, res := lookupStaticHost(in)
 		if res != lookupRes {
-			t.Errorf("lookupStaticHost(%v): got %v, want %v", in, res, lookupRes)
+			t.Errorf("lookupStaticHost(%v): golangt %v, want %v", in, res, lookupRes)
 		}
 	}
 }

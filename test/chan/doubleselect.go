@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test the situation in which two cases of a select can
@@ -51,7 +51,7 @@ func recver(in <-chan int) {
 
 	for v := range in {
 		if _, ok := seen[v]; ok {
-			println("got duplicate value: ", v)
+			println("golangt duplicate value: ", v)
 			panic("fail")
 		}
 		seen[v] = true
@@ -68,12 +68,12 @@ func main() {
 	c4 := make(chan int)
 	done := make(chan bool)
 	cmux := make(chan int)
-	go sender(*iterations, c1, c2, c3, c4)
-	go mux(cmux, c1, done)
-	go mux(cmux, c2, done)
-	go mux(cmux, c3, done)
-	go mux(cmux, c4, done)
-	go func() {
+	golang sender(*iterations, c1, c2, c3, c4)
+	golang mux(cmux, c1, done)
+	golang mux(cmux, c2, done)
+	golang mux(cmux, c3, done)
+	golang mux(cmux, c4, done)
+	golang func() {
 		<-done
 		<-done
 		<-done

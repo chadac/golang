@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package log
@@ -28,8 +28,8 @@ const (
 	Rtime         = `[0-9][0-9]:[0-9][0-9]:[0-9][0-9]`
 	Rmicroseconds = `\.[0-9][0-9][0-9][0-9][0-9][0-9]`
 	Rline         = `(67|69):` // must update if the calls to l.Printf / l.Print below move
-	Rlongfile     = `.*/[A-Za-z0-9_\-]+\.go:` + Rline
-	Rshortfile    = `[A-Za-z0-9_\-]+\.go:` + Rline
+	Rlongfile     = `.*/[A-Za-z0-9_\-]+\.golang:` + Rline
+	Rshortfile    = `[A-Za-z0-9_\-]+\.golang:` + Rline
 )
 
 type tester struct {
@@ -82,8 +82,8 @@ func testPrint(t *testing.T, flag int, prefix string, pattern string, useFormat 
 }
 
 func TestDefault(t *testing.T) {
-	if got := Default(); got != std {
-		t.Errorf("Default [%p] should be std [%p]", got, std)
+	if golangt := Default(); golangt != std {
+		t.Errorf("Default [%p] should be std [%p]", golangt, std)
 	}
 }
 
@@ -116,7 +116,7 @@ func TestOutputRace(t *testing.T) {
 	var wg sync.WaitGroup
 	wg.Add(100)
 	for i := 0; i < 100; i++ {
-		go func() {
+		golang func() {
 			defer wg.Done()
 			l.SetFlags(0)
 			l.Output(0, "")
@@ -130,21 +130,21 @@ func TestFlagAndPrefixSetting(t *testing.T) {
 	l := New(&b, "Test:", LstdFlags)
 	f := l.Flags()
 	if f != LstdFlags {
-		t.Errorf("Flags 1: expected %x got %x", LstdFlags, f)
+		t.Errorf("Flags 1: expected %x golangt %x", LstdFlags, f)
 	}
 	l.SetFlags(f | Lmicroseconds)
 	f = l.Flags()
 	if f != LstdFlags|Lmicroseconds {
-		t.Errorf("Flags 2: expected %x got %x", LstdFlags|Lmicroseconds, f)
+		t.Errorf("Flags 2: expected %x golangt %x", LstdFlags|Lmicroseconds, f)
 	}
 	p := l.Prefix()
 	if p != "Test:" {
-		t.Errorf(`Prefix: expected "Test:" got %q`, p)
+		t.Errorf(`Prefix: expected "Test:" golangt %q`, p)
 	}
 	l.SetPrefix("Reality:")
 	p = l.Prefix()
 	if p != "Reality:" {
-		t.Errorf(`Prefix: expected "Reality:" got %q`, p)
+		t.Errorf(`Prefix: expected "Reality:" golangt %q`, p)
 	}
 	// Verify a log message looks right, with our prefix and microseconds present.
 	l.Print("hello")
@@ -162,8 +162,8 @@ func TestFlagAndPrefixSetting(t *testing.T) {
 	l.SetFlags(0)
 	l.SetPrefix("\n")
 	l.Output(0, "")
-	if got := b.String(); got != "\n" {
-		t.Errorf("message mismatch:\ngot  %q\nwant %q", got, "\n")
+	if golangt := b.String(); golangt != "\n" {
+		t.Errorf("message mismatch:\ngolangt  %q\nwant %q", golangt, "\n")
 	}
 }
 
@@ -176,8 +176,8 @@ func TestUTCFlag(t *testing.T) {
 	l.Print("hello")
 	want := fmt.Sprintf("Test:%d/%.2d/%.2d %.2d:%.2d:%.2d hello\n",
 		now.Year(), now.Month(), now.Day(), now.Hour(), now.Minute(), now.Second())
-	got := b.String()
-	if got == want {
+	golangt := b.String()
+	if golangt == want {
 		return
 	}
 	// It's possible we crossed a second boundary between getting now and logging,
@@ -185,10 +185,10 @@ func TestUTCFlag(t *testing.T) {
 	now = now.Add(time.Second)
 	want = fmt.Sprintf("Test:%d/%.2d/%.2d %.2d:%.2d:%.2d hello\n",
 		now.Year(), now.Month(), now.Day(), now.Hour(), now.Minute(), now.Second())
-	if got == want {
+	if golangt == want {
 		return
 	}
-	t.Errorf("got %q; want %q", got, want)
+	t.Errorf("golangt %q; want %q", golangt, want)
 }
 
 func TestEmptyPrintCreatesLine(t *testing.T) {
@@ -198,10 +198,10 @@ func TestEmptyPrintCreatesLine(t *testing.T) {
 	l.Println("non-empty")
 	output := b.String()
 	if n := strings.Count(output, "Header"); n != 2 {
-		t.Errorf("expected 2 headers, got %d", n)
+		t.Errorf("expected 2 headers, golangt %d", n)
 	}
 	if n := strings.Count(output, "\n"); n != 2 {
-		t.Errorf("expected 2 lines, got %d", n)
+		t.Errorf("expected 2 lines, golangt %d", n)
 	}
 }
 
@@ -212,7 +212,7 @@ func TestDiscard(t *testing.T) {
 	// One allocation for slice passed to Printf,
 	// but none for formatting of long string.
 	if c > 1 {
-		t.Errorf("got %v allocs, want at most 1", c)
+		t.Errorf("golangt %v allocs, want at most 1", c)
 	}
 }
 
@@ -281,16 +281,16 @@ func TestCallDepth(t *testing.T) {
 			if err != nil {
 				t.Fatalf("failed to split line: %v", err)
 			}
-			got := string(firstLine)
+			golangt := string(firstLine)
 
 			want := fmt.Sprintf(
-				"log_test.go:%d: %s",
+				"log_test.golang:%d: %s",
 				line+i, tt.name,
 			)
-			if got != want {
+			if golangt != want {
 				t.Errorf(
-					"output from %s() mismatch:\n\t got: %s\n\twant: %s",
-					tt.name, got, want,
+					"output from %s() mismatch:\n\t golangt: %s\n\twant: %s",
+					tt.name, golangt, want,
 				)
 			}
 		})
@@ -346,7 +346,7 @@ func BenchmarkConcurrent(b *testing.B) {
 	var group sync.WaitGroup
 	for i := runtime.NumCPU(); i > 0; i-- {
 		group.Add(1)
-		go func() {
+		golang func() {
 			for i := 0; i < b.N; i++ {
 				l.Output(0, "hello, world!")
 			}

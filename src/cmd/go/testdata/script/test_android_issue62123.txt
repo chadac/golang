@@ -1,19 +1,19 @@
 env GOOS=android GOARCH=amd64 CGO_ENABLED=0
 
-! go build -o $devnull cmd/buildid
-stderr 'android/amd64 requires external \(cgo\) linking, but cgo is not enabled'
-! stderr 'cannot find runtime/cgo'
+! golang build -o $devnull cmd/buildid
+stderr 'android/amd64 requires external \(cgolang\) linking, but cgolang is not enabled'
+! stderr 'cannot find runtime/cgolang'
 
-! go test -c -o $devnull os
-stderr '# os\nandroid/amd64 requires external \(cgo\) linking, but cgo is not enabled'
-! stderr 'cannot find runtime/cgo'
+! golang test -c -o $devnull os
+stderr '# os\nandroid/amd64 requires external \(cgolang\) linking, but cgolang is not enabled'
+! stderr 'cannot find runtime/cgolang'
 
 env GOOS=ios GOARCH=arm64 CGO_ENABLED=0
 
-! go build -o $devnull cmd/buildid
-stderr 'ios/arm64 requires external \(cgo\) linking, but cgo is not enabled'
-! stderr 'cannot find runtime/cgo'
+! golang build -o $devnull cmd/buildid
+stderr 'ios/arm64 requires external \(cgolang\) linking, but cgolang is not enabled'
+! stderr 'cannot find runtime/cgolang'
 
-! go test -c -o $devnull os
-stderr '# os\nios/arm64 requires external \(cgo\) linking, but cgo is not enabled'
-! stderr 'cannot find runtime/cgo'
+! golang test -c -o $devnull os
+stderr '# os\nios/arm64 requires external \(cgolang\) linking, but cgolang is not enabled'
+! stderr 'cannot find runtime/cgolang'

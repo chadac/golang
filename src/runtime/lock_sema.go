@@ -1,8 +1,8 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build aix || darwin || netbsd || openbsd || plan9 || solaris || windows
+//golang:build aix || darwin || netbsd || openbsd || plan9 || solaris || windows
 
 package runtime
 
@@ -50,7 +50,7 @@ func notesleep(n *note) {
 	}
 	semacreate(gp.m)
 	if !atomic.Casuintptr(&n.key, 0, uintptr(unsafe.Pointer(gp.m))) {
-		// Must be locked (got wakeup).
+		// Must be locked (golangt wakeup).
 		if n.key != locked {
 			throw("notesleep - waitm out of sync")
 		}
@@ -58,20 +58,20 @@ func notesleep(n *note) {
 	}
 	// Queued. Sleep.
 	gp.m.blocked = true
-	if *cgo_yield == nil {
+	if *cgolang_yield == nil {
 		semasleep(-1)
 	} else {
 		// Sleep for an arbitrary-but-moderate interval to poll libc interceptors.
 		const ns = 10e6
 		for atomic.Loaduintptr(&n.key) == 0 {
 			semasleep(ns)
-			asmcgocall(*cgo_yield, nil)
+			asmcgolangcall(*cgolang_yield, nil)
 		}
 	}
 	gp.m.blocked = false
 }
 
-//go:nosplit
+//golang:nosplit
 func notetsleep_internal(n *note, ns int64, gp *g, deadline int64) bool {
 	// gp and deadline are logically local variables, but they are written
 	// as parameters so that the stack space they require is charged
@@ -81,7 +81,7 @@ func notetsleep_internal(n *note, ns int64, gp *g, deadline int64) bool {
 
 	// Register for wakeup on n->waitm.
 	if !atomic.Casuintptr(&n.key, 0, uintptr(unsafe.Pointer(gp.m))) {
-		// Must be locked (got wakeup).
+		// Must be locked (golangt wakeup).
 		if n.key != locked {
 			throw("notetsleep - waitm out of sync")
 		}
@@ -90,13 +90,13 @@ func notetsleep_internal(n *note, ns int64, gp *g, deadline int64) bool {
 	if ns < 0 {
 		// Queued. Sleep.
 		gp.m.blocked = true
-		if *cgo_yield == nil {
+		if *cgolang_yield == nil {
 			semasleep(-1)
 		} else {
 			// Sleep in arbitrary-but-moderate intervals to poll libc interceptors.
 			const ns = 10e6
 			for semasleep(ns) < 0 {
-				asmcgocall(*cgo_yield, nil)
+				asmcgolangcall(*cgolang_yield, nil)
 			}
 		}
 		gp.m.blocked = false
@@ -107,7 +107,7 @@ func notetsleep_internal(n *note, ns int64, gp *g, deadline int64) bool {
 	for {
 		// Registered. Sleep.
 		gp.m.blocked = true
-		if *cgo_yield != nil && ns > 10e6 {
+		if *cgolang_yield != nil && ns > 10e6 {
 			ns = 10e6
 		}
 		if semasleep(ns) >= 0 {
@@ -116,8 +116,8 @@ func notetsleep_internal(n *note, ns int64, gp *g, deadline int64) bool {
 			// Done.
 			return true
 		}
-		if *cgo_yield != nil {
-			asmcgocall(*cgo_yield, nil)
+		if *cgolang_yield != nil {
+			asmcgolangcall(*cgolang_yield, nil)
 		}
 		gp.m.blocked = false
 		// Interrupted or timed out. Still registered. Semaphore not acquired.

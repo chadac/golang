@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package httptrace
@@ -31,8 +31,8 @@ func TestWithClientTrace(t *testing.T) {
 
 	buf.Reset()
 	trace.ConnectStart("net", "addr")
-	if got, want := buf.String(), "NO"; got != want {
-		t.Errorf("got %q; want %q", got, want)
+	if golangt, want := buf.String(), "NO"; golangt != want {
+		t.Errorf("golangt %q; want %q", golangt, want)
 	}
 }
 
@@ -81,8 +81,8 @@ func TestCompose(t *testing.T) {
 		if tr.ConnectStart != nil {
 			tr.ConnectStart("net", "addr")
 		}
-		if got := buf.String(); got != tt.want {
-			t.Errorf("%d. got = %q; want %q", i, got, tt.want)
+		if golangt := buf.String(); golangt != tt.want {
+			t.Errorf("%d. golangt = %q; want %q", i, golangt, tt.want)
 		}
 	}
 

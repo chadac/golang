@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package template
@@ -26,8 +26,8 @@ func TestURLNormalizer(t *testing.T) {
 		{"/foo|bar/%5c\u1234", "/foo%7cbar/%5c%e1%88%b4"},
 	}
 	for _, test := range tests {
-		if got := urlNormalizer(test.url); test.want != got {
-			t.Errorf("%q: want\n\t%q\nbut got\n\t%q", test.url, test.want, got)
+		if golangt := urlNormalizer(test.url); test.want != golangt {
+			t.Errorf("%q: want\n\t%q\nbut golangt\n\t%q", test.url, test.want, golangt)
 		}
 		if test.want != urlNormalizer(test.want) {
 			t.Errorf("not idempotent: %q", test.want)
@@ -81,7 +81,7 @@ func TestURLFilters(t *testing.T) {
 
 	for _, test := range tests {
 		if s := test.escaper(input); s != test.escaped {
-			t.Errorf("%s: want\n\t%q\ngot\n\t%q", test.name, test.escaped, s)
+			t.Errorf("%s: want\n\t%q\ngolangt\n\t%q", test.name, test.escaped, s)
 			continue
 		}
 	}
@@ -106,7 +106,7 @@ func TestSrcsetFilter(t *testing.T) {
 		{
 			"one bad",
 			"javascript:alert(1) 200w",
-			"#ZgotmplZ",
+			"#ZgolangtmplZ",
 		},
 		{
 			"two ok",
@@ -116,18 +116,18 @@ func TestSrcsetFilter(t *testing.T) {
 		{
 			"left bad",
 			"javascript:alert(1), /foo.png",
-			"#ZgotmplZ, /foo.png",
+			"#ZgolangtmplZ, /foo.png",
 		},
 		{
 			"right bad",
 			"/bogus#, javascript:alert(1)",
-			"/bogus#,#ZgotmplZ",
+			"/bogus#,#ZgolangtmplZ",
 		},
 	}
 
 	for _, test := range tests {
-		if got := srcsetFilterAndEscaper(test.input); got != test.want {
-			t.Errorf("%s: srcsetFilterAndEscaper(%q) want %q != %q", test.name, test.input, test.want, got)
+		if golangt := srcsetFilterAndEscaper(test.input); golangt != test.want {
+			t.Errorf("%s: srcsetFilterAndEscaper(%q) want %q != %q", test.name, test.input, test.want, golangt)
 		}
 	}
 }

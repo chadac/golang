@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package singleflight
@@ -18,8 +18,8 @@ func TestDo(t *testing.T) {
 	v, err, _ := g.Do("key", func() (any, error) {
 		return "bar", nil
 	})
-	if got, want := fmt.Sprintf("%v (%T)", v, v), "bar (string)"; got != want {
-		t.Errorf("Do = %v; want %v", got, want)
+	if golangt, want := fmt.Sprintf("%v (%T)", v, v), "bar (string)"; golangt != want {
+		t.Errorf("Do = %v; want %v", golangt, want)
 	}
 	if err != nil {
 		t.Errorf("Do error = %v", err)
@@ -53,7 +53,7 @@ func TestDoDupSuppress(t *testing.T) {
 		v := <-c
 		c <- v // pump; make available for any future calls
 
-		time.Sleep(10 * time.Millisecond) // let more goroutines enter Do
+		time.Sleep(10 * time.Millisecond) // let more golangroutines enter Do
 
 		return v, nil
 	}
@@ -63,7 +63,7 @@ func TestDoDupSuppress(t *testing.T) {
 	for i := 0; i < n; i++ {
 		wg1.Add(1)
 		wg2.Add(1)
-		go func() {
+		golang func() {
 			defer wg2.Done()
 			wg1.Done()
 			v, err, _ := g.Do("key", fn)
@@ -77,12 +77,12 @@ func TestDoDupSuppress(t *testing.T) {
 		}()
 	}
 	wg1.Wait()
-	// At least one goroutine is in fn now and all of them have at
+	// At least one golangroutine is in fn now and all of them have at
 	// least reached the line before the Do.
 	c <- "bar"
 	wg2.Wait()
-	if got := calls.Load(); got <= 0 || got >= n {
-		t.Errorf("number of calls = %d; want over 0 and less than %d", got, n)
+	if golangt := calls.Load(); golangt <= 0 || golangt >= n {
+		t.Errorf("number of calls = %d; want over 0 and less than %d", golangt, n)
 	}
 }
 
@@ -96,7 +96,7 @@ func TestForgetUnshared(t *testing.T) {
 
 	key := "key"
 	firstCh := make(chan struct{})
-	go func() {
+	golang func() {
 		g.Do(key, func() (i interface{}, e error) {
 			firstStarted.Done()
 			<-firstCh
@@ -109,7 +109,7 @@ func TestForgetUnshared(t *testing.T) {
 	g.ForgetUnshared(key) // from this point no two function using same key should be executed concurrently
 
 	secondCh := make(chan struct{})
-	go func() {
+	golang func() {
 		g.Do(key, func() (i interface{}, e error) {
 			// Notify that we started
 			secondCh <- struct{}{}
@@ -125,20 +125,20 @@ func TestForgetUnshared(t *testing.T) {
 	})
 
 	if g.ForgetUnshared(key) {
-		t.Errorf("Before first goroutine finished, key %q is shared, should return false", key)
+		t.Errorf("Before first golangroutine finished, key %q is shared, should return false", key)
 	}
 
 	close(firstCh)
 	firstFinished.Wait()
 
 	if g.ForgetUnshared(key) {
-		t.Errorf("After first goroutine finished, key %q is still shared, should return false", key)
+		t.Errorf("After first golangroutine finished, key %q is still shared, should return false", key)
 	}
 
 	secondCh <- struct{}{}
 
 	if result := <-resultCh; result.Val != 2 {
-		t.Errorf("We should receive result produced by second call, expected: 2, got %d", result.Val)
+		t.Errorf("We should receive result produced by second call, expected: 2, golangt %d", result.Val)
 	}
 }
 
@@ -154,7 +154,7 @@ func TestDoAndForgetUnsharedRace(t *testing.T) {
 		var wg sync.WaitGroup
 		wg.Add(n)
 		for i := 0; i < n; i++ {
-			go func() {
+			golang func() {
 				g.Do(key, func() (interface{}, error) {
 					time.Sleep(d)
 					return calls.Add(1), nil
@@ -168,7 +168,7 @@ func TestDoAndForgetUnsharedRace(t *testing.T) {
 		wg.Wait()
 
 		if calls.Load() != 1 {
-			// The goroutines didn't park in g.Do in time,
+			// The golangroutines didn't park in g.Do in time,
 			// so the key was re-added and may have been shared after the call.
 			// Try again with more time to park.
 			d *= 2

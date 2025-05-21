@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package template
@@ -26,9 +26,9 @@ func TestEndsWithCSSKeyword(t *testing.T) {
 		{"image url", "url", true},
 	}
 	for _, test := range tests {
-		got := endsWithCSSKeyword([]byte(test.css), test.kw)
-		if got != test.want {
-			t.Errorf("want %t but got %t for css=%v, kw=%v", test.want, got, test.css, test.kw)
+		golangt := endsWithCSSKeyword([]byte(test.css), test.kw)
+		if golangt != test.want {
+			t.Errorf("want %t but golangt %t for css=%v, kw=%v", test.want, golangt, test.css, test.kw)
 		}
 	}
 }
@@ -60,9 +60,9 @@ func TestIsCSSNmchar(t *testing.T) {
 		{0x110000, false},
 	}
 	for _, test := range tests {
-		got := isCSSNmchar(test.rune)
-		if got != test.want {
-			t.Errorf("%q: want %t but got %t", string(test.rune), test.want, got)
+		golangt := isCSSNmchar(test.rune)
+		if golangt != test.want {
+			t.Errorf("%q: want %t but golangt %t", string(test.rune), test.want, golangt)
 		}
 	}
 }
@@ -100,12 +100,12 @@ func TestDecodeCSS(t *testing.T) {
 		},
 	}
 	for _, test := range tests {
-		got1 := string(decodeCSS([]byte(test.css)))
-		if got1 != test.want {
-			t.Errorf("%q: want\n\t%q\nbut got\n\t%q", test.css, test.want, got1)
+		golangt1 := string(decodeCSS([]byte(test.css)))
+		if golangt1 != test.want {
+			t.Errorf("%q: want\n\t%q\nbut golangt\n\t%q", test.css, test.want, golangt1)
 		}
-		recoded := cssEscaper(got1)
-		if got2 := string(decodeCSS([]byte(recoded))); got2 != test.want {
+		recoded := cssEscaper(golangt1)
+		if golangt2 := string(decodeCSS([]byte(recoded))); golangt2 != test.want {
 			t.Errorf("%q: escape & decode not dual for %q", test.css, recoded)
 		}
 	}
@@ -114,12 +114,12 @@ func TestDecodeCSS(t *testing.T) {
 func TestHexDecode(t *testing.T) {
 	for i := 0; i < 0x200000; i += 101 /* coprime with 16 */ {
 		s := strconv.FormatInt(int64(i), 16)
-		if got := int(hexDecode([]byte(s))); got != i {
-			t.Errorf("%s: want %d but got %d", s, i, got)
+		if golangt := int(hexDecode([]byte(s))); golangt != i {
+			t.Errorf("%s: want %d but golangt %d", s, i, golangt)
 		}
 		s = strings.ToUpper(s)
-		if got := int(hexDecode([]byte(s))); got != i {
-			t.Errorf("%s: want %d but got %d", s, i, got)
+		if golangt := int(hexDecode([]byte(s))); golangt != i {
+			t.Errorf("%s: want %d but golangt %d", s, i, golangt)
 		}
 	}
 }
@@ -141,9 +141,9 @@ func TestSkipCSSSpace(t *testing.T) {
 		{`\20`, `\20`},
 	}
 	for _, test := range tests {
-		got := string(skipCSSSpace([]byte(test.css)))
-		if got != test.want {
-			t.Errorf("%q: want %q but got %q", test.css, test.want, got)
+		golangt := string(skipCSSSpace([]byte(test.css)))
+		if golangt != test.want {
+			t.Errorf("%q: want %q but golangt %q", test.css, test.want, golangt)
 		}
 	}
 }
@@ -171,14 +171,14 @@ func TestCSSEscaper(t *testing.T) {
 		`pqrstuvwxyz\7b|\7d~` + "\u007f" +
 		"\u00A0\u0100\u2028\u2029\ufeff\U0001D11E")
 
-	got := cssEscaper(input)
-	if got != want {
-		t.Errorf("encode: want\n\t%q\nbut got\n\t%q", want, got)
+	golangt := cssEscaper(input)
+	if golangt != want {
+		t.Errorf("encode: want\n\t%q\nbut golangt\n\t%q", want, golangt)
 	}
 
-	got = string(decodeCSS([]byte(got)))
-	if input != got {
-		t.Errorf("decode: want\n\t%q\nbut got\n\t%q", input, got)
+	golangt = string(decodeCSS([]byte(golangt)))
+	if input != golangt {
+		t.Errorf("decode: want\n\t%q\nbut golangt\n\t%q", input, golangt)
 	}
 }
 
@@ -204,40 +204,40 @@ func TestCSSValueFilter(t *testing.T) {
 		{"#123456", "#123456"},
 		{"U+00-FF, U+980-9FF", "U+00-FF, U+980-9FF"},
 		{"color: red", "color: red"},
-		{"<!--", "ZgotmplZ"},
-		{"-->", "ZgotmplZ"},
-		{"<![CDATA[", "ZgotmplZ"},
-		{"]]>", "ZgotmplZ"},
-		{"</style", "ZgotmplZ"},
-		{`"`, "ZgotmplZ"},
-		{`'`, "ZgotmplZ"},
-		{"`", "ZgotmplZ"},
-		{"\x00", "ZgotmplZ"},
-		{"/* foo */", "ZgotmplZ"},
-		{"//", "ZgotmplZ"},
-		{"[href=~", "ZgotmplZ"},
-		{"expression(alert(1337))", "ZgotmplZ"},
-		{"-expression(alert(1337))", "ZgotmplZ"},
-		{"expression", "ZgotmplZ"},
-		{"Expression", "ZgotmplZ"},
-		{"EXPRESSION", "ZgotmplZ"},
-		{"-moz-binding", "ZgotmplZ"},
-		{"-expr\x00ession(alert(1337))", "ZgotmplZ"},
-		{`-expr\0ession(alert(1337))`, "ZgotmplZ"},
-		{`-express\69on(alert(1337))`, "ZgotmplZ"},
-		{`-express\69 on(alert(1337))`, "ZgotmplZ"},
-		{`-exp\72 ession(alert(1337))`, "ZgotmplZ"},
-		{`-exp\52 ession(alert(1337))`, "ZgotmplZ"},
-		{`-exp\000052 ession(alert(1337))`, "ZgotmplZ"},
+		{"<!--", "ZgolangtmplZ"},
+		{"-->", "ZgolangtmplZ"},
+		{"<![CDATA[", "ZgolangtmplZ"},
+		{"]]>", "ZgolangtmplZ"},
+		{"</style", "ZgolangtmplZ"},
+		{`"`, "ZgolangtmplZ"},
+		{`'`, "ZgolangtmplZ"},
+		{"`", "ZgolangtmplZ"},
+		{"\x00", "ZgolangtmplZ"},
+		{"/* foo */", "ZgolangtmplZ"},
+		{"//", "ZgolangtmplZ"},
+		{"[href=~", "ZgolangtmplZ"},
+		{"expression(alert(1337))", "ZgolangtmplZ"},
+		{"-expression(alert(1337))", "ZgolangtmplZ"},
+		{"expression", "ZgolangtmplZ"},
+		{"Expression", "ZgolangtmplZ"},
+		{"EXPRESSION", "ZgolangtmplZ"},
+		{"-moz-binding", "ZgolangtmplZ"},
+		{"-expr\x00ession(alert(1337))", "ZgolangtmplZ"},
+		{`-expr\0ession(alert(1337))`, "ZgolangtmplZ"},
+		{`-express\69on(alert(1337))`, "ZgolangtmplZ"},
+		{`-express\69 on(alert(1337))`, "ZgolangtmplZ"},
+		{`-exp\72 ession(alert(1337))`, "ZgolangtmplZ"},
+		{`-exp\52 ession(alert(1337))`, "ZgolangtmplZ"},
+		{`-exp\000052 ession(alert(1337))`, "ZgolangtmplZ"},
 		{`-expre\0000073sion`, "-expre\x073sion"},
-		{`@import url evil.css`, "ZgotmplZ"},
-		{"<", "ZgotmplZ"},
-		{">", "ZgotmplZ"},
+		{`@import url evil.css`, "ZgolangtmplZ"},
+		{"<", "ZgolangtmplZ"},
+		{">", "ZgolangtmplZ"},
 	}
 	for _, test := range tests {
-		got := cssValueFilter(test.css)
-		if got != test.want {
-			t.Errorf("%q: want %q but got %q", test.css, test.want, got)
+		golangt := cssValueFilter(test.css)
+		if golangt != test.want {
+			t.Errorf("%q: want %q but golangt %q", test.css, test.want, golangt)
 		}
 	}
 }

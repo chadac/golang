@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -20,18 +20,18 @@ type resource interface {
 // noResource indicates the lack of a resource.
 const noResource = -1
 
-// gState represents the trace viewer state of a goroutine in a trace.
+// gState represents the trace viewer state of a golangroutine in a trace.
 //
 // The type parameter on this type is the resource which is used to construct
 // a timeline of events. e.g. R=ProcID for a proc-oriented view, R=GoID for
-// a goroutine-oriented view, etc.
+// a golangroutine-oriented view, etc.
 type gState[R resource] struct {
 	baseName  string
 	named     bool   // Whether baseName has been set.
 	label     string // EventLabel extension.
 	isSystemG bool
 
-	executing R // The resource this goroutine is executing on. (Could be itself.)
+	executing R // The resource this golangroutine is executing on. (Could be itself.)
 
 	// lastStopStack is the stack trace at the point of the last
 	// call to the stop method. This tends to be a more reliable way
@@ -39,18 +39,18 @@ type gState[R resource] struct {
 	// a stack for every state transition event.
 	lastStopStack trace.Stack
 
-	// activeRanges is the set of all active ranges on the goroutine.
+	// activeRanges is the set of all active ranges on the golangroutine.
 	activeRanges map[string]activeRange
 
 	// completedRanges is a list of ranges that completed since before the
-	// goroutine stopped executing. These are flushed on every stop or block.
+	// golangroutine stopped executing. These are flushed on every stop or block.
 	completedRanges []completedRange
 
-	// startRunningTime is the most recent event that caused a goroutine to
+	// startRunningTime is the most recent event that caused a golangroutine to
 	// transition to GoRunning.
 	startRunningTime trace.Time
 
-	// startSyscall is the most recent event that caused a goroutine to
+	// startSyscall is the most recent event that caused a golangroutine to
 	// transition to GoSyscall.
 	syscall struct {
 		time   trace.Time
@@ -59,12 +59,12 @@ type gState[R resource] struct {
 	}
 
 	// startBlockReason is the StateTransition.Reason of the most recent
-	// event that caused a goroutine to transition to GoWaiting.
+	// event that caused a golangroutine to transition to GoWaiting.
 	startBlockReason string
 
-	// startCause is the event that allowed this goroutine to start running.
+	// startCause is the event that allowed this golangroutine to start running.
 	// It's used to generate flow events. This is typically something like
-	// an unblock event or a goroutine creation event.
+	// an unblock event or a golangroutine creation event.
 	//
 	// startCause.resource is the resource on which startCause happened, but is
 	// listed separately because the cause may have happened on a resource that
@@ -77,18 +77,18 @@ type gState[R resource] struct {
 	}
 }
 
-// newGState constructs a new goroutine state for the goroutine
+// newGState constructs a new golangroutine state for the golangroutine
 // identified by the provided ID.
-func newGState[R resource](goID trace.GoID) *gState[R] {
+func newGState[R resource](golangID trace.GoID) *gState[R] {
 	return &gState[R]{
-		baseName:     fmt.Sprintf("G%d", goID),
+		baseName:     fmt.Sprintf("G%d", golangID),
 		executing:    R(noResource),
 		activeRanges: make(map[string]activeRange),
 	}
 }
 
-// augmentName attempts to use stk to augment the name of the goroutine
-// with stack information. This stack must be related to the goroutine
+// augmentName attempts to use stk to augment the name of the golangroutine
+// with stack information. This stack must be related to the golangroutine
 // in some way, but it doesn't really matter which stack.
 func (gs *gState[R]) augmentName(stk trace.Stack) {
 	if gs.named {
@@ -103,12 +103,12 @@ func (gs *gState[R]) augmentName(stk trace.Stack) {
 	gs.isSystemG = trace.IsSystemGoroutine(name)
 }
 
-// setLabel adds an additional label to the goroutine's name.
+// setLabel adds an additional label to the golangroutine's name.
 func (gs *gState[R]) setLabel(label string) {
 	gs.label = label
 }
 
-// name returns a name for the goroutine.
+// name returns a name for the golangroutine.
 func (gs *gState[R]) name() string {
 	name := gs.baseName
 	if gs.label != "" {
@@ -117,7 +117,7 @@ func (gs *gState[R]) name() string {
 	return name
 }
 
-// setStartCause sets the reason a goroutine will be allowed to start soon.
+// setStartCause sets the reason a golangroutine will be allowed to start soon.
 // For example, via unblocking or exiting a blocked syscall.
 func (gs *gState[R]) setStartCause(ts trace.Time, name string, resource uint64, stack trace.Stack) {
 	gs.startCause.time = ts
@@ -126,15 +126,15 @@ func (gs *gState[R]) setStartCause(ts trace.Time, name string, resource uint64, 
 	gs.startCause.stack = stack
 }
 
-// created indicates that this goroutine was just created by the provided creator.
+// created indicates that this golangroutine was just created by the provided creator.
 func (gs *gState[R]) created(ts trace.Time, creator R, stack trace.Stack) {
 	if creator == R(noResource) {
 		return
 	}
-	gs.setStartCause(ts, "go", uint64(creator), stack)
+	gs.setStartCause(ts, "golang", uint64(creator), stack)
 }
 
-// start indicates that a goroutine has started running on a proc.
+// start indicates that a golangroutine has started running on a proc.
 func (gs *gState[R]) start(ts trace.Time, resource R, ctx *traceContext) {
 	// Set the time for all the active ranges.
 	for name := range gs.activeRanges {
@@ -160,7 +160,7 @@ func (gs *gState[R]) start(ts trace.Time, resource R, ctx *traceContext) {
 	gs.startRunningTime = ts
 }
 
-// syscallBegin indicates that the goroutine entered a syscall on a proc.
+// syscallBegin indicates that the golangroutine entered a syscall on a proc.
 func (gs *gState[R]) syscallBegin(ts trace.Time, resource R, stack trace.Stack) {
 	gs.syscall.time = ts
 	gs.syscall.stack = stack
@@ -171,11 +171,11 @@ func (gs *gState[R]) syscallBegin(ts trace.Time, resource R, stack trace.Stack) 
 	}
 }
 
-// syscallEnd ends the syscall slice, wherever the syscall is at. This is orthogonal
+// syscallEnd ends the syscall slice, wherever the syscall is at. This is orthogolangnal
 // to blockedSyscallEnd -- both must be called when a syscall ends and that syscall
 // blocked. They're kept separate because syscallEnd indicates the point at which the
-// goroutine is no longer executing on the resource (e.g. a proc) whereas blockedSyscallEnd
-// is the point at which the goroutine actually exited the syscall regardless of which
+// golangroutine is no longer executing on the resource (e.g. a proc) whereas blockedSyscallEnd
+// is the point at which the golangroutine actually exited the syscall regardless of which
 // resource that happened on.
 func (gs *gState[R]) syscallEnd(ts trace.Time, blocked bool, ctx *traceContext) {
 	if !gs.syscall.active {
@@ -198,8 +198,8 @@ func (gs *gState[R]) syscallEnd(ts trace.Time, blocked bool, ctx *traceContext) 
 }
 
 // blockedSyscallEnd indicates the point at which the blocked syscall ended. This is distinct
-// and orthogonal to syscallEnd; both must be called if the syscall blocked. This sets up an instant
-// to emit a flow event from, indicating explicitly that this goroutine was unblocked by the system.
+// and orthogolangnal to syscallEnd; both must be called if the syscall blocked. This sets up an instant
+// to emit a flow event from, indicating explicitly that this golangroutine was unblocked by the system.
 func (gs *gState[R]) blockedSyscallEnd(ts trace.Time, stack trace.Stack, ctx *traceContext) {
 	name := "exit blocked syscall"
 	gs.setStartCause(ts, name, traceviewer.SyscallP, stack)
@@ -213,7 +213,7 @@ func (gs *gState[R]) blockedSyscallEnd(ts trace.Time, stack trace.Stack, ctx *tr
 	})
 }
 
-// unblock indicates that the goroutine gs represents has been unblocked.
+// unblock indicates that the golangroutine gs represents has been unblocked.
 func (gs *gState[R]) unblock(ts trace.Time, stack trace.Stack, resource R, ctx *traceContext) {
 	name := "unblock"
 	viewerResource := uint64(resource)
@@ -222,8 +222,8 @@ func (gs *gState[R]) unblock(ts trace.Time, stack trace.Stack, resource R, ctx *
 	}
 	if strings.Contains(gs.startBlockReason, "network") {
 		// Attribute the network instant to the nebulous "NetpollP" if
-		// resource isn't a thread, because there's a good chance that
-		// resource isn't going to be valid in this case.
+		// resource isn't a thread, because there's a golangod chance that
+		// resource isn't golanging to be valid in this case.
 		//
 		// TODO(mknyszek): Handle this invalidness in a more general way.
 		if _, ok := any(resource).(trace.ThreadID); !ok {
@@ -243,14 +243,14 @@ func (gs *gState[R]) unblock(ts trace.Time, stack trace.Stack, resource R, ctx *
 	}
 }
 
-// block indicates that the goroutine has stopped executing on a proc -- specifically,
+// block indicates that the golangroutine has stopped executing on a proc -- specifically,
 // it blocked for some reason.
 func (gs *gState[R]) block(ts trace.Time, stack trace.Stack, reason string, ctx *traceContext) {
 	gs.startBlockReason = reason
 	gs.stop(ts, stack, ctx)
 }
 
-// stop indicates that the goroutine has stopped executing on a proc.
+// stop indicates that the golangroutine has stopped executing on a proc.
 func (gs *gState[R]) stop(ts trace.Time, stack trace.Stack, ctx *traceContext) {
 	// Emit the execution time slice.
 	var stk int
@@ -266,7 +266,7 @@ func (gs *gState[R]) stop(ts trace.Time, stack trace.Stack, ctx *traceContext) {
 		panic("silently broken trace or generator invariant (startRunningTime != 0) not held")
 	}
 	if gs.executing == R(noResource) {
-		panic("non-executing goroutine stopped")
+		panic("non-executing golangroutine stopped")
 	}
 	ctx.Slice(traceviewer.SliceEvent{
 		Name:     gs.name(),
@@ -316,7 +316,7 @@ func (gs *gState[R]) stop(ts trace.Time, stack trace.Stack, ctx *traceContext) {
 	gs.executing = R(noResource)
 }
 
-// finalize writes out any in-progress slices as if the goroutine stopped.
+// finalize writes out any in-progress slices as if the golangroutine stopped.
 // This must only be used once the trace has been fully processed and no
 // further events will be processed. This method may leave the gState in
 // an inconsistent state.
@@ -333,7 +333,7 @@ func (gs *gState[R]) rangeBegin(ts trace.Time, name string, stack trace.Stack) {
 		// If we're executing, start the slice from here.
 		gs.activeRanges[name] = activeRange{ts, stack}
 	} else {
-		// If the goroutine isn't executing, there's no place for
+		// If the golangroutine isn't executing, there's no place for
 		// us to create a slice from. Wait until it starts executing.
 		gs.activeRanges[name] = activeRange{0, stack}
 	}
@@ -343,10 +343,10 @@ func (gs *gState[R]) rangeBegin(ts trace.Time, name string, stack trace.Stack) {
 func (gs *gState[R]) rangeActive(name string) {
 	if gs.executing != R(noResource) {
 		// If we're executing, and the range is active, then start
-		// from wherever the goroutine started running from.
+		// from wherever the golangroutine started running from.
 		gs.activeRanges[name] = activeRange{gs.startRunningTime, trace.NoStack}
 	} else {
-		// If the goroutine isn't executing, there's no place for
+		// If the golangroutine isn't executing, there's no place for
 		// us to create a slice from. Wait until it starts executing.
 		gs.activeRanges[name] = activeRange{0, trace.NoStack}
 	}

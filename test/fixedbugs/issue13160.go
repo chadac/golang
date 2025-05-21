@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -35,7 +35,7 @@ func main() {
 	// and nil to a slot in the collider.
 	for i := 0; i < p; i++ {
 		i := i
-		go func() {
+		golang func() {
 			for j := 0; j < N; j++ {
 				// Write a pointer using memmove.
 				copy(collider[i:i+1], ptrs[i:i+1])
@@ -53,7 +53,7 @@ func main() {
 	// and make sure they are valid.
 	for i := 0; i < p; i++ {
 		i := i
-		go func() {
+		golang func() {
 			for j := 0; j < N; j++ {
 				var ptr [1]*int
 				copy(ptr[:], collider[i:i+1])

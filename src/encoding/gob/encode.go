@@ -1,10 +1,10 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:generate go run encgen.go -output enc_helpers.go
+//golang:generate golang run encgen.golang -output enc_helpers.golang
 
-package gob
+package golangb
 
 import (
 	"encoding"
@@ -387,7 +387,7 @@ func (enc *Encoder) encodeInterface(b *encBuffer, iv reflect.Value) {
 	// values holding nil pointers, since nil pointers point to no value.
 	elem := iv.Elem()
 	if elem.Kind() == reflect.Pointer && elem.IsNil() {
-		errorf("gob: cannot encode nil pointer of type %s inside interface", iv.Elem().Type())
+		errorf("golangb: cannot encode nil pointer of type %s inside interface", iv.Elem().Type())
 	}
 	state := enc.newEncoderState(b)
 	state.fieldnum = -1
@@ -482,7 +482,7 @@ func encOpFor(rt reflect.Type, inProgress map[reflect.Type]*encOp, building map[
 	ut := userType(rt)
 	// If the type implements GobEncoder, we handle it without further processing.
 	if ut.externalEnc != 0 {
-		return gobEncodeOpFor(ut)
+		return golangbEncodeOpFor(ut)
 	}
 	// If this type is already in progress, it's a recursive type (e.g. map[string]*T).
 	// Return the pointer to the op we're already building.
@@ -561,8 +561,8 @@ func encOpFor(rt reflect.Type, inProgress map[reflect.Type]*encOp, building map[
 	return &op, indir
 }
 
-// gobEncodeOpFor returns the op for a type that is known to implement GobEncoder.
-func gobEncodeOpFor(ut *userTypeInfo) (*encOp, int) {
+// golangbEncodeOpFor returns the op for a type that is known to implement GobEncoder.
+func golangbEncodeOpFor(ut *userTypeInfo) (*encOp, int) {
 	rt := ut.user
 	if ut.encIndir == -1 {
 		rt = reflect.PointerTo(rt)

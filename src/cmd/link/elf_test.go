@@ -1,8 +1,8 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build dragonfly || freebsd || linux || netbsd || openbsd
+//golang:build dragolangnfly || freebsd || linux || netbsd || openbsd
 
 package main
 
@@ -25,8 +25,8 @@ import (
 )
 
 func getCCAndCCFLAGS(t *testing.T, env []string) (string, []string) {
-	goTool := testenv.GoToolPath(t)
-	cmd := testenv.Command(t, goTool, "env", "CC")
+	golangTool := testenv.GoToolPath(t)
+	cmd := testenv.Command(t, golangTool, "env", "CC")
 	cmd.Env = env
 	ccb, err := cmd.Output()
 	if err != nil {
@@ -34,7 +34,7 @@ func getCCAndCCFLAGS(t *testing.T, env []string) (string, []string) {
 	}
 	cc := strings.TrimSpace(string(ccb))
 
-	cmd = testenv.Command(t, goTool, "env", "GOGCCFLAGS")
+	cmd = testenv.Command(t, golangTool, "env", "GOGCCFLAGS")
 	cmd.Env = env
 	cflagsb, err := cmd.Output()
 	if err != nil {
@@ -54,7 +54,7 @@ s2:
 	.byte 0
 `
 
-var goSource = `
+var golangSource = `
 package main
 func main() {}
 `
@@ -73,10 +73,10 @@ func TestSectionsWithSameName(t *testing.T) {
 
 	dir := t.TempDir()
 
-	gopath := filepath.Join(dir, "GOPATH")
-	env := append(os.Environ(), "GOPATH="+gopath)
+	golangpath := filepath.Join(dir, "GOPATH")
+	env := append(os.Environ(), "GOPATH="+golangpath)
 
-	if err := os.WriteFile(filepath.Join(dir, "go.mod"), []byte("module elf_test\n"), 0666); err != nil {
+	if err := os.WriteFile(filepath.Join(dir, "golang.mod"), []byte("module elf_test\n"), 0666); err != nil {
 		t.Fatal(err)
 	}
 
@@ -85,7 +85,7 @@ func TestSectionsWithSameName(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	goTool := testenv.GoToolPath(t)
+	golangTool := testenv.GoToolPath(t)
 	cc, cflags := getCCAndCCFLAGS(t, env)
 
 	asmObj := filepath.Join(dir, "x.o")
@@ -108,15 +108,15 @@ func TestSectionsWithSameName(t *testing.T) {
 		}
 	}
 
-	goFile := filepath.Join(dir, "main.go")
-	if err := os.WriteFile(goFile, []byte(goSource), 0444); err != nil {
+	golangFile := filepath.Join(dir, "main.golang")
+	if err := os.WriteFile(golangFile, []byte(golangSource), 0444); err != nil {
 		t.Fatal(err)
 	}
 
-	cmd := testenv.Command(t, goTool, "build")
+	cmd := testenv.Command(t, golangTool, "build")
 	cmd.Dir = dir
 	cmd.Env = env
-	t.Logf("%s build", goTool)
+	t.Logf("%s build", golangTool)
 	if out, err := cmd.CombinedOutput(); err != nil {
 		t.Logf("%s", out)
 		t.Fatal(err)
@@ -143,14 +143,14 @@ func TestMinusRSymsWithSameName(t *testing.T) {
 
 	dir := t.TempDir()
 
-	gopath := filepath.Join(dir, "GOPATH")
-	env := append(os.Environ(), "GOPATH="+gopath)
+	golangpath := filepath.Join(dir, "GOPATH")
+	env := append(os.Environ(), "GOPATH="+golangpath)
 
-	if err := os.WriteFile(filepath.Join(dir, "go.mod"), []byte("module elf_test\n"), 0666); err != nil {
+	if err := os.WriteFile(filepath.Join(dir, "golang.mod"), []byte("module elf_test\n"), 0666); err != nil {
 		t.Fatal(err)
 	}
 
-	goTool := testenv.GoToolPath(t)
+	golangTool := testenv.GoToolPath(t)
 	cc, cflags := getCCAndCCFLAGS(t, env)
 
 	objs := []string{}
@@ -187,13 +187,13 @@ func TestMinusRSymsWithSameName(t *testing.T) {
 		}
 	}
 
-	goFile := filepath.Join(dir, "main.go")
-	if err := os.WriteFile(goFile, []byte(goSource), 0444); err != nil {
+	golangFile := filepath.Join(dir, "main.golang")
+	if err := os.WriteFile(golangFile, []byte(golangSource), 0444); err != nil {
 		t.Fatal(err)
 	}
 
-	t.Logf("%s build", goTool)
-	cmd := testenv.Command(t, goTool, "build")
+	t.Logf("%s build", golangTool)
+	cmd := testenv.Command(t, golangTool, "build")
 	cmd.Dir = dir
 	cmd.Env = env
 	if out, err := cmd.CombinedOutput(); err != nil {
@@ -208,19 +208,19 @@ func TestGNUBuildID(t *testing.T) {
 	t.Parallel()
 
 	tmpdir := t.TempDir()
-	goFile := filepath.Join(tmpdir, "notes.go")
-	if err := os.WriteFile(goFile, []byte(goSource), 0444); err != nil {
+	golangFile := filepath.Join(tmpdir, "notes.golang")
+	if err := os.WriteFile(golangFile, []byte(golangSource), 0444); err != nil {
 		t.Fatal(err)
 	}
 
 	// Use a specific Go buildid for testing.
-	const gobuildid = "testbuildid"
-	h := hash.Sum32([]byte(gobuildid))
-	gobuildidHash := string(h[:20])
+	const golangbuildid = "testbuildid"
+	h := hash.Sum32([]byte(golangbuildid))
+	golangbuildidHash := string(h[:20])
 
 	tests := []struct{ name, ldflags, expect string }{
-		{"default", "", gobuildidHash},
-		{"gobuildid", "-B=gobuildid", gobuildidHash},
+		{"default", "", golangbuildidHash},
+		{"golangbuildid", "-B=golangbuildid", golangbuildidHash},
 		{"specific", "-B=0x0123456789abcdef", "\x01\x23\x45\x67\x89\xab\xcd\xef"},
 		{"none", "-B=none", ""},
 	}
@@ -237,7 +237,7 @@ func TestGNUBuildID(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			exe := filepath.Join(tmpdir, test.name)
-			cmd := testenv.Command(t, testenv.GoToolPath(t), "build", "-ldflags=-buildid="+gobuildid+" "+test.ldflags, "-o", exe, goFile)
+			cmd := testenv.Command(t, testenv.GoToolPath(t), "build", "-ldflags=-buildid="+golangbuildid+" "+test.ldflags, "-o", exe, golangFile)
 			if out, err := cmd.CombinedOutput(); err != nil {
 				t.Fatalf("%v: %v:\n%s", cmd.Args, err, out)
 			}
@@ -246,7 +246,7 @@ func TestGNUBuildID(t *testing.T) {
 				t.Fatalf("can't read GNU build ID")
 			}
 			if string(gnuBuildID) != test.expect {
-				t.Errorf("build id mismatch: got %x, want %x", gnuBuildID, test.expect)
+				t.Errorf("build id mismatch: golangt %x, want %x", gnuBuildID, test.expect)
 			}
 		})
 	}
@@ -257,7 +257,7 @@ func TestMergeNoteSections(t *testing.T) {
 	expected := 1
 
 	switch runtime.GOOS {
-	case "linux", "dragonfly":
+	case "linux", "dragolangnfly":
 	case "openbsd", "netbsd", "freebsd":
 		// These OSes require independent segment
 		expected = 2
@@ -266,16 +266,16 @@ func TestMergeNoteSections(t *testing.T) {
 	}
 	t.Parallel()
 
-	goFile := filepath.Join(t.TempDir(), "notes.go")
-	if err := os.WriteFile(goFile, []byte(goSource), 0444); err != nil {
+	golangFile := filepath.Join(t.TempDir(), "notes.golang")
+	if err := os.WriteFile(golangFile, []byte(golangSource), 0444); err != nil {
 		t.Fatal(err)
 	}
 	outFile := filepath.Join(t.TempDir(), "notes.exe")
-	goTool := testenv.GoToolPath(t)
-	// sha1sum of "gopher"
+	golangTool := testenv.GoToolPath(t)
+	// sha1sum of "golangpher"
 	id := "0xf4e8cd51ce8bae2996dc3b74639cdeaa1f7fee5f"
-	cmd := testenv.Command(t, goTool, "build", "-o", outFile, "-ldflags",
-		"-B "+id, goFile)
+	cmd := testenv.Command(t, golangTool, "build", "-o", outFile, "-ldflags",
+		"-B "+id, golangFile)
 	cmd.Dir = t.TempDir()
 	if out, err := cmd.CombinedOutput(); err != nil {
 		t.Logf("%s", out)
@@ -292,9 +292,9 @@ func TestMergeNoteSections(t *testing.T) {
 		t.Fatalf("can't find gnu build id")
 	}
 
-	sec = ef.Section(".note.go.buildid")
+	sec = ef.Section(".note.golang.buildid")
 	if sec == nil {
-		t.Fatalf("can't find go build id")
+		t.Fatalf("can't find golang build id")
 	}
 	cnt := 0
 	for _, ph := range ef.Progs {
@@ -303,7 +303,7 @@ func TestMergeNoteSections(t *testing.T) {
 		}
 	}
 	if cnt != expected {
-		t.Fatalf("want %d PT_NOTE segment, got %d", expected, cnt)
+		t.Fatalf("want %d PT_NOTE segment, golangt %d", expected, cnt)
 	}
 }
 
@@ -312,7 +312,7 @@ package main
 
 import "fmt"
 
-// Force the creation of a lot of type descriptors that will go into
+// Force the creation of a lot of type descriptors that will golang into
 // the .data.rel.ro section.
 {{range $index, $element := .}}var V{{$index}} interface{} = [{{$index}}]int{}
 {{end}}
@@ -326,9 +326,9 @@ func main() {
 func TestPIESize(t *testing.T) {
 	testenv.MustHaveGoBuild(t)
 
-	// We don't want to test -linkmode=external if cgo is not supported.
+	// We don't want to test -linkmode=external if cgolang is not supported.
 	// On some systems -buildmode=pie implies -linkmode=external, so just
-	// always skip the test if cgo is not supported.
+	// always skip the test if cgolang is not supported.
 	testenv.MustHaveCGO(t)
 
 	if !platform.BuildModeSupported(runtime.Compiler, "pie", runtime.GOOS, runtime.GOARCH) {
@@ -340,7 +340,7 @@ func TestPIESize(t *testing.T) {
 	tmpl := template.Must(template.New("pie").Parse(pieSourceTemplate))
 
 	writeGo := func(t *testing.T, dir string) {
-		f, err := os.Create(filepath.Join(dir, "pie.go"))
+		f, err := os.Create(filepath.Join(dir, "pie.golang"))
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -378,7 +378,7 @@ func TestPIESize(t *testing.T) {
 
 			build := func(bin, mode string) error {
 				cmd := testenv.Command(t, testenv.GoToolPath(t), "build", "-o", bin, "-buildmode="+mode, "-ldflags=-linkmode="+linkmode)
-				cmd.Args = append(cmd.Args, "pie.go")
+				cmd.Args = append(cmd.Args, "pie.golang")
 				cmd.Dir = dir
 				t.Logf("%v", cmd.Args)
 				out, err := cmd.CombinedOutput()
@@ -394,11 +394,11 @@ func TestPIESize(t *testing.T) {
 			var errexe, errpie error
 			var wg sync.WaitGroup
 			wg.Add(2)
-			go func() {
+			golang func() {
 				defer wg.Done()
 				errexe = build(binexe, "exe")
 			}()
-			go func() {
+			golang func() {
 				defer wg.Done()
 				errpie = build(binpie, "pie")
 			}()
@@ -438,7 +438,7 @@ func TestPIESize(t *testing.T) {
 			// should be approximately the difference in
 			// size of the .text section plus the size of
 			// the PIE dynamic data sections plus the
-			// difference in size of the .got and .plt
+			// difference in size of the .golangt and .plt
 			// sections if they exist.
 			// We ignore unallocated sections.
 			// There may be gaps between non-writeable and
@@ -467,7 +467,7 @@ func TestPIESize(t *testing.T) {
 					case elf.SHT_DYNSYM, elf.SHT_STRTAB, elf.SHT_REL, elf.SHT_RELA, elf.SHT_HASH, elf.SHT_GNU_HASH, elf.SHT_GNU_VERDEF, elf.SHT_GNU_VERNEED, elf.SHT_GNU_VERSYM:
 						ret += s.Size
 					}
-					if s.Flags&elf.SHF_WRITE != 0 && (strings.Contains(s.Name, ".got") || strings.Contains(s.Name, ".plt")) {
+					if s.Flags&elf.SHF_WRITE != 0 && (strings.Contains(s.Name, ".golangt") || strings.Contains(s.Name, ".plt")) {
 						ret += s.Size
 					}
 				}
@@ -511,7 +511,7 @@ func TestPIESize(t *testing.T) {
 			t.Logf("real size difference %#x, expected %#x", diffReal, diffExpected)
 
 			if diffReal > (diffExpected + diffExpected/10) {
-				t.Errorf("PIE unexpectedly large: got difference of %d (%d - %d), expected difference %d", diffReal, sizepie, sizeexe, diffExpected)
+				t.Errorf("PIE unexpectedly large: golangt difference of %d (%d - %d), expected difference %d", diffReal, sizepie, sizeexe, diffExpected)
 			}
 		})
 	}
@@ -521,13 +521,13 @@ func TestIssue51939(t *testing.T) {
 	testenv.MustHaveGoBuild(t)
 	t.Parallel()
 	td := t.TempDir()
-	goFile := filepath.Join(td, "issue51939.go")
-	if err := os.WriteFile(goFile, []byte(goSource), 0444); err != nil {
+	golangFile := filepath.Join(td, "issue51939.golang")
+	if err := os.WriteFile(golangFile, []byte(golangSource), 0444); err != nil {
 		t.Fatal(err)
 	}
 	outFile := filepath.Join(td, "issue51939.exe")
-	goTool := testenv.GoToolPath(t)
-	cmd := testenv.Command(t, goTool, "build", "-o", outFile, goFile)
+	golangTool := testenv.GoToolPath(t)
+	cmd := testenv.Command(t, golangTool, "build", "-o", outFile, golangFile)
 	if out, err := cmd.CombinedOutput(); err != nil {
 		t.Logf("%s", out)
 		t.Fatal(err)
@@ -553,8 +553,8 @@ func TestFlagR(t *testing.T) {
 	testenv.MustHaveGoBuild(t)
 	t.Parallel()
 	tmpdir := t.TempDir()
-	src := filepath.Join(tmpdir, "x.go")
-	if err := os.WriteFile(src, []byte(goSource), 0444); err != nil {
+	src := filepath.Join(tmpdir, "x.golang")
+	if err := os.WriteFile(src, []byte(golangSource), 0444); err != nil {
 		t.Fatal(err)
 	}
 	exe := filepath.Join(tmpdir, "x.exe")

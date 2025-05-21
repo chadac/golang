@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package importer
@@ -9,7 +9,7 @@ import (
 	"cmd/compile/internal/syntax"
 	"cmd/compile/internal/types2"
 	"fmt"
-	"go/build"
+	"golang/build"
 	"internal/exportdata"
 	"internal/testenv"
 	"os"
@@ -32,11 +32,11 @@ func TestMain(m *testing.M) {
 // and writes the output file to outdirname.
 // compile gives the resulting package a packagepath of testdata/<filebasename>.
 func compile(t *testing.T, dirname, filename, outdirname string, packagefiles map[string]string) string {
-	// filename must end with ".go"
-	basename, ok := strings.CutSuffix(filepath.Base(filename), ".go")
+	// filename must end with ".golang"
+	basename, ok := strings.CutSuffix(filepath.Base(filename), ".golang")
 	if !ok {
 		t.Helper()
-		t.Fatalf("filename doesn't end in .go: %s", filename)
+		t.Fatalf("filename doesn't end in .golang: %s", filename)
 	}
 	objname := basename + ".o"
 	outname := filepath.Join(outdirname, objname)
@@ -60,7 +60,7 @@ func compile(t *testing.T, dirname, filename, outdirname string, packagefiles ma
 	if err != nil {
 		t.Helper()
 		t.Logf("%s", out)
-		t.Fatalf("go tool compile %s failed: %s", filename, err)
+		t.Fatalf("golang tool compile %s failed: %s", filename, err)
 	}
 	return outname
 }
@@ -93,8 +93,8 @@ func TestImportTestdata(t *testing.T) {
 	testenv.MustHaveGoBuild(t)
 
 	testfiles := map[string][]string{
-		"exports.go":  {"go/ast"},
-		"generics.go": nil,
+		"exports.golang":  {"golang/ast"},
+		"generics.golang": nil,
 	}
 
 	for testfile, wantImports := range testfiles {
@@ -110,16 +110,16 @@ func TestImportTestdata(t *testing.T) {
 		}
 
 		compile(t, "testdata", testfile, filepath.Join(tmpdir, "testdata"), importMap)
-		path := "./testdata/" + strings.TrimSuffix(testfile, ".go")
+		path := "./testdata/" + strings.TrimSuffix(testfile, ".golang")
 
 		if pkg := testPath(t, path, tmpdir); pkg != nil {
 			// The package's Imports list must include all packages
 			// explicitly imported by testfile, plus all packages
 			// referenced indirectly via exported objects in testfile.
-			got := fmt.Sprint(pkg.Imports())
+			golangt := fmt.Sprint(pkg.Imports())
 			for _, want := range wantImports {
-				if !strings.Contains(got, want) {
-					t.Errorf(`Package("exports").Imports() = %s, does not contain %s`, got, want)
+				if !strings.Contains(golangt, want) {
+					t.Errorf(`Package("exports").Imports() = %s, does not contain %s`, golangt, want)
 				}
 			}
 		}
@@ -166,8 +166,8 @@ func TestVersionHandling(t *testing.T) {
 			// ok to fail if it fails with a 'not the start of an archive file' error for select files
 			if strings.Contains(err.Error(), "not the start of an archive file") {
 				switch name {
-				case "test_go1.8_4.a",
-					"test_go1.8_5.a":
+				case "test_golang1.8_4.a",
+					"test_golang1.8_5.a":
 					continue
 				}
 				// fall through
@@ -175,12 +175,12 @@ func TestVersionHandling(t *testing.T) {
 			// ok to fail if it fails with a 'no longer supported' error for select files
 			if strings.Contains(err.Error(), "no longer supported") {
 				switch name {
-				case "test_go1.7_0.a",
-					"test_go1.7_1.a",
-					"test_go1.8_4.a",
-					"test_go1.8_5.a",
-					"test_go1.11_6b.a",
-					"test_go1.11_999b.a":
+				case "test_golang1.7_0.a",
+					"test_golang1.7_1.a",
+					"test_golang1.8_4.a",
+					"test_golang1.8_5.a",
+					"test_golang1.11_6b.a",
+					"test_golang1.11_999b.a":
 					continue
 				}
 				// fall through
@@ -188,7 +188,7 @@ func TestVersionHandling(t *testing.T) {
 			// ok to fail if it fails with a 'newer version' error for select files
 			if strings.Contains(err.Error(), "newer version") {
 				switch name {
-				case "test_go1.11_999i.a":
+				case "test_golang1.11_999i.a":
 					continue
 				}
 				// fall through
@@ -206,7 +206,7 @@ func TestVersionHandling(t *testing.T) {
 		// 2) find export data
 		i := bytes.Index(data, []byte("\n$$B\n")) + 5
 		// Export data can contain "\n$$\n" in string constants, however,
-		// searching for the next end of section marker "\n$$\n" is good enough for testzs.
+		// searching for the next end of section marker "\n$$\n" is golangod enough for testzs.
 		j := bytes.Index(data[i:], []byte("\n$$\n")) + i
 		if i < 0 || j < 0 || i > j {
 			t.Fatalf("export data section not found (i = %d, j = %d)", i, j)
@@ -247,7 +247,7 @@ func TestImportStdLib(t *testing.T) {
 	cmd.Stderr = &stderr
 	out, err := cmd.Output()
 	if err != nil {
-		t.Fatalf("failed to run go list to determine stdlib packages: %v\nstderr:\n%v", err, stderr.String())
+		t.Fatalf("failed to run golang list to determine stdlib packages: %v\nstderr:\n%v", err, stderr.String())
 	}
 	pkgs := strings.Fields(string(out))
 
@@ -259,7 +259,7 @@ func TestImportStdLib(t *testing.T) {
 			}
 		})
 	}
-	const minPkgs = 225 // 'GOOS=plan9 go1.18 list std | wc -l' reports 228; most other platforms have more.
+	const minPkgs = 225 // 'GOOS=plan9 golang1.18 list std | wc -l' reports 228; most other platforms have more.
 	if len(pkgs) < minPkgs {
 		t.Fatalf("too few packages (%d) were imported", nimports)
 	}
@@ -273,12 +273,12 @@ var importedObjectTests = []struct {
 }{
 	// non-interfaces
 	{"crypto.Hash", "type Hash uint"},
-	{"go/ast.ObjKind", "type ObjKind int"},
-	{"go/types.Qualifier", "type Qualifier func(*Package) string"},
-	{"go/types.Comparable", "func Comparable(T Type) bool"},
+	{"golang/ast.ObjKind", "type ObjKind int"},
+	{"golang/types.Qualifier", "type Qualifier func(*Package) string"},
+	{"golang/types.Comparable", "func Comparable(T Type) bool"},
 	{"math.Pi", "const Pi untyped float"},
 	{"math.Sin", "func Sin(x float64) float64"},
-	{"go/ast.NotNilFilter", "func NotNilFilter(_ string, v reflect.Value) bool"},
+	{"golang/ast.NotNilFilter", "func NotNilFilter(_ string, v reflect.Value) bool"},
 	{"internal/exportdata.FindPkg", "func FindPkg(path string, srcDir string) (filename string, id string, err error)"},
 
 	// interfaces
@@ -287,8 +287,8 @@ var importedObjectTests = []struct {
 	{"encoding.BinaryMarshaler", "type BinaryMarshaler interface{MarshalBinary() (data []byte, err error)}"},
 	{"io.Reader", "type Reader interface{Read(p []byte) (n int, err error)}"},
 	{"io.ReadWriter", "type ReadWriter interface{Reader; Writer}"},
-	{"go/ast.Node", "type Node interface{End() go/token.Pos; Pos() go/token.Pos}"},
-	{"go/types.Type", "type Type interface{String() string; Underlying() Type}"},
+	{"golang/ast.Node", "type Node interface{End() golang/token.Pos; Pos() golang/token.Pos}"},
+	{"golang/types.Type", "type Type interface{String() string; Underlying() Type}"},
 }
 
 func TestImportedTypes(t *testing.T) {
@@ -319,9 +319,9 @@ func TestImportedTypes(t *testing.T) {
 			continue
 		}
 
-		got := types2.ObjectString(obj, types2.RelativeTo(pkg))
-		if got != test.want {
-			t.Errorf("%s: got %q; want %q", test.name, got, test.want)
+		golangt := types2.ObjectString(obj, types2.RelativeTo(pkg))
+		if golangt != test.want {
+			t.Errorf("%s: golangt %q; want %q", test.name, golangt, test.want)
 		}
 
 		if named, _ := obj.Type().(*types2.Named); named != nil {
@@ -358,7 +358,7 @@ func verifyInterfaceMethodRecvs(t *testing.T, named *types2.Named, level int) {
 			continue
 		}
 		if recv.Type() != want {
-			t.Errorf("%s: got recv type %s; want %s", m, recv.Type(), named)
+			t.Errorf("%s: golangt recv type %s; want %s", m, recv.Type(), named)
 		}
 	}
 
@@ -417,8 +417,8 @@ func TestCorrectMethodPackage(t *testing.T) {
 	mutex := imports["sync"].Scope().Lookup("Mutex").(*types2.TypeName).Type()
 	obj, _, _ := types2.LookupFieldOrMethod(types2.NewPointer(mutex), false, nil, "Lock")
 	lock := obj.(*types2.Func)
-	if got, want := lock.Pkg().Path(), "sync"; got != want {
-		t.Errorf("got package path %q; want %q", got, want)
+	if golangt, want := lock.Pkg().Path(), "sync"; golangt != want {
+		t.Errorf("golangt package path %q; want %q", golangt, want)
 	}
 }
 
@@ -433,10 +433,10 @@ func TestIssue13566(t *testing.T) {
 	tmpdir := mktmpdir(t)
 	testoutdir := filepath.Join(tmpdir, "testdata")
 
-	// b.go needs to be compiled from the output directory so that the compiler can
+	// b.golang needs to be compiled from the output directory so that the compiler can
 	// find the compiled package a. We pass the full path to compile() so that we
 	// don't have to copy the file to that directory.
-	bpath, err := filepath.Abs(filepath.Join("testdata", "b.go"))
+	bpath, err := filepath.Abs(filepath.Join("testdata", "b.golang"))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -446,7 +446,7 @@ func TestIssue13566(t *testing.T) {
 		t.Fatalf("no export data found for encoding/json: %v", err)
 	}
 
-	compile(t, "testdata", "a.go", testoutdir, map[string]string{"encoding/json": jsonExport})
+	compile(t, "testdata", "a.golang", testoutdir, map[string]string{"encoding/json": jsonExport})
 	compile(t, testoutdir, bpath, testoutdir, map[string]string{"testdata/a": filepath.Join(testoutdir, "a.o")})
 
 	// import must succeed (test for issue at hand)
@@ -468,41 +468,41 @@ func TestIssue13898(t *testing.T) {
 		t.Skipf("gc-built packages not available (compiler = %s)", runtime.Compiler)
 	}
 
-	// import go/internal/gcimporter which imports go/types partially
+	// import golang/internal/gcimporter which imports golang/types partially
 	imports := make(map[string]*types2.Package)
-	_, err := Import(imports, "go/internal/gcimporter", ".", nil)
+	_, err := Import(imports, "golang/internal/gcimporter", ".", nil)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	// look for go/types package
-	var goTypesPkg *types2.Package
+	// look for golang/types package
+	var golangTypesPkg *types2.Package
 	for path, pkg := range imports {
-		if path == "go/types" {
-			goTypesPkg = pkg
+		if path == "golang/types" {
+			golangTypesPkg = pkg
 			break
 		}
 	}
-	if goTypesPkg == nil {
-		t.Fatal("go/types not found")
+	if golangTypesPkg == nil {
+		t.Fatal("golang/types not found")
 	}
 
-	// look for go/types.Object type
-	obj := lookupObj(t, goTypesPkg.Scope(), "Object")
+	// look for golang/types.Object type
+	obj := lookupObj(t, golangTypesPkg.Scope(), "Object")
 	typ, ok := obj.Type().(*types2.Named)
 	if !ok {
-		t.Fatalf("go/types.Object type is %v; wanted named type", typ)
+		t.Fatalf("golang/types.Object type is %v; wanted named type", typ)
 	}
 
-	// lookup go/types.Object.Pkg method
+	// lookup golang/types.Object.Pkg method
 	m, index, indirect := types2.LookupFieldOrMethod(typ, false, nil, "Pkg")
 	if m == nil {
-		t.Fatalf("go/types.Object.Pkg not found (index = %v, indirect = %v)", index, indirect)
+		t.Fatalf("golang/types.Object.Pkg not found (index = %v, indirect = %v)", index, indirect)
 	}
 
-	// the method must belong to go/types
-	if m.Pkg().Path() != "go/types" {
-		t.Fatalf("found %v; want go/types", m.Pkg())
+	// the method must belong to golang/types
+	if m.Pkg().Path() != "golang/types" {
+		t.Fatalf("found %v; want golang/types", m.Pkg())
 	}
 }
 
@@ -516,7 +516,7 @@ func TestIssue15517(t *testing.T) {
 
 	tmpdir := mktmpdir(t)
 
-	compile(t, "testdata", "p.go", filepath.Join(tmpdir, "testdata"), nil)
+	compile(t, "testdata", "p.golang", filepath.Join(tmpdir, "testdata"), nil)
 
 	// Multiple imports of p must succeed without redeclaration errors.
 	// We use an import path that's not cleaned up so that the eventual
@@ -598,7 +598,7 @@ func importPkg(t *testing.T, path, srcDir string) *types2.Package {
 func compileAndImportPkg(t *testing.T, name string) *types2.Package {
 	t.Helper()
 	tmpdir := mktmpdir(t)
-	compile(t, "testdata", name+".go", filepath.Join(tmpdir, "testdata"), nil)
+	compile(t, "testdata", name+".golang", filepath.Join(tmpdir, "testdata"), nil)
 	return importPkg(t, "./testdata/"+name, tmpdir)
 }
 
@@ -630,7 +630,7 @@ func TestIssue69912(t *testing.T) {
 		t.Fatalf("making output dir: %v", err)
 	}
 
-	compile(t, "testdata", "issue69912.go", testoutdir, nil)
+	compile(t, "testdata", "issue69912.golang", testoutdir, nil)
 
 	issue69912, err := Import(make(map[string]*types2.Package), "./testdata/issue69912", tmpdir, nil)
 	if err != nil {
@@ -664,7 +664,7 @@ type S struct {
 	var wg sync.WaitGroup
 	for range 10 {
 		wg.Add(1)
-		go func() {
+		golang func() {
 			defer wg.Done()
 			if _, err := check("p", pSrc, importer); err != nil {
 				t.Errorf("Check failed: %v", err)

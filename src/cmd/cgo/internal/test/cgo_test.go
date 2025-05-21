@@ -1,16 +1,16 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build cgo
+//golang:build cgolang
 
-package cgotest
+package cgolangtest
 
 import "testing"
 
-// The actual test functions are in non-_test.go files
-// so that they can use cgo (import "C").
-// These wrappers are here for gotest to find.
+// The actual test functions are in non-_test.golang files
+// so that they can use cgolang (import "C").
+// These wrappers are here for golangtest to find.
 
 func Test1328(t *testing.T)                  { test1328(t) }
 func Test1560(t *testing.T)                  { test1560(t) }
@@ -107,7 +107,7 @@ func TestThreadLock(t *testing.T)            { testThreadLockFunc(t) }
 func TestUnsignedInt(t *testing.T)           { testUnsignedInt(t) }
 func TestZeroArgCallback(t *testing.T)       { testZeroArgCallback(t) }
 
-func BenchmarkCgoCall(b *testing.B)      { benchCgoCall(b) }
+func BenchmarkCgolangCall(b *testing.B)      { benchCgolangCall(b) }
 func BenchmarkGoString(b *testing.B)     { benchGoString(b) }
 func BenchmarkCGoCallback(b *testing.B)  { benchCallback(b) }
 func BenchmarkCGoInCThread(b *testing.B) { benchCGoInCthread(b) }

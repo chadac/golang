@@ -1,7 +1,7 @@
 // build
 
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -9,17 +9,17 @@ package main
 func f() {
 exit:
 	;
-	goto exit
+	golangto exit
 }
 
 
 func main() {
 exit:
 	; // this should be legal (labels not properly scoped?)
-	goto exit
+	golangto exit
 }
 
 /*
-uetli:~/Source/go/test/bugs gri$ 6g bug076.go 
-bug076.go:11: label redeclared: exit
+uetli:~/Source/golang/test/bugs gri$ 6g bug076.golang 
+bug076.golang:11: label redeclared: exit
 */

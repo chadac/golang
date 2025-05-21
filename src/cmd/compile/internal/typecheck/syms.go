@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package typecheck
@@ -12,7 +12,7 @@ import (
 )
 
 // LookupRuntime returns a function or variable declared in
-// _builtin/runtime.go. If types_ is non-empty, successive occurrences
+// _builtin/runtime.golang. If types_ is non-empty, successive occurrences
 // of the "any" placeholder type will be substituted.
 func LookupRuntime(name string, types_ ...*types.Type) *ir.Name {
 	s := ir.Pkgs.Runtime.Lookup(name)

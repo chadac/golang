@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // assignment order in multiple assignments.
@@ -106,8 +106,8 @@ func init() {
 	check(1, y)
 }
 
-func check(want, got int) {
-	if want != got {
-		panic(fmt.Sprintf("wanted %d, but got %d", want, got))
+func check(want, golangt int) {
+	if want != golangt {
+		panic(fmt.Sprintf("wanted %d, but golangt %d", want, golangt))
 	}
 }

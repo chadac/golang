@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package race_test
@@ -19,7 +19,7 @@ func TestNoRaceIOFile(t *testing.T) {
 	x := 0
 	path := t.TempDir()
 	fname := filepath.Join(path, "data")
-	go func() {
+	golang func() {
 		x = 42
 		f, _ := os.Create(fname)
 		f.Write([]byte("done"))
@@ -60,7 +60,7 @@ func TestNoRaceIOHttp(t *testing.T) {
 		t.Fatalf("net.Listen: %v", err)
 	}
 	defer ln.Close()
-	go http.Serve(ln, nil)
+	golang http.Serve(ln, nil)
 	handlerData++
 	_, err = http.Get("http://" + ln.Addr().String())
 	if err != nil {

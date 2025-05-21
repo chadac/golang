@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package fips140hash
@@ -11,7 +11,7 @@ import (
 	_ "unsafe"
 )
 
-//go:linkname sha3Unwrap
+//golang:linkname sha3Unwrap
 func sha3Unwrap(*sha3.SHA3) *fsha3.Digest
 
 // Unwrap returns h, or a crypto/internal/fips140 inner implementation of h.

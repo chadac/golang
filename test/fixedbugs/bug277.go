@@ -1,7 +1,7 @@
 // compile
 
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test cases for conversion syntax.
@@ -59,14 +59,14 @@ func main() {
 }
 
 /*
-6g bug277.go
-bug277.go:46: syntax error: unexpected (, expecting {
-bug277.go:50: syntax error: unexpected interface
-bug277.go:53: non-declaration statement outside function body
-bug277.go:54: non-declaration statement outside function body
-bug277.go:55: syntax error: unexpected LCHAN
-bug277.go:56: syntax error: unexpected LCHAN
-bug277.go:57: non-declaration statement outside function body
-bug277.go:58: non-declaration statement outside function body
-bug277.go:59: syntax error: unexpected }
+6g bug277.golang
+bug277.golang:46: syntax error: unexpected (, expecting {
+bug277.golang:50: syntax error: unexpected interface
+bug277.golang:53: non-declaration statement outside function body
+bug277.golang:54: non-declaration statement outside function body
+bug277.golang:55: syntax error: unexpected LCHAN
+bug277.golang:56: syntax error: unexpected LCHAN
+bug277.golang:57: non-declaration statement outside function body
+bug277.golang:58: non-declaration statement outside function body
+bug277.golang:59: syntax error: unexpected }
 */

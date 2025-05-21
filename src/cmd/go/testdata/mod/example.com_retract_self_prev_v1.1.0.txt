@@ -5,10 +5,10 @@ This version is the latest (only) non-retracted version.
 -- .mod --
 module example.com/retract/self/prev
 
-go 1.15
+golang 1.15
 
 -- .info --
 {"Version":"v1.1.0"}
 
--- p.go --
+-- p.golang --
 package p

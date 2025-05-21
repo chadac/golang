@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package net
@@ -56,7 +56,7 @@ func TestListenMulticastUDP(t *testing.T) {
 		t.Fatal(err)
 	}
 	if n != 4 {
-		t.Fatalf("got %d; want 4", n)
+		t.Fatalf("golangt %d; want 4", n)
 	}
 
 	n, err = c1.WriteToUDP([]byte("data"), c2addr)
@@ -64,6 +64,6 @@ func TestListenMulticastUDP(t *testing.T) {
 		t.Fatal(err)
 	}
 	if n != 4 {
-		t.Fatalf("got %d; want 4", n)
+		t.Fatalf("golangt %d; want 4", n)
 	}
 }

@@ -1,15 +1,15 @@
 [!bzr] skip 'requires a working bzr client'
 handle bzr
 
-env BZR_EMAIL='Russ Cox <rsc@google.com>'
-env EMAIL='Russ Cox <rsc@google.com>'
+env BZR_EMAIL='Russ Cox <rsc@golangogle.com>'
+env EMAIL='Russ Cox <rsc@golangogle.com>'
 
 bzr init-repo .
 
 bzr init b
 cd b
-cp ../hello.go .
-bzr add hello.go
+cp ../hello.golang .
+bzr add hello.golang
 bzr commit --commit-time='2017-09-21 21:20:12 -0400' -m 'hello world'
 bzr push ..
 cd ..
@@ -21,12 +21,12 @@ cmp stdout .bzr-log
 -- .bzr-log --
 ------------------------------------------------------------
 revno: 1
-committer: Russ Cox <rsc@google.com>
+committer: Russ Cox <rsc@golangogle.com>
 branch nick: b
 timestamp: Thu 2017-09-21 21:20:12 -0400
 message:
   hello world
--- hello.go --
+-- hello.golang --
 package main
 
 func main() {

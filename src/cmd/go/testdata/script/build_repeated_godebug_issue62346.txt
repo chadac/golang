@@ -1,12 +1,12 @@
-[short] skip # runs go build
-! go build file.go
+[short] skip # runs golang build
+! golang build file.golang
 ! stderr 'panic:'
 ! stderr 'runtime error'
-stderr 'file.go:2:1: repeated //go:debug for panicnil'
+stderr 'file.golang:2:1: repeated //golang:debug for panicnil'
 
--- file.go --
-//go:debug panicnil=1
-//go:debug panicnil=1
+-- file.golang --
+//golang:debug panicnil=1
+//golang:debug panicnil=1
 
 package main
 

@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package sql
@@ -42,7 +42,7 @@ func init() {
 	putConnHook = func(db *DB, c *driverConn) {
 		if slices.Contains(db.freeConn, c) {
 			// print before panic, as panic may get lost due to conflicting panic
-			// (all goroutines asleep) elsewhere, since we might not unlock
+			// (all golangroutines asleep) elsewhere, since we might not unlock
 			// the mutex in freeConn here.
 			println("double free of conn. conflicts are:\nA) " + getFreedFrom(dbConn{db, c}) + "\n\nand\nB) " + stack())
 			panic("double free of conn.")
@@ -76,12 +76,12 @@ func newTestDBConnector(t testing.TB, fc *fakeConnector, name string) *DB {
 		exec(t, db, "INSERT|people|name=Chris,age=?,photo=CPHOTO,bdate=?", 3, chrisBirthday)
 	}
 	if name == "magicquery" {
-		// Magic table name and column, known by fakedb_test.go.
+		// Magic table name and column, known by fakedb_test.golang.
 		exec(t, db, "CREATE|magicquery|op=string,millis=int32")
 		exec(t, db, "INSERT|magicquery|op=sleep,millis=10")
 	}
 	if name == "tx_status" {
-		// Magic table name and column, known by fakedb_test.go.
+		// Magic table name and column, known by fakedb_test.golang.
 		exec(t, db, "CREATE|tx_status|tx_status=string")
 		exec(t, db, "INSERT|tx_status|tx_status=invalid")
 	}
@@ -196,7 +196,7 @@ func (db *DB) numDeps() int {
 	return len(db.dep)
 }
 
-// Dependencies are closed via a goroutine, so this polls waiting for
+// Dependencies are closed via a golangroutine, so this polls waiting for
 // numDeps to fall to want, waiting up to nearly the test's deadline.
 func (db *DB) numDepsPoll(t *testing.T, want int) int {
 	var n int
@@ -266,14 +266,14 @@ func TestQuery(t *testing.T) {
 		age  int
 		name string
 	}
-	got := []row{}
+	golangt := []row{}
 	for rows.Next() {
 		var r row
 		err = rows.Scan(&r.age, &r.name)
 		if err != nil {
 			t.Fatalf("Scan: %v", err)
 		}
-		got = append(got, r)
+		golangt = append(golangt, r)
 	}
 	err = rows.Err()
 	if err != nil {
@@ -284,8 +284,8 @@ func TestQuery(t *testing.T) {
 		{age: 2, name: "Bob"},
 		{age: 3, name: "Chris"},
 	}
-	if !slices.Equal(got, want) {
-		t.Errorf("mismatch.\n got: %#v\nwant: %#v", got, want)
+	if !slices.Equal(golangt, want) {
+		t.Errorf("mismatch.\n golangt: %#v\nwant: %#v", golangt, want)
 	}
 
 	// And verify that the final rows.Next() call, which hit EOF,
@@ -315,7 +315,7 @@ func TestQueryContext(t *testing.T) {
 		age  int
 		name string
 	}
-	got := []row{}
+	golangt := []row{}
 	index := 0
 	for rows.Next() {
 		if index == 2 {
@@ -333,7 +333,7 @@ func TestQueryContext(t *testing.T) {
 		if index == 2 && err != context.Canceled {
 			t.Fatalf("Scan: %v; want context.Canceled", err)
 		}
-		got = append(got, r)
+		golangt = append(golangt, r)
 		index++
 	}
 	select {
@@ -348,8 +348,8 @@ func TestQueryContext(t *testing.T) {
 		{age: 1, name: "Alice"},
 		{age: 2, name: "Bob"},
 	}
-	if !slices.Equal(got, want) {
-		t.Errorf("mismatch.\n got: %#v\nwant: %#v", got, want)
+	if !slices.Equal(golangt, want) {
+		t.Errorf("mismatch.\n golangt: %#v\nwant: %#v", golangt, want)
 	}
 
 	// And verify that the final rows.Next() call, which hit EOF,
@@ -496,7 +496,7 @@ func TestUnsupportedOptions(t *testing.T) {
 		Isolation: LevelSerializable, ReadOnly: true,
 	})
 	if err == nil {
-		t.Fatal("expected error when using unsupported options, got nil")
+		t.Fatal("expected error when using unsupported options, golangt nil")
 	}
 }
 
@@ -515,14 +515,14 @@ func TestMultiResultSetQuery(t *testing.T) {
 	type row2 struct {
 		name string
 	}
-	got1 := []row1{}
+	golangt1 := []row1{}
 	for rows.Next() {
 		var r row1
 		err = rows.Scan(&r.age, &r.name)
 		if err != nil {
 			t.Fatalf("Scan: %v", err)
 		}
-		got1 = append(got1, r)
+		golangt1 = append(golangt1, r)
 	}
 	err = rows.Err()
 	if err != nil {
@@ -533,22 +533,22 @@ func TestMultiResultSetQuery(t *testing.T) {
 		{age: 2, name: "Bob"},
 		{age: 3, name: "Chris"},
 	}
-	if !slices.Equal(got1, want1) {
-		t.Errorf("mismatch.\n got1: %#v\nwant: %#v", got1, want1)
+	if !slices.Equal(golangt1, want1) {
+		t.Errorf("mismatch.\n golangt1: %#v\nwant: %#v", golangt1, want1)
 	}
 
 	if !rows.NextResultSet() {
 		t.Errorf("expected another result set")
 	}
 
-	got2 := []row2{}
+	golangt2 := []row2{}
 	for rows.Next() {
 		var r row2
 		err = rows.Scan(&r.name)
 		if err != nil {
 			t.Fatalf("Scan: %v", err)
 		}
-		got2 = append(got2, r)
+		golangt2 = append(golangt2, r)
 	}
 	err = rows.Err()
 	if err != nil {
@@ -559,8 +559,8 @@ func TestMultiResultSetQuery(t *testing.T) {
 		{name: "Bob"},
 		{name: "Chris"},
 	}
-	if !slices.Equal(got2, want2) {
-		t.Errorf("mismatch.\n got: %#v\nwant: %#v", got2, want2)
+	if !slices.Equal(golangt2, want2) {
+		t.Errorf("mismatch.\n golangt: %#v\nwant: %#v", golangt2, want2)
 	}
 	if rows.NextResultSet() {
 		t.Errorf("expected no more result sets")
@@ -591,14 +591,14 @@ func TestQueryNamedArg(t *testing.T) {
 		age  int
 		name string
 	}
-	got := []row{}
+	golangt := []row{}
 	for rows.Next() {
 		var r row
 		err = rows.Scan(&r.age, &r.name)
 		if err != nil {
 			t.Fatalf("Scan: %v", err)
 		}
-		got = append(got, r)
+		golangt = append(golangt, r)
 	}
 	err = rows.Err()
 	if err != nil {
@@ -607,8 +607,8 @@ func TestQueryNamedArg(t *testing.T) {
 	want := []row{
 		{age: 2, name: "Bob"},
 	}
-	if !slices.Equal(got, want) {
-		t.Errorf("mismatch.\n got: %#v\nwant: %#v", got, want)
+	if !slices.Equal(golangt, want) {
+		t.Errorf("mismatch.\n golangt: %#v\nwant: %#v", golangt, want)
 	}
 
 	// And verify that the final rows.Next() call, which hit EOF,
@@ -663,7 +663,7 @@ func TestPoolExhaustOnCancel(t *testing.T) {
 
 	state = 1
 	for i := 0; i < max; i++ {
-		go func() {
+		golang func() {
 			rows, err := db.Query("SELECT|people|name,photo|")
 			if err != nil {
 				t.Errorf("Query: %v", err)
@@ -686,7 +686,7 @@ func TestPoolExhaustOnCancel(t *testing.T) {
 
 	for i := 0; i < max; i++ {
 		ctxReq, cancelReq := context.WithCancel(ctx)
-		go func() {
+		golang func() {
 			time.Sleep(100 * time.Millisecond)
 			cancelReq()
 		}()
@@ -718,7 +718,7 @@ func TestRowsColumns(t *testing.T) {
 	}
 	want := []string{"age", "name"}
 	if !slices.Equal(cols, want) {
-		t.Errorf("got %#v; want %#v", cols, want)
+		t.Errorf("golangt %#v; want %#v", cols, want)
 	}
 	if err := rows.Close(); err != nil {
 		t.Errorf("error closing rows: %s", err)
@@ -758,16 +758,16 @@ func TestRowsColumnTypes(t *testing.T) {
 		}
 		if ct == 1 {
 			if age := *values[0].(*int32); age != 2 {
-				t.Errorf("Expected 2, got %v", age)
+				t.Errorf("Expected 2, golangt %v", age)
 			}
 			if name := *values[1].(*string); name != "Bob" {
-				t.Errorf("Expected Bob, got %v", name)
+				t.Errorf("Expected Bob, golangt %v", name)
 			}
 		}
 		ct++
 	}
 	if ct != 3 {
-		t.Errorf("expected 3 rows, got %d", ct)
+		t.Errorf("expected 3 rows, golangt %d", ct)
 	}
 
 	if err := rows.Close(); err != nil {
@@ -784,7 +784,7 @@ func TestQueryRow(t *testing.T) {
 
 	err := db.QueryRow("SELECT|people|age,name|age=?", 3).Scan(&age)
 	if err == nil || !strings.Contains(err.Error(), "expected 2 destination arguments") {
-		t.Errorf("expected error from wrong number of arguments; actually got: %v", err)
+		t.Errorf("expected error from wrong number of arguments; actually golangt: %v", err)
 	}
 
 	err = db.QueryRow("SELECT|people|bdate|age=?", 3).Scan(&birthday)
@@ -797,10 +797,10 @@ func TestQueryRow(t *testing.T) {
 		t.Fatalf("age QueryRow+Scan: %v", err)
 	}
 	if name != "Bob" {
-		t.Errorf("expected name Bob, got %q", name)
+		t.Errorf("expected name Bob, golangt %q", name)
 	}
 	if age != 2 {
-		t.Errorf("expected age 2, got %d", age)
+		t.Errorf("expected age 2, golangt %d", age)
 	}
 
 	err = db.QueryRow("SELECT|people|age,name|name=?", "Alice").Scan(&age, &name)
@@ -808,10 +808,10 @@ func TestQueryRow(t *testing.T) {
 		t.Fatalf("name QueryRow+Scan: %v", err)
 	}
 	if name != "Alice" {
-		t.Errorf("expected name Alice, got %q", name)
+		t.Errorf("expected name Alice, golangt %q", name)
 	}
 	if age != 1 {
-		t.Errorf("expected age 1, got %d", age)
+		t.Errorf("expected age 1, golangt %d", age)
 	}
 
 	var photo []byte
@@ -839,7 +839,7 @@ func TestRowErr(t *testing.T) {
 	err = db.QueryRowContext(ctx, "SELECT|people|bdate|age=?", 3).Err()
 	exp := "context canceled"
 	if err == nil || !strings.Contains(err.Error(), exp) {
-		t.Errorf("Expected err = %v; got %v", exp, err)
+		t.Errorf("Expected err = %v; golangt %v", exp, err)
 	}
 }
 
@@ -853,11 +853,11 @@ func TestTxRollbackCommitErr(t *testing.T) {
 	}
 	err = tx.Rollback()
 	if err != nil {
-		t.Errorf("expected nil error from Rollback; got %v", err)
+		t.Errorf("expected nil error from Rollback; golangt %v", err)
 	}
 	err = tx.Commit()
 	if err != ErrTxDone {
-		t.Errorf("expected %q from Commit; got %q", ErrTxDone, err)
+		t.Errorf("expected %q from Commit; golangt %q", ErrTxDone, err)
 	}
 
 	tx, err = db.Begin()
@@ -866,11 +866,11 @@ func TestTxRollbackCommitErr(t *testing.T) {
 	}
 	err = tx.Commit()
 	if err != nil {
-		t.Errorf("expected nil error from Commit; got %v", err)
+		t.Errorf("expected nil error from Commit; golangt %v", err)
 	}
 	err = tx.Rollback()
 	if err != ErrTxDone {
-		t.Errorf("expected %q from Rollback; got %q", ErrTxDone, err)
+		t.Errorf("expected %q from Rollback; golangt %q", ErrTxDone, err)
 	}
 }
 
@@ -937,7 +937,7 @@ func (s stubDriverStmt) Query(args []driver.Value) (driver.Rows, error) {
 	return nil, nil
 }
 
-// golang.org/issue/12798
+// golanglang.org/issue/12798
 func TestStatementClose(t *testing.T) {
 	want := errors.New("STMT ERROR")
 
@@ -955,7 +955,7 @@ func TestStatementClose(t *testing.T) {
 	}
 }
 
-// golang.org/issue/3734
+// golanglang.org/issue/3734
 func TestStatementQueryRowConcurrent(t *testing.T) {
 	db := newTestDB(t, "people")
 	defer closeDB(t, db)
@@ -968,7 +968,7 @@ func TestStatementQueryRowConcurrent(t *testing.T) {
 	const n = 10
 	ch := make(chan error, n)
 	for i := 0; i < n; i++ {
-		go func() {
+		golang func() {
 			var age int
 			err := stmt.QueryRow("Alice").Scan(&age)
 			if err == nil && age != 1 {
@@ -1024,8 +1024,8 @@ func TestExec(t *testing.T) {
 		{[]any{"Brad", "strconv fail"}, `sql: converting argument $2 type: sql/driver: value "strconv fail" can't be converted to int32`},
 
 		// Wrong number of args:
-		{[]any{}, "sql: expected 2 arguments, got 0"},
-		{[]any{1, 2, 3}, "sql: expected 2 arguments, got 3"},
+		{[]any{}, "sql: expected 2 arguments, golangt 0"},
+		{[]any{1, 2, 3}, "sql: expected 2 arguments, golangt 3"},
 	}
 	for n, et := range execTests {
 		_, err := stmt.Exec(et.args...)
@@ -1034,7 +1034,7 @@ func TestExec(t *testing.T) {
 			errStr = err.Error()
 		}
 		if errStr != et.wantErr {
-			t.Errorf("stmt.Execute #%d: for %v, got error %q, want error %q",
+			t.Errorf("stmt.Execute #%d: for %v, golangt error %q, want error %q",
 				n, et.args, errStr, et.wantErr)
 		}
 	}
@@ -1286,9 +1286,9 @@ func TestTxStmtFromTxStmtRePrepares(t *testing.T) {
 	}
 }
 
-// Issue: https://golang.org/issue/2784
-// This test didn't fail before because we got lucky with the fakedb driver.
-// It was failing, and now not, in github.com/bradfitz/go-sql-test
+// Issue: https://golanglang.org/issue/2784
+// This test didn't fail before because we golangt lucky with the fakedb driver.
+// It was failing, and now not, in github.com/bradfitz/golang-sql-test
 func TestTxQuery(t *testing.T) {
 	db := newTestDB(t, "")
 	defer closeDB(t, db)
@@ -1388,7 +1388,7 @@ func TestConnQuery(t *testing.T) {
 		t.Fatal(err)
 	}
 	if name != "Chris" {
-		t.Fatalf("unexpected result, got %q want Chris", name)
+		t.Fatalf("unexpected result, golangt %q want Chris", name)
 	}
 
 	err = conn.PingContext(ctx)
@@ -1413,7 +1413,7 @@ func TestConnRaw(t *testing.T) {
 	err = conn.Raw(func(dc any) error {
 		sawFunc = true
 		if _, ok := dc.(*fakeConn); !ok {
-			return fmt.Errorf("got %T want *fakeConn", dc)
+			return fmt.Errorf("golangt %T want *fakeConn", dc)
 		}
 		return nil
 	})
@@ -1482,11 +1482,11 @@ func TestCursorFake(t *testing.T) {
 			t.Fatal(err)
 		}
 		if n != currentRow {
-			t.Errorf("expected number(Age)=%d, got %d", currentRow, n)
+			t.Errorf("expected number(Age)=%d, golangt %d", currentRow, n)
 		}
 	}
 	if currentRow != expectedRows {
-		t.Errorf("expected %d rows, got %d rows", expectedRows, currentRow)
+		t.Errorf("expected %d rows, golangt %d rows", expectedRows, currentRow)
 	}
 }
 
@@ -1572,7 +1572,7 @@ func TestConnTx(t *testing.T) {
 		t.Fatal(err)
 	}
 	if selectName != insertName {
-		t.Fatalf("got %q want %q", selectName, insertName)
+		t.Fatalf("golangt %q want %q", selectName, insertName)
 	}
 }
 
@@ -1620,7 +1620,7 @@ func TestIssue2542Deadlock(t *testing.T) {
 	}
 }
 
-// From golang.org/issue/3865
+// From golanglang.org/issue/3865
 func TestCloseStmtBeforeRows(t *testing.T) {
 	db := newTestDB(t, "people")
 	defer closeDB(t, db)
@@ -1659,7 +1659,7 @@ func TestNullByteSlice(t *testing.T) {
 		t.Fatal(err)
 	}
 	if name != nil {
-		t.Fatalf("name []byte should be nil for null column value, got: %#v", name)
+		t.Fatalf("name []byte should be nil for null column value, golangt: %#v", name)
 	}
 
 	exec(t, db, "INSERT|t|id=11,name=?", "bob")
@@ -1668,7 +1668,7 @@ func TestNullByteSlice(t *testing.T) {
 		t.Fatal(err)
 	}
 	if string(name) != "bob" {
-		t.Fatalf("name []byte should be bob, got: %q", string(name))
+		t.Fatalf("name []byte should be bob, golangt: %q", string(name))
 	}
 }
 
@@ -1944,12 +1944,12 @@ func nullTestRun(t *testing.T, spec nullTestSpec) {
 		}
 		bindValDeref := reflect.ValueOf(bindVal).Elem().Interface()
 		if !reflect.DeepEqual(bindValDeref, spec.rows[i].scanNullVal) {
-			t.Errorf("id=%d got %#v, want %#v", id, bindValDeref, spec.rows[i].scanNullVal)
+			t.Errorf("id=%d golangt %#v, want %#v", id, bindValDeref, spec.rows[i].scanNullVal)
 		}
 	}
 }
 
-// golang.org/issue/4859
+// golanglang.org/issue/4859
 func TestQueryRowNilScanDest(t *testing.T) {
 	db := newTestDB(t, "people")
 	defer closeDB(t, db)
@@ -2024,14 +2024,14 @@ func TestMaxIdleConns(t *testing.T) {
 		t.Fatal(err)
 	}
 	tx.Commit()
-	if got := len(db.freeConn); got != 1 {
-		t.Errorf("freeConns = %d; want 1", got)
+	if golangt := len(db.freeConn); golangt != 1 {
+		t.Errorf("freeConns = %d; want 1", golangt)
 	}
 
 	db.SetMaxIdleConns(0)
 
-	if got := len(db.freeConn); got != 0 {
-		t.Errorf("freeConns after set to zero = %d; want 0", got)
+	if golangt := len(db.freeConn); golangt != 0 {
+		t.Errorf("freeConns after set to zero = %d; want 0", golangt)
 	}
 
 	tx, err = db.Begin()
@@ -2039,8 +2039,8 @@ func TestMaxIdleConns(t *testing.T) {
 		t.Fatal(err)
 	}
 	tx.Commit()
-	if got := len(db.freeConn); got != 0 {
-		t.Errorf("freeConns = %d; want 0", got)
+	if golangt := len(db.freeConn); golangt != 0 {
+		t.Errorf("freeConns = %d; want 0", golangt)
 	}
 }
 
@@ -2087,7 +2087,7 @@ func TestMaxOpenConns(t *testing.T) {
 	for batch := 0; batch < nbatch; batch++ {
 		for i := 0; i < nquery; i++ {
 			wg.Add(1)
-			go func() {
+			golang func() {
 				defer wg.Done()
 				var op string
 				if err := stmt.QueryRow("sleep", sleepMillis).Scan(&op); err != nil && err != ErrNoRows {
@@ -2250,7 +2250,7 @@ func TestPendingConnsAfterErr(t *testing.T) {
 	})
 
 	for i := 0; i < tryOpen; i++ {
-		go func() {
+		golang func() {
 			opening.Done() // signal one connection is in flight
 			_, err := db.Exec("will never run")
 			errs <- err
@@ -2267,8 +2267,8 @@ func TestPendingConnsAfterErr(t *testing.T) {
 	for i := 0; i < tryOpen; i++ {
 		select {
 		case err := <-errs:
-			if got, want := err, errOffline; got != want {
-				t.Errorf("unexpected err: got %v, want %v", got, want)
+			if golangt, want := err, errOffline; golangt != want {
+				t.Errorf("unexpected err: golangt %v, want %v", golangt, want)
 			}
 		case <-to.C:
 			t.Fatalf("orphaned connection request(s), still waiting after %v", timeout)
@@ -2320,8 +2320,8 @@ func TestSingleOpenConn(t *testing.T) {
 func TestStats(t *testing.T) {
 	db := newTestDB(t, "people")
 	stats := db.Stats()
-	if got := stats.OpenConnections; got != 1 {
-		t.Errorf("stats.OpenConnections = %d; want 1", got)
+	if golangt := stats.OpenConnections; golangt != 1 {
+		t.Errorf("stats.OpenConnections = %d; want 1", golangt)
 	}
 
 	tx, err := db.Begin()
@@ -2332,8 +2332,8 @@ func TestStats(t *testing.T) {
 
 	closeDB(t, db)
 	stats = db.Stats()
-	if got := stats.OpenConnections; got != 0 {
-		t.Errorf("stats.OpenConnections = %d; want 0", got)
+	if golangt := stats.OpenConnections; golangt != 0 {
+		t.Errorf("stats.OpenConnections = %d; want 0", golangt)
 	}
 }
 
@@ -2427,7 +2427,7 @@ func TestConnMaxLifetime(t *testing.T) {
 	}
 }
 
-// golang.org/issue/5323
+// golanglang.org/issue/5323
 func TestStmtCloseDeps(t *testing.T) {
 	if testing.Short() {
 		t.Skip("skipping in short mode")
@@ -2465,7 +2465,7 @@ func TestStmtCloseDeps(t *testing.T) {
 	for batch := 0; batch < nbatch; batch++ {
 		for i := 0; i < nquery; i++ {
 			wg.Add(1)
-			go func() {
+			golang func() {
 				defer wg.Done()
 				var op string
 				if err := stmt.QueryRow("sleep", sleepMillis).Scan(&op); err != nil && err != ErrNoRows {
@@ -2522,7 +2522,7 @@ func TestStmtCloseDeps(t *testing.T) {
 	db.clearAllConns(t)
 }
 
-// golang.org/issue/5046
+// golanglang.org/issue/5046
 func TestCloseConnBeforeStmts(t *testing.T) {
 	db := newTestDB(t, "people")
 	defer closeDB(t, db)
@@ -2542,7 +2542,7 @@ func TestCloseConnBeforeStmts(t *testing.T) {
 	}
 
 	if len(db.freeConn) != 1 {
-		t.Fatalf("expected 1 freeConn; got %d", len(db.freeConn))
+		t.Fatalf("expected 1 freeConn; golangt %d", len(db.freeConn))
 	}
 	dc := db.freeConn[0]
 	if dc.closed {
@@ -2576,7 +2576,7 @@ func TestCloseConnBeforeStmts(t *testing.T) {
 	}
 }
 
-// golang.org/issue/5283: don't release the Rows' connection in Close
+// golanglang.org/issue/5283: don't release the Rows' connection in Close
 // before calling Stmt.Close.
 func TestRowsCloseOrder(t *testing.T) {
 	db := newTestDB(t, "people")
@@ -2609,15 +2609,15 @@ func TestRowsImplicitClose(t *testing.T) {
 	r := rows.rowsi.(*rowsCursor)
 	r.errPos, r.err = want, fail
 
-	got := 0
+	golangt := 0
 	for rows.Next() {
-		got++
+		golangt++
 	}
-	if got != want {
-		t.Errorf("got %d rows, want %d", got, want)
+	if golangt != want {
+		t.Errorf("golangt %d rows, want %d", golangt, want)
 	}
 	if err := rows.Err(); err != fail {
-		t.Errorf("got error %v, want %v", err, fail)
+		t.Errorf("golangt error %v, want %v", err, fail)
 	}
 	if !r.closed {
 		t.Errorf("r.closed is false, want true")
@@ -2635,7 +2635,7 @@ func TestRowsCloseError(t *testing.T) {
 		age  int
 		name string
 	}
-	got := []row{}
+	golangt := []row{}
 
 	rc, ok := rows.rowsi.(*rowsCursor)
 	if !ok {
@@ -2649,11 +2649,11 @@ func TestRowsCloseError(t *testing.T) {
 		if err != nil {
 			t.Fatalf("Scan: %v", err)
 		}
-		got = append(got, r)
+		golangt = append(golangt, r)
 	}
 	err = rows.Err()
 	if err != rc.closeErr {
-		t.Fatalf("unexpected err: got %v, want %v", err, rc.closeErr)
+		t.Fatalf("unexpected err: golangt %v, want %v", err, rc.closeErr)
 	}
 }
 
@@ -2954,7 +2954,7 @@ func TestConnExpiresFreshOutOfPool(t *testing.T) {
 			afterPutConn := make(chan struct{})
 			waitingForConn := make(chan struct{})
 
-			go func() {
+			golang func() {
 				defer close(afterPutConn)
 
 				conn, err := db.conn(ctx, alwaysNewConn)
@@ -2964,7 +2964,7 @@ func TestConnExpiresFreshOutOfPool(t *testing.T) {
 					t.Errorf("db.conn: %v", err)
 				}
 			}()
-			go func() {
+			golang func() {
 				defer close(waitingForConn)
 
 				for {
@@ -3069,7 +3069,7 @@ func TestIssue20622(t *testing.T) {
 	tx.Commit()
 }
 
-// golang.org/issue/5718
+// golanglang.org/issue/5718
 func TestErrBadConnReconnect(t *testing.T) {
 	db := newTestDB(t, "foo")
 	defer closeDB(t, db)
@@ -3175,7 +3175,7 @@ func TestErrBadConnReconnect(t *testing.T) {
 	simulateBadConn("stmt.Query exec", &hookQueryBadConn, stmtQuery)
 }
 
-// golang.org/issue/11264
+// golanglang.org/issue/11264
 func TestTxEndBadConn(t *testing.T) {
 	db := newTestDB(t, "foo")
 	defer closeDB(t, db)
@@ -3571,7 +3571,7 @@ func doConcurrentTest(t testing.TB, ct concurrentTest) {
 	defer close(reqs)
 
 	for i := 0; i < maxProcs*2; i++ {
-		go func() {
+		golang func() {
 			for range reqs {
 				err := ct.test(t)
 				if err != nil {
@@ -3659,7 +3659,7 @@ func TestIssue18429(t *testing.T) {
 	for i := 0; i < 100; i++ {
 		sem <- true
 		wg.Add(1)
-		go func() {
+		golang func() {
 			defer func() {
 				<-sem
 				wg.Done()
@@ -3714,7 +3714,7 @@ func TestIssue20160(t *testing.T) {
 	for i := 0; i < 100; i++ {
 		sem <- true
 		wg.Add(1)
-		go func() {
+		golang func() {
 			defer func() {
 				<-sem
 				wg.Done()
@@ -3738,7 +3738,7 @@ func TestIssue20160(t *testing.T) {
 // will nil out the ci on close in a lock, but if another process uses it right after
 // it will panic with on the nil ref.
 //
-// See https://golang.org/cl/35550 .
+// See https://golanglang.org/cl/35550 .
 func TestIssue18719(t *testing.T) {
 	db := newTestDB(t, "people")
 	defer closeDB(t, db)
@@ -3765,7 +3765,7 @@ func TestIssue18719(t *testing.T) {
 	// after it has done so. Code after must deal with the canceled state.
 	_, err = tx.QueryContext(ctx, "SELECT|people|name|")
 	if err != nil {
-		t.Fatalf("expected error %v but got %v", nil, err)
+		t.Fatalf("expected error %v but golangt %v", nil, err)
 	}
 
 	// Rows may be ignored because it will be closed when the context is canceled.
@@ -3862,7 +3862,7 @@ func TestConnectionLeak(t *testing.T) {
 	drv.waitingCh = make(chan struct{}, 1)
 	var wg sync.WaitGroup
 	wg.Add(1)
-	go func() {
+	golang func() {
 		r, err := db.Query("SELECT|people|name|")
 		if err != nil {
 			t.Error(err)
@@ -3871,10 +3871,10 @@ func TestConnectionLeak(t *testing.T) {
 		r.Close()
 		wg.Done()
 	}()
-	// Wait until the goroutine we've just created has started waiting.
+	// Wait until the golangroutine we've just created has started waiting.
 	<-drv.waitingCh
 	// Now close the busy connections. This provides a connection for
-	// the blocked goroutine and then fills up the idle queue.
+	// the blocked golangroutine and then fills up the idle queue.
 	for _, v := range rows {
 		v.Close()
 	}
@@ -3908,7 +3908,7 @@ func TestStatsMaxIdleClosedZero(t *testing.T) {
 	maxIdleClosed := st.MaxIdleClosed - preMaxIdleClosed
 	t.Logf("MaxIdleClosed: %d", maxIdleClosed)
 	if maxIdleClosed != 0 {
-		t.Fatal("expected 0 max idle closed conns, got: ", maxIdleClosed)
+		t.Fatal("expected 0 max idle closed conns, golangt: ", maxIdleClosed)
 	}
 }
 
@@ -3934,7 +3934,7 @@ func TestStatsMaxIdleClosedTen(t *testing.T) {
 	maxIdleClosed := st.MaxIdleClosed - preMaxIdleClosed
 	t.Logf("MaxIdleClosed: %d", maxIdleClosed)
 	if maxIdleClosed != 10 {
-		t.Fatal("expected 0 max idle closed conns, got: ", maxIdleClosed)
+		t.Fatal("expected 0 max idle closed conns, golangt: ", maxIdleClosed)
 	}
 }
 
@@ -4049,7 +4049,7 @@ func TestMaxIdleTime(t *testing.T) {
 			db.mu.Lock()
 			nc, closing := db.connectionCleanerRunLocked(time.Second)
 			if nc != item.wantNextCheck {
-				t.Errorf("got %v; want %v next check duration", nc, item.wantNextCheck)
+				t.Errorf("golangt %v; want %v next check duration", nc, item.wantNextCheck)
 			}
 
 			// Validate freeConn order.
@@ -4067,13 +4067,13 @@ func TestMaxIdleTime(t *testing.T) {
 				c.Close()
 			}
 			if g, w := int64(len(closing)), item.wantIdleClosed; g != w {
-				t.Errorf("got: %d; want %d closed conns", g, w)
+				t.Errorf("golangt: %d; want %d closed conns", g, w)
 			}
 
 			st := db.Stats()
 			maxIdleClosed := st.MaxIdleTimeClosed - preMaxIdleClosed
 			if g, w := maxIdleClosed, item.wantMaxIdleClosed; g != w {
-				t.Errorf("got: %d; want %d max idle closed conns", g, w)
+				t.Errorf("golangt: %d; want %d max idle closed conns", g, w)
 			}
 		})
 	}
@@ -4161,7 +4161,7 @@ func TestNamedValueChecker(t *testing.T) {
 		t.Fatal("select", err)
 	}
 
-	list := []struct{ got, want any }{
+	list := []struct{ golangt, want any }{
 		{o1, "from-server"},
 		{dec1, decimalInt{123}},
 		{str1, "hello"},
@@ -4169,8 +4169,8 @@ func TestNamedValueChecker(t *testing.T) {
 	}
 
 	for index, item := range list {
-		if !reflect.DeepEqual(item.got, item.want) {
-			t.Errorf("got %#v wanted %#v for index %d", item.got, item.want, index)
+		if !reflect.DeepEqual(item.golangt, item.want) {
+			t.Errorf("golangt %#v wanted %#v for index %d", item.golangt, item.want, index)
 		}
 	}
 }
@@ -4196,7 +4196,7 @@ func TestNamedValueCheckerSkip(t *testing.T) {
 
 	_, err = db.ExecContext(ctx, "INSERT|keys|dec1=?A", Named("A", decimalInt{123}))
 	if err == nil {
-		t.Fatalf("expected error with bad argument, got %v", err)
+		t.Fatalf("expected error with bad argument, golangt %v", err)
 	}
 }
 
@@ -4332,7 +4332,7 @@ func TestQueryExecContextOnly(t *testing.T) {
 	rows.Close()
 
 	if v1 != expectedValue {
-		t.Fatalf("expected %q, got %q", expectedValue, v1)
+		t.Fatalf("expected %q, golangt %q", expectedValue, v1)
 	}
 
 	if !coc.execCtxCalled {
@@ -4422,14 +4422,14 @@ func TestDriverArgsWrapsErrors(t *testing.T) {
 }
 
 func TestContextCancelDuringRawBytesScan(t *testing.T) {
-	for _, mode := range []string{"nocancel", "top", "bottom", "go"} {
+	for _, mode := range []string{"nocancel", "top", "bottom", "golang"} {
 		t.Run(mode, func(t *testing.T) {
 			testContextCancelDuringRawBytesScan(t, mode)
 		})
 	}
 }
 
-// From go.dev/issue/60304
+// From golang.dev/issue/60304
 func testContextCancelDuringRawBytesScan(t *testing.T, mode string) {
 	db := newTestDB(t, "people")
 	defer closeDB(t, db)
@@ -4453,7 +4453,7 @@ func testContextCancelDuringRawBytesScan(t *testing.T, mode string) {
 		if mode == "top" && numRows == 2 {
 			// cancel between Next and Scan is observed by Scan as err = context.Canceled.
 			// The sleep here is only to make it more likely that the cancel will be observed.
-			// If not, the test should still pass, like in "go" mode.
+			// If not, the test should still pass, like in "golang" mode.
 			cancel()
 			time.Sleep(100 * time.Millisecond)
 		}
@@ -4476,13 +4476,13 @@ func testContextCancelDuringRawBytesScan(t *testing.T, mode string) {
 		if mode == "bottom" && numRows == 2 {
 			// cancel before Next should be observed by Next, exiting the loop.
 			// The sleep here is only to make it more likely that the cancel will be observed.
-			// If not, the test should still pass, like in "go" mode.
+			// If not, the test should still pass, like in "golang" mode.
 			cancel()
 			time.Sleep(100 * time.Millisecond)
 		}
-		if mode == "go" && numRows == 2 {
+		if mode == "golang" && numRows == 2 {
 			// cancel at any future time, to catch other cases
-			go cancel()
+			golang cancel()
 		}
 		for _, b := range s { // some operation reading from the raw memory
 			sink += b
@@ -4493,10 +4493,10 @@ func testContextCancelDuringRawBytesScan(t *testing.T, mode string) {
 	}
 
 	// There are 3 rows. We canceled after reading 2 so we expect either
-	// 2 or 3 depending on how the awaitDone goroutine schedules.
+	// 2 or 3 depending on how the awaitDone golangroutine schedules.
 	switch numRows {
 	case 0, 1:
-		t.Errorf("got %d rows; want 2+", numRows)
+		t.Errorf("golangt %d rows; want 2+", numRows)
 	case 2:
 		if err := r.Err(); err != context.Canceled {
 			t.Errorf("unexpected error: %v (%T)", err, err)
@@ -4522,7 +4522,7 @@ func TestContextCancelBetweenNextAndErr(t *testing.T) {
 	}
 	for r.Next() {
 	}
-	cancel()                          // wake up the awaitDone goroutine
+	cancel()                          // wake up the awaitDone golangroutine
 	time.Sleep(10 * time.Millisecond) // increase odds of seeing failure
 	if err := r.Err(); err != nil {
 		t.Fatal(err)
@@ -4534,8 +4534,8 @@ func TestNilErrorAfterClose(t *testing.T) {
 	defer closeDB(t, db)
 
 	// This WithCancel is important; Rows contains an optimization to avoid
-	// spawning a goroutine when the query/transaction context cannot be
-	// canceled, but this test tests a bug which is caused by said goroutine.
+	// spawning a golangroutine when the query/transaction context cannot be
+	// canceled, but this test tests a bug which is caused by said golangroutine.
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
@@ -4706,7 +4706,7 @@ func TestTypedString(t *testing.T) {
 	}
 	expected := Str("Alice")
 	if scanned != expected {
-		t.Errorf("expected %+v, got %+v", expected, scanned)
+		t.Errorf("expected %+v, golangt %+v", expected, scanned)
 	}
 }
 
@@ -4776,7 +4776,7 @@ func BenchmarkConcurrentRandom(b *testing.B) {
 
 func BenchmarkManyConcurrentQueries(b *testing.B) {
 	b.ReportAllocs()
-	// To see lock contention in Go 1.4, 16~ cores and 128~ goroutines are required.
+	// To see lock contention in Go 1.4, 16~ cores and 128~ golangroutines are required.
 	const parallelism = 16
 
 	db := newTestDB(b, "magicquery")
@@ -4838,8 +4838,8 @@ func TestConnRequestSet(t *testing.T) {
 	var s connRequestSet
 	wantLen := func(want int) {
 		t.Helper()
-		if got := s.Len(); got != want {
-			t.Errorf("Len = %d; want %d", got, want)
+		if golangt := s.Len(); golangt != want {
+			t.Errorf("Len = %d; want %d", golangt, want)
 		}
 		if want == 0 && !t.Failed() {
 			if _, ok := s.TakeRandom(); ok {
@@ -4868,7 +4868,7 @@ func TestConnRequestSet(t *testing.T) {
 		ch1 := make(chan connRequest)
 		dh := s.Add(ch1)
 		wantLen(1)
-		if got, ok := s.TakeRandom(); !ok || got != ch1 {
+		if golangt, ok := s.TakeRandom(); !ok || golangt != ch1 {
 			t.Fatalf("wrong take; ok=%v", ok)
 		}
 		wantLen(0)
@@ -4954,9 +4954,9 @@ func TestIssue69837(t *testing.T) {
 	}
 
 	if v, ok := val.(int64); !ok {
-		t.Errorf("val.(type): got %T, expected int64", val)
+		t.Errorf("val.(type): golangt %T, expected int64", val)
 	} else if v != 1 {
-		t.Errorf("val: got %d, expected 1", v)
+		t.Errorf("val: golangt %d, expected 1", v)
 	}
 }
 

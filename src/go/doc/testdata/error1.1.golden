@@ -5,7 +5,7 @@ IMPORTPATH
 	testdata/error1
 
 FILENAMES
-	testdata/error1.go
+	testdata/error1.golang
 
 TYPES
 	// 

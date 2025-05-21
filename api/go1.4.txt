@@ -1,16 +1,16 @@
-# CL 134210043 archive/zip: add Writer.Flush, Brad Fitzpatrick <bradfitz@golang.org>
+# CL 134210043 archive/zip: add Writer.Flush, Brad Fitzpatrick <bradfitz@golanglang.org>
 pkg archive/zip, method (*Writer) Flush() error
 
-# CL 97140043 compress/flate: add Reset() to allow reusing large buffers to compress multiple buffers, James Robinson <jamesr@google.com>
+# CL 97140043 compress/flate: add Reset() to allow reusing large buffers to compress multiple buffers, James Robinson <jamesr@golangogle.com>
 pkg compress/flate, type Resetter interface { Reset }
 pkg compress/flate, type Resetter interface, Reset(io.Reader, []uint8) error
 pkg compress/zlib, type Resetter interface { Reset }
 pkg compress/zlib, type Resetter interface, Reset(io.Reader, []uint8) error
 
-# CL 159120044 compress/gzip: allow stopping at end of first stream, Russ Cox <rsc@golang.org>
+# CL 159120044 compress/gzip: allow stopping at end of first stream, Russ Cox <rsc@golanglang.org>
 pkg compress/gzip, method (*Reader) Multistream(bool)
 
-# CL 138800043 crypto: Add SHA3 functions in go.crypto/sha3 to the Hash enum., David Leon Gil <coruus@gmail.com>
+# CL 138800043 crypto: Add SHA3 functions in golang.crypto/sha3 to the Hash enum., David Leon Gil <coruus@gmail.com>
 pkg crypto, const SHA3_224 = 10
 pkg crypto, const SHA3_224 Hash
 pkg crypto, const SHA3_256 = 11
@@ -20,7 +20,7 @@ pkg crypto, const SHA3_384 Hash
 pkg crypto, const SHA3_512 = 13
 pkg crypto, const SHA3_512 Hash
 
-# CL 114680043 crypto: add Signer, Adam Langley <agl@golang.org>
+# CL 114680043 crypto: add Signer, Adam Langley <agl@golanglang.org>
 pkg crypto, method (Hash) HashFunc() Hash
 pkg crypto, type Signer interface { Public, Sign }
 pkg crypto, type Signer interface, Public() PublicKey
@@ -34,7 +34,7 @@ pkg crypto/rsa, method (*PrivateKey) Public() crypto.PublicKey
 pkg crypto/rsa, method (*PrivateKey) Sign(io.Reader, []uint8, crypto.SignerOpts) ([]uint8, error)
 pkg crypto/rsa, type PSSOptions struct, Hash crypto.Hash
 
-# CL 157090043 crypto/tls: support TLS_FALLBACK_SCSV as a server., Adam Langley <agl@golang.org>
+# CL 157090043 crypto/tls: support TLS_FALLBACK_SCSV as a server., Adam Langley <agl@golanglang.org>
 pkg crypto/tls, const TLS_FALLBACK_SCSV = 22016
 pkg crypto/tls, const TLS_FALLBACK_SCSV uint16
 
@@ -47,10 +47,10 @@ pkg crypto/tls, type ClientHelloInfo struct, SupportedPoints []uint8
 pkg crypto/tls, type Config struct, GetCertificate func(*ClientHelloInfo) (*Certificate, error)
 pkg crypto/tls, type ConnectionState struct, TLSUnique []uint8
 
-# CL 153420045 crypto/x509: continue to recognise MaxPathLen of zero as "no value"., Adam Langley <agl@golang.org>
+# CL 153420045 crypto/x509: continue to recognise MaxPathLen of zero as "no value"., Adam Langley <agl@golanglang.org>
 pkg crypto/x509, type Certificate struct, MaxPathLenZero bool
 
-# CL 158950043 database/sql: add Drivers, returning list of registered drivers, Russ Cox <rsc@golang.org>
+# CL 158950043 database/sql: add Drivers, returning list of registered drivers, Russ Cox <rsc@golanglang.org>
 pkg database/sql, func Drivers() []string
 
 # CL 117280043 debug/dwarf: fix Reader panic on DW_TAG_unspecified_type, Derek Parker <parkerderek86@gmail.com>
@@ -314,24 +314,24 @@ pkg debug/elf, var ErrNoSymbols error
 pkg debug/plan9obj, type FileHeader struct, HdrSize uint64
 pkg debug/plan9obj, type FileHeader struct, LoadAddress uint64
 
-# CL 122960043 encoding/xml: add InputOffset method to Decoder, Russ Cox <rsc@golang.org>
+# CL 122960043 encoding/xml: add InputOffset method to Decoder, Russ Cox <rsc@golanglang.org>
 pkg encoding/xml, method (*Decoder) InputOffset() int64
 
-# CL 124940043 cmd/go, go/build: implement import comment checking, Russ Cox <rsc@golang.org>
-pkg go/build, const ImportComment = 4
-pkg go/build, const ImportComment ImportMode
-pkg go/build, type Package struct, ImportComment string
+# CL 124940043 cmd/golang, golang/build: implement import comment checking, Russ Cox <rsc@golanglang.org>
+pkg golang/build, const ImportComment = 4
+pkg golang/build, const ImportComment ImportMode
+pkg golang/build, type Package struct, ImportComment string
 
-# CL 155050043 go/build: Return MultiplePackageError on importing a dir containing multiple packages, Jens Frederich <jfrederich@gmail.com>
-pkg go/build, method (*MultiplePackageError) Error() string
-pkg go/build, type MultiplePackageError struct
-pkg go/build, type MultiplePackageError struct, Dir string
-pkg go/build, type MultiplePackageError struct, Files []string
-pkg go/build, type MultiplePackageError struct, Packages []string
+# CL 155050043 golang/build: Return MultiplePackageError on importing a dir containing multiple packages, Jens Frederich <jfrederich@gmail.com>
+pkg golang/build, method (*MultiplePackageError) Error() string
+pkg golang/build, type MultiplePackageError struct
+pkg golang/build, type MultiplePackageError struct, Dir string
+pkg golang/build, type MultiplePackageError struct, Files []string
+pkg golang/build, type MultiplePackageError struct, Packages []string
 
-# CL 135110044 go/token: implement PositionFor accessors, Robert Griesemer <gri@golang.org>
-pkg go/token, method (*File) PositionFor(Pos, bool) Position
-pkg go/token, method (*FileSet) PositionFor(Pos, bool) Position
+# CL 135110044 golang/token: implement PositionFor accessors, Robert Griesemer <gri@golanglang.org>
+pkg golang/token, method (*File) PositionFor(Pos, bool) Position
+pkg golang/token, method (*FileSet) PositionFor(Pos, bool) Position
 
 # CL 109000049 image: add RGBAAt, Gray16At, etc., ChaiShushan <chaishushan@gmail.com>
 pkg image, method (*Alpha) AlphaAt(int, int) color.Alpha
@@ -358,33 +358,33 @@ pkg image/png, type CompressionLevel int
 pkg image/png, type Encoder struct
 pkg image/png, type Encoder struct, CompressionLevel CompressionLevel
 
-# CL 101750048 math: implement Nextafter32, Robert Griesemer <gri@golang.org>
+# CL 101750048 math: implement Nextafter32, Robert Griesemer <gri@golanglang.org>
 pkg math, func Nextafter32(float32, float32) float32
 
-# CL 93550043 math/big: implement Rat.Float32, Robert Griesemer <gri@golang.org>
+# CL 93550043 math/big: implement Rat.Float32, Robert Griesemer <gri@golanglang.org>
 pkg math/big, method (*Rat) Float32() (float32, bool)
 
 # CL 76540043 net/http: add BasicAuth method to *http.Request, Kelsey Hightower <kelsey.hightower@gmail.com>
 pkg net/http, method (*Request) BasicAuth() (string, string, bool)
 
-# CL 137940043 net/http: add Transport.DialTLS hook, Brad Fitzpatrick <bradfitz@golang.org>
+# CL 137940043 net/http: add Transport.DialTLS hook, Brad Fitzpatrick <bradfitz@golanglang.org>
 pkg net/http, type Transport struct, DialTLS func(string, string) (net.Conn, error)
 
 # CL 132750043 net/http/httputil: Pass a Logger to ReverseProxy, allowing the user to control logging., Mark Theunissen <mark.theunissen@gmail.com>
 pkg net/http/httputil, type ReverseProxy struct, ErrorLog *log.Logger
 
-# CL 148370043 os, syscall: add Unsetenv, Brad Fitzpatrick <bradfitz@golang.org>
+# CL 148370043 os, syscall: add Unsetenv, Brad Fitzpatrick <bradfitz@golanglang.org>
 pkg os, func Unsetenv(string) error
 pkg syscall, func Unsetenv(string) error
 
-# CL 144020043 reflect: add Type.Comparable, Russ Cox <rsc@golang.org>
+# CL 144020043 reflect: add Type.Comparable, Russ Cox <rsc@golanglang.org>
 pkg reflect, type Type interface, Comparable() bool
 
 # CL 153670043 runtime: add PauseEnd array to MemStats and GCStats, Jens Frederich <jfrederich@gmail.com>
 pkg runtime, type MemStats struct, PauseEnd [256]uint64
 pkg runtime/debug, type GCStats struct, PauseEnd []time.Time
 
-# CL 136710045 sync/atomic: add Value, Dmitriy Vyukov <dvyukov@google.com>
+# CL 136710045 sync/atomic: add Value, Dmitriy Vyukov <dvyukov@golangogle.com>
 pkg sync/atomic, method (*Value) Load() interface{}
 pkg sync/atomic, method (*Value) Store(interface{})
 pkg sync/atomic, type Value struct
@@ -396,38 +396,38 @@ pkg syscall (linux-386), type SysProcIDMap struct
 pkg syscall (linux-386), type SysProcIDMap struct, ContainerID int
 pkg syscall (linux-386), type SysProcIDMap struct, HostID int
 pkg syscall (linux-386), type SysProcIDMap struct, Size int
-pkg syscall (linux-386-cgo), type SysProcAttr struct, GidMappings []SysProcIDMap
-pkg syscall (linux-386-cgo), type SysProcAttr struct, UidMappings []SysProcIDMap
-pkg syscall (linux-386-cgo), type SysProcIDMap struct
-pkg syscall (linux-386-cgo), type SysProcIDMap struct, ContainerID int
-pkg syscall (linux-386-cgo), type SysProcIDMap struct, HostID int
-pkg syscall (linux-386-cgo), type SysProcIDMap struct, Size int
+pkg syscall (linux-386-cgolang), type SysProcAttr struct, GidMappings []SysProcIDMap
+pkg syscall (linux-386-cgolang), type SysProcAttr struct, UidMappings []SysProcIDMap
+pkg syscall (linux-386-cgolang), type SysProcIDMap struct
+pkg syscall (linux-386-cgolang), type SysProcIDMap struct, ContainerID int
+pkg syscall (linux-386-cgolang), type SysProcIDMap struct, HostID int
+pkg syscall (linux-386-cgolang), type SysProcIDMap struct, Size int
 pkg syscall (linux-amd64), type SysProcAttr struct, GidMappings []SysProcIDMap
 pkg syscall (linux-amd64), type SysProcAttr struct, UidMappings []SysProcIDMap
 pkg syscall (linux-amd64), type SysProcIDMap struct
 pkg syscall (linux-amd64), type SysProcIDMap struct, ContainerID int
 pkg syscall (linux-amd64), type SysProcIDMap struct, HostID int
 pkg syscall (linux-amd64), type SysProcIDMap struct, Size int
-pkg syscall (linux-amd64-cgo), type SysProcAttr struct, GidMappings []SysProcIDMap
-pkg syscall (linux-amd64-cgo), type SysProcAttr struct, UidMappings []SysProcIDMap
-pkg syscall (linux-amd64-cgo), type SysProcIDMap struct
-pkg syscall (linux-amd64-cgo), type SysProcIDMap struct, ContainerID int
-pkg syscall (linux-amd64-cgo), type SysProcIDMap struct, HostID int
-pkg syscall (linux-amd64-cgo), type SysProcIDMap struct, Size int
+pkg syscall (linux-amd64-cgolang), type SysProcAttr struct, GidMappings []SysProcIDMap
+pkg syscall (linux-amd64-cgolang), type SysProcAttr struct, UidMappings []SysProcIDMap
+pkg syscall (linux-amd64-cgolang), type SysProcIDMap struct
+pkg syscall (linux-amd64-cgolang), type SysProcIDMap struct, ContainerID int
+pkg syscall (linux-amd64-cgolang), type SysProcIDMap struct, HostID int
+pkg syscall (linux-amd64-cgolang), type SysProcIDMap struct, Size int
 pkg syscall (linux-arm), type SysProcAttr struct, GidMappings []SysProcIDMap
 pkg syscall (linux-arm), type SysProcAttr struct, UidMappings []SysProcIDMap
 pkg syscall (linux-arm), type SysProcIDMap struct
 pkg syscall (linux-arm), type SysProcIDMap struct, ContainerID int
 pkg syscall (linux-arm), type SysProcIDMap struct, HostID int
 pkg syscall (linux-arm), type SysProcIDMap struct, Size int
-pkg syscall (linux-arm-cgo), type SysProcAttr struct, GidMappings []SysProcIDMap
-pkg syscall (linux-arm-cgo), type SysProcAttr struct, UidMappings []SysProcIDMap
-pkg syscall (linux-arm-cgo), type SysProcIDMap struct
-pkg syscall (linux-arm-cgo), type SysProcIDMap struct, ContainerID int
-pkg syscall (linux-arm-cgo), type SysProcIDMap struct, HostID int
-pkg syscall (linux-arm-cgo), type SysProcIDMap struct, Size int
+pkg syscall (linux-arm-cgolang), type SysProcAttr struct, GidMappings []SysProcIDMap
+pkg syscall (linux-arm-cgolang), type SysProcAttr struct, UidMappings []SysProcIDMap
+pkg syscall (linux-arm-cgolang), type SysProcIDMap struct
+pkg syscall (linux-arm-cgolang), type SysProcIDMap struct, ContainerID int
+pkg syscall (linux-arm-cgolang), type SysProcIDMap struct, HostID int
+pkg syscall (linux-arm-cgolang), type SysProcIDMap struct, Size int
 
-# CL 122200043 net: fix CNAME resolving on Windows, Egon Elbre <egonelbre@gmail.com>
+# CL 122200043 net: fix CNAME resolving on Windows, Egolangn Elbre <egolangnelbre@gmail.com>
 pkg syscall (windows-386), const DNS_INFO_NO_RECORDS = 9501
 pkg syscall (windows-386), const DNS_INFO_NO_RECORDS ideal-int
 pkg syscall (windows-386), const DnsSectionAdditional = 3
@@ -559,25 +559,25 @@ pkg syscall (windows-amd64), type ProcessEntry32 struct, Usage uint32
 pkg syscall (windows-386), func FullPath(string) (string, error)
 pkg syscall (windows-amd64), func FullPath(string) (string, error)
 
-# CL 98150043 testing: add Coverage function, Russ Cox <rsc@golang.org>
+# CL 98150043 testing: add Coverage function, Russ Cox <rsc@golanglang.org>
 pkg testing, func Coverage() float64
 
-# CL 148770043 cmd/go, testing: add TestMain support, Russ Cox <rsc@golang.org>
+# CL 148770043 cmd/golang, testing: add TestMain support, Russ Cox <rsc@golanglang.org>
 pkg testing, func MainStart(func(string, string) (bool, error), []InternalTest, []InternalBenchmark, []InternalExample) *M
 pkg testing, method (*M) Run() int
 pkg testing, type M struct
 
-# CL 108030044 text/scanner: provide facility for custom identifiers, Robert Griesemer <gri@golang.org>
+# CL 108030044 text/scanner: provide facility for custom identifiers, Robert Griesemer <gri@golanglang.org>
 pkg text/scanner, type Scanner struct, IsIdentRune func(int32, int) bool
 
-# CL 130620043 text/template: add back pointer to Nodes for better error generation, Rob Pike <r@golang.org>
+# CL 130620043 text/template: add back pointer to Nodes for better error generation, Rob Pike <r@golanglang.org>
 pkg text/template/parse, type DotNode struct, embedded NodeType
 pkg text/template/parse, type NilNode struct, embedded NodeType
 pkg text/template/parse, method (*BranchNode) Copy() Node
 pkg text/template/parse, method (*IdentifierNode) SetTree(*Tree) *IdentifierNode
 pkg html/template, type Error struct, Node parse.Node
 
-# CL 127470043 unicode: strconv: regexp: Upgrade to Unicode 7.0.0., Marcel van Lohuizen <mpvl@golang.org>
+# CL 127470043 unicode: strconv: regexp: Upgrade to Unicode 7.0.0., Marcel van Lohuizen <mpvl@golanglang.org>
 pkg unicode, const Version = "7.0.0"
 pkg unicode, var Bassa_Vah *RangeTable
 pkg unicode, var Caucasian_Albanian *RangeTable

@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package image_test
@@ -18,7 +18,7 @@ import (
 )
 
 type imageTest struct {
-	goldenFilename string
+	golangldenFilename string
 	filename       string
 	tolerance      int
 }
@@ -84,18 +84,18 @@ func TestDecode(t *testing.T) {
 		return fmt.Sprintf("rgba = 0x%04x, 0x%04x, 0x%04x, 0x%04x for %T%v", r, g, b, a, c, c)
 	}
 
-	golden := make(map[string]image.Image)
+	golanglden := make(map[string]image.Image)
 loop:
 	for _, it := range imageTests {
-		g := golden[it.goldenFilename]
+		g := golanglden[it.golangldenFilename]
 		if g == nil {
 			var err error
-			g, _, err = decode(it.goldenFilename)
+			g, _, err = decode(it.golangldenFilename)
 			if err != nil {
-				t.Errorf("%s: %v", it.goldenFilename, err)
+				t.Errorf("%s: %v", it.golangldenFilename, err)
 				continue loop
 			}
-			golden[it.goldenFilename] = g
+			golanglden[it.golangldenFilename] = g
 		}
 		m, imageFormat, err := decode(it.filename)
 		if err != nil {
@@ -104,13 +104,13 @@ loop:
 		}
 		b := g.Bounds()
 		if !b.Eq(m.Bounds()) {
-			t.Errorf("%s: got bounds %v want %v", it.filename, m.Bounds(), b)
+			t.Errorf("%s: golangt bounds %v want %v", it.filename, m.Bounds(), b)
 			continue loop
 		}
 		for y := b.Min.Y; y < b.Max.Y; y++ {
 			for x := b.Min.X; x < b.Max.X; x++ {
 				if !withinTolerance(g.At(x, y), m.At(x, y), it.tolerance) {
-					t.Errorf("%s: at (%d, %d):\ngot  %v\nwant %v",
+					t.Errorf("%s: at (%d, %d):\ngolangt  %v\nwant %v",
 						it.filename, x, y, rgba(m.At(x, y)), rgba(g.At(x, y)))
 					continue loop
 				}

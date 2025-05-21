@@ -1,8 +1,8 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build goexperiment.jsonv2
+//golang:build golangexperiment.jsonv2
 
 package json
 
@@ -93,7 +93,7 @@ func transformUnmarshalError(root any, err error) error {
 		// and allows us to preserve stronger error information
 		// that may be surfaced by the v2 package.
 		//
-		// See https://go.dev/issue/43126
+		// See https://golang.dev/issue/43126
 		var value string
 		switch err.JSONKind {
 		case 'n', '"', '0':

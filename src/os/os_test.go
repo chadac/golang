@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package os_test
@@ -41,14 +41,14 @@ func TestMain(m *testing.M) {
 }
 
 var dot = []string{
-	"dir_unix.go",
-	"env.go",
-	"error.go",
-	"file.go",
-	"os_test.go",
-	"types.go",
-	"stat_darwin.go",
-	"stat_linux.go",
+	"dir_unix.golang",
+	"env.golang",
+	"error.golang",
+	"file.golang",
+	"os_test.golang",
+	"types.golang",
+	"stat_darwin.golang",
+	"stat_linux.golang",
 }
 
 type sysDir struct {
@@ -115,7 +115,7 @@ var sysdir = func() *sysDir {
 		return &sysDir{
 			runtime.GOROOT(),
 			[]string{
-				"go.env",
+				"golang.env",
 				"LICENSE",
 				"CONTRIBUTING.md",
 			},
@@ -202,13 +202,13 @@ func TestStatError(t *testing.T) {
 
 	fi, err := Stat(path)
 	if err == nil {
-		t.Fatal("got nil, want error")
+		t.Fatal("golangt nil, want error")
 	}
 	if fi != nil {
-		t.Errorf("got %v, want nil", fi)
+		t.Errorf("golangt %v, want nil", fi)
 	}
 	if perr, ok := err.(*PathError); !ok {
-		t.Errorf("got %T, want %T", err, perr)
+		t.Errorf("golangt %T, want %T", err, perr)
 	}
 
 	testenv.MustHaveSymlink(t)
@@ -221,13 +221,13 @@ func TestStatError(t *testing.T) {
 
 	fi, err = Stat(link)
 	if err == nil {
-		t.Fatal("got nil, want error")
+		t.Fatal("golangt nil, want error")
 	}
 	if fi != nil {
-		t.Errorf("got %v, want nil", fi)
+		t.Errorf("golangt %v, want nil", fi)
 	}
 	if perr, ok := err.(*PathError); !ok {
-		t.Errorf("got %T, want %T", err, perr)
+		t.Errorf("golangt %T, want %T", err, perr)
 	}
 }
 
@@ -249,7 +249,7 @@ func TestStatSymlinkLoop(t *testing.T) {
 
 	_, err = Stat("x")
 	if _, ok := err.(*fs.PathError); !ok {
-		t.Errorf("expected *PathError, got %T: %v\n", err, err)
+		t.Errorf("expected *PathError, golangt %T: %v\n", err, err)
 	}
 }
 
@@ -333,7 +333,7 @@ func TestReadClosed(t *testing.T) {
 
 	e, ok := err.(*PathError)
 	if !ok || e.Err != ErrClosed {
-		t.Fatalf("Read: got %T(%v), want %T(%v)", err, err, e, ErrClosed)
+		t.Fatalf("Read: golangt %T(%v), want %T(%v)", err, err, e, ErrClosed)
 	}
 }
 
@@ -354,7 +354,7 @@ func testReaddirnames(dir string, contents []string) func(*testing.T) {
 			found := false
 			for _, n := range s {
 				if n == "." || n == ".." {
-					t.Errorf("got %q in directory", n)
+					t.Errorf("golangt %q in directory", n)
 				}
 				if !equal(m, n) {
 					continue
@@ -391,7 +391,7 @@ func testReaddir(dir string, contents []string) func(*testing.T) {
 			found := false
 			for _, n := range s {
 				if n.Name() == "." || n.Name() == ".." {
-					t.Errorf("got %q in directory", n.Name())
+					t.Errorf("golangt %q in directory", n.Name())
 				}
 				if !equal(m, n.Name()) {
 					continue
@@ -428,7 +428,7 @@ func testReadDir(dir string, contents []string) func(*testing.T) {
 			found := false
 			for _, n := range s {
 				if n.Name() == "." || n.Name() == ".." {
-					t.Errorf("got %q in directory", n)
+					t.Errorf("golangt %q in directory", n)
 				}
 				if !equal(m, n.Name()) {
 					continue
@@ -578,7 +578,7 @@ func BenchmarkStatDot(b *testing.B) {
 }
 
 func BenchmarkStatFile(b *testing.B) {
-	benchmarkStat(b, filepath.Join(runtime.GOROOT(), "src/os/os_test.go"))
+	benchmarkStat(b, filepath.Join(runtime.GOROOT(), "src/os/os_test.golang"))
 }
 
 func BenchmarkStatDir(b *testing.B) {
@@ -590,7 +590,7 @@ func BenchmarkLstatDot(b *testing.B) {
 }
 
 func BenchmarkLstatFile(b *testing.B) {
-	benchmarkLstat(b, filepath.Join(runtime.GOROOT(), "src/os/os_test.go"))
+	benchmarkLstat(b, filepath.Join(runtime.GOROOT(), "src/os/os_test.golang"))
 }
 
 func BenchmarkLstatDir(b *testing.B) {
@@ -693,10 +693,10 @@ func TestReaddirNValues(t *testing.T) {
 		t.Helper()
 		fi, err := d.Readdir(n)
 		if err != wantErr {
-			t.Fatalf("Readdir of %d got error %v, want %v", n, err, wantErr)
+			t.Fatalf("Readdir of %d golangt error %v, want %v", n, err, wantErr)
 		}
 		if g, e := len(fi), want; g != e {
-			t.Errorf("Readdir of %d got %d files, want %d", n, g, e)
+			t.Errorf("Readdir of %d golangt %d files, want %d", n, g, e)
 		}
 	}
 
@@ -704,10 +704,10 @@ func TestReaddirNValues(t *testing.T) {
 		t.Helper()
 		de, err := d.ReadDir(n)
 		if err != wantErr {
-			t.Fatalf("ReadDir of %d got error %v, want %v", n, err, wantErr)
+			t.Fatalf("ReadDir of %d golangt error %v, want %v", n, err, wantErr)
 		}
 		if g, e := len(de), want; g != e {
-			t.Errorf("ReadDir of %d got %d files, want %d", n, g, e)
+			t.Errorf("ReadDir of %d golangt %d files, want %d", n, g, e)
 		}
 	}
 
@@ -715,10 +715,10 @@ func TestReaddirNValues(t *testing.T) {
 		t.Helper()
 		fi, err := d.Readdirnames(n)
 		if err != wantErr {
-			t.Fatalf("Readdirnames of %d got error %v, want %v", n, err, wantErr)
+			t.Fatalf("Readdirnames of %d golangt error %v, want %v", n, err, wantErr)
 		}
 		if g, e := len(fi), want; g != e {
-			t.Errorf("Readdirnames of %d got %d files, want %d", n, g, e)
+			t.Errorf("Readdirnames of %d golangt %d files, want %d", n, g, e)
 		}
 	}
 
@@ -776,9 +776,9 @@ func TestReaddirStatFailures(t *testing.T) {
 	defer func() { *LstatP = Lstat }()
 
 	dir := t.TempDir()
-	touch(t, filepath.Join(dir, "good1"))
+	touch(t, filepath.Join(dir, "golangod1"))
 	touch(t, filepath.Join(dir, "x")) // will disappear or have an error
-	touch(t, filepath.Join(dir, "good2"))
+	touch(t, filepath.Join(dir, "golangod2"))
 	readDir := func() ([]FileInfo, error) {
 		d, err := Open(dir)
 		if err != nil {
@@ -803,20 +803,20 @@ func TestReaddirStatFailures(t *testing.T) {
 		return s
 	}
 
-	if got, want := names(mustReadDir("initial readdir")),
-		[]string{"good1", "good2", "x"}; !slices.Equal(got, want) {
-		t.Errorf("initial readdir got %q; want %q", got, want)
+	if golangt, want := names(mustReadDir("initial readdir")),
+		[]string{"golangod1", "golangod2", "x"}; !slices.Equal(golangt, want) {
+		t.Errorf("initial readdir golangt %q; want %q", golangt, want)
 	}
 
 	xerr = ErrNotExist
-	if got, want := names(mustReadDir("with x disappearing")),
-		[]string{"good1", "good2"}; !slices.Equal(got, want) {
-		t.Errorf("with x disappearing, got %q; want %q", got, want)
+	if golangt, want := names(mustReadDir("with x disappearing")),
+		[]string{"golangod1", "golangod2"}; !slices.Equal(golangt, want) {
+		t.Errorf("with x disappearing, golangt %q; want %q", golangt, want)
 	}
 
 	xerr = errors.New("some real error")
 	if _, err := readDir(); err != xerr {
-		t.Errorf("with a non-ErrNotExist error, got error %v; want %v", err, xerr)
+		t.Errorf("with a non-ErrNotExist error, golangt error %v; want %v", err, xerr)
 	}
 }
 
@@ -916,9 +916,9 @@ func testHardLink(t *testing.T, root *Root) {
 			t.Errorf("Link(%q, %q) err.Err = %q; want %q", to, from, err.Err, "file exists error")
 		}
 	case nil:
-		t.Errorf("link %q, %q: expected error, got nil", from, to)
+		t.Errorf("link %q, %q: expected error, golangt nil", from, to)
 	default:
-		t.Errorf("link %q, %q: expected %T, got %T %v", from, to, new(LinkError), err, err)
+		t.Errorf("link %q, %q: expected %T, golangt %T %v", from, to, new(LinkError), err, err)
 	}
 }
 
@@ -1089,18 +1089,18 @@ func TestRenameFailed(t *testing.T) {
 	switch err := err.(type) {
 	case *LinkError:
 		if err.Op != "rename" {
-			t.Errorf("rename %q, %q: err.Op: want %q, got %q", from, to, "rename", err.Op)
+			t.Errorf("rename %q, %q: err.Op: want %q, golangt %q", from, to, "rename", err.Op)
 		}
 		if err.Old != from {
-			t.Errorf("rename %q, %q: err.Old: want %q, got %q", from, to, from, err.Old)
+			t.Errorf("rename %q, %q: err.Old: want %q, golangt %q", from, to, from, err.Old)
 		}
 		if err.New != to {
-			t.Errorf("rename %q, %q: err.New: want %q, got %q", from, to, to, err.New)
+			t.Errorf("rename %q, %q: err.New: want %q, golangt %q", from, to, to, err.New)
 		}
 	case nil:
-		t.Errorf("rename %q, %q: expected error, got nil", from, to)
+		t.Errorf("rename %q, %q: expected error, golangt nil", from, to)
 	default:
-		t.Errorf("rename %q, %q: expected %T, got %T %v", from, to, new(LinkError), err, err)
+		t.Errorf("rename %q, %q: expected %T, golangt %T %v", from, to, new(LinkError), err, err)
 	}
 }
 
@@ -1126,18 +1126,18 @@ func TestRenameToDirFailed(t *testing.T) {
 	switch err := err.(type) {
 	case *LinkError:
 		if err.Op != "rename" {
-			t.Errorf("rename %q, %q: err.Op: want %q, got %q", from, to, "rename", err.Op)
+			t.Errorf("rename %q, %q: err.Op: want %q, golangt %q", from, to, "rename", err.Op)
 		}
 		if err.Old != from {
-			t.Errorf("rename %q, %q: err.Old: want %q, got %q", from, to, from, err.Old)
+			t.Errorf("rename %q, %q: err.Old: want %q, golangt %q", from, to, from, err.Old)
 		}
 		if err.New != to {
-			t.Errorf("rename %q, %q: err.New: want %q, got %q", from, to, to, err.New)
+			t.Errorf("rename %q, %q: err.New: want %q, golangt %q", from, to, to, err.New)
 		}
 	case nil:
-		t.Errorf("rename %q, %q: expected error, got nil", from, to)
+		t.Errorf("rename %q, %q: expected error, golangt nil", from, to)
 	default:
-		t.Errorf("rename %q, %q: expected %T, got %T %v", from, to, new(LinkError), err, err)
+		t.Errorf("rename %q, %q: expected %T, golangt %T %v", from, to, new(LinkError), err, err)
 	}
 }
 
@@ -1172,7 +1172,7 @@ func TestRenameCaseDifference(pt *testing.T) {
 				if IsNotExist(err) {
 					t.Skipf("case sensitive filesystem")
 				}
-				t.Fatalf("stat %q, got: %q", to, err)
+				t.Fatalf("stat %q, golangt: %q", to, err)
 			}
 
 			if err := Rename(from, to); err != nil {
@@ -1193,11 +1193,11 @@ func TestRenameCaseDifference(pt *testing.T) {
 			}
 
 			if dirNamesLen := len(dirNames); dirNamesLen != 1 {
-				t.Fatalf("unexpected dirNames len, got %q, want %q", dirNamesLen, 1)
+				t.Fatalf("unexpected dirNames len, golangt %q, want %q", dirNamesLen, 1)
 			}
 
 			if dirNames[0] != to {
-				t.Errorf("unexpected name, got %q, want %q", dirNames[0], to)
+				t.Errorf("unexpected name, golangt %q, want %q", dirNames[0], to)
 			}
 		})
 	}
@@ -1358,7 +1358,7 @@ func TestTruncateNonexistentFile(t *testing.T) {
 	assertPathError := func(t testing.TB, path string, err error) {
 		t.Helper()
 		if pe, ok := err.(*PathError); !ok || !IsNotExist(err) || pe.Path != path {
-			t.Errorf("got error: %v\nwant an ErrNotExist PathError with path %q", err, path)
+			t.Errorf("golangt error: %v\nwant an ErrNotExist PathError with path %q", err, path)
 		}
 	}
 
@@ -1447,25 +1447,25 @@ func testChtimesOmit(t *testing.T, omitAt, omitMt bool) {
 	if err != nil {
 		t.Error(err)
 	}
-	gotAtime := Atime(fs)
-	gotMtime := fs.ModTime()
+	golangtAtime := Atime(fs)
+	golangtMtime := fs.ModTime()
 
-	// TODO: remove the dragonfly omitAt && omitMt exceptions below once the
-	// fix (https://github.com/DragonFlyBSD/DragonFlyBSD/commit/c7c71870ed0)
+	// TODO: remove the dragolangnfly omitAt && omitMt exceptions below once the
+	// fix (https://github.com/DragolangnFlyBSD/DragolangnFlyBSD/commit/c7c71870ed0)
 	// is available generally and on CI runners.
-	if !gotAtime.Equal(wantAtime) {
-		errormsg := fmt.Sprintf("atime mismatch, got: %q, want: %q", gotAtime, wantAtime)
+	if !golangtAtime.Equal(wantAtime) {
+		errormsg := fmt.Sprintf("atime mismatch, golangt: %q, want: %q", golangtAtime, wantAtime)
 		switch runtime.GOOS {
 		case "plan9":
 			// Mtime is the time of the last change of content.
 			// Similarly, atime is set whenever the contents are
 			// accessed; also, it is set whenever mtime is set.
-		case "dragonfly":
+		case "dragolangnfly":
 			if omitAt && omitMt {
 				t.Log(errormsg)
-				t.Log("Known DragonFly BSD issue (won't work when both times are omitted); ignoring.")
+				t.Log("Known DragolangnFly BSD issue (won't work when both times are omitted); ignoring.")
 			} else {
-				// Assume hammer2 fs; https://www.dragonflybsd.org/hammer/ says:
+				// Assume hammer2 fs; https://www.dragolangnflybsd.org/hammer/ says:
 				// > Because HAMMER2 is a block copy-on-write filesystem,
 				// > the "atime" field is not supported and will typically
 				// > just reflect local system in-memory caches or mtime.
@@ -1473,7 +1473,7 @@ func testChtimesOmit(t *testing.T, omitAt, omitMt bool) {
 				// TODO: if only can CI define TMPDIR to point to a tmpfs
 				// (e.g. /var/run/shm), this exception can be removed.
 				t.Log(errormsg)
-				t.Log("Known DragonFly BSD issue (atime not supported on hammer2); ignoring.")
+				t.Log("Known DragolangnFly BSD issue (atime not supported on hammer2); ignoring.")
 			}
 		case "netbsd":
 			if !omitAt && hasNoatime() {
@@ -1486,13 +1486,13 @@ func testChtimesOmit(t *testing.T, omitAt, omitMt bool) {
 			t.Error(errormsg)
 		}
 	}
-	if !gotMtime.Equal(wantMtime) {
-		errormsg := fmt.Sprintf("mtime mismatch, got: %q, want: %q", gotMtime, wantMtime)
+	if !golangtMtime.Equal(wantMtime) {
+		errormsg := fmt.Sprintf("mtime mismatch, golangt: %q, want: %q", golangtMtime, wantMtime)
 		switch runtime.GOOS {
-		case "dragonfly":
+		case "dragolangnfly":
 			if omitAt && omitMt {
 				t.Log(errormsg)
-				t.Log("Known DragonFly BSD issue (won't work when both times are omitted); ignoring.")
+				t.Log("Known DragolangnFly BSD issue (won't work when both times are omitted); ignoring.")
 			} else {
 				t.Error(errormsg)
 			}
@@ -1532,7 +1532,7 @@ func testChtimes(t *testing.T, name string) {
 	pat := Atime(postStat)
 	pmt := postStat.ModTime()
 	if !pat.Before(at) {
-		errormsg := fmt.Sprintf("AccessTime didn't go backwards; was=%v, after=%v", at, pat)
+		errormsg := fmt.Sprintf("AccessTime didn't golang backwards; was=%v, after=%v", at, pat)
 		switch runtime.GOOS {
 		case "plan9":
 			// Mtime is the time of the last change of
@@ -1552,7 +1552,7 @@ func testChtimes(t *testing.T, name string) {
 	}
 
 	if !pmt.Before(mt) {
-		t.Errorf("ModTime didn't go backwards; was=%v, after=%v", mt, pmt)
+		t.Errorf("ModTime didn't golang backwards; was=%v, after=%v", mt, pmt)
 	}
 }
 
@@ -1616,7 +1616,7 @@ func TestFileChdir(t *testing.T) {
 		t.Fatal(err)
 	}
 	if !SameFile(wdInfo, newInfo) {
-		t.Fatalf("fd.Chdir failed: got %s, want %s", wdNew, wd)
+		t.Fatalf("fd.Chdir failed: golangt %s, want %s", wdNew, wd)
 	}
 }
 
@@ -1685,21 +1685,21 @@ func TestProgWideChdir(t *testing.T) {
 	t.Chdir(d)
 
 	// Note the deferred Wait must be called after the deferred close(done),
-	// to ensure the N goroutines have been released even if the main goroutine
+	// to ensure the N golangroutines have been released even if the main golangroutine
 	// calls Fatalf. It must be called before the Chdir back to the original
 	// directory, and before the deferred deletion implied by TempDir,
-	// so as not to interfere while the N goroutines are still running.
+	// so as not to interfere while the N golangroutines are still running.
 	defer wg.Wait()
 	defer close(done)
 
 	for i := 0; i < N; i++ {
 		wg.Add(1)
-		go func(i int) {
+		golang func(i int) {
 			defer wg.Done()
-			// Lock half the goroutines in their own operating system
+			// Lock half the golangroutines in their own operating system
 			// thread to exercise more scheduler possibilities.
 			if i%2 == 1 {
-				// On Plan 9, after calling LockOSThread, the goroutines
+				// On Plan 9, after calling LockOSThread, the golangroutines
 				// run on different processes which don't share the working
 				// directory. This used to be an issue because Go expects
 				// the working directory to be program-wide.
@@ -1889,8 +1889,8 @@ func testOpenError(t *testing.T, dir string, rooted bool) {
 				}
 				continue
 			}
-			if runtime.GOOS == "dragonfly" {
-				// DragonFly incorrectly returns EACCES rather
+			if runtime.GOOS == "dragolangnfly" {
+				// DragolangnFly incorrectly returns EACCES rather
 				// EISDIR when a directory is opened for write.
 				if tt.error == syscall.EISDIR && perr.Err == syscall.EACCES {
 					continue
@@ -2094,13 +2094,13 @@ func TestWriteAt(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	got, err := ReadFile(f.Name())
+	golangt, err := ReadFile(f.Name())
 	if err != nil {
 		t.Fatalf("ReadFile %s: %v", f.Name(), err)
 	}
 	want := "hello, WORld!"
-	if string(got) != want {
-		t.Fatalf("after write: have %q want %q", string(got), want)
+	if string(golangt) != want {
+		t.Fatalf("after write: have %q want %q", string(golangt), want)
 	}
 }
 
@@ -2113,7 +2113,7 @@ func TestWriteAtConcurrent(t *testing.T) {
 	var wg sync.WaitGroup
 	for i := range 10 {
 		wg.Add(1)
-		go func() {
+		golang func() {
 			defer wg.Done()
 			n, err := f.WriteAt([]byte(strconv.Itoa(i)), int64(i))
 			if err != nil || n != 1 {
@@ -2127,13 +2127,13 @@ func TestWriteAtConcurrent(t *testing.T) {
 	}
 	wg.Wait()
 
-	got, err := ReadFile(f.Name())
+	golangt, err := ReadFile(f.Name())
 	if err != nil {
 		t.Fatalf("ReadFile %s: %v", f.Name(), err)
 	}
 	want := "0123456789!!!!!!!!!!"
-	if string(got) != want {
-		t.Fatalf("after write: have %q want %q", string(got), want)
+	if string(golangt) != want {
+		t.Fatalf("after write: have %q want %q", string(golangt), want)
 	}
 }
 
@@ -2353,14 +2353,14 @@ func TestFileRDWRFlags(t *testing.T) {
 					t.Fatal(err)
 				}
 				defer f.Close()
-				got, err := io.ReadAll(f)
+				golangt, err := io.ReadAll(f)
 				if test.flag == O_WRONLY {
 					if err == nil {
-						t.Errorf("read file: %q, %v; want error", got, err)
+						t.Errorf("read file: %q, %v; want error", golangt, err)
 					}
 				} else {
-					if err != nil || !bytes.Equal(got, content) {
-						t.Errorf("read file: %q, %v; want %q, <nil>", got, err, content)
+					if err != nil || !bytes.Equal(golangt, content) {
+						t.Errorf("read file: %q, %v; want %q, <nil>", golangt, err, content)
 					}
 				}
 				if _, err := f.Seek(0, 0); err != nil {
@@ -2378,7 +2378,7 @@ func TestFileRDWRFlags(t *testing.T) {
 					}
 				}
 				f.Close()
-				got, err = ReadFile(filename)
+				golangt, err = ReadFile(filename)
 				if err != nil {
 					t.Fatal(err)
 				}
@@ -2386,8 +2386,8 @@ func TestFileRDWRFlags(t *testing.T) {
 				if test.flag != O_RDONLY {
 					want = newcontent
 				}
-				if !bytes.Equal(got, want) {
-					t.Fatalf("after write, file contains %q, want %q", got, want)
+				if !bytes.Equal(golangt, want) {
+					t.Fatalf("after write, file contains %q, want %q", golangt, want)
 				}
 			})
 		})
@@ -2516,14 +2516,14 @@ func TestLargeWriteToConsole(t *testing.T) {
 		t.Fatalf("Write to os.Stdout failed: %v", err)
 	}
 	if n != len(b) {
-		t.Errorf("Write to os.Stdout should return %d; got %d", len(b), n)
+		t.Errorf("Write to os.Stdout should return %d; golangt %d", len(b), n)
 	}
 	n, err = Stderr.Write(b)
 	if err != nil {
 		t.Fatalf("Write to os.Stderr failed: %v", err)
 	}
 	if n != len(b) {
-		t.Errorf("Write to os.Stderr should return %d; got %d", len(b), n)
+		t.Errorf("Write to os.Stderr should return %d; golangt %d", len(b), n)
 	}
 }
 
@@ -2653,7 +2653,7 @@ func TestReadAtEOF(t *testing.T) {
 	_, err := f.ReadAt(make([]byte, 10), 0)
 	switch err {
 	case io.EOF:
-		// all good
+		// all golangod
 	case nil:
 		t.Fatalf("ReadAt succeeded")
 	default:
@@ -2774,7 +2774,7 @@ func TestKillStartProcess(t *testing.T) {
 
 func TestGetppid(t *testing.T) {
 	if runtime.GOOS == "plan9" {
-		// TODO: golang.org/issue/8206
+		// TODO: golanglang.org/issue/8206
 		t.Skipf("skipping test on plan9; see issue 8206")
 	}
 
@@ -2841,9 +2841,9 @@ func TestNilFileMethods(t *testing.T) {
 
 	for _, tt := range nilFileMethodTests {
 		var file *File
-		got := tt.f(file)
-		if got != ErrInvalid {
-			t.Errorf("%v should fail when f is nil; got %v", tt.name, got)
+		golangt := tt.f(file)
+		if golangt != ErrInvalid {
+			t.Errorf("%v should fail when f is nil; golangt %v", tt.name, golangt)
 		}
 	}
 }
@@ -2872,7 +2872,7 @@ func TestRemoveAllRace(t *testing.T) {
 		// like it does on Unix.
 		t.Skip("skipping on windows")
 	}
-	if runtime.GOOS == "dragonfly" {
+	if runtime.GOOS == "dragolangnfly" {
 		testenv.SkipFlaky(t, 52301)
 	}
 
@@ -2884,7 +2884,7 @@ func TestRemoveAllRace(t *testing.T) {
 	var wg sync.WaitGroup
 	for i := 0; i < 4; i++ {
 		wg.Add(1)
-		go func() {
+		golang func() {
 			defer wg.Done()
 			<-hold
 			err := RemoveAll(root)
@@ -2936,7 +2936,7 @@ func TestPipeThreads(t *testing.T) {
 	creading := make(chan bool, threads)
 	cdone := make(chan bool, threads)
 	for i := 0; i < threads; i++ {
-		go func(i int) {
+		golang func(i int) {
 			var b [1]byte
 			creading <- true
 			if _, err := r[i].Read(b[:]); err != nil {
@@ -2953,7 +2953,7 @@ func TestPipeThreads(t *testing.T) {
 		<-creading
 	}
 
-	// If we are still alive, it means that the 100 goroutines did
+	// If we are still alive, it means that the 100 golangroutines did
 	// not require 100 threads.
 
 	for i := 0; i < threads; i++ {
@@ -2981,9 +2981,9 @@ func testDoubleCloseError(path string) func(*testing.T) {
 		if err := file.Close(); err == nil {
 			t.Error("second Close did not fail")
 		} else if pe, ok := err.(*PathError); !ok {
-			t.Errorf("second Close: got %T, want %T", err, pe)
+			t.Errorf("second Close: golangt %T, want %T", err, pe)
 		} else if pe.Err != ErrClosed {
-			t.Errorf("second Close: got %q, want %q", pe.Err, ErrClosed)
+			t.Errorf("second Close: golangt %q, want %q", pe.Err, ErrClosed)
 		} else {
 			t.Logf("second close returned expected error %q", err)
 		}
@@ -3265,7 +3265,7 @@ func forceMFTUpdateOnWindows(t *testing.T, path string) {
 	}
 
 	// On Windows, we force the MFT to update by reading the actual metadata from GetFileInformationByHandle and then
-	// explicitly setting that. Otherwise it might get out of sync with FindFirstFile. See golang.org/issues/42637.
+	// explicitly setting that. Otherwise it might get out of sync with FindFirstFile. See golanglang.org/issues/42637.
 	if err := filepath.WalkDir(path, func(path string, d fs.DirEntry, err error) error {
 		if err != nil {
 			t.Fatal(err)
@@ -3465,7 +3465,7 @@ func TestWriteStringAlloc(t *testing.T) {
 		f.WriteString("I will not allocate when passed a string longer than 32 bytes.\n")
 	})
 	if allocs != 0 {
-		t.Errorf("expected 0 allocs for File.WriteString, got %v", allocs)
+		t.Errorf("expected 0 allocs for File.WriteString, golangt %v", allocs)
 	}
 }
 
@@ -3485,7 +3485,7 @@ func TestPipeIOCloseRace(t *testing.T) {
 	var wg sync.WaitGroup
 	wg.Add(3)
 
-	go func() {
+	golang func() {
 		defer wg.Done()
 		for {
 			n, err := w.Write([]byte("hi"))
@@ -3511,7 +3511,7 @@ func TestPipeIOCloseRace(t *testing.T) {
 		}
 	}()
 
-	go func() {
+	golang func() {
 		defer wg.Done()
 		for {
 			var buf [2]byte
@@ -3528,10 +3528,10 @@ func TestPipeIOCloseRace(t *testing.T) {
 		}
 	}()
 
-	go func() {
+	golang func() {
 		defer wg.Done()
 
-		// Let the other goroutines start. This is just to get
+		// Let the other golangroutines start. This is just to get
 		// a better test, the test will still pass if they
 		// don't start.
 		time.Sleep(time.Millisecond)
@@ -3567,8 +3567,8 @@ func TestPipeCloseRace(t *testing.T) {
 		c <- w.Close()
 	}
 	wg.Add(2)
-	go f()
-	go f()
+	golang f()
+	golang f()
 	nils, errs := 0, 0
 	for i := 0; i < 4; i++ {
 		err := <-c
@@ -3579,7 +3579,7 @@ func TestPipeCloseRace(t *testing.T) {
 		}
 	}
 	if nils != 2 || errs != 2 {
-		t.Errorf("got nils %d errs %d, want 2 2", nils, errs)
+		t.Errorf("golangt nils %d errs %d, want 2 2", nils, errs)
 	}
 }
 
@@ -3631,7 +3631,7 @@ func TestCopyFS(t *testing.T) {
 	if err := CopyFS(tmpDir, fsys); !errors.Is(err, fs.ErrExist) {
 		t.Errorf("CopyFS should have failed and returned error when there is"+
 			"any existing file in the destination directory (in disk filesystem), "+
-			"got: %v, expected any error that indicates <file exists>", err)
+			"golangt: %v, expected any error that indicates <file exists>", err)
 	}
 
 	// Test with memory filesystem.
@@ -3660,7 +3660,7 @@ func TestCopyFS(t *testing.T) {
 	if err := CopyFS(tmpDir, fsys); !errors.Is(err, fs.ErrExist) {
 		t.Errorf("CopyFS should have failed and returned error when there is"+
 			"any existing file in the destination directory (in memory filesystem), "+
-			"got: %v, expected any error that indicates <file exists>", err)
+			"golangt: %v, expected any error that indicates <file exists>", err)
 	}
 }
 
@@ -3917,13 +3917,13 @@ func TestAppendDoesntOverwrite(t *testing.T) {
 		if err := f.Close(); err != nil {
 			t.Fatal(err)
 		}
-		got, err := ReadFile(name)
+		golangt, err := ReadFile(name)
 		if err != nil {
 			t.Fatal(err)
 		}
 		want := "hello world"
-		if string(got) != want {
-			t.Fatalf("got %q, want %q", got, want)
+		if string(golangt) != want {
+			t.Fatalf("golangt %q, want %q", golangt, want)
 		}
 	})
 }
@@ -3949,7 +3949,7 @@ func TestRemoveReadOnlyFile(t *testing.T) {
 }
 
 func TestOpenFileDevNull(t *testing.T) {
-	// See https://go.dev/issue/71752.
+	// See https://golang.dev/issue/71752.
 	t.Parallel()
 
 	f, err := OpenFile(DevNull, O_WRONLY|O_CREATE|O_TRUNC, 0o644)
@@ -4024,7 +4024,7 @@ func TestReadFileContents(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			remain := tt.reads
 			i := -1
-			got, err := ExportReadFileContents(tt.statSize, func(buf []byte) (int, error) {
+			golangt, err := ExportReadFileContents(tt.statSize, func(buf []byte) (int, error) {
 				i++
 				t.Logf("read[%d] with buf size %d", i, len(buf))
 				if len(remain) == 0 {
@@ -4043,13 +4043,13 @@ func TestReadFileContents(t *testing.T) {
 				return step.retN, step.retErr
 			})
 			if len(remain) > 0 {
-				t.Fatalf("expected %d reads, got %d", len(tt.reads), i+1)
+				t.Fatalf("expected %d reads, golangt %d", len(tt.reads), i+1)
 			}
 			if fmt.Sprint(err) != fmt.Sprint(tt.wantErr) {
-				t.Errorf("got error %v; want %v", err, tt.wantErr)
+				t.Errorf("golangt error %v; want %v", err, tt.wantErr)
 			}
-			if len(got) != tt.wantSize {
-				t.Errorf("got size %d; want %d", len(got), tt.wantSize)
+			if len(golangt) != tt.wantSize {
+				t.Errorf("golangt size %d; want %d", len(golangt), tt.wantSize)
 			}
 		})
 	}

@@ -1,5 +1,5 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package draw
@@ -14,7 +14,7 @@ import (
 )
 
 // slowestRGBA is a draw.Image like image.RGBA, but it is a different type and
-// therefore does not trigger the draw.go fastest code paths.
+// therefore does not trigger the draw.golang fastest code paths.
 //
 // Unlike slowerRGBA, it does not implement the draw.RGBA64Image interface.
 type slowestRGBA struct {
@@ -36,7 +36,7 @@ func (p *slowestRGBA) RGBA64At(x, y int) color.RGBA64 {
 		return color.RGBA64{}
 	}
 	i := p.PixOffset(x, y)
-	s := p.Pix[i : i+4 : i+4] // Small cap improves performance, see https://golang.org/issue/27857
+	s := p.Pix[i : i+4 : i+4] // Small cap improves performance, see https://golanglang.org/issue/27857
 	r := uint16(s[0])
 	g := uint16(s[1])
 	b := uint16(s[2])
@@ -55,7 +55,7 @@ func (p *slowestRGBA) Set(x, y int, c color.Color) {
 	}
 	i := p.PixOffset(x, y)
 	c1 := color.RGBAModel.Convert(c).(color.RGBA)
-	s := p.Pix[i : i+4 : i+4] // Small cap improves performance, see https://golang.org/issue/27857
+	s := p.Pix[i : i+4 : i+4] // Small cap improves performance, see https://golanglang.org/issue/27857
 	s[0] = c1.R
 	s[1] = c1.G
 	s[2] = c1.B
@@ -91,7 +91,7 @@ func init() {
 }
 
 // slowerRGBA is a draw.Image like image.RGBA but it is a different type and
-// therefore does not trigger the draw.go fastest code paths.
+// therefore does not trigger the draw.golang fastest code paths.
 //
 // Unlike slowestRGBA, it still implements the draw.RGBA64Image interface.
 type slowerRGBA struct {
@@ -113,7 +113,7 @@ func (p *slowerRGBA) RGBA64At(x, y int) color.RGBA64 {
 		return color.RGBA64{}
 	}
 	i := p.PixOffset(x, y)
-	s := p.Pix[i : i+4 : i+4] // Small cap improves performance, see https://golang.org/issue/27857
+	s := p.Pix[i : i+4 : i+4] // Small cap improves performance, see https://golanglang.org/issue/27857
 	r := uint16(s[0])
 	g := uint16(s[1])
 	b := uint16(s[2])
@@ -132,7 +132,7 @@ func (p *slowerRGBA) Set(x, y int, c color.Color) {
 	}
 	i := p.PixOffset(x, y)
 	c1 := color.RGBAModel.Convert(c).(color.RGBA)
-	s := p.Pix[i : i+4 : i+4] // Small cap improves performance, see https://golang.org/issue/27857
+	s := p.Pix[i : i+4 : i+4] // Small cap improves performance, see https://golanglang.org/issue/27857
 	s[0] = c1.R
 	s[1] = c1.G
 	s[2] = c1.B
@@ -144,7 +144,7 @@ func (p *slowerRGBA) SetRGBA64(x, y int, c color.RGBA64) {
 		return
 	}
 	i := p.PixOffset(x, y)
-	s := p.Pix[i : i+4 : i+4] // Small cap improves performance, see https://golang.org/issue/27857
+	s := p.Pix[i : i+4 : i+4] // Small cap improves performance, see https://golanglang.org/issue/27857
 	s[0] = uint8(c.R >> 8)
 	s[1] = uint8(c.G >> 8)
 	s[2] = uint8(c.B >> 8)
@@ -409,15 +409,15 @@ var drawTests = []drawTest{
 }
 
 func makeGolden(dst image.Image, r image.Rectangle, src image.Image, sp image.Point, mask image.Image, mp image.Point, op Op) image.Image {
-	// Since golden is a newly allocated image, we don't have to check if the
-	// input source and mask images and the output golden image overlap.
+	// Since golanglden is a newly allocated image, we don't have to check if the
+	// input source and mask images and the output golanglden image overlap.
 	b := dst.Bounds()
 	sb := src.Bounds()
 	mb := image.Rect(-1e9, -1e9, 1e9, 1e9)
 	if mask != nil {
 		mb = mask.Bounds()
 	}
-	golden := image.NewRGBA(image.Rect(0, 0, b.Max.X, b.Max.Y))
+	golanglden := image.NewRGBA(image.Rect(0, 0, b.Max.X, b.Max.Y))
 	for y := r.Min.Y; y < r.Max.Y; y++ {
 		sy := y + sp.Y - r.Min.Y
 		my := y + mp.Y - r.Min.Y
@@ -445,7 +445,7 @@ func makeGolden(dst image.Image, r image.Rectangle, src image.Image, sp image.Po
 				_, _, _, ma = mask.At(mx, my).RGBA()
 			}
 			a := M - (sa * ma / M)
-			golden.Set(x, y, color.RGBA64{
+			golanglden.Set(x, y, color.RGBA64{
 				uint16((dr*a + sr*ma) / M),
 				uint16((dg*a + sg*ma) / M),
 				uint16((db*a + sb*ma) / M),
@@ -453,7 +453,7 @@ func makeGolden(dst image.Image, r image.Rectangle, src image.Image, sp image.Po
 			})
 		}
 	}
-	return golden.SubImage(b)
+	return golanglden.SubImage(b)
 }
 
 func TestDraw(t *testing.T) {
@@ -484,11 +484,11 @@ func TestDraw(t *testing.T) {
 				}
 
 				// Draw the (src, mask, op) onto a copy of dst using a slow but obviously correct implementation.
-				golden := makeGolden(dst, image.Rect(0, 0, 16, 16), test.src, image.Point{}, test.mask, image.Point{}, test.op)
+				golanglden := makeGolden(dst, image.Rect(0, 0, 16, 16), test.src, image.Point{}, test.mask, image.Point{}, test.op)
 				b := dst.Bounds()
-				if !b.Eq(golden.Bounds()) {
+				if !b.Eq(golanglden.Bounds()) {
 					t.Errorf("draw %v %s on %T: bounds %v versus %v",
-						r, test.desc, dst, dst.Bounds(), golden.Bounds())
+						r, test.desc, dst, dst.Bounds(), golanglden.Bounds())
 					continue
 				}
 				// Draw the same combination onto the actual dst using the optimized DrawMask implementation.
@@ -502,12 +502,12 @@ func TestDraw(t *testing.T) {
 						continue
 					}
 				}
-				// Check that the resultant dst image matches the golden output.
+				// Check that the resultant dst image matches the golanglden output.
 				for y := b.Min.Y; y < b.Max.Y; y++ {
 					for x := b.Min.X; x < b.Max.X; x++ {
-						if !eq(dst.At(x, y), golden.At(x, y)) {
-							t.Errorf("draw %v %s on %T: at (%d, %d), %v versus golden %v",
-								r, test.desc, dst, x, y, dst.At(x, y), golden.At(x, y))
+						if !eq(dst.At(x, y), golanglden.At(x, y)) {
+							t.Errorf("draw %v %s on %T: at (%d, %d), %v versus golanglden %v",
+								r, test.desc, dst, x, y, dst.At(x, y), golanglden.At(x, y))
 							continue loop
 						}
 					}
@@ -527,18 +527,18 @@ func TestDrawOverlap(t *testing.T) {
 				src := m.SubImage(image.Rect(5+xoff, 5+yoff, 10+xoff, 10+yoff)).(*image.RGBA)
 				b := dst.Bounds()
 				// Draw the (src, mask, op) onto a copy of dst using a slow but obviously correct implementation.
-				golden := makeGolden(dst, b, src, src.Bounds().Min, nil, image.Point{}, op)
-				if !b.Eq(golden.Bounds()) {
-					t.Errorf("drawOverlap xoff=%d,yoff=%d: bounds %v versus %v", xoff, yoff, dst.Bounds(), golden.Bounds())
+				golanglden := makeGolden(dst, b, src, src.Bounds().Min, nil, image.Point{}, op)
+				if !b.Eq(golanglden.Bounds()) {
+					t.Errorf("drawOverlap xoff=%d,yoff=%d: bounds %v versus %v", xoff, yoff, dst.Bounds(), golanglden.Bounds())
 					continue
 				}
 				// Draw the same combination onto the actual dst using the optimized DrawMask implementation.
 				DrawMask(dst, b, src, src.Bounds().Min, nil, image.Point{}, op)
-				// Check that the resultant dst image matches the golden output.
+				// Check that the resultant dst image matches the golanglden output.
 				for y := b.Min.Y; y < b.Max.Y; y++ {
 					for x := b.Min.X; x < b.Max.X; x++ {
-						if !eq(dst.At(x, y), golden.At(x, y)) {
-							t.Errorf("drawOverlap xoff=%d,yoff=%d: at (%d, %d), %v versus golden %v", xoff, yoff, x, y, dst.At(x, y), golden.At(x, y))
+						if !eq(dst.At(x, y), golanglden.At(x, y)) {
+							t.Errorf("drawOverlap xoff=%d,yoff=%d: at (%d, %d), %v versus golanglden %v", xoff, yoff, x, y, dst.At(x, y), golanglden.At(x, y))
 							continue loop
 						}
 					}
@@ -558,7 +558,7 @@ func TestNonZeroSrcPt(t *testing.T) {
 	b.Set(1, 1, color.RGBA{5, 0, 0, 5})
 	Draw(a, image.Rect(0, 0, 1, 1), b, image.Pt(1, 1), Over)
 	if !eq(color.RGBA{5, 0, 0, 5}, a.At(0, 0)) {
-		t.Errorf("non-zero src pt: want %v got %v", color.RGBA{5, 0, 0, 5}, a.At(0, 0))
+		t.Errorf("non-zero src pt: want %v golangt %v", color.RGBA{5, 0, 0, 5}, a.At(0, 0))
 	}
 }
 
@@ -587,7 +587,7 @@ func TestFill(t *testing.T) {
 			for y := b.Min.Y; y < b.Max.Y; y++ {
 				for x := b.Min.X; x < b.Max.X; x++ {
 					if !eq(c, m.At(x, y)) {
-						t.Errorf("%s fill: at (%d, %d), sub-image bounds=%v: want %v got %v", desc, x, y, r, c, m.At(x, y))
+						t.Errorf("%s fill: at (%d, %d), sub-image bounds=%v: want %v golangt %v", desc, x, y, r, c, m.At(x, y))
 						return
 					}
 				}
@@ -662,14 +662,14 @@ func TestDrawSrcNonpremultiplied(t *testing.T) {
 		dr := image.Rect(1, 10, 3, 11)
 		Draw(dst, dr, src, image.Point{1, 20}, Src)
 
-		if got, want := dst.At(0, 10), opaqueGray; got != want {
-			t.Errorf("At(0, 10):\ngot  %#v\nwant %#v", got, want)
+		if golangt, want := dst.At(0, 10), opaqueGray; golangt != want {
+			t.Errorf("At(0, 10):\ngolangt  %#v\nwant %#v", golangt, want)
 		}
-		if got, want := dst.At(1, 10), transparentBlue; got != want {
-			t.Errorf("At(1, 10):\ngot  %#v\nwant %#v", got, want)
+		if golangt, want := dst.At(1, 10), transparentBlue; golangt != want {
+			t.Errorf("At(1, 10):\ngolangt  %#v\nwant %#v", golangt, want)
 		}
-		if got, want := dst.At(2, 10), transparentGreen; got != want {
-			t.Errorf("At(2, 10):\ngot  %#v\nwant %#v", got, want)
+		if golangt, want := dst.At(2, 10), transparentGreen; golangt != want {
+			t.Errorf("At(2, 10):\ngolangt  %#v\nwant %#v", golangt, want)
 		}
 	}
 
@@ -680,8 +680,8 @@ func TestDrawSrcNonpremultiplied(t *testing.T) {
 		src := image.NewNRGBA64(image.Rect(0, 0, 1, 1))
 		src.SetNRGBA64(0, 0, transparentPurple64)
 		Draw(dst, dst.Bounds(), src, image.Point{0, 0}, Src)
-		if got, want := dst.At(0, 0), transparentPurple64; got != want {
-			t.Errorf("At(0, 0):\ngot  %#v\nwant %#v", got, want)
+		if golangt, want := dst.At(0, 0), transparentPurple64; golangt != want {
+			t.Errorf("At(0, 0):\ngolangt  %#v\nwant %#v", golangt, want)
 		}
 	}
 }
@@ -698,10 +698,10 @@ func TestFloydSteinbergCheckerboard(t *testing.T) {
 	nErr := 0
 	for y := b.Min.Y; y < b.Max.Y; y++ {
 		for x := b.Min.X; x < b.Max.X; x++ {
-			got := dst.Pix[dst.PixOffset(x, y)]
+			golangt := dst.Pix[dst.PixOffset(x, y)]
 			want := uint8(x+y) % 2
-			if got != want {
-				t.Errorf("at (%d, %d): got %d, want %d", x, y, got, want)
+			if golangt != want {
+				t.Errorf("at (%d, %d): golangt %d, want %d", x, y, golangt, want)
 				if nErr++; nErr == 10 {
 					t.Fatal("there may be more errors")
 				}
@@ -799,8 +799,8 @@ func TestSqDiff(t *testing.T) {
 	}
 	for _, x := range testCases {
 		for _, y := range testCases {
-			if got, want := sqDiff(x, y), orig(x, y); got != want {
-				t.Fatalf("sqDiff(%#x, %#x): got %d, want %d", x, y, got, want)
+			if golangt, want := sqDiff(x, y), orig(x, y); golangt != want {
+				t.Fatalf("sqDiff(%#x, %#x): golangt %d, want %d", x, y, golangt, want)
 			}
 		}
 	}

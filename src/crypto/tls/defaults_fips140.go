@@ -1,8 +1,8 @@
 // Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !boringcrypto
+//golang:build !boringcrypto
 
 package tls
 
@@ -36,7 +36,7 @@ var (
 		CurveP384,
 		CurveP521,
 	}
-	allowedSignatureAlgorithmsFIPS = []SignatureScheme{
+	allowedSignatureAlgolangrithmsFIPS = []SignatureScheme{
 		PSSWithSHA256,
 		ECDSAWithP256AndSHA256,
 		Ed25519,

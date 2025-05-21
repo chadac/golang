@@ -1,19 +1,19 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Build toolchain using Go bootstrap version.
 //
 // The general strategy is to copy the source files we need into
 // a new GOPATH workspace, adjust import paths appropriately,
-// invoke the Go bootstrap toolchains go command to build those sources,
+// invoke the Go bootstrap toolchains golang command to build those sources,
 // and then copy the binaries back.
 
 package main
 
 import (
 	"fmt"
-	"go/version"
+	"golang/version"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -35,7 +35,7 @@ var bootstrapDirs = []string{
 	"cmp",
 	"cmd/asm",
 	"cmd/asm/internal/...",
-	"cmd/cgo",
+	"cmd/cgolang",
 	"cmd/compile",
 	"cmd/compile/internal/...",
 	"cmd/internal/archive",
@@ -44,12 +44,12 @@ var bootstrapDirs = []string{
 	"cmd/internal/dwarf",
 	"cmd/internal/edit",
 	"cmd/internal/gcprog",
-	"cmd/internal/goobj",
+	"cmd/internal/golangobj",
 	"cmd/internal/hash",
 	"cmd/internal/macho",
 	"cmd/internal/obj/...",
 	"cmd/internal/objabi",
-	"cmd/internal/pgo",
+	"cmd/internal/pgolang",
 	"cmd/internal/pkgpath",
 	"cmd/internal/quoted",
 	"cmd/internal/src",
@@ -65,25 +65,25 @@ var bootstrapDirs = []string{
 	"debug/elf",
 	"debug/macho",
 	"debug/pe",
-	"go/build/constraint",
-	"go/constant",
-	"go/version",
+	"golang/build/constraint",
+	"golang/constant",
+	"golang/version",
 	"internal/abi",
 	"internal/coverage",
 	"cmd/internal/cov/covcmd",
 	"internal/bisect",
 	"internal/buildcfg",
 	"internal/exportdata",
-	"internal/goarch",
-	"internal/godebugs",
-	"internal/goexperiment",
-	"internal/goroot",
-	"internal/gover",
-	"internal/goversion",
+	"internal/golangarch",
+	"internal/golangdebugs",
+	"internal/golangexperiment",
+	"internal/golangroot",
+	"internal/golangver",
+	"internal/golangversion",
 	// internal/lazyregexp is provided by Go 1.17, which permits it to
 	// be imported by other packages in this list, but is not provided
-	// by the Go 1.17 version of gccgo. It's on this list only to
-	// support gccgo, and can be removed if we require gccgo 14 or later.
+	// by the Go 1.17 version of gccgolang. It's on this list only to
+	// support gccgolang, and can be removed if we require gccgolang 14 or later.
 	"internal/lazyregexp",
 	"internal/pkgbits",
 	"internal/platform",
@@ -99,7 +99,7 @@ var bootstrapDirs = []string{
 	"sort",
 }
 
-// File prefixes that are ignored by go/build anyway, and cause
+// File prefixes that are ignored by golang/build anyway, and cause
 // problems with editor generated temporary files (#18931).
 var ignorePrefixes = []string{
 	".",
@@ -112,16 +112,16 @@ var ignorePrefixes = []string{
 // Also ignore test files.
 var ignoreSuffixes = []string{
 	"_test.s",
-	"_test.go",
+	"_test.golang",
 	// Skip PGO profile. No need to build toolchain1 compiler
 	// with PGO. And as it is not a text file the import path
 	// rewrite will break it.
-	".pgo",
+	".pgolang",
 	// Skip editor backup files.
 	"~",
 }
 
-const minBootstrap = "go1.22.6"
+const minBootstrap = "golang1.22.6"
 
 var tryDirs = []string{
 	"sdk/" + minBootstrap,
@@ -129,44 +129,44 @@ var tryDirs = []string{
 }
 
 func bootstrapBuildTools() {
-	goroot_bootstrap := os.Getenv("GOROOT_BOOTSTRAP")
-	if goroot_bootstrap == "" {
+	golangroot_bootstrap := os.Getenv("GOROOT_BOOTSTRAP")
+	if golangroot_bootstrap == "" {
 		home := os.Getenv("HOME")
-		goroot_bootstrap = pathf("%s/go1.4", home)
+		golangroot_bootstrap = pathf("%s/golang1.4", home)
 		for _, d := range tryDirs {
 			if p := pathf("%s/%s", home, d); isdir(p) {
-				goroot_bootstrap = p
+				golangroot_bootstrap = p
 			}
 		}
 	}
 
 	// check bootstrap version.
-	ver := run(pathf("%s/bin", goroot_bootstrap), CheckExit, pathf("%s/bin/go", goroot_bootstrap), "env", "GOVERSION")
-	// go env GOVERSION output like "go1.22.6\n" or "devel go1.24-ffb3e574 Thu Aug 29 20:16:26 2024 +0000\n".
+	ver := run(pathf("%s/bin", golangroot_bootstrap), CheckExit, pathf("%s/bin/golang", golangroot_bootstrap), "env", "GOVERSION")
+	// golang env GOVERSION output like "golang1.22.6\n" or "devel golang1.24-ffb3e574 Thu Aug 29 20:16:26 2024 +0000\n".
 	ver = ver[:len(ver)-1]
 	if version.Compare(ver, version.Lang(minBootstrap)) > 0 && version.Compare(ver, minBootstrap) < 0 {
 		fatalf("%s does not meet the minimum bootstrap requirement of %s or later", ver, minBootstrap)
 	}
 
-	xprintf("Building Go toolchain1 using %s.\n", goroot_bootstrap)
+	xprintf("Building Go toolchain1 using %s.\n", golangroot_bootstrap)
 
-	mkbuildcfg(pathf("%s/src/internal/buildcfg/zbootstrap.go", goroot))
-	mkobjabi(pathf("%s/src/cmd/internal/objabi/zbootstrap.go", goroot))
+	mkbuildcfg(pathf("%s/src/internal/buildcfg/zbootstrap.golang", golangroot))
+	mkobjabi(pathf("%s/src/cmd/internal/objabi/zbootstrap.golang", golangroot))
 
 	// Use $GOROOT/pkg/bootstrap as the bootstrap workspace root.
 	// We use a subdirectory of $GOROOT/pkg because that's the
 	// space within $GOROOT where we store all generated objects.
 	// We could use a temporary directory outside $GOROOT instead,
 	// but it is easier to debug on failure if the files are in a known location.
-	workspace := pathf("%s/pkg/bootstrap", goroot)
+	workspace := pathf("%s/pkg/bootstrap", golangroot)
 	xremoveall(workspace)
 	xatexit(func() { xremoveall(workspace) })
 	base := pathf("%s/src/bootstrap", workspace)
 	xmkdirall(base)
 
 	// Copy source code into $GOROOT/pkg/bootstrap and rewrite import paths.
-	minBootstrapVers := requiredBootstrapVersion(goModVersion()) // require the minimum required go version to build this go version in the go.mod file
-	writefile("module bootstrap\ngo "+minBootstrapVers+"\n", pathf("%s/%s", base, "go.mod"), 0)
+	minBootstrapVers := requiredBootstrapVersion(golangModVersion()) // require the minimum required golang version to build this golang version in the golang.mod file
+	writefile("module bootstrap\ngolang "+minBootstrapVers+"\n", pathf("%s/%s", base, "golang.mod"), 0)
 	for _, dir := range bootstrapDirs {
 		recurse := strings.HasSuffix(dir, "/...")
 		dir = strings.TrimSuffix(dir, "/...")
@@ -176,7 +176,7 @@ func bootstrapBuildTools() {
 			}
 
 			name := filepath.Base(path)
-			src := pathf("%s/src/%s", goroot, path)
+			src := pathf("%s/src/%s", golangroot, path)
 			dst := pathf("%s/%s", base, path)
 
 			if info.IsDir() {
@@ -185,11 +185,11 @@ func bootstrapBuildTools() {
 				}
 
 				xmkdirall(dst)
-				if path == "cmd/cgo" {
+				if path == "cmd/cgolang" {
 					// Write to src because we need the file both for bootstrap
 					// and for later in the main build.
-					mkzdefaultcc("", pathf("%s/zdefaultcc.go", src))
-					mkzdefaultcc("", pathf("%s/zdefaultcc.go", dst))
+					mkzdefaultcc("", pathf("%s/zdefaultcc.golang", src))
+					mkzdefaultcc("", pathf("%s/zdefaultcc.golang", dst))
 				}
 				return nil
 			}
@@ -211,7 +211,7 @@ func bootstrapBuildTools() {
 		})
 	}
 
-	// Set up environment for invoking Go bootstrap toolchains go command.
+	// Set up environment for invoking Go bootstrap toolchains golang command.
 	// GOROOT points at Go bootstrap GOROOT,
 	// GOPATH points at our bootstrap workspace,
 	// GOBIN is empty, so that binaries are installed to GOPATH/bin,
@@ -222,7 +222,7 @@ func bootstrapBuildTools() {
 	// because setup will take care of those when bootstrapBuildTools returns.
 
 	defer os.Setenv("GOROOT", os.Getenv("GOROOT"))
-	os.Setenv("GOROOT", goroot_bootstrap)
+	os.Setenv("GOROOT", golangroot_bootstrap)
 
 	defer os.Setenv("GOPATH", os.Getenv("GOPATH"))
 	os.Setenv("GOPATH", workspace)
@@ -236,13 +236,13 @@ func bootstrapBuildTools() {
 	os.Setenv("GOHOSTARCH", "")
 
 	// Run Go bootstrap to build binaries.
-	// Use the math_big_pure_go build tag to disable the assembly in math/big
+	// Use the math_big_pure_golang build tag to disable the assembly in math/big
 	// which may contain unsupported instructions.
-	// Use the purego build tag to disable other assembly code.
+	// Use the puregolang build tag to disable other assembly code.
 	cmd := []string{
-		pathf("%s/bin/go", goroot_bootstrap),
+		pathf("%s/bin/golang", golangroot_bootstrap),
 		"install",
-		"-tags=math_big_pure_go compiler_bootstrap purego",
+		"-tags=math_big_pure_golang compiler_bootstrap puregolang",
 	}
 	if vflag > 0 {
 		cmd = append(cmd, "-v")
@@ -272,16 +272,16 @@ func bootstrapBuildTools() {
 var ssaRewriteFileSubstring = filepath.FromSlash("src/cmd/compile/internal/ssa/rewrite")
 
 // isUnneededSSARewriteFile reports whether srcFile is a
-// src/cmd/compile/internal/ssa/rewriteARCHNAME.go file for an
+// src/cmd/compile/internal/ssa/rewriteARCHNAME.golang file for an
 // architecture that isn't for the given GOARCH.
 //
 // When unneeded is true archCaps is the rewrite base filename without
-// the "rewrite" prefix or ".go" suffix: AMD64, 386, ARM, ARM64, etc.
-func isUnneededSSARewriteFile(srcFile, goArch string) (archCaps string, unneeded bool) {
+// the "rewrite" prefix or ".golang" suffix: AMD64, 386, ARM, ARM64, etc.
+func isUnneededSSARewriteFile(srcFile, golangArch string) (archCaps string, unneeded bool) {
 	if !strings.Contains(srcFile, ssaRewriteFileSubstring) {
 		return "", false
 	}
-	fileArch := strings.TrimSuffix(strings.TrimPrefix(filepath.Base(srcFile), "rewrite"), ".go")
+	fileArch := strings.TrimSuffix(strings.TrimPrefix(filepath.Base(srcFile), "rewrite"), ".golang")
 	if fileArch == "" {
 		return "", false
 	}
@@ -293,10 +293,10 @@ func isUnneededSSARewriteFile(srcFile, goArch string) (archCaps string, unneeded
 	fileArch = strings.ToLower(fileArch)
 	fileArch = strings.TrimSuffix(fileArch, "splitload")
 	fileArch = strings.TrimSuffix(fileArch, "latelower")
-	if fileArch == goArch {
+	if fileArch == golangArch {
 		return "", false
 	}
-	if fileArch == strings.TrimSuffix(goArch, "le") {
+	if fileArch == strings.TrimSuffix(golangArch, "le") {
 		return "", false
 	}
 	return archCaps, true
@@ -305,9 +305,9 @@ func isUnneededSSARewriteFile(srcFile, goArch string) (archCaps string, unneeded
 func bootstrapRewriteFile(srcFile string) string {
 	// During bootstrap, generate dummy rewrite files for
 	// irrelevant architectures. We only need to build a bootstrap
-	// binary that works for the current gohostarch.
+	// binary that works for the current golanghostarch.
 	// This saves 6+ seconds of bootstrap.
-	if archCaps, ok := isUnneededSSARewriteFile(srcFile, gohostarch); ok {
+	if archCaps, ok := isUnneededSSARewriteFile(srcFile, golanghostarch); ok {
 		return fmt.Sprintf(`%spackage ssa
 
 func rewriteValue%s(v *Value) bool { panic("unused during bootstrap") }

@@ -1,8 +1,8 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Package pkgpath determines the package path used by gccgo/GoLLVM symbols.
+// Package pkgpath determines the package path used by gccgolang/GoLLVM symbols.
 // This package is not used for the gc compiler.
 package pkgpath
 
@@ -17,46 +17,46 @@ import (
 
 // ToSymbolFunc returns a function that may be used to convert a
 // package path into a string suitable for use as a symbol.
-// cmd is the gccgo/GoLLVM compiler in use, and tmpdir is a temporary
+// cmd is the gccgolang/GoLLVM compiler in use, and tmpdir is a temporary
 // directory to pass to os.CreateTemp().
 // For example, this returns a function that converts "net/http"
 // into a string like "net..z2fhttp". The actual string varies for
-// different gccgo/GoLLVM versions, which is why this returns a function
+// different gccgolang/GoLLVM versions, which is why this returns a function
 // that does the conversion appropriate for the compiler in use.
 func ToSymbolFunc(cmd, tmpdir string) (func(string) string, error) {
 	// To determine the scheme used by cmd, we compile a small
-	// file and examine the assembly code. Older versions of gccgo
+	// file and examine the assembly code. Older versions of gccgolang
 	// use a simple mangling scheme where there can be collisions
 	// between packages whose paths are different but mangle to
 	// the same string. More recent versions use a new mangler
 	// that avoids these collisions.
-	const filepat = "*_gccgo_manglechck.go"
+	const filepat = "*_gccgolang_manglechck.golang"
 	f, err := os.CreateTemp(tmpdir, filepat)
 	if err != nil {
 		return nil, err
 	}
-	gofilename := f.Name()
+	golangfilename := f.Name()
 	f.Close()
-	defer os.Remove(gofilename)
+	defer os.Remove(golangfilename)
 
-	if err := os.WriteFile(gofilename, []byte(mangleCheckCode), 0644); err != nil {
+	if err := os.WriteFile(golangfilename, []byte(mangleCheckCode), 0644); err != nil {
 		return nil, err
 	}
 
-	command := exec.Command(cmd, "-S", "-o", "-", gofilename)
+	command := exec.Command(cmd, "-S", "-o", "-", golangfilename)
 	buf, err := command.Output()
 	if err != nil {
 		return nil, err
 	}
 
-	// Original mangling: go.l__ufer.Run
-	// Mangling v2: go.l..u00e4ufer.Run
-	// Mangling v3: go_0l_u00e4ufer.Run
-	if bytes.Contains(buf, []byte("go_0l_u00e4ufer.Run")) {
+	// Original mangling: golang.l__ufer.Run
+	// Mangling v2: golang.l..u00e4ufer.Run
+	// Mangling v3: golang_0l_u00e4ufer.Run
+	if bytes.Contains(buf, []byte("golang_0l_u00e4ufer.Run")) {
 		return toSymbolV3, nil
-	} else if bytes.Contains(buf, []byte("go.l..u00e4ufer.Run")) {
+	} else if bytes.Contains(buf, []byte("golang.l..u00e4ufer.Run")) {
 		return toSymbolV2, nil
-	} else if bytes.Contains(buf, []byte("go.l__ufer.Run")) {
+	} else if bytes.Contains(buf, []byte("golang.l__ufer.Run")) {
 		return toSymbolV1, nil
 	} else {
 		return nil, errors.New(cmd + ": unrecognized mangling scheme")

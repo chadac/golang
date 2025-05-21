@@ -1,8 +1,8 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build goexperiment.swissmap
+//golang:build golangexperiment.swissmap
 
 package maps
 
@@ -19,7 +19,7 @@ import (
 
 // Pushed from runtime in order to use runtime.plainError
 //
-//go:linkname errNilAssign
+//golang:linkname errNilAssign
 var errNilAssign error
 
 // Pull from runtime. It is important that is this the exact same copy as the
@@ -27,7 +27,7 @@ var errNilAssign error
 // &runtime.zeroVal[0].
 // TODO: move zeroVal to internal/abi?
 //
-//go:linkname zeroVal runtime.zeroVal
+//golang:linkname zeroVal runtime.zeroVal
 var zeroVal [abi.ZeroValSize]byte
 
 // mapaccess1 returns a pointer to h[key].  Never returns nil, instead
@@ -36,7 +36,7 @@ var zeroVal [abi.ZeroValSize]byte
 // NOTE: The returned pointer may keep the whole map live, so don't
 // hold onto it for very long.
 //
-//go:linkname runtime_mapaccess1 runtime.mapaccess1
+//golang:linkname runtime_mapaccess1 runtime.mapaccess1
 func runtime_mapaccess1(typ *abi.SwissMapType, m *Map, key unsafe.Pointer) unsafe.Pointer {
 	if race.Enabled && m != nil {
 		callerpc := sys.GetCallerPC()
@@ -110,7 +110,7 @@ func runtime_mapaccess1(typ *abi.SwissMapType, m *Map, key unsafe.Pointer) unsaf
 	}
 }
 
-//go:linkname runtime_mapaccess2 runtime.mapaccess2
+//golang:linkname runtime_mapaccess2 runtime.mapaccess2
 func runtime_mapaccess2(typ *abi.SwissMapType, m *Map, key unsafe.Pointer) (unsafe.Pointer, bool) {
 	if race.Enabled && m != nil {
 		callerpc := sys.GetCallerPC()
@@ -184,7 +184,7 @@ func runtime_mapaccess2(typ *abi.SwissMapType, m *Map, key unsafe.Pointer) (unsa
 	}
 }
 
-//go:linkname runtime_mapassign runtime.mapassign
+//golang:linkname runtime_mapassign runtime.mapassign
 func runtime_mapassign(typ *abi.SwissMapType, m *Map, key unsafe.Pointer) unsafe.Pointer {
 	if m == nil {
 		panic(errNilAssign)

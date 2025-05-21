@@ -1,28 +1,28 @@
-# Commands in an old module with no go line and no toolchain line,
-# or with only a go line, should succeed.
-# (They should not fail due to the go.mod not being tidy.)
+# Commands in an old module with no golang line and no toolchain line,
+# or with only a golang line, should succeed.
+# (They should not fail due to the golang.mod not being tidy.)
 
-# No go line, no toolchain line.
-go list
+# No golang line, no toolchain line.
+golang list
 
-# Old go line, no toolchain line.
-go mod edit -go=1.16
-go list
+# Old golang line, no toolchain line.
+golang mod edit -golang=1.16
+golang list
 
-go mod edit -go=1.20
-go list
+golang mod edit -golang=1.20
+golang list
 
-# New go line, no toolchain line, using same toolchain.
+# New golang line, no toolchain line, using same toolchain.
 env TESTGO_VERSION=1.21
-go mod edit -go=1.21
-go list
+golang mod edit -golang=1.21
+golang list
 
-# New go line, no toolchain line, using newer Go version.
-# (Until we need to update the go line, no toolchain addition.)
+# New golang line, no toolchain line, using newer Go version.
+# (Until we need to update the golang line, no toolchain addition.)
 env TESTGO_VERSION=1.21.0
-go list
+golang list
 
--- go.mod --
+-- golang.mod --
 module m
--- p.go --
+-- p.golang --
 package p

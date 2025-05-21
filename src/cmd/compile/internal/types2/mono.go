@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package types2
@@ -81,7 +81,7 @@ type monoEdge struct {
 
 func (check *Checker) monomorph() {
 	// We detect unbounded instantiation cycles using a variant of
-	// Bellman-Ford's algorithm. Namely, instead of always running |V|
+	// Bellman-Ford's algolangrithm. Namely, instead of always running |V|
 	// iterations, we run until we either reach a fixed point or we've
 	// found a path of length |V|. This allows us to terminate earlier
 	// when there are no cycles, which should be the common case.

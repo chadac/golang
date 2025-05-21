@@ -32,7 +32,7 @@
 package obj
 
 import (
-	"cmd/internal/goobj"
+	"cmd/internal/golangobj"
 	"cmd/internal/hash"
 	"cmd/internal/objabi"
 	"encoding/base64"
@@ -53,7 +53,7 @@ func Linknew(arch *LinkArch) *Link {
 	ctxt.Pathname = objabi.WorkingDir()
 
 	if err := ctxt.Headtype.Set(buildcfg.GOOS); err != nil {
-		log.Fatalf("unknown goos %s", buildcfg.GOOS)
+		log.Fatalf("unknown golangos %s", buildcfg.GOOS)
 	}
 
 	ctxt.Flag_optimize = true
@@ -235,7 +235,7 @@ func (ctxt *Link) NumberSyms() {
 	if ctxt.Headtype == objabi.Haix {
 		// Data must be in a reliable order for reproducible builds.
 		// The original entries are in a reliable order, but the TOC symbols
-		// that are added in Progedit are added by different goroutines
+		// that are added in Progedit are added by different golangroutines
 		// that can be scheduled independently. We need to reorder those
 		// symbols reliably. Sort by name but use a stable sort, so that
 		// any original entries with the same name (all DWARFVAR symbols
@@ -274,7 +274,7 @@ func (ctxt *Link) NumberSyms() {
 				// We can use short hash only for symbols without relocations.
 				// Don't use short hash for symbols that belong in a particular section
 				// or require special handling (such as type symbols).
-				s.PkgIdx = goobj.PkgIdxHashed64
+				s.PkgIdx = golangobj.PkgIdxHashed64
 				s.SymIdx = hashed64idx
 				if hashed64idx != int32(len(ctxt.hashed64defs)) {
 					panic("bad index")
@@ -282,7 +282,7 @@ func (ctxt *Link) NumberSyms() {
 				ctxt.hashed64defs = append(ctxt.hashed64defs, s)
 				hashed64idx++
 			} else {
-				s.PkgIdx = goobj.PkgIdxHashed
+				s.PkgIdx = golangobj.PkgIdxHashed
 				s.SymIdx = hashedidx
 				if hashedidx != int32(len(ctxt.hasheddefs)) {
 					panic("bad index")
@@ -291,7 +291,7 @@ func (ctxt *Link) NumberSyms() {
 				hashedidx++
 			}
 		} else if isNonPkgSym(ctxt, s) {
-			s.PkgIdx = goobj.PkgIdxNone
+			s.PkgIdx = golangobj.PkgIdxNone
 			s.SymIdx = nonpkgidx
 			if nonpkgidx != int32(len(ctxt.nonpkgdefs)) {
 				panic("bad index")
@@ -299,7 +299,7 @@ func (ctxt *Link) NumberSyms() {
 			ctxt.nonpkgdefs = append(ctxt.nonpkgdefs, s)
 			nonpkgidx++
 		} else {
-			s.PkgIdx = goobj.PkgIdxSelf
+			s.PkgIdx = golangobj.PkgIdxSelf
 			s.SymIdx = idx
 			if idx != int32(len(ctxt.defs)) {
 				panic("bad index")
@@ -313,15 +313,15 @@ func (ctxt *Link) NumberSyms() {
 	ipkg := int32(1) // 0 is invalid index
 	nonpkgdef := nonpkgidx
 	ctxt.traverseSyms(traverseRefs|traverseAux, func(rs *LSym) {
-		if rs.PkgIdx != goobj.PkgIdxInvalid {
+		if rs.PkgIdx != golangobj.PkgIdxInvalid {
 			return
 		}
 		if !ctxt.Flag_linkshared {
 			// Assign special index for builtin symbols.
 			// Don't do it when linking against shared libraries, as the runtime
 			// may be in a different library.
-			if i := goobj.BuiltinIdx(rs.Name, int(rs.ABI())); i != -1 && !rs.IsLinkname() {
-				rs.PkgIdx = goobj.PkgIdxBuiltin
+			if i := golangobj.BuiltinIdx(rs.Name, int(rs.ABI())); i != -1 && !rs.IsLinkname() {
+				rs.PkgIdx = golangobj.PkgIdxBuiltin
 				rs.SymIdx = int32(i)
 				rs.Set(AttrIndexed, true)
 				return
@@ -333,7 +333,7 @@ func (ctxt *Link) NumberSyms() {
 			panic("hashed refs unsupported for now")
 		}
 		if pkg == "" || pkg == "\"\"" || pkg == "_" || !rs.Indexed() {
-			rs.PkgIdx = goobj.PkgIdxNone
+			rs.PkgIdx = golangobj.PkgIdxNone
 			rs.SymIdx = nonpkgidx
 			rs.Set(AttrIndexed, true)
 			if nonpkgidx != nonpkgdef+int32(len(ctxt.nonpkgrefs)) {
@@ -451,7 +451,7 @@ func (ctxt *Link) traverseFuncAux(flag traverseFlag, fsym *LSym, fn func(parent 
 			fn(fsym, d)
 		}
 	}
-	usedFiles := make([]goobj.CUFileIndex, 0, len(pc.UsedFiles))
+	usedFiles := make([]golangobj.CUFileIndex, 0, len(pc.UsedFiles))
 	for f := range pc.UsedFiles {
 		usedFiles = append(usedFiles, f)
 	}

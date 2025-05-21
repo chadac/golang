@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package time_test
@@ -106,11 +106,11 @@ func TestMonotonicAdd(t *testing.T) {
 	if !now.Before(tn1) {
 		t.Errorf("Now().Before(Now().Add(1*Hour)) = false, want true")
 	}
-	if got, want := now.Compare(tn1), -1; got != want {
-		t.Errorf("Now().Compare(Now().Add(1*Hour)) = %d, want %d", got, want)
+	if golangt, want := now.Compare(tn1), -1; golangt != want {
+		t.Errorf("Now().Compare(Now().Add(1*Hour)) = %d, want %d", golangt, want)
 	}
-	if got, want := tn1.Compare(now), 1; got != want {
-		t.Errorf("Now().Add(1*Hour).Compare(Now()) = %d, want %d", got, want)
+	if golangt, want := tn1.Compare(now), 1; golangt != want {
+		t.Errorf("Now().Add(1*Hour).Compare(Now()) = %d, want %d", golangt, want)
 	}
 }
 
@@ -240,11 +240,11 @@ func TestMonotonicOverflow(t *testing.T) {
 	if !t2.Before(t1) {
 		t.Errorf("Now().Add(-5*Second).Before(Now().Add(1*Hour)) = false, want true\nt1=%v\nt2=%v", t1, t2)
 	}
-	if got, want := t1.Compare(t2), 1; got != want {
-		t.Errorf("Now().Add(1*Hour).Compare(Now().Add(-5*Second)) = %d, want %d\nt1=%v\nt2=%v", got, want, t1, t2)
+	if golangt, want := t1.Compare(t2), 1; golangt != want {
+		t.Errorf("Now().Add(1*Hour).Compare(Now().Add(-5*Second)) = %d, want %d\nt1=%v\nt2=%v", golangt, want, t1, t2)
 	}
-	if got, want := t2.Compare(t1), -1; got != want {
-		t.Errorf("Now().Add(-5*Second).Before(Now().Add(1*Hour)) = %d, want %d\nt1=%v\nt2=%v", got, want, t1, t2)
+	if golangt, want := t2.Compare(t1), -1; golangt != want {
+		t.Errorf("Now().Add(-5*Second).Before(Now().Add(1*Hour)) = %d, want %d\nt1=%v\nt2=%v", golangt, want, t1, t2)
 	}
 }
 
@@ -270,9 +270,9 @@ func TestMonotonicString(t *testing.T) {
 		t1 := Now()
 		SetMono(&t1, tt.mono)
 		s := t1.String()
-		got := s[strings.LastIndex(s, " ")+1:]
-		if got != tt.want {
-			t.Errorf("with mono=%d: got %q; want %q", tt.mono, got, tt.want)
+		golangt := s[strings.LastIndex(s, " ")+1:]
+		if golangt != tt.want {
+			t.Errorf("with mono=%d: golangt %q; want %q", tt.mono, golangt, tt.want)
 		}
 	}
 }

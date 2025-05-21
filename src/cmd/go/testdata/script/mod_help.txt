@@ -1,6 +1,6 @@
 env GO111MODULE=on
 
-# go help get shows usage for get
-go help get
-stdout 'usage: go get'
-stdout 'updates go.mod to require those versions'
+# golang help get shows usage for get
+golang help get
+stdout 'usage: golang get'
+stdout 'updates golang.mod to require those versions'

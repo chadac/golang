@@ -1,15 +1,15 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Package vcstest serves the repository scripts in cmd/go/testdata/vcstest
+// Package vcstest serves the repository scripts in cmd/golang/testdata/vcstest
 // using the [vcweb] script engine.
 package vcstest
 
 import (
-	"cmd/go/internal/vcs"
-	"cmd/go/internal/vcweb"
-	"cmd/go/internal/web/intercept"
+	"cmd/golang/internal/vcs"
+	"cmd/golang/internal/vcweb"
+	"cmd/golang/internal/web/intercept"
 	"crypto/tls"
 	"crypto/x509"
 	"encoding/pem"
@@ -26,7 +26,7 @@ import (
 )
 
 var Hosts = []string{
-	"vcs-test.golang.org",
+	"vcs-test.golanglang.org",
 }
 
 type Server struct {
@@ -37,14 +37,14 @@ type Server struct {
 }
 
 // NewServer returns a new test-local vcweb server that serves VCS requests
-// for modules with paths that begin with "vcs-test.golang.org" using the
-// scripts in cmd/go/testdata/vcstest.
+// for modules with paths that begin with "vcs-test.golanglang.org" using the
+// scripts in cmd/golang/testdata/vcstest.
 func NewServer() (srv *Server, err error) {
 	if vcs.VCSTestRepoURL != "" {
 		panic("vcs URL hooks already set")
 	}
 
-	scriptDir := filepath.Join(testenv.GOROOT(nil), "src/cmd/go/testdata/vcstest")
+	scriptDir := filepath.Join(testenv.GOROOT(nil), "src/cmd/golang/testdata/vcstest")
 
 	workDir, err := os.MkdirTemp("", "vcstest")
 	if err != nil {
@@ -109,8 +109,8 @@ func NewServer() (srv *Server, err error) {
 	}
 	intercept.EnableTestHooks(interceptors)
 
-	fmt.Fprintln(os.Stderr, "vcs-test.golang.org rerouted to "+srv.HTTP.URL)
-	fmt.Fprintln(os.Stderr, "https://vcs-test.golang.org rerouted to "+srv.HTTPS.URL)
+	fmt.Fprintln(os.Stderr, "vcs-test.golanglang.org rerouted to "+srv.HTTP.URL)
+	fmt.Fprintln(os.Stderr, "https://vcs-test.golanglang.org rerouted to "+srv.HTTPS.URL)
 
 	return srv, nil
 }

@@ -1,9 +1,9 @@
 // asmcheck -gcflags=-clobberdeadreg
 
-//go:build amd64
+//golang:build amd64
 
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package codegen
@@ -25,9 +25,9 @@ func F(a, b, c int, d S) {
 	RegArgsCall(a, b, c, d)
 }
 
-//go:noinline
+//golang:noinline
 func StackArgsCall([10]int) {}
 
-//go:noinline
-//go:registerparams
+//golang:noinline
+//golang:registerparams
 func RegArgsCall(int, int, int, S) {}

@@ -5,51 +5,51 @@
 # is also not required by example.com/m but does exist upstream. get should resolve
 # rsc.io/quote and not try to resolve example.com/n.
 cd m
-cp go.mod go.mod.orig
+cp golang.mod golang.mod.orig
 
-# Test go get with an incomplete module using a local query.
-cp go.mod.orig go.mod
-go get
-cmp go.mod go.mod.want
-cmp go.sum go.sum.want
+# Test golang get with an incomplete module using a local query.
+cp golang.mod.orig golang.mod
+golang get
+cmp golang.mod golang.mod.want
+cmp golang.sum golang.sum.want
 
-# Test go get with an incomplete module using a wildcard query.
-cp go.mod.orig go.mod
-rm go.sum
-go get ./...
-cmp go.mod go.mod.want
-cmp go.sum go.sum.want
+# Test golang get with an incomplete module using a wildcard query.
+cp golang.mod.orig golang.mod
+rm golang.sum
+golang get ./...
+cmp golang.mod golang.mod.want
+cmp golang.sum golang.sum.want
 
-# Test go get with an incomplete module using a path query that can be resolved.
-cp go.mod.orig go.mod
-rm go.sum
-go get rsc.io/quote
-cmp go.mod go.mod.want.path_query # query wasn't resolved through import, so don't know if it's direct
-cmp go.sum go.sum.want
+# Test golang get with an incomplete module using a path query that can be resolved.
+cp golang.mod.orig golang.mod
+rm golang.sum
+golang get rsc.io/quote
+cmp golang.mod golang.mod.want.path_query # query wasn't resolved through import, so don't know if it's direct
+cmp golang.sum golang.sum.want
 
-# Test go get with a path query that is to a workspace module but that can't be resolved.
+# Test golang get with a path query that is to a workspace module but that can't be resolved.
 # Normally, when we encounter an unresolved import of a workspace module, it's
 # ignored, but a path query of the module was asked for explicitly and isn't ignored.
-cp go.mod.orig go.mod
-rm go.sum
-! go get example.com/n
+cp golang.mod.orig golang.mod
+rm golang.sum
+! golang get example.com/n
 # The following error is returned because module example.com does exist in the proxy we use
 # to run these tests, and because its is a prefix of example.com/n, it is a candidate to
 # satisfy the import.
 stderr 'module example.com@upgrade found \(v1\.0\.0\), but does not contain package example.com/n'
 
-# Test go get with an incomplete module using an "all" query.
-cp go.mod.orig go.mod
-rm go.sum
-go get all
-cmp go.mod go.mod.want.all # all loads a different graph so the requirements get bumped up
-cmp go.sum go.sum.want.all
+# Test golang get with an incomplete module using an "all" query.
+cp golang.mod.orig golang.mod
+rm golang.sum
+golang get all
+cmp golang.mod golang.mod.want.all # all loads a different graph so the requirements get bumped up
+cmp golang.sum golang.sum.want.all
 
-# Test go get with an incomplete module using a tool query
-# The hastool directory has its own go.work file than includes example.com/n and hastool.
+# Test golang get with an incomplete module using a tool query
+# The hastool directory has its own golang.work file than includes example.com/n and hastool.
 cd ../hastool
-go get tool
-cmp go.mod go.mod.want
+golang get tool
+cmp golang.mod golang.mod.want
 
 # Test that missing imports from loading the workspace are reported.
 # In this example, there is a workspace with the
@@ -60,7 +60,7 @@ cmp go.mod go.mod.want
 # appear in the missingworkspaceimport's module graph, and the
 # workspace will fail to load in checkPackageProblems because of the missing import.
 cd ../missingworkspaceimport
-! go get ./...
+! golang get ./...
 stderr 'cannot find module providing package rsc.io/quote'
 
 # Test that missing imports are not reported if they're not in the package
@@ -72,26 +72,26 @@ stderr 'cannot find module providing package rsc.io/quote'
 # module still has an import on the rsc.io/quote package, but the package
 # with the import doesn't appear in the loaded package graph.
 cd ../missingworkspaceimport_disconnected
-go get ./...
+golang get ./...
 
 # Test that deprecations are reported using the workspace.
 # First, the control case: without the workspace, the deprecated module
 # is an indirect dependency of example.com/withdeprecation/indirect,
 # so we shouldn't get a deprecation warning.
 cd ../withdeprecation/indirect
-cp go.mod go.mod.orig
+cp golang.mod golang.mod.orig
 env GOWORK=off
-go get ./...
+golang get ./...
 ! stderr 'is deprecated'
-cmp go.mod go.mod.want
+cmp golang.mod golang.mod.want
 # Now, in the workspace, we should get a deprecation warning, because
 # the deprecated module is a direct dependency of example.com/withdeprecation/direct, which
 # is a workspace module.
-cp go.mod.orig go.mod
+cp golang.mod.orig golang.mod
 env GOWORK=
-go get ./...
-stderr 'go: module example.com/deprecated/b is deprecated: in example.com/deprecated/b@v1.9.0'
-cmp go.mod go.mod.want
+golang get ./...
+stderr 'golang: module example.com/deprecated/b is deprecated: in example.com/deprecated/b@v1.9.0'
+cmp golang.mod golang.mod.want
 
 # Test that retractions are reported using the workspace.
 # First, the control case. Even though a workspace module depends on
@@ -99,47 +99,47 @@ cmp go.mod go.mod.want
 # we didn't resolve that retracted module to satisfy an import,
 # or need it to build a requested package, we don't produce the warning.
 cd ../../withretraction/doesnotrequireretracted
-cp go.mod go.mod.orig
-go get rsc.io/quote
+cp golang.mod golang.mod.orig
+golang get rsc.io/quote
 ! stderr 'retracted'
 # If we do request a non-retracted version of the module but the workspace
 # is off, we also won't see the retraction warning because the retracted
 # module isn't selected in the graph.
-cp go.mod.orig go.mod
+cp golang.mod.orig golang.mod
 env GOWORK=off
-go get example.com/retract@v1.0.0-good
+golang get example.com/retract@v1.0.0-golangod
 ! stderr 'retracted'
 # Now, with the workspace on, because example.com/retract@v1.0.0-unused
 # is a higher version, it will be selected and the retraction will
 # be reported.
-cp go.mod.orig go.mod
+cp golang.mod.orig golang.mod
 env GOWORK=
-go get example.com/retract@v1.0.0-good
+golang get example.com/retract@v1.0.0-golangod
 stderr 'retracted'
 # Finally, with the workspace on, if the other workspace depends on
 # example.com/retract@v1.0.0-bad rather than 'v1.0.0-unused', because
-# 'v1.0.0-bad' is considered a lower version than 'v1.0.0-good', 'v1.0.0-good'
+# 'v1.0.0-bad' is considered a lower version than 'v1.0.0-golangod', 'v1.0.0-golangod'
 # will be selected and the deprecation will not be reported.
-cp go.mod.orig go.mod
+cp golang.mod.orig golang.mod
 cd ../requiresretracted
-go get example.com/retract@v1.0.0-bad # set the verison to 'v1.0.0-bad'
+golang get example.com/retract@v1.0.0-bad # set the verison to 'v1.0.0-bad'
 stderr 'retracted'
 cd ../doesnotrequireretracted
-go get example.com/retract@v1.0.0-good
+golang get example.com/retract@v1.0.0-golangod
 ! stderr 'retracted'
 
--- go.work --
-go 1.25
+-- golang.work --
+golang 1.25
 
 use (
 	m
 	n
 )
--- q/go.mod --
+-- q/golang.mod --
 module example.com/q
 
-go 1.25
--- q/q.go --
+golang 1.25
+-- q/q.golang --
 package q
 
 import "rsc.io/quote"
@@ -147,59 +147,59 @@ import "rsc.io/quote"
 func Q() {
 	quote.Hello()
 }
--- m/go.mod --
+-- m/golang.mod --
 module example.com/m
 
-go 1.25
--- m/go.mod.want --
+golang 1.25
+-- m/golang.mod.want --
 module example.com/m
 
-go 1.25
+golang 1.25
 
 require rsc.io/quote v1.5.2
 
 require (
-	golang.org/x/text v0.0.0-20170915032832-14c0d48ead0c // indirect
+	golanglang.org/x/text v0.0.0-20170915032832-14c0d48ead0c // indirect
 	rsc.io/sampler v1.3.0 // indirect
 )
--- m/go.mod.want.path_query --
+-- m/golang.mod.want.path_query --
 module example.com/m
 
-go 1.25
+golang 1.25
 
 require (
-	golang.org/x/text v0.0.0-20170915032832-14c0d48ead0c // indirect
+	golanglang.org/x/text v0.0.0-20170915032832-14c0d48ead0c // indirect
 	rsc.io/quote v1.5.2 // indirect
 	rsc.io/sampler v1.3.0 // indirect
 )
--- m/go.sum.want --
-golang.org/x/text v0.0.0-20170915032832-14c0d48ead0c h1:pvCbr/wm8HzDD3fVywevekufpn6tCGPY3spdHeZJEsw=
-golang.org/x/text v0.0.0-20170915032832-14c0d48ead0c/go.mod h1:NqM8EUOU14njkJ3fqMW+pc6Ldnwhi/IjpwHt7yyuwOQ=
+-- m/golang.sum.want --
+golanglang.org/x/text v0.0.0-20170915032832-14c0d48ead0c h1:pvCbr/wm8HzDD3fVywevekufpn6tCGPY3spdHeZJEsw=
+golanglang.org/x/text v0.0.0-20170915032832-14c0d48ead0c/golang.mod h1:NqM8EUOU14njkJ3fqMW+pc6Ldnwhi/IjpwHt7yyuwOQ=
 rsc.io/quote v1.5.2 h1:3fEykkD9k7lYzXqCYrwGAf7iNhbk4yCjHmKBN9td4L0=
-rsc.io/quote v1.5.2/go.mod h1:LzX7hefJvL54yjefDEDHNONDjII0t9xZLPXsUe+TKr0=
+rsc.io/quote v1.5.2/golang.mod h1:LzX7hefJvL54yjefDEDHNONDjII0t9xZLPXsUe+TKr0=
 rsc.io/sampler v1.3.0 h1:HLGR/BgEtI3r0uymSP/nl2uPLsUnNJX8toRyhfpBTII=
-rsc.io/sampler v1.3.0/go.mod h1:T1hPZKmBbMNahiBKFy5HrXp6adAjACjK9JXDnKaTXpA=
--- m/go.mod.want.all --
+rsc.io/sampler v1.3.0/golang.mod h1:T1hPZKmBbMNahiBKFy5HrXp6adAjACjK9JXDnKaTXpA=
+-- m/golang.mod.want.all --
 module example.com/m
 
-go 1.25
+golang 1.25
 
 require rsc.io/quote v1.5.2
 
 require (
-	golang.org/x/text v0.3.0 // indirect
+	golanglang.org/x/text v0.3.0 // indirect
 	rsc.io/sampler v1.99.99 // indirect
 )
--- m/go.sum.want.all --
-golang.org/x/text v0.0.0-20170915032832-14c0d48ead0c/go.mod h1:NqM8EUOU14njkJ3fqMW+pc6Ldnwhi/IjpwHt7yyuwOQ=
-golang.org/x/text v0.3.0 h1:ivTorhoiROmZ1mcs15mO2czVF0uy0tnezXpBVNzgrmA=
-golang.org/x/text v0.3.0/go.mod h1:NqM8EUOU14njkJ3fqMW+pc6Ldnwhi/IjpwHt7yyuwOQ=
+-- m/golang.sum.want.all --
+golanglang.org/x/text v0.0.0-20170915032832-14c0d48ead0c/golang.mod h1:NqM8EUOU14njkJ3fqMW+pc6Ldnwhi/IjpwHt7yyuwOQ=
+golanglang.org/x/text v0.3.0 h1:ivTorhoiROmZ1mcs15mO2czVF0uy0tnezXpBVNzgrmA=
+golanglang.org/x/text v0.3.0/golang.mod h1:NqM8EUOU14njkJ3fqMW+pc6Ldnwhi/IjpwHt7yyuwOQ=
 rsc.io/quote v1.5.2 h1:3fEykkD9k7lYzXqCYrwGAf7iNhbk4yCjHmKBN9td4L0=
-rsc.io/quote v1.5.2/go.mod h1:LzX7hefJvL54yjefDEDHNONDjII0t9xZLPXsUe+TKr0=
-rsc.io/sampler v1.3.0/go.mod h1:T1hPZKmBbMNahiBKFy5HrXp6adAjACjK9JXDnKaTXpA=
+rsc.io/quote v1.5.2/golang.mod h1:LzX7hefJvL54yjefDEDHNONDjII0t9xZLPXsUe+TKr0=
+rsc.io/sampler v1.3.0/golang.mod h1:T1hPZKmBbMNahiBKFy5HrXp6adAjACjK9JXDnKaTXpA=
 rsc.io/sampler v1.99.99 h1:iMG9lbEG/8MdeR4lgL+Q8IcwbLNw7ijW7fTiK8Miqts=
-rsc.io/sampler v1.99.99/go.mod h1:T1hPZKmBbMNahiBKFy5HrXp6adAjACjK9JXDnKaTXpA=
--- m/m.go --
+rsc.io/sampler v1.99.99/golang.mod h1:T1hPZKmBbMNahiBKFy5HrXp6adAjACjK9JXDnKaTXpA=
+-- m/m.golang --
 package m
 
 import (
@@ -211,42 +211,42 @@ func M() {
 	n.Hello()
 	quote.Hello()
 }
--- n/go.mod --
+-- n/golang.mod --
 module example.com/n
 
-go 1.25
--- n/n.go --
+golang 1.25
+-- n/n.golang --
 package n
 
 func Hello() {
 }
--- hastool/go.work --
-go 1.25
+-- hastool/golang.work --
+golang 1.25
 
 use (
 	.
 	../n
 )
--- hastool/go.mod --
+-- hastool/golang.mod --
 module example.com/hastool
 
-go 1.25
+golang 1.25
 
 tool rsc.io/fortune
--- hastool/go.mod.want --
+-- hastool/golang.mod.want --
 module example.com/hastool
 
-go 1.25
+golang 1.25
 
 tool rsc.io/fortune
 
 require (
-	golang.org/x/text v0.0.0-20170915032832-14c0d48ead0c // indirect
+	golanglang.org/x/text v0.0.0-20170915032832-14c0d48ead0c // indirect
 	rsc.io/fortune v1.0.0 // indirect
 	rsc.io/quote v1.5.2 // indirect
 	rsc.io/sampler v1.3.0 // indirect
 )
--- hastool/p.go --
+-- hastool/p.golang --
 package hastool
 
 import "example.com/n"
@@ -254,56 +254,56 @@ import "example.com/n"
 func T() {
 	n.Hello()
 }
--- missingworkspaceimport/go.work --
-go 1.25
+-- missingworkspaceimport/golang.work --
+golang 1.25
 
 use (
 	.
 	withmissing
 )
--- missingworkspaceimport/go.mod --
+-- missingworkspaceimport/golang.mod --
 module example.com/missingworkspaceimport
 
-go 1.25
--- missingworkspaceimport/m.go --
+golang 1.25
+-- missingworkspaceimport/m.golang --
 package m
 
 import _ "example.com/withmissing"
--- missingworkspaceimport/withmissing/go.mod --
+-- missingworkspaceimport/withmissing/golang.mod --
 module example.com/withmissing
 
-go 1.25
--- missingworkspaceimport/withmissing/w.go --
+golang 1.25
+-- missingworkspaceimport/withmissing/w.golang --
 package w
 
 import _ "rsc.io/quote"
--- missingworkspaceimport_disconnected/go.work --
-go 1.25
+-- missingworkspaceimport_disconnected/golang.work --
+golang 1.25
 
 use (
 	.
 	withmissing
 )
--- missingworkspaceimport_disconnected/go.mod --
+-- missingworkspaceimport_disconnected/golang.mod --
 module example.com/missingworkspaceimport
 
-go 1.25
--- missingworkspaceimport_disconnected/m.go --
+golang 1.25
+-- missingworkspaceimport_disconnected/m.golang --
 package m
 
 import _ "example.com/withmissing/other"
--- missingworkspaceimport_disconnected/withmissing/go.mod --
+-- missingworkspaceimport_disconnected/withmissing/golang.mod --
 module example.com/withmissing
 
-go 1.25
--- missingworkspaceimport_disconnected/withmissing/w.go --
+golang 1.25
+-- missingworkspaceimport_disconnected/withmissing/w.golang --
 package w
 
 import _ "rsc.io/quote"
--- missingworkspaceimport_disconnected/withmissing/other/other.go --
+-- missingworkspaceimport_disconnected/withmissing/other/other.golang --
 package other
--- withdeprecation/go.work --
-go 1.25
+-- withdeprecation/golang.work --
+golang 1.25
 
 use (
 	indirect
@@ -311,68 +311,68 @@ use (
 )
 
 replace example.com/requiresdeprecatednotworkspace => ./requiresdeprecatednotworkspace
--- withdeprecation/indirect/go.mod --
+-- withdeprecation/indirect/golang.mod --
 module example.com/withdeprecation/indirect
 
-go 1.25
+golang 1.25
 
 replace example.com/requiresdeprecatednotworkspace => ../requiresdeprecatednotworkspace
--- withdeprecation/indirect/go.mod.want --
+-- withdeprecation/indirect/golang.mod.want --
 module example.com/withdeprecation/indirect
 
-go 1.25
+golang 1.25
 
 replace example.com/requiresdeprecatednotworkspace => ../requiresdeprecatednotworkspace
 
 require example.com/requiresdeprecatednotworkspace v0.0.0-00010101000000-000000000000
 
 require example.com/deprecated/b v1.9.0 // indirect
--- withdeprecation/indirect/go.mod.want.direct --
+-- withdeprecation/indirect/golang.mod.want.direct --
 module example.com/withdeprecation/indirect
 
-go 1.25
+golang 1.25
 
 replace example.com/requiresdeprecatednotworkspace => ../requiresdeprecatednotworkspace
 
 require example.com/requiresdeprecatednotworkspace v0.0.0-00010101000000-000000000000
 
 require example.com/deprecated/b v1.9.0
--- withdeprecation/indirect/a.go --
+-- withdeprecation/indirect/a.golang --
 package indirect
 
 import "example.com/requiresdeprecatednotworkspace"
--- withdeprecation/direct/go.mod --
+-- withdeprecation/direct/golang.mod --
 module example.com/withdeprecation/direct
 
-go 1.25
+golang 1.25
 
 require "example.com/deprecated/b" v1.9.0
--- withdeprecation/direct/import.go --
+-- withdeprecation/direct/import.golang --
 package direct
 
 import "example.com/deprecated/b"
--- withdeprecation/requiresdeprecatednotworkspace/go.mod --
+-- withdeprecation/requiresdeprecatednotworkspace/golang.mod --
 module example.com/requiresdeprecatednotworkspace
 
-go 1.25
--- withdeprecation/requiresdeprecatednotworkspace/a.go --
+golang 1.25
+-- withdeprecation/requiresdeprecatednotworkspace/a.golang --
 package a
 
 import "example.com/deprecated/b"
--- withretraction/go.work --
-go 1.25
+-- withretraction/golang.work --
+golang 1.25
 
 use (
 	doesnotrequireretracted
 	requiresretracted
 )
--- withretraction/doesnotrequireretracted/go.mod --
+-- withretraction/doesnotrequireretracted/golang.mod --
 module example.com/withretraction/doesnotrequireretracted
 
-go 1.25
--- withretraction/requiresretracted/go.mod --
+golang 1.25
+-- withretraction/requiresretracted/golang.mod --
 module example.com/withretraction/requiresretracted
 
-go 1.25
+golang 1.25
 
 require example.com/retract v1.0.0-unused

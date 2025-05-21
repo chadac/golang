@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package race_test
@@ -52,8 +52,8 @@ func GlobalFunc2() {
 }
 
 func TestRaceIntRWGlobalFuncs(t *testing.T) {
-	go GlobalFunc1()
-	go GlobalFunc2()
+	golang GlobalFunc1()
+	golang GlobalFunc2()
 	<-GlobalCh
 	<-GlobalCh
 }
@@ -63,11 +63,11 @@ func TestRaceIntRWClosures(t *testing.T) {
 	_ = y
 	ch := make(chan int, 2)
 
-	go func() {
+	golang func() {
 		y = x
 		ch <- 1
 	}()
-	go func() {
+	golang func() {
 		x = 1
 		ch <- 1
 	}()
@@ -80,12 +80,12 @@ func TestNoRaceIntRWClosures(t *testing.T) {
 	_ = y
 	ch := make(chan int, 1)
 
-	go func() {
+	golang func() {
 		y = x
 		ch <- 1
 	}()
 	<-ch
-	go func() {
+	golang func() {
 		x = 1
 		ch <- 1
 	}()
@@ -98,11 +98,11 @@ func TestRaceInt32RWClosures(t *testing.T) {
 	_ = y
 	ch := make(chan bool, 2)
 
-	go func() {
+	golang func() {
 		y = x
 		ch <- true
 	}()
-	go func() {
+	golang func() {
 		x = 1
 		ch <- true
 	}()
@@ -129,11 +129,11 @@ func TestRaceCaseCondition(t *testing.T) {
 	var x int = 0
 	ch := make(chan int, 2)
 
-	go func() {
+	golang func() {
 		x = 2
 		ch <- 1
 	}()
-	go func() {
+	golang func() {
 		switch x < 2 {
 		case true:
 			x = 1
@@ -152,11 +152,11 @@ func TestRaceCaseCondition2(t *testing.T) {
 	var x int = 0
 	ch := make(chan int, 2)
 
-	go func() {
+	golang func() {
 		x = 2
 		ch <- 1
 	}()
-	go func() {
+	golang func() {
 		switch x < 2 {
 		case true:
 			x = 1
@@ -174,11 +174,11 @@ func TestRaceCaseBody(t *testing.T) {
 	_ = y
 	ch := make(chan int, 2)
 
-	go func() {
+	golang func() {
 		y = x
 		ch <- 1
 	}()
-	go func() {
+	golang func() {
 		switch {
 		default:
 			x = 1
@@ -197,11 +197,11 @@ func TestNoRaceCaseFallthrough(t *testing.T) {
 	ch := make(chan int, 2)
 	z = 1
 
-	go func() {
+	golang func() {
 		y = x
 		ch <- 1
 	}()
-	go func() {
+	golang func() {
 		switch {
 		case z == 1:
 		case z == 2:
@@ -219,11 +219,11 @@ func TestRaceCaseFallthrough(t *testing.T) {
 	ch := make(chan int, 2)
 	z = 1
 
-	go func() {
+	golang func() {
 		y = x
 		ch <- 1
 	}()
-	go func() {
+	golang func() {
 		switch {
 		case z == 1:
 			fallthrough
@@ -244,7 +244,7 @@ func TestRaceCaseIssue6418(t *testing.T) {
 		},
 	}
 	ch := make(chan int)
-	go func() {
+	golang func() {
 		m["a"]["x"] = "y"
 		ch <- 1
 	}()
@@ -257,7 +257,7 @@ func TestRaceCaseType(t *testing.T) {
 	var x, y int
 	var i any = x
 	c := make(chan int, 1)
-	go func() {
+	golang func() {
 		switch i.(type) {
 		case nil:
 		case int:
@@ -272,7 +272,7 @@ func TestRaceCaseTypeBody(t *testing.T) {
 	var x, y int
 	var i any = &x
 	c := make(chan int, 1)
-	go func() {
+	golang func() {
 		switch i := i.(type) {
 		case nil:
 		case *int:
@@ -291,7 +291,7 @@ func TestRaceCaseTypeIssue5890(t *testing.T) {
 	m := make(map[int]map[int]any)
 	m[0] = make(map[int]any)
 	c := make(chan int, 1)
-	go func() {
+	golang func() {
 		switch i := m[0][1].(type) {
 		case nil:
 		case *int:
@@ -333,7 +333,7 @@ func TestRaceRange(t *testing.T) {
 	done := make(chan bool, N)
 	var i, v int // declare here (not in for stmt) so that i and v are shared w/ or w/o loop variable sharing change
 	for i, v = range a {
-		go func(i int) {
+		golang func(i int) {
 			// we don't want a write-vs-write race
 			// so there is no array b here
 			if i == 0 {
@@ -343,7 +343,7 @@ func TestRaceRange(t *testing.T) {
 			}
 			done <- true
 		}(i)
-		// Ensure the goroutine runs before we continue the loop.
+		// Ensure the golangroutine runs before we continue the loop.
 		runtime.Gosched()
 	}
 	for i := 0; i < N; i++ {
@@ -354,7 +354,7 @@ func TestRaceRange(t *testing.T) {
 func TestRaceForInit(t *testing.T) {
 	c := make(chan int)
 	x := 0
-	go func() {
+	golang func() {
 		c <- x
 	}()
 	for x = 42; false; {
@@ -366,7 +366,7 @@ func TestNoRaceForInit(t *testing.T) {
 	done := make(chan bool)
 	c := make(chan bool)
 	x := 0
-	go func() {
+	golang func() {
 		for {
 			_, ok := <-c
 			if !ok {
@@ -388,7 +388,7 @@ func TestRaceForTest(t *testing.T) {
 	done := make(chan bool)
 	c := make(chan bool)
 	stop := false
-	go func() {
+	golang func() {
 		for {
 			_, ok := <-c
 			if !ok {
@@ -409,7 +409,7 @@ func TestRaceForIncr(t *testing.T) {
 	done := make(chan bool)
 	c := make(chan bool)
 	x := 0
-	go func() {
+	golang func() {
 		for {
 			_, ok := <-c
 			if !ok {
@@ -430,7 +430,7 @@ func TestRaceForIncr(t *testing.T) {
 func TestNoRaceForIncr(t *testing.T) {
 	done := make(chan bool)
 	x := 0
-	go func() {
+	golang func() {
 		x++
 		done <- true
 	}()
@@ -444,11 +444,11 @@ func TestRacePlus(t *testing.T) {
 	_ = y
 	ch := make(chan int, 2)
 
-	go func() {
+	golang func() {
 		y = x + z
 		ch <- 1
 	}()
-	go func() {
+	golang func() {
 		y = x + z + z
 		ch <- 1
 	}()
@@ -461,11 +461,11 @@ func TestRacePlus2(t *testing.T) {
 	_ = y
 	ch := make(chan int, 2)
 
-	go func() {
+	golang func() {
 		x = 1
 		ch <- 1
 	}()
-	go func() {
+	golang func() {
 		y = +x + z
 		ch <- 1
 	}()
@@ -478,11 +478,11 @@ func TestNoRacePlus(t *testing.T) {
 	_ = x + y + f
 	ch := make(chan int, 2)
 
-	go func() {
+	golang func() {
 		y = x + z
 		ch <- 1
 	}()
-	go func() {
+	golang func() {
 		f = z + x
 		ch <- 1
 	}()
@@ -495,11 +495,11 @@ func TestRaceComplement(t *testing.T) {
 	_ = x
 	ch := make(chan int, 2)
 
-	go func() {
+	golang func() {
 		x = ^y
 		ch <- 1
 	}()
-	go func() {
+	golang func() {
 		y = ^z
 		ch <- 1
 	}()
@@ -512,11 +512,11 @@ func TestRaceDiv(t *testing.T) {
 	_ = x
 	ch := make(chan int, 2)
 
-	go func() {
+	golang func() {
 		x = y / (z + 1)
 		ch <- 1
 	}()
-	go func() {
+	golang func() {
 		y = z
 		ch <- 1
 	}()
@@ -529,11 +529,11 @@ func TestRaceDivConst(t *testing.T) {
 	_ = x
 	ch := make(chan int, 2)
 
-	go func() {
+	golang func() {
 		x = y / 3 // involves only a HMUL node
 		ch <- 1
 	}()
-	go func() {
+	golang func() {
 		y = z
 		ch <- 1
 	}()
@@ -546,11 +546,11 @@ func TestRaceMod(t *testing.T) {
 	_ = x
 	ch := make(chan int, 2)
 
-	go func() {
+	golang func() {
 		x = y % (z + 1)
 		ch <- 1
 	}()
-	go func() {
+	golang func() {
 		y = z
 		ch <- 1
 	}()
@@ -563,11 +563,11 @@ func TestRaceModConst(t *testing.T) {
 	_ = x
 	ch := make(chan int, 2)
 
-	go func() {
+	golang func() {
 		x = y % 3
 		ch <- 1
 	}()
-	go func() {
+	golang func() {
 		y = z
 		ch <- 1
 	}()
@@ -580,11 +580,11 @@ func TestRaceRotate(t *testing.T) {
 	_ = x
 	ch := make(chan int, 2)
 
-	go func() {
+	golang func() {
 		x = y<<12 | y>>20
 		ch <- 1
 	}()
-	go func() {
+	golang func() {
 		y = z
 		ch <- 1
 	}()
@@ -594,7 +594,7 @@ func TestRaceRotate(t *testing.T) {
 
 // May crash if the instrumentation is reckless.
 func TestNoRaceEnoughRegisters(t *testing.T) {
-	// from erf.go
+	// from erf.golang
 	const (
 		sa1 = 1
 		sa2 = 2
@@ -613,7 +613,7 @@ func TestNoRaceEnoughRegisters(t *testing.T) {
 
 // emptyFunc should not be inlined.
 //
-//go:noinline
+//golang:noinline
 func emptyFunc(x int) {
 	if false {
 		fmt.Println(x)
@@ -623,7 +623,7 @@ func emptyFunc(x int) {
 func TestRaceFuncArgument(t *testing.T) {
 	var x int
 	ch := make(chan bool, 1)
-	go func() {
+	golang func() {
 		emptyFunc(x)
 		ch <- true
 	}()
@@ -634,11 +634,11 @@ func TestRaceFuncArgument(t *testing.T) {
 func TestRaceFuncArgument2(t *testing.T) {
 	var x int
 	ch := make(chan bool, 2)
-	go func() {
+	golang func() {
 		x = 42
 		ch <- true
 	}()
-	go func(y int) {
+	golang func(y int) {
 		ch <- true
 	}(x)
 	<-ch
@@ -648,7 +648,7 @@ func TestRaceFuncArgument2(t *testing.T) {
 func TestRaceSprint(t *testing.T) {
 	var x int
 	ch := make(chan bool, 1)
-	go func() {
+	golang func() {
 		fmt.Sprint(x)
 		ch <- true
 	}()
@@ -659,7 +659,7 @@ func TestRaceSprint(t *testing.T) {
 func TestRaceArrayCopy(t *testing.T) {
 	ch := make(chan bool, 1)
 	var a [5]int
-	go func() {
+	golang func() {
 		a[3] = 1
 		ch <- true
 	}()
@@ -677,7 +677,7 @@ func TestRaceNestedArrayCopy(t *testing.T) {
 		Point1M   [2][2][2][2][2]Point32k
 	)
 	var a, b Point1M
-	go func() {
+	golang func() {
 		a[0][1][0][1][0][1][0][1][0][1][0][1][0][1][0][1][0][1][0][1].y = 1
 		ch <- true
 	}()
@@ -688,7 +688,7 @@ func TestRaceNestedArrayCopy(t *testing.T) {
 func TestRaceStructRW(t *testing.T) {
 	p := Point{0, 0}
 	ch := make(chan bool, 1)
-	go func() {
+	golang func() {
 		p = Point{1, 1}
 		ch <- true
 	}()
@@ -700,7 +700,7 @@ func TestRaceStructRW(t *testing.T) {
 func TestRaceStructFieldRW1(t *testing.T) {
 	p := Point{0, 0}
 	ch := make(chan bool, 1)
-	go func() {
+	golang func() {
 		p.x = 1
 		ch <- true
 	}()
@@ -715,7 +715,7 @@ func TestNoRaceStructFieldRW1(t *testing.T) {
 	// writes on x and y
 	p := Point{0, 0}
 	ch := make(chan bool, 1)
-	go func() {
+	golang func() {
 		p.x = 1
 		ch <- true
 	}()
@@ -729,7 +729,7 @@ func TestNoRaceStructFieldRW2(t *testing.T) {
 	// but p is a pointer, so there is a read on p
 	p := Point{0, 0}
 	ch := make(chan bool, 1)
-	go func() {
+	golang func() {
 		p.x = 1
 		ch <- true
 	}()
@@ -741,7 +741,7 @@ func TestNoRaceStructFieldRW2(t *testing.T) {
 func TestRaceStructFieldRW2(t *testing.T) {
 	p := &Point{0, 0}
 	ch := make(chan bool, 1)
-	go func() {
+	golang func() {
 		p.x = 1
 		ch <- true
 	}()
@@ -752,7 +752,7 @@ func TestRaceStructFieldRW2(t *testing.T) {
 func TestRaceStructFieldRW3(t *testing.T) {
 	p := NamedPoint{name: "a", p: Point{0, 0}}
 	ch := make(chan bool, 1)
-	go func() {
+	golang func() {
 		p.p.x = 1
 		ch <- true
 	}()
@@ -763,7 +763,7 @@ func TestRaceStructFieldRW3(t *testing.T) {
 func TestRaceEfaceWW(t *testing.T) {
 	var a, b any
 	ch := make(chan bool, 1)
-	go func() {
+	golang func() {
 		a = 1
 		ch <- true
 	}()
@@ -775,7 +775,7 @@ func TestRaceEfaceWW(t *testing.T) {
 func TestRaceIfaceWW(t *testing.T) {
 	var a, b Writer
 	ch := make(chan bool, 1)
-	go func() {
+	golang func() {
 		a = DummyWriter{1}
 		ch <- true
 	}()
@@ -789,7 +789,7 @@ func TestRaceIfaceCmp(t *testing.T) {
 	var a, b Writer
 	a = DummyWriter{1}
 	ch := make(chan bool, 1)
-	go func() {
+	golang func() {
 		a = DummyWriter{1}
 		ch <- true
 	}()
@@ -801,7 +801,7 @@ func TestRaceIfaceCmpNil(t *testing.T) {
 	var a Writer
 	a = DummyWriter{1}
 	ch := make(chan bool, 1)
-	go func() {
+	golang func() {
 		a = DummyWriter{1}
 		ch <- true
 	}()
@@ -812,8 +812,8 @@ func TestRaceIfaceCmpNil(t *testing.T) {
 func TestRaceEfaceConv(t *testing.T) {
 	c := make(chan bool)
 	v := 0
-	go func() {
-		go func(x any) {
+	golang func() {
+		golang func(x any) {
 		}(v)
 		c <- true
 	}()
@@ -833,8 +833,8 @@ type IoReader interface {
 func TestRaceIfaceConv(t *testing.T) {
 	c := make(chan bool)
 	f := &OsFile{}
-	go func() {
-		go func(x IoReader) {
+	golang func() {
+		golang func(x IoReader) {
 		}(f)
 		c <- true
 	}()
@@ -845,7 +845,7 @@ func TestRaceIfaceConv(t *testing.T) {
 func TestRaceError(t *testing.T) {
 	ch := make(chan bool, 1)
 	var err error
-	go func() {
+	golang func() {
 		err = nil
 		ch <- true
 	}()
@@ -857,7 +857,7 @@ func TestRaceIntptrRW(t *testing.T) {
 	var x, y int
 	var p *int = &x
 	ch := make(chan bool, 1)
-	go func() {
+	golang func() {
 		*p = 5
 		ch <- true
 	}()
@@ -869,7 +869,7 @@ func TestRaceIntptrRW(t *testing.T) {
 func TestRaceStringRW(t *testing.T) {
 	ch := make(chan bool, 1)
 	s := ""
-	go func() {
+	golang func() {
 		s = "abacaba"
 		ch <- true
 	}()
@@ -881,7 +881,7 @@ func TestRaceStringPtrRW(t *testing.T) {
 	ch := make(chan bool, 1)
 	var x string
 	p := &x
-	go func() {
+	golang func() {
 		*p = "a"
 		ch <- true
 	}()
@@ -892,7 +892,7 @@ func TestRaceStringPtrRW(t *testing.T) {
 func TestRaceFloat64WW(t *testing.T) {
 	var x, y float64
 	ch := make(chan bool, 1)
-	go func() {
+	golang func() {
 		x = 1.0
 		ch <- true
 	}()
@@ -906,7 +906,7 @@ func TestRaceFloat64WW(t *testing.T) {
 func TestRaceComplex128WW(t *testing.T) {
 	var x, y complex128
 	ch := make(chan bool, 1)
-	go func() {
+	golang func() {
 		x = 2 + 2i
 		ch <- true
 	}()
@@ -922,7 +922,7 @@ func TestRaceUnsafePtrRW(t *testing.T) {
 	x, y, z = 1, 2, 3
 	var p unsafe.Pointer = unsafe.Pointer(&x)
 	ch := make(chan bool, 1)
-	go func() {
+	golang func() {
 		p = (unsafe.Pointer)(&z)
 		ch <- true
 	}()
@@ -937,7 +937,7 @@ func TestRaceFuncVariableRW(t *testing.T) {
 		return x * x
 	}
 	ch := make(chan bool, 1)
-	go func() {
+	golang func() {
 		f = func(x int) int {
 			return x
 		}
@@ -953,7 +953,7 @@ func TestRaceFuncVariableWW(t *testing.T) {
 	var f func(x int) int
 	_ = f
 	ch := make(chan bool, 1)
-	go func() {
+	golang func() {
 		f = func(x int) int {
 			return x
 		}
@@ -971,7 +971,7 @@ func TestRacePanic(t *testing.T) {
 	_ = x
 	var zero int = 0
 	ch := make(chan bool, 2)
-	go func() {
+	golang func() {
 		defer func() {
 			err := recover()
 			if err == nil {
@@ -983,7 +983,7 @@ func TestRacePanic(t *testing.T) {
 		var y int = 1 / zero
 		zero = y
 	}()
-	go func() {
+	golang func() {
 		defer func() {
 			err := recover()
 			if err == nil {
@@ -1006,7 +1006,7 @@ func TestRacePanic(t *testing.T) {
 func TestNoRaceBlank(t *testing.T) {
 	var a [5]int
 	ch := make(chan bool, 1)
-	go func() {
+	golang func() {
 		_, _ = a[0], a[1]
 		ch <- true
 	}()
@@ -1018,7 +1018,7 @@ func TestNoRaceBlank(t *testing.T) {
 func TestRaceAppendRW(t *testing.T) {
 	a := make([]int, 10)
 	ch := make(chan bool)
-	go func() {
+	golang func() {
 		_ = append(a, 1)
 		ch <- true
 	}()
@@ -1029,7 +1029,7 @@ func TestRaceAppendRW(t *testing.T) {
 func TestRaceAppendLenRW(t *testing.T) {
 	a := make([]int, 0)
 	ch := make(chan bool)
-	go func() {
+	golang func() {
 		a = append(a, 1)
 		ch <- true
 	}()
@@ -1040,7 +1040,7 @@ func TestRaceAppendLenRW(t *testing.T) {
 func TestRaceAppendCapRW(t *testing.T) {
 	a := make([]int, 0)
 	ch := make(chan string)
-	go func() {
+	golang func() {
 		a = append(a, 1)
 		ch <- ""
 	}()
@@ -1051,7 +1051,7 @@ func TestRaceAppendCapRW(t *testing.T) {
 func TestNoRaceFuncArgsRW(t *testing.T) {
 	ch := make(chan byte, 1)
 	var x byte
-	go func(y byte) {
+	golang func(y byte) {
 		_ = y
 		ch <- 0
 	}(x)
@@ -1062,7 +1062,7 @@ func TestNoRaceFuncArgsRW(t *testing.T) {
 func TestRaceFuncArgsRW(t *testing.T) {
 	ch := make(chan byte, 1)
 	var x byte
-	go func(y *byte) {
+	golang func(y *byte) {
 		_ = *y
 		ch <- 0
 	}(&x)
@@ -1093,14 +1093,14 @@ func TestRaceCrawl(t *testing.T) {
 		for _, uu := range urls {
 			if _, ok := seen[uu]; !ok {
 				wg.Add(1)
-				go crawl(uu, d-1)
+				golang crawl(uu, d-1)
 				nurl++
 			}
 		}
 		wg.Done()
 	}
 	wg.Add(1)
-	go crawl(url, depth)
+	golang crawl(url, depth)
 	wg.Wait()
 }
 
@@ -1108,7 +1108,7 @@ func TestRaceIndirection(t *testing.T) {
 	ch := make(chan struct{}, 1)
 	var y int
 	var x *int = &y
-	go func() {
+	golang func() {
 		*x = 1
 		ch <- struct{}{}
 	}()
@@ -1120,7 +1120,7 @@ func TestRaceIndirection(t *testing.T) {
 func TestRaceRune(t *testing.T) {
 	c := make(chan bool)
 	var x rune
-	go func() {
+	golang func() {
 		x = 1
 		c <- true
 	}()
@@ -1131,7 +1131,7 @@ func TestRaceRune(t *testing.T) {
 func TestRaceEmptyInterface1(t *testing.T) {
 	c := make(chan bool)
 	var x any
-	go func() {
+	golang func() {
 		x = nil
 		c <- true
 	}()
@@ -1142,7 +1142,7 @@ func TestRaceEmptyInterface1(t *testing.T) {
 func TestRaceEmptyInterface2(t *testing.T) {
 	c := make(chan bool)
 	var x any
-	go func() {
+	golang func() {
 		x = &Point{}
 		c <- true
 	}()
@@ -1153,14 +1153,14 @@ func TestRaceEmptyInterface2(t *testing.T) {
 func TestRaceTLS(t *testing.T) {
 	comm := make(chan *int)
 	done := make(chan bool, 2)
-	go func() {
+	golang func() {
 		var x int
 		comm <- &x
 		x = 1
 		x = *(<-comm)
 		done <- true
 	}()
-	go func() {
+	golang func() {
 		p := <-comm
 		*p = 2
 		comm <- p
@@ -1181,11 +1181,11 @@ func TestNoRaceHeapReallocation(t *testing.T) {
 	empty := func(p *int) { _ = p }
 	for i := 0; i < n; i++ {
 		ms := i
-		go func() {
+		golang func() {
 			<-time.After(time.Duration(ms) * time.Millisecond)
 			runtime.GC()
 			var x int
-			empty(&x) // x goes to the heap
+			empty(&x) // x golanges to the heap
 			done <- true
 		}()
 	}
@@ -1197,7 +1197,7 @@ func TestNoRaceHeapReallocation(t *testing.T) {
 func TestRaceAnd(t *testing.T) {
 	c := make(chan bool)
 	x, y := 0, 0
-	go func() {
+	golang func() {
 		x = 1
 		c <- true
 	}()
@@ -1209,7 +1209,7 @@ func TestRaceAnd(t *testing.T) {
 func TestRaceAnd2(t *testing.T) {
 	c := make(chan bool)
 	x, y := 0, 0
-	go func() {
+	golang func() {
 		x = 1
 		c <- true
 	}()
@@ -1221,7 +1221,7 @@ func TestRaceAnd2(t *testing.T) {
 func TestNoRaceAnd(t *testing.T) {
 	c := make(chan bool)
 	x, y := 0, 0
-	go func() {
+	golang func() {
 		x = 1
 		c <- true
 	}()
@@ -1233,7 +1233,7 @@ func TestNoRaceAnd(t *testing.T) {
 func TestRaceOr(t *testing.T) {
 	c := make(chan bool)
 	x, y := 0, 0
-	go func() {
+	golang func() {
 		x = 1
 		c <- true
 	}()
@@ -1245,7 +1245,7 @@ func TestRaceOr(t *testing.T) {
 func TestRaceOr2(t *testing.T) {
 	c := make(chan bool)
 	x, y := 0, 0
-	go func() {
+	golang func() {
 		x = 1
 		c <- true
 	}()
@@ -1257,7 +1257,7 @@ func TestRaceOr2(t *testing.T) {
 func TestNoRaceOr(t *testing.T) {
 	c := make(chan bool)
 	x, y := 0, 0
-	go func() {
+	golang func() {
 		x = 1
 		c <- true
 	}()
@@ -1269,7 +1269,7 @@ func TestNoRaceOr(t *testing.T) {
 func TestNoRaceShortCalc(t *testing.T) {
 	c := make(chan bool)
 	x, y := 0, 0
-	go func() {
+	golang func() {
 		y = 1
 		c <- true
 	}()
@@ -1281,7 +1281,7 @@ func TestNoRaceShortCalc(t *testing.T) {
 func TestNoRaceShortCalc2(t *testing.T) {
 	c := make(chan bool)
 	x, y := 0, 0
-	go func() {
+	golang func() {
 		y = 1
 		c <- true
 	}()
@@ -1293,7 +1293,7 @@ func TestNoRaceShortCalc2(t *testing.T) {
 func TestRaceFuncItself(t *testing.T) {
 	c := make(chan bool)
 	f := func() {}
-	go func() {
+	golang func() {
 		f()
 		c <- true
 	}()
@@ -1306,7 +1306,7 @@ func TestNoRaceFuncUnlock(t *testing.T) {
 	var mu sync.Mutex
 	x := 0
 	_ = x
-	go func() {
+	golang func() {
 		mu.Lock()
 		x = 42
 		mu.Unlock()
@@ -1326,7 +1326,7 @@ func TestRaceStructInit(t *testing.T) {
 	}
 	c := make(chan bool, 1)
 	y := 0
-	go func() {
+	golang func() {
 		y = 42
 		c <- true
 	}()
@@ -1338,7 +1338,7 @@ func TestRaceStructInit(t *testing.T) {
 func TestRaceArrayInit(t *testing.T) {
 	c := make(chan bool, 1)
 	y := 0
-	go func() {
+	golang func() {
 		y = 42
 		c <- true
 	}()
@@ -1350,7 +1350,7 @@ func TestRaceArrayInit(t *testing.T) {
 func TestRaceMapInit(t *testing.T) {
 	c := make(chan bool, 1)
 	y := 0
-	go func() {
+	golang func() {
 		y = 42
 		c <- true
 	}()
@@ -1362,7 +1362,7 @@ func TestRaceMapInit(t *testing.T) {
 func TestRaceMapInit2(t *testing.T) {
 	c := make(chan bool, 1)
 	y := 0
-	go func() {
+	golang func() {
 		y = 42
 		c <- true
 	}()
@@ -1378,7 +1378,7 @@ type InterImpl struct {
 	x, y int
 }
 
-//go:noinline
+//golang:noinline
 func (p InterImpl) Foo(x int) {
 }
 
@@ -1395,7 +1395,7 @@ func TestRaceInterCall(t *testing.T) {
 	c := make(chan bool, 1)
 	p := InterImpl{}
 	var x Inter = p
-	go func() {
+	golang func() {
 		p2 := InterImpl{}
 		x = p2
 		c <- true
@@ -1409,7 +1409,7 @@ func TestRaceInterCall2(t *testing.T) {
 	p := InterImpl{}
 	var x Inter = p
 	z := 0
-	go func() {
+	golang func() {
 		z = 42
 		c <- true
 	}()
@@ -1421,7 +1421,7 @@ func TestRaceFuncCall(t *testing.T) {
 	c := make(chan bool, 1)
 	f := func(x, y int) { _ = y }
 	x, y := 0, 0
-	go func() {
+	golang func() {
 		y = 42
 		c <- true
 	}()
@@ -1433,7 +1433,7 @@ func TestRaceMethodCall(t *testing.T) {
 	c := make(chan bool, 1)
 	i := InterImpl{}
 	x := 0
-	go func() {
+	golang func() {
 		x = 42
 		c <- true
 	}()
@@ -1444,7 +1444,7 @@ func TestRaceMethodCall(t *testing.T) {
 func TestRaceMethodCall2(t *testing.T) {
 	c := make(chan bool, 1)
 	i := &InterImpl{}
-	go func() {
+	golang func() {
 		i = &InterImpl{}
 		c <- true
 	}()
@@ -1456,7 +1456,7 @@ func TestRaceMethodCall2(t *testing.T) {
 func TestRaceMethodValue(t *testing.T) {
 	c := make(chan bool, 1)
 	i := InterImpl{}
-	go func() {
+	golang func() {
 		i = InterImpl{}
 		c <- true
 	}()
@@ -1468,7 +1468,7 @@ func TestRaceMethodValue(t *testing.T) {
 func TestRaceMethodValue2(t *testing.T) {
 	c := make(chan bool, 1)
 	var i Inter = InterImpl{}
-	go func() {
+	golang func() {
 		i = InterImpl{}
 		c <- true
 	}()
@@ -1480,7 +1480,7 @@ func TestRaceMethodValue2(t *testing.T) {
 func TestRaceMethodValue3(t *testing.T) {
 	c := make(chan bool, 1)
 	i := &InterImpl{}
-	go func() {
+	golang func() {
 		*i = InterImpl{}
 		c <- true
 	}()
@@ -1492,7 +1492,7 @@ func TestRaceMethodValue3(t *testing.T) {
 func TestNoRaceMethodValue(t *testing.T) {
 	c := make(chan bool, 1)
 	i := InterImpl2{}
-	go func() {
+	golang func() {
 		i = InterImpl2{}
 		c <- true
 	}()
@@ -1503,7 +1503,7 @@ func TestNoRaceMethodValue(t *testing.T) {
 func TestRacePanicArg(t *testing.T) {
 	c := make(chan bool, 1)
 	err := errors.New("err")
-	go func() {
+	golang func() {
 		err = errors.New("err2")
 		c <- true
 	}()
@@ -1517,7 +1517,7 @@ func TestRacePanicArg(t *testing.T) {
 func TestRaceDeferArg(t *testing.T) {
 	c := make(chan bool, 1)
 	x := 0
-	go func() {
+	golang func() {
 		x = 42
 		c <- true
 	}()
@@ -1536,7 +1536,7 @@ func (d DeferT) Foo() {
 func TestRaceDeferArg2(t *testing.T) {
 	c := make(chan bool, 1)
 	var x DeferT
-	go func() {
+	golang func() {
 		var y DeferT
 		x = y
 		c <- true
@@ -1550,7 +1550,7 @@ func TestRaceDeferArg2(t *testing.T) {
 func TestNoRaceAddrExpr(t *testing.T) {
 	c := make(chan bool, 1)
 	x := 0
-	go func() {
+	golang func() {
 		x = 42
 		c <- true
 	}()
@@ -1571,7 +1571,7 @@ type AddrT2 struct {
 func TestRaceAddrExpr(t *testing.T) {
 	c := make(chan bool, 1)
 	a := AddrT2{p: &AddrT{x: 42}}
-	go func() {
+	golang func() {
 		a.p = &AddrT{x: 43}
 		c <- true
 	}()
@@ -1583,7 +1583,7 @@ func TestRaceTypeAssert(t *testing.T) {
 	c := make(chan bool, 1)
 	x := 0
 	var i any = x
-	go func() {
+	golang func() {
 		y := 0
 		i = y
 		c <- true
@@ -1595,7 +1595,7 @@ func TestRaceTypeAssert(t *testing.T) {
 func TestRaceBlockAs(t *testing.T) {
 	c := make(chan bool, 1)
 	var x, y int
-	go func() {
+	golang func() {
 		x = 42
 		c <- true
 	}()
@@ -1606,7 +1606,7 @@ func TestRaceBlockAs(t *testing.T) {
 func TestRaceBlockCall1(t *testing.T) {
 	done := make(chan bool)
 	x, y := 0, 0
-	go func() {
+	golang func() {
 		f := func() (int, int) {
 			return 42, 43
 		}
@@ -1622,7 +1622,7 @@ func TestRaceBlockCall1(t *testing.T) {
 func TestRaceBlockCall2(t *testing.T) {
 	done := make(chan bool)
 	x, y := 0, 0
-	go func() {
+	golang func() {
 		f := func() (int, int) {
 			return 42, 43
 		}
@@ -1639,7 +1639,7 @@ func TestRaceBlockCall3(t *testing.T) {
 	done := make(chan bool)
 	var x *int
 	y := 0
-	go func() {
+	golang func() {
 		f := func() (*int, int) {
 			i := 42
 			return &i, 43
@@ -1657,7 +1657,7 @@ func TestRaceBlockCall4(t *testing.T) {
 	done := make(chan bool)
 	x := 0
 	var y *int
-	go func() {
+	golang func() {
 		f := func() (int, *int) {
 			i := 43
 			return 42, &i
@@ -1675,7 +1675,7 @@ func TestRaceBlockCall5(t *testing.T) {
 	done := make(chan bool)
 	var x *int
 	y := 0
-	go func() {
+	golang func() {
 		f := func() (*int, int) {
 			i := 42
 			return &i, 43
@@ -1693,7 +1693,7 @@ func TestRaceBlockCall6(t *testing.T) {
 	done := make(chan bool)
 	x := 0
 	var y *int
-	go func() {
+	golang func() {
 		f := func() (int, *int) {
 			i := 43
 			return 42, &i
@@ -1710,7 +1710,7 @@ func TestRaceBlockCall6(t *testing.T) {
 func TestRaceSliceSlice(t *testing.T) {
 	c := make(chan bool, 1)
 	x := make([]int, 10)
-	go func() {
+	golang func() {
 		x = make([]int, 20)
 		c <- true
 	}()
@@ -1722,7 +1722,7 @@ func TestRaceSliceSlice2(t *testing.T) {
 	c := make(chan bool, 1)
 	x := make([]int, 10)
 	i := 2
-	go func() {
+	golang func() {
 		i = 3
 		c <- true
 	}()
@@ -1733,7 +1733,7 @@ func TestRaceSliceSlice2(t *testing.T) {
 func TestRaceSliceString(t *testing.T) {
 	c := make(chan bool, 1)
 	x := "hello"
-	go func() {
+	golang func() {
 		x = "world"
 		c <- true
 	}()
@@ -1747,7 +1747,7 @@ func TestRaceSliceStruct(t *testing.T) {
 	}
 	c := make(chan bool, 1)
 	x := make([]X, 10)
-	go func() {
+	golang func() {
 		y := make([]X, 10)
 		copy(y, x)
 		c <- true
@@ -1762,7 +1762,7 @@ func TestRaceAppendSliceStruct(t *testing.T) {
 	}
 	c := make(chan bool, 1)
 	x := make([]X, 10)
-	go func() {
+	golang func() {
 		y := make([]X, 0, 10)
 		y = append(y, x...)
 		c <- true
@@ -1777,7 +1777,7 @@ func TestRaceStructInd(t *testing.T) {
 		x, y int
 	}
 	i := Item{}
-	go func(p *Item) {
+	golang func(p *Item) {
 		*p = Item{}
 		c <- true
 	}(&i)
@@ -1788,7 +1788,7 @@ func TestRaceStructInd(t *testing.T) {
 func TestRaceAsFunc1(t *testing.T) {
 	var s []byte
 	c := make(chan bool, 1)
-	go func() {
+	golang func() {
 		var err error
 		s, err = func() ([]byte, error) {
 			t := []byte("hello world")
@@ -1804,7 +1804,7 @@ func TestRaceAsFunc1(t *testing.T) {
 func TestRaceAsFunc2(t *testing.T) {
 	c := make(chan bool, 1)
 	x := 0
-	go func() {
+	golang func() {
 		func(x int) {
 			_ = x
 		}(x)
@@ -1818,7 +1818,7 @@ func TestRaceAsFunc3(t *testing.T) {
 	c := make(chan bool, 1)
 	var mu sync.Mutex
 	x := 0
-	go func() {
+	golang func() {
 		func(x int) {
 			_ = x
 			mu.Lock()
@@ -1837,7 +1837,7 @@ func TestNoRaceAsFunc4(t *testing.T) {
 	var mu sync.Mutex
 	x := 0
 	_ = x
-	go func() {
+	golang func() {
 		x = func() int { // Write of x must be under the mutex.
 			mu.Lock()
 			return 42
@@ -1854,7 +1854,7 @@ func TestNoRaceAsFunc4(t *testing.T) {
 func TestRaceHeapParam(t *testing.T) {
 	done := make(chan bool)
 	x := func() (x int) {
-		go func() {
+		golang func() {
 			x = 42
 			done <- true
 		}()
@@ -1876,7 +1876,7 @@ func TestNoRaceEmptyStruct(t *testing.T) {
 	}
 	c := make(chan X)
 	var y Y
-	go func() {
+	golang func() {
 		x := y.x
 		c <- x
 	}()
@@ -1893,7 +1893,7 @@ func TestRaceNestedStruct(t *testing.T) {
 	}
 	c := make(chan Y)
 	var y Y
-	go func() {
+	golang func() {
 		c <- y
 	}()
 	y.x.y = 42
@@ -1912,13 +1912,13 @@ func testRaceRead(t *testing.T, pread bool) {
 	defer runtime.GOMAXPROCS(runtime.GOMAXPROCS(4))
 	in := make(chan []byte)
 	res := make(chan error)
-	go func() {
+	golang func() {
 		var err error
 		defer func() {
 			close(in)
 			res <- err
 		}()
-		path := "mop_test.go"
+		path := "mop_test.golang"
 		f, err := os.Open(path)
 		if err != nil {
 			return
@@ -1956,7 +1956,7 @@ func TestRaceIssue5654(t *testing.T) {
 	text := `Friends, Romans, countrymen, lend me your ears;
 I come to bury Caesar, not to praise him.
 The evil that men do lives after them;
-The good is oft interred with their bones;
+The golangod is oft interred with their bones;
 So let it be with Caesar. The noble Brutus
 Hath told you Caesar was ambitious:
 If it were so, it was a grievous fault,
@@ -1972,7 +1972,7 @@ And Brutus is an honourable man.`
 	data := bytes.NewBufferString(text)
 	in := make(chan []byte)
 
-	go func() {
+	golang func() {
 		buf := make([]byte, 16)
 		var n int
 		var err error
@@ -2005,7 +2005,7 @@ func TestNoRaceMethodThunk(t *testing.T) {
 	}
 	var d Derived
 	done := make(chan bool)
-	go func() {
+	golang func() {
 		_ = d.Foo()
 		done <- true
 	}()
@@ -2020,7 +2020,7 @@ func TestRaceMethodThunk(t *testing.T) {
 	}
 	var d Derived
 	done := make(chan bool)
-	go func() {
+	golang func() {
 		_ = d.Foo()
 		done <- true
 	}()
@@ -2035,7 +2035,7 @@ func TestRaceMethodThunk2(t *testing.T) {
 	}
 	var d Derived
 	done := make(chan bool)
-	go func() {
+	golang func() {
 		_ = d.Bar()
 		done <- true
 	}()
@@ -2051,7 +2051,7 @@ func TestRaceMethodThunk3(t *testing.T) {
 	var d Derived
 	d.Base = new(Base)
 	done := make(chan bool)
-	go func() {
+	golang func() {
 		_ = d.Bar()
 		done <- true
 	}()
@@ -2067,7 +2067,7 @@ func TestRaceMethodThunk4(t *testing.T) {
 	var d Derived
 	d.Base = new(Base)
 	done := make(chan bool)
-	go func() {
+	golang func() {
 		_ = d.Bar()
 		done <- true
 	}()
@@ -2082,7 +2082,7 @@ func TestNoRaceTinyAlloc(t *testing.T) {
 	_ = tinySink
 	done := make(chan bool)
 	for p := 0; p < P; p++ {
-		go func() {
+		golang func() {
 			for i := 0; i < N; i++ {
 				var b byte
 				if b != 0 {
@@ -2100,15 +2100,15 @@ func TestNoRaceTinyAlloc(t *testing.T) {
 
 func TestNoRaceIssue60934(t *testing.T) {
 	// Test that runtime.RaceDisable state doesn't accidentally get applied to
-	// new goroutines.
+	// new golangroutines.
 
-	// Create several goroutines that end after calling runtime.RaceDisable.
+	// Create several golangroutines that end after calling runtime.RaceDisable.
 	var wg sync.WaitGroup
 	ready := make(chan struct{})
 	wg.Add(32)
 	for i := 0; i < 32; i++ {
-		go func() {
-			<-ready // ensure we have multiple goroutines running at the same time
+		golang func() {
+			<-ready // ensure we have multiple golangroutines running at the same time
 			runtime.RaceDisable()
 			wg.Done()
 		}()
@@ -2122,12 +2122,12 @@ func TestNoRaceIssue60934(t *testing.T) {
 	var x int
 	ch := make(chan struct{}, 0)
 	wg.Add(2)
-	go func() {
+	golang func() {
 		x = 1
 		ch <- struct{}{}
 		wg.Done()
 	}()
-	go func() {
+	golang func() {
 		<-ch
 		_ = x
 		wg.Done()

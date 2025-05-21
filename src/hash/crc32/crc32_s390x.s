@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 #include "textflag.h"
@@ -45,7 +45,7 @@ DATA    ·crclecons+88(SB)/8, $0x00000001DB710641       // P'(x) << 1
 
 GLOBL    ·crclecons(SB),RODATA, $144
 
-// Castagonli Polynomial constants
+// Castagolangnli Polynomial constants
 DATA    ·crcclecons+0(SB)/8,  $0x0F0E0D0C0B0A0908      // LE-to-BE mask
 DATA    ·crcclecons+8(SB)/8,  $0x0706050403020100
 DATA    ·crcclecons+16(SB)/8, $0x000000009e4addf8      // R2
@@ -196,7 +196,7 @@ final_fold:
 	// constant u.  The Barret reduction result is the CRC value of R(x) mod
 	// P(x).
 	//
-	// The Barret reduction algorithm is defined as:
+	// The Barret reduction algolangrithm is defined as:
 	//
 	//    1. T1(x) = floor( R(x) / x^32 ) GF2MUL u
 	//    2. T2(x) = floor( T1(x) / x^32 ) GF2MUL P(x)

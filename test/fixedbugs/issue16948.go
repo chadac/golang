@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // issue 16948: make sure intrinsified atomic ops won't
@@ -26,7 +26,7 @@ func f() (t T) {
 	return
 }
 
-//go:noinline
+//golang:noinline
 func g(a, b, c, d, e int, p *T) {
 	var t [10000]int // a large stack frame to trigger stack growing
 	_ = t

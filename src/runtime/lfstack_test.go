@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime_test
@@ -99,7 +99,7 @@ func TestLFStackStress(t *testing.T) {
 	}
 	c := make(chan bool, P)
 	for p := 0; p < P; p++ {
-		go func() {
+		golang func() {
 			r := rand.New(rand.NewSource(rand.Int63()))
 			// Pop a node from a random stack, then push it onto a random stack.
 			for i := 0; i < N; i++ {

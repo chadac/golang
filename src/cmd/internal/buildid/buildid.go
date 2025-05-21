@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package buildid
@@ -21,7 +21,7 @@ var (
 
 	bangArch = []byte("!<arch>")
 	pkgdef   = []byte("__.PKGDEF")
-	goobject = []byte("go object ")
+	golangobject = []byte("golang object ")
 	buildid  = []byte("build id ")
 )
 
@@ -39,7 +39,7 @@ func ReadFile(name string) (id string, err error) {
 	}
 	if string(buf) != "!<arch>\n" {
 		if string(buf) == "<bigaf>\n" {
-			return readGccgoBigArchive(name, f)
+			return readGccgolangBigArchive(name, f)
 		}
 		return readBinary(name, f)
 	}
@@ -49,7 +49,7 @@ func ReadFile(name string) (id string, err error) {
 	//
 	//	!<arch>
 	//	__.PKGDEF       0           0     0     644     7955      `
-	//	go object darwin amd64 devel X:none
+	//	golang object darwin amd64 devel X:none
 	//	build id "b41e5c45250e25c9fd5e9f9a1de7857ea0d41224"
 	//
 	// The variable-sized strings are GOOS, GOARCH, and the experiment list (X:none).
@@ -60,30 +60,30 @@ func ReadFile(name string) (id string, err error) {
 		return "", err
 	}
 
-	tryGccgo := func() (string, error) {
-		return readGccgoArchive(name, f)
+	tryGccgolang := func() (string, error) {
+		return readGccgolangArchive(name, f)
 	}
 
 	// Archive header.
 	for i := 0; ; i++ { // returns during i==3
 		j := bytes.IndexByte(data, '\n')
 		if j < 0 {
-			return tryGccgo()
+			return tryGccgolang()
 		}
 		line := data[:j]
 		data = data[j+1:]
 		switch i {
 		case 0:
 			if !bytes.Equal(line, bangArch) {
-				return tryGccgo()
+				return tryGccgolang()
 			}
 		case 1:
 			if !bytes.HasPrefix(line, pkgdef) {
-				return tryGccgo()
+				return tryGccgolang()
 			}
 		case 2:
-			if !bytes.HasPrefix(line, goobject) {
-				return tryGccgo()
+			if !bytes.HasPrefix(line, golangobject) {
+				return tryGccgolang()
 			}
 		case 3:
 			if !bytes.HasPrefix(line, buildid) {
@@ -93,18 +93,18 @@ func ReadFile(name string) (id string, err error) {
 			}
 			id, err := strconv.Unquote(string(line[len(buildid):]))
 			if err != nil {
-				return tryGccgo()
+				return tryGccgolang()
 			}
 			return id, nil
 		}
 	}
 }
 
-// readGccgoArchive tries to parse the archive as a standard Unix
+// readGccgolangArchive tries to parse the archive as a standard Unix
 // archive file, and fetch the build ID from the _buildid.o entry.
-// The _buildid.o entry is written by (*Builder).gccgoBuildIDELFFile
-// in cmd/go/internal/work/exec.go.
-func readGccgoArchive(name string, f *os.File) (string, error) {
+// The _buildid.o entry is written by (*Builder).gccgolangBuildIDELFFile
+// in cmd/golang/internal/work/exec.golang.
+func readGccgolangArchive(name string, f *os.File) (string, error) {
 	bad := func() (string, error) {
 		return "", &fs.PathError{Op: "parse", Path: name, Err: errBuildIDMalformed}
 	}
@@ -140,7 +140,7 @@ func readGccgoArchive(name string, f *os.File) (string, error) {
 			if err != nil {
 				return bad()
 			}
-			s := e.Section(".go.buildid")
+			s := e.Section(".golang.buildid")
 			if s == nil {
 				return bad()
 			}
@@ -158,11 +158,11 @@ func readGccgoArchive(name string, f *os.File) (string, error) {
 	}
 }
 
-// readGccgoBigArchive tries to parse the archive as an AIX big
+// readGccgolangBigArchive tries to parse the archive as an AIX big
 // archive file, and fetch the build ID from the _buildid.o entry.
-// The _buildid.o entry is written by (*Builder).gccgoBuildIDXCOFFFile
-// in cmd/go/internal/work/exec.go.
-func readGccgoBigArchive(name string, f *os.File) (string, error) {
+// The _buildid.o entry is written by (*Builder).gccgolangBuildIDXCOFFFile
+// in cmd/golang/internal/work/exec.golang.
+func readGccgolangBigArchive(name string, f *os.File) (string, error) {
 	bad := func() (string, error) {
 		return "", &fs.PathError{Op: "parse", Path: name, Err: errBuildIDMalformed}
 	}
@@ -220,7 +220,7 @@ func readGccgoBigArchive(name string, f *os.File) (string, error) {
 				if err != nil {
 					return bad()
 				}
-				data := x.CSect(".go.buildid")
+				data := x.CSect(".golang.buildid")
 				if data == nil {
 					return bad()
 				}
@@ -238,8 +238,8 @@ func readGccgoBigArchive(name string, f *os.File) (string, error) {
 }
 
 var (
-	goBuildPrefix = []byte("\xff Go build ID: \"")
-	goBuildEnd    = []byte("\"\n \xff")
+	golangBuildPrefix = []byte("\xff Go build ID: \"")
+	golangBuildEnd    = []byte("\"\n \xff")
 
 	elfPrefix = []byte("\x7fELF")
 
@@ -298,18 +298,18 @@ func readBinary(name string, f *os.File) (id string, err error) {
 
 // readRaw finds the raw build ID stored in text segment data.
 func readRaw(name string, data []byte) (id string, err error) {
-	i := bytes.Index(data, goBuildPrefix)
+	i := bytes.Index(data, golangBuildPrefix)
 	if i < 0 {
 		// Missing. Treat as successful but build ID empty.
 		return "", nil
 	}
 
-	j := bytes.Index(data[i+len(goBuildPrefix):], goBuildEnd)
+	j := bytes.Index(data[i+len(golangBuildPrefix):], golangBuildEnd)
 	if j < 0 {
 		return "", &fs.PathError{Op: "parse", Path: name, Err: errBuildIDMalformed}
 	}
 
-	quoted := data[i+len(goBuildPrefix)-1 : i+len(goBuildPrefix)+j+1]
+	quoted := data[i+len(golangBuildPrefix)-1 : i+len(golangBuildPrefix)+j+1]
 	id, err = strconv.Unquote(string(quoted))
 	if err != nil {
 		return "", &fs.PathError{Op: "parse", Path: name, Err: errBuildIDMalformed}

@@ -1,40 +1,40 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file is processed by the cover command, then a test verifies that
 // all compiler directives are preserved and positioned appropriately.
 
-//go:a
+//golang:a
 
-//go:b
+//golang:b
 package main
 
-//go:c1
+//golang:c1
 
-//go:c2
+//golang:c2
 //doc
 func c() {
 }
 
-//go:d1
+//golang:d1
 
 //doc
-//go:d2
+//golang:d2
 type d int
 
-//go:e1
+//golang:e1
 
 //doc
-//go:e2
+//golang:e2
 type (
 	e int
 	f int
 )
 
-//go:_empty1
+//golang:_empty1
 //doc
-//go:_empty2
+//golang:_empty2
 type ()
 
-//go:f
+//golang:f

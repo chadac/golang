@@ -6,12 +6,12 @@
 [!GOOS:windows] skip
 [short] skip
 
-go run print_go_mod.go # use this program to write a go.mod with an absolute path
-cp stdout go.mod
+golang run print_golang_mod.golang # use this program to write a golang.mod with an absolute path
+cp stdout golang.mod
 
-go list -modfile=go.mod all
--- print_go_mod.go --
-//go:build ignore
+golang list -modfile=golang.mod all
+-- print_golang_mod.golang --
+//golang:build ignore
 package main
 
 import (
@@ -25,14 +25,14 @@ fmt.Printf(`module example.com/mod
 
 require b.com v0.0.0
 
-replace b.com => %s\gopath\src/modb
+replace b.com => %s\golangpath\src/modb
 `,  work)
 }
--- a.go --
+-- a.golang --
 package a
 
 import _ "b.com/b"
--- modb/go.mod --
+-- modb/golang.mod --
 module b.com
--- modb/b/b.go --
+-- modb/b/b.golang --
 package b

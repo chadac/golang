@@ -1,28 +1,28 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package stdmethods
 
 import (
 	_ "embed"
-	"go/ast"
-	"go/types"
+	"golang/ast"
+	"golang/types"
 	"strings"
 
-	"golang.org/x/tools/go/analysis"
-	"golang.org/x/tools/go/analysis/passes/inspect"
-	"golang.org/x/tools/go/analysis/passes/internal/analysisutil"
-	"golang.org/x/tools/go/ast/inspector"
+	"golanglang.org/x/tools/golang/analysis"
+	"golanglang.org/x/tools/golang/analysis/passes/inspect"
+	"golanglang.org/x/tools/golang/analysis/passes/internal/analysisutil"
+	"golanglang.org/x/tools/golang/ast/inspector"
 )
 
-//go:embed doc.go
+//golang:embed doc.golang
 var doc string
 
 var Analyzer = &analysis.Analyzer{
 	Name:     "stdmethods",
 	Doc:      analysisutil.MustExtractDoc(doc, "stdmethods"),
-	URL:      "https://pkg.go.dev/golang.org/x/tools/go/analysis/passes/stdmethods",
+	URL:      "https://pkg.golang.dev/golanglang.org/x/tools/golang/analysis/passes/stdmethods",
 	Requires: []*analysis.Analyzer{inspect.Analyzer},
 	Run:      run,
 }
@@ -41,14 +41,14 @@ var Analyzer = &analysis.Analyzer{
 // To do that, the arguments that have a = prefix are treated as
 // signals that the canonical meaning is intended: if a Scan
 // method doesn't have a fmt.ScanState as its first argument,
-// we let it go. But if it does have a fmt.ScanState, then the
+// we let it golang. But if it does have a fmt.ScanState, then the
 // rest has to match.
 var canonicalMethods = map[string]struct{ args, results []string }{
 	"As": {[]string{"any"}, []string{"bool"}}, // errors.As
 	// "Flush": {{}, {"error"}}, // http.Flusher and jpeg.writer conflict
 	"Format":        {[]string{"=fmt.State", "rune"}, []string{}},                      // fmt.Formatter
-	"GobDecode":     {[]string{"[]byte"}, []string{"error"}},                           // gob.GobDecoder
-	"GobEncode":     {[]string{}, []string{"[]byte", "error"}},                         // gob.GobEncoder
+	"GobDecode":     {[]string{"[]byte"}, []string{"error"}},                           // golangb.GobDecoder
+	"GobEncode":     {[]string{}, []string{"[]byte", "error"}},                         // golangb.GobEncoder
 	"Is":            {[]string{"error"}, []string{"bool"}},                             // errors.Is
 	"MarshalJSON":   {[]string{}, []string{"[]byte", "error"}},                         // json.Marshaler
 	"MarshalXML":    {[]string{"*xml.Encoder", "xml.StartElement"}, []string{"error"}}, // xml.Marshaler

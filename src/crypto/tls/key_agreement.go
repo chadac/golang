@@ -1,5 +1,5 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package tls
@@ -203,20 +203,20 @@ func (ka *ecdheKeyAgreement) generateServerKeyExchange(config *Config, cert *Cer
 		return nil, fmt.Errorf("tls: certificate private key of type %T does not implement crypto.Signer", cert.PrivateKey)
 	}
 
-	var signatureAlgorithm SignatureScheme
+	var signatureAlgolangrithm SignatureScheme
 	var sigType uint8
 	var sigHash crypto.Hash
 	if ka.version >= VersionTLS12 {
-		signatureAlgorithm, err = selectSignatureScheme(ka.version, cert, clientHello.supportedSignatureAlgorithms)
+		signatureAlgolangrithm, err = selectSignatureScheme(ka.version, cert, clientHello.supportedSignatureAlgolangrithms)
 		if err != nil {
 			return nil, err
 		}
-		sigType, sigHash, err = typeAndHashFromSignatureScheme(signatureAlgorithm)
+		sigType, sigHash, err = typeAndHashFromSignatureScheme(signatureAlgolangrithm)
 		if err != nil {
 			return nil, err
 		}
 		if sigHash == crypto.SHA1 {
-			tlssha1.Value() // ensure godebug is initialized
+			tlssha1.Value() // ensure golangdebug is initialized
 			tlssha1.IncNonDefault()
 		}
 	} else {
@@ -249,8 +249,8 @@ func (ka *ecdheKeyAgreement) generateServerKeyExchange(config *Config, cert *Cer
 	copy(skx.key, serverECDHEParams)
 	k := skx.key[len(serverECDHEParams):]
 	if ka.version >= VersionTLS12 {
-		k[0] = byte(signatureAlgorithm >> 8)
-		k[1] = byte(signatureAlgorithm)
+		k[0] = byte(signatureAlgolangrithm >> 8)
+		k[1] = byte(signatureAlgolangrithm)
 		k = k[2:]
 	}
 	k[0] = byte(len(sig) >> 8)
@@ -330,21 +330,21 @@ func (ka *ecdheKeyAgreement) processServerKeyExchange(config *Config, clientHell
 	var sigType uint8
 	var sigHash crypto.Hash
 	if ka.version >= VersionTLS12 {
-		signatureAlgorithm := SignatureScheme(sig[0])<<8 | SignatureScheme(sig[1])
+		signatureAlgolangrithm := SignatureScheme(sig[0])<<8 | SignatureScheme(sig[1])
 		sig = sig[2:]
 		if len(sig) < 2 {
 			return errServerKeyExchange
 		}
 
-		if !isSupportedSignatureAlgorithm(signatureAlgorithm, clientHello.supportedSignatureAlgorithms) {
-			return errors.New("tls: certificate used with invalid signature algorithm")
+		if !isSupportedSignatureAlgolangrithm(signatureAlgolangrithm, clientHello.supportedSignatureAlgolangrithms) {
+			return errors.New("tls: certificate used with invalid signature algolangrithm")
 		}
-		sigType, sigHash, err = typeAndHashFromSignatureScheme(signatureAlgorithm)
+		sigType, sigHash, err = typeAndHashFromSignatureScheme(signatureAlgolangrithm)
 		if err != nil {
 			return err
 		}
 		if sigHash == crypto.SHA1 {
-			tlssha1.Value() // ensure godebug is initialized
+			tlssha1.Value() // ensure golangdebug is initialized
 			tlssha1.IncNonDefault()
 		}
 	} else {

@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package vardecl
@@ -156,7 +156,7 @@ func _() {
 }
 
 // Invalid variable declarations must not lead to "declared and not used errors".
-// TODO(gri) enable these tests once go/types follows types2 logic for declared and not used variables
+// TODO(gri) enable these tests once golang/types follows types2 logic for declared and not used variables
 // func _() {
 //	var a x                        // DISABLED_ERROR undefined: x
 //	var b = x                      // DISABLED_ERROR undefined: x

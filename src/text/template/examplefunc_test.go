@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package template_test
@@ -41,13 +41,13 @@ Output 2: {{printf "%q" . | title}}
 	}
 
 	// Run the template to verify the output.
-	err = tmpl.Execute(os.Stdout, "the go programming language")
+	err = tmpl.Execute(os.Stdout, "the golang programming language")
 	if err != nil {
 		log.Fatalf("execution: %s", err)
 	}
 
 	// Output:
-	// Input: "the go programming language"
+	// Input: "the golang programming language"
 	// Output 0: The Go Programming Language
 	// Output 1: "The Go Programming Language"
 	// Output 2: "The Go Programming Language"

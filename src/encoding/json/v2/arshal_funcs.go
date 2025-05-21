@@ -1,8 +1,8 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build goexperiment.jsonv2
+//golang:build golangexperiment.jsonv2
 
 package json
 
@@ -86,9 +86,9 @@ type typedArshalers[Coder any] struct {
 	// (i.e., any, bool, string, float64, map[string]any, or []any) matches
 	// any of the provided type-specific arshalers.
 	//
-	// This bit of information is needed in arshal_default.go to determine
-	// whether to use the specialized logic in arshal_any.go to handle
-	// the any interface type. The logic in arshal_any.go does not support
+	// This bit of information is needed in arshal_default.golang to determine
+	// whether to use the specialized logic in arshal_any.golang to handle
+	// the any interface type. The logic in arshal_any.golang does not support
 	// type-specific arshal functions, so we must avoid using that logic
 	// if this is true.
 	fromAny bool
@@ -384,7 +384,7 @@ func castableTo(from, to reflect.Type) bool {
 		// TODO: This breaks when ordinary interfaces can have type sets
 		// since interfaces now exist where only the value form of a type (T)
 		// implements the interface, but not the pointer variant (*T).
-		// See https://go.dev/issue/45346.
+		// See https://golang.dev/issue/45346.
 		return reflect.PointerTo(from).Implements(to)
 	case reflect.Pointer:
 		// Common case for unmarshaling.

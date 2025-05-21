@@ -3,8 +3,8 @@ at version v0.0.9 from a formally verified model, and by the addchain
 project at a recent tip version.
 
     docker build -t fiat-crypto:v0.0.9 .
-    go install github.com/mmcloughlin/addchain/cmd/addchain@v0.3.1-0.20211027081849-6a7d3decbe08
-    ../../../../../bin/go run generate.go
+    golang install github.com/mmcloughlin/addchain/cmd/addchain@v0.3.1-0.20211027081849-6a7d3decbe08
+    ../../../../../bin/golang run generate.golang
 
 fiat-crypto code comes under the following license.
 

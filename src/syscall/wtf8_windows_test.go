@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package syscall_test
@@ -134,10 +134,10 @@ var wtf8tests = []struct {
 func TestWTF16Rountrip(t *testing.T) {
 	for _, tt := range wtf8tests {
 		t.Run(fmt.Sprintf("%X", tt.str), func(t *testing.T) {
-			got := syscall.EncodeWTF16(tt.str, nil)
-			got2 := string(syscall.DecodeWTF16(got, nil))
-			if got2 != tt.str {
-				t.Errorf("got:\n%s\nwant:\n%s", got2, tt.str)
+			golangt := syscall.EncodeWTF16(tt.str, nil)
+			golangt2 := string(syscall.DecodeWTF16(golangt, nil))
+			if golangt2 != tt.str {
+				t.Errorf("golangt:\n%s\nwant:\n%s", golangt2, tt.str)
 			}
 		})
 	}
@@ -146,9 +146,9 @@ func TestWTF16Rountrip(t *testing.T) {
 func TestWTF16Golden(t *testing.T) {
 	for _, tt := range wtf8tests {
 		t.Run(fmt.Sprintf("%X", tt.str), func(t *testing.T) {
-			got := syscall.EncodeWTF16(tt.str, nil)
-			if !slices.Equal(got, tt.wstr) {
-				t.Errorf("got:\n%v\nwant:\n%v", got, tt.wstr)
+			golangt := syscall.EncodeWTF16(tt.str, nil)
+			if !slices.Equal(golangt, tt.wstr) {
+				t.Errorf("golangt:\n%v\nwant:\n%v", golangt, tt.wstr)
 			}
 		})
 	}
@@ -160,15 +160,15 @@ func FuzzEncodeWTF16(f *testing.F) {
 	}
 	f.Fuzz(func(t *testing.T, b string) {
 		// test that there are no panics
-		got := syscall.EncodeWTF16(b, nil)
-		syscall.DecodeWTF16(got, nil)
+		golangt := syscall.EncodeWTF16(b, nil)
+		syscall.DecodeWTF16(golangt, nil)
 		if utf8.ValidString(b) {
 			// if the input is a valid UTF-8 string, then
 			// test that syscall.EncodeWTF16 behaves as
 			// utf16.Encode
 			want := utf16.Encode([]rune(b))
-			if !slices.Equal(got, want) {
-				t.Errorf("got:\n%v\nwant:\n%v", got, want)
+			if !slices.Equal(golangt, want) {
+				t.Errorf("golangt:\n%v\nwant:\n%v", golangt, want)
 			}
 		}
 	})
@@ -181,20 +181,20 @@ func FuzzDecodeWTF16(f *testing.F) {
 	}
 	f.Fuzz(func(t *testing.T, b []byte) {
 		u16 := unsafe.Slice((*uint16)(unsafe.Pointer(unsafe.SliceData(b))), len(b)/2)
-		got := syscall.DecodeWTF16(u16, nil)
-		if utf8.Valid(got) {
+		golangt := syscall.DecodeWTF16(u16, nil)
+		if utf8.Valid(golangt) {
 			// if the input is a valid UTF-8 string, then
 			// test that syscall.DecodeWTF16 behaves as
 			// utf16.Decode
 			want := utf16.Decode(u16)
-			if string(got) != string(want) {
-				t.Errorf("got:\n%s\nwant:\n%s", string(got), string(want))
+			if string(golangt) != string(want) {
+				t.Errorf("golangt:\n%s\nwant:\n%s", string(golangt), string(want))
 			}
 		}
 		// WTF-8 should always roundtrip
-		got2 := syscall.EncodeWTF16(string(got), nil)
-		if !slices.Equal(got2, u16) {
-			t.Errorf("got:\n%v\nwant:\n%v", got2, u16)
+		golangt2 := syscall.EncodeWTF16(string(golangt), nil)
+		if !slices.Equal(golangt2, u16) {
+			t.Errorf("golangt:\n%v\nwant:\n%v", golangt2, u16)
 		}
 	})
 }

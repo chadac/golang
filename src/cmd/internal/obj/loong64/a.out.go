@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package loong64
@@ -8,7 +8,7 @@ import (
 	"cmd/internal/obj"
 )
 
-//go:generate go run ../stringer.go -i $GOFILE -o anames.go -p loong64
+//golang:generate golang run ../stringer.golang -i $GOFILE -o anames.golang -p loong64
 
 const (
 	NSNAME = 8
@@ -314,7 +314,7 @@ const (
 	REG_LAST = REG_ELEM_END // the last defined register
 )
 
-//go:generate go run ../mkcnames.go -i a.out.go -o cnames.go -p loong64
+//golang:generate golang run ../mkcnames.golang -i a.out.golang -o cnames.golang -p loong64
 const (
 	C_NONE = iota
 	C_REG

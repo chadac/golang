@@ -1,15 +1,15 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 //
 // System calls and other sys.stuff for arm64, NetBSD
 //
 
-#include "go_asm.h"
-#include "go_tls.h"
+#include "golang_asm.h"
+#include "golang_tls.h"
 #include "textflag.h"
-#include "cgo/abi_arm64.h"
+#include "cgolang/abi_arm64.h"
 
 #define CLOCK_REALTIME		0
 #define CLOCK_MONOTONIC		3
@@ -293,12 +293,12 @@ TEXT runtime·sigfwd(SB),NOSPLIT,$0-32
 
 TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME,$176
 	// Save callee-save registers in the case of signal forwarding.
-	// Please refer to https://golang.org/issue/31827 .
+	// Please refer to https://golanglang.org/issue/31827 .
 	SAVE_R19_TO_R28(8*4)
 	SAVE_F8_TO_F15(8*14)
 	// Unclobber g for now (kernel uses it as ucontext ptr)
-	// See https://github.com/golang/go/issues/30824#issuecomment-492772426
-	// This is only correct in the non-cgo case.
+	// See https://github.com/golanglang/golang/issues/30824#issuecomment-492772426
+	// This is only correct in the non-cgolang case.
 	// XXX should use lwp_getprivate as suggested.
 	// 8*36 is ucontext.uc_mcontext.__gregs[_REG_X28]
 	MOVD	8*36(g), g
@@ -307,7 +307,7 @@ TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME,$176
 	// where g is not set.
 	// first save R0, because runtime·load_g will clobber it
 	MOVD	R0, 8(RSP)		// signum
-	MOVB	runtime·iscgo(SB), R0
+	MOVB	runtime·iscgolang(SB), R0
 	CMP 	$0, R0
 	// XXX branch destination
 	BEQ	2(PC)
@@ -316,7 +316,7 @@ TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME,$176
 	// Restore signum to R0.
 	MOVW	8(RSP), R0
 	// R1 and R2 already contain info and ctx, respectively.
-	BL	runtime·sigtrampgo<ABIInternal>(SB)
+	BL	runtime·sigtrampgolang<ABIInternal>(SB)
 
 	// Restore callee-save registers.
 	RESTORE_R19_TO_R28(8*4)

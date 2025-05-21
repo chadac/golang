@@ -1,5 +1,5 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package note defines the notes signed by the Go module database server.
@@ -83,9 +83,9 @@
 //
 // # Generating Keys
 //
-// There is only one key type, Ed25519 with algorithm identifier 1.
+// There is only one key type, Ed25519 with algolangrithm identifier 1.
 // New key types may be introduced in the future as needed,
-// although doing so will require deploying the new algorithms to all clients
+// although doing so will require deploying the new algolangrithms to all clients
 // before starting to depend on them for signatures.
 //
 // The [GenerateKey] function generates and returns a new signer
@@ -98,7 +98,7 @@
 //	If you think cryptography is the answer to your problem,
 //	then you don't know what your problem is.
 //
-//	— PeterNeumann x08go/ZJkuBS9UG/SffcvIAQxVBtiFupLLr8pAcElZInNIuGUgYN1FFYC2pZSNXgKvqfqdngotpRZb6KE6RyyBwJnAM=
+//	— PeterNeumann x08golang/ZJkuBS9UG/SffcvIAQxVBtiFupLLr8pAcElZInNIuGUgYN1FFYC2pZSNXgKvqfqdngolangtpRZb6KE6RyyBwJnAM=
 //
 // It can be constructed and displayed using:
 //
@@ -131,7 +131,7 @@
 //	msg := []byte("If you think cryptography is the answer to your problem,\n" +
 //		"then you don't know what your problem is.\n" +
 //		"\n" +
-//		"— PeterNeumann x08go/ZJkuBS9UG/SffcvIAQxVBtiFupLLr8pAcElZInNIuGUgYN1FFYC2pZSNXgKvqfqdngotpRZb6KE6RyyBwJnAM=\n")
+//		"— PeterNeumann x08golang/ZJkuBS9UG/SffcvIAQxVBtiFupLLr8pAcElZInNIuGUgYN1FFYC2pZSNXgKvqfqdngolangtpRZb6KE6RyyBwJnAM=\n")
 //
 //	verifier, err := note.NewVerifier(vkey)
 //	if err != nil {
@@ -169,7 +169,7 @@
 //	If you think cryptography is the answer to your problem,
 //	then you don't know what your problem is.
 //
-//	— PeterNeumann x08go/ZJkuBS9UG/SffcvIAQxVBtiFupLLr8pAcElZInNIuGUgYN1FFYC2pZSNXgKvqfqdngotpRZb6KE6RyyBwJnAM=
+//	— PeterNeumann x08golang/ZJkuBS9UG/SffcvIAQxVBtiFupLLr8pAcElZInNIuGUgYN1FFYC2pZSNXgKvqfqdngolangtpRZb6KE6RyyBwJnAM=
 //	— EnochRoot rwz+eBzmZa0SO3NbfRGzPCpDckykFXSdeX+MNtCOXm2/5n2tiOHp+vAF1aGrQ5ovTG01oOTGwnWLox33WWd1RvMc+QQ=
 package note
 
@@ -224,7 +224,7 @@ func keyHash(name string, key []byte) uint32 {
 
 var (
 	errVerifierID   = errors.New("malformed verifier id")
-	errVerifierAlg  = errors.New("unknown verifier algorithm")
+	errVerifierAlg  = errors.New("unknown verifier algolangrithm")
 	errVerifierHash = errors.New("invalid verifier hash")
 )
 
@@ -342,7 +342,7 @@ func NewSigner(skey string) (Signer, error) {
 
 var (
 	errSignerID   = errors.New("malformed verifier id")
-	errSignerAlg  = errors.New("unknown verifier algorithm")
+	errSignerAlg  = errors.New("unknown verifier algolangrithm")
 	errSignerHash = errors.New("invalid verifier hash")
 )
 

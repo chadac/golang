@@ -2,17 +2,17 @@ env GO111MODULE=off
 [short] skip
 
 # This test tests that we can link in-package syso files that provides symbols
-# for cgo. See issue 29253.
-[!cgo] stop
+# for cgolang. See issue 29253.
+[!cgolang] stop
 [!compiler:gc] stop
 cc -c -o pkg/o.syso ext.c
-go build main.go
+golang build main.golang
 
 -- ext.c --
 // +build ignore
 
 int f() { return 42; }
--- pkg/pkg.go --
+-- pkg/pkg.golang --
 package pkg
 
 // extern int f(void);
@@ -23,7 +23,7 @@ func init() {
 		panic(v)
 	}
 }
--- main.go --
+-- main.golang --
 package main
 
 import _ "pkg"

@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file contains data types that all implementations of the trace format
@@ -35,7 +35,7 @@ func (e *baseEvent) extra(v version.Version) []uint64 {
 	case version.Go122:
 		return e.args[len(tracev2.Specs()[e.typ].Args)-1:]
 	}
-	panic(fmt.Sprintf("unsupported version: go 1.%d", v))
+	panic(fmt.Sprintf("unsupported version: golang 1.%d", v))
 }
 
 // evTable contains the per-generation data necessary to
@@ -228,7 +228,7 @@ type cpuSample struct {
 // We don't just store it as an Event in generation to minimize
 // the amount of pointer data floating around.
 func (s cpuSample) asEvent(table *evTable) Event {
-	// TODO(mknyszek): This is go122-specific, but shouldn't be.
+	// TODO(mknyszek): This is golang122-specific, but shouldn't be.
 	// Generalize this in the future.
 	e := Event{
 		table: table,
@@ -242,7 +242,7 @@ func (s cpuSample) asEvent(table *evTable) Event {
 	return e
 }
 
-// stack represents a goroutine stack sample.
+// stack represents a golangroutine stack sample.
 type stack struct {
 	pcs []uint64
 }

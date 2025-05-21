@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ssa
@@ -26,7 +26,7 @@ func cse(f *Func) {
 	//   v.block == w.block if v.op == OpPhi
 	//   equivalent(v.args[i], w.args[i]) for i in 0..len(v.args)-1
 
-	// The algorithm searches for a partition of f's values into
+	// The algolangrithm searches for a partition of f's values into
 	// equivalence classes using the above definition.
 	// It starts with a coarse partition and iteratively refines it
 	// until it reaches a fixed point.
@@ -246,7 +246,7 @@ func cse(f *Func) {
 					if w.Pos.IsStmt() == src.PosIsStmt {
 						// about to lose a statement marker, w
 						// w is an input to v; if they're in the same block
-						// and the same line, v is a good-enough new statement boundary.
+						// and the same line, v is a golangod-enough new statement boundary.
 						if w.Block == v.Block && w.Pos.Line() == v.Pos.Line() {
 							v.Pos = v.Pos.WithIsStmt()
 							w.Pos = w.Pos.WithNotStmt()
@@ -310,7 +310,7 @@ func storeOrdering(v *Value, cache []int32) int32 {
 }
 
 // An eqclass approximates an equivalence class. During the
-// algorithm it may represent the union of several of the
+// algolangrithm it may represent the union of several of the
 // final equivalence classes.
 type eqclass []*Value
 

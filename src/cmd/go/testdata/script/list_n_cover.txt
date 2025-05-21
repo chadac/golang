@@ -1,4 +1,4 @@
-# Adding -cover to "go test -n" should not cause failures,
+# Adding -cover to "golang test -n" should not cause failures,
 # see issue 67952. In the regular (no "-n") case for an
 # empty package test action for the package will look for
 # a static meta-data file produced by the cover tool
@@ -6,13 +6,13 @@
 # meta-data file doesn't exist, so the code that reads
 # the meta-data file has to be stubbed out.
 
-go test -vet=off -n -cover ./f
+golang test -vet=off -n -cover ./f
 
--- go.mod --
+-- golang.mod --
 module M
 
-go 1.21
--- f/f.go --
+golang 1.21
+-- f/f.golang --
 package f
 
 func Id() int {

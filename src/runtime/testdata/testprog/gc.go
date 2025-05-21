@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -78,7 +78,7 @@ func GCFairness() {
 		os.Exit(1)
 	}
 	for i := 0; i < 2; i++ {
-		go func() {
+		golang func() {
 			for {
 				f.Write([]byte("."))
 			}
@@ -97,7 +97,7 @@ func GCFairness2() {
 	var count [3]int64
 	var sink [3]any
 	for i := range count {
-		go func(i int) {
+		golang func(i int) {
 			for {
 				sink[i] = make([]byte, 1024)
 				atomic.AddInt64(&count[i], 1)
@@ -108,11 +108,11 @@ func GCFairness2() {
 	// past the sleep.
 	//
 	// If the scheduling rules change, this may not be enough time
-	// to let all goroutines run, but for now we cycle through
+	// to let all golangroutines run, but for now we cycle through
 	// them rapidly.
 	//
 	// OpenBSD's scheduler makes every usleep() take at least
-	// 20ms, so we need a long time to ensure all goroutines have
+	// 20ms, so we need a long time to ensure all golangroutines have
 	// run. If they haven't run after 30ms, give it another 1000ms
 	// and check again.
 	time.Sleep(30 * time.Millisecond)
@@ -126,7 +126,7 @@ func GCFairness2() {
 		time.Sleep(1 * time.Second)
 		for i := range count {
 			if atomic.LoadInt64(&count[i]) == 0 {
-				fmt.Printf("goroutine %d did not run\n", i)
+				fmt.Printf("golangroutine %d did not run\n", i)
 				return
 			}
 		}
@@ -219,7 +219,7 @@ func GCPhys() {
 	var stats runtime.MemStats
 	runtime.ReadMemStats(&stats)
 	heapBacked := stats.HeapSys - stats.HeapReleased - maxPageCache
-	// If heapBacked does not exceed the heap goal by more than retainExtraPercent
+	// If heapBacked does not exceed the heap golangal by more than retainExtraPercent
 	// then the scavenger is working as expected; the newly-created holes have been
 	// scavenged immediately as part of the allocations which cannot fit in the holes.
 	//
@@ -247,7 +247,7 @@ func GCPhys() {
 	// fragmentation with physical pages that are otherwise unused but not
 	// returned to the OS.
 	fmt.Printf("exceeded physical memory overuse threshold of %3.2f%%: %3.2f%%\n"+
-		"(alloc: %d, goal: %d, sys: %d, rel: %d, objs: %d)\n", threshold*100, overuse*100,
+		"(alloc: %d, golangal: %d, sys: %d, rel: %d, objs: %d)\n", threshold*100, overuse*100,
 		stats.HeapAlloc, stats.NextGC, stats.HeapSys, stats.HeapReleased, len(saved))
 	runtime.KeepAlive(saved)
 	runtime.KeepAlive(condemned)
@@ -270,7 +270,7 @@ func DeferLiveness() {
 	runtime.GC()
 }
 
-//go:noinline
+//golang:noinline
 func escape(x any) { sink2 = x; sink2 = nil }
 
 var sink2 any
@@ -333,22 +333,22 @@ func gcMemoryLimit(gcPercent int) {
 
 	const myLimit = 256 << 20
 	if limit := debug.SetMemoryLimit(-1); limit != math.MaxInt64 {
-		print("expected MaxInt64 limit, got ", limit, " bytes instead\n")
+		print("expected MaxInt64 limit, golangt ", limit, " bytes instead\n")
 		return
 	}
 	if limit := debug.SetMemoryLimit(myLimit); limit != math.MaxInt64 {
-		print("expected MaxInt64 limit, got ", limit, " bytes instead\n")
+		print("expected MaxInt64 limit, golangt ", limit, " bytes instead\n")
 		return
 	}
 	if limit := debug.SetMemoryLimit(-1); limit != myLimit {
-		print("expected a ", myLimit, "-byte limit, got ", limit, " bytes instead\n")
+		print("expected a ", myLimit, "-byte limit, golangt ", limit, " bytes instead\n")
 		return
 	}
 
 	target := make(chan int64)
 	var wg sync.WaitGroup
 	wg.Add(1)
-	go func() {
+	golang func() {
 		defer wg.Done()
 
 		sinkSize := int(<-target / memLimitUnit)
@@ -388,8 +388,8 @@ func gcMemoryLimit(gcPercent int) {
 		target <- i
 
 		// Check to make sure the memory limit is maintained.
-		// We're just sampling here so if it transiently goes over we might miss it.
-		// The internal accounting is inconsistent anyway, so going over by a few
+		// We're just sampling here so if it transiently golanges over we might miss it.
+		// The internal accounting is inconsistent anyway, so golanging over by a few
 		// pages is certainly possible. Just make sure we're within some bound.
 		// Note that to avoid flakiness due to #52433 (especially since we're allocating
 		// somewhat heavily here) this bound is kept loose. In practice the Go runtime
@@ -408,7 +408,7 @@ func gcMemoryLimit(gcPercent int) {
 	}
 
 	if limit := debug.SetMemoryLimit(math.MaxInt64); limit != myLimit {
-		print("expected a ", myLimit, "-byte limit, got ", limit, " bytes instead\n")
+		print("expected a ", myLimit, "-byte limit, golangt ", limit, " bytes instead\n")
 		return
 	}
 	println("OK")

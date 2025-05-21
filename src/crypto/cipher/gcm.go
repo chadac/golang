@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package cipher
@@ -222,7 +222,7 @@ func newGCMFallback(cipher Block, nonceSize, tagSize int) (AEAD, error) {
 
 // gcmFallback is only used for non-AES ciphers, which regrettably we
 // theoretically support. It's a copy of the generic implementation from
-// crypto/internal/fips140/aes/gcm/gcm_generic.go, refer to that file for more details.
+// crypto/internal/fips140/aes/gcm/gcm_generic.golang, refer to that file for more details.
 type gcmFallback struct {
 	cipher    Block
 	nonceSize int

@@ -1,18 +1,18 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build mips || mipsle
+//golang:build mips || mipsle
 
 // Export some functions via linkname to assembly in sync/atomic.
 //
-//go:linkname Xadd64
-//go:linkname Xchg64
-//go:linkname Cas64
-//go:linkname Load64
-//go:linkname Store64
-//go:linkname Or64
-//go:linkname And64
+//golang:linkname Xadd64
+//golang:linkname Xchg64
+//golang:linkname Cas64
+//golang:linkname Load64
+//golang:linkname Store64
+//golang:linkname Or64
+//golang:linkname And64
 
 package atomic
 
@@ -27,13 +27,13 @@ var lock struct {
 	pad   [cpu.CacheLinePadSize - 4]byte
 }
 
-//go:noescape
+//golang:noescape
 func spinLock(state *uint32)
 
-//go:noescape
+//golang:noescape
 func spinUnlock(state *uint32)
 
-//go:nosplit
+//golang:nosplit
 func lockAndCheck(addr *uint64) {
 	// ensure 8-byte alignment
 	if uintptr(unsafe.Pointer(addr))&7 != 0 {
@@ -45,12 +45,12 @@ func lockAndCheck(addr *uint64) {
 	spinLock(&lock.state)
 }
 
-//go:nosplit
+//golang:nosplit
 func unlock() {
 	spinUnlock(&lock.state)
 }
 
-//go:nosplit
+//golang:nosplit
 func Xadd64(addr *uint64, delta int64) (new uint64) {
 	lockAndCheck(addr)
 
@@ -61,7 +61,7 @@ func Xadd64(addr *uint64, delta int64) (new uint64) {
 	return
 }
 
-//go:nosplit
+//golang:nosplit
 func Xchg64(addr *uint64, new uint64) (old uint64) {
 	lockAndCheck(addr)
 
@@ -72,7 +72,7 @@ func Xchg64(addr *uint64, new uint64) (old uint64) {
 	return
 }
 
-//go:nosplit
+//golang:nosplit
 func Cas64(addr *uint64, old, new uint64) (swapped bool) {
 	lockAndCheck(addr)
 
@@ -86,7 +86,7 @@ func Cas64(addr *uint64, old, new uint64) (swapped bool) {
 	return false
 }
 
-//go:nosplit
+//golang:nosplit
 func Load64(addr *uint64) (val uint64) {
 	lockAndCheck(addr)
 
@@ -96,7 +96,7 @@ func Load64(addr *uint64) (val uint64) {
 	return
 }
 
-//go:nosplit
+//golang:nosplit
 func Store64(addr *uint64, val uint64) {
 	lockAndCheck(addr)
 
@@ -106,7 +106,7 @@ func Store64(addr *uint64, val uint64) {
 	return
 }
 
-//go:nosplit
+//golang:nosplit
 func Or64(addr *uint64, val uint64) (old uint64) {
 	for {
 		old = *addr
@@ -116,7 +116,7 @@ func Or64(addr *uint64, val uint64) (old uint64) {
 	}
 }
 
-//go:nosplit
+//golang:nosplit
 func And64(addr *uint64, val uint64) (old uint64) {
 	for {
 		old = *addr
@@ -126,74 +126,74 @@ func And64(addr *uint64, val uint64) (old uint64) {
 	}
 }
 
-//go:noescape
+//golang:noescape
 func Xadd(ptr *uint32, delta int32) uint32
 
-//go:noescape
+//golang:noescape
 func Xadduintptr(ptr *uintptr, delta uintptr) uintptr
 
-//go:noescape
+//golang:noescape
 func Xchg(ptr *uint32, new uint32) uint32
 
-//go:noescape
+//golang:noescape
 func Xchg8(ptr *uint8, new uint8) uint8
 
-//go:noescape
+//golang:noescape
 func Xchguintptr(ptr *uintptr, new uintptr) uintptr
 
-//go:noescape
+//golang:noescape
 func Load(ptr *uint32) uint32
 
-//go:noescape
+//golang:noescape
 func Load8(ptr *uint8) uint8
 
-// NO go:noescape annotation; *ptr escapes if result escapes (#31525)
+// NO golang:noescape annotation; *ptr escapes if result escapes (#31525)
 func Loadp(ptr unsafe.Pointer) unsafe.Pointer
 
-//go:noescape
+//golang:noescape
 func LoadAcq(ptr *uint32) uint32
 
-//go:noescape
+//golang:noescape
 func LoadAcquintptr(ptr *uintptr) uintptr
 
-//go:noescape
+//golang:noescape
 func And8(ptr *uint8, val uint8)
 
-//go:noescape
+//golang:noescape
 func Or8(ptr *uint8, val uint8)
 
-//go:noescape
+//golang:noescape
 func And(ptr *uint32, val uint32)
 
-//go:noescape
+//golang:noescape
 func Or(ptr *uint32, val uint32)
 
-//go:noescape
+//golang:noescape
 func And32(ptr *uint32, val uint32) uint32
 
-//go:noescape
+//golang:noescape
 func Or32(ptr *uint32, val uint32) uint32
 
-//go:noescape
+//golang:noescape
 func Anduintptr(ptr *uintptr, val uintptr) uintptr
 
-//go:noescape
+//golang:noescape
 func Oruintptr(ptr *uintptr, val uintptr) uintptr
 
-//go:noescape
+//golang:noescape
 func Store(ptr *uint32, val uint32)
 
-//go:noescape
+//golang:noescape
 func Store8(ptr *uint8, val uint8)
 
-// NO go:noescape annotation; see atomic_pointer.go.
+// NO golang:noescape annotation; see atomic_pointer.golang.
 func StorepNoWB(ptr unsafe.Pointer, val unsafe.Pointer)
 
-//go:noescape
+//golang:noescape
 func StoreRel(ptr *uint32, val uint32)
 
-//go:noescape
+//golang:noescape
 func StoreReluintptr(ptr *uintptr, val uintptr)
 
-//go:noescape
+//golang:noescape
 func CasRel(addr *uint32, old, new uint32) bool

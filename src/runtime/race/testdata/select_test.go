@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package race_test
@@ -16,11 +16,11 @@ func TestNoRaceSelect1(t *testing.T) {
 	c := make(chan bool)
 	c1 := make(chan bool)
 
-	go func() {
+	golang func() {
 		x = 1
 		// At least two channels are needed because
 		// otherwise the compiler optimizes select out.
-		// See comment in runtime/select.go:^func selectgo.
+		// See comment in runtime/select.golang:^func selectgolang.
 		select {
 		case c <- true:
 		case c1 <- true:
@@ -41,7 +41,7 @@ func TestNoRaceSelect2(t *testing.T) {
 	compl := make(chan bool)
 	c := make(chan bool)
 	c1 := make(chan bool)
-	go func() {
+	golang func() {
 		select {
 		case <-c:
 		case <-c1:
@@ -61,7 +61,7 @@ func TestNoRaceSelect3(t *testing.T) {
 	compl := make(chan bool)
 	c := make(chan bool, 10)
 	c1 := make(chan bool)
-	go func() {
+	golang func() {
 		x = 1
 		select {
 		case c <- true:
@@ -83,7 +83,7 @@ func TestNoRaceSelect4(t *testing.T) {
 	queue := make(chan Task)
 	dummy := make(chan bool)
 
-	go func() {
+	golang func() {
 		for {
 			select {
 			case t := <-queue:
@@ -120,7 +120,7 @@ func TestNoRaceSelect5(t *testing.T) {
 		c1 := make(chan bool)
 
 		done := make(chan bool, 2)
-		go func() {
+		golang func() {
 			if needSched {
 				runtime.Gosched()
 			}
@@ -137,7 +137,7 @@ func TestNoRaceSelect5(t *testing.T) {
 			done <- true
 		}()
 
-		go func() {
+		golang func() {
 			// println(2)
 			if sel {
 				select {
@@ -167,7 +167,7 @@ func TestRaceSelect1(t *testing.T) {
 	c := make(chan bool)
 	c1 := make(chan bool)
 
-	go func() {
+	golang func() {
 		<-c
 		<-c
 	}()
@@ -179,8 +179,8 @@ func TestRaceSelect1(t *testing.T) {
 		x = 1
 		compl <- true
 	}
-	go f()
-	go f()
+	golang f()
+	golang f()
 	<-compl
 	<-compl
 }
@@ -191,7 +191,7 @@ func TestRaceSelect2(t *testing.T) {
 	compl := make(chan bool)
 	c := make(chan bool)
 	c1 := make(chan bool)
-	go func() {
+	golang func() {
 		x = 1
 		select {
 		case <-c:
@@ -210,7 +210,7 @@ func TestRaceSelect3(t *testing.T) {
 	compl := make(chan bool)
 	c := make(chan bool)
 	c1 := make(chan bool)
-	go func() {
+	golang func() {
 		x = 1
 		select {
 		case c <- true:
@@ -228,7 +228,7 @@ func TestRaceSelect3(t *testing.T) {
 func TestRaceSelect4(t *testing.T) {
 	done := make(chan bool, 1)
 	var x int
-	go func() {
+	golang func() {
 		select {
 		default:
 			x = 2
@@ -246,13 +246,13 @@ func TestRaceSelect4(t *testing.T) {
 // Select must (unconditionally) choose the non-synchronized variable
 // thus causing exactly one race.
 // Currently this test doesn't look like it accomplishes
-// this goal.
+// this golangal.
 func TestRaceSelect5(t *testing.T) {
 	done := make(chan bool, 1)
 	c1 := make(chan bool, 1)
 	c2 := make(chan bool)
 	var x, y int
-	go func() {
+	golang func() {
 		select {
 		case c1 <- true:
 			x = 1
@@ -276,7 +276,7 @@ func TestFlakyDefault(t *testing.T) {
 	var x int
 	c := make(chan bool, 1)
 	done := make(chan bool, 1)
-	go func() {
+	golang func() {
 		select {
 		case <-c:
 			x = 2

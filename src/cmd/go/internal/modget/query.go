@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package modget
@@ -11,14 +11,14 @@ import (
 	"strings"
 	"sync"
 
-	"cmd/go/internal/base"
-	"cmd/go/internal/gover"
-	"cmd/go/internal/modload"
-	"cmd/go/internal/search"
-	"cmd/go/internal/str"
+	"cmd/golang/internal/base"
+	"cmd/golang/internal/golangver"
+	"cmd/golang/internal/modload"
+	"cmd/golang/internal/search"
+	"cmd/golang/internal/str"
 	"cmd/internal/pkgpattern"
 
-	"golang.org/x/mod/module"
+	"golanglang.org/x/mod/module"
 )
 
 // A query describes a command-line argument and the modules and/or packages
@@ -233,7 +233,7 @@ func (q *query) isWildcard() bool {
 
 // matchesPath reports whether the given path matches q.pattern.
 func (q *query) matchesPath(path string) bool {
-	if q.matchWildcard != nil && !gover.IsToolchain(path) {
+	if q.matchWildcard != nil && !golangver.IsToolchain(path) {
 		return q.matchWildcard(path)
 	}
 	return path == q.pattern
@@ -242,7 +242,7 @@ func (q *query) matchesPath(path string) bool {
 // canMatchInModule reports whether the given module path can potentially
 // contain q.pattern.
 func (q *query) canMatchInModule(mPath string) bool {
-	if gover.IsToolchain(mPath) {
+	if golangver.IsToolchain(mPath) {
 		return false
 	}
 	if q.canMatchWildcardInModule != nil {
@@ -257,7 +257,7 @@ func (q *query) canMatchInModule(mPath string) bool {
 // Note that, unlike sync.Once, pathOnce does not guarantee that a concurrent
 // call to f for the given path has completed on return.
 //
-// pathOnce is safe for concurrent use by multiple goroutines, but note that
+// pathOnce is safe for concurrent use by multiple golangroutines, but note that
 // multiple concurrent calls will result in the sets being added in
 // nondeterministic order.
 func (q *query) pathOnce(path string, f func() pathSet) {
@@ -288,21 +288,21 @@ func reportError(q *query, err error) {
 	patternRE := regexp.MustCompile("(?m)(?:[ \t(\"`]|^)" + regexp.QuoteMeta(q.pattern) + "(?:[ @:;)\"`]|$)")
 	if patternRE.MatchString(errStr) {
 		if q.rawVersion == "" {
-			base.Errorf("go: %s", errStr)
+			base.Errorf("golang: %s", errStr)
 			return
 		}
 
 		versionRE := regexp.MustCompile("(?m)(?:[ @(\"`]|^)" + regexp.QuoteMeta(q.version) + "(?:[ :;)\"`]|$)")
 		if versionRE.MatchString(errStr) {
-			base.Errorf("go: %s", errStr)
+			base.Errorf("golang: %s", errStr)
 			return
 		}
 	}
 
 	if qs := q.String(); qs != "" {
-		base.Errorf("go: %s: %s", qs, errStr)
+		base.Errorf("golang: %s: %s", qs, errStr)
 	} else {
-		base.Errorf("go: %s", errStr)
+		base.Errorf("golang: %s", errStr)
 	}
 }
 

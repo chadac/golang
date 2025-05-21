@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime_test
@@ -24,13 +24,13 @@ func checkLldbPython(t *testing.T) {
 	}
 	lldbPath = strings.TrimSpace(string(out))
 
-	cmd = exec.Command("/usr/bin/python2.7", "-c", "import sys;sys.path.append(sys.argv[1]);import lldb; print('go lldb python support')", lldbPath)
+	cmd = exec.Command("/usr/bin/python2.7", "-c", "import sys;sys.path.append(sys.argv[1]);import lldb; print('golang lldb python support')", lldbPath)
 	out, err = cmd.CombinedOutput()
 
 	if err != nil {
 		t.Skipf("skipping due to issue running python: %v\n%s", err, out)
 	}
-	if string(out) != "go lldb python support\n" {
+	if string(out) != "golang lldb python support\n" {
 		t.Skipf("skipping due to lack of python lldb support: %s", out)
 	}
 
@@ -80,7 +80,7 @@ debugger.SetAsync(True)
 target = debugger.CreateTargetWithFileAndArch("a.exe", None)
 if target:
   print "Created target"
-  main_bp = target.BreakpointCreateByLocation("main.go", 10)
+  main_bp = target.BreakpointCreateByLocation("main.golang", 10)
   if main_bp:
     print "Created breakpoint"
   process = target.LaunchSimple(None, None, os.getcwd())
@@ -128,7 +128,7 @@ const expectedLldbOutput = `Created target
 Created breakpoint
 Process launched
 Hit breakpoint
-Stopped at main.go:10
+Stopped at main.golang:10
 Stopped in main.main
 intvar = 42
 `
@@ -141,13 +141,13 @@ func TestLldbPython(t *testing.T) {
 
 	dir := t.TempDir()
 
-	src := filepath.Join(dir, "main.go")
+	src := filepath.Join(dir, "main.golang")
 	err := os.WriteFile(src, []byte(lldbHelloSource), 0644)
 	if err != nil {
 		t.Fatalf("failed to create src file: %v", err)
 	}
 
-	mod := filepath.Join(dir, "go.mod")
+	mod := filepath.Join(dir, "golang.mod")
 	err = os.WriteFile(mod, []byte("module lldbtest"), 0644)
 	if err != nil {
 		t.Fatalf("failed to create mod file: %v", err)
@@ -171,12 +171,12 @@ func TestLldbPython(t *testing.T) {
 
 	cmd = exec.Command("/usr/bin/python2.7", "script.py", lldbPath)
 	cmd.Dir = dir
-	got, _ := cmd.CombinedOutput()
+	golangt, _ := cmd.CombinedOutput()
 
-	if string(got) != expectedLldbOutput {
-		if strings.Contains(string(got), "Timeout launching") {
+	if string(golangt) != expectedLldbOutput {
+		if strings.Contains(string(golangt), "Timeout launching") {
 			t.Skip("Timeout launching")
 		}
-		t.Fatalf("Unexpected lldb output:\n%s", got)
+		t.Fatalf("Unexpected lldb output:\n%s", golangt)
 	}
 }

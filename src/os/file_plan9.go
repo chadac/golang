@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package os
@@ -418,7 +418,7 @@ func rename(oldname, newname string) error {
 	return nil
 }
 
-// See docs in file.go:Chmod.
+// See docs in file.golang:Chmod.
 func chmod(name string, mode FileMode) error {
 	var d syscall.Dir
 

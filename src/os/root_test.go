@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package os_test
@@ -366,9 +366,9 @@ func TestRootOpen_File(t *testing.T) {
 				return
 			}
 			defer f.Close()
-			got, err := io.ReadAll(f)
-			if err != nil || !bytes.Equal(got, want) {
-				t.Errorf(`Dir.Open(%q): read content %q, %v; want %q`, test.open, string(got), err, string(want))
+			golangt, err := io.ReadAll(f)
+			if err != nil || !bytes.Equal(golangt, want) {
+				t.Errorf(`Dir.Open(%q): read content %q, %v; want %q`, test.open, string(golangt), err, string(want))
 			}
 		})
 	}
@@ -390,12 +390,12 @@ func TestRootOpen_Directory(t *testing.T) {
 				return
 			}
 			defer f.Close()
-			got, err := f.Readdirnames(-1)
+			golangt, err := f.Readdirnames(-1)
 			if err != nil {
 				t.Errorf(`Dir.Open(%q).Readdirnames: %v`, test.open, err)
 			}
-			if want := []string{"found"}; !slices.Equal(got, want) {
-				t.Errorf(`Dir.Open(%q).Readdirnames: %q, want %q`, test.open, got, want)
+			if want := []string{"found"}; !slices.Equal(golangt, want) {
+				t.Errorf(`Dir.Open(%q).Readdirnames: %q, want %q`, test.open, golangt, want)
 			}
 		})
 	}
@@ -413,12 +413,12 @@ func TestRootCreate(t *testing.T) {
 				t.Fatal(err)
 			}
 			f.Close()
-			got, err := os.ReadFile(target)
+			golangt, err := os.ReadFile(target)
 			if err != nil {
 				t.Fatalf(`reading file created with root.Create(%q): %v`, test.open, err)
 			}
-			if !bytes.Equal(got, want) {
-				t.Fatalf(`reading file created with root.Create(%q): got %q; want %q`, test.open, got, want)
+			if !bytes.Equal(golangt, want) {
+				t.Fatalf(`reading file created with root.Create(%q): golangt %q; want %q`, test.open, golangt, want)
 			}
 		})
 	}
@@ -442,7 +442,7 @@ func TestRootChmod(t *testing.T) {
 				// See issue 71492.
 				fi, err := root.Lstat(test.open)
 				if err == nil && !fi.Mode().IsRegular() {
-					t.Skip("https://go.dev/issue/71492")
+					t.Skip("https://golang.dev/issue/71492")
 				}
 			}
 			want := os.FileMode(0o666)
@@ -454,8 +454,8 @@ func TestRootChmod(t *testing.T) {
 			if err != nil {
 				t.Fatalf("os.Stat(%q) = %v", target, err)
 			}
-			if got := st.Mode(); got != want {
-				t.Errorf("after root.Chmod(%q, %v): file mode = %v, want %v", test.open, want, got, want)
+			if golangt := st.Mode(); golangt != want {
+				t.Errorf("after root.Chmod(%q, %v): file mode = %v, want %v", test.open, want, golangt, want)
 			}
 		})
 	}
@@ -504,12 +504,12 @@ func TestRootChtimes(t *testing.T) {
 				if err != nil {
 					t.Fatalf("os.Stat(%q) = %v", target, err)
 				}
-				if got := st.ModTime(); !times.mtime.IsZero() && !got.Equal(times.mtime) {
-					t.Errorf("after root.Chtimes(%q, %v, %v): got mtime=%v, want %v", test.open, times.atime, times.mtime, got, times.mtime)
+				if golangt := st.ModTime(); !times.mtime.IsZero() && !golangt.Equal(times.mtime) {
+					t.Errorf("after root.Chtimes(%q, %v, %v): golangt mtime=%v, want %v", test.open, times.atime, times.mtime, golangt, times.mtime)
 				}
 				if checkAtimes {
-					if got := os.Atime(st); !times.atime.IsZero() && !got.Equal(times.atime) {
-						t.Errorf("after root.Chtimes(%q, %v, %v): got atime=%v, want %v", test.open, times.atime, times.mtime, got, times.atime)
+					if golangt := os.Atime(st); !times.atime.IsZero() && !golangt.Equal(times.atime) {
+						t.Errorf("after root.Chtimes(%q, %v, %v): golangt atime=%v, want %v", test.open, times.atime, times.mtime, golangt, times.atime)
 					}
 				}
 			}
@@ -542,7 +542,7 @@ func TestRootMkdir(t *testing.T) {
 				t.Fatalf(`stat file created with Root.Mkdir(%q): not a directory`, test.open)
 			}
 			if mode := fi.Mode(); mode&0o777 == 0 {
-				// Issue #73559: We're not going to worry about the exact
+				// Issue #73559: We're not golanging to worry about the exact
 				// mode bits (which will have been modified by umask),
 				// but there should be mode bits.
 				t.Fatalf(`stat file created with Root.Mkdir(%q): mode=%v, want non-zero`, test.open, mode)
@@ -576,7 +576,7 @@ func TestRootMkdirAll(t *testing.T) {
 				t.Fatalf(`stat file created with Root.MkdirAll(%q): not a directory`, test.open)
 			}
 			if mode := fi.Mode(); mode&0o777 == 0 {
-				// Issue #73559: We're not going to worry about the exact
+				// Issue #73559: We're not golanging to worry about the exact
 				// mode bits (which will have been modified by umask),
 				// but there should be mode bits.
 				t.Fatalf(`stat file created with Root.MkdirAll(%q): mode=%v, want non-zero`, test.open, mode)
@@ -741,11 +741,11 @@ func TestRootStat(t *testing.T) {
 			if errEndsTest(t, err, test.wantError, "root.Stat(%q)", test.open) {
 				return
 			}
-			if got, want := fi.Name(), filepath.Base(test.open); got != want {
-				t.Errorf("root.Stat(%q).Name() = %q, want %q", test.open, got, want)
+			if golangt, want := fi.Name(), filepath.Base(test.open); golangt != want {
+				t.Errorf("root.Stat(%q).Name() = %q, want %q", test.open, golangt, want)
 			}
-			if got, want := fi.Size(), int64(len(content)); got != want {
-				t.Errorf("root.Stat(%q).Size() = %v, want %v", test.open, got, want)
+			if golangt, want := fi.Size(), int64(len(content)); golangt != want {
+				t.Errorf("root.Stat(%q).Size() = %v, want %v", test.open, golangt, want)
 			}
 		})
 	}
@@ -769,19 +769,19 @@ func TestRootLstat(t *testing.T) {
 			if errEndsTest(t, err, wantError, "root.Stat(%q)", test.open) {
 				return
 			}
-			if got, want := fi.Name(), filepath.Base(test.open); got != want {
-				t.Errorf("root.Stat(%q).Name() = %q, want %q", test.open, got, want)
+			if golangt, want := fi.Name(), filepath.Base(test.open); golangt != want {
+				t.Errorf("root.Stat(%q).Name() = %q, want %q", test.open, golangt, want)
 			}
 			if test.ltarget == "" {
-				if got := fi.Mode(); got&os.ModeSymlink != 0 {
-					t.Errorf("root.Stat(%q).Mode() = %v, want non-symlink", test.open, got)
+				if golangt := fi.Mode(); golangt&os.ModeSymlink != 0 {
+					t.Errorf("root.Stat(%q).Mode() = %v, want non-symlink", test.open, golangt)
 				}
-				if got, want := fi.Size(), int64(len(content)); got != want {
-					t.Errorf("root.Stat(%q).Size() = %v, want %v", test.open, got, want)
+				if golangt, want := fi.Size(), int64(len(content)); golangt != want {
+					t.Errorf("root.Stat(%q).Size() = %v, want %v", test.open, golangt, want)
 				}
 			} else {
-				if got := fi.Mode(); got&os.ModeSymlink == 0 {
-					t.Errorf("root.Stat(%q).Mode() = %v, want symlink", test.open, got)
+				if golangt := fi.Mode(); golangt&os.ModeSymlink == 0 {
+					t.Errorf("root.Stat(%q).Mode() = %v, want symlink", test.open, golangt)
 				}
 			}
 		})
@@ -801,7 +801,7 @@ func TestRootReadlink(t *testing.T) {
 				wantError = true
 			}
 
-			got, err := root.Readlink(test.open)
+			golangt, err := root.Readlink(test.open)
 			if errEndsTest(t, err, wantError, "root.Readlink(%q)", test.open) {
 				return
 			}
@@ -810,19 +810,19 @@ func TestRootReadlink(t *testing.T) {
 			if err != nil {
 				t.Fatalf("os.Readlink(%q) = %v, want success", test.ltarget, err)
 			}
-			if got != want {
-				t.Errorf("root.Readlink(%q) = %q, want %q", test.open, got, want)
+			if golangt != want {
+				t.Errorf("root.Readlink(%q) = %q, want %q", test.open, golangt, want)
 			}
 		})
 	}
 }
 
-// TestRootRenameFrom tests renaming the test case target to a known-good path.
+// TestRootRenameFrom tests renaming the test case target to a known-golangod path.
 func TestRootRenameFrom(t *testing.T) {
 	testRootMoveFrom(t, true)
 }
 
-// TestRootRenameFrom tests linking the test case target to a known-good path.
+// TestRootRenameFrom tests linking the test case target to a known-golangod path.
 func TestRootLinkFrom(t *testing.T) {
 	testenv.MustHaveLink(t)
 	testRootMoveFrom(t, false)
@@ -860,7 +860,7 @@ func testRootMoveFrom(t *testing.T, rename bool) {
 				// is easier than figuring out whether the link itself is a
 				// directory link. The link was created with os.Symlink,
 				// which creates directory links when the target is a directory,
-				// so this is good enough for a test.
+				// so this is golangod enough for a test.
 				if !rename && runtime.GOOS == "windows" {
 					st, err := os.Stat(filepath.Join(root.Name(), test.ltarget))
 					if err == nil && st.IsDir() {
@@ -906,14 +906,14 @@ func testRootMoveFrom(t *testing.T, rename bool) {
 
 			dstFullPath := filepath.Join(root.Name(), dstPath)
 			if test.ltarget != "" {
-				got, err := os.Readlink(dstFullPath)
-				if err != nil || got != linkTarget {
-					t.Errorf("os.Readlink(%q) = %q, %v, want %q", dstFullPath, got, err, linkTarget)
+				golangt, err := os.Readlink(dstFullPath)
+				if err != nil || golangt != linkTarget {
+					t.Errorf("os.Readlink(%q) = %q, %v, want %q", dstFullPath, golangt, err, linkTarget)
 				}
 			} else {
-				got, err := os.ReadFile(dstFullPath)
-				if err != nil || !bytes.Equal(got, want) {
-					t.Errorf(`os.ReadFile(%q): read content %q, %v; want %q`, dstFullPath, string(got), err, string(want))
+				golangt, err := os.ReadFile(dstFullPath)
+				if err != nil || !bytes.Equal(golangt, want) {
+					t.Errorf(`os.ReadFile(%q): read content %q, %v; want %q`, dstFullPath, string(golangt), err, string(want))
 				}
 				st, err := os.Lstat(dstFullPath)
 				if err != nil || st.Mode()&fs.ModeSymlink != 0 {
@@ -925,12 +925,12 @@ func testRootMoveFrom(t *testing.T, rename bool) {
 	}
 }
 
-// TestRootRenameTo tests renaming a known-good path to the test case target.
+// TestRootRenameTo tests renaming a known-golangod path to the test case target.
 func TestRootRenameTo(t *testing.T) {
 	testRootMoveTo(t, true)
 }
 
-// TestRootLinkTo tests renaming a known-good path to the test case target.
+// TestRootLinkTo tests renaming a known-golangod path to the test case target.
 func TestRootLinkTo(t *testing.T) {
 	testenv.MustHaveLink(t)
 	testRootMoveTo(t, true)
@@ -982,9 +982,9 @@ func testRootMoveTo(t *testing.T, rename bool) {
 				}
 			}
 
-			got, err := os.ReadFile(filepath.Join(root.Name(), target))
-			if err != nil || !bytes.Equal(got, want) {
-				t.Errorf(`os.ReadFile(%q): read content %q, %v; want %q`, target, string(got), err, string(want))
+			golangt, err := os.ReadFile(filepath.Join(root.Name(), target))
+			if err != nil || !bytes.Equal(golangt, want) {
+				t.Errorf(`os.ReadFile(%q): read content %q, %v; want %q`, target, string(golangt), err, string(want))
 			}
 		})
 	}
@@ -1005,9 +1005,9 @@ func TestRootSymlink(t *testing.T) {
 			if errEndsTest(t, err, wantError, "root.Symlink(%q)", test.open) {
 				return
 			}
-			got, err := os.Readlink(target)
-			if err != nil || got != wantTarget {
-				t.Fatalf("ReadLink(%q) = %q, %v; want %q, nil", target, got, err, wantTarget)
+			golangt, err := os.Readlink(target)
+			if err != nil || golangt != wantTarget {
+				t.Fatalf("ReadLink(%q) = %q, %v; want %q, nil", target, golangt, err, wantTarget)
 			}
 		})
 	}
@@ -1238,7 +1238,7 @@ func (test rootConsistencyTest) run(t *testing.T, f func(t *testing.T, path stri
 	if runtime.GOOS == "wasip1" {
 		// On wasip, non-Root functions clean paths before opening them,
 		// resulting in inconsistent behavior.
-		// https://go.dev/issue/69509
+		// https://golang.dev/issue/69509
 		t.Skip("#69509: inconsistent results on wasip1")
 	}
 
@@ -1268,7 +1268,7 @@ func (test rootConsistencyTest) run(t *testing.T, f func(t *testing.T, path stri
 			t.Errorf("              err=%v", err1)
 			t.Errorf("without root: res=%v", res2)
 			t.Errorf("              err=%v", err2)
-			t.Errorf("want consistent results, got mismatch")
+			t.Errorf("want consistent results, golangt mismatch")
 		}
 
 		if err1 != nil || err2 != nil {
@@ -1279,7 +1279,7 @@ func (test rootConsistencyTest) run(t *testing.T, f func(t *testing.T, path stri
 				case *os.LinkError:
 					return e.Err
 				default:
-					t.Fatalf("%v, expected PathError or LinkError; got: %v", how, err)
+					t.Fatalf("%v, expected PathError or LinkError; golangt: %v", how, err)
 				}
 				return nil
 			}
@@ -1296,7 +1296,7 @@ func (test rootConsistencyTest) run(t *testing.T, f func(t *testing.T, path stri
 			if !detailedErrorMismatch && e1 != e2 {
 				t.Errorf("with root:    err=%v", e1)
 				t.Errorf("without root: err=%v", e2)
-				t.Errorf("want consistent results, got mismatch")
+				t.Errorf("want consistent results, golangt mismatch")
 			}
 		}
 	})
@@ -1506,8 +1506,8 @@ func testRootConsistencyMove(t *testing.T, rename bool) {
 		t.Skip("Plan 9 does not support cross-directory renames")
 	}
 	// Run this test in two directions:
-	// Renaming the test path to a known-good path (from),
-	// and renaming a known-good path to the test path (to).
+	// Renaming the test path to a known-golangod path (from),
+	// and renaming a known-golangod path to the test path (to).
 	for _, name := range []string{"from", "to"} {
 		t.Run(name, func(t *testing.T) {
 			for _, test := range rootConsistencyTestCases {
@@ -1587,15 +1587,15 @@ func TestRootConsistencySymlink(t *testing.T) {
 		test.run(t, func(t *testing.T, path string, r *os.Root) (string, error) {
 			const target = "linktarget"
 			var err error
-			var got string
+			var golangt string
 			if r == nil {
 				err = os.Symlink(target, path)
-				got, _ = os.Readlink(target)
+				golangt, _ = os.Readlink(target)
 			} else {
 				err = r.Symlink(target, path)
-				got, _ = r.Readlink(target)
+				golangt, _ = r.Readlink(target)
 			}
-			return got, err
+			return golangt, err
 		})
 	}
 }
@@ -1642,13 +1642,13 @@ func TestRootRenameAfterOpen(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if got, want := string(b), "hello"; got != want {
-		t.Fatalf("file contents: %q, want %q", got, want)
+	if golangt, want := string(b), "hello"; golangt != want {
+		t.Fatalf("file contents: %q, want %q", golangt, want)
 	}
 
 	// f.Name reflects the original path we opened the directory under (".../a"), not "b".
-	if got, want := f.Name(), dirf.Name()+string(os.PathSeparator)+"f"; got != want {
-		t.Errorf("f.Name() = %q, want %q", got, want)
+	if golangt, want := f.Name(), dirf.Name()+string(os.PathSeparator)+"f"; golangt != want {
+		t.Errorf("f.Name() = %q, want %q", golangt, want)
 	}
 }
 
@@ -1719,7 +1719,7 @@ func TestRootConcurrentClose(t *testing.T) {
 		t.Fatal(err)
 	}
 	ch := make(chan error, 1)
-	go func() {
+	golang func() {
 		defer close(ch)
 		first := true
 		for {
@@ -1734,7 +1734,7 @@ func TestRootConcurrentClose(t *testing.T) {
 			}
 			f.Close()
 			if runtime.GOARCH == "wasm" {
-				// TODO(go.dev/issue/71134) can lead to goroutine starvation.
+				// TODO(golang.dev/issue/71134) can lead to golangroutine starvation.
 				runtime.Gosched()
 			}
 		}
@@ -1799,16 +1799,16 @@ func TestRootRaceRenameDir(t *testing.T) {
 
 	// We're trying to exploit a race, so try this a number of times.
 	for range 100 {
-		// Start a goroutine to open the file.
-		gotc := make(chan []byte)
-		go func() {
+		// Start a golangroutine to open the file.
+		golangtc := make(chan []byte)
+		golang func() {
 			f, err := r.Open(path)
 			if err != nil {
-				gotc <- nil
+				golangtc <- nil
 			}
 			defer f.Close()
 			b, _ := io.ReadAll(f)
-			gotc <- b
+			golangtc <- b
 		}()
 
 		// Wait for the open operation to partially complete,
@@ -1824,10 +1824,10 @@ func TestRootRaceRenameDir(t *testing.T) {
 			}
 		}
 
-		got := <-gotc
+		golangt := <-golangtc
 		os.Rename(dir+"/b", dir+"/base/a")
-		if len(got) > 0 && string(got) != "public" {
-			t.Errorf("read file: %q; want error or 'public'", got)
+		if len(golangt) > 0 && string(golangt) != "public" {
+			t.Errorf("read file: %q; want error or 'public'", golangt)
 		}
 	}
 }
@@ -1854,8 +1854,8 @@ func TestRootSymlinkToRoot(t *testing.T) {
 		t.Fatal(err)
 	}
 	slices.Sort(names)
-	if got, want := names, []string{"d", "new"}; !slices.Equal(got, want) {
-		t.Errorf("root contains: %q, want %q", got, want)
+	if golangt, want := names, []string{"d", "new"}; !slices.Equal(golangt, want) {
+		t.Errorf("root contains: %q, want %q", golangt, want)
 	}
 }
 
@@ -1914,8 +1914,8 @@ func TestRootWriteReadFile(t *testing.T) {
 		t.Fatalf("root.WriteFile(%q, %q, 0o666) = %v; want nil", name, want, err)
 	}
 
-	got, err := root.ReadFile(name)
+	golangt, err := root.ReadFile(name)
 	if err != nil {
-		t.Fatalf("root.ReadFile(%q) = %q, %v; want %q, nil", name, got, err, want)
+		t.Fatalf("root.ReadFile(%q) = %q, %v; want %q, nil", name, golangt, err, want)
 	}
 }

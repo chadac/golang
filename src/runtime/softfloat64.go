@@ -1,5 +1,5 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Software IEEE754 64-bit floating point.
@@ -483,7 +483,7 @@ again1:
 		q1--
 		rhat += vn1
 		if rhat < b {
-			goto again1
+			golangto again1
 		}
 	}
 
@@ -496,7 +496,7 @@ again2:
 		q0--
 		rhat += vn1
 		if rhat < b {
-			goto again2
+			golangto again2
 		}
 	}
 
@@ -606,7 +606,7 @@ func fuint64to64(x uint64) uint64 {
 	if int64(x) >= 0 {
 		return fint64to64(int64(x))
 	}
-	// See ../cmd/compile/internal/ssagen/ssa.go:uint64Tofloat
+	// See ../cmd/compile/internal/ssagen/ssa.golang:uint64Tofloat
 	y := x & 1
 	z := x >> 1
 	z = z | y
@@ -618,7 +618,7 @@ func fuint64to32(x uint64) uint32 {
 	if int64(x) >= 0 {
 		return fint64to32(int64(x))
 	}
-	// See ../cmd/compile/internal/ssagen/ssa.go:uint64Tofloat
+	// See ../cmd/compile/internal/ssagen/ssa.golang:uint64Tofloat
 	y := x & 1
 	z := x >> 1
 	z = z | y

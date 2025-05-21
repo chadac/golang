@@ -1,10 +1,10 @@
 // run
 
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Test that //go:uintptrescapes works for methods.
+// Test that //golang:uintptrescapes works for methods.
 
 package main
 
@@ -16,22 +16,22 @@ import (
 
 var callback func()
 
-//go:noinline
-//go:uintptrescapes
+//golang:noinline
+//golang:uintptrescapes
 func F(ptr uintptr) { callback() }
 
-//go:noinline
-//go:uintptrescapes
+//golang:noinline
+//golang:uintptrescapes
 func Fv(ptrs ...uintptr) { callback() }
 
 type T struct{}
 
-//go:noinline
-//go:uintptrescapes
+//golang:noinline
+//golang:uintptrescapes
 func (T) M(ptr uintptr) { callback() }
 
-//go:noinline
-//go:uintptrescapes
+//golang:noinline
+//golang:uintptrescapes
 func (T) Mv(ptrs ...uintptr) { callback() }
 
 // Each test should pass uintptr(ptr) as an argument to a function call,

@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 #define	Ln2Hi	6.93147180369123816490e-01
@@ -20,7 +20,7 @@
 #define	P5	4.13813679705723846039e-08	// 0x3E663769; 0x72BEA4D0
 
 // Exp returns e**x, the base-e exponential of x.
-// This is an assembly implementation of the method used for function Exp in file exp.go.
+// This is an assembly implementation of the method used for function Exp in file exp.golang.
 //
 // func Exp(x float64) float64
 TEXT ·archExp(SB),$0-16
@@ -106,7 +106,7 @@ overflow:
 
 
 // Exp2 returns 2**x, the base-2 exponential of x.
-// This is an assembly implementation of the method used for function Exp2 in file exp.go.
+// This is an assembly implementation of the method used for function Exp2 in file exp.golang.
 //
 // func Exp2(x float64) float64
 TEXT ·archExp2(SB),$0-16

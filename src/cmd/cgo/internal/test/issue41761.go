@@ -1,8 +1,8 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-package cgotest
+package cgolangtest
 
 /*
    typedef struct S41761 S41761;
@@ -10,7 +10,7 @@ package cgotest
 import "C"
 
 import (
-	"cmd/cgo/internal/test/issue41761a"
+	"cmd/cgolang/internal/test/issue41761a"
 	"testing"
 )
 

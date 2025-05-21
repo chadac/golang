@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -28,10 +28,10 @@ func checkstack() {
 	var buf [1024]byte
 	n := runtime.Stack(buf[:], false)
 	s := string(buf[:n])
-	if strings.Contains(s, "issue27201.go:21 ") {
+	if strings.Contains(s, "issue27201.golang:21 ") {
 		panic("panic at wrong location")
 	}
-	if !strings.Contains(s, "issue27201.go:20 ") {
+	if !strings.Contains(s, "issue27201.golang:20 ") {
 		panic("no panic at correct location")
 	}
 }

@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package modfetch
@@ -19,17 +19,17 @@ import (
 	"strings"
 	"sync"
 
-	"cmd/go/internal/base"
-	"cmd/go/internal/cfg"
-	"cmd/go/internal/gover"
-	"cmd/go/internal/lockedfile"
-	"cmd/go/internal/modfetch/codehost"
+	"cmd/golang/internal/base"
+	"cmd/golang/internal/cfg"
+	"cmd/golang/internal/golangver"
+	"cmd/golang/internal/lockedfile"
+	"cmd/golang/internal/modfetch/codehost"
 	"cmd/internal/par"
 	"cmd/internal/robustio"
 	"cmd/internal/telemetry/counter"
 
-	"golang.org/x/mod/module"
-	"golang.org/x/mod/semver"
+	"golanglang.org/x/mod/module"
+	"golanglang.org/x/mod/semver"
 )
 
 func cacheDir(ctx context.Context, path string) (string, error) {
@@ -44,14 +44,14 @@ func cacheDir(ctx context.Context, path string) (string, error) {
 }
 
 func CachePath(ctx context.Context, m module.Version, suffix string) (string, error) {
-	if gover.IsToolchain(m.Path) {
+	if golangver.IsToolchain(m.Path) {
 		return "", ErrToolchain
 	}
 	dir, err := cacheDir(ctx, m.Path)
 	if err != nil {
 		return "", err
 	}
-	if !gover.ModIsValid(m.Path, m.Version) {
+	if !golangver.ModIsValid(m.Path, m.Version) {
 		return "", fmt.Errorf("non-semver module version %q", m.Version)
 	}
 	if module.CanonicalVersion(m.Version) != m.Version {
@@ -70,7 +70,7 @@ func CachePath(ctx context.Context, m module.Version, suffix string) (string, er
 // along with the directory if the directory does not exist or if the directory
 // is not completely populated.
 func DownloadDir(ctx context.Context, m module.Version) (string, error) {
-	if gover.IsToolchain(m.Path) {
+	if golangver.IsToolchain(m.Path) {
 		return "", ErrToolchain
 	}
 	if err := checkCacheDir(ctx); err != nil {
@@ -80,7 +80,7 @@ func DownloadDir(ctx context.Context, m module.Version) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	if !gover.ModIsValid(m.Path, m.Version) {
+	if !golangver.ModIsValid(m.Path, m.Version) {
 		return "", fmt.Errorf("non-semver module version %q", m.Version)
 	}
 	if module.CanonicalVersion(m.Version) != m.Version {
@@ -113,10 +113,10 @@ func DownloadDir(ctx context.Context, m module.Version) (string, error) {
 		return dir, err
 	}
 
-	// Special case: ziphash is not required for the golang.org/fips140 module,
+	// Special case: ziphash is not required for the golanglang.org/fips140 module,
 	// because it is unpacked from a file in GOROOT, not downloaded.
 	// We've already checked that it's not a partial unpacking, so we're happy.
-	if m.Path == "golang.org/fips140" {
+	if m.Path == "golanglang.org/fips140" {
 		return dir, nil
 	}
 
@@ -163,7 +163,7 @@ func lockVersion(ctx context.Context, mod module.Version) (unlock func(), err er
 }
 
 // SideLock locks a file within the module cache that previously guarded
-// edits to files outside the cache, such as go.sum and go.mod files in the
+// edits to files outside the cache, such as golang.sum and golang.mod files in the
 // user's working directory.
 // If err is nil, the caller MUST eventually call the unlock function.
 func SideLock(ctx context.Context) (unlock func(), err error) {
@@ -181,7 +181,7 @@ func SideLock(ctx context.Context) (unlock func(), err error) {
 
 // A cachingRepo is a cache around an underlying Repo,
 // avoiding redundant calls to ModulePath, Versions, Stat, Latest, and GoMod (but not CheckReuse or Zip).
-// It is also safe for simultaneous use by multiple goroutines
+// It is also safe for simultaneous use by multiple golangroutines
 // (so that it can be returned from Lookup multiple times).
 // It serializes calls to the underlying Repo.
 type cachingRepo struct {
@@ -189,7 +189,7 @@ type cachingRepo struct {
 	versionsCache par.ErrCache[string, *Versions]
 	statCache     par.ErrCache[string, *RevInfo]
 	latestCache   par.ErrCache[struct{}, *RevInfo]
-	gomodCache    par.ErrCache[string, []byte]
+	golangmodCache    par.ErrCache[string, []byte]
 
 	once     sync.Once
 	initRepo func(context.Context) (Repo, error)
@@ -242,8 +242,8 @@ type cachedInfo struct {
 }
 
 func (r *cachingRepo) Stat(ctx context.Context, rev string) (*RevInfo, error) {
-	if gover.IsToolchain(r.path) {
-		// Skip disk cache; the underlying golang.org/toolchain repo is cached instead.
+	if golangver.IsToolchain(r.path) {
+		// Skip disk cache; the underlying golanglang.org/toolchain repo is cached instead.
 		return r.repo(ctx).Stat(ctx, rev)
 	}
 	info, err := r.statCache.Do(rev, func() (*RevInfo, error) {
@@ -264,7 +264,7 @@ func (r *cachingRepo) Stat(ctx context.Context, rev string) (*RevInfo, error) {
 			}
 
 			if err := writeDiskStat(ctx, file, info); err != nil {
-				fmt.Fprintf(os.Stderr, "go: writing stat cache: %v\n", err)
+				fmt.Fprintf(os.Stderr, "golang: writing stat cache: %v\n", err)
 			}
 		}
 		return info, err
@@ -277,8 +277,8 @@ func (r *cachingRepo) Stat(ctx context.Context, rev string) (*RevInfo, error) {
 }
 
 func (r *cachingRepo) Latest(ctx context.Context) (*RevInfo, error) {
-	if gover.IsToolchain(r.path) {
-		// Skip disk cache; the underlying golang.org/toolchain repo is cached instead.
+	if golangver.IsToolchain(r.path) {
+		// Skip disk cache; the underlying golanglang.org/toolchain repo is cached instead.
 		return r.repo(ctx).Latest(ctx)
 	}
 	info, err := r.latestCache.Do(struct{}{}, func() (*RevInfo, error) {
@@ -304,11 +304,11 @@ func (r *cachingRepo) Latest(ctx context.Context) (*RevInfo, error) {
 }
 
 func (r *cachingRepo) GoMod(ctx context.Context, version string) ([]byte, error) {
-	if gover.IsToolchain(r.path) {
-		// Skip disk cache; the underlying golang.org/toolchain repo is cached instead.
+	if golangver.IsToolchain(r.path) {
+		// Skip disk cache; the underlying golanglang.org/toolchain repo is cached instead.
 		return r.repo(ctx).GoMod(ctx, version)
 	}
-	text, err := r.gomodCache.Do(version, func() ([]byte, error) {
+	text, err := r.golangmodCache.Do(version, func() ([]byte, error) {
 		file, text, err := readDiskGoMod(ctx, r.path, version)
 		if err == nil {
 			// Note: readDiskGoMod already called checkGoMod.
@@ -321,7 +321,7 @@ func (r *cachingRepo) GoMod(ctx context.Context, version string) ([]byte, error)
 				return text, err
 			}
 			if err := writeDiskGoMod(ctx, file, text); err != nil {
-				fmt.Fprintf(os.Stderr, "go: writing go.mod cache: %v\n", err)
+				fmt.Fprintf(os.Stderr, "golang: writing golang.mod cache: %v\n", err)
 			}
 		}
 		return text, err
@@ -333,7 +333,7 @@ func (r *cachingRepo) GoMod(ctx context.Context, version string) ([]byte, error)
 }
 
 func (r *cachingRepo) Zip(ctx context.Context, dst io.Writer, version string) error {
-	if gover.IsToolchain(r.path) {
+	if golangver.IsToolchain(r.path) {
 		return ErrToolchain
 	}
 	return r.repo(ctx).Zip(ctx, dst, version)
@@ -342,7 +342,7 @@ func (r *cachingRepo) Zip(ctx context.Context, dst io.Writer, version string) er
 // InfoFile is like Lookup(ctx, path).Stat(version) but also returns the name of the file
 // containing the cached information.
 func InfoFile(ctx context.Context, path, version string) (*RevInfo, string, error) {
-	if !gover.ModIsValid(path, version) {
+	if !golangver.ModIsValid(path, version) {
 		return nil, "", fmt.Errorf("invalid version %q", version)
 	}
 
@@ -382,7 +382,7 @@ func InfoFile(ctx context.Context, path, version string) (*RevInfo, string, erro
 func GoMod(ctx context.Context, path, rev string) ([]byte, error) {
 	// Convert commit hash to pseudo-version
 	// to increase cache hit rate.
-	if !gover.ModIsValid(path, rev) {
+	if !golangver.ModIsValid(path, rev) {
 		if _, info, err := readDiskStat(ctx, path, rev); err == nil {
 			rev = info.Version
 		} else {
@@ -417,7 +417,7 @@ func GoMod(ctx context.Context, path, rev string) ([]byte, error) {
 // GoModFile is like GoMod but returns the name of the file containing
 // the cached information.
 func GoModFile(ctx context.Context, path, version string) (string, error) {
-	if !gover.ModIsValid(path, version) {
+	if !golangver.ModIsValid(path, version) {
 		return "", fmt.Errorf("invalid version %q", version)
 	}
 	if _, err := GoMod(ctx, path, version); err != nil {
@@ -431,17 +431,17 @@ func GoModFile(ctx context.Context, path, version string) (string, error) {
 	return file, nil
 }
 
-// GoModSum returns the go.sum entry for the module version's go.mod file.
-// (That is, it returns the entry listed in go.sum as "path version/go.mod".)
+// GoModSum returns the golang.sum entry for the module version's golang.mod file.
+// (That is, it returns the entry listed in golang.sum as "path version/golang.mod".)
 func GoModSum(ctx context.Context, path, version string) (string, error) {
-	if !gover.ModIsValid(path, version) {
+	if !golangver.ModIsValid(path, version) {
 		return "", fmt.Errorf("invalid version %q", version)
 	}
 	data, err := GoMod(ctx, path, version)
 	if err != nil {
 		return "", err
 	}
-	sum, err := goModSum(data)
+	sum, err := golangModSum(data)
 	if err != nil {
 		return "", err
 	}
@@ -455,7 +455,7 @@ var errNotCached = fmt.Errorf("not in cache")
 // If the read fails, the caller can use
 // writeDiskStat(file, info) to write a new cache entry.
 func readDiskStat(ctx context.Context, path, rev string) (file string, info *RevInfo, err error) {
-	if gover.IsToolchain(path) {
+	if golangver.IsToolchain(path) {
 		return "", nil, errNotCached
 	}
 	file, data, err := readDiskCache(ctx, path, rev, "info")
@@ -463,17 +463,17 @@ func readDiskStat(ctx context.Context, path, rev string) (file string, info *Rev
 		// If the cache already contains a pseudo-version with the given hash, we
 		// would previously return that pseudo-version without checking upstream.
 		// However, that produced an unfortunate side-effect: if the author added a
-		// tag to the repository, 'go get' would not pick up the effect of that new
-		// tag on the existing commits, and 'go' commands that referred to those
+		// tag to the repository, 'golang get' would not pick up the effect of that new
+		// tag on the existing commits, and 'golang' commands that referred to those
 		// commits would use the previous name instead of the new one.
 		//
 		// That's especially problematic if the original pseudo-version starts with
-		// v0.0.0-, as was the case for all pseudo-versions during vgo development,
+		// v0.0.0-, as was the case for all pseudo-versions during vgolang development,
 		// since a v0.0.0- pseudo-version has lower precedence than pretty much any
 		// tagged version.
 		//
 		// In practice, we're only looking up by hash during initial conversion of a
-		// legacy config and during an explicit 'go get', and a little extra latency
+		// legacy config and during an explicit 'golang get', and a little extra latency
 		// for those operations seems worth the benefit of picking up more accurate
 		// versions.
 		//
@@ -510,7 +510,7 @@ func readDiskStat(ctx context.Context, path, rev string) (file string, info *Rev
 // just to find out about a commit we already know about
 // (and have cached under its pseudo-version).
 func readDiskStatByHash(ctx context.Context, path, rev string) (file string, info *RevInfo, err error) {
-	if gover.IsToolchain(path) {
+	if golangver.IsToolchain(path) {
 		return "", nil, errNotCached
 	}
 	if cfg.GOMODCACHE == "" {
@@ -554,25 +554,25 @@ func readDiskStatByHash(ctx context.Context, path, rev string) (file string, inf
 	return file, info, err
 }
 
-// oldVgoPrefix is the prefix in the old auto-generated cached go.mod files.
-// We stopped trying to auto-generate the go.mod files. Now we use a trivial
-// go.mod with only a module line, and we've dropped the version prefix
+// oldVgolangPrefix is the prefix in the old auto-generated cached golang.mod files.
+// We stopped trying to auto-generate the golang.mod files. Now we use a trivial
+// golang.mod with only a module line, and we've dropped the version prefix
 // entirely. If we see a version prefix, that means we're looking at an old copy
 // and should ignore it.
-var oldVgoPrefix = []byte("//vgo 0.0.")
+var oldVgolangPrefix = []byte("//vgolang 0.0.")
 
-// readDiskGoMod reads a cached go.mod file from disk,
+// readDiskGoMod reads a cached golang.mod file from disk,
 // returning the name of the cache file and the result.
 // If the read fails, the caller can use
 // writeDiskGoMod(file, data) to write a new cache entry.
 func readDiskGoMod(ctx context.Context, path, rev string) (file string, data []byte, err error) {
-	if gover.IsToolchain(path) {
+	if golangver.IsToolchain(path) {
 		return "", nil, errNotCached
 	}
 	file, data, err = readDiskCache(ctx, path, rev, "mod")
 
 	// If the file has an old auto-conversion prefix, pretend it's not there.
-	if bytes.HasPrefix(data, oldVgoPrefix) {
+	if bytes.HasPrefix(data, oldVgolangPrefix) {
 		err = errNotCached
 		data = nil
 	}
@@ -592,7 +592,7 @@ func readDiskGoMod(ctx context.Context, path, rev string) (file string, data []b
 // If the read fails, the caller can use
 // writeDiskCache(file, data) to write a new cache entry.
 func readDiskCache(ctx context.Context, path, rev, suffix string) (file string, data []byte, err error) {
-	if gover.IsToolchain(path) {
+	if golangver.IsToolchain(path) {
 		return "", nil, errNotCached
 	}
 	file, err = CachePath(ctx, module.Version{Path: path, Version: rev}, suffix)
@@ -639,7 +639,7 @@ func writeDiskStat(ctx context.Context, file string, info *RevInfo) error {
 	return writeDiskCache(ctx, file, js)
 }
 
-// writeDiskGoMod writes a go.mod cache entry.
+// writeDiskGoMod writes a golang.mod cache entry.
 // The file name must have been returned by a previous call to readDiskGoMod.
 func writeDiskGoMod(ctx context.Context, file string, text []byte) error {
 	return writeDiskCache(ctx, file, text)
@@ -708,7 +708,7 @@ func tempFile(ctx context.Context, dir, prefix string, perm fs.FileMode) (f *os.
 // after a new *.mod file has been written.
 func rewriteVersionList(ctx context.Context, dir string) (err error) {
 	if filepath.Base(dir) != "@v" {
-		base.Fatalf("go: internal error: misuse of rewriteVersionList")
+		base.Fatalf("golang: internal error: misuse of rewriteVersionList")
 	}
 
 	listFile := filepath.Join(dir, "list")
@@ -716,10 +716,10 @@ func rewriteVersionList(ctx context.Context, dir string) (err error) {
 	// Lock listfile when writing to it to try to avoid corruption to the file.
 	// Under rare circumstances, for instance, if the system loses power in the
 	// middle of a write it is possible for corrupt data to be written. This is
-	// not a problem for the go command itself, but may be an issue if the
+	// not a problem for the golang command itself, but may be an issue if the
 	// cache is being served by a GOPROXY HTTP server. This will be corrected
 	// the next time a new version of the module is fetched and the file is rewritten.
-	// TODO(matloob): golang.org/issue/43313 covers adding a go mod verify
+	// TODO(matloob): golanglang.org/issue/43313 covers adding a golang mod verify
 	// command that removes module versions that fail checksums. It should also
 	// remove list files that are detected to be corrupt.
 	f, err := lockedfile.Edit(listFile)
@@ -786,7 +786,7 @@ var (
 	statCacheOnce sync.Once
 	statCacheErr  error
 
-	counterErrorsGOMODCACHEEntryRelative = counter.New("go/errors:gomodcache-entry-relative")
+	counterErrorsGOMODCACHEEntryRelative = counter.New("golang/errors:golangmodcache-entry-relative")
 )
 
 // checkCacheDir checks if the directory specified by GOMODCACHE exists. An

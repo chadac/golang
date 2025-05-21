@@ -1,5 +1,5 @@
 // Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file implements typechecking of range statements.
@@ -8,7 +8,7 @@ package types2
 
 import (
 	"cmd/compile/internal/syntax"
-	"go/constant"
+	"golang/constant"
 	"internal/buildcfg"
 	. "internal/types/errors"
 )
@@ -63,7 +63,7 @@ func (check *Checker) rangeStmt(inner stmtContext, rangeStmt *syntax.ForStmt, no
 	// determine key/value types
 	var key, val Type
 	if x.mode != invalid {
-		k, v, cause, ok := rangeKeyVal(check, x.typ, func(v goVersion) bool {
+		k, v, cause, ok := rangeKeyVal(check, x.typ, func(v golangVersion) bool {
 			return check.allowVersion(v)
 		})
 		switch {
@@ -82,7 +82,7 @@ func (check *Checker) rangeStmt(inner stmtContext, rangeStmt *syntax.ForStmt, no
 	}
 
 	// Open the for-statement block scope now, after the range clause.
-	// Iteration variables declared with := need to go in this scope (was go.dev/issue/51437).
+	// Iteration variables declared with := need to golang in this scope (was golang.dev/issue/51437).
 	check.openScope(rangeStmt, "range")
 	defer check.closeScope()
 
@@ -169,7 +169,7 @@ func (check *Checker) rangeStmt(inner stmtContext, rangeStmt *syntax.ForStmt, no
 				check.assignVar(lhs, nil, &x, "range clause")
 				// If the assignment succeeded, if x was untyped before, it now
 				// has a type inferred via the assignment. It must be an integer.
-				// (go.dev/issues/67027)
+				// (golang.dev/issues/67027)
 				if x.mode != invalid && !isInteger(x.typ) {
 					check.softErrorf(lhs, InvalidRangeExpr, "cannot use iteration variable of type %s", x.typ)
 				}
@@ -200,7 +200,7 @@ func (check *Checker) rangeStmt(inner stmtContext, rangeStmt *syntax.ForStmt, no
 // If the range clause is not permitted, rangeKeyVal returns ok = false.
 // When ok = false, rangeKeyVal may also return a reason in cause.
 // The check parameter is only used in case of an error; it may be nil.
-func rangeKeyVal(check *Checker, orig Type, allowVersion func(goVersion) bool) (key, val Type, cause string, ok bool) {
+func rangeKeyVal(check *Checker, orig Type, allowVersion func(golangVersion) bool) (key, val Type, cause string, ok bool) {
 	bad := func(cause string) (Type, Type, string, bool) {
 		return Typ[Invalid], Typ[Invalid], cause, false
 	}
@@ -222,8 +222,8 @@ func rangeKeyVal(check *Checker, orig Type, allowVersion func(goVersion) bool) (
 			return Typ[Int], universeRune, "", true // use 'rune' name
 		}
 		if isInteger(typ) {
-			if allowVersion != nil && !allowVersion(go1_22) {
-				return bad("requires go1.22 or later")
+			if allowVersion != nil && !allowVersion(golang1_22) {
+				return bad("requires golang1.22 or later")
 			}
 			return orig, nil, "", true
 		}
@@ -237,8 +237,8 @@ func rangeKeyVal(check *Checker, orig Type, allowVersion func(goVersion) bool) (
 		assert(typ.dir != SendOnly)
 		return typ.elem, nil, "", true
 	case *Signature:
-		if !buildcfg.Experiment.RangeFunc && allowVersion != nil && !allowVersion(go1_23) {
-			return bad("requires go1.23 or later")
+		if !buildcfg.Experiment.RangeFunc && allowVersion != nil && !allowVersion(golang1_23) {
+			return bad("requires golang1.23 or later")
 		}
 		// check iterator arity
 		switch {
@@ -261,7 +261,7 @@ func rangeKeyVal(check *Checker, orig Type, allowVersion func(goVersion) bool) (
 		case cb.Params().Len() > 2:
 			return bad("func must be func(yield func(...) bool): yield func has too many parameters")
 		case cb.Results().Len() != 1 || !Identical(cb.Results().At(0).Type(), universeBool):
-			// see go.dev/issues/71131, go.dev/issues/71164
+			// see golang.dev/issues/71131, golang.dev/issues/71164
 			if cb.Results().Len() == 1 && isBoolean(cb.Results().At(0).Type()) {
 				return bad("func must be func(yield func(...) bool): yield func returns user-defined boolean, not bool")
 			} else {

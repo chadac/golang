@@ -1,8 +1,8 @@
 // run
-//go:build !nacl && !js && !wasip1 && !gccgo
+//golang:build !nacl && !js && !wasip1 && !gccgolang
 
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // ensure that panic(x) where x is a numeric type displays a readable number
@@ -40,7 +40,7 @@ func main() {
 		log.Fatal(err)
 	}
 	defer os.RemoveAll(tempDir)
-	tmpFile := filepath.Join(tempDir, "tmp.go")
+	tmpFile := filepath.Join(tempDir, "tmp.golang")
 
 	for _, tc := range []struct {
 		Type   string
@@ -76,7 +76,7 @@ func main() {
 			log.Fatal(err)
 		}
 
-		cmd := exec.Command("go", "run", tmpFile)
+		cmd := exec.Command("golang", "run", tmpFile)
 		var buf bytes.Buffer
 		cmd.Stdout = &buf
 		cmd.Stderr = &buf
@@ -86,15 +86,15 @@ func main() {
 		out := buf.Bytes()
 		panicIdx := bytes.Index(out, []byte("panic: "))
 		if panicIdx == -1 {
-			log.Fatalf("expected a panic in output for %s, got: %s", tc.Type, out)
+			log.Fatalf("expected a panic in output for %s, golangt: %s", tc.Type, out)
 		}
 		eolIdx := bytes.IndexByte(out[panicIdx:], '\n') + panicIdx
 		if panicIdx == -1 {
-			log.Fatalf("expected a newline in output for %s after the panic, got: %s", tc.Type, out)
+			log.Fatalf("expected a newline in output for %s after the panic, golangt: %s", tc.Type, out)
 		}
 		out = out[0:eolIdx]
 		if string(out) != tc.Expect {
-			log.Fatalf("expected '%s' for panic(%s(%s)), got %s", tc.Expect, tc.Type, tc.Input, out)
+			log.Fatalf("expected '%s' for panic(%s(%s)), golangt %s", tc.Expect, tc.Type, tc.Input, out)
 		}
 	}
 }

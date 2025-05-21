@@ -1,13 +1,13 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package modload
 
 import (
-	"cmd/go/internal/cfg"
-	"cmd/go/internal/gover"
-	"cmd/go/internal/mvs"
+	"cmd/golang/internal/cfg"
+	"cmd/golang/internal/golangver"
+	"cmd/golang/internal/mvs"
 	"cmd/internal/par"
 	"context"
 	"errors"
@@ -16,7 +16,7 @@ import (
 	"os"
 	"slices"
 
-	"golang.org/x/mod/module"
+	"golanglang.org/x/mod/module"
 )
 
 // editRequirements returns an edited version of rs such that:
@@ -34,9 +34,9 @@ import (
 //     needed to satisfy (1) and (2).
 //
 // Generally, the module versions in mustSelect are due to the module or a
-// package within the module matching an explicit command line argument to 'go
+// package within the module matching an explicit command line argument to 'golang
 // get', and the versions in tryUpgrade are transitive dependencies that are
-// either being upgraded by 'go get -u' or being added to satisfy some
+// either being upgraded by 'golang get -u' or being added to satisfy some
 // otherwise-missing package import.
 //
 // If pruning is enabled, the roots of the edited requirements include an
@@ -48,8 +48,8 @@ func editRequirements(ctx context.Context, rs *Requirements, tryUpgrade, mustSel
 	}
 
 	orig := rs
-	// If we already know what go version we will end up on after the edit, and
-	// the pruning for that version is different, go ahead and apply it now.
+	// If we already know what golang version we will end up on after the edit, and
+	// the pruning for that version is different, golang ahead and apply it now.
 	//
 	// If we are changing from pruned to unpruned, then we MUST check the unpruned
 	// graph for conflicts from the start. (Checking only for pruned conflicts
@@ -59,22 +59,22 @@ func editRequirements(ctx context.Context, rs *Requirements, tryUpgrade, mustSel
 	// unnecessary downgrades due to conflicts that would be pruned out of the
 	// final graph anyway.
 	//
-	// Note that even if we don't find a go version in mustSelect, it is possible
+	// Note that even if we don't find a golang version in mustSelect, it is possible
 	// that we will switch from unpruned to pruned (but not the other way around!)
 	// after applying the edits if we find a dependency that requires a high
-	// enough go version to trigger an upgrade.
+	// enough golang version to trigger an upgrade.
 	rootPruning := orig.pruning
 	for _, m := range mustSelect {
-		if m.Path == "go" {
+		if m.Path == "golang" {
 			rootPruning = pruningForGoVersion(m.Version)
 			break
-		} else if m.Path == "toolchain" && pruningForGoVersion(gover.FromToolchain(m.Version)) == unpruned {
-			// We don't know exactly what go version we will end up at, but we know
+		} else if m.Path == "toolchain" && pruningForGoVersion(golangver.FromToolchain(m.Version)) == unpruned {
+			// We don't know exactly what golang version we will end up at, but we know
 			// that it must be a version supported by the requested toolchain, and
 			// that toolchain does not support pruning.
 			//
-			// TODO(bcmills): 'go get' ought to reject explicit toolchain versions
-			// older than gover.GoStrictVersion. Once that is fixed, is this still
+			// TODO(bcmills): 'golang get' ought to reject explicit toolchain versions
+			// older than golangver.GoStrictVersion. Once that is fixed, is this still
 			// needed?
 			rootPruning = unpruned
 			break
@@ -114,11 +114,11 @@ func editRequirements(ctx context.Context, rs *Requirements, tryUpgrade, mustSel
 	}
 
 	for _, r := range tryUpgrade {
-		if v, ok := selectedRoot[r.Path]; ok && gover.ModCompare(r.Path, v, r.Version) >= 0 {
+		if v, ok := selectedRoot[r.Path]; ok && golangver.ModCompare(r.Path, v, r.Version) >= 0 {
 			continue
 		}
 		if cfg.BuildV {
-			fmt.Fprintf(os.Stderr, "go: trying upgrade to %v\n", r)
+			fmt.Fprintf(os.Stderr, "golang: trying upgrade to %v\n", r)
 		}
 		selectedRoot[r.Path] = r.Version
 	}
@@ -133,7 +133,7 @@ func editRequirements(ctx context.Context, rs *Requirements, tryUpgrade, mustSel
 	for _, r := range mustSelect {
 		if v, ok := mustSelectVersion[r.Path]; ok && v != r.Version {
 			prev := module.Version{Path: r.Path, Version: v}
-			if gover.ModCompare(r.Path, v, r.Version) > 0 {
+			if golangver.ModCompare(r.Path, v, r.Version) > 0 {
 				conflicts = append(conflicts, Conflict{Path: []module.Version{prev}, Constraint: r})
 			} else {
 				conflicts = append(conflicts, Conflict{Path: []module.Version{r}, Constraint: prev})
@@ -149,7 +149,7 @@ func editRequirements(ctx context.Context, rs *Requirements, tryUpgrade, mustSel
 	// versions of the roots. Now we need to load the actual module graph and
 	// restore the invariant that every root is the selected version of its path.
 	//
-	// For 'go mod tidy' we would do that using expandGraph, which upgrades the
+	// For 'golang mod tidy' we would do that using expandGraph, which upgrades the
 	// roots until their requirements are internally consistent and then drops out
 	// the old roots. However, here we need to do more: we also need to make sure
 	// the modules in mustSelect don't get upgraded above their intended versions.
@@ -179,7 +179,7 @@ func editRequirements(ctx context.Context, rs *Requirements, tryUpgrade, mustSel
 	//
 	// We make a best effort to fix incompatibilities, subject to two properties:
 	//
-	// 	1. If the user runs 'go get' with a set of mutually-compatible module
+	// 	1. If the user runs 'golang get' with a set of mutually-compatible module
 	// 	versions, we should accept those versions.
 	//
 	// 	2. If we end up upgrading or downgrading a module, it should be
@@ -199,7 +199,7 @@ func editRequirements(ctx context.Context, rs *Requirements, tryUpgrade, mustSel
 	//
 	// NOTE(bcmills): I am not sure that the rejectedRoot map is really necessary,
 	// since we normally only downgrade roots or accept indirect upgrades to
-	// known-good versions. However, I am having trouble proving that accepting an
+	// known-golangod versions. However, I am having trouble proving that accepting an
 	// indirect upgrade never introduces a conflict that leads to further
 	// downgrades. I really want to be able to prove that editRequirements
 	// terminates, and the easiest way to prove it is to add this map.
@@ -218,7 +218,7 @@ func editRequirements(ctx context.Context, rs *Requirements, tryUpgrade, mustSel
 				roots = append(roots, module.Version{Path: p, Version: v})
 			}
 		}
-		gover.ModSort(roots)
+		golangver.ModSort(roots)
 
 		// First, we extend the graph so that it includes the selected version
 		// of every root. The upgraded roots are in addition to the original
@@ -226,7 +226,7 @@ func editRequirements(ctx context.Context, rs *Requirements, tryUpgrade, mustSel
 		// conflict we discover from one or more of the original roots.
 		mg, upgradedRoots, err := extendGraph(ctx, rootPruning, roots, selectedRoot)
 		if err != nil {
-			var tooNew *gover.TooNewError
+			var tooNew *golangver.TooNewError
 			if mg == nil || errors.As(err, &tooNew) {
 				return orig, false, err
 			}
@@ -257,7 +257,7 @@ func editRequirements(ctx context.Context, rs *Requirements, tryUpgrade, mustSel
 		// Now check the resulting extended graph for errors and incompatibilities.
 		t := dqTracker{extendedRootPruning: extendedRootPruning}
 		mg.g.WalkBreadthFirst(func(m module.Version) {
-			if max, ok := mustSelectVersion[m.Path]; ok && gover.ModCompare(m.Path, m.Version, max) > 0 {
+			if max, ok := mustSelectVersion[m.Path]; ok && golangver.ModCompare(m.Path, m.Version, max) > 0 {
 				// m itself violates mustSelect, so it cannot appear in the module graph
 				// even if its transitive dependencies would be pruned out.
 				t.disqualify(m, pruned, dqState{dep: m})
@@ -270,7 +270,7 @@ func editRequirements(ctx context.Context, rs *Requirements, tryUpgrade, mustSel
 				// they would be allowed. This may be a transient error reaching the
 				// repository, rather than a permanent error with the retrieved version.
 				//
-				// TODO(golang.org/issue/31730, golang.org/issue/30134):
+				// TODO(golanglang.org/issue/31730, golanglang.org/issue/30134):
 				// decide what to do based on the actual error.
 				t.disqualify(m, pruned, dqState{err: err})
 				return
@@ -297,7 +297,7 @@ func editRequirements(ctx context.Context, rs *Requirements, tryUpgrade, mustSel
 			// violates mustSelect disqualifies m, even if the requirements of r are
 			// themselves pruned out.
 			for _, r := range reqs {
-				if max, ok := mustSelectVersion[r.Path]; ok && gover.ModCompare(r.Path, r.Version, max) > 0 {
+				if max, ok := mustSelectVersion[r.Path]; ok && golangver.ModCompare(r.Path, r.Version, max) > 0 {
 					t.disqualify(m, pruned, dqState{dep: r})
 					return
 				}
@@ -323,7 +323,7 @@ func editRequirements(ctx context.Context, rs *Requirements, tryUpgrade, mustSel
 			// path leads to a module with a problem: either it violates a constraint,
 			// or some error prevents us from determining whether it violates a
 			// constraint. We might end up logging or returning the conflict
-			// information, so go ahead and fill in the details about it.
+			// information, so golang ahead and fill in the details about it.
 			conflict := Conflict{
 				Path: path,
 				Err:  err,
@@ -332,7 +332,7 @@ func editRequirements(ctx context.Context, rs *Requirements, tryUpgrade, mustSel
 				var last module.Version = path[len(path)-1]
 				mustV, ok := mustSelectVersion[last.Path]
 				if !ok {
-					fmt.Fprintf(os.Stderr, "go: %v\n", conflict)
+					fmt.Fprintf(os.Stderr, "golang: %v\n", conflict)
 					panic("internal error: found a version conflict, but no constraint it violates")
 				}
 				conflict.Constraint = module.Version{
@@ -347,7 +347,7 @@ func editRequirements(ctx context.Context, rs *Requirements, tryUpgrade, mustSel
 				//
 				// In theory we could try removing module paths that don't appear in
 				// mustSelect (added by tryUpgrade or already present in rs) in order to
-				// get graph pruning to take effect, but (a) it is likely that 'go mod
+				// get graph pruning to take effect, but (a) it is likely that 'golang mod
 				// tidy' would re-add those roots and reintroduce unwanted upgrades,
 				// causing confusion, and (b) deciding which roots to try to eliminate
 				// would add a lot of complexity.
@@ -369,13 +369,13 @@ func editRequirements(ctx context.Context, rs *Requirements, tryUpgrade, mustSel
 			// to downgrade to.
 			//
 			// However, it is possible that m depends on something that leads to its
-			// own upgrade, so if the upgrade isn't viable we should go ahead and try
+			// own upgrade, so if the upgrade isn't viable we should golang ahead and try
 			// to downgrade (like with any other root).
 			if v := mg.Selected(m.Path); v != m.Version {
 				u := module.Version{Path: m.Path, Version: v}
 				uPruning, ok := t.extendedRootPruning[m]
 				if !ok {
-					fmt.Fprintf(os.Stderr, "go: %v\n", conflict)
+					fmt.Fprintf(os.Stderr, "golang: %v\n", conflict)
 					panic(fmt.Sprintf("internal error: selected version of root %v is %v, but it was not expanded as a new root", m, u))
 				}
 				if !t.check(u, uPruning).isDisqualified() && !rejectedRoot[u] {
@@ -398,12 +398,12 @@ func editRequirements(ctx context.Context, rs *Requirements, tryUpgrade, mustSel
 				// (transitive) requirements.
 				//
 				// If this conflict was just one step in a longer chain of downgrades,
-				// then we would want to keep going past it until we find a version
+				// then we would want to keep golanging past it until we find a version
 				// that doesn't have that problem. However, we only want to downgrade
 				// away from an *existing* requirement if we can confirm that it actually
 				// conflicts with mustSelect. (For example, we don't want
-				// 'go get -u ./...' to incidentally downgrade some dependency whose
-				// go.mod file is unavailable or has a bad checksum.)
+				// 'golang get -u ./...' to incidentally downgrade some dependency whose
+				// golang.mod file is unavailable or has a bad checksum.)
 				conflicts = append(conflicts, conflict)
 				continue
 			}
@@ -414,7 +414,7 @@ func editRequirements(ctx context.Context, rs *Requirements, tryUpgrade, mustSel
 			prev := m
 			for {
 				prev, err = previousVersion(ctx, prev)
-				if gover.ModCompare(m.Path, m.Version, origV) > 0 && (gover.ModCompare(m.Path, prev.Version, origV) < 0 || err != nil) {
+				if golangver.ModCompare(m.Path, m.Version, origV) > 0 && (golangver.ModCompare(m.Path, prev.Version, origV) < 0 || err != nil) {
 					// previousVersion skipped over origV. Insert it into the order.
 					prev.Version = origV
 				} else if err != nil {
@@ -423,7 +423,7 @@ func editRequirements(ctx context.Context, rs *Requirements, tryUpgrade, mustSel
 				}
 				if rejectedRoot[prev] {
 					// We already rejected prev in a previous round.
-					// To ensure that this algorithm terminates, don't try it again.
+					// To ensure that this algolangrithm terminates, don't try it again.
 					continue
 				}
 				pruning := rootPruning
@@ -453,7 +453,7 @@ func editRequirements(ctx context.Context, rs *Requirements, tryUpgrade, mustSel
 				} else {
 					action = fmt.Sprintf("trying %s", prev)
 				}
-				fmt.Fprintf(os.Stderr, "go: %s\n\t%s\n", conflict.Summary(), action)
+				fmt.Fprintf(os.Stderr, "golang: %s\n\t%s\n", conflict.Summary(), action)
 			}
 		}
 		if rootsDirty {
@@ -493,9 +493,9 @@ func editRequirements(ctx context.Context, rs *Requirements, tryUpgrade, mustSel
 		}
 		if rootsDirty {
 			if cfg.BuildV {
-				gover.ModSort(upgradedFrom) // Make logging deterministic.
+				golangver.ModSort(upgradedFrom) // Make logging deterministic.
 				for _, m := range upgradedFrom {
-					fmt.Fprintf(os.Stderr, "go: accepting indirect upgrade from %v to %s\n", m, selectedRoot[m.Path])
+					fmt.Fprintf(os.Stderr, "golang: accepting indirect upgrade from %v to %s\n", m, selectedRoot[m.Path])
 				}
 			}
 			continue
@@ -507,7 +507,7 @@ func editRequirements(ctx context.Context, rs *Requirements, tryUpgrade, mustSel
 	}
 
 	if rootPruning == unpruned {
-		// An unpruned go.mod file lists only a subset of the requirements needed
+		// An unpruned golang.mod file lists only a subset of the requirements needed
 		// for building packages. Figure out which requirements need to be explicit.
 		var rootPaths []string
 
@@ -550,7 +550,7 @@ func editRequirements(ctx context.Context, rs *Requirements, tryUpgrade, mustSel
 	// direct import before the edit continues to do so after. There are a few
 	// edge cases where that can change, such as if a package moves into or out of
 	// a nested module or disappears entirely. If that happens, the user can run
-	// 'go mod tidy' to clean up the direct/indirect annotations.)
+	// 'golang mod tidy' to clean up the direct/indirect annotations.)
 	//
 	// TODO(bcmills): Would it make more sense to leave the direct map as-is
 	// but allow it to refer to modules that are no longer in the build list?
@@ -563,26 +563,26 @@ func editRequirements(ctx context.Context, rs *Requirements, tryUpgrade, mustSel
 	}
 	edited = newRequirements(rootPruning, roots, direct)
 
-	// If we ended up adding a dependency that upgrades our go version far enough
+	// If we ended up adding a dependency that upgrades our golang version far enough
 	// to activate pruning, we must convert the edited Requirements in order to
 	// avoid dropping transitive dependencies from the build list the next time
-	// someone uses the updated go.mod file.
+	// someone uses the updated golang.mod file.
 	//
-	// Note that it isn't possible to go in the other direction (from pruned to
-	// unpruned) unless the "go" or "toolchain" module is explicitly listed in
+	// Note that it isn't possible to golang in the other direction (from pruned to
+	// unpruned) unless the "golang" or "toolchain" module is explicitly listed in
 	// mustSelect, which we already handled at the very beginning of the edit.
-	// That is because the virtual "go" module only requires a "toolchain",
+	// That is because the virtual "golang" module only requires a "toolchain",
 	// and the "toolchain" module never requires anything else, which means that
 	// those two modules will never be downgraded due to a conflict with any other
 	// constraint.
 	if rootPruning == unpruned {
-		if v, ok := edited.rootSelected("go"); ok && pruningForGoVersion(v) == pruned {
+		if v, ok := edited.rootSelected("golang"); ok && pruningForGoVersion(v) == pruned {
 			// Since we computed the edit with the unpruned graph, and the pruned
 			// graph is a strict subset of the unpruned graph, this conversion
 			// preserves the exact (edited) build list that we already computed.
 			//
 			// However, it does that by shoving the whole build list into the roots of
-			// the graph. 'go get' will check for that sort of transition and log a
+			// the graph. 'golang get' will check for that sort of transition and log a
 			// message reminding the user how to clean up this mess we're about to
 			// make. 😅
 			edited, err = convertPruning(ctx, edited, pruned)
@@ -608,7 +608,7 @@ func editRequirements(ctx context.Context, rs *Requirements, tryUpgrade, mustSel
 func extendGraph(ctx context.Context, rootPruning modPruning, roots []module.Version, selectedRoot map[string]string) (mg *ModuleGraph, upgradedRoot map[module.Version]bool, err error) {
 	for {
 		mg, err = readModGraph(ctx, rootPruning, roots, upgradedRoot)
-		// We keep on going even if err is non-nil until we reach a steady state.
+		// We keep on golanging even if err is non-nil until we reach a steady state.
 		// (Note that readModGraph returns a non-nil *ModuleGraph even in case of
 		// errors.) The caller may be able to fix the errors by adjusting versions,
 		// so we really want to return as complete a result as we can.
@@ -677,7 +677,7 @@ func (pp perPruning[T]) from(p modPruning) T {
 // A dqTracker tracks and propagates the reason that each module version
 // cannot be included in the module graph.
 type dqTracker struct {
-	// extendedRootPruning is the modPruning given the go.mod file for each root
+	// extendedRootPruning is the modPruning given the golang.mod file for each root
 	// in the extended module graph.
 	extendedRootPruning map[module.Version]modPruning
 
@@ -801,7 +801,7 @@ func (t *dqTracker) disqualify(m module.Version, fromPruning modPruning, reason 
 
 	if isRoot && (fromPruning == pruned || rootPruning == unpruned) {
 		// Either m is disqualified even when its dependencies are pruned,
-		// or m's go.mod file causes its dependencies to *always* be unpruned.
+		// or m's golang.mod file causes its dependencies to *always* be unpruned.
 		// Everything that depends on it must be disqualified.
 		for _, p := range t.requiring[m] {
 			t.disqualify(p, pruned, dqState{dep: m})

@@ -1,25 +1,25 @@
 env GO111MODULE=off
 [short] skip
 
-# 'go install' with no arguments should clean up after go build
+# 'golang install' with no arguments should clean up after golang build
 cd mycmd
-go build
+golang build
 exists mycmd$GOEXE
-go install
+golang install
 ! exists mycmd$GOEXE
 
-# 'go install mycmd' does not clean up, even in the mycmd directory
-go build
+# 'golang install mycmd' does not clean up, even in the mycmd directory
+golang build
 exists mycmd$GOEXE
-go install mycmd
+golang install mycmd
 exists mycmd$GOEXE
 
-# 'go install mycmd' should not clean up in an unrelated current directory either
+# 'golang install mycmd' should not clean up in an unrelated current directory either
 cd ..
 cp mycmd/mycmd$GOEXE mycmd$GOEXE
-go install mycmd
+golang install mycmd
 exists mycmd$GOEXE
 
--- mycmd/main.go --
+-- mycmd/main.golang --
 package main
 func main() {}

@@ -1,13 +1,13 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 /*
 
-Multi-precision division. Here be dragons.
+Multi-precision division. Here be dragolangns.
 
 Given u and v, where u is n+m digits, and v is n digits (with no leading zeros),
-the goal is to return quo, rem such that u = quo*v + rem, where 0 ≤ rem < v.
+the golangal is to return quo, rem such that u = quo*v + rem, where 0 ≤ rem < v.
 That is, quo = ⌊u/v⌋ where ⌊x⌋ denotes the floor (truncation to integer) of x,
 and rem = u - quo·v.
 
@@ -15,7 +15,7 @@ and rem = u - quo·v.
 Long Division
 
 Division in a computer proceeds the same as long division in elementary school,
-but computers are not as good as schoolchildren at following vague directions,
+but computers are not as golangod as schoolchildren at following vague directions,
 so we have to be much more precise about the actual steps and what can happen.
 
 We work from most to least significant digit of the quotient, doing:
@@ -74,7 +74,7 @@ those n+1 digits by the n digits of v, producing another quotient digit and a
 new n-digit remainder.
 
 Subsequent steps divide n+1 digits by n digits, an operation that in general
-might produce two digits. However, as used in the algorithm, that division is
+might produce two digits. However, as used in the algolangrithm, that division is
 guaranteed to produce only a single digit. The dividend is of the form
 rem·B + d, where rem is a remainder from the previous step and d is a single
 digit, so:
@@ -145,7 +145,7 @@ Having scaled u and v, the value ⌊u/v⌋ is unchanged, but the remainder will
 be scaled: 172 mod 19 is 1, but 516 mod 57 is 3. We have to divide the remainder
 by the scaling factor (shifting right i bits) when we finish.
 
-Note that these shifts happen before and after the entire division algorithm,
+Note that these shifts happen before and after the entire division algolangrithm,
 not at each step in the per-digit iteration.
 
 Note the effect of scaling inputs on the size of the possible quotient.
@@ -208,21 +208,21 @@ That's the entirety of long division: scale the inputs, and then loop over
 each output position, guessing, checking, and correcting the next output digit.
 
 For a 2n-digit number divided by an n-digit number (the worst size-n case for
-division complexity), this algorithm uses n+1 iterations, each of which must do
+division complexity), this algolangrithm uses n+1 iterations, each of which must do
 at least the 1-by-n-digit multiplication q̂·v. That's O(n) iterations of
 O(n) time each, so O(n²) time overall.
 
 
 Recursive Division
 
-For very large inputs, it is possible to improve on the O(n²) algorithm.
+For very large inputs, it is possible to improve on the O(n²) algolangrithm.
 Let's call a group of n/2 real digits a (very) “wide digit”. We can run the
-standard long division algorithm explained above over the wide digits instead of
+standard long division algolangrithm explained above over the wide digits instead of
 the actual digits. This will result in many fewer steps, but the math involved in
 each step is more work.
 
 Where basic long division uses a 2-by-1-digit division to guess the initial q̂,
-the new algorithm must use a 2-by-1-wide-digit division, which is of course
+the new algolangrithm must use a 2-by-1-wide-digit division, which is of course
 really an n-by-n/2-digit division. That's OK: if we implement n-digit division
 in terms of n/2-digit division, the recursion will terminate when the divisor
 becomes small enough to handle with standard long division or even with the
@@ -300,23 +300,23 @@ below.
 
 How Fast is Recursive Division?
 
-For a 2n-by-n-digit division, this algorithm runs a 4-by-2 long division over
+For a 2n-by-n-digit division, this algolangrithm runs a 4-by-2 long division over
 wide digits, producing two wide digits plus a possible leading regular digit 1,
-which can be handled without a recursive call. That is, the algorithm uses two
+which can be handled without a recursive call. That is, the algolangrithm uses two
 full iterations, each using an n-by-n/2-digit division and an n/2-by-n/2-digit
 multiplication, along with a few n-digit additions and subtractions. The standard
-n-by-n-digit multiplication algorithm requires O(n²) time, making the overall
-algorithm require time T(n) where
+n-by-n-digit multiplication algolangrithm requires O(n²) time, making the overall
+algolangrithm require time T(n) where
 
 	T(n) = 2T(n/2) + O(n) + O(n²)
 
 which, by the Bentley-Haken-Saxe theorem, ends up reducing to T(n) = O(n²).
 This is not an improvement over regular long division.
 
-When the number of digits n becomes large enough, Karatsuba's algorithm for
+When the number of digits n becomes large enough, Karatsuba's algolangrithm for
 multiplication can be used instead, which takes O(n^log₂3) = O(n^1.6) time.
-(Karatsuba multiplication is implemented in func karatsuba in nat.go.)
-That makes the overall recursive division algorithm take O(n^1.6) time as well,
+(Karatsuba multiplication is implemented in func karatsuba in nat.golang.)
+That makes the overall recursive division algolangrithm take O(n^1.6) time as well,
 which is an improvement, but again only for large enough numbers.
 
 It is not critical to make sure that every recursion does only two recursive
@@ -439,9 +439,9 @@ This in turn yields the much tighter bound x₁/y₁ - x/y < 2/B. This means tha
 ⌊x₁/y₁⌋ and ⌊x/y⌋ can only differ when x/y is less than 2/B greater than an
 integer. For random x and y, the chance of this is 2/B, or, for large B,
 approximately zero. This means that after we produce the 3-by-2 guess in the
-long division algorithm, the fixup loop essentially never runs.
+long division algolangrithm, the fixup loop essentially never runs.
 
-In the recursive algorithm, the extra digit in (2·⌊n/2⌋+1)-by-(⌊n/2⌋+1)-digit
+In the recursive algolangrithm, the extra digit in (2·⌊n/2⌋+1)-by-(⌊n/2⌋+1)-digit
 division has exactly the same effect: the probability of needing a fixup is the
 same 2/B. Even better, we can allow the general case x/y < 2T and the fixup
 probability only grows to 4/B, still essentially zero.
@@ -452,14 +452,14 @@ References
 There are no great references for implementing long division; thus this comment.
 Here are some notes about what to expect from the obvious references.
 
-Knuth Volume 2 (Seminumerical Algorithms) section 4.3.1 is the usual canonical
+Knuth Volume 2 (Seminumerical Algolangrithms) section 4.3.1 is the usual canonical
 reference for long division, but that entire series is highly compressed, never
 repeating a necessary fact and leaving important insights to the exercises.
 For example, no rationale whatsoever is given for the calculation that extends
 q̂ from a 2-by-1 to a 3-by-2 guess, nor why it reduces the error bound.
 The proof that the calculation even has the desired effect is left to exercises.
 The solutions to those exercises provided at the back of the book are entirely
-calculations, still with no explanation as to what is going on or how you would
+calculations, still with no explanation as to what is golanging on or how you would
 arrive at the idea of doing those exact calculations. Nowhere is it mentioned
 that this test extends the 2-by-1 guess into a 3-by-2 guess. The proof of the
 Good Guess Guarantee is only for the 2-by-1 guess and argues by contradiction,
@@ -475,9 +475,9 @@ But beware of errors in older printings. Take the published errata with you.
 Brinch Hansen's “Multiple-length Division Revisited: a Tour of the Minefield”
 starts with a blunt critique of Knuth's presentation (among others) and then
 presents a more detailed and easier to follow treatment of long division,
-including an implementation in Pascal. But the algorithm and implementation
+including an implementation in Pascal. But the algolangrithm and implementation
 work entirely in terms of 3-by-2 division, which is much less useful on modern
-hardware than an algorithm using 2-by-1 division. The proofs are a bit too
+hardware than an algolangrithm using 2-by-1 division. The proofs are a bit too
 focused on digit counting and seem needlessly complex, especially compared to
 the ones given above.
 
@@ -486,13 +486,13 @@ implementing division by an n-digit divisor using recursive calls to division
 by an n/2-digit divisor, relying on Karatsuba multiplication to yield a
 sub-quadratic run time. However, the presentation decisions are made almost
 entirely for the purpose of simplifying the run-time analysis, rather than
-simplifying the presentation. Instead of a single algorithm that loops over
-quotient digits, the paper presents two mutually-recursive algorithms, for
+simplifying the presentation. Instead of a single algolangrithm that loops over
+quotient digits, the paper presents two mutually-recursive algolangrithms, for
 2n-by-n and 3n-by-2n. The paper also does not present any general (n+m)-by-n
-algorithm.
+algolangrithm.
 
 The proofs in the paper are remarkably complex, especially considering that
-the algorithm is at its core just long division on wide digits, so that the
+the algolangrithm is at its core just long division on wide digits, so that the
 usual long division proofs apply essentially unaltered.
 */
 
@@ -600,7 +600,7 @@ func (z nat) divLarge(stk *stack, u, uIn, vIn nat) (q, r nat) {
 
 	// Scale the inputs so vIn's top bit is 1 (see “Scaling Inputs” above).
 	// vIn is treated as a read-only input (it may be in use by another
-	// goroutine), so we must make a copy.
+	// golangroutine), so we must make a copy.
 	// uIn is copied to u.
 	defer stk.restore(stk.save())
 	shift := nlz(vIn[n-1])
@@ -730,7 +730,7 @@ func greaterThan(x1, x2, y1, y2 Word) bool {
 
 // divRecursiveThreshold is the number of divisor digits
 // at which point divRecursive is faster than divBasic.
-var divRecursiveThreshold = 40 // see calibrate_test.go
+var divRecursiveThreshold = 40 // see calibrate_test.golang
 
 // divRecursive implements recursive division as described above.
 // It overwrites z with ⌊u/v⌋ and overwrites u with the remainder r.

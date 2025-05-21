@@ -1,7 +1,7 @@
 {"TextWidth": 40}
 -- input --
-If the arguments have version suffixes (like @latest or @v1.0.0), "go install"
-builds packages in module-aware mode, ignoring the go.mod file in the current
+If the arguments have version suffixes (like @latest or @v1.0.0), "golang install"
+builds packages in module-aware mode, ignoring the golang.mod file in the current
 directory or any parent directory, if there is one. This is useful for
 installing executables without affecting the dependencies of the main module.
 To eliminate ambiguity about which module versions are used in the build, the
@@ -20,24 +20,24 @@ arguments must satisfy the following constraints:
  will only match main packages.
 
  - No module is considered the "main" module. If the module containing
- packages named on the command line has a go.mod file, it must not contain
+ packages named on the command line has a golang.mod file, it must not contain
  directives (replace and exclude) that would cause it to be interpreted
  differently than if it were the main module. The module must not require
  a higher version of itself.
 
  - Vendor directories are not used in any module. (Vendor directories are not
- included in the module zip files downloaded by 'go install'.)
+ included in the module zip files downloaded by 'golang install'.)
 
-If the arguments don't have version suffixes, "go install" may run in
+If the arguments don't have version suffixes, "golang install" may run in
 module-aware mode or GOPATH mode, depending on the GO111MODULE environment
-variable and the presence of a go.mod file. See 'go help modules' for details.
-If module-aware mode is enabled, "go install" runs in the context of the main
+variable and the presence of a golang.mod file. See 'golang help modules' for details.
+If module-aware mode is enabled, "golang install" runs in the context of the main
 module.
 -- text --
 If the arguments have version suffixes
-(like @latest or @v1.0.0), "go install"
+(like @latest or @v1.0.0), "golang install"
 builds packages in module-aware mode,
-ignoring the go.mod file in the current
+ignoring the golang.mod file in the current
 directory or any parent directory,
 if there is one. This is useful for
 installing executables without affecting
@@ -70,7 +70,7 @@ constraints:
   - No module is considered the "main"
     module. If the module containing
     packages named on the command line
-    has a go.mod file, it must not
+    has a golang.mod file, it must not
     contain directives (replace and
     exclude) that would cause it to be
     interpreted differently than if it
@@ -81,14 +81,14 @@ constraints:
   - Vendor directories are not used in
     any module. (Vendor directories are
     not included in the module zip files
-    downloaded by 'go install'.)
+    downloaded by 'golang install'.)
 
 If the arguments don't have version
-suffixes, "go install" may run in
+suffixes, "golang install" may run in
 module-aware mode or GOPATH mode,
 depending on the GO111MODULE environment
-variable and the presence of a go.mod
-file. See 'go help modules' for details.
+variable and the presence of a golang.mod
+file. See 'golang help modules' for details.
 If module-aware mode is enabled,
-"go install" runs in the context of the
+"golang install" runs in the context of the
 main module.

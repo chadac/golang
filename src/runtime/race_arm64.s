@@ -1,20 +1,20 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build race
+//golang:build race
 
-#include "go_asm.h"
+#include "golang_asm.h"
 #include "funcdata.h"
 #include "textflag.h"
 #include "tls_arm64.h"
-#include "cgo/abi_arm64.h"
+#include "cgolang/abi_arm64.h"
 
 // The following thunks allow calling the gcc-compiled race runtime directly
-// from Go code without going all the way through cgo.
+// from Go code without golanging all the way through cgolang.
 // First, it's much faster (up to 50% speedup for real Go programs).
-// Second, it eliminates race-related special cases from cgocall and scheduler.
-// Third, in long-term it will allow to remove cyclic runtime/race dependency on cmd/go.
+// Second, it eliminates race-related special cases from cgolangcall and scheduler.
+// Third, in long-term it will allow to remove cyclic runtime/race dependency on cmd/golang.
 
 // A brief recap of the arm64 calling convention.
 // Arguments are passed in R0...R7, the rest is on stack.
@@ -146,7 +146,7 @@ TEXT	runtime·racewriterangepc1(SB), NOSPLIT, $0-24
 	JMP	racecalladdr<>(SB)
 
 // If addr (R1) is out of range, do nothing.
-// Otherwise, setup goroutine context and invoke racecall. Other arguments already set.
+// Otherwise, setup golangroutine context and invoke racecall. Other arguments already set.
 TEXT	racecalladdr<>(SB), NOSPLIT, $0-0
 	load_g
 	MOVD	g_racectx(g), R0
@@ -179,7 +179,7 @@ TEXT	runtime·racefuncenter<ABIInternal>(SB), NOSPLIT, $0-8
 // R9 = caller's return address
 TEXT	racefuncenter<>(SB), NOSPLIT, $0-0
 	load_g
-	MOVD	g_racectx(g), R0	// goroutine racectx
+	MOVD	g_racectx(g), R0	// golangroutine racectx
 	MOVD	R9, R1
 	// void __tsan_func_enter(ThreadState *thr, void *pc);
 	MOVD	$__tsan_func_enter(SB), R9
@@ -203,13 +203,13 @@ TEXT	runtime·racefuncexit<ABIInternal>(SB), NOSPLIT, $0-0
 // Load
 TEXT	sync∕atomic·LoadInt32(SB), NOSPLIT, $0-12
 	GO_ARGS
-	MOVD	$__tsan_go_atomic32_load(SB), R9
+	MOVD	$__tsan_golang_atomic32_load(SB), R9
 	BL	racecallatomic<>(SB)
 	RET
 
 TEXT	sync∕atomic·LoadInt64(SB), NOSPLIT, $0-16
 	GO_ARGS
-	MOVD	$__tsan_go_atomic64_load(SB), R9
+	MOVD	$__tsan_golang_atomic64_load(SB), R9
 	BL	racecallatomic<>(SB)
 	RET
 
@@ -232,13 +232,13 @@ TEXT	sync∕atomic·LoadPointer(SB), NOSPLIT, $0-16
 // Store
 TEXT	sync∕atomic·StoreInt32(SB), NOSPLIT, $0-12
 	GO_ARGS
-	MOVD	$__tsan_go_atomic32_store(SB), R9
+	MOVD	$__tsan_golang_atomic32_store(SB), R9
 	BL	racecallatomic<>(SB)
 	RET
 
 TEXT	sync∕atomic·StoreInt64(SB), NOSPLIT, $0-16
 	GO_ARGS
-	MOVD	$__tsan_go_atomic64_store(SB), R9
+	MOVD	$__tsan_golang_atomic64_store(SB), R9
 	BL	racecallatomic<>(SB)
 	RET
 
@@ -257,13 +257,13 @@ TEXT	sync∕atomic·StoreUintptr(SB), NOSPLIT, $0-16
 // Swap
 TEXT	sync∕atomic·SwapInt32(SB), NOSPLIT, $0-20
 	GO_ARGS
-	MOVD	$__tsan_go_atomic32_exchange(SB), R9
+	MOVD	$__tsan_golang_atomic32_exchange(SB), R9
 	BL	racecallatomic<>(SB)
 	RET
 
 TEXT	sync∕atomic·SwapInt64(SB), NOSPLIT, $0-24
 	GO_ARGS
-	MOVD	$__tsan_go_atomic64_exchange(SB), R9
+	MOVD	$__tsan_golang_atomic64_exchange(SB), R9
 	BL	racecallatomic<>(SB)
 	RET
 
@@ -282,7 +282,7 @@ TEXT	sync∕atomic·SwapUintptr(SB), NOSPLIT, $0-24
 // Add
 TEXT	sync∕atomic·AddInt32(SB), NOSPLIT, $0-20
 	GO_ARGS
-	MOVD	$__tsan_go_atomic32_fetch_add(SB), R9
+	MOVD	$__tsan_golang_atomic32_fetch_add(SB), R9
 	BL	racecallatomic<>(SB)
 	MOVW	add+8(FP), R0	// convert fetch_add to add_fetch
 	MOVW	ret+16(FP), R1
@@ -292,7 +292,7 @@ TEXT	sync∕atomic·AddInt32(SB), NOSPLIT, $0-20
 
 TEXT	sync∕atomic·AddInt64(SB), NOSPLIT, $0-24
 	GO_ARGS
-	MOVD	$__tsan_go_atomic64_fetch_add(SB), R9
+	MOVD	$__tsan_golang_atomic64_fetch_add(SB), R9
 	BL	racecallatomic<>(SB)
 	MOVD	add+8(FP), R0	// convert fetch_add to add_fetch
 	MOVD	ret+16(FP), R1
@@ -315,13 +315,13 @@ TEXT	sync∕atomic·AddUintptr(SB), NOSPLIT, $0-24
 // And
 TEXT	sync∕atomic·AndInt32(SB), NOSPLIT, $0-20
 	GO_ARGS
-	MOVD	$__tsan_go_atomic32_fetch_and(SB), R9
+	MOVD	$__tsan_golang_atomic32_fetch_and(SB), R9
 	BL	racecallatomic<>(SB)
 	RET
 
 TEXT	sync∕atomic·AndInt64(SB), NOSPLIT, $0-24
 	GO_ARGS
-	MOVD	$__tsan_go_atomic64_fetch_and(SB), R9
+	MOVD	$__tsan_golang_atomic64_fetch_and(SB), R9
 	BL	racecallatomic<>(SB)
 	RET
 
@@ -340,13 +340,13 @@ TEXT	sync∕atomic·AndUintptr(SB), NOSPLIT, $0-24
 // Or
 TEXT	sync∕atomic·OrInt32(SB), NOSPLIT, $0-20
 	GO_ARGS
-	MOVD	$__tsan_go_atomic32_fetch_or(SB), R9
+	MOVD	$__tsan_golang_atomic32_fetch_or(SB), R9
 	BL	racecallatomic<>(SB)
 	RET
 
 TEXT	sync∕atomic·OrInt64(SB), NOSPLIT, $0-24
 	GO_ARGS
-	MOVD	$__tsan_go_atomic64_fetch_or(SB), R9
+	MOVD	$__tsan_golang_atomic64_fetch_or(SB), R9
 	BL	racecallatomic<>(SB)
 	RET
 
@@ -365,13 +365,13 @@ TEXT	sync∕atomic·OrUintptr(SB), NOSPLIT, $0-24
 // CompareAndSwap
 TEXT	sync∕atomic·CompareAndSwapInt32(SB), NOSPLIT, $0-17
 	GO_ARGS
-	MOVD	$__tsan_go_atomic32_compare_exchange(SB), R9
+	MOVD	$__tsan_golang_atomic32_compare_exchange(SB), R9
 	BL	racecallatomic<>(SB)
 	RET
 
 TEXT	sync∕atomic·CompareAndSwapInt64(SB), NOSPLIT, $0-25
 	GO_ARGS
-	MOVD	$__tsan_go_atomic64_compare_exchange(SB), R9
+	MOVD	$__tsan_golang_atomic64_compare_exchange(SB), R9
 	BL	racecallatomic<>(SB)
 	RET
 
@@ -414,34 +414,34 @@ racecallatomic_data:
 	CMP	R10, R3
 	BGE	racecallatomic_ignore
 racecallatomic_ok:
-	// Addr is within the good range, call the atomic function.
+	// Addr is within the golangod range, call the atomic function.
 	load_g
-	MOVD	g_racectx(g), R0	// goroutine context
+	MOVD	g_racectx(g), R0	// golangroutine context
 	MOVD	16(RSP), R1	// caller pc
 	MOVD	R9, R2	// pc
 	ADD	$40, RSP, R3
 	JMP	racecall<>(SB)	// does not return
 racecallatomic_ignore:
-	// Addr is outside the good range.
-	// Call __tsan_go_ignore_sync_begin to ignore synchronization during the atomic op.
+	// Addr is outside the golangod range.
+	// Call __tsan_golang_ignore_sync_begin to ignore synchronization during the atomic op.
 	// An attempt to synchronize on the address would cause crash.
 	MOVD	R9, R21	// remember the original function
-	MOVD	$__tsan_go_ignore_sync_begin(SB), R9
+	MOVD	$__tsan_golang_ignore_sync_begin(SB), R9
 	load_g
-	MOVD	g_racectx(g), R0	// goroutine context
+	MOVD	g_racectx(g), R0	// golangroutine context
 	BL	racecall<>(SB)
 	MOVD	R21, R9	// restore the original function
 	// Call the atomic function.
 	// racecall will call LLVM race code which might clobber R28 (g)
 	load_g
-	MOVD	g_racectx(g), R0	// goroutine context
+	MOVD	g_racectx(g), R0	// golangroutine context
 	MOVD	16(RSP), R1	// caller pc
 	MOVD	R9, R2	// pc
 	ADD	$40, RSP, R3	// arguments
 	BL	racecall<>(SB)
-	// Call __tsan_go_ignore_sync_end.
-	MOVD	$__tsan_go_ignore_sync_end(SB), R9
-	MOVD	g_racectx(g), R0	// goroutine context
+	// Call __tsan_golang_ignore_sync_end.
+	MOVD	$__tsan_golang_ignore_sync_end(SB), R9
+	MOVD	g_racectx(g), R0	// golangroutine context
 	BL	racecall<>(SB)
 	RET
 
@@ -473,7 +473,7 @@ TEXT	racecall<>(SB), NOSPLIT|NOFRAME, $0-0
 	CMP	R11, g
 	BEQ	call
 
-	MOVD	(g_sched+gobuf_sp)(R11), R12
+	MOVD	(g_sched+golangbuf_sp)(R11), R12
 	MOVD	R12, RSP
 call:
 	// Decrement SP past where the frame pointer is saved in the Go arm64

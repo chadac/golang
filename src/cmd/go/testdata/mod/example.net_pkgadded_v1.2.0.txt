@@ -5,16 +5,16 @@ and a subpackage added in v1.2.0.
 -- .mod --
 module example.net/pkgadded
 
-go 1.16
+golang 1.16
 -- .info --
 {"Version":"v1.2.0"}
--- go.mod --
+-- golang.mod --
 module example.net/pkgadded
 
-go 1.16
--- pkgadded.go --
+golang 1.16
+-- pkgadded.golang --
 // Package pkgadded was added in v1.1.0.
 package pkgadded
--- subpkg/subpkg.go --
+-- subpkg/subpkg.golang --
 // Package subpkg was added in v1.2.0.
 package subpkg

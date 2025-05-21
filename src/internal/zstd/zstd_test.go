@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package zstd
@@ -115,13 +115,13 @@ func TestSamples(t *testing.T) {
 		test := test
 		t.Run(test.name, func(t *testing.T) {
 			r := NewReader(strings.NewReader(test.compressed))
-			got, err := io.ReadAll(r)
+			golangt, err := io.ReadAll(r)
 			if err != nil {
 				t.Fatal(err)
 			}
-			gotstr := string(got)
-			if gotstr != test.uncompressed {
-				t.Errorf("got %q want %q", gotstr, test.uncompressed)
+			golangtstr := string(golangt)
+			if golangtstr != test.uncompressed {
+				t.Errorf("golangt %q want %q", golangtstr, test.uncompressed)
 			}
 		})
 	}
@@ -135,13 +135,13 @@ func TestReset(t *testing.T) {
 		t.Run(test.name, func(t *testing.T) {
 			input.Reset(test.compressed)
 			r.Reset(input)
-			got, err := io.ReadAll(r)
+			golangt, err := io.ReadAll(r)
 			if err != nil {
 				t.Fatal(err)
 			}
-			gotstr := string(got)
-			if gotstr != test.uncompressed {
-				t.Errorf("got %q want %q", gotstr, test.uncompressed)
+			golangtstr := string(golangt)
+			if golangtstr != test.uncompressed {
+				t.Errorf("golangt %q want %q", golangtstr, test.uncompressed)
 			}
 		})
 	}
@@ -221,24 +221,24 @@ func TestLarge(t *testing.T) {
 	t.Logf("zstd compressed %d bytes to %d", len(data), len(compressed))
 
 	r := NewReader(bytes.NewReader(compressed))
-	got, err := io.ReadAll(r)
+	golangt, err := io.ReadAll(r)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	if !bytes.Equal(got, data) {
-		showDiffs(t, got, data)
+	if !bytes.Equal(golangt, data) {
+		showDiffs(t, golangt, data)
 	}
 }
 
 // showDiffs reports the first few differences in two []byte.
-func showDiffs(t *testing.T, got, want []byte) {
+func showDiffs(t *testing.T, golangt, want []byte) {
 	t.Error("data mismatch")
-	if len(got) != len(want) {
-		t.Errorf("got data length %d, want %d", len(got), len(want))
+	if len(golangt) != len(want) {
+		t.Errorf("golangt data length %d, want %d", len(golangt), len(want))
 	}
 	diffs := 0
-	for i, b := range got {
+	for i, b := range golangt {
 		if i >= len(want) {
 			break
 		}
@@ -267,7 +267,7 @@ func TestAlloc(t *testing.T) {
 		io.Copy(io.Discard, r)
 	})
 	if c != 0 {
-		t.Errorf("got %v allocs, want 0", c)
+		t.Errorf("golangt %v allocs, want 0", c)
 	}
 }
 
@@ -294,11 +294,11 @@ func TestFileSamples(t *testing.T) {
 			if _, err := io.Copy(h, r); err != nil {
 				t.Fatal(err)
 			}
-			got := fmt.Sprintf("%x", h.Sum(nil))[:8]
+			golangt := fmt.Sprintf("%x", h.Sum(nil))[:8]
 
 			want, _, _ := strings.Cut(name, ".")
-			if got != want {
-				t.Errorf("Wrong uncompressed content hash: got %s, want %s", got, want)
+			if golangt != want {
+				t.Errorf("Wrong uncompressed content hash: golangt %s, want %s", golangt, want)
 			}
 		})
 	}

@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package template
@@ -88,10 +88,10 @@ func TestNextJsCtx(t *testing.T) {
 
 	for _, test := range tests {
 		if ctx := nextJSCtx([]byte(test.s), jsCtxRegexp); ctx != test.jsCtx {
-			t.Errorf("%q: want %s got %s", test.s, test.jsCtx, ctx)
+			t.Errorf("%q: want %s golangt %s", test.s, test.jsCtx, ctx)
 		}
 		if ctx := nextJSCtx([]byte(test.s), jsCtxDivOp); ctx != test.jsCtx {
-			t.Errorf("%q: want %s got %s", test.s, test.jsCtx, ctx)
+			t.Errorf("%q: want %s golangt %s", test.s, test.jsCtx, ctx)
 		}
 	}
 
@@ -165,7 +165,7 @@ func TestJSValEscaper(t *testing.T) {
 
 	for _, test := range tests {
 		if js := jsValEscaper(test.x); js != test.js {
-			t.Errorf("%+v: want\n\t%q\ngot\n\t%q", test.x, test.js, js)
+			t.Errorf("%+v: want\n\t%q\ngolangt\n\t%q", test.x, test.js, js)
 		}
 		if test.skipNest {
 			continue
@@ -175,7 +175,7 @@ func TestJSValEscaper(t *testing.T) {
 		a := []any{test.x}
 		want := "[" + strings.TrimSpace(test.js) + "]"
 		if js := jsValEscaper(a); js != want {
-			t.Errorf("%+v: want\n\t%q\ngot\n\t%q", a, want, js)
+			t.Errorf("%+v: want\n\t%q\ngolangt\n\t%q", a, want, js)
 		}
 	}
 }
@@ -217,7 +217,7 @@ func TestJSStrEscaper(t *testing.T) {
 		// injection followed by an HTML text injection.
 		{"<!--", `\u003c!--`},
 		{"-->", `--\u003e`},
-		// From https://code.google.com/p/doctype/wiki/ArticleUtf7
+		// From https://code.golangogle.com/p/doctype/wiki/ArticleUtf7
 		{"+ADw-script+AD4-alert(1)+ADw-/script+AD4-",
 			`\u002bADw-script\u002bAD4-alert(1)\u002bADw-\/script\u002bAD4-`,
 		},
@@ -230,7 +230,7 @@ func TestJSStrEscaper(t *testing.T) {
 	for _, test := range tests {
 		esc := jsStrEscaper(test.x)
 		if esc != test.esc {
-			t.Errorf("%q: want %q got %q", test.x, test.esc, esc)
+			t.Errorf("%q: want %q golangt %q", test.x, test.esc, esc)
 		}
 	}
 }
@@ -274,7 +274,7 @@ func TestJSRegexpEscaper(t *testing.T) {
 	for _, test := range tests {
 		esc := jsRegexpEscaper(test.x)
 		if esc != test.esc {
-			t.Errorf("%q: want %q got %q", test.x, test.esc, esc)
+			t.Errorf("%q: want %q golangt %q", test.x, test.esc, esc)
 		}
 	}
 }
@@ -329,7 +329,7 @@ func TestEscapersOnLower7AndSelectHighCodepoints(t *testing.T) {
 
 	for _, test := range tests {
 		if s := test.escaper(input); s != test.escaped {
-			t.Errorf("%s once: want\n\t%q\ngot\n\t%q", test.name, test.escaped, s)
+			t.Errorf("%s once: want\n\t%q\ngolangt\n\t%q", test.name, test.escaped, s)
 			continue
 		}
 
@@ -341,7 +341,7 @@ func TestEscapersOnLower7AndSelectHighCodepoints(t *testing.T) {
 		}
 
 		if s := buf.String(); s != test.escaped {
-			t.Errorf("%s rune-wise: want\n\t%q\ngot\n\t%q", test.name, test.escaped, s)
+			t.Errorf("%s rune-wise: want\n\t%q\ngolangt\n\t%q", test.name, test.escaped, s)
 			continue
 		}
 	}

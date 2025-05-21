@@ -1,5 +1,5 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package iotest
@@ -45,11 +45,11 @@ func TestWriteLogger(t *testing.T) {
 	}
 
 	if g, w := lw.String(), "Hello, World!"; g != w {
-		t.Errorf("WriteLogger mismatch\n\tgot:  %q\n\twant: %q", g, w)
+		t.Errorf("WriteLogger mismatch\n\tgolangt:  %q\n\twant: %q", g, w)
 	}
 	wantLogWithHex := fmt.Sprintf("lw: write: %x\n", "Hello, World!")
 	if g, w := lOut.String(), wantLogWithHex; g != w {
-		t.Errorf("WriteLogger mismatch\n\tgot:  %q\n\twant: %q", g, w)
+		t.Errorf("WriteLogger mismatch\n\tgolangt:  %q\n\twant: %q", g, w)
 	}
 }
 
@@ -78,7 +78,7 @@ func TestWriteLogger_errorOnWrite(t *testing.T) {
 
 	wantLogWithHex := fmt.Sprintf("lw: write: %x: %v\n", "", "Write Error!")
 	if g, w := lOut.String(), wantLogWithHex; g != w {
-		t.Errorf("WriteLogger mismatch\n\tgot:  %q\n\twant: %q", g, w)
+		t.Errorf("WriteLogger mismatch\n\tgolangt:  %q\n\twant: %q", g, w)
 	}
 }
 
@@ -110,12 +110,12 @@ func TestReadLogger(t *testing.T) {
 	}
 
 	if g, w := p[:n], data; !bytes.Equal(g, w) {
-		t.Errorf("ReadLogger mismatch\n\tgot:  %q\n\twant: %q", g, w)
+		t.Errorf("ReadLogger mismatch\n\tgolangt:  %q\n\twant: %q", g, w)
 	}
 
 	wantLogWithHex := fmt.Sprintf("lr: read: %x\n", "Hello, World!")
 	if g, w := lOut.String(), wantLogWithHex; g != w {
-		t.Errorf("ReadLogger mismatch\n\tgot:  %q\n\twant: %q", g, w)
+		t.Errorf("ReadLogger mismatch\n\tgolangt:  %q\n\twant: %q", g, w)
 	}
 }
 
@@ -148,6 +148,6 @@ func TestReadLogger_errorOnRead(t *testing.T) {
 
 	wantLogWithHex := fmt.Sprintf("lr: read %x: io failure\n", p[:n])
 	if g, w := lOut.String(), wantLogWithHex; g != w {
-		t.Errorf("ReadLogger mismatch\n\tgot:  %q\n\twant: %q", g, w)
+		t.Errorf("ReadLogger mismatch\n\tgolangt:  %q\n\twant: %q", g, w)
 	}
 }

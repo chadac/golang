@@ -1,14 +1,14 @@
-[!cgo] skip
+[!cgolang] skip
 [!race] skip
 
-go list -race -deps foo
+golang list -race -deps foo
 stdout syscall
 
--- go.mod --
+-- golang.mod --
 module foo
 
-go 1.16
--- foo.go --
+golang 1.16
+-- foo.golang --
 package foo
 
 // #include <stdio.h>

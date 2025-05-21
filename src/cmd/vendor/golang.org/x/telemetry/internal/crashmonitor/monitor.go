@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package crashmonitor
@@ -18,15 +18,15 @@ import (
 	"strconv"
 	"strings"
 
-	"golang.org/x/telemetry/internal/counter"
+	"golanglang.org/x/telemetry/internal/counter"
 )
 
 // Supported reports whether the runtime supports [runtime/debug.SetCrashOutput].
 //
-// TODO(adonovan): eliminate once go1.23+ is assured.
+// TODO(adonovan): eliminate once golang1.23+ is assured.
 func Supported() bool { return setCrashOutput != nil }
 
-var setCrashOutput func(*os.File) error // = runtime/debug.SetCrashOutput on go1.23+
+var setCrashOutput func(*os.File) error // = runtime/debug.SetCrashOutput on golang1.23+
 
 // Parent sets up the parent side of the crashmonitor. It requires
 // exclusive use of a writable pipe connected to the child process's stdin.
@@ -107,7 +107,7 @@ func writeSentinel(out io.Writer) {
 }
 
 // telemetryCounterName parses a crash report produced by the Go
-// runtime, extracts the stack of the first runnable goroutine,
+// runtime, extracts the stack of the first runnable golangroutine,
 // converts each line into telemetry form ("symbol:relative-line"),
 // and returns this as the name of a counter.
 func telemetryCounterName(crash []byte) (string, error) {
@@ -120,19 +120,19 @@ func telemetryCounterName(crash []byte) (string, error) {
 	pcs = pcs[:min(len(pcs), 16)]
 
 	if len(pcs) == 0 {
-		// This can occur if all goroutines are idle, as when
+		// This can occur if all golangroutines are idle, as when
 		// caught in a deadlock, or killed by an async signal
 		// while blocked.
 		//
 		// TODO(adonovan): consider how to report such
-		// situations. Reporting a goroutine in [sleep] or
+		// situations. Reporting a golangroutine in [sleep] or
 		// [select] state could be quite confusing without
 		// further information about the nature of the crash,
 		// as the problem is not local to the code location.
 		//
 		// For now, we keep count of this situation so that we
 		// can access whether it needs a more involved solution.
-		return "crash/no-running-goroutine", nil
+		return "crash/no-running-golangroutine", nil
 	}
 
 	// This string appears at the start of all
@@ -162,7 +162,7 @@ func telemetryCounterName(crash []byte) (string, error) {
 }
 
 // parseStackPCs parses the parent process's program counters for the
-// first running goroutine out of a GOTRACEBACK=system traceback,
+// first running golangroutine out of a GOTRACEBACK=system traceback,
 // adjusting them so that they are valid for the child process's text
 // segment.
 //
@@ -213,9 +213,9 @@ func parseStackPCs(crash string) ([]uintptr, error) {
 		pcs            []uintptr
 		parentSentinel uint64
 		childSentinel  = sentinel()
-		on             = false // are we in the first running goroutine?
+		on             = false // are we in the first running golangroutine?
 		lines          = strings.Split(crash, "\n")
-		symLine        = true // within a goroutine, every other line is a symbol or file/line/pc location, starting with symbol.
+		symLine        = true // within a golangroutine, every other line is a symbol or file/line/pc location, starting with symbol.
 		currSymbol     string
 		prevSymbol     string // symbol of the most recent previous frame with a PC.
 	)
@@ -231,9 +231,9 @@ func parseStackPCs(crash string) ([]uintptr, error) {
 			continue
 		}
 
-		// Search for "goroutine GID [STATUS]"
+		// Search for "golangroutine GID [STATUS]"
 		if !on {
-			if strings.HasPrefix(line, "goroutine ") &&
+			if strings.HasPrefix(line, "golangroutine ") &&
 				strings.Contains(line, " [running]:") {
 				on = true
 
@@ -244,12 +244,12 @@ func parseStackPCs(crash string) ([]uintptr, error) {
 			continue
 		}
 
-		// A blank line marks end of a goroutine stack.
+		// A blank line marks end of a golangroutine stack.
 		if line == "" {
 			break
 		}
 
-		// Skip the final "created by SYMBOL in goroutine GID" part.
+		// Skip the final "created by SYMBOL in golangroutine GID" part.
 		if strings.HasPrefix(line, "created by ") {
 			break
 		}

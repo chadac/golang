@@ -1,9 +1,9 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package testlog provides a back-channel communication path
-// between tests and package os, so that cmd/go can see which
+// between tests and package os, so that cmd/golang can see which
 // environment variables and files a test consults.
 package testlog
 
@@ -12,7 +12,7 @@ import "sync/atomic"
 // Interface is the interface required of test loggers.
 // The os package will invoke the interface's methods to indicate that
 // it is inspecting the given environment variables or files.
-// Multiple goroutines may call these methods simultaneously.
+// Multiple golangroutines may call these methods simultaneously.
 type Interface interface {
 	Getenv(key string)
 	Stat(file string)
@@ -22,10 +22,10 @@ type Interface interface {
 
 // logger is the current logger Interface.
 // We use an atomic.Pointer in case test startup
-// is racing with goroutines started during init.
+// is racing with golangroutines started during init.
 // That must not cause a race detector failure,
 // although it will still result in limited visibility
-// into exactly what those goroutines do.
+// into exactly what those golangroutines do.
 var logger atomic.Pointer[Interface]
 
 // SetLogger sets the test logger implementation for the current process.

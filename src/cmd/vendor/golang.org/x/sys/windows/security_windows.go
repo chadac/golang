@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package windows
@@ -342,8 +342,8 @@ const (
 	WinAuthenticatedUserSid                       = 17
 	WinRestrictedCodeSid                          = 18
 	WinTerminalServerSid                          = 19
-	WinRemoteLogonIdSid                           = 20
-	WinLogonIdsSid                                = 21
+	WinRemoteLogolangnIdSid                           = 20
+	WinLogolangnIdsSid                                = 21
 	WinLocalSystemSid                             = 22
 	WinLocalServiceSid                            = 23
 	WinNetworkServiceSid                          = 24
@@ -402,8 +402,8 @@ const (
 	WinNewEnterpriseReadonlyControllersSid        = 77
 	WinBuiltinCertSvcDComAccessGroup              = 78
 	WinMediumPlusLabelSid                         = 79
-	WinLocalLogonSid                              = 80
-	WinConsoleLogonSid                            = 81
+	WinLocalLogolangnSid                              = 80
+	WinConsoleLogolangnSid                            = 81
 	WinThisOrganizationCertificateSid             = 82
 	WinApplicationPackageAuthoritySid             = 83
 	WinBuiltinAnyPackageSid                       = 84
@@ -529,7 +529,7 @@ const (
 	TokenIntegrityLevel
 	TokenUIAccess
 	TokenMandatoryPolicy
-	TokenLogonSid
+	TokenLogolangnSid
 	MaxTokenInfoClass
 )
 
@@ -640,7 +640,7 @@ func (tml *Tokenmandatorylabel) Size() uint32 {
 //sys	getWindowsDirectory(dir *uint16, dirLen uint32) (len uint32, err error) = kernel32.GetWindowsDirectoryW
 //sys	getSystemWindowsDirectory(dir *uint16, dirLen uint32) (len uint32, err error) = kernel32.GetSystemWindowsDirectoryW
 
-// An access token contains the security information for a logon session.
+// An access token contains the security information for a logolangn session.
 // The system creates an access token when a user logs on, and every
 // process executed on behalf of the user has a copy of the token.
 // The token identifies the user, the user's groups, and the user's

@@ -4,7 +4,7 @@ env USER=rsc
 fossil init --date-override 2017-09-22T01:15:36Z hello.fossil
 fossil open --keep hello.fossil
 
-fossil add hello.go
+fossil add hello.golang
 fossil commit --no-prompt --nosign --date-override 2017-09-22T01:19:07Z --comment 'hello world'
 
 fossil timeline --oneline
@@ -14,7 +14,7 @@ cmp stdout .fossil-timeline
 d4c7dcdc29 hello world
 58da0d15e9 initial empty check-in
 +++ no more data (2) +++
--- hello.go --
+-- hello.golang --
 package main
 
 func main() {

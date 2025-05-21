@@ -1,7 +1,7 @@
 // errorcheck
 
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -18,7 +18,7 @@ func (p *S) get() int {
 func fn(p PS) int {
 	// p has type PS, and PS has no methods.
 	// (a compiler might see that p is a pointer
-	// and go looking in S without noticing PS.)
+	// and golang looking in S without noticing PS.)
 	return p.get() // ERROR "undefined"
 }
 func main() {

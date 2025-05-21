@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package trace
@@ -16,7 +16,7 @@ import (
 )
 
 // Constants used in event fields.
-// See https://docs.google.com/document/d/1CvAClvFfyA5R-PhYUmn5OOQtYMH4h6I0nSsKchNAySU
+// See https://docs.golangogle.com/document/d/1CvAClvFfyA5R-PhYUmn5OOQtYMH4h6I0nSsKchNAySU
 // for more details.
 const (
 	phaseDurationBegin = "B"
@@ -79,7 +79,7 @@ func Flow(ctx context.Context, from *Span, to *Span) {
 	id := tc.t.getNextFlowID()
 	tc.t.writeEvent(&format.Event{
 		Name:     from.name + " -> " + to.name,
-		Category: "flow",
+		Categolangry: "flow",
 		ID:       id,
 		Time:     float64(from.end.UnixNano()) / float64(time.Microsecond),
 		Phase:    phaseFlowStart,
@@ -87,7 +87,7 @@ func Flow(ctx context.Context, from *Span, to *Span) {
 	})
 	tc.t.writeEvent(&format.Event{
 		Name:      from.name + " -> " + to.name,
-		Category:  "flow", // TODO(matloob): Add Category to Flow?
+		Categolangry:  "flow", // TODO(matloob): Add Categolangry to Flow?
 		ID:        id,
 		Time:      float64(to.start.UnixNano()) / float64(time.Microsecond),
 		Phase:     phaseFlowEnd,

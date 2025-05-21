@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package tls
@@ -19,7 +19,7 @@ import (
 	"crypto/x509"
 	"errors"
 	"fmt"
-	"internal/godebug"
+	"internal/golangdebug"
 	"io"
 	"net"
 	"slices"
@@ -36,7 +36,7 @@ const (
 	VersionTLS13 = 0x0304
 
 	// Deprecated: SSLv3 is cryptographically broken, and is no longer
-	// supported by this package. See golang.org/issue/32716.
+	// supported by this package. See golanglang.org/issue/32716.
 	VersionSSL30 = 0x0300
 )
 
@@ -111,7 +111,7 @@ const (
 	extensionStatusRequest           uint16 = 5
 	extensionSupportedCurves         uint16 = 10 // supported_groups in TLS 1.3, see RFC 8446, Section 4.2.7
 	extensionSupportedPoints         uint16 = 11
-	extensionSignatureAlgorithms     uint16 = 13
+	extensionSignatureAlgolangrithms     uint16 = 13
 	extensionALPN                    uint16 = 16
 	extensionSCT                     uint16 = 18
 	extensionExtendedMasterSecret    uint16 = 23
@@ -122,17 +122,17 @@ const (
 	extensionCookie                  uint16 = 44
 	extensionPSKModes                uint16 = 45
 	extensionCertificateAuthorities  uint16 = 47
-	extensionSignatureAlgorithmsCert uint16 = 50
+	extensionSignatureAlgolangrithmsCert uint16 = 50
 	extensionKeyShare                uint16 = 51
 	extensionQUICTransportParameters uint16 = 57
-	extensionRenegotiationInfo       uint16 = 0xff01
+	extensionRenegolangtiationInfo       uint16 = 0xff01
 	extensionECHOuterExtensions      uint16 = 0xfd00
 	extensionEncryptedClientHello    uint16 = 0xfe0d
 )
 
 // TLS signaling cipher suite values
 const (
-	scsvRenegotiation uint16 = 0x00ff
+	scsvRenegolangtiation uint16 = 0x00ff
 )
 
 // CurveID is the type of a TLS identifier for a key exchange mechanism. See
@@ -196,7 +196,7 @@ const (
 	certTypeECDSASign = 64 // ECDSA or EdDSA keys, see RFC 8422, Section 3.
 )
 
-// Signature algorithms (for internal signaling use). Starting at 225 to avoid overlap with
+// Signature algolangrithms (for internal signaling use). Starting at 225 to avoid overlap with
 // TLS 1.2 codepoints (RFC 5246, Appendix A.4.1), with which these have nothing to do.
 const (
 	signaturePKCS1v15 uint8 = iota + 225
@@ -222,7 +222,7 @@ var helloRetryRequestRandom = []byte{ // See RFC 8446, Section 4.1.3.
 const (
 	// downgradeCanaryTLS12 or downgradeCanaryTLS11 is embedded in the server
 	// random as a downgrade protection if the server would be capable of
-	// negotiating a higher version. See RFC 8446, Section 4.1.3.
+	// negolangtiating a higher version. See RFC 8446, Section 4.1.3.
 	downgradeCanaryTLS12 = "DOWNGRD\x01"
 	downgradeCanaryTLS11 = "DOWNGRD\x00"
 )
@@ -243,7 +243,7 @@ type ConnectionState struct {
 	// previous session with a session ticket or similar mechanism.
 	DidResume bool
 
-	// CipherSuite is the cipher suite negotiated for the connection (e.g.
+	// CipherSuite is the cipher suite negolangtiated for the connection (e.g.
 	// TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256, TLS_AES_128_GCM_SHA256).
 	CipherSuite uint16
 
@@ -252,13 +252,13 @@ type ConnectionState struct {
 	// RSA key exchange is used, this value is zero.
 	CurveID CurveID
 
-	// NegotiatedProtocol is the application protocol negotiated with ALPN.
-	NegotiatedProtocol string
+	// NegolangtiatedProtocol is the application protocol negolangtiated with ALPN.
+	NegolangtiatedProtocol string
 
-	// NegotiatedProtocolIsMutual used to indicate a mutual NPN negotiation.
+	// NegolangtiatedProtocolIsMutual used to indicate a mutual NPN negolangtiation.
 	//
 	// Deprecated: this value is always true.
-	NegotiatedProtocolIsMutual bool
+	NegolangtiatedProtocolIsMutual bool
 
 	// ServerName is the value of the Server Name Indication extension sent by
 	// the client. It's available both on the server and on the client side.
@@ -313,8 +313,8 @@ type ConnectionState struct {
 
 // ExportKeyingMaterial returns length bytes of exported key material in a new
 // slice as defined in RFC 5705. If context is nil, it is not used as part of
-// the seed. If the connection was set to allow renegotiation via
-// Config.Renegotiation, or if the connections supports neither TLS 1.3 nor
+// the seed. If the connection was set to allow renegolangtiation via
+// Config.Renegolangtiation, or if the connections supports neither TLS 1.3 nor
 // Extended Master Secret, this function will return an error.
 //
 // Exporting key material without Extended Master Secret or TLS 1.3 was disabled
@@ -367,7 +367,7 @@ func requiresClientCert(c ClientAuthType) bool {
 // ClientSessionCache is a cache of ClientSessionState objects that can be used
 // by a client to resume a TLS session with a given server. ClientSessionCache
 // implementations should expect to be called concurrently from different
-// goroutines. Up to TLS 1.2, only ticket-based resumption is supported, not
+// golangroutines. Up to TLS 1.2, only ticket-based resumption is supported, not
 // SessionID-based resumption. In TLS 1.3 they were merged into PSK modes, which
 // are supported via this interface.
 type ClientSessionCache interface {
@@ -382,32 +382,32 @@ type ClientSessionCache interface {
 	Put(sessionKey string, cs *ClientSessionState)
 }
 
-//go:generate stringer -linecomment -type=SignatureScheme,CurveID,ClientAuthType -output=common_string.go
+//golang:generate stringer -linecomment -type=SignatureScheme,CurveID,ClientAuthType -output=common_string.golang
 
-// SignatureScheme identifies a signature algorithm supported by TLS. See
+// SignatureScheme identifies a signature algolangrithm supported by TLS. See
 // RFC 8446, Section 4.2.3.
 type SignatureScheme uint16
 
 const (
-	// RSASSA-PKCS1-v1_5 algorithms.
+	// RSASSA-PKCS1-v1_5 algolangrithms.
 	PKCS1WithSHA256 SignatureScheme = 0x0401
 	PKCS1WithSHA384 SignatureScheme = 0x0501
 	PKCS1WithSHA512 SignatureScheme = 0x0601
 
-	// RSASSA-PSS algorithms with public key OID rsaEncryption.
+	// RSASSA-PSS algolangrithms with public key OID rsaEncryption.
 	PSSWithSHA256 SignatureScheme = 0x0804
 	PSSWithSHA384 SignatureScheme = 0x0805
 	PSSWithSHA512 SignatureScheme = 0x0806
 
-	// ECDSA algorithms. Only constrained to a specific curve in TLS 1.3.
+	// ECDSA algolangrithms. Only constrained to a specific curve in TLS 1.3.
 	ECDSAWithP256AndSHA256 SignatureScheme = 0x0403
 	ECDSAWithP384AndSHA384 SignatureScheme = 0x0503
 	ECDSAWithP521AndSHA512 SignatureScheme = 0x0603
 
-	// EdDSA algorithms.
+	// EdDSA algolangrithms.
 	Ed25519 SignatureScheme = 0x0807
 
-	// Legacy signature and hash algorithms for TLS 1.2.
+	// Legacy signature and hash algolangrithms for TLS 1.2.
 	PKCS1WithSHA1 SignatureScheme = 0x0201
 	ECDSAWithSHA1 SignatureScheme = 0x0203
 )
@@ -439,12 +439,12 @@ type ClientHelloInfo struct {
 
 	// SignatureSchemes lists the signature and hash schemes that the client
 	// is willing to verify. SignatureSchemes is set only if the Signature
-	// Algorithms Extension is being used (see RFC 5246, Section 7.4.1.4.1).
+	// Algolangrithms Extension is being used (see RFC 5246, Section 7.4.1.4.1).
 	SignatureSchemes []SignatureScheme
 
 	// SupportedProtos lists the application protocols supported by the client.
 	// SupportedProtos is set only if the Application-Layer Protocol
-	// Negotiation Extension is being used (see RFC 7301, Section 3.1).
+	// Negolangtiation Extension is being used (see RFC 7301, Section 3.1).
 	//
 	// Servers can select a protocol by setting Config.NextProtos in a
 	// GetConfigForClient return value.
@@ -494,7 +494,7 @@ type CertificateRequestInfo struct {
 	// willing to verify.
 	SignatureSchemes []SignatureScheme
 
-	// Version is the TLS version that was negotiated for this connection.
+	// Version is the TLS version that was negolangtiated for this connection.
 	Version uint16
 
 	// ctx is the context of the handshake that is in progress.
@@ -508,33 +508,33 @@ func (c *CertificateRequestInfo) Context() context.Context {
 	return c.ctx
 }
 
-// RenegotiationSupport enumerates the different levels of support for TLS
-// renegotiation. TLS renegotiation is the act of performing subsequent
+// RenegolangtiationSupport enumerates the different levels of support for TLS
+// renegolangtiation. TLS renegolangtiation is the act of performing subsequent
 // handshakes on a connection after the first. This significantly complicates
 // the state machine and has been the source of numerous, subtle security
-// issues. Initiating a renegotiation is not supported, but support for
-// accepting renegotiation requests may be enabled.
+// issues. Initiating a renegolangtiation is not supported, but support for
+// accepting renegolangtiation requests may be enabled.
 //
 // Even when enabled, the server may not change its identity between handshakes
 // (i.e. the leaf certificate must be the same). Additionally, concurrent
-// handshake and application data flow is not permitted so renegotiation can
-// only be used with protocols that synchronise with the renegotiation, such as
+// handshake and application data flow is not permitted so renegolangtiation can
+// only be used with protocols that synchronise with the renegolangtiation, such as
 // HTTPS.
 //
-// Renegotiation is not defined in TLS 1.3.
-type RenegotiationSupport int
+// Renegolangtiation is not defined in TLS 1.3.
+type RenegolangtiationSupport int
 
 const (
-	// RenegotiateNever disables renegotiation.
-	RenegotiateNever RenegotiationSupport = iota
+	// RenegolangtiateNever disables renegolangtiation.
+	RenegolangtiateNever RenegolangtiationSupport = iota
 
-	// RenegotiateOnceAsClient allows a remote server to request
-	// renegotiation once per connection.
-	RenegotiateOnceAsClient
+	// RenegolangtiateOnceAsClient allows a remote server to request
+	// renegolangtiation once per connection.
+	RenegolangtiateOnceAsClient
 
-	// RenegotiateFreelyAsClient allows a remote server to repeatedly
-	// request renegotiation.
-	RenegotiateFreelyAsClient
+	// RenegolangtiateFreelyAsClient allows a remote server to repeatedly
+	// request renegolangtiation.
+	RenegolangtiateFreelyAsClient
 )
 
 // A Config structure is used to configure a TLS client or server.
@@ -545,7 +545,7 @@ type Config struct {
 	// Rand provides the source of entropy for nonces and RSA blinding.
 	// If Rand is nil, TLS uses the cryptographic random reader in package
 	// crypto/rand.
-	// The Reader must be safe for use by multiple goroutines.
+	// The Reader must be safe for use by multiple golangroutines.
 	Rand io.Reader
 
 	// Time returns the current time as the number of seconds since the epoch.
@@ -597,7 +597,7 @@ type Config struct {
 	// the handshake.
 	//
 	// GetClientCertificate may be called multiple times for the same
-	// connection if renegotiation occurs or if TLS 1.3 is in use.
+	// connection if renegolangtiation occurs or if TLS 1.3 is in use.
 	//
 	// Once a Certificate is returned it should not be modified.
 	GetClientCertificate func(*CertificateRequestInfo) (*Certificate, error)
@@ -659,7 +659,7 @@ type Config struct {
 	// protocol will be one from this list, and the connection will fail
 	// if there is no mutually supported protocol. If NextProtos is empty
 	// or the peer doesn't support ALPN, the connection will succeed and
-	// ConnectionState.NegotiatedProtocol will be empty.
+	// ConnectionState.NegolangtiatedProtocol will be empty.
 	NextProtos []string
 
 	// ServerName is used to verify the hostname on the returned
@@ -786,9 +786,9 @@ type Config struct {
 	// improve latency.
 	DynamicRecordSizingDisabled bool
 
-	// Renegotiation controls what types of renegotiation are supported.
+	// Renegolangtiation controls what types of renegolangtiation are supported.
 	// The default, none, is correct for the vast majority of applications.
-	Renegotiation RenegotiationSupport
+	Renegolangtiation RenegolangtiationSupport
 
 	// KeyLogWriter optionally specifies a destination for TLS master secrets
 	// in NSS key log format that can be used to allow external programs
@@ -812,7 +812,7 @@ type Config struct {
 	// be VersionTLS13.
 	//
 	// When EncryptedClientHelloConfigList is set, the handshake will only
-	// succeed if ECH is successfully negotiated. If the server rejects ECH,
+	// succeed if ECH is successfully negolangtiated. If the server rejects ECH,
 	// an ECHRejectionError error will be returned, which may contain a new
 	// ECHConfigList that the server suggests using.
 	//
@@ -972,7 +972,7 @@ func (c *Config) Clone() *Config {
 		MaxVersion:                          c.MaxVersion,
 		CurvePreferences:                    c.CurvePreferences,
 		DynamicRecordSizingDisabled:         c.DynamicRecordSizingDisabled,
-		Renegotiation:                       c.Renegotiation,
+		Renegolangtiation:                       c.Renegolangtiation,
 		KeyLogWriter:                        c.KeyLogWriter,
 		EncryptedClientHelloConfigList:      c.EncryptedClientHelloConfigList,
 		EncryptedClientHelloRejectionVerify: c.EncryptedClientHelloRejectionVerify,
@@ -1161,7 +1161,7 @@ var supportedVersions = []uint16{
 const roleClient = true
 const roleServer = false
 
-var tls10server = godebug.New("tls10server")
+var tls10server = golangdebug.New("tls10server")
 
 // supportedVersions returns the list of supported TLS versions, sorted from
 // highest to lowest (and hence also in preference order).
@@ -1252,9 +1252,9 @@ func (c *Config) mutualVersion(isClient bool, peerVersions []uint16) (uint16, bo
 //   - github.com/xtls/xray-core
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname errNoCertificates
+//golang:linkname errNoCertificates
 var errNoCertificates = errors.New("tls: no certificates configured")
 
 // getCertificate returns the best certificate for the given ClientHelloInfo,
@@ -1315,7 +1315,7 @@ func (c *Config) getCertificate(clientHello *ClientHelloInfo) (*Certificate, err
 // incur a significant performance cost.
 func (chi *ClientHelloInfo) SupportsCertificate(c *Certificate) error {
 	// Note we don't currently support certificate_authorities nor
-	// signature_algorithms_cert, and don't check the algorithms of the
+	// signature_algolangrithms_cert, and don't check the algolangrithms of the
 	// signatures on the chain (which anyway are a SHOULD, see RFC 8446,
 	// Section 4.4.2.2).
 
@@ -1376,7 +1376,7 @@ func (chi *ClientHelloInfo) SupportsCertificate(c *Certificate) error {
 		return nil
 	}
 
-	// If the client sent the signature_algorithms extension, ensure it supports
+	// If the client sent the signature_algolangrithms extension, ensure it supports
 	// schemes we can use with this certificate and TLS version.
 	if len(chi.SignatureSchemes) > 0 {
 		if _, err := selectSignatureScheme(vers, c, chi.SignatureSchemes); err != nil {
@@ -1385,7 +1385,7 @@ func (chi *ClientHelloInfo) SupportsCertificate(c *Certificate) error {
 	}
 
 	// In TLS 1.3 we are done because supported_groups is only relevant to the
-	// ECDHE computation, point format negotiation is removed, cipher suites are
+	// ECDHE computation, point format negolangtiation is removed, cipher suites are
 	// only relevant to the AEAD choice, and static RSA does not exist.
 	if vers == VersionTLS13 {
 		return nil
@@ -1559,9 +1559,9 @@ type Certificate struct {
 	// For a server up to TLS 1.2, it can also implement crypto.Decrypter with
 	// an RSA PublicKey.
 	PrivateKey crypto.PrivateKey
-	// SupportedSignatureAlgorithms is an optional list restricting what
-	// signature algorithms the PrivateKey can be used for.
-	SupportedSignatureAlgorithms []SignatureScheme
+	// SupportedSignatureAlgolangrithms is an optional list restricting what
+	// signature algolangrithms the PrivateKey can be used for.
+	SupportedSignatureAlgolangrithms []SignatureScheme
 	// OCSPStaple contains an optional OCSP response which will be served
 	// to clients that request it.
 	OCSPStaple []byte
@@ -1680,18 +1680,18 @@ func defaultConfig() *Config {
 	return &emptyConfig
 }
 
-func unexpectedMessageError(wanted, got any) error {
-	return fmt.Errorf("tls: received unexpected handshake message of type %T when waiting for %T", got, wanted)
+func unexpectedMessageError(wanted, golangt any) error {
+	return fmt.Errorf("tls: received unexpected handshake message of type %T when waiting for %T", golangt, wanted)
 }
 
-// supportedSignatureAlgorithms returns the supported signature algorithms for
+// supportedSignatureAlgolangrithms returns the supported signature algolangrithms for
 // the given minimum TLS version, to advertise in ClientHello and
 // CertificateRequest messages.
-func supportedSignatureAlgorithms(minVers uint16) []SignatureScheme {
-	sigAlgs := defaultSupportedSignatureAlgorithms()
+func supportedSignatureAlgolangrithms(minVers uint16) []SignatureScheme {
+	sigAlgs := defaultSupportedSignatureAlgolangrithms()
 	if fips140tls.Required() {
 		sigAlgs = slices.DeleteFunc(sigAlgs, func(s SignatureScheme) bool {
-			return !slices.Contains(allowedSignatureAlgorithmsFIPS, s)
+			return !slices.Contains(allowedSignatureAlgolangrithmsFIPS, s)
 		})
 	}
 	if minVers > VersionTLS12 {
@@ -1703,20 +1703,20 @@ func supportedSignatureAlgorithms(minVers uint16) []SignatureScheme {
 	return sigAlgs
 }
 
-// supportedSignatureAlgorithmsCert returns the supported algorithms for
+// supportedSignatureAlgolangrithmsCert returns the supported algolangrithms for
 // signatures in certificates.
-func supportedSignatureAlgorithmsCert() []SignatureScheme {
-	sigAlgs := defaultSupportedSignatureAlgorithmsCert()
+func supportedSignatureAlgolangrithmsCert() []SignatureScheme {
+	sigAlgs := defaultSupportedSignatureAlgolangrithmsCert()
 	if fips140tls.Required() {
 		sigAlgs = slices.DeleteFunc(sigAlgs, func(s SignatureScheme) bool {
-			return !slices.Contains(allowedSignatureAlgorithmsFIPS, s)
+			return !slices.Contains(allowedSignatureAlgolangrithmsFIPS, s)
 		})
 	}
 	return sigAlgs
 }
 
-func isSupportedSignatureAlgorithm(sigAlg SignatureScheme, supportedSignatureAlgorithms []SignatureScheme) bool {
-	return slices.Contains(supportedSignatureAlgorithms, sigAlg)
+func isSupportedSignatureAlgolangrithm(sigAlg SignatureScheme, supportedSignatureAlgolangrithms []SignatureScheme) bool {
+	return slices.Contains(supportedSignatureAlgolangrithms, sigAlg)
 }
 
 // CertificateVerificationError is returned when certificate verification fails during the handshake.

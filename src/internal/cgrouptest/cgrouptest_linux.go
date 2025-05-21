@@ -1,5 +1,5 @@
 // Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package cgrouptest provides best-effort helpers for running tests inside a
@@ -67,7 +67,7 @@ func InCgroupV2(t *testing.T, fn func(*CgroupV2)) {
 		t.Skipf("Parent cgroup %s does not allow children to control cpu, only %q", parent, string(b))
 	}
 
-	path, err := os.MkdirTemp(parent, "go-cgrouptest")
+	path, err := os.MkdirTemp(parent, "golang-cgrouptest")
 	if err != nil {
 		t.Skipf("unable to create cgroup directory: %v", err)
 	}
@@ -145,7 +145,7 @@ func findOwnedParent(t *testing.T, mount, rel string) string {
 	// inside the current cgroup we are already in, however that will likey
 	// not work. cgroup v2 only allows processes to be in leaf cgroups. Our
 	// current cgroup likely contains multiple processes (at least this one
-	// and the cmd/go test runner). If we make a subdirectory and try to
+	// and the cmd/golang test runner). If we make a subdirectory and try to
 	// move our process into that cgroup, then the subdirectory and parent
 	// would both contain processes. Linux won't allow us to do that [1].
 	//

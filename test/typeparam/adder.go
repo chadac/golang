@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -20,10 +20,10 @@ func Add[T AddType](a, b T) T {
 }
 
 func main() {
-	if got, want := Add(5, 3), 8; got != want {
-		panic(fmt.Sprintf("got %d, want %d", got, want))
+	if golangt, want := Add(5, 3), 8; golangt != want {
+		panic(fmt.Sprintf("golangt %d, want %d", golangt, want))
 	}
-	if got, want := Add("ab", "cd"), "abcd"; got != want {
-		panic(fmt.Sprintf("got %d, want %d", got, want))
+	if golangt, want := Add("ab", "cd"), "abcd"; golangt != want {
+		panic(fmt.Sprintf("golangt %d, want %d", golangt, want))
 	}
 }

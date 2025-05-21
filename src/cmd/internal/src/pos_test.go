@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package src
@@ -20,11 +20,11 @@ func TestPos(t *testing.T) {
 	f5 := NewLinePragmaBase(MakePos(f1, 5, 5), "f5", "f5", 10, 1)
 
 	// line directives from issue #19392
-	fp := NewFileBase("p.go", "p.go")
-	fc := NewLinePragmaBase(MakePos(fp, 4, 1), "c.go", "c.go", 10, 1)
-	ft := NewLinePragmaBase(MakePos(fp, 7, 1), "t.go", "t.go", 20, 1)
-	fv := NewLinePragmaBase(MakePos(fp, 10, 1), "v.go", "v.go", 30, 1)
-	ff := NewLinePragmaBase(MakePos(fp, 13, 1), "f.go", "f.go", 40, 1)
+	fp := NewFileBase("p.golang", "p.golang")
+	fc := NewLinePragmaBase(MakePos(fp, 4, 1), "c.golang", "c.golang", 10, 1)
+	ft := NewLinePragmaBase(MakePos(fp, 7, 1), "t.golang", "t.golang", 20, 1)
+	fv := NewLinePragmaBase(MakePos(fp, 10, 1), "v.golang", "v.golang", 30, 1)
+	ff := NewLinePragmaBase(MakePos(fp, 13, 1), "f.golang", "f.golang", 40, 1)
 
 	for _, test := range []struct {
 		pos    Pos
@@ -52,36 +52,36 @@ func TestPos(t *testing.T) {
 		{MakePos(f5, 6, 10), "f5:11:10[f1:6:10]", "f1", 6, 10, "f5", 11, 10},
 
 		// positions from issue #19392
-		{MakePos(fc, 4, 1), "c.go:10:1[p.go:4:1]", "p.go", 4, 1, "c.go", 10, 1},
-		{MakePos(ft, 7, 1), "t.go:20:1[p.go:7:1]", "p.go", 7, 1, "t.go", 20, 1},
-		{MakePos(fv, 10, 1), "v.go:30:1[p.go:10:1]", "p.go", 10, 1, "v.go", 30, 1},
-		{MakePos(ff, 13, 1), "f.go:40:1[p.go:13:1]", "p.go", 13, 1, "f.go", 40, 1},
+		{MakePos(fc, 4, 1), "c.golang:10:1[p.golang:4:1]", "p.golang", 4, 1, "c.golang", 10, 1},
+		{MakePos(ft, 7, 1), "t.golang:20:1[p.golang:7:1]", "p.golang", 7, 1, "t.golang", 20, 1},
+		{MakePos(fv, 10, 1), "v.golang:30:1[p.golang:10:1]", "p.golang", 10, 1, "v.golang", 30, 1},
+		{MakePos(ff, 13, 1), "f.golang:40:1[p.golang:13:1]", "p.golang", 13, 1, "f.golang", 40, 1},
 	} {
 		pos := test.pos
-		if got := pos.String(); got != test.string {
-			t.Errorf("%s: got %q", test.string, got)
+		if golangt := pos.String(); golangt != test.string {
+			t.Errorf("%s: golangt %q", test.string, golangt)
 		}
 
 		// absolute info
-		if got := pos.Filename(); got != test.filename {
-			t.Errorf("%s: got filename %q; want %q", test.string, got, test.filename)
+		if golangt := pos.Filename(); golangt != test.filename {
+			t.Errorf("%s: golangt filename %q; want %q", test.string, golangt, test.filename)
 		}
-		if got := pos.Line(); got != test.line {
-			t.Errorf("%s: got line %d; want %d", test.string, got, test.line)
+		if golangt := pos.Line(); golangt != test.line {
+			t.Errorf("%s: golangt line %d; want %d", test.string, golangt, test.line)
 		}
-		if got := pos.Col(); got != test.col {
-			t.Errorf("%s: got col %d; want %d", test.string, got, test.col)
+		if golangt := pos.Col(); golangt != test.col {
+			t.Errorf("%s: golangt col %d; want %d", test.string, golangt, test.col)
 		}
 
 		// relative info
-		if got := pos.RelFilename(); got != test.relFilename {
-			t.Errorf("%s: got relFilename %q; want %q", test.string, got, test.relFilename)
+		if golangt := pos.RelFilename(); golangt != test.relFilename {
+			t.Errorf("%s: golangt relFilename %q; want %q", test.string, golangt, test.relFilename)
 		}
-		if got := pos.RelLine(); got != test.relLine {
-			t.Errorf("%s: got relLine %d; want %d", test.string, got, test.relLine)
+		if golangt := pos.RelLine(); golangt != test.relLine {
+			t.Errorf("%s: golangt relLine %d; want %d", test.string, golangt, test.relLine)
 		}
-		if got := pos.RelCol(); got != test.relCol {
-			t.Errorf("%s: got relCol %d; want %d", test.string, got, test.relCol)
+		if golangt := pos.RelCol(); golangt != test.relCol {
+			t.Errorf("%s: golangt relCol %d; want %d", test.string, golangt, test.relCol)
 		}
 	}
 }
@@ -116,14 +116,14 @@ func TestPredicates(t *testing.T) {
 		// special case: unknown column (column too large to represent)
 		{MakePos(nil, 1, colMax+10), MakePos(nil, 1, colMax+20), true, false, false},
 	} {
-		if got := test.p.IsKnown(); got != test.known {
-			t.Errorf("%s known: got %v; want %v", test.p, got, test.known)
+		if golangt := test.p.IsKnown(); golangt != test.known {
+			t.Errorf("%s known: golangt %v; want %v", test.p, golangt, test.known)
 		}
-		if got := test.p.Before(test.q); got != test.before {
-			t.Errorf("%s < %s: got %v; want %v", test.p, test.q, got, test.before)
+		if golangt := test.p.Before(test.q); golangt != test.before {
+			t.Errorf("%s < %s: golangt %v; want %v", test.p, test.q, golangt, test.before)
 		}
-		if got := test.p.After(test.q); got != test.after {
-			t.Errorf("%s > %s: got %v; want %v", test.p, test.q, got, test.after)
+		if golangt := test.p.After(test.q); golangt != test.after {
+			t.Errorf("%s > %s: golangt %v; want %v", test.p, test.q, golangt, test.after)
 		}
 	}
 }
@@ -147,8 +147,8 @@ func TestLico(t *testing.T) {
 		{makeLico(lineMax+1, colMax+1), fmt.Sprintf(":%d", lineMax), lineMax, 0},
 	} {
 		x := test.x
-		if got := formatstr("", x.Line(), x.Col(), true); got != test.string {
-			t.Errorf("%s: got %q", test.string, got)
+		if golangt := formatstr("", x.Line(), x.Col(), true); golangt != test.string {
+			t.Errorf("%s: golangt %q", test.string, golangt)
 		}
 	}
 }
@@ -179,8 +179,8 @@ func TestIsStmt(t *testing.T) {
 		{makeLico(lineMax+1, colMax+1).withNotStmt(), fmt.Sprintf(":%d", lineMax) + not, lineMax, 0},
 	} {
 		x := test.x
-		if got := formatstr("", x.Line(), x.Col(), true) + fmt.Sprintf(":%d", x.IsStmt()); got != test.string {
-			t.Errorf("%s: got %q", test.string, got)
+		if golangt := formatstr("", x.Line(), x.Col(), true) + fmt.Sprintf(":%d", x.IsStmt()); golangt != test.string {
+			t.Errorf("%s: golangt %q", test.string, golangt)
 		}
 	}
 }
@@ -219,8 +219,8 @@ func TestLogue(t *testing.T) {
 		{makeLico(lineMax, 1).withXlogue(PosEpilogueBegin), fmt.Sprintf(":%d", lineMax) + defs + epi, lineMax, 1},
 	} {
 		x := test.x
-		if got := formatstr("", x.Line(), x.Col(), true) + fmt.Sprintf(":%d:%d", x.IsStmt(), x.Xlogue()); got != test.string {
-			t.Errorf("%d: %s: got %q", i, test.string, got)
+		if golangt := formatstr("", x.Line(), x.Col(), true) + fmt.Sprintf(":%d:%d", x.IsStmt(), x.Xlogue()); golangt != test.string {
+			t.Errorf("%d: %s: golangt %q", i, test.string, golangt)
 		}
 	}
 }

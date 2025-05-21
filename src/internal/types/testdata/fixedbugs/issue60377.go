@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package p
@@ -21,7 +21,7 @@ func _() {
 	g[string](x) // string is also ok for P!
 }
 
-// This is analogous to the above example,
+// This is analogolangus to the above example,
 // but uses two interface types of the same structure.
 
 type T2[P any] interface{ m() }
@@ -33,7 +33,7 @@ func _() {
 	g[string](x) // string is also ok for P!
 }
 
-// Analogous to the T2 example but using an unparameterized interface T3.
+// Analogolangus to the T2 example but using an unparameterized interface T3.
 
 type T3 interface{ m() }
 

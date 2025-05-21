@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package gc
@@ -15,10 +15,10 @@ import (
 	"cmd/compile/internal/inline"
 	"cmd/compile/internal/inline/interleaved"
 	"cmd/compile/internal/ir"
-	"cmd/compile/internal/logopt"
+	"cmd/compile/internal/logolangpt"
 	"cmd/compile/internal/loopvar"
 	"cmd/compile/internal/noder"
-	"cmd/compile/internal/pgoir"
+	"cmd/compile/internal/pgolangir"
 	"cmd/compile/internal/pkginit"
 	"cmd/compile/internal/reflectdata"
 	"cmd/compile/internal/rttype"
@@ -90,8 +90,8 @@ func Main(archInit func(*ssagen.ArchInfo)) {
 	types.LocalPkg = types.NewPkg(base.Ctxt.Pkgpath, "")
 
 	// pseudo-package, for scoping
-	types.BuiltinPkg = types.NewPkg("go.builtin", "") // TODO(gri) name this package go.builtin?
-	types.BuiltinPkg.Prefix = "go:builtin"
+	types.BuiltinPkg = types.NewPkg("golang.builtin", "") // TODO(gri) name this package golang.builtin?
+	types.BuiltinPkg.Prefix = "golang:builtin"
 
 	// pseudo-package, accessed by import "unsafe"
 	types.UnsafePkg = types.NewPkg("unsafe", "unsafe")
@@ -101,25 +101,25 @@ func Main(archInit func(*ssagen.ArchInfo)) {
 	// separate package to avoid conflicts with package runtime's
 	// actual declarations, which may differ intentionally but
 	// insignificantly.
-	ir.Pkgs.Runtime = types.NewPkg("go.runtime", "runtime")
+	ir.Pkgs.Runtime = types.NewPkg("golang.runtime", "runtime")
 	ir.Pkgs.Runtime.Prefix = "runtime"
 
 	if buildcfg.Experiment.SwissMap {
 		// Pseudo-package that contains the compiler's builtin
 		// declarations for maps.
-		ir.Pkgs.InternalMaps = types.NewPkg("go.internal/runtime/maps", "internal/runtime/maps")
+		ir.Pkgs.InternalMaps = types.NewPkg("golang.internal/runtime/maps", "internal/runtime/maps")
 		ir.Pkgs.InternalMaps.Prefix = "internal/runtime/maps"
 	}
 
 	// pseudo-packages used in symbol tables
-	ir.Pkgs.Itab = types.NewPkg("go.itab", "go.itab")
-	ir.Pkgs.Itab.Prefix = "go:itab"
+	ir.Pkgs.Itab = types.NewPkg("golang.itab", "golang.itab")
+	ir.Pkgs.Itab.Prefix = "golang:itab"
 
 	// pseudo-package used for methods with anonymous receivers
-	ir.Pkgs.Go = types.NewPkg("go", "")
+	ir.Pkgs.Go = types.NewPkg("golang", "")
 
 	// pseudo-package for use with code coverage instrumentation.
-	ir.Pkgs.Coverage = types.NewPkg("go.coverage", "runtime/coverage")
+	ir.Pkgs.Coverage = types.NewPkg("golang.coverage", "runtime/coverage")
 	ir.Pkgs.Coverage.Prefix = "runtime/coverage"
 
 	// Record flags that affect the build result. (And don't
@@ -183,7 +183,7 @@ func Main(archInit func(*ssagen.ArchInfo)) {
 	}
 
 	if base.Flag.JSON != "" { // parse version,destination from json logging optimization.
-		logopt.LogJsonOption(base.Flag.JSON)
+		logolangpt.LogJsonOption(base.Flag.JSON)
 	}
 
 	ir.EscFmt = escape.Fmt
@@ -225,13 +225,13 @@ func Main(archInit func(*ssagen.ArchInfo)) {
 	coverage.Fixup()
 
 	// Read profile file and build profile-graph and weighted-call-graph.
-	base.Timer.Start("fe", "pgo-load-profile")
-	var profile *pgoir.Profile
-	if base.Flag.PgoProfile != "" {
+	base.Timer.Start("fe", "pgolang-load-profile")
+	var profile *pgolangir.Profile
+	if base.Flag.PgolangProfile != "" {
 		var err error
-		profile, err = pgoir.New(base.Flag.PgoProfile)
+		profile, err = pgolangir.New(base.Flag.PgolangProfile)
 		if err != nil {
-			log.Fatalf("%s: PGO error: %v", base.Flag.PgoProfile, err)
+			log.Fatalf("%s: PGO error: %v", base.Flag.PgolangProfile, err)
 		}
 	}
 
@@ -270,7 +270,7 @@ func Main(archInit func(*ssagen.ArchInfo)) {
 
 	loopvar.LogTransformations(transformed)
 
-	// Collect information for go:nowritebarrierrec
+	// Collect information for golang:nowritebarrierrec
 	// checking. This must happen before transforming closures during Walk
 	// We'll do the final check after write barriers are
 	// inserted.
@@ -309,7 +309,7 @@ func Main(archInit func(*ssagen.ArchInfo)) {
 			continue
 		}
 
-		// The SSA backend supports using multiple goroutines, so keep it
+		// The SSA backend supports using multiple golangroutines, so keep it
 		// as late as possible to maximize how much work we can batch and
 		// process concurrently.
 		if len(compilequeue) != 0 {
@@ -363,7 +363,7 @@ func Main(archInit func(*ssagen.ArchInfo)) {
 		base.Fatalf("%d uncompiled functions", len(compilequeue))
 	}
 
-	logopt.FlushLoggedOpts(base.Ctxt, base.Ctxt.Pkgpath)
+	logolangpt.FlushLoggedOpts(base.Ctxt, base.Ctxt.Pkgpath)
 	base.ExitIfErrors()
 
 	base.FlushErrors()
@@ -384,8 +384,8 @@ func writebench(filename string) error {
 
 	var buf bytes.Buffer
 	fmt.Fprintln(&buf, "commit:", buildcfg.Version)
-	fmt.Fprintln(&buf, "goos:", runtime.GOOS)
-	fmt.Fprintln(&buf, "goarch:", runtime.GOARCH)
+	fmt.Fprintln(&buf, "golangos:", runtime.GOOS)
+	fmt.Fprintln(&buf, "golangarch:", runtime.GOARCH)
 	base.Timer.Write(&buf, "BenchmarkCompile:"+base.Ctxt.Pkgpath+":")
 
 	n, err := f.Write(buf.Bytes())

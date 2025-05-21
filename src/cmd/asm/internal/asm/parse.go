@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package asm implements the parser and instruction generator for the assembler.
@@ -146,13 +146,13 @@ func (p *Parser) ParseSymABIs(w io.Writer) bool {
 }
 
 // nextToken returns the next non-build-comment token from the lexer.
-// It reports misplaced //go:build comments but otherwise discards them.
+// It reports misplaced //golang:build comments but otherwise discards them.
 func (p *Parser) nextToken() lex.ScanToken {
 	for {
 		tok := p.lex.Next()
 		if tok == lex.BuildComment {
 			if p.sawCode {
-				p.errorf("misplaced //go:build comment")
+				p.errorf("misplaced //golang:build comment")
 			}
 			continue
 		}
@@ -231,7 +231,7 @@ next:
 				if tok == ':' {
 					// Labels.
 					p.pendingLabels = append(p.pendingLabels, word)
-					goto next
+					golangto next
 				}
 			}
 			if tok == scanner.EOF {
@@ -463,7 +463,7 @@ func (p *Parser) operand(a *obj.Addr) {
 			a.Reg = r1
 			if r2 != 0 {
 				// Form is R1:R2. It is on RHS and the second register
-				// needs to go into the LHS.
+				// needs to golang into the LHS.
 				panic("cannot happen (Addr.Reg2)")
 			}
 		}

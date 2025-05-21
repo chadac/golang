@@ -1,10 +1,10 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
 
-// #cgo noescape annotations for a C function means its arguments won't escape to heap.
+// #cgolang noescape annotations for a C function means its arguments won't escape to heap.
 
 // We assume that there won't be 100 new allocated heap objects in other places,
 // i.e. runtime.ReadMemStats or other runtime background works.
@@ -13,8 +13,8 @@ package main
 // 2. less than 100 new allocated heap objects after invoking withoutNoEscape 100 times.
 
 /*
-#cgo noescape runCWithNoEscape
-#cgo nocallback runCWithNoEscape
+#cgolang noescape runCWithNoEscape
+#cgolang nocallback runCWithNoEscape
 
 void runCWithNoEscape(void *p) {
 }
@@ -33,22 +33,22 @@ import (
 const num = 100
 
 func init() {
-	register("CgoNoEscape", CgoNoEscape)
+	register("CgolangNoEscape", CgolangNoEscape)
 }
 
-//go:noinline
+//golang:noinline
 func withNoEscape() {
 	var str string
 	C.runCWithNoEscape(unsafe.Pointer(&str))
 }
 
-//go:noinline
+//golang:noinline
 func withoutNoEscape() {
 	var str string
 	C.runCWithoutNoEscape(unsafe.Pointer(&str))
 }
 
-func CgoNoEscape() {
+func CgolangNoEscape() {
 	// make GC stop to see the heap objects allocated
 	debug.SetGCPercent(-1)
 

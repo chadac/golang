@@ -1,19 +1,19 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package exportdata implements common utilities for finding
 // and reading gc-generated object files.
 package exportdata
 
-// This file should be kept in sync with src/cmd/compile/internal/gc/obj.go .
+// This file should be kept in sync with src/cmd/compile/internal/gc/obj.golang .
 
 import (
 	"bufio"
 	"bytes"
 	"errors"
 	"fmt"
-	"go/build"
+	"golang/build"
 	"internal/saferio"
 	"io"
 	"os"
@@ -44,7 +44,7 @@ import (
 //
 // | <!arch>\n             | ar file signature
 // | __.PKGDEF...size...\n | ar header for __.PKGDEF including size.
-// | go object <...>\n     | objabi header
+// | golang object <...>\n     | objabi header
 // | <optional headers>\n  | other headers such as build id
 // | $$B\n                 | binary format marker
 // | u<data>\n             | unified export <data>
@@ -160,9 +160,9 @@ func ReadObjectHeaders(r *bufio.Reader) (objapi string, headers []string, err er
 	}
 	objapi = string(line)
 
-	// objapi header begins with "go object ".
-	if !strings.HasPrefix(objapi, "go object ") {
-		err = fmt.Errorf("not a go object file: %s", objapi)
+	// objapi header begins with "golang object ".
+	if !strings.HasPrefix(objapi, "golang object ") {
+		err = fmt.Errorf("not a golang object file: %s", objapi)
 		return
 	}
 
@@ -261,7 +261,7 @@ func FindPkg(path, srcDir string) (filename, id string, err error) {
 					return filename, bp.ImportPath, nil
 				}
 			}
-			goto notfound
+			golangto notfound
 		} else {
 			noext = strings.TrimSuffix(bp.PkgObj, ".a")
 		}
@@ -273,7 +273,7 @@ func FindPkg(path, srcDir string) (filename, id string, err error) {
 		id = noext
 
 	case filepath.IsAbs(path):
-		// for completeness only - go/build.Import
+		// for completeness only - golang/build.Import
 		// does not support absolute imports
 		// "/x" -> "/x.ext", "/x"
 		noext = path
@@ -326,7 +326,7 @@ func lookupGorootExport(pkgDir string) (string, error) {
 		)
 		f, _ = exportMap.LoadOrStore(pkgDir, func() (string, error) {
 			listOnce.Do(func() {
-				cmd := exec.Command(filepath.Join(build.Default.GOROOT, "bin", "go"), "list", "-export", "-f", "{{.Export}}", pkgDir)
+				cmd := exec.Command(filepath.Join(build.Default.GOROOT, "bin", "golang"), "list", "-export", "-f", "{{.Export}}", pkgDir)
 				cmd.Dir = build.Default.GOROOT
 				cmd.Env = append(os.Environ(), "PWD="+cmd.Dir, "GOROOT="+build.Default.GOROOT)
 				var output []byte
@@ -340,7 +340,7 @@ func lookupGorootExport(pkgDir string) (string, error) {
 
 				exports := strings.Split(string(bytes.TrimSpace(output)), "\n")
 				if len(exports) != 1 {
-					err = fmt.Errorf("go list reported %d exports; expected 1", len(exports))
+					err = fmt.Errorf("golang list reported %d exports; expected 1", len(exports))
 					return
 				}
 

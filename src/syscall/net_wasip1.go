@@ -1,8 +1,8 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build wasip1
+//golang:build wasip1
 
 package syscall
 
@@ -14,12 +14,12 @@ const (
 
 type sdflags = uint32
 
-//go:wasmimport wasi_snapshot_preview1 sock_accept
-//go:noescape
+//golang:wasmimport wasi_snapshot_preview1 sock_accept
+//golang:noescape
 func sock_accept(fd int32, flags fdflags, newfd *int32) Errno
 
-//go:wasmimport wasi_snapshot_preview1 sock_shutdown
-//go:noescape
+//golang:wasmimport wasi_snapshot_preview1 sock_shutdown
+//golang:noescape
 func sock_shutdown(fd int32, flags sdflags) Errno
 
 func Socket(proto, sotype, unused int) (fd int, err error) {

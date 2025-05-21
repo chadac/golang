@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package syntax
@@ -27,7 +27,7 @@ type Regexp struct {
 	Name     string     // capturing name, for OpCapture
 }
 
-//go:generate stringer -type Op -trimprefix Op
+//golang:generate stringer -type Op -trimprefix Op
 
 // An Op is a single regular expression operator.
 type Op uint8

@@ -1,8 +1,8 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build goexperiment.jsonv2
+//golang:build golangexperiment.jsonv2
 
 package jsonwire
 
@@ -205,15 +205,15 @@ func ReformatString(dst, src []byte, flags *jsonflags.Flags) ([]byte, int, error
 
 // AppendFloat appends src to dst as a JSON number per RFC 7159, section 6.
 // It formats numbers similar to the ES6 number-to-string conversion.
-// See https://go.dev/issue/14135.
+// See https://golang.dev/issue/14135.
 //
 // The output is identical to ECMA-262, 6th edition, section 7.1.12.1 and with
 // RFC 8785, section 3.2.2.3 for 64-bit floating-point numbers except for -0,
 // which is formatted as -0 instead of just 0.
 //
 // For 32-bit floating-point numbers,
-// the output is a 32-bit equivalent of the algorithm.
-// Note that ECMA-262 specifies no algorithm for 32-bit numbers.
+// the output is a 32-bit equivalent of the algolangrithm.
+// Note that ECMA-262 specifies no algolangrithm for 32-bit numbers.
 func AppendFloat(dst []byte, src float64, bits int) []byte {
 	if bits == 32 {
 		src = float64(float32(src))

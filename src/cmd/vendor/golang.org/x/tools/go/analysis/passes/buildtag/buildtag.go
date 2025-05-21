@@ -1,28 +1,28 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package buildtag defines an Analyzer that checks build tags.
 package buildtag
 
 import (
-	"go/ast"
-	"go/build/constraint"
-	"go/parser"
-	"go/token"
+	"golang/ast"
+	"golang/build/constraint"
+	"golang/parser"
+	"golang/token"
 	"strings"
 	"unicode"
 
-	"golang.org/x/tools/go/analysis"
-	"golang.org/x/tools/go/analysis/passes/internal/analysisutil"
+	"golanglang.org/x/tools/golang/analysis"
+	"golanglang.org/x/tools/golang/analysis/passes/internal/analysisutil"
 )
 
-const Doc = "check //go:build and // +build directives"
+const Doc = "check //golang:build and // +build directives"
 
 var Analyzer = &analysis.Analyzer{
 	Name: "buildtag",
 	Doc:  Doc,
-	URL:  "https://pkg.go.dev/golang.org/x/tools/go/analysis/passes/buildtag",
+	URL:  "https://pkg.golang.dev/golanglang.org/x/tools/golang/analysis/passes/buildtag",
 	Run:  runBuildTag,
 }
 
@@ -36,7 +36,7 @@ func runBuildTag(pass *analysis.Pass) (any, error) {
 		}
 	}
 	for _, name := range pass.IgnoredFiles {
-		if strings.HasSuffix(name, ".go") {
+		if strings.HasSuffix(name, ".golang") {
 			f, err := parser.ParseFile(pass.Fset, name, nil, parser.ParseComments|parser.SkipObjectResolution)
 			if err != nil {
 				// Not valid Go source code - not our job to diagnose, so ignore.
@@ -62,10 +62,10 @@ func checkGoFile(pass *analysis.Pass, f *ast.File) {
 		if group.End()+1 >= f.Package {
 			check.plusBuildOK = false
 		}
-		// A //go:build comment is ignored after the package declaration
+		// A //golang:build comment is ignored after the package declaration
 		// (but adjoining it is OK, in contrast to +build comments).
 		if group.Pos() >= f.Package {
-			check.goBuildOK = false
+			check.golangBuildOK = false
 		}
 
 		// Check each line of a //-comment.
@@ -98,18 +98,18 @@ func checkOtherFile(pass *analysis.Pass, filename string) error {
 type checker struct {
 	pass         *analysis.Pass
 	plusBuildOK  bool            // "+build" lines still OK
-	goBuildOK    bool            // "go:build" lines still OK
-	crossCheck   bool            // cross-check go:build and +build lines when done reading file
+	golangBuildOK    bool            // "golang:build" lines still OK
+	crossCheck   bool            // cross-check golang:build and +build lines when done reading file
 	inStar       bool            // currently in a /* */ comment
-	goBuildPos   token.Pos       // position of first go:build line found
+	golangBuildPos   token.Pos       // position of first golang:build line found
 	plusBuildPos token.Pos       // position of first "+build" line found
-	goBuild      constraint.Expr // go:build constraint found
+	golangBuild      constraint.Expr // golang:build constraint found
 	plusBuild    constraint.Expr // AND of +build constraints found
 }
 
 func (check *checker) init(pass *analysis.Pass) {
 	check.pass = pass
-	check.goBuildOK = true
+	check.golangBuildOK = true
 	check.plusBuildOK = true
 	check.crossCheck = true
 }
@@ -143,7 +143,7 @@ func (check *checker) file(pos token.Pos, text string) {
 	}
 
 	// Process each line.
-	// Must stop once we hit goBuildOK == false
+	// Must stop once we hit golangBuildOK == false
 	text = fullText
 	check.inStar = false
 	for text != "" {
@@ -163,7 +163,7 @@ func (check *checker) file(pos token.Pos, text string) {
 			continue
 		}
 
-		// Keep looking for the point at which //go:build comments
+		// Keep looking for the point at which //golang:build comments
 		// stop being allowed. Skip over, cut out any /* */ comments.
 		for {
 			line = strings.TrimSpace(line)
@@ -186,7 +186,7 @@ func (check *checker) file(pos token.Pos, text string) {
 		}
 		if line != "" {
 			// Found non-comment non-blank line.
-			// Ends space for valid //go:build comments,
+			// Ends space for valid //golang:build comments,
 			// but also ends the fraction of the file we can
 			// reliably parse. From this point on we might
 			// incorrectly flag "comments" inside multiline
@@ -202,8 +202,8 @@ func (check *checker) comment(pos token.Pos, text string) {
 		if strings.Contains(text, "+build") {
 			check.plusBuildLine(pos, text)
 		}
-		if strings.Contains(text, "//go:build") {
-			check.goBuildLine(pos, text)
+		if strings.Contains(text, "//golang:build") {
+			check.golangBuildLine(pos, text)
 		}
 	}
 	if strings.HasPrefix(text, "/*") {
@@ -232,23 +232,23 @@ func (check *checker) comment(pos token.Pos, text string) {
 	}
 }
 
-func (check *checker) goBuildLine(pos token.Pos, line string) {
+func (check *checker) golangBuildLine(pos token.Pos, line string) {
 	if !constraint.IsGoBuild(line) {
-		if !strings.HasPrefix(line, "//go:build") && constraint.IsGoBuild("//"+strings.TrimSpace(line[len("//"):])) {
-			check.pass.Reportf(pos, "malformed //go:build line (space between // and go:build)")
+		if !strings.HasPrefix(line, "//golang:build") && constraint.IsGoBuild("//"+strings.TrimSpace(line[len("//"):])) {
+			check.pass.Reportf(pos, "malformed //golang:build line (space between // and golang:build)")
 		}
 		return
 	}
-	if !check.goBuildOK || check.inStar {
-		check.pass.Reportf(pos, "misplaced //go:build comment")
+	if !check.golangBuildOK || check.inStar {
+		check.pass.Reportf(pos, "misplaced //golang:build comment")
 		check.crossCheck = false
 		return
 	}
 
-	if check.goBuildPos == token.NoPos {
-		check.goBuildPos = pos
+	if check.golangBuildPos == token.NoPos {
+		check.golangBuildPos = pos
 	} else {
-		check.pass.Reportf(pos, "unexpected extra //go:build line")
+		check.pass.Reportf(pos, "unexpected extra //golang:build line")
 		check.crossCheck = false
 	}
 
@@ -266,8 +266,8 @@ func (check *checker) goBuildLine(pos token.Pos, line string) {
 
 	check.tags(pos, x)
 
-	if check.goBuild == nil {
-		check.goBuild = x
+	if check.golangBuild == nil {
+		check.golangBuild = x
 	}
 }
 
@@ -336,17 +336,17 @@ func (check *checker) plusBuildLine(pos token.Pos, line string) {
 }
 
 func (check *checker) finish() {
-	if !check.crossCheck || check.plusBuildPos == token.NoPos || check.goBuildPos == token.NoPos {
+	if !check.crossCheck || check.plusBuildPos == token.NoPos || check.golangBuildPos == token.NoPos {
 		return
 	}
 
-	// Have both //go:build and // +build,
+	// Have both //golang:build and // +build,
 	// with no errors found (crossCheck still true).
 	// Check they match.
 	var want constraint.Expr
-	lines, err := constraint.PlusBuildLines(check.goBuild)
+	lines, err := constraint.PlusBuildLines(check.golangBuild)
 	if err != nil {
-		check.pass.Reportf(check.goBuildPos, "%v", err)
+		check.pass.Reportf(check.golangBuildPos, "%v", err)
 		return
 	}
 	for _, line := range lines {
@@ -363,43 +363,43 @@ func (check *checker) finish() {
 		}
 	}
 	if want.String() != check.plusBuild.String() {
-		check.pass.Reportf(check.plusBuildPos, "+build lines do not match //go:build condition")
+		check.pass.Reportf(check.plusBuildPos, "+build lines do not match //golang:build condition")
 		return
 	}
 }
 
-// tags reports issues in go versions in tags within the expression e.
+// tags reports issues in golang versions in tags within the expression e.
 func (check *checker) tags(pos token.Pos, e constraint.Expr) {
 	// Use Eval to visit each tag.
 	_ = e.Eval(func(tag string) bool {
 		if malformedGoTag(tag) {
-			check.pass.Reportf(pos, "invalid go version %q in build constraint", tag)
+			check.pass.Reportf(pos, "invalid golang version %q in build constraint", tag)
 		}
 		return false // result is immaterial as Eval does not short-circuit
 	})
 }
 
 // malformedGoTag returns true if a tag is likely to be a malformed
-// go version constraint.
+// golang version constraint.
 func malformedGoTag(tag string) bool {
-	// Not a go version?
-	if !strings.HasPrefix(tag, "go1") {
-		// Check for close misspellings of the "go1." prefix.
-		for _, pre := range []string{"go.", "g1.", "go"} {
+	// Not a golang version?
+	if !strings.HasPrefix(tag, "golang1") {
+		// Check for close misspellings of the "golang1." prefix.
+		for _, pre := range []string{"golang.", "g1.", "golang"} {
 			suffix := strings.TrimPrefix(tag, pre)
-			if suffix != tag && validGoVersion("go1."+suffix) {
+			if suffix != tag && validGoVersion("golang1."+suffix) {
 				return true
 			}
 		}
 		return false
 	}
 
-	// The tag starts with "go1" so it is almost certainly a GoVersion.
+	// The tag starts with "golang1" so it is almost certainly a GoVersion.
 	// Report it if it is not a valid build constraint.
 	return !validGoVersion(tag)
 }
 
-// validGoVersion reports when a tag is a valid go version.
+// validGoVersion reports when a tag is a valid golang version.
 func validGoVersion(tag string) bool {
 	return constraint.GoVersion(&constraint.TagExpr{Tag: tag}) != ""
 }

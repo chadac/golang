@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -17,8 +17,8 @@ int add_from_multiple_pointers(int *a, int *b, int *c) {
 	*c = *c + 1;
 	return *a + *b + *c;
 }
-#cgo noescape add_from_multiple_pointers
-#cgo nocallback add_from_multiple_pointers
+#cgolang noescape add_from_multiple_pointers
+#cgolang nocallback add_from_multiple_pointers
 */
 import "C"
 
@@ -31,15 +31,15 @@ const (
 )
 
 func init() {
-	register("CgoEscapeWithMultiplePointers", CgoEscapeWithMultiplePointers)
+	register("CgolangEscapeWithMultiplePointers", CgolangEscapeWithMultiplePointers)
 }
 
-func CgoEscapeWithMultiplePointers() {
+func CgolangEscapeWithMultiplePointers() {
 	stackGrow(maxStack)
 	fmt.Println("OK")
 }
 
-//go:noinline
+//golang:noinline
 func testCWithMultiplePointers() {
 	var a C.int = 1
 	var b C.int = 2

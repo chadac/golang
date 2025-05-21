@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
@@ -17,7 +17,7 @@ import "internal/runtime/atomic"
 // however, but the purpose of the bucket is to accommodate spikes in GC CPU
 // utilization without hurting throughput.
 //
-// Note that the bucket in the leaky bucket mechanism can never go negative,
+// Note that the bucket in the leaky bucket mechanism can never golang negative,
 // so the GC never gets credit for a lot of CPU time spent without the GC
 // running. This is intentional, as an application that stays idle for, say,
 // an entire day, could build up enough credit to fail to prevent a death
@@ -76,10 +76,10 @@ type gcCPULimiterState struct {
 	// lastEnabledCycle is the GC cycle that last had the limiter enabled.
 	lastEnabledCycle atomic.Uint32
 
-	// nprocs is an internal copy of gomaxprocs, used to determine total available
+	// nprocs is an internal copy of golangmaxprocs, used to determine total available
 	// CPU time.
 	//
-	// gomaxprocs isn't used directly so as to keep this structure unit-testable.
+	// golangmaxprocs isn't used directly so as to keep this structure unit-testable.
 	nprocs int32
 }
 
@@ -136,7 +136,7 @@ func (l *gcCPULimiterState) finishGCTransition(now int64) {
 }
 
 // gcCPULimiterUpdatePeriod dictates the maximum amount of wall-clock time
-// we can go before updating the limiter.
+// we can golang before updating the limiter.
 const gcCPULimiterUpdatePeriod = 10e6 // 10ms
 
 // needUpdate returns true if the limiter's maximum update period has been
@@ -248,11 +248,11 @@ func (l *gcCPULimiterState) updateLocked(now int64) {
 	// the GC is thrashing.
 	//
 	// Note that this can cause the limiter to turn on even if it's not needed. For
-	// instance, on a system with 32 Ps but only 1 running goroutine, each GC will have
+	// instance, on a system with 32 Ps but only 1 running golangroutine, each GC will have
 	// 8 dedicated GC workers. Assuming the GC cycle is half mark phase and half sweep
 	// phase, then the GC CPU utilization over that cycle, with idle time removed, will
 	// be 8/(8+2) = 80%. Even though the limiter turns on, though, assist should be
-	// unnecessary, as the GC has way more CPU time to outpace the 1 goroutine that's
+	// unnecessary, as the GC has way more CPU time to outpace the 1 golangroutine that's
 	// running.
 	windowTotalTime -= idleTime
 
@@ -451,7 +451,7 @@ func (e *limiterEvent) stop(typ limiterEventType, now int64) {
 	for {
 		stamp = limiterEventStamp(e.stamp.Load())
 		if stamp.typ() != typ {
-			print("runtime: want=", typ, " got=", stamp.typ(), "\n")
+			print("runtime: want=", typ, " golangt=", stamp.typ(), "\n")
 			throw("limiterEvent.stop: found wrong event in p's limiter event slot")
 		}
 		if e.stamp.CompareAndSwap(uint64(stamp), uint64(limiterEventStampNone)) {

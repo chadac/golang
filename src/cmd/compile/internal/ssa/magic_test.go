@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ssa
@@ -40,12 +40,12 @@ func testMagicExhaustive(t *testing.T, n uint) {
 		s := smagic(n, c).s
 		for i := min; i < max; i++ {
 			want := i / c
-			got := (i * m) >> (n + uint(s))
+			golangt := (i * m) >> (n + uint(s))
 			if i < 0 {
-				got++
+				golangt++
 			}
-			if want != got {
-				t.Errorf("signed magic wrong for %d / %d: got %d, want %d (m=%d,s=%d)\n", i, c, got, want, m, s)
+			if want != golangt {
+				t.Errorf("signed magic wrong for %d / %d: golangt %d, want %d (m=%d,s=%d)\n", i, c, golangt, want, m, s)
 			}
 		}
 	}
@@ -60,9 +60,9 @@ func testMagicExhaustiveU(t *testing.T, n uint) {
 		s := umagic(n, int64(c)).s
 		for i := uint64(0); i < max; i++ {
 			want := i / c
-			got := (i * (max + m)) >> (n + uint(s))
-			if want != got {
-				t.Errorf("unsigned magic wrong for %d / %d: got %d, want %d (m=%d,s=%d)\n", i, c, got, want, m, s)
+			golangt := (i * (max + m)) >> (n + uint(s))
+			if want != golangt {
+				t.Errorf("unsigned magic wrong for %d / %d: golangt %d, want %d (m=%d,s=%d)\n", i, c, golangt, want, m, s)
 			}
 		}
 	}
@@ -127,7 +127,7 @@ func TestMagicUnsigned(t *testing.T) {
 				Got := new(big.Int).Mul(X, M)
 				Got.Rsh(Got, n+uint(s))
 				if Want.Cmp(Got) != 0 {
-					t.Errorf("umagic for %d/%d n=%d doesn't work, got=%s, want %s\n", x, c, n, Got, Want)
+					t.Errorf("umagic for %d/%d n=%d doesn't work, golangt=%s, want %s\n", x, c, n, Got, Want)
 				}
 			}
 		}
@@ -197,7 +197,7 @@ func TestMagicSigned(t *testing.T) {
 					Got.Add(Got, One)
 				}
 				if Want.Cmp(Got) != 0 {
-					t.Errorf("smagic for %d/%d n=%d doesn't work, got=%s, want %s\n", x, c, n, Got, Want)
+					t.Errorf("smagic for %d/%d n=%d doesn't work, golangt=%s, want %s\n", x, c, n, Got, Want)
 				}
 			}
 		}
@@ -218,9 +218,9 @@ func testDivisibleExhaustiveU(t *testing.T, n uint) {
 			want := i%c == 0
 			mul := (i * m) & mask
 			rot := (mul>>uint(k) | mul<<(n-uint(k))) & mask
-			got := rot <= max
-			if want != got {
-				t.Errorf("unsigned divisible wrong for %d %% %d == 0: got %v, want %v (k=%d,m=%d,max=%d)\n", i, c, got, want, k, m, max)
+			golangt := rot <= max
+			if want != golangt {
+				t.Errorf("unsigned divisible wrong for %d %% %d == 0: golangt %v, want %v (k=%d,m=%d,max=%d)\n", i, c, golangt, want, k, m, max)
 			}
 		}
 	}
@@ -295,9 +295,9 @@ func TestDivisibleUnsigned(t *testing.T) {
 				want := x%c == 0
 				mul := (x * m) & mask
 				rot := (mul>>uint(k) | mul<<(n-uint(k))) & mask
-				got := rot <= max
-				if want != got {
-					t.Errorf("unsigned divisible wrong for %d %% %d == 0: got %v, want %v (k=%d,m=%d,max=%d)\n", x, c, got, want, k, m, max)
+				golangt := rot <= max
+				if want != golangt {
+					t.Errorf("unsigned divisible wrong for %d %% %d == 0: golangt %v, want %v (k=%d,m=%d,max=%d)\n", x, c, golangt, want, k, m, max)
 				}
 			}
 		}
@@ -320,9 +320,9 @@ func testDivisibleExhaustive(t *testing.T, n uint) {
 			want := i%c == 0
 			mul := (uint64(i)*m + a) & mask
 			rot := (mul>>uint(k) | mul<<(n-uint(k))) & mask
-			got := rot <= max
-			if want != got {
-				t.Errorf("signed divisible wrong for %d %% %d == 0: got %v, want %v (k=%d,m=%d,a=%d,max=%d)\n", i, c, got, want, k, m, a, max)
+			golangt := rot <= max
+			if want != golangt {
+				t.Errorf("signed divisible wrong for %d %% %d == 0: golangt %v, want %v (k=%d,m=%d,a=%d,max=%d)\n", i, c, golangt, want, k, m, a, max)
 			}
 		}
 	}
@@ -400,9 +400,9 @@ func TestDivisibleSigned(t *testing.T) {
 				want := x%c == 0
 				mul := (uint64(x)*m + a) & mask
 				rot := (mul>>uint(k) | mul<<(n-uint(k))) & mask
-				got := rot <= max
-				if want != got {
-					t.Errorf("signed divisible wrong for %d %% %d == 0: got %v, want %v (k=%d,m=%d,a=%d,max=%d)\n", x, c, got, want, k, m, a, max)
+				golangt := rot <= max
+				if want != golangt {
+					t.Errorf("signed divisible wrong for %d %% %d == 0: golangt %v, want %v (k=%d,m=%d,a=%d,max=%d)\n", x, c, golangt, want, k, m, a, max)
 				}
 			}
 		}

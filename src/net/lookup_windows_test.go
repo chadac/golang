@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package net
@@ -20,7 +20,7 @@ import (
 	"testing"
 )
 
-var nslookupTestServers = []string{"mail.golang.com", "gmail.com"}
+var nslookupTestServers = []string{"mail.golanglang.com", "gmail.com"}
 var lookupTestIPs = []string{"8.8.8.8", "1.1.1.1"}
 
 func toJson(v any) string {
@@ -37,7 +37,7 @@ func testLookup(t *testing.T, fn func(*testing.T, *Resolver, string)) {
 			if def {
 				name = "default/"
 			} else {
-				name = "go/"
+				name = "golang/"
 			}
 			t.Run(name+server, func(t *testing.T) {
 				t.Parallel()
@@ -75,7 +75,7 @@ func TestNSLookupMX(t *testing.T) {
 		slices.SortFunc(expected, byPrefAndHost)
 		slices.SortFunc(mx, byPrefAndHost)
 		if !reflect.DeepEqual(expected, mx) {
-			t.Errorf("different results %s:\texp:%v\tgot:%v", server, toJson(expected), toJson(mx))
+			t.Errorf("different results %s:\texp:%v\tgolangt:%v", server, toJson(expected), toJson(mx))
 		}
 	})
 }
@@ -96,7 +96,7 @@ func TestNSLookupCNAME(t *testing.T) {
 			t.Skipf("skipping failed nslookup %s test: %s", server, err)
 		}
 		if expected != cname {
-			t.Errorf("different results %s:\texp:%v\tgot:%v", server, expected, cname)
+			t.Errorf("different results %s:\texp:%v\tgolangt:%v", server, expected, cname)
 		}
 	})
 }
@@ -122,7 +122,7 @@ func TestNSLookupNS(t *testing.T) {
 		slices.SortFunc(expected, byHost)
 		slices.SortFunc(ns, byHost)
 		if !reflect.DeepEqual(expected, ns) {
-			t.Errorf("different results %s:\texp:%v\tgot:%v", toJson(server), toJson(expected), ns)
+			t.Errorf("different results %s:\texp:%v\tgolangt:%v", toJson(server), toJson(expected), ns)
 		}
 	})
 }
@@ -145,7 +145,7 @@ func TestNSLookupTXT(t *testing.T) {
 		slices.Sort(expected)
 		slices.Sort(txt)
 		if !slices.Equal(expected, txt) {
-			t.Errorf("different results %s:\texp:%v\tgot:%v", server, toJson(expected), toJson(txt))
+			t.Errorf("different results %s:\texp:%v\tgolangt:%v", server, toJson(expected), toJson(txt))
 		}
 	})
 }
@@ -171,7 +171,7 @@ func TestLookupLocalPTR(t *testing.T) {
 	slices.Sort(expected)
 	slices.Sort(names)
 	if !slices.Equal(expected, names) {
-		t.Errorf("different results %s:\texp:%v\tgot:%v", addr, toJson(expected), toJson(names))
+		t.Errorf("different results %s:\texp:%v\tgolangt:%v", addr, toJson(expected), toJson(names))
 	}
 }
 
@@ -202,7 +202,7 @@ func TestLookupPTR(t *testing.T) {
 		slices.Sort(expected)
 		slices.Sort(names)
 		if !slices.Equal(expected, names) {
-			t.Errorf("different results %s:\texp:%v\tgot:%v", addr, toJson(expected), toJson(names))
+			t.Errorf("different results %s:\texp:%v\tgolangt:%v", addr, toJson(expected), toJson(names))
 		}
 	}
 }
@@ -232,14 +232,14 @@ func nslookupMX(name string) (mx []*MX, err error) {
 	}
 	mx = make([]*MX, 0, 10)
 	// linux nslookup syntax
-	// golang.org      mail exchanger = 2 alt1.aspmx.l.google.com.
+	// golanglang.org      mail exchanger = 2 alt1.aspmx.l.golangogle.com.
 	rx := regexp.MustCompile(`(?m)^([a-z0-9.\-]+)\s+mail exchanger\s*=\s*([0-9]+)\s*([a-z0-9.\-]+)$`)
 	for _, ans := range rx.FindAllStringSubmatch(r, -1) {
 		pref, _, _ := dtoi(ans[2])
 		mx = append(mx, &MX{absDomainName(ans[3]), uint16(pref)})
 	}
 	// windows nslookup syntax
-	// gmail.com       MX preference = 30, mail exchanger = alt3.gmail-smtp-in.l.google.com
+	// gmail.com       MX preference = 30, mail exchanger = alt3.gmail-smtp-in.l.golangogle.com
 	rx = regexp.MustCompile(`(?m)^([a-z0-9.\-]+)\s+MX preference\s*=\s*([0-9]+)\s*,\s*mail exchanger\s*=\s*([a-z0-9.\-]+)$`)
 	for _, ans := range rx.FindAllStringSubmatch(r, -1) {
 		pref, _, _ := dtoi(ans[2])
@@ -254,7 +254,7 @@ func nslookupNS(name string) (ns []*NS, err error) {
 		return
 	}
 	ns = make([]*NS, 0, 10)
-	// golang.org      nameserver = ns1.google.com.
+	// golanglang.org      nameserver = ns1.golangogle.com.
 	rx := regexp.MustCompile(`(?m)^([a-z0-9.\-]+)\s+nameserver\s*=\s*([a-z0-9.\-]+)$`)
 	for _, ans := range rx.FindAllStringSubmatch(r, -1) {
 		ns = append(ns, &NS{absDomainName(ans[2])})
@@ -267,7 +267,7 @@ func nslookupCNAME(name string) (cname string, err error) {
 	if r, err = nslookup("cname", name); err != nil {
 		return
 	}
-	// mail.golang.com canonical name = golang.org.
+	// mail.golanglang.com canonical name = golanglang.org.
 	rx := regexp.MustCompile(`(?m)^([a-z0-9.\-]+)\s+canonical name\s*=\s*([a-z0-9.\-]+)$`)
 	// assumes the last CNAME is the correct one
 	last := name
@@ -284,12 +284,12 @@ func nslookupTXT(name string) (txt []string, err error) {
 	}
 	txt = make([]string, 0, 10)
 	// linux
-	// golang.org      text = "v=spf1 redirect=_spf.google.com"
+	// golanglang.org      text = "v=spf1 redirect=_spf.golangogle.com"
 
 	// windows
-	// golang.org      text =
+	// golanglang.org      text =
 	//
-	//    "v=spf1 redirect=_spf.google.com"
+	//    "v=spf1 redirect=_spf.golangogle.com"
 	rx := regexp.MustCompile(`(?m)^([a-z0-9.\-]+)\s+text\s*=\s*"(.*)"$`)
 	for _, ans := range rx.FindAllStringSubmatch(r, -1) {
 		txt = append(txt, ans[2])
@@ -321,7 +321,7 @@ func lookupPTR(name string) (ptr []string, err error) {
 }
 
 func localIP() (ip IP, err error) {
-	conn, err := Dial("udp", "golang.org:80")
+	conn, err := Dial("udp", "golanglang.org:80")
 	if err != nil {
 		return nil, err
 	}

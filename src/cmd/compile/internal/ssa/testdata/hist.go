@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This is the input program for an end-to-end test of the DWARF produced
@@ -30,7 +30,7 @@ type line struct {
 var zero int
 var sink int
 
-//go:noinline
+//golang:noinline
 func tinycall() {
 }
 
@@ -100,7 +100,7 @@ func main() {
 
 var snk string
 
-//go:noinline
+//golang:noinline
 func growstack() {
 	snk = fmt.Sprintf("%#v,%#v,%#v", 1, true, "cat")
 }

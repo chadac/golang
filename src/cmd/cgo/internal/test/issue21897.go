@@ -1,13 +1,13 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build darwin && cgo && !internal
+//golang:build darwin && cgolang && !internal
 
-package cgotest
+package cgolangtest
 
 /*
-#cgo LDFLAGS: -framework CoreFoundation
+#cgolang LDFLAGS: -framework CoreFoundation
 #include <CoreFoundation/CoreFoundation.h>
 */
 import "C"

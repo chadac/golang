@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package reflect_test
@@ -9,10 +9,10 @@ import (
 	"encoding/base64"
 	"flag"
 	"fmt"
-	"go/token"
+	"golang/token"
 	"internal/asan"
-	"internal/goarch"
-	"internal/goexperiment"
+	"internal/golangarch"
+	"internal/golangexperiment"
 	"internal/msan"
 	"internal/race"
 	"internal/testenv"
@@ -360,9 +360,9 @@ func TestMapIterSet(t *testing.T) {
 		k.SetIterKey(iter)
 		e.SetIterValue(iter)
 		want := m[k.String()]
-		got := e.Interface()
-		if got != want {
-			t.Errorf("%q: want (%T) %v, got (%T) %v", k.String(), want, want, got, got)
+		golangt := e.Interface()
+		if golangt != want {
+			t.Errorf("%q: want (%T) %v, golangt (%T) %v", k.String(), want, want, golangt, golangt)
 		}
 		if setkey, key := valueToString(k), valueToString(iter.Key()); setkey != key {
 			t.Errorf("MapIter.Key() = %q, MapIter.SetKey() = %q", key, setkey)
@@ -376,7 +376,7 @@ func TestMapIterSet(t *testing.T) {
 		return // no inlining with the noopt builder
 	}
 
-	got := int(testing.AllocsPerRun(10, func() {
+	golangt := int(testing.AllocsPerRun(10, func() {
 		iter := v.MapRange()
 		for iter.Next() {
 			k.SetIterKey(iter)
@@ -387,8 +387,8 @@ func TestMapIterSet(t *testing.T) {
 	// The function is inlineable, so if the local usage does not escape
 	// the *MapIter, it can remain stack allocated.
 	want := 0
-	if got != want {
-		t.Errorf("wanted %d alloc, got %d", want, got)
+	if golangt != want {
+		t.Errorf("wanted %d alloc, golangt %d", want, golangt)
 	}
 }
 
@@ -444,15 +444,15 @@ func TestCanIntUintFloatComplex(t *testing.T) {
 
 	for i, tc := range testCases {
 		v := ValueOf(tc.i)
-		got := [...]bool{v.CanInt(), v.CanUint(), v.CanFloat(), v.CanComplex()}
+		golangt := [...]bool{v.CanInt(), v.CanUint(), v.CanFloat(), v.CanComplex()}
 
 		for j := range tc.want {
-			if got[j] != tc.want[j] {
+			if golangt[j] != tc.want[j] {
 				t.Errorf(
 					"#%d: v.%s() returned %t for type %T, want %t",
 					i,
 					ops[j],
-					got[j],
+					golangt[j],
 					tc.i,
 					tc.want[j],
 				)
@@ -571,8 +571,8 @@ func TestCanSetField(t *testing.T) {
 						f = f.Field(i)
 					}
 				}
-				if got := f.CanSet(); got != tc.canSet {
-					t.Errorf("CanSet() = %v, want %v", got, tc.canSet)
+				if golangt := f.CanSet(); golangt != tc.canSet {
+					t.Errorf("CanSet() = %v, want %v", golangt, tc.canSet)
 				}
 			}
 		})
@@ -628,14 +628,14 @@ func TestPtrPointTo(t *testing.T) {
 	vi := ValueOf(&i).Elem()
 	vip.Elem().Set(vi.Addr())
 	if *ip != 1234 {
-		t.Errorf("got %d, want 1234", *ip)
+		t.Errorf("golangt %d, want 1234", *ip)
 	}
 
 	ip = nil
 	vp := ValueOf(&ip).Elem()
 	vp.Set(Zero(vp.Type()))
 	if ip != nil {
-		t.Errorf("got non-nil (%p), want nil", ip)
+		t.Errorf("golangt non-nil (%p), want nil", ip)
 	}
 }
 
@@ -645,7 +645,7 @@ func TestPtrSetNil(t *testing.T) {
 	vip := ValueOf(&ip)
 	vip.Elem().Set(Zero(vip.Elem().Type()))
 	if ip != nil {
-		t.Errorf("got non-nil (%d), want nil", *ip)
+		t.Errorf("golangt non-nil (%d), want nil", *ip)
 	}
 }
 
@@ -654,7 +654,7 @@ func TestMapSetNil(t *testing.T) {
 	vm := ValueOf(&m)
 	vm.Elem().Set(Zero(vm.Elem().Type()))
 	if m != nil {
-		t.Errorf("got non-nil (%p), want nil", m)
+		t.Errorf("golangt non-nil (%p), want nil", m)
 	}
 }
 
@@ -731,7 +731,7 @@ func TestInterfaceValue(t *testing.T) {
 
 	i3 := v2.Interface()
 	if _, ok := i3.(float64); !ok {
-		t.Error("v2.Interface() did not return float64, got ", TypeOf(i3))
+		t.Error("v2.Interface() did not return float64, golangt ", TypeOf(i3))
 	}
 }
 
@@ -758,14 +758,14 @@ func TestGrow(t *testing.T) {
 	}
 	want := v.UnsafePointer()
 	v.Grow(1)
-	got := v.UnsafePointer()
-	if got != want {
+	golangt := v.UnsafePointer()
+	if golangt != want {
 		t.Errorf("noop v.Grow should not change pointers")
 	}
 
 	t.Run("Append", func(t *testing.T) {
-		var got, want []T
-		v := ValueOf(&got).Elem()
+		var golangt, want []T
+		v := ValueOf(&golangt).Elem()
 		appendValue := func(vt T) {
 			v.Grow(1)
 			v.SetLen(v.Len() + 1)
@@ -776,8 +776,8 @@ func TestGrow(t *testing.T) {
 			appendValue(vt)
 			want = append(want, vt)
 		}
-		if !DeepEqual(got, want) {
-			t.Errorf("value mismatch:\ngot  %v\nwant %v", got, want)
+		if !DeepEqual(golangt, want) {
+			t.Errorf("value mismatch:\ngolangt  %v\nwant %v", golangt, want)
 		}
 	})
 
@@ -931,17 +931,17 @@ func TestCopyString(t *testing.T) {
 
 		n := Copy(val, ValueOf(""))
 		if expecting := []byte("________"); n != 0 || !bytes.Equal(s, expecting) {
-			t.Errorf("got n = %d, s = %s, expecting n = 0, s = %s", n, s, expecting)
+			t.Errorf("golangt n = %d, s = %s, expecting n = 0, s = %s", n, s, expecting)
 		}
 
 		n = Copy(val, ValueOf("hello"))
 		if expecting := []byte("hello___"); n != 5 || !bytes.Equal(s, expecting) {
-			t.Errorf("got n = %d, s = %s, expecting n = 5, s = %s", n, s, expecting)
+			t.Errorf("golangt n = %d, s = %s, expecting n = 5, s = %s", n, s, expecting)
 		}
 
 		n = Copy(val, ValueOf("helloworld"))
 		if expecting := []byte("hellowor"); n != 8 || !bytes.Equal(s, expecting) {
-			t.Errorf("got n = %d, s = %s, expecting n = 8, s = %s", n, s, expecting)
+			t.Errorf("golangt n = %d, s = %s, expecting n = 8, s = %s", n, s, expecting)
 		}
 	})
 	t.Run("Array", func(t *testing.T) {
@@ -950,17 +950,17 @@ func TestCopyString(t *testing.T) {
 
 		n := Copy(val, ValueOf(""))
 		if expecting := []byte("________"); n != 0 || !bytes.Equal(s[:], expecting) {
-			t.Errorf("got n = %d, s = %s, expecting n = 0, s = %s", n, s[:], expecting)
+			t.Errorf("golangt n = %d, s = %s, expecting n = 0, s = %s", n, s[:], expecting)
 		}
 
 		n = Copy(val, ValueOf("hello"))
 		if expecting := []byte("hello___"); n != 5 || !bytes.Equal(s[:], expecting) {
-			t.Errorf("got n = %d, s = %s, expecting n = 5, s = %s", n, s[:], expecting)
+			t.Errorf("golangt n = %d, s = %s, expecting n = 5, s = %s", n, s[:], expecting)
 		}
 
 		n = Copy(val, ValueOf("helloworld"))
 		if expecting := []byte("hellowor"); n != 8 || !bytes.Equal(s[:], expecting) {
-			t.Errorf("got n = %d, s = %s, expecting n = 8, s = %s", n, s[:], expecting)
+			t.Errorf("golangt n = %d, s = %s, expecting n = 8, s = %s", n, s[:], expecting)
 		}
 	})
 }
@@ -1151,7 +1151,7 @@ func TestDeepEqual(t *testing.T) {
 func TestTypeOf(t *testing.T) {
 	// Special case for nil
 	if typ := TypeOf(nil); typ != nil {
-		t.Errorf("expected nil type for nil value; got %v", typ)
+		t.Errorf("expected nil type for nil value; golangt %v", typ)
 	}
 	for _, test := range deepEqualTests {
 		v := ValueOf(test.a)
@@ -1278,7 +1278,7 @@ var deepEqualPerfTests = []struct {
 
 func TestDeepEqualAllocs(t *testing.T) {
 	// TODO(prattmic): maps on stack
-	if goexperiment.SwissMap {
+	if golangexperiment.SwissMap {
 		t.Skipf("Maps on stack not yet implemented")
 	}
 	if asan.Enabled {
@@ -1287,13 +1287,13 @@ func TestDeepEqualAllocs(t *testing.T) {
 
 	for _, tt := range deepEqualPerfTests {
 		t.Run(ValueOf(tt.x).Type().String(), func(t *testing.T) {
-			got := testing.AllocsPerRun(100, func() {
+			golangt := testing.AllocsPerRun(100, func() {
 				if !DeepEqual(tt.x, tt.y) {
 					t.Errorf("DeepEqual(%v, %v)=false", tt.x, tt.y)
 				}
 			})
-			if int(got) != 0 {
-				t.Errorf("DeepEqual(%v, %v) allocated %d times", tt.x, tt.y, int(got))
+			if int(golangt) != 0 {
+				t.Errorf("DeepEqual(%v, %v) allocated %d times", tt.x, tt.y, int(golangt))
 			}
 		})
 	}
@@ -1617,7 +1617,7 @@ func TestMap(t *testing.T) {
 	}
 	vv := mv.MapIndex(ValueOf("not-present"))
 	if vv.IsValid() {
-		t.Errorf("Invalid key: got non-nil value %s", valueToString(vv))
+		t.Errorf("Invalid key: golangt non-nil value %s", valueToString(vv))
 	}
 
 	newm := newmap.Interface().(map[string]int)
@@ -1711,7 +1711,7 @@ func TestChan(t *testing.T) {
 		c <- 4
 		val, ok = cv.TryRecv()
 		if !val.IsValid() {
-			t.Errorf("TryRecv on ready chan got nil")
+			t.Errorf("TryRecv on ready chan golangt nil")
 		} else if i := val.Int(); i != 4 || !ok {
 			t.Errorf("native send 4, TryRecv %d, %t", i, ok)
 		}
@@ -1791,7 +1791,7 @@ type caseInfo struct {
 var allselect = flag.Bool("allselect", false, "exhaustive select test")
 
 func TestSelect(t *testing.T) {
-	selectWatch.once.Do(func() { go selectWatcher() })
+	selectWatch.once.Do(func() { golang selectWatcher() })
 
 	var x exhaustive
 	nch := 0
@@ -1942,7 +1942,7 @@ func TestSelect(t *testing.T) {
 			info = append(info, caseInfo{desc: "closed Chan recv", canSelect: true, closed: true, recv: val})
 		}
 
-		var helper func() // goroutine to help the select complete
+		var helper func() // golangroutine to help the select complete
 
 		// Add default? Must be last case here, but will permute.
 		// Add the default if the select would otherwise
@@ -1972,7 +1972,7 @@ func TestSelect(t *testing.T) {
 			info = append(info, caseInfo{desc: "default", canSelect: canBlock})
 			numCanSelect++
 		} else if canBlock {
-			// Select needs to communicate with another goroutine.
+			// Select needs to communicate with another golangroutine.
 			cas := &info[helpers[x.Choose(len(helpers))]]
 			helper = cas.helper
 			cas.canSelect = true
@@ -1990,7 +1990,7 @@ func TestSelect(t *testing.T) {
 		}
 
 		if helper != nil {
-			// We wait before kicking off a goroutine to satisfy a blocked select.
+			// We wait before kicking off a golangroutine to satisfy a blocked select.
 			// The pause needs to be big enough to let the select block before
 			// we run the helper, but if we lose that race once in a while it's okay: the
 			// select will just proceed immediately. Not a big deal.
@@ -2028,20 +2028,20 @@ func TestSelect(t *testing.T) {
 
 		if cases[i].Dir == SelectRecv {
 			if !recv.IsValid() {
-				t.Fatalf("%s\nselected #%d but got %v, %v, want %v, %v", fmtSelect(info), i, recv, recvOK, cas.recv.Interface(), !cas.closed)
+				t.Fatalf("%s\nselected #%d but golangt %v, %v, want %v, %v", fmtSelect(info), i, recv, recvOK, cas.recv.Interface(), !cas.closed)
 			}
 			if !cas.recv.IsValid() {
 				t.Fatalf("%s\nselected #%d but internal error: missing recv value", fmtSelect(info), i)
 			}
 			if recv.Interface() != cas.recv.Interface() || recvOK != !cas.closed {
 				if recv.Interface() == cas.recv.Interface() && recvOK == !cas.closed {
-					t.Fatalf("%s\nselected #%d, got %#v, %v, and DeepEqual is broken on %T", fmtSelect(info), i, recv.Interface(), recvOK, recv.Interface())
+					t.Fatalf("%s\nselected #%d, golangt %#v, %v, and DeepEqual is broken on %T", fmtSelect(info), i, recv.Interface(), recvOK, recv.Interface())
 				}
-				t.Fatalf("%s\nselected #%d but got %#v, %v, want %#v, %v", fmtSelect(info), i, recv.Interface(), recvOK, cas.recv.Interface(), !cas.closed)
+				t.Fatalf("%s\nselected #%d but golangt %#v, %v, want %#v, %v", fmtSelect(info), i, recv.Interface(), recvOK, cas.recv.Interface(), !cas.closed)
 			}
 		} else {
 			if recv.IsValid() || recvOK {
-				t.Fatalf("%s\nselected #%d but got %v, %v, want %v, %v", fmtSelect(info), i, recv, recvOK, Value{}, false)
+				t.Fatalf("%s\nselected #%d but golangt %v, %v, want %v, %v", fmtSelect(info), i, recv, recvOK, Value{}, false)
 			}
 		}
 	}
@@ -2080,7 +2080,7 @@ func TestSelectNop(t *testing.T) {
 	// "select { default: }" should always return the default case.
 	chosen, _, _ := Select([]SelectCase{{Dir: SelectDefault}})
 	if chosen != 0 {
-		t.Fatalf("expected Select to return 0, but got %#v", chosen)
+		t.Fatalf("expected Select to return 0, but golangt %#v", chosen)
 	}
 }
 
@@ -2194,7 +2194,7 @@ func TestCallConvert(t *testing.T) {
 	f := ValueOf(func(r io.Reader) io.Reader { return r })
 	out := f.Call([]Value{v})
 	if len(out) != 1 || out[0].Type() != TypeOf(new(io.Reader)).Elem() || !out[0].IsNil() {
-		t.Errorf("expected [nil], got %v", out)
+		t.Errorf("expected [nil], golangt %v", out)
 	}
 }
 
@@ -2758,8 +2758,8 @@ func TestDirectIfaceMethod(t *testing.T) {
 	}
 	in := []Value{ValueOf(v)}
 	out := m.Func.Call(in)
-	if got := out[0].Int(); got != 42 {
-		t.Errorf("Call with value receiver got %d, want 42", got)
+	if golangt := out[0].Int(); golangt != 42 {
+		t.Errorf("Call with value receiver golangt %d, want 42", golangt)
 	}
 
 	pv := &v
@@ -2770,12 +2770,12 @@ func TestDirectIfaceMethod(t *testing.T) {
 	}
 	in = []Value{ValueOf(pv)}
 	out = m.Func.Call(in)
-	if got := out[0].Int(); got != 42 {
-		t.Errorf("Call with pointer receiver got %d, want 42", got)
+	if golangt := out[0].Int(); golangt != 42 {
+		t.Errorf("Call with pointer receiver golangt %d, want 42", golangt)
 	}
 }
 
-// Reflect version of $GOROOT/test/method5.go
+// Reflect version of $GOROOT/test/method5.golang
 
 // Concrete types implementing M method.
 // Smaller than a word, word-sized, larger than a word.
@@ -3211,14 +3211,14 @@ func TestFieldPkgPath(t *testing.T) {
 	checkPkgPath := func(name string, s []pkgpathTest) {
 		for _, test := range s {
 			f := typ.FieldByIndex(test.index)
-			if got, want := f.PkgPath, test.pkgPath; got != want {
-				t.Errorf("%s: Field(%d).PkgPath = %q, want %q", name, test.index, got, want)
+			if golangt, want := f.PkgPath, test.pkgPath; golangt != want {
+				t.Errorf("%s: Field(%d).PkgPath = %q, want %q", name, test.index, golangt, want)
 			}
-			if got, want := f.Anonymous, test.embedded; got != want {
-				t.Errorf("%s: Field(%d).Anonymous = %v, want %v", name, test.index, got, want)
+			if golangt, want := f.Anonymous, test.embedded; golangt != want {
+				t.Errorf("%s: Field(%d).Anonymous = %v, want %v", name, test.index, golangt, want)
 			}
-			if got, want := f.IsExported(), test.exported; got != want {
-				t.Errorf("%s: Field(%d).IsExported = %v, want %v", name, test.index, got, want)
+			if golangt, want := f.IsExported(), test.exported; golangt != want {
+				t.Errorf("%s: Field(%d).IsExported = %v, want %v", name, test.index, golangt, want)
 			}
 		}
 	}
@@ -3265,11 +3265,11 @@ func TestMethodPkgPath(t *testing.T) {
 
 	for _, test := range tests {
 		m, _ := typ.MethodByName(test.name)
-		if got, want := m.PkgPath, test.pkgPath; got != want {
-			t.Errorf("MethodByName(%q).PkgPath = %q, want %q", test.name, got, want)
+		if golangt, want := m.PkgPath, test.pkgPath; golangt != want {
+			t.Errorf("MethodByName(%q).PkgPath = %q, want %q", test.name, golangt, want)
 		}
-		if got, want := m.IsExported(), test.exported; got != want {
-			t.Errorf("MethodByName(%q).IsExported = %v, want %v", test.name, got, want)
+		if golangt, want := m.IsExported(), test.exported; golangt != want {
+			t.Errorf("MethodByName(%q).IsExported = %v, want %v", test.name, golangt, want)
 		}
 	}
 }
@@ -3331,13 +3331,13 @@ type unexpI interface {
 
 func TestUnexportedMethods(t *testing.T) {
 	typ := TypeOf(new(unexp))
-	if got := typ.NumMethod(); got != 0 {
-		t.Errorf("NumMethod=%d, want 0 satisfied methods", got)
+	if golangt := typ.NumMethod(); golangt != 0 {
+		t.Errorf("NumMethod=%d, want 0 satisfied methods", golangt)
 	}
 
 	typ = TypeOf((*unexpI)(nil))
-	if got := typ.Elem().NumMethod(); got != 1 {
-		t.Errorf("NumMethod=%d, want 1 satisfied methods", got)
+	if golangt := typ.Elem().NumMethod(); golangt != 1 {
+		t.Errorf("NumMethod=%d, want 1 satisfied methods", golangt)
 	}
 }
 
@@ -3394,7 +3394,7 @@ func TestNumMethodOnDDD(t *testing.T) {
 func TestPtrTo(t *testing.T) {
 	// This block of code means that the ptrToThis field of the
 	// reflect data for *unsafe.Pointer is non zero, see
-	// https://golang.org/issue/19003
+	// https://golanglang.org/issue/19003
 	var x unsafe.Pointer
 	var y = &x
 	var z = &y
@@ -3512,7 +3512,7 @@ func noAlloc(t *testing.T, n int, f func(int)) {
 		i++
 	})
 	if allocs > 0 {
-		t.Errorf("%d iterations: got %v mallocs, want 0", n, allocs)
+		t.Errorf("%d iterations: golangt %v mallocs, want 0", n, allocs)
 	}
 }
 
@@ -3729,17 +3729,17 @@ func TestStructArg(t *testing.T) {
 		C int32
 	}
 	var (
-		gotA  padded
-		gotB  uint32
+		golangtA  padded
+		golangtB  uint32
 		wantA = padded{"3", 4}
 		wantB = uint32(5)
 	)
 	f := func(a padded, b uint32) {
-		gotA, gotB = a, b
+		golangtA, golangtB = a, b
 	}
 	ValueOf(f).Call([]Value{ValueOf(wantA), ValueOf(wantB)})
-	if gotA != wantA || gotB != wantB {
-		t.Errorf("function called with (%v, %v), want (%v, %v)", gotA, gotB, wantA, wantB)
+	if golangtA != wantA || golangtB != wantB {
+		t.Errorf("function called with (%v, %v), want (%v, %v)", golangtA, golangtB, wantA, wantB)
 	}
 }
 
@@ -4196,7 +4196,7 @@ var convertTests = []struct {
 }{
 	// numbers
 	/*
-		Edit .+1,/\*\//-1>cat >/tmp/x.go && go run /tmp/x.go
+		Edit .+1,/\*\//-1>cat >/tmp/x.golang && golang run /tmp/x.golang
 
 		package main
 
@@ -4696,8 +4696,8 @@ func TestConvert(t *testing.T) {
 		if vout2.Type() != tt.out.Type() || !DeepEqual(out2, tt.out.Interface()) {
 			t.Errorf("ValueOf(%T(%[1]v)).Convert(%s) = %T(%[3]v), want %T(%[4]v)", tt.in.Interface(), t2, out2, tt.out.Interface())
 		}
-		if got, want := vout2.Kind(), vout2.Type().Kind(); got != want {
-			t.Errorf("ValueOf(%T(%[1]v)).Convert(%s) has internal kind %v want %v", tt.in.Interface(), t1, got, want)
+		if golangt, want := vout2.Kind(), vout2.Type().Kind(); golangt != want {
+			t.Errorf("ValueOf(%T(%[1]v)).Convert(%s) has internal kind %v want %v", tt.in.Interface(), t1, golangt, want)
 		}
 
 		// vout3 represents a new value of the out type, set to vout2.  This makes
@@ -4796,16 +4796,16 @@ func TestConvertNaNs(t *testing.T) {
 	// maintains the signaling bit. (This used to fail on the 387 port.)
 	gFloat32 = math.Float32frombits(snan)
 	runtime.Gosched() // make sure we don't optimize the store/load away
-	if got := math.Float32bits(gFloat32); got != snan {
-		t.Errorf("store/load of sNaN not faithful, got %x want %x", got, snan)
+	if golangt := math.Float32bits(gFloat32); golangt != snan {
+		t.Errorf("store/load of sNaN not faithful, golangt %x want %x", golangt, snan)
 	}
 	// Test reflect's conversion between float32s. See issue 36400.
 	type myFloat32 float32
 	x := V(myFloat32(math.Float32frombits(snan)))
 	y := x.Convert(TypeOf(float32(0)))
 	z := y.Interface().(float32)
-	if got := math.Float32bits(z); got != snan {
-		t.Errorf("signaling nan conversion got %x, want %x", got, snan)
+	if golangt := math.Float32bits(z); golangt != snan {
+		t.Errorf("signaling nan conversion golangt %x, want %x", golangt, snan)
 	}
 }
 
@@ -5143,11 +5143,11 @@ func TestArrayOfDirectIface(t *testing.T) {
 		p2 := v2.InterfaceData()[1]
 
 		if p1 != 0 {
-			t.Errorf("got p1=%v. want=%v", p1, nil)
+			t.Errorf("golangt p1=%v. want=%v", p1, nil)
 		}
 
 		if p2 != 0 {
-			t.Errorf("got p2=%v. want=%v", p2, nil)
+			t.Errorf("golangt p2=%v. want=%v", p2, nil)
 		}
 	}
 	{
@@ -5161,17 +5161,17 @@ func TestArrayOfDirectIface(t *testing.T) {
 		p2 := v2.InterfaceData()[1]
 
 		if p1 == 0 {
-			t.Errorf("got p1=%v. want=not-%v", p1, nil)
+			t.Errorf("golangt p1=%v. want=not-%v", p1, nil)
 		}
 
 		if p2 == 0 {
-			t.Errorf("got p2=%v. want=not-%v", p2, nil)
+			t.Errorf("golangt p2=%v. want=not-%v", p2, nil)
 		}
 	}
 }
 
 // Ensure passing in negative lengths panics.
-// See https://golang.org/issue/43603
+// See https://golanglang.org/issue/43603
 func TestArrayOfPanicOnNegativeLength(t *testing.T) {
 	shouldPanic("reflect: negative length passed to ArrayOf", func() {
 		ArrayOf(-1, TypeOf(byte(0)))
@@ -5182,8 +5182,8 @@ func TestSliceOf(t *testing.T) {
 	// check construction and use of type not in binary
 	type T int
 	st := SliceOf(TypeOf(T(1)))
-	if got, want := st.String(), "[]reflect_test.T"; got != want {
-		t.Errorf("SliceOf(T(1)).String()=%q, want %q", got, want)
+	if golangt, want := st.String(), "[]reflect_test.T"; golangt != want {
+		t.Errorf("SliceOf(T(1)).String()=%q, want %q", golangt, want)
 	}
 	v := MakeSlice(st, 10, 10)
 	runtime.GC()
@@ -5292,8 +5292,8 @@ func TestStructOfFieldName(t *testing.T) {
 	validStruct := StructOf(validFields)
 
 	const structStr = `struct { φ string; ValidName string; Val1dNam5 string }`
-	if got, want := validStruct.String(), structStr; got != want {
-		t.Errorf("StructOf(validFields).String()=%q, want %q", got, want)
+	if golangt, want := validStruct.String(), structStr; golangt != want {
+		t.Errorf("StructOf(validFields).String()=%q, want %q", golangt, want)
 	}
 }
 
@@ -5333,8 +5333,8 @@ func TestStructOf(t *testing.T) {
 		t.Errorf("constructed struct = %s, want %s", s, want)
 	}
 	const stStr = `struct { S string "s"; X uint8 "x"; Y uint64; Z [3]uint16 }`
-	if got, want := st.String(), stStr; got != want {
-		t.Errorf("StructOf(fields).String()=%q, want %q", got, want)
+	if golangt, want := st.String(), stStr; golangt != want {
+		t.Errorf("StructOf(fields).String()=%q, want %q", golangt, want)
 	}
 
 	// check the size, alignment and field offsets
@@ -5415,7 +5415,7 @@ func TestStructOf(t *testing.T) {
 	// check that type already in binary is found
 	checkSameType(t, StructOf(fields[2:3]), struct{ Y uint64 }{})
 
-	// gccgo used to fail this test.
+	// gccgolang used to fail this test.
 	type structFieldType any
 	checkSameType(t,
 		StructOf([]StructField{
@@ -5573,10 +5573,10 @@ func TestStructOfExportRules(t *testing.T) {
 			}
 			exported := token.IsExported(n)
 			if exported != test.exported {
-				t.Errorf("test-%d: got exported=%v want exported=%v", i, exported, test.exported)
+				t.Errorf("test-%d: golangt exported=%v want exported=%v", i, exported, test.exported)
 			}
 			if field.PkgPath != test.field.PkgPath {
-				t.Errorf("test-%d: got PkgPath=%q want pkgPath=%q", i, field.PkgPath, test.field.PkgPath)
+				t.Errorf("test-%d: golangt PkgPath=%q want pkgPath=%q", i, field.PkgPath, test.field.PkgPath)
 			}
 		})
 	}
@@ -5782,11 +5782,11 @@ func TestStructOfDirectIface(t *testing.T) {
 		p2 := v2.InterfaceData()[1]
 
 		if p1 != 0 {
-			t.Errorf("got p1=%v. want=%v", p1, nil)
+			t.Errorf("golangt p1=%v. want=%v", p1, nil)
 		}
 
 		if p2 != 0 {
-			t.Errorf("got p2=%v. want=%v", p2, nil)
+			t.Errorf("golangt p2=%v. want=%v", p2, nil)
 		}
 	}
 	{
@@ -5805,11 +5805,11 @@ func TestStructOfDirectIface(t *testing.T) {
 		p2 := v2.InterfaceData()[1]
 
 		if p1 == 0 {
-			t.Errorf("got p1=%v. want=not-%v", p1, nil)
+			t.Errorf("golangt p1=%v. want=not-%v", p1, nil)
 		}
 
 		if p2 == 0 {
-			t.Errorf("got p2=%v. want=not-%v", p2, nil)
+			t.Errorf("golangt p2=%v. want=not-%v", p2, nil)
 		}
 	}
 }
@@ -6113,7 +6113,7 @@ func TestStructOfTooLarge(t *testing.T) {
 				err := recover()
 				if !tt.shouldPanic {
 					if err != nil {
-						t.Errorf("test %d should not panic, got %s", i, err)
+						t.Errorf("test %d should not panic, golangt %s", i, err)
 					}
 					return
 				}
@@ -6204,7 +6204,7 @@ func TestChanOfDir(t *testing.T) {
 
 func TestChanOfGC(t *testing.T) {
 	done := make(chan bool, 1)
-	go func() {
+	golang func() {
 		select {
 		case <-done:
 		case <-time.After(5 * time.Second):
@@ -6391,14 +6391,14 @@ func TestFuncOf(t *testing.T) {
 			t.Errorf("args == %v, want exactly one arg", args)
 		} else if args[0].Type() != TypeOf(K("")) {
 			t.Errorf("args[0] is type %v, want %v", args[0].Type(), TypeOf(K("")))
-		} else if args[0].String() != "gopher" {
-			t.Errorf("args[0] = %q, want %q", args[0].String(), "gopher")
+		} else if args[0].String() != "golangpher" {
+			t.Errorf("args[0] = %q, want %q", args[0].String(), "golangpher")
 		}
 		return []Value{ValueOf(V(3.14))}
 	}
 	v := MakeFunc(FuncOf([]Type{TypeOf(K(""))}, []Type{TypeOf(V(0))}, false), fn)
 
-	outs := v.Call([]Value{ValueOf(K("gopher"))})
+	outs := v.Call([]Value{ValueOf(K("golangpher"))})
 	if len(outs) != 1 {
 		t.Fatalf("v.Call returned %v, want exactly one result", outs)
 	} else if outs[0].Type() != TypeOf(V(0)) {
@@ -6903,7 +6903,7 @@ func TestTypeFieldOutOfRangePanic(t *testing.T) {
 			}
 		} else {
 			if recoveredErr != nil {
-				t.Errorf("#%d: got err=%v, expected no panic", i, recoveredErr)
+				t.Errorf("#%d: golangt err=%v, expected no panic", i, recoveredErr)
 			}
 		}
 	}
@@ -6989,7 +6989,7 @@ func TestMethodByNameUnExportedFirst(t *testing.T) {
 	typ := TypeOf(UnExportedFirst(0))
 	m, _ := typ.MethodByName("ΦExported")
 	if m.Name != "ΦExported" {
-		t.Errorf("got %s, expected ΦExported", m.Name)
+		t.Errorf("golangt %s, expected ΦExported", m.Name)
 	}
 }
 
@@ -7028,10 +7028,10 @@ func clobber() {
 
 func TestFuncLayout(t *testing.T) {
 	align := func(x uintptr) uintptr {
-		return (x + goarch.PtrSize - 1) &^ (goarch.PtrSize - 1)
+		return (x + golangarch.PtrSize - 1) &^ (golangarch.PtrSize - 1)
 	}
 	var r []byte
-	if goarch.PtrSize == 4 {
+	if golangarch.PtrSize == 4 {
 		r = []byte{0, 0, 0, 1}
 	} else {
 		r = []byte{0, 0, 1}
@@ -7052,56 +7052,56 @@ func TestFuncLayout(t *testing.T) {
 	tests := []test{
 		{
 			typ:       ValueOf(func(a, b string) string { return "" }).Type(),
-			size:      6 * goarch.PtrSize,
-			argsize:   4 * goarch.PtrSize,
-			retOffset: 4 * goarch.PtrSize,
+			size:      6 * golangarch.PtrSize,
+			argsize:   4 * golangarch.PtrSize,
+			retOffset: 4 * golangarch.PtrSize,
 			stack:     []byte{1, 0, 1, 0, 1},
 			gc:        []byte{1, 0, 1, 0, 1},
 		},
 		{
 			typ:       ValueOf(func(a, b, c uint32, p *byte, d uint16) {}).Type(),
-			size:      align(align(3*4) + goarch.PtrSize + 2),
-			argsize:   align(3*4) + goarch.PtrSize + 2,
-			retOffset: align(align(3*4) + goarch.PtrSize + 2),
+			size:      align(align(3*4) + golangarch.PtrSize + 2),
+			argsize:   align(3*4) + golangarch.PtrSize + 2,
+			retOffset: align(align(3*4) + golangarch.PtrSize + 2),
 			stack:     r,
 			gc:        r,
 		},
 		{
 			typ:       ValueOf(func(a map[int]int, b uintptr, c any) {}).Type(),
-			size:      4 * goarch.PtrSize,
-			argsize:   4 * goarch.PtrSize,
-			retOffset: 4 * goarch.PtrSize,
+			size:      4 * golangarch.PtrSize,
+			argsize:   4 * golangarch.PtrSize,
+			retOffset: 4 * golangarch.PtrSize,
 			stack:     []byte{1, 0, 1, 1},
 			gc:        []byte{1, 0, 1, 1},
 		},
 		{
 			typ:       ValueOf(func(a S) {}).Type(),
-			size:      4 * goarch.PtrSize,
-			argsize:   4 * goarch.PtrSize,
-			retOffset: 4 * goarch.PtrSize,
+			size:      4 * golangarch.PtrSize,
+			argsize:   4 * golangarch.PtrSize,
+			retOffset: 4 * golangarch.PtrSize,
 			stack:     []byte{0, 0, 1, 1},
 			gc:        []byte{0, 0, 1, 1},
 		},
 		{
 			rcvr:      ValueOf((*byte)(nil)).Type(),
 			typ:       ValueOf(func(a uintptr, b *int) {}).Type(),
-			size:      3 * goarch.PtrSize,
-			argsize:   3 * goarch.PtrSize,
-			retOffset: 3 * goarch.PtrSize,
+			size:      3 * golangarch.PtrSize,
+			argsize:   3 * golangarch.PtrSize,
+			retOffset: 3 * golangarch.PtrSize,
 			stack:     []byte{1, 0, 1},
 			gc:        []byte{1, 0, 1},
 		},
 		{
 			typ:       ValueOf(func(a uintptr) {}).Type(),
-			size:      goarch.PtrSize,
-			argsize:   goarch.PtrSize,
-			retOffset: goarch.PtrSize,
+			size:      golangarch.PtrSize,
+			argsize:   golangarch.PtrSize,
+			retOffset: golangarch.PtrSize,
 			stack:     []byte{},
 			gc:        []byte{},
 		},
 		{
 			typ:       ValueOf(func() uintptr { return 0 }).Type(),
-			size:      goarch.PtrSize,
+			size:      golangarch.PtrSize,
 			argsize:   0,
 			retOffset: 0,
 			stack:     []byte{},
@@ -7110,9 +7110,9 @@ func TestFuncLayout(t *testing.T) {
 		{
 			rcvr:      ValueOf(uintptr(0)).Type(),
 			typ:       ValueOf(func(a uintptr) {}).Type(),
-			size:      2 * goarch.PtrSize,
-			argsize:   2 * goarch.PtrSize,
-			retOffset: 2 * goarch.PtrSize,
+			size:      2 * golangarch.PtrSize,
+			argsize:   2 * golangarch.PtrSize,
+			retOffset: 2 * golangarch.PtrSize,
 			stack:     []byte{1},
 			gc:        []byte{1},
 			// Note: this one is tricky, as the receiver is not a pointer. But we
@@ -7236,7 +7236,7 @@ func init() {
 	// The compiler must NOT see types derived from these
 	// (for example, [2]Scalar must NOT appear in the program),
 	// or else reflect will use it instead of having to construct one.
-	// The goal is to test the construction.
+	// The golangal is to test the construction.
 	type Scalar struct{ x uintptr }
 	type Ptr struct{ x *byte }
 	type Ptrscalar struct {
@@ -7395,7 +7395,7 @@ func TestMapAlloc(t *testing.T) {
 		m.SetMapIndex(k, v)
 	})
 	if allocs > 0.5 {
-		t.Errorf("allocs per map assignment: want 0 got %f", allocs)
+		t.Errorf("allocs per map assignment: want 0 golangt %f", allocs)
 	}
 
 	const size = 1000
@@ -7410,7 +7410,7 @@ func TestMapAlloc(t *testing.T) {
 		}
 	})
 	if allocs > 10 {
-		t.Errorf("allocs per map assignment: want at most 10 got %f", allocs)
+		t.Errorf("allocs per map assignment: want at most 10 golangt %f", allocs)
 	}
 	// Empirical testing shows that with capacity hint single run will trigger 3 allocations and without 91. I set
 	// the threshold to 10, to not make it overly brittle if something changes in the initial allocation of the
@@ -7430,7 +7430,7 @@ func TestChanAlloc(t *testing.T) {
 		_, _ = c.Recv()
 	})
 	if allocs < 0.5 || allocs > 1.5 {
-		t.Errorf("allocs per chan send/recv: want 1 got %f", allocs)
+		t.Errorf("allocs per chan send/recv: want 1 golangt %f", allocs)
 	}
 	// Note: there is one allocation in reflect.recv which seems to be
 	// a limitation of escape analysis. If that is ever fixed the
@@ -7462,8 +7462,8 @@ var nameTests = []nameTest{
 func TestNames(t *testing.T) {
 	for _, test := range nameTests {
 		typ := TypeOf(test.v).Elem()
-		if got := typ.Name(); got != test.want {
-			t.Errorf("%v Name()=%q, want %q", typ, got, test.want)
+		if golangt := typ.Name(); golangt != test.want {
+			t.Errorf("%v Name()=%q, want %q", typ, golangt, test.want)
 		}
 	}
 }
@@ -7498,8 +7498,8 @@ func TestExported(t *testing.T) {
 
 	for i, test := range exportTests {
 		typ := TypeOf(test.v)
-		if got := IsExported(typ); got != test.want {
-			t.Errorf("%d: %s exported=%v, want %v", i, typ.Name(), got, test.want)
+		if golangt := IsExported(typ); golangt != test.want {
+			t.Errorf("%d: %s exported=%v, want %v", i, typ.Name(), golangt, test.want)
 		}
 	}
 }
@@ -7523,8 +7523,8 @@ func TestTypeStrings(t *testing.T) {
 	}
 
 	for i, test := range stringTests {
-		if got, want := test.typ.String(), test.want; got != want {
-			t.Errorf("type %d String()=%q, want %q", i, got, want)
+		if golangt, want := test.typ.String(), test.want; golangt != want {
+			t.Errorf("type %d String()=%q, want %q", i, golangt, want)
 		}
 	}
 }
@@ -7534,7 +7534,7 @@ func TestOffsetLock(t *testing.T) {
 	for i := 0; i < 4; i++ {
 		i := i
 		wg.Add(1)
-		go func() {
+		golang func() {
 			for j := 0; j < 50; j++ {
 				ResolveReflectName(fmt.Sprintf("OffsetLockName:%d:%d", i, j))
 			}
@@ -7689,7 +7689,7 @@ func TestIssue22031(t *testing.T) {
 
 	for i, test := range tests {
 		if test.CanSet() {
-			t.Errorf("%d: CanSet: got true, want false", i)
+			t.Errorf("%d: CanSet: golangt true, want false", i)
 		}
 	}
 }
@@ -7702,8 +7702,8 @@ func (i NonExportedFirst) nonexported() int { panic("wrong") }
 func TestIssue22073(t *testing.T) {
 	m := ValueOf(NonExportedFirst(0)).Method(0)
 
-	if got := m.Type().NumOut(); got != 0 {
-		t.Errorf("NumOut: got %v, want 0", got)
+	if golangt := m.Type().NumOut(); golangt != 0 {
+		t.Errorf("NumOut: golangt %v, want 0", golangt)
 	}
 
 	// Shouldn't panic.
@@ -7713,16 +7713,16 @@ func TestIssue22073(t *testing.T) {
 func TestMapIterNonEmptyMap(t *testing.T) {
 	m := map[string]int{"one": 1, "two": 2, "three": 3}
 	iter := ValueOf(m).MapRange()
-	if got, want := iterateToString(iter), `[one: 1, three: 3, two: 2]`; got != want {
-		t.Errorf("iterator returned %s (after sorting), want %s", got, want)
+	if golangt, want := iterateToString(iter), `[one: 1, three: 3, two: 2]`; golangt != want {
+		t.Errorf("iterator returned %s (after sorting), want %s", golangt, want)
 	}
 }
 
 func TestMapIterNilMap(t *testing.T) {
 	var m map[string]int
 	iter := ValueOf(m).MapRange()
-	if got, want := iterateToString(iter), `[]`; got != want {
-		t.Errorf("non-empty result iteratoring nil map: %s", got)
+	if golangt, want := iterateToString(iter), `[]`; golangt != want {
+		t.Errorf("non-empty result iteratoring nil map: %s", golangt)
 	}
 }
 
@@ -7739,8 +7739,8 @@ func TestMapIterReset(t *testing.T) {
 	// Reset to new Map should work.
 	m := map[string]int{"one": 1, "two": 2, "three": 3}
 	iter.Reset(ValueOf(m))
-	if got, want := iterateToString(iter), `[one: 1, three: 3, two: 2]`; got != want {
-		t.Errorf("iterator returned %s (after sorting), want %s", got, want)
+	if golangt, want := iterateToString(iter), `[one: 1, three: 3, two: 2]`; golangt != want {
+		t.Errorf("iterator returned %s (after sorting), want %s", golangt, want)
 	}
 
 	// Reset to Zero value should work, but iterating over it should panic.
@@ -7754,8 +7754,8 @@ func TestMapIterReset(t *testing.T) {
 	// Reset to a different Map with different types should work.
 	m2 := map[int]string{1: "one", 2: "two", 3: "three"}
 	iter.Reset(ValueOf(m2))
-	if got, want := iterateToString(iter), `[1: one, 2: two, 3: three]`; got != want {
-		t.Errorf("iterator returned %s (after sorting), want %s", got, want)
+	if golangt, want := iterateToString(iter), `[1: one, 2: two, 3: three]`; golangt != want {
+		t.Errorf("iterator returned %s (after sorting), want %s", golangt, want)
 	}
 
 	// Check that Reset, Next, and SetKey/SetValue play nicely together.
@@ -7855,8 +7855,8 @@ func TestMapIterNext(t *testing.T) {
 	m := map[string]int{}
 	iter := ValueOf(m).MapRange()
 	m["one"] = 1
-	if got, want := iterateToString(iter), `[one: 1]`; got != want {
-		t.Errorf("iterator returned deleted elements: got %s, want %s", got, want)
+	if golangt, want := iterateToString(iter), `[one: 1]`; golangt != want {
+		t.Errorf("iterator returned deleted elements: golangt %s, want %s", golangt, want)
 	}
 }
 
@@ -7867,8 +7867,8 @@ func TestMapIterDelete0(t *testing.T) {
 	delete(m, "one")
 	delete(m, "two")
 	delete(m, "three")
-	if got, want := iterateToString(iter), `[]`; got != want {
-		t.Errorf("iterator returned deleted elements: got %s, want %s", got, want)
+	if golangt, want := iterateToString(iter), `[]`; golangt != want {
+		t.Errorf("iterator returned deleted elements: golangt %s, want %s", golangt, want)
 	}
 }
 
@@ -7876,28 +7876,28 @@ func TestMapIterDelete1(t *testing.T) {
 	// Delete all elements after first iteration.
 	m := map[string]int{"one": 1, "two": 2, "three": 3}
 	iter := ValueOf(m).MapRange()
-	var got []string
+	var golangt []string
 	for iter.Next() {
-		got = append(got, fmt.Sprint(iter.Key(), iter.Value()))
+		golangt = append(golangt, fmt.Sprint(iter.Key(), iter.Value()))
 		delete(m, "one")
 		delete(m, "two")
 		delete(m, "three")
 	}
-	if len(got) != 1 {
-		t.Errorf("iterator returned wrong number of elements: got %d, want 1", len(got))
+	if len(golangt) != 1 {
+		t.Errorf("iterator returned wrong number of elements: golangt %d, want 1", len(golangt))
 	}
 }
 
 // iterateToString returns the set of elements
 // returned by an iterator in readable form.
 func iterateToString(it *MapIter) string {
-	var got []string
+	var golangt []string
 	for it.Next() {
 		line := fmt.Sprintf("%v: %v", it.Key(), it.Value())
-		got = append(got, line)
+		golangt = append(golangt, line)
 	}
-	slices.Sort(got)
-	return "[" + strings.Join(got, ", ") + "]"
+	slices.Sort(golangt)
+	return "[" + strings.Join(golangt, ", ") + "]"
 }
 
 func TestConvertibleTo(t *testing.T) {
@@ -7941,7 +7941,7 @@ func TestSetIter(t *testing.T) {
 		data2[k.Interface().(string)] = v.Interface().(int)
 	}
 	if !DeepEqual(data, data2) {
-		t.Errorf("maps not equal, got %v want %v", data2, data)
+		t.Errorf("maps not equal, golangt %v want %v", data2, data)
 	}
 	shouldPanic("Value.SetIterKey called on exhausted iterator", func() {
 		k.SetIterKey(i)
@@ -7970,11 +7970,11 @@ func TestSetIter(t *testing.T) {
 	y := ValueOf(&x).Elem()
 	y.SetIterKey(i)
 	if _, ok := data[x.(string)]; !ok {
-		t.Errorf("got key %s which is not in map", x)
+		t.Errorf("golangt key %s which is not in map", x)
 	}
 	y.SetIterValue(i)
 	if x.(int) < 1 || x.(int) > 3 {
-		t.Errorf("got value %d which is not in map", x)
+		t.Errorf("golangt value %d which is not in map", x)
 	}
 
 	// Try some key/value types which are direct interfaces.
@@ -7986,12 +7986,12 @@ func TestSetIter(t *testing.T) {
 	i = ValueOf(pp).MapRange()
 	i.Next()
 	y.SetIterKey(i)
-	if got := *y.Interface().(*int); got != a {
-		t.Errorf("pointer incorrect: got %d want %d", got, a)
+	if golangt := *y.Interface().(*int); golangt != a {
+		t.Errorf("pointer incorrect: golangt %d want %d", golangt, a)
 	}
 	y.SetIterValue(i)
-	if got := *y.Interface().(*int); got != b {
-		t.Errorf("pointer incorrect: got %d want %d", got, b)
+	if golangt := *y.Interface().(*int); golangt != b {
+		t.Errorf("pointer incorrect: golangt %d want %d", golangt, b)
 	}
 
 	// Make sure we panic assigning from an unexported field.
@@ -8009,11 +8009,11 @@ func TestSetIter(t *testing.T) {
 func TestMethodCallValueCodePtr(t *testing.T) {
 	m := ValueOf(Point{}).Method(1)
 	want := MethodValueCallCodePtr()
-	if got := uintptr(m.UnsafePointer()); got != want {
-		t.Errorf("methodValueCall code pointer mismatched, want: %v, got: %v", want, got)
+	if golangt := uintptr(m.UnsafePointer()); golangt != want {
+		t.Errorf("methodValueCall code pointer mismatched, want: %v, golangt: %v", want, golangt)
 	}
-	if got := m.Pointer(); got != want {
-		t.Errorf("methodValueCall code pointer mismatched, want: %v, got: %v", want, got)
+	if golangt := m.Pointer(); golangt != want {
+		t.Errorf("methodValueCall code pointer mismatched, want: %v, golangt: %v", want, golangt)
 	}
 }
 
@@ -8022,12 +8022,12 @@ type B[T any] struct{}
 
 func TestIssue50208(t *testing.T) {
 	want1 := "B[reflect_test.A]"
-	if got := TypeOf(new(B[A])).Elem().Name(); got != want1 {
-		t.Errorf("name of type parameter mismatched, want:%s, got:%s", want1, got)
+	if golangt := TypeOf(new(B[A])).Elem().Name(); golangt != want1 {
+		t.Errorf("name of type parameter mismatched, want:%s, golangt:%s", want1, golangt)
 	}
 	want2 := "B[reflect_test.B[reflect_test.A]]"
-	if got := TypeOf(new(B[B[A]])).Elem().Name(); got != want2 {
-		t.Errorf("name of type parameter mismatched, want:%s, got:%s", want2, got)
+	if golangt := TypeOf(new(B[B[A]])).Elem().Name(); golangt != want2 {
+		t.Errorf("name of type parameter mismatched, want:%s, golangt:%s", want2, golangt)
 	}
 }
 
@@ -8291,9 +8291,9 @@ func TestValue_Comparable(t *testing.T) {
 		if cas.deref {
 			v = v.Elem()
 		}
-		got := v.Comparable()
-		if got != cas.comparable {
-			t.Errorf("%T.Comparable = %t, want %t", v, got, cas.comparable)
+		golangt := v.Comparable()
+		if golangt != cas.comparable {
+			t.Errorf("%T.Comparable = %t, want %t", v, golangt, cas.comparable)
 		}
 	}
 }
@@ -8460,7 +8460,7 @@ func TestValue_Equal(t *testing.T) {
 		}
 
 		if r := v.Equal(u); r != test.eq {
-			t.Errorf("%s == %s got %t, want %t", v.Type(), u.Type(), r, test.eq)
+			t.Errorf("%s == %s golangt %t, want %t", v.Type(), u.Type(), r, test.eq)
 		}
 	}
 }
@@ -8495,7 +8495,7 @@ func TestValue_EqualNonComparable(t *testing.T) {
 
 		// If one is non-comparable and the other is invalid, the expected result is always false.
 		if r := value.Equal(invalid); r != false {
-			t.Errorf("%s == invalid got %t, want false", value.Type(), r)
+			t.Errorf("%s == invalid golangt %t, want false", value.Type(), r)
 		}
 	}
 }
@@ -8506,7 +8506,7 @@ func TestInitFuncTypes(t *testing.T) {
 
 	wg.Add(n)
 	for i := 0; i < n; i++ {
-		go func() {
+		golang func() {
 			defer wg.Done()
 			ipT := TypeOf(net.IP{})
 			for i := 0; i < ipT.NumMethod(); i++ {
@@ -8588,17 +8588,17 @@ func TestValuePointerAndUnsafePointer(t *testing.T) {
 	for _, tc := range tests {
 		tc := tc
 		t.Run(tc.name, func(t *testing.T) {
-			if got := tc.val.Pointer(); got != uintptr(tc.wantUnsafePointer) {
-				t.Errorf("unexpected uintptr result, got %#x, want %#x", got, uintptr(tc.wantUnsafePointer))
+			if golangt := tc.val.Pointer(); golangt != uintptr(tc.wantUnsafePointer) {
+				t.Errorf("unexpected uintptr result, golangt %#x, want %#x", golangt, uintptr(tc.wantUnsafePointer))
 			}
-			if got := tc.val.UnsafePointer(); got != tc.wantUnsafePointer {
-				t.Errorf("unexpected unsafe.Pointer result, got %#x, want %#x", got, tc.wantUnsafePointer)
+			if golangt := tc.val.UnsafePointer(); golangt != tc.wantUnsafePointer {
+				t.Errorf("unexpected unsafe.Pointer result, golangt %#x, want %#x", golangt, tc.wantUnsafePointer)
 			}
 		})
 	}
 }
 
-// Test cases copied from ../../test/unsafebuiltins.go
+// Test cases copied from ../../test/unsafebuiltins.golang
 func TestSliceAt(t *testing.T) {
 	const maxUintptr = 1 << (8 * unsafe.Sizeof(uintptr(0)))
 	var p [10]byte
@@ -8632,7 +8632,7 @@ func TestSliceAt(t *testing.T) {
 
 	// sliced memory overflows address space
 	last := (*byte)(unsafe.Pointer(^uintptr(0)))
-	// This panics here, but won't panic in ../../test/unsafebuiltins.go,
+	// This panics here, but won't panic in ../../test/unsafebuiltins.golang,
 	// because unsafe.Slice(last, 1) does not escape.
 	//
 	// _ = SliceAt(typ, unsafe.Pointer(last), 1)
@@ -8653,7 +8653,7 @@ func TestMapOfKeyUpdate(t *testing.T) {
 	m.SetMapIndex(ValueOf(negZero), ValueOf(true))
 
 	if m.Len() != 1 {
-		t.Errorf("map length got %d want 1", m.Len())
+		t.Errorf("map length golangt %d want 1", m.Len())
 	}
 
 	iter := m.MapRange()

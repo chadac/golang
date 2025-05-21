@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package quoted provides string manipulation utilities.
@@ -21,7 +21,7 @@ func isSpaceByte(c byte) bool {
 // There is no unescaping or other processing within
 // quoted fields.
 //
-// Keep in sync with cmd/dist/quoted.go
+// Keep in sync with cmd/dist/quoted.golang
 func Split(s string) ([]string, error) {
 	// Split fields allowing '' or "" around elements.
 	// Quotes further inside the string do not count.

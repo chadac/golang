@@ -1,8 +1,8 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build goexperiment.jsonv2
+//golang:build golangexperiment.jsonv2
 
 package jsonwire
 
@@ -486,11 +486,11 @@ func ConsumeNumberResumable(b []byte, resumeOffset int, state ConsumeNumberState
 		}
 		switch state {
 		case beforeIntegerDigits:
-			goto beforeInteger
+			golangto beforeInteger
 		case beforeFractionalDigits:
-			goto beforeFractional
+			golangto beforeFractional
 		case beforeExponentDigits:
-			goto beforeExponent
+			golangto beforeExponent
 		default:
 			return n, state, nil
 		}
@@ -564,7 +564,7 @@ beforeExponent:
 
 // parseHexUint16 is similar to strconv.ParseUint,
 // but operates directly on []byte and is optimized for base-16.
-// See https://go.dev/issue/42429.
+// See https://golang.dev/issue/42429.
 func parseHexUint16[Bytes ~[]byte | ~string](b Bytes) (v uint16, ok bool) {
 	if len(b) != 4 {
 		return 0, false

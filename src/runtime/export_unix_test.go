@@ -1,8 +1,8 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build unix
+//golang:build unix
 
 package runtime
 
@@ -59,7 +59,7 @@ func WaitForSigusr1(r, w int32, ready func(mp *M)) (int64, int64) {
 	read(waitForSigusr1.rdpipe, noescape(unsafe.Pointer(&b)), 1)
 	exitsyscall()
 
-	gotM := waitForSigusr1.mID
+	golangtM := waitForSigusr1.mID
 	testSigusr1 = nil
 
 	unlockOSThread()
@@ -68,14 +68,14 @@ func WaitForSigusr1(r, w int32, ready func(mp *M)) (int64, int64) {
 		// timeout signal from caller
 		return -1, -1
 	}
-	return mp.id, gotM
+	return mp.id, golangtM
 }
 
 // waitForSigusr1Callback is called from the signal handler during
 // WaitForSigusr1. It must not have write barriers because there may
 // not be a P.
 //
-//go:nowritebarrierrec
+//golang:nowritebarrierrec
 func waitForSigusr1Callback(gp *g) bool {
 	if gp == nil || gp.m == nil {
 		waitForSigusr1.mID = -1

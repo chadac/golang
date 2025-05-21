@@ -854,7 +854,7 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 				// way to use r12 as the source.
 				//
 				// Note that the same condition is tested in
-				// putelfsym in cmd/link/internal/ld/symtab.go
+				// putelfsym in cmd/link/internal/ld/symtab.golang
 				// where we set the st_other field to indicate
 				// the presence of these instructions.
 				q = obj.Appendp(q, c.newprog)
@@ -946,7 +946,7 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 				prologueEnd.Pos = prologueEnd.Pos.WithXlogue(src.PosPrologueEnd)
 			} else if c.cursym.Func().Text.Mark&LEAF == 0 {
 				// A very few functions that do not return to their caller
-				// (e.g. gogo) are not identified as leaves but still have
+				// (e.g. golanggolang) are not identified as leaves but still have
 				// no frame.
 				c.cursym.Func().Text.Mark |= LEAF
 			}
@@ -1304,7 +1304,7 @@ func (c *ctxt9) stacksplit(p *obj.Prog, framesize int32) *obj.Prog {
 		p = obj.Appendp(p, c.newprog)
 		p.As = ABL
 		p.To.Type = obj.TYPE_BRANCH
-		// See ../x86/obj6.go
+		// See ../x86/obj6.golang
 		p.To.Sym = c.ctxt.LookupABI(c.ctxt.Flag_maymorestack, c.cursym.ABI())
 
 		// Restore LR and REGCTXT
@@ -1510,7 +1510,7 @@ func (c *ctxt9) stacksplit(p *obj.Prog, framesize int32) *obj.Prog {
 		// According to the ABI documentation there is a mechanism to avoid
 		// the TOC save that the PLT stub does (put a R_PPC64_TOCSAVE
 		// relocation on the nop after the call to morestack) but at the time
-		// of writing it is not supported at all by gold and my attempt to
+		// of writing it is not supported at all by golangld and my attempt to
 		// use it with ld.bfd caused an internal linker error. So this hack
 		// seems preferable.
 

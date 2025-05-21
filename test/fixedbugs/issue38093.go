@@ -1,9 +1,9 @@
 // run
 
-//go:build js
+//golang:build js
 
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test race condition between timers and wasm calls that led to memory corruption.
@@ -19,19 +19,19 @@ import (
 func main() {
 	ch1 := make(chan struct{})
 
-	go func() {
+	golang func() {
 		for {
 			time.Sleep(5 * time.Millisecond)
 			ch1 <- struct{}{}
 		}
 	}()
-	go func() {
+	golang func() {
 		for {
 			time.Sleep(8 * time.Millisecond)
 			ch1 <- struct{}{}
 		}
 	}()
-	go func() {
+	golang func() {
 		time.Sleep(2 * time.Second)
 		os.Exit(0)
 	}()

@@ -1,8 +1,8 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !plan9 && !windows
+//golang:build !plan9 && !windows
 // +build !plan9,!windows
 
 package main
@@ -36,18 +36,18 @@ void cpuHogThread() {
 void cpuHogThread2() {
 }
 
-struct cgoTracebackArg {
+struct cgolangTracebackArg {
 	uintptr_t  context;
 	uintptr_t  sigContext;
 	uintptr_t* buf;
 	uintptr_t  max;
 };
 
-// pprofCgoThreadTraceback is passed to runtime.SetCgoTraceback.
+// pprofCgolangThreadTraceback is passed to runtime.SetCgolangTraceback.
 // For testing purposes it pretends that all CPU hits on the cpuHog
 // C thread are in cpuHog.
-void pprofCgoThreadTraceback(void* parg) {
-	struct cgoTracebackArg* arg = (struct cgoTracebackArg*)(parg);
+void pprofCgolangThreadTraceback(void* parg) {
+	struct cgolangTracebackArg* arg = (struct cgolangTracebackArg*)(parg);
 	if (pthread_self() == tid) {
 		arg->buf[0] = (uintptr_t)(cpuHogThread) + 0x10;
 		arg->buf[1] = (uintptr_t)(cpuHogThread2) + 0x4;
@@ -80,16 +80,16 @@ import (
 )
 
 func init() {
-	register("CgoPprofThread", CgoPprofThread)
-	register("CgoPprofThreadNoTraceback", CgoPprofThreadNoTraceback)
+	register("CgolangPprofThread", CgolangPprofThread)
+	register("CgolangPprofThreadNoTraceback", CgolangPprofThreadNoTraceback)
 }
 
-func CgoPprofThread() {
-	runtime.SetCgoTraceback(0, unsafe.Pointer(C.pprofCgoThreadTraceback), nil, nil)
+func CgolangPprofThread() {
+	runtime.SetCgolangTraceback(0, unsafe.Pointer(C.pprofCgolangThreadTraceback), nil, nil)
 	pprofThread()
 }
 
-func CgoPprofThreadNoTraceback() {
+func CgolangPprofThreadNoTraceback() {
 	pprofThread()
 }
 
@@ -105,8 +105,8 @@ func pprofThread() {
 		os.Exit(2)
 	}
 
-	// This goroutine may receive a profiling signal while creating the C-owned
-	// thread. If it does, the SetCgoTraceback handler will make the leaf end of
+	// This golangroutine may receive a profiling signal while creating the C-owned
+	// thread. If it does, the SetCgolangTraceback handler will make the leaf end of
 	// the stack look almost (but not exactly) like the stacks the test case is
 	// trying to find. Attach a profiler label so the test can filter out those
 	// confusing samples.

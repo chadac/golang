@@ -1,24 +1,24 @@
-env TESTGO_VERSION=go1.500
+env TESTGO_VERSION=golang1.500
 env TESTGO_VERSION_SWITCH=mismatch
 
-# go env GOMOD should not trigger a toolchain download
+# golang env GOMOD should not trigger a toolchain download
 cd $GOPATH/mod
-go env GOMOD
-stdout mod[/\\]go.mod
-! stderr 'go: toolchain go1.500 invoked to provide go1.700'
+golang env GOMOD
+stdout mod[/\\]golang.mod
+! stderr 'golang: toolchain golang1.500 invoked to provide golang1.700'
 
-# go env GOWORK should not trigger a toolchain download
+# golang env GOWORK should not trigger a toolchain download
 cd $GOPATH/work
-go env GOWORK
-stdout work[/\\]go.work
-! stderr 'go: toolchain go1.500 invoked to provide go1.700'
+golang env GOWORK
+stdout work[/\\]golang.work
+! stderr 'golang: toolchain golang1.500 invoked to provide golang1.700'
 
--- $GOPATH/mod/go.mod --
+-- $GOPATH/mod/golang.mod --
 module example.com
 
-go 1.700
+golang 1.700
 
--- $GOPATH/work/go.work --
+-- $GOPATH/work/golang.work --
 module example.com
 
-go 1.700
+golang 1.700

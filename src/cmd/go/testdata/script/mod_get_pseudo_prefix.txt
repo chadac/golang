@@ -4,39 +4,39 @@ env GOSUMDB=off
 
 # Testing that a pseudo-version is based on the semantically-latest
 # prefixed tag in any commit that is a parent of the commit supplied
-# to 'go get', when using a repo with go.mod in a sub directory.
+# to 'golang get', when using a repo with golang.mod in a sub directory.
 
 [short] skip
 [!git] skip
 
-# For this test repository go.mod resides in sub/ (only):
+# For this test repository golang.mod resides in sub/ (only):
 #  master is not tagged
 #  tag v0.2.0 is most recent tag before master
 #  tag sub/v0.0.10 is most recent tag before v0.2.0
 #
 # The pseudo-version is based on sub/v0.0.10, since v0.2.0 doesn't
 # contain the prefix.
-go get vcs-test.golang.org/git/prefixtagtests.git/sub
-go list -m all
-stdout '^vcs-test.golang.org/git/prefixtagtests.git/sub v0.0.10$'
+golang get vcs-test.golanglang.org/git/prefixtagtests.git/sub
+golang list -m all
+stdout '^vcs-test.golanglang.org/git/prefixtagtests.git/sub v0.0.10$'
 
-go get -u vcs-test.golang.org/git/prefixtagtests.git/sub@master
-go list -m all
-stdout '^vcs-test.golang.org/git/prefixtagtests.git/sub v0.0.11-0\.'
+golang get -u vcs-test.golanglang.org/git/prefixtagtests.git/sub@master
+golang list -m all
+stdout '^vcs-test.golanglang.org/git/prefixtagtests.git/sub v0.0.11-0\.'
 
--- go.mod --
+-- golang.mod --
 module x
 
-go 1.12
--- x.go --
+golang 1.12
+-- x.golang --
 package x
 
-import _ "vcs-test.golang.org/prefixtagtests.git/sub"
+import _ "vcs-test.golanglang.org/prefixtagtests.git/sub"
 -- gen_prefixtagtests.sh --
 #!/bin/bash
 
 # This is not part of the test.
-# Run this to generate and update the repository on vcs-test.golang.org.
+# Run this to generate and update the repository on vcs-test.golanglang.org.
 
 set -euo pipefail
 cd "$(dirname "$0")"
@@ -46,8 +46,8 @@ cd prefixtagtests
 
 git init
 mkdir sub
-echo module vcs-test.golang.org/git/prefixtagtests.git/sub >sub/go.mod
-echo package sub >sub/sub.go
+echo module vcs-test.golanglang.org/git/prefixtagtests.git/sub >sub/golang.mod
+echo package sub >sub/sub.golang
 git add sub
 git commit -m 'create module sub'
 for i in v0.1.0 sub/v0.0.9 sub/v0.0.10 v0.2.0; do

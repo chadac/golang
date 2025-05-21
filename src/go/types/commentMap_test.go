@@ -1,13 +1,13 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package types_test
 
 import (
 	"fmt"
-	"go/scanner"
-	"go/token"
+	"golang/scanner"
+	"golang/token"
 	"regexp"
 	"strings"
 	"testing"
@@ -81,15 +81,15 @@ x /* ERROR "3:1" */                // ignore automatically inserted semicolon he
 	for line, errlist := range m {
 		for _, err := range errlist {
 			if err.line != line {
-				t.Errorf("%v: got map line %d; want %d", err, err.line, line)
+				t.Errorf("%v: golangt map line %d; want %d", err, err.line, line)
 				continue
 			}
 			// err.line == line
 
-			got := strings.TrimSpace(err.text[len(" ERROR "):])
+			golangt := strings.TrimSpace(err.text[len(" ERROR "):])
 			want := fmt.Sprintf(`"%d:%d"`, line, err.col)
-			if got != want {
-				t.Errorf("%v: got msg %q; want %q", err, got, want)
+			if golangt != want {
+				t.Errorf("%v: golangt msg %q; want %q", err, golangt, want)
 				continue
 			}
 			found++
@@ -98,6 +98,6 @@ x /* ERROR "3:1" */                // ignore automatically inserted semicolon he
 
 	want := strings.Count(src, " ERROR ")
 	if found != want {
-		t.Errorf("commentMap got %d errors; want %d", found, want)
+		t.Errorf("commentMap golangt %d errors; want %d", found, want)
 	}
 }

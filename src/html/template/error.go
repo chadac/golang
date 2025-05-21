@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package template
@@ -30,7 +30,7 @@ type ErrorCode int
 // We define codes for each error that manifests while escaping templates, but
 // escaped templates may also fail at runtime.
 //
-// Output: "ZgotmplZ"
+// Output: "ZgolangtmplZ"
 // Example:
 //
 //	<img src="{{.X}}">
@@ -38,9 +38,9 @@ type ErrorCode int
 //
 // Discussion:
 //
-//	"ZgotmplZ" is a special value that indicates that unsafe content reached a
+//	"ZgolangtmplZ" is a special value that indicates that unsafe content reached a
 //	CSS or URL context at runtime. The output of the example will be
-//	  <img src="#ZgotmplZ">
+//	  <img src="#ZgolangtmplZ">
 //	If the data comes from a trusted source, use content types to exempt it
 //	from filtering: URL(`javascript:...`).
 const (
@@ -64,7 +64,7 @@ const (
 	//   <a href="{{if .C}}/path/{{.X}}{{else}}/search?q={{.X}}">
 	ErrAmbigContext
 
-	// ErrBadHTML: "expected space, attr name, or end of tag, but got ...",
+	// ErrBadHTML: "expected space, attr name, or end of tag, but golangt ...",
 	//   "... in unquoted attr", "... in attribute name"
 	// Example:
 	//   <a href = /search?q=foo>

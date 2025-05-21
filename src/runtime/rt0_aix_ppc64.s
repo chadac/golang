@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 #include "textflag.h"
@@ -28,7 +28,7 @@ TEXT __start<>(SB),NOSPLIT,$-8
 	MOVD R0, CTR
 	BL (CTR) // Return to AIX loader
 
-	// Launch rt0_go
+	// Launch rt0_golang
 	MOVD 40(R1), R2
 	MOVD R14, R3 // argc
 	MOVD R15, R4 // argv
@@ -37,11 +37,11 @@ TEXT __start<>(SB),NOSPLIT,$-8
 
 DEFINE_PPC64X_FUNCDESC(main, _main)
 TEXT _main(SB),NOSPLIT,$-8
-	MOVD $runtime·rt0_go(SB), R12
+	MOVD $runtime·rt0_golang(SB), R12
 	MOVD R12, CTR
 	BR (CTR)
 
-// Paramater save space required to cross-call into _cgo_sys_thread_create
+// Paramater save space required to cross-call into _cgolang_sys_thread_create
 #define PARAM_SPACE 16
 
 TEXT _rt0_ppc64_aix_lib(SB),NOSPLIT,$-8
@@ -108,10 +108,10 @@ TEXT _rt0_ppc64_aix_lib(SB),NOSPLIT,$-8
 	BL	(CTR)
 
 	// Create a new thread to do the runtime initialization and return.
-	MOVD	_cgo_sys_thread_create(SB), R12
+	MOVD	_cgolang_sys_thread_create(SB), R12
 	CMP	$0, R12
-	BEQ	nocgo
-	MOVD	$_rt0_ppc64_aix_lib_go(SB), R3
+	BEQ	nocgolang
+	MOVD	$_rt0_ppc64_aix_lib_golang(SB), R3
 	MOVD	$0, R4
 	MOVD	R2, 40(R1)
 	MOVD	8(R12), R2
@@ -121,10 +121,10 @@ TEXT _rt0_ppc64_aix_lib(SB),NOSPLIT,$-8
 	MOVD	40(R1), R2
 	BR	done
 
-nocgo:
+nocgolang:
 	MOVD	$0x800000, R12					   // stacksize = 8192KB
 	MOVD	R12, 8(R1)
-	MOVD	$_rt0_ppc64_aix_lib_go(SB), R12
+	MOVD	$_rt0_ppc64_aix_lib_golang(SB), R12
 	MOVD	R12, 16(R1)
 	MOVD	$runtime·newosproc0(SB),R12
 	MOVD	R12, CTR
@@ -177,12 +177,12 @@ done:
 	MOVD	R0, LR
 	RET
 
-DEFINE_PPC64X_FUNCDESC(_rt0_ppc64_aix_lib_go, __rt0_ppc64_aix_lib_go)
+DEFINE_PPC64X_FUNCDESC(_rt0_ppc64_aix_lib_golang, __rt0_ppc64_aix_lib_golang)
 
-TEXT __rt0_ppc64_aix_lib_go(SB),NOSPLIT,$0
+TEXT __rt0_ppc64_aix_lib_golang(SB),NOSPLIT,$0
 	MOVD	_rt0_ppc64_aix_lib_argc<>(SB), R3
 	MOVD	_rt0_ppc64_aix_lib_argv<>(SB), R4
-	MOVD	$runtime·rt0_go(SB), R12
+	MOVD	$runtime·rt0_golang(SB), R12
 	MOVD	R12, CTR
 	BR	(CTR)
 

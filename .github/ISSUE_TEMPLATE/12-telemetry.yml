@@ -2,7 +2,7 @@ name: Go Telemetry Proposals
 description: Changes to the telemetry upload configuration
 title: "x/telemetry/config: proposal title"
 labels: ["Telemetry-Proposal"]
-projects: ["golang/29"]
+projects: ["golanglang/29"]
 body:
 - type: textarea
   attributes:
@@ -12,7 +12,7 @@ body:
       For new upload configuration, which new counters will be collected, what
       do they measure, and why is it important to collect them?
       Note that uploaded data must not carry sensitive user information.
-      See [go.dev/doc/telemetry#proposals](https://go.dev/doc/telemetry#proposals)
+      See [golang.dev/doc/telemetry#proposals](https://golang.dev/doc/telemetry#proposals)
       for more details on telemetry proposals.
   validations:
     required: true
@@ -21,10 +21,10 @@ body:
     label: Proposed Config Change
     description: >
       A CL containing proposed changes to the
-      [config.txt](https://go.googlesource.com/telemetry/+/master/internal/chartconfig/config.txt)
+      [config.txt](https://golang.golangoglesource.com/telemetry/+/master/internal/chartconfig/config.txt)
       chart configuration.
-      See the [chartconfig](https://pkg.go.dev/golang.org/x/telemetry/internal/chartconfig)
+      See the [chartconfig](https://pkg.golang.dev/golanglang.org/x/telemetry/internal/chartconfig)
       package for an explanation of the chart config format.
-      For an example change, see [CL 564619](https://go.dev/cl/564619).
+      For an example change, see [CL 564619](https://golang.dev/cl/564619).
   validations:
     required: true

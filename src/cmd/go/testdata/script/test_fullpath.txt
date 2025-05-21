@@ -1,15 +1,15 @@
 [short] skip
 
 # test with -fullpath
-! go test ./x/... -fullpath
-stdout '^ +.+/gopath/src/x/fullpath/fullpath_test.go:8: test failed'
+! golang test ./x/... -fullpath
+stdout '^ +.+/golangpath/src/x/fullpath/fullpath_test.golang:8: test failed'
 # test without -fullpath
-! go test ./x/...
-stdout '^ +fullpath_test.go:8: test failed'
+! golang test ./x/...
+stdout '^ +fullpath_test.golang:8: test failed'
 
--- go.mod --
+-- golang.mod --
 module example
--- x/fullpath/fullpath_test.go --
+-- x/fullpath/fullpath_test.golang --
 package fullpath_test
 
 import (

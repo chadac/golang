@@ -3,4 +3,4 @@ handle dir
 -- index.html --
 <!DOCTYPE html>
 <html>
-<meta name="go-import" content="vcs-test.golang.org/go/gitreposubdir git https://vcs-test.golang.org/git/gitreposubdir foo/subdir">
+<meta name="golang-import" content="vcs-test.golanglang.org/golang/gitreposubdir git https://vcs-test.golanglang.org/git/gitreposubdir foo/subdir">

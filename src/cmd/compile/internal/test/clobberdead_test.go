@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package test
@@ -37,7 +37,7 @@ func runHello(t *testing.T, flag string) {
 	t.Parallel()
 
 	tmpdir := t.TempDir()
-	src := filepath.Join(tmpdir, "x.go")
+	src := filepath.Join(tmpdir, "x.golang")
 	err := os.WriteFile(src, []byte(helloSrc), 0644)
 	if err != nil {
 		t.Fatalf("write file failed: %v", err)
@@ -46,9 +46,9 @@ func runHello(t *testing.T, flag string) {
 	cmd := testenv.Command(t, testenv.GoToolPath(t), "run", "-gcflags=all="+flag, src)
 	out, err := cmd.CombinedOutput()
 	if err != nil {
-		t.Fatalf("go run failed: %v\n%s", err, out)
+		t.Fatalf("golang run failed: %v\n%s", err, out)
 	}
 	if string(out) != "hello\n" {
-		t.Errorf("wrong output: got %q, want %q", out, "hello\n")
+		t.Errorf("wrong output: golangt %q, want %q", out, "hello\n")
 	}
 }

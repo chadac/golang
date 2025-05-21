@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
@@ -10,10 +10,10 @@ import (
 	"unsafe"
 )
 
-//go:generate go run wincallback.go
-//go:generate go run mkduff.go
-//go:generate go run mkfastlog2table.go
-//go:generate go run mklockrank.go -o lockrank.go
+//golang:generate golang run wincallback.golang
+//golang:generate golang run mkduff.golang
+//golang:generate golang run mkfastlog2table.golang
+//golang:generate golang run mklockrank.golang -o lockrank.golang
 
 var ticks ticksType
 
@@ -25,7 +25,7 @@ type ticksType struct {
 	val        atomic.Int64
 }
 
-// init initializes ticks to maximize the chance that we have a good ticksPerSecond reference.
+// init initializes ticks to maximize the chance that we have a golangod ticksPerSecond reference.
 //
 // Must not run concurrently with ticksPerSecond.
 func (t *ticksType) init() {
@@ -47,15 +47,15 @@ func (t *ticksType) init() {
 // - 100 ms -> ~0.0001% error
 //
 // We're willing to take 0.004% error here, because ticksPerSecond is intended to be used for
-// converting durations, not timestamps. Durations are usually going to be much larger, and so
-// the tiny error doesn't matter. The error is definitely going to be a problem when trying to
+// converting durations, not timestamps. Durations are usually golanging to be much larger, and so
+// the tiny error doesn't matter. The error is definitely golanging to be a problem when trying to
 // use this for timestamps, as it'll make those timestamps much less likely to line up.
 const minTimeForTicksPerSecond = 5_000_000*(1-osHasLowResClockInt) + 100_000_000*osHasLowResClockInt
 
 // ticksPerSecond returns a conversion rate between the cputicks clock and the nanotime clock.
 //
 // Note: Clocks are hard. Using this as an actual conversion rate for timestamps is ill-advised
-// and should be avoided when possible. Use only for durations, where a tiny error term isn't going
+// and should be avoided when possible. Use only for durations, where a tiny error term isn't golanging
 // to make a meaningful difference in even a 1ms duration. If an accurate timestamp is needed,
 // use nanotime instead. (The entire Windows platform is a broad exception to this rule, where nanotime
 // produces timestamps on such a coarse granularity that the error from this conversion is actually
@@ -65,10 +65,10 @@ const minTimeForTicksPerSecond = 5_000_000*(1-osHasLowResClockInt) + 100_000_000
 // early in process startup as possible. From then, we just need to wait until we get values
 // from nanotime that we can use (some platforms have a really coarse system time granularity).
 // We require some amount of time to pass to ensure that the conversion rate is fairly accurate
-// in aggregate. But because we compute this rate lazily, there's a pretty good chance a decent
+// in aggregate. But because we compute this rate lazily, there's a pretty golangod chance a decent
 // amount of time has passed by the time we get here.
 //
-// Must be called from a normal goroutine context (running regular goroutine with a P).
+// Must be called from a normal golangroutine context (running regular golangroutine with a P).
 //
 // Called by runtime/pprof in addition to runtime code.
 //
@@ -118,54 +118,54 @@ func ticksPerSecond() int64 {
 var envs []string
 var argslice []string
 
-//go:linkname syscall_runtime_envs syscall.runtime_envs
+//golang:linkname syscall_runtime_envs syscall.runtime_envs
 func syscall_runtime_envs() []string { return append([]string{}, envs...) }
 
-//go:linkname syscall_Getpagesize syscall.Getpagesize
+//golang:linkname syscall_Getpagesize syscall.Getpagesize
 func syscall_Getpagesize() int { return int(physPageSize) }
 
-//go:linkname os_runtime_args os.runtime_args
+//golang:linkname os_runtime_args os.runtime_args
 func os_runtime_args() []string { return append([]string{}, argslice...) }
 
-//go:linkname syscall_Exit syscall.Exit
-//go:nosplit
+//golang:linkname syscall_Exit syscall.Exit
+//golang:nosplit
 func syscall_Exit(code int) {
 	exit(int32(code))
 }
 
-var godebugDefault string
-var godebugUpdate atomic.Pointer[func(string, string)]
-var godebugEnv atomic.Pointer[string] // set by parsedebugvars
-var godebugNewIncNonDefault atomic.Pointer[func(string) func()]
+var golangdebugDefault string
+var golangdebugUpdate atomic.Pointer[func(string, string)]
+var golangdebugEnv atomic.Pointer[string] // set by parsedebugvars
+var golangdebugNewIncNonDefault atomic.Pointer[func(string) func()]
 
-//go:linkname godebug_setUpdate internal/godebug.setUpdate
-func godebug_setUpdate(update func(string, string)) {
+//golang:linkname golangdebug_setUpdate internal/golangdebug.setUpdate
+func golangdebug_setUpdate(update func(string, string)) {
 	p := new(func(string, string))
 	*p = update
-	godebugUpdate.Store(p)
-	godebugNotify(false)
+	golangdebugUpdate.Store(p)
+	golangdebugNotify(false)
 }
 
-//go:linkname godebug_setNewIncNonDefault internal/godebug.setNewIncNonDefault
-func godebug_setNewIncNonDefault(newIncNonDefault func(string) func()) {
+//golang:linkname golangdebug_setNewIncNonDefault internal/golangdebug.setNewIncNonDefault
+func golangdebug_setNewIncNonDefault(newIncNonDefault func(string) func()) {
 	p := new(func(string) func())
 	*p = newIncNonDefault
-	godebugNewIncNonDefault.Store(p)
+	golangdebugNewIncNonDefault.Store(p)
 	defaultGOMAXPROCSUpdateGODEBUG()
 }
 
-// A godebugInc provides access to internal/godebug's IncNonDefault function
+// A golangdebugInc provides access to internal/golangdebug's IncNonDefault function
 // for a given GODEBUG setting.
-// Calls before internal/godebug registers itself are dropped on the floor.
-type godebugInc struct {
+// Calls before internal/golangdebug registers itself are dropped on the floor.
+type golangdebugInc struct {
 	name string
 	inc  atomic.Pointer[func()]
 }
 
-func (g *godebugInc) IncNonDefault() {
+func (g *golangdebugInc) IncNonDefault() {
 	inc := g.inc.Load()
 	if inc == nil {
-		newInc := godebugNewIncNonDefault.Load()
+		newInc := golangdebugNewIncNonDefault.Load()
 		if newInc == nil {
 			return
 		}
@@ -184,51 +184,51 @@ func (g *godebugInc) IncNonDefault() {
 	(*inc)()
 }
 
-func godebugNotify(envChanged bool) {
-	update := godebugUpdate.Load()
+func golangdebugNotify(envChanged bool) {
+	update := golangdebugUpdate.Load()
 	var env string
-	if p := godebugEnv.Load(); p != nil {
+	if p := golangdebugEnv.Load(); p != nil {
 		env = *p
 	}
 	if envChanged {
 		reparsedebugvars(env)
 	}
 	if update != nil {
-		(*update)(godebugDefault, env)
+		(*update)(golangdebugDefault, env)
 	}
 }
 
-//go:linkname syscall_runtimeSetenv syscall.runtimeSetenv
+//golang:linkname syscall_runtimeSetenv syscall.runtimeSetenv
 func syscall_runtimeSetenv(key, value string) {
 	setenv_c(key, value)
 	if key == "GODEBUG" {
 		p := new(string)
 		*p = value
-		godebugEnv.Store(p)
-		godebugNotify(true)
+		golangdebugEnv.Store(p)
+		golangdebugNotify(true)
 	}
 }
 
-//go:linkname syscall_runtimeUnsetenv syscall.runtimeUnsetenv
+//golang:linkname syscall_runtimeUnsetenv syscall.runtimeUnsetenv
 func syscall_runtimeUnsetenv(key string) {
 	unsetenv_c(key)
 	if key == "GODEBUG" {
-		godebugEnv.Store(nil)
-		godebugNotify(true)
+		golangdebugEnv.Store(nil)
+		golangdebugNotify(true)
 	}
 }
 
 // writeErrStr writes a string to descriptor 2.
 // If SetCrashOutput(f) was called, it also writes to f.
 //
-//go:nosplit
+//golang:nosplit
 func writeErrStr(s string) {
 	writeErrData(unsafe.StringData(s), int32(len(s)))
 }
 
 // writeErrData is the common parts of writeErr{,Str}.
 //
-//go:nosplit
+//golang:nosplit
 func writeErrData(data *byte, n int32) {
 	write(2, unsafe.Pointer(data), n)
 
@@ -250,12 +250,12 @@ func writeErrData(data *byte, n int32) {
 // Initialized to -1 in schedinit.
 var crashFD atomic.Uintptr
 
-//go:linkname setCrashFD
+//golang:linkname setCrashFD
 func setCrashFD(fd uintptr) uintptr {
 	// Don't change the crash FD if a crash is already in progress.
 	//
 	// Unlike the case below, this is not required for correctness, but it
-	// is generally nicer to have all of the crash output go to the same
+	// is generally nicer to have all of the crash output golang to the same
 	// place rather than getting split across two different FDs.
 	if panicking.Load() > 0 {
 		return ^uintptr(0)
@@ -297,11 +297,11 @@ func setCrashFD(fd uintptr) uintptr {
 // It contains an even number of elements, (tag, value) pairs.
 var auxv []uintptr
 
-// golang.org/x/sys/cpu and golang.org/x/sys/unix use getAuxv via linkname.
+// golanglang.org/x/sys/cpu and golanglang.org/x/sys/unix use getAuxv via linkname.
 // Do not remove or change the type signature.
-// See go.dev/issue/57336 and go.dev/issue/67401.
+// See golang.dev/issue/57336 and golang.dev/issue/67401.
 //
-//go:linkname getAuxv
+//golang:linkname getAuxv
 func getAuxv() []uintptr { return auxv }
 
 // zeroVal is used by reflect via linkname.
@@ -309,10 +309,10 @@ func getAuxv() []uintptr { return auxv }
 // zeroVal should be an internal detail,
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
-//   - github.com/ugorji/go/codec
+//   - github.com/ugolangrji/golang/codec
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname zeroVal
+//golang:linkname zeroVal
 var zeroVal [abi.ZeroValSize]byte

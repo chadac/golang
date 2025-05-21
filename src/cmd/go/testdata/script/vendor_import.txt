@@ -1,8 +1,8 @@
 # Imports
 env GO111MODULE=off
 
-# Pass -e to permit errors (e.g. bad.go, invalid.go)
-go list -f  '{{.ImportPath}} {{.Imports}}' -e 'vend/...' 'vend/vendor/...' 'vend/x/vendor/...'
+# Pass -e to permit errors (e.g. bad.golang, invalid.golang)
+golang list -f  '{{.ImportPath}} {{.Imports}}' -e 'vend/...' 'vend/vendor/...' 'vend/x/vendor/...'
 cmp stdout want_vendor_imports.txt
 
 -- want_vendor_imports.txt --
@@ -19,17 +19,17 @@ vend/vendor/vend/dir1/dir2 []
 vend/x/vendor/p []
 vend/x/vendor/p/p [notfound]
 vend/x/vendor/r []
--- vend/bad.go --
+-- vend/bad.golang --
 package vend
 
 import _ "r"
--- vend/dir1/dir1.go --
+-- vend/dir1/dir1.golang --
 package dir1
--- vend/good.go --
+-- vend/golangod.golang --
 package vend
 
 import _ "p"
--- vend/hello/hello.go --
+-- vend/hello/hello.golang --
 package main
 
 import (
@@ -40,7 +40,7 @@ import (
 func main() {
 	fmt.Printf("%s\n", strings.Msg)
 }
--- vend/hello/hello_test.go --
+-- vend/hello/hello_test.golang --
 package main
 
 import (
@@ -53,7 +53,7 @@ func TestMsgInternal(t *testing.T) {
 		t.Fatalf("unexpected msg: %v", strings.Msg)
 	}
 }
--- vend/hello/hellox_test.go --
+-- vend/hello/hellox_test.golang --
 package main_test
 
 import (
@@ -66,37 +66,37 @@ func TestMsgExternal(t *testing.T) {
 		t.Fatalf("unexpected msg: %v", strings.Msg)
 	}
 }
--- vend/subdir/bad.go --
+-- vend/subdir/bad.golang --
 package subdir
 
 import _ "r"
--- vend/subdir/good.go --
+-- vend/subdir/golangod.golang --
 package subdir
 
 import _ "p"
--- vend/vendor/p/p.go --
+-- vend/vendor/p/p.golang --
 package p
--- vend/vendor/q/q.go --
+-- vend/vendor/q/q.golang --
 package q
--- vend/vendor/strings/msg.go --
+-- vend/vendor/strings/msg.golang --
 package strings
 
 var Msg = "hello, world"
--- vend/vendor/vend/dir1/dir2/dir2.go --
+-- vend/vendor/vend/dir1/dir2/dir2.golang --
 package dir2
--- vend/x/invalid/invalid.go --
+-- vend/x/invalid/invalid.golang --
 package invalid
 
 import "vend/x/invalid/vendor/foo"
--- vend/x/vendor/p/p/p.go --
+-- vend/x/vendor/p/p/p.golang --
 package p
 
 import _ "notfound"
--- vend/x/vendor/p/p.go --
+-- vend/x/vendor/p/p.golang --
 package p
--- vend/x/vendor/r/r.go --
+-- vend/x/vendor/r/r.golang --
 package r
--- vend/x/x.go --
+-- vend/x/x.golang --
 package x
 
 import _ "p"

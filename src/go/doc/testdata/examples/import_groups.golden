@@ -17,7 +17,7 @@ import (
 	"fmt"
 	"time"
 
-	"golang.org/x/time/rate"
+	"golanglang.org/x/time/rate"
 )
 
 func main() {

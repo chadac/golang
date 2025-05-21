@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package http
@@ -25,15 +25,15 @@ func TestRoutingFirstSegment(t *testing.T) {
 		{"/a/%62/c", []string{"a", "b", "c"}},
 		{"/a%2Fb%2fc", []string{"a/b/c"}},
 	} {
-		var got []string
+		var golangt []string
 		rest := test.in
 		for len(rest) > 0 {
 			var seg string
 			seg, rest = firstSegment(rest)
-			got = append(got, seg)
+			golangt = append(golangt, seg)
 		}
-		if !slices.Equal(got, test.want) {
-			t.Errorf("%q: got %v, want %v", test.in, got, test.want)
+		if !slices.Equal(golangt, test.want) {
+			t.Errorf("%q: golangt %v, want %v", test.in, golangt, test.want)
 		}
 	}
 }
@@ -88,9 +88,9 @@ func TestRoutingAddPattern(t *testing.T) {
 
 	var b strings.Builder
 	getTestTree().print(&b, 0)
-	got := b.String()
-	if got != want {
-		t.Errorf("got\n%s\nwant\n%s", got, want)
+	golangt := b.String()
+	if golangt != want {
+		t.Errorf("golangt\n%s\nwant\n%s", golangt, want)
 	}
 }
 
@@ -105,16 +105,16 @@ func TestRoutingNodeMatch(t *testing.T) {
 	test := func(tree *routingNode, tests []testCase) {
 		t.Helper()
 		for _, test := range tests {
-			gotNode, gotMatches := tree.match(test.host, test.method, test.path)
-			got := ""
-			if gotNode != nil {
-				got = gotNode.pattern.String()
+			golangtNode, golangtMatches := tree.match(test.host, test.method, test.path)
+			golangt := ""
+			if golangtNode != nil {
+				golangt = golangtNode.pattern.String()
 			}
-			if got != test.wantPat {
-				t.Errorf("%s, %s, %s: got %q, want %q", test.host, test.method, test.path, got, test.wantPat)
+			if golangt != test.wantPat {
+				t.Errorf("%s, %s, %s: golangt %q, want %q", test.host, test.method, test.path, golangt, test.wantPat)
 			}
-			if !slices.Equal(gotMatches, test.wantMatches) {
-				t.Errorf("%s, %s, %s: got matches %v, want %v", test.host, test.method, test.path, gotMatches, test.wantMatches)
+			if !slices.Equal(golangtMatches, test.wantMatches) {
+				t.Errorf("%s, %s, %s: golangt matches %v, want %v", test.host, test.method, test.path, golangtMatches, test.wantMatches)
 			}
 		}
 	}
@@ -262,9 +262,9 @@ func TestMatchingMethods(t *testing.T) {
 		t.Run(test.name, func(t *testing.T) {
 			ms := map[string]bool{}
 			test.tree.matchingMethods(test.host, test.path, ms)
-			got := strings.Join(slices.Sorted(maps.Keys(ms)), ",")
-			if got != test.want {
-				t.Errorf("got %s, want %s", got, test.want)
+			golangt := strings.Join(slices.Sorted(maps.Keys(ms)), ",")
+			if golangt != test.want {
+				t.Errorf("golangt %s, want %s", golangt, test.want)
 			}
 		})
 	}

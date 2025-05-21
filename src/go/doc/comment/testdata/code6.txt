@@ -7,10 +7,10 @@ func main() {
 
 Or this:
 
-go func() {
+golang func() {
 	fmt.Println("hello, world")
 }()
--- gofmt --
+-- golangfmt --
 Run this program:
 
 	func main() {
@@ -19,6 +19,6 @@ Run this program:
 
 Or this:
 
-	go func() {
+	golang func() {
 		fmt.Println("hello, world")
 	}()

@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package poll
@@ -32,7 +32,7 @@ type FD struct {
 	// Whether this is a normal file.
 	// On Plan 9 we do not use this package for ordinary files,
 	// so this is always false, but the field is present because
-	// shared code in fd_mutex.go checks it.
+	// shared code in fd_mutex.golang checks it.
 	isFile bool
 }
 

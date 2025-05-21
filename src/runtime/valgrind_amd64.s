@@ -1,12 +1,12 @@
 // Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build valgrind && linux
+//golang:build valgrind && linux
 
 #include "textflag.h"
 
-// Instead of using cgo and using the Valgrind macros, we just emit the special client request
+// Instead of using cgolang and using the Valgrind macros, we just emit the special client request
 // assembly ourselves. The client request mechanism is basically the same across all architectures,
 // with the notable difference being the special preamble that lets Valgrind know we want to do
 // a client request.

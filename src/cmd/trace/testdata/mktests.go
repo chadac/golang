@@ -1,8 +1,8 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build ignore
+//golang:build ignore
 
 package main
 
@@ -20,7 +20,7 @@ import (
 func main() {
 	// Create command.
 	var trace, stderr bytes.Buffer
-	cmd := exec.Command("go", "run", "./testprog/main.go")
+	cmd := exec.Command("golang", "run", "./testprog/main.golang")
 	cmd.Stdout = &trace
 	cmd.Stderr = &stderr
 
@@ -31,7 +31,7 @@ func main() {
 	}
 
 	// Create file.
-	f, err := os.Create(fmt.Sprintf("./go1%d.test", version.Current))
+	f, err := os.Create(fmt.Sprintf("./golang1%d.test", version.Current))
 	if err != nil {
 		log.Fatalf("creating output file: %v", err)
 	}

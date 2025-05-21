@@ -4,33 +4,33 @@ env GO111MODULE=on
 cd m
 symlink symlink -> ../outside
 
-cp go.mod go.mod.orig
+cp golang.mod golang.mod.orig
 
-# Issue 35941: suppress symlink warnings when running 'go mod tidy'.
-# 'go mod tidy' should not scan packages in symlinked subdirectories.
-go mod tidy
+# Issue 35941: suppress symlink warnings when running 'golang mod tidy'.
+# 'golang mod tidy' should not scan packages in symlinked subdirectories.
+golang mod tidy
 ! stderr 'warning: ignoring symlink'
-cmp go.mod go.mod.orig
+cmp golang.mod golang.mod.orig
 
-! go build ./symlink
-stderr '^symlink[\\/]symlink.go:3:8: module example.net/unresolved provides package example.net/unresolved and is replaced but not required; to add it:\n\tgo get example.net/unresolved@v0.1.0$'
+! golang build ./symlink
+stderr '^symlink[\\/]symlink.golang:3:8: module example.net/unresolved provides package example.net/unresolved and is replaced but not required; to add it:\n\tgolang get example.net/unresolved@v0.1.0$'
 
--- m/go.mod --
+-- m/golang.mod --
 module example.net/m
 
-go 1.16
+golang 1.16
 
 replace example.net/unresolved v0.1.0 => ../unresolved
--- m/a.go --
+-- m/a.golang --
 package a
--- outside/symlink.go --
+-- outside/symlink.golang --
 package symlink
 
 import _ "example.net/unresolved"
--- unresolved/go.mod --
+-- unresolved/golang.mod --
 module example.net/unresolved
 
-go 1.16
--- unresolved/unresolved.go --
-// Package unresolved exists, but 'go mod tidy' won't add it.
+golang 1.16
+-- unresolved/unresolved.golang --
+// Package unresolved exists, but 'golang mod tidy' won't add it.
 package unresolved

@@ -5,7 +5,7 @@ is deleted in a newer prerelease version.
 module example.com/missingpkg
 -- .info --
 {"Version":"v1.0.0"}
--- lib.go --
+-- lib.golang --
 package lib
--- deprecated/deprecated.go --
+-- deprecated/deprecated.golang --
 package deprecated

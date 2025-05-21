@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file implements initialization and assignment checks.
@@ -30,7 +30,7 @@ func (check *Checker) assignment(x *operand, T Type, context string) {
 	case constant_, variable, mapindex, value, commaok, commaerr:
 		// ok
 	default:
-		// we may get here because of other problems (go.dev/issue/39634, crash 12)
+		// we may get here because of other problems (golang.dev/issue/39634, crash 12)
 		// TODO(gri) do we need a new "generic" error code here?
 		check.errorf(x, IncompatibleAssign, "cannot assign %s to %s in %s", x, T, context)
 		x.mode = invalid
@@ -54,7 +54,7 @@ func (check *Checker) assignment(x *operand, T Type, context string) {
 			} else if T == nil || isNonTypeParamInterface(T) {
 				target = Default(x.typ)
 			}
-		} else { // go/types
+		} else { // golang/types
 			if T == nil || isNonTypeParamInterface(T) {
 				if T == nil && x.typ == Typ[UntypedNil] {
 					check.errorf(x, UntypedNilUse, "use of untyped nil in %s", context)
@@ -440,7 +440,7 @@ func (check *Checker) initVars(lhs []*Var, orig_rhs []syntax.Expr, returnStmt sy
 			check.initVar(lhs, rhs[i], context)
 		}
 		// Only record comma-ok expression if both initializations succeeded
-		// (go.dev/issue/59371).
+		// (golang.dev/issue/59371).
 		if commaOk && rhs[0].mode != invalid && rhs[1].mode != invalid {
 			check.recordCommaOkTypes(orig_rhs[0], rhs)
 		}
@@ -504,7 +504,7 @@ func (check *Checker) assignVars(lhs, orig_rhs []syntax.Expr) {
 			check.assignVar(lhs, nil, rhs[i], "assignment")
 		}
 		// Only record comma-ok expression if both assignments succeeded
-		// (go.dev/issue/59371).
+		// (golang.dev/issue/59371).
 		if commaOk && rhs[0].mode != invalid && rhs[1].mode != invalid {
 			check.recordCommaOkTypes(orig_rhs[0], rhs)
 		}
@@ -533,7 +533,7 @@ func (check *Checker) shortVarDecl(pos poser, lhs, rhs []syntax.Expr) {
 		ident, _ := lhs.(*syntax.Name)
 		if ident == nil {
 			check.useLHS(lhs)
-			// TODO(gri) This is redundant with a go/parser error. Consider omitting in go/types?
+			// TODO(gri) This is redundant with a golang/parser error. Consider omitting in golang/types?
 			check.errorf(lhs, BadDecl, "non-name %s on left side of :=", lhs)
 			hasErr = true
 			continue

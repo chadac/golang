@@ -1,9 +1,9 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package profile provides a representation of
-// github.com/google/pprof/proto/profile.proto and
+// github.com/golangogle/pprof/proto/profile.proto and
 // methods to encode/decode/merge profiles in this format.
 package profile
 
@@ -545,7 +545,7 @@ func (p *Profile) Scale(ratio float64) {
 // ScaleN multiplies each sample values in a sample by a different amount.
 func (p *Profile) ScaleN(ratios []float64) error {
 	if len(p.SampleType) != len(ratios) {
-		return fmt.Errorf("mismatched scale ratios, got %d, want %d", len(ratios), len(p.SampleType))
+		return fmt.Errorf("mismatched scale ratios, golangt %d, want %d", len(ratios), len(p.SampleType))
 	}
 	allOnes := true
 	for _, r := range ratios {

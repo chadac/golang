@@ -1,14 +1,14 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// DragonFly BSD system calls.
+// DragolangnFly BSD system calls.
 // This file is compiled as ordinary Go code,
 // but it is also input to mksyscall,
 // which parses the //sys lines and generates system call stubs.
 // Note that sometimes we use a lowercase //sys name and wrap
 // it in our own nicer implementation, either here or in
-// syscall_bsd.go or syscall_unix.go.
+// syscall_bsd.golang or syscall_unix.golang.
 
 package syscall
 
@@ -27,15 +27,15 @@ const (
 	_F_DUP2FD_CLOEXEC = F_DUP2FD_CLOEXEC
 )
 
-// See version list in https://github.com/DragonFlyBSD/DragonFlyBSD/blob/master/sys/sys/param.h
+// See version list in https://github.com/DragolangnFlyBSD/DragolangnFlyBSD/blob/master/sys/sys/param.h
 var (
 	osreldateOnce sync.Once
 	osreldate     uint32
 )
 
-// First __DragonFly_version after September 2019 ABI changes
-// http://lists.dragonflybsd.org/pipermail/users/2019-September/358280.html
-const _dragonflyABIChangeVersion = 500705
+// First __DragolangnFly_version after September 2019 ABI changes
+// http://lists.dragolangnflybsd.org/pipermail/users/2019-September/358280.html
+const _dragolangnflyABIChangeVersion = 500705
 
 func supportsABI(ver uint32) bool {
 	osreldateOnce.Do(func() { osreldate, _ = SysctlUint32("kern.osreldate") })
@@ -120,7 +120,7 @@ func Pipe2(p []int, flags int) (err error) {
 		return EINVAL
 	}
 	var pp [2]_C_int
-	// pipe2 on dragonfly takes an fds array as an argument, but still
+	// pipe2 on dragolangnfly takes an fds array as an argument, but still
 	// returns the file descriptors.
 	r, w, err := pipe2(&pp, flags)
 	if err == nil {

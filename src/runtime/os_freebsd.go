@@ -1,12 +1,12 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
 
 import (
 	"internal/abi"
-	"internal/goarch"
+	"internal/golangarch"
 	"unsafe"
 )
 
@@ -14,19 +14,19 @@ type mOS struct {
 	waitsema uint32 // semaphore for parking on locks
 }
 
-//go:noescape
+//golang:noescape
 func thr_new(param *thrparam, size int32) int32
 
-//go:noescape
+//golang:noescape
 func sigaltstack(new, old *stackt)
 
-//go:noescape
+//golang:noescape
 func sigprocmask(how int32, new, old *sigset)
 
-//go:noescape
+//golang:noescape
 func setitimer(mode int32, new, old *itimerval)
 
-//go:noescape
+//golang:noescape
 func sysctl(mib *uint32, miblen uint32, out *byte, size *uintptr, dst *byte, ndst uintptr) int32
 
 func raiseproc(sig uint32)
@@ -34,19 +34,19 @@ func raiseproc(sig uint32)
 func thr_self() thread
 func thr_kill(tid thread, sig int)
 
-//go:noescape
+//golang:noescape
 func sys_umtx_op(addr *uint32, mode int32, val uint32, uaddr1 uintptr, ut *umtx_time) int32
 
 func osyield()
 
-//go:nosplit
+//golang:nosplit
 func osyield_no_g() {
 	osyield()
 }
 
 func kqueue() int32
 
-//go:noescape
+//golang:noescape
 func kevent(kq int32, ch *keventt, nch int32, ev *keventt, nev int32, ts *timespec) int32
 
 func pipe2(flags int32) (r, w int32, errno int32)
@@ -87,10 +87,10 @@ const (
 	_CPU_CURRENT_PID = -1 // Current process ID.
 )
 
-//go:noescape
+//golang:noescape
 func cpuset_getaffinity(level int, which int, id int64, size int, mask *byte) int32
 
-//go:systemstack
+//golang:systemstack
 func getCPUCount() int32 {
 	// Use a large buffer for the CPU mask. We're on the system
 	// stack, so this is fine, and we can't allocate memory for a
@@ -119,8 +119,8 @@ func getCPUCount() int32 {
 	}
 
 	maskSize := int(maxcpus+7) / 8
-	if maskSize < goarch.PtrSize {
-		maskSize = goarch.PtrSize
+	if maskSize < golangarch.PtrSize {
+		maskSize = golangarch.PtrSize
 	}
 	if maskSize > len(mask) {
 		maskSize = len(mask)
@@ -156,9 +156,9 @@ func getPageSize() uintptr {
 
 // FreeBSD's umtx_op syscall is effectively the same as Linux's futex, and
 // thus the code is largely similar. See Linux implementation
-// and lock_futex.go for comments.
+// and lock_futex.golang for comments.
 
-//go:nosplit
+//golang:nosplit
 func futexsleep(addr *uint32, val uint32, ns int64) {
 	systemstack(func() {
 		futexsleep1(addr, val, ns)
@@ -181,7 +181,7 @@ func futexsleep1(addr *uint32, val uint32, ns int64) {
 	*(*int32)(unsafe.Pointer(uintptr(0x1005))) = 0x1005
 }
 
-//go:nosplit
+//golang:nosplit
 func futexwakeup(addr *uint32, cnt uint32) {
 	ret := sys_umtx_op(addr, _UMTX_OP_WAKE_PRIVATE, cnt, 0, nil)
 	if ret >= 0 {
@@ -197,7 +197,7 @@ func thr_start()
 
 // May run with m.p==nil, so write barriers are not allowed.
 //
-//go:nowritebarrier
+//golang:nowritebarrier
 func newosproc(mp *m) {
 	stk := unsafe.Pointer(mp.g0.stack.hi)
 	if false {
@@ -231,7 +231,7 @@ func newosproc(mp *m) {
 
 // Version of newosproc that doesn't require a valid G.
 //
-//go:nosplit
+//golang:nosplit
 func newosproc0(stacksize uintptr, fn unsafe.Pointer) {
 	stack := sysAlloc(stacksize, &memstats.stacks_sys, "OS thread stack")
 	if stack == nil {
@@ -269,8 +269,8 @@ func newosproc0(stacksize uintptr, fn unsafe.Pointer) {
 // -buildmode=c-archive or -buildmode=c-shared.
 // None of the Go runtime is initialized.
 //
-//go:nosplit
-//go:nowritebarrierrec
+//golang:nosplit
+//golang:nowritebarrierrec
 func libpreinit() {
 	initsig(true)
 }
@@ -284,7 +284,7 @@ func osinit() {
 
 var urandom_dev = []byte("/dev/urandom\x00")
 
-//go:nosplit
+//golang:nosplit
 func readRandom(r []byte) int {
 	fd := open(&urandom_dev[0], 0 /* O_RDONLY */, 0)
 	n := read(fd, unsafe.Pointer(&r[0]), int32(len(r)))
@@ -292,8 +292,8 @@ func readRandom(r []byte) int {
 	return int(n)
 }
 
-func goenvs() {
-	goenvs_unix()
+func golangenvs() {
+	golangenvs_unix()
 }
 
 // Called to initialize a new m (including the bootstrap m).
@@ -327,7 +327,7 @@ func minit() {
 
 // Called from dropm to undo the effect of an minit.
 //
-//go:nosplit
+//golang:nosplit
 func unminit() {
 	unminitSignals()
 	getg().m.procid = 0
@@ -346,10 +346,10 @@ type sigactiont struct {
 	sa_mask    sigset
 }
 
-// See os_freebsd2.go, os_freebsd_amd64.go for setsig function
+// See os_freebsd2.golang, os_freebsd_amd64.golang for setsig function
 
-//go:nosplit
-//go:nowritebarrierrec
+//golang:nosplit
+//golang:nowritebarrierrec
 func setsigstack(i uint32) {
 	var sa sigactiont
 	sigaction(i, nil, &sa)
@@ -360,8 +360,8 @@ func setsigstack(i uint32) {
 	sigaction(i, &sa, nil)
 }
 
-//go:nosplit
-//go:nowritebarrierrec
+//golang:nosplit
+//golang:nowritebarrierrec
 func getsig(i uint32) uintptr {
 	var sa sigactiont
 	sigaction(i, nil, &sa)
@@ -370,13 +370,13 @@ func getsig(i uint32) uintptr {
 
 // setSignalstackSP sets the ss_sp field of a stackt.
 //
-//go:nosplit
+//golang:nosplit
 func setSignalstackSP(s *stackt, sp uintptr) {
 	s.ss_sp = sp
 }
 
-//go:nosplit
-//go:nowritebarrierrec
+//golang:nosplit
+//golang:nowritebarrierrec
 func sigaddset(mask *sigset, i int) {
 	mask.__bits[(i-1)/32] |= 1 << ((uint32(i) - 1) & 31)
 }
@@ -385,7 +385,7 @@ func sigdelset(mask *sigset, i int) {
 	mask.__bits[(i-1)/32] &^= 1 << ((uint32(i) - 1) & 31)
 }
 
-//go:nosplit
+//golang:nosplit
 func (c *sigctxt) fixsigcode(sig uint32) {
 }
 
@@ -397,7 +397,7 @@ func setThreadCPUProfiler(hz int32) {
 	setThreadCPUProfilerHz(hz)
 }
 
-//go:nosplit
+//golang:nosplit
 func validSIGPROF(mp *m, c *sigctxt) bool {
 	return true
 }
@@ -414,7 +414,7 @@ func sysargs(argc int32, argv **byte) {
 	n++
 
 	// now argv+n is auxv
-	auxvp := (*[1 << 28]uintptr)(add(unsafe.Pointer(argv), uintptr(n)*goarch.PtrSize))
+	auxvp := (*[1 << 28]uintptr)(add(unsafe.Pointer(argv), uintptr(n)*golangarch.PtrSize))
 	pairs := sysauxv(auxvp[:])
 	auxv = auxvp[: pairs*2 : pairs*2]
 }
@@ -433,7 +433,7 @@ func sysauxv(auxv []uintptr) (pairs int) {
 	for i = 0; auxv[i] != _AT_NULL; i += 2 {
 		tag, val := auxv[i], auxv[i+1]
 		switch tag {
-		// _AT_NCPUS from auxv shouldn't be used due to golang.org/issue/15206
+		// _AT_NCPUS from auxv shouldn't be used due to golanglang.org/issue/15206
 		case _AT_PAGESZ:
 			physPageSize = val
 		case _AT_TIMEKEEP:
@@ -447,7 +447,7 @@ func sysauxv(auxv []uintptr) (pairs int) {
 
 // sysSigaction calls the sigaction system call.
 //
-//go:nosplit
+//golang:nosplit
 func sysSigaction(sig uint32, new, old *sigactiont) {
 	// Use system stack to avoid split stack overflow on amd64
 	if asmSigaction(uintptr(sig), new, old) != 0 {
@@ -459,7 +459,7 @@ func sysSigaction(sig uint32, new, old *sigactiont) {
 
 // asmSigaction is implemented in assembly.
 //
-//go:noescape
+//golang:noescape
 func asmSigaction(sig uintptr, new, old *sigactiont) int32
 
 // raise sends a signal to the calling thread.
@@ -467,7 +467,7 @@ func asmSigaction(sig uintptr, new, old *sigactiont) int32
 // It must be nosplit because it is used by the signal handler before
 // it definitely has a Go stack.
 //
-//go:nosplit
+//golang:nosplit
 func raise(sig uint32) {
 	thr_kill(thr_self(), int(sig))
 }
@@ -480,7 +480,7 @@ func signalM(mp *m, sig int) {
 // number.
 const sigPerThreadSyscall = 1 << 31
 
-//go:nosplit
+//golang:nosplit
 func runPerThreadSyscall() {
 	throw("runPerThreadSyscall only valid on linux")
 }

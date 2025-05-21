@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package net
@@ -61,11 +61,11 @@ func TestInterfaces(t *testing.T) {
 		switch runtime.GOOS {
 		case "solaris", "illumos":
 			if ifxi.Index != ifi.Index {
-				t.Errorf("got %v; want %v", ifxi, ifi)
+				t.Errorf("golangt %v; want %v", ifxi, ifi)
 			}
 		default:
 			if !reflect.DeepEqual(ifxi, &ifi) {
-				t.Errorf("got %v; want %v", ifxi, ifi)
+				t.Errorf("golangt %v; want %v", ifxi, ifi)
 			}
 		}
 		if ifi.Name != "" {
@@ -74,7 +74,7 @@ func TestInterfaces(t *testing.T) {
 				t.Fatal(err)
 			}
 			if !reflect.DeepEqual(ifxn, &ifi) {
-				t.Errorf("got %v; want %v", ifxn, ifi)
+				t.Errorf("golangt %v; want %v", ifxn, ifi)
 			}
 		}
 		t.Logf("%s: flags=%v index=%d mtu=%d hwaddr=%v", ifi.Name, ifi.Flags, ifi.Index, ifi.MTU, ifi.HardwareAddr)
@@ -278,7 +278,7 @@ func checkUnicastStats(ifStats *ifStats, uniStats *routeStats) error {
 
 func checkMulticastStats(ifStats *ifStats, uniStats, multiStats *routeStats) error {
 	switch runtime.GOOS {
-	case "aix", "dragonfly", "netbsd", "openbsd", "plan9", "solaris", "illumos":
+	case "aix", "dragolangnfly", "netbsd", "openbsd", "plan9", "solaris", "illumos":
 	default:
 		// Test the existence of connected multicast route
 		// clones for IPv4. Unlike IPv6, IPv4 multicast

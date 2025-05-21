@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Testing that AddrTaken logic doesn't cause problems for function instantiations
@@ -12,7 +12,7 @@ type A[T interface{ []int | [5]int }] struct {
 	val T
 }
 
-//go:noinline
+//golang:noinline
 func (a A[T]) F() {
 	_ = &a.val[2]
 }

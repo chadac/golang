@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package work
@@ -28,8 +28,8 @@ func TestEncodeArgs(t *testing.T) {
 		{"\\\n", "\\\\\\n"},
 	}
 	for _, test := range tests {
-		if got := encodeArg(test.arg); got != test.want {
-			t.Errorf("encodeArg(%q) = %q, want %q", test.arg, got, test.want)
+		if golangt := encodeArg(test.arg); golangt != test.want {
+			t.Errorf("encodeArg(%q) = %q, want %q", test.arg, golangt, test.want)
 		}
 	}
 }
@@ -45,8 +45,8 @@ func TestEncodeDecode(t *testing.T) {
 		"hello \n中\\国",
 	}
 	for _, arg := range tests {
-		if got := objabi.DecodeArg(encodeArg(arg)); got != arg {
-			t.Errorf("objabi.DecodeArg(encodeArg(%q)) = %q", arg, got)
+		if golangt := objabi.DecodeArg(encodeArg(arg)); golangt != arg {
+			t.Errorf("objabi.DecodeArg(encodeArg(%q)) = %q", arg, golangt)
 		}
 	}
 }
@@ -80,8 +80,8 @@ func TestEncodeDecodeFuzz(t *testing.T) {
 		}
 		arg := buf.String()
 
-		if got := objabi.DecodeArg(encodeArg(arg)); got != arg {
-			t.Errorf("[%d] objabi.DecodeArg(encodeArg(%q)) = %q [seed: %v]", i, arg, got, seed)
+		if golangt := objabi.DecodeArg(encodeArg(arg)); golangt != arg {
+			t.Errorf("[%d] objabi.DecodeArg(encodeArg(%q)) = %q [seed: %v]", i, arg, golangt, seed)
 		}
 	}
 }

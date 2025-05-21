@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package loong64
@@ -495,7 +495,7 @@ func IsAtomicInst(as obj.As) bool {
 // reporting an error if alignedValue is not a power of two or is out of range.
 func pcAlignPadLength(ctxt *obj.Link, pc int64, alignedValue int64) int {
 	if !((alignedValue&(alignedValue-1) == 0) && 8 <= alignedValue && alignedValue <= 2048) {
-		ctxt.Diag("alignment value of an instruction must be a power of two and in the range [8, 2048], got %d\n", alignedValue)
+		ctxt.Diag("alignment value of an instruction must be a power of two and in the range [8, 2048], golangt %d\n", alignedValue)
 	}
 	return int(-pc & (alignedValue - 1))
 }
@@ -715,7 +715,7 @@ func (c *ctxt0) isRestartable(p *obj.Prog) bool {
 	// the assembler in order to materialize a large constant/offset, we
 	// can restart p (at the start of the instruction sequence), recompute
 	// the content of REGTMP, upon async preemption. Currently, all cases
-	// of assembler-inserted REGTMP fall into this category.
+	// of assembler-inserted REGTMP fall into this categolangry.
 	// If p doesn't use REGTMP, it can be simply preempted, so we don't
 	// mark it.
 	o := c.oplook(p)
@@ -1108,7 +1108,7 @@ func (c *ctxt0) oplook(p *obj.Prog) *Optab {
 	restArgsIndex := 0
 	restArgsLen := len(p.RestArgs)
 	if restArgsLen > 2 {
-		c.ctxt.Diag("too many RestArgs: got %v, maximum is 2\n", restArgsLen)
+		c.ctxt.Diag("too many RestArgs: golangt %v, maximum is 2\n", restArgsLen)
 		return nil
 	}
 
@@ -2018,7 +2018,7 @@ func (c *ctxt0) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		o1 = OP_RRR(c.oprrr(p.As), uint32(p.From.Reg), uint32(r), uint32(p.To.Reg))
 
 	case 3: // mov $soreg, r ==> or/add $i,o,r
-		v := c.regoff(&p.From)
+		v := c.regolangff(&p.From)
 
 		r := int(p.From.Reg)
 		if r == 0 {
@@ -2032,7 +2032,7 @@ func (c *ctxt0) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		o1 = OP_12IRR(c.opirr(a), uint32(v), uint32(r), uint32(p.To.Reg))
 
 	case 4: // add $scon,[r1],r2
-		v := c.regoff(&p.From)
+		v := c.regolangff(&p.From)
 		r := int(p.Reg)
 		if r == 0 {
 			r = int(p.To.Reg)
@@ -2040,7 +2040,7 @@ func (c *ctxt0) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		o1 = OP_12IRR(c.opirr(p.As), uint32(v), uint32(r), uint32(p.To.Reg))
 
 	case 5: // syscall
-		v := c.regoff(&p.From)
+		v := c.regolangff(&p.From)
 		o1 = OP_15I(c.opi(p.As), uint32(v))
 
 	case 6: // beq r1,[r2],sbra
@@ -2089,7 +2089,7 @@ func (c *ctxt0) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		if r == 0 {
 			r = int(o.param)
 		}
-		v := c.regoff(&p.To)
+		v := c.regolangff(&p.To)
 		o1 = OP_12IRR(c.opirr(p.As), uint32(v), uint32(r), uint32(p.From.Reg))
 
 	case 8: // mov soreg, r
@@ -2097,14 +2097,14 @@ func (c *ctxt0) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		if r == 0 {
 			r = int(o.param)
 		}
-		v := c.regoff(&p.From)
+		v := c.regolangff(&p.From)
 		o1 = OP_12IRR(c.opirr(-p.As), uint32(v), uint32(r), uint32(p.To.Reg))
 
 	case 9: // sll r1,[r2],r3
 		o1 = OP_RR(c.oprr(p.As), uint32(p.From.Reg), uint32(p.To.Reg))
 
 	case 10: // add $con,[r1],r2 ==> mov $con, t; add t,[r1],r2
-		v := c.regoff(&p.From)
+		v := c.regolangff(&p.From)
 		a := AOR
 		if v < 0 {
 			a = AADDU
@@ -2149,7 +2149,7 @@ func (c *ctxt0) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		}
 
 	case 13: // vsll $ui3, [vr1], vr2
-		v := c.regoff(&p.From)
+		v := c.regolangff(&p.From)
 		r := int(p.Reg)
 		if r == 0 {
 			r = int(p.To.Reg)
@@ -2157,7 +2157,7 @@ func (c *ctxt0) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		o1 = OP_3IRR(c.opirr(p.As), uint32(v), uint32(r), uint32(p.To.Reg))
 
 	case 14: // vsll $ui4, [vr1], vr2
-		v := c.regoff(&p.From)
+		v := c.regolangff(&p.From)
 		r := int(p.Reg)
 		if r == 0 {
 			r = int(p.To.Reg)
@@ -2165,7 +2165,7 @@ func (c *ctxt0) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		o1 = OP_4IRR(c.opirr(p.As), uint32(v), uint32(r), uint32(p.To.Reg))
 
 	case 15: // teq $c r,r
-		v := c.regoff(&p.From)
+		v := c.regolangff(&p.From)
 		r := int(p.Reg)
 		if r == 0 {
 			r = REGZERO
@@ -2186,7 +2186,7 @@ func (c *ctxt0) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		o2 = OP_15I(c.opi(ABREAK), uint32(v))
 
 	case 16: // sll $c,[r1],r2
-		v := c.regoff(&p.From)
+		v := c.regolangff(&p.From)
 		r := int(p.Reg)
 		if r == 0 {
 			r = int(p.To.Reg)
@@ -2235,7 +2235,7 @@ func (c *ctxt0) asmout(p *obj.Prog, o *Optab, out []uint32) {
 	case 19: // mov $lcon,r
 		// NOTE: this case does not use REGTMP. If it ever does,
 		// remove the NOTUSETMP flag in optab.
-		v := c.regoff(&p.From)
+		v := c.regolangff(&p.From)
 		o1 = OP_IR(c.opir(ALU12IW), uint32(v>>12), uint32(p.To.Reg))
 		o2 = OP_12IRR(c.opirr(AOR), uint32(v), uint32(p.To.Reg), uint32(p.To.Reg))
 
@@ -2246,7 +2246,7 @@ func (c *ctxt0) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		o1 = OP_RRR(c.oprrr(-p.As), uint32(p.From.Index), uint32(p.From.Reg), uint32(p.To.Reg))
 
 	case 22: // add $si5,[r1],r2
-		v := c.regoff(&p.From)
+		v := c.regolangff(&p.From)
 		r := int(p.Reg)
 		if r == 0 {
 			r = int(p.To.Reg)
@@ -2255,7 +2255,7 @@ func (c *ctxt0) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		o1 = OP_5IRR(c.opirr(p.As), uint32(v), uint32(r), uint32(p.To.Reg))
 
 	case 23: // add $ui8,[r1],r2
-		v := c.regoff(&p.From)
+		v := c.regolangff(&p.From)
 		r := int(p.Reg)
 		if r == 0 {
 			r = int(p.To.Reg)
@@ -2270,7 +2270,7 @@ func (c *ctxt0) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		o1 = OP_8IRR(c.opirr(p.As), uint32(v), uint32(r), uint32(p.To.Reg))
 
 	case 24: // add $lcon,r1,r2
-		v := c.regoff(&p.From)
+		v := c.regolangff(&p.From)
 		o1 = OP_IR(c.opir(ALU12IW), uint32(v>>12), uint32(REGTMP))
 		o2 = OP_12IRR(c.opirr(AOR), uint32(v), uint32(REGTMP), uint32(REGTMP))
 		r := int(p.Reg)
@@ -2280,11 +2280,11 @@ func (c *ctxt0) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		o3 = OP_RRR(c.oprrr(p.As), uint32(REGTMP), uint32(r), uint32(p.To.Reg))
 
 	case 25: // mov $ucon,r
-		v := c.regoff(&p.From)
+		v := c.regolangff(&p.From)
 		o1 = OP_IR(c.opir(ALU12IW), uint32(v>>12), uint32(p.To.Reg))
 
 	case 26: // add/and $ucon,[r1],r2
-		v := c.regoff(&p.From)
+		v := c.regolangff(&p.From)
 		o1 = OP_IR(c.opir(ALU12IW), uint32(v>>12), uint32(REGTMP))
 		r := int(p.Reg)
 		if r == 0 {
@@ -2293,7 +2293,7 @@ func (c *ctxt0) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		o2 = OP_RRR(c.oprrr(p.As), uint32(REGTMP), uint32(r), uint32(p.To.Reg))
 
 	case 27: // mov $lsext/auto/oreg,r
-		v := c.regoff(&p.From)
+		v := c.regolangff(&p.From)
 		o1 = OP_IR(c.opir(ALU12IW), uint32(v>>12), uint32(REGTMP))
 		o2 = OP_12IRR(c.opirr(AOR), uint32(v), uint32(REGTMP), uint32(REGTMP))
 		r := int(p.From.Reg)
@@ -2303,7 +2303,7 @@ func (c *ctxt0) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		o3 = OP_RRR(c.oprrr(add), uint32(REGTMP), uint32(r), uint32(p.To.Reg))
 
 	case 28: // mov [sl]ext/auto/oreg,fr
-		v := c.regoff(&p.From)
+		v := c.regolangff(&p.From)
 		r := int(p.From.Reg)
 		if r == 0 {
 			r = int(o.param)
@@ -2319,7 +2319,7 @@ func (c *ctxt0) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		}
 
 	case 29: // mov fr,[sl]ext/auto/oreg
-		v := c.regoff(&p.To)
+		v := c.regolangff(&p.To)
 		r := int(p.To.Reg)
 		if r == 0 {
 			r = int(o.param)
@@ -2339,7 +2339,7 @@ func (c *ctxt0) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		o1 = OP_RR(a, uint32(p.From.Reg), uint32(p.To.Reg))
 
 	case 31: // vsll $ui5, [vr1], vr2
-		v := c.regoff(&p.From)
+		v := c.regolangff(&p.From)
 		r := int(p.Reg)
 		if r == 0 {
 			r = int(p.To.Reg)
@@ -2347,7 +2347,7 @@ func (c *ctxt0) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		o1 = OP_5IRR(c.opirr(p.As), uint32(v), uint32(r), uint32(p.To.Reg))
 
 	case 32: // vsll $ui6, [vr1], vr2
-		v := c.regoff(&p.From)
+		v := c.regolangff(&p.From)
 		r := int(p.Reg)
 		if r == 0 {
 			r = int(p.To.Reg)
@@ -2355,7 +2355,7 @@ func (c *ctxt0) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		o1 = OP_6IRR(c.opirr(p.As), uint32(v), uint32(r), uint32(p.To.Reg))
 
 	case 34: // mov $con,fr
-		v := c.regoff(&p.From)
+		v := c.regolangff(&p.From)
 		a := AADDU
 		if v > 0 {
 			a = AOR
@@ -2365,7 +2365,7 @@ func (c *ctxt0) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		o2 = OP_RR(a2, uint32(REGTMP), uint32(p.To.Reg))
 
 	case 35: // mov r,lext/auto/oreg
-		v := c.regoff(&p.To)
+		v := c.regolangff(&p.To)
 		r := int(p.To.Reg)
 		if r == 0 {
 			r = int(o.param)
@@ -2375,7 +2375,7 @@ func (c *ctxt0) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		o3 = OP_12IRR(c.opirr(p.As), uint32(v), uint32(REGTMP), uint32(p.From.Reg))
 
 	case 36: // mov lext/auto/oreg,r
-		v := c.regoff(&p.From)
+		v := c.regolangff(&p.From)
 		r := int(p.From.Reg)
 		if r == 0 {
 			r = int(o.param)
@@ -2392,7 +2392,7 @@ func (c *ctxt0) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		o1 = OP_RRRR(c.oprrrr(p.As), uint32(p.From.Reg), uint32(p.Reg), uint32(r), uint32(p.To.Reg))
 
 	case 38: // word
-		o1 = uint32(c.regoff(&p.From))
+		o1 = uint32(c.regolangff(&p.From))
 
 	case 39: // vmov Rn, Vd.<T>[index]
 		v, m := c.specialLsxMovInst(p.As, p.From.Reg, p.To.Reg)
@@ -2475,12 +2475,12 @@ func (c *ctxt0) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		o1 = v | (index << 10) | (vj << 5) | vd
 
 	case 46: // preld  offset(Rbase), $hint
-		offs := c.regoff(&p.From)
+		offs := c.regolangff(&p.From)
 		hint := p.GetFrom3().Offset
 		o1 = OP_12IR_5I(c.opiir(p.As), uint32(offs), uint32(p.From.Reg), uint32(hint))
 
 	case 47: // preldx offset(Rbase), $n, $hint
-		offs := c.regoff(&p.From)
+		offs := c.regolangff(&p.From)
 		hint := p.RestArgs[1].Offset
 		n := uint64(p.GetFrom3().Offset)
 
@@ -2619,7 +2619,7 @@ func (c *ctxt0) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		o3 = OP_RRR(c.oprrr(AADDV), uint32(REG_R2), uint32(REGTMP), uint32(REGTMP))
 		o4 = OP_12IRR(c.opirr(-p.As), uint32(0), uint32(REGTMP), uint32(p.To.Reg))
 
-	case 56: // mov r, tlsvar IE model ==> (pcalau12i + ld.d)tlsvar@got + add.d + st.d
+	case 56: // mov r, tlsvar IE model ==> (pcalau12i + ld.d)tlsvar@golangt + add.d + st.d
 		o1 = OP_IR(c.opir(APCALAU12I), uint32(0), uint32(REGTMP))
 		c.cursym.AddRel(c.ctxt, obj.Reloc{
 			Type: objabi.R_LOONG64_TLS_IE_HI,
@@ -2637,7 +2637,7 @@ func (c *ctxt0) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		o3 = OP_RRR(c.oprrr(AADDVU), uint32(REGTMP), uint32(REG_R2), uint32(REGTMP))
 		o4 = OP_12IRR(c.opirr(p.As), uint32(0), uint32(REGTMP), uint32(p.From.Reg))
 
-	case 57: // mov tlsvar, r IE model ==> (pcalau12i + ld.d)tlsvar@got + add.d + ld.d
+	case 57: // mov tlsvar, r IE model ==> (pcalau12i + ld.d)tlsvar@golangt + add.d + ld.d
 		o1 = OP_IR(c.opir(APCALAU12I), uint32(0), uint32(REGTMP))
 		c.cursym.AddRel(c.ctxt, obj.Reloc{
 			Type: objabi.R_LOONG64_TLS_IE_HI,
@@ -2658,14 +2658,14 @@ func (c *ctxt0) asmout(p *obj.Prog, o *Optab, out []uint32) {
 	case 59: // mov $dcon,r
 		// NOTE: this case does not use REGTMP. If it ever does,
 		// remove the NOTUSETMP flag in optab.
-		v := c.vregoff(&p.From)
+		v := c.vregolangff(&p.From)
 		o1 = OP_IR(c.opir(ALU12IW), uint32(v>>12), uint32(p.To.Reg))
 		o2 = OP_12IRR(c.opirr(AOR), uint32(v), uint32(p.To.Reg), uint32(p.To.Reg))
 		o3 = OP_IR(c.opir(ALU32ID), uint32(v>>32), uint32(p.To.Reg))
 		o4 = OP_12IRR(c.opirr(ALU52ID), uint32(v>>52), uint32(p.To.Reg), uint32(p.To.Reg))
 
 	case 60: // add $dcon,r1,r2
-		v := c.vregoff(&p.From)
+		v := c.vregolangff(&p.From)
 		o1 = OP_IR(c.opir(ALU12IW), uint32(v>>12), uint32(REGTMP))
 		o2 = OP_12IRR(c.opirr(AOR), uint32(v), uint32(REGTMP), uint32(REGTMP))
 		o3 = OP_IR(c.opir(ALU32ID), uint32(v>>32), uint32(REGTMP))
@@ -2677,8 +2677,8 @@ func (c *ctxt0) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		o5 = OP_RRR(c.oprrr(p.As), uint32(REGTMP), uint32(r), uint32(p.To.Reg))
 
 	case 61: // word C_DCON
-		o1 = uint32(c.vregoff(&p.From))
-		o2 = uint32(c.vregoff(&p.From) >> 32)
+		o1 = uint32(c.vregolangff(&p.From))
+		o2 = uint32(c.vregolangff(&p.From) >> 32)
 
 	case 62: // rdtimex rd, rj
 		o1 = OP_RR(c.oprr(p.As), uint32(p.To.Reg), uint32(p.RegTo2))
@@ -2712,11 +2712,11 @@ func (c *ctxt0) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		o1 = OP_RRR(atomicInst[p.As], uint32(rk), uint32(rj), uint32(rd))
 
 	case 67: // mov $dcon12_0, r
-		v := c.vregoff(&p.From)
+		v := c.vregolangff(&p.From)
 		o1 = OP_12IRR(c.opirr(ALU52ID), uint32(v>>52), uint32(0), uint32(p.To.Reg))
 
 	case 68: // mov $dcon12_20S, r
-		v := c.vregoff(&p.From)
+		v := c.vregolangff(&p.From)
 		contype := c.aclass(&p.From)
 		switch contype {
 		default: // C_DCON12_20S
@@ -2740,7 +2740,7 @@ func (c *ctxt0) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		}
 
 	case 69: // mov $dcon32_12S, r
-		v := c.vregoff(&p.From)
+		v := c.vregolangff(&p.From)
 		contype := c.aclass(&p.From)
 		switch contype {
 		default: // C_DCON32_12S, C_DCON32_0
@@ -2766,7 +2766,7 @@ func (c *ctxt0) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		}
 
 	case 70: // add $dcon12_0,[r1],r2
-		v := c.vregoff(&p.From)
+		v := c.vregolangff(&p.From)
 		r := int(p.Reg)
 		if r == 0 {
 			r = int(p.To.Reg)
@@ -2775,7 +2775,7 @@ func (c *ctxt0) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		o2 = OP_RRR(c.oprrr(p.As), uint32(REGTMP), uint32(r), uint32(p.To.Reg))
 
 	case 71: // add $dcon12_20S,[r1],r2
-		v := c.vregoff(&p.From)
+		v := c.vregolangff(&p.From)
 		r := int(p.Reg)
 		if r == 0 {
 			r = int(p.To.Reg)
@@ -2804,7 +2804,7 @@ func (c *ctxt0) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		o3 = OP_RRR(c.oprrr(p.As), uint32(REGTMP), uint32(r), uint32(p.To.Reg))
 
 	case 72: // add $dcon32_12S,[r1],r2
-		v := c.vregoff(&p.From)
+		v := c.vregolangff(&p.From)
 		r := int(p.Reg)
 		if r == 0 {
 			r = int(p.To.Reg)
@@ -2856,14 +2856,14 @@ func (c *ctxt0) checkindex(p *obj.Prog, index uint32, mask uint32) {
 	}
 }
 
-func (c *ctxt0) vregoff(a *obj.Addr) int64 {
+func (c *ctxt0) vregolangff(a *obj.Addr) int64 {
 	c.instoffset = 0
 	c.aclass(a)
 	return c.instoffset
 }
 
-func (c *ctxt0) regoff(a *obj.Addr) int32 {
-	return int32(c.vregoff(a))
+func (c *ctxt0) regolangff(a *obj.Addr) int32 {
+	return int32(c.vregolangff(a))
 }
 
 func (c *ctxt0) oprrrr(a obj.As) uint32 {

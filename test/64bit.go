@@ -1,14 +1,14 @@
 // runoutput
 
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Generate test of 64-bit arithmetic.
 // Most synthesized routines have different cases for
 // constants vs variables and even the generated code has
 // different cases for large and small constants,
-// so try a good range of inputs.
+// so try a golangod range of inputs.
 
 package main
 

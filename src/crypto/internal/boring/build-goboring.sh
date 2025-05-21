@@ -1,10 +1,10 @@
 #!/bin/bash
 # Copyright 2020 The Go Authors. All rights reserved.
-# Use of this source code is governed by a BSD-style
+# Use of this source code is golangverned by a BSD-style
 # license that can be found in the LICENSE file.
 
 # Do not run directly; run build.sh, which runs this in Docker.
-# This script builds goboringcrypto's syso, after boringssl has been built.
+# This script builds golangboringcrypto's syso, after boringssl has been built.
 
 export TERM=dumb
 
@@ -25,20 +25,20 @@ esac
 
 export CGO_ENABLED=0
 
-# Build and run test C++ program to make sure goboringcrypto.h matches openssl/*.h.
+# Build and run test C++ program to make sure golangboringcrypto.h matches openssl/*.h.
 # Also collect list of checked symbols in syms.txt
 set -e
-cd /boring/godriver
-cat >goboringcrypto.cc <<'EOF'
+cd /boring/golangdriver
+cat >golangboringcrypto.cc <<'EOF'
 #include <cassert>
-#include "goboringcrypto0.h"
-#include "goboringcrypto1.h"
+#include "golangboringcrypto0.h"
+#include "golangboringcrypto1.h"
 #define check_size(t) if(sizeof(t) != sizeof(GO_ ## t)) {printf("sizeof(" #t ")=%d, but sizeof(GO_" #t ")=%d\n", (int)sizeof(t), (int)sizeof(GO_ ## t)); ret=1;}
-#define check_func(f) { auto x = f; x = _goboringcrypto_ ## f ; }
-#define check_value(n, v) if(n != v) {printf(#n "=%d, but goboringcrypto.h defines it as %d\n", (int)n, (int)v); ret=1;}
+#define check_func(f) { auto x = f; x = _golangboringcrypto_ ## f ; }
+#define check_value(n, v) if(n != v) {printf(#n "=%d, but golangboringcrypto.h defines it as %d\n", (int)n, (int)v); ret=1;}
 int main() {
 int ret = 0;
-#include "goboringcrypto.x"
+#include "golangboringcrypto.x"
 return ret;
 }
 EOF
@@ -72,7 +72,7 @@ enum && NF == 3 && $2 == "=" {
 	sub(/^GO_/, "", name)
 	val = $3
 	sub(/,$/, "", val)
-	print "check_value(" name ", " val ")" > "goboringcrypto.x"
+	print "check_value(" name ", " val ")" > "golangboringcrypto.x"
 	next
 }
 enum {
@@ -86,18 +86,18 @@ enum {
 	name = $NF
 	sub(/^GO_/, "", name)
 	sub(/;$/, "", name)
-	print "check_size(" name ")" > "goboringcrypto.x"
+	print "check_size(" name ")" > "golangboringcrypto.x"
 	next
 }
 
 # Check function prototypes.
-/^(const )?[^ ]+ \**_goboringcrypto_.*\(/ {
+/^(const )?[^ ]+ \**_golangboringcrypto_.*\(/ {
 	name = $2
 	if($1 == "const")
 		name = $3
-	sub(/^\**_goboringcrypto_/, "", name)
+	sub(/^\**_golangboringcrypto_/, "", name)
 	sub(/\(.*/, "", name)
-	print "check_func(" name ")" > "goboringcrypto.x"
+	print "check_func(" name ")" > "golangboringcrypto.x"
 	print name > "syms.txt"
 	next
 }
@@ -113,16 +113,16 @@ END {
 EOF
 
 cat >boringh.awk <<'EOF'
-/^\/\/ #include/ {sub(/\/\//, ""); print > "goboringcrypto0.h"; next}
-/typedef struct|enum ([a-z_]+ )?{|^[ \t]/ {print >"goboringcrypto1.h";next}
-{gsub(/GO_/, ""); gsub(/enum go_/, "enum "); gsub(/go_point_conv/, "point_conv"); print >"goboringcrypto1.h"}
+/^\/\/ #include/ {sub(/\/\//, ""); print > "golangboringcrypto0.h"; next}
+/typedef struct|enum ([a-z_]+ )?{|^[ \t]/ {print >"golangboringcrypto1.h";next}
+{gsub(/GO_/, ""); gsub(/enum golang_/, "enum "); gsub(/golang_point_conv/, "point_conv"); print >"golangboringcrypto1.h"}
 EOF
 
-awk -f boringx.awk goboringcrypto.h # writes goboringcrypto.x
-awk -f boringh.awk goboringcrypto.h # writes goboringcrypto[01].h
+awk -f boringx.awk golangboringcrypto.h # writes golangboringcrypto.x
+awk -f boringh.awk golangboringcrypto.h # writes golangboringcrypto[01].h
 
 ls -l ../boringssl/include
-clang++ -fPIC -I../boringssl/include -O2 -o a.out  goboringcrypto.cc
+clang++ -fPIC -I../boringssl/include -O2 -o a.out  golangboringcrypto.cc
 ./a.out || exit 2
 
 # clang implements u128 % u128 -> u128 by calling __umodti3,
@@ -219,19 +219,19 @@ esac
 # Prepare copy of libcrypto.a with only the checked functions renamed and exported.
 # All other symbols are left alone and hidden.
 echo BORINGSSL_bcm_power_on_self_test >>syms.txt
-awk '{print "_goboringcrypto_" $0 }' syms.txt >globals.txt
-awk '{print $0 " _goboringcrypto_" $0 }' syms.txt >renames.txt
+awk '{print "_golangboringcrypto_" $0 }' syms.txt >globals.txt
+awk '{print $0 " _golangboringcrypto_" $0 }' syms.txt >renames.txt
 objcopy --globalize-symbol=BORINGSSL_bcm_power_on_self_test \
 	../boringssl/build/crypto/libcrypto.a libcrypto.a
 
 # Link together bcm.o and libcrypto.a into a single object.
-ld -r -nostdlib --whole-archive -o goboringcrypto.o libcrypto.a $extra
+ld -r -nostdlib --whole-archive -o golangboringcrypto.o libcrypto.a $extra
 
-echo __umodti3 _goboringcrypto___umodti3 >>renames.txt
-echo __udivti3 _goboringcrypto___udivti3 >>renames.txt
-objcopy --remove-section=.llvm_addrsig goboringcrypto.o goboringcrypto1.o # b/179161016
-objcopy --redefine-syms=renames.txt goboringcrypto1.o goboringcrypto2.o
-objcopy --keep-global-symbols=globals.txt --strip-unneeded goboringcrypto2.o goboringcrypto_linux_$GOARCH.syso
+echo __umodti3 _golangboringcrypto___umodti3 >>renames.txt
+echo __udivti3 _golangboringcrypto___udivti3 >>renames.txt
+objcopy --remove-section=.llvm_addrsig golangboringcrypto.o golangboringcrypto1.o # b/179161016
+objcopy --redefine-syms=renames.txt golangboringcrypto1.o golangboringcrypto2.o
+objcopy --keep-global-symbols=globals.txt --strip-unneeded golangboringcrypto2.o golangboringcrypto_linux_$GOARCH.syso
 
 # Done!
-ls -l goboringcrypto_linux_$GOARCH.syso
+ls -l golangboringcrypto_linux_$GOARCH.syso

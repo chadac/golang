@@ -1,19 +1,19 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build ignore
+//golang:build ignore
 
-// mkpost processes the output of cgo -godefs to
+// mkpost processes the output of cgolang -golangdefs to
 // modify the generated types. It is used to clean up
 // the syscall API in an architecture specific manner.
 //
-// mkpost is run after cgo -godefs by mkall.sh.
+// mkpost is run after cgolang -golangdefs by mkall.sh.
 package main
 
 import (
 	"fmt"
-	"go/format"
+	"golang/format"
 	"io"
 	"log"
 	"os"
@@ -28,16 +28,16 @@ func main() {
 	}
 	s := string(b)
 
-	goarch := os.Getenv("GOARCH")
-	goos := os.Getenv("GOOS")
+	golangarch := os.Getenv("GOARCH")
+	golangos := os.Getenv("GOOS")
 	switch {
-	case goarch == "s390x" && goos == "linux":
+	case golangarch == "s390x" && golangos == "linux":
 		// Export the types of PtraceRegs fields.
 		re := regexp.MustCompile("ptrace(Psw|Fpregs|Per)")
 		s = re.ReplaceAllString(s, "Ptrace$1")
 
-		// Replace padding fields inserted by cgo with blank identifiers.
-		re = regexp.MustCompile("Pad_cgo[A-Za-z0-9_]*")
+		// Replace padding fields inserted by cgolang with blank identifiers.
+		re = regexp.MustCompile("Pad_cgolang[A-Za-z0-9_]*")
 		s = re.ReplaceAllString(s, "_")
 
 		// We want to keep the X_ fields that are already consistently exported
@@ -57,17 +57,17 @@ func main() {
 		s = strings.Replace(s, "MKPOSTSYSINFOTF", "X_f", 1)
 
 		// Force the type of RawSockaddr.Data to [14]int8 to match
-		// the existing gccgo API.
+		// the existing gccgolang API.
 		re = regexp.MustCompile("(Data\\s+\\[14\\])uint8")
 		s = re.ReplaceAllString(s, "${1}int8")
 
-	case goos == "freebsd":
+	case golangos == "freebsd":
 		// Keep pre-FreeBSD 10 / non-POSIX 2008 names for timespec fields
 		re := regexp.MustCompile("(A|M|C|Birth)tim\\s+Timespec")
 		s = re.ReplaceAllString(s, "${1}timespec Timespec")
 	}
 
-	// gofmt
+	// golangfmt
 	b, err = format.Source([]byte(s))
 	if err != nil {
 		log.Fatal(err)
@@ -75,8 +75,8 @@ func main() {
 
 	// Append this command to the header to show where the new file
 	// came from.
-	re := regexp.MustCompile("(cgo -godefs [a-zA-Z0-9_]+\\.go.*)")
-	s = re.ReplaceAllString(string(b), "$1 | go run mkpost.go")
+	re := regexp.MustCompile("(cgolang -golangdefs [a-zA-Z0-9_]+\\.golang.*)")
+	s = re.ReplaceAllString(string(b), "$1 | golang run mkpost.golang")
 
 	fmt.Print(s)
 }

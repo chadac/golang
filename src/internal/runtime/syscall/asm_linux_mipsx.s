@@ -1,14 +1,14 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build linux && (mips || mipsle)
+//golang:build linux && (mips || mipsle)
 
 #include "textflag.h"
 
 // func Syscall6(num, a1, a2, a3, a4, a5, a6 uintptr) (r1, r2, errno uintptr)
 //
-// The 5th and 6th arg go at sp+16, sp+20.
+// The 5th and 6th arg golang at sp+16, sp+20.
 // Note that frame size of 20 means that 24 bytes gets reserved on stack.
 TEXT ·Syscall6(SB),NOSPLIT,$20-40
 	MOVW	num+0(FP), R2	// syscall entry

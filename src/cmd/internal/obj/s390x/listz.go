@@ -1,4 +1,4 @@
-// Based on cmd/internal/obj/ppc64/list9.go.
+// Based on cmd/internal/obj/ppc64/list9.golang.
 //
 //	Copyright © 1994-1999 Lucent Technologies Inc.  All rights reserved.
 //	Portions Copyright © 1995-1997 C H Forsyth (forsyth@terzarima.net)
@@ -59,7 +59,7 @@ func rconv(r int) string {
 	if REG_V0 <= r && r <= REG_V31 {
 		return fmt.Sprintf("V%d", r-REG_V0)
 	}
-	return fmt.Sprintf("Rgok(%d)", r-obj.RBaseS390X)
+	return fmt.Sprintf("Rgolangk(%d)", r-obj.RBaseS390X)
 }
 
 func DRconv(a int) string {

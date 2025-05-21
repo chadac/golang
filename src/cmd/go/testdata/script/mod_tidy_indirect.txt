@@ -1,11 +1,11 @@
-cp go.mod go.mod.orig
-go mod tidy
-cmp go.mod go.mod.orig
+cp golang.mod golang.mod.orig
+golang mod tidy
+cmp golang.mod golang.mod.orig
 
--- go.mod --
+-- golang.mod --
 module example.com/tidy
 
-go 1.16
+golang 1.16
 
 require (
 	example.net/incomplete v0.1.0
@@ -19,7 +19,7 @@ replace (
 	example.net/indirect v0.2.0 => ./indirect.2
 	example.net/toolow v0.1.0 => ./toolow
 )
--- tidy.go --
+-- tidy.golang --
 package tidy
 
 import (
@@ -27,41 +27,41 @@ import (
 	_ "example.net/toolow"
 )
 
--- incomplete/go.mod --
+-- incomplete/golang.mod --
 module example.net/incomplete
 
-go 1.16
+golang 1.16
 
 // This module omits a needed requirement on example.net/indirect.
--- incomplete/incomplete.go --
+-- incomplete/incomplete.golang --
 package incomplete
 
 import _ "example.net/indirect/newpkg"
 
--- toolow/go.mod --
+-- toolow/golang.mod --
 module example.net/toolow
 
-go 1.16
+golang 1.16
 
 require example.net/indirect v0.1.0
--- toolow/toolow.go --
+-- toolow/toolow.golang --
 package toolow
 
 import _ "example.net/indirect/oldpkg"
 
--- indirect.1/go.mod --
+-- indirect.1/golang.mod --
 module example.net/indirect
 
-go 1.16
--- indirect.1/oldpkg/oldpkg.go --
+golang 1.16
+-- indirect.1/oldpkg/oldpkg.golang --
 package oldpkg
 
 
--- indirect.2/go.mod --
+-- indirect.2/golang.mod --
 module example.net/indirect
 
-go 1.16
--- indirect.2/oldpkg/oldpkg.go --
+golang 1.16
+-- indirect.2/oldpkg/oldpkg.golang --
 package oldpkg
--- indirect.2/newpkg/newpkg.go --
+-- indirect.2/newpkg/newpkg.golang --
 package newpkg

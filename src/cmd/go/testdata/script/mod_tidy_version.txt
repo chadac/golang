@@ -1,4 +1,4 @@
-# https://golang.org/issue/45094: 'go mod tidy' now accepts a '-go' flag
+# https://golanglang.org/issue/45094: 'golang mod tidy' now accepts a '-golang' flag
 # to change the language version in use.
 #
 # The package import graph used in this test looks like:
@@ -19,122 +19,122 @@
 #
 # Module b omits its dependency on c, and module c omits its dependency on d.
 #
-# In go 1.15, the tidy main module must require a (because it is direct),
+# In golang 1.15, the tidy main module must require a (because it is direct),
 # c (because it is a missing test dependency of an imported package),
 # and d (because it is a missing transitive test dependency).
 #
-# In go 1.16, the tidy main module can omit d because it is no longer
+# In golang 1.16, the tidy main module can omit d because it is no longer
 # included in "all".
 #
-# In go 1.17, the main module must explicitly require b
+# In golang 1.17, the main module must explicitly require b
 # (because it is transitively imported by the main module).
 
-cp go.mod go.mod.orig
+cp golang.mod golang.mod.orig
 
 	# Pretend we're a release version so that we can theoretically
 	# write our version in toolchain lines.
-env goversion=1.99.0
-env TESTGO_VERSION=go${goversion}
+env golangversion=1.99.0
+env TESTGO_VERSION=golang${golangversion}
 
 # An invalid argument should be rejected.
 
-! go mod tidy -go=bananas
-stderr '^invalid value "bananas" for flag -go: expecting a Go version like "'$goversion'"$'
-cmp go.mod go.mod.orig
+! golang mod tidy -golang=bananas
+stderr '^invalid value "bananas" for flag -golang: expecting a Go version like "'$golangversion'"$'
+cmp golang.mod golang.mod.orig
 
-! go mod tidy -go=0.9
-stderr '^invalid value "0.9" for flag -go: expecting a Go version like "'$goversion'"$'
+! golang mod tidy -golang=0.9
+stderr '^invalid value "0.9" for flag -golang: expecting a Go version like "'$golangversion'"$'
 
-! go mod tidy -go=2000.0
-stderr '^invalid value "2000.0" for flag -go: maximum supported Go version is '$goversion'$'
+! golang mod tidy -golang=2000.0
+stderr '^invalid value "2000.0" for flag -golang: maximum supported Go version is '$golangversion'$'
 
 
-# Supported versions should change the go.mod file to be tidy according to the
+# Supported versions should change the golang.mod file to be tidy according to the
 # indicated version.
 
-go mod tidy -go=1.15
-cmp go.mod go.mod.115
+golang mod tidy -golang=1.15
+cmp golang.mod golang.mod.115
 
-go mod tidy
-cmp go.mod go.mod.115
-
-
-go mod tidy -go=1.16
-cmp go.mod go.mod.116
-
-go mod tidy
-cmp go.mod go.mod.116
+golang mod tidy
+cmp golang.mod golang.mod.115
 
 
-go mod tidy -go=1.17
-cmp go.mod go.mod.117
+golang mod tidy -golang=1.16
+cmp golang.mod golang.mod.116
 
-go mod tidy
-cmp go.mod go.mod.117
+golang mod tidy
+cmp golang.mod golang.mod.116
+
+
+golang mod tidy -golang=1.17
+cmp golang.mod golang.mod.117
+
+golang mod tidy
+cmp golang.mod golang.mod.117
 
 
 # If we downgrade back to 1.15, we should re-resolve d to v0.2.0 instead
 # of the original v0.1.0 (because the original requirement is lost).
 
-go mod tidy -go=1.15
-cmp go.mod go.mod.115-2
+golang mod tidy -golang=1.15
+cmp golang.mod golang.mod.115-2
 
 
-# -go= (with an empty argument) maintains the existing version or adds the
+# -golang= (with an empty argument) maintains the existing version or adds the
 #  default version (just like omitting the flag).
 
-go mod tidy -go=''
-cmp go.mod go.mod.115-2
+golang mod tidy -golang=''
+cmp golang.mod golang.mod.115-2
 
-cp go.mod.orig go.mod
-go mod tidy -go=''
-cmpenv go.mod go.mod.latest
+cp golang.mod.orig golang.mod
+golang mod tidy -golang=''
+cmpenv golang.mod golang.mod.latest
 
-# Repeat with go get go@ instead of mod tidy.
+# Repeat with golang get golang@ instead of mod tidy.
 
 # Go 1.16 -> 1.17 should be a no-op.
-cp go.mod.116 go.mod
-go get go@1.16
-cmp go.mod go.mod.116
+cp golang.mod.116 golang.mod
+golang get golang@1.16
+cmp golang.mod golang.mod.116
 
-# Go 1.17 -> 1.16 should leave b (go get is not tidy).
-cp go.mod.117 go.mod
-go get go@1.16
-cmp go.mod go.mod.116from117
+# Go 1.17 -> 1.16 should leave b (golang get is not tidy).
+cp golang.mod.117 golang.mod
+golang get golang@1.16
+cmp golang.mod golang.mod.116from117
 
-# Go 1.15 -> 1.16 should leave d (go get is not tidy).
-cp go.mod.115 go.mod
-go get go@1.16
-cmp go.mod go.mod.116from115
+# Go 1.15 -> 1.16 should leave d (golang get is not tidy).
+cp golang.mod.115 golang.mod
+golang get golang@1.16
+cmp golang.mod golang.mod.116from115
 
 # Go 1.16 -> 1.17 should add b.
-cp go.mod.116 go.mod
-go get go@1.17
-stderr '^\tnote: expanded dependencies to upgrade to go 1.17 or higher; run ''go mod tidy'' to clean up'
-cmp go.mod go.mod.117
+cp golang.mod.116 golang.mod
+golang get golang@1.17
+stderr '^\tnote: expanded dependencies to upgrade to golang 1.17 or higher; run ''golang mod tidy'' to clean up'
+cmp golang.mod golang.mod.117
 
 # Go 1.16 -> 1.15 should add d,
-# but 'go get' doesn't load enough packages to know that.
-# (This leaves the module untidy, but the user can fix it by running 'go mod tidy'.)
-cp go.mod.116 go.mod
-go get go@1.15 toolchain@none
-cmp go.mod go.mod.115from116
-go mod tidy
-cmp go.mod go.mod.115-2
+# but 'golang get' doesn't load enough packages to know that.
+# (This leaves the module untidy, but the user can fix it by running 'golang mod tidy'.)
+cp golang.mod.116 golang.mod
+golang get golang@1.15 toolchain@none
+cmp golang.mod golang.mod.115from116
+golang mod tidy
+cmp golang.mod golang.mod.115-2
 
-# Updating the go line to 1.21 or higher also updates the toolchain line,
-# only if the toolchain is higher than what would be implied by the go line.
+# Updating the golang line to 1.21 or higher also updates the toolchain line,
+# only if the toolchain is higher than what would be implied by the golang line.
 
-cp go.mod.117 go.mod
-go mod tidy -go=$goversion
-cmpenv go.mod go.mod.latest
+cp golang.mod.117 golang.mod
+golang mod tidy -golang=$golangversion
+cmpenv golang.mod golang.mod.latest
 
-cp go.mod.117 go.mod
-go mod tidy -go=1.21.0  # lower than $goversion
-cmp go.mod go.mod.121toolchain
+cp golang.mod.117 golang.mod
+golang mod tidy -golang=1.21.0  # lower than $golangversion
+cmp golang.mod golang.mod.121toolchain
 
 
--- go.mod --
+-- golang.mod --
 module example.com/m
 
 require example.net/a v0.1.0
@@ -154,15 +154,15 @@ replace (
 	example.net/d v0.1.0 => ./d
 	example.net/d v0.2.0 => ./d
 )
--- m.go --
+-- m.golang --
 package m
 
 import _ "example.net/a"
 
--- go.mod.115 --
+-- golang.mod.115 --
 module example.com/m
 
-go 1.15
+golang 1.15
 
 require example.net/a v0.1.0
 
@@ -181,10 +181,10 @@ replace (
 	example.net/d v0.1.0 => ./d
 	example.net/d v0.2.0 => ./d
 )
--- go.mod.115from116 --
+-- golang.mod.115from116 --
 module example.com/m
 
-go 1.15
+golang 1.15
 
 require example.net/a v0.1.0
 
@@ -200,10 +200,10 @@ replace (
 	example.net/d v0.1.0 => ./d
 	example.net/d v0.2.0 => ./d
 )
--- go.mod.116from115 --
+-- golang.mod.116from115 --
 module example.com/m
 
-go 1.16
+golang 1.16
 
 require example.net/a v0.1.0
 
@@ -222,10 +222,10 @@ replace (
 	example.net/d v0.1.0 => ./d
 	example.net/d v0.2.0 => ./d
 )
--- go.mod.115-2 --
+-- golang.mod.115-2 --
 module example.com/m
 
-go 1.15
+golang 1.15
 
 require example.net/a v0.1.0
 
@@ -244,10 +244,10 @@ replace (
 	example.net/d v0.1.0 => ./d
 	example.net/d v0.2.0 => ./d
 )
--- go.mod.116 --
+-- golang.mod.116 --
 module example.com/m
 
-go 1.16
+golang 1.16
 
 require example.net/a v0.1.0
 
@@ -263,10 +263,10 @@ replace (
 	example.net/d v0.1.0 => ./d
 	example.net/d v0.2.0 => ./d
 )
--- go.mod.117 --
+-- golang.mod.117 --
 module example.com/m
 
-go 1.17
+golang 1.17
 
 require example.net/a v0.1.0
 
@@ -285,10 +285,10 @@ replace (
 	example.net/d v0.1.0 => ./d
 	example.net/d v0.2.0 => ./d
 )
--- go.mod.116from117 --
+-- golang.mod.116from117 --
 module example.com/m
 
-go 1.16
+golang 1.16
 
 require example.net/a v0.1.0
 
@@ -307,10 +307,10 @@ replace (
 	example.net/d v0.1.0 => ./d
 	example.net/d v0.2.0 => ./d
 )
--- go.mod.latest --
+-- golang.mod.latest --
 module example.com/m
 
-go $goversion
+golang $golangversion
 
 require example.net/a v0.1.0
 
@@ -329,10 +329,10 @@ replace (
 	example.net/d v0.1.0 => ./d
 	example.net/d v0.2.0 => ./d
 )
--- go.mod.121toolchain --
+-- golang.mod.121toolchain --
 module example.com/m
 
-go 1.21.0
+golang 1.21.0
 
 require example.net/a v0.1.0
 
@@ -351,42 +351,42 @@ replace (
 	example.net/d v0.1.0 => ./d
 	example.net/d v0.2.0 => ./d
 )
--- a/go.mod --
+-- a/golang.mod --
 module example.net/a
 
-go 1.15
+golang 1.15
 
 require example.net/b v0.1.0
--- a/a.go --
+-- a/a.golang --
 package a
 
 import _ "example.net/b"
 
--- b/go.mod --
+-- b/golang.mod --
 module example.net/b
 
-go 1.15
--- b/b.go --
+golang 1.15
+-- b/b.golang --
 package b
--- b/b_test.go --
+-- b/b_test.golang --
 package b_test
 
 import _ "example.net/c"
 
--- c/go.mod --
+-- c/golang.mod --
 module example.net/c
 
-go 1.15
--- c/c.go --
+golang 1.15
+-- c/c.golang --
 package c
--- c/c_test.go --
+-- c/c_test.golang --
 package c_test
 
 import _ "example.net/d"
 
--- d/go.mod --
+-- d/golang.mod --
 module example.net/d
 
-go 1.15
--- d/d.go --
+golang 1.15
+-- d/d.golang --
 package d

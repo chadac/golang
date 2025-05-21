@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package tls13
@@ -29,7 +29,7 @@ func init() {
 		ms := hs.MasterSecret()
 		transcript := sha256.New()
 		transcript.Write(input)
-		if got := ms.ResumptionMasterSecret(transcript); !bytes.Equal(got, want) {
+		if golangt := ms.ResumptionMasterSecret(transcript); !bytes.Equal(golangt, want) {
 			return errors.New("unexpected result")
 		}
 		return nil

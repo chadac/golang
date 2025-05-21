@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package dwarfgen
@@ -14,7 +14,7 @@ import (
 	"cmd/internal/src"
 )
 
-// See golang.org/issue/20390.
+// See golanglang.org/issue/20390.
 func xposBefore(p, q src.XPos) bool {
 	return base.Ctxt.PosTable.Pos(p).Before(base.Ctxt.PosTable.Pos(q))
 }

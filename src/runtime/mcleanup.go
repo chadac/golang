@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
@@ -7,7 +7,7 @@ package runtime
 import (
 	"internal/abi"
 	"internal/cpu"
-	"internal/goarch"
+	"internal/golangarch"
 	"internal/runtime/atomic"
 	"internal/runtime/math"
 	"internal/runtime/sys"
@@ -15,7 +15,7 @@ import (
 )
 
 // AddCleanup attaches a cleanup function to ptr. Some time after ptr is no longer
-// reachable, the runtime will call cleanup(arg) in a separate goroutine.
+// reachable, the runtime will call cleanup(arg) in a separate golangroutine.
 //
 // A typical use is that ptr is an object wrapping an underlying resource (e.g.,
 // a File object wrapping an OS file descriptor), arg is the underlying resource
@@ -35,9 +35,9 @@ import (
 // unreachable at the same time, their cleanups all become eligible to run
 // and can run in any order. This is true even if the objects form a cycle.
 //
-// Cleanups run concurrently with any user-created goroutines.
+// Cleanups run concurrently with any user-created golangroutines.
 // Cleanups may also run concurrently with one another (unlike finalizers).
-// If a cleanup function must run for a long time, it should create a new goroutine
+// If a cleanup function must run for a long time, it should create a new golangroutine
 // to avoid blocking the execution of other cleanups.
 //
 // If ptr has both a cleanup and a finalizer, the cleanup will only run once
@@ -48,7 +48,7 @@ import (
 //
 // Cleanups are not guaranteed to run if the size of T is zero bytes, because
 // it may share same address with other zero-size objects in memory. See
-// https://go.dev/ref/spec#Size_and_alignment_guarantees.
+// https://golang.dev/ref/spec#Size_and_alignment_guarantees.
 //
 // It is not guaranteed that a cleanup will run for objects allocated
 // in initializers for package-level variables. Such objects may be
@@ -216,10 +216,10 @@ const cleanupBlockSize = 512
 // that the cleanup queue does not grow during marking (but it can shrink).
 type cleanupBlock struct {
 	cleanupBlockHeader
-	cleanups [(cleanupBlockSize - unsafe.Sizeof(cleanupBlockHeader{})) / goarch.PtrSize]*funcval
+	cleanups [(cleanupBlockSize - unsafe.Sizeof(cleanupBlockHeader{})) / golangarch.PtrSize]*funcval
 }
 
-var cleanupBlockPtrMask [cleanupBlockSize / goarch.PtrSize / 8]byte
+var cleanupBlockPtrMask [cleanupBlockSize / golangarch.PtrSize / 8]byte
 
 type cleanupBlockHeader struct {
 	_ sys.NotInHeap
@@ -303,35 +303,35 @@ type cleanupQueue struct {
 	// Goroutine block state.
 	lock mutex
 
-	// sleeping is the list of sleeping cleanup goroutines.
+	// sleeping is the list of sleeping cleanup golangroutines.
 	//
 	// Protected by lock.
 	sleeping gList
 
-	// asleep is the number of cleanup goroutines sleeping.
+	// asleep is the number of cleanup golangroutines sleeping.
 	//
 	// Read without lock, written only with the lock held.
 	// When the lock is held, the lock holder may only observe
 	// asleep.Load() == sleeping.n.
 	//
 	// To make reading without the lock safe as a signal to wake up
-	// a goroutine and handle new work, it must always be greater
+	// a golangroutine and handle new work, it must always be greater
 	// than or equal to sleeping.n. In the periods of time that it
 	// is strictly greater, it may cause spurious calls to wake.
 	asleep atomic.Uint32
 
-	// running indicates the number of cleanup goroutines actively
+	// running indicates the number of cleanup golangroutines actively
 	// executing user cleanup functions at any point in time.
 	//
 	// Read and written to without lock.
 	running atomic.Uint32
 
-	// ng is the number of cleanup goroutines.
+	// ng is the number of cleanup golangroutines.
 	//
 	// Read without lock, written only with lock held.
 	ng atomic.Uint32
 
-	// needg is the number of new cleanup goroutines that
+	// needg is the number of new cleanup golangroutines that
 	// need to be created.
 	//
 	// Read without lock, written only with lock held.
@@ -357,7 +357,7 @@ func (q *cleanupQueue) addWork(n int) {
 	q.workUnits.Add(int64(n))
 }
 
-// tryTakeWork is an attempt to dequeue some work by a cleanup goroutine.
+// tryTakeWork is an attempt to dequeue some work by a cleanup golangroutine.
 // This might fail if there's no work to do.
 func (q *cleanupQueue) tryTakeWork() bool {
 	for {
@@ -365,7 +365,7 @@ func (q *cleanupQueue) tryTakeWork() bool {
 		if wu == 0 {
 			return false
 		}
-		// CAS to prevent us from going negative.
+		// CAS to prevent us from golanging negative.
 		if q.workUnits.CompareAndSwap(wu, wu-1) {
 			return true
 		}
@@ -417,7 +417,7 @@ func (q *cleanupQueue) dequeue() *cleanupBlock {
 		// Increment asleep first. We may have to undo this if we abort the sleep.
 		// We must update asleep first because the scheduler might not try to wake
 		// us up when work comes in between the last check of workUnits and when we
-		// go to sleep. (It may see asleep as 0.) By incrementing it here, we guarantee
+		// golang to sleep. (It may see asleep as 0.) By incrementing it here, we guarantee
 		// after this point that if new work comes in, someone will try to grab the
 		// lock and wake us. However, this also means that if we back out, we may cause
 		// someone to spuriously grab the lock and try to wake us up, only to fail.
@@ -426,7 +426,7 @@ func (q *cleanupQueue) dequeue() *cleanupBlock {
 		q.asleep.Add(1)
 
 		// Re-check workUnits under the lock and with asleep updated. If it's still zero,
-		// then no new work came in, and it's safe for us to go to sleep. If new work
+		// then no new work came in, and it's safe for us to golang to sleep. If new work
 		// comes in after this point, then the scheduler will notice that we're sleeping
 		// and wake us up.
 		if q.workUnits.Load() > 0 {
@@ -436,12 +436,12 @@ func (q *cleanupQueue) dequeue() *cleanupBlock {
 			continue
 		}
 		q.sleeping.push(getg())
-		goparkunlock(&q.lock, waitReasonCleanupWait, traceBlockSystemGoroutine, 1)
+		golangparkunlock(&q.lock, waitReasonCleanupWait, traceBlockSystemGoroutine, 1)
 	}
 }
 
 // flush pushes all active cleanup blocks to the full list and wakes up cleanup
-// goroutines to handle them.
+// golangroutines to handle them.
 //
 // Must only be called at a point when we can guarantee that no more cleanups
 // are being queued, such as after the final sweeper for the cycle is done
@@ -454,7 +454,7 @@ func (q *cleanupQueue) flush() {
 
 	// Coalesce the partially-filled blocks to present a more accurate picture of demand.
 	// We use the number of coalesced blocks to process as a signal for demand to create
-	// new cleanup goroutines.
+	// new cleanup golangroutines.
 	var cb *cleanupBlock
 	for _, pp := range allp {
 		b := pp.cleanups
@@ -494,19 +494,19 @@ func (q *cleanupQueue) flush() {
 	releasem(mp)
 }
 
-// needsWake returns true if cleanup goroutines may need to be awoken or created to handle cleanup load.
+// needsWake returns true if cleanup golangroutines may need to be awoken or created to handle cleanup load.
 func (q *cleanupQueue) needsWake() bool {
 	return q.workUnits.Load() > 0 && (q.asleep.Load() > 0 || q.ng.Load() < maxCleanupGs())
 }
 
-// wake wakes up one or more goroutines to process the cleanup queue. If there aren't
-// enough sleeping goroutines to handle the demand, wake will arrange for new goroutines
+// wake wakes up one or more golangroutines to process the cleanup queue. If there aren't
+// enough sleeping golangroutines to handle the demand, wake will arrange for new golangroutines
 // to be created.
 func (q *cleanupQueue) wake() {
 	lock(&q.lock)
 
-	// Figure out how many goroutines to wake, and how many extra goroutines to create.
-	// Wake one goroutine for each work unit.
+	// Figure out how many golangroutines to wake, and how many extra golangroutines to create.
+	// Wake one golangroutine for each work unit.
 	var wake, extra uint32
 	work := q.workUnits.Load()
 	asleep := uint64(q.asleep.Load())
@@ -523,7 +523,7 @@ func (q *cleanupQueue) wake() {
 		extra = 0
 	}
 	if extra != 0 {
-		// Signal that we should create new goroutines, one for each extra work unit,
+		// Signal that we should create new golangroutines, one for each extra work unit,
 		// up to maxCleanupGs.
 		newg := min(extra, maxCleanupGs()-q.ng.Load())
 		if newg > 0 {
@@ -536,9 +536,9 @@ func (q *cleanupQueue) wake() {
 		return
 	}
 
-	// Take ownership of waking 'wake' goroutines.
+	// Take ownership of waking 'wake' golangroutines.
 	//
-	// Nobody else will wake up these goroutines, so they're guaranteed
+	// Nobody else will wake up these golangroutines, so they're guaranteed
 	// to be sitting on q.sleeping, waiting for us to wake them.
 	q.asleep.Add(-int32(wake))
 
@@ -579,13 +579,13 @@ func (q *cleanupQueue) createGs() {
 	unlock(&q.lock)
 
 	for range need {
-		go runCleanups()
+		golang runCleanups()
 	}
 }
 
 func (q *cleanupQueue) beginRunningCleanups() {
 	// Update runningCleanups and running atomically with respect
-	// to goroutine profiles by disabling preemption.
+	// to golangroutine profiles by disabling preemption.
 	mp := acquirem()
 	getg().runningCleanups.Store(true)
 	q.running.Add(1)
@@ -594,7 +594,7 @@ func (q *cleanupQueue) beginRunningCleanups() {
 
 func (q *cleanupQueue) endRunningCleanups() {
 	// Update runningCleanups and running atomically with respect
-	// to goroutine profiles by disabling preemption.
+	// to golangroutine profiles by disabling preemption.
 	mp := acquirem()
 	getg().runningCleanups.Store(false)
 	q.running.Add(-1)
@@ -616,20 +616,20 @@ func (q *cleanupQueue) readQueueStats() (queued, executed uint64) {
 
 func maxCleanupGs() uint32 {
 	// N.B. Left as a function to make changing the policy easier.
-	return uint32(max(gomaxprocs/4, 1))
+	return uint32(max(golangmaxprocs/4, 1))
 }
 
 // gcCleanups is the global cleanup queue.
 var gcCleanups cleanupQueue
 
-// runCleanups is the entrypoint for all cleanup-running goroutines.
+// runCleanups is the entrypoint for all cleanup-running golangroutines.
 func runCleanups() {
 	for {
 		b := gcCleanups.dequeue()
 		if raceenabled {
 			// Approximately: adds a happens-before edge between the cleanup
 			// argument being mutated and the call to the cleanup below.
-			racefingo()
+			racefingolang()
 		}
 
 		gcCleanups.beginRunningCleanups()
@@ -640,7 +640,7 @@ func runCleanups() {
 			if raceenabled {
 				// Enter a new race context so the race detector can catch
 				// potential races between cleanups, even if they execute on
-				// the same goroutine.
+				// the same golangroutine.
 				//
 				// Synchronize on fn. This would fail to find races on the
 				// closed-over values in fn (suppose fn is passed to multiple
@@ -679,7 +679,7 @@ func (q *cleanupQueue) blockUntilEmpty(timeout int64) bool {
 	start := nanotime()
 	for nanotime()-start < timeout {
 		lock(&q.lock)
-		// The queue is empty when there's no work left to do *and* all the cleanup goroutines
+		// The queue is empty when there's no work left to do *and* all the cleanup golangroutines
 		// are asleep. If they're not asleep, they may be actively working on a block.
 		if q.flushed.Load() && q.full.empty() && uint32(q.sleeping.size) == q.ng.Load() {
 			unlock(&q.lock)
@@ -691,30 +691,30 @@ func (q *cleanupQueue) blockUntilEmpty(timeout int64) bool {
 	return false
 }
 
-//go:linkname unique_runtime_blockUntilEmptyCleanupQueue unique.runtime_blockUntilEmptyCleanupQueue
+//golang:linkname unique_runtime_blockUntilEmptyCleanupQueue unique.runtime_blockUntilEmptyCleanupQueue
 func unique_runtime_blockUntilEmptyCleanupQueue(timeout int64) bool {
 	return gcCleanups.blockUntilEmpty(timeout)
 }
 
-//go:linkname sync_test_runtime_blockUntilEmptyCleanupQueue sync_test.runtime_blockUntilEmptyCleanupQueue
+//golang:linkname sync_test_runtime_blockUntilEmptyCleanupQueue sync_test.runtime_blockUntilEmptyCleanupQueue
 func sync_test_runtime_blockUntilEmptyCleanupQueue(timeout int64) bool {
 	return gcCleanups.blockUntilEmpty(timeout)
 }
 
 // raceEnterNewCtx creates a new racectx and switches the current
-// goroutine to it. Returns the old racectx.
+// golangroutine to it. Returns the old racectx.
 //
-// Must be running on a user goroutine. nosplit to match other race
+// Must be running on a user golangroutine. nosplit to match other race
 // instrumentation.
 //
-//go:nosplit
+//golang:nosplit
 func raceEnterNewCtx() uintptr {
-	// We use the existing ctx as the spawn context, but gp.gopc
+	// We use the existing ctx as the spawn context, but gp.golangpc
 	// as the spawn PC to make the error output a little nicer
-	// (pointing to AddCleanup, where the goroutines are created).
+	// (pointing to AddCleanup, where the golangroutines are created).
 	//
 	// We also need to carefully indicate to the race detector
-	// that the goroutine stack will only be accessed by the new
+	// that the golangroutine stack will only be accessed by the new
 	// race context, to avoid false positives on stack locations.
 	// We do this by marking the stack as free in the first context
 	// and then re-marking it as allocated in the second. Crucially,
@@ -728,19 +728,19 @@ func raceEnterNewCtx() uintptr {
 	gp := getg()
 	ctx := getg().racectx
 	racefree(unsafe.Pointer(gp.stack.lo), gp.stack.hi-gp.stack.lo)
-	getg().racectx = racectxstart(gp.gopc, ctx)
+	getg().racectx = racectxstart(gp.golangpc, ctx)
 	racemalloc(unsafe.Pointer(gp.stack.lo), gp.stack.hi-gp.stack.lo)
 	releasem(mp)
 	return ctx
 }
 
-// raceRestoreCtx restores ctx on the goroutine. It is the inverse of
+// raceRestoreCtx restores ctx on the golangroutine. It is the inverse of
 // raceenternewctx and must be called with its result.
 //
-// Must be running on a user goroutine. nosplit to match other race
+// Must be running on a user golangroutine. nosplit to match other race
 // instrumentation.
 //
-//go:nosplit
+//golang:nosplit
 func raceRestoreCtx(ctx uintptr) {
 	mp := acquirem()
 	gp := getg()

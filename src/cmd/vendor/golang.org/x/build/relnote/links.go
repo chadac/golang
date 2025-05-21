@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package relnote
@@ -10,7 +10,7 @@ import (
 	"unicode"
 	"unicode/utf8"
 
-	"golang.org/x/mod/module"
+	"golanglang.org/x/mod/module"
 	md "rsc.io/markdown"
 )
 
@@ -218,7 +218,7 @@ func symbolLink(s, defaultPackage string) (md.Inline, bool) {
 }
 
 // isLinkAdjacentRune reports whether r can be adjacent to a symbol link.
-// The logic is the same as the go/doc/comment package.
+// The logic is the same as the golang/doc/comment package.
 func isLinkAdjacentRune(r rune) bool {
 	return unicode.IsPunct(r) || r == ' ' || r == '\t' || r == '\n'
 }
@@ -247,7 +247,7 @@ func splitRef(s string) (pkg, name string, ok bool) {
 	return pkg, name, true
 }
 
-// The following functions were copied from go/doc/comment/parse.go.
+// The following functions were copied from golang/doc/comment/parse.golang.
 
 // If text is of the form before.Name, where Name is a capitalized Go identifier,
 // then splitDocName returns before, name, true.

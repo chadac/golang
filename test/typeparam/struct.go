@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -35,16 +35,16 @@ type S3 struct {
 
 func main() {
 	s1 := S1{Eint{2}, "foo"}
-	if got, want := s1.E.v, 2; got != want {
-		panic(fmt.Sprintf("got %d, want %d", got, want))
+	if golangt, want := s1.E.v, 2; golangt != want {
+		panic(fmt.Sprintf("golangt %d, want %d", golangt, want))
 	}
 	s2 := S2{Eint{3}, Ebool{true}, "foo"}
-	if got, want := s2.Eint.v, 3; got != want {
-		panic(fmt.Sprintf("got %d, want %d", got, want))
+	if golangt, want := s2.Eint.v, 3; golangt != want {
+		panic(fmt.Sprintf("golangt %d, want %d", golangt, want))
 	}
 	var s3 S3
 	s3.E = &Eint{4}
-	if got, want := s3.E.v, 4; got != want {
-		panic(fmt.Sprintf("got %d, want %d", got, want))
+	if golangt, want := s3.E.v, 4; golangt != want {
+		panic(fmt.Sprintf("golangt %d, want %d", golangt, want))
 	}
 }

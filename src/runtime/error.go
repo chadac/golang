@@ -1,5 +1,5 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
@@ -71,7 +71,7 @@ func (e *TypeAssertionError) Error() string {
 // written somewhere within buf and the location of the result is returned.
 // buf must be at least 20 bytes.
 //
-//go:nosplit
+//golang:nosplit
 func itoa(buf []byte, val uint64) []byte {
 	i := len(buf) - 1
 	for val >= 10 {
@@ -123,7 +123,7 @@ func (e plainError) Error() string {
 	return string(e)
 }
 
-// A boundsError represents an indexing or slicing operation gone wrong.
+// A boundsError represents an indexing or slicing operation golangne wrong.
 type boundsError struct {
 	x int64
 	y int
@@ -227,7 +227,7 @@ type stringer interface {
 // it has already been converted into a string by preprintpanics.
 //
 // To ensure that the traceback can be unambiguously parsed even when
-// the panic value contains "\ngoroutine" and other stack-like
+// the panic value contains "\ngolangroutine" and other stack-like
 // strings, newlines in the string representation of v are replaced by
 // "\n\t".
 func printpanicval(v any) {

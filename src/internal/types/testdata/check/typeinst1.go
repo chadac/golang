@@ -1,5 +1,5 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package p
@@ -57,7 +57,7 @@ func (l List[E]) Head() (_ E, _ bool) {
 	return
 }
 
-// A test case for instantiating types with other types (extracted from map.go2)
+// A test case for instantiating types with other types (extracted from map.golang2)
 
 type Pair[K any] struct {
 	key K
@@ -79,7 +79,7 @@ func (it Iterator[K]) Next() K {
         return Values[Pair[K]](it.r).key
 }
 
-// A more complex test case testing type bounds (extracted from linalg.go2 and reduced to essence)
+// A more complex test case testing type bounds (extracted from linalg.golang2 and reduced to essence)
 
 type NumericAbs[T any] interface {
 	Abs() T

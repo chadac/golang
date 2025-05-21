@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // The compiler was panicking on the wrong line number, where
@@ -29,7 +29,7 @@ func main() {
 			panic("bounds check didn't fail")
 		}
 		stk := string(debug.Stack())
-		if !strings.Contains(stk, "issue22083.go:40") {
+		if !strings.Contains(stk, "issue22083.golang:40") {
 			panic("wrong stack trace: " + stk)
 		}
 	}()

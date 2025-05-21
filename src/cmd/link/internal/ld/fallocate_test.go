@@ -1,8 +1,8 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build darwin || (freebsd && go1.21) || linux
+//golang:build darwin || (freebsd && golang1.21) || linux
 
 package ld
 
@@ -50,15 +50,15 @@ func TestFallocate(t *testing.T) {
 		if err != nil {
 			t.Fatalf("Stat failed: %v", err)
 		}
-		if got := stat.Size(); got != sz {
-			t.Errorf("unexpected file size: got %d, want %d", got, sz)
+		if golangt := stat.Size(); golangt != sz {
+			t.Errorf("unexpected file size: golangt %d, want %d", golangt, sz)
 		}
 		// The number of blocks must be enough for the requested size.
 		// We used to require an exact match, but it appears that
 		// some file systems allocate a few extra blocks in some cases.
 		// See issue #41127.
-		if got, want := stat.Sys().(*syscall.Stat_t).Blocks, (sz+511)/512; got < want {
-			t.Errorf("unexpected disk usage: got %d blocks, want at least %d", got, want)
+		if golangt, want := stat.Sys().(*syscall.Stat_t).Blocks, (sz+511)/512; golangt < want {
+			t.Errorf("unexpected disk usage: golangt %d blocks, want at least %d", golangt, want)
 		}
 		out.munmap()
 	}

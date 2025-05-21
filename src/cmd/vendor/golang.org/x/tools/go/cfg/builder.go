@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package cfg
@@ -8,8 +8,8 @@ package cfg
 
 import (
 	"fmt"
-	"go/ast"
-	"go/token"
+	"golang/ast"
+	"golang/token"
 )
 
 type builder struct {
@@ -21,7 +21,7 @@ type builder struct {
 }
 
 func (b *builder) stmt(_s ast.Stmt) {
-	// The label of the current statement.  If non-nil, its _goto
+	// The label of the current statement.  If non-nil, its _golangto
 	// target is always set; its _break and _continue are set only
 	// within the body of switch/typeswitch/select/for/range.
 	// It is effectively an additional default-nil parameter of stmt().
@@ -58,10 +58,10 @@ start:
 
 	case *ast.LabeledStmt:
 		label = b.labeledBlock(s.Label, s)
-		b.jump(label._goto)
-		b.current = label._goto
+		b.jump(label._golangto)
+		b.current = label._golangto
 		_s = s.Stmt
-		goto start // effectively: tailcall stmt(g, s.Stmt, label)
+		golangto start // effectively: tailcall stmt(g, s.Stmt, label)
 
 	case *ast.ReturnStmt:
 		b.add(s)
@@ -155,7 +155,7 @@ func (b *builder) branchStmt(s *ast.BranchStmt) {
 
 	case token.GOTO:
 		if s.Label != nil {
-			block = b.labeledBlock(s.Label, nil)._goto
+			block = b.labeledBlock(s.Label, nil)._golangto
 		}
 	}
 	if block == nil { // ill-typed (e.g. undefined label)
@@ -347,7 +347,7 @@ func (b *builder) forStmt(s *ast.ForStmt, label *lblock) {
 	//	...init...
 	//      jump loop
 	// loop:
-	//      if cond goto body else done
+	//      if cond golangto body else done
 	// body:
 	//      ...body...
 	//      jump post
@@ -408,7 +408,7 @@ func (b *builder) rangeStmt(s *ast.RangeStmt, label *lblock) {
 
 	//      ...
 	// loop:                                   (target of continue)
-	// 	if ... goto body else done
+	// 	if ... golangto body else done
 	// body:
 	//      ...
 	// 	jump loop
@@ -451,10 +451,10 @@ type targets struct {
 }
 
 // Destinations associated with a labeled block.
-// We populate these as labels are encountered in forward gotos or
+// We populate these as labels are encountered in forward golangtos or
 // labeled statements.
 type lblock struct {
-	_goto     *Block
+	_golangto     *Block
 	_break    *Block
 	_continue *Block
 }
@@ -464,16 +464,16 @@ type lblock struct {
 func (b *builder) labeledBlock(label *ast.Ident, stmt *ast.LabeledStmt) *lblock {
 	lb := b.lblocks[label.Name]
 	if lb == nil {
-		lb = &lblock{_goto: b.newBlock(KindLabel, nil)}
+		lb = &lblock{_golangto: b.newBlock(KindLabel, nil)}
 		if b.lblocks == nil {
 			b.lblocks = make(map[string]*lblock)
 		}
 		b.lblocks[label.Name] = lb
 	}
-	// Fill in the label later (in case of forward goto).
+	// Fill in the label later (in case of forward golangto).
 	// Stmt may be set already if labels are duplicated (ill-typed).
-	if stmt != nil && lb._goto.Stmt == nil {
-		lb._goto.Stmt = stmt
+	if stmt != nil && lb._golangto.Stmt == nil {
+		lb._golangto.Stmt = stmt
 	}
 	return lb
 }

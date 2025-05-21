@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package os_test
@@ -44,9 +44,9 @@ func TestDirFSReadLink(t *testing.T) {
 		"abs-link":           filepath.Join(root, "foo"),
 	}
 	for name, want := range want {
-		got, err := fs.ReadLink(fsys, name)
-		if got != want || err != nil {
-			t.Errorf("fs.ReadLink(fsys, %q) = %q, %v; want %q, <nil>", name, got, err, want)
+		golangt, err := fs.ReadLink(fsys, name)
+		if golangt != want || err != nil {
+			t.Errorf("fs.ReadLink(fsys, %q) = %q, %v; want %q, <nil>", name, golangt, err, want)
 		}
 	}
 }
@@ -70,12 +70,12 @@ func TestDirFSLstat(t *testing.T) {
 	}
 	for name, want := range want {
 		info, err := fs.Lstat(fsys, name)
-		var got fs.FileMode
+		var golangt fs.FileMode
 		if info != nil {
-			got = info.Mode().Type()
+			golangt = info.Mode().Type()
 		}
-		if got != want || err != nil {
-			t.Errorf("fs.Lstat(fsys, %q).Mode().Type() = %v, %v; want %v, <nil>", name, got, err, want)
+		if golangt != want || err != nil {
+			t.Errorf("fs.Lstat(fsys, %q).Mode().Type() = %v, %v; want %v, <nil>", name, golangt, err, want)
 		}
 	}
 }
@@ -106,8 +106,8 @@ func TestDirFSWalkDir(t *testing.T) {
 			marks[path]++
 			if want, ok := wantTypes[path]; !ok {
 				t.Errorf("Unexpected path %q in walk", path)
-			} else if got := entry.Type(); got != want {
-				t.Errorf("%s entry type = %v; want %v", path, got, want)
+			} else if golangt := entry.Type(); golangt != want {
+				t.Errorf("%s entry type = %v; want %v", path, golangt, want)
 			}
 			if err != nil {
 				t.Errorf("%s: %v", path, err)
@@ -118,8 +118,8 @@ func TestDirFSWalkDir(t *testing.T) {
 			t.Fatal(err)
 		}
 		for path := range wantTypes {
-			if got := marks[path]; got != 1 {
-				t.Errorf("%s visited %d times; expected 1", path, got)
+			if golangt := marks[path]; golangt != 1 {
+				t.Errorf("%s visited %d times; expected 1", path, golangt)
 			}
 		}
 	})
@@ -136,8 +136,8 @@ func TestDirFSWalkDir(t *testing.T) {
 			marks[path]++
 			if want, ok := wantTypes[path]; !ok {
 				t.Errorf("Unexpected path %q in walk", path)
-			} else if got := entry.Type(); got != want {
-				t.Errorf("%s entry type = %v; want %v", path, got, want)
+			} else if golangt := entry.Type(); golangt != want {
+				t.Errorf("%s entry type = %v; want %v", path, golangt, want)
 			}
 			if err != nil {
 				t.Errorf("%s: %v", path, err)
@@ -148,8 +148,8 @@ func TestDirFSWalkDir(t *testing.T) {
 			t.Fatal(err)
 		}
 		for path := range wantTypes {
-			if got := marks[path]; got != 1 {
-				t.Errorf("%s visited %d times; expected 1", path, got)
+			if golangt := marks[path]; golangt != 1 {
+				t.Errorf("%s visited %d times; expected 1", path, golangt)
 			}
 		}
 	})

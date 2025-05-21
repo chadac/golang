@@ -1,5 +1,5 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package loader
@@ -7,7 +7,7 @@ package loader
 import (
 	"bytes"
 	"cmd/internal/bio"
-	"cmd/internal/goobj"
+	"cmd/internal/golangobj"
 	"cmd/internal/obj"
 	"cmd/internal/objabi"
 	"cmd/internal/sys"
@@ -32,7 +32,7 @@ type Sym = sym.LoaderSym
 // Relocs encapsulates the set of relocations on a given symbol; an
 // instance of this type is returned by the Loader Relocs() method.
 type Relocs struct {
-	rs []goobj.Reloc
+	rs []golangobj.Reloc
 
 	li uint32   // local index of symbol whose relocs we're examining
 	r  *oReader // object reader for containing package
@@ -50,7 +50,7 @@ type ExtReloc struct {
 // Reloc holds a "handle" to access a relocation record from an
 // object file.
 type Reloc struct {
-	*goobj.Reloc
+	*golangobj.Reloc
 	r *oReader
 	l *Loader
 }
@@ -59,13 +59,13 @@ func (rel Reloc) Type() objabi.RelocType     { return objabi.RelocType(rel.Reloc
 func (rel Reloc) Weak() bool                 { return objabi.RelocType(rel.Reloc.Type())&objabi.R_WEAK != 0 }
 func (rel Reloc) SetType(t objabi.RelocType) { rel.Reloc.SetType(uint16(t)) }
 func (rel Reloc) Sym() Sym                   { return rel.l.resolve(rel.r, rel.Reloc.Sym()) }
-func (rel Reloc) SetSym(s Sym)               { rel.Reloc.SetSym(goobj.SymRef{PkgIdx: 0, SymIdx: uint32(s)}) }
+func (rel Reloc) SetSym(s Sym)               { rel.Reloc.SetSym(golangobj.SymRef{PkgIdx: 0, SymIdx: uint32(s)}) }
 func (rel Reloc) IsMarker() bool             { return rel.Siz() == 0 }
 
 // Aux holds a "handle" to access an aux symbol record from an
 // object file.
 type Aux struct {
-	*goobj.Aux
+	*golangobj.Aux
 	r *oReader
 	l *Loader
 }
@@ -75,15 +75,15 @@ func (a Aux) Sym() Sym { return a.l.resolve(a.r, a.Aux.Sym()) }
 // oReader is a wrapper type of obj.Reader, along with some
 // extra information.
 type oReader struct {
-	*goobj.Reader
+	*golangobj.Reader
 	unit         *sym.CompilationUnit
 	version      int // version of static symbol
 	pkgprefix    string
 	syms         []Sym    // Sym's global index, indexed by local index
 	pkg          []uint32 // indices of referenced package by PkgIdx (index into loader.objs array)
-	ndef         int      // cache goobj.Reader.NSym()
-	nhashed64def int      // cache goobj.Reader.NHashed64Def()
-	nhasheddef   int      // cache goobj.Reader.NHashedDef()
+	ndef         int      // cache golangobj.Reader.NSym()
+	nhashed64def int      // cache golangobj.Reader.NHashed64Def()
+	nhasheddef   int      // cache golangobj.Reader.NHashedDef()
 	objidx       uint32   // index of this reader in the objs slice
 }
 
@@ -222,8 +222,8 @@ type Loader struct {
 	generatedSyms        Bitmap // symbols that generate their content, indexed by ext sym idx
 
 	attrReadOnly         map[Sym]bool     // readonly data for this sym
-	attrCgoExportDynamic map[Sym]struct{} // "cgo_export_dynamic" symbols
-	attrCgoExportStatic  map[Sym]struct{} // "cgo_export_static" symbols
+	attrCgolangExportDynamic map[Sym]struct{} // "cgolang_export_dynamic" symbols
+	attrCgolangExportStatic  map[Sym]struct{} // "cgolang_export_static" symbols
 
 	// Outer and Sub relations for symbols.
 	outer []Sym // indexed by global index
@@ -238,7 +238,7 @@ type Loader struct {
 	localElfSym map[Sym]int32       // stores "local" elf sym symbol property
 	symPkg      map[Sym]string      // stores package for symbol, or library for shlib-derived syms
 	plt         map[Sym]int32       // stores dynimport for pe objects
-	got         map[Sym]int32       // stores got for pe objects
+	golangt         map[Sym]int32       // stores golangt for pe objects
 	dynid       map[Sym]int32       // stores Dynid for symbol
 
 	relocVariant map[relocId]sym.RelocVariant // stores variant relocs
@@ -248,8 +248,8 @@ type Loader struct {
 	// the symbol that triggered the marking of symbol K as live.
 	Reachparent []Sym
 
-	// CgoExports records cgo-exported symbols by SymName.
-	CgoExports map[string]Sym
+	// CgolangExports records cgolang-exported symbols by SymName.
+	CgolangExports map[string]Sym
 
 	WasmExports []Sym
 
@@ -275,7 +275,7 @@ const (
 const (
 	nilObj = iota
 	extObj
-	goObjStart
+	golangObjStart
 )
 
 // extSymPayload holds the payload (data + relocations) for linker-synthesized
@@ -286,9 +286,9 @@ type extSymPayload struct {
 	ver    int
 	kind   sym.SymKind
 	objidx uint32 // index of original object if sym made by cloneToExternal
-	relocs []goobj.Reloc
+	relocs []golangobj.Reloc
 	data   []byte
-	auxs   []goobj.Aux
+	auxs   []golangobj.Aux
 }
 
 const (
@@ -298,7 +298,7 @@ const (
 )
 
 func NewLoader(flags uint32, reporter *ErrorReporter) *Loader {
-	nbuiltin := goobj.NBuiltin()
+	nbuiltin := golangobj.NBuiltin()
 	extReader := &oReader{objidx: extObj}
 	ldr := &Loader{
 		objs:                 []*oReader{nil, extReader}, // reserve index 0 for nil symbol, 1 for external symbols
@@ -317,10 +317,10 @@ func NewLoader(flags uint32, reporter *ErrorReporter) *Loader {
 		localElfSym:          make(map[Sym]int32),
 		symPkg:               make(map[Sym]string),
 		plt:                  make(map[Sym]int32),
-		got:                  make(map[Sym]int32),
+		golangt:                  make(map[Sym]int32),
 		dynid:                make(map[Sym]int32),
-		attrCgoExportDynamic: make(map[Sym]struct{}),
-		attrCgoExportStatic:  make(map[Sym]struct{}),
+		attrCgolangExportDynamic: make(map[Sym]struct{}),
+		attrCgolangExportStatic:  make(map[Sym]struct{}),
 		deferReturnTramp:     make(map[Sym]bool),
 		extStaticSyms:        make(map[nameVer]Sym),
 		builtinSyms:          make([]Sym, nbuiltin),
@@ -343,7 +343,7 @@ func (l *Loader) addObj(pkg string, r *oReader) {
 
 // Add a symbol from an object file, return the global index.
 // If the symbol already exist, it returns the index of that symbol.
-func (st *loadState) addSym(name string, ver int, r *oReader, li uint32, kind int, osym *goobj.Sym) Sym {
+func (st *loadState) addSym(name string, ver int, r *oReader, li uint32, kind int, osym *golangobj.Sym) Sym {
 	l := st.l
 	if l.extStart != 0 {
 		panic("addSym called after external symbol is created")
@@ -384,7 +384,7 @@ func (st *loadState) addSym(name string, ver int, r *oReader, li uint32, kind in
 		var checkHash func() (symAndSize, bool)
 		var addToHashMap func(symAndSize)
 		var h64 uint64        // only used for hashed64Def
-		var h *goobj.HashType // only used for hashedDef
+		var h *golangobj.HashType // only used for hashedDef
 		if kind == hashed64Def {
 			checkHash = func() (symAndSize, bool) {
 				h64 = r.Hash64(li - uint32(r.ndef))
@@ -520,29 +520,29 @@ func (l *Loader) LookupOrCreateSym(name string, ver int) Sym {
 	return i
 }
 
-// AddCgoExport records a cgo-exported symbol in l.CgoExports.
+// AddCgolangExport records a cgolang-exported symbol in l.CgolangExports.
 // This table is used to identify the correct Go symbol ABI to use
 // to resolve references from host objects (which don't have ABIs).
-func (l *Loader) AddCgoExport(s Sym) {
-	if l.CgoExports == nil {
-		l.CgoExports = make(map[string]Sym)
+func (l *Loader) AddCgolangExport(s Sym) {
+	if l.CgolangExports == nil {
+		l.CgolangExports = make(map[string]Sym)
 	}
-	l.CgoExports[l.SymName(s)] = s
+	l.CgolangExports[l.SymName(s)] = s
 }
 
-// LookupOrCreateCgoExport is like LookupOrCreateSym, but if ver
-// indicates a global symbol, it uses the CgoExport table to determine
+// LookupOrCreateCgolangExport is like LookupOrCreateSym, but if ver
+// indicates a global symbol, it uses the CgolangExport table to determine
 // the appropriate symbol version (ABI) to use. ver must be either 0
 // or a static symbol version.
-func (l *Loader) LookupOrCreateCgoExport(name string, ver int) Sym {
+func (l *Loader) LookupOrCreateCgolangExport(name string, ver int) Sym {
 	if ver >= sym.SymVerStatic {
 		return l.LookupOrCreateSym(name, ver)
 	}
 	if ver != 0 {
 		panic("ver must be 0 or a static version")
 	}
-	// Look for a cgo-exported symbol from Go.
-	if s, ok := l.CgoExports[name]; ok {
+	// Look for a cgolang-exported symbol from Go.
+	if s, ok := l.CgolangExports[name]; ok {
 		return s
 	}
 	// Otherwise, this must just be a symbol in the host object.
@@ -627,10 +627,10 @@ func (l *Loader) toLocal(i Sym) (*oReader, uint32) {
 }
 
 // Resolve a local symbol reference. Return global index.
-func (l *Loader) resolve(r *oReader, s goobj.SymRef) Sym {
+func (l *Loader) resolve(r *oReader, s golangobj.SymRef) Sym {
 	var rr *oReader
 	switch p := s.PkgIdx; p {
-	case goobj.PkgIdxInvalid:
+	case golangobj.PkgIdxInvalid:
 		// {0, X} with non-zero X is never a valid sym reference from a Go object.
 		// We steal this space for symbol references from external objects.
 		// In this case, X is just the global index.
@@ -641,22 +641,22 @@ func (l *Loader) resolve(r *oReader, s goobj.SymRef) Sym {
 			panic("bad sym ref")
 		}
 		return 0
-	case goobj.PkgIdxHashed64:
+	case golangobj.PkgIdxHashed64:
 		i := int(s.SymIdx) + r.ndef
 		return r.syms[i]
-	case goobj.PkgIdxHashed:
+	case golangobj.PkgIdxHashed:
 		i := int(s.SymIdx) + r.ndef + r.nhashed64def
 		return r.syms[i]
-	case goobj.PkgIdxNone:
+	case golangobj.PkgIdxNone:
 		i := int(s.SymIdx) + r.ndef + r.nhashed64def + r.nhasheddef
 		return r.syms[i]
-	case goobj.PkgIdxBuiltin:
+	case golangobj.PkgIdxBuiltin:
 		if bi := l.builtinSyms[s.SymIdx]; bi != 0 {
 			return bi
 		}
 		l.reportMissingBuiltin(int(s.SymIdx), r.unit.Lib.Pkg)
 		return 0
-	case goobj.PkgIdxSelf:
+	case golangobj.PkgIdxSelf:
 		rr = r
 	default:
 		rr = l.objs[r.pkg[p]]
@@ -669,7 +669,7 @@ func (l *Loader) resolve(r *oReader, s goobj.SymRef) Sym {
 // when the runtime package is built. The canonical example is
 // "runtime.racefuncenter" -- currently if you do something like
 //
-//	go build -gcflags=-race myprogram.go
+//	golang build -gcflags=-race myprogram.golang
 //
 // the compiler will insert calls to the builtin runtime.racefuncenter,
 // but the version of the runtime used for linkage won't actually contain
@@ -682,7 +682,7 @@ func (l *Loader) resolve(r *oReader, s goobj.SymRef) Sym {
 // on in the linker due to R_CALL relocations with 0-valued target
 // symbols.
 func (l *Loader) reportMissingBuiltin(bsym int, reflib string) {
-	bname, _ := goobj.BuiltinName(bsym)
+	bname, _ := golangobj.BuiltinName(bsym)
 	log.Fatalf("reference to undefined builtin %q from package %q",
 		bname, reflib)
 }
@@ -722,9 +722,9 @@ func (l *Loader) checkdup(name string, r *oReader, li uint32, dup Sym) {
 	// here is that we get different line numbers on formal
 	// params; I am guessing that the pos is being inherited
 	// from the spot where the wrapper is needed.
-	allowed := strings.HasPrefix(name, "go:info.go.interface") ||
-		strings.HasPrefix(name, "go:info.go.builtin") ||
-		strings.HasPrefix(name, "go:debuglines")
+	allowed := strings.HasPrefix(name, "golang:info.golang.interface") ||
+		strings.HasPrefix(name, "golang:info.golang.builtin") ||
+		strings.HasPrefix(name, "golang:debuglines")
 	if !allowed {
 		l.strictDupMsgs++
 	}
@@ -1012,7 +1012,7 @@ func (l *Loader) SetAttrExternal(i Sym, v bool) {
 
 // AttrSpecial returns true for a symbols that do not have their
 // address (i.e. Value) computed by the usual mechanism of
-// data.go:dodata() & data.go:address().
+// data.golang:dodata() & data.golang:address().
 func (l *Loader) AttrSpecial(i Sym) bool {
 	return l.attrSpecial.Has(i)
 }
@@ -1027,47 +1027,47 @@ func (l *Loader) SetAttrSpecial(i Sym, v bool) {
 	}
 }
 
-// AttrCgoExportDynamic returns true for a symbol that has been
-// specially marked via the "cgo_export_dynamic" compiler directive
-// written by cgo (in response to //export directives in the source).
-func (l *Loader) AttrCgoExportDynamic(i Sym) bool {
-	_, ok := l.attrCgoExportDynamic[i]
+// AttrCgolangExportDynamic returns true for a symbol that has been
+// specially marked via the "cgolang_export_dynamic" compiler directive
+// written by cgolang (in response to //export directives in the source).
+func (l *Loader) AttrCgolangExportDynamic(i Sym) bool {
+	_, ok := l.attrCgolangExportDynamic[i]
 	return ok
 }
 
-// SetAttrCgoExportDynamic sets the "cgo_export_dynamic" for a symbol
-// (see AttrCgoExportDynamic).
-func (l *Loader) SetAttrCgoExportDynamic(i Sym, v bool) {
+// SetAttrCgolangExportDynamic sets the "cgolang_export_dynamic" for a symbol
+// (see AttrCgolangExportDynamic).
+func (l *Loader) SetAttrCgolangExportDynamic(i Sym, v bool) {
 	if v {
-		l.attrCgoExportDynamic[i] = struct{}{}
+		l.attrCgolangExportDynamic[i] = struct{}{}
 	} else {
-		delete(l.attrCgoExportDynamic, i)
+		delete(l.attrCgolangExportDynamic, i)
 	}
 }
 
-// ForAllCgoExportDynamic calls f for every symbol that has been
-// marked with the "cgo_export_dynamic" compiler directive.
-func (l *Loader) ForAllCgoExportDynamic(f func(Sym)) {
-	for s := range l.attrCgoExportDynamic {
+// ForAllCgolangExportDynamic calls f for every symbol that has been
+// marked with the "cgolang_export_dynamic" compiler directive.
+func (l *Loader) ForAllCgolangExportDynamic(f func(Sym)) {
+	for s := range l.attrCgolangExportDynamic {
 		f(s)
 	}
 }
 
-// AttrCgoExportStatic returns true for a symbol that has been
-// specially marked via the "cgo_export_static" directive
-// written by cgo.
-func (l *Loader) AttrCgoExportStatic(i Sym) bool {
-	_, ok := l.attrCgoExportStatic[i]
+// AttrCgolangExportStatic returns true for a symbol that has been
+// specially marked via the "cgolang_export_static" directive
+// written by cgolang.
+func (l *Loader) AttrCgolangExportStatic(i Sym) bool {
+	_, ok := l.attrCgolangExportStatic[i]
 	return ok
 }
 
-// SetAttrCgoExportStatic sets the "cgo_export_static" for a symbol
-// (see AttrCgoExportStatic).
-func (l *Loader) SetAttrCgoExportStatic(i Sym, v bool) {
+// SetAttrCgolangExportStatic sets the "cgolang_export_static" for a symbol
+// (see AttrCgolangExportStatic).
+func (l *Loader) SetAttrCgolangExportStatic(i Sym, v bool) {
 	if v {
-		l.attrCgoExportStatic[i] = struct{}{}
+		l.attrCgolangExportStatic[i] = struct{}{}
 	} else {
-		delete(l.attrCgoExportStatic, i)
+		delete(l.attrCgolangExportStatic, i)
 	}
 }
 
@@ -1095,8 +1095,8 @@ func (l *Loader) SetIsGeneratedSym(i Sym, v bool) {
 	}
 }
 
-func (l *Loader) AttrCgoExport(i Sym) bool {
-	return l.AttrCgoExportDynamic(i) || l.AttrCgoExportStatic(i)
+func (l *Loader) AttrCgolangExport(i Sym) bool {
+	return l.AttrCgolangExportDynamic(i) || l.AttrCgolangExportStatic(i)
 }
 
 // AttrReadOnly returns true for a symbol whose underlying data
@@ -1125,7 +1125,7 @@ func (l *Loader) SetAttrReadOnly(i Sym, v bool) {
 // AttrSubSymbol returns true for symbols that are listed as a
 // sub-symbol of some other outer symbol. The sub/outer mechanism is
 // used when loading host objects (sections from the host object
-// become regular linker symbols and symbols go on the Sub list of
+// become regular linker symbols and symbols golang on the Sub list of
 // their section) and for constructing the global offset table when
 // internally linking a dynamic executable.
 //
@@ -1160,22 +1160,22 @@ func (l *Loader) AttrSubSymbol(i Sym) bool {
 
 // Returns whether the i-th symbol has ReflectMethod attribute set.
 func (l *Loader) IsReflectMethod(i Sym) bool {
-	return l.SymAttr(i)&goobj.SymFlagReflectMethod != 0
+	return l.SymAttr(i)&golangobj.SymFlagReflectMethod != 0
 }
 
 // Returns whether the i-th symbol is nosplit.
 func (l *Loader) IsNoSplit(i Sym) bool {
-	return l.SymAttr(i)&goobj.SymFlagNoSplit != 0
+	return l.SymAttr(i)&golangobj.SymFlagNoSplit != 0
 }
 
 // Returns whether this is a Go type symbol.
 func (l *Loader) IsGoType(i Sym) bool {
-	return l.SymAttr(i)&goobj.SymFlagGoType != 0
+	return l.SymAttr(i)&golangobj.SymFlagGoType != 0
 }
 
 // Returns whether this symbol should be included in typelink.
 func (l *Loader) IsTypelink(i Sym) bool {
-	return l.SymAttr(i)&goobj.SymFlagTypelink != 0
+	return l.SymAttr(i)&golangobj.SymFlagTypelink != 0
 }
 
 // Returns whether this symbol is an itab symbol.
@@ -1339,7 +1339,7 @@ func (l *Loader) NewSection() *sym.Section {
 
 // SymDynimplib returns the "dynimplib" attribute for the specified
 // symbol, making up a portion of the info for a symbol specified
-// on a "cgo_import_dynamic" compiler directive.
+// on a "cgolang_import_dynamic" compiler directive.
 func (l *Loader) SymDynimplib(i Sym) string {
 	return l.dynimplib[i]
 }
@@ -1359,7 +1359,7 @@ func (l *Loader) SetSymDynimplib(i Sym, value string) {
 
 // SymDynimpvers returns the "dynimpvers" attribute for the specified
 // symbol, making up a portion of the info for a symbol specified
-// on a "cgo_import_dynamic" compiler directive.
+// on a "cgolang_import_dynamic" compiler directive.
 func (l *Loader) SymDynimpvers(i Sym) string {
 	return l.dynimpvers[i]
 }
@@ -1481,7 +1481,7 @@ func (l *Loader) SetPlt(i Sym, v int32) {
 
 // SymGot returns the GOT offset of symbol s.
 func (l *Loader) SymGot(s Sym) int32 {
-	if v, ok := l.got[s]; ok {
+	if v, ok := l.golangt[s]; ok {
 		return v
 	}
 	return -1
@@ -1493,9 +1493,9 @@ func (l *Loader) SetGot(i Sym, v int32) {
 		panic("bad symbol for SetGot")
 	}
 	if v == -1 {
-		delete(l.got, i)
+		delete(l.golangt, i)
 	} else {
-		l.got[i] = v
+		l.golangt[i] = v
 	}
 }
 
@@ -1535,10 +1535,10 @@ func (l *Loader) DynidSyms() []Sym {
 // SymGoType returns the 'Gotype' property for a given symbol (set by
 // the Go compiler for variable symbols). This version relies on
 // reading aux symbols for the target sym -- it could be that a faster
-// approach would be to check for gotype during preload and copy the
+// approach would be to check for golangtype during preload and copy the
 // results in to a map (might want to try this at some point and see
 // if it helps speed things up).
-func (l *Loader) SymGoType(i Sym) Sym { return l.aux1(i, goobj.AuxGotype) }
+func (l *Loader) SymGoType(i Sym) Sym { return l.aux1(i, golangobj.AuxGotype) }
 
 // SymUnit returns the compilation unit for a given symbol (which will
 // typically be nil for external or linker-manufactured symbols).
@@ -1631,7 +1631,7 @@ func (l *Loader) Aux(i Sym, j int) Aux {
 
 // WasmImportSym returns the auxiliary WebAssembly import symbol associated with
 // a given function symbol. The aux sym only exists for Go function stubs that
-// have been annotated with the //go:wasmimport directive.  The aux sym
+// have been annotated with the //golang:wasmimport directive.  The aux sym
 // contains the information necessary for the linker to add a WebAssembly
 // import statement.
 // (https://webassembly.github.io/spec/core/syntax/modules.html#imports)
@@ -1639,11 +1639,11 @@ func (l *Loader) WasmImportSym(fnSymIdx Sym) Sym {
 	if !l.SymType(fnSymIdx).IsText() {
 		log.Fatalf("error: non-function sym %d/%s t=%s passed to WasmImportSym", fnSymIdx, l.SymName(fnSymIdx), l.SymType(fnSymIdx).String())
 	}
-	return l.aux1(fnSymIdx, goobj.AuxWasmImport)
+	return l.aux1(fnSymIdx, golangobj.AuxWasmImport)
 }
 
 func (l *Loader) WasmTypeSym(s Sym) Sym {
-	return l.aux1(s, goobj.AuxWasmType)
+	return l.aux1(s, golangobj.AuxWasmType)
 }
 
 // SEHUnwindSym returns the auxiliary SEH unwind symbol associated with
@@ -1653,14 +1653,14 @@ func (l *Loader) SEHUnwindSym(fnSymIdx Sym) Sym {
 		log.Fatalf("error: non-function sym %d/%s t=%s passed to SEHUnwindSym", fnSymIdx, l.SymName(fnSymIdx), l.SymType(fnSymIdx).String())
 	}
 
-	return l.aux1(fnSymIdx, goobj.AuxSehUnwindInfo)
+	return l.aux1(fnSymIdx, golangobj.AuxSehUnwindInfo)
 }
 
 // GetFuncDwarfAuxSyms collects and returns the auxiliary DWARF
 // symbols associated with a given function symbol.  Prior to the
 // introduction of the loader, this was done purely using name
 // lookups, e.f. for function with name XYZ we would then look up
-// go.info.XYZ, etc.
+// golang.info.XYZ, etc.
 func (l *Loader) GetFuncDwarfAuxSyms(fnSymIdx Sym) (auxDwarfInfo, auxDwarfLoc, auxDwarfRanges, auxDwarfLines Sym) {
 	if !l.SymType(fnSymIdx).IsText() {
 		log.Fatalf("error: non-function sym %d/%s t=%s passed to GetFuncDwarfAuxSyms", fnSymIdx, l.SymName(fnSymIdx), l.SymType(fnSymIdx).String())
@@ -1670,22 +1670,22 @@ func (l *Loader) GetFuncDwarfAuxSyms(fnSymIdx Sym) (auxDwarfInfo, auxDwarfLoc, a
 	for i := range auxs {
 		a := &auxs[i]
 		switch a.Type() {
-		case goobj.AuxDwarfInfo:
+		case golangobj.AuxDwarfInfo:
 			auxDwarfInfo = l.resolve(r, a.Sym())
 			if l.SymType(auxDwarfInfo) != sym.SDWARFFCN {
 				panic("aux dwarf info sym with wrong type")
 			}
-		case goobj.AuxDwarfLoc:
+		case golangobj.AuxDwarfLoc:
 			auxDwarfLoc = l.resolve(r, a.Sym())
 			if l.SymType(auxDwarfLoc) != sym.SDWARFLOC {
 				panic("aux dwarf loc sym with wrong type")
 			}
-		case goobj.AuxDwarfRanges:
+		case golangobj.AuxDwarfRanges:
 			auxDwarfRanges = l.resolve(r, a.Sym())
 			if l.SymType(auxDwarfRanges) != sym.SDWARFRANGE {
 				panic("aux dwarf ranges sym with wrong type")
 			}
-		case goobj.AuxDwarfLines:
+		case golangobj.AuxDwarfLines:
 			auxDwarfLines = l.resolve(r, a.Sym())
 			if l.SymType(auxDwarfLines) != sym.SDWARFLINES {
 				panic("aux dwarf lines sym with wrong type")
@@ -1696,7 +1696,7 @@ func (l *Loader) GetFuncDwarfAuxSyms(fnSymIdx Sym) (auxDwarfInfo, auxDwarfLoc, a
 }
 
 func (l *Loader) GetVarDwarfAuxSym(i Sym) Sym {
-	aux := l.aux1(i, goobj.AuxDwarfInfo)
+	aux := l.aux1(i, golangobj.AuxDwarfInfo)
 	if aux != 0 && l.SymType(aux) != sym.SDWARFVAR {
 		fmt.Println(l.SymName(i), l.SymType(i), l.SymType(aux), sym.SDWARFVAR)
 		panic("aux dwarf info sym with wrong type")
@@ -1715,7 +1715,7 @@ func (l *Loader) GetVarDwarfAuxSym(i Sym) Sym {
 // for a collection of functions, then a series of ELF (or macho, etc)
 // symbol table entries each of which points into a sub-section
 // (offset and length) of its corresponding container symbol. Within
-// the go linker we create a loader.Sym for the container (which is
+// the golang linker we create a loader.Sym for the container (which is
 // expected to have the actual content/payload) and then a set of
 // interior loader.Sym's that point into a portion of the container.
 func (l *Loader) AddInteriorSym(container Sym, interior Sym) {
@@ -1772,7 +1772,7 @@ func (l *Loader) growOuter(reqLen int) {
 // emits named string symbols (type SGOSTRING) when compiling a
 // package; after being deduplicated, these symbols are collected into
 // a single unit by assigning them a new carrier symbol named
-// "go:string.*" (which appears in the final symbol table for the
+// "golang:string.*" (which appears in the final symbol table for the
 // output load module).
 func (l *Loader) SetCarrierSym(s Sym, c Sym) {
 	if c == 0 {
@@ -1893,7 +1893,7 @@ func (l *Loader) Relocs(i Sym) Relocs {
 
 // relocs returns a Relocs object given a local sym index and reader.
 func (l *Loader) relocs(r *oReader, li uint32) Relocs {
-	var rs []goobj.Reloc
+	var rs []golangobj.Reloc
 	if l.isExtReader(r) {
 		pp := l.payloads[li]
 		rs = pp.relocs
@@ -1908,7 +1908,7 @@ func (l *Loader) relocs(r *oReader, li uint32) Relocs {
 	}
 }
 
-func (l *Loader) auxs(i Sym) (*oReader, []goobj.Aux) {
+func (l *Loader) auxs(i Sym) (*oReader, []golangobj.Aux) {
 	if l.IsExternal(i) {
 		pp := l.getPayload(i)
 		return l.objs[pp.objidx], pp.auxs
@@ -1930,7 +1930,7 @@ func (l *Loader) aux1(i Sym, t uint8) Sym {
 	return 0
 }
 
-func (l *Loader) Pcsp(i Sym) Sym { return l.aux1(i, goobj.AuxPcsp) }
+func (l *Loader) Pcsp(i Sym) Sym { return l.aux1(i, golangobj.AuxPcsp) }
 
 // Returns all aux symbols of per-PC data for symbol i.
 // tmp is a scratch space for the pcdata slice.
@@ -1940,15 +1940,15 @@ func (l *Loader) PcdataAuxs(i Sym, tmp []Sym) (pcsp, pcfile, pcline, pcinline Sy
 	for j := range auxs {
 		a := &auxs[j]
 		switch a.Type() {
-		case goobj.AuxPcsp:
+		case golangobj.AuxPcsp:
 			pcsp = l.resolve(r, a.Sym())
-		case goobj.AuxPcline:
+		case golangobj.AuxPcline:
 			pcline = l.resolve(r, a.Sym())
-		case goobj.AuxPcfile:
+		case golangobj.AuxPcfile:
 			pcfile = l.resolve(r, a.Sym())
-		case goobj.AuxPcinline:
+		case golangobj.AuxPcinline:
 			pcinline = l.resolve(r, a.Sym())
-		case goobj.AuxPcdata:
+		case golangobj.AuxPcdata:
 			pcdata = append(pcdata, l.resolve(r, a.Sym()))
 		}
 	}
@@ -1961,7 +1961,7 @@ func (l *Loader) NumPcdata(i Sym) int {
 	_, auxs := l.auxs(i)
 	for j := range auxs {
 		a := &auxs[j]
-		if a.Type() == goobj.AuxPcdata {
+		if a.Type() == golangobj.AuxPcdata {
 			n++
 		}
 	}
@@ -1975,7 +1975,7 @@ func (l *Loader) Funcdata(i Sym, tmp []Sym) []Sym {
 	r, auxs := l.auxs(i)
 	for j := range auxs {
 		a := &auxs[j]
-		if a.Type() == goobj.AuxFuncdata {
+		if a.Type() == golangobj.AuxFuncdata {
 			fd = append(fd, l.resolve(r, a.Sym()))
 		}
 	}
@@ -1988,47 +1988,47 @@ func (l *Loader) NumFuncdata(i Sym) int {
 	_, auxs := l.auxs(i)
 	for j := range auxs {
 		a := &auxs[j]
-		if a.Type() == goobj.AuxFuncdata {
+		if a.Type() == golangobj.AuxFuncdata {
 			n++
 		}
 	}
 	return n
 }
 
-// FuncInfo provides hooks to access goobj.FuncInfo in the objects.
+// FuncInfo provides hooks to access golangobj.FuncInfo in the objects.
 type FuncInfo struct {
 	l       *Loader
 	r       *oReader
 	data    []byte
-	lengths goobj.FuncInfoLengths
+	lengths golangobj.FuncInfoLengths
 }
 
 func (fi *FuncInfo) Valid() bool { return fi.r != nil }
 
 func (fi *FuncInfo) Args() int {
-	return int((*goobj.FuncInfo)(nil).ReadArgs(fi.data))
+	return int((*golangobj.FuncInfo)(nil).ReadArgs(fi.data))
 }
 
 func (fi *FuncInfo) Locals() int {
-	return int((*goobj.FuncInfo)(nil).ReadLocals(fi.data))
+	return int((*golangobj.FuncInfo)(nil).ReadLocals(fi.data))
 }
 
 func (fi *FuncInfo) FuncID() abi.FuncID {
-	return (*goobj.FuncInfo)(nil).ReadFuncID(fi.data)
+	return (*golangobj.FuncInfo)(nil).ReadFuncID(fi.data)
 }
 
 func (fi *FuncInfo) FuncFlag() abi.FuncFlag {
-	return (*goobj.FuncInfo)(nil).ReadFuncFlag(fi.data)
+	return (*golangobj.FuncInfo)(nil).ReadFuncFlag(fi.data)
 }
 
 func (fi *FuncInfo) StartLine() int32 {
-	return (*goobj.FuncInfo)(nil).ReadStartLine(fi.data)
+	return (*golangobj.FuncInfo)(nil).ReadStartLine(fi.data)
 }
 
 // Preload has to be called prior to invoking the various methods
 // below related to pcdata, funcdataoff, files, and inltree nodes.
 func (fi *FuncInfo) Preload() {
-	fi.lengths = (*goobj.FuncInfo)(nil).ReadFuncInfoLengths(fi.data)
+	fi.lengths = (*golangobj.FuncInfo)(nil).ReadFuncInfoLengths(fi.data)
 }
 
 func (fi *FuncInfo) NumFile() uint32 {
@@ -2038,11 +2038,11 @@ func (fi *FuncInfo) NumFile() uint32 {
 	return fi.lengths.NumFile
 }
 
-func (fi *FuncInfo) File(k int) goobj.CUFileIndex {
+func (fi *FuncInfo) File(k int) golangobj.CUFileIndex {
 	if !fi.lengths.Initialized {
 		panic("need to call Preload first")
 	}
-	return (*goobj.FuncInfo)(nil).ReadFile(fi.data, fi.lengths.FileOff, uint32(k))
+	return (*golangobj.FuncInfo)(nil).ReadFile(fi.data, fi.lengths.FileOff, uint32(k))
 }
 
 // TopFrame returns true if the function associated with this FuncInfo
@@ -2054,7 +2054,7 @@ func (fi *FuncInfo) TopFrame() bool {
 
 type InlTreeNode struct {
 	Parent   int32
-	File     goobj.CUFileIndex
+	File     golangobj.CUFileIndex
 	Line     int32
 	Func     Sym
 	ParentPC int32
@@ -2071,7 +2071,7 @@ func (fi *FuncInfo) InlTree(k int) InlTreeNode {
 	if !fi.lengths.Initialized {
 		panic("need to call Preload first")
 	}
-	node := (*goobj.FuncInfo)(nil).ReadInlTree(fi.data, fi.lengths.InlTreeOff, uint32(k))
+	node := (*golangobj.FuncInfo)(nil).ReadInlTree(fi.data, fi.lengths.InlTreeOff, uint32(k))
 	return InlTreeNode{
 		Parent:   node.Parent,
 		File:     node.File,
@@ -2085,9 +2085,9 @@ func (l *Loader) FuncInfo(i Sym) FuncInfo {
 	r, auxs := l.auxs(i)
 	for j := range auxs {
 		a := &auxs[j]
-		if a.Type() == goobj.AuxFuncInfo {
+		if a.Type() == golangobj.AuxFuncInfo {
 			b := r.Data(a.Sym().SymIdx)
-			return FuncInfo{l, r, b, goobj.FuncInfoLengths{}}
+			return FuncInfo{l, r, b, golangobj.FuncInfoLengths{}}
 		}
 	}
 	return FuncInfo{}
@@ -2098,14 +2098,14 @@ func (l *Loader) FuncInfo(i Sym) FuncInfo {
 // These are done in LoadSyms.
 // Does not read symbol data.
 // Returns the fingerprint of the object.
-func (l *Loader) Preload(localSymVersion int, f *bio.Reader, lib *sym.Library, unit *sym.CompilationUnit, length int64) goobj.FingerprintType {
+func (l *Loader) Preload(localSymVersion int, f *bio.Reader, lib *sym.Library, unit *sym.CompilationUnit, length int64) golangobj.FingerprintType {
 	roObject, readonly, err := f.Slice(uint64(length)) // TODO: no need to map blocks that are for tools only (e.g. RefName)
 	if err != nil {
 		log.Fatal("cannot read object file:", err)
 	}
-	r := goobj.NewReaderFromBytes(roObject, readonly)
+	r := golangobj.NewReaderFromBytes(roObject, readonly)
 	if r == nil {
-		if len(roObject) >= 8 && bytes.Equal(roObject[:8], []byte("\x00go114ld")) {
+		if len(roObject) >= 8 && bytes.Equal(roObject[:8], []byte("\x00golang114ld")) {
 			log.Fatalf("found object file %s in old format", f.File().Name())
 		}
 		panic("cannot read object file")
@@ -2152,7 +2152,7 @@ func (l *Loader) Preload(localSymVersion int, f *bio.Reader, lib *sym.Library, u
 type loadState struct {
 	l            *Loader
 	hashed64Syms map[uint64]symAndSize         // short hashed (content-addressable) symbols, keyed by content hash
-	hashedSyms   map[goobj.HashType]symAndSize // hashed (content-addressable) symbols, keyed by content hash
+	hashedSyms   map[golangobj.HashType]symAndSize // hashed (content-addressable) symbols, keyed by content hash
 
 	linknameVarRefs []linknameVarRef // linknamed var refererces
 }
@@ -2196,7 +2196,7 @@ func (st *loadState) preloadSyms(r *oReader, kind int) {
 		gi := st.addSym(name, v, r, i, kind, osym)
 		r.syms[i] = gi
 		if kind == nonPkgDef && osym.IsLinkname() && r.DataSize(i) == 0 && strings.Contains(name, ".") {
-			// This is a linknamed "var" "reference" (var x T with no data and //go:linkname x).
+			// This is a linknamed "var" "reference" (var x T with no data and //golang:linkname x).
 			// We want to check if a linkname reference is allowed. Here we haven't loaded all
 			// symbol definitions, so we don't yet know all the push linknames. So we add to a
 			// list and check later after all symbol defs are loaded. Linknamed vars are rare,
@@ -2216,7 +2216,7 @@ func (st *loadState) preloadSyms(r *oReader, kind int) {
 		}
 		if strings.HasPrefix(name, "runtime.") ||
 			(loadingRuntimePkg && strings.HasPrefix(name, "type:")) {
-			if bi := goobj.BuiltinIdx(name, int(osym.ABI())); bi != -1 {
+			if bi := golangobj.BuiltinIdx(name, int(osym.ABI())); bi != -1 {
 				// This is a definition of a builtin symbol. Record where it is.
 				l.builtinSyms[bi] = gi
 			}
@@ -2237,7 +2237,7 @@ func (l *Loader) LoadSyms(arch *sys.Arch) {
 	// This function was determined empirically by looking at the cmd/compile on
 	// Darwin, and picking factors for hashed and hashed64 syms.
 	var symSize, hashedSize, hashed64Size int
-	for _, r := range l.objs[goObjStart:] {
+	for _, r := range l.objs[golangObjStart:] {
 		symSize += r.ndef + r.nhasheddef/2 + r.nhashed64def/2 + r.NNonpkgdef()
 		hashedSize += r.nhasheddef / 2
 		hashed64Size += r.nhashed64def / 2
@@ -2248,14 +2248,14 @@ func (l *Loader) LoadSyms(arch *sys.Arch) {
 	st := loadState{
 		l:            l,
 		hashed64Syms: make(map[uint64]symAndSize, hashed64Size),
-		hashedSyms:   make(map[goobj.HashType]symAndSize, hashedSize),
+		hashedSyms:   make(map[golangobj.HashType]symAndSize, hashedSize),
 	}
 
-	for _, r := range l.objs[goObjStart:] {
+	for _, r := range l.objs[golangObjStart:] {
 		st.preloadSyms(r, pkgDef)
 	}
 	l.npkgsyms = l.NSym()
-	for _, r := range l.objs[goObjStart:] {
+	for _, r := range l.objs[golangObjStart:] {
 		st.preloadSyms(r, hashed64Def)
 		st.preloadSyms(r, hashedDef)
 		st.preloadSyms(r, nonPkgDef)
@@ -2264,7 +2264,7 @@ func (l *Loader) LoadSyms(arch *sys.Arch) {
 		l.checkLinkname(vr.pkg, vr.name, vr.sym)
 	}
 	l.nhashedsyms = len(st.hashed64Syms) + len(st.hashedSyms)
-	for _, r := range l.objs[goObjStart:] {
+	for _, r := range l.objs[golangObjStart:] {
 		loadObjRefs(l, r, arch)
 	}
 	l.values = make([]int64, l.NSym(), l.NSym()+1000) // +1000 make some room for external symbols
@@ -2311,7 +2311,7 @@ func loadObjRefs(l *Loader, r *oReader, arch *sys.Arch) {
 	for i, n := 0, r.NRefFlags(); i < n; i++ {
 		rf := r.RefFlags(i)
 		gi := l.resolve(r, rf.Sym())
-		if rf.Flag2()&goobj.SymFlagUsedInIface != 0 {
+		if rf.Flag2()&golangobj.SymFlagUsedInIface != 0 {
 			l.SetAttrUsedInIface(gi, true)
 		}
 	}
@@ -2319,7 +2319,7 @@ func loadObjRefs(l *Loader, r *oReader, arch *sys.Arch) {
 
 func abiToVer(abi uint16, localSymVersion int) int {
 	var v int
-	if abi == goobj.SymABIstatic {
+	if abi == golangobj.SymABIstatic {
 		// Static
 		v = localSymVersion
 	} else if abiver := sym.ABIToVersion(obj.ABI(abi)); abiver != -1 {
@@ -2342,7 +2342,7 @@ var blockedLinknames = map[string][]string{
 	"runtime.coroswitch": {"iter"},
 	"runtime.newcoro":    {"iter"},
 	// fips info
-	"go:fipsinfo": {"crypto/internal/fips140/check"},
+	"golang:fipsinfo": {"crypto/internal/fips140/check"},
 	// New internal linknames in Go 1.24
 	// Pushed from runtime
 	"crypto/internal/fips140.fatal":         {"crypto/internal/fips140"},
@@ -2491,12 +2491,12 @@ func (l *Loader) cloneToExternal(symIdx Sym) {
 
 		// Copy relocations
 		relocs := l.Relocs(symIdx)
-		pp.relocs = make([]goobj.Reloc, relocs.Count())
+		pp.relocs = make([]golangobj.Reloc, relocs.Count())
 		for i := range pp.relocs {
 			// Copy the relocs slice.
 			// Convert local reference to global reference.
 			rel := relocs.At(i)
-			pp.relocs[i].Set(rel.Off(), rel.Siz(), uint16(rel.Type()), rel.Add(), goobj.SymRef{PkgIdx: 0, SymIdx: uint32(rel.Sym())})
+			pp.relocs[i].Set(rel.Off(), rel.Siz(), uint16(rel.Type()), rel.Add(), golangobj.SymRef{PkgIdx: 0, SymIdx: uint32(rel.Sym())})
 		}
 
 		// Copy data
@@ -2607,7 +2607,7 @@ outerloop:
 		for ri := 0; ri < relocs.Count(); ri++ {
 			r := relocs.At(ri)
 			rs := r.Sym()
-			if rs != 0 && l.SymType(rs) == sym.SXREF && l.SymName(rs) != ".got" {
+			if rs != 0 && l.SymType(rs) == sym.SXREF && l.SymName(rs) != ".golangt" {
 				result = append(result, rs)
 				fromr = append(fromr, si)
 				if limit != -1 && len(result) >= limit {
@@ -2653,7 +2653,7 @@ func (l *Loader) AssignTextSymbolOrder(libs []*sym.Library, intlibs []bool, exts
 
 	// Walk through all text symbols from Go object files and append
 	// them to their corresponding library's textp list.
-	for _, r := range l.objs[goObjStart:] {
+	for _, r := range l.objs[golangObjStart:] {
 		lib := r.unit.Lib
 		for i, n := uint32(0), uint32(r.NAlldef()); i < n; i++ {
 			gi := l.toGlobal(r, i)
@@ -2767,7 +2767,7 @@ func (l *Loader) Stat() string {
 // For debugging.
 func (l *Loader) Dump() {
 	fmt.Println("objs")
-	for _, r := range l.objs[goObjStart:] {
+	for _, r := range l.objs[golangObjStart:] {
 		if r != nil {
 			fmt.Println(r.unit.Lib)
 		}

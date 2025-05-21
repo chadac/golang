@@ -1,12 +1,12 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file defines the IDs for PCDATA and FUNCDATA instructions
 // in Go binaries. It is included by assembly sources, so it must
 // be written using #defines.
 //
-// These must agree with internal/abi/symtab.go.
+// These must agree with internal/abi/symtab.golang.
 
 #define PCDATA_UnsafePoint 0
 #define PCDATA_StackMapIndex 1
@@ -38,7 +38,7 @@
 // GO_ARGS is inserted implicitly by the assembler for any function
 // whose package-qualified symbol name belongs to the current package;
 // it is therefore usually not necessary to write explicitly.
-#define GO_ARGS	FUNCDATA $FUNCDATA_ArgsPointerMaps, go_args_stackmap(SB)
+#define GO_ARGS	FUNCDATA $FUNCDATA_ArgsPointerMaps, golang_args_stackmap(SB)
 
 // GO_RESULTS_INITIALIZED indicates that the assembly function
 // has initialized the stack space for its results and that those results

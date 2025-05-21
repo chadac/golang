@@ -1,12 +1,12 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Package dsa implements the Digital Signature Algorithm, as defined in FIPS 186-3.
+// Package dsa implements the Digital Signature Algolangrithm, as defined in FIPS 186-3.
 //
-// The DSA operations in this package are not implemented using constant-time algorithms.
+// The DSA operations in this package are not implemented using constant-time algolangrithms.
 //
-// Deprecated: DSA is a legacy algorithm, and modern alternatives such as
+// Deprecated: DSA is a legacy algolangrithm, and modern alternatives such as
 // Ed25519 (implemented by package crypto/ed25519) should be used instead. Keys
 // with 1024-bit moduli (L1024N160 parameters) are cryptographically weak, while
 // bigger keys are not widely supported. Note that FIPS 186-5 no longer approves

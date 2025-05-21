@@ -1,5 +1,5 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package rand implements a cryptographically secure
@@ -18,7 +18,7 @@ import (
 // Reader is a global, shared instance of a cryptographically
 // secure random number generator. It is safe for concurrent use.
 //
-//   - On Linux, FreeBSD, Dragonfly, and Solaris, Reader uses getrandom(2).
+//   - On Linux, FreeBSD, Dragolangnfly, and Solaris, Reader uses getrandom(2).
 //   - On legacy Linux (< 3.17), Reader opens /dev/urandom on first use.
 //   - On macOS, iOS, and OpenBSD Reader, uses arc4random_buf(3).
 //   - On NetBSD, Reader uses the kern.arandom sysctl.
@@ -54,7 +54,7 @@ func (r *reader) Read(b []byte) (n int, err error) {
 
 // fatal is [runtime.fatal], pushed via linkname.
 //
-//go:linkname fatal
+//golang:linkname fatal
 func fatal(string)
 
 // Read fills b with cryptographically secure random bytes. It never returns an
@@ -76,7 +76,7 @@ func Read(b []byte) (n int, err error) {
 		copy(b, bb)
 	}
 	if err != nil {
-		fatal("crypto/rand: failed to read random data (see https://go.dev/issue/66821): " + err.Error())
+		fatal("crypto/rand: failed to read random data (see https://golang.dev/issue/66821): " + err.Error())
 		panic("unreachable") // To be sure.
 	}
 	return len(b), nil

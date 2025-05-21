@@ -88,7 +88,7 @@ func rconv(r int) string {
 		return "MB_OSHST"
 	}
 
-	return fmt.Sprintf("Rgok(%d)", r-obj.RBaseARM)
+	return fmt.Sprintf("Rgolangk(%d)", r-obj.RBaseARM)
 }
 
 func DRconv(a int) string {

@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package modfetch
@@ -18,17 +18,17 @@ import (
 	"sync"
 	"time"
 
-	"cmd/go/internal/base"
-	"cmd/go/internal/cfg"
-	"cmd/go/internal/modfetch/codehost"
-	"cmd/go/internal/web"
+	"cmd/golang/internal/base"
+	"cmd/golang/internal/cfg"
+	"cmd/golang/internal/modfetch/codehost"
+	"cmd/golang/internal/web"
 
-	"golang.org/x/mod/module"
-	"golang.org/x/mod/semver"
+	"golanglang.org/x/mod/module"
+	"golanglang.org/x/mod/semver"
 )
 
 var HelpGoproxy = &base.Command{
-	UsageLine: "goproxy",
+	UsageLine: "golangproxy",
 	Short:     "module proxy protocol",
 	Long: `
 A Go module proxy is any web server that can respond to GET requests for
@@ -37,7 +37,7 @@ a site serving from a fixed file system (including a file:/// URL)
 can be a module proxy.
 
 For details on the GOPROXY protocol, see
-https://golang.org/ref/mod#goproxy-protocol.
+https://golanglang.org/ref/mod#golangproxy-protocol.
 `,
 }
 
@@ -64,17 +64,17 @@ func proxyList() ([]proxySpec, error) {
 			proxyOnce.list = append(proxyOnce.list, proxySpec{url: "noproxy"})
 		}
 
-		goproxy := cfg.GOPROXY
-		for goproxy != "" {
+		golangproxy := cfg.GOPROXY
+		for golangproxy != "" {
 			var url string
 			fallBackOnError := false
-			if i := strings.IndexAny(goproxy, ",|"); i >= 0 {
-				url = goproxy[:i]
-				fallBackOnError = goproxy[i] == '|'
-				goproxy = goproxy[i+1:]
+			if i := strings.IndexAny(golangproxy, ",|"); i >= 0 {
+				url = golangproxy[:i]
+				fallBackOnError = golangproxy[i] == '|'
+				golangproxy = golangproxy[i+1:]
 			} else {
-				url = goproxy
-				goproxy = ""
+				url = golangproxy
+				golangproxy = ""
 			}
 
 			url = strings.TrimSpace(url)
@@ -103,7 +103,7 @@ func proxyList() ([]proxySpec, error) {
 
 			// Check that newProxyRepo accepts the URL.
 			// It won't do anything with the path.
-			if _, err := newProxyRepo(url, "golang.org/x/text"); err != nil {
+			if _, err := newProxyRepo(url, "golanglang.org/x/text"); err != nil {
 				proxyOnce.err = err
 				return
 			}
@@ -265,7 +265,7 @@ func (p *proxyRepo) getBytes(ctx context.Context, path string) ([]byte, error) {
 	b, err := io.ReadAll(body)
 	if err != nil {
 		// net/http doesn't add context to Body read errors, so add it here.
-		// (See https://go.dev/issue/52727.)
+		// (See https://golang.dev/issue/52727.)
 		return b, &url.Error{Op: "read", URL: redactedURL, Err: err}
 	}
 	return b, nil
@@ -434,7 +434,7 @@ func (p *proxyRepo) Zip(ctx context.Context, dst io.Writer, version string) erro
 	lr := &io.LimitedReader{R: body, N: codehost.MaxZipFile + 1}
 	if _, err := io.Copy(dst, lr); err != nil {
 		// net/http doesn't add context to Body read errors, so add it here.
-		// (See https://go.dev/issue/52727.)
+		// (See https://golang.dev/issue/52727.)
 		err = &url.Error{Op: "read", URL: redactedURL, Err: err}
 		return p.versionError(version, err)
 	}

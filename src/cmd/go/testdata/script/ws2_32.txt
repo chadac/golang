@@ -1,17 +1,17 @@
 [!GOOS:windows] skip
 
-go run .
+golang run .
 stdout 'ws2_32.dll: not found'
 
-go run -tags net .
+golang run -tags net .
 stdout 'ws2_32.dll: found'
 
--- go.mod --
+-- golang.mod --
 module m
 
-go 1.21
+golang 1.21
 
--- utils.go --
+-- utils.golang --
 package main
 
 import (
@@ -30,8 +30,8 @@ func hasModuleHandle() {
 		fmt.Println(ws2_32+":", "not found")
 	}
 }
--- net.go --
-//go:build net
+-- net.golang --
+//golang:build net
 package main
 
 import _ "net"
@@ -39,8 +39,8 @@ import _ "net"
 func main() {
     hasModuleHandle()
 }
--- nonet.go --
-//go:build !net
+-- nonet.golang --
+//golang:build !net
 package main
 
 func main() {

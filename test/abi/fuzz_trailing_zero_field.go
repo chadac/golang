@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -26,8 +26,8 @@ type S2 struct {
 type empty struct {
 }
 
-//go:noinline
-//go:registerparams
+//golang:noinline
+//golang:registerparams
 func callee(p0 S1) {
 	if p0 != p0exp {
 		panic("bad p0")

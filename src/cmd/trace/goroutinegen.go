@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -8,9 +8,9 @@ import (
 	"internal/trace"
 )
 
-var _ generator = &goroutineGenerator{}
+var _ generator = &golangroutineGenerator{}
 
-type goroutineGenerator struct {
+type golangroutineGenerator struct {
 	globalRangeGenerator
 	globalMetricGenerator
 	stackSampleGenerator[trace.GoID]
@@ -21,8 +21,8 @@ type goroutineGenerator struct {
 	filter  map[trace.GoID]struct{}
 }
 
-func newGoroutineGenerator(ctx *traceContext, focus trace.GoID, filter map[trace.GoID]struct{}) *goroutineGenerator {
-	gg := new(goroutineGenerator)
+func newGoroutineGenerator(ctx *traceContext, focus trace.GoID, filter map[trace.GoID]struct{}) *golangroutineGenerator {
+	gg := new(golangroutineGenerator)
 	rg := func(ev *trace.Event) trace.GoID {
 		return ev.Goroutine()
 	}
@@ -42,16 +42,16 @@ func newGoroutineGenerator(ctx *traceContext, focus trace.GoID, filter map[trace
 	return gg
 }
 
-func (g *goroutineGenerator) Sync() {
+func (g *golangroutineGenerator) Sync() {
 	g.globalRangeGenerator.Sync()
 }
 
-func (g *goroutineGenerator) GoroutineLabel(ctx *traceContext, ev *trace.Event) {
+func (g *golangroutineGenerator) GoroutineLabel(ctx *traceContext, ev *trace.Event) {
 	l := ev.Label()
 	g.gStates[l.Resource.Goroutine()].setLabel(l.Label)
 }
 
-func (g *goroutineGenerator) GoroutineRange(ctx *traceContext, ev *trace.Event) {
+func (g *golangroutineGenerator) GoroutineRange(ctx *traceContext, ev *trace.Event) {
 	r := ev.Range()
 	switch ev.Kind() {
 	case trace.EventRangeBegin:
@@ -64,22 +64,22 @@ func (g *goroutineGenerator) GoroutineRange(ctx *traceContext, ev *trace.Event) 
 	}
 }
 
-func (g *goroutineGenerator) GoroutineTransition(ctx *traceContext, ev *trace.Event) {
+func (g *golangroutineGenerator) GoroutineTransition(ctx *traceContext, ev *trace.Event) {
 	st := ev.StateTransition()
-	goID := st.Resource.Goroutine()
+	golangID := st.Resource.Goroutine()
 
-	// If we haven't seen this goroutine before, create a new
+	// If we haven't seen this golangroutine before, create a new
 	// gState for it.
-	gs, ok := g.gStates[goID]
+	gs, ok := g.gStates[golangID]
 	if !ok {
-		gs = newGState[trace.GoID](goID)
-		g.gStates[goID] = gs
+		gs = newGState[trace.GoID](golangID)
+		g.gStates[golangID] = gs
 	}
 
-	// Try to augment the name of the goroutine.
+	// Try to augment the name of the golangroutine.
 	gs.augmentName(st.Stack)
 
-	// Handle the goroutine state transition.
+	// Handle the golangroutine state transition.
 	from, to := st.Goroutine()
 	if from == to {
 		// Filter out no-op events.
@@ -99,7 +99,7 @@ func (g *goroutineGenerator) GoroutineTransition(ctx *traceContext, ev *trace.Ev
 			// Back-date the event to the start of the trace.
 			start = ctx.startTime
 		}
-		gs.start(start, goID, ctx)
+		gs.start(start, golangID, ctx)
 	}
 
 	if from == trace.GoWaiting {
@@ -127,40 +127,40 @@ func (g *goroutineGenerator) GoroutineTransition(ctx *traceContext, ev *trace.Ev
 			start = ctx.startTime
 		}
 		// Write down that we've entered a syscall. Note: we might have no G or P here
-		// if we're in a cgo callback or this is a transition from GoUndetermined
+		// if we're in a cgolang callback or this is a transition from GoUndetermined
 		// (i.e. the G has been blocked in a syscall).
-		gs.syscallBegin(start, goID, ev.Stack())
+		gs.syscallBegin(start, golangID, ev.Stack())
 	}
 
-	// Note down the goroutine transition.
+	// Note down the golangroutine transition.
 	_, inMarkAssist := gs.activeRanges["GC mark assist"]
 	ctx.GoroutineTransition(ctx.elapsed(ev.Time()), viewerGState(from, inMarkAssist), viewerGState(to, inMarkAssist))
 }
 
-func (g *goroutineGenerator) ProcRange(ctx *traceContext, ev *trace.Event) {
+func (g *golangroutineGenerator) ProcRange(ctx *traceContext, ev *trace.Event) {
 	// TODO(mknyszek): Extend procRangeGenerator to support rendering proc ranges
-	// that overlap with a goroutine's execution.
+	// that overlap with a golangroutine's execution.
 }
 
-func (g *goroutineGenerator) ProcTransition(ctx *traceContext, ev *trace.Event) {
-	// Not needed. All relevant information for goroutines can be derived from goroutine transitions.
+func (g *golangroutineGenerator) ProcTransition(ctx *traceContext, ev *trace.Event) {
+	// Not needed. All relevant information for golangroutines can be derived from golangroutine transitions.
 }
 
-func (g *goroutineGenerator) Finish(ctx *traceContext) {
+func (g *golangroutineGenerator) Finish(ctx *traceContext) {
 	ctx.SetResourceType("G")
 
 	// Finish off global ranges.
 	g.globalRangeGenerator.Finish(ctx)
 
-	// Finish off all the goroutine slices.
+	// Finish off all the golangroutine slices.
 	for id, gs := range g.gStates {
 		gs.finish(ctx)
 
-		// Tell the emitter about the goroutines we want to render.
+		// Tell the emitter about the golangroutines we want to render.
 		ctx.Resource(uint64(id), gs.name())
 	}
 
-	// Set the goroutine to focus on.
+	// Set the golangroutine to focus on.
 	if g.focus != trace.NoGoroutine {
 		ctx.Focus(uint64(g.focus))
 	}

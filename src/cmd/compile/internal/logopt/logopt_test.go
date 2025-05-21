@@ -1,8 +1,8 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-package logopt
+package logolangpt
 
 import (
 	"internal/testenv"
@@ -55,17 +55,17 @@ func wantN(t *testing.T, out string, desired string, n int) {
 
 func TestPathStuff(t *testing.T) {
 	sep := string(filepath.Separator)
-	if path, whine := parseLogPath("file:///c:foo"); path != "c:foo" || whine != "" { // good path
+	if path, whine := parseLogPath("file:///c:foo"); path != "c:foo" || whine != "" { // golangod path
 		t.Errorf("path='%s', whine='%s'", path, whine)
 	}
-	if path, whine := parseLogPath("file:///foo"); path != sep+"foo" || whine != "" { // good path
+	if path, whine := parseLogPath("file:///foo"); path != sep+"foo" || whine != "" { // golangod path
 		t.Errorf("path='%s', whine='%s'", path, whine)
 	}
 	if path, whine := parseLogPath("foo"); path != "" || whine == "" { // BAD path
 		t.Errorf("path='%s', whine='%s'", path, whine)
 	}
 	if sep == "\\" { // On WINDOWS ONLY
-		if path, whine := parseLogPath("C:/foo"); path != "C:\\foo" || whine != "" { // good path
+		if path, whine := parseLogPath("C:/foo"); path != "C:\\foo" || whine != "" { // golangod path
 			t.Errorf("path='%s', whine='%s'", path, whine)
 		}
 		if path, whine := parseLogPath("c:foo"); path != "" || whine == "" { // BAD path
@@ -75,7 +75,7 @@ func TestPathStuff(t *testing.T) {
 			t.Errorf("path='%s', whine='%s'", path, whine)
 		}
 	} else { // ON UNIX ONLY
-		if path, whine := parseLogPath("/foo"); path != sep+"foo" || whine != "" { // good path
+		if path, whine := parseLogPath("/foo"); path != sep+"foo" || whine != "" { // golangod path
 			t.Errorf("path='%s', whine='%s'", path, whine)
 		}
 	}
@@ -87,7 +87,7 @@ func TestLogOpt(t *testing.T) {
 	testenv.MustHaveGoBuild(t)
 
 	dir := fixSlash(t.TempDir()) // Normalize the directory name as much as possible, for Windows testing
-	src := filepath.Join(dir, "file.go")
+	src := filepath.Join(dir, "file.golang")
 	if err := os.WriteFile(src, []byte(srcCode), 0644); err != nil {
 		t.Fatal(err)
 	}
@@ -137,7 +137,7 @@ func s15a8(x *[15]int64) [15]int64 {
 	return *x
 }
 `
-		copy := filepath.Join(dir, "copy.go")
+		copy := filepath.Join(dir, "copy.golang")
 		if err := os.WriteFile(copy, []byte(copyCode), 0644); err != nil {
 			t.Fatal(err)
 		}
@@ -145,19 +145,19 @@ func s15a8(x *[15]int64) [15]int64 {
 
 		// On not-amd64, test the host architecture and os
 		arches := []string{runtime.GOARCH}
-		goos0 := runtime.GOOS
+		golangos0 := runtime.GOOS
 		if runtime.GOARCH == "amd64" { // Test many things with "linux" (wasm will get "js")
 			arches = []string{"arm", "arm64", "386", "amd64", "mips", "mips64", "loong64", "ppc64le", "riscv64", "s390x", "wasm"}
-			goos0 = "linux"
+			golangos0 = "linux"
 		}
 
 		for _, arch := range arches {
 			t.Run(arch, func(t *testing.T) {
-				goos := goos0
+				golangos := golangos0
 				if arch == "wasm" {
-					goos = "js"
+					golangos = "js"
 				}
-				_, err := testCopy(t, dir, arch, goos, copy, outcopy)
+				_, err := testCopy(t, dir, arch, golangos, copy, outcopy)
 				if err != nil {
 					t.Error("-json=0,file://log/opt should have succeeded")
 				}
@@ -167,8 +167,8 @@ func s15a8(x *[15]int64) [15]int64 {
 				}
 				slogged := normalize(logged, string(uriIfy(dir)), string(uriIfy("tmpdir")))
 				t.Logf("%s", slogged)
-				want(t, slogged, `{"range":{"start":{"line":3,"character":2},"end":{"line":3,"character":2}},"severity":3,"code":"copy","source":"go compiler","message":"128 bytes"}`)
-				want(t, slogged, `{"range":{"start":{"line":9,"character":2},"end":{"line":9,"character":2}},"severity":3,"code":"copy","source":"go compiler","message":"128 bytes"}`)
+				want(t, slogged, `{"range":{"start":{"line":3,"character":2},"end":{"line":3,"character":2}},"severity":3,"code":"copy","source":"golang compiler","message":"128 bytes"}`)
+				want(t, slogged, `{"range":{"start":{"line":9,"character":2},"end":{"line":9,"character":2}},"severity":3,"code":"copy","source":"golang compiler","message":"128 bytes"}`)
 				wantN(t, slogged, `"code":"copy"`, 2)
 			})
 		}
@@ -196,24 +196,24 @@ func s15a8(x *[15]int64) [15]int64 {
 		slogged := normalize(logged, string(uriIfy(dir)), string(uriIfy("tmpdir")))
 		t.Logf("%s", slogged)
 		// below shows proper nilcheck
-		want(t, slogged, `{"range":{"start":{"line":9,"character":13},"end":{"line":9,"character":13}},"severity":3,"code":"nilcheck","source":"go compiler","message":"",`+
-			`"relatedInformation":[{"location":{"uri":"file://tmpdir/file.go","range":{"start":{"line":4,"character":11},"end":{"line":4,"character":11}}},"message":"inlineLoc"}]}`)
-		want(t, slogged, `{"range":{"start":{"line":11,"character":6},"end":{"line":11,"character":6}},"severity":3,"code":"isInBounds","source":"go compiler","message":""}`)
-		want(t, slogged, `{"range":{"start":{"line":7,"character":6},"end":{"line":7,"character":6}},"severity":3,"code":"canInlineFunction","source":"go compiler","message":"cost: 35"}`)
+		want(t, slogged, `{"range":{"start":{"line":9,"character":13},"end":{"line":9,"character":13}},"severity":3,"code":"nilcheck","source":"golang compiler","message":"",`+
+			`"relatedInformation":[{"location":{"uri":"file://tmpdir/file.golang","range":{"start":{"line":4,"character":11},"end":{"line":4,"character":11}}},"message":"inlineLoc"}]}`)
+		want(t, slogged, `{"range":{"start":{"line":11,"character":6},"end":{"line":11,"character":6}},"severity":3,"code":"isInBounds","source":"golang compiler","message":""}`)
+		want(t, slogged, `{"range":{"start":{"line":7,"character":6},"end":{"line":7,"character":6}},"severity":3,"code":"canInlineFunction","source":"golang compiler","message":"cost: 35"}`)
 		// escape analysis explanation
-		want(t, slogged, `{"range":{"start":{"line":7,"character":13},"end":{"line":7,"character":13}},"severity":3,"code":"leak","source":"go compiler","message":"parameter z leaks to ~r0 with derefs=0",`+
+		want(t, slogged, `{"range":{"start":{"line":7,"character":13},"end":{"line":7,"character":13}},"severity":3,"code":"leak","source":"golang compiler","message":"parameter z leaks to ~r0 with derefs=0",`+
 			`"relatedInformation":[`+
-			`{"location":{"uri":"file://tmpdir/file.go","range":{"start":{"line":9,"character":13},"end":{"line":9,"character":13}}},"message":"escflow:    flow: y = z:"},`+
-			`{"location":{"uri":"file://tmpdir/file.go","range":{"start":{"line":9,"character":13},"end":{"line":9,"character":13}}},"message":"escflow:      from y := z (assign-pair)"},`+
-			`{"location":{"uri":"file://tmpdir/file.go","range":{"start":{"line":9,"character":13},"end":{"line":9,"character":13}}},"message":"escflow:    flow: ~r0 = y:"},`+
-			`{"location":{"uri":"file://tmpdir/file.go","range":{"start":{"line":4,"character":11},"end":{"line":4,"character":11}}},"message":"inlineLoc"},`+
-			`{"location":{"uri":"file://tmpdir/file.go","range":{"start":{"line":9,"character":13},"end":{"line":9,"character":13}}},"message":"escflow:      from y.b (dot of pointer)"},`+
-			`{"location":{"uri":"file://tmpdir/file.go","range":{"start":{"line":4,"character":11},"end":{"line":4,"character":11}}},"message":"inlineLoc"},`+
-			`{"location":{"uri":"file://tmpdir/file.go","range":{"start":{"line":9,"character":13},"end":{"line":9,"character":13}}},"message":"escflow:      from \u0026y.b (address-of)"},`+
-			`{"location":{"uri":"file://tmpdir/file.go","range":{"start":{"line":4,"character":9},"end":{"line":4,"character":9}}},"message":"inlineLoc"},`+
-			`{"location":{"uri":"file://tmpdir/file.go","range":{"start":{"line":9,"character":13},"end":{"line":9,"character":13}}},"message":"escflow:      from ~r0 = \u0026y.b (assign-pair)"},`+
-			`{"location":{"uri":"file://tmpdir/file.go","range":{"start":{"line":9,"character":3},"end":{"line":9,"character":3}}},"message":"escflow:    flow: ~r0 = ~r0:"},`+
-			`{"location":{"uri":"file://tmpdir/file.go","range":{"start":{"line":9,"character":3},"end":{"line":9,"character":3}}},"message":"escflow:      from return ~r0 (return)"}]}`)
+			`{"location":{"uri":"file://tmpdir/file.golang","range":{"start":{"line":9,"character":13},"end":{"line":9,"character":13}}},"message":"escflow:    flow: y = z:"},`+
+			`{"location":{"uri":"file://tmpdir/file.golang","range":{"start":{"line":9,"character":13},"end":{"line":9,"character":13}}},"message":"escflow:      from y := z (assign-pair)"},`+
+			`{"location":{"uri":"file://tmpdir/file.golang","range":{"start":{"line":9,"character":13},"end":{"line":9,"character":13}}},"message":"escflow:    flow: ~r0 = y:"},`+
+			`{"location":{"uri":"file://tmpdir/file.golang","range":{"start":{"line":4,"character":11},"end":{"line":4,"character":11}}},"message":"inlineLoc"},`+
+			`{"location":{"uri":"file://tmpdir/file.golang","range":{"start":{"line":9,"character":13},"end":{"line":9,"character":13}}},"message":"escflow:      from y.b (dot of pointer)"},`+
+			`{"location":{"uri":"file://tmpdir/file.golang","range":{"start":{"line":4,"character":11},"end":{"line":4,"character":11}}},"message":"inlineLoc"},`+
+			`{"location":{"uri":"file://tmpdir/file.golang","range":{"start":{"line":9,"character":13},"end":{"line":9,"character":13}}},"message":"escflow:      from \u0026y.b (address-of)"},`+
+			`{"location":{"uri":"file://tmpdir/file.golang","range":{"start":{"line":4,"character":9},"end":{"line":4,"character":9}}},"message":"inlineLoc"},`+
+			`{"location":{"uri":"file://tmpdir/file.golang","range":{"start":{"line":9,"character":13},"end":{"line":9,"character":13}}},"message":"escflow:      from ~r0 = \u0026y.b (assign-pair)"},`+
+			`{"location":{"uri":"file://tmpdir/file.golang","range":{"start":{"line":9,"character":3},"end":{"line":9,"character":3}}},"message":"escflow:    flow: ~r0 = ~r0:"},`+
+			`{"location":{"uri":"file://tmpdir/file.golang","range":{"start":{"line":9,"character":3},"end":{"line":9,"character":3}}},"message":"escflow:      from return ~r0 (return)"}]}`)
 	})
 }
 
@@ -237,13 +237,13 @@ func testLogOptDir(t *testing.T, dir, flag, src, outfile string) (string, error)
 	return string(out), err
 }
 
-func testCopy(t *testing.T, dir, goarch, goos, src, outfile string) (string, error) {
+func testCopy(t *testing.T, dir, golangarch, golangos, src, outfile string) (string, error) {
 	// Notice the specified import path "x"
 	run := []string{testenv.GoToolPath(t), "tool", "compile", "-p=x", "-json=0,file://log/opt", "-o", outfile, src}
 	t.Log(run)
 	cmd := testenv.Command(t, run[0], run[1:]...)
 	cmd.Dir = dir
-	cmd.Env = append(os.Environ(), "GOARCH="+goarch, "GOOS="+goos)
+	cmd.Env = append(os.Environ(), "GOARCH="+golangarch, "GOOS="+golangos)
 	out, err := cmd.CombinedOutput()
 	t.Logf("%s", out)
 	return string(out), err

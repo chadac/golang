@@ -1,5 +1,5 @@
 // Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package race_test
@@ -17,8 +17,8 @@ func TestRaceSynctestGoroutinesExit(t *testing.T) {
 		f := func() {
 			x = 1
 		}
-		go f()
-		go f()
+		golang f()
+		golang f()
 	})
 }
 
@@ -29,9 +29,9 @@ func TestNoRaceSynctestGoroutinesExit(t *testing.T) {
 		f := func() {
 			x = 1
 		}
-		go f()
+		golang f()
 		synctest.Wait()
-		go f()
+		golang f()
 	})
 }
 
@@ -44,8 +44,8 @@ func TestRaceSynctestGoroutinesRecv(t *testing.T) {
 			x = 1
 			<-ch
 		}
-		go f()
-		go f()
+		golang f()
+		golang f()
 		close(ch)
 	})
 }
@@ -59,8 +59,8 @@ func TestRaceSynctestGoroutinesUnblocked(t *testing.T) {
 			<-ch
 			x = 1
 		}
-		go f()
-		go f()
+		golang f()
+		golang f()
 		close(ch)
 	})
 }
@@ -69,12 +69,12 @@ func TestRaceSynctestGoroutinesSleep(t *testing.T) {
 	synctest.Run(func() {
 		x := 0
 		_ = x
-		go func() {
+		golang func() {
 			time.Sleep(1 * time.Second)
 			x = 1
 			time.Sleep(2 * time.Second)
 		}()
-		go func() {
+		golang func() {
 			time.Sleep(2 * time.Second)
 			x = 1
 			time.Sleep(1 * time.Second)

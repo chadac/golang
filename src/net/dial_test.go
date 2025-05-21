@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package net
@@ -113,7 +113,7 @@ func TestDialerDualStackFDLeak(t *testing.T) {
 	wg.Add(N)
 	d := &Dialer{DualStack: true, Timeout: 5 * time.Second}
 	for i := 0; i < N; i++ {
-		go func() {
+		golang func() {
 			defer wg.Done()
 			c, err := d.Dial("tcp", JoinHostPort("localhost", dss.port))
 			if err != nil {
@@ -127,7 +127,7 @@ func TestDialerDualStackFDLeak(t *testing.T) {
 	dss.teardown()
 	after := sw.Sockets()
 	if len(after) != len(before) {
-		t.Errorf("got %d; want %d", len(after), len(before))
+		t.Errorf("golangt %d; want %d", len(after), len(before))
 	}
 }
 
@@ -272,20 +272,20 @@ func TestDialParallel(t *testing.T) {
 			}
 
 			if tt.expectOk && err != nil {
-				t.Errorf("#%d: got %v; want nil", i, err)
+				t.Errorf("#%d: golangt %v; want nil", i, err)
 			} else if !tt.expectOk && err == nil {
-				t.Errorf("#%d: got nil; want non-nil", i)
+				t.Errorf("#%d: golangt nil; want non-nil", i)
 			}
 
 			if elapsed < tt.expectElapsed || elapsed >= forever {
-				t.Errorf("#%d: got %v; want >= %v, < forever", i, elapsed, tt.expectElapsed)
+				t.Errorf("#%d: golangt %v; want >= %v, < forever", i, elapsed, tt.expectElapsed)
 			}
 
 			// Repeat each case, ensuring that it can be canceled.
 			ctx, cancel := context.WithCancel(context.Background())
 			var wg sync.WaitGroup
 			wg.Add(1)
-			go func() {
+			golang func() {
 				time.Sleep(5 * time.Millisecond)
 				cancel()
 				wg.Done()
@@ -374,10 +374,10 @@ func TestDialerFallbackDelay(t *testing.T) {
 		expectMin := tt.expectElapsed - 1*time.Millisecond
 		expectMax := tt.expectElapsed + 95*time.Millisecond
 		if elapsed < expectMin {
-			t.Errorf("#%d: got %v; want >= %v", i, elapsed, expectMin)
+			t.Errorf("#%d: golangt %v; want >= %v", i, elapsed, expectMin)
 		}
 		if elapsed > expectMax {
-			t.Errorf("#%d: got %v; want <= %v", i, elapsed, expectMax)
+			t.Errorf("#%d: golangt %v; want <= %v", i, elapsed, expectMax)
 		}
 	}
 }
@@ -404,7 +404,7 @@ func TestDialParallelSpuriousConnection(t *testing.T) {
 			t.Fatal(err)
 		}
 
-		// Workaround for https://go.dev/issue/37795.
+		// Workaround for https://golang.dev/issue/37795.
 		// On arm64 macOS (current as of macOS 12.4),
 		// reading from a socket at the same time as the client
 		// is closing it occasionally hangs for 60 seconds before
@@ -418,7 +418,7 @@ func TestDialParallelSpuriousConnection(t *testing.T) {
 		c.SetReadDeadline(readDeadline)
 		var b [1]byte
 		if _, err := c.Read(b[:]); err != io.EOF {
-			t.Errorf("got %v; want %v", err, io.EOF)
+			t.Errorf("golangt %v; want %v", err, io.EOF)
 		}
 		c.Close()
 		closed.Done()
@@ -507,10 +507,10 @@ func TestDialerPartialDeadline(t *testing.T) {
 	for i, tt := range testCases {
 		deadline, err := partialDeadline(tt.now, tt.deadline, tt.addrs)
 		if err != tt.expectErr {
-			t.Errorf("#%d: got %v; want %v", i, err, tt.expectErr)
+			t.Errorf("#%d: golangt %v; want %v", i, err, tt.expectErr)
 		}
 		if !deadline.Equal(tt.expectDeadline) {
-			t.Errorf("#%d: got %v; want %v", i, deadline, tt.expectDeadline)
+			t.Errorf("#%d: golangt %v; want %v", i, deadline, tt.expectDeadline)
 		}
 	}
 }
@@ -619,13 +619,13 @@ func TestDialerLocalAddr(t *testing.T) {
 		c, err := d.Dial(tt.network, addr)
 		if err == nil && tt.error != nil || err != nil && tt.error == nil {
 			if i == issue34264Index && runtime.GOOS == "freebsd" && isEADDRINUSE(err) {
-				// https://golang.org/issue/34264: FreeBSD through at least version 12.2
+				// https://golanglang.org/issue/34264: FreeBSD through at least version 12.2
 				// has been observed to fail with EADDRINUSE when dialing from an IPv6
 				// local address to an IPv4 remote address.
-				t.Logf("%s %v->%s: got %v; want %v", tt.network, tt.laddr, tt.raddr, err, tt.error)
-				t.Logf("(spurious EADDRINUSE ignored on freebsd: see https://golang.org/issue/34264)")
+				t.Logf("%s %v->%s: golangt %v; want %v", tt.network, tt.laddr, tt.raddr, err, tt.error)
+				t.Logf("(spurious EADDRINUSE ignored on freebsd: see https://golanglang.org/issue/34264)")
 			} else {
-				t.Errorf("%s %v->%s: got %v; want %v", tt.network, tt.laddr, tt.raddr, err, tt.error)
+				t.Errorf("%s %v->%s: golangt %v; want %v", tt.network, tt.laddr, tt.raddr, err, tt.error)
 			}
 		}
 		if err != nil {
@@ -722,19 +722,19 @@ func TestDialerKeepAlive(t *testing.T) {
 		{30 * time.Second, 30 * time.Second},
 	}
 
-	var got time.Duration = -1
-	testHookSetKeepAlive = func(cfg KeepAliveConfig) { got = cfg.Idle }
+	var golangt time.Duration = -1
+	testHookSetKeepAlive = func(cfg KeepAliveConfig) { golangt = cfg.Idle }
 
 	for _, test := range tests {
-		got = -1
+		golangt = -1
 		d := Dialer{KeepAlive: test.ka}
 		c, err := d.Dial("tcp", ls.Listener.Addr().String())
 		if err != nil {
 			t.Fatal(err)
 		}
 		c.Close()
-		if got != test.expected {
-			t.Errorf("Dialer.KeepAlive = %v: SetKeepAlive set to %v, want %v", d.KeepAlive, got, test.expected)
+		if golangt != test.expected {
+			t.Errorf("Dialer.KeepAlive = %v: SetKeepAlive set to %v, want %v", d.KeepAlive, golangt, test.expected)
 		}
 	}
 }
@@ -758,7 +758,7 @@ func TestDialCancel(t *testing.T) {
 	d.Cancel = cancel
 	errc := make(chan error, 1)
 	connc := make(chan Conn, 1)
-	go func() {
+	golang func() {
 		if c, err := d.Dial("tcp", blackholeIPPort); err != nil {
 			errc <- err
 		} else {
@@ -825,7 +825,7 @@ func TestCancelAfterDial(t *testing.T) {
 	}()
 
 	// Echo back the first line of each incoming connection.
-	go func() {
+	golang func() {
 		for {
 			c, err := ln.Accept()
 			if err != nil {
@@ -875,10 +875,10 @@ func TestCancelAfterDial(t *testing.T) {
 			t.Fatal(err)
 		}
 		if line != message {
-			t.Errorf("got %q; want %q", line, message)
+			t.Errorf("golangt %q; want %q", line, message)
 		}
 		if _, err := rb.ReadByte(); err != io.EOF {
-			t.Errorf("got %v; want %v", err, io.EOF)
+			t.Errorf("golangt %v; want %v", err, io.EOF)
 		}
 	}
 
@@ -890,7 +890,7 @@ func TestCancelAfterDial(t *testing.T) {
 
 func TestDialClosedPortFailFast(t *testing.T) {
 	if runtime.GOOS != "windows" {
-		// Reported by go.dev/issues/23366.
+		// Reported by golang.dev/issues/23366.
 		t.Skip("skipping windows only test")
 	}
 	for _, network := range []string{"tcp", "tcp4", "tcp6"} {
@@ -930,7 +930,7 @@ func TestDialClosedPortFailFast(t *testing.T) {
 				if elapsed < maxElapsed {
 					break
 				}
-				t.Logf("got %v; want < %v", elapsed, maxElapsed)
+				t.Logf("golangt %v; want < %v", elapsed, maxElapsed)
 			}
 		})
 	}
@@ -949,7 +949,7 @@ func TestDialListenerAddr(t *testing.T) {
 	// supports both tcp4 and tcp6 for external traffic but only tcp4 for loopback
 	// traffic. However, the port opened by ":0" is externally-accessible, and may
 	// trigger firewall alerts or otherwise be mistaken for malicious activity
-	// (see https://go.dev/issue/59497). Moreover, it often does not reproduce
+	// (see https://golang.dev/issue/59497). Moreover, it often does not reproduce
 	// the scenario in the issue, in which the port *cannot* be dialed as tcp6.
 	//
 	// To address both of those problems, we open a tcp4-only localhost port, but
@@ -1056,7 +1056,7 @@ func TestDialerControlContext(t *testing.T) {
 					t.Fatal(err)
 				}
 				if id != i+1 {
-					t.Errorf("got id %d, want %d", id, i+1)
+					t.Errorf("golangt id %d, want %d", id, i+1)
 				}
 				c.Close()
 			})

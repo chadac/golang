@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package time
@@ -16,7 +16,7 @@ func interrupt() {
 func open(name string) (uintptr, error) {
 	fd, err := syscall.Open(name, syscall.O_RDONLY, 0)
 	if err != nil {
-		// This condition solves issue https://go.dev/issue/50248
+		// This condition solves issue https://golang.dev/issue/50248
 		if err == syscall.ERROR_PATH_NOT_FOUND {
 			err = syscall.ENOENT
 		}

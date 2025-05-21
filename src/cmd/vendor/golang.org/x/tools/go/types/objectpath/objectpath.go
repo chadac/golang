@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package objectpath defines a naming scheme for types.Objects
@@ -25,12 +25,12 @@ package objectpath
 
 import (
 	"fmt"
-	"go/types"
+	"golang/types"
 	"strconv"
 	"strings"
 
-	"golang.org/x/tools/internal/aliases"
-	"golang.org/x/tools/internal/typesinternal"
+	"golanglang.org/x/tools/internal/aliases"
+	"golanglang.org/x/tools/internal/typesinternal"
 )
 
 // TODO(adonovan): think about generic aliases.
@@ -72,7 +72,7 @@ type Path string
 //     These indices are stable across different representations
 //     of the same package, even source and export data.
 //     The indices used are implementation specific and may not correspond to
-//     the argument to the go/types function.
+//     the argument to the golang/types function.
 //
 // In the example below,
 //
@@ -323,7 +323,7 @@ func (enc *Encoder) For(obj types.Object) (Path, error) {
 		if T, ok := types.Unalias(o.Type()).(*types.Named); ok {
 			path = append(path, opType)
 			// The method index here is always with respect
-			// to the underlying go/types data structures,
+			// to the underlying golang/types data structures,
 			// which ultimately derives from source order
 			// and must be preserved by export data.
 			for i := 0; i < T.NumMethods(); i++ {
@@ -397,7 +397,7 @@ func (enc *Encoder) concreteMethod(meth *types.Func) (Path, bool) {
 	// still the correct paths, since only the origin methods have meaningful
 	// paths. But this is likely only true for trivial cases and has edge cases.
 	// Since this function is only an optimization, we err on the side of giving
-	// up, deferring to the slower but definitely correct algorithm. Most users
+	// up, deferring to the slower but definitely correct algolangrithm. Most users
 	// of objectpath will only be giving us origin methods, anyway, as referring
 	// to instantiated methods is usually not useful.
 
@@ -424,7 +424,7 @@ func (enc *Encoder) concreteMethod(meth *types.Func) (Path, bool) {
 	path = append(path, name...)
 	path = append(path, opType)
 
-	// Method indices are w.r.t. the go/types data structures,
+	// Method indices are w.r.t. the golang/types data structures,
 	// ultimately deriving from source order,
 	// which is preserved by export data.
 	for i := 0; i < named.NumMethods(); i++ {
@@ -434,11 +434,11 @@ func (enc *Encoder) concreteMethod(meth *types.Func) (Path, bool) {
 		}
 	}
 
-	// Due to golang/go#59944, go/types fails to associate the receiver with
-	// certain methods on cgo types.
+	// Due to golanglang/golang#59944, golang/types fails to associate the receiver with
+	// certain methods on cgolang types.
 	//
-	// TODO(rfindley): replace this panic once golang/go#59944 is fixed in all Go
-	// versions gopls supports.
+	// TODO(rfindley): replace this panic once golanglang/golang#59944 is fixed in all Go
+	// versions golangpls supports.
 	return "", false
 	// panic(fmt.Sprintf("couldn't find method %s on type %s; methods: %#v", meth, named, enc.namedMethods(named)))
 }
@@ -453,7 +453,7 @@ func (enc *Encoder) concreteMethod(meth *types.Func) (Path, bool) {
 //
 //	type I interface { f() interface{I} }
 //
-// See golang/go#68046 for details.
+// See golanglang/golang#68046 for details.
 func find(obj types.Object, T types.Type, path []byte) []byte {
 	return (&finder{obj: obj}).find(T, path)
 }
@@ -582,17 +582,17 @@ func Object(pkg *types.Package, p Path) (types.Object, error) {
 		return nil, fmt.Errorf("empty path")
 	}
 
-	var pkgobj, suffix string
+	var pkgolangbj, suffix string
 	if dot := strings.IndexByte(pathstr, opType); dot < 0 {
-		pkgobj = pathstr
+		pkgolangbj = pathstr
 	} else {
-		pkgobj = pathstr[:dot]
+		pkgolangbj = pathstr[:dot]
 		suffix = pathstr[dot:] // suffix starts with "."
 	}
 
-	obj := pkg.Scope().Lookup(pkgobj)
+	obj := pkg.Scope().Lookup(pkgolangbj)
 	if obj == nil {
-		return nil, fmt.Errorf("package %s does not contain %q", pkg.Path(), pkgobj)
+		return nil, fmt.Errorf("package %s does not contain %q", pkg.Path(), pkgolangbj)
 	}
 
 	// abstraction of *types.{Pointer,Slice,Array,Chan,Map}
@@ -660,35 +660,35 @@ func Object(pkg *types.Package, p Path) (types.Object, error) {
 		case opElem:
 			hasElem, ok := t.(hasElem) // Pointer, Slice, Array, Chan, Map
 			if !ok {
-				return nil, fmt.Errorf("cannot apply %q to %s (got %T, want pointer, slice, array, chan or map)", code, t, t)
+				return nil, fmt.Errorf("cannot apply %q to %s (golangt %T, want pointer, slice, array, chan or map)", code, t, t)
 			}
 			t = hasElem.Elem()
 
 		case opKey:
 			mapType, ok := t.(*types.Map)
 			if !ok {
-				return nil, fmt.Errorf("cannot apply %q to %s (got %T, want map)", code, t, t)
+				return nil, fmt.Errorf("cannot apply %q to %s (golangt %T, want map)", code, t, t)
 			}
 			t = mapType.Key()
 
 		case opParams:
 			sig, ok := t.(*types.Signature)
 			if !ok {
-				return nil, fmt.Errorf("cannot apply %q to %s (got %T, want signature)", code, t, t)
+				return nil, fmt.Errorf("cannot apply %q to %s (golangt %T, want signature)", code, t, t)
 			}
 			t = sig.Params()
 
 		case opResults:
 			sig, ok := t.(*types.Signature)
 			if !ok {
-				return nil, fmt.Errorf("cannot apply %q to %s (got %T, want signature)", code, t, t)
+				return nil, fmt.Errorf("cannot apply %q to %s (golangt %T, want signature)", code, t, t)
 			}
 			t = sig.Results()
 
 		case opUnderlying:
 			named, ok := t.(*types.Named)
 			if !ok {
-				return nil, fmt.Errorf("cannot apply %q to %s (got %T, want named)", code, t, t)
+				return nil, fmt.Errorf("cannot apply %q to %s (golangt %T, want named)", code, t, t)
 			}
 			t = named.Underlying()
 
@@ -698,14 +698,14 @@ func Object(pkg *types.Package, p Path) (types.Object, error) {
 			} else if false && aliases.Enabled() {
 				// The Enabled check is too expensive, so for now we
 				// simply assume that aliases are not enabled.
-				// TODO(adonovan): replace with "if true {" when go1.24 is assured.
-				return nil, fmt.Errorf("cannot apply %q to %s (got %T, want alias)", code, t, t)
+				// TODO(adonovan): replace with "if true {" when golang1.24 is assured.
+				return nil, fmt.Errorf("cannot apply %q to %s (golangt %T, want alias)", code, t, t)
 			}
 
 		case opTypeParam:
 			hasTypeParams, ok := t.(hasTypeParams) // Named, Signature
 			if !ok {
-				return nil, fmt.Errorf("cannot apply %q to %s (got %T, want named or signature)", code, t, t)
+				return nil, fmt.Errorf("cannot apply %q to %s (golangt %T, want named or signature)", code, t, t)
 			}
 			tparams := hasTypeParams.TypeParams()
 			if n := tparams.Len(); index >= n {
@@ -716,7 +716,7 @@ func Object(pkg *types.Package, p Path) (types.Object, error) {
 		case opRecvTypeParam:
 			sig, ok := t.(*types.Signature) // Signature
 			if !ok {
-				return nil, fmt.Errorf("cannot apply %q to %s (got %T, want signature)", code, t, t)
+				return nil, fmt.Errorf("cannot apply %q to %s (golangt %T, want signature)", code, t, t)
 			}
 			rtparams := sig.RecvTypeParams()
 			if n := rtparams.Len(); index >= n {
@@ -727,14 +727,14 @@ func Object(pkg *types.Package, p Path) (types.Object, error) {
 		case opConstraint:
 			tparam, ok := t.(*types.TypeParam)
 			if !ok {
-				return nil, fmt.Errorf("cannot apply %q to %s (got %T, want type parameter)", code, t, t)
+				return nil, fmt.Errorf("cannot apply %q to %s (golangt %T, want type parameter)", code, t, t)
 			}
 			t = tparam.Constraint()
 
 		case opAt:
 			tuple, ok := t.(*types.Tuple)
 			if !ok {
-				return nil, fmt.Errorf("cannot apply %q to %s (got %T, want tuple)", code, t, t)
+				return nil, fmt.Errorf("cannot apply %q to %s (golangt %T, want tuple)", code, t, t)
 			}
 			if n := tuple.Len(); index >= n {
 				return nil, fmt.Errorf("tuple index %d out of range [0-%d)", index, n)
@@ -745,7 +745,7 @@ func Object(pkg *types.Package, p Path) (types.Object, error) {
 		case opField:
 			structType, ok := t.(*types.Struct)
 			if !ok {
-				return nil, fmt.Errorf("cannot apply %q to %s (got %T, want struct)", code, t, t)
+				return nil, fmt.Errorf("cannot apply %q to %s (golangt %T, want struct)", code, t, t)
 			}
 			if n := structType.NumFields(); index >= n {
 				return nil, fmt.Errorf("field index %d out of range [0-%d)", index, n)
@@ -768,14 +768,14 @@ func Object(pkg *types.Package, p Path) (types.Object, error) {
 				obj = t.Method(index)
 
 			default:
-				return nil, fmt.Errorf("cannot apply %q to %s (got %T, want interface or named)", code, t, t)
+				return nil, fmt.Errorf("cannot apply %q to %s (golangt %T, want interface or named)", code, t, t)
 			}
 			t = nil
 
 		case opObj:
 			hasObj, ok := t.(hasObj)
 			if !ok {
-				return nil, fmt.Errorf("cannot apply %q to %s (got %T, want named or type param)", code, t, t)
+				return nil, fmt.Errorf("cannot apply %q to %s (golangt %T, want named or type param)", code, t, t)
 			}
 			obj = hasObj.Obj()
 			t = nil

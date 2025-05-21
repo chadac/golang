@@ -1,12 +1,12 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package math
 
 // The original C code and the long comment below are
 // from FreeBSD's /usr/src/lib/msun/src/e_sqrt.c and
-// came with this notice. The go code is a simplified
+// came with this notice. The golang code is a simplified
 // version of the original C.
 //
 // ====================================================
@@ -80,7 +80,7 @@ package math
 //
 //
 // Notes:  Rounding mode detection omitted. The constants "mask", "shift",
-// and "bias" are found in src/math/bits.go
+// and "bias" are found in src/math/bits.golang
 
 // Sqrt returns the square root of x.
 //

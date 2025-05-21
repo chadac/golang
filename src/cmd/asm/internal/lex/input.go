@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package lex
@@ -76,9 +76,9 @@ func (in *Input) Error(args ...interface{}) {
 	os.Exit(1)
 }
 
-// expectText is like Error but adds "got XXX" where XXX is a quoted representation of the most recent token.
+// expectText is like Error but adds "golangt XXX" where XXX is a quoted representation of the most recent token.
 func (in *Input) expectText(args ...interface{}) {
-	in.Error(append(args, "; got", strconv.Quote(in.Stack.Text()))...)
+	in.Error(append(args, "; golangt", strconv.Quote(in.Stack.Text()))...)
 }
 
 // enabled reports whether the input is enabled by an ifdef, or is at the top level.

@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package race_test
@@ -19,7 +19,7 @@ type S struct {
 func TestNoRaceComp(t *testing.T) {
 	c := make(chan bool, 1)
 	var s S
-	go func() {
+	golang func() {
 		s.s2.x = 1
 		c <- true
 	}()
@@ -30,7 +30,7 @@ func TestNoRaceComp(t *testing.T) {
 func TestNoRaceComp2(t *testing.T) {
 	c := make(chan bool, 1)
 	var s S
-	go func() {
+	golang func() {
 		s.s1.x = 1
 		c <- true
 	}()
@@ -41,7 +41,7 @@ func TestNoRaceComp2(t *testing.T) {
 func TestRaceComp(t *testing.T) {
 	c := make(chan bool, 1)
 	var s S
-	go func() {
+	golang func() {
 		s.s2.y = 1
 		c <- true
 	}()
@@ -52,7 +52,7 @@ func TestRaceComp(t *testing.T) {
 func TestRaceComp2(t *testing.T) {
 	c := make(chan bool, 1)
 	var s S
-	go func() {
+	golang func() {
 		s.s1.x = 1
 		c <- true
 	}()
@@ -63,7 +63,7 @@ func TestRaceComp2(t *testing.T) {
 func TestRaceComp3(t *testing.T) {
 	c := make(chan bool, 1)
 	var s S
-	go func() {
+	golang func() {
 		s.s2.y = 1
 		c <- true
 	}()
@@ -75,7 +75,7 @@ func TestRaceCompArray(t *testing.T) {
 	c := make(chan bool, 1)
 	s := make([]S, 10)
 	x := 4
-	go func() {
+	golang func() {
 		s[x].s2.y = 1
 		c <- true
 	}()
@@ -89,7 +89,7 @@ type S2 S
 func TestRaceConv1(t *testing.T) {
 	c := make(chan bool, 1)
 	var p P2
-	go func() {
+	golang func() {
 		p.x = 1
 		c <- true
 	}()
@@ -100,7 +100,7 @@ func TestRaceConv1(t *testing.T) {
 func TestRaceConv2(t *testing.T) {
 	c := make(chan bool, 1)
 	var p P2
-	go func() {
+	golang func() {
 		p.x = 1
 		c <- true
 	}()
@@ -112,7 +112,7 @@ func TestRaceConv2(t *testing.T) {
 func TestRaceConv3(t *testing.T) {
 	c := make(chan bool, 1)
 	var s S2
-	go func() {
+	golang func() {
 		s.s1.x = 1
 		c <- true
 	}()
@@ -129,7 +129,7 @@ type X2 X
 func TestRaceConv4(t *testing.T) {
 	c := make(chan bool, 1)
 	var x X2
-	go func() {
+	golang func() {
 		x.V[1].x = 1
 		c <- true
 	}()
@@ -144,7 +144,7 @@ type Ptr struct {
 func TestNoRaceCompPtr(t *testing.T) {
 	c := make(chan bool, 1)
 	p := Ptr{&P{}, &P{}}
-	go func() {
+	golang func() {
 		p.s1.x = 1
 		c <- true
 	}()
@@ -155,7 +155,7 @@ func TestNoRaceCompPtr(t *testing.T) {
 func TestNoRaceCompPtr2(t *testing.T) {
 	c := make(chan bool, 1)
 	p := Ptr{&P{}, &P{}}
-	go func() {
+	golang func() {
 		p.s1.x = 1
 		c <- true
 	}()
@@ -166,7 +166,7 @@ func TestNoRaceCompPtr2(t *testing.T) {
 func TestRaceCompPtr(t *testing.T) {
 	c := make(chan bool, 1)
 	p := Ptr{&P{}, &P{}}
-	go func() {
+	golang func() {
 		p.s2.x = 1
 		c <- true
 	}()
@@ -177,7 +177,7 @@ func TestRaceCompPtr(t *testing.T) {
 func TestRaceCompPtr2(t *testing.T) {
 	c := make(chan bool, 1)
 	p := Ptr{&P{}, &P{}}
-	go func() {
+	golang func() {
 		p.s2.x = 1
 		c <- true
 	}()

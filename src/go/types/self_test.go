@@ -1,20 +1,20 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package types_test
 
 import (
-	"go/ast"
-	"go/parser"
-	"go/token"
+	"golang/ast"
+	"golang/parser"
+	"golang/token"
 	"internal/testenv"
 	"path"
 	"path/filepath"
 	"testing"
 	"time"
 
-	. "go/types"
+	. "golang/types"
 )
 
 func TestSelf(t *testing.T) {
@@ -27,7 +27,7 @@ func TestSelf(t *testing.T) {
 	}
 
 	conf := Config{Importer: defaultImporter(fset)}
-	_, err = conf.Check("go/types", fset, files, nil)
+	_, err = conf.Check("golang/types", fset, files, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -38,10 +38,10 @@ func BenchmarkCheck(b *testing.B) {
 
 	for _, p := range []string{
 		"net/http",
-		"go/parser",
-		"go/constant",
+		"golang/parser",
+		"golang/constant",
 		"runtime",
-		filepath.Join("go", "internal", "gcimporter"),
+		filepath.Join("golang", "internal", "gcimporter"),
 	} {
 		b.Run(path.Base(p), func(b *testing.B) {
 			path := filepath.Join("..", "..", p)
@@ -103,7 +103,7 @@ func runbench(b *testing.B, path string, ignoreFuncBodies, writeInfo bool) {
 }
 
 func pkgFiles(fset *token.FileSet, path string) ([]*ast.File, error) {
-	filenames, err := pkgFilenames(path, true) // from stdlib_test.go
+	filenames, err := pkgFilenames(path, true) // from stdlib_test.golang
 	if err != nil {
 		return nil, err
 	}

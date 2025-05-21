@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package test
@@ -9,12 +9,12 @@ import (
 	"testing"
 )
 
-//go:noinline
+//golang:noinline
 func compare1(a, b float64) bool {
 	return a < b
 }
 
-//go:noinline
+//golang:noinline
 func compare2(a, b float32) bool {
 	return a < b
 }
@@ -129,117 +129,117 @@ func TestFloatCompareFolded(t *testing.T) {
 	}
 }
 
-//go:noinline
+//golang:noinline
 func cvt1(a float64) uint64 {
 	return uint64(a)
 }
 
-//go:noinline
+//golang:noinline
 func cvt2(a float64) uint32 {
 	return uint32(a)
 }
 
-//go:noinline
+//golang:noinline
 func cvt3(a float32) uint64 {
 	return uint64(a)
 }
 
-//go:noinline
+//golang:noinline
 func cvt4(a float32) uint32 {
 	return uint32(a)
 }
 
-//go:noinline
+//golang:noinline
 func cvt5(a float64) int64 {
 	return int64(a)
 }
 
-//go:noinline
+//golang:noinline
 func cvt6(a float64) int32 {
 	return int32(a)
 }
 
-//go:noinline
+//golang:noinline
 func cvt7(a float32) int64 {
 	return int64(a)
 }
 
-//go:noinline
+//golang:noinline
 func cvt8(a float32) int32 {
 	return int32(a)
 }
 
 // make sure to cover int, uint cases (issue #16738)
 //
-//go:noinline
+//golang:noinline
 func cvt9(a float64) int {
 	return int(a)
 }
 
-//go:noinline
+//golang:noinline
 func cvt10(a float64) uint {
 	return uint(a)
 }
 
-//go:noinline
+//golang:noinline
 func cvt11(a float32) int {
 	return int(a)
 }
 
-//go:noinline
+//golang:noinline
 func cvt12(a float32) uint {
 	return uint(a)
 }
 
-//go:noinline
+//golang:noinline
 func f2i64p(v float64) *int64 {
 	return ip64(int64(v / 0.1))
 }
 
-//go:noinline
+//golang:noinline
 func ip64(v int64) *int64 {
 	return &v
 }
 
 func TestFloatConvert(t *testing.T) {
-	if got := cvt1(3.5); got != 3 {
-		t.Errorf("cvt1 got %d, wanted 3", got)
+	if golangt := cvt1(3.5); golangt != 3 {
+		t.Errorf("cvt1 golangt %d, wanted 3", golangt)
 	}
-	if got := cvt2(3.5); got != 3 {
-		t.Errorf("cvt2 got %d, wanted 3", got)
+	if golangt := cvt2(3.5); golangt != 3 {
+		t.Errorf("cvt2 golangt %d, wanted 3", golangt)
 	}
-	if got := cvt3(3.5); got != 3 {
-		t.Errorf("cvt3 got %d, wanted 3", got)
+	if golangt := cvt3(3.5); golangt != 3 {
+		t.Errorf("cvt3 golangt %d, wanted 3", golangt)
 	}
-	if got := cvt4(3.5); got != 3 {
-		t.Errorf("cvt4 got %d, wanted 3", got)
+	if golangt := cvt4(3.5); golangt != 3 {
+		t.Errorf("cvt4 golangt %d, wanted 3", golangt)
 	}
-	if got := cvt5(3.5); got != 3 {
-		t.Errorf("cvt5 got %d, wanted 3", got)
+	if golangt := cvt5(3.5); golangt != 3 {
+		t.Errorf("cvt5 golangt %d, wanted 3", golangt)
 	}
-	if got := cvt6(3.5); got != 3 {
-		t.Errorf("cvt6 got %d, wanted 3", got)
+	if golangt := cvt6(3.5); golangt != 3 {
+		t.Errorf("cvt6 golangt %d, wanted 3", golangt)
 	}
-	if got := cvt7(3.5); got != 3 {
-		t.Errorf("cvt7 got %d, wanted 3", got)
+	if golangt := cvt7(3.5); golangt != 3 {
+		t.Errorf("cvt7 golangt %d, wanted 3", golangt)
 	}
-	if got := cvt8(3.5); got != 3 {
-		t.Errorf("cvt8 got %d, wanted 3", got)
+	if golangt := cvt8(3.5); golangt != 3 {
+		t.Errorf("cvt8 golangt %d, wanted 3", golangt)
 	}
-	if got := cvt9(3.5); got != 3 {
-		t.Errorf("cvt9 got %d, wanted 3", got)
+	if golangt := cvt9(3.5); golangt != 3 {
+		t.Errorf("cvt9 golangt %d, wanted 3", golangt)
 	}
-	if got := cvt10(3.5); got != 3 {
-		t.Errorf("cvt10 got %d, wanted 3", got)
+	if golangt := cvt10(3.5); golangt != 3 {
+		t.Errorf("cvt10 golangt %d, wanted 3", golangt)
 	}
-	if got := cvt11(3.5); got != 3 {
-		t.Errorf("cvt11 got %d, wanted 3", got)
+	if golangt := cvt11(3.5); golangt != 3 {
+		t.Errorf("cvt11 golangt %d, wanted 3", golangt)
 	}
-	if got := cvt12(3.5); got != 3 {
-		t.Errorf("cvt12 got %d, wanted 3", got)
+	if golangt := cvt12(3.5); golangt != 3 {
+		t.Errorf("cvt12 golangt %d, wanted 3", golangt)
 	}
-	if got := *f2i64p(10); got != 100 {
-		t.Errorf("f2i64p got %d, wanted 100", got)
+	if golangt := *f2i64p(10); golangt != 100 {
+		t.Errorf("f2i64p golangt %d, wanted 100", golangt)
 	}
 }
 
@@ -364,25 +364,25 @@ func TestFloat32StoreToLoadConstantFold(t *testing.T) {
 	{
 		const nan = uint32(0x7f800001) // sNaN
 		if x := math.Float32bits(math.Float32frombits(nan)); x != nan {
-			t.Errorf("got %#x, want %#x", x, nan)
+			t.Errorf("golangt %#x, want %#x", x, nan)
 		}
 	}
 	{
 		const nan = uint32(0x7fbfffff) // sNaN
 		if x := math.Float32bits(math.Float32frombits(nan)); x != nan {
-			t.Errorf("got %#x, want %#x", x, nan)
+			t.Errorf("golangt %#x, want %#x", x, nan)
 		}
 	}
 	{
 		const nan = uint32(0xff800001) // sNaN
 		if x := math.Float32bits(math.Float32frombits(nan)); x != nan {
-			t.Errorf("got %#x, want %#x", x, nan)
+			t.Errorf("golangt %#x, want %#x", x, nan)
 		}
 	}
 	{
 		const nan = uint32(0xffbfffff) // sNaN
 		if x := math.Float32bits(math.Float32frombits(nan)); x != nan {
-			t.Errorf("got %#x, want %#x", x, nan)
+			t.Errorf("golangt %#x, want %#x", x, nan)
 		}
 	}
 
@@ -390,25 +390,25 @@ func TestFloat32StoreToLoadConstantFold(t *testing.T) {
 	{
 		const nan = uint32(0x7fc00000) // qNaN
 		if x := math.Float32bits(math.Float32frombits(nan)); x != nan {
-			t.Errorf("got %#x, want %#x", x, nan)
+			t.Errorf("golangt %#x, want %#x", x, nan)
 		}
 	}
 	{
 		const nan = uint32(0x7fffffff) // qNaN
 		if x := math.Float32bits(math.Float32frombits(nan)); x != nan {
-			t.Errorf("got %#x, want %#x", x, nan)
+			t.Errorf("golangt %#x, want %#x", x, nan)
 		}
 	}
 	{
 		const nan = uint32(0x8fc00000) // qNaN
 		if x := math.Float32bits(math.Float32frombits(nan)); x != nan {
-			t.Errorf("got %#x, want %#x", x, nan)
+			t.Errorf("golangt %#x, want %#x", x, nan)
 		}
 	}
 	{
 		const nan = uint32(0x8fffffff) // qNaN
 		if x := math.Float32bits(math.Float32frombits(nan)); x != nan {
-			t.Errorf("got %#x, want %#x", x, nan)
+			t.Errorf("golangt %#x, want %#x", x, nan)
 		}
 	}
 
@@ -416,13 +416,13 @@ func TestFloat32StoreToLoadConstantFold(t *testing.T) {
 	{
 		const inf = uint32(0x7f800000) // +∞
 		if x := math.Float32bits(math.Float32frombits(inf)); x != inf {
-			t.Errorf("got %#x, want %#x", x, inf)
+			t.Errorf("golangt %#x, want %#x", x, inf)
 		}
 	}
 	{
 		const negInf = uint32(0xff800000) // -∞
 		if x := math.Float32bits(math.Float32frombits(negInf)); x != negInf {
-			t.Errorf("got %#x, want %#x", x, negInf)
+			t.Errorf("golangt %#x, want %#x", x, negInf)
 		}
 	}
 
@@ -430,37 +430,37 @@ func TestFloat32StoreToLoadConstantFold(t *testing.T) {
 	{
 		const zero = uint32(0) // +0.0
 		if x := math.Float32bits(math.Float32frombits(zero)); x != zero {
-			t.Errorf("got %#x, want %#x", x, zero)
+			t.Errorf("golangt %#x, want %#x", x, zero)
 		}
 	}
 	{
 		const negZero = uint32(1 << 31) // -0.0
 		if x := math.Float32bits(math.Float32frombits(negZero)); x != negZero {
-			t.Errorf("got %#x, want %#x", x, negZero)
+			t.Errorf("golangt %#x, want %#x", x, negZero)
 		}
 	}
 	{
 		const one = uint32(0x3f800000) // 1.0
 		if x := math.Float32bits(math.Float32frombits(one)); x != one {
-			t.Errorf("got %#x, want %#x", x, one)
+			t.Errorf("golangt %#x, want %#x", x, one)
 		}
 	}
 	{
 		const negOne = uint32(0xbf800000) // -1.0
 		if x := math.Float32bits(math.Float32frombits(negOne)); x != negOne {
-			t.Errorf("got %#x, want %#x", x, negOne)
+			t.Errorf("golangt %#x, want %#x", x, negOne)
 		}
 	}
 	{
 		const frac = uint32(0x3fc00000) // +1.5
 		if x := math.Float32bits(math.Float32frombits(frac)); x != frac {
-			t.Errorf("got %#x, want %#x", x, frac)
+			t.Errorf("golangt %#x, want %#x", x, frac)
 		}
 	}
 	{
 		const negFrac = uint32(0xbfc00000) // -1.5
 		if x := math.Float32bits(math.Float32frombits(negFrac)); x != negFrac {
-			t.Errorf("got %#x, want %#x", x, negFrac)
+			t.Errorf("golangt %#x, want %#x", x, negFrac)
 		}
 	}
 }
@@ -483,7 +483,7 @@ func TestFloatSignalingNaN(t *testing.T) {
 	x32 := math.Float32bits(f32)
 	y32 := math.Float32bits(g32)
 	if x32 != y32 {
-		t.Errorf("got %x, want %x (diff=%x)", x32, y32, x32^y32)
+		t.Errorf("golangt %x, want %x (diff=%x)", x32, y32, x32^y32)
 	}
 
 	f64 := math.Float64frombits(snan64bits)
@@ -491,7 +491,7 @@ func TestFloatSignalingNaN(t *testing.T) {
 	x64 := math.Float64bits(f64)
 	y64 := math.Float64bits(g64)
 	if x64 != y64 {
-		t.Errorf("got %x, want %x (diff=%x)", x64, y64, x64^y64)
+		t.Errorf("golangt %x, want %x (diff=%x)", x64, y64, x64^y64)
 	}
 }
 

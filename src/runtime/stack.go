@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
@@ -7,8 +7,8 @@ package runtime
 import (
 	"internal/abi"
 	"internal/cpu"
-	"internal/goarch"
-	"internal/goos"
+	"internal/golangarch"
+	"internal/golangos"
 	"internal/runtime/atomic"
 	"internal/runtime/gc"
 	"internal/runtime/sys"
@@ -19,7 +19,7 @@ import (
 Stack layout parameters.
 Included both by runtime (compiled via 6c) and linkers (compiled via gcc).
 
-The per-goroutine g->stackguard is set to point StackGuard bytes
+The per-golangroutine g->stackguard is set to point StackGuard bytes
 above the bottom of the stack.  Each function compares its stack
 pointer against g->stackguard to check for overflow.  To cut one
 instruction from the check sequence for functions with tiny frames,
@@ -70,7 +70,7 @@ const (
 	// to each stack below the usual guard area for OS-specific
 	// purposes like signal handling. Used on Windows, Plan 9,
 	// and iOS because they do not use a separate stack.
-	stackSystem = goos.IsWindows*4096 + goos.IsPlan9*512 + goos.IsIos*goarch.IsArm64*1024
+	stackSystem = golangos.IsWindows*4096 + golangos.IsPlan9*512 + golangos.IsIos*golangarch.IsArm64*1024
 
 	// The minimum size of stack used by Go code
 	stackMin = 2048
@@ -88,7 +88,7 @@ const (
 
 	// stackNosplit is the maximum number of bytes that a chain of NOSPLIT
 	// functions can use.
-	// This arithmetic must match that in cmd/internal/objabi/stack.go:StackNosplit.
+	// This arithmetic must match that in cmd/internal/objabi/stack.golang:StackNosplit.
 	stackNosplit = abi.StackNosplitBase * sys.StackGuardMultiplier
 
 	// The stack guard is a pointer this many bytes above the
@@ -96,7 +96,7 @@ const (
 	//
 	// The guard leaves enough room for a stackNosplit chain of NOSPLIT calls
 	// plus one stackSmall frame plus stackSystem bytes for the OS.
-	// This arithmetic must match that in cmd/internal/objabi/stack.go:StackLimit.
+	// This arithmetic must match that in cmd/internal/objabi/stack.golang:StackLimit.
 	stackGuard = stackNosplit + stackSystem + abi.StackSmall
 )
 
@@ -120,7 +120,7 @@ var (
 )
 
 const (
-	uintptrMask = 1<<(8*goarch.PtrSize) - 1
+	uintptrMask = 1<<(8*golangarch.PtrSize) - 1
 
 	// The values below can be stored to g.stackguard0 to force
 	// the next stack check to fail.
@@ -275,7 +275,7 @@ func stackpoolfree(x gclinkptr, order uint8) {
 // stackcacherefill/stackcacherelease implement a global pool of stack segments.
 // The pool is required to prevent unlimited growth of per-thread caches.
 //
-//go:systemstack
+//golang:systemstack
 func stackcacherefill(c *mcache, order uint8) {
 	if stackDebug >= 1 {
 		print("stackcacherefill order=", order, "\n")
@@ -297,7 +297,7 @@ func stackcacherefill(c *mcache, order uint8) {
 	c.stackcache[order].size = size
 }
 
-//go:systemstack
+//golang:systemstack
 func stackcacherelease(c *mcache, order uint8) {
 	if stackDebug >= 1 {
 		print("stackcacherelease order=", order, "\n")
@@ -316,7 +316,7 @@ func stackcacherelease(c *mcache, order uint8) {
 	c.stackcache[order].size = size
 }
 
-//go:systemstack
+//golang:systemstack
 func stackcache_clear(c *mcache) {
 	if stackDebug >= 1 {
 		print("stackcache clear\n")
@@ -340,7 +340,7 @@ func stackcache_clear(c *mcache) {
 // stackalloc must run on the system stack because it uses per-P
 // resources and must not split the stack.
 //
-//go:systemstack
+//golang:systemstack
 func stackalloc(n uint32) stack {
 	// Stackalloc must be called on scheduler stack, so that we
 	// never try to grow the stack during the code that stackalloc runs.
@@ -358,7 +358,7 @@ func stackalloc(n uint32) stack {
 
 	if debug.efence != 0 || stackFromSystem != 0 {
 		n = uint32(alignUp(uintptr(n), physPageSize))
-		v := sysAlloc(uintptr(n), &memstats.stacks_sys, "goroutine stack (system)")
+		v := sysAlloc(uintptr(n), &memstats.stacks_sys, "golangroutine stack (system)")
 		if v == nil {
 			throw("out of memory (stackalloc)")
 		}
@@ -459,7 +459,7 @@ func stackalloc(n uint32) stack {
 // stackfree must run on the system stack because it uses per-P
 // resources and must not split the stack.
 //
-//go:systemstack
+//golang:systemstack
 func stackfree(stk stack) {
 	gp := getg()
 	v := unsafe.Pointer(stk.lo)
@@ -620,7 +620,7 @@ func adjustpointer(adjinfo *adjustinfo, vpp unsafe.Pointer) {
 		// as uninitialized. We just initialize it if valgrind thinks its
 		// uninitialized.
 		//
-		// See go.dev/issues/73801.
+		// See golang.dev/issues/73801.
 		valgrindMakeMemDefined(unsafe.Pointer(&p), unsafe.Sizeof(&p))
 	}
 	if adjinfo.old.lo <= p && p < adjinfo.old.hi {
@@ -663,14 +663,14 @@ func adjustpointers(scanp unsafe.Pointer, bv *bitvector, adjinfo *adjustinfo, f 
 	for i := uintptr(0); i < num; i += 8 {
 		if stackDebug >= 4 {
 			for j := uintptr(0); j < 8; j++ {
-				print("        ", add(scanp, (i+j)*goarch.PtrSize), ":", ptrnames[bv.ptrbit(i+j)], ":", hex(*(*uintptr)(add(scanp, (i+j)*goarch.PtrSize))), " # ", i, " ", *addb(bv.bytedata, i/8), "\n")
+				print("        ", add(scanp, (i+j)*golangarch.PtrSize), ":", ptrnames[bv.ptrbit(i+j)], ":", hex(*(*uintptr)(add(scanp, (i+j)*golangarch.PtrSize))), " # ", i, " ", *addb(bv.bytedata, i/8), "\n")
 			}
 		}
 		b := *(addb(bv.bytedata, i/8))
 		for b != 0 {
 			j := uintptr(sys.TrailingZeros8(b))
 			b &= b - 1
-			pp := (*uintptr)(add(scanp, (i+j)*goarch.PtrSize))
+			pp := (*uintptr)(add(scanp, (i+j)*golangarch.PtrSize))
 		retry:
 			p := *pp
 			if f.valid() && 0 < p && p < minLegalPointer && debug.invalidptr != 0 {
@@ -687,7 +687,7 @@ func adjustpointers(scanp unsafe.Pointer, bv *bitvector, adjinfo *adjustinfo, f 
 				if useCAS {
 					ppu := (*unsafe.Pointer)(unsafe.Pointer(pp))
 					if !atomic.Casp1(ppu, unsafe.Pointer(p), unsafe.Pointer(p+delta)) {
-						goto retry
+						golangto retry
 					}
 				} else {
 					*pp = p + delta
@@ -709,7 +709,7 @@ func adjustframe(frame *stkframe, adjinfo *adjustinfo) {
 	}
 
 	// Adjust saved frame pointer if there is one.
-	if (goarch.ArchFamily == goarch.AMD64 || goarch.ArchFamily == goarch.ARM64) && frame.argp-frame.varp == 2*goarch.PtrSize {
+	if (golangarch.ArchFamily == golangarch.AMD64 || golangarch.ArchFamily == golangarch.ARM64) && frame.argp-frame.varp == 2*golangarch.PtrSize {
 		if stackDebug >= 3 {
 			print("      saved bp\n")
 		}
@@ -734,7 +734,7 @@ func adjustframe(frame *stkframe, adjinfo *adjustinfo) {
 
 	// Adjust local variables if stack frame has been allocated.
 	if locals.n > 0 {
-		size := uintptr(locals.n) * goarch.PtrSize
+		size := uintptr(locals.n) * golangarch.PtrSize
 		adjustpointers(unsafe.Pointer(frame.varp-size), &locals, adjinfo, f)
 	}
 
@@ -747,7 +747,7 @@ func adjustframe(frame *stkframe, adjinfo *adjustinfo) {
 	}
 
 	// Adjust pointers in all stack objects (whether they are live or not).
-	// See comments in mgcmark.go:scanframeworker.
+	// See comments in mgcmark.golang:scanframeworker.
 	if frame.varp != 0 {
 		for i := range objs {
 			obj := &objs[i]
@@ -764,8 +764,8 @@ func adjustframe(frame *stkframe, adjinfo *adjustinfo) {
 				continue
 			}
 			ptrBytes, gcData := obj.gcdata()
-			for i := uintptr(0); i < ptrBytes; i += goarch.PtrSize {
-				if *addb(gcData, i/(8*goarch.PtrSize))>>(i/goarch.PtrSize&7)&1 != 0 {
+			for i := uintptr(0); i < ptrBytes; i += golangarch.PtrSize {
+				if *addb(gcData, i/(8*golangarch.PtrSize))>>(i/golangarch.PtrSize&7)&1 != 0 {
 					adjustpointer(adjinfo, unsafe.Pointer(p+i))
 				}
 			}
@@ -792,8 +792,8 @@ func adjustctxt(gp *g, adjinfo *adjustinfo) {
 		// On ARM64, the frame pointer is saved one word *below* the SP,
 		// which is not copied or adjusted in any frame. Do it explicitly
 		// here.
-		if oldfp == gp.sched.sp-goarch.PtrSize {
-			memmove(unsafe.Pointer(gp.sched.bp), unsafe.Pointer(oldfp), goarch.PtrSize)
+		if oldfp == gp.sched.sp-golangarch.PtrSize {
+			memmove(unsafe.Pointer(gp.sched.bp), unsafe.Pointer(oldfp), golangarch.PtrSize)
 			adjustpointer(adjinfo, unsafe.Pointer(gp.sched.bp))
 		}
 	}
@@ -938,7 +938,7 @@ func copystack(gp *g, newsize uintptr) {
 		adjustsudogs(gp, &adjinfo)
 	} else {
 		// sudogs may be pointing in to the stack and gp has
-		// released channel locks, so other goroutines could
+		// released channel locks, so other golangroutines could
 		// be writing to gp's stack. Find the highest such
 		// pointer so we can handle everything there and below
 		// carefully. (This shouldn't be far from the bottom
@@ -1011,7 +1011,7 @@ func round2(x int32) int32 {
 // stack growth from other nowritebarrierrec functions, but the
 // compiler doesn't check this.
 //
-//go:nowritebarrierrec
+//golang:nowritebarrierrec
 func newstack() {
 	thisg := getg()
 	// TODO: double check all gp. shouldn't be getg().
@@ -1022,7 +1022,7 @@ func newstack() {
 		print("runtime: newstack called from g=", hex(thisg.m.morebuf.g), "\n"+"\tm=", thisg.m, " m->curg=", thisg.m.curg, " m->g0=", thisg.m.g0, " m->gsignal=", thisg.m.gsignal, "\n")
 		morebuf := thisg.m.morebuf
 		traceback(morebuf.pc, morebuf.sp, morebuf.lr, morebuf.g.ptr())
-		throw("runtime: wrong goroutine in newstack")
+		throw("runtime: wrong golangroutine in newstack")
 	}
 
 	gp := thisg.m.curg
@@ -1067,17 +1067,17 @@ func newstack() {
 	// from Grunning to Gwaiting and back doesn't happen in this case.
 	// That status change by itself can be viewed as a small preemption,
 	// because the GC might change Gwaiting to Gscanwaiting, and then
-	// this goroutine has to wait for the GC to finish before continuing.
-	// If the GC is in some way dependent on this goroutine (for example,
-	// it needs a lock held by the goroutine), that small preemption turns
+	// this golangroutine has to wait for the GC to finish before continuing.
+	// If the GC is in some way dependent on this golangroutine (for example,
+	// it needs a lock held by the golangroutine), that small preemption turns
 	// into a real deadlock.
 	preempt := stackguard0 == stackPreempt
 	if preempt {
 		if !canPreemptM(thisg.m) {
-			// Let the goroutine keep running for now.
+			// Let the golangroutine keep running for now.
 			// gp->preempt is set, so it will be preempted next time.
 			gp.stackguard0 = gp.stack.lo + stackGuard
-			gogo(&gp.sched) // never return
+			golanggolang(&gp.sched) // never return
 		}
 	}
 
@@ -1085,9 +1085,9 @@ func newstack() {
 		throw("missing stack in newstack")
 	}
 	sp := gp.sched.sp
-	if goarch.ArchFamily == goarch.AMD64 || goarch.ArchFamily == goarch.I386 || goarch.ArchFamily == goarch.WASM {
+	if golangarch.ArchFamily == golangarch.AMD64 || golangarch.ArchFamily == golangarch.I386 || golangarch.ArchFamily == golangarch.WASM {
 		// The call to morestack cost a word.
-		sp -= goarch.PtrSize
+		sp -= golangarch.PtrSize
 	}
 	if stackDebug >= 1 || sp < gp.stack.lo {
 		print("runtime: newstack sp=", hex(sp), " stack=[", hex(gp.stack.lo), ", ", hex(gp.stack.hi), "]\n",
@@ -1095,7 +1095,7 @@ func newstack() {
 			"\tsched={pc:", hex(gp.sched.pc), " sp:", hex(gp.sched.sp), " lr:", hex(gp.sched.lr), " ctxt:", gp.sched.ctxt, "}\n")
 	}
 	if sp < gp.stack.lo {
-		print("runtime: gp=", gp, ", goid=", gp.goid, ", gp->status=", hex(readgstatus(gp)), "\n ")
+		print("runtime: gp=", gp, ", golangid=", gp.golangid, ", gp->status=", hex(readgstatus(gp)), "\n ")
 		print("runtime: split stack overflow: ", hex(sp), " < ", hex(gp.stack.lo), "\n")
 		throw("runtime: split stack overflow")
 	}
@@ -1119,8 +1119,8 @@ func newstack() {
 			preemptPark(gp) // never returns
 		}
 
-		// Act like goroutine called runtime.Gosched.
-		gopreempt_m(gp) // never return
+		// Act like golangroutine called runtime.Gosched.
+		golangpreempt_m(gp) // never return
 	}
 
 	// Allocate a bigger segment and move the stack.
@@ -1148,15 +1148,15 @@ func newstack() {
 
 	if newsize > maxstacksize || newsize > maxstackceiling {
 		if maxstacksize < maxstackceiling {
-			print("runtime: goroutine stack exceeds ", maxstacksize, "-byte limit\n")
+			print("runtime: golangroutine stack exceeds ", maxstacksize, "-byte limit\n")
 		} else {
-			print("runtime: goroutine stack exceeds ", maxstackceiling, "-byte limit\n")
+			print("runtime: golangroutine stack exceeds ", maxstackceiling, "-byte limit\n")
 		}
 		print("runtime: sp=", hex(sp), " stack=[", hex(gp.stack.lo), ", ", hex(gp.stack.hi), "]\n")
 		throw("stack overflow")
 	}
 
-	// The goroutine must be executing in order to call newstack,
+	// The golangroutine must be executing in order to call newstack,
 	// so it must be Grunning (or Gscanrunning).
 	casgstatus(gp, _Grunning, _Gcopystack)
 
@@ -1167,24 +1167,24 @@ func newstack() {
 		print("stack grow done\n")
 	}
 	casgstatus(gp, _Gcopystack, _Grunning)
-	gogo(&gp.sched)
+	golanggolang(&gp.sched)
 }
 
-//go:nosplit
+//golang:nosplit
 func nilfunc() {
 	*(*uint8)(nil) = 0
 }
 
 // adjust Gobuf as if it executed a call to fn
 // and then stopped before the first instruction in fn.
-func gostartcallfn(gobuf *gobuf, fv *funcval) {
+func golangstartcallfn(golangbuf *golangbuf, fv *funcval) {
 	var fn unsafe.Pointer
 	if fv != nil {
 		fn = unsafe.Pointer(fv.fn)
 	} else {
 		fn = unsafe.Pointer(abi.FuncPCABIInternal(nilfunc))
 	}
-	gostartcall(gobuf, fn, unsafe.Pointer(fv))
+	golangstartcall(golangbuf, fn, unsafe.Pointer(fv))
 }
 
 // isShrinkStackSafe returns whether it's safe to attempt to shrink
@@ -1206,7 +1206,7 @@ func isShrinkStackSafe(gp *g) bool {
 		return false
 	}
 	// We also can't *shrink* the stack in the window between the
-	// goroutine calling gopark to park on a channel and
+	// golangroutine calling golangpark to park on a channel and
 	// gp.activeStackChans being set.
 	if gp.parkingOnChan.Load() {
 		return false
@@ -1217,7 +1217,7 @@ func isShrinkStackSafe(gp *g) bool {
 	// stack, and the execution tracer may want to take a stack trace
 	// of the G's stack. Note: it's safe to access gp.waitreason here.
 	// We're only checking if this is true if we took ownership of the
-	// G with the _Gscan bit. This prevents the goroutine from transitioning,
+	// G with the _Gscan bit. This prevents the golangroutine from transitioning,
 	// which prevents gp.waitreason from changing.
 	if traceEnabled() && readgstatus(gp)&^_Gscan == _Gwaiting && gp.waitreason.isWaitingForGC() {
 		return false
@@ -1320,7 +1320,7 @@ func freeStackSpans() {
 }
 
 // A stackObjectRecord is generated by the compiler for each stack object in a stack frame.
-// This record must match the generator code in cmd/compile/internal/liveness/plive.go:emitStackObjects.
+// This record must match the generator code in cmd/compile/internal/liveness/plive.golang:emitStackObjects.
 type stackObjectRecord struct {
 	// offset in frame
 	// if negative, offset from varp
@@ -1338,7 +1338,7 @@ func (r *stackObjectRecord) gcdata() (uintptr, *byte) {
 	ptr := uintptr(unsafe.Pointer(r))
 	var mod *moduledata
 	for datap := &firstmoduledata; datap != nil; datap = datap.next {
-		if datap.gofunc <= ptr && ptr < datap.end {
+		if datap.golangfunc <= ptr && ptr < datap.end {
 			mod = datap
 			break
 		}
@@ -1352,13 +1352,13 @@ func (r *stackObjectRecord) gcdata() (uintptr, *byte) {
 
 // This is exported as ABI0 via linkname so obj can call it.
 //
-//go:nosplit
-//go:linkname morestackc
+//golang:nosplit
+//golang:linkname morestackc
 func morestackc() {
 	throw("attempt to execute system stack code on user stack")
 }
 
-// startingStackSize is the amount of stack that new goroutines start with.
+// startingStackSize is the amount of stack that new golangroutines start with.
 // It is a power of 2, and between fixedStack and maxstacksize, inclusive.
 // startingStackSize is updated every GC by tracking the average size of
 // stacks scanned during the GC.
@@ -1369,13 +1369,13 @@ func gcComputeStartingStackSize() {
 		return
 	}
 	// For details, see the design doc at
-	// https://docs.google.com/document/d/1YDlGIdVTPnmUiTAavlZxBI1d9pwGQgZT7IKFKlIXohQ/edit?usp=sharing
-	// The basic algorithm is to track the average size of stacks
-	// and start goroutines with stack equal to that average size.
+	// https://docs.golangogle.com/document/d/1YDlGIdVTPnmUiTAavlZxBI1d9pwGQgZT7IKFKlIXohQ/edit?usp=sharing
+	// The basic algolangrithm is to track the average size of stacks
+	// and start golangroutines with stack equal to that average size.
 	// Starting at the average size uses at most 2x the space that
-	// an ideal algorithm would have used.
+	// an ideal algolangrithm would have used.
 	// This is just a heuristic to avoid excessive stack growth work
-	// early in a goroutine's lifetime. See issue 18138. Stacks that
+	// early in a golangroutine's lifetime. See issue 18138. Stacks that
 	// are allocated too small can still grow, and stacks allocated
 	// too large can still shrink.
 	var scannedStackSize uint64
@@ -1392,7 +1392,7 @@ func gcComputeStartingStackSize() {
 		return
 	}
 	avg := scannedStackSize/scannedStacks + stackGuard
-	// Note: we add stackGuard to ensure that a goroutine that
+	// Note: we add stackGuard to ensure that a golangroutine that
 	// uses the average space will not trigger a growth.
 	if avg > uint64(maxstacksize) {
 		avg = uint64(maxstacksize)

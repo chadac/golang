@@ -1,13 +1,13 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// closure.go tests closure operations.
+// closure.golang tests closure operations.
 package main
 
 import "testing"
 
-//go:noinline
+//golang:noinline
 func testCFunc_ssa() int {
 	a := 0
 	b := func() {
@@ -21,8 +21,8 @@ func testCFunc_ssa() int {
 }
 
 func testCFunc(t *testing.T) {
-	if want, got := 2, testCFunc_ssa(); got != want {
-		t.Errorf("expected %d, got %d", want, got)
+	if want, golangt := 2, testCFunc_ssa(); golangt != want {
+		t.Errorf("expected %d, golangt %d", want, golangt)
 	}
 }
 

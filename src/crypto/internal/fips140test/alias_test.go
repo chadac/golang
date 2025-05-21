@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package fipstest
@@ -33,11 +33,11 @@ var aliasingTests = []struct {
 func testAliasing(t *testing.T, i int, x, y []byte, anyOverlap, inexactOverlap bool) {
 	any := alias.AnyOverlap(x, y)
 	if any != anyOverlap {
-		t.Errorf("%d: wrong AnyOverlap result, expected %v, got %v", i, anyOverlap, any)
+		t.Errorf("%d: wrong AnyOverlap result, expected %v, golangt %v", i, anyOverlap, any)
 	}
 	inexact := alias.InexactOverlap(x, y)
 	if inexact != inexactOverlap {
-		t.Errorf("%d: wrong InexactOverlap result, expected %v, got %v", i, inexactOverlap, any)
+		t.Errorf("%d: wrong InexactOverlap result, expected %v, golangt %v", i, inexactOverlap, any)
 	}
 }
 

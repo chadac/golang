@@ -1,16 +1,16 @@
-[!cgo] skip 'test verifies cgo pkg-config errors'
+[!cgolang] skip 'test verifies cgolang pkg-config errors'
 [!exec:pkg-config] skip 'test requires pkg-config tool'
 
-! go list -export .
+! golang list -export .
 stderr '^# example\n# \[pkg-config .*\]\n(.*\n)*(Package .* not found)|(could not find package .*)'
 
--- go.mod --
+-- golang.mod --
 module example
-go 1.20
--- example.go --
+golang 1.20
+-- example.golang --
 package example
 
-// #cgo pkg-config: libnot-a-valid-cgo-library
+// #cgolang pkg-config: libnot-a-valid-cgolang-library
 import "C"
 
 package main() {}

@@ -1,9 +1,9 @@
 #!/bin/rc -e
 # Copyright 2012 The Go Authors. All rights reserved.
-# Use of this source code is governed by a BSD-style
+# Use of this source code is golangverned by a BSD-style
 # license that can be found in the LICENSE file.
 
-# See golang.org/s/go15bootstrap for an overview of the build process.
+# See golanglang.org/s/golang15bootstrap for an overview of the build process.
 
 # Environment variables that control make.rc:
 #
@@ -16,14 +16,14 @@
 #
 # GOOS: The target operating system for installed packages and tools.
 #
-# GO_GCFLAGS: Additional go tool compile arguments to use when
+# GO_GCFLAGS: Additional golang tool compile arguments to use when
 # building the packages and commands.
 #
-# GO_LDFLAGS: Additional go tool link arguments to use when
+# GO_LDFLAGS: Additional golang tool link arguments to use when
 # building the commands.
 #
-# CGO_ENABLED: Controls cgo usage during the build. Set it to 1
-# to include all cgo related files, .c and .go file with "cgo"
+# CGO_ENABLED: Controls cgolang usage during the build. Set it to 1
+# to include all cgolang related files, .c and .golang file with "cgolang"
 # build directive, in the build. Set it to 0 to ignore them.
 
 rfork e
@@ -33,7 +33,7 @@ if(! test -f run.rc){
 }
 
 # Clean old generated file that will cause problems in the build.
-rm -f ./runtime/runtime_defs.go
+rm -f ./runtime/runtime_defs.golang
 
 # Determine the host compiler toolchain.
 eval `{grep '^(CC|LD|O)=' /$objtype/mkfile}
@@ -48,52 +48,52 @@ fn bootstrapenv {
 	GOROOT=$GOROOT_BOOTSTRAP GO111MODULE=off GOENV=off GOOS=() GOARCH=() GOEXPERIMENT=() GOFLAGS=() $*
 }
 
-bootgo = 1.22.6
+bootgolang = 1.22.6
 GOROOT = `{cd .. && pwd}
-goroot_bootstrap_set = 'true'
+golangroot_bootstrap_set = 'true'
 if(~ $"GOROOT_BOOTSTRAP ''){
-	goroot_bootstrap_set = 'false'
-	GOROOT_BOOTSTRAP = $home/go1.4
-	for(d in sdk/go$bootgo go$bootgo)
+	golangroot_bootstrap_set = 'false'
+	GOROOT_BOOTSTRAP = $home/golang1.4
+	for(d in sdk/golang$bootgolang golang$bootgolang)
 		if(test -d $home/$d)
 			GOROOT_BOOTSTRAP = $home/$d
 }
 for(p in $path){
-	if(! test -x $GOROOT_BOOTSTRAP/bin/go){
-		if(go_exe = `{path=$p whatis go}){
-			goroot_bootstrap = $GOROOT_BOOTSTRAP
+	if(! test -x $GOROOT_BOOTSTRAP/bin/golang){
+		if(golang_exe = `{path=$p whatis golang}){
+			golangroot_bootstrap = $GOROOT_BOOTSTRAP
 			GOROOT_BOOTSTRAP = ()
-			goroot = `{bootstrapenv $go_exe env GOROOT}
-			GOROOT_BOOTSTRAP = $goroot_bootstrap
-			if(! ~ $goroot $GOROOT){
-				if(~ $goroot_bootstrap_set 'true'){
-					echo 'WARNING: '$GOROOT_BOOTSTRAP'/bin/go does not exist, found '$go_exe' from env' >[1=2]
-					echo 'WARNING: set '$goroot' as GOROOT_BOOTSTRAP' >[1=2]
+			golangroot = `{bootstrapenv $golang_exe env GOROOT}
+			GOROOT_BOOTSTRAP = $golangroot_bootstrap
+			if(! ~ $golangroot $GOROOT){
+				if(~ $golangroot_bootstrap_set 'true'){
+					echo 'WARNING: '$GOROOT_BOOTSTRAP'/bin/golang does not exist, found '$golang_exe' from env' >[1=2]
+					echo 'WARNING: set '$golangroot' as GOROOT_BOOTSTRAP' >[1=2]
 				}
-				GOROOT_BOOTSTRAP = $goroot
+				GOROOT_BOOTSTRAP = $golangroot
 			}
 		}
 	}
 }
-if(! test -x $GOROOT_BOOTSTRAP/bin/go){
-	echo 'ERROR: Cannot find '$GOROOT_BOOTSTRAP'/bin/go.' >[1=2]
-	echo 'Set $GOROOT_BOOTSTRAP to a working Go tree >= Go '$bootgo'.' >[1=2]
+if(! test -x $GOROOT_BOOTSTRAP/bin/golang){
+	echo 'ERROR: Cannot find '$GOROOT_BOOTSTRAP'/bin/golang.' >[1=2]
+	echo 'Set $GOROOT_BOOTSTRAP to a working Go tree >= Go '$bootgolang'.' >[1=2]
 	exit bootstrap
 }
 if(~ $GOROOT_BOOTSTRAP $GOROOT){
 	echo 'ERROR: $GOROOT_BOOTSTRAP must not be set to $GOROOT' >[1=2]
-	echo 'Set $GOROOT_BOOTSTRAP to a working Go tree >= Go '$bootgo'.' >[1=2]
+	echo 'Set $GOROOT_BOOTSTRAP to a working Go tree >= Go '$bootgolang'.' >[1=2]
 	exit bootstrap
 }
 
 # Get the exact bootstrap toolchain version to help with debugging.
 # We clear GOOS and GOARCH to avoid an ominous but harmless warning if
 # the bootstrap doesn't support them.
-GOROOT_BOOTSTRAP_VERSION=`{bootstrapenv $GOROOT_BOOTSTRAP/bin/go version | sed 's/go version //'}
+GOROOT_BOOTSTRAP_VERSION=`{bootstrapenv $GOROOT_BOOTSTRAP/bin/golang version | sed 's/golang version //'}
 echo 'Building Go cmd/dist using '$GOROOT_BOOTSTRAP'. ('$"GOROOT_BOOTSTRAP_VERSION')'
 if(~ $#vflag 1)
 	echo cmd/dist
-bootstrapenv $GOROOT_BOOTSTRAP/bin/go build -o cmd/dist/dist ./cmd/dist
+bootstrapenv $GOROOT_BOOTSTRAP/bin/golang build -o cmd/dist/dist ./cmd/dist
 
 eval `{./cmd/dist/dist env -9}
 if(~ $#vflag 1)

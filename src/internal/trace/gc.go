@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package trace
@@ -100,20 +100,20 @@ func MutatorUtilizationV2(events []Event, flags UtilFlags) [][]MutatorUtil {
 			nSync = ev.Sync().N
 		case EventMetric:
 			m := ev.Metric()
-			if m.Name != "/sched/gomaxprocs:threads" {
+			if m.Name != "/sched/golangmaxprocs:threads" {
 				break
 			}
-			gomaxprocs := int(m.Value.ToUint64())
-			if len(ps) > gomaxprocs {
+			golangmaxprocs := int(m.Value.ToUint64())
+			if len(ps) > golangmaxprocs {
 				if flags&UtilPerProc != 0 {
 					// End each P's series.
-					for _, p := range ps[gomaxprocs:] {
+					for _, p := range ps[golangmaxprocs:] {
 						out[p.series] = addUtil(out[p.series], MutatorUtil{int64(ev.Time()), 0})
 					}
 				}
-				ps = ps[:gomaxprocs]
+				ps = ps[:golangmaxprocs]
 			}
-			for len(ps) < gomaxprocs {
+			for len(ps) < golangmaxprocs {
 				// Start new P's series.
 				series := 0
 				if flags&UtilPerProc != 0 || len(out) == 0 {
@@ -122,8 +122,8 @@ func MutatorUtilizationV2(events []Event, flags UtilFlags) [][]MutatorUtil {
 				}
 				ps = append(ps, perP{series: series})
 			}
-			if len(procs) == 0 || gomaxprocs != procs[len(procs)-1].n {
-				procs = append(procs, procsCount{time: int64(ev.Time()), n: gomaxprocs})
+			if len(procs) == 0 || golangmaxprocs != procs[len(procs)-1].n {
+				procs = append(procs, procsCount{time: int64(ev.Time()), n: golangmaxprocs})
 			}
 		}
 		if len(ps) == 0 {
@@ -149,7 +149,7 @@ func MutatorUtilizationV2(events []Event, flags UtilFlags) [][]MutatorUtil {
 			switch {
 			case handleMarkAssist(r):
 				if !states[ev.Goroutine()].Executing() {
-					// If the goroutine isn't executing, then the fact that it was in mark
+					// If the golangroutine isn't executing, then the fact that it was in mark
 					// assist doesn't actually count.
 					break
 				}
@@ -168,7 +168,7 @@ func MutatorUtilizationV2(events []Event, flags UtilFlags) [][]MutatorUtil {
 				if flags&UtilPerProc != 0 {
 					break
 				}
-				// Subtract out 1/gomaxprocs mutator utilization for all time periods
+				// Subtract out 1/golangmaxprocs mutator utilization for all time periods
 				// from the beginning of the trace until now.
 				mi, pi := 0, 0
 				for mi < len(out[0]) {
@@ -234,9 +234,9 @@ func MutatorUtilizationV2(events []Event, flags UtilFlags) [][]MutatorUtil {
 				//
 				// If we're in per-proc mode, we don't
 				// count dedicated workers because
-				// they kick all of the goroutines off
+				// they kick all of the golangroutines off
 				// that P, so don't directly
-				// contribute to goroutine latency.
+				// contribute to golangroutine latency.
 				if !(flags&UtilPerProc != 0 && l.Label == "GC (dedicated)") {
 					bgMark[ev.Goroutine()] = true
 					ps[ev.Proc()].gc++
@@ -534,7 +534,7 @@ func (acc *accumulator) addMU(time int64, mu float64, window time.Duration) bool
 	acc.bound = acc.mmu
 
 	if acc.nWorst == 0 {
-		// If the minimum has reached zero, it can't go any
+		// If the minimum has reached zero, it can't golang any
 		// lower, so we can stop early.
 		return mu == 0
 	}
@@ -550,7 +550,7 @@ func (acc *accumulator) addMU(time int64, mu float64, window time.Duration) bool
 			if time+int64(window) > ui.Time && ui.Time+int64(window) > time {
 				if ui.MutatorUtil <= mu {
 					// Keep the first window.
-					goto keep
+					golangto keep
 				} else {
 					// Replace it with this window.
 					heap.Remove(&acc.wHeap, i)
@@ -584,7 +584,7 @@ func (acc *accumulator) addMU(time int64, mu float64, window time.Duration) bool
 			acc.bound = math.Max(acc.bound, mudBound)
 		} else {
 			// We haven't accumulated enough total precise
-			// mass yet to even reach our goal, so keep
+			// mass yet to even reach our golangal, so keep
 			// accumulating.
 			acc.bound = 1
 		}

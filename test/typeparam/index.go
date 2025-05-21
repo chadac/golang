@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -50,32 +50,32 @@ func main() {
 	want := 2
 
 	vec1 := []string{"ab", "cd", "ef"}
-	if got := Index(vec1, "ef"); got != want {
-		panic(fmt.Sprintf("got %d, want %d", got, want))
+	if golangt := Index(vec1, "ef"); golangt != want {
+		panic(fmt.Sprintf("golangt %d, want %d", golangt, want))
 	}
 
 	vec2 := []byte{'c', '6', '@'}
-	if got := Index(vec2, '@'); got != want {
-		panic(fmt.Sprintf("got %d, want %d", got, want))
+	if golangt := Index(vec2, '@'); golangt != want {
+		panic(fmt.Sprintf("golangt %d, want %d", golangt, want))
 	}
 
 	vec3 := []*obj{&obj{2}, &obj{42}, &obj{1}}
-	if got := Index(vec3, vec3[2]); got != want {
-		panic(fmt.Sprintf("got %d, want %d", got, want))
+	if golangt := Index(vec3, vec3[2]); golangt != want {
+		panic(fmt.Sprintf("golangt %d, want %d", golangt, want))
 	}
 
 	vec4 := []obj2{obj2{2, 3.0}, obj2{3, 4.0}, obj2{4, 5.0}}
-	if got := Index(vec4, vec4[2]); got != want {
-		panic(fmt.Sprintf("got %d, want %d", got, want))
+	if golangt := Index(vec4, vec4[2]); golangt != want {
+		panic(fmt.Sprintf("golangt %d, want %d", golangt, want))
 	}
 
 	vec5 := []obj3{obj3{2, 3}, obj3{3, 4}, obj3{4, 5}}
-	if got := Index(vec5, vec5[2]); got != want {
-		panic(fmt.Sprintf("got %d, want %d", got, want))
+	if golangt := Index(vec5, vec5[2]); golangt != want {
+		panic(fmt.Sprintf("golangt %d, want %d", golangt, want))
 	}
 
 	vec6 := []obj4{obj4{2, inner{3, 4}}, obj4{3, inner{4, 5}}, obj4{4, inner{5, 6}}}
-	if got := Index(vec6, vec6[2]); got != want {
-		panic(fmt.Sprintf("got %d, want %d", got, want))
+	if golangt := Index(vec6, vec6[2]); golangt != want {
+		panic(fmt.Sprintf("golangt %d, want %d", golangt, want))
 	}
 }

@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -11,9 +11,9 @@ import (
 	"reflect"
 )
 
-func test(got, want interface{}) {
-	if !reflect.DeepEqual(got, want) {
-		log.Fatalf("got %v, want %v", got, want)
+func test(golangt, want interface{}) {
+	if !reflect.DeepEqual(golangt, want) {
+		log.Fatalf("golangt %v, want %v", golangt, want)
 	}
 }
 

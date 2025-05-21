@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -13,12 +13,12 @@ package main
 #include <signal.h>
 #include <stdlib.h>
 
-void go_callback();
+void golang_callback();
 
 static void *thr(void *arg) {
 	int i;
 	for (i = 0; i < 10; i++)
-		go_callback();
+		golang_callback();
 	return 0;
 }
 
@@ -46,11 +46,11 @@ import (
 	"time"
 )
 
-//export go_callback
-func go_callback() {}
+//export golang_callback
+func golang_callback() {}
 
 func main() {
-	go func() {
+	golang func() {
 		for {
 			C.foo()
 		}

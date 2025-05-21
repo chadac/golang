@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Addr2line is a minimal simulation of the GNU addr2line tool,
@@ -7,7 +7,7 @@
 //
 // Usage:
 //
-//	go tool addr2line binary
+//	golang tool addr2line binary
 //
 // Addr2line reads hexadecimal addresses, one per line and with optional 0x prefix,
 // from standard input. For each input address, addr2line prints two output lines,
@@ -80,7 +80,7 @@ func main() {
 		p := stdin.Text()
 		if strings.Contains(p, ":") {
 			// Reverse translate file:line to pc.
-			// This was an extension in the old C version of 'go tool addr2line'
+			// This was an extension in the old C version of 'golang tool addr2line'
 			// and is probably not used by anyone, but recognize the syntax.
 			// We don't have an implementation.
 			fmt.Fprintf(stdout, "!reverse translation not implemented\n")

@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test that Resolver.Dial can be a func returning an in-memory net.Conn
@@ -17,7 +17,7 @@ import (
 	"testing"
 	"time"
 
-	"golang.org/x/net/dns/dnsmessage"
+	"golanglang.org/x/net/dns/dnsmessage"
 )
 
 func TestResolverDialFunc(t *testing.T) {
@@ -59,13 +59,13 @@ func TestResolverDialFunc(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		if got, want := sortedIPStrings(ips), []string{"0:200::e00", "1.2.3.4", "1::f", "5.6.7.8"}; !slices.Equal(got, want) {
-			t.Errorf("LookupIP wrong.\n got: %q\nwant: %q\n", got, want)
+		if golangt, want := sortedIPStrings(ips), []string{"0:200::e00", "1.2.3.4", "1::f", "5.6.7.8"}; !slices.Equal(golangt, want) {
+			t.Errorf("LookupIP wrong.\n golangt: %q\nwant: %q\n", golangt, want)
 		}
 	})
 
 	t.Run("LookupSRV", func(t *testing.T) {
-		_, got, err := r.LookupSRV(ctx, "some-service", "tcp", fakeDomain)
+		_, golangt, err := r.LookupSRV(ctx, "some-service", "tcp", fakeDomain)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -83,9 +83,9 @@ func TestResolverDialFunc(t *testing.T) {
 				Weight:   3,
 			},
 		}
-		if !reflect.DeepEqual(got, want) {
-			t.Errorf("wrong result. got:")
-			for _, r := range got {
+		if !reflect.DeepEqual(golangt, want) {
+			t.Errorf("wrong result. golangt:")
+			for _, r := range golangt {
 				t.Logf("  - %+v", r)
 			}
 		}

@@ -1,38 +1,38 @@
-# https://golang.org/issue/42970: As of Go 1.17, go.mod and go.sum files should
+# https://golanglang.org/issue/42970: As of Go 1.17, golang.mod and golang.sum files should
 # be stripped from vendored dependencies.
 
-go mod vendor
+golang mod vendor
 cd vendor/example.net/x
-go list all
+golang list all
 ! stdout '^example.net/m'
 stdout '^example.net/x$'
-exists ./go.sum
+exists ./golang.sum
 
 cd ../../..
-go mod edit -go=1.17
-go mod vendor
+golang mod edit -golang=1.17
+golang mod vendor
 cd vendor/example.net/x
-go list all
+golang list all
 stdout '^example.net/m$'
 stdout '^example.net/x$'
-! exists ./go.sum
+! exists ./golang.sum
 
--- go.mod --
+-- golang.mod --
 module example.net/m
 
-go 1.16
+golang 1.16
 
 require example.net/x v0.1.0
 
 replace example.net/x v0.1.0 => ./x
--- m.go --
+-- m.golang --
 package m
 
 import _ "example.net/x"
--- x/go.mod --
+-- x/golang.mod --
 module example.net/x
 
-go 1.16
--- x/go.sum --
--- x/x.go --
+golang 1.16
+-- x/golang.sum --
+-- x/x.golang --
 package x

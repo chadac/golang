@@ -1,14 +1,14 @@
 // run
 
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // (-0)+0 should be 0, not -0.
 
 package main
 
-//go:noinline
+//golang:noinline
 func add64(x float64) float64 {
 	return x + 0
 }
@@ -22,7 +22,7 @@ func testAdd64() {
 	}
 }
 
-//go:noinline
+//golang:noinline
 func sub64(x float64) float64 {
 	return x - 0
 }
@@ -36,7 +36,7 @@ func testSub64() {
 	}
 }
 
-//go:noinline
+//golang:noinline
 func neg64(x float64) float64 {
 	return -x
 }
@@ -50,7 +50,7 @@ func testNeg64() {
 	}
 }
 
-//go:noinline
+//golang:noinline
 func add32(x float32) float32 {
 	return x + 0
 }
@@ -64,7 +64,7 @@ func testAdd32() {
 	}
 }
 
-//go:noinline
+//golang:noinline
 func sub32(x float32) float32 {
 	return x - 0
 }
@@ -78,7 +78,7 @@ func testSub32() {
 	}
 }
 
-//go:noinline
+//golang:noinline
 func neg32(x float32) float32 {
 	return -x
 }

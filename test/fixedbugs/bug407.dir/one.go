@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package one
@@ -11,10 +11,10 @@ type T struct {
 }
 
 func (t *T) foo(arg int) {}
-func (t T) goo(arg int) {}
+func (t T) golango(arg int) {}
 
 func (t *T) F() { t.f = (*T).foo }
-func (t *T) G() { t.g = T.goo }
+func (t *T) G() { t.g = T.golango }
 
 
 

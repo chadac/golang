@@ -1,3 +1,3 @@
-//go:build windows
+//golang:build windows
 
 package none

@@ -1,7 +1,7 @@
 // asmcheck
 
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Make sure a pointer variable and a zero-sized variable
@@ -33,12 +33,12 @@ func zeroSize2() {
 	c <- struct{}{}
 }
 
-//go:noinline
+//golang:noinline
 func g(**int, int, int, int, int, int) {}
 
 // noliteral prevents the compiler from recognizing a literal value.
 //
-//go:noinline
+//golang:noinline
 func noliteral[T any](t T) T {
 	return t
 }

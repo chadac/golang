@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package types2
@@ -8,7 +8,7 @@ import (
 	"bytes"
 	"cmd/compile/internal/syntax"
 	"fmt"
-	"go/constant"
+	"golang/constant"
 	"strings"
 	"unicode"
 	"unicode/utf8"
@@ -460,7 +460,7 @@ func (obj *Func) Signature() *Signature {
 		return obj.typ.(*Signature) // normal case
 	}
 	// No signature: Signature was called either:
-	// - within go/types, before a FuncDecl's initially
+	// - within golang/types, before a FuncDecl's initially
 	//   nil Func.Type was lazily populated, indicating
 	//   a types bug; or
 	// - by a client after NewFunc(..., nil),
@@ -506,7 +506,7 @@ func (obj *Func) Pkg() *Package { return obj.object.Pkg() }
 // hasPtrRecv reports whether the receiver is of the form *T for the given method obj.
 func (obj *Func) hasPtrRecv() bool {
 	// If a method's receiver type is set, use that as the source of truth for the receiver.
-	// Caution: Checker.funcDecl (decl.go) marks a function by setting its type to an empty
+	// Caution: Checker.funcDecl (decl.golang) marks a function by setting its type to an empty
 	// signature. We may reach here before the signature is fully set up: we must explicitly
 	// check if the receiver is set (we cannot just look for non-nil obj.typ).
 	if sig, _ := obj.typ.(*Signature); sig != nil && sig.recv != nil {
@@ -630,7 +630,7 @@ func writeObject(buf *bytes.Buffer, obj Object, qf Qualifier) {
 		}
 		if tname.IsAlias() {
 			buf.WriteString(" =")
-			if alias, ok := typ.(*Alias); ok { // materialized? (gotypesalias=1)
+			if alias, ok := typ.(*Alias); ok { // materialized? (golangtypesalias=1)
 				typ = alias.fromRHS
 			}
 		} else if t, _ := typ.(*TypeParam); t != nil {

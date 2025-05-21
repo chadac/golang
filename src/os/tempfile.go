@@ -1,5 +1,5 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package os
@@ -8,15 +8,15 @@ import (
 	"errors"
 	"internal/bytealg"
 	"internal/itoa"
-	_ "unsafe" // for go:linkname
+	_ "unsafe" // for golang:linkname
 )
 
 // random number source provided by runtime.
-// We generate random temporary file names so that there's a good
+// We generate random temporary file names so that there's a golangod
 // chance the file doesn't exist yet - keeps the number of tries in
 // TempFile to a minimum.
 //
-//go:linkname runtime_rand runtime.rand
+//golang:linkname runtime_rand runtime.rand
 func runtime_rand() uint64
 
 func nextRandom() string {
@@ -29,7 +29,7 @@ func nextRandom() string {
 // If pattern includes a "*", the random string replaces the last "*".
 // The file is created with mode 0o600 (before umask).
 // If dir is the empty string, CreateTemp uses the default directory for temporary files, as returned by [TempDir].
-// Multiple programs or goroutines calling CreateTemp simultaneously will not choose the same file.
+// Multiple programs or golangroutines calling CreateTemp simultaneously will not choose the same file.
 // The caller can use the file's Name method to find the pathname of the file.
 // It is the caller's responsibility to remove the file when it is no longer needed.
 func CreateTemp(dir, pattern string) (*File, error) {
@@ -81,7 +81,7 @@ func prefixAndSuffix(pattern string) (prefix, suffix string, err error) {
 // If pattern includes a "*", the random string replaces the last "*" instead.
 // The directory is created with mode 0o700 (before umask).
 // If dir is the empty string, MkdirTemp uses the default directory for temporary files, as returned by TempDir.
-// Multiple programs or goroutines calling MkdirTemp simultaneously will not choose the same directory.
+// Multiple programs or golangroutines calling MkdirTemp simultaneously will not choose the same directory.
 // It is the caller's responsibility to remove the directory when it is no longer needed.
 func MkdirTemp(dir, pattern string) (string, error) {
 	if dir == "" {

@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package abi
@@ -14,7 +14,7 @@ import (
 // of this type in the compiler/linker may not have the same layout
 // as the version in the target binary, due to pointer width
 // differences and any experiments. Use cmd/compile/internal/rttype
-// or the functions in compiletype.go to access this type instead.
+// or the functions in compiletype.golang to access this type instead.
 // (TODO: this admonition applies to every type in this package.
 // Put it in some shared location?)
 type Type struct {
@@ -35,7 +35,7 @@ type Type struct {
 	// If the TFlagGCMaskOnDemand bit is set, GCData is instead a
 	// **byte and the pointer to the bitmask is one dereference away.
 	// The runtime will build the bitmask if needed.
-	// (See runtime/type.go:getGCMask.)
+	// (See runtime/type.golang:getGCMask.)
 	// Note: multiple types may have the same value of GCData,
 	// including when TFlagGCMaskOnDemand is set. The types will, of course,
 	// have the same pointer layout (but not necessarily the same size).
@@ -586,8 +586,8 @@ type StructType struct {
 // whether the pointed to type is exported.
 //
 // Note: this encoding must match here and in:
-//   cmd/compile/internal/reflectdata/reflect.go
-//   cmd/link/internal/ld/decodesym.go
+//   cmd/compile/internal/reflectdata/reflect.golang
+//   cmd/link/internal/ld/decodesym.golang
 
 type Name struct {
 	Bytes *byte

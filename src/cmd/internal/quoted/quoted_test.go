@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package quoted
@@ -34,7 +34,7 @@ func TestSplit(t *testing.T) {
 		{name: "quote_unclosed", value: `'a`, wantErr: "unterminated ' string"},
 	} {
 		t.Run(test.name, func(t *testing.T) {
-			got, err := Split(test.value)
+			golangt, err := Split(test.value)
 			if err != nil {
 				if test.wantErr == "" {
 					t.Fatalf("unexpected error: %v", err)
@@ -46,8 +46,8 @@ func TestSplit(t *testing.T) {
 			if test.wantErr != "" {
 				t.Fatalf("unexpected success; wanted error containing %q", test.wantErr)
 			}
-			if !reflect.DeepEqual(got, test.want) {
-				t.Errorf("got %q; want %q", got, test.want)
+			if !reflect.DeepEqual(golangt, test.want) {
+				t.Errorf("golangt %q; want %q", golangt, test.want)
 			}
 		})
 	}
@@ -68,7 +68,7 @@ func TestJoin(t *testing.T) {
 		{name: "unquoteable", args: []string{`'"`}, wantErr: "contains both single and double quotes and cannot be quoted"},
 	} {
 		t.Run(test.name, func(t *testing.T) {
-			got, err := Join(test.args)
+			golangt, err := Join(test.args)
 			if err != nil {
 				if test.wantErr == "" {
 					t.Fatalf("unexpected error: %v", err)
@@ -80,8 +80,8 @@ func TestJoin(t *testing.T) {
 			if test.wantErr != "" {
 				t.Fatalf("unexpected success; wanted error containing %q", test.wantErr)
 			}
-			if got != test.want {
-				t.Errorf("got %s; want %s", got, test.want)
+			if golangt != test.want {
+				t.Errorf("golangt %s; want %s", golangt, test.want)
 			}
 		})
 	}

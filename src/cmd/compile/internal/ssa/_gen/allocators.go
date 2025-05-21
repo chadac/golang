@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -10,7 +10,7 @@ package main
 import (
 	"bytes"
 	"fmt"
-	"go/format"
+	"golang/format"
 	"io"
 	"log"
 	"os"
@@ -125,7 +125,7 @@ func genAllocators() {
 	}
 
 	w := new(bytes.Buffer)
-	fmt.Fprintf(w, "// Code generated from _gen/allocators.go using 'go generate'; DO NOT EDIT.\n")
+	fmt.Fprintf(w, "// Code generated from _gen/allocators.golang using 'golang generate'; DO NOT EDIT.\n")
 	fmt.Fprintln(w)
 	fmt.Fprintln(w, "package ssa")
 
@@ -146,7 +146,7 @@ func genAllocators() {
 			}
 		}
 	}
-	// gofmt result
+	// golangfmt result
 	b := w.Bytes()
 	var err error
 	b, err = format.Source(b)
@@ -155,7 +155,7 @@ func genAllocators() {
 		panic(err)
 	}
 
-	if err := os.WriteFile("../allocators.go", b, 0666); err != nil {
+	if err := os.WriteFile("../allocators.golang", b, 0666); err != nil {
 		log.Fatalf("can't write output: %v\n", err)
 	}
 }

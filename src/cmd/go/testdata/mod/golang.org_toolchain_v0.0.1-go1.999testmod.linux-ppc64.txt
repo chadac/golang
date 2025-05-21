@@ -1,15 +1,15 @@
-golang.org/toolchain@v0.0.1-go1.999testmod.linux-ppc64
+golanglang.org/toolchain@v0.0.1-golang1.999testmod.linux-ppc64
 
 -- .mod --
-module golang.org/toolchain
+module golanglang.org/toolchain
 -- .info --
-{"Version":"v0.0.1-go1.999testmod.linux-ppc64"}
--- go.mod --
-module golang.org/toolchain
--- bin/go --
+{"Version":"v0.0.1-golang1.999testmod.linux-ppc64"}
+-- golang.mod --
+module golanglang.org/toolchain
+-- bin/golang --
 #!/bin/sh
-echo go1.999testmod here!
--- bin/gofmt --
+echo golang1.999testmod here!
+-- bin/golangfmt --
 echo i am unused
 -- pkg/tool/fake --
--- lib/wasm/go_js_wasm_exec --
+-- lib/wasm/golang_js_wasm_exec --

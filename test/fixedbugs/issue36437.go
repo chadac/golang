@@ -1,14 +1,14 @@
 // run
 
-//go:build !nacl && !js && !wasip1 && gc
+//golang:build !nacl && !js && !wasip1 && gc
 
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Tests that when non-existent files are passed to the
 // compiler, such as in:
-//    go tool compile foo
+//    golang tool compile foo
 // we don't print the beginning position:
 //    foo:0: open foo: no such file or directory
 // but instead omit it and print out:
@@ -38,12 +38,12 @@ func main() {
 		return string(msg)
 	}
 
-	filename := "non-existent.go"
-	output, err := exec.Command("go", "tool", "compile", filename).CombinedOutput()
-	got := msgOrErr(output, err)
+	filename := "non-existent.golang"
+	output, err := exec.Command("golang", "tool", "compile", filename).CombinedOutput()
+	golangt := msgOrErr(output, err)
 
 	regFilenamePos := regexp.MustCompile(filename + ":\\d+")
-	if regFilenamePos.MatchString(got) {
-		fmt.Printf("Error message must not contain filename:pos, but got:\n%q\n", got)
+	if regFilenamePos.MatchString(golangt) {
+		fmt.Printf("Error message must not contain filename:pos, but golangt:\n%q\n", golangt)
 	}
 }

@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -12,13 +12,13 @@ DWORD getthread() {
 }
 */
 import "C"
-import "runtime/testdata/testprogcgo/windows"
+import "runtime/testdata/testprogcgolang/windows"
 
 func init() {
-	register("CgoDLLImportsMain", CgoDLLImportsMain)
+	register("CgolangDLLImportsMain", CgolangDLLImportsMain)
 }
 
-func CgoDLLImportsMain() {
+func CgolangDLLImportsMain() {
 	C.getthread()
 	windows.GetThread()
 	println("OK")

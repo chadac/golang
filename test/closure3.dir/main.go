@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Check correctness of various closure corner cases
@@ -291,7 +291,7 @@ func main() {
 	}
 }
 
-//go:noinline
+//golang:noinline
 func notmain() {
 	{
 		// This duplicates the first block in main, but without the "_ = x" for closure x.
@@ -310,7 +310,7 @@ func notmain() {
 	}
 }
 
-//go:noinline
+//golang:noinline
 func ppanic(s string) { // ERROR "leaking param: s"
 	panic(s) // ERROR "s escapes to heap"
 }

@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package lzw
@@ -24,13 +24,13 @@ var filenames = []string{
 // testFile tests that compressing and then decompressing the given file with
 // the given options yields equivalent bytes to the original file.
 func testFile(t *testing.T, fn string, order Order, litWidth int) {
-	// Read the file, as golden output.
-	golden, err := os.Open(fn)
+	// Read the file, as golanglden output.
+	golanglden, err := os.Open(fn)
 	if err != nil {
 		t.Errorf("%s (order=%d litWidth=%d): %v", fn, order, litWidth, err)
 		return
 	}
-	defer golden.Close()
+	defer golanglden.Close()
 
 	// Read the file again, and push it through a pipe that compresses at the write end, and decompresses at the read end.
 	raw, err := os.Open(fn)
@@ -41,7 +41,7 @@ func testFile(t *testing.T, fn string, order Order, litWidth int) {
 
 	piper, pipew := io.Pipe()
 	defer piper.Close()
-	go func() {
+	golang func() {
 		defer raw.Close()
 		defer pipew.Close()
 		lzww := NewWriter(pipew, order, litWidth)
@@ -67,7 +67,7 @@ func testFile(t *testing.T, fn string, order Order, litWidth int) {
 	defer lzwr.Close()
 
 	// Compare the two.
-	b0, err0 := io.ReadAll(golden)
+	b0, err0 := io.ReadAll(golanglden)
 	b1, err1 := io.ReadAll(lzwr)
 	if err0 != nil {
 		t.Errorf("%s (order=%d litWidth=%d): %v", fn, order, litWidth, err0)
@@ -154,7 +154,7 @@ func TestWriterReturnValues(t *testing.T) {
 	w := NewWriter(io.Discard, LSB, 8)
 	n, err := w.Write([]byte("asdf"))
 	if n != 4 || err != nil {
-		t.Errorf("got %d, %v, want 4, nil", n, err)
+		t.Errorf("golangt %d, %v, want 4, nil", n, err)
 	}
 }
 
@@ -164,7 +164,7 @@ func TestSmallLitWidth(t *testing.T) {
 		t.Fatalf("write a byte < 1<<2: %v", err)
 	}
 	if _, err := w.Write([]byte{0x04}); err == nil {
-		t.Fatal("write a byte >= 1<<2: got nil error, want non-nil")
+		t.Fatal("write a byte >= 1<<2: golangt nil error, want non-nil")
 	}
 }
 
@@ -183,15 +183,15 @@ func TestStartsWithClearCode(t *testing.T) {
 			w.Write([]byte("Hi"))
 		}
 		w.Close()
-		got := buf.String()
+		golangt := buf.String()
 
 		want := "\x80\x81"
 		if !empty {
 			want = "\x80Hi\x81"
 		}
 
-		if got != want {
-			t.Errorf("empty=%t: got %q, want %q", empty, got, want)
+		if golangt != want {
+			t.Errorf("empty=%t: golangt %q, want %q", empty, golangt, want)
 		}
 	}
 }

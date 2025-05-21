@@ -1,10 +1,10 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // js and wasip1 do not support inter-process file locking.
 //
-//go:build !js && !wasip1
+//golang:build !js && !wasip1
 
 package lockedfile_test
 
@@ -16,7 +16,7 @@ import (
 	"testing"
 	"time"
 
-	"cmd/go/internal/lockedfile"
+	"cmd/golang/internal/lockedfile"
 )
 
 const (
@@ -28,7 +28,7 @@ func mustBlock(t *testing.T, desc string, f func()) (wait func(*testing.T)) {
 	t.Helper()
 
 	done := make(chan struct{})
-	go func() {
+	golang func() {
 		f()
 		close(done)
 	}()
@@ -55,7 +55,7 @@ func mustBlock(t *testing.T, desc string, f func()) (wait func(*testing.T)) {
 
 			// Wait for the operation to actually complete, no matter how long it
 			// takes. If the test has deadlocked, this will cause the test to time out
-			// and dump goroutines.
+			// and dump golangroutines.
 			<-done
 
 		case <-done:
@@ -123,11 +123,11 @@ func TestReadWaitsForLock(t *testing.T) {
 		}
 
 		const want = part1 + part2
-		got := string(b)
-		if got == want {
-			t.Logf("Read(_) = %q", got)
+		golangt := string(b)
+		if golangt == want {
+			t.Logf("Read(_) = %q", golangt)
 		} else {
-			t.Errorf("Read(_) = %q, _; want %q", got, want)
+			t.Errorf("Read(_) = %q, _; want %q", golangt, want)
 		}
 	})
 
@@ -168,7 +168,7 @@ func TestCanLockExistingFile(t *testing.T) {
 }
 
 // TestSpuriousEDEADLK verifies that the spurious EDEADLK reported in
-// https://golang.org/issue/32817 no longer occurs.
+// https://golanglang.org/issue/32817 no longer occurs.
 func TestSpuriousEDEADLK(t *testing.T) {
 	// 	P.1 locks file A.
 	// 	Q.3 locks file B.

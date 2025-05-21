@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -11,7 +11,7 @@ import "time"
 func main() {
 	var count int
 	c := make(chan byte)
-	go func(c chan byte) {
+	golang func(c chan byte) {
 		<-c
 		count++
 		time.Sleep(1000000)

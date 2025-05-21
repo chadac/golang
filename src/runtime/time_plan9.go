@@ -1,17 +1,17 @@
 // Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !faketime
+//golang:build !faketime
 
 package runtime
 
-import _ "unsafe" // for go:linkname
+import _ "unsafe" // for golang:linkname
 
 // Do not remove or change the type signature.
-// See comment in timestub.go.
+// See comment in timestub.golang.
 //
-//go:linkname time_now time.now
+//golang:linkname time_now time.now
 func time_now() (sec int64, nsec int32, mono int64) {
 	var t [4]uint64
 	if readtime(&t[0], 1, 4) == 4 {

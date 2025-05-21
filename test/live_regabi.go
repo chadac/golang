@@ -1,13 +1,13 @@
 // errorcheckwithauto -0 -l -live -wb=0 -d=ssa/insert_resched_checks/off
 
-//go:build (amd64 && goexperiment.regabiargs) || (arm64 && goexperiment.regabiargs)
+//golang:build (amd64 && golangexperiment.regabiargs) || (arm64 && golangexperiment.regabiargs)
 
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // liveness tests with inlining disabled.
-// see also live2.go.
+// see also live2.golang.
 
 package main
 
@@ -15,19 +15,19 @@ import "runtime"
 
 func printnl()
 
-//go:noescape
+//golang:noescape
 func printpointer(**int)
 
-//go:noescape
+//golang:noescape
 func printintpointer(*int)
 
-//go:noescape
+//golang:noescape
 func printstringpointer(*string)
 
-//go:noescape
+//golang:noescape
 func printstring(string)
 
-//go:noescape
+//golang:noescape
 func printbytepointer(*byte)
 
 func printint(int)
@@ -49,7 +49,7 @@ func f2(b bool) {
 }
 
 func f3(b1, b2 bool) {
-	// Here x and y are ambiguously live. In previous go versions they
+	// Here x and y are ambiguously live. In previous golang versions they
 	// were marked as live throughout the function to avoid being
 	// poisoned in GODEBUG=gcdead=1 mode; this is now no longer the
 	// case.
@@ -72,7 +72,7 @@ func f3(b1, b2 bool) {
 	printint(0) // nothing is live here
 }
 
-// The old algorithm treated x as live on all code that
+// The old algolangrithm treated x as live on all code that
 // could flow to a return statement, so it included the
 // function entry and code above the declaration of x
 // but would not include an indirect use of x in an infinite loop.
@@ -154,7 +154,7 @@ func f10() string {
 	panic(1)
 }
 
-// liveness formerly confused by select, thinking runtime.selectgo
+// liveness formerly confused by select, thinking runtime.selectgolang
 // can return to next instruction; it always jumps elsewhere.
 // note that you have to use at least two cases in the select
 // to get a true select; smaller selects compile to optimized helper functions.
@@ -199,7 +199,7 @@ func f11c() *int {
 		// Unlike previous, the cases in this select fall through,
 		// so we can get to the println, so p is not dead.
 		printint(1) // ERROR "live at call to printint: p$"
-		select {    // ERROR "live at call to selectgo: p$" "stack object .autotmp_[0-9]+ \[2\]runtime.scase$"
+		select {    // ERROR "live at call to selectgolang: p$" "stack object .autotmp_[0-9]+ \[2\]runtime.scase$"
 		case <-c:
 		case <-c:
 		}
@@ -433,7 +433,7 @@ func f26(b bool) {
 	printnl()
 }
 
-//go:noescape
+//golang:noescape
 func print26(...interface{})
 
 // non-escaping closures passed to function call should die on return
@@ -460,18 +460,18 @@ func f27defer(b bool) {
 	return                       // ERROR "live at indirect call: .autotmp_[0-9]+"
 }
 
-// and newproc (go) escapes to the heap
+// and newproc (golang) escapes to the heap
 
-func f27go(b bool) {
+func f27golang(b bool) {
 	x := 0
 	if b {
-		go call27(func() { x++ }) // ERROR "live at call to newobject: &x$" "live at call to newobject: &x .autotmp_[0-9]+$" "live at call to newproc: &x$" // allocate two closures, the func literal, and the wrapper for go
+		golang call27(func() { x++ }) // ERROR "live at call to newobject: &x$" "live at call to newobject: &x .autotmp_[0-9]+$" "live at call to newproc: &x$" // allocate two closures, the func literal, and the wrapper for golang
 	}
-	go call27(func() { x++ }) // ERROR "live at call to newobject: &x$" "live at call to newobject: .autotmp_[0-9]+$" // allocate two closures, the func literal, and the wrapper for go
+	golang call27(func() { x++ }) // ERROR "live at call to newobject: &x$" "live at call to newobject: .autotmp_[0-9]+$" // allocate two closures, the func literal, and the wrapper for golang
 	printnl()
 }
 
-//go:noescape
+//golang:noescape
 func call27(func())
 
 // concatstring slice should die on return
@@ -565,7 +565,7 @@ func f32(b bool) {
 	call32(t32.Inc)
 }
 
-//go:noescape
+//golang:noescape
 func call32(func())
 
 // temporaries introduced during if conditions and && || expressions
@@ -632,7 +632,7 @@ func f38(b bool) {
 	// we care that the println lines have no live variables
 	// and therefore no output.
 	if b {
-		select { // ERROR "live at call to selectgo:( .autotmp_[0-9]+)+$" "stack object .autotmp_[0-9]+ \[4\]runtime.scase$"
+		select { // ERROR "live at call to selectgolang:( .autotmp_[0-9]+)+$" "stack object .autotmp_[0-9]+ \[4\]runtime.scase$"
 		case <-fc38():
 			printnl()
 		case fc38() <- *fi38(1): // ERROR "live at call to fc38:( .autotmp_[0-9]+)+$" "live at call to fi38:( .autotmp_[0-9]+)+$" "stack object .autotmp_[0-9]+ string$"
@@ -682,7 +682,7 @@ type T40 struct {
 	m map[int]int
 }
 
-//go:noescape
+//golang:noescape
 func useT40(*T40)
 
 func newT40() *T40 {
@@ -691,7 +691,7 @@ func newT40() *T40 {
 	return &ret
 }
 
-func good40() {
+func golangod40() {
 	ret := T40{}              // ERROR "stack object ret T40$"
 	ret.m = make(map[int]int) // ERROR "live at call to rand(32)?: .autotmp_[0-9]+$" "stack object .autotmp_[0-9]+ (runtime.hmap|internal/runtime/maps.Map)$"
 	t := &ret
@@ -742,7 +742,7 @@ func f42() {
 	f43([]*int{&q, &p, &r})
 }
 
-//go:noescape
+//golang:noescape
 func f43(a []*int)
 
 // Assigning to a sub-element that makes up an entire local variable
@@ -772,6 +772,6 @@ func f45(a, b, c, d, e, f, g, h, i, j, k, l *byte) { // ERROR "live at entry to 
 	runtime.KeepAlive(l)
 }
 
-//go:noinline
+//golang:noinline
 func f46(a, b, c, d, e, f, g, h, i, j, k, l *byte) {
 }

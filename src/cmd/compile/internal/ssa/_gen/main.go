@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // The gen command generates Go code (in the parent directory) for all
@@ -10,7 +10,7 @@ import (
 	"bytes"
 	"flag"
 	"fmt"
-	"go/format"
+	"golang/format"
 	"log"
 	"math/bits"
 	"os"
@@ -173,7 +173,7 @@ func main() {
 	for _, task := range tasks {
 		task := task
 		wg.Add(1)
-		go func() {
+		golang func() {
 			task()
 			wg.Done()
 		}()
@@ -195,7 +195,7 @@ func main() {
 
 func genOp() {
 	w := new(bytes.Buffer)
-	fmt.Fprintf(w, "// Code generated from _gen/*Ops.go using 'go generate'; DO NOT EDIT.\n")
+	fmt.Fprintf(w, "// Code generated from _gen/*Ops.golang using 'golang generate'; DO NOT EDIT.\n")
 	fmt.Fprintln(w)
 	fmt.Fprintln(w, "package ssa")
 
@@ -491,7 +491,7 @@ func genOp() {
 		fmt.Fprintf(w, "var linkReg%s = int8(%d)\n", a.name, a.linkreg)
 	}
 
-	// gofmt result
+	// golangfmt result
 	b := w.Bytes()
 	var err error
 	b, err = format.Source(b)
@@ -500,7 +500,7 @@ func genOp() {
 		panic(err)
 	}
 
-	if err := os.WriteFile("../opGen.go", b, 0666); err != nil {
+	if err := os.WriteFile("../opGen.golang", b, 0666); err != nil {
 		log.Fatalf("can't write output: %v\n", err)
 	}
 

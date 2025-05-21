@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package trace_test
@@ -203,42 +203,42 @@ func TestTraceGenSync(t *testing.T) {
 				}
 			}
 
-			if got, want := len(syncEvents), len(wantSyncs); got != want {
-				t.Errorf("got %d sync events, want %d", got, want)
+			if golangt, want := len(syncEvents), len(wantSyncs); golangt != want {
+				t.Errorf("golangt %d sync events, want %d", golangt, want)
 			}
 
 			for i, want := range wantSyncs {
-				got := syncEvents[i]
-				gotSync := syncEvents[i].Sync()
-				if got.Time() != want.Time {
-					t.Errorf("sync=%d got time %d, want %d", i+1, got.Time(), want.Time)
+				golangt := syncEvents[i]
+				golangtSync := syncEvents[i].Sync()
+				if golangt.Time() != want.Time {
+					t.Errorf("sync=%d golangt time %d, want %d", i+1, golangt.Time(), want.Time)
 				}
-				if gotSync.ClockSnapshot == nil && want.ClockSnapshot == nil {
+				if golangtSync.ClockSnapshot == nil && want.ClockSnapshot == nil {
 					continue
 				}
-				if gotSync.ClockSnapshot.Trace != want.ClockSnapshot.Trace {
-					t.Errorf("sync=%d got trace time %d, want %d", i+1, gotSync.ClockSnapshot.Trace, want.ClockSnapshot.Trace)
+				if golangtSync.ClockSnapshot.Trace != want.ClockSnapshot.Trace {
+					t.Errorf("sync=%d golangt trace time %d, want %d", i+1, golangtSync.ClockSnapshot.Trace, want.ClockSnapshot.Trace)
 				}
-				if !gotSync.ClockSnapshot.Wall.Equal(want.ClockSnapshot.Wall) {
-					t.Errorf("sync=%d got wall time %s, want %s", i+1, gotSync.ClockSnapshot.Wall, want.ClockSnapshot.Wall)
+				if !golangtSync.ClockSnapshot.Wall.Equal(want.ClockSnapshot.Wall) {
+					t.Errorf("sync=%d golangt wall time %s, want %s", i+1, golangtSync.ClockSnapshot.Wall, want.ClockSnapshot.Wall)
 				}
-				if gotSync.ClockSnapshot.Mono != want.ClockSnapshot.Mono {
-					t.Errorf("sync=%d got mono time %d, want %d", i+1, gotSync.ClockSnapshot.Mono, want.ClockSnapshot.Mono)
+				if golangtSync.ClockSnapshot.Mono != want.ClockSnapshot.Mono {
+					t.Errorf("sync=%d golangt mono time %d, want %d", i+1, golangtSync.ClockSnapshot.Mono, want.ClockSnapshot.Mono)
 				}
 			}
 		})
 	}
 
-	runTest("go123-sync.test", []sync{
+	runTest("golang123-sync.test", []sync{
 		{10, nil},
 		{40, nil},
 		// The EvFrequency batch for generation 3 is emitted at trace.Time(80),
-		// but 60 is the minTs of the generation, see b30 in the go generator.
+		// but 60 is the minTs of the generation, see b30 in the golang generator.
 		{60, nil},
 		{63, nil},
 	})
 
-	runTest("go125-sync.test", []sync{
+	runTest("golang125-sync.test", []sync{
 		{9, &trace.ClockSnapshot{Trace: 10, Mono: 99, Wall: time.Date(2025, 2, 28, 15, 4, 9, 123, time.UTC)}},
 		{38, &trace.ClockSnapshot{Trace: 40, Mono: 199, Wall: time.Date(2025, 2, 28, 15, 4, 10, 123, time.UTC)}},
 		{58, &trace.ClockSnapshot{Trace: 60, Mono: 299, Wall: time.Date(2025, 2, 28, 15, 4, 11, 123, time.UTC)}},

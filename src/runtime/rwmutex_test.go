@@ -1,10 +1,10 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// GOMAXPROCS=10 go test
+// GOMAXPROCS=10 golang test
 
-// This is a copy of sync/rwmutex_test.go rewritten to test the
+// This is a copy of sync/rwmutex_test.golang rewritten to test the
 // runtime rwmutex.
 
 package runtime_test
@@ -34,14 +34,14 @@ func doTestParallelReaders(numReaders int) {
 	var cunlock atomic.Bool
 	cdone := make(chan bool)
 	for i := 0; i < numReaders; i++ {
-		go parallelReader(&m, clocked, &cunlock, cdone)
+		golang parallelReader(&m, clocked, &cunlock, cdone)
 	}
 	// Wait for all parallel RLock()s to succeed.
 	for i := 0; i < numReaders; i++ {
 		<-clocked
 	}
 	cunlock.Store(true)
-	// Wait for the goroutines to finish.
+	// Wait for the golangroutines to finish.
 	for i := 0; i < numReaders; i++ {
 		<-cdone
 	}
@@ -53,7 +53,7 @@ func TestParallelRWMutexReaders(t *testing.T) {
 	}
 	defer GOMAXPROCS(GOMAXPROCS(-1))
 	// If runtime triggers a forced GC during this test then it will deadlock,
-	// since the goroutines can't be stopped/preempted.
+	// since the golangroutines can't be stopped/preempted.
 	// Disable GC for this test (see issue #10958).
 	defer debug.SetGCPercent(debug.SetGCPercent(-1))
 	// SetGCPercent waits until the mark phase is over, but the runtime
@@ -96,21 +96,21 @@ func writer(rwm *RWMutex, num_iterations int, activity *int32, cdone chan bool) 
 	cdone <- true
 }
 
-func HammerRWMutex(gomaxprocs, numReaders, num_iterations int) {
-	GOMAXPROCS(gomaxprocs)
+func HammerRWMutex(golangmaxprocs, numReaders, num_iterations int) {
+	GOMAXPROCS(golangmaxprocs)
 	// Number of active readers + 10000 * number of active writers.
 	var activity int32
 	var rwm RWMutex
 	rwm.Init()
 	cdone := make(chan bool)
-	go writer(&rwm, num_iterations, &activity, cdone)
+	golang writer(&rwm, num_iterations, &activity, cdone)
 	var i int
 	for i = 0; i < numReaders/2; i++ {
-		go reader(&rwm, num_iterations, &activity, cdone)
+		golang reader(&rwm, num_iterations, &activity, cdone)
 	}
-	go writer(&rwm, num_iterations, &activity, cdone)
+	golang writer(&rwm, num_iterations, &activity, cdone)
 	for ; i < numReaders; i++ {
-		go reader(&rwm, num_iterations, &activity, cdone)
+		golang reader(&rwm, num_iterations, &activity, cdone)
 	}
 	// Wait for the 2 writers and all readers to finish.
 	for i := 0; i < 2+numReaders; i++ {

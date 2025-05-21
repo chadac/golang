@@ -1,5 +1,5 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package rpc
@@ -38,10 +38,10 @@ func TestCloseCodec(t *testing.T) {
 	}
 }
 
-// Test that errors in gob shut down the connection. Issue 7689.
+// Test that errors in golangb shut down the connection. Issue 7689.
 
 type R struct {
-	msg []byte // Not exported, so R does not work with gob.
+	msg []byte // Not exported, so R does not work with golangb.
 }
 
 type S struct{}
@@ -58,7 +58,7 @@ func TestGobError(t *testing.T) {
 			t.Fatal("no error")
 		}
 		if !strings.Contains(err.(error).Error(), "reading body unexpected EOF") {
-			t.Fatal("expected `reading body unexpected EOF', got", err)
+			t.Fatal("expected `reading body unexpected EOF', golangt", err)
 		}
 	}()
 	Register(new(S))
@@ -67,7 +67,7 @@ func TestGobError(t *testing.T) {
 	if err != nil {
 		panic(err)
 	}
-	go Accept(listen)
+	golang Accept(listen)
 
 	client, err := Dial("tcp", listen.Addr().String())
 	if err != nil {

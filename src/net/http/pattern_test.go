@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package http
@@ -116,9 +116,9 @@ func TestParsePattern(t *testing.T) {
 			pattern{method: "DELETE", host: "example.com", segments: []segment{lit("a"), wild("foo12"), lit("/")}},
 		},
 	} {
-		got := mustParsePattern(t, test.in)
-		if !got.equal(&test.want) {
-			t.Errorf("%q:\ngot  %#v\nwant %#v", test.in, got, &test.want)
+		golangt := mustParsePattern(t, test.in)
+		if !golangt.equal(&test.want) {
+			t.Errorf("%q:\ngolangt  %#v\nwant %#v", test.in, golangt, &test.want)
 		}
 	}
 }
@@ -152,7 +152,7 @@ func TestParsePatternError(t *testing.T) {
 	} {
 		_, err := parsePattern(test.in)
 		if err == nil || !strings.Contains(err.Error(), test.contains) {
-			t.Errorf("%q:\ngot %v, want error containing %q", test.in, err, test.contains)
+			t.Errorf("%q:\ngolangt %v, want error containing %q", test.in, err, test.contains)
 		}
 	}
 }
@@ -187,14 +187,14 @@ func TestCompareMethods(t *testing.T) {
 	} {
 		pat1 := mustParsePattern(t, test.p1)
 		pat2 := mustParsePattern(t, test.p2)
-		got := pat1.compareMethods(pat2)
-		if got != test.want {
-			t.Errorf("%s vs %s: got %s, want %s", test.p1, test.p2, got, test.want)
+		golangt := pat1.compareMethods(pat2)
+		if golangt != test.want {
+			t.Errorf("%s vs %s: golangt %s, want %s", test.p1, test.p2, golangt, test.want)
 		}
-		got2 := pat2.compareMethods(pat1)
+		golangt2 := pat2.compareMethods(pat1)
 		want2 := inverseRelationship(test.want)
-		if got2 != want2 {
-			t.Errorf("%s vs %s: got %s, want %s", test.p2, test.p1, got2, want2)
+		if golangt2 != want2 {
+			t.Errorf("%s vs %s: golangt %s, want %s", test.p2, test.p1, golangt2, want2)
 		}
 	}
 }
@@ -336,21 +336,21 @@ func TestComparePaths(t *testing.T) {
 		pat1 := mustParsePattern(t, test.p1)
 		pat2 := mustParsePattern(t, test.p2)
 		if g := pat1.comparePaths(pat1); g != equivalent {
-			t.Errorf("%s does not match itself; got %s", pat1, g)
+			t.Errorf("%s does not match itself; golangt %s", pat1, g)
 		}
 		if g := pat2.comparePaths(pat2); g != equivalent {
-			t.Errorf("%s does not match itself; got %s", pat2, g)
+			t.Errorf("%s does not match itself; golangt %s", pat2, g)
 		}
-		got := pat1.comparePaths(pat2)
-		if got != test.want {
-			t.Errorf("%s vs %s: got %s, want %s", test.p1, test.p2, got, test.want)
+		golangt := pat1.comparePaths(pat2)
+		if golangt != test.want {
+			t.Errorf("%s vs %s: golangt %s, want %s", test.p1, test.p2, golangt, test.want)
 			t.Logf("pat1: %+v\n", pat1.segments)
 			t.Logf("pat2: %+v\n", pat2.segments)
 		}
 		want2 := inverseRelationship(test.want)
-		got2 := pat2.comparePaths(pat1)
-		if got2 != want2 {
-			t.Errorf("%s vs %s: got %s, want %s", test.p2, test.p1, got2, want2)
+		golangt2 := pat2.comparePaths(pat1)
+		if golangt2 != want2 {
+			t.Errorf("%s vs %s: golangt %s, want %s", test.p2, test.p1, golangt2, want2)
 		}
 	}
 }
@@ -384,16 +384,16 @@ func TestConflictsWith(t *testing.T) {
 	} {
 		pat1 := mustParsePattern(t, test.p1)
 		pat2 := mustParsePattern(t, test.p2)
-		got := pat1.conflictsWith(pat2)
-		if got != test.want {
+		golangt := pat1.conflictsWith(pat2)
+		if golangt != test.want {
 			t.Errorf("%q.ConflictsWith(%q) = %t, want %t",
-				test.p1, test.p2, got, test.want)
+				test.p1, test.p2, golangt, test.want)
 		}
 		// conflictsWith should be commutative.
-		got = pat2.conflictsWith(pat1)
-		if got != test.want {
+		golangt = pat2.conflictsWith(pat1)
+		if golangt != test.want {
 			t.Errorf("%q.ConflictsWith(%q) = %t, want %t",
-				test.p2, test.p1, got, test.want)
+				test.p2, test.p1, golangt, test.want)
 		}
 	}
 }
@@ -406,15 +406,15 @@ func TestRegisterConflict(t *testing.T) {
 	}
 	pat2 := "/a/{y}/{z...}"
 	err := mux.registerErr(pat2, NotFoundHandler())
-	var got string
+	var golangt string
 	if err == nil {
-		got = "<nil>"
+		golangt = "<nil>"
 	} else {
-		got = err.Error()
+		golangt = err.Error()
 	}
 	want := "matches the same requests as"
-	if !strings.Contains(got, want) {
-		t.Errorf("got\n%s\nwant\n%s", got, want)
+	if !strings.Contains(golangt, want) {
+		t.Errorf("golangt\n%s\nwant\n%s", golangt, want)
 	}
 }
 
@@ -430,10 +430,10 @@ func TestDescribeConflict(t *testing.T) {
 		{"GET /a", "HEAD /", "matches more methods than HEAD /, but has a more specific path pattern"},
 		{"POST /", "/a", "matches fewer methods than /a, but has a more general path pattern"},
 	} {
-		got := describeConflict(mustParsePattern(t, test.p1), mustParsePattern(t, test.p2))
-		if !strings.Contains(got, test.want) {
-			t.Errorf("%s vs. %s:\ngot:\n%s\nwhich does not contain %q",
-				test.p1, test.p2, got, test.want)
+		golangt := describeConflict(mustParsePattern(t, test.p1), mustParsePattern(t, test.p2))
+		if !strings.Contains(golangt, test.want) {
+			t.Errorf("%s vs. %s:\ngolangt:\n%s\nwhich does not contain %q",
+				test.p1, test.p2, golangt, test.want)
 		}
 	}
 }
@@ -459,9 +459,9 @@ func TestCommonPath(t *testing.T) {
 		if pat1.comparePaths(pat2) != overlaps {
 			t.Fatalf("%s does not overlap %s", test.p1, test.p2)
 		}
-		got := commonPath(pat1, pat2)
-		if got != test.want {
-			t.Errorf("%s vs. %s: got %q, want %q", test.p1, test.p2, got, test.want)
+		golangt := commonPath(pat1, pat2)
+		if golangt != test.want {
+			t.Errorf("%s vs. %s: golangt %q, want %q", test.p1, test.p2, golangt, test.want)
 		}
 	}
 }
@@ -503,9 +503,9 @@ func TestDifferencePath(t *testing.T) {
 		if rel != overlaps && rel != moreGeneral {
 			t.Fatalf("%s vs. %s are %s, need overlaps or moreGeneral", pat1, pat2, rel)
 		}
-		got := differencePath(pat1, pat2)
-		if got != test.want {
-			t.Errorf("%s vs. %s: got %q, want %q", test.p1, test.p2, got, test.want)
+		golangt := differencePath(pat1, pat2)
+		if golangt != test.want {
+			t.Errorf("%s vs. %s: golangt %q, want %q", test.p1, test.p2, golangt, test.want)
 		}
 	}
 }

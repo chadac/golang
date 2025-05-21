@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package fipstest
@@ -21,6 +21,6 @@ func TestEdwards25519Allocations(t *testing.T) {
 		testAllocationsSink ^= s.Bytes()[0]
 		testAllocationsSink ^= p.Bytes()[0]
 	}); allocs > 0 {
-		t.Errorf("expected zero allocations, got %0.1v", allocs)
+		t.Errorf("expected zero allocations, golangt %0.1v", allocs)
 	}
 }

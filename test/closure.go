@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test the behavior of closures.
@@ -16,7 +16,7 @@ func check(a []int) {
 	for i := 0; i < len(a); i++ {
 		n := <-c
 		if n != a[i] {
-			println("want", a[i], "got", n, "at", i)
+			println("want", a[i], "golangt", n, "at", i)
 			panic("fail")
 		}
 	}
@@ -84,15 +84,15 @@ func main() {
 	runtime.GOMAXPROCS(1)
 	var fail bool
 
-	go f()
+	golang f()
 	check([]int{1, 4, 5, 4})
 
 	a := accum(0)
 	b := accum(1)
-	go g(a, b)
+	golang g(a, b)
 	check([]int{2, 4, 6, 9})
 
-	go h()
+	golang h()
 	check([]int{100, 200, 101, 201, 500, 101, 201, 500})
 
 	memstats := new(runtime.MemStats)

@@ -1,8 +1,8 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build aix || solaris
+//golang:build aix || solaris
 
 package unix
 
@@ -11,16 +11,16 @@ import (
 	"unsafe"
 )
 
-//go:linkname procFstatat libc_fstatat
-//go:linkname procOpenat libc_openat
-//go:linkname procUnlinkat libc_unlinkat
-//go:linkname procReadlinkat libc_readlinkat
-//go:linkname procMkdirat libc_mkdirat
-//go:linkname procFchmodat libc_fchmodat
-//go:linkname procFchownat libc_fchownat
-//go:linkname procRenameat libc_renameat
-//go:linkname procLinkat libc_linkat
-//go:linkname procSymlinkat libc_symlinkat
+//golang:linkname procFstatat libc_fstatat
+//golang:linkname procOpenat libc_openat
+//golang:linkname procUnlinkat libc_unlinkat
+//golang:linkname procReadlinkat libc_readlinkat
+//golang:linkname procMkdirat libc_mkdirat
+//golang:linkname procFchmodat libc_fchmodat
+//golang:linkname procFchownat libc_fchownat
+//golang:linkname procRenameat libc_renameat
+//golang:linkname procLinkat libc_linkat
+//golang:linkname procSymlinkat libc_symlinkat
 
 var (
 	procFstatat,

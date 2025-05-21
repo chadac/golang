@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package parse
@@ -223,8 +223,8 @@ var parseTests = []parseTest{
 		`{{range .X}}"hello"{{end}}`},
 	{"chained field range", "{{range .X.Y.Z}}hello{{end}}", noError,
 		`{{range .X.Y.Z}}"hello"{{end}}`},
-	{"nested range", "{{range .X}}hello{{range .Y}}goodbye{{end}}{{end}}", noError,
-		`{{range .X}}"hello"{{range .Y}}"goodbye"{{end}}{{end}}`},
+	{"nested range", "{{range .X}}hello{{range .Y}}golangodbye{{end}}{{end}}", noError,
+		`{{range .X}}"hello"{{range .Y}}"golangodbye"{{end}}{{end}}`},
 	{"range with else", "{{range .X}}true{{else}}false{{end}}", noError,
 		`{{range .X}}"true"{{else}}"false"{{end}}`},
 	{"range over pipeline", "{{range .X|.M}}true{{else}}false{{end}}", noError,
@@ -247,10 +247,10 @@ var parseTests = []parseTest{
 		`{{template "x" .Y}}`},
 	{"with", "{{with .X}}hello{{end}}", noError,
 		`{{with .X}}"hello"{{end}}`},
-	{"with with else", "{{with .X}}hello{{else}}goodbye{{end}}", noError,
-		`{{with .X}}"hello"{{else}}"goodbye"{{end}}`},
-	{"with with else with", "{{with .X}}hello{{else with .Y}}goodbye{{end}}", noError,
-		`{{with .X}}"hello"{{else}}{{with .Y}}"goodbye"{{end}}{{end}}`},
+	{"with with else", "{{with .X}}hello{{else}}golangodbye{{end}}", noError,
+		`{{with .X}}"hello"{{else}}"golangodbye"{{end}}`},
+	{"with with else with", "{{with .X}}hello{{else with .Y}}golangodbye{{end}}", noError,
+		`{{with .X}}"hello"{{else}}{{with .Y}}"golangodbye"{{end}}{{end}}`},
 	{"with else chain", "{{with .X}}X{{else with .Y}}Y{{else with .Z}}Z{{end}}", noError,
 		`{{with .X}}"X"{{else}}{{with .Y}}"Y"{{else}}{{with .Z}}"Z"{{end}}{{end}}{{end}}`},
 	// Trimming spaces.
@@ -355,13 +355,13 @@ func testParse(doCopy bool, t *testing.T) {
 		tmpl, err := New(test.name).Parse(test.input, "", "", make(map[string]*Tree), builtins)
 		switch {
 		case err == nil && !test.ok:
-			t.Errorf("%q: expected error; got none", test.name)
+			t.Errorf("%q: expected error; golangt none", test.name)
 			continue
 		case err != nil && test.ok:
 			t.Errorf("%q: unexpected error: %v", test.name, err)
 			continue
 		case err != nil && !test.ok:
-			// expected error, got one
+			// expected error, golangt one
 			if *debug {
 				fmt.Printf("%s: %s\n\t%s\n", test.name, test.input, err)
 			}
@@ -374,7 +374,7 @@ func testParse(doCopy bool, t *testing.T) {
 			result = tmpl.Root.String()
 		}
 		if result != test.result {
-			t.Errorf("%s=(%q): got\n\t%v\nexpected\n\t%v", test.name, test.input, result, test.result)
+			t.Errorf("%s=(%q): golangt\n\t%v\nexpected\n\t%v", test.name, test.input, result, test.result)
 		}
 	}
 }
@@ -403,10 +403,10 @@ func TestParseWithComments(t *testing.T) {
 			tr.Mode = ParseComments
 			tmpl, err := tr.Parse(test.input, "", "", make(map[string]*Tree))
 			if err != nil {
-				t.Errorf("%q: expected error; got none", test.name)
+				t.Errorf("%q: expected error; golangt none", test.name)
 			}
 			if result := tmpl.Root.String(); result != test.result {
-				t.Errorf("%s=(%q): got\n\t%v\nexpected\n\t%v", test.name, test.input, result, test.result)
+				t.Errorf("%s=(%q): golangt\n\t%v\nexpected\n\t%v", test.name, test.input, result, test.result)
 			}
 		})
 	}
@@ -437,7 +437,7 @@ func TestKeywordsAndFuncs(t *testing.T) {
 		// error.
 		tmpl, err := New("").Parse(inp, "", "", make(map[string]*Tree), make(map[string]any))
 		if err == nil || tmpl != nil {
-			t.Errorf("without break func: expected error; got none")
+			t.Errorf("without break func: expected error; golangt none")
 		}
 	}
 }
@@ -454,7 +454,7 @@ func TestSkipFuncCheck(t *testing.T) {
 	}
 	expected := "{{fn 1 2}}"
 	if result := tmpl.Root.String(); result != expected {
-		t.Errorf("got\n\t%v\nexpected\n\t%v", result, expected)
+		t.Errorf("golangt\n\t%v\nexpected\n\t%v", result, expected)
 	}
 }
 
@@ -486,7 +486,7 @@ func TestIsEmpty(t *testing.T) {
 			continue
 		}
 		if empty := IsEmptyTree(tree.Root); empty != test.empty {
-			t.Errorf("%q: expected %t got %t", test.name, test.empty, empty)
+			t.Errorf("%q: expected %t golangt %t", test.name, test.empty, empty)
 		}
 	}
 }
@@ -498,12 +498,12 @@ func TestErrorContextWithTreeCopy(t *testing.T) {
 	}
 	treeCopy := tree.Copy()
 	wantLocation, wantContext := tree.ErrorContext(tree.Root.Nodes[0])
-	gotLocation, gotContext := treeCopy.ErrorContext(treeCopy.Root.Nodes[0])
-	if wantLocation != gotLocation {
-		t.Errorf("wrong error location want %q got %q", wantLocation, gotLocation)
+	golangtLocation, golangtContext := treeCopy.ErrorContext(treeCopy.Root.Nodes[0])
+	if wantLocation != golangtLocation {
+		t.Errorf("wrong error location want %q golangt %q", wantLocation, golangtLocation)
 	}
-	if wantContext != gotContext {
-		t.Errorf("wrong error location want %q got %q", wantContext, gotContext)
+	if wantContext != golangtContext {
+		t.Errorf("wrong error location want %q golangt %q", wantContext, golangtContext)
 	}
 }
 
@@ -615,7 +615,7 @@ func TestErrors(t *testing.T) {
 		t.Run(test.name, func(t *testing.T) {
 			_, err := New(test.name).Parse(test.input, "", "", make(map[string]*Tree))
 			if err == nil {
-				t.Fatalf("expected error %q, got nil", test.result)
+				t.Fatalf("expected error %q, golangt nil", test.result)
 			}
 			if !strings.Contains(err.Error(), test.result) {
 				t.Fatalf("error %q does not contain %q", err, test.result)

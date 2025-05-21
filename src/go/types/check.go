@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file implements the Check function, which drives type-checking.
@@ -8,10 +8,10 @@ package types
 
 import (
 	"fmt"
-	"go/ast"
-	"go/constant"
-	"go/token"
-	"internal/godebug"
+	"golang/ast"
+	"golang/constant"
+	"golang/token"
+	"internal/golangdebug"
 	. "internal/types/errors"
 	"sync/atomic"
 )
@@ -26,22 +26,22 @@ const debug = false // leave on during development
 // position tracing for panics during type checking
 const tracePos = false // TODO(markfreeman): check performance implications
 
-// gotypesalias controls the use of Alias types.
+// golangtypesalias controls the use of Alias types.
 // As of Apr 16 2024 they are used by default.
-// To disable their use, set GODEBUG to gotypesalias=0.
+// To disable their use, set GODEBUG to golangtypesalias=0.
 // This GODEBUG flag will be removed in the near future (tentatively Go 1.24).
-var gotypesalias = godebug.New("gotypesalias")
+var golangtypesalias = golangdebug.New("golangtypesalias")
 
 // _aliasAny changes the behavior of [Scope.Lookup] for "any" in the
 // [Universe] scope.
 //
 // This is necessary because while Alias creation is controlled by
-// [Config._EnableAlias], based on the gotypealias variable, the representation
+// [Config._EnableAlias], based on the golangtypealias variable, the representation
 // of "any" is a global. In [Scope.Lookup], we select this global
 // representation based on the result of [aliasAny], but as a result need to
 // guard against this behavior changing during the type checking pass.
-// Therefore we implement the following rule: any number of goroutines can type
-// check concurrently with the same EnableAlias value, but if any goroutine
+// Therefore we implement the following rule: any number of golangroutines can type
+// check concurrently with the same EnableAlias value, but if any golangroutine
 // tries to type check concurrently with a different EnableAlias value, we
 // panic.
 //
@@ -53,11 +53,11 @@ var gotypesalias = godebug.New("gotypesalias")
 var _aliasAny int32
 
 func aliasAny() bool {
-	v := gotypesalias.Value()
+	v := golangtypesalias.Value()
 	useAlias := v != "0"
 	inuse := atomic.LoadInt32(&_aliasAny)
 	if inuse != 0 && useAlias != (inuse > 0) {
-		panic(fmt.Sprintf("gotypealias mutated during type checking, gotypesalias=%s, inuse=%d", v, inuse))
+		panic(fmt.Sprintf("golangtypealias mutated during type checking, golangtypesalias=%s, inuse=%d", v, inuse))
 	}
 	return useAlias
 }
@@ -75,7 +75,7 @@ type exprInfo struct {
 type environment struct {
 	decl          *declInfo              // package-level declaration whose init expression/function body is checked
 	scope         *Scope                 // top-most scope for lookups
-	version       goVersion              // current accepted language version; changes across files
+	version       golangVersion              // current accepted language version; changes across files
 	iota          constant.Value         // value of iota in a constant declaration; nil otherwise
 	errpos        positioner             // if set, identifier position of a constant with inherited initializer
 	inTParamList  bool                   // set if inside a type parameter list
@@ -84,7 +84,7 @@ type environment struct {
 	hasLabel      bool                   // set if a function makes use of labels (only ~1% of functions); unused outside functions
 	hasCallOrRecv bool                   // set if an expression contains a function call or channel receive operation
 
-	// go/types only
+	// golang/types only
 	exprPos token.Pos // if valid, identifiers are looked up as if at position pos (used by CheckExpr, Eval)
 }
 
@@ -129,7 +129,7 @@ type dotImportKey struct {
 
 // An action describes a (delayed) action.
 type action struct {
-	version goVersion   // applicable language version
+	version golangVersion   // applicable language version
 	f       func()      // action to be executed
 	desc    *actionDesc // action description; may be nil, requires debug to be set
 }
@@ -163,7 +163,7 @@ type Checker struct {
 	nextID uint64                 // unique Id for type parameters (first valid Id is 1)
 	objMap map[Object]*declInfo   // maps package-level objects and (non-interface) methods to declaration info
 	impMap map[importKey]*Package // maps (import path, source directory) to (complete or fake) package
-	// see TODO in validtype.go
+	// see TODO in validtype.golang
 	// valids instanceLookup // valid *Named (incl. instantiated) types per the validType check
 
 	// pkgPathMap maps package names to the set of distinct import paths we've
@@ -180,7 +180,7 @@ type Checker struct {
 	// (initialized by Files, valid only for the duration of check.Files;
 	// maps and lists are allocated on demand)
 	files         []*ast.File               // package files
-	versions      map[*ast.File]string      // maps files to goVersion strings (each file has an entry); shared with Info.FileVersions if present; may be unaltered Config.GoVersion
+	versions      map[*ast.File]string      // maps files to golangVersion strings (each file has an entry); shared with Info.FileVersions if present; may be unaltered Config.GoVersion
 	imports       []*PkgName                // list of imported packages
 	dotImportMap  map[dotImportKey]*PkgName // maps dot-imported objects to the package they were dot-imported through
 	brokenAliases map[*TypeName]bool        // set of aliases with broken (not yet determined) types
@@ -308,10 +308,10 @@ func NewChecker(conf *Config, fset *token.FileSet, pkg *Package, info *Info) *Ch
 	// globally shared and must not be mutated. Therefore NewChecker must not
 	// mutate *pkg.
 	//
-	// (previously, pkg.goVersion was mutated here: go.dev/issue/61212)
+	// (previously, pkg.golangVersion was mutated here: golang.dev/issue/61212)
 
-	// In go/types, conf._EnableAlias is controlled by gotypesalias.
-	conf._EnableAlias = gotypesalias.Value() != "0"
+	// In golang/types, conf._EnableAlias is controlled by golangtypesalias.
+	conf._EnableAlias = golangtypesalias.Value() != "0"
 
 	return &Checker{
 		conf:         conf,
@@ -379,46 +379,46 @@ func (check *Checker) initFiles(files []*ast.File) {
 	check.versions = versions
 
 	pkgVersion := asGoVersion(check.conf.GoVersion)
-	if pkgVersion.isValid() && len(files) > 0 && pkgVersion.cmp(go_current) > 0 {
+	if pkgVersion.isValid() && len(files) > 0 && pkgVersion.cmp(golang_current) > 0 {
 		check.errorf(files[0], TooNew, "package requires newer Go version %v (application built with %v)",
-			pkgVersion, go_current)
+			pkgVersion, golang_current)
 	}
 
 	// determine Go version for each file
 	for _, file := range check.files {
 		// use unaltered Config.GoVersion by default
-		// (This version string may contain dot-release numbers as in go1.20.1,
+		// (This version string may contain dot-release numbers as in golang1.20.1,
 		// unlike file versions which are Go language versions only, if valid.)
 		v := check.conf.GoVersion
 
-		// If the file specifies a version, use max(fileVersion, go1.21).
+		// If the file specifies a version, use max(fileVersion, golang1.21).
 		if fileVersion := asGoVersion(file.GoVersion); fileVersion.isValid() {
-			// Go 1.21 introduced the feature of setting the go.mod
-			// go line to an early version of Go and allowing //go:build lines
+			// Go 1.21 introduced the feature of setting the golang.mod
+			// golang line to an early version of Go and allowing //golang:build lines
 			// to set the Go version in a given file. Versions Go 1.21 and later
 			// can be set backwards compatibly as that was the first version
-			// files with go1.21 or later build tags could be built with.
+			// files with golang1.21 or later build tags could be built with.
 			//
-			// Set the version to max(fileVersion, go1.21): That will allow a
-			// downgrade to a version before go1.22, where the for loop semantics
+			// Set the version to max(fileVersion, golang1.21): That will allow a
+			// downgrade to a version before golang1.22, where the for loop semantics
 			// change was made, while being backwards compatible with versions of
-			// go before the new //go:build semantics were introduced.
-			v = string(versionMax(fileVersion, go1_21))
+			// golang before the new //golang:build semantics were introduced.
+			v = string(versionMax(fileVersion, golang1_21))
 
 			// Report a specific error for each tagged file that's too new.
 			// (Normally the build system will have filtered files by version,
 			// but clients can present arbitrary files to the type checker.)
-			if fileVersion.cmp(go_current) > 0 {
+			if fileVersion.cmp(golang_current) > 0 {
 				// Use position of 'package [p]' for types/types2 consistency.
 				// (Ideally we would use the //build tag itself.)
-				check.errorf(file.Name, TooNew, "file requires newer Go version %v (application built with %v)", fileVersion, go_current)
+				check.errorf(file.Name, TooNew, "file requires newer Go version %v (application built with %v)", fileVersion, golang_current)
 			}
 		}
 		versions[file] = v
 	}
 }
 
-func versionMax(a, b goVersion) goVersion {
+func versionMax(a, b golangVersion) golangVersion {
 	if a.cmp(b) < 0 {
 		return b
 	}
@@ -454,7 +454,7 @@ func (check *Checker) handleBailout(err *error) {
 func (check *Checker) Files(files []*ast.File) (err error) {
 	if check.pkg == Unsafe {
 		// Defensive handling for Unsafe, which cannot be type checked, and must
-		// not be mutated. See https://go.dev/issue/61212 for an example of where
+		// not be mutated. See https://golang.dev/issue/61212 for an example of where
 		// Unsafe is passed to NewChecker.
 		return nil
 	}
@@ -477,12 +477,12 @@ func (check *Checker) checkFiles(files []*ast.File) {
 	// operations. See the documentation of [_aliasAny] for details.
 	if check.conf._EnableAlias {
 		if atomic.AddInt32(&_aliasAny, 1) <= 0 {
-			panic("EnableAlias set while !EnableAlias type checking is ongoing")
+			panic("EnableAlias set while !EnableAlias type checking is ongolanging")
 		}
 		defer atomic.AddInt32(&_aliasAny, -1)
 	} else {
 		if atomic.AddInt32(&_aliasAny, -1) >= 0 {
-			panic("!EnableAlias set while EnableAlias type checking is ongoing")
+			panic("!EnableAlias set while EnableAlias type checking is ongolanging")
 		}
 		defer atomic.AddInt32(&_aliasAny, 1)
 	}
@@ -525,7 +525,7 @@ func (check *Checker) checkFiles(files []*ast.File) {
 		check.monomorph()
 	}
 
-	check.pkg.goVersion = check.conf.GoVersion
+	check.pkg.golangVersion = check.conf.GoVersion
 	check.pkg.complete = true
 
 	// no longer needed - release memory
@@ -582,26 +582,26 @@ func (check *Checker) cleanup() {
 	check.cleaners = nil
 }
 
-// go/types doesn't support recording of types directly in the AST.
+// golang/types doesn't support recording of types directly in the AST.
 // dummy function to match types2 code.
 func (check *Checker) recordTypeAndValueInSyntax(x ast.Expr, mode operandMode, typ Type, val constant.Value) {
 	// nothing to do
 }
 
-// go/types doesn't support recording of types directly in the AST.
+// golang/types doesn't support recording of types directly in the AST.
 // dummy function to match types2 code.
 func (check *Checker) recordCommaOkTypesInSyntax(x ast.Expr, t0, t1 Type) {
 	// nothing to do
 }
 
 // instantiatedIdent determines the identifier of the type instantiated in expr.
-// Helper function for recordInstance in recording.go.
+// Helper function for recordInstance in recording.golang.
 func instantiatedIdent(expr ast.Expr) *ast.Ident {
 	var selOrIdent ast.Expr
 	switch e := expr.(type) {
 	case *ast.IndexExpr:
 		selOrIdent = e.X
-	case *ast.IndexListExpr: // only exists in go/ast, not syntax
+	case *ast.IndexListExpr: // only exists in golang/ast, not syntax
 		selOrIdent = e.X
 	case *ast.SelectorExpr, *ast.Ident:
 		selOrIdent = e
@@ -613,6 +613,6 @@ func instantiatedIdent(expr ast.Expr) *ast.Ident {
 		return x.Sel
 	}
 
-	// extra debugging of go.dev/issue/63933
+	// extra debugging of golang.dev/issue/63933
 	panic(sprintf(nil, nil, true, "instantiated ident not found; please report: %s", expr))
 }

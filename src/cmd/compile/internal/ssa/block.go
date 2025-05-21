@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ssa
@@ -31,7 +31,7 @@ type Block struct {
 	// After flagalloc, records whether flags are live at the end of the block.
 	FlagsLiveAtEnd bool
 
-	// A block that would be good to align (according to the optimizer's guesses)
+	// A block that would be golangod to align (according to the optimizer's guesses)
 	Hotness Hotness
 
 	// Subsequent blocks, if any. The number and order depend on the block kind.
@@ -95,7 +95,7 @@ type Block struct {
 //
 // means x is chosen if k is true.
 type Edge struct {
-	// block edge goes to (in a Succs list) or from (in a Preds list)
+	// block edge golanges to (in a Succs list) or from (in a Preds list)
 	b *Block
 	// index of reverse edge.  Invariant:
 	//   e := x.Succs[idx]
@@ -442,10 +442,10 @@ const (
 	// Currently only a few are relevant.  Implicitly, they are all in a loop.
 	HotNotFlowIn Hotness = 1 << iota // This block is only reached by branches
 	HotInitial                       // In the block order, the first one for a given loop.  Not necessarily topological header.
-	HotPgo                           // By PGO-based heuristics, this block occurs in a hot loop
+	HotPgolang                           // By PGO-based heuristics, this block occurs in a hot loop
 
 	HotNot                 = 0
 	HotInitialNotFlowIn    = HotInitial | HotNotFlowIn          // typically first block of a rotated loop, loop is entered with a branch (not to this block).  No PGO
-	HotPgoInitial          = HotPgo | HotInitial                // special case; single block loop, initial block is header block has a flow-in entry, but PGO says it is hot
-	HotPgoInitialNotFLowIn = HotPgo | HotInitial | HotNotFlowIn // PGO says it is hot, and the loop is rotated so flow enters loop with a branch
+	HotPgolangInitial          = HotPgolang | HotInitial                // special case; single block loop, initial block is header block has a flow-in entry, but PGO says it is hot
+	HotPgolangInitialNotFLowIn = HotPgolang | HotInitial | HotNotFlowIn // PGO says it is hot, and the loop is rotated so flow enters loop with a branch
 )

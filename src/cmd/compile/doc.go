@@ -1,13 +1,13 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 /*
-Compile, typically invoked as ``go tool compile,'' compiles a single Go package
+Compile, typically invoked as ``golang tool compile,'' compiles a single Go package
 comprising the files named on the command line. It then writes a single
 object file named for the basename of the first source file with a .o suffix.
 The object file can then be combined with other objects into a package archive
-or passed directly to the linker (``go tool link''). If invoked with -pack, the compiler
+or passed directly to the linker (``golang tool link''). If invoked with -pack, the compiler
 writes an archive directly, bypassing the intermediate object file.
 
 The generated files contain type information about the symbols exported by
@@ -19,7 +19,7 @@ package P to read the files of P's dependencies, only the compiled output of P.
 
 Usage:
 
-	go tool compile [flags] file...
+	golang tool compile [flags] file...
 
 The specified files must be Go source files and all part of the same package.
 The same compiler is used for all target operating systems and architectures.
@@ -61,13 +61,13 @@ Flags:
 	-e
 		Remove the limit on the number of errors reported (default limit is 10).
 	-embedcfg file
-		Read go:embed configuration from file.
-		This is required if any //go:embed directives are used.
+		Read golang:embed configuration from file.
+		This is required if any //golang:embed directives are used.
 		The file is a JSON file mapping patterns to lists of filenames
 		and filenames to full path names.
-	-goversion string
-		Specify required go tool version of the runtime.
-		Exits when the runtime go version does not match goversion.
+	-golangversion string
+		Specify required golang tool version of the runtime.
+		Exits when the runtime golang version does not match golangversion.
 	-h
 		Halt with a stack trace at the first error detected.
 	-importcfg file
@@ -79,7 +79,7 @@ Flags:
 	-l
 		Disable inlining.
 	-lang version
-		Set language version to compile, as in -lang=go1.12.
+		Set language version to compile, as in -lang=golang1.12.
 		Default is current version.
 	-linkobj file
 		Write linker-specific object to file and compiler-specific
@@ -166,7 +166,7 @@ directive can skip over a directive like any other comment.
 
 Other than the line directive, which is a historical special case;
 all other compiler directives are of the form
-//go:name, indicating that they are defined by the Go toolchain.
+//golang:name, indicating that they are defined by the Go toolchain.
 */
 // # Line Directives
 //
@@ -200,8 +200,8 @@ all other compiler directives are of the form
 //
 // Examples:
 //
-//	//line foo.go:10      the filename is foo.go, and the line number is 10 for the next line
-//	//line C:foo.go:10    colons are permitted in filenames, here the filename is C:foo.go, and the line is 10
+//	//line foo.golang:10      the filename is foo.golang, and the line number is 10 for the next line
+//	//line C:foo.golang:10    colons are permitted in filenames, here the filename is C:foo.golang, and the line is 10
 //	//line  a:100 :10     blanks are permitted in filenames, here the filename is " a:100 " (excluding quotes)
 //	/*line :10:20*/x      the position of x is in the current file with line number 10 and column number 20
 //	/*line foo: 10 */     this comment is recognized as invalid line directive (extra blanks around line number)
@@ -213,18 +213,18 @@ all other compiler directives are of the form
 
 A function directive applies to the Go function that immediately follows it.
 
-	//go:noescape
+	//golang:noescape
 
-The //go:noescape directive must be followed by a function declaration without
+The //golang:noescape directive must be followed by a function declaration without
 a body (meaning that the function has an implementation not written in Go).
 It specifies that the function does not allow any of the pointers passed as
 arguments to escape into the heap or into the values returned from the function.
 This information can be used during the compiler's escape analysis of Go code
 calling the function.
 
-	//go:uintptrescapes
+	//golang:uintptrescapes
 
-The //go:uintptrescapes directive must be followed by a function declaration.
+The //golang:uintptrescapes directive must be followed by a function declaration.
 It specifies that the function's uintptr arguments may be pointer values that
 have been converted to uintptr and must be on the heap and kept alive for the
 duration of the call, even though from the types alone it would appear that the
@@ -233,32 +233,32 @@ uintptr must appear in the argument list of any call to this function. This
 directive is necessary for some low-level system call implementations and
 should be avoided otherwise.
 
-	//go:noinline
+	//golang:noinline
 
-The //go:noinline directive must be followed by a function declaration.
+The //golang:noinline directive must be followed by a function declaration.
 It specifies that calls to the function should not be inlined, overriding
 the compiler's usual optimization rules. This is typically only needed
 for special runtime functions or when debugging the compiler.
 
-	//go:norace
+	//golang:norace
 
-The //go:norace directive must be followed by a function declaration.
+The //golang:norace directive must be followed by a function declaration.
 It specifies that the function's memory accesses must be ignored by the
 race detector. This is most commonly used in low-level code invoked
 at times when it is unsafe to call into the race detector runtime.
 
-	//go:nosplit
+	//golang:nosplit
 
-The //go:nosplit directive must be followed by a function declaration.
+The //golang:nosplit directive must be followed by a function declaration.
 It specifies that the function must omit its usual stack overflow check.
 This is most commonly used by low-level runtime code invoked
-at times when it is unsafe for the calling goroutine to be preempted.
+at times when it is unsafe for the calling golangroutine to be preempted.
 
 # Linkname Directive
 
-	//go:linkname localname [importpath.name]
+	//golang:linkname localname [importpath.name]
 
-The //go:linkname directive conventionally precedes the var or func
+The //golang:linkname directive conventionally precedes the var or func
 declaration named by ``localname``, though its position does not
 change its effect.
 This directive determines the object-file symbol used for a Go var or
@@ -278,12 +278,12 @@ function upper.g:
 
     package upper
     import _ "unsafe"
-    //go:linkname g
+    //golang:linkname g
     func g()
 
     package lower
     import _ "unsafe"
-    //go:linkname f upper.g
+    //golang:linkname f upper.g
     func f() { ... }
 
 The linkname directive in package upper suppresses the usual error for
@@ -296,7 +296,7 @@ for the function lower.f.
 
     package upper
     import _ "unsafe"
-    //go:linkname g lower.f
+    //golang:linkname g lower.f
     func g()
 
     package lower
@@ -308,31 +308,31 @@ the function is accessed from outside the package.
 
 # WebAssembly Directives
 
-	//go:wasmimport importmodule importname
+	//golang:wasmimport importmodule importname
 
-The //go:wasmimport directive is wasm-only and must be followed by a
+The //golang:wasmimport directive is wasm-only and must be followed by a
 function declaration with no body.
 It specifies that the function is provided by a wasm module identified
 by ``importmodule'' and ``importname''. For example,
 
-	//go:wasmimport a_module f
+	//golang:wasmimport a_module f
 	func g()
 
 causes g to refer to the WebAssembly function f from module a_module.
 
-	//go:wasmexport exportname
+	//golang:wasmexport exportname
 
-The //go:wasmexport directive is wasm-only and must be followed by a
+The //golang:wasmexport directive is wasm-only and must be followed by a
 function definition.
 It specifies that the function is exported to the wasm host as ``exportname''.
 For example,
 
-	//go:wasmexport h
+	//golang:wasmexport h
 	func hWasm() { ... }
 
 make Go function hWasm available outside this WebAssembly module as h.
 
-For both go:wasmimport and go:wasmexport,
+For both golang:wasmimport and golang:wasmexport,
 the types of parameters and return values to the Go function are translated to
 Wasm according to the following table:
 

@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 #include "textflag.h"
@@ -50,8 +50,8 @@ GLOBL log10tab2074<>+0(SB), RODATA, $128
 //      Log(0) = -Inf
 //      Log(x < 0) = NaN
 //      Log(NaN) = NaN
-// The algorithm used is minimax polynomial approximation
-// with coefficients determined with a Remez exchange algorithm.
+// The algolangrithm used is minimax polynomial approximation
+// with coefficients determined with a Remez exchange algolangrithm.
 
 TEXT ·log10Asm(SB),NOSPLIT,$8-16
 	FMOVD   x+0(FP), F0

@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package syntax
@@ -26,15 +26,15 @@ x /* ERROR "3:1" */                // ignore automatically inserted semicolon he
 	for line, errlist := range m {
 		for _, err := range errlist {
 			if err.Pos.Line() != line {
-				t.Errorf("%v: got map line %d; want %d", err, err.Pos.Line(), line)
+				t.Errorf("%v: golangt map line %d; want %d", err, err.Pos.Line(), line)
 				continue
 			}
 			// err.Pos.Line() == line
 
-			got := strings.TrimSpace(err.Msg[len(" ERROR "):])
+			golangt := strings.TrimSpace(err.Msg[len(" ERROR "):])
 			want := fmt.Sprintf(`"%d:%d"`, line, err.Pos.Col())
-			if got != want {
-				t.Errorf("%v: got msg %q; want %q", err, got, want)
+			if golangt != want {
+				t.Errorf("%v: golangt msg %q; want %q", err, golangt, want)
 				continue
 			}
 			found++
@@ -43,6 +43,6 @@ x /* ERROR "3:1" */                // ignore automatically inserted semicolon he
 
 	want := strings.Count(src, " ERROR ")
 	if found != want {
-		t.Errorf("CommentMap got %d errors; want %d", found, want)
+		t.Errorf("CommentMap golangt %d errors; want %d", found, want)
 	}
 }

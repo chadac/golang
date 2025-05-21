@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 #include "textflag.h"
@@ -10,5 +10,5 @@ TEXT _rt0_riscv64_openbsd(SB),NOSPLIT|NOFRAME,$0
 	JMP	main(SB)
 
 TEXT main(SB),NOSPLIT|NOFRAME,$0
-	MOV	$runtime·rt0_go(SB), T0
+	MOV	$runtime·rt0_golang(SB), T0
 	JALR	ZERO, T0

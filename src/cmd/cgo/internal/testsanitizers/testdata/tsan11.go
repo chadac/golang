@@ -1,14 +1,14 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
 
 // This program hung when run under the C/C++ ThreadSanitizer. TSAN defers
 // asynchronous signals until the signaled thread calls into libc. The runtime's
-// sysmon goroutine idles itself using direct usleep syscalls, so it could
+// sysmon golangroutine idles itself using direct usleep syscalls, so it could
 // run for an arbitrarily long time without triggering the libc interceptors.
-// See https://golang.org/issue/18717.
+// See https://golanglang.org/issue/18717.
 
 import (
 	"os"
@@ -17,8 +17,8 @@ import (
 )
 
 /*
-#cgo CFLAGS: -g -fsanitize=thread
-#cgo LDFLAGS: -g -fsanitize=thread
+#cgolang CFLAGS: -g -fsanitize=thread
+#cgolang LDFLAGS: -g -fsanitize=thread
 
 #include <signal.h>
 #include <stdio.h>

@@ -1,8 +1,8 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build aix || darwin || freebsd || linux || netbsd || openbsd || solaris || zos
+//golang:build aix || darwin || freebsd || linux || netbsd || openbsd || solaris || zos
 
 package unix
 
@@ -14,8 +14,8 @@ import (
 func cmsgAlignOf(salen int) int {
 	salign := SizeofPtr
 
-	// dragonfly needs to check ABI version at runtime, see cmsgAlignOf in
-	// sockcmsg_dragonfly.go
+	// dragolangnfly needs to check ABI version at runtime, see cmsgAlignOf in
+	// sockcmsg_dragolangnfly.golang
 	switch runtime.GOOS {
 	case "aix":
 		// There is no alignment on AIX.

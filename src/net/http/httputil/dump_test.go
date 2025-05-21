@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package httputil
@@ -46,7 +46,7 @@ var dumpTests = []dumpTest{
 			Method: "GET",
 			URL: &url.URL{
 				Scheme: "http",
-				Host:   "www.google.com",
+				Host:   "www.golangogle.com",
 				Path:   "/search",
 			},
 			ProtoMajor:       1,
@@ -57,7 +57,7 @@ var dumpTests = []dumpTest{
 		Body: []byte("abcdef"),
 
 		WantDump: "GET /search HTTP/1.1\r\n" +
-			"Host: www.google.com\r\n" +
+			"Host: www.golangogle.com\r\n" +
 			"Transfer-Encoding: chunked\r\n\r\n" +
 			chunk("abcdef") + chunk(""),
 	},
@@ -88,8 +88,8 @@ var dumpTests = []dumpTest{
 			"Accept-Encoding: gzip\r\n\r\n",
 	},
 
-	// Test that an https URL doesn't try to do an SSL negotiation
-	// with a bytes.Buffer and hang with all goroutines not
+	// Test that an https URL doesn't try to do an SSL negolangtiation
+	// with a bytes.Buffer and hang with all golangroutines not
 	// runnable.
 	{
 		Req: mustNewRequest("GET", "https://example.com/foo", nil),
@@ -253,7 +253,7 @@ var dumpTests = []dumpTest{
 
 func TestDumpRequest(t *testing.T) {
 	// Make a copy of dumpTests and add 10 new cases with an empty URL
-	// to test that no goroutines are leaked. See golang.org/issue/32571.
+	// to test that no golangroutines are leaked. See golanglang.org/issue/32571.
 	// 10 seems to be a decent number which always triggers the failure.
 	dumpTests := dumpTests[:]
 	for i := 0; i < 10; i++ {
@@ -310,7 +310,7 @@ func TestDumpRequest(t *testing.T) {
 			req := freshReq(tt)
 			_, err := DumpRequestOut(req, !tt.NoBody)
 			if err == nil {
-				t.Errorf("DumpRequestOut #%d: expected an error, got nil", i)
+				t.Errorf("DumpRequestOut #%d: expected an error, golangt nil", i)
 			}
 			continue
 		}
@@ -329,22 +329,22 @@ func TestDumpRequest(t *testing.T) {
 		}
 	}
 
-	// Validate we haven't leaked any goroutines.
+	// Validate we haven't leaked any golangroutines.
 	var dg int
 	dl := deadline(t, 5*time.Second, time.Second)
 	for time.Now().Before(dl) {
 		if dg = runtime.NumGoroutine() - numg0; dg <= 4 {
-			// No unexpected goroutines.
+			// No unexpected golangroutines.
 			return
 		}
 
-		// Allow goroutines to schedule and die off.
+		// Allow golangroutines to schedule and die off.
 		runtime.Gosched()
 	}
 
 	buf := make([]byte, 4096)
 	buf = buf[:runtime.Stack(buf, true)]
-	t.Errorf("Unexpectedly large number of new goroutines: %d new: %s", dg, buf)
+	t.Errorf("Unexpectedly large number of new golangroutines: %d new: %s", dg, buf)
 }
 
 // deadline returns the time which is needed before t.Deadline()
@@ -476,17 +476,17 @@ Content-Length: 0`,
 
 func TestDumpResponse(t *testing.T) {
 	for i, tt := range dumpResTests {
-		gotb, err := DumpResponse(tt.res, tt.body)
+		golangtb, err := DumpResponse(tt.res, tt.body)
 		if err != nil {
 			t.Errorf("%d. DumpResponse = %v", i, err)
 			continue
 		}
-		got := string(gotb)
-		got = strings.TrimSpace(got)
-		got = strings.ReplaceAll(got, "\r", "")
+		golangt := string(golangtb)
+		golangt = strings.TrimSpace(golangt)
+		golangt = strings.ReplaceAll(golangt, "\r", "")
 
-		if got != tt.want {
-			t.Errorf("%d.\nDumpResponse got:\n%s\n\nWant:\n%s\n", i, got, tt.want)
+		if golangt != tt.want {
+			t.Errorf("%d.\nDumpResponse golangt:\n%s\n\nWant:\n%s\n", i, golangt, tt.want)
 		}
 	}
 }
@@ -515,7 +515,7 @@ func TestDumpRequestOutIssue38352(t *testing.T) {
 		}
 
 		out := make(chan error)
-		go func() {
+		golang func() {
 			_, err = DumpRequestOut(req, true)
 			out <- err
 		}()
@@ -525,7 +525,7 @@ func TestDumpRequestOutIssue38352(t *testing.T) {
 		case <-time.After(timeout):
 			b := &strings.Builder{}
 			fmt.Fprintf(b, "deadlock detected on iteration %d after %s with delay: %v\n", i, timeout, delay)
-			pprof.Lookup("goroutine").WriteTo(b, 1)
+			pprof.Lookup("golangroutine").WriteTo(b, 1)
 			t.Fatal(b.String())
 		}
 	}

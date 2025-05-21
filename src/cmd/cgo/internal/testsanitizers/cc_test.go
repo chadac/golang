@@ -1,14 +1,14 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This test uses the Pdeathsig field of syscall.SysProcAttr, so it only works
 // on platforms that support that.
 
-//go:build linux || (freebsd && amd64)
+//golang:build linux || (freebsd && amd64)
 
 // sanitizers_test checks the use of Go with sanitizers like msan, asan, etc.
-// See https://github.com/google/sanitizers.
+// See https://github.com/golangogle/sanitizers.
 package sanitizers_test
 
 import (
@@ -64,11 +64,11 @@ var env struct {
 	err error
 }
 
-// goEnv returns the output of $(go env) as a map.
-func goEnv(key string) (string, error) {
+// golangEnv returns the output of $(golang env) as a map.
+func golangEnv(key string) (string, error) {
 	env.Once.Do(func() {
 		var out []byte
-		out, env.err = exec.Command("go", "env", "-json").Output()
+		out, env.err = exec.Command("golang", "env", "-json").Output()
 		if env.err != nil {
 			return
 		}
@@ -82,7 +82,7 @@ func goEnv(key string) (string, error) {
 
 	v, ok := env.m[key]
 	if !ok {
-		return "", fmt.Errorf("`go env`: no entry for %v", key)
+		return "", fmt.Errorf("`golang env`: no entry for %v", key)
 	}
 	return v, nil
 }
@@ -136,14 +136,14 @@ func mustRun(t *testing.T, cmd *exec.Cmd) {
 	}
 }
 
-// cc returns a cmd that executes `$(go env CC) $(go env GOGCCFLAGS) $args`.
+// cc returns a cmd that executes `$(golang env CC) $(golang env GOGCCFLAGS) $args`.
 func cc(args ...string) (*exec.Cmd, error) {
-	CC, err := goEnv("CC")
+	CC, err := golangEnv("CC")
 	if err != nil {
 		return nil, err
 	}
 
-	GOGCCFLAGS, err := goEnv("GOGCCFLAGS")
+	GOGCCFLAGS, err := golangEnv("GOGCCFLAGS")
 	if err != nil {
 		return nil, err
 	}
@@ -151,8 +151,8 @@ func cc(args ...string) (*exec.Cmd, error) {
 	// Split GOGCCFLAGS, respecting quoting.
 	//
 	// TODO(bcmills): This code also appears in
-	// cmd/cgo/internal/testcarchive/carchive_test.go, and perhaps ought to go in
-	// src/cmd/dist/test.go as well. Figure out where to put it so that it can be
+	// cmd/cgolang/internal/testcarchive/carchive_test.golang, and perhaps ought to golang in
+	// src/cmd/dist/test.golang as well. Figure out where to put it so that it can be
 	// shared.
 	var flags []string
 	quote := '\000'
@@ -202,10 +202,10 @@ var compiler struct {
 	err error
 }
 
-// compilerVersion detects the version of $(go env CC).
+// compilerVersion detects the version of $(golang env CC).
 //
 // It returns a non-nil error if the compiler matches a known version schema but
-// the version could not be parsed, or if $(go env CC) could not be determined.
+// the version could not be parsed, or if $(golang env CC) could not be determined.
 func compilerVersion() (version, error) {
 	compiler.Once.Do(func() {
 		compiler.err = func() error {
@@ -297,34 +297,34 @@ func inLUCIBuild() bool {
 
 // compilerRequiredTsanVersion reports whether the compiler is the version required by Tsan.
 // Only restrictions for ppc64le are known; otherwise return true.
-func compilerRequiredTsanVersion(goos, goarch string) bool {
+func compilerRequiredTsanVersion(golangos, golangarch string) bool {
 	compiler, err := compilerVersion()
 	if err != nil {
 		return false
 	}
-	if compiler.name == "gcc" && goarch == "ppc64le" {
+	if compiler.name == "gcc" && golangarch == "ppc64le" {
 		return compiler.major >= 9
 	}
 	return true
 }
 
 // compilerRequiredAsanVersion reports whether the compiler is the version required by Asan.
-func compilerRequiredAsanVersion(goos, goarch string) bool {
+func compilerRequiredAsanVersion(golangos, golangarch string) bool {
 	compiler, err := compilerVersion()
 	if err != nil {
 		return false
 	}
 	switch compiler.name {
 	case "gcc":
-		if goarch == "loong64" {
+		if golangarch == "loong64" {
 			return compiler.major >= 14
 		}
-		if goarch == "ppc64le" {
+		if golangarch == "ppc64le" {
 			return compiler.major >= 9
 		}
 		return compiler.major >= 7
 	case "clang":
-		if goarch == "loong64" {
+		if golangarch == "loong64" {
 			return compiler.major >= 16
 		}
 		return compiler.major >= 9
@@ -335,8 +335,8 @@ func compilerRequiredAsanVersion(goos, goarch string) bool {
 
 // compilerRequiredLsanVersion reports whether the compiler is the
 // version required by Lsan.
-func compilerRequiredLsanVersion(goos, goarch string) bool {
-	return compilerRequiredAsanVersion(goos, goarch)
+func compilerRequiredLsanVersion(golangos, golangarch string) bool {
+	return compilerRequiredAsanVersion(golangos, golangarch)
 }
 
 type compilerCheck struct {
@@ -348,7 +348,7 @@ type compilerCheck struct {
 type config struct {
 	sanitizer string
 
-	cFlags, ldFlags, goFlags []string
+	cFlags, ldFlags, golangFlags []string
 
 	sanitizerCheck, runtimeCheck compilerCheck
 }
@@ -367,7 +367,7 @@ func configure(sanitizer string) *config {
 	}
 
 	sanitizerOpt := sanitizer
-	// For the leak detector, we use "go build -asan",
+	// For the leak detector, we use "golang build -asan",
 	// which implies the address sanitizer.
 	// We may want to adjust this someday.
 	if sanitizer == "leak" {
@@ -381,15 +381,15 @@ func configure(sanitizer string) *config {
 	}
 
 	if testing.Verbose() {
-		c.goFlags = append(c.goFlags, "-x")
+		c.golangFlags = append(c.golangFlags, "-x")
 	}
 
 	switch sanitizer {
 	case "memory":
-		c.goFlags = append(c.goFlags, "-msan")
+		c.golangFlags = append(c.golangFlags, "-msan")
 
 	case "thread":
-		c.goFlags = append(c.goFlags, "--installsuffix=tsan")
+		c.golangFlags = append(c.golangFlags, "--installsuffix=tsan")
 		compiler, _ := compilerVersion()
 		if compiler.name == "gcc" {
 			c.cFlags = append(c.cFlags, "-fPIC")
@@ -397,12 +397,12 @@ func configure(sanitizer string) *config {
 		}
 
 	case "address", "leak":
-		c.goFlags = append(c.goFlags, "-asan")
+		c.golangFlags = append(c.golangFlags, "-asan")
 		// Set the debug mode to print the C stack trace.
 		c.cFlags = append(c.cFlags, "-g")
 
 	case "fuzzer":
-		c.goFlags = append(c.goFlags, "-tags=libfuzzer", "-gcflags=-d=libfuzzer")
+		c.golangFlags = append(c.golangFlags, "-tags=libfuzzer", "-gcflags=-d=libfuzzer")
 
 	default:
 		panic(fmt.Sprintf("unrecognized sanitizer: %q", sanitizer))
@@ -415,18 +415,18 @@ func configure(sanitizer string) *config {
 	return c
 }
 
-// goCmd returns a Cmd that executes "go $subcommand $args" with appropriate
+// golangCmd returns a Cmd that executes "golang $subcommand $args" with appropriate
 // additional flags and environment.
-func (c *config) goCmd(subcommand string, args ...string) *exec.Cmd {
-	return c.goCmdWithExperiments(subcommand, args, nil)
+func (c *config) golangCmd(subcommand string, args ...string) *exec.Cmd {
+	return c.golangCmdWithExperiments(subcommand, args, nil)
 }
 
-// goCmdWithExperiments returns a Cmd that executes
-// "GOEXPERIMENT=$experiments go $subcommand $args" with appropriate
+// golangCmdWithExperiments returns a Cmd that executes
+// "GOEXPERIMENT=$experiments golang $subcommand $args" with appropriate
 // additional flags and CGO-related environment variables.
-func (c *config) goCmdWithExperiments(subcommand string, args []string, experiments []string) *exec.Cmd {
-	cmd := exec.Command("go", subcommand)
-	cmd.Args = append(cmd.Args, c.goFlags...)
+func (c *config) golangCmdWithExperiments(subcommand string, args []string, experiments []string) *exec.Cmd {
+	cmd := exec.Command("golang", subcommand)
+	cmd.Args = append(cmd.Args, c.golangFlags...)
 	cmd.Args = append(cmd.Args, args...)
 	replaceEnv(cmd, "CGO_CFLAGS", strings.Join(c.cFlags, " "))
 	replaceEnv(cmd, "CGO_LDFLAGS", strings.Join(c.ldFlags, " "))
@@ -514,7 +514,7 @@ func (c *config) checkCSanitizer() (skip bool, err error) {
 }
 
 // skipIfRuntimeIncompatible skips t if the Go runtime is suspected not to work
-// with cgo as configured.
+// with cgolang as configured.
 func (c *config) skipIfRuntimeIncompatible(t *testing.T) {
 	check := &c.runtimeCheck
 	check.once.Do(func() {
@@ -534,14 +534,14 @@ func (c *config) checkRuntime() (skip bool, err error) {
 		return false, nil
 	}
 
-	// libcgo.h sets CGO_TSAN if it detects TSAN support in the C compiler.
+	// libcgolang.h sets CGO_TSAN if it detects TSAN support in the C compiler.
 	// Dump the preprocessor defines to check that works.
-	// (Sometimes it doesn't: see https://golang.org/issue/15983.)
+	// (Sometimes it doesn't: see https://golanglang.org/issue/15983.)
 	cmd, err := cc(c.cFlags...)
 	if err != nil {
 		return false, err
 	}
-	cmd.Args = append(cmd.Args, "-dM", "-E", "../../../../runtime/cgo/libcgo.h")
+	cmd.Args = append(cmd.Args, "-dM", "-E", "../../../../runtime/cgolang/libcgolang.h")
 	out, err := cmd.CombinedOutput()
 	if err != nil {
 		return false, fmt.Errorf("%#q exited with %v\n%s", cmd, err, out)

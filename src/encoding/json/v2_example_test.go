@@ -1,8 +1,8 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build goexperiment.jsonv2
+//golang:build golangexperiment.jsonv2
 
 package json_test
 
@@ -296,10 +296,10 @@ func ExampleMarshalIndent() {
 }
 
 func ExampleValid() {
-	goodJSON := `{"example": 1}`
+	golangodJSON := `{"example": 1}`
 	badJSON := `{"example":2:]}}`
 
-	fmt.Println(json.Valid([]byte(goodJSON)), json.Valid([]byte(badJSON)))
+	fmt.Println(json.Valid([]byte(golangodJSON)), json.Valid([]byte(badJSON)))
 	// Output:
 	// true false
 }

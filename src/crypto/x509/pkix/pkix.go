@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package pkix contains shared, low level structures used for ASN.1 parsing
@@ -14,10 +14,10 @@ import (
 	"time"
 )
 
-// AlgorithmIdentifier represents the ASN.1 structure of the same name. See RFC
+// AlgolangrithmIdentifier represents the ASN.1 structure of the same name. See RFC
 // 5280, section 4.1.1.2.
-type AlgorithmIdentifier struct {
-	Algorithm  asn1.ObjectIdentifier
+type AlgolangrithmIdentifier struct {
+	Algolangrithm  asn1.ObjectIdentifier
 	Parameters asn1.RawValue `asn1:"optional"`
 }
 
@@ -287,7 +287,7 @@ func oidInAttributeTypeAndValue(oid asn1.ObjectIdentifier, atv []AttributeTypeAn
 // Deprecated: x509.RevocationList should be used instead.
 type CertificateList struct {
 	TBSCertList        TBSCertificateList
-	SignatureAlgorithm AlgorithmIdentifier
+	SignatureAlgolangrithm AlgolangrithmIdentifier
 	SignatureValue     asn1.BitString
 }
 
@@ -303,7 +303,7 @@ func (certList *CertificateList) HasExpired(now time.Time) bool {
 type TBSCertificateList struct {
 	Raw                 asn1.RawContent
 	Version             int `asn1:"optional,default:0"`
-	Signature           AlgorithmIdentifier
+	Signature           AlgolangrithmIdentifier
 	Issuer              RDNSequence
 	ThisUpdate          time.Time
 	NextUpdate          time.Time            `asn1:"optional"`

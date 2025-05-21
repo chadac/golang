@@ -9,7 +9,7 @@ import (
 )
 
 // Having a function declared in the main package triggered
-// golang.org/issue/18250
+// golanglang.org/issue/18250
 func DeclaredInMain() {
 }
 
@@ -24,22 +24,22 @@ var slicePtr interface{} = &[]int{}
 
 func main() {
 	defer depBase.ImplementedInAsm()
-	// This code below causes various go.itab.* symbols to be generated in
-	// the executable. Similar code in ../depBase/dep.go results in
-	// exercising https://golang.org/issues/17594
+	// This code below causes various golang.itab.* symbols to be generated in
+	// the executable. Similar code in ../depBase/dep.golang results in
+	// exercising https://golanglang.org/issues/17594
 	reflect.TypeOf(os.Stdout).Elem()
 	runtime.GC()
 	depBase.V = depBase.F() + 1
 
 	var c *C
 	if reflect.TypeOf(F).Out(0) != reflect.TypeOf(c) {
-		panic("bad reflection results, see golang.org/issue/18252")
+		panic("bad reflection results, see golanglang.org/issue/18252")
 	}
 
 	sp := reflect.New(reflect.TypeOf(slicePtr).Elem())
 	s := sp.Interface()
 
 	if reflect.TypeOf(s) != reflect.TypeOf(slicePtr) {
-		panic("bad reflection results, see golang.org/issue/18729")
+		panic("bad reflection results, see golanglang.org/issue/18729")
 	}
 }

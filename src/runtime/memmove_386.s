@@ -23,9 +23,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-//go:build !plan9
+//golang:build !plan9
 
-#include "go_asm.h"
+#include "golang_asm.h"
 #include "textflag.h"
 
 // See memmove Go doc for important implementation constraints.

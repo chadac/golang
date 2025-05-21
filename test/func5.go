@@ -1,10 +1,10 @@
 // run
 
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Test functions and goroutines.
+// Test functions and golangroutines.
 
 package main
 
@@ -12,9 +12,9 @@ func caller(f func(int, int) int, a, b int, c chan int) {
 	c <- f(a, b)
 }
 
-func gocall(f func(int, int) int, a, b int) int {
+func golangcall(f func(int, int) int, a, b int) int {
 	c := make(chan int)
-	go caller(f, a, b, c)
+	golang caller(f, a, b, c)
 	return <-c
 }
 
@@ -73,13 +73,13 @@ func main() {
 
 	fc = addc
 	c := make(chan int)
-	go addc(1, 2, c)
+	golang addc(1, 2, c)
 	three(<-c)
-	go fc(1, 2, c)
+	golang fc(1, 2, c)
 	three(<-c)
-	go fnc()(1, 2, c)
+	golang fnc()(1, 2, c)
 	three(<-c)
-	go func(a, b int, c chan int) { c <- a+b }(1, 2, c)
+	golang func(a, b int, c chan int) { c <- a+b }(1, 2, c)
 	three(<-c)
 
 	emptyresults()

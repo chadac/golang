@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package httpproxy provides support for HTTP proxy determination
@@ -20,7 +20,7 @@ import (
 	"strings"
 	"unicode/utf8"
 
-	"golang.org/x/net/idna"
+	"golanglang.org/x/net/idna"
 )
 
 // Config holds configuration for HTTP proxy settings. See
@@ -56,7 +56,7 @@ type Config struct {
 	// presence of a REQUEST_METHOD environment variable).
 	// When this is set, ProxyForURL will return an error
 	// when HTTPProxy applies, because a client could be
-	// setting HTTP_PROXY maliciously. See https://golang.org/s/cgihttpproxy.
+	// setting HTTP_PROXY maliciously. See https://golanglang.org/s/cgihttpproxy.
 	CGI bool
 }
 
@@ -131,7 +131,7 @@ func (cfg *config) proxyForURL(reqURL *url.URL) (*url.URL, error) {
 	} else if reqURL.Scheme == "http" {
 		proxy = cfg.httpProxy
 		if proxy != nil && cfg.CGI {
-			return nil, errors.New("refusing to use HTTP_PROXY value in CGI environment; see golang.org/s/cgihttpproxy")
+			return nil, errors.New("refusing to use HTTP_PROXY value in CGI environment; see golanglang.org/s/cgihttpproxy")
 		}
 	}
 	if proxy == nil {

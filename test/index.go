@@ -1,11 +1,11 @@
 // skip
 
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Generate test of index and slice bounds checks.
-// The actual tests are index0.go, index1.go, index2.go.
+// The actual tests are index0.golang, index1.golang, index2.golang.
 
 package main
 
@@ -36,7 +36,7 @@ const (
 	ci64big int64 = 1<<31
 	ci64bigger int64 = 1<<32
 	chuge = 1<<100
-	cfgood = 2.0
+	cfgolangod = 2.0
 	cfbad = 2.1
 
 	cnj = -2
@@ -48,7 +48,7 @@ const (
 	cni64big int64 = -1<<31
 	cni64bigger int64 = -1<<32
 	cnhuge = -1<<100
-	cnfgood = -2.0
+	cnfgolangod = -2.0
 	cnfbad = -2.1
 )
 
@@ -61,7 +61,7 @@ var i64 int64 = 100023
 var i64big int64 = 1<<31
 var i64bigger int64 = 1<<32
 var huge uint64 = 1<<64 - 1
-var fgood float64 = 2.0
+var fgolangod float64 = 2.0
 var fbad float64 = 2.1
 
 var nj int = -10
@@ -73,7 +73,7 @@ var ni64 int64 = -13
 var ni64big int64 = -1<<31
 var ni64bigger int64 = -1<<32
 var nhuge int64 = -1<<63
-var nfgood float64 = -2.0
+var nfgolangod float64 = -2.0
 var nfbad float64 = -2.1
 
 var si []int = make([]int, 10)
@@ -155,7 +155,7 @@ func bug() {
 func main() {
 `
 
-// pass variable set in index[012].go
+// pass variable set in index[012].golang
 //	0 - dynamic checks
 //	1 - static checks of invalid constants (cannot assign to types)
 //	2 - static checks of array bounds
@@ -200,7 +200,7 @@ func main() {
 		[]string{"", "n"},
 
 		// Size of index.
-		[]string{"j", "i", "i8", "i16", "i32", "i64", "i64big", "i64bigger", "huge", "fgood", "fbad"},
+		[]string{"j", "i", "i8", "i16", "i32", "i64", "i64big", "i64bigger", "huge", "fgolangod", "fbad"},
 	}
 
 	forall(choices, func(x []string) {
@@ -248,11 +248,11 @@ func main() {
 		}
 
 		// Float variables cannot be used as indices.
-		if c == "" && (i == "fgood" || i == "fbad") {
+		if c == "" && (i == "fgolangod" || i == "fbad") {
 			return
 		}
 		// Integral float constant is ok.
-		if c == "c" && n == "" && i == "fgood" {
+		if c == "c" && n == "" && i == "fgolangod" {
 			if pass == 0 {
 				fmt.Fprintf(b, "\tuse(%s[%s])\n", pae, cni)
 				fmt.Fprintf(b, "\tuse(%s[0:%s])\n", pae, cni)

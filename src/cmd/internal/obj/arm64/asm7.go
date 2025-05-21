@@ -1058,7 +1058,7 @@ const OP_NOOP = 0xd503201f
 // reporting an error if alignedValue is not a power of two or is out of range.
 func pcAlignPadLength(ctxt *obj.Link, pc int64, alignedValue int64) int {
 	if !((alignedValue&(alignedValue-1) == 0) && 8 <= alignedValue && alignedValue <= 2048) {
-		ctxt.Diag("alignment value of an instruction must be a power of two and in the range [8, 2048], got %d\n", alignedValue)
+		ctxt.Diag("alignment value of an instruction must be a power of two and in the range [8, 2048], golangt %d\n", alignedValue)
 	}
 	return int(-pc & (alignedValue - 1))
 }
@@ -1073,7 +1073,7 @@ func (o *Optab) size(ctxt *obj.Link, p *obj.Prog) int {
 	if sz != -1 {
 		// Relocations R_AARCH64_LDST{64,32,16,8}_ABS_LO12_NC can only generate 8-byte, 4-byte,
 		// 2-byte and 1-byte aligned addresses, so the address of load/store must be aligned.
-		// Also symbols with prefix of "go:string." are Go strings, which will go into
+		// Also symbols with prefix of "golang:string." are Go strings, which will golang into
 		// the symbol table, their addresses are not necessary aligned, rule this out.
 		//
 		// Note that the code generation routines for these addressing forms call o.size
@@ -1093,7 +1093,7 @@ func (o *Optab) size(ctxt *obj.Link, p *obj.Prog) int {
 func symAlign(s *obj.LSym) int64 {
 	name := s.Name
 	switch {
-	case strings.HasPrefix(name, "go:string."),
+	case strings.HasPrefix(name, "golang:string."),
 		strings.HasPrefix(name, "type:.namedata."),
 		strings.HasPrefix(name, "type:.importpath."),
 		strings.HasSuffix(name, ".opendefer"),
@@ -1310,7 +1310,7 @@ func (c *ctxt7) isRestartable(p *obj.Prog) bool {
 	// the assembler in order to materialize a large constant/offset, we
 	// can restart p (at the start of the instruction sequence), recompute
 	// the content of REGTMP, upon async preemption. Currently, all cases
-	// of assembler-inserted REGTMP fall into this category.
+	// of assembler-inserted REGTMP fall into this categolangry.
 	// If p doesn't use REGTMP, it can be simply preempted, so we don't
 	// mark it.
 	o := c.oplook(p)
@@ -1319,11 +1319,11 @@ func (c *ctxt7) isRestartable(p *obj.Prog) bool {
 
 /*
  * when the first reference to the literal pool threatens
- * to go out of range of a 1Mb PC-relative offset
+ * to golang out of range of a 1Mb PC-relative offset
  * drop the pool now.
  */
 func (c *ctxt7) checkpool(p *obj.Prog) {
-	// If the pool is going to go out of range or p is the last instruction of the function,
+	// If the pool is golanging to golang out of range or p is the last instruction of the function,
 	// flush the pool.
 	if c.pool.size >= 0xffff0 || !ispcdisp(int32(p.Pc+4+int64(c.pool.size)-int64(c.pool.start)+8)) || p.Link == nil {
 		c.flushpool(p)
@@ -1459,7 +1459,7 @@ func splitImm24uScaled(v int32, shift int) (int32, int32, error) {
 	return hi, lo, nil
 }
 
-func (c *ctxt7) regoff(a *obj.Addr) int32 {
+func (c *ctxt7) regolangff(a *obj.Addr) int32 {
 	c.instoffset = 0
 	c.aclass(a)
 	return int32(c.instoffset)
@@ -1615,7 +1615,7 @@ func isbitcon(x uint64) bool {
 
 // sequenceOfOnes tests whether a constant is a sequence of ones in binary, with leading and trailing zeros.
 func sequenceOfOnes(x uint64) bool {
-	y := x & -x // lowest set bit of x. x is good iff x+y is a power of 2
+	y := x & -x // lowest set bit of x. x is golangod iff x+y is a power of 2
 	y += x
 	return (y-1)&y == 0
 }
@@ -3436,7 +3436,7 @@ func (c *ctxt7) checkoffset(p *obj.Prog, as obj.As) {
 	}
 
 	if expect != n {
-		c.ctxt.Diag("expected %d registers, got %d: %v.", expect, n, p)
+		c.ctxt.Diag("expected %d registers, golangt %d: %v.", expect, n, p)
 	}
 }
 
@@ -3512,7 +3512,7 @@ func (c *ctxt7) asmout(p *obj.Prog, out []uint32) (count int) {
 		if r == obj.REG_NONE {
 			r = rt
 		}
-		v := c.regoff(&p.From)
+		v := c.regolangff(&p.From)
 		o1 = c.oaddi(p, p.As, v, rt, r)
 
 	case 3: /* op R<<n[,R],R (shifted register) */
@@ -3549,7 +3549,7 @@ func (c *ctxt7) asmout(p *obj.Prog, out []uint32) (count int) {
 			r = REGSP
 		}
 
-		v := c.regoff(&p.From)
+		v := c.regolangff(&p.From)
 		a := AADD
 		if v < 0 {
 			a = ASUB
@@ -3811,7 +3811,7 @@ func (c *ctxt7) asmout(p *obj.Prog, out []uint32) (count int) {
 		}
 
 	case 20: /* movT R,O(R) -> strT */
-		v := c.regoff(&p.To)
+		v := c.regolangff(&p.To)
 		sz := int32(1 << uint(movesize(p.As)))
 
 		rt, rf := p.To.Reg, p.From.Reg
@@ -3826,7 +3826,7 @@ func (c *ctxt7) asmout(p *obj.Prog, out []uint32) (count int) {
 		}
 
 	case 21: /* movT O(R),R -> ldrT */
-		v := c.regoff(&p.From)
+		v := c.regolangff(&p.From)
 		sz := int32(1 << uint(movesize(p.As)))
 
 		rt, rf := p.To.Reg, p.From.Reg
@@ -3944,7 +3944,7 @@ func (c *ctxt7) asmout(p *obj.Prog, out []uint32) (count int) {
 			o1 = c.opxrrr(p, p.As, rt, r, rf, false)
 		}
 
-	case 28: /* logop $vcon, [R], R (64 bit literal) */
+	case 28: /* logolangp $vcon, [R], R (64 bit literal) */
 		if p.Reg == REGTMP {
 			c.ctxt.Diag("cannot use REGTMP as source: %v\n", p)
 		}
@@ -4016,7 +4016,7 @@ func (c *ctxt7) asmout(p *obj.Prog, out []uint32) (count int) {
 			rt = o.param
 		}
 
-		v := c.regoff(&p.To)
+		v := c.regolangff(&p.To)
 		if v >= -256 && v <= 256 {
 			c.ctxt.Diag("%v: bad type for offset %d (should be 9 bit signed immediate store)", p, v)
 		}
@@ -4033,7 +4033,7 @@ func (c *ctxt7) asmout(p *obj.Prog, out []uint32) (count int) {
 
 		hi, lo, err := splitImm24uScaled(v, s)
 		if err != nil {
-			goto storeusepool
+			golangto storeusepool
 		}
 		if p.Pool != nil {
 			c.ctxt.Diag("%v: unused constant in pool (%v)\n", p, v)
@@ -4072,7 +4072,7 @@ func (c *ctxt7) asmout(p *obj.Prog, out []uint32) (count int) {
 			rf = o.param
 		}
 
-		v := c.regoff(&p.From)
+		v := c.regolangff(&p.From)
 		if v >= -256 && v <= 256 {
 			c.ctxt.Diag("%v: bad type for offset %d (should be 9 bit signed immediate load)", p, v)
 		}
@@ -4089,7 +4089,7 @@ func (c *ctxt7) asmout(p *obj.Prog, out []uint32) (count int) {
 
 		hi, lo, err := splitImm24uScaled(v, s)
 		if err != nil {
-			goto loadusepool
+			golangto loadusepool
 		}
 		if p.Pool != nil {
 			c.ctxt.Diag("%v: unused constant in pool (%v)\n", p, v)
@@ -4377,8 +4377,8 @@ func (c *ctxt7) asmout(p *obj.Prog, out []uint32) (count int) {
 		if r == obj.REG_NONE {
 			r = rt
 		}
-		o1 = c.oaddi(p, p.As, c.regoff(&p.From)&0x000fff, rt, r)
-		o2 = c.oaddi(p, p.As, c.regoff(&p.From)&0xfff000, rt, rt)
+		o1 = c.oaddi(p, p.As, c.regolangff(&p.From)&0x000fff, rt, r)
+		o2 = c.oaddi(p, p.As, c.regolangff(&p.From)&0xfff000, rt, rt)
 
 	case 49: /* op Vm.<T>, Vn, Vd */
 		rt, r, rf := p.To.Reg, p.Reg, p.From.Reg
@@ -4645,7 +4645,7 @@ func (c *ctxt7) asmout(p *obj.Prog, out []uint32) (count int) {
 		if rf == obj.REG_NONE {
 			c.ctxt.Diag("invalid ldp source: %v\n", p)
 		}
-		v := c.regoff(&p.From)
+		v := c.regolangff(&p.From)
 		o1 = c.opldpstp(p, o, v, rf, rt1, rt2, 1)
 
 	case 67: /* stp (r1, r2), O(R)!; stp (r1, r2), (R)O! */
@@ -4656,7 +4656,7 @@ func (c *ctxt7) asmout(p *obj.Prog, out []uint32) (count int) {
 		if rt == obj.REG_NONE {
 			c.ctxt.Diag("invalid stp destination: %v\n", p)
 		}
-		v := c.regoff(&p.To)
+		v := c.regolangff(&p.To)
 		o1 = c.opldpstp(p, o, v, rt, rf1, rf2, 0)
 
 	case 68: /* movT $vconaddr(SB), reg -> adrp + add + reloc */
@@ -4825,7 +4825,7 @@ func (c *ctxt7) asmout(p *obj.Prog, out []uint32) (count int) {
 		if rf == obj.REG_NONE {
 			c.ctxt.Diag("invalid ldp source: %v", p)
 		}
-		v := c.regoff(&p.From)
+		v := c.regolangff(&p.From)
 		o1 = c.oaddi12(p, v, REGTMP, rf)
 		o2 = c.opldpstp(p, o, 0, REGTMP, rt1, rt2, 1)
 
@@ -4849,14 +4849,14 @@ func (c *ctxt7) asmout(p *obj.Prog, out []uint32) (count int) {
 			c.ctxt.Diag("invalid ldp source: %v", p)
 		}
 
-		v := c.regoff(&p.From)
+		v := c.regolangff(&p.From)
 		if v >= -4095 && v <= 4095 {
 			c.ctxt.Diag("%v: bad type for offset %d (should be add/sub+ldp)", p, v)
 		}
 
 		hi, lo, err := splitImm24uScaled(v, 0)
 		if err != nil {
-			goto loadpairusepool
+			golangto loadpairusepool
 		}
 		if p.Pool != nil {
 			c.ctxt.Diag("%v: unused constant in pool (%v)\n", p, v)
@@ -4890,7 +4890,7 @@ func (c *ctxt7) asmout(p *obj.Prog, out []uint32) (count int) {
 		if rt == obj.REG_NONE {
 			c.ctxt.Diag("invalid stp destination: %v", p)
 		}
-		v := c.regoff(&p.To)
+		v := c.regolangff(&p.To)
 		o1 = c.oaddi12(p, v, REGTMP, rt)
 		o2 = c.opldpstp(p, o, 0, REGTMP, rf1, rf2, 0)
 
@@ -4914,14 +4914,14 @@ func (c *ctxt7) asmout(p *obj.Prog, out []uint32) (count int) {
 			c.ctxt.Diag("invalid stp destination: %v", p)
 		}
 
-		v := c.regoff(&p.To)
+		v := c.regolangff(&p.To)
 		if v >= -4095 && v <= 4095 {
 			c.ctxt.Diag("%v: bad type for offset %d (should be add/sub+stp)", p, v)
 		}
 
 		hi, lo, err := splitImm24uScaled(v, 0)
 		if err != nil {
-			goto storepairusepool
+			golangto storepairusepool
 		}
 		if p.Pool != nil {
 			c.ctxt.Diag("%v: unused constant in pool (%v)\n", p, v)
@@ -5069,7 +5069,7 @@ func (c *ctxt7) asmout(p *obj.Prog, out []uint32) (count int) {
 			}
 		}
 		o1 |= uint32(p.To.Offset)
-		// cmd/asm/internal/arch/arm64.go:ARM64RegisterListOffset
+		// cmd/asm/internal/arch/arm64.golang:ARM64RegisterListOffset
 		// add opcode(bit 12-15) for vld1, mask it off if it's not vld1
 		o1 = c.maskOpvldvst(p, o1)
 
@@ -5178,7 +5178,7 @@ func (c *ctxt7) asmout(p *obj.Prog, out []uint32) (count int) {
 			}
 		}
 		o1 |= uint32(p.From.Offset)
-		// cmd/asm/internal/arch/arm64.go:ARM64RegisterListOffset
+		// cmd/asm/internal/arch/arm64.golang:ARM64RegisterListOffset
 		// add opcode(bit 12-15) for vst1, mask it off if it's not vst1
 		o1 = c.maskOpvldvst(p, o1)
 		o1 |= uint32(r&31) << 5
@@ -5280,7 +5280,7 @@ func (c *ctxt7) asmout(p *obj.Prog, out []uint32) (count int) {
 
 	// This is supposed to be something that stops execution.
 	// It's not supposed to be reached, ever, but if it is, we'd
-	// like to be able to tell how we got there. Assemble as
+	// like to be able to tell how we golangt there. Assemble as
 	// UDF which is guaranteed to raise the undefined instruction
 	// exception.
 	case 90:
@@ -5468,7 +5468,7 @@ func (c *ctxt7) asmout(p *obj.Prog, out []uint32) (count int) {
 		rf := int((p.To.Reg) & 31)
 		r := int(p.To.Index & 31)
 		index := int(p.From.Index)
-		offset := c.regoff(&p.To)
+		offset := c.regolangff(&p.To)
 
 		if o.scond == C_XPOST {
 			if (p.To.Index != 0) && (offset != 0) {
@@ -5540,7 +5540,7 @@ func (c *ctxt7) asmout(p *obj.Prog, out []uint32) (count int) {
 		rf := int((p.From.Reg) & 31)
 		r := int(p.From.Index & 31)
 		index := int(p.To.Index)
-		offset := c.regoff(&p.From)
+		offset := c.regolangff(&p.From)
 
 		if o.scond == C_XPOST {
 			if (p.From.Index != 0) && (offset != 0) {

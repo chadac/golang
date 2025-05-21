@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package fipsdeps
@@ -42,7 +42,7 @@ func TestImports(t *testing.T) {
 {{end -}}`, "crypto/internal/fips140/...")
 	bout, err := cmd.CombinedOutput()
 	if err != nil {
-		t.Fatalf("go list: %v\n%s", err, bout)
+		t.Fatalf("golang list: %v\n%s", err, bout)
 	}
 	out := string(bout)
 

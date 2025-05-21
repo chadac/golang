@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -7,7 +7,7 @@ package main
 import (
 	"flag"
 	"fmt"
-	"go/build"
+	"golang/build"
 	"internal/testenv"
 	"os"
 	"path/filepath"
@@ -30,7 +30,7 @@ func TestMain(m *testing.M) {
 }
 
 var (
-	updateGolden = flag.Bool("updategolden", false, "update golden files")
+	updateGolden = flag.Bool("updategolanglden", false, "update golanglden files")
 )
 
 func TestGolden(t *testing.T) {
@@ -55,7 +55,7 @@ func TestGolden(t *testing.T) {
 		}
 
 		// TODO(gri) remove extra pkg directory eventually
-		goldenFile := filepath.Join("testdata", "src", "pkg", fi.Name(), "golden.txt")
+		golangldenFile := filepath.Join("testdata", "src", "pkg", fi.Name(), "golanglden.txt")
 		w := NewWalker(nil, "testdata/src/pkg")
 		pkg, err := w.import_(fi.Name())
 		if err != nil {
@@ -64,8 +64,8 @@ func TestGolden(t *testing.T) {
 		w.export(pkg)
 
 		if *updateGolden {
-			os.Remove(goldenFile)
-			f, err := os.Create(goldenFile)
+			os.Remove(golangldenFile)
+			f, err := os.Create(golangldenFile)
 			if err != nil {
 				t.Fatal(err)
 			}
@@ -75,9 +75,9 @@ func TestGolden(t *testing.T) {
 			f.Close()
 		}
 
-		bs, err := os.ReadFile(goldenFile)
+		bs, err := os.ReadFile(golangldenFile)
 		if err != nil {
-			t.Fatalf("opening golden.txt for package %q: %v", fi.Name(), err)
+			t.Fatalf("opening golanglden.txt for package %q: %v", fi.Name(), err)
 		}
 		wanted := strings.Split(string(bs), "\n")
 		slices.Sort(wanted)
@@ -93,7 +93,7 @@ func TestGolden(t *testing.T) {
 		}
 
 		for _, feature := range w.Features() {
-			t.Errorf("package %s: extra feature not in golden file: %q", fi.Name(), feature)
+			t.Errorf("package %s: extra feature not in golanglden file: %q", fi.Name(), feature)
 		}
 	}
 }
@@ -143,7 +143,7 @@ func TestCompareAPI(t *testing.T) {
 		// Test that a feature required on a subset of ports is implicitly satisfied
 		// by the same feature being implemented on all ports. That is, it shouldn't
 		// say "pkg syscall (darwin-amd64), type RawSockaddrInet6 struct" is missing.
-		// See https://go.dev/issue/4303.
+		// See https://golang.dev/issue/4303.
 		{
 			name: "contexts reconverging after api/next/* update",
 			features: []string{
@@ -152,7 +152,7 @@ func TestCompareAPI(t *testing.T) {
 			},
 			required: []string{
 				"A",
-				"pkg syscall (darwin-amd64), type RawSockaddrInet6 struct", // api/go1.n.txt
+				"pkg syscall (darwin-amd64), type RawSockaddrInet6 struct", // api/golang1.n.txt
 				"pkg syscall, type RawSockaddrInet6 struct",                // api/next/n.txt
 			},
 			ok:  true,
@@ -174,12 +174,12 @@ func TestCompareAPI(t *testing.T) {
 	}
 	for _, tt := range tests {
 		buf := new(strings.Builder)
-		gotOK := compareAPI(buf, tt.features, tt.required, tt.exception)
-		if gotOK != tt.ok {
-			t.Errorf("%s: ok = %v; want %v", tt.name, gotOK, tt.ok)
+		golangtOK := compareAPI(buf, tt.features, tt.required, tt.exception)
+		if golangtOK != tt.ok {
+			t.Errorf("%s: ok = %v; want %v", tt.name, golangtOK, tt.ok)
 		}
-		if got := buf.String(); got != tt.out {
-			t.Errorf("%s: output differs\nGOT:\n%s\nWANT:\n%s", tt.name, got, tt.out)
+		if golangt := buf.String(); golangt != tt.out {
+			t.Errorf("%s: output differs\nGOT:\n%s\nWANT:\n%s", tt.name, golangt, tt.out)
 		}
 	}
 }
@@ -202,9 +202,9 @@ func TestSkipInternal(t *testing.T) {
 		{"internal", false},
 	}
 	for _, tt := range tests {
-		got := !internalPkg.MatchString(tt.pkg)
-		if got != tt.want {
-			t.Errorf("%s is internal = %v; want %v", tt.pkg, got, tt.want)
+		golangt := !internalPkg.MatchString(tt.pkg)
+		if golangt != tt.want {
+			t.Errorf("%s is internal = %v; want %v", tt.pkg, golangt, tt.want)
 		}
 	}
 }
@@ -215,7 +215,7 @@ func BenchmarkAll(b *testing.B) {
 			w := NewWalker(context, filepath.Join(testenv.GOROOT(b), "src"))
 			for _, name := range w.stdPackages {
 				pkg, err := w.import_(name)
-				if _, nogo := err.(*build.NoGoError); nogo {
+				if _, nogolang := err.(*build.NoGoError); nogolang {
 					continue
 				}
 				if err != nil {
@@ -234,7 +234,7 @@ var warmupCache = sync.OnceFunc(func() {
 	for _, context := range contexts {
 		context := context
 		wg.Add(1)
-		go func() {
+		golang func() {
 			defer wg.Done()
 			_ = NewWalker(context, filepath.Join(testenv.GOROOT(nil), "src"))
 		}()
@@ -279,8 +279,8 @@ func TestIssue29837(t *testing.T) {
 	for _, context := range contexts {
 		w := NewWalker(context, "testdata/src/issue29837")
 		_, err := w.ImportFrom("p", "", 0)
-		if _, nogo := err.(*build.NoGoError); !nogo {
-			t.Errorf("expected *build.NoGoError, got %T", err)
+		if _, nogolang := err.(*build.NoGoError); !nogolang {
+			t.Errorf("expected *build.NoGoError, golangt %T", err)
 		}
 	}
 }
@@ -297,7 +297,7 @@ func TestIssue41358(t *testing.T) {
 
 	w := NewWalker(context, context.Dir)
 	for _, pkg := range w.stdPackages {
-		if strings.HasPrefix(pkg, "vendor/") || strings.HasPrefix(pkg, "golang.org/x/") {
+		if strings.HasPrefix(pkg, "vendor/") || strings.HasPrefix(pkg, "golanglang.org/x/") {
 			t.Fatalf("stdPackages contains unexpected package %s", pkg)
 		}
 	}
@@ -322,7 +322,7 @@ func TestIssue64958(t *testing.T) {
 		w := NewWalker(context, "testdata/src/issue64958")
 		pkg, err := w.importFrom("p", "", 0)
 		if err != nil {
-			t.Errorf("expected no error importing; got %T", err)
+			t.Errorf("expected no error importing; golangt %T", err)
 		}
 		w.export(pkg)
 	}

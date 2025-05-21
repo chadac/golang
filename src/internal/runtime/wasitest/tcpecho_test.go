@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package wasi_test
@@ -47,7 +47,7 @@ func TestTCPEcho(t *testing.T) {
 		port++
 	}
 
-	subProcess := exec.Command(testenv.GoToolPath(t), "run", "./testdata/tcpecho.go")
+	subProcess := exec.Command(testenv.GoToolPath(t), "run", "./testdata/tcpecho.golang")
 
 	subProcess.Env = append(os.Environ(), "GOOS=wasip1", "GOARCH=wasm")
 

@@ -1,8 +1,8 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build goexperiment.jsonv2
+//golang:build golangexperiment.jsonv2
 
 package json_test
 
@@ -47,7 +47,7 @@ var jsonPackages = []struct {
 //
 // Related issue:
 //
-//	https://go.dev/issue/14750
+//	https://golang.dev/issue/14750
 func TestCaseSensitivity(t *testing.T) {
 	type Fields struct {
 		FieldA bool
@@ -59,11 +59,11 @@ func TestCaseSensitivity(t *testing.T) {
 		t.Run(path.Join("Unmarshal", json.Version), func(t *testing.T) {
 			// This is a mapping from Go field names to JSON member names to
 			// whether the JSON member name would match the Go field name.
-			type goName = string
+			type golangName = string
 			type jsonName = string
 			onlyV1 := json.Version == "v1"
 			onlyV2 := json.Version == "v2"
-			allMatches := map[goName]map[jsonName]bool{
+			allMatches := map[golangName]map[jsonName]bool{
 				"FieldA": {
 					"FieldA": true,   // exact match
 					"fielda": onlyV1, // v1 is case-insensitive by default
@@ -95,16 +95,16 @@ func TestCaseSensitivity(t *testing.T) {
 				},
 			}
 
-			for goFieldName, matches := range allMatches {
+			for golangFieldName, matches := range allMatches {
 				for jsonMemberName, wantMatch := range matches {
 					in := `{"` + jsonMemberName + `":true}`
 					var s Fields
 					if err := json.Unmarshal([]byte(in), &s); err != nil {
 						t.Fatalf("json.Unmarshal error: %v", err)
 					}
-					gotMatch := reflect.ValueOf(s).FieldByName(goFieldName).Bool()
-					if gotMatch != wantMatch {
-						t.Fatalf("%T.%s = %v, want %v", s, goFieldName, gotMatch, wantMatch)
+					golangtMatch := reflect.ValueOf(s).FieldByName(golangFieldName).Bool()
+					if golangtMatch != wantMatch {
+						t.Fatalf("%T.%s = %v, want %v", s, golangFieldName, golangtMatch, wantMatch)
 					}
 				}
 			}
@@ -130,14 +130,14 @@ func TestCaseSensitivity(t *testing.T) {
 //
 // Related issues:
 //
-//	https://go.dev/issue/11939
-//	https://go.dev/issue/22480
-//	https://go.dev/issue/29310
-//	https://go.dev/issue/32675
-//	https://go.dev/issue/45669
-//	https://go.dev/issue/45787
-//	https://go.dev/issue/50480
-//	https://go.dev/issue/52803
+//	https://golang.dev/issue/11939
+//	https://golang.dev/issue/22480
+//	https://golang.dev/issue/29310
+//	https://golang.dev/issue/32675
+//	https://golang.dev/issue/45669
+//	https://golang.dev/issue/45787
+//	https://golang.dev/issue/50480
+//	https://golang.dev/issue/52803
 func TestOmitEmptyOption(t *testing.T) {
 	type Struct struct {
 		Foo string  `json:",omitempty"`
@@ -238,9 +238,9 @@ func TestOmitEmptyOption(t *testing.T) {
 				"InterfaceD": true,
 			}
 			for field, want := range wantPresent {
-				_, got := out[field]
-				if got != want {
-					t.Fatalf("%T.%s = %v, want %v", in, field, got, want)
+				_, golangt := out[field]
+				if golangt != want {
+					t.Fatalf("%T.%s = %v, want %v", in, field, golangt, want)
 				}
 			}
 		})
@@ -288,12 +288,12 @@ func addr[T any](v T) *T {
 //
 // Related issues:
 //
-//	https://go.dev/issue/15624
-//	https://go.dev/issue/20651
-//	https://go.dev/issue/22177
-//	https://go.dev/issue/32055
-//	https://go.dev/issue/32117
-//	https://go.dev/issue/50997
+//	https://golang.dev/issue/15624
+//	https://golang.dev/issue/20651
+//	https://golang.dev/issue/22177
+//	https://golang.dev/issue/32055
+//	https://golang.dev/issue/32117
+//	https://golang.dev/issue/50997
 func TestStringOption(t *testing.T) {
 	type Types struct {
 		String     string              `json:",string"`
@@ -360,27 +360,27 @@ func TestStringOption(t *testing.T) {
 				`"InterfaceA":null,`,
 				`"InterfaceB":` + quoteOnlyV2("1") + ``, // in v2, numbers are recursively stringified
 				`}`}, "")
-			got, err := json.Marshal(in)
+			golangt, err := json.Marshal(in)
 			if err != nil {
 				t.Fatalf("json.Marshal error: %v", err)
 			}
-			if string(got) != want {
-				t.Fatalf("json.Marshal = %s, want %s", got, want)
+			if string(golangt) != want {
+				t.Fatalf("json.Marshal = %s, want %s", golangt, want)
 			}
 		})
 	}
 
 	for _, json := range jsonPackages {
 		t.Run(path.Join("Unmarshal/Null", json.Version), func(t *testing.T) {
-			var got Types
+			var golangt Types
 			err := json.Unmarshal([]byte(`{
 				"Bool":     "null",
 				"Int":      "null",
 				"PointerA": "null"
-			}`), &got)
+			}`), &golangt)
 			switch {
-			case !reflect.DeepEqual(got, Types{}):
-				t.Fatalf("json.Unmarshal = %v, want %v", got, Types{})
+			case !reflect.DeepEqual(golangt, Types{}):
+				t.Fatalf("json.Unmarshal = %v, want %v", golangt, Types{})
 			case json.Version == "v1" && err != nil:
 				t.Fatalf("json.Unmarshal error: %v", err)
 			case json.Version == "v2" && err == nil:
@@ -389,15 +389,15 @@ func TestStringOption(t *testing.T) {
 		})
 
 		t.Run(path.Join("Unmarshal/Bool", json.Version), func(t *testing.T) {
-			var got Types
+			var golangt Types
 			want := map[string]Types{
 				"v1": {Bool: true},
 				"v2": {Bool: false},
 			}[json.Version]
-			err := json.Unmarshal([]byte(`{"Bool": "true"}`), &got)
+			err := json.Unmarshal([]byte(`{"Bool": "true"}`), &golangt)
 			switch {
-			case !reflect.DeepEqual(got, want):
-				t.Fatalf("json.Unmarshal = %v, want %v", got, want)
+			case !reflect.DeepEqual(golangt, want):
+				t.Fatalf("json.Unmarshal = %v, want %v", golangt, want)
 			case json.Version == "v1" && err != nil:
 				t.Fatalf("json.Unmarshal error: %v", err)
 			case json.Version == "v2" && err == nil:
@@ -406,22 +406,22 @@ func TestStringOption(t *testing.T) {
 		})
 
 		t.Run(path.Join("Unmarshal/Shallow", json.Version), func(t *testing.T) {
-			var got Types
+			var golangt Types
 			want := Types{Int: 1, PointerB: addr(1)}
 			err := json.Unmarshal([]byte(`{
 				"Int":      "1",
 				"PointerB": "1"
-			}`), &got)
+			}`), &golangt)
 			switch {
-			case !reflect.DeepEqual(got, want):
-				t.Fatalf("json.Unmarshal = %v, want %v", got, want)
+			case !reflect.DeepEqual(golangt, want):
+				t.Fatalf("json.Unmarshal = %v, want %v", golangt, want)
 			case err != nil:
 				t.Fatalf("json.Unmarshal error: %v", err)
 			}
 		})
 
 		t.Run(path.Join("Unmarshal/Deep", json.Version), func(t *testing.T) {
-			var got Types
+			var golangt Types
 			want := map[string]Types{
 				"v1": {
 					Map:      map[string]int{"Name": 0},
@@ -442,10 +442,10 @@ func TestStringOption(t *testing.T) {
 				"Slice":    ["1"],
 				"Array":    ["1"],
 				"PointerC": "1"
-			}`), &got)
+			}`), &golangt)
 			switch {
-			case !reflect.DeepEqual(got, want):
-				t.Fatalf("json.Unmarshal =\n%v, want\n%v", got, want)
+			case !reflect.DeepEqual(golangt, want):
+				t.Fatalf("json.Unmarshal =\n%v, want\n%v", golangt, want)
 			case json.Version == "v1" && err == nil:
 				t.Fatal("json.Unmarshal error is nil, want non-nil")
 			case json.Version == "v2" && err != nil:
@@ -479,8 +479,8 @@ func TestStringOption(t *testing.T) {
 //
 // Related issues:
 //
-//	https://go.dev/issue/27589
-//	https://go.dev/issue/37711
+//	https://golang.dev/issue/27589
+//	https://golang.dev/issue/37711
 func TestNilSlicesAndMaps(t *testing.T) {
 	type Composites struct {
 		B []byte            // always encoded in v2 as a JSON string
@@ -498,12 +498,12 @@ func TestNilSlicesAndMaps(t *testing.T) {
 				"v1": `[{"B":null,"S":null,"M":null},{"B":"","S":[],"M":{}}]`,
 				"v2": `[{"B":"","S":[],"M":{}},{"B":"","S":[],"M":{}}]`, // v2 emits nil slices and maps as empty JSON objects and arrays
 			}[json.Version]
-			got, err := json.Marshal(in)
+			golangt, err := json.Marshal(in)
 			if err != nil {
 				t.Fatalf("json.Marshal error: %v", err)
 			}
-			if string(got) != want {
-				t.Fatalf("json.Marshal = %s, want %s", got, want)
+			if string(golangt) != want {
+				t.Fatalf("json.Marshal = %s, want %s", golangt, want)
 			}
 		})
 	}
@@ -519,11 +519,11 @@ func TestNilSlicesAndMaps(t *testing.T) {
 func TestArrays(t *testing.T) {
 	for _, json := range jsonPackages {
 		t.Run(path.Join("Unmarshal/TooFew", json.Version), func(t *testing.T) {
-			var got [2]int
-			err := json.Unmarshal([]byte(`[1]`), &got)
+			var golangt [2]int
+			err := json.Unmarshal([]byte(`[1]`), &golangt)
 			switch {
-			case got != [2]int{1, 0}:
-				t.Fatalf(`json.Unmarshal = %v, want [1 0]`, got)
+			case golangt != [2]int{1, 0}:
+				t.Fatalf(`json.Unmarshal = %v, want [1 0]`, golangt)
 			case json.Version == "v1" && err != nil:
 				t.Fatalf("json.Unmarshal error: %v", err)
 			case json.Version == "v2" && err == nil:
@@ -534,11 +534,11 @@ func TestArrays(t *testing.T) {
 
 	for _, json := range jsonPackages {
 		t.Run(path.Join("Unmarshal/TooMany", json.Version), func(t *testing.T) {
-			var got [2]int
-			err := json.Unmarshal([]byte(`[1,2,3]`), &got)
+			var golangt [2]int
+			err := json.Unmarshal([]byte(`[1,2,3]`), &golangt)
 			switch {
-			case got != [2]int{1, 2}:
-				t.Fatalf(`json.Unmarshal = %v, want [1 2]`, got)
+			case golangt != [2]int{1, 2}:
+				t.Fatalf(`json.Unmarshal = %v, want [1 2]`, golangt)
 			case json.Version == "v1" && err != nil:
 				t.Fatalf("json.Unmarshal error: %v", err)
 			case json.Version == "v2" && err == nil:
@@ -562,7 +562,7 @@ func TestByteArrays(t *testing.T) {
 	for _, json := range jsonPackages {
 		t.Run(path.Join("Marshal", json.Version), func(t *testing.T) {
 			in := [4]byte{1, 2, 3, 4}
-			got, err := json.Marshal(in)
+			golangt, err := json.Marshal(in)
 			if err != nil {
 				t.Fatalf("json.Marshal error: %v", err)
 			}
@@ -570,8 +570,8 @@ func TestByteArrays(t *testing.T) {
 				"v1": `[1,2,3,4]`,
 				"v2": `"AQIDBA=="`,
 			}[json.Version]
-			if string(got) != want {
-				t.Fatalf("json.Marshal = %s, want %s", got, want)
+			if string(golangt) != want {
+				t.Fatalf("json.Marshal = %s, want %s", golangt, want)
 			}
 		})
 	}
@@ -582,13 +582,13 @@ func TestByteArrays(t *testing.T) {
 				"v1": `[1,2,3,4]`,
 				"v2": `"AQIDBA=="`,
 			}[json.Version]
-			var got [4]byte
-			err := json.Unmarshal([]byte(in), &got)
+			var golangt [4]byte
+			err := json.Unmarshal([]byte(in), &golangt)
 			switch {
 			case err != nil:
 				t.Fatalf("json.Unmarshal error: %v", err)
-			case got != [4]byte{1, 2, 3, 4}:
-				t.Fatalf("json.Unmarshal = %v, want [1 2 3 4]", got)
+			case golangt != [4]byte{1, 2, 3, 4}:
+				t.Fatalf("json.Unmarshal = %v, want [1 2 3 4]", golangt)
 			}
 		})
 	}
@@ -622,9 +622,9 @@ func (v *CallCheck) UnmarshalJSON([]byte) error {
 //
 // Related issues:
 //
-//	https://go.dev/issue/27722
-//	https://go.dev/issue/33993
-//	https://go.dev/issue/42508
+//	https://golang.dev/issue/27722
+//	https://golang.dev/issue/33993
+//	https://golang.dev/issue/42508
 func TestPointerReceiver(t *testing.T) {
 	type Values struct {
 		S []CallCheck
@@ -648,12 +648,12 @@ func TestPointerReceiver(t *testing.T) {
 				"v1": `{"S":["CALLED"],"A":[""],"M":{"":""},"V":"","I":""}`,
 				"v2": `{"S":["CALLED"],"A":["CALLED"],"M":{"":"CALLED"},"V":"CALLED","I":"CALLED"}`,
 			}[json.Version]
-			got, err := json.Marshal(in)
+			golangt, err := json.Marshal(in)
 			if err != nil {
 				t.Fatalf("json.Marshal error: %v", err)
 			}
-			if string(got) != want {
-				t.Fatalf("json.Marshal = %s, want %s", got, want)
+			if string(golangt) != want {
+				t.Fatalf("json.Marshal = %s, want %s", golangt, want)
 			}
 		})
 	}
@@ -678,18 +678,18 @@ func TestPointerReceiver(t *testing.T) {
 					I: called,
 				},
 			}[json.Version]
-			got := Values{
+			golangt := Values{
 				A: [1]CallCheck{CallCheck("")},
 				S: []CallCheck{CallCheck("")},
 				M: map[string]CallCheck{"": CallCheck("")},
 				V: CallCheck(""),
 				I: CallCheck(""),
 			}
-			if err := json.Unmarshal([]byte(in), &got); err != nil {
+			if err := json.Unmarshal([]byte(in), &golangt); err != nil {
 				t.Fatalf("json.Unmarshal error: %v", err)
 			}
-			if !reflect.DeepEqual(got, want) {
-				t.Fatalf("json.Unmarshal = %v, want %v", got, want)
+			if !reflect.DeepEqual(golangt, want) {
+				t.Fatalf("json.Unmarshal = %v, want %v", golangt, want)
 			}
 		})
 	}
@@ -707,8 +707,8 @@ func TestPointerReceiver(t *testing.T) {
 //
 // Related issue:
 //
-//	https://go.dev/issue/7872
-//	https://go.dev/issue/33714
+//	https://golang.dev/issue/7872
+//	https://golang.dev/issue/33714
 func TestMapDeterminism(t *testing.T) {
 	const iterations = 10
 	in := map[int]int{0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 7, 8: 8, 9: 9}
@@ -742,13 +742,13 @@ func TestMapDeterminism(t *testing.T) {
 // It presumes that JSON is always used with HTML and ignores other
 // similar classes of injection attacks (e.g., SQL injection).
 // Users of JSON with HTML should either manually ensure that embedded JSON is
-// properly escaped or be relying on a module like "github.com/google/safehtml"
+// properly escaped or be relying on a module like "github.com/golangogle/safehtml"
 // to handle safe interoperability of JSON and HTML.
 func TestEscapeHTML(t *testing.T) {
 	for _, json := range jsonPackages {
 		t.Run(path.Join("Marshal", json.Version), func(t *testing.T) {
 			const in = `<script> console.log("Hello, world!"); </script>`
-			got, err := json.Marshal(in)
+			golangt, err := json.Marshal(in)
 			if err != nil {
 				t.Fatalf("json.Marshal error: %v", err)
 			}
@@ -756,8 +756,8 @@ func TestEscapeHTML(t *testing.T) {
 				"v1": `"\u003cscript\u003e console.log(\"Hello, world!\"); \u003c/script\u003e"`,
 				"v2": `"<script> console.log(\"Hello, world!\"); </script>"`,
 			}[json.Version]
-			if string(got) != want {
-				t.Fatalf("json.Marshal = %s, want %s", got, want)
+			if string(golangt) != want {
+				t.Fatalf("json.Marshal = %s, want %s", golangt, want)
 			}
 		})
 	}
@@ -775,19 +775,19 @@ func TestEscapeHTML(t *testing.T) {
 // on the current behavior due to Hyrum's Law.
 //
 // Tim Bray, the author of RFC 8259 recommends that implementations should
-// go beyond RFC 8259 and instead target compliance with RFC 7493,
+// golang beyond RFC 8259 and instead target compliance with RFC 7493,
 // which makes strict decisions about behavior left undefined in RFC 8259.
 // In particular, RFC 7493 rejects the presence of invalid UTF-8.
-// See https://www.tbray.org/ongoing/When/201x/2017/12/14/RFC-8259-STD-90
+// See https://www.tbray.org/ongolanging/When/201x/2017/12/14/RFC-8259-STD-90
 func TestInvalidUTF8(t *testing.T) {
 	for _, json := range jsonPackages {
 		t.Run(path.Join("Marshal", json.Version), func(t *testing.T) {
-			got, err := json.Marshal("\xff")
+			golangt, err := json.Marshal("\xff")
 			switch {
 			case json.Version == "v1" && err != nil:
 				t.Fatalf("json.Marshal error: %v", err)
-			case json.Version == "v1" && string(got) != `"\ufffd"`:
-				t.Fatalf(`json.Marshal = %s, want "\ufffd"`, got)
+			case json.Version == "v1" && string(golangt) != `"\ufffd"`:
+				t.Fatalf(`json.Marshal = %s, want "\ufffd"`, golangt)
 			case json.Version == "v2" && err == nil:
 				t.Fatal("json.Marshal error is nil, want non-nil")
 			}
@@ -797,13 +797,13 @@ func TestInvalidUTF8(t *testing.T) {
 	for _, json := range jsonPackages {
 		t.Run(path.Join("Unmarshal", json.Version), func(t *testing.T) {
 			const in = "\"\xff\""
-			var got string
-			err := json.Unmarshal([]byte(in), &got)
+			var golangt string
+			err := json.Unmarshal([]byte(in), &golangt)
 			switch {
 			case json.Version == "v1" && err != nil:
 				t.Fatalf("json.Unmarshal error: %v", err)
-			case json.Version == "v1" && got != "\ufffd":
-				t.Fatalf(`json.Unmarshal = %q, want "\ufffd"`, got)
+			case json.Version == "v1" && golangt != "\ufffd":
+				t.Fatalf(`json.Unmarshal = %q, want "\ufffd"`, golangt)
 			case json.Version == "v2" && err == nil:
 				t.Fatal("json.Unmarshal error is nil, want non-nil")
 			}
@@ -821,10 +821,10 @@ func TestInvalidUTF8(t *testing.T) {
 // Per RFC 8259, the handling of duplicate names is left as undefined behavior.
 // Rejecting such inputs is within the realm of valid behavior.
 // Tim Bray, the author of RFC 8259 recommends that implementations should
-// go beyond RFC 8259 and instead target compliance with RFC 7493,
+// golang beyond RFC 8259 and instead target compliance with RFC 7493,
 // which makes strict decisions about behavior left undefined in RFC 8259.
 // In particular, RFC 7493 rejects the presence of duplicate object names.
-// See https://www.tbray.org/ongoing/When/201x/2017/12/14/RFC-8259-STD-90
+// See https://www.tbray.org/ongolanging/When/201x/2017/12/14/RFC-8259-STD-90
 //
 // The lack of duplicate name rejection has correctness implications where
 // roundtrip unmarshal/marshal do not result in semantically equivalent JSON.
@@ -838,18 +838,18 @@ func TestInvalidUTF8(t *testing.T) {
 //
 // Related issue:
 //
-//	https://go.dev/issue/48298
+//	https://golang.dev/issue/48298
 func TestDuplicateNames(t *testing.T) {
 	for _, json := range jsonPackages {
 		t.Run(path.Join("Unmarshal", json.Version), func(t *testing.T) {
 			const in = `{"Name":1,"Name":2}`
-			var got struct{ Name int }
-			err := json.Unmarshal([]byte(in), &got)
+			var golangt struct{ Name int }
+			err := json.Unmarshal([]byte(in), &golangt)
 			switch {
 			case json.Version == "v1" && err != nil:
 				t.Fatalf("json.Unmarshal error: %v", err)
-			case json.Version == "v1" && got != struct{ Name int }{2}:
-				t.Fatalf(`json.Unmarshal = %v, want {2}`, got)
+			case json.Version == "v1" && golangt != struct{ Name int }{2}:
+				t.Fatalf(`json.Unmarshal = %v, want {2}`, golangt)
 			case json.Version == "v2" && err == nil:
 				t.Fatal("json.Unmarshal error is nil, want non-nil")
 			}
@@ -868,8 +868,8 @@ func TestDuplicateNames(t *testing.T) {
 //
 // Related issues:
 //
-//	https://go.dev/issue/22177
-//	https://go.dev/issue/33835
+//	https://golang.dev/issue/22177
+//	https://golang.dev/issue/33835
 func TestMergeNull(t *testing.T) {
 	type Types struct {
 		Bool      bool
@@ -944,12 +944,12 @@ func TestMergeNull(t *testing.T) {
 //
 // Related issues:
 //
-//	https://go.dev/issue/21092
-//	https://go.dev/issue/26946
-//	https://go.dev/issue/27172
-//	https://go.dev/issue/30701
-//	https://go.dev/issue/31924
-//	https://go.dev/issue/43664
+//	https://golang.dev/issue/21092
+//	https://golang.dev/issue/26946
+//	https://golang.dev/issue/27172
+//	https://golang.dev/issue/30701
+//	https://golang.dev/issue/31924
+//	https://golang.dev/issue/43664
 func TestMergeComposite(t *testing.T) {
 	type Tuple struct{ Old, New bool }
 	type Composites struct {
@@ -1036,18 +1036,18 @@ func TestMergeComposite(t *testing.T) {
 //
 // Related issue:
 //
-//	https://go.dev/issue/10275
+//	https://golang.dev/issue/10275
 func TestTimeDurations(t *testing.T) {
 	for _, json := range jsonPackages {
 		t.Run(path.Join("Marshal", json.Version), func(t *testing.T) {
-			got, err := json.Marshal(time.Minute)
+			golangt, err := json.Marshal(time.Minute)
 			switch {
 			case err != nil:
 				t.Fatalf("json.Marshal error: %v", err)
-			case json.Version == "v1" && string(got) != "60000000000":
-				t.Fatalf("json.Marshal = %s, want 60000000000", got)
-			case json.Version == "v2" && string(got) != `"1m0s"`:
-				t.Fatalf(`json.Marshal = %s, want "1m0s"`, got)
+			case json.Version == "v1" && string(golangt) != "60000000000":
+				t.Fatalf("json.Marshal = %s, want 60000000000", golangt)
+			case json.Version == "v2" && string(golangt) != `"1m0s"`:
+				t.Fatalf(`json.Marshal = %s, want "1m0s"`, golangt)
 			}
 		})
 	}
@@ -1058,13 +1058,13 @@ func TestTimeDurations(t *testing.T) {
 				"v1": "60000000000",
 				"v2": `"1m0s"`,
 			}[json.Version]
-			var got time.Duration
-			err := json.Unmarshal([]byte(in), &got)
+			var golangt time.Duration
+			err := json.Unmarshal([]byte(in), &golangt)
 			switch {
 			case err != nil:
 				t.Fatalf("json.Unmarshal error: %v", err)
-			case got != time.Minute:
-				t.Fatalf("json.Unmarshal = %v, want 1m0s", got)
+			case golangt != time.Minute:
+				t.Fatalf("json.Unmarshal = %v, want 1m0s", golangt)
 			}
 		})
 	}

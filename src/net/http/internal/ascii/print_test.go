@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ascii
@@ -37,8 +37,8 @@ func TestEqualFold(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := EqualFold(tt.a, tt.b); got != tt.want {
-				t.Errorf("AsciiEqualFold(%q,%q): got %v want %v", tt.a, tt.b, got, tt.want)
+			if golangt := EqualFold(tt.a, tt.b); golangt != tt.want {
+				t.Errorf("AsciiEqualFold(%q,%q): golangt %v want %v", tt.a, tt.b, golangt, tt.want)
 			}
 		})
 	}
@@ -87,8 +87,8 @@ func TestIsPrint(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := IsPrint(tt.in); got != tt.want {
-				t.Errorf("IsASCIIPrint(%q): got %v want %v", tt.in, got, tt.want)
+			if golangt := IsPrint(tt.in); golangt != tt.want {
+				t.Errorf("IsASCIIPrint(%q): golangt %v want %v", tt.in, golangt, tt.want)
 			}
 		})
 	}

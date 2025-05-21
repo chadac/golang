@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package p
@@ -23,7 +23,7 @@ func f[a t, b t, c /* ERROR missing type constraint */ ]()
 
 func f[a b,  /* ERROR expected ] */ 0] ()
 
-// go.dev/issue/49482
+// golang.dev/issue/49482
 type (
 	t[a *[]int] struct{}
 	t[a *t,] struct{}
@@ -35,7 +35,7 @@ type (
 	t[a *struct{}|~t] struct{}
 )
 
-// go.dev/issue/51488
+// golang.dev/issue/51488
 type (
 	t[a *t|t,] struct{}
 	t[a *t|t, b t] struct{}
@@ -45,7 +45,7 @@ type (
 	t[a ([]t)|t] struct{}
 )
 
-// go.dev/issue/60812
+// golang.dev/issue/60812
 type (
 	t [t]struct{}
 	t [[]t]struct{}

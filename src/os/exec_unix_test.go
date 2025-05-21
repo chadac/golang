@@ -1,8 +1,8 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build unix
+//golang:build unix
 
 package os_test
 
@@ -20,13 +20,13 @@ func TestErrProcessDone(t *testing.T) {
 	testenv.MustHaveGoBuild(t)
 	t.Parallel()
 
-	p, err := StartProcess(testenv.GoToolPath(t), []string{"go"}, &ProcAttr{})
+	p, err := StartProcess(testenv.GoToolPath(t), []string{"golang"}, &ProcAttr{})
 	if err != nil {
 		t.Fatalf("starting test process: %v", err)
 	}
 	p.Wait()
-	if got := p.Signal(Kill); got != ErrProcessDone {
-		t.Errorf("got %v want %v", got, ErrProcessDone)
+	if golangt := p.Signal(Kill); golangt != ErrProcessDone {
+		t.Errorf("golangt %v want %v", golangt, ErrProcessDone)
 	}
 }
 
@@ -45,15 +45,15 @@ func TestProcessAlreadyDone(t *testing.T) {
 
 	p, err := FindProcess(pid)
 	if err != nil {
-		t.Fatalf("FindProcess(math.MaxInt32) got err %v, want nil", err)
+		t.Fatalf("FindProcess(math.MaxInt32) golangt err %v, want nil", err)
 	}
 
 	if ps, err := p.Wait(); !errors.Is(err, syscall.ECHILD) {
-		t.Errorf("Wait() got err %v (ps %+v), want %v", err, ps, syscall.ECHILD)
+		t.Errorf("Wait() golangt err %v (ps %+v), want %v", err, ps, syscall.ECHILD)
 	}
 
 	if err := p.Release(); err != nil {
-		t.Errorf("Release() got err %v, want nil", err)
+		t.Errorf("Release() golangt err %v, want nil", err)
 	}
 }
 

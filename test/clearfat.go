@@ -1,7 +1,7 @@
 // runoutput
 
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Check that {5,6,8,9}g/ggen.c:clearfat is zeroing the entire object.
@@ -59,7 +59,7 @@ func clearfat$() {
 
 	for _, x := range t {
 		if x != 0 {
-//			println("clearfat$: index", i, "expected 0, got", x)
+//			println("clearfat$: index", i, "expected 0, golangt", x)
 			count++
 			break
 		}

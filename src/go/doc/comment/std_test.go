@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package comment
@@ -29,6 +29,6 @@ func TestStd(t *testing.T) {
 	have := strings.Join(stdPkgs, "\n") + "\n"
 	want := strings.Join(list, "\n") + "\n"
 	if have != want {
-		t.Errorf("stdPkgs is out of date: regenerate with 'go generate'\n%s", diff.Diff("stdPkgs", []byte(have), "want", []byte(want)))
+		t.Errorf("stdPkgs is out of date: regenerate with 'golang generate'\n%s", diff.Diff("stdPkgs", []byte(have), "want", []byte(want)))
 	}
 }

@@ -1,8 +1,8 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build goexperiment.rangefunc
+//golang:build golangexperiment.rangefunc
 
 package race_test
 
@@ -16,13 +16,13 @@ type Seq2[T1, T2 any] func(yield func(T1, T2) bool)
 
 // ofSliceIndex returns a Seq over the elements of s. It is equivalent
 // to range s, except that it splits s into two halves and iterates
-// in two separate goroutines.  This is racy if yield is racy, and yield
+// in two separate golangroutines.  This is racy if yield is racy, and yield
 // will be racy if it contains an early exit.
 func ofSliceIndex[T any, S ~[]T](s S) Seq2[int, T] {
 	return func(yield func(int, T) bool) {
 		c := make(chan bool, 2)
 		var done atomic.Bool
-		go func() {
+		golang func() {
 			for i := 0; i < len(s)/2; i++ {
 				if !done.Load() && !yield(i, s[i]) {
 					done.Store(true)
@@ -31,7 +31,7 @@ func ofSliceIndex[T any, S ~[]T](s S) Seq2[int, T] {
 			}
 			c <- true
 		}()
-		go func() {
+		golang func() {
 			for i := len(s) / 2; i < len(s); i++ {
 				if !done.Load() && !yield(i, s[i]) {
 					done.Store(true)

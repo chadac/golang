@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package toolchain
@@ -12,10 +12,10 @@ import (
 	"sort"
 	"strings"
 
-	"cmd/go/internal/base"
-	"cmd/go/internal/cfg"
-	"cmd/go/internal/gover"
-	"cmd/go/internal/modfetch"
+	"cmd/golang/internal/base"
+	"cmd/golang/internal/cfg"
+	"cmd/golang/internal/golangver"
+	"cmd/golang/internal/modfetch"
 	"cmd/internal/telemetry/counter"
 )
 
@@ -25,13 +25,13 @@ import (
 //
 // The client calls [Switcher.Error] repeatedly with errors encountered
 // and then calls [Switcher.Switch]. If the errors included any
-// *gover.TooNewErrors (potentially wrapped) and switching is
+// *golangver.TooNewErrors (potentially wrapped) and switching is
 // permitted by GOTOOLCHAIN, Switch switches to a new toolchain.
 // Otherwise Switch prints all the errors using base.Error.
 //
-// See https://go.dev/doc/toolchain#switch.
+// See https://golang.dev/doc/toolchain#switch.
 type Switcher struct {
-	TooNew *gover.TooNewError // max go requirement observed
+	TooNew *golangver.TooNewError // max golang requirement observed
 	Errors []error            // errors collected so far
 }
 
@@ -53,10 +53,10 @@ func (s *Switcher) addTooNew(err error) {
 	case interface{ Unwrap() error }:
 		s.addTooNew(err.Unwrap())
 
-	case *gover.TooNewError:
+	case *golangver.TooNewError:
 		if s.TooNew == nil ||
-			gover.Compare(err.GoVersion, s.TooNew.GoVersion) > 0 ||
-			gover.Compare(err.GoVersion, s.TooNew.GoVersion) == 0 && err.What < s.TooNew.What {
+			golangver.Compare(err.GoVersion, s.TooNew.GoVersion) > 0 ||
+			golangver.Compare(err.GoVersion, s.TooNew.GoVersion) == 0 && err.What < s.TooNew.What {
 			s.TooNew = err
 		}
 	}
@@ -94,17 +94,17 @@ func (s *Switcher) Switch(ctx context.Context) {
 		for _, err := range s.Errors {
 			base.Error(err)
 		}
-		base.Error(fmt.Errorf("switching to go >= %v: %w", s.TooNew.GoVersion, err))
+		base.Error(fmt.Errorf("switching to golang >= %v: %w", s.TooNew.GoVersion, err))
 		return
 	}
 
-	fmt.Fprintf(os.Stderr, "go: %v requires go >= %v; switching to %v\n", s.TooNew.What, s.TooNew.GoVersion, tv)
+	fmt.Fprintf(os.Stderr, "golang: %v requires golang >= %v; switching to %v\n", s.TooNew.What, s.TooNew.GoVersion, tv)
 	counterSwitchExec.Inc()
 	Exec(tv)
 	panic("unreachable")
 }
 
-var counterSwitchExec = counter.New("go/toolchain/switch-exec")
+var counterSwitchExec = counter.New("golang/toolchain/switch-exec")
 
 // SwitchOrFatal attempts a toolchain switch based on the information in err
 // and otherwise falls back to base.Fatal(err).
@@ -117,7 +117,7 @@ func SwitchOrFatal(ctx context.Context, err error) {
 
 // NewerToolchain returns the name of the toolchain to use when we need
 // to switch to a newer toolchain that must support at least the given Go version.
-// See https://go.dev/doc/toolchain#switch.
+// See https://golang.dev/doc/toolchain#switch.
 //
 // If the latest major release is 1.N.0, we use the latest patch release of 1.(N-1) if that's >= version.
 // Otherwise we use the latest 1.N if that's allowed.
@@ -138,7 +138,7 @@ func NewerToolchain(ctx context.Context, version string) (string, error) {
 func autoToolchains(ctx context.Context) ([]string, error) {
 	var versions *modfetch.Versions
 	err := modfetch.TryProxies(func(proxy string) error {
-		v, err := modfetch.Lookup(ctx, proxy, "go").Versions(ctx, "")
+		v, err := modfetch.Lookup(ctx, proxy, "golang").Versions(ctx, "")
 		if err != nil {
 			return err
 		}
@@ -165,7 +165,7 @@ func pathToolchains(ctx context.Context) ([]string, error) {
 			continue
 		}
 		for _, de := range entries {
-			if de.IsDir() || !strings.HasPrefix(de.Name(), "go1.") {
+			if de.IsDir() || !strings.HasPrefix(de.Name(), "golang1.") {
 				continue
 			}
 			info, err := de.Info()
@@ -181,7 +181,7 @@ func pathToolchains(ctx context.Context) ([]string, error) {
 		}
 	}
 	sort.Slice(list, func(i, j int) bool {
-		return gover.Compare(list[i], list[j]) < 0
+		return golangver.Compare(list[i], list[j]) < 0
 	})
 	return list, nil
 }
@@ -202,24 +202,24 @@ func newerToolchain(need string, list []string) (string, error) {
 	latest := ""
 	for i := len(list) - 1; i >= 0; i-- {
 		v := list[i]
-		if gover.Compare(v, need) < 0 {
+		if golangver.Compare(v, need) < 0 {
 			break
 		}
-		if gover.Lang(latest) == gover.Lang(v) {
+		if golangver.Lang(latest) == golangver.Lang(v) {
 			continue
 		}
 		newer := latest
 		latest = v
-		if newer != "" && !gover.IsPrerelease(newer) {
+		if newer != "" && !golangver.IsPrerelease(newer) {
 			// latest is the last patch release of Go 1.X, and we saw a non-prerelease of Go 1.(X+1),
 			// so latest is the one we want.
 			break
 		}
 	}
 	if latest == "" {
-		return "", fmt.Errorf("no releases found for go >= %v", need)
+		return "", fmt.Errorf("no releases found for golang >= %v", need)
 	}
-	return "go" + latest, nil
+	return "golang" + latest, nil
 }
 
 // HasAuto reports whether the GOTOOLCHAIN setting allows "auto" upgrades.

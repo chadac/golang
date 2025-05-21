@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file provides Go implementations of elementary multi-precision
@@ -12,7 +12,7 @@ package big
 
 import (
 	"math/bits"
-	_ "unsafe" // for go:linkname
+	_ "unsafe" // for golang:linkname
 )
 
 // A Word represents a single digit of a multi-precision unsigned integer.
@@ -97,9 +97,9 @@ func subVV_g(z, x, y []Word) (c Word) {
 //   - github.com/remyoudompheng/bigfft
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname addVW
+//golang:linkname addVW
 func addVW(z, x []Word, y Word) (c Word) {
 	if len(x) != len(z) {
 		panic("addVW len")
@@ -151,9 +151,9 @@ func addVW_ref(z, x []Word, y Word) (c Word) {
 //   - github.com/remyoudompheng/bigfft
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname subVW
+//golang:linkname subVW
 func subVW(z, x []Word, y Word) (c Word) {
 	if len(x) != len(z) {
 		panic("subVW len")

@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package pkgbits
@@ -47,12 +47,12 @@ func walkFrames(pcs []uintptr, visit frameVisitor) {
 // synchronized.
 type SyncMarker int
 
-//go:generate stringer -type=SyncMarker -trimprefix=Sync
+//golang:generate stringer -type=SyncMarker -trimprefix=Sync
 
 const (
 	_ SyncMarker = iota
 
-	// Public markers (known to go/types importers).
+	// Public markers (known to golang/types importers).
 
 	// Low-level coding markers.
 	SyncEOF

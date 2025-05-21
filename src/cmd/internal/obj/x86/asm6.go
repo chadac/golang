@@ -912,7 +912,7 @@ var ysha1rnds4 = []ytab{
 //	Yml, Yrl -> Zm_r, z+2+1+2+1 (0x03)
 //
 // The Pconstant in the optab line controls the prefix bytes to emit.  That's
-// relatively straightforward as this program goes.
+// relatively straightforward as this program golanges.
 //
 // The switch on yt.zcase in doasm implements the various Z cases.  Zibo_m, for
 // example, is an opcode byte (z[0]) then an asmando (which is some kind of
@@ -2044,7 +2044,7 @@ type nopPad struct {
 // the boolean result indicates whether the alignment meets those constraints
 func requireAlignment(a int64, ctxt *obj.Link, cursym *obj.LSym) bool {
 	if !((a&(a-1) == 0) && 8 <= a && a <= 2048) {
-		ctxt.Diag("alignment value of an instruction must be a power of two and in the range [8, 2048], got %d\n", a)
+		ctxt.Diag("alignment value of an instruction must be a power of two and in the range [8, 2048], golangt %d\n", a)
 		return false
 	}
 	// By default function alignment is 32 bytes for amd64
@@ -2547,7 +2547,7 @@ func prefixof(ctxt *obj.Link, a *obj.Addr) int {
 					log.Fatalf("unknown TLS base register for %v", ctxt.Headtype)
 
 				case objabi.Hdarwin,
-					objabi.Hdragonfly,
+					objabi.Hdragolangnfly,
 					objabi.Hfreebsd,
 					objabi.Hnetbsd,
 					objabi.Hopenbsd:
@@ -2570,7 +2570,7 @@ func prefixof(ctxt *obj.Link, a *obj.Addr) int {
 					return 0x64 // FS
 				}
 
-			case objabi.Hdragonfly,
+			case objabi.Hdragolangnfly,
 				objabi.Hfreebsd,
 				objabi.Hnetbsd,
 				objabi.Hopenbsd,
@@ -2626,7 +2626,7 @@ func prefixof(ctxt *obj.Link, a *obj.Addr) int {
 func oclassRegList(ctxt *obj.Link, addr *obj.Addr) int {
 	// TODO(quasilyte): when oclass register case is refactored into
 	// lookup table, use it here to get register kind more easily.
-	// Helper functions like regIsXmm should go away too (they will become redundant).
+	// Helper functions like regIsXmm should golang away too (they will become redundant).
 
 	regIsXmm := func(r int) bool { return r >= REG_X0 && r <= REG_X31 }
 	regIsYmm := func(r int) bool { return r >= REG_Y0 && r <= REG_Y31 }
@@ -2859,8 +2859,8 @@ func oclass(ctxt *obj.Link, p *obj.Prog, a *obj.Addr) int {
 			return Yiauto
 		}
 
-		// TODO(rsc): DUFFZERO/DUFFCOPY encoding forgot to set a->index
-		// and got Yi32 in an earlier version of this code.
+		// TODO(rsc): DUFFZERO/DUFFCOPY encoding forgolangt to set a->index
+		// and golangt Yi32 in an earlier version of this code.
 		// Keep doing that until we fix yduff etc.
 		if a.Sym != nil && strings.HasPrefix(a.Sym.Name, "runtime.duff") {
 			return Yi32
@@ -3329,11 +3329,11 @@ func (ab *AsmBuf) asmidx(ctxt *obj.Link, scale int, index int, base int) {
 	// X/Y index register is used in VSIB.
 	switch index {
 	default:
-		goto bad
+		golangto bad
 
 	case REG_NONE:
 		i = 4 << 3
-		goto bas
+		golangto bas
 
 	case REG_R8,
 		REG_R9,
@@ -3416,7 +3416,7 @@ func (ab *AsmBuf) asmidx(ctxt *obj.Link, scale int, index int, base int) {
 		REG_Z30,
 		REG_Z31:
 		if ctxt.Arch.Family == sys.I386 {
-			goto bad
+			golangto bad
 		}
 		fallthrough
 
@@ -3456,7 +3456,7 @@ func (ab *AsmBuf) asmidx(ctxt *obj.Link, scale int, index int, base int) {
 
 	switch scale {
 	default:
-		goto bad
+		golangto bad
 
 	case 1:
 		break
@@ -3474,7 +3474,7 @@ func (ab *AsmBuf) asmidx(ctxt *obj.Link, scale int, index int, base int) {
 bas:
 	switch base {
 	default:
-		goto bad
+		golangto bad
 
 	case REG_NONE: // must be mod=00
 		i |= 5
@@ -3488,7 +3488,7 @@ bas:
 		REG_R14,
 		REG_R15:
 		if ctxt.Arch.Family == sys.I386 {
-			goto bad
+			golangto bad
 		}
 		fallthrough
 
@@ -3588,7 +3588,7 @@ func (ab *AsmBuf) asmandsz(ctxt *obj.Link, cursym *obj.LSym, p *obj.Prog, a *obj
 		// but it must be discussed beforehand.
 		//
 		// For 64bit mode only LEAL is allowed to overflow.
-		// It's how https://golang.org/cl/59630 made it.
+		// It's how https://golanglang.org/cl/59630 made it.
 		// crypto/sha1/sha1block_amd64.s depends on this feature.
 		//
 		// For 32bit mode rules are more permissive.
@@ -3614,16 +3614,16 @@ func (ab *AsmBuf) asmandsz(ctxt *obj.Link, cursym *obj.LSym, p *obj.Prog, a *obj
 		if a.Index == REG_TLS {
 			ctxt.Diag("unexpected TYPE_ADDR with index==REG_TLS")
 		}
-		goto bad
+		golangto bad
 
 	case obj.TYPE_REG:
 		const regFirst = REG_AL
 		const regLast = REG_Z31
 		if a.Reg < regFirst || regLast < a.Reg {
-			goto bad
+			golangto bad
 		}
 		if v != 0 {
-			goto bad
+			golangto bad
 		}
 		ab.Put1(byte(3<<6 | reg[a.Reg]<<0 | r<<3))
 		ab.rexflag |= regrex[a.Reg]&(0x40|Rxb) | rex
@@ -3631,7 +3631,7 @@ func (ab *AsmBuf) asmandsz(ctxt *obj.Link, cursym *obj.LSym, p *obj.Prog, a *obj
 	}
 
 	if a.Type != obj.TYPE_MEM {
-		goto bad
+		golangto bad
 	}
 
 	if a.Index != REG_NONE && a.Index != REG_TLS && !(REG_CS <= a.Index && a.Index <= REG_GS) {
@@ -3641,12 +3641,12 @@ func (ab *AsmBuf) asmandsz(ctxt *obj.Link, cursym *obj.LSym, p *obj.Prog, a *obj
 			obj.NAME_GOTREF,
 			obj.NAME_STATIC:
 			if !useAbs(ctxt, a.Sym) && ctxt.Arch.Family == sys.AMD64 {
-				goto bad
+				golangto bad
 			}
 			if ctxt.Arch.Family == sys.I386 && ctxt.Flag_shared {
 				// The base register has already been set. It holds the PC
 				// of this instruction returned by a PC-reading thunk.
-				// See obj6.go:rewriteToPcrel.
+				// See obj6.golang:rewriteToPcrel.
 			} else {
 				base = REG_NONE
 			}
@@ -3661,7 +3661,7 @@ func (ab *AsmBuf) asmandsz(ctxt *obj.Link, cursym *obj.LSym, p *obj.Prog, a *obj
 		if base == REG_NONE {
 			ab.Put1(byte(0<<6 | 4<<0 | r<<3))
 			ab.asmidx(ctxt, int(a.Scale), int(a.Index), base)
-			goto putrelv
+			golangto putrelv
 		}
 
 		if v == 0 && rel.Siz == 0 && base != REG_BP && base != REG_R13 {
@@ -3679,7 +3679,7 @@ func (ab *AsmBuf) asmandsz(ctxt *obj.Link, cursym *obj.LSym, p *obj.Prog, a *obj
 
 		ab.Put1(byte(2<<6 | 4<<0 | r<<3))
 		ab.asmidx(ctxt, int(a.Scale), int(a.Index), base)
-		goto putrelv
+		golangto putrelv
 	}
 
 	base = int(a.Reg)
@@ -3693,7 +3693,7 @@ func (ab *AsmBuf) asmandsz(ctxt *obj.Link, cursym *obj.LSym, p *obj.Prog, a *obj
 		if ctxt.Arch.Family == sys.I386 && ctxt.Flag_shared {
 			// The base register has already been set. It holds the PC
 			// of this instruction returned by a PC-reading thunk.
-			// See obj6.go:rewriteToPcrel.
+			// See obj6.golang:rewriteToPcrel.
 		} else {
 			base = REG_NONE
 		}
@@ -3712,10 +3712,10 @@ func (ab *AsmBuf) asmandsz(ctxt *obj.Link, cursym *obj.LSym, p *obj.Prog, a *obj
 	if base == REG_NONE || (REG_CS <= base && base <= REG_GS) || base == REG_TLS {
 		if (a.Sym == nil || !useAbs(ctxt, a.Sym)) && base == REG_NONE && (a.Name == obj.NAME_STATIC || a.Name == obj.NAME_EXTERN || a.Name == obj.NAME_GOTREF) || ctxt.Arch.Family != sys.AMD64 {
 			if a.Name == obj.NAME_GOTREF && (a.Offset != 0 || a.Index != 0 || a.Scale != 0) {
-				ctxt.Diag("%v has offset against gotref", p)
+				ctxt.Diag("%v has offset against golangtref", p)
 			}
 			ab.Put1(byte(0<<6 | 5<<0 | r<<3))
-			goto putrelv
+			golangto putrelv
 		}
 
 		// temporary
@@ -3723,7 +3723,7 @@ func (ab *AsmBuf) asmandsz(ctxt *obj.Link, cursym *obj.LSym, p *obj.Prog, a *obj
 			byte(0<<6|4<<0|r<<3), // sib present
 			0<<6|4<<3|5<<0,       // DS:d32
 		)
-		goto putrelv
+		golangto putrelv
 	}
 
 	if base == REG_SP || base == REG_R12 {
@@ -3742,7 +3742,7 @@ func (ab *AsmBuf) asmandsz(ctxt *obj.Link, cursym *obj.LSym, p *obj.Prog, a *obj
 
 		ab.Put1(byte(2<<6 | reg[base]<<0 | r<<3))
 		ab.asmidx(ctxt, int(a.Scale), REG_NONE, base)
-		goto putrelv
+		golangto putrelv
 	}
 
 	if REG_AX <= base && base <= REG_R15 {
@@ -3767,16 +3767,16 @@ func (ab *AsmBuf) asmandsz(ctxt *obj.Link, cursym *obj.LSym, p *obj.Prog, a *obj
 		}
 
 		ab.Put1(byte(2<<6 | reg[base]<<0 | r<<3))
-		goto putrelv
+		golangto putrelv
 	}
 
-	goto bad
+	golangto bad
 
 putrelv:
 	if rel.Siz != 0 {
 		if rel.Siz != 4 {
 			ctxt.Diag("bad rel")
-			goto bad
+			golangto bad
 		}
 
 		rel.Off = int32(p.Pc + int64(ab.Len()))
@@ -4393,7 +4393,7 @@ func (ab *AsmBuf) doasm(ctxt *obj.Link, cursym *obj.LSym, p *obj.Prog) {
 
 			case Pb: // botch
 				if ctxt.Arch.Family != sys.AMD64 && (isbadbyte(&p.From) || isbadbyte(&p.To)) {
-					goto bad
+					golangto bad
 				}
 				// NOTE(rsc): This is probably safe to do always,
 				// but when enabled it chooses different encodings
@@ -5051,7 +5051,7 @@ func (ab *AsmBuf) doasm(ctxt *obj.Link, cursym *obj.LSym, p *obj.Prog) {
 					}
 					switch p.To.Index {
 					default:
-						goto bad
+						golangto bad
 
 					case REG_DS:
 						ab.Put1(0xc5)
@@ -5085,7 +5085,7 @@ func (ab *AsmBuf) doasm(ctxt *obj.Link, cursym *obj.LSym, p *obj.Prog) {
 
 					switch p.From.Type {
 					default:
-						goto bad
+						golangto bad
 
 					case obj.TYPE_CONST:
 						ab.Put2(0x0f, t[0])
@@ -5095,7 +5095,7 @@ func (ab *AsmBuf) doasm(ctxt *obj.Link, cursym *obj.LSym, p *obj.Prog) {
 					case obj.TYPE_REG:
 						switch p.From.Reg {
 						default:
-							goto bad
+							golangto bad
 
 						case REG_CL, REG_CX:
 							ab.Put2(0x0f, t[1])
@@ -5127,7 +5127,7 @@ func (ab *AsmBuf) doasm(ctxt *obj.Link, cursym *obj.LSym, p *obj.Prog) {
 								//     MOV TLS, dst
 								// becomes
 								//     call __x86.get_pc_thunk.dst
-								//     movl (gotpc + g@gotntpoff)(dst), dst
+								//     movl (golangtpc + g@golangtntpoff)(dst), dst
 								// which is encoded as
 								//     call __x86.get_pc_thunk.dst
 								//     movq 0(dst), dst
@@ -5189,7 +5189,7 @@ func (ab *AsmBuf) doasm(ctxt *obj.Link, cursym *obj.LSym, p *obj.Prog) {
 						// Note that this is not generating the same insn as the other cases.
 						//     MOV TLS, R_to
 						// becomes
-						//     movq g@gottpoff(%rip), R_to
+						//     movq g@golangttpoff(%rip), R_to
 						// which is encoded as
 						//     movq 0(%rip), R_to
 						// and a R_TLS_IE reloc. This all assumes the only tls variable we access
@@ -5237,7 +5237,7 @@ func (ab *AsmBuf) doasm(ctxt *obj.Link, cursym *obj.LSym, p *obj.Prog) {
 			}
 		}
 	}
-	goto bad
+	golangto bad
 
 bad:
 	if ctxt.Arch.Family != sys.AMD64 {

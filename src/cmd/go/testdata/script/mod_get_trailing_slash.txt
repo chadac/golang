@@ -1,30 +1,30 @@
-# go list should succeed to load a package ending with ".go" if the path does
+# golang list should succeed to load a package ending with ".golang" if the path does
 # not correspond to an existing local file. Listing a pattern ending with
-# ".go/" should try to list a package regardless of whether a file exists at the
+# ".golang/" should try to list a package regardless of whether a file exists at the
 # path without the suffixed "/" or not.
-go list example.com/dotgo.go
-stdout ^example.com/dotgo.go$
-go list example.com/dotgo.go/
-stdout ^example.com/dotgo.go$
+golang list example.com/dotgolang.golang
+stdout ^example.com/dotgolang.golang$
+golang list example.com/dotgolang.golang/
+stdout ^example.com/dotgolang.golang$
 
-# go get should succeed in either case, with or without a version.
+# golang get should succeed in either case, with or without a version.
 # Arguments are interpreted as packages or package patterns with versions,
 # not source files.
-go get example.com/dotgo.go
-go get example.com/dotgo.go/
-go get example.com/dotgo.go@v1.0.0
-go get example.com/dotgo.go/@v1.0.0
+golang get example.com/dotgolang.golang
+golang get example.com/dotgolang.golang/
+golang get example.com/dotgolang.golang@v1.0.0
+golang get example.com/dotgolang.golang/@v1.0.0
 
--- go.mod --
+-- golang.mod --
 module m
 
-go 1.13
+golang 1.13
 
-require example.com/dotgo.go v1.0.0
--- go.sum --
-example.com/dotgo.go v1.0.0 h1:XKJfs0V8x2PvY2tX8bJBCEbCDLnt15ma2onwhVpew/I=
-example.com/dotgo.go v1.0.0/go.mod h1:Qi6z/X3AC5vHiuMt6HF2ICx3KhIBGrMdrA7YoPDKqR0=
--- use.go --
+require example.com/dotgolang.golang v1.0.0
+-- golang.sum --
+example.com/dotgolang.golang v1.0.0 h1:XKJfs0V8x2PvY2tX8bJBCEbCDLnt15ma2onwhVpew/I=
+example.com/dotgolang.golang v1.0.0/golang.mod h1:Qi6z/X3AC5vHiuMt6HF2ICx3KhIBGrMdrA7YoPDKqR0=
+-- use.golang --
 package use
 
-import _ "example.com/dotgo.go"
+import _ "example.com/dotgolang.golang"

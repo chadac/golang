@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package cov_test
@@ -49,7 +49,7 @@ func TestIssue58411(t *testing.T) {
 	// it is one of the factors that triggers issue 58411.
 	d := t.TempDir()
 	exepath := filepath.Join(d, "small.exe")
-	path := filepath.Join("testdata", "small.go")
+	path := filepath.Join("testdata", "small.golang")
 	cmd := testenv.Command(t, testenv.GoToolPath(t), "build",
 		"-o", exepath, "-cover", path)
 	b, err := cmd.CombinedOutput()
@@ -91,8 +91,8 @@ func TestIssue58411(t *testing.T) {
 
 	// make sure we saw a few things just for grins
 	const want = "{metaFileCount:1 counterFileCount:1 funcCounterData:1 metaFuncCount:1}"
-	got := fmt.Sprintf("%+v", *vis)
-	if want != got {
-		t.Errorf("visitor contents: want %v got %v\n", want, got)
+	golangt := fmt.Sprintf("%+v", *vis)
+	if want != golangt {
+		t.Errorf("visitor contents: want %v golangt %v\n", want, golangt)
 	}
 }

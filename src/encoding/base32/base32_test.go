@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package base32
@@ -55,8 +55,8 @@ func testEqual(t *testing.T, msg string, args ...any) bool {
 
 func TestEncode(t *testing.T) {
 	for _, p := range pairs {
-		got := StdEncoding.EncodeToString([]byte(p.decoded))
-		testEqual(t, "Encode(%q) = %q, want %q", p.decoded, got, p.encoded)
+		golangt := StdEncoding.EncodeToString([]byte(p.decoded))
+		testEqual(t, "Encode(%q) = %q, want %q", p.decoded, golangt, p.encoded)
 		dst := StdEncoding.AppendEncode([]byte("lead"), []byte(p.decoded))
 		testEqual(t, `AppendEncode("lead", %q) = %q, want %q`, p.decoded, string(dst), "lead"+p.encoded)
 	}
@@ -152,7 +152,7 @@ func TestDecode(t *testing.T) {
 		testEqual(t, "AppendDecode(%q) = error %v, want %v", p.encoded, err, error(nil))
 		testEqual(t, `AppendDecode("", %q) = %q, want %q`, p.encoded, string(dst2), p.decoded)
 		if len(dst) > 0 && len(dst2) > 0 && &dst[0] != &dst2[0] {
-			t.Errorf("unexpected capacity growth: got %d, want %d", cap(dst2), cap(dst))
+			t.Errorf("unexpected capacity growth: golangt %d, want %d", cap(dst2), cap(dst))
 		}
 	}
 }
@@ -535,10 +535,10 @@ func TestWithCustomPadding(t *testing.T) {
 		expected := strings.ReplaceAll(defaultPadding, "=", "@")
 
 		if expected != customPadding {
-			t.Errorf("Expected custom %s, got %s", expected, customPadding)
+			t.Errorf("Expected custom %s, golangt %s", expected, customPadding)
 		}
 		if testcase.encoded != defaultPadding {
-			t.Errorf("Expected %s, got %s", testcase.encoded, defaultPadding)
+			t.Errorf("Expected %s, golangt %s", testcase.encoded, defaultPadding)
 		}
 	}
 }
@@ -550,10 +550,10 @@ func TestWithoutPadding(t *testing.T) {
 		expected := strings.TrimRight(defaultPadding, "=")
 
 		if expected != customPadding {
-			t.Errorf("Expected custom %s, got %s", expected, customPadding)
+			t.Errorf("Expected custom %s, golangt %s", expected, customPadding)
 		}
 		if testcase.encoded != defaultPadding {
-			t.Errorf("Expected %s, got %s", testcase.encoded, defaultPadding)
+			t.Errorf("Expected %s, golangt %s", testcase.encoded, defaultPadding)
 		}
 	}
 }
@@ -577,7 +577,7 @@ func TestDecodeWithPadding(t *testing.T) {
 			}
 
 			if input != string(decoded) {
-				t.Errorf("Unexpected result for encoding %d: got %q; want %q", i, decoded, input)
+				t.Errorf("Unexpected result for encoding %d: golangt %q; want %q", i, decoded, input)
 			}
 		}
 	}
@@ -660,7 +660,7 @@ func TestBufferedDecodingSameError(t *testing.T) {
 			pr, pw := io.Pipe()
 
 			// Write the encoded chunks into the pipe
-			go func() {
+			golang func() {
 				for _, chunk := range chunks {
 					pw.Write([]byte(chunk))
 				}
@@ -671,7 +671,7 @@ func TestBufferedDecodingSameError(t *testing.T) {
 			_, err := io.ReadAll(decoder)
 
 			if err != testcase.expected {
-				t.Errorf("Expected %v, got %v; case %s %+v", testcase.expected, err, testcase.prefix, chunks)
+				t.Errorf("Expected %v, golangt %v; case %s %+v", testcase.expected, err, testcase.prefix, chunks)
 			}
 		}
 	}
@@ -711,7 +711,7 @@ func TestBufferedDecodingPadding(t *testing.T) {
 	for _, testcase := range testcases {
 		testcase := testcase
 		pr, pw := io.Pipe()
-		go func() {
+		golang func() {
 			for _, chunk := range testcase.chunks {
 				_, _ = pw.Write([]byte(chunk))
 			}
@@ -722,9 +722,9 @@ func TestBufferedDecodingPadding(t *testing.T) {
 		_, err := io.ReadAll(decoder)
 
 		if err == nil && len(testcase.expectedError) != 0 {
-			t.Errorf("case %q: got nil error, want %v", testcase.chunks, testcase.expectedError)
+			t.Errorf("case %q: golangt nil error, want %v", testcase.chunks, testcase.expectedError)
 		} else if err.Error() != testcase.expectedError {
-			t.Errorf("case %q: got %v, want %v", testcase.chunks, err, testcase.expectedError)
+			t.Errorf("case %q: golangt %v, want %v", testcase.chunks, err, testcase.expectedError)
 		}
 	}
 }
@@ -767,8 +767,8 @@ func TestEncodedLen(t *testing.T) {
 		tests = append(tests, test{rawStdEncoding, math.MaxInt/8*5 + 4, math.MaxInt})
 	}
 	for _, tt := range tests {
-		if got := tt.enc.EncodedLen(tt.n); int64(got) != tt.want {
-			t.Errorf("EncodedLen(%d): got %d, want %d", tt.n, got, tt.want)
+		if golangt := tt.enc.EncodedLen(tt.n); int64(golangt) != tt.want {
+			t.Errorf("EncodedLen(%d): golangt %d, want %d", tt.n, golangt, tt.want)
 		}
 	}
 }
@@ -806,8 +806,8 @@ func TestDecodedLen(t *testing.T) {
 		tests = append(tests, test{rawStdEncoding, math.MaxInt, 5764607523034234879})
 	}
 	for _, tt := range tests {
-		if got := tt.enc.DecodedLen(tt.n); int64(got) != tt.want {
-			t.Errorf("DecodedLen(%d): got %d, want %d", tt.n, got, tt.want)
+		if golangt := tt.enc.DecodedLen(tt.n); int64(golangt) != tt.want {
+			t.Errorf("DecodedLen(%d): golangt %d, want %d", tt.n, golangt, tt.want)
 		}
 	}
 }
@@ -834,7 +834,7 @@ func TestWithoutPaddingClose(t *testing.T) {
 			res := buf.String()
 
 			if res != expected {
-				t.Errorf("Expected %s got %s; padChar=%d", expected, res, encoding.padChar)
+				t.Errorf("Expected %s golangt %s; padChar=%d", expected, res, encoding.padChar)
 			}
 		}
 	}
@@ -859,7 +859,7 @@ func TestDecodeReadAll(t *testing.T) {
 			}
 
 			if pair.decoded != string(decReader) {
-				t.Errorf("Expected %s got %s; Encoding %d", pair.decoded, decReader, encIndex)
+				t.Errorf("Expected %s golangt %s; Encoding %d", pair.decoded, decReader, encIndex)
 			}
 		}
 	}
@@ -896,7 +896,7 @@ func TestDecodeSmallBuffer(t *testing.T) {
 				}
 
 				if pair.decoded != string(allRead) {
-					t.Errorf("Expected %s got %s; Encoding %d; bufferSize %d", pair.decoded, allRead, encIndex, bufferSize)
+					t.Errorf("Expected %s golangt %s; Encoding %d; bufferSize %d", pair.decoded, allRead, encIndex, bufferSize)
 				}
 			}
 		}

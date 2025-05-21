@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package x86_test
@@ -98,7 +98,7 @@ func asmOutput(t *testing.T, s string) []byte {
 		"-o", filepath.Join(tmpdir, "output.6"), tmpfile.Name())
 
 	cmd.Env = append(os.Environ(),
-		"GOARCH=amd64", "GOOS=linux", "GOPATH="+filepath.Join(tmpdir, "_gopath"))
+		"GOARCH=amd64", "GOOS=linux", "GOPATH="+filepath.Join(tmpdir, "_golangpath"))
 	asmout, err := cmd.CombinedOutput()
 	if err != nil {
 		t.Fatalf("error %s output %s", err, asmout)

@@ -1,5 +1,5 @@
 // Copyright 2009,2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Darwin system calls.
@@ -8,7 +8,7 @@
 // which parses the //sys lines and generates system call stubs.
 // Note that sometimes we use a lowercase //sys name and wrap
 // it in our own nicer implementation, either here or in
-// syscall_bsd.go or syscall_unix.go.
+// syscall_bsd.golang or syscall_unix.golang.
 
 package syscall
 
@@ -111,16 +111,16 @@ func Getfsstat(buf []Statfs_t, flags int) (n int, err error) {
 
 func libc_getfsstat_trampoline()
 
-//go:cgo_import_dynamic libc_getfsstat getfsstat "/usr/lib/libSystem.B.dylib"
+//golang:cgolang_import_dynamic libc_getfsstat getfsstat "/usr/lib/libSystem.B.dylib"
 
 // utimensat should be an internal detail,
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
 //   - github.com/tetratelabs/wazero
 //
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname utimensat
+//golang:linkname utimensat
 
 //sys	utimensat(dirfd int, path string, times *[2]Timespec, flags int) (err error)
 
@@ -154,7 +154,7 @@ func Kill(pid int, signum Signal) (err error) { return kill(pid, int(signum), 1)
 //sys	Flock(fd int, how int) (err error)
 //sys	Fpathconf(fd int, name int) (val int, err error)
 //sys	Fsync(fd int) (err error)
-//  Fsync is not called for os.File.Sync(). Please see internal/poll/fd_fsync_darwin.go
+//  Fsync is not called for os.File.Sync(). Please see internal/poll/fd_fsync_darwin.golang
 //sys	Ftruncate(fd int, length int64) (err error)
 //sys	Getdtablesize() (size int)
 //sysnb	Getegid() (egid int)
@@ -242,7 +242,7 @@ func fdopendir(fd int) (dir uintptr, err error) {
 
 func libc_fdopendir_trampoline()
 
-//go:cgo_import_dynamic libc_fdopendir fdopendir "/usr/lib/libSystem.B.dylib"
+//golang:cgolang_import_dynamic libc_fdopendir fdopendir "/usr/lib/libSystem.B.dylib"
 
 func readlen(fd int, buf *byte, nbuf int) (n int, err error) {
 	r0, _, e1 := syscall(abi.FuncPCABI0(libc_read_trampoline), uintptr(fd), uintptr(unsafe.Pointer(buf)), uintptr(nbuf))
@@ -323,7 +323,7 @@ func Getdirentries(fd int, buf []byte, basep *uintptr) (n int, err error) {
 	return n, nil
 }
 
-// Implemented in the runtime package (runtime/sys_darwin.go)
+// Implemented in the runtime package (runtime/sys_darwin.golang)
 func syscall(fn, a1, a2, a3 uintptr) (r1, r2 uintptr, err Errno)
 func syscall6(fn, a1, a2, a3, a4, a5, a6 uintptr) (r1, r2 uintptr, err Errno)
 func syscall6X(fn, a1, a2, a3, a4, a5, a6 uintptr) (r1, r2 uintptr, err Errno)

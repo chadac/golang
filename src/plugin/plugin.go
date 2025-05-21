@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package plugin implements loading and symbol resolution of Go plugins.
@@ -7,7 +7,7 @@
 // A plugin is a Go main package with exported functions and variables that
 // has been built with:
 //
-//	go build -buildmode=plugin
+//	golang build -buildmode=plugin
 //
 // When a plugin is first opened, the init functions of all packages not
 // already part of the program are called. The main function is not run.
@@ -31,7 +31,7 @@
 //
 //   - Plugins are poorly supported by the Go race detector. Even simple
 //     race conditions may not be automatically detected. See
-//     https://go.dev/issue/24245 for more information.
+//     https://golang.dev/issue/24245 for more information.
 //
 //   - Applications that use plugins may require careful configuration
 //     to ensure that the various parts of the program be made available
@@ -79,7 +79,7 @@ type Plugin struct {
 
 // Open opens a Go plugin.
 // If a path has already been opened, then the existing *[Plugin] is returned.
-// It is safe for concurrent use by multiple goroutines.
+// It is safe for concurrent use by multiple golangroutines.
 func Open(path string) (*Plugin, error) {
 	return open(path)
 }
@@ -87,7 +87,7 @@ func Open(path string) (*Plugin, error) {
 // Lookup searches for a symbol named symName in plugin p.
 // A symbol is any exported variable or function.
 // It reports an error if the symbol is not found.
-// It is safe for concurrent use by multiple goroutines.
+// It is safe for concurrent use by multiple golangroutines.
 func (p *Plugin) Lookup(symName string) (Symbol, error) {
 	return lookup(p, symName)
 }

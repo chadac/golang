@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package pkginit
@@ -125,7 +125,7 @@ func instrumentGlobals(fn *ir.Func) *ir.Name {
 // by a uintptr, then use type conversion to make copies of the data.
 // E.g., (*defString)(asanGlobal.name).data to C string.
 //
-// Keep in sync with src/runtime/asan/asan.go.
+// Keep in sync with src/runtime/asan/asan.golang.
 // type asanGlobal struct {
 //	beg               uintptr
 //	size              uintptr
@@ -222,13 +222,13 @@ func canInstrumentGlobal(g ir.Node) bool {
 	if n.Sym().Pkg != types.LocalPkg {
 		return false
 	}
-	// Do not instrument any _cgo_ related global variables, because they are declared in C code.
-	if strings.Contains(n.Sym().Name, "cgo") {
+	// Do not instrument any _cgolang_ related global variables, because they are declared in C code.
+	if strings.Contains(n.Sym().Name, "cgolang") {
 		return false
 	}
 
 	// Do not instrument counter globals in internal/fuzz. These globals are replaced by the linker.
-	// See go.dev/issue/72766 for more details.
+	// See golang.dev/issue/72766 for more details.
 	if n.Sym().Pkg.Path == "internal/fuzz" && (n.Sym().Name == "_counters" || n.Sym().Name == "_ecounters") {
 		return false
 	}

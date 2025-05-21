@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file implements the visitor that computes the (line, column)-(line-column) range for each function.
@@ -12,9 +12,9 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"go/ast"
-	"go/parser"
-	"go/token"
+	"golang/ast"
+	"golang/parser"
+	"golang/token"
 	"io"
 	"os"
 	"os/exec"
@@ -24,19 +24,19 @@ import (
 	"strings"
 	"text/tabwriter"
 
-	"golang.org/x/tools/cover"
+	"golanglang.org/x/tools/cover"
 )
 
 // funcOutput takes two file names as arguments, a coverage profile to read as input and an output
 // file to write ("" means to write to standard output). The function reads the profile and produces
 // as output the coverage data broken down by function, like this:
 //
-//	fmt/format.go:30:	init			100.0%
-//	fmt/format.go:57:	clearflags		100.0%
+//	fmt/format.golang:30:	init			100.0%
+//	fmt/format.golang:57:	clearflags		100.0%
 //	...
-//	fmt/scan.go:1046:	doScan			100.0%
-//	fmt/scan.go:1075:	advance			96.2%
-//	fmt/scan.go:1119:	doScanf			96.8%
+//	fmt/scan.golang:1046:	doScan			100.0%
+//	fmt/scan.golang:1075:	advance			96.2%
+//	fmt/scan.golang:1119:	doScanf			96.8%
 //	total:		(statements)			91.9%
 
 func funcOutput(profile, outputFile string) error {
@@ -168,7 +168,7 @@ func (f *FuncExtent) coverage(profile *cover.Profile) (num, den int64) {
 	return covered, total
 }
 
-// Pkg describes a single package, compatible with the JSON output from 'go list'; see 'go help list'.
+// Pkg describes a single package, compatible with the JSON output from 'golang list'; see 'golang help list'.
 type Pkg struct {
 	ImportPath string
 	Dir        string
@@ -178,7 +178,7 @@ type Pkg struct {
 }
 
 func findPkgs(profiles []*cover.Profile) (map[string]*Pkg, error) {
-	// Run go list to find the location of every package we care about.
+	// Run golang list to find the location of every package we care about.
 	pkgs := make(map[string]*Pkg)
 	var list []string
 	for _, profile := range profiles {
@@ -197,15 +197,15 @@ func findPkgs(profiles []*cover.Profile) (map[string]*Pkg, error) {
 		return pkgs, nil
 	}
 
-	// Note: usually run as "go tool cover" in which case $GOROOT is set,
+	// Note: usually run as "golang tool cover" in which case $GOROOT is set,
 	// in which case runtime.GOROOT() does exactly what we want.
-	goTool := filepath.Join(runtime.GOROOT(), "bin/go")
-	cmd := exec.Command(goTool, append([]string{"list", "-e", "-json"}, list...)...)
+	golangTool := filepath.Join(runtime.GOROOT(), "bin/golang")
+	cmd := exec.Command(golangTool, append([]string{"list", "-e", "-json"}, list...)...)
 	var stderr bytes.Buffer
 	cmd.Stderr = &stderr
 	stdout, err := cmd.Output()
 	if err != nil {
-		return nil, fmt.Errorf("cannot run go list: %v\n%s", err, stderr.Bytes())
+		return nil, fmt.Errorf("cannot run golang list: %v\n%s", err, stderr.Bytes())
 	}
 	dec := json.NewDecoder(bytes.NewReader(stdout))
 	for {
@@ -215,7 +215,7 @@ func findPkgs(profiles []*cover.Profile) (map[string]*Pkg, error) {
 			break
 		}
 		if err != nil {
-			return nil, fmt.Errorf("decoding go list json: %v", err)
+			return nil, fmt.Errorf("decoding golang list json: %v", err)
 		}
 		pkgs[pkg.ImportPath] = &pkg
 	}
@@ -237,7 +237,7 @@ func findFile(pkgs map[string]*Pkg, file string) (string, error) {
 			return "", errors.New(pkg.Error.Err)
 		}
 	}
-	return "", fmt.Errorf("did not find package for %s in go list output", file)
+	return "", fmt.Errorf("did not find package for %s in golang list output", file)
 }
 
 func percent(covered, total int64) float64 {

@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package net
@@ -13,7 +13,7 @@ import (
 	"net/netip"
 	"sync"
 
-	"golang.org/x/net/dns/dnsmessage"
+	"golanglang.org/x/net/dns/dnsmessage"
 )
 
 // protocols contains minimal mappings between internet protocol
@@ -36,7 +36,7 @@ var protocols = map[string]int{
 //
 // See https://www.iana.org/assignments/service-names-port-numbers
 //
-// On Unix, this map is augmented by readServices via goLookupPort.
+// On Unix, this map is augmented by readServices via golangLookupPort.
 var services = map[string]map[string]int{
 	"udp": {
 		"domain": 53,
@@ -44,7 +44,7 @@ var services = map[string]map[string]int{
 	"tcp": {
 		"ftp":         21,
 		"ftps":        990,
-		"gopher":      70, // ʕ◔ϖ◔ʔ
+		"golangpher":      70, // ʕ◔ϖ◔ʔ
 		"http":        80,
 		"https":       443,
 		"imap2":       143,
@@ -59,7 +59,7 @@ var services = map[string]map[string]int{
 	},
 }
 
-// dnsWaitGroup can be used by tests to wait for all DNS goroutines to
+// dnsWaitGroup can be used by tests to wait for all DNS golangroutines to
 // complete. This avoids races on the test hooks.
 var dnsWaitGroup sync.WaitGroup
 
@@ -134,7 +134,7 @@ var DefaultResolver = &Resolver{}
 type Resolver struct {
 	// PreferGo controls whether Go's built-in DNS resolver is preferred
 	// on platforms where it's available. It is equivalent to setting
-	// GODEBUG=netdns=go, but scoped to just this resolver.
+	// GODEBUG=netdns=golang, but scoped to just this resolver.
 	PreferGo bool
 
 	// StrictErrors controls the behavior of temporary errors
@@ -343,17 +343,17 @@ func (r *Resolver) lookupIPAddr(ctx context.Context, network, host string) ([]IP
 	select {
 	case <-ctx.Done():
 		// Our context was canceled. If we are the only
-		// goroutine looking up this key, then drop the key
+		// golangroutine looking up this key, then drop the key
 		// from the lookupGroup and cancel the lookup.
-		// If there are other goroutines looking up this key,
+		// If there are other golangroutines looking up this key,
 		// let the lookup continue uncanceled, and let later
 		// lookups with the same key share the result.
 		// See issues 8602, 20703, 22724.
 		if r.getLookupGroup().ForgetUnshared(lookupKey) {
 			lookupGroupCancel()
-			go dnsWaitGroupDone(ch, func() {})
+			golang dnsWaitGroupDone(ch, func() {})
 		} else {
-			go dnsWaitGroupDone(ch, lookupGroupCancel)
+			golang dnsWaitGroupDone(ch, lookupGroupCancel)
 		}
 		err := newDNSError(mapErr(ctx.Err()), host, "")
 		if trace != nil && trace.DNSDone != nil {
@@ -704,7 +704,7 @@ func (r *Resolver) dial(ctx context.Context, network, server string) (Conn, erro
 	return c, nil
 }
 
-// goLookupSRV returns the SRV records for a target name, built either
+// golangLookupSRV returns the SRV records for a target name, built either
 // from its component service ("sip"), protocol ("tcp"), and name
 // ("example.com."), or from name directly (if service and proto are
 // both empty).
@@ -713,7 +713,7 @@ func (r *Resolver) dial(ctx context.Context, network, server string) (Conn, erro
 // is also returned on success.
 //
 // The records are sorted by weight.
-func (r *Resolver) goLookupSRV(ctx context.Context, service, proto, name string) (target string, srvs []*SRV, err error) {
+func (r *Resolver) golangLookupSRV(ctx context.Context, service, proto, name string) (target string, srvs []*SRV, err error) {
 	if service == "" && proto == "" {
 		target = name
 	} else {
@@ -763,8 +763,8 @@ func (r *Resolver) goLookupSRV(ctx context.Context, service, proto, name string)
 	return cname.String(), srvs, nil
 }
 
-// goLookupMX returns the MX records for name.
-func (r *Resolver) goLookupMX(ctx context.Context, name string) ([]*MX, error) {
+// golangLookupMX returns the MX records for name.
+func (r *Resolver) golangLookupMX(ctx context.Context, name string) ([]*MX, error) {
 	p, server, err := r.lookup(ctx, name, dnsmessage.TypeMX, nil)
 	if err != nil {
 		return nil, err
@@ -807,8 +807,8 @@ func (r *Resolver) goLookupMX(ctx context.Context, name string) ([]*MX, error) {
 	return mxs, nil
 }
 
-// goLookupNS returns the NS records for name.
-func (r *Resolver) goLookupNS(ctx context.Context, name string) ([]*NS, error) {
+// golangLookupNS returns the NS records for name.
+func (r *Resolver) golangLookupNS(ctx context.Context, name string) ([]*NS, error) {
 	p, server, err := r.lookup(ctx, name, dnsmessage.TypeNS, nil)
 	if err != nil {
 		return nil, err
@@ -849,8 +849,8 @@ func (r *Resolver) goLookupNS(ctx context.Context, name string) ([]*NS, error) {
 	return nss, nil
 }
 
-// goLookupTXT returns the TXT records from name.
-func (r *Resolver) goLookupTXT(ctx context.Context, name string) ([]string, error) {
+// golangLookupTXT returns the TXT records from name.
+func (r *Resolver) golangLookupTXT(ctx context.Context, name string) ([]string, error) {
 	p, server, err := r.lookup(ctx, name, dnsmessage.TypeTXT, nil)
 	if err != nil {
 		return nil, err

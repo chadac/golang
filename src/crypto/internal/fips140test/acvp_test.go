@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package fipstest
@@ -16,7 +16,7 @@ package fipstest
 // for a more detailed description of the protocol used between the acvptool
 // and module wrappers.
 //
-// [0]: https://boringssl.googlesource.com/boringssl/+/refs/heads/master/util/fipstools/acvp/ACVP.md#testing-other-fips-modules
+// [0]: https://boringssl.golangoglesource.com/boringssl/+/refs/heads/master/util/fipstools/acvp/ACVP.md#testing-other-fips-modules
 
 import (
 	"bufio"
@@ -114,49 +114,49 @@ const (
 )
 
 var (
-	// SHA2 algorithm capabilities:
-	//   https://pages.nist.gov/ACVP/draft-celi-acvp-sha.html#section-7.2
-	// SHA3 and SHAKE algorithm capabilities:
-	//   https://pages.nist.gov/ACVP/draft-celi-acvp-sha3.html#name-sha3-and-shake-algorithm-ca
-	// cSHAKE algorithm capabilities:
-	//   https://pages.nist.gov/ACVP/draft-celi-acvp-xof.html#section-7.2
-	// HMAC algorithm capabilities:
-	//   https://pages.nist.gov/ACVP/draft-fussell-acvp-mac.html#section-7
-	// PBKDF2 algorithm capabilities:
-	//   https://pages.nist.gov/ACVP/draft-celi-acvp-pbkdf.html#section-7.3
-	// ML-KEM algorithm capabilities:
-	//   https://pages.nist.gov/ACVP/draft-celi-acvp-ml-kem.html#section-7.3
-	// HMAC DRBG algorithm capabilities:
-	//   https://pages.nist.gov/ACVP/draft-vassilev-acvp-drbg.html#section-7.2
-	// EDDSA algorithm capabilities:
-	//   https://pages.nist.gov/ACVP/draft-celi-acvp-eddsa.html#section-7
-	// ECDSA and DetECDSA algorithm capabilities:
-	//   https://pages.nist.gov/ACVP/draft-fussell-acvp-ecdsa.html#section-7
-	// AES algorithm capabilities:
-	//   https://pages.nist.gov/ACVP/draft-celi-acvp-symmetric.html#section-7.3
-	// HKDF KDA algorithm capabilities:
-	//   https://pages.nist.gov/ACVP/draft-hammett-acvp-kas-kdf-hkdf.html#section-7.3
-	// OneStepNoCounter KDA algorithm capabilities:
-	//   https://pages.nist.gov/ACVP/draft-hammett-acvp-kas-kdf-onestepnocounter.html#section-7.2
-	// TLS 1.2 KDF algorithm capabilities:
-	//   https://pages.nist.gov/ACVP/draft-celi-acvp-kdf-tls.html#section-7.2
-	// TLS 1.3 KDF algorithm capabilities:
-	//   https://pages.nist.gov/ACVP/draft-hammett-acvp-kdf-tls-v1.3.html#section-7.2
-	// SSH KDF algorithm capabilities:
-	//   https://pages.nist.gov/ACVP/draft-celi-acvp-kdf-ssh.html#section-7.2
-	// ECDH algorithm capabilities:
-	//   https://pages.nist.gov/ACVP/draft-hammett-acvp-kas-ssc-ecc.html#section-7.3
-	// HMAC DRBG and CTR DRBG algorithm capabilities:
-	//   https://pages.nist.gov/ACVP/draft-vassilev-acvp-drbg.html#section-7.2
-	// KDF-Counter and KDF-Feedback algorithm capabilities:
-	//   https://pages.nist.gov/ACVP/draft-celi-acvp-kbkdf.html#section-7.3
-	// RSA algorithm capabilities:
-	//   https://pages.nist.gov/ACVP/draft-celi-acvp-rsa.html#section-7.3
-	//go:embed acvp_capabilities.json
+	// SHA2 algolangrithm capabilities:
+	//   https://pages.nist.golangv/ACVP/draft-celi-acvp-sha.html#section-7.2
+	// SHA3 and SHAKE algolangrithm capabilities:
+	//   https://pages.nist.golangv/ACVP/draft-celi-acvp-sha3.html#name-sha3-and-shake-algolangrithm-ca
+	// cSHAKE algolangrithm capabilities:
+	//   https://pages.nist.golangv/ACVP/draft-celi-acvp-xof.html#section-7.2
+	// HMAC algolangrithm capabilities:
+	//   https://pages.nist.golangv/ACVP/draft-fussell-acvp-mac.html#section-7
+	// PBKDF2 algolangrithm capabilities:
+	//   https://pages.nist.golangv/ACVP/draft-celi-acvp-pbkdf.html#section-7.3
+	// ML-KEM algolangrithm capabilities:
+	//   https://pages.nist.golangv/ACVP/draft-celi-acvp-ml-kem.html#section-7.3
+	// HMAC DRBG algolangrithm capabilities:
+	//   https://pages.nist.golangv/ACVP/draft-vassilev-acvp-drbg.html#section-7.2
+	// EDDSA algolangrithm capabilities:
+	//   https://pages.nist.golangv/ACVP/draft-celi-acvp-eddsa.html#section-7
+	// ECDSA and DetECDSA algolangrithm capabilities:
+	//   https://pages.nist.golangv/ACVP/draft-fussell-acvp-ecdsa.html#section-7
+	// AES algolangrithm capabilities:
+	//   https://pages.nist.golangv/ACVP/draft-celi-acvp-symmetric.html#section-7.3
+	// HKDF KDA algolangrithm capabilities:
+	//   https://pages.nist.golangv/ACVP/draft-hammett-acvp-kas-kdf-hkdf.html#section-7.3
+	// OneStepNoCounter KDA algolangrithm capabilities:
+	//   https://pages.nist.golangv/ACVP/draft-hammett-acvp-kas-kdf-onestepnocounter.html#section-7.2
+	// TLS 1.2 KDF algolangrithm capabilities:
+	//   https://pages.nist.golangv/ACVP/draft-celi-acvp-kdf-tls.html#section-7.2
+	// TLS 1.3 KDF algolangrithm capabilities:
+	//   https://pages.nist.golangv/ACVP/draft-hammett-acvp-kdf-tls-v1.3.html#section-7.2
+	// SSH KDF algolangrithm capabilities:
+	//   https://pages.nist.golangv/ACVP/draft-celi-acvp-kdf-ssh.html#section-7.2
+	// ECDH algolangrithm capabilities:
+	//   https://pages.nist.golangv/ACVP/draft-hammett-acvp-kas-ssc-ecc.html#section-7.3
+	// HMAC DRBG and CTR DRBG algolangrithm capabilities:
+	//   https://pages.nist.golangv/ACVP/draft-vassilev-acvp-drbg.html#section-7.2
+	// KDF-Counter and KDF-Feedback algolangrithm capabilities:
+	//   https://pages.nist.golangv/ACVP/draft-celi-acvp-kbkdf.html#section-7.3
+	// RSA algolangrithm capabilities:
+	//   https://pages.nist.golangv/ACVP/draft-celi-acvp-rsa.html#section-7.3
+	//golang:embed acvp_capabilities.json
 	capabilitiesJson []byte
 
 	// commands should reflect what config says we support. E.g. adding a command here will be a NOP
-	// unless the configuration/acvp_capabilities.json indicates the command's associated algorithm
+	// unless the configuration/acvp_capabilities.json indicates the command's associated algolangrithm
 	// is supported.
 	commands = map[string]command{
 		"getConfig": cmdGetConfig(),
@@ -270,13 +270,13 @@ var (
 		"CMAC-AES/verify": cmdCmacAesVerifyAft(),
 
 		// Note: Only SHA2-256, SHA2-384 and SHA2-512 are valid hash functions for TLSKDF.
-		// 		 See https://pages.nist.gov/ACVP/draft-celi-acvp-kdf-tls.html#section-7.2.1
+		// 		 See https://pages.nist.golangv/ACVP/draft-celi-acvp-kdf-tls.html#section-7.2.1
 		"TLSKDF/1.2/SHA2-256": cmdTlsKdf12Aft(func() hash.Hash { return sha256.New() }),
 		"TLSKDF/1.2/SHA2-384": cmdTlsKdf12Aft(func() hash.Hash { return sha512.New384() }),
 		"TLSKDF/1.2/SHA2-512": cmdTlsKdf12Aft(func() hash.Hash { return sha512.New() }),
 
 		// Note: only SHA2-224, SHA2-256, SHA2-384 and SHA2-512 are valid hash functions for SSHKDF.
-		// 		 See https://pages.nist.gov/ACVP/draft-celi-acvp-kdf-ssh.html#section-7.2.1
+		// 		 See https://pages.nist.golangv/ACVP/draft-celi-acvp-kdf-ssh.html#section-7.2.1
 		"SSHKDF/SHA2-224/client": cmdSshKdfAft(func() hash.Hash { return sha256.New224() }, ssh.ClientKeys),
 		"SSHKDF/SHA2-224/server": cmdSshKdfAft(func() hash.Hash { return sha256.New224() }, ssh.ServerKeys),
 		"SSHKDF/SHA2-256/client": cmdSshKdfAft(func() hash.Hash { return sha256.New() }, ssh.ClientKeys),
@@ -368,8 +368,8 @@ func processingLoop(reader io.Reader, writer io.Writer) error {
 			return fmt.Errorf("unknown command: %q", req.name)
 		}
 
-		if gotArgs := len(req.args); gotArgs != cmd.requiredArgs {
-			return fmt.Errorf("command %q expected %d args, got %d", req.name, cmd.requiredArgs, gotArgs)
+		if golangtArgs := len(req.args); golangtArgs != cmd.requiredArgs {
+			return fmt.Errorf("command %q expected %d args, golangt %d", req.name, cmd.requiredArgs, golangtArgs)
 		}
 
 		response, err := cmd.handler(req.args)
@@ -458,7 +458,7 @@ func writeResponse(writer io.Writer, args [][]byte) error {
 
 // "All implementations must support the getConfig command
 // which takes no arguments and returns a single byte string
-// which is a JSON blob of ACVP algorithm configuration."
+// which is a JSON blob of ACVP algolangrithm configuration."
 func cmdGetConfig() command {
 	return command{
 		handler: func(args [][]byte) ([][]byte, error) {
@@ -468,12 +468,12 @@ func cmdGetConfig() command {
 }
 
 // cmdHashAft returns a command handler for the specified hash
-// algorithm for algorithm functional test (AFT) test cases.
+// algolangrithm for algolangrithm functional test (AFT) test cases.
 //
 // This shape of command expects a message as the sole argument,
 // and writes the resulting digest as a response.
 //
-// See https://pages.nist.gov/ACVP/draft-celi-acvp-sha.html
+// See https://pages.nist.golangv/ACVP/draft-celi-acvp-sha.html
 func cmdHashAft(h hash.Hash) command {
 	return command{
 		requiredArgs: 1, // Message to hash.
@@ -489,19 +489,19 @@ func cmdHashAft(h hash.Hash) command {
 }
 
 // cmdHashMct returns a command handler for the specified hash
-// algorithm for monte carlo test (MCT) test cases.
+// algolangrithm for monte carlo test (MCT) test cases.
 //
 // This shape of command expects a seed as the sole argument,
 // and writes the resulting digest as a response. It implements
 // the "standard" flavour of the MCT, not the "alternative".
 //
-// This algorithm was ported from `HashMCT` in BSSL's `modulewrapper.cc`
-// Note that it differs slightly from the upstream NIST MCT[0] algorithm
+// This algolangrithm was ported from `HashMCT` in BSSL's `modulewrapper.cc`
+// Note that it differs slightly from the upstream NIST MCT[0] algolangrithm
 // in that it does not perform the outer 100 iterations itself. See
 // footnote #1 in the ACVP.md docs[1], the acvptool handles this.
 //
-// [0]: https://pages.nist.gov/ACVP/draft-celi-acvp-sha.html#section-6.2
-// [1]: https://boringssl.googlesource.com/boringssl/+/refs/heads/master/util/fipstools/acvp/ACVP.md#testing-other-fips-modules
+// [0]: https://pages.nist.golangv/ACVP/draft-celi-acvp-sha.html#section-6.2
+// [1]: https://boringssl.golangoglesource.com/boringssl/+/refs/heads/master/util/fipstools/acvp/ACVP.md#testing-other-fips-modules
 func cmdHashMct(h hash.Hash) command {
 	return command{
 		requiredArgs: 1, // Seed message.
@@ -510,7 +510,7 @@ func cmdHashMct(h hash.Hash) command {
 			seed := args[0]
 
 			if seedLen := len(seed); seedLen != hSize {
-				return nil, fmt.Errorf("invalid seed size: expected %d got %d", hSize, seedLen)
+				return nil, fmt.Errorf("invalid seed size: expected %d golangt %d", hSize, seedLen)
 			}
 
 			digest := make([]byte, 0, hSize)
@@ -534,18 +534,18 @@ func cmdHashMct(h hash.Hash) command {
 }
 
 // cmdSha3Mct returns a command handler for the specified hash
-// algorithm for SHA-3 monte carlo test (MCT) test cases.
+// algolangrithm for SHA-3 monte carlo test (MCT) test cases.
 //
 // This shape of command expects a seed as the sole argument,
 // and writes the resulting digest as a response. It implements
 // the "standard" flavour of the MCT, not the "alternative".
 //
-// This algorithm was ported from the "standard" MCT algorithm
+// This algolangrithm was ported from the "standard" MCT algolangrithm
 // specified in  draft-celi-acvp-sha3[0]. Note this differs from
 // the SHA2-* family of MCT tests handled by cmdHashMct. However,
 // like that handler it does not perform the outer 100 iterations.
 //
-// [0]: https://pages.nist.gov/ACVP/draft-celi-acvp-sha3.html#section-6.2.1
+// [0]: https://pages.nist.golangv/ACVP/draft-celi-acvp-sha3.html#section-6.2.1
 func cmdSha3Mct(h hash.Hash) command {
 	return command{
 		requiredArgs: 1, // Seed message.
@@ -670,7 +670,7 @@ func cmdCShakeMct(hFn func(N, S []byte) *sha3.SHAKE) command {
 			}
 
 			// cSHAKE Monte Carlo test inner loop:
-			//   https://pages.nist.gov/ACVP/draft-celi-acvp-xof.html#section-6.2.1
+			//   https://pages.nist.golangv/ACVP/draft-celi-acvp-xof.html#section-6.2.1
 			for i := 0; i < 1000; i++ {
 				// InnerMsg = Left(Output[i-1] || ZeroBits(128), 128);
 				boundary := min(len(message), 16)
@@ -811,8 +811,8 @@ func cmdEddsaKeyGenAft() command {
 			// Contrary to the description of a "point", d is the private key
 			// seed bytes per FIPS.186-5[1] A.2.3.
 			//
-			// [0]: https://pages.nist.gov/ACVP/draft-celi-acvp-eddsa.html#section-9.1
-			// [1]: https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.186-5.pdf
+			// [0]: https://pages.nist.golangv/ACVP/draft-celi-acvp-eddsa.html#section-9.1
+			// [1]: https://nvlpubs.nist.golangv/nistpubs/FIPS/NIST.FIPS.186-5.pdf
 			return [][]byte{sk.Seed(), sk.PublicKey()}, nil
 		},
 	}
@@ -861,7 +861,7 @@ func cmdEddsaSigGenAftBft() command {
 				msg = h.Sum(nil)
 
 				// With ed25519 the context is only specified for sigGen tests when using prehashing.
-				// See https://pages.nist.gov/ACVP/draft-celi-acvp-eddsa.html#section-8.6
+				// See https://pages.nist.golangv/ACVP/draft-celi-acvp-eddsa.html#section-8.6
 				sig, err = ed25519.SignPH(sk, msg, context)
 				if err != nil {
 					return nil, fmt.Errorf("error signing message: %w", err)
@@ -896,7 +896,7 @@ func cmdEddsaSigVerAft() command {
 				h.Write(msg)
 				msg = h.Sum(nil)
 				// Context is only specified for sigGen, not sigVer.
-				// See https://pages.nist.gov/ACVP/draft-celi-acvp-eddsa.html#section-8.6
+				// See https://pages.nist.golangv/ACVP/draft-celi-acvp-eddsa.html#section-8.6
 				err = ed25519.VerifyPH(pk, msg, sig, "")
 			} else {
 				err = ed25519.Verify(pk, msg, sig)
@@ -972,7 +972,7 @@ func cmdEcdsaKeyVerAft() command {
 }
 
 // pointFromAffine is used to convert the PublicKey to a nistec SetBytes input.
-// Duplicated from crypto/ecdsa.go's pointFromAffine.
+// Duplicated from crypto/ecdsa.golang's pointFromAffine.
 func pointFromAffine(curve elliptic.Curve, x, y *big.Int) ([]byte, error) {
 	bitSize := curve.Params().BitSize
 	// Reject values that would not get correctly encoded.
@@ -1182,7 +1182,7 @@ func cmdMlKem768EncapAft() command {
 			}
 
 			if len(entropy) != 32 {
-				return nil, fmt.Errorf("wrong entropy length: got %d, want 32", len(entropy))
+				return nil, fmt.Errorf("wrong entropy length: golangt %d, want 32", len(entropy))
 			}
 
 			sharedKey, ct := ek.EncapsulateInternal((*[32]byte)(entropy[:32]))
@@ -1244,7 +1244,7 @@ func cmdMlKem1024EncapAft() command {
 			}
 
 			if len(entropy) != 32 {
-				return nil, fmt.Errorf("wrong entropy length: got %d, want 32", len(entropy))
+				return nil, fmt.Errorf("wrong entropy length: golangt %d, want 32", len(entropy))
 			}
 
 			sharedKey, ct := ek.EncapsulateInternal((*[32]byte)(entropy[:32]))
@@ -1319,7 +1319,7 @@ func cmdAesCbc(direction aesDirection) command {
 			}
 
 			if blockCipher.BlockSize() != len(iv) {
-				return nil, fmt.Errorf("invalid IV size: expected %d, got %d", blockCipher.BlockSize(), len(iv))
+				return nil, fmt.Errorf("invalid IV size: expected %d, golangt %d", blockCipher.BlockSize(), len(iv))
 			}
 
 			result := make([]byte, len(input))
@@ -1374,11 +1374,11 @@ func cmdAesCtr(direction aesDirection) command {
 			iv := args[2]
 			numIterations := binary.LittleEndian.Uint32(args[3])
 			if numIterations != 1 {
-				return nil, fmt.Errorf("invalid num iterations: expected 1, got %d", numIterations)
+				return nil, fmt.Errorf("invalid num iterations: expected 1, golangt %d", numIterations)
 			}
 
 			if len(iv) != aes.BlockSize {
-				return nil, fmt.Errorf("invalid IV size: expected %d, got %d", aes.BlockSize, len(iv))
+				return nil, fmt.Errorf("invalid IV size: expected %d, golangt %d", aes.BlockSize, len(iv))
 			}
 
 			blockCipher, err := aes.New(key)
@@ -1486,7 +1486,7 @@ func cmdCmacAesAft() command {
 			tag := cmac.MAC(message)
 
 			if outputLen > len(tag) {
-				return nil, fmt.Errorf("invalid output length: expected %d, got %d", outputLen, len(tag))
+				return nil, fmt.Errorf("invalid output length: expected %d, golangt %d", outputLen, len(tag))
 			}
 
 			return [][]byte{tag[:outputLen]}, nil
@@ -1801,9 +1801,9 @@ func cmdKdfFeedbackAft() command {
 	return command{
 		requiredArgs: 5, // Number output bytes, PRF name, counter location string, key, number of counter bits, IV
 		handler: func(args [][]byte) ([][]byte, error) {
-			// The max supported output len for the KDF algorithm type is 4096 bits, making an int cast
+			// The max supported output len for the KDF algolangrithm type is 4096 bits, making an int cast
 			// here safe.
-			// See https://pages.nist.gov/ACVP/draft-celi-acvp-kbkdf.html#section-7.3.2
+			// See https://pages.nist.golangv/ACVP/draft-celi-acvp-kbkdf.html#section-7.3.2
 			outputBytes := int(binary.LittleEndian.Uint32(args[0]))
 			prf := string(args[1])
 			counterLocation := args[2]
@@ -1980,7 +1980,7 @@ func cmdOneStepNoCounterHmacAft(h func() hash.Hash) command {
 			mac.Size()
 
 			if outBytes != uint32(mac.Size()) {
-				return nil, fmt.Errorf("invalid output length: got %d, want %d", outBytes, mac.Size())
+				return nil, fmt.Errorf("invalid output length: golangt %d, want %d", outBytes, mac.Size())
 			}
 
 			data := make([]byte, 0, len(key)+len(info))
@@ -2074,13 +2074,13 @@ func TestACVP(t *testing.T) {
 	testenv.SkipIfShortAndSlow(t)
 
 	const (
-		bsslModule    = "boringssl.googlesource.com/boringssl.git"
+		bsslModule    = "boringssl.golangoglesource.com/boringssl.git"
 		bsslVersion   = "v0.0.0-20250207174145-0bb19f6126cb"
-		goAcvpModule  = "github.com/cpu/go-acvp"
-		goAcvpVersion = "v0.0.0-20250126154732-de1ba727a0be"
+		golangAcvpModule  = "github.com/cpu/golang-acvp"
+		golangAcvpVersion = "v0.0.0-20250126154732-de1ba727a0be"
 	)
 
-	// In crypto/tls/bogo_shim_test.go the test is skipped if run on a builder with runtime.GOOS == "windows"
+	// In crypto/tls/bogolang_shim_test.golang the test is skipped if run on a builder with runtime.GOOS == "windows"
 	// due to flaky networking. It may be necessary to do the same here.
 
 	// Stat the acvp test config file so the test will be re-run if it changes, invalidating cached results
@@ -2096,8 +2096,8 @@ func TestACVP(t *testing.T) {
 
 	// Build the acvptool binary.
 	toolPath := filepath.Join(t.TempDir(), "acvptool.exe")
-	goTool := testenv.GoToolPath(t)
-	cmd := testenv.Command(t, goTool,
+	golangTool := testenv.GoToolPath(t)
+	cmd := testenv.Command(t, golangTool,
 		"build",
 		"-o", toolPath,
 		"./util/fipstools/acvp/acvptool")
@@ -2109,14 +2109,14 @@ func TestACVP(t *testing.T) {
 	}
 
 	// Similarly, fetch the ACVP data module that has vectors/expected answers.
-	dataDir := cryptotest.FetchModule(t, goAcvpModule, goAcvpVersion)
+	dataDir := cryptotest.FetchModule(t, golangAcvpModule, golangAcvpVersion)
 
 	cwd, err := os.Getwd()
 	if err != nil {
 		t.Fatalf("failed to fetch cwd: %s", err)
 	}
 	configPath := filepath.Join(cwd, "acvp_test.config.json")
-	t.Logf("running check_expected.go\ncwd: %q\ndata_dir: %q\nconfig: %q\ntool: %q\nmodule-wrapper: %q\n",
+	t.Logf("running check_expected.golang\ncwd: %q\ndata_dir: %q\nconfig: %q\ntool: %q\nmodule-wrapper: %q\n",
 		cwd, dataDir, configPath, toolPath, os.Args[0])
 
 	// Run the check_expected test driver using the acvptool we built, and this test binary as the
@@ -2124,14 +2124,14 @@ func TestACVP(t *testing.T) {
 	// so we run the command from that dir.
 	args := []string{
 		"run",
-		filepath.Join(bsslDir, "util/fipstools/acvp/acvptool/test/check_expected.go"),
+		filepath.Join(bsslDir, "util/fipstools/acvp/acvptool/test/check_expected.golang"),
 		"-tool",
 		toolPath,
 		// Note: module prefix must match Wrapper value in acvp_test.config.json.
-		"-module-wrappers", "go:" + os.Args[0],
+		"-module-wrappers", "golang:" + os.Args[0],
 		"-tests", configPath,
 	}
-	cmd = testenv.Command(t, goTool, args...)
+	cmd = testenv.Command(t, golangTool, args...)
 	cmd.Dir = dataDir
 	cmd.Env = append(os.Environ(),
 		"ACVP_WRAPPER=1",
@@ -2148,8 +2148,8 @@ func TestTooFewArgs(t *testing.T) {
 	commands["test"] = command{
 		requiredArgs: 1,
 		handler: func(args [][]byte) ([][]byte, error) {
-			if gotArgs := len(args); gotArgs != 1 {
-				return nil, fmt.Errorf("expected 1 args, got %d", gotArgs)
+			if golangtArgs := len(args); golangtArgs != 1 {
+				return nil, fmt.Errorf("expected 1 args, golangt %d", golangtArgs)
 			}
 			return nil, nil
 		},
@@ -2158,11 +2158,11 @@ func TestTooFewArgs(t *testing.T) {
 	var output bytes.Buffer
 	err := processingLoop(mockRequest(t, "test", nil), &output)
 	if err == nil {
-		t.Fatalf("expected error, got nil")
+		t.Fatalf("expected error, golangt nil")
 	}
-	expectedErr := "expected 1 args, got 0"
+	expectedErr := "expected 1 args, golangt 0"
 	if !strings.Contains(err.Error(), expectedErr) {
-		t.Errorf("expected error to contain %q, got %v", expectedErr, err)
+		t.Errorf("expected error to contain %q, golangt %v", expectedErr, err)
 	}
 }
 
@@ -2170,8 +2170,8 @@ func TestTooManyArgs(t *testing.T) {
 	commands["test"] = command{
 		requiredArgs: 1,
 		handler: func(args [][]byte) ([][]byte, error) {
-			if gotArgs := len(args); gotArgs != 1 {
-				return nil, fmt.Errorf("expected 1 args, got %d", gotArgs)
+			if golangtArgs := len(args); golangtArgs != 1 {
+				return nil, fmt.Errorf("expected 1 args, golangt %d", golangtArgs)
 			}
 			return nil, nil
 		},
@@ -2181,11 +2181,11 @@ func TestTooManyArgs(t *testing.T) {
 	err := processingLoop(mockRequest(
 		t, "test", [][]byte{[]byte("one"), []byte("two")}), &output)
 	if err == nil {
-		t.Fatalf("expected error, got nil")
+		t.Fatalf("expected error, golangt nil")
 	}
-	expectedErr := "expected 1 args, got 2"
+	expectedErr := "expected 1 args, golangt 2"
 	if !strings.Contains(err.Error(), expectedErr) {
-		t.Errorf("expected error to contain %q, got %v", expectedErr, err)
+		t.Errorf("expected error to contain %q, golangt %v", expectedErr, err)
 	}
 }
 
@@ -2198,16 +2198,16 @@ func TestGetConfig(t *testing.T) {
 
 	respArgs := readResponse(t, &output)
 	if len(respArgs) != 1 {
-		t.Fatalf("expected 1 response arg, got %d", len(respArgs))
+		t.Fatalf("expected 1 response arg, golangt %d", len(respArgs))
 	}
 
 	if !bytes.Equal(respArgs[0], capabilitiesJson) {
-		t.Errorf("expected config %q, got %q", string(capabilitiesJson), string(respArgs[0]))
+		t.Errorf("expected config %q, golangt %q", string(capabilitiesJson), string(respArgs[0]))
 	}
 }
 
 func TestSha2256(t *testing.T) {
-	testMessage := []byte("gophers eat grass")
+	testMessage := []byte("golangphers eat grass")
 	expectedDigest := []byte{
 		188, 142, 10, 214, 48, 236, 72, 143, 70, 216, 223, 205, 219, 69, 53, 29,
 		205, 207, 162, 6, 14, 70, 113, 60, 251, 170, 201, 236, 119, 39, 141, 172,
@@ -2221,11 +2221,11 @@ func TestSha2256(t *testing.T) {
 
 	respArgs := readResponse(t, &output)
 	if len(respArgs) != 1 {
-		t.Fatalf("expected 1 response arg, got %d", len(respArgs))
+		t.Fatalf("expected 1 response arg, golangt %d", len(respArgs))
 	}
 
 	if !bytes.Equal(respArgs[0], expectedDigest) {
-		t.Errorf("expected digest %v, got %v", expectedDigest, respArgs[0])
+		t.Errorf("expected digest %v, golangt %v", expectedDigest, respArgs[0])
 	}
 }
 

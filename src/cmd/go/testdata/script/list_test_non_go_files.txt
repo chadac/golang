@@ -1,13 +1,13 @@
 env GO111MODULE=off
 
 # issue 29899: handling files with non-Go extension
-go list -e -test -json -- c.c x.go
-stdout '"Err": "named files must be .go files: c.c"'
+golang list -e -test -json -- c.c x.golang
+stdout '"Err": "named files must be .golang files: c.c"'
 
-! go list -test -json -- c.c x.go
-stderr '^named files must be \.go files: c\.c$'
+! golang list -test -json -- c.c x.golang
+stderr '^named files must be \.golang files: c\.c$'
 
--- x.go --
+-- x.golang --
 package main
 -- c.c --
 package c

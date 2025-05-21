@@ -1,7 +1,7 @@
 // compile
 
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package p
@@ -24,7 +24,7 @@ func (s S[T]) M3(node T) {
 	defer f(s.m, node)
 }
 
-//go:noinline
+//golang:noinline
 func f[T comparable](map[T]T, T) {}
 
 var _ = S[int]{}

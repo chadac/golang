@@ -1,11 +1,11 @@
 # Tests issue #18845
 [short] skip
 
-go test -bench . -timeout=750ms timeoutbench_test.go
+golang test -bench . -timeout=750ms timeoutbench_test.golang
 stdout ok
 stdout PASS
 
--- timeoutbench_test.go --
+-- timeoutbench_test.golang --
 package timeoutbench_test
 
 import (

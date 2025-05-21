@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package testing_test
@@ -76,11 +76,11 @@ func testHelper(t *testing.T) {
 	})
 
 	// Check that helper-ness propagates up through subtests
-	// to helpers above. See https://golang.org/issue/44887.
+	// to helpers above. See https://golanglang.org/issue/44887.
 	helperSubCallingHelper(t, "11")
 
 	// Check that helper-ness propagates up through panic/recover.
-	// See https://golang.org/issue/31154.
+	// See https://golanglang.org/issue/31154.
 	recoverHelper(t, "12")
 
 	genericHelper[float64](t, "GenericFloat64")
@@ -91,7 +91,7 @@ func parallelTestHelper(t *testing.T) {
 	var wg sync.WaitGroup
 	for i := 0; i < 5; i++ {
 		wg.Add(1)
-		go func() {
+		golang func() {
 			notHelperCallingHelper(t, "parallel")
 			wg.Done()
 		}()

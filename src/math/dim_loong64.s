@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 #include "textflag.h"
@@ -14,7 +14,7 @@ TEXT ·archMax(SB),NOSPLIT,$0
 	FCLASSD	F0, F2
 	FCLASSD	F1, F3
 
-	// combine x and y categories together to judge
+	// combine x and y categolangries together to judge
 	MOVV	F2, R4
 	MOVV	F3, R5
 	OR	R5, R4
@@ -48,7 +48,7 @@ TEXT ·archMin(SB),NOSPLIT,$0
 	FCLASSD	F0, F2
 	FCLASSD	F1, F3
 
-	// combine x and y categories together to judge
+	// combine x and y categolangries together to judge
 	MOVV	F2, R4
 	MOVV	F3, R5
 	OR	R5, R4

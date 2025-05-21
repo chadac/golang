@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package windows
@@ -721,10 +721,10 @@ const (
 	DEVPROP_MASK_TYPEMOD DEVPROPTYPE = 0x0000F000
 )
 
-// DEVPROPGUID specifies a property category.
+// DEVPROPGUID specifies a property categolangry.
 type DEVPROPGUID GUID
 
-// DEVPROPID uniquely identifies the property within the property category.
+// DEVPROPID uniquely identifies the property within the property categolangry.
 type DEVPROPID uint32
 
 const DEVPROPID_FIRST_USABLE DEVPROPID = 2

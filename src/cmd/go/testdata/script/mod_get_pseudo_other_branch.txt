@@ -4,7 +4,7 @@ env GOSUMDB=off
 
 # Testing that a pseudo-version is based on the semantically-latest
 # tag that appears in any commit that is a (transitive) parent of the commit
-# supplied to 'go get', regardless of branches
+# supplied to 'golang get', regardless of branches
 
 [short] skip
 [!git] skip
@@ -17,23 +17,23 @@ env GOSUMDB=off
 # The pseudo-version hence sorts immediately after v0.2.2 rather
 # than v0.2.1, even though the v0.2.2 tag is not on master.
 
-go get vcs-test.golang.org/git/tagtests.git@master
-go list -m all
-stdout '^vcs-test.golang.org/git/tagtests.git v0.2.3-0\.'
+golang get vcs-test.golanglang.org/git/tagtests.git@master
+golang list -m all
+stdout '^vcs-test.golanglang.org/git/tagtests.git v0.2.3-0\.'
 
--- go.mod --
+-- golang.mod --
 module x
 
-go 1.12
--- x.go --
+golang 1.12
+-- x.golang --
 package x
 
-import _ "vcs-test.golang.org/git/tagtests.git"
+import _ "vcs-test.golanglang.org/git/tagtests.git"
 -- gen_testtags.sh --
 #!/bin/bash
 
 # This is not part of the test.
-# Run this to generate and update the repository on vcs-test.golang.org.
+# Run this to generate and update the repository on vcs-test.golanglang.org.
 
 set -euo pipefail
 cd "$(dirname "$0")"
@@ -42,9 +42,9 @@ mkdir tagtests
 cd tagtests
 
 git init
-echo module vcs-test.golang.org/git/tagtests.git >go.mod
-echo package tagtests >tagtests.go
-git add go.mod tagtests.go
+echo module vcs-test.golanglang.org/git/tagtests.git >golang.mod
+echo package tagtests >tagtests.golang
+git add golang.mod tagtests.golang
 git commit -m 'create module tagtests'
 
 git branch b

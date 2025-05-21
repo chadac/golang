@@ -1,5 +1,5 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package http
@@ -10,7 +10,7 @@ import (
 	"compress/gzip"
 	"crypto/rand"
 	"fmt"
-	"go/token"
+	"golang/token"
 	"io"
 	"net/http/internal"
 	"net/url"
@@ -432,7 +432,7 @@ var respTests = []respTest{
 		"",
 	},
 
-	// golang.org/issue/4767: don't special-case multipart/byteranges responses
+	// golanglang.org/issue/4767: don't special-case multipart/byteranges responses
 	{
 		`HTTP/1.1 206 Partial Content
 Connection: close
@@ -491,7 +491,7 @@ some body`,
 		"Body here\n",
 	},
 
-	// 206 Partial Content. golang.org/issue/8923
+	// 206 Partial Content. golanglang.org/issue/8923
 	{
 		"HTTP/1.1 206 Partial Content\r\n" +
 			"Content-Type: text/plain; charset=utf-8\r\n" +
@@ -755,10 +755,10 @@ func TestWriteResponse(t *testing.T) {
 			t.Errorf("#%d: %v", i, err)
 			continue
 		}
-		if got, want := buf.String(), tt.RawOut; got != want {
-			t.Errorf("#%d: response differs; got:\n----\n%v\n----\nwant:\n----\n%v\n----\n",
+		if golangt, want := buf.String(), tt.RawOut; golangt != want {
+			t.Errorf("#%d: response differs; golangt:\n----\n%v\n----\nwant:\n----\n%v\n----\n",
 				i,
-				strings.ReplaceAll(got, "\r", "\\r"),
+				strings.ReplaceAll(golangt, "\r", "\\r"),
 				strings.ReplaceAll(want, "\r", "\\r"))
 		}
 	}
@@ -836,7 +836,7 @@ func TestReadResponseCloseInMiddle(t *testing.T) {
 			expectedLength = 1000000
 		}
 		if resp.ContentLength != expectedLength {
-			fatalf("expected response length %d, got %d", expectedLength, resp.ContentLength)
+			fatalf("expected response length %d, golangt %d", expectedLength, resp.ContentLength)
 		}
 		if resp.Body == nil {
 			fatalf("nil body")
@@ -854,7 +854,7 @@ func TestReadResponseCloseInMiddle(t *testing.T) {
 			fatalf("ReadFull only read %d bytes", n)
 		}
 		if test.compressed == false && !bytes.Equal(bytes.Repeat([]byte{'x'}, 2500), rbuf) {
-			fatalf("ReadFull didn't read 2500 'x'; got %q", string(rbuf))
+			fatalf("ReadFull didn't read 2500 'x'; golangt %q", string(rbuf))
 		}
 		resp.Body.Close()
 
@@ -917,7 +917,7 @@ func TestLocationResponse(t *testing.T) {
 			}
 		}
 
-		got, err := res.Location()
+		golangt, err := res.Location()
 		if tt.wantErr != nil {
 			if err == nil {
 				t.Errorf("%d. err=nil; want %q", i, tt.wantErr)
@@ -933,7 +933,7 @@ func TestLocationResponse(t *testing.T) {
 			t.Errorf("%d. err=%q", i, err)
 			continue
 		}
-		if g, e := got.String(), tt.want; g != e {
+		if g, e := golangt.String(), tt.want; g != e {
 			t.Errorf("%d. Location=%q; want %q", i, g, e)
 		}
 	}
@@ -1066,7 +1066,7 @@ func TestReadResponseErrors(t *testing.T) {
 		contentLength("304 OK", "Content-Length: 880\r\nContent-Length: 1\r\n\r\n", errMultiCL),
 		contentLength("304 OK", "Content-Length: 961\r\nContent-Length: 961\r\n\r\n", nil),
 
-		// golang.org/issue/22464
+		// golanglang.org/issue/22464
 		{"leading space in header", "HTTP/1.1 200 OK\r\n Content-type: text/html\r\nFoo: bar\r\n\r\n", "malformed MIME"},
 		{"leading tab in header", "HTTP/1.1 200 OK\r\n\tContent-type: text/html\r\nFoo: bar\r\n\r\n", "malformed MIME"},
 	}

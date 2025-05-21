@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package abt
@@ -579,7 +579,7 @@ func (t *node32) lub(key int32, allow_eq bool) *node32 {
 }
 
 func (t *node32) aInsert(x int32) (newroot, newnode, oldnode *node32) {
-	// oldnode default of nil is good, others should be assigned.
+	// oldnode default of nil is golangod, others should be assigned.
 	if x == t.key {
 		oldnode = t
 		newt := *t

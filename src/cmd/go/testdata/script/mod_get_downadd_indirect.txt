@@ -1,5 +1,5 @@
 # This test illustrates a case where downgrading one module may upgrade another.
-# Compare to the downcross2 test case in cmd/go/internal/mvs/mvs_test.go.
+# Compare to the downcross2 test case in cmd/golang/internal/mvs/mvs_test.golang.
 
 # The initial package import graph used in this test looks like:
 #
@@ -14,20 +14,20 @@
 # If we downgrade module d to version 1, we must downgrade b as well.
 # If that downgrade selects b version 1, we will add a new dependency on module c.
 
-cp go.mod go.mod.orig
-go mod tidy
-cmp go.mod.orig go.mod
+cp golang.mod golang.mod.orig
+golang mod tidy
+cmp golang.mod.orig golang.mod
 
-go get example.com/d@v0.1.0
-go list -m all
+golang get example.com/d@v0.1.0
+golang list -m all
 stdout '^example.com/b v0.1.0 '
 stdout '^example.com/c v0.1.0 '
 stdout '^example.com/d v0.1.0 '
 
--- go.mod --
+-- golang.mod --
 module example.com/a
 
-go 1.15
+golang 1.15
 
 require example.com/b v0.2.0
 
@@ -38,44 +38,44 @@ replace (
 	example.com/d v0.1.0 => ./d
 	example.com/d v0.2.0 => ./d
 )
--- a.go --
+-- a.golang --
 package a
 
 import _ "example.com/b"
 
--- b1/go.mod --
+-- b1/golang.mod --
 module example.com/b
 
-go 1.15
+golang 1.15
 
 require example.com/c v0.1.0
--- b1/b.go --
+-- b1/b.golang --
 package b
 
 import _ "example.com/c"
 
--- b2/go.mod --
+-- b2/golang.mod --
 module example.com/b
 
-go 1.15
+golang 1.15
 
 require example.com/d v0.2.0
--- b2/b.go --
+-- b2/b.golang --
 package b
 
 import _ "example.com/d"
 
--- c/go.mod --
+-- c/golang.mod --
 module example.com/c
 
-go 1.15
+golang 1.15
 
--- c/c.go --
+-- c/c.golang --
 package c
 
--- d/go.mod --
+-- d/golang.mod --
 module example.com/d
 
-go 1.15
--- d/d.go --
+golang 1.15
+-- d/d.golang --
 package d

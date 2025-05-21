@@ -1,17 +1,17 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package imports
 
 import (
-	"cmd/go/internal/cfg"
+	"cmd/golang/internal/cfg"
 	"sync"
 )
 
 // Tags returns a set of build tags that are true for the target platform.
-// It includes GOOS, GOARCH, the compiler, possibly "cgo",
-// release tags like "go1.13", and user-specified build tags.
+// It includes GOOS, GOARCH, the compiler, possibly "cgolang",
+// release tags like "golang1.13", and user-specified build tags.
 func Tags() map[string]bool {
 	return loadTagsOnce()
 }
@@ -24,8 +24,8 @@ func loadTags() map[string]bool {
 		cfg.BuildContext.GOARCH:   true,
 		cfg.BuildContext.Compiler: true,
 	}
-	if cfg.BuildContext.CgoEnabled {
-		tags["cgo"] = true
+	if cfg.BuildContext.CgolangEnabled {
+		tags["cgolang"] = true
 	}
 	for _, tag := range cfg.BuildContext.BuildTags {
 		tags[tag] = true

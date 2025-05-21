@@ -1,12 +1,12 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package types
 
 import (
-	"go/ast"
-	"go/token"
+	"golang/ast"
+	"golang/token"
 	. "internal/types/errors"
 )
 
@@ -190,7 +190,7 @@ func (check *Checker) interfaceType(ityp *Interface, iface *ast.InterfaceType, d
 		sig := new(Signature)
 		check.funcType(sig, nil, ftyp)
 
-		// The go/parser doesn't accept method type parameters but an ast.FuncType may have them.
+		// The golang/parser doesn't accept method type parameters but an ast.FuncType may have them.
 		if sig.tparams != nil {
 			var at positioner = f.Type
 			if ftyp, _ := f.Type.(*ast.FuncType); ftyp != nil && ftyp.TypeParams != nil {

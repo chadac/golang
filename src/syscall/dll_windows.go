@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package syscall
@@ -22,7 +22,7 @@ func (e *DLLError) Error() string { return e.Msg }
 
 func (e *DLLError) Unwrap() error { return e.Err }
 
-// Implemented in ../runtime/syscall_windows.go.
+// Implemented in ../runtime/syscall_windows.golang.
 
 // Deprecated: Use [SyscallN] instead.
 func Syscall(trap, nargs, a1, a2, a3 uintptr) (r1, r2 uintptr, err Errno)
@@ -42,7 +42,7 @@ func Syscall15(trap, nargs, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a
 // Deprecated: Use [SyscallN] instead.
 func Syscall18(trap, nargs, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14, a15, a16, a17, a18 uintptr) (r1, r2 uintptr, err Errno)
 
-//go:noescape
+//golang:noescape
 func SyscallN(trap uintptr, args ...uintptr) (r1, r2 uintptr, err Errno)
 func loadlibrary(filename *uint16) (handle uintptr, err Errno)
 func loadsystemlibrary(filename *uint16) (handle uintptr, err Errno)
@@ -60,7 +60,7 @@ type DLL struct {
 // Go, Windows will search for the named DLL in many locations, causing
 // potential DLL preloading attacks.
 //
-// Use [LazyDLL] in golang.org/x/sys/windows for a secure way to
+// Use [LazyDLL] in golanglang.org/x/sys/windows for a secure way to
 // load system DLLs.
 func LoadDLL(name string) (*DLL, error) {
 	namep, err := UTF16PtrFromString(name)
@@ -162,7 +162,7 @@ func (p *Proc) Addr() uintptr {
 // [math.Float32frombits](uint32(r2)). For C type "double", it is
 // [math.Float64frombits](uint64(r2)).
 //
-//go:uintptrescapes
+//golang:uintptrescapes
 func (p *Proc) Call(a ...uintptr) (uintptr, uintptr, error) {
 	return SyscallN(p.Addr(), a...)
 }
@@ -175,7 +175,7 @@ func (p *Proc) Call(a ...uintptr) (uintptr, uintptr, error) {
 // LazyDLL is subject to the same DLL preloading attacks as documented
 // on [LoadDLL].
 //
-// Use LazyDLL in golang.org/x/sys/windows for a secure way to
+// Use LazyDLL in golanglang.org/x/sys/windows for a secure way to
 // load system DLLs.
 type LazyDLL struct {
 	mu   sync.Mutex
@@ -281,7 +281,7 @@ func (p *LazyProc) Addr() uintptr {
 // Call executes procedure p with arguments a. See the documentation of
 // Proc.Call for more information.
 //
-//go:uintptrescapes
+//golang:uintptrescapes
 func (p *LazyProc) Call(a ...uintptr) (r1, r2 uintptr, lastErr error) {
 	p.mustFind()
 	return p.proc.Call(a...)

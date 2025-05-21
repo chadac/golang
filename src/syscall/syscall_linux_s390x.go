@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package syscall
@@ -82,7 +82,7 @@ func mmap(addr uintptr, length uintptr, prot int, flags int, fd int, offset int6
 	return
 }
 
-// On s390x Linux, all the socket calls go through an extra indirection.
+// On s390x Linux, all the socket calls golang through an extra indirection.
 // The arguments to the underlying system call are the number below
 // and a pointer to an array of uintptr.  We hide the pointer in the
 // socketcall assembly to avoid allocation on every system call.

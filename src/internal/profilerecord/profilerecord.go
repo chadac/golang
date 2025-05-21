@@ -1,11 +1,11 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package profilerecord holds internal types used to represent profiling
 // records with deep stack traces.
 //
-// TODO: Consider moving this to internal/runtime, see golang.org/issue/65355.
+// TODO: Consider moving this to internal/runtime, see golanglang.org/issue/65355.
 package profilerecord
 
 type StackRecord struct {

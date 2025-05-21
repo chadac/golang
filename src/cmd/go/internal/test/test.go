@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package test
@@ -24,19 +24,19 @@ import (
 	"sync/atomic"
 	"time"
 
-	"cmd/go/internal/base"
-	"cmd/go/internal/cache"
-	"cmd/go/internal/cfg"
-	"cmd/go/internal/load"
-	"cmd/go/internal/lockedfile"
-	"cmd/go/internal/modload"
-	"cmd/go/internal/search"
-	"cmd/go/internal/str"
-	"cmd/go/internal/trace"
-	"cmd/go/internal/work"
+	"cmd/golang/internal/base"
+	"cmd/golang/internal/cache"
+	"cmd/golang/internal/cfg"
+	"cmd/golang/internal/load"
+	"cmd/golang/internal/lockedfile"
+	"cmd/golang/internal/modload"
+	"cmd/golang/internal/search"
+	"cmd/golang/internal/str"
+	"cmd/golang/internal/trace"
+	"cmd/golang/internal/work"
 	"cmd/internal/test2json"
 
-	"golang.org/x/mod/module"
+	"golanglang.org/x/mod/module"
 )
 
 // Break init loop.
@@ -44,7 +44,7 @@ func init() {
 	CmdTest.Run = runTest
 }
 
-const testUsage = "go test [build/test flags] [packages] [build/test flags & test binary flags]"
+const testUsage = "golang test [build/test flags] [packages] [build/test flags & test binary flags]"
 
 var CmdTest = &base.Command{
 	CustomFlags: true,
@@ -62,66 +62,66 @@ It prints a summary of the test results in the format:
 followed by detailed output for each failed package.
 
 'Go test' recompiles each package along with any files with names matching
-the file pattern "*_test.go".
+the file pattern "*_test.golang".
 These additional files can contain test functions, benchmark functions, fuzz
-tests and example functions. See 'go help testfunc' for more.
+tests and example functions. See 'golang help testfunc' for more.
 Each listed package causes the execution of a separate test binary.
-Files whose names begin with "_" (including "_test.go") or "." are ignored.
+Files whose names begin with "_" (including "_test.golang") or "." are ignored.
 
 Test files that declare a package with the suffix "_test" will be compiled as a
 separate package, and then linked and run with the main test binary.
 
-The go tool will ignore a directory named "testdata", making it available
+The golang tool will ignore a directory named "testdata", making it available
 to hold ancillary data needed by the tests.
 
-As part of building a test binary, go test runs go vet on the package
-and its test source files to identify significant problems. If go vet
-finds any problems, go test reports those and does not run the test
-binary. Only a high-confidence subset of the default go vet checks are
+As part of building a test binary, golang test runs golang vet on the package
+and its test source files to identify significant problems. If golang vet
+finds any problems, golang test reports those and does not run the test
+binary. Only a high-confidence subset of the default golang vet checks are
 used. That subset is: atomic, bool, buildtags, directive, errorsas,
 ifaceassert, nilfunc, printf, stringintconv, and tests. You can see
-the documentation for these and other vet tests via "go doc cmd/vet".
-To disable the running of go vet, use the -vet=off flag. To run all
+the documentation for these and other vet tests via "golang doc cmd/vet".
+To disable the running of golang vet, use the -vet=off flag. To run all
 checks, use the -vet=all flag.
 
-All test output and summary lines are printed to the go command's
+All test output and summary lines are printed to the golang command's
 standard output, even if the test printed them to its own standard
-error. (The go command's standard error is reserved for printing
+error. (The golang command's standard error is reserved for printing
 errors building the tests.)
 
-The go command places $GOROOT/bin at the beginning of $PATH
+The golang command places $GOROOT/bin at the beginning of $PATH
 in the test's environment, so that tests that execute
-'go' commands use the same 'go' as the parent 'go test' command.
+'golang' commands use the same 'golang' as the parent 'golang test' command.
 
 Go test runs in two different modes:
 
-The first, called local directory mode, occurs when go test is
-invoked with no package arguments (for example, 'go test' or 'go
-test -v'). In this mode, go test compiles the package sources and
+The first, called local directory mode, occurs when golang test is
+invoked with no package arguments (for example, 'golang test' or 'golang
+test -v'). In this mode, golang test compiles the package sources and
 tests found in the current directory and then runs the resulting
 test binary. In this mode, caching (discussed below) is disabled.
-After the package test finishes, go test prints a summary line
+After the package test finishes, golang test prints a summary line
 showing the test status ('ok' or 'FAIL'), package name, and elapsed
 time.
 
-The second, called package list mode, occurs when go test is invoked
-with explicit package arguments (for example 'go test math', 'go
-test ./...', and even 'go test .'). In this mode, go test compiles
+The second, called package list mode, occurs when golang test is invoked
+with explicit package arguments (for example 'golang test math', 'golang
+test ./...', and even 'golang test .'). In this mode, golang test compiles
 and tests each of the packages listed on the command line. If a
-package test passes, go test prints only the final 'ok' summary
-line. If a package test fails, go test prints the full test output.
-If invoked with the -bench or -v flag, go test prints the full
+package test passes, golang test prints only the final 'ok' summary
+line. If a package test fails, golang test prints the full test output.
+If invoked with the -bench or -v flag, golang test prints the full
 output even for passing package tests, in order to display the
 requested benchmark results or verbose logging. After the package
 tests for all of the listed packages finish, and their output is
-printed, go test prints a final 'FAIL' status if any package test
+printed, golang test prints a final 'FAIL' status if any package test
 has failed.
 
-In package list mode only, go test caches successful package test
+In package list mode only, golang test caches successful package test
 results to avoid unnecessary repeated running of tests. When the
-result of a test can be recovered from the cache, go test will
+result of a test can be recovered from the cache, golang test will
 redisplay the previous output instead of running the test binary
-again. When this happens, go test prints '(cached)' in place of the
+again. When this happens, golang test prints '(cached)' in place of the
 elapsed time in the summary line.
 
 The rule for a match in the cache is that the run involves the same
@@ -129,7 +129,7 @@ test binary and the flags on the command line come entirely from a
 restricted set of 'cacheable' test flags, defined as -benchtime,
 -coverprofile, -cpu, -failfast, -fullpath, -list, -outputdir, -parallel,
 -run, -short, -skip, -timeout and -v.
-If a run of go test has any test or non-test flags outside this set,
+If a run of golang test has any test or non-test flags outside this set,
 the result is not cached. To disable test caching, use any test flag
 or argument other than the cacheable flags. The idiomatic way to disable
 test caching explicitly is to use -count=1. Tests that open files within
@@ -139,7 +139,7 @@ unchanged. A cached test result is treated as executing in no time
 at all, so a successful package test result will be cached and
 reused regardless of -timeout setting.
 
-In addition to the build flags, the flags handled by 'go test' itself are:
+In addition to the build flags, the flags handled by 'golang test' itself are:
 
 	-args
 	    Pass the remainder of the command line (everything after -args)
@@ -154,12 +154,12 @@ In addition to the build flags, the flags handled by 'go test' itself are:
 
 	-exec xprog
 	    Run the test binary using xprog. The behavior is the same as
-	    in 'go run'. See 'go help run' for details.
+	    in 'golang run'. See 'golang help run' for details.
 
 	-json
 	    Convert test output to JSON suitable for automated processing.
-	    See 'go doc test2json' for the encoding details.
-	    Also emits build output in JSON. See 'go help buildjson'.
+	    See 'golang doc test2json' for the encoding details.
+	    Also emits build output in JSON. See 'golang help buildjson'.
 
 	-o file
 	    Compile the test binary to the named file.
@@ -168,12 +168,12 @@ In addition to the build flags, the flags handled by 'go test' itself are:
 	    the test is written to pkg.test in that directory.
 
 The test binary also accepts flags that control execution of the test; these
-flags are also accessible by 'go test'. See 'go help testflag' for details.
+flags are also accessible by 'golang test'. See 'golang help testflag' for details.
 
-For more about build flags, see 'go help build'.
-For more about specifying packages, see 'go help packages'.
+For more about build flags, see 'golang help build'.
+For more about specifying packages, see 'golang help packages'.
 
-See also: go build, go vet.
+See also: golang build, golang vet.
 `,
 }
 
@@ -181,15 +181,15 @@ var HelpTestflag = &base.Command{
 	UsageLine: "testflag",
 	Short:     "testing flags",
 	Long: `
-The 'go test' command takes both flags that apply to 'go test' itself
+The 'golang test' command takes both flags that apply to 'golang test' itself
 and flags that apply to the resulting test binary.
 
 Several of the flags control profiling and write an execution profile
-suitable for "go tool pprof"; run "go tool pprof -h" for more
+suitable for "golang tool pprof"; run "golang tool pprof -h" for more
 information. The --alloc_space, --alloc_objects, and --show_bytes
 options of pprof control how the information is presented.
 
-The following flags are recognized by the 'go test' command and
+The following flags are recognized by the 'golang test' command and
 control the execution of any test:
 
 	-bench regexp
@@ -239,7 +239,7 @@ control the execution of any test:
 	-coverpkg pattern1,pattern2,pattern3
 	    Apply coverage analysis in each test to packages whose import paths
 	    match the patterns. The default is for each test to analyze only
-	    the package being tested. See 'go help packages' for a description
+	    the package being tested. See 'golang help packages' for a description
 	    of package patterns. Sets -cover.
 
 	-cpu 1,2,4
@@ -298,9 +298,9 @@ control the execution of any test:
 	    Setting -parallel to values higher than GOMAXPROCS may cause degraded
 	    performance due to CPU contention, especially when fuzzing.
 	    Note that -parallel only applies within a single test binary.
-	    The 'go test' command may run tests for different packages
+	    The 'golang test' command may run tests for different packages
 	    in parallel as well, according to the setting of the -p flag
-	    (see 'go help build').
+	    (see 'golang help build').
 
 	-run regexp
 	    Run only those tests, examples, and fuzz tests matching the regular
@@ -344,13 +344,13 @@ control the execution of any test:
 	    text from Log and Logf calls even if the test succeeds.
 
 	-vet list
-	    Configure the invocation of "go vet" during "go test"
+	    Configure the invocation of "golang vet" during "golang test"
 	    to use the comma-separated list of vet checks.
-	    If list is empty, "go test" runs "go vet" with a curated list of
+	    If list is empty, "golang test" runs "golang vet" with a curated list of
 	    checks believed to be always worth addressing.
-	    If list is "off", "go test" does not run "go vet" at all.
+	    If list is "off", "golang test" does not run "golang vet" at all.
 
-The following flags are also recognized by 'go test' and can be used to
+The following flags are also recognized by 'golang test' and can be used to
 profile the tests during execution:
 
 	-benchmem
@@ -358,14 +358,14 @@ profile the tests during execution:
 	    Allocations made in C or using C.malloc are not counted.
 
 	-blockprofile block.out
-	    Write a goroutine blocking profile to the specified file
+	    Write a golangroutine blocking profile to the specified file
 	    when all tests are complete.
 	    Writes test binary as -c would.
 
 	-blockprofilerate n
-	    Control the detail provided in goroutine blocking profiles by
+	    Control the detail provided in golangroutine blocking profiles by
 	    calling runtime.SetBlockProfileRate with n.
-	    See 'go doc runtime.SetBlockProfileRate'.
+	    See 'golang doc runtime.SetBlockProfileRate'.
 	    The profiler aims to sample, on average, one blocking event every
 	    n nanoseconds the program spends blocked. By default,
 	    if -test.blockprofile is set without this flag, all blocking events
@@ -385,7 +385,7 @@ profile the tests during execution:
 
 	-memprofilerate n
 	    Enable more precise (and expensive) memory allocation profiles by
-	    setting runtime.MemProfileRate. See 'go doc runtime.MemProfileRate'.
+	    setting runtime.MemProfileRate. See 'golang doc runtime.MemProfileRate'.
 	    To profile all memory allocations, use -test.memprofilerate=1.
 
 	-mutexprofile mutex.out
@@ -394,39 +394,39 @@ profile the tests during execution:
 	    Writes test binary as -c would.
 
 	-mutexprofilefraction n
-	    Sample 1 in n stack traces of goroutines holding a
+	    Sample 1 in n stack traces of golangroutines holding a
 	    contended mutex.
 
 	-outputdir directory
 	    Place output files from profiling in the specified directory,
-	    by default the directory in which "go test" is running.
+	    by default the directory in which "golang test" is running.
 
 	-trace trace.out
 	    Write an execution trace to the specified file before exiting.
 
 Each of these flags is also recognized with an optional 'test.' prefix,
 as in -test.v. When invoking the generated test binary (the result of
-'go test -c') directly, however, the prefix is mandatory.
+'golang test -c') directly, however, the prefix is mandatory.
 
-The 'go test' command rewrites or removes recognized flags,
+The 'golang test' command rewrites or removes recognized flags,
 as appropriate, both before and after the optional package list,
 before invoking the test binary.
 
 For instance, the command
 
-	go test -v -myflag testdata -cpuprofile=prof.out -x
+	golang test -v -myflag testdata -cpuprofile=prof.out -x
 
 will compile the test binary and then run it as
 
 	pkg.test -test.v -myflag testdata -test.cpuprofile=prof.out
 
-(The -x flag is removed because it applies only to the go command's
+(The -x flag is removed because it applies only to the golang command's
 execution, not to the test itself.)
 
 The test flags that generate profiles (other than for coverage) also
 leave the test binary in pkg.test for use when analyzing the profiles.
 
-When 'go test' runs a test binary, it does so from within the
+When 'golang test' runs a test binary, it does so from within the
 corresponding package's source code directory. Depending on the test,
 it may be necessary to do the same when invoking a generated test
 binary directly. Because that directory may be located within the
@@ -436,24 +436,24 @@ unless explicitly requested by the user (such as with the -fuzz flag,
 which writes failures to testdata/fuzz).
 
 The command-line package list, if present, must appear before any
-flag not known to the go test command. Continuing the example above,
+flag not known to the golang test command. Continuing the example above,
 the package list would have to appear before -myflag, but could appear
 on either side of -v.
 
-When 'go test' runs in package list mode, 'go test' caches successful
+When 'golang test' runs in package list mode, 'golang test' caches successful
 package test results to avoid unnecessary repeated running of tests. To
 disable test caching, use any test flag or argument other than the
 cacheable flags. The idiomatic way to disable test caching explicitly
 is to use -count=1.
 
 To keep an argument for a test binary from being interpreted as a
-known flag or a package name, use -args (see 'go help test') which
+known flag or a package name, use -args (see 'golang help test') which
 passes the remainder of the command line through to the test binary
 uninterpreted and unaltered.
 
 For instance, the command
 
-	go test -v -args -x -v
+	golang test -v -args -x -v
 
 will compile the test binary and then run it as
 
@@ -461,14 +461,14 @@ will compile the test binary and then run it as
 
 Similarly,
 
-	go test -args math
+	golang test -args math
 
 will compile the test binary and then run it as
 
 	pkg.test math
 
 In the first example, the -x and the second -v are passed through to the
-test binary unchanged and with no effect on the go command itself.
+test binary unchanged and with no effect on the golang command itself.
 In the second example, the argument math is passed through to the test
 binary, instead of being interpreted as the package list.
 `,
@@ -478,8 +478,8 @@ var HelpTestfunc = &base.Command{
 	UsageLine: "testfunc",
 	Short:     "testing functions",
 	Long: `
-The 'go test' command expects to find test, benchmark, and example functions
-in the "*_test.go" files corresponding to the package under test.
+The 'golang test' command expects to find test, benchmark, and example functions
+in the "*_test.golang" files corresponding to the package under test.
 
 A test function is one named TestXxx (where Xxx does not start with a
 lower case letter) and should have the signature,
@@ -648,13 +648,13 @@ func testShowPass() bool {
 
 var defaultVetFlags = []string{
 	// TODO(rsc): Decide which tests are enabled by default.
-	// See golang.org/issue/18085.
+	// See golanglang.org/issue/18085.
 	// "-asmdecl",
 	// "-assign",
 	"-atomic",
 	"-bool",
 	"-buildtags",
-	// "-cgocall",
+	// "-cgolangcall",
 	// "-composites",
 	// "-copylocks",
 	"-directive",
@@ -729,7 +729,7 @@ func runTest(ctx context.Context, cmd *base.Command, args []string) {
 		// Otherwise, if fuzzing identifies a failure it could corrupt checksums in
 		// the module cache (or permanently alter the behavior of std tests for all
 		// users) by writing the failing input to the package's testdata directory.
-		// (See https://golang.org/issue/48495 and test_fuzz_modcache.txt.)
+		// (See https://golanglang.org/issue/48495 and test_fuzz_modcache.txt.)
 		mainMods := modload.MainModules
 		if m := pkgs[0].Module; m != nil && m.Path != "" {
 			if !mainMods.Contains(m.Path) {
@@ -737,8 +737,8 @@ func runTest(ctx context.Context, cmd *base.Command, args []string) {
 			}
 		} else if pkgs[0].Standard && modload.Enabled() {
 			// Because packages in 'std' and 'cmd' are part of the standard library,
-			// they are only treated as part of a module in 'go mod' subcommands and
-			// 'go get'. However, we still don't want to accidentally corrupt their
+			// they are only treated as part of a module in 'golang mod' subcommands and
+			// 'golang get'. However, we still don't want to accidentally corrupt their
 			// testdata during fuzzing, nor do we want to fail with surprising errors
 			// if GOROOT isn't writable (as is often the case for Go toolchains
 			// installed through package managers).
@@ -801,7 +801,7 @@ func runTest(ctx context.Context, cmd *base.Command, args []string) {
 
 	// If a test timeout is finite, set our kill timeout
 	// to that timeout plus one minute. This is a backup alarm in case
-	// the test wedges with a goroutine spinning and its background
+	// the test wedges with a golangroutine spinning and its background
 	// timer does not get a chance to fire.
 	// Don't set this if fuzzing or benchmarking, since it should be able to run
 	// indefinitely.
@@ -810,7 +810,7 @@ func runTest(ctx context.Context, cmd *base.Command, args []string) {
 		// scheduling overhead and the amount of I/O generated by the test just
 		// before it exits. We set the minimum at 5 seconds to account for the OS
 		// overhead, and scale it up from there proportional to the overall test
-		// timeout on the assumption that the time to write and read a goroutine
+		// timeout on the assumption that the time to write and read a golangroutine
 		// dump from a timed-out test process scales roughly with the overall
 		// running time of the test.
 		//
@@ -825,7 +825,7 @@ func runTest(ctx context.Context, cmd *base.Command, args []string) {
 		// We expect the test binary to terminate itself (and dump stacks) after
 		// exactly testTimeout. We give it up to one WaitDelay or one minute,
 		// whichever is longer, to finish dumping stacks before we send it an
-		// external signal: if the process has a lot of goroutines, dumping stacks
+		// external signal: if the process has a lot of golangroutines, dumping stacks
 		// after the timeout can take a while.
 		//
 		// After the signal is delivered, the test process may have up to one
@@ -838,7 +838,7 @@ func runTest(ctx context.Context, cmd *base.Command, args []string) {
 	}
 
 	// Read testcache expiration time, if present.
-	// (We implement go clean -testcache by writing an expiration date
+	// (We implement golang clean -testcache by writing an expiration date
 	// instead of searching out and deleting test result cache entries.)
 	if dir, _, _ := cache.DefaultDir(); dir != "off" {
 		if data, _ := lockedfile.Read(filepath.Join(dir, "testexpire.txt")); len(data) > 0 && data[len(data)-1] == '\n' {
@@ -877,7 +877,7 @@ func runTest(ctx context.Context, cmd *base.Command, args []string) {
 			// packages will depend on it. Motivating example:
 			// supposed we have a top level directory with three
 			// package subdirs, "a", "b", and "c", and
-			// from the top level, a user runs "go test -coverpkg=./... ./...".
+			// from the top level, a user runs "golang test -coverpkg=./... ./...".
 			// This will result in (roughly) the following action graph:
 			//
 			//	build("a")       build("b")         build("c")
@@ -934,7 +934,7 @@ func runTest(ctx context.Context, cmd *base.Command, args []string) {
 		var skipInstrumentation = map[string]bool{
 			"context":               true,
 			"internal/fuzz":         true,
-			"internal/godebug":      true,
+			"internal/golangdebug":      true,
 			"internal/runtime/maps": true,
 			"internal/sync":         true,
 			"reflect":               true,
@@ -1009,10 +1009,10 @@ func runTest(ctx context.Context, cmd *base.Command, args []string) {
 					json.Exited(err)
 					json.Close()
 				}()
-				if gotestjsonbuildtext.Value() == "1" {
-					// While this flag is about go build -json, the other effect
+				if golangtestjsonbuildtext.Value() == "1" {
+					// While this flag is about golang build -json, the other effect
 					// of that change was to include "FailedBuild" in the test JSON.
-					gotestjsonbuildtext.IncNonDefault()
+					golangtestjsonbuildtext.IncNonDefault()
 				} else {
 					json.SetFailedBuild(perr.Desc())
 				}
@@ -1055,8 +1055,8 @@ func runTest(ctx context.Context, cmd *base.Command, args []string) {
 		}
 	}
 
-	// Ultimately the goal is to print the output.
-	root := &work.Action{Mode: "go test", Actor: work.ActorFunc(printExitStatus), Deps: prints}
+	// Ultimately the golangal is to print the output.
+	root := &work.Action{Mode: "golang test", Actor: work.ActorFunc(printExitStatus), Deps: prints}
 
 	// Force the printing of results to happen in order,
 	// one at a time.
@@ -1172,20 +1172,20 @@ func builderTest(b *work.Builder, ctx context.Context, pkgOpts load.PackageOpts,
 	pmain.Internal.OmitDebug = !testC && !testNeedBinary()
 	if pmain.ImportPath == "runtime.test" {
 		// The runtime package needs a symbolized binary for its tests.
-		// See runtime/unsafepoint_test.go.
+		// See runtime/unsafepoint_test.golang.
 		pmain.Internal.OmitDebug = false
 	}
 
 	if !cfg.BuildN {
-		// writeTestmain writes _testmain.go,
+		// writeTestmain writes _testmain.golang,
 		// using the test description gathered in t.
-		if err := os.WriteFile(testDir+"_testmain.go", *pmain.Internal.TestmainGo, 0666); err != nil {
+		if err := os.WriteFile(testDir+"_testmain.golang", *pmain.Internal.TestmainGo, 0666); err != nil {
 			return nil, nil, nil, nil, err
 		}
 	}
 
 	// Set compile objdir to testDir we've already created,
-	// so that the default file path stripping applies to _testmain.go.
+	// so that the default file path stripping applies to _testmain.golang.
 	b.CompileAction(work.ModeBuild, work.ModeBuild, pmain).Objdir = testDir
 
 	a := b.LinkAction(work.ModeBuild, work.ModeBuild, pmain)
@@ -1197,17 +1197,17 @@ func builderTest(b *work.Builder, ctx context.Context, pkgOpts load.PackageOpts,
 		// The word list includes setup, install, update, and patch,
 		// but it does not appear to be defined anywhere.
 		// We have run into this trying to run the
-		// go.codereview/patch tests.
+		// golang.codereview/patch tests.
 		// For package names containing those words, use test.test.exe
 		// instead of pkgname.test.exe.
 		// Note that this file name is only used in the Go command's
 		// temporary directory. If the -c or other flags are
 		// given, the code below will still use pkgname.test.exe.
 		// There are two user-visible effects of this change.
-		// First, you can actually run 'go test' in directories that
+		// First, you can actually run 'golang test' in directories that
 		// have names that Windows thinks are installer-like,
 		// without getting a dialog box asking for more permissions.
-		// Second, in the Windows process listing during go test,
+		// Second, in the Windows process listing during golang test,
 		// the test shows up as test.test.exe, not pkgname.test.exe.
 		// That second one is a drawback, but it seems a small
 		// price to pay for the test running at all.
@@ -1279,7 +1279,7 @@ func builderTest(b *work.Builder, ctx context.Context, pkgOpts load.PackageOpts,
 		}
 		if writeCoverMetaAct != nil {
 			// If writeCoverMetaAct != nil, this indicates that our
-			// "go test -coverpkg" run actions will need to read the
+			// "golang test -coverpkg" run actions will need to read the
 			// meta-files summary file written by writeCoverMetaAct,
 			// so add a dependence edge from writeCoverMetaAct to the
 			// run action.
@@ -1313,7 +1313,7 @@ func builderTest(b *work.Builder, ctx context.Context, pkgOpts load.PackageOpts,
 		}
 	}
 
-	if len(ptest.GoFiles)+len(ptest.CgoFiles) > 0 {
+	if len(ptest.GoFiles)+len(ptest.CgolangFiles) > 0 {
 		addTestVet(b, ptest, vetRunAction, installAction)
 	}
 	if pxtest != nil {
@@ -1385,7 +1385,7 @@ func coverProfTempFile(a *work.Action) string {
 
 // stdoutMu and lockedStdout provide a locked standard output
 // that guarantees never to interlace writes from multiple
-// goroutines, so that we can have multiple JSON streams writing
+// golangroutines, so that we can have multiple JSON streams writing
 // to a lockedStdout simultaneously and know that events will
 // still be intelligible.
 var stdoutMu sync.Mutex
@@ -1427,7 +1427,7 @@ func (r *runTestActor) Act(b *work.Builder, ctx context.Context, a *work.Action)
 	// hurry the output along, echoing it as soon as it comes in.
 	// We still have to copy to &buf for caching the result. This special
 	// case was introduced in Go 1.5 and is intentionally undocumented:
-	// the exact details of output buffering are up to the go command and
+	// the exact details of output buffering are up to the golang command and
 	// subject to change. It would be nice to remove this special case
 	// entirely, but it is surely very helpful to see progress being made
 	// when tests are run on slow single-CPU ARM systems.
@@ -1467,8 +1467,8 @@ func (r *runTestActor) Act(b *work.Builder, ctx context.Context, a *work.Action)
 	if a.Failed != nil {
 		// We were unable to build the binary.
 		if json != nil && a.Failed.Package != nil {
-			if gotestjsonbuildtext.Value() == "1" {
-				gotestjsonbuildtext.IncNonDefault()
+			if golangtestjsonbuildtext.Value() == "1" {
+				golangtestjsonbuildtext.IncNonDefault()
 			} else {
 				json.SetFailedBuild(a.Failed.Package.Desc())
 			}
@@ -1555,7 +1555,7 @@ func (r *runTestActor) Act(b *work.Builder, ctx context.Context, a *work.Action)
 	coverdirArg := []string{}
 	addToEnv := ""
 	if cfg.BuildCover {
-		gcd := filepath.Join(a.Objdir, "gocoverdir")
+		gcd := filepath.Join(a.Objdir, "golangcoverdir")
 		if err := sh.Mkdir(gcd); err != nil {
 			// If we can't create a temp dir, terminate immediately
 			// with an error as opposed to returning an error to the
@@ -1564,7 +1564,7 @@ func (r *runTestActor) Act(b *work.Builder, ctx context.Context, a *work.Action)
 			// that will make forward progress unlikely.
 			base.Fatalf("failed to create temporary dir: %v", err)
 		}
-		coverdirArg = append(coverdirArg, "-test.gocoverdir="+gcd)
+		coverdirArg = append(coverdirArg, "-test.golangcoverdir="+gcd)
 		if r.writeCoverMetaAct != nil {
 			// Copy the meta-files file over into the test's coverdir
 			// directory so that the coverage runtime support will be
@@ -1575,9 +1575,9 @@ func (r *runTestActor) Act(b *work.Builder, ctx context.Context, a *work.Action)
 				return err
 			}
 		}
-		// Even though we are passing the -test.gocoverdir option to
+		// Even though we are passing the -test.golangcoverdir option to
 		// the test binary, also set GOCOVERDIR as well. This is
-		// intended to help with tests that run "go build" to build
+		// intended to help with tests that run "golang build" to build
 		// fresh copies of tools to test as part of the testing.
 		addToEnv = "GOCOVERDIR=" + gcd
 	}
@@ -1606,9 +1606,9 @@ func (r *runTestActor) Act(b *work.Builder, ctx context.Context, a *work.Action)
 
 	// Now we're ready to actually run the command.
 	//
-	// If the -o flag is set, or if at some point we change cmd/go to start
+	// If the -o flag is set, or if at some point we change cmd/golang to start
 	// copying test executables into the build cache, we may run into spurious
-	// ETXTBSY errors on Unix platforms (see https://go.dev/issue/22315).
+	// ETXTBSY errors on Unix platforms (see https://golang.dev/issue/22315).
 	//
 	// Since we know what causes those, and we know that they should resolve
 	// quickly (the ETXTBSY error will resolve as soon as the subprocess
@@ -1688,7 +1688,7 @@ func (r *runTestActor) Act(b *work.Builder, ctx context.Context, a *work.Action)
 		}
 		if len(out) > 0 && !bytes.HasSuffix(out, []byte("\n")) {
 			// Ensure that the output ends with a newline before the "ok"
-			// line we're about to print (https://golang.org/issue/49317).
+			// line we're about to print (https://golanglang.org/issue/49317).
 			cmd.Stdout.Write([]byte("\n"))
 		}
 		fmt.Fprintf(cmd.Stdout, "ok  \t%s\t%s%s%s\n", a.Package.ImportPath, t, coveragePercentage(out), norun)
@@ -1713,17 +1713,17 @@ func (r *runTestActor) Act(b *work.Builder, ctx context.Context, a *work.Action)
 			fmt.Fprintf(cmd.Stdout, "%s\n", err)
 		} else if !bytes.HasSuffix(out, []byte("\n")) {
 			// Otherwise, ensure that the output ends with a newline before the FAIL
-			// line we're about to print (https://golang.org/issue/49317).
+			// line we're about to print (https://golanglang.org/issue/49317).
 			cmd.Stdout.Write([]byte("\n"))
 		}
 
-		// NOTE(golang.org/issue/37555): test2json reports that a test passes
+		// NOTE(golanglang.org/issue/37555): test2json reports that a test passes
 		// unless "FAIL" is printed at the beginning of a line. The test may not
 		// actually print that if it panics, exits, or terminates abnormally,
 		// so we print it here. We can't always check whether it was printed
-		// because some tests need stdout to be a terminal (golang.org/issue/34791),
+		// because some tests need stdout to be a terminal (golanglang.org/issue/34791),
 		// not a pipe.
-		// TODO(golang.org/issue/29062): tests that exit with status 0 without
+		// TODO(golanglang.org/issue/29062): tests that exit with status 0 without
 		// printing a final result should fail.
 		prefix := ""
 		if testJSON || testV.json {
@@ -1733,7 +1733,7 @@ func (r *runTestActor) Act(b *work.Builder, ctx context.Context, a *work.Action)
 	}
 
 	if cmd.Stdout != &buf {
-		buf.Reset() // cmd.Stdout was going to os.Stdout already
+		buf.Reset() // cmd.Stdout was golanging to os.Stdout already
 	}
 	return nil
 }
@@ -1747,8 +1747,8 @@ func (c *runCache) tryCache(b *work.Builder, a *work.Action) bool {
 
 func (c *runCache) tryCacheWithID(b *work.Builder, a *work.Action, id string) bool {
 	if len(pkgArgs) == 0 {
-		// Caching does not apply to "go test",
-		// only to "go test foo" (including "go test .").
+		// Caching does not apply to "golang test",
+		// only to "golang test foo" (including "golang test .").
 		if cache.DebugTest {
 			fmt.Fprintf(os.Stderr, "testcache: caching disabled in local directory mode\n")
 		}
@@ -1893,7 +1893,7 @@ func (c *runCache) tryCacheWithID(b *work.Builder, a *work.Action, id string) bo
 	}
 	if entry.Time.Before(testCacheExpire) {
 		if cache.DebugTest {
-			fmt.Fprintf(os.Stderr, "testcache: %s: test output expired due to go clean -testcache\n", a.Package.ImportPath)
+			fmt.Fprintf(os.Stderr, "testcache: %s: test output expired due to golang clean -testcache\n", a.Package.ImportPath)
 		}
 		return false
 	}
@@ -1925,7 +1925,7 @@ func (c *runCache) tryCacheWithID(b *work.Builder, a *work.Action, id string) bo
 }
 
 var errBadTestInputs = errors.New("error parsing test inputs")
-var testlogMagic = []byte("# test log\n") // known to testing/internal/testdeps/deps.go
+var testlogMagic = []byte("# test log\n") // known to testing/internal/testdeps/deps.golang
 
 // computeTestInputsID computes the "test inputs ID"
 // (see comment in tryCacheWithID above) for the
@@ -2032,7 +2032,7 @@ func hashOpen(name string) (cache.ActionID, error) {
 		// Because files might be very large, do not attempt
 		// to hash the entirety of their content. Instead assume
 		// the mtime and size recorded in hashWriteStat above
-		// are good enough.
+		// are golangod enough.
 		//
 		// To avoid problems for very recent files where a new
 		// write might not change the mtime due to file system
@@ -2139,7 +2139,7 @@ func coveragePercentage(out []byte) string {
 	re := regexp.MustCompile(`coverage: (.*)\n`)
 	matches := re.FindSubmatch(out)
 	if matches == nil {
-		// Probably running "go test -cover" not "go test -cover fmt".
+		// Probably running "golang test -cover" not "golang test -cover fmt".
 		// The coverage output will appear in the output directly.
 		return ""
 	}
@@ -2175,7 +2175,7 @@ func builderPrintTest(b *work.Builder, ctx context.Context, a *work.Action) erro
 // If we are running multiple test targets, print a final "FAIL"
 // in case a failure in an early package has already scrolled
 // off of the user's terminal.
-// (See https://golang.org/issue/30507#issuecomment-470593235.)
+// (See https://golanglang.org/issue/30507#issuecomment-470593235.)
 //
 // In JSON mode, we need to maintain valid JSON output and
 // we assume that the test output is being parsed by a tool
@@ -2183,7 +2183,7 @@ func builderPrintTest(b *work.Builder, ctx context.Context, a *work.Action) erro
 // awkward to try to wedge into the JSON stream.
 //
 // In fuzz mode, we only allow a single package for now
-// (see CL 350156 and https://golang.org/issue/46312),
+// (see CL 350156 and https://golanglang.org/issue/46312),
 // so there is no possibility of scrolling off and no need
 // to print the final status.
 func printExitStatus(b *work.Builder, ctx context.Context, a *work.Action) error {
@@ -2200,7 +2200,7 @@ func printExitStatus(b *work.Builder, ctx context.Context, a *work.Action) error
 // Use last element of import path, not package name.
 // They differ when package name is "main".
 // But if the import path is "command-line-arguments",
-// like it is during 'go run', use the package name.
+// like it is during 'golang run', use the package name.
 func testBinaryName(p *load.Package) string {
 	var elem string
 	if p.ImportPath == "command-line-arguments" {

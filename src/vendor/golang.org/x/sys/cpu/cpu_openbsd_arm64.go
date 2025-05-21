@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package cpu
@@ -21,10 +21,10 @@ const (
 	_CPU_ID_AA64ISAR1 = 3
 )
 
-// Implemented in the runtime package (runtime/sys_openbsd3.go)
+// Implemented in the runtime package (runtime/sys_openbsd3.golang)
 func syscall_syscall6(fn, a1, a2, a3, a4, a5, a6 uintptr) (r1, r2 uintptr, err syscall.Errno)
 
-//go:linkname syscall_syscall6 syscall.syscall6
+//golang:linkname syscall_syscall6 syscall.syscall6
 
 func sysctl(mib []uint32, old *byte, oldlen *uintptr, new *byte, newlen uintptr) (err error) {
 	_, _, errno := syscall_syscall6(libc_sysctl_trampoline_addr, uintptr(unsafe.Pointer(&mib[0])), uintptr(len(mib)), uintptr(unsafe.Pointer(old)), uintptr(unsafe.Pointer(oldlen)), uintptr(unsafe.Pointer(new)), uintptr(newlen))
@@ -36,7 +36,7 @@ func sysctl(mib []uint32, old *byte, oldlen *uintptr, new *byte, newlen uintptr)
 
 var libc_sysctl_trampoline_addr uintptr
 
-//go:cgo_import_dynamic libc_sysctl sysctl "libc.so"
+//golang:cgolang_import_dynamic libc_sysctl sysctl "libc.so"
 
 func sysctlUint64(mib []uint32) (uint64, bool) {
 	var out uint64

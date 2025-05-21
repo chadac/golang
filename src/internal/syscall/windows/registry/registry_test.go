@@ -1,8 +1,8 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build windows
+//golang:build windows
 
 package registry_test
 
@@ -209,93 +209,93 @@ func testErrNotExist(t *testing.T, name string, err error) {
 		return
 	}
 	if err != registry.ErrNotExist {
-		t.Errorf("reading %s value should return 'not exist' error, but got: %s", name, err)
+		t.Errorf("reading %s value should return 'not exist' error, but golangt: %s", name, err)
 		return
 	}
 }
 
-func testErrUnexpectedType(t *testing.T, test ValueTest, gottype uint32, err error) {
+func testErrUnexpectedType(t *testing.T, test ValueTest, golangttype uint32, err error) {
 	if err == nil {
 		t.Errorf("GetXValue(%q) should not succeed", test.Name)
 		return
 	}
 	if err != registry.ErrUnexpectedType {
-		t.Errorf("reading %s value should return 'unexpected key value type' error, but got: %s", test.Name, err)
+		t.Errorf("reading %s value should return 'unexpected key value type' error, but golangt: %s", test.Name, err)
 		return
 	}
-	if gottype != test.Type {
-		t.Errorf("want %s value type %v, got %v", test.Name, test.Type, gottype)
+	if golangttype != test.Type {
+		t.Errorf("want %s value type %v, golangt %v", test.Name, test.Type, golangttype)
 		return
 	}
 }
 
 func testGetStringValue(t *testing.T, k registry.Key, test ValueTest) {
-	got, gottype, err := k.GetStringValue(test.Name)
+	golangt, golangttype, err := k.GetStringValue(test.Name)
 	if err != nil {
 		t.Errorf("GetStringValue(%s) failed: %v", test.Name, err)
 		return
 	}
-	if got != test.Value {
-		t.Errorf("want %s value %q, got %q", test.Name, test.Value, got)
+	if golangt != test.Value {
+		t.Errorf("want %s value %q, golangt %q", test.Name, test.Value, golangt)
 		return
 	}
-	if gottype != test.Type {
-		t.Errorf("want %s value type %v, got %v", test.Name, test.Type, gottype)
+	if golangttype != test.Type {
+		t.Errorf("want %s value type %v, golangt %v", test.Name, test.Type, golangttype)
 		return
 	}
-	if gottype == registry.EXPAND_SZ {
-		_, err = registry.ExpandString(got)
+	if golangttype == registry.EXPAND_SZ {
+		_, err = registry.ExpandString(golangt)
 		if err != nil {
-			t.Errorf("ExpandString(%s) failed: %v", got, err)
+			t.Errorf("ExpandString(%s) failed: %v", golangt, err)
 			return
 		}
 	}
 }
 
 func testGetIntegerValue(t *testing.T, k registry.Key, test ValueTest) {
-	got, gottype, err := k.GetIntegerValue(test.Name)
+	golangt, golangttype, err := k.GetIntegerValue(test.Name)
 	if err != nil {
 		t.Errorf("GetIntegerValue(%s) failed: %v", test.Name, err)
 		return
 	}
-	if got != test.Value.(uint64) {
-		t.Errorf("want %s value %v, got %v", test.Name, test.Value, got)
+	if golangt != test.Value.(uint64) {
+		t.Errorf("want %s value %v, golangt %v", test.Name, test.Value, golangt)
 		return
 	}
-	if gottype != test.Type {
-		t.Errorf("want %s value type %v, got %v", test.Name, test.Type, gottype)
+	if golangttype != test.Type {
+		t.Errorf("want %s value type %v, golangt %v", test.Name, test.Type, golangttype)
 		return
 	}
 }
 
 func testGetBinaryValue(t *testing.T, k registry.Key, test ValueTest) {
-	got, gottype, err := k.GetBinaryValue(test.Name)
+	golangt, golangttype, err := k.GetBinaryValue(test.Name)
 	if err != nil {
 		t.Errorf("GetBinaryValue(%s) failed: %v", test.Name, err)
 		return
 	}
-	if !bytes.Equal(got, test.Value.([]byte)) {
-		t.Errorf("want %s value %v, got %v", test.Name, test.Value, got)
+	if !bytes.Equal(golangt, test.Value.([]byte)) {
+		t.Errorf("want %s value %v, golangt %v", test.Name, test.Value, golangt)
 		return
 	}
-	if gottype != test.Type {
-		t.Errorf("want %s value type %v, got %v", test.Name, test.Type, gottype)
+	if golangttype != test.Type {
+		t.Errorf("want %s value type %v, golangt %v", test.Name, test.Type, golangttype)
 		return
 	}
 }
 
 func testGetStringsValue(t *testing.T, k registry.Key, test ValueTest) {
-	got, gottype, err := k.GetStringsValue(test.Name)
+	golangt, golangttype, err := k.GetStringsValue(test.Name)
 	if err != nil {
 		t.Errorf("GetStringsValue(%s) failed: %v", test.Name, err)
 		return
 	}
-	if !slices.Equal(got, test.Value.([]string)) {
-		t.Errorf("want %s value %#v, got %#v", test.Name, test.Value, got)
+	if !slices.Equal(golangt, test.Value.([]string)) {
+		t.Errorf("want %s value %#v, golangt %#v", test.Name, test.Value, golangt)
 		return
 	}
-	if gottype != test.Type {
-		t.Errorf("want %s value type %v, got %v", test.Name, test.Type, gottype)
+	if golangttype != test.Type {
+		t.Errorf("want %s value type %v, golangt %v", test.Name, test.Type, golangttype)
 		return
 	}
 }
@@ -305,49 +305,49 @@ func testGetValue(t *testing.T, k registry.Key, test ValueTest, size int) {
 		return
 	}
 	// read data with no buffer
-	gotsize, gottype, err := k.GetValue(test.Name, nil)
+	golangtsize, golangttype, err := k.GetValue(test.Name, nil)
 	if err != nil {
 		t.Errorf("GetValue(%s, [%d]byte) failed: %v", test.Name, size, err)
 		return
 	}
-	if gotsize != size {
-		t.Errorf("want %s value size of %d, got %v", test.Name, size, gotsize)
+	if golangtsize != size {
+		t.Errorf("want %s value size of %d, golangt %v", test.Name, size, golangtsize)
 		return
 	}
-	if gottype != test.Type {
-		t.Errorf("want %s value type %v, got %v", test.Name, test.Type, gottype)
+	if golangttype != test.Type {
+		t.Errorf("want %s value type %v, golangt %v", test.Name, test.Type, golangttype)
 		return
 	}
 	// read data with short buffer
-	gotsize, gottype, err = k.GetValue(test.Name, make([]byte, size-1))
+	golangtsize, golangttype, err = k.GetValue(test.Name, make([]byte, size-1))
 	if err == nil {
 		t.Errorf("GetValue(%s, [%d]byte) should fail, but succeeded", test.Name, size-1)
 		return
 	}
 	if err != registry.ErrShortBuffer {
-		t.Errorf("reading %s value should return 'short buffer' error, but got: %s", test.Name, err)
+		t.Errorf("reading %s value should return 'short buffer' error, but golangt: %s", test.Name, err)
 		return
 	}
-	if gotsize != size {
-		t.Errorf("want %s value size of %d, got %v", test.Name, size, gotsize)
+	if golangtsize != size {
+		t.Errorf("want %s value size of %d, golangt %v", test.Name, size, golangtsize)
 		return
 	}
-	if gottype != test.Type {
-		t.Errorf("want %s value type %v, got %v", test.Name, test.Type, gottype)
+	if golangttype != test.Type {
+		t.Errorf("want %s value type %v, golangt %v", test.Name, test.Type, golangttype)
 		return
 	}
 	// read full data
-	gotsize, gottype, err = k.GetValue(test.Name, make([]byte, size))
+	golangtsize, golangttype, err = k.GetValue(test.Name, make([]byte, size))
 	if err != nil {
 		t.Errorf("GetValue(%s, [%d]byte) failed: %v", test.Name, size, err)
 		return
 	}
-	if gotsize != size {
-		t.Errorf("want %s value size of %d, got %v", test.Name, size, gotsize)
+	if golangtsize != size {
+		t.Errorf("want %s value size of %d, golangt %v", test.Name, size, golangtsize)
 		return
 	}
-	if gottype != test.Type {
-		t.Errorf("want %s value type %v, got %v", test.Name, test.Type, gottype)
+	if golangttype != test.Type {
+		t.Errorf("want %s value type %v, golangt %v", test.Name, test.Type, golangttype)
 		return
 	}
 	// check GetValue returns ErrNotExist as required
@@ -357,7 +357,7 @@ func testGetValue(t *testing.T, k registry.Key, test ValueTest, size int) {
 		return
 	}
 	if err != registry.ErrNotExist {
-		t.Errorf("GetValue(%q) should return 'not exist' error, but got: %s", test.Name, err)
+		t.Errorf("GetValue(%q) should return 'not exist' error, but golangt: %s", test.Name, err)
 		return
 	}
 }
@@ -371,8 +371,8 @@ func testValues(t *testing.T, k registry.Key) {
 				testErrNotExist(t, test.Name, err)
 			} else {
 				testGetStringValue(t, k, test)
-				_, gottype, err := k.GetIntegerValue(test.Name)
-				testErrUnexpectedType(t, test, gottype, err)
+				_, golangttype, err := k.GetIntegerValue(test.Name)
+				testErrUnexpectedType(t, test, golangttype, err)
 				// Size of utf16 string in bytes is not perfect,
 				// but correct for current test values.
 				// Size also includes terminating 0.
@@ -382,8 +382,8 @@ func testValues(t *testing.T, k registry.Key) {
 			testErrNotExist(t, test.Name+"_string_not_created", err)
 		case registry.DWORD, registry.QWORD:
 			testGetIntegerValue(t, k, test)
-			_, gottype, err := k.GetBinaryValue(test.Name)
-			testErrUnexpectedType(t, test, gottype, err)
+			_, golangttype, err := k.GetBinaryValue(test.Name)
+			testErrUnexpectedType(t, test, golangttype, err)
 			_, _, err = k.GetIntegerValue(test.Name + "_int_not_created")
 			testErrNotExist(t, test.Name+"_int_not_created", err)
 			size := 8
@@ -393,8 +393,8 @@ func testValues(t *testing.T, k registry.Key) {
 			testGetValue(t, k, test, size)
 		case registry.BINARY:
 			testGetBinaryValue(t, k, test)
-			_, gottype, err := k.GetStringsValue(test.Name)
-			testErrUnexpectedType(t, test, gottype, err)
+			_, golangttype, err := k.GetStringsValue(test.Name)
+			testErrUnexpectedType(t, test, golangttype, err)
 			_, _, err = k.GetBinaryValue(test.Name + "_byte_not_created")
 			testErrNotExist(t, test.Name+"_byte_not_created", err)
 			testGetValue(t, k, test, len(test.Value.([]byte)))
@@ -404,8 +404,8 @@ func testValues(t *testing.T, k registry.Key) {
 				testErrNotExist(t, test.Name, err)
 			} else {
 				testGetStringsValue(t, k, test)
-				_, gottype, err := k.GetStringValue(test.Name)
-				testErrUnexpectedType(t, test, gottype, err)
+				_, golangttype, err := k.GetStringValue(test.Name)
+				testErrUnexpectedType(t, test, golangttype, err)
 				size := 0
 				for _, s := range test.Value.([]string) {
 					size += len(s) + 1 // nil terminated
@@ -509,13 +509,13 @@ func TestValues(t *testing.T) {
 }
 
 func TestExpandString(t *testing.T) {
-	got, err := registry.ExpandString("%PATH%")
+	golangt, err := registry.ExpandString("%PATH%")
 	if err != nil {
 		t.Fatal(err)
 	}
 	want := os.Getenv("PATH")
-	if got != want {
-		t.Errorf("want %q string expanded, got %q", want, got)
+	if golangt != want {
+		t.Errorf("want %q string expanded, golangt %q", want, golangt)
 	}
 }
 
@@ -609,13 +609,13 @@ func TestGetMUIStringValue(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		got, err := timezoneK.GetMUIStringValue(test.name)
+		golangt, err := timezoneK.GetMUIStringValue(test.name)
 		if err != nil {
 			t.Error("GetMUIStringValue:", err)
 		}
 
-		if got != test.want {
-			t.Errorf("GetMUIStringValue: %s: Got %q, want %q", test.name, got, test.want)
+		if golangt != test.want {
+			t.Errorf("GetMUIStringValue: %s: Got %q, want %q", test.name, golangt, test.want)
 		}
 	}
 }

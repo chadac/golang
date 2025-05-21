@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package decodecounter
@@ -23,8 +23,8 @@ type CounterDataReader struct {
 	stab     *stringtab.Reader
 	args     map[string]string
 	osargs   []string
-	goarch   string // GOARCH setting from run that produced counter data
-	goos     string // GOOS setting from run that produced counter data
+	golangarch   string // GOARCH setting from run that produced counter data
+	golangos     string // GOOS setting from run that produced counter data
 	mr       io.ReadSeeker
 	hdr      coverage.CounterFileHeader
 	ftr      coverage.CounterFileFooter
@@ -188,11 +188,11 @@ func (cdr *CounterDataReader) readArgs() error {
 			cdr.osargs = append(cdr.osargs, arg)
 		}
 	}
-	if goos, ok := cdr.args["GOOS"]; ok {
-		cdr.goos = goos
+	if golangos, ok := cdr.args["GOOS"]; ok {
+		cdr.golangos = golangos
 	}
-	if goarch, ok := cdr.args["GOARCH"]; ok {
-		cdr.goarch = goarch
+	if golangarch, ok := cdr.args["GOARCH"]; ok {
+		cdr.golangarch = golangarch
 	}
 	return nil
 }
@@ -212,7 +212,7 @@ func (cdr *CounterDataReader) OsArgs() []string {
 // empty in the case where the counter data file was produced
 // from a merge in which more than one GOOS value was present.
 func (cdr *CounterDataReader) Goos() string {
-	return cdr.goos
+	return cdr.golangos
 }
 
 // Goarch returns the GOARCH setting in effect for the "-cover" binary
@@ -220,7 +220,7 @@ func (cdr *CounterDataReader) Goos() string {
 // empty in the case where the counter data file was produced
 // from a merge in which more than one GOARCH value was present.
 func (cdr *CounterDataReader) Goarch() string {
-	return cdr.goarch
+	return cdr.golangarch
 }
 
 // FuncPayload encapsulates the counter data payload for a single

@@ -1,18 +1,18 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package sql provides a generic interface around SQL (or SQL-like)
 // databases.
 //
 // The sql package must be used in conjunction with a database driver.
-// See https://golang.org/s/sqldrivers for a list of drivers.
+// See https://golanglang.org/s/sqldrivers for a list of drivers.
 //
 // Drivers that do not support context cancellation will not return until
 // after the query is completed.
 //
 // For usage examples, see the wiki page at
-// https://golang.org/s/sqlwiki.
+// https://golanglang.org/s/sqlwiki.
 package sql
 
 import (
@@ -39,12 +39,12 @@ var driversMu sync.RWMutex
 // but widely used packages access it using linkname.
 // (It is extra wrong that they linkname drivers but not driversMu.)
 // Notable members of the hall of shame include:
-//   - github.com/instana/go-sensor
+//   - github.com/instana/golang-sensor
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname drivers
+//golang:linkname drivers
 var drivers = make(map[string]driver.Driver)
 
 // nowFunc returns the current time; it's overridden in tests.
@@ -115,7 +115,7 @@ type NamedArg struct {
 //	    sql.Named("end", endTime),
 //	)
 func Named(name string, value any) NamedArg {
-	// This method exists because the go1compat promise
+	// This method exists because the golang1compat promise
 	// doesn't guarantee that structs don't grow more fields,
 	// so unkeyed struct literals are a vet error. Thus, we don't
 	// want to allow sql.NamedArg{name, value}.
@@ -494,7 +494,7 @@ var ErrNoRows = errors.New("sql: no rows in result set")
 
 // DB is a database handle representing a pool of zero or more
 // underlying connections. It's safe for concurrent use by multiple
-// goroutines.
+// golangroutines.
 //
 // The sql package creates and frees connections automatically; it
 // also maintains a free pool of idle connections. If the database has
@@ -519,10 +519,10 @@ type DB struct {
 	connRequests connRequestSet
 	numOpen      int // number of opened and pending open connections
 	// Used to signal the need for new connections
-	// a goroutine running connectionOpener() reads on this chan and
+	// a golangroutine running connectionOpener() reads on this chan and
 	// maybeOpenNewConnections sends on the chan (one send per needed connection)
 	// It is closed during db.Close(). The close tells the connectionOpener
-	// goroutine to exit.
+	// golangroutine to exit.
 	openerCh          chan struct{}
 	closed            bool
 	dep               map[finalCloser]depSet
@@ -735,7 +735,7 @@ type depSet map[any]bool // set of true bools
 // dependency reference counting.
 type finalCloser interface {
 	// finalClose is called when the reference count of an object
-	// goes to zero. (*DB).mu is not held while calling it.
+	// golanges to zero. (*DB).mu is not held while calling it.
 	finalClose() error
 }
 
@@ -818,14 +818,14 @@ func (t dsnConnector) Driver() driver.Driver {
 //
 // Most users will open a database via a driver-specific connection
 // helper function that returns a [*DB]. No database drivers are included
-// in the Go standard library. See https://golang.org/s/sqldrivers for
+// in the Go standard library. See https://golanglang.org/s/sqldrivers for
 // a list of third-party drivers.
 //
 // OpenDB may just validate its arguments without creating a connection
 // to the database. To verify that the data source name is valid, call
 // [DB.Ping].
 //
-// The returned [DB] is safe for concurrent use by multiple goroutines
+// The returned [DB] is safe for concurrent use by multiple golangroutines
 // and maintains its own pool of idle connections. Thus, the OpenDB
 // function should be called just once. It is rarely necessary to
 // close a [DB].
@@ -838,7 +838,7 @@ func OpenDB(c driver.Connector) *DB {
 		stop:      cancel,
 	}
 
-	go db.connectionOpener(ctx)
+	golang db.connectionOpener(ctx)
 
 	return db
 }
@@ -849,14 +849,14 @@ func OpenDB(c driver.Connector) *DB {
 //
 // Most users will open a database via a driver-specific connection
 // helper function that returns a [*DB]. No database drivers are included
-// in the Go standard library. See https://golang.org/s/sqldrivers for
+// in the Go standard library. See https://golanglang.org/s/sqldrivers for
 // a list of third-party drivers.
 //
 // Open may just validate its arguments without creating a connection
 // to the database. To verify that the data source name is valid, call
 // [DB.Ping].
 //
-// The returned [DB] is safe for concurrent use by multiple goroutines
+// The returned [DB] is safe for concurrent use by multiple golangroutines
 // and maintains its own pool of idle connections. Thus, the Open
 // function should be called just once. It is rarely necessary to
 // close a [DB].
@@ -865,7 +865,7 @@ func Open(driverName, dataSourceName string) (*DB, error) {
 	driveri, ok := drivers[driverName]
 	driversMu.RUnlock()
 	if !ok {
-		return nil, fmt.Errorf("sql: unknown driver %q (forgotten import?)", driverName)
+		return nil, fmt.Errorf("sql: unknown driver %q (forgolangtten import?)", driverName)
 	}
 
 	if driverCtx, ok := driveri.(driver.DriverContext); ok {
@@ -922,7 +922,7 @@ func (db *DB) Ping() error {
 // to finish.
 //
 // It is rare to Close a [DB], as the [DB] handle is meant to be
-// long-lived and shared between many goroutines.
+// long-lived and shared between many golangroutines.
 func (db *DB) Close() error {
 	db.mu.Lock()
 	if db.closed { // Make DB.Close idempotent
@@ -1088,7 +1088,7 @@ func (db *DB) SetConnMaxIdleTime(d time.Duration) {
 func (db *DB) startCleanerLocked() {
 	if (db.maxLifetime > 0 || db.maxIdleTime > 0) && db.numOpen > 0 && db.cleanerCh == nil {
 		db.cleanerCh = make(chan struct{}, 1)
-		go db.connectionCleaner(db.shortestIdleTimeLocked())
+		golang db.connectionCleaner(db.shortestIdleTimeLocked())
 	}
 }
 
@@ -1255,7 +1255,7 @@ func (db *DB) maybeOpenNewConnections() {
 	}
 }
 
-// Runs in a separate goroutine, opens new connections when requested.
+// Runs in a separate golangroutine, opens new connections when requested.
 func (db *DB) connectionOpener(ctx context.Context) {
 	for {
 		select {
@@ -1380,11 +1380,11 @@ func (db *DB) conn(ctx context.Context, strategy connReuseStrategy) (*driverConn
 			// something else grabbed it and is about to send on it.
 			if !deleted {
 				// TODO(bradfitz): rather than this best effort select, we
-				// should probably start a goroutine to read from req. This best
+				// should probably start a golangroutine to read from req. This best
 				// effort select existed before the change to check 'deleted'.
 				// But if we know for sure it wasn't deleted and a sender is
 				// outstanding, we should probably block on req (in a new
-				// goroutine) to get the connection back.
+				// golangroutine) to get the connection back.
 				select {
 				default:
 				case ret, ok := <-req:
@@ -1922,7 +1922,7 @@ func (db *DB) beginDC(ctx context.Context, dc *driverConn, release func(error), 
 		keepConnOnRollback: keepConnOnRollback,
 		ctx:                ctx,
 	}
-	go tx.awaitDone()
+	golang tx.awaitDone()
 	return tx, nil
 }
 
@@ -2592,7 +2592,7 @@ var (
 )
 
 // Stmt is a prepared statement.
-// A Stmt is safe for concurrent use by multiple goroutines.
+// A Stmt is safe for concurrent use by multiple golangroutines.
 //
 // If a Stmt is prepared on a [Tx] or [Conn], it will be bound to a single
 // underlying connection forever. If the [Tx] or [Conn] closes, the Stmt will
@@ -2947,7 +2947,7 @@ type Rows struct {
 	// closemuScanHold is whether the previous call to Scan kept closemu RLock'ed
 	// without unlocking it. It does that when the user passes a *RawBytes scan
 	// target. In that case, we need to prevent awaitDone from closing the Rows
-	// while the user's still using the memory. See go.dev/issue/60304.
+	// while the user's still using the memory. See golang.dev/issue/60304.
 	//
 	// It is only used by Scan, Next, and NextResultSet which are expected
 	// not to be called concurrently.
@@ -2993,7 +2993,7 @@ func (rs *Rows) initContextClose(ctx, txctx context.Context) {
 	}
 	closectx, cancel := context.WithCancel(ctx)
 	rs.cancel = cancel
-	go rs.awaitDone(ctx, txctx, closectx)
+	golang rs.awaitDone(ctx, txctx, closectx)
 }
 
 // awaitDone blocks until ctx, txctx, or closectx is canceled.

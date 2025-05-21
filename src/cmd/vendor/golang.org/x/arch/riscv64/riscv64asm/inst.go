@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package riscv64asm
@@ -12,7 +12,7 @@ import (
 // An Op is a RISC-V opcode.
 type Op uint16
 
-// NOTE: The actual Op values are defined in tables.go.
+// NOTE: The actual Op values are defined in tables.golang.
 func (op Op) String() string {
 	if op >= Op(len(opstr)) || opstr[op] == "" {
 		return fmt.Sprintf("Op(%d)", op)
@@ -144,7 +144,7 @@ func (r Reg) String() string {
 // A CSR is a single control and status register.
 // Use stringer to generate CSR match table.
 //
-//go:generate stringer -type=CSR
+//golang:generate stringer -type=CSR
 type CSR uint16
 
 const (
@@ -470,8 +470,8 @@ type RegOffset struct {
 	Ofs    Simm
 }
 
-func (regofs RegOffset) String() string {
-	return fmt.Sprintf("%s(%s)", regofs.Ofs, regofs.OfsReg)
+func (regolangfs RegOffset) String() string {
+	return fmt.Sprintf("%s(%s)", regolangfs.Ofs, regolangfs.OfsReg)
 }
 
 // A MemOrder is a memory order hint in fence instruction

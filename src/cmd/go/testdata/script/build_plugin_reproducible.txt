@@ -1,12 +1,12 @@
 [!buildmode:plugin] skip
 [short] skip
-[!cgo] skip '-buildmode=plugin requires external linking'
+[!cgolang] skip '-buildmode=plugin requires external linking'
 
-go build -trimpath -buildvcs=false -buildmode=plugin -o a.so main.go
-go build -trimpath -buildvcs=false -buildmode=plugin -o b.so main.go
+golang build -trimpath -buildvcs=false -buildmode=plugin -o a.so main.golang
+golang build -trimpath -buildvcs=false -buildmode=plugin -o b.so main.golang
 cmp -q a.so b.so
 
--- main.go --
+-- main.golang --
 package main
 
 func main() {}

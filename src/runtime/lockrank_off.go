@@ -1,8 +1,8 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !goexperiment.staticlockranking
+//golang:build !golangexperiment.staticlockranking
 
 package runtime
 
@@ -26,7 +26,7 @@ func lockWithRank(l *mutex, rank lockRank) {
 
 // This function may be called in nosplit context and thus must be nosplit.
 //
-//go:nosplit
+//golang:nosplit
 func acquireLockRankAndM(rank lockRank) {
 	acquirem()
 }
@@ -37,37 +37,37 @@ func unlockWithRank(l *mutex) {
 
 // This function may be called in nosplit context and thus must be nosplit.
 //
-//go:nosplit
+//golang:nosplit
 func releaseLockRankAndM(rank lockRank) {
 	releasem(getg().m)
 }
 
 // This function may be called in nosplit context and thus must be nosplit.
 //
-//go:nosplit
+//golang:nosplit
 func lockWithRankMayAcquire(l *mutex, rank lockRank) {
 }
 
-//go:nosplit
+//golang:nosplit
 func assertLockHeld(l *mutex) {
 }
 
-//go:nosplit
+//golang:nosplit
 func assertRankHeld(r lockRank) {
 }
 
-//go:nosplit
+//golang:nosplit
 func worldStopped() {
 }
 
-//go:nosplit
+//golang:nosplit
 func worldStarted() {
 }
 
-//go:nosplit
+//golang:nosplit
 func assertWorldStopped() {
 }
 
-//go:nosplit
+//golang:nosplit
 func assertWorldStoppedOrLockHeld(l *mutex) {
 }

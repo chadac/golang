@@ -1,5 +1,5 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package objfile implements portable access to OS-specific executable files.
@@ -9,7 +9,7 @@ import (
 	"cmd/internal/archive"
 	"cmp"
 	"debug/dwarf"
-	"debug/gosym"
+	"debug/golangsym"
 	"fmt"
 	"io"
 	"os"
@@ -20,7 +20,7 @@ type rawFile interface {
 	symbols() (syms []Sym, err error)
 	pcln() (textStart uint64, symtab, pclntab []byte, err error)
 	text() (textStart uint64, text []byte, err error)
-	goarch() string
+	golangarch() string
 	loadAddress() (uint64, error)
 	dwarf() (*dwarf.Data, error)
 }
@@ -136,7 +136,7 @@ func (e *Entry) Symbols() ([]Sym, error) {
 
 func (e *Entry) PCLineTable() (Liner, error) {
 	// If the raw file implements Liner directly, use that.
-	// Currently, only Go intermediate objects and archives (goobj) use this path.
+	// Currently, only Go intermediate objects and archives (golangobj) use this path.
 	if pcln, ok := e.raw.(Liner); ok {
 		return pcln, nil
 	}
@@ -154,7 +154,7 @@ func (e *Entry) PCLineTable() (Liner, error) {
 			}
 		}
 	}
-	return gosym.NewTable(symtab, gosym.NewLineTable(pclntab, textStart))
+	return golangsym.NewTable(symtab, golangsym.NewLineTable(pclntab, textStart))
 }
 
 func (e *Entry) Text() (uint64, []byte, error) {
@@ -162,7 +162,7 @@ func (e *Entry) Text() (uint64, []byte, error) {
 }
 
 func (e *Entry) GOARCH() string {
-	return e.raw.goarch()
+	return e.raw.golangarch()
 }
 
 // LoadAddress returns the expected load address of the file.
@@ -173,7 +173,7 @@ func (e *Entry) LoadAddress() (uint64, error) {
 }
 
 // DWARF returns DWARF debug data for the file, if any.
-// This is for cmd/pprof to locate cgo functions.
+// This is for cmd/pprof to locate cgolang functions.
 func (e *Entry) DWARF() (*dwarf.Data, error) {
 	return e.raw.dwarf()
 }
@@ -181,5 +181,5 @@ func (e *Entry) DWARF() (*dwarf.Data, error) {
 type Liner interface {
 	// Given a pc, returns the corresponding file, line, and function data.
 	// If unknown, returns "",0,nil.
-	PCToLine(uint64) (string, int, *gosym.Func)
+	PCToLine(uint64) (string, int, *golangsym.Func)
 }

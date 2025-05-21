@@ -39,24 +39,24 @@ pkg encoding/base64, method (*Encoding) AppendDecode([]uint8, []uint8) ([]uint8,
 pkg encoding/base64, method (*Encoding) AppendEncode([]uint8, []uint8) []uint8 #53693
 pkg encoding/hex, func AppendDecode([]uint8, []uint8) ([]uint8, error) #53693
 pkg encoding/hex, func AppendEncode([]uint8, []uint8) []uint8 #53693
-pkg go/ast, func NewPackage //deprecated #52463
-pkg go/ast, func Unparen(Expr) Expr #60061
-pkg go/ast, type Importer //deprecated #52463
-pkg go/ast, type Object //deprecated #52463
-pkg go/ast, type Package //deprecated #52463
-pkg go/ast, type Scope //deprecated #52463
-pkg go/types, func NewAlias(*TypeName, Type) *Alias #63223
-pkg go/types, func Unalias(Type) Type #63223
-pkg go/types, method (*Alias) Obj() *TypeName #63223
-pkg go/types, method (*Alias) String() string #63223
-pkg go/types, method (*Alias) Underlying() Type #63223
-pkg go/types, method (*Info) PkgNameOf(*ast.ImportSpec) *PkgName #62037
-pkg go/types, method (Checker) PkgNameOf(*ast.ImportSpec) *PkgName #62037
-pkg go/types, type Alias struct #63223
-pkg go/types, type Info struct, FileVersions map[*ast.File]string #62605
-pkg go/version, func Compare(string, string) int #62039
-pkg go/version, func IsValid(string) bool #62039
-pkg go/version, func Lang(string) string #62039
+pkg golang/ast, func NewPackage //deprecated #52463
+pkg golang/ast, func Unparen(Expr) Expr #60061
+pkg golang/ast, type Importer //deprecated #52463
+pkg golang/ast, type Object //deprecated #52463
+pkg golang/ast, type Package //deprecated #52463
+pkg golang/ast, type Scope //deprecated #52463
+pkg golang/types, func NewAlias(*TypeName, Type) *Alias #63223
+pkg golang/types, func Unalias(Type) Type #63223
+pkg golang/types, method (*Alias) Obj() *TypeName #63223
+pkg golang/types, method (*Alias) String() string #63223
+pkg golang/types, method (*Alias) Underlying() Type #63223
+pkg golang/types, method (*Info) PkgNameOf(*ast.ImportSpec) *PkgName #62037
+pkg golang/types, method (Checker) PkgNameOf(*ast.ImportSpec) *PkgName #62037
+pkg golang/types, type Alias struct #63223
+pkg golang/types, type Info struct, FileVersions map[*ast.File]string #62605
+pkg golang/version, func Compare(string, string) int #62039
+pkg golang/version, func IsValid(string) bool #62039
+pkg golang/version, func Lang(string) string #62039
 pkg html/template, const ErrJSTemplate //deprecated #61619
 pkg io, method (*SectionReader) Outer() (ReaderAt, int64, int64) #61870
 pkg log/slog, func SetLogLoggerLevel(Level) Level #62418
@@ -127,9 +127,9 @@ pkg reflect, func PtrTo //deprecated #59599
 pkg reflect, func TypeFor[$0 interface{}]() Type #60088
 pkg slices, func Concat[$0 interface{ ~[]$1 }, $1 interface{}](...$0) $0 #56353
 pkg syscall (linux-386), type SysProcAttr struct, PidFD *int #51246
-pkg syscall (linux-386-cgo), type SysProcAttr struct, PidFD *int #51246
+pkg syscall (linux-386-cgolang), type SysProcAttr struct, PidFD *int #51246
 pkg syscall (linux-amd64), type SysProcAttr struct, PidFD *int #51246
-pkg syscall (linux-amd64-cgo), type SysProcAttr struct, PidFD *int #51246
+pkg syscall (linux-amd64-cgolang), type SysProcAttr struct, PidFD *int #51246
 pkg syscall (linux-arm), type SysProcAttr struct, PidFD *int #51246
-pkg syscall (linux-arm-cgo), type SysProcAttr struct, PidFD *int #51246
+pkg syscall (linux-arm-cgolang), type SysProcAttr struct, PidFD *int #51246
 pkg testing/slogtest, func Run(*testing.T, func(*testing.T) slog.Handler, func(*testing.T) map[string]interface{}) #61758

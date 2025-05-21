@@ -1,6 +1,6 @@
-// Test case for escape info in export data. To compile and extract .gox file:
-// gccgo -fgo-optimize-allocs -c escapeinfo.go
-// objcopy -j .go_export escapeinfo.o escapeinfo.gox
+// Test case for escape info in export data. To compile and extract .golangx file:
+// gccgolang -fgolang-optimize-allocs -c escapeinfo.golang
+// objcopy -j .golang_export escapeinfo.o escapeinfo.golangx
 
 package escapeinfo
 

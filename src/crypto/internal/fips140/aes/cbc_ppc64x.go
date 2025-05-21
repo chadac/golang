@@ -1,14 +1,14 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build (ppc64 || ppc64le) && !purego
+//golang:build (ppc64 || ppc64le) && !puregolang
 
 package aes
 
 // cryptBlocksChain invokes the cipher message identifying encrypt or decrypt.
 //
-//go:noescape
+//golang:noescape
 func cryptBlocksChain(src, dst *byte, length int, key *uint32, iv *byte, enc int, nr int)
 
 const cbcEncrypt = 1

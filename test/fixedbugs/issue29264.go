@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Verify that we emit a valid type descriptor for
@@ -14,9 +14,9 @@ import "strings"
 
 func main() {
 	a := [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]int{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{42}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}
-	got := fmt.Sprint(a)
+	golangt := fmt.Sprint(a)
 	want := strings.Repeat("[", 100) + "42" + strings.Repeat("]", 100)
-	if got != want {
-		fmt.Printf("got  %q\nwant %q\n", got, want)
+	if golangt != want {
+		fmt.Printf("golangt  %q\nwant %q\n", golangt, want)
 	}
 }

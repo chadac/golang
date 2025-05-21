@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Solve the 2,3,5 problem (print all numbers with 2, 3, or 5 as factor) using channels.
@@ -14,7 +14,7 @@ type T chan uint64
 func M(f uint64) (in, out T) {
 	in = make(T, 100)
 	out = make(T, 100)
-	go func(in, out T, f uint64) {
+	golang func(in, out T, f uint64) {
 		for {
 			out <- f*<-in
 		}

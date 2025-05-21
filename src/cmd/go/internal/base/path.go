@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package base
@@ -76,7 +76,7 @@ func RelPaths(paths []string) []string {
 // be excluded from coverage analysis.
 func IsTestFile(file string) bool {
 	// We don't cover tests, only the code they test.
-	return strings.HasSuffix(file, "_test.go")
+	return strings.HasSuffix(file, "_test.golang")
 }
 
 // IsNull reports whether the path is a common name for the null device.

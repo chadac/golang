@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package net_test
@@ -27,10 +27,10 @@ func ExampleListener() {
 		if err != nil {
 			log.Fatal(err)
 		}
-		// Handle the connection in a new goroutine.
+		// Handle the connection in a new golangroutine.
 		// The loop then returns to accepting, so that
 		// multiple connections may be served concurrently.
-		go func(c net.Conn) {
+		golang func(c net.Conn) {
 			// Echo all incoming data.
 			io.Copy(c, c)
 			// Shut down the connection.

@@ -1,8 +1,8 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build (darwin || dragonfly || freebsd || (!android && linux) || netbsd || openbsd || solaris) && cgo && !osusergo
+//golang:build (darwin || dragolangnfly || freebsd || (!android && linux) || netbsd || openbsd || solaris) && cgolang && !osusergolang
 
 package user
 

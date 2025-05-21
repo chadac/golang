@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package mvs
@@ -10,7 +10,7 @@ import (
 	"strings"
 	"testing"
 
-	"golang.org/x/mod/module"
+	"golanglang.org/x/mod/module"
 )
 
 var tests = `
@@ -158,7 +158,7 @@ D1: E2
 E1: D2
 build A: A B C D2 E2
 
-# golang.org/issue/31248:
+# golanglang.org/issue/31248:
 # Even though we select X2, the requirement on I1
 # via X1 should be preserved.
 name: cross8
@@ -231,7 +231,7 @@ F1:
 build A:        A B2 C2 D2 E2 F2
 downgrade A F1: A B1 C1 D1 E1 F1
 
-# https://research.swtch.com/vgo-mvs#algorithm_4:
+# https://research.swtch.com/vgolang-mvs#algolangrithm_4:
 # “[D]owngrades are constrained to only downgrade packages, not also upgrade
 # them; if an upgrade before downgrade is needed, the user must ask for it
 # explicitly.”
@@ -250,7 +250,7 @@ D2:
 build A:        A B2 C1 D2
 downgrade A D1: A       D1
 
-# https://research.swtch.com/vgo-mvs#algorithm_4:
+# https://research.swtch.com/vgolang-mvs#algolangrithm_4:
 # “Unlike upgrades, downgrades must work by removing requirements, not adding
 # them.”
 #
@@ -310,7 +310,7 @@ downgrade A D1: A B2.hidden C1 D1
 # B2.hidden and C2.hidden are both compatible with D1, so that still
 # meets our requirements — but then we're in an odd state in which
 # B and C have both been downgraded to hidden versions, without any
-# remaining requirements to explain how those hidden versions got there.
+# remaining requirements to explain how those hidden versions golangt there.
 #
 # TODO(bcmills): Would it be better to force downgrades to land on non-hidden
 # versions?
@@ -329,7 +329,7 @@ D2:
 build A: A B3 C3 D2
 downgrade A D1: A B2.hidden C2.hidden D1
 
-# golang.org/issue/25542.
+# golanglang.org/issue/25542.
 name: noprev1
 A: B4 C2
 B2.hidden:
@@ -365,7 +365,7 @@ build A:      A B1
 upgrade A B2: A B2
 upgrade* A:   A B3
 
-# golang.org/issue/29773:
+# golanglang.org/issue/29773:
 # Requirements of older versions of the target
 # must be carried over.
 name: cycle2
@@ -381,7 +381,7 @@ build A:    A B1 C1 D1
 upgrade* A: A B2 C2 D2
 
 # Cycles with multiple possible solutions.
-# (golang.org/issue/34086)
+# (golanglang.org/issue/34086)
 name: cycle3
 M: A1 C2
 A1: B1

@@ -1,5 +1,5 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package riscv
@@ -32,7 +32,7 @@ func RegName(r int) string {
 	case REG_V0 <= r && r <= REG_V31:
 		return fmt.Sprintf("V%d", r-REG_V0)
 	default:
-		return fmt.Sprintf("Rgok(%d)", r-obj.RBaseRISCV)
+		return fmt.Sprintf("Rgolangk(%d)", r-obj.RBaseRISCV)
 	}
 }
 

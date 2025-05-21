@@ -37,13 +37,13 @@ pkg debug/elf, const STT_SRELC SymType #66836
 pkg encoding/binary, func Append([]uint8, ByteOrder, interface{}) ([]uint8, error) #60023
 pkg encoding/binary, func Decode([]uint8, ByteOrder, interface{}) (int, error) #60023
 pkg encoding/binary, func Encode([]uint8, ByteOrder, interface{}) (int, error) #60023
-pkg go/ast, func Preorder(Node) iter.Seq[Node] #66339
-pkg go/types, method (*Alias) Origin() *Alias #67143
-pkg go/types, method (*Alias) Rhs() Type #66559
-pkg go/types, method (*Alias) SetTypeParams([]*TypeParam) #67143
-pkg go/types, method (*Alias) TypeArgs() *TypeList #67143
-pkg go/types, method (*Alias) TypeParams() *TypeParamList #67143
-pkg go/types, method (*Func) Signature() *Signature #65772
+pkg golang/ast, func Preorder(Node) iter.Seq[Node] #66339
+pkg golang/types, method (*Alias) Origin() *Alias #67143
+pkg golang/types, method (*Alias) Rhs() Type #66559
+pkg golang/types, method (*Alias) SetTypeParams([]*TypeParam) #67143
+pkg golang/types, method (*Alias) TypeArgs() *TypeList #67143
+pkg golang/types, method (*Alias) TypeParams() *TypeParamList #67143
+pkg golang/types, method (*Func) Signature() *Signature #65772
 pkg iter, func Pull2[$0 interface{}, $1 interface{}](Seq2[$0, $1]) (func() ($0, $1, bool), func()) #61897
 pkg iter, func Pull[$0 interface{}](Seq[$0]) (func() ($0, bool), func()) #61897
 pkg iter, type Seq2[$0 interface{}, $1 interface{}] func(func($0, $1) bool) #61897
@@ -125,13 +125,13 @@ pkg syscall (openbsd-386), const ENOTRECOVERABLE Errno #67998
 pkg syscall (openbsd-386), const EOWNERDEAD = 94 #67998
 pkg syscall (openbsd-386), const EOWNERDEAD Errno #67998
 pkg syscall (openbsd-386), const EPROTO = 95 #67998
-pkg syscall (openbsd-386-cgo), const EBADMSG = 92 #67998
-pkg syscall (openbsd-386-cgo), const ELAST = 95 #67998
-pkg syscall (openbsd-386-cgo), const ENOTRECOVERABLE = 93 #67998
-pkg syscall (openbsd-386-cgo), const ENOTRECOVERABLE Errno #67998
-pkg syscall (openbsd-386-cgo), const EOWNERDEAD = 94 #67998
-pkg syscall (openbsd-386-cgo), const EOWNERDEAD Errno #67998
-pkg syscall (openbsd-386-cgo), const EPROTO = 95 #67998
+pkg syscall (openbsd-386-cgolang), const EBADMSG = 92 #67998
+pkg syscall (openbsd-386-cgolang), const ELAST = 95 #67998
+pkg syscall (openbsd-386-cgolang), const ENOTRECOVERABLE = 93 #67998
+pkg syscall (openbsd-386-cgolang), const ENOTRECOVERABLE Errno #67998
+pkg syscall (openbsd-386-cgolang), const EOWNERDEAD = 94 #67998
+pkg syscall (openbsd-386-cgolang), const EOWNERDEAD Errno #67998
+pkg syscall (openbsd-386-cgolang), const EPROTO = 95 #67998
 pkg syscall (openbsd-amd64), const EBADMSG = 92 #67998
 pkg syscall (openbsd-amd64), const ELAST = 95 #67998
 pkg syscall (openbsd-amd64), const ENOTRECOVERABLE = 93 #67998
@@ -139,13 +139,13 @@ pkg syscall (openbsd-amd64), const ENOTRECOVERABLE Errno #67998
 pkg syscall (openbsd-amd64), const EOWNERDEAD = 94 #67998
 pkg syscall (openbsd-amd64), const EOWNERDEAD Errno #67998
 pkg syscall (openbsd-amd64), const EPROTO = 95 #67998
-pkg syscall (openbsd-amd64-cgo), const EBADMSG = 92 #67998
-pkg syscall (openbsd-amd64-cgo), const ELAST = 95 #67998
-pkg syscall (openbsd-amd64-cgo), const ENOTRECOVERABLE = 93 #67998
-pkg syscall (openbsd-amd64-cgo), const ENOTRECOVERABLE Errno #67998
-pkg syscall (openbsd-amd64-cgo), const EOWNERDEAD = 94 #67998
-pkg syscall (openbsd-amd64-cgo), const EOWNERDEAD Errno #67998
-pkg syscall (openbsd-amd64-cgo), const EPROTO = 95 #67998
+pkg syscall (openbsd-amd64-cgolang), const EBADMSG = 92 #67998
+pkg syscall (openbsd-amd64-cgolang), const ELAST = 95 #67998
+pkg syscall (openbsd-amd64-cgolang), const ENOTRECOVERABLE = 93 #67998
+pkg syscall (openbsd-amd64-cgolang), const ENOTRECOVERABLE Errno #67998
+pkg syscall (openbsd-amd64-cgolang), const EOWNERDEAD = 94 #67998
+pkg syscall (openbsd-amd64-cgolang), const EOWNERDEAD Errno #67998
+pkg syscall (openbsd-amd64-cgolang), const EPROTO = 95 #67998
 pkg syscall (windows-386), const WSAENOPROTOOPT = 10042 #62254
 pkg syscall (windows-386), const WSAENOPROTOOPT Errno #62254
 pkg syscall (windows-amd64), const WSAENOPROTOOPT = 10042 #62254

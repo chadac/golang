@@ -1,21 +1,21 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build ignore
+//golang:build ignore
 // +build ignore
 
 // Savedir archives a directory tree as a txtar archive printed to standard output.
 //
 // Usage:
 //
-//	go run savedir.go /path/to/dir >saved.txt
+//	golang run savedir.golang /path/to/dir >saved.txt
 //
 // Typically the tree is later extracted during a test with tg.extract("testdata/saved.txt").
 package main
 
 import (
-	"cmd/go/internal/str"
+	"cmd/golang/internal/str"
 	"flag"
 	"fmt"
 	"internal/txtar"
@@ -28,11 +28,11 @@ import (
 )
 
 func usage() {
-	fmt.Fprintf(os.Stderr, "usage: go run savedir.go dir >saved.txt\n")
+	fmt.Fprintf(os.Stderr, "usage: golang run savedir.golang dir >saved.txt\n")
 	os.Exit(2)
 }
 
-const goCmd = "vgo"
+const golangCmd = "vgolang"
 
 func main() {
 	flag.Usage = usage

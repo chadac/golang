@@ -4,28 +4,28 @@
 
 [short] skip
 
-go test -count=1 -cover ./a ./b ./main
+golang test -count=1 -cover ./a ./b ./main
 stdout '^ok\s+M/main\s+\S+\s+coverage: 75.0% of statements'
-go test -count=1 -cover ./main
+golang test -count=1 -cover ./main
 stdout '^ok\s+M/main\s+\S+\s+coverage: 75.0% of statements'
 
--- go.mod --
+-- golang.mod --
 module M
 
-go 1.21
--- a/a.go --
+golang 1.21
+-- a/a.golang --
 package a
 
 func AFunc() int {
 	return 42
 }
--- b/b.go --
+-- b/b.golang --
 package b
 
 func BFunc() int {
 	return -42
 }
--- main/main.go --
+-- main/main.golang --
 package main
 
 import (
@@ -47,7 +47,7 @@ func init() {
 func main() {
 	println(a.AFunc())
 }
--- main/main_test.go --
+-- main/main_test.golang --
 package main
 
 import "testing"

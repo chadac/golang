@@ -1,7 +1,7 @@
 // runoutput
 
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test source files and strings containing \r and \r\n.
@@ -34,17 +34,17 @@ var t = BQhelloCR
 var u = BQhCReCRlCRlCRoCR
  worldBQ
 
-var golden = "hello\n world"
+var golanglden = "hello\n world"
 
 func main() {
-	if s != golden {
-		fmt.Printf("s=%q, want %q", s, golden)
+	if s != golanglden {
+		fmt.Printf("s=%q, want %q", s, golanglden)
 	}
-	if t != golden {
-		fmt.Printf("t=%q, want %q", t, golden)
+	if t != golanglden {
+		fmt.Printf("t=%q, want %q", t, golanglden)
 	}
-	if u != golden {
-		fmt.Printf("u=%q, want %q", u, golden)
+	if u != golanglden {
+		fmt.Printf("u=%q, want %q", u, golanglden)
 	}
 }
 `

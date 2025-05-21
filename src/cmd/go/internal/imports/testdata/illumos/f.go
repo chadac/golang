@@ -1,4 +1,4 @@
-//go:build solaris
+//golang:build solaris
 // +build solaris
 
 package illumos

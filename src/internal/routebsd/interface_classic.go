@@ -1,8 +1,8 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build darwin || dragonfly || netbsd
+//golang:build darwin || dragolangnfly || netbsd
 
 package routebsd
 
@@ -42,9 +42,9 @@ func (w *wireFormat) parseInterfaceMessage(b []byte) (Message, error) {
 		m.Addrs[syscall.RTAX_IFP] = a
 		m.Name = a.(*LinkAddr).Name
 	} else {
-		// DragonFly seems to have unnamed interfaces
+		// DragolangnFly seems to have unnamed interfaces
 		// that we can't look up again. Just skip them.
-		if runtime.GOOS == "dragonfly" {
+		if runtime.GOOS == "dragolangnfly" {
 			return nil, nil
 		}
 	}

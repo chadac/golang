@@ -1,4 +1,4 @@
 package p
 
-// ERRORNEXT "//go:debug directive only valid in package main or test"
-//go:debug panicnil=1
+// ERRORNEXT "//golang:debug directive only valid in package main or test"
+//golang:debug panicnil=1

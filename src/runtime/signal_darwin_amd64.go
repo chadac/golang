@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
@@ -11,8 +11,8 @@ type sigctxt struct {
 	ctxt unsafe.Pointer
 }
 
-//go:nosplit
-//go:nowritebarrierrec
+//golang:nosplit
+//golang:nowritebarrierrec
 func (c *sigctxt) regs() *regs64 { return &(*ucontext)(c.ctxt).uc_mcontext.ss }
 
 func (c *sigctxt) rax() uint64 { return c.regs().rax }
@@ -32,8 +32,8 @@ func (c *sigctxt) r13() uint64 { return c.regs().r13 }
 func (c *sigctxt) r14() uint64 { return c.regs().r14 }
 func (c *sigctxt) r15() uint64 { return c.regs().r15 }
 
-//go:nosplit
-//go:nowritebarrierrec
+//golang:nosplit
+//golang:nowritebarrierrec
 func (c *sigctxt) rip() uint64 { return c.regs().rip }
 
 func (c *sigctxt) rflags() uint64  { return c.regs().rflags }
@@ -48,7 +48,7 @@ func (c *sigctxt) set_rsp(x uint64)     { c.regs().rsp = x }
 func (c *sigctxt) set_sigcode(x uint64) { c.info.si_code = int32(x) }
 func (c *sigctxt) set_sigaddr(x uint64) { c.info.si_addr = x }
 
-//go:nosplit
+//golang:nosplit
 func (c *sigctxt) fixsigcode(sig uint32) {
 	switch sig {
 	case _SIGTRAP:
@@ -87,7 +87,7 @@ func (c *sigctxt) fixsigcode(sig uint32) {
 		//
 		// Note: if this code is removed, please consider
 		// enabling TestSignalForwardingGo for darwin-amd64 in
-		// misc/cgo/testcarchive/carchive_test.go.
+		// misc/cgolang/testcarchive/carchive_test.golang.
 		if c.sigcode() == _SI_USER {
 			c.set_sigcode(_SI_USER + 1)
 			c.set_sigaddr(0xb01dfacedebac1e)

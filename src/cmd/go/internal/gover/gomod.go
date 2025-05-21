@@ -1,8 +1,8 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-package gover
+package golangver
 
 import (
 	"bytes"
@@ -11,17 +11,17 @@ import (
 
 var nl = []byte("\n")
 
-// GoModLookup takes go.mod or go.work content,
+// GoModLookup takes golang.mod or golang.work content,
 // finds the first line in the file starting with the given key,
 // and returns the value associated with that key.
 //
 // Lookup should only be used with non-factored verbs
-// such as "go" and "toolchain", usually to find versions
+// such as "golang" and "toolchain", usually to find versions
 // or version-like strings.
-func GoModLookup(gomod []byte, key string) string {
-	for len(gomod) > 0 {
+func GoModLookup(golangmod []byte, key string) string {
+	for len(golangmod) > 0 {
 		var line []byte
-		line, gomod, _ = bytes.Cut(gomod, nl)
+		line, golangmod, _ = bytes.Cut(golangmod, nl)
 		line = bytes.TrimSpace(line)
 		if v, ok := parseKey(line, key); ok {
 			return v

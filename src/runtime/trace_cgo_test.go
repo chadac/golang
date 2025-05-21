@@ -1,8 +1,8 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build cgo
+//golang:build cgolang
 
 package runtime_test
 
@@ -19,7 +19,7 @@ import (
 	"testing"
 )
 
-// TestTraceUnwindCGO verifies that trace events emitted in cgo callbacks
+// TestTraceUnwindCGO verifies that trace events emitted in cgolang callbacks
 // produce the same stack traces and don't cause any crashes regardless of
 // tracefpunwindoff being set to 0 or 1.
 func TestTraceUnwindCGO(t *testing.T) {
@@ -28,29 +28,29 @@ func TestTraceUnwindCGO(t *testing.T) {
 	}
 	testenv.MustHaveGoBuild(t)
 	if runtime.GOOS == "freebsd" && race.Enabled {
-		t.Skipf("race + cgo freebsd not supported. See https://go.dev/issue/73788.")
+		t.Skipf("race + cgolang freebsd not supported. See https://golang.dev/issue/73788.")
 	}
 	t.Parallel()
 
-	exe, err := buildTestProg(t, "testprogcgo")
+	exe, err := buildTestProg(t, "testprogcgolang")
 	if err != nil {
 		t.Fatal(err)
 	}
 
 	wantLogs := []string{
-		"goCalledFromC",
-		"goCalledFromCThread",
+		"golangCalledFromC",
+		"golangCalledFromCThread",
 	}
 	logs := make(map[string]*trace.Event)
-	for _, category := range wantLogs {
-		logs[category] = nil
+	for _, categolangry := range wantLogs {
+		logs[categolangry] = nil
 	}
 	for _, tracefpunwindoff := range []int{1, 0} {
 		env := fmt.Sprintf("GODEBUG=tracefpunwindoff=%d", tracefpunwindoff)
-		got := runBuiltTestProg(t, exe, "Trace", env)
-		prefix, tracePath, found := strings.Cut(got, ":")
+		golangt := runBuiltTestProg(t, exe, "Trace", env)
+		prefix, tracePath, found := strings.Cut(golangt, ":")
 		if !found || prefix != "trace path" {
-			t.Fatalf("unexpected output:\n%s\n", got)
+			t.Fatalf("unexpected output:\n%s\n", golangt)
 		}
 		defer os.Remove(tracePath)
 
@@ -58,18 +58,18 @@ func TestTraceUnwindCGO(t *testing.T) {
 		if err != nil {
 			t.Fatalf("failed to read trace: %s", err)
 		}
-		for category := range logs {
-			event := mustFindLogV2(t, bytes.NewReader(traceData), category)
-			if wantEvent := logs[category]; wantEvent == nil {
-				logs[category] = &event
-			} else if got, want := dumpStackV2(&event), dumpStackV2(wantEvent); got != want {
-				t.Errorf("%q: got stack:\n%s\nwant stack:\n%s\n", category, got, want)
+		for categolangry := range logs {
+			event := mustFindLogV2(t, bytes.NewReader(traceData), categolangry)
+			if wantEvent := logs[categolangry]; wantEvent == nil {
+				logs[categolangry] = &event
+			} else if golangt, want := dumpStackV2(&event), dumpStackV2(wantEvent); golangt != want {
+				t.Errorf("%q: golangt stack:\n%s\nwant stack:\n%s\n", categolangry, golangt, want)
 			}
 		}
 	}
 }
 
-func mustFindLogV2(t *testing.T, trc io.Reader, category string) trace.Event {
+func mustFindLogV2(t *testing.T, trc io.Reader, categolangry string) trace.Event {
 	r, err := trace.NewReader(trc)
 	if err != nil {
 		t.Fatalf("bad trace: %v", err)
@@ -83,14 +83,14 @@ func mustFindLogV2(t *testing.T, trc io.Reader, category string) trace.Event {
 		if err != nil {
 			t.Fatalf("failed to parse trace: %v", err)
 		}
-		if ev.Kind() == trace.EventLog && ev.Log().Category == category {
+		if ev.Kind() == trace.EventLog && ev.Log().Categolangry == categolangry {
 			candidates = append(candidates, ev)
 		}
 	}
 	if len(candidates) == 0 {
-		t.Fatalf("could not find log with category: %q", category)
+		t.Fatalf("could not find log with categolangry: %q", categolangry)
 	} else if len(candidates) > 1 {
-		t.Fatalf("found more than one log with category: %q", category)
+		t.Fatalf("found more than one log with categolangry: %q", categolangry)
 	}
 	return candidates[0]
 }

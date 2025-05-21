@@ -1,10 +1,10 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build aix || dragonfly || freebsd || linux || netbsd || solaris
+//golang:build aix || dragolangnfly || freebsd || linux || netbsd || solaris
 
-package cgosotest
+package cgolangsotest
 
 /*
 extern int __thread tlsvar;
@@ -14,7 +14,7 @@ import "C"
 
 func init() {
 	if v := *C.getTLS(); v != 12345 {
-		println("got", v)
+		println("golangt", v)
 		panic("BAD TLS value")
 	}
 }

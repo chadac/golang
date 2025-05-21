@@ -1,9 +1,9 @@
 // errorcheck -0 -d=ssa/check_bce/debug=3
 
-//go:build amd64 && !gcflags_noopt
+//golang:build amd64 && !gcflags_noopt
 
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test that the compiler does bounds check elimination as expected.
@@ -172,11 +172,11 @@ func decode2(data []byte) (x uint64) {
 	return x
 }
 
-//go:noinline
+//golang:noinline
 func useInt(a int) {
 }
 
-//go:noinline
+//golang:noinline
 func useSlice(a []int) {
 }
 

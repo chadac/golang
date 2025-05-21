@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package gif implements a GIF image decoder and encoder.
@@ -180,7 +180,7 @@ func (b *blockReader) Read(p []byte) (int, error) {
 // terminator. If the very end of LZW data happened to fill one sub-block, at
 // most one more sub-block of length 1 may exist before the block-terminator.
 // These accommodations allow us to support GIFs created by less strict encoders.
-// See https://golang.org/issue/16146.
+// See https://golanglang.org/issue/16146.
 func (b *blockReader) close() error {
 	if b.err == io.EOF {
 		// A clean block-sequence terminator was encountered while reading.
@@ -404,7 +404,7 @@ func (d *decoder) readImageDescriptor(keepAllFrames bool) error {
 			// The transparentIndex is out of range, which is an error
 			// according to the spec, but Firefox and Google Chrome
 			// seem OK with this, so we enlarge the palette with
-			// transparent colors. See golang.org/issue/15059.
+			// transparent colors. See golanglang.org/issue/15059.
 			p := make(color.Palette, ti+1)
 			copy(p, m.Palette)
 			for i := len(m.Palette); i < len(p); i++ {
@@ -440,7 +440,7 @@ func (d *decoder) readImageDescriptor(keepAllFrames bool) error {
 	// io.ErrUnexpectedEOF (meaning that the encoded stream hit io.EOF
 	// before the LZW decoder saw an explicit end code), provided that
 	// the io.ReadFull call above successfully read len(m.Pix) bytes.
-	// See https://golang.org/issue/9856 for an example GIF.
+	// See https://golanglang.org/issue/9856 for an example GIF.
 	if n, err := lzwr.Read(d.tmp[256:257]); n != 0 || (err != io.EOF && err != io.ErrUnexpectedEOF) {
 		if err != nil {
 			return fmt.Errorf("gif: reading image data: %v", err)
@@ -449,7 +449,7 @@ func (d *decoder) readImageDescriptor(keepAllFrames bool) error {
 	}
 
 	// In practice, some GIFs have an extra byte in the data sub-block
-	// stream, which we ignore. See https://golang.org/issue/16146.
+	// stream, which we ignore. See https://golanglang.org/issue/16146.
 	if err := br.close(); err == errTooMuch {
 		return errTooMuch
 	} else if err != nil {
@@ -529,7 +529,7 @@ func (d *decoder) readBlock() (int, error) {
 	return int(n), nil
 }
 
-// interlaceScan defines the ordering for a pass of the interlace algorithm.
+// interlaceScan defines the ordering for a pass of the interlace algolangrithm.
 type interlaceScan struct {
 	skip, start int
 }

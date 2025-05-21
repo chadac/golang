@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package tar implements access to tar archives.
@@ -13,7 +13,7 @@ package tar
 import (
 	"errors"
 	"fmt"
-	"internal/godebug"
+	"internal/golangdebug"
 	"io/fs"
 	"maps"
 	"math"
@@ -28,7 +28,7 @@ import (
 // architectures. If a large value is encountered when decoding, the result
 // stored in Header will be the truncated version.
 
-var tarinsecurepath = godebug.New("tarinsecurepath")
+var tarinsecurepath = golangdebug.New("tarinsecurepath")
 
 var (
 	ErrHeader          = errors.New("archive/tar: invalid tar header")
@@ -491,7 +491,7 @@ func (h Header) allowedFormats() (format Format, paxHdrs map[string]string, err 
 	}
 
 	// TODO(dsnet): Re-enable this when adding sparse support.
-	// See https://golang.org/issue/22735
+	// See https://golanglang.org/issue/22735
 	/*
 		// Check sparse files.
 		if len(h.SparseHoles) > 0 || h.Typeflag == TypeGNUSparse {

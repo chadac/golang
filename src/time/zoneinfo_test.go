@@ -1,5 +1,5 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package time_test
@@ -33,7 +33,7 @@ func TestEnvVarUsage(t *testing.T) {
 	defer time.ResetZoneinfoForTesting()
 
 	if zoneinfo := time.ZoneinfoForTesting(); testZoneinfo != *zoneinfo {
-		t.Errorf("zoneinfo does not match env variable: got %q want %q", *zoneinfo, testZoneinfo)
+		t.Errorf("zoneinfo does not match env variable: golangt %q want %q", *zoneinfo, testZoneinfo)
 	}
 }
 
@@ -110,21 +110,21 @@ func TestFirstZone(t *testing.T) {
 		}
 		s := time.Unix(test.unix, 0).In(z).Format(format)
 		if s != test.want1 {
-			t.Errorf("for %s %d got %q want %q", test.zone, test.unix, s, test.want1)
+			t.Errorf("for %s %d golangt %q want %q", test.zone, test.unix, s, test.want1)
 		}
 		s = time.Unix(test.unix+1, 0).In(z).Format(format)
 		if s != test.want2 {
-			t.Errorf("for %s %d got %q want %q", test.zone, test.unix, s, test.want2)
+			t.Errorf("for %s %d golangt %q want %q", test.zone, test.unix, s, test.want2)
 		}
 	}
 }
 
 func TestLocationNames(t *testing.T) {
 	if time.Local.String() != "Local" {
-		t.Errorf(`invalid Local location name: got %q want "Local"`, time.Local)
+		t.Errorf(`invalid Local location name: golangt %q want "Local"`, time.Local)
 	}
 	if time.UTC.String() != "UTC" {
-		t.Errorf(`invalid UTC location name: got %q want "UTC"`, time.UTC)
+		t.Errorf(`invalid UTC location name: golangt %q want "UTC"`, time.UTC)
 	}
 }
 
@@ -138,11 +138,11 @@ func TestLoadLocationFromTZData(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	gorootSource, ok := time.GorootZoneSource(testenv.GOROOT(t))
+	golangrootSource, ok := time.GorootZoneSource(testenv.GOROOT(t))
 	if !ok {
 		t.Fatal("Failed to locate tzinfo source in GOROOT.")
 	}
-	tzinfo, err := time.LoadTzinfo(locationName, gorootSource)
+	tzinfo, err := time.LoadTzinfo(locationName, golangrootSource)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -178,11 +178,11 @@ func TestEarlyLocation(t *testing.T) {
 }
 
 func TestMalformedTZData(t *testing.T) {
-	// The goal here is just that malformed tzdata results in an error, not a panic.
+	// The golangal here is just that malformed tzdata results in an error, not a panic.
 	issue29437 := "TZif\x00000000000000000\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x0000"
 	_, err := time.LoadLocationFromTZData("abc", []byte(issue29437))
 	if err == nil {
-		t.Error("expected error, got none")
+		t.Error("expected error, golangt none")
 	}
 }
 

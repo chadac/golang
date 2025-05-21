@@ -1,5 +1,5 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package textproto
@@ -172,9 +172,9 @@ func TestReaderUpcomingHeaderKeys(t *testing.T) {
 		want:  1,
 	}} {
 		r := reader(test.input)
-		got := r.upcomingHeaderKeys()
-		if test.want != got {
-			t.Fatalf("upcomingHeaderKeys(%q): %v; want %v", test.input, got, test.want)
+		golangt := r.upcomingHeaderKeys()
+		if test.want != golangt {
+			t.Fatalf("upcomingHeaderKeys(%q): %v; want %v", test.input, golangt, test.want)
 		}
 	}
 }
@@ -318,7 +318,7 @@ func TestReadMIMEHeaderTrimContinued(t *testing.T) {
 		"C": {"2 3 4"},
 	}
 	if !reflect.DeepEqual(m, want) {
-		t.Fatalf("ReadMIMEHeader mismatch.\n got: %q\nwant: %q", m, want)
+		t.Fatalf("ReadMIMEHeader mismatch.\n golangt: %q\nwant: %q", m, want)
 	}
 }
 
@@ -339,8 +339,8 @@ func TestReadMIMEHeaderAllocations(t *testing.T) {
 	}
 	// 32k is large and we actually allocate substantially less,
 	// but prior to the fix for #58975 we allocated ~400k in this case.
-	if got, want := totalAlloc/count, uint64(32768); got > want {
-		t.Fatalf("ReadMIMEHeader allocated %v bytes, want < %v", got, want)
+	if golangt, want := totalAlloc/count, uint64(32768); golangt > want {
+		t.Fatalf("ReadMIMEHeader allocated %v bytes, want < %v", golangt, want)
 	}
 }
 
@@ -403,13 +403,13 @@ func TestReadMultiLineError(t *testing.T) {
 		"550-5.1.1 double-checking the recipient's email address for typos or\n" +
 		"550-5.1.1 unnecessary spaces. Learn more at\n" +
 		"Unexpected but legal text!\n" +
-		"550 5.1.1 https://support.google.com/mail/answer/6596 h20si25154304pfd.166 - gsmtp\n")
+		"550 5.1.1 https://support.golangogle.com/mail/answer/6596 h20si25154304pfd.166 - gsmtp\n")
 
 	wantMsg := "5.1.1 The email account that you tried to reach does not exist. Please try\n" +
 		"5.1.1 double-checking the recipient's email address for typos or\n" +
 		"5.1.1 unnecessary spaces. Learn more at\n" +
 		"Unexpected but legal text!\n" +
-		"5.1.1 https://support.google.com/mail/answer/6596 h20si25154304pfd.166 - gsmtp"
+		"5.1.1 https://support.golangogle.com/mail/answer/6596 h20si25154304pfd.166 - gsmtp"
 
 	code, msg, err := r.ReadResponse(250)
 	if err == nil {
@@ -458,7 +458,7 @@ func TestIssue46363(t *testing.T) {
 
 	// Send MIME header over net.Conn
 	r, w := net.Pipe()
-	go func() {
+	golang func() {
 		// ReadMIMEHeader calls canonicalMIMEHeaderKey, which reads from commonHeader
 		NewConn(r).ReadMIMEHeader()
 	}()
@@ -472,7 +472,7 @@ func TestIssue46363(t *testing.T) {
 	}
 }
 
-var clientHeaders = strings.Replace(`Host: golang.org
+var clientHeaders = strings.Replace(`Host: golanglang.org
 Connection: keep-alive
 Cache-Control: max-age=0
 Accept: application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
@@ -480,7 +480,7 @@ User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US) AppleWebKit/534.3 (KHTML, 
 Accept-Encoding: gzip,deflate,sdch
 Accept-Language: en-US,en;q=0.8,fr-CH;q=0.6
 Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.3
-COOKIE: __utma=000000000.0000000000.0000000000.0000000000.0000000000.00; __utmb=000000000.0.00.0000000000; __utmc=000000000; __utmz=000000000.0000000000.00.0.utmcsr=code.google.com|utmccn=(referral)|utmcmd=referral|utmcct=/p/go/issues/detail
+COOKIE: __utma=000000000.0000000000.0000000000.0000000000.0000000000.00; __utmb=000000000.0.00.0000000000; __utmc=000000000; __utmz=000000000.0000000000.00.0.utmcsr=code.golangogle.com|utmccn=(referral)|utmcmd=referral|utmcct=/p/golang/issues/detail
 Non-Interned: test
 
 `, "\n", "\r\n", -1)

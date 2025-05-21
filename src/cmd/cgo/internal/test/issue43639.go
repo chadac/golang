@@ -1,11 +1,11 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build cgo
+//golang:build cgolang
 
-package cgotest
+package cgolangtest
 
-// Issue 43639: No runtime test needed, make sure package cmd/cgo/internal/test/issue43639 compiles well.
+// Issue 43639: No runtime test needed, make sure package cmd/cgolang/internal/test/issue43639 compiles well.
 
-import _ "cmd/cgo/internal/test/issue43639"
+import _ "cmd/cgolang/internal/test/issue43639"

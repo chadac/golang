@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Windows system calls.
@@ -133,7 +133,7 @@ func langid(pri, sub uint16) uint32 { return uint32(sub)<<10 | uint32(pri) }
 // FormatMessage is deprecated (msgsrc should be uintptr, not uint32, but can
 // not be changed due to the Go 1 compatibility guarantee).
 //
-// Deprecated: Use FormatMessage from golang.org/x/sys/windows instead.
+// Deprecated: Use FormatMessage from golanglang.org/x/sys/windows instead.
 func FormatMessage(flags uint32, msgsrc uint32, msgid uint32, langid uint32, buf []uint16, args *byte) (n uint32, err error) {
 	return formatMessage(flags, uintptr(msgsrc), msgid, langid, buf, args)
 }
@@ -141,7 +141,7 @@ func FormatMessage(flags uint32, msgsrc uint32, msgid uint32, langid uint32, buf
 var errnoErrorCache sync.Map
 
 func (e Errno) Error() string {
-	// deal with special go errors
+	// deal with special golang errors
 	idx := int(e - APPLICATION_ERROR)
 	if 0 <= idx && idx < len(errors) {
 		return errors[idx]
@@ -223,7 +223,7 @@ func (e Errno) Timeout() bool {
 	return e == EAGAIN || e == EWOULDBLOCK || e == ETIMEDOUT
 }
 
-// Implemented in runtime/syscall_windows.go.
+// Implemented in runtime/syscall_windows.golang.
 func compileCallback(fn any, cleanstack bool) uintptr
 
 // NewCallback converts a Go function to a function pointer conforming to the stdcall calling convention.
@@ -400,7 +400,7 @@ func Open(name string, flag int, perm uint32) (fd Handle, err error) {
 	}
 	// We don't use CREATE_ALWAYS, because when opening a file with
 	// FILE_ATTRIBUTE_READONLY these will replace an existing file
-	// with a new, read-only one. See https://go.dev/issue/38225.
+	// with a new, read-only one. See https://golang.dev/issue/38225.
 	//
 	// Instead, we ftruncate the file after opening when O_TRUNC is set.
 	var createmode uint32
@@ -705,7 +705,7 @@ func Utimes(path string, tv []Timeval) (err error) {
 	return SetFileTime(h, nil, &a, &w)
 }
 
-// This matches the value in os/file_windows.go.
+// This matches the value in os/file_windows.golang.
 const _UTIME_OMIT = -1
 
 func UtimesNano(path string, ts []Timespec) (err error) {

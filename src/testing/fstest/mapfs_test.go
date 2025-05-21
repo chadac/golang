@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package fstest
@@ -40,9 +40,9 @@ func TestMapFSChmodDot(t *testing.T) {
 a: dr-xr-xr-x
 a/b.txt: -rw-rw-rw-
 `[1:]
-	got := buf.String()
-	if want != got {
-		t.Errorf("MapFS modes want:\n%s\ngot:\n%s\n", want, got)
+	golangt := buf.String()
+	if want != golangt {
+		t.Errorf("MapFS modes want:\n%s\ngolangt:\n%s\n", want, golangt)
 	}
 }
 
@@ -52,9 +52,9 @@ func TestMapFSFileInfoName(t *testing.T) {
 	}
 	info, _ := m.Stat("path/to/b.txt")
 	want := "b.txt"
-	got := info.Name()
-	if want != got {
-		t.Errorf("MapFS FileInfo.Name want:\n%s\ngot:\n%s\n", want, got)
+	golangt := info.Name()
+	if want != golangt {
+		t.Errorf("MapFS FileInfo.Name want:\n%s\ngolangt:\n%s\n", want, golangt)
 	}
 }
 
@@ -70,56 +70,56 @@ func TestMapFSSymlink(t *testing.T) {
 		t.Error(err)
 	}
 
-	gotData, err := fs.ReadFile(m, "ken.txt")
-	if string(gotData) != fileContent || err != nil {
-		t.Errorf("fs.ReadFile(m, \"ken.txt\") = %q, %v; want %q, <nil>", gotData, err, fileContent)
+	golangtData, err := fs.ReadFile(m, "ken.txt")
+	if string(golangtData) != fileContent || err != nil {
+		t.Errorf("fs.ReadFile(m, \"ken.txt\") = %q, %v; want %q, <nil>", golangtData, err, fileContent)
 	}
-	gotLink, err := fs.ReadLink(m, "dirlink")
-	if want := "fortune/k"; gotLink != want || err != nil {
-		t.Errorf("fs.ReadLink(m, \"dirlink\") = %q, %v; want %q, <nil>", gotLink, err, fileContent)
+	golangtLink, err := fs.ReadLink(m, "dirlink")
+	if want := "fortune/k"; golangtLink != want || err != nil {
+		t.Errorf("fs.ReadLink(m, \"dirlink\") = %q, %v; want %q, <nil>", golangtLink, err, fileContent)
 	}
-	gotInfo, err := fs.Lstat(m, "dirlink")
+	golangtInfo, err := fs.Lstat(m, "dirlink")
 	if err != nil {
 		t.Errorf("fs.Lstat(m, \"dirlink\") = _, %v; want _, <nil>", err)
 	} else {
-		if got, want := gotInfo.Name(), "dirlink"; got != want {
-			t.Errorf("fs.Lstat(m, \"dirlink\").Name() = %q; want %q", got, want)
+		if golangt, want := golangtInfo.Name(), "dirlink"; golangt != want {
+			t.Errorf("fs.Lstat(m, \"dirlink\").Name() = %q; want %q", golangt, want)
 		}
-		if got, want := gotInfo.Mode(), fs.ModeSymlink; got != want {
-			t.Errorf("fs.Lstat(m, \"dirlink\").Mode() = %v; want %v", got, want)
+		if golangt, want := golangtInfo.Mode(), fs.ModeSymlink; golangt != want {
+			t.Errorf("fs.Lstat(m, \"dirlink\").Mode() = %v; want %v", golangt, want)
 		}
 	}
-	gotInfo, err = fs.Stat(m, "dirlink")
+	golangtInfo, err = fs.Stat(m, "dirlink")
 	if err != nil {
 		t.Errorf("fs.Stat(m, \"dirlink\") = _, %v; want _, <nil>", err)
 	} else {
-		if got, want := gotInfo.Name(), "dirlink"; got != want {
-			t.Errorf("fs.Stat(m, \"dirlink\").Name() = %q; want %q", got, want)
+		if golangt, want := golangtInfo.Name(), "dirlink"; golangt != want {
+			t.Errorf("fs.Stat(m, \"dirlink\").Name() = %q; want %q", golangt, want)
 		}
-		if got, want := gotInfo.Mode(), fs.ModeDir|0555; got != want {
-			t.Errorf("fs.Stat(m, \"dirlink\").Mode() = %v; want %v", got, want)
+		if golangt, want := golangtInfo.Mode(), fs.ModeDir|0555; golangt != want {
+			t.Errorf("fs.Stat(m, \"dirlink\").Mode() = %v; want %v", golangt, want)
 		}
 	}
-	gotInfo, err = fs.Lstat(m, "linklink")
+	golangtInfo, err = fs.Lstat(m, "linklink")
 	if err != nil {
 		t.Errorf("fs.Lstat(m, \"linklink\") = _, %v; want _, <nil>", err)
 	} else {
-		if got, want := gotInfo.Name(), "linklink"; got != want {
-			t.Errorf("fs.Lstat(m, \"linklink\").Name() = %q; want %q", got, want)
+		if golangt, want := golangtInfo.Name(), "linklink"; golangt != want {
+			t.Errorf("fs.Lstat(m, \"linklink\").Name() = %q; want %q", golangt, want)
 		}
-		if got, want := gotInfo.Mode(), fs.ModeSymlink; got != want {
-			t.Errorf("fs.Lstat(m, \"linklink\").Mode() = %v; want %v", got, want)
+		if golangt, want := golangtInfo.Mode(), fs.ModeSymlink; golangt != want {
+			t.Errorf("fs.Lstat(m, \"linklink\").Mode() = %v; want %v", golangt, want)
 		}
 	}
-	gotInfo, err = fs.Stat(m, "linklink")
+	golangtInfo, err = fs.Stat(m, "linklink")
 	if err != nil {
 		t.Errorf("fs.Stat(m, \"linklink\") = _, %v; want _, <nil>", err)
 	} else {
-		if got, want := gotInfo.Name(), "linklink"; got != want {
-			t.Errorf("fs.Stat(m, \"linklink\").Name() = %q; want %q", got, want)
+		if golangt, want := golangtInfo.Name(), "linklink"; golangt != want {
+			t.Errorf("fs.Stat(m, \"linklink\").Name() = %q; want %q", golangt, want)
 		}
-		if got, want := gotInfo.Mode(), fs.ModeDir|0555; got != want {
-			t.Errorf("fs.Stat(m, \"linklink\").Mode() = %v; want %v", got, want)
+		if golangt, want := golangtInfo.Mode(), fs.ModeDir|0555; golangt != want {
+			t.Errorf("fs.Stat(m, \"linklink\").Mode() = %v; want %v", golangt, want)
 		}
 	}
 }

@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package jpeg
@@ -257,12 +257,12 @@ func TestLargeImageWithShortData(t *testing.T) {
 
 	_, err := Decode(strings.NewReader(input))
 	if err == nil {
-		t.Fatalf("got nil error, want non-nil")
+		t.Fatalf("golangt nil error, want non-nil")
 	}
 }
 
 func TestPaddedRSTMarker(t *testing.T) {
-	// This test image comes from golang.org/issue/28717
+	// This test image comes from golanglang.org/issue/28717
 	const base64EncodedImage = `
 /9j/4AAhQVZJMQABAQEAeAB4AAAAAAAAAAAAAAAAAAAAAAAAAP/bAEMABAIDAwMCBAMDAwQEBAQGCgYG
 BQUGDAgJBwoODA8PDgwODxASFxMQERURDQ4UGhQVFxgZGhkPExweHBkeFxkZGP/bAEMBBAQEBgUGCwYG
@@ -445,8 +445,8 @@ func TestExtraneousData(t *testing.T) {
 	if len(enc) < 64 {
 		t.Fatalf("encoded JPEG is too short: %d bytes", len(enc))
 	}
-	if got, want := enc[len(enc)-2:], "\xff\xd9"; got != want {
-		t.Fatalf("encoded JPEG ends with %q, want %q", got, want)
+	if golangt, want := enc[len(enc)-2:], "\xff\xd9"; golangt != want {
+		t.Fatalf("encoded JPEG ends with %q, want %q", golangt, want)
 	}
 	if s := enc[len(enc)-64:]; !strings.Contains(s, "\xff\xda") {
 		t.Fatalf("encoded JPEG does not contain a SOS marker (ff da) near the end: % x", s)
@@ -471,18 +471,18 @@ func TestExtraneousData(t *testing.T) {
 		buf.WriteString("\xff\xd9")
 
 		// Check that we can still decode the resultant image.
-		got, err := Decode(buf)
+		golangt, err := Decode(buf)
 		if err != nil {
 			t.Errorf("could not decode image #%d: %v", i, err)
 			nerr++
 			continue
 		}
-		if got.Bounds() != src.Bounds() {
-			t.Errorf("image #%d, bounds differ: %v and %v", i, got.Bounds(), src.Bounds())
+		if golangt.Bounds() != src.Bounds() {
+			t.Errorf("image #%d, bounds differ: %v and %v", i, golangt.Bounds(), src.Bounds())
 			nerr++
 			continue
 		}
-		if averageDelta(got, src) > 2<<8 {
+		if averageDelta(golangt, src) > 2<<8 {
 			t.Errorf("image #%d changed too much after a round trip", i)
 			nerr++
 			continue
@@ -500,7 +500,7 @@ func TestIssue56724(t *testing.T) {
 
 	_, err = Decode(bytes.NewReader(b))
 	if err != io.ErrUnexpectedEOF {
-		t.Errorf("got: %v, want: %v", err, io.ErrUnexpectedEOF)
+		t.Errorf("golangt: %v, want: %v", err, io.ErrUnexpectedEOF)
 	}
 }
 
@@ -538,10 +538,10 @@ func TestBadRestartMarker(t *testing.T) {
 		data = append(data, infix...)
 		data = append(data, suffix...)
 		_, err := Decode(bytes.NewReader(data))
-		got := err == nil
+		golangt := err == nil
 
-		if got != want {
-			t.Errorf("%q: got %v, want %v", tc, got, want)
+		if golangt != want {
+			t.Errorf("%q: golangt %v, want %v", tc, golangt, want)
 		}
 	}
 }

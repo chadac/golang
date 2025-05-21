@@ -1,8 +1,8 @@
 // Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build linux || (freebsd && amd64)
+//golang:build linux || (freebsd && amd64)
 
 package sanitizers_test
 
@@ -17,19 +17,19 @@ func TestLSAN(t *testing.T) {
 	config := mustHaveLSAN(t)
 
 	t.Parallel()
-	mustRun(t, config.goCmd("build", "std"))
+	mustRun(t, config.golangCmd("build", "std"))
 
 	cases := []struct {
 		src           string
 		leakError     string
 		errorLocation string
 	}{
-		{src: "lsan1.go", leakError: "detected memory leaks", errorLocation: "lsan1.go:11"},
-		{src: "lsan2.go"},
-		{src: "lsan3.go"},
+		{src: "lsan1.golang", leakError: "detected memory leaks", errorLocation: "lsan1.golang:11"},
+		{src: "lsan2.golang"},
+		{src: "lsan3.golang"},
 	}
 	for _, tc := range cases {
-		name := strings.TrimSuffix(tc.src, ".go")
+		name := strings.TrimSuffix(tc.src, ".golang")
 		t.Run(name, func(t *testing.T) {
 			t.Parallel()
 
@@ -37,7 +37,7 @@ func TestLSAN(t *testing.T) {
 			defer dir.RemoveAll(t)
 
 			outPath := dir.Join(name)
-			mustRun(t, config.goCmd("build", "-o", outPath, srcPath(tc.src)))
+			mustRun(t, config.golangCmd("build", "-o", outPath, srcPath(tc.src)))
 
 			cmd := hangProneCmd(outPath)
 			if tc.leakError == "" {
@@ -76,21 +76,21 @@ func TestLSAN(t *testing.T) {
 func mustHaveLSAN(t *testing.T) *config {
 	testenv.MustHaveGoBuild(t)
 	testenv.MustHaveCGO(t)
-	goos, err := goEnv("GOOS")
+	golangos, err := golangEnv("GOOS")
 	if err != nil {
 		t.Fatal(err)
 	}
-	goarch, err := goEnv("GOARCH")
+	golangarch, err := golangEnv("GOARCH")
 	if err != nil {
 		t.Fatal(err)
 	}
 	// LSAN is a subset of ASAN, so just check for ASAN support.
-	if !platform.ASanSupported(goos, goarch) {
-		t.Skipf("skipping on %s/%s; -asan option is not supported.", goos, goarch)
+	if !platform.ASanSupported(golangos, golangarch) {
+		t.Skipf("skipping on %s/%s; -asan option is not supported.", golangos, golangarch)
 	}
 
-	if !compilerRequiredLsanVersion(goos, goarch) {
-		t.Skipf("skipping on %s/%s: too old version of compiler", goos, goarch)
+	if !compilerRequiredLsanVersion(golangos, golangarch) {
+		t.Skipf("skipping on %s/%s: too old version of compiler", golangos, golangarch)
 	}
 
 	requireOvercommit(t)

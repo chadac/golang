@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package debug contains facilities for programs to debug themselves while
@@ -18,7 +18,7 @@ func PrintStack() {
 	os.Stderr.Write(Stack())
 }
 
-// Stack returns a formatted stack trace of the goroutine that calls it.
+// Stack returns a formatted stack trace of the golangroutine that calls it.
 // It calls [runtime.Stack] with a large enough buffer to capture the entire trace.
 func Stack() []byte {
 	buf := make([]byte, 1024)
@@ -89,5 +89,5 @@ func SetCrashOutput(f *os.File, opts CrashOptions) error {
 	return nil
 }
 
-//go:linkname runtime_setCrashFD runtime.setCrashFD
+//golang:linkname runtime_setCrashFD runtime.setCrashFD
 func runtime_setCrashFD(uintptr) uintptr

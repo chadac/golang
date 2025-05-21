@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package flate
@@ -19,7 +19,7 @@ const (
 
 	// HuffmanOnly disables Lempel-Ziv match searching and only performs Huffman
 	// entropy encoding. This mode is useful in compressing data that has
-	// already been compressed with an LZ style algorithm (e.g. Snappy or LZ4)
+	// already been compressed with an LZ style algolangrithm (e.g. Snappy or LZ4)
 	// that lacks an entropy encoder. Compression gains are achieved when
 	// certain bytes in the input stream occur more frequently than others.
 	//
@@ -59,17 +59,17 @@ const (
 )
 
 type compressionLevel struct {
-	level, good, lazy, nice, chain, fastSkipHashing int
+	level, golangod, lazy, nice, chain, fastSkipHashing int
 }
 
 var levels = []compressionLevel{
 	{0, 0, 0, 0, 0, 0}, // NoCompression.
-	{1, 0, 0, 0, 0, 0}, // BestSpeed uses a custom algorithm; see deflatefast.go.
+	{1, 0, 0, 0, 0, 0}, // BestSpeed uses a custom algolangrithm; see deflatefast.golang.
 	// For levels 2-3 we don't bother trying with lazy matches.
 	{2, 4, 0, 16, 8, 5},
 	{3, 4, 0, 32, 32, 6},
 	// Levels 4-9 use increasingly more lazy matching
-	// and increasingly stringent conditions for "good enough".
+	// and increasingly stringent conditions for "golangod enough".
 	{4, 4, 4, 16, 16, skipNever},
 	{5, 8, 16, 32, 32, skipNever},
 	{6, 8, 16, 128, 128, skipNever},
@@ -84,7 +84,7 @@ type compressor struct {
 	w          *huffmanBitWriter
 	bulkHasher func([]byte, []uint32)
 
-	// compression algorithm
+	// compression algolangrithm
 	fill      func(*compressor, []byte) int // copy data to window
 	step      func(*compressor)             // process window
 	bestSpeed *deflateFast                  // Encoder for BestSpeed
@@ -242,10 +242,10 @@ func (d *compressor) findMatch(pos int, prevHead int, prevLength int, lookahead 
 		nice = d.nice
 	}
 
-	// If we've got a match that's good enough, only look in 1/4 the chain.
+	// If we've golangt a match that's golangod enough, only look in 1/4 the chain.
 	tries := d.chain
 	length = prevLength
-	if length >= d.good {
+	if length >= d.golangod {
 		tries >>= 2
 	}
 
@@ -262,7 +262,7 @@ func (d *compressor) findMatch(pos int, prevHead int, prevLength int, lookahead 
 				offset = pos - i
 				ok = true
 				if n >= nice {
-					// The match is good enough that we don't try to find a better one.
+					// The match is golangod enough that we don't try to find a better one.
 					break
 				}
 				wEnd = win[pos+n]
@@ -298,7 +298,7 @@ func hash4(b []byte) uint32 {
 }
 
 // bulkHash4 will compute hashes using the same
-// algorithm as hash4.
+// algolangrithm as hash4.
 func bulkHash4(b []byte, dst []uint32) {
 	if len(b) < minMatchLength {
 		return

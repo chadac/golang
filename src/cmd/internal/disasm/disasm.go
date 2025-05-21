@@ -1,5 +1,5 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package disasm provides disassembly routines.
@@ -25,13 +25,13 @@ import (
 	"cmd/internal/objfile"
 	"cmd/internal/src"
 
-	"golang.org/x/arch/arm/armasm"
-	"golang.org/x/arch/arm64/arm64asm"
-	"golang.org/x/arch/loong64/loong64asm"
-	"golang.org/x/arch/ppc64/ppc64asm"
-	"golang.org/x/arch/riscv64/riscv64asm"
-	"golang.org/x/arch/s390x/s390xasm"
-	"golang.org/x/arch/x86/x86asm"
+	"golanglang.org/x/arch/arm/armasm"
+	"golanglang.org/x/arch/arm64/arm64asm"
+	"golanglang.org/x/arch/loong64/loong64asm"
+	"golanglang.org/x/arch/ppc64/ppc64asm"
+	"golanglang.org/x/arch/riscv64/riscv64asm"
+	"golanglang.org/x/arch/s390x/s390xasm"
+	"golanglang.org/x/arch/x86/x86asm"
 )
 
 // Disasm is a disassembler for a given File.
@@ -41,9 +41,9 @@ type Disasm struct {
 	text      []byte           // bytes of text segment (actual instructions)
 	textStart uint64           // start PC of text
 	textEnd   uint64           // end PC of text
-	goarch    string           // GOARCH string
-	disasm    disasmFunc       // disassembler function for goarch
-	byteOrder binary.ByteOrder // byte order for goarch
+	golangarch    string           // GOARCH string
+	disasm    disasmFunc       // disassembler function for golangarch
+	byteOrder binary.ByteOrder // byte order for golangarch
 }
 
 // DisasmForFile returns a disassembler for the file f.
@@ -67,11 +67,11 @@ func disasmForEntry(e *objfile.Entry) (*Disasm, error) {
 		return nil, err
 	}
 
-	goarch := e.GOARCH()
-	disasm := disasms[goarch]
-	byteOrder := byteOrders[goarch]
+	golangarch := e.GOARCH()
+	disasm := disasms[golangarch]
+	byteOrder := byteOrders[golangarch]
 	if disasm == nil || byteOrder == nil {
-		return nil, fmt.Errorf("unsupported architecture %q", goarch)
+		return nil, fmt.Errorf("unsupported architecture %q", golangarch)
 	}
 
 	// Filter out section symbols, overwriting syms in place.
@@ -91,7 +91,7 @@ func disasmForEntry(e *objfile.Entry) (*Disasm, error) {
 		text:      textBytes,
 		textStart: textStart,
 		textEnd:   textStart + uint64(len(textBytes)),
-		goarch:    goarch,
+		golangarch:    golangarch,
 		disasm:    disasm,
 		byteOrder: byteOrder,
 	}
@@ -145,7 +145,7 @@ func NewFileCache(maxLen int) *FileCache {
 // and removes the least recently used file if necessary.
 // If the file is in cache, it is moved to the front of the list.
 func (fc *FileCache) Line(filename string, line int) ([]byte, error) {
-	if filepath.Ext(filename) != ".go" {
+	if filepath.Ext(filename) != ".golang" {
 		return nil, nil
 	}
 
@@ -257,7 +257,7 @@ func (d *Disasm) Print(w io.Writer, filter *regexp.Regexp, start, end uint64, pr
 				fmt.Fprintf(tw, "  %s:%d\t%#x\t", base(file), line, pc)
 			}
 
-			if size%4 != 0 || d.goarch == "386" || d.goarch == "amd64" {
+			if size%4 != 0 || d.golangarch == "386" || d.golangarch == "amd64" {
 				// Print instruction as bytes.
 				fmt.Fprintf(tw, "%x", code[i:i+size])
 			} else {

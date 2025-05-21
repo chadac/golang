@@ -6,13 +6,13 @@ module "rsc.io/quote"
 require "rsc.io/sampler" v1.0.0
 -- .info --
 {"Version":"v1.4.0","Name":"19e8b977bd2f437798c2cc2dcfe8a1c0f169481b","Short":"19e8b977bd2f","Time":"2018-02-14T00:56:05Z"}
--- go.mod --
+-- golang.mod --
 module "rsc.io/quote"
 
 require "rsc.io/sampler" v1.0.0
--- quote.go --
+-- quote.golang --
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package quote collects pithy sayings.
@@ -41,9 +41,9 @@ func Opt() string {
 	// Wisdom from ken.
 	return "If a program is too slow, it must have a loop."
 }
--- quote_test.go --
+-- quote_test.golang --
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package quote
@@ -65,9 +65,9 @@ func TestGlass(t *testing.T) {
 }
 
 func TestGo(t *testing.T) {
-	go1 := "Don't communicate by sharing memory, share memory by communicating."
-	if out := Go(); out != go1 {
-		t.Errorf("Go() = %q, want %q", out, go1)
+	golang1 := "Don't communicate by sharing memory, share memory by communicating."
+	if out := Go(); out != golang1 {
+		t.Errorf("Go() = %q, want %q", out, golang1)
 	}
 }
 

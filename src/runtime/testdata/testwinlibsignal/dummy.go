@@ -1,4 +1,4 @@
-//go:build windows
+//golang:build windows
 // +build windows
 
 package main

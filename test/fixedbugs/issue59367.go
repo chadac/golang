@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -23,7 +23,7 @@ func main() {
 	}
 }
 
-//go:noinline
+//golang:noinline
 func f16(p *uint8, b []byte) {
 	_ = b[1]            // bounds check
 	x := *p             // load a byte
@@ -35,7 +35,7 @@ func f16(p *uint8, b []byte) {
 	b[1] = byte(y)
 }
 
-//go:noinline
+//golang:noinline
 func f32(p *uint8, b []byte) {
 	_ = b[3]             // bounds check
 	x := *p              // load a byte
@@ -51,7 +51,7 @@ func f32(p *uint8, b []byte) {
 	b[3] = byte(y)
 }
 
-//go:noinline
+//golang:noinline
 func f64(p *uint8, b []byte) {
 	_ = b[7]             // bounds check
 	x := *p              // load a byte
@@ -75,6 +75,6 @@ func f64(p *uint8, b []byte) {
 	b[7] = byte(y)
 }
 
-//go:noinline
+//golang:noinline
 func nop() {
 }

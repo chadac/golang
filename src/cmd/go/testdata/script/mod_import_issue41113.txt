@@ -1,4 +1,4 @@
-# Regression test for https://golang.org/issue/41113.
+# Regression test for https://golanglang.org/issue/41113.
 #
 # When resolving a missing import path, the inability to add the package from
 # one module path should not interfere with adding a nested path.
@@ -10,19 +10,19 @@
 # be an implicit downgrade), and split-incompatible/subpkg v0.1.0, which we
 # *should* use.
 
-go mod tidy
+golang mod tidy
 
-go list -m all
+golang list -m all
 stdout '^example.com/split-incompatible/subpkg v0\.1\.0$'
 ! stdout '^example.com/split-incompatible .*'
 
--- go.mod --
-module golang.org/issue/41113
+-- golang.mod --
+module golanglang.org/issue/41113
 
-go 1.16
+golang 1.16
 
 require example.com/split-incompatible v2.1.0-pre+incompatible
--- x.go --
+-- x.golang --
 package issue41113
 
 import _ "example.com/split-incompatible/subpkg"

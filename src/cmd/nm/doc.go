@@ -1,12 +1,12 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Nm lists the symbols defined or used by an object file, archive, or executable.
 //
 // Usage:
 //
-//	go tool nm [options] file...
+//	golang tool nm [options] file...
 //
 // The default output prints one line per symbol, with three space-separated
 // fields giving the address (in hexadecimal), type (a character), and name of

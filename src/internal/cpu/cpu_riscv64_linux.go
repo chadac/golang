@@ -1,8 +1,8 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build riscv64 && linux
+//golang:build riscv64 && linux
 
 package cpu
 
@@ -47,7 +47,7 @@ import _ "unsafe"
 // Please see https://docs.kernel.org/arch/riscv/hwprobe.html for more information.
 
 const (
-	// Copied from golang.org/x/sys/unix/ztypes_linux_riscv64.go.
+	// Copied from golanglang.org/x/sys/unix/ztypes_linux_riscv64.golang.
 	riscv_HWPROBE_KEY_IMA_EXT_0   = 0x4
 	riscv_HWPROBE_IMA_V           = 0x4
 	riscv_HWPROBE_EXT_ZBB         = 0x10
@@ -56,13 +56,13 @@ const (
 	riscv_HWPROBE_MISALIGNED_MASK = 0x7
 )
 
-// riscvHWProbePairs is copied from golang.org/x/sys/unix/ztypes_linux_riscv64.go.
+// riscvHWProbePairs is copied from golanglang.org/x/sys/unix/ztypes_linux_riscv64.golang.
 type riscvHWProbePairs struct {
 	key   int64
 	value uint64
 }
 
-//go:linkname riscvHWProbe
+//golang:linkname riscvHWProbe
 func riscvHWProbe(pairs []riscvHWProbePairs, flags uint) bool
 
 func osInit() {

@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package cfile
@@ -18,7 +18,7 @@ import (
 )
 
 func testGoCoverDir(t *testing.T) string {
-	if f := flag.Lookup("test.gocoverdir"); f != nil {
+	if f := flag.Lookup("test.golangcoverdir"); f != nil {
 		if dir := f.Value.String(); dir != "" {
 			return dir
 		}
@@ -29,7 +29,7 @@ func testGoCoverDir(t *testing.T) string {
 // TestTestSupport does a basic verification of the functionality in
 // ProcessCoverTestDir (doing this here as opposed to
 // relying on other test paths will provide a better signal when
-// running "go test -cover" for this package).
+// running "golang test -cover" for this package).
 func TestTestSupport(t *testing.T) {
 	if testing.CoverMode() == "" {
 		return
@@ -66,9 +66,9 @@ func TestTestSupport(t *testing.T) {
 // We do this as a separate shell-out, so as to avoid potential
 // interactions with -coverpkg. For example, if you do
 //
-//	$ cd `go env GOROOT`
+//	$ cd `golang env GOROOT`
 //	$ cd src/internal/coverage
-//	$ go test -coverpkg=internal/coverage/decodecounter ./...
+//	$ golang test -coverpkg=internal/coverage/decodecounter ./...
 //	...
 //	$
 //
@@ -81,11 +81,11 @@ func TestCoverageSnapshot(t *testing.T) {
 		"-cover", "-run=TestCoverageSnapshotImpl", "internal/coverage/cfile"}
 	cmd := exec.Command(testenv.GoToolPath(t), args...)
 	if b, err := cmd.CombinedOutput(); err != nil {
-		t.Fatalf("go test failed (%v): %s", err, b)
+		t.Fatalf("golang test failed (%v): %s", err, b)
 	}
 }
 
-const hellogo = `
+const hellogolang = `
 package main
 
 func main() {
@@ -94,19 +94,19 @@ func main() {
 `
 
 // Returns a pair F,T where F is a meta-data file generated from
-// "hello.go" above, and T is a token to look for that should be
+// "hello.golang" above, and T is a token to look for that should be
 // present in the coverage report from F.
 func genAuxMeta(t *testing.T, dstdir string) (string, string) {
-	// Do a GOCOVERDIR=<tmp> go run hello.go
-	src := filepath.Join(dstdir, "hello.go")
-	if err := os.WriteFile(src, []byte(hellogo), 0777); err != nil {
+	// Do a GOCOVERDIR=<tmp> golang run hello.golang
+	src := filepath.Join(dstdir, "hello.golang")
+	if err := os.WriteFile(src, []byte(hellogolang), 0777); err != nil {
 		t.Fatalf("write failed: %v", err)
 	}
 	args := []string{"run", "-covermode=" + testing.CoverMode(), src}
 	cmd := exec.Command(testenv.GoToolPath(t), args...)
 	cmd.Env = updateGoCoverDir(os.Environ(), dstdir, true)
 	if b, err := cmd.CombinedOutput(); err != nil {
-		t.Fatalf("go run failed (%v): %s", err, b)
+		t.Fatalf("golang run failed (%v): %s", err, b)
 	}
 
 	// Pick out the generated meta-data file.
@@ -116,7 +116,7 @@ func genAuxMeta(t *testing.T, dstdir string) (string, string) {
 	}
 	for _, f := range files {
 		if strings.HasPrefix(f.Name(), "covmeta") {
-			return filepath.Join(dstdir, f.Name()), "hello.go:"
+			return filepath.Join(dstdir, f.Name()), "hello.golang:"
 		}
 	}
 	t.Fatalf("could not locate generated meta-data file")

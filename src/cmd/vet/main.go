@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -9,43 +9,43 @@ import (
 	"cmd/internal/telemetry/counter"
 	"flag"
 
-	"golang.org/x/tools/go/analysis/unitchecker"
+	"golanglang.org/x/tools/golang/analysis/unitchecker"
 
-	"golang.org/x/tools/go/analysis/passes/appends"
-	"golang.org/x/tools/go/analysis/passes/asmdecl"
-	"golang.org/x/tools/go/analysis/passes/assign"
-	"golang.org/x/tools/go/analysis/passes/atomic"
-	"golang.org/x/tools/go/analysis/passes/bools"
-	"golang.org/x/tools/go/analysis/passes/buildtag"
-	"golang.org/x/tools/go/analysis/passes/cgocall"
-	"golang.org/x/tools/go/analysis/passes/composite"
-	"golang.org/x/tools/go/analysis/passes/copylock"
-	"golang.org/x/tools/go/analysis/passes/defers"
-	"golang.org/x/tools/go/analysis/passes/directive"
-	"golang.org/x/tools/go/analysis/passes/errorsas"
-	"golang.org/x/tools/go/analysis/passes/framepointer"
-	"golang.org/x/tools/go/analysis/passes/hostport"
-	"golang.org/x/tools/go/analysis/passes/httpresponse"
-	"golang.org/x/tools/go/analysis/passes/ifaceassert"
-	"golang.org/x/tools/go/analysis/passes/loopclosure"
-	"golang.org/x/tools/go/analysis/passes/lostcancel"
-	"golang.org/x/tools/go/analysis/passes/nilfunc"
-	"golang.org/x/tools/go/analysis/passes/printf"
-	"golang.org/x/tools/go/analysis/passes/shift"
-	"golang.org/x/tools/go/analysis/passes/sigchanyzer"
-	"golang.org/x/tools/go/analysis/passes/slog"
-	"golang.org/x/tools/go/analysis/passes/stdmethods"
-	"golang.org/x/tools/go/analysis/passes/stdversion"
-	"golang.org/x/tools/go/analysis/passes/stringintconv"
-	"golang.org/x/tools/go/analysis/passes/structtag"
-	"golang.org/x/tools/go/analysis/passes/testinggoroutine"
-	"golang.org/x/tools/go/analysis/passes/tests"
-	"golang.org/x/tools/go/analysis/passes/timeformat"
-	"golang.org/x/tools/go/analysis/passes/unmarshal"
-	"golang.org/x/tools/go/analysis/passes/unreachable"
-	"golang.org/x/tools/go/analysis/passes/unsafeptr"
-	"golang.org/x/tools/go/analysis/passes/unusedresult"
-	"golang.org/x/tools/go/analysis/passes/waitgroup"
+	"golanglang.org/x/tools/golang/analysis/passes/appends"
+	"golanglang.org/x/tools/golang/analysis/passes/asmdecl"
+	"golanglang.org/x/tools/golang/analysis/passes/assign"
+	"golanglang.org/x/tools/golang/analysis/passes/atomic"
+	"golanglang.org/x/tools/golang/analysis/passes/bools"
+	"golanglang.org/x/tools/golang/analysis/passes/buildtag"
+	"golanglang.org/x/tools/golang/analysis/passes/cgolangcall"
+	"golanglang.org/x/tools/golang/analysis/passes/composite"
+	"golanglang.org/x/tools/golang/analysis/passes/copylock"
+	"golanglang.org/x/tools/golang/analysis/passes/defers"
+	"golanglang.org/x/tools/golang/analysis/passes/directive"
+	"golanglang.org/x/tools/golang/analysis/passes/errorsas"
+	"golanglang.org/x/tools/golang/analysis/passes/framepointer"
+	"golanglang.org/x/tools/golang/analysis/passes/hostport"
+	"golanglang.org/x/tools/golang/analysis/passes/httpresponse"
+	"golanglang.org/x/tools/golang/analysis/passes/ifaceassert"
+	"golanglang.org/x/tools/golang/analysis/passes/loopclosure"
+	"golanglang.org/x/tools/golang/analysis/passes/lostcancel"
+	"golanglang.org/x/tools/golang/analysis/passes/nilfunc"
+	"golanglang.org/x/tools/golang/analysis/passes/printf"
+	"golanglang.org/x/tools/golang/analysis/passes/shift"
+	"golanglang.org/x/tools/golang/analysis/passes/sigchanyzer"
+	"golanglang.org/x/tools/golang/analysis/passes/slog"
+	"golanglang.org/x/tools/golang/analysis/passes/stdmethods"
+	"golanglang.org/x/tools/golang/analysis/passes/stdversion"
+	"golanglang.org/x/tools/golang/analysis/passes/stringintconv"
+	"golanglang.org/x/tools/golang/analysis/passes/structtag"
+	"golanglang.org/x/tools/golang/analysis/passes/testinggolangroutine"
+	"golanglang.org/x/tools/golang/analysis/passes/tests"
+	"golanglang.org/x/tools/golang/analysis/passes/timeformat"
+	"golanglang.org/x/tools/golang/analysis/passes/unmarshal"
+	"golanglang.org/x/tools/golang/analysis/passes/unreachable"
+	"golanglang.org/x/tools/golang/analysis/passes/unsafeptr"
+	"golanglang.org/x/tools/golang/analysis/passes/unusedresult"
+	"golanglang.org/x/tools/golang/analysis/passes/waitgroup"
 )
 
 func main() {
@@ -60,7 +60,7 @@ func main() {
 		atomic.Analyzer,
 		bools.Analyzer,
 		buildtag.Analyzer,
-		cgocall.Analyzer,
+		cgolangcall.Analyzer,
 		composite.Analyzer,
 		copylock.Analyzer,
 		defers.Analyzer,
@@ -82,7 +82,7 @@ func main() {
 		stringintconv.Analyzer,
 		structtag.Analyzer,
 		tests.Analyzer,
-		testinggoroutine.Analyzer,
+		testinggolangroutine.Analyzer,
 		timeformat.Analyzer,
 		unmarshal.Analyzer,
 		unreachable.Analyzer,

@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package trace
@@ -31,7 +31,7 @@ func TestMUD(t *testing.T) {
 			hmass += val
 		}
 		if !aeq(mass, hmass) {
-			t.Fatalf("want mass %g, got %g", mass, hmass)
+			t.Fatalf("want mass %g, golangt %g", mass, hmass)
 		}
 
 		// Check inverse cumulative sum approximations.
@@ -89,7 +89,7 @@ func TestMUDTracking(t *testing.T) {
 
 // aeq returns true if x and y are equal up to 8 digits (1 part in 100
 // million).
-// TODO(amedee) dup of gc_test.go
+// TODO(amedee) dup of gc_test.golang
 func aeq(x, y float64) bool {
 	if x < 0 && y < 0 {
 		x, y = -x, -y

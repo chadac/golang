@@ -1,12 +1,12 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build boringcrypto && linux && (amd64 || arm64) && !android && !msan
+//golang:build boringcrypto && linux && (amd64 || arm64) && !android && !msan
 
 package boring
 
-// #include "goboringcrypto.h"
+// #include "golangboringcrypto.h"
 import "C"
 import (
 	"bytes"
@@ -21,15 +21,15 @@ import (
 func hashToMD(h hash.Hash) *C.GO_EVP_MD {
 	switch h.(type) {
 	case *sha1Hash:
-		return C._goboringcrypto_EVP_sha1()
+		return C._golangboringcrypto_EVP_sha1()
 	case *sha224Hash:
-		return C._goboringcrypto_EVP_sha224()
+		return C._golangboringcrypto_EVP_sha224()
 	case *sha256Hash:
-		return C._goboringcrypto_EVP_sha256()
+		return C._golangboringcrypto_EVP_sha256()
 	case *sha384Hash:
-		return C._goboringcrypto_EVP_sha384()
+		return C._golangboringcrypto_EVP_sha384()
 	case *sha512Hash:
-		return C._goboringcrypto_EVP_sha512()
+		return C._golangboringcrypto_EVP_sha512()
 	}
 	return nil
 }
@@ -39,19 +39,19 @@ func hashToMD(h hash.Hash) *C.GO_EVP_MD {
 func cryptoHashToMD(ch crypto.Hash) *C.GO_EVP_MD {
 	switch ch {
 	case crypto.MD5:
-		return C._goboringcrypto_EVP_md5()
+		return C._golangboringcrypto_EVP_md5()
 	case crypto.MD5SHA1:
-		return C._goboringcrypto_EVP_md5_sha1()
+		return C._golangboringcrypto_EVP_md5_sha1()
 	case crypto.SHA1:
-		return C._goboringcrypto_EVP_sha1()
+		return C._golangboringcrypto_EVP_sha1()
 	case crypto.SHA224:
-		return C._goboringcrypto_EVP_sha224()
+		return C._golangboringcrypto_EVP_sha224()
 	case crypto.SHA256:
-		return C._goboringcrypto_EVP_sha256()
+		return C._golangboringcrypto_EVP_sha256()
 	case crypto.SHA384:
-		return C._goboringcrypto_EVP_sha384()
+		return C._golangboringcrypto_EVP_sha384()
 	case crypto.SHA512:
-		return C._goboringcrypto_EVP_sha512()
+		return C._golangboringcrypto_EVP_sha512()
 	}
 	return nil
 }
@@ -92,22 +92,22 @@ type boringHMAC struct {
 
 func (h *boringHMAC) Reset() {
 	if h.needCleanup {
-		C._goboringcrypto_HMAC_CTX_cleanup(&h.ctx)
+		C._golangboringcrypto_HMAC_CTX_cleanup(&h.ctx)
 	} else {
 		h.needCleanup = true
-		// Note: Because of the finalizer, any time h.ctx is passed to cgo,
+		// Note: Because of the finalizer, any time h.ctx is passed to cgolang,
 		// that call must be followed by a call to runtime.KeepAlive(h),
-		// to make sure h is not collected (and finalized) before the cgo
+		// to make sure h is not collected (and finalized) before the cgolang
 		// call returns.
 		runtime.SetFinalizer(h, (*boringHMAC).finalize)
 	}
-	C._goboringcrypto_HMAC_CTX_init(&h.ctx)
+	C._golangboringcrypto_HMAC_CTX_init(&h.ctx)
 
-	if C._goboringcrypto_HMAC_Init(&h.ctx, unsafe.Pointer(base(h.key)), C.int(len(h.key)), h.md) == 0 {
+	if C._golangboringcrypto_HMAC_Init(&h.ctx, unsafe.Pointer(base(h.key)), C.int(len(h.key)), h.md) == 0 {
 		panic("boringcrypto: HMAC_Init failed")
 	}
-	if int(C._goboringcrypto_HMAC_size(&h.ctx)) != h.size {
-		println("boringcrypto: HMAC size:", C._goboringcrypto_HMAC_size(&h.ctx), "!=", h.size)
+	if int(C._golangboringcrypto_HMAC_size(&h.ctx)) != h.size {
+		println("boringcrypto: HMAC size:", C._golangboringcrypto_HMAC_size(&h.ctx), "!=", h.size)
 		panic("boringcrypto: HMAC size mismatch")
 	}
 	runtime.KeepAlive(h) // Next line will keep h alive too; just making doubly sure.
@@ -115,12 +115,12 @@ func (h *boringHMAC) Reset() {
 }
 
 func (h *boringHMAC) finalize() {
-	C._goboringcrypto_HMAC_CTX_cleanup(&h.ctx)
+	C._golangboringcrypto_HMAC_CTX_cleanup(&h.ctx)
 }
 
 func (h *boringHMAC) Write(p []byte) (int, error) {
 	if len(p) > 0 {
-		C._goboringcrypto_HMAC_Update(&h.ctx, (*C.uint8_t)(unsafe.Pointer(&p[0])), C.size_t(len(p)))
+		C._golangboringcrypto_HMAC_Update(&h.ctx, (*C.uint8_t)(unsafe.Pointer(&p[0])), C.size_t(len(p)))
 	}
 	runtime.KeepAlive(h)
 	return len(p), nil
@@ -143,11 +143,11 @@ func (h *boringHMAC) Sum(in []byte) []byte {
 	// that Sum has no effect on the underlying stream.
 	// In particular it is OK to Sum, then Write more, then Sum again,
 	// and the second Sum acts as if the first didn't happen.
-	C._goboringcrypto_HMAC_CTX_init(&h.ctx2)
-	if C._goboringcrypto_HMAC_CTX_copy_ex(&h.ctx2, &h.ctx) == 0 {
+	C._golangboringcrypto_HMAC_CTX_init(&h.ctx2)
+	if C._golangboringcrypto_HMAC_CTX_copy_ex(&h.ctx2, &h.ctx) == 0 {
 		panic("boringcrypto: HMAC_CTX_copy_ex failed")
 	}
-	C._goboringcrypto_HMAC_Final(&h.ctx2, (*C.uint8_t)(unsafe.Pointer(&h.sum[0])), nil)
-	C._goboringcrypto_HMAC_CTX_cleanup(&h.ctx2)
+	C._golangboringcrypto_HMAC_Final(&h.ctx2, (*C.uint8_t)(unsafe.Pointer(&h.sum[0])), nil)
+	C._golangboringcrypto_HMAC_CTX_cleanup(&h.ctx2)
 	return append(in, h.sum...)
 }

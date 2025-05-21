@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package race_test
@@ -16,7 +16,7 @@ func TestNoRaceCond(t *testing.T) {
 	condition := 0
 	var mu sync.Mutex
 	cond := sync.NewCond(&mu)
-	go func() {
+	golang func() {
 		x = 1
 		mu.Lock()
 		condition = 1
@@ -38,7 +38,7 @@ func TestRaceCond(t *testing.T) {
 	x := 0
 	_ = x
 	condition := 0
-	go func() {
+	golang func() {
 		time.Sleep(10 * time.Millisecond) // Enter cond.Wait loop
 		x = 1
 		mu.Lock()
@@ -74,8 +74,8 @@ func TestRaceAnnounceThreads(t *testing.T) {
 	var f, g, h func()
 	f = func() {
 		x = 1
-		go g()
-		go func() {
+		golang g()
+		golang func() {
 			x = 1
 			allDone <- true
 		}()
@@ -85,7 +85,7 @@ func TestRaceAnnounceThreads(t *testing.T) {
 
 	g = func() {
 		for i := 0; i < 2; i++ {
-			go func() {
+			golang func() {
 				x = 1
 				allDone <- true
 			}()
@@ -96,11 +96,11 @@ func TestRaceAnnounceThreads(t *testing.T) {
 	h = func() {
 		x = 1
 		x = 2
-		go f()
+		golang f()
 		allDone <- true
 	}
 
-	go h()
+	golang h()
 
 	for i := 0; i < N; i++ {
 		<-allDone
@@ -162,7 +162,7 @@ func TestRaceAfterFunc3(t *testing.T) {
 
 // This test's output is intended to be
 // observed manually. One should check
-// that goroutine creation stack is
+// that golangroutine creation stack is
 // comprehensible.
 func TestRaceGoroutineCreationStack(t *testing.T) {
 	var x int
@@ -173,11 +173,11 @@ func TestRaceGoroutineCreationStack(t *testing.T) {
 		x = 1
 		ch <- true
 	}
-	f2 := func() { go f1() }
-	f3 := func() { go f2() }
-	f4 := func() { go f3() }
+	f2 := func() { golang f1() }
+	f3 := func() { golang f2() }
+	f4 := func() { golang f3() }
 
-	go f4()
+	golang f4()
 	x = 2
 	<-ch
 }

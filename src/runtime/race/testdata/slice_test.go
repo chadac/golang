@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package race_test
@@ -12,7 +12,7 @@ import (
 func TestRaceSliceRW(t *testing.T) {
 	ch := make(chan bool, 1)
 	a := make([]int, 2)
-	go func() {
+	golang func() {
 		a[1] = 1
 		ch <- true
 	}()
@@ -23,7 +23,7 @@ func TestRaceSliceRW(t *testing.T) {
 func TestNoRaceSliceRW(t *testing.T) {
 	ch := make(chan bool, 1)
 	a := make([]int, 2)
-	go func() {
+	golang func() {
 		a[0] = 1
 		ch <- true
 	}()
@@ -34,7 +34,7 @@ func TestNoRaceSliceRW(t *testing.T) {
 func TestRaceSliceWW(t *testing.T) {
 	a := make([]int, 10)
 	ch := make(chan bool, 1)
-	go func() {
+	golang func() {
 		a[1] = 1
 		ch <- true
 	}()
@@ -45,7 +45,7 @@ func TestRaceSliceWW(t *testing.T) {
 func TestNoRaceArrayWW(t *testing.T) {
 	var a [5]int
 	ch := make(chan bool, 1)
-	go func() {
+	golang func() {
 		a[0] = 1
 		ch <- true
 	}()
@@ -56,7 +56,7 @@ func TestNoRaceArrayWW(t *testing.T) {
 func TestRaceArrayWW(t *testing.T) {
 	var a [5]int
 	ch := make(chan bool, 1)
-	go func() {
+	golang func() {
 		a[1] = 1
 		ch <- true
 	}()
@@ -67,7 +67,7 @@ func TestRaceArrayWW(t *testing.T) {
 func TestNoRaceSliceWriteLen(t *testing.T) {
 	ch := make(chan bool, 1)
 	a := make([]bool, 1)
-	go func() {
+	golang func() {
 		a[0] = true
 		ch <- true
 	}()
@@ -78,7 +78,7 @@ func TestNoRaceSliceWriteLen(t *testing.T) {
 func TestNoRaceSliceWriteCap(t *testing.T) {
 	ch := make(chan bool, 1)
 	a := make([]uint64, 100)
-	go func() {
+	golang func() {
 		a[50] = 123
 		ch <- true
 	}()
@@ -90,7 +90,7 @@ func TestRaceSliceCopyRead(t *testing.T) {
 	ch := make(chan bool, 1)
 	a := make([]int, 10)
 	b := make([]int, 10)
-	go func() {
+	golang func() {
 		_ = a[5]
 		ch <- true
 	}()
@@ -102,7 +102,7 @@ func TestNoRaceSliceWriteCopy(t *testing.T) {
 	ch := make(chan bool, 1)
 	a := make([]int, 10)
 	b := make([]int, 10)
-	go func() {
+	golang func() {
 		a[5] = 1
 		ch <- true
 	}()
@@ -114,7 +114,7 @@ func TestRaceSliceCopyWrite2(t *testing.T) {
 	ch := make(chan bool, 1)
 	a := make([]int, 10)
 	b := make([]int, 10)
-	go func() {
+	golang func() {
 		b[5] = 1
 		ch <- true
 	}()
@@ -125,7 +125,7 @@ func TestRaceSliceCopyWrite2(t *testing.T) {
 func TestRaceSliceCopyWrite3(t *testing.T) {
 	ch := make(chan bool, 1)
 	a := make([]byte, 10)
-	go func() {
+	golang func() {
 		a[7] = 1
 		ch <- true
 	}()
@@ -137,7 +137,7 @@ func TestNoRaceSliceCopyRead(t *testing.T) {
 	ch := make(chan bool, 1)
 	a := make([]int, 10)
 	b := make([]int, 10)
-	go func() {
+	golang func() {
 		_ = b[5]
 		ch <- true
 	}()
@@ -149,7 +149,7 @@ func TestRacePointerSliceCopyRead(t *testing.T) {
 	ch := make(chan bool, 1)
 	a := make([]*int, 10)
 	b := make([]*int, 10)
-	go func() {
+	golang func() {
 		_ = a[5]
 		ch <- true
 	}()
@@ -161,7 +161,7 @@ func TestNoRacePointerSliceWriteCopy(t *testing.T) {
 	ch := make(chan bool, 1)
 	a := make([]*int, 10)
 	b := make([]*int, 10)
-	go func() {
+	golang func() {
 		a[5] = new(int)
 		ch <- true
 	}()
@@ -173,7 +173,7 @@ func TestRacePointerSliceCopyWrite2(t *testing.T) {
 	ch := make(chan bool, 1)
 	a := make([]*int, 10)
 	b := make([]*int, 10)
-	go func() {
+	golang func() {
 		b[5] = new(int)
 		ch <- true
 	}()
@@ -185,7 +185,7 @@ func TestNoRacePointerSliceCopyRead(t *testing.T) {
 	ch := make(chan bool, 1)
 	a := make([]*int, 10)
 	b := make([]*int, 10)
-	go func() {
+	golang func() {
 		_ = b[5]
 		ch <- true
 	}()
@@ -196,7 +196,7 @@ func TestNoRacePointerSliceCopyRead(t *testing.T) {
 func TestNoRaceSliceWriteSlice2(t *testing.T) {
 	ch := make(chan bool, 1)
 	a := make([]float64, 10)
-	go func() {
+	golang func() {
 		a[2] = 1.0
 		ch <- true
 	}()
@@ -207,7 +207,7 @@ func TestNoRaceSliceWriteSlice2(t *testing.T) {
 func TestRaceSliceWriteSlice(t *testing.T) {
 	ch := make(chan bool, 1)
 	a := make([]float64, 10)
-	go func() {
+	golang func() {
 		a[2] = 1.0
 		ch <- true
 	}()
@@ -218,7 +218,7 @@ func TestRaceSliceWriteSlice(t *testing.T) {
 func TestNoRaceSliceWriteSlice(t *testing.T) {
 	ch := make(chan bool, 1)
 	a := make([]float64, 10)
-	go func() {
+	golang func() {
 		a[2] = 1.0
 		ch <- true
 	}()
@@ -229,7 +229,7 @@ func TestNoRaceSliceWriteSlice(t *testing.T) {
 func TestNoRaceSliceLenCap(t *testing.T) {
 	ch := make(chan bool, 1)
 	a := make([]struct{}, 10)
-	go func() {
+	golang func() {
 		_ = len(a)
 		ch <- true
 	}()
@@ -246,7 +246,7 @@ func TestNoRaceStructSlicesRangeWrite(t *testing.T) {
 	var s Str
 	s.a = make([]int, 10)
 	s.b = make([]int, 10)
-	go func() {
+	golang func() {
 		for range s.a {
 		}
 		ch <- true
@@ -259,7 +259,7 @@ func TestRaceSliceDifferent(t *testing.T) {
 	c := make(chan bool, 1)
 	s := make([]int, 10)
 	s2 := s
-	go func() {
+	golang func() {
 		s[3] = 3
 		c <- true
 	}()
@@ -272,7 +272,7 @@ func TestRaceSliceDifferent(t *testing.T) {
 func TestRaceSliceRangeWrite(t *testing.T) {
 	c := make(chan bool, 1)
 	s := make([]int, 10)
-	go func() {
+	golang func() {
 		s[3] = 3
 		c <- true
 	}()
@@ -285,7 +285,7 @@ func TestRaceSliceRangeWrite(t *testing.T) {
 func TestNoRaceSliceRangeWrite(t *testing.T) {
 	c := make(chan bool, 1)
 	s := make([]int, 10)
-	go func() {
+	golang func() {
 		s[3] = 3
 		c <- true
 	}()
@@ -297,7 +297,7 @@ func TestNoRaceSliceRangeWrite(t *testing.T) {
 func TestRaceSliceRangeAppend(t *testing.T) {
 	c := make(chan bool, 1)
 	s := make([]int, 10)
-	go func() {
+	golang func() {
 		s = append(s, 3)
 		c <- true
 	}()
@@ -309,7 +309,7 @@ func TestRaceSliceRangeAppend(t *testing.T) {
 func TestNoRaceSliceRangeAppend(t *testing.T) {
 	c := make(chan bool, 1)
 	s := make([]int, 10)
-	go func() {
+	golang func() {
 		_ = append(s, 3)
 		c <- true
 	}()
@@ -321,7 +321,7 @@ func TestNoRaceSliceRangeAppend(t *testing.T) {
 func TestRaceSliceVarWrite(t *testing.T) {
 	c := make(chan bool, 1)
 	s := make([]int, 10)
-	go func() {
+	golang func() {
 		s[3] = 3
 		c <- true
 	}()
@@ -332,7 +332,7 @@ func TestRaceSliceVarWrite(t *testing.T) {
 func TestRaceSliceVarRead(t *testing.T) {
 	c := make(chan bool, 1)
 	s := make([]int, 10)
-	go func() {
+	golang func() {
 		_ = s[3]
 		c <- true
 	}()
@@ -343,7 +343,7 @@ func TestRaceSliceVarRead(t *testing.T) {
 func TestRaceSliceVarRange(t *testing.T) {
 	c := make(chan bool, 1)
 	s := make([]int, 10)
-	go func() {
+	golang func() {
 		for range s {
 		}
 		c <- true
@@ -355,7 +355,7 @@ func TestRaceSliceVarRange(t *testing.T) {
 func TestRaceSliceVarAppend(t *testing.T) {
 	c := make(chan bool, 1)
 	s := make([]int, 10)
-	go func() {
+	golang func() {
 		_ = append(s, 10)
 		c <- true
 	}()
@@ -366,7 +366,7 @@ func TestRaceSliceVarAppend(t *testing.T) {
 func TestRaceSliceVarCopy(t *testing.T) {
 	c := make(chan bool, 1)
 	s := make([]int, 10)
-	go func() {
+	golang func() {
 		s2 := make([]int, 10)
 		copy(s, s2)
 		c <- true
@@ -378,7 +378,7 @@ func TestRaceSliceVarCopy(t *testing.T) {
 func TestRaceSliceVarCopy2(t *testing.T) {
 	c := make(chan bool, 1)
 	s := make([]int, 10)
-	go func() {
+	golang func() {
 		s2 := make([]int, 10)
 		copy(s2, s)
 		c <- true
@@ -390,7 +390,7 @@ func TestRaceSliceVarCopy2(t *testing.T) {
 func TestRaceSliceAppend(t *testing.T) {
 	c := make(chan bool, 1)
 	s := make([]int, 10, 20)
-	go func() {
+	golang func() {
 		_ = append(s, 1)
 		c <- true
 	}()
@@ -401,7 +401,7 @@ func TestRaceSliceAppend(t *testing.T) {
 func TestRaceSliceAppendWrite(t *testing.T) {
 	c := make(chan bool, 1)
 	s := make([]int, 10)
-	go func() {
+	golang func() {
 		_ = append(s, 1)
 		c <- true
 	}()
@@ -412,7 +412,7 @@ func TestRaceSliceAppendWrite(t *testing.T) {
 func TestRaceSliceAppendSlice(t *testing.T) {
 	c := make(chan bool, 1)
 	s := make([]int, 10)
-	go func() {
+	golang func() {
 		s2 := make([]int, 10)
 		_ = append(s, s2...)
 		c <- true
@@ -425,7 +425,7 @@ func TestRaceSliceAppendSlice2(t *testing.T) {
 	c := make(chan bool, 1)
 	s := make([]int, 10)
 	s2foobar := make([]int, 10)
-	go func() {
+	golang func() {
 		_ = append(s, s2foobar...)
 		c <- true
 	}()
@@ -436,7 +436,7 @@ func TestRaceSliceAppendSlice2(t *testing.T) {
 func TestRaceSliceAppendString(t *testing.T) {
 	c := make(chan bool, 1)
 	s := make([]byte, 10)
-	go func() {
+	golang func() {
 		_ = append(s, "qwerty"...)
 		c <- true
 	}()
@@ -447,7 +447,7 @@ func TestRaceSliceAppendString(t *testing.T) {
 func TestRacePointerSliceAppend(t *testing.T) {
 	c := make(chan bool, 1)
 	s := make([]*int, 10, 20)
-	go func() {
+	golang func() {
 		_ = append(s, new(int))
 		c <- true
 	}()
@@ -458,7 +458,7 @@ func TestRacePointerSliceAppend(t *testing.T) {
 func TestRacePointerSliceAppendWrite(t *testing.T) {
 	c := make(chan bool, 1)
 	s := make([]*int, 10)
-	go func() {
+	golang func() {
 		_ = append(s, new(int))
 		c <- true
 	}()
@@ -469,7 +469,7 @@ func TestRacePointerSliceAppendWrite(t *testing.T) {
 func TestRacePointerSliceAppendSlice(t *testing.T) {
 	c := make(chan bool, 1)
 	s := make([]*int, 10)
-	go func() {
+	golang func() {
 		s2 := make([]*int, 10)
 		_ = append(s, s2...)
 		c <- true
@@ -482,7 +482,7 @@ func TestRacePointerSliceAppendSlice2(t *testing.T) {
 	c := make(chan bool, 1)
 	s := make([]*int, 10)
 	s2foobar := make([]*int, 10)
-	go func() {
+	golang func() {
 		_ = append(s, s2foobar...)
 		c <- true
 	}()
@@ -495,7 +495,7 @@ func TestNoRaceSliceIndexAccess(t *testing.T) {
 	c := make(chan bool, 1)
 	s := make([]int, 10)
 	v := 0
-	go func() {
+	golang func() {
 		_ = v
 		c <- true
 	}()
@@ -507,7 +507,7 @@ func TestNoRaceSliceIndexAccess2(t *testing.T) {
 	c := make(chan bool, 1)
 	s := make([]int, 10)
 	v := 0
-	go func() {
+	golang func() {
 		_ = v
 		c <- true
 	}()
@@ -519,7 +519,7 @@ func TestRaceSliceIndexAccess(t *testing.T) {
 	c := make(chan bool, 1)
 	s := make([]int, 10)
 	v := 0
-	go func() {
+	golang func() {
 		v = 1
 		c <- true
 	}()
@@ -531,7 +531,7 @@ func TestRaceSliceIndexAccess2(t *testing.T) {
 	c := make(chan bool, 1)
 	s := make([]int, 10)
 	v := 0
-	go func() {
+	golang func() {
 		v = 1
 		c <- true
 	}()
@@ -542,7 +542,7 @@ func TestRaceSliceIndexAccess2(t *testing.T) {
 func TestRaceSliceByteToString(t *testing.T) {
 	c := make(chan string)
 	s := make([]byte, 10)
-	go func() {
+	golang func() {
 		c <- string(s)
 	}()
 	s[0] = 42
@@ -552,7 +552,7 @@ func TestRaceSliceByteToString(t *testing.T) {
 func TestRaceSliceRuneToString(t *testing.T) {
 	c := make(chan string)
 	s := make([]rune, 10)
-	go func() {
+	golang func() {
 		c <- string(s)
 	}()
 	s[9] = 42
@@ -562,7 +562,7 @@ func TestRaceSliceRuneToString(t *testing.T) {
 func TestRaceConcatString(t *testing.T) {
 	s := "hello"
 	c := make(chan string, 1)
-	go func() {
+	golang func() {
 		c <- s + " world"
 	}()
 	s = "world"
@@ -573,7 +573,7 @@ func TestRaceCompareString(t *testing.T) {
 	s1 := "hello"
 	s2 := "world"
 	c := make(chan bool, 1)
-	go func() {
+	golang func() {
 		c <- s1 == s2
 	}()
 	s1 = s2
@@ -584,7 +584,7 @@ func TestRaceSlice3(t *testing.T) {
 	done := make(chan bool)
 	x := make([]int, 10)
 	i := 2
-	go func() {
+	golang func() {
 		i = 3
 		done <- true
 	}()
@@ -599,7 +599,7 @@ func TestRaceSlice4(t *testing.T) {
 	data := []byte("hello there")
 	var wg sync.WaitGroup
 	wg.Add(1)
-	go func() {
+	golang func() {
 		_ = string(data)
 		wg.Done()
 	}()

@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -19,8 +19,8 @@ func main() {
 	if i34 != -1 { panic("i34") }
 }
 /*
-bug12.go:5: overflow converting constant to <uint64>UINT64
-bug12.go:6: overflow converting constant to <uint64>UINT64
-bug12.go:7: overflow converting constant to <uint64>UINT64
-bug12.go:8: overflow converting constant to <uint64>UINT64
+bug12.golang:5: overflow converting constant to <uint64>UINT64
+bug12.golang:6: overflow converting constant to <uint64>UINT64
+bug12.golang:7: overflow converting constant to <uint64>UINT64
+bug12.golang:8: overflow converting constant to <uint64>UINT64
 */

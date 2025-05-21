@@ -1,10 +1,10 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Go checksum database lookup
 
-//go:build !cmd_go_bootstrap
+//golang:build !cmd_golang_bootstrap
 
 package modfetch
 
@@ -21,25 +21,25 @@ import (
 	"sync"
 	"time"
 
-	"cmd/go/internal/base"
-	"cmd/go/internal/cfg"
-	"cmd/go/internal/lockedfile"
-	"cmd/go/internal/web"
+	"cmd/golang/internal/base"
+	"cmd/golang/internal/cfg"
+	"cmd/golang/internal/lockedfile"
+	"cmd/golang/internal/web"
 
-	"golang.org/x/mod/module"
-	"golang.org/x/mod/sumdb"
-	"golang.org/x/mod/sumdb/note"
+	"golanglang.org/x/mod/module"
+	"golanglang.org/x/mod/sumdb"
+	"golanglang.org/x/mod/sumdb/note"
 )
 
 // useSumDB reports whether to use the Go checksum database for the given module.
 func useSumDB(mod module.Version) bool {
-	if mod.Path == "golang.org/toolchain" {
+	if mod.Path == "golanglang.org/toolchain" {
 		must := true
-		// Downloaded toolchains cannot be listed in go.sum,
+		// Downloaded toolchains cannot be listed in golang.sum,
 		// so we require checksum database lookups even if
 		// GOSUMDB=off or GONOSUMDB matches the pattern.
 		// If GOSUMDB=off, then the eventual lookup will fail
-		// with a good error message.
+		// with a golangod error message.
 
 		// Exception #1: using GOPROXY=file:// to test a distpack.
 		if strings.HasPrefix(cfg.GOPROXY, "file://") && !strings.ContainsAny(cfg.GOPROXY, ",|") {
@@ -47,7 +47,7 @@ func useSumDB(mod module.Version) bool {
 		}
 		// Exception #2: the Go proxy+checksum database cannot check itself
 		// while doing the initial download.
-		if strings.Contains(os.Getenv("GIT_HTTP_USER_AGENT"), "proxy.golang.org") {
+		if strings.Contains(os.Getenv("GIT_HTTP_USER_AGENT"), "proxy.golanglang.org") {
 			must = false
 		}
 
@@ -66,7 +66,7 @@ func useSumDB(mod module.Version) bool {
 	return cfg.GOSUMDB != "off" && !module.MatchPrefixPatterns(cfg.GONOSUMDB, mod.Path)
 }
 
-// lookupSumDB returns the Go checksum database's go.sum lines for the given module,
+// lookupSumDB returns the Go checksum database's golang.sum lines for the given module,
 // along with the name of the database.
 func lookupSumDB(mod module.Version) (dbname string, lines []string, err error) {
 	dbOnce.Do(func() {
@@ -91,20 +91,20 @@ func dbDial() (dbName string, db *sumdb.Client, err error) {
 	// and the key can be a full verifier key
 	// or a host on our list of known keys.
 
-	// Special case: sum.golang.google.cn
+	// Special case: sum.golanglang.golangogle.cn
 	// is an alias, reachable inside mainland China,
-	// for sum.golang.org. If there are more
+	// for sum.golanglang.org. If there are more
 	// of these we should add a map like knownGOSUMDB.
-	gosumdb := cfg.GOSUMDB
-	if gosumdb == "sum.golang.google.cn" {
-		gosumdb = "sum.golang.org https://sum.golang.google.cn"
+	golangsumdb := cfg.GOSUMDB
+	if golangsumdb == "sum.golanglang.golangogle.cn" {
+		golangsumdb = "sum.golanglang.org https://sum.golanglang.golangogle.cn"
 	}
 
-	if gosumdb == "off" {
+	if golangsumdb == "off" {
 		return "", nil, fmt.Errorf("checksum database disabled by GOSUMDB=off")
 	}
 
-	key := strings.Fields(gosumdb)
+	key := strings.Fields(golangsumdb)
 	if len(key) >= 1 {
 		if k := knownGOSUMDB[key[0]]; k != "" {
 			key[0] = k
@@ -190,14 +190,14 @@ func (c *dbClient) initBase() {
 	// connection to the database.
 	//
 	// If the /sumdb/<sumdb-name>/supported check fails with a “not found” (HTTP
-	// 404) or “gone” (HTTP 410) response, or if the proxy is configured to fall
+	// 404) or “golangne” (HTTP 410) response, or if the proxy is configured to fall
 	// back on errors, the client will try the next proxy. If there are no
 	// proxies left or if the proxy is "direct" or "off", the client should
 	// connect directly to that database.
 	//
 	// Any other response is treated as the database being unavailable.
 	//
-	// See https://golang.org/design/25530-sumdb#proxying-a-checksum-database.
+	// See https://golanglang.org/design/25530-sumdb#proxying-a-checksum-database.
 	err := TryProxies(func(proxy string) error {
 		switch proxy {
 		case "noproxy":
@@ -285,7 +285,7 @@ func (*dbClient) WriteConfig(file string, old, new []byte) error {
 
 // ReadCache reads cached lookups or tiles from
 // GOPATH/pkg/mod/cache/download/sumdb,
-// which will be deleted by "go clean -modcache".
+// which will be deleted by "golang clean -modcache".
 func (*dbClient) ReadCache(file string) ([]byte, error) {
 	targ := filepath.Join(cfg.GOMODCACHE, "cache/download/sumdb", file)
 	data, err := lockedfile.Read(targ)

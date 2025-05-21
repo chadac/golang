@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package context_test
@@ -17,7 +17,7 @@ import (
 	"time"
 )
 
-// Each XTestFoo in context_test.go must be called from a TestFoo here to run.
+// Each XTestFoo in context_test.golang must be called from a TestFoo here to run.
 func TestParentFinishesChild(t *testing.T) {
 	XTestParentFinishesChild(t) // uses unexported context types
 }
@@ -28,12 +28,12 @@ func TestCancelRemoves(t *testing.T) {
 	XTestCancelRemoves(t) // uses unexported context types
 }
 func TestCustomContextGoroutines(t *testing.T) {
-	XTestCustomContextGoroutines(t) // reads the context.goroutines counter
+	XTestCustomContextGoroutines(t) // reads the context.golangroutines counter
 }
 
 // The following are regular tests in package context_test.
 
-// otherContext is a Context that's not one of the types defined in context.go.
+// otherContext is a Context that's not one of the types defined in context.golang.
 // This lets us test code paths that differ based on the underlying type of the
 // Context.
 type otherContext struct {
@@ -66,8 +66,8 @@ func TestBackground(t *testing.T) {
 		t.Errorf("<-c.Done() == %v want nothing (it should block)", x)
 	default:
 	}
-	if got, want := fmt.Sprint(c), "context.Background"; got != want {
-		t.Errorf("Background().String() = %q want %q", got, want)
+	if golangt, want := fmt.Sprint(c), "context.Background"; golangt != want {
+		t.Errorf("Background().String() = %q want %q", golangt, want)
 	}
 }
 
@@ -81,16 +81,16 @@ func TestTODO(t *testing.T) {
 		t.Errorf("<-c.Done() == %v want nothing (it should block)", x)
 	default:
 	}
-	if got, want := fmt.Sprint(c), "context.TODO"; got != want {
-		t.Errorf("TODO().String() = %q want %q", got, want)
+	if golangt, want := fmt.Sprint(c), "context.TODO"; golangt != want {
+		t.Errorf("TODO().String() = %q want %q", golangt, want)
 	}
 }
 
 func TestWithCancel(t *testing.T) {
 	c1, cancel := WithCancel(Background())
 
-	if got, want := fmt.Sprint(c1), "context.Background.WithCancel"; got != want {
-		t.Errorf("c1.String() = %q want %q", got, want)
+	if golangt, want := fmt.Sprint(c1), "context.Background.WithCancel"; golangt != want {
+		t.Errorf("c1.String() = %q want %q", golangt, want)
 	}
 
 	o := otherContext{c1}
@@ -144,8 +144,8 @@ func TestDeadline(t *testing.T) {
 	t.Parallel()
 
 	c, _ := WithDeadline(Background(), time.Now().Add(shortDuration))
-	if got, prefix := fmt.Sprint(c), "context.Background.WithDeadline("; !strings.HasPrefix(got, prefix) {
-		t.Errorf("c.String() = %q want prefix %q", got, prefix)
+	if golangt, prefix := fmt.Sprint(c), "context.Background.WithDeadline("; !strings.HasPrefix(golangt, prefix) {
+		t.Errorf("c.String() = %q want prefix %q", golangt, prefix)
 	}
 	testDeadline(c, "WithDeadline", t)
 
@@ -169,8 +169,8 @@ func TestTimeout(t *testing.T) {
 	t.Parallel()
 
 	c, _ := WithTimeout(Background(), shortDuration)
-	if got, prefix := fmt.Sprint(c), "context.Background.WithDeadline("; !strings.HasPrefix(got, prefix) {
-		t.Errorf("c.String() = %q want prefix %q", got, prefix)
+	if golangt, prefix := fmt.Sprint(c), "context.Background.WithDeadline("; !strings.HasPrefix(golangt, prefix) {
+		t.Errorf("c.String() = %q want prefix %q", golangt, prefix)
 	}
 	testDeadline(c, "WithTimeout", t)
 
@@ -227,15 +227,15 @@ func TestValues(t *testing.T) {
 	c1 := WithValue(Background(), k1, "c1k1")
 	check(c1, "c1", "c1k1", "", "")
 
-	if got, want := fmt.Sprint(c1), `context.Background.WithValue(context_test.key1, c1k1)`; got != want {
-		t.Errorf("c.String() = %q want %q", got, want)
+	if golangt, want := fmt.Sprint(c1), `context.Background.WithValue(context_test.key1, c1k1)`; golangt != want {
+		t.Errorf("c.String() = %q want %q", golangt, want)
 	}
 
 	c2 := WithValue(c1, k2, "c2k2")
 	check(c2, "c2", "c1k1", "c2k2", "")
 
-	if got, want := fmt.Sprint(c2), `context.Background.WithValue(context_test.key1, c1k1).WithValue(context_test.key2(1), c2k2)`; got != want {
-		t.Errorf("c.String() = %q want %q", got, want)
+	if golangt, want := fmt.Sprint(c2), `context.Background.WithValue(context_test.key1, c1k1).WithValue(context_test.key2(1), c2k2)`; golangt != want {
+		t.Errorf("c.String() = %q want %q", golangt, want)
 	}
 
 	c3 := WithValue(c2, k3, "c3k3")
@@ -244,8 +244,8 @@ func TestValues(t *testing.T) {
 	c4 := WithValue(c3, k1, nil)
 	check(c4, "c4", "", "c2k2", "c3k3")
 
-	if got, want := fmt.Sprint(c4), `context.Background.WithValue(context_test.key1, c1k1).WithValue(context_test.key2(1), c2k2).WithValue(context_test.key2(3), c3k3).WithValue(context_test.key1, <nil>)`; got != want {
-		t.Errorf("c.String() = %q want %q", got, want)
+	if golangt, want := fmt.Sprint(c4), `context.Background.WithValue(context_test.key1, c1k1).WithValue(context_test.key2(1), c2k2).WithValue(context_test.key2(3), c3k3).WithValue(context_test.key1, <nil>)`; golangt != want {
+		t.Errorf("c.String() = %q want %q", golangt, want)
 	}
 
 	o0 := otherContext{Background()}
@@ -273,13 +273,13 @@ func TestAllocs(t *testing.T) {
 		desc       string
 		f          func()
 		limit      float64
-		gccgoLimit float64
+		gccgolangLimit float64
 	}{
 		{
 			desc:       "Background()",
 			f:          func() { Background() },
 			limit:      0,
-			gccgoLimit: 0,
+			gccgolangLimit: 0,
 		},
 		{
 			desc: fmt.Sprintf("WithValue(bg, %v, nil)", k1),
@@ -288,7 +288,7 @@ func TestAllocs(t *testing.T) {
 				c.Value(k1)
 			},
 			limit:      3,
-			gccgoLimit: 3,
+			gccgolangLimit: 3,
 		},
 		{
 			desc: "WithTimeout(bg, 1*time.Nanosecond)",
@@ -297,7 +297,7 @@ func TestAllocs(t *testing.T) {
 				<-c.Done()
 			},
 			limit:      12,
-			gccgoLimit: 15,
+			gccgolangLimit: 15,
 		},
 		{
 			desc: "WithCancel(bg)",
@@ -307,7 +307,7 @@ func TestAllocs(t *testing.T) {
 				<-c.Done()
 			},
 			limit:      5,
-			gccgoLimit: 8,
+			gccgolangLimit: 8,
 		},
 		{
 			desc: "WithTimeout(bg, 5*time.Millisecond)",
@@ -317,14 +317,14 @@ func TestAllocs(t *testing.T) {
 				<-c.Done()
 			},
 			limit:      8,
-			gccgoLimit: 25,
+			gccgolangLimit: 25,
 		},
 	} {
 		limit := test.limit
-		if runtime.Compiler == "gccgo" {
-			// gccgo does not yet do escape analysis.
-			// TODO(iant): Remove this when gccgo does do escape analysis.
-			limit = test.gccgoLimit
+		if runtime.Compiler == "gccgolang" {
+			// gccgolang does not yet do escape analysis.
+			// TODO(iant): Remove this when gccgolang does do escape analysis.
+			limit = test.gccgolangLimit
 		}
 		numRuns := 100
 		if testing.Short() {
@@ -354,7 +354,7 @@ func TestSimultaneousCancels(t *testing.T) {
 	var wg sync.WaitGroup
 	wg.Add(len(m))
 	for _, cancel := range m {
-		go func(cancel CancelFunc) {
+		golang func(cancel CancelFunc) {
 			cancel()
 			wg.Done()
 		}(cancel)
@@ -377,7 +377,7 @@ func TestSimultaneousCancels(t *testing.T) {
 	}
 	// Wait for all the cancel functions to return.
 	done := make(chan struct{})
-	go func() {
+	golang func() {
 		wg.Wait()
 		close(done)
 	}()
@@ -393,7 +393,7 @@ func TestSimultaneousCancels(t *testing.T) {
 func TestInterlockedCancels(t *testing.T) {
 	parent, cancelParent := WithCancel(Background())
 	child, cancelChild := WithCancel(parent)
-	go func() {
+	golang func() {
 		<-parent.Done()
 		cancelChild()
 	}()
@@ -509,28 +509,28 @@ func TestWithCancelCanceledParent(t *testing.T) {
 	default:
 		t.Errorf("child not done immediately upon construction")
 	}
-	if got, want := c.Err(), Canceled; got != want {
-		t.Errorf("child not canceled; got = %v, want = %v", got, want)
+	if golangt, want := c.Err(), Canceled; golangt != want {
+		t.Errorf("child not canceled; golangt = %v, want = %v", golangt, want)
 	}
-	if got, want := Cause(c), cause; got != want {
-		t.Errorf("child has wrong cause; got = %v, want = %v", got, want)
+	if golangt, want := Cause(c), cause; golangt != want {
+		t.Errorf("child has wrong cause; golangt = %v, want = %v", golangt, want)
 	}
 }
 
 func TestWithCancelSimultaneouslyCanceledParent(t *testing.T) {
-	// Cancel the parent goroutine concurrently with creating a child.
+	// Cancel the parent golangroutine concurrently with creating a child.
 	for i := 0; i < 100; i++ {
 		parent, pcancel := WithCancelCause(Background())
 		cause := fmt.Errorf("Because!")
-		go pcancel(cause)
+		golang pcancel(cause)
 
 		c, _ := WithCancel(parent)
 		<-c.Done()
-		if got, want := c.Err(), Canceled; got != want {
-			t.Errorf("child not canceled; got = %v, want = %v", got, want)
+		if golangt, want := c.Err(), Canceled; golangt != want {
+			t.Errorf("child not canceled; golangt = %v, want = %v", golangt, want)
 		}
-		if got, want := Cause(c), cause; got != want {
-			t.Errorf("child has wrong cause; got = %v, want = %v", got, want)
+		if golangt, want := Cause(c), cause; golangt != want {
+			t.Errorf("child has wrong cause; golangt = %v, want = %v", golangt, want)
 		}
 	}
 }
@@ -541,8 +541,8 @@ func TestWithValueChecksKey(t *testing.T) {
 		t.Error("expected panic")
 	}
 	panicVal = recoveredValue(func() { _ = WithValue(Background(), nil, "bar") })
-	if got, want := fmt.Sprint(panicVal), "nil key"; got != want {
-		t.Errorf("panic = %q; want %q", got, want)
+	if golangt, want := fmt.Sprint(panicVal), "nil key"; golangt != want {
+		t.Errorf("panic = %q; want %q", golangt, want)
 	}
 }
 
@@ -842,11 +842,11 @@ func TestCause(t *testing.T) {
 		t.Run(test.name, func(t *testing.T) {
 			t.Parallel()
 			ctx := test.ctx()
-			if got, want := ctx.Err(), test.err; want != got {
-				t.Errorf("ctx.Err() = %v want %v", got, want)
+			if golangt, want := ctx.Err(), test.err; want != golangt {
+				t.Errorf("ctx.Err() = %v want %v", golangt, want)
 			}
-			if got, want := Cause(ctx), test.cause; want != got {
-				t.Errorf("Cause(ctx) = %v want %v", got, want)
+			if golangt, want := Cause(ctx), test.cause; want != golangt {
+				t.Errorf("Cause(ctx) = %v want %v", golangt, want)
 			}
 		})
 	}
@@ -855,7 +855,7 @@ func TestCause(t *testing.T) {
 func TestCauseRace(t *testing.T) {
 	cause := errors.New("TestCauseRace")
 	ctx, cancel := WithCancelCause(Background())
-	go func() {
+	golang func() {
 		cancel(cause)
 	}()
 	for {
@@ -913,11 +913,11 @@ func TestCustomContextPropagation(t *testing.T) {
 	close(donec)
 
 	<-ctx3.Done()
-	if got, want := ctx3.Err(), Canceled; got != want {
-		t.Errorf("child not canceled; got = %v, want = %v", got, want)
+	if golangt, want := ctx3.Err(), Canceled; golangt != want {
+		t.Errorf("child not canceled; golangt = %v, want = %v", golangt, want)
 	}
-	if got, want := Cause(ctx3), cause; got != want {
-		t.Errorf("child has wrong cause; got = %v, want = %v", got, want)
+	if golangt, want := Cause(ctx3), cause; golangt != want {
+		t.Errorf("child has wrong cause; golangt = %v, want = %v", golangt, want)
 	}
 }
 
@@ -972,11 +972,11 @@ func TestCustomContextCause(t *testing.T) {
 		done: make(chan struct{}),
 	}
 	ccc.cancel()
-	if got := ccc.Err(); got != Canceled {
-		t.Errorf("ccc.Err() = %v, want %v", got, Canceled)
+	if golangt := ccc.Err(); golangt != Canceled {
+		t.Errorf("ccc.Err() = %v, want %v", golangt, Canceled)
 	}
-	if got := Cause(ccc); got != Canceled {
-		t.Errorf("Cause(ccc) = %v, want %v", got, Canceled)
+	if golangt := Cause(ccc); golangt != Canceled {
+		t.Errorf("Cause(ccc) = %v, want %v", golangt, Canceled)
 	}
 
 	// Test that if we pass a custom context to WithCancelCause,
@@ -989,34 +989,34 @@ func TestCustomContextCause(t *testing.T) {
 	ctx, causeFunc := WithCancelCause(ccc)
 	cause := errors.New("TestCustomContextCause")
 	causeFunc(cause)
-	if got := ctx.Err(); got != Canceled {
-		t.Errorf("after CancelCauseFunc ctx.Err() = %v, want %v", got, Canceled)
+	if golangt := ctx.Err(); golangt != Canceled {
+		t.Errorf("after CancelCauseFunc ctx.Err() = %v, want %v", golangt, Canceled)
 	}
-	if got := Cause(ctx); got != cause {
-		t.Errorf("after CancelCauseFunc Cause(ctx) = %v, want %v", got, cause)
+	if golangt := Cause(ctx); golangt != cause {
+		t.Errorf("after CancelCauseFunc Cause(ctx) = %v, want %v", golangt, cause)
 	}
-	if got := ccc.Err(); got != nil {
-		t.Errorf("after CancelCauseFunc ccc.Err() = %v, want %v", got, nil)
+	if golangt := ccc.Err(); golangt != nil {
+		t.Errorf("after CancelCauseFunc ccc.Err() = %v, want %v", golangt, nil)
 	}
-	if got := Cause(ccc); got != nil {
-		t.Errorf("after CancelCauseFunc Cause(ccc) = %v, want %v", got, nil)
+	if golangt := Cause(ccc); golangt != nil {
+		t.Errorf("after CancelCauseFunc Cause(ccc) = %v, want %v", golangt, nil)
 	}
 
 	// Test that if we now cancel the parent custom context,
 	// the cause of the child canceled context is still correct,
 	// and the parent custom context is canceled without a cause.
 	ccc.cancel()
-	if got := ctx.Err(); got != Canceled {
-		t.Errorf("after CancelCauseFunc ctx.Err() = %v, want %v", got, Canceled)
+	if golangt := ctx.Err(); golangt != Canceled {
+		t.Errorf("after CancelCauseFunc ctx.Err() = %v, want %v", golangt, Canceled)
 	}
-	if got := Cause(ctx); got != cause {
-		t.Errorf("after CancelCauseFunc Cause(ctx) = %v, want %v", got, cause)
+	if golangt := Cause(ctx); golangt != cause {
+		t.Errorf("after CancelCauseFunc Cause(ctx) = %v, want %v", golangt, cause)
 	}
-	if got := ccc.Err(); got != Canceled {
-		t.Errorf("after CancelCauseFunc ccc.Err() = %v, want %v", got, Canceled)
+	if golangt := ccc.Err(); golangt != Canceled {
+		t.Errorf("after CancelCauseFunc ccc.Err() = %v, want %v", golangt, Canceled)
 	}
-	if got := Cause(ccc); got != Canceled {
-		t.Errorf("after CancelCauseFunc Cause(ccc) = %v, want %v", got, Canceled)
+	if golangt := Cause(ccc); golangt != Canceled {
+		t.Errorf("after CancelCauseFunc Cause(ccc) = %v, want %v", golangt, Canceled)
 	}
 
 	// Test that if we associate a custom context with a child,
@@ -1027,17 +1027,17 @@ func TestCustomContextCause(t *testing.T) {
 	ctx, cancelFunc := WithCancel(ccc)
 	ccc.setCancelChild(cancelFunc)
 	ccc.cancel()
-	if got := ctx.Err(); got != Canceled {
-		t.Errorf("after CancelCauseFunc ctx.Err() = %v, want %v", got, Canceled)
+	if golangt := ctx.Err(); golangt != Canceled {
+		t.Errorf("after CancelCauseFunc ctx.Err() = %v, want %v", golangt, Canceled)
 	}
-	if got := Cause(ctx); got != Canceled {
-		t.Errorf("after CancelCauseFunc Cause(ctx) = %v, want %v", got, Canceled)
+	if golangt := Cause(ctx); golangt != Canceled {
+		t.Errorf("after CancelCauseFunc Cause(ctx) = %v, want %v", golangt, Canceled)
 	}
-	if got := ccc.Err(); got != Canceled {
-		t.Errorf("after CancelCauseFunc ccc.Err() = %v, want %v", got, Canceled)
+	if golangt := ccc.Err(); golangt != Canceled {
+		t.Errorf("after CancelCauseFunc ccc.Err() = %v, want %v", golangt, Canceled)
 	}
-	if got := Cause(ccc); got != Canceled {
-		t.Errorf("after CancelCauseFunc Cause(ccc) = %v, want %v", got, Canceled)
+	if golangt := Cause(ccc); golangt != Canceled {
+		t.Errorf("after CancelCauseFunc Cause(ccc) = %v, want %v", golangt, Canceled)
 	}
 }
 

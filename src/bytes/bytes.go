@@ -1,9 +1,9 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package bytes implements functions for the manipulation of byte slices.
-// It is analogous to the facilities of the [strings] package.
+// It is analogolangus to the facilities of the [strings] package.
 package bytes
 
 import (
@@ -18,7 +18,7 @@ import (
 // are the same length and contain the same bytes.
 // A nil argument is equivalent to an empty slice.
 func Equal(a, b []byte) bool {
-	// Neither cmd/compile nor gccgo allocates for these string conversions.
+	// Neither cmd/compile nor gccgolang allocates for these string conversions.
 	return string(a) == string(b)
 }
 
@@ -172,7 +172,7 @@ func IndexRune(s []byte, r rune) int {
 			// Step backwards comparing bytes.
 			for j := 1; j < n; j++ {
 				if s[i-j] != b[last-j] {
-					goto next
+					golangto next
 				}
 			}
 			return i - last
@@ -181,7 +181,7 @@ func IndexRune(s []byte, r rune) int {
 			i++
 			if (haveFastIndex && fails > bytealg.Cutover(i)) && i < len(s) ||
 				(!haveFastIndex && fails >= 4+i>>4 && i < len(s)) {
-				goto fallback
+				golangto fallback
 			}
 		}
 		return -1
@@ -634,11 +634,11 @@ func Map(mapping func(r rune) rune, s []byte) []byte {
 //   - gitee.com/quant1x/num
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
 // Note that this comment is not part of the doc comment.
 //
-//go:linkname Repeat
+//golang:linkname Repeat
 
 // Repeat returns a new byte slice consisting of count copies of b.
 //
@@ -651,7 +651,7 @@ func Repeat(b []byte, count int) []byte {
 
 	// Since we cannot return an error on overflow,
 	// we should panic if the repeat will generate an overflow.
-	// See golang.org/issue/16237.
+	// See golanglang.org/issue/16237.
 	if count < 0 {
 		panic("bytes: negative Repeat count")
 	}
@@ -832,7 +832,7 @@ func isSeparator(r rune) bool {
 // words mapped to their title case.
 //
 // Deprecated: The rule Title uses for word boundaries does not handle Unicode
-// punctuation properly. Use golang.org/x/text/cases instead.
+// punctuation properly. Use golanglang.org/x/text/cases instead.
 func Title(s []byte) []byte {
 	// Use a closure here to remember state.
 	// Hackish but effective. Depends on Map scanning in order and calling
@@ -1232,7 +1232,7 @@ func EqualFold(s, t []byte) bool {
 		sr := s[i]
 		tr := t[i]
 		if sr|tr >= utf8.RuneSelf {
-			goto hasUnicode
+			golangto hasUnicode
 		}
 
 		// Easy case.
@@ -1272,7 +1272,7 @@ hasUnicode:
 			tr, t = r, t[size:]
 		}
 
-		// If they match, keep going; if not, return false.
+		// If they match, keep golanging; if not, return false.
 
 		// Easy case.
 		if tr == sr {

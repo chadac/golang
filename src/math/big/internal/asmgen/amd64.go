@@ -1,5 +1,5 @@
 // Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package asmgen
@@ -83,7 +83,7 @@ func amd64Add(a *Asm, src1, src2 Reg, dst Reg, carry Carry) bool {
 	return false
 }
 
-// The x86-prefixed functions are shared with Arch386 in 386.go.
+// The x86-prefixed functions are shared with Arch386 in 386.golang.
 
 func x86Op3(name string) bool {
 	// As far as a.op3 is concerned, there are no 3-op instructions.

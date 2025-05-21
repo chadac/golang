@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package time
@@ -47,7 +47,7 @@ func NewTicker(d Duration) *Ticker {
 }
 
 // Stop turns off a ticker. After Stop, no more ticks will be sent.
-// Stop does not close the channel, to prevent a concurrent goroutine
+// Stop does not close the channel, to prevent a concurrent golangroutine
 // reading from the channel from seeing an erroneous "tick".
 func (t *Ticker) Stop() {
 	if !t.initTicker {

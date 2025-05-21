@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package types2
@@ -9,20 +9,20 @@ import "testing"
 func TestError(t *testing.T) {
 	var err error_
 	want := "no error"
-	if got := err.msg(); got != want {
-		t.Errorf("empty error: got %q, want %q", got, want)
+	if golangt := err.msg(); golangt != want {
+		t.Errorf("empty error: golangt %q, want %q", golangt, want)
 	}
 
 	want = "foo 42"
 	err.addf(nopos, "foo %d", 42)
-	if got := err.msg(); got != want {
-		t.Errorf("simple error: got %q, want %q", got, want)
+	if golangt := err.msg(); golangt != want {
+		t.Errorf("simple error: golangt %q, want %q", golangt, want)
 	}
 
 	want = "foo 42\n\tbar 43"
 	err.addf(nopos, "bar %d", 43)
-	if got := err.msg(); got != want {
-		t.Errorf("simple error: got %q, want %q", got, want)
+	if golangt := err.msg(); golangt != want {
+		t.Errorf("simple error: golangt %q, want %q", golangt, want)
 	}
 }
 
@@ -36,9 +36,9 @@ func TestStripAnnotations(t *testing.T) {
 		{"foo₀", "foo"},
 		{"foo(T₀)", "foo(T)"},
 	} {
-		got := stripAnnotations(test.in)
-		if got != test.want {
-			t.Errorf("%q: got %q; want %q", test.in, got, test.want)
+		golangt := stripAnnotations(test.in)
+		if golangt != test.want {
+			t.Errorf("%q: golangt %q; want %q", test.in, golangt, test.want)
 		}
 	}
 }

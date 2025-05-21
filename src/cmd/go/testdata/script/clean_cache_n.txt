@@ -1,31 +1,31 @@
-[short] skip 'runs go build'
+[short] skip 'runs golang build'
 
 # We're testing cache behavior, so start with a clean GOCACHE.
 env GOCACHE=$WORK/cache
 
 # Build something so that the cache gets populates
-go build main.go
+golang build main.golang
 
 # Check that cache contains directories before running
 exists $GOCACHE/00
 
-# Run go clean -cache -n and ensure that directories weren't deleted
-go clean -cache -n
+# Run golang clean -cache -n and ensure that directories weren't deleted
+golang clean -cache -n
 exists $GOCACHE/00
 
-# Re-run go clean cache without the -n flag go ensure that directories were properly removed
-go clean -cache
+# Re-run golang clean cache without the -n flag golang ensure that directories were properly removed
+golang clean -cache
 ! exists $GOCACHE/00
 
-! go clean -cache .
-stderr 'go: clean -cache cannot be used with package arguments'
+! golang clean -cache .
+stderr 'golang: clean -cache cannot be used with package arguments'
 
 # GOCACHE must be an absolute path.
 env GOCACHE=.
-! go clean -cache
-stderr 'go: GOCACHE is not an absolute path'
+! golang clean -cache
+stderr 'golang: GOCACHE is not an absolute path'
 
--- main.go --
+-- main.golang --
 package main
 
 import "fmt"

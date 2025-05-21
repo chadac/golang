@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package p
@@ -24,7 +24,7 @@ type X[T any] interface {
 
 var _ X[int]
 
-// A related example that doesn't go through interfaces.
+// A related example that doesn't golang through interfaces.
 type A2[P any] [10]A2 /* ERROR "invalid recursive type" */ [*P]
 
 var _ A2[int]

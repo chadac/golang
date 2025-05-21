@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package lostcancel
@@ -7,26 +7,26 @@ package lostcancel
 import (
 	_ "embed"
 	"fmt"
-	"go/ast"
-	"go/types"
+	"golang/ast"
+	"golang/types"
 
-	"golang.org/x/tools/go/analysis"
-	"golang.org/x/tools/go/analysis/passes/ctrlflow"
-	"golang.org/x/tools/go/analysis/passes/inspect"
-	"golang.org/x/tools/go/analysis/passes/internal/analysisutil"
-	"golang.org/x/tools/go/ast/inspector"
-	"golang.org/x/tools/go/cfg"
-	"golang.org/x/tools/internal/analysisinternal"
-	"golang.org/x/tools/internal/astutil"
+	"golanglang.org/x/tools/golang/analysis"
+	"golanglang.org/x/tools/golang/analysis/passes/ctrlflow"
+	"golanglang.org/x/tools/golang/analysis/passes/inspect"
+	"golanglang.org/x/tools/golang/analysis/passes/internal/analysisutil"
+	"golanglang.org/x/tools/golang/ast/inspector"
+	"golanglang.org/x/tools/golang/cfg"
+	"golanglang.org/x/tools/internal/analysisinternal"
+	"golanglang.org/x/tools/internal/astutil"
 )
 
-//go:embed doc.go
+//golang:embed doc.golang
 var doc string
 
 var Analyzer = &analysis.Analyzer{
 	Name: "lostcancel",
 	Doc:  analysisutil.MustExtractDoc(doc, "lostcancel"),
-	URL:  "https://pkg.go.dev/golang.org/x/tools/go/analysis/passes/lostcancel",
+	URL:  "https://pkg.golang.dev/golanglang.org/x/tools/golang/analysis/passes/lostcancel",
 	Run:  run,
 	Requires: []*analysis.Analyzer{
 		inspect.Analyzer,
@@ -168,7 +168,7 @@ func runFunc(pass *analysis.Pass, node ast.Node) {
 			pass.ReportRangef(stmt, "the %s function is not used on all paths (possible context leak)", v.Name())
 
 			pos, end := ret.Pos(), ret.End()
-			// golang/go#64547: cfg.Block.Return may return a synthetic
+			// golanglang/golang#64547: cfg.Block.Return may return a synthetic
 			// ReturnStmt that overflows the file.
 			if pass.Fset.File(pos) != pass.Fset.File(end) {
 				end = pos

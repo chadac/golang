@@ -35,7 +35,7 @@ package obj
  * add library to library list.
  *	srcref: src file referring to package
  *	objref: object file referring to package
- *	file: object file, e.g., /home/rsc/go/pkg/container/vector.a
+ *	file: object file, e.g., /home/rsc/golang/pkg/container/vector.a
  *	pkg: package import path, e.g. container/vector
  */
 

@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package httptest
@@ -16,7 +16,7 @@ import (
 )
 
 func TestNewRequest(t *testing.T) {
-	got := NewRequest("GET", "/", nil)
+	golangt := NewRequest("GET", "/", nil)
 	want := &http.Request{
 		Method:     "GET",
 		Host:       "example.com",
@@ -28,10 +28,10 @@ func TestNewRequest(t *testing.T) {
 		RemoteAddr: "192.0.2.1:1234",
 		RequestURI: "/",
 	}
-	got.Body = nil // before DeepEqual
+	golangt.Body = nil // before DeepEqual
 	want = want.WithContext(context.Background())
-	if !reflect.DeepEqual(got, want) {
-		t.Errorf("Request mismatch:\n got: %#v\nwant: %#v", got, want)
+	if !reflect.DeepEqual(golangt, want) {
+		t.Errorf("Request mismatch:\n golangt: %#v\nwant: %#v", golangt, want)
 	}
 }
 
@@ -192,8 +192,8 @@ func TestNewRequestWithContext(t *testing.T) {
 		},
 	} {
 		t.Run(tt.name, func(t *testing.T) {
-			got := NewRequestWithContext(context.Background(), tt.method, tt.uri, tt.body)
-			slurp, err := io.ReadAll(got.Body)
+			golangt := NewRequestWithContext(context.Background(), tt.method, tt.uri, tt.body)
+			slurp, err := io.ReadAll(golangt.Body)
 			if err != nil {
 				t.Errorf("ReadAll: %v", err)
 			}
@@ -201,18 +201,18 @@ func TestNewRequestWithContext(t *testing.T) {
 				t.Errorf("Body = %q; want %q", slurp, tt.wantBody)
 			}
 			tt.want = tt.want.WithContext(context.Background())
-			got.Body = nil // before DeepEqual
-			if !reflect.DeepEqual(got.URL, tt.want.URL) {
-				t.Errorf("Request.URL mismatch:\n got: %#v\nwant: %#v", got.URL, tt.want.URL)
+			golangt.Body = nil // before DeepEqual
+			if !reflect.DeepEqual(golangt.URL, tt.want.URL) {
+				t.Errorf("Request.URL mismatch:\n golangt: %#v\nwant: %#v", golangt.URL, tt.want.URL)
 			}
-			if !reflect.DeepEqual(got.Header, tt.want.Header) {
-				t.Errorf("Request.Header mismatch:\n got: %#v\nwant: %#v", got.Header, tt.want.Header)
+			if !reflect.DeepEqual(golangt.Header, tt.want.Header) {
+				t.Errorf("Request.Header mismatch:\n golangt: %#v\nwant: %#v", golangt.Header, tt.want.Header)
 			}
-			if !reflect.DeepEqual(got.TLS, tt.want.TLS) {
-				t.Errorf("Request.TLS mismatch:\n got: %#v\nwant: %#v", got.TLS, tt.want.TLS)
+			if !reflect.DeepEqual(golangt.TLS, tt.want.TLS) {
+				t.Errorf("Request.TLS mismatch:\n golangt: %#v\nwant: %#v", golangt.TLS, tt.want.TLS)
 			}
-			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("Request mismatch:\n got: %#v\nwant: %#v", got, tt.want)
+			if !reflect.DeepEqual(golangt, tt.want) {
+				t.Errorf("Request mismatch:\n golangt: %#v\nwant: %#v", golangt, tt.want)
 			}
 		})
 	}

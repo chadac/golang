@@ -1,19 +1,19 @@
-// runoutput -goexperiment rangefunc
+// runoutput -golangexperiment rangefunc
 
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Torture test for range-over-func.
 //
 // cmd/internal/testdir runs this like
 //
-//	go run rangegen.go >x.go
-//	go run x.go
+//	golang run rangegen.golang >x.golang
+//	golang run x.golang
 //
 // but a longer version can be run using
 //
-//	go run rangegen.go long
+//	golang run rangegen.golang long
 //
 // In that second form, rangegen takes care of compiling
 // and running the code it generates, in batches.
@@ -52,13 +52,13 @@ func main() {
 			return
 		}
 		p(b, mainCode, tests)
-		err := os.WriteFile("tmp.go", b.Bytes(), 0666)
+		err := os.WriteFile("tmp.golang", b.Bytes(), 0666)
 		if err != nil {
 			log.Fatal(err)
 		}
-		out, err := exec.Command("go", "run", "tmp.go").CombinedOutput()
+		out, err := exec.Command("golang", "run", "tmp.golang").CombinedOutput()
 		if err != nil {
-			log.Fatalf("go run tmp.go: %v\n%s", err, out)
+			log.Fatalf("golang run tmp.golang: %v\n%s", err, out)
 		}
 		print(".")
 		if force {
@@ -125,7 +125,7 @@ func main() {
 	}
 	if long {
 		flush(true)
-		os.Remove("tmp.go")
+		os.Remove("tmp.golang")
 		return
 	}
 
@@ -159,19 +159,19 @@ func genLoop(b *bytes.Buffer, d int, prefix, rangeExpr string, depth, double, co
 		s := fmt.Sprintf("%d%s", d, labelSuffix)
 		p(b, "	o.log(`top%s`)\n", s)
 		p(b, "	l%sa := 0\n", s)
-		p(b, "goto L%sa; L%sa:	o.log(`L%sa`)\n", s, s, s)
+		p(b, "golangto L%sa; L%sa:	o.log(`L%sa`)\n", s, s, s)
 		p(b, "	if l%sa++; l%sa >= 2 { o.log(`loop L%sa`); return -1 }\n", s, s, s)
 		p(b, "	l%sfor := 0\n", s)
-		p(b, "goto L%sfor; L%sfor: for f := 0; f < 1; f++ { o.log(`L%sfor`)\n", s, s, s)
+		p(b, "golangto L%sfor; L%sfor: for f := 0; f < 1; f++ { o.log(`L%sfor`)\n", s, s, s)
 		p(b, "	if l%sfor++; l%sfor >= 2 { o.log(`loop L%sfor`); return -1 }\n", s, s, s)
 		p(b, "	l%ssw := 0\n", s)
-		p(b, "goto L%ssw; L%ssw: switch { default: o.log(`L%ssw`)\n", s, s, s)
+		p(b, "golangto L%ssw; L%ssw: switch { default: o.log(`L%ssw`)\n", s, s, s)
 		p(b, "	if l%ssw++; l%ssw >= 2 { o.log(`loop L%ssw`); return -1 }\n", s, s, s)
 		p(b, "	l%ssel := 0\n", s)
-		p(b, "goto L%ssel; L%ssel: select { default: o.log(`L%ssel`)\n", s, s, s)
+		p(b, "golangto L%ssel; L%ssel: select { default: o.log(`L%ssel`)\n", s, s, s)
 		p(b, "	if l%ssel++; l%ssel >= 2 { o.log(`loop L%ssel`); return -1 }\n", s, s, s)
 		p(b, "	l%s := 0\n", s)
-		p(b, "goto L%s; L%s:	for %s i%s := range %s {\n", s, s, prefix, s, rangeExpr)
+		p(b, "golangto L%s; L%s:	for %s i%s := range %s {\n", s, s, prefix, s, rangeExpr)
 		p(b, "	o.log1(`L%s top`, i%s)\n", s, s)
 		p(b, "	if l%s++; l%s >= 4 { o.log(`loop L%s`); return -1 }\n", s, s, s)
 		printTests := func() {
@@ -223,13 +223,13 @@ func genLoop(b *bytes.Buffer, d int, prefix, rangeExpr string, depth, double, co
 					p(b, "	if code == %v { continue L%d%sfor }\n", code, i, suffix)
 				}
 				if code++; allowed(code) {
-					p(b, "	if code == %v { goto L%d%sa }\n", code, i, suffix)
+					p(b, "	if code == %v { golangto L%d%sa }\n", code, i, suffix)
 				}
 				if code++; allowed(code) {
-					p(b, "	if code == %v { goto L%d%s }\n", code, i, suffix)
+					p(b, "	if code == %v { golangto L%d%s }\n", code, i, suffix)
 				}
 				if code++; allowed(code) {
-					p(b, "	if code == %v { goto L%d%sb }\n", code, i, suffix)
+					p(b, "	if code == %v { golangto L%d%sb }\n", code, i, suffix)
 				}
 			}
 		}
@@ -250,7 +250,7 @@ func genLoop(b *bytes.Buffer, d int, prefix, rangeExpr string, depth, double, co
 		p(b, "	o.log(`L%sfor bot`)\n", s)
 		p(b, "	}\n")
 		p(b, "	o.log(`done%s`)\n", s)
-		p(b, "goto L%sb; L%sb: o.log(`L%sb`)\n", s, s, s)
+		p(b, "golangto L%sb; L%sb: o.log(`L%sb`)\n", s, s, s)
 	}
 	return code
 }

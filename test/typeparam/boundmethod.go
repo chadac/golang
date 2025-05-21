@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This test illustrates how a type bound method (String below) can be implemented
@@ -18,7 +18,7 @@ import (
 
 type myint int
 
-//go:noinline
+//golang:noinline
 func (m myint) String() string {
 	return strconv.Itoa(int(m))
 }
@@ -62,7 +62,7 @@ type Ints interface {
 // For now, a lone type parameter is not permitted as RHS in a type declaration (issue #45639).
 // type StringInt[T Ints] T
 //
-// //go:noinline
+// //golang:noinline
 // func (m StringInt[T]) String() string {
 // 	return strconv.Itoa(int(m))
 // }
@@ -79,10 +79,10 @@ func main() {
 	x := []myint{myint(1), myint(2), myint(3)}
 
 	// stringify on a normal type, whose bound method is associated with the base type.
-	got := stringify(x)
+	golangt := stringify(x)
 	want := []string{"1", "2", "3"}
-	if !reflect.DeepEqual(got, want) {
-		panic(fmt.Sprintf("got %s, want %s", got, want))
+	if !reflect.DeepEqual(golangt, want) {
+		panic(fmt.Sprintf("golangt %s, want %s", golangt, want))
 	}
 
 	// For now, a lone type parameter is not permitted as RHS in a type declaration (issue #45639).
@@ -90,19 +90,19 @@ func main() {
 	//
 	// // stringify on an instantiated type, whose bound method is associated with
 	// // the generic type StringInt[T], which maps directly to T.
-	// got2 := stringify(x2)
+	// golangt2 := stringify(x2)
 	// want2 := []string{"5", "7", "6"}
-	// if !reflect.DeepEqual(got2, want2) {
-	// 	panic(fmt.Sprintf("got %s, want %s", got2, want2))
+	// if !reflect.DeepEqual(golangt2, want2) {
+	// 	panic(fmt.Sprintf("golangt %s, want %s", golangt2, want2))
 	// }
 
 	// stringify on an instantiated type, whose bound method is associated with
 	// the generic type StringStruct[T], which maps to a struct containing T.
 	x3 := []StringStruct[myint]{StringStruct[myint]{f: 11}, StringStruct[myint]{f: 10}, StringStruct[myint]{f: 9}}
 
-	got3 := stringify(x3)
+	golangt3 := stringify(x3)
 	want3 := []string{"11", "10", "9"}
-	if !reflect.DeepEqual(got3, want3) {
-		panic(fmt.Sprintf("got %s, want %s", got3, want3))
+	if !reflect.DeepEqual(golangt3, want3) {
+		panic(fmt.Sprintf("golangt %s, want %s", golangt3, want3))
 	}
 }

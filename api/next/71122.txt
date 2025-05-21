@@ -1,1 +1,1 @@
-pkg go/parser, func ParseDir //deprecated #71122
+pkg golang/parser, func ParseDir //deprecated #71122

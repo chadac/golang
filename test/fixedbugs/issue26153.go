@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Issue 26153. The write to ps was incorrectly
@@ -19,7 +19,7 @@ func main() {
 	}
 }
 
-//go:noinline
+//golang:noinline
 func mangle(ps *string) {
 	if ps == nil {
 		var s string

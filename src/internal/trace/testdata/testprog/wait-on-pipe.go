@@ -1,12 +1,12 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Tests a goroutine sitting blocked in a syscall for
+// Tests a golangroutine sitting blocked in a syscall for
 // an entire generation. This is a regression test for
 // #65196.
 
-//go:build ignore
+//golang:build ignore
 
 package main
 
@@ -26,9 +26,9 @@ func main() {
 	}
 	rfd, wfd := p[0], p[1]
 
-	// Create a goroutine that blocks on the pipe.
+	// Create a golangroutine that blocks on the pipe.
 	done := make(chan struct{})
-	go func() {
+	golang func() {
 		var data [1]byte
 		_, err := syscall.Read(rfd, data[:])
 		if err != nil {
@@ -37,7 +37,7 @@ func main() {
 		done <- struct{}{}
 	}()
 
-	// Give the goroutine ample chance to block on the pipe.
+	// Give the golangroutine ample chance to block on the pipe.
 	time.Sleep(10 * time.Millisecond)
 
 	// Start tracing.
@@ -54,9 +54,9 @@ func main() {
 		log.Fatalf("failed to write to pipe: %v", err)
 	}
 
-	// Wait for the goroutine to unblock and start running.
+	// Wait for the golangroutine to unblock and start running.
 	// This is helpful to catch incorrect information written
-	// down for the syscall-blocked goroutine, since it'll start
+	// down for the syscall-blocked golangroutine, since it'll start
 	// executing, and that execution information will be
 	// inconsistent.
 	<-done

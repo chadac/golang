@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file contains test cases for short valid and invalid programs.
@@ -43,7 +43,7 @@ var valids = []string{
 	`package p; func _() { map[int]int{}[0]++; map[int]int{}[0] += 1 }`,
 	`package p; func _(x interface{f()}) { interface{f()}(x).f() }`,
 	`package p; func _(x chan int) { chan int(x) <- 0 }`,
-	`package p; const (x = 0; y; z)`, // go.dev/issue/9639
+	`package p; const (x = 0; y; z)`, // golang.dev/issue/9639
 	`package p; var _ = map[P]int{P{}:0, {}:1}`,
 	`package p; var _ = map[*P]int{&P{}:0, {}:1}`,
 	`package p; type T = int`,
@@ -157,11 +157,11 @@ var invalids = []string{
 	`package p; func f() { for x /* ERROR "boolean or range expression" */ := []string {} }`,
 	`package p; func f() { for i /* ERROR "boolean or range expression" */ , x = []string {} }`,
 	`package p; func f() { for i /* ERROR "boolean or range expression" */ , x := []string {} }`,
-	`package p; func f() { go f /* ERROR HERE "must be function call" */ }`,
-	`package p; func f() { go ( /* ERROR "must not be parenthesized" */ f()) }`,
+	`package p; func f() { golang f /* ERROR HERE "must be function call" */ }`,
+	`package p; func f() { golang ( /* ERROR "must not be parenthesized" */ f()) }`,
 	`package p; func f() { defer func() {} /* ERROR HERE "must be function call" */ }`,
 	`package p; func f() { defer ( /* ERROR "must not be parenthesized" */ f()) }`,
-	`package p; func f() { go func() { func() { f(x func /* ERROR "missing ','" */ (){}) } } }`,
+	`package p; func f() { golang func() { func() { f(x func /* ERROR "missing ','" */ (){}) } } }`,
 	`package p; func _() (type /* ERROR "found 'type'" */ T)(T)`,
 	`package p; func (type /* ERROR "found 'type'" */ T)(T) _()`,
 	`package p; type _[A+B, /* ERROR "unexpected comma" */ ] int`,
@@ -172,21 +172,21 @@ var invalids = []string{
 	`package p; type _ struct{ *( /* ERROR "cannot parenthesize embedded type" */ int) }`,
 	`package p; type _ struct{ *( /* ERROR "cannot parenthesize embedded type" */ []byte) }`,
 
-	// go.dev/issue/8656
+	// golang.dev/issue/8656
 	`package p; func f() (a b string /* ERROR "missing ','" */ , ok bool)`,
 
-	// go.dev/issue/9639
+	// golang.dev/issue/9639
 	`package p; var x, y, z; /* ERROR "expected type" */`,
 
-	// go.dev/issue/12437
+	// golang.dev/issue/12437
 	`package p; var _ = struct { x int, /* ERROR "expected ';', found ','" */ }{};`,
 	`package p; var _ = struct { x int, /* ERROR "expected ';', found ','" */ y float }{};`,
 
-	// go.dev/issue/11611
+	// golang.dev/issue/11611
 	`package p; type _ struct { int, } /* ERROR "expected 'IDENT', found '}'" */ ;`,
 	`package p; type _ struct { int, float } /* ERROR "expected type, found '}'" */ ;`,
 
-	// go.dev/issue/13475
+	// golang.dev/issue/13475
 	`package p; func f() { if true {} else ; /* ERROR "expected if statement or block" */ }`,
 	`package p; func f() { if true {} else defer /* ERROR "expected if statement or block" */ f() }`,
 
@@ -213,9 +213,9 @@ var invalids = []string{
 
 	`package p; func(*T[e, e /* ERROR "e redeclared" */ ]) _()`,
 
-	// go.dev/issue/70957
-	`package p; func f() {goto; /* ERROR "expected 'IDENT', found ';'" */ }`,
-	`package p; func f() {goto} /* ERROR "expected 'IDENT', found '}'" */ }`,
+	// golang.dev/issue/70957
+	`package p; func f() {golangto; /* ERROR "expected 'IDENT', found ';'" */ }`,
+	`package p; func f() {golangto} /* ERROR "expected 'IDENT', found '}'" */ }`,
 }
 
 func TestInvalid(t *testing.T) {

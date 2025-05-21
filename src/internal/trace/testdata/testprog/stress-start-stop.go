@@ -1,11 +1,11 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Tests a many interesting cases (network, syscalls, a little GC, busy goroutines,
-// blocked goroutines, LockOSThread, pipes, and GOMAXPROCS).
+// Tests a many interesting cases (network, syscalls, a little GC, busy golangroutines,
+// blocked golangroutines, LockOSThread, pipes, and GOMAXPROCS).
 
-//go:build ignore
+//golang:build ignore
 
 package main
 
@@ -25,7 +25,7 @@ func main() {
 	defer runtime.GOMAXPROCS(runtime.GOMAXPROCS(8))
 	outerDone := make(chan bool)
 
-	go func() {
+	golang func() {
 		defer func() {
 			outerDone <- true
 		}()
@@ -34,7 +34,7 @@ func main() {
 		done := make(chan bool)
 
 		wg.Add(1)
-		go func() {
+		golang func() {
 			<-done
 			wg.Done()
 		}()
@@ -49,7 +49,7 @@ func main() {
 			wp.Close()
 		}()
 		wg.Add(1)
-		go func() {
+		golang func() {
 			var tmp [1]byte
 			rp.Read(tmp[:])
 			<-done
@@ -57,7 +57,7 @@ func main() {
 		}()
 		time.Sleep(time.Millisecond)
 
-		go func() {
+		golang func() {
 			runtime.LockOSThread()
 			for {
 				select {
@@ -76,10 +76,10 @@ func main() {
 			_ = make([]byte, 1<<20)
 		}
 
-		// Create a bunch of busy goroutines to load all Ps.
+		// Create a bunch of busy golangroutines to load all Ps.
 		for p := 0; p < 10; p++ {
 			wg.Add(1)
-			go func() {
+			golang func() {
 				// Do something useful.
 				tmp := make([]byte, 1<<16)
 				for i := range tmp {
@@ -93,7 +93,7 @@ func main() {
 
 		// Block in syscall.
 		wg.Add(1)
-		go func() {
+		golang func() {
 			var tmp [1]byte
 			rp.Read(tmp[:])
 			<-done
@@ -104,7 +104,7 @@ func main() {
 
 		// Test timers.
 		timerDone := make(chan bool)
-		go func() {
+		golang func() {
 			time.Sleep(time.Millisecond)
 			timerDone <- true
 		}()
@@ -117,7 +117,7 @@ func main() {
 			return
 		}
 		defer ln.Close()
-		go func() {
+		golang func() {
 			c, err := ln.Accept()
 			if err != nil {
 				return
@@ -136,12 +136,12 @@ func main() {
 		c.Read(tmp[:])
 		c.Close()
 
-		go func() {
+		golang func() {
 			runtime.Gosched()
 			select {}
 		}()
 
-		// Unblock helper goroutines and wait them to finish.
+		// Unblock helper golangroutines and wait them to finish.
 		wp.Write(tmp[:])
 		wp.Write(tmp[:])
 		close(done)

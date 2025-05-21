@@ -6,23 +6,23 @@ env GOOS=
 env GOARCH=
 env GOEXPERIMENT=
 
-! go env
-stderr '^go(\.exe)?: unknown GOEXPERIMENT badexp$'
+! golang env
+stderr '^golang(\.exe)?: unknown GOEXPERIMENT badexp$'
 
-go env -u GOEXPERIMENT
+golang env -u GOEXPERIMENT
 
-! go env
-stderr '^go: unsupported GOOS/GOARCH pair bados/badarch$'
+! golang env
+stderr '^golang: unsupported GOOS/GOARCH pair bados/badarch$'
 
-! go env -u GOOS
-stderr '^go: unsupported GOOS/GOARCH pair \w+/badarch$'
+! golang env -u GOOS
+stderr '^golang: unsupported GOOS/GOARCH pair \w+/badarch$'
 
-! go env -u GOARCH
-stderr '^go: unsupported GOOS/GOARCH pair bados/\w+$'
+! golang env -u GOARCH
+stderr '^golang: unsupported GOOS/GOARCH pair bados/\w+$'
 
-go env -u GOOS GOARCH
+golang env -u GOOS GOARCH
 
-go env
+golang env
 
 -- badenv --
 GOOS=bados

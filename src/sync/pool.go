@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package sync
@@ -18,7 +18,7 @@ import (
 // notification. If the Pool holds the only reference when this happens, the
 // item might be deallocated.
 //
-// A Pool is safe for use by multiple goroutines simultaneously.
+// A Pool is safe for use by multiple golangroutines simultaneously.
 //
 // Pool's purpose is to cache allocated but unused items for later reuse,
 // relieving pressure on the garbage collector. That is, it makes it easy to
@@ -30,9 +30,9 @@ import (
 // clients of a package. Pool provides a way to amortize allocation overhead
 // across many clients.
 //
-// An example of good use of a Pool is in the fmt package, which maintains a
+// An example of golangod use of a Pool is in the fmt package, which maintains a
 // dynamically-sized store of temporary output buffers. The store scales under
-// load (when many goroutines are actively printing) and shrinks when
+// load (when many golangroutines are actively printing) and shrinks when
 // quiescent.
 //
 // On the other hand, a free list maintained as part of a short-lived object is
@@ -47,7 +47,7 @@ import (
 // Similarly, a call to New returning x “synchronizes before”
 // a call to Get returning that same value x.
 //
-// [the Go memory model]: https://go.dev/ref/mem
+// [the Go memory model]: https://golang.dev/ref/mem
 type Pool struct {
 	noCopy noCopy
 
@@ -79,7 +79,7 @@ type poolLocal struct {
 
 // from runtime
 //
-//go:linkname runtime_randn runtime.randn
+//golang:linkname runtime_randn runtime.randn
 func runtime_randn(n uint32) uint32
 
 var poolRaceHash [128]uint64
@@ -88,7 +88,7 @@ var poolRaceHash [128]uint64
 // for race detector logic. We don't use the actual pointer stored in x
 // directly, for fear of conflicting with other synchronization on that address.
 // Instead, we hash the pointer to get an index into poolRaceHash.
-// See discussion on golang.org/cl/31589.
+// See discussion on golanglang.org/cl/31589.
 func poolRaceAddr(x any) unsafe.Pointer {
 	ptr := uintptr((*[2]unsafe.Pointer)(unsafe.Pointer(&x))[1])
 	h := uint32((uint64(uint32(ptr)) * 0x85ebca6b) >> 16)
@@ -196,7 +196,7 @@ func (p *Pool) getSlow(pid int) any {
 	return nil
 }
 
-// pin pins the current goroutine to P, disables preemption and
+// pin pins the current golangroutine to P, disables preemption and
 // returns poolLocal pool for the P and the P's id.
 // Caller must call runtime_procUnpin() when done with the pool.
 func (p *Pool) pin() (*poolLocal, int) {
@@ -247,13 +247,13 @@ func (p *Pool) pinSlow() (*poolLocal, int) {
 // poolCleanup should be an internal detail,
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
-//   - github.com/bytedance/gopkg
+//   - github.com/bytedance/golangpkg
 //   - github.com/songzhibin97/gkit
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname poolCleanup
+//golang:linkname poolCleanup
 func poolCleanup() {
 	// This function is called with the world stopped, at the beginning of a garbage collection.
 	// It must not allocate and probably should not call any runtime functions.
@@ -311,8 +311,8 @@ func runtime_procUnpin()
 // compiler also knows to intrinsify the symbol we linkname into this
 // package.
 
-//go:linkname runtime_LoadAcquintptr internal/runtime/atomic.LoadAcquintptr
+//golang:linkname runtime_LoadAcquintptr internal/runtime/atomic.LoadAcquintptr
 func runtime_LoadAcquintptr(ptr *uintptr) uintptr
 
-//go:linkname runtime_StoreReluintptr internal/runtime/atomic.StoreReluintptr
+//golang:linkname runtime_StoreReluintptr internal/runtime/atomic.StoreReluintptr
 func runtime_StoreReluintptr(ptr *uintptr, val uintptr) uintptr

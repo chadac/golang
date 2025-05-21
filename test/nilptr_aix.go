@@ -1,13 +1,13 @@
 // run
 
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test that the implementation catches nil ptr indirection
 // in a large address space.
 
-//go:build aix
+//golang:build aix
 
 package main
 
@@ -160,7 +160,7 @@ func p12() {
 	println(*(&((*p).i)))
 }
 
-// Tests suggested in golang.org/issue/6080.
+// Tests suggested in golanglang.org/issue/6080.
 
 func p13() {
 	var x *[10]int

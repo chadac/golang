@@ -1,6 +1,6 @@
 -- input --
 This is an italicword and a linkedword and Unicöde.
--- gofmt --
+-- golangfmt --
 This is an italicword and a linkedword and Unicöde.
 -- text --
 This is an italicword and a linkedword and Unicöde.

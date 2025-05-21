@@ -1,12 +1,12 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file defines flags attached to various functions
 // and data objects. The compilers, assemblers, and linker must
 // all agree on these values.
 //
-// Keep in sync with src/cmd/internal/obj/textflag.go.
+// Keep in sync with src/cmd/internal/obj/textflag.golang.
 
 // Don't profile the marked routine. This flag is deprecated.
 #define NOPROF	1

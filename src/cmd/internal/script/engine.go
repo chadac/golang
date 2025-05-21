@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package script implements a small, customizable, platform-agnostic scripting
@@ -36,7 +36,7 @@
 // Commands are executed one at a time, and errors are checked for each command;
 // if any command fails unexpectedly, no subsequent commands in the script are
 // executed. The command prefix ! indicates that the command on the rest of the
-// line (typically go or a matching predicate) must fail instead of succeeding.
+// line (typically golang or a matching predicate) must fail instead of succeeding.
 // The command prefix ? indicates that the command may or may not succeed, but
 // the script should continue regardless.
 //
@@ -368,7 +368,7 @@ func parse(filename string, lineno int, line string) (cmd *command, err error) {
 			arg := rawArg[0].s
 
 			// Command prefix ! means negate the expectations about this command:
-			// go command should fail, match should not be found, etc.
+			// golang command should fail, match should not be found, etc.
 			// Prefix ? means allow either success or failure.
 			switch want := expectedStatus(arg); want {
 			case failure, successOrFailure:
@@ -625,7 +625,7 @@ func checkStatus(cmd *command, err error) error {
 		// This error was surfaced from a background process by a call to Wait.
 		// Add a call frame for Wait itself, but ignore its "want" field.
 		// (Wait itself cannot fail to wait on commands or else it would leak
-		// processes and/or goroutines — so a negative assertion for it would be at
+		// processes and/or golangroutines — so a negative assertion for it would be at
 		// best ambiguous.)
 		return cmdError(cmd, err)
 	}

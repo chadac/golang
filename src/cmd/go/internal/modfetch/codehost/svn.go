@@ -1,5 +1,5 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package codehost
@@ -16,7 +16,7 @@ import (
 	"strconv"
 	"time"
 
-	"cmd/go/internal/base"
+	"cmd/golang/internal/base"
 )
 
 func svnParseStat(rev, out string) (*RevInfo, error) {
@@ -53,7 +53,7 @@ func svnReadZip(ctx context.Context, dst io.Writer, workDir, rev, subdir, remote
 	// 'svn export' prints the filenames as they are written, but from reading the
 	// svn source code (as of revision 1868933), those filenames are encoded using
 	// the system locale rather than preserved byte-for-byte from the origin. For
-	// our purposes, that won't do, but we don't want to go mucking around with
+	// our purposes, that won't do, but we don't want to golang mucking around with
 	// the user's locale settings either — that could impact error messages, and
 	// we don't know what locales the user has available or what LC_* variables
 	// their platform supports.

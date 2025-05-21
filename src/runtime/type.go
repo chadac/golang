@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Runtime type representation.
@@ -8,13 +8,13 @@ package runtime
 
 import (
 	"internal/abi"
-	"internal/goarch"
-	"internal/goexperiment"
+	"internal/golangarch"
+	"internal/golangexperiment"
 	"internal/runtime/atomic"
 	"unsafe"
 )
 
-//go:linkname maps_typeString internal/runtime/maps.typeString
+//golang:linkname maps_typeString internal/runtime/maps.typeString
 func maps_typeString(typ *abi.Type) string {
 	return toRType(typ).string()
 }
@@ -84,7 +84,7 @@ func (t rtype) pkgpath() string {
 //
 // nosplit because it is used during write barriers and must not be preempted.
 //
-//go:nosplit
+//golang:nosplit
 func getGCMask(t *_type) *byte {
 	if t.TFlag&abi.TFlagGCMaskOnDemand != 0 {
 		// Split the rest into getGCMaskOnDemand so getGCMask itself is inlineable.
@@ -99,7 +99,7 @@ var inProgress byte
 
 // nosplit because it is used during write barriers and must not be preempted.
 //
-//go:nosplit
+//golang:nosplit
 func getGCMaskOnDemand(t *_type) *byte {
 	// For large types, GCData doesn't point directly to a bitmask.
 	// Instead it points to a pointer to a bitmask, and the runtime
@@ -131,8 +131,8 @@ func getGCMaskOnDemand(t *_type) *byte {
 			}
 
 			// Build gcmask for this type.
-			bytes := goarch.PtrSize * divRoundUp(t.PtrBytes/goarch.PtrSize, 8*goarch.PtrSize)
-			p = (*byte)(persistentalloc(bytes, goarch.PtrSize, &memstats.other_sys))
+			bytes := golangarch.PtrSize * divRoundUp(t.PtrBytes/golangarch.PtrSize, 8*golangarch.PtrSize)
+			p = (*byte)(persistentalloc(bytes, golangarch.PtrSize, &memstats.other_sys))
 			systemstack(func() {
 				buildGCMask(t, bitCursor{ptr: p, n: 0})
 			})
@@ -211,7 +211,7 @@ top:
 	}
 	if t.TFlag&abi.TFlagGCMaskOnDemand == 0 {
 		// copy t.GCData to dst
-		dst.write(t.GCData, t.PtrBytes/goarch.PtrSize)
+		dst.write(t.GCData, t.PtrBytes/golangarch.PtrSize)
 		return
 	}
 	// The above case should handle all kinds except
@@ -223,12 +223,12 @@ top:
 			// Avoid recursive call for element type that
 			// isn't smaller than the parent type.
 			t = a.Elem
-			goto top
+			golangto top
 		}
 		e := a.Elem
 		for i := uintptr(0); i < a.Len; i++ {
 			buildGCMask(e, dst)
-			dst = dst.offset(e.Size_ / goarch.PtrSize)
+			dst = dst.offset(e.Size_ / golangarch.PtrSize)
 		}
 	case abi.Struct:
 		s := t.StructType()
@@ -245,13 +245,13 @@ top:
 				bigField = f
 				continue
 			}
-			buildGCMask(ft, dst.offset(f.Offset/goarch.PtrSize))
+			buildGCMask(ft, dst.offset(f.Offset/golangarch.PtrSize))
 		}
 		if bigField.Typ != nil {
 			// Note: this case causes bits to be written out of order.
 			t = bigField.Typ
-			dst = dst.offset(bigField.Offset / goarch.PtrSize)
-			goto top
+			dst = dst.offset(bigField.Offset / golangarch.PtrSize)
+			golangto top
 		}
 	default:
 		throw("unexpected kind")
@@ -329,7 +329,7 @@ func (t rtype) nameOff(off nameOff) name {
 func resolveTypeOff(ptrInModule unsafe.Pointer, off typeOff) *_type {
 	if off == 0 || off == -1 {
 		// -1 is the sentinel value for unreachable code.
-		// See cmd/link/internal/ld/data.go:relocsym.
+		// See cmd/link/internal/ld/data.golang:relocsym.
 		return nil
 	}
 	base := uintptr(ptrInModule)
@@ -371,7 +371,7 @@ func (t rtype) typeOff(off typeOff) *_type {
 func (t rtype) textOff(off textOff) unsafe.Pointer {
 	if off == -1 {
 		// -1 is the sentinel value for unreachable code.
-		// See cmd/link/internal/ld/data.go:relocsym.
+		// See cmd/link/internal/ld/data.golang:relocsym.
 		return unsafe.Pointer(abi.FuncPCABIInternal(unreachableMethod))
 	}
 	base := uintptr(unsafe.Pointer(t.Type))
@@ -605,7 +605,7 @@ func typesEqual(t, v *_type, seen map[_typePair]struct{}) bool {
 		}
 		return true
 	case abi.Map:
-		if goexperiment.SwissMap {
+		if golangexperiment.SwissMap {
 			mt := (*abi.SwissMapType)(unsafe.Pointer(t))
 			mv := (*abi.SwissMapType)(unsafe.Pointer(v))
 			return typesEqual(mt.Key, mv.Key, seen) && typesEqual(mt.Elem, mv.Elem, seen)

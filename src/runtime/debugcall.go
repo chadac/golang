@@ -1,11 +1,11 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Though the debug call function feature is not enabled on
 // ppc64, inserted ppc64 to avoid missing Go declaration error
 // for debugCallPanicked while building runtime.test
-//go:build amd64 || arm64 || loong64 || ppc64le || ppc64
+//golang:build amd64 || arm64 || loong64 || ppc64le || ppc64
 
 package runtime
 
@@ -29,7 +29,7 @@ func debugCallPanicked(val any)
 // function call with return PC pc. If not, it returns a string
 // explaining why.
 //
-//go:nosplit
+//golang:nosplit
 func debugCallCheck(pc uintptr) string {
 	// No user calls from the system stack.
 	if getg() != getg().m.curg {
@@ -69,7 +69,7 @@ func debugCallCheck(pc uintptr) string {
 			"debugCall32768",
 			"debugCall65536":
 			// These functions are allowed so that the debugger can initiate multiple function calls.
-			// See: https://golang.org/cl/161137/
+			// See: https://golanglang.org/cl/161137/
 			return
 		}
 
@@ -96,15 +96,15 @@ func debugCallCheck(pc uintptr) string {
 	return ret
 }
 
-// debugCallWrap starts a new goroutine to run a debug call and blocks
-// the calling goroutine. On the goroutine, it prepares to recover
+// debugCallWrap starts a new golangroutine to run a debug call and blocks
+// the calling golangroutine. On the golangroutine, it prepares to recover
 // panics from the debug call, and then calls the call dispatching
 // function at PC dispatch.
 //
 // This must be deeply nosplit because there are untyped values on the
 // stack from debugCallV2.
 //
-//go:nosplit
+//golang:nosplit
 func debugCallWrap(dispatch uintptr) {
 	var lockedExt uint32
 	callerpc := sys.GetCallerPC()
@@ -115,14 +115,14 @@ func debugCallWrap(dispatch uintptr) {
 	// Debuggers rely on us running on the same thread until we get to
 	// dispatch the function they asked as to.
 	//
-	// We're going to transfer this to the new G we just created.
+	// We're golanging to transfer this to the new G we just created.
 	lockOSThread()
 
-	// Create a new goroutine to execute the call on. Run this on
+	// Create a new golangroutine to execute the call on. Run this on
 	// the system stack to avoid growing our stack.
 	systemstack(func() {
 		// TODO(mknyszek): It would be nice to wrap these arguments in an allocated
-		// closure and start the goroutine with that closure, but the compiler disallows
+		// closure and start the golangroutine with that closure, but the compiler disallows
 		// implicit closure allocation in the runtime.
 		fn := debugCallWrap1
 		newg := newproc1(*(**funcval)(unsafe.Pointer(&fn)), gp, callerpc, false, waitReasonZero)
@@ -132,7 +132,7 @@ func debugCallWrap(dispatch uintptr) {
 		}
 		newg.param = unsafe.Pointer(args)
 
-		// Transfer locked-ness to the new goroutine.
+		// Transfer locked-ness to the new golangroutine.
 		// Save lock state to restore later.
 		mp := gp.m
 		if mp != gp.lockedm.ptr() {
@@ -149,7 +149,7 @@ func debugCallWrap(dispatch uintptr) {
 		newg.lockedm.set(mp)
 		gp.lockedm = 0
 
-		// Mark the calling goroutine as being at an async
+		// Mark the calling golangroutine as being at an async
 		// safe-point, since it has a few conservative frames
 		// at the bottom of the stack. This also prevents
 		// stack shrinks.
@@ -160,13 +160,13 @@ func debugCallWrap(dispatch uintptr) {
 		gp.schedlink.set(newg)
 	})
 
-	// Switch to the new goroutine.
+	// Switch to the new golangroutine.
 	mcall(func(gp *g) {
 		// Get newg.
 		newg := gp.schedlink.ptr()
 		gp.schedlink = 0
 
-		// Park the calling goroutine.
+		// Park the calling golangroutine.
 		trace := traceAcquire()
 		if trace.ok() {
 			// Trace the event before the transition. It may take a
@@ -180,10 +180,10 @@ func debugCallWrap(dispatch uintptr) {
 		}
 		dropg()
 
-		// Directly execute the new goroutine. The debug
-		// protocol will continue on the new goroutine, so
+		// Directly execute the new golangroutine. The debug
+		// protocol will continue on the new golangroutine, so
 		// it's important we not just let the scheduler do
-		// this or it may resume a different goroutine.
+		// this or it may resume a different golangroutine.
 		execute(newg, true)
 	})
 
@@ -207,7 +207,7 @@ type debugCallWrapArgs struct {
 }
 
 // debugCallWrap1 is the continuation of debugCallWrap on the callee
-// goroutine.
+// golangroutine.
 func debugCallWrap1() {
 	gp := getg()
 	args := (*debugCallWrapArgs)(gp.param)
@@ -217,20 +217,20 @@ func debugCallWrap1() {
 	// Dispatch call and trap panics.
 	debugCallWrap2(dispatch)
 
-	// Resume the caller goroutine.
+	// Resume the caller golangroutine.
 	getg().schedlink.set(callingG)
 	mcall(func(gp *g) {
 		callingG := gp.schedlink.ptr()
 		gp.schedlink = 0
 
-		// Unlock this goroutine from the M if necessary. The
+		// Unlock this golangroutine from the M if necessary. The
 		// calling G will relock.
 		if gp.lockedm != 0 {
 			gp.lockedm = 0
 			gp.m.lockedg = 0
 		}
 
-		// Switch back to the calling goroutine. At some point
+		// Switch back to the calling golangroutine. At some point
 		// the scheduler will schedule us again and we'll
 		// finish exiting.
 		trace := traceAcquire()

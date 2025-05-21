@@ -1,8 +1,8 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !nethttpomithttp2
+//golang:build !nethttpomithttp2
 
 package http
 
@@ -32,12 +32,12 @@ func TestStreamError(t *testing.T) {
 		t.Fatalf("errors.As failed")
 	}
 	if target.StreamID != streamErr.StreamID {
-		t.Errorf("got StreamID %v, expected %v", target.StreamID, streamErr.StreamID)
+		t.Errorf("golangt StreamID %v, expected %v", target.StreamID, streamErr.StreamID)
 	}
 	if target.Cause != streamErr.Cause {
-		t.Errorf("got Cause %v, expected %v", target.Cause, streamErr.Cause)
+		t.Errorf("golangt Cause %v, expected %v", target.Cause, streamErr.Cause)
 	}
 	if uint32(target.Code) != uint32(streamErr.Code) {
-		t.Errorf("got Code %v, expected %v", target.Code, streamErr.Code)
+		t.Errorf("golangt Code %v, expected %v", target.Code, streamErr.Code)
 	}
 }

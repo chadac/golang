@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -16,7 +16,7 @@ type T struct {
 	f float64
 }
 
-//go:noinline
+//golang:noinline
 func f(t, u *T) float64 {
 	return 3.0 + t.f + u.f
 }

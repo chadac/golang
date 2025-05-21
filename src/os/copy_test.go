@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package os_test
@@ -16,12 +16,12 @@ import (
 	"sync"
 	"testing"
 
-	"golang.org/x/net/nettest"
+	"golanglang.org/x/net/nettest"
 )
 
 // Exercise sendfile/splice fast paths with a moderately large file.
 //
-// https://go.dev/issue/70000
+// https://golang.dev/issue/70000
 
 func TestLargeCopyViaNetwork(t *testing.T) {
 	const size = 10 * 1024 * 1024
@@ -48,13 +48,13 @@ func TestLargeCopyViaNetwork(t *testing.T) {
 	client, server := createSocketPair(t, "tcp")
 	var wg sync.WaitGroup
 	wg.Add(2)
-	go func() {
+	golang func() {
 		defer wg.Done()
 		if n, err := io.Copy(dst, server); n != size || err != nil {
 			t.Errorf("copy to destination = %v, %v; want %v, nil", n, err, size)
 		}
 	}()
-	go func() {
+	golang func() {
 		defer wg.Done()
 		defer client.Close()
 		if n, err := io.Copy(client, src); n != size || err != nil {
@@ -237,7 +237,7 @@ func createSocketPair(t *testing.T, proto string) (client, server net.Conn) {
 		}
 	})
 	ch := make(chan struct{})
-	go func() {
+	golang func() {
 		var err error
 		server, err = ln.Accept()
 		if err != nil {

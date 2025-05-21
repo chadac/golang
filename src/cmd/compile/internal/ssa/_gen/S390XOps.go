@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -31,7 +31,7 @@ import "strings"
 //    We can always work around these by inserting LARL instructions (load address
 //    relative long) in the assembler, but typically this results in worse code
 //    generation because the address can't be re-used. Inserting instructions in the
-//    assembler also means clobbering the temp register and it is a long-term goal
+//    assembler also means clobbering the temp register and it is a long-term golangal
 //    to prevent the compiler doing this so that it can be allocated as a normal
 //    register.
 //
@@ -46,7 +46,7 @@ import "strings"
 // B (byte)         = 8 bit
 // S (single prec.) = 32 bit (double precision is omitted)
 
-// copied from ../../s390x/reg.go
+// copied from ../../s390x/reg.golang
 var regNamesS390X = []string{
 	"R0",
 	"R1",
@@ -498,7 +498,7 @@ func init() {
 		// LoweredGetCallerPC evaluates to the PC to which its "caller" will return.
 		// I.e., if f calls g "calls" sys.GetCallerPC,
 		// the result should be the PC within f that g will return to.
-		// See runtime/stubs.go for a more detailed discussion.
+		// See runtime/stubs.golang for a more detailed discussion.
 		{name: "LoweredGetCallerPC", reg: gp01, rematerializeable: true},
 		{name: "LoweredNilCheck", argLength: 2, reg: regInfo{inputs: []regMask{ptrsp}}, clobberFlags: true, nilCheck: true, faultOnNilArg0: true},
 		// Round ops to block fused-multiply-add extraction.
@@ -515,9 +515,9 @@ func init() {
 		// There are three of these functions so that they can have three different register inputs.
 		// When we check 0 <= c <= cap (A), then 0 <= b <= c (B), then 0 <= a <= b (C), we want the
 		// default registers to match so we don't need to copy registers around unnecessarily.
-		{name: "LoweredPanicBoundsA", argLength: 3, aux: "Int64", reg: regInfo{inputs: []regMask{r2, r3}}, typ: "Mem", call: true}, // arg0=idx, arg1=len, arg2=mem, returns memory. AuxInt contains report code (see PanicBounds in generic.go).
-		{name: "LoweredPanicBoundsB", argLength: 3, aux: "Int64", reg: regInfo{inputs: []regMask{r1, r2}}, typ: "Mem", call: true}, // arg0=idx, arg1=len, arg2=mem, returns memory. AuxInt contains report code (see PanicBounds in generic.go).
-		{name: "LoweredPanicBoundsC", argLength: 3, aux: "Int64", reg: regInfo{inputs: []regMask{r0, r1}}, typ: "Mem", call: true}, // arg0=idx, arg1=len, arg2=mem, returns memory. AuxInt contains report code (see PanicBounds in generic.go).
+		{name: "LoweredPanicBoundsA", argLength: 3, aux: "Int64", reg: regInfo{inputs: []regMask{r2, r3}}, typ: "Mem", call: true}, // arg0=idx, arg1=len, arg2=mem, returns memory. AuxInt contains report code (see PanicBounds in generic.golang).
+		{name: "LoweredPanicBoundsB", argLength: 3, aux: "Int64", reg: regInfo{inputs: []regMask{r1, r2}}, typ: "Mem", call: true}, // arg0=idx, arg1=len, arg2=mem, returns memory. AuxInt contains report code (see PanicBounds in generic.golang).
+		{name: "LoweredPanicBoundsC", argLength: 3, aux: "Int64", reg: regInfo{inputs: []regMask{r0, r1}}, typ: "Mem", call: true}, // arg0=idx, arg1=len, arg2=mem, returns memory. AuxInt contains report code (see PanicBounds in generic.golang).
 
 		// Constant condition code values. The condition code can be 0, 1, 2 or 3.
 		{name: "FlagEQ"}, // CC=0 (equal)
@@ -804,7 +804,7 @@ func init() {
 	archs = append(archs, arch{
 		name:            "S390X",
 		pkg:             "cmd/internal/obj/s390x",
-		genfile:         "../../s390x/ssa.go",
+		genfile:         "../../s390x/ssa.golang",
 		ops:             S390Xops,
 		blocks:          S390Xblocks,
 		regnames:        regNamesS390X,

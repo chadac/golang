@@ -3,20 +3,20 @@
 # See issue 33139.
 
 [!compiler:gc] skip
-[!cgo] skip
+[!cgolang] skip
 [short] skip 'invokes system C compiler'
 
 # External linking is not supported on linux/ppc64.
-# See: https://github.com/golang/go/issues/8912
+# See: https://github.com/golanglang/golang/issues/8912
 [GOOS:linux] [GOARCH:ppc64] skip
 
 cc -c -o syso/objTestImpl.syso syso/src/objTestImpl.c
-go build -ldflags='-linkmode=external' ./cmd/main.go
+golang build -ldflags='-linkmode=external' ./cmd/main.golang
 
--- go.mod --
+-- golang.mod --
 module m
 
-go 1.16
+golang 1.16
 -- syso/objTest.s --
 #include "textflag.h"
 
@@ -27,7 +27,7 @@ TEXT ·ObjTest(SB), NOSPLIT, $0
 	// the objTestImpl symbol in the syso file.
 	JMP objTestImpl(SB)
 
--- syso/pkg.go --
+-- syso/pkg.golang --
 package syso
 
 func ObjTest()
@@ -35,7 +35,7 @@ func ObjTest()
 -- syso/src/objTestImpl.c --
 void objTestImpl() { /* Empty */ }
 
--- cmd/main.go --
+-- cmd/main.golang --
 package main
 
 import "m/syso"

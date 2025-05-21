@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package staticdata
@@ -7,7 +7,7 @@ package staticdata
 import (
 	"encoding/base64"
 	"fmt"
-	"go/constant"
+	"golang/constant"
 	"io"
 	"os"
 	"slices"
@@ -60,8 +60,8 @@ func InitSliceBytes(nam *ir.Name, off int64, s string) {
 }
 
 const (
-	stringSymPrefix  = "go:string."
-	stringSymPattern = ".gostring.%d.%s"
+	stringSymPrefix  = "golang:string."
+	stringSymPattern = ".golangstring.%d.%s"
 )
 
 // shortHashString converts the hash to a string for use with stringSymPattern.
@@ -156,7 +156,7 @@ func fileStringSym(pos src.XPos, file string, readonly bool, hashBytes []byte) (
 		// ggloblsym takes an int32,
 		// and probably the rest of the toolchain
 		// can't handle such big symbols either.
-		// See golang.org/issue/9862.
+		// See golanglang.org/issue/9862.
 		return nil, 0, fmt.Errorf("file too large (%d bytes > %d bytes)", size, maxFileSize)
 	}
 
@@ -207,7 +207,7 @@ var slicedataGen int
 
 func slicedata(pos src.XPos, s string) *obj.LSym {
 	slicedataGen++
-	symname := fmt.Sprintf(".gobytes.%d", slicedataGen)
+	symname := fmt.Sprintf(".golangbytes.%d", slicedataGen)
 	lsym := types.LocalPkg.Lookup(symname).LinksymABI(obj.ABI0)
 	off := dstringdata(lsym, 0, s, pos, "slice")
 	objw.Global(lsym, int32(off), obj.NOPTR|obj.LOCAL)

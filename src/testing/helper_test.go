@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package testing_test
@@ -31,26 +31,26 @@ func TestTBHelper(t *testing.T) {
 	out, _ := cmd.CombinedOutput()
 
 	want := `--- FAIL: TestTBHelper \([^)]+\)
-    helperfuncs_test.go:15: 0
-    helperfuncs_test.go:47: 1
-    helperfuncs_test.go:24: 2
-    helperfuncs_test.go:49: 3
-    helperfuncs_test.go:56: 4
+    helperfuncs_test.golang:15: 0
+    helperfuncs_test.golang:47: 1
+    helperfuncs_test.golang:24: 2
+    helperfuncs_test.golang:49: 3
+    helperfuncs_test.golang:56: 4
     --- FAIL: TestTBHelper/sub \([^)]+\)
-        helperfuncs_test.go:59: 5
-        helperfuncs_test.go:24: 6
-        helperfuncs_test.go:58: 7
+        helperfuncs_test.golang:59: 5
+        helperfuncs_test.golang:24: 6
+        helperfuncs_test.golang:58: 7
     --- FAIL: TestTBHelper/sub2 \([^)]+\)
-        helperfuncs_test.go:80: 11
-    helperfuncs_test.go:84: recover 12
-    helperfuncs_test.go:86: GenericFloat64
-    helperfuncs_test.go:87: GenericInt
-    helper_test.go:22: 8
-    helperfuncs_test.go:73: 9
-    helperfuncs_test.go:69: 10
+        helperfuncs_test.golang:80: 11
+    helperfuncs_test.golang:84: recover 12
+    helperfuncs_test.golang:86: GenericFloat64
+    helperfuncs_test.golang:87: GenericInt
+    helper_test.golang:22: 8
+    helperfuncs_test.golang:73: 9
+    helperfuncs_test.golang:69: 10
 `
 	if !regexp.MustCompile(want).Match(out) {
-		t.Errorf("got output:\n\n%s\nwant matching:\n\n%s", out, want)
+		t.Errorf("golangt output:\n\n%s\nwant matching:\n\n%s", out, want)
 	}
 }
 
@@ -79,9 +79,9 @@ func TestTBHelperParallel(t *testing.T) {
 	if len(lines) != wantLines {
 		t.Fatalf("parallelTestHelper gave %d lines of output; want %d", len(lines), wantLines)
 	}
-	want := "helperfuncs_test.go:24: parallel"
-	if got := strings.TrimSpace(lines[1]); got != want {
-		t.Errorf("got second output line %q; want %q", got, want)
+	want := "helperfuncs_test.golang:24: parallel"
+	if golangt := strings.TrimSpace(lines[1]); golangt != want {
+		t.Errorf("golangt second output line %q; want %q", golangt, want)
 	}
 }
 

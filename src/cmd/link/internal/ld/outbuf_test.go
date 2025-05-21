@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ld
@@ -15,7 +15,7 @@ func TestMMap(t *testing.T) {
 	switch runtime.GOOS {
 	default:
 		t.Skip("unsupported OS")
-	case "aix", "darwin", "ios", "dragonfly", "freebsd", "linux", "netbsd", "openbsd", "windows":
+	case "aix", "darwin", "ios", "dragolangnfly", "freebsd", "linux", "netbsd", "openbsd", "windows":
 	}
 	dir := t.TempDir()
 	filename := filepath.Join(dir, "foo.out")
@@ -70,7 +70,7 @@ func TestWriteLoc(t *testing.T) {
 			t.Errorf("[%d] expected position to be %q", i, message)
 		}
 		if len(ob.heap) != test.expectedHeapLen {
-			t.Errorf("[%d] expected len(ob.heap) == %d, got %d", i, test.expectedHeapLen, len(ob.heap))
+			t.Errorf("[%d] expected len(ob.heap) == %d, golangt %d", i, test.expectedHeapLen, len(ob.heap))
 		}
 	}
 }

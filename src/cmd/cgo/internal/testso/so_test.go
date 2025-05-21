@@ -1,11 +1,11 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package so_test
 
 import (
-	"cmd/cgo/internal/cgotest"
+	"cmd/cgolang/internal/cgolangtest"
 	"internal/testenv"
 	"log"
 	"os"
@@ -32,21 +32,21 @@ func testSO(t *testing.T, dir string) {
 	testenv.MustHaveExec(t)
 	testenv.MustHaveCGO(t)
 
-	GOPATH, err := os.MkdirTemp("", "cgosotest")
+	GOPATH, err := os.MkdirTemp("", "cgolangsotest")
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer os.RemoveAll(GOPATH)
 
-	modRoot := filepath.Join(GOPATH, "src", "cgosotest")
-	if err := cgotest.OverlayDir(modRoot, filepath.Join("testdata", dir)); err != nil {
+	modRoot := filepath.Join(GOPATH, "src", "cgolangsotest")
+	if err := cgolangtest.OverlayDir(modRoot, filepath.Join("testdata", dir)); err != nil {
 		log.Panic(err)
 	}
-	if err := os.WriteFile(filepath.Join(modRoot, "go.mod"), []byte("module cgosotest\n"), 0666); err != nil {
+	if err := os.WriteFile(filepath.Join(modRoot, "golang.mod"), []byte("module cgolangsotest\n"), 0666); err != nil {
 		log.Panic(err)
 	}
 
-	cmd := exec.Command("go", "env", "CC", "GOGCCFLAGS")
+	cmd := exec.Command("golang", "env", "CC", "GOGCCFLAGS")
 	cmd.Dir = modRoot
 	cmd.Stderr = new(strings.Builder)
 	cmd.Env = append(os.Environ(), "GOPATH="+GOPATH)
@@ -61,13 +61,13 @@ func testSO(t *testing.T, dir string) {
 
 	cc := lines[0]
 	if cc == "" {
-		t.Fatal("CC environment variable (go env CC) cannot be empty")
+		t.Fatal("CC environment variable (golang env CC) cannot be empty")
 	}
-	gogccflags := strings.Split(lines[1], " ")
+	golanggccflags := strings.Split(lines[1], " ")
 
 	// build shared object
 	ext := "so"
-	args := append(gogccflags, "-shared")
+	args := append(golanggccflags, "-shared")
 	switch runtime.GOOS {
 	case "darwin", "ios":
 		ext = "dylib"
@@ -78,12 +78,12 @@ func testSO(t *testing.T, dir string) {
 		// At least in mingw-clang it is not permitted to just name a .dll
 		// on the command line. You must name the corresponding import
 		// library instead, even though the dll is used when the executable is run.
-		args = append(args, "-Wl,-out-implib,libcgosotest.a")
+		args = append(args, "-Wl,-out-implib,libcgolangsotest.a")
 	case "aix":
 		ext = "so.1"
 	}
-	sofname := "libcgosotest." + ext
-	args = append(args, "-o", sofname, "cgoso_c.c")
+	sofname := "libcgolangsotest." + ext
+	args = append(args, "-o", sofname, "cgolangso_c.c")
 
 	cmd = exec.Command(cc, args...)
 	cmd.Dir = modRoot
@@ -96,7 +96,7 @@ func testSO(t *testing.T, dir string) {
 
 	if runtime.GOOS == "aix" {
 		// Shared object must be wrapped by an archive
-		cmd = exec.Command("ar", "-X64", "-q", "libcgosotest.a", "libcgosotest.so.1")
+		cmd = exec.Command("ar", "-X64", "-q", "libcgolangsotest.a", "libcgolangsotest.so.1")
 		cmd.Dir = modRoot
 		out, err = cmd.CombinedOutput()
 		if err != nil {
@@ -104,7 +104,7 @@ func testSO(t *testing.T, dir string) {
 		}
 	}
 
-	cmd = exec.Command(testenv.GoToolPath(t), "build", "-o", "main.exe", "main.go")
+	cmd = exec.Command(testenv.GoToolPath(t), "build", "-o", "main.exe", "main.golang")
 	cmd.Dir = modRoot
 	cmd.Env = append(os.Environ(), "GOPATH="+GOPATH)
 	out, err = cmd.CombinedOutput()

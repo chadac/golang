@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Checking of compiler and linker flags.
@@ -7,7 +7,7 @@
 // arbitrary code execution during the build.
 // Do not make changes here without carefully
 // considering the implications.
-// (That's why the code is isolated in a file named security.go.)
+// (That's why the code is isolated in a file named security.golang.)
 //
 // Note that -Wl,foo means split foo on commas and pass to
 // the linker, so that -Wl,-foo,bar means pass -foo bar to
@@ -35,8 +35,8 @@ import (
 	"regexp"
 	"strings"
 
-	"cmd/go/internal/cfg"
-	"cmd/go/internal/load"
+	"cmd/golang/internal/cfg"
+	"cmd/golang/internal/load"
 )
 
 var re = lazyregexp.New
@@ -309,14 +309,14 @@ Args:
 	for i := 0; i < len(list); i++ {
 		arg := list[i]
 		if disallow != nil && disallow.FindString(arg) == arg {
-			goto Bad
+			golangto Bad
 		}
 		if allow != nil && allow.FindString(arg) == arg {
 			continue Args
 		}
 		for _, re := range invalid {
 			if re.FindString(arg) == arg { // must be complete match
-				goto Bad
+				golangto Bad
 			}
 		}
 		for _, re := range valid {
@@ -337,11 +337,11 @@ Args:
 						}
 					}
 					if !found {
-						goto Bad
+						golangto Bad
 					}
 					for _, re := range invalid {
 						if re.FindString(a) == a {
-							goto Bad
+							golangto Bad
 						}
 					}
 				}
@@ -375,9 +375,9 @@ Args:
 				}
 
 				if i+1 < len(list) {
-					return fmt.Errorf("invalid flag in %s: %s %s (see https://golang.org/s/invalidflag)", source, arg, list[i+1])
+					return fmt.Errorf("invalid flag in %s: %s %s (see https://golanglang.org/s/invalidflag)", source, arg, list[i+1])
 				}
-				return fmt.Errorf("invalid flag in %s: %s without argument (see https://golang.org/s/invalidflag)", source, arg)
+				return fmt.Errorf("invalid flag in %s: %s without argument (see https://golanglang.org/s/invalidflag)", source, arg)
 			}
 		}
 	Bad:

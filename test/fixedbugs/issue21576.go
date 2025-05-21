@@ -1,9 +1,9 @@
 // run
 
-//go:build !nacl && !js && !wasip1 && !gccgo
+//golang:build !nacl && !js && !wasip1 && !gccgolang
 
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 //
 // Ensure that deadlock detection can still
@@ -40,23 +40,23 @@ func main() {
 	}
 	defer os.RemoveAll(dir)
 
-	file := filepath.Join(dir, "main.go")
+	file := filepath.Join(dir, "main.golang")
 	if err := ioutil.WriteFile(file, []byte(prog), 0655); err != nil {
 		log.Fatalf("Write error %v", err)
 	}
 
 	// Using a timeout of 1 minute in case other factors might slow
-	// down the start of "go run". See https://golang.org/issue/34836.
+	// down the start of "golang run". See https://golanglang.org/issue/34836.
 	ctx, cancel := context.WithTimeout(context.Background(), time.Minute)
 	defer cancel()
 
-	cmd := exec.CommandContext(ctx, "go", "run", file)
+	cmd := exec.CommandContext(ctx, "golang", "run", file)
 	output, err := cmd.CombinedOutput()
 	if err == nil {
 		log.Fatalf("Passed, expected an error")
 	}
 
-	want := []byte("fatal error: all goroutines are asleep - deadlock!")
+	want := []byte("fatal error: all golangroutines are asleep - deadlock!")
 	if !bytes.Contains(output, want) {
 		log.Fatalf("Unmatched error message %q:\nin\n%s\nError: %v", want, output, err)
 	}

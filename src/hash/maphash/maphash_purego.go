@@ -1,8 +1,8 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build purego
+//golang:build puregolang
 
 package maphash
 
@@ -14,7 +14,7 @@ import (
 	"reflect"
 )
 
-const purego = true
+const puregolang = true
 
 var hashkey [4]uint64
 
@@ -41,8 +41,8 @@ func randUint64() uint64 {
 	return byteorder.LEUint64(buf)
 }
 
-// This is a port of wyhash implementation in runtime/hash64.go,
-// without using unsafe for purego.
+// This is a port of wyhash implementation in runtime/hash64.golang,
+// without using unsafe for puregolang.
 
 const m5 = 0x1d8e4e27c47d124f
 

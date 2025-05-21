@@ -1,12 +1,12 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime_test
 
 import (
 	"fmt"
-	"internal/goos"
+	"internal/golangos"
 	"internal/runtime/atomic"
 	"math"
 	"math/rand"
@@ -55,8 +55,8 @@ func TestFillAligned(t *testing.T) {
 	}
 	check := func(x uint64, m uint) {
 		want := fillAlignedSlow(x, m)
-		if got := FillAligned(x, m); got != want {
-			t.Logf("got:  %064b", got)
+		if golangt := FillAligned(x, m); golangt != want {
+			t.Logf("golangt:  %064b", golangt)
 			t.Logf("want: %064b", want)
 			t.Errorf("bad fillAligned(%016x, %d)", x, m)
 		}
@@ -277,9 +277,9 @@ func TestPallocDataFindScavengeCandidate(t *testing.T) {
 		t.Run(name, func(t *testing.T) {
 			b := makePallocData(v.alloc, v.scavenged)
 			start, size := b.FindScavengeCandidate(PallocChunkPages-1, v.min, v.max)
-			got := BitRange{start, size}
-			if !(got.N == 0 && v.want.N == 0) && got != v.want {
-				t.Fatalf("candidate mismatch: got %v, want %v", got, v.want)
+			golangt := BitRange{start, size}
+			if !(golangt.N == 0 && v.want.N == 0) && golangt != v.want {
+				t.Fatalf("candidate mismatch: golangt %v, want %v", golangt, v.want)
 			}
 		})
 	}
@@ -414,7 +414,7 @@ func TestPageAllocScavenge(t *testing.T) {
 	}
 	// Disable these tests on iOS since we have a small address space.
 	// See #46860.
-	if PageAlloc64Bit != 0 && goos.IsIos == 0 {
+	if PageAlloc64Bit != 0 && golangos.IsIos == 0 {
 		tests["ScavAllVeryDiscontiguous"] = setup{
 			beforeAlloc: map[ChunkIdx][]BitRange{
 				BaseChunkIdx:          {},
@@ -441,8 +441,8 @@ func TestPageAllocScavenge(t *testing.T) {
 			defer FreePageAlloc(b)
 
 			for iter, h := range v.expect {
-				if got := b.Scavenge(h.request); got != h.expect {
-					t.Fatalf("bad scavenge #%d: want %d, got %d", iter+1, h.expect, got)
+				if golangt := b.Scavenge(h.request); golangt != h.expect {
+					t.Fatalf("bad scavenge #%d: want %d, golangt %d", iter+1, h.expect, golangt)
 				}
 			}
 			want := NewPageAlloc(v.beforeAlloc, v.afterScav)
@@ -460,7 +460,7 @@ func TestScavenger(t *testing.T) {
 		return int64((bytes+4095)/4096) * int64(10*time.Microsecond)
 	}
 
-	// Set up a bunch of state that we're going to track and verify
+	// Set up a bunch of state that we're golanging to track and verify
 	// throughout the test.
 	totalWork := uint64(64<<20 - 3*PhysPageSize)
 	var totalSlept, totalWorked atomic.Int64
@@ -501,13 +501,13 @@ func TestScavenger(t *testing.T) {
 
 		// Check to make sure it did the amount of work we expected.
 		if workDone := uint64(s.Released()); workDone != expWork {
-			t.Errorf("want %d bytes of work done, got %d", expWork, workDone)
+			t.Errorf("want %d bytes of work done, golangt %d", expWork, workDone)
 		}
 		// Check to make sure the scavenger is meeting its CPU target.
 		idealFraction := float64(ScavengePercent) / 100.0
 		cpuFraction := float64(totalWorked.Load()) / float64(totalWorked.Load()+totalSlept.Load())
 		if cpuFraction < idealFraction-0.005 || cpuFraction > idealFraction+0.005 {
-			t.Errorf("want %f CPU fraction, got %f", idealFraction, cpuFraction)
+			t.Errorf("want %f CPU fraction, golangt %f", idealFraction, cpuFraction)
 		}
 	}
 
@@ -524,7 +524,7 @@ func TestScavenger(t *testing.T) {
 	verifyScavengerState(t, totalWork)
 
 	// Now let's do it again and see what happens when we have no work to do.
-	// It should've gone right back to sleep.
+	// It should've golangne right back to sleep.
 	s.Wake()
 	if !s.BlockUntilParked(2e9 /* 2 seconds */) {
 		t.Fatal("timed out waiting for scavenger to run to completion")
@@ -546,7 +546,7 @@ func TestScavenger(t *testing.T) {
 	//
 	// Pick a stopping point such that when subtracted from totalWork
 	// we get a multiple of a relatively large power of 2. verifyScavengerState
-	// always makes an exact check, but the scavenger might go a little over,
+	// always makes an exact check, but the scavenger might golang a little over,
 	// which is OK. If this breaks often or gets annoying to maintain, modify
 	// verifyScavengerState.
 	availableWork.Store(totalWork)
@@ -615,17 +615,17 @@ func TestScavengeIndex(t *testing.T) {
 		find = func(want ChunkIdx, wantOffset uint) {
 			t.Helper()
 
-			got, gotOffset := si.Find(force)
-			if want != got {
-				t.Errorf("find: wanted chunk index %d, got %d", want, got)
+			golangt, golangtOffset := si.Find(force)
+			if want != golangt {
+				t.Errorf("find: wanted chunk index %d, golangt %d", want, golangt)
 			}
-			if wantOffset != gotOffset {
-				t.Errorf("find: wanted page offset %d, got %d", wantOffset, gotOffset)
+			if wantOffset != golangtOffset {
+				t.Errorf("find: wanted page offset %d, golangt %d", wantOffset, golangtOffset)
 			}
 			if t.Failed() {
 				t.FailNow()
 			}
-			si.SetEmpty(got)
+			si.SetEmpty(golangt)
 		}
 		nextGen = func() {
 			t.Helper()
@@ -877,7 +877,7 @@ func FuzzPIController(f *testing.F) {
 			var ok bool
 			state, ok = p.Next(input, setPoint, 1.0)
 			if !isNormal(state) {
-				t.Fatalf("got NaN or Inf result from controller: %f %v", state, ok)
+				t.Fatalf("golangt NaN or Inf result from controller: %f %v", state, ok)
 			}
 		}
 	})

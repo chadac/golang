@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test heap sampling logic.
@@ -201,12 +201,12 @@ func checkAllocations(records []runtime.MemProfileRecord, frames []string, count
 // Given that this is a sampled value, it will be unexact and will change
 // from run to run. Only report it as a failure if all the values land
 // consistently far from the expected value.
-func checkValue(fname string, ln int, testName string, want int64, got []int64) error {
-	if got == nil {
+func checkValue(fname string, ln int, testName string, want int64, golangt []int64) error {
+	if golangt == nil {
 		return fmt.Errorf("Unexpected empty result")
 	}
-	min, max := got[0], got[0]
-	for _, g := range got[1:] {
+	min, max := golangt[0], golangt[0]
+	for _, g := range golangt[1:] {
 		if g < min {
 			min = g
 		}
@@ -216,7 +216,7 @@ func checkValue(fname string, ln int, testName string, want int64, got []int64) 
 	}
 	margin := want / 10 // 10% margin.
 	if min > want+margin || max < want-margin {
-		return fmt.Errorf("%s:%d want %s in [%d: %d], got %v", fname, ln, testName, want-margin, want+margin, got)
+		return fmt.Errorf("%s:%d want %s in [%d: %d], golangt %v", fname, ln, testName, want-margin, want+margin, golangt)
 	}
 	return nil
 }
@@ -295,7 +295,7 @@ func allocObjects(records []runtime.MemProfileRecord, function string) map[int]a
 }
 
 // scaleHeapSample unsamples heap allocations.
-// Taken from src/cmd/pprof/internal/profile/legacy_profile.go
+// Taken from src/cmd/pprof/internal/profile/legacy_profile.golang
 func scaleHeapSample(count, size, rate int64) (int64, int64) {
 	if count == 0 || size == 0 {
 		return 0, 0

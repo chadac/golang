@@ -1,8 +1,8 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// These tests are carried forward from the old go/doc implementation.
+// These tests are carried forward from the old golang/doc implementation.
 
 package comment
 
@@ -44,16 +44,16 @@ var autoURLTests = []struct {
 }{
 	{"", ""},
 	{"http://[::1]:8080/foo.txt", "http://[::1]:8080/foo.txt"},
-	{"https://www.google.com) after", "https://www.google.com"},
-	{"https://www.google.com:30/x/y/z:b::c. After", "https://www.google.com:30/x/y/z:b::c"},
-	{"http://www.google.com/path/:;!-/?query=%34b#093124", "http://www.google.com/path/:;!-/?query=%34b#093124"},
-	{"http://www.google.com/path/:;!-/?query=%34bar#093124", "http://www.google.com/path/:;!-/?query=%34bar#093124"},
-	{"http://www.google.com/index.html! After", "http://www.google.com/index.html"},
-	{"http://www.google.com/", "http://www.google.com/"},
-	{"https://www.google.com/", "https://www.google.com/"},
-	{"http://www.google.com/path.", "http://www.google.com/path"},
+	{"https://www.golangogle.com) after", "https://www.golangogle.com"},
+	{"https://www.golangogle.com:30/x/y/z:b::c. After", "https://www.golangogle.com:30/x/y/z:b::c"},
+	{"http://www.golangogle.com/path/:;!-/?query=%34b#093124", "http://www.golangogle.com/path/:;!-/?query=%34b#093124"},
+	{"http://www.golangogle.com/path/:;!-/?query=%34bar#093124", "http://www.golangogle.com/path/:;!-/?query=%34bar#093124"},
+	{"http://www.golangogle.com/index.html! After", "http://www.golangogle.com/index.html"},
+	{"http://www.golangogle.com/", "http://www.golangogle.com/"},
+	{"https://www.golangogle.com/", "https://www.golangogle.com/"},
+	{"http://www.golangogle.com/path.", "http://www.golangogle.com/path"},
 	{"http://en.wikipedia.org/wiki/Camellia_(cipher)", "http://en.wikipedia.org/wiki/Camellia_(cipher)"},
-	{"http://www.google.com/)", "http://www.google.com/"},
+	{"http://www.golangogle.com/)", "http://www.golangogle.com/"},
 	{"http://gmail.com)", "http://gmail.com"},
 	{"http://gmail.com))", "http://gmail.com"},
 	{"http://gmail.com ((http://gmail.com)) ()", "http://gmail.com"},
@@ -63,8 +63,8 @@ var autoURLTests = []struct {
 	{"javascript://is/not/linked", ""},
 	{"http://foo", "http://foo"},
 	{"https://www.example.com/person/][Person Name]]", "https://www.example.com/person/"},
-	{"http://golang.org/)", "http://golang.org/"},
-	{"http://golang.org/hello())", "http://golang.org/hello()"},
+	{"http://golanglang.org/)", "http://golanglang.org/"},
+	{"http://golanglang.org/hello())", "http://golanglang.org/hello()"},
 	{"http://git.qemu.org/?p=qemu.git;a=blob;f=qapi-schema.json;hb=HEAD", "http://git.qemu.org/?p=qemu.git;a=blob;f=qapi-schema.json;hb=HEAD"},
 	{"https://foo.bar/bal/x(])", "https://foo.bar/bal/x"}, // inner ] causes (]) to be cut off from URL
 	{"http://bar(])", "http://bar"},                       // same

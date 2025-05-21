@@ -1,15 +1,15 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build dragonfly || freebsd || linux || netbsd
+//golang:build dragolangnfly || freebsd || linux || netbsd
 
 package unix
 
 import "unsafe"
 
 // fcntl64Syscall is usually SYS_FCNTL, but is overridden on 32-bit Linux
-// systems by fcntl_linux_32bit.go to be SYS_FCNTL64.
+// systems by fcntl_linux_32bit.golang to be SYS_FCNTL64.
 var fcntl64Syscall uintptr = SYS_FCNTL
 
 func fcntl(fd int, cmd, arg int) (int, error) {

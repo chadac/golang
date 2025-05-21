@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package term
@@ -850,7 +850,7 @@ func (t *Terminal) SetSize(width, height int) error {
 		// Some terminals (e.g. xterm) will truncate lines that were
 		// too long when shinking. Others, (e.g. gnome-terminal) will
 		// attempt to wrap them. For the former, repainting t.maxLine
-		// works great, but that behaviour goes badly wrong in the case
+		// works great, but that behaviour golanges badly wrong in the case
 		// of the latter because they have doubled every full line.
 
 		// We assume that we are working on a terminal that wraps lines

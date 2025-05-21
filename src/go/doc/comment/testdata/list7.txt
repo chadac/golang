@@ -21,7 +21,7 @@ Almost list markers (but not quite):
  1! List.
 
 ❦
--- gofmt --
+-- golangfmt --
 Almost list markers (but not quite):
 
 	-

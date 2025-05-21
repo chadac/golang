@@ -1,82 +1,82 @@
-# Test editing go.work files.
+# Test editing golang.work files.
 
-go work init m
-cmpenv go.work go.work.want_initial
+golang work init m
+cmpenv golang.work golang.work.want_initial
 
-go work edit -use n
-cmpenv go.work go.work.want_use_n
+golang work edit -use n
+cmpenv golang.work golang.work.want_use_n
 
-grep go go.work
-go work edit -go none
-! grep go go.work
+grep golang golang.work
+golang work edit -golang none
+! grep golang golang.work
 
-go work edit -go 1.18
-cmp go.work go.work.want_go_118
+golang work edit -golang 1.18
+cmp golang.work golang.work.want_golang_118
 
-go work edit -dropuse m
-cmp go.work go.work.want_dropuse_m
+golang work edit -dropuse m
+cmp golang.work golang.work.want_dropuse_m
 
-go work edit -replace=x.1@v1.3.0=y.1@v1.4.0 -replace='x.1@v1.4.0 = ../z'
-cmp go.work go.work.want_add_replaces
+golang work edit -replace=x.1@v1.3.0=y.1@v1.4.0 -replace='x.1@v1.4.0 = ../z'
+cmp golang.work golang.work.want_add_replaces
 
-go work edit -use n -use ../a -use /b -use c -use c
-cmp go.work go.work.want_multiuse
+golang work edit -use n -use ../a -use /b -use c -use c
+cmp golang.work golang.work.want_multiuse
 
-go work edit -dropuse /b -dropuse n
-cmp go.work go.work.want_multidropuse
+golang work edit -dropuse /b -dropuse n
+cmp golang.work golang.work.want_multidropuse
 
-go work edit -dropreplace='x.1@v1.4.0'
-cmp go.work go.work.want_dropreplace
+golang work edit -dropreplace='x.1@v1.4.0'
+cmp golang.work golang.work.want_dropreplace
 
-go work edit -print -go 1.19 -use b -dropuse c -replace 'x.1@v1.4.0 = ../z' -dropreplace x.1 -dropreplace x.1@v1.3.0
-cmp stdout go.work.want_print
+golang work edit -print -golang 1.19 -use b -dropuse c -replace 'x.1@v1.4.0 = ../z' -dropreplace x.1 -dropreplace x.1@v1.3.0
+cmp stdout golang.work.want_print
 
-go work edit -json -go 1.19 -use b -dropuse c -replace 'x.1@v1.4.0 = ../z' -dropreplace x.1 -dropreplace x.1@v1.3.0
-cmp stdout go.work.want_json
+golang work edit -json -golang 1.19 -use b -dropuse c -replace 'x.1@v1.4.0 = ../z' -dropreplace x.1 -dropreplace x.1@v1.3.0
+cmp stdout golang.work.want_json
 
-# go work edit -godebug
+# golang work edit -golangdebug
 cd $WORK/g
-cp go.work.start go.work
-go work edit -godebug key=value
-cmpenv go.work go.work.edit
-go work edit -dropgodebug key2
-cmpenv go.work go.work.edit
-go work edit -dropgodebug key
-cmpenv go.work go.work.start
+cp golang.work.start golang.work
+golang work edit -golangdebug key=value
+cmpenv golang.work golang.work.edit
+golang work edit -dropgolangdebug key2
+cmpenv golang.work golang.work.edit
+golang work edit -dropgolangdebug key
+cmpenv golang.work golang.work.start
 
-# go work edit -print -fmt
+# golang work edit -print -fmt
 env GOWORK=$GOPATH/src/unformatted
-go work edit -print -fmt
+golang work edit -print -fmt
 cmp stdout $GOPATH/src/formatted
 
--- m/go.mod --
+-- m/golang.mod --
 module m
 
-go 1.18
--- go.work.want_initial --
-go $goversion
+golang 1.18
+-- golang.work.want_initial --
+golang $golangversion
 
 use ./m
--- go.work.want_use_n --
-go $goversion
+-- golang.work.want_use_n --
+golang $golangversion
 
 use (
 	./m
 	./n
 )
--- go.work.want_go_118 --
-go 1.18
+-- golang.work.want_golang_118 --
+golang 1.18
 
 use (
 	./m
 	./n
 )
--- go.work.want_dropuse_m --
-go 1.18
+-- golang.work.want_dropuse_m --
+golang 1.18
 
 use ./n
--- go.work.want_add_replaces --
-go 1.18
+-- golang.work.want_add_replaces --
+golang 1.18
 
 use ./n
 
@@ -84,8 +84,8 @@ replace (
 	x.1 v1.3.0 => y.1 v1.4.0
 	x.1 v1.4.0 => ../z
 )
--- go.work.want_multiuse --
-go 1.18
+-- golang.work.want_multiuse --
+golang 1.18
 
 use (
 	../a
@@ -98,8 +98,8 @@ replace (
 	x.1 v1.3.0 => y.1 v1.4.0
 	x.1 v1.4.0 => ../z
 )
--- go.work.want_multidropuse --
-go 1.18
+-- golang.work.want_multidropuse --
+golang 1.18
 
 use (
 	../a
@@ -110,8 +110,8 @@ replace (
 	x.1 v1.3.0 => y.1 v1.4.0
 	x.1 v1.4.0 => ../z
 )
--- go.work.want_dropreplace --
-go 1.18
+-- golang.work.want_dropreplace --
+golang 1.18
 
 use (
 	../a
@@ -119,8 +119,8 @@ use (
 )
 
 replace x.1 v1.3.0 => y.1 v1.4.0
--- go.work.want_print --
-go 1.19
+-- golang.work.want_print --
+golang 1.19
 
 use (
 	../a
@@ -128,7 +128,7 @@ use (
 )
 
 replace x.1 v1.4.0 => ../z
--- go.work.want_json --
+-- golang.work.want_json --
 {
 	"Go": "1.19",
 	"Use": [
@@ -152,7 +152,7 @@ replace x.1 v1.4.0 => ../z
 	]
 }
 -- unformatted --
-go 1.18
+golang 1.18
  use (
  a
   b
@@ -163,7 +163,7 @@ go 1.18
                             x.1 v1.4.0 => ../z
                             )
 -- formatted --
-go 1.18
+golang 1.18
 
 use (
 	a
@@ -175,13 +175,13 @@ replace (
 	x.1 v1.3.0 => y.1 v1.4.0
 	x.1 v1.4.0 => ../z
 )
--- $WORK/g/go.work.start --
+-- $WORK/g/golang.work.start --
 use g
 
-go 1.10
--- $WORK/g/go.work.edit --
+golang 1.10
+-- $WORK/g/golang.work.edit --
 use g
 
-go 1.10
+golang 1.10
 
-godebug key=value
+golangdebug key=value

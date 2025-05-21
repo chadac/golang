@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime_test
@@ -26,7 +26,7 @@ func TestPanicNil(t *testing.T) {
 }
 
 func checkPanicNil(t *testing.T, want any) {
-	name := "/godebug/non-default-behavior/panicnil:events"
+	name := "/golangdebug/non-default-behavior/panicnil:events"
 	s := []metrics.Sample{{Name: name}}
 	metrics.Read(s)
 	v1 := s[0].Value.Uint64()

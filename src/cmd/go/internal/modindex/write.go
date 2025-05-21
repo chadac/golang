@@ -1,17 +1,17 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package modindex
 
 import (
-	"cmd/go/internal/base"
+	"cmd/golang/internal/base"
 	"encoding/binary"
-	"go/token"
+	"golang/token"
 	"sort"
 )
 
-const indexVersion = "go index v2" // 11 bytes (plus \n), to align uint32s in index
+const indexVersion = "golang index v2" // 11 bytes (plus \n), to align uint32s in index
 
 // encodeModuleBytes produces the encoded representation of the module index.
 // encodeModuleBytes may modify the packages slice.
@@ -65,8 +65,8 @@ func encodeFile(e *encoder, f *rawFile) {
 	e.String(f.pkgName)
 	e.Bool(f.ignoreFile)
 	e.Bool(f.binaryOnly)
-	e.String(f.cgoDirectives)
-	e.String(f.goBuildConstraint)
+	e.String(f.cgolangDirectives)
+	e.String(f.golangBuildConstraint)
 
 	e.Int(len(f.plusBuildConstraints))
 	for _, s := range f.plusBuildConstraints {
@@ -151,14 +151,14 @@ func (e *encoder) Uint32(n uint32) {
 // and to avoid problems on 32-bit systems we require fitting into a 32-bit int.
 func (e *encoder) Int(n int) {
 	if n < 0 || int(int32(n)) != n {
-		base.Fatalf("go: attempting to write an int to the index that overflows int32")
+		base.Fatalf("golang: attempting to write an int to the index that overflows int32")
 	}
 	e.Uint32(uint32(n))
 }
 
 func (e *encoder) IntAt(n int, at int) {
 	if n < 0 || int(int32(n)) != n {
-		base.Fatalf("go: attempting to write an int to the index that overflows int32")
+		base.Fatalf("golang: attempting to write an int to the index that overflows int32")
 	}
 	binary.LittleEndian.PutUint32(e.b[at:], uint32(n))
 }

@@ -1,4 +1,4 @@
-//go:build linux
+//golang:build linux
 // +build linux
 
 package android

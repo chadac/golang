@@ -1,10 +1,10 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package time provides functionality for measuring and displaying time.
 //
-// The calendrical calculations always assume a Gregorian calendar, with
+// The calendrical calculations always assume a Gregolangrian calendar, with
 // no leap seconds.
 //
 // # Monotonic Clocks
@@ -51,7 +51,7 @@
 // readings. If either t or u contains no monotonic clock reading, these
 // operations fall back to using the wall clock readings.
 //
-// On some systems the monotonic clock will stop if the computer goes to sleep.
+// On some systems the monotonic clock will stop if the computer golanges to sleep.
 // On such a system, t.Sub(u) may not accurately reflect the actual
 // time that passed between t and u. The same applies to other functions and
 // methods that subtract times, such as [Since], [Until], [Time.Before], [Time.After],
@@ -87,13 +87,13 @@
 // On Unix, the resolution is ~1ms.
 // On Windows version 1803 and newer, the resolution is ~0.5ms.
 // On older Windows versions, the default resolution is ~16ms, but
-// a higher resolution may be requested using [golang.org/x/sys/windows.TimeBeginPeriod].
+// a higher resolution may be requested using [golanglang.org/x/sys/windows.TimeBeginPeriod].
 package time
 
 import (
 	"errors"
 	"math/bits"
-	_ "unsafe" // for go:linkname
+	_ "unsafe" // for golang:linkname
 )
 
 // A Time represents an instant in time with nanosecond precision.
@@ -102,7 +102,7 @@ import (
 // not pointers. That is, time variables and struct fields should be of
 // type [time.Time], not *time.Time.
 //
-// A Time value can be used by multiple goroutines simultaneously except
+// A Time value can be used by multiple golangroutines simultaneously except
 // that the methods [Time.GobDecode], [Time.UnmarshalBinary], [Time.UnmarshalJSON] and
 // [Time.UnmarshalText] are not concurrency-safe.
 //
@@ -394,7 +394,7 @@ func (d Weekday) String() string {
 // zero. We can still do those computations and then adjust the result
 // for a negative numerator, but it's annoying to write the adjustment
 // over and over. Instead, we can change to a different epoch so long
-// ago that all the times we care about will be positive, and then round
+// agolang that all the times we care about will be positive, and then round
 // to zero and round down coincide. These presentation routines already
 // have to add the zone offset, so adding the translation to the
 // alternate epoch is cheap. For example, having a non-negative time t
@@ -422,7 +422,7 @@ func (d Weekday) String() string {
 // March 1 year Y for any Y = 0 mod 400 is also such a day.
 //
 // Finally, it's convenient if the delta between the Unix epoch and
-// long-ago epoch is representable by an int64 constant.
+// long-agolang epoch is representable by an int64 constant.
 //
 // These three considerations—choose an epoch as early as possible, that
 // starts on March 1 of a year equal to 0 mod 400, and that is no more than
@@ -449,7 +449,7 @@ func (d Weekday) String() string {
 //
 // The date calculations are implemented using the following clever math from
 // Cassio Neri and Lorenz Schneider, “Euclidean affine functions and their
-// application to calendar algorithms,” SP&E 2023. https://doi.org/10.1002/spe.3172
+// application to calendar algolangrithms,” SP&E 2023. https://doi.org/10.1002/spe.3172
 //
 // Define a “calendrical division” (f, f°, f*) to be a triple of functions converting
 // one time unit into a whole number of larger units and the remainder and back.
@@ -1304,28 +1304,28 @@ func daysIn(m Month, year int) int {
 // now should be an internal detail,
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
-//   - gitee.com/quant1x/gox
+//   - gitee.com/quant1x/golangx
 //   - github.com/phuslu/log
-//   - github.com/sethvargo/go-limiter
+//   - github.com/sethvargolang/golang-limiter
 //   - github.com/ulule/limiter/v3
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 func now() (sec int64, nsec int32, mono int64)
 
 // runtimeNow returns the current time.
 // When called within a synctest.Run bubble, it returns the group's fake clock.
 //
-//go:linkname runtimeNow
+//golang:linkname runtimeNow
 func runtimeNow() (sec int64, nsec int32, mono int64)
 
 // runtimeNano returns the current value of the runtime clock in nanoseconds.
 // When called within a synctest.Run bubble, it returns the group's fake clock.
 //
-//go:linkname runtimeNano
+//golang:linkname runtimeNano
 func runtimeNano() int64
 
-//go:linkname runtimeIsBubbled
+//golang:linkname runtimeIsBubbled
 func runtimeIsBubbled() bool
 
 // Monotonic times are reported as offsets from startNano.
@@ -1337,7 +1337,7 @@ func runtimeIsBubbled() bool
 var startNano int64 = runtimeNano() - 1
 
 // x/tools uses a linkname of time.Now in its tests. No harm done.
-//go:linkname Now
+//golang:linkname Now
 
 // Now returns the current local time.
 func Now() Time {
@@ -1404,7 +1404,7 @@ func (t Time) Zone() (name string, offset int) {
 // ZoneBounds returns the bounds of the time zone in effect at time t.
 // The zone begins at start and the next zone begins at end.
 // If the zone begins at the beginning of time, start will be returned as a zero Time.
-// If the zone goes on forever, end will be returned as a zero Time.
+// If the zone golanges on forever, end will be returned as a zero Time.
 // The Location of the returned times will be the same as t.
 func (t Time) ZoneBounds() (start, end Time) {
 	_, _, startSec, endSec, _ := t.loc.lookup(t.unixSec())
@@ -1570,12 +1570,12 @@ func (t *Time) UnmarshalBinary(data []byte) error {
 // The same semantics will be provided by the generic MarshalBinary, MarshalText,
 // UnmarshalBinary, UnmarshalText.
 
-// GobEncode implements the gob.GobEncoder interface.
+// GobEncode implements the golangb.GobEncoder interface.
 func (t Time) GobEncode() ([]byte, error) {
 	return t.MarshalBinary()
 }
 
-// GobDecode implements the gob.GobDecoder interface.
+// GobDecode implements the golangb.GobDecoder interface.
 func (t *Time) GobDecode(data []byte) error {
 	return t.UnmarshalBinary(data)
 }
@@ -1601,7 +1601,7 @@ func (t *Time) UnmarshalJSON(data []byte) error {
 	if string(data) == "null" {
 		return nil
 	}
-	// TODO(https://go.dev/issue/47353): Properly unescape a JSON string.
+	// TODO(https://golang.dev/issue/47353): Properly unescape a JSON string.
 	if len(data) < 2 || data[0] != '"' || data[len(data)-1] != '"' {
 		return errors.New("Time.UnmarshalJSON: input is not a JSON string")
 	}
@@ -1900,7 +1900,7 @@ func div(t Time, d Duration) (qmod2 int, r Duration) {
 // timeAbs, absDate, and absClock mimic old internal details, no longer used.
 // Widely used packages linknamed these to get “faster” time routines.
 // Notable members of the hall of shame include:
-//   - gitee.com/quant1x/gox
+//   - gitee.com/quant1x/golangx
 //   - github.com/phuslu/log
 //
 // phuslu hard-coded 'Unix time + 9223372028715321600' [sic]
@@ -1923,17 +1923,17 @@ func div(t Time, d Duration) (qmod2 int, r Duration) {
 // Do not remove these routines or their linknames, or change the
 // type signature or meaning of arguments.
 
-//go:linkname legacyTimeTimeAbs time.Time.abs
+//golang:linkname legacyTimeTimeAbs time.Time.abs
 func legacyTimeTimeAbs(t Time) uint64 {
 	return uint64(t.absSec() - marchThruDecember*secondsPerDay)
 }
 
-//go:linkname legacyAbsClock time.absClock
+//golang:linkname legacyAbsClock time.absClock
 func legacyAbsClock(abs uint64) (hour, min, sec int) {
 	return absSeconds(abs + marchThruDecember*secondsPerDay).clock()
 }
 
-//go:linkname legacyAbsDate time.absDate
+//golang:linkname legacyAbsDate time.absDate
 func legacyAbsDate(abs uint64, full bool) (year int, month Month, day int, yday int) {
 	d := absSeconds(abs + marchThruDecember*secondsPerDay).days()
 	year, month, day = d.date()

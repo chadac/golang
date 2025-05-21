@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package fmt_test
@@ -72,9 +72,9 @@ func TestFormatString(t *testing.T) {
 		{7, 3, "0", "%07.3x"},
 	}
 	for _, test := range tests {
-		got := fmt.FormatString(mkState(test.width, test.prec, test.flags), 'x')
-		if got != test.result {
-			t.Errorf("%v: got %s", test, got)
+		golangt := fmt.FormatString(mkState(test.width, test.prec, test.flags), 'x')
+		if golangt != test.result {
+			t.Errorf("%v: golangt %s", test, golangt)
 		}
 	}
 }

@@ -1,20 +1,20 @@
-! go work use
-stderr '^go: no go\.work file found\n\t\(run ''go work init'' first or specify path using GOWORK environment variable\)$'
+! golang work use
+stderr '^golang: no golang\.work file found\n\t\(run ''golang work init'' first or specify path using GOWORK environment variable\)$'
 
-! go work use .
-stderr '^go: no go\.work file found\n\t\(run ''go work init'' first or specify path using GOWORK environment variable\)$'
+! golang work use .
+stderr '^golang: no golang\.work file found\n\t\(run ''golang work init'' first or specify path using GOWORK environment variable\)$'
 
-! go work edit
-stderr '^go: no go\.work file found\n\t\(run ''go work init'' first or specify path using GOWORK environment variable\)$'
+! golang work edit
+stderr '^golang: no golang\.work file found\n\t\(run ''golang work init'' first or specify path using GOWORK environment variable\)$'
 
-! go work edit -go=1.18
-stderr '^go: no go\.work file found\n\t\(run ''go work init'' first or specify path using GOWORK environment variable\)$'
+! golang work edit -golang=1.18
+stderr '^golang: no golang\.work file found\n\t\(run ''golang work init'' first or specify path using GOWORK environment variable\)$'
 
-! go work sync
-stderr '^go: no go\.work file found\n\t\(run ''go work init'' first or specify path using GOWORK environment variable\)$'
+! golang work sync
+stderr '^golang: no golang\.work file found\n\t\(run ''golang work init'' first or specify path using GOWORK environment variable\)$'
 
--- go.mod --
+-- golang.mod --
 module example
-go 1.18
+golang 1.18
 -- README.txt --
-There is no go.work file here.
+There is no golang.work file here.

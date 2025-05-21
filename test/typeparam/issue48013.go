@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -31,9 +31,9 @@ func test[T any]() T {
 
 func main() {
 	want := 0
-	got := test[int]()
-	if got != want {
-		panic(fmt.Sprintf("got %f, want %f", got, want))
+	golangt := test[int]()
+	if golangt != want {
+		panic(fmt.Sprintf("golangt %f, want %f", golangt, want))
 	}
 
 }

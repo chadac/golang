@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // TODO: live at start of block instead?
@@ -239,7 +239,7 @@ func (s *stackAllocState) stackalloc() {
 						// A variable can interfere with itself.
 						// It is rare, but it can happen.
 						s.nSelfInterfere++
-						goto noname
+						golangto noname
 					}
 				}
 				if f.pass.debug > stackDebug {

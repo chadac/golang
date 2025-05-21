@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package fuzz
@@ -112,6 +112,6 @@ func TestStringImmutability(t *testing.T) {
 		m.mutate(v, 1024)
 	}
 	if !bytes.Equal([]byte(original), originalCopy) {
-		t.Fatalf("string was mutated: got %x, want %x", []byte(original), originalCopy)
+		t.Fatalf("string was mutated: golangt %x, want %x", []byte(original), originalCopy)
 	}
 }

@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package math
@@ -9,9 +9,9 @@ package math
 */
 
 // The original C code, the long comment, and the constants
-// below were from http://netlib.sandia.gov/cephes/cmath/sin.c,
+// below were from http://netlib.sandia.golangv/cephes/cmath/sin.c,
 // available from http://www.netlib.org/cephes/cmath.tgz.
-// The go code is a simplified version of the original C.
+// The golang code is a simplified version of the original C.
 //
 //      tan.c
 //
@@ -39,12 +39,12 @@ package math
 // Partial loss of accuracy begins to occur at x = 2**30 = 1.074e9.  The loss
 // is not gradual, but jumps suddenly to about 1 part in 10e7.  Results may
 // be meaningless for x > 2**49 = 5.6e14.
-// [Accuracy loss statement from sin.go comments.]
+// [Accuracy loss statement from sin.golang comments.]
 //
 // Cephes Math Library Release 2.8:  June, 2000
 // Copyright 1984, 1987, 1989, 1992, 2000 by Stephen L. Moshier
 //
-// The readme file at http://netlib.sandia.gov/cephes/ says:
+// The readme file at http://netlib.sandia.golangv/cephes/ says:
 //    Some software in this archive may be from the book _Methods and
 // Programs for Mathematical Functions_ (Prentice-Hall or Simon & Schuster
 // International, 1989) or from the Cephes Mathematical Library, a
@@ -57,7 +57,7 @@ package math
 // integral.
 //
 //   Stephen L. Moshier
-//   moshier@na-net.ornl.gov
+//   moshier@na-net.ornl.golangv
 
 // tan coefficients
 var _tanP = [...]float64{

@@ -1,13 +1,13 @@
 // Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package astutil
 
 import (
 	"fmt"
-	"go/ast"
-	"go/token"
+	"golang/ast"
+	"golang/token"
 	"strconv"
 	"unicode/utf8"
 )
@@ -70,7 +70,7 @@ func PosInStringLiteral(lit *ast.BasicLit, offset int) (token.Pos, error) {
 // [ast.Inspect], no second call to f is made after visiting node n.
 // In practice, the second call is nearly always used only to pop the
 // stack, and it is surprisingly tricky to do this correctly; see
-// https://go.dev/issue/73319.
+// https://golang.dev/issue/73319.
 func PreorderStack(root ast.Node, stack []ast.Node, f func(n ast.Node, stack []ast.Node) bool) {
 	before := len(stack)
 	ast.Inspect(root, func(n ast.Node) bool {

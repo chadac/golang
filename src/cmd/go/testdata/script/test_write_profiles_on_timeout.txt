@@ -2,16 +2,16 @@
 
 [short] skip
 
-! go test -cpuprofile cpu.pprof -memprofile mem.pprof -timeout 1ms
+! golang test -cpuprofile cpu.pprof -memprofile mem.pprof -timeout 1ms
 stdout '^panic: test timed out'
 grep . cpu.pprof
 grep . mem.pprof
 
--- go.mod --
+-- golang.mod --
 module profiling
 
-go 1.16
--- timeout_test.go --
+golang 1.16
+-- timeout_test.golang --
 package timeouttest_test
 
 import (

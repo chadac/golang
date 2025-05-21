@@ -1,11 +1,11 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !js && !wasip1
+//golang:build !js && !wasip1
 
 // TODO(@musiol, @odeke-em): re-unify this entire file back into
-// example.go when js/wasm gets an os.Pipe implementation
+// example.golang when js/wasm gets an os.Pipe implementation
 // and no longer needs this separation.
 
 package testing
@@ -32,7 +32,7 @@ func runExample(eg InternalExample) (ok bool) {
 	}
 	os.Stdout = w
 	outC := make(chan string)
-	go func() {
+	golang func() {
 		var buf strings.Builder
 		_, err := io.Copy(&buf, r)
 		r.Close()

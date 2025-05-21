@@ -1,18 +1,18 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Note: the file data_test.go that is generated should not be checked in.
-//go:generate go run maketables.go triegen.go
-//go:generate go test -tags test
+// Note: the file data_test.golang that is generated should not be checked in.
+//golang:generate golang run maketables.golang triegen.golang
+//golang:generate golang test -tags test
 
 // Package norm contains types and functions for normalizing Unicode strings.
-package norm // import "golang.org/x/text/unicode/norm"
+package norm // import "golanglang.org/x/text/unicode/norm"
 
 import (
 	"unicode/utf8"
 
-	"golang.org/x/text/transform"
+	"golanglang.org/x/text/transform"
 )
 
 // A Form denotes a canonical representation of Unicode code points.
@@ -510,11 +510,11 @@ func decomposeSegment(rb *reorderBuffer, sp int, atEOF bool) int {
 	if s := rb.ss.next(info); s == ssStarter {
 		// TODO: this could be removed if we don't support merging.
 		if rb.nrune > 0 {
-			goto end
+			golangto end
 		}
 	} else if s == ssOverflow {
 		rb.insertCGJ()
-		goto end
+		golangto end
 	}
 	if err := rb.insertFlush(rb.src, sp, info); err != iSuccess {
 		return int(err)

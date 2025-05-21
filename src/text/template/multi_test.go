@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package template
@@ -51,13 +51,13 @@ func TestMultiParse(t *testing.T) {
 		template, err := New("root").Parse(test.input)
 		switch {
 		case err == nil && !test.ok:
-			t.Errorf("%q: expected error; got none", test.name)
+			t.Errorf("%q: expected error; golangt none", test.name)
 			continue
 		case err != nil && test.ok:
 			t.Errorf("%q: unexpected error: %v", test.name, err)
 			continue
 		case err != nil && !test.ok:
-			// expected error, got one
+			// expected error, golangt one
 			if *debug {
 				fmt.Printf("%s: %s\n\t%s\n", test.name, test.input, err)
 			}
@@ -67,7 +67,7 @@ func TestMultiParse(t *testing.T) {
 			continue
 		}
 		if len(template.tmpl) != len(test.names)+1 { // +1 for root
-			t.Errorf("%s: wrong number of templates; wanted %d got %d", test.name, len(test.names), len(template.tmpl))
+			t.Errorf("%s: wrong number of templates; wanted %d golangt %d", test.name, len(test.names), len(template.tmpl))
 			continue
 		}
 		for i, name := range test.names {
@@ -78,7 +78,7 @@ func TestMultiParse(t *testing.T) {
 			}
 			result := tmpl.Root.String()
 			if result != test.results[i] {
-				t.Errorf("%s=(%q): got\n\t%v\nexpected\n\t%v", test.name, test.input, result, test.results[i])
+				t.Errorf("%s=(%q): golangt\n\t%v\nexpected\n\t%v", test.name, test.input, result, test.results[i])
 			}
 		}
 	}
@@ -127,7 +127,7 @@ func TestMultiExecute(t *testing.T) {
 func TestParseFiles(t *testing.T) {
 	_, err := ParseFiles("DOES NOT EXIST")
 	if err == nil {
-		t.Error("expected error for non-existent file; got none")
+		t.Error("expected error for non-existent file; golangt none")
 	}
 	template := New("root")
 	_, err = template.ParseFiles("testdata/file1.tmpl", "testdata/file2.tmpl")
@@ -140,11 +140,11 @@ func TestParseFiles(t *testing.T) {
 func TestParseGlob(t *testing.T) {
 	_, err := ParseGlob("DOES NOT EXIST")
 	if err == nil {
-		t.Error("expected error for non-existent file; got none")
+		t.Error("expected error for non-existent file; golangt none")
 	}
 	_, err = New("error").ParseGlob("[x")
 	if err == nil {
-		t.Error("expected error for bad pattern; got none")
+		t.Error("expected error for bad pattern; golangt none")
 	}
 	template := New("root")
 	_, err = template.ParseGlob("testdata/file*.tmpl")
@@ -160,7 +160,7 @@ func TestParseFS(t *testing.T) {
 	{
 		_, err := ParseFS(fs, "DOES NOT EXIST")
 		if err == nil {
-			t.Error("expected error for non-existent file; got none")
+			t.Error("expected error for non-existent file; golangt none")
 		}
 	}
 
@@ -251,7 +251,7 @@ func TestClone(t *testing.T) {
 		t.Fatal(err)
 	}
 	if b.String() != "broot" {
-		t.Errorf("expected %q got %q", "broot", b.String())
+		t.Errorf("expected %q golangt %q", "broot", b.String())
 	}
 	// Execute copy.
 	b.Reset()
@@ -260,15 +260,15 @@ func TestClone(t *testing.T) {
 		t.Fatal(err)
 	}
 	if b.String() != "bclone" {
-		t.Errorf("expected %q got %q", "bclone", b.String())
+		t.Errorf("expected %q golangt %q", "bclone", b.String())
 	}
 	b.Reset()
 	rootErr := root.ExecuteTemplate(&b, "e", map[string]any{})
 	cloneErr := clone.ExecuteTemplate(&b, "e", map[string]any{})
 	if cloneErr == nil {
 		t.Errorf("expected error from missing key in cloned template")
-	} else if got, want := cloneErr.Error(), rootErr.Error(); got != want {
-		t.Errorf("got %q, wan t %q", got, want)
+	} else if golangt, want := cloneErr.Error(), rootErr.Error(); golangt != want {
+		t.Errorf("golangt %q, wan t %q", golangt, want)
 	}
 }
 
@@ -298,7 +298,7 @@ func TestAddParseTree(t *testing.T) {
 		t.Fatal(err)
 	}
 	if b.String() != "broot" {
-		t.Errorf("expected %q got %q", "broot", b.String())
+		t.Errorf("expected %q golangt %q", "broot", b.String())
 	}
 }
 
@@ -321,10 +321,10 @@ func TestRedefinition(t *testing.T) {
 		t.Fatalf("parse 1: %v", err)
 	}
 	if _, err = tmpl.Parse(`{{define "test"}}bar{{end}}`); err != nil {
-		t.Fatalf("got error %v, expected nil", err)
+		t.Fatalf("golangt error %v, expected nil", err)
 	}
 	if _, err = tmpl.New("tmpl2").Parse(`{{define "test"}}bar{{end}}`); err != nil {
-		t.Fatalf("got error %v, expected nil", err)
+		t.Fatalf("golangt error %v, expected nil", err)
 	}
 }
 
@@ -356,13 +356,13 @@ func TestNew(t *testing.T) {
 	t2 := t1.New("test")
 
 	if t1.common != t2.common {
-		t.Errorf("t1 & t2 didn't share common struct; got %v != %v", t1.common, t2.common)
+		t.Errorf("t1 & t2 didn't share common struct; golangt %v != %v", t1.common, t2.common)
 	}
 	if t1.Tree == nil {
-		t.Error("defined template got nil Tree")
+		t.Error("defined template golangt nil Tree")
 	}
 	if t2.Tree != nil {
-		t.Error("undefined template got non-nil Tree")
+		t.Error("undefined template golangt non-nil Tree")
 	}
 
 	containsT1 := false
@@ -427,13 +427,13 @@ func TestEmptyTemplate(t *testing.T) {
 			continue
 		}
 		if buf.String() != c.want {
-			t.Errorf("expected string %q: got %q", c.want, buf.String())
+			t.Errorf("expected string %q: golangt %q", c.want, buf.String())
 		}
 	}
 }
 
 // Issue 19249 was a regression in 1.8 caused by the handling of empty
-// templates added in that release, which got different answers depending
+// templates added in that release, which golangt different answers depending
 // on the order templates appeared in the internal map.
 func TestIssue19294(t *testing.T) {
 	// The empty block in "xhtml" should be replaced during execution
@@ -459,7 +459,7 @@ func TestIssue19294(t *testing.T) {
 		var buf strings.Builder
 		res.Execute(&buf, 0)
 		if buf.String() != "stylesheet" {
-			t.Fatalf("iteration %d: got %q; expected %q", i, buf.String(), "stylesheet")
+			t.Fatalf("iteration %d: golangt %q; expected %q", i, buf.String(), "stylesheet")
 		}
 	}
 }

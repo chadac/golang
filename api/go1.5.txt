@@ -285,441 +285,441 @@ pkg encoding/json, type Delim int32
 pkg encoding/json, type Token interface {}
 pkg encoding/json, type UnmarshalTypeError struct, Offset int64
 pkg flag, func UnquoteUsage(*Flag) (string, string)
-pkg go/ast, type EmptyStmt struct, Implicit bool
-pkg go/build, type Package struct, PkgTargetRoot string
-pkg go/constant, const Bool = 1
-pkg go/constant, const Bool Kind
-pkg go/constant, const Complex = 5
-pkg go/constant, const Complex Kind
-pkg go/constant, const Float = 4
-pkg go/constant, const Float Kind
-pkg go/constant, const Int = 3
-pkg go/constant, const Int Kind
-pkg go/constant, const String = 2
-pkg go/constant, const String Kind
-pkg go/constant, const Unknown = 0
-pkg go/constant, const Unknown Kind
-pkg go/constant, func BinaryOp(Value, token.Token, Value) Value
-pkg go/constant, func BitLen(Value) int
-pkg go/constant, func BoolVal(Value) bool
-pkg go/constant, func Bytes(Value) []uint8
-pkg go/constant, func Compare(Value, token.Token, Value) bool
-pkg go/constant, func Denom(Value) Value
-pkg go/constant, func Float32Val(Value) (float32, bool)
-pkg go/constant, func Float64Val(Value) (float64, bool)
-pkg go/constant, func Imag(Value) Value
-pkg go/constant, func Int64Val(Value) (int64, bool)
-pkg go/constant, func MakeBool(bool) Value
-pkg go/constant, func MakeFloat64(float64) Value
-pkg go/constant, func MakeFromBytes([]uint8) Value
-pkg go/constant, func MakeFromLiteral(string, token.Token, uint) Value
-pkg go/constant, func MakeImag(Value) Value
-pkg go/constant, func MakeInt64(int64) Value
-pkg go/constant, func MakeString(string) Value
-pkg go/constant, func MakeUint64(uint64) Value
-pkg go/constant, func MakeUnknown() Value
-pkg go/constant, func Num(Value) Value
-pkg go/constant, func Real(Value) Value
-pkg go/constant, func Shift(Value, token.Token, uint) Value
-pkg go/constant, func Sign(Value) int
-pkg go/constant, func StringVal(Value) string
-pkg go/constant, func Uint64Val(Value) (uint64, bool)
-pkg go/constant, func UnaryOp(token.Token, Value, uint) Value
-pkg go/constant, type Kind int
-pkg go/constant, type Value interface, Kind() Kind
-pkg go/constant, type Value interface, String() string
-pkg go/constant, type Value interface, unexported methods
-pkg go/importer, func Default() types.Importer
-pkg go/importer, func For(string, Lookup) types.Importer
-pkg go/importer, type Lookup func(string) (io.ReadCloser, error)
-pkg go/parser, func ParseExprFrom(*token.FileSet, string, interface{}, Mode) (ast.Expr, error)
-pkg go/types, const Bool = 1
-pkg go/types, const Bool BasicKind
-pkg go/types, const Byte = 8
-pkg go/types, const Byte BasicKind
-pkg go/types, const Complex128 = 16
-pkg go/types, const Complex128 BasicKind
-pkg go/types, const Complex64 = 15
-pkg go/types, const Complex64 BasicKind
-pkg go/types, const FieldVal = 0
-pkg go/types, const FieldVal SelectionKind
-pkg go/types, const Float32 = 13
-pkg go/types, const Float32 BasicKind
-pkg go/types, const Float64 = 14
-pkg go/types, const Float64 BasicKind
-pkg go/types, const Int = 2
-pkg go/types, const Int BasicKind
-pkg go/types, const Int16 = 4
-pkg go/types, const Int16 BasicKind
-pkg go/types, const Int32 = 5
-pkg go/types, const Int32 BasicKind
-pkg go/types, const Int64 = 6
-pkg go/types, const Int64 BasicKind
-pkg go/types, const Int8 = 3
-pkg go/types, const Int8 BasicKind
-pkg go/types, const Invalid = 0
-pkg go/types, const Invalid BasicKind
-pkg go/types, const IsBoolean = 1
-pkg go/types, const IsBoolean BasicInfo
-pkg go/types, const IsComplex = 16
-pkg go/types, const IsComplex BasicInfo
-pkg go/types, const IsConstType = 59
-pkg go/types, const IsConstType BasicInfo
-pkg go/types, const IsFloat = 8
-pkg go/types, const IsFloat BasicInfo
-pkg go/types, const IsInteger = 2
-pkg go/types, const IsInteger BasicInfo
-pkg go/types, const IsNumeric = 26
-pkg go/types, const IsNumeric BasicInfo
-pkg go/types, const IsOrdered = 42
-pkg go/types, const IsOrdered BasicInfo
-pkg go/types, const IsString = 32
-pkg go/types, const IsString BasicInfo
-pkg go/types, const IsUnsigned = 4
-pkg go/types, const IsUnsigned BasicInfo
-pkg go/types, const IsUntyped = 64
-pkg go/types, const IsUntyped BasicInfo
-pkg go/types, const MethodExpr = 2
-pkg go/types, const MethodExpr SelectionKind
-pkg go/types, const MethodVal = 1
-pkg go/types, const MethodVal SelectionKind
-pkg go/types, const RecvOnly = 2
-pkg go/types, const RecvOnly ChanDir
-pkg go/types, const Rune = 5
-pkg go/types, const Rune BasicKind
-pkg go/types, const SendOnly = 1
-pkg go/types, const SendOnly ChanDir
-pkg go/types, const SendRecv = 0
-pkg go/types, const SendRecv ChanDir
-pkg go/types, const String = 17
-pkg go/types, const String BasicKind
-pkg go/types, const Uint = 7
-pkg go/types, const Uint BasicKind
-pkg go/types, const Uint16 = 9
-pkg go/types, const Uint16 BasicKind
-pkg go/types, const Uint32 = 10
-pkg go/types, const Uint32 BasicKind
-pkg go/types, const Uint64 = 11
-pkg go/types, const Uint64 BasicKind
-pkg go/types, const Uint8 = 8
-pkg go/types, const Uint8 BasicKind
-pkg go/types, const Uintptr = 12
-pkg go/types, const Uintptr BasicKind
-pkg go/types, const UnsafePointer = 18
-pkg go/types, const UnsafePointer BasicKind
-pkg go/types, const UntypedBool = 19
-pkg go/types, const UntypedBool BasicKind
-pkg go/types, const UntypedComplex = 23
-pkg go/types, const UntypedComplex BasicKind
-pkg go/types, const UntypedFloat = 22
-pkg go/types, const UntypedFloat BasicKind
-pkg go/types, const UntypedInt = 20
-pkg go/types, const UntypedInt BasicKind
-pkg go/types, const UntypedNil = 25
-pkg go/types, const UntypedNil BasicKind
-pkg go/types, const UntypedRune = 21
-pkg go/types, const UntypedRune BasicKind
-pkg go/types, const UntypedString = 24
-pkg go/types, const UntypedString BasicKind
-pkg go/types, func AssertableTo(*Interface, Type) bool
-pkg go/types, func AssignableTo(Type, Type) bool
-pkg go/types, func Comparable(Type) bool
-pkg go/types, func ConvertibleTo(Type, Type) bool
-pkg go/types, func DefPredeclaredTestFuncs()
-pkg go/types, func Eval(*token.FileSet, *Package, token.Pos, string) (TypeAndValue, error)
-pkg go/types, func ExprString(ast.Expr) string
-pkg go/types, func Id(*Package, string) string
-pkg go/types, func Identical(Type, Type) bool
-pkg go/types, func Implements(Type, *Interface) bool
-pkg go/types, func IsInterface(Type) bool
-pkg go/types, func LookupFieldOrMethod(Type, bool, *Package, string) (Object, []int, bool)
-pkg go/types, func MissingMethod(Type, *Interface, bool) (*Func, bool)
-pkg go/types, func NewArray(Type, int64) *Array
-pkg go/types, func NewChan(ChanDir, Type) *Chan
-pkg go/types, func NewChecker(*Config, *token.FileSet, *Package, *Info) *Checker
-pkg go/types, func NewConst(token.Pos, *Package, string, Type, constant.Value) *Const
-pkg go/types, func NewField(token.Pos, *Package, string, Type, bool) *Var
-pkg go/types, func NewFunc(token.Pos, *Package, string, *Signature) *Func
-pkg go/types, func NewInterface([]*Func, []*Named) *Interface
-pkg go/types, func NewLabel(token.Pos, *Package, string) *Label
-pkg go/types, func NewMap(Type, Type) *Map
-pkg go/types, func NewMethodSet(Type) *MethodSet
-pkg go/types, func NewNamed(*TypeName, Type, []*Func) *Named
-pkg go/types, func NewPackage(string, string) *Package
-pkg go/types, func NewParam(token.Pos, *Package, string, Type) *Var
-pkg go/types, func NewPkgName(token.Pos, *Package, string, *Package) *PkgName
-pkg go/types, func NewPointer(Type) *Pointer
-pkg go/types, func NewScope(*Scope, token.Pos, token.Pos, string) *Scope
-pkg go/types, func NewSignature(*Var, *Tuple, *Tuple, bool) *Signature
-pkg go/types, func NewSlice(Type) *Slice
-pkg go/types, func NewStruct([]*Var, []string) *Struct
-pkg go/types, func NewTuple(...*Var) *Tuple
-pkg go/types, func NewTypeName(token.Pos, *Package, string, Type) *TypeName
-pkg go/types, func NewVar(token.Pos, *Package, string, Type) *Var
-pkg go/types, func ObjectString(Object, Qualifier) string
-pkg go/types, func RelativeTo(*Package) Qualifier
-pkg go/types, func SelectionString(*Selection, Qualifier) string
-pkg go/types, func TypeString(Type, Qualifier) string
-pkg go/types, func WriteExpr(*bytes.Buffer, ast.Expr)
-pkg go/types, func WriteSignature(*bytes.Buffer, *Signature, Qualifier)
-pkg go/types, func WriteType(*bytes.Buffer, Type, Qualifier)
-pkg go/types, method (*Array) Elem() Type
-pkg go/types, method (*Array) Len() int64
-pkg go/types, method (*Array) String() string
-pkg go/types, method (*Array) Underlying() Type
-pkg go/types, method (*Basic) Info() BasicInfo
-pkg go/types, method (*Basic) Kind() BasicKind
-pkg go/types, method (*Basic) Name() string
-pkg go/types, method (*Basic) String() string
-pkg go/types, method (*Basic) Underlying() Type
-pkg go/types, method (*Builtin) Exported() bool
-pkg go/types, method (*Builtin) Id() string
-pkg go/types, method (*Builtin) Name() string
-pkg go/types, method (*Builtin) Parent() *Scope
-pkg go/types, method (*Builtin) Pkg() *Package
-pkg go/types, method (*Builtin) Pos() token.Pos
-pkg go/types, method (*Builtin) String() string
-pkg go/types, method (*Builtin) Type() Type
-pkg go/types, method (*Chan) Dir() ChanDir
-pkg go/types, method (*Chan) Elem() Type
-pkg go/types, method (*Chan) String() string
-pkg go/types, method (*Chan) Underlying() Type
-pkg go/types, method (*Checker) Files([]*ast.File) error
-pkg go/types, method (*Config) Check(string, *token.FileSet, []*ast.File, *Info) (*Package, error)
-pkg go/types, method (*Const) Exported() bool
-pkg go/types, method (*Const) Id() string
-pkg go/types, method (*Const) Name() string
-pkg go/types, method (*Const) Parent() *Scope
-pkg go/types, method (*Const) Pkg() *Package
-pkg go/types, method (*Const) Pos() token.Pos
-pkg go/types, method (*Const) String() string
-pkg go/types, method (*Const) Type() Type
-pkg go/types, method (*Const) Val() constant.Value
-pkg go/types, method (*Func) Exported() bool
-pkg go/types, method (*Func) FullName() string
-pkg go/types, method (*Func) Id() string
-pkg go/types, method (*Func) Name() string
-pkg go/types, method (*Func) Parent() *Scope
-pkg go/types, method (*Func) Pkg() *Package
-pkg go/types, method (*Func) Pos() token.Pos
-pkg go/types, method (*Func) Scope() *Scope
-pkg go/types, method (*Func) String() string
-pkg go/types, method (*Func) Type() Type
-pkg go/types, method (*Info) ObjectOf(*ast.Ident) Object
-pkg go/types, method (*Info) TypeOf(ast.Expr) Type
-pkg go/types, method (*Initializer) String() string
-pkg go/types, method (*Interface) Complete() *Interface
-pkg go/types, method (*Interface) Embedded(int) *Named
-pkg go/types, method (*Interface) Empty() bool
-pkg go/types, method (*Interface) ExplicitMethod(int) *Func
-pkg go/types, method (*Interface) Method(int) *Func
-pkg go/types, method (*Interface) NumEmbeddeds() int
-pkg go/types, method (*Interface) NumExplicitMethods() int
-pkg go/types, method (*Interface) NumMethods() int
-pkg go/types, method (*Interface) String() string
-pkg go/types, method (*Interface) Underlying() Type
-pkg go/types, method (*Label) Exported() bool
-pkg go/types, method (*Label) Id() string
-pkg go/types, method (*Label) Name() string
-pkg go/types, method (*Label) Parent() *Scope
-pkg go/types, method (*Label) Pkg() *Package
-pkg go/types, method (*Label) Pos() token.Pos
-pkg go/types, method (*Label) String() string
-pkg go/types, method (*Label) Type() Type
-pkg go/types, method (*Map) Elem() Type
-pkg go/types, method (*Map) Key() Type
-pkg go/types, method (*Map) String() string
-pkg go/types, method (*Map) Underlying() Type
-pkg go/types, method (*MethodSet) At(int) *Selection
-pkg go/types, method (*MethodSet) Len() int
-pkg go/types, method (*MethodSet) Lookup(*Package, string) *Selection
-pkg go/types, method (*MethodSet) String() string
-pkg go/types, method (*Named) AddMethod(*Func)
-pkg go/types, method (*Named) Method(int) *Func
-pkg go/types, method (*Named) NumMethods() int
-pkg go/types, method (*Named) Obj() *TypeName
-pkg go/types, method (*Named) SetUnderlying(Type)
-pkg go/types, method (*Named) String() string
-pkg go/types, method (*Named) Underlying() Type
-pkg go/types, method (*Nil) Exported() bool
-pkg go/types, method (*Nil) Id() string
-pkg go/types, method (*Nil) Name() string
-pkg go/types, method (*Nil) Parent() *Scope
-pkg go/types, method (*Nil) Pkg() *Package
-pkg go/types, method (*Nil) Pos() token.Pos
-pkg go/types, method (*Nil) String() string
-pkg go/types, method (*Nil) Type() Type
-pkg go/types, method (*Package) Complete() bool
-pkg go/types, method (*Package) Imports() []*Package
-pkg go/types, method (*Package) MarkComplete()
-pkg go/types, method (*Package) Name() string
-pkg go/types, method (*Package) Path() string
-pkg go/types, method (*Package) Scope() *Scope
-pkg go/types, method (*Package) SetImports([]*Package)
-pkg go/types, method (*Package) String() string
-pkg go/types, method (*PkgName) Exported() bool
-pkg go/types, method (*PkgName) Id() string
-pkg go/types, method (*PkgName) Imported() *Package
-pkg go/types, method (*PkgName) Name() string
-pkg go/types, method (*PkgName) Parent() *Scope
-pkg go/types, method (*PkgName) Pkg() *Package
-pkg go/types, method (*PkgName) Pos() token.Pos
-pkg go/types, method (*PkgName) String() string
-pkg go/types, method (*PkgName) Type() Type
-pkg go/types, method (*Pointer) Elem() Type
-pkg go/types, method (*Pointer) String() string
-pkg go/types, method (*Pointer) Underlying() Type
-pkg go/types, method (*Scope) Child(int) *Scope
-pkg go/types, method (*Scope) Contains(token.Pos) bool
-pkg go/types, method (*Scope) End() token.Pos
-pkg go/types, method (*Scope) Innermost(token.Pos) *Scope
-pkg go/types, method (*Scope) Insert(Object) Object
-pkg go/types, method (*Scope) Len() int
-pkg go/types, method (*Scope) Lookup(string) Object
-pkg go/types, method (*Scope) LookupParent(string, token.Pos) (*Scope, Object)
-pkg go/types, method (*Scope) Names() []string
-pkg go/types, method (*Scope) NumChildren() int
-pkg go/types, method (*Scope) Parent() *Scope
-pkg go/types, method (*Scope) Pos() token.Pos
-pkg go/types, method (*Scope) String() string
-pkg go/types, method (*Scope) WriteTo(io.Writer, int, bool)
-pkg go/types, method (*Selection) Index() []int
-pkg go/types, method (*Selection) Indirect() bool
-pkg go/types, method (*Selection) Kind() SelectionKind
-pkg go/types, method (*Selection) Obj() Object
-pkg go/types, method (*Selection) Recv() Type
-pkg go/types, method (*Selection) String() string
-pkg go/types, method (*Selection) Type() Type
-pkg go/types, method (*Signature) Params() *Tuple
-pkg go/types, method (*Signature) Recv() *Var
-pkg go/types, method (*Signature) Results() *Tuple
-pkg go/types, method (*Signature) String() string
-pkg go/types, method (*Signature) Underlying() Type
-pkg go/types, method (*Signature) Variadic() bool
-pkg go/types, method (*Slice) Elem() Type
-pkg go/types, method (*Slice) String() string
-pkg go/types, method (*Slice) Underlying() Type
-pkg go/types, method (*StdSizes) Alignof(Type) int64
-pkg go/types, method (*StdSizes) Offsetsof([]*Var) []int64
-pkg go/types, method (*StdSizes) Sizeof(Type) int64
-pkg go/types, method (*Struct) Field(int) *Var
-pkg go/types, method (*Struct) NumFields() int
-pkg go/types, method (*Struct) String() string
-pkg go/types, method (*Struct) Tag(int) string
-pkg go/types, method (*Struct) Underlying() Type
-pkg go/types, method (*Tuple) At(int) *Var
-pkg go/types, method (*Tuple) Len() int
-pkg go/types, method (*Tuple) String() string
-pkg go/types, method (*Tuple) Underlying() Type
-pkg go/types, method (*TypeName) Exported() bool
-pkg go/types, method (*TypeName) Id() string
-pkg go/types, method (*TypeName) Name() string
-pkg go/types, method (*TypeName) Parent() *Scope
-pkg go/types, method (*TypeName) Pkg() *Package
-pkg go/types, method (*TypeName) Pos() token.Pos
-pkg go/types, method (*TypeName) String() string
-pkg go/types, method (*TypeName) Type() Type
-pkg go/types, method (*Var) Anonymous() bool
-pkg go/types, method (*Var) Exported() bool
-pkg go/types, method (*Var) Id() string
-pkg go/types, method (*Var) IsField() bool
-pkg go/types, method (*Var) Name() string
-pkg go/types, method (*Var) Parent() *Scope
-pkg go/types, method (*Var) Pkg() *Package
-pkg go/types, method (*Var) Pos() token.Pos
-pkg go/types, method (*Var) String() string
-pkg go/types, method (*Var) Type() Type
-pkg go/types, method (Checker) ObjectOf(*ast.Ident) Object
-pkg go/types, method (Checker) TypeOf(ast.Expr) Type
-pkg go/types, method (Error) Error() string
-pkg go/types, method (TypeAndValue) Addressable() bool
-pkg go/types, method (TypeAndValue) Assignable() bool
-pkg go/types, method (TypeAndValue) HasOk() bool
-pkg go/types, method (TypeAndValue) IsBuiltin() bool
-pkg go/types, method (TypeAndValue) IsNil() bool
-pkg go/types, method (TypeAndValue) IsType() bool
-pkg go/types, method (TypeAndValue) IsValue() bool
-pkg go/types, method (TypeAndValue) IsVoid() bool
-pkg go/types, type Array struct
-pkg go/types, type Basic struct
-pkg go/types, type BasicInfo int
-pkg go/types, type BasicKind int
-pkg go/types, type Builtin struct
-pkg go/types, type Chan struct
-pkg go/types, type ChanDir int
-pkg go/types, type Checker struct
-pkg go/types, type Checker struct, embedded *Info
-pkg go/types, type Config struct
-pkg go/types, type Config struct, DisableUnusedImportCheck bool
-pkg go/types, type Config struct, Error func(error)
-pkg go/types, type Config struct, FakeImportC bool
-pkg go/types, type Config struct, IgnoreFuncBodies bool
-pkg go/types, type Config struct, Importer Importer
-pkg go/types, type Config struct, Sizes Sizes
-pkg go/types, type Const struct
-pkg go/types, type Error struct
-pkg go/types, type Error struct, Fset *token.FileSet
-pkg go/types, type Error struct, Msg string
-pkg go/types, type Error struct, Pos token.Pos
-pkg go/types, type Error struct, Soft bool
-pkg go/types, type Func struct
-pkg go/types, type Importer interface { Import }
-pkg go/types, type Importer interface, Import(string) (*Package, error)
-pkg go/types, type Info struct
-pkg go/types, type Info struct, Defs map[*ast.Ident]Object
-pkg go/types, type Info struct, Implicits map[ast.Node]Object
-pkg go/types, type Info struct, InitOrder []*Initializer
-pkg go/types, type Info struct, Scopes map[ast.Node]*Scope
-pkg go/types, type Info struct, Selections map[*ast.SelectorExpr]*Selection
-pkg go/types, type Info struct, Types map[ast.Expr]TypeAndValue
-pkg go/types, type Info struct, Uses map[*ast.Ident]Object
-pkg go/types, type Initializer struct
-pkg go/types, type Initializer struct, Lhs []*Var
-pkg go/types, type Initializer struct, Rhs ast.Expr
-pkg go/types, type Interface struct
-pkg go/types, type Label struct
-pkg go/types, type Map struct
-pkg go/types, type MethodSet struct
-pkg go/types, type Named struct
-pkg go/types, type Nil struct
-pkg go/types, type Object interface, Exported() bool
-pkg go/types, type Object interface, Id() string
-pkg go/types, type Object interface, Name() string
-pkg go/types, type Object interface, Parent() *Scope
-pkg go/types, type Object interface, Pkg() *Package
-pkg go/types, type Object interface, Pos() token.Pos
-pkg go/types, type Object interface, String() string
-pkg go/types, type Object interface, Type() Type
-pkg go/types, type Object interface, unexported methods
-pkg go/types, type Package struct
-pkg go/types, type PkgName struct
-pkg go/types, type Pointer struct
-pkg go/types, type Qualifier func(*Package) string
-pkg go/types, type Scope struct
-pkg go/types, type Selection struct
-pkg go/types, type SelectionKind int
-pkg go/types, type Signature struct
-pkg go/types, type Sizes interface { Alignof, Offsetsof, Sizeof }
-pkg go/types, type Sizes interface, Alignof(Type) int64
-pkg go/types, type Sizes interface, Offsetsof([]*Var) []int64
-pkg go/types, type Sizes interface, Sizeof(Type) int64
-pkg go/types, type Slice struct
-pkg go/types, type StdSizes struct
-pkg go/types, type StdSizes struct, MaxAlign int64
-pkg go/types, type StdSizes struct, WordSize int64
-pkg go/types, type Struct struct
-pkg go/types, type Tuple struct
-pkg go/types, type Type interface { String, Underlying }
-pkg go/types, type Type interface, String() string
-pkg go/types, type Type interface, Underlying() Type
-pkg go/types, type TypeAndValue struct
-pkg go/types, type TypeAndValue struct, Type Type
-pkg go/types, type TypeAndValue struct, Value constant.Value
-pkg go/types, type TypeName struct
-pkg go/types, type Var struct
-pkg go/types, var Typ []*Basic
-pkg go/types, var Universe *Scope
-pkg go/types, var Unsafe *Package
+pkg golang/ast, type EmptyStmt struct, Implicit bool
+pkg golang/build, type Package struct, PkgTargetRoot string
+pkg golang/constant, const Bool = 1
+pkg golang/constant, const Bool Kind
+pkg golang/constant, const Complex = 5
+pkg golang/constant, const Complex Kind
+pkg golang/constant, const Float = 4
+pkg golang/constant, const Float Kind
+pkg golang/constant, const Int = 3
+pkg golang/constant, const Int Kind
+pkg golang/constant, const String = 2
+pkg golang/constant, const String Kind
+pkg golang/constant, const Unknown = 0
+pkg golang/constant, const Unknown Kind
+pkg golang/constant, func BinaryOp(Value, token.Token, Value) Value
+pkg golang/constant, func BitLen(Value) int
+pkg golang/constant, func BoolVal(Value) bool
+pkg golang/constant, func Bytes(Value) []uint8
+pkg golang/constant, func Compare(Value, token.Token, Value) bool
+pkg golang/constant, func Denom(Value) Value
+pkg golang/constant, func Float32Val(Value) (float32, bool)
+pkg golang/constant, func Float64Val(Value) (float64, bool)
+pkg golang/constant, func Imag(Value) Value
+pkg golang/constant, func Int64Val(Value) (int64, bool)
+pkg golang/constant, func MakeBool(bool) Value
+pkg golang/constant, func MakeFloat64(float64) Value
+pkg golang/constant, func MakeFromBytes([]uint8) Value
+pkg golang/constant, func MakeFromLiteral(string, token.Token, uint) Value
+pkg golang/constant, func MakeImag(Value) Value
+pkg golang/constant, func MakeInt64(int64) Value
+pkg golang/constant, func MakeString(string) Value
+pkg golang/constant, func MakeUint64(uint64) Value
+pkg golang/constant, func MakeUnknown() Value
+pkg golang/constant, func Num(Value) Value
+pkg golang/constant, func Real(Value) Value
+pkg golang/constant, func Shift(Value, token.Token, uint) Value
+pkg golang/constant, func Sign(Value) int
+pkg golang/constant, func StringVal(Value) string
+pkg golang/constant, func Uint64Val(Value) (uint64, bool)
+pkg golang/constant, func UnaryOp(token.Token, Value, uint) Value
+pkg golang/constant, type Kind int
+pkg golang/constant, type Value interface, Kind() Kind
+pkg golang/constant, type Value interface, String() string
+pkg golang/constant, type Value interface, unexported methods
+pkg golang/importer, func Default() types.Importer
+pkg golang/importer, func For(string, Lookup) types.Importer
+pkg golang/importer, type Lookup func(string) (io.ReadCloser, error)
+pkg golang/parser, func ParseExprFrom(*token.FileSet, string, interface{}, Mode) (ast.Expr, error)
+pkg golang/types, const Bool = 1
+pkg golang/types, const Bool BasicKind
+pkg golang/types, const Byte = 8
+pkg golang/types, const Byte BasicKind
+pkg golang/types, const Complex128 = 16
+pkg golang/types, const Complex128 BasicKind
+pkg golang/types, const Complex64 = 15
+pkg golang/types, const Complex64 BasicKind
+pkg golang/types, const FieldVal = 0
+pkg golang/types, const FieldVal SelectionKind
+pkg golang/types, const Float32 = 13
+pkg golang/types, const Float32 BasicKind
+pkg golang/types, const Float64 = 14
+pkg golang/types, const Float64 BasicKind
+pkg golang/types, const Int = 2
+pkg golang/types, const Int BasicKind
+pkg golang/types, const Int16 = 4
+pkg golang/types, const Int16 BasicKind
+pkg golang/types, const Int32 = 5
+pkg golang/types, const Int32 BasicKind
+pkg golang/types, const Int64 = 6
+pkg golang/types, const Int64 BasicKind
+pkg golang/types, const Int8 = 3
+pkg golang/types, const Int8 BasicKind
+pkg golang/types, const Invalid = 0
+pkg golang/types, const Invalid BasicKind
+pkg golang/types, const IsBoolean = 1
+pkg golang/types, const IsBoolean BasicInfo
+pkg golang/types, const IsComplex = 16
+pkg golang/types, const IsComplex BasicInfo
+pkg golang/types, const IsConstType = 59
+pkg golang/types, const IsConstType BasicInfo
+pkg golang/types, const IsFloat = 8
+pkg golang/types, const IsFloat BasicInfo
+pkg golang/types, const IsInteger = 2
+pkg golang/types, const IsInteger BasicInfo
+pkg golang/types, const IsNumeric = 26
+pkg golang/types, const IsNumeric BasicInfo
+pkg golang/types, const IsOrdered = 42
+pkg golang/types, const IsOrdered BasicInfo
+pkg golang/types, const IsString = 32
+pkg golang/types, const IsString BasicInfo
+pkg golang/types, const IsUnsigned = 4
+pkg golang/types, const IsUnsigned BasicInfo
+pkg golang/types, const IsUntyped = 64
+pkg golang/types, const IsUntyped BasicInfo
+pkg golang/types, const MethodExpr = 2
+pkg golang/types, const MethodExpr SelectionKind
+pkg golang/types, const MethodVal = 1
+pkg golang/types, const MethodVal SelectionKind
+pkg golang/types, const RecvOnly = 2
+pkg golang/types, const RecvOnly ChanDir
+pkg golang/types, const Rune = 5
+pkg golang/types, const Rune BasicKind
+pkg golang/types, const SendOnly = 1
+pkg golang/types, const SendOnly ChanDir
+pkg golang/types, const SendRecv = 0
+pkg golang/types, const SendRecv ChanDir
+pkg golang/types, const String = 17
+pkg golang/types, const String BasicKind
+pkg golang/types, const Uint = 7
+pkg golang/types, const Uint BasicKind
+pkg golang/types, const Uint16 = 9
+pkg golang/types, const Uint16 BasicKind
+pkg golang/types, const Uint32 = 10
+pkg golang/types, const Uint32 BasicKind
+pkg golang/types, const Uint64 = 11
+pkg golang/types, const Uint64 BasicKind
+pkg golang/types, const Uint8 = 8
+pkg golang/types, const Uint8 BasicKind
+pkg golang/types, const Uintptr = 12
+pkg golang/types, const Uintptr BasicKind
+pkg golang/types, const UnsafePointer = 18
+pkg golang/types, const UnsafePointer BasicKind
+pkg golang/types, const UntypedBool = 19
+pkg golang/types, const UntypedBool BasicKind
+pkg golang/types, const UntypedComplex = 23
+pkg golang/types, const UntypedComplex BasicKind
+pkg golang/types, const UntypedFloat = 22
+pkg golang/types, const UntypedFloat BasicKind
+pkg golang/types, const UntypedInt = 20
+pkg golang/types, const UntypedInt BasicKind
+pkg golang/types, const UntypedNil = 25
+pkg golang/types, const UntypedNil BasicKind
+pkg golang/types, const UntypedRune = 21
+pkg golang/types, const UntypedRune BasicKind
+pkg golang/types, const UntypedString = 24
+pkg golang/types, const UntypedString BasicKind
+pkg golang/types, func AssertableTo(*Interface, Type) bool
+pkg golang/types, func AssignableTo(Type, Type) bool
+pkg golang/types, func Comparable(Type) bool
+pkg golang/types, func ConvertibleTo(Type, Type) bool
+pkg golang/types, func DefPredeclaredTestFuncs()
+pkg golang/types, func Eval(*token.FileSet, *Package, token.Pos, string) (TypeAndValue, error)
+pkg golang/types, func ExprString(ast.Expr) string
+pkg golang/types, func Id(*Package, string) string
+pkg golang/types, func Identical(Type, Type) bool
+pkg golang/types, func Implements(Type, *Interface) bool
+pkg golang/types, func IsInterface(Type) bool
+pkg golang/types, func LookupFieldOrMethod(Type, bool, *Package, string) (Object, []int, bool)
+pkg golang/types, func MissingMethod(Type, *Interface, bool) (*Func, bool)
+pkg golang/types, func NewArray(Type, int64) *Array
+pkg golang/types, func NewChan(ChanDir, Type) *Chan
+pkg golang/types, func NewChecker(*Config, *token.FileSet, *Package, *Info) *Checker
+pkg golang/types, func NewConst(token.Pos, *Package, string, Type, constant.Value) *Const
+pkg golang/types, func NewField(token.Pos, *Package, string, Type, bool) *Var
+pkg golang/types, func NewFunc(token.Pos, *Package, string, *Signature) *Func
+pkg golang/types, func NewInterface([]*Func, []*Named) *Interface
+pkg golang/types, func NewLabel(token.Pos, *Package, string) *Label
+pkg golang/types, func NewMap(Type, Type) *Map
+pkg golang/types, func NewMethodSet(Type) *MethodSet
+pkg golang/types, func NewNamed(*TypeName, Type, []*Func) *Named
+pkg golang/types, func NewPackage(string, string) *Package
+pkg golang/types, func NewParam(token.Pos, *Package, string, Type) *Var
+pkg golang/types, func NewPkgName(token.Pos, *Package, string, *Package) *PkgName
+pkg golang/types, func NewPointer(Type) *Pointer
+pkg golang/types, func NewScope(*Scope, token.Pos, token.Pos, string) *Scope
+pkg golang/types, func NewSignature(*Var, *Tuple, *Tuple, bool) *Signature
+pkg golang/types, func NewSlice(Type) *Slice
+pkg golang/types, func NewStruct([]*Var, []string) *Struct
+pkg golang/types, func NewTuple(...*Var) *Tuple
+pkg golang/types, func NewTypeName(token.Pos, *Package, string, Type) *TypeName
+pkg golang/types, func NewVar(token.Pos, *Package, string, Type) *Var
+pkg golang/types, func ObjectString(Object, Qualifier) string
+pkg golang/types, func RelativeTo(*Package) Qualifier
+pkg golang/types, func SelectionString(*Selection, Qualifier) string
+pkg golang/types, func TypeString(Type, Qualifier) string
+pkg golang/types, func WriteExpr(*bytes.Buffer, ast.Expr)
+pkg golang/types, func WriteSignature(*bytes.Buffer, *Signature, Qualifier)
+pkg golang/types, func WriteType(*bytes.Buffer, Type, Qualifier)
+pkg golang/types, method (*Array) Elem() Type
+pkg golang/types, method (*Array) Len() int64
+pkg golang/types, method (*Array) String() string
+pkg golang/types, method (*Array) Underlying() Type
+pkg golang/types, method (*Basic) Info() BasicInfo
+pkg golang/types, method (*Basic) Kind() BasicKind
+pkg golang/types, method (*Basic) Name() string
+pkg golang/types, method (*Basic) String() string
+pkg golang/types, method (*Basic) Underlying() Type
+pkg golang/types, method (*Builtin) Exported() bool
+pkg golang/types, method (*Builtin) Id() string
+pkg golang/types, method (*Builtin) Name() string
+pkg golang/types, method (*Builtin) Parent() *Scope
+pkg golang/types, method (*Builtin) Pkg() *Package
+pkg golang/types, method (*Builtin) Pos() token.Pos
+pkg golang/types, method (*Builtin) String() string
+pkg golang/types, method (*Builtin) Type() Type
+pkg golang/types, method (*Chan) Dir() ChanDir
+pkg golang/types, method (*Chan) Elem() Type
+pkg golang/types, method (*Chan) String() string
+pkg golang/types, method (*Chan) Underlying() Type
+pkg golang/types, method (*Checker) Files([]*ast.File) error
+pkg golang/types, method (*Config) Check(string, *token.FileSet, []*ast.File, *Info) (*Package, error)
+pkg golang/types, method (*Const) Exported() bool
+pkg golang/types, method (*Const) Id() string
+pkg golang/types, method (*Const) Name() string
+pkg golang/types, method (*Const) Parent() *Scope
+pkg golang/types, method (*Const) Pkg() *Package
+pkg golang/types, method (*Const) Pos() token.Pos
+pkg golang/types, method (*Const) String() string
+pkg golang/types, method (*Const) Type() Type
+pkg golang/types, method (*Const) Val() constant.Value
+pkg golang/types, method (*Func) Exported() bool
+pkg golang/types, method (*Func) FullName() string
+pkg golang/types, method (*Func) Id() string
+pkg golang/types, method (*Func) Name() string
+pkg golang/types, method (*Func) Parent() *Scope
+pkg golang/types, method (*Func) Pkg() *Package
+pkg golang/types, method (*Func) Pos() token.Pos
+pkg golang/types, method (*Func) Scope() *Scope
+pkg golang/types, method (*Func) String() string
+pkg golang/types, method (*Func) Type() Type
+pkg golang/types, method (*Info) ObjectOf(*ast.Ident) Object
+pkg golang/types, method (*Info) TypeOf(ast.Expr) Type
+pkg golang/types, method (*Initializer) String() string
+pkg golang/types, method (*Interface) Complete() *Interface
+pkg golang/types, method (*Interface) Embedded(int) *Named
+pkg golang/types, method (*Interface) Empty() bool
+pkg golang/types, method (*Interface) ExplicitMethod(int) *Func
+pkg golang/types, method (*Interface) Method(int) *Func
+pkg golang/types, method (*Interface) NumEmbeddeds() int
+pkg golang/types, method (*Interface) NumExplicitMethods() int
+pkg golang/types, method (*Interface) NumMethods() int
+pkg golang/types, method (*Interface) String() string
+pkg golang/types, method (*Interface) Underlying() Type
+pkg golang/types, method (*Label) Exported() bool
+pkg golang/types, method (*Label) Id() string
+pkg golang/types, method (*Label) Name() string
+pkg golang/types, method (*Label) Parent() *Scope
+pkg golang/types, method (*Label) Pkg() *Package
+pkg golang/types, method (*Label) Pos() token.Pos
+pkg golang/types, method (*Label) String() string
+pkg golang/types, method (*Label) Type() Type
+pkg golang/types, method (*Map) Elem() Type
+pkg golang/types, method (*Map) Key() Type
+pkg golang/types, method (*Map) String() string
+pkg golang/types, method (*Map) Underlying() Type
+pkg golang/types, method (*MethodSet) At(int) *Selection
+pkg golang/types, method (*MethodSet) Len() int
+pkg golang/types, method (*MethodSet) Lookup(*Package, string) *Selection
+pkg golang/types, method (*MethodSet) String() string
+pkg golang/types, method (*Named) AddMethod(*Func)
+pkg golang/types, method (*Named) Method(int) *Func
+pkg golang/types, method (*Named) NumMethods() int
+pkg golang/types, method (*Named) Obj() *TypeName
+pkg golang/types, method (*Named) SetUnderlying(Type)
+pkg golang/types, method (*Named) String() string
+pkg golang/types, method (*Named) Underlying() Type
+pkg golang/types, method (*Nil) Exported() bool
+pkg golang/types, method (*Nil) Id() string
+pkg golang/types, method (*Nil) Name() string
+pkg golang/types, method (*Nil) Parent() *Scope
+pkg golang/types, method (*Nil) Pkg() *Package
+pkg golang/types, method (*Nil) Pos() token.Pos
+pkg golang/types, method (*Nil) String() string
+pkg golang/types, method (*Nil) Type() Type
+pkg golang/types, method (*Package) Complete() bool
+pkg golang/types, method (*Package) Imports() []*Package
+pkg golang/types, method (*Package) MarkComplete()
+pkg golang/types, method (*Package) Name() string
+pkg golang/types, method (*Package) Path() string
+pkg golang/types, method (*Package) Scope() *Scope
+pkg golang/types, method (*Package) SetImports([]*Package)
+pkg golang/types, method (*Package) String() string
+pkg golang/types, method (*PkgName) Exported() bool
+pkg golang/types, method (*PkgName) Id() string
+pkg golang/types, method (*PkgName) Imported() *Package
+pkg golang/types, method (*PkgName) Name() string
+pkg golang/types, method (*PkgName) Parent() *Scope
+pkg golang/types, method (*PkgName) Pkg() *Package
+pkg golang/types, method (*PkgName) Pos() token.Pos
+pkg golang/types, method (*PkgName) String() string
+pkg golang/types, method (*PkgName) Type() Type
+pkg golang/types, method (*Pointer) Elem() Type
+pkg golang/types, method (*Pointer) String() string
+pkg golang/types, method (*Pointer) Underlying() Type
+pkg golang/types, method (*Scope) Child(int) *Scope
+pkg golang/types, method (*Scope) Contains(token.Pos) bool
+pkg golang/types, method (*Scope) End() token.Pos
+pkg golang/types, method (*Scope) Innermost(token.Pos) *Scope
+pkg golang/types, method (*Scope) Insert(Object) Object
+pkg golang/types, method (*Scope) Len() int
+pkg golang/types, method (*Scope) Lookup(string) Object
+pkg golang/types, method (*Scope) LookupParent(string, token.Pos) (*Scope, Object)
+pkg golang/types, method (*Scope) Names() []string
+pkg golang/types, method (*Scope) NumChildren() int
+pkg golang/types, method (*Scope) Parent() *Scope
+pkg golang/types, method (*Scope) Pos() token.Pos
+pkg golang/types, method (*Scope) String() string
+pkg golang/types, method (*Scope) WriteTo(io.Writer, int, bool)
+pkg golang/types, method (*Selection) Index() []int
+pkg golang/types, method (*Selection) Indirect() bool
+pkg golang/types, method (*Selection) Kind() SelectionKind
+pkg golang/types, method (*Selection) Obj() Object
+pkg golang/types, method (*Selection) Recv() Type
+pkg golang/types, method (*Selection) String() string
+pkg golang/types, method (*Selection) Type() Type
+pkg golang/types, method (*Signature) Params() *Tuple
+pkg golang/types, method (*Signature) Recv() *Var
+pkg golang/types, method (*Signature) Results() *Tuple
+pkg golang/types, method (*Signature) String() string
+pkg golang/types, method (*Signature) Underlying() Type
+pkg golang/types, method (*Signature) Variadic() bool
+pkg golang/types, method (*Slice) Elem() Type
+pkg golang/types, method (*Slice) String() string
+pkg golang/types, method (*Slice) Underlying() Type
+pkg golang/types, method (*StdSizes) Alignof(Type) int64
+pkg golang/types, method (*StdSizes) Offsetsof([]*Var) []int64
+pkg golang/types, method (*StdSizes) Sizeof(Type) int64
+pkg golang/types, method (*Struct) Field(int) *Var
+pkg golang/types, method (*Struct) NumFields() int
+pkg golang/types, method (*Struct) String() string
+pkg golang/types, method (*Struct) Tag(int) string
+pkg golang/types, method (*Struct) Underlying() Type
+pkg golang/types, method (*Tuple) At(int) *Var
+pkg golang/types, method (*Tuple) Len() int
+pkg golang/types, method (*Tuple) String() string
+pkg golang/types, method (*Tuple) Underlying() Type
+pkg golang/types, method (*TypeName) Exported() bool
+pkg golang/types, method (*TypeName) Id() string
+pkg golang/types, method (*TypeName) Name() string
+pkg golang/types, method (*TypeName) Parent() *Scope
+pkg golang/types, method (*TypeName) Pkg() *Package
+pkg golang/types, method (*TypeName) Pos() token.Pos
+pkg golang/types, method (*TypeName) String() string
+pkg golang/types, method (*TypeName) Type() Type
+pkg golang/types, method (*Var) Anonymous() bool
+pkg golang/types, method (*Var) Exported() bool
+pkg golang/types, method (*Var) Id() string
+pkg golang/types, method (*Var) IsField() bool
+pkg golang/types, method (*Var) Name() string
+pkg golang/types, method (*Var) Parent() *Scope
+pkg golang/types, method (*Var) Pkg() *Package
+pkg golang/types, method (*Var) Pos() token.Pos
+pkg golang/types, method (*Var) String() string
+pkg golang/types, method (*Var) Type() Type
+pkg golang/types, method (Checker) ObjectOf(*ast.Ident) Object
+pkg golang/types, method (Checker) TypeOf(ast.Expr) Type
+pkg golang/types, method (Error) Error() string
+pkg golang/types, method (TypeAndValue) Addressable() bool
+pkg golang/types, method (TypeAndValue) Assignable() bool
+pkg golang/types, method (TypeAndValue) HasOk() bool
+pkg golang/types, method (TypeAndValue) IsBuiltin() bool
+pkg golang/types, method (TypeAndValue) IsNil() bool
+pkg golang/types, method (TypeAndValue) IsType() bool
+pkg golang/types, method (TypeAndValue) IsValue() bool
+pkg golang/types, method (TypeAndValue) IsVoid() bool
+pkg golang/types, type Array struct
+pkg golang/types, type Basic struct
+pkg golang/types, type BasicInfo int
+pkg golang/types, type BasicKind int
+pkg golang/types, type Builtin struct
+pkg golang/types, type Chan struct
+pkg golang/types, type ChanDir int
+pkg golang/types, type Checker struct
+pkg golang/types, type Checker struct, embedded *Info
+pkg golang/types, type Config struct
+pkg golang/types, type Config struct, DisableUnusedImportCheck bool
+pkg golang/types, type Config struct, Error func(error)
+pkg golang/types, type Config struct, FakeImportC bool
+pkg golang/types, type Config struct, IgnoreFuncBodies bool
+pkg golang/types, type Config struct, Importer Importer
+pkg golang/types, type Config struct, Sizes Sizes
+pkg golang/types, type Const struct
+pkg golang/types, type Error struct
+pkg golang/types, type Error struct, Fset *token.FileSet
+pkg golang/types, type Error struct, Msg string
+pkg golang/types, type Error struct, Pos token.Pos
+pkg golang/types, type Error struct, Soft bool
+pkg golang/types, type Func struct
+pkg golang/types, type Importer interface { Import }
+pkg golang/types, type Importer interface, Import(string) (*Package, error)
+pkg golang/types, type Info struct
+pkg golang/types, type Info struct, Defs map[*ast.Ident]Object
+pkg golang/types, type Info struct, Implicits map[ast.Node]Object
+pkg golang/types, type Info struct, InitOrder []*Initializer
+pkg golang/types, type Info struct, Scopes map[ast.Node]*Scope
+pkg golang/types, type Info struct, Selections map[*ast.SelectorExpr]*Selection
+pkg golang/types, type Info struct, Types map[ast.Expr]TypeAndValue
+pkg golang/types, type Info struct, Uses map[*ast.Ident]Object
+pkg golang/types, type Initializer struct
+pkg golang/types, type Initializer struct, Lhs []*Var
+pkg golang/types, type Initializer struct, Rhs ast.Expr
+pkg golang/types, type Interface struct
+pkg golang/types, type Label struct
+pkg golang/types, type Map struct
+pkg golang/types, type MethodSet struct
+pkg golang/types, type Named struct
+pkg golang/types, type Nil struct
+pkg golang/types, type Object interface, Exported() bool
+pkg golang/types, type Object interface, Id() string
+pkg golang/types, type Object interface, Name() string
+pkg golang/types, type Object interface, Parent() *Scope
+pkg golang/types, type Object interface, Pkg() *Package
+pkg golang/types, type Object interface, Pos() token.Pos
+pkg golang/types, type Object interface, String() string
+pkg golang/types, type Object interface, Type() Type
+pkg golang/types, type Object interface, unexported methods
+pkg golang/types, type Package struct
+pkg golang/types, type PkgName struct
+pkg golang/types, type Pointer struct
+pkg golang/types, type Qualifier func(*Package) string
+pkg golang/types, type Scope struct
+pkg golang/types, type Selection struct
+pkg golang/types, type SelectionKind int
+pkg golang/types, type Signature struct
+pkg golang/types, type Sizes interface { Alignof, Offsetsof, Sizeof }
+pkg golang/types, type Sizes interface, Alignof(Type) int64
+pkg golang/types, type Sizes interface, Offsetsof([]*Var) []int64
+pkg golang/types, type Sizes interface, Sizeof(Type) int64
+pkg golang/types, type Slice struct
+pkg golang/types, type StdSizes struct
+pkg golang/types, type StdSizes struct, MaxAlign int64
+pkg golang/types, type StdSizes struct, WordSize int64
+pkg golang/types, type Struct struct
+pkg golang/types, type Tuple struct
+pkg golang/types, type Type interface { String, Underlying }
+pkg golang/types, type Type interface, String() string
+pkg golang/types, type Type interface, Underlying() Type
+pkg golang/types, type TypeAndValue struct
+pkg golang/types, type TypeAndValue struct, Type Type
+pkg golang/types, type TypeAndValue struct, Value constant.Value
+pkg golang/types, type TypeName struct
+pkg golang/types, type Var struct
+pkg golang/types, var Typ []*Basic
+pkg golang/types, var Universe *Scope
+pkg golang/types, var Unsafe *Package
 pkg html/template, method (*Template) Option(...string) *Template
 pkg image, const YCbCrSubsampleRatio410 = 5
 pkg image, const YCbCrSubsampleRatio410 YCbCrSubsampleRatio
@@ -888,81 +888,81 @@ pkg strings, method (*Reader) Size() int64
 pkg syscall (darwin-386), type SysProcAttr struct, Ctty int
 pkg syscall (darwin-386), type SysProcAttr struct, Foreground bool
 pkg syscall (darwin-386), type SysProcAttr struct, Pgid int
-pkg syscall (darwin-386-cgo), type SysProcAttr struct, Ctty int
-pkg syscall (darwin-386-cgo), type SysProcAttr struct, Foreground bool
-pkg syscall (darwin-386-cgo), type SysProcAttr struct, Pgid int
+pkg syscall (darwin-386-cgolang), type SysProcAttr struct, Ctty int
+pkg syscall (darwin-386-cgolang), type SysProcAttr struct, Foreground bool
+pkg syscall (darwin-386-cgolang), type SysProcAttr struct, Pgid int
 pkg syscall (darwin-amd64), type SysProcAttr struct, Ctty int
 pkg syscall (darwin-amd64), type SysProcAttr struct, Foreground bool
 pkg syscall (darwin-amd64), type SysProcAttr struct, Pgid int
-pkg syscall (darwin-amd64-cgo), type SysProcAttr struct, Ctty int
-pkg syscall (darwin-amd64-cgo), type SysProcAttr struct, Foreground bool
-pkg syscall (darwin-amd64-cgo), type SysProcAttr struct, Pgid int
+pkg syscall (darwin-amd64-cgolang), type SysProcAttr struct, Ctty int
+pkg syscall (darwin-amd64-cgolang), type SysProcAttr struct, Foreground bool
+pkg syscall (darwin-amd64-cgolang), type SysProcAttr struct, Pgid int
 pkg syscall (freebsd-386), type SysProcAttr struct, Ctty int
 pkg syscall (freebsd-386), type SysProcAttr struct, Foreground bool
 pkg syscall (freebsd-386), type SysProcAttr struct, Pgid int
-pkg syscall (freebsd-386-cgo), type SysProcAttr struct, Ctty int
-pkg syscall (freebsd-386-cgo), type SysProcAttr struct, Foreground bool
-pkg syscall (freebsd-386-cgo), type SysProcAttr struct, Pgid int
+pkg syscall (freebsd-386-cgolang), type SysProcAttr struct, Ctty int
+pkg syscall (freebsd-386-cgolang), type SysProcAttr struct, Foreground bool
+pkg syscall (freebsd-386-cgolang), type SysProcAttr struct, Pgid int
 pkg syscall (freebsd-amd64), type SysProcAttr struct, Ctty int
 pkg syscall (freebsd-amd64), type SysProcAttr struct, Foreground bool
 pkg syscall (freebsd-amd64), type SysProcAttr struct, Pgid int
-pkg syscall (freebsd-amd64-cgo), type SysProcAttr struct, Ctty int
-pkg syscall (freebsd-amd64-cgo), type SysProcAttr struct, Foreground bool
-pkg syscall (freebsd-amd64-cgo), type SysProcAttr struct, Pgid int
+pkg syscall (freebsd-amd64-cgolang), type SysProcAttr struct, Ctty int
+pkg syscall (freebsd-amd64-cgolang), type SysProcAttr struct, Foreground bool
+pkg syscall (freebsd-amd64-cgolang), type SysProcAttr struct, Pgid int
 pkg syscall (freebsd-arm), type SysProcAttr struct, Ctty int
 pkg syscall (freebsd-arm), type SysProcAttr struct, Foreground bool
 pkg syscall (freebsd-arm), type SysProcAttr struct, Pgid int
-pkg syscall (freebsd-arm-cgo), type SysProcAttr struct, Ctty int
-pkg syscall (freebsd-arm-cgo), type SysProcAttr struct, Foreground bool
-pkg syscall (freebsd-arm-cgo), type SysProcAttr struct, Pgid int
+pkg syscall (freebsd-arm-cgolang), type SysProcAttr struct, Ctty int
+pkg syscall (freebsd-arm-cgolang), type SysProcAttr struct, Foreground bool
+pkg syscall (freebsd-arm-cgolang), type SysProcAttr struct, Pgid int
 pkg syscall (linux-386), type SysProcAttr struct, Foreground bool
 pkg syscall (linux-386), type SysProcAttr struct, GidMappingsEnableSetgroups bool
 pkg syscall (linux-386), type SysProcAttr struct, Pgid int
-pkg syscall (linux-386-cgo), type SysProcAttr struct, Foreground bool
-pkg syscall (linux-386-cgo), type SysProcAttr struct, GidMappingsEnableSetgroups bool
-pkg syscall (linux-386-cgo), type SysProcAttr struct, Pgid int
+pkg syscall (linux-386-cgolang), type SysProcAttr struct, Foreground bool
+pkg syscall (linux-386-cgolang), type SysProcAttr struct, GidMappingsEnableSetgroups bool
+pkg syscall (linux-386-cgolang), type SysProcAttr struct, Pgid int
 pkg syscall (linux-amd64), type SysProcAttr struct, Foreground bool
 pkg syscall (linux-amd64), type SysProcAttr struct, GidMappingsEnableSetgroups bool
 pkg syscall (linux-amd64), type SysProcAttr struct, Pgid int
-pkg syscall (linux-amd64-cgo), type SysProcAttr struct, Foreground bool
-pkg syscall (linux-amd64-cgo), type SysProcAttr struct, GidMappingsEnableSetgroups bool
-pkg syscall (linux-amd64-cgo), type SysProcAttr struct, Pgid int
+pkg syscall (linux-amd64-cgolang), type SysProcAttr struct, Foreground bool
+pkg syscall (linux-amd64-cgolang), type SysProcAttr struct, GidMappingsEnableSetgroups bool
+pkg syscall (linux-amd64-cgolang), type SysProcAttr struct, Pgid int
 pkg syscall (linux-arm), type SysProcAttr struct, Foreground bool
 pkg syscall (linux-arm), type SysProcAttr struct, GidMappingsEnableSetgroups bool
 pkg syscall (linux-arm), type SysProcAttr struct, Pgid int
-pkg syscall (linux-arm-cgo), type SysProcAttr struct, Foreground bool
-pkg syscall (linux-arm-cgo), type SysProcAttr struct, GidMappingsEnableSetgroups bool
-pkg syscall (linux-arm-cgo), type SysProcAttr struct, Pgid int
+pkg syscall (linux-arm-cgolang), type SysProcAttr struct, Foreground bool
+pkg syscall (linux-arm-cgolang), type SysProcAttr struct, GidMappingsEnableSetgroups bool
+pkg syscall (linux-arm-cgolang), type SysProcAttr struct, Pgid int
 pkg syscall (netbsd-386), type SysProcAttr struct, Ctty int
 pkg syscall (netbsd-386), type SysProcAttr struct, Foreground bool
 pkg syscall (netbsd-386), type SysProcAttr struct, Pgid int
-pkg syscall (netbsd-386-cgo), type SysProcAttr struct, Ctty int
-pkg syscall (netbsd-386-cgo), type SysProcAttr struct, Foreground bool
-pkg syscall (netbsd-386-cgo), type SysProcAttr struct, Pgid int
+pkg syscall (netbsd-386-cgolang), type SysProcAttr struct, Ctty int
+pkg syscall (netbsd-386-cgolang), type SysProcAttr struct, Foreground bool
+pkg syscall (netbsd-386-cgolang), type SysProcAttr struct, Pgid int
 pkg syscall (netbsd-amd64), type SysProcAttr struct, Ctty int
 pkg syscall (netbsd-amd64), type SysProcAttr struct, Foreground bool
 pkg syscall (netbsd-amd64), type SysProcAttr struct, Pgid int
-pkg syscall (netbsd-amd64-cgo), type SysProcAttr struct, Ctty int
-pkg syscall (netbsd-amd64-cgo), type SysProcAttr struct, Foreground bool
-pkg syscall (netbsd-amd64-cgo), type SysProcAttr struct, Pgid int
+pkg syscall (netbsd-amd64-cgolang), type SysProcAttr struct, Ctty int
+pkg syscall (netbsd-amd64-cgolang), type SysProcAttr struct, Foreground bool
+pkg syscall (netbsd-amd64-cgolang), type SysProcAttr struct, Pgid int
 pkg syscall (netbsd-arm), type SysProcAttr struct, Ctty int
 pkg syscall (netbsd-arm), type SysProcAttr struct, Foreground bool
 pkg syscall (netbsd-arm), type SysProcAttr struct, Pgid int
-pkg syscall (netbsd-arm-cgo), type SysProcAttr struct, Ctty int
-pkg syscall (netbsd-arm-cgo), type SysProcAttr struct, Foreground bool
-pkg syscall (netbsd-arm-cgo), type SysProcAttr struct, Pgid int
+pkg syscall (netbsd-arm-cgolang), type SysProcAttr struct, Ctty int
+pkg syscall (netbsd-arm-cgolang), type SysProcAttr struct, Foreground bool
+pkg syscall (netbsd-arm-cgolang), type SysProcAttr struct, Pgid int
 pkg syscall (openbsd-386), type SysProcAttr struct, Ctty int
 pkg syscall (openbsd-386), type SysProcAttr struct, Foreground bool
 pkg syscall (openbsd-386), type SysProcAttr struct, Pgid int
-pkg syscall (openbsd-386-cgo), type SysProcAttr struct, Ctty int
-pkg syscall (openbsd-386-cgo), type SysProcAttr struct, Foreground bool
-pkg syscall (openbsd-386-cgo), type SysProcAttr struct, Pgid int
+pkg syscall (openbsd-386-cgolang), type SysProcAttr struct, Ctty int
+pkg syscall (openbsd-386-cgolang), type SysProcAttr struct, Foreground bool
+pkg syscall (openbsd-386-cgolang), type SysProcAttr struct, Pgid int
 pkg syscall (openbsd-amd64), type SysProcAttr struct, Ctty int
 pkg syscall (openbsd-amd64), type SysProcAttr struct, Foreground bool
 pkg syscall (openbsd-amd64), type SysProcAttr struct, Pgid int
-pkg syscall (openbsd-amd64-cgo), type SysProcAttr struct, Ctty int
-pkg syscall (openbsd-amd64-cgo), type SysProcAttr struct, Foreground bool
-pkg syscall (openbsd-amd64-cgo), type SysProcAttr struct, Pgid int
+pkg syscall (openbsd-amd64-cgolang), type SysProcAttr struct, Ctty int
+pkg syscall (openbsd-amd64-cgolang), type SysProcAttr struct, Foreground bool
+pkg syscall (openbsd-amd64-cgolang), type SysProcAttr struct, Pgid int
 pkg text/template, method (*Template) DefinedTemplates() string
 pkg text/template, method (*Template) Option(...string) *Template
 pkg time, method (Time) AppendFormat([]uint8, string) []uint8

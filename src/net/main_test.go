@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package net
@@ -131,7 +131,7 @@ func setupTestData() {
 
 	addr := ipv6LinkLocalUnicastAddr(ifi)
 	if addr != "" {
-		if runtime.GOOS != "dragonfly" {
+		if runtime.GOOS != "dragolangnfly" {
 			ipv6LinkLocalUnicastTCPTests = append(ipv6LinkLocalUnicastTCPTests, []ipv6LinkLocalUnicastTest{
 				{"tcp", "[" + addr + "%" + ifi.Name + "]:0", false},
 			}...)
@@ -146,7 +146,7 @@ func setupTestData() {
 			{"udp6", "[" + addr + "%" + ifi.Name + "]:0", false},
 		}...)
 		switch runtime.GOOS {
-		case "darwin", "ios", "dragonfly", "freebsd", "openbsd", "netbsd":
+		case "darwin", "ios", "dragolangnfly", "freebsd", "openbsd", "netbsd":
 			ipv6LinkLocalUnicastTCPTests = append(ipv6LinkLocalUnicastTCPTests, []ipv6LinkLocalUnicastTest{
 				{"tcp", "[localhost%" + ifi.Name + "]:0", true},
 				{"tcp6", "[localhost%" + ifi.Name + "]:0", true},
@@ -173,14 +173,14 @@ func printRunningGoroutines() {
 	if len(gss) == 0 {
 		return
 	}
-	fmt.Fprintf(os.Stderr, "Running goroutines:\n")
+	fmt.Fprintf(os.Stderr, "Running golangroutines:\n")
 	for _, gs := range gss {
 		fmt.Fprintf(os.Stderr, "%v\n", gs)
 	}
 	fmt.Fprintf(os.Stderr, "\n")
 }
 
-// runningGoroutines returns a list of remaining goroutines.
+// runningGoroutines returns a list of remaining golangroutines.
 func runningGoroutines() []string {
 	var gss []string
 	b := make([]byte, 2<<20)

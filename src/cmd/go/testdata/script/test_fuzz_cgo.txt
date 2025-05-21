@@ -1,23 +1,23 @@
 [!fuzz] skip
-[!cgo] skip
+[!cgolang] skip
 [short] skip
 env GOCACHE=$WORK/cache
 
-# Test that fuzzing works with cgo (issue 65169)
+# Test that fuzzing works with cgolang (issue 65169)
 
-go test -fuzz=. -fuzztime=1x
+golang test -fuzz=. -fuzztime=1x
 stdout ok
 ! stdout FAIL
 
--- go.mod --
+-- golang.mod --
 module example.com/p
 
-go 1.20
--- c.go --
+golang 1.20
+-- c.golang --
 package p
 
 import "C"
--- c_test.go --
+-- c_test.golang --
 package p
 
 import "testing"

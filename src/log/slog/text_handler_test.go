@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package slog
@@ -88,12 +88,12 @@ func TestTextHandler(t *testing.T) {
 					if err := h.Handle(context.Background(), r); err != nil {
 						t.Fatal(err)
 					}
-					got := buf.String()
+					golangt := buf.String()
 					// Remove final newline.
-					got = got[:len(got)-1]
+					golangt = golangt[:len(golangt)-1]
 					want := opts.wantPrefix + " " + opts.modKey(test.wantKey) + "=" + test.wantVal
-					if got != want {
-						t.Errorf("\ngot  %s\nwant %s", got, want)
+					if golangt != want {
+						t.Errorf("\ngolangt  %s\nwant %s", golangt, want)
 					}
 				})
 			}
@@ -132,10 +132,10 @@ func TestTextHandlerPreformatted(t *testing.T) {
 	if err := h.Handle(context.Background(), r); err != nil {
 		t.Fatal(err)
 	}
-	got := strings.TrimSuffix(buf.String(), "\n")
+	golangt := strings.TrimSuffix(buf.String(), "\n")
 	want := `level=INFO msg=m dur=1m0s b=true a=1`
-	if got != want {
-		t.Errorf("got %s, want %s", got, want)
+	if golangt != want {
+		t.Errorf("golangt %s, want %s", golangt, want)
 	}
 }
 
@@ -168,9 +168,9 @@ func TestNeedsQuoting(t *testing.T) {
 		{"a b", true},
 		{"badutf8\xF6", true},
 	} {
-		got := needsQuoting(test.in)
-		if got != test.want {
-			t.Errorf("%q: got %t, want %t", test.in, got, test.want)
+		golangt := needsQuoting(test.in)
+		if golangt != test.want {
+			t.Errorf("%q: golangt %t, want %t", test.in, golangt, test.want)
 		}
 	}
 }

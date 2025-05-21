@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package time_test
@@ -124,8 +124,8 @@ func TestTeardown(t *testing.T) {
 // Test the Tick convenience wrapper.
 func TestTick(t *testing.T) {
 	// Test that giving a negative duration returns nil.
-	if got := Tick(-1); got != nil {
-		t.Errorf("Tick(-1) = %v; want nil", got)
+	if golangt := Tick(-1); golangt != nil {
+		t.Errorf("Tick(-1) = %v; want nil", golangt)
 	}
 }
 
@@ -162,7 +162,7 @@ func TestLongAdjustTimers(t *testing.T) {
 	const count = 5000
 	wg.Add(count)
 	for range count {
-		go func() {
+		golang func() {
 			defer wg.Done()
 			Sleep(10 * Microsecond)
 		}()
@@ -179,14 +179,14 @@ func TestLongAdjustTimers(t *testing.T) {
 	done := make(chan bool)
 	AfterFunc(60*Second, func() { close(done) })
 
-	// Set up a queuing goroutine to ping pong through the scheduler.
+	// Set up a queuing golangroutine to ping pong through the scheduler.
 	inQ := make(chan func())
 	outQ := make(chan func())
 
 	defer close(inQ)
 
 	wg.Add(1)
-	go func() {
+	golang func() {
 		defer wg.Done()
 		defer close(outQ)
 		var q []func()
@@ -354,7 +354,7 @@ func testTimerChan(t *testing.T, tim timer, C <-chan Time, synctimerchan bool) {
 
 	// Retry parameters. Enough to deflake even on slow machines.
 	// Windows in particular has very coarse timers so we have to
-	// wait 10ms just to make a timer go off.
+	// wait 10ms just to make a timer golang off.
 	const (
 		sched      = 10 * Millisecond
 		tries      = 100
@@ -396,9 +396,9 @@ func testTimerChan(t *testing.T, tim timer, C <-chan Time, synctimerchan bool) {
 			// This is rare, but it does happen on overloaded builder machines.
 			// It can also be reproduced on an M3 MacBook Pro using:
 			//
-			//	go test -c strings
+			//	golang test -c strings
 			//	stress ./strings.test &   # chew up CPU
-			//	go test -c -race time
+			//	golang test -c -race time
 			//	stress -p 48 ./time.test -test.count=10 -test.run=TestChan/asynctimerchan=1/Ticker
 			drain1()
 		}
@@ -515,17 +515,17 @@ func testTimerChan(t *testing.T, tim timer, C <-chan Time, synctimerchan bool) {
 			default:
 			}
 		}
-		t.Fatalf("never got done")
+		t.Fatalf("never golangt done")
 	}
 
 	// Reset timer in heap (already reset above, but just in case).
 	tim.Reset(10000 * Second)
 	drainAsync()
 
-	// Test stop while timer in heap (because goroutine is blocked on <-C).
+	// Test stop while timer in heap (because golangroutine is blocked on <-C).
 	done := make(chan bool)
 	notDone(done)
-	go func() {
+	golang func() {
 		<-C
 		close(done)
 	}()
@@ -553,14 +553,14 @@ func testTimerChan(t *testing.T, tim timer, C <-chan Time, synctimerchan bool) {
 	drainAsync()
 	noTick()
 
-	// Again using select and with two goroutines waiting.
+	// Again using select and with two golangroutines waiting.
 	tim.Reset(10000 * Second)
 	drainAsync()
 	done = make(chan bool, 2)
 	done1 := make(chan bool)
 	done2 := make(chan bool)
 	stop := make(chan bool)
-	go func() {
+	golang func() {
 		select {
 		case <-C:
 			done <- true
@@ -568,7 +568,7 @@ func testTimerChan(t *testing.T, tim timer, C <-chan Time, synctimerchan bool) {
 		}
 		close(done1)
 	}()
-	go func() {
+	golang func() {
 		select {
 		case <-C:
 			done <- true
@@ -604,7 +604,7 @@ func testTimerChan(t *testing.T, tim timer, C <-chan Time, synctimerchan bool) {
 	stop = make(chan bool)
 	done = make(chan bool, 2)
 	for range 2 {
-		go func() {
+		golang func() {
 			select {
 			case <-C:
 				panic("unexpected data")
@@ -619,7 +619,7 @@ func testTimerChan(t *testing.T, tim timer, C <-chan Time, synctimerchan bool) {
 	waitDone(done)
 
 	// Test that Stop and Reset block old values from being received.
-	// (Proposal go.dev/issue/37196.)
+	// (Proposal golang.dev/issue/37196.)
 	if synctimerchan {
 		tim.Reset(1)
 		Sleep(10 * Millisecond)
@@ -651,7 +651,7 @@ func testTimerChan(t *testing.T, tim timer, C <-chan Time, synctimerchan bool) {
 func TestManualTicker(t *testing.T) {
 	// Code should not do this, but some old code dating to Go 1.9 does.
 	// Make sure this doesn't crash.
-	// See go.dev/issue/21874.
+	// See golang.dev/issue/21874.
 	c := make(chan Time)
 	tick := &Ticker{C: c}
 	tick.Stop()

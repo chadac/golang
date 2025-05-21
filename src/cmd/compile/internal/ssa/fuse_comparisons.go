@@ -1,5 +1,5 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ssa
@@ -127,7 +127,7 @@ func isUnsignedInequality(v *Value) bool {
 
 func areMergeableInequalities(x, y *Value) bool {
 	// We need both inequalities to be either in the signed or unsigned domain.
-	// TODO(mundaym): it would also be good to merge when we have an Eq op that
+	// TODO(mundaym): it would also be golangod to merge when we have an Eq op that
 	// could be transformed into a Less/Leq. For example in the unsigned
 	// domain 'x == 0 || 3 < x' is equivalent to 'x <= 0 || 3 < x'
 	inequalityChecks := [...]func(*Value) bool{

@@ -1,8 +1,8 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:generate go run gen.go gen_trieval.go gen_ranges.go
+//golang:generate golang run gen.golang gen_trieval.golang gen_ranges.golang
 
 // Package bidi contains functionality for bidirectional text support.
 //
@@ -10,7 +10,7 @@
 //
 // NOTE: UNDER CONSTRUCTION. This API may change in backwards incompatible ways
 // and without notice.
-package bidi // import "golang.org/x/text/unicode/bidi"
+package bidi // import "golanglang.org/x/text/unicode/bidi"
 
 // TODO
 // - Transformer for reordering?
@@ -248,7 +248,7 @@ func (p *Paragraph) Line(start, end int) (Ordering, error) {
 
 // An Ordering holds the computed visual order of runs of a Paragraph. Calling
 // SetBytes or SetString on the originating Paragraph invalidates an Ordering.
-// The methods of an Ordering should only be called by one goroutine at a time.
+// The methods of an Ordering should only be called by one golangroutine at a time.
 type Ordering struct {
 	runes      [][]rune
 	directions []Direction

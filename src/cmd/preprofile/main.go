@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Preprofile creates an intermediate representation of a pprof profile for use
@@ -8,13 +8,13 @@
 //
 // Usage:
 //
-//	go tool preprofile [-V] [-o output] -i input
+//	golang tool preprofile [-V] [-o output] -i input
 package main
 
 import (
 	"bufio"
 	"cmd/internal/objabi"
-	"cmd/internal/pgo"
+	"cmd/internal/pgolang"
 	"cmd/internal/telemetry/counter"
 	"flag"
 	"fmt"
@@ -23,7 +23,7 @@ import (
 )
 
 func usage() {
-	fmt.Fprintf(os.Stderr, "usage: go tool preprofile [-V] [-o output] -i input\n\n")
+	fmt.Fprintf(os.Stderr, "usage: golang tool preprofile [-V] [-o output] -i input\n\n")
 	flag.PrintDefaults()
 	os.Exit(2)
 }
@@ -41,7 +41,7 @@ func preprocess(profileFile string, outputFile string) error {
 	defer f.Close()
 
 	r := bufio.NewReader(f)
-	d, err := pgo.FromPProf(r)
+	d, err := pgolang.FromPProf(r)
 	if err != nil {
 		return fmt.Errorf("error parsing profile: %w", err)
 	}

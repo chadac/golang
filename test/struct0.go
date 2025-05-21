@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test zero length structs.
@@ -27,8 +27,8 @@ func rec() {
 
 func main() {
 	c := make(chan interface{})
-	go recv(c)
+	golang recv(c)
 	c <- struct{}{}
-	go recv1(c)
+	golang recv1(c)
 	c <- struct{}{}
 }

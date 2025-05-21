@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package url_test
@@ -152,12 +152,12 @@ func ExampleURL() {
 		log.Fatal(err)
 	}
 	u.Scheme = "https"
-	u.Host = "google.com"
+	u.Host = "golangogle.com"
 	q := u.Query()
-	q.Set("q", "golang")
+	q.Set("q", "golanglang")
 	u.RawQuery = q.Encode()
 	fmt.Println(u)
-	// Output: https://google.com/search?q=golang
+	// Output: https://golangogle.com/search?q=golanglang
 }
 
 func ExampleURL_roundtrip() {

@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
@@ -22,7 +22,7 @@ func unimplemented(name string) {
 	*(*int)(unsafe.Pointer(uintptr(1231))) = 1231
 }
 
-//go:nosplit
+//golang:nosplit
 func semacreate(mp *m) {
 	if mp.initialized {
 		return
@@ -36,7 +36,7 @@ func semacreate(mp *m) {
 	}
 }
 
-//go:nosplit
+//golang:nosplit
 func semasleep(ns int64) int32 {
 	var start int64
 	if ns >= 0 {
@@ -74,7 +74,7 @@ func semasleep(ns int64) int32 {
 	}
 }
 
-//go:nosplit
+//golang:nosplit
 func semawakeup(mp *m) {
 	if g := getg(); g == g.m.gsignal {
 		throw("semawakeup on Darwin signal stack")
@@ -141,7 +141,7 @@ func sigNoteSleep(*note) {
 
 // BSD interface for threading.
 func osinit() {
-	// pthread_create delayed until end of goenvs so that we
+	// pthread_create delayed until end of golangenvs so that we
 	// can look at the environment first.
 
 	numCPUStartup = getCPUCount()
@@ -157,7 +157,7 @@ func sysctlbynameInt32(name []byte) (int32, int32) {
 	return ret, out
 }
 
-//go:linkname internal_cpu_getsysctlbyname internal/cpu.getsysctlbyname
+//golang:linkname internal_cpu_getsysctlbyname internal/cpu.getsysctlbyname
 func internal_cpu_getsysctlbyname(name []byte) (int32, int32) {
 	return sysctlbynameInt32(name)
 }
@@ -192,19 +192,19 @@ func getPageSize() uintptr {
 	return 0
 }
 
-//go:nosplit
+//golang:nosplit
 func readRandom(r []byte) int {
 	arc4random_buf(unsafe.Pointer(&r[0]), int32(len(r)))
 	return len(r)
 }
 
-func goenvs() {
-	goenvs_unix()
+func golangenvs() {
+	golangenvs_unix()
 }
 
 // May run with m.p==nil, so write barriers are not allowed.
 //
-//go:nowritebarrierrec
+//golang:nowritebarrierrec
 func newosproc(mp *m) {
 	stk := unsafe.Pointer(mp.g0.stack.hi)
 	if false {
@@ -256,7 +256,7 @@ func mstart_stub()
 //
 // This function is not safe to use after initialization as it does not pass an M as fnarg.
 //
-//go:nosplit
+//golang:nosplit
 func newosproc0(stacksize uintptr, fn uintptr) {
 	// Initialize an attribute object.
 	var attr pthreadattr
@@ -301,8 +301,8 @@ func newosproc0(stacksize uintptr, fn uintptr) {
 // -buildmode=c-archive or -buildmode=c-shared.
 // None of the Go runtime is initialized.
 //
-//go:nosplit
-//go:nowritebarrierrec
+//golang:nosplit
+//golang:nowritebarrierrec
 func libpreinit() {
 	initsig(true)
 }
@@ -334,7 +334,7 @@ func minit() {
 
 // Called from dropm to undo the effect of an minit.
 //
-//go:nosplit
+//golang:nosplit
 func unminit() {
 	// iOS does not support alternate signal stack.
 	// See minit.
@@ -347,17 +347,17 @@ func unminit() {
 // Called from mexit, but not from dropm, to undo the effect of thread-owned
 // resources in minit, semacreate, or elsewhere. Do not take locks after calling this.
 //
-// This always runs without a P, so //go:nowritebarrierrec is required.
-//go:nowritebarrierrec
+// This always runs without a P, so //golang:nowritebarrierrec is required.
+//golang:nowritebarrierrec
 func mdestroy(mp *m) {
 }
 
-//go:nosplit
+//golang:nosplit
 func osyield_no_g() {
 	usleep_no_g(1)
 }
 
-//go:nosplit
+//golang:nosplit
 func osyield() {
 	usleep(1)
 }
@@ -377,15 +377,15 @@ type sigset uint32
 
 var sigset_all = ^sigset(0)
 
-//go:nosplit
-//go:nowritebarrierrec
+//golang:nosplit
+//golang:nowritebarrierrec
 func setsig(i uint32, fn uintptr) {
 	var sa usigactiont
 	sa.sa_flags = _SA_SIGINFO | _SA_ONSTACK | _SA_RESTART
 	sa.sa_mask = ^uint32(0)
-	if fn == abi.FuncPCABIInternal(sighandler) { // abi.FuncPCABIInternal(sighandler) matches the callers in signal_unix.go
-		if iscgo {
-			fn = abi.FuncPCABI0(cgoSigtramp)
+	if fn == abi.FuncPCABIInternal(sighandler) { // abi.FuncPCABIInternal(sighandler) matches the callers in signal_unix.golang
+		if iscgolang {
+			fn = abi.FuncPCABI0(cgolangSigtramp)
 		} else {
 			fn = abi.FuncPCABI0(sigtramp)
 		}
@@ -397,10 +397,10 @@ func setsig(i uint32, fn uintptr) {
 // sigtramp is the callback from libc when a signal is received.
 // It is called with the C calling convention.
 func sigtramp()
-func cgoSigtramp()
+func cgolangSigtramp()
 
-//go:nosplit
-//go:nowritebarrierrec
+//golang:nosplit
+//golang:nowritebarrierrec
 func setsigstack(i uint32) {
 	var osa usigactiont
 	sigaction(i, nil, &osa)
@@ -415,8 +415,8 @@ func setsigstack(i uint32) {
 	sigaction(i, &sa, nil)
 }
 
-//go:nosplit
-//go:nowritebarrierrec
+//golang:nosplit
+//golang:nowritebarrierrec
 func getsig(i uint32) uintptr {
 	var sa usigactiont
 	sigaction(i, nil, &sa)
@@ -425,13 +425,13 @@ func getsig(i uint32) uintptr {
 
 // setSignalstackSP sets the ss_sp field of a stackt.
 //
-//go:nosplit
+//golang:nosplit
 func setSignalstackSP(s *stackt, sp uintptr) {
 	*(*uintptr)(unsafe.Pointer(&s.ss_sp)) = sp
 }
 
-//go:nosplit
-//go:nowritebarrierrec
+//golang:nosplit
+//golang:nowritebarrierrec
 func sigaddset(mask *sigset, i int) {
 	*mask |= 1 << (uint32(i) - 1)
 }
@@ -448,12 +448,12 @@ func setThreadCPUProfiler(hz int32) {
 	setThreadCPUProfilerHz(hz)
 }
 
-//go:nosplit
+//golang:nosplit
 func validSIGPROF(mp *m, c *sigctxt) bool {
 	return true
 }
 
-//go:linkname executablePath os.executablePath
+//golang:linkname executablePath os.executablePath
 var executablePath string
 
 func sysargs(argc int32, argv **byte) {
@@ -462,7 +462,7 @@ func sysargs(argc int32, argv **byte) {
 	for argv_index(argv, n) != nil {
 		n++
 	}
-	executablePath = gostringnocopy(argv_index(argv, n+1))
+	executablePath = golangstringnocopy(argv_index(argv, n+1))
 
 	// strip "executable_path=" prefix if available, it's added after OS X 10.11.
 	executablePath = stringslite.TrimPrefix(executablePath, "executable_path=")
@@ -476,7 +476,7 @@ func signalM(mp *m, sig int) {
 // number.
 const sigPerThreadSyscall = 1 << 31
 
-//go:nosplit
+//golang:nosplit
 func runPerThreadSyscall() {
 	throw("runPerThreadSyscall only valid on linux")
 }

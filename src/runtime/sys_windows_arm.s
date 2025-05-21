@@ -1,9 +1,9 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-#include "go_asm.h"
-#include "go_tls.h"
+#include "golang_asm.h"
+#include "golang_tls.h"
 #include "textflag.h"
 #include "time_windows.h"
 
@@ -89,10 +89,10 @@ TEXT runtime·getlasterror(SB),NOSPLIT,$0
 // R0 is pointer to struct containing
 // exception record and context pointers.
 // R1 is the kind of sigtramp function.
-// Return value of sigtrampgo is stored in R0.
+// Return value of sigtrampgolang is stored in R0.
 TEXT sigtramp<>(SB),NOSPLIT|NOFRAME,$0
 	MOVM.DB.W [R4-R11, R14], (R13)	// push {r4-r11, lr} (SP-=40)
-	SUB	$(16), R13		// reserve space for parameters/retval to go call
+	SUB	$(16), R13		// reserve space for parameters/retval to golang call
 
 	MOVW	R0, R6			// Save param0
 	MOVW	R1, R7			// Save param1
@@ -102,7 +102,7 @@ TEXT sigtramp<>(SB),NOSPLIT|NOFRAME,$0
 	MOVW	R4, 0(R13)	// No saved link register.
 	MOVW	R6, 4(R13)	// Move arg0 into position
 	MOVW	R7, 8(R13)	// Move arg1 into position
-	BL	runtime·sigtrampgo(SB)
+	BL	runtime·sigtrampgolang(SB)
 	MOVW	12(R13), R0	// Fetch return value from stack
 
 	ADD	$(16), R13			// free locals
@@ -113,7 +113,7 @@ TEXT sigtramp<>(SB),NOSPLIT|NOFRAME,$0
 // Trampoline to resume execution from exception handler.
 // This is part of the control flow guard workaround.
 // It switches stacks and jumps to the continuation address.
-// R0 and R1 are set above at the end of sigtrampgo
+// R0 and R1 are set above at the end of sigtrampgolang
 // in the context that starts executing at sigresume.
 TEXT runtime·sigresume(SB),NOSPLIT|NOFRAME,$0
 	// Important: do not smash LR,
@@ -155,14 +155,14 @@ TEXT runtime·callbackasm1(SB),NOSPLIT|NOFRAME,$0
 	// Prepare for entry to Go.
 	BL	runtime·load_g(SB)
 
-	// Call cgocallback, which will call callbackWrap(frame).
+	// Call cgolangcallback, which will call callbackWrap(frame).
 	MOVW	$0, R0
 	MOVW	R0, 12(R13)	// context
 	MOVW	$16(R13), R1	// R1 = &callbackArgs{...}
 	MOVW	R1, 8(R13)	// frame (address of callbackArgs)
 	MOVW	$·callbackWrap(SB), R1
 	MOVW	R1, 4(R13)	// PC of function to call
-	BL	runtime·cgocallback(SB)
+	BL	runtime·cgolangcallback(SB)
 
 	// Get callback result.
 	MOVW	(16+callbackArgs_result)(R13), R0
@@ -228,7 +228,7 @@ loop:
 // save_g saves the g register (R10) into thread local memory
 // so that we can call externally compiled
 // ARM code that will overwrite those registers.
-// NOTE: runtime.gogo assumes that R1 is preserved by this function.
+// NOTE: runtime.golanggolang assumes that R1 is preserved by this function.
 //       runtime.mcall assumes this function only clobbers R0 and R11.
 // Returns with g in R0.
 // Save the value in the _TEB->TlsSlots array.
@@ -256,11 +256,11 @@ TEXT runtime·load_g(SB),NOSPLIT,$0
 	MOVW	g<<2(R0), g
 	RET
 
-// This is called from rt0_go, which runs on the system stack
+// This is called from rt0_golang, which runs on the system stack
 // using the initial stack allocated by the OS.
 // It calls back into standard C using the BL below.
 // To do that, the stack pointer must be 8-byte-aligned.
-TEXT runtime·_initcgo(SB),NOSPLIT|NOFRAME,$0
+TEXT runtime·_initcgolang(SB),NOSPLIT|NOFRAME,$0
 	MOVM.DB.W [R4, R14], (R13)	// push {r4, lr}
 
 	// Ensure stack is 8-byte aligned before calling C code

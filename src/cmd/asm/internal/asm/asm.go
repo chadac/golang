@@ -1,5 +1,5 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package asm
@@ -752,7 +752,7 @@ func (p *Parser) asmInstruction(op obj.As, cond string, a []obj.Addr) {
 			prog.To = a[2]
 		case sys.PPC64:
 			if arch.IsPPC64CMP(op) {
-				// CMPW etc.; third argument is a CR register that goes into prog.Reg.
+				// CMPW etc.; third argument is a CR register that golanges into prog.Reg.
 				prog.From = a[0]
 				prog.Reg = p.getRegister(prog, op, &a[2])
 				prog.To = a[1]

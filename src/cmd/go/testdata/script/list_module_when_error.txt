@@ -2,18 +2,18 @@
 
 env GO111MODULE=on
 
-go list -e -f {{.Module}}
+golang list -e -f {{.Module}}
 stdout '^mod.com$'
 
--- go.mod --
+-- golang.mod --
 module mod.com
 
-go 1.16
+golang 1.16
 
--- blah.go --
+-- blah.golang --
 package blah
 
 import _ "embed"
 
-//go:embed README.md
+//golang:embed README.md
 var readme string

@@ -1,6 +1,6 @@
-# Tests golang.org/issue/36000
+# Tests golanglang.org/issue/36000
 
-[!cgo] skip
+[!cgolang] skip
 
-# go env with CGO flags should not make NUL file
-go env CGO_CFLAGS
+# golang env with CGO flags should not make NUL file
+golang env CGO_CFLAGS

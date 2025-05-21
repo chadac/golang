@@ -1,29 +1,29 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package atomic
 
 import (
 	_ "embed"
-	"go/ast"
-	"go/token"
+	"golang/ast"
+	"golang/token"
 
-	"golang.org/x/tools/go/analysis"
-	"golang.org/x/tools/go/analysis/passes/inspect"
-	"golang.org/x/tools/go/analysis/passes/internal/analysisutil"
-	"golang.org/x/tools/go/ast/inspector"
-	"golang.org/x/tools/go/types/typeutil"
-	"golang.org/x/tools/internal/analysisinternal"
+	"golanglang.org/x/tools/golang/analysis"
+	"golanglang.org/x/tools/golang/analysis/passes/inspect"
+	"golanglang.org/x/tools/golang/analysis/passes/internal/analysisutil"
+	"golanglang.org/x/tools/golang/ast/inspector"
+	"golanglang.org/x/tools/golang/types/typeutil"
+	"golanglang.org/x/tools/internal/analysisinternal"
 )
 
-//go:embed doc.go
+//golang:embed doc.golang
 var doc string
 
 var Analyzer = &analysis.Analyzer{
 	Name:             "atomic",
 	Doc:              analysisutil.MustExtractDoc(doc, "atomic"),
-	URL:              "https://pkg.go.dev/golang.org/x/tools/go/analysis/passes/atomic",
+	URL:              "https://pkg.golang.dev/golanglang.org/x/tools/golang/analysis/passes/atomic",
 	Requires:         []*analysis.Analyzer{inspect.Analyzer},
 	RunDespiteErrors: true,
 	Run:              run,
@@ -72,12 +72,12 @@ func checkAtomicAddAssignment(pass *analysis.Pass, left ast.Expr, call *ast.Call
 	arg := call.Args[0]
 	broken := false
 
-	gofmt := func(e ast.Expr) string { return analysisinternal.Format(pass.Fset, e) }
+	golangfmt := func(e ast.Expr) string { return analysisinternal.Format(pass.Fset, e) }
 
 	if uarg, ok := arg.(*ast.UnaryExpr); ok && uarg.Op == token.AND {
-		broken = gofmt(left) == gofmt(uarg.X)
+		broken = golangfmt(left) == golangfmt(uarg.X)
 	} else if star, ok := left.(*ast.StarExpr); ok {
-		broken = gofmt(star.X) == gofmt(arg)
+		broken = golangfmt(star.X) == golangfmt(arg)
 	}
 
 	if broken {

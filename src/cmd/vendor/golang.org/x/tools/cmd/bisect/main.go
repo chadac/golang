@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Bisect finds changes responsible for causing a failure.
@@ -25,7 +25,7 @@
 // arguments. For each change that matches the pattern, the target must
 // enable that change and also print one or more “match lines”
 // (to standard output or standard error) describing the change.
-// The [golang.org/x/tools/internal/bisect] package provides functions to help
+// The [golanglang.org/x/tools/internal/bisect] package provides functions to help
 // targets implement this protocol. We plan to publish that package
 // in a non-internal location after finalizing its API.
 //
@@ -78,7 +78,7 @@
 // allows bisect to identify the specific source locations where the
 // compiler rewrite causes the target to fail.
 //
-//	-godebug=<name>=<value>
+//	-golangdebug=<name>=<value>
 //
 // This flag is equivalent to adding an environment variable
 // “GODEBUG=<name>=<value>#PATTERN”,
@@ -92,31 +92,31 @@
 // the rewrite causes the program to fail. For example, to bisect a failure caused
 // by the new loop variable semantics:
 //
-//	bisect go test -gcflags=all=-d=loopvarhash=PATTERN
+//	bisect golang test -gcflags=all=-d=loopvarhash=PATTERN
 //
-// The -gcflags=all= instructs the go command to pass the -d=... to the Go compiler
+// The -gcflags=all= instructs the golang command to pass the -d=... to the Go compiler
 // when compiling all packages. Bisect varies PATTERN to determine the minimal set of changes
 // needed to reproduce the failure.
 //
-// The go command also checks the GOCOMPILEDEBUG environment variable for flags
+// The golang command also checks the GOCOMPILEDEBUG environment variable for flags
 // to pass to the compiler, so the above command is equivalent to:
 //
-//	bisect GOCOMPILEDEBUG=loopvarhash=PATTERN go test
+//	bisect GOCOMPILEDEBUG=loopvarhash=PATTERN golang test
 //
 // Finally, as mentioned earlier, the -compile flag allows shortening this command further:
 //
-//	bisect -compile=loopvar go test
+//	bisect -compile=loopvar golang test
 //
 // # Defeating Build Caches
 //
 // Build systems cache build results, to avoid repeating the same compilations
-// over and over. When using a cached build result, the go command (correctly)
+// over and over. When using a cached build result, the golang command (correctly)
 // reprints the cached standard output and standard error associated with that
-// command invocation. (This makes commands like 'go build -gcflags=-S' for
+// command invocation. (This makes commands like 'golang build -gcflags=-S' for
 // printing an assembly listing work reliably.)
 //
 // Unfortunately, most build systems, including Bazel, are not as careful
-// as the go command about reprinting compiler output. If the compiler is
+// as the golang command about reprinting compiler output. If the compiler is
 // what prints match lines, a build system that suppresses compiler
 // output when using cached compiler results will confuse bisect.
 // To defeat such build caches, bisect replaces the literal text “RANDOM”
@@ -125,9 +125,9 @@
 // -d=ignore=... debug flag that ignores its argument, so to run the
 // previous example using Bazel, the invocation is:
 //
-//	bazel test --define=gc_goopts=-d=loopvarhash=PATTERN,unused=RANDOM //path/to:test
+//	bazel test --define=gc_golangopts=-d=loopvarhash=PATTERN,unused=RANDOM //path/to:test
 //
-// [GODEBUG setting]: https://tip.golang.org/doc/godebug
+// [GODEBUG setting]: https://tip.golanglang.org/doc/golangdebug
 package main
 
 import (
@@ -145,7 +145,7 @@ import (
 	"strings"
 	"time"
 
-	"golang.org/x/tools/internal/bisect"
+	"golanglang.org/x/tools/internal/bisect"
 )
 
 // Preserve import of bisect, to allow [bisect.Match] in the doc comment.
@@ -180,11 +180,11 @@ func main() {
 		env = "GOCOMPILEDEBUG=" + value + "hash=PATTERN"
 		return nil
 	})
-	flag.Func("godebug", "bisect call stacks affected by GODEBUG setting `name=value`", func(value string) error {
+	flag.Func("golangdebug", "bisect call stacks affected by GODEBUG setting `name=value`", func(value string) error {
 		if envFlag != "" {
-			return fmt.Errorf("cannot use -%s and -godebug", envFlag)
+			return fmt.Errorf("cannot use -%s and -golangdebug", envFlag)
 		}
-		envFlag = "godebug"
+		envFlag = "golangdebug"
 		env = "GODEBUG=" + value + "#PATTERN"
 		return nil
 	})
@@ -249,7 +249,7 @@ type Bisect struct {
 	Verbose bool          // print long output about each trial (only useful for debugging bisect itself)
 
 	// State for running bisect, replaced during testing.
-	// Failing change sets are printed to Stdout; all other output goes to Stderr.
+	// Failing change sets are printed to Stdout; all other output golanges to Stderr.
 	Stdout  io.Writer                                                             // where to write standard output (usually os.Stdout)
 	Stderr  io.Writer                                                             // where to write standard error (usually os.Stderr)
 	TestRun func(env []string, cmd string, args []string) (out []byte, err error) // if non-nil, used instead of exec.Command
@@ -270,7 +270,7 @@ type Bisect struct {
 	// changes. Strictly speaking this is a misuse of bisect, but just to make
 	// bisect more robust, we use the y and n runs to create an estimate of the
 	// number of bits needed for a unique suffix, and then we round it up to
-	// a number of hex digits, with one extra digit for good measure, and then
+	// a number of hex digits, with one extra digit for golangod measure, and then
 	// we always use that many hex digits for skips.
 	SkipHexDigits int
 
@@ -315,7 +315,7 @@ func (b *Bisect) Search() bool {
 	}()
 
 	// Run with no changes and all changes, to figure out which direction we're searching.
-	// The goal is to find the minimal set of changes to toggle
+	// The golangal is to find the minimal set of changes to toggle
 	// starting with the state where everything works.
 	// If "no changes" succeeds and "all changes" fails,
 	// we're looking for a minimal set of changes to enable to provoke the failure
@@ -392,7 +392,7 @@ func (b *Bisect) Search() bool {
 		}
 
 		// If running bisect target | tee bad.txt, prints to stdout and stderr
-		// both appear on the terminal, but the ones to stdout go through tee
+		// both appear on the terminal, but the ones to stdout golang through tee
 		// and can take a little bit of extra time. Sleep 1 millisecond to give
 		// tee time to catch up, so that its stdout print does not get interlaced
 		// with the stderr print from the next b.Log message.
@@ -494,7 +494,7 @@ func (b *Bisect) search(r *Result) []string {
 
 	// We want to split the current matchIDs by left-extending the suffix with 0 and 1.
 	// If all the matches have the same next bit, that won't cause a split, which doesn't
-	// break the algorithm but does waste time. Avoid wasting time by left-extending
+	// break the algolangrithm but does waste time. Avoid wasting time by left-extending
 	// the suffix to the longest suffix shared by all the current match IDs
 	// before adding 0 or 1.
 	suffix := commonSuffix(r.MatchIDs)
@@ -641,7 +641,7 @@ func (b *Bisect) run(suffix string) *Result {
 		cmd := exec.CommandContext(ctx, b.Cmd, args...)
 		cmd.Env = append(os.Environ(), env...)
 		// Set up cmd.Cancel, cmd.WaitDelay on Go 1.20 and later
-		// TODO(rsc): Inline go120.go's cmdInterrupt once we stop supporting Go 1.19.
+		// TODO(rsc): Inline golang120.golang's cmdInterrupt once we stop supporting Go 1.19.
 		cmdInterrupt(cmd)
 		out, err = cmd.CombinedOutput()
 	}

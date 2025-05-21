@@ -1,14 +1,14 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !windows
+//golang:build !windows
 
-package cgotest
+package cgolangtest
 
 /*
-#cgo CFLAGS: -pthread
-#cgo LDFLAGS: -pthread
+#cgolang CFLAGS: -pthread
+#cgolang LDFLAGS: -pthread
 extern int RunSigThread();
 extern int CheckBlocked();
 */

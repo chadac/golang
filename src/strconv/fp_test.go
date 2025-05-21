@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package strconv_test
@@ -133,7 +133,7 @@ func TestFp(t *testing.T) {
 		}
 		if s != a[3] {
 			t.Error("testdata/testfp.txt:", lineno, ": ", a[0], " ", a[1], " ", a[2], " (", v, ") ",
-				"want ", a[3], " got ", s)
+				"want ", a[3], " golangt ", s)
 		}
 	}
 	if s.Err() != nil {

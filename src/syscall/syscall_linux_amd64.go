@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package syscall
@@ -71,7 +71,7 @@ func Lstat(path string, stat *Stat_t) (err error) {
 
 //sys	futimesat(dirfd int, path string, times *[2]Timeval) (err error)
 
-//go:noescape
+//golang:noescape
 func gettimeofday(tv *Timeval) (err Errno)
 
 func Gettimeofday(tv *Timeval) (err error) {

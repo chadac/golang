@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package net
@@ -7,7 +7,7 @@ package net
 import (
 	"syscall"
 
-	"golang.org/x/net/lif"
+	"golanglang.org/x/net/lif"
 )
 
 // If the ifindex is zero, interfaceTable returns mappings of all

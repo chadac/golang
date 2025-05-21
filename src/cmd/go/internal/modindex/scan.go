@@ -1,20 +1,20 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package modindex
 
 import (
-	"cmd/go/internal/base"
-	"cmd/go/internal/fsys"
-	"cmd/go/internal/str"
+	"cmd/golang/internal/base"
+	"cmd/golang/internal/fsys"
+	"cmd/golang/internal/str"
 	"encoding/json"
 	"errors"
 	"fmt"
-	"go/build"
-	"go/doc"
-	"go/scanner"
-	"go/token"
+	"golang/build"
+	"golang/doc"
+	"golang/scanner"
+	"golang/token"
 	"io/fs"
 	"path/filepath"
 	"strings"
@@ -29,7 +29,7 @@ func moduleWalkErr(root string, path string, d fs.DirEntry, err error) error {
 	}
 	// stop at module boundaries
 	if d.IsDir() && path != root {
-		if info, err := fsys.Stat(filepath.Join(path, "go.mod")); err == nil && !info.IsDir() {
+		if info, err := fsys.Stat(filepath.Join(path, "golang.mod")); err == nil && !info.IsDir() {
 			return filepath.SkipDir
 		}
 	}
@@ -39,7 +39,7 @@ func moduleWalkErr(root string, path string, d fs.DirEntry, err error) error {
 			// Symlink directories in modules are tricky, so we won't index
 			// modules that contain them.
 			// TODO(matloob): perhaps don't return this error if the symlink leads to
-			// a directory with a go.mod file.
+			// a directory with a golang.mod file.
 			return ErrNotIndexed
 		}
 	}
@@ -54,7 +54,7 @@ func indexModule(modroot string) ([]byte, error) {
 	var packages []*rawPackage
 
 	// If the root itself is a symlink to a directory,
-	// we want to follow it (see https://go.dev/issue/50807).
+	// we want to follow it (see https://golang.dev/issue/50807).
 	// Add a trailing separator to force that to happen.
 	root := str.WithFilePathSeparator(modroot)
 	err := fsys.WalkDir(root, func(path string, d fs.DirEntry, err error) error {
@@ -136,7 +136,7 @@ func parseErrorFromString(s string) error {
 	}
 	var p parseError
 	if err := json.Unmarshal([]byte(s), &p); err != nil {
-		base.Fatalf(`go: invalid parse error value in index: %q. This indicates a corrupted index. Run "go clean -cache" to reset the module cache.`, s)
+		base.Fatalf(`golang: invalid parse error value in index: %q. This indicates a corrupted index. Run "golang clean -cache" to reset the module cache.`, s)
 	}
 	if p.ErrorList != nil {
 		return *p.ErrorList
@@ -154,9 +154,9 @@ type rawFile struct {
 	synopsis             string // doc.Synopsis of package comment... Compute synopsis on all of these?
 	pkgName              string
 	ignoreFile           bool   // starts with _ or . or should otherwise always be ignored
-	binaryOnly           bool   // cannot be rebuilt from source (has //go:binary-only-package comment)
-	cgoDirectives        string // the #cgo directive lines in the comment on import "C"
-	goBuildConstraint    string
+	binaryOnly           bool   // cannot be rebuilt from source (has //golang:binary-only-package comment)
+	cgolangDirectives        string // the #cgolang directive lines in the comment on import "C"
+	golangBuildConstraint    string
 	plusBuildConstraints []string
 	imports              []rawImport
 	embeds               []embed
@@ -230,7 +230,7 @@ func importRaw(modroot, reldir string) *rawPackage {
 		}
 		rf := &rawFile{
 			name:                 name,
-			goBuildConstraint:    info.goBuildConstraint,
+			golangBuildConstraint:    info.golangBuildConstraint,
 			plusBuildConstraints: info.plusBuildConstraints,
 			binaryOnly:           info.binaryOnly,
 			directives:           info.directives,
@@ -241,7 +241,7 @@ func importRaw(modroot, reldir string) *rawPackage {
 
 		// Going to save the file. For non-Go files, can stop here.
 		p.sourceFiles = append(p.sourceFiles, rf)
-		if ext != ".go" {
+		if ext != ".golang" {
 			continue
 		}
 
@@ -255,14 +255,14 @@ func importRaw(modroot, reldir string) *rawPackage {
 			rf.synopsis = doc.Synopsis(info.parsed.Doc.Text())
 		}
 
-		var cgoDirectives []string
+		var cgolangDirectives []string
 		for _, imp := range info.imports {
 			if imp.path == "C" {
-				cgoDirectives = append(cgoDirectives, extractCgoDirectives(imp.doc.Text())...)
+				cgolangDirectives = append(cgolangDirectives, extractCgolangDirectives(imp.doc.Text())...)
 			}
 			rf.imports = append(rf.imports, rawImport{path: imp.path, position: fset.Position(imp.pos)})
 		}
-		rf.cgoDirectives = strings.Join(cgoDirectives, "\n")
+		rf.cgolangDirectives = strings.Join(cgolangDirectives, "\n")
 		for _, emb := range info.embeds {
 			rf.embeds = append(rf.embeds, embed{emb.pattern, emb.pos})
 		}
@@ -271,16 +271,16 @@ func importRaw(modroot, reldir string) *rawPackage {
 	return p
 }
 
-// extractCgoDirectives filters only the lines containing #cgo directives from the input,
+// extractCgolangDirectives filters only the lines containing #cgolang directives from the input,
 // which is the comment on import "C".
-func extractCgoDirectives(doc string) []string {
+func extractCgolangDirectives(doc string) []string {
 	var out []string
 	for _, line := range strings.Split(doc, "\n") {
 		// Line is
-		//	#cgo [GOOS/GOARCH...] LDFLAGS: stuff
+		//	#cgolang [GOOS/GOARCH...] LDFLAGS: stuff
 		//
 		line = strings.TrimSpace(line)
-		if len(line) < 5 || line[:4] != "#cgo" || (line[4] != ' ' && line[4] != '\t') {
+		if len(line) < 5 || line[:4] != "#cgolang" || (line[4] != ' ' && line[4] != '\t') {
 			continue
 		}
 

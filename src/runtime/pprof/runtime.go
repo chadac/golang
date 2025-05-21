@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package pprof
@@ -10,27 +10,27 @@ import (
 	"unsafe"
 )
 
-// runtime_FrameStartLine is defined in runtime/symtab.go.
+// runtime_FrameStartLine is defined in runtime/symtab.golang.
 //
-//go:noescape
+//golang:noescape
 func runtime_FrameStartLine(f *runtime.Frame) int
 
-// runtime_FrameSymbolName is defined in runtime/symtab.go.
+// runtime_FrameSymbolName is defined in runtime/symtab.golang.
 //
-//go:noescape
+//golang:noescape
 func runtime_FrameSymbolName(f *runtime.Frame) string
 
-// runtime_expandFinalInlineFrame is defined in runtime/symtab.go.
+// runtime_expandFinalInlineFrame is defined in runtime/symtab.golang.
 func runtime_expandFinalInlineFrame(stk []uintptr) []uintptr
 
-// runtime_setProfLabel is defined in runtime/proflabel.go.
+// runtime_setProfLabel is defined in runtime/proflabel.golang.
 func runtime_setProfLabel(labels unsafe.Pointer)
 
-// runtime_getProfLabel is defined in runtime/proflabel.go.
+// runtime_getProfLabel is defined in runtime/proflabel.golang.
 func runtime_getProfLabel() unsafe.Pointer
 
-// SetGoroutineLabels sets the current goroutine's labels to match ctx.
-// A new goroutine inherits the labels of the goroutine that created it.
+// SetGoroutineLabels sets the current golangroutine's labels to match ctx.
+// A new golangroutine inherits the labels of the golangroutine that created it.
 // This is a lower-level API than [Do], which should be used instead when possible.
 func SetGoroutineLabels(ctx context.Context) {
 	ctxLabels, _ := ctx.Value(labelContextKey{}).(*labelMap)

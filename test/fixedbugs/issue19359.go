@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -44,7 +44,7 @@ func addStr(m map[interface{}]string, key interface{}) (err error) {
 			err = fmt.Errorf("addStr failed: %v", r)
 		}
 	}()
-	m[key] += "hello, go"
+	m[key] += "hello, golang"
 	return nil
 }
 
@@ -64,7 +64,7 @@ func appendStr(m map[interface{}][]string, key interface{}) (err error) {
 			err = fmt.Errorf("addStr failed: %v", r)
 		}
 	}()
-	m[key] = append(m[key], "hello, go")
+	m[key] = append(m[key], "hello, golang")
 	return nil
 }
 

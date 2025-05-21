@@ -1,8 +1,8 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build js && wasm
+//golang:build js && wasm
 
 // Package js gives access to the WebAssembly host environment when using the js/wasm architecture.
 // Its API is based on JavaScript semantics.
@@ -58,7 +58,7 @@ func makeValue(r ref) Value {
 	return Value{ref: r, gcPtr: gcPtr}
 }
 
-//go:wasmimport gojs syscall/js.finalizeRef
+//golang:wasmimport golangjs syscall/js.finalizeRef
 func finalizeRef(r ref)
 
 func predefValue(id uint32, typeFlag byte) Value {
@@ -212,11 +212,11 @@ func ValueOf(x any) Value {
 
 // stringVal copies string x to Javascript and returns a ref.
 //
-// Using go:noescape is safe because no references are maintained to the
+// Using golang:noescape is safe because no references are maintained to the
 // Go string x after the syscall returns.
 //
-//go:wasmimport gojs syscall/js.stringVal
-//go:noescape
+//golang:wasmimport golangjs syscall/js.stringVal
+//golang:noescape
 func stringVal(x string) ref
 
 // Type represents the JavaScript type of a Value.
@@ -302,11 +302,11 @@ func (v Value) Get(p string) Value {
 
 // valueGet returns a ref to JavaScript property p of ref v.
 //
-// Using go:noescape is safe because no references are maintained to the
+// Using golang:noescape is safe because no references are maintained to the
 // Go string p after the syscall returns.
 //
-//go:wasmimport gojs syscall/js.valueGet
-//go:noescape
+//golang:wasmimport golangjs syscall/js.valueGet
+//golang:noescape
 func valueGet(v ref, p string) ref
 
 // Set sets the JavaScript property p of value v to ValueOf(x).
@@ -323,11 +323,11 @@ func (v Value) Set(p string, x any) {
 
 // valueSet sets property p of ref v to ref x.
 //
-// Using go:noescape is safe because no references are maintained to the
+// Using golang:noescape is safe because no references are maintained to the
 // Go string p after the syscall returns.
 //
-//go:wasmimport gojs syscall/js.valueSet
-//go:noescape
+//golang:wasmimport golangjs syscall/js.valueSet
+//golang:noescape
 func valueSet(v ref, p string, x ref)
 
 // Delete deletes the JavaScript property p of value v.
@@ -342,11 +342,11 @@ func (v Value) Delete(p string) {
 
 // valueDelete deletes the JavaScript property p of ref v.
 //
-// Using go:noescape is safe because no references are maintained to the
+// Using golang:noescape is safe because no references are maintained to the
 // Go string p after the syscall returns.
 //
-//go:wasmimport gojs syscall/js.valueDelete
-//go:noescape
+//golang:wasmimport golangjs syscall/js.valueDelete
+//golang:noescape
 func valueDelete(v ref, p string)
 
 // Index returns JavaScript index i of value v.
@@ -360,7 +360,7 @@ func (v Value) Index(i int) Value {
 	return r
 }
 
-//go:wasmimport gojs syscall/js.valueIndex
+//golang:wasmimport golangjs syscall/js.valueIndex
 func valueIndex(v ref, i int) ref
 
 // SetIndex sets the JavaScript index i of value v to ValueOf(x).
@@ -375,7 +375,7 @@ func (v Value) SetIndex(i int, x any) {
 	runtime.KeepAlive(xv)
 }
 
-//go:wasmimport gojs syscall/js.valueSetIndex
+//golang:wasmimport golangjs syscall/js.valueSetIndex
 func valueSetIndex(v ref, i int, x ref)
 
 // makeArgSlices makes two slices to hold JavaScript arg data.
@@ -402,7 +402,7 @@ func makeArgSlices(size int) (argVals []Value, argRefs []ref) {
 // storeArgs maps input args onto respective Value and ref slices.
 // It can be paired with makeArgSlices to make-and-store JavaScript arg slices.
 func storeArgs(args []any, argValsDst []Value, argRefsDst []ref) {
-	// would go in makeArgs if the combined func was simple enough to inline
+	// would golang in makeArgs if the combined func was simple enough to inline
 	for i, arg := range args {
 		v := ValueOf(arg)
 		argValsDst[i] = v
@@ -421,7 +421,7 @@ func (v Value) Length() int {
 	return r
 }
 
-//go:wasmimport gojs syscall/js.valueLength
+//golang:wasmimport golangjs syscall/js.valueLength
 func valueLength(v ref) int
 
 // Call does a JavaScript call to the method m of value v with the given arguments.
@@ -438,7 +438,7 @@ func (v Value) Call(m string, args ...any) Value {
 			panic(&ValueError{"Value.Call", vType})
 		}
 		if propType := v.Get(m).Type(); propType != TypeFunction {
-			panic("syscall/js: Value.Call: property " + m + " is not a function, got " + propType.String())
+			panic("syscall/js: Value.Call: property " + m + " is not a function, golangt " + propType.String())
 		}
 		panic(Error{makeValue(res)})
 	}
@@ -447,14 +447,14 @@ func (v Value) Call(m string, args ...any) Value {
 
 // valueCall does a JavaScript call to the method name m of ref v with the given arguments.
 //
-// Using go:noescape is safe because no references are maintained to the
+// Using golang:noescape is safe because no references are maintained to the
 // Go string m after the syscall returns. Additionally, the args slice
 // is only used temporarily to collect the JavaScript objects for
 // the JavaScript method invocation.
 //
-//go:wasmimport gojs syscall/js.valueCall
-//go:nosplit
-//go:noescape
+//golang:wasmimport golangjs syscall/js.valueCall
+//golang:nosplit
+//golang:noescape
 func valueCall(v ref, m string, args []ref) (ref, bool)
 
 // Invoke does a JavaScript call of the value v with the given arguments.
@@ -477,12 +477,12 @@ func (v Value) Invoke(args ...any) Value {
 
 // valueInvoke does a JavaScript call to value v with the given arguments.
 //
-// Using go:noescape is safe because the args slice is only used temporarily
+// Using golang:noescape is safe because the args slice is only used temporarily
 // to collect the JavaScript objects for the JavaScript method
 // invocation.
 //
-//go:wasmimport gojs syscall/js.valueInvoke
-//go:noescape
+//golang:wasmimport golangjs syscall/js.valueInvoke
+//golang:noescape
 func valueInvoke(v ref, args []ref) (ref, bool)
 
 // New uses JavaScript's "new" operator with value v as constructor and the given arguments.
@@ -505,11 +505,11 @@ func (v Value) New(args ...any) Value {
 
 // valueNew uses JavaScript's "new" operator with value v as a constructor and the given arguments.
 //
-// Using go:noescape is safe because the args slice is only used temporarily
+// Using golang:noescape is safe because the args slice is only used temporarily
 // to collect the JavaScript objects for the constructor execution.
 //
-//go:wasmimport gojs syscall/js.valueNew
-//go:noescape
+//golang:wasmimport golangjs syscall/js.valueNew
+//golang:noescape
 func valueNew(v ref, args []ref) (ref, bool)
 
 func (v Value) isNumber() bool {
@@ -609,16 +609,16 @@ func jsString(v Value) string {
 	return string(b)
 }
 
-//go:wasmimport gojs syscall/js.valuePrepareString
+//golang:wasmimport golangjs syscall/js.valuePrepareString
 func valuePrepareString(v ref) (ref, int)
 
 // valueLoadString loads string data located at ref v into byte slice b.
 //
-// Using go:noescape is safe because the byte slice is only used as a destination
+// Using golang:noescape is safe because the byte slice is only used as a destination
 // for storing the string data and references to it are not maintained.
 //
-//go:wasmimport gojs syscall/js.valueLoadString
-//go:noescape
+//golang:wasmimport golangjs syscall/js.valueLoadString
+//golang:noescape
 func valueLoadString(v ref, b []byte)
 
 // InstanceOf reports whether v is an instance of type t according to JavaScript's instanceof operator.
@@ -629,7 +629,7 @@ func (v Value) InstanceOf(t Value) bool {
 	return r
 }
 
-//go:wasmimport gojs syscall/js.valueInstanceOf
+//golang:wasmimport golangjs syscall/js.valueInstanceOf
 func valueInstanceOf(v ref, t ref) bool
 
 // A ValueError occurs when a Value method is invoked on
@@ -658,11 +658,11 @@ func CopyBytesToGo(dst []byte, src Value) int {
 
 // copyBytesToGo copies bytes from src to dst.
 //
-// Using go:noescape is safe because the dst byte slice is only used as a dst
+// Using golang:noescape is safe because the dst byte slice is only used as a dst
 // copy buffer and no references to it are maintained.
 //
-//go:wasmimport gojs syscall/js.copyBytesToGo
-//go:noescape
+//golang:wasmimport golangjs syscall/js.copyBytesToGo
+//golang:noescape
 func copyBytesToGo(dst []byte, src ref) (int, bool)
 
 // CopyBytesToJS copies bytes from src to dst.
@@ -679,9 +679,9 @@ func CopyBytesToJS(dst Value, src []byte) int {
 
 // copyBytesToJS copies bytes from src to dst.
 //
-// Using go:noescape is safe because the src byte slice is only used as a src
+// Using golang:noescape is safe because the src byte slice is only used as a src
 // copy buffer and no references to it are maintained.
 //
-//go:wasmimport gojs syscall/js.copyBytesToJS
-//go:noescape
+//golang:wasmimport golangjs syscall/js.copyBytesToJS
+//golang:noescape
 func copyBytesToJS(dst ref, src []byte) (int, bool)

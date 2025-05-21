@@ -4,14 +4,14 @@ written by hand
 -- .mod --
 module example.com/generics
 
-go 1.18
+golang 1.18
 -- .info --
 {"Version":"v1.0.0"}
--- go.mod --
+-- golang.mod --
 module example.com/generics
 
-go 1.18
--- generics.go --
+golang 1.18
+-- generics.golang --
 package generics
 
 type Int interface {

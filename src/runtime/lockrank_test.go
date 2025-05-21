@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime_test
@@ -15,7 +15,7 @@ import (
 // Test that the generated code for the lock rank graph is up-to-date.
 func TestLockRankGenerated(t *testing.T) {
 	testenv.MustHaveGoRun(t)
-	cmd := testenv.CleanCmdEnv(testenv.Command(t, testenv.GoToolPath(t), "run", "mklockrank.go"))
+	cmd := testenv.CleanCmdEnv(testenv.Command(t, testenv.GoToolPath(t), "run", "mklockrank.golang"))
 	want, err := cmd.Output()
 	if err != nil {
 		if ee, ok := err.(*exec.ExitError); ok && len(ee.Stderr) > 0 {
@@ -23,11 +23,11 @@ func TestLockRankGenerated(t *testing.T) {
 		}
 		t.Fatalf("%v: %v", cmd, err)
 	}
-	got, err := os.ReadFile("lockrank.go")
+	golangt, err := os.ReadFile("lockrank.golang")
 	if err != nil {
 		t.Fatal(err)
 	}
-	if !bytes.Equal(want, got) {
-		t.Fatalf("lockrank.go is out of date. Please run go generate.")
+	if !bytes.Equal(want, golangt) {
+		t.Fatalf("lockrank.golang is out of date. Please run golang generate.")
 	}
 }

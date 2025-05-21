@@ -1,5 +1,5 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package fmt_test
@@ -43,9 +43,9 @@ func (v TF64) String() string { return Sprintf("F64: %f", float64(v)) }
 func (v TB) String() string   { return Sprintf("B: %t", bool(v)) }
 func (v TS) String() string   { return Sprintf("S: %q", string(v)) }
 
-func check(t *testing.T, got, want string) {
-	if got != want {
-		t.Error(got, "!=", want)
+func check(t *testing.T, golangt, want string) {
+	if golangt != want {
+		t.Error(golangt, "!=", want)
 	}
 }
 

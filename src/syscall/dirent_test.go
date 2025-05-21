@@ -1,8 +1,8 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build unix
+//golang:build unix
 
 package syscall_test
 
@@ -22,7 +22,7 @@ import (
 
 func TestDirent(t *testing.T) {
 	const (
-		direntBufSize   = 2048 // arbitrary? See https://go.dev/issue/37323.
+		direntBufSize   = 2048 // arbitrary? See https://golang.dev/issue/37323.
 		filenameMinSize = 11
 	)
 
@@ -75,7 +75,7 @@ func TestDirent(t *testing.T) {
 	t.Logf("names: %q", names)
 
 	if len(names) != 10 {
-		t.Errorf("got %d names; expected 10", len(names))
+		t.Errorf("golangt %d names; expected 10", len(names))
 	}
 	for i, name := range names {
 		ord, err := strconv.Atoi(name[:1])
@@ -141,6 +141,6 @@ func TestDirentRepeat(t *testing.T) {
 	slices.Sort(files)
 	slices.Sort(files2)
 	if strings.Join(files, "|") != strings.Join(files2, "|") {
-		t.Errorf("bad file list: want\n%q\ngot\n%q", files, files2)
+		t.Errorf("bad file list: want\n%q\ngolangt\n%q", files, files2)
 	}
 }

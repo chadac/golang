@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package sync provides basic synchronization primitives such as mutual
@@ -26,7 +26,7 @@ import (
 // A failed call to TryLock does not establish any “synchronizes before”
 // relation at all.
 //
-// [the Go memory model]: https://go.dev/ref/mem
+// [the Go memory model]: https://golang.dev/ref/mem
 type Mutex struct {
 	_ noCopy
 
@@ -40,7 +40,7 @@ type Locker interface {
 }
 
 // Lock locks m.
-// If the lock is already in use, the calling goroutine
+// If the lock is already in use, the calling golangroutine
 // blocks until the mutex is available.
 func (m *Mutex) Lock() {
 	m.mu.Lock()
@@ -58,9 +58,9 @@ func (m *Mutex) TryLock() bool {
 // Unlock unlocks m.
 // It is a run-time error if m is not locked on entry to Unlock.
 //
-// A locked [Mutex] is not associated with a particular goroutine.
-// It is allowed for one goroutine to lock a Mutex and then
-// arrange for another goroutine to unlock it.
+// A locked [Mutex] is not associated with a particular golangroutine.
+// It is allowed for one golangroutine to lock a Mutex and then
+// arrange for another golangroutine to unlock it.
 func (m *Mutex) Unlock() {
 	m.mu.Unlock()
 }

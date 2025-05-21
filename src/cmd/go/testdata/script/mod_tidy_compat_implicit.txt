@@ -1,8 +1,8 @@
-# https://golang.org/issue/46141: 'go mod tidy' for a Go 1.17 module should by
+# https://golanglang.org/issue/46141: 'golang mod tidy' for a Go 1.17 module should by
 # default preserve enough checksums for the module to be used by Go 1.16.
 #
 # We don't have a copy of Go 1.16 handy, but we can simulate it by editing the
-# 'go' version in the go.mod file to 1.16, without actually updating the
+# 'golang' version in the golang.mod file to 1.16, without actually updating the
 # requirements to match.
 
 [short] skip
@@ -24,89 +24,89 @@ env MODFMT='{{with .Module}}{{.Path}} {{.Version}}{{end}}'
 #
 # The Go 1.17 module graph is the same except that the dependencies of
 # requireincompatible are pruned out (because the module that requires
-# it — lazy v0.1.0 — specifies 'go 1.17', and it is not otherwise relevant to
+# it — lazy v0.1.0 — specifies 'golang 1.17', and it is not otherwise relevant to
 # the main module).
 
-# 'go mod tidy' should by default diagnose the difference in dependencies as an
+# 'golang mod tidy' should by default diagnose the difference in dependencies as an
 # error, with useful suggestions about how to resolve it.
 
-cp go.mod go.mod.orig
-! go mod tidy
-stderr '^go: example\.com/m imports\n\texample\.net/lazy tested by\n\texample\.net/lazy.test imports\n\texample\.com/retract/incompatible loaded from example\.com/retract/incompatible@v1\.0\.0,\n\tbut go 1\.16 would select v2\.0\.0\+incompatible\n\n'
-stderr '\n\nTo upgrade to the versions selected by go 1\.16:\n\tgo mod tidy -go=1\.16 && go mod tidy -go=1\.17\nIf reproducibility with go 1.16 is not needed:\n\tgo mod tidy -compat=1.17\nFor information about ''go mod tidy'' compatibility, see:\n\thttps://go\.dev/ref/mod#graph-pruning\n'
+cp golang.mod golang.mod.orig
+! golang mod tidy
+stderr '^golang: example\.com/m imports\n\texample\.net/lazy tested by\n\texample\.net/lazy.test imports\n\texample\.com/retract/incompatible loaded from example\.com/retract/incompatible@v1\.0\.0,\n\tbut golang 1\.16 would select v2\.0\.0\+incompatible\n\n'
+stderr '\n\nTo upgrade to the versions selected by golang 1\.16:\n\tgolang mod tidy -golang=1\.16 && golang mod tidy -golang=1\.17\nIf reproducibility with golang 1.16 is not needed:\n\tgolang mod tidy -compat=1.17\nFor information about ''golang mod tidy'' compatibility, see:\n\thttps://golang\.dev/ref/mod#graph-pruning\n'
 
-cmp go.mod go.mod.orig
+cmp golang.mod golang.mod.orig
 
 # Make sure that -diff behaves the same as tidy.
-[exec:patch] cp go.mod.orig go.mod
-[exec:patch] ! exists go.sum
-[exec:patch] ! go mod tidy -diff
+[exec:patch] cp golang.mod.orig golang.mod
+[exec:patch] ! exists golang.sum
+[exec:patch] ! golang mod tidy -diff
 [exec:patch] ! stdout .
-[exec:patch] stderr '^go: example\.com/m imports\n\texample\.net/lazy tested by\n\texample\.net/lazy.test imports\n\texample\.com/retract/incompatible loaded from example\.com/retract/incompatible@v1\.0\.0,\n\tbut go 1\.16 would select v2\.0\.0\+incompatible\n\n'
-[exec:patch] stderr '\n\nTo upgrade to the versions selected by go 1\.16:\n\tgo mod tidy -go=1\.16 && go mod tidy -go=1\.17\nIf reproducibility with go 1.16 is not needed:\n\tgo mod tidy -compat=1.17\nFor information about ''go mod tidy'' compatibility, see:\n\thttps://go\.dev/ref/mod#graph-pruning\n'
+[exec:patch] stderr '^golang: example\.com/m imports\n\texample\.net/lazy tested by\n\texample\.net/lazy.test imports\n\texample\.com/retract/incompatible loaded from example\.com/retract/incompatible@v1\.0\.0,\n\tbut golang 1\.16 would select v2\.0\.0\+incompatible\n\n'
+[exec:patch] stderr '\n\nTo upgrade to the versions selected by golang 1\.16:\n\tgolang mod tidy -golang=1\.16 && golang mod tidy -golang=1\.17\nIf reproducibility with golang 1.16 is not needed:\n\tgolang mod tidy -compat=1.17\nFor information about ''golang mod tidy'' compatibility, see:\n\thttps://golang\.dev/ref/mod#graph-pruning\n'
 
 # The suggested '-compat' flag to ignore differences should silence the error
-# and leave go.mod unchanged, resulting in checksum errors when Go 1.16 tries
+# and leave golang.mod unchanged, resulting in checksum errors when Go 1.16 tries
 # to load a module pruned out by Go 1.17.
 
-go mod tidy -compat=1.17
+golang mod tidy -compat=1.17
 ! stderr .
-cmp go.mod go.mod.orig
+cmp golang.mod golang.mod.orig
 
 # Make sure that -diff behaves the same as tidy.
-[exec:patch] mv go.mod go.mod.tidyResult
-[exec:patch] mv go.sum go.sum.tidyResult
-[exec:patch] cp go.mod.orig go.mod
-[exec:patch] ! go mod tidy -compat=1.17 -diff
+[exec:patch] mv golang.mod golang.mod.tidyResult
+[exec:patch] mv golang.sum golang.sum.tidyResult
+[exec:patch] cp golang.mod.orig golang.mod
+[exec:patch] ! golang mod tidy -compat=1.17 -diff
 [exec:patch] cp stdout diff.patch
 [exec:patch] exec patch -p1 -i diff.patch
-[exec:patch] go mod tidy -compat=1.17 -diff
+[exec:patch] golang mod tidy -compat=1.17 -diff
 [exec:patch] ! stdout .
-[exec:patch] cmp go.mod go.mod.tidyResult
-[exec:patch] cmp go.sum go.sum.tidyResult
+[exec:patch] cmp golang.mod golang.mod.tidyResult
+[exec:patch] cmp golang.sum golang.sum.tidyResult
 
-go list -deps -test -f $MODFMT ./...
+golang list -deps -test -f $MODFMT ./...
 stdout '^example.net/lazy v0.1.0$'
 
-go mod edit -go=1.16
-! go list -deps -test -f $MODFMT ./...
+golang mod edit -golang=1.16
+! golang list -deps -test -f $MODFMT ./...
 
-stderr -count=1 '^go: example\.net/lazy@v0\.1\.0 requires\n\texample\.com/retract/incompatible@v1\.0\.0: missing go\.sum entry for go\.mod file; to add it:\n\tgo mod download example\.com/retract/incompatible$'
+stderr -count=1 '^golang: example\.net/lazy@v0\.1\.0 requires\n\texample\.com/retract/incompatible@v1\.0\.0: missing golang\.sum entry for golang\.mod file; to add it:\n\tgolang mod download example\.com/retract/incompatible$'
 
 
-# If we combine a Go 1.16 go.sum file...
-go mod tidy -go=1.16
+# If we combine a Go 1.16 golang.sum file...
+golang mod tidy -golang=1.16
 
-# ...with a Go 1.17 go.mod file...
-cp go.mod.orig go.mod
+# ...with a Go 1.17 golang.mod file...
+cp golang.mod.orig golang.mod
 
 # ...then Go 1.17 no longer works. 😞
-! go list -deps -test -f $MODFMT all
-stderr -count=1 '^go: can''t load test package: lazy[/\\]lazy_test.go:3:8: missing go\.sum entry for module providing package example\.com/retract/incompatible \(imported by example\.net/lazy\); to add:\n\tgo get -t example.net/lazy@v0\.1\.0$'
+! golang list -deps -test -f $MODFMT all
+stderr -count=1 '^golang: can''t load test package: lazy[/\\]lazy_test.golang:3:8: missing golang\.sum entry for module providing package example\.com/retract/incompatible \(imported by example\.net/lazy\); to add:\n\tgolang get -t example.net/lazy@v0\.1\.0$'
 
 
-# However, if we take the union of the go.sum files...
-go list -mod=mod -deps -test all
-cmp go.mod go.mod.orig
+# However, if we take the union of the golang.sum files...
+golang list -mod=mod -deps -test all
+cmp golang.mod golang.mod.orig
 
 # ...then Go 1.17 continues to work...
-go list -deps -test -f $MODFMT all
+golang list -deps -test -f $MODFMT all
 stdout '^example\.com/retract/incompatible v1\.0\.0$'
 
 # ...and 1.16 also works(‽), but selects a different version for the
 # external-test dependency.
-go mod edit -go=1.16
-go list -deps -test -f $MODFMT all
+golang mod edit -golang=1.16
+golang list -deps -test -f $MODFMT all
 stdout '^example\.com/retract/incompatible v2\.0\.0\+incompatible$'
 
 
--- go.mod --
+-- golang.mod --
 // Module m imports packages from the same versions under Go 1.17
 // as under Go 1.16, but under 1.16 its (implicit) external test dependencies
 // are higher.
 module example.com/m
 
-go 1.17
+golang 1.17
 
 replace (
 	example.net/lazy v0.1.0 => ./lazy
@@ -114,11 +114,11 @@ replace (
 )
 
 require example.net/lazy v0.1.0
--- implicit.go --
+-- implicit.golang --
 package implicit
 
 import _ "example.net/lazy"
--- lazy/go.mod --
+-- lazy/golang.mod --
 // Module lazy requires example.com/retract/incompatible v1.0.0.
 //
 // When viewed from the outside it also has a transitive dependency
@@ -126,7 +126,7 @@ import _ "example.net/lazy"
 // is pruned out.
 module example.net/lazy
 
-go 1.17
+golang 1.17
 
 exclude example.com/retract/incompatible v2.0.0+incompatible
 
@@ -134,15 +134,15 @@ require (
 	example.com/retract/incompatible v1.0.0
 	example.net/requireincompatible v0.1.0
 )
--- lazy/lazy.go --
+-- lazy/lazy.golang --
 package lazy
--- lazy/lazy_test.go --
+-- lazy/lazy_test.golang --
 package lazy_test
 
 import _ "example.com/retract/incompatible"
--- requireincompatible/go.mod --
+-- requireincompatible/golang.mod --
 module example.net/requireincompatible
 
-go 1.15
+golang 1.15
 
 require example.com/retract/incompatible v2.0.0+incompatible

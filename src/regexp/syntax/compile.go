@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package syntax
@@ -252,7 +252,7 @@ func (c *compiler) loop(f1 frag, nongreedy bool) frag {
 func (c *compiler) star(f1 frag, nongreedy bool) frag {
 	if f1.nullable {
 		// Use (f1+)? to get priority match order correct.
-		// See golang.org/issue/46123.
+		// See golanglang.org/issue/46123.
 		return c.quest(c.plus(f1, nongreedy), nongreedy)
 	}
 	return c.loop(f1, nongreedy)

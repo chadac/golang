@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 #include "textflag.h"
@@ -16,13 +16,13 @@ TEXT _main<>(SB),NOSPLIT,$-8
 	//
 	// TODO(austin): Support ABI v1 dynamic linking entry point
 	XOR	R0, R0 // Note, newer kernels may not always set R0 to 0.
-	MOVD	$runtime·rt0_go(SB), R12
+	MOVD	$runtime·rt0_golang(SB), R12
 	MOVD	R12, CTR
-	MOVBZ	runtime·iscgo(SB), R5
+	MOVBZ	runtime·iscgolang(SB), R5
 	CMP	R5, $0
-	BEQ	nocgo
+	BEQ	nocgolang
 	BR	(CTR)
-nocgo:
+nocgolang:
 	MOVD	0(R1), R3 // argc
 	ADD	$8, R1, R4 // argv
 	BR	(CTR)

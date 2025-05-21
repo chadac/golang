@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime_test
@@ -36,9 +36,9 @@ func TestUnsafePoint(t *testing.T) {
 	f := runtime.FuncForPC(reflect.ValueOf(setGlobalPointer).Pointer())
 
 	// Disassemble the test function.
-	// Note that normally "go test runtime" would strip symbols
+	// Note that normally "golang test runtime" would strip symbols
 	// and prevent this step from working. So there's a hack in
-	// cmd/go/internal/test that exempts runtime tests from
+	// cmd/golang/internal/test that exempts runtime tests from
 	// symbol stripping.
 	cmd := exec.Command(testenv.GoToolPath(t), "tool", "objdump", "-s", "setGlobalPointer", os.Args[0])
 	out, err := cmd.CombinedOutput()
@@ -60,7 +60,7 @@ func TestUnsafePoint(t *testing.T) {
 		if len(parts) < 4 {
 			continue
 		}
-		if !strings.HasPrefix(parts[0], "unsafepoint_test.go:") {
+		if !strings.HasPrefix(parts[0], "unsafepoint_test.golang:") {
 			continue
 		}
 		pc, err := strconv.ParseUint(parts[1][2:], 16, 64)

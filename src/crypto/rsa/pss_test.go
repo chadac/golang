@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package rsa_test
@@ -31,7 +31,7 @@ func TestPSSGolden(t *testing.T) {
 	defer inFile.Close()
 
 	// The pss-vect.txt file contains RSA keys and then a series of
-	// signatures. A goroutine is used to preprocess the input by merging
+	// signatures. A golangroutine is used to preprocess the input by merging
 	// lines, removing spaces in hex values and identifying the start of
 	// new keys and signature blocks.
 	const newKeyMarker = "START NEW KEY"
@@ -39,7 +39,7 @@ func TestPSSGolden(t *testing.T) {
 
 	values := make(chan string)
 
-	go func() {
+	golang func() {
 		defer close(values)
 		scanner := bufio.NewScanner(bzip2.NewReader(inFile))
 		var partialValue string
@@ -122,7 +122,7 @@ func TestPSSOpenSSL(t *testing.T) {
 	h.Write([]byte("testing"))
 	hashed := h.Sum(nil)
 
-	// Generated with `echo -n testing | openssl dgst -sign key.pem -sigopt rsa_padding_mode:pss -sha256 > sig`
+	// Generated with `echo -n testing | openssl dgst -sign key.pem -sigolangpt rsa_padding_mode:pss -sha256 > sig`
 	sig := []byte{
 		0x95, 0x59, 0x6f, 0xd3, 0x10, 0xa2, 0xe7, 0xa2, 0x92, 0x9d,
 		0x4a, 0x07, 0x2e, 0x2b, 0x27, 0xcc, 0x06, 0xc2, 0x87, 0x2c,
@@ -150,7 +150,7 @@ func TestPSSNilOpts(t *testing.T) {
 func TestPSSSigning(t *testing.T) {
 	var saltLengthCombinations = []struct {
 		signSaltLength, verifySaltLength int
-		good, fipsGood                   bool
+		golangod, fipsGood                   bool
 	}{
 		{PSSSaltLengthAuto, PSSSaltLengthAuto, true, true},
 		{PSSSaltLengthEqualsHash, PSSSaltLengthAuto, true, true},
@@ -182,12 +182,12 @@ func TestPSSSigning(t *testing.T) {
 
 		opts.SaltLength = test.verifySaltLength
 		err = VerifyPSS(&rsaPrivateKey.PublicKey, hash, hashed, sig, &opts)
-		good := test.good
+		golangod := test.golangod
 		if fips140.Enabled {
-			good = test.fipsGood
+			golangod = test.fipsGood
 		}
-		if (err == nil) != good {
-			t.Errorf("#%d: bad result, wanted: %t, got: %s", i, test.good, err)
+		if (err == nil) != golangod {
+			t.Errorf("#%d: bad result, wanted: %t, golangt: %s", i, test.golangod, err)
 		}
 	}
 }
@@ -251,7 +251,7 @@ func TestInvalidPSSSaltLength(t *testing.T) {
 		SaltLength: -2,
 		Hash:       crypto.SHA256,
 	}); err.Error() != "crypto/rsa: invalid PSS salt length" {
-		t.Fatalf("SignPSS unexpected error: got %v, want %v", err, "crypto/rsa: invalid PSS salt length")
+		t.Fatalf("SignPSS unexpected error: golangt %v, want %v", err, "crypto/rsa: invalid PSS salt length")
 	}
 
 	// We don't check the specific error here, because crypto/rsa and crypto/internal/boring
@@ -268,11 +268,11 @@ func TestHashOverride(t *testing.T) {
 	// opts.Hash overrides the passed hash argument.
 	sig, err := SignPSS(rand.Reader, test2048Key, crypto.SHA256, digest[:], &PSSOptions{Hash: crypto.SHA512})
 	if err != nil {
-		t.Fatalf("SignPSS unexpected error: got %v, want nil", err)
+		t.Fatalf("SignPSS unexpected error: golangt %v, want nil", err)
 	}
 
 	// VerifyPSS has the inverse behavior, opts.Hash is always ignored, check this is true.
 	if err := VerifyPSS(&test2048Key.PublicKey, crypto.SHA512, digest[:], sig, &PSSOptions{Hash: crypto.SHA256}); err != nil {
-		t.Fatalf("VerifyPSS unexpected error: got %v, want nil", err)
+		t.Fatalf("VerifyPSS unexpected error: golangt %v, want nil", err)
 	}
 }

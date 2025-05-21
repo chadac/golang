@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // GOPPC64 values indicate power8, power9, etc.
@@ -983,7 +983,7 @@
 (SETBC [2] (CMPconst [0] a:(XOR y z))) && a.Uses == 1 => (SETBC [2] (Select1 <types.TypeFlags> (XORCC y z )))
 (SETBCR [2] (CMPconst [0] a:(XOR y z))) && a.Uses == 1 => (SETBCR [2] (Select1 <types.TypeFlags> (XORCC y z )))
 
-// A particular pattern seen in cgo code:
+// A particular pattern seen in cgolang code:
 (AND (MOVDconst [c]) x:(MOVBZload _ _)) => (ANDconst [c&0xFF] x)
 
 // floating point negative abs

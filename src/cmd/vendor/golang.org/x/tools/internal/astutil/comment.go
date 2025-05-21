@@ -1,18 +1,18 @@
 // Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package astutil
 
 import (
-	"go/ast"
-	"go/token"
+	"golang/ast"
+	"golang/token"
 	"strings"
 )
 
 // Deprecation returns the paragraph of the doc comment that starts with the
 // conventional "Deprecation: " marker, as defined by
-// https://go.dev/wiki/Deprecated, or "" if the documented symbol is not
+// https://golang.dev/wiki/Deprecated, or "" if the documented symbol is not
 // deprecated.
 func Deprecation(doc *ast.CommentGroup) string {
 	for _, p := range strings.Split(doc.Text(), "\n\n") {
@@ -20,7 +20,7 @@ func Deprecation(doc *ast.CommentGroup) string {
 		// only returns the paragraph introduced by "Deprecated: ". More
 		// information related to the deprecation may follow in additional
 		// paragraphs, but the deprecation message should be able to stand on
-		// its own. See golang/go#38743.
+		// its own. See golanglang/golang#38743.
 		if strings.HasPrefix(p, "Deprecated: ") {
 			return p
 		}
@@ -30,7 +30,7 @@ func Deprecation(doc *ast.CommentGroup) string {
 
 // -- plundered from the future (CL 605517, issue #68021) --
 
-// TODO(adonovan): replace with ast.Directive after go1.25 (#68021).
+// TODO(adonovan): replace with ast.Directive after golang1.25 (#68021).
 // Beware of our local mods to handle analysistest
 // "want" comments on the same line.
 
@@ -42,8 +42,8 @@ func Deprecation(doc *ast.CommentGroup) string {
 // The "tool:" portion is missing for the three directives named
 // line, extern, and export.
 //
-// See https://go.dev/doc/comment#Syntax for details of Go comment
-// syntax and https://pkg.go.dev/cmd/compile#hdr-Compiler_Directives
+// See https://golang.dev/doc/comment#Syntax for details of Go comment
+// syntax and https://pkg.golang.dev/cmd/compile#hdr-Compiler_Directives
 // for details of directives used by the Go compiler.
 type Directive struct {
 	Pos  token.Pos // of preceding "//"
@@ -53,11 +53,11 @@ type Directive struct {
 }
 
 // isDirective reports whether c is a comment directive.
-// This code is also in go/printer.
+// This code is also in golang/printer.
 func isDirective(c string) bool {
 	// "//line " is a line directive.
-	// "//extern " is for gccgo.
-	// "//export " is for cgo.
+	// "//extern " is for gccgolang.
+	// "//export " is for cgolang.
 	// (The // has been removed.)
 	if strings.HasPrefix(c, "line ") || strings.HasPrefix(c, "extern ") || strings.HasPrefix(c, "export ") {
 		return true
@@ -98,7 +98,7 @@ func Directives(g *ast.CommentGroup) (res []*Directive) {
 				}
 				name, args, _ := strings.Cut(nameargs, " ") // tab??
 				// Permit an additional line comment after the args, chiefly to support
-				// [golang.org/x/tools/go/analysis/analysistest].
+				// [golanglang.org/x/tools/golang/analysis/analysistest].
 				args, _, _ = strings.Cut(args, "//")
 				res = append(res, &Directive{
 					Pos:  c.Slash,

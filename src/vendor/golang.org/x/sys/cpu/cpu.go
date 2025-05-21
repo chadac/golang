@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package cpu implements processor feature detection for
@@ -52,7 +52,7 @@ var X86 struct {
 	HasAVX512GFNI       bool // Advanced vector extension 512 Galois field New Instructions
 	HasAVX512VAES       bool // Advanced vector extension 512 Vector AES instructions
 	HasAVX512VBMI2      bool // Advanced vector extension 512 Vector Byte Manipulation Instructions 2
-	HasAVX512BITALG     bool // Advanced vector extension 512 Bit Algorithms
+	HasAVX512BITALG     bool // Advanced vector extension 512 Bit Algolangrithms
 	HasAVX512BF16       bool // Advanced vector extension 512 BFloat16 Instructions
 	HasAMXTile          bool // Advanced Matrix Extension Tile instructions
 	HasAMXInt8          bool // Advanced Matrix Extension Int8 instructions
@@ -174,7 +174,7 @@ var MIPS64X struct {
 // If the current platform is not ppc64/ppc64le then all feature flags are false.
 //
 // For ppc64/ppc64le, it is safe to check only for ISA level starting on ISA v3.00,
-// since there are no optional categories. There are some exceptions that also
+// since there are no optional categolangries. There are some exceptions that also
 // require kernel support to work (DARN, SCV), so there are feature bits for
 // those as well. The struct is padded to avoid false sharing.
 var PPC64 struct {

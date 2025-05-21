@@ -1,9 +1,9 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Not all systems have syscall.Mkfifo.
-//go:build !aix && !plan9 && !solaris && !wasm && !windows
+//golang:build !aix && !plan9 && !solaris && !wasm && !windows
 
 package wasi_test
 
@@ -22,9 +22,9 @@ import (
 
 // This test creates a set of FIFOs and writes to them in reverse order. It
 // checks that the output order matches the write order. The test binary opens
-// the FIFOs in their original order and spawns a goroutine for each that reads
+// the FIFOs in their original order and spawns a golangroutine for each that reads
 // from the FIFO and writes the result to stderr. If I/O was blocking, all
-// goroutines would be blocked waiting for one read call to return, and the
+// golangroutines would be blocked waiting for one read call to return, and the
 // output order wouldn't match.
 
 type fifo struct {
@@ -46,7 +46,7 @@ func TestNonblock(t *testing.T) {
 
 	for _, mode := range []string{"os.OpenFile", "os.NewFile"} {
 		t.Run(mode, func(t *testing.T) {
-			args := []string{"run", "./testdata/nonblock.go", mode}
+			args := []string{"run", "./testdata/nonblock.golang", mode}
 
 			fifos := make([]*fifo, 8)
 			for i := range fifos {

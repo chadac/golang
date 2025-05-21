@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -33,8 +33,8 @@ func main() {
 	})
 
 	want := 3628800
-	if got := fct(10); got != want {
-		msg := fmt.Sprintf("unexpected result, got: %d, want: %d", got, want)
+	if golangt := fct(10); golangt != want {
+		msg := fmt.Sprintf("unexpected result, golangt: %d, want: %d", golangt, want)
 		panic(msg)
 	}
 }

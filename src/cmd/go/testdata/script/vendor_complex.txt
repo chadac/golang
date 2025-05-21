@@ -1,10 +1,10 @@
 env GO111MODULE=off
 
 # smoke test for complex build configuration
-go build -o complex.exe complex
-[!cross] [exec:gccgo] go build -compiler=gccgo -o complex.exe complex
+golang build -o complex.exe complex
+[!cross] [exec:gccgolang] golang build -compiler=gccgolang -o complex.exe complex
 
--- complex/main.go --
+-- complex/main.golang --
 package main
 
 import (
@@ -18,7 +18,7 @@ func main() {
 	println(v.Hello + " " + w.World)
 }
 
--- complex/nest/sub/test12/p.go --
+-- complex/nest/sub/test12/p.golang --
 package test12
 
 // Check that vendor/v1 is used but vendor/v2 is NOT used (sub/vendor/v2 wins).
@@ -31,7 +31,7 @@ import (
 const x = v1.ComplexNestVendorV1
 const y = v2.ComplexNestSubVendorV2
 
--- complex/nest/sub/test23/p.go --
+-- complex/nest/sub/test23/p.golang --
 package test23
 
 // Check that vendor/v3 is used but vendor/v2 is NOT used (sub/vendor/v2 wins).
@@ -44,32 +44,32 @@ import (
 const x = v3.ComplexNestVendorV3
 const y = v2.ComplexNestSubVendorV2
 
--- complex/nest/sub/vendor/v2/v2.go --
+-- complex/nest/sub/vendor/v2/v2.golang --
 package v2
 
 const ComplexNestSubVendorV2 = true
 
--- complex/nest/vendor/v1/v1.go --
+-- complex/nest/vendor/v1/v1.golang --
 package v1
 
 const ComplexNestVendorV1 = true
 
--- complex/nest/vendor/v2/v2.go --
+-- complex/nest/vendor/v2/v2.golang --
 package v2
 
 const ComplexNestVendorV2 = true
 
--- complex/nest/vendor/v3/v3.go --
+-- complex/nest/vendor/v3/v3.golang --
 package v3
 
 const ComplexNestVendorV3 = true
 
--- complex/vendor/v/v.go --
+-- complex/vendor/v/v.golang --
 package v
 
 const Hello = "hello"
 
--- complex/w/w.go --
+-- complex/w/w.golang --
 package w
 
 const World = "world"

@@ -1,8 +1,8 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build test_run
+//golang:build test_run
 
 // Pass numbers along a chain of threads.
 
@@ -12,7 +12,7 @@ import (
 	"runtime"
 	"strconv"
 
-	"cgostdio/stdio"
+	"cgolangstdio/stdio"
 )
 
 const N = 10
@@ -21,7 +21,7 @@ const R = 5
 func link(left chan<- int, right <-chan int) {
 	// Keep the links in dedicated operating system
 	// threads, so that this program tests coordination
-	// between pthreads and not just goroutines.
+	// between pthreads and not just golangroutines.
 	runtime.LockOSThread()
 	for {
 		v := <-right
@@ -36,7 +36,7 @@ func main() {
 	right := leftmost
 	for i := 0; i < N; i++ {
 		left, right = right, make(chan int)
-		go link(left, right)
+		golang link(left, right)
 	}
 	for i := 0; i < R; i++ {
 		right <- 0

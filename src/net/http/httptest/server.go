@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Implementation of Server
@@ -77,7 +77,7 @@ func newLocalListener() net.Listener {
 // When debugging a particular http server-based test,
 // this flag lets you run
 //
-//	go test -run='^BrokenTest$' -httptest.serve=127.0.0.1:8000
+//	golang test -run='^BrokenTest$' -httptest.serve=127.0.0.1:8000
 //
 // to start the broken server so you can interact with it manually.
 // We only register this flag if it looks like the caller knows about it
@@ -131,7 +131,7 @@ func (s *Server) Start() {
 	}
 	s.URL = "http://" + s.Listener.Addr().String()
 	s.wrap()
-	s.goServe()
+	s.golangServe()
 	if serveFlag != "" {
 		fmt.Fprintln(os.Stderr, "httptest: serving on", s.URL)
 		select {}
@@ -182,7 +182,7 @@ func (s *Server) StartTLS() {
 	s.Listener = tls.NewListener(s.Listener, s.TLS)
 	s.URL = "https://" + s.Listener.Addr().String()
 	s.wrap()
-	s.goServe()
+	s.golangServe()
 }
 
 // NewTLSServer starts and returns a new [Server] using TLS.
@@ -220,7 +220,7 @@ func (s *Server) Close() {
 			// possible StateNew is about to do something in a few
 			// milliseconds, but a previous CL to check again in a
 			// few milliseconds wasn't liked (early versions of
-			// https://golang.org/cl/15151) so now we just
+			// https://golanglang.org/cl/15151) so now we just
 			// forcefully close StateNew. The docs for Server.Close say
 			// we wait for "outstanding requests", so we don't close things
 			// in StateActive.
@@ -268,14 +268,14 @@ func (s *Server) CloseClientConnections() {
 	nconn := len(s.conns)
 	ch := make(chan struct{}, nconn)
 	for c := range s.conns {
-		go s.closeConnChan(c, ch)
+		golang s.closeConnChan(c, ch)
 	}
 	s.mu.Unlock()
 
 	// Wait for outstanding closes to finish.
 	//
 	// Out of paranoia for making a late change in Go 1.6, we
-	// bound how long this can wait, since golang.org/issue/14291
+	// bound how long this can wait, since golanglang.org/issue/14291
 	// isn't fully understood yet. At least this should only be used
 	// in tests.
 	timer := time.NewTimer(5 * time.Second)
@@ -304,9 +304,9 @@ func (s *Server) Client() *http.Client {
 	return s.client
 }
 
-func (s *Server) goServe() {
+func (s *Server) golangServe() {
 	s.wg.Add(1)
-	go func() {
+	golang func() {
 		defer s.wg.Done()
 		s.Config.Serve(s.Listener)
 	}()
@@ -377,7 +377,7 @@ func (s *Server) wrap() {
 func (s *Server) closeConn(c net.Conn) { s.closeConnChan(c, nil) }
 
 // closeConnChan is like closeConn, but takes an optional channel to receive a value
-// when the goroutine closing c is done.
+// when the golangroutine closing c is done.
 func (s *Server) closeConnChan(c net.Conn, done chan<- struct{}) {
 	c.Close()
 	if done != nil {

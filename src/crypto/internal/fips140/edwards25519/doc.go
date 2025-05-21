@@ -1,5 +1,5 @@
 // Copyright (c) 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package edwards25519 implements group logic for the twisted Edwards curve
@@ -10,7 +10,7 @@
 // the curve used by the Ed25519 signature scheme.
 //
 // Most users don't need this package, and should instead use crypto/ed25519 for
-// signatures, golang.org/x/crypto/curve25519 for Diffie-Hellman, or
+// signatures, golanglang.org/x/crypto/curve25519 for Diffie-Hellman, or
 // github.com/gtank/ristretto255 for prime order group logic.
 //
 // However, developers who do need to interact with low-level edwards25519

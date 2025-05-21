@@ -1,5 +1,5 @@
 // Copyright (c) 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package edwards25519
@@ -58,7 +58,7 @@ func (Scalar) Generate(rand *mathrand.Rand, size int) reflect.Value {
 
 	val := Scalar{}
 	fiatScalarFromBytes((*[4]uint64)(&val.s), &s)
-	fiatScalarToMontgomery(&val.s, (*fiatScalarNonMontgomeryDomainFieldElement)(&val.s))
+	fiatScalarToMontgolangmery(&val.s, (*fiatScalarNonMontgolangmeryDomainFieldElement)(&val.s))
 
 	return reflect.ValueOf(val)
 }
@@ -146,24 +146,24 @@ func TestScalarSetBytesWithClamping(t *testing.T) {
 	s, _ := new(Scalar).SetBytesWithClamping(decodeHex(random))
 	p := new(Point).ScalarBaseMult(s)
 	want := "1d87a9026fd0126a5736fe1628c95dd419172b5b618457e041c9c861b2494a94"
-	if got := hex.EncodeToString(p.Bytes()); got != want {
-		t.Errorf("random: got %q, want %q", got, want)
+	if golangt := hex.EncodeToString(p.Bytes()); golangt != want {
+		t.Errorf("random: golangt %q, want %q", golangt, want)
 	}
 
 	zero := "0000000000000000000000000000000000000000000000000000000000000000"
 	s, _ = new(Scalar).SetBytesWithClamping(decodeHex(zero))
 	p = new(Point).ScalarBaseMult(s)
 	want = "693e47972caf527c7883ad1b39822f026f47db2ab0e1919955b8993aa04411d1"
-	if got := hex.EncodeToString(p.Bytes()); got != want {
-		t.Errorf("zero: got %q, want %q", got, want)
+	if golangt := hex.EncodeToString(p.Bytes()); golangt != want {
+		t.Errorf("zero: golangt %q, want %q", golangt, want)
 	}
 
 	one := "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
 	s, _ = new(Scalar).SetBytesWithClamping(decodeHex(one))
 	p = new(Point).ScalarBaseMult(s)
 	want = "12e9a68b73fd5aacdbcaf3e88c46fea6ebedb1aa84eed1842f07f8edab65e3a7"
-	if got := hex.EncodeToString(p.Bytes()); got != want {
-		t.Errorf("one: got %q, want %q", got, want)
+	if golangt := hex.EncodeToString(p.Bytes()); golangt != want {
+		t.Errorf("one: golangt %q, want %q", golangt, want)
 	}
 }
 
@@ -241,7 +241,7 @@ func TestScalarNonAdjacentForm(t *testing.T) {
 
 	for i := 0; i < 256; i++ {
 		if expectedNaf[i] != sNaf[i] {
-			t.Errorf("Wrong digit at position %d, got %d, expected %d", i, sNaf[i], expectedNaf[i])
+			t.Errorf("Wrong digit at position %d, golangt %d, expected %d", i, sNaf[i], expectedNaf[i])
 		}
 	}
 }

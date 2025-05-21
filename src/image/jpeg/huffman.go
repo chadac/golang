@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package jpeg
@@ -189,7 +189,7 @@ func (d *decoder) decodeHuffman(h *huffman) (uint8, error) {
 			if d.bytes.nUnreadable != 0 {
 				d.unreadByteStuffedByte()
 			}
-			goto slowPath
+			golangto slowPath
 		}
 	}
 	if v := h.lut[(d.bits.a>>uint32(d.bits.n-lutSize))&0xff]; v != 0 {

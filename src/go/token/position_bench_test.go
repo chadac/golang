@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package token
@@ -15,7 +15,7 @@ func BenchmarkSearchInts(b *testing.B) {
 	}
 	const x = 8
 	if r := searchInts(data, x); r != x {
-		b.Errorf("got index = %d; want %d", r, x)
+		b.Errorf("golangt index = %d; want %d", r, x)
 	}
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {

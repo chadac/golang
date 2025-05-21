@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package upload
@@ -59,7 +59,7 @@ func (u *uploader) findWork() work {
 				// If both the mode asof date and the report date are present, do the
 				// right thing...
 				//
-				// (see https://github.com/golang/go/issues/63142#issuecomment-1734025130)
+				// (see https://github.com/golanglang/golang/issues/63142#issuecomment-1734025130)
 				if asof.Before(reportDate) {
 					// Note: since this report was created after telemetry was enabled,
 					// we can only assume that the process that created it checked that

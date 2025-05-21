@@ -1,8 +1,8 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build gccgo && !aix && !hurd
+//golang:build gccgolang && !aix && !hurd
 
 #include <errno.h>
 #include <stdint.h>
@@ -12,7 +12,7 @@
 #define _STRINGIFY_(x) _STRINGIFY2_(x)
 #define GOSYM_PREFIX _STRINGIFY_(__USER_LABEL_PREFIX__)
 
-// Call syscall from C code because the gccgo support for calling from
+// Call syscall from C code because the gccgolang support for calling from
 // Go to C does not support varargs functions.
 
 struct ret {
@@ -20,11 +20,11 @@ struct ret {
 	uintptr_t err;
 };
 
-struct ret gccgoRealSyscall(uintptr_t trap, uintptr_t a1, uintptr_t a2, uintptr_t a3, uintptr_t a4, uintptr_t a5, uintptr_t a6, uintptr_t a7, uintptr_t a8, uintptr_t a9)
+struct ret gccgolangRealSyscall(uintptr_t trap, uintptr_t a1, uintptr_t a2, uintptr_t a3, uintptr_t a4, uintptr_t a5, uintptr_t a6, uintptr_t a7, uintptr_t a8, uintptr_t a9)
   __asm__(GOSYM_PREFIX GOPKGPATH ".realSyscall");
 
 struct ret
-gccgoRealSyscall(uintptr_t trap, uintptr_t a1, uintptr_t a2, uintptr_t a3, uintptr_t a4, uintptr_t a5, uintptr_t a6, uintptr_t a7, uintptr_t a8, uintptr_t a9)
+gccgolangRealSyscall(uintptr_t trap, uintptr_t a1, uintptr_t a2, uintptr_t a3, uintptr_t a4, uintptr_t a5, uintptr_t a6, uintptr_t a7, uintptr_t a8, uintptr_t a9)
 {
 	struct ret r;
 
@@ -34,11 +34,11 @@ gccgoRealSyscall(uintptr_t trap, uintptr_t a1, uintptr_t a2, uintptr_t a3, uintp
 	return r;
 }
 
-uintptr_t gccgoRealSyscallNoError(uintptr_t trap, uintptr_t a1, uintptr_t a2, uintptr_t a3, uintptr_t a4, uintptr_t a5, uintptr_t a6, uintptr_t a7, uintptr_t a8, uintptr_t a9)
+uintptr_t gccgolangRealSyscallNoError(uintptr_t trap, uintptr_t a1, uintptr_t a2, uintptr_t a3, uintptr_t a4, uintptr_t a5, uintptr_t a6, uintptr_t a7, uintptr_t a8, uintptr_t a9)
   __asm__(GOSYM_PREFIX GOPKGPATH ".realSyscallNoError");
 
 uintptr_t
-gccgoRealSyscallNoError(uintptr_t trap, uintptr_t a1, uintptr_t a2, uintptr_t a3, uintptr_t a4, uintptr_t a5, uintptr_t a6, uintptr_t a7, uintptr_t a8, uintptr_t a9)
+gccgolangRealSyscallNoError(uintptr_t trap, uintptr_t a1, uintptr_t a2, uintptr_t a3, uintptr_t a4, uintptr_t a5, uintptr_t a6, uintptr_t a7, uintptr_t a8, uintptr_t a9)
 {
 	return syscall(trap, a1, a2, a3, a4, a5, a6, a7, a8, a9);
 }

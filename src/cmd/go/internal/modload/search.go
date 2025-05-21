@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package modload
@@ -17,18 +17,18 @@ import (
 	"strings"
 	"sync"
 
-	"cmd/go/internal/cfg"
-	"cmd/go/internal/fsys"
-	"cmd/go/internal/gover"
-	"cmd/go/internal/imports"
-	"cmd/go/internal/modindex"
-	"cmd/go/internal/search"
-	"cmd/go/internal/str"
-	"cmd/go/internal/trace"
+	"cmd/golang/internal/cfg"
+	"cmd/golang/internal/fsys"
+	"cmd/golang/internal/golangver"
+	"cmd/golang/internal/imports"
+	"cmd/golang/internal/modindex"
+	"cmd/golang/internal/search"
+	"cmd/golang/internal/str"
+	"cmd/golang/internal/trace"
 	"cmd/internal/par"
 	"cmd/internal/pkgpattern"
 
-	"golang.org/x/mod/module"
+	"golanglang.org/x/mod/module"
 )
 
 type stdFilter int8
@@ -63,8 +63,8 @@ func matchPackages(ctx context.Context, m *search.Match, tags map[string]bool, f
 		m.Pkgs = append(m.Pkgs, p)
 		mu.Unlock()
 	}
-	if !cfg.BuildContext.CgoEnabled {
-		have["runtime/cgo"] = true // ignore during walk
+	if !cfg.BuildContext.CgolangEnabled {
+		have["runtime/cgolang"] = true // ignore during walk
 	}
 
 	type pruning int8
@@ -80,7 +80,7 @@ func matchPackages(ctx context.Context, m *search.Match, tags map[string]bool, f
 		defer span.Done()
 
 		// If the root itself is a symlink to a directory,
-		// we want to follow it (see https://go.dev/issue/50807).
+		// we want to follow it (see https://golang.dev/issue/50807).
 		// Add a trailing separator to force that to happen.
 		cleanRoot := filepath.Clean(root)
 		root = str.WithFilePathSeparator(cleanRoot)
@@ -131,7 +131,7 @@ func matchPackages(ctx context.Context, m *search.Match, tags map[string]bool, f
 			}
 			// Stop at module boundaries.
 			if (prune&pruneGoMod != 0) && pkgDir != root {
-				if info, err := os.Stat(filepath.Join(pkgDir, "go.mod")); err == nil && !info.IsDir() {
+				if info, err := os.Stat(filepath.Join(pkgDir, "golang.mod")); err == nil && !info.IsDir() {
 					return filepath.SkipDir
 				}
 			}
@@ -183,7 +183,7 @@ func matchPackages(ctx context.Context, m *search.Match, tags map[string]bool, f
 	}
 
 	for _, mod := range modules {
-		if gover.IsToolchain(mod.Path) || !treeCanMatch(mod.Path) {
+		if golangver.IsToolchain(mod.Path) || !treeCanMatch(mod.Path) {
 			continue
 		}
 
@@ -325,7 +325,7 @@ func MatchInModule(ctx context.Context, pattern string, m module.Version, tags m
 func parseIgnorePatterns(ctx context.Context, treeCanMatch func(string) bool, modules []module.Version) map[string]*search.IgnorePatterns {
 	ignorePatternsMap := make(map[string]*search.IgnorePatterns)
 	for _, mod := range modules {
-		if gover.IsToolchain(mod.Path) || !treeCanMatch(mod.Path) {
+		if golangver.IsToolchain(mod.Path) || !treeCanMatch(mod.Path) {
 			continue
 		}
 		var modRoot string
@@ -342,13 +342,13 @@ func parseIgnorePatterns(ctx context.Context, treeCanMatch func(string) bool, mo
 			ignorePatterns = modIndex.ignore
 		} else if cfg.BuildMod != "vendor" {
 			// Skip getting ignore patterns for vendored modules because they
-			// do not have go.mod files.
+			// do not have golang.mod files.
 			var err error
 			modRoot, _, err = fetch(ctx, mod)
 			if err != nil {
 				continue
 			}
-			summary, err := goModSummary(mod)
+			summary, err := golangModSummary(mod)
 			if err != nil {
 				continue
 			}

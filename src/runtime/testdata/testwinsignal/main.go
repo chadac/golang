@@ -13,7 +13,7 @@ import (
 func main() {
 	// Ensure that this process terminates when the test times out,
 	// even if the expected signal never arrives.
-	go func() {
+	golang func() {
 		io.Copy(io.Discard, os.Stdin)
 		log.Fatal("stdin is closed; terminating")
 	}()
@@ -41,10 +41,10 @@ func main() {
 
 	sig := <-c
 
-	// Allow some time for the handler to complete if it's going to.
+	// Allow some time for the handler to complete if it's golanging to.
 	//
-	// (In https://go.dev/issue/41884 the handler returned immediately,
-	// which caused Windows to terminate the program before the goroutine
+	// (In https://golang.dev/issue/41884 the handler returned immediately,
+	// which caused Windows to terminate the program before the golangroutine
 	// that received the SIGTERM had a chance to actually clean up.)
 	time.Sleep(time.Second)
 

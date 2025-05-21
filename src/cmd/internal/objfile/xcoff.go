@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Parsing of XCOFF executable (AIX)
@@ -144,7 +144,7 @@ func loadXCOFFTable(f *xcoff.File, sname, ename string) ([]byte, error) {
 	return data[ssym.Value:esym.Value], nil
 }
 
-func (f *xcoffFile) goarch() string {
+func (f *xcoffFile) golangarch() string {
 	switch f.xcoff.TargetMachine {
 	case xcoff.U802TOCMAGIC:
 		return "ppc"

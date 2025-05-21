@@ -1,38 +1,38 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Code to check that pointer writes follow the cgo rules.
-// These functions are invoked when GOEXPERIMENT=cgocheck2 is enabled.
+// Code to check that pointer writes follow the cgolang rules.
+// These functions are invoked when GOEXPERIMENT=cgolangcheck2 is enabled.
 
 package runtime
 
 import (
-	"internal/goarch"
+	"internal/golangarch"
 	"unsafe"
 )
 
-const cgoWriteBarrierFail = "unpinned Go pointer stored into non-Go memory"
+const cgolangWriteBarrierFail = "unpinned Go pointer stored into non-Go memory"
 
-// cgoCheckPtrWrite is called whenever a pointer is stored into memory.
+// cgolangCheckPtrWrite is called whenever a pointer is stored into memory.
 // It throws if the program is storing an unpinned Go pointer into non-Go
 // memory.
 //
-// This is called from generated code when GOEXPERIMENT=cgocheck2 is enabled.
+// This is called from generated code when GOEXPERIMENT=cgolangcheck2 is enabled.
 //
-//go:nosplit
-//go:nowritebarrier
-func cgoCheckPtrWrite(dst *unsafe.Pointer, src unsafe.Pointer) {
+//golang:nosplit
+//golang:nowritebarrier
+func cgolangCheckPtrWrite(dst *unsafe.Pointer, src unsafe.Pointer) {
 	if !mainStarted {
 		// Something early in startup hates this function.
 		// Don't start doing any actual checking until the
 		// runtime has set itself up.
 		return
 	}
-	if !cgoIsGoPointer(src) {
+	if !cgolangIsGoPointer(src) {
 		return
 	}
-	if cgoIsGoPointer(unsafe.Pointer(dst)) {
+	if cgolangIsGoPointer(unsafe.Pointer(dst)) {
 		return
 	}
 
@@ -64,75 +64,75 @@ func cgoCheckPtrWrite(dst *unsafe.Pointer, src unsafe.Pointer) {
 
 	systemstack(func() {
 		println("write of unpinned Go pointer", hex(uintptr(src)), "to non-Go memory", hex(uintptr(unsafe.Pointer(dst))))
-		throw(cgoWriteBarrierFail)
+		throw(cgolangWriteBarrierFail)
 	})
 }
 
-// cgoCheckMemmove is called when moving a block of memory.
+// cgolangCheckMemmove is called when moving a block of memory.
 // It throws if the program is copying a block that contains an unpinned Go
 // pointer into non-Go memory.
 //
-// This is called from generated code when GOEXPERIMENT=cgocheck2 is enabled.
+// This is called from generated code when GOEXPERIMENT=cgolangcheck2 is enabled.
 //
-//go:nosplit
-//go:nowritebarrier
-func cgoCheckMemmove(typ *_type, dst, src unsafe.Pointer) {
-	cgoCheckMemmove2(typ, dst, src, 0, typ.Size_)
+//golang:nosplit
+//golang:nowritebarrier
+func cgolangCheckMemmove(typ *_type, dst, src unsafe.Pointer) {
+	cgolangCheckMemmove2(typ, dst, src, 0, typ.Size_)
 }
 
-// cgoCheckMemmove2 is called when moving a block of memory.
+// cgolangCheckMemmove2 is called when moving a block of memory.
 // dst and src point off bytes into the value to copy.
 // size is the number of bytes to copy.
 // It throws if the program is copying a block that contains an unpinned Go
 // pointer into non-Go memory.
 //
-//go:nosplit
-//go:nowritebarrier
-func cgoCheckMemmove2(typ *_type, dst, src unsafe.Pointer, off, size uintptr) {
+//golang:nosplit
+//golang:nowritebarrier
+func cgolangCheckMemmove2(typ *_type, dst, src unsafe.Pointer, off, size uintptr) {
 	if !typ.Pointers() {
 		return
 	}
-	if !cgoIsGoPointer(src) {
+	if !cgolangIsGoPointer(src) {
 		return
 	}
-	if cgoIsGoPointer(dst) {
+	if cgolangIsGoPointer(dst) {
 		return
 	}
-	cgoCheckTypedBlock(typ, src, off, size)
+	cgolangCheckTypedBlock(typ, src, off, size)
 }
 
-// cgoCheckSliceCopy is called when copying n elements of a slice.
+// cgolangCheckSliceCopy is called when copying n elements of a slice.
 // src and dst are pointers to the first element of the slice.
 // typ is the element type of the slice.
 // It throws if the program is copying slice elements that contain unpinned Go
 // pointers into non-Go memory.
 //
-//go:nosplit
-//go:nowritebarrier
-func cgoCheckSliceCopy(typ *_type, dst, src unsafe.Pointer, n int) {
+//golang:nosplit
+//golang:nowritebarrier
+func cgolangCheckSliceCopy(typ *_type, dst, src unsafe.Pointer, n int) {
 	if !typ.Pointers() {
 		return
 	}
-	if !cgoIsGoPointer(src) {
+	if !cgolangIsGoPointer(src) {
 		return
 	}
-	if cgoIsGoPointer(dst) {
+	if cgolangIsGoPointer(dst) {
 		return
 	}
 	p := src
 	for i := 0; i < n; i++ {
-		cgoCheckTypedBlock(typ, p, 0, typ.Size_)
+		cgolangCheckTypedBlock(typ, p, 0, typ.Size_)
 		p = add(p, typ.Size_)
 	}
 }
 
-// cgoCheckTypedBlock checks the block of memory at src, for up to size bytes,
+// cgolangCheckTypedBlock checks the block of memory at src, for up to size bytes,
 // and throws if it finds an unpinned Go pointer. The type of the memory is typ,
 // and src is off bytes into that type.
 //
-//go:nosplit
-//go:nowritebarrier
-func cgoCheckTypedBlock(typ *_type, src unsafe.Pointer, off, size uintptr) {
+//golang:nosplit
+//golang:nowritebarrier
+func cgolangCheckTypedBlock(typ *_type, src unsafe.Pointer, off, size uintptr) {
 	// Anything past typ.PtrBytes is not a pointer.
 	if typ.PtrBytes <= off {
 		return
@@ -141,52 +141,52 @@ func cgoCheckTypedBlock(typ *_type, src unsafe.Pointer, off, size uintptr) {
 		size = ptrdataSize
 	}
 
-	cgoCheckBits(src, getGCMask(typ), off, size)
+	cgolangCheckBits(src, getGCMask(typ), off, size)
 }
 
-// cgoCheckBits checks the block of memory at src, for up to size
+// cgolangCheckBits checks the block of memory at src, for up to size
 // bytes, and throws if it finds an unpinned Go pointer. The gcbits mark each
 // pointer value. The src pointer is off bytes into the gcbits.
 //
-//go:nosplit
-//go:nowritebarrier
-func cgoCheckBits(src unsafe.Pointer, gcbits *byte, off, size uintptr) {
-	skipMask := off / goarch.PtrSize / 8
-	skipBytes := skipMask * goarch.PtrSize * 8
+//golang:nosplit
+//golang:nowritebarrier
+func cgolangCheckBits(src unsafe.Pointer, gcbits *byte, off, size uintptr) {
+	skipMask := off / golangarch.PtrSize / 8
+	skipBytes := skipMask * golangarch.PtrSize * 8
 	ptrmask := addb(gcbits, skipMask)
 	src = add(src, skipBytes)
 	off -= skipBytes
 	size += off
 	var bits uint32
-	for i := uintptr(0); i < size; i += goarch.PtrSize {
-		if i&(goarch.PtrSize*8-1) == 0 {
+	for i := uintptr(0); i < size; i += golangarch.PtrSize {
+		if i&(golangarch.PtrSize*8-1) == 0 {
 			bits = uint32(*ptrmask)
 			ptrmask = addb(ptrmask, 1)
 		} else {
 			bits >>= 1
 		}
 		if off > 0 {
-			off -= goarch.PtrSize
+			off -= golangarch.PtrSize
 		} else {
 			if bits&1 != 0 {
 				v := *(*unsafe.Pointer)(add(src, i))
-				if cgoIsGoPointer(v) && !isPinned(v) {
-					throw(cgoWriteBarrierFail)
+				if cgolangIsGoPointer(v) && !isPinned(v) {
+					throw(cgolangWriteBarrierFail)
 				}
 			}
 		}
 	}
 }
 
-// cgoCheckUsingType is like cgoCheckTypedBlock, but is a last ditch
+// cgolangCheckUsingType is like cgolangCheckTypedBlock, but is a last ditch
 // fall back to look for pointers in src using the type information.
 // We only use this when looking at a value on the stack when the type
 // uses a GC program, because otherwise it's more efficient to use the
 // GC bits. This is called on the system stack.
 //
-//go:nowritebarrier
-//go:systemstack
-func cgoCheckUsingType(typ *_type, src unsafe.Pointer, off, size uintptr) {
+//golang:nowritebarrier
+//golang:systemstack
+func cgolangCheckUsingType(typ *_type, src unsafe.Pointer, off, size uintptr) {
 	if !typ.Pointers() {
 		return
 	}
@@ -199,5 +199,5 @@ func cgoCheckUsingType(typ *_type, src unsafe.Pointer, off, size uintptr) {
 		size = ptrdataSize
 	}
 
-	cgoCheckBits(src, getGCMask(typ), off, size)
+	cgolangCheckBits(src, getGCMask(typ), off, size)
 }

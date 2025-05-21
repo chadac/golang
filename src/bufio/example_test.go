@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package bufio_test
@@ -73,7 +73,7 @@ func ExampleScanner_lines() {
 
 // Return the most recent call to Scan as a []byte.
 func ExampleScanner_Bytes() {
-	scanner := bufio.NewScanner(strings.NewReader("gopher"))
+	scanner := bufio.NewScanner(strings.NewReader("golangpher"))
 	for scanner.Scan() {
 		fmt.Println(len(scanner.Bytes()) == 6)
 	}

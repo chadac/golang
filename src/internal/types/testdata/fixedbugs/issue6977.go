@@ -1,5 +1,5 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package p
@@ -56,7 +56,7 @@ type (
 
         // TODO(gri) Enable this longer test once we have found a solution
         //           for the incorrect optimization in the validType check
-        //           (see TODO in validtype.go).
+        //           (see TODO in validtype.golang).
         // T10 interface { T9; T9 }
         // T11 interface { T10; T10 }
         // T12 interface { T11; T11 }

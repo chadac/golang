@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime_test
@@ -21,7 +21,7 @@ func TestMemmoveOverflow(t *testing.T) {
 
 	t.Parallel()
 	// Create a temporary file.
-	tmp, err := os.CreateTemp("", "go-memmovetest")
+	tmp, err := os.CreateTemp("", "golang-memmovetest")
 	if err != nil {
 		t.Fatal(err)
 	}

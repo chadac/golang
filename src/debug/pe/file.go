@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 /*
@@ -8,7 +8,7 @@ Package pe implements access to PE (Microsoft Windows Portable Executable) files
 # Security
 
 This package is not designed to be hardened against adversarial inputs, and is
-outside the scope of https://go.dev/security/policy. In particular, only basic
+outside the scope of https://golang.dev/security/policy. In particular, only basic
 validation is done when parsing object files. As such, care should be taken when
 parsing untrusted inputs, as parsing malformed files may consume significant
 resources, or cause panics.
@@ -447,7 +447,7 @@ func (f *File) ImportedSymbols() ([]string, error) {
 // linked with the binary at dynamic link time.
 func (f *File) ImportedLibraries() ([]string, error) {
 	// TODO
-	// cgo -dynimport don't use this for windows PE, so just return.
+	// cgolang -dynimport don't use this for windows PE, so just return.
 	return nil, nil
 }
 

@@ -1,19 +1,19 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package analysisinternal
 
 import (
 	"fmt"
-	"go/parser"
-	"go/token"
+	"golang/parser"
+	"golang/token"
 	"strings"
 )
 
 // MustExtractDoc is like [ExtractDoc] but it panics on error.
 //
-// To use, define a doc.go file such as:
+// To use, define a doc.golang file such as:
 //
 //	// Package halting defines an analyzer of program termination.
 //	//
@@ -28,7 +28,7 @@ import (
 //
 //	import _ "embed"
 //
-//	//go:embed doc.go
+//	//golang:embed doc.golang
 //	var doc string
 //
 // And declare your analyzer as:
@@ -47,7 +47,7 @@ func MustExtractDoc(content, name string) string {
 }
 
 // ExtractDoc extracts a section of a package doc comment from the
-// provided contents of an analyzer package's doc.go file.
+// provided contents of an analyzer package's doc.golang file.
 //
 // A section is a portion of the comment between one heading and
 // the next, using this form:
@@ -82,7 +82,7 @@ func MustExtractDoc(content, name string) string {
 // form.
 //
 // This machinery enables the package documentation (typically
-// accessible via the web at https://pkg.go.dev/) and the command
+// accessible via the web at https://pkg.golang.dev/) and the command
 // documentation (typically printed to a terminal) to be derived from
 // the same source and formatted appropriately.
 func ExtractDoc(content, name string) (string, error) {

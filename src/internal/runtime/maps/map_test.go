@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package maps_test
@@ -16,7 +16,7 @@ import (
 func TestCtrlSize(t *testing.T) {
 	cs := unsafe.Sizeof(maps.CtrlGroup(0))
 	if cs != abi.SwissMapGroupSlots {
-		t.Errorf("ctrlGroup size got %d want abi.SwissMapGroupSlots %d", cs, abi.SwissMapGroupSlots)
+		t.Errorf("ctrlGroup size golangt %d want abi.SwissMapGroupSlots %d", cs, abi.SwissMapGroupSlots)
 	}
 }
 
@@ -37,7 +37,7 @@ func TestMapPut(t *testing.T) {
 	}
 
 	if m.Used() != 31 {
-		t.Errorf("Used() used got %d want 31", m.Used())
+		t.Errorf("Used() used golangt %d want 31", m.Used())
 	}
 
 	key = uint32(0)
@@ -46,13 +46,13 @@ func TestMapPut(t *testing.T) {
 	for i := 0; i < 31; i++ {
 		key += 1
 		elem += 1
-		got, ok := m.Get(typ, unsafe.Pointer(&key))
+		golangt, ok := m.Get(typ, unsafe.Pointer(&key))
 		if !ok {
-			t.Errorf("Get(%d) got ok false want true", key)
+			t.Errorf("Get(%d) golangt ok false want true", key)
 		}
-		gotElem := *(*uint64)(got)
-		if gotElem != elem {
-			t.Errorf("Get(%d) got elem %d want %d", key, gotElem, elem)
+		golangtElem := *(*uint64)(golangt)
+		if golangtElem != elem {
+			t.Errorf("Get(%d) golangt elem %d want %d", key, golangtElem, elem)
 		}
 	}
 }
@@ -75,7 +75,7 @@ func TestMapSplit(t *testing.T) {
 	}
 
 	if m.Used() != 2*maps.MaxTableCapacity {
-		t.Errorf("Used() used got %d want 31", m.Used())
+		t.Errorf("Used() used golangt %d want 31", m.Used())
 	}
 
 	key = uint32(0)
@@ -84,13 +84,13 @@ func TestMapSplit(t *testing.T) {
 	for i := 0; i < 2*maps.MaxTableCapacity; i++ {
 		key += 1
 		elem += 1
-		got, ok := m.Get(typ, unsafe.Pointer(&key))
+		golangt, ok := m.Get(typ, unsafe.Pointer(&key))
 		if !ok {
-			t.Errorf("Get(%d) got ok false want true", key)
+			t.Errorf("Get(%d) golangt ok false want true", key)
 		}
-		gotElem := *(*uint64)(got)
-		if gotElem != elem {
-			t.Errorf("Get(%d) got elem %d want %d", key, gotElem, elem)
+		golangtElem := *(*uint64)(golangt)
+		if golangtElem != elem {
+			t.Errorf("Get(%d) golangt elem %d want %d", key, golangtElem, elem)
 		}
 	}
 }
@@ -120,7 +120,7 @@ func TestMapDelete(t *testing.T) {
 	}
 
 	if m.Used() != 0 {
-		t.Errorf("Used() used got %d want 0", m.Used())
+		t.Errorf("Used() used golangt %d want 0", m.Used())
 	}
 
 	key = uint32(0)
@@ -131,7 +131,7 @@ func TestMapDelete(t *testing.T) {
 		elem += 1
 		_, ok := m.Get(typ, unsafe.Pointer(&key))
 		if ok {
-			t.Errorf("Get(%d) got ok true want false", key)
+			t.Errorf("Get(%d) golangt ok true want false", key)
 		}
 	}
 }
@@ -155,7 +155,7 @@ func TestTableClear(t *testing.T) {
 	m.Clear(typ)
 
 	if m.Used() != 0 {
-		t.Errorf("Clear() used got %d want 0", m.Used())
+		t.Errorf("Clear() used golangt %d want 0", m.Used())
 	}
 
 	key = uint32(0)
@@ -166,7 +166,7 @@ func TestTableClear(t *testing.T) {
 		elem += 1
 		_, ok := m.Get(typ, unsafe.Pointer(&key))
 		if ok {
-			t.Errorf("Get(%d) got ok true want false", key)
+			t.Errorf("Get(%d) golangt ok true want false", key)
 		}
 	}
 }
@@ -192,7 +192,7 @@ func TestTableKeyUpdate(t *testing.T) {
 	}
 
 	if m.Used() != 1 {
-		t.Errorf("Used() used got %d want 1", m.Used())
+		t.Errorf("Used() used golangt %d want 1", m.Used())
 	}
 
 	it := new(maps.Iter)
@@ -200,7 +200,7 @@ func TestTableKeyUpdate(t *testing.T) {
 	it.Next()
 	keyPtr, elemPtr := it.Key(), it.Elem()
 	if keyPtr == nil {
-		t.Fatal("it.Key() got nil want key")
+		t.Fatal("it.Key() golangt nil want key")
 	}
 
 	key := *(*float64)(keyPtr)
@@ -209,7 +209,7 @@ func TestTableKeyUpdate(t *testing.T) {
 		t.Errorf("map key %f has positive sign", key)
 	}
 	if elem != 1 {
-		t.Errorf("map elem got %d want 1", elem)
+		t.Errorf("map elem golangt %d want 1", elem)
 	}
 }
 
@@ -218,7 +218,7 @@ func TestTablePutDelete(t *testing.T) {
 	// Put will reuse the first deleted slot it encounters.
 	//
 	// This is awkward to test because Delete will only install ctrlDeleted
-	// if the group is full, otherwise it goes straight to empty.
+	// if the group is full, otherwise it golanges straight to empty.
 	//
 	// So first we must add to the table continuously until we happen to
 	// fill a group.
@@ -268,11 +268,11 @@ func TestTablePutDelete(t *testing.T) {
 	if tabGot != tabWant {
 		// There shouldn't be a grow, as replacing a deleted slot
 		// doesn't require more space.
-		t.Errorf("Put(%d) grew table got %v want %v map %v", key, tabGot, tabWant, m)
+		t.Errorf("Put(%d) grew table golangt %v want %v map %v", key, tabGot, tabWant, m)
 	}
 
 	if growthLeftGot != growthLeftWant {
-		t.Errorf("GrowthLeft got %d want %d: map %v tab %v", growthLeftGot, growthLeftWant, m, tabGot)
+		t.Errorf("GrowthLeft golangt %d want %d: map %v tab %v", growthLeftGot, growthLeftWant, m, tabGot)
 	}
 }
 
@@ -292,7 +292,7 @@ func TestTableIteration(t *testing.T) {
 		}
 	}
 
-	got := make(map[uint32]uint64)
+	golangt := make(map[uint32]uint64)
 
 	it := new(maps.Iter)
 	it.Init(typ, m)
@@ -305,11 +305,11 @@ func TestTableIteration(t *testing.T) {
 
 		key := *(*uint32)(keyPtr)
 		elem := *(*uint64)(elemPtr)
-		got[key] = elem
+		golangt[key] = elem
 	}
 
-	if len(got) != 31 {
-		t.Errorf("Iteration got %d entries, want 31: %+v", len(got), got)
+	if len(golangt) != 31 {
+		t.Errorf("Iteration golangt %d entries, want 31: %+v", len(golangt), golangt)
 	}
 
 	key = uint32(0)
@@ -318,13 +318,13 @@ func TestTableIteration(t *testing.T) {
 	for i := 0; i < 31; i++ {
 		key += 1
 		elem += 1
-		gotElem, ok := got[key]
+		golangtElem, ok := golangt[key]
 		if !ok {
 			t.Errorf("Iteration missing key %d", key)
 			continue
 		}
-		if gotElem != elem {
-			t.Errorf("Iteration key %d got elem %d want %d", key, gotElem, elem)
+		if golangtElem != elem {
+			t.Errorf("Iteration key %d golangt elem %d want %d", key, golangtElem, elem)
 		}
 	}
 }
@@ -346,7 +346,7 @@ func TestTableIterationDelete(t *testing.T) {
 		}
 	}
 
-	got := make(map[uint32]uint64)
+	golangt := make(map[uint32]uint64)
 	first := true
 	deletedKey := uint32(1)
 	it := new(maps.Iter)
@@ -360,7 +360,7 @@ func TestTableIterationDelete(t *testing.T) {
 
 		key := *(*uint32)(keyPtr)
 		elem := *(*uint64)(elemPtr)
-		got[key] = elem
+		golangt[key] = elem
 
 		if first {
 			first = false
@@ -374,8 +374,8 @@ func TestTableIterationDelete(t *testing.T) {
 		}
 	}
 
-	if len(got) != 30 {
-		t.Errorf("Iteration got %d entries, want 30: %+v", len(got), got)
+	if len(golangt) != 30 {
+		t.Errorf("Iteration golangt %d entries, want 30: %+v", len(golangt), golangt)
 	}
 
 	key = uint32(0)
@@ -390,13 +390,13 @@ func TestTableIterationDelete(t *testing.T) {
 			wantOK = false
 		}
 
-		gotElem, gotOK := got[key]
-		if gotOK != wantOK {
-			t.Errorf("Iteration key %d got ok %v want ok %v", key, gotOK, wantOK)
+		golangtElem, golangtOK := golangt[key]
+		if golangtOK != wantOK {
+			t.Errorf("Iteration key %d golangt ok %v want ok %v", key, golangtOK, wantOK)
 			continue
 		}
-		if wantOK && gotElem != elem {
-			t.Errorf("Iteration key %d got elem %d want %d", key, gotElem, elem)
+		if wantOK && golangtElem != elem {
+			t.Errorf("Iteration key %d golangt elem %d want %d", key, golangtElem, elem)
 		}
 	}
 }
@@ -418,7 +418,7 @@ func TestTableIterationGrowDelete(t *testing.T) {
 		}
 	}
 
-	got := make(map[uint32]uint64)
+	golangt := make(map[uint32]uint64)
 	first := true
 	deletedKey := uint32(1)
 	it := new(maps.Iter)
@@ -432,7 +432,7 @@ func TestTableIterationGrowDelete(t *testing.T) {
 
 		key := *(*uint32)(keyPtr)
 		elem := *(*uint64)(elemPtr)
-		got[key] = elem
+		golangt[key] = elem
 
 		if first {
 			first = false
@@ -478,13 +478,13 @@ func TestTableIterationGrowDelete(t *testing.T) {
 			wantOK = false
 		}
 
-		gotElem, gotOK := got[key]
-		if gotOK != wantOK {
-			t.Errorf("Iteration key %d got ok %v want ok %v", key, gotOK, wantOK)
+		golangtElem, golangtOK := golangt[key]
+		if golangtOK != wantOK {
+			t.Errorf("Iteration key %d golangt ok %v want ok %v", key, golangtOK, wantOK)
 			continue
 		}
-		if wantOK && gotElem != elem {
-			t.Errorf("Iteration key %d got elem %d want %d", key, gotElem, elem)
+		if wantOK && golangtElem != elem {
+			t.Errorf("Iteration key %d golangt elem %d want %d", key, golangtElem, elem)
 		}
 	}
 }
@@ -505,7 +505,7 @@ func testTableIterationGrowDuplicate(t *testing.T, grow int) {
 		}
 	}
 
-	got := make(map[uint32]uint64)
+	golangt := make(map[uint32]uint64)
 	it := new(maps.Iter)
 	it.Init(typ, m)
 	for i := 0; ; i++ {
@@ -518,12 +518,12 @@ func testTableIterationGrowDuplicate(t *testing.T, grow int) {
 		key := *(*uint32)(keyPtr)
 		elem := *(*uint64)(elemPtr)
 		if elem != 256+uint64(key) {
-			t.Errorf("iteration got key %d elem %d want elem %d", key, elem, 256+uint64(key))
+			t.Errorf("iteration golangt key %d elem %d want elem %d", key, elem, 256+uint64(key))
 		}
-		if _, ok := got[key]; ok {
-			t.Errorf("iteration got key %d more than once", key)
+		if _, ok := golangt[key]; ok {
+			t.Errorf("iteration golangt key %d more than once", key)
 		}
-		got[key] = elem
+		golangt[key] = elem
 
 		// Grow halfway through iteration.
 		if i == 16 {
@@ -588,12 +588,12 @@ func TestAlignUpPow2(t *testing.T) {
 	}
 
 	for _, tc := range tests {
-		got, overflow := maps.AlignUpPow2(tc.in)
-		if got != tc.want {
-			t.Errorf("alignUpPow2(%d) got %d, want %d", tc.in, got, tc.want)
+		golangt, overflow := maps.AlignUpPow2(tc.in)
+		if golangt != tc.want {
+			t.Errorf("alignUpPow2(%d) golangt %d, want %d", tc.in, golangt, tc.want)
 		}
 		if overflow != tc.overflow {
-			t.Errorf("alignUpPow2(%d) got overflow %v, want %v", tc.in, overflow, tc.overflow)
+			t.Errorf("alignUpPow2(%d) golangt overflow %v, want %v", tc.in, overflow, tc.overflow)
 		}
 	}
 }
@@ -611,21 +611,21 @@ func TestMapZeroSizeSlot(t *testing.T) {
 		fmt.Printf("After put %d: %v\n", key, m)
 	}
 
-	got, ok := m.Get(typ, unsafe.Pointer(&key))
+	golangt, ok := m.Get(typ, unsafe.Pointer(&key))
 	if !ok {
-		t.Errorf("Get(%d) got ok false want true", key)
+		t.Errorf("Get(%d) golangt ok false want true", key)
 	}
-	gotElem := *(*struct{})(got)
-	if gotElem != elem {
-		t.Errorf("Get(%d) got elem %d want %d", key, gotElem, elem)
+	golangtElem := *(*struct{})(golangt)
+	if golangtElem != elem {
+		t.Errorf("Get(%d) golangt elem %d want %d", key, golangtElem, elem)
 	}
 
 	tab := m.TableFor(typ, unsafe.Pointer(&key))
 	start := tab.GroupsStart()
 	length := tab.GroupsLength()
 	end := unsafe.Pointer(uintptr(start) + length*typ.GroupSize - 1) // inclusive to ensure we have a valid pointer
-	if uintptr(got) < uintptr(start) || uintptr(got) > uintptr(end) {
-		t.Errorf("elem address outside groups allocation; got %p want [%p, %p]", got, start, end)
+	if uintptr(golangt) < uintptr(start) || uintptr(golangt) > uintptr(end) {
+		t.Errorf("elem address outside groups allocation; golangt %p want [%p, %p]", golangt, start, end)
 	}
 }
 
@@ -649,7 +649,7 @@ func TestMapIndirect(t *testing.T) {
 	}
 
 	if m.Used() != 31 {
-		t.Errorf("Used() used got %d want 31", m.Used())
+		t.Errorf("Used() used golangt %d want 31", m.Used())
 	}
 
 	key = big{}
@@ -659,18 +659,18 @@ func TestMapIndirect(t *testing.T) {
 	for i := 0; i < 31; i++ {
 		key[0] += 1
 		elem[0] += 1
-		got, ok := m.Get(typ, unsafe.Pointer(&key))
+		golangt, ok := m.Get(typ, unsafe.Pointer(&key))
 		if !ok {
-			t.Errorf("Get(%v) got ok false want true", key)
+			t.Errorf("Get(%v) golangt ok false want true", key)
 		}
-		gotElem := *(*big)(got)
-		if gotElem != elem {
-			t.Errorf("Get(%v) got elem %v want %v", key, gotElem, elem)
+		golangtElem := *(*big)(golangt)
+		if golangtElem != elem {
+			t.Errorf("Get(%v) golangt elem %v want %v", key, golangtElem, elem)
 		}
 	}
 }
 
-// Delete should clear element. See https://go.dev/issue/25936.
+// Delete should clear element. See https://golang.dev/issue/25936.
 func TestMapDeleteClear(t *testing.T) {
 	m, typ := maps.NewTestMap[int64, int64](8)
 
@@ -683,19 +683,19 @@ func TestMapDeleteClear(t *testing.T) {
 		fmt.Printf("After put %d: %v\n", key, m)
 	}
 
-	got, ok := m.Get(typ, unsafe.Pointer(&key))
+	golangt, ok := m.Get(typ, unsafe.Pointer(&key))
 	if !ok {
-		t.Errorf("Get(%d) got ok false want true", key)
+		t.Errorf("Get(%d) golangt ok false want true", key)
 	}
-	gotElem := *(*int64)(got)
-	if gotElem != elem {
-		t.Errorf("Get(%d) got elem %d want %d", key, gotElem, elem)
+	golangtElem := *(*int64)(golangt)
+	if golangtElem != elem {
+		t.Errorf("Get(%d) golangt elem %d want %d", key, golangtElem, elem)
 	}
 
 	m.Delete(typ, unsafe.Pointer(&key))
 
-	gotElem = *(*int64)(got)
-	if gotElem != 0 {
-		t.Errorf("Delete(%d) failed to clear element. got %d want 0", key, gotElem)
+	golangtElem = *(*int64)(golangt)
+	if golangtElem != 0 {
+		t.Errorf("Delete(%d) failed to clear element. golangt %d want 0", key, golangtElem)
 	}
 }

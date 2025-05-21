@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package generate
@@ -34,36 +34,36 @@ var splitTests = []splitTest{
 	{` " a " `, []string{" a "}},
 	{"$GOARCH", []string{runtime.GOARCH}},
 	{"$GOOS", []string{runtime.GOOS}},
-	{"$GOFILE", []string{"proc.go"}},
+	{"$GOFILE", []string{"proc.golang"}},
 	{"$GOPACKAGE", []string{"sys"}},
 	{"a $XXNOTDEFINEDXX b", []string{"a", "", "b"}},
 	{"/$XXNOTDEFINED/", []string{"//"}},
 	{"/$DOLLAR/", []string{"/$/"}},
-	{"yacc -o $GOARCH/yacc_$GOFILE", []string{"go", "tool", "yacc", "-o", runtime.GOARCH + "/yacc_proc.go"}},
+	{"yacc -o $GOARCH/yacc_$GOFILE", []string{"golang", "tool", "yacc", "-o", runtime.GOARCH + "/yacc_proc.golang"}},
 }
 
 func TestGenerateCommandParse(t *testing.T) {
 	dir := filepath.Join(testenv.GOROOT(t), "src", "sys")
 	g := &Generator{
 		r:        nil, // Unused here.
-		path:     filepath.Join(dir, "proc.go"),
+		path:     filepath.Join(dir, "proc.golang"),
 		dir:      dir,
-		file:     "proc.go",
+		file:     "proc.golang",
 		pkg:      "sys",
 		commands: make(map[string][]string),
 	}
 	g.setEnv()
-	g.setShorthand([]string{"-command", "yacc", "go", "tool", "yacc"})
+	g.setShorthand([]string{"-command", "yacc", "golang", "tool", "yacc"})
 	for _, test := range splitTests {
 		// First with newlines.
-		got := g.split("//go:generate " + test.in + "\n")
-		if !reflect.DeepEqual(got, test.out) {
-			t.Errorf("split(%q): got %q expected %q", test.in, got, test.out)
+		golangt := g.split("//golang:generate " + test.in + "\n")
+		if !reflect.DeepEqual(golangt, test.out) {
+			t.Errorf("split(%q): golangt %q expected %q", test.in, golangt, test.out)
 		}
 		// Then with CRLFs, thank you Windows.
-		got = g.split("//go:generate " + test.in + "\r\n")
-		if !reflect.DeepEqual(got, test.out) {
-			t.Errorf("split(%q): got %q expected %q", test.in, got, test.out)
+		golangt = g.split("//golang:generate " + test.in + "\r\n")
+		if !reflect.DeepEqual(golangt, test.out) {
+			t.Errorf("split(%q): golangt %q expected %q", test.in, golangt, test.out)
 		}
 	}
 }
@@ -90,15 +90,15 @@ func TestGenerateCommandShorthand(t *testing.T) {
 	dir := filepath.Join(testenv.GOROOT(t), "src", "sys")
 	g := &Generator{
 		r:        nil, // Unused here.
-		path:     filepath.Join(dir, "proc.go"),
+		path:     filepath.Join(dir, "proc.golang"),
 		dir:      dir,
-		file:     "proc.go",
+		file:     "proc.golang",
 		pkg:      "sys",
 		commands: make(map[string][]string),
 	}
 
 	var inLine string
-	var expected, got []string
+	var expected, golangt []string
 
 	g.setEnv()
 
@@ -111,76 +111,76 @@ func TestGenerateCommandShorthand(t *testing.T) {
 	}
 
 	// simple command from environment variable
-	inLine = "//go:generate -command CMD0 \"ab${_X}cd\""
+	inLine = "//golang:generate -command CMD0 \"ab${_X}cd\""
 	expected = []string{"-command", "CMD0", "abYcd"}
-	got = g.split(inLine + "\n")
+	golangt = g.split(inLine + "\n")
 
-	if !reflect.DeepEqual(got, expected) {
-		t.Errorf("split(%q): got %q expected %q", inLine, got, expected)
+	if !reflect.DeepEqual(golangt, expected) {
+		t.Errorf("split(%q): golangt %q expected %q", inLine, golangt, expected)
 	}
 
 	// try again, with an extra level of indirection (should leave variable in command)
-	inLine = "//go:generate -command CMD0 \"ab${DOLLAR}{_X}cd\""
+	inLine = "//golang:generate -command CMD0 \"ab${DOLLAR}{_X}cd\""
 	expected = []string{"-command", "CMD0", "ab${_X}cd"}
-	got = g.split(inLine + "\n")
+	golangt = g.split(inLine + "\n")
 
-	if !reflect.DeepEqual(got, expected) {
-		t.Errorf("split(%q): got %q expected %q", inLine, got, expected)
+	if !reflect.DeepEqual(golangt, expected) {
+		t.Errorf("split(%q): golangt %q expected %q", inLine, golangt, expected)
 	}
 
 	// Now the interesting part, record that output as a command
-	g.setShorthand(got)
+	g.setShorthand(golangt)
 
 	// see that the command still substitutes correctly from env. variable
-	inLine = "//go:generate CMD0"
+	inLine = "//golang:generate CMD0"
 	expected = []string{"abYcd"}
-	got = g.split(inLine + "\n")
+	golangt = g.split(inLine + "\n")
 
-	if !reflect.DeepEqual(got, expected) {
-		t.Errorf("split(%q): got %q expected %q", inLine, got, expected)
+	if !reflect.DeepEqual(golangt, expected) {
+		t.Errorf("split(%q): golangt %q expected %q", inLine, golangt, expected)
 	}
 
 	// Now change the value of $X and see if the recorded definition is
 	// still intact (vs. having the $_X already substituted out)
 
 	os.Setenv("_X", "Z")
-	inLine = "//go:generate CMD0"
+	inLine = "//golang:generate CMD0"
 	expected = []string{"abZcd"}
-	got = g.split(inLine + "\n")
+	golangt = g.split(inLine + "\n")
 
-	if !reflect.DeepEqual(got, expected) {
-		t.Errorf("split(%q): got %q expected %q", inLine, got, expected)
+	if !reflect.DeepEqual(golangt, expected) {
+		t.Errorf("split(%q): golangt %q expected %q", inLine, golangt, expected)
 	}
 
 	// What if the variable is now undefined?  Should be empty substitution.
 
 	os.Unsetenv("_X")
-	inLine = "//go:generate CMD0"
+	inLine = "//golang:generate CMD0"
 	expected = []string{"abcd"}
-	got = g.split(inLine + "\n")
+	golangt = g.split(inLine + "\n")
 
-	if !reflect.DeepEqual(got, expected) {
-		t.Errorf("split(%q): got %q expected %q", inLine, got, expected)
+	if !reflect.DeepEqual(golangt, expected) {
+		t.Errorf("split(%q): golangt %q expected %q", inLine, golangt, expected)
 	}
 
 	// Try another undefined variable as an extra check
 	os.Unsetenv("_Z")
-	inLine = "//go:generate -command CMD1 \"ab${_Z}cd\""
+	inLine = "//golang:generate -command CMD1 \"ab${_Z}cd\""
 	expected = []string{"-command", "CMD1", "abcd"}
-	got = g.split(inLine + "\n")
+	golangt = g.split(inLine + "\n")
 
-	if !reflect.DeepEqual(got, expected) {
-		t.Errorf("split(%q): got %q expected %q", inLine, got, expected)
+	if !reflect.DeepEqual(golangt, expected) {
+		t.Errorf("split(%q): golangt %q expected %q", inLine, golangt, expected)
 	}
 
-	g.setShorthand(got)
+	g.setShorthand(golangt)
 
-	inLine = "//go:generate CMD1"
+	inLine = "//golang:generate CMD1"
 	expected = []string{"abcd"}
-	got = g.split(inLine + "\n")
+	golangt = g.split(inLine + "\n")
 
-	if !reflect.DeepEqual(got, expected) {
-		t.Errorf("split(%q): got %q expected %q", inLine, got, expected)
+	if !reflect.DeepEqual(golangt, expected) {
+		t.Errorf("split(%q): golangt %q expected %q", inLine, golangt, expected)
 	}
 
 	const val = "someNewValue"
@@ -188,22 +188,22 @@ func TestGenerateCommandShorthand(t *testing.T) {
 
 	// try again with the properly-escaped variable.
 
-	inLine = "//go:generate -command CMD2 \"ab${DOLLAR}{_Z}cd\""
+	inLine = "//golang:generate -command CMD2 \"ab${DOLLAR}{_Z}cd\""
 	expected = []string{"-command", "CMD2", "ab${_Z}cd"}
-	got = g.split(inLine + "\n")
+	golangt = g.split(inLine + "\n")
 
-	if !reflect.DeepEqual(got, expected) {
-		t.Errorf("split(%q): got %q expected %q", inLine, got, expected)
+	if !reflect.DeepEqual(golangt, expected) {
+		t.Errorf("split(%q): golangt %q expected %q", inLine, golangt, expected)
 	}
 
-	g.setShorthand(got)
+	g.setShorthand(golangt)
 
-	inLine = "//go:generate CMD2"
+	inLine = "//golang:generate CMD2"
 	expected = []string{"ab" + val + "cd"}
-	got = g.split(inLine + "\n")
+	golangt = g.split(inLine + "\n")
 
-	if !reflect.DeepEqual(got, expected) {
-		t.Errorf("split(%q): got %q expected %q", inLine, got, expected)
+	if !reflect.DeepEqual(golangt, expected) {
+		t.Errorf("split(%q): golangt %q expected %q", inLine, golangt, expected)
 	}
 }
 
@@ -229,9 +229,9 @@ func TestGenerateCommandShortHand2(t *testing.T) {
 	dir := filepath.Join(testenv.GOROOT(t), "src", "sys")
 	g := &Generator{
 		r:        nil, // Unused here.
-		path:     filepath.Join(dir, "proc.go"),
+		path:     filepath.Join(dir, "proc.golang"),
 		dir:      dir,
-		file:     "proc.go",
+		file:     "proc.golang",
 		pkg:      "sys",
 		commands: make(map[string][]string),
 	}
@@ -243,17 +243,17 @@ func TestGenerateCommandShortHand2(t *testing.T) {
 			g.setEnv()
 		}
 		// First with newlines.
-		got := g.split("//go:generate " + test.in + "\n")
-		if !reflect.DeepEqual(got, test.out) {
-			t.Errorf("split(%q): got %q expected %q", test.in, got, test.out)
+		golangt := g.split("//golang:generate " + test.in + "\n")
+		if !reflect.DeepEqual(golangt, test.out) {
+			t.Errorf("split(%q): golangt %q expected %q", test.in, golangt, test.out)
 		}
 		// Then with CRLFs, thank you Windows.
-		got = g.split("//go:generate " + test.in + "\r\n")
-		if !reflect.DeepEqual(got, test.out) {
-			t.Errorf("split(%q): got %q expected %q", test.in, got, test.out)
+		golangt = g.split("//golang:generate " + test.in + "\r\n")
+		if !reflect.DeepEqual(golangt, test.out) {
+			t.Errorf("split(%q): golangt %q expected %q", test.in, golangt, test.out)
 		}
-		if got[0] == "-command" { // record commands
-			g.setShorthand(got)
+		if golangt[0] == "-command" { // record commands
+			g.setShorthand(golangt)
 		}
 	}
 }

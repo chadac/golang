@@ -1,9 +1,9 @@
 // run
 
-//go:build !nacl && !js && !wasip1 && !gccgo
+//golang:build !nacl && !js && !wasip1 && !gccgolang
 
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Make sure we don't get an index out of bounds error
@@ -19,8 +19,8 @@ import (
 )
 
 func main() {
-	out, _ := exec.Command("go", "run", "fixedbugs/issue33275.go").CombinedOutput()
+	out, _ := exec.Command("golang", "run", "fixedbugs/issue33275.golang").CombinedOutput()
 	if strings.Contains(string(out), "index out of range") {
-		panic(`go run issue33275.go reported "index out of range"`)
+		panic(`golang run issue33275.golang reported "index out of range"`)
 	}
 }

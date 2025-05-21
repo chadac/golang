@@ -1,13 +1,13 @@
 // errorcheck -0 -m -l
 
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test, using compiler diagnostic flags, that the escape analysis is working.
 // Compiles but does not run.  Inlining is disabled.
 
-// escape2n.go contains all the same tests but compiles with -N.
+// escape2n.golang contains all the same tests but compiles with -N.
 
 package foo
 
@@ -36,12 +36,12 @@ func foo3b(t T) { // ERROR "leaking param: t$"
 	*t = t
 }
 
-// xx isn't going anywhere, so use of yy is ok
+// xx isn't golanging anywhere, so use of yy is ok
 func foo4(xx, yy *int) { // ERROR "xx does not escape$" "yy does not escape$"
 	xx = yy
 }
 
-// xx isn't going anywhere, so taking address of yy is ok
+// xx isn't golanging anywhere, so taking address of yy is ok
 func foo5(xx **int, yy *int) { // ERROR "xx does not escape$" "yy does not escape$"
 	xx = &yy
 }
@@ -163,8 +163,8 @@ func (b Bar) StillNoLeak() int { // ERROR "b does not escape$"
 	return b.i
 }
 
-func goLeak(b *Bar) { // ERROR "leaking param: b$"
-	go b.NoLeak()
+func golangLeak(b *Bar) { // ERROR "leaking param: b$"
+	golang b.NoLeak()
 }
 
 type Bar2 struct {
@@ -739,8 +739,8 @@ func noop(x, y *int) {} // ERROR "x does not escape$" "y does not escape$"
 
 func foo82() {
 	var x, y, z int // ERROR "moved to heap: x$" "moved to heap: y$" "moved to heap: z$"
-	go noop(tee(&z))
-	go noop(&x, &y)
+	golang noop(tee(&z))
+	golang noop(&x, &y)
 	for {
 		var u, v, w int // ERROR "moved to heap: u$" "moved to heap: v$" "moved to heap: w$"
 		defer noop(tee(&u))
@@ -1043,112 +1043,112 @@ L98:
 L99:
 L100:
 	// use the labels to silence compiler errors
-	goto L1
-	goto L2
-	goto L3
-	goto L4
-	goto L5
-	goto L6
-	goto L7
-	goto L8
-	goto L9
-	goto L10
-	goto L11
-	goto L12
-	goto L13
-	goto L14
-	goto L15
-	goto L16
-	goto L17
-	goto L18
-	goto L19
-	goto L20
-	goto L21
-	goto L22
-	goto L23
-	goto L24
-	goto L25
-	goto L26
-	goto L27
-	goto L28
-	goto L29
-	goto L30
-	goto L31
-	goto L32
-	goto L33
-	goto L34
-	goto L35
-	goto L36
-	goto L37
-	goto L38
-	goto L39
-	goto L40
-	goto L41
-	goto L42
-	goto L43
-	goto L44
-	goto L45
-	goto L46
-	goto L47
-	goto L48
-	goto L49
-	goto L50
-	goto L51
-	goto L52
-	goto L53
-	goto L54
-	goto L55
-	goto L56
-	goto L57
-	goto L58
-	goto L59
-	goto L60
-	goto L61
-	goto L62
-	goto L63
-	goto L64
-	goto L65
-	goto L66
-	goto L67
-	goto L68
-	goto L69
-	goto L70
-	goto L71
-	goto L72
-	goto L73
-	goto L74
-	goto L75
-	goto L76
-	goto L77
-	goto L78
-	goto L79
-	goto L80
-	goto L81
-	goto L82
-	goto L83
-	goto L84
-	goto L85
-	goto L86
-	goto L87
-	goto L88
-	goto L89
-	goto L90
-	goto L91
-	goto L92
-	goto L93
-	goto L94
-	goto L95
-	goto L96
-	goto L97
-	goto L98
-	goto L99
-	goto L100
+	golangto L1
+	golangto L2
+	golangto L3
+	golangto L4
+	golangto L5
+	golangto L6
+	golangto L7
+	golangto L8
+	golangto L9
+	golangto L10
+	golangto L11
+	golangto L12
+	golangto L13
+	golangto L14
+	golangto L15
+	golangto L16
+	golangto L17
+	golangto L18
+	golangto L19
+	golangto L20
+	golangto L21
+	golangto L22
+	golangto L23
+	golangto L24
+	golangto L25
+	golangto L26
+	golangto L27
+	golangto L28
+	golangto L29
+	golangto L30
+	golangto L31
+	golangto L32
+	golangto L33
+	golangto L34
+	golangto L35
+	golangto L36
+	golangto L37
+	golangto L38
+	golangto L39
+	golangto L40
+	golangto L41
+	golangto L42
+	golangto L43
+	golangto L44
+	golangto L45
+	golangto L46
+	golangto L47
+	golangto L48
+	golangto L49
+	golangto L50
+	golangto L51
+	golangto L52
+	golangto L53
+	golangto L54
+	golangto L55
+	golangto L56
+	golangto L57
+	golangto L58
+	golangto L59
+	golangto L60
+	golangto L61
+	golangto L62
+	golangto L63
+	golangto L64
+	golangto L65
+	golangto L66
+	golangto L67
+	golangto L68
+	golangto L69
+	golangto L70
+	golangto L71
+	golangto L72
+	golangto L73
+	golangto L74
+	golangto L75
+	golangto L76
+	golangto L77
+	golangto L78
+	golangto L79
+	golangto L80
+	golangto L81
+	golangto L82
+	golangto L83
+	golangto L84
+	golangto L85
+	golangto L86
+	golangto L87
+	golangto L88
+	golangto L89
+	golangto L90
+	golangto L91
+	golangto L92
+	golangto L93
+	golangto L94
+	golangto L95
+	golangto L96
+	golangto L97
+	golangto L98
+	golangto L99
+	golangto L100
 }
 
 func foo121() {
 	for i := 0; i < 10; i++ {
 		defer myprint(nil, i) // ERROR "... argument does not escape$" "i escapes to heap$"
-		go myprint(nil, i)    // ERROR "... argument does not escape$" "i escapes to heap$"
+		golang myprint(nil, i)    // ERROR "... argument does not escape$" "i escapes to heap$"
 	}
 }
 
@@ -1156,7 +1156,7 @@ func foo121() {
 func foo121b() {
 	for i := 0; i < 10; i++ {
 		defer fmt.Printf("%d", i) // ERROR "... argument does not escape$" "i escapes to heap$"
-		go fmt.Printf("%d", i)    // ERROR "... argument does not escape$" "i escapes to heap$"
+		golang fmt.Printf("%d", i)    // ERROR "... argument does not escape$" "i escapes to heap$"
 	}
 }
 
@@ -1164,7 +1164,7 @@ func foo121b() {
 func foo122() {
 	var i *int
 
-	goto L1
+	golangto L1
 L1:
 	i = new(int) // ERROR "new\(int\) does not escape$"
 	_ = i
@@ -1177,7 +1177,7 @@ func foo123() {
 L1:
 	i = new(int) // ERROR "new\(int\) escapes to heap$"
 
-	goto L1
+	golangto L1
 	_ = i
 }
 
@@ -1255,7 +1255,7 @@ func foo131() {
 
 func foo132() {
 	var i int   // ERROR "moved to heap: i$"
-	go func() { // ERROR "func literal escapes to heap$"
+	golang func() { // ERROR "func literal escapes to heap$"
 		px = &i
 	}()
 }
@@ -1282,7 +1282,7 @@ func foo134() {
 func foo135() {
 	var i int // ERROR "moved to heap: i$"
 	p := &i
-	go func() { // ERROR "func literal escapes to heap$"
+	golang func() { // ERROR "func literal escapes to heap$"
 		q := p
 		func() { // ERROR "func literal does not escape$"
 			r := q
@@ -1294,7 +1294,7 @@ func foo135() {
 func foo136() {
 	var i int // ERROR "moved to heap: i$"
 	p := &i
-	go func() { // ERROR "func literal escapes to heap$"
+	golang func() { // ERROR "func literal escapes to heap$"
 		q := p
 		func() { // ERROR "func literal does not escape$"
 			r := q
@@ -1308,7 +1308,7 @@ func foo137() {
 	p := &i
 	func() { // ERROR "func literal does not escape$"
 		q := p
-		go func() { // ERROR "func literal escapes to heap$"
+		golang func() { // ERROR "func literal escapes to heap$"
 			r := q
 			_ = r
 		}()
@@ -1349,13 +1349,13 @@ func foo140() interface{} {
 	}
 }
 
-//go:noescape
+//golang:noescape
 
 func F1([]byte)
 
 func F2([]byte)
 
-//go:noescape
+//golang:noescape
 
 func F3(x []byte) // ERROR "x does not escape$"
 
@@ -1413,7 +1413,7 @@ func foo143() {
 // Check that annotations take effect regardless of whether they
 // are before or after the use in the source code.
 
-//go:noescape
+//golang:noescape
 
 func foo144a(*int)
 
@@ -1424,7 +1424,7 @@ func foo144() {
 	foo144b(&y)
 }
 
-//go:noescape
+//golang:noescape
 
 func foo144b(*int)
 

@@ -1,5 +1,5 @@
 // Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
@@ -32,11 +32,11 @@ var (
 	cgroupOK  bool
 	cgroupCPU cgroup.CPU
 
-	// defaultGOMAXPROCSInit runs before internal/godebug init, so we can't
+	// defaultGOMAXPROCSInit runs before internal/golangdebug init, so we can't
 	// directly update the GODEBUG counter. Store the result until after
 	// init runs.
 	containermaxprocsNonDefault bool
-	containermaxprocs           = &godebugInc{name: "containermaxprocs"}
+	containermaxprocs           = &golangdebugInc{name: "containermaxprocs"}
 )
 
 // Prepare for defaultGOMAXPROCS.
@@ -59,7 +59,7 @@ func defaultGOMAXPROCSInit() {
 	// cgroup-aware GOMAXPROCS is disabled. We still check the cgroup once
 	// at startup to see if enabling the GODEBUG would result in a
 	// different default GOMAXPROCS. If so, we increment runtime/metrics
-	// /godebug/non-default-behavior/cgroupgomaxprocs:events.
+	// /golangdebug/non-default-behavior/cgroupgolangmaxprocs:events.
 	procs := getCPUCount()
 	cgroupProcs := adjustCgroupGOMAXPROCS(procs, c)
 	if procs != cgroupProcs {
@@ -70,8 +70,8 @@ func defaultGOMAXPROCSInit() {
 	c.Close()
 }
 
-// defaultGOMAXPROCSUpdateGODEBUG updates the internal/godebug counter for
-// container GOMAXPROCS, once internal/godebug is initialized.
+// defaultGOMAXPROCSUpdateGODEBUG updates the internal/golangdebug counter for
+// container GOMAXPROCS, once internal/golangdebug is initialized.
 func defaultGOMAXPROCSUpdateGODEBUG() {
 	if containermaxprocsNonDefault {
 		containermaxprocs.IncNonDefault()

@@ -3,10 +3,10 @@ written by hand
 
 -- .mod --
 module rsc.io/panicnil
-go 1.21
+golang 1.21
 -- .info --
 {"Version":"v1.1.0"}
--- fortune.go --
+-- fortune.golang --
 package main
 
 func main() {

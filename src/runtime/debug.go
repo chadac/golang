@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
@@ -38,7 +38,7 @@ func GOMAXPROCS(n int) int {
 	}
 
 	lock(&sched.lock)
-	ret := int(gomaxprocs)
+	ret := int(golangmaxprocs)
 	unlock(&sched.lock)
 	if n <= 0 || n == ret {
 		return ret
@@ -74,7 +74,7 @@ func SetDefaultGOMAXPROCS() {
 	procs := defaultGOMAXPROCS(0)
 
 	lock(&sched.lock)
-	curr := gomaxprocs
+	curr := golangmaxprocs
 	custom := sched.customGOMAXPROCS
 	unlock(&sched.lock)
 
@@ -105,11 +105,11 @@ func NumCPU() int {
 	return int(numCPUStartup)
 }
 
-// NumCgoCall returns the number of cgo calls made by the current process.
-func NumCgoCall() int64 {
-	var n = int64(atomic.Load64(&ncgocall))
+// NumCgolangCall returns the number of cgolang calls made by the current process.
+func NumCgolangCall() int64 {
+	var n = int64(atomic.Load64(&ncgolangcall))
 	for mp := (*m)(atomic.Loadp(unsafe.Pointer(&allm))); mp != nil; mp = mp.alllink {
-		n += int64(mp.ncgocall)
+		n += int64(mp.ncgolangcall)
 	}
 	return n
 }
@@ -125,12 +125,12 @@ func totalMutexWaitTimeNanos() int64 {
 	return total
 }
 
-// NumGoroutine returns the number of goroutines that currently exist.
+// NumGoroutine returns the number of golangroutines that currently exist.
 func NumGoroutine() int {
 	return int(gcount())
 }
 
-//go:linkname debug_modinfo runtime/debug.modinfo
+//golang:linkname debug_modinfo runtime/debug.modinfo
 func debug_modinfo() string {
 	return modinfo
 }
@@ -154,8 +154,8 @@ func debug_modinfo() string {
 //
 // Ensure mayMoreStackPreempt can be called for all ABIs.
 //
-//go:nosplit
-//go:linkname mayMoreStackPreempt
+//golang:nosplit
+//golang:linkname mayMoreStackPreempt
 func mayMoreStackPreempt() {
 	// Don't do anything on the g0 or gsignal stack.
 	gp := getg()
@@ -173,8 +173,8 @@ func mayMoreStackPreempt() {
 //
 // See mayMoreStackPreempt.
 //
-//go:nosplit
-//go:linkname mayMoreStackMove
+//golang:nosplit
+//golang:linkname mayMoreStackMove
 func mayMoreStackMove() {
 	// Don't do anything on the g0 or gsignal stack.
 	gp := getg()

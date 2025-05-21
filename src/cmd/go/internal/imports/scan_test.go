@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package imports
@@ -17,7 +17,7 @@ import (
 func TestScan(t *testing.T) {
 	testenv.MustHaveGoBuild(t)
 
-	imports, testImports, err := ScanDir(filepath.Join(testenv.GOROOT(t), "src/cmd/go/internal/imports/testdata/test"), Tags())
+	imports, testImports, err := ScanDir(filepath.Join(testenv.GOROOT(t), "src/cmd/golang/internal/imports/testdata/test"), Tags())
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -84,9 +84,9 @@ func TestScanDir(t *testing.T) {
 			if err != nil {
 				t.Fatal(err)
 			}
-			got := strings.Join(imports, "\n")
-			if got != want {
-				t.Errorf("ScanDir: got imports:\n%s\n\nwant:\n%s", got, want)
+			golangt := strings.Join(imports, "\n")
+			if golangt != want {
+				t.Errorf("ScanDir: golangt imports:\n%s\n\nwant:\n%s", golangt, want)
 			}
 		})
 	}

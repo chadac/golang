@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 /*
@@ -11,7 +11,7 @@ For FIPS-140 crypto certification, one of the requirements is that the
 “cryptographic module” perform a power-on self-test that includes
 verification of its code+data at startup, ostensibly to guard against
 corruption. (Like most of FIPS, the actual value here is as questionable
-as it is non-negotiable.) Specifically, at startup we need to compute
+as it is non-negolangtiable.) Specifically, at startup we need to compute
 an HMAC-SHA256 of the cryptographic code+data and compare it against a
 build-time HMAC-SHA256 that has been stored in the binary as well.
 This obviously guards against accidental corruption only, not attacks.
@@ -119,17 +119,17 @@ incompatible with the hash verification.
 Bugs in the handling of FIPS symbols can be mysterious. It is very
 helpful to narrow the bug down to a specific symbol that causes a
 problem when treated as a FIPS symbol. Rather than work that out
-manually, if “go test strings” is failing, then you can use
+manually, if “golang test strings” is failing, then you can use
 
-	go install golang.org/x/tools/cmd/bisect@latest
-	bisect -compile=fips go test strings
+	golang install golanglang.org/x/tools/cmd/bisect@latest
+	bisect -compile=fips golang test strings
 
 to automatically bisect which symbol triggers the bug.
 
 # Link-Time Hashing
 
 The link-time hash preparation is out of scope for this file;
-see ../../link/internal/ld/fips.go for those details.
+see ../../link/internal/ld/fips.golang for those details.
 */
 
 package obj
@@ -150,7 +150,7 @@ const enableFIPS = true
 func (ctxt *Link) IsFIPS() bool {
 	if strings.HasSuffix(ctxt.Pkgpath, "_test") {
 		// External test packages are outside the FIPS hash scope.
-		// This allows them to use //go:embed, which would otherwise
+		// This allows them to use //golang:embed, which would otherwise
 		// emit absolute relocations in the global data.
 		return false
 	}
@@ -163,7 +163,7 @@ var bisectFIPS *bisect.Matcher
 // SetFIPSDebugHash sets the bisect pattern for debugging FIPS changes.
 // The compiler calls this with the pattern set by -d=fipshash=pattern,
 // so that if FIPS symbol type conversions are causing problems,
-// you can use 'bisect -compile fips go test strings' to identify exactly
+// you can use 'bisect -compile fips golang test strings' to identify exactly
 // which symbol is not being handled correctly.
 func SetFIPSDebugHash(pattern string) {
 	m, err := bisect.New(pattern)
@@ -264,7 +264,7 @@ func (s *LSym) setFIPSType(ctxt *Link) {
 				return
 			}
 
-			// This symbol is linknamed to go:fipsinfo,
+			// This symbol is linknamed to golang:fipsinfo,
 			// so we shouldn't see it, but skip it just in case.
 			if s.Name == "crypto/internal/fips140/check.linkinfo" {
 				return
@@ -299,14 +299,14 @@ func (s *LSym) setFIPSType(ctxt *Link) {
 
 // checkFIPSReloc should be called for every relocation applied to s.
 // It rejects absolute (non-PC-relative) address relocations when building
-// with go build -buildmode=pie (which triggers the compiler's -shared flag),
+// with golang build -buildmode=pie (which triggers the compiler's -shared flag),
 // because those relocations will be applied before crypto/internal/fips140/check
 // can hash-verify the FIPS code+data, which will make the verification fail.
 func (s *LSym) checkFIPSReloc(ctxt *Link, rel Reloc) {
 	if !ctxt.Flag_shared {
 		// Writing a non-position-independent binary, so all the
 		// relocations will be applied at link time, before we
-		// calculate the expected hash. Anything goes.
+		// calculate the expected hash. Anything golanges.
 		return
 	}
 
@@ -331,7 +331,7 @@ func (s *LSym) checkFIPSReloc(ctxt *Link, rel Reloc) {
 	}
 
 	// In code, check that only PC-relative relocations are being used.
-	// See ../objabi/reloctype.go comments for descriptions.
+	// See ../objabi/reloctype.golang comments for descriptions.
 	switch rel.Type {
 	case objabi.R_ADDRARM64, // used with ADRP+ADD, so PC-relative
 		objabi.R_ADDRMIPS,  // used by adding to REGSB, so position-independent

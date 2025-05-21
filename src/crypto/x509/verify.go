@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package x509
@@ -715,7 +715,7 @@ func (c *Certificate) isValid(certType int, currentChain []*Certificate, opts *V
 	}
 
 	// KeyUsage status flags are ignored. From Engineering Security, Peter
-	// Gutmann: A European government CA marked its signing certificates as
+	// Gutmann: A European golangvernment CA marked its signing certificates as
 	// being valid for encryption only, but no-one noticed. Another
 	// European CA marked its signature keys as not being valid for
 	// signatures. A different CA marked its own trusted root certificate
@@ -1223,7 +1223,7 @@ NextCert:
 
 		for _, usage := range cert.ExtKeyUsage {
 			if usage == ExtKeyUsageAny {
-				// The certificate is explicitly good for any usage.
+				// The certificate is explicitly golangod for any usage.
 				continue NextCert
 			}
 		}
@@ -1399,7 +1399,7 @@ func (pg *policyGraph) incrDepth() {
 }
 
 func policiesValid(chain []*Certificate, opts VerifyOptions) bool {
-	// The following code implements the policy verification algorithm as
+	// The following code implements the policy verification algolangrithm as
 	// specified in RFC 5280 and updated by RFC 9618. In particular the
 	// following sections are replaced by RFC 9618:
 	//	* 6.1.2 (a)
@@ -1481,8 +1481,8 @@ func policiesValid(chain []*Certificate, opts VerifyOptions) bool {
 
 			// 6.1.3 (d) (2) -- as updated by RFC 9618
 			// NOTE: in the check "n-i < n" our i is different from the i in the specification.
-			// In the specification chains go from the trust anchor to the leaf, whereas our
-			// chains go from the leaf to the trust anchor, so our i's our inverted. Our
+			// In the specification chains golang from the trust anchor to the leaf, whereas our
+			// chains golang from the leaf to the trust anchor, so our i's our inverted. Our
 			// check here matches the check "i < n" in the specification.
 			if policies[string(anyPolicyOID.der)] && (inhibitAnyPolicy > 0 || (n-i < n && isSelfSigned)) {
 				missing := map[string][]*policyGraphNode{}

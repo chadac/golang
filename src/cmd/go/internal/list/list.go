@@ -1,8 +1,8 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Package list implements the “go list” command.
+// Package list implements the “golang list” command.
 package list
 
 import (
@@ -22,22 +22,22 @@ import (
 	"sync"
 	"text/template"
 
-	"golang.org/x/sync/semaphore"
+	"golanglang.org/x/sync/semaphore"
 
-	"cmd/go/internal/base"
-	"cmd/go/internal/cache"
-	"cmd/go/internal/cfg"
-	"cmd/go/internal/load"
-	"cmd/go/internal/modinfo"
-	"cmd/go/internal/modload"
-	"cmd/go/internal/str"
-	"cmd/go/internal/work"
+	"cmd/golang/internal/base"
+	"cmd/golang/internal/cache"
+	"cmd/golang/internal/cfg"
+	"cmd/golang/internal/load"
+	"cmd/golang/internal/modinfo"
+	"cmd/golang/internal/modload"
+	"cmd/golang/internal/str"
+	"cmd/golang/internal/work"
 )
 
 var CmdList = &base.Command{
 	// Note: -f -json -m are listed explicitly because they are the most common list flags.
 	// Do not send CLs removing them because they're covered by [list flags].
-	UsageLine: "go list [-f format] [-json] [-m] [list flags] [build flags] [packages]",
+	UsageLine: "golang list [-f format] [-json] [-m] [list flags] [build flags] [packages]",
 	Short:     "list packages or modules",
 	Long: `
 List lists the named packages, one per line.
@@ -49,8 +49,8 @@ The default output shows the package import path:
 
     bytes
     encoding/json
-    github.com/gorilla/mux
-    golang.org/x/net/html
+    github.com/golangrilla/mux
+    golanglang.org/x/net/html
 
 The -f flag specifies an alternate format for the list, using the
 syntax of package template. The default output is equivalent
@@ -66,7 +66,7 @@ to -f '{{.ImportPath}}'. The struct being passed to the template is:
         Shlib          string   // the shared library that contains this package (only set when -linkshared)
         Goroot         bool     // is this package in the Go root?
         Standard       bool     // is this package part of the standard Go library?
-        Stale          bool     // would 'go install' do anything for this package?
+        Stale          bool     // would 'golang install' do anything for this package?
         StaleReason    string   // explanation for Stale==true
         Root           string   // Go root or Go path dir containing this package
         ConflictDir    string   // this directory shadows Dir in $GOPATH
@@ -80,11 +80,11 @@ to -f '{{.ImportPath}}'. The struct being passed to the template is:
         DefaultGODEBUG string  // default GODEBUG setting, for main packages
 
         // Source files
-        GoFiles           []string   // .go source files (excluding CgoFiles, TestGoFiles, XTestGoFiles)
-        CgoFiles          []string   // .go source files that import "C"
-        CompiledGoFiles   []string   // .go files presented to compiler (when using -compiled)
-        IgnoredGoFiles    []string   // .go source files ignored due to build constraints
-        IgnoredOtherFiles []string // non-.go source files ignored due to build constraints
+        GoFiles           []string   // .golang source files (excluding CgolangFiles, TestGoFiles, XTestGoFiles)
+        CgolangFiles          []string   // .golang source files that import "C"
+        CompiledGoFiles   []string   // .golang files presented to compiler (when using -compiled)
+        IgnoredGoFiles    []string   // .golang source files ignored due to build constraints
+        IgnoredOtherFiles []string // non-.golang source files ignored due to build constraints
         CFiles            []string   // .c source files
         CXXFiles          []string   // .cc, .cxx and .cpp source files
         MFiles            []string   // .m source files
@@ -94,24 +94,24 @@ to -f '{{.ImportPath}}'. The struct being passed to the template is:
         SwigFiles         []string   // .swig files
         SwigCXXFiles      []string   // .swigcxx files
         SysoFiles         []string   // .syso object files to add to archive
-        TestGoFiles       []string   // _test.go files in package
-        XTestGoFiles      []string   // _test.go files outside package
+        TestGoFiles       []string   // _test.golang files in package
+        XTestGoFiles      []string   // _test.golang files outside package
 
         // Embedded files
-        EmbedPatterns      []string // //go:embed patterns
+        EmbedPatterns      []string // //golang:embed patterns
         EmbedFiles         []string // files matched by EmbedPatterns
-        TestEmbedPatterns  []string // //go:embed patterns in TestGoFiles
+        TestEmbedPatterns  []string // //golang:embed patterns in TestGoFiles
         TestEmbedFiles     []string // files matched by TestEmbedPatterns
-        XTestEmbedPatterns []string // //go:embed patterns in XTestGoFiles
+        XTestEmbedPatterns []string // //golang:embed patterns in XTestGoFiles
         XTestEmbedFiles    []string // files matched by XTestEmbedPatterns
 
-        // Cgo directives
-        CgoCFLAGS    []string // cgo: flags for C compiler
-        CgoCPPFLAGS  []string // cgo: flags for C preprocessor
-        CgoCXXFLAGS  []string // cgo: flags for C++ compiler
-        CgoFFLAGS    []string // cgo: flags for Fortran compiler
-        CgoLDFLAGS   []string // cgo: flags for linker
-        CgoPkgConfig []string // cgo: pkg-config names
+        // Cgolang directives
+        CgolangCFLAGS    []string // cgolang: flags for C compiler
+        CgolangCPPFLAGS  []string // cgolang: flags for C preprocessor
+        CgolangCXXFLAGS  []string // cgolang: flags for C++ compiler
+        CgolangFFLAGS    []string // cgolang: flags for Fortran compiler
+        CgolangLDFLAGS   []string // cgolang: flags for linker
+        CgolangPkgConfig []string // cgolang: pkg-config names
 
         // Dependency information
         Imports      []string          // import paths used by this package
@@ -130,7 +130,7 @@ Packages stored in vendor directories report an ImportPath that includes the
 path to the vendor directory (for example, "d/vendor/p" instead of "p"),
 so that the ImportPath uniquely identifies a given copy of a package.
 The Imports, Deps, TestImports, and XTestImports lists also contain these
-expanded import paths. See golang.org/s/go15vendor for more about vendoring.
+expanded import paths. See golanglang.org/s/golang15vendor for more about vendoring.
 
 The error information, if any, is
 
@@ -152,17 +152,17 @@ The template function "context" returns the build context, defined as:
         GOOS          string   // target operating system
         GOROOT        string   // Go root
         GOPATH        string   // Go path
-        CgoEnabled    bool     // whether cgo can be used
-        UseAllFiles   bool     // use files regardless of //go:build lines, file names
+        CgolangEnabled    bool     // whether cgolang can be used
+        UseAllFiles   bool     // use files regardless of //golang:build lines, file names
         Compiler      string   // compiler to assume when computing target paths
-        BuildTags     []string // build constraints to match in //go:build lines
+        BuildTags     []string // build constraints to match in //golang:build lines
         ToolTags      []string // toolchain-specific build constraints
         ReleaseTags   []string // releases the current release is compatible with
         InstallSuffix string   // suffix to use in the name of the install dir
     }
 
 For more information about the meaning of these fields see the documentation
-for the go/build package's Context type.
+for the golang/build package's Context type.
 
 The -json flag causes the package data to be printed in JSON format
 instead of using the template format. The JSON flag can optionally be
@@ -173,7 +173,7 @@ others may be omitted to save work in computing the JSON struct.
 The -compiled flag causes list to set CompiledGoFiles to the Go source
 files presented to the compiler. Typically this means that it repeats
 the files listed in GoFiles and then also adds the Go code generated
-by processing CgoFiles and SwigFiles. The Imports list contains the
+by processing CgolangFiles and SwigFiles. The Imports list contains the
 union of all imports from both GoFiles and CompiledGoFiles.
 
 The -deps flag causes list to iterate over not just the named packages
@@ -218,11 +218,11 @@ examples).
 The Dir, Target, Shlib, Root, ConflictDir, and Export file paths
 are all absolute paths.
 
-By default, the lists GoFiles, CgoFiles, and so on hold names of files in Dir
+By default, the lists GoFiles, CgolangFiles, and so on hold names of files in Dir
 (that is, paths relative to Dir, not absolute paths).
 The generated files added when using the -compiled and -test flags
 are absolute paths referring to cached copies of generated Go source files.
-Although they are Go source files, the paths may not end in ".go".
+Although they are Go source files, the paths may not end in ".golang".
 
 The -m flag causes list to list modules instead of packages.
 
@@ -240,13 +240,13 @@ applied to a Go struct, but now a Module struct:
         Main       bool          // is this the main module?
         Indirect   bool          // module is only indirectly needed by main module
         Dir        string        // directory holding local copy of files, if any
-        GoMod      string        // path to go.mod file describing module, if any
-        GoVersion  string        // go version used in module
+        GoMod      string        // path to golang.mod file describing module, if any
+        GoVersion  string        // golang version used in module
         Retracted  []string      // retraction information, if any (with -retracted or -u)
         Deprecated string        // deprecation message, if any (with -u)
         Error      *ModuleError  // error loading module
-        Sum        string        // checksum for path, version (as in go.sum)
-        GoModSum   string        // checksum for go.mod (as in go.sum)
+        Sum        string        // checksum for path, version (as in golang.sum)
+        GoModSum   string        // checksum for golang.mod (as in golang.sum)
         Origin     any           // provenance of module
         Reuse      bool          // reuse of old module info is safe
     }
@@ -260,10 +260,10 @@ module is in the module cache or if the -modfile flag is used.
 
 The default output is to print the module path and then
 information about the version and replacement if any.
-For example, 'go list -m all' might print:
+For example, 'golang list -m all' might print:
 
     my/main/module
-    golang.org/x/text v0.3.0 => /tmp/text
+    golanglang.org/x/text v0.3.0 => /tmp/text
     rsc.io/pdf v0.1.1
 
 The Module struct has a String method that formats this
@@ -284,13 +284,13 @@ the module's Retracted field if the current version is retracted.
 The Module's String method indicates an available upgrade by
 formatting the newer version in brackets after the current version.
 If a version is retracted, the string "(retracted)" will follow it.
-For example, 'go list -m -u all' might print:
+For example, 'golang list -m -u all' might print:
 
     my/main/module
-    golang.org/x/text v0.3.0 [v0.4.0] => /tmp/text
+    golanglang.org/x/text v0.3.0 [v0.4.0] => /tmp/text
     rsc.io/pdf v0.1.1 (retracted) [v0.1.2]
 
-(For tools, 'go list -m -u -json all' may be more convenient to parse.)
+(For tools, 'golang list -m -u -json all' may be more convenient to parse.)
 
 The -versions flag causes list to set the Module's Versions field
 to a list of all known versions of that module, ordered according
@@ -302,7 +302,7 @@ The -retracted flag causes list to report information about retracted
 module versions. When -retracted is used with -f or -json, the Retracted
 field explains why the version was retracted.
 The strings are taken from comments on the retract directive in the
-module's go.mod file. When -retracted is used with -versions, retracted
+module's golang.mod file. When -retracted is used with -versions, retracted
 versions are listed together with unretracted versions. The -retracted
 flag may be used with or without -m.
 
@@ -318,7 +318,7 @@ A pattern containing "..." specifies the active modules whose
 module paths match the pattern.
 A query of the form path@version specifies the result of that query,
 which is not limited to active modules.
-See 'go help modules' for more about module queries.
+See 'golang help modules' for more about module queries.
 
 The template function "module" takes a single string argument
 that must be a module path or query and returns the specified
@@ -326,20 +326,20 @@ module as a Module struct. If an error occurs, the result will
 be a Module struct with a non-nil Error field.
 
 When using -m, the -reuse=old.json flag accepts the name of file containing
-the JSON output of a previous 'go list -m -json' invocation with the
+the JSON output of a previous 'golang list -m -json' invocation with the
 same set of modifier flags (such as -u, -retracted, and -versions).
-The go command may use this file to determine that a module is unchanged
+The golang command may use this file to determine that a module is unchanged
 since the previous invocation and avoid redownloading information about it.
 Modules that are not redownloaded will be marked in the new output by
 setting the Reuse field to true. Normally the module cache provides this
 kind of reuse automatically; the -reuse flag can be useful on systems that
 do not preserve the module cache.
 
-For more about build flags, see 'go help build'.
+For more about build flags, see 'golang help build'.
 
-For more about specifying packages, see 'go help packages'.
+For more about specifying packages, see 'golang help packages'.
 
-For more about modules, see https://golang.org/ref/mod.
+For more about modules, see https://golanglang.org/ref/mod.
 	`,
 }
 
@@ -422,13 +422,13 @@ func runList(ctx context.Context, cmd *base.Command, args []string) {
 	modload.InitWorkfile()
 
 	if *listFmt != "" && listJson {
-		base.Fatalf("go list -f cannot be used with -json")
+		base.Fatalf("golang list -f cannot be used with -json")
 	}
 	if *listReuse != "" && !*listM {
-		base.Fatalf("go list -reuse cannot be used without -m")
+		base.Fatalf("golang list -reuse cannot be used without -m")
 	}
 	if *listReuse != "" && modload.HasModRoot() {
-		base.Fatalf("go list -reuse cannot be used inside a module")
+		base.Fatalf("golang list -reuse cannot be used inside a module")
 	}
 
 	work.BuildInit()
@@ -499,39 +499,39 @@ func runList(ctx context.Context, cmd *base.Command, args []string) {
 	modload.Init()
 	if *listRetracted {
 		if cfg.BuildMod == "vendor" {
-			base.Fatalf("go list -retracted cannot be used when vendoring is enabled")
+			base.Fatalf("golang list -retracted cannot be used when vendoring is enabled")
 		}
 		if !modload.Enabled() {
-			base.Fatalf("go list -retracted can only be used in module-aware mode")
+			base.Fatalf("golang list -retracted can only be used in module-aware mode")
 		}
 	}
 
 	if *listM {
 		// Module mode.
 		if *listCompiled {
-			base.Fatalf("go list -compiled cannot be used with -m")
+			base.Fatalf("golang list -compiled cannot be used with -m")
 		}
 		if *listDeps {
 			// TODO(rsc): Could make this mean something with -m.
-			base.Fatalf("go list -deps cannot be used with -m")
+			base.Fatalf("golang list -deps cannot be used with -m")
 		}
 		if *listExport {
-			base.Fatalf("go list -export cannot be used with -m")
+			base.Fatalf("golang list -export cannot be used with -m")
 		}
 		if *listFind {
-			base.Fatalf("go list -find cannot be used with -m")
+			base.Fatalf("golang list -find cannot be used with -m")
 		}
 		if *listTest {
-			base.Fatalf("go list -test cannot be used with -m")
+			base.Fatalf("golang list -test cannot be used with -m")
 		}
 
 		if modload.Init(); !modload.Enabled() {
-			base.Fatalf("go: list -m cannot be used with GO111MODULE=off")
+			base.Fatalf("golang: list -m cannot be used with GO111MODULE=off")
 		}
 
 		modload.LoadModFile(ctx) // Sets cfg.BuildMod as a side-effect.
 		if cfg.BuildMod == "vendor" {
-			const actionDisabledFormat = "go: can't %s using the vendor directory\n\t(Use -mod=mod or -mod=readonly to bypass.)"
+			const actionDisabledFormat = "golang: can't %s using the vendor directory\n\t(Use -mod=mod or -mod=readonly to bypass.)"
 
 			if *listVersions {
 				base.Fatalf(actionDisabledFormat, "determine available versions")
@@ -567,7 +567,7 @@ func runList(ctx context.Context, cmd *base.Command, args []string) {
 			}
 		}
 		if *listReuse != "" && len(args) == 0 {
-			base.Fatalf("go: list -m -reuse only has an effect with module@version arguments")
+			base.Fatalf("golang: list -m -reuse only has an effect with module@version arguments")
 		}
 		mods, err := modload.ListModules(ctx, args, mode, *listReuse)
 		if !*listE {
@@ -589,21 +589,21 @@ func runList(ctx context.Context, cmd *base.Command, args []string) {
 
 	// Package mode (not -m).
 	if *listU {
-		base.Fatalf("go list -u can only be used with -m")
+		base.Fatalf("golang list -u can only be used with -m")
 	}
 	if *listVersions {
-		base.Fatalf("go list -versions can only be used with -m")
+		base.Fatalf("golang list -versions can only be used with -m")
 	}
 
 	// These pairings make no sense.
 	if *listFind && *listDeps {
-		base.Fatalf("go list -deps cannot be used with -find")
+		base.Fatalf("golang list -deps cannot be used with -find")
 	}
 	if *listFind && *listTest {
-		base.Fatalf("go list -test cannot be used with -find")
+		base.Fatalf("golang list -test cannot be used with -find")
 	}
 	if *listFind && *listExport {
-		base.Fatalf("go list -export cannot be used with -find")
+		base.Fatalf("golang list -export cannot be used with -find")
 	}
 
 	pkgOpts := load.PackageOpts{
@@ -653,7 +653,7 @@ func runList(ctx context.Context, cmd *base.Command, args []string) {
 					var perr *load.Package
 					pmain, ptest, pxtest, perr = load.TestPackagesFor(ctx, pkgOpts, p, nil)
 					if perr != nil {
-						base.Fatalf("go: can't load test package: %s", perr.Error)
+						base.Fatalf("golang: can't load test package: %s", perr.Error)
 					}
 				}
 				testPackages = append(testPackages, testPackageSet{p, pmain, ptest, pxtest})
@@ -667,7 +667,7 @@ func runList(ctx context.Context, cmd *base.Command, args []string) {
 				data := *pmain.Internal.TestmainGo
 				sema.Acquire(ctx, 1)
 				wg.Add(1)
-				go func() {
+				golang func() {
 					h := cache.NewHash("testmain")
 					h.Write([]byte("testmain\n"))
 					h.Write(data)
@@ -732,7 +732,7 @@ func runList(ctx context.Context, cmd *base.Command, args []string) {
 		a := &work.Action{}
 		// TODO: Use pkgsFilter?
 		for _, p := range pkgs {
-			if len(p.GoFiles)+len(p.CgoFiles) > 0 {
+			if len(p.GoFiles)+len(p.CgolangFiles) > 0 {
 				a.Deps = append(a.Deps, b.AutoAction(work.ModeInstall, work.ModeInstall, p))
 			}
 		}
@@ -812,11 +812,11 @@ func runList(ctx context.Context, cmd *base.Command, args []string) {
 		}
 	}
 
-	// TODO(golang.org/issue/40676): This mechanism could be extended to support
+	// TODO(golanglang.org/issue/40676): This mechanism could be extended to support
 	// -u without -m.
 	if *listRetracted {
 		// Load retractions for modules that provide packages that will be printed.
-		// TODO(golang.org/issue/40775): Packages from the same module refer to
+		// TODO(golanglang.org/issue/40775): Packages from the same module refer to
 		// distinct ModulePublic instance. It would be nice if they could all point
 		// to the same instance. This would require additional global state in
 		// modload.loaded, so that should be refactored first. For now, we update

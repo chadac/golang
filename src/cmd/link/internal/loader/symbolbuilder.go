@@ -1,11 +1,11 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package loader
 
 import (
-	"cmd/internal/goobj"
+	"cmd/internal/golangobj"
 	"cmd/internal/objabi"
 	"cmd/internal/sys"
 	"cmd/link/internal/sym"
@@ -74,7 +74,7 @@ func (sb *SymbolBuilder) Localentry() uint8      { return sb.l.SymLocalentry(sb.
 func (sb *SymbolBuilder) OnList() bool           { return sb.l.AttrOnList(sb.symIdx) }
 func (sb *SymbolBuilder) External() bool         { return sb.l.AttrExternal(sb.symIdx) }
 func (sb *SymbolBuilder) Extname() string        { return sb.l.SymExtname(sb.symIdx) }
-func (sb *SymbolBuilder) CgoExportDynamic() bool { return sb.l.AttrCgoExportDynamic(sb.symIdx) }
+func (sb *SymbolBuilder) CgolangExportDynamic() bool { return sb.l.AttrCgolangExportDynamic(sb.symIdx) }
 func (sb *SymbolBuilder) Dynimplib() string      { return sb.l.SymDynimplib(sb.symIdx) }
 func (sb *SymbolBuilder) Dynimpvers() string     { return sb.l.SymDynimpvers(sb.symIdx) }
 func (sb *SymbolBuilder) SubSym() Sym            { return sb.l.SubSym(sb.symIdx) }
@@ -131,7 +131,7 @@ func (sb *SymbolBuilder) SetRelocType(i int, t objabi.RelocType) {
 
 // SetRelocSym sets the target sym of the 'i'-th relocation on this sym to 's'
 func (sb *SymbolBuilder) SetRelocSym(i int, tgt Sym) {
-	sb.relocs[i].SetSym(goobj.SymRef{PkgIdx: 0, SymIdx: uint32(tgt)})
+	sb.relocs[i].SetSym(golangobj.SymRef{PkgIdx: 0, SymIdx: uint32(tgt)})
 }
 
 // SetRelocAdd sets the addend of the 'i'-th relocation on this sym to 'a'
@@ -146,7 +146,7 @@ func (sb *SymbolBuilder) SetRelocSiz(i int, sz uint8) {
 
 // Add n relocations, return a handle to the relocations.
 func (sb *SymbolBuilder) AddRelocs(n int) Relocs {
-	sb.relocs = append(sb.relocs, make([]goobj.Reloc, n)...)
+	sb.relocs = append(sb.relocs, make([]golangobj.Reloc, n)...)
 	return sb.l.Relocs(sb.symIdx)
 }
 
@@ -154,7 +154,7 @@ func (sb *SymbolBuilder) AddRelocs(n int) Relocs {
 // (to set other fields).
 func (sb *SymbolBuilder) AddRel(typ objabi.RelocType) (Reloc, int) {
 	j := len(sb.relocs)
-	sb.relocs = append(sb.relocs, goobj.Reloc{})
+	sb.relocs = append(sb.relocs, golangobj.Reloc{})
 	sb.relocs[j].SetType(uint16(typ))
 	relocs := sb.Relocs()
 	return relocs.At(j), j
@@ -162,7 +162,7 @@ func (sb *SymbolBuilder) AddRel(typ objabi.RelocType) (Reloc, int) {
 
 // SortRelocs Sort relocations by offset.
 func (sb *SymbolBuilder) SortRelocs() {
-	slices.SortFunc(sb.extSymPayload.relocs, func(a, b goobj.Reloc) int {
+	slices.SortFunc(sb.extSymPayload.relocs, func(a, b golangobj.Reloc) int {
 		return cmp.Compare(a.Off(), b.Off())
 	})
 }

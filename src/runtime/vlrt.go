@@ -23,7 +23,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-//go:build arm || 386 || mips || mipsle
+//golang:build arm || 386 || mips || mipsle
 
 package runtime
 
@@ -190,7 +190,7 @@ func int64div(n, d int64) int64 {
 	return q
 }
 
-//go:nosplit
+//golang:nosplit
 func int64mod(n, d int64) int64 {
 	// Check for 32 bit operands
 	if int64(int32(n)) == n && int64(int32(d)) == d {
@@ -215,13 +215,13 @@ func int64mod(n, d int64) int64 {
 	return r
 }
 
-//go:noescape
+//golang:noescape
 func _mul64by32(lo64 *uint64, a uint64, b uint32) (hi32 uint32)
 
-//go:noescape
+//golang:noescape
 func _div64by32(a uint64, b uint32, r *uint32) (q uint32)
 
-//go:nosplit
+//golang:nosplit
 func dodiv(n, d uint64) (q, r uint64) {
 	if GOARCH == "arm" {
 		// arm doesn't have a division instruction, so
@@ -265,7 +265,7 @@ func dodiv(n, d uint64) (q, r uint64) {
 	return uint64(qhi)<<32 + uint64(qlo), uint64(rlo)
 }
 
-//go:nosplit
+//golang:nosplit
 func slowdodiv(n, d uint64) (q, r uint64) {
 	if d == 0 {
 		panicdivide()

@@ -1,8 +1,8 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build aix || darwin || dragonfly || freebsd || linux || netbsd || openbsd
+//golang:build aix || darwin || dragolangnfly || freebsd || linux || netbsd || openbsd
 
 // TODO: test on Windows?
 
@@ -24,7 +24,7 @@ func TestPanicOnFault(t *testing.T) {
 		t.Skip("iOS doesn't provide fault addresses")
 	}
 	if runtime.GOOS == "netbsd" && runtime.GOARCH == "arm" {
-		t.Skip("netbsd-arm doesn't provide fault address (golang.org/issue/45026)")
+		t.Skip("netbsd-arm doesn't provide fault address (golanglang.org/issue/45026)")
 	}
 	m, err := syscall.Mmap(-1, 0, 0x1000, syscall.PROT_READ /* Note: no PROT_WRITE */, syscall.MAP_SHARED|syscall.MAP_ANON)
 	if err != nil {
@@ -47,9 +47,9 @@ func TestPanicOnFault(t *testing.T) {
 			t.Fatalf("fault does not contain address")
 		}
 		want := uintptr(unsafe.Pointer(&m[lowBits]))
-		got := a.Addr()
-		if got != want {
-			t.Fatalf("fault address %x, want %x", got, want)
+		golangt := a.Addr()
+		if golangt != want {
+			t.Fatalf("fault address %x, want %x", golangt, want)
 		}
 	}()
 	m[lowBits] = 1 // will fault

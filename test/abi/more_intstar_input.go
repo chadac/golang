@@ -1,9 +1,9 @@
 // run
 
-//go:build !wasm
+//golang:build !wasm
 
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // wasm is excluded because the compiler chatter about register abi pragma ends up
@@ -13,16 +13,16 @@ package main
 
 var sink int
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func F(a, b, c, d, e, f, g, h, i, j, k, l, m *int) {
 	G(m, l, k, j, i, h, g, f, e, d, c, b, a)
 	// did the pointers get properly updated?
 	sink = *a + *m
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func G(a, b, c, d, e, f, g, h, i, j, k, l, m *int) {
 	// Do not reference the parameters
 	var scratch [1000 * 100]int

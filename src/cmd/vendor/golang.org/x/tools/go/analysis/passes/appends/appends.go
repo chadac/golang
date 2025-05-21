@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package appends defines an Analyzer that detects
@@ -8,23 +8,23 @@ package appends
 
 import (
 	_ "embed"
-	"go/ast"
-	"go/types"
+	"golang/ast"
+	"golang/types"
 
-	"golang.org/x/tools/go/analysis"
-	"golang.org/x/tools/go/analysis/passes/inspect"
-	"golang.org/x/tools/go/analysis/passes/internal/analysisutil"
-	"golang.org/x/tools/go/ast/inspector"
-	"golang.org/x/tools/go/types/typeutil"
+	"golanglang.org/x/tools/golang/analysis"
+	"golanglang.org/x/tools/golang/analysis/passes/inspect"
+	"golanglang.org/x/tools/golang/analysis/passes/internal/analysisutil"
+	"golanglang.org/x/tools/golang/ast/inspector"
+	"golanglang.org/x/tools/golang/types/typeutil"
 )
 
-//go:embed doc.go
+//golang:embed doc.golang
 var doc string
 
 var Analyzer = &analysis.Analyzer{
 	Name:     "appends",
 	Doc:      analysisutil.MustExtractDoc(doc, "appends"),
-	URL:      "https://pkg.go.dev/golang.org/x/tools/go/analysis/passes/appends",
+	URL:      "https://pkg.golang.dev/golanglang.org/x/tools/golang/analysis/passes/appends",
 	Requires: []*analysis.Analyzer{inspect.Analyzer},
 	Run:      run,
 }

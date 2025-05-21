@@ -1,8 +1,8 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// This file implements support functionality for iimport.go.
+// This file implements support functionality for iimport.golang.
 
 package importer
 
@@ -10,7 +10,7 @@ import (
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/types2"
 	"fmt"
-	"go/token"
+	"golang/token"
 	"internal/pkgbits"
 	"sync"
 )
@@ -23,7 +23,7 @@ func errorf(format string, args ...interface{}) {
 	panic(fmt.Sprintf(format, args...))
 }
 
-const deltaNewFile = -64 // see cmd/compile/internal/gc/bexport.go
+const deltaNewFile = -64 // see cmd/compile/internal/gc/bexport.golang
 
 // Synthesize a token.Pos
 type fakeFileSet struct {
@@ -67,7 +67,7 @@ var (
 )
 
 func chanDir(d int) types2.ChanDir {
-	// tag values must match the constants in cmd/compile/internal/gc/go.go
+	// tag values must match the constants in cmd/compile/internal/gc/golang.golang
 	switch d {
 	case 1 /* Crecv */ :
 		return types2.RecvOnly

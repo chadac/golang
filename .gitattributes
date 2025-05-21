@@ -6,11 +6,11 @@
 #
 # Windows .bat files are known to have multiple bugs when run with LF
 # endings, and so they are checked in with CRLF endings, with a test
-# in test/winbatch.go to catch problems. (See golang.org/issue/37791.)
+# in test/winbatch.golang to catch problems. (See golanglang.org/issue/37791.)
 #
 # We'll prevent accidental CRLF line endings from entering the repo
-# via the git-codereview gofmt checks and tests.
+# via the git-codereview golangfmt checks and tests.
 #
-# See golang.org/issue/9281.
+# See golanglang.org/issue/9281.
 
 * -text

@@ -1,9 +1,9 @@
 // build -race
 
-//go:build race
+//golang:build race
 
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -12,21 +12,21 @@ func main() {
 	var o any = uint64(5)
 	switch o.(type) {
 	case int:
-		goto ret
+		golangto ret
 	case int8:
-		goto ret
+		golangto ret
 	case int16:
-		goto ret
+		golangto ret
 	case int32:
-		goto ret
+		golangto ret
 	case int64:
-		goto ret
+		golangto ret
 	case float32:
-		goto ret
+		golangto ret
 	case float64:
-		goto ret
+		golangto ret
 	default:
-		goto ret
+		golangto ret
 	}
 ret:
 }

@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test to make sure that we don't try using larger loads for
@@ -21,7 +21,7 @@ type T struct {
 // U contains 8 copies of T, each at a different %8 alignment.
 type U [8]T
 
-//go:noinline
+//golang:noinline
 func f(x, y *U) bool {
 	return *x == *y
 }

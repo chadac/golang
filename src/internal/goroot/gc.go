@@ -1,10 +1,10 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build gc
+//golang:build gc
 
-package goroot
+package golangroot
 
 import (
 	"os"
@@ -15,45 +15,45 @@ import (
 )
 
 // IsStandardPackage reports whether path is a standard package,
-// given goroot and compiler.
-func IsStandardPackage(goroot, compiler, path string) bool {
+// given golangroot and compiler.
+func IsStandardPackage(golangroot, compiler, path string) bool {
 	switch compiler {
 	case "gc":
-		dir := filepath.Join(goroot, "src", path)
+		dir := filepath.Join(golangroot, "src", path)
 		dirents, err := os.ReadDir(dir)
 		if err != nil {
 			return false
 		}
 		for _, dirent := range dirents {
-			if strings.HasSuffix(dirent.Name(), ".go") {
+			if strings.HasSuffix(dirent.Name(), ".golang") {
 				return true
 			}
 		}
 		return false
-	case "gccgo":
-		return gccgoSearch.isStandard(path)
+	case "gccgolang":
+		return gccgolangSearch.isStandard(path)
 	default:
 		panic("unknown compiler " + compiler)
 	}
 }
 
-// gccgoSearch holds the gccgo search directories.
-type gccgoDirs struct {
+// gccgolangSearch holds the gccgolang search directories.
+type gccgolangDirs struct {
 	once sync.Once
 	dirs []string
 }
 
-// gccgoSearch is used to check whether a gccgo package exists in the
+// gccgolangSearch is used to check whether a gccgolang package exists in the
 // standard library.
-var gccgoSearch gccgoDirs
+var gccgolangSearch gccgolangDirs
 
-// init finds the gccgo search directories. If this fails it leaves dirs == nil.
-func (gd *gccgoDirs) init() {
-	gccgo := os.Getenv("GCCGO")
-	if gccgo == "" {
-		gccgo = "gccgo"
+// init finds the gccgolang search directories. If this fails it leaves dirs == nil.
+func (gd *gccgolangDirs) init() {
+	gccgolang := os.Getenv("GCCGO")
+	if gccgolang == "" {
+		gccgolang = "gccgolang"
 	}
-	bin, err := exec.LookPath(gccgo)
+	bin, err := exec.LookPath(gccgolang)
 	if err != nil {
 		return
 	}
@@ -88,12 +88,12 @@ func (gd *gccgoDirs) init() {
 
 	var lastDirs []string
 	for _, dir := range dirs {
-		goDir := filepath.Join(dir, "go", version)
-		if fi, err := os.Stat(goDir); err == nil && fi.IsDir() {
-			gd.dirs = append(gd.dirs, goDir)
-			goDir = filepath.Join(goDir, machine)
-			if fi, err = os.Stat(goDir); err == nil && fi.IsDir() {
-				gd.dirs = append(gd.dirs, goDir)
+		golangDir := filepath.Join(dir, "golang", version)
+		if fi, err := os.Stat(golangDir); err == nil && fi.IsDir() {
+			gd.dirs = append(gd.dirs, golangDir)
+			golangDir = filepath.Join(golangDir, machine)
+			if fi, err = os.Stat(golangDir); err == nil && fi.IsDir() {
+				gd.dirs = append(gd.dirs, golangDir)
 			}
 		}
 		if fi, err := os.Stat(dir); err == nil && fi.IsDir() {
@@ -103,8 +103,8 @@ func (gd *gccgoDirs) init() {
 	gd.dirs = append(gd.dirs, lastDirs...)
 }
 
-// isStandard reports whether path is a standard library for gccgo.
-func (gd *gccgoDirs) isStandard(path string) bool {
+// isStandard reports whether path is a standard library for gccgolang.
+func (gd *gccgolangDirs) isStandard(path string) bool {
 	// Quick check: if the first path component has a '.', it's not
 	// in the standard library. This skips most GOPATH directories.
 	i := strings.Index(path, "/")
@@ -122,14 +122,14 @@ func (gd *gccgoDirs) isStandard(path string) bool {
 
 	gd.once.Do(gd.init)
 	if gd.dirs == nil {
-		// We couldn't find the gccgo search directories.
+		// We couldn't find the gccgolang search directories.
 		// Best guess, since the first component did not contain
 		// '.', is that this is a standard library package.
 		return true
 	}
 
 	for _, dir := range gd.dirs {
-		full := filepath.Join(dir, path) + ".gox"
+		full := filepath.Join(dir, path) + ".golangx"
 		if fi, err := os.Stat(full); err == nil && !fi.IsDir() {
 			return true
 		}

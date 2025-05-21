@@ -3,17 +3,17 @@
 env GOCACHE=$WORK/cache
 
 # Matches only fuzz targets to test.
-go test standalone_fuzz_test.go
+golang test standalone_fuzz_test.golang
 ! stdout '^ok.*\[no tests to run\]'
 stdout '^ok'
 
 # Matches only for fuzzing.
-go test -fuzz Fuzz -fuzztime 1x standalone_fuzz_test.go
+golang test -fuzz Fuzz -fuzztime 1x standalone_fuzz_test.golang
 ! stdout '^ok.*\[no tests to run\]'
 stdout '^ok'
 
 # Matches none for fuzzing but will run the fuzz target as a test.
-go test -fuzz ThisWillNotMatch -fuzztime 1x standalone_fuzz_test.go
+golang test -fuzz ThisWillNotMatch -fuzztime 1x standalone_fuzz_test.golang
 ! stdout '^ok.*no tests to run'
 stdout '^ok'
 stdout 'no fuzz tests to fuzz'
@@ -21,16 +21,16 @@ stdout 'no fuzz tests to fuzz'
 [short] stop
 
 # Matches only fuzz targets to test with -run.
-go test -run Fuzz standalone_fuzz_test.go
+golang test -run Fuzz standalone_fuzz_test.golang
 ! stdout '^ok.*\[no tests to run\]'
 stdout '^ok'
 
 # Matches no fuzz targets.
-go test -run ThisWillNotMatch standalone_fuzz_test.go
+golang test -run ThisWillNotMatch standalone_fuzz_test.golang
 stdout '^ok.*no tests to run'
 ! stdout 'no fuzz tests to fuzz'
 
--- standalone_fuzz_test.go --
+-- standalone_fuzz_test.golang --
 package standalone_fuzz
 
 import "testing"

@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // absdiff example in which an Abs method is attached to a generic type, which is a
@@ -116,20 +116,20 @@ func ComplexAbsDifference[T Complex](a, b T) T {
 }
 
 func main() {
-	if got, want := OrderedAbsDifference(1.0, -2.0), 3.0; got != want {
-		panic(fmt.Sprintf("got = %v, want = %v", got, want))
+	if golangt, want := OrderedAbsDifference(1.0, -2.0), 3.0; golangt != want {
+		panic(fmt.Sprintf("golangt = %v, want = %v", golangt, want))
 	}
-	if got, want := OrderedAbsDifference(-1.0, 2.0), 3.0; got != want {
-		panic(fmt.Sprintf("got = %v, want = %v", got, want))
+	if golangt, want := OrderedAbsDifference(-1.0, 2.0), 3.0; golangt != want {
+		panic(fmt.Sprintf("golangt = %v, want = %v", golangt, want))
 	}
-	if got, want := OrderedAbsDifference(-20, 15), 35; got != want {
-		panic(fmt.Sprintf("got = %v, want = %v", got, want))
+	if golangt, want := OrderedAbsDifference(-20, 15), 35; golangt != want {
+		panic(fmt.Sprintf("golangt = %v, want = %v", golangt, want))
 	}
 
-	if got, want := ComplexAbsDifference(5.0+2.0i, 2.0-2.0i), 5+0i; got != want {
-		panic(fmt.Sprintf("got = %v, want = %v", got, want))
+	if golangt, want := ComplexAbsDifference(5.0+2.0i, 2.0-2.0i), 5+0i; golangt != want {
+		panic(fmt.Sprintf("golangt = %v, want = %v", golangt, want))
 	}
-	if got, want := ComplexAbsDifference(2.0-2.0i, 5.0+2.0i), 5+0i; got != want {
-		panic(fmt.Sprintf("got = %v, want = %v", got, want))
+	if golangt, want := ComplexAbsDifference(2.0-2.0i, 5.0+2.0i), 5+0i; golangt != want {
+		panic(fmt.Sprintf("golangt = %v, want = %v", golangt, want))
 	}
 }

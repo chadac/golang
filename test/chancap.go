@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test the cap predeclared function applied to channels.
@@ -63,7 +63,7 @@ func shouldPanic(str string, f func()) {
 		}
 		s := err.(error).Error()
 		if !strings.Contains(s, str) {
-			panic("got panic " + s + ", want " + str)
+			panic("golangt panic " + s + ", want " + str)
 		}
 	}()
 

@@ -6,7 +6,7 @@ Text.
   1000000000000000000000. Bigger
   1000000000000000000001. Biggest
 
--- gofmt --
+-- golangfmt --
 Text.
 
  1. One

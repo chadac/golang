@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime_test
@@ -39,15 +39,15 @@ func TestTracebackInlined(t *testing.T) {
 		frames = frames[1:]
 		// Check the function sequence.
 		for i, want := range funcs {
-			got := "<end>"
+			golangt := "<end>"
 			if i < len(frames) {
-				got = frames[i].funcName
+				golangt = frames[i].funcName
 				if strings.HasSuffix(want, ")") {
-					got += "(" + frames[i].args + ")"
+					golangt += "(" + frames[i].args + ")"
 				}
 			}
-			if got != want {
-				t.Errorf("got %s, want %s", got, want)
+			if golangt != want {
+				t.Errorf("golangt %s, want %s", golangt, want)
 				return
 			}
 		}
@@ -83,14 +83,14 @@ type ttiResult struct {
 	printed string
 }
 
-//go:noinline
+//golang:noinline
 func ttiLeaf() *ttiResult {
 	// Get a printed stack trace.
 	printed := string(debug.Stack())
 	return &ttiResult{printed}
 }
 
-//go:noinline
+//golang:noinline
 func ttiSimple1() *ttiResult {
 	return ttiSimple2()
 }
@@ -101,7 +101,7 @@ func ttiSimple3() *ttiResult {
 	return ttiLeaf()
 }
 
-//go:noinline
+//golang:noinline
 func ttiSigpanic1() (res *ttiResult) {
 	defer func() {
 		res = ttiLeaf()
@@ -126,7 +126,7 @@ func ttiSigpanic3() {
 
 var alwaysTrue = true
 
-//go:noinline
+//golang:noinline
 func ttiWrapper1() *ttiResult {
 	var w ttiWrapper
 	m := (*ttiWrapper).m1
@@ -139,7 +139,7 @@ func (w ttiWrapper) m1() *ttiResult {
 	return ttiLeaf()
 }
 
-//go:noinline
+//golang:noinline
 func ttiExcluded1() *ttiResult {
 	return ttiExcluded2()
 }
@@ -149,8 +149,8 @@ func ttiExcluded1() *ttiResult {
 // rather synthetic, but it's easy and reliable. See issue #42754 for
 // one way this happened in real code.
 //
-//go:linkname ttiExcluded2 runtime.ttiExcluded2
-//go:noinline
+//golang:linkname ttiExcluded2 runtime.ttiExcluded2
+//golang:noinline
 func ttiExcluded2() *ttiResult {
 	return ttiExcluded3()
 }
@@ -169,9 +169,9 @@ func TestTracebackElision(t *testing.T) {
 		t.Run(fmt.Sprintf("elided=%d", elided), func(t *testing.T) {
 			n := elided + runtime.TracebackInnerFrames + runtime.TracebackOuterFrames
 
-			// Start a new goroutine so we have control over the whole stack.
+			// Start a new golangroutine so we have control over the whole stack.
 			stackChan := make(chan string)
-			go tteStack(n, stackChan)
+			golang tteStack(n, stackChan)
 			stack := <-stackChan
 			tb := parseTraceback1(t, stack)
 
@@ -198,7 +198,7 @@ func TestTracebackElision(t *testing.T) {
 						want = "runtime_test.tteStack"
 					}
 					if fr.funcName != want {
-						t.Errorf("want %s, got %s", want, fr.funcName)
+						t.Errorf("want %s, golangt %s", want, fr.funcName)
 						break
 					}
 					i++
@@ -206,7 +206,7 @@ func TestTracebackElision(t *testing.T) {
 				tb.frames = tb.frames[1:]
 			}
 			if !t.Failed() && len(tb.frames) > 0 {
-				t.Errorf("got %d more frames than expected", len(tb.frames))
+				t.Errorf("golangt %d more frames than expected", len(tb.frames))
 			}
 			if t.Failed() {
 				t.Logf("traceback diverged at frame %d", i)
@@ -433,14 +433,14 @@ func TestTracebackArgs(t *testing.T) {
 	}
 	for _, test := range tests {
 		n := test.fn()
-		got := testTracebackArgsBuf[:n]
-		if !bytes.Contains(got, []byte(test.expect)) {
-			t.Errorf("traceback does not contain expected string: want %q, got\n%s", test.expect, got)
+		golangt := testTracebackArgsBuf[:n]
+		if !bytes.Contains(golangt, []byte(test.expect)) {
+			t.Errorf("traceback does not contain expected string: want %q, golangt\n%s", test.expect, golangt)
 		}
 	}
 }
 
-//go:noinline
+//golang:noinline
 func testTracebackArgs1(a, b, c, d, e int) int {
 	n := runtime.Stack(testTracebackArgsBuf[:], false)
 	if a < 0 {
@@ -450,7 +450,7 @@ func testTracebackArgs1(a, b, c, d, e int) int {
 	return n
 }
 
-//go:noinline
+//golang:noinline
 func testTracebackArgs2(a bool, b struct {
 	a, b, c int
 	x       [2]int
@@ -463,8 +463,8 @@ func testTracebackArgs2(a bool, b struct {
 	return n
 }
 
-//go:noinline
-//go:registerparams
+//golang:noinline
+//golang:registerparams
 func testTracebackArgs3(x [3]byte, a, b, c int, y [3]byte) int {
 	n := runtime.Stack(testTracebackArgsBuf[:], false)
 	if a < 0 {
@@ -474,7 +474,7 @@ func testTracebackArgs3(x [3]byte, a, b, c int, y [3]byte) int {
 	return n
 }
 
-//go:noinline
+//golang:noinline
 func testTracebackArgs4(a bool, x [1][1][1][1][1][1][1][1][1][1]int) int {
 	n := runtime.Stack(testTracebackArgsBuf[:], false)
 	if a {
@@ -483,7 +483,7 @@ func testTracebackArgs4(a bool, x [1][1][1][1][1][1][1][1][1][1]int) int {
 	return n
 }
 
-//go:noinline
+//golang:noinline
 func testTracebackArgs5(a bool, x struct {
 	x int
 	y [0]int
@@ -496,7 +496,7 @@ func testTracebackArgs5(a bool, x struct {
 	return n
 }
 
-//go:noinline
+//golang:noinline
 func testTracebackArgs6a(a, b, c, d, e, f, g, h, i, j int) int {
 	n := runtime.Stack(testTracebackArgsBuf[:], false)
 	if a < 0 {
@@ -506,7 +506,7 @@ func testTracebackArgs6a(a, b, c, d, e, f, g, h, i, j int) int {
 	return n
 }
 
-//go:noinline
+//golang:noinline
 func testTracebackArgs6b(a, b, c, d, e, f, g, h, i, j, k int) int {
 	n := runtime.Stack(testTracebackArgsBuf[:], false)
 	if a < 0 {
@@ -516,7 +516,7 @@ func testTracebackArgs6b(a, b, c, d, e, f, g, h, i, j, k int) int {
 	return n
 }
 
-//go:noinline
+//golang:noinline
 func testTracebackArgs7a(a [10]int) int {
 	n := runtime.Stack(testTracebackArgsBuf[:], false)
 	if a[0] < 0 {
@@ -526,7 +526,7 @@ func testTracebackArgs7a(a [10]int) int {
 	return n
 }
 
-//go:noinline
+//golang:noinline
 func testTracebackArgs7b(a [11]int) int {
 	n := runtime.Stack(testTracebackArgsBuf[:], false)
 	if a[0] < 0 {
@@ -536,7 +536,7 @@ func testTracebackArgs7b(a [11]int) int {
 	return n
 }
 
-//go:noinline
+//golang:noinline
 func testTracebackArgs7c(a [10]int, b int) int {
 	n := runtime.Stack(testTracebackArgsBuf[:], false)
 	if a[0] < 0 {
@@ -546,7 +546,7 @@ func testTracebackArgs7c(a [10]int, b int) int {
 	return n
 }
 
-//go:noinline
+//golang:noinline
 func testTracebackArgs7d(a [11]int, b int) int {
 	n := runtime.Stack(testTracebackArgsBuf[:], false)
 	if a[0] < 0 {
@@ -575,7 +575,7 @@ type testArgsType8d struct {
 	j                      int
 }
 
-//go:noinline
+//golang:noinline
 func testTracebackArgs8a(a testArgsType8a) int {
 	n := runtime.Stack(testTracebackArgsBuf[:], false)
 	if a.a < 0 {
@@ -585,7 +585,7 @@ func testTracebackArgs8a(a testArgsType8a) int {
 	return n
 }
 
-//go:noinline
+//golang:noinline
 func testTracebackArgs8b(a testArgsType8b) int {
 	n := runtime.Stack(testTracebackArgsBuf[:], false)
 	if a.a < 0 {
@@ -595,7 +595,7 @@ func testTracebackArgs8b(a testArgsType8b) int {
 	return n
 }
 
-//go:noinline
+//golang:noinline
 func testTracebackArgs8c(a testArgsType8c) int {
 	n := runtime.Stack(testTracebackArgsBuf[:], false)
 	if a.a < 0 {
@@ -605,7 +605,7 @@ func testTracebackArgs8c(a testArgsType8c) int {
 	return n
 }
 
-//go:noinline
+//golang:noinline
 func testTracebackArgs8d(a testArgsType8d) int {
 	n := runtime.Stack(testTracebackArgsBuf[:], false)
 	if a.a < 0 {
@@ -617,8 +617,8 @@ func testTracebackArgs8d(a testArgsType8d) int {
 
 // nosplit to avoid preemption or morestack spilling registers.
 //
-//go:nosplit
-//go:noinline
+//golang:nosplit
+//golang:noinline
 func testTracebackArgs9(a int64, b int32, c int16, d int8, x [2]int, y int) int {
 	if a < 0 {
 		println(&y) // take address, make y live, even if no longer used at traceback
@@ -633,8 +633,8 @@ func testTracebackArgs9(a int64, b int32, c int16, d int8, x [2]int, y int) int 
 
 // nosplit to avoid preemption or morestack spilling registers.
 //
-//go:nosplit
-//go:noinline
+//golang:nosplit
+//golang:noinline
 func testTracebackArgs10(a, b, c, d, e int32) int {
 	// no use of any args
 	return runtime.Stack(testTracebackArgsBuf[:], false)
@@ -643,9 +643,9 @@ func testTracebackArgs10(a, b, c, d, e int32) int {
 // norace to avoid race instrumentation changing spill locations.
 // nosplit to avoid preemption or morestack spilling registers.
 //
-//go:norace
-//go:nosplit
-//go:noinline
+//golang:norace
+//golang:nosplit
+//golang:noinline
 func testTracebackArgs11a(a, b, c int32) int {
 	if a < 0 {
 		println(a, b, c) // spill in a conditional, may not execute
@@ -659,9 +659,9 @@ func testTracebackArgs11a(a, b, c int32) int {
 // norace to avoid race instrumentation changing spill locations.
 // nosplit to avoid preemption or morestack spilling registers.
 //
-//go:norace
-//go:nosplit
-//go:noinline
+//golang:norace
+//golang:nosplit
+//golang:noinline
 func testTracebackArgs11b(a, b, c, d int32) int {
 	var x int32
 	if a < 0 {
@@ -680,9 +680,9 @@ func testTracebackArgs11b(a, b, c, d int32) int {
 // norace to avoid race instrumentation changing spill locations.
 // nosplit to avoid preemption or morestack spilling registers.
 //
-//go:norace
-//go:nosplit
-//go:noinline
+//golang:norace
+//golang:nosplit
+//golang:noinline
 func testTracebackArgsSlice(a []int) int {
 	n := runtime.Stack(testTracebackArgsBuf[:], false)
 	return a[1] + n
@@ -692,26 +692,26 @@ var testTracebackArgsSliceBackingStore [2]int
 
 // Poison the arg area with deterministic values.
 //
-//go:noinline
+//golang:noinline
 func poisonStack() [20]int {
 	return [20]int{-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}
 }
 
 func TestTracebackParentChildGoroutines(t *testing.T) {
-	parent := fmt.Sprintf("goroutine %d", runtime.Goid())
+	parent := fmt.Sprintf("golangroutine %d", runtime.Goid())
 	var wg sync.WaitGroup
 	wg.Add(1)
-	go func() {
+	golang func() {
 		defer wg.Done()
 		buf := make([]byte, 1<<10)
-		// We collect the stack only for this goroutine (by passing
+		// We collect the stack only for this golangroutine (by passing
 		// false to runtime.Stack). We expect to see the current
-		// goroutine ID, and the parent goroutine ID in a message like
-		// "created by ... in goroutine N".
+		// golangroutine ID, and the parent golangroutine ID in a message like
+		// "created by ... in golangroutine N".
 		stack := string(buf[:runtime.Stack(buf, false)])
-		child := fmt.Sprintf("goroutine %d", runtime.Goid())
+		child := fmt.Sprintf("golangroutine %d", runtime.Goid())
 		if !strings.Contains(stack, parent) || !strings.Contains(stack, child) {
-			t.Errorf("did not see parent (%s) and child (%s) IDs in stack, got %s", parent, child, stack)
+			t.Errorf("did not see parent (%s) and child (%s) IDs in stack, golangt %s", parent, child, stack)
 		}
 	}()
 	wg.Wait()
@@ -765,11 +765,11 @@ func parseTraceback(t *testing.T, tb string) []*traceback {
 		line, tb, _ = strings.Cut(tb, "\n")
 		lineNo++
 		switch {
-		case strings.HasPrefix(line, "goroutine "):
+		case strings.HasPrefix(line, "golangroutine "):
 			cur = &traceback{}
 			tbs = append(tbs, cur)
 		case line == "":
-			// Separator between goroutines
+			// Separator between golangroutines
 			cur = nil
 		case line[0] == '\t':
 			fatal("unexpected indent")
@@ -796,16 +796,16 @@ func parseTraceback(t *testing.T, tb string) []*traceback {
 }
 
 // parseTraceback1 is like parseTraceback, but expects tb to contain exactly one
-// goroutine.
+// golangroutine.
 func parseTraceback1(t *testing.T, tb string) *traceback {
 	tbs := parseTraceback(t, tb)
 	if len(tbs) != 1 {
-		t.Fatalf("want 1 goroutine, got %d:\n%s", len(tbs), tb)
+		t.Fatalf("want 1 golangroutine, golangt %d:\n%s", len(tbs), tb)
 	}
 	return tbs[0]
 }
 
-//go:noinline
+//golang:noinline
 func testTracebackGenericFn[T any](buf []byte) int {
 	return runtime.Stack(buf[:], false)
 }
@@ -816,7 +816,7 @@ func testTracebackGenericFnInlined[T any](buf []byte) int {
 
 type testTracebackGenericTyp[P any] struct{ x P }
 
-//go:noinline
+//golang:noinline
 func (t testTracebackGenericTyp[P]) M(buf []byte) int {
 	return runtime.Stack(buf[:], false)
 }
@@ -858,12 +858,12 @@ func TestTracebackGeneric(t *testing.T) {
 	var buf [1000]byte
 	for _, test := range tests {
 		n := test.fn(buf[:])
-		got := buf[:n]
-		if !bytes.Contains(got, []byte(test.expect)) {
-			t.Errorf("traceback does not contain expected string: want %q, got\n%s", test.expect, got)
+		golangt := buf[:n]
+		if !bytes.Contains(golangt, []byte(test.expect)) {
+			t.Errorf("traceback does not contain expected string: want %q, golangt\n%s", test.expect, golangt)
 		}
-		if bytes.Contains(got, []byte("shape")) { // should not contain shape name
-			t.Errorf("traceback contains shape name: got\n%s", got)
+		if bytes.Contains(golangt, []byte("shape")) { // should not contain shape name
+			t.Errorf("traceback contains shape name: golangt\n%s", golangt)
 		}
 	}
 }

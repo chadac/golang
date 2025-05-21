@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package arm64
@@ -9,7 +9,7 @@ import (
 
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/ir"
-	"cmd/compile/internal/logopt"
+	"cmd/compile/internal/logolangpt"
 	"cmd/compile/internal/objw"
 	"cmd/compile/internal/ssa"
 	"cmd/compile/internal/ssagen"
@@ -1136,8 +1136,8 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 		ssagen.AddAux(&p.From, v)
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = arm64.REGTMP
-		if logopt.Enabled() {
-			logopt.LogOpt(v.Pos, "nilcheck", "genssa", v.Block.Func.Name)
+		if logolangpt.Enabled() {
+			logolangpt.LogOpt(v.Pos, "nilcheck", "genssa", v.Block.Func.Name)
 		}
 		if base.Debug.Nil != 0 && v.Pos.Line() > 1 { // v.Line==1 in generated wrappers
 			base.WarnfAt(v.Pos, "generated nil check")

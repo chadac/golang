@@ -1,19 +1,19 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package workcmd
 
 import (
-	"cmd/go/internal/base"
-	"cmd/go/internal/cfg"
-	"cmd/go/internal/modcmd"
-	"cmd/go/internal/modload"
+	"cmd/golang/internal/base"
+	"cmd/golang/internal/cfg"
+	"cmd/golang/internal/modcmd"
+	"cmd/golang/internal/modload"
 	"context"
 )
 
 var cmdVendor = &base.Command{
-	UsageLine: "go work vendor [-e] [-v] [-o outdir]",
+	UsageLine: "golang work vendor [-e] [-v] [-o outdir]",
 	Short:     "make vendored copy of dependencies",
 	Long: `
 Vendor resets the workspace's vendor directory to include all packages
@@ -27,7 +27,7 @@ The -e flag causes vendor to attempt to proceed despite errors
 encountered while loading packages.
 
 The -o flag causes vendor to create the vendor directory at the given
-path instead of "vendor". The go command can only use a vendor directory
+path instead of "vendor". The golang command can only use a vendor directory
 named "vendor" within the module root directory, so this flag is
 primarily useful for other tools.`,
 
@@ -48,7 +48,7 @@ func init() {
 func runVendor(ctx context.Context, cmd *base.Command, args []string) {
 	modload.InitWorkfile()
 	if modload.WorkFilePath() == "" {
-		base.Fatalf("go: no go.work file found\n\t(run 'go work init' first or specify path using GOWORK environment variable)")
+		base.Fatalf("golang: no golang.work file found\n\t(run 'golang work init' first or specify path using GOWORK environment variable)")
 	}
 
 	modcmd.RunVendor(ctx, vendorE, vendorO, args)

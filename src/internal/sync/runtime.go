@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package sync
@@ -17,10 +17,10 @@ import _ "unsafe"
 // the reason for waiting in a backtrace, and is used to compute some metrics.
 // Otherwise they're functionally identical.
 //
-//go:linkname runtime_SemacquireMutex
+//golang:linkname runtime_SemacquireMutex
 func runtime_SemacquireMutex(s *uint32, lifo bool, skipframes int)
 
-// Semrelease atomically increments *s and notifies a waiting goroutine
+// Semrelease atomically increments *s and notifies a waiting golangroutine
 // if one is blocked in Semacquire.
 // It is intended as a simple wakeup primitive for use by the synchronization
 // library and should not be used directly.
@@ -28,25 +28,25 @@ func runtime_SemacquireMutex(s *uint32, lifo bool, skipframes int)
 // skipframes is the number of frames to omit during tracing, counting from
 // runtime_Semrelease's caller.
 //
-//go:linkname runtime_Semrelease
+//golang:linkname runtime_Semrelease
 func runtime_Semrelease(s *uint32, handoff bool, skipframes int)
 
 // Active spinning runtime support.
 // runtime_canSpin reports whether spinning makes sense at the moment.
 //
-//go:linkname runtime_canSpin
+//golang:linkname runtime_canSpin
 func runtime_canSpin(i int) bool
 
 // runtime_doSpin does active spinning.
 //
-//go:linkname runtime_doSpin
+//golang:linkname runtime_doSpin
 func runtime_doSpin()
 
-//go:linkname runtime_nanotime
+//golang:linkname runtime_nanotime
 func runtime_nanotime() int64
 
-//go:linkname throw
+//golang:linkname throw
 func throw(string)
 
-//go:linkname fatal
+//golang:linkname fatal
 func fatal(string)

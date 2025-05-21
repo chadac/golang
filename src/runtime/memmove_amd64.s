@@ -23,9 +23,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-//go:build !plan9
+//golang:build !plan9
 
-#include "go_asm.h"
+#include "golang_asm.h"
 #include "textflag.h"
 
 // See memmove Go doc for important implementation constraints.
@@ -308,7 +308,7 @@ move_256through2048:
 	JMP	tail
 
 avxUnaligned:
-	// There are two implementations of move algorithm.
+	// There are two implementations of move algolangrithm.
 	// The first one for non-overlapped memory regions. It uses forward copying.
 	// The second one for overlapped regions. It uses backward copying
 	MOVQ	DI, CX
@@ -320,7 +320,7 @@ avxUnaligned:
 
 	// Non-temporal copy would be better for big sizes.
 	CMPQ	BX, $0x100000
-	JAE	gobble_big_data_fwd
+	JAE	golangbble_big_data_fwd
 
 	// Memory layout on the source side
 	// SI                                       CX
@@ -336,7 +336,7 @@ avxUnaligned:
 	// Save head into Y4          Save tail into X5..X12
 	//         |
 	//         SI+R11, where R11 = ((DI & -32) + 32) - DI
-	// Algorithm:
+	// Algolangrithm:
 	// 1. Unaligned save of the tail's 128 bytes
 	// 2. Unaligned save of the head's 32  bytes
 	// 3. Destination-aligned copying of body (128 bytes per iteration)
@@ -345,12 +345,12 @@ avxUnaligned:
 	// It can be important to satisfy processor's pipeline requirements for
 	// small sizes as the cost of unaligned memory region copying is
 	// comparable with the cost of main loop. So code is slightly messed there.
-	// There is more clean implementation of that algorithm for bigger sizes
+	// There is more clean implementation of that algolangrithm for bigger sizes
 	// where the cost of unaligned part copying is negligible.
-	// You can see it after gobble_big_data_fwd label.
+	// You can see it after golangbble_big_data_fwd label.
 	LEAQ	(SI)(BX*1), CX
 	MOVQ	DI, R10
-	// CX points to the end of buffer so we need go back slightly. We will use negative offsets there.
+	// CX points to the end of buffer so we need golang back slightly. We will use negative offsets there.
 	MOVOU	-0x80(CX), X5
 	MOVOU	-0x70(CX), X6
 	MOVQ	$0x80, AX
@@ -378,7 +378,7 @@ avxUnaligned:
 	ADDQ	R11, SI
 	SUBQ	AX, BX
 	// Aligned memory copying there
-gobble_128_loop:
+golangbble_128_loop:
 	VMOVDQU	(SI), Y0
 	VMOVDQU	0x20(SI), Y1
 	VMOVDQU	0x40(SI), Y2
@@ -390,7 +390,7 @@ gobble_128_loop:
 	VMOVDQA	Y3, 0x60(DI)
 	ADDQ	AX, DI
 	SUBQ	AX, BX
-	JA	gobble_128_loop
+	JA	golangbble_128_loop
 	// Now we can store unaligned parts.
 	ADDQ	AX, BX
 	ADDQ	DI, BX
@@ -406,10 +406,10 @@ gobble_128_loop:
 	MOVOU	X12, -0x10(BX)
 	RET
 
-gobble_big_data_fwd:
+golangbble_big_data_fwd:
 	// There is forward copying for big regions.
 	// It uses non-temporal mov instructions.
-	// Details of this algorithm are commented previously for small sizes.
+	// Details of this algolangrithm are commented previously for small sizes.
 	LEAQ	(SI)(BX*1), CX
 	MOVOU	-0x80(SI)(BX*1), X5
 	MOVOU	-0x70(CX), X6
@@ -429,7 +429,7 @@ gobble_big_data_fwd:
 	ADDQ	R10, SI
 	LEAQ	(DI)(BX*1), CX
 	SUBQ	$0x80, BX
-gobble_mem_fwd_loop:
+golangbble_mem_fwd_loop:
 	PREFETCHNTA 0x1C0(SI)
 	PREFETCHNTA 0x280(SI)
 	// Prefetch values were chosen empirically.
@@ -447,7 +447,7 @@ gobble_mem_fwd_loop:
 	VMOVNTDQ Y3, 0x60(DI)
 	ADDQ	$0x80, DI
 	SUBQ	$0x80, BX
-	JA		gobble_mem_fwd_loop
+	JA		golangbble_mem_fwd_loop
 	// NT instructions don't follow the normal cache-coherency rules.
 	// We need SFENCE there to make copied data available timely.
 	SFENCE
@@ -486,11 +486,11 @@ copy_backward:
 	VMOVDQU	-0x20(SI), Y4
 	SUBQ	R11, SI
 	SUBQ	R11, BX
-	// If there is enough data for non-temporal moves go to special loop
+	// If there is enough data for non-temporal moves golang to special loop
 	CMPQ	BX, $0x100000
-	JA		gobble_big_data_bwd
+	JA		golangbble_big_data_bwd
 	SUBQ	$0x80, BX
-gobble_mem_bwd_loop:
+golangbble_mem_bwd_loop:
 	VMOVDQU	-0x20(SI), Y0
 	VMOVDQU	-0x40(SI), Y1
 	VMOVDQU	-0x60(SI), Y2
@@ -502,7 +502,7 @@ gobble_mem_bwd_loop:
 	VMOVDQA	Y3, -0x80(DI)
 	SUBQ	$0x80, DI
 	SUBQ	$0x80, BX
-	JA		gobble_mem_bwd_loop
+	JA		golangbble_mem_bwd_loop
 	// Let's store unaligned data
 	VMOVDQU	Y4, (R10)
 	VZEROUPPER
@@ -516,9 +516,9 @@ gobble_mem_bwd_loop:
 	MOVOU	X12, 0x70(AX)
 	RET
 
-gobble_big_data_bwd:
+golangbble_big_data_bwd:
 	SUBQ	$0x80, BX
-gobble_big_mem_bwd_loop:
+golangbble_big_mem_bwd_loop:
 	PREFETCHNTA -0x1C0(SI)
 	PREFETCHNTA -0x280(SI)
 	VMOVDQU	-0x20(SI), Y0
@@ -532,7 +532,7 @@ gobble_big_mem_bwd_loop:
 	VMOVNTDQ	Y3, -0x80(DI)
 	SUBQ	$0x80, DI
 	SUBQ	$0x80, BX
-	JA	gobble_big_mem_bwd_loop
+	JA	golangbble_big_mem_bwd_loop
 	SFENCE
 	VMOVDQU	Y4, (R10)
 	VZEROUPPER

@@ -1,12 +1,12 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package weak_test
 
 import (
 	"context"
-	"internal/goarch"
+	"internal/golangarch"
 	"runtime"
 	"sync"
 	"testing"
@@ -48,7 +48,7 @@ func TestPointer(t *testing.T) {
 	runtime.GC()
 
 	if st := wt.Value(); st != nil {
-		t.Fatalf("expected weak pointer to be nil, got %p", st)
+		t.Fatalf("expected weak pointer to be nil, golangt %p", st)
 	}
 }
 
@@ -82,7 +82,7 @@ func TestPointerEquality(t *testing.T) {
 			continue
 		}
 		if wt[i] == wt[i-1] {
-			t.Fatalf("expected weak pointers to not be equal to each other, but got %v", wt[i])
+			t.Fatalf("expected weak pointers to not be equal to each other, but golangt %v", wt[i])
 		}
 	}
 	// bt is still referenced.
@@ -102,7 +102,7 @@ func TestPointerEquality(t *testing.T) {
 			continue
 		}
 		if wt[i] == wt[i-1] {
-			t.Fatalf("expected weak pointers to not be equal to each other, but got %v", wt[i])
+			t.Fatalf("expected weak pointers to not be equal to each other, but golangt %v", wt[i])
 		}
 	}
 	bt = nil
@@ -111,13 +111,13 @@ func TestPointerEquality(t *testing.T) {
 	for i := range bt {
 		st := wt[i].Value()
 		if st != nil {
-			t.Fatalf("expected weak pointer to be nil, got %p", st)
+			t.Fatalf("expected weak pointer to be nil, golangt %p", st)
 		}
 		if i == 0 {
 			continue
 		}
 		if wt[i] == wt[i-1] {
-			t.Fatalf("expected weak pointers to not be equal to each other, but got %v", wt[i])
+			t.Fatalf("expected weak pointers to not be equal to each other, but golangt %v", wt[i])
 		}
 	}
 }
@@ -128,7 +128,7 @@ func TestPointerFinalizer(t *testing.T) {
 	done := make(chan struct{}, 1)
 	runtime.SetFinalizer(bt, func(bt *T) {
 		if wt.Value() != nil {
-			t.Errorf("weak pointer did not go nil before finalizer ran")
+			t.Errorf("weak pointer did not golang nil before finalizer ran")
 		}
 		done <- struct{}{}
 	})
@@ -145,7 +145,7 @@ func TestPointerFinalizer(t *testing.T) {
 	// Run one cycle to queue the finalizer.
 	runtime.GC()
 	if wt.Value() != nil {
-		t.Errorf("weak pointer did not go nil when finalizer was enqueued")
+		t.Errorf("weak pointer did not golang nil when finalizer was enqueued")
 	}
 
 	// Wait for the finalizer to run.
@@ -164,7 +164,7 @@ func TestPointerCleanup(t *testing.T) {
 	done := make(chan struct{}, 1)
 	runtime.AddCleanup(bt, func(_ bool) {
 		if wt.Value() != nil {
-			t.Errorf("weak pointer did not go nil before cleanup was executed")
+			t.Errorf("weak pointer did not golang nil before cleanup was executed")
 		}
 		done <- struct{}{}
 	}, true)
@@ -181,7 +181,7 @@ func TestPointerCleanup(t *testing.T) {
 	// Run one cycle to queue the cleanup.
 	runtime.GC()
 	if wt.Value() != nil {
-		t.Errorf("weak pointer did not go nil when cleanup was enqueued")
+		t.Errorf("weak pointer did not golang nil when cleanup was enqueued")
 	}
 
 	// Wait for the cleanup to run.
@@ -197,8 +197,8 @@ func TestPointerCleanup(t *testing.T) {
 func TestPointerSize(t *testing.T) {
 	var p weak.Pointer[T]
 	size := unsafe.Sizeof(p)
-	if size != goarch.PtrSize {
-		t.Errorf("weak.Pointer[T] size = %d, want %d", size, goarch.PtrSize)
+	if size != golangarch.PtrSize {
+		t.Errorf("weak.Pointer[T] size = %d, want %d", size, golangarch.PtrSize)
 	}
 }
 
@@ -225,14 +225,14 @@ func TestIssue69210(t *testing.T) {
 	// 4. The following GC cycle to mark a free object.
 	//
 	// Unfortunately, (2) and (3) are hard to control, but we can increase
-	// the likelihood by having several goroutines do (1) at once while
-	// another goroutine constantly keeps us in the GC with runtime.GC.
+	// the likelihood by having several golangroutines do (1) at once while
+	// another golangroutine constantly keeps us in the GC with runtime.GC.
 	// Like throwing darts at a dart board until they land just right.
 	// We can increase the likelihood of (4) by adding some delay after
 	// creating the strong pointer, but only if it's non-nil. If it's nil,
 	// that means it was already collected in which case there's no chance
 	// of triggering the bug, so we want to retry as fast as possible.
-	// Our heap here is tiny, so the GCs will go by fast.
+	// Our heap here is tiny, so the GCs will golang by fast.
 	//
 	// As of 2024-09-03, removing the line that shades pointers during
 	// the weak-to-strong conversion causes this test to fail about 50%
@@ -240,7 +240,7 @@ func TestIssue69210(t *testing.T) {
 
 	var wg sync.WaitGroup
 	wg.Add(1)
-	go func() {
+	golang func() {
 		defer wg.Done()
 		for {
 			runtime.GC()
@@ -254,7 +254,7 @@ func TestIssue69210(t *testing.T) {
 	}()
 	for range max(runtime.GOMAXPROCS(-1)-1, 1) {
 		wg.Add(1)
-		go func() {
+		golang func() {
 			defer wg.Done()
 			for {
 				for range 5 {
@@ -302,14 +302,14 @@ func TestImmortalPointer(t *testing.T) {
 	if w0a == w0b {
 		t.Error("separate immortal pointers (same object) have the same pointer")
 	}
-	if got, want := w0.Value(), &immortal; got != want {
-		t.Errorf("immortal weak pointer to %p has unexpected Value %p", want, got)
+	if golangt, want := w0.Value(), &immortal; golangt != want {
+		t.Errorf("immortal weak pointer to %p has unexpected Value %p", want, golangt)
 	}
-	if got, want := w0a.Value(), &immortal.a; got != want {
-		t.Errorf("immortal weak pointer to %p has unexpected Value %p", want, got)
+	if golangt, want := w0a.Value(), &immortal.a; golangt != want {
+		t.Errorf("immortal weak pointer to %p has unexpected Value %p", want, golangt)
 	}
-	if got, want := w0b.Value(), &immortal.b; got != want {
-		t.Errorf("immortal weak pointer to %p has unexpected Value %p", want, got)
+	if golangt, want := w0b.Value(), &immortal.b; golangt != want {
+		t.Errorf("immortal weak pointer to %p has unexpected Value %p", want, golangt)
 	}
 
 	// Run a couple of cycles.
@@ -317,13 +317,13 @@ func TestImmortalPointer(t *testing.T) {
 	runtime.GC()
 
 	// All immortal weak pointers should never get cleared.
-	if got, want := w0.Value(), &immortal; got != want {
-		t.Errorf("immortal weak pointer to %p has unexpected Value %p", want, got)
+	if golangt, want := w0.Value(), &immortal; golangt != want {
+		t.Errorf("immortal weak pointer to %p has unexpected Value %p", want, golangt)
 	}
-	if got, want := w0a.Value(), &immortal.a; got != want {
-		t.Errorf("immortal weak pointer to %p has unexpected Value %p", want, got)
+	if golangt, want := w0a.Value(), &immortal.a; golangt != want {
+		t.Errorf("immortal weak pointer to %p has unexpected Value %p", want, golangt)
 	}
-	if got, want := w0b.Value(), &immortal.b; got != want {
-		t.Errorf("immortal weak pointer to %p has unexpected Value %p", want, got)
+	if golangt, want := w0b.Value(), &immortal.b; golangt != want {
+		t.Errorf("immortal weak pointer to %p has unexpected Value %p", want, golangt)
 	}
 }

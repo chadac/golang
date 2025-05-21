@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Build initialization (after flag parsing).
@@ -8,10 +8,10 @@ package work
 
 import (
 	"bytes"
-	"cmd/go/internal/base"
-	"cmd/go/internal/cfg"
-	"cmd/go/internal/fsys"
-	"cmd/go/internal/modload"
+	"cmd/golang/internal/base"
+	"cmd/golang/internal/cfg"
+	"cmd/golang/internal/fsys"
+	"cmd/golang/internal/modload"
 	"cmd/internal/quoted"
 	"fmt"
 	"internal/platform"
@@ -30,7 +30,7 @@ var buildInitStarted = false
 // makeCfgChangedEnv is the environment to set to
 // override the current environment for GOOS, GOARCH, and the GOARCH-specific
 // architecture environment variable to the configuration used by
-// the go command. They may be different because go tool <tool> for builtin
+// the golang command. They may be different because golang tool <tool> for builtin
 // tools need to be built using the host configuration, so the configuration
 // used will be changed from that set in the environment. It is clipped
 // so its can append to it without changing it.
@@ -52,7 +52,7 @@ func makeCfgChangedEnv() []string {
 
 func BuildInit() {
 	if buildInitStarted {
-		base.Fatalf("go: internal error: work.BuildInit called more than once")
+		base.Fatalf("golang: internal error: work.BuildInit called more than once")
 	}
 	buildInitStarted = true
 	base.AtExit(closeBuilders)
@@ -66,7 +66,7 @@ func BuildInit() {
 		base.Fatal(err)
 	}
 	if from, replaced := fsys.DirContainsReplacement(cfg.GOMODCACHE); replaced {
-		base.Fatalf("go: overlay contains a replacement for %s. Files beneath GOMODCACHE (%s) must not be replaced.", from, cfg.GOMODCACHE)
+		base.Fatalf("golang: overlay contains a replacement for %s. Files beneath GOMODCACHE (%s) must not be replaced.", from, cfg.GOMODCACHE)
 	}
 
 	// Make sure -pkgdir is absolute, because we run commands
@@ -74,7 +74,7 @@ func BuildInit() {
 	if cfg.BuildPkgdir != "" && !filepath.IsAbs(cfg.BuildPkgdir) {
 		p, err := filepath.Abs(cfg.BuildPkgdir)
 		if err != nil {
-			fmt.Fprintf(os.Stderr, "go: evaluating -pkgdir: %v\n", err)
+			fmt.Fprintf(os.Stderr, "golang: evaluating -pkgdir: %v\n", err)
 			base.SetExitStatus(2)
 			base.Exit()
 		}
@@ -82,7 +82,7 @@ func BuildInit() {
 	}
 
 	if cfg.BuildP <= 0 {
-		base.Fatalf("go: -p must be a positive integer: %v\n", cfg.BuildP)
+		base.Fatalf("golang: -p must be a positive integer: %v\n", cfg.BuildP)
 	}
 
 	// Make sure CC, CXX, and FC are absolute paths.
@@ -90,14 +90,14 @@ func BuildInit() {
 		value := cfg.Getenv(key)
 		args, err := quoted.Split(value)
 		if err != nil {
-			base.Fatalf("go: %s environment variable could not be parsed: %v", key, err)
+			base.Fatalf("golang: %s environment variable could not be parsed: %v", key, err)
 		}
 		if len(args) == 0 {
 			continue
 		}
 		path := args[0]
 		if !filepath.IsAbs(path) && path != filepath.Base(path) {
-			base.Fatalf("go: %s environment variable is relative; must be absolute path: %s\n", key, path)
+			base.Fatalf("golang: %s environment variable is relative; must be absolute path: %s\n", key, path)
 		}
 	}
 
@@ -119,7 +119,7 @@ func BuildInit() {
 // on supported platforms.
 //
 // On unsupported platforms, fuzzInstrumentFlags returns nil, meaning no
-// instrumentation is added. 'go test -fuzz' still works without coverage,
+// instrumentation is added. 'golang test -fuzz' still works without coverage,
 // but it generates random inputs without guidance, so it's much less effective.
 func fuzzInstrumentFlags() []string {
 	if !platform.FuzzInstrumented(cfg.Goos, cfg.Goarch) {
@@ -133,17 +133,17 @@ func instrumentInit() {
 		return
 	}
 	if cfg.BuildRace && cfg.BuildMSan {
-		fmt.Fprintf(os.Stderr, "go: may not use -race and -msan simultaneously\n")
+		fmt.Fprintf(os.Stderr, "golang: may not use -race and -msan simultaneously\n")
 		base.SetExitStatus(2)
 		base.Exit()
 	}
 	if cfg.BuildRace && cfg.BuildASan {
-		fmt.Fprintf(os.Stderr, "go: may not use -race and -asan simultaneously\n")
+		fmt.Fprintf(os.Stderr, "golang: may not use -race and -asan simultaneously\n")
 		base.SetExitStatus(2)
 		base.Exit()
 	}
 	if cfg.BuildMSan && cfg.BuildASan {
-		fmt.Fprintf(os.Stderr, "go: may not use -msan and -asan simultaneously\n")
+		fmt.Fprintf(os.Stderr, "golang: may not use -msan and -asan simultaneously\n")
 		base.SetExitStatus(2)
 		base.Exit()
 	}
@@ -163,7 +163,7 @@ func instrumentInit() {
 		base.Exit()
 	}
 	// The current implementation is only compatible with the ASan library from version
-	// v7 to v9 (See the description in src/runtime/asan/asan.go). Therefore, using the
+	// v7 to v9 (See the description in src/runtime/asan/asan.golang). Therefore, using the
 	// -asan option must use a compatible version of ASan library, which requires that
 	// the gcc version is not less than 7 and the clang version is not less than 9,
 	// otherwise a segmentation fault will occur.
@@ -189,13 +189,13 @@ func instrumentInit() {
 	}
 	modeFlag := "-" + mode
 
-	// Check that cgo is enabled.
-	// Note: On macOS, -race does not require cgo. -asan and -msan still do.
-	if !cfg.BuildContext.CgoEnabled && (cfg.Goos != "darwin" || cfg.BuildASan || cfg.BuildMSan) {
+	// Check that cgolang is enabled.
+	// Note: On macOS, -race does not require cgolang. -asan and -msan still do.
+	if !cfg.BuildContext.CgolangEnabled && (cfg.Goos != "darwin" || cfg.BuildASan || cfg.BuildMSan) {
 		if runtime.GOOS != cfg.Goos || runtime.GOARCH != cfg.Goarch {
-			fmt.Fprintf(os.Stderr, "go: %s requires cgo\n", modeFlag)
+			fmt.Fprintf(os.Stderr, "golang: %s requires cgolang\n", modeFlag)
 		} else {
-			fmt.Fprintf(os.Stderr, "go: %s requires cgo; enable cgo by setting CGO_ENABLED=1\n", modeFlag)
+			fmt.Fprintf(os.Stderr, "golang: %s requires cgolang; enable cgolang by setting CGO_ENABLED=1\n", modeFlag)
 		}
 
 		base.SetExitStatus(2)
@@ -212,7 +212,7 @@ func instrumentInit() {
 }
 
 func buildModeInit() {
-	gccgo := cfg.BuildToolchainName == "gccgo"
+	gccgolang := cfg.BuildToolchainName == "gccgolang"
 	var codegenArg string
 
 	// Configure the build mode first, then verify that it is supported.
@@ -224,7 +224,7 @@ func buildModeInit() {
 		pkgsFilter = pkgsNotMain
 	case "c-archive":
 		pkgsFilter = oneMainPkg
-		if gccgo {
+		if gccgolang {
 			codegenArg = "-fPIC"
 		} else {
 			switch cfg.Goos {
@@ -234,7 +234,7 @@ func buildModeInit() {
 					codegenArg = "-shared"
 				}
 
-			case "dragonfly", "freebsd", "illumos", "linux", "netbsd", "openbsd", "solaris":
+			case "dragolangnfly", "freebsd", "illumos", "linux", "netbsd", "openbsd", "solaris":
 				// Use -shared so that the result is
 				// suitable for inclusion in a PIE or
 				// shared library.
@@ -245,7 +245,7 @@ func buildModeInit() {
 		ldBuildmode = "c-archive"
 	case "c-shared":
 		pkgsFilter = oneMainPkg
-		if gccgo {
+		if gccgolang {
 			codegenArg = "-fPIC"
 		} else {
 			switch cfg.Goos {
@@ -261,7 +261,7 @@ func buildModeInit() {
 		ldBuildmode = "exe"
 		if platform.DefaultPIE(cfg.Goos, cfg.Goarch, cfg.BuildRace) {
 			ldBuildmode = "pie"
-			if cfg.Goos != "windows" && !gccgo {
+			if cfg.Goos != "windows" && !gccgolang {
 				codegenArg = "-shared"
 			}
 		}
@@ -278,7 +278,7 @@ func buildModeInit() {
 		if cfg.BuildRace && !platform.DefaultPIE(cfg.Goos, cfg.Goarch, cfg.BuildRace) {
 			base.Fatalf("-buildmode=pie not supported when -race is enabled on %s/%s", cfg.Goos, cfg.Goarch)
 		}
-		if gccgo {
+		if gccgolang {
 			codegenArg = "-fPIE"
 		} else {
 			switch cfg.Goos {
@@ -290,7 +290,7 @@ func buildModeInit() {
 		ldBuildmode = "pie"
 	case "shared":
 		pkgsFilter = pkgsNotMain
-		if gccgo {
+		if gccgolang {
 			codegenArg = "-fPIC"
 		} else {
 			codegenArg = "-dynlink"
@@ -301,7 +301,7 @@ func buildModeInit() {
 		ldBuildmode = "shared"
 	case "plugin":
 		pkgsFilter = oneMainPkg
-		if gccgo {
+		if gccgolang {
 			codegenArg = "-fPIC"
 		} else {
 			codegenArg = "-dynlink"
@@ -320,7 +320,7 @@ func buildModeInit() {
 		if !platform.BuildModeSupported(cfg.BuildToolchainName, "shared", cfg.Goos, cfg.Goarch) {
 			base.Fatalf("-linkshared not supported on %s/%s\n", cfg.Goos, cfg.Goarch)
 		}
-		if gccgo {
+		if gccgolang {
 			codegenArg = "-fPIC"
 		} else {
 			forcedAsmflags = append(forcedAsmflags, "-D=GOBUILDMODE_shared=1",
@@ -332,8 +332,8 @@ func buildModeInit() {
 		}
 	}
 	if codegenArg != "" {
-		if gccgo {
-			forcedGccgoflags = append([]string{codegenArg}, forcedGccgoflags...)
+		if gccgolang {
+			forcedGccgolangflags = append([]string{codegenArg}, forcedGccgolangflags...)
 		} else {
 			forcedAsmflags = append([]string{codegenArg}, forcedAsmflags...)
 			forcedGcflags = append([]string{codegenArg}, forcedGcflags...)
@@ -378,9 +378,9 @@ var compiler struct {
 	err error
 }
 
-// compilerVersion detects the version of $(go env CC).
+// compilerVersion detects the version of $(golang env CC).
 // It returns a non-nil error if the compiler matches a known version schema but
-// the version could not be parsed, or if $(go env CC) could not be determined.
+// the version could not be parsed, or if $(golang env CC) could not be determined.
 func compilerVersion() (version, error) {
 	compiler.Once.Do(func() {
 		compiler.err = func() error {
@@ -429,13 +429,13 @@ func compilerVersion() (version, error) {
 }
 
 // compilerRequiredAsanVersion is a copy of the function defined in
-// cmd/cgo/internal/testsanitizers/cc_test.go
+// cmd/cgolang/internal/testsanitizers/cc_test.golang
 // compilerRequiredAsanVersion reports whether the compiler is the version
 // required by Asan.
 func compilerRequiredAsanVersion() error {
 	compiler, err := compilerVersion()
 	if err != nil {
-		return fmt.Errorf("-asan: the version of $(go env CC) could not be parsed")
+		return fmt.Errorf("-asan: the version of $(golang env CC) could not be parsed")
 	}
 
 	switch compiler.name {

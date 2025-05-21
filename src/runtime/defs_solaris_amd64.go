@@ -1,13 +1,13 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build ignore
+//golang:build ignore
 
 /*
-Input to cgo.
+Input to cgolang.
 
-GOARCH=amd64 go tool cgo -cdefs defs_solaris.go defs_solaris_amd64.go >defs_solaris_amd64.h
+GOARCH=amd64 golang tool cgolang -cdefs defs_solaris.golang defs_solaris_amd64.golang >defs_solaris_amd64.h
 */
 
 package runtime

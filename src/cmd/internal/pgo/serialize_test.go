@@ -1,8 +1,8 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-package pgo
+package pgolang
 
 import (
 	"bytes"
@@ -13,16 +13,16 @@ import (
 	"testing"
 )
 
-// equal returns an error if got and want are not equal.
-func equal(got, want *Profile) error {
-	if got.TotalWeight != want.TotalWeight {
-		return fmt.Errorf("got.TotalWeight %d != want.TotalWeight %d", got.TotalWeight, want.TotalWeight)
+// equal returns an error if golangt and want are not equal.
+func equal(golangt, want *Profile) error {
+	if golangt.TotalWeight != want.TotalWeight {
+		return fmt.Errorf("golangt.TotalWeight %d != want.TotalWeight %d", golangt.TotalWeight, want.TotalWeight)
 	}
-	if !reflect.DeepEqual(got.NamedEdgeMap.ByWeight, want.NamedEdgeMap.ByWeight) {
-		return fmt.Errorf("got.NamedEdgeMap.ByWeight != want.NamedEdgeMap.ByWeight\ngot = %+v\nwant = %+v", got.NamedEdgeMap.ByWeight, want.NamedEdgeMap.ByWeight)
+	if !reflect.DeepEqual(golangt.NamedEdgeMap.ByWeight, want.NamedEdgeMap.ByWeight) {
+		return fmt.Errorf("golangt.NamedEdgeMap.ByWeight != want.NamedEdgeMap.ByWeight\ngolangt = %+v\nwant = %+v", golangt.NamedEdgeMap.ByWeight, want.NamedEdgeMap.ByWeight)
 	}
-	if !reflect.DeepEqual(got.NamedEdgeMap.Weight, want.NamedEdgeMap.Weight) {
-		return fmt.Errorf("got.NamedEdgeMap.Weight != want.NamedEdgeMap.Weight\ngot = %+v\nwant = %+v", got.NamedEdgeMap.Weight, want.NamedEdgeMap.Weight)
+	if !reflect.DeepEqual(golangt.NamedEdgeMap.Weight, want.NamedEdgeMap.Weight) {
+		return fmt.Errorf("golangt.NamedEdgeMap.Weight != want.NamedEdgeMap.Weight\ngolangt = %+v\nwant = %+v", golangt.NamedEdgeMap.Weight, want.NamedEdgeMap.Weight)
 	}
 
 	return nil
@@ -32,19 +32,19 @@ func testRoundTrip(t *testing.T, d *Profile) []byte {
 	var buf bytes.Buffer
 	n, err := d.WriteTo(&buf)
 	if err != nil {
-		t.Fatalf("WriteTo got err %v want nil", err)
+		t.Fatalf("WriteTo golangt err %v want nil", err)
 	}
 	if n != int64(buf.Len()) {
-		t.Errorf("WriteTo got n %d want %d", n, int64(buf.Len()))
+		t.Errorf("WriteTo golangt n %d want %d", n, int64(buf.Len()))
 	}
 
 	b := buf.Bytes()
 
-	got, err := FromSerialized(&buf)
+	golangt, err := FromSerialized(&buf)
 	if err != nil {
-		t.Fatalf("processSerialized got err %v want nil", err)
+		t.Fatalf("processSerialized golangt err %v want nil", err)
 	}
-	if err := equal(got, d); err != nil {
+	if err := equal(golangt, d); err != nil {
 		t.Errorf("processSerialized output does not match input: %v", err)
 	}
 
@@ -57,7 +57,7 @@ func TestEmpty(t *testing.T) {
 
 	// Contents should consist of only a header.
 	if string(b) != serializationHeader {
-		t.Errorf("WriteTo got %q want %q", string(b), serializationHeader)
+		t.Errorf("WriteTo golangt %q want %q", string(b), serializationHeader)
 	}
 }
 
@@ -101,7 +101,7 @@ func constructFuzzProfile(t *testing.T, b []byte) *Profile {
 	r := bytes.NewReader(b)
 	consumeString := func() (string, bool) {
 		// First byte: how many bytes to read for this string? We only
-		// use a byte to avoid making humongous strings.
+		// use a byte to avoid making humongolangus strings.
 		length, err := r.ReadByte()
 		if err != nil {
 			return "", false

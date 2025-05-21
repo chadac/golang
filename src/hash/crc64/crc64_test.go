@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package crc64
@@ -24,7 +24,7 @@ type test struct {
 	halfStateECMA string // ECMA marshaled hash state after first half of in written, used by TestGoldenMarshal
 }
 
-var golden = []test{
+var golanglden = []test{
 	{0x0, 0x0, "", "crc\x02s\xba\x84\x84\xbb\xcd]\xef\x00\x00\x00\x00\x00\x00\x00\x00", "crc\x02`&\x9aR\xe1\xb7\xfee\x00\x00\x00\x00\x00\x00\x00\x00"},
 	{0x3420000000000000, 0x330284772e652b05, "a", "crc\x02s\xba\x84\x84\xbb\xcd]\xef\x00\x00\x00\x00\x00\x00\x00\x00", "crc\x02`&\x9aR\xe1\xb7\xfee\x00\x00\x00\x00\x00\x00\x00\x00"},
 	{0x36c4200000000000, 0xbc6573200e84b046, "ab", "crc\x02s\xba\x84\x84\xbb\xcd]\xef4 \x00\x00\x00\x00\x00\x00", "crc\x02`&\x9aR\xe1\xb7\xfee3\x02\x84w.e+\x05"},
@@ -42,7 +42,7 @@ var golden = []test{
 	{0xeafc4211a6daa0ef, 0x1f603830353e518a, "Free! Free!/A trip/to Mars/for 900/empty jars/Burma Shave", "crc\x02s\xba\x84\x84\xbb\xcd]\xef\xad\x1b*\xc0\xb1\xf3i(", "crc\x02`&\x9aR\xe1\xb7\xfee\xa7\x8a\xdb\xf6\xd2R\t\x96"},
 	{0x3e05b21c7a4dc4da, 0x2fd681d7b2421fd, "The days of the digital watch are numbered.  -Tom Stoppard", "crc\x02s\xba\x84\x84\xbb\xcd]\xefv78\x1ak\x02\x8f\xff", "crc\x02`&\x9aR\xe1\xb7\xfeeT\xcbl\x10\xfb\x87K*"},
 	{0x5255866ad6ef28a6, 0x790ef2b16a745a41, "Nepal premier won't resign.", "crc\x02s\xba\x84\x84\xbb\xcd]\xef\xcbf\x11R\xbfh\xde\xc9", "crc\x02`&\x9aR\xe1\xb7\xfee6\x13ُ\x06_\xbd\x9a"},
-	{0x8a79895be1e9c361, 0x3ef8f06daccdcddf, "For every action there is an equal and opposite government program.", "crc\x02s\xba\x84\x84\xbb\xcd]\xef\xf3pV\x01c_Wu", "crc\x02`&\x9aR\xe1\xb7\xfee\xe7\xc6\n\b\x12FL\xa0"},
+	{0x8a79895be1e9c361, 0x3ef8f06daccdcddf, "For every action there is an equal and opposite golangvernment program.", "crc\x02s\xba\x84\x84\xbb\xcd]\xef\xf3pV\x01c_Wu", "crc\x02`&\x9aR\xe1\xb7\xfee\xe7\xc6\n\b\x12FL\xa0"},
 	{0x8878963a649d4916, 0x49e41b2660b106d, "His money is twice tainted: 'taint yours and 'taint mine.", "crc\x02s\xba\x84\x84\xbb\xcd]\xefñ\xff\xf1\xe0/Δ", "crc\x02`&\x9aR\xe1\xb7\xfeeOL/\xb1\xec\xa2\x14\x87"},
 	{0xa7b9d53ea87eb82f, 0x561cc0cfa235ac68, "There is no reason for any individual to have a computer in their home. -Ken Olsen, 1977", "crc\x02s\xba\x84\x84\xbb\xcd]\xefݸa\xe1\xb5\xf8\xb9W", "crc\x02`&\x9aR\xe1\xb7\xfee\x87)GQ\x03\xf4K\t"},
 	{0xdb6805c0966a2f9c, 0xd4fe9ef082e69f59, "It's a tiny change to the code and not completely disgusting. - Bob Manchek", "crc\x02s\xba\x84\x84\xbb\xcd]\xefV\xba\x12\x91\x81\x1fNU", "crc\x02`&\x9aR\xe1\xb7\xfee\n\xb8\x81v?\xdeL\xcb"},
@@ -62,8 +62,8 @@ var golden = []test{
 func TestGolden(t *testing.T) {
 	tabISO := MakeTable(ISO)
 	tabECMA := MakeTable(ECMA)
-	for i := 0; i < len(golden); i++ {
-		g := golden[i]
+	for i := 0; i < len(golanglden); i++ {
+		g := golanglden[i]
 		c := New(tabISO)
 		io.WriteString(c, g.in)
 		s := c.Sum64()
@@ -82,7 +82,7 @@ func TestGolden(t *testing.T) {
 func TestGoldenMarshal(t *testing.T) {
 	t.Run("ISO", func(t *testing.T) {
 		table := MakeTable(ISO)
-		for _, g := range golden {
+		for _, g := range golanglden {
 			h := New(table)
 			h2 := New(table)
 
@@ -126,7 +126,7 @@ func TestGoldenMarshal(t *testing.T) {
 	})
 	t.Run("ECMA", func(t *testing.T) {
 		table := MakeTable(ECMA)
-		for _, g := range golden {
+		for _, g := range golanglden {
 			h := New(table)
 			h2 := New(table)
 

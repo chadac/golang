@@ -1,12 +1,12 @@
-# go mod verify should not try to verify the workspace modules.
+# golang mod verify should not try to verify the workspace modules.
 # This is a test for #54372.
 
-go mod verify
+golang mod verify
 stdout 'all modules verified'
 ! stderr .
 
--- go.work --
-go 1.21
+-- golang.work --
+golang 1.21
 
 use (
     ./a
@@ -14,24 +14,24 @@ use (
     ./c
     ./d
 )
--- a/go.mod --
+-- a/golang.mod --
 module example.com/a
 
-go 1.21
+golang 1.21
 
 require rsc.io/quote v1.1.0
--- a/a.go --
+-- a/a.golang --
 package a
 import _ "rsc.io/quote"
--- b/go.mod --
+-- b/golang.mod --
 module example.com/b
 
-go 1.21
--- c/go.mod --
+golang 1.21
+-- c/golang.mod --
 module example.com/c
 
-go 1.21
--- d/go.mod --
+golang 1.21
+-- d/golang.mod --
 module example.com/d
 
-go 1.21
+golang 1.21

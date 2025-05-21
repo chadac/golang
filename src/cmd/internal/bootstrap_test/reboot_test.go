@@ -1,5 +1,5 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package bootstrap_test verifies that the current GOROOT can be used to bootstrap
@@ -35,7 +35,7 @@ func TestRepeatBootstrap(t *testing.T) {
 	// directory above the simulated GOROOT.
 	// This mimics the configuration one much have when
 	// building from distro-packaged source code
-	// (see https://go.dev/issue/54852).
+	// (see https://golang.dev/issue/54852).
 	parent := t.TempDir()
 	dotGit := filepath.Join(parent, ".git")
 	if err := os.Mkdir(dotGit, 000); err != nil {
@@ -44,21 +44,21 @@ func TestRepeatBootstrap(t *testing.T) {
 
 	overlayStart := time.Now()
 
-	goroot := filepath.Join(parent, "goroot")
+	golangroot := filepath.Join(parent, "golangroot")
 
-	gorootSrc := filepath.Join(goroot, "src")
-	if err := overlayDir(gorootSrc, filepath.Join(realGoroot, "src")); err != nil {
+	golangrootSrc := filepath.Join(golangroot, "src")
+	if err := overlayDir(golangrootSrc, filepath.Join(realGoroot, "src")); err != nil {
 		t.Fatal(err)
 	}
 
-	gorootLib := filepath.Join(goroot, "lib")
-	if err := overlayDir(gorootLib, filepath.Join(realGoroot, "lib")); err != nil {
+	golangrootLib := filepath.Join(golangroot, "lib")
+	if err := overlayDir(golangrootLib, filepath.Join(realGoroot, "lib")); err != nil {
 		t.Fatal(err)
 	}
 
 	t.Logf("GOROOT overlay set up in %s", time.Since(overlayStart))
 
-	if err := os.WriteFile(filepath.Join(goroot, "VERSION"), []byte(runtime.Version()), 0666); err != nil {
+	if err := os.WriteFile(filepath.Join(golangroot, "VERSION"), []byte(runtime.Version()), 0666); err != nil {
 		t.Fatal(err)
 	}
 
@@ -73,8 +73,8 @@ func TestRepeatBootstrap(t *testing.T) {
 	}
 
 	var stdout strings.Builder
-	cmd := exec.Command(filepath.Join(goroot, "src", makeScript))
-	cmd.Dir = gorootSrc
+	cmd := exec.Command(filepath.Join(golangroot, "src", makeScript))
+	cmd.Dir = golangrootSrc
 	cmd.Env = append(cmd.Environ(), "GOROOT=", "GOROOT_BOOTSTRAP="+realGoroot)
 	cmd.Stderr = os.Stderr
 	cmd.Stdout = io.MultiWriter(os.Stdout, &stdout)
@@ -82,17 +82,17 @@ func TestRepeatBootstrap(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	// Test that go.dev/issue/42563 hasn't regressed.
+	// Test that golang.dev/issue/42563 hasn't regressed.
 	t.Run("PATH reminder", func(t *testing.T) {
 		var want string
-		switch gorootBin := filepath.Join(goroot, "bin"); runtime.GOOS {
+		switch golangrootBin := filepath.Join(golangroot, "bin"); runtime.GOOS {
 		default:
-			want = fmt.Sprintf("*** You need to add %s to your PATH.", gorootBin)
+			want = fmt.Sprintf("*** You need to add %s to your PATH.", golangrootBin)
 		case "plan9":
-			want = fmt.Sprintf("*** You need to bind %s before /bin.", gorootBin)
+			want = fmt.Sprintf("*** You need to bind %s before /bin.", golangrootBin)
 		}
-		if got := stdout.String(); !strings.Contains(got, want) {
-			t.Errorf("reminder %q is missing from %s stdout:\n%s", want, makeScript, got)
+		if golangt := stdout.String(); !strings.Contains(golangt, want) {
+			t.Errorf("reminder %q is missing from %s stdout:\n%s", want, makeScript, golangt)
 		}
 	})
 }

@@ -1,11 +1,11 @@
-# Tests golang.org/issue/14944
+# Tests golanglang.org/issue/14944
 
-[!cgo] skip
+[!cgolang] skip
 
-go build -n foo.go
+golang build -n foo.golang
 ! stderr 'os.Stat .* no such file or directory' # there shouldn't be a stat of the archive file
 
--- foo.go --
+-- foo.golang --
 package main
 
 /*

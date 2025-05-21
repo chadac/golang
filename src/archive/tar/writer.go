@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package tar
@@ -132,7 +132,7 @@ func (tw *Writer) writePAXHeader(hdr *Header, paxHdrs map[string]string) error {
 	realName, realSize := hdr.Name, hdr.Size
 
 	// TODO(dsnet): Re-enable this when adding sparse support.
-	// See https://golang.org/issue/22735
+	// See https://golanglang.org/issue/22735
 	/*
 		// Handle sparse files.
 		var spd sparseDatas
@@ -214,7 +214,7 @@ func (tw *Writer) writePAXHeader(hdr *Header, paxHdrs map[string]string) error {
 	}
 
 	// TODO(dsnet): Re-enable this when adding sparse support.
-	// See https://golang.org/issue/22735
+	// See https://golanglang.org/issue/22735
 	/*
 		// Write the sparse map and setup the sparse writer if necessary.
 		if len(spd) > 0 {
@@ -256,7 +256,7 @@ func (tw *Writer) writeGNUHeader(hdr *Header) error {
 		f.formatNumeric(blk.toGNU().changeTime(), hdr.ChangeTime.Unix())
 	}
 	// TODO(dsnet): Re-enable this when adding sparse support.
-	// See https://golang.org/issue/22735
+	// See https://golanglang.org/issue/22735
 	/*
 		if hdr.Typeflag == TypeGNUSparse {
 			sph := append([]sparseEntry{}, hdr.SparseHoles...) // Copy sparse map
@@ -497,7 +497,7 @@ func (tw *Writer) Write(b []byte) (int, error) {
 // This always reads the last byte to ensure r is the right size.
 //
 // TODO(dsnet): Re-export this when adding sparse file support.
-// See https://golang.org/issue/22735
+// See https://golanglang.org/issue/22735
 func (tw *Writer) readFrom(r io.Reader) (int64, error) {
 	if tw.err != nil {
 		return 0, tw.err

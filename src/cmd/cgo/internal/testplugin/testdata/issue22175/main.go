@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -19,10 +19,10 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	got := f.(func() int)()
+	golangt := f.(func() int)()
 	const want = 971
-	if got != want {
-		fmt.Fprintf(os.Stderr, "issue22175: F()=%d, want %d", got, want)
+	if golangt != want {
+		fmt.Fprintf(os.Stderr, "issue22175: F()=%d, want %d", golangt, want)
 		os.Exit(1)
 	}
 }

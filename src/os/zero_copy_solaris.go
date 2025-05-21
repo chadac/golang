@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package os
@@ -53,7 +53,7 @@ func (f *File) readFrom(r io.Reader) (written int64, handled bool, err error) {
 	// sendfile() on illumos seems to incur intermittent failures when the
 	// target file is a standard stream (stdout/stderr), we hereby skip any
 	// anything other than regular files conservatively and leave them to generic copy.
-	// Check out https://go.dev/issue/68863 for more details.
+	// Check out https://golang.dev/issue/68863 for more details.
 	if runtime.GOOS == "illumos" {
 		fi, err := f.Stat()
 		if err != nil {

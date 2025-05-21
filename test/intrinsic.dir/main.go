@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -25,24 +25,24 @@ func logf(f string, args ...interface{}) {
 func test(i int, x uint64) {
 	t := T.TrailingZeros64(x) // ERROR "intrinsic substitution for TrailingZeros64"
 	if i != t {
-		logf("TrailingZeros64(0x%x) expected %d but got %d\n", x, i, t)
+		logf("TrailingZeros64(0x%x) expected %d but golangt %d\n", x, i, t)
 	}
 	x = -x
 	t = T.TrailingZeros64(x) // ERROR "intrinsic substitution for TrailingZeros64"
 	if i != t {
-		logf("TrailingZeros64(0x%x) expected %d but got %d\n", x, i, t)
+		logf("TrailingZeros64(0x%x) expected %d but golangt %d\n", x, i, t)
 	}
 
 	if i <= 32 {
 		x32 := uint32(x)
 		t32 := T.TrailingZeros32(x32) // ERROR "intrinsic substitution for TrailingZeros32"
 		if i != t32 {
-			logf("TrailingZeros32(0x%x) expected %d but got %d\n", x32, i, t32)
+			logf("TrailingZeros32(0x%x) expected %d but golangt %d\n", x32, i, t32)
 		}
 		x32 = -x32
 		t32 = T.TrailingZeros32(x32) // ERROR "intrinsic substitution for TrailingZeros32"
 		if i != t32 {
-			logf("TrailingZeros32(0x%x) expected %d but got %d\n", x32, i, t32)
+			logf("TrailingZeros32(0x%x) expected %d but golangt %d\n", x32, i, t32)
 		}
 	}
 }
@@ -56,10 +56,10 @@ func main() {
 		X := T.Bswap64(x) // ERROR "intrinsic substitution for Bswap64"
 		Y := T.Bswap64(y) // ERROR "intrinsic substitution for Bswap64"
 		if y != X {
-			logf("Bswap64(0x%08x) expected 0x%08x but got 0x%08x\n", x, y, X)
+			logf("Bswap64(0x%08x) expected 0x%08x but golangt 0x%08x\n", x, y, X)
 		}
 		if x != Y {
-			logf("Bswap64(0x%08x) expected 0x%08x but got 0x%08x\n", y, x, Y)
+			logf("Bswap64(0x%08x) expected 0x%08x but golangt 0x%08x\n", y, x, Y)
 		}
 
 		x32 := uint32(X)
@@ -68,10 +68,10 @@ func main() {
 		X32 := T.Bswap32(x32) // ERROR "intrinsic substitution for Bswap32"
 		Y32 := T.Bswap32(y32) // ERROR "intrinsic substitution for Bswap32"
 		if y32 != X32 {
-			logf("Bswap32(0x%08x) expected 0x%08x but got 0x%08x\n", x32, y32, X32)
+			logf("Bswap32(0x%08x) expected 0x%08x but golangt 0x%08x\n", x32, y32, X32)
 		}
 		if x32 != Y32 {
-			logf("Bswap32(0x%08x) expected 0x%08x but got 0x%08x\n", y32, x32, Y32)
+			logf("Bswap32(0x%08x) expected 0x%08x but golangt 0x%08x\n", y32, x32, Y32)
 		}
 	}
 

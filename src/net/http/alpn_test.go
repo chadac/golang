@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package http_test
@@ -23,7 +23,7 @@ func TestNextProtoUpgrade(t *testing.T) {
 	ts := httptest.NewUnstartedServer(HandlerFunc(func(w ResponseWriter, r *Request) {
 		fmt.Fprintf(w, "path=%s,proto=", r.URL.Path)
 		if r.TLS != nil {
-			w.Write([]byte(r.TLS.NegotiatedProtocol))
+			w.Write([]byte(r.TLS.NegolangtiatedProtocol))
 		}
 		if r.RemoteAddr == "" {
 			t.Error("request with no RemoteAddr")
@@ -77,7 +77,7 @@ func TestNextProtoUpgrade(t *testing.T) {
 			defer res.Body.Close()
 			var buf bytes.Buffer
 			res.Write(&buf)
-			t.Errorf("expected error on unhandled-proto request; got: %s", buf.Bytes())
+			t.Errorf("expected error on unhandled-proto request; golangt: %s", buf.Bytes())
 		}
 	}
 

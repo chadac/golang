@@ -1,3 +1,3 @@
-//go:build linux && go1.2 && go1.4
+//golang:build linux && golang1.2 && golang1.4
 
-package go1_4
+package golang1_4

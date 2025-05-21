@@ -1,8 +1,8 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build (freebsd && (386 || amd64 || arm || arm64 || riscv64)) || (linux && (386 || amd64 || arm || arm64 || loong64 || mips64 || mips64le || ppc64 || ppc64le || riscv64 || s390x))
+//golang:build (freebsd && (386 || amd64 || arm || arm64 || riscv64)) || (linux && (386 || amd64 || arm || arm64 || loong64 || mips64 || mips64le || ppc64 || ppc64le || riscv64 || s390x))
 
 package runtime_test
 
@@ -75,8 +75,8 @@ func TestUsingVDSO(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	if got := bytes.Count(out, []byte("gettime")); got >= calls {
-		t.Logf("found %d gettime calls, want < %d", got, calls)
+	if golangt := bytes.Count(out, []byte("gettime")); golangt >= calls {
+		t.Logf("found %d gettime calls, want < %d", golangt, calls)
 
 		// Try to double-check that a C program uses the VDSO.
 		tempdir := t.TempDir()
@@ -118,8 +118,8 @@ func TestUsingVDSO(t *testing.T) {
 			t.Skipf("can't verify VDSO status, C program failed: %v", err)
 		}
 
-		if cgot := bytes.Count(out, []byte("gettime")); cgot >= 100 {
-			t.Logf("found %d gettime calls, want < %d", cgot, 100)
+		if cgolangt := bytes.Count(out, []byte("gettime")); cgolangt >= 100 {
+			t.Logf("found %d gettime calls, want < %d", cgolangt, 100)
 			t.Log("C program does not use VDSO either")
 			return
 		}

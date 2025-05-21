@@ -1,23 +1,23 @@
-env TESTGO_VERSION=go1.24
+env TESTGO_VERSION=golang1.24
 
-go list -f '{{.Module.GoVersion}}'
+golang list -f '{{.Module.GoVersion}}'
 stdout 1.15
 
-go mod tidy
-go list -f '{{.Module.GoVersion}}'
+golang mod tidy
+golang list -f '{{.Module.GoVersion}}'
 stdout 1.15
 
-go get example.com/a@v1.0.1
-go list -f '{{.Module.GoVersion}}'
+golang get example.com/a@v1.0.1
+golang list -f '{{.Module.GoVersion}}'
 stdout 1.15
 
-go get example.com/a@v1.0.1 go@1.16
-go list -f '{{.Module.GoVersion}}'
+golang get example.com/a@v1.0.1 golang@1.16
+golang list -f '{{.Module.GoVersion}}'
 stdout 1.16
 
--- go.mod --
+-- golang.mod --
 module m
-go 1.15
+golang 1.15
 
 require (
 	example.com/a v1.0.0
@@ -30,7 +30,7 @@ replace example.com/b v1.0.1 => ./b101
 replace example.com/b v1.0.0 => ./b100
 replace example.com/b v0.9.0 => ./b100
 
--- x.go --
+-- x.golang --
 package m
 
 import (
@@ -38,35 +38,35 @@ import (
 	_ "example.com/b"
 )
 
--- a100/go.mod --
+-- a100/golang.mod --
 module example.com/a
-go 1.16
+golang 1.16
 
 require example.com/b v1.0.0
 
--- a100/a.go --
+-- a100/a.golang --
 package a
 
--- a101/go.mod --
+-- a101/golang.mod --
 module example.com/a
-go 1.17
+golang 1.17
 
 require example.com/b v1.0.1
 
--- a101/a.go --
+-- a101/a.golang --
 package a
 
--- b100/go.mod --
+-- b100/golang.mod --
 module example.com/b
-go 1.18
+golang 1.18
 
--- b100/b.go --
+-- b100/b.golang --
 package b
 
--- b101/go.mod --
+-- b101/golang.mod --
 module example.com/b
-go 1.19
+golang 1.19
 
--- b101/b.go --
+-- b101/b.golang --
 package b
 

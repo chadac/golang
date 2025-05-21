@@ -1,4 +1,4 @@
-//go:build !amd64
+//golang:build !amd64
 // +build !amd64
 
 package p
@@ -7,6 +7,6 @@ import (
 	"indirect"
 )
 
-var in = []algo{
+var in = []algolang{
 	{indirect.F},
 }

@@ -1,8 +1,8 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build goexperiment.jsonv2
+//golang:build golangexperiment.jsonv2
 
 package jsonflags
 
@@ -61,14 +61,14 @@ func TestFlags(t *testing.T) {
 		case Clear:
 			fs.Clear(call.in)
 		case Get:
-			got := fs.Get(call.in)
-			gotOk := fs.Has(call.in)
-			if got != call.want || gotOk != call.wantOk {
-				t.Fatalf("%d: GetOk = (%v, %v), want (%v, %v)", i, got, gotOk, call.want, call.wantOk)
+			golangt := fs.Get(call.in)
+			golangtOk := fs.Has(call.in)
+			if golangt != call.want || golangtOk != call.wantOk {
+				t.Fatalf("%d: GetOk = (%v, %v), want (%v, %v)", i, golangt, golangtOk, call.want, call.wantOk)
 			}
 		case Check:
 			if fs != call.want {
-				t.Fatalf("%d: got %x, want %x", i, fs, call.want)
+				t.Fatalf("%d: golangt %x, want %x", i, fs, call.want)
 			}
 		}
 	}

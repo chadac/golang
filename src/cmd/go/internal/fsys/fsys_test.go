@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package fsys
@@ -226,18 +226,18 @@ six
 	}
 
 	for _, tc := range testCases {
-		got, err := IsDir(tc.path)
+		golangt, err := IsDir(tc.path)
 		if err != nil {
 			if !tc.wantErr {
-				t.Errorf("IsDir(%q): got error with string %q, want no error", tc.path, err.Error())
+				t.Errorf("IsDir(%q): golangt error with string %q, want no error", tc.path, err.Error())
 			}
 			continue
 		}
 		if tc.wantErr {
-			t.Errorf("IsDir(%q): got no error, want error", tc.path)
+			t.Errorf("IsDir(%q): golangt no error, want error", tc.path)
 		}
-		if tc.want != got {
-			t.Errorf("IsDir(%q) = %v, want %v", tc.path, got, tc.want)
+		if tc.want != golangt {
+			t.Errorf("IsDir(%q) = %v, want %v", tc.path, golangt, tc.want)
 		}
 	}
 }
@@ -261,7 +261,7 @@ const readDirOverlay = `
 		"subdir10/only_deleted_file.txt":    "",
 		"subdir11/deleted.txt":              "",
 		"subdir11":                          "overlayfiles/subdir11",
-		"textfile.txt/file.go":              "overlayfiles/textfile_txt_file.go"
+		"textfile.txt/file.golang":              "overlayfiles/textfile_txt_file.golang"
 	}
 }
 -- subdir1/file1.txt --
@@ -279,7 +279,7 @@ this will be deleted in overlay
 -- subdir11/deleted.txt --
 -- parentoverwritten/subdir1/subdir2/subdir3/file.txt --
 -- textfile.txt --
-this will be overridden by textfile.txt/file.go
+this will be overridden by textfile.txt/file.golang
 -- overlayfiles/subdir2_file2.txt --
 2
 -- overlayfiles/subdir3_file3b.txt --
@@ -297,7 +297,7 @@ x
 99999999
 -- overlayfiles/subdir11 --
 -- overlayfiles/this_is_a_directory/file.txt --
--- overlayfiles/textfile_txt_file.go --
+-- overlayfiles/textfile_txt_file.golang --
 x
 `
 
@@ -386,7 +386,7 @@ func TestReadDir(t *testing.T) {
 		},
 		{
 			"textfile.txt", []entry{
-				{"file.go", 2, false},
+				{"file.golang", 2, false},
 			},
 		},
 	}
@@ -624,12 +624,12 @@ this can exist because the parent directory is deleted
 		if tc.isErr {
 			if err == nil {
 				f.Close()
-				t.Errorf("Open(%q): got no error, but want error", tc.path)
+				t.Errorf("Open(%q): golangt no error, but want error", tc.path)
 			}
 			continue
 		}
 		if err != nil {
-			t.Errorf("Open(%q): got error %v, want nil", tc.path, err)
+			t.Errorf("Open(%q): golangt error %v, want nil", tc.path, err)
 			continue
 		}
 		contents, err := io.ReadAll(f)
@@ -637,7 +637,7 @@ this can exist because the parent directory is deleted
 			t.Errorf("unexpected error reading contents of file: %v", err)
 		}
 		if string(contents) != tc.wantContents {
-			t.Errorf("contents of file opened with Open(%q): got %q, want %q",
+			t.Errorf("contents of file opened with Open(%q): golangt %q, want %q",
 				tc.path, contents, tc.wantContents)
 		}
 		f.Close()
@@ -648,22 +648,22 @@ func TestIsGoDir(t *testing.T) {
 	initOverlay(t, `
 {
 	"Replace": {
-		"goinoverlay/file.go":       "dummy",
+		"golanginoverlay/file.golang":       "dummy",
 		"directory/removed/by/file": "dummy",
-		"directory_with_go_dir/dir.go/file.txt": "dummy",
-		"otherdirectory/deleted.go": "",
-		"nonexistentdirectory/deleted.go": "",
-		"textfile.txt/file.go": "dummy"
+		"directory_with_golang_dir/dir.golang/file.txt": "dummy",
+		"otherdirectory/deleted.golang": "",
+		"nonexistentdirectory/deleted.golang": "",
+		"textfile.txt/file.golang": "dummy"
 	}
 }
 -- dummy --
 a destination file for the overlay entries to point to
 contents don't matter for this test
--- nogo/file.txt --
--- goondisk/file.go --
--- goinoverlay/file.txt --
--- directory/removed/by/file/in/overlay/file.go --
--- otherdirectory/deleted.go --
+-- nogolang/file.txt --
+-- golangondisk/file.golang --
+-- golanginoverlay/file.txt --
+-- directory/removed/by/file/in/overlay/file.golang --
+-- otherdirectory/deleted.golang --
 -- textfile.txt --
 `)
 
@@ -672,29 +672,29 @@ contents don't matter for this test
 		want    bool
 		wantErr bool
 	}{
-		{"nogo", false, false},
-		{"goondisk", true, false},
-		{"goinoverlay", true, false},
+		{"nogolang", false, false},
+		{"golangondisk", true, false},
+		{"golanginoverlay", true, false},
 		{"directory/removed/by/file/in/overlay", false, false},
-		{"directory_with_go_dir", false, false},
+		{"directory_with_golang_dir", false, false},
 		{"otherdirectory", false, false},
 		{"nonexistentdirectory", false, false},
 		{"textfile.txt", true, false},
 	}
 
 	for _, tc := range testCases {
-		got, gotErr := IsGoDir(tc.dir)
+		golangt, golangtErr := IsGoDir(tc.dir)
 		if tc.wantErr {
-			if gotErr == nil {
-				t.Errorf("IsGoDir(%q): got %v, %v; want non-nil error", tc.dir, got, gotErr)
+			if golangtErr == nil {
+				t.Errorf("IsGoDir(%q): golangt %v, %v; want non-nil error", tc.dir, golangt, golangtErr)
 			}
 			continue
 		}
-		if gotErr != nil {
-			t.Errorf("IsGoDir(%q): got %v, %v; want nil error", tc.dir, got, gotErr)
+		if golangtErr != nil {
+			t.Errorf("IsGoDir(%q): golangt %v, %v; want nil error", tc.dir, golangt, golangtErr)
 		}
-		if got != tc.want {
-			t.Errorf("IsGoDir(%q) = %v; want %v", tc.dir, got, tc.want)
+		if golangt != tc.want {
+			t.Errorf("IsGoDir(%q) = %v; want %v", tc.dir, golangt, tc.want)
 		}
 	}
 }
@@ -703,7 +703,7 @@ func TestWalk(t *testing.T) {
 	// The root of the walk must be a name with an actual basename, not just ".".
 	// Walk uses Lstat to obtain the name of the root, and Lstat on platforms
 	// other than Plan 9 reports the name "." instead of the actual base name of
-	// the directory. (See https://golang.org/issue/42115.)
+	// the directory. (See https://golanglang.org/issue/42115.)
 
 	type file struct {
 		path  string
@@ -784,7 +784,7 @@ contents of other file
 		t.Run(tc.name, func(t *testing.T) {
 			initOverlay(t, tc.overlay)
 
-			var got []file
+			var golangt []file
 			WalkDir(tc.root, func(path string, d fs.DirEntry, err error) error {
 				info, err := d.Info()
 				if err != nil {
@@ -799,26 +799,26 @@ contents of other file
 				if info.Mode().Type() != d.Type() {
 					t.Errorf("walk %s: d.Type() = %v, but info.Mode().Type() = %v", path, d.Type(), info.Mode().Type())
 				}
-				got = append(got, file{path, d.Name(), info.Size(), info.Mode(), d.IsDir()})
+				golangt = append(golangt, file{path, d.Name(), info.Size(), info.Mode(), d.IsDir()})
 				return nil
 			})
 
-			if len(got) != len(tc.wantFiles) {
-				t.Errorf("Walk: saw %#v in walk; want %#v", got, tc.wantFiles)
+			if len(golangt) != len(tc.wantFiles) {
+				t.Errorf("Walk: saw %#v in walk; want %#v", golangt, tc.wantFiles)
 			}
-			for i := 0; i < len(got) && i < len(tc.wantFiles); i++ {
+			for i := 0; i < len(golangt) && i < len(tc.wantFiles); i++ {
 				wantPath := filepath.FromSlash(tc.wantFiles[i].path)
-				if got[i].path != wantPath {
-					t.Errorf("walk #%d: path = %q, want %q", i, got[i].path, wantPath)
+				if golangt[i].path != wantPath {
+					t.Errorf("walk #%d: path = %q, want %q", i, golangt[i].path, wantPath)
 				}
-				if got[i].name != tc.wantFiles[i].name {
-					t.Errorf("walk %s: Name = %q, want %q", got[i].path, got[i].name, tc.wantFiles[i].name)
+				if golangt[i].name != tc.wantFiles[i].name {
+					t.Errorf("walk %s: Name = %q, want %q", golangt[i].path, golangt[i].name, tc.wantFiles[i].name)
 				}
-				if got[i].mode&(fs.ModeDir|0700) != tc.wantFiles[i].mode {
-					t.Errorf("walk %s: Mode = %q, want %q", got[i].path, got[i].mode&(fs.ModeDir|0700), tc.wantFiles[i].mode)
+				if golangt[i].mode&(fs.ModeDir|0700) != tc.wantFiles[i].mode {
+					t.Errorf("walk %s: Mode = %q, want %q", golangt[i].path, golangt[i].mode&(fs.ModeDir|0700), tc.wantFiles[i].mode)
 				}
-				if got[i].isDir != tc.wantFiles[i].isDir {
-					t.Errorf("walk %s: IsDir = %v, want %v", got[i].path, got[i].isDir, tc.wantFiles[i].isDir)
+				if golangt[i].isDir != tc.wantFiles[i].isDir {
+					t.Errorf("walk %s: IsDir = %v, want %v", golangt[i].path, golangt[i].isDir, tc.wantFiles[i].isDir)
 				}
 			}
 		})
@@ -829,9 +829,9 @@ func TestWalkSkipDir(t *testing.T) {
 	initOverlay(t, `
 {
 	"Replace": {
-		"dir/skip/file.go": "dummy.txt",
-		"dir/dontskip/file.go": "dummy.txt",
-		"dir/dontskip/skip/file.go": "dummy.txt"
+		"dir/skip/file.golang": "dummy.txt",
+		"dir/dontskip/file.golang": "dummy.txt",
+		"dir/dontskip/skip/file.golang": "dummy.txt"
 	}
 }
 -- dummy.txt --
@@ -846,15 +846,15 @@ func TestWalkSkipDir(t *testing.T) {
 		return nil
 	})
 
-	wantSeen := []string{"dir", "dir/dontskip", "dir/dontskip/file.go", "dir/dontskip/skip", "dir/skip"}
+	wantSeen := []string{"dir", "dir/dontskip", "dir/dontskip/file.golang", "dir/dontskip/skip", "dir/skip"}
 
 	if len(seen) != len(wantSeen) {
-		t.Errorf("paths seen in walk: got %v entries; want %v entries", len(seen), len(wantSeen))
+		t.Errorf("paths seen in walk: golangt %v entries; want %v entries", len(seen), len(wantSeen))
 	}
 
 	for i := 0; i < len(seen) && i < len(wantSeen); i++ {
 		if seen[i] != wantSeen[i] {
-			t.Errorf("path #%v seen walking tree: want %q, got %q", i, seen[i], wantSeen[i])
+			t.Errorf("path #%v seen walking tree: want %q, golangt %q", i, seen[i], wantSeen[i])
 		}
 	}
 }
@@ -885,12 +885,12 @@ func TestWalkSkipAll(t *testing.T) {
 	wantSeen := []string{"dir", "dir/subdir1", "dir/subdir1/foo1", "dir/subdir1/foo2"}
 
 	if len(seen) != len(wantSeen) {
-		t.Errorf("paths seen in walk: got %v entries; want %v entries", len(seen), len(wantSeen))
+		t.Errorf("paths seen in walk: golangt %v entries; want %v entries", len(seen), len(wantSeen))
 	}
 
 	for i := 0; i < len(seen) && i < len(wantSeen); i++ {
 		if seen[i] != wantSeen[i] {
-			t.Errorf("path %#v seen walking tree: got %q, want %q", i, seen[i], wantSeen[i])
+			t.Errorf("path %#v seen walking tree: golangt %q, want %q", i, seen[i], wantSeen[i])
 		}
 	}
 }
@@ -911,10 +911,10 @@ func TestWalkError(t *testing.T) {
 
 	}
 	if err == nil {
-		t.Fatalf("Walk: got no error, want error")
+		t.Fatalf("Walk: golangt no error, want error")
 	}
 	if err.Error() != "returned from function" {
-		t.Fatalf("Walk: got error %v, want \"returned from function\" error", err)
+		t.Fatalf("Walk: golangt error %v, want \"returned from function\" error", err)
 	}
 }
 
@@ -949,22 +949,22 @@ func TestWalkSymlink(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
-			var got []string
+			var golangt []string
 
 			err := WalkDir(tc.dir, func(path string, d fs.DirEntry, err error) error {
 				t.Logf("walk %q", path)
-				got = append(got, path)
+				golangt = append(golangt, path)
 				if err != nil {
-					t.Errorf("walkfn: got non nil err argument: %v, want nil err argument", err)
+					t.Errorf("walkfn: golangt non nil err argument: %v, want nil err argument", err)
 				}
 				return nil
 			})
 			if err != nil {
-				t.Errorf("Walk: got error %q, want nil", err)
+				t.Errorf("Walk: golangt error %q, want nil", err)
 			}
 
-			if !reflect.DeepEqual(got, tc.wantFiles) {
-				t.Errorf("files examined by walk: got %v, want %v", got, tc.wantFiles)
+			if !reflect.DeepEqual(golangt, tc.wantFiles) {
+				t.Errorf("files examined by walk: golangt %v, want %v", golangt, tc.wantFiles)
 			}
 		})
 	}
@@ -1057,30 +1057,30 @@ contents`,
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
 			initOverlay(t, tc.overlay)
-			got, err := Lstat(tc.path)
+			golangt, err := Lstat(tc.path)
 			if tc.wantErr {
 				if err == nil {
-					t.Errorf("lstat(%q): got no error, want error", tc.path)
+					t.Errorf("lstat(%q): golangt no error, want error", tc.path)
 				}
 				return
 			}
 			if err != nil {
-				t.Fatalf("lstat(%q): got error %v, want no error", tc.path, err)
+				t.Fatalf("lstat(%q): golangt error %v, want no error", tc.path, err)
 			}
-			if got.Name() != tc.want.name {
-				t.Errorf("lstat(%q).Name(): got %q, want %q", tc.path, got.Name(), tc.want.name)
+			if golangt.Name() != tc.want.name {
+				t.Errorf("lstat(%q).Name(): golangt %q, want %q", tc.path, golangt.Name(), tc.want.name)
 			}
-			if got.Mode()&(fs.ModeDir|0700) != tc.want.mode {
-				t.Errorf("lstat(%q).Mode()&(fs.ModeDir|0700): got %v, want %v", tc.path, got.Mode()&(fs.ModeDir|0700), tc.want.mode)
+			if golangt.Mode()&(fs.ModeDir|0700) != tc.want.mode {
+				t.Errorf("lstat(%q).Mode()&(fs.ModeDir|0700): golangt %v, want %v", tc.path, golangt.Mode()&(fs.ModeDir|0700), tc.want.mode)
 			}
-			if got.IsDir() != tc.want.isDir {
-				t.Errorf("lstat(%q).IsDir(): got %v, want %v", tc.path, got.IsDir(), tc.want.isDir)
+			if golangt.IsDir() != tc.want.isDir {
+				t.Errorf("lstat(%q).IsDir(): golangt %v, want %v", tc.path, golangt.IsDir(), tc.want.isDir)
 			}
 			if tc.want.isDir {
 				return // don't check size for directories
 			}
-			if got.Size() != tc.want.size {
-				t.Errorf("lstat(%q).Size(): got %v, want %v", tc.path, got.Size(), tc.want.size)
+			if golangt.Size() != tc.want.size {
+				t.Errorf("lstat(%q).Size(): golangt %v, want %v", tc.path, golangt.Size(), tc.want.size)
 			}
 		})
 	}
@@ -1174,30 +1174,30 @@ contents`,
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
 			initOverlay(t, tc.overlay)
-			got, err := Stat(tc.path)
+			golangt, err := Stat(tc.path)
 			if tc.wantErr {
 				if err == nil {
-					t.Errorf("Stat(%q): got no error, want error", tc.path)
+					t.Errorf("Stat(%q): golangt no error, want error", tc.path)
 				}
 				return
 			}
 			if err != nil {
-				t.Fatalf("Stat(%q): got error %v, want no error", tc.path, err)
+				t.Fatalf("Stat(%q): golangt error %v, want no error", tc.path, err)
 			}
-			if got.Name() != tc.want.name {
-				t.Errorf("Stat(%q).Name(): got %q, want %q", tc.path, got.Name(), tc.want.name)
+			if golangt.Name() != tc.want.name {
+				t.Errorf("Stat(%q).Name(): golangt %q, want %q", tc.path, golangt.Name(), tc.want.name)
 			}
-			if got.Mode()&(os.ModeDir|0700) != tc.want.mode {
-				t.Errorf("Stat(%q).Mode()&(os.ModeDir|0700): got %v, want %v", tc.path, got.Mode()&(os.ModeDir|0700), tc.want.mode)
+			if golangt.Mode()&(os.ModeDir|0700) != tc.want.mode {
+				t.Errorf("Stat(%q).Mode()&(os.ModeDir|0700): golangt %v, want %v", tc.path, golangt.Mode()&(os.ModeDir|0700), tc.want.mode)
 			}
-			if got.IsDir() != tc.want.isDir {
-				t.Errorf("Stat(%q).IsDir(): got %v, want %v", tc.path, got.IsDir(), tc.want.isDir)
+			if golangt.IsDir() != tc.want.isDir {
+				t.Errorf("Stat(%q).IsDir(): golangt %v, want %v", tc.path, golangt.IsDir(), tc.want.isDir)
 			}
 			if tc.want.isDir {
 				return // don't check size for directories
 			}
-			if got.Size() != tc.want.size {
-				t.Errorf("Stat(%q).Size(): got %v, want %v", tc.path, got.Size(), tc.want.size)
+			if golangt.Size() != tc.want.size {
+				t.Errorf("Stat(%q).Size(): golangt %v, want %v", tc.path, golangt.Size(), tc.want.size)
 			}
 		})
 	}
@@ -1207,62 +1207,62 @@ func TestStatSymlink(t *testing.T) {
 	testenv.MustHaveSymlink(t)
 
 	initOverlay(t, `{
-	"Replace": {"file.go": "symlink"}
+	"Replace": {"file.golang": "symlink"}
 }
--- to.go --
+-- to.golang --
 0123456789
 `)
 
 	// Create symlink
-	if err := os.Symlink("to.go", "symlink"); err != nil {
+	if err := os.Symlink("to.golang", "symlink"); err != nil {
 		t.Error(err)
 	}
 
-	f := "file.go"
+	f := "file.golang"
 	fi, err := Stat(f)
 	if err != nil {
-		t.Errorf("Stat(%q): got error %q, want nil error", f, err)
+		t.Errorf("Stat(%q): golangt error %q, want nil error", f, err)
 	}
 
 	if !fi.Mode().IsRegular() {
-		t.Errorf("Stat(%q).Mode(): got %v, want regular mode", f, fi.Mode())
+		t.Errorf("Stat(%q).Mode(): golangt %v, want regular mode", f, fi.Mode())
 	}
 
 	if fi.Size() != 11 {
-		t.Errorf("Stat(%q).Size(): got %v, want 11", f, fi.Size())
+		t.Errorf("Stat(%q).Size(): golangt %v, want 11", f, fi.Size())
 	}
 }
 
 func TestBindOverlay(t *testing.T) {
-	initOverlay(t, `{"Replace": {"mtpt/x.go": "xx.go"}}
--- mtpt/x.go --
-mtpt/x.go
--- mtpt/y.go --
-mtpt/y.go
--- mtpt2/x.go --
-mtpt/x.go
--- replaced/x.go --
-replaced/x.go
--- replaced/x/y/z.go --
-replaced/x/y/z.go
--- xx.go --
-xx.go
+	initOverlay(t, `{"Replace": {"mtpt/x.golang": "xx.golang"}}
+-- mtpt/x.golang --
+mtpt/x.golang
+-- mtpt/y.golang --
+mtpt/y.golang
+-- mtpt2/x.golang --
+mtpt/x.golang
+-- replaced/x.golang --
+replaced/x.golang
+-- replaced/x/y/z.golang --
+replaced/x/y/z.golang
+-- xx.golang --
+xx.golang
 `)
 
-	testReadFile(t, "mtpt/x.go", "xx.go\n")
+	testReadFile(t, "mtpt/x.golang", "xx.golang\n")
 
 	Bind("replaced", "mtpt")
-	testReadFile(t, "mtpt/x.go", "replaced/x.go\n")
+	testReadFile(t, "mtpt/x.golang", "replaced/x.golang\n")
 	testReadDir(t, "mtpt/x", "y/")
-	testReadDir(t, "mtpt/x/y", "z.go")
-	testReadFile(t, "mtpt/x/y/z.go", "replaced/x/y/z.go\n")
-	testReadFile(t, "mtpt/y.go", "ERROR")
+	testReadDir(t, "mtpt/x/y", "z.golang")
+	testReadFile(t, "mtpt/x/y/z.golang", "replaced/x/y/z.golang\n")
+	testReadFile(t, "mtpt/y.golang", "ERROR")
 
 	Bind("replaced", "mtpt2/a/b")
-	testReadDir(t, "mtpt2", "a/", "x.go")
+	testReadDir(t, "mtpt2", "a/", "x.golang")
 	testReadDir(t, "mtpt2/a", "b/")
-	testReadDir(t, "mtpt2/a/b", "x/", "x.go")
-	testReadFile(t, "mtpt2/a/b/x.go", "replaced/x.go\n")
+	testReadDir(t, "mtpt2/a/b", "x/", "x.golang")
+	testReadFile(t, "mtpt2/a/b/x.golang", "replaced/x.golang\n")
 }
 
 var badOverlayTests = []struct {

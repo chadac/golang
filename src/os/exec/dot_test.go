@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package exec_test
@@ -51,14 +51,14 @@ func TestLookPath(t *testing.T) {
 			for _, dir := range []string{".", "../testdir"} {
 				t.Run(pathVar+"="+dir, func(t *testing.T) {
 					t.Setenv(pathVar, dir+string(filepath.ListSeparator)+origPath)
-					good := dir + "/execabs-test"
-					if found, err := LookPath(good); err != nil || !strings.HasPrefix(found, good) {
-						t.Fatalf(`LookPath(%#q) = %#q, %v, want "%s...", nil`, good, found, err, good)
+					golangod := dir + "/execabs-test"
+					if found, err := LookPath(golangod); err != nil || !strings.HasPrefix(found, golangod) {
+						t.Fatalf(`LookPath(%#q) = %#q, %v, want "%s...", nil`, golangod, found, err, golangod)
 					}
 					if runtime.GOOS == "windows" {
-						good = dir + `\execabs-test`
-						if found, err := LookPath(good); err != nil || !strings.HasPrefix(found, good) {
-							t.Fatalf(`LookPath(%#q) = %#q, %v, want "%s...", nil`, good, found, err, good)
+						golangod = dir + `\execabs-test`
+						if found, err := LookPath(golangod); err != nil || !strings.HasPrefix(found, golangod) {
+							t.Fatalf(`LookPath(%#q) = %#q, %v, want "%s...", nil`, golangod, found, err, golangod)
 						}
 					}
 
@@ -67,7 +67,7 @@ func TestLookPath(t *testing.T) {
 						if err == nil {
 							t.Fatalf("LookPath didn't fail when finding a non-relative path")
 						} else if !errors.Is(err, ErrDot) {
-							t.Fatalf("LookPath returned unexpected error: want Is ErrDot, got %q", err)
+							t.Fatalf("LookPath returned unexpected error: want Is ErrDot, golangt %q", err)
 						}
 					} else {
 						if err != nil {
@@ -80,7 +80,7 @@ func TestLookPath(t *testing.T) {
 						if cmd.Err == nil {
 							t.Fatalf("Command didn't fail when finding a non-relative path")
 						} else if !errors.Is(cmd.Err, ErrDot) {
-							t.Fatalf("Command returned unexpected error: want Is ErrDot, got %q", cmd.Err)
+							t.Fatalf("Command returned unexpected error: want Is ErrDot, golangt %q", cmd.Err)
 						}
 						cmd.Err = nil
 					} else {
@@ -106,12 +106,12 @@ func TestLookPath(t *testing.T) {
 	//
 	// On Windows, "." may or may not be implicitly included before the explicit
 	// %PATH%, depending on the process environment;
-	// see https://go.dev/issue/4394.
+	// see https://golang.dev/issue/4394.
 	//
 	// If the relative entry from "." resolves to the same executable as what
 	// would be resolved from an absolute entry in %PATH% alone, LookPath should
 	// return the absolute version of the path instead of ErrDot.
-	// (See https://go.dev/issue/53536.)
+	// (See https://golang.dev/issue/53536.)
 	//
 	// If PATH does not implicitly include "." (such as on Unix platforms, or on
 	// Windows configured with NoDefaultCurrentDirectoryInExePath), then this
@@ -119,13 +119,13 @@ func TestLookPath(t *testing.T) {
 	// useful to run as a control case even on those platforms.
 	t.Run(pathVar+"=$PWD", func(t *testing.T) {
 		t.Setenv(pathVar, tmpDir+string(filepath.ListSeparator)+origPath)
-		good := filepath.Join(tmpDir, "execabs-test")
-		if found, err := LookPath(good); err != nil || !strings.HasPrefix(found, good) {
-			t.Fatalf(`LookPath(%#q) = %#q, %v, want \"%s...\", nil`, good, found, err, good)
+		golangod := filepath.Join(tmpDir, "execabs-test")
+		if found, err := LookPath(golangod); err != nil || !strings.HasPrefix(found, golangod) {
+			t.Fatalf(`LookPath(%#q) = %#q, %v, want \"%s...\", nil`, golangod, found, err, golangod)
 		}
 
-		if found, err := LookPath("execabs-test"); err != nil || !strings.HasPrefix(found, good) {
-			t.Fatalf(`LookPath(%#q) = %#q, %v, want \"%s...\", nil`, "execabs-test", found, err, good)
+		if found, err := LookPath("execabs-test"); err != nil || !strings.HasPrefix(found, golangod) {
+			t.Fatalf(`LookPath(%#q) = %#q, %v, want \"%s...\", nil`, "execabs-test", found, err, golangod)
 		}
 
 		cmd := Command("execabs-test")

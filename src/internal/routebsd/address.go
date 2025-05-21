@@ -1,8 +1,8 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build darwin || dragonfly || freebsd || netbsd || openbsd
+//golang:build darwin || dragolangnfly || freebsd || netbsd || openbsd
 
 package routebsd
 
@@ -293,7 +293,7 @@ func parseAddrs(attrs uint, b []byte) ([]Addr, error) {
 		}
 	}
 	// The only remaining bytes in b should be alignment.
-	// However, under some circumstances DragonFly BSD appears to put
+	// However, under some circumstances DragolangnFly BSD appears to put
 	// more addresses in the message than are indicated in the address
 	// bitmask, so don't check for this.
 	return as[:], nil

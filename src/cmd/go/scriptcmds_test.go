@@ -1,11 +1,11 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main_test
 
 import (
-	"cmd/go/internal/work"
+	"cmd/golang/internal/work"
 	"cmd/internal/script"
 	"cmd/internal/script/scripttest"
 	"errors"
@@ -40,7 +40,7 @@ func scriptCommands(interrupt os.Signal, waitDelay time.Duration) map[string]scr
 
 	add("cc", scriptCC(cmdExec))
 	cmdGo := scriptGo(cancel, waitDelay)
-	add("go", cmdGo)
+	add("golang", cmdGo)
 	add("stale", scriptStale(cmdGo))
 
 	return cmds
@@ -70,9 +70,9 @@ func scriptCC(cmdExec script.Cmd) script.Cmd {
 		})
 }
 
-var scriptGoInvoked sync.Map // testing.TB → go command was invoked
+var scriptGoInvoked sync.Map // testing.TB → golang command was invoked
 
-// scriptGo runs the go command.
+// scriptGo runs the golang command.
 func scriptGo(cancel func(*exec.Cmd) error, waitDelay time.Duration) script.Cmd {
 	cmd := script.Program(testGo, cancel, waitDelay)
 	// Inject code to update scriptGoInvoked before invoking the Go command.

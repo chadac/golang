@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test that defers do not prevent garbage collection.
@@ -18,9 +18,9 @@ import (
 var sink func()
 
 func main() {
-	// Does not work with gccgo, due to partially conservative GC.
+	// Does not work with gccgolang, due to partially conservative GC.
 	// Try to enable when we have fully precise GC.
-	if runtime.Compiler == "gccgo" {
+	if runtime.Compiler == "gccgolang" {
 		return
 	}
 	N := 10
@@ -28,7 +28,7 @@ func main() {
 	var wg sync.WaitGroup
 	wg.Add(N)
 	for i := 0; i < N; i++ {
-		go func() {
+		golang func() {
 			defer wg.Done()
 			v := new(string)
 			f := func() {

@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime_test
@@ -25,19 +25,19 @@ func TestFixedGOROOT(t *testing.T) {
 	want := runtime.GOROOT()
 	runtime.SetEnvs(append(envs[:0], "GOROOT="+want))
 
-	if got := runtime.GOROOT(); got != want {
-		t.Errorf(`initial runtime.GOROOT()=%q, want %q`, got, want)
+	if golangt := runtime.GOROOT(); golangt != want {
+		t.Errorf(`initial runtime.GOROOT()=%q, want %q`, golangt, want)
 	}
 	if err := syscall.Setenv("GOROOT", "/os"); err != nil {
 		t.Fatal(err)
 	}
-	if got := runtime.GOROOT(); got != want {
-		t.Errorf(`after setenv runtime.GOROOT()=%q, want %q`, got, want)
+	if golangt := runtime.GOROOT(); golangt != want {
+		t.Errorf(`after setenv runtime.GOROOT()=%q, want %q`, golangt, want)
 	}
 	if err := syscall.Unsetenv("GOROOT"); err != nil {
 		t.Fatal(err)
 	}
-	if got := runtime.GOROOT(); got != want {
-		t.Errorf(`after unsetenv runtime.GOROOT()=%q, want %q`, got, want)
+	if golangt := runtime.GOROOT(); golangt != want {
+		t.Errorf(`after unsetenv runtime.GOROOT()=%q, want %q`, golangt, want)
 	}
 }

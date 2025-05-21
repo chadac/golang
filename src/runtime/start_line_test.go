@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime_test
@@ -26,7 +26,7 @@ func multilineDeclarationFunc() int {
 	return multilineDeclarationFunc1(0, 0, 0)
 }
 
-//go:noinline
+//golang:noinline
 func multilineDeclarationFunc1(
 	a, b, c int) int {
 	return callerStartLine(false)
@@ -110,15 +110,15 @@ func TestStartLine(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
-			got := tc.fn()
-			if got != tc.want {
-				t.Errorf("start line got %d want %d", got, tc.want)
+			golangt := tc.fn()
+			if golangt != tc.want {
+				t.Errorf("start line golangt %d want %d", golangt, tc.want)
 			}
 		})
 	}
 }
 
-//go:noinline
+//golang:noinline
 func callerStartLine(wantInlined bool) int {
 	var pcs [1]uintptr
 	n := runtime.Callers(2, pcs[:])
@@ -131,7 +131,7 @@ func callerStartLine(wantInlined bool) int {
 
 	inlined := frame.Func == nil // Func always set to nil for inlined frames
 	if wantInlined != inlined {
-		panic(fmt.Sprintf("caller %s inlined got %v want %v", frame.Function, inlined, wantInlined))
+		panic(fmt.Sprintf("caller %s inlined golangt %v want %v", frame.Function, inlined, wantInlined))
 	}
 
 	return runtime.FrameStartLine(&frame)

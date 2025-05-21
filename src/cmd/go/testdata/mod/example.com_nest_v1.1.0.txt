@@ -6,7 +6,7 @@ This is the top-level module.
 module example.com/nest
 -- .info --
 {"Version": "v1.1.0"}
--- go.mod --
+-- golang.mod --
 module example.com/nest
--- sub/x/x.go --
+-- sub/x/x.golang --
 package x

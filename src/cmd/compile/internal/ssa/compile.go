@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ssa
@@ -252,7 +252,7 @@ var GenssaDump map[string]bool = make(map[string]bool) // names of functions to 
 //   - ssa/check/on enables checking after each phase
 //   - ssa/all/time enables time reporting for all phases
 //
-// See gc/lex.go for dissection of the option string.
+// See gc/lex.golang for dissection of the option string.
 // Example uses:
 //
 // GO_GCFLAGS=-d=ssa/generic_cse/time,ssa/generic_cse/stats,ssa/generic_cse/debug=3 ./make.bash
@@ -275,7 +275,7 @@ func PhaseOption(phase, flag string, val int, valString string) string {
 		}
 		return `PhaseOptions usage:
 
-    go tool compile -d=ssa/<phase>/<flag>[=<value>|<function_name>]
+    golang tool compile -d=ssa/<phase>/<flag>[=<value>|<function_name>]
 
 where:
 

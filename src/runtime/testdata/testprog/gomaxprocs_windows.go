@@ -1,5 +1,5 @@
 // Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -35,7 +35,7 @@ func setAffinity2() {
 		panic(err)
 	}
 
-	// We're going to restrict to CPUs 0 and 1. Make sure those are already available.
+	// We're golanging to restrict to CPUs 0 and 1. Make sure those are already available.
 	if mask & 0b11 != 0b11 {
 		println("SKIP: CPUs 0 and 1 not available")
 		os.Exit(0)

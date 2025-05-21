@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package chans provides utility functions for working with channels.
@@ -52,11 +52,11 @@ func _ReadAll[Elem any](ctx context.Context, c <-chan Elem) []Elem {
 }
 
 // _Merge merges two channels into a single channel.
-// This will leave a goroutine running until either both channels are closed
+// This will leave a golangroutine running until either both channels are closed
 // or the context is canceled, at which point the returned channel is closed.
 func _Merge[Elem any](ctx context.Context, c1, c2 <-chan Elem) <-chan Elem {
 	r := make(chan Elem)
-	go func(ctx context.Context, c1, c2 <-chan Elem, r chan<- Elem) {
+	golang func(ctx context.Context, c1, c2 <-chan Elem, r chan<- Elem) {
 		defer close(r)
 		for c1 != nil || c2 != nil {
 			select {
@@ -81,12 +81,12 @@ func _Merge[Elem any](ctx context.Context, c1, c2 <-chan Elem) <-chan Elem {
 }
 
 // _Filter calls f on each value read from c. If f returns true the value
-// is sent on the returned channel. This will leave a goroutine running
+// is sent on the returned channel. This will leave a golangroutine running
 // until c is closed or the context is canceled, at which point the
 // returned channel is closed.
 func _Filter[Elem any](ctx context.Context, c <-chan Elem, f func(Elem) bool) <-chan Elem {
 	r := make(chan Elem)
-	go func(ctx context.Context, c <-chan Elem, f func(Elem) bool, r chan<- Elem) {
+	golang func(ctx context.Context, c <-chan Elem, f func(Elem) bool, r chan<- Elem) {
 		defer close(r)
 		for {
 			select {
@@ -106,11 +106,11 @@ func _Filter[Elem any](ctx context.Context, c <-chan Elem, f func(Elem) bool) <-
 }
 
 // _Sink returns a channel that discards all values sent to it.
-// This will leave a goroutine running until the context is canceled
+// This will leave a golangroutine running until the context is canceled
 // or the returned channel is closed.
 func _Sink[Elem any](ctx context.Context) chan<- Elem {
 	r := make(chan Elem)
-	go func(ctx context.Context, r <-chan Elem) {
+	golang func(ctx context.Context, r <-chan Elem) {
 		for {
 			select {
 			case <-ctx.Done():
@@ -125,7 +125,7 @@ func _Sink[Elem any](ctx context.Context) chan<- Elem {
 	return r
 }
 
-// An Exclusive is a value that may only be used by a single goroutine
+// An Exclusive is a value that may only be used by a single golangroutine
 // at a time. This is implemented using channels rather than a mutex.
 type _Exclusive[Val any] struct {
 	c chan Val
@@ -174,7 +174,7 @@ func (e *_Exclusive[Val]) Release(v Val) {
 // method indicates when the Sender has been closed, and the Send
 // method indicates when the Receiver has been freed.
 //
-// This is a convenient way to exit a goroutine sending values when
+// This is a convenient way to exit a golangroutine sending values when
 // the receiver stops reading them.
 func _Ranger[Elem any]() (*_Sender[Elem], *_Receiver[Elem]) {
 	c := make(chan Elem)
@@ -240,46 +240,46 @@ func (r *_Receiver[Elem]) finalize() {
 
 func TestReadAll() {
 	c := make(chan int)
-	go func() {
+	golang func() {
 		c <- 4
 		c <- 2
 		c <- 5
 		close(c)
 	}()
-	got := _ReadAll(context.Background(), c)
+	golangt := _ReadAll(context.Background(), c)
 	want := []int{4, 2, 5}
-	if !_SliceEqual(got, want) {
-		panic(fmt.Sprintf("_ReadAll returned %v, want %v", got, want))
+	if !_SliceEqual(golangt, want) {
+		panic(fmt.Sprintf("_ReadAll returned %v, want %v", golangt, want))
 	}
 }
 
 func TestMerge() {
 	c1 := make(chan int)
 	c2 := make(chan int)
-	go func() {
+	golang func() {
 		c1 <- 1
 		c1 <- 3
 		c1 <- 5
 		close(c1)
 	}()
-	go func() {
+	golang func() {
 		c2 <- 2
 		c2 <- 4
 		c2 <- 6
 		close(c2)
 	}()
 	ctx := context.Background()
-	got := _ReadAll(ctx, _Merge(ctx, c1, c2))
-	sort.Ints(got)
+	golangt := _ReadAll(ctx, _Merge(ctx, c1, c2))
+	sort.Ints(golangt)
 	want := []int{1, 2, 3, 4, 5, 6}
-	if !_SliceEqual(got, want) {
-		panic(fmt.Sprintf("_Merge returned %v, want %v", got, want))
+	if !_SliceEqual(golangt, want) {
+		panic(fmt.Sprintf("_Merge returned %v, want %v", golangt, want))
 	}
 }
 
 func TestFilter() {
 	c := make(chan int)
-	go func() {
+	golang func() {
 		c <- 1
 		c <- 2
 		c <- 3
@@ -287,10 +287,10 @@ func TestFilter() {
 	}()
 	even := func(i int) bool { return i%2 == 0 }
 	ctx := context.Background()
-	got := _ReadAll(ctx, _Filter(ctx, c, even))
+	golangt := _ReadAll(ctx, _Filter(ctx, c, even))
 	want := []int{2}
-	if !_SliceEqual(got, want) {
-		panic(fmt.Sprintf("_Filter returned %v, want %v", got, want))
+	if !_SliceEqual(golangt, want) {
+		panic(fmt.Sprintf("_Filter returned %v, want %v", golangt, want))
 	}
 }
 
@@ -326,12 +326,12 @@ func TestExclusive() {
 	}
 
 	wg.Add(2)
-	go f()
-	go f()
+	golang f()
+	golang f()
 
 	wg.Wait()
 	if val != 20 {
-		panic(fmt.Sprintf("after Acquire/Release loop got %d, want 20", val))
+		panic(fmt.Sprintf("after Acquire/Release loop golangt %d, want 20", val))
 	}
 }
 
@@ -346,7 +346,7 @@ func TestExclusiveTry() {
 
 	var wg sync.WaitGroup
 	wg.Add(1)
-	go func() {
+	golang func() {
 		defer wg.Done()
 		_, ok := ex.TryAcquire()
 		if ok {
@@ -367,7 +367,7 @@ func TestRanger() {
 	s, r := _Ranger[int]()
 
 	ctx := context.Background()
-	go func() {
+	golang func() {
 		// Receive one value then exit.
 		v, ok := r.Next(ctx)
 		if !ok {
@@ -379,7 +379,7 @@ func TestRanger() {
 
 	c1 := make(chan bool)
 	c2 := make(chan bool)
-	go func() {
+	golang func() {
 		defer close(c2)
 		if !s.Send(ctx, 1) {
 			panic(fmt.Sprintf("Send failed unexpectedly"))

@@ -1,10 +1,10 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file implements Float-to-string conversion functions.
 // It is closely following the corresponding implementation
-// in strconv/ftoa.go, but modified and simplified for Float.
+// in strconv/ftoa.golang, but modified and simplified for Float.
 
 package big
 
@@ -45,7 +45,7 @@ import (
 // using x.Prec() mantissa bits.
 // The prec value is ignored for the 'b' and 'p' formats.
 func (x *Float) Text(format byte, prec int) string {
-	cap := 10 // TODO(gri) determine a good/better value here
+	cap := 10 // TODO(gri) determine a golangod/better value here
 	if prec > 0 {
 		cap += prec
 	}
@@ -84,7 +84,7 @@ func (x *Float) Append(buf []byte, fmt byte, prec int) []byte {
 		return x.fmtX(buf, prec)
 	}
 
-	// Algorithm:
+	// Algolangrithm:
 	//   1) convert Float to multiprecision decimal
 	//   2) round to desired precision
 	//   3) read digits out and format

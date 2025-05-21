@@ -1,5 +1,5 @@
-// created by cgo -cdefs and then converted to Go
-// cgo -cdefs defs_netbsd.go defs_netbsd_arm.go
+// created by cgolang -cdefs and then converted to Go
+// cgolang -cdefs defs_netbsd.golang defs_netbsd_arm.golang
 
 package runtime
 
@@ -161,13 +161,13 @@ type keventt struct {
 	filter    uint32
 	flags     uint32
 	fflags    uint32
-	pad_cgo_0 [4]byte
+	pad_cgolang_0 [4]byte
 	data      int64
 	udata     *byte
 }
 
-// created by cgo -cdefs and then converted to Go
-// cgo -cdefs defs_netbsd.go defs_netbsd_arm.go
+// created by cgolang -cdefs and then converted to Go
+// cgolang -cdefs defs_netbsd.golang defs_netbsd_arm.golang
 
 const (
 	_REG_X0    = 0

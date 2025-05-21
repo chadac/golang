@@ -1,13 +1,13 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build gc && !purego
+//golang:build gc && !puregolang
 
-#include "go_asm.h"
+#include "golang_asm.h"
 #include "textflag.h"
 
-// This is an implementation of the ChaCha20 encryption algorithm as
+// This is an implementation of the ChaCha20 encryption algolangrithm as
 // specified in RFC 7539. It uses vector instructions to compute
 // 4 keystream blocks in parallel (256 bytes) which are then XORed
 // with the bytes in the input slice.

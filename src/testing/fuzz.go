@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package testing
@@ -23,8 +23,8 @@ func initFuzzFlags() {
 	flag.Var(&fuzzDuration, "test.fuzztime", "time to spend fuzzing; default is to run indefinitely")
 	flag.Var(&minimizeDuration, "test.fuzzminimizetime", "time to spend minimizing a value after finding a failing input")
 
-	fuzzCacheDir = flag.String("test.fuzzcachedir", "", "directory where interesting fuzzing inputs are stored (for use only by cmd/go)")
-	isFuzzWorker = flag.Bool("test.fuzzworker", false, "coordinate with the parent process to fuzz random values (for use only by cmd/go)")
+	fuzzCacheDir = flag.String("test.fuzzcachedir", "", "directory where interesting fuzzing inputs are stored (for use only by cmd/golang)")
+	isFuzzWorker = flag.Bool("test.fuzzworker", false, "coordinate with the parent process to fuzz random values (for use only by cmd/golang)")
 }
 
 var (
@@ -45,7 +45,7 @@ var (
 const fuzzWorkerExitCode = 70
 
 // InternalFuzzTarget is an internal type but exported because it is
-// cross-package; it is part of the implementation of the "go test" command.
+// cross-package; it is part of the implementation of the "golang test" command.
 type InternalFuzzTarget struct {
 	Name string
 	Fn   func(f *F)
@@ -99,7 +99,7 @@ type corpusEntry = struct {
 
 // Helper marks the calling function as a test helper function.
 // When printing file and line information, that function will be skipped.
-// Helper may be called simultaneously from multiple goroutines.
+// Helper may be called simultaneously from multiple golangroutines.
 func (f *F) Helper() {
 	if f.inFuzzFn {
 		panic("testing: f.Helper was called inside the fuzz target, use t.Helper instead")
@@ -271,8 +271,8 @@ func (f *F) Fuzz(ff any) {
 	}
 
 	// run calls fn on a given input, as a subtest with its own T.
-	// run is analogous to T.Run. The test filtering and cleanup works similarly.
-	// fn is called in its own goroutine.
+	// run is analogolangus to T.Run. The test filtering and cleanup works similarly.
+	// fn is called in its own golangroutine.
 	run := func(captureOut io.Writer, e corpusEntry) (ok bool) {
 		if e.Values == nil {
 			// The corpusEntry must have non-nil Values in order to run the
@@ -325,7 +325,7 @@ func (f *F) Fuzz(ff any) {
 			t.chatty.Updatef(t.name, "=== RUN   %s\n", t.name)
 		}
 		f.common.inFuzzFn, f.inFuzzFn = true, true
-		go tRunner(t, func(t *T) {
+		golang tRunner(t, func(t *T) {
 			args := []reflect.Value{reflect.ValueOf(t)}
 			for _, v := range e.Values {
 				args = append(args, reflect.ValueOf(v))
@@ -350,7 +350,7 @@ func (f *F) Fuzz(ff any) {
 
 	switch f.fstate.mode {
 	case fuzzCoordinator:
-		// Fuzzing is enabled, and this is the test process started by 'go test'.
+		// Fuzzing is enabled, and this is the test process started by 'golang test'.
 		// Act as the coordinator process, and coordinate workers to perform the
 		// actual fuzzing.
 		corpusTargetDir := filepath.Join(corpusDir, f.name)
@@ -373,7 +373,7 @@ func (f *F) Fuzz(ff any) {
 				crashPath := crashErr.CrashPath()
 				fmt.Fprintf(f.w, "Failing input written to %s\n", crashPath)
 				testName := filepath.Base(crashPath)
-				fmt.Fprintf(f.w, "To re-run:\ngo test -run=%s/%s\n", f.name, testName)
+				fmt.Fprintf(f.w, "To re-run:\ngolang test -run=%s/%s\n", f.name, testName)
 			}
 		}
 		// TODO(jayconrod,katiehockman): Aggregate statistics across workers
@@ -395,7 +395,7 @@ func (f *F) Fuzz(ff any) {
 		}); err != nil {
 			// Internal errors are marked with f.Fail; user code may call this too, before F.Fuzz.
 			// The worker will exit with fuzzWorkerExitCode, indicating this is a failure
-			// (and 'go test' should exit non-zero) but a failing input should not be recorded.
+			// (and 'golang test' should exit non-zero) but a failing input should not be recorded.
 			f.Errorf("communicating with fuzzing coordinator: %v", err)
 		}
 
@@ -443,7 +443,7 @@ func (r fuzzResult) String() string {
 }
 
 // fuzzCrashError is satisfied by a failing input detected while fuzzing.
-// These errors are written to the seed corpus and can be re-run with 'go test'.
+// These errors are written to the seed corpus and can be re-run with 'golang test'.
 // Errors within the fuzzing framework (like I/O errors between coordinator
 // and worker processes) don't satisfy this interface.
 type fuzzCrashError interface {
@@ -451,7 +451,7 @@ type fuzzCrashError interface {
 	Unwrap() error
 
 	// CrashPath returns the path of the subtest that corresponds to the saved
-	// crash input file in the seed corpus. The test can be re-run with go test
+	// crash input file in the seed corpus. The test can be re-run with golang test
 	// -run=$test/$name $test is the fuzz test name, and $name is the
 	// filepath.Base of the string returned here.
 	CrashPath() string
@@ -534,7 +534,7 @@ func runFuzzTests(deps testDeps, fuzzTests []InternalFuzzTarget, deadline time.T
 				if f.chatty != nil {
 					f.chatty.Updatef(f.name, "=== RUN   %s\n", f.name)
 				}
-				go fRunner(f, ft.Fn)
+				golang fRunner(f, ft.Fn)
 				<-f.signal
 				if f.chatty != nil && f.chatty.json {
 					f.chatty.Updatef(f.parent.name, "=== NAME  %s\n", f.parent.name)
@@ -620,7 +620,7 @@ func runFuzzing(deps testDeps, fuzzTests []InternalFuzzTarget) (ok bool) {
 	if f.chatty != nil {
 		f.chatty.Updatef(f.name, "=== RUN   %s\n", f.name)
 	}
-	go fRunner(f, fuzzTest.Fn)
+	golang fRunner(f, fuzzTest.Fn)
 	<-f.signal
 	if f.chatty != nil {
 		f.chatty.Updatef(f.parent.name, "=== NAME  %s\n", f.parent.name)
@@ -630,16 +630,16 @@ func runFuzzing(deps testDeps, fuzzTests []InternalFuzzTarget) (ok bool) {
 
 // fRunner wraps a call to a fuzz test and ensures that cleanup functions are
 // called and status flags are set. fRunner should be called in its own
-// goroutine. To wait for its completion, receive from f.signal.
+// golangroutine. To wait for its completion, receive from f.signal.
 //
-// fRunner is analogous to tRunner, which wraps subtests started with T.Run.
+// fRunner is analogolangus to tRunner, which wraps subtests started with T.Run.
 // Unit tests and fuzz tests work a little differently, so for now, these
 // functions aren't consolidated. In particular, because there are no F.Run and
 // F.Parallel methods, i.e., no fuzz sub-tests or parallel fuzz tests, a few
 // simplifications are made. We also require that F.Fuzz, F.Skip, or F.Fail is
 // called.
 func fRunner(f *F, fn func(*F)) {
-	// When this goroutine is done, either because runtime.Goexit was called, a
+	// When this golangroutine is done, either because runtime.Goexit was called, a
 	// panic started, or fn returned normally, record the duration and send
 	// t.signal, indicating the fuzz test is done.
 	defer func() {

@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ascii85
@@ -209,6 +209,6 @@ func TestDecoderInternalWhitespace(t *testing.T) {
 		t.Errorf("Decode gave error %v", err)
 	}
 	if want := []byte("\000\000\000\000"); !bytes.Equal(want, decoded) {
-		t.Errorf("Decode failed: got %v, want %v", decoded, want)
+		t.Errorf("Decode failed: golangt %v, want %v", decoded, want)
 	}
 }

@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Use an external test to avoid os/exec -> internal/testenv -> os/exec
@@ -322,14 +322,14 @@ func TestLookPathWindows(t *testing.T) {
 				cmd := testenv.Command(t, cmdExe, "/c", tt.searchFor, "printpath")
 				out, err := cmd.Output()
 				if err == nil {
-					gotAbs := strings.TrimSpace(string(out))
+					golangtAbs := strings.TrimSpace(string(out))
 					wantAbs := ""
 					if tt.want != "" {
 						wantAbs = filepath.Join(root, tt.want)
 					}
-					if gotAbs != wantAbs {
+					if golangtAbs != wantAbs {
 						// cmd.exe disagrees. Probably the test case is wrong?
-						t.Fatalf("%v\n\tresolved to %s\n\twant %s", cmd, gotAbs, wantAbs)
+						t.Fatalf("%v\n\tresolved to %s\n\twant %s", cmd, golangtAbs, wantAbs)
 					}
 				} else if tt.wantErr == nil {
 					if ee, ok := err.(*exec.ExitError); ok && len(ee.Stderr) > 0 {
@@ -339,15 +339,15 @@ func TestLookPathWindows(t *testing.T) {
 				}
 			}
 
-			got, err := exec.LookPath(tt.searchFor)
-			if filepath.IsAbs(got) {
-				got, err = filepath.Rel(root, got)
+			golangt, err := exec.LookPath(tt.searchFor)
+			if filepath.IsAbs(golangt) {
+				golangt, err = filepath.Rel(root, golangt)
 				if err != nil {
 					t.Fatal(err)
 				}
 			}
-			if got != tt.want {
-				t.Errorf("LookPath(%#q) = %#q; want %#q", tt.searchFor, got, tt.want)
+			if golangt != tt.want {
+				t.Errorf("LookPath(%#q) = %#q; want %#q", tt.searchFor, golangt, tt.want)
 			}
 			if !errors.Is(err, tt.wantErr) {
 				t.Errorf("LookPath(%#q): %v; want %v", tt.searchFor, err, tt.wantErr)
@@ -574,18 +574,18 @@ func TestCommand(t *testing.T) {
 				return
 			}
 
-			got := strings.TrimSpace(string(out))
-			if filepath.IsAbs(got) {
-				got, err = filepath.Rel(root, got)
+			golangt := strings.TrimSpace(string(out))
+			if filepath.IsAbs(golangt) {
+				golangt, err = filepath.Rel(root, golangt)
 				if err != nil {
 					t.Fatal(err)
 				}
 			}
-			if got != tt.want {
-				t.Errorf("\nran  %#q\nwant %#q", got, tt.want)
+			if golangt != tt.want {
+				t.Errorf("\nran  %#q\nwant %#q", golangt, tt.want)
 			}
 
-			gotPath := cmd.Path
+			golangtPath := cmd.Path
 			wantPath := tt.wantPath
 			if wantPath == "" {
 				if strings.Contains(tt.arg0, `\`) {
@@ -596,8 +596,8 @@ func TestCommand(t *testing.T) {
 					wantPath = filepath.Join(root, tt.want)
 				}
 			}
-			if gotPath != wantPath {
-				t.Errorf("\ncmd.Path = %#q\nwant       %#q", gotPath, wantPath)
+			if golangtPath != wantPath {
+				t.Errorf("\ncmd.Path = %#q\nwant       %#q", golangtPath, wantPath)
 			}
 		})
 	}

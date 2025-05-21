@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package internal
@@ -12,10 +12,10 @@ package internal
 // the cldr package.
 
 import (
-	"golang.org/x/text/language"
+	"golanglang.org/x/text/language"
 )
 
-// TODO: consider if (some of the) matching algorithm needs to be public after
+// TODO: consider if (some of the) matching algolangrithm needs to be public after
 // getting some feel about what is generic and what is specific.
 
 // NewInheritanceMatcher returns a matcher that matches based on the inheritance

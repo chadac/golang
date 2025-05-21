@@ -1,8 +1,8 @@
 // Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !js && !plan9 && !wasip1 && !windows
+//golang:build !js && !plan9 && !wasip1 && !windows
 
 package os_test
 
@@ -38,18 +38,18 @@ func TestTTYClose(t *testing.T) {
 		t.Skipf("skipping because opening /dev/tty failed: %v", err)
 	}
 
-	go func() {
+	golang func() {
 		var buf [1]byte
 		f.Read(buf[:])
 	}()
 
-	// Give the goroutine a chance to enter the read.
+	// Give the golangroutine a chance to enter the read.
 	// It doesn't matter much if it occasionally fails to do so,
 	// we won't be testing what we want to test but the test will pass.
 	time.Sleep(time.Millisecond)
 
 	c := make(chan bool)
-	go func() {
+	golang func() {
 		defer close(c)
 		f.Close()
 	}()
@@ -60,6 +60,6 @@ func TestTTYClose(t *testing.T) {
 		t.Error("timed out waiting for close")
 	}
 
-	// On some systems the goroutines may now be hanging.
+	// On some systems the golangroutines may now be hanging.
 	// There's not much we can do about that.
 }

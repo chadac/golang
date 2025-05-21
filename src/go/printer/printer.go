@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package printer implements printing of AST nodes.
@@ -7,9 +7,9 @@ package printer
 
 import (
 	"fmt"
-	"go/ast"
-	"go/build/constraint"
-	"go/token"
+	"golang/ast"
+	"golang/build/constraint"
+	"golang/token"
 	"io"
 	"os"
 	"strings"
@@ -66,7 +66,7 @@ type printer struct {
 	lastTok      token.Token  // last token printed (token.ILLEGAL if it's whitespace)
 	prevOpen     token.Token  // previous non-brace "open" token (, [, or token.ILLEGAL
 	wsbuf        []whiteSpace // delayed white space
-	goBuild      []int        // start index of all //go:build comments in output
+	golangBuild      []int        // start index of all //golang:build comments in output
 	plusBuild    []int        // start index of all // +build comments in output
 
 	// Positions
@@ -100,7 +100,7 @@ func (p *printer) internalError(msg ...any) {
 	if debug {
 		fmt.Print(p.pos.String() + ": ")
 		fmt.Println(msg...)
-		panic("go/printer")
+		panic("golang/printer")
 	}
 }
 
@@ -199,7 +199,7 @@ func (p *printer) writeLineDirective(pos token.Position) {
 	if pos.IsValid() && (p.out.Line != pos.Line || p.out.Filename != pos.Filename) {
 		if strings.ContainsAny(pos.Filename, "\r\n") {
 			if p.sourcePosErr == nil {
-				p.sourcePosErr = fmt.Errorf("go/printer: source filename contains unexpected newline character: %q", pos.Filename)
+				p.sourcePosErr = fmt.Errorf("golang/printer: source filename contains unexpected newline character: %q", pos.Filename)
 			}
 			return
 		}
@@ -462,7 +462,7 @@ func (p *printer) writeCommentPrefix(pos, next token.Position, prev *ast.Comment
 
 		if n > 0 {
 			// use formfeeds to break columns before a comment;
-			// this is analogous to using formfeeds to separate
+			// this is analogolangus to using formfeeds to separate
 			// individual lines of /*-style comments
 			p.writeByte('\f', nlimit(n))
 		}
@@ -641,7 +641,7 @@ func (p *printer) writeComment(comment *ast.Comment) {
 	// shortcut common case of //-style comments
 	if text[1] == '/' {
 		if constraint.IsGoBuild(text) {
-			p.goBuild = append(p.goBuild, len(p.output))
+			p.golangBuild = append(p.golangBuild, len(p.output))
 		} else if constraint.IsPlusBuild(text) {
 			p.plusBuild = append(p.plusBuild, len(p.output))
 		}
@@ -653,7 +653,7 @@ func (p *printer) writeComment(comment *ast.Comment) {
 	// write function take care of the proper indentation
 	lines := strings.Split(text, "\n")
 
-	// The comment started in the first column but is going
+	// The comment started in the first column but is golanging
 	// to be indented. For an idempotent result, add indentation
 	// to all lines such that they look like they were indented
 	// before - this will make sure the common prefix computation
@@ -739,7 +739,7 @@ func (p *printer) intersperseComments(next token.Position, tok token.Token) (wro
 	for p.commentBefore(next) {
 		list := p.comment.List
 		changed := false
-		if p.lastTok != token.IMPORT && // do not rewrite cgo's import "C" comments
+		if p.lastTok != token.IMPORT && // do not rewrite cgolang's import "C" comments
 			p.posFor(p.comment.Pos()).Column == 1 &&
 			p.posFor(p.comment.End()+1) == next {
 			// Unindented comment abutting next token position:
@@ -891,7 +891,7 @@ func (p *printer) setPos(pos token.Pos) {
 // print prints a list of "items" (roughly corresponding to syntactic
 // tokens, but also including whitespace and formatting information).
 // It is the only print function that should be called directly from
-// any of the AST printing functions in nodes.go.
+// any of the AST printing functions in nodes.golang.
 //
 // Whitespace is accumulated until a non-whitespace token appears. Any
 // comments that need to appear before that token are printed first,
@@ -993,7 +993,7 @@ func (p *printer) print(args ...any) {
 
 		default:
 			fmt.Fprintf(os.Stderr, "print: unsupported argument %v (%T)\n", arg, arg)
-			panic("go/printer type")
+			panic("golang/printer type")
 		}
 		// data != ""
 
@@ -1100,7 +1100,7 @@ func (p *printer) printNode(node any) error {
 		// commented node - restrict comment list to relevant range
 		n, ok := node.(ast.Node)
 		if !ok {
-			goto unsupported
+			golangto unsupported
 		}
 		beg := n.Pos()
 		end := n.End()
@@ -1171,13 +1171,13 @@ func (p *printer) printNode(node any) error {
 	case *ast.File:
 		p.file(n)
 	default:
-		goto unsupported
+		golangto unsupported
 	}
 
 	return p.sourcePosErr
 
 unsupported:
-	return fmt.Errorf("go/printer: unsupported node type %T", node)
+	return fmt.Errorf("golang/printer: unsupported node type %T", node)
 }
 
 // ----------------------------------------------------------------------------
@@ -1300,13 +1300,13 @@ const (
 // The mode below is not included in printer's public API because
 // editing code text is deemed out of scope. Because this mode is
 // unexported, it's also possible to modify or remove it based on
-// the evolving needs of go/format and cmd/gofmt without breaking
+// the evolving needs of golang/format and cmd/golangfmt without breaking
 // users. See discussion in CL 240683.
 const (
 	// normalizeNumbers means to canonicalize number
 	// literal prefixes and exponents while printing.
 	//
-	// This value is known in and used by go/format and cmd/gofmt.
+	// This value is known in and used by golang/format and cmd/golangfmt.
 	// It is currently more convenient and performant for those
 	// packages to apply number normalization during printing,
 	// rather than by modifying the AST in advance.
@@ -1348,7 +1348,7 @@ func newPrinter(cfg *Config, fset *token.FileSet, nodeSizes map[ast.Node]int) *p
 }
 
 func (p *printer) free() {
-	// Hard limit on buffer size; see https://golang.org/issue/23199.
+	// Hard limit on buffer size; see https://golanglang.org/issue/23199.
 	if cap(p.output) > 64<<10 {
 		return
 	}
@@ -1369,7 +1369,7 @@ func (cfg *Config) fprint(output io.Writer, fset *token.FileSet, node any, nodeS
 	p.flush(token.Position{Offset: infinity, Line: infinity}, token.EOF)
 
 	// output is buffered in p.output now.
-	// fix //go:build and // +build comments if needed.
+	// fix //golang:build and // +build comments if needed.
 	p.fixGoBuildLines()
 
 	// redirect output through a trimmer to eliminate trailing whitespace
@@ -1426,8 +1426,8 @@ func (cfg *Config) Fprint(output io.Writer, fset *token.FileSet, node any) error
 
 // Fprint "pretty-prints" an AST node to output.
 // It calls [Config.Fprint] with default settings.
-// Note that gofmt uses tabs for indentation but spaces for alignment;
-// use format.Node (package go/format) for output that matches gofmt.
+// Note that golangfmt uses tabs for indentation but spaces for alignment;
+// use format.Node (package golang/format) for output that matches golangfmt.
 func Fprint(output io.Writer, fset *token.FileSet, node any) error {
 	return (&Config{Tabwidth: 8}).Fprint(output, fset, node)
 }

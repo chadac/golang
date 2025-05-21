@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package os
@@ -140,7 +140,7 @@ func (file *File) readdir(n int, mode readdirMode) (names []string, dirents []Di
 					// entries in such cases, making the directory appear non-empty.
 					// The chances of false positive are very low, as we know that the directory exists, else GetVolumeInformationByHandle
 					// would have failed, and that the handle is still valid, as we haven't closed it.
-					// See go.dev/issue/61159.
+					// See golang.dev/issue/61159.
 					// [1] https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-fsa/fa8194e0-53ec-413b-8315-e8fa85396fd8
 					break
 				}

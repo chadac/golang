@@ -1,15 +1,15 @@
 [short] skip
 
-go test -trimpath -v .
+golang test -trimpath -v .
 ! stdout '[/\\]pkg_test_test[/\\]'
 stdout -count=2 '[/\\]pkg_test[/\\]'
 
--- go.mod --
+-- golang.mod --
 module example.com/pkg_test
 
-go 1.17
+golang 1.17
 
--- pkg.go --
+-- pkg.golang --
 package pkg_test
 
 import "runtime"
@@ -19,7 +19,7 @@ func PrintFile() {
 	println(file)
 }
 
--- pkg_x_test.go --
+-- pkg_x_test.golang --
 package pkg_test_test
 
 import (

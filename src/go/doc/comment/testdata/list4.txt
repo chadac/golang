@@ -4,7 +4,7 @@ Text.
 2. Not indented, not a list.
   3. Another list.
 
--- gofmt --
+-- golangfmt --
 Text.
  1. List
 

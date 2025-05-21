@@ -1,8 +1,8 @@
 // run
-//go:build !gcflags_noopt
+//golang:build !gcflags_noopt
 
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test that many initializations can be done at link time and
@@ -306,9 +306,9 @@ var LitSNoArgs = F0()
 
 var myError = errors.New("mine")
 
-func gopherize(s string) string { return "gopher gopher gopher " + s }
+func golangpherize(s string) string { return "golangpher golangpher golangpher " + s }
 
-var animals = gopherize("badger")
+var animals = golangpherize("badger")
 
 // These init funcs should optimize away.
 
@@ -332,7 +332,7 @@ type initTask struct {
 	nfns  uint32
 }
 
-//go:linkname main_inittask main..inittask
+//golang:linkname main_inittask main..inittask
 var main_inittask initTask
 
 func main() {

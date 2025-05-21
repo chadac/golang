@@ -1,16 +1,16 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package syscall provides the syscall primitives required for the runtime.
 package syscall
 
 import (
-	"internal/goarch"
+	"internal/golangarch"
 	"unsafe"
 )
 
-// TODO(https://go.dev/issue/51087): This package is incomplete and currently
+// TODO(https://golang.dev/issue/51087): This package is incomplete and currently
 // only contains very minimal support for Linux.
 
 // Syscall6 calls system call number 'num' with arguments a1-6.
@@ -75,7 +75,7 @@ func Pread(fd int, p []byte, offset int64) (n int, errno uintptr) {
 		p0 = unsafe.Pointer(&_zero)
 	}
 	var r1, e uintptr
-	switch goarch.GOARCH {
+	switch golangarch.GOARCH {
 	case "386":
 		r1, _, e = Syscall6(SYS_PREAD64, uintptr(fd), uintptr(p0), uintptr(len(p)), uintptr(offset), uintptr(offset>>32), 0)
 	case "arm", "mipsle":

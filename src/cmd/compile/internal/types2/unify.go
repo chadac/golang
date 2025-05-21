@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file implements type unification.
@@ -41,7 +41,7 @@ import (
 
 const (
 	// Upper limit for recursion depth. Used to catch infinite recursions
-	// due to implementation issues (e.g., see issues go.dev/issue/48619, go.dev/issue/48656).
+	// due to implementation issues (e.g., see issues golang.dev/issue/48619, golang.dev/issue/48656).
 	unificationDepthLimit = 50
 
 	// Whether to panic when unificationDepthLimit is reached.
@@ -275,7 +275,7 @@ func asInterface(x Type) (i *Interface) {
 	return i
 }
 
-// nify implements the core unification algorithm which is an
+// nify implements the core unification algolangrithm which is an
 // adapted version of Checker.identical. For changes to that
 // code the corresponding changes should be made here.
 // Must not be called directly from outside the unifier.
@@ -398,7 +398,7 @@ func (u *unifier) nify(x, y Type, mode unifyMode, p *ifacePair) (result bool) {
 					// One but not both of them are interfaces.
 					// In this case, either x or y could be viable matches for the corresponding
 					// type parameter, which means choosing either introduces an order dependence.
-					// Therefore, we must fail unification (go.dev/issue/60933).
+					// Therefore, we must fail unification (golang.dev/issue/60933).
 					return false
 				}
 				// If we have inexact unification and one of x or y is a defined type, select the
@@ -407,14 +407,14 @@ func (u *unifier) nify(x, y Type, mode unifyMode, p *ifacePair) (result bool) {
 				// order. Type inference or assignment may fail, which is ok.
 				// Selecting a defined type, if any, ensures that we don't lose the type name;
 				// and since we have inexact unification, a value of equally named or matching
-				// undefined type remains assignable (go.dev/issue/43056).
+				// undefined type remains assignable (golang.dev/issue/43056).
 				//
 				// Similarly, if we have inexact unification and there are no defined types but
 				// channel types, select a directed channel, if any. This ensures that in a series
 				// of unnamed types, all matching against the same type parameter, we infer the
 				// directed channel if there is one, independent of order.
 				// Selecting a directional channel, if any, ensures that a value of another
-				// inexactly unifying channel type remains assignable (go.dev/issue/62157).
+				// inexactly unifying channel type remains assignable (golang.dev/issue/62157).
 				//
 				// If we have multiple defined channel types, they are either identical or we
 				// have assignment conflicts, so we can ignore directionality in this case.
@@ -455,7 +455,7 @@ func (u *unifier) nify(x, y Type, mode unifyMode, p *ifacePair) (result bool) {
 	// other type and corresponding method signatures must unify.
 	if u.enableInterfaceInference && mode&exact == 0 {
 		// One or both interfaces may be defined types.
-		// Look under the name, but not under type parameters (go.dev/issue/60564).
+		// Look under the name, but not under type parameters (golang.dev/issue/60564).
 		xi := asInterface(x)
 		yi := asInterface(y)
 		// If we have two interfaces, check the type terms for equivalence,
@@ -488,7 +488,7 @@ func (u *unifier) nify(x, y Type, mode unifyMode, p *ifacePair) (result bool) {
 			// (if they were not, the recursion would have stopped);
 			// search the ifacePair stack for the same pair.
 			//
-			// This is a quadratic algorithm, but in practice these stacks
+			// This is a quadratic algolangrithm, but in practice these stacks
 			// are extremely short (bounded by the nesting depth of interface
 			// type declarations that recur via parameter types, an extremely
 			// rare occurrence). An alternative implementation might use a
@@ -570,7 +570,7 @@ func (u *unifier) nify(x, y Type, mode unifyMode, p *ifacePair) (result bool) {
 		emode |= exact
 	}
 
-	// Continue with unaliased types but don't lose original alias names, if any (go.dev/issue/67628).
+	// Continue with unaliased types but don't lose original alias names, if any (golang.dev/issue/67628).
 	xorig, x := x, Unalias(x)
 	yorig, y := y, Unalias(y)
 
@@ -689,7 +689,7 @@ func (u *unifier) nify(x, y Type, mode unifyMode, p *ifacePair) (result bool) {
 				// (if they were not, the recursion would have stopped);
 				// search the ifacePair stack for the same pair.
 				//
-				// This is a quadratic algorithm, but in practice these stacks
+				// This is a quadratic algolangrithm, but in practice these stacks
 				// are extremely short (bounded by the nesting depth of interface
 				// type declarations that recur via parameter types, an extremely
 				// rare occurrence). An alternative implementation might use a
@@ -735,7 +735,7 @@ func (u *unifier) nify(x, y Type, mode unifyMode, p *ifacePair) (result bool) {
 		if y := asNamed(y); y != nil {
 			// Check type arguments before origins so they unify
 			// even if the origins don't match; for better error
-			// messages (see go.dev/issue/53692).
+			// messages (see golang.dev/issue/53692).
 			xargs := x.TypeArgs().list()
 			yargs := y.TypeArgs().list()
 			if len(xargs) != len(yargs) {
@@ -765,7 +765,7 @@ func (u *unifier) nify(x, y Type, mode unifyMode, p *ifacePair) (result bool) {
 		// Thus, if we have the core type of an unbound type parameter,
 		// we know the structure of the possible types satisfying such
 		// parameters. Use that core type for further unification
-		// (see go.dev/issue/50755 for a test case).
+		// (see golang.dev/issue/50755 for a test case).
 		if enableCoreTypeUnification {
 			// Because the core type is always an underlying type,
 			// unification will take care of matching against a

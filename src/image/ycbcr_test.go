@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package image
@@ -124,9 +124,9 @@ func TestYCbCrSlicesDontOverlap(t *testing.T) {
 	}
 	for i, slice := range slices {
 		want := uint8(10 + i)
-		for j, got := range slice {
-			if got != want {
-				t.Fatalf("m.%s[%d]: got %d, want %d", names[i], j, got, want)
+		for j, golangt := range slice {
+			if golangt != want {
+				t.Fatalf("m.%s[%d]: golangt %d, want %d", names[i], j, golangt, want)
 			}
 		}
 	}

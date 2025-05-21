@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test communication operations including select.
@@ -70,7 +70,7 @@ func expect(v, v0 int) (newv int) {
 		}
 		return v + 1
 	}
-	print("got ", v, " expected ", v0+1, "\n")
+	print("golangt ", v, " expected ", v0+1, "\n")
 	panic("fail")
 }
 
@@ -207,8 +207,8 @@ func sel(r0, r1, r2, r3, s0, s1, s2, s3 *Chan) {
 // direct send to direct recv
 func test1(c *Chan) {
 	changeNproc(2)
-	go send(c)
-	go recv(c)
+	golang send(c)
+	golang recv(c)
 }
 
 // direct send to select recv
@@ -216,13 +216,13 @@ func test2(c int) {
 	ca := mkchan(c, 4)
 
 	changeNproc(4)
-	go send(ca[0])
-	go send(ca[1])
-	go send(ca[2])
-	go send(ca[3])
+	golang send(ca[0])
+	golang send(ca[1])
+	golang send(ca[2])
+	golang send(ca[3])
 
 	changeNproc(1)
-	go sel(ca[0], ca[1], ca[2], ca[3], nc, nc, nc, nc)
+	golang sel(ca[0], ca[1], ca[2], ca[3], nc, nc, nc, nc)
 }
 
 // select send to direct recv
@@ -230,13 +230,13 @@ func test3(c int) {
 	ca := mkchan(c, 4)
 
 	changeNproc(4)
-	go recv(ca[0])
-	go recv(ca[1])
-	go recv(ca[2])
-	go recv(ca[3])
+	golang recv(ca[0])
+	golang recv(ca[1])
+	golang recv(ca[2])
+	golang recv(ca[3])
 
 	changeNproc(1)
-	go sel(nc, nc, nc, nc, ca[0], ca[1], ca[2], ca[3])
+	golang sel(nc, nc, nc, nc, ca[0], ca[1], ca[2], ca[3])
 }
 
 // select send to select recv
@@ -244,36 +244,36 @@ func test4(c int) {
 	ca := mkchan(c, 4)
 
 	changeNproc(2)
-	go sel(nc, nc, nc, nc, ca[0], ca[1], ca[2], ca[3])
-	go sel(ca[0], ca[1], ca[2], ca[3], nc, nc, nc, nc)
+	golang sel(nc, nc, nc, nc, ca[0], ca[1], ca[2], ca[3])
+	golang sel(ca[0], ca[1], ca[2], ca[3], nc, nc, nc, nc)
 }
 
 func test5(c int) {
 	ca := mkchan(c, 8)
 
 	changeNproc(2)
-	go sel(ca[4], ca[5], ca[6], ca[7], ca[0], ca[1], ca[2], ca[3])
-	go sel(ca[0], ca[1], ca[2], ca[3], ca[4], ca[5], ca[6], ca[7])
+	golang sel(ca[4], ca[5], ca[6], ca[7], ca[0], ca[1], ca[2], ca[3])
+	golang sel(ca[0], ca[1], ca[2], ca[3], ca[4], ca[5], ca[6], ca[7])
 }
 
 func test6(c int) {
 	ca := mkchan(c, 12)
 
 	changeNproc(4)
-	go send(ca[4])
-	go send(ca[5])
-	go send(ca[6])
-	go send(ca[7])
+	golang send(ca[4])
+	golang send(ca[5])
+	golang send(ca[6])
+	golang send(ca[7])
 
 	changeNproc(4)
-	go recv(ca[8])
-	go recv(ca[9])
-	go recv(ca[10])
-	go recv(ca[11])
+	golang recv(ca[8])
+	golang recv(ca[9])
+	golang recv(ca[10])
+	golang recv(ca[11])
 
 	changeNproc(2)
-	go sel(ca[4], ca[5], ca[6], ca[7], ca[0], ca[1], ca[2], ca[3])
-	go sel(ca[0], ca[1], ca[2], ca[3], ca[8], ca[9], ca[10], ca[11])
+	golang sel(ca[4], ca[5], ca[6], ca[7], ca[0], ca[1], ca[2], ca[3])
+	golang sel(ca[0], ca[1], ca[2], ca[3], ca[8], ca[9], ca[10], ca[11])
 }
 
 // wait for outstanding tests to finish

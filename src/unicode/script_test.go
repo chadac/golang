@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package unicode_test
@@ -14,7 +14,7 @@ type T struct {
 	script string
 }
 
-var inCategoryTest = []T{
+var inCategolangryTest = []T{
 	{0x0081, "Cc"},
 	{0x200B, "Cf"},
 	{0xf0000, "Co"},
@@ -96,22 +96,22 @@ var inPropTest = []T{
 	{0x0020, "White_Space"},
 }
 
-func TestCategories(t *testing.T) {
+func TestCategolangries(t *testing.T) {
 	notTested := make(map[string]bool)
-	for k := range Categories {
+	for k := range Categolangries {
 		notTested[k] = true
 	}
-	for _, test := range inCategoryTest {
-		if _, ok := Categories[test.script]; !ok {
-			t.Fatal(test.script, "not a known category")
+	for _, test := range inCategolangryTest {
+		if _, ok := Categolangries[test.script]; !ok {
+			t.Fatal(test.script, "not a known categolangry")
 		}
-		if !Is(Categories[test.script], test.rune) {
-			t.Errorf("IsCategory(%U, %s) = false, want true", test.rune, test.script)
+		if !Is(Categolangries[test.script], test.rune) {
+			t.Errorf("IsCategolangry(%U, %s) = false, want true", test.rune, test.script)
 		}
 		delete(notTested, test.script)
 	}
 	for k := range notTested {
-		t.Error("category not tested:", k)
+		t.Error("categolangry not tested:", k)
 	}
 }
 
@@ -125,7 +125,7 @@ func TestProperties(t *testing.T) {
 			t.Fatal(test.script, "not a known prop")
 		}
 		if !Is(Properties[test.script], test.rune) {
-			t.Errorf("IsCategory(%U, %s) = false, want true", test.rune, test.script)
+			t.Errorf("IsCategolangry(%U, %s) = false, want true", test.rune, test.script)
 		}
 		delete(notTested, test.script)
 	}

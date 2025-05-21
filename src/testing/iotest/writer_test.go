@@ -1,5 +1,5 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package iotest
@@ -30,7 +30,7 @@ func TestTruncateWriter(t *testing.T) {
 			t.Errorf("Unexpected error %v for\n\t%+v", err, tt)
 		}
 		if g, w := buf.String(), tt.want; g != w {
-			t.Errorf("got %q, expected %q", g, w)
+			t.Errorf("golangt %q, expected %q", g, w)
 		}
 		if g, w := n, tt.n; g != w {
 			t.Errorf("read %d bytes, but expected to have read %d bytes for\n\t%+v", g, w, tt)

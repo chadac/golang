@@ -3,20 +3,20 @@
 
 env GO111MODULE=off # simplify vendor layout for test
 
-go list -e -deps -f '{{.ImportPath}}: {{.Error}}' ./importvendor
-stdout 'importvendor: importvendor[\\/]p.go:2:8: vendor/p must be imported as p'
+golang list -e -deps -f '{{.ImportPath}}: {{.Error}}' ./importvendor
+stdout 'importvendor: importvendor[\\/]p.golang:2:8: vendor/p must be imported as p'
 stdout 'vendor/p: <nil>'
 
-go list -e -deps -f '{{.ImportPath}}: {{.Error}}' ./importinternal
-stdout 'importinternal: package importinternal\n\timportinternal[\\/]p.go:2:8: use of internal package other/internal/p not allowed'
+golang list -e -deps -f '{{.ImportPath}}: {{.Error}}' ./importinternal
+stdout 'importinternal: package importinternal\n\timportinternal[\\/]p.golang:2:8: use of internal package other/internal/p not allowed'
 stdout 'other/internal/p: <nil>'
--- importvendor/p.go --
+-- importvendor/p.golang --
 package importvendor
 import "vendor/p"
--- importinternal/p.go --
+-- importinternal/p.golang --
 package importinternal
 import "other/internal/p"
--- other/internal/p/p.go --
+-- other/internal/p/p.golang --
 package p
--- vendor/p/p.go --
+-- vendor/p/p.golang --
 package p

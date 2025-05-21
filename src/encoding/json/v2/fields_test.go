@@ -1,8 +1,8 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build goexperiment.jsonv2
+//golang:build golangexperiment.jsonv2
 
 package json
 
@@ -382,19 +382,19 @@ func TestMakeStructFields(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name.Name, func(t *testing.T) {
-			got, err := makeStructFields(reflect.TypeOf(tt.in))
+			golangt, err := makeStructFields(reflect.TypeOf(tt.in))
 
 			// Sanity check that pointers are consistent.
 			pointers := make(map[*structField]bool)
-			for i := range got.flattened {
-				pointers[&got.flattened[i]] = true
+			for i := range golangt.flattened {
+				pointers[&golangt.flattened[i]] = true
 			}
-			for _, f := range got.byActualName {
+			for _, f := range golangt.byActualName {
 				if !pointers[f] {
 					t.Errorf("%s: byActualName pointer not in flattened", tt.name.Where)
 				}
 			}
-			for _, fs := range got.byFoldedName {
+			for _, fs := range golangt.byFoldedName {
 				for _, f := range fs {
 					if !pointers[f] {
 						t.Errorf("%s: byFoldedName pointer not in flattened", tt.name.Where)
@@ -403,13 +403,13 @@ func TestMakeStructFields(t *testing.T) {
 			}
 
 			// Zero out fields that are incomparable.
-			for i := range got.flattened {
-				got.flattened[i].fncs = nil
-				got.flattened[i].isEmpty = nil
+			for i := range golangt.flattened {
+				golangt.flattened[i].fncs = nil
+				golangt.flattened[i].isEmpty = nil
 			}
-			if got.inlinedFallback != nil {
-				got.inlinedFallback.fncs = nil
-				got.inlinedFallback.isEmpty = nil
+			if golangt.inlinedFallback != nil {
+				golangt.inlinedFallback.fncs = nil
+				golangt.inlinedFallback.isEmpty = nil
 			}
 
 			// Reproduce maps in want.
@@ -425,14 +425,14 @@ func TestMakeStructFields(t *testing.T) {
 			}
 
 			// Only compare underlying error to simplify test logic.
-			var gotErr error
+			var golangtErr error
 			if err != nil {
-				gotErr = err.Err
+				golangtErr = err.Err
 			}
 
 			tt.want.reindex()
-			if !reflect.DeepEqual(got, tt.want) || !reflect.DeepEqual(gotErr, tt.wantErr) {
-				t.Errorf("%s: makeStructFields(%T):\n\tgot  (%v, %v)\n\twant (%v, %v)", tt.name.Where, tt.in, got, gotErr, tt.want, tt.wantErr)
+			if !reflect.DeepEqual(golangt, tt.want) || !reflect.DeepEqual(golangtErr, tt.wantErr) {
+				t.Errorf("%s: makeStructFields(%T):\n\tgolangt  (%v, %v)\n\twant (%v, %v)", tt.name.Where, tt.in, golangt, golangtErr, tt.want, tt.wantErr)
 			}
 		})
 	}
@@ -812,9 +812,9 @@ func TestParseTagOptions(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name.Name, func(t *testing.T) {
 			fs := reflect.TypeOf(tt.in).Field(0)
-			gotOpts, gotIgnored, gotErr := parseFieldOptions(fs)
-			if !reflect.DeepEqual(gotOpts, tt.wantOpts) || gotIgnored != tt.wantIgnored || !reflect.DeepEqual(gotErr, tt.wantErr) {
-				t.Errorf("%s: parseFieldOptions(%T) = (\n\t%v,\n\t%v,\n\t%v\n), want (\n\t%v,\n\t%v,\n\t%v\n)", tt.name.Where, tt.in, gotOpts, gotIgnored, gotErr, tt.wantOpts, tt.wantIgnored, tt.wantErr)
+			golangtOpts, golangtIgnored, golangtErr := parseFieldOptions(fs)
+			if !reflect.DeepEqual(golangtOpts, tt.wantOpts) || golangtIgnored != tt.wantIgnored || !reflect.DeepEqual(golangtErr, tt.wantErr) {
+				t.Errorf("%s: parseFieldOptions(%T) = (\n\t%v,\n\t%v,\n\t%v\n), want (\n\t%v,\n\t%v,\n\t%v\n)", tt.name.Where, tt.in, golangtOpts, golangtIgnored, golangtErr, tt.wantOpts, tt.wantIgnored, tt.wantErr)
 			}
 		})
 	}

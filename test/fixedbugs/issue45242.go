@@ -1,14 +1,14 @@
 // run
 
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
 
 import "fmt"
 
-//go:noinline
+//golang:noinline
 func repro(b []byte, bit int32) {
 	_ = b[3]
 	v := uint32(b[0]) | uint32(b[1])<<8 | uint32(b[2])<<16 | uint32(b[3])<<24 | 1<<(bit&31)
@@ -23,6 +23,6 @@ func main() {
 	repro(b[:], 32)
 	want := [8]byte{1, 0, 0, 0, 0, 0, 0, 0}
 	if b != want {
-		panic(fmt.Sprintf("got %v, want %v\n", b, want))
+		panic(fmt.Sprintf("golangt %v, want %v\n", b, want))
 	}
 }

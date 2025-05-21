@@ -1,11 +1,11 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 //
-// Loong64 version of md5block.go
+// Loong64 version of md5block.golang
 // derived from crypto/md5/md5block_amd64.s
 
-//go:build !purego
+//golang:build !puregolang
 
 #define REGTMP	R30
 #define REGTMP1 R12

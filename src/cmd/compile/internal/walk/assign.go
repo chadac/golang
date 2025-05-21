@@ -1,11 +1,11 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package walk
 
 import (
-	"go/constant"
+	"golang/constant"
 	"internal/abi"
 
 	"cmd/compile/internal/base"
@@ -643,7 +643,7 @@ func isAppendOfMake(n ir.Node) bool {
 //	}
 //	s
 //
-//	if T has pointers, the final memclr can go inside the "then" branch, as
+//	if T has pointers, the final memclr can golang inside the "then" branch, as
 //	growslice will have done the clearing for us.
 
 func extendSlice(n *ir.CallExpr, init *ir.Nodes) ir.Node {

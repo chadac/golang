@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package cryptobyte
@@ -11,7 +11,7 @@ import (
 	"reflect"
 	"time"
 
-	"golang.org/x/crypto/cryptobyte/asn1"
+	"golanglang.org/x/crypto/cryptobyte/asn1"
 )
 
 // This file contains ASN.1-related methods for String and Builder.

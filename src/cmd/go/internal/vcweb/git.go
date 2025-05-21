@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package vcweb
@@ -23,7 +23,7 @@ type gitHandler struct {
 func (h *gitHandler) Available() bool {
 	if runtime.GOOS == "plan9" {
 		// The Git command is usually not the real Git on Plan 9.
-		// See https://golang.org/issues/29640.
+		// See https://golanglang.org/issues/29640.
 		return false
 	}
 	h.once.Do(func() {

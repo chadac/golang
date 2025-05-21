@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ld
@@ -22,7 +22,7 @@ func TestUndefinedRelocErrors(t *testing.T) {
 	// When external linking, symbols may be defined externally, so we allow
 	// undefined symbols and let external linker resolve. Skip the test.
 	//
-	// N.B. go build below explictly doesn't pass through
+	// N.B. golang build below explictly doesn't pass through
 	// -asan/-msan/-race, so we don't care about those.
 	testenv.MustInternalLink(t, testenv.NoSpecialBuildTypes)
 
@@ -110,7 +110,7 @@ func TestArchiveBuildInvokeWithExec(t *testing.T) {
 	}
 	dir := t.TempDir()
 
-	srcfile := filepath.Join(dir, "test.go")
+	srcfile := filepath.Join(dir, "test.golang")
 	arfile := filepath.Join(dir, "test.a")
 	if err := os.WriteFile(srcfile, []byte(carchiveSrcText), 0666); err != nil {
 		t.Fatal(err)
@@ -133,7 +133,7 @@ func TestArchiveBuildInvokeWithExec(t *testing.T) {
 	}
 
 	if !found {
-		t.Errorf("expected '%s' in -v output, got:\n%s\n", want, string(out))
+		t.Errorf("expected '%s' in -v output, golangt:\n%s\n", want, string(out))
 	}
 }
 
@@ -156,11 +156,11 @@ func TestLargeTextSectionSplitting(t *testing.T) {
 
 	// NB: the use of -ldflags=-debugtextsize=1048576 tells the linker to
 	// split text sections at a size threshold of 1M instead of the
-	// architected limit of 67M or larger. The choice of building cmd/go
+	// architected limit of 67M or larger. The choice of building cmd/golang
 	// is arbitrary; we just need something sufficiently large that uses
 	// external linking.
-	exe := filepath.Join(dir, "go.exe")
-	out, err := testenv.Command(t, testenv.GoToolPath(t), "build", "-o", exe, "-ldflags=-linkmode=external -debugtextsize=1048576", "cmd/go").CombinedOutput()
+	exe := filepath.Join(dir, "golang.exe")
+	out, err := testenv.Command(t, testenv.GoToolPath(t), "build", "-o", exe, "-ldflags=-linkmode=external -debugtextsize=1048576", "cmd/golang").CombinedOutput()
 	if err != nil {
 		t.Fatalf("build failure: %s\n%s\n", err, string(out))
 	}
@@ -205,7 +205,7 @@ func testWindowsBuildmodeCSharedASLR(t *testing.T, useASLR bool) {
 
 	dir := t.TempDir()
 
-	srcfile := filepath.Join(dir, "test.go")
+	srcfile := filepath.Join(dir, "test.golang")
 	objfile := filepath.Join(dir, "test.dll")
 	if err := os.WriteFile(srcfile, []byte(`package main; func main() { print("hello") }`), 0666); err != nil {
 		t.Fatal(err)
@@ -358,7 +358,7 @@ func main() {
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
 			tempDir := t.TempDir()
-			src := filepath.Join(tempDir, "x.go")
+			src := filepath.Join(tempDir, "x.golang")
 			if err := os.WriteFile(src, []byte(tt.prog), 0644); err != nil {
 				t.Fatal(err)
 			}
@@ -367,9 +367,9 @@ func main() {
 			if err != nil {
 				t.Fatal(err)
 			}
-			got := strings.TrimSpace(string(out))
-			if got != tt.wantOut {
-				t.Errorf("got %q; want %q", got, tt.wantOut)
+			golangt := strings.TrimSpace(string(out))
+			if golangt != tt.wantOut {
+				t.Errorf("golangt %q; want %q", golangt, tt.wantOut)
 			}
 		})
 	}
@@ -407,7 +407,7 @@ func TestRISCVTrampolines(t *testing.T) {
 		t.Fatalf("Failed to write assembly file: %v", err)
 	}
 
-	if err := os.WriteFile(filepath.Join(tmpDir, "go.mod"), []byte("module riscvtramp"), 0644); err != nil {
+	if err := os.WriteFile(filepath.Join(tmpDir, "golang.mod"), []byte("module riscvtramp"), 0644); err != nil {
 		t.Fatalf("Failed to write file: %v\n", err)
 	}
 	main := `package main
@@ -417,7 +417,7 @@ func main() {
 
 func d()
 `
-	if err := os.WriteFile(filepath.Join(tmpDir, "x.go"), []byte(main), 0644); err != nil {
+	if err := os.WriteFile(filepath.Join(tmpDir, "x.golang"), []byte(main), 0644); err != nil {
 		t.Fatalf("failed to write main: %v\n", err)
 	}
 	cmd := testenv.Command(t, testenv.GoToolPath(t), "build", "-ldflags=-linkmode=internal")

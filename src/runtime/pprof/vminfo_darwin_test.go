@@ -1,8 +1,8 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !ios
+//golang:build !ios
 
 package pprof
 
@@ -32,24 +32,24 @@ func TestVMInfo(t *testing.T) {
 			filename = file
 		}
 		// May see multiple text segments if rosetta is used for running
-		// the go toolchain itself.
+		// the golang toolchain itself.
 		first = false
 	})
 	lo, hi, err := useVMMapWithRetry(t)
 	if err != nil {
 		t.Fatal(err)
 	}
-	if got, want := begin, lo; got != want {
-		t.Errorf("got %x, want %x", got, want)
+	if golangt, want := begin, lo; golangt != want {
+		t.Errorf("golangt %x, want %x", golangt, want)
 	}
-	if got, want := end, hi; got != want {
-		t.Errorf("got %x, want %x", got, want)
+	if golangt, want := end, hi; golangt != want {
+		t.Errorf("golangt %x, want %x", golangt, want)
 	}
-	if got, want := offset, uint64(0); got != want {
-		t.Errorf("got %x, want %x", got, want)
+	if golangt, want := offset, uint64(0); golangt != want {
+		t.Errorf("golangt %x, want %x", golangt, want)
 	}
 	if !strings.HasSuffix(filename, "pprof.test") {
-		t.Errorf("got %s, want pprof.test", filename)
+		t.Errorf("golangt %s, want pprof.test", filename)
 	}
 	addr := uint64(abi.FuncPCABIInternal(TestVMInfo))
 	if addr < lo || addr > hi {
@@ -65,7 +65,7 @@ type mapping struct {
 func useVMMapWithRetry(t *testing.T) (hi, lo uint64, err error) {
 	var retryable bool
 	ch := make(chan mapping)
-	go func() {
+	golang func() {
 		for {
 			hi, lo, retryable, err = useVMMap(t)
 			if err == nil {
@@ -124,10 +124,10 @@ func useVMMap(t *testing.T) (hi, lo uint64, retryable bool, err error) {
 // parseVmmap parses the output of vmmap and calls addMapping for the first r-x TEXT segment in the output.
 func parseVmmap(data []byte) (hi, lo uint64, err error) {
 	// vmmap 53799
-	// Process:         gopls [53799]
-	// Path:            /Users/USER/*/gopls
+	// Process:         golangpls [53799]
+	// Path:            /Users/USER/*/golangpls
 	// Load Address:    0x1029a0000
-	// Identifier:      gopls
+	// Identifier:      golangpls
 	// Version:         ???
 	// Code Type:       ARM64
 	// Platform:        macOS
@@ -145,16 +145,16 @@ func parseVmmap(data []byte) (hi, lo uint64, err error) {
 	// Idle exit:                  untracked
 	// ----
 	//
-	// Virtual Memory Map of process 53799 (gopls)
+	// Virtual Memory Map of process 53799 (golangpls)
 	// Output report format:  2.4  -64-bit process
 	// VM page size:  16384 bytes
 	//
 	// ==== Non-writable regions for process 53799
 	// REGION TYPE                    START END         [ VSIZE  RSDNT  DIRTY   SWAP] PRT/MAX SHRMOD PURGE    REGION DETAIL
-	// __TEXT                      1029a0000-1033bc000    [ 10.1M  7360K     0K     0K] r-x/rwx SM=COW          /Users/USER/*/gopls
-	// __DATA_CONST                1033bc000-1035bc000    [ 2048K  2000K     0K     0K] r--/rwSM=COW          /Users/USER/*/gopls
-	// __DATA_CONST                1035bc000-103a48000    [ 4656K  3824K     0K     0K] r--/rwSM=COW          /Users/USER/*/gopls
-	// __LINKEDIT                  103b00000-103c98000    [ 1632K  1616K     0K     0K] r--/r-SM=COW          /Users/USER/*/gopls
+	// __TEXT                      1029a0000-1033bc000    [ 10.1M  7360K     0K     0K] r-x/rwx SM=COW          /Users/USER/*/golangpls
+	// __DATA_CONST                1033bc000-1035bc000    [ 2048K  2000K     0K     0K] r--/rwSM=COW          /Users/USER/*/golangpls
+	// __DATA_CONST                1035bc000-103a48000    [ 4656K  3824K     0K     0K] r--/rwSM=COW          /Users/USER/*/golangpls
+	// __LINKEDIT                  103b00000-103c98000    [ 1632K  1616K     0K     0K] r--/r-SM=COW          /Users/USER/*/golangpls
 	// dyld private memory         103cd8000-103cdc000    [   16K     0K     0K     0K] ---/--SM=NUL
 	// shared memory               103ce4000-103ce8000    [   16K    16K    16K     0K] r--/r-SM=SHM
 	// MALLOC metadata             103ce8000-103cec000    [   16K    16K    16K     0K] r--/rwx SM=COW          DefaultMallocZone_0x103ce8000 zone structure

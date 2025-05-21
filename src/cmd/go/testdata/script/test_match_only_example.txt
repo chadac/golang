@@ -1,16 +1,16 @@
 [short] skip
 
 # Check that it's okay for test pattern to match only examples.
-go test -run Example example1_test.go
+golang test -run Example example1_test.golang
 ! stderr '^ok.*\[no tests to run\]'
 stdout '^ok'
 
--- example1_test.go --
+-- example1_test.golang --
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Make sure that go test runs Example_z before Example_a, preserving source order.
+// Make sure that golang test runs Example_z before Example_a, preserving source order.
 
 package p
 

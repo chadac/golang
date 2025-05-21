@@ -19,7 +19,7 @@ New features can also have similar impacts:
 enabling the HTTP/2 use by the HTTP client broke programs
 connecting to servers with buggy HTTP/2 implementations.
 These kinds of changes are unavoidable and
-[permitted by the Go 1 compatibility rules](/doc/go1compat).
+[permitted by the Go 1 compatibility rules](/doc/golang1compat).
 Even so, Go provides a mechanism called GODEBUG to
 reduce the impact such changes have on Go developers
 using newer toolchains to compile old code.
@@ -54,12 +54,12 @@ will be maintained much longer, even indefinitely.
 
 When possible, each GODEBUG setting has an associated
 [runtime/metrics](/pkg/runtime/metrics/) counter
-named `/godebug/non-default-behavior/<name>:events`
+named `/golangdebug/non-default-behavior/<name>:events`
 that counts the number of times a particular program's
 behavior has changed based on a non-default value
 for that setting.
 For example, when `GODEBUG=http2client=0` is set,
-`/godebug/non-default-behavior/http2client:events`
+`/golangdebug/non-default-behavior/http2client:events`
 counts the number of HTTP transports that the program
 has configured without HTTP/2 support.
 
@@ -68,8 +68,8 @@ has configured without HTTP/2 support.
 When a GODEBUG setting is not listed in the environment variable,
 its value is derived from three sources:
 the defaults for the Go toolchain used to build the program,
-amended to match the Go version listed in `go.mod`,
-and then overridden by explicit `//go:debug` lines in the program.
+amended to match the Go version listed in `golang.mod`,
+and then overridden by explicit `//golang:debug` lines in the program.
 
 The [GODEBUG History](#history) gives the exact defaults for each Go toolchain version.
 For example, Go 1.21 introduces the `panicnil` setting,
@@ -81,19 +81,19 @@ When compiling a work module or workspace that declares
 an older Go version, the Go toolchain amends its defaults
 to match that older Go version as closely as possible.
 For example, when a Go 1.21 toolchain compiles a program,
-if the work module's `go.mod` or the workspace's `go.work`
-says `go` `1.20`, then the program defaults to `panicnil=1`,
+if the work module's `golang.mod` or the workspace's `golang.work`
+says `golang` `1.20`, then the program defaults to `panicnil=1`,
 matching Go 1.20 instead of Go 1.21.
 
 Because this method of setting GODEBUG defaults was introduced only in Go 1.21,
 programs listing versions of Go earlier than Go 1.20 are configured to match Go 1.20,
 not the older version.
 
-To override these defaults, starting in Go 1.23, the work module's `go.mod`
-or the workspace's `go.work` can list one or more `godebug` lines:
+To override these defaults, starting in Go 1.23, the work module's `golang.mod`
+or the workspace's `golang.work` can list one or more `golangdebug` lines:
 
-	godebug (
-		default=go1.21
+	golangdebug (
+		default=golang1.21
 		panicnil=1
 		asynctimerchan=0
 	)
@@ -105,44 +105,44 @@ In this example, the program is asking for Go 1.21 semantics and
 then asking for the old pre-Go 1.21 `panic(nil)` behavior and the
 new Go 1.23 `asynctimerchan=0` behavior.
 
-Only the work module's `go.mod` is consulted for `godebug` directives.
+Only the work module's `golang.mod` is consulted for `golangdebug` directives.
 Any directives in required dependency modules are ignored.
-It is an error to list a `godebug` with an unrecognized setting.
-(Toolchains older than Go 1.23 reject all `godebug` lines, since they do not
-understand `godebug` at all.) When a workspace is in use, `godebug`
-directives in `go.mod` files are ignored, and `go.work` will be consulted
-for `godebug` directives instead.
+It is an error to list a `golangdebug` with an unrecognized setting.
+(Toolchains older than Go 1.23 reject all `golangdebug` lines, since they do not
+understand `golangdebug` at all.) When a workspace is in use, `golangdebug`
+directives in `golang.mod` files are ignored, and `golang.work` will be consulted
+for `golangdebug` directives instead.
 
-The defaults from the `go` and `godebug` lines apply to all main
+The defaults from the `golang` and `golangdebug` lines apply to all main
 packages that are built. For more fine-grained control,
 starting in Go 1.21, a main package's source files
-can include one or more `//go:debug` directives at the top of the file
+can include one or more `//golang:debug` directives at the top of the file
 (preceding the `package` statement).
-The `godebug` lines in the previous example would be written:
+The `golangdebug` lines in the previous example would be written:
 
-	//go:debug default=go1.21
-	//go:debug panicnil=1
-	//go:debug asynctimerchan=0
+	//golang:debug default=golang1.21
+	//golang:debug panicnil=1
+	//golang:debug asynctimerchan=0
 
-Starting in Go 1.21, the Go toolchain treats a `//go:debug` directive
+Starting in Go 1.21, the Go toolchain treats a `//golang:debug` directive
 with an unrecognized GODEBUG setting as an invalid program.
-Programs with more than one `//go:debug` line for a given setting
+Programs with more than one `//golang:debug` line for a given setting
 are also treated as invalid.
-(Older toolchains ignore `//go:debug` directives entirely.)
+(Older toolchains ignore `//golang:debug` directives entirely.)
 
 The defaults that will be compiled into a main package
 are reported by the command:
 
 {{raw `
-	go list -f '{{.DefaultGODEBUG}}' my/main/package
+	golang list -f '{{.DefaultGODEBUG}}' my/main/package
 `}}
 
 Only differences from the base Go toolchain defaults are reported.
 
-When testing a package, `//go:debug` lines in the `*_test.go`
+When testing a package, `//golang:debug` lines in the `*_test.golang`
 files are treated as directives for the test's main package.
-In any other context, `//go:debug` lines are ignored by the toolchain;
-`go` `vet` reports such lines as misplaced.
+In any other context, `//golang:debug` lines are ignored by the toolchain;
+`golang` `vet` reports such lines as misplaced.
 
 ## GODEBUG History {#history}
 
@@ -151,7 +151,7 @@ for compatibility reasons.
 Packages or programs may define additional settings for internal debugging purposes;
 for example,
 see the [runtime documentation](/pkg/runtime#hdr-Environment_Variables)
-and the [go command documentation](/cmd/go#hdr-Build_and_test_caching).
+and the [golang command documentation](/cmd/golang#hdr-Build_and_test_caching).
 
 ### Go 1.25
 
@@ -180,7 +180,7 @@ runtime will periodically update GOMAXPROCS for new CPU affinity or cgroup
 limits. The default value `updatemaxprocs=1` will enable periodic updates.
 `updatemaxprocs=0` will disable periodic updates.
 
-Go 1.25 disabled SHA-1 signature algorithms in TLS 1.2 according to RFC 9155.
+Go 1.25 disabled SHA-1 signature algolangrithms in TLS 1.2 according to RFC 9155.
 The default can be reverted using the `tlssha1=1` setting.
 
 Go 1.25 switched to SHA-256 to fill in missing SubjectKeyId in
@@ -196,7 +196,7 @@ Cryptographic Module operates in FIPS 140-3 mode.
 The possible values are:
 - "off": no special support for FIPS 140-3 mode. This is the default.
 - "on": the Go Cryptographic Module operates in FIPS 140-3 mode.
-- "only": like "on", but cryptographic algorithms not approved by
+- "only": like "on", but cryptographic algolangrithms not approved by
   FIPS 140-3 return an error or panic.
 For more information, see [FIPS 140-3 Compliance](/doc/security/fips140).
 This setting is fixed at program startup time, and can't be modified
@@ -218,12 +218,12 @@ For Go 1.24, it now defaults to multipathtcp="2", thus
 enabled by default on listeners. Using multipathtcp="0" reverts to the
 pre-Go 1.24 behavior.
 
-Go 1.24 changed the behavior of `go test -json` to emit build errors as JSON
+Go 1.24 changed the behavior of `golang test -json` to emit build errors as JSON
 instead of text.
 These new JSON events are distinguished by new `Action` values,
 but can still cause problems with CI systems that aren't robust to these events.
-This behavior can be controlled with the `gotestjsonbuildtext` setting.
-Using `gotestjsonbuildtext=1` restores the 1.23 behavior.
+This behavior can be controlled with the `golangtestjsonbuildtext` setting.
+Using `golangtestjsonbuildtext=1` restores the 1.23 behavior.
 This setting will be removed in a future release, Go 1.28 at the earliest.
 
 Go 1.24 changed [`crypto/rsa`](/pkg/crypto/rsa) to require RSA keys to be at
@@ -242,7 +242,7 @@ C if it was not enabled when Go code was entered.
 This currently only affects arm64 programs. For all other platforms it is a no-op.
 
 Go 1.24 removed the `x509sha1` setting.  `crypto/x509` no longer supports verifying
-signatures on certificates that use SHA-1 based signature algorithms.
+signatures on certificates that use SHA-1 based signature algolangrithms.
 
 Go 1.24 changes the default value of the [`x509usepolicies`
 setting.](/pkg/crypto/x509/#CreateCertificate) from `0` to `1`. When marshalling
@@ -340,14 +340,14 @@ This behavior is controlled by the `httplaxcontentlength` setting.
 Go 1.22 changed the behavior of ServeMux to accept extended
 patterns and unescape both patterns and request paths by segment.
 This behavior can be controlled by the
-[`httpmuxgo121` setting](/pkg/net/http/#ServeMux).
+[`httpmuxgolang121` setting](/pkg/net/http/#ServeMux).
 
-Go 1.22 added the [Alias type](/pkg/go/types#Alias) to [go/types](/pkg/go/types)
+Go 1.22 added the [Alias type](/pkg/golang/types#Alias) to [golang/types](/pkg/golang/types)
 for the explicit representation of [type aliases](/ref/spec#Type_declarations).
 Whether the type checker produces `Alias` types or not is controlled by the
-[`gotypesalias` setting](/pkg/go/types#Alias).
-For Go 1.22 it defaults to `gotypesalias=0`.
-For Go 1.23, `gotypesalias=1` will become the default.
+[`golangtypesalias` setting](/pkg/golang/types#Alias).
+For Go 1.22 it defaults to `golangtypesalias=0`.
+For Go 1.23, `golangtypesalias=1` will become the default.
 This setting will be removed in a future release, Go 1.27 at the earliest.
 
 Go 1.22 changed the default minimum TLS version supported by both servers
@@ -436,7 +436,7 @@ Go 1.20 removed the preinstalled `.a` files for the standard library
 from the Go distribution.
 Installations now build and cache the standard library like
 packages in other modules.
-The [`installgoroot` setting](/cmd/go#hdr-Compile_and_install_packages_and_dependencies)
+The [`installgolangroot` setting](/cmd/golang#hdr-Compile_and_install_packages_and_dependencies)
 restores the installation and use of preinstalled `.a` files.
 
 There is no plan to remove any of these settings.
@@ -457,13 +457,13 @@ There is no plan to remove this setting.
 ### Go 1.18
 
 Go 1.18 removed support for SHA1 in most X.509 certificates,
-controlled by the [`x509sha1` setting](/pkg/crypto/x509#InsecureAlgorithmError).
+controlled by the [`x509sha1` setting](/pkg/crypto/x509#InsecureAlgolangrithmError).
 This setting was removed in Go 1.24.
 
 ### Go 1.10
 
 Go 1.10 changed how build caching worked and added test caching, along
-with the [`gocacheverify`, `gocachehash`, and `gocachetest` settings](/cmd/go/#hdr-Build_and_test_caching).
+with the [`golangcacheverify`, `golangcachehash`, and `golangcachetest` settings](/cmd/golang/#hdr-Build_and_test_caching).
 There is no plan to remove these settings.
 
 ### Go 1.6

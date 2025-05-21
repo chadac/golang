@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 #include "textflag.h"
@@ -42,8 +42,8 @@ GLOBL ·atanxmone<> + 0(SB), RODATA, $8
 // Special cases are:
 //      Atan(±0) = ±0
 //      Atan(±Inf) = ±Pi/2Pi
-// The algorithm used is minimax polynomial approximation
-// with coefficients determined with a Remez exchange algorithm.
+// The algolangrithm used is minimax polynomial approximation
+// with coefficients determined with a Remez exchange algolangrithm.
 
 TEXT	·atanAsm(SB), NOSPLIT, $0-16
 	FMOVD	x+0(FP), F0

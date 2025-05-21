@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package multipart
@@ -7,7 +7,7 @@ package multipart
 import (
 	"bytes"
 	"errors"
-	"internal/godebug"
+	"internal/golangdebug"
 	"io"
 	"math"
 	"net/textproto"
@@ -34,8 +34,8 @@ func (r *Reader) ReadForm(maxMemory int64) (*Form, error) {
 }
 
 var (
-	multipartfiles    = godebug.New("#multipartfiles") // TODO: document and remove #
-	multipartmaxparts = godebug.New("multipartmaxparts")
+	multipartfiles    = golangdebug.New("#multipartfiles") // TODO: document and remove #
+	multipartmaxparts = golangdebug.New("multipartmaxparts")
 )
 
 func (r *Reader) readForm(maxMemory int64) (_ *Form, err error) {

@@ -1,14 +1,14 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build goexperiment.swissmap
+//golang:build golangexperiment.swissmap
 
 package runtime_test
 
 import (
 	"internal/abi"
-	"internal/goarch"
+	"internal/golangarch"
 	"internal/runtime/maps"
 	"slices"
 	"testing"
@@ -16,13 +16,13 @@ import (
 )
 
 func TestHmapSize(t *testing.T) {
-	// The structure of Map is defined in internal/runtime/maps/map.go
-	// and in cmd/compile/internal/reflectdata/map_swiss.go and must be in sync.
+	// The structure of Map is defined in internal/runtime/maps/map.golang
+	// and in cmd/compile/internal/reflectdata/map_swiss.golang and must be in sync.
 	// The size of Map should be 48 bytes on 64 bit and 32 bytes on 32 bit platforms.
-	wantSize := uintptr(2*8 + 4*goarch.PtrSize)
-	gotSize := unsafe.Sizeof(maps.Map{})
-	if gotSize != wantSize {
-		t.Errorf("sizeof(maps.Map{})==%d, want %d", gotSize, wantSize)
+	wantSize := uintptr(2*8 + 4*golangarch.PtrSize)
+	golangtSize := unsafe.Sizeof(maps.Map{})
+	if golangtSize != wantSize {
+		t.Errorf("sizeof(maps.Map{})==%d, want %d", golangtSize, wantSize)
 	}
 }
 
@@ -37,7 +37,7 @@ func TestGroupSizeZero(t *testing.T) {
 	// ensure that pointers to the zero-size type at the end of group are
 	// valid.
 	if mt.Group.Size() <= 8 {
-		t.Errorf("Group size got %d want >8", mt.Group.Size())
+		t.Errorf("Group size golangt %d want >8", mt.Group.Size())
 	}
 }
 

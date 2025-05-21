@@ -1,20 +1,20 @@
 env GO111MODULE=on
 
-! go mod init .
-stderr '^go: malformed module path ".": is a local import path$'
+! golang mod init .
+stderr '^golang: malformed module path ".": is a local import path$'
 
 cd x
-go mod init example.com/x
+golang mod init example.com/x
 
 cd ../y
-go mod init m
+golang mod init m
 
--- x/main.go --
+-- x/main.golang --
 package main
 
 func main() {}
 
--- y/main.go --
+-- y/main.golang --
 package main
 
 func main() {}

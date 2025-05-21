@@ -1,4 +1,4 @@
-package cgo_disabled
+package cgolang_disabled
 
 import "C"
 

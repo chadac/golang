@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package os
@@ -135,7 +135,7 @@ func addExtendedPrefix(path string) string {
 		// We don't want to call syscall.Getwd here, as that call is expensive to do
 		// every time fixLongPath is called with a relative path, so we use a cache.
 		// Note that getwdCache might be outdated if the working directory has been
-		// changed without using os.Chdir, i.e. using syscall.Chdir directly or cgo.
+		// changed without using os.Chdir, i.e. using syscall.Chdir directly or cgolang.
 		// This is fine, as the worst that can happen is that we fail to fix the path.
 		getwdCache.Lock()
 		if getwdCache.dir == "" {

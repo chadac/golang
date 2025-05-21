@@ -1,8 +1,8 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build goexperiment.jsonv2
+//golang:build golangexperiment.jsonv2
 
 package json
 
@@ -103,13 +103,13 @@ func TestSemanticError(t *testing.T) {
 	}}
 
 	for _, tt := range tests {
-		got := tt.err.Error()
+		golangt := tt.err.Error()
 		// Cleanup the error of non-deterministic rendering effects.
-		if strings.HasPrefix(got, errorPrefix+"unable to ") {
-			got = errorPrefix + "cannot " + strings.TrimPrefix(got, errorPrefix+"unable to ")
+		if strings.HasPrefix(golangt, errorPrefix+"unable to ") {
+			golangt = errorPrefix + "cannot " + strings.TrimPrefix(golangt, errorPrefix+"unable to ")
 		}
-		if got != tt.want {
-			t.Errorf("%#v.Error mismatch:\ngot  %v\nwant %v", tt.err, got, tt.want)
+		if golangt != tt.want {
+			t.Errorf("%#v.Error mismatch:\ngolangt  %v\nwant %v", tt.err, golangt, tt.want)
 		}
 	}
 }

@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
@@ -11,12 +11,12 @@ var labelSync uintptr
 // runtime_setProfLabel should be an internal detail,
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
-//   - github.com/cloudwego/localsession
+//   - github.com/cloudwegolang/localsession
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname runtime_setProfLabel runtime/pprof.runtime_setProfLabel
+//golang:linkname runtime_setProfLabel runtime/pprof.runtime_setProfLabel
 func runtime_setProfLabel(labels unsafe.Pointer) {
 	// Introduce race edge for read-back via profile.
 	// This would more properly use &getg().labels as the sync address,
@@ -27,7 +27,7 @@ func runtime_setProfLabel(labels unsafe.Pointer) {
 	// setProfLabel operations, not just the most recent one. This
 	// is important because profBuf.read will observe different
 	// labels set by different setProfLabel operations on
-	// different goroutines, so it needs to synchronize with all
+	// different golangroutines, so it needs to synchronize with all
 	// of them (this wouldn't be an issue if we could synchronize
 	// on &getg().labels since we would synchronize with each
 	// most-recent labels write separately.)
@@ -45,12 +45,12 @@ func runtime_setProfLabel(labels unsafe.Pointer) {
 // runtime_getProfLabel should be an internal detail,
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
-//   - github.com/cloudwego/localsession
+//   - github.com/cloudwegolang/localsession
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname runtime_getProfLabel runtime/pprof.runtime_getProfLabel
+//golang:linkname runtime_getProfLabel runtime/pprof.runtime_getProfLabel
 func runtime_getProfLabel() unsafe.Pointer {
 	return getg().labels
 }

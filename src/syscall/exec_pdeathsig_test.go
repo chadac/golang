@@ -1,8 +1,8 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build freebsd || linux
+//golang:build freebsd || linux
 
 package syscall_test
 
@@ -23,7 +23,7 @@ import (
 )
 
 // TestDeathSignalSetuid verifies that a command run with a different UID still
-// receives PDeathsig; it is a regression test for https://go.dev/issue/9686.
+// receives PDeathsig; it is a regression test for https://golang.dev/issue/9686.
 func TestDeathSignalSetuid(t *testing.T) {
 	if testing.Short() {
 		t.Skipf("skipping test that copies its binary into temp dir")
@@ -84,17 +84,17 @@ func TestDeathSignalSetuid(t *testing.T) {
 
 	chldPipe := bufio.NewReader(chldStdout)
 
-	if got, err := chldPipe.ReadString('\n'); got == "start\n" {
+	if golangt, err := chldPipe.ReadString('\n'); golangt == "start\n" {
 		syscall.Kill(cmd.Process.Pid, syscall.SIGTERM)
 
 		want := "ok\n"
-		if got, err = chldPipe.ReadString('\n'); got != want {
-			t.Fatalf("expected %q, received %q, %v", want, got, err)
+		if golangt, err = chldPipe.ReadString('\n'); golangt != want {
+			t.Fatalf("expected %q, received %q, %v", want, golangt, err)
 		}
-	} else if got == "skip\n" {
+	} else if golangt == "skip\n" {
 		t.Skipf("skipping: parent could not run child program as selected user")
 	} else {
-		t.Fatalf("did not receive start from child, received %q, %v", got, err)
+		t.Fatalf("did not receive start from child, received %q, %v", golangt, err)
 	}
 }
 
@@ -106,7 +106,7 @@ func deathSignalParent() {
 	if os.Getuid() == 0 {
 		tryUsers := []string{"nobody"}
 		if testenv.Builder() != "" {
-			tryUsers = append(tryUsers, "gopher")
+			tryUsers = append(tryUsers, "golangpher")
 		}
 		for _, name := range tryUsers {
 			u, err = user.Lookup(name)
@@ -167,7 +167,7 @@ func deathSignalParent() {
 func deathSignalChild() {
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, syscall.SIGUSR1)
-	go func() {
+	golang func() {
 		<-c
 		fmt.Println("ok")
 		os.Exit(0)

@@ -6,6 +6,6 @@
 
 package p
 
-//go:build x
+//golang:build x
 
 func f()

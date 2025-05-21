@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package binary implements simple translation between numbers and byte
@@ -13,12 +13,12 @@
 // The varint functions encode and decode single integer values using
 // a variable-length encoding; smaller values require fewer bytes.
 // For a specification, see
-// https://developers.google.com/protocol-buffers/docs/encoding.
+// https://developers.golangogle.com/protocol-buffers/docs/encoding.
 //
 // This package favors simplicity over efficiency. Clients that require
 // high-performance serialization, especially for large data structures,
-// should look at more advanced solutions such as the [encoding/gob]
-// package or [google.golang.org/protobuf] for protocol buffers.
+// should look at more advanced solutions such as the [encoding/golangb]
+// package or [golangogle.golanglang.org/protobuf] for protocol buffers.
 package binary
 
 import (
@@ -67,7 +67,7 @@ type littleEndian struct{}
 
 // Uint16 returns the uint16 representation of b[0:2].
 func (littleEndian) Uint16(b []byte) uint16 {
-	_ = b[1] // bounds check hint to compiler; see golang.org/issue/14808
+	_ = b[1] // bounds check hint to compiler; see golanglang.org/issue/14808
 	return uint16(b[0]) | uint16(b[1])<<8
 }
 
@@ -88,7 +88,7 @@ func (littleEndian) AppendUint16(b []byte, v uint16) []byte {
 
 // Uint32 returns the uint32 representation of b[0:4].
 func (littleEndian) Uint32(b []byte) uint32 {
-	_ = b[3] // bounds check hint to compiler; see golang.org/issue/14808
+	_ = b[3] // bounds check hint to compiler; see golanglang.org/issue/14808
 	return uint32(b[0]) | uint32(b[1])<<8 | uint32(b[2])<<16 | uint32(b[3])<<24
 }
 
@@ -113,7 +113,7 @@ func (littleEndian) AppendUint32(b []byte, v uint32) []byte {
 
 // Uint64 returns the uint64 representation of b[0:8].
 func (littleEndian) Uint64(b []byte) uint64 {
-	_ = b[7] // bounds check hint to compiler; see golang.org/issue/14808
+	_ = b[7] // bounds check hint to compiler; see golanglang.org/issue/14808
 	return uint64(b[0]) | uint64(b[1])<<8 | uint64(b[2])<<16 | uint64(b[3])<<24 |
 		uint64(b[4])<<32 | uint64(b[5])<<40 | uint64(b[6])<<48 | uint64(b[7])<<56
 }
@@ -153,7 +153,7 @@ type bigEndian struct{}
 
 // Uint16 returns the uint16 representation of b[0:2].
 func (bigEndian) Uint16(b []byte) uint16 {
-	_ = b[1] // bounds check hint to compiler; see golang.org/issue/14808
+	_ = b[1] // bounds check hint to compiler; see golanglang.org/issue/14808
 	return uint16(b[1]) | uint16(b[0])<<8
 }
 
@@ -174,7 +174,7 @@ func (bigEndian) AppendUint16(b []byte, v uint16) []byte {
 
 // Uint32 returns the uint32 representation of b[0:4].
 func (bigEndian) Uint32(b []byte) uint32 {
-	_ = b[3] // bounds check hint to compiler; see golang.org/issue/14808
+	_ = b[3] // bounds check hint to compiler; see golanglang.org/issue/14808
 	return uint32(b[3]) | uint32(b[2])<<8 | uint32(b[1])<<16 | uint32(b[0])<<24
 }
 
@@ -199,7 +199,7 @@ func (bigEndian) AppendUint32(b []byte, v uint32) []byte {
 
 // Uint64 returns the uint64 representation of b[0:8].
 func (bigEndian) Uint64(b []byte) uint64 {
-	_ = b[7] // bounds check hint to compiler; see golang.org/issue/14808
+	_ = b[7] // bounds check hint to compiler; see golanglang.org/issue/14808
 	return uint64(b[7]) | uint64(b[6])<<8 | uint64(b[5])<<16 | uint64(b[4])<<24 |
 		uint64(b[3])<<32 | uint64(b[2])<<40 | uint64(b[1])<<48 | uint64(b[0])<<56
 }
@@ -857,7 +857,7 @@ func (d *decoder) value(v reflect.Value) {
 			// Note: Calling v.CanSet() below is an optimization.
 			// It would be sufficient to check the field name,
 			// but creating the StructField info for each field is
-			// costly (run "go test -bench=ReadStruct" and compare
+			// costly (run "golang test -bench=ReadStruct" and compare
 			// results when making changes to this code).
 			if v := v.Field(i); v.CanSet() || t.Field(i).Name != "_" {
 				d.value(v)

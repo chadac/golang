@@ -1,13 +1,13 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build ignore
+//golang:build ignore
 
 /*
-Input to cgo -cdefs
+Input to cgolang -cdefs
 
-GOARCH=amd64 cgo -cdefs defs.go defs1.go >amd64/defs.h
+GOARCH=amd64 cgolang -cdefs defs.golang defs1.golang >amd64/defs.h
 */
 
 package runtime

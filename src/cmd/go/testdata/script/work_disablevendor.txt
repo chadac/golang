@@ -6,19 +6,19 @@ cd workspace
 # Base case: ensure the module would default to mod=vendor
 # outside of workspace mode.
 env GOWORK=off
-go list -f '{{.Dir}}' example.com/dep
+golang list -f '{{.Dir}}' example.com/dep
 stdout $GOPATH[\\/]src[\\/]workspace[\\/]vendor[\\/]example.com[\\/]dep
 
 # Test case: endure the module does not enter mod=vendor outside
 # worspace mode.
 env GOWORK=''
-go list -f '{{.Dir}}' example.com/dep
+golang list -f '{{.Dir}}' example.com/dep
 stdout $GOPATH[\\/]src[\\/]dep
 
--- workspace/go.work --
+-- workspace/golang.work --
 use .
 replace example.com/dep => ../dep
--- workspace/main.go --
+-- workspace/main.golang --
 package main
 
 import "example.com/dep"
@@ -26,13 +26,13 @@ import "example.com/dep"
 func main() {
 	dep.Dep()
 }
--- workspace/go.mod --
+-- workspace/golang.mod --
 module example.com/mod
 
-go 1.20
+golang 1.20
 
 require example.com/dep v1.0.0
--- workspace/vendor/example.com/dep/dep.go --
+-- workspace/vendor/example.com/dep/dep.golang --
 package dep
 
 import "fmt"
@@ -44,9 +44,9 @@ func Dep() {
 # example.com/dep v1.0.0
 ## explicit
 example.com/dep
--- dep/go.mod --
+-- dep/golang.mod --
 module example.com/dep
--- dep/dep.go --
+-- dep/dep.golang --
 package dep
 
 import "fmt"

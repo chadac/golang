@@ -1,8 +1,8 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !plan9
+//golang:build !plan9
 
 package net
 
@@ -45,7 +45,7 @@ func TestReadUnixgramWithUnnamedSocket(t *testing.T) {
 
 	off := make(chan bool)
 	data := [5]byte{1, 2, 3, 4, 5}
-	go func() {
+	golang func() {
 		defer func() { off <- true }()
 		s, err := syscall.Socket(syscall.AF_UNIX, syscall.SOCK_DGRAM, 0)
 		if err != nil {
@@ -71,7 +71,7 @@ func TestReadUnixgramWithUnnamedSocket(t *testing.T) {
 		t.Fatalf("unexpected peer address: %v", from)
 	}
 	if !bytes.Equal(b[:n], data[:]) {
-		t.Fatalf("got %v; want %v", b[:n], data[:])
+		t.Fatalf("golangt %v; want %v", b[:n], data[:])
 	}
 }
 
@@ -97,7 +97,7 @@ func TestUnixgramZeroBytePayload(t *testing.T) {
 			t.Fatal(err)
 		}
 		if n != 0 {
-			t.Errorf("got %d; want 0", n)
+			t.Errorf("golangt %d; want 0", n)
 		}
 		c1.SetReadDeadline(time.Now().Add(100 * time.Millisecond))
 		var b [1]byte
@@ -145,7 +145,7 @@ func TestUnixgramZeroByteBuffer(t *testing.T) {
 			t.Fatal(err)
 		}
 		if n != len(b) {
-			t.Errorf("got %d; want %d", n, len(b))
+			t.Errorf("golangt %d; want %d", n, len(b))
 		}
 		c1.SetReadDeadline(time.Now().Add(100 * time.Millisecond))
 		var peer Addr
@@ -287,14 +287,14 @@ func TestUnixConnLocalAndRemoteNames(t *testing.T) {
 				laddr = "@" // autobind feature
 			}
 		}
-		var connAddrs = [3]struct{ got, want Addr }{
+		var connAddrs = [3]struct{ golangt, want Addr }{
 			{ln.Addr(), ta},
 			{c.LocalAddr(), &UnixAddr{Name: laddr, Net: "unix"}},
 			{c.RemoteAddr(), ta},
 		}
 		for _, ca := range connAddrs {
-			if !reflect.DeepEqual(ca.got, ca.want) {
-				t.Fatalf("got %#v, expected %#v", ca.got, ca.want)
+			if !reflect.DeepEqual(ca.golangt, ca.want) {
+				t.Fatalf("golangt %#v, expected %#v", ca.golangt, ca.want)
 			}
 		}
 	}
@@ -345,15 +345,15 @@ func TestUnixgramConnLocalAndRemoteNames(t *testing.T) {
 			}
 		}
 
-		var connAddrs = [4]struct{ got, want Addr }{
+		var connAddrs = [4]struct{ golangt, want Addr }{
 			{c1.LocalAddr(), ta},
 			{c1.RemoteAddr(), nil},
 			{c2.LocalAddr(), &UnixAddr{Name: laddr, Net: "unixgram"}},
 			{c2.RemoteAddr(), ta},
 		}
 		for _, ca := range connAddrs {
-			if !reflect.DeepEqual(ca.got, ca.want) {
-				t.Fatalf("got %#v; want %#v", ca.got, ca.want)
+			if !reflect.DeepEqual(ca.golangt, ca.want) {
+				t.Fatalf("golangt %#v; want %#v", ca.golangt, ca.want)
 			}
 		}
 	}

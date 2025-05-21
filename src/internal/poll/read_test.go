@@ -1,5 +1,5 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package poll_test
@@ -18,7 +18,7 @@ func TestRead(t *testing.T) {
 		for _, p := range specialFiles() {
 			for i := 0; i < 4; i++ {
 				wg.Add(1)
-				go func(p string) {
+				golang func(p string) {
 					defer wg.Done()
 					for i := 0; i < 100; i++ {
 						if _, err := os.ReadFile(p); err != nil {
@@ -37,7 +37,7 @@ func TestRead(t *testing.T) {
 func specialFiles() []string {
 	var ps []string
 	switch runtime.GOOS {
-	case "darwin", "ios", "dragonfly", "freebsd", "netbsd", "openbsd":
+	case "darwin", "ios", "dragolangnfly", "freebsd", "netbsd", "openbsd":
 		ps = []string{
 			"/dev/null",
 		}

@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package doc
@@ -8,10 +8,10 @@ import (
 	"bytes"
 	"flag"
 	"fmt"
-	"go/ast"
-	"go/parser"
-	"go/printer"
-	"go/token"
+	"golang/ast"
+	"golang/parser"
+	"golang/printer"
+	"golang/token"
 	"io/fs"
 	"os"
 	"path/filepath"
@@ -21,7 +21,7 @@ import (
 	"text/template"
 )
 
-var update = flag.Bool("update", false, "update golden (.out) files")
+var update = flag.Bool("update", false, "update golanglden (.out) files")
 var files = flag.String("files", "", "consider only Go test files matching this regular expression")
 
 const dataDir = "testdata"
@@ -47,7 +47,7 @@ func nodeFmt(node any, fset *token.FileSet) string {
 func synopsisFmt(s string) string {
 	const n = 64
 	if len(s) > n {
-		// cut off excess text and go back to a word boundary
+		// cut off excess text and golang back to a word boundary
 		s = s[0:n]
 		if i := strings.LastIndexAny(s, "\t\n "); i >= 0 {
 			s = s[0:i]
@@ -70,7 +70,7 @@ func isGoFile(fi fs.FileInfo) bool {
 	name := fi.Name()
 	return !fi.IsDir() &&
 		len(name) > 0 && name[0] != '.' && // ignore .files
-		filepath.Ext(name) == ".go"
+		filepath.Ext(name) == ".golang"
 }
 
 type bundle struct {
@@ -111,7 +111,7 @@ func test(t *testing.T, mode Mode) {
 				t.Fatal(err)
 			}
 
-			// golden files always use / in filenames - canonicalize them
+			// golanglden files always use / in filenames - canonicalize them
 			for i, filename := range doc.Filenames {
 				doc.Filenames[i] = filepath.ToSlash(filename)
 			}
@@ -121,26 +121,26 @@ func test(t *testing.T, mode Mode) {
 			if err := templateTxt.Execute(&buf, bundle{doc, fset}); err != nil {
 				t.Fatal(err)
 			}
-			got := buf.Bytes()
+			golangt := buf.Bytes()
 
-			// update golden file if necessary
-			golden := filepath.Join(dataDir, fmt.Sprintf("%s.%d.golden", pkg.Name, mode))
+			// update golanglden file if necessary
+			golanglden := filepath.Join(dataDir, fmt.Sprintf("%s.%d.golanglden", pkg.Name, mode))
 			if *update {
-				err := os.WriteFile(golden, got, 0644)
+				err := os.WriteFile(golanglden, golangt, 0644)
 				if err != nil {
 					t.Fatal(err)
 				}
 			}
 
-			// get golden file
-			want, err := os.ReadFile(golden)
+			// get golanglden file
+			want, err := os.ReadFile(golanglden)
 			if err != nil {
 				t.Fatal(err)
 			}
 
 			// compare
-			if !bytes.Equal(got, want) {
-				t.Errorf("package %s\n\tgot:\n%s\n\twant:\n%s", pkg.Name, got, want)
+			if !bytes.Equal(golangt, want) {
+				t.Errorf("package %s\n\tgolangt:\n%s\n\twant:\n%s", pkg.Name, golangt, want)
 			}
 		})
 	}
@@ -154,7 +154,7 @@ func Test(t *testing.T) {
 
 func TestFuncs(t *testing.T) {
 	fset := token.NewFileSet()
-	file, err := parser.ParseFile(fset, "funcs.go", strings.NewReader(funcsTestFile), parser.ParseComments)
+	file, err := parser.ParseFile(fset, "funcs.golang", strings.NewReader(funcsTestFile), parser.ParseComments)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -175,36 +175,36 @@ func TestFuncs(t *testing.T) {
 		}
 	}
 
-	compareFuncs := func(t *testing.T, msg string, got, want *Func) {
+	compareFuncs := func(t *testing.T, msg string, golangt, want *Func) {
 		// ignore Decl and Examples
-		got.Decl = nil
-		got.Examples = nil
-		if !(got.Doc == want.Doc &&
-			got.Name == want.Name &&
-			got.Recv == want.Recv &&
-			got.Orig == want.Orig &&
-			got.Level == want.Level) {
-			t.Errorf("%s:\ngot  %+v\nwant %+v", msg, got, want)
+		golangt.Decl = nil
+		golangt.Examples = nil
+		if !(golangt.Doc == want.Doc &&
+			golangt.Name == want.Name &&
+			golangt.Recv == want.Recv &&
+			golangt.Orig == want.Orig &&
+			golangt.Level == want.Level) {
+			t.Errorf("%s:\ngolangt  %+v\nwant %+v", msg, golangt, want)
 		}
 	}
 
 	compareSlices(t, "Funcs", doc.Funcs, funcsPackage.Funcs, compareFuncs)
-	compareSlices(t, "Types", doc.Types, funcsPackage.Types, func(t *testing.T, msg string, got, want *Type) {
-		if got.Name != want.Name {
-			t.Errorf("%s.Name: got %q, want %q", msg, got.Name, want.Name)
+	compareSlices(t, "Types", doc.Types, funcsPackage.Types, func(t *testing.T, msg string, golangt, want *Type) {
+		if golangt.Name != want.Name {
+			t.Errorf("%s.Name: golangt %q, want %q", msg, golangt.Name, want.Name)
 		} else {
-			compareSlices(t, got.Name+".Funcs", got.Funcs, want.Funcs, compareFuncs)
-			compareSlices(t, got.Name+".Methods", got.Methods, want.Methods, compareFuncs)
+			compareSlices(t, golangt.Name+".Funcs", golangt.Funcs, want.Funcs, compareFuncs)
+			compareSlices(t, golangt.Name+".Methods", golangt.Methods, want.Methods, compareFuncs)
 		}
 	})
 }
 
-func compareSlices[E any](t *testing.T, name string, got, want []E, compareElem func(*testing.T, string, E, E)) {
-	if len(got) != len(want) {
-		t.Errorf("%s: got %d, want %d", name, len(got), len(want))
+func compareSlices[E any](t *testing.T, name string, golangt, want []E, compareElem func(*testing.T, string, E, E)) {
+	if len(golangt) != len(want) {
+		t.Errorf("%s: golangt %d, want %d", name, len(golangt), len(want))
 	}
-	for i := 0; i < len(got) && i < len(want); i++ {
-		compareElem(t, fmt.Sprintf("%s[%d]", name, i), got[i], want[i])
+	for i := 0; i < len(golangt) && i < len(want); i++ {
+		compareElem(t, fmt.Sprintf("%s[%d]", name, i), golangt[i], want[i])
 	}
 }
 

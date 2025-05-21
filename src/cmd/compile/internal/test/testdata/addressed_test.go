@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -18,7 +18,7 @@ func mypanic(t *testing.T, s string) {
 
 func assertEqual(t *testing.T, x, y int) {
 	if x != y {
-		mypanic(t, fmt.Sprintf("assertEqual failed got %d, want %d", x, y))
+		mypanic(t, fmt.Sprintf("assertEqual failed golangt %d, want %d", x, y))
 	}
 }
 
@@ -51,23 +51,23 @@ func TestAddressed(t *testing.T) {
 	test_autos(t)
 }
 
-//go:noinline
+//golang:noinline
 func f1_ssa(x, y int) *int {
 	x = x*y + y
 	return &x
 }
 
-//go:noinline
+//golang:noinline
 func f3a_ssa(x int) *int {
 	return &x
 }
 
-//go:noinline
-func f3b_ssa(x int) interface{} { // ./foo.go:15: internal error: f3b_ssa ~r1 (type interface {}) recorded as live on entry
+//golang:noinline
+func f3b_ssa(x int) interface{} { // ./foo.golang:15: internal error: f3b_ssa ~r1 (type interface {}) recorded as live on entry
 	return &x
 }
 
-//go:noinline
+//golang:noinline
 func f3c_ssa(y int) interface{} {
 	x := y
 	return &x
@@ -87,7 +87,7 @@ func args(t *testing.T) {
 	assertEqual(t, int(i), 2)
 }
 
-//go:noinline
+//golang:noinline
 func (v V) args_ssa(a, b V) int64 {
 	if v.w == 0 {
 		return v.x
@@ -119,15 +119,15 @@ func test(t *testing.T, which int64) {
 	v1 := V{w: 30, x: 3, p: nil}
 	v2, v3 := v1.autos_ssa(which, 10, 1, 20, 2)
 	if which != v2.val() {
-		output += fmt.Sprintln("Expected which=", which, "got v2.val()=", v2.val())
+		output += fmt.Sprintln("Expected which=", which, "golangt v2.val()=", v2.val())
 		mypanic(t, "Failure of expected V value")
 	}
 	if v2.p.val() != v3.val() {
-		output += fmt.Sprintln("Expected v2.p.val()=", v2.p.val(), "got v3.val()=", v3.val())
+		output += fmt.Sprintln("Expected v2.p.val()=", v2.p.val(), "golangt v3.val()=", v3.val())
 		mypanic(t, "Failure of expected V.p value")
 	}
 	if which != v3.p.p.p.p.p.p.p.val() {
-		output += fmt.Sprintln("Expected which=", which, "got v3.p.p.p.p.p.p.p.val()=", v3.p.p.p.p.p.p.p.val())
+		output += fmt.Sprintln("Expected which=", which, "golangt v3.p.p.p.p.p.p.p.val()=", v3.p.p.p.p.p.p.p.val())
 		mypanic(t, "Failure of expected V.p value")
 	}
 }
@@ -146,7 +146,7 @@ func (v V) val() int64 {
 // be equal to z.val().  Also, x(.p)**8 == x; that is, the
 // autos are all linked into a ring.
 //
-//go:noinline
+//golang:noinline
 func (v V) autos_ssa(which, w1, x1, w2, x2 int64) (y, z V) {
 	fill_ssa(v.w, v.x, &v, v.p) // gratuitous no-op to force addressing
 	var a, b, c, d, e, f, g, h V
@@ -193,7 +193,7 @@ func (v V) autos_ssa(which, w1, x1, w2, x2 int64) (y, z V) {
 // gets is an address-mentioning way of implementing
 // structure assignment.
 //
-//go:noinline
+//golang:noinline
 func (to *V) gets(from *V) {
 	*to = *from
 }
@@ -201,14 +201,14 @@ func (to *V) gets(from *V) {
 // gets is an address-and-interface-mentioning way of
 // implementing structure assignment.
 //
-//go:noinline
+//golang:noinline
 func (to *V) getsI(from interface{}) {
 	*to = *from.(*V)
 }
 
 // fill_ssa initializes r with V{w:w, x:x, p:p}
 //
-//go:noinline
+//golang:noinline
 func fill_ssa(w, x int64, r, p *V) {
 	*r = V{w: w, x: x, p: p}
 }

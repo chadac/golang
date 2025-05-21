@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package cookiejar implements an in-memory RFC 6265-compliant http.CookieJar.
@@ -25,14 +25,14 @@ import (
 //   - the public suffix of "bar.pvt.k12.ma.us" is "pvt.k12.ma.us".
 //
 // Implementations of PublicSuffixList must be safe for concurrent use by
-// multiple goroutines.
+// multiple golangroutines.
 //
 // An implementation that always returns "" is valid and may be useful for
 // testing but it is not secure: it means that the HTTP server for foo.com can
 // set a cookie for bar.com.
 //
 // A public suffix list implementation is in the package
-// golang.org/x/net/publicsuffix.
+// golanglang.org/x/net/publicsuffix.
 type PublicSuffixList interface {
 	// PublicSuffix returns the public suffix of domain.
 	//

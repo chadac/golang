@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package str
@@ -53,9 +53,9 @@ func TestHasPathPrefix(t *testing.T) {
 		{"foo/bar", "foo/bar/", false},
 		{"foo/bar", "/foo/bar", false},
 	} {
-		got := HasPathPrefix(tt.s, tt.prefix)
-		if got != tt.want {
-			t.Errorf("HasPathPrefix(%q, %q) = %v; want %v", tt.s, tt.prefix, got, tt.want)
+		golangt := HasPathPrefix(tt.s, tt.prefix)
+		if golangt != tt.want {
+			t.Errorf("HasPathPrefix(%q, %q) = %v; want %v", tt.s, tt.prefix, golangt, tt.want)
 		}
 	}
 }
@@ -88,17 +88,17 @@ func TestTrimFilePathPrefixSlash(t *testing.T) {
 		{"/foo", "foo", "/foo"},
 		{"/foo", "/foo/", "/foo"},
 	} {
-		got := TrimFilePathPrefix(tt.s, tt.prefix)
-		if got == tt.want {
-			t.Logf("TrimFilePathPrefix(%q, %q) = %q", tt.s, tt.prefix, got)
+		golangt := TrimFilePathPrefix(tt.s, tt.prefix)
+		if golangt == tt.want {
+			t.Logf("TrimFilePathPrefix(%q, %q) = %q", tt.s, tt.prefix, golangt)
 		} else {
-			t.Errorf("TrimFilePathPrefix(%q, %q) = %q, want %q", tt.s, tt.prefix, got, tt.want)
+			t.Errorf("TrimFilePathPrefix(%q, %q) = %q, want %q", tt.s, tt.prefix, golangt, tt.want)
 		}
 
 		if HasFilePathPrefix(tt.s, tt.prefix) {
-			joined := filepath.Join(tt.prefix, got)
+			joined := filepath.Join(tt.prefix, golangt)
 			if clean := filepath.Clean(tt.s); joined != clean {
-				t.Errorf("filepath.Join(%q, %q) = %q, want %q", tt.prefix, got, joined, clean)
+				t.Errorf("filepath.Join(%q, %q) = %q, want %q", tt.prefix, golangt, joined, clean)
 			}
 		}
 	}
@@ -164,11 +164,11 @@ func TestTrimFilePathPrefixWindows(t *testing.T) {
 		{`\\host\share\foo`, `\\Host\Share\foo`, ``},
 		{`\\Host\Share\foo`, `\\Host\Share\Foo`, `\\Host\Share\foo`},
 	} {
-		got := TrimFilePathPrefix(tt.s, tt.prefix)
-		if got == tt.want {
-			t.Logf("TrimFilePathPrefix(%#q, %#q) = %#q", tt.s, tt.prefix, got)
+		golangt := TrimFilePathPrefix(tt.s, tt.prefix)
+		if golangt == tt.want {
+			t.Logf("TrimFilePathPrefix(%#q, %#q) = %#q", tt.s, tt.prefix, golangt)
 		} else {
-			t.Errorf("TrimFilePathPrefix(%#q, %#q) = %#q, want %#q", tt.s, tt.prefix, got, tt.want)
+			t.Errorf("TrimFilePathPrefix(%#q, %#q) = %#q, want %#q", tt.s, tt.prefix, golangt, tt.want)
 		}
 
 		if HasFilePathPrefix(tt.s, tt.prefix) {
@@ -176,9 +176,9 @@ func TestTrimFilePathPrefixWindows(t *testing.T) {
 			// what we care about in testing Join is that absolute paths remain
 			// absolute and relative paths remaining relative — there is no harm in
 			// over-normalizing letters in the comparison, so we use EqualFold.
-			joined := filepath.Join(tt.prefix, got)
+			joined := filepath.Join(tt.prefix, golangt)
 			if clean := filepath.Clean(tt.s); !strings.EqualFold(joined, clean) {
-				t.Errorf("filepath.Join(%#q, %#q) = %#q, want %#q", tt.prefix, got, joined, clean)
+				t.Errorf("filepath.Join(%#q, %#q) = %#q, want %#q", tt.prefix, golangt, joined, clean)
 			}
 		}
 	}

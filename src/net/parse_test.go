@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package net
@@ -69,7 +69,7 @@ func TestDtoi(t *testing.T) {
 	} {
 		n, i, ok := dtoi(tt.in)
 		if n != tt.out || i != tt.off || ok != tt.ok {
-			t.Errorf("got %d, %d, %v; want %d, %d, %v", n, i, ok, tt.out, tt.off, tt.ok)
+			t.Errorf("golangt %d, %d, %v; want %d, %d, %v", n, i, ok, tt.out, tt.off, tt.ok)
 		}
 	}
 }

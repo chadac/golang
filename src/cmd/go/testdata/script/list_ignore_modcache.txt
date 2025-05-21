@@ -1,17 +1,17 @@
-# go list should skip 'ignore' directives for indexed modules in the module cache
-# See golang.org/issue/42965
+# golang list should skip 'ignore' directives for indexed modules in the module cache
+# See golanglang.org/issue/42965
 
 env GOMODCACHE=$WORK${/}modcache
-go get example.com/ignore/...@v1.0.0
-go list -x example.com/ignore/...
+golang get example.com/ignore/...@v1.0.0
+golang list -x example.com/ignore/...
 stderr 'ignoring directory '$GOMODCACHE''${/}'example.com'${/}'ignore@v1.0.0'${/}'foo'
 
--- go.mod --
+-- golang.mod --
 module example
 
-go 1.24
+golang 1.24
 
--- main.go --
+-- main.golang --
 package main
 
 func main() {}

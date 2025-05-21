@@ -1,8 +1,8 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build linux && (mips || mipsle)
+//golang:build linux && (mips || mipsle)
 
 package runtime
 
@@ -62,7 +62,7 @@ func (c *sigctxt) preparePanic(sig uint32, gp *g) {
 	// function calls sigpanic directly.
 	// Always save LINK to stack so that panics in leaf
 	// functions are correctly handled. This smashes
-	// the stack frame but we're not going back there
+	// the stack frame but we're not golanging back there
 	// anyway.
 	sp := c.sp() - sys.MinFrameSize
 	c.set_sp(sp)

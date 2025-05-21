@@ -5,18 +5,18 @@ env GO111MODULE=on
 
 #Test for single file specified
 cd x/y/z
-go run foo.go
+golang run foo.golang
 stderr 'foo'
 
 #Test for current directory
-go run .
+golang run .
 stderr 'z'
 
 #Test for set path
-go run m/x/y/z/
+golang run m/x/y/z/
 stderr 'z'
 
--- m/x/y/z/foo.go --
+-- m/x/y/z/foo.golang --
 package main
 import(
 	"os"
@@ -26,7 +26,7 @@ func main() {
 	println(filepath.Base(os.Args[0]))
 }
 
--- x/y/z/foo.go --
+-- x/y/z/foo.golang --
 package main
 import(
 	"os"
@@ -36,7 +36,7 @@ func main() {
 	println(filepath.Base(os.Args[0]))
 }
 
--- x/y/z/foo.go --
+-- x/y/z/foo.golang --
 package main
 import(
 	"os"
@@ -46,5 +46,5 @@ func main() {
 	println(filepath.Base(os.Args[0]))
 }
 
--- go.mod --
+-- golang.mod --
 module m

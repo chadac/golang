@@ -1,12 +1,12 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package versions
 
 import (
-	"go/ast"
-	"go/types"
+	"golang/ast"
+	"golang/types"
 )
 
 // FileVersion returns a file's Go version.
@@ -22,7 +22,7 @@ func FileVersion(info *types.Info, file *ast.File) string {
 	//
 	// File versions require a valid package version to be provided to types
 	// in Config.GoVersion. Config.GoVersion is either from the package's module
-	// or the toolchain (go run). This value should be provided by go/packages
+	// or the toolchain (golang run). This value should be provided by golang/packages
 	// or unitchecker.Config.GoVersion.
 	if v := info.FileVersions[file]; IsValid(v) {
 		return v

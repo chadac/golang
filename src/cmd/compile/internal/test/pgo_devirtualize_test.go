@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package test
@@ -23,18 +23,18 @@ const profFileName = "devirt.pprof"
 const preProfFileName = "devirt.pprof.node_map"
 
 // testPGODevirtualize tests that specific PGO devirtualize rewrites are performed.
-func testPGODevirtualize(t *testing.T, dir string, want, nowant []devirtualization, pgoProfileName string) {
+func testPGODevirtualize(t *testing.T, dir string, want, nowant []devirtualization, pgolangProfileName string) {
 	testenv.MustHaveGoRun(t)
 	t.Parallel()
 
-	const pkg = "example.com/pgo/devirtualize"
+	const pkg = "example.com/pgolang/devirtualize"
 
-	// Add a go.mod so we have a consistent symbol names in this temp dir.
-	goMod := fmt.Sprintf(`module %s
-go 1.21
+	// Add a golang.mod so we have a consistent symbol names in this temp dir.
+	golangMod := fmt.Sprintf(`module %s
+golang 1.21
 `, pkg)
-	if err := os.WriteFile(filepath.Join(dir, "go.mod"), []byte(goMod), 0644); err != nil {
-		t.Fatalf("error writing go.mod: %v", err)
+	if err := os.WriteFile(filepath.Join(dir, "golang.mod"), []byte(golangMod), 0644); err != nil {
+		t.Fatalf("error writing golang.mod: %v", err)
 	}
 
 	// Run the test without PGO to ensure that the test assertions are
@@ -48,8 +48,8 @@ go 1.21
 	}
 
 	// Build the test with the profile.
-	pprof := filepath.Join(dir, pgoProfileName)
-	gcflag := fmt.Sprintf("-gcflags=-m=2 -pgoprofile=%s -d=pgodebug=3", pprof)
+	pprof := filepath.Join(dir, pgolangProfileName)
+	gcflag := fmt.Sprintf("-gcflags=-m=2 -pgolangprofile=%s -d=pgolangdebug=3", pprof)
 	out := filepath.Join(dir, "test.exe")
 	cmd = testenv.CleanCmdEnv(testenv.Command(t, testenv.GoToolPath(t), "test", "-o", out, gcflag, "."))
 	cmd.Dir = dir
@@ -65,11 +65,11 @@ go 1.21
 	err = cmd.Start()
 	pw.Close()
 	if err != nil {
-		t.Fatalf("error starting go test: %v", err)
+		t.Fatalf("error starting golang test: %v", err)
 	}
 
-	got := make(map[devirtualization]struct{})
-	gotNoHot := make(map[devirtualization]struct{})
+	golangt := make(map[devirtualization]struct{})
+	golangtNoHot := make(map[devirtualization]struct{})
 
 	devirtualizedLine := regexp.MustCompile(`(.*): PGO devirtualizing \w+ call .* to (.*)`)
 	noHotLine := regexp.MustCompile(`(.*): call .*: no hot callee`)
@@ -85,7 +85,7 @@ go 1.21
 				pos:    m[1],
 				callee: m[2],
 			}
-			got[d] = struct{}{}
+			golangt[d] = struct{}{}
 			continue
 		}
 		m = noHotLine.FindStringSubmatch(line)
@@ -93,28 +93,28 @@ go 1.21
 			d := devirtualization{
 				pos: m[1],
 			}
-			gotNoHot[d] = struct{}{}
+			golangtNoHot[d] = struct{}{}
 		}
 	}
 	if err := cmd.Wait(); err != nil {
-		t.Fatalf("error running go test: %v", err)
+		t.Fatalf("error running golang test: %v", err)
 	}
 	if err := scanner.Err(); err != nil {
-		t.Fatalf("error reading go test output: %v", err)
+		t.Fatalf("error reading golang test output: %v", err)
 	}
 
-	if len(got) != len(want) {
-		t.Errorf("mismatched devirtualization count; got %v want %v", got, want)
+	if len(golangt) != len(want) {
+		t.Errorf("mismatched devirtualization count; golangt %v want %v", golangt, want)
 	}
 	for _, w := range want {
-		if _, ok := got[w]; ok {
+		if _, ok := golangt[w]; ok {
 			continue
 		}
-		t.Errorf("devirtualization %v missing; got %v", w, got)
+		t.Errorf("devirtualization %v missing; golangt %v", w, golangt)
 	}
 	for _, nw := range nowant {
-		if _, ok := gotNoHot[nw]; !ok {
-			t.Errorf("unwanted devirtualization %v; got %v", nw, got)
+		if _, ok := golangtNoHot[nw]; !ok {
+			t.Errorf("unwanted devirtualization %v; golangt %v", nw, golangt)
 		}
 	}
 
@@ -135,14 +135,14 @@ func TestPGODevirtualize(t *testing.T) {
 	if err != nil {
 		t.Fatalf("error getting wd: %v", err)
 	}
-	srcDir := filepath.Join(wd, "testdata", "pgo", "devirtualize")
+	srcDir := filepath.Join(wd, "testdata", "pgolang", "devirtualize")
 
-	// Copy the module to a scratch location so we can add a go.mod.
+	// Copy the module to a scratch location so we can add a golang.mod.
 	dir := t.TempDir()
 	if err := os.Mkdir(filepath.Join(dir, "mult.pkg"), 0755); err != nil {
 		t.Fatalf("error creating dir: %v", err)
 	}
-	for _, file := range []string{"devirt.go", "devirt_test.go", profFileName, filepath.Join("mult.pkg", "mult.go")} {
+	for _, file := range []string{"devirt.golang", "devirt_test.golang", profFileName, filepath.Join("mult.pkg", "mult.golang")} {
 		if err := copyFile(filepath.Join(dir, file), filepath.Join(srcDir, file)); err != nil {
 			t.Fatalf("error copying %s: %v", file, err)
 		}
@@ -151,50 +151,50 @@ func TestPGODevirtualize(t *testing.T) {
 	want := []devirtualization{
 		// ExerciseIface
 		{
-			pos:    "./devirt.go:101:20",
+			pos:    "./devirt.golang:101:20",
 			callee: "mult.Mult.Multiply",
 		},
 		{
-			pos:    "./devirt.go:101:39",
+			pos:    "./devirt.golang:101:39",
 			callee: "Add.Add",
 		},
 		// ExerciseFuncConcrete
 		{
-			pos:    "./devirt.go:173:36",
+			pos:    "./devirt.golang:173:36",
 			callee: "AddFn",
 		},
 		{
-			pos:    "./devirt.go:173:15",
+			pos:    "./devirt.golang:173:15",
 			callee: "mult.MultFn",
 		},
 		// ExerciseFuncField
 		{
-			pos:    "./devirt.go:207:35",
+			pos:    "./devirt.golang:207:35",
 			callee: "AddFn",
 		},
 		{
-			pos:    "./devirt.go:207:19",
+			pos:    "./devirt.golang:207:19",
 			callee: "mult.MultFn",
 		},
 		// ExerciseFuncClosure
 		// TODO(prattmic): Closure callees not implemented.
 		//{
-		//	pos:    "./devirt.go:249:27",
+		//	pos:    "./devirt.golang:249:27",
 		//	callee: "AddClosure.func1",
 		//},
 		//{
-		//	pos:    "./devirt.go:249:15",
+		//	pos:    "./devirt.golang:249:15",
 		//	callee: "mult.MultClosure.func1",
 		//},
 	}
 	nowant := []devirtualization{
 		// ExerciseIfaceZeroWeight
 		{
-			pos: "./devirt.go:256:29",
+			pos: "./devirt.golang:256:29",
 		},
 		// ExerciseIndirCallZeroWeight
 		{
-			pos: "./devirt.go:282:37",
+			pos: "./devirt.golang:282:37",
 		},
 	}
 
@@ -208,14 +208,14 @@ func TestPGOPreprocessDevirtualize(t *testing.T) {
 	if err != nil {
 		t.Fatalf("error getting wd: %v", err)
 	}
-	srcDir := filepath.Join(wd, "testdata", "pgo", "devirtualize")
+	srcDir := filepath.Join(wd, "testdata", "pgolang", "devirtualize")
 
-	// Copy the module to a scratch location so we can add a go.mod.
+	// Copy the module to a scratch location so we can add a golang.mod.
 	dir := t.TempDir()
 	if err := os.Mkdir(filepath.Join(dir, "mult.pkg"), 0755); err != nil {
 		t.Fatalf("error creating dir: %v", err)
 	}
-	for _, file := range []string{"devirt.go", "devirt_test.go", preProfFileName, filepath.Join("mult.pkg", "mult.go")} {
+	for _, file := range []string{"devirt.golang", "devirt_test.golang", preProfFileName, filepath.Join("mult.pkg", "mult.golang")} {
 		if err := copyFile(filepath.Join(dir, file), filepath.Join(srcDir, file)); err != nil {
 			t.Fatalf("error copying %s: %v", file, err)
 		}
@@ -224,57 +224,57 @@ func TestPGOPreprocessDevirtualize(t *testing.T) {
 	want := []devirtualization{
 		// ExerciseIface
 		{
-			pos:    "./devirt.go:101:20",
+			pos:    "./devirt.golang:101:20",
 			callee: "mult.Mult.Multiply",
 		},
 		{
-			pos:    "./devirt.go:101:39",
+			pos:    "./devirt.golang:101:39",
 			callee: "Add.Add",
 		},
 		// ExerciseFuncConcrete
 		{
-			pos:    "./devirt.go:173:36",
+			pos:    "./devirt.golang:173:36",
 			callee: "AddFn",
 		},
 		{
-			pos:    "./devirt.go:173:15",
+			pos:    "./devirt.golang:173:15",
 			callee: "mult.MultFn",
 		},
 		// ExerciseFuncField
 		{
-			pos:    "./devirt.go:207:35",
+			pos:    "./devirt.golang:207:35",
 			callee: "AddFn",
 		},
 		{
-			pos:    "./devirt.go:207:19",
+			pos:    "./devirt.golang:207:19",
 			callee: "mult.MultFn",
 		},
 		// ExerciseFuncClosure
 		// TODO(prattmic): Closure callees not implemented.
 		//{
-		//	pos:    "./devirt.go:249:27",
+		//	pos:    "./devirt.golang:249:27",
 		//	callee: "AddClosure.func1",
 		//},
 		//{
-		//	pos:    "./devirt.go:249:15",
+		//	pos:    "./devirt.golang:249:15",
 		//	callee: "mult.MultClosure.func1",
 		//},
 	}
 	nowant := []devirtualization{
 		// ExerciseIfaceZeroWeight
 		{
-			pos: "./devirt.go:256:29",
+			pos: "./devirt.golang:256:29",
 		},
 		// ExerciseIndirCallZeroWeight
 		{
-			pos: "./devirt.go:282:37",
+			pos: "./devirt.golang:282:37",
 		},
 	}
 
 	testPGODevirtualize(t, dir, want, nowant, preProfFileName)
 }
 
-// Regression test for https://go.dev/issue/65615. If a target function changes
+// Regression test for https://golang.dev/issue/65615. If a target function changes
 // from non-generic to generic we can't devirtualize it (don't know the type
 // parameters), but the compiler should not crash.
 func TestLookupFuncGeneric(t *testing.T) {
@@ -282,22 +282,22 @@ func TestLookupFuncGeneric(t *testing.T) {
 	if err != nil {
 		t.Fatalf("error getting wd: %v", err)
 	}
-	srcDir := filepath.Join(wd, "testdata", "pgo", "devirtualize")
+	srcDir := filepath.Join(wd, "testdata", "pgolang", "devirtualize")
 
-	// Copy the module to a scratch location so we can add a go.mod.
+	// Copy the module to a scratch location so we can add a golang.mod.
 	dir := t.TempDir()
 	if err := os.Mkdir(filepath.Join(dir, "mult.pkg"), 0755); err != nil {
 		t.Fatalf("error creating dir: %v", err)
 	}
-	for _, file := range []string{"devirt.go", "devirt_test.go", profFileName, filepath.Join("mult.pkg", "mult.go")} {
+	for _, file := range []string{"devirt.golang", "devirt_test.golang", profFileName, filepath.Join("mult.pkg", "mult.golang")} {
 		if err := copyFile(filepath.Join(dir, file), filepath.Join(srcDir, file)); err != nil {
 			t.Fatalf("error copying %s: %v", file, err)
 		}
 	}
 
 	// Change MultFn from a concrete function to a parameterized function.
-	if err := convertMultToGeneric(filepath.Join(dir, "mult.pkg", "mult.go")); err != nil {
-		t.Fatalf("error editing mult.go: %v", err)
+	if err := convertMultToGeneric(filepath.Join(dir, "mult.pkg", "mult.golang")); err != nil {
+		t.Fatalf("error editing mult.golang: %v", err)
 	}
 
 	// Same as TestPGODevirtualize except for MultFn, which we cannot
@@ -308,42 +308,42 @@ func TestLookupFuncGeneric(t *testing.T) {
 	want := []devirtualization{
 		// ExerciseIface
 		{
-			pos:    "./devirt.go:101:20",
+			pos:    "./devirt.golang:101:20",
 			callee: "mult.Mult.Multiply",
 		},
 		{
-			pos:    "./devirt.go:101:39",
+			pos:    "./devirt.golang:101:39",
 			callee: "Add.Add",
 		},
 		// ExerciseFuncConcrete
 		{
-			pos:    "./devirt.go:173:36",
+			pos:    "./devirt.golang:173:36",
 			callee: "AddFn",
 		},
 		// ExerciseFuncField
 		{
-			pos:    "./devirt.go:207:35",
+			pos:    "./devirt.golang:207:35",
 			callee: "AddFn",
 		},
 		// ExerciseFuncClosure
 		// TODO(prattmic): Closure callees not implemented.
 		//{
-		//	pos:    "./devirt.go:249:27",
+		//	pos:    "./devirt.golang:249:27",
 		//	callee: "AddClosure.func1",
 		//},
 		//{
-		//	pos:    "./devirt.go:249:15",
+		//	pos:    "./devirt.golang:249:15",
 		//	callee: "mult.MultClosure.func1",
 		//},
 	}
 	nowant := []devirtualization{
 		// ExerciseIfaceZeroWeight
 		{
-			pos: "./devirt.go:256:29",
+			pos: "./devirt.golang:256:29",
 		},
 		// ExerciseIndirCallZeroWeight
 		{
-			pos: "./devirt.go:282:37",
+			pos: "./devirt.golang:282:37",
 		},
 	}
 

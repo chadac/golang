@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime_test
@@ -16,8 +16,8 @@ func TestStartLineAsm(t *testing.T) {
 	startlinetest.CallerStartLine = callerStartLine
 
 	const wantLine = 23
-	got := startlinetest.AsmFunc()
-	if got != wantLine {
-		t.Errorf("start line got %d want %d", got, wantLine)
+	golangt := startlinetest.AsmFunc()
+	if golangt != wantLine {
+		t.Errorf("start line golangt %d want %d", golangt, wantLine)
 	}
 }

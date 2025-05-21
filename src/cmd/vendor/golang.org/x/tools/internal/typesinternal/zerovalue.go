@@ -1,14 +1,14 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package typesinternal
 
 import (
 	"fmt"
-	"go/ast"
-	"go/token"
-	"go/types"
+	"golang/ast"
+	"golang/token"
+	"golang/types"
 	"strings"
 )
 
@@ -76,7 +76,7 @@ func ZeroString(t types.Type, qual types.Qualifier) (_ string, isValid bool) {
 			// A type parameter can have alias but alias type's underlying type
 			// can never be a type parameter.
 			// Use types.Unalias to preserve the info of type parameter instead
-			// of call Underlying() going right through and get the underlying
+			// of call Underlying() golanging right through and get the underlying
 			// type of the type parameter which is always an interface.
 			return ZeroString(types.Unalias(t), qual)
 		}
@@ -348,7 +348,7 @@ func TypeExpr(t types.Type, qual types.Qualifier) ast.Expr {
 		if t.Len() == 0 {
 			panic("Union type should have at least one term")
 		}
-		// Same as go/ast, the return expression will put last term in the
+		// Same as golang/ast, the return expression will put last term in the
 		// Y field at topmost level of BinaryExpr.
 		// For union of type "float32 | float64 | int64", the structure looks
 		// similar to:

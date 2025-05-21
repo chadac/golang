@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package benchmarks
@@ -45,7 +45,7 @@ func BenchmarkAttrs(b *testing.B) {
 				f    func()
 			}{
 				{
-					// The number should match nAttrsInline in slog/record.go.
+					// The number should match nAttrsInline in slog/record.golang.
 					// This should exercise the code path where no allocations
 					// happen in Record or Attr. If there are allocations, they
 					// should only be from Duration.String and Time.String.

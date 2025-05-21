@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package drbg
@@ -48,9 +48,9 @@ func init() {
 		}
 		c := NewCounter(entropy)
 		c.Reseed(reseedEntropy, additionalInput)
-		got := make([]byte, len(want))
-		c.Generate(got, additionalInput)
-		if !bytes.Equal(got, want) {
+		golangt := make([]byte, len(want))
+		c.Generate(golangt, additionalInput)
+		if !bytes.Equal(golangt, want) {
 			return errors.New("unexpected result")
 		}
 		return nil

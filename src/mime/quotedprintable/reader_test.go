@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package quotedprintable
@@ -74,21 +74,21 @@ func TestReader(t *testing.T) {
 	for _, tt := range tests {
 		var buf strings.Builder
 		_, err := io.Copy(&buf, NewReader(strings.NewReader(tt.in)))
-		if got := buf.String(); got != tt.want {
-			t.Errorf("for %q, got %q; want %q", tt.in, got, tt.want)
+		if golangt := buf.String(); golangt != tt.want {
+			t.Errorf("for %q, golangt %q; want %q", tt.in, golangt, tt.want)
 		}
 		switch verr := tt.err.(type) {
 		case nil:
 			if err != nil {
-				t.Errorf("for %q, got unexpected error: %v", tt.in, err)
+				t.Errorf("for %q, golangt unexpected error: %v", tt.in, err)
 			}
 		case string:
-			if got := fmt.Sprint(err); got != verr {
-				t.Errorf("for %q, got error %q; want %q", tt.in, got, verr)
+			if golangt := fmt.Sprint(err); golangt != verr {
+				t.Errorf("for %q, golangt error %q; want %q", tt.in, golangt, verr)
 			}
 		case error:
 			if err != verr {
-				t.Errorf("for %q, got error %q; want %q", tt.in, err, verr)
+				t.Errorf("for %q, golangt error %q; want %q", tt.in, err, verr)
 			}
 		}
 	}
@@ -164,7 +164,7 @@ func TestExhaustive(t *testing.T) {
 				panic(err)
 			}
 			qpres := make(chan any, 2)
-			go func() {
+			golang func() {
 				br := bufio.NewReader(stderr)
 				s, _ := br.ReadString('\n')
 				if s != "" {
@@ -176,20 +176,20 @@ func TestExhaustive(t *testing.T) {
 					}
 				}
 			}()
-			go func() {
+			golang func() {
 				want, err := cmd.Output()
 				if err == nil {
 					qpres <- want
 				}
 			}()
 			select {
-			case got := <-qpres:
-				if want, ok := got.([]byte); ok {
+			case golangt := <-qpres:
+				if want, ok := golangt.([]byte); ok {
 					if string(want) != buf.String() {
-						t.Errorf("go decode(%q) = %q; qprint = %q", s, want, buf.String())
+						t.Errorf("golang decode(%q) = %q; qprint = %q", s, want, buf.String())
 					}
 				} else {
-					t.Logf("qprint -d(%q) = %v", s, got)
+					t.Logf("qprint -d(%q) = %v", s, golangt)
 				}
 			case <-time.After(5 * time.Second):
 				t.Logf("qprint timeout on %q", s)
@@ -202,7 +202,7 @@ func TestExhaustive(t *testing.T) {
 		outcomes = append(outcomes, fmt.Sprintf("%v: %d", k, v))
 	}
 	slices.Sort(outcomes)
-	got := strings.Join(outcomes, "\n")
+	golangt := strings.Join(outcomes, "\n")
 	want := `OK: 30638
 invalid bytes after =: 2243
 quotedprintable: invalid hex byte 0x0d: 2050
@@ -214,7 +214,7 @@ quotedprintable: invalid hex byte 0x0d: 26
 unexpected EOF: 3`
 	}
 
-	if got != want {
-		t.Errorf("Got:\n%s\nWant:\n%s", got, want)
+	if golangt != want {
+		t.Errorf("Got:\n%s\nWant:\n%s", golangt, want)
 	}
 }

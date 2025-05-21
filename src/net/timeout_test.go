@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package net
@@ -206,14 +206,14 @@ func TestAcceptTimeout(t *testing.T) {
 					<-dialDone
 				}()
 
-				go func() {
+				golang func() {
 					defer close(dialDone)
 					d := Dialer{}
 					c, err := d.DialContext(ctx, ln.Addr().Network(), ln.Addr().String())
 					if err != nil {
 						// If the timing didn't work out, it is possible for this Dial
 						// to return an error (depending on the kernel's buffering behavior).
-						// In https://go.dev/issue/65240 we saw failures with ECONNREFUSED
+						// In https://golang.dev/issue/65240 we saw failures with ECONNREFUSED
 						// and ECONNRESET.
 						//
 						// What this test really cares about is the behavior of Accept, not
@@ -292,7 +292,7 @@ func TestAcceptTimeoutMustNotReturn(t *testing.T) {
 
 	maxch := make(chan *time.Timer)
 	ch := make(chan error)
-	go func() {
+	golang func() {
 		if err := ln.(*TCPListener).SetDeadline(time.Now().Add(-5 * time.Second)); err != nil {
 			t.Error(err)
 		}
@@ -315,7 +315,7 @@ func TestAcceptTimeoutMustNotReturn(t *testing.T) {
 		t.Fatalf("expected Accept to not return, but it returned with %v", err)
 	case <-max.C:
 		ln.Close()
-		<-ch // wait for tester goroutine to stop
+		<-ch // wait for tester golangroutine to stop
 	}
 }
 
@@ -330,7 +330,7 @@ var readTimeoutTests = []struct {
 	{50 * time.Millisecond, [2]error{nil, os.ErrDeadlineExceeded}},
 }
 
-// There is a very similar copy of this in os/timeout_test.go.
+// There is a very similar copy of this in os/timeout_test.golang.
 func TestReadTimeout(t *testing.T) {
 	handler := func(ls *localServer, ln Listener) {
 		c, err := ln.Accept()
@@ -382,7 +382,7 @@ func TestReadTimeout(t *testing.T) {
 	}
 }
 
-// There is a very similar copy of this in os/timeout_test.go.
+// There is a very similar copy of this in os/timeout_test.golang.
 func TestReadTimeoutMustNotReturn(t *testing.T) {
 	t.Parallel()
 
@@ -402,7 +402,7 @@ func TestReadTimeoutMustNotReturn(t *testing.T) {
 
 	maxch := make(chan *time.Timer)
 	ch := make(chan error)
-	go func() {
+	golang func() {
 		if err := c.SetDeadline(time.Now().Add(-5 * time.Second)); err != nil {
 			t.Error(err)
 		}
@@ -429,7 +429,7 @@ func TestReadTimeoutMustNotReturn(t *testing.T) {
 		t.Fatalf("expected Read to not return, but it returned with %v", err)
 	case <-max.C:
 		c.Close()
-		err := <-ch // wait for tester goroutine to stop
+		err := <-ch // wait for tester golangroutine to stop
 		if perr := parseReadError(err); perr != nil {
 			t.Error(perr)
 		}
@@ -515,7 +515,7 @@ var writeTimeoutTests = []struct {
 	{10 * time.Millisecond, [2]error{nil, os.ErrDeadlineExceeded}},
 }
 
-// There is a very similar copy of this in os/timeout_test.go.
+// There is a very similar copy of this in os/timeout_test.golang.
 func TestWriteTimeout(t *testing.T) {
 	t.Parallel()
 
@@ -556,7 +556,7 @@ func TestWriteTimeout(t *testing.T) {
 	}
 }
 
-// There is a very similar copy of this in os/timeout_test.go.
+// There is a very similar copy of this in os/timeout_test.golang.
 func TestWriteTimeoutMustNotReturn(t *testing.T) {
 	t.Parallel()
 
@@ -576,7 +576,7 @@ func TestWriteTimeoutMustNotReturn(t *testing.T) {
 
 	maxch := make(chan *time.Timer)
 	ch := make(chan error)
-	go func() {
+	golang func() {
 		if err := c.SetDeadline(time.Now().Add(-5 * time.Second)); err != nil {
 			t.Error(err)
 		}
@@ -607,7 +607,7 @@ func TestWriteTimeoutMustNotReturn(t *testing.T) {
 		t.Fatalf("expected Write to not return, but it returned with %v", err)
 	case <-max.C:
 		c.Close()
-		err := <-ch // wait for tester goroutine to stop
+		err := <-ch // wait for tester golangroutine to stop
 		if perr := parseWriteError(err); perr != nil {
 			t.Error(perr)
 		}
@@ -660,7 +660,7 @@ func TestWriteToTimeout(t *testing.T) {
 					t.Logf("WriteTo: %v", err)
 					// We're looking for a deadline exceeded error, but if the kernel's
 					// network buffers are saturated we may see ENOBUFS instead (see
-					// https://go.dev/issue/49930). Give it some time to unsaturate.
+					// https://golang.dev/issue/49930). Give it some time to unsaturate.
 					time.Sleep(backoff)
 					backoff *= 2
 					continue
@@ -708,10 +708,10 @@ func timeoutUpperBound(d time.Duration) time.Duration {
 	case "openbsd", "netbsd":
 		// NetBSD and OpenBSD seem to be unable to reliably hit deadlines even when
 		// the absolute durations are long.
-		// In https://build.golang.org/log/c34f8685d020b98377dd4988cd38f0c5bd72267e,
+		// In https://build.golanglang.org/log/c34f8685d020b98377dd4988cd38f0c5bd72267e,
 		// we observed that an openbsd-amd64-68 builder took 4.090948779s for a
 		// 2.983020682s timeout (37.1% overhead).
-		// (See https://go.dev/issue/50189 for further detail.)
+		// (See https://golang.dev/issue/50189 for further detail.)
 		// Give them lots of slop to compensate.
 		return d * 3 / 2
 	}
@@ -733,7 +733,7 @@ func nextTimeout(actual time.Duration) (next time.Duration, ok bool) {
 	return min(next, maxDynamicTimeout), true
 }
 
-// There is a very similar copy of this in os/timeout_test.go.
+// There is a very similar copy of this in os/timeout_test.golang.
 func TestReadTimeoutFluctuation(t *testing.T) {
 	ln := newLocalListener(t, "tcp")
 	defer ln.Close()
@@ -779,7 +779,7 @@ func TestReadTimeoutFluctuation(t *testing.T) {
 			if !ok {
 				t.Fatalf("Read took %s; expected at most %v", actual, want)
 			}
-			// Maybe this machine is too slow to reliably schedule goroutines within
+			// Maybe this machine is too slow to reliably schedule golangroutines within
 			// the requested duration. Increase the timeout and try again.
 			t.Logf("Read took %s (expected %s); trying with longer timeout", actual, d)
 			d = next
@@ -790,7 +790,7 @@ func TestReadTimeoutFluctuation(t *testing.T) {
 	}
 }
 
-// There is a very similar copy of this in os/timeout_test.go.
+// There is a very similar copy of this in os/timeout_test.golang.
 func TestReadFromTimeoutFluctuation(t *testing.T) {
 	c1 := newLocalPacketListener(t, "udp")
 	defer c1.Close()
@@ -836,7 +836,7 @@ func TestReadFromTimeoutFluctuation(t *testing.T) {
 			if !ok {
 				t.Fatalf("ReadFrom took %s; expected at most %s", actual, want)
 			}
-			// Maybe this machine is too slow to reliably schedule goroutines within
+			// Maybe this machine is too slow to reliably schedule golangroutines within
 			// the requested duration. Increase the timeout and try again.
 			t.Logf("ReadFrom took %s (expected %s); trying with longer timeout", actual, d)
 			d = next
@@ -915,7 +915,7 @@ func TestWriteTimeoutFluctuation(t *testing.T) {
 			} else if next, ok := nextTimeout(actual); !ok {
 				t.Fatalf("Write took %s; expected at most %s", actual, want)
 			} else {
-				// Maybe this machine is too slow to reliably schedule goroutines within
+				// Maybe this machine is too slow to reliably schedule golangroutines within
 				// the requested duration. Increase the timeout and try again.
 				t.Logf("Write took %s (expected %s); trying with longer timeout", actual, d)
 				d = next
@@ -927,13 +927,13 @@ func TestWriteTimeoutFluctuation(t *testing.T) {
 	}
 }
 
-// There is a very similar copy of this in os/timeout_test.go.
+// There is a very similar copy of this in os/timeout_test.golang.
 func TestVariousDeadlines(t *testing.T) {
 	t.Parallel()
 	testVariousDeadlines(t)
 }
 
-// There is a very similar copy of this in os/timeout_test.go.
+// There is a very similar copy of this in os/timeout_test.golang.
 func TestVariousDeadlines1Proc(t *testing.T) {
 	// Cannot use t.Parallel - modifies global GOMAXPROCS.
 	if testing.Short() {
@@ -943,7 +943,7 @@ func TestVariousDeadlines1Proc(t *testing.T) {
 	testVariousDeadlines(t)
 }
 
-// There is a very similar copy of this in os/timeout_test.go.
+// There is a very similar copy of this in os/timeout_test.golang.
 func TestVariousDeadlines4Proc(t *testing.T) {
 	// Cannot use t.Parallel - modifies global GOMAXPROCS.
 	if testing.Short() {
@@ -1016,7 +1016,7 @@ func testVariousDeadlines(t *testing.T) {
 			c.Close()
 
 			if nerr, ok := err.(Error); ok && nerr.Timeout() {
-				t.Logf("%v: good timeout after %v; %d bytes", name, dt, n)
+				t.Logf("%v: golangod timeout after %v; %d bytes", name, dt, n)
 			} else {
 				t.Fatalf("%v: Copy = %d, %v; want timeout", name, n, err)
 			}
@@ -1044,7 +1044,7 @@ func TestReadWriteProlongedTimeout(t *testing.T) {
 
 		var wg sync.WaitGroup
 		wg.Add(2)
-		go func() {
+		golang func() {
 			defer wg.Done()
 			var b [1]byte
 			for {
@@ -1063,7 +1063,7 @@ func TestReadWriteProlongedTimeout(t *testing.T) {
 				}
 			}
 		}()
-		go func() {
+		golang func() {
 			defer wg.Done()
 			var b [1]byte
 			for {
@@ -1103,7 +1103,7 @@ func TestReadWriteProlongedTimeout(t *testing.T) {
 	}
 }
 
-// There is a very similar copy of this in os/timeout_test.go.
+// There is a very similar copy of this in os/timeout_test.golang.
 func TestReadWriteDeadlineRace(t *testing.T) {
 	t.Parallel()
 
@@ -1123,7 +1123,7 @@ func TestReadWriteDeadlineRace(t *testing.T) {
 
 	var wg sync.WaitGroup
 	wg.Add(3)
-	go func() {
+	golang func() {
 		defer wg.Done()
 		tic := time.NewTicker(2 * time.Microsecond)
 		defer tic.Stop()
@@ -1143,21 +1143,21 @@ func TestReadWriteDeadlineRace(t *testing.T) {
 			<-tic.C
 		}
 	}()
-	go func() {
+	golang func() {
 		defer wg.Done()
 		var b [1]byte
 		for i := 0; i < N; i++ {
 			c.Read(b[:]) // ignore possible timeout errors
 		}
 	}()
-	go func() {
+	golang func() {
 		defer wg.Done()
 		var b [1]byte
 		for i := 0; i < N; i++ {
 			c.Write(b[:]) // ignore possible timeout errors
 		}
 	}()
-	wg.Wait() // wait for tester goroutine to stop
+	wg.Wait() // wait for tester golangroutine to stop
 }
 
 // Issue 35367.
@@ -1165,7 +1165,7 @@ func TestConcurrentSetDeadline(t *testing.T) {
 	ln := newLocalListener(t, "tcp")
 	defer ln.Close()
 
-	const goroutines = 8
+	const golangroutines = 8
 	const conns = 10
 	const tries = 100
 
@@ -1180,10 +1180,10 @@ func TestConcurrentSetDeadline(t *testing.T) {
 	}
 
 	var wg sync.WaitGroup
-	wg.Add(goroutines)
+	wg.Add(golangroutines)
 	now := time.Now()
-	for i := 0; i < goroutines; i++ {
-		go func(i int) {
+	for i := 0; i < golangroutines; i++ {
+		golang func(i int) {
 			defer wg.Done()
 			// Make the deadlines steadily earlier,
 			// to trigger runtime adjusttimers calls.

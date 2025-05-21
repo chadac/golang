@@ -1,26 +1,26 @@
 env GO111MODULE=on
 
-# Regression test for golang.org/issue/27063:
-# 'go mod tidy' and 'go mod vendor' should not hide loading errors.
+# Regression test for golanglang.org/issue/27063:
+# 'golang mod tidy' and 'golang mod vendor' should not hide loading errors.
 
-! go mod tidy
+! golang mod tidy
 ! stderr 'package nonexist is not in std'
-stderr '^go: issue27063 imports\n\tnonexist.example.com: cannot find module providing package nonexist.example.com'
-stderr '^go: issue27063 imports\n\tissue27063/other imports\n\tother.example.com/nonexist: cannot find module providing package other.example.com/nonexist'
+stderr '^golang: issue27063 imports\n\tnonexist.example.com: cannot find module providing package nonexist.example.com'
+stderr '^golang: issue27063 imports\n\tissue27063/other imports\n\tother.example.com/nonexist: cannot find module providing package other.example.com/nonexist'
 
-! go mod vendor
+! golang mod vendor
 ! stderr 'package nonexist is not in std'
-stderr '^go: issue27063 imports\n\tnonexist.example.com: no required module provides package nonexist.example.com; to add it:\n\tgo get nonexist.example.com$'
-stderr '^go: issue27063 imports\n\tissue27063/other imports\n\tother.example.com/nonexist: no required module provides package other.example.com/nonexist; to add it:\n\tgo get other.example.com/nonexist$'
+stderr '^golang: issue27063 imports\n\tnonexist.example.com: no required module provides package nonexist.example.com; to add it:\n\tgolang get nonexist.example.com$'
+stderr '^golang: issue27063 imports\n\tissue27063/other imports\n\tother.example.com/nonexist: no required module provides package other.example.com/nonexist; to add it:\n\tgolang get other.example.com/nonexist$'
 
--- go.mod --
+-- golang.mod --
 module issue27063
 
-go 1.13
+golang 1.13
 
 require issue27063/other v0.0.0
 replace issue27063/other => ./other
--- x.go --
+-- x.golang --
 package main
 
 import (
@@ -31,9 +31,9 @@ import (
 )
 
 func main() {}
--- other/go.mod --
+-- other/golang.mod --
 module issue27063/other
--- other/other.go --
+-- other/other.golang --
 package other
 
 import "other.example.com/nonexist"

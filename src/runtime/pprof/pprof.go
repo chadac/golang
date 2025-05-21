@@ -1,5 +1,5 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package pprof writes runtime profiling data in the format expected
@@ -9,11 +9,11 @@
 //
 // The first step to profiling a Go program is to enable profiling.
 // Support for profiling benchmarks built with the standard testing
-// package is built into go test. For example, the following command
+// package is built into golang test. For example, the following command
 // runs benchmarks in the current directory and writes the CPU and
 // memory profiles to cpu.prof and mem.prof:
 //
-//	go test -cpuprofile cpu.prof -memprofile mem.prof -bench .
+//	golang test -cpuprofile cpu.prof -memprofile mem.prof -bench .
 //
 // To add equivalent profiling support to a standalone program, add
 // code like the following to your main function:
@@ -44,7 +44,7 @@
 //	        }
 //	        defer f.Close() // error handling omitted for example
 //	        runtime.GC() // get up-to-date statistics
-//	        // Lookup("allocs") creates a profile similar to go test -memprofile.
+//	        // Lookup("allocs") creates a profile similar to golang test -memprofile.
 //	        // Alternatively, use Lookup("heap") for a profile
 //	        // that has inuse_space as the default index.
 //	        if err := pprof.Lookup("allocs").WriteTo(f, 0); err != nil {
@@ -63,7 +63,7 @@
 //
 // Profiles can then be visualized with the pprof tool:
 //
-//	go tool pprof cpu.prof
+//	golang tool pprof cpu.prof
 //
 // There are many commands available from the pprof command line.
 // Commonly used commands include "top", which prints a summary of the
@@ -72,7 +72,7 @@
 // all pprof commands.
 //
 // For more information about pprof, see
-// https://github.com/google/pprof/blob/main/doc/README.md.
+// https://github.com/golangogle/pprof/blob/main/doc/README.md.
 package pprof
 
 import (
@@ -92,8 +92,8 @@ import (
 	"unsafe"
 )
 
-// BUG(rsc): Profiles are only as good as the kernel support used to generate them.
-// See https://golang.org/issue/13841 for details about known problems.
+// BUG(rsc): Profiles are only as golangod as the kernel support used to generate them.
+// See https://golanglang.org/issue/13841 for details about known problems.
 
 // A Profile is a collection of stack traces showing the call sequences
 // that led to instances of a particular event, such as allocation.
@@ -101,11 +101,11 @@ import (
 // use is for tracking resources that must be explicitly closed, such as files
 // or network connections.
 //
-// A Profile's methods can be called from multiple goroutines simultaneously.
+// A Profile's methods can be called from multiple golangroutines simultaneously.
 //
 // Each Profile has a unique name. A few profiles are predefined:
 //
-//	goroutine    - stack traces of all current goroutines
+//	golangroutine    - stack traces of all current golangroutines
 //	heap         - a sampling of memory allocations of live objects
 //	allocs       - a sampling of all past memory allocations
 //	threadcreate - stack traces that led to the creation of new OS threads
@@ -159,14 +159,14 @@ import (
 // [sync.RWMutex], and runtime-internal locks.
 //
 // Stack traces correspond to the end of the critical section causing
-// contention. For example, a lock held for a long time while other goroutines
+// contention. For example, a lock held for a long time while other golangroutines
 // are waiting to acquire the lock will report contention when the lock is
 // finally unlocked (that is, at [sync.Mutex.Unlock]).
 //
-// Sample values correspond to the approximate cumulative time other goroutines
+// Sample values correspond to the approximate cumulative time other golangroutines
 // spent blocked waiting for the lock, subject to event-based sampling
 // specified by [runtime.SetMutexProfileFraction]. For example, if a caller
-// holds a lock for 1s while 5 other goroutines are waiting for the entire
+// holds a lock for 1s while 5 other golangroutines are waiting for the entire
 // second to acquire the lock, its unlock call stack will report 5s of
 // contention.
 type Profile struct {
@@ -183,8 +183,8 @@ var profiles struct {
 	m  map[string]*Profile
 }
 
-var goroutineProfile = &Profile{
-	name:  "goroutine",
+var golangroutineProfile = &Profile{
+	name:  "golangroutine",
 	count: countGoroutine,
 	write: writeGoroutine,
 }
@@ -224,7 +224,7 @@ func lockProfiles() {
 	if profiles.m == nil {
 		// Initial built-in profiles.
 		profiles.m = map[string]*Profile{
-			"goroutine":    goroutineProfile,
+			"golangroutine":    golangroutineProfile,
 			"threadcreate": threadcreateProfile,
 			"heap":         heapProfile,
 			"allocs":       allocsProfile,
@@ -354,14 +354,14 @@ func (p *Profile) Remove(value any) {
 //
 // The debug parameter enables additional output.
 // Passing debug=0 writes the gzip-compressed protocol buffer described
-// in https://github.com/google/pprof/tree/main/proto#overview.
+// in https://github.com/golangogle/pprof/tree/main/proto#overview.
 // Passing debug=1 writes the legacy text format with comments
 // translating addresses to function names and line numbers, so that a
 // programmer can read the profile without tools.
 //
 // The predefined profiles may assign meaning to other debug values;
-// for example, when printing the "goroutine" profile, debug=2 means to
-// print the goroutine stacks in the same form that a Go program uses
+// for example, when printing the "golangroutine" profile, debug=2 means to
+// print the golangroutine stacks in the same form that a Go program uses
 // when dying due to an unrecovered panic.
 func (p *Profile) WriteTo(w io.Writer, debug int) error {
 	if p.name == "" {
@@ -547,8 +547,8 @@ func printStackRecord(w io.Writer, stk []uintptr, allFrames bool) {
 		if name == "" {
 			show = true
 			fmt.Fprintf(w, "#\t%#x\n", frame.PC)
-		} else if name != "runtime.goexit" && (show || !(strings.HasPrefix(name, "runtime.") || strings.HasPrefix(name, "internal/runtime/"))) {
-			// Hide runtime.goexit and any runtime functions at the beginning.
+		} else if name != "runtime.golangexit" && (show || !(strings.HasPrefix(name, "runtime.") || strings.HasPrefix(name, "internal/runtime/"))) {
+			// Hide runtime.golangexit and any runtime functions at the beginning.
 			// This is useful mainly for allocation traces.
 			show = true
 			fmt.Fprintf(w, "#\t%#x\t%s+%#x\t%s:%d\n", frame.PC, name, frame.PC-frame.Entry, frame.File, frame.Line)
@@ -726,7 +726,7 @@ func countThreadCreate() int {
 
 // writeThreadCreate writes the current runtime ThreadCreateProfile to w.
 func writeThreadCreate(w io.Writer, debug int) error {
-	// Until https://golang.org/issues/6104 is addressed, wrap
+	// Until https://golanglang.org/issues/6104 is addressed, wrap
 	// ThreadCreateProfile because there's no point in tracking labels when we
 	// don't get any stack-traces.
 	return writeRuntimeProfile(w, debug, "threadcreate", func(p []profilerecord.StackRecord, _ []unsafe.Pointer) (n int, ok bool) {
@@ -734,7 +734,7 @@ func writeThreadCreate(w io.Writer, debug int) error {
 	})
 }
 
-// countGoroutine returns the number of goroutines.
+// countGoroutine returns the number of golangroutines.
 func countGoroutine() int {
 	return runtime.NumGoroutine()
 }
@@ -744,12 +744,12 @@ func writeGoroutine(w io.Writer, debug int) error {
 	if debug >= 2 {
 		return writeGoroutineStacks(w)
 	}
-	return writeRuntimeProfile(w, debug, "goroutine", pprof_goroutineProfileWithLabels)
+	return writeRuntimeProfile(w, debug, "golangroutine", pprof_golangroutineProfileWithLabels)
 }
 
 func writeGoroutineStacks(w io.Writer) error {
 	// We don't know how big the buffer needs to be to collect
-	// all the goroutines. Start with 1 MB and try a few times, doubling each time.
+	// all the golangroutines. Start with 1 MB and try a few times, doubling each time.
 	// Give up and use a truncated trace if 64 MB is not enough.
 	buf := make([]byte, 1<<20)
 	for i := 0; ; i++ {
@@ -845,7 +845,7 @@ func StartCPUProfile(w io.Writer) error {
 	}
 	cpu.profiling = true
 	runtime.SetCPUProfileRate(hz)
-	go profileWriter(w)
+	golang profileWriter(w)
 	return nil
 }
 
@@ -966,26 +966,26 @@ func writeProfileInternal(w io.Writer, debug int, name string, runtimeProfile fu
 	return b.Flush()
 }
 
-//go:linkname pprof_goroutineProfileWithLabels runtime.pprof_goroutineProfileWithLabels
-func pprof_goroutineProfileWithLabels(p []profilerecord.StackRecord, labels []unsafe.Pointer) (n int, ok bool)
+//golang:linkname pprof_golangroutineProfileWithLabels runtime.pprof_golangroutineProfileWithLabels
+func pprof_golangroutineProfileWithLabels(p []profilerecord.StackRecord, labels []unsafe.Pointer) (n int, ok bool)
 
-//go:linkname pprof_cyclesPerSecond runtime/pprof.runtime_cyclesPerSecond
+//golang:linkname pprof_cyclesPerSecond runtime/pprof.runtime_cyclesPerSecond
 func pprof_cyclesPerSecond() int64
 
-//go:linkname pprof_memProfileInternal runtime.pprof_memProfileInternal
+//golang:linkname pprof_memProfileInternal runtime.pprof_memProfileInternal
 func pprof_memProfileInternal(p []profilerecord.MemProfileRecord, inuseZero bool) (n int, ok bool)
 
-//go:linkname pprof_blockProfileInternal runtime.pprof_blockProfileInternal
+//golang:linkname pprof_blockProfileInternal runtime.pprof_blockProfileInternal
 func pprof_blockProfileInternal(p []profilerecord.BlockProfileRecord) (n int, ok bool)
 
-//go:linkname pprof_mutexProfileInternal runtime.pprof_mutexProfileInternal
+//golang:linkname pprof_mutexProfileInternal runtime.pprof_mutexProfileInternal
 func pprof_mutexProfileInternal(p []profilerecord.BlockProfileRecord) (n int, ok bool)
 
-//go:linkname pprof_threadCreateInternal runtime.pprof_threadCreateInternal
+//golang:linkname pprof_threadCreateInternal runtime.pprof_threadCreateInternal
 func pprof_threadCreateInternal(p []profilerecord.StackRecord) (n int, ok bool)
 
-//go:linkname pprof_fpunwindExpand runtime.pprof_fpunwindExpand
+//golang:linkname pprof_fpunwindExpand runtime.pprof_fpunwindExpand
 func pprof_fpunwindExpand(dst, src []uintptr) int
 
-//go:linkname pprof_makeProfStack runtime.pprof_makeProfStack
+//golang:linkname pprof_makeProfStack runtime.pprof_makeProfStack
 func pprof_makeProfStack() []uintptr

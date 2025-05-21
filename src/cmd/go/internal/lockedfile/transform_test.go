@@ -1,10 +1,10 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // js and wasip1 do not support inter-process file locking.
 //
-//go:build !js && !wasip1
+//golang:build !js && !wasip1
 
 package lockedfile_test
 
@@ -16,7 +16,7 @@ import (
 	"testing"
 	"time"
 
-	"cmd/go/internal/lockedfile"
+	"cmd/golang/internal/lockedfile"
 )
 
 func isPowerOf2(x int) bool {
@@ -57,7 +57,7 @@ func TestTransform(t *testing.T) {
 
 	for n := attempts; n > 0; n-- {
 		sem <- true
-		go func() {
+		golang func() {
 			defer func() { <-sem }()
 
 			time.Sleep(time.Duration(rand.Intn(100)) * time.Microsecond)

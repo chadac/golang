@@ -1,7 +1,7 @@
 handle git
 
 env GIT_AUTHOR_NAME='Jay Conrod'
-env GIT_AUTHOR_EMAIL='jayconrod@google.com'
+env GIT_AUTHOR_EMAIL='jayconrod@golangogle.com'
 env GIT_COMMITTER_NAME=$GIT_AUTHOR_NAME
 env GIT_COMMITTER_EMAIL=$GIT_AUTHOR_EMAIL
 
@@ -9,7 +9,7 @@ at 2019-05-09T18:56:25-04:00
 
 git init
 
-git add go.mod tagtests.go
+git add golang.mod tagtests.golang
 git commit -m 'create module tagtests'
 git branch -m master
 git branch b
@@ -34,9 +34,9 @@ cmp stdout .git-refs
 c7818c24fa2f3f714c67d0a6d3e411c85a518d1f refs/heads/master
 101c49f5af1b2466332158058cf5f03c8cca6429 refs/tags/v0.2.1
 59356c8cd18c5fe9a598167d98a6843e52d57952 refs/tags/v0.2.2
--- go.mod --
-module vcs-test.golang.org/git/tagtests.git
--- tagtests.go --
+-- golang.mod --
+module vcs-test.golanglang.org/git/tagtests.git
+-- tagtests.golang --
 package tagtests
 -- v0.2.1 --
 v0.2.1

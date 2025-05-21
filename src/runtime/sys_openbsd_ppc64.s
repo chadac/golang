@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 //
 // System calls and other sys.stuff for ppc64, OpenBSD
@@ -8,8 +8,8 @@
 // Some direct system call implementations currently remain.
 //
 
-#include "go_asm.h"
-#include "go_tls.h"
+#include "golang_asm.h"
+#include "golang_tls.h"
 #include "textflag.h"
 
 #define CLOCK_REALTIME	$0
@@ -56,19 +56,19 @@ TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME,$16
 
 	// TODO(jsing): Save callee-save registers (R2, R14-R31, F14-F31).
 	// in the case of signal forwarding.
-	// Please refer to https://golang.org/issue/31827 .
+	// Please refer to https://golanglang.org/issue/31827 .
 
 	// If called from an external code context, g will not be set.
 	BL	runtime·load_g(SB)
 
-	BL	runtime·sigtrampgo<ABIInternal>(SB)
+	BL	runtime·sigtrampgolang<ABIInternal>(SB)
 
 	// TODO(jsing): Restore callee-save registers.
 
 	RET
 
 // These trampolines help convert from Go calling convention to C calling convention.
-// They should be called with asmcgocall.
+// They should be called with asmcgolangcall.
 // A pointer to the arguments is passed in R3.
 // A single int32 result is returned in R3.
 // (For more results, make an args/results structure.)

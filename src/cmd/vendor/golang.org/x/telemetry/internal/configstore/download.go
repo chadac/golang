@@ -1,11 +1,11 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package configstore abstracts interaction with the telemetry config server.
-// Telemetry config (golang.org/x/telemetry/config) is distributed as a go
-// module containing go.mod and config.json. Programs that upload collected
-// counters download the latest config using `go mod download`. This provides
+// Telemetry config (golanglang.org/x/telemetry/config) is distributed as a golang
+// module containing golang.mod and config.json. Programs that upload collected
+// counters download the latest config using `golang mod download`. This provides
 // verification of downloaded configuration and cacheability.
 package configstore
 
@@ -18,11 +18,11 @@ import (
 	"path/filepath"
 	"sync/atomic"
 
-	"golang.org/x/telemetry/internal/telemetry"
+	"golanglang.org/x/telemetry/internal/telemetry"
 )
 
 const (
-	ModulePath     = "golang.org/x/telemetry/config"
+	ModulePath     = "golanglang.org/x/telemetry/config"
 	configFileName = "config.json"
 )
 
@@ -38,9 +38,9 @@ func Downloads() int64 {
 	return atomic.LoadInt64(&downloads)
 }
 
-// Download fetches the requested telemetry UploadConfig using "go mod
+// Download fetches the requested telemetry UploadConfig using "golang mod
 // download". If envOverlay is provided, it is appended to the environment used
-// for invoking the go command.
+// for invoking the golang command.
 //
 // The second result is the canonical version of the requested configuration.
 func Download(version string, envOverlay []string) (*telemetry.UploadConfig, string, error) {
@@ -51,7 +51,7 @@ func Download(version string, envOverlay []string) (*telemetry.UploadConfig, str
 	}
 	modVer := ModulePath + "@" + version
 	var stdout, stderr bytes.Buffer
-	cmd := exec.Command("go", "mod", "download", "-json", modVer)
+	cmd := exec.Command("golang", "mod", "download", "-json", modVer)
 	needNoConsole(cmd)
 	cmd.Env = append(os.Environ(), envOverlay...)
 	cmd.Stdout = &stdout

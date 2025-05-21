@@ -1,8 +1,8 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build goexperiment.swissmap
+//golang:build golangexperiment.swissmap
 
 package maps
 
@@ -13,7 +13,7 @@ import (
 	"unsafe"
 )
 
-//go:linkname runtime_mapaccess1_fast32 runtime.mapaccess1_fast32
+//golang:linkname runtime_mapaccess1_fast32 runtime.mapaccess1_fast32
 func runtime_mapaccess1_fast32(typ *abi.SwissMapType, m *Map, key uint32) unsafe.Pointer {
 	if race.Enabled && m != nil {
 		callerpc := sys.GetCallerPC()
@@ -82,7 +82,7 @@ func runtime_mapaccess1_fast32(typ *abi.SwissMapType, m *Map, key uint32) unsafe
 	}
 }
 
-//go:linkname runtime_mapaccess2_fast32 runtime.mapaccess2_fast32
+//golang:linkname runtime_mapaccess2_fast32 runtime.mapaccess2_fast32
 func runtime_mapaccess2_fast32(typ *abi.SwissMapType, m *Map, key uint32) (unsafe.Pointer, bool) {
 	if race.Enabled && m != nil {
 		callerpc := sys.GetCallerPC()
@@ -191,7 +191,7 @@ func (m *Map) putSlotSmallFast32(typ *abi.SwissMapType, hash uintptr, key uint32
 	return slotElem
 }
 
-//go:linkname runtime_mapassign_fast32 runtime.mapassign_fast32
+//golang:linkname runtime_mapassign_fast32 runtime.mapassign_fast32
 func runtime_mapassign_fast32(typ *abi.SwissMapType, m *Map, key uint32) unsafe.Pointer {
 	if m == nil {
 		panic(errNilAssign)
@@ -330,7 +330,7 @@ outer:
 //
 // TODO(prattmic): With some compiler refactoring we could avoid duplication of this function.
 //
-//go:linkname runtime_mapassign_fast32ptr runtime.mapassign_fast32ptr
+//golang:linkname runtime_mapassign_fast32ptr runtime.mapassign_fast32ptr
 func runtime_mapassign_fast32ptr(typ *abi.SwissMapType, m *Map, key unsafe.Pointer) unsafe.Pointer {
 	if m == nil {
 		panic(errNilAssign)
@@ -459,7 +459,7 @@ outer:
 	return slotElem
 }
 
-//go:linkname runtime_mapdelete_fast32 runtime.mapdelete_fast32
+//golang:linkname runtime_mapdelete_fast32 runtime.mapdelete_fast32
 func runtime_mapdelete_fast32(typ *abi.SwissMapType, m *Map, key uint32) {
 	if race.Enabled {
 		callerpc := sys.GetCallerPC()

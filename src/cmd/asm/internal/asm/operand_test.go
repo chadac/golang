@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package asm
@@ -16,20 +16,20 @@ import (
 
 // A simple in-out test: Do we print what we parse?
 
-func setArch(goarch string) (*arch.Arch, *obj.Link) {
+func setArch(golangarch string) (*arch.Arch, *obj.Link) {
 	buildcfg.GOOS = "linux" // obj can handle this OS for all architectures.
-	buildcfg.GOARCH = goarch
-	architecture := arch.Set(goarch, false)
+	buildcfg.GOARCH = golangarch
+	architecture := arch.Set(golangarch, false)
 	if architecture == nil {
-		panic("asm: unrecognized architecture " + goarch)
+		panic("asm: unrecognized architecture " + golangarch)
 	}
 	ctxt := obj.Linknew(architecture.LinkArch)
 	ctxt.Pkgpath = "pkg"
 	return architecture, ctxt
 }
 
-func newParser(goarch string) *Parser {
-	architecture, ctxt := setArch(goarch)
+func newParser(golangarch string) *Parser {
+	architecture, ctxt := setArch(golangarch)
 	return NewParser(ctxt, architecture, nil)
 }
 
@@ -65,9 +65,9 @@ func testBadOperandParser(t *testing.T, parser *Parser, tests []badOperandTest) 
 
 		switch {
 		case err == nil:
-			t.Errorf("fail at %s: got no errors; expected %s\n", test.input, test.error)
+			t.Errorf("fail at %s: golangt no errors; expected %s\n", test.input, test.error)
 		case !strings.Contains(err.Error(), test.error):
-			t.Errorf("fail at %s: got %s; expected %s", test.input, err, test.error)
+			t.Errorf("fail at %s: golangt %s; expected %s", test.input, err, test.error)
 		}
 	}
 }
@@ -84,7 +84,7 @@ func testOperandParser(t *testing.T, parser *Parser, tests []operandTest) {
 			result = obj.Dconv(&emptyProg, &addr)
 		}
 		if result != test.output {
-			t.Errorf("fail at %s: got %s; expected %s\n", test.input, result, test.output)
+			t.Errorf("fail at %s: golangt %s; expected %s\n", test.input, result, test.output)
 		}
 	}
 }
@@ -175,7 +175,7 @@ func TestFuncAddress(t *testing.T) {
 					}
 				}
 				if ok != isFuncSym || name != wantName {
-					t.Errorf("fail at %s as function address: got %s, %v; expected %s, %v", test.input, name, ok, wantName, isFuncSym)
+					t.Errorf("fail at %s as function address: golangt %s, %v; expected %s, %v", test.input, name, ok, wantName, isFuncSym)
 				}
 			}
 		})
@@ -290,7 +290,7 @@ var amd64OperandTests = []operandTest{
 	{"_seek<>(SB)", "_seek<>(SB)"},
 	{"a2+16(FP)", "a2+16(FP)"},
 	{"addr2+24(FP)", "addr2+24(FP)"},
-	{"asmcgocall<>(SB)", "asmcgocall<>(SB)"},
+	{"asmcgolangcall<>(SB)", "asmcgolangcall<>(SB)"},
 	{"b+24(FP)", "b+24(FP)"},
 	{"b_len+32(FP)", "b_len+32(FP)"},
 	{"racecall<>(SB)", "racecall<>(SB)"},
@@ -385,7 +385,7 @@ var x86OperandTests = []operandTest{
 	{"X5", "X5"},
 	{"X6", "X6"},
 	{"X7", "X7"},
-	{"asmcgocall<>(SB)", "asmcgocall<>(SB)"},
+	{"asmcgolangcall<>(SB)", "asmcgolangcall<>(SB)"},
 	{"ax+4(FP)", "ax+4(FP)"},
 	{"ptime-12(SP)", "ptime-12(SP)"},
 	{"runtime·_NtWaitForSingleObject(SB)", "runtime._NtWaitForSingleObject(SB)"},
@@ -436,12 +436,12 @@ var armOperandTests = []operandTest{
 	{"[R0]", "[R0]"},
 	{"[R1-R12]", "[R1,R2,R3,R4,R5,R6,R7,R8,R9,g,R11,R12]"},
 	{"armCAS64(SB)", "armCAS64(SB)"},
-	{"asmcgocall<>(SB)", "asmcgocall<>(SB)"},
+	{"asmcgolangcall<>(SB)", "asmcgolangcall<>(SB)"},
 	{"c+28(FP)", "c+28(FP)"},
 	{"g", "g"},
-	{"gosave<>(SB)", "gosave<>(SB)"},
+	{"golangsave<>(SB)", "golangsave<>(SB)"},
 	{"retlo+12(FP)", "retlo+12(FP)"},
-	{"runtime·gogo(SB)", "runtime.gogo(SB)"},
+	{"runtime·golanggolang(SB)", "runtime.golanggolang(SB)"},
 	{"·AddUint32(SB)", "pkg.AddUint32(SB)"},
 	{"(R1, R3)", "(R1, R3)"},
 	{"[R0,R1,g,R15", ""}, // Issue 11764 - asm hung parsing ']' missing register lists.
@@ -667,7 +667,7 @@ var arm64OperandTests = []operandTest{
 	{"·AddInt32(SB)", `pkg.AddInt32(SB)`},
 	{"runtime·divWVW(SB)", "runtime.divWVW(SB)"},
 	{"$argframe+0(FP)", "$argframe(FP)"},
-	{"$asmcgocall<>(SB)", "$asmcgocall<>(SB)"},
+	{"$asmcgolangcall<>(SB)", "$asmcgolangcall<>(SB)"},
 	{"EQ", "EQ"},
 	{"F29", "F29"},
 	{"F3", "F3"},

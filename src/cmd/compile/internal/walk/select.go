@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package walk
@@ -152,7 +152,7 @@ func walkSelectCases(cases []*ir.CommClause) []ir.Node {
 	selv := typecheck.TempAt(base.Pos, ir.CurFunc, types.NewArray(scasetype(), int64(ncas)))
 	init = append(init, typecheck.Stmt(ir.NewAssignStmt(base.Pos, selv, nil)))
 
-	// No initialization for order; runtime.selectgo is responsible for that.
+	// No initialization for order; runtime.selectgolang is responsible for that.
 	order := typecheck.TempAt(base.Pos, ir.CurFunc, types.NewArray(types.Types[types.TUINT16], 2*int64(ncas)))
 
 	var pc0, pcs ir.Node
@@ -225,13 +225,13 @@ func walkSelectCases(cases []*ir.CommClause) []ir.Node {
 	recvOK := typecheck.TempAt(base.Pos, ir.CurFunc, types.Types[types.TBOOL])
 	r := ir.NewAssignListStmt(base.Pos, ir.OAS2, nil, nil)
 	r.Lhs = []ir.Node{chosen, recvOK}
-	fn := typecheck.LookupRuntime("selectgo")
+	fn := typecheck.LookupRuntime("selectgolang")
 	var fnInit ir.Nodes
 	r.Rhs = []ir.Node{mkcall1(fn, fn.Type().ResultsTuple(), &fnInit, bytePtrToIndex(selv, 0), bytePtrToIndex(order, 0), pc0, ir.NewInt(base.Pos, int64(nsends)), ir.NewInt(base.Pos, int64(nrecvs)), ir.NewBool(base.Pos, dflt == nil))}
 	init = append(init, fnInit...)
 	init = append(init, typecheck.Stmt(r))
 
-	// selv, order, and pcs (if race) are no longer alive after selectgo.
+	// selv, order, and pcs (if race) are no longer alive after selectgolang.
 
 	// dispatch cases
 	dispatch := func(cond ir.Node, cas *ir.CommClause) {
@@ -285,7 +285,7 @@ func bytePtrToIndex(n ir.Node, i int64) ir.Node {
 
 var scase *types.Type
 
-// Keep in sync with src/runtime/select.go.
+// Keep in sync with src/runtime/select.golang.
 func scasetype() *types.Type {
 	if scase == nil {
 		n := ir.NewDeclNameAt(src.NoXPos, ir.OTYPE, ir.Pkgs.Runtime.Lookup("scase"))

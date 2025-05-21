@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package syscall
@@ -29,7 +29,7 @@ func (any *anyMessage) toRoutingMessage(b []byte) RoutingMessage {
 // InterfaceAnnounceMessage represents a routing message containing
 // network interface arrival and departure information.
 //
-// Deprecated: Use golang.org/x/net/route instead.
+// Deprecated: Use golanglang.org/x/net/route instead.
 type InterfaceAnnounceMessage struct {
 	Header IfAnnounceMsghdr
 }

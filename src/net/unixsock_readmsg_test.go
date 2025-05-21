@@ -1,8 +1,8 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build unix
+//golang:build unix
 
 package net
 
@@ -49,11 +49,11 @@ func TestUnixConnReadMsgUnixSCMRightsCloseOnExec(t *testing.T) {
 
 	ucw, ok := cw.(*UnixConn)
 	if !ok {
-		t.Fatalf("got %T; want UnixConn", cw)
+		t.Fatalf("golangt %T; want UnixConn", cw)
 	}
 	ucr, ok := cr.(*UnixConn)
 	if !ok {
-		t.Fatalf("got %T; want UnixConn", cr)
+		t.Fatalf("golangt %T; want UnixConn", cr)
 	}
 
 	oob := make([]byte, syscall.CmsgSpace(4))
@@ -79,27 +79,27 @@ func TestUnixConnReadMsgUnixSCMRightsCloseOnExec(t *testing.T) {
 		t.Fatalf("ParseSocketControlMessage: %v", err)
 	}
 	if len(scms) != 1 {
-		t.Fatalf("got scms = %#v; expected 1 SocketControlMessage", scms)
+		t.Fatalf("golangt scms = %#v; expected 1 SocketControlMessage", scms)
 	}
 	scm := scms[0]
-	gotFDs, err := syscall.ParseUnixRights(&scm)
+	golangtFDs, err := syscall.ParseUnixRights(&scm)
 	if err != nil {
 		t.Fatalf("syscall.ParseUnixRights: %v", err)
 	}
-	if len(gotFDs) != 1 {
-		t.Fatalf("got FDs %#v: wanted only 1 fd", gotFDs)
+	if len(golangtFDs) != 1 {
+		t.Fatalf("golangt FDs %#v: wanted only 1 fd", golangtFDs)
 	}
 	defer func() {
-		if err := syscall.Close(gotFDs[0]); err != nil {
-			t.Fatalf("fail to close gotFDs: %v", err)
+		if err := syscall.Close(golangtFDs[0]); err != nil {
+			t.Fatalf("fail to close golangtFDs: %v", err)
 		}
 	}()
 
-	flags, err := unix.Fcntl(gotFDs[0], syscall.F_GETFD, 0)
+	flags, err := unix.Fcntl(golangtFDs[0], syscall.F_GETFD, 0)
 	if err != nil {
-		t.Fatalf("Can't get flags of fd:%#v, with err:%v", gotFDs[0], err)
+		t.Fatalf("Can't get flags of fd:%#v, with err:%v", golangtFDs[0], err)
 	}
 	if flags&syscall.FD_CLOEXEC == 0 {
-		t.Fatalf("got flags %#x, want %#x (FD_CLOEXEC) set", flags, syscall.FD_CLOEXEC)
+		t.Fatalf("golangt flags %#x, want %#x (FD_CLOEXEC) set", flags, syscall.FD_CLOEXEC)
 	}
 }

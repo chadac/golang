@@ -1,10 +1,10 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Tests user tasks, regions, and logging.
 
-//go:build ignore
+//golang:build ignore
 
 package main
 
@@ -34,7 +34,7 @@ func main() {
 	trace.StartRegion(ctx, "task0 region")
 
 	wg.Add(1)
-	go func() {
+	golang func() {
 		defer wg.Done()
 		defer task.End() // EvUserTaskEnd("task0")
 

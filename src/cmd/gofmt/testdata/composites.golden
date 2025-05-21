@@ -1,4 +1,4 @@
-//gofmt -s
+//golangfmt -s
 
 package P
 
@@ -101,7 +101,7 @@ var _ = map[string][]int{
 	"bal": {3, 4},
 }
 
-// from exp/4s/data.go
+// from exp/4s/data.golang
 var pieces4 = []Piece{
 	{0, 0, Point{4, 1}, []Point{{0, 0}, {1, 0}, {1, 0}, {1, 0}}, nil, nil},
 	{1, 0, Point{1, 4}, []Point{{0, 0}, {0, 1}, {0, 1}, {0, 1}}, nil, nil},

@@ -1,8 +1,8 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-package gob
+package golangb
 
 import (
 	"errors"
@@ -13,7 +13,7 @@ import (
 
 // An Encoder manages the transmission of type and data information to the
 // other side of a connection.  It is safe for concurrent use by multiple
-// goroutines.
+// golangroutines.
 type Encoder struct {
 	mutex      sync.Mutex              // each item must be sent atomically
 	w          []io.Writer             // where to send the data
@@ -69,7 +69,7 @@ func (enc *Encoder) writeMessage(w io.Writer, b *encBuffer) {
 	messageLen := len(message) - maxLength
 	// Length cannot be bigger than the decoder can handle.
 	if messageLen >= tooBig {
-		enc.setError(errors.New("gob: encoder: message too big"))
+		enc.setError(errors.New("golangb: encoder: message too big"))
 		return
 	}
 	// Encode the length.
@@ -171,7 +171,7 @@ func (enc *Encoder) sendType(w io.Writer, state *encoderState, origt reflect.Typ
 
 // Encode transmits the data item represented by the empty interface value,
 // guaranteeing that all necessary type information has been transmitted first.
-// Passing a nil pointer to Encoder will panic, as they cannot be transmitted by gob.
+// Passing a nil pointer to Encoder will panic, as they cannot be transmitted by golangb.
 func (enc *Encoder) Encode(e any) error {
 	return enc.EncodeValue(reflect.ValueOf(e))
 }
@@ -214,17 +214,17 @@ func (enc *Encoder) sendTypeId(state *encoderState, ut *userTypeInfo) {
 
 // EncodeValue transmits the data item represented by the reflection value,
 // guaranteeing that all necessary type information has been transmitted first.
-// Passing a nil pointer to EncodeValue will panic, as they cannot be transmitted by gob.
+// Passing a nil pointer to EncodeValue will panic, as they cannot be transmitted by golangb.
 func (enc *Encoder) EncodeValue(value reflect.Value) error {
 	if value.Kind() == reflect.Invalid {
-		return errors.New("gob: cannot encode nil value")
+		return errors.New("golangb: cannot encode nil value")
 	}
 	if value.Kind() == reflect.Pointer && value.IsNil() {
-		panic("gob: cannot encode nil pointer of type " + value.Type().String())
+		panic("golangb: cannot encode nil pointer of type " + value.Type().String())
 	}
 
 	// Make sure we're single-threaded through here, so multiple
-	// goroutines can share an encoder.
+	// golangroutines can share an encoder.
 	enc.mutex.Lock()
 	defer enc.mutex.Unlock()
 

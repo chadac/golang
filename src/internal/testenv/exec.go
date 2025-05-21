@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package testenv
@@ -23,7 +23,7 @@ import (
 // If not, MustHaveExec calls t.Skip with an explanation.
 //
 // On some platforms MustHaveExec checks for exec support by re-executing the
-// current executable, which must be a binary built by 'go test'.
+// current executable, which must be a binary built by 'golang test'.
 // We intentionally do not provide a HasExec function because of the risk of
 // inappropriate recursion in TestMain functions.
 //
@@ -59,7 +59,7 @@ var tryExec = sync.OnceValue(func() error {
 	// an ios environment.
 
 	if !testing.Testing() {
-		// This isn't a standard 'go test' binary, so we don't know how to
+		// This isn't a standard 'golang test' binary, so we don't know how to
 		// self-exec in a way that should succeed without side effects.
 		// Just forget it.
 		return errors.New("can't probe for exec support with a non-test executable")

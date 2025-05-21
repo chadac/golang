@@ -1,21 +1,21 @@
-# Relative imports in go test
+# Relative imports in golang test
 env GO111MODULE=off # relative import not supported in module mode
 
 # Run tests outside GOPATH.
 env GOPATH=$WORK/tmp
 
-go test ./testimport
+golang test ./testimport
 stdout '^ok'
 
--- testimport/p.go --
+-- testimport/p.golang --
 package p
 
 func F() int { return 1 }
--- testimport/p1/p1.go --
+-- testimport/p1/p1.golang --
 package p1
 
 func F() int { return 1 }
--- testimport/p_test.go --
+-- testimport/p_test.golang --
 package p
 
 import (

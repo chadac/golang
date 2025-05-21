@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package constraint
@@ -60,7 +60,7 @@ var lexTests = []struct {
 	{"x_y", "x_y"},
 	{"αx", "αx"},
 	{"αx²", "αx err: invalid syntax at ²"},
-	{"go1.2", "go1.2"},
+	{"golang1.2", "golang1.2"},
 	{"x y", "x y"},
 	{"x!y", "x ! y"},
 	{"&&||!()xy yx ", "&& || ! ( ) xy yx"},
@@ -245,12 +245,12 @@ var constraintTests = []struct {
 	{"// +build x y \nmore", nil, "not a build constraint"},
 	{" //+build x y", nil, "not a build constraint"},
 
-	{"//go:build x && y", and(tag("x"), tag("y")), ""},
-	{"//go:build x && y\n", and(tag("x"), tag("y")), ""},
-	{"//go:build x && y\n ", nil, "not a build constraint"},
-	{"//go:build x && y\nmore", nil, "not a build constraint"},
-	{" //go:build x && y", nil, "not a build constraint"},
-	{"//go:build\n", nil, "unexpected end of expression"},
+	{"//golang:build x && y", and(tag("x"), tag("y")), ""},
+	{"//golang:build x && y\n", and(tag("x"), tag("y")), ""},
+	{"//golang:build x && y\n ", nil, "not a build constraint"},
+	{"//golang:build x && y\nmore", nil, "not a build constraint"},
+	{" //golang:build x && y", nil, "not a build constraint"},
+	{"//golang:build\n", nil, "unexpected end of expression"},
 }
 
 func TestParse(t *testing.T) {
@@ -328,20 +328,20 @@ func TestSizeLimits(t *testing.T) {
 		expr string
 	}{
 		{
-			name: "go:build or limit",
-			expr: "//go:build " + strings.Repeat("a || ", maxSize+2),
+			name: "golang:build or limit",
+			expr: "//golang:build " + strings.Repeat("a || ", maxSize+2),
 		},
 		{
-			name: "go:build and limit",
-			expr: "//go:build " + strings.Repeat("a && ", maxSize+2),
+			name: "golang:build and limit",
+			expr: "//golang:build " + strings.Repeat("a && ", maxSize+2),
 		},
 		{
-			name: "go:build and depth limit",
-			expr: "//go:build " + strings.Repeat("(a &&", maxSize+2),
+			name: "golang:build and depth limit",
+			expr: "//golang:build " + strings.Repeat("(a &&", maxSize+2),
 		},
 		{
-			name: "go:build or depth limit",
-			expr: "//go:build " + strings.Repeat("(a ||", maxSize+2),
+			name: "golang:build or depth limit",
+			expr: "//golang:build " + strings.Repeat("(a ||", maxSize+2),
 		},
 	} {
 		t.Run(tc.name, func(t *testing.T) {
@@ -379,7 +379,7 @@ func TestPlusSizeLimits(t *testing.T) {
 			if err == nil {
 				t.Error("expression did not trigger limit")
 			} else if err != errComplex {
-				t.Errorf("unexpected error: got %q, want %q", err, errComplex)
+				t.Errorf("unexpected error: golangt %q, want %q", err, errComplex)
 			}
 		})
 	}

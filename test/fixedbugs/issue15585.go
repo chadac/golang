@@ -1,7 +1,7 @@
 // compile
 
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package bug
@@ -21,7 +21,7 @@ func example(n int) (rc int) {
 				p = ^(l | c | r)
 			} else {
 				rc++
-				goto R
+				golangto R
 			}
 		L:
 			if p != 0 {
@@ -30,13 +30,13 @@ func example(n int) (rc int) {
 				ll[d], cc[d], rr[d], pp[d] = l, c, r, p
 				l, c, r = (l|lsb)<<1, c|lsb, (r|lsb)>>1
 				d++
-				goto E
+				golangto E
 			}
 		R:
 			d--
 			if d >= 0 {
 				l, c, r, p = ll[d], cc[d], rr[d], pp[d]
-				goto L
+				golangto L
 			}
 		}
 	}

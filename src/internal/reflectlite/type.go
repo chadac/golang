@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package reflectlite implements lightweight version of reflect, not using
@@ -37,7 +37,7 @@ type Type interface {
 	PkgPath() string
 
 	// Size returns the number of bytes needed to store
-	// a value of the given type; it is analogous to unsafe.Sizeof.
+	// a value of the given type; it is analogolangus to unsafe.Sizeof.
 	Size() uintptr
 
 	// Kind returns the specific kind of this type.
@@ -68,9 +68,9 @@ type Type interface {
 }
 
 /*
- * These data structures are known to the compiler (../../cmd/internal/reflectdata/reflect.go).
- * A few are known to ../runtime/type.go to convey to debuggers.
- * They are also known to ../runtime/type.go.
+ * These data structures are known to the compiler (../../cmd/internal/reflectdata/reflect.golang).
+ * A few are known to ../runtime/type.golang to convey to debuggers.
+ * They are also known to ../runtime/type.golang.
  */
 
 // A Kind represents the specific kind of type that a Type represents.
@@ -220,14 +220,14 @@ func pkgPath(n abi.Name) string {
 // The (*rtype).nameOff method is a convenience wrapper for this function.
 // Implemented in the runtime package.
 //
-//go:noescape
+//golang:noescape
 func resolveNameOff(ptrInModule unsafe.Pointer, off int32) unsafe.Pointer
 
 // resolveTypeOff resolves an *rtype offset from a base type.
 // The (*rtype).typeOff method is a convenience wrapper for this function.
 // Implemented in the runtime package.
 //
-//go:noescape
+//golang:noescape
 func resolveTypeOff(rtype unsafe.Pointer, off int32) unsafe.Pointer
 
 func (t rtype) nameOff(off nameOff) abi.Name {
@@ -422,10 +422,10 @@ func implements(T, V *abi.Type) bool {
 	rT := toRType(T)
 	rV := toRType(V)
 
-	// The same algorithm applies in both cases, but the
+	// The same algolangrithm applies in both cases, but the
 	// method tables for an interface type and a concrete type
 	// are different, so the code is duplicated.
-	// In both cases the algorithm is a linear scan over the two
+	// In both cases the algolangrithm is a linear scan over the two
 	// lists - T's methods and V's methods - simultaneously.
 	// Since method tables are stored in a unique sorted order
 	// (alphabetical, with no duplicate method names), the scan
@@ -433,7 +433,7 @@ func implements(T, V *abi.Type) bool {
 	// methods along the way, or else V does not implement T.
 	// This lets us run the scan in overall linear time instead of
 	// the quadratic time  a naive search would require.
-	// See also ../runtime/iface.go.
+	// See also ../runtime/iface.golang.
 	if V.Kind() == Interface {
 		v := (*interfaceType)(unsafe.Pointer(V))
 		i := 0
@@ -499,7 +499,7 @@ func implements(T, V *abi.Type) bool {
 
 // directlyAssignable reports whether a value x of type V can be directly
 // assigned (using memmove) to a value of type T.
-// https://golang.org/doc/go_spec.html#Assignability
+// https://golanglang.org/doc/golang_spec.html#Assignability
 // Ignoring the interface rules (implemented elsewhere)
 // and the ideal constant rules (no ideal constants at run time).
 func directlyAssignable(T, V *abi.Type) bool {
@@ -632,7 +632,7 @@ func haveIdenticalUnderlyingType(T, V *abi.Type, cmpTags bool) bool {
 
 // toType converts from a *rtype to a Type that can be returned
 // to the client of package reflect. In gc, the only concern is that
-// a nil *rtype must be replaced by a nil Type, but in gccgo this
+// a nil *rtype must be replaced by a nil Type, but in gccgolang this
 // function takes care of ensuring that multiple *rtype for the same
 // type are coalesced into a single Type.
 func toType(t *abi.Type) Type {

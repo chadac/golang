@@ -1,20 +1,20 @@
-# Tests that go test -bench prints out goos, goarch, and pkg.
+# Tests that golang test -bench prints out golangos, golangarch, and pkg.
 
-# Check for goos, goarch, and pkg.
-go test -run ^$ -bench . bench
-stdout '^goos: '$GOOS
-stdout '^goarch: '$GOARCH
+# Check for golangos, golangarch, and pkg.
+golang test -run ^$ -bench . bench
+stdout '^golangos: '$GOOS
+stdout '^golangarch: '$GOARCH
 stdout '^pkg: bench'
 
-# Check go test does not print pkg multiple times
+# Check golang test does not print pkg multiple times
 ! stdout 'pkg:.*pkg: '
 ! stderr 'pkg:.*pkg:'
 
--- go.mod --
+-- golang.mod --
 module bench
 
-go 1.16
--- x_test.go --
+golang 1.16
+-- x_test.golang --
 package bench
 
 import "testing"

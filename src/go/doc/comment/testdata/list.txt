@@ -7,7 +7,7 @@ Text.
      + Lots of bullets.
 More text.
 
--- gofmt --
+-- golangfmt --
 Text.
 - Not a list.
   - Here is the list.

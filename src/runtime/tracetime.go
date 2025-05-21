@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Trace time and clock.
@@ -7,7 +7,7 @@
 package runtime
 
 import (
-	"internal/goarch"
+	"internal/golangarch"
 	"internal/trace/tracev2"
 	_ "unsafe"
 )
@@ -39,7 +39,7 @@ import (
 // The suggested increment frequency for PowerPC's time base register is
 // 512 MHz according to Power ISA v2.07 section 6.2, so we use 32 on ppc64
 // and ppc64le.
-const traceTimeDiv = (1-osHasLowResClockInt)*64 + osHasLowResClockInt*(256-224*(goarch.IsPpc64|goarch.IsPpc64le))
+const traceTimeDiv = (1-osHasLowResClockInt)*64 + osHasLowResClockInt*(256-224*(golangarch.IsPpc64|golangarch.IsPpc64le))
 
 // traceTime represents a timestamp for the trace.
 type traceTime uint64
@@ -51,10 +51,10 @@ type traceTime uint64
 // nosplit because it's called from exitsyscall and various trace writing functions,
 // which are nosplit.
 //
-// traceClockNow is called by golang.org/x/exp/trace using linkname.
+// traceClockNow is called by golanglang.org/x/exp/trace using linkname.
 //
-//go:linkname traceClockNow
-//go:nosplit
+//golang:linkname traceClockNow
+//golang:nosplit
 func traceClockNow() traceTime {
 	if osHasLowResClock {
 		return traceTime(cputicks() / traceTimeDiv)

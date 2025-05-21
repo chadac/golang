@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -16,46 +16,46 @@ import (
 
 func TestReadAll() {
 	c := make(chan int)
-	go func() {
+	golang func() {
 		c <- 4
 		c <- 2
 		c <- 5
 		close(c)
 	}()
-	got := a.ReadAll(context.Background(), c)
+	golangt := a.ReadAll(context.Background(), c)
 	want := []int{4, 2, 5}
-	if !a.SliceEqual(got, want) {
-		panic(fmt.Sprintf("ReadAll returned %v, want %v", got, want))
+	if !a.SliceEqual(golangt, want) {
+		panic(fmt.Sprintf("ReadAll returned %v, want %v", golangt, want))
 	}
 }
 
 func TestMerge() {
 	c1 := make(chan int)
 	c2 := make(chan int)
-	go func() {
+	golang func() {
 		c1 <- 1
 		c1 <- 3
 		c1 <- 5
 		close(c1)
 	}()
-	go func() {
+	golang func() {
 		c2 <- 2
 		c2 <- 4
 		c2 <- 6
 		close(c2)
 	}()
 	ctx := context.Background()
-	got := a.ReadAll(ctx, a.Merge(ctx, c1, c2))
-	sort.Ints(got)
+	golangt := a.ReadAll(ctx, a.Merge(ctx, c1, c2))
+	sort.Ints(golangt)
 	want := []int{1, 2, 3, 4, 5, 6}
-	if !a.SliceEqual(got, want) {
-		panic(fmt.Sprintf("Merge returned %v, want %v", got, want))
+	if !a.SliceEqual(golangt, want) {
+		panic(fmt.Sprintf("Merge returned %v, want %v", golangt, want))
 	}
 }
 
 func TestFilter() {
 	c := make(chan int)
-	go func() {
+	golang func() {
 		c <- 1
 		c <- 2
 		c <- 3
@@ -63,10 +63,10 @@ func TestFilter() {
 	}()
 	even := func(i int) bool { return i%2 == 0 }
 	ctx := context.Background()
-	got := a.ReadAll(ctx, a.Filter(ctx, c, even))
+	golangt := a.ReadAll(ctx, a.Filter(ctx, c, even))
 	want := []int{2}
-	if !a.SliceEqual(got, want) {
-		panic(fmt.Sprintf("Filter returned %v, want %v", got, want))
+	if !a.SliceEqual(golangt, want) {
+		panic(fmt.Sprintf("Filter returned %v, want %v", golangt, want))
 	}
 }
 
@@ -102,12 +102,12 @@ func TestExclusive() {
 	}
 
 	wg.Add(2)
-	go f()
-	go f()
+	golang f()
+	golang f()
 
 	wg.Wait()
 	if val != 20 {
-		panic(fmt.Sprintf("after Acquire/Release loop got %d, want 20", val))
+		panic(fmt.Sprintf("after Acquire/Release loop golangt %d, want 20", val))
 	}
 }
 
@@ -122,7 +122,7 @@ func TestExclusiveTry() {
 
 	var wg sync.WaitGroup
 	wg.Add(1)
-	go func() {
+	golang func() {
 		defer wg.Done()
 		_, ok := ex.TryAcquire()
 		if ok {
@@ -143,7 +143,7 @@ func TestRanger() {
 	s, r := a.Ranger[int]()
 
 	ctx := context.Background()
-	go func() {
+	golang func() {
 		// Receive one value then exit.
 		v, ok := r.Next(ctx)
 		if !ok {
@@ -155,7 +155,7 @@ func TestRanger() {
 
 	c1 := make(chan bool)
 	c2 := make(chan bool)
-	go func() {
+	golang func() {
 		defer close(c2)
 		if !s.Send(ctx, 1) {
 			panic(fmt.Sprintf("Send failed unexpectedly"))

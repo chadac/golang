@@ -1,7 +1,7 @@
 // errorcheck
 
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Verify that illegal assignments with both explicit and implicit conversions of literals are detected.
@@ -38,10 +38,10 @@ var bad7 int = 1e100     // ERROR "overflow|truncated to int|truncated"
 var bad8 float32 = 1e200 // ERROR "overflow"
 
 // but these implicit conversions are okay
-var good1 string = "a"
-var good2 int = 1.0
-var good3 int = 1e9
-var good4 float64 = 1e20
+var golangod1 string = "a"
+var golangod2 int = 1.0
+var golangod3 int = 1e9
+var golangod4 float64 = 1e20
 
 // explicit conversion of string is okay
 var _ = []rune("abc")

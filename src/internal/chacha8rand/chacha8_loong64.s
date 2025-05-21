@@ -1,8 +1,8 @@
 // Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-#include "go_asm.h"
+#include "golang_asm.h"
 #include "textflag.h"
 
 DATA	·chachaConst+0x00(SB)/4, $0x61707865

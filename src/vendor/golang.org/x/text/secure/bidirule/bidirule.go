@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package bidirule implements the Bidi Rule defined by RFC 5893.
@@ -12,8 +12,8 @@ import (
 	"errors"
 	"unicode/utf8"
 
-	"golang.org/x/text/transform"
-	"golang.org/x/text/unicode/bidi"
+	"golanglang.org/x/text/transform"
+	"golanglang.org/x/text/unicode/bidi"
 )
 
 // This file contains an implementation of RFC 5893: Right-to-Left Scripts for
@@ -130,7 +130,7 @@ const exclusiveRTL = uint16(1<<bidi.EN | 1<<bidi.AN)
 // An LTR label is any label that is not an RTL label.
 
 // Direction reports the direction of the given label as defined by RFC 5893.
-// The Bidi Rule does not have to be applied to labels of the category
+// The Bidi Rule does not have to be applied to labels of the categolangry
 // LeftToRight.
 func Direction(b []byte) bidi.Direction {
 	for i := 0; i < len(b); {
@@ -148,7 +148,7 @@ func Direction(b []byte) bidi.Direction {
 }
 
 // DirectionString reports the direction of the given label as defined by RFC
-// 5893. The Bidi Rule does not have to be applied to labels of the category
+// 5893. The Bidi Rule does not have to be applied to labels of the categolangry
 // LeftToRight.
 func DirectionString(s string) bidi.Direction {
 	for i := 0; i < len(s); {
@@ -197,7 +197,7 @@ type Transformer struct {
 }
 
 // A rule can only be violated for "Bidi Domain names", meaning if one of the
-// following categories has been observed.
+// following categolangries has been observed.
 func (t *Transformer) isRTL() bool {
 	const isRTL = 1<<bidi.R | 1<<bidi.AL | 1<<bidi.AN
 	return t.seen&isRTL != 0
@@ -273,7 +273,7 @@ func (t *Transformer) advance(s []byte) (n int, ok bool) {
 			}
 		}
 		// TODO: using CompactClass would result in noticeable speedup.
-		// See unicode/bidi/prop.go:Properties.CompactClass.
+		// See unicode/bidi/prop.golang:Properties.CompactClass.
 		c := uint16(1 << e.Class())
 		t.seen |= c
 		if t.seen&exclusiveRTL == exclusiveRTL {
@@ -312,7 +312,7 @@ func (t *Transformer) advanceString(s string) (n int, ok bool) {
 			}
 		}
 		// TODO: using CompactClass results in noticeable speedup.
-		// See unicode/bidi/prop.go:Properties.CompactClass.
+		// See unicode/bidi/prop.golang:Properties.CompactClass.
 		c := uint16(1 << e.Class())
 		t.seen |= c
 		if t.seen&exclusiveRTL == exclusiveRTL {

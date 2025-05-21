@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package fipstest collects external tests that would ordinarily live in
@@ -76,7 +76,7 @@ func TestVersion(t *testing.T) {
 		exp := setting.Value
 		if exp == "v1.0.0" {
 			// Unfortunately we enshrined the version of the first module as
-			// v1.0 before deciding to go for full versions.
+			// v1.0 before deciding to golang for full versions.
 			exp = "v1.0"
 		}
 		if v := fips140.Version(); v != exp {

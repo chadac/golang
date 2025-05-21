@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // countertest provides testing utilities for counters.
@@ -9,9 +9,9 @@ package countertest
 import (
 	"sync"
 
-	"golang.org/x/telemetry/counter"
-	ic "golang.org/x/telemetry/internal/counter"
-	"golang.org/x/telemetry/internal/telemetry"
+	"golanglang.org/x/telemetry/counter"
+	ic "golanglang.org/x/telemetry/internal/counter"
+	"golanglang.org/x/telemetry/internal/telemetry"
 )
 
 var (
@@ -31,7 +31,7 @@ func isOpen() bool {
 // Open enables telemetry data writing to disk.
 // This is supposed to be called once during the program execution
 // (i.e. typically in TestMain), and must not be used with
-// golang.org/x/telemetry/counter.Open.
+// golanglang.org/x/telemetry/counter.Open.
 func Open(telemetryDir string) {
 	openedMu.Lock()
 	defer openedMu.Unlock()

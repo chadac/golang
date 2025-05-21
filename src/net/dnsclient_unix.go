@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // DNS client: see RFC 1035.
@@ -16,7 +16,7 @@ import (
 	"context"
 	"errors"
 	"internal/bytealg"
-	"internal/godebug"
+	"internal/golangdebug"
 	"internal/itoa"
 	"internal/stringslite"
 	"io"
@@ -26,7 +26,7 @@ import (
 	"sync/atomic"
 	"time"
 
-	"golang.org/x/net/dns/dnsmessage"
+	"golanglang.org/x/net/dns/dnsmessage"
 )
 
 const (
@@ -54,7 +54,7 @@ var (
 )
 
 // netedns0 controls whether we send an EDNS0 additional header.
-var netedns0 = godebug.New("netedns0")
+var netedns0 = golangdebug.New("netedns0")
 
 func newRequest(q dnsmessage.Question, ad bool) (id uint16, udpReq, tcpReq []byte, err error) {
 	id = uint16(randInt())
@@ -120,7 +120,7 @@ func dnsPacketRoundTrip(c Conn, id uint16, query dnsmessage.Question, b []byte) 
 		var p dnsmessage.Parser
 		// Ignore invalid responses as they may be malicious
 		// forgery attempts. Instead continue waiting until
-		// timeout. See golang.org/issue/13281.
+		// timeout. See golanglang.org/issue/13281.
 		h, err := p.Start(b[:n])
 		if err != nil {
 			continue
@@ -209,7 +209,7 @@ func (r *Resolver) exchange(ctx context.Context, server string, q dnsmessage.Que
 		// The case when the TC flag is set in a TCP response is not well specified,
 		// so this implements the glibc resolver behavior, returning the existing
 		// dns response instead of returning a "errNoAnswerFromDNSServer" error.
-		// See go.dev/issue/64896
+		// See golang.dev/issue/64896
 		if h.Truncated && network == "udp" {
 			continue
 		}
@@ -232,7 +232,7 @@ func checkHeader(p *dnsmessage.Parser, h dnsmessage.Header) error {
 	}
 
 	// libresolv continues to the next server when it receives
-	// an invalid referral response. See golang.org/issue/15434.
+	// an invalid referral response. See golanglang.org/issue/15434.
 	if rcode == dnsmessage.RCodeSuccess && !h.Authoritative && !h.RecursionAvailable && err == dnsmessage.ErrSectionDone && !hasAdd {
 		return errLameReferral
 	}
@@ -474,7 +474,7 @@ func (r *Resolver) lookup(ctx context.Context, name string, qtype dnsmessage.Typ
 	if err, ok := err.(*DNSError); ok {
 		// Show original name passed to lookup, not suffixed one.
 		// In general we might have tried many suffixes; showing
-		// just one is misleading. See also golang.org/issue/6324.
+		// just one is misleading. See also golanglang.org/issue/6324.
 		err.Name = name
 	}
 	return dnsmessage.Parser{}, "", err
@@ -482,8 +482,8 @@ func (r *Resolver) lookup(ctx context.Context, name string, qtype dnsmessage.Typ
 
 // avoidDNS reports whether this is a hostname for which we should not
 // use DNS. Currently this includes only .onion, per RFC 7686. See
-// golang.org/issue/13705. Does not cover .local names (RFC 6762),
-// see golang.org/issue/16739.
+// golanglang.org/issue/13705. Does not cover .local names (RFC 6762),
+// see golanglang.org/issue/16739.
 func avoidDNS(name string) bool {
 	if name == "" {
 		return true
@@ -539,8 +539,8 @@ func (conf *dnsConfig) nameList(name string) []string {
 type hostLookupOrder int
 
 const (
-	// hostLookupCgo means defer to cgo.
-	hostLookupCgo      hostLookupOrder = iota
+	// hostLookupCgolang means defer to cgolang.
+	hostLookupCgolang      hostLookupOrder = iota
 	hostLookupFilesDNS                 // files first
 	hostLookupDNSFiles                 // dns first
 	hostLookupFiles                    // only files
@@ -548,7 +548,7 @@ const (
 )
 
 var lookupOrderName = map[hostLookupOrder]string{
-	hostLookupCgo:      "cgo",
+	hostLookupCgolang:      "cgolang",
 	hostLookupFilesDNS: "files,dns",
 	hostLookupDNSFiles: "dns,files",
 	hostLookupFiles:    "files",
@@ -562,7 +562,7 @@ func (o hostLookupOrder) String() string {
 	return "hostLookupOrder=" + itoa.Itoa(int(o)) + "??"
 }
 
-func (r *Resolver) goLookupHostOrder(ctx context.Context, name string, order hostLookupOrder, conf *dnsConfig) (addrs []string, err error) {
+func (r *Resolver) golangLookupHostOrder(ctx context.Context, name string, order hostLookupOrder, conf *dnsConfig) (addrs []string, err error) {
 	if order == hostLookupFilesDNS || order == hostLookupFiles {
 		// Use entries from /etc/hosts if they match.
 		addrs, _ = lookupStaticHost(name)
@@ -574,7 +574,7 @@ func (r *Resolver) goLookupHostOrder(ctx context.Context, name string, order hos
 			return nil, newDNSError(errNoSuchHost, name, "")
 		}
 	}
-	ips, _, err := r.goLookupIPCNAMEOrder(ctx, "ip", name, order, conf)
+	ips, _, err := r.golangLookupIPCNAMEOrder(ctx, "ip", name, order, conf)
 	if err != nil {
 		return
 	}
@@ -586,7 +586,7 @@ func (r *Resolver) goLookupHostOrder(ctx context.Context, name string, order hos
 }
 
 // lookup entries from /etc/hosts
-func goLookupIPFiles(name string) (addrs []IPAddr, canonical string) {
+func golangLookupIPFiles(name string) (addrs []IPAddr, canonical string) {
 	addr, canonical := lookupStaticHost(name)
 	for _, haddr := range addr {
 		haddr, zone := splitHostZone(haddr)
@@ -599,17 +599,17 @@ func goLookupIPFiles(name string) (addrs []IPAddr, canonical string) {
 	return addrs, canonical
 }
 
-// goLookupIP is the native Go implementation of LookupIP.
-// The libc versions are in cgo_*.go.
-func (r *Resolver) goLookupIP(ctx context.Context, network, host string, order hostLookupOrder, conf *dnsConfig) (addrs []IPAddr, err error) {
-	addrs, _, err = r.goLookupIPCNAMEOrder(ctx, network, host, order, conf)
+// golangLookupIP is the native Go implementation of LookupIP.
+// The libc versions are in cgolang_*.golang.
+func (r *Resolver) golangLookupIP(ctx context.Context, network, host string, order hostLookupOrder, conf *dnsConfig) (addrs []IPAddr, err error) {
+	addrs, _, err = r.golangLookupIPCNAMEOrder(ctx, network, host, order, conf)
 	return
 }
 
-func (r *Resolver) goLookupIPCNAMEOrder(ctx context.Context, network, name string, order hostLookupOrder, conf *dnsConfig) (addrs []IPAddr, cname dnsmessage.Name, err error) {
+func (r *Resolver) golangLookupIPCNAMEOrder(ctx context.Context, network, name string, order hostLookupOrder, conf *dnsConfig) (addrs []IPAddr, cname dnsmessage.Name, err error) {
 	if order == hostLookupFilesDNS || order == hostLookupFiles {
 		var canonical string
-		addrs, canonical = goLookupIPFiles(name)
+		addrs, canonical = golangLookupIPFiles(name)
 
 		if len(addrs) > 0 {
 			var err error
@@ -663,7 +663,7 @@ func (r *Resolver) goLookupIPCNAMEOrder(ctx context.Context, network, name strin
 	} else {
 		queryFn = func(fqdn string, qtype dnsmessage.Type) {
 			dnsWaitGroup.Add(1)
-			go func(qtype dnsmessage.Type) {
+			golang func(qtype dnsmessage.Type) {
 				p, server, err := r.tryOneName(ctx, conf, fqdn, qtype)
 				lane <- result{p, server, err}
 				dnsWaitGroup.Done()
@@ -793,14 +793,14 @@ func (r *Resolver) goLookupIPCNAMEOrder(ctx context.Context, network, name strin
 	if lastErr, ok := lastErr.(*DNSError); ok {
 		// Show original name passed to lookup, not suffixed one.
 		// In general we might have tried many suffixes; showing
-		// just one is misleading. See also golang.org/issue/6324.
+		// just one is misleading. See also golanglang.org/issue/6324.
 		lastErr.Name = name
 	}
 	sortByRFC6724(addrs)
 	if len(addrs) == 0 && !(network == "CNAME" && cname.Length > 0) {
 		if order == hostLookupDNSFiles {
 			var canonical string
-			addrs, canonical = goLookupIPFiles(name)
+			addrs, canonical = golangLookupIPFiles(name)
 			if len(addrs) > 0 {
 				var err error
 				cname, err = dnsmessage.NewName(canonical)
@@ -817,14 +817,14 @@ func (r *Resolver) goLookupIPCNAMEOrder(ctx context.Context, network, name strin
 	return addrs, cname, nil
 }
 
-// goLookupCNAME is the native Go (non-cgo) implementation of LookupCNAME.
-func (r *Resolver) goLookupCNAME(ctx context.Context, host string, order hostLookupOrder, conf *dnsConfig) (string, error) {
-	_, cname, err := r.goLookupIPCNAMEOrder(ctx, "CNAME", host, order, conf)
+// golangLookupCNAME is the native Go (non-cgolang) implementation of LookupCNAME.
+func (r *Resolver) golangLookupCNAME(ctx context.Context, host string, order hostLookupOrder, conf *dnsConfig) (string, error) {
+	_, cname, err := r.golangLookupIPCNAMEOrder(ctx, "CNAME", host, order, conf)
 	return cname.String(), err
 }
 
-// goLookupPTR is the native Go implementation of LookupAddr.
-func (r *Resolver) goLookupPTR(ctx context.Context, addr string, order hostLookupOrder, conf *dnsConfig) ([]string, error) {
+// golangLookupPTR is the native Go implementation of LookupAddr.
+func (r *Resolver) golangLookupPTR(ctx context.Context, addr string, order hostLookupOrder, conf *dnsConfig) ([]string, error) {
 	if order == hostLookupFiles || order == hostLookupFilesDNS {
 		names := lookupStaticAddr(addr)
 		if len(names) > 0 {

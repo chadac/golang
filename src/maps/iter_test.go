@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package maps
@@ -19,7 +19,7 @@ func TestAll(t *testing.T) {
 		for i, v := range All(m) {
 			v1, ok := m[i]
 			if !ok || v != v1 {
-				t.Errorf("at iteration %d got %d, %d want %d, %d", cnt, i, v, i, v1)
+				t.Errorf("at iteration %d golangt %d, %d want %d, %d", cnt, i, v, i, v1)
 			}
 			cnt++
 		}
@@ -38,13 +38,13 @@ func TestKeys(t *testing.T) {
 			want = append(want, i)
 		}
 
-		var got []int
+		var golangt []int
 		for k := range Keys(m) {
-			got = append(got, k)
+			golangt = append(golangt, k)
 		}
-		slices.Sort(got)
-		if !slices.Equal(got, want) {
-			t.Errorf("Keys(%v) = %v, want %v", m, got, want)
+		slices.Sort(golangt)
+		if !slices.Equal(golangt, want) {
+			t.Errorf("Keys(%v) = %v, want %v", m, golangt, want)
 		}
 	}
 }
@@ -58,23 +58,23 @@ func TestValues(t *testing.T) {
 			want = append(want, i)
 		}
 
-		var got []int
+		var golangt []int
 		for v := range Values(m) {
-			got = append(got, v)
+			golangt = append(golangt, v)
 		}
-		slices.Sort(got)
-		if !slices.Equal(got, want) {
-			t.Errorf("Values(%v) = %v, want %v", m, got, want)
+		slices.Sort(golangt)
+		if !slices.Equal(golangt, want) {
+			t.Errorf("Values(%v) = %v, want %v", m, golangt, want)
 		}
 	}
 }
 
 func TestInsert(t *testing.T) {
-	got := map[int]int{
+	golangt := map[int]int{
 		1: 1,
 		2: 1,
 	}
-	Insert(got, func(yield func(int, int) bool) {
+	Insert(golangt, func(yield func(int, int) bool) {
 		for i := 0; i < 10; i += 2 {
 			if !yield(i, i+1) {
 				return
@@ -96,8 +96,8 @@ func TestInsert(t *testing.T) {
 		want[i] = v
 	}
 
-	if !Equal(got, want) {
-		t.Errorf("Insert got: %v, want: %v", got, want)
+	if !Equal(golangt, want) {
+		t.Errorf("Insert golangt: %v, want: %v", golangt, want)
 	}
 }
 
@@ -109,8 +109,8 @@ func TestCollect(t *testing.T) {
 		6: 7,
 		8: 9,
 	}
-	got := Collect(All(m))
-	if !Equal(got, m) {
-		t.Errorf("Collect got: %v, want: %v", got, m)
+	golangt := Collect(All(m))
+	if !Equal(golangt, m) {
+		t.Errorf("Collect golangt: %v, want: %v", golangt, m)
 	}
 }

@@ -1,8 +1,8 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Test that the mutually recursive types in recursive1.go made it
+// Test that the mutually recursive types in recursive1.golang made it
 // intact and with the same meaning, by assigning to or using them.
 
 package main

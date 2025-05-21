@@ -1,5 +1,5 @@
 // Copyright 2009,2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // OpenBSD system calls.
@@ -8,7 +8,7 @@
 // which parses the //sys lines and generates system call stubs.
 // Note that sometimes we use a lowercase //sys name and wrap
 // it in our own nicer implementation, either here or in
-// syscall_bsd.go or syscall_unix.go.
+// syscall_bsd.golang or syscall_unix.golang.
 
 package syscall
 
@@ -110,7 +110,7 @@ func Getdirentries(fd int, buf []byte, basep *uintptr) (n int, err error) {
 	return getdents(fd, buf)
 }
 
-// TODO, see golang.org/issue/5847
+// TODO, see golanglang.org/issue/5847
 func sendfile(outfd int, infd int, offset *int64, count int) (written int, err error) {
 	return -1, ENOSYS
 }

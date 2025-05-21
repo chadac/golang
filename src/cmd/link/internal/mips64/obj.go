@@ -65,7 +65,7 @@ func Init() (*sys.Arch, ld.Arch) {
 			Freebsddynld:   "XXX",
 			Openbsddynld:   "/usr/libexec/ld.so",
 			Netbsddynld:    "XXX",
-			Dragonflydynld: "XXX",
+			Dragolangnflydynld: "XXX",
 			Solarisdynld:   "XXX",
 
 			Reloc1:    elfreloc1,
@@ -108,6 +108,6 @@ func archinit(ctxt *ld.Link) {
 	}
 
 	dynSymCount = 0
-	gotLocalCount = 0
-	gotSymIndex = 0
+	golangtLocalCount = 0
+	golangtSymIndex = 0
 }

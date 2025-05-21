@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file implements scopes and the objects they contain.
@@ -8,7 +8,7 @@ package ast
 
 import (
 	"fmt"
-	"go/token"
+	"golang/token"
 	"strings"
 )
 
@@ -16,7 +16,7 @@ import (
 // in the scope and a link to the immediately surrounding (outer)
 // scope.
 //
-// Deprecated: use the type checker [go/types] instead; see [Object].
+// Deprecated: use the type checker [golang/types] instead; see [Object].
 type Scope struct {
 	Outer   *Scope
 	Objects map[string]*Object
@@ -81,7 +81,7 @@ func (s *Scope) String() string {
 //
 // New programs should set the [parser.SkipObjectResolution] parser
 // flag to disable syntactic object resolution (which also saves CPU
-// and memory), and instead use the type checker [go/types] if object
+// and memory), and instead use the type checker [golang/types] if object
 // resolution is desired. See the Defs, Uses, and Implicits fields of
 // the [types.Info] struct for details.
 type Object struct {

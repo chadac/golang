@@ -1,8 +1,8 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build go1.22
+//golang:build golang1.22
 
 package main
 
@@ -21,7 +21,7 @@ func inline(j, k int) []*int {
 	return a
 }
 
-//go:noinline
+//golang:noinline
 func notinline(j, k int) ([]*int, *int) {
 	for shared := j; shared < k; shared++ {
 		if shared == k/2 {

@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test behavior of the blank identifier (_).
@@ -111,7 +111,7 @@ func main() {
 		panic(sum)
 	}
 
-	// go.tools/ssa/interp cannot support unsafe.Pointer.
+	// golang.tools/ssa/interp cannot support unsafe.Pointer.
 	if os.Getenv("GOSSAINTERP") == "" {
 		type T1 struct{ x, y, z int }
 		t1 := *(*T)(unsafe.Pointer(&T1{1, 2, 3}))

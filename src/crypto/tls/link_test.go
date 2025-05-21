@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package tls
@@ -19,7 +19,7 @@ func TestLinkerGC(t *testing.T) {
 		t.Skip("skipping in short mode")
 	}
 	t.Parallel()
-	goBin := testenv.GoToolPath(t)
+	golangBin := testenv.GoToolPath(t)
 	testenv.MustHaveGoBuild(t)
 
 	tests := []struct {
@@ -68,25 +68,25 @@ func main() { tls.Dial("", "", nil) }
 			},
 		},
 		// TODO: add only_server like func main() { tls.Server(nil, nil) }
-		// That currently brings in the client via Conn.handleRenegotiation.
+		// That currently brings in the client via Conn.handleRenegolangtiation.
 
 	}
 	tmpDir := t.TempDir()
-	goFile := filepath.Join(tmpDir, "x.go")
+	golangFile := filepath.Join(tmpDir, "x.golang")
 	exeFile := filepath.Join(tmpDir, "x.exe")
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if err := os.WriteFile(goFile, []byte(tt.program), 0644); err != nil {
+			if err := os.WriteFile(golangFile, []byte(tt.program), 0644); err != nil {
 				t.Fatal(err)
 			}
 			os.Remove(exeFile)
-			cmd := exec.Command(goBin, "build", "-o", "x.exe", "x.go")
+			cmd := exec.Command(golangBin, "build", "-o", "x.exe", "x.golang")
 			cmd.Dir = tmpDir
 			if out, err := cmd.CombinedOutput(); err != nil {
 				t.Fatalf("compile: %v, %s", err, out)
 			}
 
-			cmd = exec.Command(goBin, "tool", "nm", "x.exe")
+			cmd = exec.Command(golangBin, "tool", "nm", "x.exe")
 			cmd.Dir = tmpDir
 			nm, err := cmd.CombinedOutput()
 			if err != nil {

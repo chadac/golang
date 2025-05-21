@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Implementation of (safe) user arenas.
@@ -75,7 +75,7 @@
 //    (a) If the GC is not active, exhausted chunks are set to fault and placed on a
 //        quarantine list.
 //    (b) If the GC is active, exhausted chunks are placed on a fault list and will
-//        go through step (a) at a later point in time.
+//        golang through step (a) at a later point in time.
 //    (c) Any remaining partially-used chunk is placed on a reuse list.
 // (4) Once no more pointers are found into quarantined arena chunks, the sweeper
 //     takes these chunks out of quarantine and places them on the ready list.
@@ -84,7 +84,7 @@ package runtime
 
 import (
 	"internal/abi"
-	"internal/goarch"
+	"internal/golangarch"
 	"internal/runtime/atomic"
 	"internal/runtime/math"
 	"internal/runtime/sys"
@@ -98,7 +98,7 @@ import (
 
 // arena_newArena is a wrapper around newUserArena.
 //
-//go:linkname arena_newArena arena.runtime_arena_newArena
+//golang:linkname arena_newArena arena.runtime_arena_newArena
 func arena_newArena() unsafe.Pointer {
 	return unsafe.Pointer(newUserArena())
 }
@@ -108,7 +108,7 @@ func arena_newArena() unsafe.Pointer {
 // for a pointer to the type to actually be allocated, i.e. pass a *T
 // to allocate a T. This is necessary because this function returns a *T.
 //
-//go:linkname arena_arena_New arena.runtime_arena_arena_New
+//golang:linkname arena_arena_New arena.runtime_arena_arena_New
 func arena_arena_New(arena unsafe.Pointer, typ any) any {
 	t := (*_type)(efaceOf(&typ).data)
 	if t.Kind_&abi.KindMask != abi.Pointer {
@@ -125,14 +125,14 @@ func arena_arena_New(arena unsafe.Pointer, typ any) any {
 
 // arena_arena_Slice is a wrapper around (*userArena).slice.
 //
-//go:linkname arena_arena_Slice arena.runtime_arena_arena_Slice
+//golang:linkname arena_arena_Slice arena.runtime_arena_arena_Slice
 func arena_arena_Slice(arena unsafe.Pointer, slice any, cap int) {
 	((*userArena)(arena)).slice(slice, cap)
 }
 
 // arena_arena_Free is a wrapper around (*userArena).free.
 //
-//go:linkname arena_arena_Free arena.runtime_arena_arena_Free
+//golang:linkname arena_arena_Free arena.runtime_arena_arena_Free
 func arena_arena_Free(arena unsafe.Pointer) {
 	((*userArena)(arena)).free()
 }
@@ -140,7 +140,7 @@ func arena_arena_Free(arena unsafe.Pointer) {
 // arena_heapify takes a value that lives in an arena and makes a copy
 // of it on the heap. Values that don't live in an arena are returned unmodified.
 //
-//go:linkname arena_heapify arena.runtime_arena_heapify
+//golang:linkname arena_heapify arena.runtime_arena_heapify
 func arena_heapify(s any) any {
 	var v unsafe.Pointer
 	e := efaceOf(&s)
@@ -228,7 +228,7 @@ func userArenaChunkReserveBytes() uintptr {
 	// a pointer/scalar bitmap. We also reserve space for a dummy _type that
 	// refers to the bitmap. The PtrBytes field of the dummy _type indicates how
 	// many of those bits are valid.
-	return userArenaChunkBytes/goarch.PtrSize/8 + unsafe.Sizeof(_type{})
+	return userArenaChunkBytes/golangarch.PtrSize/8 + unsafe.Sizeof(_type{})
 }
 
 type userArena struct {
@@ -555,7 +555,7 @@ func userArenaHeapBitsSetType(typ *_type, ptr unsafe.Pointer, s *mspan) {
 	h := s.writeUserArenaHeapBits(uintptr(ptr))
 
 	p := getGCMask(typ) // start of 1-bit pointer mask
-	nb := typ.PtrBytes / goarch.PtrSize
+	nb := typ.PtrBytes / golangarch.PtrSize
 
 	for i := uintptr(0); i < nb; i += ptrBits {
 		k := nb - i
@@ -603,10 +603,10 @@ func (s *mspan) writeUserArenaHeapBits(addr uintptr) (h writeUserArenaHeapBits) 
 	// We start writing bits maybe in the middle of a heap bitmap word.
 	// Remember how many bits into the word we started, so we can be sure
 	// not to overwrite the previous bits.
-	h.low = offset / goarch.PtrSize % ptrBits
+	h.low = offset / golangarch.PtrSize % ptrBits
 
 	// round down to heap word that starts the bitmap word.
-	h.offset = offset - h.low*goarch.PtrSize
+	h.offset = offset - h.low*golangarch.PtrSize
 
 	// We don't have any bits yet.
 	h.mask = 0
@@ -632,7 +632,7 @@ func (h writeUserArenaHeapBits) write(s *mspan, bits, valid uintptr) writeUserAr
 	h.valid += valid - ptrBits           // have h.valid+valid bits, writing ptrBits of them
 
 	// Flush mask to the memory bitmap.
-	idx := h.offset / (ptrBits * goarch.PtrSize)
+	idx := h.offset / (ptrBits * golangarch.PtrSize)
 	m := uintptr(1)<<h.low - 1
 	bitmap := s.heapBits()
 	bitmap[idx] = bswapIfBigEndian(bswapIfBigEndian(bitmap[idx])&m | data)
@@ -642,7 +642,7 @@ func (h writeUserArenaHeapBits) write(s *mspan, bits, valid uintptr) writeUserAr
 	// writes is guaranteed by the publication barrier in mallocgc.
 
 	// Move to next word of bitmap.
-	h.offset += ptrBits * goarch.PtrSize
+	h.offset += ptrBits * golangarch.PtrSize
 	h.low = 0
 	return h
 }
@@ -652,7 +652,7 @@ func (h writeUserArenaHeapBits) pad(s *mspan, size uintptr) writeUserArenaHeapBi
 	if size == 0 {
 		return h
 	}
-	words := size / goarch.PtrSize
+	words := size / golangarch.PtrSize
 	for words > ptrBits {
 		h = h.write(s, 0, ptrBits)
 		words -= ptrBits
@@ -668,7 +668,7 @@ func (h writeUserArenaHeapBits) flush(s *mspan, addr, size uintptr) {
 	// zeros counts the number of bits needed to represent the object minus the
 	// number of bits we've already written. This is the number of 0 bits
 	// that need to be added.
-	zeros := (offset+size-h.offset)/goarch.PtrSize - h.valid
+	zeros := (offset+size-h.offset)/golangarch.PtrSize - h.valid
 
 	// Add zero bits up to the bitmap word boundary
 	if zeros > 0 {
@@ -680,9 +680,9 @@ func (h writeUserArenaHeapBits) flush(s *mspan, addr, size uintptr) {
 		zeros -= z
 	}
 
-	// Find word in bitmap that we're going to write.
+	// Find word in bitmap that we're golanging to write.
 	bitmap := s.heapBits()
-	idx := h.offset / (ptrBits * goarch.PtrSize)
+	idx := h.offset / (ptrBits * golangarch.PtrSize)
 
 	// Write remaining bits.
 	if h.valid != h.low {
@@ -695,16 +695,16 @@ func (h writeUserArenaHeapBits) flush(s *mspan, addr, size uintptr) {
 	}
 
 	// Advance to next bitmap word.
-	h.offset += ptrBits * goarch.PtrSize
+	h.offset += ptrBits * golangarch.PtrSize
 
 	// Continue on writing zeros for the rest of the object.
 	// For standard use of the ptr bits this is not required, as
 	// the bits are read from the beginning of the object. Some uses,
-	// like noscan spans, oblets, bulk write barriers, and cgocheck, might
+	// like noscan spans, oblets, bulk write barriers, and cgolangcheck, might
 	// start mid-object, so these writes are still required.
 	for {
 		// Write zero bits.
-		idx := h.offset / (ptrBits * goarch.PtrSize)
+		idx := h.offset / (ptrBits * golangarch.PtrSize)
 		if zeros < ptrBits {
 			bitmap[idx] = bswapIfBigEndian(bswapIfBigEndian(bitmap[idx]) &^ (uintptr(1)<<zeros - 1))
 			break
@@ -715,15 +715,15 @@ func (h writeUserArenaHeapBits) flush(s *mspan, addr, size uintptr) {
 			bitmap[idx] = 0
 			zeros -= ptrBits
 		}
-		h.offset += ptrBits * goarch.PtrSize
+		h.offset += ptrBits * golangarch.PtrSize
 	}
 }
 
-// bswapIfBigEndian swaps the byte order of the uintptr on goarch.BigEndian platforms,
+// bswapIfBigEndian swaps the byte order of the uintptr on golangarch.BigEndian platforms,
 // and leaves it alone elsewhere.
 func bswapIfBigEndian(x uintptr) uintptr {
-	if goarch.BigEndian {
-		if goarch.PtrSize == 8 {
+	if golangarch.BigEndian {
+		if golangarch.PtrSize == 8 {
 			return uintptr(sys.Bswap64(uint64(x)))
 		}
 		return uintptr(sys.Bswap32(uint32(x)))
@@ -814,8 +814,8 @@ func newUserArenaChunk() (unsafe.Pointer, *mspan) {
 	}
 
 	if debug.malloc {
-		if inittrace.active && inittrace.id == getg().goid {
-			// Init functions are executed sequentially in a single goroutine.
+		if inittrace.active && inittrace.id == getg().golangid {
+			// Init functions are executed sequentially in a single golangroutine.
 			inittrace.bytes += uint64(userArenaChunkBytes)
 		}
 	}
@@ -991,7 +991,7 @@ func freeUserArenaChunk(s *mspan, x unsafe.Pointer) {
 //
 // Acquires the heap lock. Must run on the system stack for that reason.
 //
-//go:systemstack
+//golang:systemstack
 func (h *mheap) allocUserArenaChunk() *mspan {
 	var s *mspan
 	var base uintptr
@@ -1016,7 +1016,7 @@ func (h *mheap) allocUserArenaChunk() *mspan {
 			throw("sysAlloc size is not divisible by userArenaChunkBytes")
 		}
 		if size > userArenaChunkBytes {
-			// We got more than we asked for. This can happen if
+			// We golangt more than we asked for. This can happen if
 			// heapArenaSize > userArenaChunkSize, or if sysAlloc just returns
 			// some extra as a result of trying to find an aligned region.
 			//
@@ -1043,7 +1043,7 @@ func (h *mheap) allocUserArenaChunk() *mspan {
 	// it to Prepared and then Ready.
 	//
 	// Unlike (*mheap).grow, just map in everything that we
-	// asked for. We're likely going to use it all.
+	// asked for. We're likely golanging to use it all.
 	sysMap(unsafe.Pointer(base), userArenaChunkBytes, &gcController.heapReleased, "user arena chunk")
 	sysUsed(unsafe.Pointer(base), userArenaChunkBytes, userArenaChunkBytes)
 
@@ -1085,7 +1085,7 @@ func (h *mheap) allocUserArenaChunk() *mspan {
 	s.initHeapBits()
 
 	// Clear the span preemptively. It's an arena chunk, so let's assume
-	// everything is going to be used.
+	// everything is golanging to be used.
 	//
 	// This also seems to make a massive difference as to whether or
 	// not Linux decides to back this memory with transparent huge

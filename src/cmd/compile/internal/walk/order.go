@@ -1,12 +1,12 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package walk
 
 import (
 	"fmt"
-	"go/constant"
+	"golang/constant"
 	"internal/abi"
 	"internal/buildcfg"
 
@@ -269,11 +269,11 @@ func (o *orderState) addrTemp(n ir.Node) ir.Node {
 	// IsAddressable does not. It should be possible to skip copying for
 	// at least some of these OCONVNOPs (e.g., reinsert them after the
 	// OADDR operation), but at least walkCompare needs to be fixed to
-	// support that (see trybot failures on go.dev/cl/541715, PS1).
+	// support that (see trybot failures on golang.dev/cl/541715, PS1).
 	if ir.IsAddressable(n) {
 		if name, ok := ir.OuterValue(n).(*ir.Name); ok && name.Op() == ir.ONAME {
 			if name.Class == ir.PAUTO && !name.Addrtaken() && ssa.CanSSA(name.Type()) {
-				goto Copy
+				golangto Copy
 			}
 		}
 
@@ -293,7 +293,7 @@ func (o *orderState) mapKeyTemp(outerPos src.XPos, t *types.Type, n ir.Node) ir.
 		pos = n.Pos()
 	}
 	// Most map calls need to take the address of the key.
-	// Exception: map*_fast* calls. See golang.org/issue/19015.
+	// Exception: map*_fast* calls. See golanglang.org/issue/19015.
 	alg := mapfast(t)
 	if alg == mapslow {
 		return o.addrTemp(n)
@@ -1283,7 +1283,7 @@ func (o *orderState) expr1(n, lhs ir.Node) ir.Node {
 			call := n.X.(*ir.CallExpr)
 			// When reordering unsafe.Pointer(f()) into a separate
 			// statement, the conversion and function call must stay
-			// together. See golang.org/issue/15329.
+			// together. See golanglang.org/issue/15329.
 			o.init(call)
 			o.call(call)
 			if lhs == nil || lhs.Op() != ir.ONAME || base.Flag.Cfg.Instrumenting {

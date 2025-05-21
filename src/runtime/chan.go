@@ -1,5 +1,5 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
@@ -8,7 +8,7 @@ package runtime
 
 // Invariants:
 //  At least one of c.sendq and c.recvq is empty,
-//  except for the case of an unbuffered channel with a single goroutine
+//  except for the case of an unbuffered channel with a single golangroutine
 //  blocked on it for both sending and receiving using a select statement,
 //  in which case the length of c.sendq and c.recvq is limited only by the
 //  size of the select statement.
@@ -59,7 +59,7 @@ type waitq struct {
 	last  *sudog
 }
 
-//go:linkname reflect_makechan reflect.makechan
+//golang:linkname reflect_makechan reflect.makechan
 func reflect_makechan(t *chantype, size int) *hchan {
 	return makechan(t, size)
 }
@@ -132,9 +132,9 @@ func makechan(t *chantype, size int) *hchan {
 //   - github.com/fjl/memsize
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname chanbuf
+//golang:linkname chanbuf
 func chanbuf(c *hchan, i uint) unsafe.Pointer {
 	return add(c.buf, uintptr(i)*uintptr(c.elemsize))
 }
@@ -156,7 +156,7 @@ func full(c *hchan) bool {
 
 // entry point for c <- x from compiled code.
 //
-//go:nosplit
+//golang:nosplit
 func chansend1(c *hchan, elem unsafe.Pointer) {
 	chansend(c, elem, true, sys.GetCallerPC())
 }
@@ -178,7 +178,7 @@ func chansend(c *hchan, ep unsafe.Pointer, block bool, callerpc uintptr) bool {
 		if !block {
 			return false
 		}
-		gopark(nil, nil, waitReasonChanSendNilChan, traceBlockForever, 2)
+		golangpark(nil, nil, waitReasonChanSendNilChan, traceBlockForever, 2)
 		throw("unreachable")
 	}
 
@@ -280,7 +280,7 @@ func chansend(c *hchan, ep unsafe.Pointer, block bool, callerpc uintptr) bool {
 	if c.bubble != nil {
 		reason = waitReasonSynctestChanSend
 	}
-	gopark(chanparkcommit, unsafe.Pointer(&c.lock), reason, traceBlockChanSend, 2)
+	golangpark(chanparkcommit, unsafe.Pointer(&c.lock), reason, traceBlockChanSend, 2)
 	// Ensure the value being sent is kept alive until the
 	// receiver copies it out. The sudog has a pointer to the
 	// stack object, but sudogs aren't considered as roots of the
@@ -311,7 +311,7 @@ func chansend(c *hchan, ep unsafe.Pointer, block bool, callerpc uintptr) bool {
 
 // send processes a send operation on an empty channel c.
 // The value ep sent by the sender is copied to the receiver sg.
-// The receiver is then woken up to go on its merry way.
+// The receiver is then woken up to golang on its merry way.
 // Channel c must be empty and locked.  send unlocks c with unlockf.
 // sg must already be dequeued from c.
 // ep must be non-nil and point to the heap or the caller's stack.
@@ -324,7 +324,7 @@ func send(c *hchan, sg *sudog, ep unsafe.Pointer, unlockf func(), skip int) {
 		if c.dataqsiz == 0 {
 			racesync(c, sg)
 		} else {
-			// Pretend we go through the buffer, even though
+			// Pretend we golang through the buffer, even though
 			// we copy directly. Note that we need to increment
 			// the head/tail locations only when raceenabled.
 			racenotify(c, c.recvx, nil)
@@ -347,7 +347,7 @@ func send(c *hchan, sg *sudog, ep unsafe.Pointer, unlockf func(), skip int) {
 	if sg.releasetime != 0 {
 		sg.releasetime = cputicks()
 	}
-	goready(gp, skip+1)
+	golangready(gp, skip+1)
 }
 
 // timerchandrain removes all elements in channel c's buffer.
@@ -380,10 +380,10 @@ func timerchandrain(c *hchan) bool {
 }
 
 // Sends and receives on unbuffered or empty-buffered channels are the
-// only operations where one running goroutine writes to the stack of
-// another running goroutine. The GC assumes that stack writes only
-// happen when the goroutine is running and are only done by that
-// goroutine. Using a write barrier is sufficient to make up for
+// only operations where one running golangroutine writes to the stack of
+// another running golangroutine. The GC assumes that stack writes only
+// happen when the golangroutine is running and are only done by that
+// golangroutine. Using a write barrier is sufficient to make up for
 // violating that assumption, but the write barrier has to work.
 // typedmemmove will call bulkBarrierPreWrite, but the target bytes
 // are not in the heap, so that will not help. We arrange to call
@@ -397,7 +397,7 @@ func sendDirect(t *_type, sg *sudog, src unsafe.Pointer) {
 	// So make sure that no preemption points can happen between read & use.
 	dst := sg.elem
 	typeBitsBulkBarrier(t, uintptr(dst), uintptr(src), t.Size_)
-	// No need for cgo write barrier checks because dst is always
+	// No need for cgolang write barrier checks because dst is always
 	// Go memory.
 	memmove(dst, src, t.Size_)
 }
@@ -481,7 +481,7 @@ func closechan(c *hchan) {
 	for !glist.empty() {
 		gp := glist.pop()
 		gp.schedlink = 0
-		goready(gp, 3)
+		golangready(gp, 3)
 	}
 }
 
@@ -504,12 +504,12 @@ func empty(c *hchan) bool {
 
 // entry points for <- c from compiled code.
 //
-//go:nosplit
+//golang:nosplit
 func chanrecv1(c *hchan, elem unsafe.Pointer) {
 	chanrecv(c, elem, true)
 }
 
-//go:nosplit
+//golang:nosplit
 func chanrecv2(c *hchan, elem unsafe.Pointer) (received bool) {
 	_, received = chanrecv(c, elem, true)
 	return
@@ -533,7 +533,7 @@ func chanrecv(c *hchan, ep unsafe.Pointer, block bool) (selected, received bool)
 		if !block {
 			return
 		}
-		gopark(nil, nil, waitReasonChanReceiveNilChan, traceBlockForever, 2)
+		golangpark(nil, nil, waitReasonChanReceiveNilChan, traceBlockForever, 2)
 		throw("unreachable")
 	}
 
@@ -664,7 +664,7 @@ func chanrecv(c *hchan, ep unsafe.Pointer, block bool) (selected, received bool)
 	if c.bubble != nil {
 		reason = waitReasonSynctestChanReceive
 	}
-	gopark(chanparkcommit, unsafe.Pointer(&c.lock), reason, traceBlockChanRecv, 2)
+	golangpark(chanparkcommit, unsafe.Pointer(&c.lock), reason, traceBlockChanRecv, 2)
 
 	// someone woke us up
 	if mysg != gp.waiting {
@@ -688,7 +688,7 @@ func chanrecv(c *hchan, ep unsafe.Pointer, block bool) (selected, received bool)
 // recv processes a receive operation on a full channel c.
 // There are 2 parts:
 //  1. The value sent by the sender sg is put into the channel
-//     and the sender is woken up to go on its merry way.
+//     and the sender is woken up to golang on its merry way.
 //  2. The value received by the receiver (the current G) is
 //     written to ep.
 //
@@ -742,7 +742,7 @@ func recv(c *hchan, sg *sudog, ep unsafe.Pointer, unlockf func(), skip int) {
 	if sg.releasetime != 0 {
 		sg.releasetime = cputicks()
 	}
-	goready(gp, skip+1)
+	golangready(gp, skip+1)
 }
 
 func chanparkcommit(gp *g, chanLock unsafe.Pointer) bool {
@@ -805,12 +805,12 @@ func selectnbrecv(elem unsafe.Pointer, c *hchan) (selected, received bool) {
 	return chanrecv(c, elem, false)
 }
 
-//go:linkname reflect_chansend reflect.chansend0
+//golang:linkname reflect_chansend reflect.chansend0
 func reflect_chansend(c *hchan, elem unsafe.Pointer, nb bool) (selected bool) {
 	return chansend(c, elem, !nb, sys.GetCallerPC())
 }
 
-//go:linkname reflect_chanrecv reflect.chanrecv
+//golang:linkname reflect_chanrecv reflect.chanrecv
 func reflect_chanrecv(c *hchan, nb bool, elem unsafe.Pointer) (selected bool, received bool) {
 	return chanrecv(c, elem, !nb)
 }
@@ -849,22 +849,22 @@ func chancap(c *hchan) int {
 	return int(c.dataqsiz)
 }
 
-//go:linkname reflect_chanlen reflect.chanlen
+//golang:linkname reflect_chanlen reflect.chanlen
 func reflect_chanlen(c *hchan) int {
 	return chanlen(c)
 }
 
-//go:linkname reflectlite_chanlen internal/reflectlite.chanlen
+//golang:linkname reflectlite_chanlen internal/reflectlite.chanlen
 func reflectlite_chanlen(c *hchan) int {
 	return chanlen(c)
 }
 
-//go:linkname reflect_chancap reflect.chancap
+//golang:linkname reflect_chancap reflect.chancap
 func reflect_chancap(c *hchan) int {
 	return chancap(c)
 }
 
-//go:linkname reflect_chanclose reflect.chanclose
+//golang:linkname reflect_chanclose reflect.chanclose
 func reflect_chanclose(c *hchan) {
 	closechan(c)
 }
@@ -899,17 +899,17 @@ func (q *waitq) dequeue() *sudog {
 			sgp.next = nil // mark as removed (see dequeueSudoG)
 		}
 
-		// if a goroutine was put on this queue because of a
-		// select, there is a small window between the goroutine
+		// if a golangroutine was put on this queue because of a
+		// select, there is a small window between the golangroutine
 		// being woken up by a different case and it grabbing the
 		// channel locks. Once it has the lock
 		// it removes itself from the queue, so we won't see it after that.
 		// We use a flag in the G struct to tell us when someone
-		// else has won the race to signal this goroutine but the goroutine
+		// else has won the race to signal this golangroutine but the golangroutine
 		// hasn't removed itself from the queue yet.
 		if sgp.isSelect {
 			if !sgp.g.selectDone.CompareAndSwap(0, 1) {
-				// We lost the race to wake this goroutine.
+				// We lost the race to wake this golangroutine.
 				continue
 			}
 		}

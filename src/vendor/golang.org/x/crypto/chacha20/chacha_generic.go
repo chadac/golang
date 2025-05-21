@@ -1,8 +1,8 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Package chacha20 implements the ChaCha20 and XChaCha20 encryption algorithms
+// Package chacha20 implements the ChaCha20 and XChaCha20 encryption algolangrithms
 // as specified in RFC 8439 and draft-irtf-cfrg-xchacha-01.
 package chacha20
 
@@ -12,7 +12,7 @@ import (
 	"errors"
 	"math/bits"
 
-	"golang.org/x/crypto/internal/alias"
+	"golanglang.org/x/crypto/internal/alias"
 )
 
 const (
@@ -68,7 +68,7 @@ var _ cipher.Stream = (*Cipher)(nil)
 // Note that ChaCha20, like all stream ciphers, is not authenticated and allows
 // attackers to silently tamper with the plaintext. For this reason, it is more
 // appropriate as a building block than as a standalone encryption mechanism.
-// Instead, consider using package golang.org/x/crypto/chacha20poly1305.
+// Instead, consider using package golanglang.org/x/crypto/chacha20poly1305.
 func NewUnauthenticatedCipher(key, nonce []byte) (*Cipher, error) {
 	// This function is split into a wrapper so that the Cipher allocation will
 	// be inlined, and depending on how the caller uses the return value, won't
@@ -124,7 +124,7 @@ const blockSize = 64
 
 // quarterRound is the core of ChaCha20. It shuffles the bits of 4 state words.
 // It's executed 4 times for each of the 20 ChaCha20 rounds, operating on all 16
-// words each round, in columnar or diagonal groups of 4 at a time.
+// words each round, in columnar or diagolangnal groups of 4 at a time.
 func quarterRound(a, b, c, d uint32) (uint32, uint32, uint32, uint32) {
 	a += b
 	d ^= a
@@ -261,7 +261,7 @@ func (s *Cipher) xorKeyStreamBlocksGeneric(dst, src []byte) {
 	// To generate each block of key stream, the initial cipher state
 	// (represented below) is passed through 20 rounds of shuffling,
 	// alternatively applying quarterRounds by columns (like 1, 5, 9, 13)
-	// or by diagonals (like 1, 6, 11, 12).
+	// or by diagolangnals (like 1, 6, 11, 12).
 	//
 	//      0:cccccccc   1:cccccccc   2:cccccccc   3:cccccccc
 	//      4:kkkkkkkk   5:kkkkkkkk   6:kkkkkkkk   7:kkkkkkkk
@@ -292,7 +292,7 @@ func (s *Cipher) xorKeyStreamBlocksGeneric(dst, src []byte) {
 		// The remainder of the first column round.
 		fcr0, fcr4, fcr8, fcr12 := quarterRound(c0, c4, c8, s.counter)
 
-		// The second diagonal round.
+		// The second diagolangnal round.
 		x0, x5, x10, x15 := quarterRound(fcr0, s.p5, s.p10, s.p15)
 		x1, x6, x11, x12 := quarterRound(s.p1, s.p6, s.p11, fcr12)
 		x2, x7, x8, x13 := quarterRound(s.p2, s.p7, fcr8, s.p13)
@@ -306,7 +306,7 @@ func (s *Cipher) xorKeyStreamBlocksGeneric(dst, src []byte) {
 			x2, x6, x10, x14 = quarterRound(x2, x6, x10, x14)
 			x3, x7, x11, x15 = quarterRound(x3, x7, x11, x15)
 
-			// Diagonal round.
+			// Diagolangnal round.
 			x0, x5, x10, x15 = quarterRound(x0, x5, x10, x15)
 			x1, x6, x11, x12 = quarterRound(x1, x6, x11, x12)
 			x2, x7, x8, x13 = quarterRound(x2, x7, x8, x13)
@@ -372,7 +372,7 @@ func hChaCha20(out, key, nonce []byte) ([]byte, error) {
 	x15 := binary.LittleEndian.Uint32(nonce[12:16])
 
 	for i := 0; i < 10; i++ {
-		// Diagonal round.
+		// Diagolangnal round.
 		x0, x4, x8, x12 = quarterRound(x0, x4, x8, x12)
 		x1, x5, x9, x13 = quarterRound(x1, x5, x9, x13)
 		x2, x6, x10, x14 = quarterRound(x2, x6, x10, x14)

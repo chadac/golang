@@ -1,14 +1,14 @@
 // run
 
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test concurrency primitives: prime sieve of Eratosthenes.
 
 // Generate primes up to 100 using channels, checking the results.
 // This sieve is Eratosthenesque and only considers odd candidates.
-// See discussion at <http://blog.onideas.ws/eratosthenes.go>.
+// See discussion at <http://blog.onideas.ws/eratosthenes.golang>.
 
 package main
 
@@ -20,7 +20,7 @@ import (
 // Return a chan of odd numbers, starting from 5.
 func odds() chan int {
 	out := make(chan int, 50)
-	go func() {
+	golang func() {
 		n := 5
 		for {
 			out <- n
@@ -33,7 +33,7 @@ func odds() chan int {
 // Return a chan of odd multiples of the prime number p, starting from p*p.
 func multiples(p int) chan int {
 	out := make(chan int, 10)
-	go func() {
+	golang func() {
 		n := p * p
 		for {
 			out <- n
@@ -73,11 +73,11 @@ func (h *PeekChHeap) Push(v interface{}) {
 }
 
 // Return a channel to serve as a sending proxy to 'out'.
-// Use a goroutine to receive values from 'out' and store them
+// Use a golangroutine to receive values from 'out' and store them
 // in an expanding buffer, so that sending to 'out' never blocks.
 func sendproxy(out chan<- int) chan<- int {
 	proxy := make(chan int, 10)
-	go func() {
+	golang func() {
 		n := 16 // the allocated size of the circular queue
 		first := ring.New(n)
 		last := first
@@ -123,7 +123,7 @@ func Sieve() chan int {
 	primes <- 3
 
 	// Merge channels of multiples of 'primes' into 'composites'.
-	go func() {
+	golang func() {
 		var h PeekChHeap
 		min := 15
 		for {
@@ -148,13 +148,13 @@ func Sieve() chan int {
 	}()
 
 	// Sieve out 'composites' from 'candidates'.
-	go func() {
+	golang func() {
 		// In order to generate the nth prime we only need multiples of
-		// primes ≤ sqrt(nth prime).  Thus, the merging goroutine will
-		// receive from 'primes' much slower than this goroutine
+		// primes ≤ sqrt(nth prime).  Thus, the merging golangroutine will
+		// receive from 'primes' much slower than this golangroutine
 		// will send to it, making the buffer accumulate and block this
-		// goroutine from sending, causing a deadlock.  The solution is to
-		// use a proxy goroutine to do automatic buffering.
+		// golangroutine from sending, causing a deadlock.  The solution is to
+		// use a proxy golangroutine to do automatic buffering.
 		primes := sendproxy(primes)
 
 		candidates := odds()

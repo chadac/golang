@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 /*
@@ -77,7 +77,7 @@ The default set of command-line flags is controlled by
 top-level functions.  The [FlagSet] type allows one to define
 independent sets of flags, such as to implement subcommands
 in a command-line interface. The methods of [FlagSet] are
-analogous to the top-level functions for the command-line
+analogolangus to the top-level functions for the command-line
 flag set.
 */
 package flag
@@ -619,7 +619,7 @@ func (f *FlagSet) PrintDefaults() {
 		if b.Len() <= 4 { // space, space, '-', 'x'.
 			b.WriteString("\t")
 		} else {
-			// Four spaces before the tab triggers good alignment
+			// Four spaces before the tab triggers golangod alignment
 			// for both 4- and 8-space tab stops.
 			b.WriteString("\n    \t")
 		}
@@ -691,7 +691,7 @@ func (f *FlagSet) defaultUsage() {
 }
 
 // NOTE: Usage is not just defaultUsage(CommandLine)
-// because it serves (via godoc flag Usage) as the example
+// because it serves (via golangdoc flag Usage) as the example
 // for how to write your own usage function.
 
 // Usage prints a usage message documenting all defined command-line flags

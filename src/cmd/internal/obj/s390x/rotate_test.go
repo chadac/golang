@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package s390x
@@ -33,10 +33,10 @@ func TestRotateParamsMask(t *testing.T) {
 	for i, test := range tests {
 		r := NewRotateParams(test.start, test.end, test.amount)
 		if m := r.OutMask(); m != test.outMask {
-			t.Errorf("out mask %v: want %#x, got %#x", i, test.outMask, m)
+			t.Errorf("out mask %v: want %#x, golangt %#x", i, test.outMask, m)
 		}
 		if m := r.InMask(); m != test.inMask {
-			t.Errorf("in mask %v: want %#x, got %#x", i, test.inMask, m)
+			t.Errorf("in mask %v: want %#x, golangt %#x", i, test.inMask, m)
 		}
 	}
 }
@@ -113,10 +113,10 @@ func TestRotateParamsMerge(t *testing.T) {
 
 	for _, test := range tests {
 		if r := test.src.InMerge(test.mask); !eq(r, test.in) {
-			t.Errorf("%v merged with %#x (input): want %v, got %v", test.src, test.mask, test.in, r)
+			t.Errorf("%v merged with %#x (input): want %v, golangt %v", test.src, test.mask, test.in, r)
 		}
 		if r := test.src.OutMerge(test.mask); !eq(r, test.out) {
-			t.Errorf("%v merged with %#x (output): want %v, got %v", test.src, test.mask, test.out, r)
+			t.Errorf("%v merged with %#x (output): want %v, golangt %v", test.src, test.mask, test.out, r)
 		}
 	}
 }

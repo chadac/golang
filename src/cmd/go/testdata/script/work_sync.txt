@@ -1,17 +1,17 @@
-go work sync
-cmp a/go.mod a/want_go.mod
-cmp b/go.mod b/want_go.mod
+golang work sync
+cmp a/golang.mod a/want_golang.mod
+cmp b/golang.mod b/want_golang.mod
 
--- go.work --
-go 1.18
+-- golang.work --
+golang 1.18
 
 use (
 	./a
 	./b
 )
 
--- a/go.mod --
-go 1.18
+-- a/golang.mod --
+golang 1.18
 
 module example.com/a
 
@@ -26,8 +26,8 @@ replace (
 	example.com/q => ../q
 	example.com/r => ../r
 )
--- a/want_go.mod --
-go 1.18
+-- a/want_golang.mod --
+golang 1.18
 
 module example.com/a
 
@@ -41,7 +41,7 @@ replace (
 	example.com/q => ../q
 	example.com/r => ../r
 )
--- a/a.go --
+-- a/a.golang --
 package a
 
 import (
@@ -53,8 +53,8 @@ func Foo() {
 	p.P()
 	q.Q()
 }
--- b/go.mod --
-go 1.18
+-- b/golang.mod --
+golang 1.18
 
 module example.com/b
 
@@ -67,8 +67,8 @@ replace (
 	example.com/p => ../p
 	example.com/q => ../q
 )
--- b/want_go.mod --
-go 1.18
+-- b/want_golang.mod --
+golang 1.18
 
 module example.com/b
 
@@ -81,7 +81,7 @@ replace (
 	example.com/p => ../p
 	example.com/q => ../q
 )
--- b/b.go --
+-- b/b.golang --
 package b
 
 import (
@@ -93,27 +93,27 @@ func Foo() {
 	p.P()
 	q.Q()
 }
--- p/go.mod --
-go 1.18
+-- p/golang.mod --
+golang 1.18
 
 module example.com/p
--- p/p.go --
+-- p/p.golang --
 package p
 
 func P() {}
--- q/go.mod --
-go 1.18
+-- q/golang.mod --
+golang 1.18
 
 module example.com/q
--- q/q.go --
+-- q/q.golang --
 package q
 
 func Q() {}
--- r/go.mod --
-go 1.18
+-- r/golang.mod --
+golang 1.18
 
 module example.com/r
--- r/q.go --
+-- r/q.golang --
 package r
 
 func R() {}

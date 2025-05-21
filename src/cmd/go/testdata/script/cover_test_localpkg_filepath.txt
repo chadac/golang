@@ -2,14 +2,14 @@
 [short] skip
 
 # collect coverage profile in text format
-go test -coverprofile=blah.prof prog.go prog_test.go
+golang test -coverprofile=blah.prof prog.golang prog_test.golang
 
 # should not contain cmd-line pseudo-import-path
-grep prog.go blah.prof
+grep prog.golang blah.prof
 grep $PWD blah.prof
 ! grep command-line-arguments blah.prof
 
--- prog.go --
+-- prog.golang --
 package main
 
 func Mumble(x int) int {
@@ -26,7 +26,7 @@ func Grumble(y int) int {
 func main() {
 }
 
--- prog_test.go --
+-- prog_test.golang --
 package main
 
 import (
@@ -35,6 +35,6 @@ import (
 
 func TestMumble(t *testing.T) {
 	if x := Mumble(10); x != 42 {
-		t.Errorf("Mumble(%d): got %d want %d", 10, x, 42)
+		t.Errorf("Mumble(%d): golangt %d want %d", 10, x, 42)
 	}
 }

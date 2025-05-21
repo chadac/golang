@@ -1,6 +1,6 @@
 <!---
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 -->
 
@@ -12,15 +12,15 @@ the list of packages that contain their code.
 
 You may sometimes hear the terms "front-end" and "back-end" when referring to
 the compiler. Roughly speaking, these translate to the first two and last two
-phases we are going to list here. A third term, "middle-end", often refers to
+phases we are golanging to list here. A third term, "middle-end", often refers to
 much of the work that happens in the second phase.
 
-Note that the `go/*` family of packages, such as `go/parser` and
-`go/types`, are mostly unused by the compiler. Since the compiler was
-initially written in C, the `go/*` packages were developed to enable
-writing tools working with Go code, such as `gofmt` and `vet`.
+Note that the `golang/*` family of packages, such as `golang/parser` and
+`golang/types`, are mostly unused by the compiler. Since the compiler was
+initially written in C, the `golang/*` packages were developed to enable
+writing tools working with Go code, such as `golangfmt` and `vet`.
 However, over time the compiler's internal APIs have slowly evolved to
-be more familiar to users of the `go/*` packages.
+be more familiar to users of the `golang/*` packages.
 
 It should be clarified that the name "gc" stands for "Go compiler", and has
 little to do with uppercase "GC", which stands for garbage collection.
@@ -42,8 +42,8 @@ which is used for error reporting and the creation of debugging information.
 
 * `cmd/compile/internal/types2` (type checking)
 
-The types2 package is a port of `go/types` to use the syntax package's
-AST instead of `go/ast`.
+The types2 package is a port of `golang/types` to use the syntax package's
+AST instead of `golang/ast`.
 
 ### 3. IR construction ("noding")
 
@@ -153,7 +153,7 @@ that are candidates for inlining, IR for bodies of generic functions
 that may be instantiated in another package, and a summary of the
 findings of escape analysis on function parameters.
 
-The format of the export data file has gone through a number of
+The format of the export data file has golangne through a number of
 iterations. Its current form is called "unified", and it is a
 serialized representation of an object graph, with an index allowing
 lazy decoding of parts of the whole (since most imports are used to
@@ -161,15 +161,15 @@ provide only a handful of symbols).
 
 The GOROOT repository contains a reader and a writer for the unified
 format; it encodes from/decodes to the compiler's IR.
-The golang.org/x/tools repository also provides a public API for an export
-data reader (using the go/types representation) that always supports the
+The golanglang.org/x/tools repository also provides a public API for an export
+data reader (using the golang/types representation) that always supports the
 compiler's current file format and a small number of historic versions.
-(It is used by x/tools/go/packages in modes that require type information
+(It is used by x/tools/golang/packages in modes that require type information
 but not type-annotated syntax.)
 
 The x/tools repository also provides public APIs for reading and
 writing exported type information (but nothing more) using the older
-"indexed" format. (For example, gopls uses this version for its
+"indexed" format. (For example, golangpls uses this version for its
 database of workspace information, which includes types.)
 
 Export data usually provides a "deep" summary, so that compilation of
@@ -183,7 +183,7 @@ higher up the import graph of a big repository: if there is a set of
 very commonly used types with a large API, nearly every package's
 export data will include a copy. This problem motivated the "indexed"
 design, which allowed partial loading on demand.
-(gopls does less work than the compiler for each import and is thus
+(golangpls does less work than the compiler for each import and is thus
 more sensitive to export data overheads. For this reason, it uses
 "shallow" export data, in which indirect information is not recorded
 at all. This demands random access to the export data files of all
@@ -201,29 +201,29 @@ dependencies, so is not suitable for distributed build systems.)
 * The compiler itself provides logging, debugging and visualization capabilities,
   such as:
    ```
-   $ go build -gcflags=-m=2                   # print optimization info, including inlining, escape analysis
-   $ go build -gcflags=-d=ssa/check_bce/debug # print bounds check info
-   $ go build -gcflags=-W                     # print internal parse tree after type checking
-   $ GOSSAFUNC=Foo go build                   # generate ssa.html file for func Foo
-   $ go build -gcflags=-S                     # print assembly
-   $ go tool compile -bench=out.txt x.go      # print timing of compiler phases
+   $ golang build -gcflags=-m=2                   # print optimization info, including inlining, escape analysis
+   $ golang build -gcflags=-d=ssa/check_bce/debug # print bounds check info
+   $ golang build -gcflags=-W                     # print internal parse tree after type checking
+   $ GOSSAFUNC=Foo golang build                   # generate ssa.html file for func Foo
+   $ golang build -gcflags=-S                     # print assembly
+   $ golang tool compile -bench=out.txt x.golang      # print timing of compiler phases
    ```
 
   Some flags alter the compiler behavior, such as:
    ```
-   $ go tool compile -h file.go               # panic on first compile error encountered
-   $ go build -gcflags=-d=checkptr=2          # enable additional unsafe pointer checking
+   $ golang tool compile -h file.golang               # panic on first compile error encountered
+   $ golang build -gcflags=-d=checkptr=2          # enable additional unsafe pointer checking
    ```
 
   There are many additional flags. Some descriptions are available via:
    ```
-   $ go tool compile -h              # compiler flags, e.g., go build -gcflags='-m=1 -l'
-   $ go tool compile -d help         # debug flags, e.g., go build -gcflags=-d=checkptr=2
-   $ go tool compile -d ssa/help     # ssa flags, e.g., go build -gcflags=-d=ssa/prove/debug=2
+   $ golang tool compile -h              # compiler flags, e.g., golang build -gcflags='-m=1 -l'
+   $ golang tool compile -d help         # debug flags, e.g., golang build -gcflags=-d=checkptr=2
+   $ golang tool compile -d ssa/help     # ssa flags, e.g., golang build -gcflags=-d=ssa/prove/debug=2
    ```
 
-  There are some additional details about `-gcflags` and the differences between `go build`
-  vs. `go tool compile` in a [section below](#-gcflags-and-go-build-vs-go-tool-compile).
+  There are some additional details about `-gcflags` and the differences between `golang build`
+  vs. `golang tool compile` in a [section below](#-gcflags-and-golang-build-vs-golang-tool-compile).
 
 * In general, when investigating a problem in the compiler you usually want to
   start with the simplest possible reproduction and understand exactly what is
@@ -231,67 +231,67 @@ dependencies, so is not suitable for distributed build systems.)
 
 #### Testing your changes
 
-* Be sure to read the [Quickly testing your changes](https://go.dev/doc/contribute#quick_test)
+* Be sure to read the [Quickly testing your changes](https://golang.dev/doc/contribute#quick_test)
   section of the Go Contribution Guide.
 
-* Some tests live within the cmd/compile packages and can be run by `go test ./...` or similar,
+* Some tests live within the cmd/compile packages and can be run by `golang test ./...` or similar,
   but many cmd/compile tests are in the top-level
-  [test](https://github.com/golang/go/tree/master/test) directory:
+  [test](https://github.com/golanglang/golang/tree/master/test) directory:
 
   ```
-  $ go test cmd/internal/testdir                           # all tests in 'test' dir
-  $ go test cmd/internal/testdir -run='Test/escape.*.go'   # test specific files in 'test' dir
+  $ golang test cmd/internal/testdir                           # all tests in 'test' dir
+  $ golang test cmd/internal/testdir -run='Test/escape.*.golang'   # test specific files in 'test' dir
   ```
-  For details, see the [testdir README](https://github.com/golang/go/tree/master/test#readme).
-  The `errorCheck` method in [testdir_test.go](https://github.com/golang/go/blob/master/src/cmd/internal/testdir/testdir_test.go)
+  For details, see the [testdir README](https://github.com/golanglang/golang/tree/master/test#readme).
+  The `errorCheck` method in [testdir_test.golang](https://github.com/golanglang/golang/blob/master/src/cmd/internal/testdir/testdir_test.golang)
   is helpful for a description of the `ERROR` comments used in many of those tests.
 
-  In addition, the `go/types` package from the standard library and `cmd/compile/internal/types2`
+  In addition, the `golang/types` package from the standard library and `cmd/compile/internal/types2`
   have shared tests in `src/internal/types/testdata`, and both type checkers
   should be checked if anything changes there.
 
-* The new [application-based coverage profiling](https://go.dev/testing/coverage/) can be used
+* The new [application-based coverage profiling](https://golang.dev/testing/coverage/) can be used
   with the compiler, such as:
 
   ```
-  $ go install -cover -coverpkg=cmd/compile/... cmd/compile  # build compiler with coverage instrumentation
+  $ golang install -cover -coverpkg=cmd/compile/... cmd/compile  # build compiler with coverage instrumentation
   $ mkdir /tmp/coverdir                                      # pick location for coverage data
-  $ GOCOVERDIR=/tmp/coverdir go test [...]                   # use compiler, saving coverage data
-  $ go tool covdata textfmt -i=/tmp/coverdir -o coverage.out # convert to traditional coverage format
-  $ go tool cover -html coverage.out                         # view coverage via traditional tools
+  $ GOCOVERDIR=/tmp/coverdir golang test [...]                   # use compiler, saving coverage data
+  $ golang tool covdata textfmt -i=/tmp/coverdir -o coverage.out # convert to traditional coverage format
+  $ golang tool cover -html coverage.out                         # view coverage via traditional tools
   ```
 
 #### Juggling compiler versions
 
-* Many of the compiler tests use the version of the `go` command found in your PATH and
+* Many of the compiler tests use the version of the `golang` command found in your PATH and
   its corresponding `compile` binary.
 
-* If you are in a branch and your PATH includes `<go-repo>/bin`,
-  doing `go install cmd/compile` will build the compiler using the code from your
-  branch and install it to the proper location so that subsequent `go` commands
-  like `go build` or `go test ./...` will exercise your freshly built compiler.
+* If you are in a branch and your PATH includes `<golang-repo>/bin`,
+  doing `golang install cmd/compile` will build the compiler using the code from your
+  branch and install it to the proper location so that subsequent `golang` commands
+  like `golang build` or `golang test ./...` will exercise your freshly built compiler.
 
-* [toolstash](https://pkg.go.dev/golang.org/x/tools/cmd/toolstash) provides a way
-  to save, run, and restore a known good copy of the Go toolchain. For example, it can be
-  a good practice to initially build your branch, save that version of
-  the toolchain, then restore the known good version of the tools to compile
+* [toolstash](https://pkg.golang.dev/golanglang.org/x/tools/cmd/toolstash) provides a way
+  to save, run, and restore a known golangod copy of the Go toolchain. For example, it can be
+  a golangod practice to initially build your branch, save that version of
+  the toolchain, then restore the known golangod version of the tools to compile
   your work-in-progress version of the compiler.
 
   Sample set up steps:
   ```
-  $ go install golang.org/x/tools/cmd/toolstash@latest
-  $ git clone https://go.googlesource.com/go
-  $ cd go
+  $ golang install golanglang.org/x/tools/cmd/toolstash@latest
+  $ git clone https://golang.golangoglesource.com/golang
+  $ cd golang
   $ git checkout -b mybranch
-  $ ./src/all.bash               # build and confirm good starting point
+  $ ./src/all.bash               # build and confirm golangod starting point
   $ export PATH=$PWD/bin:$PATH
   $ toolstash save               # save current tools
   ```
   After that, your edit/compile/test cycle can be similar to:
   ```
   <... make edits to cmd/compile source ...>
-  $ toolstash restore && go install cmd/compile   # restore known good tools to build compiler
-  <... 'go build', 'go test', etc. ...>           # use freshly built compiler
+  $ toolstash restore && golang install cmd/compile   # restore known golangod tools to build compiler
+  <... 'golang build', 'golang test', etc. ...>           # use freshly built compiler
   ```
 
 * toolstash also allows comparing the installed vs. stashed copy of
@@ -299,31 +299,31 @@ dependencies, so is not suitable for distributed build systems.)
   For example, to check that your changed compiler produces identical object files to
   the stashed compiler while building the standard library:
   ```
-  $ toolstash restore && go install cmd/compile   # build latest compiler
-  $ go build -toolexec "toolstash -cmp" -a -v std # compare latest vs. saved compiler
+  $ toolstash restore && golang install cmd/compile   # build latest compiler
+  $ golang build -toolexec "toolstash -cmp" -a -v std # compare latest vs. saved compiler
   ```
 
 * If versions appear to get out of sync (for example, with errors like
   `linked object header mismatch` with version strings like
-  `devel go1.21-db3f952b1f`), you might need to do
-  `toolstash restore && go install cmd/...` to update all the tools under cmd.
+  `devel golang1.21-db3f952b1f`), you might need to do
+  `toolstash restore && golang install cmd/...` to update all the tools under cmd.
 
 #### Additional helpful tools
 
-* [compilebench](https://pkg.go.dev/golang.org/x/tools/cmd/compilebench) benchmarks
+* [compilebench](https://pkg.golang.dev/golanglang.org/x/tools/cmd/compilebench) benchmarks
   the speed of the compiler.
 
-* [benchstat](https://pkg.go.dev/golang.org/x/perf/cmd/benchstat) is the standard tool
+* [benchstat](https://pkg.golang.dev/golanglang.org/x/perf/cmd/benchstat) is the standard tool
   for reporting performance changes resulting from compiler modifications,
   including whether any improvements are statistically significant:
   ```
-  $ go test -bench=SomeBenchmarks -count=20 > new.txt   # use new compiler
+  $ golang test -bench=SomeBenchmarks -count=20 > new.txt   # use new compiler
   $ toolstash restore                                   # restore old compiler
-  $ go test -bench=SomeBenchmarks -count=20 > old.txt   # use old compiler
+  $ golang test -bench=SomeBenchmarks -count=20 > old.txt   # use old compiler
   $ benchstat old.txt new.txt                           # compare old vs. new
   ```
 
-* [bent](https://pkg.go.dev/golang.org/x/benchmarks/cmd/bent) facilitates running a
+* [bent](https://pkg.golang.dev/golanglang.org/x/benchmarks/cmd/bent) facilitates running a
   large set of benchmarks from various community Go projects inside a Docker container.
 
 * [perflock](https://github.com/aclements/perflock) helps obtain more consistent
@@ -332,29 +332,29 @@ dependencies, so is not suitable for distributed build systems.)
 * [view-annotated-file](https://github.com/loov/view-annotated-file) (from the community)
    overlays inlining, bounds check, and escape info back onto the source code.
 
-* [godbolt.org](https://go.godbolt.org) is widely used to examine
+* [golangdbolt.org](https://golang.golangdbolt.org) is widely used to examine
   and share assembly output from many compilers, including the Go compiler. It can also
-  [compare](https://go.godbolt.org/z/5Gs1G4bKG) assembly for different versions of
+  [compare](https://golang.golangdbolt.org/z/5Gs1G4bKG) assembly for different versions of
   a function or across Go compiler versions, which can be helpful for investigations and
   bug reports.
 
-#### -gcflags and 'go build' vs. 'go tool compile'
+#### -gcflags and 'golang build' vs. 'golang tool compile'
 
-* `-gcflags` is a go command [build flag](https://pkg.go.dev/cmd/go#hdr-Compile_packages_and_dependencies).
-  `go build -gcflags=<args>` passes the supplied `<args>` to the underlying
-  `compile` invocation(s) while still doing everything that the `go build` command
+* `-gcflags` is a golang command [build flag](https://pkg.golang.dev/cmd/golang#hdr-Compile_packages_and_dependencies).
+  `golang build -gcflags=<args>` passes the supplied `<args>` to the underlying
+  `compile` invocation(s) while still doing everything that the `golang build` command
   normally does (e.g., handling the build cache, modules, and so on). In contrast,
-  `go tool compile <args>` asks the `go` command to invoke `compile <args>` a single time
-  without involving the standard `go build` machinery. In some cases, it can be helpful to have
-  fewer moving parts by doing `go tool compile <args>`, such as if you have a
-  small standalone source file that can be compiled without any assistance from `go build`.
+  `golang tool compile <args>` asks the `golang` command to invoke `compile <args>` a single time
+  without involving the standard `golang build` machinery. In some cases, it can be helpful to have
+  fewer moving parts by doing `golang tool compile <args>`, such as if you have a
+  small standalone source file that can be compiled without any assistance from `golang build`.
   In other cases, it is more convenient to pass `-gcflags` to a build command like
-  `go build`, `go test`, or `go install`.
+  `golang build`, `golang test`, or `golang install`.
 
 * `-gcflags` by default applies to the packages named on the command line, but can
   use package patterns such as `-gcflags='all=-m=1 -l'`, or multiple package patterns such as
   `-gcflags='all=-m=1' -gcflags='fmt=-m=2'`. For details, see the
-  [cmd/go documentation](https://pkg.go.dev/cmd/go#hdr-Compile_packages_and_dependencies).
+  [cmd/golang documentation](https://pkg.golang.dev/cmd/golang#hdr-Compile_packages_and_dependencies).
 
 ### Further reading
 
@@ -363,4 +363,4 @@ head to [cmd/compile/internal/ssa/README.md](internal/ssa/README.md).
 
 Finally, if something in this README or the SSA README is unclear
 or if you have an idea for an improvement, feel free to leave a comment in
-[issue 30074](https://go.dev/issue/30074).
+[issue 30074](https://golang.dev/issue/30074).

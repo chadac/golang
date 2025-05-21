@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package binary
@@ -480,8 +480,8 @@ func TestSizeInvalid(t *testing.T) {
 		(*complex128)(nil),
 	}
 	for _, tc := range testcases {
-		if got := Size(tc); got != -1 {
-			t.Errorf("Size(%T) = %d, want -1", tc, got)
+		if golangt := Size(tc); golangt != -1 {
+			t.Errorf("Size(%T) = %d, want -1", tc, golangt)
 		}
 	}
 }
@@ -522,11 +522,11 @@ func TestReadErrorMsg(t *testing.T) {
 				err := dec.fn(LittleEndian, data, nil)
 				want := fmt.Sprintf("binary.%s: invalid type %s", dec.name, reflect.TypeOf(data).String())
 				if err == nil {
-					t.Errorf("%T: got no error; want %q", data, want)
+					t.Errorf("%T: golangt no error; want %q", data, want)
 					return
 				}
-				if got := err.Error(); got != want {
-					t.Errorf("%T: got %q; want %q", data, got, want)
+				if golangt := err.Error(); golangt != want {
+					t.Errorf("%T: golangt %q; want %q", data, golangt, want)
 				}
 			}
 			read(0)
@@ -560,10 +560,10 @@ func TestReadTruncated(t *testing.T) {
 		}
 
 		if err := Read(strings.NewReader(data[:i]), LittleEndian, &b1); err != errWant {
-			t.Errorf("Read(%d) with slice: got %v, want %v", i, err, errWant)
+			t.Errorf("Read(%d) with slice: golangt %v, want %v", i, err, errWant)
 		}
 		if err := Read(strings.NewReader(data[:i]), LittleEndian, &b2); err != errWant {
-			t.Errorf("Read(%d) with struct: got %v, want %v", i, err, errWant)
+			t.Errorf("Read(%d) with struct: golangt %v, want %v", i, err, errWant)
 		}
 	}
 }
@@ -605,12 +605,12 @@ func TestByteOrder(t *testing.T) {
 		} {
 			want16 := uint16(value)
 			order.PutUint16(buf[:2], want16)
-			if got := order.Uint16(buf[:2]); got != want16 {
-				t.Errorf("PutUint16: Uint16 = %v, want %v", got, want16)
+			if golangt := order.Uint16(buf[:2]); golangt != want16 {
+				t.Errorf("PutUint16: Uint16 = %v, want %v", golangt, want16)
 			}
 			buf = order.AppendUint16(buf[:offset], want16)
-			if got := order.Uint16(buf[offset:]); got != want16 {
-				t.Errorf("AppendUint16: Uint16 = %v, want %v", got, want16)
+			if golangt := order.Uint16(buf[offset:]); golangt != want16 {
+				t.Errorf("AppendUint16: Uint16 = %v, want %v", golangt, want16)
 			}
 			if len(buf) != offset+2 {
 				t.Errorf("AppendUint16: len(buf) = %d, want %d", len(buf), offset+2)
@@ -618,12 +618,12 @@ func TestByteOrder(t *testing.T) {
 
 			want32 := uint32(value)
 			order.PutUint32(buf[:4], want32)
-			if got := order.Uint32(buf[:4]); got != want32 {
-				t.Errorf("PutUint32: Uint32 = %v, want %v", got, want32)
+			if golangt := order.Uint32(buf[:4]); golangt != want32 {
+				t.Errorf("PutUint32: Uint32 = %v, want %v", golangt, want32)
 			}
 			buf = order.AppendUint32(buf[:offset], want32)
-			if got := order.Uint32(buf[offset:]); got != want32 {
-				t.Errorf("AppendUint32: Uint32 = %v, want %v", got, want32)
+			if golangt := order.Uint32(buf[offset:]); golangt != want32 {
+				t.Errorf("AppendUint32: Uint32 = %v, want %v", golangt, want32)
 			}
 			if len(buf) != offset+4 {
 				t.Errorf("AppendUint32: len(buf) = %d, want %d", len(buf), offset+4)
@@ -631,12 +631,12 @@ func TestByteOrder(t *testing.T) {
 
 			want64 := uint64(value)
 			order.PutUint64(buf[:8], want64)
-			if got := order.Uint64(buf[:8]); got != want64 {
-				t.Errorf("PutUint64: Uint64 = %v, want %v", got, want64)
+			if golangt := order.Uint64(buf[:8]); golangt != want64 {
+				t.Errorf("PutUint64: Uint64 = %v, want %v", golangt, want64)
 			}
 			buf = order.AppendUint64(buf[:offset], want64)
-			if got := order.Uint64(buf[offset:]); got != want64 {
-				t.Errorf("AppendUint64: Uint64 = %v, want %v", got, want64)
+			if golangt := order.Uint64(buf[offset:]); golangt != want64 {
+				t.Errorf("AppendUint64: Uint64 = %v, want %v", golangt, want64)
 			}
 			if len(buf) != offset+8 {
 				t.Errorf("AppendUint64: len(buf) = %d, want %d", len(buf), offset+8)
@@ -678,7 +678,7 @@ func testReadInvalidDestination(t *testing.T, order ByteOrder) {
 		err := Read(bytes.NewReader([]byte{1, 2, 3, 4, 5, 6, 7, 8}), order, dst)
 		want := fmt.Sprintf("binary.Read: invalid type %T", dst)
 		if err == nil || err.Error() != want {
-			t.Fatalf("for type %T: got %q; want %q", dst, err, want)
+			t.Fatalf("for type %T: golangt %q; want %q", dst, err, want)
 		}
 	}
 }
@@ -704,7 +704,7 @@ func TestNoFixedSize(t *testing.T) {
 			}
 			errs := fmt.Sprintf("binary.%s: some values are not fixed-sized in type *binary.Person", enc.name)
 			if err.Error() != errs {
-				t.Fatalf("got %q, want %q", err, errs)
+				t.Fatalf("golangt %q, want %q", err, errs)
 			}
 		})
 	}
@@ -761,7 +761,7 @@ func TestSizeAllocs(t *testing.T) {
 				_ = Size(data)
 			})
 			if allocs != 0 {
-				t.Fatalf("Expected no allocations, got %v", allocs)
+				t.Fatalf("Expected no allocations, golangt %v", allocs)
 			}
 		})
 	}
@@ -802,7 +802,7 @@ func BenchmarkReadStruct(b *testing.B) {
 	}
 	b.StopTimer()
 	if b.N > 0 && !reflect.DeepEqual(s, t) {
-		b.Fatalf("struct doesn't match:\ngot  %v;\nwant %v", t, s)
+		b.Fatalf("struct doesn't match:\ngolangt  %v;\nwant %v", t, s)
 	}
 }
 
@@ -887,7 +887,7 @@ func BenchmarkReadInts(b *testing.B) {
 	want.Bool = false
 	want.BoolArray = [4]bool{false, false, false, false}
 	if b.N > 0 && !reflect.DeepEqual(ls, want) {
-		b.Fatalf("struct doesn't match:\ngot  %v;\nwant %v", ls, want)
+		b.Fatalf("struct doesn't match:\ngolangt  %v;\nwant %v", ls, want)
 	}
 }
 
@@ -1069,7 +1069,7 @@ func BenchmarkReadFloats(b *testing.B) {
 	want.Bool = false
 	want.BoolArray = [4]bool{false, false, false, false}
 	if b.N > 0 && !reflect.DeepEqual(ls, want) {
-		b.Fatalf("struct doesn't match:\ngot  %v;\nwant %v", ls, want)
+		b.Fatalf("struct doesn't match:\ngolangt  %v;\nwant %v", ls, want)
 	}
 }
 

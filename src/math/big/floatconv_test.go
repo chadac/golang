@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package big
@@ -180,13 +180,13 @@ func TestFloatSetFloat64String(t *testing.T) {
 		}
 		// test.s is valid
 		if !ok {
-			t.Errorf("%s: got parse error", test.s)
+			t.Errorf("%s: golangt parse error", test.s)
 			continue
 		}
 		f, _ := x.Float64()
 		want := new(Float).SetFloat64(test.x)
 		if x.Cmp(want) != 0 || x.Signbit() != want.Signbit() {
-			t.Errorf("%s: got %v (%v); want %v", test.s, &x, f, test.x)
+			t.Errorf("%s: golangt %v (%v); want %v", test.s, &x, f, test.x)
 		}
 	}
 }
@@ -237,7 +237,7 @@ func TestFloat64Text(t *testing.T) {
 		{1024.0, 'p', 0, "0x.8p+11"},
 		{-1024.0, 'p', 0, "-0x.8p+11"},
 
-		// all test cases below from strconv/ftoa_test.go
+		// all test cases below from strconv/ftoa_test.golang
 		{1, 'e', 5, "1.00000e+00"},
 		{1, 'f', 5, "1.00000"},
 		{1, 'g', 5, "1"},
@@ -354,9 +354,9 @@ func TestFloat64Text(t *testing.T) {
 		// For denormalized values, that precision is < 53 (SetFloat64 default).
 		// Compute and set the actual precision explicitly.
 		f := new(Float).SetPrec(actualPrec(test.x)).SetFloat64(test.x)
-		got := f.Text(test.format, test.prec)
-		if got != test.want {
-			t.Errorf("%v: got %s; want %s", test, got, test.want)
+		golangt := f.Text(test.format, test.prec)
+		if golangt != test.want {
+			t.Errorf("%v: golangt %s; want %s", test, golangt, test.want)
 			continue
 		}
 
@@ -369,8 +369,8 @@ func TestFloat64Text(t *testing.T) {
 
 		// verify that Float format matches strconv format
 		want := strconv.FormatFloat(test.x, test.format, test.prec, 64)
-		if got != want {
-			t.Errorf("%v: got %s; want %s (strconv)", test, got, want)
+		if golangt != want {
+			t.Errorf("%v: golangt %s; want %s (strconv)", test, golangt, want)
 		}
 	}
 }
@@ -550,9 +550,9 @@ func TestFloatText(t *testing.T) {
 			f.SetMode(test.round)
 		}
 
-		got := f.Text(test.format, test.digits)
-		if got != test.want {
-			t.Errorf("%v: got %s; want %s", test, got, test.want)
+		golangt := f.Text(test.format, test.digits)
+		if golangt != test.want {
+			t.Errorf("%v: golangt %s; want %s", test, golangt, test.want)
 		}
 
 		// compare with strconv.FormatFloat output if possible
@@ -565,9 +565,9 @@ func TestFloatText(t *testing.T) {
 				t.Errorf("%v: expected exact conversion to float64", test)
 				continue
 			}
-			got := strconv.FormatFloat(f64, test.format, test.digits, 64)
-			if got != test.want {
-				t.Errorf("%v: got %s; want %s", test, got, test.want)
+			golangt := strconv.FormatFloat(f64, test.format, test.digits, 64)
+			if golangt != test.want {
+				t.Errorf("%v: golangt %s; want %s", test, golangt, test.want)
 			}
 		}
 	}
@@ -579,7 +579,7 @@ func TestFloatFormat(t *testing.T) {
 		value  any // float32, float64, or string (== 512bit *Float)
 		want   string
 	}{
-		// from fmt/fmt_test.go
+		// from fmt/fmt_test.golang
 		{"%+.3e", 0.0, "+0.000e+00"},
 		{"%+.3e", 1.0, "+1.000e+00"},
 		{"%+.3f", -1.0, "-1.000"},
@@ -599,7 +599,7 @@ func TestFloatFormat(t *testing.T) {
 		{"%b", float32(1.0), "8388608p-23"},
 		{"%b", 1.0, "4503599627370496p-52"},
 
-		// from fmt/fmt_test.go: old test/fmt_test.go
+		// from fmt/fmt_test.golang: old test/fmt_test.golang
 		{"%e", 1.0, "1.000000e+00"},
 		{"%e", 1234.5678e3, "1.234568e+06"},
 		{"%e", 1234.5678e-8, "1.234568e-05"},
@@ -644,7 +644,7 @@ func TestFloatFormat(t *testing.T) {
 		{"%20e", math.Inf(1), "                +Inf"},
 		{"%-20f", math.Inf(-1), "-Inf                "},
 
-		// from fmt/fmt_test.go: comparison of padding rules with C printf
+		// from fmt/fmt_test.golang: comparison of padding rules with C printf
 		{"%.2f", 1.0, "1.00"},
 		{"%.2f", -1.0, "-1.00"},
 		{"% .2f", 1.0, " 1.00"},
@@ -664,7 +664,7 @@ func TestFloatFormat(t *testing.T) {
 		{"%+07.2f", 1.0, "+001.00"},
 		{"%+07.2f", -1.0, "-001.00"},
 
-		// from fmt/fmt_test.go: zero padding does not apply to infinities
+		// from fmt/fmt_test.golang: zero padding does not apply to infinities
 		{"%020f", math.Inf(-1), "                -Inf"},
 		{"%020f", math.Inf(+1), "                +Inf"},
 		{"% 020f", math.Inf(-1), "                -Inf"},
@@ -703,8 +703,8 @@ func TestFloatFormat(t *testing.T) {
 			t.Fatalf("unsupported test value: %v (%T)", v, v)
 		}
 
-		if got := fmt.Sprintf(test.format, value); got != test.want {
-			t.Errorf("%v: got %q; want %q", test, got, test.want)
+		if golangt := fmt.Sprintf(test.format, value); golangt != test.want {
+			t.Errorf("%v: golangt %q; want %q", test, golangt, test.want)
 		}
 	}
 }
@@ -816,10 +816,10 @@ func TestFloatScan(t *testing.T) {
 		}
 
 		if x.String() != test.output {
-			t.Errorf("#%d got %s; want %s", i, x.String(), test.output)
+			t.Errorf("#%d golangt %s; want %s", i, x.String(), test.output)
 		}
 		if buf.Len() != test.remaining {
-			t.Errorf("#%d got %d bytes remaining; want %d", i, buf.Len(), test.remaining)
+			t.Errorf("#%d golangt %d bytes remaining; want %d", i, buf.Len(), test.remaining)
 		}
 	}
 }

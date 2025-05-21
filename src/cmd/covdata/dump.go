@@ -1,10 +1,10 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
 
-// This file contains functions and apis to support the "go tool
+// This file contains functions and apis to support the "golang tool
 // covdata" sub-commands that relate to dumping text format summaries
 // and reports: "pkglist", "func",  "debugdump", "percent", and
 // "textfmt".
@@ -108,30 +108,30 @@ func (d *dstate) Usage(msg string) {
 	if len(msg) > 0 {
 		fmt.Fprintf(os.Stderr, "error: %s\n", msg)
 	}
-	fmt.Fprintf(os.Stderr, "usage: go tool covdata %s -i=<directories>\n\n", d.cmd)
+	fmt.Fprintf(os.Stderr, "usage: golang tool covdata %s -i=<directories>\n\n", d.cmd)
 	flag.PrintDefaults()
 	fmt.Fprintf(os.Stderr, "\nExamples:\n\n")
 	switch d.cmd {
 	case pkglistMode:
-		fmt.Fprintf(os.Stderr, "  go tool covdata pkglist -i=dir1,dir2\n\n")
+		fmt.Fprintf(os.Stderr, "  golang tool covdata pkglist -i=dir1,dir2\n\n")
 		fmt.Fprintf(os.Stderr, "  \treads coverage data files from dir1+dirs2\n")
 		fmt.Fprintf(os.Stderr, "  \tand writes out a list of the import paths\n")
 		fmt.Fprintf(os.Stderr, "  \tof all compiled packages.\n")
 	case textfmtMode:
-		fmt.Fprintf(os.Stderr, "  go tool covdata textfmt -i=dir1,dir2 -o=out.txt\n\n")
+		fmt.Fprintf(os.Stderr, "  golang tool covdata textfmt -i=dir1,dir2 -o=out.txt\n\n")
 		fmt.Fprintf(os.Stderr, "  \tmerges data from input directories dir1+dir2\n")
 		fmt.Fprintf(os.Stderr, "  \tand emits text format into file 'out.txt'\n")
 	case percentMode:
-		fmt.Fprintf(os.Stderr, "  go tool covdata percent -i=dir1,dir2\n\n")
+		fmt.Fprintf(os.Stderr, "  golang tool covdata percent -i=dir1,dir2\n\n")
 		fmt.Fprintf(os.Stderr, "  \tmerges data from input directories dir1+dir2\n")
 		fmt.Fprintf(os.Stderr, "  \tand emits percentage of statements covered\n\n")
 	case funcMode:
-		fmt.Fprintf(os.Stderr, "  go tool covdata func -i=dir1,dir2\n\n")
+		fmt.Fprintf(os.Stderr, "  golang tool covdata func -i=dir1,dir2\n\n")
 		fmt.Fprintf(os.Stderr, "  \treads coverage data files from dir1+dirs2\n")
 		fmt.Fprintf(os.Stderr, "  \tand writes out coverage profile data for\n")
 		fmt.Fprintf(os.Stderr, "  \teach function.\n")
 	case debugDumpMode:
-		fmt.Fprintf(os.Stderr, "  go tool covdata debugdump [flags] -i=dir1,dir2\n\n")
+		fmt.Fprintf(os.Stderr, "  golang tool covdata debugdump [flags] -i=dir1,dir2\n\n")
 		fmt.Fprintf(os.Stderr, "  \treads coverage data from dir1+dir2 and dumps\n")
 		fmt.Fprintf(os.Stderr, "  \tcontents in human-readable form to stdout, for\n")
 		fmt.Fprintf(os.Stderr, "  \tdebugging purposes.\n")

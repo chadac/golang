@@ -1,11 +1,11 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This implements the write barrier buffer. The write barrier itself
 // is gcWriteBarrier and is implemented in assembly.
 //
-// See mbarrier.go for algorithmic details on the write barrier. This
+// See mbarrier.golang for algolangrithmic details on the write barrier. This
 // file deals only with the buffer.
 //
 // The write barrier has a fast path and a slow path. The fast path
@@ -23,7 +23,7 @@
 package runtime
 
 import (
-	"internal/goarch"
+	"internal/golangarch"
 	"internal/runtime/atomic"
 	"unsafe"
 )
@@ -96,7 +96,7 @@ func (b *wbBuf) reset() {
 //
 // This must be nosplit because it's called by wbBufFlush.
 //
-//go:nosplit
+//golang:nosplit
 func (b *wbBuf) discard() {
 	b.next = uintptr(unsafe.Pointer(&b.buf[0]))
 }
@@ -126,25 +126,25 @@ func (b *wbBuf) empty() bool {
 // it called anything) has to be nosplit to avoid scheduling on to a
 // different P and a different buffer.
 //
-//go:nowritebarrierrec
-//go:nosplit
+//golang:nowritebarrierrec
+//golang:nosplit
 func (b *wbBuf) get1() *[1]uintptr {
-	if b.next+goarch.PtrSize > b.end {
+	if b.next+golangarch.PtrSize > b.end {
 		wbBufFlush()
 	}
 	p := (*[1]uintptr)(unsafe.Pointer(b.next))
-	b.next += goarch.PtrSize
+	b.next += golangarch.PtrSize
 	return p
 }
 
-//go:nowritebarrierrec
-//go:nosplit
+//golang:nowritebarrierrec
+//golang:nosplit
 func (b *wbBuf) get2() *[2]uintptr {
-	if b.next+2*goarch.PtrSize > b.end {
+	if b.next+2*golangarch.PtrSize > b.end {
 		wbBufFlush()
 	}
 	p := (*[2]uintptr)(unsafe.Pointer(b.next))
-	b.next += 2 * goarch.PtrSize
+	b.next += 2 * golangarch.PtrSize
 	return p
 }
 
@@ -159,16 +159,16 @@ func (b *wbBuf) get2() *[2]uintptr {
 // a GC safe point between the write barrier test in the caller and
 // flushing the buffer.
 //
-// TODO: A "go:nosplitrec" annotation would be perfect for this.
+// TODO: A "golang:nosplitrec" annotation would be perfect for this.
 //
-//go:nowritebarrierrec
-//go:nosplit
+//golang:nowritebarrierrec
+//golang:nosplit
 func wbBufFlush() {
 	// Note: Every possible return from this function must reset
 	// the buffer's next pointer to prevent buffer overflow.
 
 	if getg().m.dying > 0 {
-		// We're going down. Not much point in write barriers
+		// We're golanging down. Not much point in write barriers
 		// and this way we can allow write barriers in the
 		// panic path.
 		getg().m.p.ptr().wbBuf.discard()
@@ -190,8 +190,8 @@ func wbBufFlush() {
 //
 // This must be non-preemptible because it uses the P's workbuf.
 //
-//go:nowritebarrierrec
-//go:systemstack
+//golang:nowritebarrierrec
+//golang:systemstack
 func wbBufFlush1(pp *p) {
 	// Get the buffered pointers.
 	start := uintptr(unsafe.Pointer(&pp.wbBuf.buf[0]))
@@ -222,7 +222,7 @@ func wbBufFlush1(pp *p) {
 	// the buffer if the stack has been shaded, or even avoid
 	// putting them in the buffer at all (which would double its
 	// capacity). This is slightly complicated with the buffer; we
-	// could track whether any un-shaded goroutine has used the
+	// could track whether any un-shaded golangroutine has used the
 	// buffer, or just track globally whether there are any
 	// un-shaded stacks and flush after each stack scan.
 	gcw := &pp.gcw

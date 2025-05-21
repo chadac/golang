@@ -3,23 +3,23 @@ env GO111MODULE=on
 cd $WORK
 
 # An import provided by two different modules should be flagged as an error.
-! go build ./importx
-stderr '^importx[/\\]importx.go:2:8: ambiguous import: found package example.com/a/x in multiple modules:\n\texample.com/a v0.1.0 \('$WORK'[/\\]a[/\\]x\)\n\texample.com/a/x v0.1.0 \('$WORK'[/\\]ax\)$'
+! golang build ./importx
+stderr '^importx[/\\]importx.golang:2:8: ambiguous import: found package example.com/a/x in multiple modules:\n\texample.com/a v0.1.0 \('$WORK'[/\\]a[/\\]x\)\n\texample.com/a/x v0.1.0 \('$WORK'[/\\]ax\)$'
 
 # However, it should not be an error if that import is unused.
-go build ./importy
+golang build ./importy
 
 # An import provided by both the main module and the vendor directory
 # should be flagged as an error only when -mod=vendor is set.
 mkdir vendor/example.com/m/importy
-cp $WORK/importy/importy.go vendor/example.com/m/importy/importy.go
-go build example.com/m/importy
-! go build -mod=vendor example.com/m/importy
+cp $WORK/importy/importy.golang vendor/example.com/m/importy/importy.golang
+golang build example.com/m/importy
+! golang build -mod=vendor example.com/m/importy
 stderr '^ambiguous import: found package example.com/m/importy in multiple directories:\n\t'$WORK'[/\\]importy\n\t'$WORK'[/\\]vendor[/\\]example.com[/\\]m[/\\]importy$'
 
--- $WORK/go.mod --
+-- $WORK/golang.mod --
 module example.com/m
-go 1.13
+golang 1.13
 require (
 	example.com/a v0.1.0
 	example.com/a/x v0.1.0
@@ -28,21 +28,21 @@ replace (
 	example.com/a v0.1.0 => ./a
 	example.com/a/x v0.1.0 => ./ax
 )
--- $WORK/importx/importx.go --
+-- $WORK/importx/importx.golang --
 package importx
 import _ "example.com/a/x"
--- $WORK/importy/importy.go --
+-- $WORK/importy/importy.golang --
 package importy
 import _ "example.com/a/y"
--- $WORK/a/go.mod --
+-- $WORK/a/golang.mod --
 module example.com/a
-go 1.14
--- $WORK/a/x/x.go --
+golang 1.14
+-- $WORK/a/x/x.golang --
 package x
--- $WORK/a/y/y.go --
+-- $WORK/a/y/y.golang --
 package y
--- $WORK/ax/go.mod --
+-- $WORK/ax/golang.mod --
 module example.com/a/x
-go 1.14
--- $WORK/ax/x.go --
+golang 1.14
+-- $WORK/ax/x.golang --
 package x

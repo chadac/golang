@@ -1,12 +1,12 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build mips || mipsle
+//golang:build mips || mipsle
 
 package runtime
 
-// Called from assembly only; declared for go vet.
+// Called from assembly only; declared for golang vet.
 func load_g()
 func save_g()
 

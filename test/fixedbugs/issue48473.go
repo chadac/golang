@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -21,10 +21,10 @@ func g(x uint32) uint32 {
 }
 
 func main() {
-	if want, got := uint64(0xffffffffffffff01), f(1); want != got {
-		panic(fmt.Sprintf("want %x got %x", want, got))
+	if want, golangt := uint64(0xffffffffffffff01), f(1); want != golangt {
+		panic(fmt.Sprintf("want %x golangt %x", want, golangt))
 	}
-	if want, got := uint32(0xffffff01), g(1); want != got {
-		panic(fmt.Sprintf("want %x got %x", want, got))
+	if want, golangt := uint32(0xffffff01), g(1); want != golangt {
+		panic(fmt.Sprintf("want %x golangt %x", want, golangt))
 	}
 }

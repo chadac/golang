@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package src
@@ -32,9 +32,9 @@ func TestConversion(t *testing.T) {
 		MakePos(b3, 123, 0), // same table entry as MakePos(b3, 10, 20)
 	} {
 		xpos := tab.XPos(want)
-		got := tab.Pos(xpos)
-		if got != want {
-			t.Errorf("got %v; want %v", got, want)
+		golangt := tab.Pos(xpos)
+		if golangt != want {
+			t.Errorf("golangt %v; want %v", golangt, want)
 		}
 
 		for _, x := range []struct {
@@ -52,8 +52,8 @@ func TestConversion(t *testing.T) {
 			if xpos.Line() == 0 && xpos.Col() == 0 {
 				expected = PosNotStmt
 			}
-			if got := xposWith.IsStmt(); got != expected {
-				t.Errorf("expected %v; got %v", expected, got)
+			if golangt := xposWith.IsStmt(); golangt != expected {
+				t.Errorf("expected %v; golangt %v", expected, golangt)
 			}
 			if xposWith.Col() != xpos.Col() || xposWith.Line() != xpos.Line() {
 				t.Errorf("line:col, before = %d:%d, after=%d:%d", xpos.Line(), xpos.Col(), xposWith.Line(), xposWith.Col())
@@ -68,11 +68,11 @@ func TestConversion(t *testing.T) {
 
 	const wantLen = 4
 	if len(tab.baseList) != wantLen {
-		t.Errorf("got table length %d; want %d", len(tab.baseList), wantLen)
+		t.Errorf("golangt table length %d; want %d", len(tab.baseList), wantLen)
 	}
 
-	if got := tab.XPos(NoPos); got != NoXPos {
-		t.Errorf("XPos(NoPos): got %v; want %v", got, NoXPos)
+	if golangt := tab.XPos(NoPos); golangt != NoXPos {
+		t.Errorf("XPos(NoPos): golangt %v; want %v", golangt, NoXPos)
 	}
 
 	if tab.baseList[0] != nil || tab.indexMap[nil] != 0 {

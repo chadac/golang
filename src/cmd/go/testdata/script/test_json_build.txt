@@ -1,6 +1,6 @@
 [short] skip
 
-env GODEBUG=gotestjsonbuildtext=0
+env GODEBUG=golangtestjsonbuildtext=0
 
 # There are several places where paths appear in JSON in regexps here.
 # For the path separator we use (/|\\\\).
@@ -10,9 +10,9 @@ env GODEBUG=gotestjsonbuildtext=0
 # we can probably fix this.
 
 # Test a build error directly in a test file.
-! go test -json -o=$devnull ./builderror
+! golang test -json -o=$devnull ./builderror
 stdout '"ImportPath":"m/builderror \[m/builderror\.test\]","Action":"build-output","Output":"# m/builderror \[m/builderror.test\]\\n"'
-stdout '"ImportPath":"m/builderror \[m/builderror\.test\]","Action":"build-output","Output":"builderror(/|\\\\)main_test.go:3:11: undefined: y\\n"'
+stdout '"ImportPath":"m/builderror \[m/builderror\.test\]","Action":"build-output","Output":"builderror(/|\\\\)main_test.golang:3:11: undefined: y\\n"'
 stdout '"ImportPath":"m/builderror \[m/builderror\.test\]","Action":"build-fail"'
 stdout '"Action":"start","Package":"m/builderror"'
 stdout '"Action":"output","Package":"m/builderror","Output":"FAIL\\tm/builderror \[build failed\]\\n"'
@@ -20,9 +20,9 @@ stdout '"Action":"fail","Package":"m/builderror","Elapsed":.*,"FailedBuild":"m/b
 ! stderr '.'
 
 # Test a build error in an imported package. Make sure it's attributed to the right package.
-! go test -json -o=$devnull ./builderror2
+! golang test -json -o=$devnull ./builderror2
 stdout '"ImportPath":"m/builderror2/x","Action":"build-output","Output":"# m/builderror2/x\\n"'
-stdout '"ImportPath":"m/builderror2/x","Action":"build-output","Output":"builderror2(/|\\\\)x(/|\\\\)main.go:3:11: undefined: y\\n"'
+stdout '"ImportPath":"m/builderror2/x","Action":"build-output","Output":"builderror2(/|\\\\)x(/|\\\\)main.golang:3:11: undefined: y\\n"'
 stdout '"ImportPath":"m/builderror2/x","Action":"build-fail"'
 stdout '"Action":"start","Package":"m/builderror2"'
 stdout '"Action":"output","Package":"m/builderror2","Output":"FAIL\\tm/builderror2 \[build failed\]\\n"'
@@ -31,7 +31,7 @@ stdout '"Action":"fail","Package":"m/builderror2","Elapsed":.*,"FailedBuild":"m/
 
 # Test a loading error in a test file
 # TODO(#65335): ImportPath attribution is weird
-! go test -json -o=$devnull ./loaderror
+! golang test -json -o=$devnull ./loaderror
 stdout '"ImportPath":"x","Action":"build-output","Output":"# m/loaderror\\n"'
 stdout '"ImportPath":"x","Action":"build-output","Output":".*package x is not in std.*"'
 stdout '"ImportPath":"x","Action":"build-fail"'
@@ -41,11 +41,11 @@ stdout '"Action":"fail","Package":"m/loaderror","Elapsed":.*,"FailedBuild":"x"'
 ! stderr '.'
 
 # Test an import cycle loading error in a non test file. (#70820)
-! go test -json -o=$devnull ./cycle/p
+! golang test -json -o=$devnull ./cycle/p
 stdout '"ImportPath":"m/cycle/q","Action":"build-output","Output":"# m/cycle/p\\n"'
 stdout '"ImportPath":"m/cycle/q","Action":"build-output","Output":"package m/cycle/p\\n"'
-stdout '"ImportPath":"m/cycle/q","Action":"build-output","Output":"\\timports m/cycle/q from p.go\\n"'
-stdout '"ImportPath":"m/cycle/q","Action":"build-output","Output":"\\timports m/cycle/q from q.go: import cycle not allowed\\n"'
+stdout '"ImportPath":"m/cycle/q","Action":"build-output","Output":"\\timports m/cycle/q from p.golang\\n"'
+stdout '"ImportPath":"m/cycle/q","Action":"build-output","Output":"\\timports m/cycle/q from q.golang: import cycle not allowed\\n"'
 stdout '"ImportPath":"m/cycle/q","Action":"build-fail"'
 stdout '"Action":"start","Package":"m/cycle/p"'
 stdout '"Action":"output","Package":"m/cycle/p","Output":"FAIL\\tm/cycle/p \[setup failed\]\\n"'
@@ -53,10 +53,10 @@ stdout '"Action":"fail","Package":"m/cycle/p","Elapsed":.*,"FailedBuild":"m/cycl
 ! stderr '.'
 
 # Test a vet error
-! go test -json -o=$devnull ./veterror
+! golang test -json -o=$devnull ./veterror
 stdout '"ImportPath":"m/veterror \[m/veterror.test\]","Action":"build-output","Output":"# m/veterror\\n"'
 stdout '"ImportPath":"m/veterror \[m/veterror.test\]","Action":"build-output","Output":"# \[m/veterror\]\\n"'
-stdout '"ImportPath":"m/veterror \[m/veterror.test\]","Action":"build-output","Output":"veterror(/|\\\\)main_test.go:9:9: fmt.Printf format %s reads arg #1, but call has 0 args\\n"'
+stdout '"ImportPath":"m/veterror \[m/veterror.test\]","Action":"build-output","Output":"veterror(/|\\\\)main_test.golang:9:9: fmt.Printf format %s reads arg #1, but call has 0 args\\n"'
 stdout '"ImportPath":"m/veterror \[m/veterror.test\]","Action":"build-fail"'
 stdout '"Action":"start","Package":"m/veterror"'
 stdout '"Action":"output","Package":"m/veterror","Output":"FAIL\\tm/veterror \[build failed\]\\n"'
@@ -64,43 +64,43 @@ stdout '"Action":"fail","Package":"m/veterror","Elapsed":.*,"FailedBuild":"m/vet
 ! stderr '.'
 
 # Test that the GODEBUG fallback works.
-env GODEBUG=gotestjsonbuildtext=1
-! go test -json -o=$devnull ./builderror
+env GODEBUG=golangtestjsonbuildtext=1
+! golang test -json -o=$devnull ./builderror
 stderr '# m/builderror \[m/builderror.test\]\n'
-stderr 'builderror'${/}'main_test.go:3:11: undefined: y\n'
+stderr 'builderror'${/}'main_test.golang:3:11: undefined: y\n'
 stdout '"Action":"start","Package":"m/builderror"'
 stdout '"Action":"output","Package":"m/builderror","Output":"FAIL\\tm/builderror \[build failed\]\\n"'
 stdout '"Action":"fail","Package":"m/builderror","Elapsed":[0-9.]+\}'
 # FailedBuild should NOT appear in the output in this mode.
 ! stdout '"FailedBuild"'
 
--- go.mod --
+-- golang.mod --
 module m
-go 1.21
--- builderror/main_test.go --
+golang 1.21
+-- builderror/main_test.golang --
 package builderror
 
 const x = y
--- builderror2/x/main.go --
+-- builderror2/x/main.golang --
 package x
 
 const x = y
--- builderror2/main_test.go --
+-- builderror2/main_test.golang --
 package builderror2
 
 import _ "m/builderror2/x"
--- loaderror/main_test.go --
-// A bad import causes a "[setup failed]" message from cmd/go because
+-- loaderror/main_test.golang --
+// A bad import causes a "[setup failed]" message from cmd/golang because
 // it fails in package graph setup, before it can even get to the
 // build.
 //
 // "[setup failed]" can also occur with various low-level failures in
-// cmd/go, like failing to create a temporary directory.
+// cmd/golang, like failing to create a temporary directory.
 
 package loaderror
 
 import _ "x"
--- veterror/main_test.go --
+-- veterror/main_test.golang --
 package veterror
 
 import (
@@ -111,11 +111,11 @@ import (
 func TestVetError(t *testing.T) {
         fmt.Printf("%s")
 }
--- cycle/p/p.go --
+-- cycle/p/p.golang --
 package p
 
 import "m/cycle/q"
--- cycle/q/q.go --
+-- cycle/q/q.golang --
 package q
 
 import (

@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This test tests some internals of the flate package.
@@ -43,7 +43,7 @@ func TestIssue6255(t *testing.T) {
 	bits2 := []int{11, 13}
 	var h huffmanDecoder
 	if !h.init(bits1) {
-		t.Fatalf("Given sequence of bits is good and should succeed.")
+		t.Fatalf("Given sequence of bits is golangod and should succeed.")
 	}
 	if h.init(bits2) {
 		t.Fatalf("Given sequence of bits is bad and should not succeed.")
@@ -245,15 +245,15 @@ func TestStreams(t *testing.T) {
 		data, err = io.ReadAll(NewReader(bytes.NewReader(data)))
 		if tc.want == "fail" {
 			if err == nil {
-				t.Errorf("#%d (%s): got nil error, want non-nil", i, tc.desc)
+				t.Errorf("#%d (%s): golangt nil error, want non-nil", i, tc.desc)
 			}
 		} else {
 			if err != nil {
 				t.Errorf("#%d (%s): %v", i, tc.desc, err)
 				continue
 			}
-			if got := hex.EncodeToString(data); got != tc.want {
-				t.Errorf("#%d (%s):\ngot  %q\nwant %q", i, tc.desc, got, tc.want)
+			if golangt := hex.EncodeToString(data); golangt != tc.want {
+				t.Errorf("#%d (%s):\ngolangt  %q\nwant %q", i, tc.desc, golangt, tc.want)
 			}
 
 		}
@@ -267,7 +267,7 @@ func TestTruncatedStreams(t *testing.T) {
 		r := NewReader(strings.NewReader(data[:i]))
 		_, err := io.Copy(io.Discard, r)
 		if err != io.ErrUnexpectedEOF {
-			t.Errorf("io.Copy(%d) on truncated stream: got %v, want %v", i, err, io.ErrUnexpectedEOF)
+			t.Errorf("io.Copy(%d) on truncated stream: golangt %v, want %v", i, err, io.ErrUnexpectedEOF)
 		}
 	}
 }
@@ -278,7 +278,7 @@ func TestTruncatedStreams(t *testing.T) {
 // This helps net/http.Transport reuse HTTP/1 connections more
 // aggressively.
 //
-// See https://github.com/google/go-github/pull/317 for background.
+// See https://github.com/golangogle/golang-github/pull/317 for background.
 func TestReaderEarlyEOF(t *testing.T) {
 	t.Parallel()
 	testSizes := []int{

@@ -9,12 +9,12 @@
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
+// See the License for the specific language golangverning permissions and
 // limitations under the License.
 
 // Package profile represents a pprof profile as a directed graph.
 //
-// This package is a simplified fork of github.com/google/pprof/internal/graph.
+// This package is a simplified fork of github.com/golangogle/pprof/internal/graph.
 package profile
 
 import (
@@ -191,7 +191,7 @@ func (nm NodeMap) FindOrInsertNode(info NodeInfo, kept NodeSet) *Node {
 	return n
 }
 
-// EdgeMap is used to represent the incoming/outgoing edges from a node.
+// EdgeMap is used to represent the incoming/outgolanging edges from a node.
 type EdgeMap []*Edge
 
 func (em EdgeMap) FindTo(n *Node) *Edge {
@@ -256,7 +256,7 @@ func NewGraph(prof *Profile, o *Options) *Graph {
 		clear(seenNode)
 		clear(seenEdge)
 		var parent *Node
-		// A residual edge goes over one or more nodes that were not kept.
+		// A residual edge golanges over one or more nodes that were not kept.
 		residual := false
 
 		// Group the sample frames, based on a global map.

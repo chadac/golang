@@ -112,7 +112,7 @@ func (c *ctxt7) stacksplit(p *obj.Prog, framesize int32) *obj.Prog {
 		p = obj.Appendp(p, c.newprog)
 		p.As = ABL
 		p.To.Type = obj.TYPE_BRANCH
-		// See ../x86/obj6.go
+		// See ../x86/obj6.golang
 		p.To.Sym = c.ctxt.LookupABI(c.ctxt.Flag_maymorestack, c.cursym.ABI())
 
 		// Restore REGCTXT.
@@ -692,7 +692,7 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 				// small frame, update SP and save LR in a single MOVD.W instruction.
 				// So if a signal comes during the execution of the function prologue,
 				// the traceback code will not see a half-updated stack frame.
-				// Also, on Linux, in a cgo binary we may get a SIGSETXID signal
+				// Also, on Linux, in a cgolang binary we may get a SIGSETXID signal
 				// early on before the signal stack is set, as glibc doesn't allow
 				// us to block SIGSETXID. So it is important that we don't write below
 				// the SP until the signal stack is set.
@@ -925,7 +925,7 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 			// so that if you are debugging a low-level crash where PC and LR are zero,
 			// you can look at R27 to see what jumped to the zero.
 			// This is useful when bringing up Go on a new system.
-			// (There is similar code in ../ppc64/obj9.go:/if.false.)
+			// (There is similar code in ../ppc64/obj9.golang:/if.false.)
 			const debugRETZERO = false
 			if debugRETZERO {
 				if p.As != obj.ARET {

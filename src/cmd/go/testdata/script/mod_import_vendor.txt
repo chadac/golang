@@ -1,33 +1,33 @@
 # For 1.23+, vendored packages that are missing in modules.txt should result in an error.
 cp incorrect_modules.txt vendor/modules.txt
 # incorrect_modules is missing foo.com/internal/bar/b so the build should fail.
-! go build ./vendor/foo.com/internal/bar/a
+! golang build ./vendor/foo.com/internal/bar/a
 stderr 'cannot find module providing package foo.com/internal/bar/b: import lookup disabled by -mod=vendor'
-stderr 'go: ignoring package foo.com/internal/bar/b which exists in the vendor directory but is missing from vendor/modules.txt. To sync the vendor directory run go mod vendor.'
+stderr 'golang: ignoring package foo.com/internal/bar/b which exists in the vendor directory but is missing from vendor/modules.txt. To sync the vendor directory run golang mod vendor.'
 
 cp correct_modules.txt vendor/modules.txt
-go build ./vendor/foo.com/internal/bar/a
+golang build ./vendor/foo.com/internal/bar/a
 
-# For go versions < 1.23, vendored packages that are missing in modules.txt should not result in an error.
-cp 122go.mod go.mod
+# For golang versions < 1.23, vendored packages that are missing in modules.txt should not result in an error.
+cp 122golang.mod golang.mod
 
 cp incorrect_modules.txt vendor/modules.txt
 
-# go version < 1.23 and incorrect_modules is missing foo.com/internal/bar/b so the build should not fail
-go build ./vendor/foo.com/internal/bar/a
+# golang version < 1.23 and incorrect_modules is missing foo.com/internal/bar/b so the build should not fail
+golang build ./vendor/foo.com/internal/bar/a
 
 cp correct_modules.txt vendor/modules.txt
-go build ./vendor/foo.com/internal/bar/a
+golang build ./vendor/foo.com/internal/bar/a
 
--- 122go.mod --
+-- 122golang.mod --
 module example.com/x
-go 1.22
+golang 1.22
 
 require "foo.com/internal/bar" v1.0.0
 
--- go.mod --
+-- golang.mod --
 module example.com/x
-go 1.23
+golang 1.23
 
 require "foo.com/internal/bar" v1.0.0
 
@@ -42,9 +42,9 @@ foo.com/internal/bar/a
 foo.com/internal/bar/a
 foo.com/internal/bar/b
 
--- vendor/foo.com/internal/bar/a/a.go --
+-- vendor/foo.com/internal/bar/a/a.golang --
 package a
 import _ "foo.com/internal/bar/b"
 
--- vendor/foo.com/internal/bar/b/b.go --
+-- vendor/foo.com/internal/bar/b/b.golang --
 package b

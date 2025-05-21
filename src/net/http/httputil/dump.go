@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package httputil
@@ -59,9 +59,9 @@ func (b neverEnding) Read(p []byte) (n int, err error) {
 	return len(p), nil
 }
 
-// outgoingLength is a copy of the unexported
-// (*http.Request).outgoingLength method.
-func outgoingLength(req *http.Request) int64 {
+// outgolangingLength is a copy of the unexported
+// (*http.Request).outgolangingLength method.
+func outgolangingLength(req *http.Request) int64 {
 	if req.Body == nil || req.Body == http.NoBody {
 		return 0
 	}
@@ -71,14 +71,14 @@ func outgoingLength(req *http.Request) int64 {
 	return -1
 }
 
-// DumpRequestOut is like [DumpRequest] but for outgoing client requests. It
+// DumpRequestOut is like [DumpRequest] but for outgolanging client requests. It
 // includes any headers that the standard [http.Transport] adds, such as
 // User-Agent.
 func DumpRequestOut(req *http.Request, body bool) ([]byte, error) {
 	save := req.Body
 	dummyBody := false
 	if !body {
-		contentLength := outgoingLength(req)
+		contentLength := outgolangingLength(req)
 		if contentLength != 0 {
 			req.Body = io.NopCloser(io.LimitReader(neverEnding('x'), contentLength))
 			dummyBody = true
@@ -93,7 +93,7 @@ func DumpRequestOut(req *http.Request, body bool) ([]byte, error) {
 
 	// Since we're using the actual Transport code to write the request,
 	// switch to http so the Transport doesn't try to do an SSL
-	// negotiation with our dumpConn and its bytes.Buffer & pipe.
+	// negolangtiation with our dumpConn and its bytes.Buffer & pipe.
 	// The wire format for https and http are the same, anyway.
 	reqSend := req
 	if req.URL.Scheme == "https" {
@@ -123,11 +123,11 @@ func DumpRequestOut(req *http.Request, body bool) ([]byte, error) {
 	defer t.CloseIdleConnections()
 
 	// We need this channel to ensure that the reader
-	// goroutine exits if t.RoundTrip returns an error.
-	// See golang.org/issue/32571.
+	// golangroutine exits if t.RoundTrip returns an error.
+	// See golanglang.org/issue/32571.
 	quitReadCh := make(chan struct{})
 	// Wait for the request before replying with a dummy response:
-	go func() {
+	golang func() {
 		req, err := http.ReadRequest(bufio.NewReader(pr))
 		if err == nil {
 			// Ensure all the body is read; otherwise

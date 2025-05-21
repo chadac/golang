@@ -1,9 +1,9 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test that a signal handler that uses up stack space does not crash
-// if the signal is delivered to a thread running a goroutine.
+// if the signal is delivered to a thread running a golangroutine.
 // This is a lot like ../testcarchive/main2.c.
 
 #include <setjmp.h>
@@ -35,7 +35,7 @@ static void recur(int i, char *p) {
 	}
 }
 
-// Signal handler that uses up more stack space than a goroutine will have.
+// Signal handler that uses up more stack space than a golangroutine will have.
 static void ioHandler(int signo, siginfo_t* info, void* ctxt) {
 	char a[1024];
 
@@ -120,7 +120,7 @@ int main(int argc, char** argv) {
 		fprintf(stderr, "calling dlsym\n");
 	}
 
-	// Start some goroutines.
+	// Start some golangroutines.
 	fn = (void(*)(void))dlsym(handle, "RunGoroutines");
 	if (fn == NULL) {
 		fprintf(stderr, "%s\n", dlerror());
@@ -134,7 +134,7 @@ int main(int argc, char** argv) {
 	fn();
 
 	// Block SIGIO in this thread to make it more likely that it
-	// will be delivered to a goroutine.
+	// will be delivered to a golangroutine.
 
 	if (verbose) {
 		fprintf(stderr, "calling pthread_sigmask\n");

@@ -4,11 +4,11 @@ rsc.io/quote@v1.1.0
 module "rsc.io/quote"
 -- .info --
 {"Version":"v1.1.0","Name":"cfd7145f43f92a8d56b4a3dd603795a3291381a9","Short":"cfd7145f43f9","Time":"2018-02-14T00:46:44Z"}
--- go.mod --
+-- golang.mod --
 module "rsc.io/quote"
--- quote.go --
+-- quote.golang --
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package quote collects pithy sayings.
@@ -24,9 +24,9 @@ func Glass() string {
 	// See http://www.oocities.org/nodotus/hbglass.html.
 	return "I can eat glass and it doesn't hurt me."
 }
--- quote_test.go --
+-- quote_test.golang --
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package quote

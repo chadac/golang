@@ -1,18 +1,18 @@
 
 # Testcase for issue 64661.  This testcase is intended to verify that
 # we don't try to send swig-generated Go files through the cover tool
-# for "go test -cover" runs on packages that have *.swig source files.
+# for "golang test -cover" runs on packages that have *.swig source files.
 
 [!exec:swig] skip
-[!cgo] skip
+[!cgolang] skip
 
-go test -v -count=1 -coverprofile=foo.p
+golang test -v -count=1 -coverprofile=foo.p
 stdout 'coverage: 100.0% of statements'
 
--- go.mod --
+-- golang.mod --
 module simple
 
-go 1.21
+golang 1.21
 -- main.c --
 /* A global variable */
 double Foo = 3.0;
@@ -30,7 +30,7 @@ int gcd(int x, int y) {
 }
 
 
--- main.go --
+-- main.golang --
 package main
 
 import (
@@ -62,7 +62,7 @@ func main() {
 extern int    gcd(int x, int y);
 extern double Foo;
 %}
--- main_test.go --
+-- main_test.golang --
 package main
 
 import "testing"

@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package png
@@ -171,7 +171,7 @@ func sng(w io.WriteCloser, filename string, png image.Image) {
 	}
 	io.WriteString(w, "}\n")
 
-	// We fake a gAMA chunk. The test files have a gAMA chunk but the go PNG
+	// We fake a gAMA chunk. The test files have a gAMA chunk but the golang PNG
 	// parser ignores it (the PNG spec section 11.3 says "Ancillary chunks may
 	// be ignored by a decoder").
 	if s, ok := fakegAMAs[filename]; ok {
@@ -352,7 +352,7 @@ func TestReader(t *testing.T) {
 
 		piper, pipew := io.Pipe()
 		pb := bufio.NewScanner(piper)
-		go sng(pipew, fn, img)
+		golang sng(pipew, fn, img)
 		defer piper.Close()
 
 		// Read the .sng file.
@@ -482,7 +482,7 @@ func TestIncompleteIDATOnRowBoundary(t *testing.T) {
 	)
 	_, err := Decode(strings.NewReader(pngHeader + ihdr + idat + iend))
 	if err == nil {
-		t.Fatal("got nil error, want non-nil")
+		t.Fatal("golangt nil error, want non-nil")
 	}
 }
 
@@ -561,12 +561,12 @@ func TestMultipletRNSChunks(t *testing.T) {
 			want = color.NRGBA{0xff, 0x00, 0x00, 0x7f}
 		default:
 			if err == nil {
-				t.Errorf("%d tRNS chunks: got nil error, want non-nil", i)
+				t.Errorf("%d tRNS chunks: golangt nil error, want non-nil", i)
 			}
 			continue
 		}
-		if got := m.At(0, 0); got != want {
-			t.Errorf("%d tRNS chunks: got %T %v, want %T %v", i, got, got, want, want)
+		if golangt := m.At(0, 0); golangt != want {
+			t.Errorf("%d tRNS chunks: golangt %T %v, want %T %v", i, golangt, golangt, want, want)
 		}
 	}
 }
@@ -593,13 +593,13 @@ func TestPaletted8OutOfRangePixel(t *testing.T) {
 
 	// Expect that the palette is extended with opaque black.
 	want := color.RGBA{0x00, 0x00, 0x00, 0xff}
-	if got := img.At(15, 15); got != want {
-		t.Errorf("got %F %v, expected %T %v", got, got, want, want)
+	if golangt := img.At(15, 15); golangt != want {
+		t.Errorf("golangt %F %v, expected %T %v", golangt, golangt, want, want)
 	}
 }
 
 func TestGray8Transparent(t *testing.T) {
-	// These bytes come from https://golang.org/issues/19553
+	// These bytes come from https://golanglang.org/issues/19553
 	m, err := Decode(bytes.NewReader([]byte{
 		0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a, 0x00, 0x00, 0x00, 0x0d, 0x49, 0x48, 0x44, 0x52,
 		0x00, 0x00, 0x00, 0x0f, 0x00, 0x00, 0x00, 0x0b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x85, 0x2c, 0x88,
@@ -620,25 +620,25 @@ func TestGray8Transparent(t *testing.T) {
 	}
 
 	const hex = "0123456789abcdef"
-	var got []byte
+	var golangt []byte
 	bounds := m.Bounds()
 	for y := bounds.Min.Y; y < bounds.Max.Y; y++ {
 		for x := bounds.Min.X; x < bounds.Max.X; x++ {
 			if r, _, _, a := m.At(x, y).RGBA(); a != 0 {
-				got = append(got,
+				golangt = append(golangt,
 					hex[0x0f&(r>>12)],
 					hex[0x0f&(r>>8)],
 					' ',
 				)
 			} else {
-				got = append(got,
+				golangt = append(golangt,
 					'.',
 					'.',
 					' ',
 				)
 			}
 		}
-		got = append(got, '\n')
+		golangt = append(golangt, '\n')
 	}
 
 	const want = "" +
@@ -654,8 +654,8 @@ func TestGray8Transparent(t *testing.T) {
 		"bd 6b 94 94 94 94 5a ef .. .. .. .. .. .. .. \n" +
 		"e6 b5 b5 b5 b5 b5 b5 f7 .. .. .. .. .. .. .. \n"
 
-	if string(got) != want {
-		t.Errorf("got:\n%swant:\n%s", got, want)
+	if string(golangt) != want {
+		t.Errorf("golangt:\n%swant:\n%s", golangt, want)
 	}
 }
 
@@ -669,7 +669,7 @@ func TestDimensionOverflow(t *testing.T) {
 		width             int
 		height            int
 	}{
-		// These bytes come from https://golang.org/issues/22304
+		// These bytes come from https://golanglang.org/issues/22304
 		//
 		// It encodes a 2147483646 × 2147483646 (i.e. 0x7ffffffe × 0x7ffffffe)
 		// NRGBA image. The (width × height) per se doesn't overflow an int64, but
@@ -691,7 +691,7 @@ func TestDimensionOverflow(t *testing.T) {
 			height:            0x7ffffffe,
 		},
 
-		// The next three cases come from https://golang.org/issues/38435
+		// The next three cases come from https://golanglang.org/issues/38435
 
 		{
 			src: []byte{
@@ -739,19 +739,19 @@ func TestDimensionOverflow(t *testing.T) {
 		cfg, err := DecodeConfig(bytes.NewReader(tc.src))
 		if tc.unsupportedConfig {
 			if err == nil {
-				t.Errorf("i=%d: DecodeConfig: got nil error, want non-nil", i)
+				t.Errorf("i=%d: DecodeConfig: golangt nil error, want non-nil", i)
 			} else if _, ok := err.(UnsupportedError); !ok {
-				t.Fatalf("Decode: got %v (of type %T), want non-nil error (of type png.UnsupportedError)", err, err)
+				t.Fatalf("Decode: golangt %v (of type %T), want non-nil error (of type png.UnsupportedError)", err, err)
 			}
 			continue
 		} else if err != nil {
 			t.Errorf("i=%d: DecodeConfig: %v", i, err)
 			continue
 		} else if cfg.Width != tc.width {
-			t.Errorf("i=%d: width: got %d, want %d", i, cfg.Width, tc.width)
+			t.Errorf("i=%d: width: golangt %d, want %d", i, cfg.Width, tc.width)
 			continue
 		} else if cfg.Height != tc.height {
-			t.Errorf("i=%d: height: got %d, want %d", i, cfg.Height, tc.height)
+			t.Errorf("i=%d: height: golangt %d, want %d", i, cfg.Height, tc.height)
 			continue
 		}
 
@@ -767,14 +767,14 @@ func TestDimensionOverflow(t *testing.T) {
 			// 1 GiB or more of memory. This is usually feasible, and we want
 			// to check that calling Decode doesn't panic if there's enough
 			// memory, but we provide a runtime switch (testing.Short) to skip
-			// these if it would OOM. See also http://golang.org/issue/5050
+			// these if it would OOM. See also http://golanglang.org/issue/5050
 			// "decoding... images can cause huge memory allocations".
 			continue
 		}
 
 		// Even if we don't panic, these aren't valid PNG images.
 		if _, err := Decode(bytes.NewReader(tc.src)); err == nil {
-			t.Errorf("i=%d: Decode: got nil error, want non-nil", i)
+			t.Errorf("i=%d: Decode: golangt nil error, want non-nil", i)
 		}
 	}
 
@@ -784,7 +784,7 @@ func TestDimensionOverflow(t *testing.T) {
 }
 
 func TestDecodePalettedWithTransparency(t *testing.T) {
-	// These bytes come from https://go.dev/issue/54325
+	// These bytes come from https://golang.dev/issue/54325
 	//
 	// Per the PNG spec, a PLTE chunk contains 3 (not 4) bytes per palette
 	// entry: RGB (not RGBA). The alpha value comes from the optional tRNS
@@ -825,14 +825,14 @@ func TestDecodePalettedWithTransparency(t *testing.T) {
 	if err != nil {
 		t.Fatalf("DecodeConfig: %v", err)
 	} else if _, _, _, alpha := cfg.ColorModel.(color.Palette)[0].RGBA(); alpha != 0 {
-		t.Errorf("DecodeConfig: got %d, want 0", alpha)
+		t.Errorf("DecodeConfig: golangt %d, want 0", alpha)
 	}
 
 	img, err := Decode(bytes.NewReader(src))
 	if err != nil {
 		t.Fatalf("Decode: %v", err)
 	} else if _, _, _, alpha := img.ColorModel().(color.Palette)[0].RGBA(); alpha != 0 {
-		t.Errorf("Decode: got %d, want 0", alpha)
+		t.Errorf("Decode: golangt %d, want 0", alpha)
 	}
 }
 

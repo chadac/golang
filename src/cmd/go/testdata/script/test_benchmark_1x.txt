@@ -1,13 +1,13 @@
 # Test that -benchtime 1x only runs a total of 1 loop iteration.
-# See golang.org/issue/32051.
+# See golanglang.org/issue/32051.
 
-go test -run ^$ -bench . -benchtime 1x
+golang test -run ^$ -bench . -benchtime 1x
 
--- go.mod --
+-- golang.mod --
 module bench
 
-go 1.16
--- x_test.go --
+golang 1.16
+-- x_test.golang --
 package bench
 
 import (

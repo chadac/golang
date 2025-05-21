@@ -1,21 +1,21 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build race
+//golang:build race
 
-#include "go_asm.h"
-#include "go_tls.h"
+#include "golang_asm.h"
+#include "golang_tls.h"
 #include "funcdata.h"
 #include "textflag.h"
 #include "asm_ppc64x.h"
-#include "cgo/abi_ppc64x.h"
+#include "cgolang/abi_ppc64x.h"
 
 // The following functions allow calling the clang-compiled race runtime directly
-// from Go code without going all the way through cgo.
+// from Go code without golanging all the way through cgolang.
 // First, it's much faster (up to 50% speedup for real Go programs).
-// Second, it eliminates race-related special cases from cgocall and scheduler.
-// Third, in long-term it will allow to remove cyclic runtime/race dependency on cmd/go.
+// Second, it eliminates race-related special cases from cgolangcall and scheduler.
+// Third, in long-term it will allow to remove cyclic runtime/race dependency on cmd/golang.
 
 // A brief recap of the ppc64le calling convention.
 // Arguments are passed in R3, R4, R5 ...
@@ -135,11 +135,11 @@ TEXT	runtime·racewriterangepc1(SB), NOSPLIT, $0-24
 // R3 = *ThreadState a.k.a. g_racectx from g
 // R4 = addr passed to __tsan function
 //
-// Otherwise, setup goroutine context and invoke racecall. Other arguments already set.
+// Otherwise, setup golangroutine context and invoke racecall. Other arguments already set.
 TEXT	racecalladdr<>(SB), NOSPLIT, $0-0
 	MOVD    runtime·tls_g(SB), R10
 	MOVD	0(R10), g
-	MOVD	g_racectx(g), R3	// goroutine context
+	MOVD	g_racectx(g), R3	// golangroutine context
 	// Check that addr is within [arenastart, arenaend) or within [racedatastart, racedataend).
 	MOVD	runtime·racearenastart(SB), R9
 	CMP	R4, R9
@@ -175,7 +175,7 @@ TEXT	runtime·racefuncenter(SB), NOSPLIT, $0-8
 TEXT	racefuncenter<>(SB), NOSPLIT, $0-0
 	MOVD    runtime·tls_g(SB), R10
 	MOVD    0(R10), g
-	MOVD    g_racectx(g), R3        // goroutine racectx aka *ThreadState
+	MOVD    g_racectx(g), R3        // golangroutine racectx aka *ThreadState
 	MOVD	R8, R4			// caller pc set by caller in R8
 	// void __tsan_func_enter(ThreadState *thr, void *pc);
 	MOVD	$__tsan_func_enter(SB), R8
@@ -187,7 +187,7 @@ TEXT	racefuncenter<>(SB), NOSPLIT, $0-0
 TEXT	runtime·racefuncexit(SB), NOSPLIT, $0-0
 	MOVD    runtime·tls_g(SB), R10
 	MOVD    0(R10), g
-	MOVD    g_racectx(g), R3        // goroutine racectx aka *ThreadState
+	MOVD    g_racectx(g), R3        // golangroutine racectx aka *ThreadState
 	// void __tsan_func_exit(ThreadState *thr);
 	MOVD	$__tsan_func_exit(SB), R8
 	BR	racecall<>(SB)
@@ -200,16 +200,16 @@ TEXT	runtime·racefuncexit(SB), NOSPLIT, $0-0
 // Load atomic in tsan
 TEXT	sync∕atomic·LoadInt32(SB), NOSPLIT, $0-12
 	GO_ARGS
-	// void __tsan_go_atomic32_load(ThreadState *thr, uptr cpc, uptr pc, u8 *a);
-	MOVD	$__tsan_go_atomic32_load(SB), R8
+	// void __tsan_golang_atomic32_load(ThreadState *thr, uptr cpc, uptr pc, u8 *a);
+	MOVD	$__tsan_golang_atomic32_load(SB), R8
 	ADD	$32, R1, R6	// addr of caller's 1st arg
 	BR	racecallatomic<>(SB)
 	RET
 
 TEXT	sync∕atomic·LoadInt64(SB), NOSPLIT, $0-16
 	GO_ARGS
-	// void __tsan_go_atomic64_load(ThreadState *thr, uptr cpc, uptr pc, u8 *a);
-	MOVD	$__tsan_go_atomic64_load(SB), R8
+	// void __tsan_golang_atomic64_load(ThreadState *thr, uptr cpc, uptr pc, u8 *a);
+	MOVD	$__tsan_golang_atomic64_load(SB), R8
 	ADD	$32, R1, R6	// addr of caller's 1st arg
 	BR	racecallatomic<>(SB)
 	RET
@@ -233,15 +233,15 @@ TEXT	sync∕atomic·LoadPointer(SB), NOSPLIT, $0-16
 // Store atomic in tsan
 TEXT	sync∕atomic·StoreInt32(SB), NOSPLIT, $0-12
 	GO_ARGS
-	// void __tsan_go_atomic32_store(ThreadState *thr, uptr cpc, uptr pc, u8 *a);
-	MOVD	$__tsan_go_atomic32_store(SB), R8
+	// void __tsan_golang_atomic32_store(ThreadState *thr, uptr cpc, uptr pc, u8 *a);
+	MOVD	$__tsan_golang_atomic32_store(SB), R8
 	ADD	$32, R1, R6	// addr of caller's 1st arg
 	BR	racecallatomic<>(SB)
 
 TEXT	sync∕atomic·StoreInt64(SB), NOSPLIT, $0-16
 	GO_ARGS
-	// void __tsan_go_atomic64_store(ThreadState *thr, uptr cpc, uptr pc, u8 *a);
-	MOVD	$__tsan_go_atomic64_store(SB), R8
+	// void __tsan_golang_atomic64_store(ThreadState *thr, uptr cpc, uptr pc, u8 *a);
+	MOVD	$__tsan_golang_atomic64_store(SB), R8
 	ADD	$32, R1, R6	// addr of caller's 1st arg
 	BR	racecallatomic<>(SB)
 
@@ -260,15 +260,15 @@ TEXT	sync∕atomic·StoreUintptr(SB), NOSPLIT, $0-16
 // Swap in tsan
 TEXT	sync∕atomic·SwapInt32(SB), NOSPLIT, $0-20
 	GO_ARGS
-	// void __tsan_go_atomic32_exchange(ThreadState *thr, uptr cpc, uptr pc, u8 *a);
-	MOVD	$__tsan_go_atomic32_exchange(SB), R8
+	// void __tsan_golang_atomic32_exchange(ThreadState *thr, uptr cpc, uptr pc, u8 *a);
+	MOVD	$__tsan_golang_atomic32_exchange(SB), R8
 	ADD	$32, R1, R6	// addr of caller's 1st arg
 	BR	racecallatomic<>(SB)
 
 TEXT	sync∕atomic·SwapInt64(SB), NOSPLIT, $0-24
 	GO_ARGS
-	// void __tsan_go_atomic64_exchange(ThreadState *thr, uptr cpc, uptr pc, u8 *a)
-	MOVD	$__tsan_go_atomic64_exchange(SB), R8
+	// void __tsan_golang_atomic64_exchange(ThreadState *thr, uptr cpc, uptr pc, u8 *a)
+	MOVD	$__tsan_golang_atomic64_exchange(SB), R8
 	ADD	$32, R1, R6	// addr of caller's 1st arg
 	BR	racecallatomic<>(SB)
 
@@ -287,22 +287,22 @@ TEXT	sync∕atomic·SwapUintptr(SB), NOSPLIT, $0-24
 // Add atomic in tsan
 TEXT	sync∕atomic·AddInt32(SB), NOSPLIT, $0-20
 	GO_ARGS
-	// void __tsan_go_atomic32_fetch_add(ThreadState *thr, uptr cpc, uptr pc, u8 *a);
-	MOVD	$__tsan_go_atomic32_fetch_add(SB), R8
+	// void __tsan_golang_atomic32_fetch_add(ThreadState *thr, uptr cpc, uptr pc, u8 *a);
+	MOVD	$__tsan_golang_atomic32_fetch_add(SB), R8
 	ADD	$64, R1, R6	// addr of caller's 1st arg
 	BL	racecallatomic<>(SB)
 	// The tsan fetch_add result is not as expected by Go,
 	// so the 'add' must be added to the result.
 	MOVW	add+8(FP), R3	// The tsa fetch_add does not return the
-	MOVW	ret+16(FP), R4	// result as expected by go, so fix it.
+	MOVW	ret+16(FP), R4	// result as expected by golang, so fix it.
 	ADD	R3, R4, R3
 	MOVW	R3, ret+16(FP)
 	RET
 
 TEXT	sync∕atomic·AddInt64(SB), NOSPLIT, $0-24
 	GO_ARGS
-	// void __tsan_go_atomic64_fetch_add(ThreadState *thr, uptr cpc, uptr pc, u8 *a);
-	MOVD	$__tsan_go_atomic64_fetch_add(SB), R8
+	// void __tsan_golang_atomic64_fetch_add(ThreadState *thr, uptr cpc, uptr pc, u8 *a);
+	MOVD	$__tsan_golang_atomic64_fetch_add(SB), R8
 	ADD	$64, R1, R6	// addr of caller's 1st arg
 	BL	racecallatomic<>(SB)
 	// The tsan fetch_add result is not as expected by Go,
@@ -328,12 +328,12 @@ TEXT	sync∕atomic·AddUintptr(SB), NOSPLIT, $0-24
 // And
 TEXT	sync∕atomic·AndInt32(SB), NOSPLIT, $0-20
 	GO_ARGS
-	MOVD	$__tsan_go_atomic32_fetch_and(SB), R8
+	MOVD	$__tsan_golang_atomic32_fetch_and(SB), R8
 	BR	racecallatomic<>(SB)
 
 TEXT	sync∕atomic·AndInt64(SB), NOSPLIT, $0-24
 	GO_ARGS
-	MOVD	$__tsan_go_atomic64_fetch_and(SB), R8
+	MOVD	$__tsan_golang_atomic64_fetch_and(SB), R8
 	BR	racecallatomic<>(SB)
 
 TEXT	sync∕atomic·AndUint32(SB), NOSPLIT, $0-20
@@ -351,12 +351,12 @@ TEXT	sync∕atomic·AndUintptr(SB), NOSPLIT, $0-24
 // Or
 TEXT	sync∕atomic·OrInt32(SB), NOSPLIT, $0-20
 	GO_ARGS
-	MOVD	$__tsan_go_atomic32_fetch_or(SB), R8
+	MOVD	$__tsan_golang_atomic32_fetch_or(SB), R8
 	BR	racecallatomic<>(SB)
 
 TEXT	sync∕atomic·OrInt64(SB), NOSPLIT, $0-24
 	GO_ARGS
-	MOVD	$__tsan_go_atomic64_fetch_or(SB), R8
+	MOVD	$__tsan_golang_atomic64_fetch_or(SB), R8
 	BR	racecallatomic<>(SB)
 
 TEXT	sync∕atomic·OrUint32(SB), NOSPLIT, $0-20
@@ -374,17 +374,17 @@ TEXT	sync∕atomic·OrUintptr(SB), NOSPLIT, $0-24
 // CompareAndSwap in tsan
 TEXT	sync∕atomic·CompareAndSwapInt32(SB), NOSPLIT, $0-17
 	GO_ARGS
-	// void __tsan_go_atomic32_compare_exchange(
+	// void __tsan_golang_atomic32_compare_exchange(
 	//   ThreadState *thr, uptr cpc, uptr pc, u8 *a)
-	MOVD	$__tsan_go_atomic32_compare_exchange(SB), R8
+	MOVD	$__tsan_golang_atomic32_compare_exchange(SB), R8
 	ADD	$32, R1, R6	// addr of caller's 1st arg
 	BR	racecallatomic<>(SB)
 
 TEXT	sync∕atomic·CompareAndSwapInt64(SB), NOSPLIT, $0-25
 	GO_ARGS
-	// void __tsan_go_atomic32_compare_exchange(
+	// void __tsan_golang_atomic32_compare_exchange(
 	//   ThreadState *thr, uptr cpc, uptr pc, u8 *a)
-	MOVD	$__tsan_go_atomic64_compare_exchange(SB), R8
+	MOVD	$__tsan_golang_atomic64_compare_exchange(SB), R8
 	ADD	$32, R1, R6	// addr of caller's 1st arg
 	BR	racecallatomic<>(SB)
 
@@ -425,24 +425,24 @@ racecallatomic_data:
 	CMP	R7, R9
 	BGE	racecallatomic_ignore
 racecallatomic_ok:
-	// Addr is within the good range, call the atomic function.
+	// Addr is within the golangod range, call the atomic function.
 	MOVD    runtime·tls_g(SB), R10
 	MOVD    0(R10), g
-	MOVD    g_racectx(g), R3        // goroutine racectx aka *ThreadState
+	MOVD    g_racectx(g), R3        // golangroutine racectx aka *ThreadState
 	MOVD	R8, R5			// pc is the function called
 	MOVD	(R1), R4		// caller pc from stack
 	BL	racecall<>(SB)		// BL needed to maintain stack consistency
 	RET				//
 racecallatomic_ignore:
-	// Addr is outside the good range.
-	// Call __tsan_go_ignore_sync_begin to ignore synchronization during the atomic op.
+	// Addr is outside the golangod range.
+	// Call __tsan_golang_ignore_sync_begin to ignore synchronization during the atomic op.
 	// An attempt to synchronize on the address would cause crash.
 	MOVD	R8, R15	// save the original function
 	MOVD	R6, R17 // save the original arg list addr
-	MOVD	$__tsan_go_ignore_sync_begin(SB), R8 // func addr to call
+	MOVD	$__tsan_golang_ignore_sync_begin(SB), R8 // func addr to call
 	MOVD    runtime·tls_g(SB), R10
 	MOVD    0(R10), g
-	MOVD    g_racectx(g), R3        // goroutine context
+	MOVD    g_racectx(g), R3        // golangroutine context
 	BL	racecall<>(SB)
 	MOVD	R15, R8	// restore the original function
 	MOVD	R17, R6 // restore arg list addr
@@ -455,9 +455,9 @@ racecallatomic_ignore:
 	MOVD	R8, R4		// pc being called same TODO as above
 	MOVD	(R1), R5	// caller pc from latest LR
 	BL	racecall<>(SB)
-	// Call __tsan_go_ignore_sync_end.
-	MOVD	$__tsan_go_ignore_sync_end(SB), R8
-	MOVD	g_racectx(g), R3	// goroutine context g should still be good?
+	// Call __tsan_golang_ignore_sync_end.
+	MOVD	$__tsan_golang_ignore_sync_end(SB), R8
+	MOVD	g_racectx(g), R3	// golangroutine context g should still be golangod?
 	BL	racecall<>(SB)
 	RET
 
@@ -479,7 +479,7 @@ TEXT	racecall<>(SB), NOSPLIT, $0-0
 	MOVD	LR, R10
 	MOVD	R10, 0(R1)	// Go expectation
 	MOVD	R10, 16(R1)	// C ABI
-	// Get info from the current goroutine
+	// Get info from the current golangroutine
 	MOVD    runtime·tls_g(SB), R10	// g offset in TLS
 	MOVD    0(R10), g
 	MOVD	g_m(g), R7		// m for g
@@ -494,7 +494,7 @@ TEXT	racecall<>(SB), NOSPLIT, $0-0
 	CMP	R10, g
 	BEQ	call
 
-	MOVD	(g_sched+gobuf_sp)(R10), R1 // switch R1
+	MOVD	(g_sched+golangbuf_sp)(R10), R1 // switch R1
 call:
 	// prepare frame for C ABI
 	SUB	$32, R1			// create frame for callee saving LR, CR, R2 etc.

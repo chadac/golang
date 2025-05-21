@@ -1,5 +1,5 @@
 // Copyright 2014 The Go Authors.  All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package x86asm implements decoding of x86 machine code.
@@ -465,7 +465,7 @@ func isSegment(p Prefix) bool {
 	return false
 }
 
-// The Op definitions and string list are in tables.go.
+// The Op definitions and string list are in tables.golang.
 
 var prefixNames = map[Prefix]string{
 	PrefixCS:       "CS",

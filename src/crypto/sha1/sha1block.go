@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package sha1
@@ -16,7 +16,7 @@ const (
 )
 
 // blockGeneric is a portable, pure Go version of the SHA-1 block step.
-// It's used by sha1block_generic.go and tests.
+// It's used by sha1block_generic.golang and tests.
 func blockGeneric(dig *digest, p []byte) {
 	var w [16]uint32
 

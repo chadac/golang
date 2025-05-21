@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file encapsulates some of the odd characteristics of the ARM64
@@ -395,7 +395,7 @@ func ARM64RegisterListOffset(firstReg, regCnt int, arrangement int64) (int64, er
 	}
 	offset |= arrangement
 	// arm64 uses the 60th bit to differentiate from other archs
-	// For more details, refer to: obj/arm64/list7.go
+	// For more details, refer to: obj/arm64/list7.golang
 	offset |= 1 << 60
 	return offset, nil
 }

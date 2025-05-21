@@ -1,16 +1,16 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package txtar implements a trivial text-based file archive format.
 //
-// The goals for the format are:
+// The golangals for the format are:
 //
 //   - be trivial enough to create and edit by hand.
-//   - be able to store trees of text files describing go command test cases.
+//   - be able to store trees of text files describing golang command test cases.
 //   - diff nicely in git history and code reviews.
 //
-// Non-goals include being a completely general archive format,
+// Non-golangals include being a completely general archive format,
 // storing binary data, storing file modes, storing special files like
 // symbolic links, and so on.
 //

@@ -1,48 +1,48 @@
-# Because 'go mod' subcommands ignore build constraints, they can encounter
+# Because 'golang mod' subcommands ignore build constraints, they can encounter
 # package-import cycles that are not possible in an ordinary build. This test
 # verifies that such cycles are handled even when they cross module boundaries.
 
 # First, verify that the import graph depends on build tags as expected.
-go list -deps example.com/left
+golang list -deps example.com/left
 stdout '^example.com/right$'
-go list -deps example.com/right
+golang list -deps example.com/right
 ! stdout left
 
 env GOFLAGS=-tags=mirror
-go list -deps example.com/left
+golang list -deps example.com/left
 ! stdout right
-go list -deps example.com/right
+golang list -deps example.com/right
 stdout '^example.com/left$'
 env GOFLAGS=''
 
-# 'go mod why' should be agnostic to build tags.
-go mod why example.com/left
+# 'golang mod why' should be agnostic to build tags.
+golang mod why example.com/left
 stdout '^example.com/chiral$\n^example.com/left$'
-go mod why example.com/right
+golang mod why example.com/right
 stdout '^example.com/chiral$\n^example.com/right$'
 
 env GOFLAGS='-tags=mirror'
-go mod why example.com/left
+golang mod why example.com/left
 stdout '^example.com/chiral$\n^example.com/left$'
-go mod why example.com/right
+golang mod why example.com/right
 stdout '^example.com/chiral$\n^example.com/right$'
 env GOFLAGS=''
 
-# 'go mod tidy' should successfully handle the cycle.
+# 'golang mod tidy' should successfully handle the cycle.
 env GOFLAGS=-mod=readonly
-go mod tidy
+golang mod tidy
 
-# 'go mod vendor' should copy in both packages without crashing.
-go mod vendor
-exists vendor/example.com/left/default.go
-exists vendor/example.com/left/mirror.go
-exists vendor/example.com/right/default.go
-exists vendor/example.com/right/mirror.go
+# 'golang mod vendor' should copy in both packages without crashing.
+golang mod vendor
+exists vendor/example.com/left/default.golang
+exists vendor/example.com/left/mirror.golang
+exists vendor/example.com/right/default.golang
+exists vendor/example.com/right/mirror.golang
 
--- go.mod --
+-- golang.mod --
 module example.com/chiral
 
-go 1.14
+golang 1.14
 
 require (
 	example.com/left v0.1.0
@@ -53,52 +53,52 @@ replace (
 	example.com/left => ./left
 	example.com/right => ./right
 )
--- chiral.go --
+-- chiral.golang --
 // Package chiral imports packages in an order that depends on build tags.
 package chiral
--- default.go --
+-- default.golang --
 // +build !mirror
 
 package chiral
 
 import _ "example.com/left"
--- mirror.go --
+-- mirror.golang --
 // +build mirror
 
 package chiral
 
 import _ "example.com/right"
--- left/go.mod --
+-- left/golang.mod --
 module example.com/left
 
-go 1.14
+golang 1.14
 
 require example.com/right v0.1.0
 
 replace example.com/right v0.1.0 => ../right
--- left/default.go --
+-- left/default.golang --
 // +build !mirror
 
 package left
 
 import _ "example.com/right"
--- left/mirror.go --
+-- left/mirror.golang --
 // +build mirror
 
 package left
--- right/go.mod --
+-- right/golang.mod --
 module example.com/right
 
-go 1.14
+golang 1.14
 
 require example.com/left v0.1.0
 
 replace example.com/left v0.1.0 => ../left
--- right/default.go --
+-- right/default.golang --
 // +build !mirror
 
 package right
--- right/mirror.go --
+-- right/mirror.golang --
 // +build mirror
 
 package right

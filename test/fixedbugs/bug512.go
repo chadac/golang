@@ -1,11 +1,11 @@
 // run
 
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Gccgo did not make a copy of a value receiver when using a
-// goroutine to call a method.
+// Gccgolang did not make a copy of a value receiver when using a
+// golangroutine to call a method.
 
 package main
 
@@ -39,7 +39,7 @@ func (s S) Check(v1, v2 int32) {
 
 func F() {
 	s := S{1, 2}
-	go s.Check(1, 2)
+	golang s.Check(1, 2)
 	atomic.StoreInt32(&s.i1, 3)
 	atomic.StoreInt32(&s.i2, 4)
 	atomic.StoreInt32(&done, 1)

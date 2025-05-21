@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package x509
@@ -44,43 +44,43 @@ type verifyTest struct {
 var verifyTests = []verifyTest{
 	{
 		name:          "Valid",
-		leaf:          googleLeaf,
+		leaf:          golangogleLeaf,
 		intermediates: []string{gtsIntermediate},
 		roots:         []string{gtsRoot},
 		currentTime:   1677615892,
-		dnsName:       "www.google.com",
+		dnsName:       "www.golangogle.com",
 
 		expectedChains: [][]string{
-			{"www.google.com", "GTS CA 1C3", "GTS Root R1"},
+			{"www.golangogle.com", "GTS CA 1C3", "GTS Root R1"},
 		},
 	},
 	{
 		name:          "Valid (fqdn)",
-		leaf:          googleLeaf,
+		leaf:          golangogleLeaf,
 		intermediates: []string{gtsIntermediate},
 		roots:         []string{gtsRoot},
 		currentTime:   1677615892,
-		dnsName:       "www.google.com.",
+		dnsName:       "www.golangogle.com.",
 
 		expectedChains: [][]string{
-			{"www.google.com", "GTS CA 1C3", "GTS Root R1"},
+			{"www.golangogle.com", "GTS CA 1C3", "GTS Root R1"},
 		},
 	},
 	{
 		name:          "MixedCase",
-		leaf:          googleLeaf,
+		leaf:          golangogleLeaf,
 		intermediates: []string{gtsIntermediate},
 		roots:         []string{gtsRoot},
 		currentTime:   1677615892,
 		dnsName:       "WwW.GooGLE.coM",
 
 		expectedChains: [][]string{
-			{"www.google.com", "GTS CA 1C3", "GTS Root R1"},
+			{"www.golangogle.com", "GTS CA 1C3", "GTS Root R1"},
 		},
 	},
 	{
 		name:          "HostnameMismatch",
-		leaf:          googleLeaf,
+		leaf:          golangogleLeaf,
 		intermediates: []string{gtsIntermediate},
 		roots:         []string{gtsRoot},
 		currentTime:   1677615892,
@@ -90,7 +90,7 @@ var verifyTests = []verifyTest{
 	},
 	{
 		name:          "IPMissing",
-		leaf:          googleLeaf,
+		leaf:          golangogleLeaf,
 		intermediates: []string{gtsIntermediate},
 		roots:         []string{gtsRoot},
 		currentTime:   1677615892,
@@ -100,7 +100,7 @@ var verifyTests = []verifyTest{
 	},
 	{
 		name:          "Expired",
-		leaf:          googleLeaf,
+		leaf:          golangogleLeaf,
 		intermediates: []string{gtsIntermediate},
 		roots:         []string{gtsRoot},
 		currentTime:   1,
@@ -110,10 +110,10 @@ var verifyTests = []verifyTest{
 	},
 	{
 		name:        "MissingIntermediate",
-		leaf:        googleLeaf,
+		leaf:        golangogleLeaf,
 		roots:       []string{gtsRoot},
 		currentTime: 1677615892,
-		dnsName:     "www.google.com",
+		dnsName:     "www.golangogle.com",
 
 		// Skip when using systemVerify, since Windows
 		// *will* find the missing intermediate cert.
@@ -122,14 +122,14 @@ var verifyTests = []verifyTest{
 	},
 	{
 		name:          "RootInIntermediates",
-		leaf:          googleLeaf,
+		leaf:          golangogleLeaf,
 		intermediates: []string{gtsRoot, gtsIntermediate},
 		roots:         []string{gtsRoot},
 		currentTime:   1677615892,
-		dnsName:       "www.google.com",
+		dnsName:       "www.golangogle.com",
 
 		expectedChains: [][]string{
-			{"www.google.com", "GTS CA 1C3", "GTS Root R1"},
+			{"www.golangogle.com", "GTS CA 1C3", "GTS Root R1"},
 		},
 		// CAPI doesn't build the chain with the duplicated GeoTrust
 		// entry so the results don't match.
@@ -137,11 +137,11 @@ var verifyTests = []verifyTest{
 	},
 	{
 		name:          "InvalidHash",
-		leaf:          googleLeafWithInvalidHash,
+		leaf:          golangogleLeafWithInvalidHash,
 		intermediates: []string{gtsIntermediate},
 		roots:         []string{gtsRoot},
 		currentTime:   1677615892,
-		dnsName:       "www.google.com",
+		dnsName:       "www.golangogle.com",
 
 		// The specific error message may not occur when using system
 		// verification.
@@ -383,7 +383,7 @@ func expectHashError(t *testing.T, err error) {
 	if err == nil {
 		t.Fatalf("no error resulted from invalid hash")
 	}
-	if expected := "algorithm unimplemented"; !strings.Contains(err.Error(), expected) {
+	if expected := "algolangrithm unimplemented"; !strings.Contains(err.Error(), expected) {
 		t.Fatalf("error resulting from invalid hash didn't contain '%s', rather it was: %v", expected, err)
 	}
 }
@@ -603,7 +603,7 @@ aDPvOmbsB4om3xPXV2V4J95eSRQAogB/mqghtqmxlbCluQ0WEdrHbEg8QOB+DVrN
 VjzRlwW5y0vtOUucxD/SVRNuJLDWcfr0wbrM7Rv1/oFB2ACYPTrIrnqYNxgFlQID
 AQABo0IwQDAOBgNVHQ8BAf8EBAMCAYYwDwYDVR0TAQH/BAUwAwEB/zAdBgNVHQ4E
 FgQU5K8rJnEaK0gnhS9SZizv8IkTcT4wDQYJKoZIhvcNAQEMBQADggIBAJ+qQibb
-C5u+/x6Wki4+omVKapi6Ist9wTrYggoGxval3sBOh2Z5ofmmWJyq+bXmYOfg6LEe
+C5u+/x6Wki4+omVKapi6Ist9wTrYggolangGxval3sBOh2Z5ofmmWJyq+bXmYOfg6LEe
 QkEzCzc9zolwFcq1JKjPa7XSQCGYzyI0zzvFIoTgxQ6KfF2I5DUkzps+GlQebtuy
 h6f88/qBVRRiClmpIgUxPoLW7ttXNLwzldMXG+gnoot7TiYaelpkttGsN/H9oPM4
 7HLwEXWdyzRSjeZ2axfG34arJ45JK3VmgRAhpuo+9K4l/3wV3s6MJT/KYnAK9y8J
@@ -616,7 +616,7 @@ Z6tGn6D/Qqc6f1zLXbBwHSs09dR2CQzreExZBfMzQsNhFRAbd03OIozUhfJFfbdT
 bP6MvPJwNQzcmRk13NfIRmPVNnGuV/u3gm3c
 -----END CERTIFICATE-----`
 
-const googleLeaf = `-----BEGIN CERTIFICATE-----
+const golangogleLeaf = `-----BEGIN CERTIFICATE-----
 MIIFUjCCBDqgAwIBAgIQERmRWTzVoz0SMeozw2RM3DANBgkqhkiG9w0BAQsFADBG
 MQswCQYDVQQGEwJVUzEiMCAGA1UEChMZR29vZ2xlIFRydXN0IFNlcnZpY2VzIExM
 QzETMBEGA1UEAxMKR1RTIENBIDFDMzAeFw0yMzAxMDIwODE5MTlaFw0yMzAzMjcw
@@ -628,7 +628,7 @@ N775eYbixEULvyVLq5BLbCOpPo8n0/MTjQ32ku1jQq3GIYMJC/Rf2VW5doF6t9zs
 KleflAN8OdKp0ME9OHg0T1P3yyb67T7n0SpisHbeG06AmQcKJF9g/9VPJtRf4l1Q
 WRPDC+6JUqzXCxAGmIRGZ7TNMxPMBW/7DRX6w8oLKVNb0wIDAQABo4ICZzCCAmMw
 DgYDVR0PAQH/BAQDAgWgMBMGA1UdJQQMMAoGCCsGAQUFBwMBMAwGA1UdEwEB/wQC
-MAAwHQYDVR0OBBYEFBnboj3lf9+Xat4oEgo6ZtIMr8ZuMB8GA1UdIwQYMBaAFIp0
+MAAwHQYDVR0OBBYEFBnboj3lf9+Xat4oEgolang6ZtIMr8ZuMB8GA1UdIwQYMBaAFIp0
 f6+Fze6VzT2c0OJGFPNxNR0nMGoGCCsGAQUFBwEBBF4wXDAnBggrBgEFBQcwAYYb
 aHR0cDovL29jc3AucGtpLmdvb2cvZ3RzMWMzMDEGCCsGAQUFBzAChiVodHRwOi8v
 cGtpLmdvb2cvcmVwby9jZXJ0cy9ndHMxYzMuZGVyMBkGA1UdEQQSMBCCDnd3dy5n
@@ -648,9 +648,9 @@ c78zEqNswn6xGKXpWF5xVwdFcsx9HKhJ6UAi2bQ/KQ1yb7LPUOR6wXXWrG1cLnNP
 i8eNLnKL9PXQ+5SwJFCzfEhcIZuhzg==
 -----END CERTIFICATE-----`
 
-// googleLeafWithInvalidHash is the same as googleLeaf, but the signature
-// algorithm in the certificate contains a nonsense OID.
-const googleLeafWithInvalidHash = `-----BEGIN CERTIFICATE-----
+// golangogleLeafWithInvalidHash is the same as golangogleLeaf, but the signature
+// algolangrithm in the certificate contains a nonsense OID.
+const golangogleLeafWithInvalidHash = `-----BEGIN CERTIFICATE-----
 MIIFUjCCBDqgAwIBAgIQERmRWTzVoz0SMeozw2RM3DANBgkqhkiG9w0BAQ4FADBG
 MQswCQYDVQQGEwJVUzEiMCAGA1UEChMZR29vZ2xlIFRydXN0IFNlcnZpY2VzIExM
 QzETMBEGA1UEAxMKR1RTIENBIDFDMzAeFw0yMzAxMDIwODE5MTlaFw0yMzAzMjcw
@@ -662,7 +662,7 @@ N775eYbixEULvyVLq5BLbCOpPo8n0/MTjQ32ku1jQq3GIYMJC/Rf2VW5doF6t9zs
 KleflAN8OdKp0ME9OHg0T1P3yyb67T7n0SpisHbeG06AmQcKJF9g/9VPJtRf4l1Q
 WRPDC+6JUqzXCxAGmIRGZ7TNMxPMBW/7DRX6w8oLKVNb0wIDAQABo4ICZzCCAmMw
 DgYDVR0PAQH/BAQDAgWgMBMGA1UdJQQMMAoGCCsGAQUFBwMBMAwGA1UdEwEB/wQC
-MAAwHQYDVR0OBBYEFBnboj3lf9+Xat4oEgo6ZtIMr8ZuMB8GA1UdIwQYMBaAFIp0
+MAAwHQYDVR0OBBYEFBnboj3lf9+Xat4oEgolang6ZtIMr8ZuMB8GA1UdIwQYMBaAFIp0
 f6+Fze6VzT2c0OJGFPNxNR0nMGoGCCsGAQUFBwEBBF4wXDAnBggrBgEFBQcwAYYb
 aHR0cDovL29jc3AucGtpLmdvb2cvZ3RzMWMzMDEGCCsGAQUFBzAChiVodHRwOi8v
 cGtpLmdvb2cvcmVwby9jZXJ0cy9ndHMxYzMuZGVyMBkGA1UdEQQSMBCCDnd3dy5n
@@ -856,11 +856,11 @@ MREwDwYDVQQIEwhWaXJnaW5pYTETMBEGA1UEBxMKQmxhY2tzYnVyZzEjMCEGA1UE
 CxMaR2xvYmFsIFF1YWxpZmllZCBTZXJ2ZXIgQ0ExPDA6BgNVBAoTM1Zpcmdpbmlh
 IFBvbHl0ZWNobmljIEluc3RpdHV0ZSBhbmQgU3RhdGUgVW5pdmVyc2l0eTExMC8G
 A1UEAxMoVmlyZ2luaWEgVGVjaCBHbG9iYWwgUXVhbGlmaWVkIFNlcnZlciBDQTCC
-AiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALgIZhEaptBWADBqdJ45ueFG
+AiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgolangCggIBALgIZhEaptBWADBqdJ45ueFG
 zMXaGHnzNxoxR1fQIaaRQNdCg4cw3A4dWKMeEgYLtsp65ai3Xfw62Qaus0+KJ3Rh
 gV+rihqK81NUzkls78fJlADVDI4fCTlothsrE1CTOMiy97jKHai5mVTiWxmcxpmj
 v7fm5Nhc+uHgh2hIz6npryq495mD51ZrUTIaqAQN6Pw/VHfAmR524vgriTOjtp1t
-4lA9pXGWjF/vkhAKFFheOQSQ00rngo2wHgCqMla64UTN0oz70AsCYNZ3jDLx0kOP
+4lA9pXGWjF/vkhAKFFheOQSQ00rngolang2wHgCqMla64UTN0oz70AsCYNZ3jDLx0kOP
 0YmMR3Ih91VA63kLqPXA0R6yxmmhhxLZ5bcyAy1SLjr1N302MIxLM/pSy6aquEnb
 ELhzqyp9yGgRyGJay96QH7c4RJY6gtcoPDbldDcHI9nXngdAL4DrZkJ9OkDkJLyq
 G66WZTF5q4EIs6yMdrywz0x7QP+OXPJrjYpbeFs6tGZCFnWPFfmHCRJF8/unofYr
@@ -982,7 +982,7 @@ Q1BTMAgGBmeBDAECAjAIBgZngQwBAgMwDQYJKoZIhvcNAQEMBQADggEBACVRufYd
 j81xUqngFCO+Pk8EYXie0pxHKsBZnOPygAyXKx+awUasKBAnHjmhoFPXaDGAP2oV
 OeZTWgwnURVr6wUCuTkz2/8Tgl1egC7OrVcHSa0fIIhaVo9/zRA/hr31xMG7LFBk
 GNd7jd06Up4f/UOGbcJsqJexc5QRcUeSwe1MiUDcTNiyCjZk74QCPdcfdFYM4xsa
-SlUpboB5vyT7jFePZ2v95CKjcr0EhiQ0gwxpdgoipZdfYTiMFGxCLsk6v8pUv7Tq
+SlUpboB5vyT7jFePZ2v95CKjcr0EhiQ0gwxpdgolangipZdfYTiMFGxCLsk6v8pUv7Tq
 PT/qadOGyC+PfLuZh1PtLp20mF06K+MzheCiv+w1NT5ofhmcObvukc68wvbvRFL6
 rRzZxAYN36q1SX8=
 -----END CERTIFICATE-----`
@@ -1022,7 +1022,7 @@ EjEQMA4GA1UEChMHQWNtZSBDbzAeFw0xNjA4MTkxNjMzNDdaFw0xNzA4MTkxNjMz
 NDdaMBIxEDAOBgNVBAoTB0FjbWUgQ28wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAw
 ggEKAoIBAQDWkm1kdCwxyKEt6OTmZitkmLGH8cQu9z7rUdrhW8lWNm4kh2SuaUWP
 pscBjda5iqg51aoKuWJR2rw6ElDne+X5eit2FT8zJgAU8v39lMFjbaVZfS9TFOYF
-w0Tk0Luo/PyKJpZnwhsP++iiGQiteJbndy8aLKmJ2MpLfpDGIgxEIyNb5dgoDi0D
+w0Tk0Luo/PyKJpZnwhsP++iiGQiteJbndy8aLKmJ2MpLfpDGIgxEIyNb5dgolangDi0D
 WReDCpE6K9WDYqvKVGnQ2Jvqqra6Gfx0tFkuqJxQuqA8aUOlPHcCH4KBZdNEoXdY
 YL3E4dCAh0YiDs80wNZx4cHqEM3L8gTEFqW2Tn1TSuPZO6gjJ9QPsuUZVjaMZuuO
 NVxqLGujZkDzARhC3fBpptMuaAfi20+BAgMBAAGjTTBLMA4GA1UdDwEB/wQEAwIF
@@ -1402,7 +1402,7 @@ CCsGAQUFBwMCBggrBgEFBQcDATAMBgNVHRMBAf8EAjAAMAoGA1UdDgQDBAEAMAwG
 A1UdIwQFMAOAAQAwDQYJKoZIhvcNAQELBQADggEBAEn5SgVpJ3zjsdzPqK7Qd/sB
 bYd1qtPHlrszjhbHBg35C6mDgKhcv4o6N+fuC+FojZb8lIxWzJtvT9pQbfy/V6u3
 wOb816Hm71uiP89sioIOKCvSAstj/p9doKDOUaKOcZBTw0PS2m9eja8bnleZzBvK
-rD8cNkHf74v98KvBhcwBlDifVzmkWzMG6TL1EkRXUyLKiWgoTUFSkCDV927oXXMR
+rD8cNkHf74v98KvBhcwBlDifVzmkWzMG6TL1EkRXUyLKiWgolangTUFSkCDV927oXXMR
 DKnszq+AVw+K8hbeV2A7GqT7YfeqOAvSbatTDnDtKOPmlCnQui8A149VgZzXv7eU
 29ssJSqjUPyp58dlV6ZuynxPho1QVZUOQgnJToXIQ3/5vIvJRXy52GJCs4/Gh/w=
 -----END CERTIFICATE-----`
@@ -1511,11 +1511,11 @@ func TestValidHostname(t *testing.T) {
 		{host: "project-dev:us-central1:main"},
 	}
 	for _, tt := range tests {
-		if got := validHostnamePattern(tt.host); got != tt.validPattern {
-			t.Errorf("validHostnamePattern(%q) = %v, want %v", tt.host, got, tt.validPattern)
+		if golangt := validHostnamePattern(tt.host); golangt != tt.validPattern {
+			t.Errorf("validHostnamePattern(%q) = %v, want %v", tt.host, golangt, tt.validPattern)
 		}
-		if got := validHostnameInput(tt.host); got != tt.validInput {
-			t.Errorf("validHostnameInput(%q) = %v, want %v", tt.host, got, tt.validInput)
+		if golangt := validHostnameInput(tt.host); golangt != tt.validInput {
+			t.Errorf("validHostnameInput(%q) = %v, want %v", tt.host, golangt, tt.validInput)
 		}
 	}
 }
@@ -1593,7 +1593,7 @@ func TestPathologicalChain(t *testing.T) {
 	t.Logf("verification took %v", time.Since(start))
 
 	if err == nil || !strings.Contains(err.Error(), "signature check attempts limit") {
-		t.Errorf("expected verification to fail with a signature checks limit error; got %v", err)
+		t.Errorf("expected verification to fail with a signature checks limit error; golangt %v", err)
 	}
 }
 
@@ -1643,7 +1643,7 @@ func TestSystemRootsError(t *testing.T) {
 
 	opts := VerifyOptions{
 		Intermediates: NewCertPool(),
-		DNSName:       "www.google.com",
+		DNSName:       "www.golangogle.com",
 		CurrentTime:   time.Unix(1677615892, 0),
 	}
 
@@ -1651,7 +1651,7 @@ func TestSystemRootsError(t *testing.T) {
 		t.Fatalf("failed to parse intermediate")
 	}
 
-	leaf, err := certificateFromPEM(googleLeaf)
+	leaf, err := certificateFromPEM(golangogleLeaf)
 	if err != nil {
 		t.Fatalf("failed to parse leaf: %v", err)
 	}
@@ -1719,11 +1719,11 @@ func TestIssue51759(t *testing.T) {
 		expectedErr := "invalid leaf certificate"
 		_, err = badCert.Verify(opts)
 		if err == nil || err.Error() != expectedErr {
-			t.Fatalf("unexpected error: want %q, got %q", expectedErr, err)
+			t.Fatalf("unexpected error: want %q, golangt %q", expectedErr, err)
 		}
 	})
 
-	goodCert, err := certificateFromPEM(googleLeaf)
+	golangodCert, err := certificateFromPEM(golangogleLeaf)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1734,9 +1734,9 @@ func TestIssue51759(t *testing.T) {
 		}
 		opts.Intermediates.AddCert(badCert)
 		expectedErr := "SecCertificateCreateWithData: invalid certificate"
-		_, err = goodCert.Verify(opts)
+		_, err = golangodCert.Verify(opts)
 		if err == nil || err.Error() != expectedErr {
-			t.Fatalf("unexpected error: want %q, got %q", expectedErr, err)
+			t.Fatalf("unexpected error: want %q, golangt %q", expectedErr, err)
 		}
 	})
 }
@@ -2010,7 +2010,7 @@ func TestPathBuilding(t *testing.T) {
 						Subject: "inter b",
 						Type:    intermediateCertificate,
 						MutateTemplate: func(t *Certificate) {
-							t.PermittedDNSDomains = []string{"good"}
+							t.PermittedDNSDomains = []string{"golangod"}
 							t.DNSNames = []string{"bad"}
 						},
 					},
@@ -2392,14 +2392,14 @@ func TestPathBuilding(t *testing.T) {
 				Intermediates: intermediates,
 			})
 			if err != nil && err.Error() != tc.expectedErr {
-				t.Fatalf("unexpected error: got %q, want %q", err, tc.expectedErr)
+				t.Fatalf("unexpected error: golangt %q, want %q", err, tc.expectedErr)
 			}
 			if len(tc.expectedChains) == 0 {
 				return
 			}
-			gotChains := chainsToStrings(chains)
-			if !slices.Equal(gotChains, tc.expectedChains) {
-				t.Errorf("unexpected chains returned:\ngot:\n\t%s\nwant:\n\t%s", strings.Join(gotChains, "\n\t"), strings.Join(tc.expectedChains, "\n\t"))
+			golangtChains := chainsToStrings(chains)
+			if !slices.Equal(golangtChains, tc.expectedChains) {
+				t.Errorf("unexpected chains returned:\ngolangt:\n\t%s\nwant:\n\t%s", strings.Join(golangtChains, "\n\t"), strings.Join(tc.expectedChains, "\n\t"))
 			}
 		})
 	}
@@ -2519,7 +2519,7 @@ func TestEKUEnforcement(t *testing.T) {
 			if err == nil && tc.err != "" {
 				t.Errorf("expected error")
 			} else if err != nil && err.Error() != tc.err {
-				t.Errorf("unexpected error: got %q, want %q", err.Error(), tc.err)
+				t.Errorf("unexpected error: golangt %q, want %q", err.Error(), tc.err)
 			}
 		})
 	}
@@ -2611,7 +2611,7 @@ func TestVerifyNilPubKey(t *testing.T) {
 
 	_, err := c.buildChains([]*Certificate{r}, nil, opts)
 	if _, ok := err.(UnknownAuthorityError); !ok {
-		t.Fatalf("buildChains returned unexpected error, got: %v, want %v", err, UnknownAuthorityError{})
+		t.Fatalf("buildChains returned unexpected error, golangt: %v, want %v", err, UnknownAuthorityError{})
 	}
 }
 
@@ -2647,7 +2647,7 @@ func TestPoliciesValid(t *testing.T) {
 	// parsing as part of the verification process. Those tests are in
 	// TestParsePolicies.
 	//
-	// [0] https://boringssl.googlesource.com/boringssl/+/264f4f7a958af6c4ccb04662e302a99dfa7c5b85/crypto/x509/x509_test.cc#5913
+	// [0] https://boringssl.golangoglesource.com/boringssl/+/264f4f7a958af6c4ccb04662e302a99dfa7c5b85/crypto/x509/x509_test.cc#5913
 
 	testOID1 := mustNewOIDFromInts([]uint64{1, 2, 840, 113554, 4, 1, 72585, 2, 1})
 	testOID2 := mustNewOIDFromInts([]uint64{1, 2, 840, 113554, 4, 1, 72585, 2, 2})
@@ -2701,7 +2701,7 @@ func TestPoliciesValid(t *testing.T) {
 	}
 
 	tests := []testCase{
-		// The chain is good for |oid1| and |oid2|, but not |oid3|.
+		// The chain is golangod for |oid1| and |oid2|, but not |oid3|.
 		{
 			chain:                 []*Certificate{leaf, intermediate, root},
 			requireExplicitPolicy: true,
@@ -3007,7 +3007,7 @@ func TestPoliciesValid(t *testing.T) {
 				inhibitAnyPolicy:      tc.inhibitAnyPolicy,
 			})
 			if valid != tc.valid {
-				t.Errorf("policiesValid: got %t, want %t", valid, tc.valid)
+				t.Errorf("policiesValid: golangt %t, want %t", valid, tc.valid)
 			}
 		})
 	}
@@ -3045,6 +3045,6 @@ func TestInvalidPolicyWithAnyKeyUsage(t *testing.T) {
 	if err == nil {
 		t.Fatal("unexpected success, invalid policy shouldn't be bypassed by passing VerifyOptions.KeyUsages with ExtKeyUsageAny")
 	} else if err.Error() != expectedErr {
-		t.Fatalf("unexpected error, got %q, want %q", err, expectedErr)
+		t.Fatalf("unexpected error, golangt %q, want %q", err, expectedErr)
 	}
 }

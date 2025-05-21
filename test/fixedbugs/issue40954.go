@@ -1,20 +1,20 @@
 // run
 
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build cgo
+//golang:build cgolang
 
 package main
 
 import (
-	"runtime/cgo"
+	"runtime/cgolang"
 	"unsafe"
 )
 
 type S struct {
-	_ cgo.Incomplete
+	_ cgolang.Incomplete
 	x int
 }
 
@@ -31,7 +31,7 @@ func main() {
 	recurse(100, p, v)
 }
 
-//go:noinline
+//golang:noinline
 func recurse(n int, p *S, v uintptr) {
 	if n > 0 {
 		recurse(n-1, p, v)

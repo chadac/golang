@@ -1,35 +1,35 @@
 # Test the work and tool patterns in a per-package flag
 
-go build -n '-gcflags=work=-fakeflag' example.com/foo/a
+golang build -n '-gcflags=work=-fakeflag' example.com/foo/a
 stderr 'compile.*-p example.com/foo/a.*-fakeflag'
 ! stderr 'compile.*-p example.com/dep.*-fakeflag'
 
-go build -n '-gcflags=tool=-fakeflag' example.com/foo/a example.com/dep/tooldep
+golang build -n '-gcflags=tool=-fakeflag' example.com/foo/a example.com/dep/tooldep
 ! stderr 'compile.*-p example.com/foo/a.*-fakeflag'
 ! stderr 'compile.*-p example.com/dep.*-fakeflag'
-stderr 'compile.*-p main.*-fakeflag.*main.go'
+stderr 'compile.*-p main.*-fakeflag.*main.golang'
 
--- go.mod --
+-- golang.mod --
 module example.com/foo
 
-go 1.24
+golang 1.24
 
 tool example.com/dep/tooldep
 
 require example.com/dep v1.0.0
 
 replace example.com/dep => ./dep
--- a/a.go --
+-- a/a.golang --
 package a
 
 import _ "example.com/dep"
--- dep/go.mod --
+-- dep/golang.mod --
 module example.com/dep
 
-go 1.24
--- dep/dep.go --
+golang 1.24
+-- dep/dep.golang --
 package dep
--- dep/tooldep/main.go --
+-- dep/tooldep/main.golang --
 package main
 
 import _ "example.com/dep"

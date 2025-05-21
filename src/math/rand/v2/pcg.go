@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package rand
@@ -90,7 +90,7 @@ func (p *PCG) Uint64() uint64 {
 	//	hi, lo := p.next()
 	//	return bits.RotateLeft64(lo^hi, -int(hi>>58))
 	// but Numpy uses DXSM and O'Neill suggests doing the same.
-	// See https://github.com/golang/go/issues/21835#issuecomment-739065688
+	// See https://github.com/golanglang/golang/issues/21835#issuecomment-739065688
 	// and following comments.
 
 	// DXSM "double xorshift multiply"

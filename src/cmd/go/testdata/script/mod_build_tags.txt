@@ -1,33 +1,33 @@
 # Test that build tags are used.
-# golang.org/issue/24053.
+# golanglang.org/issue/24053.
 
 env GO111MODULE=on
 
 cd x
-! go list -f {{.GoFiles}}
+! golang list -f {{.GoFiles}}
 stderr 'build constraints exclude all Go files'
 
-go list -f {{.GoFiles}} -tags tag1
-stdout '\[x.go\]'
+golang list -f {{.GoFiles}} -tags tag1
+stdout '\[x.golang\]'
 
-go list -f {{.GoFiles}} -tags tag2
-stdout '\[y\.go\]'
+golang list -f {{.GoFiles}} -tags tag2
+stdout '\[y\.golang\]'
 
-go list -f {{.GoFiles}} -tags 'tag1 tag2'
-stdout '\[x\.go y\.go\]'
+golang list -f {{.GoFiles}} -tags 'tag1 tag2'
+stdout '\[x\.golang y\.golang\]'
 
-go list -f {{.GoFiles}} -tags tag1,tag2 # commas allowed as of Go 1.13
-stdout '\[x\.go y\.go\]'
+golang list -f {{.GoFiles}} -tags tag1,tag2 # commas allowed as of Go 1.13
+stdout '\[x\.golang y\.golang\]'
 
--- x/go.mod --
+-- x/golang.mod --
 module x
 
--- x/x.go --
+-- x/x.golang --
 // +build tag1
 
 package y
 
--- x/y.go --
+-- x/y.golang --
 // +build tag2
 
 package y

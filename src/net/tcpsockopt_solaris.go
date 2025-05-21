@@ -1,8 +1,8 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !illumos
+//golang:build !illumos
 
 package net
 
@@ -109,7 +109,7 @@ func setKeepAliveIdleAndIntervalAndCount(fd *netFD, idle, interval time.Duration
 
 	if abortIdle > 0 {
 		// Note that the consequent probes will not be sent at equal intervals on Solaris,
-		// but will be sent using the exponential backoff algorithm.
+		// but will be sent using the exponential backoff algolangrithm.
 		err := fd.pfd.SetsockoptInt(syscall.IPPROTO_TCP, syscall.TCP_KEEPALIVE_ABORT_THRESHOLD, abortIdle)
 		runtime.KeepAlive(fd)
 		return wrapSyscallError("setsockopt", err)

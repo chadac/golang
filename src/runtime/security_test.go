@@ -1,8 +1,8 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build unix
+//golang:build unix
 
 package runtime_test
 
@@ -111,7 +111,7 @@ func TestSUID(t *testing.T) {
 		t.Fatal(err)
 	}
 	done := make(chan bool, 1)
-	go func() {
+	golang func() {
 		io.Copy(b, pr)
 		pr.Close()
 		done <- true
@@ -130,7 +130,7 @@ func TestSUID(t *testing.T) {
 
 	expected := "GOTRACEBACK=none\n"
 	if output != expected {
-		t.Errorf("unexpected output, got: %q, want %q", output, expected)
+		t.Errorf("unexpected output, golangt: %q, want %q", output, expected)
 	}
 
 	fc, err := os.ReadFile(tempfilePath)
@@ -138,7 +138,7 @@ func TestSUID(t *testing.T) {
 		t.Fatal(err)
 	}
 	if string(fc) != "" {
-		t.Errorf("unexpected file content, got: %q", string(fc))
+		t.Errorf("unexpected file content, golangt: %q", string(fc))
 	}
 
 	// TODO: check the registers aren't leaked?

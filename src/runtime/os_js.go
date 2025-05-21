@@ -1,8 +1,8 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build js && wasm
+//golang:build js && wasm
 
 package runtime
 
@@ -20,16 +20,16 @@ func write1(fd uintptr, p unsafe.Pointer, n int32) int32 {
 	return n
 }
 
-//go:wasmimport gojs runtime.wasmWrite
-//go:noescape
+//golang:wasmimport golangjs runtime.wasmWrite
+//golang:noescape
 func wasmWrite(fd uintptr, p unsafe.Pointer, n int32)
 
 func usleep(usec uint32) {
 	// TODO(neelance): implement usleep
 }
 
-//go:wasmimport gojs runtime.getRandomData
-//go:noescape
+//golang:wasmimport golangjs runtime.getRandomData
+//golang:noescape
 func getRandomData(r []byte)
 
 func readRandom(r []byte) int {
@@ -37,6 +37,6 @@ func readRandom(r []byte) int {
 	return len(r)
 }
 
-func goenvs() {
-	goenvs_unix()
+func golangenvs() {
+	golangenvs_unix()
 }

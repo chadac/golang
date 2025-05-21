@@ -1,4 +1,4 @@
-// Package blank is a go/doc test for the handling of _. See issue ...
+// Package blank is a golang/doc test for the handling of _. See issue ...
 PACKAGE blank
 
 IMPORTPATH
@@ -8,7 +8,7 @@ IMPORTS
 	os
 
 FILENAMES
-	testdata/blank.go
+	testdata/blank.golang
 
 CONSTANTS
 	// T constants counting from unexported constants. 

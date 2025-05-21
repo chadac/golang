@@ -1,11 +1,11 @@
 // errorcheck
 
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Issue 4463: test builtin functions in statement context and in
-// go/defer functions.
+// golang/defer functions.
 
 package p
 
@@ -45,25 +45,25 @@ func F() {
 	(println("bar"))
 	(recover())
 
-	go append(a, 0)			// ERROR "not used|discards result"
-	go cap(a)			// ERROR "not used|discards result"
-	go complex(1, 2)		// ERROR "not used|discards result"
-	go imag(1i)			// ERROR "not used|discards result"
-	go len(a)			// ERROR "not used|discards result"
-	go make([]int, 10)		// ERROR "not used|discards result"
-	go new(int)			// ERROR "not used|discards result"
-	go real(1i)			// ERROR "not used|discards result"
-	go unsafe.Alignof(a)		// ERROR "not used|discards result"
-	go unsafe.Offsetof(s.f)		// ERROR "not used|discards result"
-	go unsafe.Sizeof(a)		// ERROR "not used|discards result"
+	golang append(a, 0)			// ERROR "not used|discards result"
+	golang cap(a)			// ERROR "not used|discards result"
+	golang complex(1, 2)		// ERROR "not used|discards result"
+	golang imag(1i)			// ERROR "not used|discards result"
+	golang len(a)			// ERROR "not used|discards result"
+	golang make([]int, 10)		// ERROR "not used|discards result"
+	golang new(int)			// ERROR "not used|discards result"
+	golang real(1i)			// ERROR "not used|discards result"
+	golang unsafe.Alignof(a)		// ERROR "not used|discards result"
+	golang unsafe.Offsetof(s.f)		// ERROR "not used|discards result"
+	golang unsafe.Sizeof(a)		// ERROR "not used|discards result"
 
-	go close(c)
-	go copy(a, a)
-	go delete(m, 0)
-	go panic(0)
-	go print("foo")
-	go println("bar")
-	go recover()
+	golang close(c)
+	golang copy(a, a)
+	golang delete(m, 0)
+	golang panic(0)
+	golang print("foo")
+	golang println("bar")
+	golang recover()
 
 	defer append(a, 0)		// ERROR "not used|discards result"
 	defer cap(a)			// ERROR "not used|discards result"

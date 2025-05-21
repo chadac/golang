@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package inlheur
@@ -12,7 +12,7 @@ import (
 	"cmd/internal/obj"
 	"cmd/internal/src"
 	"cmd/internal/sys"
-	"go/constant"
+	"golang/constant"
 	"testing"
 )
 
@@ -108,7 +108,7 @@ func TestClassifyIntegerCompare(t *testing.T) {
 	wantv := true
 	v := ShouldFoldIfNameConstant(nandand, []*ir.Name{nn})
 	if v != wantv {
-		t.Errorf("wanted shouldfold(%v) %v, got %v", nandand, wantv, v)
+		t.Errorf("wanted shouldfold(%v) %v, golangt %v", nandand, wantv, v)
 	}
 }
 
@@ -126,7 +126,7 @@ func TestClassifyStringCompare(t *testing.T) {
 	wantv := true
 	v := ShouldFoldIfNameConstant(top, []*ir.Name{nn})
 	if v != wantv {
-		t.Errorf("wanted shouldfold(%v) %v, got %v", top, wantv, v)
+		t.Errorf("wanted shouldfold(%v) %v, golangt %v", top, wantv, v)
 	}
 }
 
@@ -151,7 +151,7 @@ func TestClassifyIntegerArith(t *testing.T) {
 	wantv := true
 	v := ShouldFoldIfNameConstant(top, []*ir.Name{nn})
 	if v != wantv {
-		t.Errorf("wanted shouldfold(%v) %v, got %v", top, wantv, v)
+		t.Errorf("wanted shouldfold(%v) %v, golangt %v", top, wantv, v)
 	}
 }
 
@@ -167,7 +167,7 @@ func TestClassifyAssortedShifts(t *testing.T) {
 		wantv := false
 		v := ShouldFoldIfNameConstant(typecheck.Expr(bc), []*ir.Name{nn})
 		if v != wantv {
-			t.Errorf("wanted shouldfold(%v) %v, got %v", bc, wantv, v)
+			t.Errorf("wanted shouldfold(%v) %v, golangt %v", bc, wantv, v)
 		}
 	}
 }
@@ -183,7 +183,7 @@ func TestClassifyFloat(t *testing.T) {
 	wantv := false
 	v := ShouldFoldIfNameConstant(typecheck.Expr(add), []*ir.Name{nn})
 	if v != wantv {
-		t.Errorf("wanted shouldfold(%v) %v, got %v", add, wantv, v)
+		t.Errorf("wanted shouldfold(%v) %v, golangt %v", add, wantv, v)
 	}
 }
 
@@ -200,14 +200,14 @@ func TestMultipleNamesAllUsed(t *testing.T) {
 	wantv := true
 	v := ShouldFoldIfNameConstant(nandand, []*ir.Name{nn, nm})
 	if v != wantv {
-		t.Errorf("wanted shouldfold(%v) %v, got %v", nandand, wantv, v)
+		t.Errorf("wanted shouldfold(%v) %v, golangt %v", nandand, wantv, v)
 	}
 
 	// not all names used
 	wantv = false
 	v = ShouldFoldIfNameConstant(nne101, []*ir.Name{nn, nm})
 	if v != wantv {
-		t.Errorf("wanted shouldfold(%v) %v, got %v", nne101, wantv, v)
+		t.Errorf("wanted shouldfold(%v) %v, golangt %v", nne101, wantv, v)
 	}
 
 	// other names used.
@@ -217,6 +217,6 @@ func TestMultipleNamesAllUsed(t *testing.T) {
 	wantv = false
 	v = ShouldFoldIfNameConstant(noror, []*ir.Name{nn, nm})
 	if v != wantv {
-		t.Errorf("wanted shouldfold(%v) %v, got %v", noror, wantv, v)
+		t.Errorf("wanted shouldfold(%v) %v, golangt %v", noror, wantv, v)
 	}
 }

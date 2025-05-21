@@ -1,12 +1,12 @@
-! go test -json -timeout=1ms
+! golang test -json -timeout=1ms
 
 stdout '"Action":"output","Package":"p","Output":"FAIL\\tp\\t'
 stdout '"Action":"fail","Package":"p","Elapsed":'
 
--- go.mod --
+-- golang.mod --
 module p
 
--- x_test.go --
+-- x_test.golang --
 package p
 
 import (

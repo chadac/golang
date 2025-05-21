@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package vcweb
@@ -89,7 +89,7 @@ func (h *svnHandler) Handler(dir string, env []string, logger *log.Logger) (http
 
 		h.logger.Printf("serving svn on svn://%v", l.Addr())
 
-		go func() {
+		golang func() {
 			for {
 				c, err := l.Accept()
 
@@ -106,7 +106,7 @@ func (h *svnHandler) Handler(dir string, env []string, logger *log.Logger) (http
 					c.Close()
 				} else {
 					s.conns[c] = struct{}{}
-					go h.serve(c)
+					golang h.serve(c)
 				}
 				h.s <- s
 			}

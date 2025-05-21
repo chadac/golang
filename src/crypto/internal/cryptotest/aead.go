@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package cryptotest
@@ -46,7 +46,7 @@ func TestAEAD(t *testing.T, mAEAD MakeAEAD) {
 					after := openWithoutError(t, aead, nil, nonce, ciphertext, addData)
 
 					if !bytes.Equal(after, before) {
-						t.Errorf("plaintext is different after a seal/open cycle; got %s, want %s", truncateHex(after), truncateHex(before))
+						t.Errorf("plaintext is different after a seal/open cycle; golangt %s, want %s", truncateHex(after), truncateHex(before))
 					}
 				})
 			}
@@ -74,7 +74,7 @@ func TestAEAD(t *testing.T, mAEAD MakeAEAD) {
 
 						sealMsg(t, aead, nil, nonce, src, addData)
 						if !bytes.Equal(src, before) {
-							t.Errorf("Seal modified src; got %s, want %s", truncateHex(src), truncateHex(before))
+							t.Errorf("Seal modified src; golangt %s, want %s", truncateHex(src), truncateHex(before))
 						}
 					})
 
@@ -96,7 +96,7 @@ func TestAEAD(t *testing.T, mAEAD MakeAEAD) {
 
 						openWithoutError(t, aead, nil, nonce, ciphertext, addData)
 						if !bytes.Equal(ciphertext, before) {
-							t.Errorf("Open modified src; got %s, want %s", truncateHex(ciphertext), truncateHex(before))
+							t.Errorf("Open modified src; golangt %s, want %s", truncateHex(ciphertext), truncateHex(before))
 						}
 					})
 				})
@@ -205,14 +205,14 @@ func TestAEAD(t *testing.T, mAEAD MakeAEAD) {
 
 							// Check that Seal didn't alter the prefix
 							if !bytes.Equal(out[:len(prefix)], prefix) {
-								t.Errorf("Seal alters dst instead of appending; got %s, want %s", truncateHex(out[:len(prefix)]), truncateHex(prefix))
+								t.Errorf("Seal alters dst instead of appending; golangt %s, want %s", truncateHex(out[:len(prefix)]), truncateHex(prefix))
 							}
 
 							if isDeterministic(aead) {
 								ciphertext := out[len(prefix):]
 								// Check that the appended ciphertext wasn't affected by the prefix
 								if expectedCT := sealMsg(t, aead, nil, nonce, plaintext, addData); !bytes.Equal(ciphertext, expectedCT) {
-									t.Errorf("Seal behavior affected by pre-existing data in dst; got %s, want %s", truncateHex(ciphertext), truncateHex(expectedCT))
+									t.Errorf("Seal behavior affected by pre-existing data in dst; golangt %s, want %s", truncateHex(ciphertext), truncateHex(expectedCT))
 								}
 							}
 						}
@@ -240,13 +240,13 @@ func TestAEAD(t *testing.T, mAEAD MakeAEAD) {
 
 							// Check that Open didn't alter the prefix
 							if !bytes.Equal(out[:len(prefix)], prefix) {
-								t.Errorf("Open alters dst instead of appending; got %s, want %s", truncateHex(out[:len(prefix)]), truncateHex(prefix))
+								t.Errorf("Open alters dst instead of appending; golangt %s, want %s", truncateHex(out[:len(prefix)]), truncateHex(prefix))
 							}
 
 							after := out[len(prefix):]
 							// Check that the appended plaintext wasn't affected by the prefix
 							if !bytes.Equal(after, before) {
-								t.Errorf("Open behavior affected by pre-existing data in dst; got %s, want %s", truncateHex(after), truncateHex(before))
+								t.Errorf("Open behavior affected by pre-existing data in dst; golangt %s, want %s", truncateHex(after), truncateHex(before))
 							}
 						}
 					})
@@ -370,7 +370,7 @@ func sealMsg(t *testing.T, aead cipher.AEAD, ciphertext, nonce, plaintext, addDa
 	// Appended ciphertext shouldn't ever be longer than the length of the
 	// plaintext plus Overhead
 	if lenCT > len(plaintext)+aead.Overhead() {
-		t.Errorf("length of ciphertext from Seal exceeds length of plaintext by more than Overhead(); got %d, want <=%d", lenCT, len(plaintext)+aead.Overhead())
+		t.Errorf("length of ciphertext from Seal exceeds length of plaintext by more than Overhead(); golangt %d, want <=%d", lenCT, len(plaintext)+aead.Overhead())
 	}
 
 	return ciphertext
@@ -396,7 +396,7 @@ func openWithoutError(t *testing.T, aead cipher.AEAD, plaintext, nonce, cipherte
 
 	plaintext, err := aead.Open(plaintext, nonce, ciphertext, addData)
 	if err != nil {
-		t.Fatalf("Open returned error on properly formed ciphertext; got \"%s\", want \"nil\"", err)
+		t.Fatalf("Open returned error on properly formed ciphertext; golangt \"%s\", want \"nil\"", err)
 	}
 
 	return plaintext

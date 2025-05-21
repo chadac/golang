@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file implements API tests across platforms and will never have a build
@@ -17,9 +17,9 @@ import (
 
 // The full stack test cases for IPConn have been moved to the
 // following:
-//	golang.org/x/net/ipv4
-//	golang.org/x/net/ipv6
-//	golang.org/x/net/icmp
+//	golanglang.org/x/net/ipv4
+//	golanglang.org/x/net/ipv6
+//	golanglang.org/x/net/icmp
 
 func TestTCPListenerSpecificMethods(t *testing.T) {
 	switch runtime.GOOS {

@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ld
@@ -106,7 +106,7 @@ func asmb2(ctxt *Link) {
 		asmbXcoff(ctxt)
 
 	// Elf
-	case objabi.Hdragonfly,
+	case objabi.Hdragolangnfly,
 		objabi.Hfreebsd,
 		objabi.Hlinux,
 		objabi.Hnetbsd,
@@ -196,7 +196,7 @@ func relocSectFn(ctxt *Link, relocSect func(*Link, *OutBuf, *sym.Section, []load
 			wg.Add(1)
 			sem <- 1
 			out := ctxt.Out.View(sect.Reloff)
-			go func() {
+			golang func() {
 				relocSect(ctxt, out, sect, syms)
 				wg.Done()
 				<-sem

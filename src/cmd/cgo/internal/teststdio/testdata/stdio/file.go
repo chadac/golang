@@ -1,11 +1,11 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 /*
 A trivial example of wrapping a C library in Go.
 For a more complex example and explanation,
-see misc/cgo/gmp/gmp.go.
+see misc/cgolang/gmp/gmp.golang.
 */
 
 package stdio

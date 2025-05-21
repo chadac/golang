@@ -1,8 +1,8 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build windows
+//golang:build windows
 
 package filelock
 
@@ -25,7 +25,7 @@ const (
 )
 
 func lock(f File, lt lockType) error {
-	// Per https://golang.org/issue/19098, “Programs currently expect the Fd
+	// Per https://golanglang.org/issue/19098, “Programs currently expect the Fd
 	// method to return a handle that uses ordinary synchronous I/O.”
 	// However, LockFileEx still requires an OVERLAPPED structure,
 	// which contains the file offset of the beginning of the lock range.

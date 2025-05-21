@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package parser implements a parser for Go source files. Input may be
@@ -11,9 +11,9 @@ package parser
 
 import (
 	"fmt"
-	"go/ast"
-	"go/scanner"
-	"go/token"
+	"golang/ast"
+	"golang/scanner"
+	"golang/token"
 )
 
 // The mode parameter to the Parse* functions is a set of flags (or 0).
@@ -373,7 +373,7 @@ func (p *parser) expectSemi() {
 
 func assert(cond bool, msg string) {
 	if !cond {
-		panic("go/parser internal error: " + msg)
+		panic("golang/parser internal error: " + msg)
 	}
 }
 
@@ -1432,7 +1432,7 @@ func (p *parser) parseGoStmt() ast.Stmt {
 	call := p.parseCallExpr()
 	p.expectSemi()
 	if call == nil {
-		return &ast.BadStmt{pos, pos + 2} // len("go")
+		return &ast.BadStmt{pos, pos + 2} // len("golang")
 	}
 
 	return &ast.GoStmt{pos, call}

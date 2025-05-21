@@ -1,8 +1,8 @@
 // Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build darwin
+//golang:build darwin
 
 package ld
 
@@ -37,36 +37,36 @@ func TestMachoSectionsReadOnly(t *testing.T) {
 			args:             []string{"-ldflags", "-linkmode=internal"},
 			prog:             prog,
 			mustInternalLink: true,
-			wantSecsRO:       []string{"__got", "__rodata", "__itablink", "__typelink", "__gosymtab", "__gopclntab"},
+			wantSecsRO:       []string{"__golangt", "__rodata", "__itablink", "__typelink", "__golangsymtab", "__golangpclntab"},
 		},
 		{
 			name:        "linkmode-external",
 			args:        []string{"-ldflags", "-linkmode=external"},
 			prog:        prog,
 			mustHaveCGO: true,
-			wantSecsRO:  []string{"__got", "__rodata", "__itablink", "__typelink", "__gopclntab"},
+			wantSecsRO:  []string{"__golangt", "__rodata", "__itablink", "__typelink", "__golangpclntab"},
 		},
 		{
-			name:             "cgo-linkmode-internal",
+			name:             "cgolang-linkmode-internal",
 			args:             []string{"-ldflags", "-linkmode=external"},
 			prog:             progC,
 			mustHaveCGO:      true,
 			mustInternalLink: true,
-			wantSecsRO:       []string{"__got", "__rodata", "__itablink", "__typelink", "__gopclntab"},
+			wantSecsRO:       []string{"__golangt", "__rodata", "__itablink", "__typelink", "__golangpclntab"},
 		},
 		{
-			name:        "cgo-linkmode-external",
+			name:        "cgolang-linkmode-external",
 			args:        []string{"-ldflags", "-linkmode=external"},
 			prog:        progC,
 			mustHaveCGO: true,
-			wantSecsRO:  []string{"__got", "__rodata", "__itablink", "__typelink", "__gopclntab"},
+			wantSecsRO:  []string{"__golangt", "__rodata", "__itablink", "__typelink", "__golangpclntab"},
 		},
 	}
 
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			if test.mustInternalLink {
-				testenv.MustInternalLink(t, testenv.SpecialBuildTypes{Cgo: test.mustHaveCGO})
+				testenv.MustInternalLink(t, testenv.SpecialBuildTypes{Cgolang: test.mustHaveCGO})
 			}
 			if test.mustHaveCGO {
 				testenv.MustHaveCGO(t)
@@ -74,7 +74,7 @@ func TestMachoSectionsReadOnly(t *testing.T) {
 
 			var (
 				dir     = t.TempDir()
-				src     = filepath.Join(dir, fmt.Sprintf("macho_%s.go", test.name))
+				src     = filepath.Join(dir, fmt.Sprintf("macho_%s.golang", test.name))
 				binFile = filepath.Join(dir, test.name)
 			)
 

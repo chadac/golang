@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -31,7 +31,7 @@ func main() {
 	// var baz Baz[int] = 123
 	// var bob Bob[int] = 456
 	//
-	// if got, want := baz.Foo(bob), "123456"; got != want {
-	// 	panic(fmt.Sprintf("got %s want %s", got, want))
+	// if golangt, want := baz.Foo(bob), "123456"; golangt != want {
+	// 	panic(fmt.Sprintf("golangt %s want %s", golangt, want))
 	// }
 }

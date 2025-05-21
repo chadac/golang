@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package utf8 implements functions and constants to support text encoded in
@@ -442,7 +442,7 @@ func Valid(p []byte) bool {
 		// Combining two 32 bit loads allows the same code to be used
 		// for 32 and 64 bit platforms.
 		// The compiler can generate a 32bit load for first32 and second32
-		// on many platforms. See test/codegen/memcombine.go.
+		// on many platforms. See test/codegen/memcombine.golang.
 		first32 := uint32(p[0]) | uint32(p[1])<<8 | uint32(p[2])<<16 | uint32(p[3])<<24
 		second32 := uint32(p[4]) | uint32(p[5])<<8 | uint32(p[6])<<16 | uint32(p[7])<<24
 		if (first32|second32)&0x80808080 != 0 {
@@ -488,7 +488,7 @@ func ValidString(s string) bool {
 		// Combining two 32 bit loads allows the same code to be used
 		// for 32 and 64 bit platforms.
 		// The compiler can generate a 32bit load for first32 and second32
-		// on many platforms. See test/codegen/memcombine.go.
+		// on many platforms. See test/codegen/memcombine.golang.
 		first32 := uint32(s[0]) | uint32(s[1])<<8 | uint32(s[2])<<16 | uint32(s[3])<<24
 		second32 := uint32(s[4]) | uint32(s[5])<<8 | uint32(s[6])<<16 | uint32(s[7])<<24
 		if (first32|second32)&0x80808080 != 0 {

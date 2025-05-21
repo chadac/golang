@@ -1,8 +1,8 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build goexperiment.aliastypeparams
+//golang:build golangexperiment.aliastypeparams
 
 package main
 
@@ -39,7 +39,7 @@ func exported() {
 		panic("zero value of struct{ F string } and struct{ F int } are not distinct")
 	}
 
-	if got := fmt.Sprintf("%T", astr); got != "struct { F string }" {
-		panic(got)
+	if golangt := fmt.Sprintf("%T", astr); golangt != "struct { F string }" {
+		panic(golangt)
 	}
 }

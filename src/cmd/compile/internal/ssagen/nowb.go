@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ssagen
@@ -96,7 +96,7 @@ func (c *nowritebarrierrecChecker) findExtraCalls(nn ir.Node) {
 		arg := arg.(*ir.ClosureExpr)
 		callee = arg.Func
 	default:
-		base.Fatalf("expected ONAME or OCLOSURE node, got %+v", arg)
+		base.Fatalf("expected ONAME or OCLOSURE node, golangt %+v", arg)
 	}
 	c.extraCalls[c.curfn] = append(c.extraCalls[c.curfn], nowritebarrierrecCall{callee, n.Pos()})
 }
@@ -126,7 +126,7 @@ func (c *nowritebarrierrecChecker) check() {
 	// funcs records the back-edges of the BFS call graph walk. It
 	// maps from the ODCLFUNC of each function that must not have
 	// write barriers to the call that inhibits them. Functions
-	// that are directly marked go:nowritebarrierrec are in this
+	// that are directly marked golang:nowritebarrierrec are in this
 	// map with a zero-valued nowritebarrierrecCall. This also
 	// acts as the set of marks for the BFS of the call graph.
 	funcs := make(map[*ir.Func]nowritebarrierrecCall)
@@ -141,14 +141,14 @@ func (c *nowritebarrierrecChecker) check() {
 			funcs[fn] = nowritebarrierrecCall{}
 			q.PushRight(fn.Nname)
 		}
-		// Check go:nowritebarrier functions.
+		// Check golang:nowritebarrier functions.
 		if fn.Pragma&ir.Nowritebarrier != 0 && fn.WBPos.IsKnown() {
 			base.ErrorfAt(fn.WBPos, 0, "write barrier prohibited")
 		}
 	}
 
 	// Perform a BFS of the call graph from all
-	// go:nowritebarrierrec functions.
+	// golang:nowritebarrierrec functions.
 	enqueue := func(src, target *ir.Func, pos src.XPos) {
 		if target.Pragma&ir.Yeswritebarrierrec != 0 {
 			// Don't flow into this function.

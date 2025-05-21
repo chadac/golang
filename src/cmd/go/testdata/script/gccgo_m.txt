@@ -1,20 +1,20 @@
-# It's absurd, but builds with -compiler=gccgo used to fail to build module m.
-# golang.org/issue/34358
+# It's absurd, but builds with -compiler=gccgolang used to fail to build module m.
+# golanglang.org/issue/34358
 
 env GO111MODULE=off
 
 [short] skip
-[cross] skip # gccgo can't necessarily cross-compile
+[cross] skip # gccgolang can't necessarily cross-compile
 
 cd m
-go build
+golang build
 exists m$GOEXE
 rm m$GOEXE
-[exec:gccgo] go build -compiler=gccgo
-[exec:gccgo] exists m$GOEXE
+[exec:gccgolang] golang build -compiler=gccgolang
+[exec:gccgolang] exists m$GOEXE
 
--- m/go.mod --
+-- m/golang.mod --
 module m
--- m/main.go --
+-- m/main.golang --
 package main
 func main() {}

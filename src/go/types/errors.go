@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file implements error reporting.
@@ -8,8 +8,8 @@ package types
 
 import (
 	"fmt"
-	"go/ast"
-	"go/token"
+	"golang/ast"
+	"golang/token"
 	. "internal/types/errors"
 	"runtime"
 	"strings"
@@ -56,7 +56,7 @@ func (check *Checker) newError(code Code) *error_ {
 // The position of the first call to addf determines the position of the reported Error.
 // Subsequent calls to addf provide additional information in the form of additional lines
 // in the error message (types2) or continuation errors identified by a tab-indented error
-// message (go/types).
+// message (golang/types).
 func (err *error_) addf(at positioner, format string, args ...interface{}) {
 	err.desc = append(err.desc, errorDesc{at, err.check.sprintf(format, args...)})
 }
@@ -126,7 +126,7 @@ func (err *error_) report() {
 		check.trace(err.posn().Pos(), "ERROR: %s (code = %d)", err.desc[0].msg, err.code)
 	}
 
-	// In go/types, if there is a sub-error with a valid position,
+	// In golang/types, if there is a sub-error with a valid position,
 	// call the typechecker error handler for each sub-error.
 	// Otherwise, call it once, with a single combined message.
 	multiError := false
@@ -194,9 +194,9 @@ func (check *Checker) handleError(index int, posn positioner, code Code, msg str
 		Pos:        span.pos,
 		Msg:        stripAnnotations(msg),
 		Soft:       soft,
-		go116code:  code,
-		go116start: span.start,
-		go116end:   span.end,
+		golang116code:  code,
+		golang116start: span.start,
+		golang116end:   span.end,
 	}
 
 	if check.errpos != nil {
@@ -206,8 +206,8 @@ func (check *Checker) handleError(index int, posn positioner, code Code, msg str
 		// to the position (pos) in the original expression.
 		span := spanOf(check.errpos)
 		e.Pos = span.pos
-		e.go116start = span.start
-		e.go116end = span.end
+		e.golang116start = span.start
+		e.golang116end = span.end
 	}
 
 	if check.firstErr == nil {
@@ -250,7 +250,7 @@ func (check *Checker) softErrorf(at positioner, code Code, format string, args .
 	err.report()
 }
 
-func (check *Checker) versionErrorf(at positioner, v goVersion, format string, args ...any) {
+func (check *Checker) versionErrorf(at positioner, v golangVersion, format string, args ...any) {
 	msg := check.sprintf(format, args...)
 	err := check.newError(UnsupportedFeature)
 	err.addf(at, "%s requires %s or later", msg, v)

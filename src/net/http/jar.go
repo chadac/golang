@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package http
@@ -11,7 +11,7 @@ import (
 // A CookieJar manages storage and use of cookies in HTTP requests.
 //
 // Implementations of CookieJar must be safe for concurrent use by multiple
-// goroutines.
+// golangroutines.
 //
 // The net/http/cookiejar package provides a CookieJar implementation.
 type CookieJar interface {

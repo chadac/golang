@@ -1,5 +1,5 @@
 // Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package stdlib
@@ -8,7 +8,7 @@ package stdlib
 //
 // Be aware that the compiler-generated code for every package
 // implicitly depends on package "runtime" and a handful of others
-// (see runtimePkgs in GOROOT/src/cmd/internal/objabi/pkgspecial.go).
+// (see runtimePkgs in GOROOT/src/cmd/internal/objabi/pkgspecial.golang).
 
 import (
 	"encoding/binary"

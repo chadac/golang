@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package strings_test
@@ -33,10 +33,10 @@ func TestFinderNext(t *testing.T) {
 	}
 
 	for _, tc := range testCases {
-		got := StringFind(tc.pat, tc.text)
+		golangt := StringFind(tc.pat, tc.text)
 		want := tc.index
-		if got != want {
-			t.Errorf("stringFind(%q, %q) got %d, want %d\n", tc.pat, tc.text, got, want)
+		if golangt != want {
+			t.Errorf("stringFind(%q, %q) golangt %d, want %d\n", tc.pat, tc.text, golangt, want)
 		}
 	}
 }
@@ -71,20 +71,20 @@ func TestFinderCreation(t *testing.T) {
 	}
 
 	for _, tc := range testCases {
-		bad, good := DumpTables(tc.pattern)
+		bad, golangod := DumpTables(tc.pattern)
 
-		for i, got := range bad {
+		for i, golangt := range bad {
 			want := tc.bad[i]
 			if want == 0 {
 				want = len(tc.pattern)
 			}
-			if got != want {
-				t.Errorf("boyerMoore(%q) bad['%c']: got %d want %d", tc.pattern, i, got, want)
+			if golangt != want {
+				t.Errorf("boyerMoore(%q) bad['%c']: golangt %d want %d", tc.pattern, i, golangt, want)
 			}
 		}
 
-		if !slices.Equal(good, tc.suf) {
-			t.Errorf("boyerMoore(%q) got %v want %v", tc.pattern, good, tc.suf)
+		if !slices.Equal(golangod, tc.suf) {
+			t.Errorf("boyerMoore(%q) golangt %v want %v", tc.pattern, golangod, tc.suf)
 		}
 	}
 }

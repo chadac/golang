@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Make sure unsigned shift results get sign-extended correctly.
@@ -12,20 +12,20 @@ import "fmt"
 func main() {
 	failed := false
 	a6 := uint8(253)
-	if got := a6 >> 0; got != 253 {
-		fmt.Printf("uint8(253)>>0 = %v, wanted 253\n", got)
+	if golangt := a6 >> 0; golangt != 253 {
+		fmt.Printf("uint8(253)>>0 = %v, wanted 253\n", golangt)
 		failed = true
 	}
-	if got := f1(0, 2, 1, 0, 0, 1, true); got != 255 {
-		fmt.Printf("f1(...) = %v, wanted 255\n", got)
+	if golangt := f1(0, 2, 1, 0, 0, 1, true); golangt != 255 {
+		fmt.Printf("f1(...) = %v, wanted 255\n", golangt)
 		failed = true
 	}
-	if got := f2(1); got != 242 {
-		fmt.Printf("f2(...) = %v, wanted 242\n", got)
+	if golangt := f2(1); golangt != 242 {
+		fmt.Printf("f2(...) = %v, wanted 242\n", golangt)
 		failed = true
 	}
-	if got := f3(false, 0, 0); got != 254 {
-		fmt.Printf("f3(...) = %v, wanted 254\n", got)
+	if golangt := f3(false, 0, 0); golangt != 254 {
+		fmt.Printf("f3(...) = %v, wanted 254\n", golangt)
 		failed = true
 	}
 	if failed {

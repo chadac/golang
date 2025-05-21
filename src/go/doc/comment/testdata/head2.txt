@@ -16,7 +16,7 @@ A.b is a heading
 A. b is not a heading
 
 ✦
--- gofmt --
+-- golangfmt --
 ✦
 
 Almost a+heading

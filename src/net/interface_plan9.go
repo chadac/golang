@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package net
@@ -61,7 +61,7 @@ func readInterface(i int) (*Interface, error) {
 	// If the interface has no device file then we see two spaces between "device" and
 	// "maxtu" and and getFields treats the two spaces as one delimiter.
 	// Insert a gap for the missing device name.
-	// See https://go.dev/issue/72060.
+	// See https://golang.dev/issue/72060.
 	if stringslite.HasPrefix(line, "device  maxtu ") {
 		fields = append(fields, "")
 		copy(fields[2:], fields[1:])

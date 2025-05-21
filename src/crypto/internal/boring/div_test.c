@@ -1,18 +1,18 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file is a self-contained test for a copy of
-// the division algorithm in build-goboring.sh,
-// to verify that is correct. The real algorithm uses u128
+// the division algolangrithm in build-golangboring.sh,
+// to verify that is correct. The real algolangrithm uses u128
 // but this copy uses u32 for easier testing.
 // s/32/128/g should be the only difference between the two.
 //
-// This is the dumbest possible division algorithm,
+// This is the dumbest possible division algolangrithm,
 // but any crypto code that depends on the speed of
 // division is equally dumb.
 
-//go:build ignore
+//golang:build ignore
 
 #include <stdio.h>
 #include <stdint.h>

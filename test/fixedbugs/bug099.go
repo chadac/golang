@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -16,7 +16,7 @@ func (s *S) F() int { return 1 }
 // Allocates S but returns I
 // Arg is unused but important:
 // if you take it out (and the 0s below)
-// then the bug goes away.
+// then the bug golanges away.
 func NewI(i int) I {
 	return new(S)
 }

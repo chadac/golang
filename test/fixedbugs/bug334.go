@@ -1,7 +1,7 @@
 // compile
 
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Issue 1716
@@ -24,8 +24,8 @@ func main() {
 }
 
 /*
-bug334.go:16: invalid receiver type cplx64
-bug334.go:17: invalid receiver type cplx128
-bug334.go:22: c64.Foo undefined (type cplx128 has no field or method Foo)
-bug334.go:23: c128.Foo undefined (type cplx64 has no field or method Foo)
+bug334.golang:16: invalid receiver type cplx64
+bug334.golang:17: invalid receiver type cplx128
+bug334.golang:22: c64.Foo undefined (type cplx128 has no field or method Foo)
+bug334.golang:23: c128.Foo undefined (type cplx64 has no field or method Foo)
 */

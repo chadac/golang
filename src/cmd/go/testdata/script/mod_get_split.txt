@@ -1,20 +1,20 @@
-cp go.mod go.mod.orig
+cp golang.mod golang.mod.orig
 
 
-# 'go get' on a package already provided by the build list should update
+# 'golang get' on a package already provided by the build list should update
 # the module already in the build list, not fail with an ambiguous import error.
 
-go get example.net/split/nested@patch
-go list -m all
+golang get example.net/split/nested@patch
+golang list -m all
 stdout '^example.net/split v0.2.1 '
 ! stdout '^example.net/split/nested'
 
 # We should get the same behavior if we use a pattern that matches only that package.
 
-cp go.mod.orig go.mod
+cp golang.mod.orig golang.mod
 
-go get example.net/split/nested/...@patch
-go list -m all
+golang get example.net/split/nested/...@patch
+golang list -m all
 stdout '^example.net/split v0.2.1 '
 ! stdout '^example.net/split/nested'
 
@@ -30,10 +30,10 @@ stdout '^example.net/split v0.2.1 '
 #
 # TODO(#27899): Maybe we should resolve the ambiguities by upgrading.
 
-cp go.mod.orig go.mod
+cp golang.mod.orig golang.mod
 
-! go get example.net/split/nested@v0.1.0
-stderr '^go: example.net/split/nested: ambiguous import: found package example.net/split/nested in multiple modules:\n\texample.net/split v0.2.0 \(.*split.2[/\\]nested\)\n\texample.net/split/nested v0.1.0 \(.*nested.1\)$'
+! golang get example.net/split/nested@v0.1.0
+stderr '^golang: example.net/split/nested: ambiguous import: found package example.net/split/nested in multiple modules:\n\texample.net/split v0.2.0 \(.*split.2[/\\]nested\)\n\texample.net/split/nested v0.1.0 \(.*nested.1\)$'
 
 # A wildcard that matches packages in some module at its selected version
 # but not at the requested version should fail.
@@ -41,7 +41,7 @@ stderr '^go: example.net/split/nested: ambiguous import: found package example.n
 # We can't set the module to the selected version, because that version doesn't
 # even match the query: if we ran the same query twice, we wouldn't consider the
 # module to match the wildcard during the second call, so why should we consider
-# it to match during the first one?  ('go get' should be idempotent, and if we
+# it to match during the first one?  ('golang get' should be idempotent, and if we
 # did that then it would not be.)
 #
 # But we also can't leave it where it is: the user requested that we set everything
@@ -54,23 +54,23 @@ stderr '^go: example.net/split/nested: ambiguous import: found package example.n
 #
 # TODO(#27899): Should we instead upgrade or downgrade to an arbitrary version?
 
-! go get example.net/split/nested/...@v0.1.0
-stderr '^go: example.net/split/nested/\.\.\.@v0.1.0 matches packages in example.net/split@v0.2.0 but not example.net/split@v0.1.0: specify a different version for module example.net/split$'
+! golang get example.net/split/nested/...@v0.1.0
+stderr '^golang: example.net/split/nested/\.\.\.@v0.1.0 matches packages in example.net/split@v0.2.0 but not example.net/split@v0.1.0: specify a different version for module example.net/split$'
 
-cmp go.mod go.mod.orig
+cmp golang.mod golang.mod.orig
 
 
 # If another argument resolves the ambiguity, we should be ok again.
 
-go get example.net/split@none example.net/split/nested@v0.1.0
-go list -m all
+golang get example.net/split@none example.net/split/nested@v0.1.0
+golang list -m all
 ! stdout '^example.net/split '
 stdout '^example.net/split/nested v0.1.0 '
 
-cp go.mod.orig go.mod
+cp golang.mod.orig golang.mod
 
-go get example.net/split@v0.3.0 example.net/split/nested@v0.1.0
-go list -m all
+golang get example.net/split@v0.3.0 example.net/split/nested@v0.1.0
+golang list -m all
 stdout '^example.net/split v0.3.0 '
 stdout '^example.net/split/nested v0.1.0 '
 
@@ -79,16 +79,16 @@ stdout '^example.net/split/nested v0.1.0 '
 # modules to the version indicated by the pattern, and also resolve packages
 # to match the pattern if possible.
 
-cp go.mod.orig go.mod
-go get example.net/split/nested@v0.0.0
+cp golang.mod.orig golang.mod
+golang get example.net/split/nested@v0.0.0
 
-go get example.net/...@v0.1.0
-go list -m all
+golang get example.net/...@v0.1.0
+golang list -m all
 stdout '^example.net/split v0.1.0 '
 stdout '^example.net/split/nested v0.1.0 '
 
-go get example.net/...
-go list -m all
+golang get example.net/...
+golang list -m all
 stdout '^example.net/split v0.3.0 '
 stdout '^example.net/split/nested v0.2.0 '
 
@@ -96,23 +96,23 @@ stdout '^example.net/split/nested v0.2.0 '
 # @none applies to all matching module paths,
 # regardless of whether they contain any packages.
 
-go get example.net/...@none
-go list -m all
+golang get example.net/...@none
+golang list -m all
 ! stdout '^example.net'
 
 # Starting from no dependencies, a wildcard can resolve to an empty module with
 # the same prefix even if it contains no packages.
 
-go get example.net/...@none
-go get example.net/split/...@v0.1.0
-go list -m all
+golang get example.net/...@none
+golang get example.net/split/...@v0.1.0
+golang list -m all
 stdout '^example.net/split v0.1.0 '
 
 
--- go.mod --
+-- golang.mod --
 module m
 
-go 1.16
+golang 1.16
 
 require example.net/split v0.2.0
 
@@ -125,33 +125,33 @@ replace (
 	example.net/split/nested v0.1.0 => ./nested.1
 	example.net/split/nested v0.2.0 => ./nested.2
 )
--- split.1/go.mod --
+-- split.1/golang.mod --
 module example.net/split
 
-go 1.16
--- split.2/go.mod --
+golang 1.16
+-- split.2/golang.mod --
 module example.net/split
 
-go 1.16
--- split.2/nested/nested.go --
+golang 1.16
+-- split.2/nested/nested.golang --
 package nested
--- split.3/go.mod --
+-- split.3/golang.mod --
 module example.net/split
 
-go 1.16
--- nested.0/go.mod --
+golang 1.16
+-- nested.0/golang.mod --
 module example.net/split/nested
 
-go 1.16
--- nested.1/go.mod --
+golang 1.16
+-- nested.1/golang.mod --
 module example.net/split/nested
 
-go 1.16
--- nested.1/nested.go --
+golang 1.16
+-- nested.1/nested.golang --
 package nested
--- nested.2/go.mod --
+-- nested.2/golang.mod --
 module example.net/split/nested
 
-go 1.16
--- nested.2/nested.go --
+golang 1.16
+-- nested.2/nested.golang --
 package nested

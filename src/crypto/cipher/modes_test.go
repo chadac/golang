@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package cipher_test
@@ -93,24 +93,24 @@ func testNoExtraMethods(t *testing.T, newBlock func([]byte) Block) {
 
 	ctr := NewCTR(b, make([]byte, 16))
 	ctrExpected := []string{"XORKeyStream"}
-	if got := exportedMethods(ctr); !reflect.DeepEqual(got, ctrExpected) {
-		t.Errorf("CTR: got %v, want %v", got, ctrExpected)
+	if golangt := exportedMethods(ctr); !reflect.DeepEqual(golangt, ctrExpected) {
+		t.Errorf("CTR: golangt %v, want %v", golangt, ctrExpected)
 	}
 
 	cbc := NewCBCEncrypter(b, make([]byte, 16))
 	cbcExpected := []string{"BlockSize", "CryptBlocks", "SetIV"}
-	if got := exportedMethods(cbc); !reflect.DeepEqual(got, cbcExpected) {
-		t.Errorf("CBC: got %v, want %v", got, cbcExpected)
+	if golangt := exportedMethods(cbc); !reflect.DeepEqual(golangt, cbcExpected) {
+		t.Errorf("CBC: golangt %v, want %v", golangt, cbcExpected)
 	}
 	cbc = NewCBCDecrypter(b, make([]byte, 16))
-	if got := exportedMethods(cbc); !reflect.DeepEqual(got, cbcExpected) {
-		t.Errorf("CBC: got %v, want %v", got, cbcExpected)
+	if golangt := exportedMethods(cbc); !reflect.DeepEqual(golangt, cbcExpected) {
+		t.Errorf("CBC: golangt %v, want %v", golangt, cbcExpected)
 	}
 
 	gcm, _ := NewGCM(b)
 	gcmExpected := []string{"NonceSize", "Open", "Overhead", "Seal"}
-	if got := exportedMethods(gcm); !reflect.DeepEqual(got, gcmExpected) {
-		t.Errorf("GCM: got %v, want %v", got, gcmExpected)
+	if golangt := exportedMethods(gcm); !reflect.DeepEqual(golangt, gcmExpected) {
+		t.Errorf("GCM: golangt %v, want %v", golangt, gcmExpected)
 	}
 }
 

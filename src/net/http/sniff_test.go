@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package http_test
@@ -142,10 +142,10 @@ func testServerIssue5953(t *testing.T, mode testMode) {
 		t.Fatal(err)
 	}
 
-	got := resp.Header["Content-Type"]
+	golangt := resp.Header["Content-Type"]
 	want := []string{""}
-	if !slices.Equal(got, want) {
-		t.Errorf("Content-Type = %q; want %q", got, want)
+	if !slices.Equal(golangt, want) {
+		t.Errorf("Content-Type = %q; want %q", golangt, want)
 	}
 	resp.Body.Close()
 }
@@ -238,8 +238,8 @@ func testContentTypeWithVariousSources(t *testing.T, mode testMode) {
 			if ct := resp.Header.Get("Content-Type"); ct != expected {
 				t.Errorf("Content-Type = %q, want %q", ct, expected)
 			}
-			if want, got := resp.Header.Get("Content-Length"), fmt.Sprint(len(input)); want != got {
-				t.Errorf("Content-Length = %q, want %q", want, got)
+			if want, golangt := resp.Header.Get("Content-Length"), fmt.Sprint(len(input)); want != golangt {
+				t.Errorf("Content-Length = %q, want %q", want, golangt)
 			}
 			data, err := io.ReadAll(resp.Body)
 			if err != nil {

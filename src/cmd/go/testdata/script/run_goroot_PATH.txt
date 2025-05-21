@@ -1,21 +1,21 @@
-# https://go.dev/issue/68005: 'go run' should run the program with its own GOROOT/bin
+# https://golang.dev/issue/68005: 'golang run' should run the program with its own GOROOT/bin
 # at the beginning of $PATH.
 
 [short] skip
 
 [!GOOS:plan9] env PATH=
 [GOOS:plan9] env path=
-go run .
+golang run .
 
 [!GOOS:plan9] env PATH=$WORK${/}bin
 [GOOS:plan9] env path=$WORK${/}bin
-go run .
+golang run .
 
--- go.mod --
+-- golang.mod --
 module example
 
-go 1.19
--- main.go --
+golang 1.19
+-- main.golang --
 package main
 
 import (
@@ -26,15 +26,15 @@ import (
 )
 
 func main() {
-	got, err := exec.LookPath("go")
+	golangt, err := exec.LookPath("golang")
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
 	}
 
-	want := filepath.Join(os.Getenv("GOROOT"), "bin", "go" + os.Getenv("GOEXE"))
-	if got != want {
-		fmt.Printf(`exec.LookPath("go") = %q; want %q\n`, got, want)
+	want := filepath.Join(os.Getenv("GOROOT"), "bin", "golang" + os.Getenv("GOEXE"))
+	if golangt != want {
+		fmt.Printf(`exec.LookPath("golang") = %q; want %q\n`, golangt, want)
 		os.Exit(1)
 	}
 }

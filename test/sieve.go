@@ -1,7 +1,7 @@
 // build
 
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test basic concurrency: the classic prime sieve.
@@ -30,12 +30,12 @@ func Filter(in <-chan int, out chan<- int, prime int) {
 // The prime sieve: Daisy-chain Filter processes together.
 func Sieve() {
 	ch := make(chan int) // Create a new channel.
-	go Generate(ch)      // Start Generate() as a subprocess.
+	golang Generate(ch)      // Start Generate() as a subprocess.
 	for {
 		prime := <-ch
 		print(prime, "\n")
 		ch1 := make(chan int)
-		go Filter(ch, ch1, prime)
+		golang Filter(ch, ch1, prime)
 		ch = ch1
 	}
 }

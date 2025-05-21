@@ -1,8 +1,8 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build goexperiment.jsonv2
+//golang:build golangexperiment.jsonv2
 
 // Package json implements semantic processing of JSON as specified in RFC 8259.
 // JSON is a simple data interchange format that can represent
@@ -155,7 +155,7 @@
 // If multiple fields at the shallowest depth have the same JSON name,
 // but exactly one is explicitly tagged with a JSON name,
 // then that field takes precedence and all others are excluded from the list.
-// This is analogous to Go visibility rules for struct field selection
+// This is analogolangus to Go visibility rules for struct field selection
 // with embedded struct types.
 //
 // Marshaling or unmarshaling a non-empty struct

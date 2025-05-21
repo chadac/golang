@@ -1,11 +1,11 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main_test
 
 import (
-	"cmd/go/internal/cfg"
+	"cmd/golang/internal/cfg"
 	"cmd/internal/script"
 	"cmd/internal/script/scripttest"
 	"errors"
@@ -23,7 +23,7 @@ import (
 func scriptConditions(t *testing.T) map[string]script.Cond {
 	conds := scripttest.DefaultConds()
 
-	scripttest.AddToolChainScriptConditions(t, conds, goHostOS, goHostArch)
+	scripttest.AddToolChainScriptConditions(t, conds, golangHostOS, golangHostArch)
 
 	add := func(name string, cond script.Cond) {
 		if _, ok := conds[name]; ok {
@@ -39,7 +39,7 @@ func scriptConditions(t *testing.T) map[string]script.Cond {
 	add("abscc", script.Condition("default $CC path is absolute and exists", defaultCCIsAbsolute))
 	add("bzr", lazyBool("the 'bzr' executable exists and provides the standard CLI", hasWorkingBzr))
 	add("case-sensitive", script.OnceCondition("$WORK filesystem is case-sensitive", isCaseSensitive))
-	add("cc", script.PrefixCondition("go env CC = <suffix> (ignoring the go/env file)", ccIs))
+	add("cc", script.PrefixCondition("golang env CC = <suffix> (ignoring the golang/env file)", ccIs))
 	add("git", lazyBool("the 'git' executable exists and provides the standard CLI", hasWorkingGit))
 	add("net", script.PrefixCondition("can connect to external network host <suffix>", hasNet))
 	add("trimpath", script.OnceCondition("test binary was built with -trimpath", isTrimpath))
@@ -100,7 +100,7 @@ func hasNet(s *script.State, host string) (bool, error) {
 	}
 
 	// Since we have confirmed that the network is available,
-	// allow cmd/go to use it.
+	// allow cmd/golang to use it.
 	s.Setenv("TESTGONETWORK", "")
 	return true, nil
 }
@@ -146,7 +146,7 @@ func isTrimpath() (bool, error) {
 func hasWorkingGit() bool {
 	if runtime.GOOS == "plan9" {
 		// The Git command is usually not the real Git on Plan 9.
-		// See https://golang.org/issues/29640.
+		// See https://golanglang.org/issues/29640.
 		return false
 	}
 	_, err := exec.LookPath("git")
@@ -159,7 +159,7 @@ func hasWorkingBzr() bool {
 		return false
 	}
 	// Check that 'bzr help' exits with code 0.
-	// See go.dev/issue/71504 for an example where 'bzr' exists in PATH but doesn't work.
+	// See golang.dev/issue/71504 for an example where 'bzr' exists in PATH but doesn't work.
 	err = exec.Command(bzr, "help").Run()
 	return err == nil
 }

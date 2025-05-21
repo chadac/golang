@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ssa
@@ -288,7 +288,7 @@ body.darkmode text {
     fill: white;
 }
 
-body.darkmode svg polygon:first-child {
+body.darkmode svg polygolangn:first-child {
     fill: rgb(21, 21, 21);
 }
 
@@ -339,7 +339,7 @@ body.darkmode svg polygon:first-child {
 .outline-darkolivegreen { outline: darkolivegreen solid 2px; }
 .outline-fuchsia        { outline: fuchsia solid 2px; }
 .outline-sienna         { outline: sienna solid 2px; }
-.outline-gold           { outline: gold solid 2px; }
+.outline-golangld           { outline: golangld solid 2px; }
 .outline-orangered      { outline: orangered solid 2px; }
 .outline-teal           { outline: teal solid 2px; }
 .outline-maroon         { outline: maroon solid 2px; }
@@ -351,7 +351,7 @@ ellipse.outline-blueviolet     { stroke-width: 2px; stroke: blueviolet; }
 ellipse.outline-darkolivegreen { stroke-width: 2px; stroke: darkolivegreen; }
 ellipse.outline-fuchsia        { stroke-width: 2px; stroke: fuchsia; }
 ellipse.outline-sienna         { stroke-width: 2px; stroke: sienna; }
-ellipse.outline-gold           { stroke-width: 2px; stroke: gold; }
+ellipse.outline-golangld           { stroke-width: 2px; stroke: golangld; }
 ellipse.outline-orangered      { stroke-width: 2px; stroke: orangered; }
 ellipse.outline-teal           { stroke-width: 2px; stroke: teal; }
 ellipse.outline-maroon         { stroke-width: 2px; stroke: maroon; }
@@ -409,7 +409,7 @@ var outlines = [
     "outline-darkolivegreen",
     "outline-fuchsia",
     "outline-sienna",
-    "outline-gold",
+    "outline-golangld",
     "outline-orangered",
     "outline-teal",
     "outline-maroon",
@@ -469,7 +469,7 @@ window.onload = function() {
             }
         }
         if (avail == "") {
-            alert("out of selection colors; go add more");
+            alert("out of selection colors; golang add more");
             return;
         }
 
@@ -718,11 +718,11 @@ function toggleDarkMode() {
     const svgParts = [
         ...document.querySelectorAll('path'),
         ...document.querySelectorAll('ellipse'),
-        ...document.querySelectorAll('polygon'),
+        ...document.querySelectorAll('polygolangn'),
     ];
 
     // Iterate over the svgParts specifically looking for white and black fill/stroke to be toggled.
-    // The verbose conditional is intentional here so that we do not mutate any svg path, ellipse, or polygon that is of any color other than white or black.
+    // The verbose conditional is intentional here so that we do not mutate any svg path, ellipse, or polygolangn that is of any color other than white or black.
     svgParts.forEach(el => {
         if (el.attributes.stroke.value === 'white') {
             el.attributes.stroke.value = 'black';
@@ -899,7 +899,7 @@ func (w *HTMLWriter) WriteAST(phase string, buf *bytes.Buffer) {
 				escaped = fmt.Sprintf("<b>%v</b>", l)
 			} else {
 				// Parse the line number from the format file:line:col.
-				// See the implementation in ir/fmt.go:dumpNodeHeader.
+				// See the implementation in ir/fmt.golang:dumpNodeHeader.
 				sl := strings.Split(l, ":")
 				if len(sl) >= 3 {
 					if _, err := strconv.Atoi(sl[len(sl)-2]); err == nil {

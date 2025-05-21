@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime_test
@@ -277,7 +277,7 @@ func cyclicPermutation(n int) []int {
 	for i := 0; i < n-1; i++ {
 		j = res[j]
 		if j == 0 {
-			panic("got back to 0 too early")
+			panic("golangt back to 0 too early")
 		}
 	}
 	j = res[j]
@@ -365,7 +365,7 @@ func BenchmarkSameLengthMap(b *testing.B) {
 	// and last few bytes.
 	m := make(map[string]bool)
 	s1 := "foo" + strings.Repeat("-", 100) + "bar"
-	s2 := "goo" + strings.Repeat("-", 100) + "ber"
+	s2 := "golango" + strings.Repeat("-", 100) + "ber"
 	m[s1] = true
 	m[s2] = true
 	b.ResetTimer()
@@ -686,7 +686,7 @@ func genValues[T mapBenchmarkElemType](start, end int) []T {
 
 // Avoid inlining to force a heap allocation.
 //
-//go:noinline
+//golang:noinline
 func newSink[T mapBenchmarkElemType]() *T {
 	return new(T)
 }
@@ -1104,7 +1104,7 @@ func benchmarkMapDelete[K mapBenchmarkKeyType, E mapBenchmarkElemType](b *testin
 		if len(m) == 0 {
 			// We'd like to StopTimer while refilling the map, but
 			// it is way too expensive and thus makes the benchmark
-			// take a long time. See https://go.dev/issue/20875.
+			// take a long time. See https://golang.dev/issue/20875.
 			for j := range k {
 				m[k[j]] = e[j]
 			}
@@ -1127,7 +1127,7 @@ func BenchmarkMapDelete(b *testing.B) {
 }
 
 // Use iterator to pop an element. We want this to be fast, see
-// https://go.dev/issue/8412.
+// https://golang.dev/issue/8412.
 func benchmarkMapPop[K mapBenchmarkKeyType, E mapBenchmarkElemType](b *testing.B, n int) {
 	if n == 0 {
 		b.Skip("can't delete from empty map")
@@ -1142,7 +1142,7 @@ func benchmarkMapPop[K mapBenchmarkKeyType, E mapBenchmarkElemType](b *testing.B
 		if len(m) == 0 {
 			// We'd like to StopTimer while refilling the map, but
 			// it is way too expensive and thus makes the benchmark
-			// take a long time. See https://go.dev/issue/20875.
+			// take a long time. See https://golang.dev/issue/20875.
 			for j := range k {
 				m[k[j]] = e[j]
 			}

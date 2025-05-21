@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package testenv_test
@@ -24,10 +24,10 @@ func TestGoToolLocation(t *testing.T) {
 
 	// Tests are defined to run within their package source directory,
 	// and this package's source directory is $GOROOT/src/internal/testenv.
-	// The 'go' command is installed at $GOROOT/bin/go, so if the environment
-	// is correct then testenv.GoTool() should be identical to ../../../bin/go.
+	// The 'golang' command is installed at $GOROOT/bin/golang, so if the environment
+	// is correct then testenv.GoTool() should be identical to ../../../bin/golang.
 
-	relWant := "../../../bin/go" + exeSuffix
+	relWant := "../../../bin/golang" + exeSuffix
 	absWant, err := filepath.Abs(relWant)
 	if err != nil {
 		t.Fatal(err)
@@ -37,20 +37,20 @@ func TestGoToolLocation(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	t.Logf("found go tool at %q (%q)", relWant, absWant)
+	t.Logf("found golang tool at %q (%q)", relWant, absWant)
 
-	goTool, err := testenv.GoTool()
+	golangTool, err := testenv.GoTool()
 	if err != nil {
 		t.Fatalf("testenv.GoTool(): %v", err)
 	}
-	t.Logf("testenv.GoTool() = %q", goTool)
+	t.Logf("testenv.GoTool() = %q", golangTool)
 
-	gotInfo, err := os.Stat(goTool)
+	golangtInfo, err := os.Stat(golangTool)
 	if err != nil {
 		t.Fatal(err)
 	}
-	if !os.SameFile(wantInfo, gotInfo) {
-		t.Fatalf("%q is not the same file as %q", absWant, goTool)
+	if !os.SameFile(wantInfo, golangtInfo) {
+		t.Fatalf("%q is not the same file as %q", absWant, golangTool)
 	}
 }
 
@@ -58,7 +58,7 @@ func TestHasGoBuild(t *testing.T) {
 	if !testenv.HasGoBuild() {
 		switch runtime.GOOS {
 		case "js", "wasip1":
-			// No exec syscall, so these shouldn't be able to 'go build'.
+			// No exec syscall, so these shouldn't be able to 'golang build'.
 			t.Logf("HasGoBuild is false on %s", runtime.GOOS)
 			return
 		}
@@ -67,14 +67,14 @@ func TestHasGoBuild(t *testing.T) {
 		if b == "" {
 			// We shouldn't make assumptions about what kind of sandbox or build
 			// environment external Go users may be running in.
-			t.Skipf("skipping: 'go build' unavailable")
+			t.Skipf("skipping: 'golang build' unavailable")
 		}
 
 		// Since we control the Go builders, we know which ones ought
-		// to be able to run 'go build'. Check that they can.
+		// to be able to run 'golang build'. Check that they can.
 		//
-		// (Note that we don't verify that any builders *can't* run 'go build'.
-		// If a builder starts running 'go build' tests when it shouldn't,
+		// (Note that we don't verify that any builders *can't* run 'golang build'.
+		// If a builder starts running 'golang build' tests when it shouldn't,
 		// we will presumably find out about it when those tests fail.)
 		switch runtime.GOOS {
 		case "ios":
@@ -98,7 +98,7 @@ func TestHasGoBuild(t *testing.T) {
 		}
 
 		if strings.Contains(b, "-noopt") {
-			// The -noopt builder sets GO_GCFLAGS, which causes tests of 'go build' to
+			// The -noopt builder sets GO_GCFLAGS, which causes tests of 'golang build' to
 			// be skipped.
 			t.Logf("HasGoBuild is false on %s", b)
 			return
@@ -116,22 +116,22 @@ func TestHasGoBuild(t *testing.T) {
 		hasExec = true
 	})
 	t.Run("MustHaveExecPath", func(t *testing.T) {
-		testenv.MustHaveExecPath(t, "go")
+		testenv.MustHaveExecPath(t, "golang")
 		hasExecGo = true
 	})
 	if !hasExec {
 		t.Errorf(`MustHaveExec(t) skipped unexpectedly`)
 	}
 	if !hasExecGo {
-		t.Errorf(`MustHaveExecPath(t, "go") skipped unexpectedly`)
+		t.Errorf(`MustHaveExecPath(t, "golang") skipped unexpectedly`)
 	}
 
 	dir := t.TempDir()
-	mainGo := filepath.Join(dir, "main.go")
+	mainGo := filepath.Join(dir, "main.golang")
 	if err := os.WriteFile(mainGo, []byte("package main\nfunc main() {}\n"), 0644); err != nil {
 		t.Fatal(err)
 	}
-	cmd := testenv.Command(t, "go", "build", "-o", os.DevNull, mainGo)
+	cmd := testenv.Command(t, "golang", "build", "-o", os.DevNull, mainGo)
 	out, err := cmd.CombinedOutput()
 	if err != nil {
 		t.Fatalf("%v: %v\n%s", cmd, err, out)
@@ -179,7 +179,7 @@ func TestCleanCmdEnvPWD(t *testing.T) {
 		if strings.HasPrefix(env, "PWD=") {
 			pwd := strings.TrimPrefix(env, "PWD=")
 			if pwd != dir {
-				t.Errorf("unexpected PWD: want %s, got %s", dir, pwd)
+				t.Errorf("unexpected PWD: want %s, golangt %s", dir, pwd)
 			}
 			return
 		}

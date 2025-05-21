@@ -1,19 +1,19 @@
 written by hand - just enough to compile rsc.io/sampler, rsc.io/quote
 
 -- .mod --
-module golang.org/x/text
+module golanglang.org/x/text
 -- .info --
 {"Version":"v0.3.0","Name":"","Short":"","Time":"2017-09-16T03:28:32Z"}
--- go.mod --
-module golang.org/x/text
--- unused/unused.go --
+-- golang.mod --
+module golanglang.org/x/text
+-- unused/unused.golang --
 package unused
--- language/lang.go --
+-- language/lang.golang --
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// This is a tiny version of golang.org/x/text.
+// This is a tiny version of golanglang.org/x/text.
 
 package language
 

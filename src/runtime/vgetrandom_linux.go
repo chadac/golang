@@ -1,8 +1,8 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build linux && (amd64 || arm64 || arm64be || ppc64 || ppc64le || loong64 || s390x)
+//golang:build linux && (amd64 || arm64 || arm64be || ppc64 || ppc64le || loong64 || s390x)
 
 package runtime
 
@@ -11,7 +11,7 @@ import (
 	"unsafe"
 )
 
-//go:noescape
+//golang:noescape
 func vgetrandom1(buf *byte, length uintptr, flags uint32, state uintptr, stateSize uintptr) int
 
 var vgetrandomAlloc struct {
@@ -89,7 +89,7 @@ func vgetrandomDestroy(mp *m) {
 
 // This is exported for use in internal/syscall/unix as well as x/sys/unix.
 //
-//go:linkname vgetrandom
+//golang:linkname vgetrandom
 func vgetrandom(p []byte, flags uint32) (ret int, supported bool) {
 	if vgetrandomAlloc.stateSize == 0 {
 		return -1, false

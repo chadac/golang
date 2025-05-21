@@ -1,8 +1,8 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build goexperiment.jsonv2
+//golang:build golangexperiment.jsonv2
 
 package jsontext
 
@@ -16,7 +16,7 @@ import (
 	"encoding/json/internal/jsonwire"
 )
 
-// NOTE: Token is analogous to v1 json.Token.
+// NOTE: Token is analogolangus to v1 json.Token.
 
 const (
 	maxInt64  = math.MaxInt64
@@ -238,7 +238,7 @@ func (t Token) String() string {
 	// This is inlinable to take advantage of "function outlining".
 	// This avoids an allocation for the string(b) conversion
 	// if the caller does not use the string in an escaping manner.
-	// See https://blog.filippo.io/efficient-go-apis-with-the-inliner/
+	// See https://blog.filippo.io/efficient-golang-apis-with-the-inliner/
 	s, b := t.string()
 	if len(b) > 0 {
 		return string(b)

@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package crc32
@@ -20,7 +20,7 @@ func TestCastagnoliRace(t *testing.T) {
 	// which races with the switch on tab during Write to check
 	// whether tab == castagnoliTable.
 	ieee := NewIEEE()
-	go MakeTable(Castagnoli)
+	golang MakeTable(Castagnoli)
 	ieee.Write([]byte("hello"))
 }
 
@@ -35,7 +35,7 @@ type test struct {
 	halfStateCastagnoli string // Castagnoli marshaled hash state after first half of in written, used by TestGoldenMarshal
 }
 
-var golden = []test{
+var golanglden = []test{
 	{0x0, 0x0, "", "crc\x01ʇ\x91M\x00\x00\x00\x00", "crc\x01wB\x84\x81\x00\x00\x00\x00"},
 	{0xe8b7be43, 0xc1d04330, "a", "crc\x01ʇ\x91M\x00\x00\x00\x00", "crc\x01wB\x84\x81\x00\x00\x00\x00"},
 	{0x9e83486d, 0xe2a22936, "ab", "crc\x01ʇ\x91M跾C", "crc\x01wB\x84\x81\xc1\xd0C0"},
@@ -53,7 +53,7 @@ var golden = []test{
 	{0x42080e8, 0x9e3be0c3, "Free! Free!/A trip/to Mars/for 900/empty jars/Burma Shave", "crc\x01ʇ\x91M-\xed\xf7\x94", "crc\x01wB\x84\x81\xce\xceb\x81"},
 	{0x154c6d11, 0xf505ef04, "The days of the digital watch are numbered.  -Tom Stoppard", "crc\x01ʇ\x91MOa\xa5\r", "crc\x01wB\x84\x81\xd3s\x9dP"},
 	{0x4c418325, 0x85d3dc82, "Nepal premier won't resign.", "crc\x01ʇ\x91M\xa8S9\x85", "crc\x01wB\x84\x81{\x90\x8a\x14"},
-	{0x33955150, 0xc5142380, "For every action there is an equal and opposite government program.", "crc\x01ʇ\x91Ma\xe9>\x86", "crc\x01wB\x84\x81\xaa@\xc4\x1c"},
+	{0x33955150, 0xc5142380, "For every action there is an equal and opposite golangvernment program.", "crc\x01ʇ\x91Ma\xe9>\x86", "crc\x01wB\x84\x81\xaa@\xc4\x1c"},
 	{0x26216a4b, 0x75eb77dd, "His money is twice tainted: 'taint yours and 'taint mine.", "crc\x01ʇ\x91M\\\x1an\x88", "crc\x01wB\x84\x81W\a8Z"},
 	{0x1abbe45e, 0x91ebe9f7, "There is no reason for any individual to have a computer in their home. -Ken Olsen, 1977", "crc\x01ʇ\x91M\xb7\xf5\xf2\xca", "crc\x01wB\x84\x81\xc4o\x9d\x85"},
 	{0xc89a94f7, 0xf0b1168e, "It's a tiny change to the code and not completely disgusting. - Bob Manchek", "crc\x01ʇ\x91M\x84g1\xe8", "crc\x01wB\x84\x81#\x98\f\xab"},
@@ -72,7 +72,7 @@ var golden = []test{
 // testGoldenIEEE verifies that the given function returns
 // correct IEEE checksums.
 func testGoldenIEEE(t *testing.T, crcFunc func(b []byte) uint32) {
-	for _, g := range golden {
+	for _, g := range golanglden {
 		if crc := crcFunc([]byte(g.in)); crc != g.ieee {
 			t.Errorf("IEEE(%s) = 0x%x want 0x%x", g.in, crc, g.ieee)
 		}
@@ -82,7 +82,7 @@ func testGoldenIEEE(t *testing.T, crcFunc func(b []byte) uint32) {
 // testGoldenCastagnoli verifies that the given function returns
 // correct IEEE checksums.
 func testGoldenCastagnoli(t *testing.T, crcFunc func(b []byte) uint32) {
-	for _, g := range golden {
+	for _, g := range golanglden {
 		if crc := crcFunc([]byte(g.in)); crc != g.castagnoli {
 			t.Errorf("Castagnoli(%s) = 0x%x want 0x%x", g.in, crc, g.castagnoli)
 		}
@@ -111,7 +111,7 @@ func testCrossCheck(t *testing.T, crcFunc1, crcFunc2 func(crc uint32, b []byte) 
 	}
 }
 
-// TestSimple tests the simple generic algorithm.
+// TestSimple tests the simple generic algolangrithm.
 func TestSimple(t *testing.T) {
 	tab := simpleMakeTable(IEEE)
 	testGoldenIEEE(t, func(b []byte) uint32 {
@@ -126,7 +126,7 @@ func TestSimple(t *testing.T) {
 
 func TestGoldenMarshal(t *testing.T) {
 	t.Run("IEEE", func(t *testing.T) {
-		for _, g := range golden {
+		for _, g := range golanglden {
 			h := New(IEEETable)
 			h2 := New(IEEETable)
 
@@ -170,7 +170,7 @@ func TestGoldenMarshal(t *testing.T) {
 	})
 	t.Run("Castagnoli", func(t *testing.T) {
 		table := MakeTable(Castagnoli)
-		for _, g := range golden {
+		for _, g := range golanglden {
 			h := New(table)
 			h2 := New(table)
 
@@ -228,7 +228,7 @@ func TestMarshalTableMismatch(t *testing.T) {
 	}
 }
 
-// TestSlicing tests the slicing-by-8 algorithm.
+// TestSlicing tests the slicing-by-8 algolangrithm.
 func TestSlicing(t *testing.T) {
 	tab := slicingMakeTable(IEEE)
 	testGoldenIEEE(t, func(b []byte) uint32 {
@@ -240,7 +240,7 @@ func TestSlicing(t *testing.T) {
 		return slicingUpdate(0, tab, b)
 	})
 
-	// Cross-check various polys against the simple algorithm.
+	// Cross-check various polys against the simple algolangrithm.
 	for _, poly := range []uint32{IEEE, Castagnoli, Koopman, 0xD5828281} {
 		t1 := simpleMakeTable(poly)
 		f1 := func(crc uint32, b []byte) uint32 {

@@ -1,5 +1,5 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package bootstrap_test
@@ -59,7 +59,7 @@ func overlayDir(dstRoot, srcRoot string) error {
 		}
 
 		// If we can use a hard link, do that instead of copying bytes.
-		// Go builds don't like symlinks in some cases, such as go:embed.
+		// Go builds don't like symlinks in some cases, such as golang:embed.
 		if err := os.Link(srcPath, dstPath); err == nil {
 			return nil
 		}

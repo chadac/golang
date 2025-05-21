@@ -1,18 +1,18 @@
 # issue 53314
 [GOOS:windows] skip
 cd [pkg]
-go build
+golang build
 
--- [pkg]/go.mod --
+-- [pkg]/golang.mod --
 module m
 
-go 1.19
--- [pkg]/x.go --
+golang 1.19
+-- [pkg]/x.golang --
 package p
 
 import _ "embed"
 
-//go:embed t.txt
+//golang:embed t.txt
 var S string
 
 -- [pkg]//t.txt --

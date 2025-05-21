@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package vcs
@@ -13,7 +13,7 @@ import (
 
 // charsetReader returns a reader that converts from the given charset to UTF-8.
 // Currently it only supports UTF-8 and ASCII. Otherwise, it returns a meaningful
-// error which is printed by go get, so the user can find why the package
+// error which is printed by golang get, so the user can find why the package
 // wasn't downloaded if the encoding is not supported. Note that, in
 // order to reduce potential errors, ASCII is treated as UTF-8 (i.e. characters
 // greater than 0x7f are not rejected).
@@ -51,7 +51,7 @@ func parseMetaGoImports(r io.Reader, mod ModuleMode) ([]metaImport, error) {
 		if !ok || !strings.EqualFold(e.Name.Local, "meta") {
 			continue
 		}
-		if attrValue(e.Attr, "name") != "go-import" {
+		if attrValue(e.Attr, "name") != "golang-import" {
 			continue
 		}
 		if f := strings.Fields(attrValue(e.Attr, "content")); len(f) == 3 || len(f) == 4 {

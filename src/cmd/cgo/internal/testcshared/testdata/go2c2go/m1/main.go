@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -13,10 +13,10 @@ import (
 )
 
 func main() {
-	got := C.CFunc()
+	golangt := C.CFunc()
 	const want = (1 << 8) | 2
-	if got != want {
-		fmt.Printf("got %#x, want %#x\n", got, want)
+	if golangt != want {
+		fmt.Printf("golangt %#x, want %#x\n", golangt, want)
 		os.Exit(1)
 	}
 }

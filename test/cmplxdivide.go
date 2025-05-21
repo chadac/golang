@@ -1,10 +1,10 @@
-// run cmplxdivide1.go
+// run cmplxdivide1.golang
 
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Driver for complex division table defined in cmplxdivide1.go
+// Driver for complex division table defined in cmplxdivide1.golang
 // For details, see the comment at the top of cmplxdivide.c.
 
 package main
@@ -35,7 +35,7 @@ func main() {
 				fmt.Printf("BUG\n")
 				bad = true
 			}
-			fmt.Printf("%v/%v: expected %v error; got %v\n", t.f, t.g, t.out, x)
+			fmt.Printf("%v/%v: expected %v error; golangt %v\n", t.f, t.g, t.out, x)
 		}
 	}
 	if bad {

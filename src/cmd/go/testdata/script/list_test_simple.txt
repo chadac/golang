@@ -1,23 +1,23 @@
 [short] skip
 
 # Test
-go test -list=Test
+golang test -list=Test
 stdout TestSimple
 
 # Benchmark
-go test -list=Benchmark
+golang test -list=Benchmark
 stdout BenchmarkSimple
 
 # Examples
-go test -list=Example
+golang test -list=Example
 stdout Example_simple
 stdout Example_withEmptyOutput
 
--- go.mod --
+-- golang.mod --
 module m
 
-go 1.16
--- bench_test.go --
+golang 1.16
+-- bench_test.golang --
 package testlist
 
 import (
@@ -32,7 +32,7 @@ func BenchmarkSimplefunc(b *testing.B) {
 		_ = fmt.Sprint("Test for bench")
 	}
 }
--- example_test.go --
+-- example_test.golang --
 package testlist
 
 import (
@@ -54,7 +54,7 @@ func Example_withEmptyOutput() {
 func Example_noOutput() {
 	_ = fmt.Sprint("Test with no output")
 }
--- test_test.go --
+-- test_test.golang --
 package testlist
 
 import (

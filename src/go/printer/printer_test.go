@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package printer
@@ -9,9 +9,9 @@ import (
 	"errors"
 	"flag"
 	"fmt"
-	"go/ast"
-	"go/parser"
-	"go/token"
+	"golang/ast"
+	"golang/parser"
+	"golang/token"
 	"internal/diff"
 	"io"
 	"os"
@@ -25,7 +25,7 @@ const (
 	tabwidth = 8
 )
 
-var update = flag.Bool("update", false, "update golden files")
+var update = flag.Bool("update", false, "update golanglden files")
 
 var fset = token.NewFileSet()
 
@@ -96,7 +96,7 @@ func checkEqual(aname, bname string, a, b []byte) error {
 	return errors.New(string(diff.Diff(aname, a, bname, b)))
 }
 
-func runcheck(t *testing.T, source, golden string, mode checkMode) {
+func runcheck(t *testing.T, source, golanglden string, mode checkMode) {
 	src, err := os.ReadFile(source)
 	if err != nil {
 		t.Error(err)
@@ -109,29 +109,29 @@ func runcheck(t *testing.T, source, golden string, mode checkMode) {
 		return
 	}
 
-	// update golden files if necessary
+	// update golanglden files if necessary
 	if *update {
-		if err := os.WriteFile(golden, res, 0644); err != nil {
+		if err := os.WriteFile(golanglden, res, 0644); err != nil {
 			t.Error(err)
 		}
 		return
 	}
 
-	// get golden
-	gld, err := os.ReadFile(golden)
+	// get golanglden
+	gld, err := os.ReadFile(golanglden)
 	if err != nil {
 		t.Error(err)
 		return
 	}
 
-	// formatted source and golden must be the same
-	if err := checkEqual(fmt.Sprintf("format(%v)", source), golden, res, gld); err != nil {
+	// formatted source and golanglden must be the same
+	if err := checkEqual(fmt.Sprintf("format(%v)", source), golanglden, res, gld); err != nil {
 		t.Error(err)
 		return
 	}
 
 	if mode&idempotent != 0 {
-		// formatting golden must be idempotent
+		// formatting golanglden must be idempotent
 		// (This is very difficult to achieve in general and for now
 		// it is only checked for files explicitly marked as such.)
 		res, err = format(gld, mode)
@@ -139,17 +139,17 @@ func runcheck(t *testing.T, source, golden string, mode checkMode) {
 			t.Error(err)
 			return
 		}
-		if err := checkEqual(golden, fmt.Sprintf("format(%s)", golden), gld, res); err != nil {
-			t.Errorf("golden is not idempotent: %s", err)
+		if err := checkEqual(golanglden, fmt.Sprintf("format(%s)", golanglden), gld, res); err != nil {
+			t.Errorf("golanglden is not idempotent: %s", err)
 		}
 	}
 }
 
-func check(t *testing.T, source, golden string, mode checkMode) {
+func check(t *testing.T, source, golanglden string, mode checkMode) {
 	// run the test
 	cc := make(chan int, 1)
-	go func() {
-		runcheck(t, source, golden, mode)
+	golang func() {
+		runcheck(t, source, golanglden, mode)
 		cc <- 0
 	}()
 
@@ -164,47 +164,47 @@ func check(t *testing.T, source, golden string, mode checkMode) {
 }
 
 type entry struct {
-	source, golden string
+	source, golanglden string
 	mode           checkMode
 }
 
-// Use go test -update to create/update the respective golden files.
+// Use golang test -update to create/update the respective golanglden files.
 var data = []entry{
-	{"empty.input", "empty.golden", idempotent},
-	{"comments.input", "comments.golden", 0},
+	{"empty.input", "empty.golanglden", idempotent},
+	{"comments.input", "comments.golanglden", 0},
 	{"comments.input", "comments.x", export},
-	{"comments2.input", "comments2.golden", idempotent},
-	{"alignment.input", "alignment.golden", idempotent},
-	{"linebreaks.input", "linebreaks.golden", idempotent},
-	{"expressions.input", "expressions.golden", idempotent},
+	{"comments2.input", "comments2.golanglden", idempotent},
+	{"alignment.input", "alignment.golanglden", idempotent},
+	{"linebreaks.input", "linebreaks.golanglden", idempotent},
+	{"expressions.input", "expressions.golanglden", idempotent},
 	{"expressions.input", "expressions.raw", rawFormat | idempotent},
-	{"declarations.input", "declarations.golden", 0},
-	{"statements.input", "statements.golden", 0},
-	{"slow.input", "slow.golden", idempotent},
+	{"declarations.input", "declarations.golanglden", 0},
+	{"statements.input", "statements.golanglden", 0},
+	{"slow.input", "slow.golanglden", idempotent},
 	{"complit.input", "complit.x", export},
-	{"go2numbers.input", "go2numbers.golden", idempotent},
-	{"go2numbers.input", "go2numbers.norm", normNumber | idempotent},
-	{"generics.input", "generics.golden", idempotent | allowTypeParams},
-	{"gobuild1.input", "gobuild1.golden", idempotent},
-	{"gobuild2.input", "gobuild2.golden", idempotent},
-	{"gobuild3.input", "gobuild3.golden", idempotent},
-	{"gobuild4.input", "gobuild4.golden", idempotent},
-	{"gobuild5.input", "gobuild5.golden", idempotent},
-	{"gobuild6.input", "gobuild6.golden", idempotent},
-	{"gobuild7.input", "gobuild7.golden", idempotent},
+	{"golang2numbers.input", "golang2numbers.golanglden", idempotent},
+	{"golang2numbers.input", "golang2numbers.norm", normNumber | idempotent},
+	{"generics.input", "generics.golanglden", idempotent | allowTypeParams},
+	{"golangbuild1.input", "golangbuild1.golanglden", idempotent},
+	{"golangbuild2.input", "golangbuild2.golanglden", idempotent},
+	{"golangbuild3.input", "golangbuild3.golanglden", idempotent},
+	{"golangbuild4.input", "golangbuild4.golanglden", idempotent},
+	{"golangbuild5.input", "golangbuild5.golanglden", idempotent},
+	{"golangbuild6.input", "golangbuild6.golanglden", idempotent},
+	{"golangbuild7.input", "golangbuild7.golanglden", idempotent},
 }
 
 func TestFiles(t *testing.T) {
 	t.Parallel()
 	for _, e := range data {
 		source := filepath.Join(dataDir, e.source)
-		golden := filepath.Join(dataDir, e.golden)
+		golanglden := filepath.Join(dataDir, e.golanglden)
 		mode := e.mode
 		t.Run(e.source, func(t *testing.T) {
 			t.Parallel()
-			check(t, source, golden, mode)
-			// TODO(gri) check that golden is idempotent
-			//check(t, golden, golden, e.mode)
+			check(t, source, golanglden, mode)
+			// TODO(gri) check that golanglden is idempotent
+			//check(t, golanglden, golanglden, e.mode)
 		})
 	}
 }
@@ -238,7 +238,7 @@ func TestLineComments(t *testing.T) {
 
 	const expected = 3
 	if nlines < expected {
-		t.Errorf("got %d, expected %d\n", nlines, expected)
+		t.Errorf("golangt %d, expected %d\n", nlines, expected)
 		t.Errorf("result:\n%s", buf.Bytes())
 	}
 }
@@ -253,7 +253,7 @@ func init() {
 	// in debug mode, the result contains additional information;
 	// ignore it
 	if s := buf.String(); !debug && s != name {
-		panic("got " + s + ", want " + name)
+		panic("golangt " + s + ", want " + name)
 	}
 }
 
@@ -268,7 +268,7 @@ func TestBadNodes(t *testing.T) {
 	var buf bytes.Buffer
 	Fprint(&buf, fset, f)
 	if buf.String() != res {
-		t.Errorf("got %q, expected %q", buf.String(), res)
+		t.Errorf("golangt %q, expected %q", buf.String(), res)
 	}
 }
 
@@ -344,7 +344,7 @@ func (v visitor) Visit(n ast.Node) (w ast.Visitor) {
 // idents is an iterator that returns all idents in f via the result channel.
 func idents(f *ast.File) <-chan *ast.Ident {
 	v := make(visitor)
-	go func() {
+	golang func() {
 		ast.Walk(v, f)
 		close(v)
 	}()
@@ -366,7 +366,7 @@ func identCount(f *ast.File) int {
 func TestSourcePos(t *testing.T) {
 	const src = `
 package p
-import ( "go/printer"; "math" )
+import ( "golang/printer"; "math" )
 const pi = 3.14; var x = 0
 type t struct{ x, y, z int; u, v, w float32 }
 func (t *t) foo(a, b, c int) int {
@@ -404,10 +404,10 @@ func (t *t) foo(a, b, c int) int {
 	n1 := identCount(f1)
 	n2 := identCount(f2)
 	if n1 == 0 {
-		t.Fatal("got no idents")
+		t.Fatal("golangt no idents")
 	}
 	if n2 != n1 {
-		t.Errorf("got %d idents; want %d", n2, n1)
+		t.Errorf("golangt %d idents; want %d", n2, n1)
 	}
 
 	// verify that all identifiers have correct line information
@@ -416,14 +416,14 @@ func (t *t) foo(a, b, c int) int {
 		i2 := <-i2range
 
 		if i2.Name != i1.Name {
-			t.Errorf("got ident %s; want %s", i2.Name, i1.Name)
+			t.Errorf("golangt ident %s; want %s", i2.Name, i1.Name)
 		}
 
 		// here we care about the relative (line-directive adjusted) positions
 		l1 := fset.Position(i1.Pos()).Line
 		l2 := fset.Position(i2.Pos()).Line
 		if l2 != l1 {
-			t.Errorf("got line %d; want %d for %s", l2, l1, i1.Name)
+			t.Errorf("golangt line %d; want %d for %s", l2, l1, i1.Name)
 		}
 	}
 
@@ -446,21 +446,21 @@ func g() { // line 8
 }
 `
 
-	const want = `//line src.go:2
+	const want = `//line src.golang:2
 package p
 
-//line src.go:3
+//line src.golang:3
 func f() {}
 
 var x, y, z int
 
-//line src.go:8
+//line src.golang:8
 func g() {
 }
 `
 
 	// parse original
-	f1, err := parser.ParseFile(fset, "src.go", orig, 0)
+	f1, err := parser.ParseFile(fset, "src.golang", orig, 0)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -471,11 +471,11 @@ func g() {
 	if err != nil {
 		t.Fatal(err)
 	}
-	got := buf.String()
+	golangt := buf.String()
 
 	// compare original with desired output
-	if got != want {
-		t.Errorf("got:\n%s\nwant:\n%s\n", got, want)
+	if golangt != want {
+		t.Errorf("golangt:\n%s\nwant:\n%s\n", golangt, want)
 	}
 }
 
@@ -500,7 +500,7 @@ func TestDeclLists(t *testing.T) {
 
 		out := buf.String()
 		if out != src {
-			t.Errorf("\ngot : %q\nwant: %q\n", out, src)
+			t.Errorf("\ngolangt : %q\nwant: %q\n", out, src)
 		}
 	}
 }
@@ -508,7 +508,7 @@ func TestDeclLists(t *testing.T) {
 var stmts = []string{
 	"i := 0",
 	"select {}\nvar a, b = 1, 2\nreturn a + b",
-	"go f()\ndefer func() {}()",
+	"golang f()\ndefer func() {}()",
 }
 
 func TestStmtLists(t *testing.T) {
@@ -526,7 +526,7 @@ func TestStmtLists(t *testing.T) {
 
 		out := buf.String()
 		if out != src {
-			t.Errorf("\ngot : %q\nwant: %q\n", out, src)
+			t.Errorf("\ngolangt : %q\nwant: %q\n", out, src)
 		}
 	}
 }
@@ -536,7 +536,7 @@ func TestBaseIndent(t *testing.T) {
 	// The testfile must not contain multi-line raw strings since those
 	// are not indented (because their values must not change) and make
 	// this test fail.
-	const filename = "printer.go"
+	const filename = "printer.golang"
 	src, err := os.ReadFile(filename)
 	if err != nil {
 		panic(err) // error in test
@@ -568,7 +568,7 @@ func TestBaseIndent(t *testing.T) {
 					}
 				}
 				if n < indent {
-					t.Errorf("line %d: got only %d tabs; want at least %d: %q", i, n, indent, line)
+					t.Errorf("line %d: golangt only %d tabs; want at least %d: %q", i, n, indent, line)
 				}
 			}
 		})
@@ -576,7 +576,7 @@ func TestBaseIndent(t *testing.T) {
 }
 
 // TestFuncType tests that an ast.FuncType with a nil Params field
-// can be printed (per go/ast specification). Test case for issue 3870.
+// can be printed (per golang/ast specification). Test case for issue 3870.
 func TestFuncType(t *testing.T) {
 	src := &ast.File{
 		Name: &ast.Ident{Name: "p"},
@@ -592,15 +592,15 @@ func TestFuncType(t *testing.T) {
 	if err := Fprint(&buf, fset, src); err != nil {
 		t.Fatal(err)
 	}
-	got := buf.String()
+	golangt := buf.String()
 
 	const want = `package p
 
 func f()
 `
 
-	if got != want {
-		t.Fatalf("got:\n%s\nwant:\n%s\n", got, want)
+	if golangt != want {
+		t.Fatalf("golangt:\n%s\nwant:\n%s\n", golangt, want)
 	}
 }
 
@@ -622,8 +622,8 @@ func TestChanType(t *testing.T) {
 	if err := Fprint(&buf, fset, expr); err != nil {
 		t.Fatal(err)
 	}
-	if got, want := buf.String(), `<-(<-chan int)(nil)`; got != want {
-		t.Fatalf("got:\n%s\nwant:\n%s\n", got, want)
+	if golangt, want := buf.String(), `<-(<-chan int)(nil)`; golangt != want {
+		t.Fatalf("golangt:\n%s\nwant:\n%s\n", golangt, want)
 	}
 }
 
@@ -646,7 +646,7 @@ func (l *limitWriter) Write(buf []byte) (n int, err error) {
 // Test whether the printer stops writing after the first error
 func TestWriteErrors(t *testing.T) {
 	t.Parallel()
-	const filename = "printer.go"
+	const filename = "printer.golang"
 	src, err := os.ReadFile(filename)
 	if err != nil {
 		panic(err) // error in test
@@ -704,7 +704,7 @@ type bar int	// comment2
 	)
 
 	fset := token.NewFileSet()
-	f, err := parser.ParseFile(fset, "input.go", input, parser.ParseComments)
+	f, err := parser.ParseFile(fset, "input.golang", input, parser.ParseComments)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -717,7 +717,7 @@ type bar int	// comment2
 	}
 
 	if buf.String() != foo {
-		t.Errorf("got %q, want %q", buf.String(), foo)
+		t.Errorf("golangt %q, want %q", buf.String(), foo)
 	}
 
 	buf.Reset()
@@ -728,7 +728,7 @@ type bar int	// comment2
 	}
 
 	if buf.String() != bar {
-		t.Errorf("got %q, want %q", buf.String(), bar)
+		t.Errorf("golangt %q, want %q", buf.String(), bar)
 	}
 }
 
@@ -742,16 +742,16 @@ func TestIssue11151(t *testing.T) {
 
 	var buf bytes.Buffer
 	Fprint(&buf, fset, f)
-	got := buf.String()
+	golangt := buf.String()
 	const want = "package p\t/*/1*\r/2*\r/3*+/4*/\n" // \r following opening /* should be stripped
-	if got != want {
-		t.Errorf("\ngot : %q\nwant: %q", got, want)
+	if golangt != want {
+		t.Errorf("\ngolangt : %q\nwant: %q", golangt, want)
 	}
 
 	// the resulting program must be valid
-	_, err = parser.ParseFile(fset, "", got, 0)
+	_, err = parser.ParseFile(fset, "", golangt, 0)
 	if err != nil {
-		t.Errorf("%v\norig: %q\ngot : %q", err, src, got)
+		t.Errorf("%v\norig: %q\ngolangt : %q", err, src, golangt)
 	}
 }
 
@@ -786,7 +786,7 @@ func TestParenthesizedDecl(t *testing.T) {
 	noparen := buf.String()
 
 	if noparen != original {
-		t.Errorf("got %q, want %q", noparen, original)
+		t.Errorf("golangt %q, want %q", noparen, original)
 	}
 }
 
@@ -816,19 +816,19 @@ func f() {
 		t.Fatal(err)
 	}
 	want := "return call()"
-	if got := buf.String(); got != want {
-		t.Fatalf("got %q, want %q", got, want)
+	if golangt := buf.String(); golangt != want {
+		t.Fatalf("golangt %q, want %q", golangt, want)
 	}
 }
 
 func TestSourcePosNewline(t *testing.T) {
 	// We don't provide a syntax for escaping or unescaping characters in line
-	// directives (see https://go.dev/issue/24183#issuecomment-372449628).
+	// directives (see https://golang.dev/issue/24183#issuecomment-372449628).
 	// As a result, we cannot write a line directive with the correct path for a
 	// filename containing newlines. We should return an error rather than
 	// silently dropping or mangling it.
 
-	fname := "foo\nbar/bar.go"
+	fname := "foo\nbar/bar.golang"
 	src := `package bar`
 	fset := token.NewFileSet()
 	f, err := parser.ParseFile(fset, fname, src, parser.ParseComments|parser.AllErrors|parser.SkipObjectResolution)
@@ -856,10 +856,10 @@ func TestEmptyDecl(t *testing.T) { // issue 63566
 	for _, tok := range []token.Token{token.IMPORT, token.CONST, token.TYPE, token.VAR} {
 		var buf bytes.Buffer
 		Fprint(&buf, token.NewFileSet(), &ast.GenDecl{Tok: tok})
-		got := buf.String()
+		golangt := buf.String()
 		want := tok.String() + " ()"
-		if got != want {
-			t.Errorf("got %q, want %q", got, want)
+		if golangt != want {
+			t.Errorf("golangt %q, want %q", golangt, want)
 		}
 	}
 }

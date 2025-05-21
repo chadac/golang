@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package comment
@@ -184,7 +184,7 @@ type Parser struct {
 	// If Words[w] is the empty string, then the word w
 	// is only italicized. Otherwise it is linked, using
 	// Words[w] as the link target.
-	// Words corresponds to the [go/doc.ToHTML] words parameter.
+	// Words corresponds to the [golang/doc.ToHTML] words parameter.
 	Words map[string]string
 
 	// LookupPackage resolves a package name to an import path.
@@ -270,7 +270,7 @@ func isStdPkg(path string) bool {
 // library with single-element import paths, such as math,
 // which would otherwise be impossible to name.
 //
-// Note that the go/doc package provides a more sophisticated
+// Note that the golang/doc package provides a more sophisticated
 // lookup based on the imports used in the current package.
 func DefaultLookupPackage(name string) (importPath string, ok bool) {
 	if isStdPkg(name) {
@@ -301,7 +301,7 @@ func (p *Parser) Parse(text string) *Doc {
 		var b Block
 		switch s.kind {
 		default:
-			panic("go/doc/comment: internal error: unknown span kind")
+			panic("golang/doc/comment: internal error: unknown span kind")
 		case spanList:
 			b = d.list(lines[s.start:s.end], prev.end < s.start)
 		case spanCode:
@@ -381,7 +381,7 @@ Spans:
 			break
 		}
 		if watchdog--; watchdog < 0 {
-			panic("go/doc/comment: internal error: not making progress")
+			panic("golang/doc/comment: internal error: not making progress")
 		}
 
 		var kind spanKind
@@ -393,7 +393,7 @@ Spans:
 			// If this is an unindented list that we are heuristically treating as indented,
 			// then accept unindented list item lines up to the first blank lines.
 			// The heuristic is disabled at blank lines to contain its effect
-			// to non-gofmt'ed sections of the comment.
+			// to non-golangfmt'ed sections of the comment.
 			unindentedListOK := isList(lines[i]) && i < forceIndent
 			i++
 			for i < len(lines) && (lines[i] == "" || i < forceIndent || indented(lines[i]) || (unindentedListOK && isList(lines[i]))) {
@@ -419,8 +419,8 @@ Spans:
 			// }
 			//
 			// and forgetting to indent it.
-			// The heuristic will never trigger on a gofmt'ed comment,
-			// because any gofmt'ed code block or list would be
+			// The heuristic will never trigger on a golangfmt'ed comment,
+			// because any golangfmt'ed code block or list would be
 			// followed by a blank line or end of comment.
 			if end < len(lines) && strings.HasPrefix(lines[end], "}") {
 				end++
@@ -445,8 +445,8 @@ Spans:
 			// should be left for the indented section.
 			// This can happen for the common mistakes of
 			// unindented code or unindented lists.
-			// The heuristic will never trigger on a gofmt'ed comment,
-			// because any gofmt'ed code block would have a blank line
+			// The heuristic will never trigger on a golangfmt'ed comment,
+			// because any golangfmt'ed code block would have a blank line
 			// preceding it after the unindented lines.
 			if i < len(lines) && lines[i] != "" && !isList(lines[i]) {
 				switch {
@@ -647,7 +647,7 @@ func (d *parseDoc) paragraph(lines []string) Block {
 	for _, line := range lines {
 		def, ok := parseLink(line)
 		if !ok {
-			goto NoDefs
+			golangto NoDefs
 		}
 		defs = append(defs, def)
 	}
@@ -685,7 +685,7 @@ func parseLink(line string) (*LinkDef, bool) {
 	}
 
 	// Line has right form and has valid scheme://.
-	// That's good enough for us - we are not as picky
+	// That's golangod enough for us - we are not as picky
 	// about the characters beyond the :// as we are
 	// when extracting inline URLs from text.
 	return &LinkDef{Text: text, URL: url}, true
@@ -915,7 +915,7 @@ func (d *parseDoc) parseText(out []Text, s string, autoLink bool) []Text {
 				// Note: The old comment parser would look up the URL in words
 				// and replace the target with words[URL] if it was non-empty.
 				// That would allow creating links that display as one URL but
-				// when clicked go to a different URL. Not sure what the point
+				// when clicked golang to a different URL. Not sure what the point
 				// of that is, so we're not doing that lookup here.
 				out = append(out, &Link{Auto: true, Text: []Text{Plain(url)}, URL: url})
 				i += len(url)
@@ -1060,7 +1060,7 @@ func isScheme(s string) bool {
 	switch s {
 	case "file",
 		"ftp",
-		"gopher",
+		"golangpher",
 		"http",
 		"https",
 		"mailto",
@@ -1199,7 +1199,7 @@ func isIdentASCII(c byte) bool {
 }
 
 // validImportPath reports whether path is a valid import path.
-// It is a lightly edited copy of golang.org/x/mod/module.CheckImportPath.
+// It is a lightly edited copy of golanglang.org/x/mod/module.CheckImportPath.
 func validImportPath(path string) bool {
 	if !utf8.ValidString(path) {
 		return false

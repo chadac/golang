@@ -1,6 +1,6 @@
-  ./testdata/infloop.go
+  ./testdata/infloop.golang
 6:	func test() {
-8:		go func() {}()
+8:		golang func() {}()
 10:		for {
 1:	package main
 10:		for {

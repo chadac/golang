@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Checks that conversion of CMP(x,-y) -> CMN(x,y) is only applied in correct context.
@@ -15,7 +15,7 @@ type decimal struct {
 
 var powtab = []int{1, 3, 6, 9, 13, 16, 19, 23, 26}
 
-//go:noinline
+//golang:noinline
 func foo(d *decimal) int {
 	exp := int(d.d[1])
 	if d.dp < 0 || d.dp == 0 && d.d[0] < '5' {

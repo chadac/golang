@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package fmtsort_test
@@ -234,9 +234,9 @@ type toy struct {
 
 func TestOrder(t *testing.T) {
 	for _, test := range sortTests {
-		got := sprint(test.data)
-		if got != test.print {
-			t.Errorf("%s: got %q, want %q", reflect.TypeOf(test.data), got, test.print)
+		golangt := sprint(test.data)
+		if golangt != test.print {
+			t.Errorf("%s: golangt %q, want %q", reflect.TypeOf(test.data), golangt, test.print)
 		}
 	}
 }
@@ -263,7 +263,7 @@ func TestInterface(t *testing.T) {
 		struct{ x, y int }{1, 0}: "",
 		struct{ x, y int }{0, 1}: "",
 	}
-	got := sprint(m)
+	golangt := sprint(m)
 	typeGroups := []string{
 		"NaN: 1.1: 2.1: 3.1:", // float64
 		"false: true:",        // bool
@@ -273,7 +273,7 @@ func TestInterface(t *testing.T) {
 		"{0 1}: {1 0}:",       // struct{ x int; y int }
 	}
 	for _, g := range typeGroups {
-		if !strings.Contains(got, g) {
+		if !strings.Contains(golangt, g) {
 			t.Errorf("sorted map should contain %q", g)
 		}
 	}

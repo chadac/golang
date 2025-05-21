@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test that we can access dynamically imported variables.
@@ -7,7 +7,7 @@
 // Check that loading the variable from C and Go gets the
 // same result.
 
-//go:build darwin
+//golang:build darwin
 
 package main
 
@@ -26,7 +26,7 @@ func main() {
 	c := uint32(C.Mach_task_self())
 	a := asm.Mach_task_self()
 	if a != c {
-		println("got", a, "want", c)
+		println("golangt", a, "want", c)
 		panic("FAIL")
 	}
 }

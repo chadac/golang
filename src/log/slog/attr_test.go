@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package slog
@@ -37,7 +37,7 @@ func TestAttrNoAlloc(t *testing.T) {
 		x = Any("key", p).Value.Any()
 	}))
 	if a != 0 {
-		t.Errorf("got %d allocs, want zero", a)
+		t.Errorf("golangt %d allocs, want zero", a)
 	}
 	_ = u
 	_ = f

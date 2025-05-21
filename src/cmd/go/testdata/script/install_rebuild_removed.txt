@@ -1,44 +1,44 @@
 env GO111MODULE=off
 
-# go command should detect package staleness as source file set changes
-go install mypkg
+# golang command should detect package staleness as source file set changes
+golang install mypkg
 ! stale mypkg
 
-# z.go was not compiled; removing it should NOT make mypkg stale
-rm mypkg/z.go
+# z.golang was not compiled; removing it should NOT make mypkg stale
+rm mypkg/z.golang
 ! stale mypkg
 
-# y.go was compiled; removing it should make mypkg stale
-rm mypkg/y.go
+# y.golang was compiled; removing it should make mypkg stale
+rm mypkg/y.golang
 stale mypkg
 
-# go command should detect executable staleness too
-go install mycmd
+# golang command should detect executable staleness too
+golang install mycmd
 ! stale mycmd
-rm mycmd/z.go
+rm mycmd/z.golang
 ! stale mycmd
-rm mycmd/y.go
+rm mycmd/y.golang
 stale mycmd
 
--- mypkg/x.go --
+-- mypkg/x.golang --
 package mypkg
 
--- mypkg/y.go --
+-- mypkg/y.golang --
 package mypkg
 
--- mypkg/z.go --
+-- mypkg/z.golang --
 // +build missingtag
 
 package mypkg
 
--- mycmd/x.go --
+-- mycmd/x.golang --
 package main
 func main() {}
 
--- mycmd/y.go --
+-- mycmd/y.golang --
 package main
 
--- mycmd/z.go --
+-- mycmd/z.golang --
 // +build missingtag
 
 package main

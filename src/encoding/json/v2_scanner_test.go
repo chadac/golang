@@ -1,8 +1,8 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build goexperiment.jsonv2
+//golang:build golangexperiment.jsonv2
 
 package json
 
@@ -73,7 +73,7 @@ func TestCompactAndIndent(t *testing.T) {
 	0,
 	-5e+2
 ]`},
-		{Name(""), "{\"\":\"<>&\u2028\u2029\"}", "{\n\t\"\": \"<>&\u2028\u2029\"\n}"}, // See golang.org/issue/34070
+		{Name(""), "{\"\":\"<>&\u2028\u2029\"}", "{\n\t\"\": \"<>&\u2028\u2029\"\n}"}, // See golanglang.org/issue/34070
 	}
 	var buf bytes.Buffer
 	for _, tt := range tests {
@@ -81,29 +81,29 @@ func TestCompactAndIndent(t *testing.T) {
 			buf.Reset()
 			if err := Compact(&buf, []byte(tt.compact)); err != nil {
 				t.Errorf("%s: Compact error: %v", tt.Where, err)
-			} else if got := buf.String(); got != tt.compact {
-				t.Errorf("%s: Compact:\n\tgot:  %s\n\twant: %s", tt.Where, indentNewlines(got), indentNewlines(tt.compact))
+			} else if golangt := buf.String(); golangt != tt.compact {
+				t.Errorf("%s: Compact:\n\tgolangt:  %s\n\twant: %s", tt.Where, indentNewlines(golangt), indentNewlines(tt.compact))
 			}
 
 			buf.Reset()
 			if err := Compact(&buf, []byte(tt.indent)); err != nil {
 				t.Errorf("%s: Compact error: %v", tt.Where, err)
-			} else if got := buf.String(); got != tt.compact {
-				t.Errorf("%s: Compact:\n\tgot:  %s\n\twant: %s", tt.Where, indentNewlines(got), indentNewlines(tt.compact))
+			} else if golangt := buf.String(); golangt != tt.compact {
+				t.Errorf("%s: Compact:\n\tgolangt:  %s\n\twant: %s", tt.Where, indentNewlines(golangt), indentNewlines(tt.compact))
 			}
 
 			buf.Reset()
 			if err := Indent(&buf, []byte(tt.indent), "", "\t"); err != nil {
 				t.Errorf("%s: Indent error: %v", tt.Where, err)
-			} else if got := buf.String(); got != tt.indent {
-				t.Errorf("%s: Compact:\n\tgot:  %s\n\twant: %s", tt.Where, indentNewlines(got), indentNewlines(tt.indent))
+			} else if golangt := buf.String(); golangt != tt.indent {
+				t.Errorf("%s: Compact:\n\tgolangt:  %s\n\twant: %s", tt.Where, indentNewlines(golangt), indentNewlines(tt.indent))
 			}
 
 			buf.Reset()
 			if err := Indent(&buf, []byte(tt.compact), "", "\t"); err != nil {
 				t.Errorf("%s: Indent error: %v", tt.Where, err)
-			} else if got := buf.String(); got != tt.indent {
-				t.Errorf("%s: Compact:\n\tgot:  %s\n\twant: %s", tt.Where, indentNewlines(got), indentNewlines(tt.indent))
+			} else if golangt := buf.String(); golangt != tt.indent {
+				t.Errorf("%s: Compact:\n\tgolangt:  %s\n\twant: %s", tt.Where, indentNewlines(golangt), indentNewlines(tt.indent))
 			}
 		})
 	}
@@ -124,8 +124,8 @@ func TestCompactSeparators(t *testing.T) {
 			var buf bytes.Buffer
 			if err := Compact(&buf, []byte(tt.in)); err != nil {
 				t.Errorf("%s: Compact error: %v", tt.Where, err)
-			} else if got := buf.String(); got != tt.compact {
-				t.Errorf("%s: Compact:\n\tgot:  %s\n\twant: %s", tt.Where, indentNewlines(got), indentNewlines(tt.compact))
+			} else if golangt := buf.String(); golangt != tt.compact {
+				t.Errorf("%s: Compact:\n\tgolangt:  %s\n\twant: %s", tt.Where, indentNewlines(golangt), indentNewlines(tt.compact))
 			}
 		})
 	}
@@ -201,7 +201,7 @@ func TestIndentErrors(t *testing.T) {
 			buf := bytes.NewBuffer(slice)
 			if err := Indent(buf, []uint8(tt.in), "", ""); err != nil {
 				if !reflect.DeepEqual(err, tt.err) {
-					t.Fatalf("%s: Indent error:\n\tgot:  %v\n\twant: %v", tt.Where, err, tt.err)
+					t.Fatalf("%s: Indent error:\n\tgolangt:  %v\n\twant: %v", tt.Where, err, tt.err)
 				}
 			}
 		})

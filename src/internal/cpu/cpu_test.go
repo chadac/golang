@@ -1,12 +1,12 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package cpu_test
 
 import (
 	. "internal/cpu"
-	"internal/godebug"
+	"internal/golangdebug"
 	"internal/testenv"
 	"os/exec"
 	"testing"
@@ -45,14 +45,14 @@ func TestDisableAllCapabilities(t *testing.T) {
 func TestAllCapabilitiesDisabled(t *testing.T) {
 	MustHaveDebugOptionsSupport(t)
 
-	if godebug.New("#cpu.all").Value() != "off" {
+	if golangdebug.New("#cpu.all").Value() != "off" {
 		t.Skipf("skipping test: GODEBUG=cpu.all=off not set")
 	}
 
 	for _, o := range Options {
 		want := false
-		if got := *o.Feature; got != want {
-			t.Errorf("%v: expected %v, got %v", o.Name, want, got)
+		if golangt := *o.Feature; golangt != want {
+			t.Errorf("%v: expected %v, golangt %v", o.Name, want, golangt)
 		}
 	}
 }

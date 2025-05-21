@@ -1,28 +1,28 @@
-# Regression test for https://go.dev/issue/63845:
+# Regression test for https://golang.dev/issue/63845:
 # If 'git ls-remote' fails for all secure protocols,
 # we should fail instead of falling back to an arbitrary protocol.
 #
 # Note that this test does not use the local vcweb test server
-# (vcs-test.golang.org), because the hook for redirecting to that
+# (vcs-test.golanglang.org), because the hook for redirecting to that
 # server bypasses the "ping to determine protocol" logic
-# in cmd/go/internal/vcs.
+# in cmd/golang/internal/vcs.
 
-[!net:golang.org] skip
+[!net:golanglang.org] skip
 [!git] skip
 [short] skip 'tries to access a nonexistent external Git repo'
 
-env GOPRIVATE=golang.org
+env GOPRIVATE=golanglang.org
 env CURLOPT_TIMEOUT_MS=100
 env GIT_SSH_COMMAND=false
 
-! go get -x golang.org/nonexist.git@latest
-stderr '^git ls-remote https://golang.org/nonexist$'
-stderr '^git ls-remote git\+ssh://golang.org/nonexist'
-stderr '^git ls-remote ssh://golang.org/nonexist$'
+! golang get -x golanglang.org/nonexist.git@latest
+stderr '^git ls-remote https://golanglang.org/nonexist$'
+stderr '^git ls-remote git\+ssh://golanglang.org/nonexist'
+stderr '^git ls-remote ssh://golanglang.org/nonexist$'
 ! stderr 'git://'
-stderr '^go: golang.org/nonexist.git@latest: no secure protocol found for repository$'
+stderr '^golang: golanglang.org/nonexist.git@latest: no secure protocol found for repository$'
 
--- go.mod --
+-- golang.mod --
 module example
 
-go 1.19
+golang 1.19

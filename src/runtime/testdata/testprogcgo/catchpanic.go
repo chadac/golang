@@ -1,8 +1,8 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !plan9 && !windows
+//golang:build !plan9 && !windows
 // +build !plan9,!windows
 
 package main
@@ -35,11 +35,11 @@ import "C"
 import "os"
 
 func init() {
-	register("CgoCatchPanic", CgoCatchPanic)
+	register("CgolangCatchPanic", CgolangCatchPanic)
 }
 
 // Test that the SIGABRT raised by panic can be caught by an early signal handler.
-func CgoCatchPanic() {
+func CgolangCatchPanic() {
 	if _, ok := os.LookupEnv("CGOCATCHPANIC_EARLY_HANDLER"); !ok {
 		C.registerAbortHandler()
 	}

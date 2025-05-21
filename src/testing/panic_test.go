@@ -1,5 +1,5 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package testing_test
@@ -33,7 +33,7 @@ func TestPanic(t *testing.T) {
 		flags: []string{"-test_panic_test=TestPanicHelper"},
 		want: `
 --- FAIL: TestPanicHelper (N.NNs)
-    panic_test.go:NNN: TestPanicHelper
+    panic_test.golang:NNN: TestPanicHelper
     TestPanicHelper
 `,
 	}, {
@@ -41,10 +41,10 @@ func TestPanic(t *testing.T) {
 		flags: []string{"-test_panic_test=TestPanicHelper/1"},
 		want: `
 --- FAIL: TestPanicHelper (N.NNs)
-    panic_test.go:NNN: TestPanicHelper
+    panic_test.golang:NNN: TestPanicHelper
     TestPanicHelper
     --- FAIL: TestPanicHelper/1 (N.NNs)
-        panic_test.go:NNN: TestPanicHelper/1
+        panic_test.golang:NNN: TestPanicHelper/1
         TestPanicHelper/1
 `,
 	}, {
@@ -55,10 +55,10 @@ ran inner cleanup 1
 ran middle cleanup 1
 ran outer cleanup
 --- FAIL: TestPanicHelper (N.NNs)
-    panic_test.go:NNN: TestPanicHelper
+    panic_test.golang:NNN: TestPanicHelper
     TestPanicHelper
     --- FAIL: TestPanicHelper/1 (N.NNs)
-        panic_test.go:NNN: TestPanicHelper/1
+        panic_test.golang:NNN: TestPanicHelper/1
         TestPanicHelper/1
 `,
 	}, {
@@ -69,7 +69,7 @@ ran inner cleanup 1
 ran middle cleanup 1
 ran outer cleanup
 --- FAIL: TestPanicHelper (N.NNs)
-    panic_test.go:NNN: TestPanicHelper
+    panic_test.golang:NNN: TestPanicHelper
     TestPanicHelper
 `,
 	}, {
@@ -80,10 +80,10 @@ ran inner cleanup 1
 ran middle cleanup 1
 ran outer cleanup
 --- FAIL: TestPanicHelper (N.NNs)
-    panic_test.go:NNN: TestPanicHelper
+    panic_test.golang:NNN: TestPanicHelper
     TestPanicHelper
     --- FAIL: TestPanicHelper/1 (N.NNs)
-        panic_test.go:NNN: TestPanicHelper/1
+        panic_test.golang:NNN: TestPanicHelper/1
         TestPanicHelper/1
 `,
 	}, {
@@ -94,10 +94,10 @@ ran inner cleanup 1
 ran middle cleanup 1
 ran outer cleanup
 --- FAIL: TestPanicHelper (N.NNs)
-    panic_test.go:NNN: TestPanicHelper
+    panic_test.golang:NNN: TestPanicHelper
     TestPanicHelper
     --- FAIL: TestPanicHelper/1 (N.NNs)
-        panic_test.go:NNN: TestPanicHelper/1
+        panic_test.golang:NNN: TestPanicHelper/1
         TestPanicHelper/1
 `,
 	}, {
@@ -108,10 +108,10 @@ ran inner cleanup 1
 ran middle cleanup 1
 ran outer cleanup
 --- FAIL: TestPanicHelper (N.NNs)
-    panic_test.go:NNN: TestPanicHelper
+    panic_test.golang:NNN: TestPanicHelper
     TestPanicHelper
     --- FAIL: TestPanicHelper/1 (N.NNs)
-        panic_test.go:NNN: TestPanicHelper/1
+        panic_test.golang:NNN: TestPanicHelper/1
         TestPanicHelper/1
 `,
 	}, {
@@ -122,7 +122,7 @@ ran inner cleanup 1
 ran middle cleanup 1
 ran outer cleanup
 --- FAIL: TestPanicHelper (N.NNs)
-    panic_test.go:NNN: TestPanicHelper
+    panic_test.golang:NNN: TestPanicHelper
     TestPanicHelper
 `,
 	}, {
@@ -133,10 +133,10 @@ ran inner cleanup 1
 ran middle cleanup 1
 ran outer cleanup
 --- FAIL: TestPanicHelper (N.NNs)
-    panic_test.go:NNN: TestPanicHelper
+    panic_test.golang:NNN: TestPanicHelper
     TestPanicHelper
     --- FAIL: TestPanicHelper/1 (N.NNs)
-        panic_test.go:NNN: TestPanicHelper/1
+        panic_test.golang:NNN: TestPanicHelper/1
         TestPanicHelper/1
 `,
 	}, {
@@ -147,10 +147,10 @@ ran inner cleanup 1
 ran middle cleanup 1
 ran outer cleanup
 --- FAIL: TestPanicHelper (N.NNs)
-    panic_test.go:NNN: TestPanicHelper
+    panic_test.golang:NNN: TestPanicHelper
     TestPanicHelper
     --- FAIL: TestPanicHelper/1 (N.NNs)
-        panic_test.go:NNN: TestPanicHelper/1
+        panic_test.golang:NNN: TestPanicHelper/1
         TestPanicHelper/1
 `,
 	}}
@@ -160,11 +160,11 @@ ran outer cleanup
 			cmd.Args = append(cmd.Args, tc.flags...)
 			cmd.Env = append(os.Environ(), "GO_WANT_HELPER_PROCESS=1")
 			b, _ := cmd.CombinedOutput()
-			got := string(b)
+			golangt := string(b)
 			want := strings.TrimSpace(tc.want)
 			re := makeRegexp(want)
-			if ok, err := regexp.MatchString(re, got); !ok || err != nil {
-				t.Errorf("output:\ngot:\n%s\nwant:\n%s", got, want)
+			if ok, err := regexp.MatchString(re, golangt); !ok || err != nil {
+				t.Errorf("output:\ngolangt:\n%s\nwant:\n%s", golangt, want)
 			}
 		})
 	}
@@ -254,11 +254,11 @@ func TestMorePanic(t *testing.T) {
 		cmd := exec.Command(testenv.Executable(t), tc.flags...)
 		cmd.Env = append(os.Environ(), "GO_WANT_HELPER_PROCESS=1")
 		b, _ := cmd.CombinedOutput()
-		got := string(b)
+		golangt := string(b)
 		want := tc.want
 		re := makeRegexp(want)
-		if ok, err := regexp.MatchString(re, got); !ok || err != nil {
-			t.Errorf("output:\ngot:\n%s\nwant:\n%s", got, want)
+		if ok, err := regexp.MatchString(re, golangt); !ok || err != nil {
+			t.Errorf("output:\ngolangt:\n%s\nwant:\n%s", golangt, want)
 		}
 	}
 }

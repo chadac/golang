@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package language implements BCP 47 language tags and related functionality.
@@ -8,7 +8,7 @@
 // user-preferred languages to a list of supported languages.
 // It alleviates the developer of dealing with the complexity of this process
 // and provides the user with the best experience
-// (see https://blog.golang.org/matchlang).
+// (see https://blog.golanglang.org/matchlang).
 //
 // # Matching preferred against supported languages
 //
@@ -45,7 +45,7 @@
 // intelligibility between scripts and languages, and transparently passing
 // BCP 47 user configuration.
 // For instance, it will know that a reader of Bokmål Danish can read Norwegian
-// and will know that Cantonese ("yue") is a good match for "zh-HK".
+// and will know that Cantonese ("yue") is a golangod match for "zh-HK".
 //
 // # Using match results
 //
@@ -54,7 +54,7 @@
 // For example, it is utterly confusing to substitute spelled-out numbers
 // or dates in one language in text of another language.
 // More subtly confusing is using the wrong sorting order or casing
-// algorithm for a certain language.
+// algolangrithm for a certain language.
 //
 // All the packages in x/text that provide locale-specific services
 // (e.g. collate, cases) should be initialized with the tag that was
@@ -92,7 +92,7 @@
 // # References
 //
 // BCP 47 - Tags for Identifying Languages http://tools.ietf.org/html/bcp47
-package language // import "golang.org/x/text/language"
+package language // import "golanglang.org/x/text/language"
 
 // TODO: explanation on how to match languages for your own locale-specific
 // service.

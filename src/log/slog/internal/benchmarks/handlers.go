@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package benchmarks
@@ -101,7 +101,7 @@ func (*fastTextHandler) WithGroup(string) slog.Handler {
 }
 
 // An asyncHandler simulates a Handler that passes Records to a
-// background goroutine for processing.
+// background golangroutine for processing.
 // Because sending to a channel can be expensive due to locking,
 // we simulate a lock-free queue by adding the Record to a ring buffer.
 // Omitting the locking makes this little more than a copy of the Record,

@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ecdh_test
@@ -22,7 +22,7 @@ import (
 	"strings"
 	"testing"
 
-	"golang.org/x/crypto/chacha20"
+	"golanglang.org/x/crypto/chacha20"
 )
 
 // Check that PublicKey and PrivateKey implement the interfaces documented in
@@ -107,8 +107,8 @@ func TestGenerateKey(t *testing.T) {
 		// which for all curves is small enough (at most 2^-32, for P-256) that
 		// a bit flip is more likely to make this test fail than bad luck.
 		// Account for the extra MaybeReadByte byte, too.
-		if got, expected := r.n, len(k.Bytes())+1; got > expected {
-			t.Errorf("expected GenerateKey to consume at most %v bytes, got %v", expected, got)
+		if golangt, expected := r.n, len(k.Bytes())+1; golangt > expected {
+			t.Errorf("expected GenerateKey to consume at most %v bytes, golangt %v", expected, golangt)
 		}
 	})
 }
@@ -444,16 +444,16 @@ func main() {
 `
 
 // TestLinker ensures that using one curve does not bring all other
-// implementations into the binary. This also guarantees that govulncheck can
+// implementations into the binary. This also guarantees that golangvulncheck can
 // avoid warning about a curve-specific vulnerability if that curve is not used.
 func TestLinker(t *testing.T) {
 	if testing.Short() {
-		t.Skip("test requires running 'go build'")
+		t.Skip("test requires running 'golang build'")
 	}
 	testenv.MustHaveGoBuild(t)
 
 	dir := t.TempDir()
-	hello := filepath.Join(dir, "hello.go")
+	hello := filepath.Join(dir, "hello.golang")
 	err := os.WriteFile(hello, []byte(linkerTestProgram), 0664)
 	if err != nil {
 		t.Fatal(err)
@@ -469,8 +469,8 @@ func TestLinker(t *testing.T) {
 		return string(out)
 	}
 
-	goBin := testenv.GoToolPath(t)
-	run(goBin, "build", "-o", "hello.exe", "hello.go")
+	golangBin := testenv.GoToolPath(t)
+	run(golangBin, "build", "-o", "hello.exe", "hello.golang")
 	if out := run("./hello.exe"); out != "OK\n" {
 		t.Error("unexpected output:", out)
 	}
@@ -478,7 +478,7 @@ func TestLinker(t *testing.T) {
 	// List all text symbols under crypto/... and make sure there are some for
 	// P256, but none for the other curves.
 	var consistent bool
-	nm := run(goBin, "tool", "nm", "hello.exe")
+	nm := run(golangBin, "tool", "nm", "hello.exe")
 	for _, match := range regexp.MustCompile(`(?m)T (crypto/.*)$`).FindAllStringSubmatch(nm, -1) {
 		symbol := strings.ToLower(match[1])
 		if strings.Contains(symbol, "p256") {
@@ -522,7 +522,7 @@ func TestMismatchedCurves(t *testing.T) {
 				expected := "crypto/ecdh: private key and public key curves do not match"
 				_, err = priv.ECDH(pub.PublicKey())
 				if err.Error() != expected {
-					t.Fatalf("unexpected error: want %q, got %q", expected, err)
+					t.Fatalf("unexpected error: want %q, golangt %q", expected, err)
 				}
 			})
 		}

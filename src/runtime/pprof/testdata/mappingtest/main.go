@@ -1,9 +1,9 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This program outputs a CPU profile that includes
-// both Go and Cgo stacks. This is used by the mapping info
+// both Go and Cgolang stacks. This is used by the mapping info
 // tests in runtime/pprof.
 //
 // If SETCGOTRACEBACK=1 is set, the CPU profile will includes
@@ -33,15 +33,15 @@ void CPUHogCFunction() {
 	CPUHogCFunction0(cpuHogCSalt1);
 }
 
-struct CgoTracebackArg {
+struct CgolangTracebackArg {
 	uintptr_t context;
         uintptr_t sigContext;
 	uintptr_t *buf;
         uintptr_t max;
 };
 
-void CollectCgoTraceback(void* parg) {
-        struct CgoTracebackArg* arg = (struct CgoTracebackArg*)(parg);
+void CollectCgolangTraceback(void* parg) {
+        struct CgolangTracebackArg* arg = (struct CgolangTracebackArg*)(parg);
 	arg->buf[0] = (uintptr_t)(CPUHogCFunction0);
 	arg->buf[1] = (uintptr_t)(CPUHogCFunction);
 	arg->buf[2] = 0;
@@ -61,13 +61,13 @@ import (
 func init() {
 	if v := os.Getenv("SETCGOTRACEBACK"); v == "1" {
 		// Collect some PCs from C-side, but don't symbolize.
-		runtime.SetCgoTraceback(0, unsafe.Pointer(C.CollectCgoTraceback), nil, nil)
+		runtime.SetCgolangTraceback(0, unsafe.Pointer(C.CollectCgolangTraceback), nil, nil)
 	}
 }
 
 func main() {
-	go cpuHogGoFunction()
-	go cpuHogCFunction()
+	golang cpuHogGoFunction()
+	golang cpuHogCFunction()
 	runtime.Gosched()
 
 	if err := pprof.StartCPUProfile(os.Stdout); err != nil {
@@ -100,7 +100,7 @@ func cpuHogGoFunction() {
 }
 
 func cpuHogCFunction() {
-	// Generates CPU profile samples including a Cgo call path.
+	// Generates CPU profile samples including a Cgolang call path.
 	for {
 		C.CPUHogCFunction()
 		runtime.Gosched()

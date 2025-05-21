@@ -1,11 +1,11 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ld
 
 import (
-	"cmd/internal/goobj"
+	"cmd/internal/golangobj"
 	"cmd/internal/objabi"
 	"cmd/internal/sys"
 	"cmd/link/internal/loader"
@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-const funcSize = 11 * 4 // funcSize is the size of the _func object in runtime/runtime2.go
+const funcSize = 11 * 4 // funcSize is the size of the _func object in runtime/runtime2.golang
 
 // pclntab holds the state needed for pclntab generation.
 type pclntab struct {
@@ -87,7 +87,7 @@ func makePclntab(ctxt *Link, container loader.Bitmap) (*pclntab, []*sym.Compilat
 		state.lastFunc = s
 
 		// We need to keep track of all compilation units we see. Some symbols
-		// (eg, go.buildid, _cgoexp_, etc) won't have a compilation unit.
+		// (eg, golang.buildid, _cgolangexp_, etc) won't have a compilation unit.
 		cu := ldr.SymUnit(s)
 		if _, ok := seenCUs[cu]; cu != nil && !ok {
 			seenCUs[cu] = struct{}{}
@@ -127,7 +127,7 @@ func computeDeferReturn(ctxt *Link, deferReturnSym, s loader.Sym) uint32 {
 	for ri := 0; ri < relocs.Count(); ri++ {
 		r := relocs.At(ri)
 		if target.IsWasm() && r.Type() == objabi.R_ADDR {
-			// wasm/ssa.go generates an ARESUMEPOINT just
+			// wasm/ssa.golang generates an ARESUMEPOINT just
 			// before the deferreturn call. The "PC" of
 			// the deferreturn call is stored in the
 			// R_ADDR relocation on the ARESUMEPOINT.
@@ -153,7 +153,7 @@ func computeDeferReturn(ctxt *Link, deferReturnSym, s loader.Sym) uint32 {
 						// LEAL    _GLOBAL_OFFSET_TABLE_<>(BX), BX // 6 bytes
 						//
 						// We need to back off to the get_pc_thunk call.
-						// (See progedit in cmd/internal/obj/x86/obj6.go)
+						// (See progedit in cmd/internal/obj/x86/obj6.golang)
 						deferreturn -= 11
 					}
 				case sys.AMD64:
@@ -208,7 +208,7 @@ func genInlTreeSym(ctxt *Link, cu *sym.CompilationUnit, fi loader.FuncInfo, arch
 			// function may be external symbols (from another
 			// shared library), and we don't load FuncInfo from the
 			// shared library. We will report potentially incorrect
-			// FuncID in this case. See https://go.dev/issue/55954.
+			// FuncID in this case. See https://golang.dev/issue/55954.
 			panic(fmt.Sprintf("inlined function %s missing func info", ldr.SymName(call.Func)))
 		}
 
@@ -258,7 +258,7 @@ func (state *pclntab) generatePCHeader(ctxt *Link) {
 		}
 
 		// Write header.
-		// Keep in sync with runtime/symtab.go:pcHeader and package debug/gosym.
+		// Keep in sync with runtime/symtab.golang:pcHeader and package debug/golangsym.
 		header.SetUint32(ctxt.Arch, 0, 0xfffffff1)
 		header.SetUint8(ctxt.Arch, 6, uint8(ctxt.Arch.MinLC))
 		header.SetUint8(ctxt.Arch, 7, uint8(ctxt.Arch.PtrSize))
@@ -336,7 +336,7 @@ func (state *pclntab) generateFuncnametab(ctxt *Link, funcs []loader.Sym) map[lo
 
 // walkFilenames walks funcs, calling a function for each filename used in each
 // function's line table.
-func walkFilenames(ctxt *Link, funcs []loader.Sym, f func(*sym.CompilationUnit, goobj.CUFileIndex)) {
+func walkFilenames(ctxt *Link, funcs []loader.Sym, f func(*sym.CompilationUnit, golangobj.CUFileIndex)) {
 	ldr := ctxt.loader
 
 	// Loop through all functions, finding the filenames we need.
@@ -392,7 +392,7 @@ func (state *pclntab) generateFilenameTabs(ctxt *Link, compUnits []*sym.Compilat
 	// TODO: Store filenames as symbols. (Note this would be easiest if you
 	// also move strings to ALWAYS using the larger content addressable hash
 	// function, and use that hash value for uniqueness testing.)
-	cuEntries := make([]goobj.CUFileIndex, len(compUnits))
+	cuEntries := make([]golangobj.CUFileIndex, len(compUnits))
 	fileOffsets := make(map[string]uint32)
 
 	// Walk the filenames.
@@ -400,7 +400,7 @@ func (state *pclntab) generateFilenameTabs(ctxt *Link, compUnits []*sym.Compilat
 	// file index we've seen per CU so we can calculate how large the
 	// CU->global table needs to be.
 	var fileSize int64
-	walkFilenames(ctxt, funcs, func(cu *sym.CompilationUnit, i goobj.CUFileIndex) {
+	walkFilenames(ctxt, funcs, func(cu *sym.CompilationUnit, i golangobj.CUFileIndex) {
 		// Note we use the raw filename for lookup, but use the expanded filename
 		// when we save the size.
 		filename := cu.FileTable[i]
@@ -434,7 +434,7 @@ func (state *pclntab) generateFilenameTabs(ctxt *Link, compUnits []*sym.Compilat
 		for i, max := range cuEntries {
 			// Write the per CU LUT.
 			cu := compUnits[i]
-			for j := goobj.CUFileIndex(0); j < max; j++ {
+			for j := golangobj.CUFileIndex(0); j < max; j++ {
 				fileOffset, ok := fileOffsets[cu.FileTable[j]]
 				if !ok {
 					// We're looping through all possible file indices. It's possible a file's
@@ -639,8 +639,8 @@ func writePCToFunc(ctxt *Link, sb *loader.SymbolBuilder, funcs []loader.Sym, sta
 func writeFuncs(ctxt *Link, sb *loader.SymbolBuilder, funcs []loader.Sym, inlSyms map[loader.Sym]loader.Sym, startLocations, cuOffsets []uint32, nameOffsets map[loader.Sym]uint32) {
 	ldr := ctxt.loader
 	deferReturnSym := ldr.Lookup("runtime.deferreturn", abiInternalVer)
-	gofunc := ldr.Lookup("go:func.*", 0)
-	gofuncBase := ldr.SymValue(gofunc)
+	golangfunc := ldr.Lookup("golang:func.*", 0)
+	golangfuncBase := ldr.SymValue(golangfunc)
 	textStart := ldr.SymValue(ldr.Lookup("runtime.text", 0))
 	funcdata := []loader.Sym{}
 	var pcsp, pcfile, pcline, pcinline loader.Sym
@@ -733,9 +733,9 @@ func writeFuncs(ctxt *Link, sb *loader.SymbolBuilder, funcs []loader.Sym, inlSym
 			}
 		}
 
-		// Write funcdata refs as offsets from go:func.* and go:funcrel.*.
+		// Write funcdata refs as offsets from golang:func.* and golang:funcrel.*.
 		funcdata = funcData(ldr, s, fi, inlSyms[s], funcdata)
-		// Missing funcdata will be ^0. See runtime/symtab.go:funcdata.
+		// Missing funcdata will be ^0. See runtime/symtab.golang:funcdata.
 		off = int64(startLocations[i] + funcSize + numPCData(ldr, s, fi)*4)
 		for j := range funcdata {
 			dataoff := off + int64(4*j)
@@ -756,10 +756,10 @@ func writeFuncs(ctxt *Link, sb *loader.SymbolBuilder, funcs []loader.Sym, inlSym
 				continue
 			}
 
-			if outer := ldr.OuterSym(fdsym); outer != gofunc {
-				panic(fmt.Sprintf("bad carrier sym for symbol %s (funcdata %s#%d), want go:func.* got %s", ldr.SymName(fdsym), ldr.SymName(s), j, ldr.SymName(outer)))
+			if outer := ldr.OuterSym(fdsym); outer != golangfunc {
+				panic(fmt.Sprintf("bad carrier sym for symbol %s (funcdata %s#%d), want golang:func.* golangt %s", ldr.SymName(fdsym), ldr.SymName(s), j, ldr.SymName(outer)))
 			}
-			sb.SetUint32(ctxt.Arch, dataoff, uint32(ldr.SymValue(fdsym)-gofuncBase))
+			sb.SetUint32(ctxt.Arch, dataoff, uint32(ldr.SymValue(fdsym)-golangfuncBase))
 		}
 	}
 }
@@ -769,16 +769,16 @@ func writeFuncs(ctxt *Link, sb *loader.SymbolBuilder, funcs []loader.Sym, inlSym
 
 // pclntab generates the pcln table for the link output.
 func (ctxt *Link) pclntab(container loader.Bitmap) *pclntab {
-	// Go 1.2's symtab layout is documented in golang.org/s/go12symtab, but the
+	// Go 1.2's symtab layout is documented in golanglang.org/s/golang12symtab, but the
 	// layout and data has changed since that time.
 	//
 	// As of August 2020, here's the layout of pclntab:
 	//
-	//  .gopclntab/__gopclntab [elf/macho section]
+	//  .golangpclntab/__golangpclntab [elf/macho section]
 	//    runtime.pclntab
 	//      Carrier symbol for the entire pclntab section.
 	//
-	//      runtime.pcheader  (see: runtime/symtab.go:pcHeader)
+	//      runtime.pcheader  (see: runtime/symtab.golang:pcHeader)
 	//        8-byte magic
 	//        nfunc [thearch.ptrsize bytes]
 	//        offset to runtime.funcnametab from the beginning of runtime.pcheader
@@ -838,7 +838,7 @@ const (
 )
 
 // findfunctab generates a lookup table to quickly find the containing
-// function for a pc. See src/runtime/symtab.go:findfunc for details.
+// function for a pc. See src/runtime/symtab.golang:findfunc for details.
 func (ctxt *Link) findfunctab(state *pclntab, container loader.Bitmap) {
 	ldr := ctxt.loader
 

@@ -8,10 +8,10 @@ body:
   - type: markdown
     attributes:
       value: |
-       ## Our process for evaluating language changes can be found [here](https://go.googlesource.com/proposal/+/refs/heads/master#language-changes)
+       ## Our process for evaluating language changes can be found [here](https://golang.golangoglesource.com/proposal/+/refs/heads/master#language-changes)
 
   - type: dropdown
-    id: author-go-experience
+    id: author-golang-experience
     attributes:
       label: "Go Programming Experience"
       description: "Would you consider yourself a novice, intermediate, or experienced Go programmer?"
@@ -107,7 +107,7 @@ body:
       required: false
 
   - type: textarea
-    id: go-backwards-compatiblity
+    id: golang-backwards-compatiblity
     attributes:
       label: Is this change backward compatible?
       description: Breaking the Go 1 compatibility guarantee is a large cost and requires a large benefit.
@@ -121,10 +121,10 @@ body:
       required: true
 
   - type: textarea
-    id: orthogonality
+    id: orthogolangnality
     attributes:
-      label: "Orthogonality: How does this change interact or overlap with existing features?"
-      description: "Is the goal of this change a performance improvement? If so, what quantifiable improvement should we expect? How would we measure it?"
+      label: "Orthogolangnality: How does this change interact or overlap with existing features?"
+      description: "Is the golangal of this change a performance improvement? If so, what quantifiable improvement should we expect? How would we measure it?"
     validations:
       required: false
 
@@ -140,10 +140,10 @@ body:
       description: "What is the cost of this proposal? (Every language change has a cost)"
 
   - type: input
-    id: go-toolchain
+    id: golang-toolchain
     attributes:
       label: Changes to Go ToolChain
-      description: "How many tools (such as vet, gopls, gofmt, goimports, etc.) would be affected? "
+      description: "How many tools (such as vet, golangpls, golangfmt, golangimports, etc.) would be affected? "
     validations:
       required: false
 

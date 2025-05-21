@@ -1,8 +1,8 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build unix
+//golang:build unix
 // +build unix
 
 package main
@@ -18,7 +18,7 @@ package main
 #include <pthread.h>
 #include <sched.h>
 
-struct cgoTracebackArg {
+struct cgolangTracebackArg {
 	uintptr_t  context;
 	uintptr_t  sigContext;
 	uintptr_t* buf;
@@ -28,11 +28,11 @@ struct cgoTracebackArg {
 static int raceprofCount;
 
 // We want a bunch of different profile stacks that collide in the
-// hash table maintained in runtime/cpuprof.go. This code knows the
+// hash table maintained in runtime/cpuprof.golang. This code knows the
 // size of the hash table (1 << 10) and knows that the hash function
 // is simply multiplicative.
 void raceprofTraceback(void* parg) {
-	struct cgoTracebackArg* arg = (struct cgoTracebackArg*)(parg);
+	struct cgolangTracebackArg* arg = (struct cgolangTracebackArg*)(parg);
 	raceprofCount++;
 	arg->buf[0] = raceprofCount * (1 << 10);
 	arg->buf[1] = 0;
@@ -65,11 +65,11 @@ import (
 )
 
 func init() {
-	register("CgoRaceprof", CgoRaceprof)
+	register("CgolangRaceprof", CgolangRaceprof)
 }
 
-func CgoRaceprof() {
-	runtime.SetCgoTraceback(0, unsafe.Pointer(C.raceprofTraceback), nil, nil)
+func CgolangRaceprof() {
+	runtime.SetCgolangTraceback(0, unsafe.Pointer(C.raceprofTraceback), nil, nil)
 
 	var buf bytes.Buffer
 	pprof.StartCPUProfile(&buf)

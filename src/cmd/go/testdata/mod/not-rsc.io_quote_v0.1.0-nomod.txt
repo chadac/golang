@@ -1,13 +1,13 @@
 Constructed by hand.
-(derived from rsc.io/quote@e7a685a342, but without an explicit go.mod file.)
+(derived from rsc.io/quote@e7a685a342, but without an explicit golang.mod file.)
 
 -- .mod --
 module "not-rsc.io/quote"
 -- .info --
 {"Version":"v0.1.0-nomod","Time":"2018-02-14T00:51:33Z"}
--- quote.go --
+-- quote.golang --
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package quote collects pithy sayings.
@@ -28,9 +28,9 @@ func Glass() string {
 func Go() string {
 	return "Don't communicate by sharing memory, share memory by communicating."
 }
--- quote_test.go --
+-- quote_test.golang --
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package quote
@@ -52,8 +52,8 @@ func TestGlass(t *testing.T) {
 }
 
 func TestGo(t *testing.T) {
-	go1 := "Don't communicate by sharing memory. Share memory by communicating."
-	if out := Go(); out != go1 {
-		t.Errorf("Go() = %q, want %q", out, go1)
+	golang1 := "Don't communicate by sharing memory. Share memory by communicating."
+	if out := Go(); out != golang1 {
+		t.Errorf("Go() = %q, want %q", out, golang1)
 	}
 }

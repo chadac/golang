@@ -1,8 +1,8 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-package gob
+package golangb
 
 import (
 	"bytes"
@@ -17,7 +17,7 @@ import (
 	"unsafe"
 )
 
-var doFuzzTests = flag.Bool("gob.fuzz", false, "run the fuzz tests, which are large and very slow")
+var doFuzzTests = flag.Bool("golangb.fuzz", false, "run the fuzz tests, which are large and very slow")
 
 // Guarantee encoding format by comparing some encodings to hand-written values
 type EncodeT struct {
@@ -42,11 +42,11 @@ var encodeT = []EncodeT{
 	{1 << 63, []byte{0xF8, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}},
 }
 
-// testError is meant to be used as a deferred function to turn a panic(gobError) into a
+// testError is meant to be used as a deferred function to turn a panic(golangbError) into a
 // plain test.Error call.
 func testError(t *testing.T) {
 	if e := recover(); e != nil {
-		t.Error(e.(gobError).err) // Will re-panic if not one of our errors, such as a runtime error.
+		t.Error(e.(golangbError).err) // Will re-panic if not one of our errors, such as a runtime error.
 	}
 }
 
@@ -65,7 +65,7 @@ func TestUintCodec(t *testing.T) {
 		b.Reset()
 		encState.encodeUint(tt.x)
 		if !bytes.Equal(tt.b, b.Bytes()) {
-			t.Errorf("encodeUint: %#x encode: expected % x got % x", tt.x, tt.b, b.Bytes())
+			t.Errorf("encodeUint: %#x encode: expected % x golangt % x", tt.x, tt.b, b.Bytes())
 		}
 	}
 	for u := uint64(0); ; u = (u + 1) * 7 {
@@ -148,7 +148,7 @@ func TestScalarEncInstructions(t *testing.T) {
 		state := newEncoderState(b)
 		instr.op(instr, state, reflect.ValueOf(data))
 		if !bytes.Equal(boolResult, b.Bytes()) {
-			t.Errorf("bool enc instructions: expected % x got % x", boolResult, b.Bytes())
+			t.Errorf("bool enc instructions: expected % x golangt % x", boolResult, b.Bytes())
 		}
 	}
 
@@ -160,7 +160,7 @@ func TestScalarEncInstructions(t *testing.T) {
 		state := newEncoderState(b)
 		instr.op(instr, state, reflect.ValueOf(data))
 		if !bytes.Equal(signedResult, b.Bytes()) {
-			t.Errorf("int enc instructions: expected % x got % x", signedResult, b.Bytes())
+			t.Errorf("int enc instructions: expected % x golangt % x", signedResult, b.Bytes())
 		}
 	}
 
@@ -172,7 +172,7 @@ func TestScalarEncInstructions(t *testing.T) {
 		state := newEncoderState(b)
 		instr.op(instr, state, reflect.ValueOf(data))
 		if !bytes.Equal(unsignedResult, b.Bytes()) {
-			t.Errorf("uint enc instructions: expected % x got % x", unsignedResult, b.Bytes())
+			t.Errorf("uint enc instructions: expected % x golangt % x", unsignedResult, b.Bytes())
 		}
 	}
 
@@ -184,7 +184,7 @@ func TestScalarEncInstructions(t *testing.T) {
 		state := newEncoderState(b)
 		instr.op(instr, state, reflect.ValueOf(data))
 		if !bytes.Equal(signedResult, b.Bytes()) {
-			t.Errorf("int8 enc instructions: expected % x got % x", signedResult, b.Bytes())
+			t.Errorf("int8 enc instructions: expected % x golangt % x", signedResult, b.Bytes())
 		}
 	}
 
@@ -196,7 +196,7 @@ func TestScalarEncInstructions(t *testing.T) {
 		state := newEncoderState(b)
 		instr.op(instr, state, reflect.ValueOf(data))
 		if !bytes.Equal(unsignedResult, b.Bytes()) {
-			t.Errorf("uint8 enc instructions: expected % x got % x", unsignedResult, b.Bytes())
+			t.Errorf("uint8 enc instructions: expected % x golangt % x", unsignedResult, b.Bytes())
 		}
 	}
 
@@ -208,7 +208,7 @@ func TestScalarEncInstructions(t *testing.T) {
 		state := newEncoderState(b)
 		instr.op(instr, state, reflect.ValueOf(data))
 		if !bytes.Equal(signedResult, b.Bytes()) {
-			t.Errorf("int16 enc instructions: expected % x got % x", signedResult, b.Bytes())
+			t.Errorf("int16 enc instructions: expected % x golangt % x", signedResult, b.Bytes())
 		}
 	}
 
@@ -220,7 +220,7 @@ func TestScalarEncInstructions(t *testing.T) {
 		state := newEncoderState(b)
 		instr.op(instr, state, reflect.ValueOf(data))
 		if !bytes.Equal(unsignedResult, b.Bytes()) {
-			t.Errorf("uint16 enc instructions: expected % x got % x", unsignedResult, b.Bytes())
+			t.Errorf("uint16 enc instructions: expected % x golangt % x", unsignedResult, b.Bytes())
 		}
 	}
 
@@ -232,7 +232,7 @@ func TestScalarEncInstructions(t *testing.T) {
 		state := newEncoderState(b)
 		instr.op(instr, state, reflect.ValueOf(data))
 		if !bytes.Equal(signedResult, b.Bytes()) {
-			t.Errorf("int32 enc instructions: expected % x got % x", signedResult, b.Bytes())
+			t.Errorf("int32 enc instructions: expected % x golangt % x", signedResult, b.Bytes())
 		}
 	}
 
@@ -244,7 +244,7 @@ func TestScalarEncInstructions(t *testing.T) {
 		state := newEncoderState(b)
 		instr.op(instr, state, reflect.ValueOf(data))
 		if !bytes.Equal(unsignedResult, b.Bytes()) {
-			t.Errorf("uint32 enc instructions: expected % x got % x", unsignedResult, b.Bytes())
+			t.Errorf("uint32 enc instructions: expected % x golangt % x", unsignedResult, b.Bytes())
 		}
 	}
 
@@ -256,7 +256,7 @@ func TestScalarEncInstructions(t *testing.T) {
 		state := newEncoderState(b)
 		instr.op(instr, state, reflect.ValueOf(data))
 		if !bytes.Equal(signedResult, b.Bytes()) {
-			t.Errorf("int64 enc instructions: expected % x got % x", signedResult, b.Bytes())
+			t.Errorf("int64 enc instructions: expected % x golangt % x", signedResult, b.Bytes())
 		}
 	}
 
@@ -268,7 +268,7 @@ func TestScalarEncInstructions(t *testing.T) {
 		state := newEncoderState(b)
 		instr.op(instr, state, reflect.ValueOf(data))
 		if !bytes.Equal(unsignedResult, b.Bytes()) {
-			t.Errorf("uint64 enc instructions: expected % x got % x", unsignedResult, b.Bytes())
+			t.Errorf("uint64 enc instructions: expected % x golangt % x", unsignedResult, b.Bytes())
 		}
 	}
 
@@ -280,7 +280,7 @@ func TestScalarEncInstructions(t *testing.T) {
 		state := newEncoderState(b)
 		instr.op(instr, state, reflect.ValueOf(data))
 		if !bytes.Equal(floatResult, b.Bytes()) {
-			t.Errorf("float32 enc instructions: expected % x got % x", floatResult, b.Bytes())
+			t.Errorf("float32 enc instructions: expected % x golangt % x", floatResult, b.Bytes())
 		}
 	}
 
@@ -292,7 +292,7 @@ func TestScalarEncInstructions(t *testing.T) {
 		state := newEncoderState(b)
 		instr.op(instr, state, reflect.ValueOf(data))
 		if !bytes.Equal(floatResult, b.Bytes()) {
-			t.Errorf("float64 enc instructions: expected % x got % x", floatResult, b.Bytes())
+			t.Errorf("float64 enc instructions: expected % x golangt % x", floatResult, b.Bytes())
 		}
 	}
 
@@ -304,7 +304,7 @@ func TestScalarEncInstructions(t *testing.T) {
 		state := newEncoderState(b)
 		instr.op(instr, state, reflect.ValueOf(data))
 		if !bytes.Equal(bytesResult, b.Bytes()) {
-			t.Errorf("bytes enc instructions: expected % x got % x", bytesResult, b.Bytes())
+			t.Errorf("bytes enc instructions: expected % x golangt % x", bytesResult, b.Bytes())
 		}
 	}
 
@@ -316,7 +316,7 @@ func TestScalarEncInstructions(t *testing.T) {
 		state := newEncoderState(b)
 		instr.op(instr, state, reflect.ValueOf(data))
 		if !bytes.Equal(bytesResult, b.Bytes()) {
-			t.Errorf("string enc instructions: expected % x got % x", bytesResult, b.Bytes())
+			t.Errorf("string enc instructions: expected % x golangt % x", bytesResult, b.Bytes())
 		}
 	}
 }
@@ -325,7 +325,7 @@ func execDec(instr *decInstr, state *decoderState, t *testing.T, value reflect.V
 	defer testError(t)
 	v := int(state.decodeUint())
 	if v+state.fieldnum != 6 {
-		t.Fatalf("decoding field number %d, got %d", 6, v+state.fieldnum)
+		t.Fatalf("decoding field number %d, golangt %d", 6, v+state.fieldnum)
 	}
 	instr.op(instr, state, value.Elem())
 	state.fieldnum = 6
@@ -617,7 +617,7 @@ func TestEndToEnd(t *testing.T) {
 		t.Fatal("decode:", err)
 	}
 	if !reflect.DeepEqual(t1, &_t1) {
-		t.Errorf("encode expected %v got %v", *t1, _t1)
+		t.Errorf("encode expected %v golangt %v", *t1, _t1)
 	}
 	// Be absolutely sure the received map is non-nil.
 	if t1.EmptyMap == nil {
@@ -815,13 +815,13 @@ func TestNesting(t *testing.T) {
 		t.Fatal("decoder error:", err)
 	}
 	if drt.A != rt.A {
-		t.Errorf("nesting: encode expected %v got %v", *rt, drt)
+		t.Errorf("nesting: encode expected %v golangt %v", *rt, drt)
 	}
 	if drt.Next == nil {
 		t.Errorf("nesting: recursion failed")
 	}
 	if drt.Next.A != rt.Next.A {
-		t.Errorf("nesting: encode expected %v got %v", *rt.Next, *drt.Next)
+		t.Errorf("nesting: encode expected %v golangt %v", *rt.Next, *drt.Next)
 	}
 }
 
@@ -865,7 +865,7 @@ func TestAutoIndirection(t *testing.T) {
 	var t0 T0
 	dec.Decode(&t0)
 	if t0.A != 17 || t0.B != 177 || t0.C != 1777 || t0.D != 17777 {
-		t.Errorf("t1->t0: expected {17 177 1777 17777}; got %v", t0)
+		t.Errorf("t1->t0: expected {17 177 1777 17777}; golangt %v", t0)
 	}
 
 	// Now transfer t2 into t0
@@ -885,7 +885,7 @@ func TestAutoIndirection(t *testing.T) {
 	t0 = T0{}
 	dec.Decode(&t0)
 	if t0.A != 17 || t0.B != 177 || t0.C != 1777 || t0.D != 17777 {
-		t.Errorf("t2->t0 expected {17 177 1777 17777}; got %v", t0)
+		t.Errorf("t2->t0 expected {17 177 1777 17777}; golangt %v", t0)
 	}
 
 	// Now transfer t0 into t1
@@ -895,7 +895,7 @@ func TestAutoIndirection(t *testing.T) {
 	t1 = T1{}
 	dec.Decode(&t1)
 	if t1.A != 17 || *t1.B != 177 || **t1.C != 1777 || ***t1.D != 17777 {
-		t.Errorf("t0->t1 expected {17 177 1777 17777}; got {%d %d %d %d}", t1.A, *t1.B, **t1.C, ***t1.D)
+		t.Errorf("t0->t1 expected {17 177 1777 17777}; golangt {%d %d %d %d}", t1.A, *t1.B, **t1.C, ***t1.D)
 	}
 
 	// Now transfer t0 into t2
@@ -904,7 +904,7 @@ func TestAutoIndirection(t *testing.T) {
 	t2 = T2{}
 	dec.Decode(&t2)
 	if ***t2.A != 17 || **t2.B != 177 || *t2.C != 1777 || t2.D != 17777 {
-		t.Errorf("t0->t2 expected {17 177 1777 17777}; got {%d %d %d %d}", ***t2.A, **t2.B, *t2.C, t2.D)
+		t.Errorf("t0->t2 expected {17 177 1777 17777}; golangt {%d %d %d %d}", ***t2.A, **t2.B, *t2.C, t2.D)
 	}
 
 	// Now do t2 again but without pre-allocated pointers.
@@ -916,7 +916,7 @@ func TestAutoIndirection(t *testing.T) {
 	t2.D = 0
 	dec.Decode(&t2)
 	if ***t2.A != 17 || **t2.B != 177 || *t2.C != 1777 || t2.D != 17777 {
-		t.Errorf("t0->t2 expected {17 177 1777 17777}; got {%d %d %d %d}", ***t2.A, **t2.B, *t2.C, t2.D)
+		t.Errorf("t0->t2 expected {17 177 1777 17777}; golangt {%d %d %d %d}", ***t2.A, **t2.B, *t2.C, t2.D)
 	}
 }
 
@@ -947,7 +947,7 @@ func TestReorderedFields(t *testing.T) {
 		t.Fatal("decode error:", err)
 	}
 	if rt0.A != rt1.A || rt0.B != rt1.B || rt0.C != rt1.C {
-		t.Errorf("rt1->rt0: expected %v; got %v", rt0, rt1)
+		t.Errorf("rt1->rt0: expected %v; golangt %v", rt0, rt1)
 	}
 }
 
@@ -990,7 +990,7 @@ func TestIgnoredFields(t *testing.T) {
 		t.Error("error: ", err)
 	}
 	if int(it0.A) != rt1.A || it0.B != rt1.B || it0.C != rt1.C {
-		t.Errorf("rt0->rt1: expected %v; got %v", it0, rt1)
+		t.Errorf("rt0->rt1: expected %v; golangt %v", it0, rt1)
 	}
 }
 
@@ -1000,9 +1000,9 @@ func TestBadRecursiveType(t *testing.T) {
 	b := new(bytes.Buffer)
 	err := NewEncoder(b).Encode(&rec)
 	if err == nil {
-		t.Error("expected error; got none")
+		t.Error("expected error; golangt none")
 	} else if !strings.Contains(err.Error(), "recursive") {
-		t.Error("expected recursive type error; got", err)
+		t.Error("expected recursive type error; golangt", err)
 	}
 	// Can't test decode easily because we can't encode one, so we can't pass one to a Decoder.
 }
@@ -1138,7 +1138,7 @@ func TestInterface(t *testing.T) {
 	Register(Vector{})
 	err := NewEncoder(b).Encode(item1)
 	if err != nil {
-		t.Error("expected no encode error; got", err)
+		t.Error("expected no encode error; golangt", err)
 	}
 
 	item2 := InterfaceItem{}
@@ -1163,7 +1163,7 @@ func TestInterface(t *testing.T) {
 	}
 	// Now check that we received a slice of Squarers correctly, including a nil element
 	if len(item1.Sq) != len(item2.Sq) {
-		t.Fatalf("[]Squarer length wrong: got %d; expected %d", len(item2.Sq), len(item1.Sq))
+		t.Fatalf("[]Squarer length wrong: golangt %d; expected %d", len(item2.Sq), len(item1.Sq))
 	}
 	for i, v1 := range item1.Sq {
 		v2 := item2.Sq[i]
@@ -1201,7 +1201,7 @@ func TestInterfaceBasic(t *testing.T) {
 	}
 	err := NewEncoder(b).Encode(item1)
 	if err != nil {
-		t.Error("expected no encode error; got", err)
+		t.Error("expected no encode error; golangt", err)
 	}
 
 	item2 := &BasicInterfaceItem{}
@@ -1210,7 +1210,7 @@ func TestInterfaceBasic(t *testing.T) {
 		t.Fatal("decode:", err)
 	}
 	if !reflect.DeepEqual(item1, item2) {
-		t.Errorf("encode expected %v got %v", item1, item2)
+		t.Errorf("encode expected %v golangt %v", item1, item2)
 	}
 	// Hand check a couple for correct types.
 	if v, ok := item2.Bool.(bool); !ok || !v {
@@ -1242,7 +1242,7 @@ func TestInterfacePointer(t *testing.T) {
 	Register(str2)
 	err := NewEncoder(b).Encode(item1)
 	if err != nil {
-		t.Error("expected no encode error; got", err)
+		t.Error("expected no encode error; golangt", err)
 	}
 
 	item2 := &PtrInterfaceItem{}
@@ -1273,7 +1273,7 @@ func TestIgnoreInterface(t *testing.T) {
 	Register(Point{})
 	err := NewEncoder(b).Encode(item1)
 	if err != nil {
-		t.Error("expected no encode error; got", err)
+		t.Error("expected no encode error; golangt", err)
 	}
 
 	item2 := NoInterfaceItem{}
@@ -1312,7 +1312,7 @@ func TestUnexportedFields(t *testing.T) {
 		t.Fatal("decode error:", err)
 	}
 	if u0.A != u1.A || u0.B != u1.B || u0.D != u1.D {
-		t.Errorf("u1->u0: expected %v; got %v", u0, u1)
+		t.Errorf("u1->u0: expected %v; golangt %v", u0, u1)
 	}
 	if u1.c != 1234. {
 		t.Error("u1.c modified")
@@ -1345,7 +1345,7 @@ func TestDebugSingleton(t *testing.T) {
 	debugFunc(b)
 }
 
-// A type that won't be defined in the gob until we send it in an interface value.
+// A type that won't be defined in the golangb until we send it in an interface value.
 type OnTheFly struct {
 	A int
 }
@@ -1422,7 +1422,7 @@ func encFuzzDec(rng *rand.Rand, in any) error {
 // This does some "fuzz testing" by attempting to decode a sequence of random bytes.
 func TestFuzz(t *testing.T) {
 	if !*doFuzzTests {
-		t.Skipf("disabled; run with -gob.fuzz to enable")
+		t.Skipf("disabled; run with -golangb.fuzz to enable")
 	}
 
 	// all possible inputs
@@ -1441,7 +1441,7 @@ func TestFuzz(t *testing.T) {
 
 func TestFuzzRegressions(t *testing.T) {
 	if !*doFuzzTests {
-		t.Skipf("disabled; run with -gob.fuzz to enable")
+		t.Skipf("disabled; run with -golangb.fuzz to enable")
 	}
 
 	// An instance triggering a type name of length ~102 GB.
@@ -1465,7 +1465,7 @@ func testFuzz(t *testing.T, seed int64, n int, input ...any) {
 // and checks that no panic occurs.
 func TestFuzzOneByte(t *testing.T) {
 	if !*doFuzzTests {
-		t.Skipf("disabled; run with -gob.fuzz to enable")
+		t.Skipf("disabled; run with -golangb.fuzz to enable")
 	}
 
 	buf := new(strings.Builder)
@@ -1483,7 +1483,7 @@ func TestFuzzOneByte(t *testing.T) {
 			continue
 		case 248:
 			// Large map size, which currently causes an out of memory panic.
-			// See golang.org/issue/24308 and golang.org/issue/20221.
+			// See golanglang.org/issue/24308 and golanglang.org/issue/20221.
 			continue
 		}
 		indices = append(indices, i)
@@ -1524,7 +1524,7 @@ func TestErrorInvalidTypeId(t *testing.T) {
 		var foo struct{}
 		err := d.Decode(&foo)
 		if err != errBadType {
-			t.Fatalf("decode: expected %s, got %s", errBadType, err)
+			t.Fatalf("decode: expected %s, golangt %s", errBadType, err)
 		}
 	}
 }
@@ -1618,13 +1618,13 @@ func TestLargeSlice(t *testing.T) {
 }
 
 func TestLocalRemoteTypesMismatch(t *testing.T) {
-	// Test data is from https://go.dev/issue/62117.
+	// Test data is from https://golang.dev/issue/62117.
 	testData := []byte{9, 127, 3, 1, 2, 255, 128, 0, 0, 0, 3, 255, 128, 0}
 
 	var v []*struct{}
 	buf := bytes.NewBuffer(testData)
 	err := NewDecoder(buf).Decode(&v)
 	if err == nil {
-		t.Error("Encode/Decode: expected error but got err == nil")
+		t.Error("Encode/Decode: expected error but golangt err == nil")
 	}
 }

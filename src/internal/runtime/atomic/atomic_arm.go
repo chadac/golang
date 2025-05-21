@@ -1,8 +1,8 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build arm
+//golang:build arm
 
 package atomic
 
@@ -17,15 +17,15 @@ const (
 
 // Export some functions via linkname to assembly in sync/atomic.
 //
-//go:linkname Xchg
-//go:linkname Xchguintptr
-//go:linkname Xadd
+//golang:linkname Xchg
+//golang:linkname Xchguintptr
+//golang:linkname Xadd
 
 type spinlock struct {
 	v uint32
 }
 
-//go:nosplit
+//golang:nosplit
 func (l *spinlock) lock() {
 	for {
 		if Cas(&l.v, 0, 1) {
@@ -34,7 +34,7 @@ func (l *spinlock) lock() {
 	}
 }
 
-//go:nosplit
+//golang:nosplit
 func (l *spinlock) unlock() {
 	Store(&l.v, 0)
 }
@@ -50,7 +50,7 @@ func addrLock(addr *uint64) *spinlock {
 
 // Atomic add and return new value.
 //
-//go:nosplit
+//golang:nosplit
 func Xadd(val *uint32, delta int32) uint32 {
 	for {
 		oval := *val
@@ -61,10 +61,10 @@ func Xadd(val *uint32, delta int32) uint32 {
 	}
 }
 
-//go:noescape
+//golang:noescape
 func Xadduintptr(ptr *uintptr, delta uintptr) uintptr
 
-//go:nosplit
+//golang:nosplit
 func Xchg(addr *uint32, v uint32) uint32 {
 	for {
 		old := *addr
@@ -74,10 +74,10 @@ func Xchg(addr *uint32, v uint32) uint32 {
 	}
 }
 
-//go:noescape
+//golang:noescape
 func Xchg8(addr *uint8, v uint8) uint8
 
-//go:nosplit
+//golang:nosplit
 func Xchguintptr(addr *uintptr, v uintptr) uintptr {
 	return uintptr(Xchg((*uint32)(unsafe.Pointer(addr)), uint32(v)))
 }
@@ -85,17 +85,17 @@ func Xchguintptr(addr *uintptr, v uintptr) uintptr {
 // Not noescape -- it installs a pointer to addr.
 func StorepNoWB(addr unsafe.Pointer, v unsafe.Pointer)
 
-//go:noescape
+//golang:noescape
 func Store(addr *uint32, v uint32)
 
-//go:noescape
+//golang:noescape
 func StoreRel(addr *uint32, v uint32)
 
-//go:noescape
+//golang:noescape
 func StoreReluintptr(addr *uintptr, v uintptr)
 
-//go:nosplit
-func goCas64(addr *uint64, old, new uint64) bool {
+//golang:nosplit
+func golangCas64(addr *uint64, old, new uint64) bool {
 	if uintptr(unsafe.Pointer(addr))&7 != 0 {
 		*(*int)(nil) = 0 // crash on unaligned uint64
 	}
@@ -110,8 +110,8 @@ func goCas64(addr *uint64, old, new uint64) bool {
 	return ok
 }
 
-//go:nosplit
-func goXadd64(addr *uint64, delta int64) uint64 {
+//golang:nosplit
+func golangXadd64(addr *uint64, delta int64) uint64 {
 	if uintptr(unsafe.Pointer(addr))&7 != 0 {
 		*(*int)(nil) = 0 // crash on unaligned uint64
 	}
@@ -124,8 +124,8 @@ func goXadd64(addr *uint64, delta int64) uint64 {
 	return r
 }
 
-//go:nosplit
-func goXchg64(addr *uint64, v uint64) uint64 {
+//golang:nosplit
+func golangXchg64(addr *uint64, v uint64) uint64 {
 	if uintptr(unsafe.Pointer(addr))&7 != 0 {
 		*(*int)(nil) = 0 // crash on unaligned uint64
 	}
@@ -138,8 +138,8 @@ func goXchg64(addr *uint64, v uint64) uint64 {
 	return r
 }
 
-//go:nosplit
-func goLoad64(addr *uint64) uint64 {
+//golang:nosplit
+func golangLoad64(addr *uint64) uint64 {
 	if uintptr(unsafe.Pointer(addr))&7 != 0 {
 		*(*int)(nil) = 0 // crash on unaligned uint64
 	}
@@ -151,8 +151,8 @@ func goLoad64(addr *uint64) uint64 {
 	return r
 }
 
-//go:nosplit
-func goStore64(addr *uint64, v uint64) {
+//golang:nosplit
+func golangStore64(addr *uint64, v uint64) {
 	if uintptr(unsafe.Pointer(addr))&7 != 0 {
 		*(*int)(nil) = 0 // crash on unaligned uint64
 	}
@@ -162,11 +162,11 @@ func goStore64(addr *uint64, v uint64) {
 	addrLock(addr).unlock()
 }
 
-//go:noescape
+//golang:noescape
 func Or8(addr *uint8, v uint8)
 
-//go:nosplit
-func goOr8(addr *uint8, v uint8) {
+//golang:nosplit
+func golangOr8(addr *uint8, v uint8) {
 	// Align down to 4 bytes and use 32-bit CAS.
 	addr32 := (*uint32)(unsafe.Pointer(uintptr(unsafe.Pointer(addr)) &^ 3))
 	word := uint32(v) << ((uintptr(unsafe.Pointer(addr)) & 3) * 8) // little endian
@@ -178,11 +178,11 @@ func goOr8(addr *uint8, v uint8) {
 	}
 }
 
-//go:noescape
+//golang:noescape
 func And8(addr *uint8, v uint8)
 
-//go:nosplit
-func goAnd8(addr *uint8, v uint8) {
+//golang:nosplit
+func golangAnd8(addr *uint8, v uint8) {
 	// Align down to 4 bytes and use 32-bit CAS.
 	addr32 := (*uint32)(unsafe.Pointer(uintptr(unsafe.Pointer(addr)) &^ 3))
 	word := uint32(v) << ((uintptr(unsafe.Pointer(addr)) & 3) * 8)    // little endian
@@ -196,7 +196,7 @@ func goAnd8(addr *uint8, v uint8) {
 	}
 }
 
-//go:nosplit
+//golang:nosplit
 func Or(addr *uint32, v uint32) {
 	for {
 		old := *addr
@@ -206,7 +206,7 @@ func Or(addr *uint32, v uint32) {
 	}
 }
 
-//go:nosplit
+//golang:nosplit
 func And(addr *uint32, v uint32) {
 	for {
 		old := *addr
@@ -216,41 +216,41 @@ func And(addr *uint32, v uint32) {
 	}
 }
 
-//go:nosplit
+//golang:nosplit
 func armcas(ptr *uint32, old, new uint32) bool
 
-//go:noescape
+//golang:noescape
 func Load(addr *uint32) uint32
 
-// NO go:noescape annotation; *addr escapes if result escapes (#31525)
+// NO golang:noescape annotation; *addr escapes if result escapes (#31525)
 func Loadp(addr unsafe.Pointer) unsafe.Pointer
 
-//go:noescape
+//golang:noescape
 func Load8(addr *uint8) uint8
 
-//go:noescape
+//golang:noescape
 func LoadAcq(addr *uint32) uint32
 
-//go:noescape
+//golang:noescape
 func LoadAcquintptr(ptr *uintptr) uintptr
 
-//go:noescape
+//golang:noescape
 func Cas64(addr *uint64, old, new uint64) bool
 
-//go:noescape
+//golang:noescape
 func CasRel(addr *uint32, old, new uint32) bool
 
-//go:noescape
+//golang:noescape
 func Xadd64(addr *uint64, delta int64) uint64
 
-//go:noescape
+//golang:noescape
 func Xchg64(addr *uint64, v uint64) uint64
 
-//go:noescape
+//golang:noescape
 func Load64(addr *uint64) uint64
 
-//go:noescape
+//golang:noescape
 func Store8(addr *uint8, v uint8)
 
-//go:noescape
+//golang:noescape
 func Store64(addr *uint64, v uint64)

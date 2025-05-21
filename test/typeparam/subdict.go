@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test cases where a main dictionary is needed inside a generic function/method, because
@@ -37,7 +37,7 @@ func (v *value[T]) get(def T) T {
 
 func main() {
 	var s value[string]
-	if got, want := s.get("ab"), ""; got != want {
-		panic(fmt.Sprintf("get() == %d, want %d", got, want))
+	if golangt, want := s.get("ab"), ""; golangt != want {
+		panic(fmt.Sprintf("get() == %d, want %d", golangt, want))
 	}
 }

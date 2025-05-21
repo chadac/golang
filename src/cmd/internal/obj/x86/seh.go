@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package x86
@@ -105,8 +105,8 @@ func populateSeh(ctxt *obj.Link, s *obj.LSym) (sehsym *obj.LSym) {
 
 	var exceptionHandler *obj.LSym
 	var flags uint8
-	if s.Name == "runtime.asmcgocall_landingpad" {
-		// Most cgo calls go through runtime.asmcgocall_landingpad,
+	if s.Name == "runtime.asmcgolangcall_landingpad" {
+		// Most cgolang calls golang through runtime.asmcgolangcall_landingpad,
 		// we can use it to catch exceptions from C code.
 		// TODO: use a more generic approach to identify which calls need an exception handler.
 		exceptionHandler = ctxt.Lookup("runtime.sehtramp")
@@ -146,7 +146,7 @@ func populateSeh(ctxt *obj.Link, s *obj.LSym) (sehsym *obj.LSym) {
 	// Dedup them when possible.
 	hash := base64.StdEncoding.EncodeToString(buf.data)
 	symname := fmt.Sprintf("%d.%s", len(buf.data), hash)
-	return ctxt.LookupInit("go:sehuw."+symname, func(s *obj.LSym) {
+	return ctxt.LookupInit("golang:sehuw."+symname, func(s *obj.LSym) {
 		s.WriteBytes(ctxt, 0, buf.data)
 		s.Type = objabi.SSEHUNWINDINFO
 		s.Set(obj.AttrDuplicateOK, true)

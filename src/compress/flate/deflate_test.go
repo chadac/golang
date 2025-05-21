@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package flate
@@ -97,12 +97,12 @@ func TestBulkHash4(t *testing.T) {
 				dst[i] = uint32(i + 100)
 			}
 			bulkHash4(y, dst)
-			for i, got := range dst {
+			for i, golangt := range dst {
 				want := hash4(y[i:])
-				if got != want && got == uint32(i)+100 {
+				if golangt != want && golangt == uint32(i)+100 {
 					t.Errorf("Len:%d Index:%d, want 0x%08x but not modified", len(y), i, want)
-				} else if got != want {
-					t.Errorf("Len:%d Index:%d, got 0x%08x want:0x%08x", len(y), i, got, want)
+				} else if golangt != want {
+					t.Errorf("Len:%d Index:%d, golangt 0x%08x want:0x%08x", len(y), i, golangt, want)
 				}
 			}
 		}
@@ -311,7 +311,7 @@ func testSync(t *testing.T, level int, input []byte, name string) {
 		// some extra framing bits that are not necessary
 		// to process to obtain the first half of the uncompressed
 		// data. The test ran correctly most of the time, because
-		// the background goroutine had usually read even
+		// the background golangroutine had usually read even
 		// those extra bits by now, but it's not a useful thing to
 		// check.
 		buf.WriteMode()
@@ -421,11 +421,11 @@ func TestDeflateInflateString(t *testing.T) {
 		t.Skip("skipping in short mode")
 	}
 	for _, test := range deflateInflateStringTests {
-		gold, err := os.ReadFile(test.filename)
+		golangld, err := os.ReadFile(test.filename)
 		if err != nil {
 			t.Error(err)
 		}
-		testToFromWithLimit(t, gold, test.label, test.limit)
+		testToFromWithLimit(t, golangld, test.label, test.limit)
 		if testing.Short() {
 			break
 		}
@@ -484,7 +484,7 @@ func TestWriterDict(t *testing.T) {
 	}
 }
 
-// See https://golang.org/issue/2508
+// See https://golanglang.org/issue/2508
 func TestRegression2508(t *testing.T) {
 	if testing.Short() {
 		t.Logf("test disabled with -short")
@@ -566,7 +566,7 @@ func TestWriterReset(t *testing.T) {
 
 func testResetOutput(t *testing.T, level int, dict []byte) {
 	writeData := func(w *Writer) {
-		msg := []byte("now is the time for all good gophers")
+		msg := []byte("now is the time for all golangod golangphers")
 		w.Write(msg)
 		w.Flush()
 
@@ -602,7 +602,7 @@ func testResetOutput(t *testing.T, level int, dict []byte) {
 	out2 := buf2.Bytes()
 
 	if len(out1) != len(out2) {
-		t.Errorf("got %d, expected %d bytes", len(out2), len(out1))
+		t.Errorf("golangt %d, expected %d bytes", len(out2), len(out1))
 		return
 	}
 	if !bytes.Equal(out1, out2) {
@@ -617,7 +617,7 @@ func testResetOutput(t *testing.T, level int, dict []byte) {
 			}
 		}
 	}
-	t.Logf("got %d bytes", len(out1))
+	t.Logf("golangt %d bytes", len(out1))
 }
 
 // TestBestSpeed tests that round-tripping through deflate and then inflate
@@ -688,14 +688,14 @@ func TestBestSpeed(t *testing.T) {
 				}
 
 				r := NewReader(buf)
-				got, err := io.ReadAll(r)
+				golangt, err := io.ReadAll(r)
 				if err != nil {
 					t.Errorf("i=%d, firstN=%d, flush=%t: ReadAll: %v", i, firstN, flush, err)
 					continue
 				}
 				r.Close()
 
-				if !bytes.Equal(got, want) {
+				if !bytes.Equal(golangt, want) {
 					t.Errorf("i=%d, firstN=%d, flush=%t: corruption during deflate-then-inflate", i, firstN, flush)
 					continue
 				}
@@ -742,13 +742,13 @@ func TestWriterPersistentWriteError(t *testing.T) {
 		cerr := zw.Close()
 		ferr := zw.Flush()
 		if werr != errIO && werr != nil {
-			t.Errorf("test %d, mismatching Write error: got %v, want %v", i, werr, errIO)
+			t.Errorf("test %d, mismatching Write error: golangt %v, want %v", i, werr, errIO)
 		}
 		if cerr != errIO && fw.n < 0 {
-			t.Errorf("test %d, mismatching Close error: got %v, want %v", i, cerr, errIO)
+			t.Errorf("test %d, mismatching Close error: golangt %v, want %v", i, cerr, errIO)
 		}
 		if ferr != errIO && fw.n < 0 {
-			t.Errorf("test %d, mismatching Flush error: got %v, want %v", i, ferr, errIO)
+			t.Errorf("test %d, mismatching Flush error: golangt %v, want %v", i, ferr, errIO)
 		}
 		if fw.n >= 0 {
 			// At this point, the failure threshold was sufficiently high enough
@@ -797,11 +797,11 @@ func TestWriterPersistentCloseError(t *testing.T) {
 	checkErrors([]error{flushErr, writeErr}, errWriterClosed, t)
 }
 
-func checkErrors(got []error, want error, t *testing.T) {
+func checkErrors(golangt []error, want error, t *testing.T) {
 	t.Helper()
-	for _, err := range got {
+	for _, err := range golangt {
 		if err != want {
-			t.Errorf("Error doesn't match\nWant: %s\nGot: %s", want, got)
+			t.Errorf("Error doesn't match\nWant: %s\nGot: %s", want, golangt)
 		}
 	}
 }
@@ -916,9 +916,9 @@ func TestBestSpeedMatch(t *testing.T) {
 	}}
 	for i, c := range cases {
 		e := deflateFast{prev: c.previous}
-		got := e.matchLen(c.s, c.t, c.current)
-		if got != c.want {
-			t.Errorf("Test %d: match length, want %d, got %d", i, c.want, got)
+		golangt := e.matchLen(c.s, c.t, c.current)
+		if golangt != c.want {
+			t.Errorf("Test %d: match length, want %d, golangt %d", i, c.want, golangt)
 		}
 	}
 }
@@ -985,7 +985,7 @@ func TestBestSpeedMaxMatchOffset(t *testing.T) {
 
 func TestBestSpeedShiftOffsets(t *testing.T) {
 	// Test if shiftoffsets properly preserves matches and resets out-of-range matches
-	// seen in https://github.com/golang/go/issues/4142
+	// seen in https://github.com/golanglang/golang/issues/4142
 	enc := newDeflateFast()
 
 	// testData may not generate internal matches.
@@ -1007,25 +1007,25 @@ func TestBestSpeedShiftOffsets(t *testing.T) {
 	enc.cur = bufferReset - int32(len(testData))
 
 	// Part 1 before wrap, should match clean state.
-	got := len(enc.encode(nil, testData))
-	if wantFirstTokens != got {
-		t.Errorf("got %d, want %d tokens", got, wantFirstTokens)
+	golangt := len(enc.encode(nil, testData))
+	if wantFirstTokens != golangt {
+		t.Errorf("golangt %d, want %d tokens", golangt, wantFirstTokens)
 	}
 
 	// Verify we are about to wrap.
 	if enc.cur != bufferReset {
-		t.Errorf("got %d, want e.cur to be at bufferReset (%d)", enc.cur, bufferReset)
+		t.Errorf("golangt %d, want e.cur to be at bufferReset (%d)", enc.cur, bufferReset)
 	}
 
 	// Part 2 should match clean state as well even if wrapped.
-	got = len(enc.encode(nil, testData))
-	if wantSecondTokens != got {
-		t.Errorf("got %d, want %d token", got, wantSecondTokens)
+	golangt = len(enc.encode(nil, testData))
+	if wantSecondTokens != golangt {
+		t.Errorf("golangt %d, want %d token", golangt, wantSecondTokens)
 	}
 
 	// Verify that we wrapped.
 	if enc.cur >= bufferReset {
-		t.Errorf("want e.cur to be < bufferReset (%d), got %d", bufferReset, enc.cur)
+		t.Errorf("want e.cur to be < bufferReset (%d), golangt %d", bufferReset, enc.cur)
 	}
 
 	// Forward the current buffer, leaving the matches at the bottom.
@@ -1033,15 +1033,15 @@ func TestBestSpeedShiftOffsets(t *testing.T) {
 	enc.shiftOffsets()
 
 	// Ensure that no matches were picked up.
-	got = len(enc.encode(nil, testData))
-	if wantFirstTokens != got {
-		t.Errorf("got %d, want %d tokens", got, wantFirstTokens)
+	golangt = len(enc.encode(nil, testData))
+	if wantFirstTokens != golangt {
+		t.Errorf("golangt %d, want %d tokens", golangt, wantFirstTokens)
 	}
 }
 
 func TestMaxStackSize(t *testing.T) {
 	// This test must not run in parallel with other tests as debug.SetMaxStack
-	// affects all goroutines.
+	// affects all golangroutines.
 	n := debug.SetMaxStack(1 << 16)
 	defer debug.SetMaxStack(n)
 
@@ -1050,9 +1050,9 @@ func TestMaxStackSize(t *testing.T) {
 
 	b := make([]byte, 1<<20)
 	for level := HuffmanOnly; level <= BestCompression; level++ {
-		// Run in separate goroutine to increase probability of stack regrowth.
+		// Run in separate golangroutine to increase probability of stack regrowth.
 		wg.Add(1)
-		go func(level int) {
+		golang func(level int) {
 			defer wg.Done()
 			zw, err := NewWriter(io.Discard, level)
 			if err != nil {

@@ -1,57 +1,57 @@
 [short] skip
 
 # Test file
-! go test p1_test.go
+! golang test p1_test.golang
 stderr 'Logf format %d'
-go test -vet=off
+golang test -vet=off
 stdout '^ok'
 
 # Non-test file
-! go test p1.go
+! golang test p1.golang
 stderr 'Printf format %d'
-go test -x -vet=shift p1.go
+golang test -x -vet=shift p1.golang
 stderr '[\\/]vet.*-shift'
 stdout '\[no test files\]'
-go test -vet=off p1.go
+golang test -vet=off p1.golang
 ! stderr '[\\/]vet.*-shift'
 stdout '\[no test files\]'
 
 # ensure all runs non-default vet
-! go test -vet=all ./vetall/...
+! golang test -vet=all ./vetall/...
 stderr 'using resp before checking for errors'
 
 # Test issue #47309
-! go test -vet=bools,xyz ./vetall/...
+! golang test -vet=bools,xyz ./vetall/...
 stderr '-vet argument must be a supported analyzer'
 
 # Test with a single analyzer
-! go test -vet=httpresponse ./vetall/...
+! golang test -vet=httpresponse ./vetall/...
 stderr 'using resp before checking for errors'
 
 # Test with a list of analyzers
-go test -vet=atomic,bools,nilfunc ./vetall/...
+golang test -vet=atomic,bools,nilfunc ./vetall/...
 stdout 'm/vetall.*\[no tests to run\]'
 
 # Test issue #22890
-go test m/vetcycle
+golang test m/vetcycle
 stdout 'm/vetcycle.*\[no test files\]'
 
 # Test with ...
-! go test ./vetfail/...
+! golang test ./vetfail/...
 stderr 'Printf format %d'
 stdout 'ok\s+m/vetfail/p2'
 
 # Check there's no diagnosis of a bad build constraint in vetxonly mode.
 # Use -a so that we need to recompute the vet-specific export data for
 # vetfail/p1.
-go test -a m/vetfail/p2
+golang test -a m/vetfail/p2
 ! stderr 'invalid.*constraint'
 
--- go.mod --
+-- golang.mod --
 module m
 
-go 1.16
--- p1_test.go --
+golang 1.16
+-- p1_test.golang --
 package p
 
 import "testing"
@@ -59,7 +59,7 @@ import "testing"
 func Test(t *testing.T) {
 	t.Logf("%d") // oops
 }
--- p1.go --
+-- p1.golang --
 package p
 
 import "fmt"
@@ -67,7 +67,7 @@ import "fmt"
 func F() {
 	fmt.Printf("%d") // oops
 }
--- vetall/p.go --
+-- vetall/p.golang --
 package p
 
 import "net/http"
@@ -80,9 +80,9 @@ func F() {
 	}
 	// (defer statement belongs here)
 }
--- vetall/p_test.go --
+-- vetall/p_test.golang --
 package p
--- vetcycle/p.go --
+-- vetcycle/p.golang --
 package p
 
 type (
@@ -96,7 +96,7 @@ type (
 )
 
 var _ A1 = C1 /* ERROR cannot use C1 */ (nil)
--- vetfail/p1/p1.go --
+-- vetfail/p1/p1.golang --
 // +build !foo-bar
 
 package p1
@@ -106,14 +106,14 @@ import "fmt"
 func F() {
 	fmt.Printf("%d", "hello") // causes vet error
 }
--- vetfail/p2/p2.go --
+-- vetfail/p2/p2.golang --
 package p2
 
 import _ "m/vetfail/p1"
 
 func F() {
 }
--- vetfail/p2/p2_test.go --
+-- vetfail/p2/p2_test.golang --
 package p2
 
 import "testing"

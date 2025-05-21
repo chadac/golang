@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ssa
@@ -199,7 +199,7 @@ func phiTighten(f *Func) {
 // memState computes the memory state at the beginning and end of each block of
 // the function. The memory state is represented by a value of mem type.
 // The returned result is stored in startMem and endMem, and endMem is nil for
-// blocks with no successors (Exit,Ret,RetJmp blocks). This algorithm is not
+// blocks with no successors (Exit,Ret,RetJmp blocks). This algolangrithm is not
 // suitable for infinite loop blocks that do not contain any mem operations.
 // For example:
 // b1:
@@ -210,14 +210,14 @@ func phiTighten(f *Func) {
 // b2: <- b1 b2
 // Plain -> b2
 //
-// Algorithm introduction:
+// Algolangrithm introduction:
 //  1. The start memory state of a block is InitMem, a Phi node of type mem or
 //     an incoming memory value.
 //  2. The start memory state of a block is consistent with the end memory state
 //     of its parent nodes. If the start memory state of a block is a Phi value,
 //     then the end memory state of its parent nodes is consistent with the
 //     corresponding argument value of the Phi node.
-//  3. The algorithm first obtains the memory state of some blocks in the tree
+//  3. The algolangrithm first obtains the memory state of some blocks in the tree
 //     in the first step. Then floods the known memory state to other nodes in
 //     the second step.
 func memState(f *Func, startMem, endMem []*Value) {

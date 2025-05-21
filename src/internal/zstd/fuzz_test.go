@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package zstd
@@ -73,12 +73,12 @@ func FuzzDecompressor(f *testing.F) {
 		}
 
 		r := NewReader(bytes.NewReader(compressed.Bytes()))
-		got, err := io.ReadAll(r)
+		golangt, err := io.ReadAll(r)
 		if err != nil {
 			t.Fatal(err)
 		}
-		if !bytes.Equal(got, b) {
-			showDiffs(t, got, b)
+		if !bytes.Equal(golangt, b) {
+			showDiffs(t, golangt, b)
 		}
 	})
 }
@@ -98,7 +98,7 @@ func FuzzReverse(f *testing.F) {
 
 	f.Fuzz(func(t *testing.T, b []byte) {
 		r := NewReader(bytes.NewReader(b))
-		goExp, goErr := io.ReadAll(r)
+		golangExp, golangErr := io.ReadAll(r)
 
 		cmd := exec.Command(zstd, "-d")
 		cmd.Stdin = bytes.NewReader(b)
@@ -108,9 +108,9 @@ func FuzzReverse(f *testing.F) {
 		zstdErr := cmd.Run()
 		zstdExp := uncompressed.Bytes()
 
-		if goErr == nil && zstdErr == nil {
-			if !bytes.Equal(zstdExp, goExp) {
-				showDiffs(t, zstdExp, goExp)
+		if golangErr == nil && zstdErr == nil {
+			if !bytes.Equal(zstdExp, golangExp) {
+				showDiffs(t, zstdExp, golangExp)
 			}
 		} else {
 			// Ideally we should check that this package and
@@ -123,17 +123,17 @@ func FuzzReverse(f *testing.F) {
 			// to determine.
 			// So we just check the prefix.
 
-			c := len(goExp)
+			c := len(golangExp)
 			if c > len(zstdExp) {
 				c = len(zstdExp)
 			}
-			goExp = goExp[:c]
+			golangExp = golangExp[:c]
 			zstdExp = zstdExp[:c]
-			if !bytes.Equal(goExp, zstdExp) {
+			if !bytes.Equal(golangExp, zstdExp) {
 				t.Error("byte mismatch after error")
-				t.Logf("Go error: %v\n", goErr)
+				t.Logf("Go error: %v\n", golangErr)
 				t.Logf("zstd error: %v\n", zstdErr)
-				showDiffs(t, zstdExp, goExp)
+				showDiffs(t, zstdExp, golangExp)
 			}
 		}
 	})

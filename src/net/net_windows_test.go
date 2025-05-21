@@ -1,5 +1,5 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package net
@@ -127,9 +127,9 @@ func TestAcceptIgnoreSomeErrors(t *testing.T) {
 	cmd.Process.Kill() // the only way to trigger the errors
 	time.Sleep(alittle)
 
-	// Send second connection data (with delay in a separate goroutine).
+	// Send second connection data (with delay in a separate golangroutine).
 	result := make(chan error)
-	go func() {
+	golang func() {
 		time.Sleep(alittle)
 		err := send(ln.Addr().String(), "abc")
 		if err != nil {

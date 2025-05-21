@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Support for pidfd was added during the course of a few Linux releases:
@@ -199,13 +199,13 @@ func checkPidfd() error {
 
 // Provided by syscall.
 //
-//go:linkname checkClonePidfd
+//golang:linkname checkClonePidfd
 func checkClonePidfd() error
 
 // Provided by runtime.
 //
-//go:linkname ignoreSIGSYS
+//golang:linkname ignoreSIGSYS
 func ignoreSIGSYS()
 
-//go:linkname restoreSIGSYS
+//golang:linkname restoreSIGSYS
 func restoreSIGSYS()

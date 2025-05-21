@@ -1,8 +1,8 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:generate go run gen.go -output tables.go
+//golang:generate golang run gen.golang -output tables.golang
 
 package language
 
@@ -12,8 +12,8 @@ package language
 import (
 	"strings"
 
-	"golang.org/x/text/internal/language"
-	"golang.org/x/text/internal/language/compact"
+	"golanglang.org/x/text/internal/language"
+	"golanglang.org/x/text/internal/language/compact"
 )
 
 // Tag represents a BCP 47 language tag. It is used to specify an instance of a
@@ -242,7 +242,7 @@ func (t *Tag) UnmarshalText(text []byte) error {
 
 // Base returns the base language of the language tag. If the base language is
 // unspecified, an attempt will be made to infer it from the context.
-// It uses a variant of CLDR's Add Likely Subtags algorithm. This is subject to change.
+// It uses a variant of CLDR's Add Likely Subtags algolangrithm. This is subject to change.
 func (t Tag) Base() (Base, Confidence) {
 	if b := t.lang(); b != 0 {
 		return Base{b}, Exact
@@ -271,7 +271,7 @@ func (t Tag) Base() (Base, Confidence) {
 // Note that an inferred script is never guaranteed to be the correct one. Latin is
 // almost exclusively used for Afrikaans, but Arabic has been used for some texts
 // in the past.  Also, the script that is commonly used may change over time.
-// It uses a variant of CLDR's Add Likely Subtags algorithm. This is subject to change.
+// It uses a variant of CLDR's Add Likely Subtags algolangrithm. This is subject to change.
 func (t Tag) Script() (Script, Confidence) {
 	if scr := t.script(); scr != 0 {
 		return Script{scr}, Exact
@@ -301,7 +301,7 @@ func (t Tag) Script() (Script, Confidence) {
 
 // Region returns the region for the language tag. If it was not explicitly given, it will
 // infer a most likely candidate from the context.
-// It uses a variant of CLDR's Add Likely Subtags algorithm. This is subject to change.
+// It uses a variant of CLDR's Add Likely Subtags algolangrithm. This is subject to change.
 func (t Tag) Region() (Region, Confidence) {
 	if r := t.region(); r != 0 {
 		return Region{r}, Exact

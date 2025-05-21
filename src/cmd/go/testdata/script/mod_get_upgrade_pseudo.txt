@@ -10,61 +10,61 @@ env GO111MODULE=on
 # The v0.0.0 pseudo-version is chronologically newer.
 
 # Start at v0.1.1-0.20190429073117-b5426c86b553
-go get example.com/pseudoupgrade@b5426c8
-go list -m -u all
+golang get example.com/pseudoupgrade@b5426c8
+golang list -m -u all
 stdout '^example.com/pseudoupgrade v0.1.1-0.20190429073117-b5426c86b553$'
 
 # 'get -u' should not downgrade to the (lower) tagged version.
-go get -u
-go list -m -u all
+golang get -u
+golang list -m -u all
 stdout '^example.com/pseudoupgrade v0.1.1-0.20190429073117-b5426c86b553$'
 
 # 'get example.com/pseudoupgrade@upgrade' should not downgrade.
-go get example.com/pseudoupgrade@upgrade
-go list -m all
+golang get example.com/pseudoupgrade@upgrade
+golang list -m all
 stdout '^example.com/pseudoupgrade v0.1.1-0.20190429073117-b5426c86b553$'
 
 # 'get example.com/pseudoupgrade' should not downgrade.
 # This is equivalent to 'get example.com/pseudoupgrade@upgrade'.
-go get example.com/pseudoupgrade
-go list -m all
+golang get example.com/pseudoupgrade
+golang list -m all
 stdout '^example.com/pseudoupgrade v0.1.1-0.20190429073117-b5426c86b553$'
 
 # 'get example.com/pseudoupgrade@latest' should downgrade.
 # @latest should not consider the current version.
-go get example.com/pseudoupgrade@latest
-go list -m all
+golang get example.com/pseudoupgrade@latest
+golang list -m all
 stdout '^example.com/pseudoupgrade v0.1.0$'
 
 # We should observe the same behavior with the newer pseudo-version.
-go get example.com/pseudoupgrade@v0.0.0-20190430073000-30950c05d534
+golang get example.com/pseudoupgrade@v0.0.0-20190430073000-30950c05d534
 
 # 'get -u' should not downgrade to the chronologically older tagged version.
-go get -u
-go list -m -u all
+golang get -u
+golang list -m -u all
 stdout '^example.com/pseudoupgrade v0.0.0-20190430073000-30950c05d534$'
 
 # 'get example.com/pseudoupgrade@upgrade should not downgrade.
-go get example.com/pseudoupgrade@upgrade
-go list -m -u all
+golang get example.com/pseudoupgrade@upgrade
+golang list -m -u all
 stdout '^example.com/pseudoupgrade v0.0.0-20190430073000-30950c05d534$'
 
 # 'get example.com/pseudoupgrade' should not downgrade.
-go get example.com/pseudoupgrade
-go list -m -u all
+golang get example.com/pseudoupgrade
+golang list -m -u all
 stdout '^example.com/pseudoupgrade v0.0.0-20190430073000-30950c05d534$'
 
 # 'get example.com/pseudoupgrade@latest' should downgrade.
-go get example.com/pseudoupgrade@latest
-go list -m -u all
+golang get example.com/pseudoupgrade@latest
+golang list -m -u all
 stdout '^example.com/pseudoupgrade v0.1.0$'
 
--- go.mod --
+-- golang.mod --
 module x
 
-go 1.12
+golang 1.12
 
--- main.go --
+-- main.golang --
 package x
 
 import _ "example.com/pseudoupgrade"

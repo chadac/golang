@@ -1,4 +1,4 @@
-//gofmt -s
+//golangfmt -s
 
 // Test cases for range simplification.
 package p

@@ -1,5 +1,5 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime_test
@@ -11,15 +11,15 @@ import (
 	"testing"
 )
 
-// Ensures that got and want are the same, and if not, reports
+// Ensures that golangt and want are the same, and if not, reports
 // detailed diff information.
-func checkPallocBits(t *testing.T, got, want *PallocBits) bool {
-	d := DiffPallocBits(got, want)
+func checkPallocBits(t *testing.T, golangt, want *PallocBits) bool {
+	d := DiffPallocBits(golangt, want)
 	if len(d) != 0 {
 		t.Errorf("%d range(s) different", len(d))
 		for _, bits := range d {
 			t.Logf("\t@ bit index %d", bits.I)
-			t.Logf("\t|  got: %s", StringifyPallocBits(got, bits))
+			t.Logf("\t|  golangt: %s", StringifyPallocBits(golangt, bits))
 			t.Logf("\t| want: %s", StringifyPallocBits(want, bits))
 		}
 		return false
@@ -101,15 +101,15 @@ func invertPallocBits(b *PallocBits) {
 
 // Ensures two packed summaries are identical, and reports a detailed description
 // of the difference if they're not.
-func checkPallocSum(t testing.TB, got, want PallocSum) {
-	if got.Start() != want.Start() {
-		t.Errorf("inconsistent start: got %d, want %d", got.Start(), want.Start())
+func checkPallocSum(t testing.TB, golangt, want PallocSum) {
+	if golangt.Start() != want.Start() {
+		t.Errorf("inconsistent start: golangt %d, want %d", golangt.Start(), want.Start())
 	}
-	if got.Max() != want.Max() {
-		t.Errorf("inconsistent max: got %d, want %d", got.Max(), want.Max())
+	if golangt.Max() != want.Max() {
+		t.Errorf("inconsistent max: golangt %d, want %d", golangt.Max(), want.Max())
 	}
-	if got.End() != want.End() {
-		t.Errorf("inconsistent end: got %d, want %d", got.End(), want.End())
+	if golangt.End() != want.End() {
+		t.Errorf("inconsistent end: golangt %d, want %d", golangt.End(), want.End())
 	}
 }
 
@@ -197,8 +197,8 @@ func TestMallocBitsPopcntRange(t *testing.T) {
 		t.Run(name, func(t *testing.T) {
 			b := makePallocBits(v.init)
 			for _, h := range v.tests {
-				if got := b.PopcntRange(h.i, h.n); got != h.want {
-					t.Errorf("bad popcnt (i=%d, n=%d): got %d, want %d", h.i, h.n, got, h.want)
+				if golangt := b.PopcntRange(h.i, h.n); golangt != h.want {
+					t.Errorf("bad popcnt (i=%d, n=%d): golangt %d, want %d", h.i, h.n, golangt, h.want)
 				}
 			}
 		})
@@ -428,7 +428,7 @@ func TestPallocBitsAlloc(t *testing.T) {
 			for iter, i := range v.hits {
 				a, _ := b.Find(v.npages, 0)
 				if i != a {
-					t.Fatalf("find #%d picked wrong index: want %d, got %d", iter+1, i, a)
+					t.Fatalf("find #%d picked wrong index: want %d, golangt %d", iter+1, i, a)
 				}
 				if i != ^uint(0) {
 					b.AllocRange(a, uint(v.npages))
@@ -499,9 +499,9 @@ func TestFindBitRange64(t *testing.T) {
 	check := func(x uint64, n uint, result uint) {
 		i := FindBitRange64(x, n)
 		if result == ^uint(0) && i < 64 {
-			t.Errorf("case (%016x, %d): got %d, want failure", x, n, i)
+			t.Errorf("case (%016x, %d): golangt %d, want failure", x, n, i)
 		} else if result != ^uint(0) && i != result {
-			t.Errorf("case (%016x, %d): got %d, want %d", x, n, i, result)
+			t.Errorf("case (%016x, %d): golangt %d, want %d", x, n, i, result)
 		}
 	}
 	for i := uint(1); i <= 64; i++ {

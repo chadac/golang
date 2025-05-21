@@ -1,9 +1,9 @@
 // run
 
-//go:build !nacl && !js && !wasip1
+//golang:build !nacl && !js && !wasip1
 
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Run the sinit test.
@@ -62,23 +62,23 @@ func main() {
 		return filepath.Join(tmpDir, name)
 	}
 
-    importcfg, err := exec.Command("go", "list", "-export", "-f", "{{if .Export}}packagefile {{.ImportPath}}={{.Export}}{{end}}", "std").Output()
+    importcfg, err := exec.Command("golang", "list", "-export", "-f", "{{if .Export}}packagefile {{.ImportPath}}={{.Export}}{{end}}", "std").Output()
     if err != nil {
         fmt.Println(err)
         os.Exit(1)
     }
     os.WriteFile(tmp("importcfg"), importcfg, 0644)
 
-	// helloworld.go is package main
-    run("go tool compile -p=main -importcfg", tmp("importcfg"), "-o", tmp("linkmain.o"), "helloworld.go")
-	run("go tool compile -p=main -importcfg", tmp("importcfg"), " -pack -o", tmp("linkmain.a"), "helloworld.go")
-	run("go tool link -importcfg", tmp("importcfg"), "-o", tmp("linkmain.exe"), tmp("linkmain.o"))
-	run("go tool link -importcfg", tmp("importcfg"), "-o", tmp("linkmain.exe"), tmp("linkmain.a"))
+	// helloworld.golang is package main
+    run("golang tool compile -p=main -importcfg", tmp("importcfg"), "-o", tmp("linkmain.o"), "helloworld.golang")
+	run("golang tool compile -p=main -importcfg", tmp("importcfg"), " -pack -o", tmp("linkmain.a"), "helloworld.golang")
+	run("golang tool link -importcfg", tmp("importcfg"), "-o", tmp("linkmain.exe"), tmp("linkmain.o"))
+	run("golang tool link -importcfg", tmp("importcfg"), "-o", tmp("linkmain.exe"), tmp("linkmain.a"))
 
-	// linkmain.go is not
-	run("go tool compile -importcfg", tmp("importcfg"), "-p=notmain -o", tmp("linkmain1.o"), "linkmain.go")
-	run("go tool compile -importcfg", tmp("importcfg"), "-p=notmain -pack -o", tmp("linkmain1.a"), "linkmain.go")
-	runFail("go tool link -importcfg", tmp("importcfg"), "-o", tmp("linkmain.exe"), tmp("linkmain1.o"))
-	runFail("go tool link -importcfg", tmp("importcfg"), "-o", tmp("linkmain.exe"), tmp("linkmain1.a"))
+	// linkmain.golang is not
+	run("golang tool compile -importcfg", tmp("importcfg"), "-p=notmain -o", tmp("linkmain1.o"), "linkmain.golang")
+	run("golang tool compile -importcfg", tmp("importcfg"), "-p=notmain -pack -o", tmp("linkmain1.a"), "linkmain.golang")
+	runFail("golang tool link -importcfg", tmp("importcfg"), "-o", tmp("linkmain.exe"), tmp("linkmain1.o"))
+	runFail("golang tool link -importcfg", tmp("importcfg"), "-o", tmp("linkmain.exe"), tmp("linkmain1.a"))
 	cleanup()
 }

@@ -1,16 +1,16 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build boringcrypto && linux && (amd64 || arm64) && !android && !msan
+//golang:build boringcrypto && linux && (amd64 || arm64) && !android && !msan
 
 package boring
 
 /*
-// goboringcrypto_linux_amd64.syso references pthread functions.
-#cgo LDFLAGS: "-pthread"
+// golangboringcrypto_linux_amd64.syso references pthread functions.
+#cgolang LDFLAGS: "-pthread"
 
-#include "goboringcrypto.h"
+#include "golangboringcrypto.h"
 */
 import "C"
 import (
@@ -25,8 +25,8 @@ import (
 const available = true
 
 func init() {
-	C._goboringcrypto_BORINGSSL_bcm_power_on_self_test()
-	if C._goboringcrypto_FIPS_mode() != 1 {
+	C._golangboringcrypto_BORINGSSL_bcm_power_on_self_test()
+	if C._golangboringcrypto_FIPS_mode() != 1 {
 		panic("boringcrypto: not in FIPS mode")
 	}
 	sig.BoringCrypto()
@@ -72,16 +72,16 @@ func wbase(b BigInt) *C.uint8_t {
 const wordBytes = bits.UintSize / 8
 
 func bigToBN(x BigInt) *C.GO_BIGNUM {
-	return C._goboringcrypto_BN_le2bn(wbase(x), C.size_t(len(x)*wordBytes), nil)
+	return C._golangboringcrypto_BN_le2bn(wbase(x), C.size_t(len(x)*wordBytes), nil)
 }
 
 func bytesToBN(x []byte) *C.GO_BIGNUM {
-	return C._goboringcrypto_BN_bin2bn((*C.uint8_t)(&x[0]), C.size_t(len(x)), nil)
+	return C._golangboringcrypto_BN_bin2bn((*C.uint8_t)(&x[0]), C.size_t(len(x)), nil)
 }
 
 func bnToBig(bn *C.GO_BIGNUM) BigInt {
-	x := make(BigInt, (C._goboringcrypto_BN_num_bytes(bn)+wordBytes-1)/wordBytes)
-	if C._goboringcrypto_BN_bn2le_padded(wbase(x), C.size_t(len(x)*wordBytes), bn) == 0 {
+	x := make(BigInt, (C._golangboringcrypto_BN_num_bytes(bn)+wordBytes-1)/wordBytes)
+	if C._golangboringcrypto_BN_bn2le_padded(wbase(x), C.size_t(len(x)*wordBytes), bn) == 0 {
 		panic("boringcrypto: bignum conversion failed")
 	}
 	return x
@@ -89,7 +89,7 @@ func bnToBig(bn *C.GO_BIGNUM) BigInt {
 
 func bigToBn(bnp **C.GO_BIGNUM, b BigInt) bool {
 	if *bnp != nil {
-		C._goboringcrypto_BN_free(*bnp)
+		C._golangboringcrypto_BN_free(*bnp)
 		*bnp = nil
 	}
 	if b == nil {
@@ -109,7 +109,7 @@ func bigToBn(bnp **C.GO_BIGNUM, b BigInt) bool {
 // compiles down to zero instructions.
 // USE CAREFULLY!
 //
-//go:nosplit
+//golang:nosplit
 func noescape(p unsafe.Pointer) unsafe.Pointer {
 	x := uintptr(p)
 	return unsafe.Pointer(x ^ 0)
@@ -121,7 +121,7 @@ var zero byte
 // If p is nil, addr returns a non-nil pointer, so that the result can always
 // be dereferenced.
 //
-//go:nosplit
+//golang:nosplit
 func addr(p []byte) *byte {
 	if len(p) == 0 {
 		return &zero

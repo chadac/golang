@@ -1,8 +1,8 @@
 # Matches no tests with subtests
-go test -run ThisWillNotMatch standalone_sub_test.go
+golang test -run ThisWillNotMatch standalone_sub_test.golang
 stdout '^ok.*\[no tests to run\]'
 
--- standalone_sub_test.go --
+-- standalone_sub_test.golang --
 package standalone_sub_test
 
 import "testing"

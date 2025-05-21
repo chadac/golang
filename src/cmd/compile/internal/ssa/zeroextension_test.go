@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ssa
@@ -28,7 +28,7 @@ func TestZeroExtension(t *testing.T) {
 	for _, x := range extTests {
 		r := x.f(x.arg1, x.arg2)
 		if x.res != r {
-			t.Errorf("%s: got %d want %d", x.name, r, x.res)
+			t.Errorf("%s: golangt %d want %d", x.name, r, x.res)
 		}
 	}
 }

@@ -1,16 +1,16 @@
 // compile
 
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Caused a gofrontend crash.
+// Caused a golangfrontend crash.
 
-//go:build gccgo
+//golang:build gccgolang
 
 package p
 
-//go:notinheap
+//golang:notinheap
 type S1 struct{}
 
 type S2 struct {

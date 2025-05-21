@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test that type assertion panics mention the real interface type,
@@ -17,7 +17,7 @@ import (
 
 func main() {
 	// The exact error message isn't important, but it should mention
-	// `main.T`, not `go.shape.int_0`.
+	// `main.T`, not `golang.shape.int_0`.
 	if have := F[T](); !strings.Contains(have, "interface { T() main.T }") {
 		fmt.Printf("FAIL: unexpected panic message: %q\n", have)
 	}

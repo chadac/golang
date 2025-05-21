@@ -1,8 +1,8 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build unix || (js && wasm) || wasip1
+//golang:build unix || (js && wasm) || wasip1
 
 package os
 
@@ -30,7 +30,7 @@ func (p *Process) wait() (ps *ProcessState, err error) {
 }
 
 func (p *Process) pidWait() (*ProcessState, error) {
-	// TODO(go.dev/issue/67642): When there are concurrent Wait calls, one
+	// TODO(golang.dev/issue/67642): When there are concurrent Wait calls, one
 	// may wait on the wrong process if the PID is reused after the
 	// completes its wait.
 	//

@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package inlheur
@@ -7,7 +7,7 @@ package inlheur
 import (
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/ir"
-	"cmd/compile/internal/pgoir"
+	"cmd/compile/internal/pgolangir"
 	"cmd/compile/internal/types"
 	"cmp"
 	"fmt"
@@ -23,7 +23,7 @@ type scoreAdjustTyp uint
 
 // These constants capture the various ways in which the inliner's
 // scoring phase can adjust a callsite score based on heuristics. They
-// fall broadly into three categories:
+// fall broadly into three categolangries:
 //
 // 1) adjustments based solely on the callsite context (ex: call
 // appears on panic path)
@@ -36,7 +36,7 @@ type scoreAdjustTyp uint
 // at a callsite (ex: call always returns the same inlinable function,
 // and return value flows unmodified into an indirect call)
 //
-// For categories 2 and 3 above, each adjustment can have either a
+// For categolangries 2 and 3 above, each adjustment can have either a
 // "must" version and a "may" version (but not both). Here the idea is
 // that in the "must" version the value flow is unconditional: if the
 // callsite executes, then the condition we're interested in (ex:
@@ -44,12 +44,12 @@ type scoreAdjustTyp uint
 // there may be control flow that could cause the benefit to be
 // bypassed.
 const (
-	// Category 1 adjustments (see above)
+	// Categolangry 1 adjustments (see above)
 	panicPathAdj scoreAdjustTyp = (1 << iota)
 	initFuncAdj
 	inLoopAdj
 
-	// Category 2 adjustments (see above).
+	// Categolangry 2 adjustments (see above).
 	passConstToIfAdj
 	passConstToNestedIfAdj
 	passConcreteToItfCallAdj
@@ -59,7 +59,7 @@ const (
 	passInlinableFuncToIndCallAdj
 	passInlinableFuncToNestedIndCallAdj
 
-	// Category 3 adjustments.
+	// Categolangry 3 adjustments.
 	returnFeedsConstToIfAdj
 	returnFeedsFuncToIndCallAdj
 	returnFeedsInlinableFuncToIndCallAdj
@@ -71,7 +71,7 @@ const (
 // This table records the specific values we use to adjust call
 // site scores in a given scenario.
 // NOTE: these numbers are chosen very arbitrarily; ideally
-// we will go through some sort of turning process to decide
+// we will golang through some sort of turning process to decide
 // what value for each one produces the best performance.
 
 var adjValues = map[scoreAdjustTyp]int{
@@ -593,7 +593,7 @@ func GetCallSiteScore(fn *ir.Func, call *ir.CallExpr) (int, bool) {
 //
 // Background: with the new inliner, the score for a given callsite
 // can be adjusted down by some amount due to heuristics, however we
-// won't know whether this is going to happen until much later after
+// won't know whether this is golanging to happen until much later after
 // the CanInline call. This function returns the amount to relax the
 // budget initially (to allow for a large score adjustment); later on
 // in RevisitInlinability we'll look at each individual function to
@@ -603,7 +603,7 @@ func BudgetExpansion(maxBudget int32) int32 {
 		return int32(base.Debug.InlBudgetSlack)
 	}
 	// In the default case, return maxBudget, which will effectively
-	// double the budget from 80 to 160; this should be good enough
+	// double the budget from 80 to 160; this should be golangod enough
 	// for most cases.
 	return maxBudget
 }
@@ -621,10 +621,10 @@ var allCallSites CallSiteTab
 // inliner. Sample output lines:
 //
 // Score  Adjustment  Status  Callee  CallerPos ScoreFlags
-// 115    40          DEMOTED cmd/compile/internal/abi.(*ABIParamAssignment).Offset     expand_calls.go:1679:14|6       panicPathAdj
-// 76     -5n         PROMOTED runtime.persistentalloc   mcheckmark.go:48:45|3   inLoopAdj
-// 201    0           --- PGO  unicode.DecodeRuneInString        utf8.go:312:30|1
-// 7      -5          --- PGO  internal/abi.Name.DataChecked     type.go:625:22|0        inLoopAdj
+// 115    40          DEMOTED cmd/compile/internal/abi.(*ABIParamAssignment).Offset     expand_calls.golang:1679:14|6       panicPathAdj
+// 76     -5n         PROMOTED runtime.persistentalloc   mcheckmark.golang:48:45|3   inLoopAdj
+// 201    0           --- PGO  unicode.DecodeRuneInString        utf8.golang:312:30|1
+// 7      -5          --- PGO  internal/abi.Name.DataChecked     type.golang:625:22|0        inLoopAdj
 //
 // In the dump above, "Score" is the final score calculated for the
 // callsite, "Adjustment" is the amount added to or subtracted from
@@ -637,7 +637,7 @@ var allCallSites CallSiteTab
 // of the function called, "CallerPos" is the position of the
 // callsite, and "ScoreFlags" is a digest of the specific properties
 // we used to make adjustments to callsite score via heuristics.
-func DumpInlCallSiteScores(profile *pgoir.Profile, budgetCallback func(fn *ir.Func, profile *pgoir.Profile) (int32, bool)) {
+func DumpInlCallSiteScores(profile *pgolangir.Profile, budgetCallback func(fn *ir.Func, profile *pgolangir.Profile) (int32, bool)) {
 
 	var indirectlyDueToPromotion func(cs *CallSite) bool
 	indirectlyDueToPromotion = func(cs *CallSite) bool {

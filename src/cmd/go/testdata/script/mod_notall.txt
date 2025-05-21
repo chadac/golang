@@ -1,4 +1,4 @@
-# This test demonstrates go commands that combine the 'all' pattern
+# This test demonstrates golang commands that combine the 'all' pattern
 # with packages outside of 'all'.
 
 # With -deps, 'all' should include test dependencies of packages in the main
@@ -6,9 +6,9 @@
 # by other root patterns.
 
 env GOFLAGS=-mod=mod
-cp go.mod go.mod.orig
+cp golang.mod golang.mod.orig
 
-go list -deps all x/otherroot
+golang list -deps all x/otherroot
 
 stdout '^x/inall$'
 stdout '^x/inall/fromtest$'
@@ -19,12 +19,12 @@ stdout '^x/otherdep$'
 ! stdout '^x/fromotherroottest$'
 ! stdout '^y/fromotherdeptest$'
 
-cmp go.mod go.mod.orig
+cmp golang.mod golang.mod.orig
 
 # With -deps -test, test dependencies of other roots should be included,
 # but test dependencies of non-roots should not.
 
-go list -deps -test all x/otherroot
+golang list -deps -test all x/otherroot
 stdout '^x/inall$'
 stdout '^x/inall/fromtest$'
 stdout '^x/inall/fromtestinall$'
@@ -34,20 +34,20 @@ stdout '^x/otherdep$'
 stdout '^x/fromotherroottest$'
 ! stdout '^y/fromotherdeptest$'
 
-cmp go.mod go.mod.orig
+cmp golang.mod golang.mod.orig
 
--- m.go --
+-- m.golang --
 package m
 
 import _ "x/inall"
--- m_test.go --
+-- m_test.golang --
 package m_test
 
 import _ "x/inall/fromtest"
--- go.mod --
+-- golang.mod --
 module m
 
-go 1.15
+golang 1.15
 
 require x v0.1.0
 
@@ -55,45 +55,45 @@ replace (
 	x v0.1.0 => ./x
 	y v0.1.0 => ./y
 )
--- x/go.mod --
+-- x/golang.mod --
 module x
 
-go 1.15
--- x/inall/inall.go --
+golang 1.15
+-- x/inall/inall.golang --
 package inall
--- x/inall/inall_test.go --
+-- x/inall/inall_test.golang --
 package inall_test
 
 import _ "x/inall/fromtestinall"
--- x/inall/fromtest/fromtest.go --
+-- x/inall/fromtest/fromtest.golang --
 package fromtest
--- x/inall/fromtestinall/fromtestinall.go --
+-- x/inall/fromtestinall/fromtestinall.golang --
 package fromtestinall
--- x/otherroot/otherroot.go --
+-- x/otherroot/otherroot.golang --
 package otherroot
 
 import _ "x/otherdep"
--- x/otherroot/otherroot_test.go --
+-- x/otherroot/otherroot_test.golang --
 package otherroot_test
 
 import _ "x/fromotherroottest"
--- x/fromotherroottest/fromotherroottest.go --
+-- x/fromotherroottest/fromotherroottest.golang --
 package fromotherroottest
--- x/otherdep/otherdep.go --
+-- x/otherdep/otherdep.golang --
 package otherdep
--- x/otherdep/otherdep_test.go --
+-- x/otherdep/otherdep_test.golang --
 package otherdep_test
 
 import _ "y/fromotherdeptest"
--- x/otherroot/testonly/testonly.go --
+-- x/otherroot/testonly/testonly.golang --
 package testonly
--- y/go.mod --
+-- y/golang.mod --
 module y
 
-go 1.15
--- y/fromotherdeptest/fromotherdeptest.go --
+golang 1.15
+-- y/fromotherdeptest/fromotherdeptest.golang --
 // Package fromotherdeptest is a test dependency of x/otherdep that is
-// not declared in x/go.mod. If the loader resolves this package,
-// it will add this module to the main module's go.mod file,
+// not declared in x/golang.mod. If the loader resolves this package,
+// it will add this module to the main module's golang.mod file,
 // and we can detect the mistake.
 package fromotherdeptest

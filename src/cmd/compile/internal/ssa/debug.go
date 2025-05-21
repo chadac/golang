@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ssa
@@ -55,12 +55,12 @@ type BlockDebug struct {
 	startState, endState abt.T
 	// Use these to avoid excess work in the merge. If none of the
 	// predecessors has changed since the last check, the old answer is
-	// still good.
+	// still golangod.
 	lastCheckedTime, lastChangedTime int32
 	// Whether the block had any changes to user variables at all.
 	relevant bool
 	// false until the block has been processed at least once. This
-	// affects how the merge is done; the goal is to maximize sharing
+	// affects how the merge is done; the golangal is to maximize sharing
 	// and avoid allocation.
 	everProcessed bool
 }
@@ -499,7 +499,7 @@ func PopulateABIInRegArgOps(f *Func) {
 			// add to f.NamedValues if not already present
 			addToNV(v, sc.canonSlot(idx))
 		} else if v.Op.IsCall() {
-			// if we hit a call, we've gone too far.
+			// if we hit a call, we've golangne too far.
 			break
 		}
 	}
@@ -517,11 +517,11 @@ func PopulateABIInRegArgOps(f *Func) {
 		types, offsets := inp.RegisterTypesAndOffsets()
 		for k, t := range types {
 			// Note: this recipe for creating a LocalSlot is designed
-			// to be compatible with the one used in expand_calls.go
-			// as opposed to decompose.go. The expand calls code just
+			// to be compatible with the one used in expand_calls.golang
+			// as opposed to decompose.golang. The expand calls code just
 			// takes the base name and creates an offset into it,
 			// without using the SplitOf/SplitOffset fields. The code
-			// in decompose.go does the opposite -- it creates a
+			// in decompose.golang does the opposite -- it creates a
 			// LocalSlot object with "Off" set to zero, but with
 			// SplitOf pointing to a parent slot, and SplitOffset
 			// holding the offset into the parent object.
@@ -713,7 +713,7 @@ func (state *debugState) liveness() []*BlockDebug {
 			}
 
 			if blockChanged {
-				// If the start did not change, then the old endState is good
+				// If the start did not change, then the old endState is golangod
 				converged = false
 				changed := false
 				state.changedSlots.clear()
@@ -1224,7 +1224,7 @@ func firstReg(set RegisterSet) uint8 {
 // entries. They will be finished by PutLocationList.
 func (state *debugState) buildLocationLists(blockLocs []*BlockDebug) {
 	// Run through the function in program text order, building up location
-	// lists as we go. The heavy lifting has mostly already been done.
+	// lists as we golang. The heavy lifting has mostly already been done.
 
 	var prevBlock *Block
 	for _, b := range state.f.Blocks {
@@ -1763,7 +1763,7 @@ func locatePrologEnd(f *Func, needCloCtx bool) (ID, *Value) {
 			}
 		}
 		if v.Op.IsCall() {
-			// if we hit a call, we've gone too far.
+			// if we hit a call, we've golangne too far.
 			return v.ID, cloRegStore
 		}
 	}

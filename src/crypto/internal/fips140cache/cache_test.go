@@ -1,5 +1,5 @@
 // Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package fips140cache
@@ -50,7 +50,7 @@ func TestCache(t *testing.T) {
 	err1 := errors.New("error")
 	_, err = c.Get(k2, func() (*value, error) { return nil, err1 }, checkTrue)
 	if err != err1 {
-		t.Errorf("got %v, want %v", err, err1)
+		t.Errorf("golangt %v, want %v", err, err1)
 	}
 	expectMapSize(t, c, 0)
 
@@ -59,7 +59,7 @@ func TestCache(t *testing.T) {
 	expectValue(t, v, err, v1)
 	_, err = c.Get(k2, func() (*value, error) { return v2, err1 }, checkFalse)
 	if err != err1 {
-		t.Errorf("got %v, want %v", err, err1)
+		t.Errorf("golangt %v, want %v", err, err1)
 	}
 	v, err = c.Get(k2, newNotCalled, checkTrue)
 	expectValue(t, v, err, v1)
@@ -74,7 +74,7 @@ func TestCache(t *testing.T) {
 	waitUnreachable(t, &k3)
 	expectMapSize(t, c, 0)
 
-	// When two goroutines race, the returned value may be the new or old one,
+	// When two golangroutines race, the returned value may be the new or old one,
 	// but the map must shrink to 0.
 	keys := make([]*key, 100)
 	for i := range keys {
@@ -83,13 +83,13 @@ func TestCache(t *testing.T) {
 		start := make(chan struct{})
 		var wg sync.WaitGroup
 		wg.Add(2)
-		go func() {
+		golang func() {
 			<-start
 			v, err := c.Get(keys[i], func() (*value, error) { return v1, nil }, checkTrue)
 			expectValue(t, v, err, v1, v2)
 			wg.Done()
 		}()
-		go func() {
+		golang func() {
 			<-start
 			v, err := c.Get(keys[i], func() (*value, error) { return v2, nil }, checkTrue)
 			expectValue(t, v, err, v1, v2)
@@ -117,7 +117,7 @@ type value struct {
 
 // newKey allocates a key value on the heap.
 //
-//go:noinline
+//golang:noinline
 func newKey() *key {
 	return &key{}
 }
@@ -132,7 +132,7 @@ func expectValue(t *testing.T, v *value, err error, want ...*value) {
 			return
 		}
 	}
-	t.Errorf("got %p, want %p", v, want)
+	t.Errorf("golangt %p, want %p", v, want)
 }
 
 func expectMapSize(t *testing.T, c *Cache[key, value], want int) {
@@ -150,7 +150,7 @@ func expectMapSize(t *testing.T, c *Cache[key, value], want int) {
 		}
 		time.Sleep(100 * time.Millisecond)
 	}
-	t.Errorf("got %d, want %d", size, want)
+	t.Errorf("golangt %d, want %d", size, want)
 }
 
 func waitUnreachable(t *testing.T, k **key) {

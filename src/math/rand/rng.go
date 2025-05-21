@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package rand
@@ -7,7 +7,7 @@ package rand
 /*
  * Uniform distribution
  *
- * algorithm by
+ * algolangrithm by
  * DP Mitchell and JA Reeds
  */
 
@@ -20,7 +20,7 @@ const (
 )
 
 var (
-	// rngCooked used for seeding. See gen_cooked.go for details.
+	// rngCooked used for seeding. See gen_cooked.golang for details.
 	rngCooked [rngLen]int64 = [...]int64{
 		-4181792142133755926, -4576982950128230565, 1395769623340756751, 5333664234075297259,
 		-6347679516498800754, 9033628115061424579, 7143218595135194537, 4812947590706362721,

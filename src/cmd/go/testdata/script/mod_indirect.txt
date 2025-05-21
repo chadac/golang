@@ -1,28 +1,28 @@
 env GO111MODULE=on
 
-# golang.org/issue/31248: required modules imposed by dependency versions
+# golanglang.org/issue/31248: required modules imposed by dependency versions
 # older than the selected version must still be taken into account.
 
 env GOFLAGS=-mod=readonly
 
 # Indirect dependencies required via older-than-selected versions must exist in
-# the module graph, but do not need to be listed explicitly in the go.mod file
+# the module graph, but do not need to be listed explicitly in the golang.mod file
 # (since they are implied).
-go mod graph
+golang mod graph
 stdout i@v0.1.0
 
 # The modules must also appear in the build list, not just the graph.
-go list -m all
+golang list -m all
 stdout '^i v0.1.0'
 
 # The packages provided by those dependencies must resolve.
-go list all
+golang list all
 stdout '^i$'
 
--- go.mod --
+-- golang.mod --
 module main
 
-go 1.13
+golang 1.13
 
 require (
 	a v0.0.0
@@ -31,7 +31,7 @@ require (
 )
 
 // Apply replacements so that the test can be self-contained.
-// (It's easier to see all of the modules here than to go
+// (It's easier to see all of the modules here than to golang
 // rooting around in testdata/mod.)
 replace (
 	a => ./a
@@ -41,7 +41,7 @@ replace (
 	x v0.2.0 => ./x2
 	i => ./i
 )
--- main.go --
+-- main.golang --
 package main
 
 import (
@@ -51,31 +51,31 @@ import (
 )
 
 func main() {}
--- a/go.mod --
+-- a/golang.mod --
 module a
-go 1.13
+golang 1.13
 require x v0.1.0
--- a/a.go --
+-- a/a.golang --
 package a
--- b/go.mod --
+-- b/golang.mod --
 module b
-go 1.13
+golang 1.13
 require x v0.2.0
--- b/b.go --
+-- b/b.golang --
 package b
--- c/go.mod --
+-- c/golang.mod --
 module c
-go 1.13
--- c/c.go --
+golang 1.13
+-- c/c.golang --
 package c
 import _ "i"
--- x1/go.mod --
+-- x1/golang.mod --
 module x
-go1.13
+golang1.13
 require i v0.1.0
--- x2/go.mod --
+-- x2/golang.mod --
 module x
-go1.13
--- i/go.mod --
--- i/i.go --
+golang1.13
+-- i/golang.mod --
+-- i/i.golang --
 package i

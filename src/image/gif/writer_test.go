@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package gif
@@ -109,7 +109,7 @@ func TestWriter(t *testing.T) {
 		// Compare the average delta to the tolerance level.
 		avgDelta := averageDelta(m0, m1)
 		if avgDelta > tc.tolerance {
-			t.Errorf("%s: average delta is too high. expected: %d, got %d", tc.filename, tc.tolerance, avgDelta)
+			t.Errorf("%s: average delta is too high. expected: %d, golangt %d", tc.filename, tc.tolerance, avgDelta)
 			continue
 		}
 	}
@@ -170,7 +170,7 @@ var frames = []string{
 	"../testdata/video-005.gray.gif",
 }
 
-func testEncodeAll(t *testing.T, go1Dot5Fields bool, useGlobalColorModel bool) {
+func testEncodeAll(t *testing.T, golang1Dot5Fields bool, useGlobalColorModel bool) {
 	const width, height = 150, 103
 
 	g0 := &GIF{
@@ -185,7 +185,7 @@ func testEncodeAll(t *testing.T, go1Dot5Fields bool, useGlobalColorModel bool) {
 		}
 		m := g.Image[0]
 		if m.Bounds().Dx() != width || m.Bounds().Dy() != height {
-			t.Fatalf("frame %d had unexpected bounds: got %v, want width/height = %d/%d",
+			t.Fatalf("frame %d had unexpected bounds: golangt %v, want width/height = %d/%d",
 				i, m.Bounds(), width, height)
 		}
 		g0.Image[i] = m
@@ -199,7 +199,7 @@ func testEncodeAll(t *testing.T, go1Dot5Fields bool, useGlobalColorModel bool) {
 	if useGlobalColorModel {
 		globalColorModel, backgroundIndex = color.Palette(palette.WebSafe), uint8(1)
 	}
-	if go1Dot5Fields {
+	if golang1Dot5Fields {
 		g0.Disposal = make([]byte, len(g0.Image))
 		for i := range g0.Disposal {
 			g0.Disposal[i] = DisposalNone
@@ -233,7 +233,7 @@ func testEncodeAll(t *testing.T, go1Dot5Fields bool, useGlobalColorModel bool) {
 		t.Errorf("unexpected global color model")
 	}
 	if w, h := g1.Config.Width, g1.Config.Height; w != width || h != height {
-		t.Errorf("got config width * height = %d * %d, want %d * %d", w, h, width, height)
+		t.Errorf("golangt config width * height = %d * %d, want %d * %d", w, h, width, height)
 	}
 
 	if g0.LoopCount != g1.LoopCount {
@@ -262,7 +262,7 @@ func testEncodeAll(t *testing.T, go1Dot5Fields bool, useGlobalColorModel bool) {
 			t.Errorf("frame %d: delay values differ: %d and %d", i, d0, d1)
 		}
 		p0, p1 := uint8(0), g1.Disposal[i]
-		if go1Dot5Fields {
+		if golang1Dot5Fields {
 			p0 = DisposalNone
 		}
 		if p0 != p1 {
@@ -331,7 +331,7 @@ func TestEncodeAllFramesOutOfBounds(t *testing.T) {
 			}
 		} else {
 			if err == nil {
-				t.Errorf("upperBound=%d: got nil error, want non-nil", upperBound)
+				t.Errorf("upperBound=%d: golangt nil error, want non-nil", upperBound)
 			}
 		}
 	}
@@ -360,12 +360,12 @@ func TestEncodeNonZeroMinPoint(t *testing.T) {
 			t.Errorf("p=%v: Decode: %v", p, err)
 			continue
 		}
-		if got, want := m.Bounds(), image.Rect(0, 0, 6, 6); got != want {
-			t.Errorf("p=%v: got %v, want %v", p, got, want)
+		if golangt, want := m.Bounds(), image.Rect(0, 0, 6, 6); golangt != want {
+			t.Errorf("p=%v: golangt %v, want %v", p, golangt, want)
 		}
 	}
 
-	// Also test having a source image (gray on the diagonal) that has a
+	// Also test having a source image (gray on the diagolangnal) that has a
 	// non-zero Bounds().Min, but isn't an image.Paletted.
 	{
 		p := image.Point{+2, +2}
@@ -382,16 +382,16 @@ func TestEncodeNonZeroMinPoint(t *testing.T) {
 
 		var buf bytes.Buffer
 		if err := Encode(&buf, src, nil); err != nil {
-			t.Errorf("gray-diagonal: Encode: %v", err)
+			t.Errorf("gray-diagolangnal: Encode: %v", err)
 			return
 		}
 		m, err := Decode(&buf)
 		if err != nil {
-			t.Errorf("gray-diagonal: Decode: %v", err)
+			t.Errorf("gray-diagolangnal: Decode: %v", err)
 			return
 		}
-		if got, want := m.Bounds(), image.Rect(0, 0, 6, 6); got != want {
-			t.Errorf("gray-diagonal: got %v, want %v", got, want)
+		if golangt, want := m.Bounds(), image.Rect(0, 0, 6, 6); golangt != want {
+			t.Errorf("gray-diagolangnal: golangt %v, want %v", golangt, want)
 			return
 		}
 
@@ -403,11 +403,11 @@ func TestEncodeNonZeroMinPoint(t *testing.T) {
 
 		// Round-tripping a still (non-animated) image.Image through
 		// Encode+Decode should shift the origin to (0, 0).
-		if got, want := rednessAt(0, 0), uint32(0x22); got != want {
-			t.Errorf("gray-diagonal: rednessAt(0, 0): got 0x%02x, want 0x%02x", got, want)
+		if golangt, want := rednessAt(0, 0), uint32(0x22); golangt != want {
+			t.Errorf("gray-diagolangnal: rednessAt(0, 0): golangt 0x%02x, want 0x%02x", golangt, want)
 		}
-		if got, want := rednessAt(5, 5), uint32(0x77); got != want {
-			t.Errorf("gray-diagonal: rednessAt(5, 5): got 0x%02x, want 0x%02x", got, want)
+		if golangt, want := rednessAt(5, 5), uint32(0x77); golangt != want {
+			t.Errorf("gray-diagolangnal: rednessAt(5, 5): golangt 0x%02x, want 0x%02x", golangt, want)
 		}
 	}
 }
@@ -437,7 +437,7 @@ func TestEncodeImplicitConfigSize(t *testing.T) {
 			}
 		} else {
 			if err == nil {
-				t.Errorf("lowerBound=%d: got nil error, want non-nil", lowerBound)
+				t.Errorf("lowerBound=%d: golangt nil error, want non-nil", lowerBound)
 			}
 		}
 	}
@@ -492,8 +492,8 @@ func TestEncodePalettes(t *testing.T) {
 		t.Fatalf("image lengths differ: %d and %d", len(g0.Image), len(g1.Image))
 	}
 	for i, m := range g1.Image {
-		if got, want := m.Palette, pals[i]; !palettesEqual(got, want) {
-			t.Errorf("frame %d:\ngot  %v\nwant %v", i, got, want)
+		if golangt, want := m.Palette, pals[i]; !palettesEqual(golangt, want) {
+			t.Errorf("frame %d:\ngolangt  %v\nwant %v", i, golangt, want)
 		}
 	}
 }
@@ -522,10 +522,10 @@ func TestEncodeBadPalettes(t *testing.T) {
 				},
 			})
 
-			got := err != nil
+			golangt := err != nil
 			want := n > 256 || nilColors
-			if got != want {
-				t.Errorf("n=%d, nilColors=%t: err != nil: got %t, want %t", n, nilColors, got, want)
+			if golangt != want {
+				t.Errorf("n=%d, nilColors=%t: err != nil: golangt %t, want %t", n, nilColors, golangt, want)
 			}
 		}
 	}
@@ -547,10 +547,10 @@ func TestColorTablesMatch(t *testing.T) {
 	const padded = 7
 	e := new(encoder)
 	if l, err := encodeColorTable(e.globalColorTable[:], global, padded); err != nil || l != testLen {
-		t.Fatalf("Failed to encode global color table: got %d, %v; want nil, %d", l, err, testLen)
+		t.Fatalf("Failed to encode global color table: golangt %d, %v; want nil, %d", l, err, testLen)
 	}
 	if l, err := encodeColorTable(e.localColorTable[:], local, padded); err != nil || l != testLen {
-		t.Fatalf("Failed to encode local color table: got %d, %v; want nil, %d", l, err, testLen)
+		t.Fatalf("Failed to encode local color table: golangt %d, %v; want nil, %d", l, err, testLen)
 	}
 	if bytes.Equal(e.globalColorTable[:testLen], e.localColorTable[:testLen]) {
 		t.Fatal("Encoded color tables are equal, expected mismatch")
@@ -616,7 +616,7 @@ func TestEncodeWrappedImage(t *testing.T) {
 	}
 	avgDelta := averageDelta(m0, w1)
 	if avgDelta > 0 {
-		t.Fatalf("Wrapped: average delta is too high. expected: 0, got %d", avgDelta)
+		t.Fatalf("Wrapped: average delta is too high. expected: 0, golangt %d", avgDelta)
 	}
 
 	// Case 2: Encode a wrapped image.Image with offset
@@ -653,7 +653,7 @@ func TestEncodeWrappedImage(t *testing.T) {
 	}
 	avgDelta = averageDeltaBound(m0, w1, b0, b1)
 	if avgDelta > 0 {
-		t.Fatalf("Wrapped and offset: average delta is too high. expected: 0, got %d", avgDelta)
+		t.Fatalf("Wrapped and offset: average delta is too high. expected: 0, golangt %d", avgDelta)
 	}
 }
 

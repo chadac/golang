@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package composite defines an Analyzer that checks for unkeyed
@@ -8,14 +8,14 @@ package composite
 
 import (
 	"fmt"
-	"go/ast"
-	"go/types"
+	"golang/ast"
+	"golang/types"
 	"strings"
 
-	"golang.org/x/tools/go/analysis"
-	"golang.org/x/tools/go/analysis/passes/inspect"
-	"golang.org/x/tools/go/ast/inspector"
-	"golang.org/x/tools/internal/typeparams"
+	"golanglang.org/x/tools/golang/analysis"
+	"golanglang.org/x/tools/golang/analysis/passes/inspect"
+	"golanglang.org/x/tools/golang/ast/inspector"
+	"golanglang.org/x/tools/internal/typeparams"
 )
 
 const Doc = `check for unkeyed composite literals
@@ -37,7 +37,7 @@ should be replaced by:
 var Analyzer = &analysis.Analyzer{
 	Name:             "composites",
 	Doc:              Doc,
-	URL:              "https://pkg.go.dev/golang.org/x/tools/go/analysis/passes/composite",
+	URL:              "https://pkg.golang.dev/golanglang.org/x/tools/golang/analysis/passes/composite",
 	Requires:         []*analysis.Analyzer{inspect.Analyzer},
 	RunDespiteErrors: true,
 	Run:              run,

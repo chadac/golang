@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package p
@@ -84,7 +84,7 @@ func _[P any]() {
 	var _ int = x // ERRORx `cannot use x \(variable of type (A|P) constrained by any\) as int value in variable declaration`
 }
 
-// Test case for go.dev/issue/67540.
+// Test case for golang.dev/issue/67540.
 func _() {
 	type (
 		S struct{}

@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -51,6 +51,6 @@ func main() {
 		panic("a not found")
 	}
 	if _, ok := it.(*S); !ok {
-		panic(fmt.Sprintf("got %T want *main.S", it))
+		panic(fmt.Sprintf("golangt %T want *main.S", it))
 	}
 }

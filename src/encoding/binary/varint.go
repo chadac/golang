@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package binary
@@ -71,7 +71,7 @@ func Uvarint(buf []byte) (uint64, int) {
 	for i, b := range buf {
 		if i == MaxVarintLen64 {
 			// Catch byte reads past MaxVarintLen64.
-			// See issue https://golang.org/issues/41185
+			// See issue https://golanglang.org/issues/41185
 			return 0, -(i + 1) // overflow
 		}
 		if b < 0x80 {

@@ -1,8 +1,8 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build darwin
+//golang:build darwin
 
 package unix
 
@@ -14,7 +14,7 @@ import (
 
 func libc_readlinkat_trampoline()
 
-//go:cgo_import_dynamic libc_readlinkat readlinkat "/usr/lib/libSystem.B.dylib"
+//golang:cgolang_import_dynamic libc_readlinkat readlinkat "/usr/lib/libSystem.B.dylib"
 
 func Readlinkat(dirfd int, path string, buf []byte) (int, error) {
 	p0, err := syscall.BytePtrFromString(path)
@@ -42,7 +42,7 @@ func Readlinkat(dirfd int, path string, buf []byte) (int, error) {
 
 func libc_mkdirat_trampoline()
 
-//go:cgo_import_dynamic libc_mkdirat mkdirat "/usr/lib/libSystem.B.dylib"
+//golang:cgolang_import_dynamic libc_mkdirat mkdirat "/usr/lib/libSystem.B.dylib"
 
 func Mkdirat(dirfd int, path string, mode uint32) error {
 	p, err := syscall.BytePtrFromString(path)
@@ -61,7 +61,7 @@ func Mkdirat(dirfd int, path string, mode uint32) error {
 
 func libc_fchmodat_trampoline()
 
-//go:cgo_import_dynamic libc_fchmodat fchmodat "/usr/lib/libSystem.B.dylib"
+//golang:cgolang_import_dynamic libc_fchmodat fchmodat "/usr/lib/libSystem.B.dylib"
 
 func Fchmodat(dirfd int, path string, mode uint32, flags int) error {
 	p, err := syscall.BytePtrFromString(path)
@@ -83,7 +83,7 @@ func Fchmodat(dirfd int, path string, mode uint32, flags int) error {
 
 func libc_fchownat_trampoline()
 
-//go:cgo_import_dynamic libc_fchownat fchownat "/usr/lib/libSystem.B.dylib"
+//golang:cgolang_import_dynamic libc_fchownat fchownat "/usr/lib/libSystem.B.dylib"
 
 func Fchownat(dirfd int, path string, uid, gid int, flags int) error {
 	p, err := syscall.BytePtrFromString(path)
@@ -105,7 +105,7 @@ func Fchownat(dirfd int, path string, uid, gid int, flags int) error {
 
 func libc_renameat_trampoline()
 
-//go:cgo_import_dynamic libc_renameat renameat "/usr/lib/libSystem.B.dylib"
+//golang:cgolang_import_dynamic libc_renameat renameat "/usr/lib/libSystem.B.dylib"
 
 func Renameat(olddirfd int, oldpath string, newdirfd int, newpath string) error {
 	oldp, err := syscall.BytePtrFromString(oldpath)
@@ -131,7 +131,7 @@ func Renameat(olddirfd int, oldpath string, newdirfd int, newpath string) error 
 
 func libc_linkat_trampoline()
 
-//go:cgo_import_dynamic libc_linkat linkat "/usr/lib/libSystem.B.dylib"
+//golang:cgolang_import_dynamic libc_linkat linkat "/usr/lib/libSystem.B.dylib"
 
 func Linkat(olddirfd int, oldpath string, newdirfd int, newpath string, flag int) error {
 	oldp, err := syscall.BytePtrFromString(oldpath)
@@ -157,7 +157,7 @@ func Linkat(olddirfd int, oldpath string, newdirfd int, newpath string, flag int
 
 func libc_symlinkat_trampoline()
 
-//go:cgo_import_dynamic libc_symlinkat symlinkat "/usr/lib/libSystem.B.dylib"
+//golang:cgolang_import_dynamic libc_symlinkat symlinkat "/usr/lib/libSystem.B.dylib"
 
 func Symlinkat(oldpath string, newdirfd int, newpath string) error {
 	oldp, err := syscall.BytePtrFromString(oldpath)

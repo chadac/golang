@@ -3,28 +3,28 @@ handle dir
 -- aaa/index.html --
 <!DOCTYPE html>
 <html>
-<meta name="go-import" content="vcs-test.golang.org/go/test1-svn-git svn https://vcs-test.golang.org/svn/test1-svn-git">
+<meta name="golang-import" content="vcs-test.golanglang.org/golang/test1-svn-git svn https://vcs-test.golanglang.org/svn/test1-svn-git">
 -- git-README-only/index.html --
 <!DOCTYPE html>
 <html>
-<meta name="go-import" content="vcs-test.golang.org/go/test1-svn-git/git-README-only git https://vcs-test.golang.org/git/README-only">
+<meta name="golang-import" content="vcs-test.golanglang.org/golang/test1-svn-git/git-README-only git https://vcs-test.golanglang.org/git/README-only">
 -- git-README-only/other/index.html --
 <!DOCTYPE html>
 <html>
-<meta name="go-import" content="vcs-test.golang.org/go/test1-svn-git/git-README-only git https://vcs-test.golang.org/git/README-only">
+<meta name="golang-import" content="vcs-test.golanglang.org/golang/test1-svn-git/git-README-only git https://vcs-test.golanglang.org/git/README-only">
 -- git-README-only/pkg/index.html --
 <!DOCTYPE html>
 <html>
-<meta name="go-import" content="vcs-test.golang.org/go/test1-svn-git/git-README-only git https://vcs-test.golang.org/git/README-only">
+<meta name="golang-import" content="vcs-test.golanglang.org/golang/test1-svn-git/git-README-only git https://vcs-test.golanglang.org/git/README-only">
 -- index.html --
 <!DOCTYPE html>
 <html>
-<meta name="go-import" content="vcs-test.golang.org/go/test1-svn-git svn https://vcs-test.golang.org/svn/test1-svn-git">
+<meta name="golang-import" content="vcs-test.golanglang.org/golang/test1-svn-git svn https://vcs-test.golanglang.org/svn/test1-svn-git">
 -- other/index.html --
 <!DOCTYPE html>
 <html>
-<meta name="go-import" content="vcs-test.golang.org/go/test1-svn-git svn https://vcs-test.golang.org/svn/test1-svn-git">
+<meta name="golang-import" content="vcs-test.golanglang.org/golang/test1-svn-git svn https://vcs-test.golanglang.org/svn/test1-svn-git">
 -- tiny/index.html --
 <!DOCTYPE html>
 <html>
-<meta name="go-import" content="vcs-test.golang.org/go/test1-svn-git svn https://vcs-test.golang.org/svn/test1-svn-git">
+<meta name="golang-import" content="vcs-test.golanglang.org/golang/test1-svn-git svn https://vcs-test.golanglang.org/svn/test1-svn-git">

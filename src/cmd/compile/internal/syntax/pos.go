@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package syntax
@@ -9,7 +9,7 @@ import "fmt"
 // PosMax is the largest line or column value that can be represented without loss.
 // Incoming values (arguments) larger than PosMax will be set to PosMax.
 //
-// Keep this consistent with maxLineCol in go/scanner.
+// Keep this consistent with maxLineCol in golang/scanner.
 const PosMax = 1 << 30
 
 // A Pos represents an absolute (line, col) source position
@@ -122,7 +122,7 @@ func (pos Pos) String() string {
 	return s
 }
 
-// TODO(gri) cleanup: find better name, avoid conflict with position in error_test.go
+// TODO(gri) cleanup: find better name, avoid conflict with position in error_test.golang
 type position_ struct {
 	filename  string
 	line, col uint

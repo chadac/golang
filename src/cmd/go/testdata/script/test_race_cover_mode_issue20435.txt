@@ -2,19 +2,19 @@
 [!race] skip
 
 # Make sure test is functional.
-go test testrace
+golang test testrace
 
 # Now, check that -race -covermode=set is not allowed.
-! go test -race -covermode=set testrace
+! golang test -race -covermode=set testrace
 stderr '-covermode must be "atomic", not "set", when -race is enabled'
 ! stdout PASS
 ! stderr PASS
 
--- go.mod --
+-- golang.mod --
 module testrace
 
-go 1.16
--- race_test.go --
+golang 1.16
+-- race_test.golang --
 package testrace
 
 import "testing"
@@ -23,7 +23,7 @@ func TestRace(t *testing.T) {
 	for i := 0; i < 10; i++ {
 		c := make(chan int)
 		x := 1
-		go func() {
+		golang func() {
 			x = 2
 			c <- 1
 		}()
@@ -37,7 +37,7 @@ func BenchmarkRace(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		c := make(chan int)
 		x := 1
-		go func() {
+		golang func() {
 			x = 2
 			c <- 1
 		}()

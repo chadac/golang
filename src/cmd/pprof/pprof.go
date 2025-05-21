@@ -1,9 +1,9 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // pprof is a tool for visualization of profile.data. It is based on
-// the upstream version at github.com/google/pprof, with minor
+// the upstream version at github.com/golangogle/pprof, with minor
 // modifications specific to the Go distribution. Please consider
 // upstreaming any modifications to these packages.
 
@@ -28,8 +28,8 @@ import (
 	"cmd/internal/objfile"
 	"cmd/internal/telemetry/counter"
 
-	"github.com/google/pprof/driver"
-	"github.com/google/pprof/profile"
+	"github.com/golangogle/pprof/driver"
+	"github.com/golangogle/pprof/profile"
 )
 
 func main() {
@@ -390,6 +390,6 @@ func (f *file) Close() error {
 	return nil
 }
 
-// newUI will be set in readlineui.go in some platforms
+// newUI will be set in readlineui.golang in some platforms
 // for interactive readline functionality.
 var newUI = func() driver.UI { return nil }

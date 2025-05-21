@@ -1,37 +1,37 @@
 [!fuzz] skip
 
 # Check that if a worker does not call F.Fuzz or calls F.Fail first,
-# 'go test' exits non-zero and no crasher is recorded.
+# 'golang test' exits non-zero and no crasher is recorded.
 
 [short] skip
 env GOCACHE=$WORK/cache
 
-! go test -fuzz=FuzzReturn
+! golang test -fuzz=FuzzReturn
 ! exists testdata
 
-! go test -fuzz=FuzzSkip
+! golang test -fuzz=FuzzSkip
 ! exists testdata
 
-! go test -fuzz=FuzzFail
+! golang test -fuzz=FuzzFail
 ! exists testdata
 
-! go test -fuzz=FuzzPanic
+! golang test -fuzz=FuzzPanic
 ! exists testdata
 
-! go test -fuzz=FuzzNilPanic
+! golang test -fuzz=FuzzNilPanic
 ! exists testdata
 
-! go test -fuzz=FuzzGoexit
+! golang test -fuzz=FuzzGoexit
 ! exists testdata
 
-! go test -fuzz=FuzzExit
+! golang test -fuzz=FuzzExit
 ! exists testdata
 
--- go.mod --
+-- golang.mod --
 module m
 
-go 1.17
--- fuzz_fail_test.go --
+golang 1.17
+-- fuzz_fail_test.golang --
 package fuzz_fail
 
 import (

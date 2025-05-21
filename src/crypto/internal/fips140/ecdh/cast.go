@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ecdh
@@ -40,11 +40,11 @@ var fipsSelfTest = sync.OnceFunc(func() {
 		}
 		k := &PrivateKey{d: privateKey, pub: PublicKey{curve: p256}}
 		peer := &PublicKey{curve: p256, q: publicKey}
-		got, err := ecdh(P256(), k, peer)
+		golangt, err := ecdh(P256(), k, peer)
 		if err != nil {
 			return err
 		}
-		if !bytes.Equal(got, want) {
+		if !bytes.Equal(golangt, want) {
 			return errors.New("unexpected result")
 		}
 		return nil

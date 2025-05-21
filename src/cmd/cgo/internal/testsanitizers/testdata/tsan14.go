@@ -1,23 +1,23 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
 
 // This program failed when run under the C/C++ ThreadSanitizer.
 //
-// cgocallback on a new thread calls into runtime.needm -> _cgo_getstackbound
+// cgolangcallback on a new thread calls into runtime.needm -> _cgolang_getstackbound
 // to update gp.stack.lo with the stack bounds. If the G itself is passed to
-// _cgo_getstackbound, then writes to the same G can be seen on multiple
+// _cgolang_getstackbound, then writes to the same G can be seen on multiple
 // threads (when the G is reused after thread exit). This would trigger TSAN.
 
 /*
 #include <pthread.h>
 
-void go_callback();
+void golang_callback();
 
 static void *thr(void *arg) {
-    go_callback();
+    golang_callback();
     return 0;
 }
 
@@ -36,13 +36,13 @@ import (
 	"time"
 )
 
-//export go_callback
-func go_callback() {
+//export golang_callback
+func golang_callback() {
 }
 
 func main() {
 	for i := 0; i < 2; i++ {
-		go func() {
+		golang func() {
 			for {
 				C.foo()
 			}

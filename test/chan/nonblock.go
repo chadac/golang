@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test channel operations that test for blocking.
@@ -109,7 +109,7 @@ func main() {
 		default:
 		}
 
-		go i32receiver(c32, sync)
+		golang i32receiver(c32, sync)
 		try := 0
 	Send32:
 		for {
@@ -127,7 +127,7 @@ func main() {
 		}
 		<-sync
 
-		go i32sender(c32, sync)
+		golang i32sender(c32, sync)
 		if buffer > 0 {
 			<-sync
 		}
@@ -153,7 +153,7 @@ func main() {
 			<-sync
 		}
 
-		go i64receiver(c64, sync)
+		golang i64receiver(c64, sync)
 		try = 0
 	Send64:
 		for {
@@ -170,7 +170,7 @@ func main() {
 		}
 		<-sync
 
-		go i64sender(c64, sync)
+		golang i64sender(c64, sync)
 		if buffer > 0 {
 			<-sync
 		}
@@ -195,7 +195,7 @@ func main() {
 			<-sync
 		}
 
-		go breceiver(cb, sync)
+		golang breceiver(cb, sync)
 		try = 0
 	SendBool:
 		for {
@@ -212,7 +212,7 @@ func main() {
 		}
 		<-sync
 
-		go bsender(cb, sync)
+		golang bsender(cb, sync)
 		if buffer > 0 {
 			<-sync
 		}
@@ -237,7 +237,7 @@ func main() {
 			<-sync
 		}
 
-		go sreceiver(cs, sync)
+		golang sreceiver(cs, sync)
 		try = 0
 	SendString:
 		for {
@@ -254,7 +254,7 @@ func main() {
 		}
 		<-sync
 
-		go ssender(cs, sync)
+		golang ssender(cs, sync)
 		if buffer > 0 {
 			<-sync
 		}

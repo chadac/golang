@@ -1,11 +1,11 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !faketime
+//golang:build !faketime
 
-#include "go_asm.h"
-#include "go_tls.h"
+#include "golang_asm.h"
+#include "golang_tls.h"
 #include "textflag.h"
 
 #define SYS_clock_gettime	228
@@ -33,7 +33,7 @@ TEXT time·now<ABIInternal>(SB),NOSPLIT,$16-24
 	JNE	noswitch
 
 	MOVQ	m_g0(BX), DX
-	MOVQ	(g_sched+gobuf_sp)(DX), SP	// Set SP to g0 stack
+	MOVQ	(g_sched+golangbuf_sp)(DX), SP	// Set SP to g0 stack
 
 noswitch:
 	SUBQ	$32, SP		// Space for two time results

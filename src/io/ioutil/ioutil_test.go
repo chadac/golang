@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ioutil_test
@@ -30,7 +30,7 @@ func TestReadFile(t *testing.T) {
 		t.Fatalf("ReadFile %s: error expected, none found", filename)
 	}
 
-	filename = "ioutil_test.go"
+	filename = "ioutil_test.golang"
 	contents, err = ReadFile(filename)
 	if err != nil {
 		t.Fatalf("ReadFile %s: %v", filename, err)
@@ -93,12 +93,12 @@ func TestReadOnlyWriteFile(t *testing.T) {
 	if err == nil {
 		t.Fatalf("Expected an error when writing to read-only file %s", filename)
 	}
-	got, err := ReadFile(filename)
+	golangt, err := ReadFile(filename)
 	if err != nil {
 		t.Fatalf("ReadFile %s: %v", filename, err)
 	}
-	if !bytes.Equal(got, shmorp) {
-		t.Fatalf("want %s, got %s", shmorp, got)
+	if !bytes.Equal(golangt, shmorp) {
+		t.Fatalf("want %s, golangt %s", shmorp, golangt)
 	}
 }
 
@@ -119,14 +119,14 @@ func TestReadDir(t *testing.T) {
 	foundSubDir := false
 	for _, dir := range list {
 		switch {
-		case !dir.IsDir() && dir.Name() == "io_test.go":
+		case !dir.IsDir() && dir.Name() == "io_test.golang":
 			foundFile = true
 		case dir.IsDir() && dir.Name() == "ioutil":
 			foundSubDir = true
 		}
 	}
 	if !foundFile {
-		t.Fatalf("ReadDir %s: io_test.go file not found", dirname)
+		t.Fatalf("ReadDir %s: io_test.golang file not found", dirname)
 	}
 	if !foundSubDir {
 		t.Fatalf("ReadDir %s: ioutil directory not found", dirname)

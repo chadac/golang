@@ -4,16 +4,16 @@ v2.0.0+incompatible.
 -- .mod --
 module example.com/retract/incompatible
 
-go 1.16
+golang 1.16
 
 retract v2.0.0+incompatible
 -- .info --
 {"Version":"v1.0.0"}
--- go.mod --
+-- golang.mod --
 module example.com/retract/incompatible
 
-go 1.16
+golang 1.16
 
 retract v2.0.0+incompatible
--- incompatible.go --
+-- incompatible.golang --
 package incompatible

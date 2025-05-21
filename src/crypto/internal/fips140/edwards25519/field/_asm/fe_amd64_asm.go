@@ -1,5 +1,5 @@
 // Copyright (c) 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -8,16 +8,16 @@ import (
 	"fmt"
 
 	. "github.com/mmcloughlin/avo/build"
-	. "github.com/mmcloughlin/avo/gotypes"
+	. "github.com/mmcloughlin/avo/golangtypes"
 	. "github.com/mmcloughlin/avo/operand"
 	. "github.com/mmcloughlin/avo/reg"
 )
 
-//go:generate go run . -out ../fe_amd64.s -stubs ../fe_amd64.go -pkg field
+//golang:generate golang run . -out ../fe_amd64.s -stubs ../fe_amd64.golang -pkg field
 
 func main() {
 	Package("crypto/internal/fips140/edwards25519/field")
-	ConstraintExpr("!purego")
+	ConstraintExpr("!puregolang")
 	feMul()
 	feSquare()
 	Generate()

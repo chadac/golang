@@ -9,7 +9,7 @@ cd .checkout
 [GOOS:windows] svn checkout file:///$ROOT .
 [!GOOS:windows] svn checkout file://$ROOT .
 
-svn add hello.go
+svn add hello.golang
 svn commit --file MSG
 svn propset svn:author 'rsc' --revprop -r1
 svn propset svn:date '2017-09-22T01:12:45.861368Z' --revprop -r1
@@ -23,7 +23,7 @@ cmp stdout .svn-log
 -- .checkout/MSG --
 hello world
 
--- .checkout/hello.go --
+-- .checkout/hello.golang --
 package main
 
 func main() {

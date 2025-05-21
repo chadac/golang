@@ -1,8 +1,8 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-package cgo
+package cgolang
 
 import "unsafe"
 
@@ -17,77 +17,77 @@ import "unsafe"
 // linking mode.
 //
 // Compatibility note: SWIG uses crosscall2 in exactly one situation:
-// to call _cgo_panic using the pattern shown below. We need to keep
+// to call _cgolang_panic using the pattern shown below. We need to keep
 // that pattern working. In particular, crosscall2 actually takes four
 // arguments, but it works to call it with three arguments when
-// calling _cgo_panic.
+// calling _cgolang_panic.
 //
-//go:cgo_export_static crosscall2
-//go:cgo_export_dynamic crosscall2
+//golang:cgolang_export_static crosscall2
+//golang:cgolang_export_dynamic crosscall2
 
 // Panic. The argument is converted into a Go string.
 
 // Call like this in code compiled with gcc:
 //   struct { const char *p; } a;
 //   a.p = /* string to pass to panic */;
-//   crosscall2(_cgo_panic, &a, sizeof a);
+//   crosscall2(_cgolang_panic, &a, sizeof a);
 //   /* The function call will not return.  */
 
 // TODO: We should export a regular C function to panic, change SWIG
 // to use that instead of the above pattern, and then we can drop
 // backwards-compatibility from crosscall2 and stop exporting it.
 
-//go:linkname _runtime_cgo_panic_internal runtime._cgo_panic_internal
-func _runtime_cgo_panic_internal(p *byte)
+//golang:linkname _runtime_cgolang_panic_internal runtime._cgolang_panic_internal
+func _runtime_cgolang_panic_internal(p *byte)
 
-//go:linkname _cgo_panic _cgo_panic
-//go:cgo_export_static _cgo_panic
-//go:cgo_export_dynamic _cgo_panic
-func _cgo_panic(a *struct{ cstr *byte }) {
-	_runtime_cgo_panic_internal(a.cstr)
+//golang:linkname _cgolang_panic _cgolang_panic
+//golang:cgolang_export_static _cgolang_panic
+//golang:cgolang_export_dynamic _cgolang_panic
+func _cgolang_panic(a *struct{ cstr *byte }) {
+	_runtime_cgolang_panic_internal(a.cstr)
 }
 
-//go:cgo_import_static x_cgo_init
-//go:linkname x_cgo_init x_cgo_init
-//go:linkname _cgo_init _cgo_init
-var x_cgo_init byte
-var _cgo_init = &x_cgo_init
+//golang:cgolang_import_static x_cgolang_init
+//golang:linkname x_cgolang_init x_cgolang_init
+//golang:linkname _cgolang_init _cgolang_init
+var x_cgolang_init byte
+var _cgolang_init = &x_cgolang_init
 
-//go:cgo_import_static x_cgo_thread_start
-//go:linkname x_cgo_thread_start x_cgo_thread_start
-//go:linkname _cgo_thread_start _cgo_thread_start
-var x_cgo_thread_start byte
-var _cgo_thread_start = &x_cgo_thread_start
+//golang:cgolang_import_static x_cgolang_thread_start
+//golang:linkname x_cgolang_thread_start x_cgolang_thread_start
+//golang:linkname _cgolang_thread_start _cgolang_thread_start
+var x_cgolang_thread_start byte
+var _cgolang_thread_start = &x_cgolang_thread_start
 
 // Creates a new system thread without updating any Go state.
 //
 // This method is invoked during shared library loading to create a new OS
 // thread to perform the runtime initialization. This method is similar to
-// _cgo_sys_thread_start except that it doesn't update any Go state.
+// _cgolang_sys_thread_start except that it doesn't update any Go state.
 
-//go:cgo_import_static x_cgo_sys_thread_create
-//go:linkname x_cgo_sys_thread_create x_cgo_sys_thread_create
-//go:linkname _cgo_sys_thread_create _cgo_sys_thread_create
-var x_cgo_sys_thread_create byte
-var _cgo_sys_thread_create = &x_cgo_sys_thread_create
+//golang:cgolang_import_static x_cgolang_sys_thread_create
+//golang:linkname x_cgolang_sys_thread_create x_cgolang_sys_thread_create
+//golang:linkname _cgolang_sys_thread_create _cgolang_sys_thread_create
+var x_cgolang_sys_thread_create byte
+var _cgolang_sys_thread_create = &x_cgolang_sys_thread_create
 
 // Indicates whether a dummy thread key has been created or not.
 //
-// When calling go exported function from C, we register a destructor
+// When calling golang exported function from C, we register a destructor
 // callback, for a dummy thread key, by using pthread_key_create.
 
-//go:cgo_import_static x_cgo_pthread_key_created
-//go:linkname x_cgo_pthread_key_created x_cgo_pthread_key_created
-//go:linkname _cgo_pthread_key_created _cgo_pthread_key_created
-var x_cgo_pthread_key_created byte
-var _cgo_pthread_key_created = &x_cgo_pthread_key_created
+//golang:cgolang_import_static x_cgolang_pthread_key_created
+//golang:linkname x_cgolang_pthread_key_created x_cgolang_pthread_key_created
+//golang:linkname _cgolang_pthread_key_created _cgolang_pthread_key_created
+var x_cgolang_pthread_key_created byte
+var _cgolang_pthread_key_created = &x_cgolang_pthread_key_created
 
 // Export crosscall2 to a c function pointer variable.
 // Used to dropm in pthread key destructor, while C thread is exiting.
 
-//go:cgo_import_static x_crosscall2_ptr
-//go:linkname x_crosscall2_ptr x_crosscall2_ptr
-//go:linkname _crosscall2_ptr _crosscall2_ptr
+//golang:cgolang_import_static x_crosscall2_ptr
+//golang:linkname x_crosscall2_ptr x_crosscall2_ptr
+//golang:linkname _crosscall2_ptr _crosscall2_ptr
 var x_crosscall2_ptr byte
 var _crosscall2_ptr = &x_crosscall2_ptr
 
@@ -95,39 +95,39 @@ var _crosscall2_ptr = &x_crosscall2_ptr
 // It's for the runtime package to call at init time.
 func set_crosscall2()
 
-//go:linkname _set_crosscall2 runtime.set_crosscall2
+//golang:linkname _set_crosscall2 runtime.set_crosscall2
 var _set_crosscall2 = set_crosscall2
 
 // Store the g into the thread-specific value.
 // So that pthread_key_destructor will dropm when the thread is exiting.
 
-//go:cgo_import_static x_cgo_bindm
-//go:linkname x_cgo_bindm x_cgo_bindm
-//go:linkname _cgo_bindm _cgo_bindm
-var x_cgo_bindm byte
-var _cgo_bindm = &x_cgo_bindm
+//golang:cgolang_import_static x_cgolang_bindm
+//golang:linkname x_cgolang_bindm x_cgolang_bindm
+//golang:linkname _cgolang_bindm _cgolang_bindm
+var x_cgolang_bindm byte
+var _cgolang_bindm = &x_cgolang_bindm
 
 // Notifies that the runtime has been initialized.
 //
-// We currently block at every CGO entry point (via _cgo_wait_runtime_init_done)
+// We currently block at every CGO entry point (via _cgolang_wait_runtime_init_done)
 // to ensure that the runtime has been initialized before the CGO call is
 // executed. This is necessary for shared libraries where we kickoff runtime
 // initialization in a separate thread and return without waiting for this
 // thread to complete the init.
 
-//go:cgo_import_static x_cgo_notify_runtime_init_done
-//go:linkname x_cgo_notify_runtime_init_done x_cgo_notify_runtime_init_done
-//go:linkname _cgo_notify_runtime_init_done _cgo_notify_runtime_init_done
-var x_cgo_notify_runtime_init_done byte
-var _cgo_notify_runtime_init_done = &x_cgo_notify_runtime_init_done
+//golang:cgolang_import_static x_cgolang_notify_runtime_init_done
+//golang:linkname x_cgolang_notify_runtime_init_done x_cgolang_notify_runtime_init_done
+//golang:linkname _cgolang_notify_runtime_init_done _cgolang_notify_runtime_init_done
+var x_cgolang_notify_runtime_init_done byte
+var _cgolang_notify_runtime_init_done = &x_cgolang_notify_runtime_init_done
 
-// Sets the traceback context function. See runtime.SetCgoTraceback.
+// Sets the traceback context function. See runtime.SetCgolangTraceback.
 
-//go:cgo_import_static x_cgo_set_context_function
-//go:linkname x_cgo_set_context_function x_cgo_set_context_function
-//go:linkname _cgo_set_context_function _cgo_set_context_function
-var x_cgo_set_context_function byte
-var _cgo_set_context_function = &x_cgo_set_context_function
+//golang:cgolang_import_static x_cgolang_set_context_function
+//golang:linkname x_cgolang_set_context_function x_cgolang_set_context_function
+//golang:linkname _cgolang_set_context_function _cgolang_set_context_function
+var x_cgolang_set_context_function byte
+var _cgolang_set_context_function = &x_cgolang_set_context_function
 
 // Calls a libc function to execute background work injected via libc
 // interceptors, such as processing pending signals under the thread
@@ -135,18 +135,18 @@ var _cgo_set_context_function = &x_cgo_set_context_function
 //
 // Left as a nil pointer if no libc interceptors are expected.
 
-//go:cgo_import_static _cgo_yield
-//go:linkname _cgo_yield _cgo_yield
-var _cgo_yield unsafe.Pointer
+//golang:cgolang_import_static _cgolang_yield
+//golang:linkname _cgolang_yield _cgolang_yield
+var _cgolang_yield unsafe.Pointer
 
-//go:cgo_export_static _cgo_topofstack
-//go:cgo_export_dynamic _cgo_topofstack
+//golang:cgolang_export_static _cgolang_topofstack
+//golang:cgolang_export_dynamic _cgolang_topofstack
 
-// x_cgo_getstackbound gets the thread's C stack size and
+// x_cgolang_getstackbound gets the thread's C stack size and
 // set the G's stack bound based on the stack size.
 
-//go:cgo_import_static x_cgo_getstackbound
-//go:linkname x_cgo_getstackbound x_cgo_getstackbound
-//go:linkname _cgo_getstackbound _cgo_getstackbound
-var x_cgo_getstackbound byte
-var _cgo_getstackbound = &x_cgo_getstackbound
+//golang:cgolang_import_static x_cgolang_getstackbound
+//golang:linkname x_cgolang_getstackbound x_cgolang_getstackbound
+//golang:linkname _cgolang_getstackbound _cgolang_getstackbound
+var x_cgolang_getstackbound byte
+var _cgolang_getstackbound = &x_cgolang_getstackbound

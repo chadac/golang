@@ -2,22 +2,22 @@ env GO111MODULE=off
 
 [short] skip
 
-go test -coverpkg=all -covermode=atomic x
+golang test -coverpkg=all -covermode=atomic x
 stdout ok[\s\S]+?coverage
 
 [!race] stop
 
-go test -coverpkg=all -race x
+golang test -coverpkg=all -race x
 stdout ok[\s\S]+?coverage
 
--- x/x.go --
+-- x/x.golang --
 package x
 
 import _ "sync/atomic"
 
 func F() {}
 
--- x/x_test.go --
+-- x/x_test.golang --
 package x
 
 import "testing"

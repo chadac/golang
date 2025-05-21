@@ -1,10 +1,10 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package x509
 
-// RFC 1423 describes the encryption of PEM blocks. The algorithm used to
+// RFC 1423 describes the encryption of PEM blocks. The algolangrithm used to
 // generate a key from the password was derived by looking at the OpenSSL
 // implementation.
 
@@ -22,7 +22,7 @@ import (
 
 type PEMCipher int
 
-// Possible values for the EncryptPEMBlock encryption algorithm.
+// Possible values for the EncryptPEMBlock encryption algolangrithm.
 const (
 	_ PEMCipher = iota
 	PEMCipherDES
@@ -32,8 +32,8 @@ const (
 	PEMCipherAES256
 )
 
-// rfc1423Algo holds a method for enciphering a PEM block.
-type rfc1423Algo struct {
+// rfc1423Algolang holds a method for enciphering a PEM block.
+type rfc1423Algolang struct {
 	cipher     PEMCipher
 	name       string
 	cipherFunc func(key []byte) (cipher.Block, error)
@@ -41,9 +41,9 @@ type rfc1423Algo struct {
 	blockSize  int
 }
 
-// rfc1423Algos holds a slice of the possible ways to encrypt a PEM
+// rfc1423Algolangs holds a slice of the possible ways to encrypt a PEM
 // block. The ivSize numbers were taken from the OpenSSL source.
-var rfc1423Algos = []rfc1423Algo{{
+var rfc1423Algolangs = []rfc1423Algolang{{
 	cipher:     PEMCipherDES,
 	name:       "DES-CBC",
 	cipherFunc: des.NewCipher,
@@ -77,9 +77,9 @@ var rfc1423Algos = []rfc1423Algo{{
 }
 
 // deriveKey uses a key derivation function to stretch the password into a key
-// with the number of bits our cipher requires. This algorithm was derived from
+// with the number of bits our cipher requires. This algolangrithm was derived from
 // the OpenSSL source.
-func (c rfc1423Algo) deriveKey(password, salt []byte) []byte {
+func (c rfc1423Algolang) deriveKey(password, salt []byte) []byte {
 	hash := md5.New()
 	out := make([]byte, c.keySize)
 	var digest []byte
@@ -111,7 +111,7 @@ var IncorrectPasswordError = errors.New("x509: decryption password incorrect")
 
 // DecryptPEMBlock takes a PEM block encrypted according to RFC 1423 and the
 // password used to encrypt it and returns a slice of decrypted DER encoded
-// bytes. It inspects the DEK-Info header to determine the algorithm used for
+// bytes. It inspects the DEK-Info header to determine the algolangrithm used for
 // decryption. If no DEK-Info header is present, an error is returned. If an
 // incorrect password is detected an [IncorrectPasswordError] is returned. Because
 // of deficiencies in the format, it's not always possible to detect an
@@ -186,7 +186,7 @@ func DecryptPEMBlock(b *pem.Block, password []byte) ([]byte, error) {
 }
 
 // EncryptPEMBlock returns a PEM block of the specified type holding the
-// given DER encoded data encrypted with the specified algorithm and
+// given DER encoded data encrypted with the specified algolangrithm and
 // password according to RFC 1423.
 //
 // Deprecated: Legacy PEM encryption as specified in RFC 1423 is insecure by
@@ -231,9 +231,9 @@ func EncryptPEMBlock(rand io.Reader, blockType string, data, password []byte, al
 	}, nil
 }
 
-func cipherByName(name string) *rfc1423Algo {
-	for i := range rfc1423Algos {
-		alg := &rfc1423Algos[i]
+func cipherByName(name string) *rfc1423Algolang {
+	for i := range rfc1423Algolangs {
+		alg := &rfc1423Algolangs[i]
 		if alg.name == name {
 			return alg
 		}
@@ -241,9 +241,9 @@ func cipherByName(name string) *rfc1423Algo {
 	return nil
 }
 
-func cipherByKey(key PEMCipher) *rfc1423Algo {
-	for i := range rfc1423Algos {
-		alg := &rfc1423Algos[i]
+func cipherByKey(key PEMCipher) *rfc1423Algolang {
+	for i := range rfc1423Algolangs {
+		alg := &rfc1423Algolangs[i]
 		if alg.cipher == key {
 			return alg
 		}

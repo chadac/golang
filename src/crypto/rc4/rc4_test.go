@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package rc4
@@ -16,9 +16,9 @@ type rc4Test struct {
 	key, keystream []byte
 }
 
-var golden = []rc4Test{
+var golanglden = []rc4Test{
 	// Test vectors from the original cypherpunk posting of ARC4:
-	//   https://groups.google.com/group/sci.crypt/msg/10a300c9d21afca0?pli=1
+	//   https://groups.golangogle.com/group/sci.crypt/msg/10a300c9d21afca0?pli=1
 	{
 		[]byte{0x01, 0x23, 0x45, 0x67, 0x89, 0xab, 0xcd, 0xef},
 		[]byte{0x74, 0x94, 0xc2, 0xe7, 0x10, 0x4b, 0x08, 0x79},
@@ -87,7 +87,7 @@ func testEncrypt(t *testing.T, desc string, c *Cipher, src, expect []byte) {
 }
 
 func TestGolden(t *testing.T) {
-	for gi, g := range golden {
+	for gi, g := range golanglden {
 		data := make([]byte, len(g.keystream))
 		for i := range data {
 			data[i] = byte(i)
@@ -119,16 +119,16 @@ func TestGolden(t *testing.T) {
 }
 
 func TestBlock(t *testing.T) {
-	c1a, _ := NewCipher(golden[0].key)
-	c1b, _ := NewCipher(golden[1].key)
+	c1a, _ := NewCipher(golanglden[0].key)
+	c1b, _ := NewCipher(golanglden[1].key)
 	data1 := make([]byte, 1<<20)
 	for i := range data1 {
 		c1a.XORKeyStream(data1[i:i+1], data1[i:i+1])
 		c1b.XORKeyStream(data1[i:i+1], data1[i:i+1])
 	}
 
-	c2a, _ := NewCipher(golden[0].key)
-	c2b, _ := NewCipher(golden[1].key)
+	c2a, _ := NewCipher(golanglden[0].key)
+	c2b, _ := NewCipher(golanglden[1].key)
 	data2 := make([]byte, 1<<20)
 	c2a.XORKeyStream(data2, data2)
 	c2b.XORKeyStream(data2, data2)
@@ -140,14 +140,14 @@ func TestBlock(t *testing.T) {
 
 func TestRC4Stream(t *testing.T) {
 	cryptotest.TestStream(t, func() cipher.Stream {
-		c, _ := NewCipher(golden[0].key)
+		c, _ := NewCipher(golanglden[0].key)
 		return c
 	})
 }
 
 func benchmark(b *testing.B, size int64) {
 	buf := make([]byte, size)
-	c, err := NewCipher(golden[0].key)
+	c, err := NewCipher(golanglden[0].key)
 	if err != nil {
 		panic(err)
 	}

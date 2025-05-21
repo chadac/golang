@@ -1,11 +1,11 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Tests of map internals that need to use the builtin map type, and thus must
 // be built with GOEXPERIMENT=swissmap.
 
-//go:build goexperiment.swissmap
+//golang:build golangexperiment.swissmap
 
 package maps_test
 
@@ -144,28 +144,28 @@ func TestTableGroupCount(t *testing.T) {
 	testMap := func(t *testing.T, m map[int]int, n int, initial, after mapCount) {
 		mm := *(**maps.Map)(unsafe.Pointer(&m))
 
-		gotTab := mm.TableCount()
-		if gotTab != initial.tables {
-			t.Errorf("initial TableCount got %d want %d", gotTab, initial.tables)
+		golangtTab := mm.TableCount()
+		if golangtTab != initial.tables {
+			t.Errorf("initial TableCount golangt %d want %d", golangtTab, initial.tables)
 		}
 
-		gotGroup := mm.GroupCount()
-		if gotGroup != initial.groups {
-			t.Errorf("initial GroupCount got %d want %d", gotGroup, initial.groups)
+		golangtGroup := mm.GroupCount()
+		if golangtGroup != initial.groups {
+			t.Errorf("initial GroupCount golangt %d want %d", golangtGroup, initial.groups)
 		}
 
 		for i := 0; i < n; i++ {
 			m[i] = i
 		}
 
-		gotTab = mm.TableCount()
-		if gotTab != after.tables {
-			t.Errorf("after TableCount got %d want %d", gotTab, after.tables)
+		golangtTab = mm.TableCount()
+		if golangtTab != after.tables {
+			t.Errorf("after TableCount golangt %d want %d", golangtTab, after.tables)
 		}
 
-		gotGroup = mm.GroupCount()
-		if gotGroup != after.groups {
-			t.Errorf("after GroupCount got %d want %d", gotGroup, after.groups)
+		golangtGroup = mm.GroupCount()
+		if golangtGroup != after.groups {
+			t.Errorf("after GroupCount golangt %d want %d", golangtGroup, after.groups)
 		}
 	}
 
@@ -259,7 +259,7 @@ func TestTombstoneGrow(t *testing.T) {
 					allowed += 2
 				}
 				if allocs > allowed {
-					t.Fatalf("got %v allocations, allowed %v", allocs, allowed)
+					t.Fatalf("golangt %v allocations, allowed %v", allocs, allowed)
 				}
 			})
 		}

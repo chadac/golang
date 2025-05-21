@@ -1,12 +1,12 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
 
 import (
 	"internal/abi"
-	"internal/goarch"
+	"internal/golangarch"
 	"internal/runtime/atomic"
 	"internal/runtime/strconv"
 	"internal/runtime/syscall"
@@ -14,7 +14,7 @@ import (
 )
 
 // sigPerThreadSyscall is the same signal (SIGSETXID) used by glibc for
-// per-thread syscalls on Linux. We use it for the same purpose in non-cgo
+// per-thread syscalls on Linux. We use it for the same purpose in non-cgolang
 // binaries.
 const sigPerThreadSyscall = _SIGRTMIN + 1
 
@@ -40,7 +40,7 @@ type mOS struct {
 	waitsema uint32 // semaphore for parking on locks
 }
 
-//go:noescape
+//golang:noescape
 func futex(addr unsafe.Pointer, op int32, val uint32, ts, addr2 unsafe.Pointer, val3 uint32) int32
 
 // Linux futex.
@@ -65,7 +65,7 @@ const (
 // Might be woken up spuriously; that's allowed.
 // Don't sleep longer than ns; ns < 0 means forever.
 //
-//go:nosplit
+//golang:nosplit
 func futexsleep(addr *uint32, val uint32, ns int64) {
 	// Some Linux kernels have a bug where futex of
 	// FUTEX_WAIT returns an internal error code
@@ -84,7 +84,7 @@ func futexsleep(addr *uint32, val uint32, ns int64) {
 
 // If any procs are sleeping on addr, wake up at most cnt.
 //
-//go:nosplit
+//golang:nosplit
 func futexwakeup(addr *uint32, cnt uint32) {
 	ret := futex(unsafe.Pointer(addr), _FUTEX_WAKE_PRIVATE, cnt, nil, nil, 0)
 	if ret >= 0 {
@@ -105,7 +105,7 @@ func getCPUCount() int32 {
 	// This buffer is huge (8 kB) but we are on the system stack
 	// and there should be plenty of space (64 kB).
 	// Also this is a leaf, so we're not holding up the memory for long.
-	// See golang.org/issue/11823.
+	// See golanglang.org/issue/11823.
 	// The suggested behavior here is to keep trying with ever-larger
 	// buffers, but we don't have a dynamic memory allocator at the
 	// moment, so that's a bit tricky and seems like overkill.
@@ -164,12 +164,12 @@ const (
 		_CLONE_THREAD /* revisit - okay for now */
 )
 
-//go:noescape
+//golang:noescape
 func clone(flags int32, stk, mp, gp, fn unsafe.Pointer) int32
 
 // May run with m.p==nil, so write barriers are not allowed.
 //
-//go:nowritebarrier
+//golang:nowritebarrier
 func newosproc(mp *m) {
 	stk := unsafe.Pointer(mp.g0.stack.hi)
 	/*
@@ -205,7 +205,7 @@ func newosproc(mp *m) {
 
 // Version of newosproc that doesn't require a valid G.
 //
-//go:nosplit
+//golang:nosplit
 func newosproc0(stacksize uintptr, fn unsafe.Pointer) {
 	stack := sysAlloc(stacksize, &memstats.stacks_sys, "OS thread stack")
 	if stack == nil {
@@ -249,7 +249,7 @@ func sysargs(argc int32, argv **byte) {
 	n++
 
 	// now argv+n is auxv
-	auxvp := (*[1 << 28]uintptr)(add(unsafe.Pointer(argv), uintptr(n)*goarch.PtrSize))
+	auxvp := (*[1 << 28]uintptr)(add(unsafe.Pointer(argv), uintptr(n)*golangarch.PtrSize))
 
 	if pairs := sysauxv(auxvp[:]); pairs != 0 {
 		auxv = auxvp[: pairs*2 : pairs*2]
@@ -307,10 +307,10 @@ func sysauxv(auxv []uintptr) (pairs int) {
 		switch tag {
 		case _AT_RANDOM:
 			// The kernel provides a pointer to 16 bytes of cryptographically
-			// random data. Note that in cgo programs this value may have
+			// random data. Note that in cgolang programs this value may have
 			// already been used by libc at this point, and in particular glibc
 			// and musl use the value as-is for stack and pointer protector
-			// cookies from libc_start_main and/or dl_start. Also, cgo programs
+			// cookies from libc_start_main and/or dl_start. Also, cgolang programs
 			// may use the value after we do.
 			startupRand = (*[16]byte)(unsafe.Pointer(val))[:]
 
@@ -371,16 +371,16 @@ func readRandom(r []byte) int {
 	return int(n)
 }
 
-func goenvs() {
-	goenvs_unix()
+func golangenvs() {
+	golangenvs_unix()
 }
 
 // Called to do synchronous initialization of Go code built with
 // -buildmode=c-archive or -buildmode=c-shared.
 // None of the Go runtime is initialized.
 //
-//go:nosplit
-//go:nowritebarrierrec
+//golang:nosplit
+//golang:nowritebarrierrec
 func libpreinit() {
 	initsig(true)
 }
@@ -399,7 +399,7 @@ func gettid() uint32
 func minit() {
 	minitSignals()
 
-	// Cgo-created threads and the bootstrap m are missing a
+	// Cgolang-created threads and the bootstrap m are missing a
 	// procid. We need this for asynchronous preemption and it's
 	// useful in debuggers.
 	getg().m.procid = uint64(gettid())
@@ -407,7 +407,7 @@ func minit() {
 
 // Called from dropm to undo the effect of an minit.
 //
-//go:nosplit
+//golang:nosplit
 func unminit() {
 	unminitSignals()
 	getg().m.procid = 0
@@ -416,8 +416,8 @@ func unminit() {
 // Called from mexit, but not from dropm, to undo the effect of thread-owned
 // resources in minit, semacreate, or elsewhere. Do not take locks after calling this.
 //
-// This always runs without a P, so //go:nowritebarrierrec is required.
-//go:nowritebarrierrec
+// This always runs without a P, so //golang:nowritebarrierrec is required.
+//golang:nowritebarrierrec
 func mdestroy(mp *m) {
 }
 
@@ -427,28 +427,28 @@ func mdestroy(mp *m) {
 
 func sigreturn__sigaction()
 func sigtramp() // Called via C ABI
-func cgoSigtramp()
+func cgolangSigtramp()
 
-//go:noescape
+//golang:noescape
 func sigaltstack(new, old *stackt)
 
-//go:noescape
+//golang:noescape
 func setitimer(mode int32, new, old *itimerval)
 
-//go:noescape
+//golang:noescape
 func timer_create(clockid int32, sevp *sigevent, timerid *int32) int32
 
-//go:noescape
+//golang:noescape
 func timer_settime(timerid int32, flags int32, new, old *itimerspec) int32
 
-//go:noescape
+//golang:noescape
 func timer_delete(timerid int32) int32
 
-//go:noescape
+//golang:noescape
 func rtsigprocmask(how int32, new, old *sigset, size int32)
 
-//go:nosplit
-//go:nowritebarrierrec
+//golang:nosplit
+//golang:nowritebarrierrec
 func sigprocmask(how int32, new, old *sigset) {
 	rtsigprocmask(how, new, old, int32(unsafe.Sizeof(*new)))
 }
@@ -456,18 +456,18 @@ func sigprocmask(how int32, new, old *sigset) {
 func raise(sig uint32)
 func raiseproc(sig uint32)
 
-//go:noescape
+//golang:noescape
 func sched_getaffinity(pid, len uintptr, buf *byte) int32
 func osyield()
 
-//go:nosplit
+//golang:nosplit
 func osyield_no_g() {
 	osyield()
 }
 
 func pipe2(flags int32) (r, w int32, errno int32)
 
-//go:nosplit
+//golang:nosplit
 func fcntl(fd, cmd, arg int32) (ret int32, errno int32) {
 	r, _, err := syscall.Syscall6(syscall.SYS_FCNTL, uintptr(fd), uintptr(cmd), uintptr(arg), 0, 0, 0)
 	return int32(r), int32(err)
@@ -478,8 +478,8 @@ const (
 	_sigev_max_size = 64
 )
 
-//go:nosplit
-//go:nowritebarrierrec
+//golang:nosplit
+//golang:nowritebarrierrec
 func setsig(i uint32, fn uintptr) {
 	var sa sigactiont
 	sa.sa_flags = _SA_SIGINFO | _SA_ONSTACK | _SA_RESTORER | _SA_RESTART
@@ -490,9 +490,9 @@ func setsig(i uint32, fn uintptr) {
 	if GOARCH == "386" || GOARCH == "amd64" {
 		sa.sa_restorer = abi.FuncPCABI0(sigreturn__sigaction)
 	}
-	if fn == abi.FuncPCABIInternal(sighandler) { // abi.FuncPCABIInternal(sighandler) matches the callers in signal_unix.go
-		if iscgo {
-			fn = abi.FuncPCABI0(cgoSigtramp)
+	if fn == abi.FuncPCABIInternal(sighandler) { // abi.FuncPCABIInternal(sighandler) matches the callers in signal_unix.golang
+		if iscgolang {
+			fn = abi.FuncPCABI0(cgolangSigtramp)
 		} else {
 			fn = abi.FuncPCABI0(sigtramp)
 		}
@@ -501,8 +501,8 @@ func setsig(i uint32, fn uintptr) {
 	sigaction(i, &sa, nil)
 }
 
-//go:nosplit
-//go:nowritebarrierrec
+//golang:nosplit
+//golang:nowritebarrierrec
 func setsigstack(i uint32) {
 	var sa sigactiont
 	sigaction(i, nil, &sa)
@@ -513,8 +513,8 @@ func setsigstack(i uint32) {
 	sigaction(i, &sa, nil)
 }
 
-//go:nosplit
-//go:nowritebarrierrec
+//golang:nosplit
+//golang:nowritebarrierrec
 func getsig(i uint32) uintptr {
 	var sa sigactiont
 	sigaction(i, nil, &sa)
@@ -523,18 +523,18 @@ func getsig(i uint32) uintptr {
 
 // setSignalstackSP sets the ss_sp field of a stackt.
 //
-//go:nosplit
+//golang:nosplit
 func setSignalstackSP(s *stackt, sp uintptr) {
 	*(*uintptr)(unsafe.Pointer(&s.ss_sp)) = sp
 }
 
-//go:nosplit
+//golang:nosplit
 func (c *sigctxt) fixsigcode(sig uint32) {
 }
 
 // sysSigaction calls the rt_sigaction system call.
 //
-//go:nosplit
+//golang:nosplit
 func sysSigaction(sig uint32, new, old *sigactiont) {
 	if rt_sigaction(uintptr(sig), new, old, unsafe.Sizeof(sigactiont{}.sa_mask)) != 0 {
 		// Workaround for bugs in QEMU user mode emulation.
@@ -559,7 +559,7 @@ func sysSigaction(sig uint32, new, old *sigactiont) {
 
 // rt_sigaction is implemented in assembly.
 //
-//go:noescape
+//golang:noescape
 func rt_sigaction(sig uintptr, new, old *sigactiont, size uintptr) int32
 
 func getpid() int
@@ -576,7 +576,7 @@ func signalM(mp *m, sig int) {
 // correspond to the best profiling mechanism available to this thread. Signals
 // from other sources are always considered valid.
 //
-//go:nosplit
+//golang:nosplit
 func validSIGPROF(mp *m, c *sigctxt) bool {
 	code := int32(c.sigcode())
 	setitimer := code == _SI_KERNEL
@@ -598,10 +598,10 @@ func validSIGPROF(mp *m, c *sigctxt) bool {
 		// never while profiling was active. To avoid double-counting, process
 		// only signals from setitimer.
 		//
-		// When a custom cgo traceback function has been registered (on
-		// platforms that support runtime.SetCgoTraceback), SIGPROF signals
+		// When a custom cgolang traceback function has been registered (on
+		// platforms that support runtime.SetCgolangTraceback), SIGPROF signals
 		// delivered to a thread that cannot find a matching M do this check in
-		// the assembly implementations of runtime.cgoSigtramp.
+		// the assembly implementations of runtime.cgolangSigtramp.
 		return setitimer
 	}
 
@@ -642,7 +642,7 @@ func setThreadCPUProfiler(hz int32) {
 	}
 
 	if hz == 0 {
-		// If the goal was to disable profiling for this thread, then the job's done.
+		// If the golangal was to disable profiling for this thread, then the job's done.
 		return
 	}
 
@@ -708,7 +708,7 @@ type perThreadSyscallArgs struct {
 	r2   uintptr
 }
 
-// perThreadSyscall is the system call to execute for the ongoing
+// perThreadSyscall is the system call to execute for the ongolanging
 // doAllThreadsSyscall.
 //
 // perThreadSyscall may only be written while mp.needPerThreadSyscall == 0 on
@@ -721,16 +721,16 @@ var perThreadSyscall perThreadSyscallArgs
 // The system call is expected to succeed and return the same value on every
 // thread. If any threads do not match, the runtime throws.
 //
-//go:linkname syscall_runtime_doAllThreadsSyscall syscall.runtime_doAllThreadsSyscall
-//go:uintptrescapes
+//golang:linkname syscall_runtime_doAllThreadsSyscall syscall.runtime_doAllThreadsSyscall
+//golang:uintptrescapes
 func syscall_runtime_doAllThreadsSyscall(trap, a1, a2, a3, a4, a5, a6 uintptr) (r1, r2, err uintptr) {
-	if iscgo {
-		// In cgo, we are not aware of threads created in C, so this approach will not work.
-		panic("doAllThreadsSyscall not supported with cgo enabled")
+	if iscgolang {
+		// In cgolang, we are not aware of threads created in C, so this approach will not work.
+		panic("doAllThreadsSyscall not supported with cgolang enabled")
 	}
 
-	// STW to guarantee that user goroutines see an atomic change to thread
-	// state. Without STW, goroutines could migrate Ms while change is in
+	// STW to guarantee that user golangroutines see an atomic change to thread
+	// state. Without STW, golangroutines could migrate Ms while change is in
 	// progress and e.g., see state old -> new -> old -> new.
 	//
 	// N.B. Internally, this function does not depend on STW to
@@ -774,7 +774,7 @@ func syscall_runtime_doAllThreadsSyscall(trap, a1, a2, a3, a4, a5, a6 uintptr) (
 
 	r1, r2, errno := syscall.Syscall6(trap, a1, a2, a3, a4, a5, a6)
 	if GOARCH == "ppc64" || GOARCH == "ppc64le" {
-		// TODO(https://go.dev/issue/51192 ): ppc64 doesn't use r2.
+		// TODO(https://golang.dev/issue/51192 ): ppc64 doesn't use r2.
 		r2 = 0
 	}
 	if errno != 0 {
@@ -875,7 +875,7 @@ func syscall_runtime_doAllThreadsSyscall(trap, a1, a2, a3, a4, a5, a6 uintptr) (
 // This function throws if the system call returns with anything other than the
 // expected values.
 //
-//go:nosplit
+//golang:nosplit
 func runPerThreadSyscall() {
 	gp := getg()
 	if gp.m.needPerThreadSyscall.Load() == 0 {
@@ -885,12 +885,12 @@ func runPerThreadSyscall() {
 	args := perThreadSyscall
 	r1, r2, errno := syscall.Syscall6(args.trap, args.a1, args.a2, args.a3, args.a4, args.a5, args.a6)
 	if GOARCH == "ppc64" || GOARCH == "ppc64le" {
-		// TODO(https://go.dev/issue/51192 ): ppc64 doesn't use r2.
+		// TODO(https://golang.dev/issue/51192 ): ppc64 doesn't use r2.
 		r2 = 0
 	}
 	if errno != 0 || r1 != args.r1 || r2 != args.r2 {
 		print("trap:", args.trap, ", a123456=[", args.a1, ",", args.a2, ",", args.a3, ",", args.a4, ",", args.a5, ",", args.a6, "]\n")
-		print("results: got {r1=", r1, ",r2=", r2, ",errno=", errno, "}, want {r1=", args.r1, ",r2=", args.r2, ",errno=0}\n")
+		print("results: golangt {r1=", r1, ",r2=", r2, ",errno=", errno, "}, want {r1=", args.r1, ",r2=", args.r2, ",errno=0}\n")
 		fatal("AllThreadsSyscall6 results differ between threads; runtime corrupted")
 	}
 
@@ -906,7 +906,7 @@ const (
 // sigFromUser reports whether the signal was sent because of a call
 // to kill or tgkill.
 //
-//go:nosplit
+//golang:nosplit
 func (c *sigctxt) sigFromUser() bool {
 	code := int32(c.sigcode())
 	return code == _SI_USER || code == _SI_TKILL
@@ -914,13 +914,13 @@ func (c *sigctxt) sigFromUser() bool {
 
 // sigFromSeccomp reports whether the signal was sent from seccomp.
 //
-//go:nosplit
+//golang:nosplit
 func (c *sigctxt) sigFromSeccomp() bool {
 	code := int32(c.sigcode())
 	return code == _SYS_SECCOMP
 }
 
-//go:nosplit
+//golang:nosplit
 func mprotect(addr unsafe.Pointer, n uintptr, prot int32) (ret int32, errno int32) {
 	r, _, err := syscall.Syscall6(syscall.SYS_MPROTECT, uintptr(addr), n, uintptr(prot), 0, 0, 0)
 	return int32(r), int32(err)

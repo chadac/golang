@@ -1,10 +1,10 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Central free lists.
 //
-// See malloc.go for an overview.
+// See malloc.golang for an overview.
 //
 // The mcentral doesn't actually contain the list of free objects; the mspan does.
 // Each mcentral is two lists of mspans: those with free objects (c->nonempty)
@@ -112,7 +112,7 @@ func (c *mcentral) cacheSpan() *mspan {
 	// Try partial swept spans first.
 	sg := mheap_.sweepgen
 	if s = c.partialSwept(sg).pop(); s != nil {
-		goto havespan
+		golangto havespan
 	}
 
 	sl = sweep.active.begin()
@@ -124,10 +124,10 @@ func (c *mcentral) cacheSpan() *mspan {
 				break
 			}
 			if s, ok := sl.tryAcquire(s); ok {
-				// We got ownership of the span, so let's sweep it and use it.
+				// We golangt ownership of the span, so let's sweep it and use it.
 				s.sweep(true)
 				sweep.active.end(sl)
-				goto havespan
+				golangto havespan
 			}
 			// We failed to get ownership of the span, which means it's being or
 			// has been swept by an asynchronous sweeper that just couldn't remove it
@@ -144,14 +144,14 @@ func (c *mcentral) cacheSpan() *mspan {
 				break
 			}
 			if s, ok := sl.tryAcquire(s); ok {
-				// We got ownership of the span, so let's sweep it.
+				// We golangt ownership of the span, so let's sweep it.
 				s.sweep(true)
 				// Check if there's any free space.
 				freeIndex := s.nextFreeIndex()
 				if freeIndex != s.nelems {
 					s.freeindex = freeIndex
 					sweep.active.end(sl)
-					goto havespan
+					golangto havespan
 				}
 				// Add it to the swept list, because sweeping didn't give us any free space.
 				c.fullSwept(sg).push(s.mspan)

@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -12,7 +12,7 @@ import (
 var tests = [...]struct {
 	name string
 	in   float64 // used for error messages, not an input
-	got  float64
+	golangt  float64
 	want float64
 }{
 	{"sqrt0", 0, math.Sqrt(0), 0},
@@ -26,7 +26,7 @@ var tests = [...]struct {
 var nanTests = [...]struct {
 	name string
 	in   float64 // used for error messages, not an input
-	got  float64
+	golangt  float64
 }{
 	{"sqrtNaN", math.NaN(), math.Sqrt(math.NaN())},
 	{"sqrtNegative", -1, math.Sqrt(-1)},
@@ -35,16 +35,16 @@ var nanTests = [...]struct {
 
 func TestSqrtConst(t *testing.T) {
 	for _, test := range tests {
-		if test.got != test.want {
-			t.Errorf("%s: math.Sqrt(%f): got %f, want %f\n", test.name, test.in, test.got, test.want)
+		if test.golangt != test.want {
+			t.Errorf("%s: math.Sqrt(%f): golangt %f, want %f\n", test.name, test.in, test.golangt, test.want)
 		}
 	}
 	for _, test := range nanTests {
-		if math.IsNaN(test.got) != true {
-			t.Errorf("%s: math.Sqrt(%f): got %f, want NaN\n", test.name, test.in, test.got)
+		if math.IsNaN(test.golangt) != true {
+			t.Errorf("%s: math.Sqrt(%f): golangt %f, want NaN\n", test.name, test.in, test.golangt)
 		}
 	}
-	if got := math.Sqrt(math.Inf(1)); !math.IsInf(got, 1) {
-		t.Errorf("math.Sqrt(+Inf), got %f, want +Inf\n", got)
+	if golangt := math.Sqrt(math.Inf(1)); !math.IsInf(golangt, 1) {
+		t.Errorf("math.Sqrt(+Inf), golangt %f, want +Inf\n", golangt)
 	}
 }

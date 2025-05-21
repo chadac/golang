@@ -1,5 +1,5 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package smtp implements the Simple Mail Transfer Protocol as defined in RFC 5321.
@@ -14,7 +14,7 @@
 // The smtp package is frozen and is not accepting new features.
 // Some external packages provide more functionality. See:
 //
-//	https://godoc.org/?q=smtp
+//	https://golangdoc.org/?q=smtp
 package smtp
 
 import (

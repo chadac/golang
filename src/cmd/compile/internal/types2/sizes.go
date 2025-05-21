@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file implements Sizes.
@@ -67,7 +67,7 @@ func (s *StdSizes) Alignof(T Type) (result int64) {
 			// 64-bit-aligned.
 			//
 			// This logic is equivalent to the logic in
-			// cmd/compile/internal/types/size.go:calcStructOffset
+			// cmd/compile/internal/types/size.golang:calcStructOffset
 			return 8
 		}
 
@@ -260,8 +260,8 @@ func SizesFor(compiler, arch string) Sizes {
 		if s := gcSizesFor(compiler, arch); s != nil {
 			return Sizes(s)
 		}
-	case "gccgo":
-		if s, ok := gccgoArchSizes[arch]; ok {
+	case "gccgolang":
+		if s, ok := gccgolangArchSizes[arch]; ok {
 			return Sizes(s)
 		}
 	}

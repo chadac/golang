@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package cache
@@ -16,7 +16,7 @@ import (
 	"sync"
 )
 
-var debugHash = false // set when GODEBUG=gocachehash=1
+var debugHash = false // set when GODEBUG=golangcachehash=1
 
 // HashSize is the number of bytes in a hash.
 const HashSize = 32
@@ -31,18 +31,18 @@ type Hash struct {
 
 // hashSalt is a salt string added to the beginning of every hash
 // created by NewHash. Using the Go version makes sure that different
-// versions of the go command (or even different Git commits during
+// versions of the golang command (or even different Git commits during
 // work on the development branch) do not address the same cache
 // entries, so that a bug in one version does not affect the execution
 // of other versions. This salt will result in additional ActionID files
 // in the cache, but not additional copies of the large output files,
 // which are still addressed by unsalted SHA256.
 //
-// We strip any GOEXPERIMENTs the go tool was built with from this
-// version string on the assumption that they shouldn't affect go tool
+// We strip any GOEXPERIMENTs the golang tool was built with from this
+// version string on the assumption that they shouldn't affect golang tool
 // execution. This allows bootstrapping to converge faster: dist builds
-// go_bootstrap without any experiments, so by stripping experiments
-// go_bootstrap and the final go binary will use the same salt.
+// golang_bootstrap without any experiments, so by stripping experiments
+// golang_bootstrap and the final golang binary will use the same salt.
 var hashSalt = []byte(stripExperiment(runtime.Version()))
 
 // stripExperiment strips any GOEXPERIMENT configuration from the Go
@@ -117,7 +117,7 @@ func (h *Hash) Sum() [HashSize]byte {
 	return out
 }
 
-// In GODEBUG=gocacheverify=1 mode,
+// In GODEBUG=golangcacheverify=1 mode,
 // hashDebug holds the input to every computed hash ID,
 // so that we can work backward from the ID involved in a
 // cache entry mismatch to a description of what should be there.

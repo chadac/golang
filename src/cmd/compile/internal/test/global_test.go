@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package test
@@ -23,7 +23,7 @@ func TestScanfRemoval(t *testing.T) {
 	dir := t.TempDir()
 
 	// Create source.
-	src := filepath.Join(dir, "test.go")
+	src := filepath.Join(dir, "test.golang")
 	f, err := os.Create(src)
 	if err != nil {
 		t.Fatalf("could not create source file: %v", err)
@@ -67,7 +67,7 @@ func TestDashS(t *testing.T) {
 	dir := t.TempDir()
 
 	// Create source.
-	src := filepath.Join(dir, "test.go")
+	src := filepath.Join(dir, "test.golang")
 	f, err := os.Create(src)
 	if err != nil {
 		t.Fatalf("could not create source file: %v", err)

@@ -1,5 +1,5 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package maphash provides hash functions on byte sequences and comparable values.
@@ -97,8 +97,8 @@ func String(seed Seed, s string) uint64 {
 // Hashes are intended to be collision-resistant, even for situations
 // where an adversary controls the byte sequences being hashed.
 //
-// A Hash is not safe for concurrent use by multiple goroutines, but a Seed is.
-// If multiple goroutines must compute the same seeded hash,
+// A Hash is not safe for concurrent use by multiple golangroutines, but a Seed is.
+// If multiple golangroutines must compute the same seeded hash,
 // each can declare its own Hash and call SetSeed with a common Seed.
 type Hash struct {
 	_     [0]func()     // not comparable
@@ -313,7 +313,7 @@ func escapeForHash[T comparable](v T) { panic("intrinsic") }
 // WriteComparable adds x to the data hashed by h.
 func WriteComparable[T comparable](h *Hash, x T) {
 	escapeForHash(x)
-	// writeComparable (not in purego mode) directly operates on h.state
+	// writeComparable (not in puregolang mode) directly operates on h.state
 	// without using h.buf. Mix in the buffer length so it won't
 	// commute with a buffered write, which either changes h.n or changes
 	// h.state.

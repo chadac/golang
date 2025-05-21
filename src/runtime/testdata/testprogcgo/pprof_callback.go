@@ -1,8 +1,8 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !plan9 && !windows
+//golang:build !plan9 && !windows
 
 package main
 
@@ -13,13 +13,13 @@ package main
 /*
 #include <unistd.h>
 
-void goCallbackPprof();
+void golangCallbackPprof();
 
 static void callGo() {
 	// Spent >20us in C so this thread is eligible for sysmon to retake its
 	// P.
 	usleep(50);
-	goCallbackPprof();
+	golangCallbackPprof();
 }
 */
 import "C"
@@ -33,24 +33,24 @@ import (
 )
 
 func init() {
-	register("CgoPprofCallback", CgoPprofCallback)
+	register("CgolangPprofCallback", CgolangPprofCallback)
 }
 
-//export goCallbackPprof
-func goCallbackPprof() {
-	// No-op. We want to stress the cgocall and cgocallback internals,
+//export golangCallbackPprof
+func golangCallbackPprof() {
+	// No-op. We want to stress the cgolangcall and cgolangcallback internals,
 	// landing as many pprof signals there as possible.
 }
 
-func CgoPprofCallback() {
+func CgolangPprofCallback() {
 	// Issue 50936 was a crash in the SIGPROF handler when the signal
-	// arrived during the exitsyscall following a cgocall(back) in dropg or
+	// arrived during the exitsyscall following a cgolangcall(back) in dropg or
 	// execute, when updating mp.curg.
 	//
 	// These are reachable only when exitsyscall finds no P available. Thus
 	// we make C calls from significantly more Gs than there are available
 	// Ps. Lots of runnable work combined with >20us spent in callGo makes
-	// it possible for sysmon to retake Ps, forcing C calls to go down the
+	// it possible for sysmon to retake Ps, forcing C calls to golang down the
 	// desired exitsyscall path.
 	//
 	// High GOMAXPROCS is used to increase opportunities for failure on
@@ -74,7 +74,7 @@ func CgoPprofCallback() {
 	}
 
 	for i := 0; i < G; i++ {
-		go func() {
+		golang func() {
 			for {
 				C.callGo()
 			}

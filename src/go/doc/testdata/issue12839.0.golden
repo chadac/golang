@@ -1,4 +1,4 @@
-// Package issue12839 is a go/doc test to test association of a ...
+// Package issue12839 is a golang/doc test to test association of a ...
 PACKAGE issue12839
 
 IMPORTPATH
@@ -8,7 +8,7 @@ IMPORTS
 	p
 
 FILENAMES
-	testdata/issue12839.go
+	testdata/issue12839.golang
 
 FUNCTIONS
 	// F1 should not be associated with T1 

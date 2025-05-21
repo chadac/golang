@@ -1,7 +1,7 @@
 // compile
 
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file tests type lists & constraints with core types.
@@ -52,7 +52,7 @@ func _[T interface{ ~chan int }](ch T) int {
 // Calling of a generic type which has a function as core type.
 func _[T interface{ ~func() }](f T) {
 	f()
-	go f()
+	golang f()
 }
 
 // Same, but function has a parameter and return value.

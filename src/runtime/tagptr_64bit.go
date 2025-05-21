@@ -1,14 +1,14 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build amd64 || arm64 || loong64 || mips64 || mips64le || ppc64 || ppc64le || riscv64 || s390x || wasm
+//golang:build amd64 || arm64 || loong64 || mips64 || mips64le || ppc64 || ppc64le || riscv64 || s390x || wasm
 
 package runtime
 
 import (
-	"internal/goarch"
-	"internal/goos"
+	"internal/golangarch"
+	"internal/golangos"
 	"unsafe"
 )
 
@@ -43,11 +43,11 @@ const (
 	// and there may be other issues (see #54104).
 	riscv64AddrBits = 56
 
-	addrBits = goos.IsAix*aixAddrBits + goarch.IsRiscv64*riscv64AddrBits + goos.IsFreebsd*goarch.IsAmd64*freebsdAmd64AddrBits + (1-goos.IsAix)*(1-goarch.IsRiscv64)*(1-goos.IsFreebsd*goarch.IsAmd64)*defaultAddrBits
+	addrBits = golangos.IsAix*aixAddrBits + golangarch.IsRiscv64*riscv64AddrBits + golangos.IsFreebsd*golangarch.IsAmd64*freebsdAmd64AddrBits + (1-golangos.IsAix)*(1-golangarch.IsRiscv64)*(1-golangos.IsFreebsd*golangarch.IsAmd64)*defaultAddrBits
 
 	// In addition to the 16 bits (or other, depending on arch/os) taken from the top,
 	// we can take 9 from the bottom, because we require pointers to be well-aligned
-	// (see tagptr.go:tagAlignBits). That gives us a total of 25 bits for the tag.
+	// (see tagptr.golang:tagAlignBits). That gives us a total of 25 bits for the tag.
 	tagBits = 64 - addrBits + tagAlignBits
 )
 

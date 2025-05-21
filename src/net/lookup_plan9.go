@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package net
@@ -14,10 +14,10 @@ import (
 	"os"
 )
 
-// cgoAvailable set to true to indicate that the cgo resolver
-// is available on Plan 9. Note that on Plan 9 the cgo resolver
-// does not actually use cgo.
-const cgoAvailable = true
+// cgolangAvailable set to true to indicate that the cgolang resolver
+// is available on Plan 9. Note that on Plan 9 the cgolang resolver
+// does not actually use cgolang.
+const cgolangAvailable = true
 
 func query(ctx context.Context, filename, query string, bufSize int) (addrs []string, err error) {
 	queryAddrs := func() (addrs []string, err error) {
@@ -56,7 +56,7 @@ func query(ctx context.Context, filename, query string, bufSize int) (addrs []st
 	}
 
 	ch := make(chan ret, 1)
-	go func() {
+	golang func() {
 		addrs, err := queryAddrs()
 		ch <- ret{addrs: addrs, err: err}
 	}()
@@ -187,8 +187,8 @@ loop:
 }
 
 func (r *Resolver) lookupIP(ctx context.Context, network, host string) (addrs []IPAddr, err error) {
-	if order, conf := systemConf().hostLookupOrder(r, host); order != hostLookupCgo {
-		return r.goLookupIP(ctx, network, host, order, conf)
+	if order, conf := systemConf().hostLookupOrder(r, host); order != hostLookupCgolang {
+		return r.golangLookupIP(ctx, network, host, order, conf)
 	}
 
 	lits, err := r.lookupHost(ctx, host)
@@ -247,8 +247,8 @@ func (*Resolver) lookupPortWithNetwork(ctx context.Context, network, errNetwork,
 }
 
 func (r *Resolver) lookupCNAME(ctx context.Context, name string) (cname string, err error) {
-	if order, conf := systemConf().hostLookupOrder(r, name); order != hostLookupCgo {
-		return r.goLookupCNAME(ctx, name, order, conf)
+	if order, conf := systemConf().hostLookupOrder(r, name); order != hostLookupCgolang {
+		return r.golangLookupCNAME(ctx, name, order, conf)
 	}
 
 	lines, err := queryDNS(ctx, name, "cname")
@@ -270,7 +270,7 @@ func (r *Resolver) lookupCNAME(ctx context.Context, name string) (cname string, 
 
 func (r *Resolver) lookupSRV(ctx context.Context, service, proto, name string) (cname string, addrs []*SRV, err error) {
 	if systemConf().mustUseGoResolver(r) {
-		return r.goLookupSRV(ctx, service, proto, name)
+		return r.golangLookupSRV(ctx, service, proto, name)
 	}
 	var target string
 	if service == "" && proto == "" {
@@ -302,7 +302,7 @@ func (r *Resolver) lookupSRV(ctx context.Context, service, proto, name string) (
 
 func (r *Resolver) lookupMX(ctx context.Context, name string) (mx []*MX, err error) {
 	if systemConf().mustUseGoResolver(r) {
-		return r.goLookupMX(ctx, name)
+		return r.golangLookupMX(ctx, name)
 	}
 	lines, err := queryDNS(ctx, name, "mx")
 	if err != nil {
@@ -323,7 +323,7 @@ func (r *Resolver) lookupMX(ctx context.Context, name string) (mx []*MX, err err
 
 func (r *Resolver) lookupNS(ctx context.Context, name string) (ns []*NS, err error) {
 	if systemConf().mustUseGoResolver(r) {
-		return r.goLookupNS(ctx, name)
+		return r.golangLookupNS(ctx, name)
 	}
 	lines, err := queryDNS(ctx, name, "ns")
 	if err != nil {
@@ -341,7 +341,7 @@ func (r *Resolver) lookupNS(ctx context.Context, name string) (ns []*NS, err err
 
 func (r *Resolver) lookupTXT(ctx context.Context, name string) (txt []string, err error) {
 	if systemConf().mustUseGoResolver(r) {
-		return r.goLookupTXT(ctx, name)
+		return r.golangLookupTXT(ctx, name)
 	}
 	lines, err := queryDNS(ctx, name, "txt")
 	if err != nil {
@@ -356,8 +356,8 @@ func (r *Resolver) lookupTXT(ctx context.Context, name string) (txt []string, er
 }
 
 func (r *Resolver) lookupAddr(ctx context.Context, addr string) (name []string, err error) {
-	if order, conf := systemConf().addrLookupOrder(r, addr); order != hostLookupCgo {
-		return r.goLookupPTR(ctx, addr, order, conf)
+	if order, conf := systemConf().addrLookupOrder(r, addr); order != hostLookupCgolang {
+		return r.golangLookupPTR(ctx, addr, order, conf)
 	}
 	arpa, err := reverseaddr(addr)
 	if err != nil {

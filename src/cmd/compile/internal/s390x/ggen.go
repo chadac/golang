@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package s390x
@@ -29,7 +29,7 @@ func zerorange(pp *objw.Progs, p *obj.Prog, off, cnt int64, _ *uint32) *obj.Prog
 
 	// If the off cannot fit in a 12-bit unsigned displacement then we
 	// need to create a copy of the stack pointer that we can adjust.
-	// We also need to do this if we are going to loop.
+	// We also need to do this if we are golanging to loop.
 	if off < 0 || off > 4096-clearLoopCutoff || cnt > clearLoopCutoff {
 		p = pp.Append(p, s390x.AADD, obj.TYPE_CONST, 0, off, obj.TYPE_REG, s390x.REGRT1, 0)
 		p.Reg = int16(s390x.REGSP)

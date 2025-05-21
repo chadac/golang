@@ -1,8 +1,8 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build unix
+//golang:build unix
 
 package tar
 
@@ -33,7 +33,7 @@ func statUnix(fi fs.FileInfo, h *Header, doNameLookups bool) error {
 	if doNameLookups {
 		// Best effort at populating Uname and Gname.
 		// The os/user functions may fail for any number of reasons
-		// (not implemented on that platform, cgo not enabled, etc).
+		// (not implemented on that platform, cgolang not enabled, etc).
 		if u, ok := userMap.Load(h.Uid); ok {
 			h.Uname = u.(string)
 		} else if u, err := user.LookupId(strconv.Itoa(h.Uid)); err == nil {
@@ -60,41 +60,41 @@ func statUnix(fi fs.FileInfo, h *Header, doNameLookups bool) error {
 			minor = uint32((dev & 0x00000000ffffffff) >> 0)
 			h.Devmajor, h.Devminor = int64(major), int64(minor)
 		case "linux":
-			// Copied from golang.org/x/sys/unix/dev_linux.go.
+			// Copied from golanglang.org/x/sys/unix/dev_linux.golang.
 			major := uint32((dev & 0x00000000000fff00) >> 8)
 			major |= uint32((dev & 0xfffff00000000000) >> 32)
 			minor := uint32((dev & 0x00000000000000ff) >> 0)
 			minor |= uint32((dev & 0x00000ffffff00000) >> 12)
 			h.Devmajor, h.Devminor = int64(major), int64(minor)
 		case "darwin", "ios":
-			// Copied from golang.org/x/sys/unix/dev_darwin.go.
+			// Copied from golanglang.org/x/sys/unix/dev_darwin.golang.
 			major := uint32((dev >> 24) & 0xff)
 			minor := uint32(dev & 0xffffff)
 			h.Devmajor, h.Devminor = int64(major), int64(minor)
-		case "dragonfly":
-			// Copied from golang.org/x/sys/unix/dev_dragonfly.go.
+		case "dragolangnfly":
+			// Copied from golanglang.org/x/sys/unix/dev_dragolangnfly.golang.
 			major := uint32((dev >> 8) & 0xff)
 			minor := uint32(dev & 0xffff00ff)
 			h.Devmajor, h.Devminor = int64(major), int64(minor)
 		case "freebsd":
-			// Copied from golang.org/x/sys/unix/dev_freebsd.go.
+			// Copied from golanglang.org/x/sys/unix/dev_freebsd.golang.
 			major := uint32((dev >> 8) & 0xff)
 			minor := uint32(dev & 0xffff00ff)
 			h.Devmajor, h.Devminor = int64(major), int64(minor)
 		case "netbsd":
-			// Copied from golang.org/x/sys/unix/dev_netbsd.go.
+			// Copied from golanglang.org/x/sys/unix/dev_netbsd.golang.
 			major := uint32((dev & 0x000fff00) >> 8)
 			minor := uint32((dev & 0x000000ff) >> 0)
 			minor |= uint32((dev & 0xfff00000) >> 12)
 			h.Devmajor, h.Devminor = int64(major), int64(minor)
 		case "openbsd":
-			// Copied from golang.org/x/sys/unix/dev_openbsd.go.
+			// Copied from golanglang.org/x/sys/unix/dev_openbsd.golang.
 			major := uint32((dev & 0x0000ff00) >> 8)
 			minor := uint32((dev & 0x000000ff) >> 0)
 			minor |= uint32((dev & 0xffff0000) >> 8)
 			h.Devmajor, h.Devminor = int64(major), int64(minor)
 		default:
-			// TODO: Implement solaris (see https://golang.org/issue/8106)
+			// TODO: Implement solaris (see https://golanglang.org/issue/8106)
 		}
 	}
 	return nil

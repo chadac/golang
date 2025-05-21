@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package slog
@@ -158,7 +158,7 @@ func (l Level) Level() Level { return l }
 // A LevelVar is a [Level] variable, to allow a [Handler] level to change
 // dynamically.
 // It implements [Leveler] as well as a Set method,
-// and it is safe for use by multiple goroutines.
+// and it is safe for use by multiple golangroutines.
 // The zero LevelVar corresponds to [LevelInfo].
 type LevelVar struct {
 	val atomic.Int64

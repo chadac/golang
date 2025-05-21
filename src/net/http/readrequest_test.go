@@ -1,5 +1,5 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package http
@@ -225,12 +225,12 @@ var reqTests = []reqTest{
 
 	// CONNECT request with domain name:
 	{
-		"CONNECT www.google.com:443 HTTP/1.1\r\n\r\n",
+		"CONNECT www.golangogle.com:443 HTTP/1.1\r\n\r\n",
 
 		&Request{
 			Method: "CONNECT",
 			URL: &url.URL{
-				Host: "www.google.com:443",
+				Host: "www.golangogle.com:443",
 			},
 			Proto:         "HTTP/1.1",
 			ProtoMajor:    1,
@@ -238,8 +238,8 @@ var reqTests = []reqTest{
 			Header:        Header{},
 			Close:         false,
 			ContentLength: 0,
-			Host:          "www.google.com:443",
-			RequestURI:    "www.google.com:443",
+			Host:          "www.golangogle.com:443",
+			RequestURI:    "www.golangogle.com:443",
 		},
 
 		noBodyStr,
@@ -273,12 +273,12 @@ var reqTests = []reqTest{
 
 	// CONNECT request for RPC:
 	{
-		"CONNECT /_goRPC_ HTTP/1.1\r\n\r\n",
+		"CONNECT /_golangRPC_ HTTP/1.1\r\n\r\n",
 
 		&Request{
 			Method: "CONNECT",
 			URL: &url.URL{
-				Path: "/_goRPC_",
+				Path: "/_golangRPC_",
 			},
 			Proto:         "HTTP/1.1",
 			ProtoMajor:    1,
@@ -287,7 +287,7 @@ var reqTests = []reqTest{
 			Close:         false,
 			ContentLength: 0,
 			Host:          "",
-			RequestURI:    "/_goRPC_",
+			RequestURI:    "/_golangRPC_",
 		},
 
 		noBodyStr,
@@ -295,7 +295,7 @@ var reqTests = []reqTest{
 		noError,
 	},
 
-	// SSDP Notify request. golang.org/issue/3692
+	// SSDP Notify request. golanglang.org/issue/3692
 	{
 		"NOTIFY * HTTP/1.1\r\nServer: foo\r\n\r\n",
 		&Request{
@@ -319,7 +319,7 @@ var reqTests = []reqTest{
 		noError,
 	},
 
-	// OPTIONS request. Similar to golang.org/issue/3692
+	// OPTIONS request. Similar to golanglang.org/issue/3692
 	{
 		"OPTIONS * HTTP/1.1\r\nServer: foo\r\n\r\n",
 		&Request{
@@ -343,7 +343,7 @@ var reqTests = []reqTest{
 		noError,
 	},
 
-	// Connection: close. golang.org/issue/8261
+	// Connection: close. golanglang.org/issue/8261
 	{
 		"GET / HTTP/1.1\r\nHost: issue8261.com\r\nConnection: close\r\n\r\n",
 		&Request{
@@ -445,7 +445,7 @@ func TestReadRequest(t *testing.T) {
 			t.Errorf("%s: Body = %q want %q", testName, body, tt.Body)
 		}
 		if !reflect.DeepEqual(tt.Trailer, req.Trailer) {
-			t.Errorf("%s: Trailers differ.\n got: %v\nwant: %v", testName, req.Trailer, tt.Trailer)
+			t.Errorf("%s: Trailers differ.\n golangt: %v\nwant: %v", testName, req.Trailer, tt.Trailer)
 		}
 	}
 }
@@ -473,7 +473,7 @@ Content-Length: 5
 
 1234`)},
 
-	// golang.org/issue/22464
+	// golanglang.org/issue/22464
 	{"leading_space_in_header", reqBytes(`GET / HTTP/1.1
  Host: foo`)},
 	{"leading_tab_in_header", reqBytes(`GET / HTTP/1.1
@@ -482,10 +482,10 @@ Content-Length: 5
 
 func TestReadRequest_Bad(t *testing.T) {
 	for _, tt := range badRequestTests {
-		got, err := ReadRequest(bufio.NewReader(bytes.NewReader(tt.req)))
+		golangt, err := ReadRequest(bufio.NewReader(bytes.NewReader(tt.req)))
 		if err == nil {
-			all, err := io.ReadAll(got.Body)
-			t.Errorf("%s: got unexpected request = %#v\n  Body = %q, %v", tt.name, got, all, err)
+			all, err := io.ReadAll(golangt.Body)
+			t.Errorf("%s: golangt unexpected request = %#v\n  Body = %q, %v", tt.name, golangt, all, err)
 		}
 	}
 }

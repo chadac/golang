@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // The errorsas package defines an Analyzer that checks that the second argument to
@@ -8,14 +8,14 @@ package errorsas
 
 import (
 	"errors"
-	"go/ast"
-	"go/types"
+	"golang/ast"
+	"golang/types"
 
-	"golang.org/x/tools/go/analysis"
-	"golang.org/x/tools/go/analysis/passes/inspect"
-	"golang.org/x/tools/go/ast/inspector"
-	"golang.org/x/tools/go/types/typeutil"
-	"golang.org/x/tools/internal/analysisinternal"
+	"golanglang.org/x/tools/golang/analysis"
+	"golanglang.org/x/tools/golang/analysis/passes/inspect"
+	"golanglang.org/x/tools/golang/ast/inspector"
+	"golanglang.org/x/tools/golang/types/typeutil"
+	"golanglang.org/x/tools/internal/analysisinternal"
 )
 
 const Doc = `report passing non-pointer or non-error values to errors.As
@@ -26,7 +26,7 @@ of the second argument is not a pointer to a type implementing error.`
 var Analyzer = &analysis.Analyzer{
 	Name:     "errorsas",
 	Doc:      Doc,
-	URL:      "https://pkg.go.dev/golang.org/x/tools/go/analysis/passes/errorsas",
+	URL:      "https://pkg.golang.dev/golanglang.org/x/tools/golang/analysis/passes/errorsas",
 	Requires: []*analysis.Analyzer{inspect.Analyzer},
 	Run:      run,
 }

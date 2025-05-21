@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package dwarf
@@ -195,7 +195,7 @@ func (r *LineReader) readHeader(compDir string) error {
 	}
 	r.version = buf.uint16()
 	if buf.err == nil && (r.version < 2 || r.version > 5) {
-		// DWARF goes to all this effort to make new opcodes
+		// DWARF golanges to all this effort to make new opcodes
 		// backward-compatible, and then adds fields right in
 		// the middle of the header in new versions, so we're
 		// picky about only supporting known line table
@@ -477,7 +477,7 @@ func (r *LineReader) updateFile() {
 // properly terminated, it returns [io.EOF].
 //
 // Rows are always in order of increasing entry.Address, but
-// entry.Line may go forward or backward.
+// entry.Line may golang forward or backward.
 func (r *LineReader) Next(entry *LineEntry) error {
 	if r.buf.err != nil {
 		return r.buf.err
@@ -529,7 +529,7 @@ func (r *LineReader) step(entry *LineEntry) bool {
 		r.advancePC(adjustedOpcode / r.lineRange)
 		lineDelta := r.lineBase + adjustedOpcode%r.lineRange
 		r.state.Line += lineDelta
-		goto emit
+		golangto emit
 	}
 
 	switch opcode {
@@ -582,7 +582,7 @@ func (r *LineReader) step(entry *LineEntry) bool {
 
 	// Standard opcodes [DWARF2 6.2.5.2]
 	case lnsCopy:
-		goto emit
+		golangto emit
 
 	case lnsAdvancePC:
 		r.advancePC(int(r.buf.uint()))

@@ -3,11 +3,11 @@
 
 cd $WORK/a/b/c/pkg
 
-go list -find -f {{.Root}}
+golang list -find -f {{.Root}}
 stdout $PWD
 
--- $WORK/a/b/c/pkg/go.mod --
+-- $WORK/a/b/c/pkg/golang.mod --
 module pkg
 
--- $WORK/a/b/c/pkg/pkg.go --
+-- $WORK/a/b/c/pkg/pkg.golang --
 package pkg

@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // FIXED_FRAME defines the size of the fixed part of a stack frame. A stack
@@ -40,7 +40,7 @@
 
 // linux/ppc64 uses ELFv1 which uses function descriptors.
 // These must also look like ABI0 functions on linux/ppc64
-// to work with abi.FuncPCABI0(sigtramp) in os_linux.go.
+// to work with abi.FuncPCABI0(sigtramp) in os_linux.golang.
 // Only static codegen is supported on linux/ppc64, so TOC
 // is not needed.
 #ifdef GOOS_linux

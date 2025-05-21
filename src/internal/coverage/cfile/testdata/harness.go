@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -59,16 +59,16 @@ func emitToNonexistentDir() {
 		"does not exist",                        // plan9
 	}
 
-	checkWant := func(which string, got string) {
+	checkWant := func(which string, golangt string) {
 		found := false
 		for _, w := range want {
-			if strings.Contains(got, w) {
+			if strings.Contains(golangt, w) {
 				found = true
 				break
 			}
 		}
 		if !found {
-			log.Fatalf("%s emit to bad dir: got error:\n  %v\nwanted error with one of:\n  %+v", which, got, want)
+			log.Fatalf("%s emit to bad dir: golangt error:\n  %v\nwanted error with one of:\n  %+v", which, golangt, want)
 		}
 	}
 
@@ -77,16 +77,16 @@ func emitToNonexistentDir() {
 	if err := coverage.WriteMetaDir(mangled); err == nil {
 		log.Fatal("expected error from WriteMetaDir to nonexistent dir")
 	} else {
-		got := fmt.Sprintf("%v", err)
-		checkWant("meta data", got)
+		golangt := fmt.Sprintf("%v", err)
+		checkWant("meta data", golangt)
 	}
 
 	// Now try to emit counter data file to a bad dir.
 	if err := coverage.WriteCountersDir(mangled); err == nil {
 		log.Fatal("expected error emitting counter data to bad dir")
 	} else {
-		got := fmt.Sprintf("%v", err)
-		checkWant("counter data", got)
+		golangt := fmt.Sprintf("%v", err)
+		checkWant("counter data", golangt)
 	}
 }
 
@@ -98,9 +98,9 @@ func emitToUnwritableDir() {
 	if err := coverage.WriteMetaDir(*outdirflag); err == nil {
 		log.Fatal("expected error from WriteMetaDir to unwritable dir")
 	} else {
-		got := fmt.Sprintf("%v", err)
-		if !strings.Contains(got, want) {
-			log.Fatalf("meta-data emit to unwritable dir: wanted error containing %q got %q", want, got)
+		golangt := fmt.Sprintf("%v", err)
+		if !strings.Contains(golangt, want) {
+			log.Fatalf("meta-data emit to unwritable dir: wanted error containing %q golangt %q", want, golangt)
 		}
 	}
 
@@ -108,9 +108,9 @@ func emitToUnwritableDir() {
 	if err := coverage.WriteCountersDir(*outdirflag); err == nil {
 		log.Fatal("expected error emitting counter data to unwritable dir")
 	} else {
-		got := fmt.Sprintf("%v", err)
-		if !strings.Contains(got, want) {
-			log.Fatalf("emitting counter data to unwritable dir: wanted error containing %q got %q", want, got)
+		golangt := fmt.Sprintf("%v", err)
+		if !strings.Contains(golangt, want) {
+			log.Fatalf("emitting counter data to unwritable dir: wanted error containing %q golangt %q", want, golangt)
 		}
 	}
 }
@@ -122,18 +122,18 @@ func emitToNilWriter() {
 	if err := coverage.WriteMeta(bad); err == nil {
 		log.Fatal("expected error passing nil writer for meta emit")
 	} else {
-		got := fmt.Sprintf("%v", err)
-		if !strings.Contains(got, want) {
-			log.Fatalf("emitting meta-data passing nil writer: wanted error containing %q got %q", want, got)
+		golangt := fmt.Sprintf("%v", err)
+		if !strings.Contains(golangt, want) {
+			log.Fatalf("emitting meta-data passing nil writer: wanted error containing %q golangt %q", want, golangt)
 		}
 	}
 
 	if err := coverage.WriteCounters(bad); err == nil {
 		log.Fatal("expected error passing nil writer for counter emit")
 	} else {
-		got := fmt.Sprintf("%v", err)
-		if !strings.Contains(got, want) {
-			log.Fatalf("emitting counter data passing nil writer: wanted error containing %q got %q", want, got)
+		golangt := fmt.Sprintf("%v", err)
+		if !strings.Contains(golangt, want) {
+			log.Fatalf("emitting counter data passing nil writer: wanted error containing %q golangt %q", want, golangt)
 		}
 	}
 }
@@ -169,9 +169,9 @@ func writeStressTest(tag string, testf func(testf *failingWriter) error) {
 	fw := &failingWriter{writeLimit: -1}
 	testf(fw)
 
-	// Now that we know how many writes are going to happen, run the
+	// Now that we know how many writes are golanging to happen, run the
 	// function repeatedly, each time with a Write operation set to
-	// fail at a new spot. The goal here is to make sure that:
+	// fail at a new spot. The golangal here is to make sure that:
 	// A) an error is reported, and B) nothing crashes.
 	tot := fw.writeCount
 	for i := 0; i < tot; i++ {

@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package work
@@ -14,9 +14,9 @@ import (
 	"strings"
 	"testing"
 
-	"cmd/go/internal/base"
-	"cmd/go/internal/cfg"
-	"cmd/go/internal/load"
+	"cmd/golang/internal/base"
+	"cmd/golang/internal/cfg"
+	"cmd/golang/internal/load"
 )
 
 func TestRemoveDevNull(t *testing.T) {
@@ -63,13 +63,13 @@ func TestSplitPkgConfigOutput(t *testing.T) {
 		{[]byte(`-Dhello=10 -Dworld=+32 -DDEFINED_FROM_PKG_CONFIG=hello\ world`), []string{"-Dhello=10", "-Dworld=+32", "-DDEFINED_FROM_PKG_CONFIG=hello world"}},
 		{[]byte(`"broken\"" \\\a "a"`), []string{"broken\"", "\\a", "a"}},
 	} {
-		got, err := splitPkgConfigOutput(test.in)
+		golangt, err := splitPkgConfigOutput(test.in)
 		if err != nil {
 			t.Errorf("splitPkgConfigOutput on %#q failed with error %v", test.in, err)
 			continue
 		}
-		if !reflect.DeepEqual(got, test.want) {
-			t.Errorf("splitPkgConfigOutput(%#q) = %#q; want %#q", test.in, got, test.want)
+		if !reflect.DeepEqual(golangt, test.want) {
+			t.Errorf("splitPkgConfigOutput(%#q) = %#q; want %#q", test.in, golangt, test.want)
 		}
 	}
 
@@ -87,12 +87,12 @@ func TestSplitPkgConfigOutput(t *testing.T) {
 		{[]byte(`\`), nil},
 		{[]byte(`"broken\"" "extra" \`), nil},
 	} {
-		got, err := splitPkgConfigOutput(test.in)
+		golangt, err := splitPkgConfigOutput(test.in)
 		if err == nil {
-			t.Errorf("splitPkgConfigOutput(%v) = %v; haven't failed with error as expected.", test.in, got)
+			t.Errorf("splitPkgConfigOutput(%v) = %v; haven't failed with error as expected.", test.in, golangt)
 		}
-		if !reflect.DeepEqual(got, test.want) {
-			t.Errorf("splitPkgConfigOutput(%v) = %v; want %v", test.in, got, test.want)
+		if !reflect.DeepEqual(golangt, test.want) {
+			t.Errorf("splitPkgConfigOutput(%v) = %v; want %v", test.in, golangt, test.want)
 		}
 	}
 
@@ -121,8 +121,8 @@ func TestSharedLibName(t *testing.T) {
 		},
 		{
 			args:     []string{},
-			pkgs:     []*load.Package{pkgImportPath("gopkg.in/somelib")},
-			expected: "gopkg.in-somelib",
+			pkgs:     []*load.Package{pkgImportPath("golangpkg.in/somelib")},
+			expected: "golangpkg.in-somelib",
 		},
 		{
 			args:     []string{"./..."},
@@ -137,18 +137,18 @@ func TestSharedLibName(t *testing.T) {
 		},
 		{
 			args:     []string{"../lib1", "../lib2"},
-			pkgs:     []*load.Package{pkgImportPath("gopkg.in/lib1"), pkgImportPath("gopkg.in/lib2")},
-			expected: "gopkg.in-lib1,gopkg.in-lib2",
+			pkgs:     []*load.Package{pkgImportPath("golangpkg.in/lib1"), pkgImportPath("golangpkg.in/lib2")},
+			expected: "golangpkg.in-lib1,golangpkg.in-lib2",
 		},
 		{
 			args: []string{"./..."},
 			pkgs: []*load.Package{
-				pkgImportPath("gopkg.in/dir/lib1"),
-				pkgImportPath("gopkg.in/lib2"),
-				pkgImportPath("gopkg.in/lib3"),
+				pkgImportPath("golangpkg.in/dir/lib1"),
+				pkgImportPath("golangpkg.in/lib2"),
+				pkgImportPath("golangpkg.in/lib3"),
 			},
-			expected: "gopkg.in",
-			rootedAt: "gopkg.in",
+			expected: "golangpkg.in",
+			rootedAt: "golangpkg.in",
 		},
 		{
 			args:      []string{"std", "../lib2"},
@@ -169,7 +169,7 @@ func TestSharedLibName(t *testing.T) {
 	for _, data := range testData {
 		func() {
 			if data.rootedAt != "" {
-				tmpGopath, err := os.MkdirTemp("", "gopath")
+				tmpGopath, err := os.MkdirTemp("", "golangpath")
 				if err != nil {
 					t.Fatal(err)
 				}
@@ -219,7 +219,7 @@ func pkgImportPath(pkgpath string) *load.Package {
 // When installing packages, the installed package directory should
 // respect the SetGID bit and group name of the destination
 // directory.
-// See https://golang.org/issue/18878.
+// See https://golanglang.org/issue/18878.
 func TestRespectSetgidDir(t *testing.T) {
 	// Check that `cp` is called instead of `mv` by looking at the output
 	// of `(*Shell).ShowCmd` afterwards as a sanity check.
@@ -266,9 +266,9 @@ func TestRespectSetgidDir(t *testing.T) {
 		t.Fatalf("moveOrCopyFile: %v", err)
 	}
 
-	got := strings.TrimSpace(cmdBuf.String())
+	golangt := strings.TrimSpace(cmdBuf.String())
 	want := sh.fmtCmd("", "cp %s %s", pkgfile.Name(), dirGIDFile)
-	if got != want {
-		t.Fatalf("moveOrCopyFile(%q, %q): want %q, got %q", dirGIDFile, pkgfile.Name(), want, got)
+	if golangt != want {
+		t.Fatalf("moveOrCopyFile(%q, %q): want %q, golangt %q", dirGIDFile, pkgfile.Name(), want, golangt)
 	}
 }

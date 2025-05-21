@@ -1,7 +1,7 @@
 // errorcheck
 
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test that compiler directives are ignored if they
@@ -9,11 +9,11 @@
 
 package p
 
-//line issue18393.go:20
+//line issue18393.golang:20
 import 42 // error on line 20
 
 
-/* //line not at start of line: ignored */ //line issue18393.go:30
+/* //line not at start of line: ignored */ //line issue18393.golang:30
 var x     // error on line 24, not 30
 
 

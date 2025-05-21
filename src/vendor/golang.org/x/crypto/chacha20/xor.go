@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found src the LICENSE file.
 
 package chacha20
@@ -21,7 +21,7 @@ func addXor(dst, src []byte, a, b uint32) {
 		// The compiler should optimize this code into
 		// 32-bit unaligned little endian loads and stores.
 		// TODO: delete once the compiler does a reliably
-		// good job with the generic code below.
+		// golangod job with the generic code below.
 		// See issue #25111 for more details.
 		v := uint32(src[0])
 		v |= uint32(src[1]) << 8

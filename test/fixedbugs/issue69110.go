@@ -1,9 +1,9 @@
 // run
 
-//go:build !goexperiment.swissmap
+//golang:build !golangexperiment.swissmap
 
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -46,7 +46,7 @@ func f() {
 	}
 
 	// Insert 1 more entry, which would ordinarily trigger a growth.
-	// We can't grow while growing, so we instead go over our
+	// We can't grow while growing, so we instead golang over our
 	// target capacity.
 	m[-1] = -1
 
@@ -55,5 +55,5 @@ func f() {
 	_ = maps.Clone(m)
 }
 
-//go:linkname sameSizeGrow runtime.sameSizeGrowForIssue69110Test
+//golang:linkname sameSizeGrow runtime.sameSizeGrowForIssue69110Test
 func sameSizeGrow(m map[int]int) bool

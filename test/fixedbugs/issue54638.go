@@ -1,7 +1,7 @@
 // compile
 
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Issue 54638: composite literal assignment with
@@ -20,19 +20,19 @@ type T struct {
 	x atomic.Int64
 }
 
-//go:noinline
+//golang:noinline
 func (T) M(any) {}
 
 type W [2]int64
 
-//go:noinline
+//golang:noinline
 func (W) Done() {}
 
 func F(l any) [3]*int {
 	var w W
 	var x [3]*int // use some stack
 	t := T{H: S{l: l}}
-	go func() {
+	golang func() {
 		t.M(l)
 		w.Done()
 	}()

@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This test makes sure that t.s = t.s[0:x] doesn't write
@@ -22,13 +22,13 @@ func TestSlice(t *testing.T) {
 
 	x := &X{a}
 
-	go func() {
+	golang func() {
 		for i := 0; i < N; i++ {
 			x.s = x.s[1:9]
 		}
 		done <- struct{}{}
 	}()
-	go func() {
+	golang func() {
 		for i := 0; i < N; i++ {
 			x.s = x.s[0:8] // should only write len
 		}
@@ -38,9 +38,9 @@ func TestSlice(t *testing.T) {
 	<-done
 
 	if cap(x.s) != cap(a)-N {
-		t.Errorf("wanted cap=%d, got %d\n", cap(a)-N, cap(x.s))
+		t.Errorf("wanted cap=%d, golangt %d\n", cap(a)-N, cap(x.s))
 	}
 	if &x.s[0] != &a[N] {
-		t.Errorf("wanted ptr=%p, got %p\n", &a[N], &x.s[0])
+		t.Errorf("wanted ptr=%p, golangt %p\n", &a[N], &x.s[0])
 	}
 }

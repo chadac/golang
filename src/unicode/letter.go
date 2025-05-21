@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package unicode provides data and functions to test some properties of
@@ -84,7 +84,7 @@ const (
 )
 
 // linearMax is the maximum size table for linear search for non-Latin1 rune.
-// Derived by running 'go test -calibrate'.
+// Derived by running 'golang test -calibrate'.
 const linearMax = 18
 
 // is16 reports whether r is in the sorted slice of 16-bit ranges.
@@ -324,7 +324,7 @@ func (special SpecialCase) ToLower(r rune) rune {
 	return r1
 }
 
-// caseOrbit is defined in tables.go as []foldPair. Right now all the
+// caseOrbit is defined in tables.golang as []foldPair. Right now all the
 // entries fit in uint16, so use uint16. If that changes, compilation
 // will fail (the constants in the composite literal will not fit in uint16)
 // and the types here can change to uint32.

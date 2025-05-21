@@ -1,14 +1,14 @@
 handle git
 
 env GIT_AUTHOR_NAME='Russ Cox'
-env GIT_AUTHOR_EMAIL='rsc@golang.org'
+env GIT_AUTHOR_EMAIL='rsc@golanglang.org'
 env GIT_COMMITTER_NAME=$GIT_AUTHOR_NAME
 env GIT_COMMITTER_EMAIL=$GIT_AUTHOR_EMAIL
 
 git init
 
 at 2018-07-03T22:31:01-04:00
-git add go.mod
+git add golang.mod
 git commit -a -m 'v1'
 git branch -m master
 git tag start
@@ -147,8 +147,8 @@ git tag 'v1.9.10-pre1'
 
 at 2018-07-03T22:50:24-04:00
 git checkout v2
-cp v2/go.mod go.mod
-git add go.mod
+cp v2/golang.mod golang.mod
+git add golang.mod
 git commit -a -m 'v2'
 
 at 2018-07-03T22:51:14-04:00
@@ -203,7 +203,7 @@ git commit -a -m 'after v2.5.5'
 
 
 env GIT_AUTHOR_NAME='Bryan C. Mills'
-env GIT_AUTHOR_EMAIL=bcmills@google.com
+env GIT_AUTHOR_EMAIL=bcmills@golangogle.com
 env GIT_COMMITTER_NAME=$GIT_AUTHOR_NAME
 env GIT_COMMITTER_EMAIL=$GIT_AUTHOR_EMAIL
 
@@ -267,7 +267,7 @@ e0cf3de987e660c21b6950e85b317ce5f7fbb9d9 refs/tags/v1.9.10-pre1
 1828ee9f8074075675013e4d488d5d49ddc1b502 refs/tags/v2.2.0
 d7352560158175e3b6aa11e22efb06d9e87e6eea refs/tags/v2.5.5
 fb9e35b393eb0cccc37e13e243ce60b4ff8c7eea refs/tags/v2.6.0-pre1
--- go.mod --
-module vcs-test.golang.org/git/querytest.git
--- v2/go.mod --
-module vcs-test.golang.org/git/querytest.git/v2
+-- golang.mod --
+module vcs-test.golanglang.org/git/querytest.git
+-- v2/golang.mod --
+module vcs-test.golanglang.org/git/querytest.git/v2

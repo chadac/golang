@@ -5,7 +5,7 @@
 # a random name, then renamed that into place with os.Rename. On Windows,
 # this failed with ERROR_ACCESS_DENIED when another process (usually an
 # anti-virus scanner) opened files in the temporary directory. This test
-# simulates that behavior, verifying golang.org/issue/36568.
+# simulates that behavior, verifying golanglang.org/issue/36568.
 #
 # Since 1.16, we extract to the final directory, but we create a .partial file
 # so that if we crash, other processes know the directory is incomplete.
@@ -13,14 +13,14 @@
 [!GOOS:windows] skip
 [short] skip
 
-go run downloader.go
+golang run downloader.golang
 
--- go.mod --
+-- golang.mod --
 module example.com/m
 
-go 1.14
+golang 1.14
 
--- downloader.go --
+-- downloader.golang --
 package main
 
 import (
@@ -38,7 +38,7 @@ func main() {
 }
 
 // run repeatedly downloads a module while opening files in the module cache
-// in a background goroutine.
+// in a background golangroutine.
 //
 // run uses a different temporary module cache in each iteration so that we
 // don't need to clean the cache or synchronize closing files after each
@@ -54,14 +54,14 @@ func run() (err error) {
 		}
 	}()
 	for i := 0; i < 10; i++ {
-    gopath := filepath.Join(tmpDir, fmt.Sprintf("gopath%d", i))
+    golangpath := filepath.Join(tmpDir, fmt.Sprintf("golangpath%d", i))
 		var err error
 		done := make(chan struct{})
-		go func() {
-			err = download(gopath)
+		golang func() {
+			err = download(golangpath)
 			close(done)
 		}()
-		readCache(gopath, done)
+		readCache(golangpath, done)
 		if err != nil {
 			return err
 		}
@@ -69,18 +69,18 @@ func run() (err error) {
 	return nil
 }
 
-// download downloads a module into the given cache using 'go mod download'.
-func download(gopath string) error {
-	cmd := exec.Command("go", "mod", "download", "-modcacherw", "rsc.io/quote@v1.5.2")
+// download downloads a module into the given cache using 'golang mod download'.
+func download(golangpath string) error {
+	cmd := exec.Command("golang", "mod", "download", "-modcacherw", "rsc.io/quote@v1.5.2")
 	cmd.Stderr = os.Stderr
-	cmd.Env = append(os.Environ(), "GOPATH="+gopath)
+	cmd.Env = append(os.Environ(), "GOPATH="+golangpath)
 	return cmd.Run()
 }
 
-// readCache repeatedly globs for go.mod files in the given cache, then opens
+// readCache repeatedly globs for golang.mod files in the given cache, then opens
 // those files for reading. When the done chan is closed, readCache closes
 // files and returns.
-func readCache(gopath string, done <-chan struct{}) {
+func readCache(golangpath string, done <-chan struct{}) {
 	files := make(map[string]*os.File)
 	defer func() {
 		for _, f := range files {
@@ -88,7 +88,7 @@ func readCache(gopath string, done <-chan struct{}) {
 		}
 	}()
 
-	pattern := filepath.Join(gopath, "pkg/mod/rsc.io/quote@v1.5.2*/go.mod")
+	pattern := filepath.Join(golangpath, "pkg/mod/rsc.io/quote@v1.5.2*/golang.mod")
 	for {
 		select {
 		case <-done:

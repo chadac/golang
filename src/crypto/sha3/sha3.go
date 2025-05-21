@@ -1,8 +1,8 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Package sha3 implements the SHA-3 hash algorithms and the SHAKE extendable
+// Package sha3 implements the SHA-3 hash algolangrithms and the SHAKE extendable
 // output functions defined in FIPS 202.
 package sha3
 
@@ -101,7 +101,7 @@ type SHA3 struct {
 	s sha3.Digest
 }
 
-//go:linkname fips140hash_sha3Unwrap crypto/internal/fips140hash.sha3Unwrap
+//golang:linkname fips140hash_sha3Unwrap crypto/internal/fips140hash.sha3Unwrap
 func fips140hash_sha3Unwrap(sha3 *SHA3) *sha3.Digest {
 	return &sha3.s
 }

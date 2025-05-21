@@ -1,8 +1,8 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build wasip1
+//golang:build wasip1
 
 package runtime
 
@@ -31,7 +31,7 @@ import "unsafe"
 //   reads and writes.
 //
 // Since poll_oneoff is similar to poll(2), the implementation here was derived
-// from netpoll_aix.go.
+// from netpoll_aix.golang.
 
 const _EINTR = 27
 
@@ -221,7 +221,7 @@ retry:
 			unlock(&mtx)
 			return gList{}, 0
 		}
-		goto retry
+		golangto retry
 	}
 
 	var toRun gList

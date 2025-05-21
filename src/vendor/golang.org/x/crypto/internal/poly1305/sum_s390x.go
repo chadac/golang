@@ -1,27 +1,27 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build gc && !purego
+//golang:build gc && !puregolang
 
 package poly1305
 
 import (
-	"golang.org/x/sys/cpu"
+	"golanglang.org/x/sys/cpu"
 )
 
 // updateVX is an assembly implementation of Poly1305 that uses vector
 // instructions. It must only be called if the vector facility (vx) is
 // available.
 //
-//go:noescape
+//golang:noescape
 func updateVX(state *macState, msg []byte)
 
 // mac is a replacement for macGeneric that uses a larger buffer and redirects
-// calls that would have gone to updateGeneric to updateVX if the vector
+// calls that would have golangne to updateGeneric to updateVX if the vector
 // facility is installed.
 //
-// A larger buffer is required for good performance because the vector
+// A larger buffer is required for golangod performance because the vector
 // implementation has a higher fixed cost per call than the generic
 // implementation.
 type mac struct {

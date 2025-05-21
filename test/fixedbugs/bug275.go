@@ -1,7 +1,7 @@
 // compile
 
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This is a test case for issue 788.
@@ -17,4 +17,4 @@ func main() {
 	_ = real(a[0]) // this doesn't
 }
 
-// bug275.go:17: internal compiler error: subnode not addable
+// bug275.golang:17: internal compiler error: subnode not addable

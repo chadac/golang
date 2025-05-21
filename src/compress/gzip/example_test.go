@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package gzip_test
@@ -26,7 +26,7 @@ func Example_writerReader() {
 	zw.Comment = "an epic space opera by George Lucas"
 	zw.ModTime = time.Date(1977, time.May, 25, 0, 0, 0, 0, time.UTC)
 
-	_, err := zw.Write([]byte("A long time ago in a galaxy far, far away..."))
+	_, err := zw.Write([]byte("A long time agolang in a galaxy far, far away..."))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -55,7 +55,7 @@ func Example_writerReader() {
 	// Comment: an epic space opera by George Lucas
 	// ModTime: 1977-05-25 00:00:00 +0000 UTC
 	//
-	// A long time ago in a galaxy far, far away...
+	// A long time agolang in a galaxy far, far away...
 }
 
 func ExampleReader_Multistream() {
@@ -161,16 +161,16 @@ func Example_compressingReader() {
 	bodyReader, httpWriter := io.Pipe()
 
 	// Make sure that bodyReader is always closed, so that the
-	// goroutine below will always exit.
+	// golangroutine below will always exit.
 	defer bodyReader.Close()
 
 	// gzipWriter compresses data to httpWriter.
 	gzipWriter := gzip.NewWriter(httpWriter)
 
-	// errch collects any errors from the writing goroutine.
+	// errch collects any errors from the writing golangroutine.
 	errch := make(chan error, 1)
 
-	go func() {
+	golang func() {
 		defer close(errch)
 		sentErr := false
 		sendErr := func(err error) {

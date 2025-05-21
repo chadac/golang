@@ -1,13 +1,13 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package format implements standard formatting of Go source.
 //
 // Note that formatting of Go source code changes over time, so tools relying on
-// consistent formatting should execute a specific version of the gofmt binary
+// consistent formatting should execute a specific version of the golangfmt binary
 // instead of using this package. That way, the formatting will be stable, and
-// the tools won't need to be recompiled each time gofmt changes.
+// the tools won't need to be recompiled each time golangfmt changes.
 //
 // For example, pre-submit checks that use this package directly would behave
 // differently depending on what Go version each developer uses, causing the
@@ -17,22 +17,22 @@ package format
 import (
 	"bytes"
 	"fmt"
-	"go/ast"
-	"go/parser"
-	"go/printer"
-	"go/token"
+	"golang/ast"
+	"golang/parser"
+	"golang/printer"
+	"golang/token"
 	"io"
 )
 
-// Keep these in sync with cmd/gofmt/gofmt.go.
+// Keep these in sync with cmd/golangfmt/golangfmt.golang.
 const (
 	tabWidth    = 8
 	printerMode = printer.UseSpaces | printer.TabIndent | printerNormalizeNumbers
 
 	// printerNormalizeNumbers means to canonicalize number literal prefixes
-	// and exponents while printing. See https://golang.org/doc/go1.13#gofmt.
+	// and exponents while printing. See https://golanglang.org/doc/golang1.13#golangfmt.
 	//
-	// This value is defined in go/printer specifically for go/format and cmd/gofmt.
+	// This value is defined in golang/printer specifically for golang/format and cmd/golangfmt.
 	printerNormalizeNumbers = 1 << 30
 )
 
@@ -40,7 +40,7 @@ var config = printer.Config{Mode: printerMode, Tabwidth: tabWidth}
 
 const parserMode = parser.ParseComments | parser.SkipObjectResolution
 
-// Node formats node in canonical gofmt style and writes the result to dst.
+// Node formats node in canonical golangfmt style and writes the result to dst.
 //
 // The node type must be *[ast.File], *[printer.CommentedNode], [][ast.Decl],
 // [][ast.Stmt], or assignment-compatible to [ast.Expr], [ast.Decl], [ast.Spec],
@@ -75,7 +75,7 @@ func Node(dst io.Writer, fset *token.FileSet, node any) error {
 		}
 		file, err = parser.ParseFile(fset, "", buf.Bytes(), parserMode)
 		if err != nil {
-			// We should never get here. If we do, provide good diagnostic.
+			// We should never get here. If we do, provide golangod diagnostic.
 			return fmt.Errorf("format.Node internal error (%s)", err)
 		}
 		ast.SortImports(fset, file)
@@ -90,7 +90,7 @@ func Node(dst io.Writer, fset *token.FileSet, node any) error {
 	return config.Fprint(dst, fset, node)
 }
 
-// Source formats src in canonical gofmt style and returns the result
+// Source formats src in canonical golangfmt style and returns the result
 // or an (I/O or syntax) error. src is expected to be a syntactically
 // correct Go source file, or a list of Go declarations or statements.
 //

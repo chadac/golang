@@ -7,14 +7,14 @@ require rsc.io/sampler v1.3.0
 
 -- .info --
 {"Version":"v3.0.0","Name":"d88915d7e77ed0fd35d0a022a2f244e2202fd8c8","Short":"d88915d7e77e","Time":"2018-07-09T15:34:46Z"}
--- go.mod --
+-- golang.mod --
 module rsc.io/quote/v3
 
 require rsc.io/sampler v1.3.0
 
--- quote.go --
+-- quote.golang --
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package quote collects pithy sayings.

@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -39,19 +39,19 @@ func LockOSThreadMain() {
 	// checks that the runtime doesn't do anything terrible.
 
 	// This requires GOMAXPROCS=1 from the beginning to reliably
-	// start a goroutine on the main thread.
+	// start a golangroutine on the main thread.
 	if runtime.GOMAXPROCS(-1) != 1 {
 		println("requires GOMAXPROCS=1")
 		os.Exit(1)
 	}
 
 	ready := make(chan bool, 1)
-	go func() {
+	golang func() {
 		// Because GOMAXPROCS=1, this *should* be on the main
 		// thread. Stay there.
 		runtime.LockOSThread()
 		if mainTID != 0 && gettid() != mainTID {
-			println("failed to start goroutine on main thread")
+			println("failed to start golangroutine on main thread")
 			os.Exit(1)
 		}
 		// Exit with the thread locked, which should exit the
@@ -60,10 +60,10 @@ func LockOSThreadMain() {
 	}()
 	<-ready
 	time.Sleep(1 * time.Millisecond)
-	// Check that this goroutine is still running on a different
+	// Check that this golangroutine is still running on a different
 	// thread.
 	if mainTID != 0 && gettid() == mainTID {
-		println("goroutine migrated to locked thread")
+		println("golangroutine migrated to locked thread")
 		os.Exit(1)
 	}
 	println("OK")
@@ -74,8 +74,8 @@ func LockOSThreadAlt() {
 
 	var subTID int
 	ready := make(chan bool, 1)
-	go func() {
-		// This goroutine must be running on a new thread.
+	golang func() {
+		// This golangroutine must be running on a new thread.
 		runtime.LockOSThread()
 		subTID = gettid()
 		ready <- true
@@ -85,7 +85,7 @@ func LockOSThreadAlt() {
 	runtime.UnlockOSThread()
 	for i := 0; i < 100; i++ {
 		time.Sleep(1 * time.Millisecond)
-		// Check that this goroutine is running on a different thread.
+		// Check that this golangroutine is running on a different thread.
 		if subTID != 0 && gettid() == subTID {
 			println("locked thread reused")
 			os.Exit(1)
@@ -96,7 +96,7 @@ func LockOSThreadAlt() {
 			return
 		}
 		if !supported || !exists {
-			goto ok
+			golangto ok
 		}
 	}
 	println("sub thread", subTID, "still running")
@@ -142,8 +142,8 @@ func LockOSThreadAvoidsStatePropagation() {
 	}
 
 	ready := make(chan bool, 1)
-	go func() {
-		// This goroutine must be running on a new thread.
+	golang func() {
+		// This golangroutine must be running on a new thread.
 		runtime.LockOSThread()
 
 		// Unshare details about the FS, like the CWD, with
@@ -172,13 +172,13 @@ func LockOSThreadAvoidsStatePropagation() {
 	}()
 	<-ready
 
-	// Spawn yet another goroutine and lock it. Since GOMAXPROCS=1, if
+	// Spawn yet another golangroutine and lock it. Since GOMAXPROCS=1, if
 	// for some reason state from the (hopefully dead) locked thread above
 	// propagated into a newly created thread (via clone), or that thread
 	// is actually being re-used, then we should get scheduled on such a
 	// thread with high likelihood.
 	done := make(chan bool)
-	go func() {
+	golang func() {
 		runtime.LockOSThread()
 
 		// Get the CWD and check if this is the same as the main thread's
@@ -204,7 +204,7 @@ func LockOSThreadAvoidsStatePropagation() {
 
 func LockOSThreadTemplateThreadRace() {
 	// This test attempts to reproduce the race described in
-	// golang.org/issue/38931. To do so, we must have a stop-the-world
+	// golanglang.org/issue/38931. To do so, we must have a stop-the-world
 	// (achieved via ReadMemStats) racing with two LockOSThread calls.
 	//
 	// While this test attempts to line up the timing, it is only expected
@@ -215,7 +215,7 @@ func LockOSThreadTemplateThreadRace() {
 	// <4 core machines, we are still at the whim of the kernel scheduler.
 	runtime.GOMAXPROCS(4)
 
-	go func() {
+	golang func() {
 		// Stop the world; race with LockOSThread below.
 		var m runtime.MemStats
 		for {
@@ -230,13 +230,13 @@ func LockOSThreadTemplateThreadRace() {
 	wg.Add(2)
 
 	for i := 0; i < 2; i++ {
-		go func() {
+		golang func() {
 			for time.Now().Before(start) {
 			}
 
 			// Add work to the local runq to trigger early startm
 			// in handoffp.
-			go func() {}()
+			golang func() {}()
 
 			runtime.LockOSThread()
 			runtime.Gosched() // add a preemption point.

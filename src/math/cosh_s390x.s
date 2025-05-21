@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 #include "textflag.h"
@@ -58,8 +58,8 @@ GLOBL coshe6<>+0(SB), RODATA, $8
 //      Cosh(±0) = 1
 //      Cosh(±Inf) = +Inf
 //      Cosh(NaN) = NaN
-// The algorithm used is minimax polynomial approximation
-// with coefficients determined with a Remez exchange algorithm.
+// The algolangrithm used is minimax polynomial approximation
+// with coefficients determined with a Remez exchange algolangrithm.
 
 TEXT ·coshAsm(SB),NOSPLIT,$0-16
 	FMOVD   x+0(FP), F0

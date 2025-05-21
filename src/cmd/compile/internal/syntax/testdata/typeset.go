@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file contains test cases for typeset-only constraint elements.
@@ -44,7 +44,7 @@ type (
         _[_ t|~struct{}] t
         _[_ ~t|~struct{}] t
 
-        // test cases for go.dev/issue/49175
+        // test cases for golang.dev/issue/49175
         _[_ []t]t
         _[_ [1]t]t
         _[_ ~[]t]t
@@ -52,7 +52,7 @@ type (
         t [ /* ERROR missing type parameter name */ t[0]]t
 )
 
-// test cases for go.dev/issue/49174
+// test cases for golang.dev/issue/49174
 func _[_ t]() {}
 func _[_ []t]() {}
 func _[_ [1]t]() {}

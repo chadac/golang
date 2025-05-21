@@ -1,9 +1,9 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package tlog implements a tamper-evident log
-// used in the Go module go.sum database server.
+// used in the Go module golang.sum database server.
 //
 // This package follows the design of Certificate Transparency (RFC 6962)
 // and its proofs are compatible with that system.

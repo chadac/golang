@@ -1,4 +1,4 @@
-# Testcase for #70244. In this bug we're doing a "go test -coverprofile"
+# Testcase for #70244. In this bug we're doing a "golang test -coverprofile"
 # run for a pair of packages, the first one without tests and the second
 # one with tests. When writing the profile for the second test, profile
 # data from the first package was leaking into the output (we should
@@ -8,29 +8,29 @@
 [short] skip
 
 # Kick off test.
-go test -vet=off -count=1 -coverprofile=cov.p ./...
+golang test -vet=off -count=1 -coverprofile=cov.p ./...
 
 # Generate a function profile.
-go tool cover -func=cov.p
+golang tool cover -func=cov.p
 
-stdout 'cov/pkg1/file.go:3:\s+DoSomething\s+0.0%'
+stdout 'cov/pkg1/file.golang:3:\s+DoSomething\s+0.0%'
 
--- go.mod --
+-- golang.mod --
 module cov
 
--- pkg1/file.go --
+-- pkg1/file.golang --
 package pkg1
 
 func DoSomething() bool {
 	return true
 }
--- pkg2/file.go --
+-- pkg2/file.golang --
 package pkg2
 
 func DoSomething() bool {
 	return true
 }
--- pkg2/file_test.go --
+-- pkg2/file_test.golang --
 package pkg2
 
 import (

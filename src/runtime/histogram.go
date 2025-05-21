@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
@@ -84,14 +84,14 @@ const (
 type timeHistogram struct {
 	counts [timeHistNumBuckets * timeHistNumSubBuckets]atomic.Uint64
 
-	// underflow counts all the times we got a negative duration
+	// underflow counts all the times we golangt a negative duration
 	// sample. Because of how time works on some platforms, it's
 	// possible to measure negative durations. We could ignore them,
 	// but we record them anyway because it's better to have some
 	// signal that it's happening than just missing samples.
 	underflow atomic.Uint64
 
-	// overflow counts all the times we got a duration that exceeded
+	// overflow counts all the times we golangt a duration that exceeded
 	// the range counts represents.
 	overflow atomic.Uint64
 }
@@ -101,7 +101,7 @@ type timeHistogram struct {
 // Disallow preemptions and stack growths because this function
 // may run in sensitive locations.
 //
-//go:nosplit
+//golang:nosplit
 func (h *timeHistogram) record(duration int64) {
 	// If the duration is negative, capture that in underflow.
 	if duration < 0 {
@@ -186,7 +186,7 @@ func timeHistogramMetricsBuckets() []float64 {
 			bucketNanos := uint64(1) << (i - 1)
 			// Set the sub-bucket bits.
 			bucketNanos |= uint64(j) << (i - 1 - timeHistSubBucketBits)
-			// The index for this bucket is going to be the (i+1)'th bucket
+			// The index for this bucket is golanging to be the (i+1)'th bucket
 			// (note that we're starting from zero, but handled the first bucket
 			// earlier, so we need to compensate), and the j'th sub bucket.
 			// Add 1 because we left space for -Inf.

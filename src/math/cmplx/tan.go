@@ -1,5 +1,5 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package cmplx
@@ -10,13 +10,13 @@ import (
 )
 
 // The original C code, the long comment, and the constants
-// below are from http://netlib.sandia.gov/cephes/c9x-complex/clog.c.
-// The go code is a simplified version of the original C.
+// below are from http://netlib.sandia.golangv/cephes/c9x-complex/clog.c.
+// The golang code is a simplified version of the original C.
 //
 // Cephes Math Library Release 2.8:  June, 2000
 // Copyright 1984, 1987, 1989, 1992, 2000 by Stephen L. Moshier
 //
-// The readme file at http://netlib.sandia.gov/cephes/ says:
+// The readme file at http://netlib.sandia.golangv/cephes/ says:
 //    Some software in this archive may be from the book _Methods and
 // Programs for Mathematical Functions_ (Prentice-Hall or Simon & Schuster
 // International, 1989) or from the Cephes Mathematical Library, a
@@ -29,7 +29,7 @@ import (
 // integral.
 //
 //   Stephen L. Moshier
-//   moshier@na-net.ornl.gov
+//   moshier@na-net.ornl.golangv
 
 // Complex circular tangent
 //
@@ -114,7 +114,7 @@ func Tanh(x complex128) complex128 {
 // reducePi reduces the input argument x to the range (-Pi/2, Pi/2].
 // x must be greater than or equal to 0. For small arguments it
 // uses Cody-Waite reduction in 3 float64 parts based on:
-// "Elementary Function Evaluation:  Algorithms and Implementation"
+// "Elementary Function Evaluation:  Algolangrithms and Implementation"
 // Jean-Michel Muller, 1997.
 // For very large arguments it uses Payne-Hanek range reduction based on:
 // "ARGUMENT REDUCTION FOR HUGE ARGUMENTS: Good to the Last Bit"

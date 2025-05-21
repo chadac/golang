@@ -1,8 +1,8 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build unix
+//golang:build unix
 
 package runtime_test
 
@@ -73,6 +73,6 @@ func TestCheckFDs(t *testing.T) {
 		t.Fatal(err)
 	}
 	if string(fc) != "" {
-		t.Errorf("unexpected file content, got: %q", string(fc))
+		t.Errorf("unexpected file content, golangt: %q", string(fc))
 	}
 }

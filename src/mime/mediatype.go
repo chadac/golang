@@ -1,5 +1,5 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package mime
@@ -284,7 +284,7 @@ func consumeValue(v string) (value, rest string) {
 			return buffer.String(), v[i+1:]
 		}
 		// When MSIE sends a full file path (in "intranet mode"), it does not
-		// escape backslashes: "C:\dev\go\foo.txt", not "C:\\dev\\go\\foo.txt".
+		// escape backslashes: "C:\dev\golang\foo.txt", not "C:\\dev\\golang\\foo.txt".
 		//
 		// No known MIME generators emit unnecessary backslash escapes
 		// for simple token characters like numbers and letters.

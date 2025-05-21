@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -16,7 +16,7 @@ import (
 	"cmd/internal/telemetry/counter"
 )
 
-const helpText = `usage: go tool nm [options] file...
+const helpText = `usage: golang tool nm [options] file...
   -n
       an alias for -sort address (numeric),
       for compatibility with other nm commands
@@ -140,7 +140,7 @@ func nm(file string) {
 			if len(entries) > 1 {
 				name := e.Name()
 				if name == "" {
-					fmt.Fprintf(w, "%s(%s):\t", file, "_go_.o")
+					fmt.Fprintf(w, "%s(%s):\t", file, "_golang_.o")
 				} else {
 					fmt.Fprintf(w, "%s(%s):\t", file, name)
 				}

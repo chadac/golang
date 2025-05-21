@@ -1,10 +1,10 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test broken pipes on Unix systems.
 //
-//go:build !plan9 && !js && !wasip1
+//golang:build !plan9 && !js && !wasip1
 
 package os_test
 
@@ -29,7 +29,7 @@ import (
 
 func TestEPIPE(t *testing.T) {
 	// This test cannot be run in parallel because of a race similar
-	// to the one reported in https://go.dev/issue/22315.
+	// to the one reported in https://golang.dev/issue/22315.
 	//
 	// Even though the pipe is opened with O_CLOEXEC, if another test forks in
 	// between the call to os.Pipe and the call to r.Close, that child process can
@@ -64,7 +64,7 @@ func TestEPIPE(t *testing.T) {
 			err = se.Err
 		}
 		if err != expect {
-			t.Errorf("iteration %d: got %v, expected %v", i, err, expect)
+			t.Errorf("iteration %d: golangt %v, expected %v", i, err, expect)
 		}
 	}
 }
@@ -189,10 +189,10 @@ func testClosedPipeRace(t *testing.T, read bool) {
 	defer r.Close()
 	defer w.Close()
 
-	// Close the read end of the pipe in a goroutine while we are
+	// Close the read end of the pipe in a golangroutine while we are
 	// writing to the write end, or vice-versa.
-	go func() {
-		// Give the main goroutine a chance to enter the Read or
+	golang func() {
+		// Give the main golangroutine a chance to enter the Read or
 		// Write call. This is sloppy but the test will pass even
 		// if we close before the read/write.
 		time.Sleep(20 * time.Millisecond)
@@ -219,7 +219,7 @@ func testClosedPipeRace(t *testing.T, read bool) {
 	} else if pe, ok := err.(*fs.PathError); !ok {
 		t.Errorf("I/O on closed pipe returned unexpected error type %T; expected fs.PathError", pe)
 	} else if pe.Err != fs.ErrClosed {
-		t.Errorf("got error %q but expected %q", pe.Err, fs.ErrClosed)
+		t.Errorf("golangt error %q but expected %q", pe.Err, fs.ErrClosed)
 	} else {
 		t.Logf("I/O returned expected error %q", err)
 	}
@@ -248,7 +248,7 @@ func TestReadNonblockingFd(t *testing.T) {
 		_, err := os.Stdin.Read(make([]byte, 1))
 		if err != nil {
 			if perr, ok := err.(*fs.PathError); !ok || perr.Err != syscall.EAGAIN {
-				t.Fatalf("read on nonblocking stdin got %q, should have gotten EAGAIN", err)
+				t.Fatalf("read on nonblocking stdin golangt %q, should have golangtten EAGAIN", err)
 			}
 		}
 		os.Exit(0)
@@ -303,7 +303,7 @@ func testCloseWithBlockingRead(t *testing.T, r, w *os.File) {
 		enteringRead = make(chan struct{})
 		done         = make(chan struct{})
 	)
-	go func() {
+	golang func() {
 		var b [1]byte
 		close(enteringRead)
 		_, err := r.Read(b[:])
@@ -315,12 +315,12 @@ func testCloseWithBlockingRead(t *testing.T, r, w *os.File) {
 			err = pe.Err
 		}
 		if err != io.EOF && err != fs.ErrClosed {
-			t.Errorf("got %v, expected EOF or closed", err)
+			t.Errorf("golangt %v, expected EOF or closed", err)
 		}
 		close(done)
 	}()
 
-	// Give the goroutine a chance to enter the Read
+	// Give the golangroutine a chance to enter the Read
 	// or Write call. This is sloppy but the test will
 	// pass even if we close before the read/write.
 	<-enteringRead
@@ -350,9 +350,9 @@ func TestPipeEOF(t *testing.T) {
 // a blocked Read call on the reader side returns io.EOF.
 //
 // This scenario previously failed to unblock the Read call on darwin.
-// (See https://go.dev/issue/24164.)
+// (See https://golang.dev/issue/24164.)
 func testPipeEOF(t *testing.T, r io.ReadCloser, w io.WriteCloser) {
-	// parkDelay is an arbitrary delay we wait for a pipe-reader goroutine to park
+	// parkDelay is an arbitrary delay we wait for a pipe-reader golangroutine to park
 	// before issuing the corresponding write. The test should pass no matter what
 	// delay we use, but with a longer delay is has a higher chance of detecting
 	// poller bugs.
@@ -369,7 +369,7 @@ func testPipeEOF(t *testing.T, r io.ReadCloser, w io.WriteCloser) {
 	}()
 
 	write := make(chan int, 1)
-	go func() {
+	golang func() {
 		defer close(writerDone)
 
 		for i := range write {
@@ -406,7 +406,7 @@ func testPipeEOF(t *testing.T, r io.ReadCloser, w io.WriteCloser) {
 
 // Issue 24481.
 func TestFdRace(t *testing.T) {
-	// This test starts 100 simultaneous goroutines, which could bury a more
+	// This test starts 100 simultaneous golangroutines, which could bury a more
 	// interesting stack if this or some other test happens to panic. It is also
 	// nearly instantaneous, so any latency benefit from running it in parallel
 	// would be minimal.
@@ -427,7 +427,7 @@ func TestFdRace(t *testing.T) {
 	const tries = 100
 	for i := 0; i < tries; i++ {
 		wg.Add(1)
-		go call()
+		golang call()
 	}
 	wg.Wait()
 }
@@ -447,7 +447,7 @@ func TestFdReadRace(t *testing.T) {
 	c := make(chan bool, 1)
 	var wg sync.WaitGroup
 	wg.Add(1)
-	go func() {
+	golang func() {
 		defer wg.Done()
 		var buf [count]byte
 		r.SetReadDeadline(time.Now().Add(time.Minute))
@@ -458,10 +458,10 @@ func TestFdReadRace(t *testing.T) {
 	}()
 
 	wg.Add(1)
-	go func() {
+	golang func() {
 		defer wg.Done()
 		<-c
-		// Give the other goroutine a chance to enter the Read.
+		// Give the other golangroutine a chance to enter the Read.
 		// It doesn't matter if this occasionally fails, the test
 		// will still pass, it just won't test anything.
 		time.Sleep(10 * time.Millisecond)

@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -18,11 +18,11 @@ func main() {
 	res1 := mask1(0x1, 0xfffffffeffffffff)
 	res2 := mask2(0x1, 0xfffffffeffffffff)
 	if res1 != 0xffffffff {
-		println("got", res1, "want", 0xffffffff)
+		println("golangt", res1, "want", 0xffffffff)
 		panic("FAIL")
 	}
 	if res2 != 0xffffffff {
-		println("got", res2, "want", 0xffffffff)
+		println("golangt", res2, "want", 0xffffffff)
 		panic("FAIL")
 	}
 }

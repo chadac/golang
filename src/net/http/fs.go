@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // HTTP file system request handler
@@ -9,7 +9,7 @@ package http
 import (
 	"errors"
 	"fmt"
-	"internal/godebug"
+	"internal/golangdebug"
 	"io"
 	"io/fs"
 	"mime"
@@ -179,7 +179,7 @@ func dirList(w ResponseWriter, r *Request, f File) {
 
 // GODEBUG=httpservecontentkeepheaders=1 restores the pre-1.23 behavior of not deleting
 // Cache-Control, Content-Encoding, Etag, or Last-Modified headers on ServeContent errors.
-var httpservecontentkeepheaders = godebug.New("httpservecontentkeepheaders")
+var httpservecontentkeepheaders = golangdebug.New("httpservecontentkeepheaders")
 
 // serveError serves an error from ServeFile, ServeFileFS, and ServeContent.
 // Because those can all be configured by the caller by setting headers like
@@ -371,8 +371,8 @@ func serveContent(w ResponseWriter, r *Request, name string, modtime time.Time, 
 		mw := multipart.NewWriter(pw)
 		w.Header().Set("Content-Type", "multipart/byteranges; boundary="+mw.Boundary())
 		sendContent = pr
-		defer pr.Close() // cause writing goroutine to fail and exit if CopyN doesn't finish.
-		go func() {
+		defer pr.Close() // cause writing golangroutine to fail and exit if CopyN doesn't finish.
+		golang func() {
 			for _, ra := range ranges {
 				part, err := mw.CreatePart(ra.mimeHeader(ctype, size))
 				if err != nil {
@@ -415,7 +415,7 @@ func serveContent(w ResponseWriter, r *Request, name string, modtime time.Time, 
 	// If the user isn't changing the bytes sent in the ResponseWrite,
 	// the Content-Length will be correct.
 	// If the user is changing the bytes sent, then the range request wasn't
-	// going to work properly anyway and we aren't worse off.
+	// golanging to work properly anyway and we aren't worse off.
 	//
 	// A possible future improvement on this might be to look at the type
 	// of the ResponseWriter, and always set Content-Length if it's one
@@ -597,7 +597,7 @@ func checkIfRange(w ResponseWriter, r *Request, modtime time.Time) condResult {
 		}
 	}
 	// The If-Range value is typically the ETag value, but it may also be
-	// the modtime date. See golang.org/issue/8367.
+	// the modtime date. See golanglang.org/issue/8367.
 	if modtime.IsZero() {
 		return condFalse
 	}

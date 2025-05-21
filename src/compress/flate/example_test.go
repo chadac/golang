@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package flate_test
@@ -164,9 +164,9 @@ func Example_synchronization() {
 	// underlying connection.
 	rp, wp := io.Pipe()
 
-	// Start a goroutine to act as the transmitter.
+	// Start a golangroutine to act as the transmitter.
 	wg.Add(1)
-	go func() {
+	golang func() {
 		defer wg.Done()
 
 		zw, err := flate.NewWriter(wp, flate.BestSpeed)
@@ -175,7 +175,7 @@ func Example_synchronization() {
 		}
 
 		b := make([]byte, 256)
-		for _, m := range strings.Fields("A long time ago in a galaxy far, far away...") {
+		for _, m := range strings.Fields("A long time agolang in a galaxy far, far away...") {
 			// We use a simple framing format where the first byte is the
 			// message length, followed the message itself.
 			b[0] = uint8(copy(b[1:], m))
@@ -195,9 +195,9 @@ func Example_synchronization() {
 		}
 	}()
 
-	// Start a goroutine to act as the receiver.
+	// Start a golangroutine to act as the receiver.
 	wg.Add(1)
-	go func() {
+	golang func() {
 		defer wg.Done()
 
 		zr := flate.NewReader(rp)
@@ -233,7 +233,7 @@ func Example_synchronization() {
 	// Received 1 bytes: A
 	// Received 4 bytes: long
 	// Received 4 bytes: time
-	// Received 3 bytes: ago
+	// Received 3 bytes: agolang
 	// Received 2 bytes: in
 	// Received 1 bytes: a
 	// Received 6 bytes: galaxy

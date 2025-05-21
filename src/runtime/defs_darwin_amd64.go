@@ -1,5 +1,5 @@
-// created by cgo -cdefs and then converted to Go
-// cgo -cdefs defs_darwin.go
+// created by cgolang -cdefs and then converted to Go
+// cgolang -cdefs defs_darwin.golang
 
 package runtime
 
@@ -115,7 +115,7 @@ type stackt struct {
 	ss_sp     *byte
 	ss_size   uintptr
 	ss_flags  int32
-	pad_cgo_0 [4]byte
+	pad_cgolang_0 [4]byte
 }
 
 type sigactiont struct {
@@ -147,7 +147,7 @@ type siginfo struct {
 type timeval struct {
 	tv_sec    int64
 	tv_usec   int32
-	pad_cgo_0 [4]byte
+	pad_cgolang_0 [4]byte
 }
 
 func (tv *timeval) set_usec(x int32) {
@@ -164,18 +164,18 @@ type timespec struct {
 	tv_nsec int64
 }
 
-//go:nosplit
+//golang:nosplit
 func (ts *timespec) setNsec(ns int64) {
 	ts.tv_sec = ns / 1e9
 	ts.tv_nsec = ns % 1e9
 }
 
 type fpcontrol struct {
-	pad_cgo_0 [2]byte
+	pad_cgolang_0 [2]byte
 }
 
 type fpstatus struct {
-	pad_cgo_0 [2]byte
+	pad_cgolang_0 [2]byte
 }
 
 type regmmst struct {
@@ -265,7 +265,7 @@ type mcontext64 struct {
 	es        exceptionstate64
 	ss        regs64
 	fs        floatstate64
-	pad_cgo_0 [4]byte
+	pad_cgolang_0 [4]byte
 }
 
 type regs32 struct {

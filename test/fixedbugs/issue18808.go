@@ -1,14 +1,14 @@
 // run
 
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
 
 const lim = 0x80000000
 
-//go:noinline
+//golang:noinline
 func eq(x uint32) {
 	if x == lim {
 		return
@@ -16,14 +16,14 @@ func eq(x uint32) {
 	panic("x == lim returned false")
 }
 
-//go:noinline
+//golang:noinline
 func neq(x uint32) {
 	if x != lim {
 		panic("x != lim returned true")
 	}
 }
 
-//go:noinline
+//golang:noinline
 func gt(x uint32) {
 	if x > lim {
 		return
@@ -31,7 +31,7 @@ func gt(x uint32) {
 	panic("x > lim returned false")
 }
 
-//go:noinline
+//golang:noinline
 func gte(x uint32) {
 	if x >= lim {
 		return
@@ -39,14 +39,14 @@ func gte(x uint32) {
 	panic("x >= lim returned false")
 }
 
-//go:noinline
+//golang:noinline
 func lt(x uint32) {
 	if x < lim {
 		panic("x < lim returned true")
 	}
 }
 
-//go:noinline
+//golang:noinline
 func lte(x uint32) {
 	if x <= lim {
 		panic("x <= lim returned true")

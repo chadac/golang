@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Trace string management.
@@ -49,7 +49,7 @@ func (t *traceStringTable) emit(gen uintptr, s string) uint64 {
 //
 // Must run on the systemstack because it acquires t.lock.
 //
-//go:systemstack
+//golang:systemstack
 func (t *traceStringTable) writeString(gen uintptr, id uint64, s string) {
 	// Truncate the string if necessary.
 	if len(s) > tracev2.MaxEventTrailerDataSize {

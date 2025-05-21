@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package imports
@@ -112,7 +112,7 @@ import (
 )
 
 // print import paths as double-quoted strings
-// (we would like more test cases but the go/parser
+// (we would like more test cases but the golang/parser
 // already excludes most incorrect paths, and we don't
 // bother setting up test-ASTs manually)
 import (
@@ -468,9 +468,9 @@ const (
 	def
 )
 
-// excerpt from godoc.go
+// excerpt from golangdoc.golang
 var (
-	goroot = flag.String("goroot", runtime.GOROOT(), "Go root directory")
+	golangroot = flag.String("golangroot", runtime.GOROOT(), "Go root directory")
 	testDir = flag.String("testdir", "", "Go root subdirectory - for testing only (faster startups)")
 	pkgPath = flag.String("path", "", "additional package directories (colon-separated)")
 	filter = flag.String("filter", "", "filter file containing permitted package directory paths")

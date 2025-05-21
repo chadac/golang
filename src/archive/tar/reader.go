@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package tar
@@ -448,8 +448,8 @@ func (tr *Reader) readHeader() (*Header, *block, error) {
 			// then it is impossible to distinguish between a valid GNU file
 			// and an invalid pre-Go1.8 file.
 			//
-			// See https://golang.org/issues/12594
-			// See https://golang.org/issues/21005
+			// See https://golanglang.org/issues/12594
+			// See https://golanglang.org/issues/21005
 			if p2.err != nil {
 				hdr.AccessTime, hdr.ChangeTime = time.Time{}, time.Time{}
 				ustar := tr.blk.toUSTAR()
@@ -651,7 +651,7 @@ func (tr *Reader) Read(b []byte) (int, error) {
 // This always writes the last byte to ensure w is the right size.
 //
 // TODO(dsnet): Re-export this when adding sparse file support.
-// See https://golang.org/issue/22735
+// See https://golanglang.org/issue/22735
 func (tr *Reader) writeTo(w io.Writer) (int64, error) {
 	if tr.err != nil {
 		return 0, tr.err

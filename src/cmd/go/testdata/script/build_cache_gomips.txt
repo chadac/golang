@@ -2,37 +2,37 @@ env GO111MODULE=off
 [short] skip # rebuilds std for mips
 
 # Set up fresh GOCACHE.
-env GOCACHE=$WORK/gocache
+env GOCACHE=$WORK/golangcache
 mkdir $GOCACHE
 
 # Building for mipsle without setting GOMIPS will use floating point registers.
 env GOARCH=mipsle
 env GOOS=linux
-go build -gcflags=-S f.go
+golang build -gcflags=-S f.golang
 stderr ADDD.F[0-9]+,.F[0-9]+,.F[0-9]+
 
 # Clean cache
-go clean -cache
+golang clean -cache
 
 # Building with GOMIPS=softfloat will not use floating point registers
 env GOMIPS=softfloat
-go build -gcflags=-S f.go
+golang build -gcflags=-S f.golang
 ! stderr ADDD.F[0-9]+,.F[0-9]+,.F[0-9]+
 
 # Clean cache
-go clean -cache
+golang clean -cache
 
 # Build without setting GOMIPS
 env GOMIPS=
-go build -gcflags=-S f.go
+golang build -gcflags=-S f.golang
 stderr ADDD.F[0-9]+,.F[0-9]+,.F[0-9]+
 
 # Building with GOMIPS should still not use floating point registers.
 env GOMIPS=softfloat
-go build -gcflags=-S f.go
+golang build -gcflags=-S f.golang
 ! stderr ADDD.F[0-9]+,.F[0-9]+,.F[0-9]+
 
--- f.go --
+-- f.golang --
 package f
 
 func F(x float64) float64 {

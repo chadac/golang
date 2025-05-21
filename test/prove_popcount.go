@@ -1,13 +1,13 @@
 // errorcheck -0 -d=ssa/prove/debug=1
 
-//go:build amd64.v3 || arm64
+//golang:build amd64.v3 || arm64
 
 // Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // FIXME(@Jorropo): this file exists because I havn't yet bothered to
-// make prove work on the pure go function call fallback.
+// make prove work on the pure golang function call fallback.
 // My idea was to wait until CL 637936 is merged, then we can always emit
 // the PopCount SSA operation and translate them to pure function calls
 // in late-opt.

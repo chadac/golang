@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -19,15 +19,15 @@ import (
 )
 
 func init() {
-	register("CgoSignalDeadlock", CgoSignalDeadlock)
-	register("CgoTraceback", CgoTraceback)
-	register("CgoCheckBytes", CgoCheckBytes)
+	register("CgolangSignalDeadlock", CgolangSignalDeadlock)
+	register("CgolangTraceback", CgolangTraceback)
+	register("CgolangCheckBytes", CgolangCheckBytes)
 }
 
-func CgoSignalDeadlock() {
+func CgolangSignalDeadlock() {
 	runtime.GOMAXPROCS(100)
 	ping := make(chan bool)
-	go func() {
+	golang func() {
 		for i := 0; ; i++ {
 			runtime.Gosched()
 			select {
@@ -57,11 +57,11 @@ func CgoSignalDeadlock() {
 		n = 16
 	}
 	for i := 0; i < n; i++ {
-		go func() {
+		golang func() {
 			runtime.LockOSThread()
 			select {}
 		}()
-		go func() {
+		golang func() {
 			runtime.LockOSThread()
 			select {}
 		}()
@@ -85,14 +85,14 @@ func CgoSignalDeadlock() {
 	fmt.Printf("OK\n")
 }
 
-func CgoTraceback() {
+func CgolangTraceback() {
 	C.foo1()
 	buf := make([]byte, 1)
 	runtime.Stack(buf, true)
 	fmt.Printf("OK\n")
 }
 
-func CgoCheckBytes() {
+func CgolangCheckBytes() {
 	try, _ := strconv.Atoi(os.Getenv("GO_CGOCHECKBYTES_TRY"))
 	if try <= 0 {
 		try = 1

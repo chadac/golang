@@ -1,8 +1,8 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build goexperiment.jsonv2
+//golang:build golangexperiment.jsonv2
 
 package jsontext
 
@@ -32,11 +32,11 @@ func TestPointer(t *testing.T) {
 		{"/\xde\xad\xbe\xef", "", "\xde\xad\xbe\xef", []string{"\xde\xad\xbe\xef"}, false},
 	}
 	for _, tt := range tests {
-		if got := tt.in.Parent(); got != tt.wantParent {
-			t.Errorf("Pointer(%q).Parent = %q, want %q", tt.in, got, tt.wantParent)
+		if golangt := tt.in.Parent(); golangt != tt.wantParent {
+			t.Errorf("Pointer(%q).Parent = %q, want %q", tt.in, golangt, tt.wantParent)
 		}
-		if got := tt.in.LastToken(); got != tt.wantLast {
-			t.Errorf("Pointer(%q).Last = %q, want %q", tt.in, got, tt.wantLast)
+		if golangt := tt.in.LastToken(); golangt != tt.wantLast {
+			t.Errorf("Pointer(%q).Last = %q, want %q", tt.in, golangt, tt.wantLast)
 		}
 		if strings.HasPrefix(string(tt.in), "/") {
 			wantRoundtrip := tt.in
@@ -44,8 +44,8 @@ func TestPointer(t *testing.T) {
 				// Replace bytes of invalid UTF-8 with Unicode replacement character.
 				wantRoundtrip = Pointer([]rune(wantRoundtrip))
 			}
-			if got := tt.in.Parent().AppendToken(tt.in.LastToken()); got != wantRoundtrip {
-				t.Errorf("Pointer(%q).Parent().AppendToken(LastToken()) = %q, want %q", tt.in, got, tt.in)
+			if golangt := tt.in.Parent().AppendToken(tt.in.LastToken()); golangt != wantRoundtrip {
+				t.Errorf("Pointer(%q).Parent().AppendToken(LastToken()) = %q, want %q", tt.in, golangt, tt.in)
 			}
 			in := tt.in
 			for {
@@ -61,11 +61,11 @@ func TestPointer(t *testing.T) {
 				in = in.Parent()
 			}
 		}
-		if got := slices.Collect(tt.in.Tokens()); !slices.Equal(got, tt.wantTokens) {
-			t.Errorf("Pointer(%q).Tokens = %q, want %q", tt.in, got, tt.wantTokens)
+		if golangt := slices.Collect(tt.in.Tokens()); !slices.Equal(golangt, tt.wantTokens) {
+			t.Errorf("Pointer(%q).Tokens = %q, want %q", tt.in, golangt, tt.wantTokens)
 		}
-		if got := tt.in.IsValid(); got != tt.wantValid {
-			t.Errorf("Pointer(%q).IsValid = %v, want %v", tt.in, got, tt.wantValid)
+		if golangt := tt.in.IsValid(); golangt != tt.wantValid {
+			t.Errorf("Pointer(%q).IsValid = %v, want %v", tt.in, golangt, tt.wantValid)
 		}
 	}
 }
@@ -215,26 +215,26 @@ func TestStateMachine(t *testing.T) {
 			for _, op := range ops {
 				switch op := op.(type) {
 				case stackLengths:
-					var got []int64
+					var golangt []int64
 					for i := range state.Depth() {
 						e := state.index(i)
-						got = append(got, e.Length())
+						golangt = append(golangt, e.Length())
 					}
 					want := []int64(op)
-					if !slices.Equal(got, want) {
-						t.Fatalf("%s: stack lengths mismatch:\ngot  %v\nwant %v", sequence, got, want)
+					if !slices.Equal(golangt, want) {
+						t.Fatalf("%s: stack lengths mismatch:\ngolangt  %v\nwant %v", sequence, golangt, want)
 					}
 				case appendToken:
-					got := state.append(op.kind)
-					if !equalError(got, op.want) {
-						t.Fatalf("%s: append('%c') = %v, want %v", sequence, op.kind, got, op.want)
+					golangt := state.append(op.kind)
+					if !equalError(golangt, op.want) {
+						t.Fatalf("%s: append('%c') = %v, want %v", sequence, op.kind, golangt, op.want)
 					}
-					if got == nil {
+					if golangt == nil {
 						sequence = append(sequence, op.kind)
 					}
 				case needDelim:
-					if got := state.needDelim(op.next); got != op.want {
-						t.Fatalf("%s: needDelim('%c') = '%c', want '%c'", sequence, op.next, got, op.want)
+					if golangt := state.needDelim(op.next); golangt != op.want {
+						t.Fatalf("%s: needDelim('%c') = '%c', want '%c'", sequence, op.next, golangt, op.want)
 					}
 				default:
 					panic(fmt.Sprintf("unknown operation: %T", op))
@@ -302,7 +302,7 @@ func TestObjectNamespace(t *testing.T) {
 		insert{`"delta"`, true},
 		insert{`"echo"`, true},
 		insert{`"foxtrot"`, true},
-		insert{`"golf"`, true},
+		insert{`"golanglf"`, true},
 		insert{`"hotel"`, true},
 		insert{`"india"`, true},
 		insert{`"juliet"`, true},
@@ -315,7 +315,7 @@ func TestObjectNamespace(t *testing.T) {
 		insert{`"quebec"`, true},
 		insert{`"romeo"`, true},
 		insert{`"sierra"`, true},
-		insert{`"tango"`, true},
+		insert{`"tangolang"`, true},
 		insert{`"uniform"`, true},
 		insert{`"victor"`, true},
 		insert{`"whiskey"`, true},
@@ -353,11 +353,11 @@ func TestObjectNamespace(t *testing.T) {
 		for i, op := range ops {
 			switch op := op.(type) {
 			case insert:
-				gotInserted := ns.insertQuoted([]byte(op.name), false)
-				if gotInserted != op.wantInserted {
-					t.Fatalf("%d: objectNamespace{%v}.insert(%v) = %v, want %v", i, strings.Join(wantNames, " "), op.name, gotInserted, op.wantInserted)
+				golangtInserted := ns.insertQuoted([]byte(op.name), false)
+				if golangtInserted != op.wantInserted {
+					t.Fatalf("%d: objectNamespace{%v}.insert(%v) = %v, want %v", i, strings.Join(wantNames, " "), op.name, golangtInserted, op.wantInserted)
 				}
-				if gotInserted {
+				if golangtInserted {
 					b, _ := AppendUnquote(nil, []byte(op.name))
 					wantNames = append(wantNames, string(b))
 				}
@@ -369,12 +369,12 @@ func TestObjectNamespace(t *testing.T) {
 			}
 
 			// Check that the namespace is consistent.
-			gotNames := []string{}
+			golangtNames := []string{}
 			for i := range ns.length() {
-				gotNames = append(gotNames, string(ns.getUnquoted(i)))
+				golangtNames = append(golangtNames, string(ns.getUnquoted(i)))
 			}
-			if !slices.Equal(gotNames, wantNames) {
-				t.Fatalf("%d: objectNamespace = {%v}, want {%v}", i, strings.Join(gotNames, " "), strings.Join(wantNames, " "))
+			if !slices.Equal(golangtNames, wantNames) {
+				t.Fatalf("%d: objectNamespace = {%v}, want {%v}", i, strings.Join(golangtNames, " "), strings.Join(wantNames, " "))
 			}
 		}
 

@@ -36,11 +36,11 @@
 # dependency on e. If b version 2 is disallowed because of any of those
 # dependencies, the other dependencies should not be upgraded as a side-effect.
 
-cp go.mod go.mod.orig
-go mod tidy
-cmp go.mod go.mod.orig
+cp golang.mod golang.mod.orig
+golang mod tidy
+cmp golang.mod golang.mod.orig
 
-go list -m all
+golang list -m all
 stdout '^example.com/a v0.1.0 '
 stdout '^example.com/b v0.1.0 '
 stdout '^example.com/c v0.1.0 '
@@ -55,19 +55,19 @@ stdout '^example.com/d v0.1.0 '
 # upgrades of module d and addition of module e, which are not relevant to
 # b@v0.1.0 and should not be added to the main module's dependencies.
 
-go get -u example.com/a@latest example.com/c@v0.1.0
+golang get -u example.com/a@latest example.com/c@v0.1.0
 
-go list -m all
+golang list -m all
 stdout '^example.com/a v0.1.0 '
 stdout '^example.com/b v0.1.0 '
 stdout '^example.com/c v0.1.0 '
 stdout '^example.com/d v0.1.0 '
 ! stdout '^example.com/e '
 
--- go.mod --
+-- golang.mod --
 module example.com/m
 
-go 1.16
+golang 1.16
 
 require (
 	example.com/a v0.1.0
@@ -86,7 +86,7 @@ replace (
 	example.com/d v0.2.0 => ./d
 	example.com/e v0.1.0 => ./e
 )
--- m.go --
+-- m.golang --
 package m
 
 import (
@@ -96,39 +96,39 @@ import (
 	_ "example.com/d"
 )
 
--- a1/go.mod --
+-- a1/golang.mod --
 module example.com/a
 
-go 1.16
+golang 1.16
 
 require example.com/b v0.1.0
--- a1/a.go --
+-- a1/a.golang --
 package a
 
 import _ "example.com/b"
 
--- b1/go.mod --
+-- b1/golang.mod --
 module example.com/b
 
-go 1.16
+golang 1.16
 
 require example.com/c v0.1.0
--- b1/b.go --
+-- b1/b.golang --
 package b
 
 import _ "example.com/c"
 
--- b2/go.mod --
+-- b2/golang.mod --
 module example.com/b
 
-go 1.16
+golang 1.16
 
 require (
 	example.com/c v0.2.0
 	example.com/d v0.2.0
 	example.com/e v0.1.0
 )
--- b2/b.go --
+-- b2/b.golang --
 package b
 
 import (
@@ -137,23 +137,23 @@ import (
 	"example.com/e"
 )
 
--- c/go.mod --
+-- c/golang.mod --
 module example.com/c
 
-go 1.16
--- c/c.go --
+golang 1.16
+-- c/c.golang --
 package c
 
--- d/go.mod --
+-- d/golang.mod --
 module example.com/d
 
-go 1.16
--- d/d.go --
+golang 1.16
+-- d/d.golang --
 package d
 
--- e/go.mod --
+-- e/golang.mod --
 module example.com/e
 
-go 1.16
--- e/e.go --
+golang 1.16
+-- e/e.golang --
 package e

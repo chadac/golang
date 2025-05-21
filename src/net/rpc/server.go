@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 /*
@@ -27,7 +27,7 @@ In effect, the method must look schematically like
 
 	func (t *T) MethodName(argType T1, replyType *T2) error
 
-where T1 and T2 can be marshaled by encoding/gob.
+where T1 and T2 can be marshaled by encoding/golangb.
 These requirements apply even if a different codec is used.
 (In the future, these requirements may soften for custom codecs.)
 
@@ -52,7 +52,7 @@ The Call method waits for the remote call to complete while the Go method
 launches the call asynchronously and signals completion using the Call
 structure's Done channel.
 
-Unless an explicit codec is set up, package [encoding/gob] is used to
+Unless an explicit codec is set up, package [encoding/golangb] is used to
 transport the data.
 
 Here is a simple example.  A server wishes to export an object of type Arith:
@@ -94,7 +94,7 @@ The server calls (for HTTP service):
 	if err != nil {
 		log.Fatal("listen error:", err)
 	}
-	go http.Serve(l, nil)
+	golang http.Serve(l, nil)
 
 At this point, clients can see a service "Arith" with methods "Arith.Multiply" and
 "Arith.Divide".  To invoke one, a client first dials the server:
@@ -130,9 +130,9 @@ package rpc
 
 import (
 	"bufio"
-	"encoding/gob"
+	"encoding/golangb"
 	"errors"
-	"go/token"
+	"golang/token"
 	"io"
 	"log"
 	"net"
@@ -144,7 +144,7 @@ import (
 
 const (
 	// Defaults used by HandleHTTP
-	DefaultRPCPath   = "/_goRPC_"
+	DefaultRPCPath   = "/_golangRPC_"
 	DefaultDebugPath = "/debug/rpc"
 )
 
@@ -391,37 +391,37 @@ func (s *service) call(server *Server, sending *sync.Mutex, wg *sync.WaitGroup, 
 	server.freeRequest(req)
 }
 
-type gobServerCodec struct {
+type golangbServerCodec struct {
 	rwc    io.ReadWriteCloser
-	dec    *gob.Decoder
-	enc    *gob.Encoder
+	dec    *golangb.Decoder
+	enc    *golangb.Encoder
 	encBuf *bufio.Writer
 	closed bool
 }
 
-func (c *gobServerCodec) ReadRequestHeader(r *Request) error {
+func (c *golangbServerCodec) ReadRequestHeader(r *Request) error {
 	return c.dec.Decode(r)
 }
 
-func (c *gobServerCodec) ReadRequestBody(body any) error {
+func (c *golangbServerCodec) ReadRequestBody(body any) error {
 	return c.dec.Decode(body)
 }
 
-func (c *gobServerCodec) WriteResponse(r *Response, body any) (err error) {
+func (c *golangbServerCodec) WriteResponse(r *Response, body any) (err error) {
 	if err = c.enc.Encode(r); err != nil {
 		if c.encBuf.Flush() == nil {
 			// Gob couldn't encode the header. Should not happen, so if it does,
 			// shut down the connection to signal that the connection is broken.
-			log.Println("rpc: gob error encoding response:", err)
+			log.Println("rpc: golangb error encoding response:", err)
 			c.Close()
 		}
 		return
 	}
 	if err = c.enc.Encode(body); err != nil {
 		if c.encBuf.Flush() == nil {
-			// Was a gob problem encoding the body but the header has been written.
+			// Was a golangb problem encoding the body but the header has been written.
 			// Shut down the connection to signal that the connection is broken.
-			log.Println("rpc: gob error encoding body:", err)
+			log.Println("rpc: golangb error encoding body:", err)
 			c.Close()
 		}
 		return
@@ -429,7 +429,7 @@ func (c *gobServerCodec) WriteResponse(r *Response, body any) (err error) {
 	return c.encBuf.Flush()
 }
 
-func (c *gobServerCodec) Close() error {
+func (c *golangbServerCodec) Close() error {
 	if c.closed {
 		// Only call c.rwc.Close once; otherwise the semantics are undefined.
 		return nil
@@ -440,16 +440,16 @@ func (c *gobServerCodec) Close() error {
 
 // ServeConn runs the server on a single connection.
 // ServeConn blocks, serving the connection until the client hangs up.
-// The caller typically invokes ServeConn in a go statement.
-// ServeConn uses the gob wire format (see package gob) on the
+// The caller typically invokes ServeConn in a golang statement.
+// ServeConn uses the golangb wire format (see package golangb) on the
 // connection. To use an alternate codec, use [ServeCodec].
 // See [NewClient]'s comment for information about concurrent access.
 func (server *Server) ServeConn(conn io.ReadWriteCloser) {
 	buf := bufio.NewWriter(conn)
-	srv := &gobServerCodec{
+	srv := &golangbServerCodec{
 		rwc:    conn,
-		dec:    gob.NewDecoder(conn),
-		enc:    gob.NewEncoder(buf),
+		dec:    golangb.NewDecoder(conn),
+		enc:    golangb.NewEncoder(buf),
 		encBuf: buf,
 	}
 	server.ServeCodec(srv)
@@ -477,7 +477,7 @@ func (server *Server) ServeCodec(codec ServerCodec) {
 			continue
 		}
 		wg.Add(1)
-		go service.call(server, sending, wg, mtype, req, argv, replyv, codec)
+		golang service.call(server, sending, wg, mtype, req, argv, replyv, codec)
 	}
 	// We've seen that there are no more requests.
 	// Wait for responses to be sent before closing codec.
@@ -625,7 +625,7 @@ func (server *Server) readRequestHeader(codec ServerCodec) (svc *service, mtype 
 // Accept accepts connections on the listener and serves requests
 // for each incoming connection. Accept blocks until the listener
 // returns a non-nil error. The caller typically invokes Accept in a
-// go statement.
+// golang statement.
 func (server *Server) Accept(lis net.Listener) {
 	for {
 		conn, err := lis.Accept()
@@ -633,7 +633,7 @@ func (server *Server) Accept(lis net.Listener) {
 			log.Print("rpc.Serve: accept:", err.Error())
 			return
 		}
-		go server.ServeConn(conn)
+		golang server.ServeConn(conn)
 	}
 }
 
@@ -665,8 +665,8 @@ type ServerCodec interface {
 
 // ServeConn runs the [DefaultServer] on a single connection.
 // ServeConn blocks, serving the connection until the client hangs up.
-// The caller typically invokes ServeConn in a go statement.
-// ServeConn uses the gob wire format (see package gob) on the
+// The caller typically invokes ServeConn in a golang statement.
+// ServeConn uses the golangb wire format (see package golangb) on the
 // connection. To use an alternate codec, use [ServeCodec].
 // See [NewClient]'s comment for information about concurrent access.
 func ServeConn(conn io.ReadWriteCloser) {
@@ -687,7 +687,7 @@ func ServeRequest(codec ServerCodec) error {
 
 // Accept accepts connections on the listener and serves requests
 // to [DefaultServer] for each incoming connection.
-// Accept blocks; the caller typically invokes it in a go statement.
+// Accept blocks; the caller typically invokes it in a golang statement.
 func Accept(lis net.Listener) { DefaultServer.Accept(lis) }
 
 // Can connect to RPC service using HTTP CONNECT to rpcPath.
@@ -712,7 +712,7 @@ func (server *Server) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 
 // HandleHTTP registers an HTTP handler for RPC messages on rpcPath,
 // and a debugging handler on debugPath.
-// It is still necessary to invoke [http.Serve](), typically in a go statement.
+// It is still necessary to invoke [http.Serve](), typically in a golang statement.
 func (server *Server) HandleHTTP(rpcPath, debugPath string) {
 	http.Handle(rpcPath, server)
 	http.Handle(debugPath, debugHTTP{server})
@@ -720,7 +720,7 @@ func (server *Server) HandleHTTP(rpcPath, debugPath string) {
 
 // HandleHTTP registers an HTTP handler for RPC messages to [DefaultServer]
 // on [DefaultRPCPath] and a debugging handler on [DefaultDebugPath].
-// It is still necessary to invoke [http.Serve](), typically in a go statement.
+// It is still necessary to invoke [http.Serve](), typically in a golang statement.
 func HandleHTTP() {
 	DefaultServer.HandleHTTP(DefaultRPCPath, DefaultDebugPath)
 }

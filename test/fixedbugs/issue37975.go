@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Make sure runtime.panicmakeslice* are called.
@@ -46,7 +46,7 @@ func shouldPanic(str string, f func()) {
 		err := recover()
 		runtimeErr := err.(error).Error()
 		if !strings.Contains(runtimeErr, str) {
-			panic("got panic " + runtimeErr + ", want " + str)
+			panic("golangt panic " + runtimeErr + ", want " + str)
 		}
 	}()
 

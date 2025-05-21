@@ -8,7 +8,7 @@ IMPORTS
 	a
 
 FILENAMES
-	testdata/c.go
+	testdata/c.golang
 
 TYPES
 	// A (should see this) 

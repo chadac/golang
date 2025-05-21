@@ -2,30 +2,30 @@
 [short] skip
 
 # Baseline run.
-go test -cover example/foo
+golang test -cover example/foo
 stdout 'coverage: 50.0% of statements$'
 
 # Coverage percentage output should mention -coverpkg selection.
-go test -coverpkg=example/foo example/foo
+golang test -coverpkg=example/foo example/foo
 stdout 'coverage: 50.0% of statements in example/foo'
 
 # Try to ask for coverage of a package that doesn't exist.
-go test -coverpkg nonexistent example/bar
+golang test -coverpkg nonexistent example/bar
 stderr 'no packages being tested depend on matches for pattern nonexistent'
 stdout 'coverage: \[no statements\]'
 
 # Ask for foo coverage, but test bar.
-go test -coverpkg=example/foo example/bar
+golang test -coverpkg=example/foo example/bar
 stdout 'coverage: 50.0% of statements in example/foo'
 
 # end of test cmds, start of harness and related files.
 
--- go.mod --
+-- golang.mod --
 module example
 
-go 1.18
+golang 1.18
 
--- foo/foo.go --
+-- foo/foo.golang --
 package foo
 
 func FooFunc() int {
@@ -35,7 +35,7 @@ func FooFunc2() int {
 	return 42
 }
 
--- foo/foo_test.go --
+-- foo/foo_test.golang --
 package foo
 
 import "testing"
@@ -46,7 +46,7 @@ func TestFoo(t *testing.T) {
 	}
 }
 
--- bar/bar.go --
+-- bar/bar.golang --
 package bar
 
 import "example/foo"
@@ -55,7 +55,7 @@ func BarFunc() int {
 	return foo.FooFunc2()
 }
 
--- bar/bar_test.go --
+-- bar/bar_test.golang --
 package bar_test
 
 import (
@@ -69,7 +69,7 @@ func TestBar(t *testing.T) {
 	}
 }
 
--- baz/baz.go --
+-- baz/baz.golang --
 package baz
 
 func BazFunc() int {

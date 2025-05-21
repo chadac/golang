@@ -1,8 +1,8 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build unix || js || wasip1
+//golang:build unix || js || wasip1
 
 // Read system port mappings from /etc/services
 
@@ -50,8 +50,8 @@ func readServices() {
 	}
 }
 
-// goLookupPort is the native Go implementation of LookupPort.
-func goLookupPort(network, service string) (port int, err error) {
+// golangLookupPort is the native Go implementation of LookupPort.
+func golangLookupPort(network, service string) (port int, err error) {
 	onceReadServices.Do(readServices)
 	return lookupPortMap(network, service)
 }

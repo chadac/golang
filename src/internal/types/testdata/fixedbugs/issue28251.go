@@ -1,10 +1,10 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file contains test cases for various forms of
 // method receiver declarations, per the spec clarification
-// https://golang.org/cl/142757.
+// https://golanglang.org/cl/142757.
 
 package issue28251
 

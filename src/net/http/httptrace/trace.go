@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package httptrace provides mechanisms to trace the events within
@@ -67,16 +67,16 @@ func WithClientTrace(ctx context.Context, trace *ClientTrace) context.Context {
 	return ctx
 }
 
-// ClientTrace is a set of hooks to run at various stages of an outgoing
+// ClientTrace is a set of hooks to run at various stages of an outgolanging
 // HTTP request. Any particular hook may be nil. Functions may be
-// called concurrently from different goroutines and some may be called
+// called concurrently from different golangroutines and some may be called
 // after the request has completed or failed.
 //
 // ClientTrace currently traces a single HTTP request & response
 // during a single round trip and has no hooks that span a series
 // of redirected requests.
 //
-// See https://blog.golang.org/http-tracing for more.
+// See https://blog.golanglang.org/http-tracing for more.
 type ClientTrace struct {
 	// GetConn is called before a connection is created or
 	// retrieved from an idle pool. The hostPort is the

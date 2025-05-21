@@ -3,10 +3,10 @@ This version contains no package.
 -- .mod --
 module example.com/ambiguous/a/b
 
-go 1.16
+golang 1.16
 -- .info --
 {"Version":"v0.0.0-empty"}
--- go.mod --
+-- golang.mod --
 module example.com/ambiguous/a/b
 
-go 1.16
+golang 1.16

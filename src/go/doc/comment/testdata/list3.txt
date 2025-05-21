@@ -6,7 +6,7 @@ Text.
  1. Tres
  1. Quatro
 
--- gofmt --
+-- golangfmt --
 Text.
 
  1. Uno

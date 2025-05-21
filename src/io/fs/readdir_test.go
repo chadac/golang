@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package fs_test
@@ -81,13 +81,13 @@ func TestFileInfoToDirEntry(t *testing.T) {
 
 			dirEntry := FileInfoToDirEntry(fi)
 			if g, w := dirEntry.Type(), test.wantMode; g != w {
-				t.Errorf("FileMode mismatch: got=%v, want=%v", g, w)
+				t.Errorf("FileMode mismatch: golangt=%v, want=%v", g, w)
 			}
 			if g, w := dirEntry.Name(), test.path; g != w {
-				t.Errorf("Name mismatch: got=%v, want=%v", g, w)
+				t.Errorf("Name mismatch: golangt=%v, want=%v", g, w)
 			}
 			if g, w := dirEntry.IsDir(), test.wantDir; g != w {
-				t.Errorf("IsDir mismatch: got=%v, want=%v", g, w)
+				t.Errorf("IsDir mismatch: golangt=%v, want=%v", g, w)
 			}
 		})
 	}

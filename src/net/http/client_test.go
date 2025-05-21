@@ -1,8 +1,8 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Tests for client.go
+// Tests for client.golang
 
 package http_test
 
@@ -33,7 +33,7 @@ import (
 
 var robotsTxtHandler = HandlerFunc(func(w ResponseWriter, r *Request) {
 	w.Header().Set("Last-Modified", "sometime")
-	fmt.Fprintf(w, "User-agent: go\nDisallow: /something/")
+	fmt.Fprintf(w, "User-agent: golang\nDisallow: /something/")
 })
 
 // pedanticReadAll works like io.ReadAll but additionally
@@ -107,10 +107,10 @@ func TestGetRequestFormat(t *testing.T) {
 	url := "http://dummy.faketld/"
 	client.Get(url) // Note: doesn't hit network
 	if tr.req.Method != "GET" {
-		t.Errorf("expected method %q; got %q", "GET", tr.req.Method)
+		t.Errorf("expected method %q; golangt %q", "GET", tr.req.Method)
 	}
 	if tr.req.URL.String() != url {
-		t.Errorf("expected URL %q; got %q", url, tr.req.URL.String())
+		t.Errorf("expected URL %q; golangt %q", url, tr.req.URL.String())
 	}
 	if tr.req.Header == nil {
 		t.Errorf("expected non-nil request Header")
@@ -128,19 +128,19 @@ func TestPostRequestFormat(t *testing.T) {
 	client.Post(url, "application/json", b) // Note: doesn't hit network
 
 	if tr.req.Method != "POST" {
-		t.Errorf("got method %q, want %q", tr.req.Method, "POST")
+		t.Errorf("golangt method %q, want %q", tr.req.Method, "POST")
 	}
 	if tr.req.URL.String() != url {
-		t.Errorf("got URL %q, want %q", tr.req.URL.String(), url)
+		t.Errorf("golangt URL %q, want %q", tr.req.URL.String(), url)
 	}
 	if tr.req.Header == nil {
 		t.Fatalf("expected non-nil request Header")
 	}
 	if tr.req.Close {
-		t.Error("got Close true, want false")
+		t.Error("golangt Close true, want false")
 	}
 	if g, e := tr.req.ContentLength, int64(len(json)); g != e {
-		t.Errorf("got ContentLength %d, want %d", g, e)
+		t.Errorf("golangt ContentLength %d, want %d", g, e)
 	}
 }
 
@@ -157,32 +157,32 @@ func TestPostFormRequestFormat(t *testing.T) {
 	client.PostForm(urlStr, form) // Note: doesn't hit network
 
 	if tr.req.Method != "POST" {
-		t.Errorf("got method %q, want %q", tr.req.Method, "POST")
+		t.Errorf("golangt method %q, want %q", tr.req.Method, "POST")
 	}
 	if tr.req.URL.String() != urlStr {
-		t.Errorf("got URL %q, want %q", tr.req.URL.String(), urlStr)
+		t.Errorf("golangt URL %q, want %q", tr.req.URL.String(), urlStr)
 	}
 	if tr.req.Header == nil {
 		t.Fatalf("expected non-nil request Header")
 	}
 	if g, e := tr.req.Header.Get("Content-Type"), "application/x-www-form-urlencoded"; g != e {
-		t.Errorf("got Content-Type %q, want %q", g, e)
+		t.Errorf("golangt Content-Type %q, want %q", g, e)
 	}
 	if tr.req.Close {
-		t.Error("got Close true, want false")
+		t.Error("golangt Close true, want false")
 	}
 	// Depending on map iteration, body can be either of these.
 	expectedBody := "foo=bar&foo=bar2&bar=baz"
 	expectedBody1 := "bar=baz&foo=bar&foo=bar2"
 	if g, e := tr.req.ContentLength, int64(len(expectedBody)); g != e {
-		t.Errorf("got ContentLength %d, want %d", g, e)
+		t.Errorf("golangt ContentLength %d, want %d", g, e)
 	}
 	bodyb, err := io.ReadAll(tr.req.Body)
 	if err != nil {
 		t.Fatalf("ReadAll on req.Body: %v", err)
 	}
 	if g := string(bodyb); g != expectedBody && g != expectedBody1 {
-		t.Errorf("got body %q, want %q or %q", g, expectedBody, expectedBody1)
+		t.Errorf("golangt body %q, want %q or %q", g, expectedBody, expectedBody1)
 	}
 }
 
@@ -194,7 +194,7 @@ func testClientRedirects(t *testing.T, mode testMode) {
 		// Test Referer header. (7 is arbitrary position to test at)
 		if n == 7 {
 			if g, e := r.Referer(), ts.URL+"/?n=6"; e != g {
-				t.Errorf("on request ?n=7, expected referer of %q; got %q", e, g)
+				t.Errorf("on request ?n=7, expected referer of %q; golangt %q", e, g)
 			}
 		}
 		if n < 15 {
@@ -207,27 +207,27 @@ func testClientRedirects(t *testing.T, mode testMode) {
 	c := ts.Client()
 	_, err := c.Get(ts.URL)
 	if e, g := `Get "/?n=10": stopped after 10 redirects`, fmt.Sprintf("%v", err); e != g {
-		t.Errorf("with default client Get, expected error %q, got %q", e, g)
+		t.Errorf("with default client Get, expected error %q, golangt %q", e, g)
 	}
 
 	// HEAD request should also have the ability to follow redirects.
 	_, err = c.Head(ts.URL)
 	if e, g := `Head "/?n=10": stopped after 10 redirects`, fmt.Sprintf("%v", err); e != g {
-		t.Errorf("with default client Head, expected error %q, got %q", e, g)
+		t.Errorf("with default client Head, expected error %q, golangt %q", e, g)
 	}
 
 	// Do should also follow redirects.
 	greq, _ := NewRequest("GET", ts.URL, nil)
 	_, err = c.Do(greq)
 	if e, g := `Get "/?n=10": stopped after 10 redirects`, fmt.Sprintf("%v", err); e != g {
-		t.Errorf("with default client Do, expected error %q, got %q", e, g)
+		t.Errorf("with default client Do, expected error %q, golangt %q", e, g)
 	}
 
 	// Requests with an empty Method should also redirect (Issue 12705)
 	greq.Method = ""
 	_, err = c.Do(greq)
 	if e, g := `Get "/?n=10": stopped after 10 redirects`, fmt.Sprintf("%v", err); e != g {
-		t.Errorf("with default client Do and empty Method, expected error %q, got %q", e, g)
+		t.Errorf("with default client Do and empty Method, expected error %q, golangt %q", e, g)
 	}
 
 	var checkErr error
@@ -245,13 +245,13 @@ func testClientRedirects(t *testing.T, mode testMode) {
 	res.Body.Close()
 	finalURL := res.Request.URL.String()
 	if e, g := "<nil>", fmt.Sprintf("%v", err); e != g {
-		t.Errorf("with custom client, expected error %q, got %q", e, g)
+		t.Errorf("with custom client, expected error %q, golangt %q", e, g)
 	}
 	if !strings.HasSuffix(finalURL, "/?n=15") {
-		t.Errorf("expected final url to end in /?n=15; got url %q", finalURL)
+		t.Errorf("expected final url to end in /?n=15; golangt url %q", finalURL)
 	}
 	if e, g := 15, len(lastVia); e != g {
-		t.Errorf("expected lastVia to have contained %d elements; got %d", e, g)
+		t.Errorf("expected lastVia to have contained %d elements; golangt %d", e, g)
 	}
 
 	// Test that Request.Cancel is propagated between requests (Issue 14053)
@@ -271,10 +271,10 @@ func testClientRedirects(t *testing.T, mode testMode) {
 	checkErr = errors.New("no redirects allowed")
 	res, err = c.Get(ts.URL)
 	if urlError, ok := err.(*url.Error); !ok || urlError.Err != checkErr {
-		t.Errorf("with redirects forbidden, expected a *url.Error with our 'no redirects allowed' error inside; got %#v (%q)", err, err)
+		t.Errorf("with redirects forbidden, expected a *url.Error with our 'no redirects allowed' error inside; golangt %#v (%q)", err, err)
 	}
 	if res == nil {
-		t.Fatalf("Expected a non-nil Response on CheckRedirect failure (https://golang.org/issue/3795)")
+		t.Fatalf("Expected a non-nil Response on CheckRedirect failure (https://golanglang.org/issue/3795)")
 	}
 	res.Body.Close()
 	if res.Header.Get("Location") == "" {
@@ -304,7 +304,7 @@ func testClientRedirectsContext(t *testing.T, mode testMode) {
 	_, err := c.Do(req)
 	ue, ok := err.(*url.Error)
 	if !ok {
-		t.Fatalf("got error %T; want *url.Error", err)
+		t.Fatalf("golangt error %T; want *url.Error", err)
 	}
 	if ue.Err != context.Canceled {
 		t.Errorf("url.Error.Err = %v; want %v", ue.Err, context.Canceled)
@@ -447,15 +447,15 @@ func testRedirectsByMethod(t *testing.T, mode testMode, method string, table []r
 		}
 	}
 	log.Lock()
-	got := log.String()
+	golangt := log.String()
 	log.Unlock()
 
-	got = strings.TrimSpace(got)
+	golangt = strings.TrimSpace(golangt)
 	want = strings.TrimSpace(want)
 
-	if got != want {
-		got, want, lines := removeCommonLines(got, want)
-		t.Errorf("Log differs after %d common lines.\n\nGot:\n%s\n\nWant:\n%s\n", lines, got, want)
+	if golangt != want {
+		golangt, want, lines := removeCommonLines(golangt, want)
+		t.Errorf("Log differs after %d common lines.\n\nGot:\n%s\n\nWant:\n%s\n", lines, golangt, want)
 	}
 }
 
@@ -532,8 +532,8 @@ func testClientRedirectNoLocation(t *testing.T, mode testMode) {
 			if res.StatusCode != code {
 				t.Errorf("status = %d; want %d", res.StatusCode, code)
 			}
-			if got := res.Header.Get("Foo"); got != "Bar" {
-				t.Errorf("Foo header = %q; want Bar", got)
+			if golangt := res.Header.Get("Foo"); golangt != "Bar" {
+				t.Errorf("Foo header = %q; want Bar", golangt)
 			}
 		})
 	}
@@ -561,8 +561,8 @@ func testClientRedirect308NoGetBody(t *testing.T, mode testMode) {
 	if res.StatusCode != 308 {
 		t.Errorf("status = %d; want %d", res.StatusCode, 308)
 	}
-	if got := res.Header.Get("Location"); got != fakeURL {
-		t.Errorf("Location header = %q; want %q", got, fakeURL)
+	if golangt := res.Header.Get("Location"); golangt != fakeURL {
+		t.Errorf("Location header = %q; want %q", golangt, fakeURL)
 	}
 }
 
@@ -656,7 +656,7 @@ func testRedirectCookiesJar(t *testing.T, mode testMode) {
 func matchReturnedCookies(t *testing.T, expected, given []*Cookie) {
 	if len(given) != len(expected) {
 		t.Logf("Received cookies: %v", given)
-		t.Errorf("Expected %d cookies, got %d", len(expected), len(given))
+		t.Errorf("Expected %d cookies, golangt %d", len(expected), len(given))
 	}
 	for _, ec := range expected {
 		foundC := false
@@ -698,15 +698,15 @@ func testJarCalls(t *testing.T, mode testMode) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	got := jar.log.String()
+	golangt := jar.log.String()
 	want := `Cookies("http://firsthost.fake/")
 SetCookie("http://firsthost.fake/", [name=val])
 Cookies("http://secondhost.fake/secondpath")
 SetCookie("http://secondhost.fake/secondpath", [namesecondpath=valsecondpath])
 Cookies("http://firsthost.fake/nosetcookie")
 `
-	if got != want {
-		t.Errorf("Got Jar calls:\n%s\nWant:\n%s", got, want)
+	if golangt != want {
+		t.Errorf("Got Jar calls:\n%s\nWant:\n%s", golangt, want)
 	}
 }
 
@@ -758,15 +758,15 @@ func testStreamingGet(t *testing.T, mode testMode) {
 		if n != len(str) {
 			t.Fatalf("Receiving %q, only read %d bytes", str, n)
 		}
-		got := string(buf[0:n])
-		if got != str {
-			t.Fatalf("Expected %q, got %q", str, got)
+		golangt := string(buf[0:n])
+		if golangt != str {
+			t.Fatalf("Expected %q, golangt %q", str, golangt)
 		}
 	}
 	close(say)
 	_, err = io.ReadFull(res.Body, buf[0:1])
 	if err != io.EOF {
-		t.Fatalf("at end expected EOF, got %v", err)
+		t.Fatalf("at end expected EOF, golangt %v", err)
 	}
 }
 
@@ -840,7 +840,7 @@ func testClientInsecureTransport(t *testing.T, mode testMode) {
 		req.Header.Set("Connection", "close") // don't reuse this connection
 		res, err := c.Do(req)
 		if (err == nil) != insecure {
-			t.Errorf("insecure=%v: got unexpected err=%v", insecure, err)
+			t.Errorf("insecure=%v: golangt unexpected err=%v", insecure, err)
 		}
 		if res != nil {
 			res.Body.Close()
@@ -849,7 +849,7 @@ func testClientInsecureTransport(t *testing.T, mode testMode) {
 
 	cst.close()
 	if !strings.Contains(errLog.String(), "TLS handshake error") {
-		t.Errorf("expected an error log message containing 'TLS handshake error'; got %q", errLog)
+		t.Errorf("expected an error log message containing 'TLS handshake error'; golangt %q", errLog)
 	}
 }
 
@@ -862,7 +862,7 @@ func TestClientErrorWithRequestURI(t *testing.T) {
 		t.Fatalf("expected an error")
 	}
 	if !strings.Contains(err.Error(), "RequestURI") {
-		t.Errorf("wanted error mentioning RequestURI; got error: %v", err)
+		t.Errorf("wanted error mentioning RequestURI; golangt error: %v", err)
 	}
 }
 
@@ -873,14 +873,14 @@ func testClientWithCorrectTLSServerName(t *testing.T, mode testMode) {
 	const serverName = "example.com"
 	ts := newClientServerTest(t, mode, HandlerFunc(func(w ResponseWriter, r *Request) {
 		if r.TLS.ServerName != serverName {
-			t.Errorf("expected client to set ServerName %q, got: %q", serverName, r.TLS.ServerName)
+			t.Errorf("expected client to set ServerName %q, golangt: %q", serverName, r.TLS.ServerName)
 		}
 	})).ts
 
 	c := ts.Client()
 	c.Transport.(*Transport).TLSClientConfig.ServerName = serverName
 	if _, err := c.Get(ts.URL); err != nil {
-		t.Fatalf("expected successful TLS connection, got error: %v", err)
+		t.Fatalf("expected successful TLS connection, golangt error: %v", err)
 	}
 }
 
@@ -900,16 +900,16 @@ func testClientWithIncorrectTLSServerName(t *testing.T, mode testMode) {
 		t.Fatalf("expected an error")
 	}
 	if !strings.Contains(err.Error(), "127.0.0.1") || !strings.Contains(err.Error(), "badserver") {
-		t.Errorf("wanted error mentioning 127.0.0.1 and badserver; got error: %v", err)
+		t.Errorf("wanted error mentioning 127.0.0.1 and badserver; golangt error: %v", err)
 	}
 
 	cst.close()
 	if !strings.Contains(errLog.String(), "TLS handshake error") {
-		t.Errorf("expected an error log message containing 'TLS handshake error'; got %q", errLog)
+		t.Errorf("expected an error log message containing 'TLS handshake error'; golangt %q", errLog)
 	}
 }
 
-// Test for golang.org/issue/5829; the Transport should respect TLSClientConfig.ServerName
+// Test for golanglang.org/issue/5829; the Transport should respect TLSClientConfig.ServerName
 // when not empty.
 //
 // tls.Config.ServerName (non-empty, set to "example.com") takes
@@ -962,14 +962,14 @@ func testResponseSetsTLSConnectionState(t *testing.T, mode testMode) {
 	if res.TLS == nil {
 		t.Fatal("Response didn't set TLS Connection State.")
 	}
-	if got, want := res.TLS.CipherSuite, tls.TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256; got != want {
-		t.Errorf("TLS Cipher Suite = %d; want %d", got, want)
+	if golangt, want := res.TLS.CipherSuite, tls.TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256; golangt != want {
+		t.Errorf("TLS Cipher Suite = %d; want %d", golangt, want)
 	}
 }
 
 // Check that an HTTPS client can interpret a particular TLS error
 // to determine that the server is speaking HTTP.
-// See golang.org/issue/11111.
+// See golanglang.org/issue/11111.
 func TestHTTPSClientDetectsHTTPServer(t *testing.T) {
 	run(t, testHTTPSClientDetectsHTTPServer, []testMode{http1Mode})
 }
@@ -978,12 +978,12 @@ func testHTTPSClientDetectsHTTPServer(t *testing.T, mode testMode) {
 	ts.Config.ErrorLog = quietLog
 
 	_, err := Get(strings.Replace(ts.URL, "http", "https", 1))
-	if got := err.Error(); !strings.Contains(got, "HTTP response to HTTPS client") {
-		t.Fatalf("error = %q; want error indicating HTTP response to HTTPS request", got)
+	if golangt := err.Error(); !strings.Contains(golangt, "HTTP response to HTTPS client") {
+		t.Fatalf("error = %q; want error indicating HTTP response to HTTPS request", golangt)
 	}
 }
 
-// Verify Response.ContentLength is populated. https://golang.org/issue/4126
+// Verify Response.ContentLength is populated. https://golanglang.org/issue/4126
 func TestClientHeadContentLength(t *testing.T) { run(t, testClientHeadContentLength) }
 func testClientHeadContentLength(t *testing.T, mode testMode) {
 	cst := newClientServerTest(t, mode, HandlerFunc(func(w ResponseWriter, r *Request) {
@@ -1020,7 +1020,7 @@ func testClientHeadContentLength(t *testing.T, mode testMode) {
 
 func TestEmptyPasswordAuth(t *testing.T) { run(t, testEmptyPasswordAuth) }
 func testEmptyPasswordAuth(t *testing.T, mode testMode) {
-	gopher := "gopher"
+	golangpher := "golangpher"
 	ts := newClientServerTest(t, mode, HandlerFunc(func(w ResponseWriter, r *Request) {
 		auth := r.Header.Get("Authorization")
 		if strings.HasPrefix(auth, "Basic ") {
@@ -1029,7 +1029,7 @@ func testEmptyPasswordAuth(t *testing.T, mode testMode) {
 			if err != nil {
 				t.Fatal(err)
 			}
-			expected := gopher + ":"
+			expected := golangpher + ":"
 			s := string(decoded)
 			if expected != s {
 				t.Errorf("Invalid Authorization header. Got %q, wanted %q", s, expected)
@@ -1043,7 +1043,7 @@ func testEmptyPasswordAuth(t *testing.T, mode testMode) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	req.URL.User = url.User(gopher)
+	req.URL.User = url.User(golangpher)
 	c := ts.Client()
 	resp, err := c.Do(req)
 	if err != nil {
@@ -1062,10 +1062,10 @@ func TestBasicAuth(t *testing.T) {
 	client.Get(url)
 
 	if tr.req.Method != "GET" {
-		t.Errorf("got method %q, want %q", tr.req.Method, "GET")
+		t.Errorf("golangt method %q, want %q", tr.req.Method, "GET")
 	}
 	if tr.req.URL.String() != url {
-		t.Errorf("got URL %q, want %q", tr.req.URL.String(), url)
+		t.Errorf("golangt URL %q, want %q", tr.req.URL.String(), url)
 	}
 	if tr.req.Header == nil {
 		t.Fatalf("expected non-nil request Header")
@@ -1102,10 +1102,10 @@ func TestBasicAuthHeadersPreserved(t *testing.T) {
 	client.Do(req)
 
 	if tr.req.Method != "GET" {
-		t.Errorf("got method %q, want %q", tr.req.Method, "GET")
+		t.Errorf("golangt method %q, want %q", tr.req.Method, "GET")
 	}
 	if tr.req.URL.String() != url {
-		t.Errorf("got URL %q, want %q", tr.req.URL.String(), url)
+		t.Errorf("golangt URL %q, want %q", tr.req.URL.String(), url)
 	}
 	if tr.req.Header == nil {
 		t.Fatalf("expected non-nil request Header")
@@ -1237,7 +1237,7 @@ func testClientTimeout(t *testing.T, mode testMode) {
 		ok := sawSlowNonce
 		mu.Unlock()
 		if !ok {
-			t.Fatal("handler never got /slow request, but client returned response")
+			t.Fatal("handler never golangt /slow request, but client returned response")
 		}
 
 		_, err = io.ReadAll(res.Body)
@@ -1255,11 +1255,11 @@ func testClientTimeout(t *testing.T, mode testMode) {
 		if !errors.Is(err, context.DeadlineExceeded) {
 			t.Errorf("ReadAll error = %q; expected some context.DeadlineExceeded", err)
 		}
-		if got := ne.Error(); !strings.Contains(got, "(Client.Timeout") {
+		if golangt := ne.Error(); !strings.Contains(golangt, "(Client.Timeout") {
 			if runtime.GOOS == "windows" && strings.HasPrefix(runtime.GOARCH, "arm") {
 				testenv.SkipFlaky(t, 43120)
 			}
-			t.Errorf("error string = %q; missing timeout substring", got)
+			t.Errorf("error string = %q; missing timeout substring", golangt)
 		}
 
 		break
@@ -1286,7 +1286,7 @@ func testClientTimeout_Headers(t *testing.T, mode testMode) {
 	res, err := cst.c.Get(cst.ts.URL)
 	if err == nil {
 		res.Body.Close()
-		t.Fatal("got response from Get; expected error")
+		t.Fatal("golangt response from Get; expected error")
 	}
 	if _, ok := err.(*url.Error); !ok {
 		t.Fatalf("Got error of type %T; want *url.Error", err)
@@ -1301,11 +1301,11 @@ func testClientTimeout_Headers(t *testing.T, mode testMode) {
 	if !errors.Is(err, context.DeadlineExceeded) {
 		t.Errorf("ReadAll error = %q; expected some context.DeadlineExceeded", err)
 	}
-	if got := ne.Error(); !strings.Contains(got, "Client.Timeout exceeded") {
+	if golangt := ne.Error(); !strings.Contains(golangt, "Client.Timeout exceeded") {
 		if runtime.GOOS == "windows" && strings.HasPrefix(runtime.GOARCH, "arm") {
 			testenv.SkipFlaky(t, 43120)
 		}
-		t.Errorf("error string = %q; missing timeout substring", got)
+		t.Errorf("error string = %q; missing timeout substring", golangt)
 	}
 }
 
@@ -1410,12 +1410,12 @@ func TestReferer(t *testing.T) {
 		want                         string
 	}{
 		// don't send user:
-		{lastReq: "http://gopher@test.com", newReq: "http://link.com", want: "http://test.com"},
-		{lastReq: "https://gopher@test.com", newReq: "https://link.com", want: "https://test.com"},
+		{lastReq: "http://golangpher@test.com", newReq: "http://link.com", want: "http://test.com"},
+		{lastReq: "https://golangpher@test.com", newReq: "https://link.com", want: "https://test.com"},
 
 		// don't send a user and password:
-		{lastReq: "http://gopher:go@test.com", newReq: "http://link.com", want: "http://test.com"},
-		{lastReq: "https://gopher:go@test.com", newReq: "https://link.com", want: "https://test.com"},
+		{lastReq: "http://golangpher:golang@test.com", newReq: "http://link.com", want: "http://test.com"},
+		{lastReq: "https://golangpher:golang@test.com", newReq: "https://link.com", want: "https://test.com"},
 
 		// nothing to do:
 		{lastReq: "http://test.com", newReq: "http://link.com", want: "http://test.com"},
@@ -1423,15 +1423,15 @@ func TestReferer(t *testing.T) {
 
 		// https to http doesn't send a referer:
 		{lastReq: "https://test.com", newReq: "http://link.com", want: ""},
-		{lastReq: "https://gopher:go@test.com", newReq: "http://link.com", want: ""},
+		{lastReq: "https://golangpher:golang@test.com", newReq: "http://link.com", want: ""},
 
 		// https to http should remove an existing referer:
 		{lastReq: "https://test.com", newReq: "http://link.com", explicitRef: "https://foo.com", want: ""},
-		{lastReq: "https://gopher:go@test.com", newReq: "http://link.com", explicitRef: "https://foo.com", want: ""},
+		{lastReq: "https://golangpher:golang@test.com", newReq: "http://link.com", explicitRef: "https://foo.com", want: ""},
 
 		// don't override an existing referer:
 		{lastReq: "https://test.com", newReq: "https://link.com", explicitRef: "https://foo.com", want: "https://foo.com"},
-		{lastReq: "https://gopher:go@test.com", newReq: "https://link.com", explicitRef: "https://foo.com", want: "https://foo.com"},
+		{lastReq: "https://golangpher:golang@test.com", newReq: "https://link.com", explicitRef: "https://foo.com", want: "https://foo.com"},
 	}
 	for _, tt := range tests {
 		l, err := url.Parse(tt.lastReq)
@@ -1496,7 +1496,7 @@ func testClientCopyHeadersOnRedirect(t *testing.T, mode testMode) {
 			t.Errorf("Request.Header = %#v; want %#v", r.Header, want)
 		}
 		if t.Failed() {
-			w.Header().Set("Result", "got errors")
+			w.Header().Set("Result", "golangt errors")
 		} else {
 			w.Header().Set("Result", "ok")
 		}
@@ -1534,8 +1534,8 @@ func testClientCopyHeadersOnRedirect(t *testing.T, mode testMode) {
 	if res.StatusCode != 200 {
 		t.Fatal(res.Status)
 	}
-	if got := res.Header.Get("Result"); got != "ok" {
-		t.Errorf("result = %q; want ok", got)
+	if golangt := res.Header.Get("Result"); golangt != "ok" {
+		t.Errorf("result = %q; want ok", golangt)
 	}
 }
 
@@ -1655,8 +1655,8 @@ func testClientCopyHostOnRedirect(t *testing.T, mode testMode) {
 	if resp.StatusCode != 200 {
 		t.Fatal(resp.Status)
 	}
-	if got, err := io.ReadAll(resp.Body); err != nil || string(got) != wantBody {
-		t.Errorf("body = %q; want %q", got, wantBody)
+	if golangt, err := io.ReadAll(resp.Body); err != nil || string(golangt) != wantBody {
+		t.Errorf("body = %q; want %q", golangt, wantBody)
 	}
 }
 
@@ -1673,7 +1673,7 @@ func testClientAltersCookiesOnRedirect(t *testing.T, mode testMode) {
 
 	ts := newClientServerTest(t, mode, HandlerFunc(func(w ResponseWriter, r *Request) {
 		var want map[string][]string
-		got := cookieMap(r.Cookies())
+		golangt := cookieMap(r.Cookies())
 
 		c, _ := r.Cookie("Cycle")
 		switch c.Value {
@@ -1723,8 +1723,8 @@ func testClientAltersCookiesOnRedirect(t *testing.T, mode testMode) {
 			return
 		}
 
-		if !reflect.DeepEqual(got, want) {
-			t.Errorf("redirect %s, Cookie = %v, want %v", c.Value, got, want)
+		if !reflect.DeepEqual(golangt, want) {
+			t.Errorf("redirect %s, Cookie = %v, want %v", c.Value, golangt, want)
 		}
 	})).ts
 
@@ -1799,10 +1799,10 @@ func TestShouldCopyHeaderOnRedirect(t *testing.T) {
 			t.Errorf("%d. dest URL %q parse error: %v", i, tt.destURL, err)
 			continue
 		}
-		got := Export_shouldCopyHeaderOnRedirect(u0, u1)
-		if got != tt.want {
+		golangt := Export_shouldCopyHeaderOnRedirect(u0, u1)
+		if golangt != tt.want {
 			t.Errorf("%d. shouldCopyHeaderOnRedirect(%q => %q) = %v; want %v",
-				i, tt.initialURL, tt.destURL, got, tt.want)
+				i, tt.initialURL, tt.destURL, golangt, tt.want)
 		}
 	}
 }
@@ -1872,8 +1872,8 @@ func testClientRedirectTypes(t *testing.T, mode testMode) {
 		}
 
 		c.CheckRedirect = func(req *Request, via []*Request) error {
-			if got, want := req.Method, tt.wantMethod; got != want {
-				return fmt.Errorf("#%d: got next method %q; want %q", i, got, want)
+			if golangt, want := req.Method, tt.wantMethod; golangt != want {
+				return fmt.Errorf("#%d: golangt next method %q; want %q", i, golangt, want)
 			}
 			handlerc <- func(rw ResponseWriter, req *Request) {
 				// TODO: Check that the body is valid when we do 307 and 308 support
@@ -1975,7 +1975,7 @@ func testRedirectGetBody(t *testing.T, mode testMode) {
 			t.Error(err)
 		}
 		if s := string(b); s != "hello" {
-			t.Errorf("expected hello, got %s", s)
+			t.Errorf("expected hello, golangt %s", s)
 		}
 		if r.URL.Path == "/first" {
 			Redirect(w, r, "/second", StatusTemporaryRedirect)
@@ -2001,7 +2001,7 @@ func testRedirectGetBody(t *testing.T, mode testMode) {
 		t.Fatal(err)
 	}
 	if s := string(b); s != "world" {
-		t.Fatalf("expected world, got %s", s)
+		t.Fatalf("expected world, golangt %s", s)
 	}
 }
 
@@ -2089,7 +2089,7 @@ func testClientDoCanceledVsTimeout(t *testing.T, mode testMode) {
 			req, _ := NewRequestWithContext(ctx, "GET", cst.ts.URL, nil)
 			_, err := cst.c.Do(req)
 			if err == nil {
-				t.Fatal("Unexpectedly got a nil error")
+				t.Fatal("Unexpectedly golangt a nil error")
 			}
 
 			ue := err.(*url.Error)
@@ -2106,8 +2106,8 @@ func testClientDoCanceledVsTimeout(t *testing.T, mode testMode) {
 			if g, w := ue.Err, wantErr; g != w {
 				t.Errorf("url.Error.Err = %v; want %v", g, w)
 			}
-			if got := errors.Is(err, context.DeadlineExceeded); got != wantIsTimeout {
-				t.Errorf("errors.Is(err, context.DeadlineExceeded) = %v, want %v", got, wantIsTimeout)
+			if golangt := errors.Is(err, context.DeadlineExceeded); golangt != wantIsTimeout {
+				t.Errorf("errors.Is(err, context.DeadlineExceeded) = %v, want %v", golangt, wantIsTimeout)
 			}
 		})
 	}
@@ -2214,10 +2214,10 @@ func testProbeZeroLengthBody(t *testing.T, mode testMode) {
 	}))
 
 	bodyr, bodyw := io.Pipe()
-	var gotBody string
+	var golangtBody string
 	var wg sync.WaitGroup
 	wg.Add(1)
-	go func() {
+	golang func() {
 		defer wg.Done()
 		req, _ := NewRequest("GET", cst.ts.URL, bodyr)
 		res, err := cst.c.Do(req)
@@ -2225,7 +2225,7 @@ func testProbeZeroLengthBody(t *testing.T, mode testMode) {
 		if err != nil {
 			t.Error(err)
 		}
-		gotBody = string(b)
+		golangtBody = string(b)
 	}()
 
 	select {
@@ -2240,7 +2240,7 @@ func testProbeZeroLengthBody(t *testing.T, mode testMode) {
 	bodyw.Write([]byte(content))
 	bodyw.Close()
 	wg.Wait()
-	if gotBody != content {
-		t.Fatalf("server got body %q, want %q", gotBody, content)
+	if golangtBody != content {
+		t.Fatalf("server golangt body %q, want %q", golangtBody, content)
 	}
 }

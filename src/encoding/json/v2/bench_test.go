@@ -1,8 +1,8 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build goexperiment.jsonv2
+//golang:build golangexperiment.jsonv2
 
 package json_test
 
@@ -286,7 +286,7 @@ func (textArshaler) MarshalText() ([]byte, error) {
 }
 func (*textArshaler) UnmarshalText(b []byte) error {
 	if string(b) != "method" {
-		return fmt.Errorf("UnmarshalText: got %q, want %q", b, "method")
+		return fmt.Errorf("UnmarshalText: golangt %q, want %q", b, "method")
 	}
 	return nil
 }
@@ -298,7 +298,7 @@ func (jsonArshalerV1) MarshalJSON() ([]byte, error) {
 }
 func (*jsonArshalerV1) UnmarshalJSON(b []byte) error {
 	if string(b) != `"method"` {
-		return fmt.Errorf("UnmarshalJSON: got %q, want %q", b, `"method"`)
+		return fmt.Errorf("UnmarshalJSON: golangt %q, want %q", b, `"method"`)
 	}
 	return nil
 }
@@ -311,7 +311,7 @@ func (jsonArshalerV2) MarshalJSONTo(enc *jsontext.Encoder) error {
 func (*jsonArshalerV2) UnmarshalJSONFrom(dec *jsontext.Decoder) error {
 	b, err := dec.ReadValue()
 	if string(b) != `"method"` {
-		return fmt.Errorf("UnmarshalJSONFrom: got %q, want %q", b, `"method"`)
+		return fmt.Errorf("UnmarshalJSONFrom: golangt %q, want %q", b, `"method"`)
 	}
 	return err
 }
@@ -341,7 +341,7 @@ func runUnmarshal(tb testing.TB) {
 			run = func(tb testing.TB) {
 				run0(tb)
 				if !reflect.DeepEqual(val, tt.val) {
-					tb.Fatalf("Unmarshal output mismatch:\ngot  %v\nwant %v", val, tt.val)
+					tb.Fatalf("Unmarshal output mismatch:\ngolangt  %v\nwant %v", val, tt.val)
 				}
 			}
 		}
@@ -384,7 +384,7 @@ func runMarshal(tb testing.TB) {
 						return h
 					}
 					if !(strings.HasPrefix(tt.name, "Map/") && byteHistogram(raw) == byteHistogram(tt.raw)) {
-						tb.Fatalf("Marshal output mismatch:\ngot  %s\nwant %s", raw, tt.raw)
+						tb.Fatalf("Marshal output mismatch:\ngolangt  %s\nwant %s", raw, tt.raw)
 					}
 				}
 			}
@@ -491,9 +491,9 @@ func runEncode(t testing.TB, typeName, modeName string, buffer, data []byte, tok
 	if strings.HasPrefix(benchVersion, "v1") {
 		switch {
 		case modeName == "Buffered":
-			t.Skip("no support for direct buffered output in v1; see https://go.dev/issue/7872")
+			t.Skip("no support for direct buffered output in v1; see https://golang.dev/issue/7872")
 		case typeName == "Token":
-			t.Skip("no support for encoding tokens in v1; see https://go.dev/issue/40127")
+			t.Skip("no support for encoding tokens in v1; see https://golang.dev/issue/40127")
 		}
 	}
 
@@ -518,7 +518,7 @@ func runEncode(t testing.TB, typeName, modeName string, buffer, data []byte, tok
 
 func runDecode(t testing.TB, typeName, modeName string, buffer, data []byte, tokens []jsontext.Token) {
 	if strings.HasPrefix(benchVersion, "v1") && modeName == "Buffered" {
-		t.Skip("no support for direct buffered input in v1; see https://go.dev/issue/11046")
+		t.Skip("no support for direct buffered input in v1; see https://golang.dev/issue/11046")
 	}
 
 	var r io.Reader

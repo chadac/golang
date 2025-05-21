@@ -31,7 +31,7 @@ package ppc64
 
 import "cmd/internal/obj"
 
-//go:generate go run ../stringer.go -i $GOFILE -o anames.go -p ppc64
+//golang:generate golang run ../stringer.golang -i $GOFILE -o anames.golang -p ppc64
 
 /*
  * powerpc 64
@@ -399,7 +399,7 @@ const (
 	C_COND_SO        // 3 summary overflow or FP compare w/ NaN
 )
 
-//go:generate go run ../mkcnames.go -i a.out.go -o anames9.go -p ppc64
+//golang:generate golang run ../mkcnames.golang -i a.out.golang -o anames9.golang -p ppc64
 const (
 	C_NONE     = iota
 	C_REGP     /* An even numbered gpr which can be used a gpr pair argument */

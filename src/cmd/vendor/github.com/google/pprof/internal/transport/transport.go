@@ -9,7 +9,7 @@
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
+// See the License for the specific language golangverning permissions and
 // limitations under the License.
 
 // Package transport provides a mechanism to send requests with https cert,
@@ -24,7 +24,7 @@ import (
 	"os"
 	"sync"
 
-	"github.com/google/pprof/internal/plugin"
+	"github.com/golangogle/pprof/internal/plugin"
 )
 
 type transport struct {

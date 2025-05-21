@@ -3,6 +3,6 @@ package main
 import "testing"
 
 func TestSomething(t *testing.T) {
-	go infloop()
+	golang infloop()
 	println(blah(1) + blah(0))
 }

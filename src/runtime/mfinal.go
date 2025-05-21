@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Garbage collector: finalizers and block profiling.
@@ -8,7 +8,7 @@ package runtime
 
 import (
 	"internal/abi"
-	"internal/goarch"
+	"internal/golangarch"
 	"internal/runtime/atomic"
 	"internal/runtime/gc"
 	"internal/runtime/sys"
@@ -29,12 +29,12 @@ type finBlock struct {
 	next    *finBlock
 	cnt     uint32
 	_       int32
-	fin     [(finBlockSize - 2*goarch.PtrSize - 2*4) / unsafe.Sizeof(finalizer{})]finalizer
+	fin     [(finBlockSize - 2*golangarch.PtrSize - 2*4) / unsafe.Sizeof(finalizer{})]finalizer
 }
 
 var fingStatus atomic.Uint32
 
-// finalizer goroutine status.
+// finalizer golangroutine status.
 const (
 	fingUninitialized uint32 = iota
 	fingCreated       uint32 = 1 << (iota - 1)
@@ -45,10 +45,10 @@ const (
 
 var (
 	finlock     mutex     // protects the following variables
-	fing        *g        // goroutine that runs finalizers
+	fing        *g        // golangroutine that runs finalizers
 	finq        *finBlock // list of finalizers that are to be executed
 	finc        *finBlock // cache of free blocks
-	finptrmask  [finBlockSize / goarch.PtrSize / 8]byte
+	finptrmask  [finBlockSize / golangarch.PtrSize / 8]byte
 	finqueued   uint64 // monotonic count of queued finalizers
 	finexecuted uint64 // monotonic count of executed finalizers
 )
@@ -119,12 +119,12 @@ func queuefinalizer(p unsafe.Pointer, fn *funcval, nret uintptr, fint *_type, ot
 			if finptrmask[0] == 0 {
 				// Build pointer mask for Finalizer array in block.
 				// Check assumptions made in finalizer1 array above.
-				if (unsafe.Sizeof(finalizer{}) != 5*goarch.PtrSize ||
+				if (unsafe.Sizeof(finalizer{}) != 5*golangarch.PtrSize ||
 					unsafe.Offsetof(finalizer{}.fn) != 0 ||
-					unsafe.Offsetof(finalizer{}.arg) != goarch.PtrSize ||
-					unsafe.Offsetof(finalizer{}.nret) != 2*goarch.PtrSize ||
-					unsafe.Offsetof(finalizer{}.fint) != 3*goarch.PtrSize ||
-					unsafe.Offsetof(finalizer{}.ot) != 4*goarch.PtrSize) {
+					unsafe.Offsetof(finalizer{}.arg) != golangarch.PtrSize ||
+					unsafe.Offsetof(finalizer{}.nret) != 2*golangarch.PtrSize ||
+					unsafe.Offsetof(finalizer{}.fint) != 3*golangarch.PtrSize ||
+					unsafe.Offsetof(finalizer{}.ot) != 4*golangarch.PtrSize) {
 					throw("finalizer out of sync")
 				}
 				for i := range finptrmask {
@@ -149,7 +149,7 @@ func queuefinalizer(p unsafe.Pointer, fn *funcval, nret uintptr, fint *_type, ot
 	fingStatus.Or(fingWake)
 }
 
-//go:nowritebarrier
+//golang:nowritebarrier
 func iterate_finq(callback func(*funcval, unsafe.Pointer, uintptr, *_type, *ptrtype)) {
 	for fb := allfin; fb != nil; fb = fb.alllink {
 		for i := uint32(0); i < fb.cnt; i++ {
@@ -167,9 +167,9 @@ func wakefing() *g {
 }
 
 func createfing() {
-	// start the finalizer goroutine exactly once
+	// start the finalizer golangroutine exactly once
 	if fingStatus.Load() == fingUninitialized && fingStatus.CompareAndSwap(fingUninitialized, fingCreated) {
-		go runFinalizers()
+		golang runFinalizers()
 	}
 }
 
@@ -189,7 +189,7 @@ func finReadQueueStats() (queued, executed uint64) {
 	return
 }
 
-// This is the goroutine that runs all of the finalizers.
+// This is the golangroutine that runs all of the finalizers.
 func runFinalizers() {
 	var (
 		frame    unsafe.Pointer
@@ -207,13 +207,13 @@ func runFinalizers() {
 		fb := finq
 		finq = nil
 		if fb == nil {
-			gopark(finalizercommit, unsafe.Pointer(&finlock), waitReasonFinalizerWait, traceBlockSystemGoroutine, 1)
+			golangpark(finalizercommit, unsafe.Pointer(&finlock), waitReasonFinalizerWait, traceBlockSystemGoroutine, 1)
 			continue
 		}
 		argRegs = intArgRegs
 		unlock(&finlock)
 		if raceenabled {
-			racefingo()
+			racefingolang()
 		}
 		for fb != nil {
 			n := fb.cnt
@@ -338,7 +338,7 @@ func blockUntilEmptyFinalizerQueue(timeout int64) bool {
 	return false
 }
 
-//go:linkname unique_runtime_blockUntilEmptyFinalizerQueue unique.runtime_blockUntilEmptyFinalizerQueue
+//golang:linkname unique_runtime_blockUntilEmptyFinalizerQueue unique.runtime_blockUntilEmptyFinalizerQueue
 func unique_runtime_blockUntilEmptyFinalizerQueue(timeout int64) bool {
 	return blockUntilEmptyFinalizerQueue(timeout)
 }
@@ -346,7 +346,7 @@ func unique_runtime_blockUntilEmptyFinalizerQueue(timeout int64) bool {
 // SetFinalizer sets the finalizer associated with obj to the provided
 // finalizer function. When the garbage collector finds an unreachable block
 // with an associated finalizer, it clears the association and runs
-// finalizer(obj) in a separate goroutine. This makes obj reachable again,
+// finalizer(obj) in a separate golangroutine. This makes obj reachable again,
 // but now without an associated finalizer. Assuming that SetFinalizer
 // is not called again, the next time the garbage collector sees
 // that obj is unreachable, it will free obj.
@@ -385,7 +385,7 @@ func unique_runtime_blockUntilEmptyFinalizerQueue(timeout int64) bool {
 //
 // It is not guaranteed that a finalizer will run if the size of *obj is
 // zero bytes, because it may share same address with other zero-size
-// objects in memory. See https://go.dev/ref/spec#Size_and_alignment_guarantees.
+// objects in memory. See https://golang.dev/ref/spec#Size_and_alignment_guarantees.
 //
 // It is not guaranteed that a finalizer will run for objects allocated
 // in initializers for package-level variables. Such objects may be
@@ -416,12 +416,12 @@ func unique_runtime_blockUntilEmptyFinalizerQueue(timeout int64) bool {
 // the program enters [syscall.Write]. The finalizer may run at that moment,
 // closing p.d, causing syscall.Write to fail because it is writing to
 // a closed file descriptor (or, worse, to an entirely different
-// file descriptor opened by a different goroutine). To avoid this problem,
+// file descriptor opened by a different golangroutine). To avoid this problem,
 // call KeepAlive(p) after the call to syscall.Write.
 //
-// A single goroutine runs all finalizers for a program, sequentially.
+// A single golangroutine runs all finalizers for a program, sequentially.
 // If a finalizer must run for a long time, it should do so by starting
-// a new goroutine.
+// a new golangroutine.
 //
 // In the terminology of the Go memory model, a call
 // SetFinalizer(x, f) “synchronizes before” the finalization call f(x).
@@ -467,7 +467,7 @@ func SetFinalizer(obj any, finalizer any) {
 		throw("runtime.SetFinalizer: pointer not in allocated block")
 	}
 
-	// Move base forward if we've got an allocation header.
+	// Move base forward if we've golangt an allocation header.
 	if !span.spanclass.noscan() && !heapBitsInSpan(span.elemsize) && span.spanclass.sizeclass() != 0 {
 		base += gc.MallocHeaderSize
 	}
@@ -509,21 +509,21 @@ func SetFinalizer(obj any, finalizer any) {
 	switch {
 	case fint == etyp:
 		// ok - same type
-		goto okarg
+		golangto okarg
 	case fint.Kind_&abi.KindMask == abi.Pointer:
 		if (fint.Uncommon() == nil || etyp.Uncommon() == nil) && (*ptrtype)(unsafe.Pointer(fint)).Elem == ot.Elem {
 			// ok - not same type, but both pointers,
 			// one or the other is unnamed, and same element type, so assignable.
-			goto okarg
+			golangto okarg
 		}
 	case fint.Kind_&abi.KindMask == abi.Interface:
 		ityp := (*interfacetype)(unsafe.Pointer(fint))
 		if len(ityp.Methods) == 0 {
 			// ok - satisfies empty interface
-			goto okarg
+			golangto okarg
 		}
 		if itab := assertE2I2(ityp, efaceOf(&obj)._type); itab != nil {
-			goto okarg
+			golangto okarg
 		}
 	}
 	throw("runtime.SetFinalizer: cannot pass " + toRType(etyp).string() + " to finalizer " + toRType(ftyp).string())
@@ -533,9 +533,9 @@ okarg:
 	for _, t := range ft.OutSlice() {
 		nret = alignUp(nret, uintptr(t.Align_)) + t.Size_
 	}
-	nret = alignUp(nret, goarch.PtrSize)
+	nret = alignUp(nret, golangarch.PtrSize)
 
-	// make sure we have a finalizer goroutine
+	// make sure we have a finalizer golangroutine
 	createfing()
 
 	callerpc := sys.GetCallerPC()
@@ -551,7 +551,7 @@ okarg:
 
 // Mark KeepAlive as noinline so that it is easily detectable as an intrinsic.
 //
-//go:noinline
+//golang:noinline
 
 // KeepAlive marks its argument as currently reachable.
 // This ensures that the object is not freed, and its finalizer is not run,
@@ -581,7 +581,7 @@ func KeepAlive(x any) {
 	// Introduce a use of x that the compiler can't eliminate.
 	// This makes sure x is alive on entry. We need x to be alive
 	// on entry for "defer runtime.KeepAlive(x)"; see issue 21402.
-	if cgoAlwaysFalse {
+	if cgolangAlwaysFalse {
 		println(x)
 	}
 }

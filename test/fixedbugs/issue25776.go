@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -62,7 +62,7 @@ func (t *TriDense) IsZero() bool {
 	return t.mat.Stride == 0
 }
 
-//go:noinline
+//golang:noinline
 func (t *TriDense) ScaleTri(f float64, a Triangular) {
 	n, kind := a.Triangle()
 	if kind == false {
@@ -70,7 +70,7 @@ func (t *TriDense) ScaleTri(f float64, a Triangular) {
 	}
 }
 
-//go:noinline
+//golang:noinline
 func (t *TriDense) ScaleTry(f float64, a Triangular) {
 	n, kind := a.Tryangle()
 	if kind == false {

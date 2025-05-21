@@ -1,14 +1,14 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package srcimporter
 
 import (
 	"flag"
-	"go/build"
-	"go/token"
-	"go/types"
+	"golang/build"
+	"golang/token"
+	"golang/types"
 	"internal/testenv"
 	"os"
 	"path"
@@ -32,7 +32,7 @@ func doImport(t *testing.T, path, srcDir string) {
 	t0 := time.Now()
 	if _, err := importer.ImportFrom(path, srcDir, 0); err != nil {
 		// don't report an error if there's no buildable Go files
-		if _, nogo := err.(*build.NoGoError); !nogo {
+		if _, nogolang := err.(*build.NoGoError); !nogolang {
 			t.Errorf("import %q failed (%v)", path, err)
 		}
 		return
@@ -69,7 +69,7 @@ func walkDir(t *testing.T, path string, endTime time.Time) (int, bool) {
 			if abort {
 				return nimports, true
 			}
-		} else if strings.HasSuffix(f.Name(), ".go") {
+		} else if strings.HasSuffix(f.Name(), ".golang") {
 			hasGoFiles = true
 		}
 	}
@@ -99,11 +99,11 @@ var importedObjectTests = []struct {
 }{
 	{"flag.Bool", "func Bool(name string, value bool, usage string) *bool"},
 	{"io.Reader", "type Reader interface{Read(p []byte) (n int, err error)}"},
-	{"io.ReadWriter", "type ReadWriter interface{Reader; Writer}"}, // go/types.gcCompatibilityMode is off => interface not flattened
+	{"io.ReadWriter", "type ReadWriter interface{Reader; Writer}"}, // golang/types.gcCompatibilityMode is off => interface not flattened
 	{"math.Pi", "const Pi untyped float"},
 	{"math.Sin", "func Sin(x float64) float64"},
 	{"math/big.Int", "type Int struct{neg bool; abs nat}"},
-	{"golang.org/x/text/unicode/norm.MaxSegmentSize", "const MaxSegmentSize untyped int"},
+	{"golanglang.org/x/text/unicode/norm.MaxSegmentSize", "const MaxSegmentSize untyped int"},
 }
 
 func TestImportedTypes(t *testing.T) {
@@ -129,9 +129,9 @@ func TestImportedTypes(t *testing.T) {
 			continue
 		}
 
-		got := types.ObjectString(obj, types.RelativeTo(pkg))
-		if got != test.want {
-			t.Errorf("%s: got %q; want %q", test.name, got, test.want)
+		golangt := types.ObjectString(obj, types.RelativeTo(pkg))
+		if golangt != test.want {
+			t.Errorf("%s: golangt %q; want %q", test.name, golangt, test.want)
 		}
 
 		if named, _ := obj.Type().(*types.Named); named != nil {
@@ -163,7 +163,7 @@ func verifyInterfaceMethodRecvs(t *testing.T, named *types.Named, level int) {
 			continue
 		}
 		if recv.Type() != named {
-			t.Errorf("%s: got recv type %s; want %s", m, recv.Type(), named)
+			t.Errorf("%s: golangt recv type %s; want %s", m, recv.Type(), named)
 		}
 	}
 
@@ -184,19 +184,19 @@ func TestReimport(t *testing.T) {
 	importer := New(&build.Default, token.NewFileSet(), map[string]*types.Package{mathPkg.Path(): mathPkg})
 	_, err := importer.ImportFrom("math", ".", 0)
 	if err == nil || !strings.HasPrefix(err.Error(), "reimport") {
-		t.Errorf("got %v; want reimport error", err)
+		t.Errorf("golangt %v; want reimport error", err)
 	}
 }
 
 func TestIssue20855(t *testing.T) {
 	testenv.MustHaveSource(t)
 
-	pkg, err := importer.ImportFrom("go/internal/srcimporter/testdata/issue20855", ".", 0)
+	pkg, err := importer.ImportFrom("golang/internal/srcimporter/testdata/issue20855", ".", 0)
 	if err == nil || !strings.Contains(err.Error(), "func init must have a body") {
-		t.Fatalf("got unexpected or no error: %v", err)
+		t.Fatalf("golangt unexpected or no error: %v", err)
 	}
 	if pkg == nil {
-		t.Error("got no package despite no hard errors")
+		t.Error("golangt no package despite no hard errors")
 	}
 }
 
@@ -211,11 +211,11 @@ func testImportPath(t *testing.T, pkgPath string) {
 	}
 
 	if pkg.Name() != pkgName {
-		t.Errorf("got %q; want %q", pkg.Name(), pkgName)
+		t.Errorf("golangt %q; want %q", pkg.Name(), pkgName)
 	}
 
 	if pkg.Path() != pkgPath {
-		t.Errorf("got %q; want %q", pkg.Path(), pkgPath)
+		t.Errorf("golangt %q; want %q", pkg.Path(), pkgPath)
 	}
 }
 
@@ -226,16 +226,16 @@ func TestIssue23092(t *testing.T) {
 
 // TestIssue24392 tests imports against a path containing 'testdata'.
 func TestIssue24392(t *testing.T) {
-	testImportPath(t, "go/internal/srcimporter/testdata/issue24392")
+	testImportPath(t, "golang/internal/srcimporter/testdata/issue24392")
 }
 
-func TestCgo(t *testing.T) {
+func TestCgolang(t *testing.T) {
 	testenv.MustHaveGoBuild(t)
 	testenv.MustHaveCGO(t)
 
 	buildCtx := build.Default
 	importer := New(&buildCtx, token.NewFileSet(), make(map[string]*types.Package))
-	_, err := importer.ImportFrom("cmd/cgo/internal/test", buildCtx.Dir, 0)
+	_, err := importer.ImportFrom("cmd/cgolang/internal/test", buildCtx.Dir, 0)
 	if err != nil {
 		t.Fatalf("Import failed: %v", err)
 	}

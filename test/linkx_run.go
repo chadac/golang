@@ -1,9 +1,9 @@
 // run
 
-//go:build !nacl && !js && !wasip1 && gc
+//golang:build !nacl && !js && !wasip1 && gc
 
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Run the linkx test.
@@ -25,7 +25,7 @@ func main() {
 
 func test(sep string) {
 	// Successful run
-	cmd := exec.Command("go", "run", "-ldflags=-X main.tbd"+sep+"hello -X main.overwrite"+sep+"trumped -X main.nosuchsymbol"+sep+"neverseen", "linkx.go")
+	cmd := exec.Command("golang", "run", "-ldflags=-X main.tbd"+sep+"hello -X main.overwrite"+sep+"trumped -X main.nosuchsymbol"+sep+"neverseen", "linkx.golang")
 	var out, errbuf bytes.Buffer
 	cmd.Stdout = &out
 	cmd.Stderr = &errbuf
@@ -38,14 +38,14 @@ func test(sep string) {
 	}
 
 	want := "hello\nhello\nhello\ntrumped\ntrumped\ntrumped\n"
-	got := out.String()
-	if got != want {
-		fmt.Printf("got %q want %q\n", got, want)
+	golangt := out.String()
+	if golangt != want {
+		fmt.Printf("golangt %q want %q\n", golangt, want)
 		os.Exit(1)
 	}
 
 	// Issue 8810
-	cmd = exec.Command("go", "run", "-ldflags=-X main.tbd", "linkx.go")
+	cmd = exec.Command("golang", "run", "-ldflags=-X main.tbd", "linkx.golang")
 	_, err = cmd.CombinedOutput()
 	if err == nil {
 		fmt.Println("-X linker flag should not accept keys without values")
@@ -53,7 +53,7 @@ func test(sep string) {
 	}
 
 	// Issue 9621
-	cmd = exec.Command("go", "run", "-ldflags=-X main.b=false -X main.x=42", "linkx.go")
+	cmd = exec.Command("golang", "run", "-ldflags=-X main.b=false -X main.x=42", "linkx.golang")
 	outx, err := cmd.CombinedOutput()
 	if err == nil {
 		fmt.Println("-X linker flag should not overwrite non-strings")

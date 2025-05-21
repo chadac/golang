@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package trace
@@ -31,7 +31,7 @@ type traceContextKey struct{}
 //	ctx, task := trace.NewTask(ctx, "awesomeTask")
 //	trace.WithRegion(ctx, "preparation", prepWork)
 //	// preparation of the task
-//	go func() {  // continue processing the task in a separate goroutine.
+//	golang func() {  // continue processing the task in a separate golangroutine.
 //	    defer task.End()
 //	    trace.WithRegion(ctx, "remainingWork", remainingWork)
 //	}()
@@ -89,21 +89,21 @@ func newID() uint64 {
 
 var bgTask = Task{id: uint64(0)}
 
-// Log emits a one-off event with the given category and message.
-// Category can be empty and the API assumes there are only a handful of
-// unique categories in the system.
-func Log(ctx context.Context, category, message string) {
+// Log emits a one-off event with the given categolangry and message.
+// Categolangry can be empty and the API assumes there are only a handful of
+// unique categolangries in the system.
+func Log(ctx context.Context, categolangry, message string) {
 	id := fromContext(ctx).id
-	userLog(id, category, message)
+	userLog(id, categolangry, message)
 }
 
 // Logf is like [Log], but the value is formatted using the specified format spec.
-func Logf(ctx context.Context, category, format string, args ...any) {
+func Logf(ctx context.Context, categolangry, format string, args ...any) {
 	if IsEnabled() {
 		// Ideally this should be just Log, but that will
 		// add one more frame in the stack trace.
 		id := fromContext(ctx).id
-		userLog(id, category, fmt.Sprintf(format, args...))
+		userLog(id, categolangry, fmt.Sprintf(format, args...))
 	}
 }
 
@@ -112,7 +112,7 @@ const (
 	regionEndCode   = uint64(1)
 )
 
-// WithRegion starts a region associated with its calling goroutine, runs fn,
+// WithRegion starts a region associated with its calling golangroutine, runs fn,
 // and then ends the region. If the context carries a task, the region is
 // associated with the task. Otherwise, the region is attached to the background
 // task.
@@ -143,8 +143,8 @@ func WithRegion(ctx context.Context, regionType string, fn func()) {
 
 // StartRegion starts a region and returns it.
 // The returned Region's [Region.End] method must be called
-// from the same goroutine where the region was started.
-// Within each goroutine, regions must nest. That is, regions started
+// from the same golangroutine where the region was started.
+// Within each golangroutine, regions must nest. That is, regions started
 // after this region must be ended before this region can be ended.
 // Recommended usage is
 //
@@ -182,7 +182,7 @@ func IsEnabled() bool {
 }
 
 //
-// Function bodies are defined in runtime/trace.go
+// Function bodies are defined in runtime/trace.golang
 //
 
 // emits UserTaskCreate event.
@@ -195,4 +195,4 @@ func userTaskEnd(id uint64)
 func userRegion(id, mode uint64, regionType string)
 
 // emits UserLog event.
-func userLog(id uint64, category, message string)
+func userLog(id uint64, categolangry, message string)

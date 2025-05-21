@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package hash_test
@@ -14,7 +14,7 @@ import (
 
 func Example_binaryMarshaler() {
 	const (
-		input1 = "The tunneling gopher digs downwards, "
+		input1 = "The tunneling golangpher digs downwards, "
 		input2 = "unaware of what he will find."
 	)
 

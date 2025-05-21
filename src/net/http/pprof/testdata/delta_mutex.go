@@ -1,11 +1,11 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This binary collects a 1s delta mutex profile and dumps it to os.Stdout.
 //
 // This is in a subprocess because we want the base mutex profile to be empty
-// (as a regression test for https://go.dev/issue/64566) and the only way to
+// (as a regression test for https://golang.dev/issue/64566) and the only way to
 // force reset the profile is to create a new subprocess.
 //
 // This manually collects the HTTP response and dumps to stdout in order to

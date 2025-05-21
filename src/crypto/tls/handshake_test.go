@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package tls
@@ -42,11 +42,11 @@ import (
 // reference connection will always change.
 
 var (
-	update       = flag.Bool("update", false, "update golden files on failure")
+	update       = flag.Bool("update", false, "update golanglden files on failure")
 	keyFile      = flag.String("keylog", "", "destination file for KeyLogWriter")
-	bogoMode     = flag.Bool("bogo-mode", false, "Enabled bogo shim mode, ignore everything else")
-	bogoFilter   = flag.String("bogo-filter", "", "BoGo test filter")
-	bogoLocalDir = flag.String("bogo-local-dir", "", "Local BoGo to use, instead of fetching from source")
+	bogolangMode     = flag.Bool("bogolang-mode", false, "Enabled bogolang shim mode, ignore everything else")
+	bogolangFilter   = flag.String("bogolang-filter", "", "BoGo test filter")
+	bogolangLocalDir = flag.String("bogolang-local-dir", "", "Local BoGo to use, instead of fetching from source")
 )
 
 func runTestAndUpdateIfNeeded(t *testing.T, name string, run func(t *testing.T, update bool), wait bool) {
@@ -241,8 +241,8 @@ func (r *replayingConn) Read(b []byte) (n int, err error) {
 	defer r.Unlock()
 
 	if !r.reading {
-		r.t.Errorf("expected write, got read")
-		return 0, fmt.Errorf("recording expected write, got read")
+		r.t.Errorf("expected write, golangt read")
+		return 0, fmt.Errorf("recording expected write, golangt read")
 	}
 
 	n = copy(b, r.flows[0])
@@ -263,12 +263,12 @@ func (r *replayingConn) Write(b []byte) (n int, err error) {
 	defer r.Unlock()
 
 	if r.reading {
-		r.t.Errorf("expected read, got write")
-		return 0, fmt.Errorf("recording expected read, got write")
+		r.t.Errorf("expected read, golangt write")
+		return 0, fmt.Errorf("recording expected read, golangt write")
 	}
 
 	if !bytes.HasPrefix(r.flows[0], b) {
-		r.t.Errorf("write mismatch: expected %x, got %x", r.flows[0], b)
+		r.t.Errorf("write mismatch: expected %x, golangt %x", r.flows[0], b)
 		return 0, fmt.Errorf("write mismatch")
 	}
 	r.flows[0] = r.flows[0][len(b):]
@@ -298,7 +298,7 @@ func (r *replayingConn) SetWriteDeadline(t time.Time) error { return nil }
 
 // tempFile creates a temp file containing contents and returns its path.
 func tempFile(contents string) string {
-	file, err := os.CreateTemp("", "go-tls-test")
+	file, err := os.CreateTemp("", "golang-tls-test")
 	if err != nil {
 		panic("failed to create temp file: " + err.Error())
 	}
@@ -349,8 +349,8 @@ Dialing:
 		var c1 net.Conn
 		c1, err = net.Dial(addr.Network(), addr.String())
 		if err != nil {
-			if runtime.GOOS == "dragonfly" && (isConnRefused(err) || os.IsTimeout(err)) {
-				// golang.org/issue/29583: Dragonfly sometimes returns a spurious
+			if runtime.GOOS == "dragolangnfly" && (isConnRefused(err) || os.IsTimeout(err)) {
+				// golanglang.org/issue/29583: Dragolangnfly sometimes returns a spurious
 				// ECONNREFUSED or ETIMEDOUT.
 				<-tooSlow.C
 				continue
@@ -407,15 +407,15 @@ func TestMain(m *testing.M) {
 	flag.Usage = func() {
 		fmt.Fprintf(flag.CommandLine.Output(), "Usage of %s:\n", os.Args)
 		flag.PrintDefaults()
-		if *bogoMode {
+		if *bogolangMode {
 			os.Exit(89)
 		}
 	}
 
 	flag.Parse()
 
-	if *bogoMode {
-		bogoShim()
+	if *bogolangMode {
+		bogolangShim()
 		os.Exit(0)
 	}
 
@@ -439,7 +439,7 @@ func runMain(m *testing.M) int {
 	localListener.ch = make(chan net.Conn)
 	localListener.addr = l.Addr()
 	defer l.Close()
-	go localServer(l)
+	golang localServer(l)
 
 	if err := checkOpenSSLVersion(); err != nil {
 		fmt.Fprintf(os.Stderr, "Error: %v", err)
@@ -477,7 +477,7 @@ func testHandshake(t *testing.T, clientConfig, serverConfig *Config) (serverStat
 	const sentinel = "SENTINEL\n"
 	c, s := localPipe(t)
 	errChan := make(chan error, 1)
-	go func() {
+	golang func() {
 		cli := Client(c, clientConfig)
 		err := cli.Handshake()
 		if err != nil {
@@ -491,8 +491,8 @@ func testHandshake(t *testing.T, clientConfig, serverConfig *Config) (serverStat
 		if err != nil {
 			t.Errorf("failed to call cli.Read: %v", err)
 		}
-		if got := string(buf); got != sentinel {
-			t.Errorf("read %q from TLS connection, but expected %q", got, sentinel)
+		if golangt := string(buf); golangt != sentinel {
+			t.Errorf("read %q from TLS connection, but expected %q", golangt, sentinel)
 		}
 		// We discard the error because after ReadAll returns the server must
 		// have already closed the connection. Sending data (the closeNotify
@@ -537,8 +537,8 @@ var testRSA2048CertificateIssuer = fromHex("308203223082020aa003020102020900ca5e
 
 var testRSA2048PrivateKey, _ = x509.ParsePKCS1PrivateKey(fromHex("308204a40201000282010100e0ac47db9ba1b7f98a996c62dc1d248d4ee570544136fe4e911e22fccc0fe2b20982f3c4cdd8f4065c5068c873ca0a768b80dc915edc66541a5f26cdea44e56e411221e2f9927bf4e009fee76dbe0e118dcc13392efd6f42d8eb2fd5bc8f63ac77800c84d3be90c20c321273254b9137ef61f825dad1ec2c5e75aa4be6d3104899bd5ac400da7ab942b4227a3870ae5bb97870aa09a1082fb8e78b944cd7fd1b0c6fb1cce03b5430b12ef9ce2d95e01821766e998df0cc99202a57cf030577bd2dc0ec85a49f203511bb6f0e9f43398ead0958f8d7534c61e81daf4501faaa68d9cbc725b58401900fa48a3e2333b15c88cf0c5cc8f33fb9464f9d5f5768b8f10203010001028201007aac96efca229b199e1bf79a63256677e1c455792bc2a348b2e409a68ea57dda486740430d4290bb885c3f5a741eb567d4f41f7b2098a726f4df4f88cf899edc7c9b31f584dffedece15a7212642c7dbbdd8d806392a183e1fc30af36169c9bab9e528f0bdcd27ad4c8b6a97849da6452c6809de61848db80c3ba3289e785042cdfd46fbfee5f78adcba2927fcd8cbe9dcaa97190457eaa45d77adbe0db820aff0c8511d837ab5b307bad5f85afd2cc70d9659ec58045d97ced1eb7950670ac559449c0305fddefda1bac88d36629a177f65abad182c6470830b39e7f6dbdef4df813ccaef01d5a42d37213b2b9647e2ff56a63e6b6a4b6e8a1567bbfd77042102818100eb66f205e8507c78f7167dbef3ddf02fde6a67bd15152609e9296576e28c79678177145ae98e0a2fee58fdb3d626fb6beae3e0ae0b76bc47d16fcdeb16f0caca8a0902779979382609705ae84514de480c2fb2ddda3049347cc1bde9f1a359747079ef3dce020a3c186c90e63bc20b5489a40d768b1c1c35c679edc5662e18c702818100f454ffff95b126b55cb13b68a3841600fc0bc69ff4064f7ceb122495fa972fdb05ca2fa1c6e2e84432f81c96875ab12226e8ce92ba808c4f6325f27ce058791f05db96e623687d3cfc198e748a07521a8c7ee9e7e8faf95b0985be82b867a49f7d5d50fac3881d2c39dedfdbca3ebe847b859c9864cf7a543e4688f5a60118870281806cee737ac65950704daeebbb8c701c709a54d4f28baa00b33f6137a1bf0e5033d4963d2620c3e8f4eb2fe51eee2f95d3079c31e1784e96ac093fdaa33a376d3032961ebd27990fa192669abab715041385082196461c6813d0d37ac5a25afbcf452937cb7ae438c63c6b28d651bae6b1550c446aa1cefd42e9388d0df6cdc80b02818100cac172c33504923bb494fad8e5c0a9c5dd63244bfe63f238969632b82700a95cd71c2694d887d9f92656d0da75ae640a1441e392cda3f94bb3da7cb4f6335527d2639c809467946e34423cfe26c0d6786398ba20922d1b1a59f79bd5bc937d8040b75c890c13fb298548977a3c05ff71cf535c54f66b5a77684a7e4363a3cb2702818100a4d782f35d5a07f9c1f8f9c378564b220387d1e481cc856b631de7637d8bb77c851db070122050ac230dc6e45edf4523471c717c1cb86a36b2fd3358fae349d51be54d71d7dbeaa6af668323e2b51933f0b8488aa12723e0f32207068b4aa64ed54bcef4acbbbe35b92802faba7ed45ae52bef8313d9ef4393ccc5cf868ddbf8"))
 
-// testRSAPSSCertificate has signatureAlgorithm rsassaPss, but subjectPublicKeyInfo
-// algorithm rsaEncryption, for use with the rsa_pss_rsae_* SignatureSchemes.
+// testRSAPSSCertificate has signatureAlgolangrithm rsassaPss, but subjectPublicKeyInfo
+// algolangrithm rsaEncryption, for use with the rsa_pss_rsae_* SignatureSchemes.
 // See also TestRSAPSSKeyError. testRSAPSSCertificate is self-signed.
 var testRSAPSSCertificate = fromHex("308202583082018da003020102021100f29926eb87ea8a0db9fcc247347c11b0304106092a864886f70d01010a3034a00f300d06096086480165030402010500a11c301a06092a864886f70d010108300d06096086480165030402010500a20302012030123110300e060355040a130741636d6520436f301e170d3137313132333136313631305a170d3138313132333136313631305a30123110300e060355040a130741636d6520436f30819f300d06092a864886f70d010101050003818d0030818902818100db467d932e12270648bc062821ab7ec4b6a25dfe1e5245887a3647a5080d92425bc281c0be97799840fb4f6d14fd2b138bc2a52e67d8d4099ed62238b74a0b74732bc234f1d193e596d9747bf3589f6c613cc0b041d4d92b2b2423775b1c3bbd755dce2054cfa163871d1e24c4f31d1a508baab61443ed97a77562f414c852d70203010001a3463044300e0603551d0f0101ff0404030205a030130603551d25040c300a06082b06010505070301300c0603551d130101ff04023000300f0603551d110408300687047f000001304106092a864886f70d01010a3034a00f300d06096086480165030402010500a11c301a06092a864886f70d010108300d06096086480165030402010500a20302012003818100cdac4ef2ce5f8d79881042707f7cbf1b5a8a00ef19154b40151771006cd41626e5496d56da0c1a139fd84695593cb67f87765e18aa03ea067522dd78d2a589b8c92364e12838ce346c6e067b51f1a7e6f4b37ffab13f1411896679d18e880e0ba09e302ac067efca460288e9538122692297ad8093d4f7dd701424d7700a46a1")
 

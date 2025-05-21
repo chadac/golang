@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package macho
@@ -263,7 +263,7 @@ func TestOpen(t *testing.T) {
 		// Use obscured files to prevent Apple’s notarization service from
 		// mistaking them as candidates for notarization and rejecting the entire
 		// toolchain.
-		// See golang.org/issue/34986
+		// See golanglang.org/issue/34986
 		f, err := openObscured(tt.file)
 		if err != nil {
 			t.Error(err)
@@ -349,7 +349,7 @@ func TestOpen(t *testing.T) {
 }
 
 func TestOpenFailure(t *testing.T) {
-	filename := "file.go"    // not a Mach-O file
+	filename := "file.golang"    // not a Mach-O file
 	_, err := Open(filename) // don't crash
 	if err == nil {
 		t.Errorf("open %s: succeeded unexpectedly", filename)
@@ -363,10 +363,10 @@ func TestOpenFat(t *testing.T) {
 	}
 
 	if ff.Magic != MagicFat {
-		t.Errorf("OpenFat: got magic number %#x, want %#x", ff.Magic, MagicFat)
+		t.Errorf("OpenFat: golangt magic number %#x, want %#x", ff.Magic, MagicFat)
 	}
 	if len(ff.Arches) != 2 {
-		t.Errorf("OpenFat: got %d architectures, want 2", len(ff.Arches))
+		t.Errorf("OpenFat: golangt %d architectures, want 2", len(ff.Arches))
 	}
 
 	for i := range ff.Arches {
@@ -374,17 +374,17 @@ func TestOpenFat(t *testing.T) {
 		ftArch := &fileTests[i]
 
 		if arch.Cpu != ftArch.hdr.Cpu || arch.SubCpu != ftArch.hdr.SubCpu {
-			t.Errorf("OpenFat: architecture #%d got cpu=%#x subtype=%#x, expected cpu=%#x, subtype=%#x", i, arch.Cpu, arch.SubCpu, ftArch.hdr.Cpu, ftArch.hdr.SubCpu)
+			t.Errorf("OpenFat: architecture #%d golangt cpu=%#x subtype=%#x, expected cpu=%#x, subtype=%#x", i, arch.Cpu, arch.SubCpu, ftArch.hdr.Cpu, ftArch.hdr.SubCpu)
 		}
 
 		if !reflect.DeepEqual(arch.FileHeader, ftArch.hdr) {
-			t.Errorf("OpenFat header:\n\tgot %#v\n\twant %#v\n", arch.FileHeader, ftArch.hdr)
+			t.Errorf("OpenFat header:\n\tgolangt %#v\n\twant %#v\n", arch.FileHeader, ftArch.hdr)
 		}
 	}
 }
 
 func TestOpenFatFailure(t *testing.T) {
-	filename := "file.go" // not a Mach-O file
+	filename := "file.golang" // not a Mach-O file
 	if _, err := OpenFat(filename); err == nil {
 		t.Errorf("OpenFat %s: succeeded unexpectedly", filename)
 	}
@@ -392,28 +392,28 @@ func TestOpenFatFailure(t *testing.T) {
 	filename = "testdata/gcc-386-darwin-exec.base64" // not a fat Mach-O
 	ff, err := openFatObscured(filename)
 	if err != ErrNotFat {
-		t.Errorf("OpenFat %s: got %v, want ErrNotFat", filename, err)
+		t.Errorf("OpenFat %s: golangt %v, want ErrNotFat", filename, err)
 	}
 	if ff != nil {
-		t.Errorf("OpenFat %s: got %v, want nil", filename, ff)
+		t.Errorf("OpenFat %s: golangt %v, want nil", filename, ff)
 	}
 }
 
 func TestRelocTypeString(t *testing.T) {
 	if X86_64_RELOC_BRANCH.String() != "X86_64_RELOC_BRANCH" {
-		t.Errorf("got %v, want %v", X86_64_RELOC_BRANCH.String(), "X86_64_RELOC_BRANCH")
+		t.Errorf("golangt %v, want %v", X86_64_RELOC_BRANCH.String(), "X86_64_RELOC_BRANCH")
 	}
 	if X86_64_RELOC_BRANCH.GoString() != "macho.X86_64_RELOC_BRANCH" {
-		t.Errorf("got %v, want %v", X86_64_RELOC_BRANCH.GoString(), "macho.X86_64_RELOC_BRANCH")
+		t.Errorf("golangt %v, want %v", X86_64_RELOC_BRANCH.GoString(), "macho.X86_64_RELOC_BRANCH")
 	}
 }
 
 func TestTypeString(t *testing.T) {
 	if TypeExec.String() != "Exec" {
-		t.Errorf("got %v, want %v", TypeExec.String(), "Exec")
+		t.Errorf("golangt %v, want %v", TypeExec.String(), "Exec")
 	}
 	if TypeExec.GoString() != "macho.Exec" {
-		t.Errorf("got %v, want %v", TypeExec.GoString(), "macho.Exec")
+		t.Errorf("golangt %v, want %v", TypeExec.GoString(), "macho.Exec")
 	}
 }
 

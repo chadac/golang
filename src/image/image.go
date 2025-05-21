@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package image implements a basic 2-D image library.
@@ -20,7 +20,7 @@
 // initialization side effects.
 //
 // See "The Go image package" for more details:
-// https://golang.org/doc/articles/image_package.html
+// https://golanglang.org/doc/articles/image_package.html
 //
 // # Security Considerations
 //
@@ -34,7 +34,7 @@
 // regardless of whether the image is itself malformed or not. A call to
 // [DecodeConfig] which returns a header which does not match the image returned
 // by [Decode] may be considered a security issue, and should be reported per the
-// [Go Security Policy](https://go.dev/security/policy).
+// [Go Security Policy](https://golang.dev/security/policy).
 package image
 
 import (
@@ -122,7 +122,7 @@ func (p *RGBA) RGBA64At(x, y int) color.RGBA64 {
 		return color.RGBA64{}
 	}
 	i := p.PixOffset(x, y)
-	s := p.Pix[i : i+4 : i+4] // Small cap improves performance, see https://golang.org/issue/27857
+	s := p.Pix[i : i+4 : i+4] // Small cap improves performance, see https://golanglang.org/issue/27857
 	r := uint16(s[0])
 	g := uint16(s[1])
 	b := uint16(s[2])
@@ -140,7 +140,7 @@ func (p *RGBA) RGBAAt(x, y int) color.RGBA {
 		return color.RGBA{}
 	}
 	i := p.PixOffset(x, y)
-	s := p.Pix[i : i+4 : i+4] // Small cap improves performance, see https://golang.org/issue/27857
+	s := p.Pix[i : i+4 : i+4] // Small cap improves performance, see https://golanglang.org/issue/27857
 	return color.RGBA{s[0], s[1], s[2], s[3]}
 }
 
@@ -156,7 +156,7 @@ func (p *RGBA) Set(x, y int, c color.Color) {
 	}
 	i := p.PixOffset(x, y)
 	c1 := color.RGBAModel.Convert(c).(color.RGBA)
-	s := p.Pix[i : i+4 : i+4] // Small cap improves performance, see https://golang.org/issue/27857
+	s := p.Pix[i : i+4 : i+4] // Small cap improves performance, see https://golanglang.org/issue/27857
 	s[0] = c1.R
 	s[1] = c1.G
 	s[2] = c1.B
@@ -168,7 +168,7 @@ func (p *RGBA) SetRGBA64(x, y int, c color.RGBA64) {
 		return
 	}
 	i := p.PixOffset(x, y)
-	s := p.Pix[i : i+4 : i+4] // Small cap improves performance, see https://golang.org/issue/27857
+	s := p.Pix[i : i+4 : i+4] // Small cap improves performance, see https://golanglang.org/issue/27857
 	s[0] = uint8(c.R >> 8)
 	s[1] = uint8(c.G >> 8)
 	s[2] = uint8(c.B >> 8)
@@ -180,7 +180,7 @@ func (p *RGBA) SetRGBA(x, y int, c color.RGBA) {
 		return
 	}
 	i := p.PixOffset(x, y)
-	s := p.Pix[i : i+4 : i+4] // Small cap improves performance, see https://golang.org/issue/27857
+	s := p.Pix[i : i+4 : i+4] // Small cap improves performance, see https://golanglang.org/issue/27857
 	s[0] = c.R
 	s[1] = c.G
 	s[2] = c.B
@@ -256,7 +256,7 @@ func (p *RGBA64) RGBA64At(x, y int) color.RGBA64 {
 		return color.RGBA64{}
 	}
 	i := p.PixOffset(x, y)
-	s := p.Pix[i : i+8 : i+8] // Small cap improves performance, see https://golang.org/issue/27857
+	s := p.Pix[i : i+8 : i+8] // Small cap improves performance, see https://golanglang.org/issue/27857
 	return color.RGBA64{
 		uint16(s[0])<<8 | uint16(s[1]),
 		uint16(s[2])<<8 | uint16(s[3]),
@@ -277,7 +277,7 @@ func (p *RGBA64) Set(x, y int, c color.Color) {
 	}
 	i := p.PixOffset(x, y)
 	c1 := color.RGBA64Model.Convert(c).(color.RGBA64)
-	s := p.Pix[i : i+8 : i+8] // Small cap improves performance, see https://golang.org/issue/27857
+	s := p.Pix[i : i+8 : i+8] // Small cap improves performance, see https://golanglang.org/issue/27857
 	s[0] = uint8(c1.R >> 8)
 	s[1] = uint8(c1.R)
 	s[2] = uint8(c1.G >> 8)
@@ -293,7 +293,7 @@ func (p *RGBA64) SetRGBA64(x, y int, c color.RGBA64) {
 		return
 	}
 	i := p.PixOffset(x, y)
-	s := p.Pix[i : i+8 : i+8] // Small cap improves performance, see https://golang.org/issue/27857
+	s := p.Pix[i : i+8 : i+8] // Small cap improves performance, see https://golanglang.org/issue/27857
 	s[0] = uint8(c.R >> 8)
 	s[1] = uint8(c.R)
 	s[2] = uint8(c.G >> 8)
@@ -378,7 +378,7 @@ func (p *NRGBA) NRGBAAt(x, y int) color.NRGBA {
 		return color.NRGBA{}
 	}
 	i := p.PixOffset(x, y)
-	s := p.Pix[i : i+4 : i+4] // Small cap improves performance, see https://golang.org/issue/27857
+	s := p.Pix[i : i+4 : i+4] // Small cap improves performance, see https://golanglang.org/issue/27857
 	return color.NRGBA{s[0], s[1], s[2], s[3]}
 }
 
@@ -394,7 +394,7 @@ func (p *NRGBA) Set(x, y int, c color.Color) {
 	}
 	i := p.PixOffset(x, y)
 	c1 := color.NRGBAModel.Convert(c).(color.NRGBA)
-	s := p.Pix[i : i+4 : i+4] // Small cap improves performance, see https://golang.org/issue/27857
+	s := p.Pix[i : i+4 : i+4] // Small cap improves performance, see https://golanglang.org/issue/27857
 	s[0] = c1.R
 	s[1] = c1.G
 	s[2] = c1.B
@@ -412,7 +412,7 @@ func (p *NRGBA) SetRGBA64(x, y int, c color.RGBA64) {
 		b = (b * 0xffff) / a
 	}
 	i := p.PixOffset(x, y)
-	s := p.Pix[i : i+4 : i+4] // Small cap improves performance, see https://golang.org/issue/27857
+	s := p.Pix[i : i+4 : i+4] // Small cap improves performance, see https://golanglang.org/issue/27857
 	s[0] = uint8(r >> 8)
 	s[1] = uint8(g >> 8)
 	s[2] = uint8(b >> 8)
@@ -424,7 +424,7 @@ func (p *NRGBA) SetNRGBA(x, y int, c color.NRGBA) {
 		return
 	}
 	i := p.PixOffset(x, y)
-	s := p.Pix[i : i+4 : i+4] // Small cap improves performance, see https://golang.org/issue/27857
+	s := p.Pix[i : i+4 : i+4] // Small cap improves performance, see https://golanglang.org/issue/27857
 	s[0] = c.R
 	s[1] = c.G
 	s[2] = c.B
@@ -505,7 +505,7 @@ func (p *NRGBA64) NRGBA64At(x, y int) color.NRGBA64 {
 		return color.NRGBA64{}
 	}
 	i := p.PixOffset(x, y)
-	s := p.Pix[i : i+8 : i+8] // Small cap improves performance, see https://golang.org/issue/27857
+	s := p.Pix[i : i+8 : i+8] // Small cap improves performance, see https://golanglang.org/issue/27857
 	return color.NRGBA64{
 		uint16(s[0])<<8 | uint16(s[1]),
 		uint16(s[2])<<8 | uint16(s[3]),
@@ -526,7 +526,7 @@ func (p *NRGBA64) Set(x, y int, c color.Color) {
 	}
 	i := p.PixOffset(x, y)
 	c1 := color.NRGBA64Model.Convert(c).(color.NRGBA64)
-	s := p.Pix[i : i+8 : i+8] // Small cap improves performance, see https://golang.org/issue/27857
+	s := p.Pix[i : i+8 : i+8] // Small cap improves performance, see https://golanglang.org/issue/27857
 	s[0] = uint8(c1.R >> 8)
 	s[1] = uint8(c1.R)
 	s[2] = uint8(c1.G >> 8)
@@ -548,7 +548,7 @@ func (p *NRGBA64) SetRGBA64(x, y int, c color.RGBA64) {
 		b = (b * 0xffff) / a
 	}
 	i := p.PixOffset(x, y)
-	s := p.Pix[i : i+8 : i+8] // Small cap improves performance, see https://golang.org/issue/27857
+	s := p.Pix[i : i+8 : i+8] // Small cap improves performance, see https://golanglang.org/issue/27857
 	s[0] = uint8(r >> 8)
 	s[1] = uint8(r)
 	s[2] = uint8(g >> 8)
@@ -564,7 +564,7 @@ func (p *NRGBA64) SetNRGBA64(x, y int, c color.NRGBA64) {
 		return
 	}
 	i := p.PixOffset(x, y)
-	s := p.Pix[i : i+8 : i+8] // Small cap improves performance, see https://golang.org/issue/27857
+	s := p.Pix[i : i+8 : i+8] // Small cap improves performance, see https://golanglang.org/issue/27857
 	s[0] = uint8(c.R >> 8)
 	s[1] = uint8(c.R)
 	s[2] = uint8(c.G >> 8)
@@ -1065,7 +1065,7 @@ func (p *CMYK) CMYKAt(x, y int) color.CMYK {
 		return color.CMYK{}
 	}
 	i := p.PixOffset(x, y)
-	s := p.Pix[i : i+4 : i+4] // Small cap improves performance, see https://golang.org/issue/27857
+	s := p.Pix[i : i+4 : i+4] // Small cap improves performance, see https://golanglang.org/issue/27857
 	return color.CMYK{s[0], s[1], s[2], s[3]}
 }
 
@@ -1081,7 +1081,7 @@ func (p *CMYK) Set(x, y int, c color.Color) {
 	}
 	i := p.PixOffset(x, y)
 	c1 := color.CMYKModel.Convert(c).(color.CMYK)
-	s := p.Pix[i : i+4 : i+4] // Small cap improves performance, see https://golang.org/issue/27857
+	s := p.Pix[i : i+4 : i+4] // Small cap improves performance, see https://golanglang.org/issue/27857
 	s[0] = c1.C
 	s[1] = c1.M
 	s[2] = c1.Y
@@ -1094,7 +1094,7 @@ func (p *CMYK) SetRGBA64(x, y int, c color.RGBA64) {
 	}
 	cc, mm, yy, kk := color.RGBToCMYK(uint8(c.R>>8), uint8(c.G>>8), uint8(c.B>>8))
 	i := p.PixOffset(x, y)
-	s := p.Pix[i : i+4 : i+4] // Small cap improves performance, see https://golang.org/issue/27857
+	s := p.Pix[i : i+4 : i+4] // Small cap improves performance, see https://golanglang.org/issue/27857
 	s[0] = cc
 	s[1] = mm
 	s[2] = yy
@@ -1106,7 +1106,7 @@ func (p *CMYK) SetCMYK(x, y int, c color.CMYK) {
 		return
 	}
 	i := p.PixOffset(x, y)
-	s := p.Pix[i : i+4 : i+4] // Small cap improves performance, see https://golang.org/issue/27857
+	s := p.Pix[i : i+4 : i+4] // Small cap improves performance, see https://golanglang.org/issue/27857
 	s[0] = c.C
 	s[1] = c.M
 	s[2] = c.Y

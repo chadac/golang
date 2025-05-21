@@ -1,8 +1,8 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build unix || wasip1
+//golang:build unix || wasip1
 
 package os
 
@@ -47,7 +47,7 @@ func newRoot(fd int, name string) (*Root, error) {
 	}
 
 	// There's a race here with fork/exec, which we are
-	// content to live with. See ../syscall/exec_unix.go.
+	// content to live with. See ../syscall/exec_unix.golang.
 	if !supportsCloseOnExec {
 		syscall.CloseOnExec(fd)
 	}

@@ -1,12 +1,12 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package types
 
 import (
-	"go/ast"
-	"go/token"
+	"golang/ast"
+	"golang/token"
 	. "internal/types/errors"
 	"strconv"
 )
@@ -103,7 +103,7 @@ func (check *Checker) structType(styp *Struct, e *ast.StructType) {
 	// addInvalid adds an embedded field of invalid type to the struct for
 	// fields with errors; this keeps the number of struct fields in sync
 	// with the source as long as the fields are _ or have different names
-	// (go.dev/issue/25627).
+	// (golang.dev/issue/25627).
 	addInvalid := func(ident *ast.Ident) {
 		typ = Typ[Invalid]
 		tag = ""

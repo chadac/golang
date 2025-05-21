@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package pprof
@@ -76,10 +76,10 @@ func TestConvertCPUProfileNoSamples(t *testing.T) {
 	checkProfile(t, p, 2000*1000, periodType, sampleType, nil, "")
 }
 
-//go:noinline
+//golang:noinline
 func f1() { f1() }
 
-//go:noinline
+//golang:noinline
 func f2() { f2() }
 
 // testPCs returns two PCs and two corresponding memory mappings
@@ -108,7 +108,7 @@ func testPCs(t *testing.T) (addr1, addr2 uint64, map1, map2 *profile.Mapping) {
 		if len(mappings) < 2 {
 			// It is possible for a binary to only have 1 executable
 			// region of memory.
-			t.Skipf("need 2 or more mappings, got %v", len(mappings))
+			t.Skipf("need 2 or more mappings, golangt %v", len(mappings))
 		}
 		addr1 = mappings[0].Start
 		map1 = mappings[0]
@@ -250,12 +250,12 @@ ffffffffff600000-ffffffffff601000 r-xp 00000090 00:00 0                  [vsysca
 ffffffffff600000 ffffffffff601000 00000090 [vsyscall]
 
 00400000-07000000 r-xp 00000000 00:00 0
-07000000-07093000 r-xp 06c00000 00:2e 536754                             /path/to/gobench_server_main
-07093000-0722d000 rw-p 06c92000 00:2e 536754                             /path/to/gobench_server_main
+07000000-07093000 r-xp 06c00000 00:2e 536754                             /path/to/golangbench_server_main
+07093000-0722d000 rw-p 06c92000 00:2e 536754                             /path/to/golangbench_server_main
 0722d000-07b21000 rw-p 00000000 00:00 0
 c000000000-c000036000 rw-p 00000000 00:00 0
 ->
-07000000 07093000 06c00000 /path/to/gobench_server_main
+07000000 07093000 06c00000 /path/to/golangbench_server_main
 `
 
 var profSelfMapsTestsWithDeleted = `
@@ -353,7 +353,7 @@ func TestMapping(t *testing.T) {
 	testenv.MustHaveGoRun(t)
 	testenv.MustHaveCGO(t)
 
-	prog := "./testdata/mappingtest/main.go"
+	prog := "./testdata/mappingtest/main.golang"
 
 	// GoOnly includes only Go symbols that runtime will symbolize.
 	// Go+C includes C symbols that runtime will not symbolize.
@@ -440,7 +440,7 @@ func TestFakeMapping(t *testing.T) {
 	}
 	t.Logf("Profile: %s", prof)
 	if len(prof.Mapping) == 0 {
-		t.Fatal("want profile with at least one mapping entry, got 0 mapping")
+		t.Fatal("want profile with at least one mapping entry, golangt 0 mapping")
 	}
 
 	hit := make(map[*profile.Mapping]bool)
@@ -486,6 +486,6 @@ func (errWriter) Write(p []byte) (int, error) { return 0, errWrite }
 func TestWriteToErr(t *testing.T) {
 	err := Lookup("heap").WriteTo(&errWriter{}, 0)
 	if !errors.Is(err, errWrite) {
-		t.Fatalf("want error from writer, got: %v", err)
+		t.Fatalf("want error from writer, golangt: %v", err)
 	}
 }

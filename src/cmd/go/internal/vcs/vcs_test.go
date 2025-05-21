@@ -1,5 +1,5 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package vcs
@@ -13,14 +13,14 @@ import (
 	"strings"
 	"testing"
 
-	"cmd/go/internal/web"
+	"cmd/golang/internal/web"
 )
 
 func init() {
 	// GOVCS defaults to public:git|hg,private:all,
 	// which breaks many tests here - they can't use non-git, non-hg VCS at all!
 	// Change to fully permissive.
-	// The tests of the GOVCS setting itself are in ../../testdata/script/govcs.txt.
+	// The tests of the GOVCS setting itself are in ../../testdata/script/golangvcs.txt.
 	os.Setenv("GOVCS", "*:all")
 }
 
@@ -34,10 +34,10 @@ func TestRepoRootForImportPath(t *testing.T) {
 		want *RepoRoot
 	}{
 		{
-			"github.com/golang/groupcache",
+			"github.com/golanglang/groupcache",
 			&RepoRoot{
 				VCS:  vcsGit,
-				Repo: "https://github.com/golang/groupcache",
+				Repo: "https://github.com/golanglang/groupcache",
 			},
 		},
 		// Unicode letters in directories are not valid.
@@ -116,7 +116,7 @@ func TestRepoRootForImportPath(t *testing.T) {
 		},
 		// Trailing .git is less preferred but included for
 		// compatibility purposes while the same source needs to
-		// be compilable on both old and new go
+		// be compilable on both old and new golang
 		{
 			"git.openstack.org/openstack/swift.git",
 			&RepoRoot{
@@ -125,7 +125,7 @@ func TestRepoRootForImportPath(t *testing.T) {
 			},
 		},
 		{
-			"git.openstack.org/openstack/swift/go/hummingbird",
+			"git.openstack.org/openstack/swift/golang/hummingbird",
 			&RepoRoot{
 				VCS:  vcsGit,
 				Repo: "https://git.openstack.org/openstack/swift",
@@ -193,7 +193,7 @@ func TestRepoRootForImportPath(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		got, err := RepoRootForImportPath(test.path, IgnoreMod, web.SecureOnly)
+		golangt, err := RepoRootForImportPath(test.path, IgnoreMod, web.SecureOnly)
 		want := test.want
 
 		if want == nil {
@@ -206,8 +206,8 @@ func TestRepoRootForImportPath(t *testing.T) {
 			t.Errorf("RepoRootForImportPath(%q): %v", test.path, err)
 			continue
 		}
-		if got.VCS.Name != want.VCS.Name || got.Repo != want.Repo {
-			t.Errorf("RepoRootForImportPath(%q) = VCS(%s) Repo(%s), want VCS(%s) Repo(%s)", test.path, got.VCS, got.Repo, want.VCS, want.Repo)
+		if golangt.VCS.Name != want.VCS.Name || golangt.Repo != want.Repo {
+			t.Errorf("RepoRootForImportPath(%q) = VCS(%s) Repo(%s), want VCS(%s) Repo(%s)", test.path, golangt.VCS, golangt.Repo, want.VCS, want.Repo)
 		}
 	}
 }
@@ -239,13 +239,13 @@ func TestFromDir(t *testing.T) {
 			}
 
 			wantRepoDir := filepath.Dir(dir)
-			gotRepoDir, gotVCS, err := FromDir(dir, tempDir, false)
+			golangtRepoDir, golangtVCS, err := FromDir(dir, tempDir, false)
 			if err != nil {
 				t.Errorf("FromDir(%q, %q): %v", dir, tempDir, err)
 				continue
 			}
-			if gotRepoDir != wantRepoDir || gotVCS.Name != vcs.Name {
-				t.Errorf("FromDir(%q, %q) = RepoDir(%s), VCS(%s); want RepoDir(%s), VCS(%s)", dir, tempDir, gotRepoDir, gotVCS.Name, wantRepoDir, vcs.Name)
+			if golangtRepoDir != wantRepoDir || golangtVCS.Name != vcs.Name {
+				t.Errorf("FromDir(%q, %q) = RepoDir(%s), VCS(%s); want RepoDir(%s), VCS(%s)", dir, tempDir, golangtRepoDir, golangtVCS.Name, wantRepoDir, vcs.Name)
 			}
 		}
 	}
@@ -452,13 +452,13 @@ func TestMatchGoImport(t *testing.T) {
 	for _, test := range tests {
 		mi, err := matchGoImport(test.imports, test.path)
 		if mi != test.mi {
-			t.Errorf("unexpected metaImport; got %v, want %v", mi, test.mi)
+			t.Errorf("unexpected metaImport; golangt %v, want %v", mi, test.mi)
 		}
 
-		got := err
+		golangt := err
 		want := test.err
-		if (got == nil) != (want == nil) {
-			t.Errorf("unexpected error; got %v, want %v", got, want)
+		if (golangt == nil) != (want == nil) {
+			t.Errorf("unexpected error; golangt %v, want %v", golangt, want)
 		}
 	}
 }
@@ -507,8 +507,8 @@ func TestValidateRepoRoot(t *testing.T) {
 	}
 }
 
-var govcsTests = []struct {
-	govcs string
+var golangvcsTests = []struct {
+	golangvcs string
 	path  string
 	vcs   string
 	ok    bool
@@ -520,59 +520,59 @@ var govcsTests = []struct {
 	{"public:all,private:none", "is-public.com/foo", "zzz", true},
 	{"public:all,private:none", "is-private.com/foo", "zzz", false},
 	{"*:all", "is-public.com/foo", "zzz", true},
-	{"golang.org:git", "golang.org/x/text", "zzz", false},
-	{"golang.org:git", "golang.org/x/text", "git", true},
-	{"golang.org:zzz", "golang.org/x/text", "zzz", true},
-	{"golang.org:zzz", "golang.org/x/text", "git", false},
-	{"golang.org:zzz", "golang.org/x/text", "zzz", true},
-	{"golang.org:zzz", "golang.org/x/text", "git", false},
-	{"golang.org:git|hg", "golang.org/x/text", "hg", true},
-	{"golang.org:git|hg", "golang.org/x/text", "git", true},
-	{"golang.org:git|hg", "golang.org/x/text", "zzz", false},
-	{"golang.org:all", "golang.org/x/text", "hg", true},
-	{"golang.org:all", "golang.org/x/text", "git", true},
-	{"golang.org:all", "golang.org/x/text", "zzz", true},
-	{"other.xyz/p:none,golang.org/x:git", "other.xyz/p/x", "git", false},
-	{"other.xyz/p:none,golang.org/x:git", "unexpected.com", "git", false},
-	{"other.xyz/p:none,golang.org/x:git", "golang.org/x/text", "zzz", false},
-	{"other.xyz/p:none,golang.org/x:git", "golang.org/x/text", "git", true},
-	{"other.xyz/p:none,golang.org/x:zzz", "golang.org/x/text", "zzz", true},
-	{"other.xyz/p:none,golang.org/x:zzz", "golang.org/x/text", "git", false},
-	{"other.xyz/p:none,golang.org/x:git|hg", "golang.org/x/text", "hg", true},
-	{"other.xyz/p:none,golang.org/x:git|hg", "golang.org/x/text", "git", true},
-	{"other.xyz/p:none,golang.org/x:git|hg", "golang.org/x/text", "zzz", false},
-	{"other.xyz/p:none,golang.org/x:all", "golang.org/x/text", "hg", true},
-	{"other.xyz/p:none,golang.org/x:all", "golang.org/x/text", "git", true},
-	{"other.xyz/p:none,golang.org/x:all", "golang.org/x/text", "zzz", true},
-	{"other.xyz/p:none,golang.org/x:git", "golang.org/y/text", "zzz", false},
-	{"other.xyz/p:none,golang.org/x:git", "golang.org/y/text", "git", false},
-	{"other.xyz/p:none,golang.org/x:zzz", "golang.org/y/text", "zzz", false},
-	{"other.xyz/p:none,golang.org/x:zzz", "golang.org/y/text", "git", false},
-	{"other.xyz/p:none,golang.org/x:git|hg", "golang.org/y/text", "hg", false},
-	{"other.xyz/p:none,golang.org/x:git|hg", "golang.org/y/text", "git", false},
-	{"other.xyz/p:none,golang.org/x:git|hg", "golang.org/y/text", "zzz", false},
-	{"other.xyz/p:none,golang.org/x:all", "golang.org/y/text", "hg", false},
-	{"other.xyz/p:none,golang.org/x:all", "golang.org/y/text", "git", false},
-	{"other.xyz/p:none,golang.org/x:all", "golang.org/y/text", "zzz", false},
+	{"golanglang.org:git", "golanglang.org/x/text", "zzz", false},
+	{"golanglang.org:git", "golanglang.org/x/text", "git", true},
+	{"golanglang.org:zzz", "golanglang.org/x/text", "zzz", true},
+	{"golanglang.org:zzz", "golanglang.org/x/text", "git", false},
+	{"golanglang.org:zzz", "golanglang.org/x/text", "zzz", true},
+	{"golanglang.org:zzz", "golanglang.org/x/text", "git", false},
+	{"golanglang.org:git|hg", "golanglang.org/x/text", "hg", true},
+	{"golanglang.org:git|hg", "golanglang.org/x/text", "git", true},
+	{"golanglang.org:git|hg", "golanglang.org/x/text", "zzz", false},
+	{"golanglang.org:all", "golanglang.org/x/text", "hg", true},
+	{"golanglang.org:all", "golanglang.org/x/text", "git", true},
+	{"golanglang.org:all", "golanglang.org/x/text", "zzz", true},
+	{"other.xyz/p:none,golanglang.org/x:git", "other.xyz/p/x", "git", false},
+	{"other.xyz/p:none,golanglang.org/x:git", "unexpected.com", "git", false},
+	{"other.xyz/p:none,golanglang.org/x:git", "golanglang.org/x/text", "zzz", false},
+	{"other.xyz/p:none,golanglang.org/x:git", "golanglang.org/x/text", "git", true},
+	{"other.xyz/p:none,golanglang.org/x:zzz", "golanglang.org/x/text", "zzz", true},
+	{"other.xyz/p:none,golanglang.org/x:zzz", "golanglang.org/x/text", "git", false},
+	{"other.xyz/p:none,golanglang.org/x:git|hg", "golanglang.org/x/text", "hg", true},
+	{"other.xyz/p:none,golanglang.org/x:git|hg", "golanglang.org/x/text", "git", true},
+	{"other.xyz/p:none,golanglang.org/x:git|hg", "golanglang.org/x/text", "zzz", false},
+	{"other.xyz/p:none,golanglang.org/x:all", "golanglang.org/x/text", "hg", true},
+	{"other.xyz/p:none,golanglang.org/x:all", "golanglang.org/x/text", "git", true},
+	{"other.xyz/p:none,golanglang.org/x:all", "golanglang.org/x/text", "zzz", true},
+	{"other.xyz/p:none,golanglang.org/x:git", "golanglang.org/y/text", "zzz", false},
+	{"other.xyz/p:none,golanglang.org/x:git", "golanglang.org/y/text", "git", false},
+	{"other.xyz/p:none,golanglang.org/x:zzz", "golanglang.org/y/text", "zzz", false},
+	{"other.xyz/p:none,golanglang.org/x:zzz", "golanglang.org/y/text", "git", false},
+	{"other.xyz/p:none,golanglang.org/x:git|hg", "golanglang.org/y/text", "hg", false},
+	{"other.xyz/p:none,golanglang.org/x:git|hg", "golanglang.org/y/text", "git", false},
+	{"other.xyz/p:none,golanglang.org/x:git|hg", "golanglang.org/y/text", "zzz", false},
+	{"other.xyz/p:none,golanglang.org/x:all", "golanglang.org/y/text", "hg", false},
+	{"other.xyz/p:none,golanglang.org/x:all", "golanglang.org/y/text", "git", false},
+	{"other.xyz/p:none,golanglang.org/x:all", "golanglang.org/y/text", "zzz", false},
 }
 
 func TestGOVCS(t *testing.T) {
-	for _, tt := range govcsTests {
-		cfg, err := parseGOVCS(tt.govcs)
+	for _, tt := range golangvcsTests {
+		cfg, err := parseGOVCS(tt.golangvcs)
 		if err != nil {
-			t.Errorf("parseGOVCS(%q): %v", tt.govcs, err)
+			t.Errorf("parseGOVCS(%q): %v", tt.golangvcs, err)
 			continue
 		}
 		private := strings.HasPrefix(tt.path, "is-private")
 		ok := cfg.allow(tt.path, private, tt.vcs)
 		if ok != tt.ok {
 			t.Errorf("parseGOVCS(%q).allow(%q, %v, %q) = %v, want %v",
-				tt.govcs, tt.path, private, tt.vcs, ok, tt.ok)
+				tt.golangvcs, tt.path, private, tt.vcs, ok, tt.ok)
 		}
 	}
 }
 
-var govcsErrors = []struct {
+var golangvcsErrors = []struct {
 	s   string
 	err string
 }{
@@ -594,7 +594,7 @@ var govcsErrors = []struct {
 }
 
 func TestGOVCSErrors(t *testing.T) {
-	for _, tt := range govcsErrors {
+	for _, tt := range golangvcsErrors {
 		_, err := parseGOVCS(tt.s)
 		if err == nil || !strings.Contains(err.Error(), tt.err) {
 			t.Errorf("parseGOVCS(%s): err=%v, want %v", tt.s, err, tt.err)

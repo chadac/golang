@@ -3,10 +3,10 @@
 -- .mod --
 module example.com/deprecated/b
 
-go 1.17
--- go.mod --
+golang 1.17
+-- golang.mod --
 module example.com/deprecated/b
 
-go 1.17
--- b.go --
+golang 1.17
+-- b.golang --
 package b

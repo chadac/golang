@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file provides the generic implementation of Sum and MAC. Other files
@@ -12,7 +12,7 @@ import (
 	"math/bits"
 )
 
-// Poly1305 [RFC 7539] is a relatively simple algorithm: the authentication tag
+// Poly1305 [RFC 7539] is a relatively simple algolangrithm: the authentication tag
 // for a 64 bytes message is approximately
 //
 //     s + m[0:16] * r⁴ + m[16:32] * r³ + m[32:48] * r² + m[48:64] * r  mod  2¹³⁰ - 5
@@ -205,7 +205,7 @@ func updateGeneric(state *macState, msg []byte) {
 		h2r1 := mul64(h2, r1)
 
 		// Since h2 is known to be at most 7 (5 + 1 + 1), and r0 and r1 have their
-		// top 4 bits cleared by rMask{0,1}, we know that their product is not going
+		// top 4 bits cleared by rMask{0,1}, we know that their product is not golanging
 		// to overflow 64 bits, so we can ignore the high part of the products.
 		//
 		// This also means that the product doesn't have a fifth limb (t4).

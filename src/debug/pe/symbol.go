@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package pe
@@ -158,7 +158,7 @@ type Symbol struct {
 // holds extra info associated with a section definition, including
 // number of relocations + line numbers, as well as COMDAT info. See
 // https://docs.microsoft.com/en-us/windows/win32/debug/pe-format#auxiliary-format-5-section-definitions
-// for more on what's going on here.
+// for more on what's golanging on here.
 type COFFSymbolAuxFormat5 struct {
 	Size           uint32
 	NumRelocs      uint16

@@ -1,5 +1,5 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package gzip
@@ -26,14 +26,14 @@ func TestEmpty(t *testing.T) {
 		t.Fatalf("NewReader: %v", err)
 	}
 	if want := (Header{OS: 255}); !reflect.DeepEqual(r.Header, want) {
-		t.Errorf("Header mismatch:\ngot  %#v\nwant %#v", r.Header, want)
+		t.Errorf("Header mismatch:\ngolangt  %#v\nwant %#v", r.Header, want)
 	}
 	b, err := io.ReadAll(r)
 	if err != nil {
 		t.Fatalf("ReadAll: %v", err)
 	}
 	if len(b) != 0 {
-		t.Fatalf("got %d bytes, want 0", len(b))
+		t.Fatalf("golangt %d bytes, want 0", len(b))
 	}
 	if err := r.Close(); err != nil {
 		t.Fatalf("Reader.Close: %v", err)
@@ -95,7 +95,7 @@ func TestLatin1(t *testing.T) {
 		t.Fatalf("readString: %v", err)
 	}
 	if s != utf8 {
-		t.Fatalf("read latin-1: got %q, want %q", s, utf8)
+		t.Fatalf("read latin-1: golangt %q, want %q", s, utf8)
 	}
 
 	buf := bytes.NewBuffer(make([]byte, 0, len(latin1)))
@@ -105,7 +105,7 @@ func TestLatin1(t *testing.T) {
 	}
 	s = buf.String()
 	if s != string(latin1) {
-		t.Fatalf("write utf-8: got %q, want %q", s, string(latin1))
+		t.Fatalf("write utf-8: golangt %q, want %q", s, string(latin1))
 	}
 }
 

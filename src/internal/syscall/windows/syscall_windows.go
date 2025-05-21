@@ -1,5 +1,5 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package windows
@@ -13,7 +13,7 @@ import (
 // CanUseLongPaths is true when the OS supports opting into
 // proper long path handling without the need for fixups.
 //
-//go:linkname CanUseLongPaths
+//golang:linkname CanUseLongPaths
 var CanUseLongPaths bool
 
 // UTF16PtrToString is like UTF16ToString, but takes *uint16
@@ -502,13 +502,13 @@ func FinalPath(h syscall.Handle, flags uint32) (string, error) {
 
 // QueryPerformanceCounter retrieves the current value of performance counter.
 //
-//go:linkname QueryPerformanceCounter
+//golang:linkname QueryPerformanceCounter
 func QueryPerformanceCounter() int64 // Implemented in runtime package.
 
 // QueryPerformanceFrequency retrieves the frequency of the performance counter.
 // The returned value is represented as counts per second.
 //
-//go:linkname QueryPerformanceFrequency
+//golang:linkname QueryPerformanceFrequency
 func QueryPerformanceFrequency() int64 // Implemented in runtime package.
 
 //sys   GetModuleHandle(modulename *uint16) (handle syscall.Handle, err error) = kernel32.GetModuleHandleW

@@ -1,13 +1,13 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !wasm
+//golang:build !wasm
 
 package runtime
 
 import (
-	"internal/goarch"
+	"internal/golangarch"
 	"internal/runtime/atomic"
 	"internal/runtime/gc"
 	"unsafe"
@@ -51,8 +51,8 @@ import (
 // otherwise.
 
 const (
-	active_spin     = 4  // referenced in proc.go for sync.Mutex implementation
-	active_spin_cnt = 30 // referenced in proc.go for sync.Mutex implementation
+	active_spin     = 4  // referenced in proc.golang for sync.Mutex implementation
+	active_spin_cnt = 30 // referenced in proc.golang for sync.Mutex implementation
 )
 
 const (
@@ -70,10 +70,10 @@ const (
 	mutexTailWakePeriod = 16
 )
 
-//go:nosplit
+//golang:nosplit
 func key8(p *uintptr) *uint8 {
-	if goarch.BigEndian {
-		return &(*[8]uint8)(unsafe.Pointer(p))[goarch.PtrSize/1-1]
+	if golangarch.BigEndian {
+		return &(*[8]uint8)(unsafe.Pointer(p))[golangarch.PtrSize/1-1]
 	}
 	return &(*[8]uint8)(unsafe.Pointer(p))[0]
 }
@@ -107,7 +107,7 @@ func lockVerifyMSize() {
 // the low 11 bits with flags. We can use those 11 bits as 3 flags and an
 // atomically-swapped byte.
 //
-//go:nosplit
+//golang:nosplit
 func mutexWaitListHead(v uintptr) muintptr {
 	if highBits := v &^ mutexMMask; highBits == 0 {
 		return 0
@@ -120,7 +120,7 @@ func mutexWaitListHead(v uintptr) muintptr {
 
 // mutexPreferLowLatency reports if this mutex prefers low latency at the risk
 // of performance collapse. If so, we can allow all waiting threads to spin on
-// the state word rather than go to sleep.
+// the state word rather than golang to sleep.
 //
 // TODO: We could have the waiting Ms each spin on their own private cache line,
 // especially if we can put a bound on the on-CPU time that would consume.
@@ -130,7 +130,7 @@ func mutexWaitListHead(v uintptr) muintptr {
 // we're constrained to what we can fit within a single uintptr with no
 // additional storage on the M for each lock held.
 //
-//go:nosplit
+//golang:nosplit
 func mutexPreferLowLatency(l *mutex) bool {
 	switch l {
 	default:
@@ -217,7 +217,7 @@ tryAcquire:
 				v = atomic.Loaduintptr(&l.key)
 				continue tryAcquire
 			} else if i < spin+mutexPassiveSpinCount {
-				osyield() // TODO: Consider removing this step. See https://go.dev/issue/69268.
+				osyield() // TODO: Consider removing this step. See https://golang.dev/issue/69268.
 				v = atomic.Loaduintptr(&l.key)
 				continue tryAcquire
 			}
@@ -263,7 +263,7 @@ func unlock(l *mutex) {
 
 // We might not be holding a p in this code.
 //
-//go:nowritebarrier
+//golang:nowritebarrier
 func unlock2(l *mutex) {
 	gp := getg()
 
@@ -341,7 +341,7 @@ func mutexSampleContention() bool {
 
 // unlock2Wake updates the list of Ms waiting on l, waking an M if necessary.
 //
-//go:nowritebarrier
+//golang:nowritebarrier
 func unlock2Wake(l *mutex, haveStackLock bool, endTicks int64) {
 	v := atomic.Loaduintptr(&l.key)
 
@@ -350,7 +350,7 @@ func unlock2Wake(l *mutex, haveStackLock bool, endTicks int64) {
 	antiStarve := cheaprandn(mutexTailWakePeriod) == 0
 
 	if haveStackLock {
-		goto useStackLock
+		golangto useStackLock
 	}
 
 	if !(antiStarve || // avoiding starvation may require a wake
@@ -368,7 +368,7 @@ func unlock2Wake(l *mutex, haveStackLock bool, endTicks int64) {
 			//
 			// Although: This thread may have a different call stack, which
 			// would result in a different entry in the mutex contention profile
-			// (upon completion of go.dev/issue/66999). That could lead to weird
+			// (upon completion of golang.dev/issue/66999). That could lead to weird
 			// results if a slow critical section ends but another thread
 			// quickly takes the lock, finishes its own critical section,
 			// releases the lock, and then grabs the stack lock. That quick
@@ -440,7 +440,7 @@ useStackLock:
 				if wakem != mp {
 					committed = wakem
 					prev.mWaitList.next = wakem.mWaitList.next
-					// An M sets its own startTicks when it first goes to sleep.
+					// An M sets its own startTicks when it first golanges to sleep.
 					// When an unlock operation is sampled for the mutex
 					// contention profile, it takes blame for the entire list of
 					// waiting Ms but only updates the startTicks value at the

@@ -1,8 +1,8 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build goexperiment.swissmap
+//golang:build golangexperiment.swissmap
 
 package maps
 
@@ -13,7 +13,7 @@ import (
 	"unsafe"
 )
 
-//go:linkname runtime_mapaccess1_fast64 runtime.mapaccess1_fast64
+//golang:linkname runtime_mapaccess1_fast64 runtime.mapaccess1_fast64
 func runtime_mapaccess1_fast64(typ *abi.SwissMapType, m *Map, key uint64) unsafe.Pointer {
 	if race.Enabled && m != nil {
 		callerpc := sys.GetCallerPC()
@@ -82,7 +82,7 @@ func runtime_mapaccess1_fast64(typ *abi.SwissMapType, m *Map, key uint64) unsafe
 	}
 }
 
-//go:linkname runtime_mapaccess2_fast64 runtime.mapaccess2_fast64
+//golang:linkname runtime_mapaccess2_fast64 runtime.mapaccess2_fast64
 func runtime_mapaccess2_fast64(typ *abi.SwissMapType, m *Map, key uint64) (unsafe.Pointer, bool) {
 	if race.Enabled && m != nil {
 		callerpc := sys.GetCallerPC()
@@ -191,7 +191,7 @@ func (m *Map) putSlotSmallFast64(typ *abi.SwissMapType, hash uintptr, key uint64
 	return slotElem
 }
 
-//go:linkname runtime_mapassign_fast64 runtime.mapassign_fast64
+//golang:linkname runtime_mapassign_fast64 runtime.mapassign_fast64
 func runtime_mapassign_fast64(typ *abi.SwissMapType, m *Map, key uint64) unsafe.Pointer {
 	if m == nil {
 		panic(errNilAssign)
@@ -368,7 +368,7 @@ func (m *Map) putSlotSmallFastPtr(typ *abi.SwissMapType, hash uintptr, key unsaf
 
 // Key is a 64-bit pointer (only called on 64-bit GOARCH).
 //
-//go:linkname runtime_mapassign_fast64ptr runtime.mapassign_fast64ptr
+//golang:linkname runtime_mapassign_fast64ptr runtime.mapassign_fast64ptr
 func runtime_mapassign_fast64ptr(typ *abi.SwissMapType, m *Map, key unsafe.Pointer) unsafe.Pointer {
 	if m == nil {
 		panic(errNilAssign)
@@ -498,7 +498,7 @@ outer:
 	return slotElem
 }
 
-//go:linkname runtime_mapdelete_fast64 runtime.mapdelete_fast64
+//golang:linkname runtime_mapdelete_fast64 runtime.mapdelete_fast64
 func runtime_mapdelete_fast64(typ *abi.SwissMapType, m *Map, key uint64) {
 	if race.Enabled {
 		callerpc := sys.GetCallerPC()

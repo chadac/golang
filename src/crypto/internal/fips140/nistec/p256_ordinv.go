@@ -1,21 +1,21 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build (amd64 || arm64) && !purego
+//golang:build (amd64 || arm64) && !puregolang
 
 package nistec
 
 import "errors"
 
-// Montgomery multiplication modulo org(G). Sets res = in1 * in2 * R⁻¹.
+// Montgolangmery multiplication modulo org(G). Sets res = in1 * in2 * R⁻¹.
 //
-//go:noescape
+//golang:noescape
 func p256OrdMul(res, in1, in2 *p256OrdElement)
 
-// Montgomery square modulo org(G), repeated n times (n >= 1).
+// Montgolangmery square modulo org(G), repeated n times (n >= 1).
 //
-//go:noescape
+//golang:noescape
 func p256OrdSqr(res, in *p256OrdElement, n int)
 
 func P256OrdInverse(k []byte) ([]byte, error) {
@@ -40,11 +40,11 @@ func P256OrdInverse(k []byte) ([]byte, error) {
 	_101111 := new(p256OrdElement)
 	t := new(p256OrdElement)
 
-	// This code operates in the Montgomery domain where R = 2²⁵⁶ mod n and n is
-	// the order of the scalar field. Elements in the Montgomery domain take the
+	// This code operates in the Montgolangmery domain where R = 2²⁵⁶ mod n and n is
+	// the order of the scalar field. Elements in the Montgolangmery domain take the
 	// form a×R and p256OrdMul calculates (a × b × R⁻¹) mod n. RR is R in the
 	// domain, or R×R mod n, thus p256OrdMul(x, RR) gives x×R, i.e. converts x
-	// into the Montgomery domain.
+	// into the Montgolangmery domain.
 	RR := &p256OrdElement{0x83244c95be79eea2, 0x4699799c49bd6fa6,
 		0x2845b2392b6bec59, 0x66e12d94f3d95620}
 
@@ -91,8 +91,8 @@ func P256OrdInverse(k []byte) ([]byte, error) {
 		p256OrdMul(x, x, muls[i])
 	}
 
-	// Montgomery multiplication by R⁻¹, or 1 outside the domain as R⁻¹×R = 1,
-	// converts a Montgomery value out of the domain.
+	// Montgolangmery multiplication by R⁻¹, or 1 outside the domain as R⁻¹×R = 1,
+	// converts a Montgolangmery value out of the domain.
 	one := &p256OrdElement{1}
 	p256OrdMul(x, x, one)
 

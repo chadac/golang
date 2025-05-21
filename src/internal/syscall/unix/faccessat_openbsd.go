@@ -1,8 +1,8 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build openbsd && !mips64
+//golang:build openbsd && !mips64
 
 package unix
 
@@ -12,12 +12,12 @@ import (
 	"unsafe"
 )
 
-//go:linkname syscall_syscall6 syscall.syscall6
+//golang:linkname syscall_syscall6 syscall.syscall6
 func syscall_syscall6(fn, a1, a2, a3, a4, a5, a6 uintptr) (r1, r2 uintptr, err syscall.Errno)
 
 func libc_faccessat_trampoline()
 
-//go:cgo_import_dynamic libc_faccessat faccessat "libc.so"
+//golang:cgolang_import_dynamic libc_faccessat faccessat "libc.so"
 
 func faccessat(dirfd int, path string, mode uint32, flags int) error {
 	p, err := syscall.BytePtrFromString(path)

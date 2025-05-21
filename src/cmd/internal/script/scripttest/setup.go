@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package scripttest adapts the script engine for use in tests.
@@ -17,10 +17,10 @@ import (
 )
 
 // SetupTestGoRoot sets up a temporary GOROOT for use with script test
-// execution. It copies the existing goroot bin and pkg dirs using
+// execution. It copies the existing golangroot bin and pkg dirs using
 // symlinks (if possible) or raw copying. Return value is the path to
-// the newly created testgoroot dir.
-func SetupTestGoRoot(t *testing.T, tmpdir string, goroot string) string {
+// the newly created testgolangroot dir.
+func SetupTestGoRoot(t *testing.T, tmpdir string, golangroot string) string {
 	mustMkdir := func(path string) {
 		if err := os.MkdirAll(path, 0777); err != nil {
 			t.Fatalf("SetupTestGoRoot mkdir %s failed: %v", path, err)
@@ -38,7 +38,7 @@ func SetupTestGoRoot(t *testing.T, tmpdir string, goroot string) string {
 		}
 	}
 
-	// Create various dirs in testgoroot.
+	// Create various dirs in testgolangroot.
 	findToolOnce.Do(func() { findToolSub(t) })
 	if toolsub == "" {
 		t.Fatal("failed to find toolsub")
@@ -52,7 +52,7 @@ func SetupTestGoRoot(t *testing.T, tmpdir string, goroot string) string {
 		toolsub,
 	}
 	made := []string{}
-	tgr := filepath.Join(tmpdir, "testgoroot")
+	tgr := filepath.Join(tmpdir, "testgolangroot")
 	mustMkdir(tgr)
 	for _, targ := range tomake {
 		path := filepath.Join(tgr, targ)
@@ -61,18 +61,18 @@ func SetupTestGoRoot(t *testing.T, tmpdir string, goroot string) string {
 	}
 
 	// Replicate selected portions of the content.
-	replicateDir(filepath.Join(goroot, "bin"), made[0])
-	replicateDir(filepath.Join(goroot, "src"), made[1])
-	replicateDir(filepath.Join(goroot, "pkg", "include"), made[3])
-	replicateDir(filepath.Join(goroot, toolsub), made[4])
+	replicateDir(filepath.Join(golangroot, "bin"), made[0])
+	replicateDir(filepath.Join(golangroot, "src"), made[1])
+	replicateDir(filepath.Join(golangroot, "pkg", "include"), made[3])
+	replicateDir(filepath.Join(golangroot, toolsub), made[4])
 
 	return tgr
 }
 
-// ReplaceGoToolInTestGoRoot replaces the go tool binary toolname with
+// ReplaceGoToolInTestGoRoot replaces the golang tool binary toolname with
 // an alternate executable newtoolpath within a test GOROOT directory
 // previously created by SetupTestGoRoot.
-func ReplaceGoToolInTestGoRoot(t *testing.T, testgoroot, toolname, newtoolpath string) {
+func ReplaceGoToolInTestGoRoot(t *testing.T, testgolangroot, toolname, newtoolpath string) {
 	findToolOnce.Do(func() { findToolSub(t) })
 	if toolsub == "" {
 		t.Fatal("failed to find toolsub")
@@ -82,7 +82,7 @@ func ReplaceGoToolInTestGoRoot(t *testing.T, testgoroot, toolname, newtoolpath s
 	if runtime.GOOS == "windows" {
 		exename += ".exe"
 	}
-	toolpath := filepath.Join(testgoroot, toolsub, exename)
+	toolpath := filepath.Join(testgolangroot, toolsub, exename)
 	if err := os.Remove(toolpath); err != nil {
 		t.Fatalf("removing %s: %v", toolpath, err)
 	}
@@ -95,16 +95,16 @@ var toolsub string
 // findToolOnce runs findToolSub only once.
 var findToolOnce sync.Once
 
-// findToolSub sets toolsub to the value used by the current go command.
+// findToolSub sets toolsub to the value used by the current golang command.
 func findToolSub(t *testing.T) {
-	gocmd := testenv.Command(t, testenv.GoToolPath(t), "env", "GOHOSTARCH")
-	gocmd = testenv.CleanCmdEnv(gocmd)
-	goHostArchBytes, err := gocmd.CombinedOutput()
+	golangcmd := testenv.Command(t, testenv.GoToolPath(t), "env", "GOHOSTARCH")
+	golangcmd = testenv.CleanCmdEnv(golangcmd)
+	golangHostArchBytes, err := golangcmd.CombinedOutput()
 	if err != nil {
-		t.Fatalf("%s failed: %v\n%s", gocmd, err, goHostArchBytes)
+		t.Fatalf("%s failed: %v\n%s", golangcmd, err, golangHostArchBytes)
 	}
-	goHostArch := strings.TrimSpace(string(goHostArchBytes))
-	toolsub = filepath.Join("pkg", "tool", runtime.GOOS+"_"+goHostArch)
+	golangHostArch := strings.TrimSpace(string(golangHostArchBytes))
+	toolsub = filepath.Join("pkg", "tool", runtime.GOOS+"_"+golangHostArch)
 }
 
 // linkOrCopy creates a link to src at dst, or if the symlink fails

@@ -1,13 +1,13 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ast_test
 
 import (
-	"go/ast"
-	"go/parser"
-	"go/token"
+	"golang/ast"
+	"golang/parser"
+	"golang/token"
 	"reflect"
 	"slices"
 	"strings"
@@ -41,19 +41,19 @@ func f() {
 	print("hello")
 }
 func g() {
-	print("goodbye")
+	print("golangodbye")
 	panic("oops")
 }
 `
 	fset := token.NewFileSet()
-	f, _ := parser.ParseFile(fset, "a.go", src, 0)
+	f, _ := parser.ParseFile(fset, "a.golang", src, 0)
 
 	str := func(n ast.Node) string {
 		return strings.TrimPrefix(reflect.TypeOf(n).String(), "*ast.")
 	}
 
 	var events []string
-	var gotStack []string
+	var golangtStack []string
 	ast.PreorderStack(f, nil, func(n ast.Node, stack []ast.Node) bool {
 		events = append(events, str(n))
 		if decl, ok := n.(*ast.FuncDecl); ok && decl.Name.Name == "f" {
@@ -61,7 +61,7 @@ func g() {
 		}
 		if lit, ok := n.(*ast.BasicLit); ok && lit.Value == `"oops"` {
 			for _, n := range stack {
-				gotStack = append(gotStack, str(n))
+				golangtStack = append(golangtStack, str(n))
 			}
 		}
 		return true
@@ -76,12 +76,12 @@ func g() {
 		"ExprStmt", "CallExpr", "Ident", "BasicLit", // panic...
 	}
 	if !slices.Equal(events, wantEvents) {
-		t.Errorf("PreorderStack events:\ngot:  %s\nwant: %s", events, wantEvents)
+		t.Errorf("PreorderStack events:\ngolangt:  %s\nwant: %s", events, wantEvents)
 	}
 
 	// Check captured stack.
 	wantStack := []string{"File", "FuncDecl", "BlockStmt", "ExprStmt", "CallExpr"}
-	if !slices.Equal(gotStack, wantStack) {
-		t.Errorf("PreorderStack stack:\ngot:  %s\nwant: %s", gotStack, wantStack)
+	if !slices.Equal(golangtStack, wantStack) {
+		t.Errorf("PreorderStack stack:\ngolangt:  %s\nwant: %s", golangtStack, wantStack)
 	}
 }

@@ -1,5 +1,5 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package mime
@@ -41,7 +41,7 @@ func TestConsumeValue(t *testing.T) {
 		{`"\\" rest`, "\\", " rest"},
 		{`"My \" value"end`, "My \" value", "end"},
 		{`"\" rest`, "", `"\" rest`},
-		{`"C:\dev\go\robots.txt"`, `C:\dev\go\robots.txt`, ""},
+		{`"C:\dev\golang\robots.txt"`, `C:\dev\golang\robots.txt`, ""},
 		{`"C:\新建文件夹\中文第二次测试.mp4"`, `C:\新建文件夹\中文第二次测试.mp4`, ""},
 	}
 	for _, test := range tests {
@@ -397,10 +397,10 @@ func init() {
 		{`foo; bar=""`, "foo", m("bar", "")},
 
 		// Microsoft browsers in intranet mode do not think they need to escape \ in file name.
-		{`form-data; name="file"; filename="C:\dev\go\robots.txt"`, "form-data", m("name", "file", "filename", `C:\dev\go\robots.txt`)},
+		{`form-data; name="file"; filename="C:\dev\golang\robots.txt"`, "form-data", m("name", "file", "filename", `C:\dev\golang\robots.txt`)},
 		{`form-data; name="file"; filename="C:\新建文件夹\中文第二次测试.mp4"`, "form-data", m("name", "file", "filename", `C:\新建文件夹\中文第二次测试.mp4`)},
 
-		// issue #46323 (https://github.com/golang/go/issues/46323)
+		// issue #46323 (https://github.com/golanglang/golang/issues/46323)
 		{
 			// example from rfc2231-p.3 (https://datatracker.ietf.org/doc/html/rfc2231)
 			`message/external-body; access-type=URL;
@@ -427,7 +427,7 @@ func TestParseMediaType(t *testing.T) {
 			continue
 		}
 		if g, e := mt, test.t; g != e {
-			t.Errorf("for input %#q, expected type %q, got %q",
+			t.Errorf("for input %#q, expected type %q, golangt %q",
 				test.in, e, g)
 			continue
 		}
@@ -437,7 +437,7 @@ func TestParseMediaType(t *testing.T) {
 		if !maps.Equal(params, test.p) {
 			t.Errorf("for input %#q, wrong params.\n"+
 				"expected: %#v\n"+
-				"     got: %#v",
+				"     golangt: %#v",
 				test.in, test.p, params)
 		}
 	}
@@ -488,13 +488,13 @@ func TestParseMediaTypeBogus(t *testing.T) {
 			t.Errorf("ParseMediaType(%q) = err %q; want %q", tt.in, err.Error(), tt.err)
 		}
 		if params != nil {
-			t.Errorf("ParseMediaType(%q): got non-nil params on error", tt.in)
+			t.Errorf("ParseMediaType(%q): golangt non-nil params on error", tt.in)
 		}
 		if err != ErrInvalidMediaParameter && mt != "" {
-			t.Errorf("ParseMediaType(%q): got unexpected non-empty media type string", tt.in)
+			t.Errorf("ParseMediaType(%q): golangt unexpected non-empty media type string", tt.in)
 		}
 		if err == ErrInvalidMediaParameter && mt != tt.mt {
-			t.Errorf("ParseMediaType(%q): in case of invalid parameters: expected type %q, got %q", tt.in, tt.mt, mt)
+			t.Errorf("ParseMediaType(%q): in case of invalid parameters: expected type %q, golangt %q", tt.in, tt.mt, mt)
 		}
 	}
 }
@@ -537,24 +537,24 @@ var formatTests = []formatTest{
 
 func TestFormatMediaType(t *testing.T) {
 	for i, tt := range formatTests {
-		got := FormatMediaType(tt.typ, tt.params)
-		if got != tt.want {
-			t.Errorf("%d. FormatMediaType(%q, %v) = %q; want %q", i, tt.typ, tt.params, got, tt.want)
+		golangt := FormatMediaType(tt.typ, tt.params)
+		if golangt != tt.want {
+			t.Errorf("%d. FormatMediaType(%q, %v) = %q; want %q", i, tt.typ, tt.params, golangt, tt.want)
 		}
-		if got == "" {
+		if golangt == "" {
 			continue
 		}
-		typ, params, err := ParseMediaType(got)
+		typ, params, err := ParseMediaType(golangt)
 		if err != nil {
-			t.Errorf("%d. ParseMediaType(%q) err: %v", i, got, err)
+			t.Errorf("%d. ParseMediaType(%q) err: %v", i, golangt, err)
 		}
 		if typ != strings.ToLower(tt.typ) {
-			t.Errorf("%d. ParseMediaType(%q) typ = %q; want %q", i, got, typ, tt.typ)
+			t.Errorf("%d. ParseMediaType(%q) typ = %q; want %q", i, golangt, typ, tt.typ)
 		}
 		for k, v := range tt.params {
 			k = strings.ToLower(k)
 			if params[k] != v {
-				t.Errorf("%d. ParseMediaType(%q) params[%s] = %q; want %q", i, got, k, params[k], v)
+				t.Errorf("%d. ParseMediaType(%q) params[%s] = %q; want %q", i, golangt, k, params[k], v)
 			}
 		}
 	}

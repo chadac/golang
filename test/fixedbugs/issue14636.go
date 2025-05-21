@@ -1,9 +1,9 @@
 // run
 
-//go:build !nacl && !js && !wasip1 && !android && gc
+//golang:build !nacl && !js && !wasip1 && !android && gc
 
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -34,7 +34,7 @@ func main() {
 }
 
 func checkLinkOutput(buildid string, message string) {
-	cmd := exec.Command("go", "tool", "link", "-B", buildid, "nonexistent.o")
+	cmd := exec.Command("golang", "tool", "link", "-B", buildid, "nonexistent.o")
 	out, err := cmd.CombinedOutput()
 	if err == nil {
 		log.Fatalf("expected cmd/link to fail")

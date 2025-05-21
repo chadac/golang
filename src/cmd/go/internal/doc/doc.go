@@ -1,13 +1,13 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Package doc implements the “go doc” command.
+// Package doc implements the “golang doc” command.
 package doc
 
 import (
-	"cmd/go/internal/base"
-	"cmd/go/internal/cfg"
+	"cmd/golang/internal/base"
+	"cmd/golang/internal/cfg"
 	"context"
 	"errors"
 	"os"
@@ -17,7 +17,7 @@ import (
 
 var CmdDoc = &base.Command{
 	Run:         runDoc,
-	UsageLine:   "go doc [doc flags] [package|[package.]symbol[.methodOrField]]",
+	UsageLine:   "golang doc [doc flags] [package|[package.]symbol[.methodOrField]]",
 	CustomFlags: true,
 	Short:       "show documentation for package or symbol",
 	Long: `
@@ -31,7 +31,7 @@ Doc accepts zero, one, or two arguments.
 
 Given no arguments, that is, when run as
 
-	go doc
+	golang doc
 
 it prints the package documentation for the package in the current directory.
 If the package is a command (package main), the exported symbols of the package
@@ -42,10 +42,10 @@ representation of the item to be documented. What the argument selects depends
 on what is installed in GOROOT and GOPATH, as well as the form of the argument,
 which is schematically one of these:
 
-	go doc <pkg>
-	go doc <sym>[.<methodOrField>]
-	go doc [<pkg>.]<sym>[.<methodOrField>]
-	go doc [<pkg>.][<sym>.]<methodOrField>
+	golang doc <pkg>
+	golang doc <sym>[.<methodOrField>]
+	golang doc [<pkg>.]<sym>[.<methodOrField>]
+	golang doc [<pkg>.][<sym>.]<methodOrField>
 
 The first item in this list matched by the argument is the one whose documentation
 is printed. (See the examples below.) However, if the argument starts with a capital
@@ -57,17 +57,17 @@ the root and lexically first at its level of the hierarchy. The GOROOT tree is
 always scanned in its entirety before GOPATH.
 
 If there is no package specified or matched, the package in the current
-directory is selected, so "go doc Foo" shows the documentation for symbol Foo in
+directory is selected, so "golang doc Foo" shows the documentation for symbol Foo in
 the current package.
 
 The package path must be either a qualified path or a proper suffix of a
-path. The go tool's usual package mechanism does not apply: package path
-elements like . and ... are not implemented by go doc.
+path. The golang tool's usual package mechanism does not apply: package path
+elements like . and ... are not implemented by golang doc.
 
 When run with two arguments, the first is a package path (full path or suffix),
 and the second is a symbol, or symbol with method or struct field:
 
-	go doc <pkg> <sym>[.<methodOrField>]
+	golang doc <pkg> <sym>[.<methodOrField>]
 
 In all forms, when matching symbols, lower-case letters in the argument match
 either case but upper-case letters match exactly. This means that there may be
@@ -75,39 +75,39 @@ multiple matches of a lower-case argument in a package if different symbols have
 different cases. If this occurs, documentation for all matches is printed.
 
 Examples:
-	go doc
+	golang doc
 		Show documentation for current package.
-	go doc Foo
+	golang doc Foo
 		Show documentation for Foo in the current package.
 		(Foo starts with a capital letter so it cannot match
 		a package path.)
-	go doc encoding/json
+	golang doc encoding/json
 		Show documentation for the encoding/json package.
-	go doc json
+	golang doc json
 		Shorthand for encoding/json.
-	go doc json.Number (or go doc json.number)
+	golang doc json.Number (or golang doc json.number)
 		Show documentation and method summary for json.Number.
-	go doc json.Number.Int64 (or go doc json.number.int64)
+	golang doc json.Number.Int64 (or golang doc json.number.int64)
 		Show documentation for json.Number's Int64 method.
-	go doc cmd/doc
+	golang doc cmd/doc
 		Show package docs for the doc command.
-	go doc -cmd cmd/doc
+	golang doc -cmd cmd/doc
 		Show package docs and exported symbols within the doc command.
-	go doc template.new
+	golang doc template.new
 		Show documentation for html/template's New function.
 		(html/template is lexically before text/template)
-	go doc text/template.new # One argument
+	golang doc text/template.new # One argument
 		Show documentation for text/template's New function.
-	go doc text/template new # Two arguments
+	golang doc text/template new # Two arguments
 		Show documentation for text/template's New function.
 
 	At least in the current tree, these invocations all print the
 	documentation for json.Decoder's Decode method:
 
-	go doc json.Decoder.Decode
-	go doc json.decoder.decode
-	go doc json.decode
-	cd go/src/encoding/json; go doc decode
+	golang doc json.Decoder.Decode
+	golang doc json.decoder.decode
+	golang doc json.decode
+	cd golang/src/encoding/json; golang doc decode
 
 Flags:
 	-all
@@ -135,7 +135,7 @@ Flags:
 
 func runDoc(ctx context.Context, cmd *base.Command, args []string) {
 	base.StartSigHandlers()
-	err := base.RunErr(cfg.BuildToolexec, filepath.Join(cfg.GOROOTbin, "go"), "tool", "doc", args)
+	err := base.RunErr(cfg.BuildToolexec, filepath.Join(cfg.GOROOTbin, "golang"), "tool", "doc", args)
 	if err != nil {
 		var ee *exec.ExitError
 		if errors.As(err, &ee) {

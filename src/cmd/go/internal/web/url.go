@@ -1,5 +1,5 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package web
@@ -11,7 +11,7 @@ import (
 	"strings"
 )
 
-// TODO(golang.org/issue/32456): If accepted, move these functions into the
+// TODO(golanglang.org/issue/32456): If accepted, move these functions into the
 // net/url package.
 
 var errNotAbsolute = errors.New("path is not absolute")

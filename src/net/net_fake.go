@@ -1,11 +1,11 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Fake networking for js/wasm and wasip1/wasm.
 // It is intended to allow tests of other package to pass.
 
-//go:build js || wasip1
+//golang:build js || wasip1
 
 package net
 
@@ -210,7 +210,7 @@ type fakeNetFD struct {
 	assignedPort int // 0 if no port has been assigned for this socket
 
 	queue         *packetQueue // incoming packets
-	peer          *netFD       // connected peer (for outgoing packets); nil for listeners and PacketConns
+	peer          *netFD       // connected peer (for outgolanging packets); nil for listeners and PacketConns
 	readDeadline  atomic.Pointer[deadlineTimer]
 	writeDeadline atomic.Pointer[deadlineTimer]
 
@@ -287,7 +287,7 @@ func (ffd *fakeNetFD) Close() (err error) {
 		}
 		if ok {
 			// Sends on ffd.incoming require a receive first.
-			// Since we successfully received, no other goroutine may
+			// Since we successfully received, no other golangroutine may
 			// send on it at this point, and we may safely close it.
 			close(ffd.incoming)
 

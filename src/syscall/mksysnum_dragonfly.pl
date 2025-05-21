@@ -1,14 +1,14 @@
 #!/usr/bin/env perl
 # Copyright 2009 The Go Authors. All rights reserved.
-# Use of this source code is governed by a BSD-style
+# Use of this source code is golangverned by a BSD-style
 # license that can be found in the LICENSE file.
 #
-# Generate system call table for DragonFly from master list
+# Generate system call table for DragolangnFly from master list
 # (for example, /usr/src/sys/kern/syscalls.master).
 
 use strict;
 
-my $command = "mksysnum_dragonfly.pl " . join(' ', @ARGV);
+my $command = "mksysnum_dragolangnfly.pl " . join(' ', @ARGV);
 
 print <<EOF;
 // $command

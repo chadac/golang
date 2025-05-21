@@ -1,6 +1,6 @@
 ### Minor changes to the library {#minor_library_changes}
 
-#### go/types
+#### golang/types
 
 The `Var.Kind` method returns an enumeration of type `VarKind` that
 classifies the variable (package-level, local, receiver, parameter,

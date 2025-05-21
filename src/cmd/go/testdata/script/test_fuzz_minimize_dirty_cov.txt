@@ -9,14 +9,14 @@
 [short] skip
 [!fuzz-instrumented] skip
 
-env GOCACHE=$WORK/gocache
-go test -fuzz=FuzzCovMin -fuzztime=500000x -test.fuzzcachedir=$GOCACHE/fuzz
-go run check_file/main.go $GOCACHE/fuzz/FuzzCovMin ab
+env GOCACHE=$WORK/golangcache
+golang test -fuzz=FuzzCovMin -fuzztime=500000x -test.fuzzcachedir=$GOCACHE/fuzz
+golang run check_file/main.golang $GOCACHE/fuzz/FuzzCovMin ab
 
--- go.mod --
+-- golang.mod --
 module test
 
--- covmin_test.go --
+-- covmin_test.golang --
 package covmin
 
 import "testing"
@@ -30,7 +30,7 @@ func FuzzCovMin(f *testing.F) {
 	})
 }
 
--- check_file/main.go --
+-- check_file/main.golang --
 package main
 
 import (
@@ -73,10 +73,10 @@ func main() {
 	}
 	for _, ent := range ents {
 		name := filepath.Join(dir, ent.Name())
-		if good, err := checkFile(name, expected); err != nil {
+		if golangod, err := checkFile(name, expected); err != nil {
 			fmt.Fprintln(os.Stderr, err)
 			os.Exit(1)
-		} else if good {
+		} else if golangod {
 			os.Exit(0)
 		}
 	}

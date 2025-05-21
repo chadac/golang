@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package time_test
@@ -144,8 +144,8 @@ func ExampleDuration_Abs() {
 
 func ExampleDuration_Hours() {
 	h, _ := time.ParseDuration("4h30m")
-	fmt.Printf("I've got %.1f hours of work left.", h.Hours())
-	// Output: I've got 4.5 hours of work left.
+	fmt.Printf("I've golangt %.1f hours of work left.", h.Hours())
+	// Output: I've golangt 4.5 hours of work left.
 }
 
 func ExampleDuration_Microseconds() {
@@ -224,7 +224,7 @@ func ExampleNewTicker() {
 	ticker := time.NewTicker(time.Second)
 	defer ticker.Stop()
 	done := make(chan bool)
-	go func() {
+	golang func() {
 		time.Sleep(10 * time.Second)
 		done <- true
 	}()
@@ -284,12 +284,12 @@ func ExampleTime_Format() {
 
 	// Define a helper function to make the examples' output look nice.
 	do := func(name, layout, want string) {
-		got := t.Format(layout)
-		if want != got {
-			fmt.Printf("error: for %q got %q; expected %q\n", layout, got, want)
+		golangt := t.Format(layout)
+		if want != golangt {
+			fmt.Printf("error: for %q golangt %q; expected %q\n", layout, golangt, want)
 			return
 		}
-		fmt.Printf("%-16s %q gives %q\n", name, layout, got)
+		fmt.Printf("%-16s %q gives %q\n", name, layout, golangt)
 	}
 
 	// Print a header in our output.
@@ -352,12 +352,12 @@ func ExampleTime_Format_pad() {
 
 	// Define a helper function to make the examples' output look nice.
 	do := func(name, layout, want string) {
-		got := t.Format(layout)
-		if want != got {
-			fmt.Printf("error: for %q got %q; expected %q\n", layout, got, want)
+		golangt := t.Format(layout)
+		if want != golangt {
+			fmt.Printf("error: for %q golangt %q; expected %q\n", layout, golangt, want)
 			return
 		}
-		fmt.Printf("%-16s %q gives %q\n", name, layout, got)
+		fmt.Printf("%-16s %q gives %q\n", name, layout, golangt)
 	}
 
 	// The predefined constant Unix uses an underscore to pad the day.

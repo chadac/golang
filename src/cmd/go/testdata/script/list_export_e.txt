@@ -1,25 +1,25 @@
-! go list -export ./...
-stderr '^# example.com/p2\np2'${/}'main\.go:7:.*'
-! stderr '^go build '
+! golang list -export ./...
+stderr '^# example.com/p2\np2'${/}'main\.golang:7:.*'
+! stderr '^golang build '
 
-go list -f '{{with .Error}}{{.}}{{end}}' -e -export ./...
+golang list -f '{{with .Error}}{{.}}{{end}}' -e -export ./...
 ! stderr '.'
-stdout '^# example.com/p2\np2'${/}'main\.go:7:.*'
+stdout '^# example.com/p2\np2'${/}'main\.golang:7:.*'
 
-go list -export -e -f '{{.ImportPath}} -- {{.Incomplete}} -- {{.Error}}' ./...
+golang list -export -e -f '{{.ImportPath}} -- {{.Incomplete}} -- {{.Error}}' ./...
 stdout 'example.com/p1 -- false -- <nil>'
 stdout 'example.com/p2 -- true -- # example.com/p2'
 
-go list -e -export -json=Error ./...
+golang list -e -export -json=Error ./...
 stdout '"Err": "# example.com/p2'
 
--- go.mod --
+-- golang.mod --
 module example.com
--- p1/p1.go --
+-- p1/p1.golang --
 package p1
 
 const Name = "p1"
--- p2/main.go --
+-- p2/main.golang --
 package main
 
 import "fmt"

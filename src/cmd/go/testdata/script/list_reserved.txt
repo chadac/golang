@@ -1,7 +1,7 @@
-# https://golang.org/issue/37641: the paths "example" and "test" are reserved
+# https://golanglang.org/issue/37641: the paths "example" and "test" are reserved
 # for end users, and must never exist in the standard library.
 
-go list example/... test/...
-stderr 'go: warning: "example/..." matched no packages$'
-stderr 'go: warning: "test/..." matched no packages$'
+golang list example/... test/...
+stderr 'golang: warning: "example/..." matched no packages$'
+stderr 'golang: warning: "test/..." matched no packages$'
 ! stdout .

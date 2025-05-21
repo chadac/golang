@@ -13,10 +13,10 @@ pkg debug/elf, const R_RISCV_32_PCREL R_RISCV
 pkg debug/pe, const IMAGE_FILE_MACHINE_ARMNT = 452
 pkg debug/pe, const IMAGE_FILE_MACHINE_ARMNT ideal-int
 pkg expvar, method (*Map) Delete(string)
-pkg go/doc, const PreserveAST = 4
-pkg go/doc, const PreserveAST Mode
-pkg go/importer, func ForCompiler(*token.FileSet, string, Lookup) types.Importer
-pkg go/token, method (*File) LineStart(int) Pos
+pkg golang/doc, const PreserveAST = 4
+pkg golang/doc, const PreserveAST Mode
+pkg golang/importer, func ForCompiler(*token.FileSet, string, Lookup) types.Importer
+pkg golang/token, method (*File) LineStart(int) Pos
 pkg io, type StringWriter interface { WriteString }
 pkg io, type StringWriter interface, WriteString(string) (int, error)
 pkg log, method (*Logger) Writer() io.Writer
@@ -83,32 +83,32 @@ pkg syscall (freebsd-386), type Stat_t struct, Rdev uint64
 pkg syscall (freebsd-386), type Stat_t struct, Spare [10]uint64
 pkg syscall (freebsd-386), type Statfs_t struct, Mntfromname [1024]int8
 pkg syscall (freebsd-386), type Statfs_t struct, Mntonname [1024]int8
-pkg syscall (freebsd-386-cgo), const S_IRWXG = 56
-pkg syscall (freebsd-386-cgo), const S_IRWXG ideal-int
-pkg syscall (freebsd-386-cgo), const S_IRWXO = 7
-pkg syscall (freebsd-386-cgo), const S_IRWXO ideal-int
-pkg syscall (freebsd-386-cgo), func Fstatat(int, string, *Stat_t, int) error
-pkg syscall (freebsd-386-cgo), func Mknod(string, uint32, uint64) error
-pkg syscall (freebsd-386-cgo), type Dirent struct, Fileno uint64
-pkg syscall (freebsd-386-cgo), type Dirent struct, Namlen uint16
-pkg syscall (freebsd-386-cgo), type Dirent struct, Off int64
-pkg syscall (freebsd-386-cgo), type Dirent struct, Pad0 uint8
-pkg syscall (freebsd-386-cgo), type Dirent struct, Pad1 uint16
-pkg syscall (freebsd-386-cgo), type Stat_t struct, Atim_ext int32
-pkg syscall (freebsd-386-cgo), type Stat_t struct, Blksize int32
-pkg syscall (freebsd-386-cgo), type Stat_t struct, Btim_ext int32
-pkg syscall (freebsd-386-cgo), type Stat_t struct, Ctim_ext int32
-pkg syscall (freebsd-386-cgo), type Stat_t struct, Dev uint64
-pkg syscall (freebsd-386-cgo), type Stat_t struct, Gen uint64
-pkg syscall (freebsd-386-cgo), type Stat_t struct, Ino uint64
-pkg syscall (freebsd-386-cgo), type Stat_t struct, Mtim_ext int32
-pkg syscall (freebsd-386-cgo), type Stat_t struct, Nlink uint64
-pkg syscall (freebsd-386-cgo), type Stat_t struct, Padding0 int16
-pkg syscall (freebsd-386-cgo), type Stat_t struct, Padding1 int32
-pkg syscall (freebsd-386-cgo), type Stat_t struct, Rdev uint64
-pkg syscall (freebsd-386-cgo), type Stat_t struct, Spare [10]uint64
-pkg syscall (freebsd-386-cgo), type Statfs_t struct, Mntfromname [1024]int8
-pkg syscall (freebsd-386-cgo), type Statfs_t struct, Mntonname [1024]int8
+pkg syscall (freebsd-386-cgolang), const S_IRWXG = 56
+pkg syscall (freebsd-386-cgolang), const S_IRWXG ideal-int
+pkg syscall (freebsd-386-cgolang), const S_IRWXO = 7
+pkg syscall (freebsd-386-cgolang), const S_IRWXO ideal-int
+pkg syscall (freebsd-386-cgolang), func Fstatat(int, string, *Stat_t, int) error
+pkg syscall (freebsd-386-cgolang), func Mknod(string, uint32, uint64) error
+pkg syscall (freebsd-386-cgolang), type Dirent struct, Fileno uint64
+pkg syscall (freebsd-386-cgolang), type Dirent struct, Namlen uint16
+pkg syscall (freebsd-386-cgolang), type Dirent struct, Off int64
+pkg syscall (freebsd-386-cgolang), type Dirent struct, Pad0 uint8
+pkg syscall (freebsd-386-cgolang), type Dirent struct, Pad1 uint16
+pkg syscall (freebsd-386-cgolang), type Stat_t struct, Atim_ext int32
+pkg syscall (freebsd-386-cgolang), type Stat_t struct, Blksize int32
+pkg syscall (freebsd-386-cgolang), type Stat_t struct, Btim_ext int32
+pkg syscall (freebsd-386-cgolang), type Stat_t struct, Ctim_ext int32
+pkg syscall (freebsd-386-cgolang), type Stat_t struct, Dev uint64
+pkg syscall (freebsd-386-cgolang), type Stat_t struct, Gen uint64
+pkg syscall (freebsd-386-cgolang), type Stat_t struct, Ino uint64
+pkg syscall (freebsd-386-cgolang), type Stat_t struct, Mtim_ext int32
+pkg syscall (freebsd-386-cgolang), type Stat_t struct, Nlink uint64
+pkg syscall (freebsd-386-cgolang), type Stat_t struct, Padding0 int16
+pkg syscall (freebsd-386-cgolang), type Stat_t struct, Padding1 int32
+pkg syscall (freebsd-386-cgolang), type Stat_t struct, Rdev uint64
+pkg syscall (freebsd-386-cgolang), type Stat_t struct, Spare [10]uint64
+pkg syscall (freebsd-386-cgolang), type Statfs_t struct, Mntfromname [1024]int8
+pkg syscall (freebsd-386-cgolang), type Statfs_t struct, Mntonname [1024]int8
 pkg syscall (freebsd-amd64), const S_IRWXG = 56
 pkg syscall (freebsd-amd64), const S_IRWXG ideal-int
 pkg syscall (freebsd-amd64), const S_IRWXO = 7
@@ -131,28 +131,28 @@ pkg syscall (freebsd-amd64), type Stat_t struct, Rdev uint64
 pkg syscall (freebsd-amd64), type Stat_t struct, Spare [10]uint64
 pkg syscall (freebsd-amd64), type Statfs_t struct, Mntfromname [1024]int8
 pkg syscall (freebsd-amd64), type Statfs_t struct, Mntonname [1024]int8
-pkg syscall (freebsd-amd64-cgo), const S_IRWXG = 56
-pkg syscall (freebsd-amd64-cgo), const S_IRWXG ideal-int
-pkg syscall (freebsd-amd64-cgo), const S_IRWXO = 7
-pkg syscall (freebsd-amd64-cgo), const S_IRWXO ideal-int
-pkg syscall (freebsd-amd64-cgo), func Fstatat(int, string, *Stat_t, int) error
-pkg syscall (freebsd-amd64-cgo), func Mknod(string, uint32, uint64) error
-pkg syscall (freebsd-amd64-cgo), type Dirent struct, Fileno uint64
-pkg syscall (freebsd-amd64-cgo), type Dirent struct, Namlen uint16
-pkg syscall (freebsd-amd64-cgo), type Dirent struct, Off int64
-pkg syscall (freebsd-amd64-cgo), type Dirent struct, Pad0 uint8
-pkg syscall (freebsd-amd64-cgo), type Dirent struct, Pad1 uint16
-pkg syscall (freebsd-amd64-cgo), type Stat_t struct, Blksize int32
-pkg syscall (freebsd-amd64-cgo), type Stat_t struct, Dev uint64
-pkg syscall (freebsd-amd64-cgo), type Stat_t struct, Gen uint64
-pkg syscall (freebsd-amd64-cgo), type Stat_t struct, Ino uint64
-pkg syscall (freebsd-amd64-cgo), type Stat_t struct, Nlink uint64
-pkg syscall (freebsd-amd64-cgo), type Stat_t struct, Padding0 int16
-pkg syscall (freebsd-amd64-cgo), type Stat_t struct, Padding1 int32
-pkg syscall (freebsd-amd64-cgo), type Stat_t struct, Rdev uint64
-pkg syscall (freebsd-amd64-cgo), type Stat_t struct, Spare [10]uint64
-pkg syscall (freebsd-amd64-cgo), type Statfs_t struct, Mntfromname [1024]int8
-pkg syscall (freebsd-amd64-cgo), type Statfs_t struct, Mntonname [1024]int8
+pkg syscall (freebsd-amd64-cgolang), const S_IRWXG = 56
+pkg syscall (freebsd-amd64-cgolang), const S_IRWXG ideal-int
+pkg syscall (freebsd-amd64-cgolang), const S_IRWXO = 7
+pkg syscall (freebsd-amd64-cgolang), const S_IRWXO ideal-int
+pkg syscall (freebsd-amd64-cgolang), func Fstatat(int, string, *Stat_t, int) error
+pkg syscall (freebsd-amd64-cgolang), func Mknod(string, uint32, uint64) error
+pkg syscall (freebsd-amd64-cgolang), type Dirent struct, Fileno uint64
+pkg syscall (freebsd-amd64-cgolang), type Dirent struct, Namlen uint16
+pkg syscall (freebsd-amd64-cgolang), type Dirent struct, Off int64
+pkg syscall (freebsd-amd64-cgolang), type Dirent struct, Pad0 uint8
+pkg syscall (freebsd-amd64-cgolang), type Dirent struct, Pad1 uint16
+pkg syscall (freebsd-amd64-cgolang), type Stat_t struct, Blksize int32
+pkg syscall (freebsd-amd64-cgolang), type Stat_t struct, Dev uint64
+pkg syscall (freebsd-amd64-cgolang), type Stat_t struct, Gen uint64
+pkg syscall (freebsd-amd64-cgolang), type Stat_t struct, Ino uint64
+pkg syscall (freebsd-amd64-cgolang), type Stat_t struct, Nlink uint64
+pkg syscall (freebsd-amd64-cgolang), type Stat_t struct, Padding0 int16
+pkg syscall (freebsd-amd64-cgolang), type Stat_t struct, Padding1 int32
+pkg syscall (freebsd-amd64-cgolang), type Stat_t struct, Rdev uint64
+pkg syscall (freebsd-amd64-cgolang), type Stat_t struct, Spare [10]uint64
+pkg syscall (freebsd-amd64-cgolang), type Statfs_t struct, Mntfromname [1024]int8
+pkg syscall (freebsd-amd64-cgolang), type Statfs_t struct, Mntonname [1024]int8
 pkg syscall (freebsd-arm), const S_IRWXG = 56
 pkg syscall (freebsd-arm), const S_IRWXG ideal-int
 pkg syscall (freebsd-arm), const S_IRWXO = 7
@@ -175,44 +175,44 @@ pkg syscall (freebsd-arm), type Stat_t struct, Rdev uint64
 pkg syscall (freebsd-arm), type Stat_t struct, Spare [10]uint64
 pkg syscall (freebsd-arm), type Statfs_t struct, Mntfromname [1024]int8
 pkg syscall (freebsd-arm), type Statfs_t struct, Mntonname [1024]int8
-pkg syscall (freebsd-arm-cgo), const S_IRWXG = 56
-pkg syscall (freebsd-arm-cgo), const S_IRWXG ideal-int
-pkg syscall (freebsd-arm-cgo), const S_IRWXO = 7
-pkg syscall (freebsd-arm-cgo), const S_IRWXO ideal-int
-pkg syscall (freebsd-arm-cgo), func Fstatat(int, string, *Stat_t, int) error
-pkg syscall (freebsd-arm-cgo), func Mknod(string, uint32, uint64) error
-pkg syscall (freebsd-arm-cgo), type Dirent struct, Fileno uint64
-pkg syscall (freebsd-arm-cgo), type Dirent struct, Namlen uint16
-pkg syscall (freebsd-arm-cgo), type Dirent struct, Off int64
-pkg syscall (freebsd-arm-cgo), type Dirent struct, Pad0 uint8
-pkg syscall (freebsd-arm-cgo), type Dirent struct, Pad1 uint16
-pkg syscall (freebsd-arm-cgo), type Stat_t struct, Blksize int32
-pkg syscall (freebsd-arm-cgo), type Stat_t struct, Dev uint64
-pkg syscall (freebsd-arm-cgo), type Stat_t struct, Gen uint64
-pkg syscall (freebsd-arm-cgo), type Stat_t struct, Ino uint64
-pkg syscall (freebsd-arm-cgo), type Stat_t struct, Nlink uint64
-pkg syscall (freebsd-arm-cgo), type Stat_t struct, Padding0 int16
-pkg syscall (freebsd-arm-cgo), type Stat_t struct, Padding1 int32
-pkg syscall (freebsd-arm-cgo), type Stat_t struct, Rdev uint64
-pkg syscall (freebsd-arm-cgo), type Stat_t struct, Spare [10]uint64
-pkg syscall (freebsd-arm-cgo), type Statfs_t struct, Mntfromname [1024]int8
-pkg syscall (freebsd-arm-cgo), type Statfs_t struct, Mntonname [1024]int8
+pkg syscall (freebsd-arm-cgolang), const S_IRWXG = 56
+pkg syscall (freebsd-arm-cgolang), const S_IRWXG ideal-int
+pkg syscall (freebsd-arm-cgolang), const S_IRWXO = 7
+pkg syscall (freebsd-arm-cgolang), const S_IRWXO ideal-int
+pkg syscall (freebsd-arm-cgolang), func Fstatat(int, string, *Stat_t, int) error
+pkg syscall (freebsd-arm-cgolang), func Mknod(string, uint32, uint64) error
+pkg syscall (freebsd-arm-cgolang), type Dirent struct, Fileno uint64
+pkg syscall (freebsd-arm-cgolang), type Dirent struct, Namlen uint16
+pkg syscall (freebsd-arm-cgolang), type Dirent struct, Off int64
+pkg syscall (freebsd-arm-cgolang), type Dirent struct, Pad0 uint8
+pkg syscall (freebsd-arm-cgolang), type Dirent struct, Pad1 uint16
+pkg syscall (freebsd-arm-cgolang), type Stat_t struct, Blksize int32
+pkg syscall (freebsd-arm-cgolang), type Stat_t struct, Dev uint64
+pkg syscall (freebsd-arm-cgolang), type Stat_t struct, Gen uint64
+pkg syscall (freebsd-arm-cgolang), type Stat_t struct, Ino uint64
+pkg syscall (freebsd-arm-cgolang), type Stat_t struct, Nlink uint64
+pkg syscall (freebsd-arm-cgolang), type Stat_t struct, Padding0 int16
+pkg syscall (freebsd-arm-cgolang), type Stat_t struct, Padding1 int32
+pkg syscall (freebsd-arm-cgolang), type Stat_t struct, Rdev uint64
+pkg syscall (freebsd-arm-cgolang), type Stat_t struct, Spare [10]uint64
+pkg syscall (freebsd-arm-cgolang), type Statfs_t struct, Mntfromname [1024]int8
+pkg syscall (freebsd-arm-cgolang), type Statfs_t struct, Mntonname [1024]int8
 pkg syscall (openbsd-386), const S_IRWXG = 56
 pkg syscall (openbsd-386), const S_IRWXG ideal-int
 pkg syscall (openbsd-386), const S_IRWXO = 7
 pkg syscall (openbsd-386), const S_IRWXO ideal-int
-pkg syscall (openbsd-386-cgo), const S_IRWXG = 56
-pkg syscall (openbsd-386-cgo), const S_IRWXG ideal-int
-pkg syscall (openbsd-386-cgo), const S_IRWXO = 7
-pkg syscall (openbsd-386-cgo), const S_IRWXO ideal-int
+pkg syscall (openbsd-386-cgolang), const S_IRWXG = 56
+pkg syscall (openbsd-386-cgolang), const S_IRWXG ideal-int
+pkg syscall (openbsd-386-cgolang), const S_IRWXO = 7
+pkg syscall (openbsd-386-cgolang), const S_IRWXO ideal-int
 pkg syscall (openbsd-amd64), const S_IRWXG = 56
 pkg syscall (openbsd-amd64), const S_IRWXG ideal-int
 pkg syscall (openbsd-amd64), const S_IRWXO = 7
 pkg syscall (openbsd-amd64), const S_IRWXO ideal-int
-pkg syscall (openbsd-amd64-cgo), const S_IRWXG = 56
-pkg syscall (openbsd-amd64-cgo), const S_IRWXG ideal-int
-pkg syscall (openbsd-amd64-cgo), const S_IRWXO = 7
-pkg syscall (openbsd-amd64-cgo), const S_IRWXO ideal-int
+pkg syscall (openbsd-amd64-cgolang), const S_IRWXG = 56
+pkg syscall (openbsd-amd64-cgolang), const S_IRWXG ideal-int
+pkg syscall (openbsd-amd64-cgolang), const S_IRWXO = 7
+pkg syscall (openbsd-amd64-cgolang), const S_IRWXO ideal-int
 pkg syscall (windows-386), const UNIX_PATH_MAX = 108
 pkg syscall (windows-386), const UNIX_PATH_MAX ideal-int
 pkg syscall (windows-386), func Syscall18(uintptr, uintptr, uintptr, uintptr, uintptr, uintptr, uintptr, uintptr, uintptr, uintptr, uintptr, uintptr, uintptr, uintptr, uintptr, uintptr, uintptr, uintptr, uintptr, uintptr) (uintptr, uintptr, Errno)

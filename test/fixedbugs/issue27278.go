@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Issue 27278: dead auto elim deletes an auto and its
@@ -39,7 +39,7 @@ func main() {
 	f()
 }
 
-//go:noinline
+//golang:noinline
 func f() {
 	(&T{}).M()
 	grow(10000)
@@ -54,7 +54,7 @@ func grow(n int) {
 }
 
 // put some junk on stack, which cannot be valid address
-//go:noinline
+//golang:noinline
 func poison() {
 	x := [10]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 	g = x

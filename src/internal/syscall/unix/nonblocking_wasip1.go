@@ -1,14 +1,14 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build wasip1
+//golang:build wasip1
 
 package unix
 
 import (
 	"syscall"
-	_ "unsafe" // for go:linkname
+	_ "unsafe" // for golang:linkname
 )
 
 func IsNonblock(fd int) (nonblocking bool, err error) {
@@ -27,5 +27,5 @@ func HasNonblockFlag(flag int) bool {
 // to redefine the fd_fdstat_get host import or the fdstat struct it
 // populates.
 //
-//go:linkname fd_fdstat_get_flags syscall.fd_fdstat_get_flags
+//golang:linkname fd_fdstat_get_flags syscall.fd_fdstat_get_flags
 func fd_fdstat_get_flags(fd int) (uint32, error)

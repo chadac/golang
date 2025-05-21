@@ -1,26 +1,26 @@
-# go list should skip 'ignore' directives in workspaces
-# See golang.org/issue/42965
+# golang list should skip 'ignore' directives in workspaces
+# See golanglang.org/issue/42965
 
-env ROOT=$WORK${/}gopath${/}src
+env ROOT=$WORK${/}golangpath${/}src
 
-# go list ./... should only consider the current module's ignore directive
+# golang list ./... should only consider the current module's ignore directive
 cd moduleA
-go list -x ./...
+golang list -x ./...
 stdout 'moduleA$'
 stdout 'moduleA/pkg$'
 stderr 'ignoring directory '$ROOT''${/}'moduleA'${/}'node_modules'
 
-# go list ./... should only consider the current module's ignore directive
+# golang list ./... should only consider the current module's ignore directive
 cd ../moduleB
-go list -x ./...
+golang list -x ./...
 stdout 'moduleB$'
 ! stdout 'moduleB/pkg/helper'
 stderr 'ignoring directory '$ROOT''${/}'moduleB'${/}'pkg'
 
-# go list should respect module boundaries for ignore directives.
+# golang list should respect module boundaries for ignore directives.
 # moduleA ignores './node_modules', moduleB ignores 'pkg'
 cd ..
-go list -x all
+golang list -x all
 stderr 'ignoring directory '$ROOT''${/}'moduleA'${/}'node_modules'
 stderr 'ignoring directory '$ROOT''${/}'moduleB'${/}'pkg'
 ! stderr 'ignoring directory '$ROOT''${/}'moduleA'${/}'pkg'
@@ -29,22 +29,22 @@ stdout 'moduleA/pkg$'
 stdout 'moduleB$'
 stdout 'moduleB/pkg/helper'
 
--- go.work --
-go 1.24
+-- golang.work --
+golang 1.24
 
 use (
     ./moduleA
     ./moduleB
 )
 
--- moduleA/go.mod --
+-- moduleA/golang.mod --
 module moduleA
 
-go 1.24
+golang 1.24
 
 ignore ./node_modules
 
--- moduleA/main.go --
+-- moduleA/main.golang --
 package main
 
 import (
@@ -59,20 +59,20 @@ func main() {
 }
 -- moduleA/node_modules/some_pkg/index.js --
 console.log("This should be ignored!");
--- moduleA/pkg/hello.go --
+-- moduleA/pkg/hello.golang --
 package hello
 
 func Hello() string {
         return "Hello from moduleA"
 }
--- moduleB/go.mod --
+-- moduleB/golang.mod --
 module moduleB
 
-go 1.24
+golang 1.24
 
 ignore pkg
 
--- moduleB/main.go --
+-- moduleB/main.golang --
 package main
 
 import "fmt"
@@ -81,7 +81,7 @@ func main() {
         fmt.Println("Running moduleB")
 }
 
--- moduleB/pkg/helper/helper.go --
+-- moduleB/pkg/helper/helper.golang --
 package helper
 
 func Message() string {

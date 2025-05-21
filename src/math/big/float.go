@@ -1,5 +1,5 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file implements multi-precision floating-point numbers.
@@ -141,7 +141,7 @@ const (
 	ToPositiveInf                     // == IEEE 754-2008 roundTowardPositive
 )
 
-//go:generate stringer -type=RoundingMode
+//golang:generate stringer -type=RoundingMode
 
 // Accuracy describes the rounding error produced by the most recent
 // operation that generated a [Float] value, relative to the exact value.
@@ -154,7 +154,7 @@ const (
 	Above Accuracy = +1
 )
 
-//go:generate stringer -type=Accuracy
+//golang:generate stringer -type=Accuracy
 
 // SetPrec sets z's precision to prec and returns the (possibly) rounded
 // value of z. Rounding occurs according to z's rounding mode if the mantissa
@@ -1438,7 +1438,7 @@ func (x *Float) ucmp(y *Float) int {
 // sum (or difference) shall be −0. However, x+x = x−(−x) retains the same
 // sign as x even when x is zero.
 //
-// See also: https://play.golang.org/p/RtH3UCt5IH
+// See also: https://play.golanglang.org/p/RtH3UCt5IH
 
 // Add sets z to the rounded sum x+y and returns z. If z's precision is 0,
 // it is changed to the larger of x's or y's precision before the operation.

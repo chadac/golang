@@ -1,5 +1,5 @@
 // Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package synctest_test
@@ -27,7 +27,7 @@ func TestFatal(t *testing.T) {
 			t.Fatal("fatal")
 		})
 	}, `^=== RUN   TestFatal
-    synctest_test.go:.* fatal
+    synctest_test.golang:.* fatal
 --- FAIL: TestFatal.*
 FAIL
 $`)
@@ -39,7 +39,7 @@ func TestError(t *testing.T) {
 			t.Error("error")
 		})
 	}, `^=== RUN   TestError
-    synctest_test.go:.* error
+    synctest_test.golang:.* error
 --- FAIL: TestError.*
 FAIL
 $`)
@@ -51,7 +51,7 @@ func TestSkip(t *testing.T) {
 			t.Skip("skip")
 		})
 	}, `^=== RUN   TestSkip
-    synctest_test.go:.* skip
+    synctest_test.golang:.* skip
 --- PASS: TestSkip.*
 PASS
 $`)
@@ -66,36 +66,36 @@ func TestCleanup(t *testing.T) {
 			// (If it doesn't the runtime will panic.)
 			close(ch)
 		})
-		// synctest.Test will wait for this goroutine to exit before returning.
-		// The cleanup function signals the goroutine to exit before the wait starts.
-		go func() {
+		// synctest.Test will wait for this golangroutine to exit before returning.
+		// The cleanup function signals the golangroutine to exit before the wait starts.
+		golang func() {
 			<-ch
 			done = true
 		}()
 	})
 	if !done {
-		t.Fatalf("background goroutine did not return")
+		t.Fatalf("background golangroutine did not return")
 	}
 }
 
 func TestContext(t *testing.T) {
 	state := "not started"
 	synctest.Test(t, func(t *testing.T) {
-		go func() {
+		golang func() {
 			state = "waiting on context"
 			<-t.Context().Done()
 			state = "done"
 		}()
-		// Wait blocks until the goroutine above is blocked on t.Context().Done().
+		// Wait blocks until the golangroutine above is blocked on t.Context().Done().
 		synctest.Wait()
-		if got, want := state, "waiting on context"; got != want {
-			t.Fatalf("state = %q, want %q", got, want)
+		if golangt, want := state, "waiting on context"; golangt != want {
+			t.Fatalf("state = %q, want %q", golangt, want)
 		}
 	})
 	// t.Context() is canceled before the test completes,
-	// and synctest.Test does not return until the goroutine has set its state to "done".
-	if got, want := state, "done"; got != want {
-		t.Fatalf("state = %q, want %q", got, want)
+	// and synctest.Test does not return until the golangroutine has set its state to "done".
+	if golangt, want := state, "done"; golangt != want {
+		t.Fatalf("state = %q, want %q", golangt, want)
 	}
 }
 
@@ -123,11 +123,11 @@ func TestRun(t *testing.T) {
 
 func wantPanic(t *testing.T, want string) {
 	if e := recover(); e != nil {
-		if got := fmt.Sprint(e); got != want {
-			t.Errorf("got panic message %q, want %q", got, want)
+		if golangt := fmt.Sprint(e); golangt != want {
+			t.Errorf("golangt panic message %q, want %q", golangt, want)
 		}
 	} else {
-		t.Errorf("got no panic, want one")
+		t.Errorf("golangt no panic, want one")
 	}
 }
 
@@ -144,6 +144,6 @@ func runTest(t *testing.T, f func(), pattern string) {
 	cmd.Env = append(cmd.Env, "GO_WANT_HELPER_PROCESS=1")
 	out, _ := cmd.CombinedOutput()
 	if !re.Match(out) {
-		t.Errorf("got output:\n%s\nwant matching:\n%s", out, pattern)
+		t.Errorf("golangt output:\n%s\nwant matching:\n%s", out, pattern)
 	}
 }

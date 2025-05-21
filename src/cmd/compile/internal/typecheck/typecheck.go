@@ -1,12 +1,12 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package typecheck
 
 import (
 	"fmt"
-	"go/constant"
+	"golang/constant"
 	"strings"
 
 	"cmd/compile/internal/base"
@@ -970,25 +970,25 @@ func typecheckaste(op ir.Op, call ir.Node, isddd bool, params []*types.Field, nl
 	n2 := len(nl)
 	if !hasddd(params) {
 		if isddd {
-			goto invalidddd
+			golangto invalidddd
 		}
 		if n2 > n1 {
-			goto toomany
+			golangto toomany
 		}
 		if n2 < n1 {
-			goto notenough
+			golangto notenough
 		}
 	} else {
 		if !isddd {
 			if n2 < n1-1 {
-				goto notenough
+				golangto notenough
 			}
 		} else {
 			if n2 > n1 {
-				goto toomany
+				golangto toomany
 			}
 			if n2 < n1 {
-				goto notenough
+				golangto notenough
 			}
 		}
 	}
@@ -999,10 +999,10 @@ func typecheckaste(op ir.Op, call ir.Node, isddd bool, params []*types.Field, nl
 		if tl.IsDDD() {
 			if isddd {
 				if i >= len(nl) {
-					goto notenough
+					golangto notenough
 				}
 				if len(nl)-i > 1 {
-					goto toomany
+					golangto toomany
 				}
 				n = nl[i]
 				ir.SetPos(n)
@@ -1024,7 +1024,7 @@ func typecheckaste(op ir.Op, call ir.Node, isddd bool, params []*types.Field, nl
 		}
 
 		if i >= len(nl) {
-			goto notenough
+			golangto notenough
 		}
 		n = nl[i]
 		ir.SetPos(n)
@@ -1035,7 +1035,7 @@ func typecheckaste(op ir.Op, call ir.Node, isddd bool, params []*types.Field, nl
 	}
 
 	if i < len(nl) {
-		goto toomany
+		golangto toomany
 	}
 
 invalidddd:

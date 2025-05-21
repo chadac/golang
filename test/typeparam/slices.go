@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package slices provides functions for basic operations on
@@ -236,8 +236,8 @@ func TestReduce() {
 		panic(fmt.Sprintf("_Reduce(%v, 0, ...) = %v, want %v", s1, r, want))
 	}
 
-	if got := _Reduce(nil, 0, func(i, j int) int { return i + j }); got != 0 {
-		panic(fmt.Sprintf("_Reduce(nil, 0, add) = %v, want 0", got))
+	if golangt := _Reduce(nil, 0, func(i, j int) int { return i + j }); golangt != 0 {
+		panic(fmt.Sprintf("_Reduce(nil, 0, add) = %v, want 0", golangt))
 	}
 }
 
@@ -255,33 +255,33 @@ func TestFilter() {
 
 func TestMax() {
 	s1 := []int{1, 2, 3, -5}
-	if got, want := _SliceMax(s1), 3; got != want {
-		panic(fmt.Sprintf("_Max(%v) = %d, want %d", s1, got, want))
+	if golangt, want := _SliceMax(s1), 3; golangt != want {
+		panic(fmt.Sprintf("_Max(%v) = %d, want %d", s1, golangt, want))
 	}
 
 	s2 := []string{"aaa", "a", "aa", "aaaa"}
-	if got, want := _SliceMax(s2), "aaaa"; got != want {
-		panic(fmt.Sprintf("_Max(%v) = %q, want %q", s2, got, want))
+	if golangt, want := _SliceMax(s2), "aaaa"; golangt != want {
+		panic(fmt.Sprintf("_Max(%v) = %q, want %q", s2, golangt, want))
 	}
 
-	if got, want := _SliceMax(s2[:0]), ""; got != want {
-		panic(fmt.Sprintf("_Max(%v) = %q, want %q", s2[:0], got, want))
+	if golangt, want := _SliceMax(s2[:0]), ""; golangt != want {
+		panic(fmt.Sprintf("_Max(%v) = %q, want %q", s2[:0], golangt, want))
 	}
 }
 
 func TestMin() {
 	s1 := []int{1, 2, 3, -5}
-	if got, want := _SliceMin(s1), -5; got != want {
-		panic(fmt.Sprintf("_Min(%v) = %d, want %d", s1, got, want))
+	if golangt, want := _SliceMin(s1), -5; golangt != want {
+		panic(fmt.Sprintf("_Min(%v) = %d, want %d", s1, golangt, want))
 	}
 
 	s2 := []string{"aaa", "a", "aa", "aaaa"}
-	if got, want := _SliceMin(s2), "a"; got != want {
-		panic(fmt.Sprintf("_Min(%v) = %q, want %q", s2, got, want))
+	if golangt, want := _SliceMin(s2), "a"; golangt != want {
+		panic(fmt.Sprintf("_Min(%v) = %q, want %q", s2, golangt, want))
 	}
 
-	if got, want := _SliceMin(s2[:0]), ""; got != want {
-		panic(fmt.Sprintf("_Min(%v) = %q, want %q", s2[:0], got, want))
+	if golangt, want := _SliceMin(s2[:0]), ""; golangt != want {
+		panic(fmt.Sprintf("_Min(%v) = %q, want %q", s2[:0], golangt, want))
 	}
 }
 
@@ -290,19 +290,19 @@ func TestAppend() {
 	s = _Append(s, 4, 5, 6)
 	want := []int{1, 2, 3, 4, 5, 6}
 	if !_Equal(s, want) {
-		panic(fmt.Sprintf("after _Append got %v, want %v", s, want))
+		panic(fmt.Sprintf("after _Append golangt %v, want %v", s, want))
 	}
 }
 
 func TestCopy() {
 	s1 := []int{1, 2, 3}
 	s2 := []int{4, 5}
-	if got := _Copy(s1, s2); got != 2 {
-		panic(fmt.Sprintf("_Copy returned %d, want 2", got))
+	if golangt := _Copy(s1, s2); golangt != 2 {
+		panic(fmt.Sprintf("_Copy returned %d, want 2", golangt))
 	}
 	want := []int{4, 5, 3}
 	if !_Equal(s1, want) {
-		panic(fmt.Sprintf("after _Copy got %v, want %v", s1, want))
+		panic(fmt.Sprintf("after _Copy golangt %v, want %v", s1, want))
 	}
 }
 func main() {

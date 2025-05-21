@@ -1,13 +1,13 @@
 [short] skip
 
-go mod download example.com/printversion@v0.1.0 example.com/printversion@v1.0.0
-go get example.com/printversion@v0.1.0
-go install example.com/printversion
+golang mod download example.com/printversion@v0.1.0 example.com/printversion@v1.0.0
+golang get example.com/printversion@v0.1.0
+golang install example.com/printversion
 
-go run example.com/printversion
+golang run example.com/printversion
 cmp stdout out.txt
 
-go version -m $GOPATH/bin/printversion$GOEXE
+golang version -m $GOPATH/bin/printversion$GOEXE
 stdout '^.*[/\\]bin[/\\]printversion'$GOEXE': .*$'
 stdout '^	path	example.com/printversion$'
 stdout '^	mod	example.com/printversion	v0.1.0$'
@@ -15,9 +15,9 @@ stdout '^	=>	example.com/printversion	v1.0.0	h1:.*$'
 stdout '^	dep	example.com/version	v1.0.0$'
 stdout '^	=>	example.com/version	v1.0.1	h1:.*$'
 
--- go.mod --
-module golang.org/issue/37392
-go 1.14
+-- golang.mod --
+module golanglang.org/issue/37392
+golang 1.14
 require (
 	example.com/printversion v0.1.0
 )

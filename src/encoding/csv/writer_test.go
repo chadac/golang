@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package csv
@@ -59,7 +59,7 @@ func TestWrite(t *testing.T) {
 		}
 		err := f.WriteAll(tt.Input)
 		if err != tt.Error {
-			t.Errorf("Unexpected error:\ngot  %v\nwant %v", err, tt.Error)
+			t.Errorf("Unexpected error:\ngolangt  %v\nwant %v", err, tt.Error)
 		}
 		out := b.String()
 		if out != tt.Output {

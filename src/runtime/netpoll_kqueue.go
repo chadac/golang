@@ -1,15 +1,15 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build darwin || dragonfly || freebsd || netbsd || openbsd
+//golang:build darwin || dragolangnfly || freebsd || netbsd || openbsd
 
 package runtime
 
 // Integrated network poller (kqueue-based implementation).
 
 import (
-	"internal/goarch"
+	"internal/golangarch"
 	"internal/runtime/atomic"
 	"unsafe"
 )
@@ -40,7 +40,7 @@ func netpollopen(fd uintptr, pd *pollDesc) int32 {
 	ev[0].fflags = 0
 	ev[0].data = 0
 
-	if goarch.PtrSize == 4 {
+	if golangarch.PtrSize == 4 {
 		// We only have a pointer-sized field to store into,
 		// so on a 32-bit system we get no sequence protection.
 		// TODO(iant): If we notice any problems we could at least
@@ -80,7 +80,7 @@ func netpollBreak() {
 }
 
 // netpoll checks for ready network connections.
-// Returns a list of goroutines that become runnable,
+// Returns a list of golangroutines that become runnable,
 // and a delta to add to netpollWaiters.
 // This must never return an empty list with a non-zero delta.
 //
@@ -111,7 +111,7 @@ retry:
 	if n < 0 {
 		// Ignore the ETIMEDOUT error for now, but try to dive deep and
 		// figure out what really happened with n == ETIMEOUT,
-		// see https://go.dev/issue/59679 for details.
+		// see https://golang.dev/issue/59679 for details.
 		if n != -_EINTR && n != -_ETIMEDOUT {
 			println("runtime: kevent on fd", kq, "failed with", -n)
 			throw("runtime: netpoll failed")
@@ -121,7 +121,7 @@ retry:
 		if delay > 0 {
 			return gList{}, 0
 		}
-		goto retry
+		golangto retry
 	}
 	var toRun gList
 	delta := int32(0)
@@ -149,8 +149,8 @@ retry:
 			// _EVFILT_WRITE event, but will get a
 			// _EVFILT_READ event with EV_EOF set.
 			// Note that setting 'w' here just means that we
-			// will wake up a goroutine waiting to write;
-			// that goroutine will try the write again,
+			// will wake up a golangroutine waiting to write;
+			// that golangroutine will try the write again,
 			// and the appropriate thing will happen based
 			// on what that write returns (success, EPIPE, EAGAIN).
 			if ev.flags&_EV_EOF != 0 {
@@ -162,7 +162,7 @@ retry:
 		if mode != 0 {
 			var pd *pollDesc
 			var tag uintptr
-			if goarch.PtrSize == 4 {
+			if golangarch.PtrSize == 4 {
 				// No sequence protection on 32-bit systems.
 				// See netpollopen for details.
 				pd = (*pollDesc)(unsafe.Pointer(ev.udata))

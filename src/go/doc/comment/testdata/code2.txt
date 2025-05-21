@@ -6,7 +6,7 @@ Text.
 	code block and haiku.
 
 More text.
--- gofmt --
+-- golangfmt --
 Text.
 
 	A tab-indented

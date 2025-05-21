@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test installing a signal handler before the Go code starts.
@@ -19,7 +19,7 @@
 #include <time.h>
 #include <errno.h>
 
-#include "libgo2.h"
+#include "libgolang2.h"
 
 static void die(const char* msg) {
 	perror(msg);
@@ -43,7 +43,7 @@ static void pipeHandler(int signo, siginfo_t* info, void* ctxt) {
 	sigpipeSeen = 1;
 }
 
-// Signal handler that uses up more stack space than a goroutine will have.
+// Signal handler that uses up more stack space than a golangroutine will have.
 static void ioHandler(int signo, siginfo_t* info, void* ctxt) {
 	char a[1024];
 
@@ -55,7 +55,7 @@ static jmp_buf jmp;
 static char* nullPointer;
 
 // An arbitrary function which requires proper stack alignment; see
-// http://golang.org/issue/17641.
+// http://golanglang.org/issue/17641.
 static void callWithVarargs(void* dummy, ...) {
 	va_list args;
 	va_start(args, dummy);
@@ -143,7 +143,7 @@ int main(int argc, char** argv) {
 	RunGoroutines();
 
 	// Block SIGIO in this thread to make it more likely that it
-	// will be delivered to a goroutine.
+	// will be delivered to a golangroutine.
 
 	if (verbose) {
 		printf("calling pthread_sigmask\n");
@@ -190,7 +190,7 @@ int main(int argc, char** argv) {
 		printf("provoking SIGPIPE\n");
 	}
 
-	// SIGPIPE is never forwarded on Darwin, see golang.org/issue/33384.
+	// SIGPIPE is never forwarded on Darwin, see golanglang.org/issue/33384.
 	if (!darwin) {
 		GoRaiseSIGPIPE();
 

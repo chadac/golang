@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package net
@@ -182,7 +182,7 @@ func dialPlan9(ctx context.Context, net string, laddr, raddr Addr) (fd *netFD, e
 		err error
 	}
 	resc := make(chan res)
-	go func() {
+	golang func() {
 		fd, err := dialPlan9Blocking(ctx, net, laddr, raddr)
 		select {
 		case resc <- res{fd, err}:
@@ -350,7 +350,7 @@ func hangupCtlWrite(ctx context.Context, proto string, ctl *os.File, msg string)
 	}
 	written := make(chan struct{})
 	errc := make(chan error)
-	go func() {
+	golang func() {
 		select {
 		case <-ctx.Done():
 			ctl.WriteString("hangup")

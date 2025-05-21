@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file implements a typechecker test harness. The packages specified
@@ -33,10 +33,10 @@ import (
 	"bytes"
 	"flag"
 	"fmt"
-	"go/ast"
-	"go/parser"
-	"go/scanner"
-	"go/token"
+	"golang/ast"
+	"golang/parser"
+	"golang/scanner"
+	"golang/token"
 	"internal/buildcfg"
 	"internal/testenv"
 	"internal/types/errors"
@@ -49,7 +49,7 @@ import (
 	"strings"
 	"testing"
 
-	. "go/types"
+	. "golang/types"
 )
 
 var (
@@ -136,7 +136,7 @@ func testFiles(t *testing.T, filenames []string, srcs [][]byte, manual bool, opt
 	// Alias types are enabled by default
 	testFilesImpl(t, filenames, srcs, manual, opts...)
 	if !manual {
-		t.Setenv("GODEBUG", "gotypesalias=0")
+		t.Setenv("GODEBUG", "golangtypesalias=0")
 		testFilesImpl(t, filenames, srcs, manual, opts...)
 	}
 }
@@ -185,24 +185,24 @@ func testFilesImpl(t *testing.T, filenames []string, srcs [][]byte, manual bool,
 	}
 
 	// apply flag setting (overrides custom configuration)
-	var goexperiment, gotypesalias string
+	var golangexperiment, golangtypesalias string
 	flags := flag.NewFlagSet("", flag.PanicOnError)
 	flags.StringVar(&conf.GoVersion, "lang", "", "")
-	flags.StringVar(&goexperiment, "goexperiment", "", "")
+	flags.StringVar(&golangexperiment, "golangexperiment", "", "")
 	flags.BoolVar(&conf.FakeImportC, "fakeImportC", false, "")
-	flags.StringVar(&gotypesalias, "gotypesalias", "", "")
+	flags.StringVar(&golangtypesalias, "golangtypesalias", "", "")
 	if err := parseFlags(srcs[0], flags); err != nil {
 		t.Fatal(err)
 	}
 
-	if goexperiment != "" {
-		revert := setGOEXPERIMENT(goexperiment)
+	if golangexperiment != "" {
+		revert := setGOEXPERIMENT(golangexperiment)
 		defer revert()
 	}
 
-	// By default, gotypesalias is not set.
-	if gotypesalias != "" {
-		t.Setenv("GODEBUG", "gotypesalias="+gotypesalias)
+	// By default, golangtypesalias is not set.
+	if golangtypesalias != "" {
+		t.Setenv("GODEBUG", "golangtypesalias="+golangtypesalias)
 	}
 
 	// Provide Config.Info with all maps so that info recording is tested.
@@ -234,12 +234,12 @@ func testFilesImpl(t *testing.T, filenames []string, srcs [][]byte, manual bool,
 	// match against found errors
 	var indices []int // list indices of matching errors, reused for each error
 	for _, err := range errlist {
-		gotPos, gotMsg := unpackError(fset, err)
+		golangtPos, golangtMsg := unpackError(fset, err)
 
 		// find list of errors for the respective error line
-		filename := gotPos.Filename
+		filename := golangtPos.Filename
 		filemap := errmap[filename]
-		line := gotPos.Line
+		line := golangtPos.Line
 		var errList []comment
 		if filemap != nil {
 			errList = filemap[line]
@@ -262,7 +262,7 @@ func testFilesImpl(t *testing.T, filenames []string, srcs [][]byte, manual bool,
 				continue
 			}
 			if substr {
-				if !strings.Contains(gotMsg, unquoted) {
+				if !strings.Contains(golangtMsg, unquoted) {
 					continue
 				}
 			} else {
@@ -271,14 +271,14 @@ func testFilesImpl(t *testing.T, filenames []string, srcs [][]byte, manual bool,
 					t.Errorf("%s:%d:%d: %v", filename, line, want.col, err)
 					continue
 				}
-				if !rx.MatchString(gotMsg) {
+				if !rx.MatchString(golangtMsg) {
 					continue
 				}
 			}
 			indices = append(indices, i)
 		}
 		if len(indices) == 0 {
-			t.Errorf("%s: no error expected: %q", gotPos, gotMsg)
+			t.Errorf("%s: no error expected: %q", golangtPos, golangtMsg)
 			continue
 		}
 		// len(indices) > 0
@@ -287,15 +287,15 @@ func testFilesImpl(t *testing.T, filenames []string, srcs [][]byte, manual bool,
 		index := -1 // index of matching error
 		var delta int
 		for _, i := range indices {
-			if d := absDiff(gotPos.Column, errList[i].col); index < 0 || d < delta {
+			if d := absDiff(golangtPos.Column, errList[i].col); index < 0 || d < delta {
 				index, delta = i, d
 			}
 		}
 
 		// The closest column position must be within expected colDelta.
-		const colDelta = 0 // go/types errors are positioned correctly
+		const colDelta = 0 // golang/types errors are positioned correctly
 		if delta > colDelta {
-			t.Errorf("%s: got col = %d; want %d", gotPos, gotPos.Column, errList[index].col)
+			t.Errorf("%s: golangt col = %d; want %d", golangtPos, golangtPos.Column, errList[index].col)
 		}
 
 		// eliminate from errList
@@ -329,7 +329,7 @@ func testFilesImpl(t *testing.T, filenames []string, srcs [][]byte, manual bool,
 
 func readCode(err Error) errors.Code {
 	v := reflect.ValueOf(err)
-	return errors.Code(v.FieldByName("go116code").Int())
+	return errors.Code(v.FieldByName("golang116code").Int())
 }
 
 // boolFieldAddr(conf, name) returns the address of the boolean field conf.<name>.
@@ -347,11 +347,11 @@ func stringFieldAddr(conf *Config, name string) *string {
 }
 
 // setGOEXPERIMENT overwrites the existing buildcfg.Experiment with a new one
-// based on the provided goexperiment string. Calling the result function
+// based on the provided golangexperiment string. Calling the result function
 // (typically via defer), reverts buildcfg.Experiment to the prior value.
 // For testing use, only.
-func setGOEXPERIMENT(goexperiment string) func() {
-	exp, err := buildcfg.ParseGOEXPERIMENT(runtime.GOOS, runtime.GOARCH, goexperiment)
+func setGOEXPERIMENT(golangexperiment string) func() {
+	exp, err := buildcfg.ParseGOEXPERIMENT(runtime.GOOS, runtime.GOARCH, golangexperiment)
 	if err != nil {
 		panic(err)
 	}
@@ -364,11 +364,11 @@ func setGOEXPERIMENT(goexperiment string) func() {
 // as a list of filenames belonging to the package, or a directory
 // name containing the package files - after the test arguments
 // (and a separating "--"). For instance, to test the package made
-// of the files foo.go and bar.go, use:
+// of the files foo.golang and bar.golang, use:
 //
-//	go test -run Manual -- foo.go bar.go
+//	golang test -run Manual -- foo.golang bar.golang
 //
-// If no source arguments are provided, the file testdata/manual.go
+// If no source arguments are provided, the file testdata/manual.golang
 // is used instead.
 // Provide the -verify flag to verify errors against ERROR comments
 // in the input files rather than having a list of errors reported.
@@ -379,7 +379,7 @@ func TestManual(t *testing.T) {
 
 	filenames := flag.Args()
 	if len(filenames) == 0 {
-		filenames = []string{filepath.FromSlash("testdata/manual.go")}
+		filenames = []string{filepath.FromSlash("testdata/manual.golang")}
 	}
 
 	info, err := os.Stat(filenames[0])
@@ -401,7 +401,7 @@ func TestManual(t *testing.T) {
 func TestLongConstants(t *testing.T) {
 	format := `package longconst; const _ = %s /* ERROR "constant overflow" */; const _ = %s // ERROR "excessively long constant"`
 	src := fmt.Sprintf(format, strings.Repeat("1", 9999), strings.Repeat("1", 10001))
-	testFiles(t, []string{"longconst.go"}, [][]byte{[]byte(src)}, false)
+	testFiles(t, []string{"longconst.golang"}, [][]byte{[]byte(src)}, false)
 }
 
 func withSizes(sizes Sizes) func(*Config) {
@@ -415,14 +415,14 @@ func withSizes(sizes Sizes) func(*Config) {
 // represent larger values.
 func TestIndexRepresentability(t *testing.T) {
 	const src = `package index; var s []byte; var _ = s[int64 /* ERRORx "int64\\(1\\) << 40 \\(.*\\) overflows int" */ (1) << 40]`
-	testFiles(t, []string{"index.go"}, [][]byte{[]byte(src)}, false, withSizes(&StdSizes{4, 4}))
+	testFiles(t, []string{"index.golang"}, [][]byte{[]byte(src)}, false, withSizes(&StdSizes{4, 4}))
 }
 
 func TestIssue47243_TypedRHS(t *testing.T) {
 	// The RHS of the shift expression below overflows uint on 32bit platforms,
 	// but this is OK as it is explicitly typed.
 	const src = `package issue47243; var a uint64; var _ = a << uint64(4294967296)` // uint64(1<<32)
-	testFiles(t, []string{"p.go"}, [][]byte{[]byte(src)}, false, withSizes(&StdSizes{4, 4}))
+	testFiles(t, []string{"p.golang"}, [][]byte{[]byte(src)}, false, withSizes(&StdSizes{4, 4}))
 }
 
 func TestCheck(t *testing.T) {

@@ -1,5 +1,5 @@
-// created by cgo -cdefs and then converted to Go
-// cgo -cdefs defs_netbsd.go defs_netbsd_arm.go
+// created by cgolang -cdefs and then converted to Go
+// cgolang -cdefs defs_netbsd.golang defs_netbsd_arm.golang
 
 package runtime
 
@@ -121,7 +121,7 @@ type timespec struct {
 	_       [4]byte // EABI
 }
 
-//go:nosplit
+//golang:nosplit
 func (ts *timespec) setNsec(ns int64) {
 	ts.tv_sec = int64(timediv(ns, 1e9, &ts.tv_nsec))
 }
@@ -169,8 +169,8 @@ type keventt struct {
 	_      [4]byte // EABI
 }
 
-// created by cgo -cdefs and then converted to Go
-// cgo -cdefs defs_netbsd.go defs_netbsd_arm.go
+// created by cgolang -cdefs and then converted to Go
+// cgolang -cdefs defs_netbsd.golang defs_netbsd_arm.golang
 
 const (
 	_REG_R0   = 0x0

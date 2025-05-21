@@ -1,19 +1,19 @@
 env GO111MODULE=off
 
-! go build canonical/d
-stderr '^canonical[/\\]b[/\\]b.go:3:8: non-canonical import path "canonical/a/": should be "canonical/a"$'
+! golang build canonical/d
+stderr '^canonical[/\\]b[/\\]b.golang:3:8: non-canonical import path "canonical/a/": should be "canonical/a"$'
 
--- canonical/a/a.go --
+-- canonical/a/a.golang --
 package a
 
 import _ "c"
--- canonical/b/b.go --
+-- canonical/b/b.golang --
 package b
 
 import _ "canonical/a/"
--- canonical/a/vendor/c/c.go --
+-- canonical/a/vendor/c/c.golang --
 package c
--- canonical/d/d.go --
+-- canonical/d/d.golang --
 package d
 
 import _ "canonical/b"

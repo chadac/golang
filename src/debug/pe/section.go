@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package pe
@@ -40,7 +40,7 @@ func (sh *SectionHeader32) fullName(st StringTable) (string, error) {
 	return st.String(uint32(i))
 }
 
-// TODO(brainman): copy all IMAGE_REL_* consts from ldpe.go here
+// TODO(brainman): copy all IMAGE_REL_* consts from ldpe.golang here
 
 // Reloc represents a PE COFF relocation.
 // Each section contains its own relocation list.

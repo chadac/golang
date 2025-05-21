@@ -1,16 +1,16 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build ignore
+//golang:build ignore
 
 package main
 
-// Need to compile package gob with debug.go to build this program.
-// See comments in debug.go for how to do this.
+// Need to compile package golangb with debug.golang to build this program.
+// See comments in debug.golang for how to do this.
 
 import (
-	"encoding/gob"
+	"encoding/golangb"
 	"fmt"
 	"os"
 )
@@ -26,5 +26,5 @@ func main() {
 		}
 		defer file.Close()
 	}
-	gob.Debug(file)
+	golangb.Debug(file)
 }

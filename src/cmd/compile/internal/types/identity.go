@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package types
@@ -49,7 +49,7 @@ func identical(t1, t2 *Type, flags int, assumedEqual map[typePair]struct{}) bool
 				return true
 			}
 			// fall through to unnamed type comparison for complex types.
-			goto cont
+			golangto cont
 		}
 		// Special case: we keep byte/uint8 and rune/int32
 		// separate for error messages. Treat them as equal.
@@ -72,7 +72,7 @@ func identical(t1, t2 *Type, flags int, assumedEqual map[typePair]struct{}) bool
 	}
 cont:
 
-	// Any cyclic type must go through a named type, and if one is
+	// Any cyclic type must golang through a named type, and if one is
 	// named, it is only identical to the other if they are the
 	// same pointer (t1 == t2), so there's no chance of chasing
 	// cycles ad infinitum, so no need for a depth counter.

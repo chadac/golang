@@ -1,10 +1,10 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package sym
 
-import "cmd/internal/goobj"
+import "cmd/internal/golangobj"
 
 type Library struct {
 	Objref      string
@@ -12,8 +12,8 @@ type Library struct {
 	File        string
 	Pkg         string
 	Shlib       string
-	Fingerprint goobj.FingerprintType
-	Autolib     []goobj.ImportedPkg
+	Fingerprint golangobj.FingerprintType
+	Autolib     []golangobj.ImportedPkg
 	Imports     []*Library
 	Main        bool
 	Units       []*CompilationUnit

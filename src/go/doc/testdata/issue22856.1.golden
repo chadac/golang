@@ -5,7 +5,7 @@ IMPORTPATH
 	testdata/issue22856
 
 FILENAMES
-	testdata/issue22856.go
+	testdata/issue22856.golang
 
 FUNCTIONS
 	// NewPointerSliceOfSlice is not a factory function because slices ...

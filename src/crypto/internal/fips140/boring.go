@@ -1,9 +1,9 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Keep in sync with notboring.go and crypto/internal/boring/boring.go.
-//go:build boringcrypto && linux && (amd64 || arm64) && !android && !msan && cgo
+// Keep in sync with notboring.golang and crypto/internal/boring/boring.golang.
+//golang:build boringcrypto && linux && (amd64 || arm64) && !android && !msan && cgolang
 
 package fips140
 

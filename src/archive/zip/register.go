@@ -1,5 +1,5 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package zip
@@ -13,16 +13,16 @@ import (
 
 // A Compressor returns a new compressing writer, writing to w.
 // The WriteCloser's Close method must be used to flush pending data to w.
-// The Compressor itself must be safe to invoke from multiple goroutines
+// The Compressor itself must be safe to invoke from multiple golangroutines
 // simultaneously, but each returned writer will be used only by
-// one goroutine at a time.
+// one golangroutine at a time.
 type Compressor func(w io.Writer) (io.WriteCloser, error)
 
 // A Decompressor returns a new decompressing reader, reading from r.
 // The [io.ReadCloser]'s Close method must be used to release associated resources.
-// The Decompressor itself must be safe to invoke from multiple goroutines
+// The Decompressor itself must be safe to invoke from multiple golangroutines
 // simultaneously, but each returned reader will be used only by
-// one goroutine at a time.
+// one golangroutine at a time.
 type Decompressor func(r io.Reader) io.ReadCloser
 
 var flateWriterPool sync.Pool

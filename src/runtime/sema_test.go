@@ -1,5 +1,5 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime_test
@@ -59,14 +59,14 @@ func testSemaHandoff() bool {
 	var sema, res uint32
 	done := make(chan struct{})
 
-	// We're testing that the current goroutine is able to yield its time slice
-	// to another goroutine. Stop the current goroutine from migrating to
+	// We're testing that the current golangroutine is able to yield its time slice
+	// to another golangroutine. Stop the current golangroutine from migrating to
 	// another CPU where it can win the race (and appear to have not yielded) by
 	// keeping the CPUs slightly busy.
 	var wg sync.WaitGroup
 	for i := 0; i < GOMAXPROCS(-1); i++ {
 		wg.Add(1)
-		go func() {
+		golang func() {
 			defer wg.Done()
 			for {
 				select {
@@ -80,7 +80,7 @@ func testSemaHandoff() bool {
 	}
 
 	wg.Add(1)
-	go func() {
+	golang func() {
 		defer wg.Done()
 		Semacquire(&sema)
 		atomic.CompareAndSwapUint32(&res, 0, 1)
@@ -89,7 +89,7 @@ func testSemaHandoff() bool {
 		close(done)
 	}()
 	for SemNwait(&sema) == 0 {
-		Gosched() // wait for goroutine to block in Semacquire
+		Gosched() // wait for golangroutine to block in Semacquire
 	}
 
 	// The crux of the test: we release the semaphore with handoff
@@ -98,7 +98,7 @@ func testSemaHandoff() bool {
 	Semrelease1(&sema, true, 0)
 	atomic.CompareAndSwapUint32(&res, 0, 2)
 
-	wg.Wait() // wait for goroutines to finish to avoid data races
+	wg.Wait() // wait for golangroutines to finish to avoid data races
 
 	return res == 1 // did the waiter run first?
 }

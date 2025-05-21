@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Parse the "tzdata" packed timezone file used on Android.
@@ -29,11 +29,11 @@ func init() {
 
 var allowGorootSource = true
 
-func gorootZoneSource(goroot string) (string, bool) {
-	if goroot == "" || !allowGorootSource {
+func golangrootZoneSource(golangroot string) (string, bool) {
+	if golangroot == "" || !allowGorootSource {
 		return "", false
 	}
-	return goroot + "/lib/time/zoneinfo.zip", true
+	return golangroot + "/lib/time/zoneinfo.zip", true
 }
 
 func androidLoadTzinfoFromTzdata(file, name string) ([]byte, error) {

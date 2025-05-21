@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
@@ -124,7 +124,7 @@ type siginfo struct {
 	si_signo  int32
 	si_code   int32
 	si_errno  int32
-	pad_cgo_0 [4]byte
+	pad_cgolang_0 [4]byte
 	_data     [120]byte
 }
 
@@ -132,7 +132,7 @@ type stackt struct {
 	ss_sp     uintptr
 	ss_size   uintptr
 	ss_flags  int32
-	pad_cgo_0 [4]byte
+	pad_cgolang_0 [4]byte
 }
 
 type timespec struct {
@@ -140,7 +140,7 @@ type timespec struct {
 	tv_nsec int64
 }
 
-//go:nosplit
+//golang:nosplit
 func (ts *timespec) setNsec(ns int64) {
 	ts.tv_sec = ns / 1e9
 	ts.tv_nsec = ns % 1e9

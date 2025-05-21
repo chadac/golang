@@ -2,11 +2,11 @@
 # (example.com not example.com/something)
 
 env GO111MODULE=on
-go get
+golang get
 
--- go.mod --
+-- golang.mod --
 module x
 
--- x.go --
+-- x.golang --
 package x
 import _ "example.com"

@@ -1,16 +1,16 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !purego
+//golang:build !puregolang
 
 #include "textflag.h"
 
-// SHA256 block routine. See sha256block.go for Go equivalent.
+// SHA256 block routine. See sha256block.golang for Go equivalent.
 //
-// The algorithm is detailed in FIPS 180-4:
+// The algolangrithm is detailed in FIPS 180-4:
 //
-//  https://csrc.nist.gov/publications/fips/fips180-4/fips-180-4.pdf
+//  https://csrc.nist.golangv/publications/fips/fips180-4/fips-180-4.pdf
 //
 // W[i] = M[i]; for 0 <= i <= 15
 // W[i] = SIGMA1(W[i-2]) + W[i-7] + SIGMA0(W[i-15]) + W[i-16]; for 16 <= i <= 63

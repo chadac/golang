@@ -1,8 +1,8 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-package cgo
+package cgolang
 
 import (
 	"sync"
@@ -11,7 +11,7 @@ import (
 
 // Handle provides a way to pass values that contain Go pointers
 // (pointers to memory allocated by Go) between Go and C without
-// breaking the cgo pointer passing rules. A Handle is an integer
+// breaking the cgolang pointer passing rules. A Handle is an integer
 // value that can represent any Go value. A Handle can be passed
 // through C and back to Go, and Go code can use the Handle to
 // retrieve the original Go value.
@@ -32,11 +32,11 @@ import (
 //	void myprint(uintptr_t handle);
 //	*/
 //	import "C"
-//	import "runtime/cgo"
+//	import "runtime/cgolang"
 //
 //	//export MyGoPrint
 //	func MyGoPrint(handle C.uintptr_t) {
-//		h := cgo.Handle(handle)
+//		h := cgolang.Handle(handle)
 //		val := h.Value().(string)
 //		println(val)
 //		h.Delete()
@@ -44,7 +44,7 @@ import (
 //
 //	func main() {
 //		val := "hello Go"
-//		C.myprint(C.uintptr_t(cgo.NewHandle(val)))
+//		C.myprint(C.uintptr_t(cgolang.NewHandle(val)))
 //		// Output: hello Go
 //	}
 //
@@ -63,10 +63,10 @@ import (
 // Some C functions accept a void* argument that points to an arbitrary
 // data value supplied by the caller. It is not safe to coerce a Handle
 // (an integer) to a Go [unsafe.Pointer], but instead we can pass the address
-// of the cgo.Handle to the void* parameter, as in this variant of the
+// of the cgolang.Handle to the void* parameter, as in this variant of the
 // previous example.
 //
-// Note that, as described in the [cmd/cgo] documentation,
+// Note that, as described in the [cmd/cgolang] documentation,
 // the C code must not keep a copy of the Go pointer that it receives,
 // unless the memory is explicitly pinned using [runtime.Pinner].
 // This example is OK because the C function myprint does not keep
@@ -82,13 +82,13 @@ import (
 //	*/
 //	import "C"
 //	import (
-//		"runtime/cgo"
+//		"runtime/cgolang"
 //		"unsafe"
 //	)
 //
 //	//export MyGoPrint
 //	func MyGoPrint(context unsafe.Pointer) {
-//		h := *(*cgo.Handle)(context)
+//		h := *(*cgolang.Handle)(context)
 //		val := h.Value().(string)
 //		println(val)
 //		h.Delete()
@@ -96,7 +96,7 @@ import (
 //
 //	func main() {
 //		val := "hello Go"
-//		h := cgo.NewHandle(val)
+//		h := cgolang.NewHandle(val)
 //		C.myprint(unsafe.Pointer(&h))
 //		// Output: hello Go
 //	}
@@ -114,7 +114,7 @@ type Handle uintptr
 func NewHandle(v any) Handle {
 	h := handleIdx.Add(1)
 	if h == 0 {
-		panic("runtime/cgo: ran out of handle space")
+		panic("runtime/cgolang: ran out of handle space")
 	}
 
 	handles.Store(h, v)
@@ -127,7 +127,7 @@ func NewHandle(v any) Handle {
 func (h Handle) Value() any {
 	v, ok := handles.Load(uintptr(h))
 	if !ok {
-		panic("runtime/cgo: misuse of an invalid Handle")
+		panic("runtime/cgolang: misuse of an invalid Handle")
 	}
 	return v
 }
@@ -140,7 +140,7 @@ func (h Handle) Value() any {
 func (h Handle) Delete() {
 	_, ok := handles.LoadAndDelete(uintptr(h))
 	if !ok {
-		panic("runtime/cgo: misuse of an invalid Handle")
+		panic("runtime/cgolang: misuse of an invalid Handle")
 	}
 }
 

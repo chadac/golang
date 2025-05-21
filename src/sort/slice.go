@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package sort
@@ -20,7 +20,7 @@ import (
 // the Interface type's Less method.
 //
 // Note: in many situations, the newer [slices.SortFunc] function is more
-// ergonomic and runs faster.
+// ergolangnomic and runs faster.
 func Slice(x any, less func(i, j int) bool) {
 	rv := reflectlite.ValueOf(x)
 	swap := reflectlite.Swapper(x)
@@ -37,7 +37,7 @@ func Slice(x any, less func(i, j int) bool) {
 // the Interface type's Less method.
 //
 // Note: in many situations, the newer [slices.SortStableFunc] function is more
-// ergonomic and runs faster.
+// ergolangnomic and runs faster.
 func SliceStable(x any, less func(i, j int) bool) {
 	rv := reflectlite.ValueOf(x)
 	swap := reflectlite.Swapper(x)
@@ -48,7 +48,7 @@ func SliceStable(x any, less func(i, j int) bool) {
 // It panics if x is not a slice.
 //
 // Note: in many situations, the newer [slices.IsSortedFunc] function is more
-// ergonomic and runs faster.
+// ergolangnomic and runs faster.
 func SliceIsSorted(x any, less func(i, j int) bool) bool {
 	rv := reflectlite.ValueOf(x)
 	n := rv.Len()

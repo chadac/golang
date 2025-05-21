@@ -1,8 +1,8 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build unix || wasip1 || windows
+//golang:build unix || wasip1 || windows
 
 package os
 
@@ -157,7 +157,7 @@ func removeAllFrom(parentFd sysfdType, base string) error {
 // should act like openFileNolog.
 //
 // This acts like openFileNolog rather than OpenFile because
-// we are going to (try to) remove the file.
+// we are golanging to (try to) remove the file.
 // The contents of this file are not relevant for test caching.
 func openDirAt(dirfd sysfdType, name string) (*File, error) {
 	fd, err := rootOpenDir(dirfd, name)

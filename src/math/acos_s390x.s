@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 #include "textflag.h"
@@ -36,8 +36,8 @@ GLOBL ·acosrodataL13<> + 0(SB), RODATA, $200
 //
 // Special case is:
 //      Acos(x) = NaN if x < -1 or x > 1
-// The algorithm used is minimax polynomial approximation
-// with coefficients determined with a Remez exchange algorithm.
+// The algolangrithm used is minimax polynomial approximation
+// with coefficients determined with a Remez exchange algolangrithm.
 
 TEXT	·acosAsm(SB), NOSPLIT, $0-16
 	FMOVD	x+0(FP), F0

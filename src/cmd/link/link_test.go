@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -26,11 +26,11 @@ import (
 )
 
 var AuthorPaidByTheColumnInch struct {
-	fog int `text:"London. Michaelmas term lately over, and the Lord Chancellor sitting in Lincoln’s Inn Hall. Implacable November weather. As much mud in the streets as if the waters had but newly retired from the face of the earth, and it would not be wonderful to meet a Megalosaurus, forty feet long or so, waddling like an elephantine lizard up Holborn Hill. Smoke lowering down from chimney-pots, making a soft black drizzle, with flakes of soot in it as big as full-grown snowflakes—gone into mourning, one might imagine, for the death of the sun. Dogs, undistinguishable in mire. Horses, scarcely better; splashed to their very blinkers. Foot passengers, jostling one another’s umbrellas in a general infection of ill temper, and losing their foot-hold at street-corners, where tens of thousands of other foot passengers have been slipping and sliding since the day broke (if this day ever broke), adding new deposits to the crust upon crust of mud, sticking at those points tenaciously to the pavement, and accumulating at compound interest.  	Fog everywhere. Fog up the river, where it flows among green aits and meadows; fog down the river, where it rolls defiled among the tiers of shipping and the waterside pollutions of a great (and dirty) city. Fog on the Essex marshes, fog on the Kentish heights. Fog creeping into the cabooses of collier-brigs; fog lying out on the yards and hovering in the rigging of great ships; fog drooping on the gunwales of barges and small boats. Fog in the eyes and throats of ancient Greenwich pensioners, wheezing by the firesides of their wards; fog in the stem and bowl of the afternoon pipe of the wrathful skipper, down in his close cabin; fog cruelly pinching the toes and fingers of his shivering little ‘prentice boy on deck. Chance people on the bridges peeping over the parapets into a nether sky of fog, with fog all round them, as if they were up in a balloon and hanging in the misty clouds.  	Gas looming through the fog in divers places in the streets, much as the sun may, from the spongey fields, be seen to loom by husbandman and ploughboy. Most of the shops lighted two hours before their time—as the gas seems to know, for it has a haggard and unwilling look.  	The raw afternoon is rawest, and the dense fog is densest, and the muddy streets are muddiest near that leaden-headed old obstruction, appropriate ornament for the threshold of a leaden-headed old corporation, Temple Bar. And hard by Temple Bar, in Lincoln’s Inn Hall, at the very heart of the fog, sits the Lord High Chancellor in his High Court of Chancery."`
+	fog int `text:"London. Michaelmas term lately over, and the Lord Chancellor sitting in Lincoln’s Inn Hall. Implacable November weather. As much mud in the streets as if the waters had but newly retired from the face of the earth, and it would not be wonderful to meet a Megalosaurus, forty feet long or so, waddling like an elephantine lizard up Holborn Hill. Smoke lowering down from chimney-pots, making a soft black drizzle, with flakes of soot in it as big as full-grown snowflakes—golangne into mourning, one might imagine, for the death of the sun. Dogs, undistinguishable in mire. Horses, scarcely better; splashed to their very blinkers. Foot passengers, jostling one another’s umbrellas in a general infection of ill temper, and losing their foot-hold at street-corners, where tens of thousands of other foot passengers have been slipping and sliding since the day broke (if this day ever broke), adding new deposits to the crust upon crust of mud, sticking at those points tenaciously to the pavement, and accumulating at compound interest.  	Fog everywhere. Fog up the river, where it flows among green aits and meadows; fog down the river, where it rolls defiled among the tiers of shipping and the waterside pollutions of a great (and dirty) city. Fog on the Essex marshes, fog on the Kentish heights. Fog creeping into the cabooses of collier-brigs; fog lying out on the yards and hovering in the rigging of great ships; fog drooping on the gunwales of barges and small boats. Fog in the eyes and throats of ancient Greenwich pensioners, wheezing by the firesides of their wards; fog in the stem and bowl of the afternoon pipe of the wrathful skipper, down in his close cabin; fog cruelly pinching the toes and fingers of his shivering little ‘prentice boy on deck. Chance people on the bridges peeping over the parapets into a nether sky of fog, with fog all round them, as if they were up in a balloon and hanging in the misty clouds.  	Gas looming through the fog in divers places in the streets, much as the sun may, from the spongey fields, be seen to loom by husbandman and ploughboy. Most of the shops lighted two hours before their time—as the gas seems to know, for it has a haggard and unwilling look.  	The raw afternoon is rawest, and the dense fog is densest, and the muddy streets are muddiest near that leaden-headed old obstruction, appropriate ornament for the threshold of a leaden-headed old corporation, Temple Bar. And hard by Temple Bar, in Lincoln’s Inn Hall, at the very heart of the fog, sits the Lord High Chancellor in his High Court of Chancery."`
 
 	wind int `text:"It was grand to see how the wind awoke, and bent the trees, and drove the rain before it like a cloud of smoke; and to hear the solemn thunder, and to see the lightning; and while thinking with awe of the tremendous powers by which our little lives are encompassed, to consider how beneficent they are, and how upon the smallest flower and leaf there was already a freshness poured from all this seeming rage, which seemed to make creation new again."`
 
-	jarndyce int `text:"Jarndyce and Jarndyce drones on. This scarecrow of a suit has, over the course of time, become so complicated, that no man alive knows what it means. The parties to it understand it least; but it has been observed that no two Chancery lawyers can talk about it for five minutes, without coming to a total disagreement as to all the premises. Innumerable children have been born into the cause; innumerable young people have married into it; innumerable old people have died out of it. Scores of persons have deliriously found themselves made parties in Jarndyce and Jarndyce, without knowing how or why; whole families have inherited legendary hatreds with the suit. The little plaintiff or defendant, who was promised a new rocking-horse when Jarndyce and Jarndyce should be settled, has grown up, possessed himself of a real horse, and trotted away into the other world. Fair wards of court have faded into mothers and grandmothers; a long procession of Chancellors has come in and gone out; the legion of bills in the suit have been transformed into mere bills of mortality; there are not three Jarndyces left upon the earth perhaps, since old Tom Jarndyce in despair blew his brains out at a coffee-house in Chancery Lane; but Jarndyce and Jarndyce still drags its dreary length before the Court, perennially hopeless."`
+	jarndyce int `text:"Jarndyce and Jarndyce drones on. This scarecrow of a suit has, over the course of time, become so complicated, that no man alive knows what it means. The parties to it understand it least; but it has been observed that no two Chancery lawyers can talk about it for five minutes, without coming to a total disagreement as to all the premises. Innumerable children have been born into the cause; innumerable young people have married into it; innumerable old people have died out of it. Scores of persons have deliriously found themselves made parties in Jarndyce and Jarndyce, without knowing how or why; whole families have inherited legendary hatreds with the suit. The little plaintiff or defendant, who was promised a new rocking-horse when Jarndyce and Jarndyce should be settled, has grown up, possessed himself of a real horse, and trotted away into the other world. Fair wards of court have faded into mothers and grandmothers; a long procession of Chancellors has come in and golangne out; the legion of bills in the suit have been transformed into mere bills of mortality; there are not three Jarndyces left upon the earth perhaps, since old Tom Jarndyce in despair blew his brains out at a coffee-house in Chancery Lane; but Jarndyce and Jarndyce still drags its dreary length before the Court, perennially hopeless."`
 
 	principle int `text:"The one great principle of the English law is, to make business for itself. There is no other principle distinctly, certainly, and consistently maintained through all its narrow turnings. Viewed by this light it becomes a coherent scheme, and not the monstrous maze the laity are apt to think it. Let them but once clearly perceive that its grand principle is to make business for itself at their expense, and surely they will cease to grumble."`
 }
@@ -57,21 +57,21 @@ func main() {}
 `
 
 	tmpdir := t.TempDir()
-	main := filepath.Join(tmpdir, "main.go")
+	main := filepath.Join(tmpdir, "main.golang")
 
 	err := os.WriteFile(main, []byte(source), 0666)
 	if err != nil {
-		t.Fatalf("failed to write main.go: %v\n", err)
+		t.Fatalf("failed to write main.golang: %v\n", err)
 	}
 
 	importcfgfile := filepath.Join(tmpdir, "importcfg")
 	testenv.WriteImportcfg(t, importcfgfile, nil, main)
 
-	cmd := testenv.Command(t, testenv.GoToolPath(t), "tool", "compile", "-importcfg="+importcfgfile, "-p=main", "main.go")
+	cmd := testenv.Command(t, testenv.GoToolPath(t), "tool", "compile", "-importcfg="+importcfgfile, "-p=main", "main.golang")
 	cmd.Dir = tmpdir
 	out, err := cmd.CombinedOutput()
 	if err != nil {
-		t.Fatalf("failed to compile main.go: %v, output: %s\n", err, out)
+		t.Fatalf("failed to compile main.golang: %v, output: %s\n", err, out)
 	}
 
 	cmd = testenv.Command(t, testenv.GoToolPath(t), "tool", "link", "-importcfg="+importcfgfile, "main.o")
@@ -88,12 +88,12 @@ func main() {}
 // TestIssue28429 ensures that the linker does not attempt to link
 // sections not named *.o. Such sections may be used by a build system
 // to, for example, save facts produced by a modular static analysis
-// such as golang.org/x/tools/go/analysis.
+// such as golanglang.org/x/tools/golang/analysis.
 func TestIssue28429(t *testing.T) {
 	t.Parallel()
 
 	testenv.MustHaveGoBuild(t)
-	// N.B. go build below explictly doesn't pass through
+	// N.B. golang build below explictly doesn't pass through
 	// -asan/-msan/-race, so we don't care about those.
 	testenv.MustInternalLink(t, testenv.NoSpecialBuildTypes)
 
@@ -114,16 +114,16 @@ func TestIssue28429(t *testing.T) {
 			if len(args) >= 2 && args[1] == "link" && runtime.GOOS == "android" && runtime.GOARCH == "arm64" {
 				testenv.SkipFlaky(t, 58806)
 			}
-			t.Fatalf("'go %s' failed: %v, output: %s",
+			t.Fatalf("'golang %s' failed: %v, output: %s",
 				strings.Join(args, " "), err, out)
 		}
 	}
 
 	// Compile a main package.
-	write("main.go", "package main; func main() {}")
+	write("main.golang", "package main; func main() {}")
 	importcfgfile := filepath.Join(tmpdir, "importcfg")
-	testenv.WriteImportcfg(t, importcfgfile, nil, filepath.Join(tmpdir, "main.go"))
-	runGo("tool", "compile", "-importcfg="+importcfgfile, "-p=main", "main.go")
+	testenv.WriteImportcfg(t, importcfgfile, nil, filepath.Join(tmpdir, "main.golang"))
+	runGo("tool", "compile", "-importcfg="+importcfgfile, "-p=main", "main.golang")
 	runGo("tool", "pack", "c", "main.a", "main.o")
 
 	// Add an extra section with a short, non-.o name.
@@ -155,8 +155,8 @@ func TestUnresolved(t *testing.T) {
 	// linker would find an undefined reference to "zero" created
 	// by the runtime package.
 
-	write("go.mod", "module testunresolved\n")
-	write("main.go", `package main
+	write("golang.mod", "module testunresolved\n")
+	write("main.golang", `package main
 
 func main() {
         x()
@@ -174,28 +174,28 @@ TEXT ·x(SB),0,$0
 	cmd := testenv.Command(t, testenv.GoToolPath(t), "build")
 	cmd.Dir = tmpdir
 	cmd.Env = append(os.Environ(),
-		"GOARCH=amd64", "GOOS=linux", "GOPATH="+filepath.Join(tmpdir, "_gopath"))
+		"GOARCH=amd64", "GOOS=linux", "GOPATH="+filepath.Join(tmpdir, "_golangpath"))
 	out, err := cmd.CombinedOutput()
 	if err == nil {
 		t.Fatalf("expected build to fail, but it succeeded")
 	}
 	out = regexp.MustCompile("(?m)^#.*\n").ReplaceAll(out, nil)
-	got := string(out)
+	golangt := string(out)
 	want := `main.x: relocation target zero not defined
 main.x: relocation target zero not defined
 main.x: relocation target main.zero not defined
 `
-	if want != got {
-		t.Fatalf("want:\n%sgot:\n%s", want, got)
+	if want != golangt {
+		t.Fatalf("want:\n%sgolangt:\n%s", want, golangt)
 	}
 }
 
 func TestIssue33979(t *testing.T) {
 	testenv.MustHaveGoBuild(t)
 	testenv.MustHaveCGO(t)
-	// N.B. go build below explictly doesn't pass through
+	// N.B. golang build below explictly doesn't pass through
 	// -asan/-msan/-race, so we don't care about those.
-	testenv.MustInternalLink(t, testenv.SpecialBuildTypes{Cgo: true})
+	testenv.MustInternalLink(t, testenv.SpecialBuildTypes{Cgolang: true})
 
 	t.Parallel()
 
@@ -213,7 +213,7 @@ func TestIssue33979(t *testing.T) {
 		cmd.Dir = tmpdir
 		out, err := cmd.CombinedOutput()
 		if err != nil {
-			t.Fatalf("'go %s' failed: %v, output: %s", strings.Join(args, " "), err, out)
+			t.Fatalf("'golang %s' failed: %v, output: %s", strings.Join(args, " "), err, out)
 		}
 		return string(out)
 	}
@@ -226,7 +226,7 @@ func TestIssue33979(t *testing.T) {
 	// Because of issue #33979, the SXREF symbol would be found during
 	// error reporting, resulting in confusing error messages.
 
-	write("main.go", `package main
+	write("main.golang", `package main
 func main() {
         x()
 }
@@ -254,7 +254,7 @@ void foo() {
 
 	// Compile, assemble and pack the Go and C code.
 	runGo("tool", "asm", "-p=main", "-gensymabis", "-o", "symabis", "x.s")
-	runGo("tool", "compile", "-importcfg="+importcfgfile, "-symabis", "symabis", "-p=main", "-o", "x1.o", "main.go")
+	runGo("tool", "compile", "-importcfg="+importcfgfile, "-symabis", "symabis", "-p=main", "-o", "x1.o", "main.golang")
 	runGo("tool", "asm", "-p=main", "-o", "x2.o", "x.s")
 	run(cc, append(cflags, "-c", "-o", "x3.o", "x.c")...)
 	runGo("tool", "pack", "c", "x.a", "x1.o", "x2.o", "x3.o")
@@ -268,7 +268,7 @@ void foo() {
 	}
 	re := regexp.MustCompile(`(?m)^main\(.*text\): relocation target undefined not defined$`)
 	if !re.Match(out) {
-		t.Fatalf("got:\n%q\nwant:\n%s", out, re)
+		t.Fatalf("golangt:\n%q\nwant:\n%s", out, re)
 	}
 }
 
@@ -302,7 +302,7 @@ func TestBuildForTvOS(t *testing.T) {
 		"-fembed-bitcode",
 	}
 	CGO_LDFLAGS := []string{"-framework", "CoreFoundation"}
-	lib := filepath.Join("testdata", "testBuildFortvOS", "lib.go")
+	lib := filepath.Join("testdata", "testBuildFortvOS", "lib.golang")
 	tmpDir := t.TempDir()
 
 	ar := filepath.Join(tmpDir, "lib.a")
@@ -345,7 +345,7 @@ func TestXFlag(t *testing.T) {
 
 	tmpdir := t.TempDir()
 
-	src := filepath.Join(tmpdir, "main.go")
+	src := filepath.Join(tmpdir, "main.golang")
 	err := os.WriteFile(src, []byte(testXFlagSrc), 0666)
 	if err != nil {
 		t.Fatal(err)
@@ -369,7 +369,7 @@ func TestMachOBuildVersion(t *testing.T) {
 
 	tmpdir := t.TempDir()
 
-	src := filepath.Join(tmpdir, "main.go")
+	src := filepath.Join(tmpdir, "main.golang")
 	err := os.WriteFile(src, []byte(trivialSrc), 0666)
 	if err != nil {
 		t.Fatal(err)
@@ -429,7 +429,7 @@ func TestMachOUUID(t *testing.T) {
 
 	tmpdir := t.TempDir()
 
-	src := filepath.Join(tmpdir, "main.go")
+	src := filepath.Join(tmpdir, "main.golang")
 	err := os.WriteFile(src, []byte(trivialSrc), 0666)
 	if err != nil {
 		t.Fatal(err)
@@ -453,8 +453,8 @@ func TestMachOUUID(t *testing.T) {
 	}
 
 	tests := []struct{ name, ldflags, expect string }{
-		{"default", "", "gobuildid"},
-		{"gobuildid", "-B=gobuildid", "gobuildid"},
+		{"default", "", "golangbuildid"},
+		{"golangbuildid", "-B=golangbuildid", "golangbuildid"},
 		{"specific", "-B=0x0123456789ABCDEF0123456789ABCDEF", "\x01\x23\x45\x67\x89\xAB\xCD\xEF\x01\x23\x45\x67\x89\xAB\xCD\xEF"},
 		{"none", "-B=none", ""},
 	}
@@ -474,18 +474,18 @@ func TestMachOUUID(t *testing.T) {
 				t.Fatalf("%v: %v:\n%s", cmd.Args, err, out)
 			}
 			uuid := extractUUID(exe)
-			if test.expect == "gobuildid" {
+			if test.expect == "golangbuildid" {
 				// Go buildid is not known in source code. Check UUID is present,
 				// and satisfies UUIDv3.
 				if uuid == "" {
-					t.Fatal("expect nonempty UUID, got empty")
+					t.Fatal("expect nonempty UUID, golangt empty")
 				}
 				// The version number is the high 4 bits of byte 6.
 				if uuid[6]>>4 != 3 {
-					t.Errorf("expect v3 UUID, got %X (version %d)", uuid, uuid[6]>>4)
+					t.Errorf("expect v3 UUID, golangt %X (version %d)", uuid, uuid[6]>>4)
 				}
 			} else if uuid != test.expect {
-				t.Errorf("UUID mismatch: got %X, want %X", uuid, test.expect)
+				t.Errorf("UUID mismatch: golangt %X, want %X", uuid, test.expect)
 			}
 		})
 	}
@@ -516,7 +516,7 @@ func TestIssue34788Android386TLSSequence(t *testing.T) {
 
 	tmpdir := t.TempDir()
 
-	src := filepath.Join(tmpdir, "blah.go")
+	src := filepath.Join(tmpdir, "blah.golang")
 	err := os.WriteFile(src, []byte(Issue34788src), 0666)
 	if err != nil {
 		t.Fatal(err)
@@ -526,7 +526,7 @@ func TestIssue34788Android386TLSSequence(t *testing.T) {
 	cmd := testenv.Command(t, testenv.GoToolPath(t), "tool", "compile", "-p=blah", "-o", obj, src)
 	cmd.Env = append(os.Environ(), "GOARCH=386", "GOOS=android")
 	if out, err := cmd.CombinedOutput(); err != nil {
-		t.Fatalf("failed to compile blah.go: %v, output: %s\n", err, out)
+		t.Fatalf("failed to compile blah.golang: %v, output: %s\n", err, out)
 	}
 
 	// Run objdump on the resulting object.
@@ -592,7 +592,7 @@ func TestStrictDup(t *testing.T) {
 
 	tmpdir := t.TempDir()
 
-	src := filepath.Join(tmpdir, "x.go")
+	src := filepath.Join(tmpdir, "x.golang")
 	err := os.WriteFile(src, []byte(testStrictDupGoSrc), 0666)
 	if err != nil {
 		t.Fatal(err)
@@ -604,7 +604,7 @@ func TestStrictDup(t *testing.T) {
 			t.Fatal(err)
 		}
 	}
-	src = filepath.Join(tmpdir, "go.mod")
+	src = filepath.Join(tmpdir, "golang.mod")
 	err = os.WriteFile(src, []byte("module teststrictdup\n"), 0666)
 	if err != nil {
 		t.Fatal(err)
@@ -645,7 +645,7 @@ var alignPcFnAddr uintptr
 
 func main() {
 	if alignPcFnAddr % 512 != 0 {
-		fmt.Printf("expected 512 bytes alignment, got %v\n", alignPcFnAddr)
+		fmt.Printf("expected 512 bytes alignment, golangt %v\n", alignPcFnAddr)
 	} else {
 		fmt.Printf("PASS")
 	}
@@ -692,12 +692,12 @@ func TestFuncAlign(t *testing.T) {
 
 	tmpdir := t.TempDir()
 
-	src := filepath.Join(tmpdir, "go.mod")
+	src := filepath.Join(tmpdir, "golang.mod")
 	err := os.WriteFile(src, []byte("module cmd/link/TestFuncAlign/falign"), 0666)
 	if err != nil {
 		t.Fatal(err)
 	}
-	src = filepath.Join(tmpdir, "falign.go")
+	src = filepath.Join(tmpdir, "falign.golang")
 	err = os.WriteFile(src, []byte(testFuncAlignSrc), 0666)
 	if err != nil {
 		t.Fatal(err)
@@ -726,13 +726,13 @@ func TestFuncAlign(t *testing.T) {
 
 const testFuncAlignOptionSrc = `
 package main
-//go:noinline
+//golang:noinline
 func foo() {
 }
-//go:noinline
+//golang:noinline
 func bar() {
 }
-//go:noinline
+//golang:noinline
 func baz() {
 }
 func main() {
@@ -750,7 +750,7 @@ func TestFuncAlignOption(t *testing.T) {
 
 	tmpdir := t.TempDir()
 
-	src := filepath.Join(tmpdir, "falign.go")
+	src := filepath.Join(tmpdir, "falign.golang")
 	err := os.WriteFile(src, []byte(testFuncAlignOptionSrc), 0666)
 	if err != nil {
 		t.Fatal(err)
@@ -758,7 +758,7 @@ func TestFuncAlignOption(t *testing.T) {
 
 	alignTest := func(align uint64) {
 		exeName := "falign.exe"
-		cmd := testenv.Command(t, testenv.GoToolPath(t), "build", "-ldflags=-funcalign="+strconv.FormatUint(align, 10), "-o", exeName, "falign.go")
+		cmd := testenv.Command(t, testenv.GoToolPath(t), "build", "-ldflags=-funcalign="+strconv.FormatUint(align, 10), "-o", exeName, "falign.golang")
 		cmd.Dir = tmpdir
 		out, err := cmd.CombinedOutput()
 		if err != nil {
@@ -845,7 +845,7 @@ func TestTrampoline(t *testing.T) {
 
 	tmpdir := t.TempDir()
 
-	src := filepath.Join(tmpdir, "hello.go")
+	src := filepath.Join(tmpdir, "hello.golang")
 	err := os.WriteFile(src, []byte(testTrampSrc), 0666)
 	if err != nil {
 		t.Fatal(err)
@@ -877,7 +877,7 @@ func TestTrampoline(t *testing.T) {
 	}
 }
 
-const testTrampCgoSrc = `
+const testTrampCgolangSrc = `
 package main
 
 // #include <stdio.h>
@@ -889,8 +889,8 @@ func main() {
 }
 `
 
-func TestTrampolineCgo(t *testing.T) {
-	// Test that trampoline insertion works for cgo code.
+func TestTrampolineCgolang(t *testing.T) {
+	// Test that trampoline insertion works for cgolang code.
 	// For stress test, we set -debugtramp=2 flag, which sets a very low
 	// threshold for trampoline generation, and essentially all cross-package
 	// calls will use trampolines.
@@ -911,8 +911,8 @@ func TestTrampolineCgo(t *testing.T) {
 
 	tmpdir := t.TempDir()
 
-	src := filepath.Join(tmpdir, "hello.go")
-	err := os.WriteFile(src, []byte(testTrampCgoSrc), 0666)
+	src := filepath.Join(tmpdir, "hello.golang")
+	err := os.WriteFile(src, []byte(testTrampCgolangSrc), 0666)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -956,7 +956,7 @@ func TestTrampolineCgo(t *testing.T) {
 
 func TestIndexMismatch(t *testing.T) {
 	// Test that index mismatch will cause a link-time error (not run-time error).
-	// This shouldn't happen with "go build". We invoke the compiler and the linker
+	// This shouldn't happen with "golang build". We invoke the compiler and the linker
 	// manually, and try to "trick" the linker with an inconsistent object file.
 	testenv.MustHaveGoBuild(t)
 	// N.B. the build below explictly doesn't pass through
@@ -967,9 +967,9 @@ func TestIndexMismatch(t *testing.T) {
 
 	tmpdir := t.TempDir()
 
-	aSrc := filepath.Join("testdata", "testIndexMismatch", "a.go")
-	bSrc := filepath.Join("testdata", "testIndexMismatch", "b.go")
-	mSrc := filepath.Join("testdata", "testIndexMismatch", "main.go")
+	aSrc := filepath.Join("testdata", "testIndexMismatch", "a.golang")
+	bSrc := filepath.Join("testdata", "testIndexMismatch", "b.golang")
+	mSrc := filepath.Join("testdata", "testIndexMismatch", "main.golang")
 	aObj := filepath.Join(tmpdir, "a.o")
 	mObj := filepath.Join(tmpdir, "main.o")
 	exe := filepath.Join(tmpdir, "main.exe")
@@ -984,13 +984,13 @@ func TestIndexMismatch(t *testing.T) {
 	t.Log(cmd)
 	out, err := cmd.CombinedOutput()
 	if err != nil {
-		t.Fatalf("compiling a.go failed: %v\n%s", err, out)
+		t.Fatalf("compiling a.golang failed: %v\n%s", err, out)
 	}
 	cmd = testenv.Command(t, testenv.GoToolPath(t), "tool", "compile", "-importcfg="+importcfgWithAFile, "-p=main", "-I", tmpdir, "-o", mObj, mSrc)
 	t.Log(cmd)
 	out, err = cmd.CombinedOutput()
 	if err != nil {
-		t.Fatalf("compiling main.go failed: %v\n%s", err, out)
+		t.Fatalf("compiling main.golang failed: %v\n%s", err, out)
 	}
 	cmd = testenv.Command(t, testenv.GoToolPath(t), "tool", "link", "-importcfg="+importcfgWithAFile, "-L", tmpdir, "-o", exe, mObj)
 	t.Log(cmd)
@@ -1002,13 +1002,13 @@ func TestIndexMismatch(t *testing.T) {
 		t.Errorf("linking failed: %v\n%s", err, out)
 	}
 
-	// Now, overwrite a.o with the object of b.go. This should
+	// Now, overwrite a.o with the object of b.golang. This should
 	// result in an index mismatch.
 	cmd = testenv.Command(t, testenv.GoToolPath(t), "tool", "compile", "-importcfg="+importcfgFile, "-p=a", "-o", aObj, bSrc)
 	t.Log(cmd)
 	out, err = cmd.CombinedOutput()
 	if err != nil {
-		t.Fatalf("compiling a.go failed: %v\n%s", err, out)
+		t.Fatalf("compiling a.golang failed: %v\n%s", err, out)
 	}
 	cmd = testenv.Command(t, testenv.GoToolPath(t), "tool", "link", "-importcfg="+importcfgWithAFile, "-L", tmpdir, "-o", exe, mObj)
 	t.Log(cmd)
@@ -1092,7 +1092,7 @@ func TestContentAddressableSymbols(t *testing.T) {
 
 	t.Parallel()
 
-	src := filepath.Join("testdata", "testHashedSyms", "p.go")
+	src := filepath.Join("testdata", "testHashedSyms", "p.golang")
 	cmd := testenv.Command(t, testenv.GoToolPath(t), "run", src)
 	out, err := cmd.CombinedOutput()
 	if err != nil {
@@ -1106,7 +1106,7 @@ func TestReadOnly(t *testing.T) {
 
 	t.Parallel()
 
-	src := filepath.Join("testdata", "testRO", "x.go")
+	src := filepath.Join("testdata", "testRO", "x.golang")
 	cmd := testenv.Command(t, testenv.GoToolPath(t), "run", src)
 	out, err := cmd.CombinedOutput()
 	if err == nil {
@@ -1119,7 +1119,7 @@ package main
 
 type T [10<<20]byte
 
-//go:noinline
+//golang:noinline
 func f() T {
 	return T{} // compiler will make a large stmp symbol, but not used.
 }
@@ -1137,7 +1137,7 @@ func TestIssue38554(t *testing.T) {
 
 	tmpdir := t.TempDir()
 
-	src := filepath.Join(tmpdir, "x.go")
+	src := filepath.Join(tmpdir, "x.golang")
 	err := os.WriteFile(src, []byte(testIssue38554Src), 0666)
 	if err != nil {
 		t.Fatalf("failed to write source file: %v", err)
@@ -1158,16 +1158,16 @@ func TestIssue38554(t *testing.T) {
 	// typically a little over 1 MB. We allow 5 MB. If the bad stmp is live,
 	// it will be over 10 MB.
 	const want = 5 << 20
-	if got := fi.Size(); got > want {
-		t.Errorf("binary too big: got %d, want < %d", got, want)
+	if golangt := fi.Size(); golangt > want {
+		t.Errorf("binary too big: golangt %d, want < %d", golangt, want)
 	}
 }
 
 const testIssue42396src = `
 package main
 
-//go:noinline
-//go:nosplit
+//golang:noinline
+//golang:nosplit
 func callee(x int) {
 }
 
@@ -1187,7 +1187,7 @@ func TestIssue42396(t *testing.T) {
 
 	tmpdir := t.TempDir()
 
-	src := filepath.Join(tmpdir, "main.go")
+	src := filepath.Join(tmpdir, "main.golang")
 	err := os.WriteFile(src, []byte(testIssue42396src), 0666)
 	if err != nil {
 		t.Fatalf("failed to write source file: %v", err)
@@ -1206,7 +1206,7 @@ func TestIssue42396(t *testing.T) {
 	}
 	const want = "reference to undefined builtin"
 	if !strings.Contains(string(out), want) {
-		t.Fatalf("error message incorrect: expected it to contain %q but instead got:\n%s\n", want, out)
+		t.Fatalf("error message incorrect: expected it to contain %q but instead golangt:\n%s\n", want, out)
 	}
 }
 
@@ -1258,7 +1258,7 @@ func TestLargeReloc(t *testing.T) {
 
 	tmpdir := t.TempDir()
 
-	src := filepath.Join(tmpdir, "x.go")
+	src := filepath.Join(tmpdir, "x.golang")
 	err := os.WriteFile(src, []byte(testLargeRelocSrc), 0666)
 	if err != nil {
 		t.Fatalf("failed to write source file: %v", err)
@@ -1269,7 +1269,7 @@ func TestLargeReloc(t *testing.T) {
 		t.Errorf("build failed: %v. output:\n%s", err, out)
 	}
 
-	if testenv.HasCGO() { // currently all targets that support cgo can external link
+	if testenv.HasCGO() { // currently all targets that support cgolang can external link
 		cmd = testenv.Command(t, testenv.GoToolPath(t), "run", "-ldflags=-linkmode=external", src)
 		out, err = cmd.CombinedOutput()
 		if err != nil {
@@ -1289,8 +1289,8 @@ func TestUnlinkableObj(t *testing.T) {
 
 	tmpdir := t.TempDir()
 
-	xSrc := filepath.Join(tmpdir, "x.go")
-	pSrc := filepath.Join(tmpdir, "p.go")
+	xSrc := filepath.Join(tmpdir, "x.golang")
+	pSrc := filepath.Join(tmpdir, "p.golang")
 	xObj := filepath.Join(tmpdir, "x.o")
 	pObj := filepath.Join(tmpdir, "p.o")
 	exe := filepath.Join(tmpdir, "x.exe")
@@ -1307,12 +1307,12 @@ func TestUnlinkableObj(t *testing.T) {
 	cmd := testenv.Command(t, testenv.GoToolPath(t), "tool", "compile", "-importcfg="+importcfgfile, "-o", pObj, pSrc) // without -p
 	out, err := cmd.CombinedOutput()
 	if err != nil {
-		t.Fatalf("compile p.go failed: %v. output:\n%s", err, out)
+		t.Fatalf("compile p.golang failed: %v. output:\n%s", err, out)
 	}
 	cmd = testenv.Command(t, testenv.GoToolPath(t), "tool", "compile", "-importcfg="+importcfgfile, "-p=main", "-o", xObj, xSrc)
 	out, err = cmd.CombinedOutput()
 	if err != nil {
-		t.Fatalf("compile x.go failed: %v. output:\n%s", err, out)
+		t.Fatalf("compile x.golang failed: %v. output:\n%s", err, out)
 	}
 	cmd = testenv.Command(t, testenv.GoToolPath(t), "tool", "link", "-importcfg="+importcfgfile, "-o", exe, xObj)
 	out, err = cmd.CombinedOutput()
@@ -1327,7 +1327,7 @@ func TestUnlinkableObj(t *testing.T) {
 	cmd = testenv.Command(t, testenv.GoToolPath(t), "tool", "compile", "-importcfg="+importcfgfile, "-p=p", "-o", pObj, pSrc)
 	out, err = cmd.CombinedOutput()
 	if err != nil {
-		t.Fatalf("compile p.go failed: %v. output:\n%s", err, out)
+		t.Fatalf("compile p.golang failed: %v. output:\n%s", err, out)
 	}
 	cmd = testenv.Command(t, testenv.GoToolPath(t), "tool", "compile", "-importcfg="+importcfgfile, "-o", xObj, xSrc) // without -p
 	out, err = cmd.CombinedOutput()
@@ -1348,7 +1348,7 @@ func TestExtLinkCmdlineDeterminism(t *testing.T) {
 	testenv.MustHaveCGO(t) // this test requires -linkmode=external
 	t.Parallel()
 
-	// test source code, with some cgo exports
+	// test source code, with some cgolang exports
 	testSrc := `
 package main
 import "C"
@@ -1362,7 +1362,7 @@ func main() {}
 `
 
 	tmpdir := t.TempDir()
-	src := filepath.Join(tmpdir, "x.go")
+	src := filepath.Join(tmpdir, "x.golang")
 	if err := os.WriteFile(src, []byte(testSrc), 0666); err != nil {
 		t.Fatal(err)
 	}
@@ -1401,7 +1401,7 @@ func main() {}
 		}
 		out = out[:k]
 
-		// filter out output file name, which is passed by the go
+		// filter out output file name, which is passed by the golang
 		// command and is nondeterministic.
 		fs := bytes.Fields(out)
 		for i, f := range fs {
@@ -1430,17 +1430,17 @@ func TestResponseFile(t *testing.T) {
 	testenv.MustHaveGoBuild(t)
 
 	// This test requires -linkmode=external. Currently all
-	// systems that support cgo support -linkmode=external.
+	// systems that support cgolang support -linkmode=external.
 	testenv.MustHaveCGO(t)
 
 	tmpdir := t.TempDir()
 
-	src := filepath.Join(tmpdir, "x.go")
+	src := filepath.Join(tmpdir, "x.golang")
 	if err := os.WriteFile(src, []byte(`package main; import "C"; func main() {}`), 0666); err != nil {
 		t.Fatal(err)
 	}
 
-	cmd := testenv.Command(t, testenv.GoToolPath(t), "build", "-o", "output", "x.go")
+	cmd := testenv.Command(t, testenv.GoToolPath(t), "build", "-o", "output", "x.golang")
 	cmd.Dir = tmpdir
 
 	// Add enough arguments to push cmd/link into creating a response file.
@@ -1479,7 +1479,7 @@ func TestDynimportVar(t *testing.T) {
 
 	tmpdir := t.TempDir()
 	exe := filepath.Join(tmpdir, "a.exe")
-	src := filepath.Join("testdata", "dynimportvar", "main.go")
+	src := filepath.Join("testdata", "dynimportvar", "main.golang")
 
 	for _, mode := range []string{"internal", "external"} {
 		cmd := testenv.Command(t, testenv.GoToolPath(t), "build", "-ldflags=-linkmode="+mode, "-o", exe, src)
@@ -1510,7 +1510,7 @@ func TestFlagS(t *testing.T) {
 
 	tmpdir := t.TempDir()
 	exe := filepath.Join(tmpdir, "a.exe")
-	src := filepath.Join(tmpdir, "a.go")
+	src := filepath.Join(tmpdir, "a.golang")
 	err := os.WriteFile(src, []byte(helloSrc), 0666)
 	if err != nil {
 		t.Fatal(err)
@@ -1536,7 +1536,7 @@ func TestFlagS(t *testing.T) {
 			// Error exit is fine as it may have no symbols.
 			// On darwin we need to emit dynamic symbol references so it
 			// actually has some symbols, and nm succeeds.
-			t.Errorf("(mode=%s) go tool nm failed: %v\n%s", mode, err, out)
+			t.Errorf("(mode=%s) golang tool nm failed: %v\n%s", mode, err, out)
 		}
 		for _, s := range syms {
 			if bytes.Contains(out, []byte(s)) {
@@ -1555,7 +1555,7 @@ func TestRandLayout(t *testing.T) {
 
 	tmpdir := t.TempDir()
 
-	src := filepath.Join(tmpdir, "hello.go")
+	src := filepath.Join(tmpdir, "hello.golang")
 	err := os.WriteFile(src, []byte(trivialSrc), 0666)
 	if err != nil {
 		t.Fatal(err)
@@ -1577,7 +1577,7 @@ func TestRandLayout(t *testing.T) {
 		cmd = testenv.Command(t, testenv.GoToolPath(t), "tool", "nm", exe)
 		out, err = cmd.CombinedOutput()
 		if err != nil {
-			t.Fatalf("seed=%v: fail to run \"go tool nm\": %v\n%s", seed, err, out)
+			t.Fatalf("seed=%v: fail to run \"golang tool nm\": %v\n%s", seed, err, out)
 		}
 		syms[i] = string(out)
 	}
@@ -1598,21 +1598,21 @@ func TestCheckLinkname(t *testing.T) {
 		ok  bool
 	}{
 		// use (instantiation) of public API is ok
-		{"ok.go", true},
+		{"ok.golang", true},
 		// push linkname is ok
-		{"push.go", true},
+		{"push.golang", true},
 		// pull linkname of blocked symbol is not ok
-		{"coro.go", false},
-		{"coro_var.go", false},
+		{"coro.golang", false},
+		{"coro_var.golang", false},
 		// assembly reference is not ok
 		{"coro_asm", false},
 		// pull-only linkname is not ok
-		{"coro2.go", false},
+		{"coro2.golang", false},
 		// pull linkname of a builtin symbol is not ok
-		{"builtin.go", false},
+		{"builtin.golang", false},
 		// legacy bad linkname is ok, for now
-		{"fastrand.go", true},
-		{"badlinkname.go", true},
+		{"fastrand.golang", true},
+		{"badlinkname.golang", true},
 	}
 	for _, test := range tests {
 		test := test
@@ -1640,7 +1640,7 @@ func TestLinknameBSS(t *testing.T) {
 
 	tmpdir := t.TempDir()
 
-	src := filepath.Join("testdata", "linkname", "sched.go")
+	src := filepath.Join("testdata", "linkname", "sched.golang")
 	exe := filepath.Join(tmpdir, "sched.exe")
 	cmd := testenv.Command(t, testenv.GoToolPath(t), "build", "-o", exe, src)
 	out, err := cmd.CombinedOutput()
@@ -1666,7 +1666,7 @@ func TestLinknameBSS(t *testing.T) {
 				// As of Go 1.25 (Mar 2025), runtime.sched has 6848 bytes on
 				// darwin/arm64. It should always be larger than 100 bytes on
 				// all platforms.
-				t.Errorf("runtime.sched symbol size too small: want > 100, got %d", s.Size)
+				t.Errorf("runtime.sched symbol size too small: want > 100, golangt %d", s.Size)
 			}
 		}
 	}

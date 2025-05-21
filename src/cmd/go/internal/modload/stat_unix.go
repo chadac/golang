@@ -1,8 +1,8 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build unix
+//golang:build unix
 
 package modload
 
@@ -21,7 +21,7 @@ import (
 func hasWritePerm(path string, fi fs.FileInfo) bool {
 	if os.Getuid() == 0 {
 		// The root user can access any file, but we still want to default to
-		// read-only mode if the go.mod file is marked as globally non-writable.
+		// read-only mode if the golang.mod file is marked as globally non-writable.
 		// (If the user really intends not to be in readonly mode, they can
 		// pass -mod=mod explicitly.)
 		return fi.Mode()&0222 != 0

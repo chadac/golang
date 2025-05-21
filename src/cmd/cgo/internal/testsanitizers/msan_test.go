@@ -1,8 +1,8 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build linux || (freebsd && amd64)
+//golang:build linux || (freebsd && amd64)
 
 package sanitizers_test
 
@@ -16,54 +16,54 @@ import (
 func TestMSAN(t *testing.T) {
 	testenv.MustHaveGoBuild(t)
 	testenv.MustHaveCGO(t)
-	goos, err := goEnv("GOOS")
+	golangos, err := golangEnv("GOOS")
 	if err != nil {
 		t.Fatal(err)
 	}
-	goarch, err := goEnv("GOARCH")
+	golangarch, err := golangEnv("GOARCH")
 	if err != nil {
 		t.Fatal(err)
 	}
 	// The msan tests require support for the -msan option.
-	if !platform.MSanSupported(goos, goarch) {
-		t.Skipf("skipping on %s/%s; -msan option is not supported.", goos, goarch)
+	if !platform.MSanSupported(golangos, golangarch) {
+		t.Skipf("skipping on %s/%s; -msan option is not supported.", golangos, golangarch)
 	}
 
 	t.Parallel()
 	// Overcommit is enabled by default on FreeBSD (vm.overcommit=0, see tuning(7)).
 	// Do not skip tests with stricter overcommit settings unless testing shows that FreeBSD has similar issues.
-	if goos == "linux" {
+	if golangos == "linux" {
 		requireOvercommit(t)
 	}
 	config := configure("memory")
 	config.skipIfCSanitizerBroken(t)
 
-	mustRun(t, config.goCmd("build", "std"))
+	mustRun(t, config.golangCmd("build", "std"))
 
 	cases := []struct {
 		src         string
 		wantErr     bool
 		experiments []string
 	}{
-		{src: "msan.go"},
-		{src: "msan2.go"},
-		{src: "msan2_cmsan.go"},
-		{src: "msan3.go"},
-		{src: "msan4.go"},
-		{src: "msan5.go"},
-		{src: "msan6.go"},
-		{src: "msan7.go"},
-		{src: "msan8.go"},
-		{src: "msan_fail.go", wantErr: true},
+		{src: "msan.golang"},
+		{src: "msan2.golang"},
+		{src: "msan2_cmsan.golang"},
+		{src: "msan3.golang"},
+		{src: "msan4.golang"},
+		{src: "msan5.golang"},
+		{src: "msan6.golang"},
+		{src: "msan7.golang"},
+		{src: "msan8.golang"},
+		{src: "msan_fail.golang", wantErr: true},
 		// This may not always fail specifically due to MSAN. It may sometimes
 		// fail because of a fault. However, we don't care what kind of error we
 		// get here, just that we get an error. This is an MSAN test because without
 		// MSAN it would not fail deterministically.
-		{src: "arena_fail.go", wantErr: true, experiments: []string{"arenas"}},
+		{src: "arena_fail.golang", wantErr: true, experiments: []string{"arenas"}},
 	}
 	for _, tc := range cases {
 		tc := tc
-		name := strings.TrimSuffix(tc.src, ".go")
+		name := strings.TrimSuffix(tc.src, ".golang")
 		t.Run(name, func(t *testing.T) {
 			t.Parallel()
 
@@ -71,7 +71,7 @@ func TestMSAN(t *testing.T) {
 			defer dir.RemoveAll(t)
 
 			outPath := dir.Join(name)
-			mustRun(t, config.goCmdWithExperiments("build", []string{"-o", outPath, srcPath(tc.src)}, tc.experiments))
+			mustRun(t, config.golangCmdWithExperiments("build", []string{"-o", outPath, srcPath(tc.src)}, tc.experiments))
 
 			cmd := hangProneCmd(outPath)
 			if tc.wantErr {

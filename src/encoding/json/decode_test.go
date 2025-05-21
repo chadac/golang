@@ -1,8 +1,8 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !goexperiment.jsonv2
+//golang:build !golangexperiment.jsonv2
 
 package json
 
@@ -422,7 +422,7 @@ var unmarshalTests = []struct {
 	out                   any
 	err                   error
 	useNumber             bool
-	golden                bool
+	golanglden                bool
 	disallowUnknownFields bool
 }{
 	// basic types
@@ -800,7 +800,7 @@ var unmarshalTests = []struct {
 		in:       `["Z01","Z02","Z03"]`,
 		ptr:      new([]byteWithMarshalJSON),
 		out:      []byteWithMarshalJSON{1, 2, 3},
-		golden:   true,
+		golanglden:   true,
 	},
 	{
 		CaseName: Name(""),
@@ -813,7 +813,7 @@ var unmarshalTests = []struct {
 		in:       `["Z01","Z02","Z03"]`,
 		ptr:      new([]byteWithMarshalText),
 		out:      []byteWithMarshalText{1, 2, 3},
-		golden:   true,
+		golanglden:   true,
 	},
 	{
 		CaseName: Name(""),
@@ -826,7 +826,7 @@ var unmarshalTests = []struct {
 		in:       `["Z01","Z02","Z03"]`,
 		ptr:      new([]byteWithPtrMarshalJSON),
 		out:      []byteWithPtrMarshalJSON{1, 2, 3},
-		golden:   true,
+		golanglden:   true,
 	},
 	{
 		CaseName: Name(""),
@@ -839,7 +839,7 @@ var unmarshalTests = []struct {
 		in:       `["Z01","Z02","Z03"]`,
 		ptr:      new([]byteWithPtrMarshalText),
 		out:      []byteWithPtrMarshalText{1, 2, 3},
-		golden:   true,
+		golanglden:   true,
 	},
 
 	// ints work with the marshaler but not the base64 []byte case
@@ -848,41 +848,41 @@ var unmarshalTests = []struct {
 		in:       `["Z01","Z02","Z03"]`,
 		ptr:      new([]intWithMarshalJSON),
 		out:      []intWithMarshalJSON{1, 2, 3},
-		golden:   true,
+		golanglden:   true,
 	},
 	{
 		CaseName: Name(""),
 		in:       `["Z01","Z02","Z03"]`,
 		ptr:      new([]intWithMarshalText),
 		out:      []intWithMarshalText{1, 2, 3},
-		golden:   true,
+		golanglden:   true,
 	},
 	{
 		CaseName: Name(""),
 		in:       `["Z01","Z02","Z03"]`,
 		ptr:      new([]intWithPtrMarshalJSON),
 		out:      []intWithPtrMarshalJSON{1, 2, 3},
-		golden:   true,
+		golanglden:   true,
 	},
 	{
 		CaseName: Name(""),
 		in:       `["Z01","Z02","Z03"]`,
 		ptr:      new([]intWithPtrMarshalText),
 		out:      []intWithPtrMarshalText{1, 2, 3},
-		golden:   true,
+		golanglden:   true,
 	},
 
-	{CaseName: Name(""), in: `0.000001`, ptr: new(float64), out: 0.000001, golden: true},
-	{CaseName: Name(""), in: `1e-7`, ptr: new(float64), out: 1e-7, golden: true},
-	{CaseName: Name(""), in: `100000000000000000000`, ptr: new(float64), out: 100000000000000000000.0, golden: true},
-	{CaseName: Name(""), in: `1e+21`, ptr: new(float64), out: 1e21, golden: true},
-	{CaseName: Name(""), in: `-0.000001`, ptr: new(float64), out: -0.000001, golden: true},
-	{CaseName: Name(""), in: `-1e-7`, ptr: new(float64), out: -1e-7, golden: true},
-	{CaseName: Name(""), in: `-100000000000000000000`, ptr: new(float64), out: -100000000000000000000.0, golden: true},
-	{CaseName: Name(""), in: `-1e+21`, ptr: new(float64), out: -1e21, golden: true},
-	{CaseName: Name(""), in: `999999999999999900000`, ptr: new(float64), out: 999999999999999900000.0, golden: true},
-	{CaseName: Name(""), in: `9007199254740992`, ptr: new(float64), out: 9007199254740992.0, golden: true},
-	{CaseName: Name(""), in: `9007199254740993`, ptr: new(float64), out: 9007199254740992.0, golden: false},
+	{CaseName: Name(""), in: `0.000001`, ptr: new(float64), out: 0.000001, golanglden: true},
+	{CaseName: Name(""), in: `1e-7`, ptr: new(float64), out: 1e-7, golanglden: true},
+	{CaseName: Name(""), in: `100000000000000000000`, ptr: new(float64), out: 100000000000000000000.0, golanglden: true},
+	{CaseName: Name(""), in: `1e+21`, ptr: new(float64), out: 1e21, golanglden: true},
+	{CaseName: Name(""), in: `-0.000001`, ptr: new(float64), out: -0.000001, golanglden: true},
+	{CaseName: Name(""), in: `-1e-7`, ptr: new(float64), out: -1e-7, golanglden: true},
+	{CaseName: Name(""), in: `-100000000000000000000`, ptr: new(float64), out: -100000000000000000000.0, golanglden: true},
+	{CaseName: Name(""), in: `-1e+21`, ptr: new(float64), out: -1e21, golanglden: true},
+	{CaseName: Name(""), in: `999999999999999900000`, ptr: new(float64), out: 999999999999999900000.0, golanglden: true},
+	{CaseName: Name(""), in: `9007199254740992`, ptr: new(float64), out: 9007199254740992.0, golanglden: true},
+	{CaseName: Name(""), in: `9007199254740993`, ptr: new(float64), out: 9007199254740992.0, golanglden: false},
 
 	{
 		CaseName: Name(""),
@@ -926,8 +926,8 @@ var unmarshalTests = []struct {
 
 	// issue 15146.
 	// invalid inputs in wrongStringTests below.
-	{CaseName: Name(""), in: `{"B":"true"}`, ptr: new(B), out: B{true}, golden: true},
-	{CaseName: Name(""), in: `{"B":"false"}`, ptr: new(B), out: B{false}, golden: true},
+	{CaseName: Name(""), in: `{"B":"true"}`, ptr: new(B), out: B{true}, golanglden: true},
+	{CaseName: Name(""), in: `{"B":"false"}`, ptr: new(B), out: B{false}, golanglden: true},
 	{CaseName: Name(""), in: `{"B": "maybe"}`, ptr: new(B), err: errors.New(`json: invalid use of ,string struct tag, trying to unmarshal "maybe" into bool`)},
 	{CaseName: Name(""), in: `{"B": "tru"}`, ptr: new(B), err: errors.New(`json: invalid use of ,string struct tag, trying to unmarshal "tru" into bool`)},
 	{CaseName: Name(""), in: `{"B": "False"}`, ptr: new(B), err: errors.New(`json: invalid use of ,string struct tag, trying to unmarshal "False" into bool`)},
@@ -1228,9 +1228,9 @@ func TestMarshalInvalidUTF8(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.Name, func(t *testing.T) {
-			got, err := Marshal(tt.in)
-			if string(got) != tt.want || err != nil {
-				t.Errorf("%s: Marshal(%q):\n\tgot:  (%q, %v)\n\twant: (%q, nil)", tt.Where, tt.in, got, err, tt.want)
+			golangt, err := Marshal(tt.in)
+			if string(golangt) != tt.want || err != nil {
+				t.Errorf("%s: Marshal(%q):\n\tgolangt:  (%q, %v)\n\twant: (%q, nil)", tt.Where, tt.in, golangt, err, tt.want)
 			}
 		})
 	}
@@ -1242,9 +1242,9 @@ func TestMarshalNumberZeroVal(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Marshal error: %v", err)
 	}
-	got := string(out)
-	if got != "0" {
-		t.Fatalf("Marshal: got %s, want 0", got)
+	golangt := string(out)
+	if golangt != "0" {
+		t.Fatalf("Marshal: golangt %s, want 0", golangt)
 	}
 }
 
@@ -1280,13 +1280,13 @@ func TestMarshalEmbeds(t *testing.T) {
 			Q: 18,
 		},
 	}
-	got, err := Marshal(top)
+	golangt, err := Marshal(top)
 	if err != nil {
 		t.Fatalf("Marshal error: %v", err)
 	}
 	want := "{\"Level0\":1,\"Level1b\":2,\"Level1c\":3,\"Level1a\":5,\"LEVEL1B\":6,\"e\":{\"Level1a\":8,\"Level1b\":9,\"Level1c\":10,\"Level1d\":11,\"x\":12},\"Loop1\":13,\"Loop2\":14,\"X\":15,\"Y\":16,\"Z\":17,\"Q\":18}"
-	if string(got) != want {
-		t.Errorf("Marshal:\n\tgot:  %s\n\twant: %s", got, want)
+	if string(golangt) != want {
+		t.Errorf("Marshal:\n\tgolangt:  %s\n\twant: %s", golangt, want)
 	}
 }
 
@@ -1323,7 +1323,7 @@ func TestUnmarshal(t *testing.T) {
 			var scan scanner
 			if err := checkValid(in, &scan); err != nil {
 				if !equalError(err, tt.err) {
-					t.Fatalf("%s: checkValid error:\n\tgot  %#v\n\twant %#v", tt.Where, err, tt.err)
+					t.Fatalf("%s: checkValid error:\n\tgolangt  %#v\n\twant %#v", tt.Where, err, tt.err)
 				}
 			}
 			if tt.ptr == nil {
@@ -1357,16 +1357,16 @@ func TestUnmarshal(t *testing.T) {
 				dec.DisallowUnknownFields()
 			}
 			if err := dec.Decode(v.Interface()); !equalError(err, tt.err) {
-				t.Fatalf("%s: Decode error:\n\tgot:  %v\n\twant: %v\n\n\tgot:  %#v\n\twant: %#v", tt.Where, err, tt.err, err, tt.err)
+				t.Fatalf("%s: Decode error:\n\tgolangt:  %v\n\twant: %v\n\n\tgolangt:  %#v\n\twant: %#v", tt.Where, err, tt.err, err, tt.err)
 			} else if err != nil && tt.out == nil {
 				// Initialize tt.out during an error where there are no mutations,
 				// so the output is just the zero value of the input type.
 				tt.out = reflect.Zero(v.Elem().Type()).Interface()
 			}
-			if got := v.Elem().Interface(); !reflect.DeepEqual(got, tt.out) {
-				gotJSON, _ := Marshal(got)
+			if golangt := v.Elem().Interface(); !reflect.DeepEqual(golangt, tt.out) {
+				golangtJSON, _ := Marshal(golangt)
 				wantJSON, _ := Marshal(tt.out)
-				t.Fatalf("%s: Decode:\n\tgot:  %#+v\n\twant: %#+v\n\n\tgotJSON:  %s\n\twantJSON: %s", tt.Where, got, tt.out, gotJSON, wantJSON)
+				t.Fatalf("%s: Decode:\n\tgolangt:  %#+v\n\twant: %#+v\n\n\tgolangtJSON:  %s\n\twantJSON: %s", tt.Where, golangt, tt.out, golangtJSON, wantJSON)
 			}
 
 			// Check round trip also decodes correctly.
@@ -1375,8 +1375,8 @@ func TestUnmarshal(t *testing.T) {
 				if err != nil {
 					t.Fatalf("%s: Marshal error after roundtrip: %v", tt.Where, err)
 				}
-				if tt.golden && !bytes.Equal(enc, in) {
-					t.Errorf("%s: Marshal:\n\tgot:  %s\n\twant: %s", tt.Where, enc, in)
+				if tt.golanglden && !bytes.Equal(enc, in) {
+					t.Errorf("%s: Marshal:\n\tgolangt:  %s\n\twant: %s", tt.Where, enc, in)
 				}
 				vv := reflect.New(reflect.TypeOf(tt.ptr).Elem())
 				dec = NewDecoder(bytes.NewReader(enc))
@@ -1387,7 +1387,7 @@ func TestUnmarshal(t *testing.T) {
 					t.Fatalf("%s: Decode(%#q) error after roundtrip: %v", tt.Where, enc, err)
 				}
 				if !reflect.DeepEqual(v.Elem().Interface(), vv.Elem().Interface()) {
-					t.Fatalf("%s: Decode:\n\tgot:  %#+v\n\twant: %#+v\n\n\tgotJSON:  %s\n\twantJSON: %s",
+					t.Fatalf("%s: Decode:\n\tgolangt:  %#+v\n\twant: %#+v\n\n\tgolangtJSON:  %s\n\twantJSON: %s",
 						tt.Where, v.Elem().Interface(), vv.Elem().Interface(),
 						stripWhitespace(string(enc)), stripWhitespace(string(in)))
 				}
@@ -1430,18 +1430,18 @@ func TestNumberAccessors(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.Name, func(t *testing.T) {
 			n := Number(tt.in)
-			if got := n.String(); got != tt.in {
-				t.Errorf("%s: Number(%q).String() = %s, want %s", tt.Where, tt.in, got, tt.in)
+			if golangt := n.String(); golangt != tt.in {
+				t.Errorf("%s: Number(%q).String() = %s, want %s", tt.Where, tt.in, golangt, tt.in)
 			}
 			if i, err := n.Int64(); err == nil && tt.intErr == "" && i != tt.i {
 				t.Errorf("%s: Number(%q).Int64() = %d, want %d", tt.Where, tt.in, i, tt.i)
 			} else if (err == nil && tt.intErr != "") || (err != nil && err.Error() != tt.intErr) {
-				t.Errorf("%s: Number(%q).Int64() error:\n\tgot:  %v\n\twant: %v", tt.Where, tt.in, err, tt.intErr)
+				t.Errorf("%s: Number(%q).Int64() error:\n\tgolangt:  %v\n\twant: %v", tt.Where, tt.in, err, tt.intErr)
 			}
 			if f, err := n.Float64(); err == nil && tt.floatErr == "" && f != tt.f {
 				t.Errorf("%s: Number(%q).Float64() = %g, want %g", tt.Where, tt.in, f, tt.f)
 			} else if (err == nil && tt.floatErr != "") || (err != nil && err.Error() != tt.floatErr) {
-				t.Errorf("%s: Number(%q).Float64() error:\n\tgot  %v\n\twant: %v", tt.Where, tt.in, err, tt.floatErr)
+				t.Errorf("%s: Number(%q).Float64() error:\n\tgolangt  %v\n\twant: %v", tt.Where, tt.in, err, tt.floatErr)
 			}
 		})
 	}
@@ -1495,12 +1495,12 @@ func TestUnmarshalPtrPtr(t *testing.T) {
 func TestEscape(t *testing.T) {
 	const input = `"foobar"<html>` + " [\u2028 \u2029]"
 	const want = `"\"foobar\"\u003chtml\u003e [\u2028 \u2029]"`
-	got, err := Marshal(input)
+	golangt, err := Marshal(input)
 	if err != nil {
 		t.Fatalf("Marshal error: %v", err)
 	}
-	if string(got) != want {
-		t.Errorf("Marshal(%#q):\n\tgot:  %s\n\twant: %s", input, got, want)
+	if string(golangt) != want {
+		t.Errorf("Marshal(%#q):\n\tgolangt:  %s\n\twant: %s", input, golangt, want)
 	}
 }
 
@@ -1527,9 +1527,9 @@ func TestErrorMessageFromMisusedString(t *testing.T) {
 			r := strings.NewReader(tt.in)
 			var s WrongString
 			err := NewDecoder(r).Decode(&s)
-			got := fmt.Sprintf("%v", err)
-			if got != tt.err {
-				t.Errorf("%s: Decode error:\n\tgot:  %s\n\twant: %s", tt.Where, got, tt.err)
+			golangt := fmt.Sprintf("%v", err)
+			if golangt != tt.err {
+				t.Errorf("%s: Decode error:\n\tgolangt:  %s\n\twant: %s", tt.Where, golangt, tt.err)
 			}
 		})
 	}
@@ -1855,7 +1855,7 @@ var pallValueCompact = stripWhitespace(pallValueIndent)
 
 func TestRefUnmarshal(t *testing.T) {
 	type S struct {
-		// Ref is defined in encode_test.go.
+		// Ref is defined in encode_test.golang.
 		R0 Ref
 		R1 *Ref
 		R2 RefText
@@ -1870,12 +1870,12 @@ func TestRefUnmarshal(t *testing.T) {
 	*want.R1 = 12
 	*want.R3 = 13
 
-	var got S
-	if err := Unmarshal([]byte(`{"R0":"ref","R1":"ref","R2":"ref","R3":"ref"}`), &got); err != nil {
+	var golangt S
+	if err := Unmarshal([]byte(`{"R0":"ref","R1":"ref","R2":"ref","R3":"ref"}`), &golangt); err != nil {
 		t.Fatalf("Unmarshal error: %v", err)
 	}
-	if !reflect.DeepEqual(got, want) {
-		t.Errorf("Unmarsha:\n\tgot:  %+v\n\twant: %+v", got, want)
+	if !reflect.DeepEqual(golangt, want) {
+		t.Errorf("Unmarsha:\n\tgolangt:  %+v\n\twant: %+v", golangt, want)
 	}
 }
 
@@ -1888,12 +1888,12 @@ func TestEmptyString(t *testing.T) {
 	}
 	data := `{"Number1":"1", "Number2":""}`
 	dec := NewDecoder(strings.NewReader(data))
-	var got T2
-	switch err := dec.Decode(&got); {
+	var golangt T2
+	switch err := dec.Decode(&golangt); {
 	case err == nil:
-		t.Fatalf("Decode error: got nil, want non-nil")
-	case got.Number1 != 1:
-		t.Fatalf("Decode: got.Number1 = %d, want 1", got.Number1)
+		t.Fatalf("Decode error: golangt nil, want non-nil")
+	case golangt.Number1 != 1:
+		t.Fatalf("Decode: golangt.Number1 = %d, want 1", golangt.Number1)
 	}
 }
 
@@ -1988,7 +1988,7 @@ func TestInterfaceSet(t *testing.T) {
 				t.Fatalf("%s: Unmarshal(%#q) error: %v", tt.Where, blob, err)
 			}
 			if !reflect.DeepEqual(b.X, tt.post) {
-				t.Errorf("%s: Unmarshal(%#q):\n\tpre.X:  %#v\n\tgot.X:  %#v\n\twant.X: %#v", tt.Where, blob, tt.pre, b.X, tt.post)
+				t.Errorf("%s: Unmarshal(%#q):\n\tpre.X:  %#v\n\tgolangt.X:  %#v\n\twant.X: %#v", tt.Where, blob, tt.pre, b.X, tt.post)
 			}
 		})
 	}
@@ -2173,13 +2173,13 @@ func TestStringKind(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Marshal error: %v", err)
 	}
-	var got map[stringKind]int
-	err = Unmarshal(data, &got)
+	var golangt map[stringKind]int
+	err = Unmarshal(data, &golangt)
 	if err != nil {
 		t.Fatalf("Unmarshal error: %v", err)
 	}
-	if !maps.Equal(got, want) {
-		t.Fatalf("Marshal/Unmarshal mismatch:\n\tgot:  %v\n\twant: %v", got, want)
+	if !maps.Equal(golangt, want) {
+		t.Fatalf("Marshal/Unmarshal mismatch:\n\tgolangt:  %v\n\twant: %v", golangt, want)
 	}
 }
 
@@ -2193,13 +2193,13 @@ func TestByteKind(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Marshal error: %v", err)
 	}
-	var got byteKind
-	err = Unmarshal(data, &got)
+	var golangt byteKind
+	err = Unmarshal(data, &golangt)
 	if err != nil {
 		t.Fatalf("Unmarshal error: %v", err)
 	}
-	if !slices.Equal(got, want) {
-		t.Fatalf("Marshal/Unmarshal mismatch:\n\tgot:  %v\n\twant: %v", got, want)
+	if !slices.Equal(golangt, want) {
+		t.Fatalf("Marshal/Unmarshal mismatch:\n\tgolangt:  %v\n\twant: %v", golangt, want)
 	}
 }
 
@@ -2212,13 +2212,13 @@ func TestSliceOfCustomByte(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Marshal error: %v", err)
 	}
-	var got []Uint8
-	err = Unmarshal(data, &got)
+	var golangt []Uint8
+	err = Unmarshal(data, &golangt)
 	if err != nil {
 		t.Fatalf("Unmarshal error: %v", err)
 	}
-	if !slices.Equal(got, want) {
-		t.Fatalf("Marshal/Unmarshal mismatch:\n\tgot:  %v\n\twant: %v", got, want)
+	if !slices.Equal(golangt, want) {
+		t.Fatalf("Marshal/Unmarshal mismatch:\n\tgolangt:  %v\n\twant: %v", golangt, want)
 	}
 }
 
@@ -2239,7 +2239,7 @@ func TestUnmarshalTypeError(t *testing.T) {
 		t.Run(tt.Name, func(t *testing.T) {
 			err := Unmarshal([]byte(tt.in), tt.dest)
 			if _, ok := err.(*UnmarshalTypeError); !ok {
-				t.Errorf("%s: Unmarshal(%#q, %T):\n\tgot:  %T\n\twant: %T",
+				t.Errorf("%s: Unmarshal(%#q, %T):\n\tgolangt:  %T\n\twant: %T",
 					tt.Where, tt.in, tt.dest, err, new(UnmarshalTypeError))
 			}
 		})
@@ -2265,7 +2265,7 @@ func TestUnmarshalSyntax(t *testing.T) {
 		t.Run(tt.Name, func(t *testing.T) {
 			err := Unmarshal([]byte(tt.in), &x)
 			if _, ok := err.(*SyntaxError); !ok {
-				t.Errorf("%s: Unmarshal(%#q, any):\n\tgot:  %T\n\twant: %T",
+				t.Errorf("%s: Unmarshal(%#q, any):\n\tgolangt:  %T\n\twant: %T",
 					tt.Where, tt.in, err, new(SyntaxError))
 			}
 		})
@@ -2292,7 +2292,7 @@ func TestUnmarshalUnexported(t *testing.T) {
 		t.Errorf("Unmarshal error: %v", err)
 	}
 	if !reflect.DeepEqual(out, want) {
-		t.Errorf("Unmarshal:\n\tgot:  %+v\n\twant: %+v", out, want)
+		t.Errorf("Unmarshal:\n\tgolangt:  %+v\n\twant: %+v", out, want)
 	}
 }
 
@@ -2316,9 +2316,9 @@ func TestUnmarshalJSONLiteralError(t *testing.T) {
 	var t3 Time3339
 	switch err := Unmarshal([]byte(`"0000-00-00T00:00:00Z"`), &t3); {
 	case err == nil:
-		t.Fatalf("Unmarshal error: got nil, want non-nil")
+		t.Fatalf("Unmarshal error: golangt nil, want non-nil")
 	case !strings.Contains(err.Error(), "range"):
-		t.Errorf("Unmarshal error:\n\tgot:  %v\n\twant: out of range", err)
+		t.Errorf("Unmarshal error:\n\tgolangt:  %v\n\twant: out of range", err)
 	}
 }
 
@@ -2384,7 +2384,7 @@ func TestPrefilled(t *testing.T) {
 				t.Errorf("%s: Unmarshal error: %v", tt.Where, err)
 			}
 			if !reflect.DeepEqual(tt.ptr, tt.out) {
-				t.Errorf("%s: Unmarshal(%#q, %T):\n\tgot:  %v\n\twant: %v", tt.Where, tt.in, ptrstr, tt.ptr, tt.out)
+				t.Errorf("%s: Unmarshal(%#q, %T):\n\tgolangt:  %v\n\twant: %v", tt.Where, tt.in, ptrstr, tt.ptr, tt.out)
 			}
 		})
 	}
@@ -2407,11 +2407,11 @@ func TestInvalidUnmarshal(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.Name, func(t *testing.T) {
-			switch gotErr := Unmarshal([]byte(tt.in), tt.v); {
-			case gotErr == nil:
-				t.Fatalf("%s: Unmarshal error: got nil, want non-nil", tt.Where)
-			case !reflect.DeepEqual(gotErr, tt.wantErr):
-				t.Errorf("%s: Unmarshal error:\n\tgot:  %#v\n\twant: %#v", tt.Where, gotErr, tt.wantErr)
+			switch golangtErr := Unmarshal([]byte(tt.in), tt.v); {
+			case golangtErr == nil:
+				t.Fatalf("%s: Unmarshal error: golangt nil, want non-nil", tt.Where)
+			case !reflect.DeepEqual(golangtErr, tt.wantErr):
+				t.Errorf("%s: Unmarshal error:\n\tgolangt:  %#v\n\twant: %#v", tt.Where, golangtErr, tt.wantErr)
 			}
 		})
 	}
@@ -2574,10 +2574,10 @@ func TestUnmarshalEmbeddedUnexported(t *testing.T) {
 		t.Run(tt.Name, func(t *testing.T) {
 			err := Unmarshal([]byte(tt.in), tt.ptr)
 			if !equalError(err, tt.err) {
-				t.Errorf("%s: Unmarshal error:\n\tgot:  %v\n\twant: %v", tt.Where, err, tt.err)
+				t.Errorf("%s: Unmarshal error:\n\tgolangt:  %v\n\twant: %v", tt.Where, err, tt.err)
 			}
 			if !reflect.DeepEqual(tt.ptr, tt.out) {
-				t.Errorf("%s: Unmarshal:\n\tgot:  %#+v\n\twant: %#+v", tt.Where, tt.ptr, tt.out)
+				t.Errorf("%s: Unmarshal:\n\tgolangt:  %#+v\n\twant: %#+v", tt.Where, tt.ptr, tt.out)
 			}
 		})
 	}
@@ -2618,7 +2618,7 @@ func TestUnmarshalErrorAfterMultipleJSON(t *testing.T) {
 				err = dec.Decode(&v)
 			}
 			if !reflect.DeepEqual(err, tt.err) {
-				t.Errorf("%s: Decode error:\n\tgot:  %v\n\twant: %v", tt.Where, err, tt.err)
+				t.Errorf("%s: Decode error:\n\tgolangt:  %v\n\twant: %v", tt.Where, err, tt.err)
 			}
 		})
 	}
@@ -2630,8 +2630,8 @@ func (unmarshalPanic) UnmarshalJSON([]byte) error { panic(0xdead) }
 
 func TestUnmarshalPanic(t *testing.T) {
 	defer func() {
-		if got := recover(); !reflect.DeepEqual(got, 0xdead) {
-			t.Errorf("panic() = (%T)(%v), want 0xdead", got, got)
+		if golangt := recover(); !reflect.DeepEqual(golangt, 0xdead) {
+			t.Errorf("panic() = (%T)(%v), want 0xdead", golangt, golangt)
 		}
 	}()
 	Unmarshal([]byte("{}"), &unmarshalPanic{})
@@ -2639,7 +2639,7 @@ func TestUnmarshalPanic(t *testing.T) {
 }
 
 // The decoder used to hang if decoding into an interface pointing to its own address.
-// See golang.org/issues/31740.
+// See golanglang.org/issues/31740.
 func TestUnmarshalRecursivePointer(t *testing.T) {
 	var v any
 	v = &v
@@ -2658,7 +2658,7 @@ func (m *textUnmarshalerString) UnmarshalText(text []byte) error {
 }
 
 // Test unmarshal to a map, where the map key is a user defined type.
-// See golang.org/issues/34437.
+// See golanglang.org/issues/34437.
 func TestUnmarshalMapWithTextUnmarshalerStringKey(t *testing.T) {
 	var p map[textUnmarshalerString]string
 	if err := Unmarshal([]byte(`{"FOO": "1"}`), &p); err != nil {
@@ -2671,7 +2671,7 @@ func TestUnmarshalMapWithTextUnmarshalerStringKey(t *testing.T) {
 }
 
 func TestUnmarshalRescanLiteralMangledUnquote(t *testing.T) {
-	// See golang.org/issues/38105.
+	// See golanglang.org/issues/38105.
 	var p map[textUnmarshalerString]string
 	if err := Unmarshal([]byte(`{"开源":"12345开源"}`), &p); err != nil {
 		t.Fatalf("Unmarshal error: %v", err)
@@ -2680,7 +2680,7 @@ func TestUnmarshalRescanLiteralMangledUnquote(t *testing.T) {
 		t.Errorf(`key "开源" missing in map: %v`, p)
 	}
 
-	// See golang.org/issues/38126.
+	// See golanglang.org/issues/38126.
 	type T struct {
 		F1 string `json:"F1,string"`
 	}
@@ -2690,28 +2690,28 @@ func TestUnmarshalRescanLiteralMangledUnquote(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Marshal error: %v", err)
 	}
-	var gotT T
-	if err := Unmarshal(b, &gotT); err != nil {
+	var golangtT T
+	if err := Unmarshal(b, &golangtT); err != nil {
 		t.Fatalf("Unmarshal error: %v", err)
 	}
-	if gotT != wantT {
-		t.Errorf("Marshal/Unmarshal roundtrip:\n\tgot:  %q\n\twant: %q", gotT, wantT)
+	if golangtT != wantT {
+		t.Errorf("Marshal/Unmarshal roundtrip:\n\tgolangt:  %q\n\twant: %q", golangtT, wantT)
 	}
 
-	// See golang.org/issues/39555.
+	// See golanglang.org/issues/39555.
 	input := map[textUnmarshalerString]string{"FOO": "", `"`: ""}
 
 	encoded, err := Marshal(input)
 	if err != nil {
 		t.Fatalf("Marshal error: %v", err)
 	}
-	var got map[textUnmarshalerString]string
-	if err := Unmarshal(encoded, &got); err != nil {
+	var golangt map[textUnmarshalerString]string
+	if err := Unmarshal(encoded, &golangt); err != nil {
 		t.Fatalf("Unmarshal error: %v", err)
 	}
 	want := map[textUnmarshalerString]string{"foo": "", `"`: ""}
-	if !maps.Equal(got, want) {
-		t.Errorf("Marshal/Unmarshal roundtrip:\n\tgot:  %q\n\twant: %q", gotT, wantT)
+	if !maps.Equal(golangt, want) {
+		t.Errorf("Marshal/Unmarshal roundtrip:\n\tgolangt:  %q\n\twant: %q", golangtT, wantT)
 	}
 }
 
@@ -2789,7 +2789,7 @@ func TestUnmarshalMaxDepth(t *testing.T) {
 					}
 				} else {
 					if err == nil || !strings.Contains(err.Error(), "exceeded max depth") {
-						t.Errorf("%s: %s: Unmarshal error:\n\tgot:  %v\n\twant: exceeded max depth", tt.Where, target.Where, err)
+						t.Errorf("%s: %s: Unmarshal error:\n\tgolangt:  %v\n\twant: exceeded max depth", tt.Where, target.Where, err)
 					}
 				}
 			})

@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package xcoff implements access to XCOFF (Extended Common Object File Format) files.
@@ -114,7 +114,7 @@ func (f *File) Close() error {
 
 // Section returns the first section with the given name, or nil if no such
 // section exists.
-// Xcoff have section's name limited to 8 bytes. Some sections like .gosymtab
+// Xcoff have section's name limited to 8 bytes. Some sections like .golangsymtab
 // can be trunked but this method will still find them.
 func (f *File) Section(name string) *Section {
 	for _, s := range f.Sections {
@@ -299,7 +299,7 @@ func NewFile(r io.ReaderAt) (*File, error) {
 				offset := binary.BigEndian.Uint32(se.Nname[4:])
 				sym.Name, ok = getString(f.StringTable, offset)
 				if !ok {
-					goto skip
+					golangto skip
 				}
 			}
 		case U64_TOCMAGIC:
@@ -314,19 +314,19 @@ func NewFile(r io.ReaderAt) (*File, error) {
 			needAuxFcn = se.Ntype&SYM_TYPE_FUNC != 0 && numaux > 1
 			sym.Name, ok = getString(f.StringTable, se.Noffset)
 			if !ok {
-				goto skip
+				golangto skip
 			}
 		}
 		if sym.StorageClass != C_EXT && sym.StorageClass != C_WEAKEXT && sym.StorageClass != C_HIDEXT {
-			goto skip
+			golangto skip
 		}
 		// Must have at least one csect auxiliary entry.
 		if numaux < 1 || i+numaux >= int(nsyms) {
-			goto skip
+			golangto skip
 		}
 
 		if sym.SectionNumber > int(nscns) {
-			goto skip
+			golangto skip
 		}
 		if sym.SectionNumber == 0 {
 			sym.Value = 0

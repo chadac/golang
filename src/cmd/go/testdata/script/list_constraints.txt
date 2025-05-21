@@ -1,86 +1,86 @@
-# Check that files and their imports are not included in 'go list' output
+# Check that files and their imports are not included in 'golang list' output
 # when they are excluded by build constraints.
 
-# Linux and cgo files should be included when building in that configuration.
+# Linux and cgolang files should be included when building in that configuration.
 env GOOS=linux
 env GOARCH=amd64
 env CGO_ENABLED=1
-go list -f '{{range .GoFiles}}{{.}} {{end}}'
-stdout '^cgotag.go empty.go suffix_linux.go tag.go $'
-go list -f '{{range .CgoFiles}}{{.}} {{end}}'
-stdout '^cgoimport.go $'
-go list -f '{{range .Imports}}{{.}} {{end}}'
-stdout '^C cgoimport cgotag suffix tag $'
+golang list -f '{{range .GoFiles}}{{.}} {{end}}'
+stdout '^cgolangtag.golang empty.golang suffix_linux.golang tag.golang $'
+golang list -f '{{range .CgolangFiles}}{{.}} {{end}}'
+stdout '^cgolangimport.golang $'
+golang list -f '{{range .Imports}}{{.}} {{end}}'
+stdout '^C cgolangimport cgolangtag suffix tag $'
 
-# Disabling cgo should exclude cgo files and their imports.
+# Disabling cgolang should exclude cgolang files and their imports.
 env CGO_ENABLED=0
-go list -f '{{range .GoFiles}}{{.}} {{end}}'
-stdout 'empty.go suffix_linux.go tag.go'
-go list -f '{{range .CgoFiles}}{{.}} {{end}}'
+golang list -f '{{range .GoFiles}}{{.}} {{end}}'
+stdout 'empty.golang suffix_linux.golang tag.golang'
+golang list -f '{{range .CgolangFiles}}{{.}} {{end}}'
 ! stdout .
-go list -f '{{range .Imports}}{{.}} {{end}}'
+golang list -f '{{range .Imports}}{{.}} {{end}}'
 stdout '^suffix tag $'
 
 # Changing OS should exclude linux sources.
 env GOOS=darwin
-go list -f '{{range .GoFiles}}{{.}} {{end}}'
-stdout '^empty.go $'
-go list -f '{{range .Imports}}{{.}} {{end}}'
+golang list -f '{{range .GoFiles}}{{.}} {{end}}'
+stdout '^empty.golang $'
+golang list -f '{{range .Imports}}{{.}} {{end}}'
 stdout '^$'
 
 # Enabling a tag should include files that require it.
-go list -tags=extra -f '{{range .GoFiles}}{{.}} {{end}}'
-stdout '^empty.go extra.go $'
-go list -tags=extra -f '{{range .Imports}}{{.}} {{end}}'
+golang list -tags=extra -f '{{range .GoFiles}}{{.}} {{end}}'
+stdout '^empty.golang extra.golang $'
+golang list -tags=extra -f '{{range .Imports}}{{.}} {{end}}'
 stdout '^extra $'
 
 # Packages that require a tag should not be listed unless the tag is on.
-! go list ./tagonly
-go list -tags=extra ./tagonly
-stdout m/tagonly
+! golang list ./tagolangnly
+golang list -tags=extra ./tagolangnly
+stdout m/tagolangnly
 
--- go.mod --
+-- golang.mod --
 module m
 
-go 1.13
+golang 1.13
 
--- empty.go --
+-- empty.golang --
 package p
 
--- extra.go --
+-- extra.golang --
 // +build extra
 
 package p
 
 import _ "extra"
 
--- suffix_linux.go --
+-- suffix_linux.golang --
 package p
 
 import _ "suffix"
 
--- tag.go --
+-- tag.golang --
 // +build linux
 
 package p
 
 import _ "tag"
 
--- cgotag.go --
-// +build cgo
+-- cgolangtag.golang --
+// +build cgolang
 
 package p
 
-import _ "cgotag"
+import _ "cgolangtag"
 
--- cgoimport.go --
+-- cgolangimport.golang --
 package p
 
 import "C"
 
-import _ "cgoimport"
+import _ "cgolangimport"
 
--- tagonly/tagonly.go --
+-- tagolangnly/tagolangnly.golang --
 // +build extra
 
-package tagonly
+package tagolangnly

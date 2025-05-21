@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package format_test
@@ -7,9 +7,9 @@ package format_test
 import (
 	"bytes"
 	"fmt"
-	"go/format"
-	"go/parser"
-	"go/token"
+	"golang/format"
+	"golang/parser"
+	"golang/token"
 	"log"
 )
 

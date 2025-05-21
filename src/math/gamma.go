@@ -1,12 +1,12 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package math
 
 // The original C code, the long comment, and the constants
-// below are from http://netlib.sandia.gov/cephes/cprob/gamma.c.
-// The go code is a simplified version of the original C.
+// below are from http://netlib.sandia.golangv/cephes/cprob/gamma.c.
+// The golang code is a simplified version of the original C.
 //
 //      tgamma.c
 //
@@ -48,7 +48,7 @@ package math
 // Cephes Math Library Release 2.8:  June, 2000
 // Copyright 1984, 1987, 1989, 1992, 2000 by Stephen L. Moshier
 //
-// The readme file at http://netlib.sandia.gov/cephes/ says:
+// The readme file at http://netlib.sandia.golangv/cephes/ says:
 //    Some software in this archive may be from the book _Methods and
 // Programs for Mathematical Functions_ (Prentice-Hall or Simon & Schuster
 // International, 1989) or from the Cephes Mathematical Library, a
@@ -61,7 +61,7 @@ package math
 // integral.
 //
 //   Stephen L. Moshier
-//   moshier@na-net.ornl.gov
+//   moshier@na-net.ornl.golangv
 
 var _gamP = [...]float64{
 	1.60119522476751861407e-04,
@@ -184,14 +184,14 @@ func Gamma(x float64) float64 {
 	}
 	for x < 0 {
 		if x > -1e-09 {
-			goto small
+			golangto small
 		}
 		z = z / x
 		x = x + 1
 	}
 	for x < 2 {
 		if x < 1e-09 {
-			goto small
+			golangto small
 		}
 		z = z / x
 		x = x + 1

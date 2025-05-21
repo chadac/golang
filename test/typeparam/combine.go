@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -46,20 +46,20 @@ func main() {
 	var g3 Gen[string] = func() (string, bool) { return "y", true }
 
 	gc := Combine(g1, g2, _NewPair[int, string])
-	if got, ok := gc(); ok {
-		panic(fmt.Sprintf("got %v, %v, wanted -/false", got, ok))
+	if golangt, ok := gc(); ok {
+		panic(fmt.Sprintf("golangt %v, %v, wanted -/false", golangt, ok))
 	}
 	gc2 := Combine2(g1, g2)
-	if got, ok := gc2(); ok {
-		panic(fmt.Sprintf("got %v, %v, wanted -/false", got, ok))
+	if golangt, ok := gc2(); ok {
+		panic(fmt.Sprintf("golangt %v, %v, wanted -/false", golangt, ok))
 	}
 
 	gc3 := Combine(g1, g3, _NewPair[int, string])
-	if got, ok := gc3(); !ok || got.A != 3 || got.B != "y" {
-		panic(fmt.Sprintf("got %v, %v, wanted {3, y}, true", got, ok))
+	if golangt, ok := gc3(); !ok || golangt.A != 3 || golangt.B != "y" {
+		panic(fmt.Sprintf("golangt %v, %v, wanted {3, y}, true", golangt, ok))
 	}
 	gc4 := Combine2(g1, g3)
-	if got, ok := gc4(); !ok || got.A != 3 || got.B != "y" {
-		panic(fmt.Sprintf("got %v, %v, wanted {3, y}, true", got, ok))
+	if golangt, ok := gc4(); !ok || golangt.A != 3 || golangt.B != "y" {
+		panic(fmt.Sprintf("golangt %v, %v, wanted {3, y}, true", golangt, ok))
 	}
 }

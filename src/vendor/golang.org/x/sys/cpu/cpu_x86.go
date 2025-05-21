@@ -1,8 +1,8 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build 386 || amd64 || amd64p32
+//golang:build 386 || amd64 || amd64p32
 
 package cpu
 
@@ -95,7 +95,7 @@ func archInit() {
 		osSupportsAVX = isSet(1, eax) && isSet(2, eax)
 
 		if runtime.GOOS == "darwin" {
-			// Darwin requires special AVX512 checks, see cpu_darwin_x86.go
+			// Darwin requires special AVX512 checks, see cpu_darwin_x86.golang
 			osSupportsAVX512 = osSupportsAVX && darwinSupportsAVX512()
 		} else {
 			// Check if OPMASK and ZMM registers have OS support.

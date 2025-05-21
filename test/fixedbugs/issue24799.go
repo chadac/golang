@@ -1,10 +1,10 @@
 // run
 
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Loads of 8 byte go.strings cannot use DS relocation
+// Loads of 8 byte golang.strings cannot use DS relocation
 // in case the alignment is not a multiple of 4.
 
 package main
@@ -15,14 +15,14 @@ import (
 
 type Level string
 
-// The following are all go.strings. A link time error can
-// occur if an 8 byte load is used to load a go.string that is
+// The following are all golang.strings. A link time error can
+// occur if an 8 byte load is used to load a golang.string that is
 // not aligned to 4 bytes due to the type of relocation that
 // is generated for the instruction. A fix was made to avoid
-// generating an instruction with DS relocation for go.strings
+// generating an instruction with DS relocation for golang.strings
 // since their alignment is not known until link time. 
 
-// This problem only affects go.string since other types have
+// This problem only affects golang.string since other types have
 // correct alignment.
 
 const (
@@ -46,7 +46,7 @@ func ordLevel(l Level) int {
         }
 }
 
-//go:noinline
+//golang:noinline
 func test(l Level) {
         if ordLevel(l) < ordLevel(LevelMetadata) {
                 fmt.Printf("OK\n")

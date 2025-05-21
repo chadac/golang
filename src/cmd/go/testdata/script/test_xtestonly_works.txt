@@ -1,18 +1,18 @@
 [short] skip
 
-go test xtestonly
+golang test xtestonly
 ! stdout '^ok.*\[no tests to run\]'
 stdout '^ok'
 
--- go.mod --
+-- golang.mod --
 module xtestonly
 
-go 1.16
--- f.go --
+golang 1.16
+-- f.golang --
 package xtestonly
 
 func F() int { return 42 }
--- f_test.go --
+-- f_test.golang --
 package xtestonly_test
 
 import (

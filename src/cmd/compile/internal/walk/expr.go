@@ -1,12 +1,12 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package walk
 
 import (
 	"fmt"
-	"go/constant"
+	"golang/constant"
 	"internal/abi"
 	"internal/buildcfg"
 	"strings"
@@ -180,7 +180,7 @@ func walkExpr1(n ir.Node, init *ir.Nodes) ir.Node {
 
 	case ir.OPANIC:
 		n := n.(*ir.UnaryExpr)
-		return mkcall("gopanic", nil, init, n.X)
+		return mkcall("golangpanic", nil, init, n.X)
 
 	case ir.ORECOVERFP:
 		return walkRecoverFP(n.(*ir.CallExpr), init)
@@ -586,7 +586,7 @@ func walkCall(n *ir.CallExpr, init *ir.Nodes) ir.Node {
 			wantABI = obj.ABIInternal
 		}
 		if n.Type() != types.Types[types.TUINTPTR] {
-			base.FatalfAt(n.Pos(), "FuncPC intrinsic should return uintptr, got %v", n.Type()) // as expected by typecheck.FuncPC.
+			base.FatalfAt(n.Pos(), "FuncPC intrinsic should return uintptr, golangt %v", n.Type()) // as expected by typecheck.FuncPC.
 		}
 		n := ir.FuncPC(n.Pos(), arg, wantABI)
 		return walkExpr(n, init)
@@ -608,7 +608,7 @@ func walkCall(n *ir.CallExpr, init *ir.Nodes) ir.Node {
 
 	if name, ok := n.Fun.(*ir.Name); ok {
 		sym := name.Sym()
-		if sym.Pkg.Path == "go.runtime" && sym.Name == "deferrangefunc" {
+		if sym.Pkg.Path == "golang.runtime" && sym.Name == "deferrangefunc" {
 			// Call to runtime.deferrangefunc is being shared with a range-over-func
 			// body that might add defers to this frame, so we cannot use open-coded defers
 			// and we need to call deferreturn even if we don't see any other explicit defers.
@@ -1115,7 +1115,7 @@ func usefield(n *ir.SelectorExpr) {
 	if field.Sym != n.Sel {
 		base.Fatalf("field inconsistency: %v != %v", field.Sym, n.Sel)
 	}
-	if !strings.Contains(field.Note, "go:\"track\"") {
+	if !strings.Contains(field.Note, "golang:\"track\"") {
 		return
 	}
 

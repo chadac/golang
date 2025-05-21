@@ -1,15 +1,15 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !goexperiment.jsonv2
+//golang:build !golangexperiment.jsonv2
 
 // Package json implements encoding and decoding of JSON as defined in
 // RFC 7159. The mapping between JSON and Go values is described
 // in the documentation for the Marshal and Unmarshal functions.
 //
 // See "JSON and Go" for an introduction to this package:
-// https://golang.org/doc/articles/json_and_go.html
+// https://golanglang.org/doc/articles/json_and_golang.html
 package json
 
 import (
@@ -544,7 +544,7 @@ func (bits floatEncoder) encode(e *encodeState, v reflect.Value, opts encOpts) {
 
 	// Convert as if by ES6 number to string conversion.
 	// This matches most other JSON generators.
-	// See golang.org/issue/6384 and golang.org/issue/14135.
+	// See golanglang.org/issue/6384 and golanglang.org/issue/14135.
 	// Like fmt %g, but the exponent cutoffs are different
 	// and exponents themselves are not padded to two digits.
 	b := e.AvailableBuffer()
@@ -609,9 +609,9 @@ func stringEncoder(e *encodeState, v reflect.Value, opts encOpts) {
 //   - github.com/bytedance/sonic
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname isValidNumber
+//golang:linkname isValidNumber
 func isValidNumber(s string) bool {
 	// This function implements the JSON numbers grammar.
 	// See https://tools.ietf.org/html/rfc7159#section-6
@@ -1010,7 +1010,7 @@ func appendString[Bytes []byte | string](dst []byte, src Bytes, escapeHTML bool)
 			start = i
 			continue
 		}
-		// TODO(https://go.dev/issue/56948): Use generic utf8 functionality.
+		// TODO(https://golang.dev/issue/56948): Use generic utf8 functionality.
 		// For now, cast only a small portion of byte slices to a string
 		// so that it can be stack allocated. This slows down []byte slightly
 		// due to the extra copy, but keeps string performance roughly the same.
@@ -1070,7 +1070,7 @@ type isZeroer interface {
 var isZeroerType = reflect.TypeFor[isZeroer]()
 
 // typeFields returns a list of fields that JSON should recognize for the given type.
-// The algorithm is breadth-first search over the set of structs to include - the top struct
+// The algolangrithm is breadth-first search over the set of structs to include - the top struct
 // and then any reachable anonymous structs.
 //
 // typeFields should be an internal detail,
@@ -1079,9 +1079,9 @@ var isZeroerType = reflect.TypeFor[isZeroer]()
 //   - github.com/bytedance/sonic
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname typeFields
+//golang:linkname typeFields
 func typeFields(t reflect.Type) structFields {
 	// Anonymous fields to explore at the current level and the next.
 	current := []field{}

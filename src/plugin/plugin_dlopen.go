@@ -1,13 +1,13 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build (linux && cgo) || (darwin && cgo) || (freebsd && cgo)
+//golang:build (linux && cgolang) || (darwin && cgolang) || (freebsd && cgolang)
 
 package plugin
 
 /*
-#cgo linux LDFLAGS: -ldl
+#cgolang linux LDFLAGS: -ldl
 #include <dlfcn.h>
 #include <limits.h>
 #include <stdlib.h>
@@ -144,7 +144,7 @@ func lastmoduleinit() (pluginpath string, syms map[string]any, inittasks []*init
 
 // doInit is defined in package runtime.
 //
-//go:linkname doInit runtime.doInit
+//golang:linkname doInit runtime.doInit
 func doInit(t []*initTask)
 
 type initTask struct {

@@ -1,14 +1,14 @@
 # Run parallel chatty tests. Assert on CONT or NAME lines. This test makes sure that
 # multiple parallel outputs have the appropriate CONT lines between them.
-go test -parallel 3 chatty_parallel -v
+golang test -parallel 3 chatty_parallel -v
 
-stdout '=== RUN   TestInterruptor/interruption\n=== (CONT|NAME)  TestLog\n    chatty_parallel_test.go:28: this is the second TestLog log\n--- PASS: Test(Log|Interruptor) \([0-9.]{4}s\)'
+stdout '=== RUN   TestInterruptor/interruption\n=== (CONT|NAME)  TestLog\n    chatty_parallel_test.golang:28: this is the second TestLog log\n--- PASS: Test(Log|Interruptor) \([0-9.]{4}s\)'
 
--- go.mod --
+-- golang.mod --
 module chatty_parallel
 
-go 1.18
--- chatty_parallel_test.go --
+golang 1.18
+-- chatty_parallel_test.golang --
 package chatty_parallel_test
 
 import (

@@ -1,8 +1,8 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build goexperiment.swissmap
+//golang:build golangexperiment.swissmap
 
 package reflect_test
 
@@ -25,6 +25,6 @@ func TestGroupSizeZero(t *testing.T) {
 	// are size 0. We should have reserved an extra word to ensure that
 	// pointers to the zero-size type at the end of group are valid.
 	if grp.Size() <= 8 {
-		t.Errorf("Group size got %d want >8", grp.Size())
+		t.Errorf("Group size golangt %d want >8", grp.Size())
 	}
 }

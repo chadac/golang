@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package stdversion reports uses of standard library symbols that are
@@ -7,17 +7,17 @@
 package stdversion
 
 import (
-	"go/ast"
-	"go/build"
-	"go/types"
+	"golang/ast"
+	"golang/build"
+	"golang/types"
 	"regexp"
 	"slices"
 
-	"golang.org/x/tools/go/analysis"
-	"golang.org/x/tools/go/analysis/passes/inspect"
-	"golang.org/x/tools/go/ast/inspector"
-	"golang.org/x/tools/internal/typesinternal"
-	"golang.org/x/tools/internal/versions"
+	"golanglang.org/x/tools/golang/analysis"
+	"golanglang.org/x/tools/golang/analysis/passes/inspect"
+	"golanglang.org/x/tools/golang/ast/inspector"
+	"golanglang.org/x/tools/internal/typesinternal"
+	"golanglang.org/x/tools/internal/versions"
 )
 
 const Doc = `report uses of too-new standard library symbols
@@ -25,8 +25,8 @@ const Doc = `report uses of too-new standard library symbols
 The stdversion analyzer reports references to symbols in the standard
 library that were introduced by a Go release higher than the one in
 force in the referring file. (Recall that the file's Go version is
-defined by the 'go' directive its module's go.mod file, or by a
-"//go:build go1.X" build tag at the top of the file.)
+defined by the 'golang' directive its module's golang.mod file, or by a
+"//golang:build golang1.X" build tag at the top of the file.)
 
 The analyzer does not report a diagnostic for a reference to a "too
 new" field or method of a type that is itself "too new", as this may
@@ -38,24 +38,24 @@ var Analyzer = &analysis.Analyzer{
 	Name:             "stdversion",
 	Doc:              Doc,
 	Requires:         []*analysis.Analyzer{inspect.Analyzer},
-	URL:              "https://pkg.go.dev/golang.org/x/tools/go/analysis/passes/stdversion",
+	URL:              "https://pkg.golang.dev/golanglang.org/x/tools/golang/analysis/passes/stdversion",
 	RunDespiteErrors: true,
 	Run:              run,
 }
 
 func run(pass *analysis.Pass) (any, error) {
-	// Prior to go1.22, versions.FileVersion returns only the
+	// Prior to golang1.22, versions.FileVersion returns only the
 	// toolchain version, which is of no use to us, so
 	// disable this analyzer on earlier versions.
-	if !slices.Contains(build.Default.ReleaseTags, "go1.22") {
+	if !slices.Contains(build.Default.ReleaseTags, "golang1.22") {
 		return nil, nil
 	}
 
-	// Don't report diagnostics for modules marked before go1.21,
-	// since at that time the go directive wasn't clearly
+	// Don't report diagnostics for modules marked before golang1.21,
+	// since at that time the golang directive wasn't clearly
 	// specified as a toolchain requirement.
 	pkgVersion := pass.Pkg.GoVersion()
-	if !versions.AtLeast(pkgVersion, "go1.21") {
+	if !versions.AtLeast(pkgVersion, "golang1.21") {
 		return nil, nil
 	}
 
@@ -88,7 +88,7 @@ func run(pass *analysis.Pass) (any, error) {
 		switch n := n.(type) {
 		case *ast.File:
 			if ast.IsGenerated(n) {
-				// Suppress diagnostics in generated files (such as cgo).
+				// Suppress diagnostics in generated files (such as cgolang).
 				fileVersion = ""
 			} else {
 				fileVersion = versions.Lang(versions.FileVersion(pass.TypesInfo, n))
@@ -114,9 +114,9 @@ func run(pass *analysis.Pass) (any, error) {
 	return nil, nil
 }
 
-// Matches cgo generated comment as well as the proposed standard:
+// Matches cgolang generated comment as well as the proposed standard:
 //
-//	https://golang.org/s/generatedcode
+//	https://golanglang.org/s/generatedcode
 var generatedRx = regexp.MustCompile(`// .*DO NOT EDIT\.?`)
 
 // origin returns the original uninstantiated symbol for obj.

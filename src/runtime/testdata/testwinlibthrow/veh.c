@@ -1,4 +1,4 @@
-//go:build ignore
+//golang:build ignore
 
 #include <windows.h>
 

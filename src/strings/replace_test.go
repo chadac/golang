@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package strings_test
@@ -296,9 +296,9 @@ func TestReplacer(t *testing.T) {
 			t.Errorf("%d. WriteString: %v", i, err)
 			continue
 		}
-		got := buf.String()
-		if got != tc.out {
-			t.Errorf("%d. WriteString(%q) wrote %q, want %q", i, tc.in, got, tc.out)
+		golangt := buf.String()
+		if golangt != tc.out {
+			t.Errorf("%d. WriteString(%q) wrote %q, want %q", i, tc.in, golangt, tc.out)
 			continue
 		}
 		if n != len(tc.out) {
@@ -308,7 +308,7 @@ func TestReplacer(t *testing.T) {
 	}
 }
 
-var algorithmTestCases = []struct {
+var algolangrithmTestCases = []struct {
 	r    *Replacer
 	want string
 }{
@@ -320,12 +320,12 @@ var algorithmTestCases = []struct {
 	{NewReplacer("a", "1", "b", "12", "cde", "123"), "*strings.genericReplacer"},
 }
 
-// TestPickAlgorithm tests that NewReplacer picks the correct algorithm.
-func TestPickAlgorithm(t *testing.T) {
-	for i, tc := range algorithmTestCases {
-		got := fmt.Sprintf("%T", tc.r.Replacer())
-		if got != tc.want {
-			t.Errorf("%d. algorithm = %s, want %s", i, got, tc.want)
+// TestPickAlgolangrithm tests that NewReplacer picks the correct algolangrithm.
+func TestPickAlgolangrithm(t *testing.T) {
+	for i, tc := range algolangrithmTestCases {
+		golangt := fmt.Sprintf("%T", tc.r.Replacer())
+		if golangt != tc.want {
+			t.Errorf("%d. algolangrithm = %s, want %s", i, golangt, tc.want)
 		}
 	}
 }
@@ -339,7 +339,7 @@ func (errWriter) Write(p []byte) (n int, err error) {
 // TestWriteStringError tests that WriteString returns an error
 // received from the underlying io.Writer.
 func TestWriteStringError(t *testing.T) {
-	for i, tc := range algorithmTestCases {
+	for i, tc := range algolangrithmTestCases {
 		n, err := tc.r.WriteString(errWriter{}, "abc")
 		if n != 0 || err == nil || err.Error() != "unwritable" {
 			t.Errorf("%d. WriteStringError = %d, %v, want 0, unwritable", i, n, err)
@@ -403,7 +403,7 @@ func TestGenericTrieBuilding(t *testing.T) {
 			args[i*2] = key
 		}
 
-		got := NewReplacer(args...).PrintTrie()
+		golangt := NewReplacer(args...).PrintTrie()
 		// Remove tabs from tc.out
 		wantbuf := make([]byte, 0, len(tc.out))
 		for i := 0; i < len(tc.out); i++ {
@@ -413,8 +413,8 @@ func TestGenericTrieBuilding(t *testing.T) {
 		}
 		want := string(wantbuf)
 
-		if got != want {
-			t.Errorf("PrintTrie(%q)\ngot\n%swant\n%s", tc.in, got, want)
+		if golangt != want {
+			t.Errorf("PrintTrie(%q)\ngolangt\n%swant\n%s", tc.in, golangt, want)
 		}
 	}
 }

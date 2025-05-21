@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package iter_test
@@ -38,7 +38,7 @@ func TestPull(t *testing.T) {
 			wantNG := func(want int) {
 				if xg := runtime.NumGoroutine() - ng; xg != want {
 					t.Helper()
-					t.Errorf("have %d extra goroutines, want %d", xg, want)
+					t.Errorf("have %d extra golangroutines, want %d", xg, want)
 				}
 			}
 			wantNG(0)
@@ -80,7 +80,7 @@ func TestPull2(t *testing.T) {
 			wantNG := func(want int) {
 				if xg := runtime.NumGoroutine() - ng; xg != want {
 					t.Helper()
-					t.Errorf("have %d extra goroutines, want %d", xg, want)
+					t.Errorf("have %d extra golangroutines, want %d", xg, want)
 				}
 			}
 			wantNG(0)
@@ -116,17 +116,17 @@ func TestPull2(t *testing.T) {
 }
 
 // stableNumGoroutine is like NumGoroutine but tries to ensure stability of
-// the value by letting any exiting goroutines finish exiting.
+// the value by letting any exiting golangroutines finish exiting.
 func stableNumGoroutine() int {
 	// The idea behind stablizing the value of NumGoroutine is to
 	// see the same value enough times in a row in between calls to
 	// runtime.Gosched. With GOMAXPROCS=1, we're trying to make sure
-	// that other goroutines run, so that they reach a stable point.
-	// It's not guaranteed, because it is still possible for a goroutine
+	// that other golangroutines run, so that they reach a stable point.
+	// It's not guaranteed, because it is still possible for a golangroutine
 	// to Gosched back into itself, so we require NumGoroutine to be
 	// the same 100 times in a row. This should be more than enough to
-	// ensure all goroutines get a chance to run to completion (or to
-	// some block point) for a small group of test goroutines.
+	// ensure all golangroutines get a chance to run to completion (or to
+	// some block point) for a small group of test golangroutines.
 	defer runtime.GOMAXPROCS(runtime.GOMAXPROCS(1))
 
 	c := 0
@@ -140,7 +140,7 @@ func stableNumGoroutine() int {
 			ng = nng
 		}
 		if c >= 100 {
-			// The same value 100 times in a row is good enough.
+			// The same value 100 times in a row is golangod enough.
 			return ng
 		}
 		runtime.Gosched()
@@ -267,7 +267,7 @@ func TestPullPanic(t *testing.T) {
 		next, stop := Pull(panicCleanupSeq())
 		x, ok := next()
 		if !ok || x != 55 {
-			t.Fatalf("expected (55, true) from next, got (%d, %t)", x, ok)
+			t.Fatalf("expected (55, true) from next, golangt (%d, %t)", x, ok)
 		}
 		if !panicsWith("boom", func() { stop() }) {
 			t.Fatal("failed to propagate panic on stop")
@@ -314,7 +314,7 @@ func TestPull2Panic(t *testing.T) {
 		next, stop := Pull2(panicCleanupSeq2())
 		x, y, ok := next()
 		if !ok || x != 55 || y != 100 {
-			t.Fatalf("expected (55, 100, true) from next, got (%d, %d, %t)", x, y, ok)
+			t.Fatalf("expected (55, 100, true) from next, golangt (%d, %d, %t)", x, y, ok)
 		}
 		if !panicsWith("boom", func() { stop() }) {
 			t.Fatal("failed to propagate panic on stop")
@@ -361,8 +361,8 @@ func TestPullGoexit(t *testing.T) {
 	t.Run("next", func(t *testing.T) {
 		var next func() (int, bool)
 		var stop func()
-		if !goexits(t, func() {
-			next, stop = Pull(goexitSeq())
+		if !golangexits(t, func() {
+			next, stop = Pull(golangexitSeq())
 			next()
 		}) {
 			t.Fatal("failed to Goexit from next")
@@ -373,12 +373,12 @@ func TestPullGoexit(t *testing.T) {
 		stop()
 	})
 	t.Run("stop", func(t *testing.T) {
-		next, stop := Pull(goexitCleanupSeq())
+		next, stop := Pull(golangexitCleanupSeq())
 		x, ok := next()
 		if !ok || x != 55 {
-			t.Fatalf("expected (55, true) from next, got (%d, %t)", x, ok)
+			t.Fatalf("expected (55, true) from next, golangt (%d, %t)", x, ok)
 		}
-		if !goexits(t, func() {
+		if !golangexits(t, func() {
 			stop()
 		}) {
 			t.Fatal("failed to Goexit from stop")
@@ -392,13 +392,13 @@ func TestPullGoexit(t *testing.T) {
 	})
 }
 
-func goexitSeq() Seq[int] {
+func golangexitSeq() Seq[int] {
 	return func(yield func(int) bool) {
 		runtime.Goexit()
 	}
 }
 
-func goexitCleanupSeq() Seq[int] {
+func golangexitCleanupSeq() Seq[int] {
 	return func(yield func(int) bool) {
 		for {
 			if !yield(55) {
@@ -412,8 +412,8 @@ func TestPull2Goexit(t *testing.T) {
 	t.Run("next", func(t *testing.T) {
 		var next func() (int, int, bool)
 		var stop func()
-		if !goexits(t, func() {
-			next, stop = Pull2(goexitSeq2())
+		if !golangexits(t, func() {
+			next, stop = Pull2(golangexitSeq2())
 			next()
 		}) {
 			t.Fatal("failed to Goexit from next")
@@ -424,12 +424,12 @@ func TestPull2Goexit(t *testing.T) {
 		stop()
 	})
 	t.Run("stop", func(t *testing.T) {
-		next, stop := Pull2(goexitCleanupSeq2())
+		next, stop := Pull2(golangexitCleanupSeq2())
 		x, y, ok := next()
 		if !ok || x != 55 || y != 100 {
-			t.Fatalf("expected (55, 100, true) from next, got (%d, %d, %t)", x, y, ok)
+			t.Fatalf("expected (55, 100, true) from next, golangt (%d, %d, %t)", x, y, ok)
 		}
-		if !goexits(t, func() {
+		if !golangexits(t, func() {
 			stop()
 		}) {
 			t.Fatal("failed to Goexit from stop")
@@ -443,13 +443,13 @@ func TestPull2Goexit(t *testing.T) {
 	})
 }
 
-func goexitSeq2() Seq2[int, int] {
+func golangexitSeq2() Seq2[int, int] {
 	return func(yield func(int, int) bool) {
 		runtime.Goexit()
 	}
 }
 
-func goexitCleanupSeq2() Seq2[int, int] {
+func golangexitCleanupSeq2() Seq2[int, int] {
 	return func(yield func(int, int) bool) {
 		for {
 			if !yield(55, 100) {
@@ -459,11 +459,11 @@ func goexitCleanupSeq2() Seq2[int, int] {
 	}
 }
 
-func goexits(t *testing.T, f func()) bool {
+func golangexits(t *testing.T, f func()) bool {
 	t.Helper()
 
 	exit := make(chan bool)
-	go func() {
+	golang func() {
 		cleanExit := false
 		defer func() {
 			exit <- recover() == nil && !cleanExit

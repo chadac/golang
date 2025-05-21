@@ -1,8 +1,8 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !goexperiment.jsonv2
+//golang:build !golangexperiment.jsonv2
 
 package json
 
@@ -39,11 +39,11 @@ type miscPlaneTag struct {
 }
 
 type percentSlashTag struct {
-	V string `json:"text/html%"` // https://golang.org/issue/2718
+	V string `json:"text/html%"` // https://golanglang.org/issue/2718
 }
 
 type punctuationTag struct {
-	V string `json:"!#$%&()*+-./:;<=>?@[]^_{|}~ "` // https://golang.org/issue/3546
+	V string `json:"!#$%&()*+-./:;<=>?@[]^_{|}~ "` // https://golanglang.org/issue/3546
 }
 
 type dashTag struct {
@@ -112,7 +112,7 @@ func TestStructTagObjectKey(t *testing.T) {
 			for k, v := range f.(map[string]any) {
 				if k == tt.key {
 					if s, ok := v.(string); !ok || s != tt.value {
-						t.Fatalf("%s: Unmarshal(%#q) value:\n\tgot:  %q\n\twant: %q", tt.Where, b, s, tt.value)
+						t.Fatalf("%s: Unmarshal(%#q) value:\n\tgolangt:  %q\n\twant: %q", tt.Where, b, s, tt.value)
 					}
 				} else {
 					t.Fatalf("%s: Unmarshal(%#q): unexpected key: %q", tt.Where, b, k)

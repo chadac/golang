@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package noder
@@ -24,7 +24,7 @@ import (
 	"cmd/compile/internal/types"
 	"cmd/compile/internal/types2"
 	"cmd/internal/bio"
-	"cmd/internal/goobj"
+	"cmd/internal/golangobj"
 	"cmd/internal/objabi"
 )
 
@@ -282,7 +282,7 @@ func readExportData(f *os.File) (data string, err error) {
 // addFingerprint reads the linker fingerprint included at the end of
 // the exportdata.
 func addFingerprint(path string, data string) error {
-	var fingerprint goobj.FingerprintType
+	var fingerprint golangobj.FingerprintType
 
 	pos := len(data) - len(fingerprint)
 	if pos < 0 {

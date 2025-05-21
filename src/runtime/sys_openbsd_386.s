@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 //
 // System calls and other sys.stuff for 386, OpenBSD
@@ -8,8 +8,8 @@
 // Some direct system call implementations currently remain.
 //
 
-#include "go_asm.h"
-#include "go_tls.h"
+#include "golang_asm.h"
+#include "golang_tls.h"
 #include "textflag.h"
 
 #define	CLOCK_MONOTONIC	$3
@@ -76,7 +76,7 @@ TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME,$28
 	MOVL	BP, bp-8(SP)
 	MOVL	SI, si-12(SP)
 	MOVL	DI, di-16(SP)
-	// We don't save mxcsr or the x87 control word because sigtrampgo doesn't
+	// We don't save mxcsr or the x87 control word because sigtrampgolang doesn't
 	// modify them.
 
 	MOVL	32(SP), BX // signo
@@ -85,7 +85,7 @@ TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME,$28
 	MOVL	BX, 4(SP)
 	MOVL	40(SP), BX // context
 	MOVL	BX, 8(SP)
-	CALL	runtime·sigtrampgo(SB)
+	CALL	runtime·sigtrampgolang(SB)
 
 	MOVL	di-16(SP), DI
 	MOVL	si-12(SP), SI
@@ -94,7 +94,7 @@ TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME,$28
 	RET
 
 // These trampolines help convert from Go calling convention to C calling convention.
-// They should be called with asmcgocall - note that while asmcgocall does
+// They should be called with asmcgolangcall - note that while asmcgolangcall does
 // stack alignment, creation of a frame undoes it again.
 // A pointer to the arguments is passed on the stack.
 // A single int32 result is returned in AX.

@@ -1,13 +1,13 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file implements scanner, a lexical tokenizer for
 // Go source. After initialization, consecutive calls of
 // next advance the scanner one token at a time.
 //
-// This file, source.go, tokens.go, and token_string.go are self-contained
-// (`go tool compile scanner.go source.go tokens.go token_string.go` compiles)
+// This file, source.golang, tokens.golang, and token_string.golang are self-contained
+// (`golang tool compile scanner.golang source.golang tokens.golang token_string.golang` compiles)
 // and thus could be made into their own package.
 
 package syntax
@@ -83,7 +83,7 @@ func (s *scanner) setLit(kind LitKind, ok bool) {
 // which can be used to distinguish these handler calls from errors.
 //
 // If the scanner mode includes the directives (but not the comments)
-// flag, only comments containing a //line, /*line, or //go: directive
+// flag, only comments containing a //line, /*line, or //golang: directive
 // are reported, in the same way as regular comments.
 func (s *scanner) next() {
 	nlsemi := s.nlsemi
@@ -200,7 +200,7 @@ redo:
 		s.nextch()
 		s.op, s.prec = Add, precAdd
 		if s.ch != '+' {
-			goto assignop
+			golangto assignop
 		}
 		s.nextch()
 		s.nlsemi = true
@@ -210,7 +210,7 @@ redo:
 		s.nextch()
 		s.op, s.prec = Sub, precAdd
 		if s.ch != '-' {
-			goto assignop
+			golangto assignop
 		}
 		s.nextch()
 		s.nlsemi = true
@@ -219,7 +219,7 @@ redo:
 	case '*':
 		s.nextch()
 		s.op, s.prec = Mul, precMul
-		// don't goto assignop - want _Star token
+		// don't golangto assignop - want _Star token
 		if s.ch == '=' {
 			s.nextch()
 			s.tok = _AssignOp
@@ -232,7 +232,7 @@ redo:
 		if s.ch == '/' {
 			s.nextch()
 			s.lineComment()
-			goto redo
+			golangto redo
 		}
 		if s.ch == '*' {
 			s.nextch()
@@ -244,15 +244,15 @@ redo:
 				s.tok = _Semi
 				break
 			}
-			goto redo
+			golangto redo
 		}
 		s.op, s.prec = Div, precMul
-		goto assignop
+		golangto assignop
 
 	case '%':
 		s.nextch()
 		s.op, s.prec = Rem, precMul
-		goto assignop
+		golangto assignop
 
 	case '&':
 		s.nextch()
@@ -267,7 +267,7 @@ redo:
 			s.nextch()
 			s.op = AndNot
 		}
-		goto assignop
+		golangto assignop
 
 	case '|':
 		s.nextch()
@@ -278,12 +278,12 @@ redo:
 			break
 		}
 		s.op, s.prec = Or, precAdd
-		goto assignop
+		golangto assignop
 
 	case '^':
 		s.nextch()
 		s.op, s.prec = Xor, precAdd
-		goto assignop
+		golangto assignop
 
 	case '<':
 		s.nextch()
@@ -296,7 +296,7 @@ redo:
 		if s.ch == '<' {
 			s.nextch()
 			s.op, s.prec = Shl, precMul
-			goto assignop
+			golangto assignop
 		}
 		if s.ch == '-' {
 			s.nextch()
@@ -317,7 +317,7 @@ redo:
 		if s.ch == '>' {
 			s.nextch()
 			s.op, s.prec = Shr, precMul
-			goto assignop
+			golangto assignop
 		}
 		s.op, s.prec = Gtr, precCmp
 		s.tok = _Operator
@@ -351,7 +351,7 @@ redo:
 	default:
 		s.errorf("invalid character %#U", s.ch)
 		s.nextch()
-		goto redo
+		golangto redo
 	}
 
 	return
@@ -753,8 +753,8 @@ func (s *scanner) lineComment() {
 		return
 	}
 
-	// recognize go: or line directives
-	prefix := "go:"
+	// recognize golang: or line directives
+	prefix := "golang:"
 	if s.ch == 'l' {
 		prefix = "line "
 	}

@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
@@ -23,7 +23,7 @@ func unsafestring(ptr unsafe.Pointer, len int) {
 	}
 }
 
-// Keep this code in sync with cmd/compile/internal/walk/builtin.go:walkUnsafeString
+// Keep this code in sync with cmd/compile/internal/walk/builtin.golang:walkUnsafeString
 func unsafestring64(ptr unsafe.Pointer, len64 int64) {
 	len := int(len64)
 	if int64(len) != len64 {
@@ -50,7 +50,7 @@ func panicunsafestringnilptr() {
 	panic(errorString("unsafe.String: ptr is nil and len is not zero"))
 }
 
-// Keep this code in sync with cmd/compile/internal/walk/builtin.go:walkUnsafeSlice
+// Keep this code in sync with cmd/compile/internal/walk/builtin.golang:walkUnsafeSlice
 func unsafeslice(et *_type, ptr unsafe.Pointer, len int) {
 	if len < 0 {
 		panicunsafeslicelen1(sys.GetCallerPC())
@@ -71,7 +71,7 @@ func unsafeslice(et *_type, ptr unsafe.Pointer, len int) {
 	}
 }
 
-// Keep this code in sync with cmd/compile/internal/walk/builtin.go:walkUnsafeSlice
+// Keep this code in sync with cmd/compile/internal/walk/builtin.golang:walkUnsafeSlice
 func unsafeslice64(et *_type, ptr unsafe.Pointer, len64 int64) {
 	len := int(len64)
 	if int64(len) != len64 {
@@ -96,7 +96,7 @@ func panicunsafeslicelen() {
 	panicunsafeslicelen1(sys.GetCallerPC())
 }
 
-//go:yeswritebarrierrec
+//golang:yeswritebarrierrec
 func panicunsafeslicelen1(pc uintptr) {
 	panicCheck1(pc, "unsafe.Slice: len out of range")
 	panic(errorString("unsafe.Slice: len out of range"))
@@ -108,13 +108,13 @@ func panicunsafeslicenilptr() {
 	panicunsafeslicenilptr1(sys.GetCallerPC())
 }
 
-//go:yeswritebarrierrec
+//golang:yeswritebarrierrec
 func panicunsafeslicenilptr1(pc uintptr) {
 	panicCheck1(pc, "unsafe.Slice: ptr is nil and len is not zero")
 	panic(errorString("unsafe.Slice: ptr is nil and len is not zero"))
 }
 
-//go:linkname reflect_unsafeslice reflect.unsafeslice
+//golang:linkname reflect_unsafeslice reflect.unsafeslice
 func reflect_unsafeslice(et *_type, ptr unsafe.Pointer, len int) {
 	unsafeslice(et, ptr, len)
 }

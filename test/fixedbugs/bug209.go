@@ -1,7 +1,7 @@
 // errorcheck
 
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -13,6 +13,6 @@ func main() {
 }
 
 /*
-uetli:/home/gri/go/test/bugs gri$ 6g bug209.go
-bug209.go:5: Bus error
+uetli:/home/gri/golang/test/bugs gri$ 6g bug209.golang
+bug209.golang:5: Bus error
 */

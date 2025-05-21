@@ -1,5 +1,5 @@
 // Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package crypto_test
@@ -101,7 +101,7 @@ func TestDisallowedAssemblyInstructions(t *testing.T) {
 	// the assembly is actually doing. If we do not support specific
 	// instructions in the assembler, we should not be using them until we do.
 	//
-	// Instead of using the output of the 'go tool asm' tool, we take the simple
+	// Instead of using the output of the 'golang tool asm' tool, we take the simple
 	// approach and just search the text of .s files for usage of BYTE and WORD.
 	// We do this because the assembler itself will sometimes insert WORD
 	// instructions for things like function preambles etc.

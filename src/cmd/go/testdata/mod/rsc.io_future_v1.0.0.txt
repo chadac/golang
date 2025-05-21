@@ -3,14 +3,14 @@ written by hand
 
 -- .mod --
 module rsc.io/future
-go 1.999
+golang 1.999
 -- .info --
 {"Version":"v1.0.0"}
--- main.go --
+-- main.golang --
 package main
 
 func main() {
 }
--- go.mod --
+-- golang.mod --
 module rsc.io/future
-go 1.999
+golang 1.999

@@ -1,7 +1,7 @@
-// -lang=go1.12
+// -lang=golang1.12
 
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package p
@@ -25,7 +25,7 @@ const (
 
 // Invalid cases.
 var x int = 1
-var _ = (8 << x /* ERRORx `signed shift count .* requires go1.13 or later` */)
+var _ = (8 << x /* ERRORx `signed shift count .* requires golang1.13 or later` */)
 
 const _ = (1 << 1.2 /* ERROR "truncated to uint" */)
 

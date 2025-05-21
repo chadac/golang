@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ir
@@ -11,8 +11,8 @@ import (
 	"cmd/internal/obj"
 	"cmd/internal/src"
 	"fmt"
-	"go/constant"
-	"go/token"
+	"golang/constant"
+	"golang/token"
 )
 
 // An Expr is a Node that can appear as an expression.
@@ -159,7 +159,7 @@ type BinaryExpr struct {
 	miniExpr
 	X     Node
 	Y     Node
-	RType Node `mknode:"-"` // see reflectdata/helpers.go
+	RType Node `mknode:"-"` // see reflectdata/helpers.golang
 }
 
 func NewBinaryExpr(pos src.XPos, op Op, x, y Node) *BinaryExpr {
@@ -187,10 +187,10 @@ type CallExpr struct {
 	Fun       Node
 	Args      Nodes
 	DeferAt   Node
-	RType     Node    `mknode:"-"` // see reflectdata/helpers.go
+	RType     Node    `mknode:"-"` // see reflectdata/helpers.golang
 	KeepAlive []*Name // vars to be kept alive until call returns
 	IsDDD     bool
-	GoDefer   bool // whether this call is part of a go or defer statement
+	GoDefer   bool // whether this call is part of a golang or defer statement
 }
 
 func NewCallExpr(pos src.XPos, op Op, fun Node, args []Node) *CallExpr {
@@ -222,7 +222,7 @@ type ClosureExpr struct {
 	miniExpr
 	Func     *Func `mknode:"-"`
 	Prealloc *Name
-	IsGoWrap bool // whether this is wrapper closure of a go statement
+	IsGoWrap bool // whether this is wrapper closure of a golang statement
 }
 
 // A CompLitExpr is a composite literal Type{Vals}.
@@ -269,7 +269,7 @@ type ConvExpr struct {
 	// For implementing OCONVIFACE expressions.
 	//
 	// TypeWord is an expression yielding a *runtime._type or
-	// *runtime.itab value to go in the type word of the iface/eface
+	// *runtime.itab value to golang in the type word of the iface/eface
 	// result. See reflectdata.ConvIfaceTypeWord for further details.
 	//
 	// SrcRType is an expression yielding a *runtime._type value for X,
@@ -315,7 +315,7 @@ type IndexExpr struct {
 	miniExpr
 	X        Node
 	Index    Node
-	RType    Node `mknode:"-"` // see reflectdata/helpers.go
+	RType    Node `mknode:"-"` // see reflectdata/helpers.golang
 	Assigned bool
 }
 
@@ -426,7 +426,7 @@ func (n *LogicalExpr) SetOp(op Op) {
 // but *not* OMAKE (that's a pre-typechecking CallExpr).
 type MakeExpr struct {
 	miniExpr
-	RType Node `mknode:"-"` // see reflectdata/helpers.go
+	RType Node `mknode:"-"` // see reflectdata/helpers.golang
 	Len   Node
 	Cap   Node
 }
@@ -1167,7 +1167,7 @@ func MethodSymSuffix(recv *types.Type, msym *types.Sym, suffix string) *types.Sy
 
 	// Find the package the receiver type appeared in. For
 	// anonymous receiver types (i.e., anonymous structs with
-	// embedded fields), use the "go" pseudo-package instead.
+	// embedded fields), use the "golang" pseudo-package instead.
 	rpkg := Pkgs.Go
 	if rsym != nil {
 		rpkg = rsym.Pkg
@@ -1226,7 +1226,7 @@ func LookupMethodSelector(pkg *types.Pkg, name string) (typ, meth *types.Sym, er
 func splitType(name string) (typ, fn string) {
 	// Types are split on the first dot, ignoring everything inside
 	// brackets (instantiation of type parameter, usually including
-	// "go.shape").
+	// "golang.shape").
 	bracket := 0
 	for i, r := range name {
 		if r == '.' && bracket == 0 {

@@ -1,12 +1,12 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package syntax
 
 import (
 	"fmt"
-	"go/build/constraint"
+	"golang/build/constraint"
 	"io"
 	"strconv"
 	"strings"
@@ -26,7 +26,7 @@ type parser struct {
 	first     error    // first error encountered
 	errcnt    int      // number of errors encountered
 	pragma    Pragma   // pragmas
-	goVersion string   // Go version from //go:build line
+	golangVersion string   // Go version from //golang:build line
 
 	top    bool   // in top of file (before package clause)
 	fnest  int    // function nesting level (for error handling)
@@ -53,7 +53,7 @@ func (p *parser) init(file *PosBase, r io.Reader, errh ErrorHandler, pragh Pragm
 				return
 			}
 
-			// otherwise it must be a comment containing a line or go: directive.
+			// otherwise it must be a comment containing a line or golang: directive.
 			// //line directives must be at the start of the line (column colbase).
 			// /*line*/ directives can be anywhere in the line.
 			text := commentText(msg)
@@ -73,11 +73,11 @@ func (p *parser) init(file *PosBase, r io.Reader, errh ErrorHandler, pragh Pragm
 				return
 			}
 
-			// go: directive (but be conservative and test)
-			if strings.HasPrefix(text, "go:") {
-				if p.top && strings.HasPrefix(msg, "//go:build") {
+			// golang: directive (but be conservative and test)
+			if strings.HasPrefix(text, "golang:") {
+				if p.top && strings.HasPrefix(msg, "//golang:build") {
 					if x, err := constraint.Parse(msg); err == nil {
-						p.goVersion = constraint.GoVersion(x)
+						p.golangVersion = constraint.GoVersion(x)
 					}
 				}
 				if pragh != nil {
@@ -190,7 +190,7 @@ func trailingDigits(text string) (uint, uint, bool) {
 	return uint(i + 1), uint(n), err == nil
 }
 
-func (p *parser) got(tok token) bool {
+func (p *parser) golangt(tok token) bool {
 	if p.tok == tok {
 		p.next()
 		return true
@@ -199,15 +199,15 @@ func (p *parser) got(tok token) bool {
 }
 
 func (p *parser) want(tok token) {
-	if !p.got(tok) {
+	if !p.golangt(tok) {
 		p.syntaxError("expected " + tokstring(tok))
 		p.advance()
 	}
 }
 
-// gotAssign is like got(_Assign) but it also accepts ":="
+// golangtAssign is like golangt(_Assign) but it also accepts ":="
 // (and reports an error) for better parser error recovery.
-func (p *parser) gotAssign() bool {
+func (p *parser) golangtAssign() bool {
 	switch p.tok {
 	case _Define:
 		p.syntaxError("expected =")
@@ -285,7 +285,7 @@ func (p *parser) syntaxErrorAt(pos Pos, msg string) {
 	}
 
 	// TODO(gri) This may print "unexpected X, expected Y".
-	//           Consider "got X, expected Y" in this case.
+	//           Consider "golangt X, expected Y" in this case.
 	p.errorAt(pos, "syntax error: unexpected "+tok+msg)
 }
 
@@ -313,7 +313,7 @@ func (p *parser) error(msg string)       { p.errorAt(p.pos(), msg) }
 func (p *parser) syntaxError(msg string) { p.syntaxErrorAt(p.pos(), msg) }
 
 // The stopset contains keywords that start a statement.
-// They are good synchronization points in case of syntax
+// They are golangod synchronization points in case of syntax
 // errors and (usually) shouldn't be skipped over.
 const stopset uint64 = 1<<_Break |
 	1<<_Const |
@@ -404,9 +404,9 @@ func (p *parser) fileOrNil() *File {
 	f.pos = p.pos()
 
 	// PackageClause
-	f.GoVersion = p.goVersion
+	f.GoVersion = p.golangVersion
 	p.top = false
-	if !p.got(_Package) {
+	if !p.golangt(_Package) {
 		p.syntaxError("package statement must be first")
 		return nil
 	}
@@ -466,7 +466,7 @@ func (p *parser) fileOrNil() *File {
 		// since comments before may set pragmas for the next function decl.
 		p.clearPragma()
 
-		if p.tok != _EOF && !p.got(_Semi) {
+		if p.tok != _EOF && !p.golangt(_Semi) {
 			p.syntaxError("after top level declaration")
 			p.advance(_Import, _Const, _Type, _Var, _Func)
 		}
@@ -505,7 +505,7 @@ func (p *parser) list(context string, sep, close token, f func() bool) Pos {
 	for p.tok != _EOF && p.tok != close && !done {
 		done = f()
 		// sep is optional before close
-		if !p.got(sep) && p.tok != close {
+		if !p.golangt(sep) && p.tok != close {
 			p.syntaxError(fmt.Sprintf("in %s; possibly missing %s or %s", context, tokstring(sep), tokstring(close)))
 			p.advance(_Rparen, _Rbrack, _Rbrace)
 			if p.tok != close {
@@ -588,7 +588,7 @@ func (p *parser) constDecl(group *Group) Decl {
 	d.NameList = p.nameList(p.name())
 	if p.tok != _EOF && p.tok != _Semi && p.tok != _Rparen {
 		d.Type = p.typeOrNil()
-		if p.gotAssign() {
+		if p.golangtAssign() {
 			d.Values = p.exprList()
 		}
 	}
@@ -651,7 +651,7 @@ func (p *parser) typeDecl(group *Group) Decl {
 				// d.Name "[" pname ptype ...
 				// d.Name "[" pname ptype "," ...
 				d.TParamList = p.paramList(pname, ptype, _Rbrack, true, false) // ptype may be nil
-				d.Alias = p.gotAssign()
+				d.Alias = p.golangtAssign()
 				d.Type = p.typeOrNil()
 			} else {
 				// d.Name "[" pname "]" ...
@@ -667,7 +667,7 @@ func (p *parser) typeDecl(group *Group) Decl {
 			d.Type = p.arrayType(pos, nil)
 		}
 	} else {
-		d.Alias = p.gotAssign()
+		d.Alias = p.golangtAssign()
 		d.Type = p.typeOrNil()
 	}
 
@@ -727,7 +727,7 @@ func extractName(x Expr, force bool) (*Name, Expr) {
 			if len(x.ArgList) == 1 && !x.HasDots && (force || isTypeElem(x.ArgList[0])) {
 				// The parser doesn't keep unnecessary parentheses.
 				// Set the flag below to keep them, for testing
-				// (see go.dev/issues/69206).
+				// (see golang.dev/issues/69206).
 				const keep_parens = false
 				if keep_parens {
 					// x = name (x.ArgList[0])
@@ -771,11 +771,11 @@ func (p *parser) varDecl(group *Group) Decl {
 	d.Pragma = p.takePragma()
 
 	d.NameList = p.nameList(p.name())
-	if p.gotAssign() {
+	if p.golangtAssign() {
 		d.Values = p.exprList()
 	} else {
 		d.Type = p.type_()
-		if p.gotAssign() {
+		if p.golangtAssign() {
 			d.Values = p.exprList()
 		}
 	}
@@ -798,7 +798,7 @@ func (p *parser) funcDeclOrNil() *FuncDecl {
 	f.Pragma = p.takePragma()
 
 	var context string
-	if p.got(_Lparen) {
+	if p.golangt(_Lparen) {
 		context = "method"
 		rcvr := p.paramList(nil, nil, _Rparen, false, false)
 		switch len(rcvr) {
@@ -841,7 +841,7 @@ func (p *parser) funcBody() *BlockStmt {
 	p.fnest--
 
 	// Don't check branches if there were syntax errors in the function
-	// as it may lead to spurious errors (e.g., see test/switch2.go) or
+	// as it may lead to spurious errors (e.g., see test/switch2.golang) or
 	// possibly crashes due to incomplete syntax trees.
 	if p.mode&CheckBranches != 0 && errcnt == p.errcnt {
 		checkBranches(body, p.errh)
@@ -973,7 +973,7 @@ func (p *parser) unaryExpr() Expr {
 	return p.pexpr(nil, true)
 }
 
-// callStmt parses call-like statements that can be preceded by 'defer' and 'go'.
+// callStmt parses call-like statements that can be preceded by 'defer' and 'golang'.
 func (p *parser) callStmt() *CallStmt {
 	if trace {
 		defer p.trace("callStmt")()
@@ -1032,7 +1032,7 @@ func (p *parser) operand(keep_parens bool) Expr {
 		}
 
 		// Parentheses are also not permitted around the expression
-		// in a go/defer statement. In that case, operand is called
+		// in a golang/defer statement. In that case, operand is called
 		// with keep_parens set.
 		if keep_parens {
 			px := new(ParenExpr)
@@ -1119,7 +1119,7 @@ loop:
 
 			case _Lparen:
 				p.next()
-				if p.got(_Type) {
+				if p.golangt(_Type) {
 					t := new(TypeSwitchGuard)
 					// t.Lhs is filled in by parser.simpleStmt
 					t.pos = pos
@@ -1165,8 +1165,8 @@ loop:
 			}
 
 			// x[i:...
-			// For better error message, don't simply use p.want(_Colon) here (go.dev/issue/47704).
-			if !p.got(_Colon) {
+			// For better error message, don't simply use p.want(_Colon) here (golang.dev/issue/47704).
+			if !p.golangt(_Colon) {
 				p.syntaxError("expected comma, : or ]")
 				p.advance(_Comma, _Colon, _Rbrack)
 			}
@@ -1373,7 +1373,7 @@ func (p *parser) typeOrNil() Expr {
 		// '[' oexpr ']' ntype
 		// '[' _DotDotDot ']' ntype
 		p.next()
-		if p.got(_Rbrack) {
+		if p.golangt(_Rbrack) {
 			return p.sliceType(pos)
 		}
 		return p.arrayType(pos, nil)
@@ -1384,7 +1384,7 @@ func (p *parser) typeOrNil() Expr {
 		p.next()
 		t := new(ChanType)
 		t.pos = pos
-		if p.got(_Arrow) {
+		if p.golangt(_Arrow) {
 			t.Dir = SendOnly
 		}
 		t.Elem = p.chanElem()
@@ -1416,7 +1416,7 @@ func (p *parser) typeOrNil() Expr {
 		p.want(_Rparen)
 		// The parser doesn't keep unnecessary parentheses.
 		// Set the flag below to keep them, for testing
-		// (see e.g. tests for go.dev/issue/68639).
+		// (see e.g. tests for golang.dev/issue/68639).
 		const keep_parens = false
 		if keep_parens {
 			px := new(ParenExpr)
@@ -1460,7 +1460,7 @@ func (p *parser) funcType(context string) ([]*Field, *FuncType) {
 	typ.pos = p.pos()
 
 	var tparamList []*Field
-	if p.got(_Lbrack) {
+	if p.golangt(_Lbrack) {
 		if context != "" {
 			// accept but complain
 			p.syntaxErrorAt(typ.pos, context+" must have no type parameters")
@@ -1487,7 +1487,7 @@ func (p *parser) arrayType(pos Pos, len Expr) Expr {
 		defer p.trace("arrayType")()
 	}
 
-	if len == nil && !p.got(_DotDotDot) {
+	if len == nil && !p.golangt(_DotDotDot) {
 		p.xnest++
 		len = p.expr()
 		p.xnest--
@@ -1581,7 +1581,7 @@ func (p *parser) funcResult() []*Field {
 		defer p.trace("funcResult")()
 	}
 
-	if p.got(_Lparen) {
+	if p.golangt(_Lparen) {
 		return p.paramList(nil, nil, _Rparen, false, false)
 	}
 
@@ -1669,7 +1669,7 @@ func (p *parser) fieldDecl(styp *StructType) {
 			p.syntaxError("cannot parenthesize embedded type")
 			p.next()
 			typ = p.qualifiedName(nil)
-			p.got(_Rparen) // no need to complain if missing
+			p.golangt(_Rparen) // no need to complain if missing
 		} else {
 			// *T
 			typ = p.qualifiedName(nil)
@@ -1690,7 +1690,7 @@ func (p *parser) fieldDecl(styp *StructType) {
 			// (T)
 			typ = p.qualifiedName(nil)
 		}
-		p.got(_Rparen) // no need to complain if missing
+		p.golangt(_Rparen) // no need to complain if missing
 		tag := p.oliteral()
 		p.addField(styp, pos, nil, typ, tag)
 
@@ -1707,7 +1707,7 @@ func (p *parser) arrayOrTArgs() Expr {
 
 	pos := p.pos()
 	p.want(_Lbrack)
-	if p.got(_Rbrack) {
+	if p.golangt(_Rbrack) {
 		return p.sliceType(pos)
 	}
 
@@ -1795,7 +1795,7 @@ func (p *parser) methodDecl() *Field {
 		// types. Parse a parameter list and decide afterwards.
 		list := p.paramList(nil, nil, _Rbrack, false, false)
 		if len(list) == 0 {
-			// The type parameter list is not [] but we got nothing
+			// The type parameter list is not [] but we golangt nothing
 			// due to other errors (reported by paramList). Treat
 			// as if [] were absent.
 			if p.tok == _Lparen {
@@ -2098,7 +2098,7 @@ func (p *parser) paramList(name *Name, typ Expr, close token, requireNames, dddo
 			} else {
 				if requireNames {
 					msg = "missing type parameter name"
-					// go.dev/issue/60812
+					// golang.dev/issue/60812
 					if len(list) == 1 {
 						msg += " or invalid array length"
 					}
@@ -2284,7 +2284,7 @@ func (p *parser) labeledStmtOrNil(label *Name) Stmt {
 	// report error at line of ':' token
 	p.syntaxErrorAt(s.pos, "missing statement after label")
 	// we are already at the end of the labeled statement - no need to advance
-	return nil // avoids follow-on errors (see e.g., fixedbugs/bug274.go)
+	return nil // avoids follow-on errors (see e.g., fixedbugs/bug274.golang)
 }
 
 // context must be a non-empty string unless we know that p.tok == _Lbrace.
@@ -2297,11 +2297,11 @@ func (p *parser) blockStmt(context string) *BlockStmt {
 	s.pos = p.pos()
 
 	// people coming from C may forget that braces are mandatory in Go
-	if !p.got(_Lbrace) {
+	if !p.golangt(_Lbrace) {
 		p.syntaxError("expected { after " + context)
 		p.advance(_Name, _Rbrace)
 		s.Rbrace = p.pos() // in case we found "}"
-		if p.got(_Rbrace) {
+		if p.golangt(_Rbrace) {
 			return s
 		}
 	}
@@ -2358,7 +2358,7 @@ func (p *parser) header(keyword token) (init SimpleStmt, cond Expr, post SimpleS
 
 	if p.tok != _Semi {
 		// accept potential varDecl but complain
-		if p.got(_Var) {
+		if p.golangt(_Var) {
 			p.syntaxError(fmt.Sprintf("var declaration not allowed in %s initializer", keyword.String()))
 		}
 		init = p.simpleStmt(nil, keyword)
@@ -2383,14 +2383,14 @@ func (p *parser) header(keyword token) (init SimpleStmt, cond Expr, post SimpleS
 			// asking for a '{' rather than a ';' here leads to a better error message
 			p.want(_Lbrace)
 			if p.tok != _Lbrace {
-				p.advance(_Lbrace, _Rbrace) // for better synchronization (e.g., go.dev/issue/22581)
+				p.advance(_Lbrace, _Rbrace) // for better synchronization (e.g., golang.dev/issue/22581)
 			}
 		}
 		if keyword == _For {
 			if p.tok != _Semi {
 				if p.tok == _Lbrace {
 					p.syntaxError("expected for loop condition")
-					goto done
+					golangto done
 				}
 				condStmt = p.simpleStmt(nil, 0 /* range not permitted */)
 			}
@@ -2466,7 +2466,7 @@ func (p *parser) ifStmt() *IfStmt {
 	s.Init, s.Cond, _ = p.header(_If)
 	s.Then = p.blockStmt("if clause")
 
-	if p.got(_Else) {
+	if p.golangt(_Else) {
 		switch p.tok {
 		case _If:
 			s.Else = p.ifStmt()
@@ -2491,7 +2491,7 @@ func (p *parser) switchStmt() *SwitchStmt {
 
 	s.Init, s.Tag, _ = p.header(_Switch)
 
-	if !p.got(_Lbrace) {
+	if !p.golangt(_Lbrace) {
 		p.syntaxError("missing { after switch clause")
 		p.advance(_Case, _Default, _Rbrace)
 	}
@@ -2513,7 +2513,7 @@ func (p *parser) selectStmt() *SelectStmt {
 	s.pos = p.pos()
 
 	p.want(_Select)
-	if !p.got(_Lbrace) {
+	if !p.golangt(_Lbrace) {
 		p.syntaxError("missing { after select clause")
 		p.advance(_Case, _Default, _Rbrace)
 	}
@@ -2715,10 +2715,10 @@ func (p *parser) stmtList() (l []Stmt) {
 		}
 		l = append(l, s)
 		// ";" is optional before "}"
-		if !p.got(_Semi) && p.tok != _Rbrace {
+		if !p.golangt(_Semi) && p.tok != _Rbrace {
 			p.syntaxError("at end of statement")
 			p.advance(_Semi, _Rbrace, _Case, _Default)
-			p.got(_Semi) // avoid spurious empty statement
+			p.golangt(_Semi) // avoid spurious empty statement
 		}
 	}
 	return
@@ -2737,7 +2737,7 @@ func (p *parser) argList() (list []Expr, hasDots bool) {
 	p.xnest++
 	p.list("argument list", _Comma, _Rparen, func() bool {
 		list = append(list, p.expr())
-		hasDots = p.got(_DotDotDot)
+		hasDots = p.golangt(_DotDotDot)
 		return hasDots
 	})
 	p.xnest--
@@ -2775,7 +2775,7 @@ func (p *parser) nameList(first *Name) []*Name {
 	}
 
 	l := []*Name{first}
-	for p.got(_Comma) {
+	for p.golangt(_Comma) {
 		l = append(l, p.name())
 	}
 
@@ -2823,9 +2823,9 @@ func (p *parser) exprList() Expr {
 	}
 
 	x := p.expr()
-	if p.got(_Comma) {
+	if p.golangt(_Comma) {
 		list := []Expr{x, p.expr()}
-		for p.got(_Comma) {
+		for p.golangt(_Comma) {
 			list = append(list, p.expr())
 		}
 		t := new(ListExpr)
@@ -2855,11 +2855,11 @@ func (p *parser) typeList(strict bool) (x Expr, comma bool) {
 	} else {
 		x = p.expr()
 	}
-	if p.got(_Comma) {
+	if p.golangt(_Comma) {
 		comma = true
 		if t := p.typeOrNil(); t != nil {
 			list := []Expr{x, t}
-			for p.got(_Comma) {
+			for p.golangt(_Comma) {
 				if t = p.typeOrNil(); t == nil {
 					break
 				}

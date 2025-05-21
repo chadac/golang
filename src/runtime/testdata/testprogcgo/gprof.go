@@ -1,16 +1,16 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
 
-// Test taking a goroutine profile with C traceback.
+// Test taking a golangroutine profile with C traceback.
 
 /*
 // Defined in gprof_c.c.
 void CallGoSleep(void);
-void gprofCgoTraceback(void* parg);
-void gprofCgoContext(void* parg);
+void gprofCgolangTraceback(void* parg);
+void gprofCgolangContext(void* parg);
 */
 import "C"
 
@@ -28,14 +28,14 @@ func init() {
 }
 
 func GoroutineProfile() {
-	runtime.SetCgoTraceback(0, unsafe.Pointer(C.gprofCgoTraceback), unsafe.Pointer(C.gprofCgoContext), nil)
+	runtime.SetCgolangTraceback(0, unsafe.Pointer(C.gprofCgolangTraceback), unsafe.Pointer(C.gprofCgolangContext), nil)
 
-	go C.CallGoSleep()
-	go C.CallGoSleep()
-	go C.CallGoSleep()
+	golang C.CallGoSleep()
+	golang C.CallGoSleep()
+	golang C.CallGoSleep()
 	time.Sleep(1 * time.Second)
 
-	prof := pprof.Lookup("goroutine")
+	prof := pprof.Lookup("golangroutine")
 	prof.WriteTo(io.Discard, 1)
 	fmt.Println("OK")
 }

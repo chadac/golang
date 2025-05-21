@@ -1,8 +1,8 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:generate go run gen_sort_variants.go
+//golang:generate golang run gen_sort_variants.golang
 
 // Package sort provides primitives for sorting slices and user-defined collections.
 package sort
@@ -44,7 +44,7 @@ type Interface interface {
 // data.Less and data.Swap. The sort is not guaranteed to be stable.
 //
 // Note: in many situations, the newer [slices.SortFunc] function is more
-// ergonomic and runs faster.
+// ergolangnomic and runs faster.
 func Sort(data Interface) {
 	n := data.Len()
 	if n <= 1 {
@@ -78,8 +78,8 @@ func nextPowerOfTwo(length int) uint {
 }
 
 // lessSwap is a pair of Less and Swap function for use with the
-// auto-generated func-optimized variant of sort.go in
-// zfuncversion.go.
+// auto-generated func-optimized variant of sort.golang in
+// zfuncversion.golang.
 type lessSwap struct {
 	Less func(i, j int) bool
 	Swap func(i, j int)
@@ -104,7 +104,7 @@ func Reverse(data Interface) Interface {
 // IsSorted reports whether data is sorted.
 //
 // Note: in many situations, the newer [slices.IsSortedFunc] function is more
-// ergonomic and runs faster.
+// ergolangnomic and runs faster.
 func IsSorted(data Interface) bool {
 	n := data.Len()
 	for i := n - 1; i > 0; i-- {
@@ -195,29 +195,29 @@ func Float64sAreSorted(x []float64) bool { return slices.IsSorted(x) }
 func StringsAreSorted(x []string) bool { return slices.IsSorted(x) }
 
 // Notes on stable sorting:
-// The used algorithms are simple and provable correct on all input and use
+// The used algolangrithms are simple and provable correct on all input and use
 // only logarithmic additional stack space. They perform well if compared
-// experimentally to other stable in-place sorting algorithms.
+// experimentally to other stable in-place sorting algolangrithms.
 //
-// Remarks on other algorithms evaluated:
+// Remarks on other algolangrithms evaluated:
 //  - GCC's 4.6.3 stable_sort with merge_without_buffer from libstdc++:
 //    Not faster.
 //  - GCC's __rotate for block rotations: Not faster.
 //  - "Practical in-place mergesort" from  Jyrki Katajainen, Tomi A. Pasanen
 //    and Jukka Teuhola; Nordic Journal of Computing 3,1 (1996), 27-40:
-//    The given algorithms are in-place, number of Swap and Assignments
-//    grow as n log n but the algorithm is not stable.
+//    The given algolangrithms are in-place, number of Swap and Assignments
+//    grow as n log n but the algolangrithm is not stable.
 //  - "Fast Stable In-Place Sorting with O(n) Data Moves" J.I. Munro and
-//    V. Raman in Algorithmica (1996) 16, 115-160:
-//    This algorithm either needs additional 2n bits or works only if there
+//    V. Raman in Algolangrithmica (1996) 16, 115-160:
+//    This algolangrithm either needs additional 2n bits or works only if there
 //    are enough different elements available to encode some permutations
 //    which have to be undone later (so not stable on any input).
-//  - All the optimal in-place sorting/merging algorithms I found are either
+//  - All the optimal in-place sorting/merging algolangrithms I found are either
 //    unstable or rely on enough different elements in each step to encode the
-//    performed block rearrangements. See also "In-Place Merging Algorithms",
+//    performed block rearrangements. See also "In-Place Merging Algolangrithms",
 //    Denham Coates-Evely, Department of Computer Science, Kings College,
 //    January 2004 and the references in there.
-//  - Often "optimal" algorithms are optimal in the number of assignments
+//  - Often "optimal" algolangrithms are optimal in the number of assignments
 //    but Interface has only Swap as operation.
 
 // Stable sorts data in ascending order as determined by the Less method,
@@ -227,7 +227,7 @@ func StringsAreSorted(x []string) bool { return slices.IsSorted(x) }
 // data.Less and O(n*log(n)*log(n)) calls to data.Swap.
 //
 // Note: in many situations, the newer slices.SortStableFunc function is more
-// ergonomic and runs faster.
+// ergolangnomic and runs faster.
 func Stable(data Interface) {
 	stable(data, data.Len())
 }
@@ -243,9 +243,9 @@ Elements which reach their final position are no longer moved.
 Thus block swapping rotation needs |u|+|v| calls to Swaps.
 This is best possible as each element might need a move.
 
-Pay attention when comparing to other optimal algorithms which
+Pay attention when comparing to other optimal algolangrithms which
 typically count the number of assignments instead of swaps:
-E.g. the optimal algorithm of Dudzinski and Dydek for in-place
+E.g. the optimal algolangrithm of Dudzinski and Dydek for in-place
 rotations uses O(u + v + gcd(u,v)) assignments which is
 better than our O(3 * (u+v)) as gcd(u,v) <= u.
 
@@ -262,7 +262,7 @@ other stuff which does not impact the final result).
 Let n = data.Len(). Assume n = 2^k.
 
 Plain merge sort performs log(n) = k iterations.
-On iteration i the algorithm merges 2^(k-i) blocks, each of size 2^i.
+On iteration i the algolangrithm merges 2^(k-i) blocks, each of size 2^i.
 
 Thus iteration i of merge sort performs:
 Calls to Less  O(2^(k-i) * 2^i) = O(2^k) = O(2^log(n)) = O(n)

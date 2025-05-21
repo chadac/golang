@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ecdsa
@@ -89,14 +89,14 @@ var fipsSelfTest = sync.OnceFunc(func() {
 			},
 		}
 		drbg := newDRBG(sha512.New, Z, nil, plainPersonalizationString(persStr))
-		got, err := sign(P256(), k, drbg, hash)
+		golangt, err := sign(P256(), k, drbg, hash)
 		if err != nil {
 			return err
 		}
-		if err := verify(P256(), &k.pub, hash, got); err != nil {
+		if err := verify(P256(), &k.pub, hash, golangt); err != nil {
 			return err
 		}
-		if !bytes.Equal(got.R, want.R) || !bytes.Equal(got.S, want.S) {
+		if !bytes.Equal(golangt.R, want.R) || !bytes.Equal(golangt.S, want.S) {
 			return errors.New("unexpected result")
 		}
 		return nil
@@ -121,14 +121,14 @@ var fipsSelfTestDeterministic = sync.OnceFunc(func() {
 			},
 		}
 		drbg := newDRBG(sha512.New, k.d, bits2octets(P256(), hash), nil)
-		got, err := sign(P256(), k, drbg, hash)
+		golangt, err := sign(P256(), k, drbg, hash)
 		if err != nil {
 			return err
 		}
-		if err := verify(P256(), &k.pub, hash, got); err != nil {
+		if err := verify(P256(), &k.pub, hash, golangt); err != nil {
 			return err
 		}
-		if !bytes.Equal(got.R, want.R) || !bytes.Equal(got.S, want.S) {
+		if !bytes.Equal(golangt.R, want.R) || !bytes.Equal(golangt.S, want.S) {
 			return errors.New("unexpected result")
 		}
 		return nil

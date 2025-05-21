@@ -1,8 +1,8 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-package gob
+package golangb
 
 import "fmt"
 
@@ -13,27 +13,27 @@ import "fmt"
 // decoding functions and methods that do not return an error either use
 // panic to report an error or are guaranteed error-free.
 
-// A gobError is used to distinguish errors (panics) generated in this package.
-type gobError struct {
+// A golangbError is used to distinguish errors (panics) generated in this package.
+type golangbError struct {
 	err error
 }
 
 // errorf is like error_ but takes Printf-style arguments to construct an error.
-// It always prefixes the message with "gob: ".
+// It always prefixes the message with "golangb: ".
 func errorf(format string, args ...any) {
-	error_(fmt.Errorf("gob: "+format, args...))
+	error_(fmt.Errorf("golangb: "+format, args...))
 }
 
 // error_ wraps the argument error and uses it as the argument to panic.
 func error_(err error) {
-	panic(gobError{err})
+	panic(golangbError{err})
 }
 
-// catchError is meant to be used as a deferred function to turn a panic(gobError) into a
+// catchError is meant to be used as a deferred function to turn a panic(golangbError) into a
 // plain error. It overwrites the error return of the function that deferred its call.
 func catchError(err *error) {
 	if e := recover(); e != nil {
-		ge, ok := e.(gobError)
+		ge, ok := e.(golangbError)
 		if !ok {
 			panic(e)
 		}

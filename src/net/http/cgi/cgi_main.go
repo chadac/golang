@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package cgi
@@ -54,7 +54,7 @@ func testCGI() {
 	}
 
 	if params.Get("bigresponse") != "" {
-		// 17 MB, for OS X: golang.org/issue/4958
+		// 17 MB, for OS X: golanglang.org/issue/4958
 		line := strings.Repeat("A", 1024)
 		for i := 0; i < 17*1024; i++ {
 			fmt.Printf("%s\r\n", line)

@@ -1,10 +1,10 @@
 // run
 
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Test that goroutines and garbage collection run during init.
+// Test that golangroutines and garbage collection run during init.
 
 package main
 
@@ -14,7 +14,7 @@ var x []byte
 
 func init() {
 	c := make(chan int)
-	go send(c)
+	golang send(c)
 	<-c
 
 	const N = 1000

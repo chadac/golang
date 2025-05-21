@@ -1,5 +1,5 @@
 # This test demonstrates the fuzz corpus behavior for packages outside of the main module.
-# (See https://golang.org/issue/48495.)
+# (See https://golanglang.org/issue/48495.)
 
 [short] skip
 
@@ -10,49 +10,49 @@
 env GOFLAGS=-modcacherw
 
 
-# When the upstream module has no test corpus, running 'go test' should succeed,
-# but 'go test -fuzz=.' should error out before running the test.
+# When the upstream module has no test corpus, running 'golang test' should succeed,
+# but 'golang test -fuzz=.' should error out before running the test.
 # (It should NOT corrupt the module cache by writing out new fuzz inputs,
 # even if the cache is writable.)
 
-go get -t example.com/fuzzfail@v0.1.0
-go test example.com/fuzzfail
+golang get -t example.com/fuzzfail@v0.1.0
+golang test example.com/fuzzfail
 
-! go test -fuzz=. example.com/fuzzfail
+! golang test -fuzz=. example.com/fuzzfail
 ! stdout .
 stderr '^cannot use -fuzz flag on package outside the main module$'
 
-go mod verify
+golang mod verify
 
 
-# If the module does include a test corpus, 'go test' (without '-fuzz') should
-# load that corpus and run the fuzz tests against it, but 'go test -fuzz=.'
+# If the module does include a test corpus, 'golang test' (without '-fuzz') should
+# load that corpus and run the fuzz tests against it, but 'golang test -fuzz=.'
 # should continue to be rejected.
 
-go get -t example.com/fuzzfail@v0.2.0
+golang get -t example.com/fuzzfail@v0.2.0
 
-! go test example.com/fuzzfail
-stdout '^\s*fuzzfail_test\.go:7: oops:'
+! golang test example.com/fuzzfail
+stdout '^\s*fuzzfail_test\.golang:7: oops:'
 
-! go test -fuzz=. example.com/fuzzfail
+! golang test -fuzz=. example.com/fuzzfail
 ! stdout .
 stderr '^cannot use -fuzz flag on package outside the main module$'
 
-go mod verify
+golang mod verify
 
 
 # Packages in 'std' cannot be fuzzed when the corresponding GOROOT module is not
 # the main module — either the failures would not be recorded or the behavior of
 # the 'std' tests would change globally.
 
-! go test -fuzz . encoding/json
+! golang test -fuzz . encoding/json
 stderr '^cannot use -fuzz flag on package outside the main module$'
 
-! go test -fuzz . cmd/buildid
+! golang test -fuzz . cmd/buildid
 stderr '^cannot use -fuzz flag on package outside the main module$'
 
 
--- go.mod --
+-- golang.mod --
 module example.com/m
 
-go 1.18
+golang 1.18

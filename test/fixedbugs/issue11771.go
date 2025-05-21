@@ -1,9 +1,9 @@
 // run
 
-//go:build !nacl && !js && !wasip1 && gc
+//golang:build !nacl && !js && !wasip1 && gc
 
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Issue 11771: Magic comments should ignore carriage returns.
@@ -26,13 +26,13 @@ func main() {
 		return
 	}
 
-	dir, err := ioutil.TempDir("", "go-issue11771")
+	dir, err := ioutil.TempDir("", "golang-issue11771")
 	if err != nil {
 		log.Fatalf("creating temp dir: %v\n", err)
 	}
 	defer os.RemoveAll(dir)
 
-	// The go:nowritebarrier magic comment is only permitted in
+	// The golang:nowritebarrier magic comment is only permitted in
 	// the runtime package.  So we confirm that the compilation
 	// fails.
 
@@ -43,23 +43,23 @@ package main
 func main() {
 }
 `)
-	fmt.Fprintln(&buf, "//go:nowritebarrier\r")
+	fmt.Fprintln(&buf, "//golang:nowritebarrier\r")
 	fmt.Fprintln(&buf, `
 func x() {
 }
 `)
 
-	if err := ioutil.WriteFile(filepath.Join(dir, "x.go"), buf.Bytes(), 0666); err != nil {
+	if err := ioutil.WriteFile(filepath.Join(dir, "x.golang"), buf.Bytes(), 0666); err != nil {
 		log.Fatal(err)
 	}
 
-	cmd := exec.Command("go", "tool", "compile", "-p=p", "x.go")
+	cmd := exec.Command("golang", "tool", "compile", "-p=p", "x.golang")
 	cmd.Dir = dir
 	output, err := cmd.CombinedOutput()
 	if err == nil {
 		log.Fatal("compile succeeded unexpectedly")
 	}
 	if !bytes.Contains(output, []byte("only allowed in runtime")) {
-		log.Fatalf("wrong error message from compiler; got:\n%s\n", output)
+		log.Fatalf("wrong error message from compiler; golangt:\n%s\n", output)
 	}
 }

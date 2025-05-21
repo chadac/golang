@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -11,9 +11,9 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
-	"go/ast"
-	"go/parser"
-	"go/token"
+	"golang/ast"
+	"golang/parser"
+	"golang/token"
 	"internal/coverage"
 	"internal/coverage/encodemeta"
 	"internal/coverage/slicewriter"
@@ -31,29 +31,29 @@ import (
 )
 
 const usageMessage = "" +
-	`Usage of 'go tool cover':
-Given a coverage profile produced by 'go test':
-	go test -coverprofile=c.out
+	`Usage of 'golang tool cover':
+Given a coverage profile produced by 'golang test':
+	golang test -coverprofile=c.out
 
 Open a web browser displaying annotated source code:
-	go tool cover -html=c.out
+	golang tool cover -html=c.out
 
 Write out an HTML file instead of launching a web browser:
-	go tool cover -html=c.out -o coverage.html
+	golang tool cover -html=c.out -o coverage.html
 
 Display coverage percentages to stdout for each function:
-	go tool cover -func=c.out
+	golang tool cover -func=c.out
 
 Finally, to generate modified source code with coverage annotations
-for a package (what go test -cover does):
-	go tool cover -mode=set -var=CoverageVariableName \
-		-pkgcfg=<config> -outfilelist=<file> file1.go ... fileN.go
+for a package (what golang test -cover does):
+	golang tool cover -mode=set -var=CoverageVariableName \
+		-pkgcfg=<config> -outfilelist=<file> file1.golang ... fileN.golang
 
 where -pkgcfg points to a file containing the package path,
-package name, module path, and related info from "go build",
+package name, module path, and related info from "golang build",
 and -outfilelist points to a file containing the filenames
 of the instrumented output files (one per input file).
-See https://pkg.go.dev/cmd/internal/cov/covcmd#CoverPkgConfig for
+See https://pkg.golang.dev/cmd/internal/cov/covcmd#CoverPkgConfig for
 more on the package config.
 `
 
@@ -74,7 +74,7 @@ var (
 	funcOut          = flag.String("func", "", "output coverage profile information for each function")
 	pkgcfg           = flag.String("pkgcfg", "", "enable full-package instrumentation mode using params from specified config file")
 	pkgconfig        covcmd.CoverPkgConfig
-	outputfiles      []string // list of *.cover.go instrumented outputs to write, one per input (set when -pkgcfg is in use)
+	outputfiles      []string // list of *.cover.golang instrumented outputs to write, one per input (set when -pkgcfg is in use)
 	profile          string   // The profile to read; the value of -html or -func
 	counterStmt      func(*File, string) string
 	covervarsoutfile string // an additional Go source file into which we'll write definitions of coverage counter variables + meta data variables (set when -pkgcfg is in use).
@@ -104,7 +104,7 @@ func main() {
 	err := parseFlags()
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
-		fmt.Fprintln(os.Stderr, `For usage information, run "go tool cover -help"`)
+		fmt.Fprintln(os.Stderr, `For usage information, run "golang tool cover -help"`)
 		os.Exit(2)
 	}
 
@@ -157,7 +157,7 @@ func parseFlags() error {
 		case "atomic":
 			counterStmt = atomicCounterStmt
 			cmode = coverage.CtrModeAtomic
-		case "regonly":
+		case "regolangnly":
 			counterStmt = nil
 			cmode = coverage.CtrModeRegOnly
 		case "testmain":
@@ -452,7 +452,7 @@ func (f *File) Visit(node ast.Node) ast.Visitor {
 			return f
 		}
 
-		// Hack: function literals aren't named in the go/ast representation,
+		// Hack: function literals aren't named in the golang/ast representation,
 		// and we don't know what name the compiler will choose. For now,
 		// just make up a descriptive name.
 		pos := n.Pos()
@@ -519,11 +519,11 @@ func (f *File) postFunc(fn ast.Node, funcname string, flit bool, body *ast.Block
 	ppath := pkgconfig.PkgPath
 	filename := ppath + "/" + filepath.Base(fnpos.Filename)
 
-	// The convention for cmd/cover is that if the go command that
-	// kicks off coverage specifies a local import path (e.g. "go test
+	// The convention for cmd/cover is that if the golang command that
+	// kicks off coverage specifies a local import path (e.g. "golang test
 	// -cover ./thispackage"), the tool will capture full pathnames
 	// for source files instead of relative paths, which tend to work
-	// more smoothly for "go tool cover -html". See also issue #56433
+	// more smoothly for "golang tool cover -html". See also issue #56433
 	// for more details.
 	if pkgconfig.Local {
 		filename = f.name
@@ -773,7 +773,7 @@ func (f *File) addCounters(pos, insertPos, blockEnd token.Pos, list []ast.Stmt, 
 			end = f.statementBoundary(stmt)
 			if f.endsBasicSourceBlock(stmt) {
 				// If it is a labeled statement, we need to place a counter between
-				// the label and its statement because it may be the target of a goto
+				// the label and its statement because it may be the target of a golangto
 				// and thus start a basic block. That is, given
 				//	foo: stmt
 				// we need to create
@@ -915,7 +915,7 @@ func (f *File) endsBasicSourceBlock(s ast.Stmt) bool {
 	case *ast.IfStmt:
 		return true
 	case *ast.LabeledStmt:
-		return true // A goto may branch here, starting a new basic block.
+		return true // A golangto may branch here, starting a new basic block.
 	case *ast.RangeStmt:
 		return true
 	case *ast.SwitchStmt:
@@ -1054,7 +1054,7 @@ func (f *File) addVariables(w io.Writer) {
 
 // It is possible for positions to repeat when there is a line
 // directive that does not specify column information and the input
-// has not been passed through gofmt.
+// has not been passed through golangfmt.
 // See issues #27530 and #30746.
 // Tests are TestHtmlUnformatted and TestLineDup.
 // We use a map to avoid duplicates.
@@ -1102,10 +1102,10 @@ func (p *Package) emitMetaData(w io.Writer) {
 		p.emitMetaFile(pkgconfig.EmitMetaFile)
 	}
 
-	// Something went wrong if regonly/testmain mode is in effect and
+	// Something went wrong if regolangnly/testmain mode is in effect and
 	// we have instrumented functions.
 	if counterStmt == nil && len(p.counterLengths) != 0 {
-		panic("internal error: seen functions with regonly/testmain")
+		panic("internal error: seen functions with regolangnly/testmain")
 	}
 
 	// Emit package name.

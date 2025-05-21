@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // issue 7690 - Stack and other routines did not back up initial PC
@@ -27,7 +27,7 @@ func main() {
 	buf1 = buf1[:bytes.IndexByte(buf1, 0)]
 	buf2 = buf2[:n]
 
-	re := regexp.MustCompile(`(?m)^main\.main\(\)\n.*/issue7690.go:([0-9]+)`)
+	re := regexp.MustCompile(`(?m)^main\.main\(\)\n.*/issue7690.golang:([0-9]+)`)
 	m1 := re.FindStringSubmatch(string(buf1))
 	if m1 == nil {
 		println("BUG: cannot find main.main in first trace")

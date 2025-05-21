@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package path_test
@@ -150,10 +150,10 @@ type ExtTest struct {
 }
 
 var exttests = []ExtTest{
-	{"path.go", ".go"},
-	{"path.pb.go", ".go"},
+	{"path.golang", ".golang"},
+	{"path.pb.golang", ".golang"},
 	{"a.dir/b", ""},
-	{"a.dir/b.go", ".go"},
+	{"a.dir/b.golang", ".golang"},
 	{"a.dir/", ""},
 }
 

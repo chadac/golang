@@ -1,12 +1,12 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package walk
 
 import (
 	"encoding/binary"
-	"go/constant"
+	"golang/constant"
 
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/ir"
@@ -440,7 +440,7 @@ func soleComponent(init *ir.Nodes, n ir.Node) ir.Node {
 	if n.Type().SoleComponent() == nil {
 		return n
 	}
-	// Keep in sync with cmd/compile/internal/types/type.go:Type.SoleComponent.
+	// Keep in sync with cmd/compile/internal/types/type.golang:Type.SoleComponent.
 	for {
 		switch {
 		case n.Type().IsStruct():

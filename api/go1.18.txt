@@ -13,69 +13,69 @@ pkg debug/dwarf, type StructField struct, DataBitOffset int64
 pkg debug/elf, const R_PPC64_RELATIVE = 22
 pkg debug/elf, const R_PPC64_RELATIVE R_PPC64
 pkg debug/plan9obj, var ErrNoSymbols error
-pkg go/ast, method (*IndexListExpr) End() token.Pos
-pkg go/ast, method (*IndexListExpr) Pos() token.Pos
-pkg go/ast, type FuncType struct, TypeParams *FieldList
-pkg go/ast, type IndexListExpr struct
-pkg go/ast, type IndexListExpr struct, Indices []Expr
-pkg go/ast, type IndexListExpr struct, Lbrack token.Pos
-pkg go/ast, type IndexListExpr struct, Rbrack token.Pos
-pkg go/ast, type IndexListExpr struct, X Expr
-pkg go/ast, type TypeSpec struct, TypeParams *FieldList
-pkg go/constant, method (Kind) String() string
-pkg go/token, const TILDE = 88
-pkg go/token, const TILDE Token
-pkg go/types, func Instantiate(*Context, Type, []Type, bool) (Type, error)
-pkg go/types, func NewContext() *Context
-pkg go/types, func NewSignature //deprecated
-pkg go/types, func NewSignatureType(*Var, []*TypeParam, []*TypeParam, *Tuple, *Tuple, bool) *Signature
-pkg go/types, func NewTerm(bool, Type) *Term
-pkg go/types, func NewTypeParam(*TypeName, Type) *TypeParam
-pkg go/types, func NewUnion([]*Term) *Union
-pkg go/types, method (*ArgumentError) Error() string
-pkg go/types, method (*ArgumentError) Unwrap() error
-pkg go/types, method (*Interface) IsComparable() bool
-pkg go/types, method (*Interface) IsImplicit() bool
-pkg go/types, method (*Interface) IsMethodSet() bool
-pkg go/types, method (*Interface) MarkImplicit()
-pkg go/types, method (*Named) Origin() *Named
-pkg go/types, method (*Named) SetTypeParams([]*TypeParam)
-pkg go/types, method (*Named) TypeArgs() *TypeList
-pkg go/types, method (*Named) TypeParams() *TypeParamList
-pkg go/types, method (*Signature) RecvTypeParams() *TypeParamList
-pkg go/types, method (*Signature) TypeParams() *TypeParamList
-pkg go/types, method (*Term) String() string
-pkg go/types, method (*Term) Tilde() bool
-pkg go/types, method (*Term) Type() Type
-pkg go/types, method (*TypeList) At(int) Type
-pkg go/types, method (*TypeList) Len() int
-pkg go/types, method (*TypeParam) Constraint() Type
-pkg go/types, method (*TypeParam) Index() int
-pkg go/types, method (*TypeParam) Obj() *TypeName
-pkg go/types, method (*TypeParam) SetConstraint(Type)
-pkg go/types, method (*TypeParam) String() string
-pkg go/types, method (*TypeParam) Underlying() Type
-pkg go/types, method (*TypeParamList) At(int) *TypeParam
-pkg go/types, method (*TypeParamList) Len() int
-pkg go/types, method (*Union) Len() int
-pkg go/types, method (*Union) String() string
-pkg go/types, method (*Union) Term(int) *Term
-pkg go/types, method (*Union) Underlying() Type
-pkg go/types, type ArgumentError struct
-pkg go/types, type ArgumentError struct, Err error
-pkg go/types, type ArgumentError struct, Index int
-pkg go/types, type Config struct, Context *Context
-pkg go/types, type Config struct, GoVersion string
-pkg go/types, type Context struct
-pkg go/types, type Info struct, Instances map[*ast.Ident]Instance
-pkg go/types, type Instance struct
-pkg go/types, type Instance struct, Type Type
-pkg go/types, type Instance struct, TypeArgs *TypeList
-pkg go/types, type Term struct
-pkg go/types, type TypeList struct
-pkg go/types, type TypeParam struct
-pkg go/types, type TypeParamList struct
-pkg go/types, type Union struct
+pkg golang/ast, method (*IndexListExpr) End() token.Pos
+pkg golang/ast, method (*IndexListExpr) Pos() token.Pos
+pkg golang/ast, type FuncType struct, TypeParams *FieldList
+pkg golang/ast, type IndexListExpr struct
+pkg golang/ast, type IndexListExpr struct, Indices []Expr
+pkg golang/ast, type IndexListExpr struct, Lbrack token.Pos
+pkg golang/ast, type IndexListExpr struct, Rbrack token.Pos
+pkg golang/ast, type IndexListExpr struct, X Expr
+pkg golang/ast, type TypeSpec struct, TypeParams *FieldList
+pkg golang/constant, method (Kind) String() string
+pkg golang/token, const TILDE = 88
+pkg golang/token, const TILDE Token
+pkg golang/types, func Instantiate(*Context, Type, []Type, bool) (Type, error)
+pkg golang/types, func NewContext() *Context
+pkg golang/types, func NewSignature //deprecated
+pkg golang/types, func NewSignatureType(*Var, []*TypeParam, []*TypeParam, *Tuple, *Tuple, bool) *Signature
+pkg golang/types, func NewTerm(bool, Type) *Term
+pkg golang/types, func NewTypeParam(*TypeName, Type) *TypeParam
+pkg golang/types, func NewUnion([]*Term) *Union
+pkg golang/types, method (*ArgumentError) Error() string
+pkg golang/types, method (*ArgumentError) Unwrap() error
+pkg golang/types, method (*Interface) IsComparable() bool
+pkg golang/types, method (*Interface) IsImplicit() bool
+pkg golang/types, method (*Interface) IsMethodSet() bool
+pkg golang/types, method (*Interface) MarkImplicit()
+pkg golang/types, method (*Named) Origin() *Named
+pkg golang/types, method (*Named) SetTypeParams([]*TypeParam)
+pkg golang/types, method (*Named) TypeArgs() *TypeList
+pkg golang/types, method (*Named) TypeParams() *TypeParamList
+pkg golang/types, method (*Signature) RecvTypeParams() *TypeParamList
+pkg golang/types, method (*Signature) TypeParams() *TypeParamList
+pkg golang/types, method (*Term) String() string
+pkg golang/types, method (*Term) Tilde() bool
+pkg golang/types, method (*Term) Type() Type
+pkg golang/types, method (*TypeList) At(int) Type
+pkg golang/types, method (*TypeList) Len() int
+pkg golang/types, method (*TypeParam) Constraint() Type
+pkg golang/types, method (*TypeParam) Index() int
+pkg golang/types, method (*TypeParam) Obj() *TypeName
+pkg golang/types, method (*TypeParam) SetConstraint(Type)
+pkg golang/types, method (*TypeParam) String() string
+pkg golang/types, method (*TypeParam) Underlying() Type
+pkg golang/types, method (*TypeParamList) At(int) *TypeParam
+pkg golang/types, method (*TypeParamList) Len() int
+pkg golang/types, method (*Union) Len() int
+pkg golang/types, method (*Union) String() string
+pkg golang/types, method (*Union) Term(int) *Term
+pkg golang/types, method (*Union) Underlying() Type
+pkg golang/types, type ArgumentError struct
+pkg golang/types, type ArgumentError struct, Err error
+pkg golang/types, type ArgumentError struct, Index int
+pkg golang/types, type Config struct, Context *Context
+pkg golang/types, type Config struct, GoVersion string
+pkg golang/types, type Context struct
+pkg golang/types, type Info struct, Instances map[*ast.Ident]Instance
+pkg golang/types, type Instance struct
+pkg golang/types, type Instance struct, Type Type
+pkg golang/types, type Instance struct, TypeArgs *TypeList
+pkg golang/types, type Term struct
+pkg golang/types, type TypeList struct
+pkg golang/types, type TypeParam struct
+pkg golang/types, type TypeParamList struct
+pkg golang/types, type Union struct
 pkg net, func TCPAddrFromAddrPort(netip.AddrPort) *TCPAddr
 pkg net, func UDPAddrFromAddrPort(netip.AddrPort) *UDPAddr
 pkg net, method (*Resolver) LookupNetIP(context.Context, string, string) ([]netip.Addr, error)
@@ -184,13 +184,13 @@ pkg sync, method (*Mutex) TryLock() bool
 pkg sync, method (*RWMutex) TryLock() bool
 pkg sync, method (*RWMutex) TryRLock() bool
 pkg syscall (freebsd-386), type SysProcAttr struct, Pdeathsig Signal
-pkg syscall (freebsd-386-cgo), type SysProcAttr struct, Pdeathsig Signal
+pkg syscall (freebsd-386-cgolang), type SysProcAttr struct, Pdeathsig Signal
 pkg syscall (freebsd-amd64), type SysProcAttr struct, Pdeathsig Signal
-pkg syscall (freebsd-amd64-cgo), type SysProcAttr struct, Pdeathsig Signal
+pkg syscall (freebsd-amd64-cgolang), type SysProcAttr struct, Pdeathsig Signal
 pkg syscall (freebsd-arm), type SysProcAttr struct, Pdeathsig Signal
-pkg syscall (freebsd-arm-cgo), type SysProcAttr struct, Pdeathsig Signal
+pkg syscall (freebsd-arm-cgolang), type SysProcAttr struct, Pdeathsig Signal
 pkg syscall (freebsd-arm64), type SysProcAttr struct, Pdeathsig Signal
-pkg syscall (freebsd-arm64-cgo), type SysProcAttr struct, Pdeathsig Signal
+pkg syscall (freebsd-arm64-cgolang), type SysProcAttr struct, Pdeathsig Signal
 pkg syscall (windows-386), func Syscall //deprecated
 pkg syscall (windows-386), func Syscall12 //deprecated
 pkg syscall (windows-386), func Syscall15 //deprecated

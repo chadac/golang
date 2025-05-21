@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ssa
@@ -18,7 +18,7 @@ func TestMove(t *testing.T) {
 	copy(x[1:], x[:])
 	for i := 1; i < len(x); i++ {
 		if int(x[i]) != i {
-			t.Errorf("Memmove got converted to OpMove in alias-unsafe way. Got %d instead of %d in position %d", int(x[i]), i, i+1)
+			t.Errorf("Memmove golangt converted to OpMove in alias-unsafe way. Got %d instead of %d in position %d", int(x[i]), i, i+1)
 		}
 	}
 }
@@ -28,7 +28,7 @@ func TestMoveSmall(t *testing.T) {
 	copy(x[1:], x[:])
 	for i := 1; i < len(x); i++ {
 		if int(x[i]) != i {
-			t.Errorf("Memmove got converted to OpMove in alias-unsafe way. Got %d instead of %d in position %d", int(x[i]), i, i+1)
+			t.Errorf("Memmove golangt converted to OpMove in alias-unsafe way. Got %d instead of %d in position %d", int(x[i]), i, i+1)
 		}
 	}
 }
@@ -98,7 +98,7 @@ func TestEncodeDecodePPC64WordRotateMask(t *testing.T) {
 		}
 		rotate, mb, me, mask := DecodePPC64RotateMask(result)
 		if rotate != v.rotate || mb != v.mb || me != v.me || mask != v.mask {
-			t.Errorf("DecodePPC64Failure(Test %d) got (%d, %d, %d, %x) expected (%d, %d, %d, %x)", i, rotate, mb, me, mask, v.rotate, v.mb, v.me, v.mask)
+			t.Errorf("DecodePPC64Failure(Test %d) golangt (%d, %d, %d, %x) expected (%d, %d, %d, %x)", i, rotate, mb, me, mask, v.rotate, v.mb, v.me, v.mask)
 		}
 	}
 }
@@ -129,7 +129,7 @@ func TestMergePPC64ClrlsldiSrw(t *testing.T) {
 		} else if !v.valid && result != 0 {
 			t.Errorf("mergePPC64ClrlsldiSrw(Test %d) should return 0", i)
 		} else if r, _, _, m := DecodePPC64RotateMask(result); v.rotate != r || v.mask != m {
-			t.Errorf("mergePPC64ClrlsldiSrw(Test %d) got (%d,0x%x) expected (%d,0x%x)", i, r, m, v.rotate, v.mask)
+			t.Errorf("mergePPC64ClrlsldiSrw(Test %d) golangt (%d,0x%x) expected (%d,0x%x)", i, r, m, v.rotate, v.mask)
 		}
 	}
 }
@@ -162,7 +162,7 @@ func TestMergePPC64ClrlsldiRlwinm(t *testing.T) {
 		} else if !v.valid && result != 0 {
 			t.Errorf("mergePPC64ClrlsldiRlwinm(Test %d) should return 0", i)
 		} else if r, _, _, m := DecodePPC64RotateMask(result); v.rotate != r || v.mask != m {
-			t.Errorf("mergePPC64ClrlsldiRlwinm(Test %d) got (%d,0x%x) expected (%d,0x%x)", i, r, m, v.rotate, v.mask)
+			t.Errorf("mergePPC64ClrlsldiRlwinm(Test %d) golangt (%d,0x%x) expected (%d,0x%x)", i, r, m, v.rotate, v.mask)
 		}
 	}
 }
@@ -191,7 +191,7 @@ func TestMergePPC64SldiSrw(t *testing.T) {
 		} else if !v.valid && result != 0 {
 			t.Errorf("mergePPC64SldiSrw(Test %d) should return 0", i)
 		} else if r, _, _, m := DecodePPC64RotateMask(result); v.rotate != r || v.mask != m {
-			t.Errorf("mergePPC64SldiSrw(Test %d) got (%d,0x%x) expected (%d,0x%x)", i, r, m, v.rotate, v.mask)
+			t.Errorf("mergePPC64SldiSrw(Test %d) golangt (%d,0x%x) expected (%d,0x%x)", i, r, m, v.rotate, v.mask)
 		}
 	}
 }
@@ -219,7 +219,7 @@ func TestMergePPC64AndSrwi(t *testing.T) {
 		} else if !v.valid && result != 0 {
 			t.Errorf("mergePPC64AndSrwi(Test %d) should return 0", i)
 		} else if r, _, _, m := DecodePPC64RotateMask(result); v.rotate != r || v.mask != m {
-			t.Errorf("mergePPC64AndSrwi(Test %d) got (%d,0x%x) expected (%d,0x%x)", i, r, m, v.rotate, v.mask)
+			t.Errorf("mergePPC64AndSrwi(Test %d) golangt (%d,0x%x) expected (%d,0x%x)", i, r, m, v.rotate, v.mask)
 		}
 	}
 }
@@ -265,12 +265,12 @@ func TestDisjointTypes(t *testing.T) {
 		t2 := rttype.FromReflect(reflect.TypeOf(tst.v2))
 		result := disjointTypes(t1, t2)
 		if result != tst.expected {
-			t.Errorf("disjointTypes(%s, %s) got %t expected %t", t1.String(), t2.String(), result, tst.expected)
+			t.Errorf("disjointTypes(%s, %s) golangt %t expected %t", t1.String(), t2.String(), result, tst.expected)
 		}
 	}
 }
 
-//go:noinline
+//golang:noinline
 func foo(p1 *int64, p2 *float64) int64 {
 	*p1 = 10
 	*p2 = 0 // disjointTypes shouldn't consider this and preceding stores as non-aliasing

@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package test
@@ -391,8 +391,8 @@ func TestABIUtilsComputePadding(t *testing.T) {
 	parm := regRes.InParams()[1]
 	padding = parm.ComputePadding(padding)
 	want := "[1 0 0 0]"
-	got := fmt.Sprintf("%+v", padding)
-	if got != want {
-		t.Errorf("padding mismatch: wanted %q got %q\n", want, got)
+	golangt := fmt.Sprintf("%+v", padding)
+	if golangt != want {
+		t.Errorf("padding mismatch: wanted %q golangt %q\n", want, golangt)
 	}
 }

@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file implements (error and trace) message formatting support.
@@ -20,7 +20,7 @@ func sprintf(qf Qualifier, tpSubscripts bool, format string, args ...any) string
 		case nil:
 			arg = "<nil>"
 		case operand:
-			panic("got operand instead of *operand")
+			panic("golangt operand instead of *operand")
 		case *operand:
 			arg = operandString(a, qf)
 		case syntax.Pos:

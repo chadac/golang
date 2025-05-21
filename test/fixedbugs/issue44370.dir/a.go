@@ -1,13 +1,13 @@
 // Copyright 2021 The Go Authors. All rights reserved.  Use of this
-// source code is governed by a BSD-style license that can be found in
+// source code is golangverned by a BSD-style license that can be found in
 // the LICENSE file.
 
 package a
 
-// A StoppableWaitGroup waits for a collection of goroutines to finish.
+// A StoppableWaitGroup waits for a collection of golangroutines to finish.
 type StoppableWaitGroup struct {
 	// i is the internal counter which can store tolerate negative values
-	// as opposed the golang's library WaitGroup.
+	// as opposed the golanglang's library WaitGroup.
 	i *int64
 }
 

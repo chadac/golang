@@ -1,8 +1,8 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build dragonfly || freebsd || linux || solaris
+//golang:build dragolangnfly || freebsd || linux || solaris
 
 package sysrand
 
@@ -15,7 +15,7 @@ import (
 )
 
 func read(b []byte) error {
-	// Linux, DragonFly, and illumos don't have a limit on the buffer size.
+	// Linux, DragolangnFly, and illumos don't have a limit on the buffer size.
 	// FreeBSD has a limit of IOSIZE_MAX, which seems to be either INT_MAX or
 	// SSIZE_MAX. 2^31-1 is a safe and high enough value to use for all of them.
 	//
@@ -23,7 +23,7 @@ func read(b []byte) error {
 	// result in a short read, not an error. Short reads can also happen above
 	// 256 bytes due to signals. Reads up to 256 bytes are guaranteed not to
 	// return short (and not to return an error IF THE POOL IS INITIALIZED) on
-	// at least Linux, FreeBSD, DragonFly, and Oracle Solaris, but we don't make
+	// at least Linux, FreeBSD, DragolangnFly, and Oracle Solaris, but we don't make
 	// use of that.
 	maxSize := math.MaxInt32
 

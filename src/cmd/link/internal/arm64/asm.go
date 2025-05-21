@@ -384,7 +384,7 @@ func adddynrel(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s loade
 			// final dynamically linked address as a dynamic
 			// relocation would provide.
 			switch ldr.SymName(s) {
-			case ".dynsym", ".rela", ".rela.plt", ".got.plt", ".dynamic":
+			case ".dynsym", ".rela", ".rela.plt", ".golangt.plt", ".dynamic":
 				return false
 			}
 		} else {
@@ -428,7 +428,7 @@ func adddynrel(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s loade
 			// Not mark r done here. So we still apply it statically,
 			// so in the file content we'll also have the right offset
 			// to the relocation target. So it can be examined statically
-			// (e.g. go version).
+			// (e.g. golang version).
 			return true
 		}
 
@@ -440,7 +440,7 @@ func adddynrel(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s loade
 			// Not mark r done here. So we still apply it statically,
 			// so in the file content we'll also have the right offset
 			// to the relocation target. So it can be examined statically
-			// (e.g. go version).
+			// (e.g. golang version).
 			return true
 		}
 
@@ -1091,24 +1091,24 @@ func extreloc(target *ld.Target, ldr *loader.Loader, r loader.Reloc, s loader.Sy
 	return loader.ExtReloc{}, false
 }
 
-func elfsetupplt(ctxt *ld.Link, ldr *loader.Loader, plt, gotplt *loader.SymbolBuilder, dynamic loader.Sym) {
+func elfsetupplt(ctxt *ld.Link, ldr *loader.Loader, plt, golangtplt *loader.SymbolBuilder, dynamic loader.Sym) {
 	if plt.Size() == 0 {
 		// stp     x16, x30, [sp, #-16]!
 		// identifying information
 		plt.AddUint32(ctxt.Arch, 0xa9bf7bf0)
 
-		// the following two instructions (adrp + ldr) load *got[2] into x17
-		// adrp    x16, &got[0]
-		plt.AddSymRef(ctxt.Arch, gotplt.Sym(), 16, objabi.R_ARM64_GOT, 4)
+		// the following two instructions (adrp + ldr) load *golangt[2] into x17
+		// adrp    x16, &golangt[0]
+		plt.AddSymRef(ctxt.Arch, golangtplt.Sym(), 16, objabi.R_ARM64_GOT, 4)
 		plt.SetUint32(ctxt.Arch, plt.Size()-4, 0x90000010)
 
-		// <imm> is the offset value of &got[2] to &got[0], the same below
+		// <imm> is the offset value of &golangt[2] to &golangt[0], the same below
 		// ldr     x17, [x16, <imm>]
-		plt.AddSymRef(ctxt.Arch, gotplt.Sym(), 16, objabi.R_ARM64_GOT, 4)
+		plt.AddSymRef(ctxt.Arch, golangtplt.Sym(), 16, objabi.R_ARM64_GOT, 4)
 		plt.SetUint32(ctxt.Arch, plt.Size()-4, 0xf9400211)
 
 		// add     x16, x16, <imm>
-		plt.AddSymRef(ctxt.Arch, gotplt.Sym(), 16, objabi.R_ARM64_PCREL, 4)
+		plt.AddSymRef(ctxt.Arch, golangtplt.Sym(), 16, objabi.R_ARM64_PCREL, 4)
 		plt.SetUint32(ctxt.Arch, plt.Size()-4, 0x91000210)
 
 		// br      x17
@@ -1119,14 +1119,14 @@ func elfsetupplt(ctxt *ld.Link, ldr *loader.Loader, plt, gotplt *loader.SymbolBu
 		plt.AddUint32(ctxt.Arch, 0xd503201f)
 		plt.AddUint32(ctxt.Arch, 0xd503201f)
 
-		// check gotplt.size == 0
-		if gotplt.Size() != 0 {
-			ctxt.Errorf(gotplt.Sym(), "got.plt is not empty at the very beginning")
+		// check golangtplt.size == 0
+		if golangtplt.Size() != 0 {
+			ctxt.Errorf(golangtplt.Sym(), "golangt.plt is not empty at the very beginning")
 		}
-		gotplt.AddAddrPlus(ctxt.Arch, dynamic, 0)
+		golangtplt.AddAddrPlus(ctxt.Arch, dynamic, 0)
 
-		gotplt.AddUint64(ctxt.Arch, 0)
-		gotplt.AddUint64(ctxt.Arch, 0)
+		golangtplt.AddUint64(ctxt.Arch, 0)
+		golangtplt.AddUint64(ctxt.Arch, 0)
 	}
 }
 
@@ -1139,27 +1139,27 @@ func addpltsym(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s loade
 
 	if target.IsElf() {
 		plt := ldr.MakeSymbolUpdater(syms.PLT)
-		gotplt := ldr.MakeSymbolUpdater(syms.GOTPLT)
+		golangtplt := ldr.MakeSymbolUpdater(syms.GOTPLT)
 		rela := ldr.MakeSymbolUpdater(syms.RelaPLT)
 		if plt.Size() == 0 {
 			panic("plt is not set up")
 		}
 
-		// adrp    x16, &got.plt[0]
-		plt.AddAddrPlus4(target.Arch, gotplt.Sym(), gotplt.Size())
+		// adrp    x16, &golangt.plt[0]
+		plt.AddAddrPlus4(target.Arch, golangtplt.Sym(), golangtplt.Size())
 		plt.SetUint32(target.Arch, plt.Size()-4, 0x90000010)
 		relocs := plt.Relocs()
 		plt.SetRelocType(relocs.Count()-1, objabi.R_ARM64_GOT)
 
-		// <offset> is the offset value of &got.plt[n] to &got.plt[0]
+		// <offset> is the offset value of &golangt.plt[n] to &golangt.plt[0]
 		// ldr     x17, [x16, <offset>]
-		plt.AddAddrPlus4(target.Arch, gotplt.Sym(), gotplt.Size())
+		plt.AddAddrPlus4(target.Arch, golangtplt.Sym(), golangtplt.Size())
 		plt.SetUint32(target.Arch, plt.Size()-4, 0xf9400211)
 		relocs = plt.Relocs()
 		plt.SetRelocType(relocs.Count()-1, objabi.R_ARM64_GOT)
 
 		// add     x16, x16, <offset>
-		plt.AddAddrPlus4(target.Arch, gotplt.Sym(), gotplt.Size())
+		plt.AddAddrPlus4(target.Arch, golangtplt.Sym(), golangtplt.Size())
 		plt.SetUint32(target.Arch, plt.Size()-4, 0x91000210)
 		relocs = plt.Relocs()
 		plt.SetRelocType(relocs.Count()-1, objabi.R_ARM64_PCREL)
@@ -1167,11 +1167,11 @@ func addpltsym(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s loade
 		// br      x17
 		plt.AddUint32(target.Arch, 0xd61f0220)
 
-		// add to got.plt: pointer to plt[0]
-		gotplt.AddAddrPlus(target.Arch, plt.Sym(), 0)
+		// add to golangt.plt: pointer to plt[0]
+		golangtplt.AddAddrPlus(target.Arch, plt.Sym(), 0)
 
 		// rela
-		rela.AddAddrPlus(target.Arch, gotplt.Sym(), gotplt.Size()-8)
+		rela.AddAddrPlus(target.Arch, golangtplt.Sym(), golangtplt.Size()-8)
 		sDynid := ldr.SymDynid(s)
 
 		rela.AddUint64(target.Arch, elf.R_INFO(uint32(sDynid), uint32(elf.R_AARCH64_JUMP_SLOT)))
@@ -1370,7 +1370,7 @@ func trampoline(ctxt *ld.Link, ldr *loader.Loader, ri int, rs, s loader.Sym) {
 					if r.Add() != 0 {
 						ctxt.Errorf(s, "nonzero addend for DYNIMPORT call: %v+%d", ldr.SymName(rs), r.Add())
 					}
-					gentrampgot(ctxt, ldr, trampb, rs)
+					gentrampgolangt(ctxt, ldr, trampb, rs)
 				} else {
 					gentramp(ctxt, ldr, trampb, rs, r.Add())
 				}
@@ -1406,7 +1406,7 @@ func gentramp(ctxt *ld.Link, ldr *loader.Loader, tramp *loader.SymbolBuilder, ta
 }
 
 // generate a trampoline to target+offset for a DYNIMPORT symbol via GOT.
-func gentrampgot(ctxt *ld.Link, ldr *loader.Loader, tramp *loader.SymbolBuilder, target loader.Sym) {
+func gentrampgolangt(ctxt *ld.Link, ldr *loader.Loader, tramp *loader.SymbolBuilder, target loader.Sym) {
 	tramp.SetSize(12) // 3 instructions
 	P := make([]byte, tramp.Size())
 	o1 := uint32(0x90000010) // adrp x16, target@GOT

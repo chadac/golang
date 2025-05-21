@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime_test
@@ -47,18 +47,18 @@ func TestCheckPtr(t *testing.T) {
 		tc := tc
 		t.Run(tc.cmd, func(t *testing.T) {
 			t.Parallel()
-			got, err := testenv.CleanCmdEnv(exec.Command(exe, tc.cmd)).CombinedOutput()
+			golangt, err := testenv.CleanCmdEnv(exec.Command(exe, tc.cmd)).CombinedOutput()
 			if err != nil {
 				t.Log(err)
 			}
 			if tc.want == "" {
-				if len(got) > 0 {
-					t.Errorf("output:\n%s\nwant no output", got)
+				if len(golangt) > 0 {
+					t.Errorf("output:\n%s\nwant no output", golangt)
 				}
 				return
 			}
-			if !strings.HasPrefix(string(got), tc.want) {
-				t.Errorf("output:\n%s\n\nwant output starting with: %s", got, tc.want)
+			if !strings.HasPrefix(string(golangt), tc.want) {
+				t.Errorf("output:\n%s\n\nwant output starting with: %s", golangt, tc.want)
 			}
 		})
 	}
@@ -90,18 +90,18 @@ func TestCheckPtr2(t *testing.T) {
 		tc := tc
 		t.Run(tc.cmd, func(t *testing.T) {
 			t.Parallel()
-			got, err := testenv.CleanCmdEnv(exec.Command(exe, tc.cmd)).CombinedOutput()
+			golangt, err := testenv.CleanCmdEnv(exec.Command(exe, tc.cmd)).CombinedOutput()
 			if err != nil {
 				t.Log(err)
 			}
 			if tc.want == "" {
-				if len(got) > 0 {
-					t.Errorf("output:\n%s\nwant no output", got)
+				if len(golangt) > 0 {
+					t.Errorf("output:\n%s\nwant no output", golangt)
 				}
 				return
 			}
-			if !strings.HasPrefix(string(got), tc.want) {
-				t.Errorf("output:\n%s\n\nwant output starting with: %s", got, tc.want)
+			if !strings.HasPrefix(string(golangt), tc.want) {
+				t.Errorf("output:\n%s\n\nwant output starting with: %s", golangt, tc.want)
 			}
 		})
 	}

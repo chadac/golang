@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package errors_test
@@ -25,7 +25,7 @@ func (e MyError) Error() string {
 func oops() error {
 	return MyError{
 		time.Date(1989, 3, 15, 22, 30, 0, 0, time.UTC),
-		"the file system has gone away",
+		"the file system has golangne away",
 	}
 }
 
@@ -33,7 +33,7 @@ func Example() {
 	if err := oops(); err != nil {
 		fmt.Println(err)
 	}
-	// Output: 1989-03-15 22:30:00 +0000 UTC: the file system has gone away
+	// Output: 1989-03-15 22:30:00 +0000 UTC: the file system has golangne away
 }
 
 func ExampleNew() {

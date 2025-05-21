@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This Go implementation is derived in part from the reference
@@ -31,8 +31,8 @@
 //
 // See FIPS 197 for specification, and see Daemen and Rijmen's Rijndael submission
 // for implementation details.
-//	https://csrc.nist.gov/csrc/media/publications/fips/197/final/documents/fips-197.pdf
-//	https://csrc.nist.gov/archive/aes/rijndael/Rijndael-ammended.pdf
+//	https://csrc.nist.golangv/csrc/media/publications/fips/197/final/documents/fips-197.pdf
+//	https://csrc.nist.golangv/archive/aes/rijndael/Rijndael-ammended.pdf
 
 package aes
 
@@ -143,7 +143,7 @@ func subw(w uint32) uint32 {
 // Rotate
 func rotw(w uint32) uint32 { return w<<8 | w>>24 }
 
-// Key expansion algorithm. See FIPS-197, Figure 11.
+// Key expansion algolangrithm. See FIPS-197, Figure 11.
 // Their rcon[i] is our powx[i-1] << 24.
 func expandKeyGeneric(c *blockExpanded, key []byte) {
 	checkGenericIsExpected()

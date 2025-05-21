@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package tar
@@ -69,7 +69,7 @@ func (f *testFile) Write(b []byte) (int, error) {
 	}
 
 	if !strings.HasPrefix(s, string(b)) {
-		return 0, testError{fmt.Errorf("got Write(%q), want Write(%q)", b, s)}
+		return 0, testError{fmt.Errorf("golangt Write(%q), want Write(%q)", b, s)}
 	}
 	if len(s) > len(b) {
 		f.ops[0] = s[len(b):]
@@ -93,7 +93,7 @@ func (f *testFile) Seek(pos int64, whence int) (int64, error) {
 	}
 
 	if s != pos || whence != io.SeekCurrent {
-		return 0, testError{fmt.Errorf("got Seek(%d, %d), want Seek(%d, %d)", pos, whence, s, io.SeekCurrent)}
+		return 0, testError{fmt.Errorf("golangt Seek(%d, %d), want Seek(%d, %d)", pos, whence, s, io.SeekCurrent)}
 	}
 	f.pos += s
 	f.ops = f.ops[1:]
@@ -188,20 +188,20 @@ func TestSparseEntries(t *testing.T) {
 	}}
 
 	for i, v := range vectors {
-		gotValid := validateSparseEntries(v.in, v.size)
-		if gotValid != v.wantValid {
-			t.Errorf("test %d, validateSparseEntries() = %v, want %v", i, gotValid, v.wantValid)
+		golangtValid := validateSparseEntries(v.in, v.size)
+		if golangtValid != v.wantValid {
+			t.Errorf("test %d, validateSparseEntries() = %v, want %v", i, golangtValid, v.wantValid)
 		}
 		if !v.wantValid {
 			continue
 		}
-		gotAligned := alignSparseEntries(append([]sparseEntry{}, v.in...), v.size)
-		if !slices.Equal(gotAligned, v.wantAligned) {
-			t.Errorf("test %d, alignSparseEntries():\ngot  %v\nwant %v", i, gotAligned, v.wantAligned)
+		golangtAligned := alignSparseEntries(append([]sparseEntry{}, v.in...), v.size)
+		if !slices.Equal(golangtAligned, v.wantAligned) {
+			t.Errorf("test %d, alignSparseEntries():\ngolangt  %v\nwant %v", i, golangtAligned, v.wantAligned)
 		}
-		gotInverted := invertSparseEntries(append([]sparseEntry{}, v.in...), v.size)
-		if !slices.Equal(gotInverted, v.wantInverted) {
-			t.Errorf("test %d, inverseSparseEntries():\ngot  %v\nwant %v", i, gotInverted, v.wantInverted)
+		golangtInverted := invertSparseEntries(append([]sparseEntry{}, v.in...), v.size)
+		if !slices.Equal(golangtInverted, v.wantInverted) {
+			t.Errorf("test %d, inverseSparseEntries():\ngolangt  %v\nwant %v", i, golangtInverted, v.wantInverted)
 		}
 	}
 }
@@ -245,7 +245,7 @@ func TestFileInfoHeaderDir(t *testing.T) {
 	if g, e := h.Name, "testdata/"; g != e {
 		t.Errorf("Name = %q; want %q", g, e)
 	}
-	// Ignoring c_ISGID for golang.org/issue/4867
+	// Ignoring c_ISGID for golanglang.org/issue/4867
 	if g, e := h.Mode&^c_ISGID, int64(fi.Mode().Perm()); g != e {
 		t.Errorf("Mode = %#o; want %#o", g, e)
 	}
@@ -318,14 +318,14 @@ func TestRoundTrip(t *testing.T) {
 		t.Fatalf("tr.Next: %v", err)
 	}
 	if !reflect.DeepEqual(rHdr, hdr) {
-		t.Errorf("Header mismatch.\n got %+v\nwant %+v", rHdr, hdr)
+		t.Errorf("Header mismatch.\n golangt %+v\nwant %+v", rHdr, hdr)
 	}
 	rData, err := io.ReadAll(tr)
 	if err != nil {
 		t.Fatalf("Read: %v", err)
 	}
 	if !bytes.Equal(rData, data) {
-		t.Errorf("Data mismatch.\n got %q\nwant %q", rData, data)
+		t.Errorf("Data mismatch.\n golangt %q\nwant %q", rData, data)
 	}
 }
 
@@ -466,45 +466,45 @@ func TestHeaderRoundTrip(t *testing.T) {
 		if fi.IsDir() {
 			name += "/"
 		}
-		if got, want := h2.Name, name; got != want {
-			t.Errorf("i=%d: Name: got %v, want %v", i, got, want)
+		if golangt, want := h2.Name, name; golangt != want {
+			t.Errorf("i=%d: Name: golangt %v, want %v", i, golangt, want)
 		}
-		if got, want := h2.Size, v.h.Size; got != want {
-			t.Errorf("i=%d: Size: got %v, want %v", i, got, want)
+		if golangt, want := h2.Size, v.h.Size; golangt != want {
+			t.Errorf("i=%d: Size: golangt %v, want %v", i, golangt, want)
 		}
-		if got, want := h2.Uid, v.h.Uid; got != want {
-			t.Errorf("i=%d: Uid: got %d, want %d", i, got, want)
+		if golangt, want := h2.Uid, v.h.Uid; golangt != want {
+			t.Errorf("i=%d: Uid: golangt %d, want %d", i, golangt, want)
 		}
-		if got, want := h2.Gid, v.h.Gid; got != want {
-			t.Errorf("i=%d: Gid: got %d, want %d", i, got, want)
+		if golangt, want := h2.Gid, v.h.Gid; golangt != want {
+			t.Errorf("i=%d: Gid: golangt %d, want %d", i, golangt, want)
 		}
-		if got, want := h2.Uname, v.h.Uname; got != want {
-			t.Errorf("i=%d: Uname: got %q, want %q", i, got, want)
+		if golangt, want := h2.Uname, v.h.Uname; golangt != want {
+			t.Errorf("i=%d: Uname: golangt %q, want %q", i, golangt, want)
 		}
-		if got, want := h2.Gname, v.h.Gname; got != want {
-			t.Errorf("i=%d: Gname: got %q, want %q", i, got, want)
+		if golangt, want := h2.Gname, v.h.Gname; golangt != want {
+			t.Errorf("i=%d: Gname: golangt %q, want %q", i, golangt, want)
 		}
-		if got, want := h2.Linkname, v.h.Linkname; got != want {
-			t.Errorf("i=%d: Linkname: got %v, want %v", i, got, want)
+		if golangt, want := h2.Linkname, v.h.Linkname; golangt != want {
+			t.Errorf("i=%d: Linkname: golangt %v, want %v", i, golangt, want)
 		}
-		if got, want := h2.Typeflag, v.h.Typeflag; got != want {
+		if golangt, want := h2.Typeflag, v.h.Typeflag; golangt != want {
 			t.Logf("%#v %#v", v.h, fi.Sys())
-			t.Errorf("i=%d: Typeflag: got %q, want %q", i, got, want)
+			t.Errorf("i=%d: Typeflag: golangt %q, want %q", i, golangt, want)
 		}
-		if got, want := h2.Mode, v.h.Mode; got != want {
-			t.Errorf("i=%d: Mode: got %o, want %o", i, got, want)
+		if golangt, want := h2.Mode, v.h.Mode; golangt != want {
+			t.Errorf("i=%d: Mode: golangt %o, want %o", i, golangt, want)
 		}
-		if got, want := fi.Mode(), v.fm; got != want {
-			t.Errorf("i=%d: fi.Mode: got %o, want %o", i, got, want)
+		if golangt, want := fi.Mode(), v.fm; golangt != want {
+			t.Errorf("i=%d: fi.Mode: golangt %o, want %o", i, golangt, want)
 		}
-		if got, want := h2.AccessTime, v.h.AccessTime; got != want {
-			t.Errorf("i=%d: AccessTime: got %v, want %v", i, got, want)
+		if golangt, want := h2.AccessTime, v.h.AccessTime; golangt != want {
+			t.Errorf("i=%d: AccessTime: golangt %v, want %v", i, golangt, want)
 		}
-		if got, want := h2.ChangeTime, v.h.ChangeTime; got != want {
-			t.Errorf("i=%d: ChangeTime: got %v, want %v", i, got, want)
+		if golangt, want := h2.ChangeTime, v.h.ChangeTime; golangt != want {
+			t.Errorf("i=%d: ChangeTime: golangt %v, want %v", i, golangt, want)
 		}
-		if got, want := h2.ModTime, v.h.ModTime; got != want {
-			t.Errorf("i=%d: ModTime: got %v, want %v", i, got, want)
+		if golangt, want := h2.ModTime, v.h.ModTime; golangt != want {
+			t.Errorf("i=%d: ModTime: golangt %v, want %v", i, golangt, want)
 		}
 		if sysh, ok := fi.Sys().(*Header); !ok || sysh != v.h {
 			t.Errorf("i=%d: Sys didn't return original *Header", i)
@@ -740,16 +740,16 @@ func TestHeaderAllowedFormats(t *testing.T) {
 	for i, v := range vectors {
 		formats, paxHdrs, err := v.header.allowedFormats()
 		if formats != v.formats {
-			t.Errorf("test %d, allowedFormats(): got %v, want %v", i, formats, v.formats)
+			t.Errorf("test %d, allowedFormats(): golangt %v, want %v", i, formats, v.formats)
 		}
 		if formats&FormatPAX > 0 && !maps.Equal(paxHdrs, v.paxHdrs) && !(len(paxHdrs) == 0 && len(v.paxHdrs) == 0) {
-			t.Errorf("test %d, allowedFormats():\ngot  %v\nwant %s", i, paxHdrs, v.paxHdrs)
+			t.Errorf("test %d, allowedFormats():\ngolangt  %v\nwant %s", i, paxHdrs, v.paxHdrs)
 		}
 		if (formats != FormatUnknown) && (err != nil) {
 			t.Errorf("test %d, unexpected error: %v", i, err)
 		}
 		if (formats == FormatUnknown) && (err == nil) {
-			t.Errorf("test %d, got nil-error, want non-nil error", i)
+			t.Errorf("test %d, golangt nil-error, want non-nil error", i)
 		}
 	}
 }
@@ -890,9 +890,9 @@ func TestFileInfoHeaderUseFileInfoNames(t *testing.T) {
 		t.Fatal(err)
 	}
 	if header.Uname != "Uname" {
-		t.Fatalf("header.Uname: got %s, want %s", header.Uname, "Uname")
+		t.Fatalf("header.Uname: golangt %s, want %s", header.Uname, "Uname")
 	}
 	if header.Gname != "Gname" {
-		t.Fatalf("header.Gname: got %s, want %s", header.Gname, "Gname")
+		t.Fatalf("header.Gname: golangt %s, want %s", header.Gname, "Gname")
 	}
 }

@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2016 The Go Authors.  All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -28,12 +28,12 @@ func main() {
 func f1(c chan []byte, start int64) {
 	for x := range c {
 		if delta := inuse() - start; delta < 9<<20 {
-			println("BUG: f1: after alloc: expected delta at least 9MB, got: ", delta)
+			println("BUG: f1: after alloc: expected delta at least 9MB, golangt: ", delta)
 			println(x)
 		}
 		x = nil
 		if delta := inuse() - start; delta > 1<<20 {
-			println("BUG: f1: after alloc: expected delta below 1MB, got: ", delta)
+			println("BUG: f1: after alloc: expected delta below 1MB, golangt: ", delta)
 			println(x)
 		}
 	}
@@ -46,12 +46,12 @@ func f2(c chan []byte, start int64) {
 			break
 		}
 		if delta := inuse() - start; delta < 9<<20 {
-			println("BUG: f2: after alloc: expected delta at least 9MB, got: ", delta)
+			println("BUG: f2: after alloc: expected delta at least 9MB, golangt: ", delta)
 			println(x)
 		}
 		x = nil
 		if delta := inuse() - start; delta > 1<<20 {
-			println("BUG: f2: after alloc: expected delta below 1MB, got: ", delta)
+			println("BUG: f2: after alloc: expected delta below 1MB, golangt: ", delta)
 			println(x)
 		}
 	}

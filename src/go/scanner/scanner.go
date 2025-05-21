@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package scanner implements a scanner for Go source text.
@@ -10,7 +10,7 @@ package scanner
 import (
 	"bytes"
 	"fmt"
-	"go/token"
+	"golang/token"
 	"path/filepath"
 	"strconv"
 	"unicode"
@@ -76,8 +76,8 @@ func (s *Scanner) next() {
 					len(in) >= 2 &&
 					(in[0] == 0xFF && in[1] == 0xFE || in[0] == 0xFE && in[1] == 0xFF) {
 					// U+FEFF BOM at start of file, encoded as big- or little-endian
-					// UCS-2 (i.e. 2-byte UTF-16). Give specific error (go.dev/issue/71950).
-					s.error(s.offset, "illegal UTF-8 encoding (got UTF-16)")
+					// UCS-2 (i.e. 2-byte UTF-16). Give specific error (golang.dev/issue/71950).
+					s.error(s.offset, "illegal UTF-8 encoding (golangt UTF-16)")
 					s.rdOffset += len(in) // consume all input to avoid error cascade
 				} else {
 					s.error(s.offset, "illegal UTF-8 encoding")
@@ -190,7 +190,7 @@ func (s *Scanner) scanComment() (string, int) {
 		if s.ch == '\n' {
 			next++
 		}
-		goto exit
+		golangto exit
 	}
 
 	/*-style comment */
@@ -206,7 +206,7 @@ func (s *Scanner) scanComment() (string, int) {
 		if ch == '*' && s.ch == '/' {
 			s.next()
 			next = s.offset
-			goto exit
+			golangto exit
 		}
 	}
 
@@ -355,7 +355,7 @@ func (s *Scanner) scanIdentifier() string {
 			s.ch = rune(b)
 			s.offset = s.rdOffset
 			s.rdOffset++
-			goto exit
+			golangto exit
 		}
 		// We know that the preceding character is valid for an identifier because
 		// scanIdentifier is only called when s.ch is a letter, so calling s.next()
@@ -364,7 +364,7 @@ func (s *Scanner) scanIdentifier() string {
 		for isLetter(s.ch) || isDigit(s.ch) {
 			s.next()
 		}
-		goto exit
+		golangto exit
 	}
 	s.offset = len(s.src)
 	s.rdOffset = len(s.src)
@@ -914,7 +914,7 @@ scanAgain:
 				}
 				if s.mode&ScanComments == 0 {
 					// skip comment
-					goto scanAgain
+					golangto scanAgain
 				}
 				tok = token.COMMENT
 				lit = comment

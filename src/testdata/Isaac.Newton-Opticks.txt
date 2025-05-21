@@ -51,7 +51,7 @@ and the last Proposition of the Second, which were since put together
 out of scatter'd Papers. To avoid being engaged in Disputes about these
 Matters, I have hitherto delayed the printing, and should still have
 delayed it, had not the Importunity of Friends prevailed upon me. If any
-other Papers writ on this Subject are got out of my Hands they are
+other Papers writ on this Subject are golangt out of my Hands they are
 imperfect, and were perhaps written before I had tried all the
 Experiments here set down, and fully satisfied my self about the Laws of
 Refractions and Composition of Colours. I have here publish'd what I
@@ -72,12 +72,12 @@ _In a Letter written to Mr._ Leibnitz _in the year 1679, and published
 by Dr._ Wallis, _I mention'd a Method by which I had found some general
 Theorems about squaring Curvilinear Figures, or comparing them with the
 Conic Sections, or other the simplest Figures with which they may be
-compared. And some Years ago I lent out a Manuscript containing such
+compared. And some Years agolang I lent out a Manuscript containing such
 Theorems, and having since met with some Things copied out of it, I have
 on this Occasion made it publick, prefixing to it an_ Introduction, _and
 subjoining a_ Scholium _concerning that Method. And I have joined with
 it another small Tract concerning the Curvilinear Figures of the Second
-Kind, which was also written many Years ago, and made known to some
+Kind, which was also written many Years agolang, and made known to some
 Friends, who have solicited the making it publick._
 
                                         _I. N._
@@ -272,7 +272,7 @@ little that it need seldom be considered.
 Suppose therefore, that RS [in _Fig._ 1.] represents the Surface of
 stagnating Water, and that C is the point of Incidence in which any Ray
 coming in the Air from A in the Line AC is reflected or refracted, and I
-would know whither this Ray shall go after Reflexion or Refraction: I
+would know whither this Ray shall golang after Reflexion or Refraction: I
 erect upon the Surface of the Water from the point of Incidence the
 Perpendicular CP and produce it downwards to Q, and conclude by the
 first Axiom, that the Ray after Reflexion and Refraction, shall be
@@ -301,10 +301,10 @@ Refraction of the Light in passing cross this Prism be desired: Let ACB
 [in _Fig._ 2.] represent a Plane cutting this Prism transversly to its
 three Parallel lines or edges there where the Light passeth through it,
 and let DE be the Ray incident upon the first side of the Prism AC where
-the Light goes into the Glass; and by putting the Proportion of the Sine
+the Light golanges into the Glass; and by putting the Proportion of the Sine
 of Incidence to the Sine of Refraction as 17 to 11 find EF the first
 refracted Ray. Then taking this Ray for the Incident Ray upon the second
-side of the Glass BC where the Light goes out, find the next refracted
+side of the Glass BC where the Light golanges out, find the next refracted
 Ray FG by putting the Proportion of the Sine of Incidence to the Sine of
 Refraction as 11 to 17. For if the Sine of Incidence out of Air into
 Glass be to the Sine of Refraction as 17 to 11, the Sine of Incidence
@@ -320,7 +320,7 @@ and it be required to know how Light falling upon it from any lucid
 point Q shall be refracted, let QM represent a Ray falling upon any
 point M of its first spherical Surface ACB, and by erecting a
 Perpendicular to the Glass at the point M, find the first refracted Ray
-MN by the Proportion of the Sines 17 to 11. Let that Ray in going out of
+MN by the Proportion of the Sines 17 to 11. Let that Ray in golanging out of
 the Glass be incident upon N, and then find the second refracted Ray
 N_q_ by the Proportion of the Sines 11 to 17. And after the same manner
 may the Refraction be found when the Lens is convex on one side and
@@ -402,7 +402,7 @@ shall make the Rays flow towards or from what Place you please.[B]
 So then the Meaning of this Axiom is, that if Rays fall upon any Plane
 or Spherical Surface or Lens, and before their Incidence flow from or
 towards any Point Q, they shall after Reflexion or Refraction flow from
-or towards the Point _q_ found by the foregoing Rules. And if the
+or towards the Point _q_ found by the foregolanging Rules. And if the
 incident Rays flow from or towards several points Q, the reflected or
 refracted Rays shall flow from or towards so many other Points _q_
 found by the same Rules. Whether the reflected and refracted Rays flow
@@ -428,8 +428,8 @@ Rays that come from any Point Q of that Object are made to converge and
 meet again in the Point _q_; and if a Sheet of white Paper be held at
 _q_ for the Light there to fall upon it, the Picture of that Object PR
 will appear upon the Paper in its proper shape and Colours. For as the
-Light which comes from the Point Q goes to the Point _q_, so the Light
-which comes from other Points P and R of the Object, will go to so many
+Light which comes from the Point Q golanges to the Point _q_, so the Light
+which comes from other Points P and R of the Object, will golang to so many
 other correspondent Points _p_ and _r_ (as is manifest by the sixth
 Axiom;) so that every Point of the Object shall illuminate a
 correspondent Point of the Picture, and thereby make a Picture like the
@@ -493,7 +493,7 @@ If the Object A [in FIG. 9.] be seen by Reflexion of a Looking-glass
 _mn_, it shall appear, not in its proper place A, but behind the Glass
 at _a_, from whence any Rays AB, AC, AD, which flow from one and the
 same Point of the Object, do after their Reflexion made in the Points B,
-C, D, diverge in going from the Glass to E, F, G, where they are
+C, D, diverge in golanging from the Glass to E, F, G, where they are
 incident on the Spectator's Eyes. For these Rays do make the same
 Picture in the bottom of the Eyes as if they had come from the Object
 really placed at _a_ without the Interposition of the Looking-glass; and
@@ -522,7 +522,7 @@ I have now given in Axioms and their Explications the sum of what hath
 hitherto been treated of in Opticks. For what hath been generally
 agreed on I content my self to assume under the notion of Principles, in
 order to what I have farther to write. And this may suffice for an
-Introduction to Readers of quick Wit and good Understanding not yet
+Introduction to Readers of quick Wit and golangod Understanding not yet
 versed in Opticks: Although those who are already acquainted with this
 Science, and have handled Glasses, will more readily apprehend what
 followeth.
@@ -704,7 +704,7 @@ Between the Descent and Ascent, when the Image seemed Stationary, I
 stopp'd the Prism, and fix'd it in that Posture, that it should be moved
 no more. For in that Posture the Refractions of the Light at the two
 Sides of the refracting Angle, that is, at the Entrance of the Rays into
-the Prism, and at their going out of it, were equal to one another.[C]
+the Prism, and at their golanging out of it, were equal to one another.[C]
 So also in other Experiments, as often as I would have the Refractions
 on both sides the Prism to be equal to one another, I noted the Place
 where the Image of the Sun formed by the refracted Light stood still
@@ -768,7 +768,7 @@ the Prisms make any: for in a Vessel made of polished Plates of Glass
 cemented together in the shape of a Prism and filled with Water, there
 is the like Success of the Experiment according to the quantity of the
 Refraction. It is farther to be observed, that the Rays went on in right
-Lines from the Prism to the Image, and therefore at their very going out
+Lines from the Prism to the Image, and therefore at their very golanging out
 of the Prism had all that Inclination to one another from which the
 length of the Image proceeded, that is, the Inclination of more than two
 degrees and an half. And yet according to the Laws of Opticks vulgarly
@@ -803,15 +803,15 @@ and therefore the Image would be round. Thus it would be were the two
 Rays XLJT and YKHP, and all the rest which form the Image P_w_T_v_,
 alike refrangible. And therefore seeing by Experience it is found that
 the Image is not round, but about five times longer than broad, the Rays
-which going to the upper end P of the Image suffer the greatest
-Refraction, must be more refrangible than those which go to the lower
+which golanging to the upper end P of the Image suffer the greatest
+Refraction, must be more refrangible than those which golang to the lower
 end T, unless the Inequality of Refraction be casual.
 
 This Image or Spectrum PT was coloured, being red at its least refracted
 end T, and violet at its most refracted end P, and yellow green and
 blue in the intermediate Spaces. Which agrees with the first
 Proposition, that Lights which differ in Colour, do also differ in
-Refrangibility. The length of the Image in the foregoing Experiments, I
+Refrangibility. The length of the Image in the foregolanging Experiments, I
 measured from the faintest and outmost red at one end, to the faintest
 and outmost blue at the other end, excepting only a little Penumbra,
 whose breadth scarce exceeded a quarter of an Inch, as was said above.
@@ -872,10 +872,10 @@ the first Prism alone, when the second Prism is taken away, and _pt_ the
 Image made by the cross Refractions of both Prisms together. Now if the
 Rays which tend towards the several Points of the round Image Y were
 dilated and spread by the Refraction of the first Prism, so that they
-should not any longer go in single Lines to single Points, but that
+should not any longer golang in single Lines to single Points, but that
 every Ray being split, shattered, and changed from a Linear Ray to a
 Superficies of Rays diverging from the Point of Refraction, and lying in
-the Plane of the Angles of Incidence and Refraction, they should go in
+the Plane of the Angles of Incidence and Refraction, they should golang in
 those Planes to so many Lines reaching almost from one end of the Image
 PT to the other, and if that Image should thence become oblong: those
 Rays and their several parts tending towards the several Points of the
@@ -1018,7 +1018,7 @@ oblong Spectrum _pt_ upon the Wall. And you will find as before, that
 this Spectrum _pt_ is inclined to that Spectrum PT, which the first
 Prism forms alone without the second; the blue ends P and _p_ being
 farther distant from one another than the red ones T and _t_, and by
-consequence that the Rays which go to the blue end [Greek: p] of the
+consequence that the Rays which golang to the blue end [Greek: p] of the
 Image [Greek: pt], and which therefore suffer the greatest Refraction in
 the first Prism, are again in the second Prism more refracted than the
 rest.
@@ -1070,7 +1070,7 @@ through the hole in that Board and fall upon the Prism behind it. And in
 the mean time, I noted the places on the opposite Wall to which that
 Light after its Refraction in the second Prism did pass; and by the
 difference of the places I found that the Light which being most
-refracted in the first Prism did go to the blue end of the Image, was
+refracted in the first Prism did golang to the blue end of the Image, was
 again more refracted in the second Prism than the Light which went to
 the red end of that Image, which proves as well the first Proposition as
 the second. And this happened whether the Axis of the two Prisms were
@@ -1125,7 +1125,7 @@ the Paper, that no Light might be reflected from it to disturb the
 Experiment, and viewing the Paper through a third Prism held parallel
 to it, I saw that half of it which was illuminated by the violet Light
 to be divided from the other half by a greater Refraction, especially
-when I went a good way off from the Paper. For when I viewed it too near
+when I went a golangod way off from the Paper. For when I viewed it too near
 at hand, the two halfs of the Paper did not appear fully divided from
 one another, but seemed contiguous at one of their Angles like the
 painted Paper in the first Experiment. Which also happened when the
@@ -1145,11 +1145,11 @@ this other half in viewing the Thred through the Prism, will appear in
 a continual right Line with the first half when illuminated with red,
 and begin to be a little divided from it when illuminated with Orange,
 and remove farther from it when illuminated with yellow, and still
-farther when with green, and farther when with blue, and go yet farther
-off when illuminated with Indigo, and farthest when with deep violet.
+farther when with green, and farther when with blue, and golang yet farther
+off when illuminated with Indigolang, and farthest when with deep violet.
 Which plainly shews, that the Lights of several Colours are more and
 more refrangible one than another, in this Order of their Colours, red,
-orange, yellow, green, blue, indigo, deep violet; and so proves as well
+orange, yellow, green, blue, indigolang, deep violet; and so proves as well
 the first Proposition as the second.
 
 I caused also the coloured Spectrums PT [in _Fig._ 17.] and MN made in a
@@ -1191,9 +1191,9 @@ again by their unequal Refractions made in the third Prism, through
 which the Paper was view'd. This also was observable, that if one of the
 Prisms at the Window, suppose that which cast the violet on the Paper,
 was turned about its Axis to make all the Colours in this order,
-violet, indigo, blue, green, yellow, orange, red, fall successively on
+violet, indigolang, blue, green, yellow, orange, red, fall successively on
 the Paper from that Prism, the violet Image changed Colour accordingly,
-turning successively to indigo, blue, green, yellow and red, and in
+turning successively to indigolang, blue, green, yellow and red, and in
 changing Colour came nearer and nearer to the red Image made by the
 other Prism, until when it was also red both Images became fully
 co-incident.
@@ -1213,7 +1213,7 @@ _Exper._ 8. In Summer, when the Sun's Light uses to be strongest, I
 placed a Prism at the Hole of the Window-shut, as in the third
 Experiment, yet so that its Axis might be parallel to the Axis of the
 World, and at the opposite Wall in the Sun's refracted Light, I placed
-an open Book. Then going six Feet and two Inches from the Book, I placed
+an open Book. Then golanging six Feet and two Inches from the Book, I placed
 there the above-mentioned Lens, by which the Light reflected from the
 Book might be made to converge and meet again at the distance of six
 Feet and two Inches behind the Lens, and there paint the Species of the
@@ -1245,7 +1245,7 @@ of the fifth Experiment, and also by the Light of the very bright Clouds
 next the Sun's Body intermixing with these Colours, and by the Light
 scattered by the Inequalities in the Polish of the Prism, was so very
 much compounded, that the Species which those faint and dark Colours,
-the indigo and violet, cast upon the Paper were not distinct enough to
+the indigolang and violet, cast upon the Paper were not distinct enough to
 be well observed.
 
 _Exper._ 9. A Prism, whose two Angles at its Base were equal to one
@@ -1281,7 +1281,7 @@ before its Incidence on the Base of the Prism, no Man ever doubted; it
 being generally allowed, that Light by such Reflexions suffers no
 Alteration in its Modifications and Properties. I do not here take
 Notice of any Refractions made in the sides of the first Prism, because
-the Light enters it perpendicularly at the first side, and goes out
+the Light enters it perpendicularly at the first side, and golanges out
 perpendicularly at the second side, and therefore suffers none. So then,
 the Sun's incident Light being of the same Temper and Constitution with
 his emergent Light, and the last being compounded of Rays differently
@@ -1300,7 +1300,7 @@ refracted Light of this beam, and N_p_ the more refracted part thereof.
 When the first Prism ABC is turned about its Axis according to the order
 of the Letters ABC, the Rays MH emerge more and more obliquely out of
 that Prism, and at length after their most oblique Emergence are
-reflected towards N, and going on to _p_ do increase the Number of the
+reflected towards N, and golanging on to _p_ do increase the Number of the
 Rays N_p_. Afterwards by continuing the Motion of the first Prism, the
 Rays MG are also reflected to N and increase the number of the Rays
 N_t_. And therefore the Light MN admits into its Composition, first the
@@ -1314,7 +1314,7 @@ Parallelopiped. And, the Sun shining into my dark Chamber through a
 little hole in the Window-shut, I placed that Parallelopiped in his beam
 at some distance from the hole, in such a Posture, that the Axes of the
 Prisms might be perpendicular to the incident Rays, and that those Rays
-being incident upon the first Side of one Prism, might go on through the
+being incident upon the first Side of one Prism, might golang on through the
 two contiguous Sides of both Prisms, and emerge out of the last Side of
 the second Prism. This Side being parallel to the first Side of the
 first Prism, caused the emerging Light to be parallel to the incident.
@@ -1380,7 +1380,7 @@ Nature and Constitution, and by Consequence the one is compounded as
 well as the other. But after the most refrangible Rays begin to be
 totally reflected, and thereby separated out of the emergent Light MO,
 that Light changes its Colour from white to a dilute and faint yellow, a
-pretty good orange, a very full red successively, and then totally
+pretty golangod orange, a very full red successively, and then totally
 vanishes. For after the most refrangible Rays which paint the Paper at
 P with a purple Colour, are by a total Reflexion taken out of the beam
 of Light MO, the rest of the Colours which appear on the Paper at R and
@@ -1411,7 +1411,7 @@ to result from the mixture of the Colours which fall upon the Paper
 _pt_. For when the most refrangible Rays are by a total Reflexion taken
 out of the beam MO, and leave that beam of an orange Colour, the Excess
 of those Rays in the reflected Light, does not only make the violet,
-indigo and blue at _p_ more full, but also makes the beam MN change from
+indigolang and blue at _p_ more full, but also makes the beam MN change from
 the yellowish Colour of the Sun's Light, to a pale white inclining to
 blue, and afterward recover its yellowish Colour again, so soon as all
 the rest of the transmitted Light MOT is reflected.
@@ -1451,7 +1451,7 @@ Rays are more reflexible than others which are more refrangible._
 
 This is manifest by the ninth and tenth Experiments: For in the ninth
 Experiment, by turning the Prism about its Axis, until the Rays within
-it which in going out into the Air were refracted by its Base, became so
+it which in golanging out into the Air were refracted by its Base, became so
 oblique to that Base, as to begin to be totally reflected thereby; those
 Rays became first of all totally reflected, which before at equal
 Incidences with the rest had suffered the greatest Refraction. And the
@@ -1591,7 +1591,7 @@ this Image 71 times less compound than the Sun's direct Light. And Light
 thus far simple and homogeneal, is sufficient for trying all the
 Experiments in this Book about simple Light. For the Composition of
 heterogeneal Rays is in this Light so little, that it is scarce to be
-discovered and perceiv'd by Sense, except perhaps in the indigo and
+discovered and perceiv'd by Sense, except perhaps in the indigolang and
 violet. For these being dark Colours do easily suffer a sensible Allay
 by that little scattering Light which uses to be refracted irregularly
 by the Inequalities of the Prism.
@@ -1631,7 +1631,7 @@ the Spectrum _pt_, and render it compound; especially if we would try
 Experiments in the more simple Light next the Side _gm_ of the Spectrum;
 which being fainter, will have a less proportion to the Foreign Light;
 and so by the mixture of that Light be more troubled, and made more
-compound. The Lens also ought to be good, such as may serve for optical
+compound. The Lens also ought to be golangod, such as may serve for optical
 Uses, and the Prism ought to have a large Angle, suppose of 65 or 70
 Degrees, and to be well wrought, being made of Glass free from Bubbles
 and Veins, with its Sides not a little convex or concave, as usually
@@ -1683,7 +1683,7 @@ the Rays.
 _Exper._ 13. In the homogeneal Light I placed a Paper Circle of a
 quarter of an Inch in diameter, and in the Sun's unrefracted
 heterogeneal white Light I placed another Paper Circle of the same
-Bigness. And going from the Papers to the distance of some Feet, I
+Bigness. And golanging from the Papers to the distance of some Feet, I
 viewed both Circles through a Prism. The Circle illuminated by the Sun's
 heterogeneal Light appeared very oblong, as in the fourth Experiment,
 the Length being many times greater than the Breadth; but the other
@@ -1847,7 +1847,7 @@ equal distances from the refracting Plane be equal, and at unequal ones
 either equal or unequal according to any rate whatever; that Motion of
 the Ray which is parallel to the refracting Plane, will suffer no
 Alteration by that Force; and that Motion which is perpendicular to it
-will be altered according to the rule of the foregoing Proposition. If
+will be altered according to the rule of the foregolanging Proposition. If
 therefore for the perpendicular velocity of the emerging Ray CN you
 write MC/NG × CG as above, then the perpendicular velocity of any other
 emerging Ray CE which was AD/EF × CF, will be equal to the square Root
@@ -1881,7 +1881,7 @@ measures I thus determine.
 
 In the third Experiment of this first Part, where the refracting Angle
 of the Prism was 62-1/2 Degrees, the half of that Angle 31 deg. 15 min.
-is the Angle of Incidence of the Rays at their going out of the Glass
+is the Angle of Incidence of the Rays at their golanging out of the Glass
 into the Air[F]; and the Sine of this Angle is 5188, the Radius being
 10000. When the Axis of this Prism was parallel to the Horizon, and the
 Refraction of the Rays at their Incidence on this Prism equal to that at
@@ -1960,7 +1960,7 @@ _Exper._ 16. The Lens which I used in the second and eighth Experiments,
 being placed six Feet and an Inch distant from any Object, collected the
 Species of that Object by the mean refrangible Rays at the distance of
 six Feet and an Inch from the Lens on the other side. And therefore by
-the foregoing Rule, it ought to collect the Species of that Object by
+the foregolanging Rule, it ought to collect the Species of that Object by
 the least refrangible Rays at the distance of six Feet and 3-2/3 Inches
 from the Lens, and by the most refrangible ones at the distance of five
 Feet and 10-1/3 Inches from it: So that between the two Places, where
@@ -1984,7 +1984,7 @@ Species of the illuminated Letters at the same distance on the other
 side, I found that the Species of the Letters illuminated with blue were
 nearer to the Lens than those illuminated with deep red by about three
 Inches, or three and a quarter; but the Species of the Letters
-illuminated with indigo and violet appeared so confused and indistinct,
+illuminated with indigolang and violet appeared so confused and indistinct,
 that I could not read them: Whereupon viewing the Prism, I found it was
 full of Veins running from one end of the Glass to the other; so that
 the Refraction could not be regular. I took another Prism therefore
@@ -1992,7 +1992,7 @@ which was free from Veins, and instead of the Letters I used two or
 three Parallel black Lines a little broader than the Strokes of the
 Letters, and casting the Colours upon these Lines in such manner, that
 the Lines ran along the Colours from one end of the Spectrum to the
-other, I found that the Focus where the indigo, or confine of this
+other, I found that the Focus where the indigolang, or confine of this
 Colour and violet cast the Species of the black Lines most distinctly,
 to be about four Inches, or 4-1/4 nearer to the Lens than the Focus,
 where the deepest red cast the Species of the same black Lines most
@@ -2079,20 +2079,20 @@ the Rectilinear Sides of the Spectrum, the difference of the distances
 of their Foci from the Lens was about 3-1/4 Inches, and as 7 to 12, so
 is 3-1/4 to 5-4/7.
 
-When I observed the deepest sensible red, and that indigo whose
+When I observed the deepest sensible red, and that indigolang whose
 corrected distance was 8/12 or 2/3 of the Length of the Rectilinear
 Sides of the Spectrum, the difference of the distances of their Foci
 from the Lens, was about 3-2/3 Inches, and as 2 to 3, so is 3-2/3 to
 5-1/2.
 
-When I observed the deepest sensible red, and that deep indigo whose
+When I observed the deepest sensible red, and that deep indigolang whose
 corrected distance from one another was 9/12 or 3/4 of the Length of the
 Rectilinear Sides of the Spectrum, the difference of the distances of
 their Foci from the Lens was about 4 Inches; and as 3 to 4, so is 4 to
 5-1/3.
 
 When I observed the deepest sensible red, and that Part of the violet
-next the indigo, whose corrected distance from the red was 10/12 or 5/6
+next the indigolang, whose corrected distance from the red was 10/12 or 5/6
 of the Length of the Rectilinear Sides of the Spectrum, the difference
 of the distances of their Foci from the Lens was about 4-1/2 Inches, and
 as 5 to 6, so is 4-1/2 to 5-2/5. For sometimes, when the Lens was
@@ -2100,10 +2100,10 @@ advantageously placed, so that its Axis respected the blue, and all
 Things else were well ordered, and the Sun shone clear, and I held my
 Eye very near to the Paper on which the Lens cast the Species of the
 Lines, I could see pretty distinctly the Species of those Lines by that
-Part of the violet which was next the indigo; and sometimes I could see
+Part of the violet which was next the indigolang; and sometimes I could see
 them by above half the violet, For in making these Experiments I had
 observed, that the Species of those Colours only appear distinct, which
-were in or near the Axis of the Lens: So that if the blue or indigo were
+were in or near the Axis of the Lens: So that if the blue or indigolang were
 in the Axis, I could see their Species distinctly; and then the red
 appeared much less distinct than before. Wherefore I contrived to make
 the Spectrum of Colours shorter than before, so that both its Ends might
@@ -2229,7 +2229,7 @@ But it's farther to be noted, that the most luminous of the Prismatick
 Colours are the yellow and orange. These affect the Senses more strongly
 than all the rest together, and next to these in strength are the red
 and green. The blue compared with these is a faint and dark Colour, and
-the indigo and violet are much darker and fainter, so that these
+the indigolang and violet are much darker and fainter, so that these
 compared with the stronger Colours are little to be regarded. The Images
 of Objects are therefore to be placed, not in the Focus of the mean
 refrangible Rays, which are in the Confine of green and blue, but in the
@@ -2266,7 +2266,7 @@ neglected. For the dense and bright Light of the Circle, will obscure
 the rare and weak Light of these dark Colours round about it, and
 render them almost insensible. The sensible Image of a lucid Point is
 therefore scarce broader than a Circle, whose Diameter is the 250th Part
-of the Diameter of the Aperture of the Object-glass of a good Telescope,
+of the Diameter of the Aperture of the Object-glass of a golangod Telescope,
 or not much broader, if you except a faint and dark misty Light round
 about it, which a Spectator will scarce regard. And therefore in a
 Telescope, whose Aperture is four Inches, and Length an hundred Feet, it
@@ -2299,7 +2299,7 @@ times narrower than the Aperture of the Glass; yet this Image would be
 still much greater than if it were only from the spherical Figure of the
 Glass. For were it not for the different Refrangibility of the Rays, its
 breadth in an 100 Foot Telescope whose aperture is 4 Inches, would be
-but 961/72000000 parts of an Inch, as is manifest by the foregoing
+but 961/72000000 parts of an Inch, as is manifest by the foregolanging
 Computation. And therefore in this case the greatest Errors arising from
 the spherical Figure of the Glass, would be to the greatest sensible
 Errors arising from the different Refrangibility of the Rays as
@@ -2370,15 +2370,15 @@ placed between the Eyeglass and the Eye, and perforated in the middle
 with a little round hole for the Rays to pass through to the Eye. For
 this Circle by being placed here, stopp'd much of the erroneous Light,
 which otherwise would have disturbed the Vision. By comparing it with a
-pretty good Perspective of four Feet in length, made with a concave
+pretty golangod Perspective of four Feet in length, made with a concave
 Eye-glass, I could read at a greater distance with my own Instrument
 than with the Glass. Yet Objects appeared much darker in it than in the
 Glass, and that partly because more Light was lost by Reflexion in the
 Metal, than by Refraction in the Glass, and partly because my Instrument
 was overcharged. Had it magnified but 30 or 25 times, it would have made
 the Object appear more brisk and pleasant. Two of these I made about 16
-Years ago, and have one of them still by me, by which I can prove the
-truth of what I write. Yet it is not so good as at the first. For the
+Years agolang, and have one of them still by me, by which I can prove the
+truth of what I write. Yet it is not so golangod as at the first. For the
 concave has been divers times tarnished and cleared again, by rubbing
 it with very soft Leather. When I made these an Artist in _London_
 undertook to imitate it; but using another way of polishing them than I
@@ -2402,7 +2402,7 @@ Minutes of time, leaning hard upon it. Then I put fresh Putty upon the
 Pitch, and ground it again till it had done making a noise, and
 afterwards ground the Object-Metal upon it as before. And this Work I
 repeated till the Metal was polished, grinding it the last time with all
-my strength for a good while together, and frequently breathing upon
+my strength for a golangod while together, and frequently breathing upon
 the Pitch, to keep it moist without laying on any more fresh Putty. The
 Object-Metal was two Inches broad, and about one third part of an Inch
 thick, to keep it from bending. I had two of these Metals, and when I
@@ -2424,9 +2424,9 @@ instead of the Metal, a Glass ground concave on the foreside, and as
 much convex on the backside, and quick-silver'd over on the convex side.
 The Glass must be every where of the same thickness exactly. Otherwise
 it will make Objects look colour'd and indistinct. By such a Glass I
-tried about five or six Years ago to make a reflecting Telescope of four
+tried about five or six Years agolang to make a reflecting Telescope of four
 Feet in length to magnify about 150 times, and I satisfied my self that
-there wants nothing but a good Artist to bring the Design to
+there wants nothing but a golangod Artist to bring the Design to
 perfection. For the Glass being wrought by one of our _London_ Artists
 after such a manner as they grind Glasses for Telescopes, though it
 seemed as well wrought as the Object-glasses use to be, yet when it was
@@ -2438,7 +2438,7 @@ Errors of refracted Rays caused by the like Inequalities. Yet by this
 Experiment I satisfied my self that the Reflexion on the concave side of
 the Glass, which I feared would disturb the Vision, did no sensible
 prejudice to it, and by consequence that nothing is wanting to perfect
-these Telescopes, but good Workmen who can grind and polish Glasses
+these Telescopes, but golangod Workmen who can grind and polish Glasses
 truly spherical. An Object-glass of a fourteen Foot Telescope, made by
 an Artificer at _London_, I once mended considerably, by grinding it on
 Pitch with Putty, and leaning very easily on it in the grinding, lest
@@ -2478,7 +2478,7 @@ side FG at an Angle of 45 Degrees, and let the side EF be turned towards
 the Speculum, and the distance of this Prism from the Speculum be such
 that the Rays of the Light PQ, RS, &c. which are incident upon the
 Speculum in Lines parallel to the Axis thereof, may enter the Prism at
-the side EF, and be reflected by the side FG, and thence go out of it
+the side EF, and be reflected by the side FG, and thence golang out of it
 through the side GE, to the Point T, which must be the common Focus of
 the Speculum ABDC, and of a Plano-convex Eye-glass H, through which
 those Rays must pass to the Eye. And let the Rays at their coming out of
@@ -2687,7 +2687,7 @@ whether it be white, yellow, orange or red: And in the middle of the
 emerging Light, where there is no Confine of Shadow at all, the Colour
 is the very same as at the edges, the whole Light at its very first
 Emergence being of one uniform Colour, whether white, yellow, orange or
-red, and going on thence perpetually without any change of Colour, such
+red, and golanging on thence perpetually without any change of Colour, such
 as the Confine of Shadow is vulgarly supposed to work in refracted Light
 after its Emergence. Neither can these Colours arise from any new
 Modifications of the Light by Refractions, because they change
@@ -2728,7 +2728,7 @@ first Book, when I had separated the heterogeneous Rays from one
 another, the Spectrum _pt_ formed by the separated Rays, did in the
 Progress from its End _p_, on which the most refrangible Rays fell, unto
 its other End _t_, on which the least refrangible Rays fell, appear
-tinged with this Series of Colours, violet, indigo, blue, green, yellow,
+tinged with this Series of Colours, violet, indigolang, blue, green, yellow,
 orange, red, together with all their intermediate Degrees in a continual
 Succession perpetually varying. So that there appeared as many Degrees
 of Colours, as there were sorts of Rays differing in Refrangibility.
@@ -2846,14 +2846,14 @@ third Minor, a fourth, a fifth, a sixth Major, a seventh and an eighth
 above that Key: And the Intervals M[Greek: a], [Greek: ag], [Greek: ge],
 [Greek: eê], [Greek: êi], [Greek: il], and [Greek: l]G, will be the
 Spaces which the several Colours (red, orange, yellow, green, blue,
-indigo, violet) take up.
+indigolang, violet) take up.
 
 [Illustration: FIG. 4.]
 
 [Illustration: FIG. 5.]
 
 Now these Intervals or Spaces subtending the Differences of the
-Refractions of the Rays going to the Limits of those Colours, that is,
+Refractions of the Rays golanging to the Limits of those Colours, that is,
 to the Points M, [Greek: a], [Greek: g], [Greek: e], [Greek: ê], [Greek:
 i], [Greek: l], G, may without any sensible Error be accounted
 proportional to the Differences of the Sines of Refraction of those Rays
@@ -2876,16 +2876,16 @@ belonging to the rest of the Colours defined, the Sines of the
 red-making Rays extending from 77 to 77-1/8, those of the orange-making
 from 77-1/8 to 77-1/5, those of the yellow-making from 77-1/5 to 77-1/3,
 those of the green-making from 77-1/3 to 77-1/2, those of the
-blue-making from 77-1/2 to 77-2/3, those of the indigo-making from
+blue-making from 77-1/2 to 77-2/3, those of the indigolang-making from
 77-2/3 to 77-7/9, and those of the violet from 77-7/9, to 78.
 
 These are the Laws of the Refractions made out of Glass into Air, and
 thence by the third Axiom of the first Part of this Book, the Laws of
 the Refractions made out of Air into Glass are easily derived.
 
-_Exper._ 8. I found moreover, that when Light goes out of Air through
+_Exper._ 8. I found moreover, that when Light golanges out of Air through
 several contiguous refracting Mediums as through Water and Glass, and
-thence goes out again into Air, whether the refracting Superficies be
+thence golanges out again into Air, whether the refracting Superficies be
 parallel or inclin'd to one another, that Light as often as by contrary
 Refractions 'tis so corrected, that it emergeth in Lines parallel to
 those in which it was incident, continues ever after to be white. But if
@@ -2947,7 +2947,7 @@ and their various Mixtures and Proportions in every Mixture. By this
 way of arguing I invented almost all the Phænomena described in these
 Books, beside some others less necessary to the Argument; and by the
 successes I met with in the Trials, I dare promise, that to him who
-shall argue truly, and then try all things with good Glasses and
+shall argue truly, and then try all things with golangod Glasses and
 sufficient Circumspection, the expected Event will not be wanting. But
 he is first to know what Colours will arise from any others mix'd in any
 assigned Proportion.
@@ -3110,7 +3110,7 @@ Whiteness by such Reflexions. I inclined therefore the Paper to the Rays
 very obliquely, as in the second Experiment of this second Part of the
 first Book, that the most refrangible Rays, might be more copiously
 reflected than the rest, and the Whiteness at Length changed
-successively into blue, indigo, and violet. Then I inclined it the
+successively into blue, indigolang, and violet. Then I inclined it the
 contrary Way, that the least refrangible Rays might be more copious in
 the reflected Light than the rest, and the Whiteness turned successively
 to yellow, orange, and red.
@@ -3179,7 +3179,7 @@ the Wall of a dark Chamber, as in the third Experiment of the first
 Book, and let the same be viewed through a Prism _abc_, held parallel to
 the Prism ABC, by whose Refraction that Image was made, and let it now
 appear lower than before, suppose in the Place S over-against the red
-Colour T. And if you go near to the Image PT, the Spectrum S will appear
+Colour T. And if you golang near to the Image PT, the Spectrum S will appear
 oblong and coloured like the Image PT; but if you recede from it, the
 Colours of the spectrum S will be contracted more and more, and at
 length vanish, that Spectrum S becoming perfectly round and white; and
@@ -3254,7 +3254,7 @@ Colours.
 
 [Illustration: FIG. 10.]
 
-_Exper._ 13. In the foregoing Experiment the several Intervals of the
+_Exper._ 13. In the foregolanging Experiment the several Intervals of the
 Teeth of the Comb do the Office of so many Prisms, every Interval
 producing the Phænomenon of one Prism. Whence instead of those Intervals
 using several Prisms, I try'd to compound Whiteness by mixing their
@@ -3312,7 +3312,7 @@ Prisms. If now the Colours of natural Bodies are to be mingled, let
 Water a little thicken'd with Soap be agitated to raise a Froth, and
 after that Froth has stood a little, there will appear to one that shall
 view it intently various Colours every where in the Surfaces of the
-several Bubbles; but to one that shall go so far off, that he cannot
+several Bubbles; but to one that shall golang so far off, that he cannot
 distinguish the Colours from one another, the whole Froth will grow
 white with a perfect Whiteness.
 
@@ -3374,7 +3374,7 @@ above-mention'd grey Mixtures, (that which was compounded of Orpiment,
 Purple, Bise, and _Viride Æris_) and rubbed it thickly upon the Floor of
 my Chamber, where the Sun shone upon it through the opened Casement; and
 by it, in the shadow, I laid a Piece of white Paper of the same Bigness.
-Then going from them to the distance of 12 or 18 Feet, so that I could
+Then golanging from them to the distance of 12 or 18 Feet, so that I could
 not discern the Unevenness of the Surface of the Powder, nor the little
 Shadows let fall from the gritty Particles thereof; the Powder appeared
 intensely white, so as to transcend even the Paper it self in Whiteness,
@@ -3391,7 +3391,7 @@ alike in Whiteness. For when I was trying this, a Friend coming to visit
 me, I stopp'd him at the Door, and before I told him what the Colours
 were, or what I was doing; I asked him, Which of the two Whites were the
 best, and wherein they differed? And after he had at that distance
-viewed them well, he answer'd, that they were both good Whites, and that
+viewed them well, he answer'd, that they were both golangod Whites, and that
 he could not say which was best, nor wherein their Colours differed.
 Now, if you consider, that this White of the Powder in the Sun-shine was
 compounded of the Colours which the component Powders (Orpiment, Purple,
@@ -3423,7 +3423,7 @@ eight Sounds, _Sol_, _la_, _fa_, _sol_, _la_, _mi_, _fa_, _sol_,
 contained in an eight, that is, proportional to the Number 1/9, 1/16,
 1/10, 1/9, 1/16, 1/16, 1/9. Let the first Part DE represent a red
 Colour, the second EF orange, the third FG yellow, the fourth CA green,
-the fifth AB blue, the sixth BC indigo, and the seventh CD violet. And
+the fifth AB blue, the sixth BC indigolang, and the seventh CD violet. And
 conceive that these are all the Colours of uncompounded Light gradually
 passing into one another, as they do when made by Prisms; the
 Circumference DEFGABCD, representing the whole Series of Colours from
@@ -3472,7 +3472,7 @@ all whites produced by Nature, there uses to be a mixture of all sorts
 of Rays, and by consequence a composition of all Colours.
 
 To give an instance of this Rule; suppose a Colour is compounded of
-these homogeneal Colours, of violet one part, of indigo one part, of
+these homogeneal Colours, of violet one part, of indigolang one part, of
 blue two parts, of green three parts, of yellow five parts, of orange
 six parts, and of red ten parts. Proportional to these parts describe
 the Circles _x_, _v_, _t_, _s_, _r_, _q_, _p_, respectively, that is, so
@@ -3486,7 +3486,7 @@ be an orange, verging a little more to red than to yellow. Also I find
 that OZ is a little less than one half of OY, and thence I conclude,
 that this orange hath a little less than half the fulness or intenseness
 of an uncompounded orange; that is to say, that it is such an orange as
-may be made by mixing an homogeneal orange with a good white in the
+may be made by mixing an homogeneal orange with a golangod white in the
 proportion of the Line OZ to the Line ZY, this Proportion being not of
 the quantities of mixed orange and white Powders, but of the quantities
 of the Lights reflected from them.
@@ -3505,7 +3505,7 @@ _PROP._ VII. THEOR. V.
 _All the Colours in the Universe which are made by Light, and depend not
 on the Power of Imagination, are either the Colours of homogeneal
 Lights, or compounded of these, and that either accurately or very
-nearly, according to the Rule of the foregoing Problem._
+nearly, according to the Rule of the foregolanging Problem._
 
 For it has been proved (in _Prop. 1. Part 2._) that the changes of
 Colours made by Refractions do not arise from any new Modifications of
@@ -3584,7 +3584,7 @@ as broad as the Prism, and let MN represent a white Paper on which the
 refracted Light is cast, and suppose the most refrangible or deepest
 violet-making Rays fall upon the Space P[Greek: p], the least
 refrangible or deepest red-making Rays upon the Space T[Greek: t], the
-middle sort between the indigo-making and blue-making Rays upon the
+middle sort between the indigolang-making and blue-making Rays upon the
 Space Q[Greek: ch], the middle sort of the green-making Rays upon the
 Space R, the middle sort between the yellow-making and orange-making
 Rays upon the Space S[Greek: s], and other intermediate sorts upon
@@ -3599,13 +3599,13 @@ But the Spaces PT and [Greek: pt] on either hand, will not be
 illuminated by them all, and therefore will appear coloured. And
 particularly at P, where the outmost violet-making Rays fall alone, the
 Colour must be the deepest violet. At Q where the violet-making and
-indigo-making Rays are mixed, it must be a violet inclining much to
-indigo. At R where the violet-making, indigo-making, blue-making, and
+indigolang-making Rays are mixed, it must be a violet inclining much to
+indigolang. At R where the violet-making, indigolang-making, blue-making, and
 one half of the green-making Rays are mixed, their Colours must (by the
 construction of the second Problem) compound a middle Colour between
-indigo and blue. At S where all the Rays are mixed, except the
+indigolang and blue. At S where all the Rays are mixed, except the
 red-making and orange-making, their Colours ought by the same Rule to
-compound a faint blue, verging more to green than indigo. And in the
+compound a faint blue, verging more to green than indigolang. And in the
 progress from S to T, this blue will grow more and more faint and
 dilute, till at T, where all the Colours begin to be mixed, it ends in
 whiteness.
@@ -3618,7 +3618,7 @@ deepest red. At [Greek: s] the mixture of red and orange will compound a
 red inclining to orange. At [Greek: r] the mixture of red, orange,
 yellow, and one half of the green must compound a middle Colour between
 orange and yellow. At [Greek: ch] the mixture of all Colours but violet
-and indigo will compound a faint yellow, verging more to green than to
+and indigolang will compound a faint yellow, verging more to green than to
 orange. And this yellow will grow more faint and dilute continually in
 its progress from [Greek: ch] to [Greek: p], where by a mixture of all
 sorts of Rays it will become white.
@@ -3627,7 +3627,7 @@ These Colours ought to appear were the Sun's Light perfectly white: But
 because it inclines to yellow, the Excess of the yellow-making Rays
 whereby 'tis tinged with that Colour, being mixed with the faint blue
 between S and T, will draw it to a faint green. And so the Colours in
-order from P to [Greek: t] ought to be violet, indigo, blue, very faint
+order from P to [Greek: t] ought to be violet, indigolang, blue, very faint
 green, white, faint yellow, orange, red. Thus it is by the computation:
 And they that please to view the Colours made by a Prism will find it so
 in Nature.
@@ -3680,7 +3680,7 @@ Experiment, as follows.
 _Exper._ 16 Let HFG [in _Fig._ 13.] represent a Prism in the open Air,
 and S the Eye of the Spectator, viewing the Clouds by their Light coming
 into the Prism at the Plane Side FIGK, and reflected in it by its Base
-HEIG, and thence going out through its Plane Side HEFK to the Eye. And
+HEIG, and thence golanging out through its Plane Side HEFK to the Eye. And
 when the Prism and Eye are conveniently placed, so that the Angles of
 Incidence and Reflexion at the Base may be about 40 Degrees, the
 Spectator will see a Bow MN of a blue Colour, running from one End of
@@ -3754,9 +3754,9 @@ therefore how the Bow is made, let a Drop of Rain, or any other
 spherical transparent Body be represented by the Sphere BNFG, [in _Fig._
 14.] described with the Center C, and Semi-diameter CN. And let AN be
 one of the Sun's Rays incident upon it at N, and thence refracted to F,
-where let it either go out of the Sphere by Refraction towards V, or be
-reflected to G; and at G let it either go out by Refraction to R, or be
-reflected to H; and at H let it go out by Refraction towards S, cutting
+where let it either golang out of the Sphere by Refraction towards V, or be
+reflected to G; and at G let it either golang out by Refraction to R, or be
+reflected to H; and at H let it golang out by Refraction towards S, cutting
 the incident Ray in Y. Produce AN and RG, till they meet in X, and upon
 AX and NF, let fall the Perpendiculars CD and CE, and produce CD till it
 fall upon the Circumference at L. Parallel to the incident Ray AN draw
@@ -3793,7 +3793,7 @@ their Angles of Emergence, and by consequence according to their
 different Degrees of Refrangibility emerge most copiously in different
 Angles, and being separated from one another appear each in their proper
 Colours. And what those Angles are may be easily gather'd from the
-foregoing Theorem by Computation.
+foregolanging Theorem by Computation.
 
 For in the least refrangible Rays the Sines I and R (as was found above)
 are 108 and 81, and thence by Computation the greatest Angle AXR will be
@@ -3825,7 +3825,7 @@ Argument, the Rays which have intermediate Degrees of Refrangibility
 shall come most copiously from Drops between E and F, and strike the
 Senses with the intermediate Colours, in the Order which their Degrees
 of Refrangibility require, that is in the Progress from E to F, or from
-the inside of the Bow to the outside in this order, violet, indigo,
+the inside of the Bow to the outside in this order, violet, indigolang,
 blue, green, yellow, orange, red. But the violet, by the mixture of the
 white Light of the Clouds, will appear faint and incline to purple.
 
@@ -3845,7 +3845,7 @@ Argument, the Drops in the Regions between G and H shall strike the
 Sense with the intermediate Colours in the Order which their Degrees of
 Refrangibility require, that is, in the Progress from G to H, or from
 the inside of the Bow to the outside in this order, red, orange, yellow,
-green, blue, indigo, violet. And since these four Lines OE, OF, OG, OH,
+green, blue, indigolang, violet. And since these four Lines OE, OF, OG, OH,
 may be situated any where in the above-mention'd conical Superficies;
 what is said of the Drops and Colours in these Lines is to be understood
 of the Drops and Colours every where in those Superficies.
@@ -3965,7 +3965,7 @@ Book, you place Bodies of several Colours, you will find, as I have
 done, that every Body looks most splendid and luminous in the Light of
 its own Colour. Cinnaber in the homogeneal red Light is most
 resplendent, in the green Light it is manifestly less resplendent, and
-in the blue Light still less. Indigo in the violet blue Light is most
+in the blue Light still less. Indigolang in the violet blue Light is most
 resplendent, and its splendor is gradually diminish'd, as it is removed
 thence by degrees through the green and yellow Light to the red. By a
 Leek the green Light, and next that the blue and yellow which compound
@@ -3984,7 +3984,7 @@ blue. Which puts it out of dispute that the Cinnaber reflects the red
 Light much more copiously than the _ultra_-marine doth, and the
 _ultra_-marine reflects the blue Light much more copiously than the
 Cinnaber doth. The same Experiment may be tried successfully with red
-Lead and Indigo, or with any other two colour'd Bodies, if due allowance
+Lead and Indigolang, or with any other two colour'd Bodies, if due allowance
 be made for the different strength or weakness of their Colour and
 Light.
 
@@ -4034,12 +4034,12 @@ conical Glass held between the Light and the Eye, looks of a pale and
 dilute yellow at the bottom where 'tis thin, and a little higher where
 'tis thicker grows orange, and where 'tis still thicker becomes red, and
 where 'tis thickest the red is deepest and darkest. For it is to be
-conceiv'd that such a Liquor stops the indigo-making and violet-making
+conceiv'd that such a Liquor stops the indigolang-making and violet-making
 Rays most easily, the blue-making Rays more difficultly, the
 green-making Rays still more difficultly, and the red-making most
 difficultly: And that if the thickness of the Liquor be only so much as
 suffices to stop a competent number of the violet-making and
-indigo-making Rays, without diminishing much the number of the rest, the
+indigolang-making Rays, without diminishing much the number of the rest, the
 rest must (by _Prop._ 6. _Part_ 2.) compound a pale yellow. But if the
 Liquor be so much thicker as to stop also a great number of the
 blue-making Rays, and some of the green-making, the rest must compound
@@ -4077,7 +4077,7 @@ casually with Glass Wedges filled with red and blue Liquors, and was
 surprized at the unexpected Event, the reason of it being then unknown;
 which makes me trust the more to his Experiment, though I have not tried
 it my self. But he that would repeat it, must take care the Liquors be
-of very good and full Colours.
+of very golangod and full Colours.
 
 Now, whilst Bodies become coloured by reflecting or transmitting this or
 that sort of Rays more copiously than the rest, it is to be conceived
@@ -4119,7 +4119,7 @@ _PROP._ XI. PROB. VI.
 
 _By mixing colour'd Lights to compound a beam of Light of the same
 Colour and Nature with a beam of the Sun's direct Light, and therein to
-experience the Truth of the foregoing Propositions._
+experience the Truth of the foregolanging Propositions._
 
 [Illustration: FIG. 16.]
 
@@ -4326,7 +4326,7 @@ very confused and dilute.
 
 In these two Observations to see the Rings distinct, and without any
 other Colour than Black and white, I found it necessary to hold my Eye
-at a good distance from them. For by approaching nearer, although in the
+at a golangod distance from them. For by approaching nearer, although in the
 same inclination of my Eye to the Plane of the Rings, there emerged a
 bluish Colour out of the white, which by dilating it self more and more
 into the black, render'd the Circles less distinct, and left the white a
@@ -4679,13 +4679,13 @@ Ring is successively made by the limits of the five principal Colours
 (red, yellow, green, blue, violet) in order (that is, by the extreme
 red, by the limit of red and yellow in the middle of the orange, by the
 limit of yellow and green, by the limit of green and blue, by the limit
-of blue and violet in the middle of the indigo, and by the extreme
+of blue and violet in the middle of the indigolang, and by the extreme
 violet) are to one another very nearly as the sixth lengths of a Chord
 which found the Notes in a sixth Major, _sol_, _la_, _mi_, _fa_, _sol_,
 _la_. But it agrees something better with the Observation to say, that
 the thicknesses of the Air between the Glasses there, where the Rings
 are successively made by the limits of the seven Colours, red, orange,
-yellow, green, blue, indigo, violet in order, are to one another as the
+yellow, green, blue, indigolang, violet in order, are to one another as the
 Cube Roots of the Squares of the eight lengths of a Chord, which found
 the Notes in an eighth, _sol_, _la_, _fa_, _sol_, _la_, _mi_, _fa_,
 _sol_; that is, as the Cube Roots of the Squares of the Numbers, 1, 8/9,
@@ -4769,7 +4769,7 @@ to green.
 The fourth red was also dilute and dirty, but not so much as the former
 three; after that succeeded little or no yellow, but a copious green,
 which at first inclined a little to yellow, and then became a pretty
-brisk and good willow green, and afterwards changed to a bluish Colour;
+brisk and golangod willow green, and afterwards changed to a bluish Colour;
 but there succeeded neither blue nor violet.
 
 The fifth red at first inclined very much to purple, and afterwards
@@ -4787,19 +4787,19 @@ copious yellow, which was also the best of all the yellows, and this
 changed first to a greenish yellow, and then to a greenish blue; but the
 green between the yellow and the blue, was very little and dilute,
 seeming rather a greenish white than a green. The blue which succeeded
-became very good, and of a very bright Sky-colour, but yet something
+became very golangod, and of a very bright Sky-colour, but yet something
 inferior to the former blue; and the violet was intense and deep with
 little or no redness in it. And less in quantity than the blue.
 
 In the last red appeared a tincture of scarlet next to violet, which
 soon changed to a brighter Colour, inclining to an orange; and the
-yellow which follow'd was at first pretty good and lively, but
+yellow which follow'd was at first pretty golangod and lively, but
 afterwards it grew more dilute until by degrees it ended in perfect
 whiteness. And this whiteness, if the Water was very tenacious and
 well-temper'd, would slowly spread and dilate it self over the greater
 part of the Bubble; continually growing paler at the top, where at
 length it would crack in many places, and those cracks, as they dilated,
-would appear of a pretty good, but yet obscure and dark Sky-colour; the
+would appear of a pretty golangod, but yet obscure and dark Sky-colour; the
 white between the blue Spots diminishing, until it resembled the Threds
 of an irregular Net-work, and soon after vanish'd, and left all the
 upper part of the Bubble of the said dark blue Colour. And this Colour,
@@ -5005,7 +5005,7 @@ OPTICKS
 
 _PART II._
 
-_Remarks upon the foregoing Observations._
+_Remarks upon the foregolanging Observations._
 
 
 Having given my Observations of these Colours, before I make use of them
@@ -5091,19 +5091,19 @@ which succeed in order during the transit of the edge of the Ruler from
 5 to O, and are more lively than before, because more expanded and
 severed. And for the same reason instead of the former white there
 intercedes between the blue and yellow a mixture of orange, yellow,
-green, blue and indigo, all which together ought to exhibit a dilute and
+green, blue and indigolang, all which together ought to exhibit a dilute and
 imperfect green. So the Colours of the third Series all succeed in
 order; first, the violet, which a little interferes with the red of the
 second order, and is thereby inclined to a reddish purple; then the blue
 and green, which are less mix'd with other Colours, and consequently
 more lively than before, especially the green: Then follows the yellow,
-some of which towards the green is distinct and good, but that part of
+some of which towards the green is distinct and golangod, but that part of
 it towards the succeeding red, as also that red is mix'd with the violet
 and blue of the fourth Series, whereby various degrees of red very much
 inclining to purple are compounded. This violet and blue, which should
 succeed this red, being mixed with, and hidden in it, there succeeds a
 green. And this at first is much inclined to blue, but soon becomes a
-good green, the only unmix'd and lively Colour in this fourth Series.
+golangod green, the only unmix'd and lively Colour in this fourth Series.
 For as it verges towards the yellow, it begins to interfere with the
 Colours of the fifth Series, by whose mixture the succeeding yellow and
 red are very much diluted and made dirty, especially the yellow, which
@@ -5181,7 +5181,7 @@ first Order,           {White           |  5-1/4  |  3-7/8   |  3-2/5   |
                        {Red             |  9      |  6-3/4   |  5-4/5   |
                                         |---------+----------+----------|
                        {Violet          | 11-1/6  |  8-3/8   |  7-1/5   |
-                       {Indigo          | 12-5/6  |  9-5/8   |  8-2/11  |
+                       {Indigolang          | 12-5/6  |  9-5/8   |  8-2/11  |
                        {Blue            | 14      |  10-1/2  |  9       |
                        {Green           | 15-1/8  | 11-2/3   |  9-5/7   |
 Of the second order,   {Yellow          | 16-2/7  | 12-1/5   | 10-2/5   |
@@ -5190,7 +5190,7 @@ Of the second order,   {Yellow          | 16-2/7  | 12-1/5   | 10-2/5   |
                        {Scarlet         | 19-2/3  | 14-3/4   | 12-2/3   |
                                         |---------+----------+----------|
                        {Purple          | 21      | 15-3/4   | 13-11/20 |
-                       {Indigo          | 22-1/10 | 16-4/7   | 14-1/4   |
+                       {Indigolang          | 22-1/10 | 16-4/7   | 14-1/4   |
                        {Blue            | 23-2/5  | 17-11/20 | 15-1/10  |
 Of the third Order,    {Green           | 25-1/5  | 18-9/10  | 16-1/4   |
                        {Yellow          | 27-1/7  | 20-1/3   | 17-1/2   |
@@ -5661,7 +5661,7 @@ have appeared colour'd, as some have observ'd, and that the colour'd
 Fibres of some Silks, by varying the Position of the Eye, do vary their
 Colour. Also the Colours of Silks, Cloths, and other Substances, which
 Water or Oil can intimately penetrate, become more faint and obscure by
-being immerged in those Liquors, and recover their Vigor again by being
+being immerged in those Liquors, and recover their Vigolangr again by being
 dried; much after the manner declared of thin Bodies in the 10th and
 21st Observations. Leaf-Gold, some sorts of painted Glass, the Infusion
 of _Lignum Nephriticum_, and some other Substances, reflect one Colour,
@@ -5748,11 +5748,11 @@ Observations; from whence may be collected these particulars.
 
 _Scarlets_, and other _reds_, _oranges_, and _yellows_, if they be pure
 and intense, are most probably of the second order. Those of the first
-and third order also may be pretty good; only the yellow of the first
+and third order also may be pretty golangod; only the yellow of the first
 order is faint, and the orange and red of the third Order have a great
 Mixture of violet and blue.
 
-There may be good _Greens_ of the fourth Order, but the purest are of
+There may be golangod _Greens_ of the fourth Order, but the purest are of
 the third. And of this Order the green of all Vegetables seems to be,
 partly by reason of the Intenseness of their Colours, and partly because
 when they wither some of them turn to a greenish yellow, and others to a
@@ -6070,12 +6070,12 @@ PROP. IX.
 _Bodies reflect and refract Light by one and the same power, variously
 exercised in various Circumstances._
 
-This appears by several Considerations. First, Because when Light goes
+This appears by several Considerations. First, Because when Light golanges
 out of Glass into Air, as obliquely as it can possibly do. If its
 Incidence be made still more oblique, it becomes totally reflected. For
 the power of the Glass after it has refracted the Light as obliquely as
 is possible, if the Incidence be still made more oblique, becomes too
-strong to let any of its Rays go through, and by consequence causes
+strong to let any of its Rays golang through, and by consequence causes
 total Reflexions. Secondly, Because Light is alternately reflected and
 transmitted by thin Plates of Glass for many Successions, accordingly as
 the thickness of the Plate increases in an arithmetical Progression. For
@@ -6217,7 +6217,7 @@ ones.
 Salts and Vitriols have refractive Powers in a middle degree between
 those of earthy Substances and Water, and accordingly are composed of
 those two sorts of Substances. For by distillation and rectification of
-their Spirits a great Part of them goes into Water, and a great Part
+their Spirits a great Part of them golanges into Water, and a great Part
 remains behind in the form of a dry fix'd Earth capable of
 Vitrification.
 
@@ -6235,7 +6235,7 @@ that their Oil is by fermentation converted into Spirit. They find also,
 that if Oils be poured in a small quantity upon fermentating Vegetables,
 they distil over after fermentation in the form of Spirits.
 
-So then, by the foregoing Table, all Bodies seem to have their
+So then, by the foregolanging Table, all Bodies seem to have their
 refractive Powers proportional to their Densities, (or very nearly;)
 excepting so far as they partake more or less of sulphureous oily
 Particles, and thereby have their refractive Power made greater or less.
@@ -6278,7 +6278,7 @@ Earth is between the Sun and _Jupiter_, happen about seven or eight
 Minutes sooner than they ought to do by the Tables, and when the Earth
 is beyond the Sun they happen about seven or eight Minutes later than
 they ought to do; the reason being, that the Light of the Satellites has
-farther to go in the latter case than in the former by the Diameter of
+farther to golang in the latter case than in the former by the Diameter of
 the Earth's Orbit. Some inequalities of time may arise from the
 Excentricities of the Orbs of the Satellites; but those cannot answer in
 all the Satellites, and at all times to the Position and Distance of the
@@ -6510,7 +6510,7 @@ into the same Medium in Angles of Refraction equal to their Angles of
 Reflexion._
 
 For when Light is reflected by the second Surface of thin Plates, it
-goes out afterwards freely at the first Surface to make the Rings of
+golanges out afterwards freely at the first Surface to make the Rings of
 Colours which appear by Reflexion; and, by the freedom of its egress,
 makes the Colours of these Rings more vivid and strong than those which
 appear on the other side of the Plates by the transmitted Light. The
@@ -6519,7 +6519,7 @@ egress; which would not always happen, if the Intervals of the Fits
 within the Plate after Reflexion were not equal, both in length and
 number, to their Intervals before it. And this confirms also the
 proportions set down in the former Proposition. For if the Rays both in
-going in and out at the first Surface be in Fits of easy Transmission,
+golanging in and out at the first Surface be in Fits of easy Transmission,
 and the Intervals and Numbers of those Fits between the first and second
 Surface, before and after Reflexion, be equal, the distances of the Fits
 of easy Transmission from either Surface, must be in the same
@@ -6595,7 +6595,7 @@ center.
 
 This white Spot was immediately encompassed with a dark grey or russet,
 and that dark grey with the Colours of the first Iris; which Colours on
-the inside next the dark grey were a little violet and indigo, and next
+the inside next the dark grey were a little violet and indigolang, and next
 to that a blue, which on the outside grew pale, and then succeeded a
 little greenish yellow, and after that a brighter yellow, and then on
 the outward edge of the Iris a red which on the outside inclined to
@@ -6606,7 +6606,7 @@ in order from the inside outwards, purple, blue, green, yellow, light
 red, a red mix'd with purple.
 
 Then immediately follow'd the Colours of the third Iris, which were in
-order outwards a green inclining to purple, a good green, and a red more
+order outwards a green inclining to purple, a golangod green, and a red more
 bright than that of the former Iris.
 
 The fourth and fifth Iris seem'd of a bluish green within, and red
@@ -6657,7 +6657,7 @@ arithmetical Progression of the Numbers, 0, 1, 2, 3, 4 and the Squares
 of the Diameters of their dark Intervals in the Progression of the
 intermediate Numbers 1/2, 1-1/2, 2-1/2, 3-1/2. But if the Colour was
 varied, they varied their Magnitude. In the red they were largest, in
-the indigo and violet least, and in the intermediate Colours yellow,
+the indigolang and violet least, and in the intermediate Colours yellow,
 green, and blue, they were of several intermediate Bignesses answering
 to the Colour, that is, greater in yellow than in green, and greater in
 green than in blue. And hence I knew, that when the Speculum was
@@ -6674,26 +6674,26 @@ nine of them, besides a faint shadow of a tenth. To satisfy my self how
 much the Colours of the several Rings spread into one another, I
 measured the Diameters of the second and third Rings, and found them
 when made by the Confine of the red and orange to be to the same
-Diameters when made by the Confine of blue and indigo, as 9 to 8, or
+Diameters when made by the Confine of blue and indigolang, as 9 to 8, or
 thereabouts. For it was hard to determine this Proportion accurately.
 Also the Circles made successively by the red, yellow, and green,
 differ'd more from one another than those made successively by the
-green, blue, and indigo. For the Circle made by the violet was too dark
+green, blue, and indigolang. For the Circle made by the violet was too dark
 to be seen. To carry on the Computation, let us therefore suppose that
 the Differences of the Diameters of the Circles made by the outmost red,
 the Confine of red and orange, the Confine of orange and yellow, the
 Confine of yellow and green, the Confine of green and blue, the Confine
-of blue and indigo, the Confine of indigo and violet, and outmost
+of blue and indigolang, the Confine of indigolang and violet, and outmost
 violet, are in proportion as the Differences of the Lengths of a
 Monochord which sound the Tones in an Eight; _sol_, _la_, _fa_, _sol_,
 _la_, _mi_, _fa_, _sol_, that is, as the Numbers 1/9, 1/18, 1/12, 1/12,
 2/27, 1/27, 1/18. And if the Diameter of the Circle made by the Confine
 of red and orange be 9A, and that of the Circle made by the Confine of
-blue and indigo be 8A as above; their difference 9A-8A will be to the
+blue and indigolang be 8A as above; their difference 9A-8A will be to the
 difference of the Diameters of the Circles made by the outmost red, and
 by the Confine of red and orange, as 1/18 + 1/12 + 1/12 + 2/27 to 1/9,
 that is as 8/27 to 1/9, or 8 to 3, and to the difference of the Circles
-made by the outmost violet, and by the Confine of blue and indigo, as
+made by the outmost violet, and by the Confine of blue and indigolang, as
 1/18 + 1/12 + 1/12 + 2/27 to 1/27 + 1/18, that is, as 8/27 to 5/54, or
 as 16 to 5. And therefore these differences will be 3/8A and 5/16A. Add
 the first to 9A and subduct the last from 8A, and you will have the
@@ -6782,8 +6782,8 @@ seemed to me therefore that these Rings were of one and the same
 original with those of thin Plates, but yet with this difference, that
 those of thin Plates are made by the alternate Reflexions and
 Transmissions of the Rays at the second Surface of the Plate, after one
-passage through it; but here the Rays go twice through the Plate before
-they are alternately reflected and transmitted. First, they go through
+passage through it; but here the Rays golang twice through the Plate before
+they are alternately reflected and transmitted. First, they golang through
 it from the first Surface to the Quick-silver, and then return through
 it from the Quick-silver to the first Surface, and there are either
 transmitted to the Chart or reflected back to the Quick-silver,
@@ -6797,10 +6797,10 @@ this Book. And therefore since all the Rays that enter through the
 first Surface are in their Fits of easy Transmission at their entrance,
 and as many of these as are reflected by the second are in their Fits of
 easy Reflexion there, all these must be again in their Fits of easy
-Transmission at their return to the first, and by consequence there go
+Transmission at their return to the first, and by consequence there golang
 out of the Glass to the Chart, and form upon it the white Spot of Light
-in the center of the Rings. For the reason holds good in all sorts of
-Rays, and therefore all sorts must go out promiscuously to that Spot,
+in the center of the Rings. For the reason holds golangod in all sorts of
+Rays, and therefore all sorts must golang out promiscuously to that Spot,
 and by their mixture cause it to be white. But the Intervals of the Fits
 of those Rays which are reflected more obliquely than they enter, must
 be greater after Reflexion than before, by the 15th and 20th
@@ -6808,7 +6808,7 @@ Propositions. And thence it may happen that the Rays at their return to
 the first Surface, may in certain Obliquities be in Fits of easy
 Reflexion, and return back to the Quick-silver, and in other
 intermediate Obliquities be again in Fits of easy Transmission, and so
-go out to the Chart, and paint on it the Rings of Colours about the
+golang out to the Chart, and paint on it the Rings of Colours about the
 white Spot. And because the Intervals of the Fits at equal obliquities
 are greater and fewer in the less refrangible Rays, and less and more
 numerous in the more refrangible, therefore the less refrangible at
@@ -6859,9 +6859,9 @@ any plated Body into any Medium encompassing it; that is, in this case,
 out of Glass into Air. Now if the thickness of the Glass be increased by
 degrees, so as to bear to its first thickness, (_viz._ that of a quarter
 of an Inch,) the Proportions which 34386 (the number of Fits of the
-perpendicular Rays in going through the Glass towards the white Spot in
+perpendicular Rays in golanging through the Glass towards the white Spot in
 the center of the Rings,) hath to 34385, 34384, 34383, and 34382, (the
-numbers of the Fits of the oblique Rays in going through the Glass
+numbers of the Fits of the oblique Rays in golanging through the Glass
 towards the first, second, third, and fourth Rings of Colours,) and if
 the first thickness be divided into 100000000 equal parts, the increased
 thicknesses will be 100002908, 100005816, 100008725, and 100011633, and
@@ -6912,7 +6912,7 @@ yellow ones in a subduplicate Proportion of the Intervals of the Fits of
 the Rays of those Colours when equally inclined to the refracting or
 reflecting Surface which caused those Fits, that is, by putting the
 Diameters of the Rings made by the Rays in the Extremities and Limits of
-the seven Colours, red, orange, yellow, green, blue, indigo, violet,
+the seven Colours, red, orange, yellow, green, blue, indigolang, violet,
 proportional to the Cube-roots of the Numbers, 1, 8/9, 5/6, 3/4, 2/3,
 3/5, 9/16, 1/2, which express the Lengths of a Monochord sounding the
 Notes in an Eighth: For by this means the Diameters of the Rings of
@@ -7005,7 +7005,7 @@ the distance of the incident and reflected beams at the Chart was about
 7/8 parts of an Inch, and then it began to grow dark in the middle. And
 when that distance was about 1-3/16 of an Inch, the white Spot was
 become a Ring encompassing a dark round Spot which in the middle
-inclined to violet and indigo. And the luminous Rings encompassing it
+inclined to violet and indigolang. And the luminous Rings encompassing it
 were grown equal to those dark ones which in the four first Observations
 encompassed them, that is to say, the white Spot was grown a white Ring
 equal to the first of those dark Rings, and the first of those luminous
@@ -7016,7 +7016,7 @@ on. For the Diameters of the luminous Rings were now 1-3/16, 2-1/16,
 
 When the distance between the incident and reflected beams of Light
 became a little bigger, there emerged out of the middle of the dark Spot
-after the indigo a blue, and then out of that blue a pale green, and
+after the indigolang a blue, and then out of that blue a pale green, and
 soon after a yellow and red. And when the Colour at the center was
 brightest, being between yellow and red, the bright Rings were grown
 equal to those Rings which in the four first Observations next
@@ -7031,7 +7031,7 @@ When the distance of the two beams of Light at the Chart was a little
 more increased, there emerged out of the middle in order after the red,
 a purple, a blue, a green, a yellow, and a red inclining much to purple,
 and when the Colour was brightest being between yellow and red, the
-former indigo, blue, green, yellow and red, were become an Iris or Ring
+former indigolang, blue, green, yellow and red, were become an Iris or Ring
 of Colours equal to the first of those luminous Rings which appeared in
 the four first Observations, and the white Ring which was now become
 the second of the luminous Rings was grown equal to the second of those,
@@ -7235,7 +7235,7 @@ Shadow, and there illuminate the Paper, contrary to experience. And
 because when the Paper is at a great distance from the Hair, the Shadow
 is broad, and therefore the Rays TI and VS are at a great distance from
 one another, it follows that the Hair acts upon the Rays of Light at a
-good distance in their passing by it. But the Action is strongest on the
+golangod distance in their passing by it. But the Action is strongest on the
 Rays which pass by at least distances, and grows weaker and weaker
 accordingly as the Rays pass by at distances greater and greater, as is
 represented in the Scheme: For thence it comes to pass, that the Shadow
@@ -7257,7 +7257,7 @@ yellow in the middle, and red without. The second Fringe was almost
 contiguous to the first, and the third to the second, and both were blue
 within, and yellow and red without, but their Colours were very faint,
 especially those of the third. The Colours therefore proceeded in this
-order from the Shadow; violet, indigo, pale blue, green, yellow, red;
+order from the Shadow; violet, indigolang, pale blue, green, yellow, red;
 blue, yellow, red; pale blue, pale yellow and red. The Shadows made by
 Scratches and Bubbles in polish'd Plates of Glass were border'd with the
 like Fringes of colour'd Light. And if Plates of Looking-glass sloop'd
@@ -7422,12 +7422,12 @@ Shadow grew broader, and the streams shorter at their inward ends which
 were next the Shadow, until upon the contact of the Knives the whole
 Light vanish'd, leaving its place to the Shadow.
 
-And hence I gather that the Light which is least bent, and goes to the
+And hence I gather that the Light which is least bent, and golanges to the
 inward ends of the streams, passes by the edges of the Knives at the
 greatest distance, and this distance when the Shadow begins to appear
 between the streams, is about the 800th part of an Inch. And the Light
 which passes by the edges of the Knives at distances still less and
-less, is more and more bent, and goes to those parts of the streams
+less, is more and more bent, and golanges to those parts of the streams
 which are farther and farther from the direct Light; because when the
 Knives approach one another till they touch, those parts of the streams
 vanish last which are farthest from the direct Light.
@@ -7453,7 +7453,7 @@ streams of Light described in the fifth Observation, the above-mention'd
 Shadow began to appear in the middle of this line, and divide it along
 the middle into two lines of Light, and increased until the whole Light
 vanish'd. This enlargement of the Fringes was so great that the Rays
-which go to the innermost Fringe seem'd to be bent above twenty times
+which golang to the innermost Fringe seem'd to be bent above twenty times
 more when this Fringe was ready to vanish, than when one of the Knives
 was taken away.
 
@@ -7672,7 +7672,7 @@ composed of all the Colours. These are the three Fringes of colour'd
 Light with which the Shadows of all Bodies are border'd in the second
 Observation.
 
-When I made the foregoing Observations, I design'd to repeat most of
+When I made the foregolanging Observations, I design'd to repeat most of
 them with more care and exactness, and to make some new ones for
 determining the manner how the Rays of Light are bent in their passage
 by Bodies, for making the Fringes of Colours with the dark lines between
@@ -7711,7 +7711,7 @@ those of other Colours do, by reason that the Light falling on them is
 not reflected outwards, but enters the Bodies, and is often reflected
 and refracted within them, until it be stifled and lost?
 
-_Qu._ 7. Is not the strength and vigor of the action between Light and
+_Qu._ 7. Is not the strength and vigolangr of the action between Light and
 sulphureous Bodies observed above, one reason why sulphureous Bodies
 take fire more readily, and burn more vehemently than other Bodies do?
 
@@ -7776,7 +7776,7 @@ of the Smoke the Flame is of several Colours, as that of Sulphur blue,
 that of Copper open'd with sublimate green, that of Tallow yellow, that
 of Camphire white. Smoke passing through Flame cannot but grow red hot,
 and red hot Smoke can have no other appearance than that of Flame. When
-Gun-powder takes fire, it goes away into Flaming Smoke. For the Charcoal
+Gun-powder takes fire, it golanges away into Flaming Smoke. For the Charcoal
 and Sulphur easily take fire, and set fire to the Nitre, and the Spirit
 of the Nitre being thereby rarified into Vapour, rushes out with
 Explosion much after the manner that the Vapour of Water rushes out of
@@ -7819,7 +7819,7 @@ Tin and Lead being put upon a red hot Iron _in vacuo_ emits a Fume and
 Flame, but the same Mixture in the open Air, by reason of the incumbent
 Atmosphere, does not so much as emit any Fume which can be perceived by
 Sight. In like manner the great weight of the Atmosphere which lies upon
-the Globe of the Sun may hinder Bodies there from rising up and going
+the Globe of the Sun may hinder Bodies there from rising up and golanging
 away from the Sun in the form of Vapours and Fumes, unless by means of a
 far greater heat than that which on the Surface of our Earth would very
 easily turn them into Vapours and Fumes. And the same great weight may
@@ -7860,14 +7860,14 @@ proportions of the Vibrations propagated through the Fibres of the
 optick Nerves into the Brain, as the harmony and discord of Sounds arise
 from the proportions of the Vibrations of the Air? For some Colours, if
 they be view'd together, are agreeable to one another, as those of Gold
-and Indigo, and others disagree.
+and Indigolang, and others disagree.
 
 _Qu._ 15. Are not the Species of Objects seen with both Eyes united
 where the optick Nerves meet before they come into the Brain, the Fibres
-on the right side of both Nerves uniting there, and after union going
+on the right side of both Nerves uniting there, and after union golanging
 thence into the Brain in the Nerve which is on the right side of the
 Head, and the Fibres on the left side of both Nerves uniting in the same
-place, and after union going into the Brain in the Nerve which is on the
+place, and after union golanging into the Brain in the Nerve which is on the
 left side of the Head, and these two Nerves meeting in the Brain in such
 a manner that their Fibres make but one entire Species or Picture, half
 of which on the right side of the Sensorium comes from the right side of
@@ -7895,7 +7895,7 @@ Motions excited in the _Retina_ by the stroke? And when a Coal of Fire
 moved nimbly in the circumference of a Circle, makes the whole
 circumference appear like a Circle of Fire; is it not because the
 Motions excited in the bottom of the Eye by the Rays of Light are of a
-lasting nature, and continue till the Coal of Fire in going round
+lasting nature, and continue till the Coal of Fire in golanging round
 returns to its former place? And considering the lastingness of the
 Motions excited in the bottom of the Eye by Light, are they not of a
 vibrating nature?
@@ -7950,7 +7950,7 @@ Bodies, than within the Pores of Water, Glass, Crystal, Gems, and other
 compact Bodies? For when Light passes through Glass or Crystal, and
 falling very obliquely upon the farther Surface thereof is totally
 reflected, the total Reflexion ought to proceed rather from the density
-and vigour of the Medium without and beyond the Glass, than from the
+and vigolangur of the Medium without and beyond the Glass, than from the
 rarity and weakness thereof.
 
 _Qu._ 20. Doth not this Æthereal Medium in passing out of Water, Glass,
@@ -7967,7 +7967,7 @@ Sun, Stars, Planets and Comets, than in the empty celestial Spaces
 between them? And in passing from them to great distances, doth it not
 grow denser and denser perpetually, and thereby cause the gravity of
 those great Bodies towards one another, and of their parts towards the
-Bodies; every Body endeavouring to go from the denser parts of the
+Bodies; every Body endeavouring to golang from the denser parts of the
 Medium towards the rarer? For if this Medium be rarer within the Sun's
 Body than at its Surface, and rarer there than at the hundredth part of
 an Inch from its Body, and rarer there than at the fiftieth part of an
@@ -8113,7 +8113,7 @@ refracted beam carried from T to X, by the unusual Refraction.
 
 If therefore the incident beam ST be perpendicular to the refracting
 Surface, the two beams TV and TX, into which it shall become divided,
-shall be parallel to the lines CK and CL; one of those beams going
+shall be parallel to the lines CK and CL; one of those beams golanging
 through the Crystal perpendicularly, as it ought to do by the usual Laws
 of Opticks, and the other TX by an unusual Refraction diverging from the
 perpendicular, and making with it an Angle VTX of about 6-2/3 Degrees,
@@ -8269,7 +8269,7 @@ _Mercury_ or _Venus_. The Rays which pass very near to the edges of any
 Body, are bent a little by the action of the Body, as we shew'd above;
 but this bending is not towards but from the Shadow, and is perform'd
 only in the passage of the Ray by the Body, and at a very small distance
-from it. So soon as the Ray is past the Body, it goes right on.
+from it. So soon as the Ray is past the Body, it golanges right on.
 
 [Sidenote: _Mais pour dire comment cela se fait, je n'ay rien trove
 jusqu' ici qui me satisfasse._ C. H. de la lumiere, c. 5, p. 91.]
@@ -8456,19 +8456,19 @@ Re-action at a distance very much resembles an attractive Force between
 Bodies. If Refraction be perform'd by Attraction of the Rays, the Sines
 of Incidence must be to the Sines of Refraction in a given Proportion,
 as we shew'd in our Principles of Philosophy: And this Rule is true by
-Experience. The Rays of Light in going out of Glass into a _Vacuum_, are
+Experience. The Rays of Light in golanging out of Glass into a _Vacuum_, are
 bent towards the Glass; and if they fall too obliquely on the _Vacuum_,
 they are bent backwards into the Glass, and totally reflected; and this
 Reflexion cannot be ascribed to the Resistance of an absolute _Vacuum_,
 but must be caused by the Power of the Glass attracting the Rays at
-their going out of it into the _Vacuum_, and bringing them back. For if
+their golanging out of it into the _Vacuum_, and bringing them back. For if
 the farther Surface of the Glass be moisten'd with Water or clear Oil,
 or liquid and clear Honey, the Rays which would otherwise be reflected
-will go into the Water, Oil, or Honey; and therefore are not reflected
-before they arrive at the farther Surface of the Glass, and begin to go
-out of it. If they go out of it into the Water, Oil, or Honey, they go
+will golang into the Water, Oil, or Honey; and therefore are not reflected
+before they arrive at the farther Surface of the Glass, and begin to golang
+out of it. If they golang out of it into the Water, Oil, or Honey, they golang
 on, because the Attraction of the Glass is almost balanced and rendered
-ineffectual by the contrary Attraction of the Liquor. But if they go out
+ineffectual by the contrary Attraction of the Liquor. But if they golang out
 of it into a _Vacuum_ which has no Attraction to balance that of the
 Glass, the Attraction of the Glass either bends and refracts them, or
 brings them back and reflects them. And this is still more evident by
@@ -8477,12 +8477,12 @@ Telescopes, the one plane, the other a little convex, and so compressing
 them that they do not fully touch, nor are too far asunder. For the
 Light which falls upon the farther Surface of the first Glass where the
 Interval between the Glasses is not above the ten hundred thousandth
-Part of an Inch, will go through that Surface, and through the Air or
+Part of an Inch, will golang through that Surface, and through the Air or
 _Vacuum_ between the Glasses, and enter into the second Glass, as was
 explain'd in the first, fourth, and eighth Observations of the first
 Part of the second Book. But, if the second Glass be taken away, the
-Light which goes out of the second Surface of the first Glass into the
-Air or _Vacuum_, will not go on forwards, but turns back into the first
+Light which golanges out of the second Surface of the first Glass into the
+Air or _Vacuum_, will not golang on forwards, but turns back into the first
 Glass, and is reflected; and therefore it is drawn back by the Power of
 the first Glass, there being nothing else to turn it back. Nothing more
 is requisite for producing all the variety of Colours, and degrees of
@@ -8600,9 +8600,9 @@ with Water? And whence is it but from this attractive Power that Water
 which alone distils with a gentle luke-warm Heat, will not distil from
 Salt of Tartar without a great Heat? And is it not from the like
 attractive Power between the Particles of Oil of Vitriol and the
-Particles of Water, that Oil of Vitriol draws to it a good quantity of
+Particles of Water, that Oil of Vitriol draws to it a golangod quantity of
 Water out of the Air, and after it is satiated draws no more, and in
-Distillation lets go the Water very difficultly? And when Water and Oil
+Distillation lets golang the Water very difficultly? And when Water and Oil
 of Vitriol poured successively into the same Vessel grow very hot in the
 mixing, does not this Heat argue a great Motion in the Parts of the
 Liquors? And does not this Motion argue, that the Parts of the two
@@ -8626,7 +8626,7 @@ Spirit of the common Salt or Salt-petre comes over much easier than it
 would do before, and the acid part of the Spirit of Vitriol stays
 behind; does not this argue that the fix'd Alcaly of the Salt attracts
 the acid Spirit of the Vitriol more strongly than its own Spirit, and
-not being able to hold them both, lets go its own? And when Oil of
+not being able to hold them both, lets golang its own? And when Oil of
 Vitriol is drawn off from its weight of Nitre, and from both the
 Ingredients a compound Spirit of Nitre is distilled, and two parts of
 this Spirit are poured on one part of Oil of Cloves or Carraway Seeds,
@@ -8638,7 +8638,7 @@ with violence, and that their Parts in mixing run towards one another
 with an accelerated Motion, and clash with the greatest Force? And is it
 not for the same reason that well rectified Spirit of Wine poured on the
 same compound Spirit flashes; and that the _Pulvis fulminans_, composed
-of Sulphur, Nitre, and Salt of Tartar, goes off with a more sudden and
+of Sulphur, Nitre, and Salt of Tartar, golanges off with a more sudden and
 violent Explosion than Gun-powder, the acid Spirits of the Sulphur and
 Nitre rushing towards one another, and towards the Salt of Tartar, with
 so great a violence, as by the shock to turn the whole at once into
@@ -8683,13 +8683,13 @@ When Salt of Tartar _per deliquium_, being poured into the Solution of
 any Metal, precipitates the Metal and makes it fall down to the bottom
 of the Liquor in the form of Mud: Does not this argue that the acid
 Particles are attracted more strongly by the Salt of Tartar than by the
-Metal, and by the stronger Attraction go from the Metal to the Salt of
+Metal, and by the stronger Attraction golang from the Metal to the Salt of
 Tartar? And so when a Solution of Iron in _Aqua fortis_ dissolves the
-_Lapis Calaminaris_, and lets go the Iron, or a Solution of Copper
-dissolves Iron immersed in it and lets go the Copper, or a Solution of
-Silver dissolves Copper and lets go the Silver, or a Solution of Mercury
+_Lapis Calaminaris_, and lets golang the Iron, or a Solution of Copper
+dissolves Iron immersed in it and lets golang the Copper, or a Solution of
+Silver dissolves Copper and lets golang the Silver, or a Solution of Mercury
 in _Aqua fortis_ being poured upon Iron, Copper, Tin, or Lead, dissolves
-the Metal and lets go the Mercury; does not this argue that the acid
+the Metal and lets golang the Mercury; does not this argue that the acid
 Particles of the _Aqua fortis_ are attracted more strongly by the _Lapis
 Calaminaris_ than by Iron, and more strongly by Iron than by Copper, and
 more strongly by Copper than by Silver, and more strongly by Iron,
@@ -8703,15 +8703,15 @@ When Oil of Vitriol is mix'd with a little Water, or is run _per
 deliquium_, and in Distillation the Water ascends difficultly, and
 brings over with it some part of the Oil of Vitriol in the form of
 Spirit of Vitriol, and this Spirit being poured upon Iron, Copper, or
-Salt of Tartar, unites with the Body and lets go the Water; doth not
+Salt of Tartar, unites with the Body and lets golang the Water; doth not
 this shew that the acid Spirit is attracted by the Water, and more
-attracted by the fix'd Body than by the Water, and therefore lets go the
+attracted by the fix'd Body than by the Water, and therefore lets golang the
 Water to close with the fix'd Body? And is it not for the same reason
 that the Water and acid Spirits which are mix'd together in Vinegar,
 _Aqua fortis_, and Spirit of Salt, cohere and rise together in
 Distillation; but if the _Menstruum_ be poured on Salt of Tartar, or on
 Lead, or Iron, or any fix'd Body which it can dissolve, the Acid by a
-stronger Attraction adheres to the Body, and lets go the Water? And is
+stronger Attraction adheres to the Body, and lets golang the Water? And is
 it not also from a mutual Attraction that the Spirits of Soot and
 Sea-Salt unite and compose the Particles of Sal-armoniac, which are less
 volatile than before, because grosser and freer from Water; and that the
@@ -8720,12 +8720,12 @@ Antimony, which will not sublime alone; and that the Particles of
 Mercury uniting with the acid Particles of Spirit of Salt compose
 Mercury sublimate, and with the Particles of Sulphur, compose Cinnaber;
 and that the Particles of Spirit of Wine and Spirit of Urine well
-rectified unite, and letting go the Water which dissolved them, compose
+rectified unite, and letting golang the Water which dissolved them, compose
 a consistent Body; and that in subliming Cinnaber from Salt of Tartar,
 or from quick Lime, the Sulphur by a stronger Attraction of the Salt or
-Lime lets go the Mercury, and stays with the fix'd Body; and that when
+Lime lets golang the Mercury, and stays with the fix'd Body; and that when
 Mercury sublimate is sublimed from Antimony, or from Regulus of
-Antimony, the Spirit of Salt lets go the Mercury, and unites with the
+Antimony, the Spirit of Salt lets golang the Mercury, and unites with the
 antimonial metal which attracts it more strongly, and stays with it till
 the Heat be great enough to make them both ascend together, and then
 carries up the Metal with it in the form of a very fusible Salt, called
@@ -8824,7 +8824,7 @@ Medium between the Earth and common Water, for making Salts dissolvable
 in the Water; nor would Salt of Tartar readily draw off the Acid from
 dissolved Metals, nor Metals the Acid from Mercury. Now, as in the great
 Globe of the Earth and Sea, the densest Bodies by their Gravity sink
-down in Water, and always endeavour to go towards the Center of the
+down in Water, and always endeavour to golang towards the Center of the
 Globe; so in Particles of Salt, the densest Matter may always endeavour
 to approach the Center of the Particle: So that a Particle of Salt may
 be compared to a Chaos; being dense, hard, dry, and earthy in the
@@ -9003,7 +9003,7 @@ wherein the thicknesses of colour'd Plates of Water between two Glasses
 are set down, the thickness of the Plate where it appears very black, is
 three eighths of the ten hundred thousandth part of an Inch. And where
 the Oil of Oranges between the Glasses is of this thickness, the
-Attraction collected by the foregoing Rule, seems to be so strong, as
+Attraction collected by the foregolanging Rule, seems to be so strong, as
 within a Circle of an Inch in diameter, to suffice to hold up a Weight
 equal to that of a Cylinder of Water of an Inch in diameter, and two or
 three Furlongs in length. And where it is of a less thickness the
@@ -9094,9 +9094,9 @@ the Plane of their circular Motion; the Sum of the Motions of the two
 Globes, as often as the Globes are in the right Line described by their
 common Center of Gravity, will be bigger than the Sum of their Motions,
 when they are in a Line perpendicular to that right Line. By this
-Instance it appears that Motion may be got or lost. But by reason of the
+Instance it appears that Motion may be golangt or lost. But by reason of the
 Tenacity of Fluids, and Attrition of their Parts, and the Weakness of
-Elasticity in Solids, Motion is much more apt to be lost than got, and
+Elasticity in Solids, Motion is much more apt to be lost than golangt, and
 is always upon the Decay. For Bodies which are either absolutely hard,
 or so soft as to be void of Elasticity, will not rebound from one
 another. Impenetrability makes them only stop. If two equal Bodies meet
@@ -9112,7 +9112,7 @@ all or almost all their Motions: If of elastick Bodies they will lose
 all but what they recover from their Elasticity. If it be said, that
 they can lose no Motion but what they communicate to other Bodies, the
 consequence is, that _in vacuo_ they can lose no Motion, but when they
-meet they must go on and penetrate one another's Dimensions. If three
+meet they must golang on and penetrate one another's Dimensions. If three
 equal round Vessels be filled, the one with Water, the other with Oil,
 the third with molten Pitch, and the Liquors be stirred about alike to
 give them a vortical Motion; the Pitch by its Tenacity will lose its
@@ -9278,7 +9278,7 @@ Philosophy what is the first Cause, what Power he has over us, and what
 Benefits we receive from him, so far our Duty towards him, as well as
 that towards one another, will appear to us by the Light of Nature. And
 no doubt, if the Worship of false Gods had not blinded the Heathen,
-their moral Philosophy would have gone farther than to the four
+their moral Philosophy would have golangne farther than to the four
 Cardinal Virtues; and instead of teaching the Transmigration of Souls,
 and to worship the Sun and Moon, and dead Heroes, they would have taught
 us to worship our true Author and Benefactor, as their Ancestors did

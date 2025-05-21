@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package strings
@@ -10,14 +10,14 @@ import (
 )
 
 // Replacer replaces a list of strings with replacements.
-// It is safe for concurrent use by multiple goroutines.
+// It is safe for concurrent use by multiple golangroutines.
 type Replacer struct {
 	once   sync.Once // guards buildOnce method
 	r      replacer
 	oldnew []string
 }
 
-// replacer is the interface that a replacement algorithm needs to implement.
+// replacer is the interface that a replacement algolangrithm needs to implement.
 type replacer interface {
 	Replace(s string) string
 	WriteString(w io.Writer, s string) (n int, err error)
@@ -254,7 +254,7 @@ func (r *genericReplacer) lookup(s string, ignoreRoot bool) (val string, keylen 
 	return
 }
 
-// genericReplacer is the fully generic algorithm.
+// genericReplacer is the fully generic algolangrithm.
 // It's used as a fallback when nothing faster can be used.
 type genericReplacer struct {
 	root trieNode
@@ -499,7 +499,7 @@ type byteStringReplacer struct {
 }
 
 // countCutOff controls the ratio of a string length to a number of replacements
-// at which (*byteStringReplacer).Replace switches algorithms.
+// at which (*byteStringReplacer).Replace switches algolangrithms.
 // For strings with higher ration of length to replacements than that value,
 // we call Count, for each replacement from toReplace.
 // For strings, with a lower ratio we use simple loop, because of Count overhead.

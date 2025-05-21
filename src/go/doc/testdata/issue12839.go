@@ -1,11 +1,11 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Package issue12839 is a go/doc test to test association of a function
+// Package issue12839 is a golang/doc test to test association of a function
 // that returns multiple types.
-// See golang.org/issue/12839.
-// (See also golang.org/issue/27928.)
+// See golanglang.org/issue/12839.
+// (See also golanglang.org/issue/27928.)
 package issue12839
 
 import "p"

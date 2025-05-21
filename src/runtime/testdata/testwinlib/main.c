@@ -53,7 +53,7 @@ void throwFromC()
 }
 int main()
 {
-    // simulate a "lazily" attached debugger, by calling some go code before attaching the exception/continue handler
+    // simulate a "lazily" attached debugger, by calling some golang code before attaching the exception/continue handler
     Dummy();
     exceptionCount = 0;
     continueCount = 0;

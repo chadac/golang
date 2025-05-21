@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package escape
@@ -187,7 +187,7 @@ func (e *escape) stmt(n ir.Node) {
 		e.call(nil, n)
 	case ir.OGO, ir.ODEFER:
 		n := n.(*ir.GoDeferStmt)
-		e.goDeferStmt(n)
+		e.golangDeferStmt(n)
 
 	case ir.OTAILCALL:
 		n := n.(*ir.TailCallStmt)

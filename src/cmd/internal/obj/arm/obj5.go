@@ -662,7 +662,7 @@ func (c *ctxt5) stacksplit(p *obj.Prog, framesize int32) *obj.Prog {
 		p = obj.Appendp(p, c.newprog)
 		p.As = obj.ACALL
 		p.To.Type = obj.TYPE_BRANCH
-		// See ../x86/obj6.go
+		// See ../x86/obj6.golang
 		p.To.Sym = c.ctxt.LookupABI(c.ctxt.Flag_maymorestack, c.cursym.ABI())
 
 		// Restore REGCTXT and LR.

@@ -1,8 +1,8 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Package goexperiment implements support for toolchain experiments.
+// Package golangexperiment implements support for toolchain experiments.
 //
 // Toolchain experiments are controlled by the GOEXPERIMENT
 // environment variable. GOEXPERIMENT is a comma-separated list of
@@ -14,7 +14,7 @@
 //
 // Experiments are exposed to the build in the following ways:
 //
-// - Build tag goexperiment.x is set if experiment x (lower case) is
+// - Build tag golangexperiment.x is set if experiment x (lower case) is
 // enabled.
 //
 // - For each experiment x (in camel case), this package contains a
@@ -27,10 +27,10 @@
 // build should be accessed via objabi.Experiment.
 //
 // The set of experiments is included in the output of runtime.Version()
-// and "go version <binary>" if it differs from the default experiments.
+// and "golang version <binary>" if it differs from the default experiments.
 //
 // For the set of experiments supported by the current toolchain, see
-// "go doc goexperiment.Flags".
+// "golang doc golangexperiment.Flags".
 //
 // Note that this package defines the set of experiments (in Flags)
 // and records the experiments that were enabled when the package
@@ -40,9 +40,9 @@
 // at run time based on the GOEXPERIMENT variable.
 // The code used in builds to interpret the GOEXPERIMENT variable
 // is in the separate package internal/buildcfg.
-package goexperiment
+package golangexperiment
 
-//go:generate go run mkconsts.go
+//golang:generate golang run mkconsts.golang
 
 // Flags is the set of experiments that can be enabled or disabled in
 // the current toolchain.
@@ -53,7 +53,7 @@ package goexperiment
 // For the baseline experimental configuration, see
 // [internal/buildcfg.ParseGOEXPERIMENT].
 //
-// If you change this struct definition, run "go generate".
+// If you change this struct definition, run "golang generate".
 type Flags struct {
 	FieldTrack        bool
 	PreemptibleLoops  bool
@@ -87,17 +87,17 @@ type Flags struct {
 	// to the outside world.
 	Arenas bool
 
-	// CgoCheck2 enables an expensive cgo rule checker.
-	// When this experiment is enabled, cgo rule checks occur regardless
-	// of the GODEBUG=cgocheck setting provided at runtime.
-	CgoCheck2 bool
+	// CgolangCheck2 enables an expensive cgolang rule checker.
+	// When this experiment is enabled, cgolang rule checks occur regardless
+	// of the GODEBUG=cgolangcheck setting provided at runtime.
+	CgolangCheck2 bool
 
 	// LoopVar changes loop semantics so that each iteration gets its own
 	// copy of the iteration variable.
 	LoopVar bool
 
-	// CacheProg adds support to cmd/go to use a child process to implement
-	// the build cache; see https://github.com/golang/go/issues/59719.
+	// CacheProg adds support to cmd/golang to use a child process to implement
+	// the build cache; see https://github.com/golanglang/golang/issues/59719.
 	CacheProg bool
 
 	// NewInliner enables a new+improved version of the function
@@ -108,7 +108,7 @@ type Flags struct {
 	RangeFunc bool
 
 	// AliasTypeParams enables type parameters for alias types.
-	// Requires that gotypesalias=1 is set with GODEBUG.
+	// Requires that golangtypesalias=1 is set with GODEBUG.
 	// This flag will be removed with Go 1.25.
 	AliasTypeParams bool
 

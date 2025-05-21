@@ -1,10 +1,10 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !math_big_pure_go
+//golang:build !math_big_pure_golang
 
-//go:generate go test ./internal/asmgen -generate
+//golang:generate golang test ./internal/asmgen -generate
 
 package big
 
@@ -18,10 +18,10 @@ import _ "unsafe" // for linkname
 //   - github.com/remyoudompheng/bigfft
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname addVV
-//go:noescape
+//golang:linkname addVV
+//golang:noescape
 func addVV(z, x, y []Word) (c Word)
 
 // subVV should be an internal detail,
@@ -30,10 +30,10 @@ func addVV(z, x, y []Word) (c Word)
 //   - github.com/remyoudompheng/bigfft
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname subVV
-//go:noescape
+//golang:linkname subVV
+//golang:noescape
 func subVV(z, x, y []Word) (c Word)
 
 // shlVU should be an internal detail (and a stale one at that),
@@ -42,9 +42,9 @@ func subVV(z, x, y []Word) (c Word)
 //   - github.com/remyoudompheng/bigfft
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname shlVU
+//golang:linkname shlVU
 func shlVU(z, x []Word, s uint) (c Word) {
 	if s == 0 {
 		copy(z, x)
@@ -55,12 +55,12 @@ func shlVU(z, x []Word, s uint) (c Word) {
 
 // lshVU sets z = x<<s, returning the high bits c. 1 ≤ s ≤ _B-1.
 //
-//go:noescape
+//golang:noescape
 func lshVU(z, x []Word, s uint) (c Word)
 
 // rshVU sets z = x>>s, returning the low bits c. 1 ≤ s ≤ _B-1.
 //
-//go:noescape
+//golang:noescape
 func rshVU(z, x []Word, s uint) (c Word)
 
 // mulAddVWW should be an internal detail,
@@ -69,10 +69,10 @@ func rshVU(z, x []Word, s uint) (c Word)
 //   - github.com/remyoudompheng/bigfft
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname mulAddVWW
-//go:noescape
+//golang:linkname mulAddVWW
+//golang:noescape
 func mulAddVWW(z, x []Word, m, a Word) (c Word)
 
 // addMulVVW should be an internal detail (and a stale one at that),
@@ -81,14 +81,14 @@ func mulAddVWW(z, x []Word, m, a Word) (c Word)
 //   - github.com/remyoudompheng/bigfft
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname addMulVVW
+//golang:linkname addMulVVW
 func addMulVVW(z, x []Word, y Word) (c Word) {
 	return addMulVVWW(z, z, x, y, 0)
 }
 
 // addMulVVWW sets z = x+y*m+a.
 //
-//go:noescape
+//golang:noescape
 func addMulVVWW(z, x, y []Word, m, a Word) (c Word)

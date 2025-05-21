@@ -1,5 +1,5 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -33,8 +33,8 @@ func TestNonGoExecs(t *testing.T) {
 	testfiles := []string{
 		"debug/elf/testdata/gcc-386-freebsd-exec",
 		"debug/elf/testdata/gcc-amd64-linux-exec",
-		"debug/macho/testdata/gcc-386-darwin-exec.base64",   // golang.org/issue/34986
-		"debug/macho/testdata/gcc-amd64-darwin-exec.base64", // golang.org/issue/34986
+		"debug/macho/testdata/gcc-386-darwin-exec.base64",   // golanglang.org/issue/34986
+		"debug/macho/testdata/gcc-amd64-darwin-exec.base64", // golanglang.org/issue/34986
 		// "debug/pe/testdata/gcc-amd64-mingw-exec", // no symbols!
 		"debug/pe/testdata/gcc-386-mingw-exec",
 		"debug/plan9obj/testdata/amd64-plan9-exec",
@@ -56,21 +56,21 @@ func TestNonGoExecs(t *testing.T) {
 		cmd := testenv.Command(t, testenv.Executable(t), exepath)
 		out, err := cmd.CombinedOutput()
 		if err != nil {
-			t.Errorf("go tool nm %v: %v\n%s", exepath, err, string(out))
+			t.Errorf("golang tool nm %v: %v\n%s", exepath, err, string(out))
 		}
 	}
 }
 
-func testGoExec(t *testing.T, iscgo, isexternallinker bool) {
+func testGoExec(t *testing.T, iscgolang, isexternallinker bool) {
 	t.Parallel()
 	tmpdir := t.TempDir()
 
-	src := filepath.Join(tmpdir, "a.go")
+	src := filepath.Join(tmpdir, "a.golang")
 	file, err := os.Create(src)
 	if err != nil {
 		t.Fatal(err)
 	}
-	err = template.Must(template.New("main").Parse(testexec)).Execute(file, iscgo)
+	err = template.Must(template.New("main").Parse(testexec)).Execute(file, iscgolang)
 	if e := file.Close(); err == nil {
 		err = e
 	}
@@ -80,7 +80,7 @@ func testGoExec(t *testing.T, iscgo, isexternallinker bool) {
 
 	exe := filepath.Join(tmpdir, "a.exe")
 	args := []string{"build", "-o", exe}
-	if iscgo {
+	if iscgolang {
 		linkmode := "internal"
 		if isexternallinker {
 			linkmode = "external"
@@ -118,14 +118,14 @@ func testGoExec(t *testing.T, iscgo, isexternallinker bool) {
 		"runtime.noptrdata": "D",
 	}
 
-	if runtime.GOOS == "aix" && iscgo {
+	if runtime.GOOS == "aix" && iscgolang {
 		// pclntab is moved to .data section on AIX.
 		runtimeSyms["runtime.epclntab"] = "D"
 	}
 
 	out, err = testenv.Command(t, testenv.Executable(t), exe).CombinedOutput()
 	if err != nil {
-		t.Fatalf("go tool nm: %v\n%s", err, string(out))
+		t.Fatalf("golang tool nm: %v\n%s", err, string(out))
 	}
 
 	relocated := func(code string) bool {
@@ -133,10 +133,10 @@ func testGoExec(t *testing.T, iscgo, isexternallinker bool) {
 			// On AIX, .data and .bss addresses are changed by the loader.
 			// Therefore, the values returned by the exec aren't the same
 			// than the ones inside the symbol table.
-			// In case of cgo, .text symbols are also changed.
+			// In case of cgolang, .text symbols are also changed.
 			switch code {
 			case "T", "t", "R", "r":
-				return iscgo
+				return iscgolang
 			case "D", "d", "B", "b":
 				return true
 			}
@@ -194,28 +194,28 @@ func TestGoExec(t *testing.T) {
 	testGoExec(t, false, false)
 }
 
-func testGoLib(t *testing.T, iscgo bool) {
+func testGoLib(t *testing.T, iscgolang bool) {
 	t.Parallel()
 	tmpdir := t.TempDir()
 
-	gopath := filepath.Join(tmpdir, "gopath")
-	libpath := filepath.Join(gopath, "src", "mylib")
+	golangpath := filepath.Join(tmpdir, "golangpath")
+	libpath := filepath.Join(golangpath, "src", "mylib")
 
 	err := os.MkdirAll(libpath, 0777)
 	if err != nil {
 		t.Fatal(err)
 	}
-	src := filepath.Join(libpath, "a.go")
+	src := filepath.Join(libpath, "a.golang")
 	file, err := os.Create(src)
 	if err != nil {
 		t.Fatal(err)
 	}
-	err = template.Must(template.New("mylib").Parse(testlib)).Execute(file, iscgo)
+	err = template.Must(template.New("mylib").Parse(testlib)).Execute(file, iscgolang)
 	if e := file.Close(); err == nil {
 		err = e
 	}
 	if err == nil {
-		err = os.WriteFile(filepath.Join(libpath, "go.mod"), []byte("module mylib\n"), 0666)
+		err = os.WriteFile(filepath.Join(libpath, "golang.mod"), []byte("module mylib\n"), 0666)
 	}
 	if err != nil {
 		t.Fatal(err)
@@ -223,7 +223,7 @@ func testGoLib(t *testing.T, iscgo bool) {
 
 	cmd := testenv.Command(t, testenv.GoToolPath(t), "build", "-buildmode=archive", "-o", "mylib.a", ".")
 	cmd.Dir = libpath
-	cmd.Env = append(os.Environ(), "GOPATH="+gopath)
+	cmd.Env = append(os.Environ(), "GOPATH="+golangpath)
 	out, err := cmd.CombinedOutput()
 	if err != nil {
 		t.Fatalf("building test lib failed: %s %s", err, out)
@@ -232,7 +232,7 @@ func testGoLib(t *testing.T, iscgo bool) {
 
 	out, err = testenv.Command(t, testenv.Executable(t), mylib).CombinedOutput()
 	if err != nil {
-		t.Fatalf("go tool nm: %v\n%s", err, string(out))
+		t.Fatalf("golang tool nm: %v\n%s", err, string(out))
 	}
 	type symType struct {
 		Type  string
@@ -244,18 +244,18 @@ func testGoLib(t *testing.T, iscgo bool) {
 		{"B", "mylib.Testdata", false, false},
 		{"T", "mylib.Testfunc", false, false},
 	}
-	if iscgo {
-		syms = append(syms, symType{"B", "mylib.TestCgodata", false, false})
-		syms = append(syms, symType{"T", "mylib.TestCgofunc", false, false})
+	if iscgolang {
+		syms = append(syms, symType{"B", "mylib.TestCgolangdata", false, false})
+		syms = append(syms, symType{"T", "mylib.TestCgolangfunc", false, false})
 		if runtime.GOOS == "darwin" || runtime.GOOS == "ios" || (runtime.GOOS == "windows" && runtime.GOARCH == "386") {
-			syms = append(syms, symType{"D", "_cgodata", true, false})
-			syms = append(syms, symType{"T", "_cgofunc", true, false})
+			syms = append(syms, symType{"D", "_cgolangdata", true, false})
+			syms = append(syms, symType{"T", "_cgolangfunc", true, false})
 		} else if runtime.GOOS == "aix" {
-			syms = append(syms, symType{"D", "cgodata", true, false})
-			syms = append(syms, symType{"T", ".cgofunc", true, false})
+			syms = append(syms, symType{"D", "cgolangdata", true, false})
+			syms = append(syms, symType{"T", ".cgolangfunc", true, false})
 		} else {
-			syms = append(syms, symType{"D", "cgodata", true, false})
-			syms = append(syms, symType{"T", "cgofunc", true, false})
+			syms = append(syms, symType{"D", "cgolangdata", true, false})
+			syms = append(syms, symType{"T", "cgolangfunc", true, false})
 		}
 	}
 
@@ -263,11 +263,11 @@ func testGoLib(t *testing.T, iscgo bool) {
 		f := strings.Fields(line)
 		var typ, name string
 		var csym bool
-		if iscgo {
+		if iscgolang {
 			if len(f) < 4 {
 				continue
 			}
-			csym = !strings.Contains(f[0], "_go_.o")
+			csym = !strings.Contains(f[0], "_golang_.o")
 			typ = f[2]
 			name = f[3]
 		} else {
@@ -322,14 +322,14 @@ const testlib = `
 package mylib
 
 {{if .}}
-// int cgodata = 5;
-// void cgofunc(void) {}
+// int cgolangdata = 5;
+// void cgolangfunc(void) {}
 import "C"
 
-var TestCgodata = C.cgodata
+var TestCgolangdata = C.cgolangdata
 
-func TestCgofunc() {
-	C.cgofunc()
+func TestCgolangfunc() {
+	C.cgolangfunc()
 }
 {{end}}
 

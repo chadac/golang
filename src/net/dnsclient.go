@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package net
@@ -9,14 +9,14 @@ import (
 	"internal/bytealg"
 	"internal/itoa"
 	"slices"
-	_ "unsafe" // for go:linkname
+	_ "unsafe" // for golang:linkname
 
-	"golang.org/x/net/dns/dnsmessage"
+	"golanglang.org/x/net/dns/dnsmessage"
 )
 
 // provided by runtime
 //
-//go:linkname runtime_rand runtime.rand
+//golang:linkname runtime_rand runtime.rand
 func runtime_rand() uint64
 
 func randInt() int {
@@ -75,7 +75,7 @@ func equalASCIIName(x, y dnsmessage.Name) bool {
 
 // isDomainName checks if a string is a presentation-format domain name
 // (currently restricted to hostname-compatible "preferred name" LDH labels and
-// SRV-like "underscore labels"; see golang.org/issue/12421).
+// SRV-like "underscore labels"; see golanglang.org/issue/12421).
 //
 // isDomainName should be an internal detail,
 // but widely used packages access it using linkname.
@@ -83,11 +83,11 @@ func equalASCIIName(x, y dnsmessage.Name) bool {
 //   - github.com/sagernet/sing
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname isDomainName
+//golang:linkname isDomainName
 func isDomainName(s string) bool {
-	// The root domain name is valid. See golang.org/issue/45715.
+	// The root domain name is valid. See golanglang.org/issue/45715.
 	if s == "." {
 		return true
 	}
@@ -148,7 +148,7 @@ func isDomainName(s string) bool {
 // absDomainName returns an absolute domain name which ends with a
 // trailing dot to match pure Go reverse resolver and all other lookup
 // routines.
-// See golang.org/issue/12189.
+// See golanglang.org/issue/12189.
 // But we don't want to add dots for local names from /etc/hosts.
 // It's hard to tell so we settle on the heuristic that names without dots
 // (like "localhost" or "myhost") do not get trailing dots, but any other
@@ -171,7 +171,7 @@ type SRV struct {
 // byPriorityWeight sorts SRV records by ascending priority and weight.
 type byPriorityWeight []*SRV
 
-// shuffleByWeight shuffles SRV records by weight using the algorithm
+// shuffleByWeight shuffles SRV records by weight using the algolangrithm
 // described in RFC 2782.
 func (addrs byPriorityWeight) shuffleByWeight() {
 	sum := 0

@@ -1,13 +1,13 @@
 // run
 
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Test independent goroutines modifying a comprehensive
+// Test independent golangroutines modifying a comprehensive
 // variety of vars during aggressive garbage collection.
 
-// The point is to catch GC regressions like fixedbugs/issue22781.go
+// The point is to catch GC regressions like fixedbugs/issue22781.golang
 
 package main
 
@@ -19,7 +19,7 @@ import (
 )
 
 const (
-	goroutines = 8
+	golangroutines = 8
 	allocs     = 8
 	mods       = 8
 
@@ -29,53 +29,53 @@ const (
 func main() {
 	debug.SetGCPercent(1)
 	var wg sync.WaitGroup
-	for i := 0; i < goroutines; i++ {
+	for i := 0; i < golangroutines; i++ {
 		for _, t := range types {
 			err := t.valid()
 			if err != nil {
 				panic(err)
 			}
 			wg.Add(1)
-			go func(f modifier) {
+			golang func(f modifier) {
 				var wg2 sync.WaitGroup
 				for j := 0; j < allocs; j++ {
 					wg2.Add(1)
-					go func() {
+					golang func() {
 						f.t()
 						wg2.Done()
 					}()
 					wg2.Add(1)
-					go func() {
+					golang func() {
 						f.pointerT()
 						wg2.Done()
 					}()
 					wg2.Add(1)
-					go func() {
+					golang func() {
 						f.arrayT()
 						wg2.Done()
 					}()
 					wg2.Add(1)
-					go func() {
+					golang func() {
 						f.sliceT()
 						wg2.Done()
 					}()
 					wg2.Add(1)
-					go func() {
+					golang func() {
 						f.mapT()
 						wg2.Done()
 					}()
 					wg2.Add(1)
-					go func() {
+					golang func() {
 						f.mapPointerKeyT()
 						wg2.Done()
 					}()
 					wg2.Add(1)
-					go func() {
+					golang func() {
 						f.chanT()
 						wg2.Done()
 					}()
 					wg2.Add(1)
-					go func() {
+					golang func() {
 						f.interfaceT()
 						wg2.Done()
 					}()
@@ -184,7 +184,7 @@ var types = []modifier{
 		chanT: func() {
 			a := make(chan bool)
 			for i := 0; i < mods; i++ {
-				go func() { a <- false }()
+				golang func() { a <- false }()
 				<-a
 				runtime.Gosched()
 			}
@@ -260,7 +260,7 @@ var types = []modifier{
 		chanT: func() {
 			a := make(chan uint8)
 			for i := 0; i < mods; i++ {
-				go func() { a <- uint8(i) }()
+				golang func() { a <- uint8(i) }()
 				<-a
 				runtime.Gosched()
 			}
@@ -336,7 +336,7 @@ var types = []modifier{
 		chanT: func() {
 			a := make(chan uint16)
 			for i := 0; i < mods; i++ {
-				go func() { a <- uint16(i) }()
+				golang func() { a <- uint16(i) }()
 				<-a
 				runtime.Gosched()
 			}
@@ -412,7 +412,7 @@ var types = []modifier{
 		chanT: func() {
 			a := make(chan uint32)
 			for i := 0; i < mods; i++ {
-				go func() { a <- uint32(i) }()
+				golang func() { a <- uint32(i) }()
 				<-a
 				runtime.Gosched()
 			}
@@ -488,7 +488,7 @@ var types = []modifier{
 		chanT: func() {
 			a := make(chan uint64)
 			for i := 0; i < mods; i++ {
-				go func() { a <- uint64(i) }()
+				golang func() { a <- uint64(i) }()
 				<-a
 				runtime.Gosched()
 			}
@@ -564,7 +564,7 @@ var types = []modifier{
 		chanT: func() {
 			a := make(chan int8)
 			for i := 0; i < mods; i++ {
-				go func() { a <- int8(i) }()
+				golang func() { a <- int8(i) }()
 				<-a
 				runtime.Gosched()
 			}
@@ -640,7 +640,7 @@ var types = []modifier{
 		chanT: func() {
 			a := make(chan int16)
 			for i := 0; i < mods; i++ {
-				go func() { a <- int16(i) }()
+				golang func() { a <- int16(i) }()
 				<-a
 				runtime.Gosched()
 			}
@@ -716,7 +716,7 @@ var types = []modifier{
 		chanT: func() {
 			a := make(chan int32)
 			for i := 0; i < mods; i++ {
-				go func() { a <- int32(i) }()
+				golang func() { a <- int32(i) }()
 				<-a
 				runtime.Gosched()
 			}
@@ -792,7 +792,7 @@ var types = []modifier{
 		chanT: func() {
 			a := make(chan int64)
 			for i := 0; i < mods; i++ {
-				go func() { a <- int64(i) }()
+				golang func() { a <- int64(i) }()
 				<-a
 				runtime.Gosched()
 			}
@@ -877,7 +877,7 @@ var types = []modifier{
 		chanT: func() {
 			a := make(chan float32)
 			for i := 0; i < mods; i++ {
-				go func() { a <- float32(i) }()
+				golang func() { a <- float32(i) }()
 				<-a
 				runtime.Gosched()
 			}
@@ -962,7 +962,7 @@ var types = []modifier{
 		chanT: func() {
 			a := make(chan float64)
 			for i := 0; i < mods; i++ {
-				go func() { a <- float64(i) }()
+				golang func() { a <- float64(i) }()
 				<-a
 				runtime.Gosched()
 			}
@@ -1047,7 +1047,7 @@ var types = []modifier{
 		chanT: func() {
 			a := make(chan complex64)
 			for i := 0; i < mods; i++ {
-				go func() { a <- complex64(complex(float32(i), float32(i))) }()
+				golang func() { a <- complex64(complex(float32(i), float32(i))) }()
 				<-a
 				runtime.Gosched()
 			}
@@ -1132,7 +1132,7 @@ var types = []modifier{
 		chanT: func() {
 			a := make(chan complex128)
 			for i := 0; i < mods; i++ {
-				go func() { a <- complex128(complex(float64(i), float64(i))) }()
+				golang func() { a <- complex128(complex(float64(i), float64(i))) }()
 				<-a
 				runtime.Gosched()
 			}
@@ -1208,7 +1208,7 @@ var types = []modifier{
 		chanT: func() {
 			a := make(chan byte)
 			for i := 0; i < mods; i++ {
-				go func() { a <- byte(i) }()
+				golang func() { a <- byte(i) }()
 				<-a
 				runtime.Gosched()
 			}
@@ -1284,7 +1284,7 @@ var types = []modifier{
 		chanT: func() {
 			a := make(chan rune)
 			for i := 0; i < mods; i++ {
-				go func() { a <- rune(i) }()
+				golang func() { a <- rune(i) }()
 				<-a
 				runtime.Gosched()
 			}
@@ -1360,7 +1360,7 @@ var types = []modifier{
 		chanT: func() {
 			a := make(chan uint)
 			for i := 0; i < mods; i++ {
-				go func() { a <- uint(i) }()
+				golang func() { a <- uint(i) }()
 				<-a
 				runtime.Gosched()
 			}
@@ -1436,7 +1436,7 @@ var types = []modifier{
 		chanT: func() {
 			a := make(chan int)
 			for i := 0; i < mods; i++ {
-				go func() { a <- int(i) }()
+				golang func() { a <- int(i) }()
 				<-a
 				runtime.Gosched()
 			}
@@ -1512,7 +1512,7 @@ var types = []modifier{
 		chanT: func() {
 			a := make(chan uintptr)
 			for i := 0; i < mods; i++ {
-				go func() { a <- uintptr(i) }()
+				golang func() { a <- uintptr(i) }()
 				<-a
 				runtime.Gosched()
 			}
@@ -1589,7 +1589,7 @@ var types = []modifier{
 		chanT: func() {
 			a := make(chan string)
 			for i := 0; i < mods; i++ {
-				go func() { a <- str(i) }()
+				golang func() { a <- str(i) }()
 				<-a
 				runtime.Gosched()
 			}
@@ -1792,7 +1792,7 @@ var types = []modifier{
 		chanT: func() {
 			a := make(chan structT)
 			for i := 0; i < mods; i++ {
-				go func() { a <- newStructT() }()
+				golang func() { a <- newStructT() }()
 				<-a
 				runtime.Gosched()
 			}

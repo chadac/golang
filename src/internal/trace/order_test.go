@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package trace
@@ -13,10 +13,10 @@ func TestQueue(t *testing.T) {
 			q.push(v)
 		}
 		for i, want := range exp {
-			if got, ok := q.pop(); !ok {
+			if golangt, ok := q.pop(); !ok {
 				t.Fatalf("check %q: expected to be able to pop after %d pops", name, i+1)
-			} else if got != want {
-				t.Fatalf("check %q: expected value %d after on pop %d, got %d", name, want, i+1, got)
+			} else if golangt != want {
+				t.Fatalf("check %q: expected value %d after on pop %d, golangt %d", name, want, i+1, golangt)
 			}
 		}
 		if _, ok := q.pop(); ok {

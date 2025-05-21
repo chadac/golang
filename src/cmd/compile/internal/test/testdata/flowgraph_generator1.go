@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -43,45 +43,45 @@ import (
 // 	b = x & 1
 // 	x = x >> 1
 // 	if b != 0 {
-// 		goto C
+// 		golangto C
 // 	}
-// 	goto B
+// 	golangto B
 // B:
 // 	glob_ = !glob_
 // 	y += 1
 // 	b = x & 1
 // 	x = x >> 1
 // 	if b != 0 {
-// 		goto D
+// 		golangto D
 // 	}
-// 	goto C
+// 	golangto C
 // C:
 // 	glob_ = !glob_
 // 	// no y increment
 // 	b = x & 1
 // 	x = x >> 1
 // 	if b != 0 {
-// 		goto E
+// 		golangto E
 // 	}
-// 	goto B
+// 	golangto B
 // D:
 // 	glob_ = !glob_
 // 	y += 10
 // 	b = x & 1
 // 	x = x >> 1
 // 	if b != 0 {
-// 		goto Z
+// 		golangto Z
 // 	}
-// 	goto B
+// 	golangto B
 // E:
 // 	glob_ = !glob_
 // 	// no y increment
 // 	b = x & 1
 // 	x = x >> 1
 // 	if b != 0 {
-// 		goto Z
+// 		golangto Z
 // 	}
-// 	goto C
+// 	golangto C
 // Z:
 // 	return y
 // }
@@ -136,13 +136,13 @@ func ` + fname + `(x int64) int64 {
 	b = x & 1
 	x = x >> 1
 	if b != 0 {` + `
-		goto ` + string(labels[blocks[j].succs[1]]) + `
+		golangto ` + string(labels[blocks[j].succs[1]]) + `
 	}`
 
 		}
 		// branch to first successor
 		s += `
-	goto ` + string(labels[blocks[j].succs[0]])
+	golangto ` + string(labels[blocks[j].succs[0]])
 	}
 
 	// end block (Z)
@@ -231,7 +231,7 @@ func fmtBlocks(bs []blo) string {
 }
 
 func main() {
-	fmt.Printf(`// This is a machine-generated test file from flowgraph_generator1.go.
+	fmt.Printf(`// This is a machine-generated test file from flowgraph_generator1.golang.
 package main
 import "fmt"
 var glob bool

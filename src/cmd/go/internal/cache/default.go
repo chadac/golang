@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package cache
@@ -10,8 +10,8 @@ import (
 	"path/filepath"
 	"sync"
 
-	"cmd/go/internal/base"
-	"cmd/go/internal/cfg"
+	"cmd/golang/internal/base"
+	"cmd/golang/internal/cfg"
 )
 
 // Default returns the default cache to use.
@@ -26,9 +26,9 @@ var initDefaultCacheOnce = sync.OnceValue(initDefaultCache)
 // Because the cache lives outside the normal Go trees, we leave the
 // README as a courtesy to explain where it came from.
 const cacheREADME = `This directory holds cached build artifacts from the Go build system.
-Run "go clean -cache" if the directory is getting too large.
-Run "go clean -fuzzcache" to delete the fuzz cache.
-See golang.org to learn more about Go.
+Run "golang clean -cache" if the directory is getting too large.
+Run "golang clean -fuzzcache" to delete the fuzz cache.
+See golanglang.org to learn more about Go.
 `
 
 // initDefaultCache does the work of finding the default cache
@@ -73,7 +73,7 @@ var (
 // and reports whether the effective value differs from GOCACHE.
 func DefaultDir() (string, bool, error) {
 	// Save the result of the first call to DefaultDir for later use in
-	// initDefaultCache. cmd/go/main.go explicitly sets GOCACHE so that
+	// initDefaultCache. cmd/golang/main.golang explicitly sets GOCACHE so that
 	// subprocesses will inherit it, but that means initDefaultCache can't
 	// otherwise distinguish between an explicit "off" and a UserCacheDir error.
 
@@ -84,7 +84,7 @@ func DefaultDir() (string, bool, error) {
 			defaultDir = "off"
 			defaultDirErr = fmt.Errorf("GOCACHE is not defined and %v", err)
 		} else {
-			defaultDir = filepath.Join(dir, "go-build")
+			defaultDir = filepath.Join(dir, "golang-build")
 		}
 
 		newDir := cfg.Getenv("GOCACHE")

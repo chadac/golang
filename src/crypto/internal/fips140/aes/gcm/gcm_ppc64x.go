@@ -1,8 +1,8 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build (ppc64le || ppc64) && !purego
+//golang:build (ppc64le || ppc64) && !puregolang
 
 package gcm
 
@@ -10,17 +10,17 @@ import (
 	"crypto/internal/fips140/aes"
 	"crypto/internal/fips140/subtle"
 	"crypto/internal/fips140deps/byteorder"
-	"crypto/internal/fips140deps/godebug"
+	"crypto/internal/fips140deps/golangdebug"
 	"crypto/internal/impl"
 	"runtime"
 )
 
 // This file implements GCM using an optimized GHASH function.
 
-//go:noescape
+//golang:noescape
 func gcmInit(productTable *[256]byte, h []byte)
 
-//go:noescape
+//golang:noescape
 func gcmHash(output []byte, productTable *[256]byte, inp []byte, len int)
 
 func counterCryptASM(nr int, out, in []byte, counter *[gcmBlockSize]byte, key *uint32)
@@ -29,7 +29,7 @@ func counterCryptASM(nr int, out, in []byte, counter *[gcmBlockSize]byte, key *u
 // at runtime with GODEBUG=cpu.something=off, so introduce a new GODEBUG
 // knob for that. It's intentionally only checked at init() time, to
 // avoid the performance overhead of checking it every time.
-var supportsAESGCM = godebug.Value("#ppc64gcm") != "off"
+var supportsAESGCM = golangdebug.Value("#ppc64gcm") != "off"
 
 func init() {
 	impl.Register("gcm", "POWER8", &supportsAESGCM)
@@ -96,7 +96,7 @@ func counterCrypt(b *aes.Block, out, in []byte, counter *[gcmBlockSize]byte) {
 
 // paddedGHASH pads data with zeroes until its length is a multiple of
 // 16-bytes. It then calculates a new value for hash using the ghash
-// algorithm.
+// algolangrithm.
 func paddedGHASH(hash *[16]byte, data []byte, productTable *[256]byte) {
 	if siz := len(data) - (len(data) % gcmBlockSize); siz > 0 {
 		gcmHash(hash[:], productTable, data[:], siz)

@@ -1,13 +1,13 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package auth provides access to user-provided authentication credentials.
 package auth
 
 import (
-	"cmd/go/internal/base"
-	"cmd/go/internal/cfg"
+	"cmd/golang/internal/base"
+	"cmd/golang/internal/cfg"
 	"fmt"
 	"log"
 	"net/http"
@@ -51,20 +51,20 @@ func AddCredentials(client *http.Client, req *http.Request, res *http.Response, 
 // and storing retrieved credentials for future access.
 func runGoAuth(client *http.Client, res *http.Response, url string) {
 	var cmdErrs []error // store GOAUTH command errors to log later.
-	goAuthCmds := strings.Split(cfg.GOAUTH, ";")
+	golangAuthCmds := strings.Split(cfg.GOAUTH, ";")
 	// The GOAUTH commands are processed in reverse order to prioritize
 	// credentials in the order they were specified.
-	slices.Reverse(goAuthCmds)
-	for _, command := range goAuthCmds {
+	slices.Reverse(golangAuthCmds)
+	for _, command := range golangAuthCmds {
 		command = strings.TrimSpace(command)
 		words := strings.Fields(command)
 		if len(words) == 0 {
-			base.Fatalf("go: GOAUTH encountered an empty command (GOAUTH=%s)", cfg.GOAUTH)
+			base.Fatalf("golang: GOAUTH encountered an empty command (GOAUTH=%s)", cfg.GOAUTH)
 		}
 		switch words[0] {
 		case "off":
-			if len(goAuthCmds) != 1 {
-				base.Fatalf("go: GOAUTH=off cannot be combined with other authentication commands (GOAUTH=%s)", cfg.GOAUTH)
+			if len(golangAuthCmds) != 1 {
+				base.Fatalf("golang: GOAUTH=off cannot be combined with other authentication commands (GOAUTH=%s)", cfg.GOAUTH)
 			}
 			return
 		case "netrc":
@@ -75,7 +75,7 @@ func runGoAuth(client *http.Client, res *http.Response, url string) {
 			}
 			// Process lines in reverse so that if the same machine is listed
 			// multiple times, we end up saving the earlier one
-			// (overwriting later ones). This matches the way the go command
+			// (overwriting later ones). This matches the way the golang command
 			// worked before GOAUTH.
 			for i := len(lines) - 1; i >= 0; i-- {
 				l := lines[i]
@@ -85,18 +85,18 @@ func runGoAuth(client *http.Client, res *http.Response, url string) {
 			}
 		case "git":
 			if len(words) != 2 {
-				base.Fatalf("go: GOAUTH=git dir method requires an absolute path to the git working directory")
+				base.Fatalf("golang: GOAUTH=git dir method requires an absolute path to the git working directory")
 			}
 			dir := words[1]
 			if !filepath.IsAbs(dir) {
-				base.Fatalf("go: GOAUTH=git dir method requires an absolute path to the git working directory, dir is not absolute")
+				base.Fatalf("golang: GOAUTH=git dir method requires an absolute path to the git working directory, dir is not absolute")
 			}
 			fs, err := os.Stat(dir)
 			if err != nil {
-				base.Fatalf("go: GOAUTH=git encountered an error; cannot stat %s: %v", dir, err)
+				base.Fatalf("golang: GOAUTH=git encountered an error; cannot stat %s: %v", dir, err)
 			}
 			if !fs.IsDir() {
-				base.Fatalf("go: GOAUTH=git dir method requires an absolute path to the git working directory, dir is not a directory")
+				base.Fatalf("golang: GOAUTH=git dir method requires an absolute path to the git working directory, dir is not a directory")
 			}
 
 			if url == "" {

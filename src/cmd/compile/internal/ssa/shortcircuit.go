@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ssa
@@ -12,7 +12,7 @@ func shortcircuit(f *Func) {
 	// Step 1: Replace a phi arg with a constant if that arg
 	// is the control value of a preceding If block.
 	// b1:
-	//    If a goto b2 else b3
+	//    If a golangto b2 else b3
 	// b2: <- b1 ...
 	//    x = phi(a, ...)
 	//
@@ -52,11 +52,11 @@ func shortcircuit(f *Func) {
 
 	// Step 2: Redirect control flow around known branches.
 	// p:
-	//   ... goto b ...
+	//   ... golangto b ...
 	// b: <- p ...
 	//   v = phi(true, ...)
-	//   if v goto t else u
-	// We can redirect p to go directly to t instead of b.
+	//   if v golangto t else u
+	// We can redirect p to golang directly to t instead of b.
 	// (If v is not live after b).
 	fuse(f, fuseTypePlain|fuseTypeShortCircuit)
 }
@@ -176,7 +176,7 @@ func shortcircuitBlock(b *Block) bool {
 	p := pe.b
 	pi := pe.i
 
-	// t is the "taken" branch: the successor we always go to when coming in from p.
+	// t is the "taken" branch: the successor we always golang to when coming in from p.
 	ti := 1 ^ ctl.Args[cidx].AuxInt ^ swap
 	te := b.Succs[ti]
 	t := te.b
@@ -200,7 +200,7 @@ func shortcircuitBlock(b *Block) bool {
 	b.removePred(cidx)
 	b.removePhiArg(ctl, cidx)
 
-	// Redirect p's outgoing edge to t.
+	// Redirect p's outgolanging edge to t.
 	p.Succs[pi] = Edge{t, len(t.Preds)}
 
 	// Fix up t to have one more predecessor.
@@ -225,7 +225,7 @@ func shortcircuitBlock(b *Block) bool {
 			if phi.Block == b {
 				continue
 			}
-			// phi got moved to a different block with v.moveTo.
+			// phi golangt moved to a different block with v.moveTo.
 			// Adjust phi values in this new block that refer
 			// to phi to refer to the corresponding phi arg instead.
 			// phi used to be evaluated prior to this block,
@@ -277,9 +277,9 @@ func shortcircuitBlock(b *Block) bool {
 // and the CFG modifications must not proceed.
 // The returned function assumes that shortcircuitBlock has completed its CFG modifications.
 func shortcircuitPhiPlan(b *Block, ctl *Value, cidx int, ti int64) func(*Value, int) {
-	// t is the "taken" branch: the successor we always go to when coming in from p.
+	// t is the "taken" branch: the successor we always golang to when coming in from p.
 	t := b.Succs[ti].b
-	// u is the "untaken" branch: the successor we never go to when coming in from p.
+	// u is the "untaken" branch: the successor we never golang to when coming in from p.
 	u := b.Succs[1^ti].b
 
 	// In the following CFG matching, ensure that b's preds are entirely distinct from b's succs.
@@ -535,7 +535,7 @@ func (v *Value) moveTo(dst *Block, i int) {
 //		If there exist a block x in G that is not dominated by v, then there exist a
 //		path P from entry to x that does not contain v. Denote x's predecessor in P
 //		as x', then x' must also be in G given constraint (3), same to its pred x''
-//		in P. Given constraint (2), by going back in P we will in the end reach v,
+//		in P. Given constraint (2), by golanging back in P we will in the end reach v,
 //		which conflicts with the definition of P.
 //
 // Constraint (2)'s DAG requirement could be further relaxed to contain "internal"
@@ -560,7 +560,7 @@ func (v *Block) flowsTo(t *Block, cap int) map[*Block]struct{} {
 		}
 		if b == t {
 			// do not put t into seen, this way
-			// if v can reach t's connected component without going through t,
+			// if v can reach t's connected component without golanging through t,
 			// it will fail the pred check after boundedDFSUntil.
 			hasPathToT = true
 			return

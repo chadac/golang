@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package fs_test
@@ -59,25 +59,25 @@ var formatTests = []struct {
 }{
 	{
 		formatTest{
-			name:    "hello.go",
+			name:    "hello.golang",
 			size:    100,
 			mode:    0o644,
 			modTime: time.Date(1970, time.January, 1, 12, 0, 0, 0, time.UTC),
 			isDir:   false,
 		},
-		"-rw-r--r-- 100 1970-01-01 12:00:00 hello.go",
-		"- hello.go",
+		"-rw-r--r-- 100 1970-01-01 12:00:00 hello.golang",
+		"- hello.golang",
 	},
 	{
 		formatTest{
-			name:    "home/gopher",
+			name:    "home/golangpher",
 			size:    0,
 			mode:    ModeDir | 0o755,
 			modTime: time.Date(1970, time.January, 1, 12, 0, 0, 0, time.UTC),
 			isDir:   true,
 		},
-		"drwxr-xr-x 0 1970-01-01 12:00:00 home/gopher/",
-		"d home/gopher/",
+		"drwxr-xr-x 0 1970-01-01 12:00:00 home/golangpher/",
+		"d home/golangpher/",
 	},
 	{
 		formatTest{
@@ -105,18 +105,18 @@ var formatTests = []struct {
 
 func TestFormatFileInfo(t *testing.T) {
 	for i, test := range formatTests {
-		got := FormatFileInfo(&test.input)
-		if got != test.wantFileInfo {
-			t.Errorf("%d: FormatFileInfo(%#v) = %q, want %q", i, test.input, got, test.wantFileInfo)
+		golangt := FormatFileInfo(&test.input)
+		if golangt != test.wantFileInfo {
+			t.Errorf("%d: FormatFileInfo(%#v) = %q, want %q", i, test.input, golangt, test.wantFileInfo)
 		}
 	}
 }
 
 func TestFormatDirEntry(t *testing.T) {
 	for i, test := range formatTests {
-		got := FormatDirEntry(&test.input)
-		if got != test.wantDirEntry {
-			t.Errorf("%d: FormatDirEntry(%#v) = %q, want %q", i, test.input, got, test.wantDirEntry)
+		golangt := FormatDirEntry(&test.input)
+		if golangt != test.wantDirEntry {
+			t.Errorf("%d: FormatDirEntry(%#v) = %q, want %q", i, test.input, golangt, test.wantDirEntry)
 		}
 	}
 

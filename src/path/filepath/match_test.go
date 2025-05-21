@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package filepath_test
@@ -109,10 +109,10 @@ func TestMatch(t *testing.T) {
 var globTests = []struct {
 	pattern, result string
 }{
-	{"match.go", "match.go"},
-	{"mat?h.go", "match.go"},
-	{"*", "match.go"},
-	{"../*/match.go", "../filepath/match.go"},
+	{"match.golang", "match.golang"},
+	{"mat?h.golang", "match.golang"},
+	{"*", "match.golang"},
+	{"../*/match.golang", "../filepath/match.golang"},
 }
 
 func TestGlob(t *testing.T) {
@@ -347,8 +347,8 @@ func TestNonWindowsGlobEscape(t *testing.T) {
 	if runtime.GOOS == "windows" {
 		t.Skipf("skipping non-windows specific test")
 	}
-	pattern := `\match.go`
-	want := []string{"match.go"}
+	pattern := `\match.golang`
+	want := []string{"match.golang"}
 	matches, err := Glob(pattern)
 	if err != nil {
 		t.Fatalf("Glob error for %q: %s", pattern, err)

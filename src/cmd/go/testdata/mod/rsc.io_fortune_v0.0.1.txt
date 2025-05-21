@@ -3,15 +3,15 @@ written by hand
 
 -- .mod --
 module rsc.io/fortune
-go 1.21rc999
+golang 1.21rc999
 
--- go.mod --
+-- golang.mod --
 module rsc.io/fortune
-go 1.21rc999
+golang 1.21rc999
 
 -- .info --
 {"Version":"v0.0.1"}
--- fortune.go --
+-- fortune.golang --
 package main
 
 import "rsc.io/quote"

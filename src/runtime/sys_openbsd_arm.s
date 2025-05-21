@@ -1,13 +1,13 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 //
 // System calls and other sys.stuff for ARM, OpenBSD
 // /usr/src/sys/kern/syscalls.master for syscall numbers.
 //
 
-#include "go_asm.h"
-#include "go_tls.h"
+#include "golang_asm.h"
+#include "golang_tls.h"
 #include "textflag.h"
 
 #define	CLOCK_REALTIME	$0
@@ -73,7 +73,7 @@ TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME,$0
 
 	MOVW	R1, 8(R13)
 	MOVW	R2, 12(R13)
-	BL	runtime·sigtrampgo(SB)
+	BL	runtime·sigtrampgolang(SB)
 
 	// Restore callee-save registers.
 	ADD	$16, R13
@@ -95,7 +95,7 @@ TEXT runtime·read_tls_fallback(SB),NOSPLIT|NOFRAME,$0
 	RET
 
 // These trampolines help convert from Go calling convention to C calling convention.
-// They should be called with asmcgocall - note that while asmcgocall does
+// They should be called with asmcgolangcall - note that while asmcgolangcall does
 // stack alignment, creation of a frame undoes it again.
 // A pointer to the arguments is passed in R0.
 // A single int32 result is returned in R0.

@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package buildid
@@ -164,7 +164,7 @@ func readELF(name string, f *os.File, data []byte) (buildid string, err error) {
 	}
 
 	// If we didn't find a Go note, use a GNU note if available.
-	// This is what gccgo uses.
+	// This is what gccgolang uses.
 	if gnu != "" {
 		return gnu, nil
 	}

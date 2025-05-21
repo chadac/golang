@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -12,15 +12,15 @@ import (
 func main() {
 	const want = 120
 
-	if got := a.Fact(5); got != want {
-		panic(fmt.Sprintf("got %d, want %d", got, want))
+	if golangt := a.Fact(5); golangt != want {
+		panic(fmt.Sprintf("golangt %d, want %d", golangt, want))
 	}
 
-	if got := a.Fact[int64](5); got != want {
-		panic(fmt.Sprintf("got %d, want %d", got, want))
+	if golangt := a.Fact[int64](5); golangt != want {
+		panic(fmt.Sprintf("golangt %d, want %d", golangt, want))
 	}
 
-	if got := a.Fact(5.0); got != want {
-		panic(fmt.Sprintf("got %f, want %f", got, want))
+	if golangt := a.Fact(5.0); golangt != want {
+		panic(fmt.Sprintf("golangt %f, want %f", golangt, want))
 	}
 }

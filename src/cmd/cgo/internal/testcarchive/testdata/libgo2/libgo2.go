@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -36,14 +36,14 @@ import (
 	"runtime"
 )
 
-// RunGoroutines starts some goroutines that don't do anything.
-// The idea is to get some threads going, so that a signal will be delivered
+// RunGoroutines starts some golangroutines that don't do anything.
+// The idea is to get some threads golanging, so that a signal will be delivered
 // to a thread started by Go.
 //
 //export RunGoroutines
 func RunGoroutines() {
 	for i := 0; i < 4; i++ {
-		go func() {
+		golang func() {
 			runtime.LockOSThread()
 			select {}
 		}()

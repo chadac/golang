@@ -1,20 +1,20 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // WARNING: Please avoid updating this file. If this file needs to be updated,
 // then a new devirt.pprof file should be generated:
 //
-//	$ cd $GOROOT/src/cmd/compile/internal/test/testdata/pgo/devirtualize/
-//	$ go mod init example.com/pgo/devirtualize
-//	$ go test -bench=. -cpuprofile ./devirt.pprof
+//	$ cd $GOROOT/src/cmd/compile/internal/test/testdata/pgolang/devirtualize/
+//	$ golang mod init example.com/pgolang/devirtualize
+//	$ golang test -bench=. -cpuprofile ./devirt.pprof
 
 package devirt
 
 import (
 	"testing"
 
-	"example.com/pgo/devirtualize/mult.pkg"
+	"example.com/pgolang/devirtualize/mult.pkg"
 )
 
 func BenchmarkDevirtIface(b *testing.B) {
@@ -38,7 +38,7 @@ func TestDevirtIface(t *testing.T) {
 	)
 
 	if v := ExerciseIface(10, a1, a2, m1, m2); v != 1176 {
-		t.Errorf("ExerciseIface(10) got %d want 1176", v)
+		t.Errorf("ExerciseIface(10) golangt %d want 1176", v)
 	}
 }
 
@@ -48,7 +48,7 @@ func BenchmarkDevirtFuncConcrete(b *testing.B) {
 
 func TestDevirtFuncConcrete(t *testing.T) {
 	if v := ExerciseFuncConcrete(10, AddFn, SubFn, mult.MultFn, mult.NegMultFn); v != 1176 {
-		t.Errorf("ExerciseFuncConcrete(10) got %d want 1176", v)
+		t.Errorf("ExerciseFuncConcrete(10) golangt %d want 1176", v)
 	}
 }
 
@@ -58,7 +58,7 @@ func BenchmarkDevirtFuncField(b *testing.B) {
 
 func TestDevirtFuncField(t *testing.T) {
 	if v := ExerciseFuncField(10, AddFn, SubFn, mult.MultFn, mult.NegMultFn); v != 1176 {
-		t.Errorf("ExerciseFuncField(10) got %d want 1176", v)
+		t.Errorf("ExerciseFuncField(10) golangt %d want 1176", v)
 	}
 }
 
@@ -68,7 +68,7 @@ func BenchmarkDevirtFuncClosure(b *testing.B) {
 
 func TestDevirtFuncClosure(t *testing.T) {
 	if v := ExerciseFuncClosure(10, AddClosure(), SubClosure(), mult.MultClosure(), mult.NegMultClosure()); v != 1176 {
-		t.Errorf("ExerciseFuncClosure(10) got %d want 1176", v)
+		t.Errorf("ExerciseFuncClosure(10) golangt %d want 1176", v)
 	}
 }
 

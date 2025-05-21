@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime_test
@@ -29,10 +29,10 @@ func TestMemHash32Equality(t *testing.T) {
 	seed := uintptr(r.Uint64())
 	for i := 0; i < 100; i++ {
 		randBytes(r, b[:])
-		got := MemHash32(unsafe.Pointer(&b), seed)
+		golangt := MemHash32(unsafe.Pointer(&b), seed)
 		want := MemHash(unsafe.Pointer(&b), seed, 4)
-		if got != want {
-			t.Errorf("MemHash32(%x, %v) = %v; want %v", b, seed, got, want)
+		if golangt != want {
+			t.Errorf("MemHash32(%x, %v) = %v; want %v", b, seed, golangt, want)
 		}
 	}
 }
@@ -46,16 +46,16 @@ func TestMemHash64Equality(t *testing.T) {
 	seed := uintptr(r.Uint64())
 	for i := 0; i < 100; i++ {
 		randBytes(r, b[:])
-		got := MemHash64(unsafe.Pointer(&b), seed)
+		golangt := MemHash64(unsafe.Pointer(&b), seed)
 		want := MemHash(unsafe.Pointer(&b), seed, 8)
-		if got != want {
-			t.Errorf("MemHash64(%x, %v) = %v; want %v", b, seed, got, want)
+		if golangt != want {
+			t.Errorf("MemHash64(%x, %v) = %v; want %v", b, seed, golangt, want)
 		}
 	}
 }
 
 // Smhasher is a torture test for hash functions.
-// https://code.google.com/p/smhasher/
+// https://code.golangogle.com/p/smhasher/
 // This code is a port of some of the Smhasher tests to Go.
 //
 // The current AES hash function passes Smhasher. Our fallback
@@ -123,7 +123,7 @@ func (s *HashSet) check(t *testing.T) {
 	expected := float64(pairs) / math.Pow(2.0, float64(hashSize))
 	stddev := math.Sqrt(expected)
 	if float64(collisions) > expected+SLOP*(3*stddev+1) {
-		t.Errorf("unexpected number of collisions: got=%d mean=%f stddev=%f threshold=%f", collisions, expected, stddev, expected+SLOP*(3*stddev+1))
+		t.Errorf("unexpected number of collisions: golangt=%d mean=%f stddev=%f threshold=%f", collisions, expected, stddev, expected+SLOP*(3*stddev+1))
 	}
 	// Reset for reuse
 	s.list = s.list[:0]
@@ -688,9 +688,9 @@ func TestArrayHash(t *testing.T) {
 
 	// If the hash is bad, then all (8 choose 4) = 70 keys
 	// have the same hash. If so, we allocate 70/8 = 8
-	// overflow buckets. If the hash is good we don't
+	// overflow buckets. If the hash is golangod we don't
 	// normally allocate any overflow buckets, and the
-	// probability of even one or two overflows goes down rapidly.
+	// probability of even one or two overflows golanges down rapidly.
 	// (There is always 1 allocation of the bucket array. The map
 	// header is allocated on the stack.)
 	f := func() {

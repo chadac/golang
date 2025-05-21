@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test of basic recover functionality.
@@ -15,7 +15,7 @@ import (
 )
 
 func main() {
-	// go.tools/ssa/interp still has:
+	// golang.tools/ssa/interp still has:
 	// - some lesser bugs in recover()
 	// - incomplete support for reflection
 	interp := os.Getenv("GOSSAINTERP") != ""
@@ -87,7 +87,7 @@ func mustRecoverBody(v1, v2, v3, x interface{}) {
 		die()
 	}
 
-	// the value should be gone now regardless
+	// the value should be golangne now regardless
 	v = v3
 	if v != nil {
 		println("recover didn't recover")

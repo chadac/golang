@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package flate
@@ -81,7 +81,7 @@ func TestWriteError(t *testing.T) {
 			}
 			n2, err := w.Write([]byte{1, 2, 2, 3, 4, 5})
 			if n2 != 0 {
-				t.Fatal("Level", l, "Expected 0 length write, got", n)
+				t.Fatal("Level", l, "Expected 0 length write, golangt", n)
 			}
 			if err == nil {
 				t.Fatal("Level", l, "Expected an error")
@@ -122,7 +122,7 @@ func TestDeterministic(t *testing.T) {
 
 func testDeterministic(i int, t *testing.T) {
 	t.Parallel()
-	// Test so much we cross a good number of block boundaries.
+	// Test so much we cross a golangod number of block boundaries.
 	var length = maxStoreBlockSize*30 + 500
 	if testing.Short() {
 		length /= 10
@@ -175,7 +175,7 @@ func testDeterministic(i int, t *testing.T) {
 
 // TestDeflateFast_Reset will test that encoding is consistent
 // across a warparound of the table offset.
-// See https://github.com/golang/go/issues/34121
+// See https://github.com/golanglang/golang/issues/34121
 func TestDeflateFast_Reset(t *testing.T) {
 	buf := new(bytes.Buffer)
 	n := 65536
@@ -216,8 +216,8 @@ func TestDeflateFast_Reset(t *testing.T) {
 			// skip ahead to where we are close to wrap around...
 			w.d.reset(nil)
 		}
-		var got bytes.Buffer
-		w.Reset(&got)
+		var golangt bytes.Buffer
+		w.Reset(&golangt)
 
 		// Write 3 times, close.
 		for i := 0; i < 3; i++ {
@@ -230,8 +230,8 @@ func TestDeflateFast_Reset(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		if !bytes.Equal(got.Bytes(), want.Bytes()) {
-			t.Fatalf("output did not match at wraparound, len(want)  = %d, len(got) = %d", want.Len(), got.Len())
+		if !bytes.Equal(golangt.Bytes(), want.Bytes()) {
+			t.Fatalf("output did not match at wraparound, len(want)  = %d, len(golangt) = %d", want.Len(), golangt.Len())
 		}
 	}
 }

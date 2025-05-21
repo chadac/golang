@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // The liveness code used to say that, in func g, s was live
@@ -23,13 +23,13 @@ package main
 
 import "runtime"
 
-//go:noinline
+//golang:noinline
 func f() interface{} {
 	runtime.GC()
 	return nil
 }
 
-//go:noinline
+//golang:noinline
 func g() {
 	var s interface{}
 	_ = func() {
@@ -41,11 +41,11 @@ func g() {
 	useiface(s)
 }
 
-//go:noinline
+//golang:noinline
 func useiface(x interface{}) {
 }
 
-//go:noinline
+//golang:noinline
 func h() {
 	var x [16]uintptr
 	for i := range x {
@@ -58,7 +58,7 @@ func h() {
 	useint(x[3])
 }
 
-//go:noinline
+//golang:noinline
 func useint(x uintptr) {
 }
 

@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package types_test
@@ -9,10 +9,10 @@ import (
 	"strings"
 	"testing"
 
-	"go/ast"
-	"go/parser"
-	"go/token"
-	. "go/types"
+	"golang/ast"
+	"golang/parser"
+	"golang/token"
+	. "golang/types"
 )
 
 func TestNewMethodSet(t *testing.T) {
@@ -67,7 +67,7 @@ func TestNewMethodSet(t *testing.T) {
 		"var a struct{ E1; *E2 }; type ( E1 interface{ f() }; E2 struct{ f int })":            {},
 		"var a struct{ E1; *E2 }; type ( E1 struct{ f int }; E2 struct{} ); func (E2) f() {}": {},
 
-		// recursive generic types; see go.dev/issue/52715
+		// recursive generic types; see golang.dev/issue/52715
 		"var a T[int]; type ( T[P any] struct { *N[P] }; N[P any] struct { *T[P] } ); func (N[P]) m() {}": {{"m", []int{0, 0}, true}},
 		"var a T[int]; type ( T[P any] struct { *N[P] }; N[P any] struct { *T[P] } ); func (T[P]) m() {}": {{"m", []int{0}, false}},
 	}
@@ -77,11 +77,11 @@ func TestNewMethodSet(t *testing.T) {
 		"type C interface{ f() }; func g[T C](a T){}":               {{"f", []int{0}, true}},
 		"type C interface{ f() }; func g[T C]() { var a T; _ = a }": {{"f", []int{0}, true}},
 
-		// go.dev/issue/43621: We don't allow this anymore. Keep this code in case we
+		// golang.dev/issue/43621: We don't allow this anymore. Keep this code in case we
 		// decide to revisit this decision.
 		// "type C interface{ f() }; func g[T C]() { var a struct{T}; _ = a }": {{"f", []int{0, 0}, true}},
 
-		// go.dev/issue/45639: We also don't allow this anymore.
+		// golang.dev/issue/45639: We also don't allow this anymore.
 		// "type C interface{ f() }; func g[T C]() { type Y T; var a Y; _ = a }": {},
 	}
 
@@ -100,20 +100,20 @@ func TestNewMethodSet(t *testing.T) {
 		}
 
 		ms := NewMethodSet(obj.Type())
-		if got, want := ms.Len(), len(methods); got != want {
-			t.Errorf("%s: got %d methods, want %d", src, got, want)
+		if golangt, want := ms.Len(), len(methods); golangt != want {
+			t.Errorf("%s: golangt %d methods, want %d", src, golangt, want)
 			return
 		}
 		for i, m := range methods {
 			sel := ms.At(i)
-			if got, want := sel.Obj().Name(), m.name; got != want {
-				t.Errorf("%s [method %d]: got name = %q at, want %q", src, i, got, want)
+			if golangt, want := sel.Obj().Name(), m.name; golangt != want {
+				t.Errorf("%s [method %d]: golangt name = %q at, want %q", src, i, golangt, want)
 			}
-			if got, want := sel.Index(), m.index; !slices.Equal(got, want) {
-				t.Errorf("%s [method %d]: got index = %v, want %v", src, i, got, want)
+			if golangt, want := sel.Index(), m.index; !slices.Equal(golangt, want) {
+				t.Errorf("%s [method %d]: golangt index = %v, want %v", src, i, golangt, want)
 			}
-			if got, want := sel.Indirect(), m.indirect; got != want {
-				t.Errorf("%s [method %d]: got indirect = %v, want %v", src, i, got, want)
+			if golangt, want := sel.Indirect(), m.indirect; golangt != want {
+				t.Errorf("%s [method %d]: golangt indirect = %v, want %v", src, i, golangt, want)
 			}
 		}
 	}
@@ -127,7 +127,7 @@ func TestNewMethodSet(t *testing.T) {
 	}
 }
 
-// Test for go.dev/issue/52715
+// Test for golang.dev/issue/52715
 func TestNewMethodSet_RecursiveGeneric(t *testing.T) {
 	const src = `
 package pkg
@@ -144,7 +144,7 @@ type Instance = *Tree[int]
 `
 
 	fset := token.NewFileSet()
-	f, err := parser.ParseFile(fset, "foo.go", src, 0)
+	f, err := parser.ParseFile(fset, "foo.golang", src, 0)
 	if err != nil {
 		panic(err)
 	}
@@ -165,7 +165,7 @@ func (T) m() {} // expected error: invalid receiver type
 `
 
 	fset := token.NewFileSet()
-	f, err := parser.ParseFile(fset, "p.go", src, 0)
+	f, err := parser.ParseFile(fset, "p.golang", src, 0)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -185,7 +185,7 @@ func (T) m() {} // expected error: invalid receiver type
 		obj1, _, _ := LookupFieldOrMethod(recv, false, pkg, name)
 		mset := NewMethodSet(recv)
 		if (obj1 != nil) != (mset.Len() == 1) {
-			t.Fatalf("lookup(%v.%s): got obj = %v, mset = %v", recv, name, obj1, mset)
+			t.Fatalf("lookup(%v.%s): golangt obj = %v, mset = %v", recv, name, obj1, mset)
 		}
 		// If the method exists, both must return the same object.
 		if obj1 != nil {

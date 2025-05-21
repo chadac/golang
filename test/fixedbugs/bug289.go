@@ -1,10 +1,10 @@
 // errorcheck
 
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// https://code.google.com/p/gofrontend/issues/detail?id=1
+// https://code.golangogle.com/p/golangfrontend/issues/detail?id=1
 
 package main
 

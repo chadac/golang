@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package zip
@@ -257,7 +257,7 @@ func (w *Writer) prepare(fh *FileHeader) error {
 		}
 	}
 	if len(w.dir) > 0 && w.dir[len(w.dir)-1].FileHeader == fh {
-		// See https://golang.org/issue/11144 confusion.
+		// See https://golanglang.org/issue/11144 confusion.
 		return errors.New("archive/zip: invalid duplicate FileHeader")
 	}
 	return nil
@@ -365,7 +365,7 @@ func (w *Writer) CreateHeader(fh *FileHeader) (io.Writer, error) {
 		}
 		comp := w.compressor(fh.Method)
 		if comp == nil {
-			return nil, ErrAlgorithm
+			return nil, ErrAlgolangrithm
 		}
 		var err error
 		fw.comp, err = comp(fw.compCount)

@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package slog
@@ -45,9 +45,9 @@ func TestJSONHandler(t *testing.T) {
 			if err := h.Handle(context.Background(), r); err != nil {
 				t.Fatal(err)
 			}
-			got := strings.TrimSuffix(buf.String(), "\n")
-			if got != test.want {
-				t.Errorf("\ngot  %s\nwant %s", got, test.want)
+			golangt := strings.TrimSuffix(buf.String(), "\n")
+			if golangt != test.want {
+				t.Errorf("\ngolangt  %s\nwant %s", golangt, test.want)
 			}
 		})
 	}
@@ -94,13 +94,13 @@ func TestAppendJSONValue(t *testing.T) {
 		jsonMarshalerError{jsonMarshaler{"pqr"}},
 		LevelWarn,
 	} {
-		got := jsonValueString(AnyValue(value))
+		golangt := jsonValueString(AnyValue(value))
 		want, err := marshalJSON(value)
 		if err != nil {
 			t.Fatal(err)
 		}
-		if got != want {
-			t.Errorf("%v: got %s, want %s", value, got, want)
+		if golangt != want {
+			t.Errorf("%v: golangt %s, want %s", value, golangt, want)
 		}
 	}
 }
@@ -126,9 +126,9 @@ func TestJSONAppendAttrValueSpecial(t *testing.T) {
 		{math.Inf(-1), `"!ERROR:json: unsupported value: -Inf"`},
 		{io.EOF, `"EOF"`},
 	} {
-		got := jsonValueString(AnyValue(test.value))
-		if got != test.want {
-			t.Errorf("%v: got %s, want %s", test.value, got, test.want)
+		golangt := jsonValueString(AnyValue(test.value))
+		if golangt != test.want {
+			t.Errorf("%v: golangt %s, want %s", test.value, golangt, test.want)
 		}
 	}
 }
@@ -179,12 +179,12 @@ func BenchmarkJSONHandler(b *testing.B) {
 				String("program", "my-test-program"),
 				String("package", "log/slog"),
 				String("traceID", "2039232309232309"),
-				String("URL", "https://pkg.go.dev/golang.org/x/log/slog"))
+				String("URL", "https://pkg.golang.dev/golanglang.org/x/log/slog"))
 			b.ReportAllocs()
 			b.ResetTimer()
 			for i := 0; i < b.N; i++ {
 				l.LogAttrs(ctx, LevelInfo, "this is a typical log message",
-					String("module", "github.com/google/go-cmp"),
+					String("module", "github.com/golangogle/golang-cmp"),
 					String("version", "v1.23.4"),
 					Int("count", 23),
 					Int("number", 123456),
@@ -207,7 +207,7 @@ func BenchmarkPreformatting(b *testing.B) {
 		String("package", "log/slog"),
 		Any("request", &req{
 			Method:  "GET",
-			URL:     "https://pkg.go.dev/golang.org/x/log/slog",
+			URL:     "https://pkg.golang.dev/golanglang.org/x/log/slog",
 			TraceID: "2039232309232309",
 			Addr:    "127.0.0.1:8080",
 		}),
@@ -232,7 +232,7 @@ func BenchmarkPreformatting(b *testing.B) {
 			String("program", "my-test-program"),
 			String("package", "log/slog"),
 			String("method", "GET"),
-			String("URL", "https://pkg.go.dev/golang.org/x/log/slog"),
+			String("URL", "https://pkg.golang.dev/golanglang.org/x/log/slog"),
 			String("traceID", "2039232309232309"),
 			String("addr", "127.0.0.1:8080"),
 		}},
@@ -246,7 +246,7 @@ func BenchmarkPreformatting(b *testing.B) {
 			b.ResetTimer()
 			for i := 0; i < b.N; i++ {
 				l.LogAttrs(ctx, LevelInfo, "this is a typical log message",
-					String("module", "github.com/google/go-cmp"),
+					String("module", "github.com/golangogle/golang-cmp"),
 					String("version", "v1.23.4"),
 					Int("count", 23),
 					Int("number", 123456),

@@ -1,5 +1,5 @@
 // Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package test
@@ -20,7 +20,7 @@ func locals() {
 	sink8 = &w
 }
 
-//go:noinline
+//golang:noinline
 func args(x int64, y int32, z int16, w int8) {
 	sink64 = &x
 	sink32 = &y
@@ -29,7 +29,7 @@ func args(x int64, y int32, z int16, w int8) {
 
 }
 
-//go:noinline
+//golang:noinline
 func half(x int64, y int16) {
 	var z int32
 	var w int8
@@ -39,7 +39,7 @@ func half(x int64, y int16) {
 	sink8 = &w
 }
 
-//go:noinline
+//golang:noinline
 func closure() func() {
 	var x int64
 	var y int32
@@ -54,7 +54,7 @@ func closure() func() {
 	}
 }
 
-//go:noinline
+//golang:noinline
 func atomicFn() {
 	var x int32
 	var y int64

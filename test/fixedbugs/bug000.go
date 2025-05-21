@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -16,5 +16,5 @@ func main() {
 	}
 }
 /*
-bug0.go:8: case statement out of place
+bug0.golang:8: case statement out of place
 */

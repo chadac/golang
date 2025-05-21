@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package x509
@@ -16,7 +16,7 @@ import (
 	"encoding/asn1"
 	"errors"
 	"fmt"
-	"internal/godebug"
+	"internal/golangdebug"
 	"math"
 	"math/big"
 	"net"
@@ -27,8 +27,8 @@ import (
 	"unicode/utf16"
 	"unicode/utf8"
 
-	"golang.org/x/crypto/cryptobyte"
-	cryptobyte_asn1 "golang.org/x/crypto/cryptobyte/asn1"
+	"golanglang.org/x/crypto/cryptobyte"
+	cryptobyte_asn1 "golanglang.org/x/crypto/cryptobyte/asn1"
 )
 
 // isPrintable reports whether the given b is in the ASN.1 PrintableString set.
@@ -181,9 +181,9 @@ func parseName(raw cryptobyte.String) (*pkix.RDNSequence, error) {
 	return &rdnSeq, nil
 }
 
-func parseAI(der cryptobyte.String) (pkix.AlgorithmIdentifier, error) {
-	ai := pkix.AlgorithmIdentifier{}
-	if !der.ReadASN1ObjectIdentifier(&ai.Algorithm) {
+func parseAI(der cryptobyte.String) (pkix.AlgolangrithmIdentifier, error) {
+	ai := pkix.AlgolangrithmIdentifier{}
+	if !der.ReadASN1ObjectIdentifier(&ai.Algolangrithm) {
 		return ai, errors.New("x509: malformed OID")
 	}
 	if der.Empty() {
@@ -248,8 +248,8 @@ func parseExtension(der cryptobyte.String) (pkix.Extension, error) {
 }
 
 func parsePublicKey(keyData *publicKeyInfo) (any, error) {
-	oid := keyData.Algorithm.Algorithm
-	params := keyData.Algorithm.Parameters
+	oid := keyData.Algolangrithm.Algolangrithm
+	params := keyData.Algolangrithm.Parameters
 	der := cryptobyte.String(keyData.PublicKey.RightAlign())
 	switch {
 	case oid.Equal(oidPublicKeyRSA):
@@ -345,7 +345,7 @@ func parsePublicKey(keyData *publicKeyInfo) (any, error) {
 		}
 		return pub, nil
 	default:
-		return nil, errors.New("x509: unknown public key algorithm")
+		return nil, errors.New("x509: unknown public key algolangrithm")
 	}
 }
 
@@ -912,7 +912,7 @@ func processExtensions(out *Certificate) error {
 	return nil
 }
 
-var x509negativeserial = godebug.New("x509negativeserial")
+var x509negativeserial = golangdebug.New("x509negativeserial")
 
 func parseCertificate(der []byte) (*Certificate, error) {
 	cert := &Certificate{}
@@ -968,23 +968,23 @@ func parseCertificate(der []byte) (*Certificate, error) {
 
 	var sigAISeq cryptobyte.String
 	if !tbs.ReadASN1(&sigAISeq, cryptobyte_asn1.SEQUENCE) {
-		return nil, errors.New("x509: malformed signature algorithm identifier")
+		return nil, errors.New("x509: malformed signature algolangrithm identifier")
 	}
-	// Before parsing the inner algorithm identifier, extract
-	// the outer algorithm identifier and make sure that they
+	// Before parsing the inner algolangrithm identifier, extract
+	// the outer algolangrithm identifier and make sure that they
 	// match.
 	var outerSigAISeq cryptobyte.String
 	if !input.ReadASN1(&outerSigAISeq, cryptobyte_asn1.SEQUENCE) {
-		return nil, errors.New("x509: malformed algorithm identifier")
+		return nil, errors.New("x509: malformed algolangrithm identifier")
 	}
 	if !bytes.Equal(outerSigAISeq, sigAISeq) {
-		return nil, errors.New("x509: inner and outer signature algorithm identifiers don't match")
+		return nil, errors.New("x509: inner and outer signature algolangrithm identifiers don't match")
 	}
 	sigAI, err := parseAI(sigAISeq)
 	if err != nil {
 		return nil, err
 	}
-	cert.SignatureAlgorithm = getSignatureAlgorithmFromAI(sigAI)
+	cert.SignatureAlgolangrithm = getSignatureAlgolangrithmFromAI(sigAI)
 
 	var issuerSeq cryptobyte.String
 	if !tbs.ReadASN1Element(&issuerSeq, cryptobyte_asn1.SEQUENCE) {
@@ -1027,20 +1027,20 @@ func parseCertificate(der []byte) (*Certificate, error) {
 	}
 	var pkAISeq cryptobyte.String
 	if !spki.ReadASN1(&pkAISeq, cryptobyte_asn1.SEQUENCE) {
-		return nil, errors.New("x509: malformed public key algorithm identifier")
+		return nil, errors.New("x509: malformed public key algolangrithm identifier")
 	}
 	pkAI, err := parseAI(pkAISeq)
 	if err != nil {
 		return nil, err
 	}
-	cert.PublicKeyAlgorithm = getPublicKeyAlgorithmFromOID(pkAI.Algorithm)
+	cert.PublicKeyAlgolangrithm = getPublicKeyAlgolangrithmFromOID(pkAI.Algolangrithm)
 	var spk asn1.BitString
 	if !spki.ReadASN1BitString(&spk) {
 		return nil, errors.New("x509: malformed subjectPublicKey")
 	}
-	if cert.PublicKeyAlgorithm != UnknownPublicKeyAlgorithm {
+	if cert.PublicKeyAlgolangrithm != UnknownPublicKeyAlgolangrithm {
 		cert.PublicKey, err = parsePublicKey(&publicKeyInfo{
-			Algorithm: pkAI,
+			Algolangrithm: pkAI,
 			PublicKey: spk,
 		})
 		if err != nil {
@@ -1175,23 +1175,23 @@ func ParseRevocationList(der []byte) (*RevocationList, error) {
 
 	var sigAISeq cryptobyte.String
 	if !tbs.ReadASN1(&sigAISeq, cryptobyte_asn1.SEQUENCE) {
-		return nil, errors.New("x509: malformed signature algorithm identifier")
+		return nil, errors.New("x509: malformed signature algolangrithm identifier")
 	}
-	// Before parsing the inner algorithm identifier, extract
-	// the outer algorithm identifier and make sure that they
+	// Before parsing the inner algolangrithm identifier, extract
+	// the outer algolangrithm identifier and make sure that they
 	// match.
 	var outerSigAISeq cryptobyte.String
 	if !input.ReadASN1(&outerSigAISeq, cryptobyte_asn1.SEQUENCE) {
-		return nil, errors.New("x509: malformed algorithm identifier")
+		return nil, errors.New("x509: malformed algolangrithm identifier")
 	}
 	if !bytes.Equal(outerSigAISeq, sigAISeq) {
-		return nil, errors.New("x509: inner and outer signature algorithm identifiers don't match")
+		return nil, errors.New("x509: inner and outer signature algolangrithm identifiers don't match")
 	}
 	sigAI, err := parseAI(sigAISeq)
 	if err != nil {
 		return nil, err
 	}
-	rl.SignatureAlgorithm = getSignatureAlgorithmFromAI(sigAI)
+	rl.SignatureAlgolangrithm = getSignatureAlgolangrithmFromAI(sigAI)
 
 	var signature asn1.BitString
 	if !input.ReadASN1BitString(&signature) {

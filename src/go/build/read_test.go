@@ -1,12 +1,12 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package build
 
 import (
 	"fmt"
-	"go/token"
+	"golang/token"
 	"io"
 	"strings"
 	"testing"
@@ -256,71 +256,71 @@ var readEmbedTests = []struct {
 		"",
 	},
 	{
-		"package p\nimport \"embed\"\nvar i int\n//go:embed x y z\nvar files embed.FS",
+		"package p\nimport \"embed\"\nvar i int\n//golang:embed x y z\nvar files embed.FS",
 		`test:4:12:x
 		 test:4:14:y
 		 test:4:16:z`,
 	},
 	{
-		"package p\nimport \"embed\"\nvar i int\n//go:embed x \"\\x79\" `z`\nvar files embed.FS",
+		"package p\nimport \"embed\"\nvar i int\n//golang:embed x \"\\x79\" `z`\nvar files embed.FS",
 		`test:4:12:x
 		 test:4:14:y
 		 test:4:21:z`,
 	},
 	{
-		"package p\nimport \"embed\"\nvar i int\n//go:embed x y\n//go:embed z\nvar files embed.FS",
+		"package p\nimport \"embed\"\nvar i int\n//golang:embed x y\n//golang:embed z\nvar files embed.FS",
 		`test:4:12:x
 		 test:4:14:y
 		 test:5:12:z`,
 	},
 	{
-		"package p\nimport \"embed\"\nvar i int\n\t //go:embed x y\n\t //go:embed z\n\t var files embed.FS",
+		"package p\nimport \"embed\"\nvar i int\n\t //golang:embed x y\n\t //golang:embed z\n\t var files embed.FS",
 		`test:4:14:x
 		 test:4:16:y
 		 test:5:14:z`,
 	},
 	{
-		"package p\nimport \"embed\"\n//go:embed x y z\nvar files embed.FS",
+		"package p\nimport \"embed\"\n//golang:embed x y z\nvar files embed.FS",
 		`test:3:12:x
 		 test:3:14:y
 		 test:3:16:z`,
 	},
 	{
-		"\ufeffpackage p\nimport \"embed\"\n//go:embed x y z\nvar files embed.FS",
+		"\ufeffpackage p\nimport \"embed\"\n//golang:embed x y z\nvar files embed.FS",
 		`test:3:12:x
 		 test:3:14:y
 		 test:3:16:z`,
 	},
 	{
-		"package p\nimport \"embed\"\nvar s = \"/*\"\n//go:embed x\nvar files embed.FS",
+		"package p\nimport \"embed\"\nvar s = \"/*\"\n//golang:embed x\nvar files embed.FS",
 		`test:4:12:x`,
 	},
 	{
 		`package p
 		 import "embed"
 		 var s = "\"\\\\"
-		 //go:embed x
+		 //golang:embed x
 		 var files embed.FS`,
 		`test:4:15:x`,
 	},
 	{
-		"package p\nimport \"embed\"\nvar s = `/*`\n//go:embed x\nvar files embed.FS",
+		"package p\nimport \"embed\"\nvar s = `/*`\n//golang:embed x\nvar files embed.FS",
 		`test:4:12:x`,
 	},
 	{
-		"package p\nimport \"embed\"\nvar s = z/ *y\n//go:embed pointer\nvar pointer embed.FS",
+		"package p\nimport \"embed\"\nvar s = z/ *y\n//golang:embed pointer\nvar pointer embed.FS",
 		"test:4:12:pointer",
 	},
 	{
-		"package p\n//go:embed x y z\n", // no import, no scan
+		"package p\n//golang:embed x y z\n", // no import, no scan
 		"",
 	},
 	{
-		"package p\n//go:embed x y z\nvar files embed.FS", // no import, no scan
+		"package p\n//golang:embed x y z\nvar files embed.FS", // no import, no scan
 		"",
 	},
 	{
-		"\ufeffpackage p\n//go:embed x y z\nvar files embed.FS", // no import, no scan
+		"\ufeffpackage p\n//golang:embed x y z\nvar files embed.FS", // no import, no scan
 		"",
 	},
 }
@@ -343,10 +343,10 @@ func TestReadEmbed(t *testing.T) {
 			fmt.Fprintf(b, "%s%v:%s", sep, emb.pos, emb.pattern)
 			sep = "\n"
 		}
-		got := b.String()
+		golangt := b.String()
 		want := strings.Join(strings.Fields(tt.out), "\n")
-		if got != want {
-			t.Errorf("#%d: embeds:\n%s\nwant:\n%s", i, got, want)
+		if golangt != want {
+			t.Errorf("#%d: embeds:\n%s\nwant:\n%s", i, golangt, want)
 		}
 	}
 }

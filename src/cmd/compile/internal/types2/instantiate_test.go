@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 package types2_test
 
@@ -124,8 +124,8 @@ func TestInstantiateEquality(t *testing.T) {
 				t.Fatal(err)
 			}
 
-			if gotEqual := res1 == res2; gotEqual != test.wantEqual {
-				t.Errorf("%s == %s: %t, want %t", res1, res2, gotEqual, test.wantEqual)
+			if golangtEqual := res1 == res2; golangtEqual != test.wantEqual {
+				t.Errorf("%s == %s: %t, want %t", res1, res2, golangtEqual, test.wantEqual)
 			}
 		})
 	}
@@ -185,8 +185,8 @@ var X T[int]
 		if !ok {
 			t.Fatalf(`LookupSelection(%s, "m") failed, want func m`, typ)
 		}
-		if got := ObjectString(sel.Obj(), RelativeTo(pkg)); got != test.want {
-			t.Errorf("instantiated %q, want %q", got, test.want)
+		if golangt := ObjectString(sel.Obj(), RelativeTo(pkg)); golangt != test.want {
+			t.Errorf("instantiated %q, want %q", golangt, test.want)
 		}
 	}
 }
@@ -210,12 +210,12 @@ var _ T[int]
 	// Verify that the original method is not mutated by instantiating T (this
 	// bug manifested when subst did not return a new signature).
 	want := "func (T[P]).m()"
-	if got := stripAnnotations(ObjectString(sel.Obj(), RelativeTo(pkg))); got != want {
-		t.Errorf("instantiated %q, want %q", got, want)
+	if golangt := stripAnnotations(ObjectString(sel.Obj(), RelativeTo(pkg))); golangt != want {
+		t.Errorf("instantiated %q, want %q", golangt, want)
 	}
 }
 
-// Copied from errors.go.
+// Copied from errors.golang.
 func stripAnnotations(s string) string {
 	var buf strings.Builder
 	for _, r := range s {

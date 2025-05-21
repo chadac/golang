@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ir
@@ -7,7 +7,7 @@ package ir
 import (
 	"bytes"
 	"fmt"
-	"go/constant"
+	"golang/constant"
 	"io"
 	"os"
 	"path/filepath"
@@ -50,7 +50,7 @@ var OpNames = []string{
 	OFALL:             "fallthrough",
 	OFOR:              "for",
 	OGE:               ">=",
-	OGOTO:             "goto",
+	OGOTO:             "golangto",
 	OGT:               ">",
 	OIF:               "if",
 	OIMAG:             "imag",
@@ -388,7 +388,7 @@ func stmtFmt(n Node, s fmt.State) {
 
 	case OGO:
 		n := n.(*GoDeferStmt)
-		fmt.Fprintf(s, "go %v", n.Call)
+		fmt.Fprintf(s, "golang %v", n.Call)
 
 	case ODEFER:
 		n := n.(*GoDeferStmt)
@@ -1042,7 +1042,7 @@ func dumpNodeHeader(w io.Writer, n Node) {
 			sep = " "
 			// TODO(mdempsky): Print line pragma details too.
 			file := filepath.Base(pos.Filename())
-			// Note: this output will be parsed by ssa/html.go:(*HTMLWriter).WriteAST. Keep in sync.
+			// Note: this output will be parsed by ssa/html.golang:(*HTMLWriter).WriteAST. Keep in sync.
 			fmt.Fprintf(w, "%s:%d:%d", file, pos.Line(), pos.Col())
 		})
 	}
@@ -1156,7 +1156,7 @@ func dumpNode(w io.Writer, n Node, depth int) {
 		name := strings.TrimSuffix(tf.Name, "_")
 		// Do not bother with field name header lines for the
 		// most common positional arguments: unary, binary expr,
-		// index expr, send stmt, go and defer call expression.
+		// index expr, send stmt, golang and defer call expression.
 		switch name {
 		case "X", "Y", "Index", "Chan", "Value", "Call":
 			name = ""

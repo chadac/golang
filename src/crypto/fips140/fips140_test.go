@@ -1,11 +1,11 @@
 // Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package fips140
 
 import (
-	"internal/godebug"
+	"internal/golangdebug"
 	"os"
 	"testing"
 )
@@ -14,7 +14,7 @@ func TestImmutableGODEBUG(t *testing.T) {
 	defer func(v string) { os.Setenv("GODEBUG", v) }(os.Getenv("GODEBUG"))
 
 	fips140Enabled := Enabled()
-	fips140Setting := godebug.New("fips140")
+	fips140Setting := golangdebug.New("fips140")
 	fips140SettingValue := fips140Setting.Value()
 
 	os.Setenv("GODEBUG", "fips140=off")

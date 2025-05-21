@@ -1,4 +1,4 @@
-	//gofmt -stdin
+	//golangfmt -stdin
 
 	// comment
 

@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // The runstress tool stresses the runtime.
@@ -28,7 +28,7 @@ var (
 	doExec    = flag.Bool("exec", true, "stress exec")
 	doChan    = flag.Bool("chan", true, "stress channels")
 	doNet     = flag.Bool("net", true, "stress networking")
-	doParseGo = flag.Bool("parsego", true, "stress parsing Go (generates garbage)")
+	doParseGo = flag.Bool("parsegolang", true, "stress parsing Go (generates garbage)")
 )
 
 func Println(a ...interface{}) {
@@ -43,7 +43,7 @@ func dialStress(a net.Addr) {
 		c, err := d.Dial("tcp", a.String())
 		if err == nil {
 			Println("did dial")
-			go func() {
+			golang func() {
 				time.Sleep(time.Duration(rand.Intn(500)) * time.Millisecond)
 				c.Close()
 				Println("closed dial")
@@ -59,7 +59,7 @@ func stressNet() {
 		size, _ := strconv.Atoi(r.FormValue("size"))
 		w.Write(make([]byte, size))
 	}))
-	go dialStress(ts.Listener.Addr())
+	golang dialStress(ts.Listener.Addr())
 	for {
 		size := rand.Intn(128 << 10)
 		res, err := http.Get(fmt.Sprintf("%s/?size=%d", ts.URL, size))
@@ -106,7 +106,7 @@ func stressExec() {
 	gate := make(chan bool, 10) // max execs at once
 	for {
 		gate <- true
-		go func() {
+		golang func() {
 			doAnExec()
 			<-gate
 		}()
@@ -136,9 +136,9 @@ func threadRing(bufsize int) {
 	var in, out chan int = nil, one
 	for i := 1; i <= N-1; i++ {
 		in, out = out, make(chan int, bufsize)
-		go ringf(in, out, donec)
+		golang ringf(in, out, donec)
 	}
-	go ringf(out, one, donec)
+	golang ringf(out, one, donec)
 	one <- N
 	<-donec
 	Println("did threadring of", bufsize)
@@ -161,7 +161,7 @@ func main() {
 		doParseGo: stressParseGo,
 	} {
 		if *want {
-			go f()
+			golang f()
 		}
 	}
 	select {}

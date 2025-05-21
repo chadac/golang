@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package amd64
@@ -10,7 +10,7 @@ import (
 
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/ir"
-	"cmd/compile/internal/logopt"
+	"cmd/compile/internal/logolangpt"
 	"cmd/compile/internal/objw"
 	"cmd/compile/internal/ssa"
 	"cmd/compile/internal/ssagen"
@@ -142,7 +142,7 @@ func memIdx(a *obj.Addr, v *ssa.Value) {
 }
 
 // DUFFZERO consists of repeated blocks of 4 MOVUPSs + LEAQ,
-// See runtime/mkduff.go.
+// See runtime/mkduff.golang.
 func duffStart(size int64) int64 {
 	x, _ := duff(size)
 	return x
@@ -172,7 +172,7 @@ func duff(size int64) (int64, int64) {
 }
 
 func getgFromTLS(s *ssagen.State, r int16) {
-	// See the comments in cmd/internal/obj/x86/obj6.go
+	// See the comments in cmd/internal/obj/x86/obj6.golang
 	// near CanUse1InsnTLS for a detailed explanation of these instructions.
 	if x86.CanUse1InsnTLS(base.Ctxt) {
 		// MOVQ (TLS), r
@@ -465,7 +465,7 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 
 	case ssa.OpAMD64AVGQU:
 		// compute (x+y)/2 unsigned.
-		// Do a 64-bit add, the overflow goes into the carry.
+		// Do a 64-bit add, the overflow golanges into the carry.
 		// Shift right once and pull the carry back into the 63rd bit.
 		p := s.Prog(x86.AADDQ)
 		p.From.Type = obj.TYPE_REG
@@ -1296,8 +1296,8 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 		p.From.Reg = x86.REG_AX
 		p.To.Type = obj.TYPE_MEM
 		p.To.Reg = v.Args[0].Reg()
-		if logopt.Enabled() {
-			logopt.LogOpt(v.Pos, "nilcheck", "genssa", v.Block.Func.Name)
+		if logolangpt.Enabled() {
+			logolangpt.LogOpt(v.Pos, "nilcheck", "genssa", v.Block.Func.Name)
 		}
 		if base.Debug.Nil != 0 && v.Pos.Line() > 1 { // v.Pos.Line()==1 in generated wrappers
 			base.WarnfAt(v.Pos, "generated nil check")

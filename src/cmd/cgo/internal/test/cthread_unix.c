@@ -1,11 +1,11 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build aix || darwin || dragonfly || freebsd || linux || netbsd || openbsd || solaris
+//golang:build aix || darwin || dragolangnfly || freebsd || linux || netbsd || openbsd || solaris
 
 #include <pthread.h>
-#include "_cgo_export.h"
+#include "_cgolang_export.h"
 
 static void*
 addThread(void *p)
@@ -34,13 +34,13 @@ doAdd(int max, int nthread)
 }
 
 static void*
-goDummyCallbackThread(void* p)
+golangDummyCallbackThread(void* p)
 {
 	int i, max;
 
 	max = *(int*)p;
 	for(i=0; i<max; i++)
-		goDummy();
+		golangDummy();
 	return NULL;
 }
 
@@ -49,7 +49,7 @@ callGoInCThread(int max)
 {
 	pthread_t thread;
 
-	if (pthread_create(&thread, NULL, goDummyCallbackThread, (void*)(&max)) != 0)
+	if (pthread_create(&thread, NULL, golangDummyCallbackThread, (void*)(&max)) != 0)
 		return -1;
 	if (pthread_join(thread, NULL) != 0)
 		return -1;

@@ -1,10 +1,10 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package abi
 
-import "internal/goarch"
+import "internal/golangarch"
 
 type InterfaceSwitch struct {
 	Cache  *InterfaceSwitchCache
@@ -29,11 +29,11 @@ type InterfaceSwitchCacheEntry struct {
 	Itab uintptr
 }
 
-func UseInterfaceSwitchCache(arch goarch.ArchFamilyType) bool {
+func UseInterfaceSwitchCache(arch golangarch.ArchFamilyType) bool {
 	// We need an atomic load instruction to make the cache multithreaded-safe.
 	// (AtomicLoadPtr needs to be implemented in cmd/compile/internal/ssa/_gen/ARCH.rules.)
 	switch arch {
-	case goarch.AMD64, goarch.ARM64, goarch.LOONG64, goarch.MIPS, goarch.MIPS64, goarch.PPC64, goarch.RISCV64, goarch.S390X:
+	case golangarch.AMD64, golangarch.ARM64, golangarch.LOONG64, golangarch.MIPS, golangarch.MIPS64, golangarch.PPC64, golangarch.RISCV64, golangarch.S390X:
 		return true
 	default:
 		return false

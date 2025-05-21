@@ -1,7 +1,7 @@
 // errorcheck
 
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Verify that we don't get spurious follow-on errors
@@ -11,7 +11,7 @@
 package p
 
 func _() {
-	go func() {     // no error here about goroutine
+	golang func() {     // no error here about golangroutine
 		send <- // GCCGO_ERROR "undefined name"
 	}()             // ERROR "expected expression|expected operand"
 }

@@ -1,19 +1,19 @@
-[compiler:gccgo] skip 'gccgo has no standard packages'
+[compiler:gccgolang] skip 'gccgolang has no standard packages'
 [short] skip
 
-# Check go test -cpuprofile creates errors.test
-go test -cpuprofile errors.prof errors
+# Check golang test -cpuprofile creates errors.test
+golang test -cpuprofile errors.prof errors
 exists -exec errors.test$GOEXE
 
-# Check go test -cpuprofile -o myerrors.test creates errors.test
-go test -cpuprofile errors.prof -o myerrors.test$GOEXE errors
+# Check golang test -cpuprofile -o myerrors.test creates errors.test
+golang test -cpuprofile errors.prof -o myerrors.test$GOEXE errors
 exists -exec myerrors.test$GOEXE
 
-# Check go test -mutexprofile creates errors.test
-go test -mutexprofile errors.prof errors
+# Check golang test -mutexprofile creates errors.test
+golang test -mutexprofile errors.prof errors
 exists -exec errors.test$GOEXE
 
-# Check go test -mutexprofile -o myerrors.test creates errors.test
-go test -mutexprofile errors.prof -o myerrors.test$GOEXE errors
+# Check golang test -mutexprofile -o myerrors.test creates errors.test
+golang test -mutexprofile errors.prof -o myerrors.test$GOEXE errors
 exists -exec myerrors.test$GOEXE
 

@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package http_test
@@ -22,7 +22,7 @@ var quietLog = log.New(io.Discard, "", 0)
 func TestMain(m *testing.M) {
 	*http.MaxWriteWaitBeforeConnReuse = 60 * time.Minute
 	v := m.Run()
-	if v == 0 && goroutineLeaked() {
+	if v == 0 && golangroutineLeaked() {
 		os.Exit(1)
 	}
 	os.Exit(v)
@@ -42,7 +42,7 @@ func interestingGoroutines() (gs []string) {
 			strings.Contains(stack, "closeWriteAndWait") ||
 			strings.Contains(stack, "testing.Main(") ||
 			// These only show up with GOTRACEBACK=2; Issue 5005 (comment 28)
-			strings.Contains(stack, "runtime.goexit") ||
+			strings.Contains(stack, "runtime.golangexit") ||
 			strings.Contains(stack, "created by runtime.gc") ||
 			strings.Contains(stack, "interestingGoroutines") ||
 			strings.Contains(stack, "runtime.MHeap_Scavenger") {
@@ -54,10 +54,10 @@ func interestingGoroutines() (gs []string) {
 	return
 }
 
-// Verify the other tests didn't leave any goroutines running.
-func goroutineLeaked() bool {
+// Verify the other tests didn't leave any golangroutines running.
+func golangroutineLeaked() bool {
 	if testing.Short() || runningBenchmarks() {
-		// Don't worry about goroutine leaks in -short mode or in
+		// Don't worry about golangroutine leaks in -short mode or in
 		// benchmark mode. Too distracting when there are false positives.
 		return false
 	}
@@ -74,10 +74,10 @@ func goroutineLeaked() bool {
 		if n == 0 {
 			return false
 		}
-		// Wait for goroutines to schedule and die off:
+		// Wait for golangroutines to schedule and die off:
 		time.Sleep(100 * time.Millisecond)
 	}
-	fmt.Fprintf(os.Stderr, "Too many goroutines running after net/http test(s).\n")
+	fmt.Fprintf(os.Stderr, "Too many golangroutines running after net/http test(s).\n")
 	for stack, count := range stackCount {
 		fmt.Fprintf(os.Stderr, "%d instances of:\n%s\n", count, stack)
 	}
@@ -118,14 +118,14 @@ func afterTest(t testing.TB) {
 	if leakReported {
 		// To avoid confusion, only report the first leak of each test run.
 		// After the first leak has been reported, we can't tell whether the leaked
-		// goroutines are a new leak from a subsequent test or just the same
-		// goroutines from the first leak still hanging around, and we may add a lot
+		// golangroutines are a new leak from a subsequent test or just the same
+		// golangroutines from the first leak still hanging around, and we may add a lot
 		// of latency waiting for them to exit at the end of each test.
 		return
 	}
 
 	// We shouldn't be running the leak check for parallel tests, because we might
-	// report the goroutines from a test that is still running as a leak from a
+	// report the golangroutines from a test that is still running as a leak from a
 	// completely separate test that has just finished. So we use non-atomic loads
 	// and stores for the leakReported variable, and store every time we start a
 	// leak check so that the race detector will flag concurrent leak checks as a
@@ -154,7 +154,7 @@ func afterTest(t testing.TB) {
 			leakReported = false
 			return
 		}
-		// Bad stuff found, but goroutines might just still be
+		// Bad stuff found, but golangroutines might just still be
 		// shutting down, so give it some time.
 		time.Sleep(1 * time.Millisecond)
 	}

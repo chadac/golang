@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package errors implements functions to manipulate errors.
@@ -26,7 +26,7 @@
 // itself followed by the tree of each of its children in turn
 // (pre-order, depth-first traversal).
 //
-// See https://go.dev/blog/go1.13-errors for a deeper discussion of the
+// See https://golang.dev/blog/golang1.13-errors for a deeper discussion of the
 // philosophy of wrapping and when to wrap.
 //
 // [Is] examines the tree of its first argument looking for an error that

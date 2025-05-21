@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Memory statistics
@@ -114,7 +114,7 @@ type MemStats struct {
 	// An "in use" span contains at least one heap object and may
 	// have free space available to allocate more heap objects.
 	//
-	// A "stack" span is used for goroutine stacks. Stack spans
+	// A "stack" span is used for golangroutine stacks. Stack spans
 	// are not considered part of the heap. A span can change
 	// between heap and stack memory; it is never used for both
 	// simultaneously.
@@ -206,11 +206,11 @@ type MemStats struct {
 	// StackSys is StackInuse, plus any memory obtained directly
 	// from the OS for OS thread stacks.
 	//
-	// In non-cgo programs this metric is currently equal to StackInuse
+	// In non-cgolang programs this metric is currently equal to StackInuse
 	// (but this should not be relied upon, and the value may change in
 	// the future).
 	//
-	// In cgo programs this metric includes OS thread stacks allocated
+	// In cgolang programs this metric includes OS thread stacks allocated
 	// directly from the OS. Currently, this only accounts for one stack in
 	// c-shared and c-archive build modes and other sources of stacks from
 	// the OS (notably, any allocated by C code) are not currently measured.
@@ -256,7 +256,7 @@ type MemStats struct {
 
 	// NextGC is the target heap size of the next GC cycle.
 	//
-	// The garbage collector's goal is to keep HeapAlloc ≤ NextGC.
+	// The garbage collector's golangal is to keep HeapAlloc ≤ NextGC.
 	// At the end of each GC cycle, the target for the next cycle
 	// is computed based on the amount of reachable data and the
 	// value of GOGC.
@@ -269,7 +269,7 @@ type MemStats struct {
 	// PauseTotalNs is the cumulative nanoseconds in GC
 	// stop-the-world pauses since the program started.
 	//
-	// During a stop-the-world pause, all goroutines are paused
+	// During a stop-the-world pause, all golangroutines are paused
 	// and only the garbage collector can run.
 	PauseTotalNs uint64
 
@@ -571,7 +571,7 @@ func readmemstats_m(stats *MemStats) {
 	copy(stats.BySize[:], bySize[:])
 }
 
-//go:linkname readGCStats runtime/debug.readGCStats
+//golang:linkname readGCStats runtime/debug.readGCStats
 func readGCStats(pauses *[]uint64) {
 	systemstack(func() {
 		readGCStats_m(pauses)
@@ -581,7 +581,7 @@ func readGCStats(pauses *[]uint64) {
 // readGCStats_m must be called on the system stack because it acquires the heap
 // lock. See mheap for details.
 //
-//go:systemstack
+//golang:systemstack
 func readGCStats_m(pauses *[]uint64) {
 	p := *pauses
 	// Calling code in runtime/debug should make the slice large enough.
@@ -599,7 +599,7 @@ func readGCStats_m(pauses *[]uint64) {
 
 	// The pause buffer is circular. The most recent pause is at
 	// pause_ns[(numgc-1)%len(pause_ns)], and then backward
-	// from there to go back farther in time. We deliver the times
+	// from there to golang back farther in time. We deliver the times
 	// most recent first (in p[0]).
 	p = p[:cap(p)]
 	for i := uint32(0); i < n; i++ {
@@ -619,7 +619,7 @@ func readGCStats_m(pauses *[]uint64) {
 //
 // The world must be stopped.
 //
-//go:nowritebarrier
+//golang:nowritebarrier
 func flushmcache(i int) {
 	assertWorldStopped()
 
@@ -636,11 +636,11 @@ func flushmcache(i int) {
 //
 // The world must be stopped.
 //
-//go:nowritebarrier
+//golang:nowritebarrier
 func flushallmcaches() {
 	assertWorldStopped()
 
-	for i := 0; i < int(gomaxprocs); i++ {
+	for i := 0; i < int(golangmaxprocs); i++ {
 		flushmcache(i)
 	}
 }
@@ -654,7 +654,7 @@ type sysMemStat uint64
 //
 // Must be nosplit as it is called in runtime initialization, e.g. newosproc0.
 //
-//go:nosplit
+//golang:nosplit
 func (s *sysMemStat) load() uint64 {
 	return atomic.Load64((*uint64)(s))
 }
@@ -663,7 +663,7 @@ func (s *sysMemStat) load() uint64 {
 //
 // Must be nosplit as it is called in runtime initialization, e.g. newosproc0.
 //
-//go:nosplit
+//golang:nosplit
 func (s *sysMemStat) add(n int64) {
 	val := atomic.Xadd64((*uint64)(s), n)
 	if (n > 0 && int64(val) < n) || (n < 0 && int64(val)+n < n) {
@@ -780,7 +780,7 @@ type consistentHeapStats struct {
 // lead to a stack allocation that could reenter the
 // function.
 //
-//go:nosplit
+//golang:nosplit
 func (m *consistentHeapStats) acquire() *heapStatsDelta {
 	if pp := getg().m.p.ptr(); pp != nil {
 		seq := pp.statsSeq.Add(1)
@@ -809,7 +809,7 @@ func (m *consistentHeapStats) acquire() *heapStatsDelta {
 // lead to a stack allocation that causes another acquire
 // before this operation has completed.
 //
-//go:nosplit
+//golang:nosplit
 func (m *consistentHeapStats) release() {
 	if pp := getg().m.p.ptr(); pp != nil {
 		seq := pp.statsSeq.Add(1)
@@ -928,7 +928,7 @@ type cpuStats struct {
 }
 
 // accumulateGCPauseTime add dt*stwProcs to the GC CPU pause time stats. dt should be
-// the actual time spent paused, for orthogonality. maxProcs should be GOMAXPROCS,
+// the actual time spent paused, for orthogolangnality. maxProcs should be GOMAXPROCS,
 // not work.stwprocs, since this number must be comparable to a total time computed
 // from GOMAXPROCS.
 func (s *cpuStats) accumulateGCPauseTime(dt int64, maxProcs int32) {
@@ -978,14 +978,14 @@ func (s *cpuStats) accumulate(now int64, gcMarkPhase bool) {
 	s.ScavengeTotalTime += scavAssistCpu + scavBgCpu
 
 	// Update total CPU.
-	s.TotalTime = sched.totaltime + (now-sched.procresizetime)*int64(gomaxprocs)
+	s.TotalTime = sched.totaltime + (now-sched.procresizetime)*int64(golangmaxprocs)
 	s.IdleTime += sched.idleTime.Load()
 
 	// Compute userTime. We compute this indirectly as everything that's not the above.
 	//
 	// Since time spent in _Pgcstop is covered by gcPauseTime, and time spent in _Pidle
 	// is covered by idleTime, what we're left with is time spent in _Prunning and _Psyscall,
-	// the latter of which is fine because the P will either go idle or get used for something
+	// the latter of which is fine because the P will either golang idle or get used for something
 	// else via sysmon. Meanwhile if we subtract GC time from whatever's left, we get non-GC
 	// _Prunning time. Note that this still leaves time spent in sweeping and in the scheduler,
 	// but that's fine. The overwhelming majority of this time will be actual user time.

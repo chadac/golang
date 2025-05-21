@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package liveness
@@ -226,7 +226,7 @@ func (mls *MergeLocalsState) check() error {
 					return fmt.Errorf("k=%s v=+%v slpos %d vslot %d Subsumed(%q) is false should be true", k.Sym().Name, sl, i, v, vv.Sym().Name)
 				}
 				if mls.Leader(vv) != mls.vars[sl[0]] {
-					return fmt.Errorf("k=%s v=+%v slpos %d vslot %d Leader(%q) got %v want %v", k.Sym().Name, sl, i, v, vv.Sym().Name, mls.Leader(vv), mls.vars[sl[0]])
+					return fmt.Errorf("k=%s v=+%v slpos %d vslot %d Leader(%q) golangt %v want %v", k.Sym().Name, sl, i, v, vv.Sym().Name, mls.Leader(vv), mls.vars[sl[0]])
 				}
 			}
 			if vv == k {
@@ -545,7 +545,7 @@ func (cs *cstate) populateIndirectUseTable(cands []*ir.Name) ([]*ir.Name, []cand
 		// corresponding names from the candidate set. The idea here
 		// is that if we materialized the address of some local and
 		// that value is flowing out of the block off somewhere else,
-		// we're going to treat that local as truly address-taken and
+		// we're golanging to treat that local as truly address-taken and
 		// not have it be a merge candidate.
 		clear(evicted)
 		if len(pendingUses) != 0 {
@@ -615,7 +615,7 @@ type nameCount struct {
 // a relative ordering of candidate variables. This is used to sort
 // vars by pointerness (variables with pointers first), then in order
 // of decreasing alignment, then by decreasing size. We are assuming a
-// merging algorithm that merges later entries in the list into
+// merging algolangrithm that merges later entries in the list into
 // earlier entries. An example ordered candidate list produced by
 // nameLess:
 //

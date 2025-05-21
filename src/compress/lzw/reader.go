@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package lzw implements the Lempel-Ziv-Welch compressed data format,
@@ -11,7 +11,7 @@
 // two non-literal codes are a clear code and an EOF code.
 //
 // The TIFF file format uses a similar but incompatible version of the LZW
-// algorithm. See the [golang.org/x/image/tiff/lzw] package for an
+// algolangrithm. See the [golanglang.org/x/image/tiff/lzw] package for an
 // implementation.
 package lzw
 

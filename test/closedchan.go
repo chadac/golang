@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test close(c), receive of closed channel.
@@ -254,14 +254,14 @@ func test1(c Chan) {
 
 	// the value should have been discarded.
 	if x := c.Recv(); x != 0 {
-		println("test1: recv on closed got non-zero after send on closed:", x, c.Impl())
+		println("test1: recv on closed golangt non-zero after send on closed:", x, c.Impl())
 		failed = true
 	}
 
 	// similarly Send.
 	shouldPanic(func() { c.Send(2) })
 	if x := c.Recv(); x != 0 {
-		println("test1: recv on closed got non-zero after send on closed:", x, c.Impl())
+		println("test1: recv on closed golangt non-zero after send on closed:", x, c.Impl())
 		failed = true
 	}
 }

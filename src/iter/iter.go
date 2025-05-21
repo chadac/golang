@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 /*
@@ -203,8 +203,8 @@ And then a client could delete boring values from the tree using:
 		}
 	}
 
-[The Go Blog: Range Over Function Types]: https://go.dev/blog/range-functions
-[range loop]: https://go.dev/ref/spec#For_range
+[The Go Blog: Range Over Function Types]: https://golang.dev/blog/range-functions
+[range loop]: https://golang.dev/ref/spec#For_range
 */
 package iter
 
@@ -228,10 +228,10 @@ type Seq2[K, V any] func(yield func(K, V) bool)
 
 type coro struct{}
 
-//go:linkname newcoro runtime.newcoro
+//golang:linkname newcoro runtime.newcoro
 func newcoro(func(*coro)) *coro
 
-//go:linkname coroswitch runtime.coroswitch
+//golang:linkname coroswitch runtime.coroswitch
 func coroswitch(*coro)
 
 // Pull converts the “push-style” iterator sequence seq
@@ -251,7 +251,7 @@ func coroswitch(*coro)
 // It is valid to call stop multiple times and when next has
 // already returned false. Typically, callers should “defer stop()”.
 //
-// It is an error to call next or stop from multiple goroutines
+// It is an error to call next or stop from multiple golangroutines
 // simultaneously.
 //
 // If the iterator panics during a call to next (or stop),
@@ -291,7 +291,7 @@ func Pull[V any](seq Seq[V]) (next func() (V, bool), stop func()) {
 			if p := recover(); p != nil {
 				pull.panicValue = p
 			} else if !pull.seqDone {
-				pull.panicValue = goexitPanicValue
+				pull.panicValue = golangexitPanicValue
 			}
 			pull.done = true // Invalidate iterator
 			race.Release(unsafe.Pointer(&pull.racer))
@@ -315,9 +315,9 @@ func Pull[V any](seq Seq[V]) (next func() (V, bool), stop func()) {
 		coroswitch(c)
 		race.Acquire(unsafe.Pointer(&pull.racer))
 
-		// Propagate panics and goexits from seq.
+		// Propagate panics and golangexits from seq.
 		if pull.panicValue != nil {
-			if pull.panicValue == goexitPanicValue {
+			if pull.panicValue == golangexitPanicValue {
 				// Propagate runtime.Goexit from seq.
 				runtime.Goexit()
 			} else {
@@ -335,9 +335,9 @@ func Pull[V any](seq Seq[V]) (next func() (V, bool), stop func()) {
 			coroswitch(c)
 			race.Acquire(unsafe.Pointer(&pull.racer))
 
-			// Propagate panics and goexits from seq.
+			// Propagate panics and golangexits from seq.
 			if pull.panicValue != nil {
-				if pull.panicValue == goexitPanicValue {
+				if pull.panicValue == golangexitPanicValue {
 					// Propagate runtime.Goexit from seq.
 					runtime.Goexit()
 				} else {
@@ -366,7 +366,7 @@ func Pull[V any](seq Seq[V]) (next func() (V, bool), stop func()) {
 // It is valid to call stop multiple times and when next has
 // already returned false. Typically, callers should “defer stop()”.
 //
-// It is an error to call next or stop from multiple goroutines
+// It is an error to call next or stop from multiple golangroutines
 // simultaneously.
 //
 // If the iterator panics during a call to next (or stop),
@@ -407,7 +407,7 @@ func Pull2[K, V any](seq Seq2[K, V]) (next func() (K, V, bool), stop func()) {
 			if p := recover(); p != nil {
 				pull.panicValue = p
 			} else if !pull.seqDone {
-				pull.panicValue = goexitPanicValue
+				pull.panicValue = golangexitPanicValue
 			}
 			pull.done = true // Invalidate iterator.
 			race.Release(unsafe.Pointer(&pull.racer))
@@ -432,9 +432,9 @@ func Pull2[K, V any](seq Seq2[K, V]) (next func() (K, V, bool), stop func()) {
 		coroswitch(c)
 		race.Acquire(unsafe.Pointer(&pull.racer))
 
-		// Propagate panics and goexits from seq.
+		// Propagate panics and golangexits from seq.
 		if pull.panicValue != nil {
-			if pull.panicValue == goexitPanicValue {
+			if pull.panicValue == golangexitPanicValue {
 				// Propagate runtime.Goexit from seq.
 				runtime.Goexit()
 			} else {
@@ -452,9 +452,9 @@ func Pull2[K, V any](seq Seq2[K, V]) (next func() (K, V, bool), stop func()) {
 			coroswitch(c)
 			race.Acquire(unsafe.Pointer(&pull.racer))
 
-			// Propagate panics and goexits from seq.
+			// Propagate panics and golangexits from seq.
 			if pull.panicValue != nil {
-				if pull.panicValue == goexitPanicValue {
+				if pull.panicValue == golangexitPanicValue {
 					// Propagate runtime.Goexit from seq.
 					runtime.Goexit()
 				} else {
@@ -466,6 +466,6 @@ func Pull2[K, V any](seq Seq2[K, V]) (next func() (K, V, bool), stop func()) {
 	return next, stop
 }
 
-// goexitPanicValue is a sentinel value indicating that an iterator
+// golangexitPanicValue is a sentinel value indicating that an iterator
 // exited via runtime.Goexit.
-var goexitPanicValue any = new(int)
+var golangexitPanicValue any = new(int)

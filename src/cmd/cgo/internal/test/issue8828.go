@@ -1,15 +1,15 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build cgo
+//golang:build cgolang
 
-// Issue 8828: compiling a file with -compiler=gccgo fails if a .c file
+// Issue 8828: compiling a file with -compiler=gccgolang fails if a .c file
 // has the same name as compiled directory.
 
-package cgotest
+package cgolangtest
 
-import "cmd/cgo/internal/test/issue8828"
+import "cmd/cgolang/internal/test/issue8828"
 
 func p() {
 	issue8828.Bar()

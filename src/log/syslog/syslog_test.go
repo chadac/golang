@@ -1,8 +1,8 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !windows && !plan9 && !js && !wasip1
+//golang:build !windows && !plan9 && !js && !wasip1
 
 package syslog
 
@@ -65,7 +65,7 @@ func runStreamSyslog(l net.Listener, done chan<- string, wg *sync.WaitGroup) {
 			return
 		}
 		wg.Add(1)
-		go func(c net.Conn) {
+		golang func(c net.Conn) {
 			defer wg.Done()
 			c.SetReadDeadline(time.Now().Add(5 * time.Second))
 			b := bufio.NewReader(c)
@@ -115,7 +115,7 @@ func startServer(t *testing.T, n, la string, done chan<- string) (addr string, s
 		addr = l.LocalAddr().String()
 		sock = l
 		wg.Add(1)
-		go func() {
+		golang func() {
 			defer wg.Done()
 			runPktSyslog(l, done)
 		}()
@@ -128,7 +128,7 @@ func startServer(t *testing.T, n, la string, done chan<- string) (addr string, s
 		addr = l.Addr().String()
 		sock = l
 		wg.Add(1)
-		go func() {
+		golang func() {
 			defer wg.Done()
 			runStreamSyslog(l, done, wg)
 		}()
@@ -294,7 +294,7 @@ func check(t *testing.T, in, out, transport string) {
 		t.Errorf("Got %q, does not match template %q (%d %s)", out, tmpl, n, err)
 	}
 	if hostname != parsedHostname {
-		t.Errorf("Hostname got %q want %q in %q", parsedHostname, hostname, out)
+		t.Errorf("Hostname golangt %q want %q in %q", parsedHostname, hostname, out)
 	}
 }
 
@@ -345,14 +345,14 @@ func TestConcurrentWrite(t *testing.T) {
 	addr, sock, srvWG := startServer(t, "udp", "", make(chan string, 1))
 	defer srvWG.Wait()
 	defer sock.Close()
-	w, err := Dial("udp", addr, LOG_USER|LOG_ERR, "how's it going?")
+	w, err := Dial("udp", addr, LOG_USER|LOG_ERR, "how's it golanging?")
 	if err != nil {
 		t.Fatalf("syslog.Dial() failed: %v", err)
 	}
 	var wg sync.WaitGroup
 	for i := 0; i < 10; i++ {
 		wg.Add(1)
-		go func() {
+		golang func() {
 			defer wg.Done()
 			err := w.Info("test")
 			if err != nil {
@@ -385,7 +385,7 @@ func TestConcurrentReconnect(t *testing.T) {
 
 	// count all the messages arriving
 	count := make(chan int, 1)
-	go func() {
+	golang func() {
 		ct := 0
 		for range done {
 			ct++
@@ -402,7 +402,7 @@ func TestConcurrentReconnect(t *testing.T) {
 	var wg sync.WaitGroup
 	wg.Add(N)
 	for i := 0; i < N; i++ {
-		go func() {
+		golang func() {
 			defer wg.Done()
 			w, err := Dial(net, addr, LOG_USER|LOG_ERR, "tag")
 			if err != nil {

@@ -1,8 +1,8 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Trace goroutine and P status management.
+// Trace golangroutine and P status management.
 
 package runtime
 
@@ -11,29 +11,29 @@ import (
 	"internal/trace/tracev2"
 )
 
-// writeGoStatus emits a GoStatus event as well as any active ranges on the goroutine.
+// writeGoStatus emits a GoStatus event as well as any active ranges on the golangroutine.
 //
 // nosplit because it's part of writing an event for an M, which must not
 // have any stack growth.
 //
-//go:nosplit
-func (w traceWriter) writeGoStatus(goid uint64, mid int64, status tracev2.GoStatus, markAssist bool, stackID uint64) traceWriter {
+//golang:nosplit
+func (w traceWriter) writeGoStatus(golangid uint64, mid int64, status tracev2.GoStatus, markAssist bool, stackID uint64) traceWriter {
 	// The status should never be bad. Some invariant must have been violated.
 	if status == tracev2.GoBad {
-		print("runtime: goid=", goid, "\n")
-		throw("attempted to trace a bad status for a goroutine")
+		print("runtime: golangid=", golangid, "\n")
+		throw("attempted to trace a bad status for a golangroutine")
 	}
 
 	// Trace the status.
 	if stackID == 0 {
-		w = w.event(tracev2.EvGoStatus, traceArg(goid), traceArg(uint64(mid)), traceArg(status))
+		w = w.event(tracev2.EvGoStatus, traceArg(golangid), traceArg(uint64(mid)), traceArg(status))
 	} else {
-		w = w.event(tracev2.EvGoStatusStack, traceArg(goid), traceArg(uint64(mid)), traceArg(status), traceArg(stackID))
+		w = w.event(tracev2.EvGoStatusStack, traceArg(golangid), traceArg(uint64(mid)), traceArg(status), traceArg(stackID))
 	}
 
 	// Trace any special ranges that are in-progress.
 	if markAssist {
-		w = w.event(tracev2.EvGCMarkAssistActive, traceArg(goid))
+		w = w.event(tracev2.EvGCMarkAssistActive, traceArg(golangid))
 	}
 	return w
 }
@@ -46,7 +46,7 @@ func (w traceWriter) writeGoStatus(goid uint64, mid int64, status tracev2.GoStat
 // nosplit because it's part of writing an event for an M, which must not
 // have any stack growth.
 //
-//go:nosplit
+//golang:nosplit
 func (w traceWriter) writeProcStatusForP(pp *p, inSTW bool) traceWriter {
 	if !pp.trace.acquireStatus(w.gen) {
 		return w
@@ -62,8 +62,8 @@ func (w traceWriter) writeProcStatusForP(pp *p, inSTW bool) traceWriter {
 		}
 	case _Prunning:
 		status = tracev2.ProcRunning
-		// There's a short window wherein the goroutine may have entered _Gsyscall
-		// but it still owns the P (it's not in _Psyscall yet). The goroutine entering
+		// There's a short window wherein the golangroutine may have entered _Gsyscall
+		// but it still owns the P (it's not in _Psyscall yet). The golangroutine entering
 		// _Gsyscall is the tracer's signal that the P its bound to is also in a syscall,
 		// so we need to emit a status that matches. See #64318.
 		if w.mp.p.ptr() == pp && w.mp.curg != nil && readgstatus(w.mp.curg)&^_Gscan == _Gsyscall {
@@ -86,7 +86,7 @@ func (w traceWriter) writeProcStatusForP(pp *p, inSTW bool) traceWriter {
 // nosplit because it's part of writing an event for an M, which must not
 // have any stack growth.
 //
-//go:nosplit
+//golang:nosplit
 func (w traceWriter) writeProcStatus(pid uint64, status tracev2.ProcStatus, inSweep bool) traceWriter {
 	// The status should never be bad. Some invariant must have been violated.
 	if status == tracev2.ProcBad {
@@ -104,15 +104,15 @@ func (w traceWriter) writeProcStatus(pid uint64, status tracev2.ProcStatus, inSw
 	return w
 }
 
-// goStatusToTraceGoStatus translates the internal status to tracGoStatus.
+// golangStatusToTraceGoStatus translates the internal status to tracGoStatus.
 //
 // status must not be _Gdead or any status whose name has the suffix "_unused."
 //
 // nosplit because it's part of writing an event for an M, which must not
 // have any stack growth.
 //
-//go:nosplit
-func goStatusToTraceGoStatus(status uint32, wr waitReason) tracev2.GoStatus {
+//golang:nosplit
+func golangStatusToTraceGoStatus(status uint32, wr waitReason) tracev2.GoStatus {
 	// N.B. Ignore the _Gscan bit. We don't model it in the tracer.
 	var tgs tracev2.GoStatus
 	switch status &^ _Gscan {
@@ -126,17 +126,17 @@ func goStatusToTraceGoStatus(status uint32, wr waitReason) tracev2.GoStatus {
 		// There are a number of cases where a G might end up in
 		// _Gwaiting but it's actually running in a non-preemptive
 		// state but needs to present itself as preempted to the
-		// garbage collector. In these cases, we're not going to
-		// emit an event, and we want these goroutines to appear in
+		// garbage collector. In these cases, we're not golanging to
+		// emit an event, and we want these golangroutines to appear in
 		// the final trace as if they're running, not blocked.
 		tgs = tracev2.GoWaiting
 		if status == _Gwaiting && wr.isWaitingForGC() {
 			tgs = tracev2.GoRunning
 		}
 	case _Gdead:
-		throw("tried to trace dead goroutine")
+		throw("tried to trace dead golangroutine")
 	default:
-		throw("tried to trace goroutine with invalid or unsupported status")
+		throw("tried to trace golangroutine with invalid or unsupported status")
 	}
 	return tgs
 }
@@ -167,7 +167,7 @@ type traceSchedResourceState struct {
 // nosplit because it's part of writing an event for an M, which must not
 // have any stack growth.
 //
-//go:nosplit
+//golang:nosplit
 func (r *traceSchedResourceState) acquireStatus(gen uintptr) bool {
 	if !r.statusTraced[gen%3].CompareAndSwap(0, 1) {
 		return false
@@ -189,7 +189,7 @@ func (r *traceSchedResourceState) statusWasTraced(gen uintptr) bool {
 }
 
 // setStatusTraced indicates that the resource's status was already traced, for example
-// when a goroutine is created.
+// when a golangroutine is created.
 func (r *traceSchedResourceState) setStatusTraced(gen uintptr) {
 	r.statusTraced[gen%3].Store(1)
 }

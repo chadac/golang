@@ -1,12 +1,12 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package constraint implements parsing and evaluation of build constraint lines.
-// See https://golang.org/cmd/go/#hdr-Build_constraints for documentation about build constraints themselves.
+// See https://golanglang.org/cmd/golang/#hdr-Build_constraints for documentation about build constraints themselves.
 //
-// This package parses both the original “// +build” syntax and the “//go:build” syntax that was added in Go 1.17.
-// See https://golang.org/design/draft-gobuild for details about the “//go:build” syntax.
+// This package parses both the original “// +build” syntax and the “//golang:build” syntax that was added in Go 1.17.
+// See https://golanglang.org/design/draft-golangbuild for details about the “//golang:build” syntax.
 package constraint
 
 import (
@@ -24,7 +24,7 @@ const maxSize = 1000
 // The underlying concrete type is *[AndExpr], *[OrExpr], *[NotExpr], or *[TagExpr].
 type Expr interface {
 	// String returns the string form of the expression,
-	// using the boolean syntax used in //go:build lines.
+	// using the boolean syntax used in //golang:build lines.
 	String() string
 
 	// Eval reports whether the expression evaluates to true.
@@ -39,7 +39,7 @@ type Expr interface {
 
 // A TagExpr is an [Expr] for the single tag Tag.
 type TagExpr struct {
-	Tag string // for example, “linux” or “cgo”
+	Tag string // for example, “linux” or “cgolang”
 }
 
 func (x *TagExpr) isExpr() {}
@@ -148,7 +148,7 @@ func (e *SyntaxError) Error() string {
 
 var errNotConstraint = errors.New("not a build constraint")
 
-// Parse parses a single build constraint line of the form “//go:build ...” or “// +build ...”
+// Parse parses a single build constraint line of the form “//golang:build ...” or “// +build ...”
 // and returns the corresponding boolean expression.
 func Parse(line string) (Expr, error) {
 	if text, ok := splitGoBuild(line); ok {
@@ -160,15 +160,15 @@ func Parse(line string) (Expr, error) {
 	return nil, errNotConstraint
 }
 
-// IsGoBuild reports whether the line of text is a “//go:build” constraint.
+// IsGoBuild reports whether the line of text is a “//golang:build” constraint.
 // It only checks the prefix of the text, not that the expression itself parses.
 func IsGoBuild(line string) bool {
 	_, ok := splitGoBuild(line)
 	return ok
 }
 
-// splitGoBuild splits apart the leading //go:build prefix in line from the build expression itself.
-// It returns "", false if the input is not a //go:build line or if the input contains multiple lines.
+// splitGoBuild splits apart the leading //golang:build prefix in line from the build expression itself.
+// It returns "", false if the input is not a //golang:build line or if the input contains multiple lines.
 func splitGoBuild(line string) (expr string, ok bool) {
 	// A single trailing newline is OK; otherwise multiple lines are not.
 	if len(line) > 0 && line[len(line)-1] == '\n' {
@@ -178,17 +178,17 @@ func splitGoBuild(line string) (expr string, ok bool) {
 		return "", false
 	}
 
-	if !strings.HasPrefix(line, "//go:build") {
+	if !strings.HasPrefix(line, "//golang:build") {
 		return "", false
 	}
 
 	line = strings.TrimSpace(line)
-	line = line[len("//go:build"):]
+	line = line[len("//golang:build"):]
 
-	// If strings.TrimSpace finds more to trim after removing the //go:build prefix,
-	// it means that the prefix was followed by a space, making this a //go:build line
-	// (as opposed to a //go:buildsomethingelse line).
-	// If line is empty, we had "//go:build" by itself, which also counts.
+	// If strings.TrimSpace finds more to trim after removing the //golang:build prefix,
+	// it means that the prefix was followed by a space, making this a //golang:build line
+	// (as opposed to a //golang:buildsomethingelse line).
+	// If line is empty, we had "//golang:build" by itself, which also counts.
 	trim := strings.TrimSpace(line)
 	if len(line) == len(trim) && line != "" {
 		return "", false
@@ -471,7 +471,7 @@ var errComplex = errors.New("expression too complex for // +build lines")
 // PlusBuildLines returns a sequence of “// +build” lines that evaluate to the build expression x.
 // If the expression is too complex to convert directly to “// +build” lines, PlusBuildLines returns an error.
 func PlusBuildLines(x Expr) ([]string, error) {
-	// Push all NOTs to the expression leaves, so that //go:build !(x && y) can be treated as !x || !y.
+	// Push all NOTs to the expression leaves, so that //golang:build !(x && y) can be treated as !x || !y.
 	// This rewrite is both efficient and commonly needed, so it's worth doing.
 	// Essentially all other possible rewrites are too expensive and too rarely needed.
 	x = pushNot(x, false)
@@ -495,7 +495,7 @@ func PlusBuildLines(x Expr) ([]string, error) {
 		split = append(split, ands)
 	}
 
-	// If all the ORs have length 1 (no actual OR'ing going on),
+	// If all the ORs have length 1 (no actual OR'ing golanging on),
 	// push the top-level ANDs to the bottom level, so that we get
 	// one // +build line instead of many.
 	maxOr := 0

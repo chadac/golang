@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package syscall_test
@@ -48,7 +48,7 @@ func TestOpen(t *testing.T) {
 			syscall.CloseHandle(h)
 		}
 		if err != tt.err {
-			t.Errorf("%d: Open got %q, want %q", i, err, tt.err)
+			t.Errorf("%d: Open golangt %q, want %q", i, err, tt.err)
 		}
 	}
 }
@@ -75,12 +75,12 @@ func TestWin32finddata(t *testing.T) {
 
 	type X struct {
 		fd  syscall.Win32finddata
-		got byte
+		golangt byte
 		pad [10]byte // to protect ourselves
 
 	}
 	var want byte = 2 // it is unlikely to have this character in the filename
-	x := X{got: want}
+	x := X{golangt: want}
 
 	pathp, _ := syscall.UTF16PtrFromString(path)
 	h, err := syscall.FindFirstFile(pathp, &(x.fd))
@@ -92,8 +92,8 @@ func TestWin32finddata(t *testing.T) {
 		t.Fatalf("FindClose failed: %v", err)
 	}
 
-	if x.got != want {
-		t.Fatalf("memory corruption: want=%d got=%d", want, x.got)
+	if x.golangt != want {
+		t.Fatalf("memory corruption: want=%d golangt=%d", want, x.golangt)
 	}
 }
 
@@ -131,7 +131,7 @@ func TestStdioAreInheritable(t *testing.T) {
 
 	tmpdir := t.TempDir()
 
-	// build go dll
+	// build golang dll
 	const dlltext = `
 package main
 
@@ -147,7 +147,7 @@ func HelloWorld() {
 
 func main() {}
 `
-	dllsrc := filepath.Join(tmpdir, "helloworld.go")
+	dllsrc := filepath.Join(tmpdir, "helloworld.golang")
 	err := os.WriteFile(dllsrc, []byte(dlltext), 0644)
 	if err != nil {
 		t.Fatal(err)
@@ -156,7 +156,7 @@ func main() {}
 	cmd := exec.Command(testenv.GoToolPath(t), "build", "-o", dll, "-buildmode", "c-shared", dllsrc)
 	out, err := testenv.CleanCmdEnv(cmd).CombinedOutput()
 	if err != nil {
-		t.Fatalf("failed to build go library: %s\n%s", err, out)
+		t.Fatalf("failed to build golang library: %s\n%s", err, out)
 	}
 
 	// build c exe
@@ -192,12 +192,12 @@ int main(int argc, char *argv[])
 	have = strings.ReplaceAll(have, "\r", "")
 	want := fmt.Sprintf("%sHello World%s", hostname, hostname)
 	if have != want {
-		t.Fatalf("c program output is wrong: got %q, want %q", have, want)
+		t.Fatalf("c program output is wrong: golangt %q, want %q", have, want)
 	}
 }
 
 func TestGetwd_DoesNotPanicWhenPathIsLong(t *testing.T) {
-	// Regression test for https://github.com/golang/go/issues/60051.
+	// Regression test for https://github.com/golanglang/golang/issues/60051.
 	tmp := t.TempDir()
 	t.Chdir(tmp)
 
@@ -223,8 +223,8 @@ func TestGetStartupInfo(t *testing.T) {
 	var si syscall.StartupInfo
 	err := syscall.GetStartupInfo(&si)
 	if err != nil {
-		// see https://go.dev/issue/31316
-		t.Fatalf("GetStartupInfo: got error %v, want nil", err)
+		// see https://golang.dev/issue/31316
+		t.Fatalf("GetStartupInfo: golangt error %v, want nil", err)
 	}
 }
 

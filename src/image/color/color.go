@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package color implements a basic color library.
@@ -249,7 +249,7 @@ func grayModel(c Color) Color {
 
 	// These coefficients (the fractions 0.299, 0.587 and 0.114) are the same
 	// as those given by the JFIF specification and used by func RGBToYCbCr in
-	// ycbcr.go.
+	// ycbcr.golang.
 	//
 	// Note that 19595 + 38470 + 7471 equals 65536.
 	//
@@ -268,7 +268,7 @@ func gray16Model(c Color) Color {
 
 	// These coefficients (the fractions 0.299, 0.587 and 0.114) are the same
 	// as those given by the JFIF specification and used by func RGBToYCbCr in
-	// ycbcr.go.
+	// ycbcr.golang.
 	//
 	// Note that 19595 + 38470 + 7471 equals 65536.
 	y := (19595*r + 38470*g + 7471*b + 1<<15) >> 16
@@ -290,7 +290,7 @@ func (p Palette) Convert(c Color) Color {
 // Index returns the index of the palette color closest to c in Euclidean
 // R,G,B,A space.
 func (p Palette) Index(c Color) int {
-	// A batch version of this computation is in image/draw/draw.go.
+	// A batch version of this computation is in image/draw/draw.golang.
 
 	cr, cg, cb, ca := c.RGBA()
 	ret, bestSum := 0, uint32(1<<32-1)

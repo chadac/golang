@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package pods_test
@@ -108,7 +108,7 @@ func TestPodCollection(t *testing.T) {
 
 	// Verify pods
 	if len(podlist) != 2 {
-		t.Fatalf("expected 2 pods got %d pods", len(podlist))
+		t.Fatalf("expected 2 pods golangt %d pods", len(podlist))
 	}
 
 	for k, p := range podlist {
@@ -129,9 +129,9 @@ o2/covcounters.0880952783ab1be95aa0733055a4d1a6.38.1 o:1
 ]`,
 	}
 	for k, exp := range expected {
-		got := podToString(podlist[k])
-		if exp != got {
-			t.Errorf("pod %d: expected:\n%s\ngot:\n%s", k, exp, got)
+		golangt := podToString(podlist[k])
+		if exp != golangt {
+			t.Errorf("pod %d: expected:\n%s\ngolangt:\n%s", k, exp, golangt)
 		}
 	}
 

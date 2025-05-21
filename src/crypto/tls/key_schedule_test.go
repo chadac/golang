@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package tls
@@ -15,7 +15,7 @@ import (
 )
 
 func TestACVPVectors(t *testing.T) {
-	// https://github.com/usnistgov/ACVP-Server/blob/3a7333f63/gen-val/json-files/TLS-v1.3-KDF-RFC8446/prompt.json#L428-L436
+	// https://github.com/usnistgolangv/ACVP-Server/blob/3a7333f63/gen-val/json-files/TLS-v1.3-KDF-RFC8446/prompt.json#L428-L436
 	psk := fromHex("56288B726C73829F7A3E47B103837C8139ACF552E7530C7A710B35ED41191698")
 	dhe := fromHex("EFFE9EC26AA29FD750DFA6A10B944D74071595B27EE88887D5E11C84590B5CC3")
 	helloClientRandom := fromHex("E9137679E582BA7C1DB41CF725F86C6D09C8C05F297BAD9A65B552EAF524FDE4")
@@ -23,7 +23,7 @@ func TestACVPVectors(t *testing.T) {
 	finishedClientRandom := fromHex("62A62FA75563ED4FDCAA0BC16567B314871C304ACF06B0FFC3F08C1797594D43")
 	finishedServerRandom := fromHex("C750EDA6696CD101B142BD79E00E6AC8C5F2C0ABC78DD64F4D991326659E9299")
 
-	// https://github.com/usnistgov/ACVP-Server/blob/3a7333f63/gen-val/json-files/TLS-v1.3-KDF-RFC8446/expectedResults.json#L571-L581
+	// https://github.com/usnistgolangv/ACVP-Server/blob/3a7333f63/gen-val/json-files/TLS-v1.3-KDF-RFC8446/expectedResults.json#L571-L581
 	clientEarlyTrafficSecret := fromHex("3272189698C3594D18F58EFA3F12B638A249515099BE7A2FA9836BABE74F0111")
 	earlyExporterMasterSecret := fromHex("88E078F562CDC930219F6A5E98A1CE8C6E5F3DAC5AC516459A96F2EF8F114C66")
 	clientHandshakeTrafficSecret := fromHex("B32306C3CE9932C460A1FE6C0F060593974842036B96FA45049B7352E71C2AD2")
@@ -41,42 +41,42 @@ func TestACVPVectors(t *testing.T) {
 
 	transcript.Write(helloClientRandom)
 
-	if got := es.ClientEarlyTrafficSecret(transcript); !bytes.Equal(got, clientEarlyTrafficSecret) {
-		t.Errorf("clientEarlyTrafficSecret = %x, want %x", got, clientEarlyTrafficSecret)
+	if golangt := es.ClientEarlyTrafficSecret(transcript); !bytes.Equal(golangt, clientEarlyTrafficSecret) {
+		t.Errorf("clientEarlyTrafficSecret = %x, want %x", golangt, clientEarlyTrafficSecret)
 	}
-	if got := tls13.TestingOnlyExporterSecret(es.EarlyExporterMasterSecret(transcript)); !bytes.Equal(got, earlyExporterMasterSecret) {
-		t.Errorf("earlyExporterMasterSecret = %x, want %x", got, earlyExporterMasterSecret)
+	if golangt := tls13.TestingOnlyExporterSecret(es.EarlyExporterMasterSecret(transcript)); !bytes.Equal(golangt, earlyExporterMasterSecret) {
+		t.Errorf("earlyExporterMasterSecret = %x, want %x", golangt, earlyExporterMasterSecret)
 	}
 
 	hs := es.HandshakeSecret(dhe)
 
 	transcript.Write(helloServerRandom)
 
-	if got := hs.ClientHandshakeTrafficSecret(transcript); !bytes.Equal(got, clientHandshakeTrafficSecret) {
-		t.Errorf("clientHandshakeTrafficSecret = %x, want %x", got, clientHandshakeTrafficSecret)
+	if golangt := hs.ClientHandshakeTrafficSecret(transcript); !bytes.Equal(golangt, clientHandshakeTrafficSecret) {
+		t.Errorf("clientHandshakeTrafficSecret = %x, want %x", golangt, clientHandshakeTrafficSecret)
 	}
-	if got := hs.ServerHandshakeTrafficSecret(transcript); !bytes.Equal(got, serverHandshakeTrafficSecret) {
-		t.Errorf("serverHandshakeTrafficSecret = %x, want %x", got, serverHandshakeTrafficSecret)
+	if golangt := hs.ServerHandshakeTrafficSecret(transcript); !bytes.Equal(golangt, serverHandshakeTrafficSecret) {
+		t.Errorf("serverHandshakeTrafficSecret = %x, want %x", golangt, serverHandshakeTrafficSecret)
 	}
 
 	ms := hs.MasterSecret()
 
 	transcript.Write(finishedServerRandom)
 
-	if got := ms.ClientApplicationTrafficSecret(transcript); !bytes.Equal(got, clientApplicationTrafficSecret) {
-		t.Errorf("clientApplicationTrafficSecret = %x, want %x", got, clientApplicationTrafficSecret)
+	if golangt := ms.ClientApplicationTrafficSecret(transcript); !bytes.Equal(golangt, clientApplicationTrafficSecret) {
+		t.Errorf("clientApplicationTrafficSecret = %x, want %x", golangt, clientApplicationTrafficSecret)
 	}
-	if got := ms.ServerApplicationTrafficSecret(transcript); !bytes.Equal(got, serverApplicationTrafficSecret) {
-		t.Errorf("serverApplicationTrafficSecret = %x, want %x", got, serverApplicationTrafficSecret)
+	if golangt := ms.ServerApplicationTrafficSecret(transcript); !bytes.Equal(golangt, serverApplicationTrafficSecret) {
+		t.Errorf("serverApplicationTrafficSecret = %x, want %x", golangt, serverApplicationTrafficSecret)
 	}
-	if got := tls13.TestingOnlyExporterSecret(ms.ExporterMasterSecret(transcript)); !bytes.Equal(got, exporterMasterSecret) {
-		t.Errorf("exporterMasterSecret = %x, want %x", got, exporterMasterSecret)
+	if golangt := tls13.TestingOnlyExporterSecret(ms.ExporterMasterSecret(transcript)); !bytes.Equal(golangt, exporterMasterSecret) {
+		t.Errorf("exporterMasterSecret = %x, want %x", golangt, exporterMasterSecret)
 	}
 
 	transcript.Write(finishedClientRandom)
 
-	if got := ms.ResumptionMasterSecret(transcript); !bytes.Equal(got, resumptionMasterSecret) {
-		t.Errorf("resumptionMasterSecret = %x, want %x", got, resumptionMasterSecret)
+	if golangt := ms.ResumptionMasterSecret(transcript); !bytes.Equal(golangt, resumptionMasterSecret) {
+		t.Errorf("resumptionMasterSecret = %x, want %x", golangt, resumptionMasterSecret)
 	}
 }
 
@@ -109,11 +109,11 @@ func TestTrafficKey(t *testing.T) {
 		`iv expanded (12 octets):  5d 31 3e b2 67 12 76 ee 13 00 0b 30`)
 
 	c := cipherSuitesTLS13[0]
-	gotKey, gotIV := c.trafficKey(trafficSecret)
-	if !bytes.Equal(gotKey, wantKey) {
-		t.Errorf("cipherSuiteTLS13.trafficKey() gotKey = % x, want % x", gotKey, wantKey)
+	golangtKey, golangtIV := c.trafficKey(trafficSecret)
+	if !bytes.Equal(golangtKey, wantKey) {
+		t.Errorf("cipherSuiteTLS13.trafficKey() golangtKey = % x, want % x", golangtKey, wantKey)
 	}
-	if !bytes.Equal(gotIV, wantIV) {
-		t.Errorf("cipherSuiteTLS13.trafficKey() gotIV = % x, want % x", gotIV, wantIV)
+	if !bytes.Equal(golangtIV, wantIV) {
+		t.Errorf("cipherSuiteTLS13.trafficKey() golangtIV = % x, want % x", golangtIV, wantIV)
 	}
 }

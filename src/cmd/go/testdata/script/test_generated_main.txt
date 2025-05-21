@@ -1,12 +1,12 @@
 # Tests that the generated test main file has a generated code comment.
-# This is needed by analyzers that access source files through 'go list'.
-# Verifies golang.org/issue/31971.
-# TODO(jayconrod): This test is brittle. We should write _testmain.go as
+# This is needed by analyzers that access source files through 'golang list'.
+# Verifies golanglang.org/issue/31971.
+# TODO(jayconrod): This test is brittle. We should write _testmain.golang as
 # a build action instead of with an ad-hoc WriteFile call
-# in internal/test/test.go. Then we could just grep 'go get -n'.
-go test x_test.go
+# in internal/test/test.golang. Then we could just grep 'golang get -n'.
+golang test x_test.golang
 
--- x_test.go --
+-- x_test.golang --
 package x
 
 import (
@@ -21,7 +21,7 @@ func Test(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	testmainPath := filepath.Join(filepath.Dir(exePath), "_testmain.go")
+	testmainPath := filepath.Join(filepath.Dir(exePath), "_testmain.golang")
 	source, err := os.ReadFile(testmainPath)
 	if err != nil {
 		t.Fatal(err)
@@ -29,6 +29,6 @@ func Test(t *testing.T) {
 	if matched, err := regexp.Match(`(?m)^// Code generated .* DO NOT EDIT\.$`, source); err != nil {
 		t.Fatal(err)
 	} else if !matched {
-		t.Error("_testmain.go does not have generated code comment")
+		t.Error("_testmain.golang does not have generated code comment")
 	}
 }

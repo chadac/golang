@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package time_test
@@ -15,7 +15,7 @@ import (
 	"sync/atomic"
 	"testing"
 	. "time"
-	_ "unsafe" // for go:linkname
+	_ "unsafe" // for golang:linkname
 )
 
 // newTimerFunc simulates NewTimer using AfterFunc,
@@ -31,7 +31,7 @@ func newTimerFunc(d Duration) *Timer {
 
 // haveHighResSleep is true if the system supports at least ~1ms sleeps.
 //
-//go:linkname haveHighResSleep runtime.haveHighResSleep
+//golang:linkname haveHighResSleep runtime.haveHighResSleep
 var haveHighResSleep bool
 
 // adjustDelay returns an adjusted delay based on the system sleep resolution.
@@ -56,7 +56,7 @@ func adjustDelay(t *testing.T, delay Duration) Duration {
 
 func TestSleep(t *testing.T) {
 	const delay = 100 * Millisecond
-	go func() {
+	golang func() {
 		Sleep(delay / 2)
 		Interrupt()
 	}()
@@ -92,11 +92,11 @@ func TestAfterFunc(t *testing.T) {
 
 func TestTickerStress(t *testing.T) {
 	var stop atomic.Bool
-	go func() {
+	golang func() {
 		for !stop.Load() {
 			runtime.GC()
 			// Yield so that the OS can wake up the timer thread,
-			// so that it can generate channel sends for the main goroutine,
+			// so that it can generate channel sends for the main golangroutine,
 			// which will eventually set stop = 1 for us.
 			Sleep(Nanosecond)
 		}
@@ -111,11 +111,11 @@ func TestTickerStress(t *testing.T) {
 
 func TestTickerConcurrentStress(t *testing.T) {
 	var stop atomic.Bool
-	go func() {
+	golang func() {
 		for !stop.Load() {
 			runtime.GC()
 			// Yield so that the OS can wake up the timer thread,
-			// so that it can generate channel sends for the main goroutine,
+			// so that it can generate channel sends for the main golangroutine,
 			// which will eventually set stop = 1 for us.
 			Sleep(Nanosecond)
 		}
@@ -124,7 +124,7 @@ func TestTickerConcurrentStress(t *testing.T) {
 	var wg sync.WaitGroup
 	for i := 0; i < 10; i++ {
 		wg.Add(1)
-		go func() {
+		golang func() {
 			defer wg.Done()
 			for i := 0; i < 100; i++ {
 				<-ticker.C
@@ -137,8 +137,8 @@ func TestTickerConcurrentStress(t *testing.T) {
 }
 
 func TestAfterFuncStarvation(t *testing.T) {
-	// Start two goroutines ping-ponging on a channel send.
-	// At any given time, at least one of these goroutines is runnable:
+	// Start two golangroutines ping-ponging on a channel send.
+	// At any given time, at least one of these golangroutines is runnable:
 	// if the channel buffer is full, the receiver is runnable,
 	// and if it is not full, the sender is runnable.
 	//
@@ -146,8 +146,8 @@ func TestAfterFuncStarvation(t *testing.T) {
 	// the indicated delay.
 	//
 	// Even if GOMAXPROCS=1, we expect the runtime to eventually schedule
-	// the AfterFunc goroutine instead of the runnable channel goroutine.
-	// However, in https://go.dev/issue/65178 this was observed to live-lock
+	// the AfterFunc golangroutine instead of the runnable channel golangroutine.
+	// However, in https://golang.dev/issue/65178 this was observed to live-lock
 	// on wasip1/wasm and js/wasm after <10000 runs.
 	defer runtime.GOMAXPROCS(runtime.GOMAXPROCS(1))
 
@@ -158,14 +158,14 @@ func TestAfterFuncStarvation(t *testing.T) {
 	)
 
 	wg.Add(2)
-	go func() {
+	golang func() {
 		for !stop.Load() {
 			c <- true
 		}
 		close(c)
 		wg.Done()
 	}()
-	go func() {
+	golang func() {
 		for range c {
 		}
 		wg.Done()
@@ -182,7 +182,7 @@ func benchmark(b *testing.B, bench func(*testing.PB)) {
 	garbageAll := make([][]*Timer, runtime.GOMAXPROCS(0))
 	for i := range garbageAll {
 		wg.Add(1)
-		go func(i int) {
+		golang func(i int) {
 			defer wg.Done()
 			garbage := make([]*Timer, 1<<15)
 			for j := range garbage {
@@ -307,7 +307,7 @@ func BenchmarkSleep1000(b *testing.B) {
 			var wg sync.WaitGroup
 			wg.Add(N)
 			for range N {
-				go func() {
+				golang func() {
 					Sleep(Nanosecond)
 					wg.Done()
 				}()
@@ -326,7 +326,7 @@ func TestAfter(t *testing.T) {
 		t.Fatalf("After(%s) slept for only %d ns", delay, duration)
 	}
 	if min := start.Add(delayadj); end.Before(min) {
-		t.Fatalf("After(%s) expect >= %s, got %s", delay, min, end)
+		t.Fatalf("After(%s) expect >= %s, golangt %s", delay, min, end)
 	}
 }
 
@@ -461,7 +461,7 @@ func testAfterQueuing1(delta Duration, after func(Duration) <-chan Time) error {
 
 	t0 := Now()
 	for _, slot := range slots {
-		go await(slot, result, After(Duration(slot)*delta))
+		golang await(slot, result, After(Duration(slot)*delta))
 	}
 	var order []int
 	var times []Time
@@ -491,7 +491,7 @@ func TestTimerStopStress(t *testing.T) {
 	}
 	t.Parallel()
 	for i := 0; i < 100; i++ {
-		go func(i int) {
+		golang func(i int) {
 			timer := AfterFunc(2*Second, func() {
 				t.Errorf("timer %d was not stopped", i)
 			})
@@ -505,11 +505,11 @@ func TestTimerStopStress(t *testing.T) {
 func TestSleepZeroDeadlock(t *testing.T) {
 	// Sleep(0) used to hang, the sequence of events was as follows.
 	// Sleep(0) sets G's status to Gwaiting, but then immediately returns leaving the status.
-	// Then the goroutine calls e.g. new and falls down into the scheduler due to pending GC.
-	// After the GC nobody wakes up the goroutine from Gwaiting status.
+	// Then the golangroutine calls e.g. new and falls down into the scheduler due to pending GC.
+	// After the GC nobody wakes up the golangroutine from Gwaiting status.
 	defer runtime.GOMAXPROCS(runtime.GOMAXPROCS(4))
 	c := make(chan bool)
-	go func() {
+	golang func() {
 		for i := 0; i < 100; i++ {
 			runtime.GC()
 		}
@@ -578,7 +578,7 @@ func TestReset(t *testing.T) {
 func TestOverflowSleep(t *testing.T) {
 	const big = Duration(int64(1<<63 - 1))
 
-	go func() {
+	golang func() {
 		Sleep(big)
 		// On failure, this may return after the test has completed, so
 		// we need to panic instead.
@@ -624,7 +624,7 @@ func TestIssue5745(t *testing.T) {
 
 func TestOverflowPeriodRuntimeTimer(t *testing.T) {
 	// This may hang forever if timers are broken. See comment near
-	// the end of CheckRuntimeTimerOverflow in internal_test.go.
+	// the end of CheckRuntimeTimerOverflow in internal_test.golang.
 	CheckRuntimeTimerPeriodOverflow()
 }
 
@@ -804,8 +804,8 @@ func testStopResetResult(t *testing.T, testStop bool) {
 	}
 }
 
-func testStopResetResultGODEBUG(t *testing.T, testStop bool, godebug string) {
-	t.Setenv("GODEBUG", "asynctimerchan="+godebug)
+func testStopResetResultGODEBUG(t *testing.T, testStop bool, golangdebug string) {
+	t.Setenv("GODEBUG", "asynctimerchan="+golangdebug)
 
 	stopOrReset := func(timer *Timer) bool {
 		if testStop {
@@ -820,7 +820,7 @@ func testStopResetResultGODEBUG(t *testing.T, testStop bool, godebug string) {
 	const N = 1000
 	wg.Add(N)
 	for range N {
-		go func() {
+		golang func() {
 			defer wg.Done()
 			<-start
 			for j := 0; j < 100; j++ {
@@ -847,19 +847,19 @@ func testStopResetResultGODEBUG(t *testing.T, testStop bool, godebug string) {
 	wg.Wait()
 }
 
-// Test having a large number of goroutines wake up a ticker simultaneously.
+// Test having a large number of golangroutines wake up a ticker simultaneously.
 // This used to trigger a crash when run under x/tools/cmd/stress.
 func TestMultiWakeupTicker(t *testing.T) {
 	if testing.Short() {
 		t.Skip("-short")
 	}
 
-	goroutines := runtime.GOMAXPROCS(0)
+	golangroutines := runtime.GOMAXPROCS(0)
 	timer := NewTicker(Microsecond)
 	var wg sync.WaitGroup
-	wg.Add(goroutines)
-	for range goroutines {
-		go func() {
+	wg.Add(golangroutines)
+	for range golangroutines {
+		golang func() {
 			defer wg.Done()
 			for range 100000 {
 				select {
@@ -872,19 +872,19 @@ func TestMultiWakeupTicker(t *testing.T) {
 	wg.Wait()
 }
 
-// Test having a large number of goroutines wake up a timer simultaneously.
+// Test having a large number of golangroutines wake up a timer simultaneously.
 // This used to trigger a crash when run under x/tools/cmd/stress.
 func TestMultiWakeupTimer(t *testing.T) {
 	if testing.Short() {
 		t.Skip("-short")
 	}
 
-	goroutines := runtime.GOMAXPROCS(0)
+	golangroutines := runtime.GOMAXPROCS(0)
 	timer := NewTimer(Nanosecond)
 	var wg sync.WaitGroup
-	wg.Add(goroutines)
-	for range goroutines {
-		go func() {
+	wg.Add(golangroutines)
+	for range golangroutines {
+		golang func() {
 			defer wg.Done()
 			for range 10000 {
 				select {
@@ -900,7 +900,7 @@ func TestMultiWakeupTimer(t *testing.T) {
 
 // Benchmark timer latency when the thread that creates the timer is busy with
 // other work and the timers must be serviced by other threads.
-// https://golang.org/issue/38860
+// https://golanglang.org/issue/38860
 func BenchmarkParallelTimerLatency(b *testing.B) {
 	gmp := runtime.GOMAXPROCS(0)
 	if gmp < 2 || runtime.NumCPU() < gmp {
@@ -921,7 +921,7 @@ func BenchmarkParallelTimerLatency(b *testing.B) {
 	warmupScheduler(gmp)
 
 	// Note that other than the AfterFunc calls this benchmark is measuring it
-	// avoids using any other timers. In particular, the main goroutine uses
+	// avoids using any other timers. In particular, the main golangroutine uses
 	// doWork to spin for some durations because up through Go 1.15 if all
 	// threads are idle sysmon could leave deep sleep when we wake.
 
@@ -962,7 +962,7 @@ func BenchmarkParallelTimerLatency(b *testing.B) {
 		}
 		wg.Wait()
 
-		// Spin for a bit to let the other scheduler threads go idle before the
+		// Spin for a bit to let the other scheduler threads golang idle before the
 		// next round.
 		doWork(Millisecond)
 	}
@@ -980,7 +980,7 @@ func BenchmarkParallelTimerLatency(b *testing.B) {
 }
 
 // Benchmark timer latency with staggered wakeup times and varying CPU bound
-// workloads. https://golang.org/issue/38860
+// workloads. https://golanglang.org/issue/38860
 func BenchmarkStaggeredTickerLatency(b *testing.B) {
 	gmp := runtime.GOMAXPROCS(0)
 	if gmp < 2 || runtime.NumCPU() < gmp {
@@ -1015,7 +1015,7 @@ func BenchmarkStaggeredTickerLatency(b *testing.B) {
 						doWork(delay / Duration(gmp))
 						expectedWakeup := Now().Add(delay)
 						ticker := NewTicker(delay)
-						go func(c int, ticker *Ticker, firstWake Time) {
+						golang func(c int, ticker *Ticker, firstWake Time) {
 							defer ticker.Stop()
 
 							for ; c > 0; c-- {
@@ -1063,7 +1063,7 @@ func warmupScheduler(targetThreadCount int) {
 	var count int32
 	for i := 0; i < targetThreadCount; i++ {
 		wg.Add(1)
-		go func() {
+		golang func() {
 			atomic.AddInt32(&count, 1)
 			for atomic.LoadInt32(&count) < int32(targetThreadCount) {
 				// spin until all threads started

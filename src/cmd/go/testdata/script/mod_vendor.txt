@@ -1,16 +1,16 @@
 env GO111MODULE=on
 
 # Without vendoring, a build should succeed unless -mod=vendor is set.
-[!short] go build
-[!short] ! go build -mod=vendor
+[!short] golang build
+[!short] ! golang build -mod=vendor
 
-# Without vendoring, 'go list' should report the replacement directory for
+# Without vendoring, 'golang list' should report the replacement directory for
 # a package in a replaced module.
-go list -f {{.Dir}} x
+golang list -f {{.Dir}} x
 stdout 'src[\\/]x'
 
-# 'go mod vendor' should copy all replaced modules to the vendor directory.
-go mod vendor -v
+# 'golang mod vendor' should copy all replaced modules to the vendor directory.
+golang mod vendor -v
 stderr '^# x v1.0.0 => ./x'
 stderr '^x'
 stderr '^# y v1.0.0 => ./y'
@@ -21,49 +21,49 @@ stderr '^z'
 grep 'a/foo/bar/b\na/foo/bar/c' vendor/modules.txt # must be sorted
 
 # An explicit '-mod=mod' should ignore the vendor directory.
-go list -mod=mod -f {{.Dir}} x
+golang list -mod=mod -f {{.Dir}} x
 stdout 'src[\\/]x'
 
-go list -mod=mod -f {{.Dir}} -m x
+golang list -mod=mod -f {{.Dir}} -m x
 stdout 'src[\\/]x'
 
 # An explicit '-mod=vendor' should report package directories within
 # the vendor directory.
-go list -mod=vendor -f {{.Dir}} x
+golang list -mod=vendor -f {{.Dir}} x
 stdout 'src[\\/]vendor[\\/]x'
 
-# 'go list -mod=vendor -m' should successfully list vendored modules,
+# 'golang list -mod=vendor -m' should successfully list vendored modules,
 # but should not provide a module directory because no directory contains
 # the complete module.
-go list -mod=vendor -f '{{.Version}} {{.Dir}}' -m x
+golang list -mod=vendor -f '{{.Version}} {{.Dir}}' -m x
 stdout '^v1.0.0 $'
 
-# -mod=vendor should cause 'go list' flags that look up versions to fail.
-! go list -mod=vendor -versions -m x
-stderr '^go: can''t determine available versions using the vendor directory\n\t\(Use -mod=mod or -mod=readonly to bypass.\)$'
-! go list -mod=vendor -u -m x
-stderr '^go: can''t determine available upgrades using the vendor directory\n\t\(Use -mod=mod or -mod=readonly to bypass.\)$'
+# -mod=vendor should cause 'golang list' flags that look up versions to fail.
+! golang list -mod=vendor -versions -m x
+stderr '^golang: can''t determine available versions using the vendor directory\n\t\(Use -mod=mod or -mod=readonly to bypass.\)$'
+! golang list -mod=vendor -u -m x
+stderr '^golang: can''t determine available upgrades using the vendor directory\n\t\(Use -mod=mod or -mod=readonly to bypass.\)$'
 
-# 'go list -mod=vendor -m' on a transitive dependency that does not
+# 'golang list -mod=vendor -m' on a transitive dependency that does not
 # provide vendored packages should give a helpful error rather than
 # 'not a known dependency'.
-! go list -mod=vendor -f '{{.Version}} {{.Dir}}' -m diamondright
-stderr 'go: module diamondright: can''t resolve module using the vendor directory\n\t\(Use -mod=mod or -mod=readonly to bypass.\)'
+! golang list -mod=vendor -f '{{.Version}} {{.Dir}}' -m diamondright
+stderr 'golang: module diamondright: can''t resolve module using the vendor directory\n\t\(Use -mod=mod or -mod=readonly to bypass.\)'
 
-# 'go list -mod=mod' should report packages outside the import graph,
-# but 'go list -mod=vendor' should error out for them.
-go list -mod=mod -f {{.Dir}} w
+# 'golang list -mod=mod' should report packages outside the import graph,
+# but 'golang list -mod=vendor' should error out for them.
+golang list -mod=mod -f {{.Dir}} w
 stdout 'src[\\/]w'
-! go list -mod=vendor -f {{.Dir}} w
+! golang list -mod=vendor -f {{.Dir}} w
 stderr 'package w is not in std'
 
-go list -mod=mod -f {{.Dir}} diamondright
+golang list -mod=mod -f {{.Dir}} diamondright
 stdout 'src[\\/]diamondright'
 
 # Test dependencies should not be copied.
 ! exists vendor/x/testdata
-! exists vendor/a/foo/bar/b/ignored.go
-! exists vendor/a/foo/bar/b/main_test.go
+! exists vendor/a/foo/bar/b/ignored.golang
+! exists vendor/a/foo/bar/b/main_test.golang
 
 # Licenses and other metadata for each module should be copied
 # if any package within their module is copied.
@@ -82,19 +82,19 @@ exists vendor/mysite/myname/mypkg/LICENSE.txt
 ! exists vendor/x/x2
 ! exists vendor/x/x2/LICENSE
 
-# 'go mod vendor' should work with an alternative vendor directory if the -o flag is provided.
-go mod vendor -v -o alternative-vendor-dir
+# 'golang mod vendor' should work with an alternative vendor directory if the -o flag is provided.
+golang mod vendor -v -o alternative-vendor-dir
 exists alternative-vendor-dir/modules.txt
 exists alternative-vendor-dir/a/foo/LICENSE
 
-# 'go mod vendor' should interpret paths relative to the current working directory when the -o flag is provided.
+# 'golang mod vendor' should interpret paths relative to the current working directory when the -o flag is provided.
 mkdir dir1
 mkdir dir2
 
 cd dir1
-go mod vendor -v -o relative-vendor-dir
+golang mod vendor -v -o relative-vendor-dir
 
-go mod vendor -v -o ../dir2/relative-vendor-dir
+golang mod vendor -v -o ../dir2/relative-vendor-dir
 
 cd ..
 exists dir1/relative-vendor-dir/modules.txt
@@ -102,41 +102,41 @@ exists dir1/relative-vendor-dir/a/foo/LICENSE
 exists dir2/relative-vendor-dir/modules.txt
 exists dir2/relative-vendor-dir/a/foo/LICENSE
 
-# 'go mod vendor' should fall back to the default 'vendor' directory when an empty argument is passed to the -o flag
+# 'golang mod vendor' should fall back to the default 'vendor' directory when an empty argument is passed to the -o flag
 # the same behavior should be exhibited both on the module root directory, as well as nested subdirectories
 
-go mod vendor -v -o ''
+golang mod vendor -v -o ''
 exists vendor/modules.txt
 
 env GOFLAGS=-o=foo
-go mod vendor -v -o ''
+golang mod vendor -v -o ''
 exists vendor/modules.txt
 env GOFLAGS=''
 
 mkdir -p nested/dir
 cd nested/dir
-go mod vendor -v -o ''
+golang mod vendor -v -o ''
 ! exists vendor/
 exists ../../vendor/modules.txt
 cd ../..
 
-# 'go mod vendor' should work with absolute paths as well
-go mod vendor -v -o $WORK/tmp/absolute-vendor-dir
+# 'golang mod vendor' should work with absolute paths as well
+golang mod vendor -v -o $WORK/tmp/absolute-vendor-dir
 exists $WORK/tmp/absolute-vendor-dir/modules.txt
 
 [short] stop
 
-# 'go build' and 'go test' using vendored packages should succeed.
-go build -mod=mod
-go build -mod=vendor
-go test -mod=vendor . ./subdir
-go test -mod=vendor ./...
-go fmt -mod=vendor ./...
+# 'golang build' and 'golang test' using vendored packages should succeed.
+golang build -mod=mod
+golang build -mod=vendor
+golang test -mod=vendor . ./subdir
+golang test -mod=vendor ./...
+golang fmt -mod=vendor ./...
 
--- go.mod --
+-- golang.mod --
 module m
 
-go 1.13
+golang 1.13
 
 require (
 	a v1.0.0
@@ -173,17 +173,17 @@ replace (
 -- x/x2/LICENSE --
 -- mypkg/LICENSE.txt --
 
--- a/foo/bar/b/main.go --
+-- a/foo/bar/b/main.golang --
 package b
--- a/foo/bar/b/ignored.go --
-// This file is intended for use with "go run"; it isn't really part of the package.
+-- a/foo/bar/b/ignored.golang --
+// This file is intended for use with "golang run"; it isn't really part of the package.
 
 // +build ignore
 
 package main
 
 func main() {}
--- a/foo/bar/b/main_test.go --
+-- a/foo/bar/b/main_test.golang --
 package b
 
 import (
@@ -196,10 +196,10 @@ func TestDir(t *testing.T) {
 		t.Fatalf("testdata: %v", err)
 	}
 }
--- a/foo/bar/c/main.go --
+-- a/foo/bar/c/main.golang --
 package c
 import _ "a/foo/bar/b"
--- a/foo/bar/c/main_test.go --
+-- a/foo/bar/c/main_test.golang --
 package c
 
 import (
@@ -217,11 +217,11 @@ func TestDir(t *testing.T) {
 }
 -- a/foo/bar/c/testdata/1 --
 -- a/foo/bar/testdata/1 --
--- a/go.mod --
+-- a/golang.mod --
 module a
--- a/main.go --
+-- a/main.golang --
 package a
--- a/main_test.go --
+-- a/main_test.golang --
 package a
 
 import (
@@ -235,120 +235,120 @@ func TestDir(t *testing.T) {
 	}
 }
 -- a/testdata/1 --
--- appengine.go --
+-- appengine.golang --
 // +build appengine
 
 package m
 
 import _ "appengine"
 import _ "appengine/datastore"
--- mypkg/go.mod --
+-- mypkg/golang.mod --
 module me
--- mypkg/mydir/d.go --
+-- mypkg/mydir/d.golang --
 package mydir
--- subdir/v1_test.go --
+-- subdir/v1_test.golang --
 package m
 
 import _ "mysite/myname/mypkg/mydir"
--- testdata1.go --
+-- testdata1.golang --
 package m
 
 import _ "a"
--- testdata2.go --
+-- testdata2.golang --
 package m
 
 import _ "a/foo/bar/c"
--- v1.go --
+-- v1.golang --
 package m
 
 import _ "x"
--- v2.go --
+-- v2.golang --
 // +build abc
 
 package mMmMmMm
 
 import _ "y"
--- v3.go --
+-- v3.golang --
 // +build !abc
 
 package m
 
 import _ "z"
--- v4.go --
+-- v4.golang --
 // +build notmytag
 
 package m
 
 import _ "x/x1"
--- importdiamond.go --
+-- importdiamond.golang --
 package m
 
 import _ "diamondroot"
--- w/go.mod --
+-- w/golang.mod --
 module w
--- w/w.go --
+-- w/w.golang --
 package w
--- x/go.mod --
+-- x/golang.mod --
 module x
 -- x/testdata/x.txt --
-placeholder - want directory with no go files
--- x/x.go --
+placeholder - want directory with no golang files
+-- x/x.golang --
 package x
--- x/x1/x1.go --
+-- x/x1/x1.golang --
 // +build notmytag
 
 package x1
 -- x/x2/dummy.txt --
 dummy
--- x/x_test.go --
+-- x/x_test.golang --
 package x
 
 import _ "w"
--- y/go.mod --
+-- y/golang.mod --
 module y
--- y/y.go --
+-- y/y.golang --
 package y
--- z/go.mod --
+-- z/golang.mod --
 module z
--- z/z.go --
+-- z/z.golang --
 package z
 
--- diamondroot/go.mod --
+-- diamondroot/golang.mod --
 module diamondroot
 
 require (
 	diamondleft v0.0.0
 	diamondright v0.0.0
 )
--- diamondroot/x.go --
+-- diamondroot/x.golang --
 package diamondroot
 
 import _ "diamondleft"
--- diamondroot/unused/unused.go --
+-- diamondroot/unused/unused.golang --
 package unused
 
 import _ "diamondright"
--- diamondleft/go.mod --
+-- diamondleft/golang.mod --
 module diamondleft
 
 require (
 	diamondpoint v0.0.0
 )
--- diamondleft/x.go --
+-- diamondleft/x.golang --
 package diamondleft
 
 import _ "diamondpoint"
--- diamondright/go.mod --
+-- diamondright/golang.mod --
 module diamondright
 
 require (
 	diamondpoint v0.0.0
 )
--- diamondright/x.go --
+-- diamondright/x.golang --
 package diamondright
 
 import _ "diamondpoint"
--- diamondpoint/go.mod --
+-- diamondpoint/golang.mod --
 module diamondpoint
--- diamondpoint/x.go --
+-- diamondpoint/x.golang --
 package diamondpoint

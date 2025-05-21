@@ -1,10 +1,10 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // When using GOEXPERIMENT=boringcrypto, the test program links in the boringcrypto syso,
 // which does not respect GOAMD64, so we skip the test if boringcrypto is enabled.
-//go:build !boringcrypto
+//golang:build !boringcrypto
 
 package amd64_test
 
@@ -14,7 +14,7 @@ import (
 	"debug/macho"
 	"errors"
 	"fmt"
-	"go/build"
+	"golang/build"
 	"internal/testenv"
 	"io"
 	"math"
@@ -103,9 +103,9 @@ func clobber(t *testing.T, src string, dst *os.File, opcodes map[string]bool) {
 	var re *regexp.Regexp
 	var disasm io.Reader
 	if false {
-		// TODO: go tool objdump doesn't disassemble the bmi1 instructions
+		// TODO: golang tool objdump doesn't disassemble the bmi1 instructions
 		// in question correctly. See issue 48584.
-		cmd := testenv.Command(t, "go", "tool", "objdump", src)
+		cmd := testenv.Command(t, "golang", "tool", "objdump", src)
 		var err error
 		disasm, err = cmd.StdoutPipe()
 		if err != nil {
@@ -251,7 +251,7 @@ var runtimeFeatures = setOf(
 
 var featureToOpcodes = map[string][]string{
 	// Note: we include *q, *l, and plain opcodes here.
-	// go tool objdump doesn't include a [QL] on popcnt instructions, until CL 351889
+	// golang tool objdump doesn't include a [QL] on popcnt instructions, until CL 351889
 	// native objdump doesn't include [QL] on linux.
 	"popcnt": {"popcntq", "popcntl", "popcnt"},
 	"bmi1": {
@@ -292,11 +292,11 @@ func TestPopCnt(t *testing.T) {
 		{0b00001100, 2},
 		{0b00000000, 0},
 	} {
-		if got := bits.OnesCount64(tt.x); got != tt.want {
-			t.Errorf("OnesCount64(%#x) = %d, want %d", tt.x, got, tt.want)
+		if golangt := bits.OnesCount64(tt.x); golangt != tt.want {
+			t.Errorf("OnesCount64(%#x) = %d, want %d", tt.x, golangt, tt.want)
 		}
-		if got := bits.OnesCount32(uint32(tt.x)); got != tt.want {
-			t.Errorf("OnesCount32(%#x) = %d, want %d", tt.x, got, tt.want)
+		if golangt := bits.OnesCount32(uint32(tt.x)); golangt != tt.want {
+			t.Errorf("OnesCount32(%#x) = %d, want %d", tt.x, golangt, tt.want)
 		}
 	}
 }
@@ -310,11 +310,11 @@ func TestAndNot(t *testing.T) {
 		{0b00001111, 0b00001100, 0b0011},
 		{0b00000000, 0b00000000, 0b0000},
 	} {
-		if got := tt.x &^ tt.y; got != tt.want {
-			t.Errorf("%#x &^ %#x = %#x, want %#x", tt.x, tt.y, got, tt.want)
+		if golangt := tt.x &^ tt.y; golangt != tt.want {
+			t.Errorf("%#x &^ %#x = %#x, want %#x", tt.x, tt.y, golangt, tt.want)
 		}
-		if got := uint32(tt.x) &^ uint32(tt.y); got != uint32(tt.want) {
-			t.Errorf("%#x &^ %#x = %#x, want %#x", tt.x, tt.y, got, tt.want)
+		if golangt := uint32(tt.x) &^ uint32(tt.y); golangt != uint32(tt.want) {
+			t.Errorf("%#x &^ %#x = %#x, want %#x", tt.x, tt.y, golangt, tt.want)
 		}
 	}
 }
@@ -330,11 +330,11 @@ func TestBLSI(t *testing.T) {
 		{0b11000110, 0b010},
 		{0b00000000, 0b000},
 	} {
-		if got := tt.x & -tt.x; got != tt.want {
-			t.Errorf("%#x & (-%#x) = %#x, want %#x", tt.x, tt.x, got, tt.want)
+		if golangt := tt.x & -tt.x; golangt != tt.want {
+			t.Errorf("%#x & (-%#x) = %#x, want %#x", tt.x, tt.x, golangt, tt.want)
 		}
-		if got := uint32(tt.x) & -uint32(tt.x); got != uint32(tt.want) {
-			t.Errorf("%#x & (-%#x) = %#x, want %#x", tt.x, tt.x, got, tt.want)
+		if golangt := uint32(tt.x) & -uint32(tt.x); golangt != uint32(tt.want) {
+			t.Errorf("%#x & (-%#x) = %#x, want %#x", tt.x, tt.x, golangt, tt.want)
 		}
 	}
 }
@@ -350,11 +350,11 @@ func TestBLSMSK(t *testing.T) {
 		{0b11000110, 0b011},
 		{0b00000000, 1<<64 - 1},
 	} {
-		if got := tt.x ^ (tt.x - 1); got != tt.want {
-			t.Errorf("%#x ^ (%#x-1) = %#x, want %#x", tt.x, tt.x, got, tt.want)
+		if golangt := tt.x ^ (tt.x - 1); golangt != tt.want {
+			t.Errorf("%#x ^ (%#x-1) = %#x, want %#x", tt.x, tt.x, golangt, tt.want)
 		}
-		if got := uint32(tt.x) ^ (uint32(tt.x) - 1); got != uint32(tt.want) {
-			t.Errorf("%#x ^ (%#x-1) = %#x, want %#x", tt.x, tt.x, got, uint32(tt.want))
+		if golangt := uint32(tt.x) ^ (uint32(tt.x) - 1); golangt != uint32(tt.want) {
+			t.Errorf("%#x ^ (%#x-1) = %#x, want %#x", tt.x, tt.x, golangt, uint32(tt.want))
 		}
 	}
 }
@@ -370,11 +370,11 @@ func TestBLSR(t *testing.T) {
 		{0b11000110, 0b11000100},
 		{0b00000000, 0b00000000},
 	} {
-		if got := tt.x & (tt.x - 1); got != tt.want {
-			t.Errorf("%#x & (%#x-1) = %#x, want %#x", tt.x, tt.x, got, tt.want)
+		if golangt := tt.x & (tt.x - 1); golangt != tt.want {
+			t.Errorf("%#x & (%#x-1) = %#x, want %#x", tt.x, tt.x, golangt, tt.want)
 		}
-		if got := uint32(tt.x) & (uint32(tt.x) - 1); got != uint32(tt.want) {
-			t.Errorf("%#x & (%#x-1) = %#x, want %#x", tt.x, tt.x, got, tt.want)
+		if golangt := uint32(tt.x) & (uint32(tt.x) - 1); golangt != uint32(tt.want) {
+			t.Errorf("%#x & (%#x-1) = %#x, want %#x", tt.x, tt.x, golangt, tt.want)
 		}
 	}
 }
@@ -390,15 +390,15 @@ func TestTrailingZeros(t *testing.T) {
 		{0b00001000, 3},
 		{0b00000000, 64},
 	} {
-		if got := bits.TrailingZeros64(tt.x); got != tt.want {
-			t.Errorf("TrailingZeros64(%#x) = %d, want %d", tt.x, got, tt.want)
+		if golangt := bits.TrailingZeros64(tt.x); golangt != tt.want {
+			t.Errorf("TrailingZeros64(%#x) = %d, want %d", tt.x, golangt, tt.want)
 		}
 		want := tt.want
 		if want == 64 {
 			want = 32
 		}
-		if got := bits.TrailingZeros32(uint32(tt.x)); got != want {
-			t.Errorf("TrailingZeros64(%#x) = %d, want %d", tt.x, got, want)
+		if golangt := bits.TrailingZeros32(uint32(tt.x)); golangt != want {
+			t.Errorf("TrailingZeros64(%#x) = %d, want %d", tt.x, golangt, want)
 		}
 	}
 }
@@ -414,8 +414,8 @@ func TestRound(t *testing.T) {
 		{2.5, 2},
 		{2.6, 3},
 	} {
-		if got := math.RoundToEven(tt.x); got != tt.want {
-			t.Errorf("RoundToEven(%f) = %f, want %f", tt.x, got, tt.want)
+		if golangt := math.RoundToEven(tt.x); golangt != tt.want {
+			t.Errorf("RoundToEven(%f) = %f, want %f", tt.x, golangt, tt.want)
 		}
 	}
 }
@@ -427,8 +427,8 @@ func TestFMA(t *testing.T) {
 		{2, 3, 4, 10},
 		{3, 4, 5, 17},
 	} {
-		if got := math.FMA(tt.x, tt.y, tt.z); got != tt.want {
-			t.Errorf("FMA(%f,%f,%f) = %f, want %f", tt.x, tt.y, tt.z, got, tt.want)
+		if golangt := math.FMA(tt.x, tt.y, tt.z); golangt != tt.want {
+			t.Errorf("FMA(%f,%f,%f) = %f, want %f", tt.x, tt.y, tt.z, golangt, tt.want)
 		}
 	}
 }

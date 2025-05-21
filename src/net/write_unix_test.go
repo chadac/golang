@@ -1,8 +1,8 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build darwin || dragonfly || freebsd || linux || netbsd || openbsd || solaris
+//golang:build darwin || dragolangnfly || freebsd || linux || netbsd || openbsd || solaris
 
 package net
 
@@ -15,7 +15,7 @@ import (
 
 // Test that a client can't trigger an endless loop of write system
 // calls on the server by shutting down the write side on the client.
-// Possibility raised in the discussion of https://golang.org/cl/71973.
+// Possibility raised in the discussion of https://golanglang.org/cl/71973.
 func TestEndlessWrite(t *testing.T) {
 	t.Parallel()
 	c := make(chan bool)

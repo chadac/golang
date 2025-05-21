@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -11,7 +11,7 @@ import (
 	"unsafe"
 )
 
-//go:noinline
+//golang:noinline
 func g(x *byte) *byte { return x }
 
 func main() {
@@ -56,7 +56,7 @@ func slice() {
 
 var strDone = make(chan struct{})
 
-//go:noinline
+//golang:noinline
 func str(x, y string) {
 	s := x + y // put in temporary on stack
 	p := unsafe.StringData(s)

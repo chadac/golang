@@ -1,5 +1,5 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package maphash
@@ -24,7 +24,7 @@ func TestUnseededHash(t *testing.T) {
 		m[h.Sum64()] = struct{}{}
 	}
 	if len(m) < 900 {
-		t.Errorf("empty hash not sufficiently random: got %d, want 1000", len(m))
+		t.Errorf("empty hash not sufficiently random: golangt %d, want 1000", len(m))
 	}
 }
 
@@ -37,7 +37,7 @@ func TestSeededHash(t *testing.T) {
 		m[h.Sum64()] = struct{}{}
 	}
 	if len(m) != 1 {
-		t.Errorf("seeded hash is random: got %d, want 1", len(m))
+		t.Errorf("seeded hash is random: golangt %d, want 1", len(m))
 	}
 }
 
@@ -133,7 +133,7 @@ func TestHashHighBytes(t *testing.T) {
 		m[h.Sum64()>>32] = struct{}{}
 	}
 	if len(m) < N/2 {
-		t.Errorf("from %d seeds, wanted at least %d different hashes; got %d", N, N/2, len(m))
+		t.Errorf("from %d seeds, wanted at least %d different hashes; golangt %d", N, N/2, len(m))
 	}
 }
 
@@ -169,7 +169,7 @@ func TestSeedFromSum64(t *testing.T) {
 	h2.WriteString("foo")
 	y := h2.Sum64()
 	if x != y {
-		t.Errorf("hashes don't match: want %x, got %x", x, y)
+		t.Errorf("hashes don't match: want %x, golangt %x", x, y)
 	}
 }
 
@@ -183,7 +183,7 @@ func TestSeedFromSeed(t *testing.T) {
 	h2.WriteString("foo")
 	y := h2.Sum64()
 	if x != y {
-		t.Errorf("hashes don't match: want %x, got %x", x, y)
+		t.Errorf("hashes don't match: want %x, golangt %x", x, y)
 	}
 }
 
@@ -197,7 +197,7 @@ func TestSeedFromFlush(t *testing.T) {
 	h2.Write(b)
 	y := h2.Sum64()
 	if x != y {
-		t.Errorf("hashes don't match: want %x, got %x", x, y)
+		t.Errorf("hashes don't match: want %x, golangt %x", x, y)
 	}
 }
 
@@ -212,7 +212,7 @@ func TestSeedFromReset(t *testing.T) {
 	h2.WriteString("foo")
 	y := h2.Sum64()
 	if x != y {
-		t.Errorf("hashes don't match: want %x, got %x", x, y)
+		t.Errorf("hashes don't match: want %x, golangt %x", x, y)
 	}
 }
 
@@ -302,7 +302,7 @@ func testComparable[T comparable](t *testing.T, v T, v2 ...T) {
 
 var use byte
 
-//go:noinline
+//golang:noinline
 func stackGrow(dep int) {
 	if dep == 0 {
 		return
@@ -405,7 +405,7 @@ func TestComparableShouldPanic(t *testing.T) {
 		}
 		want := "hash of unhashable type []uint8"
 		if s := err.Error(); !strings.Contains(s, want) {
-			t.Fatalf("want %s, got %s", want, s)
+			t.Fatalf("want %s, golangt %s", want, s)
 		}
 	}()
 	Comparable(MakeSeed(), a)
@@ -428,8 +428,8 @@ func TestWriteComparableNoncommute(t *testing.T) {
 }
 
 func TestComparableAllocations(t *testing.T) {
-	if purego {
-		t.Skip("skip allocation test in purego mode - reflect-based implementation allocates more")
+	if puregolang {
+		t.Skip("skip allocation test in puregolang mode - reflect-based implementation allocates more")
 	}
 	if asan.Enabled {
 		t.Skip("skip allocation test under -asan")
@@ -441,7 +441,7 @@ func TestComparableAllocations(t *testing.T) {
 		Comparable(seed, s)
 	})
 	if allocs > 0 {
-		t.Errorf("got %v allocs, want 0", allocs)
+		t.Errorf("golangt %v allocs, want 0", allocs)
 	}
 
 	type S struct {
@@ -453,7 +453,7 @@ func TestComparableAllocations(t *testing.T) {
 		Comparable(seed, s)
 	})
 	if allocs > 0 {
-		t.Errorf("got %v allocs, want 0", allocs)
+		t.Errorf("golangt %v allocs, want 0", allocs)
 	}
 }
 

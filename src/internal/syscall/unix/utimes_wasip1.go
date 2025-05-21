@@ -1,8 +1,8 @@
 // Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build wasip1
+//golang:build wasip1
 
 package unix
 
@@ -11,8 +11,8 @@ import (
 	"unsafe"
 )
 
-//go:wasmimport wasi_snapshot_preview1 path_filestat_set_times
-//go:noescape
+//golang:wasmimport wasi_snapshot_preview1 path_filestat_set_times
+//golang:noescape
 func path_filestat_set_times(fd int32, flags uint32, path *byte, pathLen size, atim uint64, mtim uint64, fstflags uint32) syscall.Errno
 
 func Utimensat(dirfd int, path string, times *[2]syscall.Timespec, flag int) error {

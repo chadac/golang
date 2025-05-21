@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -17,7 +17,7 @@ type I interface {
 	h()
 }
 
-//go:noinline
+//golang:noinline
 func ld[T any]() {
 	var x I
 	if _, ok := x.(T); ok {

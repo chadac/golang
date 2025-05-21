@@ -1,5 +1,5 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package elliptic
@@ -172,7 +172,7 @@ func TestMarshal(t *testing.T) {
 
 func TestUnmarshalToLargeCoordinates(t *testing.T) {
 	t.Parallel()
-	// See https://golang.org/issues/20482.
+	// See https://golanglang.org/issues/20482.
 	testAllCurves(t, testUnmarshalToLargeCoordinates)
 }
 
@@ -314,12 +314,12 @@ func testMarshalCompressed(t *testing.T, curve Curve, x, y *big.Int, want []byte
 	if !curve.IsOnCurve(x, y) {
 		t.Fatal("invalid test point")
 	}
-	got := MarshalCompressed(curve, x, y)
-	if want != nil && !bytes.Equal(got, want) {
-		t.Errorf("got unexpected MarshalCompressed result: got %x, want %x", got, want)
+	golangt := MarshalCompressed(curve, x, y)
+	if want != nil && !bytes.Equal(golangt, want) {
+		t.Errorf("golangt unexpected MarshalCompressed result: golangt %x, want %x", golangt, want)
 	}
 
-	X, Y := UnmarshalCompressed(curve, got)
+	X, Y := UnmarshalCompressed(curve, golangt)
 	if X == nil || Y == nil {
 		t.Fatalf("UnmarshalCompressed failed unexpectedly")
 	}
@@ -328,7 +328,7 @@ func testMarshalCompressed(t *testing.T, curve Curve, x, y *big.Int, want []byte
 		t.Error("UnmarshalCompressed returned a point not on the curve")
 	}
 	if X.Cmp(x) != 0 || Y.Cmp(y) != 0 {
-		t.Errorf("point did not round-trip correctly: got (%v, %v), want (%v, %v)", X, Y, x, y)
+		t.Errorf("point did not round-trip correctly: golangt (%v, %v), want (%v, %v)", X, Y, x, y)
 	}
 }
 

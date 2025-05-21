@@ -1,5 +1,5 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package sumdb
@@ -12,14 +12,14 @@ import (
 	"sync"
 	"sync/atomic"
 
-	"golang.org/x/mod/module"
-	"golang.org/x/mod/sumdb/note"
-	"golang.org/x/mod/sumdb/tlog"
+	"golanglang.org/x/mod/module"
+	"golanglang.org/x/mod/sumdb/note"
+	"golanglang.org/x/mod/sumdb/tlog"
 )
 
 // A ClientOps provides the external operations
 // (file caching, HTTP fetches, and so on) needed by the [Client].
-// The methods must be safe for concurrent use by multiple goroutines.
+// The methods must be safe for concurrent use by multiple golangroutines.
 type ClientOps interface {
 	// ReadRemote reads and returns the content served at the given path
 	// on the remote database server. The path begins with "/lookup" or "/tile/",
@@ -75,7 +75,7 @@ var ErrWriteConflict = errors.New("write conflict")
 var ErrSecurity = errors.New("security error: misbehaving server")
 
 // A Client is a client connection to a checksum database.
-// All the methods are safe for simultaneous use by multiple goroutines.
+// All the methods are safe for simultaneous use by multiple golangroutines.
 type Client struct {
 	ops ClientOps // access to operations in the external world
 
@@ -203,9 +203,9 @@ func (c *Client) skip(target string) bool {
 	return module.MatchPrefixPatterns(c.nosumdb, target)
 }
 
-// Lookup returns the go.sum lines for the given module path and version.
-// The version may end in a /go.mod suffix, in which case Lookup returns
-// the go.sum lines for the module's go.mod-only hash.
+// Lookup returns the golang.sum lines for the given module path and version.
+// The version may end in a /golang.mod suffix, in which case Lookup returns
+// the golang.sum lines for the module's golang.mod-only hash.
 func (c *Client) Lookup(path, vers string) (lines []string, err error) {
 	atomic.StoreUint32(&c.didLookup, 1)
 
@@ -228,7 +228,7 @@ func (c *Client) Lookup(path, vers string) (lines []string, err error) {
 	if err != nil {
 		return nil, err
 	}
-	evers, err := module.EscapeVersion(strings.TrimSuffix(vers, "/go.mod"))
+	evers, err := module.EscapeVersion(strings.TrimSuffix(vers, "/golang.mod"))
 	if err != nil {
 		return nil, err
 	}
@@ -237,7 +237,7 @@ func (c *Client) Lookup(path, vers string) (lines []string, err error) {
 
 	// Fetch the data.
 	// The lookupCache avoids redundant ReadCache/GetURL operations
-	// (especially since go.sum lines tend to come in pairs for a given
+	// (especially since golang.sum lines tend to come in pairs for a given
 	// path and version) and also avoids having multiple of the same
 	// request in flight at once.
 	type cached struct {
@@ -281,7 +281,7 @@ func (c *Client) Lookup(path, vers string) (lines []string, err error) {
 	}
 
 	// Extract the lines for the specific version we want
-	// (with or without /go.mod).
+	// (with or without /golang.mod).
 	prefix := path + " " + vers + " "
 	var hashes []string
 	for _, line := range strings.Split(string(result.data), "\n") {
@@ -404,7 +404,7 @@ func (c *Client) mergeLatestMem(msg []byte) (when int, err error) {
 		}
 
 		// Install our msg if possible.
-		// Otherwise we will go around again.
+		// Otherwise we will golang around again.
 		c.latestMu.Lock()
 		installed := false
 		if c.latest == latest {
@@ -444,7 +444,7 @@ func (c *Client) checkTrees(older tlog.Tree, olderNote []byte, newer tlog.Tree, 
 	// Start by reporting the inconsistent signed tree notes.
 	var buf bytes.Buffer
 	fmt.Fprintf(&buf, "SECURITY ERROR\n")
-	fmt.Fprintf(&buf, "go.sum database server misbehavior detected!\n\n")
+	fmt.Fprintf(&buf, "golang.sum database server misbehavior detected!\n\n")
 	indent := func(b []byte) []byte {
 		return bytes.Replace(b, []byte("\n"), []byte("\n\t"), -1)
 	}
@@ -514,7 +514,7 @@ func (r *tileReader) ReadTiles(tiles []tlog.Tile) ([][]byte, error) {
 	var wg sync.WaitGroup
 	for i, tile := range tiles {
 		wg.Add(1)
-		go func(i int, tile tlog.Tile) {
+		golang func(i int, tile tlog.Tile) {
 			defer wg.Done()
 			defer func() {
 				if e := recover(); e != nil {

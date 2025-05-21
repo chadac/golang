@@ -1,10 +1,10 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build linux
+//golang:build linux
 
-package cgotest
+package cgolangtest
 
 /*
 #include <unistd.h>
@@ -36,7 +36,7 @@ func init() {
 
 func testThreadLock(t *testing.T) {
 	stop := make(chan int)
-	go func() {
+	golang func() {
 		// We need the G continue running,
 		// so the M has a chance to run this G.
 		for {
@@ -51,7 +51,7 @@ func testThreadLock(t *testing.T) {
 
 	for i := 0; i < 1000; i++ {
 		if !C.Ctid() {
-			t.Fatalf("cgo has not locked OS thread")
+			t.Fatalf("cgolang has not locked OS thread")
 		}
 	}
 }

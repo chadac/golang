@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package cfg constructs a simple control-flow graph (CFG) of the
@@ -38,15 +38,15 @@
 // The CFG does not record conditions associated with conditional branch
 // edges, nor the short-circuit semantics of the && and || operators,
 // nor abnormal control flow caused by panic.  If you need this
-// information, use golang.org/x/tools/go/ssa instead.
+// information, use golanglang.org/x/tools/golang/ssa instead.
 package cfg
 
 import (
 	"bytes"
 	"fmt"
-	"go/ast"
-	"go/format"
-	"go/token"
+	"golang/ast"
+	"golang/format"
+	"golang/token"
 )
 
 // A CFG represents the control-flow graph of a single function.

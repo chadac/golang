@@ -2,109 +2,109 @@ env GO111MODULE=on
 [short] skip
 
 # Initially, we are at v1.0.0 for all dependencies.
-go get
-cp go.mod go.mod.orig
-go list -m all
+golang get
+cp golang.mod golang.mod.orig
+golang list -m all
 stdout '^patch.example.com/direct v1.0.0'
 stdout '^patch.example.com/indirect v1.0.0'
 ! stdout '^patch.example.com/depofdirectpatch'
 
 # @patch should be rejected for modules not already in the build list.
-! go get patch.example.com/depofdirectpatch@patch
-stderr '^go: can''t query version "patch" of module patch.example.com/depofdirectpatch: no existing version is required$'
-cmp go.mod.orig go.mod
+! golang get patch.example.com/depofdirectpatch@patch
+stderr '^golang: can''t query version "patch" of module patch.example.com/depofdirectpatch: no existing version is required$'
+cmp golang.mod.orig golang.mod
 
 # get -u=patch, with no arguments, should patch-update all dependencies
 # of the package in the current directory, pulling in transitive dependencies
 # and also patching those.
-cp go.mod.orig go.mod
-go get -u=patch
-go list -m all
+cp golang.mod.orig golang.mod
+golang get -u=patch
+golang list -m all
 stdout '^patch.example.com/direct v1.0.1'
 stdout '^patch.example.com/indirect v1.0.1'
 stdout '^patch.example.com/depofdirectpatch v1.0.0'
 
 # 'get all@patch' should patch the modules that provide packages in 'all'.
-cp go.mod.orig go.mod
-go get all@patch
-go list -m all
+cp golang.mod.orig golang.mod
+golang get all@patch
+golang list -m all
 stdout '^patch.example.com/direct v1.0.1'
 stdout '^patch.example.com/indirect v1.0.1'
 stdout '^patch.example.com/depofdirectpatch v1.0.0'
 
 # ...but 'all@patch' should fail if any of the affected modules do not already
 # have a selected version.
-cp go.mod.orig go.mod
-go mod edit -droprequire=patch.example.com/direct
-cp go.mod go.mod.dropped
-! go get all@patch
-stderr '^go: all@patch: can''t query version "patch" of module patch.example.com/direct: no existing version is required$'
-cmp go.mod.dropped go.mod
+cp golang.mod.orig golang.mod
+golang mod edit -droprequire=patch.example.com/direct
+cp golang.mod golang.mod.dropped
+! golang get all@patch
+stderr '^golang: all@patch: can''t query version "patch" of module patch.example.com/direct: no existing version is required$'
+cmp golang.mod.dropped golang.mod
 
 # Requesting the direct dependency with -u=patch but without an explicit version
 # should patch-update it and its dependencies.
-cp go.mod.orig go.mod
-go get -u=patch patch.example.com/direct
-go list -m all
+cp golang.mod.orig golang.mod
+golang get -u=patch patch.example.com/direct
+golang list -m all
 stdout '^patch.example.com/direct v1.0.1'
 stdout '^patch.example.com/indirect v1.0.1'
 stdout '^patch.example.com/depofdirectpatch v1.0.0'
 
 # Requesting only the indirect dependency should not update the direct one.
-cp go.mod.orig go.mod
-go get -u=patch patch.example.com/indirect
-go list -m all
+cp golang.mod.orig golang.mod
+golang get -u=patch patch.example.com/indirect
+golang list -m all
 stdout '^patch.example.com/direct v1.0.0'
 stdout '^patch.example.com/indirect v1.0.1'
 ! stdout '^patch.example.com/depofdirectpatch'
 
 # @patch should apply only to the specific module,
 # but the result must reflect its upgraded requirements.
-cp go.mod.orig go.mod
-go get patch.example.com/direct@patch
-go list -m all
+cp golang.mod.orig golang.mod
+golang get patch.example.com/direct@patch
+golang list -m all
 stdout '^patch.example.com/direct v1.0.1'
 stdout '^patch.example.com/indirect v1.0.0'
 stdout '^patch.example.com/depofdirectpatch v1.0.0'
 
 # An explicit @patch should override a general -u.
-cp go.mod.orig go.mod
-go get -u patch.example.com/direct@patch
-go list -m all
+cp golang.mod.orig golang.mod
+golang get -u patch.example.com/direct@patch
+golang list -m all
 stdout '^patch.example.com/direct v1.0.1'
 stdout '^patch.example.com/indirect v1.1.0'
 stdout '^patch.example.com/depofdirectpatch v1.0.0'
 
 # An explicit @latest should override a general -u=patch.
-cp go.mod.orig go.mod
-go get -u=patch patch.example.com/direct@latest
-go list -m all
+cp golang.mod.orig golang.mod
+golang get -u=patch patch.example.com/direct@latest
+golang list -m all
 stdout '^patch.example.com/direct v1.1.0'
 stdout '^patch.example.com/indirect v1.0.1'
 ! stdout '^patch.example.com/depofdirectpatch'
 
 # Standard library packages cannot be upgraded explicitly.
-cp go.mod.orig go.mod
-! go get cmd/vet@patch
-stderr 'go: can''t request explicit version "patch" of standard library package cmd/vet$'
+cp golang.mod.orig golang.mod
+! golang get cmd/vet@patch
+stderr 'golang: can''t request explicit version "patch" of standard library package cmd/vet$'
 
 # However, standard-library packages without explicit versions are fine.
-go get -u=patch cmd/go
+golang get -u=patch cmd/golang
 
 # We can upgrade to a new version of a module with no root package.
-go get example.com/noroot@v1.0.0
-go list -m all
+golang get example.com/noroot@v1.0.0
+golang list -m all
 stdout '^example.com/noroot v1.0.0$'
-go get example.com/noroot@patch
-go list -m all
+golang get example.com/noroot@patch
+golang list -m all
 stdout '^example.com/noroot v1.0.1$'
 
 
--- go.mod --
+-- golang.mod --
 module x
 
 require patch.example.com/direct v1.0.0
 
--- main.go --
+-- main.golang --
 package x
 import _ "patch.example.com/direct"

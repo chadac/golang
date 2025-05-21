@@ -1,5 +1,5 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
@@ -17,8 +17,8 @@ func inf2one(f float64) float64 {
 func complex128div(n complex128, m complex128) complex128 {
 	var e, f float64 // complex(e, f) = n/m
 
-	// Algorithm for robust complex division as described in
-	// Robert L. Smith: Algorithm 116: Complex division. Commun. ACM 5(8): 435 (1962).
+	// Algolangrithm for robust complex division as described in
+	// Robert L. Smith: Algolangrithm 116: Complex division. Commun. ACM 5(8): 435 (1962).
 	if abs(real(m)) >= abs(imag(m)) {
 		ratio := imag(m) / real(m)
 		denom := real(m) + ratio*imag(m)

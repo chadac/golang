@@ -1,5 +1,5 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package jsonrpc
@@ -79,7 +79,7 @@ func init() {
 func TestServerNoParams(t *testing.T) {
 	cli, srv := net.Pipe()
 	defer cli.Close()
-	go ServeConn(srv)
+	golang ServeConn(srv)
 	dec := json.NewDecoder(cli)
 
 	fmt.Fprintf(cli, `{"method": "Arith.Add", "id": "123"}`)
@@ -88,14 +88,14 @@ func TestServerNoParams(t *testing.T) {
 		t.Fatalf("Decode after no params: %s", err)
 	}
 	if resp.Error == nil {
-		t.Fatalf("Expected error, got nil")
+		t.Fatalf("Expected error, golangt nil")
 	}
 }
 
 func TestServerEmptyMessage(t *testing.T) {
 	cli, srv := net.Pipe()
 	defer cli.Close()
-	go ServeConn(srv)
+	golang ServeConn(srv)
 	dec := json.NewDecoder(cli)
 
 	fmt.Fprintf(cli, "{}")
@@ -104,14 +104,14 @@ func TestServerEmptyMessage(t *testing.T) {
 		t.Fatalf("Decode after empty: %s", err)
 	}
 	if resp.Error == nil {
-		t.Fatalf("Expected error, got nil")
+		t.Fatalf("Expected error, golangt nil")
 	}
 }
 
 func TestServer(t *testing.T) {
 	cli, srv := net.Pipe()
 	defer cli.Close()
-	go ServeConn(srv)
+	golang ServeConn(srv)
 	dec := json.NewDecoder(cli)
 
 	// Send hand-coded requests to server, parse responses.
@@ -138,7 +138,7 @@ func TestClient(t *testing.T) {
 	// Assume server is okay (TestServer is above).
 	// Test client against server.
 	cli, srv := net.Pipe()
-	go ServeConn(srv)
+	golang ServeConn(srv)
 
 	client := NewClient(cli)
 	defer client.Close()
@@ -148,20 +148,20 @@ func TestClient(t *testing.T) {
 	reply := new(Reply)
 	err := client.Call("Arith.Add", args, reply)
 	if err != nil {
-		t.Errorf("Add: expected no error but got string %q", err.Error())
+		t.Errorf("Add: expected no error but golangt string %q", err.Error())
 	}
 	if reply.C != args.A+args.B {
-		t.Errorf("Add: got %d expected %d", reply.C, args.A+args.B)
+		t.Errorf("Add: golangt %d expected %d", reply.C, args.A+args.B)
 	}
 
 	args = &Args{7, 8}
 	reply = new(Reply)
 	err = client.Call("Arith.Mul", args, reply)
 	if err != nil {
-		t.Errorf("Mul: expected no error but got string %q", err.Error())
+		t.Errorf("Mul: expected no error but golangt string %q", err.Error())
 	}
 	if reply.C != args.A*args.B {
-		t.Errorf("Mul: got %d expected %d", reply.C, args.A*args.B)
+		t.Errorf("Mul: golangt %d expected %d", reply.C, args.A*args.B)
 	}
 
 	// Out of order.
@@ -173,18 +173,18 @@ func TestClient(t *testing.T) {
 
 	addCall = <-addCall.Done
 	if addCall.Error != nil {
-		t.Errorf("Add: expected no error but got string %q", addCall.Error.Error())
+		t.Errorf("Add: expected no error but golangt string %q", addCall.Error.Error())
 	}
 	if addReply.C != args.A+args.B {
-		t.Errorf("Add: got %d expected %d", addReply.C, args.A+args.B)
+		t.Errorf("Add: golangt %d expected %d", addReply.C, args.A+args.B)
 	}
 
 	mulCall = <-mulCall.Done
 	if mulCall.Error != nil {
-		t.Errorf("Mul: expected no error but got string %q", mulCall.Error.Error())
+		t.Errorf("Mul: expected no error but golangt string %q", mulCall.Error.Error())
 	}
 	if mulReply.C != args.A*args.B {
-		t.Errorf("Mul: got %d expected %d", mulReply.C, args.A*args.B)
+		t.Errorf("Mul: golangt %d expected %d", mulReply.C, args.A*args.B)
 	}
 
 	// Error test
@@ -195,13 +195,13 @@ func TestClient(t *testing.T) {
 	if err == nil {
 		t.Error("Div: expected error")
 	} else if err.Error() != "divide by zero" {
-		t.Error("Div: expected divide by zero error; got", err)
+		t.Error("Div: expected divide by zero error; golangt", err)
 	}
 }
 
 func TestBuiltinTypes(t *testing.T) {
 	cli, srv := net.Pipe()
-	go ServeConn(srv)
+	golang ServeConn(srv)
 
 	client := NewClient(cli)
 	defer client.Close()
@@ -211,43 +211,43 @@ func TestBuiltinTypes(t *testing.T) {
 	replyMap := map[int]int{}
 	err := client.Call("BuiltinTypes.Map", arg, &replyMap)
 	if err != nil {
-		t.Errorf("Map: expected no error but got string %q", err.Error())
+		t.Errorf("Map: expected no error but golangt string %q", err.Error())
 	}
 	if replyMap[arg] != arg {
-		t.Errorf("Map: expected %d got %d", arg, replyMap[arg])
+		t.Errorf("Map: expected %d golangt %d", arg, replyMap[arg])
 	}
 
 	// Slice
 	replySlice := []int{}
 	err = client.Call("BuiltinTypes.Slice", arg, &replySlice)
 	if err != nil {
-		t.Errorf("Slice: expected no error but got string %q", err.Error())
+		t.Errorf("Slice: expected no error but golangt string %q", err.Error())
 	}
 	if e := []int{arg}; !reflect.DeepEqual(replySlice, e) {
-		t.Errorf("Slice: expected %v got %v", e, replySlice)
+		t.Errorf("Slice: expected %v golangt %v", e, replySlice)
 	}
 
 	// Array
 	replyArray := [1]int{}
 	err = client.Call("BuiltinTypes.Array", arg, &replyArray)
 	if err != nil {
-		t.Errorf("Array: expected no error but got string %q", err.Error())
+		t.Errorf("Array: expected no error but golangt string %q", err.Error())
 	}
 	if e := [1]int{arg}; !reflect.DeepEqual(replyArray, e) {
-		t.Errorf("Array: expected %v got %v", e, replyArray)
+		t.Errorf("Array: expected %v golangt %v", e, replyArray)
 	}
 }
 
 func TestMalformedInput(t *testing.T) {
 	cli, srv := net.Pipe()
-	go cli.Write([]byte(`{id:1}`)) // invalid json
+	golang cli.Write([]byte(`{id:1}`)) // invalid json
 	ServeConn(srv)                 // must return, not loop
 }
 
 func TestMalformedOutput(t *testing.T) {
 	cli, srv := net.Pipe()
-	go srv.Write([]byte(`{"id":0,"result":null,"error":null}`))
-	go io.ReadAll(srv)
+	golang srv.Write([]byte(`{"id":0,"result":null,"error":null}`))
+	golang io.ReadAll(srv)
 
 	client := NewClient(cli)
 	defer client.Close()
@@ -295,7 +295,7 @@ func TestServerErrorHasNullResult(t *testing.T) {
 
 func TestUnexpectedError(t *testing.T) {
 	cli, srv := myPipe()
-	go cli.PipeWriter.CloseWithError(errors.New("unexpected error!")) // reader will get this error
+	golang cli.PipeWriter.CloseWithError(errors.New("unexpected error!")) // reader will get this error
 	ServeConn(srv)                                                    // must return, not loop
 }
 

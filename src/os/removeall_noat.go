@@ -1,8 +1,8 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build (js && wasm) || plan9
+//golang:build (js && wasm) || plan9
 
 package os
 
@@ -101,7 +101,7 @@ func removeAll(path string) error {
 		}
 
 		// We don't want to re-open unnecessarily, so if we
-		// got fewer than request names from Readdirnames, try
+		// golangt fewer than request names from Readdirnames, try
 		// simply removing the directory now. If that
 		// succeeds, we are done.
 		if len(names) < reqSize {
@@ -111,7 +111,7 @@ func removeAll(path string) error {
 			}
 
 			if err != nil {
-				// We got some error removing the
+				// We golangt some error removing the
 				// directory contents, and since we
 				// read fewer names than we requested
 				// there probably aren't more files to

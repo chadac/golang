@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Linux socket filter
@@ -10,17 +10,17 @@ import (
 	"unsafe"
 )
 
-// Deprecated: Use golang.org/x/net/bpf instead.
+// Deprecated: Use golanglang.org/x/net/bpf instead.
 func LsfStmt(code, k int) *SockFilter {
 	return &SockFilter{Code: uint16(code), K: uint32(k)}
 }
 
-// Deprecated: Use golang.org/x/net/bpf instead.
+// Deprecated: Use golanglang.org/x/net/bpf instead.
 func LsfJump(code, k, jt, jf int) *SockFilter {
 	return &SockFilter{Code: uint16(code), Jt: uint8(jt), Jf: uint8(jf), K: uint32(k)}
 }
 
-// Deprecated: Use golang.org/x/net/bpf instead.
+// Deprecated: Use golanglang.org/x/net/bpf instead.
 func LsfSocket(ifindex, proto int) (int, error) {
 	var lsall SockaddrLinklayer
 	// This is missing SOCK_CLOEXEC, but adding the flag
@@ -46,7 +46,7 @@ type iflags struct {
 	flags uint16
 }
 
-// Deprecated: Use golang.org/x/net/bpf instead.
+// Deprecated: Use golanglang.org/x/net/bpf instead.
 func SetLsfPromisc(name string, m bool) error {
 	s, e := Socket(AF_INET, SOCK_DGRAM|SOCK_CLOEXEC, 0)
 	if e != nil {
@@ -71,7 +71,7 @@ func SetLsfPromisc(name string, m bool) error {
 	return nil
 }
 
-// Deprecated: Use golang.org/x/net/bpf instead.
+// Deprecated: Use golanglang.org/x/net/bpf instead.
 func AttachLsf(fd int, i []SockFilter) error {
 	var p SockFprog
 	p.Len = uint16(len(i))
@@ -79,7 +79,7 @@ func AttachLsf(fd int, i []SockFilter) error {
 	return setsockopt(fd, SOL_SOCKET, SO_ATTACH_FILTER, unsafe.Pointer(&p), unsafe.Sizeof(p))
 }
 
-// Deprecated: Use golang.org/x/net/bpf instead.
+// Deprecated: Use golanglang.org/x/net/bpf instead.
 func DetachLsf(fd int) error {
 	var dummy int
 	return setsockopt(fd, SOL_SOCKET, SO_DETACH_FILTER, unsafe.Pointer(&dummy), unsafe.Sizeof(dummy))

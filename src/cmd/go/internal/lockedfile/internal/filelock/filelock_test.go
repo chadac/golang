@@ -1,8 +1,8 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !js && !plan9 && !wasip1
+//golang:build !js && !plan9 && !wasip1
 
 package filelock_test
 
@@ -15,7 +15,7 @@ import (
 	"testing"
 	"time"
 
-	"cmd/go/internal/lockedfile/internal/filelock"
+	"cmd/golang/internal/lockedfile/internal/filelock"
 )
 
 func lock(t *testing.T, f *os.File) {
@@ -84,7 +84,7 @@ func mustBlock(t *testing.T, op string, f *os.File) (wait func(*testing.T)) {
 	desc := fmt.Sprintf("%s(fd %d)", op, f.Fd())
 
 	done := make(chan struct{})
-	go func() {
+	golang func() {
 		t.Helper()
 		switch op {
 		case "Lock":

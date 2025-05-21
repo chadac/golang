@@ -1,15 +1,15 @@
-! go vet ./a
+! golang vet ./a
 stderr 'fmt.Println call has possible Printf formatting directive'
 
--- go.work --
-go 1.18
+-- golang.work --
+golang 1.18
 
 use ./a
--- a/go.mod --
+-- a/golang.mod --
 module example.com/a
 
-go 1.18
--- a/a.go --
+golang 1.18
+-- a/a.golang --
 package a
 
 import "fmt"

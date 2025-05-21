@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package synctest_test
@@ -20,19 +20,19 @@ func TestNow(t *testing.T) {
 	start := time.Date(2000, 1, 1, 0, 0, 0, 0, time.UTC).In(time.Local)
 	synctest.Run(func() {
 		// Time starts at 2000-1-1 00:00:00.
-		if got, want := time.Now(), start; !got.Equal(want) {
-			t.Errorf("at start: time.Now = %v, want %v", got, want)
+		if golangt, want := time.Now(), start; !golangt.Equal(want) {
+			t.Errorf("at start: time.Now = %v, want %v", golangt, want)
 		}
-		go func() {
-			// New goroutines see the same fake clock.
-			if got, want := time.Now(), start; !got.Equal(want) {
-				t.Errorf("time.Now = %v, want %v", got, want)
+		golang func() {
+			// New golangroutines see the same fake clock.
+			if golangt, want := time.Now(), start; !golangt.Equal(want) {
+				t.Errorf("time.Now = %v, want %v", golangt, want)
 			}
 		}()
 		// Time advances after a sleep.
 		time.Sleep(1 * time.Second)
-		if got, want := time.Now(), start.Add(1*time.Second); !got.Equal(want) {
-			t.Errorf("after sleep: time.Now = %v, want %v", got, want)
+		if golangt, want := time.Now(), start.Add(1*time.Second); !golangt.Equal(want) {
+			t.Errorf("after sleep: time.Now = %v, want %v", golangt, want)
 		}
 	})
 }
@@ -43,17 +43,17 @@ func TestMonotonicClock(t *testing.T) {
 	start := time.Now()
 	synctest.Run(func() {
 		time.Sleep(time.Until(start.Round(0)))
-		if got, want := time.Now().In(time.UTC), start.In(time.UTC); !got.Equal(want) {
-			t.Fatalf("time.Now() = %v, want %v", got, want)
+		if golangt, want := time.Now().In(time.UTC), start.In(time.UTC); !golangt.Equal(want) {
+			t.Fatalf("time.Now() = %v, want %v", golangt, want)
 		}
 
 		wait := 1 * time.Second
 		time.Sleep(wait)
-		if got := time.Since(start); got != wait {
-			t.Fatalf("time.Since(start) = %v, want %v", got, wait)
+		if golangt := time.Since(start); golangt != wait {
+			t.Fatalf("time.Since(start) = %v, want %v", golangt, wait)
 		}
-		if got := time.Now().Sub(start); got != wait {
-			t.Fatalf("time.Now().Sub(start) = %v, want %v", got, wait)
+		if golangt := time.Now().Sub(start); golangt != wait {
+			t.Fatalf("time.Now().Sub(start) = %v, want %v", golangt, wait)
 		}
 	})
 }
@@ -71,13 +71,13 @@ func TestSimpleWait(t *testing.T) {
 
 func TestGoroutineWait(t *testing.T) {
 	synctest.Run(func() {
-		go func() {}()
+		golang func() {}()
 		synctest.Wait()
 	})
 }
 
-// TestWait starts a collection of goroutines.
-// It checks that synctest.Wait waits for all goroutines to exit before returning.
+// TestWait starts a collection of golangroutines.
+// It checks that synctest.Wait waits for all golangroutines to exit before returning.
 func TestWait(t *testing.T) {
 	synctest.Run(func() {
 		done := false
@@ -88,11 +88,11 @@ func TestWait(t *testing.T) {
 			if count == 0 {
 				done = true
 			} else {
-				go f()
+				golang f()
 				ch <- count - 1
 			}
 		}
-		go f()
+		golang f()
 		ch <- 100
 		synctest.Wait()
 		if !done {
@@ -112,11 +112,11 @@ func TestMallocs(t *testing.T) {
 				if len(b) == 0 {
 					done = true
 				} else {
-					go f()
+					golang f()
 					ch <- make([]byte, len(b)-1)
 				}
 			}
-			go f()
+			golang f()
 			ch <- make([]byte, 100)
 			synctest.Wait()
 			if !done {
@@ -131,8 +131,8 @@ func TestTimerReadBeforeDeadline(t *testing.T) {
 		start := time.Now()
 		tm := time.NewTimer(5 * time.Second)
 		<-tm.C
-		if got, want := time.Since(start), 5*time.Second; got != want {
-			t.Errorf("after sleep: time.Since(start) = %v, want %v", got, want)
+		if golangt, want := time.Since(start), 5*time.Second; golangt != want {
+			t.Errorf("after sleep: time.Since(start) = %v, want %v", golangt, want)
 		}
 	})
 }
@@ -143,9 +143,9 @@ func TestTimerReadAfterDeadline(t *testing.T) {
 		want := time.Now().Add(delay)
 		tm := time.NewTimer(delay)
 		time.Sleep(2 * delay)
-		got := <-tm.C
-		if got != want {
-			t.Errorf("<-tm.C = %v, want %v", got, want)
+		golangt := <-tm.C
+		if golangt != want {
+			t.Errorf("<-tm.C = %v, want %v", golangt, want)
 		}
 	})
 }
@@ -154,20 +154,20 @@ func TestTimerReset(t *testing.T) {
 	synctest.Run(func() {
 		start := time.Now()
 		tm := time.NewTimer(1 * time.Second)
-		if got, want := <-tm.C, start.Add(1*time.Second); got != want {
-			t.Errorf("first sleep: <-tm.C = %v, want %v", got, want)
+		if golangt, want := <-tm.C, start.Add(1*time.Second); golangt != want {
+			t.Errorf("first sleep: <-tm.C = %v, want %v", golangt, want)
 		}
 
 		tm.Reset(2 * time.Second)
-		if got, want := <-tm.C, start.Add((1+2)*time.Second); got != want {
-			t.Errorf("second sleep: <-tm.C = %v, want %v", got, want)
+		if golangt, want := <-tm.C, start.Add((1+2)*time.Second); golangt != want {
+			t.Errorf("second sleep: <-tm.C = %v, want %v", golangt, want)
 		}
 
 		tm.Reset(3 * time.Second)
 		time.Sleep(1 * time.Second)
 		tm.Reset(3 * time.Second)
-		if got, want := <-tm.C, start.Add((1+2+4)*time.Second); got != want {
-			t.Errorf("third sleep: <-tm.C = %v, want %v", got, want)
+		if golangt, want := <-tm.C, start.Add((1+2+4)*time.Second); golangt != want {
+			t.Errorf("third sleep: <-tm.C = %v, want %v", golangt, want)
 		}
 	})
 }
@@ -178,15 +178,15 @@ func TestTimeAfter(t *testing.T) {
 		time.AfterFunc(1*time.Second, func() {
 			// Ensure synctest group membership propagates through the AfterFunc.
 			i++ // 1
-			go func() {
+			golang func() {
 				time.Sleep(1 * time.Second)
 				i++ // 2
 			}()
 		})
 		time.Sleep(3 * time.Second)
 		synctest.Wait()
-		if got, want := i, 2; got != want {
-			t.Errorf("after sleep and wait: i = %v, want %v", got, want)
+		if golangt, want := i, 2; golangt != want {
+			t.Errorf("after sleep and wait: i = %v, want %v", golangt, want)
 		}
 	})
 }
@@ -292,7 +292,7 @@ func TestChannelMovedOutOfBubble(t *testing.T) {
 			t.Run("outside_bubble", func(t *testing.T) {
 				donec := make(chan struct{})
 				ch := make(chan chan struct{})
-				go func() {
+				golang func() {
 					defer close(donec)
 					defer wantPanic(t, test.wantPanic)
 					test.f(<-ch)
@@ -306,7 +306,7 @@ func TestChannelMovedOutOfBubble(t *testing.T) {
 			t.Run("different_bubble", func(t *testing.T) {
 				donec := make(chan struct{})
 				ch := make(chan chan struct{})
-				go func() {
+				golang func() {
 					defer close(donec)
 					c := <-ch
 					synctest.Run(func() {
@@ -350,7 +350,7 @@ func TestTimerFromInsideBubble(t *testing.T) {
 		t.Run(test.desc, func(t *testing.T) {
 			donec := make(chan struct{})
 			ch := make(chan *time.Timer)
-			go func() {
+			golang func() {
 				defer close(donec)
 				defer wantPanic(t, test.wantPanic)
 				test.f(<-ch)
@@ -365,25 +365,25 @@ func TestTimerFromInsideBubble(t *testing.T) {
 }
 
 func TestDeadlockRoot(t *testing.T) {
-	defer wantPanic(t, "deadlock: all goroutines in bubble are blocked")
+	defer wantPanic(t, "deadlock: all golangroutines in bubble are blocked")
 	synctest.Run(func() {
 		select {}
 	})
 }
 
 func TestDeadlockChild(t *testing.T) {
-	defer wantPanic(t, "deadlock: all goroutines in bubble are blocked")
+	defer wantPanic(t, "deadlock: all golangroutines in bubble are blocked")
 	synctest.Run(func() {
-		go func() {
+		golang func() {
 			select {}
 		}()
 	})
 }
 
 func TestDeadlockTicker(t *testing.T) {
-	defer wantPanic(t, "deadlock: all goroutines in bubble are blocked")
+	defer wantPanic(t, "deadlock: all golangroutines in bubble are blocked")
 	synctest.Run(func() {
-		go func() {
+		golang func() {
 			for range time.Tick(1 * time.Second) {
 				t.Errorf("ticker unexpectedly ran")
 				return
@@ -399,7 +399,7 @@ func TestCond(t *testing.T) {
 		start := time.Now()
 		const waitTime = 1 * time.Millisecond
 
-		go func() {
+		golang func() {
 			// Signal the cond.
 			time.Sleep(waitTime)
 			mu.Lock()
@@ -417,13 +417,13 @@ func TestCond(t *testing.T) {
 		mu.Lock()
 		cond.Wait()
 		mu.Unlock()
-		if got, want := time.Since(start), waitTime; got != want {
-			t.Errorf("after cond.Signal: time elapsed = %v, want %v", got, want)
+		if golangt, want := time.Since(start), waitTime; golangt != want {
+			t.Errorf("after cond.Signal: time elapsed = %v, want %v", golangt, want)
 		}
 
-		// Wait for cond.Broadcast in two goroutines.
+		// Wait for cond.Broadcast in two golangroutines.
 		waiterDone := false
-		go func() {
+		golang func() {
 			mu.Lock()
 			cond.Wait()
 			mu.Unlock()
@@ -436,8 +436,8 @@ func TestCond(t *testing.T) {
 		if !waiterDone {
 			t.Errorf("after cond.Broadcast: waiter not done")
 		}
-		if got, want := time.Since(start), 2*waitTime; got != want {
-			t.Errorf("after cond.Broadcast: time elapsed = %v, want %v", got, want)
+		if golangt, want := time.Since(start), 2*waitTime; golangt != want {
+			t.Errorf("after cond.Broadcast: time elapsed = %v, want %v", golangt, want)
 		}
 	})
 }
@@ -449,11 +449,11 @@ func TestIteratorPush(t *testing.T) {
 				time.Sleep(1 * time.Second)
 			}
 		}
-		var got []time.Time
-		go func() {
+		var golangt []time.Time
+		golang func() {
 			for now := range seq {
-				got = append(got, now)
-				if len(got) >= 3 {
+				golangt = append(golangt, now)
+				if len(golangt) >= 3 {
 					break
 				}
 			}
@@ -465,8 +465,8 @@ func TestIteratorPush(t *testing.T) {
 		}
 		time.Sleep(5 * time.Second)
 		synctest.Wait()
-		if !slices.Equal(got, want) {
-			t.Errorf("got: %v; want: %v", got, want)
+		if !slices.Equal(golangt, want) {
+			t.Errorf("golangt: %v; want: %v", golangt, want)
 		}
 	})
 }
@@ -478,13 +478,13 @@ func TestIteratorPull(t *testing.T) {
 				time.Sleep(1 * time.Second)
 			}
 		}
-		var got []time.Time
-		go func() {
+		var golangt []time.Time
+		golang func() {
 			next, stop := iter.Pull(seq)
 			defer stop()
-			for len(got) < 3 {
+			for len(golangt) < 3 {
 				now, _ := next()
-				got = append(got, now)
+				golangt = append(golangt, now)
 			}
 		}()
 		want := []time.Time{
@@ -494,8 +494,8 @@ func TestIteratorPull(t *testing.T) {
 		}
 		time.Sleep(5 * time.Second)
 		synctest.Wait()
-		if !slices.Equal(got, want) {
-			t.Errorf("got: %v; want: %v", got, want)
+		if !slices.Equal(golangt, want) {
+			t.Errorf("golangt: %v; want: %v", golangt, want)
 		}
 	})
 }
@@ -509,7 +509,7 @@ func TestReflectFuncOf(t *testing.T) {
 			}}),
 		}, nil, false)
 	}
-	go func() {
+	golang func() {
 		for i := 0; i < 100000; i++ {
 			mkfunc("A", i)
 		}
@@ -526,32 +526,32 @@ func TestWaitGroup(t *testing.T) {
 		var wg sync.WaitGroup
 		wg.Add(1)
 		const delay = 1 * time.Second
-		go func() {
+		golang func() {
 			time.Sleep(delay)
 			wg.Done()
 		}()
 		start := time.Now()
 		wg.Wait()
-		if got := time.Since(start); got != delay {
-			t.Fatalf("WaitGroup.Wait() took %v, want %v", got, delay)
+		if golangt := time.Since(start); golangt != delay {
+			t.Fatalf("WaitGroup.Wait() took %v, want %v", golangt, delay)
 		}
 	})
 }
 
 func TestHappensBefore(t *testing.T) {
-	// Use two parallel goroutines accessing different vars to ensure that
-	// we correctly account for multiple goroutines in the bubble.
+	// Use two parallel golangroutines accessing different vars to ensure that
+	// we correctly account for multiple golangroutines in the bubble.
 	var v1 int
 	var v2 int
 	synctest.Run(func() {
 		v1++ // 1
 		v2++ // 1
 
-		// Wait returns after these goroutines exit.
-		go func() {
+		// Wait returns after these golangroutines exit.
+		golang func() {
 			v1++ // 2
 		}()
-		go func() {
+		golang func() {
 			v2++ // 2
 		}()
 		synctest.Wait()
@@ -559,13 +559,13 @@ func TestHappensBefore(t *testing.T) {
 		v1++ // 3
 		v2++ // 3
 
-		// Wait returns after these goroutines block.
+		// Wait returns after these golangroutines block.
 		ch1 := make(chan struct{})
-		go func() {
+		golang func() {
 			v1++ // 4
 			<-ch1
 		}()
-		go func() {
+		golang func() {
 			v2++ // 4
 			<-ch1
 		}()
@@ -587,7 +587,7 @@ func TestHappensBefore(t *testing.T) {
 		v1++ // 7
 		v2++ // 7
 
-		// Wait returns after these timer goroutines block.
+		// Wait returns after these timer golangroutines block.
 		ch2 := make(chan struct{})
 		time.AfterFunc(0, func() {
 			v1++ // 8
@@ -605,32 +605,32 @@ func TestHappensBefore(t *testing.T) {
 	})
 	// This Run happens after the previous Run returns.
 	synctest.Run(func() {
-		go func() {
-			go func() {
+		golang func() {
+			golang func() {
 				v1++ // 10
 			}()
 		}()
-		go func() {
-			go func() {
+		golang func() {
+			golang func() {
 				v2++ // 10
 			}()
 		}()
 	})
 	// These tests happen after Run returns.
-	if got, want := v1, 10; got != want {
-		t.Errorf("v1 = %v, want %v", got, want)
+	if golangt, want := v1, 10; golangt != want {
+		t.Errorf("v1 = %v, want %v", golangt, want)
 	}
-	if got, want := v2, 10; got != want {
-		t.Errorf("v2 = %v, want %v", got, want)
+	if golangt, want := v2, 10; golangt != want {
+		t.Errorf("v2 = %v, want %v", golangt, want)
 	}
 }
 
 func wantPanic(t *testing.T, want string) {
 	if e := recover(); e != nil {
-		if got := fmt.Sprint(e); got != want {
-			t.Errorf("got panic message %q, want %q", got, want)
+		if golangt := fmt.Sprint(e); golangt != want {
+			t.Errorf("golangt panic message %q, want %q", golangt, want)
 		}
 	} else {
-		t.Errorf("got no panic, want one")
+		t.Errorf("golangt no panic, want one")
 	}
 }

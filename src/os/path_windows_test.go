@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package os_test
@@ -108,13 +108,13 @@ func TestAddExtendedPrefix(t *testing.T) {
 		want = strings.ReplaceAll(want, "c:", drive)
 		want = strings.ReplaceAll(want, "cwd", cwd)
 
-		got := os.AddExtendedPrefix(in)
-		got = strings.ToLower(got)
-		if got != want {
+		golangt := os.AddExtendedPrefix(in)
+		golangt = strings.ToLower(golangt)
+		if golangt != want {
 			in = strings.ReplaceAll(in, veryLong, "long")
-			got = strings.ReplaceAll(got, veryLong, "long")
+			golangt = strings.ReplaceAll(golangt, veryLong, "long")
 			want = strings.ReplaceAll(want, veryLong, "long")
-			t.Errorf("addExtendedPrefix(%#q) = %#q; want %#q", in, got, want)
+			t.Errorf("addExtendedPrefix(%#q) = %#q; want %#q", in, golangt, want)
 		}
 	}
 }
@@ -222,7 +222,7 @@ func TestMkdirAllVolumeNameAtRoot(t *testing.T) {
 
 func TestRemoveAllLongPathRelative(t *testing.T) {
 	// Test that RemoveAll doesn't hang with long relative paths.
-	// See go.dev/issue/36375.
+	// See golang.dev/issue/36375.
 	tmp := t.TempDir()
 	t.Chdir(tmp)
 	dir := filepath.Join(tmp, "foo", "bar", strings.Repeat("a", 150), strings.Repeat("b", 150))
@@ -248,10 +248,10 @@ func testLongPathAbs(t *testing.T, target string) {
 		t.Fatal(err)
 	}
 	// Test that Walk doesn't fail with long paths.
-	// See go.dev/issue/21782.
+	// See golang.dev/issue/21782.
 	filepath.Walk(target, testWalkFn)
 	// Test that RemoveAll doesn't hang with long paths.
-	// See go.dev/issue/36375.
+	// See golang.dev/issue/36375.
 	if err := os.RemoveAll(target); err != nil {
 		t.Error(err)
 	}

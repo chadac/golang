@@ -1,13 +1,13 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build darwin || dragonfly || freebsd || linux || netbsd || openbsd
-// +build darwin dragonfly freebsd linux netbsd openbsd
+//golang:build darwin || dragolangnfly || freebsd || linux || netbsd || openbsd
+// +build darwin dragolangnfly freebsd linux netbsd openbsd
 
 // This is in testprognet instead of testprog because testprog
 // must not import anything (like net, but also like os/signal)
-// that kicks off background goroutines during init.
+// that kicks off background golangroutines during init.
 
 package main
 
@@ -35,7 +35,7 @@ func SignalDuringExec() {
 	c := make(chan os.Signal, tries)
 	signal.Notify(c, syscall.SIGWINCH)
 	wg.Add(1)
-	go func() {
+	golang func() {
 		defer wg.Done()
 		for range c {
 		}
@@ -44,7 +44,7 @@ func SignalDuringExec() {
 	for i := 0; i < tries; i++ {
 		time.Sleep(time.Microsecond)
 		wg.Add(2)
-		go func() {
+		golang func() {
 			defer wg.Done()
 			cmd := exec.Command(os.Args[0], "Nop")
 			cmd.Stdout = os.Stdout
@@ -53,7 +53,7 @@ func SignalDuringExec() {
 				fmt.Printf("Start failed: %v", err)
 			}
 		}()
-		go func() {
+		golang func() {
 			defer wg.Done()
 			syscall.Kill(-pgrp, syscall.SIGWINCH)
 		}()

@@ -1,12 +1,12 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Objdump disassembles executable files.
 //
 // Usage:
 //
-//	go tool objdump [-s symregexp] binary
+//	golang tool objdump [-s symregexp] binary
 //
 // Objdump prints a disassembly of all text symbols (code) in the binary.
 // If the -s option is present, objdump only disassembles
@@ -14,7 +14,7 @@
 //
 // Alternate usage:
 //
-//	go tool objdump binary start end
+//	golang tool objdump binary start end
 //
 // In this mode, objdump disassembles the binary starting at the start address and
 // stopping at the end address. The start and end addresses are program
@@ -51,7 +51,7 @@ var gnuAsm = flag.Bool("gnu", false, "print GNU assembly next to Go assembly (wh
 var symRE *regexp.Regexp
 
 func usage() {
-	fmt.Fprintf(os.Stderr, "usage: go tool objdump [-S] [-gnu] [-s symregexp] binary [start end]\n\n")
+	fmt.Fprintf(os.Stderr, "usage: golang tool objdump [-S] [-gnu] [-s symregexp] binary [start end]\n\n")
 	flag.PrintDefaults()
 	os.Exit(2)
 }

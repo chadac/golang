@@ -1,10 +1,10 @@
 // Copyright 2024 The Go Authors.  All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package s390xasm
 
-// Instructions with extended mnemonics fall under various categories.
+// Instructions with extended mnemonics fall under various categolangries.
 // To handle each of them in one single function, various different
 // structure types are defined as below. Corresponding instruction
 // structures are created with the help of these base structures.
@@ -130,7 +130,7 @@ func HandleExtndMnemonic(inst *Inst) string {
 
 		//BRCL - BRANCH RELATIVE ON CONDITION LONG instruction
 		typ1ExtndMnics{BaseOpStr: "brcl", Value: 0, Offset: 0, ExtnOpStr: "jgnop"},
-		typ1ExtndMnics{BaseOpStr: "brcl", Value: 1, Offset: 0, ExtnOpStr: "jgo"},
+		typ1ExtndMnics{BaseOpStr: "brcl", Value: 1, Offset: 0, ExtnOpStr: "jgolang"},
 		typ1ExtndMnics{BaseOpStr: "brcl", Value: 2, Offset: 0, ExtnOpStr: "jgh"},
 		typ1ExtndMnics{BaseOpStr: "brcl", Value: 4, Offset: 0, ExtnOpStr: "jgl"},
 		typ1ExtndMnics{BaseOpStr: "brcl", Value: 7, Offset: 0, ExtnOpStr: "jgne"},

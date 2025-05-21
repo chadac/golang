@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package smtp_test
@@ -49,7 +49,7 @@ func Example() {
 // variables to make ExamplePlainAuth compile, without adding
 // unnecessary noise there.
 var (
-	from       = "gopher@example.net"
+	from       = "golangpher@example.net"
 	msg        = []byte("dummy message")
 	recipients = []string{"foo@example.com"}
 )

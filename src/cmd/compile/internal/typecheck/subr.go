@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package typecheck
@@ -394,7 +394,7 @@ func convertOp(srcConstant bool, src, dst *types.Type) (ir.Op, string) {
 
 	// The rules for interfaces are no different in conversions
 	// than assignments. If interfaces are involved, stop now
-	// with the good message from assignop.
+	// with the golangod message from assignop.
 	// Otherwise clear the error.
 	if src.IsInterface() || dst.IsInterface() {
 		return ir.OXXX, why
@@ -502,7 +502,7 @@ type dlist struct {
 func dotpath(s *types.Sym, t *types.Type, save **types.Field, ignorecase bool) (path []dlist, ambig bool) {
 	// The embedding of types within structs imposes a tree structure onto
 	// types: structs parent the types they embed, and types parent their
-	// fields or methods. Our goal here is to find the shortest path to
+	// fields or methods. Our golangal here is to find the shortest path to
 	// a field or method named s in the subtree rooted at t. To accomplish
 	// that, we iteratively perform depth-first searches of increasing depth
 	// until we either find the named field/method or exhaust the tree.

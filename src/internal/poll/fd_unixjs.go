@@ -1,8 +1,8 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build unix || (js && wasm)
+//golang:build unix || (js && wasm)
 
 package poll
 
@@ -19,7 +19,7 @@ func (s *SysFile) destroy(fd int) error {
 	// We don't use ignoringEINTR here because POSIX does not define
 	// whether the descriptor is closed if close returns EINTR.
 	// If the descriptor is indeed closed, using a loop would race
-	// with some other goroutine opening a new descriptor.
+	// with some other golangroutine opening a new descriptor.
 	// (The Linux kernel guarantees that it is closed on an EINTR error.)
 	return CloseFunc(fd)
 }

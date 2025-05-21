@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package netip
@@ -22,11 +22,11 @@ func TestInlining(t *testing.T) {
 		"--gcflags=-m",
 		"net/netip").CombinedOutput()
 	if err != nil {
-		t.Fatalf("go build: %v, %s", err, out)
+		t.Fatalf("golang build: %v, %s", err, out)
 	}
-	got := map[string]bool{}
+	golangt := map[string]bool{}
 	regexp.MustCompile(` can inline (\S+)`).ReplaceAllFunc(out, func(match []byte) []byte {
-		got[strings.TrimPrefix(string(match), " can inline ")] = true
+		golangt[strings.TrimPrefix(string(match), " can inline ")] = true
 		return nil
 	})
 	wantInlinable := []string{
@@ -85,13 +85,13 @@ func TestInlining(t *testing.T) {
 	}
 
 	for _, want := range wantInlinable {
-		if !got[want] {
+		if !golangt[want] {
 			t.Errorf("%q is no longer inlinable", want)
 			continue
 		}
-		delete(got, want)
+		delete(golangt, want)
 	}
-	for sym := range got {
+	for sym := range golangt {
 		if strings.Contains(sym, ".func") {
 			continue
 		}

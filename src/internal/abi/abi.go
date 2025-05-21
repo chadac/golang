@@ -1,11 +1,11 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package abi
 
 import (
-	"internal/goarch"
+	"internal/golangarch"
 	"unsafe"
 )
 
@@ -72,12 +72,12 @@ func (r *RegArgs) Dump() {
 // need to be "aligned" to the upper edge of the register to be interpreted
 // by the CPU correctly.
 func (r *RegArgs) IntRegArgAddr(reg int, argSize uintptr) unsafe.Pointer {
-	if argSize > goarch.PtrSize || argSize == 0 || argSize&(argSize-1) != 0 {
+	if argSize > golangarch.PtrSize || argSize == 0 || argSize&(argSize-1) != 0 {
 		panic("invalid argSize")
 	}
 	offset := uintptr(0)
-	if goarch.BigEndian {
-		offset = goarch.PtrSize - argSize
+	if golangarch.BigEndian {
+		offset = golangarch.PtrSize - argSize
 	}
 	return unsafe.Pointer(uintptr(unsafe.Pointer(&r.Ints[reg])) + offset)
 }
@@ -96,7 +96,7 @@ func (b *IntArgRegBitmap) Set(i int) {
 // nosplit because it's called in extremely sensitive contexts, like
 // on the reflectcall return path.
 //
-//go:nosplit
+//golang:nosplit
 func (b *IntArgRegBitmap) Get(i int) bool {
 	return b[i/8]&(uint8(1)<<(i%8)) != 0
 }

@@ -1,11 +1,11 @@
 # Issue 33871.
 
 cd m/a.0
-go build
+golang build
 
--- m/go.mod --
+-- m/golang.mod --
 module m
--- m/a.0/a.go --
+-- m/a.0/a.golang --
 package a
 
 type T int

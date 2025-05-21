@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -42,7 +42,7 @@ func h() {
 	}
 }
 
-//go:noinline
+//golang:noinline
 func j(i int64) {
 	for j := int64(math.MaxInt64); j <= i-1; j++ {
 		if j < 0 {

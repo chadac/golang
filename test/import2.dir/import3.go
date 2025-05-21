@@ -1,8 +1,8 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Test that all the types from import2.go made it
+// Test that all the types from import2.golang made it
 // intact and with the same meaning, by assigning to or using them.
 
 package main

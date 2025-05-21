@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package slog
@@ -95,7 +95,7 @@ func (h *JSONHandler) Handle(_ context.Context, r Record) error {
 func appendJSONTime(s *handleState, t time.Time) {
 	if y := t.Year(); y < 0 || y >= 10000 {
 		// RFC 3339 is clear that years are 4 digits exactly.
-		// See golang.org/issue/4556#c15 for more discussion.
+		// See golanglang.org/issue/4556#c15 for more discussion.
 		s.appendError(errors.New("time.Time year outside of range [0,9999]"))
 	}
 	s.buf.WriteByte('"')
@@ -155,7 +155,7 @@ func appendJSONMarshal(buf *buffer.Buffer, v any) error {
 // appendEscapedJSONString escapes s for JSON and appends it to buf.
 // It does not surround the string in quotation marks.
 //
-// Modified from encoding/json/encode.go:encodeState.string,
+// Modified from encoding/json/encode.golang:encodeState.string,
 // with escapeHTML set to false.
 func appendEscapedJSONString(buf []byte, s string) []byte {
 	char := func(b byte) { buf = append(buf, b) }
@@ -228,7 +228,7 @@ func appendEscapedJSONString(buf []byte, s string) []byte {
 
 const hex = "0123456789abcdef"
 
-// Copied from encoding/json/tables.go.
+// Copied from encoding/json/tables.golang.
 //
 // safeSet holds the value true if the ASCII character with the given array
 // position can be represented inside a JSON string without any further

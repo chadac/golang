@@ -1,11 +1,11 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Package gosym implements access to the Go symbol
+// Package golangsym implements access to the Go symbol
 // and line number tables embedded in Go binaries generated
 // by the gc compilers.
-package gosym
+package golangsym
 
 import (
 	"bytes"
@@ -28,7 +28,7 @@ type Sym struct {
 	// If this symbol is a function symbol, the corresponding Func
 	Func *Func
 
-	goVersion version
+	golangVersion version
 }
 
 // Static reports whether this symbol is static (not visible outside its file).
@@ -57,16 +57,16 @@ func (s *Sym) nameWithoutInst() string {
 func (s *Sym) PackageName() string {
 	name := s.nameWithoutInst()
 
-	// Since go1.20, a prefix of "type:" and "go:" is a compiler-generated symbol,
+	// Since golang1.20, a prefix of "type:" and "golang:" is a compiler-generated symbol,
 	// they do not belong to any package.
 	//
-	// See cmd/compile/internal/base/link.go:ReservedImports variable.
-	if s.goVersion >= ver120 && (strings.HasPrefix(name, "go:") || strings.HasPrefix(name, "type:")) {
+	// See cmd/compile/internal/base/link.golang:ReservedImports variable.
+	if s.golangVersion >= ver120 && (strings.HasPrefix(name, "golang:") || strings.HasPrefix(name, "type:")) {
 		return ""
 	}
 
-	// For go1.18 and below, the prefix are "type." and "go." instead.
-	if s.goVersion <= ver118 && (strings.HasPrefix(name, "go.") || strings.HasPrefix(name, "type.")) {
+	// For golang1.18 and below, the prefix are "type." and "golang." instead.
+	if s.golangVersion <= ver118 && (strings.HasPrefix(name, "golang.") || strings.HasPrefix(name, "type.")) {
 		return ""
 	}
 
@@ -174,12 +174,12 @@ type Table struct {
 	Files map[string]*Obj // for Go 1.2 and later all files map to one Obj
 	Objs  []Obj           // for Go 1.2 and later only one Obj in slice
 
-	go12line *LineTable // Go 1.2 line number table
+	golang12line *LineTable // Go 1.2 line number table
 }
 
 type sym struct {
 	value  uint64
-	gotype uint64
+	golangtype uint64
 	typ    byte
 	name   []byte
 }
@@ -228,7 +228,7 @@ func walksymtab(data []byte, fn func(sym) error) error {
 			// Symbol type, value, Go type.
 			typ = p[0] & 0x3F
 			wideValue := p[0]&0x40 != 0
-			goType := p[0]&0x80 != 0
+			golangType := p[0]&0x80 != 0
 			if typ < 26 {
 				typ += 'A'
 			} else {
@@ -263,16 +263,16 @@ func walksymtab(data []byte, fn func(sym) error) error {
 				s.value |= uint64(p[0]) << shift
 				p = p[1:]
 			}
-			if goType {
+			if golangType {
 				if len(p) < ptrsz {
 					return &DecodingError{len(data), "unexpected EOF", nil}
 				}
-				// fixed-width go type
+				// fixed-width golang type
 				if ptrsz == 8 {
-					s.gotype = order.Uint64(p[0:8])
+					s.golangtype = order.Uint64(p[0:8])
 					p = p[8:]
 				} else {
-					s.gotype = uint64(order.Uint32(p[0:4]))
+					s.golangtype = uint64(order.Uint32(p[0:4]))
 					p = p[4:]
 				}
 			}
@@ -322,7 +322,7 @@ func walksymtab(data []byte, fn func(sym) error) error {
 				return &DecodingError{len(data), "unexpected EOF", nil}
 			}
 			// Go type.
-			s.gotype = uint64(order.Uint32(p[:4]))
+			s.golangtype = uint64(order.Uint32(p[:4]))
 			p = p[4:]
 		}
 		fn(s)
@@ -330,7 +330,7 @@ func walksymtab(data []byte, fn func(sym) error) error {
 	return nil
 }
 
-// NewTable decodes the Go symbol table (the ".gosymtab" section in ELF),
+// NewTable decodes the Go symbol table (the ".golangsymtab" section in ELF),
 // returning an in-memory representation.
 // Starting with Go 1.3, the Go symbol table no longer includes symbol data.
 func NewTable(symtab []byte, pcln *LineTable) (*Table, error) {
@@ -345,7 +345,7 @@ func NewTable(symtab []byte, pcln *LineTable) (*Table, error) {
 
 	var t Table
 	if pcln.isGo12() {
-		t.go12line = pcln
+		t.golang12line = pcln
 	}
 	fname := make(map[uint16]string)
 	t.Syms = make([]Sym, 0, n)
@@ -358,8 +358,8 @@ func NewTable(symtab []byte, pcln *LineTable) (*Table, error) {
 		ts := &t.Syms[n]
 		ts.Type = s.typ
 		ts.Value = s.value
-		ts.GoType = s.gotype
-		ts.goVersion = pcln.version
+		ts.GoType = s.golangtype
+		ts.golangVersion = pcln.version
 		switch s.typ {
 		default:
 			// rewrite name to use . instead of · (c2 b7)
@@ -407,11 +407,11 @@ func NewTable(symtab []byte, pcln *LineTable) (*Table, error) {
 	t.Files = make(map[string]*Obj)
 
 	var obj *Obj
-	if t.go12line != nil {
+	if t.golang12line != nil {
 		// Put all functions into one Obj.
 		t.Objs = make([]Obj, 1)
 		obj = &t.Objs[0]
-		t.go12line.go12MapFiles(t.Files, obj)
+		t.golang12line.golang12MapFiles(t.Files, obj)
 	} else {
 		t.Objs = make([]Obj, 0, nz)
 	}
@@ -423,7 +423,7 @@ func NewTable(symtab []byte, pcln *LineTable) (*Table, error) {
 		sym := &t.Syms[i]
 		switch sym.Type {
 		case 'Z', 'z': // path symbol
-			if t.go12line != nil {
+			if t.golang12line != nil {
 				// Go 1.2 binaries have the file information elsewhere. Ignore.
 				break
 			}
@@ -495,11 +495,11 @@ func NewTable(symtab []byte, pcln *LineTable) (*Table, error) {
 			fn.Sym = sym
 			fn.Entry = sym.Value
 			fn.Obj = obj
-			if t.go12line != nil {
+			if t.golang12line != nil {
 				// All functions share the same line table.
 				// It knows how to narrow down to a specific
 				// function quickly.
-				fn.LineTable = t.go12line
+				fn.LineTable = t.golang12line
 			} else if pcln != nil {
 				fn.LineTable = pcln.slice(fn.Entry)
 				pcln = fn.LineTable
@@ -523,8 +523,8 @@ func NewTable(symtab []byte, pcln *LineTable) (*Table, error) {
 		}
 	}
 
-	if t.go12line != nil && nf == 0 {
-		t.Funcs = t.go12line.go12Funcs()
+	if t.golang12line != nil && nf == 0 {
+		t.Funcs = t.golang12line.golang12Funcs()
 	}
 	if obj != nil {
 		obj.Funcs = t.Funcs[lastf:]
@@ -557,9 +557,9 @@ func (t *Table) PCToLine(pc uint64) (file string, line int, fn *Func) {
 	if fn = t.PCToFunc(pc); fn == nil {
 		return
 	}
-	if t.go12line != nil {
-		file = t.go12line.go12PCToFile(pc)
-		line = t.go12line.go12PCToLine(pc)
+	if t.golang12line != nil {
+		file = t.golang12line.golang12PCToFile(pc)
+		line = t.golang12line.golang12PCToLine(pc)
 	} else {
 		file, line = fn.Obj.lineFromAline(fn.LineTable.PCToLine(pc))
 	}
@@ -575,8 +575,8 @@ func (t *Table) LineToPC(file string, line int) (pc uint64, fn *Func, err error)
 		return 0, nil, UnknownFileError(file)
 	}
 
-	if t.go12line != nil {
-		pc := t.go12line.go12LineToPC(file, line)
+	if t.golang12line != nil {
+		pc := t.golang12line.golang12LineToPC(file, line)
 		if pc == 0 {
 			return 0, nil, &UnknownLineError{file, line}
 		}
@@ -648,7 +648,7 @@ func (t *Table) SymByAddr(addr uint64) *Sym {
 // correct. It's probably very close, and it's usually correct, but
 // we never quite found all the corner cases.
 //
-// Go 1.2 and later use a simpler format, documented at golang.org/s/go12symtab.
+// Go 1.2 and later use a simpler format, documented at golanglang.org/s/golang12symtab.
 
 func (o *Obj) lineFromAline(aline int) (string, int) {
 	type stackEnt struct {

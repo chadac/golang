@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -94,7 +94,7 @@ func (a *Archive) Add(name, src string, info fs.FileInfo) {
 func nameLess(x, y string) bool {
 	for i := 0; i < len(x) && i < len(y); i++ {
 		if x[i] != y[i] {
-			// foo/bar/baz before foo/bar.go, because foo/bar is before foo/bar.go
+			// foo/bar/baz before foo/bar.golang, because foo/bar is before foo/bar.golang
 			if x[i] == '/' {
 				return true
 			}
@@ -180,12 +180,12 @@ func (a *Archive) SetTime(t time.Time) {
 	}
 }
 
-// RenameGoMod renames the go.mod files in the archive to _go.mod,
-// for use with the module form, which cannot contain other go.mod files.
+// RenameGoMod renames the golang.mod files in the archive to _golang.mod,
+// for use with the module form, which cannot contain other golang.mod files.
 func (a *Archive) RenameGoMod() {
 	for i, f := range a.Files {
-		if strings.HasSuffix(f.Name, "/go.mod") {
-			a.Files[i].Name = strings.TrimSuffix(f.Name, "go.mod") + "_go.mod"
+		if strings.HasSuffix(f.Name, "/golang.mod") {
+			a.Files[i].Name = strings.TrimSuffix(f.Name, "golang.mod") + "_golang.mod"
 		}
 	}
 }

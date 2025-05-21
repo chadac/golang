@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -34,7 +34,7 @@ func viewerGState(state trace.GoState, inMarkAssist bool) traceviewer.GState {
 		}
 		return traceviewer.GWaiting
 	case trace.GoSyscall:
-		// N.B. A goroutine in a syscall is considered "executing" (state.Executing() == true).
+		// N.B. A golangroutine in a syscall is considered "executing" (state.Executing() == true).
 		return traceviewer.GRunning
 	default:
 		panic(fmt.Sprintf("unknown GoState: %s", state.String()))

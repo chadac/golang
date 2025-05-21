@@ -9,7 +9,7 @@
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
+// See the License for the specific language golangverning permissions and
 // limitations under the License.
 
 package driver
@@ -21,18 +21,18 @@ import (
 	"io"
 	"net"
 	"net/http"
-	gourl "net/url"
+	golangurl "net/url"
 	"os"
 	"os/exec"
 	"strconv"
 	"strings"
 	"time"
 
-	"github.com/google/pprof/internal/graph"
-	"github.com/google/pprof/internal/measurement"
-	"github.com/google/pprof/internal/plugin"
-	"github.com/google/pprof/internal/report"
-	"github.com/google/pprof/profile"
+	"github.com/golangogle/pprof/internal/graph"
+	"github.com/golangogle/pprof/internal/measurement"
+	"github.com/golangogle/pprof/internal/plugin"
+	"github.com/golangogle/pprof/internal/report"
+	"github.com/golangogle/pprof/profile"
 )
 
 // webInterface holds the state needed for serving a browser based interface.
@@ -72,7 +72,7 @@ func (ec *errorCatcher) PrintErr(args ...interface{}) {
 	ec.UI.PrintErr(args...)
 }
 
-// webArgs contains arguments passed to templates in webhtml.go.
+// webArgs contains arguments passed to templates in webhtml.golang.
 type webArgs struct {
 	Title       string
 	Errors      []string
@@ -136,7 +136,7 @@ func serveWebInterface(hostport string, p *profile.Profile, o *plugin.Options, d
 			"/saveconfig":    http.HandlerFunc(ui.saveConfig),
 			"/deleteconfig":  http.HandlerFunc(ui.deleteConfig),
 			"/download": http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
-				w.Header().Set("Content-Type", "application/vnd.google.protobuf+gzip")
+				w.Header().Set("Content-Type", "application/vnd.golangogle.protobuf+gzip")
 				w.Header().Set("Content-Disposition", "attachment;filename=profile.pb.gz")
 				p.Write(w)
 			}),
@@ -148,7 +148,7 @@ func serveWebInterface(hostport string, p *profile.Profile, o *plugin.Options, d
 	o.UI.Print("Serving web UI on ", url)
 
 	if o.UI.WantBrowser() && !disableBrowser {
-		go openBrowser(url, o)
+		golang openBrowser(url, o)
 	}
 	return server(args)
 }
@@ -206,7 +206,7 @@ func defaultWebServer(args *plugin.HTTPServerArgs) error {
 	// We serve the ui at /ui/ and redirect there from the root. This is done
 	// to surface any problems with serving the ui at a non-root early. See:
 	//
-	// https://github.com/google/pprof/pull/348
+	// https://github.com/golangogle/pprof/pull/348
 	mux := http.NewServeMux()
 	mux.Handle("/ui/", http.StripPrefix("/ui", handler))
 	mux.Handle("/", redirectWithQuery("/ui", http.StatusTemporaryRedirect))
@@ -220,7 +220,7 @@ func defaultWebServer(args *plugin.HTTPServerArgs) error {
 // generate relative redirects that work with the external prefixing.
 func redirectWithQuery(path string, code int) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		pathWithQuery := &gourl.URL{Path: path, RawQuery: r.URL.RawQuery}
+		pathWithQuery := &golangurl.URL{Path: path, RawQuery: r.URL.RawQuery}
 		w.Header().Set("Location", pathWithQuery.String())
 		w.WriteHeader(code)
 	}
@@ -237,7 +237,7 @@ func isLocalhost(host string) bool {
 
 func openBrowser(url string, o *plugin.Options) {
 	// Construct URL.
-	baseURL, _ := gourl.Parse(url)
+	baseURL, _ := golangurl.Parse(url)
 	current := currentConfig()
 	u, _ := current.makeURL(*baseURL)
 

@@ -1,5 +1,5 @@
 // Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package test
@@ -11,10 +11,10 @@ import (
 )
 
 // Stack allocation size for variable-sized allocations.
-// Matches constant of the same name in ../walk/builtin.go:walkMakeSlice.
+// Matches constant of the same name in ../walk/builtin.golang:walkMakeSlice.
 const maxStackSize = 32
 
-//go:noinline
+//golang:noinline
 func genericUse[T any](s []T) {
 	// Doesn't escape s.
 }

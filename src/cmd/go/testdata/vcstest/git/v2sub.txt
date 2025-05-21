@@ -1,14 +1,14 @@
 handle git
 
 env GIT_AUTHOR_NAME='Bryan C. Mills'
-env GIT_AUTHOR_EMAIL='bcmills@google.com'
+env GIT_AUTHOR_EMAIL='bcmills@golangogle.com'
 env GIT_COMMITTER_NAME=$GIT_AUTHOR_NAME
 env GIT_COMMITTER_EMAIL=$GIT_AUTHOR_EMAIL
 
 git init
 
 at 2022-02-22T15:53:33-05:00
-git add v2sub.go v2
+git add v2sub.golang v2
 git commit -m 'all: add package v2sub and v2sub/v2'
 git branch -m main
 git tag v2.0.0
@@ -23,13 +23,13 @@ cmp stdout .git-refs
 -- .git-refs --
 80beb17a16036f17a5aedd1bb5bd6d407b3c6dc5 refs/heads/main
 5fcd3eaeeb391d399f562fd45a50dac9fc34ae8b refs/tags/v2.0.0
--- v2/go.mod --
-module vcs-test.golang.org/git/v2sub.git/v2
+-- v2/golang.mod --
+module vcs-test.golanglang.org/git/v2sub.git/v2
 
-go 1.16
--- v2/v2sub.go --
+golang 1.16
+-- v2/v2sub.golang --
 package v2sub
--- v2sub.go --
+-- v2sub.golang --
 package v2sub
 -- README.txt --
-This root module lacks a go.mod file.
+This root module lacks a golang.mod file.

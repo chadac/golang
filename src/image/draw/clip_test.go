@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package draw
@@ -170,16 +170,16 @@ func TestClip(t *testing.T) {
 
 		// Check that the actual results equal the expected results.
 		if !c.r0.Eq(r) {
-			t.Errorf("%s: clip rectangle want %v got %v", c.desc, c.r0, r)
+			t.Errorf("%s: clip rectangle want %v golangt %v", c.desc, c.r0, r)
 			continue
 		}
 		if !c.sp0.Eq(sp) {
-			t.Errorf("%s: sp want %v got %v", c.desc, c.sp0, sp)
+			t.Errorf("%s: sp want %v golangt %v", c.desc, c.sp0, sp)
 			continue
 		}
 		if !c.nilMask {
 			if !c.mp0.Eq(mp) {
-				t.Errorf("%s: mp want %v got %v", c.desc, c.mp0, mp)
+				t.Errorf("%s: mp want %v golangt %v", c.desc, c.mp0, mp)
 				continue
 			}
 		}

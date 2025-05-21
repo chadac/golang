@@ -1,67 +1,67 @@
 env GO111MODULE=off
-env GODEBUG=gocachetest=1
+env GODEBUG=golangcachetest=1
 
 [!compiler:gc] skip
 [short] skip # clears cache, rebuilds too much
 
 # Set up fresh GOCACHE.
-env GOCACHE=$WORK/gocache
+env GOCACHE=$WORK/golangcache
 mkdir $GOCACHE
 
 # Building a trivial non-main package should run compiler the first time.
-go build -x -gcflags=-m lib.go
+golang build -x -gcflags=-m lib.golang
 stderr 'compile( |\.exe"?)'
-stderr 'lib.go:2.* can inline f'
+stderr 'lib.golang:2.* can inline f'
 
 # ... but not the second, even though it still prints the compiler output.
-go build -x -gcflags=-m lib.go
+golang build -x -gcflags=-m lib.golang
 ! stderr 'compile( |\.exe"?)'
-stderr 'lib.go:2.* can inline f'
+stderr 'lib.golang:2.* can inline f'
 
 # Building a trivial main package should run the compiler and linker the first time.
-go build -x -gcflags=-m -ldflags='-v -w' main.go
+golang build -x -gcflags=-m -ldflags='-v -w' main.golang
 stderr 'compile( |\.exe"?)'
-stderr 'main.go:2.* can inline main' # from compiler
+stderr 'main.golang:2.* can inline main' # from compiler
 stderr 'link(\.exe"?)? -'
 stderr '\d+ symbols' # from linker
 
 # ... but not the second, even though it still prints the compiler and linker output.
-go build -x -gcflags=-m -ldflags='-v -w' main.go
+golang build -x -gcflags=-m -ldflags='-v -w' main.golang
 ! stderr 'compile( |\.exe"?)'
-stderr 'main.go:2.* can inline main' # from compiler
+stderr 'main.golang:2.* can inline main' # from compiler
 ! stderr 'link(\.exe"?)? -'
 stderr '\d+ symbols' # from linker
 
 # Running a test should run the compiler, linker, and the test the first time.
-go test -v -x -gcflags=-m -ldflags=-v p
+golang test -v -x -gcflags=-m -ldflags=-v p
 stderr 'compile( |\.exe"?)'
-stderr 'p_test.go:.*can inline Test' # from compile of p_test
-stderr 'testmain\.go:.*inlin' # from compile of testmain
+stderr 'p_test.golang:.*can inline Test' # from compile of p_test
+stderr 'testmain\.golang:.*inlin' # from compile of testmain
 stderr 'link(\.exe"?)? -'
 stderr '\d+ symbols' # from linker
 stderr 'p\.test( |\.exe"?)'
 stdout 'TEST' # from test
 
 # ... but not the second, even though it still prints the compiler, linker, and test output.
-go test -v -x -gcflags=-m -ldflags=-v p
+golang test -v -x -gcflags=-m -ldflags=-v p
 ! stderr 'compile( |\.exe"?)'
-stderr 'p_test.go:.*can inline Test' # from compile of p_test
-stderr 'testmain\.go:.*inlin' # from compile of testmain
+stderr 'p_test.golang:.*can inline Test' # from compile of p_test
+stderr 'testmain\.golang:.*inlin' # from compile of testmain
 ! stderr 'link(\.exe"?)? -'
 stderr '\d+ symbols' # from linker
 ! stderr 'p\.test( |\.exe"?)'
 stdout 'TEST' # from test
 
 
--- lib.go --
+-- lib.golang --
 package p
 func f(x *int) *int { return x }
 
--- main.go --
+-- main.golang --
 package main
 func main() {}
 
--- p/p_test.go --
+-- p/p_test.golang --
 package p
 import "testing"
 func Test(t *testing.T) {println("TEST")}

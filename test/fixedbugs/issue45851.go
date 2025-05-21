@@ -1,11 +1,11 @@
 // run
 
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This tickles a stack-allocation bug when the register ABI is enabled.
-// The original report was from cue, internal/core/adt/equality.go,
+// The original report was from cue, internal/core/adt/equality.golang,
 // function equalVertex.
 
 // In the failing case, something bad gets passed to equalTerminal.
@@ -43,7 +43,7 @@ func main() {
 
 var foo string
 
-//go:noinline
+//golang:noinline
 func (v *Vertex) IsClosedStruct() bool {
 	return true
 }
@@ -61,7 +61,7 @@ func equalVertex(x *Vertex, v Value, flags Flag) bool {
 	return equalTerminal(v, w, flags)
 }
 
-//go:noinline
+//golang:noinline
 func equalTerminal(x Value, y Value, flags Flag) bool {
 	foo = fmt.Sprintf("EQclosed %s %s %d\n", x.(*Vertex).name, y.(*Vertex).name, flags)
 	return true

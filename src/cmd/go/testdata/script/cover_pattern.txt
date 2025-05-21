@@ -1,17 +1,17 @@
-[compiler:gccgo] skip
+[compiler:gccgolang] skip
 
 # If coverpkg=m/sleepy... expands by package loading
 # (as opposed to pattern matching on deps)
 # then it will try to load sleepybad, which does not compile,
 # and the test command will fail.
-! go list m/sleepy...
-go test -c -n -coverprofile=$TMPDIR/cover.out -coverpkg=m/sleepy... -run=^$ m/sleepy1
+! golang list m/sleepy...
+golang test -c -n -coverprofile=$TMPDIR/cover.out -coverpkg=m/sleepy... -run=^$ m/sleepy1
 
--- go.mod --
+-- golang.mod --
 module m
 
-go 1.16
--- sleepy1/p_test.go --
+golang 1.16
+-- sleepy1/p_test.golang --
 package p
 
 import (
@@ -22,7 +22,7 @@ import (
 func Test1(t *testing.T) {
 	time.Sleep(200 * time.Millisecond)
 }
--- sleepy2/p_test.go --
+-- sleepy2/p_test.golang --
 package p
 
 import (
@@ -33,7 +33,7 @@ import (
 func Test1(t *testing.T) {
 	time.Sleep(200 * time.Millisecond)
 }
--- sleepybad/p.go --
+-- sleepybad/p.golang --
 package p
 
 import ^

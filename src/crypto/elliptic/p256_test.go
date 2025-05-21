@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package elliptic
@@ -49,7 +49,7 @@ func TestP256BaseMult(t *testing.T) {
 		x, y := p256.ScalarBaseMult(k.Bytes())
 		x2, y2 := p256Generic.ScalarBaseMult(k.Bytes())
 		if x.Cmp(x2) != 0 || y.Cmp(y2) != 0 {
-			t.Errorf("#%d: got (%x, %x), want (%x, %x)", i, x, y, x2, y2)
+			t.Errorf("#%d: golangt (%x, %x), want (%x, %x)", i, x, y, x2, y2)
 		}
 
 		if testing.Short() && i > 5 {
@@ -69,7 +69,7 @@ func TestP256Mult(t *testing.T) {
 
 		xx, yy := p256.ScalarMult(x, y, k.Bytes())
 		if xx.Cmp(expectedX) != 0 || yy.Cmp(expectedY) != 0 {
-			t.Errorf("#%d: got (%x, %x), want (%x, %x)", i, xx, yy, expectedX, expectedY)
+			t.Errorf("#%d: golangt (%x, %x), want (%x, %x)", i, xx, yy, expectedX, expectedY)
 		}
 	}
 }

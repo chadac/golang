@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package types
@@ -50,13 +50,13 @@ func TestSizeof(t *testing.T) {
 		{_TypeSet{}, 28, 56},
 	}
 	for _, test := range tests {
-		got := reflect.TypeOf(test.val).Size()
+		golangt := reflect.TypeOf(test.val).Size()
 		want := test._32bit
 		if _64bit {
 			want = test._64bit
 		}
-		if got != want {
-			t.Errorf("unsafe.Sizeof(%T) = %d, want %d", test.val, got, want)
+		if golangt != want {
+			t.Errorf("unsafe.Sizeof(%T) = %d, want %d", test.val, golangt, want)
 		}
 	}
 }

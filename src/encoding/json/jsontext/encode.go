@@ -1,8 +1,8 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build goexperiment.jsonv2
+//golang:build golangexperiment.jsonv2
 
 package jsontext
 
@@ -77,7 +77,7 @@ type encodeBuffer struct {
 	// unusedCache is the buffer returned by the UnusedBuffer method.
 	unusedCache []byte
 	// bufStats is statistics about buffer utilization.
-	// It is only used with pooled encoders in pools.go.
+	// It is only used with pooled encoders in pools.golang.
 	bufStats bufferStatistics
 }
 
@@ -176,7 +176,7 @@ func (e *encoderState) Flush() error {
 		// If e.buf already aliases the internal buffer of bb,
 		// then the Write call simply increments the internal offset,
 		// otherwise Write operates as expected.
-		// See https://go.dev/issue/42986.
+		// See https://golang.dev/issue/42986.
 		n, _ := bb.Write(e.Buf) // never fails unless bb is nil
 		e.baseOffset += int64(n)
 

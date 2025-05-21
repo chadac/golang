@@ -1,10 +1,10 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 #include <string.h>
 
-#include "_cgo_export.h"
+#include "_cgolang_export.h"
 
 void
 callback(void *f)
@@ -13,15 +13,15 @@ callback(void *f)
 	volatile char data[64*1024];
 
 	data[0] = 0;
-	goCallback(f);
+	golangCallback(f);
         data[sizeof(data)-1] = 0;
 }
 
 void
 callGoFoo(void)
 {
-	extern void goFoo(void);
-	goFoo();
+	extern void golangFoo(void);
+	golangFoo();
 }
 
 void
@@ -39,29 +39,29 @@ Issue1560InC(void)
 void
 callGoStackCheck(void)
 {
-	extern void goStackCheck(void);
-	goStackCheck();
+	extern void golangStackCheck(void);
+	golangStackCheck();
 }
 
 int
 returnAfterGrow(void)
 {
-	extern int goReturnVal(void);
-	goReturnVal();
+	extern int golangReturnVal(void);
+	golangReturnVal();
 	return 123456;
 }
 
 int
 returnAfterGrowFromGo(void)
 {
-	extern int goReturnVal(void);
-	return goReturnVal();
+	extern int golangReturnVal(void);
+	return golangReturnVal();
 }
 
 void
 callGoWithString(void)
 {
-	extern void goWithString(GoString);
+	extern void golangWithString(GoString);
 	const char *str = "string passed from C to Go";
-	goWithString((GoString){str, strlen(str)});
+	golangWithString((GoString){str, strlen(str)});
 }

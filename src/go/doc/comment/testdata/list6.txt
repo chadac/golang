@@ -70,7 +70,7 @@ Doc
 			Paragraph
 				Plain "Multiple paragraphs."
 
--- gofmt --
+-- golangfmt --
 Text.
   - List immediately after.
   - Another.

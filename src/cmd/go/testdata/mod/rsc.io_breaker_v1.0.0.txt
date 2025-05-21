@@ -5,7 +5,7 @@ written by hand
 module rsc.io/breaker
 -- .info --
 {"Version":"v1.0.0"}
--- breaker.go --
+-- breaker.golang --
 package breaker
 
 const X = 1

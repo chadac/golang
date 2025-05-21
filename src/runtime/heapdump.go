@@ -1,5 +1,5 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Implementation of runtime/debug.WriteHeapDump. Writes all
@@ -7,18 +7,18 @@
 // finalizers, etc.) to a file.
 
 // The format of the dumped file is described at
-// https://golang.org/s/go15heapdump.
+// https://golanglang.org/s/golang15heapdump.
 
 package runtime
 
 import (
 	"internal/abi"
-	"internal/goarch"
+	"internal/golangarch"
 	"internal/runtime/gc"
 	"unsafe"
 )
 
-//go:linkname runtime_debug_WriteHeapDump runtime/debug.WriteHeapDump
+//golang:linkname runtime_debug_WriteHeapDump runtime/debug.WriteHeapDump
 func runtime_debug_WriteHeapDump(fd uintptr) {
 	stw := stopTheWorld(stwWriteHeapDump)
 
@@ -235,7 +235,7 @@ func dumpfinalizer(obj unsafe.Pointer, fn *funcval, fint *_type, ot *ptrtype) {
 type childInfo struct {
 	// Information passed up from the callee frame about
 	// the layout of the outargs region.
-	argoff uintptr   // where the arguments start in the frame
+	argolangff uintptr   // where the arguments start in the frame
 	arglen uintptr   // size of args region
 	args   bitvector // if args.n >= 0, pointer map of args region
 	sp     *uint8    // callee sp
@@ -247,7 +247,7 @@ func dumpbv(cbv *bitvector, offset uintptr) {
 	for i := uintptr(0); i < uintptr(cbv.n); i++ {
 		if cbv.ptrbit(i) == 1 {
 			dumpint(fieldKindPtr)
-			dumpint(uint64(offset + i*goarch.PtrSize))
+			dumpint(uint64(offset + i*golangarch.PtrSize))
 		}
 	}
 }
@@ -294,10 +294,10 @@ func dumpframe(s *stkframe, child *childInfo) {
 
 	// Dump fields in the outargs section
 	if child.args.n >= 0 {
-		dumpbv(&child.args, child.argoff)
+		dumpbv(&child.args, child.argolangff)
 	} else {
 		// conservative - everything might be a pointer
-		for off := child.argoff; off < child.argoff+child.arglen; off += goarch.PtrSize {
+		for off := child.argolangff; off < child.argolangff+child.arglen; off += golangarch.PtrSize {
 			dumpint(fieldKindPtr)
 			dumpint(uint64(off))
 		}
@@ -306,26 +306,26 @@ func dumpframe(s *stkframe, child *childInfo) {
 	// Dump fields in the local vars section
 	if stkmap == nil {
 		// No locals information, dump everything.
-		for off := child.arglen; off < s.varp-s.sp; off += goarch.PtrSize {
+		for off := child.arglen; off < s.varp-s.sp; off += golangarch.PtrSize {
 			dumpint(fieldKindPtr)
 			dumpint(uint64(off))
 		}
 	} else if stkmap.n < 0 {
 		// Locals size information, dump just the locals.
 		size := uintptr(-stkmap.n)
-		for off := s.varp - size - s.sp; off < s.varp-s.sp; off += goarch.PtrSize {
+		for off := s.varp - size - s.sp; off < s.varp-s.sp; off += golangarch.PtrSize {
 			dumpint(fieldKindPtr)
 			dumpint(uint64(off))
 		}
 	} else if stkmap.n > 0 {
 		// Locals bitmap information, scan just the pointers in
 		// locals.
-		dumpbv(&bv, s.varp-uintptr(bv.n)*goarch.PtrSize-s.sp)
+		dumpbv(&bv, s.varp-uintptr(bv.n)*golangarch.PtrSize-s.sp)
 	}
 	dumpint(fieldKindEol)
 
 	// Record arg info for parent.
-	child.argoff = s.argp - s.fp
+	child.argolangff = s.argp - s.fp
 	child.arglen = s.argBytes()
 	child.sp = (*uint8)(unsafe.Pointer(s.sp))
 	child.depth++
@@ -338,7 +338,7 @@ func dumpframe(s *stkframe, child *childInfo) {
 	return
 }
 
-func dumpgoroutine(gp *g) {
+func dumpgolangroutine(gp *g) {
 	var sp, pc, lr uintptr
 	if gp.syscallsp != 0 {
 		sp = gp.syscallsp
@@ -353,8 +353,8 @@ func dumpgoroutine(gp *g) {
 	dumpint(tagGoroutine)
 	dumpint(uint64(uintptr(unsafe.Pointer(gp))))
 	dumpint(uint64(sp))
-	dumpint(gp.goid)
-	dumpint(uint64(gp.gopc))
+	dumpint(gp.golangid)
+	dumpint(uint64(gp.golangpc))
 	dumpint(uint64(readgstatus(gp)))
 	dumpbool(isSystemGoroutine(gp, false))
 	dumpbool(false) // isbackground
@@ -408,7 +408,7 @@ func dumpgoroutine(gp *g) {
 func dumpgs() {
 	assertWorldStopped()
 
-	// goroutines & stacks
+	// golangroutines & stacks
 	forEachG(func(gp *g) {
 		status := readgstatus(gp) // The world is stopped so gp will not be in a scan state.
 		switch status {
@@ -420,7 +420,7 @@ func dumpgs() {
 		case _Grunnable,
 			_Gsyscall,
 			_Gwaiting:
-			dumpgoroutine(gp)
+			dumpgolangroutine(gp)
 		}
 	})
 }
@@ -513,7 +513,7 @@ func dumpparams() {
 	} else {
 		dumpbool(true) // big-endian ptrs
 	}
-	dumpint(goarch.PtrSize)
+	dumpint(golangarch.PtrSize)
 	var arenaStart, arenaEnd uintptr
 	for i1 := range mheap_.arenas {
 		if mheap_.arenas[i1] == nil {
@@ -534,7 +534,7 @@ func dumpparams() {
 	}
 	dumpint(uint64(arenaStart))
 	dumpint(uint64(arenaEnd))
-	dumpstr(goarch.GOARCH)
+	dumpstr(golangarch.GOARCH)
 	dumpstr(buildVersion)
 	dumpint(uint64(numCPUStartup))
 }
@@ -560,7 +560,7 @@ func dumpms() {
 	}
 }
 
-//go:systemstack
+//golang:systemstack
 func dumpmemstats(m *MemStats) {
 	assertWorldStopped()
 
@@ -667,7 +667,7 @@ func dumpmemprof() {
 	}
 }
 
-var dumphdr = []byte("go1.7 heap dump\n")
+var dumphdr = []byte("golang1.7 heap dump\n")
 
 func mdump(m *MemStats) {
 	assertWorldStopped()
@@ -722,7 +722,7 @@ func dumpfields(bv bitvector) {
 
 func makeheapobjbv(p uintptr, size uintptr) bitvector {
 	// Extend the temp buffer if necessary.
-	nptr := size / goarch.PtrSize
+	nptr := size / golangarch.PtrSize
 	if uintptr(len(tmpbuf)) < nptr/8+1 {
 		if tmpbuf != nil {
 			sysFree(unsafe.Pointer(&tmpbuf[0]), uintptr(len(tmpbuf)), &memstats.other_sys)
@@ -743,7 +743,7 @@ func makeheapobjbv(p uintptr, size uintptr) bitvector {
 		if tp, addr = tp.next(p + size); addr == 0 {
 			break
 		}
-		i := (addr - p) / goarch.PtrSize
+		i := (addr - p) / golangarch.PtrSize
 		tmpbuf[i/8] |= 1 << (i % 8)
 	}
 	return bitvector{int32(nptr), &tmpbuf[0]}

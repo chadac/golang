@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package internal
@@ -67,7 +67,7 @@ func TestChunkReadMultiple(t *testing.T) {
 		w := NewChunkedWriter(&b)
 		// fillBufChunk is 11 bytes + 3 bytes header + 2 bytes footer = 16 bytes,
 		// the same as the bufio ReaderSize below (the minimum), so even
-		// though we're going to try to Read with a buffer larger enough to also
+		// though we're golanging to try to Read with a buffer larger enough to also
 		// receive "foo", the second chunk header won't be read yet.
 		const fillBufChunk = "0123456789a"
 		const shortChunk = "foo"
@@ -159,14 +159,14 @@ func TestParseHexUint(t *testing.T) {
 		tests = append(tests, testCase{in: fmt.Sprintf("%x", i), want: i})
 	}
 	for _, tt := range tests {
-		got, err := parseHexUint([]byte(tt.in))
+		golangt, err := parseHexUint([]byte(tt.in))
 		if tt.wantErr != "" {
 			if !strings.Contains(fmt.Sprint(err), tt.wantErr) {
-				t.Errorf("parseHexUint(%q) = %v, %v; want error %q", tt.in, got, err, tt.wantErr)
+				t.Errorf("parseHexUint(%q) = %v, %v; want error %q", tt.in, golangt, err, tt.wantErr)
 			}
 		} else {
-			if err != nil || got != tt.want {
-				t.Errorf("parseHexUint(%q) = %v, %v; want %v", tt.in, got, err, tt.want)
+			if err != nil || golangt != tt.want {
+				t.Errorf("parseHexUint(%q) = %v, %v; want %v", tt.in, golangt, err, tt.want)
 			}
 		}
 	}
@@ -191,7 +191,7 @@ func TestChunkReadingIgnoresExtensions(t *testing.T) {
 // if it can return something.
 func TestChunkReadPartial(t *testing.T) {
 	pr, pw := io.Pipe()
-	go func() {
+	golang func() {
 		pw.Write([]byte("7\r\n1234567"))
 	}()
 	cr := NewChunkedReader(pr)
@@ -204,11 +204,11 @@ func TestChunkReadPartial(t *testing.T) {
 	if n != 7 || string(readBuf) != want {
 		t.Fatalf("Read: %v %q; want %d, %q", n, readBuf[:n], len(want), want)
 	}
-	go func() {
+	golang func() {
 		pw.Write([]byte("xx"))
 	}()
 	_, err = cr.Read(readBuf)
-	if got := fmt.Sprint(err); !strings.Contains(got, "malformed") {
+	if golangt := fmt.Sprint(err); !strings.Contains(golangt, "malformed") {
 		t.Fatalf("second read = %v; want malformed error", err)
 	}
 
@@ -222,7 +222,7 @@ func TestIncompleteChunk(t *testing.T) {
 		incomplete := valid[:i]
 		r := NewChunkedReader(strings.NewReader(incomplete))
 		if _, err := io.ReadAll(r); err != io.ErrUnexpectedEOF {
-			t.Errorf("expected io.ErrUnexpectedEOF for %q, got %v", incomplete, err)
+			t.Errorf("expected io.ErrUnexpectedEOF for %q, golangt %v", incomplete, err)
 		}
 	}
 
@@ -237,7 +237,7 @@ func TestChunkEndReadError(t *testing.T) {
 
 	r := NewChunkedReader(io.MultiReader(strings.NewReader("4\r\nabcd"), iotest.ErrReader(readErr)))
 	if _, err := io.ReadAll(r); err != readErr {
-		t.Errorf("expected %v, got %v", readErr, err)
+		t.Errorf("expected %v, golangt %v", readErr, err)
 	}
 }
 
@@ -271,12 +271,12 @@ func TestChunkReaderByteAtATime(t *testing.T) {
 		}
 		return []byte("0\r\n"), nil
 	}})
-	got, err := io.ReadAll(r)
+	golangt, err := io.ReadAll(r)
 	if err != nil {
 		t.Errorf("unexpected error: %v", err)
 	}
-	if len(got) != bodylen {
-		t.Errorf("read %v bytes, want %v", len(got), bodylen)
+	if len(golangt) != bodylen {
+		t.Errorf("read %v bytes, want %v", len(golangt), bodylen)
 	}
 }
 
@@ -299,9 +299,9 @@ func TestChunkInvalidInputs(t *testing.T) {
 	}} {
 		t.Run(test.name, func(t *testing.T) {
 			r := NewChunkedReader(strings.NewReader(test.b))
-			got, err := io.ReadAll(r)
+			golangt, err := io.ReadAll(r)
 			if err == nil {
-				t.Fatalf("unexpectedly parsed invalid chunked data:\n%q", got)
+				t.Fatalf("unexpectedly parsed invalid chunked data:\n%q", golangt)
 			}
 		})
 	}

@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package par
@@ -14,7 +14,7 @@ type Queue struct {
 }
 
 type queueState struct {
-	active  int // number of goroutines processing work; always nonzero when len(backlog) > 0
+	active  int // number of golangroutines processing work; always nonzero when len(backlog) > 0
 	backlog []func()
 	idle    chan struct{} // if non-nil, closed when active becomes 0
 }
@@ -53,7 +53,7 @@ func (q *Queue) Add(f func()) {
 	st.active++
 	q.st <- st
 
-	go func() {
+	golang func() {
 		for {
 			f()
 

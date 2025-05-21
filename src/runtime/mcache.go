@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
@@ -27,7 +27,7 @@ type mcache struct {
 	scanAlloc   uintptr // bytes of scannable heap allocated
 
 	// Allocator cache for tiny objects w/o pointers.
-	// See "Tiny allocator" comment in malloc.go.
+	// See "Tiny allocator" comment in malloc.golang.
 
 	// tiny points to the beginning of the current tiny block, or
 	// nil if there is no current tiny block.

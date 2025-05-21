@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 (Add(Ptr|64|32|16|8) ...) => (ADDV ...)
@@ -303,7 +303,7 @@
 			(MOVVstore [0] ptr (MOVVconst [0]) mem)))
 
 // medium zeroing uses a duff device
-// 8, and 128 are magic constants, see runtime/mkduff.go
+// 8, and 128 are magic constants, see runtime/mkduff.golang
 (Zero [s] {t} ptr mem)
 	&& s%8 == 0 && s > 24 && s <= 8*128
 	&& t.Alignment()%8 == 0 =>

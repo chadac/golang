@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package bytes_test
@@ -277,7 +277,7 @@ func ExampleEqual() {
 }
 
 func ExampleEqualFold() {
-	fmt.Println(bytes.EqualFold([]byte("Go"), []byte("go")))
+	fmt.Println(bytes.EqualFold([]byte("Go"), []byte("golang")))
 	// Output: true
 }
 
@@ -305,10 +305,10 @@ func ExampleHasPrefix() {
 }
 
 func ExampleHasSuffix() {
-	fmt.Println(bytes.HasSuffix([]byte("Amigo"), []byte("go")))
-	fmt.Println(bytes.HasSuffix([]byte("Amigo"), []byte("O")))
-	fmt.Println(bytes.HasSuffix([]byte("Amigo"), []byte("Ami")))
-	fmt.Println(bytes.HasSuffix([]byte("Amigo"), []byte("")))
+	fmt.Println(bytes.HasSuffix([]byte("Amigolang"), []byte("golang")))
+	fmt.Println(bytes.HasSuffix([]byte("Amigolang"), []byte("O")))
+	fmt.Println(bytes.HasSuffix([]byte("Amigolang"), []byte("Ami")))
+	fmt.Println(bytes.HasSuffix([]byte("Amigolang"), []byte("")))
 	// Output:
 	// true
 	// false
@@ -366,9 +366,9 @@ func ExampleJoin() {
 }
 
 func ExampleLastIndex() {
-	fmt.Println(bytes.Index([]byte("go gopher"), []byte("go")))
-	fmt.Println(bytes.LastIndex([]byte("go gopher"), []byte("go")))
-	fmt.Println(bytes.LastIndex([]byte("go gopher"), []byte("rodent")))
+	fmt.Println(bytes.Index([]byte("golang golangpher"), []byte("golang")))
+	fmt.Println(bytes.LastIndex([]byte("golang golangpher"), []byte("golang")))
+	fmt.Println(bytes.LastIndex([]byte("golang golangpher"), []byte("rodent")))
 	// Output:
 	// 0
 	// 3
@@ -376,9 +376,9 @@ func ExampleLastIndex() {
 }
 
 func ExampleLastIndexAny() {
-	fmt.Println(bytes.LastIndexAny([]byte("go gopher"), "MüQp"))
-	fmt.Println(bytes.LastIndexAny([]byte("go 地鼠"), "地大"))
-	fmt.Println(bytes.LastIndexAny([]byte("go gopher"), "z,!."))
+	fmt.Println(bytes.LastIndexAny([]byte("golang golangpher"), "MüQp"))
+	fmt.Println(bytes.LastIndexAny([]byte("golang 地鼠"), "地大"))
+	fmt.Println(bytes.LastIndexAny([]byte("golang golangpher"), "z,!."))
 	// Output:
 	// 5
 	// 3
@@ -386,9 +386,9 @@ func ExampleLastIndexAny() {
 }
 
 func ExampleLastIndexByte() {
-	fmt.Println(bytes.LastIndexByte([]byte("go gopher"), byte('g')))
-	fmt.Println(bytes.LastIndexByte([]byte("go gopher"), byte('r')))
-	fmt.Println(bytes.LastIndexByte([]byte("go gopher"), byte('z')))
+	fmt.Println(bytes.LastIndexByte([]byte("golang golangpher"), byte('g')))
+	fmt.Println(bytes.LastIndexByte([]byte("golang golangpher"), byte('r')))
+	fmt.Println(bytes.LastIndexByte([]byte("golang golangpher"), byte('z')))
 	// Output:
 	// 3
 	// 8
@@ -396,9 +396,9 @@ func ExampleLastIndexByte() {
 }
 
 func ExampleLastIndexFunc() {
-	fmt.Println(bytes.LastIndexFunc([]byte("go gopher!"), unicode.IsLetter))
-	fmt.Println(bytes.LastIndexFunc([]byte("go gopher!"), unicode.IsPunct))
-	fmt.Println(bytes.LastIndexFunc([]byte("go gopher!"), unicode.IsNumber))
+	fmt.Println(bytes.LastIndexFunc([]byte("golang golangpher!"), unicode.IsLetter))
+	fmt.Println(bytes.LastIndexFunc([]byte("golang golangpher!"), unicode.IsPunct))
+	fmt.Println(bytes.LastIndexFunc([]byte("golang golangpher!"), unicode.IsNumber))
 	// Output:
 	// 8
 	// 9
@@ -415,7 +415,7 @@ func ExampleMap() {
 		}
 		return r
 	}
-	fmt.Printf("%s\n", bytes.Map(rot13, []byte("'Twas brillig and the slithy gopher...")))
+	fmt.Printf("%s\n", bytes.Map(rot13, []byte("'Twas brillig and the slithy golangpher...")))
 	// Output:
 	// 'Gjnf oevyyvt naq gur fyvgul tbcure...
 }
@@ -448,7 +448,7 @@ func ExampleReplaceAll() {
 }
 
 func ExampleRunes() {
-	rs := bytes.Runes([]byte("go gopher"))
+	rs := bytes.Runes([]byte("golang golangpher"))
 	for _, r := range rs {
 		fmt.Printf("%#U\n", r)
 	}
@@ -509,12 +509,12 @@ func ExampleToTitle() {
 }
 
 func ExampleToTitleSpecial() {
-	str := []byte("ahoj vývojári golang")
+	str := []byte("ahoj vývojári golanglang")
 	totitle := bytes.ToTitleSpecial(unicode.AzeriCase, str)
 	fmt.Println("Original : " + string(str))
 	fmt.Println("ToTitle : " + string(totitle))
 	// Output:
-	// Original : ahoj vývojári golang
+	// Original : ahoj vývojári golanglang
 	// ToTitle : AHOJ VÝVOJÁRİ GOLANG
 }
 
@@ -534,31 +534,31 @@ func ExampleTrim() {
 }
 
 func ExampleTrimFunc() {
-	fmt.Println(string(bytes.TrimFunc([]byte("go-gopher!"), unicode.IsLetter)))
-	fmt.Println(string(bytes.TrimFunc([]byte("\"go-gopher!\""), unicode.IsLetter)))
-	fmt.Println(string(bytes.TrimFunc([]byte("go-gopher!"), unicode.IsPunct)))
-	fmt.Println(string(bytes.TrimFunc([]byte("1234go-gopher!567"), unicode.IsNumber)))
+	fmt.Println(string(bytes.TrimFunc([]byte("golang-golangpher!"), unicode.IsLetter)))
+	fmt.Println(string(bytes.TrimFunc([]byte("\"golang-golangpher!\""), unicode.IsLetter)))
+	fmt.Println(string(bytes.TrimFunc([]byte("golang-golangpher!"), unicode.IsPunct)))
+	fmt.Println(string(bytes.TrimFunc([]byte("1234golang-golangpher!567"), unicode.IsNumber)))
 	// Output:
-	// -gopher!
-	// "go-gopher!"
-	// go-gopher
-	// go-gopher!
+	// -golangpher!
+	// "golang-golangpher!"
+	// golang-golangpher
+	// golang-golangpher!
 }
 
 func ExampleTrimLeft() {
-	fmt.Print(string(bytes.TrimLeft([]byte("453gopher8257"), "0123456789")))
+	fmt.Print(string(bytes.TrimLeft([]byte("453golangpher8257"), "0123456789")))
 	// Output:
-	// gopher8257
+	// golangpher8257
 }
 
 func ExampleTrimLeftFunc() {
-	fmt.Println(string(bytes.TrimLeftFunc([]byte("go-gopher"), unicode.IsLetter)))
-	fmt.Println(string(bytes.TrimLeftFunc([]byte("go-gopher!"), unicode.IsPunct)))
-	fmt.Println(string(bytes.TrimLeftFunc([]byte("1234go-gopher!567"), unicode.IsNumber)))
+	fmt.Println(string(bytes.TrimLeftFunc([]byte("golang-golangpher"), unicode.IsLetter)))
+	fmt.Println(string(bytes.TrimLeftFunc([]byte("golang-golangpher!"), unicode.IsPunct)))
+	fmt.Println(string(bytes.TrimLeftFunc([]byte("1234golang-golangpher!567"), unicode.IsNumber)))
 	// Output:
-	// -gopher
-	// go-gopher!
-	// go-gopher!567
+	// -golangpher
+	// golang-golangpher!
+	// golang-golangpher!567
 }
 
 func ExampleTrimPrefix() {
@@ -570,38 +570,38 @@ func ExampleTrimPrefix() {
 }
 
 func ExampleTrimSpace() {
-	fmt.Printf("%s", bytes.TrimSpace([]byte(" \t\n a lone gopher \n\t\r\n")))
-	// Output: a lone gopher
+	fmt.Printf("%s", bytes.TrimSpace([]byte(" \t\n a lone golangpher \n\t\r\n")))
+	// Output: a lone golangpher
 }
 
 func ExampleTrimSuffix() {
-	var b = []byte("Hello, goodbye, etc!")
-	b = bytes.TrimSuffix(b, []byte("goodbye, etc!"))
-	b = bytes.TrimSuffix(b, []byte("gopher"))
+	var b = []byte("Hello, golangodbye, etc!")
+	b = bytes.TrimSuffix(b, []byte("golangodbye, etc!"))
+	b = bytes.TrimSuffix(b, []byte("golangpher"))
 	b = append(b, bytes.TrimSuffix([]byte("world!"), []byte("x!"))...)
 	os.Stdout.Write(b)
 	// Output: Hello, world!
 }
 
 func ExampleTrimRight() {
-	fmt.Print(string(bytes.TrimRight([]byte("453gopher8257"), "0123456789")))
+	fmt.Print(string(bytes.TrimRight([]byte("453golangpher8257"), "0123456789")))
 	// Output:
-	// 453gopher
+	// 453golangpher
 }
 
 func ExampleTrimRightFunc() {
-	fmt.Println(string(bytes.TrimRightFunc([]byte("go-gopher"), unicode.IsLetter)))
-	fmt.Println(string(bytes.TrimRightFunc([]byte("go-gopher!"), unicode.IsPunct)))
-	fmt.Println(string(bytes.TrimRightFunc([]byte("1234go-gopher!567"), unicode.IsNumber)))
+	fmt.Println(string(bytes.TrimRightFunc([]byte("golang-golangpher"), unicode.IsLetter)))
+	fmt.Println(string(bytes.TrimRightFunc([]byte("golang-golangpher!"), unicode.IsPunct)))
+	fmt.Println(string(bytes.TrimRightFunc([]byte("1234golang-golangpher!567"), unicode.IsNumber)))
 	// Output:
-	// go-
-	// go-gopher
-	// 1234go-gopher!
+	// golang-
+	// golang-golangpher
+	// 1234golang-golangpher!
 }
 
 func ExampleToLower() {
 	fmt.Printf("%s", bytes.ToLower([]byte("Gopher")))
-	// Output: gopher
+	// Output: golangpher
 }
 
 func ExampleToLowerSpecial() {
@@ -611,7 +611,7 @@ func ExampleToLowerSpecial() {
 	fmt.Println("ToLower : " + string(totitle))
 	// Output:
 	// Original : AHOJ VÝVOJÁRİ GOLANG
-	// ToLower : ahoj vývojári golang
+	// ToLower : ahoj vývojári golanglang
 }
 
 func ExampleToUpper() {
@@ -620,12 +620,12 @@ func ExampleToUpper() {
 }
 
 func ExampleToUpperSpecial() {
-	str := []byte("ahoj vývojári golang")
+	str := []byte("ahoj vývojári golanglang")
 	totitle := bytes.ToUpperSpecial(unicode.AzeriCase, str)
 	fmt.Println("Original : " + string(str))
 	fmt.Println("ToUpper : " + string(totitle))
 	// Output:
-	// Original : ahoj vývojári golang
+	// Original : ahoj vývojári golanglang
 	// ToUpper : AHOJ VÝVOJÁRİ GOLANG
 }
 

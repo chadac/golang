@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package mlkem
@@ -15,10 +15,10 @@ import (
 
 func TestFieldReduce(t *testing.T) {
 	for a := uint32(0); a < 2*q*q; a++ {
-		got := fieldReduce(a)
+		golangt := fieldReduce(a)
 		exp := fieldElement(a % q)
-		if got != exp {
-			t.Fatalf("reduce(%d) = %d, expected %d", a, got, exp)
+		if golangt != exp {
+			t.Fatalf("reduce(%d) = %d, expected %d", a, golangt, exp)
 		}
 	}
 }
@@ -26,10 +26,10 @@ func TestFieldReduce(t *testing.T) {
 func TestFieldAdd(t *testing.T) {
 	for a := fieldElement(0); a < q; a++ {
 		for b := fieldElement(0); b < q; b++ {
-			got := fieldAdd(a, b)
+			golangt := fieldAdd(a, b)
 			exp := (a + b) % q
-			if got != exp {
-				t.Fatalf("%d + %d = %d, expected %d", a, b, got, exp)
+			if golangt != exp {
+				t.Fatalf("%d + %d = %d, expected %d", a, b, golangt, exp)
 			}
 		}
 	}
@@ -38,10 +38,10 @@ func TestFieldAdd(t *testing.T) {
 func TestFieldSub(t *testing.T) {
 	for a := fieldElement(0); a < q; a++ {
 		for b := fieldElement(0); b < q; b++ {
-			got := fieldSub(a, b)
+			golangt := fieldSub(a, b)
 			exp := (a - b + q) % q
-			if got != exp {
-				t.Fatalf("%d - %d = %d, expected %d", a, b, got, exp)
+			if golangt != exp {
+				t.Fatalf("%d - %d = %d, expected %d", a, b, golangt, exp)
 			}
 		}
 	}
@@ -50,10 +50,10 @@ func TestFieldSub(t *testing.T) {
 func TestFieldMul(t *testing.T) {
 	for a := fieldElement(0); a < q; a++ {
 		for b := fieldElement(0); b < q; b++ {
-			got := fieldMul(a, b)
+			golangt := fieldMul(a, b)
 			exp := fieldElement((uint32(a) * uint32(b)) % q)
-			if got != exp {
-				t.Fatalf("%d * %d = %d, expected %d", a, b, got, exp)
+			if golangt != exp {
+				t.Fatalf("%d * %d = %d, expected %d", a, b, golangt, exp)
 			}
 		}
 	}
@@ -66,9 +66,9 @@ func TestDecompressCompress(t *testing.T) {
 			if f >= q {
 				t.Fatalf("decompress(%d, %d) = %d >= q", a, bits, f)
 			}
-			got := compress(f, bits)
-			if got != a {
-				t.Fatalf("compress(decompress(%d, %d), %d) = %d", a, bits, bits, got)
+			golangt := compress(f, bits)
+			if golangt != a {
+				t.Fatalf("compress(decompress(%d, %d), %d) = %d", a, bits, bits, golangt)
 			}
 		}
 
@@ -77,12 +77,12 @@ func TestDecompressCompress(t *testing.T) {
 			if c >= 1<<bits {
 				t.Fatalf("compress(%d, %d) = %d >= 2^bits", a, bits, c)
 			}
-			got := decompress(c, bits)
-			diff := min(a-got, got-a, a-got+q, got-a+q)
+			golangt := decompress(c, bits)
+			diff := min(a-golangt, golangt-a, a-golangt+q, golangt-a+q)
 			ceil := q / (1 << bits)
 			if diff > fieldElement(ceil) {
 				t.Fatalf("decompress(compress(%d, %d), %d) = %d (diff %d, max diff %d)",
-					a, bits, bits, got, diff, ceil)
+					a, bits, bits, golangt, diff, ceil)
 			}
 		}
 	}
@@ -115,7 +115,7 @@ func TestCompress(t *testing.T) {
 			expected := CompressRat(fieldElement(n), uint8(d))
 			result := compress(fieldElement(n), uint8(d))
 			if result != expected {
-				t.Errorf("compress(%d, %d): got %d, expected %d", n, d, result, expected)
+				t.Errorf("compress(%d, %d): golangt %d, expected %d", n, d, result, expected)
 			}
 		}
 	}
@@ -148,7 +148,7 @@ func TestDecompress(t *testing.T) {
 			expected := DecompressRat(uint16(n), uint8(d))
 			result := decompress(uint16(n), uint8(d))
 			if result != expected {
-				t.Errorf("decompress(%d, %d): got %d, expected %d", n, d, result, expected)
+				t.Errorf("decompress(%d, %d): golangt %d, expected %d", n, d, result, expected)
 			}
 		}
 	}

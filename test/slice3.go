@@ -1,7 +1,7 @@
 // runoutput
 
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test run-time behavior of 3-index slice expressions.
@@ -62,7 +62,7 @@ func main() {
 				for _, k := range index {
 					kv, kconst := parse(k)
 					// Avoid errors that would make the program not compile.
-					// Those are tested by slice3err.go.
+					// Those are tested by slice3err.golang.
 					switch {
 					case iconst && jconst && iv > jv,
 						jconst && kconst && jv > kv,

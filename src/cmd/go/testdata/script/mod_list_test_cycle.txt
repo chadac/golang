@@ -1,23 +1,23 @@
-# https://golang.org/issue/45863: a typo in a test package leading to an
+# https://golanglang.org/issue/45863: a typo in a test package leading to an
 # import cycle should be diagnosed, instead of causing an infinite loop.
 # The failure mode of this test prior to the fix was a timeout or OOM crash.
 
-go list -e -test -deps ./datastore/sql
+golang list -e -test -deps ./datastore/sql
 
--- go.mod --
-module golang.org/issue45863
+-- golang.mod --
+module golanglang.org/issue45863
 
-go 1.17
--- datastore/datastore_health.go --
+golang 1.17
+-- datastore/datastore_health.golang --
 package datastore
 
 import (
-	"golang.org/issue45863/datastore"
-	"golang.org/issue45863/datastore/sql"
+	"golanglang.org/issue45863/datastore"
+	"golanglang.org/issue45863/datastore/sql"
 )
--- datastore/sql/sql.go --
+-- datastore/sql/sql.golang --
 package sql
--- datastore/sql/sql_test.go --
+-- datastore/sql/sql_test.golang --
 package sql
 
-import _ "golang.org/issue45863/datastore"
+import _ "golanglang.org/issue45863/datastore"

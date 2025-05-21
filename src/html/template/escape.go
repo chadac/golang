@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package template
@@ -8,7 +8,7 @@ import (
 	"bytes"
 	"fmt"
 	"html"
-	"internal/godebug"
+	"internal/golangdebug"
 	"io"
 	"maps"
 	"regexp"
@@ -131,7 +131,7 @@ func makeEscaper(n *nameSpace) escaper {
 // contains no special characters, is not empty, and when it appears in output
 // it is distinct enough that a developer can find the source of the problem
 // via a search engine.
-const filterFailsafe = "ZgotmplZ"
+const filterFailsafe = "ZgolangtmplZ"
 
 // escape escapes a template node.
 func (e *escaper) escape(c context, n parse.Node) context {
@@ -164,7 +164,7 @@ func (e *escaper) escape(c context, n parse.Node) context {
 	panic("escaping " + n.String() + " is unimplemented")
 }
 
-var debugAllowActionJSTmpl = godebug.New("jstmpllitinterp")
+var debugAllowActionJSTmpl = golangdebug.New("jstmpllitinterp")
 
 // escapeAction escapes an action template node.
 func (e *escaper) escapeAction(c context, n *parse.ActionNode) context {
@@ -547,7 +547,7 @@ func (e *escaper) escapeBranch(c context, n *parse.BranchNode, nodeName string) 
 func joinRange(c0 context, rc *rangeContext) context {
 	// Merge contexts at break and continue statements into overall body context.
 	// In theory we could treat breaks differently from continues, but for now it is
-	// enough to treat them both as going back to the start of the loop (which may then stop).
+	// enough to treat them both as golanging back to the start of the loop (which may then stop).
 	for _, c := range rc.breaks {
 		c0 = join(c0, c, c.n, "range")
 		if c0.state == stateError {

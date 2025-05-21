@@ -1,5 +1,5 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package os_test
@@ -23,7 +23,7 @@ func testGetenv(s string) string {
 	case "1":
 		return "ARGUMENT1"
 	case "HOME":
-		return "/usr/gopher"
+		return "/usr/golangpher"
 	case "H":
 		return "(Value of H)"
 	case "home_1":
@@ -44,9 +44,9 @@ var expandTests = []struct {
 	{"$1", "ARGUMENT1"},
 	{"${1}", "ARGUMENT1"},
 	{"now is the time", "now is the time"},
-	{"$HOME", "/usr/gopher"},
+	{"$HOME", "/usr/golangpher"},
 	{"$home_1", "/usr/foo"},
-	{"${HOME}", "/usr/gopher"},
+	{"${HOME}", "/usr/golangpher"},
 	{"${H}OME", "(Value of H)OME"},
 	{"A$$$#$1$H$home_1*B", "APIDNARGSARGUMENT1(Value of H)/usr/foo*B"},
 	{"start$+middle$^end$", "start$+middle$^end$"},
@@ -169,7 +169,7 @@ func TestLookupEnv(t *testing.T) {
 
 // On Windows, Environ was observed to report keys with a single leading "=".
 // Check that they are properly reported by LookupEnv and can be set by SetEnv.
-// See https://golang.org/issue/49886.
+// See https://golanglang.org/issue/49886.
 func TestEnvironConsistency(t *testing.T) {
 	t.Parallel()
 

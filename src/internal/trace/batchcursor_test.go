@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package trace
@@ -88,7 +88,7 @@ func TestHeap(t *testing.T) {
 		checkHeap(t, heap)
 	}
 	if !slices.IsSortedFunc(removed, (*batchCursor).compare) {
-		t.Fatalf("heap elements not removed in sorted order, got: %s", heapDebugString(removed))
+		t.Fatalf("heap elements not removed in sorted order, golangt: %s", heapDebugString(removed))
 	}
 }
 

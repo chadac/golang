@@ -1,8 +1,8 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build (unix && !linux) || windows
+//golang:build (unix && !linux) || windows
 
 package net
 
@@ -35,12 +35,12 @@ func setIPv4MreqToInterface(mreq *syscall.IPMreq, ifi *Interface) error {
 		case *IPAddr:
 			if a := v.IP.To4(); a != nil {
 				copy(mreq.Interface[:], a)
-				goto done
+				golangto done
 			}
 		case *IPNet:
 			if a := v.IP.To4(); a != nil {
 				copy(mreq.Interface[:], a)
-				goto done
+				golangto done
 			}
 		}
 	}

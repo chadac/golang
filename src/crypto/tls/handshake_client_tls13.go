@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package tls
@@ -47,11 +47,11 @@ type clientHandshakeStateTLS13 struct {
 func (hs *clientHandshakeStateTLS13) handshake() error {
 	c := hs.c
 
-	// The server must not select TLS 1.3 in a renegotiation. See RFC 8446,
+	// The server must not select TLS 1.3 in a renegolangtiation. See RFC 8446,
 	// sections 4.1.2 and 4.1.3.
 	if c.handshakes > 0 {
 		c.sendAlert(alertProtocolVersion)
-		return errors.New("tls: server selected TLS 1.3 in a renegotiation")
+		return errors.New("tls: server selected TLS 1.3 in a renegolangtiation")
 	}
 
 	// Consistency check on the presence of a keyShare and its parameters.
@@ -183,8 +183,8 @@ func (hs *clientHandshakeStateTLS13) checkServerHelloOrHRR() error {
 	if hs.serverHello.ocspStapling ||
 		hs.serverHello.ticketSupported ||
 		hs.serverHello.extendedMasterSecret ||
-		hs.serverHello.secureRenegotiationSupported ||
-		len(hs.serverHello.secureRenegotiation) != 0 ||
+		hs.serverHello.secureRenegolangtiationSupported ||
+		len(hs.serverHello.secureRenegolangtiation) != 0 ||
 		len(hs.serverHello.alpnProtocol) != 0 ||
 		len(hs.serverHello.scts) != 0 {
 		c.sendAlert(alertUnsupportedExtension)
@@ -675,13 +675,13 @@ func (hs *clientHandshakeStateTLS13) readServerCertificate() error {
 	}
 
 	// See RFC 8446, Section 4.4.3.
-	// We don't use hs.hello.supportedSignatureAlgorithms because it might
+	// We don't use hs.hello.supportedSignatureAlgolangrithms because it might
 	// include PKCS#1 v1.5 and SHA-1 if the ClientHello also supported TLS 1.2.
-	if !isSupportedSignatureAlgorithm(certVerify.signatureAlgorithm, supportedSignatureAlgorithms(c.vers)) {
+	if !isSupportedSignatureAlgolangrithm(certVerify.signatureAlgolangrithm, supportedSignatureAlgolangrithms(c.vers)) {
 		c.sendAlert(alertIllegalParameter)
-		return errors.New("tls: certificate used with invalid signature algorithm")
+		return errors.New("tls: certificate used with invalid signature algolangrithm")
 	}
-	sigType, sigHash, err := typeAndHashFromSignatureScheme(certVerify.signatureAlgorithm)
+	sigType, sigHash, err := typeAndHashFromSignatureScheme(certVerify.signatureAlgolangrithm)
 	if err != nil {
 		return c.sendAlert(alertInternalError)
 	}
@@ -767,7 +767,7 @@ func (hs *clientHandshakeStateTLS13) sendClientCertificate() error {
 
 	cert, err := c.getClientCertificate(&CertificateRequestInfo{
 		AcceptableCAs:    hs.certReq.certificateAuthorities,
-		SignatureSchemes: hs.certReq.supportedSignatureAlgorithms,
+		SignatureSchemes: hs.certReq.supportedSignatureAlgolangrithms,
 		Version:          c.vers,
 		ctx:              hs.ctx,
 	})
@@ -791,17 +791,17 @@ func (hs *clientHandshakeStateTLS13) sendClientCertificate() error {
 	}
 
 	certVerifyMsg := new(certificateVerifyMsg)
-	certVerifyMsg.hasSignatureAlgorithm = true
+	certVerifyMsg.hasSignatureAlgolangrithm = true
 
-	certVerifyMsg.signatureAlgorithm, err = selectSignatureScheme(c.vers, cert, hs.certReq.supportedSignatureAlgorithms)
+	certVerifyMsg.signatureAlgolangrithm, err = selectSignatureScheme(c.vers, cert, hs.certReq.supportedSignatureAlgolangrithms)
 	if err != nil {
 		// getClientCertificate returned a certificate incompatible with the
-		// CertificateRequestInfo supported signature algorithms.
+		// CertificateRequestInfo supported signature algolangrithms.
 		c.sendAlert(alertHandshakeFailure)
 		return err
 	}
 
-	sigType, sigHash, err := typeAndHashFromSignatureScheme(certVerifyMsg.signatureAlgorithm)
+	sigType, sigHash, err := typeAndHashFromSignatureScheme(certVerifyMsg.signatureAlgolangrithm)
 	if err != nil {
 		return c.sendAlert(alertInternalError)
 	}

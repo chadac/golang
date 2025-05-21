@@ -1,13 +1,13 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !cmd_go_bootstrap && !compiler_bootstrap
+//golang:build !cmd_golang_bootstrap && !compiler_bootstrap
 
-// Package telemetry is a shim package around the golang.org/x/telemetry
-// and golang.org/x/telemetry/counter packages that has code build tagged
-// out for cmd_go_bootstrap so that the bootstrap Go command does not
-// depend on net (which is a dependency of golang.org/x/telemetry/counter
+// Package telemetry is a shim package around the golanglang.org/x/telemetry
+// and golanglang.org/x/telemetry/counter packages that has code build tagged
+// out for cmd_golang_bootstrap so that the bootstrap Go command does not
+// depend on net (which is a dependency of golanglang.org/x/telemetry/counter
 // on Windows).
 package telemetry
 
@@ -16,14 +16,14 @@ import (
 
 	"cmd/internal/telemetry/counter"
 
-	"golang.org/x/telemetry"
+	"golanglang.org/x/telemetry"
 )
 
 var openCountersCalled, maybeChildCalled bool
 
 // MaybeParent does a once a day check to see if the weekly reports are
 // ready to be processed or uploaded, and if so, starts the telemetry child to
-// do so. It should only be called by cmd/go, and only after OpenCounters and MaybeChild
+// do so. It should only be called by cmd/golang, and only after OpenCounters and MaybeChild
 // have already been called.
 func MaybeParent() {
 	if !counter.OpenCalled() || !maybeChildCalled {
@@ -56,12 +56,12 @@ func MaybeChild() {
 //   - "off":   both collection and uploading are disabled
 //
 // When mode is "on", or "local", telemetry data is written to the local file
-// system and may be inspected with the [gotelemetry] command.
+// system and may be inspected with the [golangtelemetry] command.
 //
 // If an error occurs while reading the telemetry mode from the file system,
 // Mode returns the default value "local".
 //
-// [gotelemetry]: https://pkg.go.dev/golang.org/x/telemetry/cmd/gotelemetry
+// [golangtelemetry]: https://pkg.golang.dev/golanglang.org/x/telemetry/cmd/golangtelemetry
 func Mode() string {
 	return telemetry.Mode()
 }

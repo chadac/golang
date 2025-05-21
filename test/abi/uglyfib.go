@@ -1,9 +1,9 @@
 // run
 
-//go:build !wasm
+//golang:build !wasm
 
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // wasm is excluded because the compiler chatter about register abi pragma ends up
@@ -18,8 +18,8 @@ import "fmt"
 // parameter save area if they aren't saved or spilled
 // there, as appropriate.
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func f(x int, xm1, xm2, p *int) {
 	var y = [2]int{x - 4, 0}
 	if x < 2 {
@@ -31,8 +31,8 @@ func f(x int, xm1, xm2, p *int) {
 	h(*xm2, &x, &y[0], p) // xm2 is no longer live, but was spilled.
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func g(x int, xm1, xm2, p *int) {
 	var y = [3]int{x - 4, 0, 0}
 	if x < 2 {
@@ -44,8 +44,8 @@ func g(x int, xm1, xm2, p *int) {
 	h(*xm1, xm2, &x, p)
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func h(x int, xm1, xm2, p *int) {
 	var y = [4]int{x - 4, 0, 0, 0}
 	if x < 2 {
@@ -57,8 +57,8 @@ func h(x int, xm1, xm2, p *int) {
 	f(*xm2, &x, &y[0], p)
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func k(x int, xm1, xm2, p *int) {
 	var y = [5]int{x - 4, 0, 0, 0, 0}
 	if x < 2 {

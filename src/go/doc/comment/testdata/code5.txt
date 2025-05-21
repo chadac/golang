@@ -8,7 +8,7 @@ L5
 	L7
 }
 L8
--- gofmt --
+-- golangfmt --
 L1
 L2
 L3

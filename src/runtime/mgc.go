@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Garbage collector (GC).
@@ -9,11 +9,11 @@
 // non-generational and non-compacting. Allocation is done using size segregated per P allocation
 // areas to minimize fragmentation while eliminating locks in the common case.
 //
-// The algorithm decomposes into several steps.
-// This is a high level description of the algorithm being used. For an overview of GC a good
+// The algolangrithm decomposes into several steps.
+// This is a high level description of the algolangrithm being used. For an overview of GC a golangod
 // place to start is Richard Jones' gchandbook.org.
 //
-// The algorithm's intellectual heritage includes Dijkstra's on-the-fly algorithm, see
+// The algolangrithm's intellectual heritage includes Dijkstra's on-the-fly algolangrithm, see
 // Edsger W. Dijkstra, Leslie Lamport, A. J. Martin, C. S. Scholten, and E. F. M. Steffens. 1978.
 // On-the-fly garbage collection: an exercise in cooperation. Commun. ACM 21, 11 (November 1978),
 // 966-975.
@@ -40,21 +40,21 @@
 //    workers started by the scheduler and by assists performed as
 //    part of allocation. The write barrier shades both the
 //    overwritten pointer and the new pointer value for any pointer
-//    writes (see mbarrier.go for details). Newly allocated objects
+//    writes (see mbarrier.golang for details). Newly allocated objects
 //    are immediately marked black.
 //
 //    c. GC performs root marking jobs. This includes scanning all
 //    stacks, shading all globals, and shading any heap pointers in
 //    off-heap runtime data structures. Scanning a stack stops a
-//    goroutine, shades any pointers found on its stack, and then
-//    resumes the goroutine.
+//    golangroutine, shades any pointers found on its stack, and then
+//    resumes the golangroutine.
 //
 //    d. GC drains the work queue of grey objects, scanning each grey
 //    object to black and shading all pointers found in the object
 //    (which in turn may add those pointers to the work queue).
 //
 //    e. Because GC work is spread across local caches, GC uses a
-//    distributed termination algorithm to detect when there are no
+//    distributed termination algolangrithm to detect when there are no
 //    more root marking jobs or grey objects (see gcMarkDone). At this
 //    point, GC transitions to mark termination.
 //
@@ -84,29 +84,29 @@
 // Concurrent sweep.
 //
 // The sweep phase proceeds concurrently with normal program execution.
-// The heap is swept span-by-span both lazily (when a goroutine needs another span)
-// and concurrently in a background goroutine (this helps programs that are not CPU bound).
+// The heap is swept span-by-span both lazily (when a golangroutine needs another span)
+// and concurrently in a background golangroutine (this helps programs that are not CPU bound).
 // At the end of STW mark termination all spans are marked as "needs sweeping".
 //
-// The background sweeper goroutine simply sweeps spans one-by-one.
+// The background sweeper golangroutine simply sweeps spans one-by-one.
 //
 // To avoid requesting more OS memory while there are unswept spans, when a
-// goroutine needs another span, it first attempts to reclaim that much memory
-// by sweeping. When a goroutine needs to allocate a new small-object span, it
+// golangroutine needs another span, it first attempts to reclaim that much memory
+// by sweeping. When a golangroutine needs to allocate a new small-object span, it
 // sweeps small-object spans for the same object size until it frees at least
-// one object. When a goroutine needs to allocate large-object span from heap,
+// one object. When a golangroutine needs to allocate large-object span from heap,
 // it sweeps spans until it frees at least that many pages into heap. There is
-// one case where this may not suffice: if a goroutine sweeps and frees two
+// one case where this may not suffice: if a golangroutine sweeps and frees two
 // nonadjacent one-page spans to the heap, it will allocate a new two-page
 // span, but there can still be other one-page unswept spans which could be
 // combined into a two-page span.
 //
 // It's critical to ensure that no operations proceed on unswept spans (that would corrupt
 // mark bits in GC bitmap). During GC all mcaches are flushed into the central cache,
-// so they are empty. When a goroutine grabs a new span into mcache, it sweeps it.
-// When a goroutine explicitly frees an object or sets a finalizer, it ensures that
+// so they are empty. When a golangroutine grabs a new span into mcache, it sweeps it.
+// When a golangroutine explicitly frees an object or sets a finalizer, it ensures that
 // the span is swept (either by sweeping it, or by waiting for the concurrent sweep to finish).
-// The finalizer goroutine is kicked off only when all spans are swept.
+// The finalizer golangroutine is kicked off only when all spans are swept.
 // When the next GC starts, it sweeps all not-yet-swept spans (if any).
 
 // GC rate.
@@ -130,7 +130,7 @@ package runtime
 
 import (
 	"internal/cpu"
-	"internal/goarch"
+	"internal/golangarch"
 	"internal/runtime/atomic"
 	"internal/runtime/gc"
 	"unsafe"
@@ -154,23 +154,23 @@ const (
 )
 
 // heapObjectsCanMove always returns false in the current garbage collector.
-// It exists for go4.org/unsafe/assume-no-moving-gc, which is an
+// It exists for golang4.org/unsafe/assume-no-moving-gc, which is an
 // unfortunate idea that had an even more unfortunate implementation.
 // Every time a new Go release happened, the package stopped building,
-// and the authors had to add a new file with a new //go:build line, and
+// and the authors had to add a new file with a new //golang:build line, and
 // then the entire ecosystem of packages with that as a dependency had to
 // explicitly update to the new version. Many packages depend on
 // assume-no-moving-gc transitively, through paths like
-// inet.af/netaddr -> go4.org/intern -> assume-no-moving-gc.
+// inet.af/netaddr -> golang4.org/intern -> assume-no-moving-gc.
 // This was causing a significant amount of friction around each new
-// release, so we added this bool for the package to //go:linkname
+// release, so we added this bool for the package to //golang:linkname
 // instead. The bool is still unfortunate, but it's not as bad as
 // breaking the ecosystem on every new release.
 //
 // If the Go garbage collector ever does move heap objects, we can set
 // this to true to break all the programs using assume-no-moving-gc.
 //
-//go:linkname heapObjectsCanMove
+//golang:linkname heapObjectsCanMove
 func heapObjectsCanMove() bool {
 	return false
 }
@@ -203,13 +203,13 @@ func gcinit() {
 
 // gcenable is called after the bulk of the runtime initialization,
 // just before we're about to start letting user code run.
-// It kicks off the background sweeper goroutine, the background
-// scavenger goroutine, and enables GC.
+// It kicks off the background sweeper golangroutine, the background
+// scavenger golangroutine, and enables GC.
 func gcenable() {
 	// Kick off sweeping and scavenging.
 	c := make(chan int, 2)
-	go bgsweep(c)
-	go bgscavenge(c)
+	golang bgsweep(c)
+	golang bgscavenge(c)
 	<-c
 	<-c
 	memstats.enablegc = true // now that runtime is initialized, GC is okay
@@ -220,7 +220,7 @@ func gcenable() {
 var gcphase uint32
 
 // The compiler knows about this variable.
-// If you change it, you must change builtin/runtime.go, too.
+// If you change it, you must change builtin/runtime.golang, too.
 // If you change the first four bytes, you must also change the write
 // barrier insertion code.
 //
@@ -230,9 +230,9 @@ var gcphase uint32
 //   - github.com/bytedance/sonic
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname writeBarrier
+//golang:linkname writeBarrier
 var writeBarrier struct {
 	enabled bool    // compiler emits a check of this before calling write barrier
 	pad     [3]byte // compiler uses 32-bit load for "enabled" field
@@ -250,7 +250,7 @@ const (
 	_GCmarktermination        // GC mark termination: allocate black, P's help GC, write barrier ENABLED
 )
 
-//go:nosplit
+//golang:nosplit
 func setGCPhase(x uint32) {
 	atomic.Store(&gcphase, x)
 	writeBarrier.enabled = gcphase == _GCmark || gcphase == _GCmarktermination
@@ -314,7 +314,7 @@ func pollFractionalWorkerExit() bool {
 	}
 	p := getg().m.p.ptr()
 	selfTime := p.gcFractionalMarkTime + (now - p.gcMarkWorkerStartTime)
-	// Add some slack to the utilization goal so that the
+	// Add some slack to the utilization golangal so that the
 	// fractional worker isn't behind again the instant it exits.
 	return float64(selfTime)/float64(delta) > 1.2*gcController.fractionalUtilizationGoal
 }
@@ -340,7 +340,7 @@ type workType struct {
 
 	// Global queue of spans to scan.
 	//
-	// Only used if goexperiment.GreenTeaGC.
+	// Only used if golangexperiment.GreenTeaGC.
 	spanq spanQueue
 
 	// Restore 64-bit alignment on 32-bit.
@@ -348,7 +348,7 @@ type workType struct {
 
 	// bytesMarked is the number of bytes marked this cycle. This
 	// includes bytes blackened in scanned objects, noscan objects
-	// that go straight to black, objects allocated as black during
+	// that golang straight to black, objects allocated as black during
 	// the cycle, and permagrey objects scanned by markroot during
 	// the concurrent scan phase.
 	//
@@ -425,7 +425,7 @@ type workType struct {
 		q    gQueue
 	}
 
-	// sweepWaiters is a list of blocked goroutines to wake when
+	// sweepWaiters is a list of blocked golangroutines to wake when
 	// we transition from mark termination to sweep.
 	sweepWaiters struct {
 		lock mutex
@@ -437,14 +437,14 @@ type workType struct {
 	strongFromWeak struct {
 		// block is a flag set during mark termination that prevents
 		// new weak->strong conversions from executing by blocking the
-		// goroutine and enqueuing it onto q.
+		// golangroutine and enqueuing it onto q.
 		//
-		// Mutated only by one goroutine at a time in gcMarkDone,
+		// Mutated only by one golangroutine at a time in gcMarkDone,
 		// with globally-synchronizing events like forEachP and
 		// stopTheWorld.
 		block bool
 
-		// q is a queue of goroutines that attempted to perform a
+		// q is a queue of golangroutines that attempted to perform a
 		// weak->strong conversion during mark termination.
 		//
 		// Protected by lock.
@@ -529,7 +529,7 @@ func GC() {
 	// profile still reflects mark termination N, not N+1.
 	//
 	// As soon as all of the sweep frees from cycle N+1 are done,
-	// we can go ahead and publish the heap profile.
+	// we can golang ahead and publish the heap profile.
 	//
 	// First, wait for sweeping to finish. (We know there are no
 	// more spans on the sweep queue, but we may be concurrently
@@ -569,7 +569,7 @@ func gcWaitOnMark(n uint32) {
 		// Wait until sweep termination, mark, and mark
 		// termination of cycle N complete.
 		work.sweepWaiters.list.push(getg())
-		goparkunlock(&work.sweepWaiters.lock, waitReasonWaitForGCCycle, traceBlockUntilGCEnds, 1)
+		golangparkunlock(&work.sweepWaiters.lock, waitReasonWaitForGCCycle, traceBlockUntilGCEnds, 1)
 	}
 }
 
@@ -687,7 +687,7 @@ func gcStart(trigger gcTrigger) {
 
 	// In gcstoptheworld debug mode, upgrade the mode accordingly.
 	// We do this after re-checking the transition condition so
-	// that multiple goroutines that detect the heap trigger don't
+	// that multiple golangroutines that detect the heap trigger don't
 	// start multiple STW GCs.
 	mode := gcBackgroundMode
 	if debug.gcstoptheworld == 1 {
@@ -718,7 +718,7 @@ func gcStart(trigger gcTrigger) {
 		}
 		// Initialize ptrBuf if necessary.
 		if p.gcw.ptrBuf == nil {
-			p.gcw.ptrBuf = (*[gc.PageSize / goarch.PtrSize]uintptr)(persistentalloc(gc.PageSize, goarch.PtrSize, &memstats.gcMiscSys))
+			p.gcw.ptrBuf = (*[gc.PageSize / golangarch.PtrSize]uintptr)(persistentalloc(gc.PageSize, golangarch.PtrSize, &memstats.gcMiscSys))
 		}
 	}
 
@@ -726,7 +726,7 @@ func gcStart(trigger gcTrigger) {
 
 	systemstack(gcResetMarkState)
 
-	work.stwprocs, work.maxprocs = gomaxprocs, gomaxprocs
+	work.stwprocs, work.maxprocs = golangmaxprocs, golangmaxprocs
 	if work.stwprocs > numCPUStartup {
 		// This is used to compute CPU time of the STW phases, so it
 		// can't be more than the CPU count, even if GOMAXPROCS is.
@@ -759,13 +759,13 @@ func gcStart(trigger gcTrigger) {
 
 	// Assists and workers can start the moment we start
 	// the world.
-	gcController.startCycle(now, int(gomaxprocs), trigger)
+	gcController.startCycle(now, int(golangmaxprocs), trigger)
 
 	// Notify the CPU limiter that assists may begin.
 	gcCPULimiter.startGCTransition(true, now)
 
 	// In STW mode, disable scheduling of user Gs. This may also
-	// disable scheduling of this goroutine, so it may block as
+	// disable scheduling of this golangroutine, so it may block as
 	// soon as we start the world again.
 	if mode != gcBackgroundMode {
 		schedEnableUser(false)
@@ -827,7 +827,7 @@ func gcStart(trigger gcTrigger) {
 
 	// Release the world sema before Gosched() in STW mode
 	// because we will need to reacquire it later but before
-	// this goroutine becomes runnable again, and we could
+	// this golangroutine becomes runnable again, and we could
 	// self-deadlock otherwise.
 	semrelease(&worldsema)
 	releasem(mp)
@@ -931,11 +931,11 @@ top:
 	if gcMarkDoneFlushed != 0 {
 		// More grey objects were discovered since the
 		// previous termination check, so there may be more
-		// work to do. Keep going. It's possible the
+		// work to do. Keep golanging. It's possible the
 		// transition condition became true again during the
 		// ragged barrier, so re-check it.
 		semrelease(&worldsema)
-		goto top
+		golangto top
 	}
 
 	// For debugging/testing.
@@ -992,7 +992,7 @@ top:
 			work.pauseNS += now - stw.startedStopping
 		})
 		semrelease(&worldsema)
-		goto top
+		golangto top
 	}
 
 	gcComputeStartingStackSize()
@@ -1018,14 +1018,14 @@ top:
 	// world again.
 	semrelease(&work.markDoneSema)
 
-	// In STW mode, re-enable user goroutines. These will be
+	// In STW mode, re-enable user golangroutines. These will be
 	// queued to run after we start the world.
 	schedEnableUser(true)
 
 	// endCycle depends on all gcWork cache stats being flushed.
-	// The termination algorithm above ensured that up to
+	// The termination algolangrithm above ensured that up to
 	// allocations since the ragged barrier.
-	gcController.endCycle(now, int(gomaxprocs), work.userForced)
+	gcController.endCycle(now, int(golangmaxprocs), work.userForced)
 
 	// Perform mark termination. This will restart the world.
 	gcMarkTermination(stw)
@@ -1144,7 +1144,7 @@ func gcMarkTermination(stw worldStop) {
 		memstats.numforcedgc++
 	}
 
-	// Bump GC cycle count and wake goroutines waiting on sweep.
+	// Bump GC cycle count and wake golangroutines waiting on sweep.
 	lock(&work.sweepWaiters.lock)
 	memstats.numgc++
 	injectglist(&work.sweepWaiters.list)
@@ -1291,7 +1291,7 @@ func gcMarkTermination(stw worldStop) {
 		}
 		print(" ms cpu, ",
 			work.heap0>>20, "->", work.heap1>>20, "->", work.heap2>>20, " MB, ",
-			gcController.lastHeapGoal>>20, " MB goal, ",
+			gcController.lastHeapGoal>>20, " MB golangal, ",
 			gcController.lastStackScan.Load()>>20, " MB stacks, ",
 			gcController.globalsScan.Load()>>20, " MB globals, ",
 			work.maxprocs, " P")
@@ -1380,17 +1380,17 @@ func gcMarkTermination(stw worldStop) {
 	}
 }
 
-// gcBgMarkStartWorkers prepares background mark worker goroutines. These
-// goroutines will not run until the mark phase, but they must be started while
+// gcBgMarkStartWorkers prepares background mark worker golangroutines. These
+// golangroutines will not run until the mark phase, but they must be started while
 // the work is not stopped and from a regular G stack. The caller must hold
 // worldsema.
 func gcBgMarkStartWorkers() {
 	// Background marking is performed by per-P G's. Ensure that each P has
 	// a background GC G.
 	//
-	// Worker Gs don't exit if gomaxprocs is reduced. If it is raised
+	// Worker Gs don't exit if golangmaxprocs is reduced. If it is raised
 	// again, we can reuse the old workers; no need to create new workers.
-	if gcBgMarkWorkerCount >= gomaxprocs {
+	if gcBgMarkWorkerCount >= golangmaxprocs {
 		return
 	}
 
@@ -1405,18 +1405,18 @@ func gcBgMarkStartWorkers() {
 	ready := make(chan struct{}, 1)
 	releasem(mp)
 
-	for gcBgMarkWorkerCount < gomaxprocs {
+	for gcBgMarkWorkerCount < golangmaxprocs {
 		mp := acquirem() // See above, we allocate a closure here.
-		go gcBgMarkWorker(ready)
+		golang gcBgMarkWorker(ready)
 		releasem(mp)
 
-		// N.B. we intentionally wait on each goroutine individually
+		// N.B. we intentionally wait on each golangroutine individually
 		// rather than starting all in a batch and then waiting once
-		// afterwards. By running one goroutine at a time, we can take
+		// afterwards. By running one golangroutine at a time, we can take
 		// advantage of runnext to bounce back and forth between
-		// workers and this goroutine. In an overloaded application,
+		// workers and this golangroutine. In an overloaded application,
 		// this can reduce GC start latency by prioritizing these
-		// goroutines rather than waiting on the end of the run queue.
+		// golangroutines rather than waiting on the end of the run queue.
 		<-ready
 		// The worker is now guaranteed to be added to the pool before
 		// its P's next findRunnableGCWorker.
@@ -1442,7 +1442,7 @@ func gcBgMarkPrepare() {
 }
 
 // gcBgMarkWorkerNode is an entry in the gcBgMarkWorkerPool. It points to a single
-// gcBgMarkWorker goroutine.
+// gcBgMarkWorker golangroutine.
 type gcBgMarkWorkerNode struct {
 	// Unused workers are managed in a lock-free stack. This field must be first.
 	node lfnode
@@ -1465,11 +1465,11 @@ const gcBgMarkWorkerNodeRedZoneSize = (16 << 2) * asanenabledBit // redZoneSize(
 func gcBgMarkWorker(ready chan struct{}) {
 	gp := getg()
 
-	// We pass node to a gopark unlock function, so it can't be on
-	// the stack (see gopark). Prevent deadlock from recursively
+	// We pass node to a golangpark unlock function, so it can't be on
+	// the stack (see golangpark). Prevent deadlock from recursively
 	// starting GC by disabling preemption.
 	gp.m.preemptoff = "GC worker init"
-	node := &new(gcBgMarkWorkerNodePadded).gcBgMarkWorkerNode // TODO: technically not allowed in the heap. See comment in tagptr.go.
+	node := &new(gcBgMarkWorkerNodePadded).gcBgMarkWorkerNode // TODO: technically not allowed in the heap. See comment in tagptr.golang.
 	gp.m.preemptoff = ""
 
 	node.gp.set(gp)
@@ -1486,7 +1486,7 @@ func gcBgMarkWorker(ready chan struct{}) {
 	//
 	// When preemption is enabled (e.g., while in gcMarkDone), this worker
 	// may be preempted and schedule as a _Grunnable G from a runq. That is
-	// fine; it will eventually gopark again for further scheduling via
+	// fine; it will eventually golangpark again for further scheduling via
 	// findRunnableGCWorker.
 	//
 	// Since we disable preemption before notifying ready, we guarantee that
@@ -1497,7 +1497,7 @@ func gcBgMarkWorker(ready chan struct{}) {
 	for {
 		// Go to sleep until woken by
 		// gcController.findRunnableGCWorker.
-		gopark(func(g *g, nodep unsafe.Pointer) bool {
+		golangpark(func(g *g, nodep unsafe.Pointer) bool {
 			node := (*gcBgMarkWorkerNode)(nodep)
 
 			if mp := node.m.ptr(); mp != nil {
@@ -1510,10 +1510,10 @@ func gcBgMarkWorker(ready chan struct{}) {
 				//
 				// However, since we cooperatively stop work
 				// when gp.preempt is set, if we releasem in
-				// the loop then the following call to gopark
+				// the loop then the following call to golangpark
 				// would immediately preempt the G. This is
 				// also safe, but inefficient: the G must
-				// schedule again only to enter gopark and park
+				// schedule again only to enter golangpark and park
 				// again. Thus, we defer the release until
 				// after parking the G.
 				releasem(mp)
@@ -1558,7 +1558,7 @@ func gcBgMarkWorker(ready chan struct{}) {
 		}
 
 		systemstack(func() {
-			// Mark our goroutine preemptible so its stack
+			// Mark our golangroutine preemptible so its stack
 			// can be scanned. This lets two mark workers
 			// scan each other (otherwise, they would
 			// deadlock). We must not modify anything on
@@ -1625,11 +1625,11 @@ func gcBgMarkWorker(ready chan struct{}) {
 		pp.gcMarkWorkerMode = gcMarkWorkerNotWorker
 
 		// If this worker reached a background mark completion
-		// point, signal the main GC goroutine.
+		// point, signal the main GC golangroutine.
 		if incnwait == work.nproc && !gcMarkWorkAvailable(nil) {
 			// We don't need the P-local buffers here, allow
 			// preemption because we may schedule like a regular
-			// goroutine in gcMarkDone (block on locks, etc).
+			// golangroutine in gcMarkDone (block on locks, etc).
 			releasem(node.m.ptr())
 			node.m.set(nil)
 
@@ -1718,7 +1718,7 @@ func gcMark(startTime int64) {
 			throw("P has cached GC work at end of mark termination")
 		}
 		// There may still be cached empty buffers, which we
-		// need to flush since we're going to free them. Also,
+		// need to flush since we're golanging to free them. Also,
 		// there may be non-zero stats because we allocated
 		// black after the gcMarkDone barrier.
 		gcw.dispose()
@@ -1749,7 +1749,7 @@ func gcMark(startTime int64) {
 //
 // The world must be stopped.
 //
-//go:systemstack
+//golang:systemstack
 func gcSweep(mode gcMode) bool {
 	assertWorldStopped()
 
@@ -1812,7 +1812,7 @@ func gcSweep(mode gcMode) bool {
 // gcResetMarkState must be called on the system stack because it acquires
 // the heap lock. See mheap for details.
 //
-//go:systemstack
+//golang:systemstack
 func gcResetMarkState() {
 	// This may be called during a concurrent phase, so lock to make sure
 	// allgs doesn't change.
@@ -1843,18 +1843,18 @@ var boringCaches []unsafe.Pointer // for crypto/internal/boring
 // sync_runtime_registerPoolCleanup should be an internal detail,
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
-//   - github.com/bytedance/gopkg
+//   - github.com/bytedance/golangpkg
 //   - github.com/songzhibin97/gkit
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname sync_runtime_registerPoolCleanup sync.runtime_registerPoolCleanup
+//golang:linkname sync_runtime_registerPoolCleanup sync.runtime_registerPoolCleanup
 func sync_runtime_registerPoolCleanup(f func()) {
 	poolcleanup = f
 }
 
-//go:linkname boring_registerCache crypto/internal/boring/bcache.registerCache
+//golang:linkname boring_registerCache crypto/internal/boring/bcache.registerCache
 func boring_registerCache(p unsafe.Pointer) {
 	boringCaches = append(boringCaches, p)
 }
@@ -1941,7 +1941,7 @@ func fmtNSAsMS(buf []byte, ns uint64) []byte {
 // gcTestMoveStackOnNextCall causes the stack to be moved on a call
 // immediately following the call to this. It may not work correctly
 // if any other work appears after this call (such as returning).
-// Typically the following call should be marked go:noinline so it
+// Typically the following call should be marked golang:noinline so it
 // performs a stack check.
 //
 // In rare cases this may not cause the stack to move, specifically if
@@ -2006,14 +2006,14 @@ func gcTestIsReachable(ptrs ...unsafe.Pointer) (mask uint64) {
 	return mask
 }
 
-// gcTestPointerClass returns the category of what p points to, one of:
+// gcTestPointerClass returns the categolangry of what p points to, one of:
 // "heap", "stack", "data", "bss", "other". This is useful for checking
 // that a test is doing what it's intended to do.
 //
 // This is nosplit simply to avoid extra pointer shuffling that may
 // complicate a test.
 //
-//go:nosplit
+//golang:nosplit
 func gcTestPointerClass(p unsafe.Pointer) string {
 	p2 := uintptr(noescape(p))
 	gp := getg()

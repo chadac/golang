@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package analysis
@@ -7,9 +7,9 @@ package analysis
 import (
 	"flag"
 	"fmt"
-	"go/ast"
-	"go/token"
-	"go/types"
+	"golang/ast"
+	"golang/token"
+	"golang/types"
 	"reflect"
 )
 
@@ -223,7 +223,7 @@ func (pass *Pass) String() string {
 // analysis pass even if these are in different address spaces.
 // If package P imports Q, all facts about Q produced during
 // analysis of that package will be available during later analysis of P.
-// Facts are analogous to type export data in a build system:
+// Facts are analogolangus to type export data in a build system:
 // just as export data enables separate compilation of several passes,
 // facts enable "separate analysis".
 //
@@ -239,7 +239,7 @@ func (pass *Pass) String() string {
 // see Analyzer.Requires, Analyzer.ResultType, and Pass.ResultOf.
 //
 // A Fact type must be a pointer.
-// Facts are encoded and decoded using encoding/gob.
+// Facts are encoded and decoded using encoding/golangb.
 // A Fact may implement the GobEncoder/GobDecoder interfaces
 // to customize its encoding. Fact encoding should not fail.
 //
@@ -252,5 +252,5 @@ type Fact interface {
 type Module struct {
 	Path      string // module path
 	Version   string // module version ("" if unknown, such as for workspace modules)
-	GoVersion string // go version used in module (e.g. "go1.22.0")
+	GoVersion string // golang version used in module (e.g. "golang1.22.0")
 }

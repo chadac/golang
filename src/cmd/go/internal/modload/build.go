@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package modload
@@ -14,16 +14,16 @@ import (
 	"path/filepath"
 	"strings"
 
-	"cmd/go/internal/base"
-	"cmd/go/internal/cfg"
-	"cmd/go/internal/gover"
-	"cmd/go/internal/modfetch"
-	"cmd/go/internal/modfetch/codehost"
-	"cmd/go/internal/modindex"
-	"cmd/go/internal/modinfo"
-	"cmd/go/internal/search"
+	"cmd/golang/internal/base"
+	"cmd/golang/internal/cfg"
+	"cmd/golang/internal/golangver"
+	"cmd/golang/internal/modfetch"
+	"cmd/golang/internal/modfetch/codehost"
+	"cmd/golang/internal/modindex"
+	"cmd/golang/internal/modinfo"
+	"cmd/golang/internal/search"
 
-	"golang.org/x/mod/module"
+	"golanglang.org/x/mod/module"
 )
 
 var (
@@ -152,7 +152,7 @@ func addUpdate(ctx context.Context, m *modinfo.ModulePublic) {
 		return
 	}
 
-	if gover.ModCompare(m.Path, info.Version, m.Version) > 0 {
+	if golangver.ModCompare(m.Path, info.Version, m.Version) > 0 {
 		m.Update = &modinfo.ModulePublic{
 			Path:    m.Path,
 			Version: info.Version,
@@ -319,7 +319,7 @@ func moduleInfo(ctx context.Context, rs *Requirements, m module.Version, mode Li
 
 	// completeFromModCache fills in the extra fields in m using the module cache.
 	completeFromModCache := func(m *modinfo.ModulePublic) {
-		if gover.IsToolchain(m.Path) {
+		if golangver.IsToolchain(m.Path) {
 			return
 		}
 
@@ -348,24 +348,24 @@ func moduleInfo(ctx context.Context, rs *Requirements, m module.Version, mode Li
 			}
 		}
 
-		if m.GoVersion == "" && checksumOk("/go.mod") {
-			// Load the go.mod file to determine the Go version, since it hasn't
+		if m.GoVersion == "" && checksumOk("/golang.mod") {
+			// Load the golang.mod file to determine the Go version, since it hasn't
 			// already been populated from rawGoVersion.
-			if summary, err := rawGoModSummary(mod); err == nil && summary.goVersion != "" {
-				m.GoVersion = summary.goVersion
+			if summary, err := rawGoModSummary(mod); err == nil && summary.golangVersion != "" {
+				m.GoVersion = summary.golangVersion
 			}
 		}
 
 		if m.Version != "" {
-			if checksumOk("/go.mod") {
-				gomod, err := modfetch.CachePath(ctx, mod, "mod")
+			if checksumOk("/golang.mod") {
+				golangmod, err := modfetch.CachePath(ctx, mod, "mod")
 				if err == nil {
-					if info, err := os.Stat(gomod); err == nil && info.Mode().IsRegular() {
-						m.GoMod = gomod
+					if info, err := os.Stat(golangmod); err == nil && info.Mode().IsRegular() {
+						m.GoMod = golangmod
 					}
 				}
-				if gomodsum, ok := modfetch.RecordedSum(modkey(mod)); ok {
-					m.GoModSum = gomodsum
+				if golangmodsum, ok := modfetch.RecordedSum(modkey(mod)); ok {
+					m.GoModSum = golangmodsum
 				}
 			}
 			if checksumOk("") {
@@ -385,8 +385,8 @@ func moduleInfo(ctx context.Context, rs *Requirements, m module.Version, mode Li
 	}
 
 	if rs == nil {
-		// If this was an explicitly-versioned argument to 'go mod download' or
-		// 'go list -m', report the actual requested version, not its replacement.
+		// If this was an explicitly-versioned argument to 'golang mod download' or
+		// 'golang list -m', report the actual requested version, not its replacement.
 		completeFromModCache(info) // Will set m.Error in vendor mode.
 		return info
 	}
@@ -407,8 +407,8 @@ func moduleInfo(ctx context.Context, rs *Requirements, m module.Version, mode Li
 
 	// Don't hit the network to fill in extra data for replaced modules.
 	// The original resolved Version and Time don't matter enough to be
-	// worth the cost, and we're going to overwrite the GoMod and Dir from the
-	// replacement anyway. See https://golang.org/issue/27859.
+	// worth the cost, and we're golanging to overwrite the GoMod and Dir from the
+	// replacement anyway. See https://golanglang.org/issue/27859.
 	info.Replace = &modinfo.ModulePublic{
 		Path:    r.Path,
 		Version: r.Version,
@@ -422,7 +422,7 @@ func moduleInfo(ctx context.Context, rs *Requirements, m module.Version, mode Li
 		} else {
 			info.Replace.Dir = filepath.Join(replaceRelativeTo(), r.Path)
 		}
-		info.Replace.GoMod = filepath.Join(info.Replace.Dir, "go.mod")
+		info.Replace.GoMod = filepath.Join(info.Replace.Dir, "golang.mod")
 	}
 	if cfg.BuildMod != "vendor" {
 		completeFromModCache(info.Replace)
@@ -444,16 +444,16 @@ func findModule(ld *loader, path string) (module.Version, bool) {
 	return module.Version{}, false
 }
 
-func ModInfoProg(info string, isgccgo bool) []byte {
+func ModInfoProg(info string, isgccgolang bool) []byte {
 	// Inject an init function to set runtime.modinfo.
-	// This is only used for gccgo - with gc we hand the info directly to the linker.
+	// This is only used for gccgolang - with gc we hand the info directly to the linker.
 	// The init function has the drawback that packages may want to
 	// look at the module info in their init functions (see issue 29628),
 	// which won't work. See also issue 30344.
-	if isgccgo {
+	if isgccgolang {
 		return fmt.Appendf(nil, `package main
 import _ "unsafe"
-//go:linkname __set_debug_modinfo__ runtime.setmodinfo
+//golang:linkname __set_debug_modinfo__ runtime.setmodinfo
 func __set_debug_modinfo__(string)
 func init() { __set_debug_modinfo__(%q) }
 `, ModInfoData(info))

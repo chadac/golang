@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file contains constant-time, 64-bit assembly implementation of
@@ -21,7 +21,7 @@ import (
 	. "github.com/mmcloughlin/avo/reg"
 )
 
-//go:generate go run . -out ../p256_asm_amd64.s
+//golang:generate golang run . -out ../p256_asm_amd64.s
 
 var (
 	res_ptr GPPhysical = RDI
@@ -44,7 +44,7 @@ var (
 
 func main() {
 	Package("crypto/internal/fips140/nistec")
-	ConstraintExpr("!purego")
+	ConstraintExpr("!puregolang")
 	p256MovCond()
 	p256NegCond()
 	p256Sqr()

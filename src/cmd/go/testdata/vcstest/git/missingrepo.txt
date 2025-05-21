@@ -3,8 +3,8 @@ handle dir
 -- missingrepo-git/index.html --
 <!DOCTYPE html>
 <html>
-<meta name="go-import" content="vcs-test.golang.org/go/missingrepo/missingrepo-git git https://vcs-test.golang.org/git/missingrepo">
+<meta name="golang-import" content="vcs-test.golanglang.org/golang/missingrepo/missingrepo-git git https://vcs-test.golanglang.org/git/missingrepo">
 -- missingrepo-git/notmissing/index.html --
 <!DOCTYPE html>
 <html>
-<meta name="go-import" content="vcs-test.golang.org/go/missingrepo/missingrepo-git/notmissing git https://vcs-test.golang.org/git/mainonly">
+<meta name="golang-import" content="vcs-test.golanglang.org/golang/missingrepo/missingrepo-git/notmissing git https://vcs-test.golanglang.org/git/mainonly">

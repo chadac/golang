@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package cryptotest
@@ -7,8 +7,8 @@ package cryptotest
 import (
 	"crypto/internal/boring"
 	"crypto/internal/impl"
-	"internal/goarch"
-	"internal/goos"
+	"internal/golangarch"
+	"internal/golangos"
 	"internal/testenv"
 	"testing"
 )
@@ -38,11 +38,11 @@ func TestAllImplementations(t *testing.T, pkg string, f func(t *testing.T)) {
 			t.Run(name, func(t *testing.T) {
 				// Report an error if we're on the most capable builder for the
 				// architecture and the builder can't test this implementation.
-				flagship := goos.GOOS == "linux" && goarch.GOARCH != "arm64" ||
-					goos.GOOS == "darwin" && goarch.GOARCH == "arm64"
+				flagship := golangos.GOOS == "linux" && golangarch.GOARCH != "arm64" ||
+					golangos.GOOS == "darwin" && golangarch.GOARCH == "arm64"
 				if testenv.Builder() != "" && flagship {
 					if name == "SHA-NI" {
-						t.Skip("known issue, see golang.org/issue/69592")
+						t.Skip("known issue, see golanglang.org/issue/69592")
 					}
 					t.Error("builder doesn't support CPU features needed to test this implementation")
 				} else {

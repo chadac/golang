@@ -1,7 +1,7 @@
 // asmcheck
 
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // These tests check code generation of switch statements.
@@ -187,7 +187,7 @@ func interfaceConv(x IJ) I {
 // Make sure we can constant fold after inlining. See issue 71699.
 func stringSwitchInlineable(s string) {
 	switch s {
-	case "foo", "bar", "baz", "goo":
+	case "foo", "bar", "baz", "golango":
 	default:
 		println("no")
 	}

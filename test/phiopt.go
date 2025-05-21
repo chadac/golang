@@ -1,14 +1,14 @@
 // errorcheck -0 -d=ssa/phiopt/debug=3
 
-//go:build amd64 || s390x || arm64
+//golang:build amd64 || s390x || arm64
 
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
 
-//go:noinline
+//golang:noinline
 func f0(a bool) bool {
 	x := false
 	if a {
@@ -19,7 +19,7 @@ func f0(a bool) bool {
 	return x // ERROR "converted OpPhi to Copy$"
 }
 
-//go:noinline
+//golang:noinline
 func f1(a bool) bool {
 	x := false
 	if a {
@@ -30,7 +30,7 @@ func f1(a bool) bool {
 	return x // ERROR "converted OpPhi to Not$"
 }
 
-//go:noinline
+//golang:noinline
 func f2(a, b int) bool {
 	x := true
 	if a == b {
@@ -39,7 +39,7 @@ func f2(a, b int) bool {
 	return x // ERROR "converted OpPhi to Not$"
 }
 
-//go:noinline
+//golang:noinline
 func f3(a, b int) bool {
 	x := false
 	if a == b {
@@ -48,12 +48,12 @@ func f3(a, b int) bool {
 	return x // ERROR "converted OpPhi to Copy$"
 }
 
-//go:noinline
+//golang:noinline
 func f4(a, b bool) bool {
 	return a || b // ERROR "converted OpPhi to OrB$"
 }
 
-//go:noinline
+//golang:noinline
 func f5or(a int, b bool) bool {
 	var x bool
 	if a == 0 {
@@ -64,7 +64,7 @@ func f5or(a int, b bool) bool {
 	return x // ERROR "converted OpPhi to OrB$"
 }
 
-//go:noinline
+//golang:noinline
 func f5and(a int, b bool) bool {
 	var x bool
 	if a == 0 {
@@ -75,7 +75,7 @@ func f5and(a int, b bool) bool {
 	return x // ERROR "converted OpPhi to AndB$"
 }
 
-//go:noinline
+//golang:noinline
 func f6or(a int, b bool) bool {
 	x := b
 	if a == 0 {
@@ -85,7 +85,7 @@ func f6or(a int, b bool) bool {
 	return x
 }
 
-//go:noinline
+//golang:noinline
 func f6and(a int, b bool) bool {
 	x := b
 	if a == 0 {
@@ -95,17 +95,17 @@ func f6and(a int, b bool) bool {
 	return x
 }
 
-//go:noinline
+//golang:noinline
 func f7or(a bool, b bool) bool {
 	return a || b // ERROR "converted OpPhi to OrB$"
 }
 
-//go:noinline
+//golang:noinline
 func f7and(a bool, b bool) bool {
 	return a && b // ERROR "converted OpPhi to AndB$"
 }
 
-//go:noinline
+//golang:noinline
 func f8(s string) (string, bool) {
 	neg := false
 	if s[0] == '-' {    // ERROR "converted OpPhi to Copy$"
@@ -117,7 +117,7 @@ func f8(s string) (string, bool) {
 
 var d int
 
-//go:noinline
+//golang:noinline
 func f9(a, b int) bool {
 	c := false
 	if a < 0 {          // ERROR "converted OpPhi to Copy$"
@@ -129,7 +129,7 @@ func f9(a, b int) bool {
 	return c
 }
 
-//go:noinline
+//golang:noinline
 func f10and(a bool, b bool) bool {
 	var x bool
 	if a {
@@ -140,7 +140,7 @@ func f10and(a bool, b bool) bool {
 	return x // ERROR "converted OpPhi to AndB$"
 }
 
-//go:noinline
+//golang:noinline
 func f11or(a bool, b bool) bool {
 	var x bool
 	if a {

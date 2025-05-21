@@ -1,12 +1,12 @@
 // run
 
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test for issue 778: Map key values that are assignment
 // compatible with the map key type must be accepted according
-// to the spec: https://golang.org/doc/go_spec.html#Indexes .
+// to the spec: https://golanglang.org/doc/golang_spec.html#Indexes .
 
 package main
 
@@ -85,18 +85,18 @@ func main() {
 }
 
 /*
-6g -e bug286.go
-bug286.go:23: invalid map index false - need type B
-bug286.go:80: invalid map index z - need type interface { }
-bug286.go:83: invalid map index new(struct { x int }) - need type interface { }
-bug286.go:84: invalid map index p - need type interface { }
-bug286.go:85: invalid map index false - need type interface { }
-bug286.go:86: invalid map index 17 - need type interface { }
-bug286.go:87: invalid map index "foo" - need type interface { }
-bug286.go:93: invalid map index new(struct { x int }) - need type I1
-bug286.go:94: invalid map index false - need type I1
-bug286.go:95: invalid map index 17 - need type I1
-bug286.go:96: invalid map index "foo" - need type I1
-bug286.go:99: invalid map index new(T2) - need type I2
-bug286.go:100: invalid map index t2 - need type I2
+6g -e bug286.golang
+bug286.golang:23: invalid map index false - need type B
+bug286.golang:80: invalid map index z - need type interface { }
+bug286.golang:83: invalid map index new(struct { x int }) - need type interface { }
+bug286.golang:84: invalid map index p - need type interface { }
+bug286.golang:85: invalid map index false - need type interface { }
+bug286.golang:86: invalid map index 17 - need type interface { }
+bug286.golang:87: invalid map index "foo" - need type interface { }
+bug286.golang:93: invalid map index new(struct { x int }) - need type I1
+bug286.golang:94: invalid map index false - need type I1
+bug286.golang:95: invalid map index 17 - need type I1
+bug286.golang:96: invalid map index "foo" - need type I1
+bug286.golang:99: invalid map index new(T2) - need type I2
+bug286.golang:100: invalid map index t2 - need type I2
 */

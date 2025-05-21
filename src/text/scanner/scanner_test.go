@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package scanner
@@ -31,7 +31,7 @@ func (r *StringReader) Read(p []byte) (n int, err error) {
 }
 
 func readRuneSegments(t *testing.T, segments []string) {
-	got := ""
+	golangt := ""
 	want := strings.Join(segments, "")
 	s := new(Scanner).Init(&StringReader{data: segments})
 	for {
@@ -39,10 +39,10 @@ func readRuneSegments(t *testing.T, segments []string) {
 		if ch == EOF {
 			break
 		}
-		got += string(ch)
+		golangt += string(ch)
 	}
-	if got != want {
-		t.Errorf("segments=%v got=%s want=%s", segments, got, want)
+	if golangt != want {
+		t.Errorf("segments=%v golangt=%s want=%s", segments, golangt, want)
 	}
 }
 
@@ -233,9 +233,9 @@ func makeSource(pattern string) *bytes.Buffer {
 	return &buf
 }
 
-func checkTok(t *testing.T, s *Scanner, line int, got, want rune, text string) {
-	if got != want {
-		t.Fatalf("tok = %s, want %s for %q", TokenString(got), TokenString(want), text)
+func checkTok(t *testing.T, s *Scanner, line int, golangt, want rune, text string) {
+	if golangt != want {
+		t.Fatalf("tok = %s, want %s for %q", TokenString(golangt), TokenString(want), text)
 	}
 	if s.Line != line {
 		t.Errorf("line = %d, want %d for %q", s.Line, line, text)
@@ -296,7 +296,7 @@ func TestInvalidExponent(t *testing.T) {
 	s.Error = func(s *Scanner, msg string) {
 		const want = "exponent has no digits"
 		if msg != want {
-			t.Errorf("%s: got error %q; want %q", s.TokenText(), msg, want)
+			t.Errorf("%s: golangt error %q; want %q", s.TokenText(), msg, want)
 		}
 	}
 	checkTokErr(t, s, 1, Float, "1.5e")
@@ -544,10 +544,10 @@ func TestIOError(t *testing.T) {
 	}
 }
 
-func checkPos(t *testing.T, got, want Position) {
-	if got.Offset != want.Offset || got.Line != want.Line || got.Column != want.Column {
-		t.Errorf("got offset, line, column = %d, %d, %d; want %d, %d, %d",
-			got.Offset, got.Line, got.Column, want.Offset, want.Line, want.Column)
+func checkPos(t *testing.T, golangt, want Position) {
+	if golangt.Offset != want.Offset || golangt.Line != want.Line || golangt.Column != want.Column {
+		t.Errorf("golangt offset, line, column = %d, %d, %d; want %d, %d, %d",
+			golangt.Offset, golangt.Line, golangt.Column, want.Offset, want.Line, want.Column)
 	}
 }
 
@@ -702,10 +702,10 @@ func TestScanEOFHandling(t *testing.T) {
 func TestIssue29723(t *testing.T) {
 	s := new(Scanner).Init(strings.NewReader(`x "`))
 	s.Error = func(s *Scanner, _ string) {
-		got := s.TokenText() // this call shouldn't panic
+		golangt := s.TokenText() // this call shouldn't panic
 		const want = `"`
-		if got != want {
-			t.Errorf("got %q; want %q", got, want)
+		if golangt != want {
+			t.Errorf("golangt %q; want %q", golangt, want)
 		}
 	}
 	for r := s.Scan(); r != EOF; r = s.Scan() {
@@ -860,20 +860,20 @@ func TestNumbers(t *testing.T) {
 			lit := s.TokenText()
 			if i == 0 {
 				if tok != test.tok {
-					t.Errorf("%q: got token %s; want %s", test.src, TokenString(tok), TokenString(test.tok))
+					t.Errorf("%q: golangt token %s; want %s", test.src, TokenString(tok), TokenString(test.tok))
 				}
 				if err != test.err {
-					t.Errorf("%q: got error %q; want %q", test.src, err, test.err)
+					t.Errorf("%q: golangt error %q; want %q", test.src, err, test.err)
 				}
 			}
 			if lit != want {
-				t.Errorf("%q: got literal %q (%s); want %s", test.src, lit, TokenString(tok), want)
+				t.Errorf("%q: golangt literal %q (%s); want %s", test.src, lit, TokenString(tok), want)
 			}
 		}
 
 		// make sure we read all
 		if tok := s.Scan(); tok != EOF {
-			t.Errorf("%q: got %s; want EOF", test.src, TokenString(tok))
+			t.Errorf("%q: golangt %s; want EOF", test.src, TokenString(tok))
 		}
 	}
 }
@@ -890,9 +890,9 @@ func TestIssue30320(t *testing.T) {
 		{"xxx1.0yyy2e3ee", "1 0 2 3", ScanInts},
 		{"xxx1.0yyy2e3ee", "1.0 2e3", ScanFloats},
 	} {
-		got := extractInts(test.in, test.mode)
-		if got != test.want {
-			t.Errorf("%q: got %q; want %q", test.in, got, test.want)
+		golangt := extractInts(test.in, test.mode)
+		if golangt != test.want {
+			t.Errorf("%q: golangt %q; want %q", test.in, golangt, test.want)
 		}
 	}
 }
@@ -929,6 +929,6 @@ func TestIssue50909(t *testing.T) {
 	const R = "hello world!"
 	const N = 3
 	if r != R || n != N {
-		t.Errorf("got %q (n = %d); want %q (n = %d)", r, n, R, N)
+		t.Errorf("golangt %q (n = %d); want %q (n = %d)", r, n, R, N)
 	}
 }

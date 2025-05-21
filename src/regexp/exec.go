@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package regexp
@@ -339,15 +339,15 @@ Again:
 	case syntax.InstAlt, syntax.InstAltMatch:
 		t = m.add(q, i.Out, pos, cap, cond, t)
 		pc = i.Arg
-		goto Again
+		golangto Again
 	case syntax.InstEmptyWidth:
 		if cond.match(syntax.EmptyOp(i.Arg)) {
 			pc = i.Out
-			goto Again
+			golangto Again
 		}
 	case syntax.InstNop:
 		pc = i.Out
-		goto Again
+		golangto Again
 	case syntax.InstCapture:
 		if int(i.Arg) < len(cap) {
 			opos := cap[i.Arg]
@@ -356,7 +356,7 @@ Again:
 			cap[i.Arg] = opos
 		} else {
 			pc = i.Out
-			goto Again
+			golangto Again
 		}
 	case syntax.InstMatch, syntax.InstRune, syntax.InstRune1, syntax.InstRuneAny, syntax.InstRuneAnyNotNL:
 		if t == nil {
@@ -433,7 +433,7 @@ func (re *Regexp) doOnePass(ir io.RuneReader, ib []byte, is string, pos, ncap in
 		len(re.prefix) > 0 && i.canCheckPrefix() {
 		// Match requires literal prefix; fast search for it.
 		if !i.hasPrefix(re) {
-			goto Return
+			golangto Return
 		}
 		pos += len(re.prefix)
 		r, width = i.step(pos)
@@ -453,32 +453,32 @@ func (re *Regexp) doOnePass(ir io.RuneReader, ib []byte, is string, pos, ncap in
 				m.matchcap[0] = 0
 				m.matchcap[1] = pos
 			}
-			goto Return
+			golangto Return
 		case syntax.InstRune:
 			if !inst.MatchRune(r) {
-				goto Return
+				golangto Return
 			}
 		case syntax.InstRune1:
 			if r != inst.Rune[0] {
-				goto Return
+				golangto Return
 			}
 		case syntax.InstRuneAny:
 			// Nothing
 		case syntax.InstRuneAnyNotNL:
 			if r == '\n' {
-				goto Return
+				golangto Return
 			}
 		// peek at the input rune to see which branch of the Alt to take
 		case syntax.InstAlt, syntax.InstAltMatch:
 			pc = int(onePassNext(inst, r))
 			continue
 		case syntax.InstFail:
-			goto Return
+			golangto Return
 		case syntax.InstNop:
 			continue
 		case syntax.InstEmptyWidth:
 			if !flag.match(syntax.EmptyOp(inst.Arg)) {
-				goto Return
+				golangto Return
 			}
 			continue
 		case syntax.InstCapture:

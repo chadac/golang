@@ -4,18 +4,18 @@ written by hand
 -- .mod --
 module example.com/depends/on/generics
 
-go 1.18
+golang 1.18
 
 require example.com/generics v1.0.0
 -- .info --
 {"Version":"v1.0.0"}
--- go.mod --
+-- golang.mod --
 module example.com/depends/on/generics
 
-go 1.18
+golang 1.18
 
 require example.com/generics v1.0.0
--- main.go --
+-- main.golang --
 package main
 
 import "example.com/generics"

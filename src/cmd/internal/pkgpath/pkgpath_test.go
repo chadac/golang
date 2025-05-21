@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package pkgpath
@@ -13,20 +13,20 @@ import (
 const testEnvName = "GO_PKGPATH_TEST_COMPILER"
 
 // This init function supports TestToSymbolFunc. For simplicity,
-// we use the test binary itself as a sample gccgo driver.
+// we use the test binary itself as a sample gccgolang driver.
 // We set an environment variable to specify how it should behave.
 func init() {
 	switch os.Getenv(testEnvName) {
 	case "":
 		return
 	case "v1":
-		os.Stdout.WriteString(`.string	"go.l__ufer.Run"`)
+		os.Stdout.WriteString(`.string	"golang.l__ufer.Run"`)
 		os.Exit(0)
 	case "v2":
-		os.Stdout.WriteString(`.string	"go.l..u00e4ufer.Run"`)
+		os.Stdout.WriteString(`.string	"golang.l..u00e4ufer.Run"`)
 		os.Exit(0)
 	case "v3":
-		os.Stdout.WriteString(`.string	"go_0l_u00e4ufer.Run"`)
+		os.Stdout.WriteString(`.string	"golang_0l_u00e4ufer.Run"`)
 		os.Exit(0)
 	case "error":
 		os.Stdout.WriteString(`unknown string`)
@@ -77,8 +77,8 @@ func TestToSymbolFunc(t *testing.T) {
 				}
 			} else if test.fail {
 				t.Errorf("ToSymbolFunc(%q, %q) succeeded but expected to fail", cmd, tmpdir)
-			} else if got, want := fn(input), test.mangled; got != want {
-				t.Errorf("ToSymbolFunc(%q, %q)(%q) = %q, want %q", cmd, tmpdir, input, got, want)
+			} else if golangt, want := fn(input), test.mangled; golangt != want {
+				t.Errorf("ToSymbolFunc(%q, %q)(%q) = %q, want %q", cmd, tmpdir, input, golangt, want)
 			}
 		})
 	}
@@ -106,10 +106,10 @@ var symbolTests = []struct {
 		"net_1http",
 	},
 	{
-		"golang.org/x/net/http",
-		"golang_org_x_net_http",
-		"golang.x2eorg..z2fx..z2fnet..z2fhttp",
-		"golang_0org_1x_1net_1http",
+		"golanglang.org/x/net/http",
+		"golanglang_org_x_net_http",
+		"golanglang.x2eorg..z2fx..z2fnet..z2fhttp",
+		"golanglang_0org_1x_1net_1http",
 	},
 	{
 		"pä世.🜃",
@@ -121,24 +121,24 @@ var symbolTests = []struct {
 
 func TestV1(t *testing.T) {
 	for _, test := range symbolTests {
-		if got, want := toSymbolV1(test.input), test.v1; got != want {
-			t.Errorf("toSymbolV1(%q) = %q, want %q", test.input, got, want)
+		if golangt, want := toSymbolV1(test.input), test.v1; golangt != want {
+			t.Errorf("toSymbolV1(%q) = %q, want %q", test.input, golangt, want)
 		}
 	}
 }
 
 func TestV2(t *testing.T) {
 	for _, test := range symbolTests {
-		if got, want := toSymbolV2(test.input), test.v2; got != want {
-			t.Errorf("toSymbolV2(%q) = %q, want %q", test.input, got, want)
+		if golangt, want := toSymbolV2(test.input), test.v2; golangt != want {
+			t.Errorf("toSymbolV2(%q) = %q, want %q", test.input, golangt, want)
 		}
 	}
 }
 
 func TestV3(t *testing.T) {
 	for _, test := range symbolTests {
-		if got, want := toSymbolV3(test.input), test.v3; got != want {
-			t.Errorf("toSymbolV3(%q) = %q, want %q", test.input, got, want)
+		if golangt, want := toSymbolV3(test.input), test.v3; golangt != want {
+			t.Errorf("toSymbolV3(%q) = %q, want %q", test.input, golangt, want)
 		}
 	}
 }

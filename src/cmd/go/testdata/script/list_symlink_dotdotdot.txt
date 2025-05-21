@@ -1,19 +1,19 @@
 [!symlink] skip
 
-symlink $WORK/gopath/src/sym -> $WORK/gopath/src/tree
-symlink $WORK/gopath/src/tree/squirrel -> $WORK/gopath/src/dir2 # this symlink should not be followed
+symlink $WORK/golangpath/src/sym -> $WORK/golangpath/src/tree
+symlink $WORK/golangpath/src/tree/squirrel -> $WORK/golangpath/src/dir2 # this symlink should not be followed
 cd sym
-go list ./...
-cmp stdout $WORK/gopath/src/want_list.txt
--- tree/go.mod --
+golang list ./...
+cmp stdout $WORK/golangpath/src/want_list.txt
+-- tree/golang.mod --
 module example.com/tree
 
-go 1.20
--- tree/tree.go --
+golang 1.20
+-- tree/tree.golang --
 package tree
--- tree/branch/branch.go --
+-- tree/branch/branch.golang --
 package branch
--- dir2/squirrel.go --
+-- dir2/squirrel.golang --
 package squirrel
 -- want_list.txt --
 example.com/tree

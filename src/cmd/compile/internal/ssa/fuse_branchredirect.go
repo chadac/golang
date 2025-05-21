@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ssa
@@ -11,10 +11,10 @@ package ssa
 //
 //	p:
 //	  v11 = Less64 <bool> v10 v8
-//	  If v11 goto b else u
+//	  If v11 golangto b else u
 //	b: <- p ...
 //	  v17 = Leq64 <bool> v10 v8
-//	  If v17 goto s else o
+//	  If v17 golangto s else o
 //
 // We can redirect p to s directly.
 //
@@ -57,7 +57,7 @@ func fuseBranchRedirect(f *Func) bool {
 			ft.checkpoint()
 			// Assume branch p->b is taken.
 			addBranchRestrictions(ft, p, pbranch)
-			// Check if any outgoing branch is unreachable based on the above condition.
+			// Check if any outgolanging branch is unreachable based on the above condition.
 			parent := b
 			for j, bbranch := range [...]branch{positive, negative} {
 				ft.checkpoint()

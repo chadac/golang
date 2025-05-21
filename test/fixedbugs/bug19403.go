@@ -1,10 +1,10 @@
 // run
 
 // Copyright 2017 The Go Authors.  All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Test for golang.org/issue/19403.
+// Test for golanglang.org/issue/19403.
 // F15 should not be clobbered by float-to-int conversion on ARM.
 // This test requires enough locals that can be put in registers that the compiler can choose to use F15.
 package main

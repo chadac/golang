@@ -1,8 +1,8 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build windows
+//golang:build windows
 
 package exec_test
 
@@ -59,7 +59,7 @@ func TestPipePassing(t *testing.T) {
 	}
 	r.Close()
 	if string(response) != marker {
-		t.Errorf("got %q; want %q", string(response), marker)
+		t.Errorf("golangt %q; want %q", string(response), marker)
 	}
 	err = childProc.Wait()
 	if err != nil {
@@ -75,10 +75,10 @@ func TestNoInheritHandles(t *testing.T) {
 	err := cmd.Run()
 	exitError, ok := err.(*exec.ExitError)
 	if !ok {
-		t.Fatalf("got error %v; want ExitError", err)
+		t.Fatalf("golangt error %v; want ExitError", err)
 	}
 	if exitError.ExitCode() != 88 {
-		t.Fatalf("got exit code %d; want 88", exitError.ExitCode())
+		t.Fatalf("golangt exit code %d; want 88", exitError.ExitCode())
 	}
 }
 

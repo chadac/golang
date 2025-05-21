@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package tracev1
@@ -30,8 +30,8 @@ const (
 	seqinc    = ^uint64(0) - 1
 )
 
-// stateTransition returns goroutine state (sequence and status) when the event
-// becomes ready for merging (init) and the goroutine state after the event (next).
+// stateTransition returns golangroutine state (sequence and status) when the event
+// becomes ready for merging (init) and the golangroutine state after the event (next).
 func stateTransition(ev *Event) (g uint64, init, next gState) {
 	// Note that we have an explicit return in each case, as that produces slightly better code (tested on Go 1.19).
 
@@ -108,7 +108,7 @@ func transition(gs map[uint64]gState, g uint64, init, next gState) error {
 	if !transitionReady(g, curr, init) {
 		// See comment near the call to transition, where we're building the frontier, for details on how this could
 		// possibly happen.
-		return errors.New("encountered impossible goroutine state transition")
+		return errors.New("encountered impossible golangroutine state transition")
 	}
 	switch next.seq {
 	case noseq:

@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package syntax
@@ -8,7 +8,7 @@ type Token uint
 
 type token = Token
 
-//go:generate stringer -type token -linecomment tokens.go
+//golang:generate stringer -type token -linecomment tokens.golang
 
 const (
 	_    token = iota
@@ -53,8 +53,8 @@ const (
 	_Fallthrough // fallthrough
 	_For         // for
 	_Func        // func
-	_Go          // go
-	_Goto        // goto
+	_Go          // golang
+	_Goto        // golangto
 	_If          // if
 	_Import      // import
 	_Interface   // interface
@@ -107,7 +107,7 @@ const (
 
 type Operator uint
 
-//go:generate stringer -type Operator -linecomment tokens.go
+//golang:generate stringer -type Operator -linecomment tokens.golang
 
 const (
 	_ Operator = iota

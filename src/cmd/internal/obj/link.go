@@ -34,7 +34,7 @@ import (
 	"bufio"
 	"bytes"
 	"cmd/internal/dwarf"
-	"cmd/internal/goobj"
+	"cmd/internal/golangobj"
 	"cmd/internal/objabi"
 	"cmd/internal/src"
 	"cmd/internal/sys"
@@ -229,7 +229,7 @@ const (
 	NAME_TOCREF
 )
 
-//go:generate stringer -type AddrType
+//golang:generate stringer -type AddrType
 
 type AddrType uint8
 
@@ -511,7 +511,7 @@ type FuncInfo struct {
 // JumpTable represents a table used for implementing multi-way
 // computed branching, used typically for implementing switches.
 // Sym is the table itself, and Targets is a list of target
-// instructions to go to for the computed branch index.
+// instructions to golang to for the computed branch index.
 type JumpTable struct {
 	Sym     *LSym
 	Targets []*Prog
@@ -624,11 +624,11 @@ func (s *LSym) NewItabInfo() *ItabInfo {
 // parameters and results translated into WASM types based on the Go function
 // declaration.
 type WasmImport struct {
-	// Module holds the WASM module name specified by the //go:wasmimport
+	// Module holds the WASM module name specified by the //golang:wasmimport
 	// directive.
 	Module string
 	// Name holds the WASM imported function name specified by the
-	// //go:wasmimport directive.
+	// //golang:wasmimport directive.
 	Name string
 
 	WasmFuncType // type of the imported function
@@ -811,14 +811,14 @@ func (fi *FuncInfo) AddSpill(s RegSpill) {
 
 // Record the type symbol for an auto variable so that the linker
 // an emit DWARF type information for the type.
-func (fi *FuncInfo) RecordAutoType(gotype *LSym) {
+func (fi *FuncInfo) RecordAutoType(golangtype *LSym) {
 	if fi.Autot == nil {
 		fi.Autot = make(map[*LSym]struct{})
 	}
-	fi.Autot[gotype] = struct{}{}
+	fi.Autot[golangtype] = struct{}{}
 }
 
-//go:generate stringer -type ABI
+//golang:generate stringer -type ABI
 
 // ABI is the calling convention of a text symbol.
 type ABI uint8
@@ -926,7 +926,7 @@ const (
 	// default. "local" here means in the sense of the dynamic linker, i.e. not
 	// visible outside of the module (shared library or executable) that contains its
 	// definition. (When not compiling to support Go shared libraries, all symbols are
-	// local in this sense unless there is a cgo_export_* directive).
+	// local in this sense unless there is a cgolang_export_* directive).
 	AttrLocal
 
 	// For function symbols; indicates that the specified function was the
@@ -956,7 +956,7 @@ const (
 	// PkgInit indicates this is a compiler-generated package init func.
 	AttrPkgInit
 
-	// Linkname indicates this is a go:linkname'd symbol.
+	// Linkname indicates this is a golang:linkname'd symbol.
 	AttrLinkname
 
 	// attrABIBase is the value at which the ABI is encoded in
@@ -1096,7 +1096,7 @@ type Pcln struct {
 	Pcinline  *LSym
 	Pcdata    []*LSym
 	Funcdata  []*LSym
-	UsedFiles map[goobj.CUFileIndex]struct{} // file indices used while generating pcfile
+	UsedFiles map[golangobj.CUFileIndex]struct{} // file indices used while generating pcfile
 	InlTree   InlTree                        // per-function inlining tree extracted from the global tree
 }
 
@@ -1156,10 +1156,10 @@ type Link struct {
 	funchash           map[string]*LSym // name -> sym mapping for ABIInternal syms
 	statichash         map[string]*LSym // name -> sym mapping for static syms
 	PosTable           src.PosTable
-	InlTree            InlTree // global inlining tree used by gc/inl.go
+	InlTree            InlTree // global inlining tree used by gc/inl.golang
 	DwFixups           *DwarfFixupTable
 	DwTextCount        int
-	Imports            []goobj.ImportedPkg
+	Imports            []golangobj.ImportedPkg
 	DiagFunc           func(string, ...interface{})
 	DiagFlush          func()
 	DebugInfo          func(ctxt *Link, fn *LSym, info *LSym, curfn Func) ([]dwarf.Scope, dwarf.InlCalls)
@@ -1195,7 +1195,7 @@ type Link struct {
 	nonpkgdefs   []*LSym // list of defined non-package symbols
 	nonpkgrefs   []*LSym // list of referenced non-package symbols
 
-	Fingerprint goobj.FingerprintType // fingerprint of symbol indices, to catch index mismatch
+	Fingerprint golangobj.FingerprintType // fingerprint of symbol indices, to catch index mismatch
 }
 
 func (ctxt *Link) Diag(format string, args ...interface{}) {

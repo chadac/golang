@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package fdtest
@@ -16,6 +16,6 @@ func TestExists(t *testing.T) {
 	}
 
 	if !Exists(os.Stdout.Fd()) {
-		t.Errorf("Exists(%d) got false want true", os.Stdout.Fd())
+		t.Errorf("Exists(%d) golangt false want true", os.Stdout.Fd())
 	}
 }

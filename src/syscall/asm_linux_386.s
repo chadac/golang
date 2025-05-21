@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 #include "textflag.h"
@@ -46,7 +46,7 @@ TEXT ·rawSyscallNoError(SB),NOSPLIT,$0-24
 	MOVL	DX, r2+20(FP)
 	RET
 
-#define SYS_SOCKETCALL 102	/* from zsysnum_linux_386.go */
+#define SYS_SOCKETCALL 102	/* from zsysnum_linux_386.golang */
 
 // func socketcall(call int, a0, a1, a2, a3, a4, a5 uintptr) (n int, err int)
 // Kernel interface gets call sub-number and pointer to a0.
@@ -93,7 +93,7 @@ oksock1:
 	MOVL	$0, err+32(FP)
 	RET
 
-#define SYS__LLSEEK 140	/* from zsysnum_linux_386.go */
+#define SYS__LLSEEK 140	/* from zsysnum_linux_386.golang */
 // func Seek(fd int, offset int64, whence int) (newoffset int64, err int)
 // Implemented in assembly to avoid allocation when
 // taking the address of the return value newoffset.

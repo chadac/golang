@@ -1,13 +1,13 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// This is a copy of the file generated during the gccgo build process.
+// This is a copy of the file generated during the gccgolang build process.
 // Last update 2019-01-22.
 
 package types2
 
-var gccgoArchSizes = map[string]*StdSizes{
+var gccgolangArchSizes = map[string]*StdSizes{
 	"386":         {4, 4},
 	"alpha":       {8, 8},
 	"amd64":       {8, 8},

@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package template
@@ -133,7 +133,7 @@ func indirectToJSONMarshaler(a any) any {
 	// text/template now supports passing untyped nil as a func call
 	// argument, so we must support it. Otherwise we'd panic below, as one
 	// cannot call the Type or Interface methods on an invalid
-	// reflect.Value. See golang.org/issue/18716.
+	// reflect.Value. See golanglang.org/issue/18716.
 	if a == nil {
 		return nil
 	}

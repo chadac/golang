@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package build
@@ -9,10 +9,10 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
-	"go/ast"
-	"go/parser"
-	"go/scanner"
-	"go/token"
+	"golang/ast"
+	"golang/parser"
+	"golang/scanner"
+	"golang/token"
 	"io"
 	"strconv"
 	"strings"
@@ -36,7 +36,7 @@ var bom = []byte{0xef, 0xbb, 0xbf}
 func newImportReader(name string, r io.Reader) *importReader {
 	b := bufio.NewReader(r)
 	// Remove leading UTF-8 BOM.
-	// Per https://golang.org/ref/spec#Source_code_representation:
+	// Per https://golanglang.org/ref/spec#Source_code_representation:
 	// a compiler may ignore a UTF-8-encoded byte order mark (U+FEFF)
 	// if it is the first Unicode code point in the source text.
 	if leadingBytes, err := b.Peek(3); err == nil && bytes.Equal(leadingBytes, bom) {
@@ -127,7 +127,7 @@ func (r *importReader) readByteNoBuf() byte {
 func (r *importReader) peekByte(skipSpace bool) byte {
 	if r.err != nil {
 		if r.nerr++; r.nerr > 10000 {
-			panic("go/build: import reader looping")
+			panic("golang/build: import reader looping")
 		}
 		return 0
 	}
@@ -182,15 +182,15 @@ func (r *importReader) nextByte(skipSpace bool) byte {
 	return c
 }
 
-var goEmbed = []byte("go:embed")
+var golangEmbed = []byte("golang:embed")
 
-// findEmbed advances the input reader to the next //go:embed comment.
+// findEmbed advances the input reader to the next //golang:embed comment.
 // It reports whether it found a comment.
 // (Otherwise it found an error or EOF.)
 func (r *importReader) findEmbed(first bool) bool {
 	// The import block scan stopped after a non-space character,
 	// so the reader is not at the start of a line on the first call.
-	// After that, each //go:embed extraction leaves the reader
+	// After that, each //golang:embed extraction leaves the reader
 	// at the end of a line.
 	startLine := !first
 	var c byte
@@ -224,10 +224,10 @@ func (r *importReader) findEmbed(first bool) bool {
 				}
 				if c == '"' {
 					c = r.readByteNoBuf()
-					goto Reswitch
+					golangto Reswitch
 				}
 			}
-			goto Reswitch
+			golangto Reswitch
 
 		case '`':
 			startLine = false
@@ -238,7 +238,7 @@ func (r *importReader) findEmbed(first bool) bool {
 				c = r.readByteNoBuf()
 				if c == '`' {
 					c = r.readByteNoBuf()
-					goto Reswitch
+					golangto Reswitch
 				}
 			}
 
@@ -259,7 +259,7 @@ func (r *importReader) findEmbed(first bool) bool {
 				}
 				if c == '\'' {
 					c = r.readByteNoBuf()
-					goto Reswitch
+					golangto Reswitch
 				}
 			}
 
@@ -268,7 +268,7 @@ func (r *importReader) findEmbed(first bool) bool {
 			switch c {
 			default:
 				startLine = false
-				goto Reswitch
+				golangto Reswitch
 
 			case '*':
 				var c1 byte
@@ -282,11 +282,11 @@ func (r *importReader) findEmbed(first bool) bool {
 
 			case '/':
 				if startLine {
-					// Try to read this as a //go:embed comment.
-					for i := range goEmbed {
+					// Try to read this as a //golang:embed comment.
+					for i := range golangEmbed {
 						c = r.readByteNoBuf()
-						if c != goEmbed[i] {
-							goto SkipSlashSlash
+						if c != golangEmbed[i] {
+							golangto SkipSlashSlash
 						}
 					}
 					c = r.readByteNoBuf()
@@ -386,9 +386,9 @@ func (r *importReader) readImport() {
 //   - github.com/bazelbuild/bazel-gazelle
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname readComments
+//golang:linkname readComments
 func readComments(f io.Reader) ([]byte, error) {
 	r := newImportReader("", f)
 	r.peekByte(true)
@@ -433,7 +433,7 @@ func readGoInfo(f io.Reader, info *fileInfo) error {
 	}
 
 	// If we stopped for a syntax error, consume the whole file so that
-	// we are sure we don't change the errors that go/parser returns.
+	// we are sure we don't change the errors that golang/parser returns.
 	if r.err == errSyntax {
 		r.err = nil
 		for r.err == nil && !r.eof {
@@ -496,18 +496,18 @@ func readGoInfo(f io.Reader, info *fileInfo) error {
 			break
 		}
 		for _, c := range group.List {
-			if strings.HasPrefix(c.Text, "//go:") {
+			if strings.HasPrefix(c.Text, "//golang:") {
 				info.directives = append(info.directives, Directive{c.Text, info.fset.Position(c.Slash)})
 			}
 		}
 	}
 
 	// If the file imports "embed",
-	// we have to look for //go:embed comments
+	// we have to look for //golang:embed comments
 	// in the remainder of the file.
 	// The compiler will enforce the mapping of comments to
 	// declared variables. We just need to know the patterns.
-	// If there were //go:embed comments earlier in the file
+	// If there were //golang:embed comments earlier in the file
 	// (near the package statement or imports), the compiler
 	// will reject them. They can be (and have already been) ignored.
 	if hasEmbed {
@@ -524,7 +524,7 @@ func readGoInfo(f io.Reader, info *fileInfo) error {
 			}
 			// Add args if line is well-formed.
 			// Ignore badly-formed lines - the compiler will report them when it finds them,
-			// and we can pretend they are not there to help go list succeed with what it knows.
+			// and we can pretend they are not there to help golang list succeed with what it knows.
 			embs, err := parseGoEmbed(string(line), pos)
 			if err == nil {
 				info.embeds = append(info.embeds, embs...)
@@ -536,7 +536,7 @@ func readGoInfo(f io.Reader, info *fileInfo) error {
 }
 
 // isValidImport checks if the import is a valid import using the more strict
-// checks allowed by the implementation restriction in https://go.dev/ref/spec#Import_declarations.
+// checks allowed by the implementation restriction in https://golang.dev/ref/spec#Import_declarations.
 // It was ported from the function of the same name that was removed from the
 // parser in CL 424855, when the parser stopped doing these checks.
 func isValidImport(s string) bool {
@@ -549,9 +549,9 @@ func isValidImport(s string) bool {
 	return s != ""
 }
 
-// parseGoEmbed parses the text following "//go:embed" to extract the glob patterns.
+// parseGoEmbed parses the text following "//golang:embed" to extract the glob patterns.
 // It accepts unquoted space-separated patterns as well as double-quoted and back-quoted Go strings.
-// This is based on a similar function in cmd/compile/internal/gc/noder.go;
+// This is based on a similar function in cmd/compile/internal/gc/noder.golang;
 // this version calculates position information as well.
 func parseGoEmbed(args string, pos token.Position) ([]fileEmbed, error) {
 	trimBytes := func(n int) {
@@ -585,7 +585,7 @@ func parseGoEmbed(args string, pos token.Position) ([]fileEmbed, error) {
 			var ok bool
 			path, _, ok = strings.Cut(args[1:], "`")
 			if !ok {
-				return nil, fmt.Errorf("invalid quoted string in //go:embed: %s", args)
+				return nil, fmt.Errorf("invalid quoted string in //golang:embed: %s", args)
 			}
 			trimBytes(1 + len(path) + 1)
 
@@ -599,7 +599,7 @@ func parseGoEmbed(args string, pos token.Position) ([]fileEmbed, error) {
 				if args[i] == '"' {
 					q, err := strconv.Unquote(args[:i+1])
 					if err != nil {
-						return nil, fmt.Errorf("invalid quoted string in //go:embed: %s", args[:i+1])
+						return nil, fmt.Errorf("invalid quoted string in //golang:embed: %s", args[:i+1])
 					}
 					path = q
 					trimBytes(i + 1)
@@ -607,14 +607,14 @@ func parseGoEmbed(args string, pos token.Position) ([]fileEmbed, error) {
 				}
 			}
 			if i >= len(args) {
-				return nil, fmt.Errorf("invalid quoted string in //go:embed: %s", args)
+				return nil, fmt.Errorf("invalid quoted string in //golang:embed: %s", args)
 			}
 		}
 
 		if args != "" {
 			r, _ := utf8.DecodeRuneInString(args)
 			if !unicode.IsSpace(r) {
-				return nil, fmt.Errorf("invalid quoted string in //go:embed: %s", args)
+				return nil, fmt.Errorf("invalid quoted string in //golang:embed: %s", args)
 			}
 		}
 		list = append(list, fileEmbed{path, pathPos})

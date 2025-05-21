@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package fmtsort provides a general stable ordering mechanism
@@ -72,7 +72,7 @@ func Sort(mapValue reflect.Value) SortedMap {
 func compare(aVal, bVal reflect.Value) int {
 	aType, bType := aVal.Type(), bVal.Type()
 	if aType != bType {
-		return -1 // No good answer possible, but don't return 0: they're not equal.
+		return -1 // No golangod answer possible, but don't return 0: they're not equal.
 	}
 	switch aVal.Kind() {
 	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:

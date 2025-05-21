@@ -1,17 +1,17 @@
-! go work use foo bar baz
+! golang work use foo bar baz
 
-stderr '^go: foo is not a directory'
-stderr '^go: directory baz does not exist'
-cmp go.work go.work_want
+stderr '^golang: foo is not a directory'
+stderr '^golang: directory baz does not exist'
+cmp golang.work golang.work_want
 
-! go work use -r qux
-stderr '^go: qux is not a directory'
+! golang work use -r qux
+stderr '^golang: qux is not a directory'
 
--- go.work --
-go 1.18
--- go.work_want --
-go 1.18
+-- golang.work --
+golang 1.18
+-- golang.work_want --
+golang 1.18
 -- foo --
 -- qux --
--- bar/go.mod --
+-- bar/golang.mod --
 module bar

@@ -1,10 +1,10 @@
 # Matches only tests
-go test -run Test standalone_test.go
+golang test -run Test standalone_test.golang
 ! stdout '^ok.*\[no tests to run\]'
 ! stderr '^ok.*\[no tests to run\]'
 stdout '^ok'
 
--- standalone_test.go --
+-- standalone_test.golang --
 package standalone_test
 
 import "testing"

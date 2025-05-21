@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ld
@@ -15,8 +15,8 @@ import (
 )
 
 // Decoding the type.* symbols.	 This has to be in sync with
-// ../../runtime/type.go, or more specifically, with what
-// cmd/compile/internal/reflectdata/reflect.go stuffs in these.
+// ../../runtime/type.golang, or more specifically, with what
+// cmd/compile/internal/reflectdata/reflect.golang stuffs in these.
 
 func decodeInuxi(arch *sys.Arch, p []byte, sz int) uint64 {
 	switch sz {

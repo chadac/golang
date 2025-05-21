@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package rttype allows the compiler to share type information with
@@ -75,20 +75,20 @@ func Init() {
 	// by the linker which doesn't have the ability to do type layout,
 	// so we check the functions it uses here.
 	ptrSize := types.PtrSize
-	if got, want := int64(abi.CommonSize(ptrSize)), Type.Size(); got != want {
-		base.Fatalf("abi.CommonSize() == %d, want %d", got, want)
+	if golangt, want := int64(abi.CommonSize(ptrSize)), Type.Size(); golangt != want {
+		base.Fatalf("abi.CommonSize() == %d, want %d", golangt, want)
 	}
-	if got, want := int64(abi.StructFieldSize(ptrSize)), StructField.Size(); got != want {
-		base.Fatalf("abi.StructFieldSize() == %d, want %d", got, want)
+	if golangt, want := int64(abi.StructFieldSize(ptrSize)), StructField.Size(); golangt != want {
+		base.Fatalf("abi.StructFieldSize() == %d, want %d", golangt, want)
 	}
-	if got, want := int64(abi.UncommonSize()), UncommonType.Size(); got != want {
-		base.Fatalf("abi.UncommonSize() == %d, want %d", got, want)
+	if golangt, want := int64(abi.UncommonSize()), UncommonType.Size(); golangt != want {
+		base.Fatalf("abi.UncommonSize() == %d, want %d", golangt, want)
 	}
-	if got, want := int64(abi.TFlagOff(ptrSize)), Type.OffsetOf("TFlag"); got != want {
-		base.Fatalf("abi.TFlagOff() == %d, want %d", got, want)
+	if golangt, want := int64(abi.TFlagOff(ptrSize)), Type.OffsetOf("TFlag"); golangt != want {
+		base.Fatalf("abi.TFlagOff() == %d, want %d", golangt, want)
 	}
-	if got, want := int64(abi.ITabTypeOff(ptrSize)), ITab.OffsetOf("Type"); got != want {
-		base.Fatalf("abi.ITabTypeOff() == %d, want %d", got, want)
+	if golangt, want := int64(abi.ITabTypeOff(ptrSize)), ITab.OffsetOf("Type"); golangt != want {
+		base.Fatalf("abi.ITabTypeOff() == %d, want %d", golangt, want)
 	}
 }
 
@@ -157,7 +157,7 @@ func reflectToType(rt reflect.Type) *types.Type {
 }
 
 // A Cursor represents a typed location inside a static variable where we
-// are going to write.
+// are golanging to write.
 type Cursor struct {
 	lsym   *obj.LSym
 	offset int64

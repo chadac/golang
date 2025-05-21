@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package color
@@ -173,7 +173,7 @@ func (c YCbCr) RGBA() (uint32, uint32, uint32, uint32) {
 	// returns values in the range [0, 0xffff] instead of [0, 0xff]. There is a
 	// subtle difference between doing this and having YCbCr satisfy the Color
 	// interface by first converting to an RGBA. The latter loses some
-	// information by going to and from 8 bits per channel.
+	// information by golanging to and from 8 bits per channel.
 	//
 	// For example, this code:
 	//	const y, cb, cr = 0x7f, 0x7f, 0x7f

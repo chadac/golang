@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package reflectdata
@@ -163,7 +163,7 @@ func hashFunc(t *types.Type) *ir.Func {
 	switch t.Kind() {
 	case types.TARRAY:
 		// An array of pure memory would be handled by the
-		// standard algorithm, so the element type must not be
+		// standard algolangrithm, so the element type must not be
 		// pure memory.
 		hashel := hashfor(t.Elem())
 
@@ -391,7 +391,7 @@ func eqFunc(t *types.Type) *ir.Func {
 	neq := typecheck.AutoLabel(".neq")
 
 	// We reach here only for types that have equality but
-	// cannot be handled by the standard algorithms,
+	// cannot be handled by the standard algolangrithms,
 	// so t must be either an array or a struct.
 	switch t.Kind() {
 	default:
@@ -405,7 +405,7 @@ func eqFunc(t *types.Type) *ir.Func {
 		//
 		// if eq(p[0], q[0]) && eq(p[1], q[1]) && ... {
 		// } else {
-		//   goto neq
+		//   golangto neq
 		// }
 		//
 		// And so on.
@@ -416,12 +416,12 @@ func eqFunc(t *types.Type) *ir.Func {
 		// for i := 0; i < iterateTo; i += unroll {
 		//   if eq(p[i+0], q[i+0]) && eq(p[i+1], q[i+1]) && ... && eq(p[i+unroll-1], q[i+unroll-1]) {
 		//   } else {
-		//     goto neq
+		//     golangto neq
 		//   }
 		// }
 		// if eq(p[iterateTo+0], q[iterateTo+0]) && eq(p[iterateTo+1], q[iterateTo+1]) && ... {
 		// } else {
-		//    goto neq
+		//    golangto neq
 		// }
 		//
 		checkAll := func(unroll int64, last bool, eq func(pi, qi ir.Node) ir.Node) {
@@ -456,10 +456,10 @@ func eqFunc(t *types.Type) *ir.Func {
 
 				// if eq(p[i+0], q[i+0]) && eq(p[i+1], q[i+1]) && ... && eq(p[i+unroll-1], q[i+unroll-1]) {
 				// } else {
-				//   goto neq
+				//   golangto neq
 				// }
 				for j := int64(0); j < unroll; j++ {
-					// if check {} else { goto neq }
+					// if check {} else { golangto neq }
 					nif := ir.NewIfStmt(base.Pos, checkIdx(i), nil, nil)
 					nif.Else.Append(ir.NewBranchStmt(base.Pos, ir.OGOTO, neq))
 					loop.Body.Append(nif)
@@ -484,10 +484,10 @@ func eqFunc(t *types.Type) *ir.Func {
 			}
 			// if eq(p[iterateTo+0], q[iterateTo+0]) && eq(p[iterateTo+1], q[iterateTo+1]) && ... {
 			// } else {
-			//    goto neq
+			//    golangto neq
 			// }
 			for j := iterateTo; j < nelem; j++ {
-				// if check {} else { goto neq }
+				// if check {} else { golangto neq }
 				nif := ir.NewIfStmt(base.Pos, checkIdx(ir.NewInt(base.Pos, j)), nil, nil)
 				nif.Else.Append(ir.NewBranchStmt(base.Pos, ir.OGOTO, neq))
 				fn.Body.Append(nif)
@@ -589,7 +589,7 @@ func eqFunc(t *types.Type) *ir.Func {
 			fn.Body.Append(ir.NewAssignStmt(base.Pos, nr, ir.NewBool(base.Pos, true)))
 		} else {
 			for _, c := range flatConds[:len(flatConds)-1] {
-				// if cond {} else { goto neq }
+				// if cond {} else { golangto neq }
 				n := ir.NewIfStmt(base.Pos, c, nil, nil)
 				n.Else.Append(ir.NewBranchStmt(base.Pos, ir.OGOTO, neq))
 				fn.Body.Append(n)
@@ -606,7 +606,7 @@ func eqFunc(t *types.Type) *ir.Func {
 
 	// neq:
 	//   r = false
-	//   return (or goto ret)
+	//   return (or golangto ret)
 	fn.Body.Append(ir.NewLabelStmt(base.Pos, neq))
 	fn.Body.Append(ir.NewAssignStmt(base.Pos, nr, ir.NewBool(base.Pos, false)))
 	if compare.EqCanPanic(t) || anyCall(fn) {

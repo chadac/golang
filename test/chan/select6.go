@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test for select: Issue 2075
@@ -17,8 +17,8 @@ func main() {
 	c1 := make(chan bool)
 	c2 := make(chan bool)
 	c3 := make(chan bool)
-	go func() { <-c1 }()
-	go func() {
+	golang func() { <-c1 }()
+	golang func() {
 		select {
 		case <-c1:
 			panic("dummy")
@@ -27,7 +27,7 @@ func main() {
 		}
 		<-c1
 	}()
-	go func() { c2 <- true }()
+	golang func() { c2 <- true }()
 	<-c3
 	c1 <- true
 	c1 <- true

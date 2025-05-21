@@ -1,14 +1,14 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build unix || windows
+//golang:build unix || windows
 
 package envcmd
 
 import (
 	"bytes"
-	"cmd/go/internal/cfg"
+	"cmd/golang/internal/cfg"
 	"fmt"
 	"internal/testenv"
 	"os"
@@ -86,7 +86,7 @@ func FuzzPrintEnvEscape(f *testing.F) {
 		}
 
 		if string(out) != want {
-			t.Fatalf("output of running PrintEnv script and echoing variable: got: %q, want: %q",
+			t.Fatalf("output of running PrintEnv script and echoing variable: golangt: %q, want: %q",
 				string(out), want)
 		}
 	})

@@ -1,5 +1,5 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
@@ -24,7 +24,7 @@ var (
 // in kernel ring buffers. In Android-L, those /dev/log files are no longer
 // accessible and logging is done through a centralized user-mode logger, logd.
 //
-// https://android.googlesource.com/platform/system/core/+/refs/tags/android-6.0.1_r78/liblog/logd_write.c
+// https://android.golangoglesource.com/platform/system/core/+/refs/tags/android-6.0.1_r78/liblog/logd_write.c
 type loggerType int32
 
 const (

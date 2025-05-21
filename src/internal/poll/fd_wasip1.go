@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package poll
@@ -62,7 +62,7 @@ func (s *SysFile) destroy(fd int) error {
 	// We don't use ignoringEINTR here because POSIX does not define
 	// whether the descriptor is closed if close returns EINTR.
 	// If the descriptor is indeed closed, using a loop would race
-	// with some other goroutine opening a new descriptor.
+	// with some other golangroutine opening a new descriptor.
 	// (The Linux kernel guarantees that it is closed on an EINTR error.)
 	return CloseFunc(fd)
 }
@@ -152,12 +152,12 @@ func (fd *FD) ReadDirent(buf []byte) (int, error) {
 	}
 
 	// Trim a potentially incomplete trailing entry; this is necessary because
-	// the code in src/os/dir_unix.go does not deal well with partial values in
+	// the code in src/os/dir_unix.golang does not deal well with partial values in
 	// calls to direntReclen, etc... and ends up causing an early EOF before all
 	// directory entries were consumed. ReadDirent is called with a large enough
 	// buffer (8 KiB) that at least one entry should always fit, tho this seems
 	// a bit brittle but cannot be addressed without a large change of the
-	// algorithm in the os.(*File).readdir method.
+	// algolangrithm in the os.(*File).readdir method.
 	return n - len(b), nil
 }
 

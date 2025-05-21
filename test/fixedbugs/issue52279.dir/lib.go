@@ -2,7 +2,7 @@ package lib
 
 type FMap[K comparable, V comparable] map[K]V
 
-//go:noinline
+//golang:noinline
 func (m FMap[K, V]) Flip() FMap[V, K] {
 	out := make(FMap[V, K])
 	return out

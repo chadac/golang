@@ -1,8 +1,8 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// SHA512 hash algorithm. See FIPS 180-4.
+// SHA512 hash algolangrithm. See FIPS 180-4.
 
 package sha512
 
@@ -23,7 +23,7 @@ type sha512Test struct {
 	halfState string // marshaled hash state after first half of in written, used by TestGoldenMarshal
 }
 
-var golden224 = []sha512Test{
+var golanglden224 = []sha512Test{
 	{
 		"6ed0dd02806fa89e25de060c19d3ac86cabb87d6a0ddd05c333b84f4",
 		"",
@@ -111,7 +111,7 @@ var golden224 = []sha512Test{
 	},
 	{
 		"7f62f36e716e0badaf4a4658da9d09bea26357a1bc6aeb8cf7c3ae35",
-		"For every action there is an equal and opposite government program.",
+		"For every action there is an equal and opposite golangvernment program.",
 		"sha\x05\x8c=7\xc8\x19TM\xa2s\xe1\x99f\x89\xdc\xd4\xd6\x1d\xfa\xb7\xae2\xff\x9c\x82g\x9d\xd5\x14X/\x9f\xcf\x0fm+i{\xd4M\xa8w\xe3os\x04ĉB?\x9d\x85\xa8j\x1d6\xc8\x11\x12歑֒\xa1For every action there is an equa\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00!",
 	},
 	{
@@ -181,7 +181,7 @@ var golden224 = []sha512Test{
 	},
 }
 
-var golden256 = []sha512Test{
+var golanglden256 = []sha512Test{
 	{
 		"c672b8d1ef56ed28ab87c3622c5114069bdd3ad7b8f9737498d0c01ecef0967a",
 		"",
@@ -269,7 +269,7 @@ var golden256 = []sha512Test{
 	},
 	{
 		"08241df8d91edfcd68bb1a1dada6e0ae1475a5c6e7b8f12d8e24ca43a38240a9",
-		"For every action there is an equal and opposite government program.",
+		"For every action there is an equal and opposite golangvernment program.",
 		"sha\x06\"1!\x94\xfc+\xf7,\x9fU_\xa3\xc8Ld\xc2#\x93\xb8koS\xb1Q\x968w\x19Y@꽖(>⨎\xff\xe3\xbe^\x1e%S\x869\x92+\x01\x99\xfc,\x85\xb8\xaa\x0e\xb7-܁\xc5,\xa2For every action there is an equa\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00!",
 	},
 	{
@@ -339,7 +339,7 @@ var golden256 = []sha512Test{
 	},
 }
 
-var golden384 = []sha512Test{
+var golanglden384 = []sha512Test{
 	{
 		"38b060a751ac96384cd9327eb1b1e36a21fdb71114be07434c0cc7bf63f6e1da274edebfe76f65fbd51ad2f14898b95b",
 		"",
@@ -427,7 +427,7 @@ var golden384 = []sha512Test{
 	},
 	{
 		"5026ca45c41fc64712eb65065da92f6467541c78f8966d3fe2c8e3fb769a3ec14215f819654b47bd64f7f0eac17184f3",
-		"For every action there is an equal and opposite government program.",
+		"For every action there is an equal and opposite golangvernment program.",
 		"sha\x04˻\x9d]\xc1\x05\x9e\xd8b\x9a)*6|\xd5\a\x91Y\x01Z0p\xdd\x17\x15/\xec\xd8\xf7\x0eY9g3&g\xff\xc0\v1\x8e\xb4J\x87hX\x15\x11\xdb\f.\rd\xf9\x8f\xa7G\xb5H\x1d\xbe\xfaO\xa4For every action there is an equa\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00!",
 	},
 	{
@@ -497,7 +497,7 @@ var golden384 = []sha512Test{
 	},
 }
 
-var golden512 = []sha512Test{
+var golanglden512 = []sha512Test{
 	{
 		"cf83e1357eefb8bdf1542850d66d8007d620e4050b5715dc83f4a921d36ce9ce47d0d13c5d85f2b0ff8318d2877eec2f63b931bd47417a81a538327af927da3e",
 		"",
@@ -585,7 +585,7 @@ var golden512 = []sha512Test{
 	},
 	{
 		"d926a863beadb20134db07683535c72007b0e695045876254f341ddcccde132a908c5af57baa6a6a9c63e6649bba0c213dc05fadcf9abccea09f23dcfb637fbe",
-		"For every action there is an equal and opposite government program.",
+		"For every action there is an equal and opposite golangvernment program.",
 		"sha\aj\t\xe6g\xf3\xbc\xc9\b\xbbg\xae\x85\x84ʧ;<n\xf3r\xfe\x94\xf8+\xa5O\xf5:_\x1d6\xf1Q\x0eR\u007f\xad\xe6\x82ћ\x05h\x8c+>l\x1f\x1f\x83٫\xfbA\xbdk[\xe0\xcd\x19\x13~!yFor every action there is an equa\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00!",
 	},
 	{
@@ -688,35 +688,35 @@ func testGolden(t *testing.T) {
 		name        string
 		oneShotHash func(in []byte) []byte
 		digest      hash.Hash
-		golden      []sha512Test
+		golanglden      []sha512Test
 	}{
 		{
 			"SHA512/224",
 			func(in []byte) []byte { a := Sum512_224(in); return a[:] },
 			New512_224(),
-			golden224,
+			golanglden224,
 		},
 		{
 			"SHA512/256",
 			func(in []byte) []byte { a := Sum512_256(in); return a[:] },
 			New512_256(),
-			golden256,
+			golanglden256,
 		},
 		{
 			"SHA384",
 			func(in []byte) []byte { a := Sum384(in); return a[:] },
 			New384(),
-			golden384,
+			golanglden384,
 		},
 		{
 			"SHA512",
 			func(in []byte) []byte { a := Sum512(in); return a[:] },
 			New(),
-			golden512,
+			golanglden512,
 		},
 	}
 	for _, tt := range tests {
-		for _, test := range tt.golden {
+		for _, test := range tt.golanglden {
 			in := []byte(test.in)
 			testHash(t, tt.name, test.in, test.out, tt.oneShotHash(in), tt.digest)
 		}
@@ -733,17 +733,17 @@ func testGoldenMarshal(t *testing.T) {
 	tests := []struct {
 		name    string
 		newHash func() hash.Hash
-		golden  []sha512Test
+		golanglden  []sha512Test
 	}{
-		{"512/224", New512_224, golden224},
-		{"512/256", New512_256, golden256},
-		{"384", New384, golden384},
-		{"512", New, golden512},
+		{"512/224", New512_224, golanglden224},
+		{"512/256", New512_256, golanglden256},
+		{"384", New384, golanglden384},
+		{"512", New, golanglden512},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			for _, test := range tt.golden {
+			for _, test := range tt.golanglden {
 				h := tt.newHash()
 				h2 := tt.newHash()
 
@@ -812,7 +812,7 @@ func TestMarshalMismatch(t *testing.T) {
 			}
 
 			if err := h2.(encoding.BinaryUnmarshaler).UnmarshalBinary(state); err == nil {
-				t.Errorf("i=%d, j=%d: got no error, expected one: %v", i, j, err)
+				t.Errorf("i=%d, j=%d: golangt no error, expected one: %v", i, j, err)
 			}
 		}
 	}
@@ -820,27 +820,27 @@ func TestMarshalMismatch(t *testing.T) {
 
 func TestSize(t *testing.T) {
 	c := New()
-	if got := c.Size(); got != Size {
-		t.Errorf("Size = %d; want %d", got, Size)
+	if golangt := c.Size(); golangt != Size {
+		t.Errorf("Size = %d; want %d", golangt, Size)
 	}
 	c = New384()
-	if got := c.Size(); got != Size384 {
-		t.Errorf("New384.Size = %d; want %d", got, Size384)
+	if golangt := c.Size(); golangt != Size384 {
+		t.Errorf("New384.Size = %d; want %d", golangt, Size384)
 	}
 	c = New512_224()
-	if got := c.Size(); got != Size224 {
-		t.Errorf("New512224.Size = %d; want %d", got, Size224)
+	if golangt := c.Size(); golangt != Size224 {
+		t.Errorf("New512224.Size = %d; want %d", golangt, Size224)
 	}
 	c = New512_256()
-	if got := c.Size(); got != Size256 {
-		t.Errorf("New512256.Size = %d; want %d", got, Size256)
+	if golangt := c.Size(); golangt != Size256 {
+		t.Errorf("New512256.Size = %d; want %d", golangt, Size256)
 	}
 }
 
 func TestBlockSize(t *testing.T) {
 	c := New()
-	if got := c.BlockSize(); got != BlockSize {
-		t.Errorf("BlockSize = %d; want %d", got, BlockSize)
+	if golangt := c.BlockSize(); golangt != BlockSize {
+		t.Errorf("BlockSize = %d; want %d", golangt, BlockSize)
 	}
 }
 
@@ -895,7 +895,7 @@ func TestLargeHashes(t *testing.T) {
 		}
 
 		if fmt.Sprintf("%x", sum) != test.sum {
-			t.Errorf("test %d sum mismatch: expect %s got %x", i, test.sum, sum)
+			t.Errorf("test %d sum mismatch: expect %s golangt %x", i, test.sum, sum)
 		}
 	}
 }

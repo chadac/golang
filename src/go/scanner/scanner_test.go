@@ -1,12 +1,12 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package scanner
 
 import (
 	"fmt"
-	"go/token"
+	"golang/token"
 	"os"
 	"path/filepath"
 	"runtime"
@@ -167,8 +167,8 @@ var tokens = []elt{
 	{token.FOR, "for", keyword},
 
 	{token.FUNC, "func", keyword},
-	{token.GO, "go", keyword},
-	{token.GOTO, "goto", keyword},
+	{token.GO, "golang", keyword},
+	{token.GOTO, "golangto", keyword},
 	{token.IF, "if", keyword},
 	{token.IMPORT, "import", keyword},
 
@@ -211,16 +211,16 @@ func checkPos(t *testing.T, lit string, p token.Pos, expected token.Position) {
 	// Check cleaned filenames so that we don't have to worry about
 	// different os.PathSeparator values.
 	if pos.Filename != expected.Filename && filepath.Clean(pos.Filename) != filepath.Clean(expected.Filename) {
-		t.Errorf("bad filename for %q: got %s, expected %s", lit, pos.Filename, expected.Filename)
+		t.Errorf("bad filename for %q: golangt %s, expected %s", lit, pos.Filename, expected.Filename)
 	}
 	if pos.Offset != expected.Offset {
-		t.Errorf("bad position for %q: got %d, expected %d", lit, pos.Offset, expected.Offset)
+		t.Errorf("bad position for %q: golangt %d, expected %d", lit, pos.Offset, expected.Offset)
 	}
 	if pos.Line != expected.Line {
-		t.Errorf("bad line for %q: got %d, expected %d", lit, pos.Line, expected.Line)
+		t.Errorf("bad line for %q: golangt %d, expected %d", lit, pos.Line, expected.Line)
 	}
 	if pos.Column != expected.Column {
-		t.Errorf("bad column for %q: got %d, expected %d", lit, pos.Column, expected.Column)
+		t.Errorf("bad column for %q: golangt %d, expected %d", lit, pos.Column, expected.Column)
 	}
 }
 
@@ -264,12 +264,12 @@ func TestScan(t *testing.T) {
 			index++
 		}
 		if tok != e.tok {
-			t.Errorf("bad token for %q: got %s, expected %s", lit, tok, e.tok)
+			t.Errorf("bad token for %q: golangt %s, expected %s", lit, tok, e.tok)
 		}
 
 		// check token class
 		if tokenclass(tok) != e.class {
-			t.Errorf("bad class for %q: got %d, expected %d", lit, tokenclass(tok), e.class)
+			t.Errorf("bad class for %q: golangt %d, expected %d", lit, tokenclass(tok), e.class)
 		}
 
 		// check literal
@@ -298,7 +298,7 @@ func TestScan(t *testing.T) {
 			}
 		}
 		if lit != elit {
-			t.Errorf("bad literal for %q: got %q, expected %q", lit, lit, elit)
+			t.Errorf("bad literal for %q: golangt %q, expected %q", lit, lit, elit)
 		}
 
 		if tok == token.EOF {
@@ -329,9 +329,9 @@ func TestStripCR(t *testing.T) {
 		{"/*\r/\r*\r/*/", "/*/*\r/*/"},
 		{"/*\r\r\r\r*/", "/**/"},
 	} {
-		got := string(stripCR([]byte(test.have), len(test.have) >= 2 && test.have[1] == '*'))
-		if got != test.want {
-			t.Errorf("stripCR(%q) = %q; want %q", test.have, got, test.want)
+		golangt := string(stripCR([]byte(test.have), len(test.have) >= 2 && test.have[1] == '*'))
+		if golangt != test.want {
+			t.Errorf("stripCR(%q) = %q; want %q", test.have, golangt, test.want)
 		}
 	}
 }
@@ -357,14 +357,14 @@ func checkSemi(t *testing.T, input, want string, mode Mode) {
 			// assert that position is EOF or that of a newline.
 			off := file.Offset(pos)
 			if off != len(input) && input[off] != '\n' {
-				t.Errorf("scanning <<%s>>, got SEMICOLON at offset %d, want newline or EOF", input, off)
+				t.Errorf("scanning <<%s>>, golangt SEMICOLON at offset %d, want newline or EOF", input, off)
 			}
 		}
 		lit = tok.String() // "\n" => ";"
 		tokens = append(tokens, lit)
 	}
-	if got := strings.Join(tokens, " "); got != want {
-		t.Errorf("scanning <<%s>>, got [%s], want [%s]", input, got, want)
+	if golangt := strings.Join(tokens, " "); golangt != want {
+		t.Errorf("scanning <<%s>>, golangt [%s], want [%s]", input, golangt, want)
 	}
 }
 
@@ -448,8 +448,8 @@ var semicolonTests = [...]struct{ input, want string }{
 	{"for\n", "for"},
 
 	{"func\n", "func"},
-	{"go\n", "go"},
-	{"goto\n", "goto"},
+	{"golang\n", "golang"},
+	{"golangto\n", "golangto"},
 	{"if\n", "if"},
 	{"import\n", "import"},
 
@@ -515,19 +515,19 @@ var segments = []segment{
 	// exactly one token per line since the test consumes one token per segment
 	{"  line1", "TestLineDirectives", 1, 3},
 	{"\nline2", "TestLineDirectives", 2, 1},
-	{"\nline3  //line File1.go:100", "TestLineDirectives", 3, 1}, // bad line comment, ignored
+	{"\nline3  //line File1.golang:100", "TestLineDirectives", 3, 1}, // bad line comment, ignored
 	{"\nline4", "TestLineDirectives", 4, 1},
-	{"\n//line File1.go:100\n  line100", "File1.go", 100, 0},
+	{"\n//line File1.golang:100\n  line100", "File1.golang", 100, 0},
 	{"\n//line  \t :42\n  line1", " \t ", 42, 0},
-	{"\n//line File2.go:200\n  line200", "File2.go", 200, 0},
+	{"\n//line File2.golang:200\n  line200", "File2.golang", 200, 0},
 	{"\n//line foo\t:42\n  line42", "foo\t", 42, 0},
 	{"\n //line foo:42\n  line43", "foo\t", 44, 0}, // bad line comment, ignored (use existing, prior filename)
 	{"\n//line foo 42\n  line44", "foo\t", 46, 0},  // bad line comment, ignored (use existing, prior filename)
 	{"\n//line /bar:42\n  line45", "/bar", 42, 0},
 	{"\n//line ./foo:42\n  line46", "foo", 42, 0},
-	{"\n//line a/b/c/File1.go:100\n  line100", "a/b/c/File1.go", 100, 0},
+	{"\n//line a/b/c/File1.golang:100\n  line100", "a/b/c/File1.golang", 100, 0},
 	{"\n//line c:\\bar:42\n  line200", "c:\\bar", 42, 0},
-	{"\n//line c:\\dir\\File1.go:100\n  line201", "c:\\dir\\File1.go", 100, 0},
+	{"\n//line c:\\dir\\File1.golang:100\n  line201", "c:\\dir\\File1.golang", 100, 0},
 
 	// tests for new line directive syntax
 	{"\n//line :100\na1", "", 100, 0}, // missing filename means empty filename
@@ -546,7 +546,7 @@ var segments = []segment{
 var dirsegments = []segment{
 	// exactly one token per line since the test consumes one token per segment
 	{"  line1", "TestLineDir/TestLineDirectives", 1, 3},
-	{"\n//line File1.go:100\n  line100", "TestLineDir/File1.go", 100, 0},
+	{"\n//line File1.golang:100\n  line100", "TestLineDir/File1.golang", 100, 0},
 }
 
 var dirUnixSegments = []segment{
@@ -590,7 +590,7 @@ func testSegments(t *testing.T, segments []segment, filename string) {
 	}
 
 	if S.ErrorCount != 0 {
-		t.Errorf("got %d errors", S.ErrorCount)
+		t.Errorf("golangt %d errors", S.ErrorCount)
 	}
 }
 
@@ -618,10 +618,10 @@ func TestInvalidLineDirectives(t *testing.T) {
 	file := fset.AddFile(filepath.Join("dir", "TestInvalidLineDirectives"), fset.Base(), len(src))
 	S.Init(file, []byte(src), func(pos token.Position, msg string) {
 		if msg != s.filename {
-			t.Errorf("got error %q; want %q", msg, s.filename)
+			t.Errorf("golangt error %q; want %q", msg, s.filename)
 		}
 		if pos.Line != s.line || pos.Column != s.column {
-			t.Errorf("got position %d:%d; want %d:%d", pos.Line, pos.Column, s.line, s.column)
+			t.Errorf("golangt position %d:%d; want %d:%d", pos.Line, pos.Column, s.line, s.column)
 		}
 	}, dontInsertSemis)
 	for _, s = range invalidSegments {
@@ -629,7 +629,7 @@ func TestInvalidLineDirectives(t *testing.T) {
 	}
 
 	if S.ErrorCount != len(invalidSegments) {
-		t.Errorf("got %d errors; want %d", S.ErrorCount, len(invalidSegments))
+		t.Errorf("golangt %d errors; want %d", S.ErrorCount, len(invalidSegments))
 	}
 }
 
@@ -642,25 +642,25 @@ func TestInit(t *testing.T) {
 	f1 := fset.AddFile("src1", fset.Base(), len(src1))
 	s.Init(f1, []byte(src1), nil, dontInsertSemis)
 	if f1.Size() != len(src1) {
-		t.Errorf("bad file size: got %d, expected %d", f1.Size(), len(src1))
+		t.Errorf("bad file size: golangt %d, expected %d", f1.Size(), len(src1))
 	}
 	s.Scan()              // if
 	s.Scan()              // true
 	_, tok, _ := s.Scan() // {
 	if tok != token.LBRACE {
-		t.Errorf("bad token: got %s, expected %s", tok, token.LBRACE)
+		t.Errorf("bad token: golangt %s, expected %s", tok, token.LBRACE)
 	}
 
 	// 2nd init
-	src2 := "go true { ]"
+	src2 := "golang true { ]"
 	f2 := fset.AddFile("src2", fset.Base(), len(src2))
 	s.Init(f2, []byte(src2), nil, dontInsertSemis)
 	if f2.Size() != len(src2) {
-		t.Errorf("bad file size: got %d, expected %d", f2.Size(), len(src2))
+		t.Errorf("bad file size: golangt %d, expected %d", f2.Size(), len(src2))
 	}
-	_, tok, _ = s.Scan() // go
+	_, tok, _ = s.Scan() // golang
 	if tok != token.GO {
-		t.Errorf("bad token: got %s, expected %s", tok, token.GO)
+		t.Errorf("bad token: golangt %s, expected %s", tok, token.GO)
 	}
 
 	if s.ErrorCount != 0 {
@@ -728,23 +728,23 @@ func checkError(t *testing.T, src string, tok token.Token, pos int, lit, err str
 	s.Init(fset.AddFile("", fset.Base(), len(src)), []byte(src), eh, ScanComments|dontInsertSemis)
 	_, tok0, lit0 := s.Scan()
 	if tok0 != tok {
-		t.Errorf("%q: got %s, expected %s", src, tok0, tok)
+		t.Errorf("%q: golangt %s, expected %s", src, tok0, tok)
 	}
 	if tok0 != token.ILLEGAL && lit0 != lit {
-		t.Errorf("%q: got literal %q, expected %q", src, lit0, lit)
+		t.Errorf("%q: golangt literal %q, expected %q", src, lit0, lit)
 	}
 	cnt := 0
 	if err != "" {
 		cnt = 1
 	}
 	if h.cnt != cnt {
-		t.Errorf("%q: got cnt %d, expected %d", src, h.cnt, cnt)
+		t.Errorf("%q: golangt cnt %d, expected %d", src, h.cnt, cnt)
 	}
 	if h.msg != err {
-		t.Errorf("%q: got msg %q, expected %q", src, h.msg, err)
+		t.Errorf("%q: golangt msg %q, expected %q", src, h.msg, err)
 	}
 	if h.pos.Offset != pos {
-		t.Errorf("%q: got offset %d, expected %d", src, h.pos.Offset, pos)
+		t.Errorf("%q: golangt offset %d, expected %d", src, h.pos.Offset, pos)
 	}
 }
 
@@ -831,9 +831,9 @@ func TestUTF16(t *testing.T) {
 		"\xfe\xff\x00p\x00a\x00c\x00k\x00a\x00g\x00e\x00 \x00p", // BOM + "package p" encoded as UTF-16 BE
 		"\xff\xfep\x00a\x00c\x00k\x00a\x00g\x00e\x00 \x00p\x00", // BOM + "package p" encoded as UTF-16 LE
 	} {
-		var got []string
+		var golangt []string
 		eh := func(posn token.Position, msg string) {
-			got = append(got, fmt.Sprintf("#%d: %s", posn.Offset, msg))
+			golangt = append(golangt, fmt.Sprintf("#%d: %s", posn.Offset, msg))
 		}
 		var sc Scanner
 		sc.Init(fset.AddFile("", fset.Base(), len(src)), []byte(src), eh, 0)
@@ -842,11 +842,11 @@ func TestUTF16(t *testing.T) {
 		// We expect two errors:
 		// one from the decoder, one from the scanner.
 		want := []string{
-			"#0: illegal UTF-8 encoding (got UTF-16)",
+			"#0: illegal UTF-8 encoding (golangt UTF-16)",
 			"#0: illegal character U+FFFD '�'",
 		}
-		if !slices.Equal(got, want) {
-			t.Errorf("Scan(%q) returned errors %q, want %q", src, got, want)
+		if !slices.Equal(golangt, want) {
+			t.Errorf("Scan(%q) returned errors %q, want %q", src, golangt, want)
 		}
 	}
 }
@@ -892,13 +892,13 @@ func TestIssue28112(t *testing.T) {
 	var s Scanner
 	s.Init(fset.AddFile("", fset.Base(), len(src)), []byte(src), nil, 0)
 	for _, want := range tokens {
-		pos, got, lit := s.Scan()
-		if got != want {
-			t.Errorf("%s: got %s, want %s", fset.Position(pos), got, want)
+		pos, golangt, lit := s.Scan()
+		if golangt != want {
+			t.Errorf("%s: golangt %s, want %s", fset.Position(pos), golangt, want)
 		}
 		// literals expect to have a (non-empty) literal string and we don't care about other tokens for this test
-		if tokenclass(got) == literal && lit == "" {
-			t.Errorf("%s: for %s got empty literal string", fset.Position(pos), got)
+		if tokenclass(golangt) == literal && lit == "" {
+			t.Errorf("%s: for %s golangt empty literal string", fset.Position(pos), golangt)
 		}
 	}
 }
@@ -924,10 +924,10 @@ func BenchmarkScanFiles(b *testing.B) {
 	// Scan a few arbitrary large files, and one small one, to provide some
 	// variety in benchmarks.
 	for _, p := range []string{
-		"go/types/expr.go",
-		"go/parser/parser.go",
-		"net/http/server.go",
-		"go/scanner/errors.go",
+		"golang/types/expr.golang",
+		"golang/parser/parser.golang",
+		"net/http/server.golang",
+		"golang/scanner/errors.golang",
 	} {
 		b.Run(p, func(b *testing.B) {
 			b.StopTimer()
@@ -1131,15 +1131,15 @@ func TestNumbers(t *testing.T) {
 
 			if i == 0 {
 				if tok != test.tok {
-					t.Errorf("%q: got token %s; want %s", test.src, tok, test.tok)
+					t.Errorf("%q: golangt token %s; want %s", test.src, tok, test.tok)
 				}
 				if err != test.err {
-					t.Errorf("%q: got error %q; want %q", test.src, err, test.err)
+					t.Errorf("%q: golangt error %q; want %q", test.src, err, test.err)
 				}
 			}
 
 			if lit != want {
-				t.Errorf("%q: got literal %q (%s); want %s", test.src, lit, tok, want)
+				t.Errorf("%q: golangt literal %q (%s); want %s", test.src, lit, tok, want)
 			}
 		}
 
@@ -1149,7 +1149,7 @@ func TestNumbers(t *testing.T) {
 			_, tok, _ = s.Scan()
 		}
 		if tok != token.EOF {
-			t.Errorf("%q: got %s; want EOF", test.src, tok)
+			t.Errorf("%q: golangt %s; want EOF", test.src, tok)
 		}
 	}
 }

@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package subtle_test
@@ -41,29 +41,29 @@ func TestXORBytes(t *testing.T) {
 					if nn := XORBytes(d[alignD:], p, q); !bytes.Equal(d, want) {
 						t.Errorf("n=%d alignP=%d alignQ=%d alignD=%d:\n\tp = %x\n\tq = %x\n\td = %x\n\twant %x\n", n, alignP, alignQ, alignD, p, q, d, want)
 					} else if nn != n {
-						t.Errorf("n=%d alignP=%d alignQ=%d alignD=%d: got %d, want %d", n, alignP, alignQ, alignD, nn, n)
+						t.Errorf("n=%d alignP=%d alignQ=%d alignD=%d: golangt %d, want %d", n, alignP, alignQ, alignD, nn, n)
 					}
 					p1 := bytes.Clone(p)
 					if nn := XORBytes(p, p, q); !bytes.Equal(p, want[alignD:alignD+n]) {
 						t.Errorf("n=%d alignP=%d alignQ=%d alignD=%d:\n\tp = %x\n\tq = %x\n\td = %x\n\twant %x\n", n, alignP, alignQ, alignD, p, q, d, want)
 					} else if nn != n {
-						t.Errorf("n=%d alignP=%d alignQ=%d alignD=%d: got %d, want %d", n, alignP, alignQ, alignD, nn, n)
+						t.Errorf("n=%d alignP=%d alignQ=%d alignD=%d: golangt %d, want %d", n, alignP, alignQ, alignD, nn, n)
 					}
 					if nn := XORBytes(q, p1, q); !bytes.Equal(q, want[alignD:alignD+n]) {
 						t.Errorf("n=%d alignP=%d alignQ=%d alignD=%d:\n\tp = %x\n\tq = %x\n\td = %x\n\twant %x\n", n, alignP, alignQ, alignD, p, q, d, want)
 					} else if nn != n {
-						t.Errorf("n=%d alignP=%d alignQ=%d alignD=%d: got %d, want %d", n, alignP, alignQ, alignD, nn, n)
+						t.Errorf("n=%d alignP=%d alignQ=%d alignD=%d: golangt %d, want %d", n, alignP, alignQ, alignD, nn, n)
 					}
 
 					if nn := XORBytes(p, p, p); !bytes.Equal(p, make([]byte, n)) {
-						t.Errorf("n=%d alignP=%d alignQ=%d alignD=%d: got %x, want %x", n, alignP, alignQ, alignD, p, make([]byte, n))
+						t.Errorf("n=%d alignP=%d alignQ=%d alignD=%d: golangt %x, want %x", n, alignP, alignQ, alignD, p, make([]byte, n))
 					} else if nn != n {
-						t.Errorf("n=%d alignP=%d alignQ=%d alignD=%d: got %d, want %d", n, alignP, alignQ, alignD, nn, n)
+						t.Errorf("n=%d alignP=%d alignQ=%d alignD=%d: golangt %d, want %d", n, alignP, alignQ, alignD, nn, n)
 					}
 					if nn := XORBytes(p1, q, q); !bytes.Equal(p1, make([]byte, n)) {
-						t.Errorf("n=%d alignP=%d alignQ=%d alignD=%d: got %x, want %x", n, alignP, alignQ, alignD, p1, make([]byte, n))
+						t.Errorf("n=%d alignP=%d alignQ=%d alignD=%d: golangt %x, want %x", n, alignP, alignQ, alignD, p1, make([]byte, n))
 					} else if nn != n {
-						t.Errorf("n=%d alignP=%d alignQ=%d alignD=%d: got %d, want %d", n, alignP, alignQ, alignD, nn, n)
+						t.Errorf("n=%d alignP=%d alignQ=%d alignD=%d: golangt %d, want %d", n, alignP, alignQ, alignD, nn, n)
 					}
 				}
 			}
@@ -134,10 +134,10 @@ func mustPanic(t *testing.T, expected string, f func()) {
 			t.Errorf("expected panic(%q), but did not panic", expected)
 		case string:
 			if msg != expected {
-				t.Errorf("expected panic(%q), but got panic(%q)", expected, msg)
+				t.Errorf("expected panic(%q), but golangt panic(%q)", expected, msg)
 			}
 		default:
-			t.Errorf("expected panic(%q), but got panic(%T%v)", expected, msg, msg)
+			t.Errorf("expected panic(%q), but golangt panic(%T%v)", expected, msg, msg)
 		}
 	}()
 	f()

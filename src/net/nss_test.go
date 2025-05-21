@@ -1,8 +1,8 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build darwin || dragonfly || freebsd || linux || netbsd || openbsd || solaris
+//golang:build darwin || dragolangnfly || freebsd || linux || netbsd || openbsd || solaris
 
 package net
 
@@ -163,10 +163,10 @@ func TestParseNSSConf(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		gotConf := nssStr(t, tt.in)
-		gotConf.mtime = time.Time{} // ignore mtime in comparison
-		if !reflect.DeepEqual(gotConf, tt.want) {
-			t.Errorf("%s: mismatch\n got %#v\nwant %#v", tt.name, gotConf, tt.want)
+		golangtConf := nssStr(t, tt.in)
+		golangtConf.mtime = time.Time{} // ignore mtime in comparison
+		if !reflect.DeepEqual(golangtConf, tt.want) {
+			t.Errorf("%s: mismatch\n golangt %#v\nwant %#v", tt.name, golangtConf, tt.want)
 		}
 	}
 }

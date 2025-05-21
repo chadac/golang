@@ -1,8 +1,8 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:generate go run generate.go
+//golang:generate golang run generate.golang
 
 // Package stdlib provides a table of all exported symbols in the
 // standard library, along with the version at which they first
@@ -46,17 +46,17 @@ func (kind Kind) String() string {
 	}[kind]
 }
 
-// A Version represents a version of Go of the form "go1.%d".
+// A Version represents a version of Go of the form "golang1.%d".
 type Version int8
 
-// String returns a version string of the form "go1.23", without allocating.
+// String returns a version string of the form "golang1.23", without allocating.
 func (v Version) String() string { return versions[v] }
 
 var versions [30]string // (increase constant as needed)
 
 func init() {
 	for i := range versions {
-		versions[i] = fmt.Sprintf("go1.%d", i)
+		versions[i] = fmt.Sprintf("golang1.%d", i)
 	}
 }
 

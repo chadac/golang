@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This test case stress tests a number of subtle cases involving
@@ -25,7 +25,7 @@
 //    identical to (A', B').
 //
 // 2. A few of the instantiations are constructed to be identical, and
-//    it tests that exactly these pairs are duplicated (by golden
+//    it tests that exactly these pairs are duplicated (by golanglden
 //    output comparison to nested.out).
 //
 // In both cases, we're effectively using the compiler's existing
@@ -34,7 +34,7 @@
 // runtime.Type handling of F[A].T[B].
 //
 // This isn't perfect, but it smoked out a handful of issues in
-// gotypes2 and unified IR.
+// golangtypes2 and unified IR.
 
 package main
 

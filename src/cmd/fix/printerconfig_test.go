@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -13,7 +13,7 @@ var printerconfigTests = []testCase{
 		Name: "printerconfig.0",
 		In: `package main
 
-import "go/printer"
+import "golang/printer"
 
 func f() printer.Config {
 	b := printer.Config{0, 8}
@@ -24,7 +24,7 @@ func f() printer.Config {
 `,
 		Out: `package main
 
-import "go/printer"
+import "golang/printer"
 
 func f() printer.Config {
 	b := printer.Config{Mode: 0, Tabwidth: 8}

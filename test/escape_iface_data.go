@@ -1,7 +1,7 @@
 // errorcheck -0 -d=escapedebug=1
 
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test the data word used for interface conversions
@@ -270,7 +270,7 @@ func debugf(format string, args ...interface{}) {
 	}
 }
 
-//go:noinline
+//golang:noinline
 func debugf2(format string, args ...interface{}) {
 	if enabled {
 		Printf(format, args...)
@@ -287,7 +287,7 @@ func f2() {
 	debugf2("hello %d", v) // ERROR "using global for interface value"
 }
 
-//go:noinline
+//golang:noinline
 func f3(i int) {
 	debugf("hello %d", i)
 }

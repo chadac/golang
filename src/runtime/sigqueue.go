@@ -1,12 +1,12 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file implements runtime support for signal handling.
 //
 // Most synchronization primitives are not available from
 // the signal handler (it cannot block, allocate memory, or use locks)
-// so the handler communicates with a processing goroutine
+// so the handler communicates with a processing golangroutine
 // via struct sig, below.
 //
 // sigsend is called by the signal handler to queue a new signal.
@@ -28,23 +28,23 @@
 // unnecessary rechecks of sig.mask, but it cannot lead to missed signals
 // nor deadlocks.
 
-//go:build !plan9
+//golang:build !plan9
 
 package runtime
 
 import (
 	"internal/runtime/atomic"
-	_ "unsafe" // for go:linkname
+	_ "unsafe" // for golang:linkname
 )
 
 // sig handles communication between the signal handler and os/signal.
 // Other than the inuse and recv fields, the fields are accessed atomically.
 //
-// The wanted and ignored fields are only written by one goroutine at
+// The wanted and ignored fields are only written by one golangroutine at
 // a time; access is controlled by the handlers Mutex in os/signal.
-// The fields are only read by that one goroutine and by the signal handler.
+// The fields are only read by that one golangroutine and by the signal handler.
 // We access them atomically to minimize the race between setting them
-// in the goroutine calling os/signal and the signal handler,
+// in the golangroutine calling os/signal and the signal handler,
 // which may be running in a different thread. That race is unavoidable,
 // as there is no connection between handling a signal and receiving one,
 // but atomic instructions should minimize it.
@@ -82,7 +82,7 @@ func sigsend(s uint32) bool {
 		return false
 	}
 
-	// Add signal to outgoing queue.
+	// Add signal to outgolanging queue.
 	for {
 		mask := sig.mask[s/32]
 		if mask&bit != 0 {
@@ -124,9 +124,9 @@ Send:
 }
 
 // Called to receive the next queued signal.
-// Must only be called from a single goroutine at a time.
+// Must only be called from a single golangroutine at a time.
 //
-//go:linkname signal_recv os/signal.signal_recv
+//golang:linkname signal_recv os/signal.signal_recv
 func signal_recv() uint32 {
 	for {
 		// Serve any signals from local copy.
@@ -175,7 +175,7 @@ func signal_recv() uint32 {
 // that all the signals have been delivered to the user channels
 // by the os/signal package.
 //
-//go:linkname signalWaitUntilIdle os/signal.signalWaitUntilIdle
+//golang:linkname signalWaitUntilIdle os/signal.signalWaitUntilIdle
 func signalWaitUntilIdle() {
 	// Although the signals we care about have been removed from
 	// sig.wanted, it is possible that another thread has received
@@ -194,9 +194,9 @@ func signalWaitUntilIdle() {
 	}
 }
 
-// Must only be called from a single goroutine at a time.
+// Must only be called from a single golangroutine at a time.
 //
-//go:linkname signal_enable os/signal.signal_enable
+//golang:linkname signal_enable os/signal.signal_enable
 func signal_enable(s uint32) {
 	if !sig.inuse {
 		// This is the first call to signal_enable. Initialize.
@@ -223,9 +223,9 @@ func signal_enable(s uint32) {
 	sigenable(s)
 }
 
-// Must only be called from a single goroutine at a time.
+// Must only be called from a single golangroutine at a time.
 //
-//go:linkname signal_disable os/signal.signal_disable
+//golang:linkname signal_disable os/signal.signal_disable
 func signal_disable(s uint32) {
 	if s >= uint32(len(sig.wanted)*32) {
 		return
@@ -237,9 +237,9 @@ func signal_disable(s uint32) {
 	atomic.Store(&sig.wanted[s/32], w)
 }
 
-// Must only be called from a single goroutine at a time.
+// Must only be called from a single golangroutine at a time.
 //
-//go:linkname signal_ignore os/signal.signal_ignore
+//golang:linkname signal_ignore os/signal.signal_ignore
 func signal_ignore(s uint32) {
 	if s >= uint32(len(sig.wanted)*32) {
 		return
@@ -259,7 +259,7 @@ func signal_ignore(s uint32) {
 // program start by initsig. In a shared library initsig is called by
 // libpreinit, so the runtime may not be initialized yet.
 //
-//go:nosplit
+//golang:nosplit
 func sigInitIgnored(s uint32) {
 	i := sig.ignored[s/32]
 	i |= 1 << (s & 31)
@@ -268,7 +268,7 @@ func sigInitIgnored(s uint32) {
 
 // Checked by signal handlers.
 //
-//go:linkname signal_ignored os/signal.signal_ignored
+//golang:linkname signal_ignored os/signal.signal_ignored
 func signal_ignored(s uint32) bool {
 	i := atomic.Load(&sig.ignored[s/32])
 	return i&(1<<(s&31)) != 0

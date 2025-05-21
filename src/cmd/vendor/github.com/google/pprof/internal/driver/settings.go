@@ -94,7 +94,7 @@ func configMenu(fname string, u url.URL) []configMenuEntry {
 		if !changed {
 			lastMatch = i
 		}
-		// Use a relative URL to work in presence of stripping/redirects in webui.go.
+		// Use a relative URL to work in presence of stripping/redirects in webui.golang.
 		rel := &url.URL{RawQuery: dst.RawQuery, ForceQuery: true}
 		result[i] = configMenuEntry{
 			Name:       cfg.Name,

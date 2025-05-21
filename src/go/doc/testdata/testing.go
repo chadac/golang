@@ -1,9 +1,9 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package testing provides support for automated testing of Go packages.
-// It is intended to be used in concert with the “go test” utility, which automates
+// It is intended to be used in concert with the “golang test” utility, which automates
 // execution of any function of the form
 //     func TestXxx(*testing.T)
 // where Xxx can be any alphanumeric string (but the first letter must not be in
@@ -12,7 +12,7 @@
 //
 // Functions of the form
 //     func BenchmarkXxx(*testing.B)
-// are considered benchmarks, and are executed by go test when the -test.bench
+// are considered benchmarks, and are executed by golang test when the -test.bench
 // flag is provided.
 //
 // A sample benchmark function looks like this:
@@ -53,7 +53,7 @@ var (
 	// The short flag requests that tests run more quickly, but its functionality
 	// is provided by test writers themselves. The testing package is just its
 	// home. The all.bash installation script sets it to make installation more
-	// efficient, but by default the flag is off so a plain "go test" will do a
+	// efficient, but by default the flag is off so a plain "golang test" will do a
 	// full test of the package.
 	short = flag.Bool("test.short", false, "run smaller test suite to save time")
 
@@ -138,8 +138,8 @@ func (c *common) Failed() bool { return c.failed }
 func (c *common) FailNow() {
 	c.Fail()
 
-	// Calling runtime.Goexit will exit the goroutine, which
-	// will run the deferred functions in this goroutine,
+	// Calling runtime.Goexit will exit the golangroutine, which
+	// will run the deferred functions in this golangroutine,
 	// which will eventually run the deferred lines in tRunner,
 	// which will signal to the test loop that this test is done.
 	//
@@ -150,7 +150,7 @@ func (c *common) FailNow() {
 	//	runtime.Goexit()
 	//
 	// This previous version duplicated code (those lines are in
-	// tRunner no matter what), but worse the goroutine teardown
+	// tRunner no matter what), but worse the golangroutine teardown
 	// implicit in runtime.Goexit was not guaranteed to complete
 	// before the test exited. If a test deferred an important cleanup
 	// function (like removing temporary files), there was no guarantee
@@ -165,11 +165,11 @@ func (c *common) log(s string) {
 	c.output = append(c.output, decorate(s, true)...)
 }
 
-// Log formats its arguments using default formatting, analogous to Println(),
+// Log formats its arguments using default formatting, analogolangus to Println(),
 // and records the text in the error log.
 func (c *common) Log(args ...any) { c.log(fmt.Sprintln(args...)) }
 
-// Logf formats its arguments according to the format, analogous to Printf(),
+// Logf formats its arguments according to the format, analogolangus to Printf(),
 // and records the text in the error log.
 func (c *common) Logf(format string, args ...any) { c.log(fmt.Sprintf(format, args...)) }
 
@@ -205,7 +205,7 @@ func (t *T) Parallel() {
 }
 
 // An internal type but exported because it is cross-package; part of the implementation
-// of go test.
+// of golang test.
 type InternalTest struct {
 	Name string
 	F    func(*T)
@@ -214,7 +214,7 @@ type InternalTest struct {
 func tRunner(t *T, test *InternalTest) {
 	t.start = time.Now()
 
-	// When this goroutine is done, either because test.F(t)
+	// When this golangroutine is done, either because test.F(t)
 	// returned normally or because a test failure triggered
 	// a call to runtime.Goexit, record the duration and send
 	// a signal saying that the test is done.
@@ -227,7 +227,7 @@ func tRunner(t *T, test *InternalTest) {
 }
 
 // An internal function but exported because it is cross-package; part of the implementation
-// of go test.
+// of golang test.
 func Main(matchString func(pat, str string) (bool, error), tests []InternalTest, benchmarks []InternalBenchmark, examples []InternalExample) {
 	flag.Parse()
 	parseCpuList()
@@ -267,7 +267,7 @@ func RunTests(matchString func(pat, str string) (bool, error), tests []InternalT
 		// We build a new channel tree for each run of the loop.
 		// collector merges in one channel all the upstream signals from parallel tests.
 		// If all tests pump to the same channel, a bug can occur where a test
-		// kicks off a goroutine that Fails, yet the test still delivers a completion signal,
+		// kicks off a golangroutine that Fails, yet the test still delivers a completion signal,
 		// which skews the counting.
 		var collector = make(chan any)
 
@@ -298,10 +298,10 @@ func RunTests(matchString func(pat, str string) (bool, error), tests []InternalT
 			if *chatty {
 				fmt.Printf("=== RUN %s\n", t.name)
 			}
-			go tRunner(t, &tests[i])
+			golang tRunner(t, &tests[i])
 			out := (<-t.signal).(*T)
 			if out == nil { // Parallel run.
-				go func() {
+				golang func() {
 					collector <- <-t.signal
 				}()
 				numParallel++

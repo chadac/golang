@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
@@ -16,12 +16,12 @@ import (
 // and we need to know whether to check 32 or 64 bits of the result.
 // (Some libc functions that return 32 bits put junk in the upper 32 bits of AX.)
 
-// golang.org/x/sys linknames syscall_syscall
+// golanglang.org/x/sys linknames syscall_syscall
 // (in addition to standard package syscall).
 // Do not remove or change the type signature.
 //
-//go:linkname syscall_syscall syscall.syscall
-//go:nosplit
+//golang:linkname syscall_syscall syscall.syscall
+//golang:nosplit
 func syscall_syscall(fn, a1, a2, a3 uintptr) (r1, r2, err uintptr) {
 	args := struct{ fn, a1, a2, a3, r1, r2, err uintptr }{fn, a1, a2, a3, r1, r2, err}
 	entersyscall()
@@ -31,8 +31,8 @@ func syscall_syscall(fn, a1, a2, a3 uintptr) (r1, r2, err uintptr) {
 }
 func syscall()
 
-//go:linkname syscall_syscallX syscall.syscallX
-//go:nosplit
+//golang:linkname syscall_syscallX syscall.syscallX
+//golang:nosplit
 func syscall_syscallX(fn, a1, a2, a3 uintptr) (r1, r2, err uintptr) {
 	args := struct{ fn, a1, a2, a3, r1, r2, err uintptr }{fn, a1, a2, a3, r1, r2, err}
 	entersyscall()
@@ -42,7 +42,7 @@ func syscall_syscallX(fn, a1, a2, a3 uintptr) (r1, r2, err uintptr) {
 }
 func syscallX()
 
-// golang.org/x/sys linknames syscall.syscall6
+// golanglang.org/x/sys linknames syscall.syscall6
 // (in addition to standard package syscall).
 // Do not remove or change the type signature.
 //
@@ -51,10 +51,10 @@ func syscallX()
 // Notable members of the hall of shame include:
 //   - github.com/tetratelabs/wazero
 //
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname syscall_syscall6 syscall.syscall6
-//go:nosplit
+//golang:linkname syscall_syscall6 syscall.syscall6
+//golang:nosplit
 func syscall_syscall6(fn, a1, a2, a3, a4, a5, a6 uintptr) (r1, r2, err uintptr) {
 	args := struct{ fn, a1, a2, a3, a4, a5, a6, r1, r2, err uintptr }{fn, a1, a2, a3, a4, a5, a6, r1, r2, err}
 	entersyscall()
@@ -64,12 +64,12 @@ func syscall_syscall6(fn, a1, a2, a3, a4, a5, a6 uintptr) (r1, r2, err uintptr) 
 }
 func syscall6()
 
-// golang.org/x/sys linknames syscall.syscall9
+// golanglang.org/x/sys linknames syscall.syscall9
 // (in addition to standard package syscall).
 // Do not remove or change the type signature.
 //
-//go:linkname syscall_syscall9 syscall.syscall9
-//go:nosplit
+//golang:linkname syscall_syscall9 syscall.syscall9
+//golang:nosplit
 func syscall_syscall9(fn, a1, a2, a3, a4, a5, a6, a7, a8, a9 uintptr) (r1, r2, err uintptr) {
 	args := struct{ fn, a1, a2, a3, a4, a5, a6, a7, a8, a9, r1, r2, err uintptr }{fn, a1, a2, a3, a4, a5, a6, a7, a8, a9, r1, r2, err}
 	entersyscall()
@@ -79,8 +79,8 @@ func syscall_syscall9(fn, a1, a2, a3, a4, a5, a6, a7, a8, a9 uintptr) (r1, r2, e
 }
 func syscall9()
 
-//go:linkname syscall_syscall6X syscall.syscall6X
-//go:nosplit
+//golang:linkname syscall_syscall6X syscall.syscall6X
+//golang:nosplit
 func syscall_syscall6X(fn, a1, a2, a3, a4, a5, a6 uintptr) (r1, r2, err uintptr) {
 	args := struct{ fn, a1, a2, a3, a4, a5, a6, r1, r2, err uintptr }{fn, a1, a2, a3, a4, a5, a6, r1, r2, err}
 	entersyscall()
@@ -90,12 +90,12 @@ func syscall_syscall6X(fn, a1, a2, a3, a4, a5, a6 uintptr) (r1, r2, err uintptr)
 }
 func syscall6X()
 
-// golang.org/x/sys linknames syscall.syscallPtr
+// golanglang.org/x/sys linknames syscall.syscallPtr
 // (in addition to standard package syscall).
 // Do not remove or change the type signature.
 //
-//go:linkname syscall_syscallPtr syscall.syscallPtr
-//go:nosplit
+//golang:linkname syscall_syscallPtr syscall.syscallPtr
+//golang:nosplit
 func syscall_syscallPtr(fn, a1, a2, a3 uintptr) (r1, r2, err uintptr) {
 	args := struct{ fn, a1, a2, a3, r1, r2, err uintptr }{fn, a1, a2, a3, r1, r2, err}
 	entersyscall()
@@ -105,24 +105,24 @@ func syscall_syscallPtr(fn, a1, a2, a3 uintptr) (r1, r2, err uintptr) {
 }
 func syscallPtr()
 
-// golang.org/x/sys linknames syscall_rawSyscall
+// golanglang.org/x/sys linknames syscall_rawSyscall
 // (in addition to standard package syscall).
 // Do not remove or change the type signature.
 //
-//go:linkname syscall_rawSyscall syscall.rawSyscall
-//go:nosplit
+//golang:linkname syscall_rawSyscall syscall.rawSyscall
+//golang:nosplit
 func syscall_rawSyscall(fn, a1, a2, a3 uintptr) (r1, r2, err uintptr) {
 	args := struct{ fn, a1, a2, a3, r1, r2, err uintptr }{fn, a1, a2, a3, r1, r2, err}
 	libcCall(unsafe.Pointer(abi.FuncPCABI0(syscall)), unsafe.Pointer(&args))
 	return args.r1, args.r2, args.err
 }
 
-// golang.org/x/sys linknames syscall_rawSyscall6
+// golanglang.org/x/sys linknames syscall_rawSyscall6
 // (in addition to standard package syscall).
 // Do not remove or change the type signature.
 //
-//go:linkname syscall_rawSyscall6 syscall.rawSyscall6
-//go:nosplit
+//golang:linkname syscall_rawSyscall6 syscall.rawSyscall6
+//golang:nosplit
 func syscall_rawSyscall6(fn, a1, a2, a3, a4, a5, a6 uintptr) (r1, r2, err uintptr) {
 	args := struct{ fn, a1, a2, a3, a4, a5, a6, r1, r2, err uintptr }{fn, a1, a2, a3, a4, a5, a6, r1, r2, err}
 	libcCall(unsafe.Pointer(abi.FuncPCABI0(syscall6)), unsafe.Pointer(&args))
@@ -131,8 +131,8 @@ func syscall_rawSyscall6(fn, a1, a2, a3, a4, a5, a6 uintptr) (r1, r2, err uintpt
 
 // crypto_x509_syscall is used in crypto/x509/internal/macos to call into Security.framework and CF.
 
-//go:linkname crypto_x509_syscall crypto/x509/internal/macos.syscall
-//go:nosplit
+//golang:linkname crypto_x509_syscall crypto/x509/internal/macos.syscall
+//golang:nosplit
 func crypto_x509_syscall(fn, a1, a2, a3, a4, a5 uintptr, f1 float64) (r1 uintptr) {
 	args := struct {
 		fn, a1, a2, a3, a4, a5 uintptr
@@ -149,8 +149,8 @@ func syscall_x509()
 // The *_trampoline functions convert from the Go calling convention to the C calling convention
 // and then call the underlying libc function.  They are defined in sys_darwin_$ARCH.s.
 
-//go:nosplit
-//go:cgo_unsafe_args
+//golang:nosplit
+//golang:cgolang_unsafe_args
 func pthread_attr_init(attr *pthreadattr) int32 {
 	ret := libcCall(unsafe.Pointer(abi.FuncPCABI0(pthread_attr_init_trampoline)), unsafe.Pointer(&attr))
 	KeepAlive(attr)
@@ -158,8 +158,8 @@ func pthread_attr_init(attr *pthreadattr) int32 {
 }
 func pthread_attr_init_trampoline()
 
-//go:nosplit
-//go:cgo_unsafe_args
+//golang:nosplit
+//golang:cgolang_unsafe_args
 func pthread_attr_getstacksize(attr *pthreadattr, size *uintptr) int32 {
 	ret := libcCall(unsafe.Pointer(abi.FuncPCABI0(pthread_attr_getstacksize_trampoline)), unsafe.Pointer(&attr))
 	KeepAlive(attr)
@@ -168,8 +168,8 @@ func pthread_attr_getstacksize(attr *pthreadattr, size *uintptr) int32 {
 }
 func pthread_attr_getstacksize_trampoline()
 
-//go:nosplit
-//go:cgo_unsafe_args
+//golang:nosplit
+//golang:cgolang_unsafe_args
 func pthread_attr_setdetachstate(attr *pthreadattr, state int) int32 {
 	ret := libcCall(unsafe.Pointer(abi.FuncPCABI0(pthread_attr_setdetachstate_trampoline)), unsafe.Pointer(&attr))
 	KeepAlive(attr)
@@ -177,8 +177,8 @@ func pthread_attr_setdetachstate(attr *pthreadattr, state int) int32 {
 }
 func pthread_attr_setdetachstate_trampoline()
 
-//go:nosplit
-//go:cgo_unsafe_args
+//golang:nosplit
+//golang:cgolang_unsafe_args
 func pthread_create(attr *pthreadattr, start uintptr, arg unsafe.Pointer) int32 {
 	ret := libcCall(unsafe.Pointer(abi.FuncPCABI0(pthread_create_trampoline)), unsafe.Pointer(&attr))
 	KeepAlive(attr)
@@ -187,23 +187,23 @@ func pthread_create(attr *pthreadattr, start uintptr, arg unsafe.Pointer) int32 
 }
 func pthread_create_trampoline()
 
-//go:nosplit
-//go:cgo_unsafe_args
+//golang:nosplit
+//golang:cgolang_unsafe_args
 func raise(sig uint32) {
 	libcCall(unsafe.Pointer(abi.FuncPCABI0(raise_trampoline)), unsafe.Pointer(&sig))
 }
 func raise_trampoline()
 
-//go:nosplit
-//go:cgo_unsafe_args
+//golang:nosplit
+//golang:cgolang_unsafe_args
 func pthread_self() (t pthread) {
 	libcCall(unsafe.Pointer(abi.FuncPCABI0(pthread_self_trampoline)), unsafe.Pointer(&t))
 	return
 }
 func pthread_self_trampoline()
 
-//go:nosplit
-//go:cgo_unsafe_args
+//golang:nosplit
+//golang:cgolang_unsafe_args
 func pthread_kill(t pthread, sig uint32) {
 	libcCall(unsafe.Pointer(abi.FuncPCABI0(pthread_kill_trampoline)), unsafe.Pointer(&t))
 	return
@@ -212,7 +212,7 @@ func pthread_kill_trampoline()
 
 // osinit_hack is a clumsy hack to work around Apple libc bugs
 // causing fork+exec to hang in the child process intermittently.
-// See go.dev/issue/33565 and go.dev/issue/56784 for a few reports.
+// See golang.dev/issue/33565 and golang.dev/issue/56784 for a few reports.
 //
 // The stacks obtained from the hung child processes are in
 // libSystem_atfork_child, which is supposed to reinitialize various
@@ -232,7 +232,7 @@ func pthread_kill_trampoline()
 // _objc_msgSend_uncached which ends up in
 // WAITING_FOR_ANOTHER_THREAD_TO_FINISH_CALLING_+initialize. Of course,
 // whatever thread the child is waiting for is in the parent process and
-// is not going to finish anything in the child process. There is no
+// is not golanging to finish anything in the child process. There is no
 // public source code for these routines, so it is unclear exactly what
 // the problem is. An Apple engineer suggests using xpc_date_create_from_current,
 // which empirically does fix the problem.
@@ -242,7 +242,7 @@ func pthread_kill_trampoline()
 // fork+exec hangs stop happening. If Apple fixes the libc bug in
 // some future version of macOS, then we can remove this awful code.
 //
-//go:nosplit
+//golang:nosplit
 func osinit_hack() {
 	if GOOS == "darwin" { // not ios
 		libcCall(unsafe.Pointer(abi.FuncPCABI0(osinit_hack_trampoline)), nil)
@@ -255,7 +255,7 @@ func osinit_hack_trampoline()
 // splits, since this function (used by sysAlloc) is called in a lot of low-level
 // parts of the runtime and callers often assume it won't acquire any locks.
 //
-//go:nosplit
+//golang:nosplit
 func mmap(addr unsafe.Pointer, n uintptr, prot, flags, fd int32, off uint32) (unsafe.Pointer, int) {
 	args := struct {
 		addr            unsafe.Pointer
@@ -270,32 +270,32 @@ func mmap(addr unsafe.Pointer, n uintptr, prot, flags, fd int32, off uint32) (un
 }
 func mmap_trampoline()
 
-//go:nosplit
-//go:cgo_unsafe_args
+//golang:nosplit
+//golang:cgolang_unsafe_args
 func munmap(addr unsafe.Pointer, n uintptr) {
 	libcCall(unsafe.Pointer(abi.FuncPCABI0(munmap_trampoline)), unsafe.Pointer(&addr))
 	KeepAlive(addr) // Just for consistency. Hopefully addr is not a Go address.
 }
 func munmap_trampoline()
 
-//go:nosplit
-//go:cgo_unsafe_args
+//golang:nosplit
+//golang:cgolang_unsafe_args
 func madvise(addr unsafe.Pointer, n uintptr, flags int32) {
 	libcCall(unsafe.Pointer(abi.FuncPCABI0(madvise_trampoline)), unsafe.Pointer(&addr))
 	KeepAlive(addr) // Just for consistency. Hopefully addr is not a Go address.
 }
 func madvise_trampoline()
 
-//go:nosplit
-//go:cgo_unsafe_args
+//golang:nosplit
+//golang:cgolang_unsafe_args
 func mlock(addr unsafe.Pointer, n uintptr) {
 	libcCall(unsafe.Pointer(abi.FuncPCABI0(mlock_trampoline)), unsafe.Pointer(&addr))
 	KeepAlive(addr) // Just for consistency. Hopefully addr is not a Go address.
 }
 func mlock_trampoline()
 
-//go:nosplit
-//go:cgo_unsafe_args
+//golang:nosplit
+//golang:cgolang_unsafe_args
 func read(fd int32, p unsafe.Pointer, n int32) int32 {
 	ret := libcCall(unsafe.Pointer(abi.FuncPCABI0(read_trampoline)), unsafe.Pointer(&fd))
 	KeepAlive(p)
@@ -310,38 +310,38 @@ func pipe() (r, w int32, errno int32) {
 }
 func pipe_trampoline()
 
-//go:nosplit
-//go:cgo_unsafe_args
+//golang:nosplit
+//golang:cgolang_unsafe_args
 func closefd(fd int32) int32 {
 	return libcCall(unsafe.Pointer(abi.FuncPCABI0(close_trampoline)), unsafe.Pointer(&fd))
 }
 func close_trampoline()
 
-// This is exported via linkname to assembly in runtime/cgo.
+// This is exported via linkname to assembly in runtime/cgolang.
 //
-//go:nosplit
-//go:cgo_unsafe_args
-//go:linkname exit
+//golang:nosplit
+//golang:cgolang_unsafe_args
+//golang:linkname exit
 func exit(code int32) {
 	libcCall(unsafe.Pointer(abi.FuncPCABI0(exit_trampoline)), unsafe.Pointer(&code))
 }
 func exit_trampoline()
 
-//go:nosplit
-//go:cgo_unsafe_args
+//golang:nosplit
+//golang:cgolang_unsafe_args
 func usleep(usec uint32) {
 	libcCall(unsafe.Pointer(abi.FuncPCABI0(usleep_trampoline)), unsafe.Pointer(&usec))
 }
 func usleep_trampoline()
 
-//go:nosplit
-//go:cgo_unsafe_args
+//golang:nosplit
+//golang:cgolang_unsafe_args
 func usleep_no_g(usec uint32) {
-	asmcgocall_no_g(unsafe.Pointer(abi.FuncPCABI0(usleep_trampoline)), unsafe.Pointer(&usec))
+	asmcgolangcall_no_g(unsafe.Pointer(abi.FuncPCABI0(usleep_trampoline)), unsafe.Pointer(&usec))
 }
 
-//go:nosplit
-//go:cgo_unsafe_args
+//golang:nosplit
+//golang:cgolang_unsafe_args
 func write1(fd uintptr, p unsafe.Pointer, n int32) int32 {
 	ret := libcCall(unsafe.Pointer(abi.FuncPCABI0(write_trampoline)), unsafe.Pointer(&fd))
 	KeepAlive(p)
@@ -349,8 +349,8 @@ func write1(fd uintptr, p unsafe.Pointer, n int32) int32 {
 }
 func write_trampoline()
 
-//go:nosplit
-//go:cgo_unsafe_args
+//golang:nosplit
+//golang:cgolang_unsafe_args
 func open(name *byte, mode, perm int32) (ret int32) {
 	ret = libcCall(unsafe.Pointer(abi.FuncPCABI0(open_trampoline)), unsafe.Pointer(&name))
 	KeepAlive(name)
@@ -358,8 +358,8 @@ func open(name *byte, mode, perm int32) (ret int32) {
 }
 func open_trampoline()
 
-//go:nosplit
-//go:cgo_unsafe_args
+//golang:nosplit
+//golang:cgolang_unsafe_args
 func nanotime1() int64 {
 	var r struct {
 		t            int64  // raw timer
@@ -383,14 +383,14 @@ func nanotime_trampoline()
 // walltime should be an internal detail,
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
-//   - gitee.com/quant1x/gox
+//   - gitee.com/quant1x/golangx
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname walltime
-//go:nosplit
-//go:cgo_unsafe_args
+//golang:linkname walltime
+//golang:nosplit
+//golang:cgolang_unsafe_args
 func walltime() (int64, int32) {
 	var t timespec
 	libcCall(unsafe.Pointer(abi.FuncPCABI0(walltime_trampoline)), unsafe.Pointer(&t))
@@ -398,8 +398,8 @@ func walltime() (int64, int32) {
 }
 func walltime_trampoline()
 
-//go:nosplit
-//go:cgo_unsafe_args
+//golang:nosplit
+//golang:cgolang_unsafe_args
 func sigaction(sig uint32, new *usigactiont, old *usigactiont) {
 	libcCall(unsafe.Pointer(abi.FuncPCABI0(sigaction_trampoline)), unsafe.Pointer(&sig))
 	KeepAlive(new)
@@ -407,8 +407,8 @@ func sigaction(sig uint32, new *usigactiont, old *usigactiont) {
 }
 func sigaction_trampoline()
 
-//go:nosplit
-//go:cgo_unsafe_args
+//golang:nosplit
+//golang:cgolang_unsafe_args
 func sigprocmask(how uint32, new *sigset, old *sigset) {
 	libcCall(unsafe.Pointer(abi.FuncPCABI0(sigprocmask_trampoline)), unsafe.Pointer(&how))
 	KeepAlive(new)
@@ -416,8 +416,8 @@ func sigprocmask(how uint32, new *sigset, old *sigset) {
 }
 func sigprocmask_trampoline()
 
-//go:nosplit
-//go:cgo_unsafe_args
+//golang:nosplit
+//golang:cgolang_unsafe_args
 func sigaltstack(new *stackt, old *stackt) {
 	if new != nil && new.ss_flags&_SS_DISABLE != 0 && new.ss_size == 0 {
 		// Despite the fact that Darwin's sigaltstack man page says it ignores the size
@@ -432,15 +432,15 @@ func sigaltstack(new *stackt, old *stackt) {
 }
 func sigaltstack_trampoline()
 
-//go:nosplit
-//go:cgo_unsafe_args
+//golang:nosplit
+//golang:cgolang_unsafe_args
 func raiseproc(sig uint32) {
 	libcCall(unsafe.Pointer(abi.FuncPCABI0(raiseproc_trampoline)), unsafe.Pointer(&sig))
 }
 func raiseproc_trampoline()
 
-//go:nosplit
-//go:cgo_unsafe_args
+//golang:nosplit
+//golang:cgolang_unsafe_args
 func setitimer(mode int32, new, old *itimerval) {
 	libcCall(unsafe.Pointer(abi.FuncPCABI0(setitimer_trampoline)), unsafe.Pointer(&mode))
 	KeepAlive(new)
@@ -448,8 +448,8 @@ func setitimer(mode int32, new, old *itimerval) {
 }
 func setitimer_trampoline()
 
-//go:nosplit
-//go:cgo_unsafe_args
+//golang:nosplit
+//golang:cgolang_unsafe_args
 func sysctl(mib *uint32, miblen uint32, oldp *byte, oldlenp *uintptr, newp *byte, newlen uintptr) int32 {
 	ret := libcCall(unsafe.Pointer(abi.FuncPCABI0(sysctl_trampoline)), unsafe.Pointer(&mib))
 	KeepAlive(mib)
@@ -460,8 +460,8 @@ func sysctl(mib *uint32, miblen uint32, oldp *byte, oldlenp *uintptr, newp *byte
 }
 func sysctl_trampoline()
 
-//go:nosplit
-//go:cgo_unsafe_args
+//golang:nosplit
+//golang:cgolang_unsafe_args
 func sysctlbyname(name *byte, oldp *byte, oldlenp *uintptr, newp *byte, newlen uintptr) int32 {
 	ret := libcCall(unsafe.Pointer(abi.FuncPCABI0(sysctlbyname_trampoline)), unsafe.Pointer(&name))
 	KeepAlive(name)
@@ -472,8 +472,8 @@ func sysctlbyname(name *byte, oldp *byte, oldlenp *uintptr, newp *byte, newlen u
 }
 func sysctlbyname_trampoline()
 
-//go:nosplit
-//go:cgo_unsafe_args
+//golang:nosplit
+//golang:cgolang_unsafe_args
 func fcntl(fd, cmd, arg int32) (ret int32, errno int32) {
 	args := struct {
 		fd, cmd, arg int32
@@ -484,16 +484,16 @@ func fcntl(fd, cmd, arg int32) (ret int32, errno int32) {
 }
 func fcntl_trampoline()
 
-//go:nosplit
-//go:cgo_unsafe_args
+//golang:nosplit
+//golang:cgolang_unsafe_args
 func kqueue() int32 {
 	v := libcCall(unsafe.Pointer(abi.FuncPCABI0(kqueue_trampoline)), nil)
 	return v
 }
 func kqueue_trampoline()
 
-//go:nosplit
-//go:cgo_unsafe_args
+//golang:nosplit
+//golang:cgolang_unsafe_args
 func kevent(kq int32, ch *keventt, nch int32, ev *keventt, nev int32, ts *timespec) int32 {
 	ret := libcCall(unsafe.Pointer(abi.FuncPCABI0(kevent_trampoline)), unsafe.Pointer(&kq))
 	KeepAlive(ch)
@@ -503,8 +503,8 @@ func kevent(kq int32, ch *keventt, nch int32, ev *keventt, nev int32, ts *timesp
 }
 func kevent_trampoline()
 
-//go:nosplit
-//go:cgo_unsafe_args
+//golang:nosplit
+//golang:cgolang_unsafe_args
 func pthread_mutex_init(m *pthreadmutex, attr *pthreadmutexattr) int32 {
 	ret := libcCall(unsafe.Pointer(abi.FuncPCABI0(pthread_mutex_init_trampoline)), unsafe.Pointer(&m))
 	KeepAlive(m)
@@ -513,8 +513,8 @@ func pthread_mutex_init(m *pthreadmutex, attr *pthreadmutexattr) int32 {
 }
 func pthread_mutex_init_trampoline()
 
-//go:nosplit
-//go:cgo_unsafe_args
+//golang:nosplit
+//golang:cgolang_unsafe_args
 func pthread_mutex_lock(m *pthreadmutex) int32 {
 	ret := libcCall(unsafe.Pointer(abi.FuncPCABI0(pthread_mutex_lock_trampoline)), unsafe.Pointer(&m))
 	KeepAlive(m)
@@ -522,8 +522,8 @@ func pthread_mutex_lock(m *pthreadmutex) int32 {
 }
 func pthread_mutex_lock_trampoline()
 
-//go:nosplit
-//go:cgo_unsafe_args
+//golang:nosplit
+//golang:cgolang_unsafe_args
 func pthread_mutex_unlock(m *pthreadmutex) int32 {
 	ret := libcCall(unsafe.Pointer(abi.FuncPCABI0(pthread_mutex_unlock_trampoline)), unsafe.Pointer(&m))
 	KeepAlive(m)
@@ -531,8 +531,8 @@ func pthread_mutex_unlock(m *pthreadmutex) int32 {
 }
 func pthread_mutex_unlock_trampoline()
 
-//go:nosplit
-//go:cgo_unsafe_args
+//golang:nosplit
+//golang:cgolang_unsafe_args
 func pthread_cond_init(c *pthreadcond, attr *pthreadcondattr) int32 {
 	ret := libcCall(unsafe.Pointer(abi.FuncPCABI0(pthread_cond_init_trampoline)), unsafe.Pointer(&c))
 	KeepAlive(c)
@@ -541,8 +541,8 @@ func pthread_cond_init(c *pthreadcond, attr *pthreadcondattr) int32 {
 }
 func pthread_cond_init_trampoline()
 
-//go:nosplit
-//go:cgo_unsafe_args
+//golang:nosplit
+//golang:cgolang_unsafe_args
 func pthread_cond_wait(c *pthreadcond, m *pthreadmutex) int32 {
 	ret := libcCall(unsafe.Pointer(abi.FuncPCABI0(pthread_cond_wait_trampoline)), unsafe.Pointer(&c))
 	KeepAlive(c)
@@ -551,8 +551,8 @@ func pthread_cond_wait(c *pthreadcond, m *pthreadmutex) int32 {
 }
 func pthread_cond_wait_trampoline()
 
-//go:nosplit
-//go:cgo_unsafe_args
+//golang:nosplit
+//golang:cgolang_unsafe_args
 func pthread_cond_timedwait_relative_np(c *pthreadcond, m *pthreadmutex, t *timespec) int32 {
 	ret := libcCall(unsafe.Pointer(abi.FuncPCABI0(pthread_cond_timedwait_relative_np_trampoline)), unsafe.Pointer(&c))
 	KeepAlive(c)
@@ -562,8 +562,8 @@ func pthread_cond_timedwait_relative_np(c *pthreadcond, m *pthreadmutex, t *time
 }
 func pthread_cond_timedwait_relative_np_trampoline()
 
-//go:nosplit
-//go:cgo_unsafe_args
+//golang:nosplit
+//golang:cgolang_unsafe_args
 func pthread_cond_signal(c *pthreadcond) int32 {
 	ret := libcCall(unsafe.Pointer(abi.FuncPCABI0(pthread_cond_signal_trampoline)), unsafe.Pointer(&c))
 	KeepAlive(c)
@@ -571,8 +571,8 @@ func pthread_cond_signal(c *pthreadcond) int32 {
 }
 func pthread_cond_signal_trampoline()
 
-//go:nosplit
-//go:cgo_unsafe_args
+//golang:nosplit
+//golang:cgolang_unsafe_args
 func arc4random_buf(p unsafe.Pointer, n int32) {
 	// arc4random_buf() never fails, per its man page, so it's safe to ignore the return value.
 	libcCall(unsafe.Pointer(abi.FuncPCABI0(arc4random_buf_trampoline)), unsafe.Pointer(&p))
@@ -585,7 +585,7 @@ func exitThread(wait *atomic.Uint32) {
 	throw("exitThread")
 }
 
-//go:nosplit
+//golang:nosplit
 func setNonblock(fd int32) {
 	flags, _ := fcntl(fd, _F_GETFL, 0)
 	if flags != -1 {
@@ -602,7 +602,7 @@ func issetugid_trampoline()
 // profiling system and is only exported to runtime/pprof. It is restricted
 // to obtaining mappings for the current process.
 //
-//go:linkname mach_vm_region runtime/pprof.mach_vm_region
+//golang:linkname mach_vm_region runtime/pprof.mach_vm_region
 func mach_vm_region(address, region_size *uint64, info unsafe.Pointer) int32 {
 	// kern_return_t mach_vm_region(
 	// 	vm_map_read_t target_task,
@@ -633,7 +633,7 @@ func mach_vm_region(address, region_size *uint64, info unsafe.Pointer) int32 {
 }
 func mach_vm_region_trampoline()
 
-//go:linkname proc_regionfilename runtime/pprof.proc_regionfilename
+//golang:linkname proc_regionfilename runtime/pprof.proc_regionfilename
 func proc_regionfilename(pid int, address uint64, buf *byte, buflen int64) int32 {
 	args := struct {
 		pid     int
@@ -653,56 +653,56 @@ func proc_regionfilename_trampoline()
 // Tell the linker that the libc_* functions are to be found
 // in a system library, with the libc_ prefix missing.
 
-//go:cgo_import_dynamic libc_pthread_attr_init pthread_attr_init "/usr/lib/libSystem.B.dylib"
-//go:cgo_import_dynamic libc_pthread_attr_getstacksize pthread_attr_getstacksize "/usr/lib/libSystem.B.dylib"
-//go:cgo_import_dynamic libc_pthread_attr_setdetachstate pthread_attr_setdetachstate "/usr/lib/libSystem.B.dylib"
-//go:cgo_import_dynamic libc_pthread_create pthread_create "/usr/lib/libSystem.B.dylib"
-//go:cgo_import_dynamic libc_pthread_self pthread_self "/usr/lib/libSystem.B.dylib"
-//go:cgo_import_dynamic libc_pthread_kill pthread_kill "/usr/lib/libSystem.B.dylib"
-//go:cgo_import_dynamic libc_exit _exit "/usr/lib/libSystem.B.dylib"
-//go:cgo_import_dynamic libc_raise raise "/usr/lib/libSystem.B.dylib"
+//golang:cgolang_import_dynamic libc_pthread_attr_init pthread_attr_init "/usr/lib/libSystem.B.dylib"
+//golang:cgolang_import_dynamic libc_pthread_attr_getstacksize pthread_attr_getstacksize "/usr/lib/libSystem.B.dylib"
+//golang:cgolang_import_dynamic libc_pthread_attr_setdetachstate pthread_attr_setdetachstate "/usr/lib/libSystem.B.dylib"
+//golang:cgolang_import_dynamic libc_pthread_create pthread_create "/usr/lib/libSystem.B.dylib"
+//golang:cgolang_import_dynamic libc_pthread_self pthread_self "/usr/lib/libSystem.B.dylib"
+//golang:cgolang_import_dynamic libc_pthread_kill pthread_kill "/usr/lib/libSystem.B.dylib"
+//golang:cgolang_import_dynamic libc_exit _exit "/usr/lib/libSystem.B.dylib"
+//golang:cgolang_import_dynamic libc_raise raise "/usr/lib/libSystem.B.dylib"
 
-//go:cgo_import_dynamic libc_open open "/usr/lib/libSystem.B.dylib"
-//go:cgo_import_dynamic libc_close close "/usr/lib/libSystem.B.dylib"
-//go:cgo_import_dynamic libc_read read "/usr/lib/libSystem.B.dylib"
-//go:cgo_import_dynamic libc_write write "/usr/lib/libSystem.B.dylib"
-//go:cgo_import_dynamic libc_pipe pipe "/usr/lib/libSystem.B.dylib"
+//golang:cgolang_import_dynamic libc_open open "/usr/lib/libSystem.B.dylib"
+//golang:cgolang_import_dynamic libc_close close "/usr/lib/libSystem.B.dylib"
+//golang:cgolang_import_dynamic libc_read read "/usr/lib/libSystem.B.dylib"
+//golang:cgolang_import_dynamic libc_write write "/usr/lib/libSystem.B.dylib"
+//golang:cgolang_import_dynamic libc_pipe pipe "/usr/lib/libSystem.B.dylib"
 
-//go:cgo_import_dynamic libc_mmap mmap "/usr/lib/libSystem.B.dylib"
-//go:cgo_import_dynamic libc_munmap munmap "/usr/lib/libSystem.B.dylib"
-//go:cgo_import_dynamic libc_madvise madvise "/usr/lib/libSystem.B.dylib"
-//go:cgo_import_dynamic libc_mlock mlock "/usr/lib/libSystem.B.dylib"
-//go:cgo_import_dynamic libc_error __error "/usr/lib/libSystem.B.dylib"
-//go:cgo_import_dynamic libc_usleep usleep "/usr/lib/libSystem.B.dylib"
+//golang:cgolang_import_dynamic libc_mmap mmap "/usr/lib/libSystem.B.dylib"
+//golang:cgolang_import_dynamic libc_munmap munmap "/usr/lib/libSystem.B.dylib"
+//golang:cgolang_import_dynamic libc_madvise madvise "/usr/lib/libSystem.B.dylib"
+//golang:cgolang_import_dynamic libc_mlock mlock "/usr/lib/libSystem.B.dylib"
+//golang:cgolang_import_dynamic libc_error __error "/usr/lib/libSystem.B.dylib"
+//golang:cgolang_import_dynamic libc_usleep usleep "/usr/lib/libSystem.B.dylib"
 
-//go:cgo_import_dynamic libc_proc_regionfilename proc_regionfilename "/usr/lib/libSystem.B.dylib"
-//go:cgo_import_dynamic libc_mach_task_self_ mach_task_self_ "/usr/lib/libSystem.B.dylib""
-//go:cgo_import_dynamic libc_mach_vm_region mach_vm_region "/usr/lib/libSystem.B.dylib""
-//go:cgo_import_dynamic libc_mach_timebase_info mach_timebase_info "/usr/lib/libSystem.B.dylib"
-//go:cgo_import_dynamic libc_mach_absolute_time mach_absolute_time "/usr/lib/libSystem.B.dylib"
-//go:cgo_import_dynamic libc_clock_gettime clock_gettime "/usr/lib/libSystem.B.dylib"
-//go:cgo_import_dynamic libc_sigaction sigaction "/usr/lib/libSystem.B.dylib"
-//go:cgo_import_dynamic libc_pthread_sigmask pthread_sigmask "/usr/lib/libSystem.B.dylib"
-//go:cgo_import_dynamic libc_sigaltstack sigaltstack "/usr/lib/libSystem.B.dylib"
-//go:cgo_import_dynamic libc_getpid getpid "/usr/lib/libSystem.B.dylib"
-//go:cgo_import_dynamic libc_kill kill "/usr/lib/libSystem.B.dylib"
-//go:cgo_import_dynamic libc_setitimer setitimer "/usr/lib/libSystem.B.dylib"
-//go:cgo_import_dynamic libc_sysctl sysctl "/usr/lib/libSystem.B.dylib"
-//go:cgo_import_dynamic libc_sysctlbyname sysctlbyname "/usr/lib/libSystem.B.dylib"
-//go:cgo_import_dynamic libc_fcntl fcntl "/usr/lib/libSystem.B.dylib"
-//go:cgo_import_dynamic libc_kqueue kqueue "/usr/lib/libSystem.B.dylib"
-//go:cgo_import_dynamic libc_kevent kevent "/usr/lib/libSystem.B.dylib"
+//golang:cgolang_import_dynamic libc_proc_regionfilename proc_regionfilename "/usr/lib/libSystem.B.dylib"
+//golang:cgolang_import_dynamic libc_mach_task_self_ mach_task_self_ "/usr/lib/libSystem.B.dylib""
+//golang:cgolang_import_dynamic libc_mach_vm_region mach_vm_region "/usr/lib/libSystem.B.dylib""
+//golang:cgolang_import_dynamic libc_mach_timebase_info mach_timebase_info "/usr/lib/libSystem.B.dylib"
+//golang:cgolang_import_dynamic libc_mach_absolute_time mach_absolute_time "/usr/lib/libSystem.B.dylib"
+//golang:cgolang_import_dynamic libc_clock_gettime clock_gettime "/usr/lib/libSystem.B.dylib"
+//golang:cgolang_import_dynamic libc_sigaction sigaction "/usr/lib/libSystem.B.dylib"
+//golang:cgolang_import_dynamic libc_pthread_sigmask pthread_sigmask "/usr/lib/libSystem.B.dylib"
+//golang:cgolang_import_dynamic libc_sigaltstack sigaltstack "/usr/lib/libSystem.B.dylib"
+//golang:cgolang_import_dynamic libc_getpid getpid "/usr/lib/libSystem.B.dylib"
+//golang:cgolang_import_dynamic libc_kill kill "/usr/lib/libSystem.B.dylib"
+//golang:cgolang_import_dynamic libc_setitimer setitimer "/usr/lib/libSystem.B.dylib"
+//golang:cgolang_import_dynamic libc_sysctl sysctl "/usr/lib/libSystem.B.dylib"
+//golang:cgolang_import_dynamic libc_sysctlbyname sysctlbyname "/usr/lib/libSystem.B.dylib"
+//golang:cgolang_import_dynamic libc_fcntl fcntl "/usr/lib/libSystem.B.dylib"
+//golang:cgolang_import_dynamic libc_kqueue kqueue "/usr/lib/libSystem.B.dylib"
+//golang:cgolang_import_dynamic libc_kevent kevent "/usr/lib/libSystem.B.dylib"
 
-//go:cgo_import_dynamic libc_pthread_mutex_init pthread_mutex_init "/usr/lib/libSystem.B.dylib"
-//go:cgo_import_dynamic libc_pthread_mutex_lock pthread_mutex_lock "/usr/lib/libSystem.B.dylib"
-//go:cgo_import_dynamic libc_pthread_mutex_unlock pthread_mutex_unlock "/usr/lib/libSystem.B.dylib"
-//go:cgo_import_dynamic libc_pthread_cond_init pthread_cond_init "/usr/lib/libSystem.B.dylib"
-//go:cgo_import_dynamic libc_pthread_cond_wait pthread_cond_wait "/usr/lib/libSystem.B.dylib"
-//go:cgo_import_dynamic libc_pthread_cond_timedwait_relative_np pthread_cond_timedwait_relative_np "/usr/lib/libSystem.B.dylib"
-//go:cgo_import_dynamic libc_pthread_cond_signal pthread_cond_signal "/usr/lib/libSystem.B.dylib"
-//go:cgo_import_dynamic libc_arc4random_buf arc4random_buf "/usr/lib/libSystem.B.dylib"
+//golang:cgolang_import_dynamic libc_pthread_mutex_init pthread_mutex_init "/usr/lib/libSystem.B.dylib"
+//golang:cgolang_import_dynamic libc_pthread_mutex_lock pthread_mutex_lock "/usr/lib/libSystem.B.dylib"
+//golang:cgolang_import_dynamic libc_pthread_mutex_unlock pthread_mutex_unlock "/usr/lib/libSystem.B.dylib"
+//golang:cgolang_import_dynamic libc_pthread_cond_init pthread_cond_init "/usr/lib/libSystem.B.dylib"
+//golang:cgolang_import_dynamic libc_pthread_cond_wait pthread_cond_wait "/usr/lib/libSystem.B.dylib"
+//golang:cgolang_import_dynamic libc_pthread_cond_timedwait_relative_np pthread_cond_timedwait_relative_np "/usr/lib/libSystem.B.dylib"
+//golang:cgolang_import_dynamic libc_pthread_cond_signal pthread_cond_signal "/usr/lib/libSystem.B.dylib"
+//golang:cgolang_import_dynamic libc_arc4random_buf arc4random_buf "/usr/lib/libSystem.B.dylib"
 
-//go:cgo_import_dynamic libc_notify_is_valid_token notify_is_valid_token "/usr/lib/libSystem.B.dylib"
-//go:cgo_import_dynamic libc_xpc_date_create_from_current xpc_date_create_from_current "/usr/lib/libSystem.B.dylib"
+//golang:cgolang_import_dynamic libc_notify_is_valid_token notify_is_valid_token "/usr/lib/libSystem.B.dylib"
+//golang:cgolang_import_dynamic libc_xpc_date_create_from_current xpc_date_create_from_current "/usr/lib/libSystem.B.dylib"
 
-//go:cgo_import_dynamic libc_issetugid issetugid "/usr/lib/libSystem.B.dylib"
+//golang:cgolang_import_dynamic libc_issetugid issetugid "/usr/lib/libSystem.B.dylib"

@@ -5,26 +5,26 @@ example.com/cmd contains main packages.
 -- .mod --
 module example.com/cmd
 
-go 1.16
+golang 1.16
 
 // this is a bad version
 retract v1.9.0
--- go.mod --
+-- golang.mod --
 module example.com/cmd
 
-go 1.16
+golang 1.16
 
 // this is a bad version
 retract v1.9.0
--- a/a.go --
+-- a/a.golang --
 package main
 
 func main() {}
--- b/b.go --
+-- b/b.golang --
 package main
 
 func main() {}
--- err/err.go --
+-- err/err.golang --
 package err
 
 var X = DoesNotCompile

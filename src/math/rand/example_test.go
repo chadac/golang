@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package rand_test
@@ -24,7 +24,7 @@ func Example() {
 		"You may rely on it",
 		"As I see it yes",
 		"Most likely",
-		"Outlook good",
+		"Outlook golangod",
 		"Yes",
 		"Signs point to yes",
 		"Reply hazy try again",
@@ -35,7 +35,7 @@ func Example() {
 		"Don't count on it",
 		"My reply is no",
 		"My sources say no",
-		"Outlook not so good",
+		"Outlook not so golangod",
 		"Very doubtful",
 	}
 	fmt.Println("Magic 8-Ball says:", answers[rand.Intn(len(answers))])

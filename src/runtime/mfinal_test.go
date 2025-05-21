@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime_test
@@ -52,7 +52,7 @@ func TestFinalizerType(t *testing.T) {
 
 	for _, tt := range finalizerTests {
 		done := make(chan bool, 1)
-		go func() {
+		golang func() {
 			// allocate struct with pointer to avoid hitting tinyalloc.
 			// Otherwise we can't be sure when the allocation will
 			// be freed.
@@ -81,7 +81,7 @@ type bigValue struct {
 func TestFinalizerInterfaceBig(t *testing.T) {
 	ch := make(chan bool)
 	done := make(chan bool, 1)
-	go func() {
+	golang func() {
 		v := &bigValue{0xDEADBEEFDEADBEEF, true, "It matters not how strait the gate"}
 		old := *v
 		runtime.SetFinalizer(v, func(v any) {
@@ -105,7 +105,7 @@ func TestFinalizerInterfaceBig(t *testing.T) {
 func fin(v *int) {
 }
 
-// Verify we don't crash at least. golang.org/issue/6857
+// Verify we don't crash at least. golanglang.org/issue/6857
 func TestFinalizerZeroSizedStruct(t *testing.T) {
 	type Z struct{}
 	z := new(Z)

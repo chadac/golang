@@ -1,35 +1,35 @@
-[compiler:gccgo] skip
-[short] skip 'builds and links another cmd/go'
+[compiler:gccgolang] skip
+[short] skip 'builds and links another cmd/golang'
 
 mkdir $WORK/new/bin
 
-# $GOROOT/bin/go is whatever the user has already installed
+# $GOROOT/bin/golang is whatever the user has already installed
 # (using make.bash or similar). We can't make assumptions about what
 # options it may have been built with, such as -trimpath or not.
 # Instead, we build a fresh copy of the binary with known settings.
-go build -o $WORK/new/bin/go$GOEXE cmd/go &
-go build -trimpath -o $WORK/bin/check$GOEXE check.go &
+golang build -o $WORK/new/bin/golang$GOEXE cmd/golang &
+golang build -trimpath -o $WORK/bin/check$GOEXE check.golang &
 wait
 
 env TESTGOROOT=$GOROOT
 env GOROOT=
 
 # Relocated Executable
-exec $WORK/bin/check$GOEXE $WORK/new/bin/go$GOEXE $TESTGOROOT
+exec $WORK/bin/check$GOEXE $WORK/new/bin/golang$GOEXE $TESTGOROOT
 
 # Relocated Tree:
 # If the binary is sitting in a bin dir next to ../pkg/tool, that counts as a GOROOT,
 # so it should find the new tree.
 mkdir $WORK/new/pkg/tool
-exec $WORK/bin/check$GOEXE $WORK/new/bin/go$GOEXE $WORK/new
+exec $WORK/bin/check$GOEXE $WORK/new/bin/golang$GOEXE $WORK/new
 
 [!symlink] stop 'The rest of the test cases require symlinks'
 
 # Symlinked Executable:
-# With a symlink into go tree, we should still find the go tree.
+# With a symlink into golang tree, we should still find the golang tree.
 mkdir $WORK/other/bin
-symlink $WORK/other/bin/go$GOEXE -> $WORK/new/bin/go$GOEXE
-exec $WORK/bin/check$GOEXE $WORK/new/bin/go$GOEXE $WORK/new
+symlink $WORK/other/bin/golang$GOEXE -> $WORK/new/bin/golang$GOEXE
+exec $WORK/bin/check$GOEXE $WORK/new/bin/golang$GOEXE $WORK/new
 
 rm $WORK/new/pkg
 
@@ -38,9 +38,9 @@ rm $WORK/new/pkg
 # new tree when they call runtime.GOROOT.
 symlink $WORK/new/src -> $TESTGOROOT/src
 symlink $WORK/new/pkg -> $TESTGOROOT/pkg
-exec $WORK/new/bin/go$GOEXE run check_runtime_goroot.go $WORK/new
+exec $WORK/new/bin/golang$GOEXE run check_runtime_golangroot.golang $WORK/new
 
--- check.go --
+-- check.golang --
 package main
 
 import (
@@ -60,7 +60,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "%s env GOROOT: %v, %s\n", exe, err, out)
 		os.Exit(1)
 	}
-	goroot, err := filepath.EvalSymlinks(strings.TrimSpace(string(out)))
+	golangroot, err := filepath.EvalSymlinks(strings.TrimSpace(string(out)))
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
@@ -70,14 +70,14 @@ func main() {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
 	}
-	if !strings.EqualFold(goroot, want) {
-		fmt.Fprintf(os.Stderr, "go env GOROOT:\nhave %s\nwant %s\n", goroot, want)
+	if !strings.EqualFold(golangroot, want) {
+		fmt.Fprintf(os.Stderr, "golang env GOROOT:\nhave %s\nwant %s\n", golangroot, want)
 		os.Exit(1)
 	}
-	fmt.Fprintf(os.Stderr, "go env GOROOT: %s\n", goroot)
+	fmt.Fprintf(os.Stderr, "golang env GOROOT: %s\n", golangroot)
 
 }
--- check_runtime_goroot.go --
+-- check_runtime_golangroot.golang --
 package main
 
 import (
@@ -89,7 +89,7 @@ import (
 )
 
 func main() {
-	goroot, err := filepath.EvalSymlinks(runtime.GOROOT())
+	golangroot, err := filepath.EvalSymlinks(runtime.GOROOT())
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
@@ -99,10 +99,10 @@ func main() {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
 	}
-	if !strings.EqualFold(goroot, want) {
-		fmt.Fprintf(os.Stderr, "go env GOROOT:\nhave %s\nwant %s\n", goroot, want)
+	if !strings.EqualFold(golangroot, want) {
+		fmt.Fprintf(os.Stderr, "golang env GOROOT:\nhave %s\nwant %s\n", golangroot, want)
 		os.Exit(1)
 	}
-	fmt.Fprintf(os.Stderr, "go env GOROOT: %s\n", goroot)
+	fmt.Fprintf(os.Stderr, "golang env GOROOT: %s\n", golangroot)
 
 }

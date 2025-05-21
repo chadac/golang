@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package unix
@@ -38,9 +38,9 @@ type Addrinfo struct {
 	Next      *Addrinfo
 }
 
-//go:cgo_ldflag "-lresolv"
+//golang:cgolang_ldflag "-lresolv"
 
-//go:cgo_import_dynamic libc_getaddrinfo getaddrinfo "/usr/lib/libSystem.B.dylib"
+//golang:cgolang_import_dynamic libc_getaddrinfo getaddrinfo "/usr/lib/libSystem.B.dylib"
 func libc_getaddrinfo_trampoline()
 
 func Getaddrinfo(hostname, servname *byte, hints *Addrinfo, res **Addrinfo) (int, error) {
@@ -58,7 +58,7 @@ func Getaddrinfo(hostname, servname *byte, hints *Addrinfo, res **Addrinfo) (int
 	return int(gerrno), err
 }
 
-//go:cgo_import_dynamic libc_freeaddrinfo freeaddrinfo "/usr/lib/libSystem.B.dylib"
+//golang:cgolang_import_dynamic libc_freeaddrinfo freeaddrinfo "/usr/lib/libSystem.B.dylib"
 func libc_freeaddrinfo_trampoline()
 
 func Freeaddrinfo(ai *Addrinfo) {
@@ -67,7 +67,7 @@ func Freeaddrinfo(ai *Addrinfo) {
 		0, 0, 0, 0, 0)
 }
 
-//go:cgo_import_dynamic libc_getnameinfo getnameinfo "/usr/lib/libSystem.B.dylib"
+//golang:cgolang_import_dynamic libc_getnameinfo getnameinfo "/usr/lib/libSystem.B.dylib"
 func libc_getnameinfo_trampoline()
 
 func Getnameinfo(sa *syscall.RawSockaddr, salen int, host *byte, hostlen int, serv *byte, servlen int, flags int) (int, error) {
@@ -88,7 +88,7 @@ func Getnameinfo(sa *syscall.RawSockaddr, salen int, host *byte, hostlen int, se
 	return int(gerrno), err
 }
 
-//go:cgo_import_dynamic libc_gai_strerror gai_strerror "/usr/lib/libSystem.B.dylib"
+//golang:cgolang_import_dynamic libc_gai_strerror gai_strerror "/usr/lib/libSystem.B.dylib"
 func libc_gai_strerror_trampoline()
 
 func GaiStrerror(ecode int) string {
@@ -99,32 +99,32 @@ func GaiStrerror(ecode int) string {
 }
 
 // Implemented in the runtime package.
-func gostring(*byte) string
+func golangstring(*byte) string
 
 func GoString(p *byte) string {
-	return gostring(p)
+	return golangstring(p)
 }
 
-//go:linkname syscall_syscall syscall.syscall
+//golang:linkname syscall_syscall syscall.syscall
 func syscall_syscall(fn, a1, a2, a3 uintptr) (r1, r2 uintptr, err syscall.Errno)
 
-//go:linkname syscall_syscallPtr syscall.syscallPtr
+//golang:linkname syscall_syscallPtr syscall.syscallPtr
 func syscall_syscallPtr(fn, a1, a2, a3 uintptr) (r1, r2 uintptr, err syscall.Errno)
 
-//go:linkname syscall_syscall6 syscall.syscall6
+//golang:linkname syscall_syscall6 syscall.syscall6
 func syscall_syscall6(fn, a1, a2, a3, a4, a5, a6 uintptr) (r1, r2 uintptr, err syscall.Errno)
 
-//go:linkname syscall_syscall6X syscall.syscall6X
+//golang:linkname syscall_syscall6X syscall.syscall6X
 func syscall_syscall6X(fn, a1, a2, a3, a4, a5, a6 uintptr) (r1, r2 uintptr, err syscall.Errno)
 
-//go:linkname syscall_syscall9 syscall.syscall9
+//golang:linkname syscall_syscall9 syscall.syscall9
 func syscall_syscall9(fn, a1, a2, a3, a4, a5, a6, a7, a8, a9 uintptr) (r1, r2 uintptr, err syscall.Errno)
 
 type ResState struct {
 	unexported [69]uintptr
 }
 
-//go:cgo_import_dynamic libresolv_res_9_ninit res_9_ninit "/usr/lib/libresolv.9.dylib"
+//golang:cgolang_import_dynamic libresolv_res_9_ninit res_9_ninit "/usr/lib/libresolv.9.dylib"
 func libresolv_res_9_ninit_trampoline()
 
 func ResNinit(state *ResState) error {
@@ -137,7 +137,7 @@ func ResNinit(state *ResState) error {
 	return nil
 }
 
-//go:cgo_import_dynamic libresolv_res_9_nclose res_9_nclose "/usr/lib/libresolv.9.dylib"
+//golang:cgolang_import_dynamic libresolv_res_9_nclose res_9_nclose "/usr/lib/libresolv.9.dylib"
 func libresolv_res_9_nclose_trampoline()
 
 func ResNclose(state *ResState) {
@@ -146,7 +146,7 @@ func ResNclose(state *ResState) {
 		0, 0)
 }
 
-//go:cgo_import_dynamic libresolv_res_9_nsearch res_9_nsearch "/usr/lib/libresolv.9.dylib"
+//golang:cgolang_import_dynamic libresolv_res_9_nsearch res_9_nsearch "/usr/lib/libresolv.9.dylib"
 func libresolv_res_9_nsearch_trampoline()
 
 func ResNsearch(state *ResState, dname *byte, class, typ int, ans *byte, anslen int) (int, error) {

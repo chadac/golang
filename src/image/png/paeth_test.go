@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package png
@@ -46,10 +46,10 @@ func TestPaeth(t *testing.T) {
 	for a := 0; a < 256; a += 15 {
 		for b := 0; b < 256; b += 15 {
 			for c := 0; c < 256; c += 15 {
-				got := paeth(uint8(a), uint8(b), uint8(c))
+				golangt := paeth(uint8(a), uint8(b), uint8(c))
 				want := slowPaeth(uint8(a), uint8(b), uint8(c))
-				if got != want {
-					t.Errorf("a, b, c = %d, %d, %d: got %d, want %d", a, b, c, got, want)
+				if golangt != want {
+					t.Errorf("a, b, c = %d, %d, %d: golangt %d, want %d", a, b, c, golangt, want)
 				}
 			}
 		}
@@ -83,7 +83,7 @@ func TestPaethDecode(t *testing.T) {
 			filterPaeth(cdat1, pdat1, bytesPerPixel)
 			slowFilterPaeth(cdat2, pdat2, bytesPerPixel)
 			if !bytes.Equal(cdat1, cdat2) {
-				t.Errorf("bytesPerPixel: %d\npdat0: % x\ncdat0: % x\ngot:   % x\nwant:  % x", bytesPerPixel, pdat0, cdat0, cdat1, cdat2)
+				t.Errorf("bytesPerPixel: %d\npdat0: % x\ncdat0: % x\ngolangt:   % x\nwant:  % x", bytesPerPixel, pdat0, cdat0, cdat1, cdat2)
 				break
 			}
 		}

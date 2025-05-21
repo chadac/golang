@@ -1,10 +1,10 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package cases
 
-import "golang.org/x/text/transform"
+import "golanglang.org/x/text/transform"
 
 type caseFolder struct{ transform.NopResetter }
 

@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -15,7 +15,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"golang.org/x/tools/cover"
+	"golanglang.org/x/tools/cover"
 )
 
 // htmlOutput reads the profile data from profile and generates an HTML
@@ -174,7 +174,7 @@ type templateData struct {
 
 // PackageName returns a name for the package being shown.
 // It does this by choosing the penultimate element of the path
-// name, so foo.bar/baz/foo.go chooses 'baz'. This is cheap
+// name, so foo.bar/baz/foo.golang chooses 'baz'. This is cheap
 // and easy, avoids parsing the Go file, and gets a better answer
 // for package main. It returns the empty string if there is
 // a problem.

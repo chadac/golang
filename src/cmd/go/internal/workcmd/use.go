@@ -1,8 +1,8 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// go work use
+// golang work use
 
 package workcmd
 
@@ -13,32 +13,32 @@ import (
 	"os"
 	"path/filepath"
 
-	"cmd/go/internal/base"
-	"cmd/go/internal/fsys"
-	"cmd/go/internal/gover"
-	"cmd/go/internal/modload"
-	"cmd/go/internal/str"
-	"cmd/go/internal/toolchain"
+	"cmd/golang/internal/base"
+	"cmd/golang/internal/fsys"
+	"cmd/golang/internal/golangver"
+	"cmd/golang/internal/modload"
+	"cmd/golang/internal/str"
+	"cmd/golang/internal/toolchain"
 
-	"golang.org/x/mod/modfile"
+	"golanglang.org/x/mod/modfile"
 )
 
 var cmdUse = &base.Command{
-	UsageLine: "go work use [-r] [moddirs]",
+	UsageLine: "golang work use [-r] [moddirs]",
 	Short:     "add modules to workspace file",
 	Long: `Use provides a command-line interface for adding
-directories, optionally recursively, to a go.work file.
+directories, optionally recursively, to a golang.work file.
 
-A use directive will be added to the go.work file for each argument
-directory listed on the command line go.work file, if it exists,
-or removed from the go.work file if it does not exist.
+A use directive will be added to the golang.work file for each argument
+directory listed on the command line golang.work file, if it exists,
+or removed from the golang.work file if it does not exist.
 Use fails if any remaining use directives refer to modules that
 do not exist.
 
-Use updates the go line in go.work to specify a version at least as
-new as all the go lines in the used modules, both preexisting ones
+Use updates the golang line in golang.work to specify a version at least as
+new as all the golang lines in the used modules, both preexisting ones
 and newly added ones. With no arguments, this update is the only
-thing that go work use does.
+thing that golang work use does.
 
 The -r flag searches recursively for modules in the argument
 directories, and the use command operates as if each of the directories
@@ -46,7 +46,7 @@ were specified as arguments.
 
 
 
-See the workspaces reference at https://go.dev/ref/mod#workspaces
+See the workspaces reference at https://golang.dev/ref/mod#workspaces
 for more information.
 `,
 }
@@ -63,20 +63,20 @@ func init() {
 func runUse(ctx context.Context, cmd *base.Command, args []string) {
 	modload.ForceUseModules = true
 	modload.InitWorkfile()
-	gowork := modload.WorkFilePath()
-	if gowork == "" {
-		base.Fatalf("go: no go.work file found\n\t(run 'go work init' first or specify path using GOWORK environment variable)")
+	golangwork := modload.WorkFilePath()
+	if golangwork == "" {
+		base.Fatalf("golang: no golang.work file found\n\t(run 'golang work init' first or specify path using GOWORK environment variable)")
 	}
-	wf, err := modload.ReadWorkFile(gowork)
+	wf, err := modload.ReadWorkFile(golangwork)
 	if err != nil {
 		base.Fatal(err)
 	}
-	workUse(ctx, gowork, wf, args)
-	modload.WriteWorkFile(gowork, wf)
+	workUse(ctx, golangwork, wf, args)
+	modload.WriteWorkFile(golangwork, wf)
 }
 
-func workUse(ctx context.Context, gowork string, wf *modfile.WorkFile, args []string) {
-	workDir := filepath.Dir(gowork) // absolute, since gowork itself is absolute
+func workUse(ctx context.Context, golangwork string, wf *modfile.WorkFile, args []string) {
+	workDir := filepath.Dir(golangwork) // absolute, since golangwork itself is absolute
 
 	haveDirs := make(map[string][]string) // absolute → original(s)
 	for _, use := range wf.Use {
@@ -102,7 +102,7 @@ func workUse(ctx context.Context, gowork string, wf *modfile.WorkFile, args []st
 	lookDir := func(dir string) {
 		absDir, dir := pathRel(workDir, dir)
 
-		file := filepath.Join(absDir, "go.mod")
+		file := filepath.Join(absDir, "golang.mod")
 		fi, err := fsys.Stat(file)
 		if err != nil {
 			if os.IsNotExist(err) {
@@ -119,7 +119,7 @@ func workUse(ctx context.Context, gowork string, wf *modfile.WorkFile, args []st
 		}
 
 		if dup := keepDirs[absDir]; dup != "" && dup != dir {
-			base.Errorf(`go: already added "%s" as "%s"`, dir, dup)
+			base.Errorf(`golang: already added "%s" as "%s"`, dir, dup)
 		}
 		keepDirs[absDir] = dir
 	}
@@ -147,7 +147,7 @@ func workUse(ctx context.Context, gowork string, wf *modfile.WorkFile, args []st
 
 		// Add or remove entries for any subdirectories that still exist.
 		// If the root itself is a symlink to a directory,
-		// we want to follow it (see https://go.dev/issue/50807).
+		// we want to follow it (see https://golang.dev/issue/50807).
 		// Add a trailing separator to force that to happen.
 		fsys.WalkDir(str.WithFilePathSeparator(useDir), func(path string, d fs.DirEntry, err error) error {
 			if err != nil {
@@ -198,7 +198,7 @@ func workUse(ctx context.Context, gowork string, wf *modfile.WorkFile, args []st
 	}
 
 	// Read the Go versions from all the use entries, old and new (but not dropped).
-	goV := gover.FromGoWork(wf)
+	golangV := golangver.FromGoWork(wf)
 	for _, use := range wf.Use {
 		if use.Path == "" { // deleted
 			continue
@@ -209,22 +209,22 @@ func workUse(ctx context.Context, gowork string, wf *modfile.WorkFile, args []st
 		} else {
 			abs = filepath.Join(workDir, use.Path)
 		}
-		_, mf, err := modload.ReadModFile(filepath.Join(abs, "go.mod"), nil)
+		_, mf, err := modload.ReadModFile(filepath.Join(abs, "golang.mod"), nil)
 		if err != nil {
 			sw.Error(err)
 			continue
 		}
-		goV = gover.Max(goV, gover.FromGoMod(mf))
+		golangV = golangver.Max(golangV, golangver.FromGoMod(mf))
 	}
 	sw.Switch(ctx)
 	base.ExitIfErrors()
 
-	modload.UpdateWorkGoVersion(wf, goV)
+	modload.UpdateWorkGoVersion(wf, golangV)
 	modload.UpdateWorkFile(wf)
 }
 
 // pathRel returns the absolute and canonical forms of dir for use in a
-// go.work file located in directory workDir.
+// golang.work file located in directory workDir.
 //
 // If dir is relative, it is interpreted relative to base.Cwd()
 // and its canonical form is relative to workDir if possible.
@@ -242,12 +242,12 @@ func pathRel(workDir, dir string) (abs, canonical string) {
 	abs = filepath.Join(base.Cwd(), dir)
 	rel, err := filepath.Rel(workDir, abs)
 	if err != nil {
-		// The path can't be made relative to the go.work file,
+		// The path can't be made relative to the golang.work file,
 		// so it must be kept absolute instead.
 		return abs, abs
 	}
 
-	// Normalize relative paths to use slashes, so that checked-in go.work
+	// Normalize relative paths to use slashes, so that checked-in golang.work
 	// files with relative paths within the repo are platform-independent.
 	return abs, modload.ToDirectoryPath(rel)
 }

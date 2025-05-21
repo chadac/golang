@@ -1,8 +1,8 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build windows
+//golang:build windows
 
 package net
 
@@ -57,14 +57,14 @@ func TestUnixConnLocalWindows(t *testing.T) {
 		if laddr == "" {
 			laddr = "@"
 		}
-		var connAddrs = [3]struct{ got, want Addr }{
+		var connAddrs = [3]struct{ golangt, want Addr }{
 			{ln.Addr(), ta},
 			{c.LocalAddr(), &UnixAddr{Name: laddr, Net: "unix"}},
 			{c.RemoteAddr(), ta},
 		}
 		for _, ca := range connAddrs {
-			if !reflect.DeepEqual(ca.got, ca.want) {
-				t.Fatalf("got %#v, expected %#v", ca.got, ca.want)
+			if !reflect.DeepEqual(ca.golangt, ca.want) {
+				t.Fatalf("golangt %#v, expected %#v", ca.golangt, ca.want)
 			}
 		}
 	}

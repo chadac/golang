@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package types2
@@ -71,7 +71,7 @@ func (check *Checker) validType0(pos syntax.Pos, typ Type, nest, path []*Named) 
 		}
 
 	case *Named:
-		// TODO(gri) The optimization below is incorrect (see go.dev/issue/65711):
+		// TODO(gri) The optimization below is incorrect (see golang.dev/issue/65711):
 		//           in that issue `type A[P any] [1]P` is a valid type on its own
 		//           and the (uninstantiated) A is recorded in check.valids. As a
 		//           consequence, when checking the remaining declarations, which
@@ -84,7 +84,7 @@ func (check *Checker) validType0(pos syntax.Pos, typ Type, nest, path []*Named) 
 		//
 		// // Exit early if we already know t is valid.
 		// // This is purely an optimization but it prevents excessive computation
-		// // times in pathological cases such as testdata/fixedbugs/issue6977.go.
+		// // times in pathological cases such as testdata/fixedbugs/issue6977.golang.
 		// // (Note: The valids map could also be allocated locally, once for each
 		// // validType call.)
 		// if check.valids.lookup(t) != nil {
@@ -122,7 +122,7 @@ func (check *Checker) validType0(pos syntax.Pos, typ Type, nest, path []*Named) 
 				// they cannot have been imported.
 				// Therefore it is safe to change their underlying types; there is
 				// no chance for a race condition (the types of the current package
-				// are not yet available to other goroutines).
+				// are not yet available to other golangroutines).
 				assert(t.obj.pkg == check.pkg)
 				assert(t.Origin().obj.pkg == check.pkg)
 				t.underlying = Typ[Invalid]
@@ -176,7 +176,7 @@ func (check *Checker) validType0(pos syntax.Pos, typ Type, nest, path []*Named) 
 					res := check.validType0(pos, targ, nest[:d], path)
 					// The check.validType0 call with nest[:d] may have
 					// overwritten the entry at the current depth d.
-					// Restore the entry (was issue go.dev/issue/66323).
+					// Restore the entry (was issue golang.dev/issue/66323).
 					nest[d] = inst
 					return res
 				}

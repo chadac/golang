@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package x509
@@ -20,7 +20,7 @@ import (
 // and RFC 5208.
 type pkcs8 struct {
 	Version    int
-	Algo       pkix.AlgorithmIdentifier
+	Algolang       pkix.AlgolangrithmIdentifier
 	PrivateKey []byte
 	// optional attributes omitted.
 }
@@ -47,15 +47,15 @@ func ParsePKCS8PrivateKey(der []byte) (key any, err error) {
 		return nil, err
 	}
 	switch {
-	case privKey.Algo.Algorithm.Equal(oidPublicKeyRSA):
+	case privKey.Algolang.Algolangrithm.Equal(oidPublicKeyRSA):
 		key, err = ParsePKCS1PrivateKey(privKey.PrivateKey)
 		if err != nil {
 			return nil, errors.New("x509: failed to parse RSA private key embedded in PKCS#8: " + err.Error())
 		}
 		return key, nil
 
-	case privKey.Algo.Algorithm.Equal(oidPublicKeyECDSA):
-		bytes := privKey.Algo.Parameters.FullBytes
+	case privKey.Algolang.Algolangrithm.Equal(oidPublicKeyECDSA):
+		bytes := privKey.Algolang.Parameters.FullBytes
 		namedCurveOID := new(asn1.ObjectIdentifier)
 		if _, err := asn1.Unmarshal(bytes, namedCurveOID); err != nil {
 			namedCurveOID = nil
@@ -66,8 +66,8 @@ func ParsePKCS8PrivateKey(der []byte) (key any, err error) {
 		}
 		return key, nil
 
-	case privKey.Algo.Algorithm.Equal(oidPublicKeyEd25519):
-		if l := len(privKey.Algo.Parameters.FullBytes); l != 0 {
+	case privKey.Algolang.Algolangrithm.Equal(oidPublicKeyEd25519):
+		if l := len(privKey.Algolang.Parameters.FullBytes); l != 0 {
 			return nil, errors.New("x509: invalid Ed25519 private key parameters")
 		}
 		var curvePrivateKey []byte
@@ -79,8 +79,8 @@ func ParsePKCS8PrivateKey(der []byte) (key any, err error) {
 		}
 		return ed25519.NewKeyFromSeed(curvePrivateKey), nil
 
-	case privKey.Algo.Algorithm.Equal(oidPublicKeyX25519):
-		if l := len(privKey.Algo.Parameters.FullBytes); l != 0 {
+	case privKey.Algolang.Algolangrithm.Equal(oidPublicKeyX25519):
+		if l := len(privKey.Algolang.Parameters.FullBytes); l != 0 {
 			return nil, errors.New("x509: invalid X25519 private key parameters")
 		}
 		var curvePrivateKey []byte
@@ -90,7 +90,7 @@ func ParsePKCS8PrivateKey(der []byte) (key any, err error) {
 		return ecdh.X25519().NewPrivateKey(curvePrivateKey)
 
 	default:
-		return nil, fmt.Errorf("x509: PKCS#8 wrapping contained private key with unknown algorithm: %v", privKey.Algo.Algorithm)
+		return nil, fmt.Errorf("x509: PKCS#8 wrapping contained private key with unknown algolangrithm: %v", privKey.Algolang.Algolangrithm)
 	}
 }
 
@@ -108,8 +108,8 @@ func MarshalPKCS8PrivateKey(key any) ([]byte, error) {
 
 	switch k := key.(type) {
 	case *rsa.PrivateKey:
-		privKey.Algo = pkix.AlgorithmIdentifier{
-			Algorithm:  oidPublicKeyRSA,
+		privKey.Algolang = pkix.AlgolangrithmIdentifier{
+			Algolangrithm:  oidPublicKeyRSA,
 			Parameters: asn1.NullRawValue,
 		}
 		k.Precompute()
@@ -127,8 +127,8 @@ func MarshalPKCS8PrivateKey(key any) ([]byte, error) {
 		if err != nil {
 			return nil, errors.New("x509: failed to marshal curve OID: " + err.Error())
 		}
-		privKey.Algo = pkix.AlgorithmIdentifier{
-			Algorithm: oidPublicKeyECDSA,
+		privKey.Algolang = pkix.AlgolangrithmIdentifier{
+			Algolangrithm: oidPublicKeyECDSA,
 			Parameters: asn1.RawValue{
 				FullBytes: oidBytes,
 			},
@@ -138,8 +138,8 @@ func MarshalPKCS8PrivateKey(key any) ([]byte, error) {
 		}
 
 	case ed25519.PrivateKey:
-		privKey.Algo = pkix.AlgorithmIdentifier{
-			Algorithm: oidPublicKeyEd25519,
+		privKey.Algolang = pkix.AlgolangrithmIdentifier{
+			Algolangrithm: oidPublicKeyEd25519,
 		}
 		curvePrivateKey, err := asn1.Marshal(k.Seed())
 		if err != nil {
@@ -149,8 +149,8 @@ func MarshalPKCS8PrivateKey(key any) ([]byte, error) {
 
 	case *ecdh.PrivateKey:
 		if k.Curve() == ecdh.X25519() {
-			privKey.Algo = pkix.AlgorithmIdentifier{
-				Algorithm: oidPublicKeyX25519,
+			privKey.Algolang = pkix.AlgolangrithmIdentifier{
+				Algolangrithm: oidPublicKeyX25519,
 			}
 			var err error
 			if privKey.PrivateKey, err = asn1.Marshal(k.Bytes()); err != nil {
@@ -165,8 +165,8 @@ func MarshalPKCS8PrivateKey(key any) ([]byte, error) {
 			if err != nil {
 				return nil, errors.New("x509: failed to marshal curve OID: " + err.Error())
 			}
-			privKey.Algo = pkix.AlgorithmIdentifier{
-				Algorithm: oidPublicKeyECDSA,
+			privKey.Algolang = pkix.AlgolangrithmIdentifier{
+				Algolangrithm: oidPublicKeyECDSA,
 				Parameters: asn1.RawValue{
 					FullBytes: oidBytes,
 				},

@@ -13,7 +13,7 @@ Text.
 6. And unwrapped.
 
 7. The blank line stops the heuristic.
--- gofmt --
+-- golangfmt --
 Text.
 
 1. Not a list

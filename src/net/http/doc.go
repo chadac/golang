@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 /*
@@ -54,7 +54,7 @@ compression, and other settings, create a [Transport]:
 	resp, err := client.Get("https://example.com")
 
 Clients and Transports are safe for concurrent use by multiple
-goroutines and for efficiency should only be created once and re-used.
+golangroutines and for efficiency should only be created once and re-used.
 
 # Servers
 
@@ -96,14 +96,14 @@ currently supported:
 	GODEBUG=http2debug=1   # enable verbose HTTP/2 debug logs
 	GODEBUG=http2debug=2   # ... even more verbose, with frame dumps
 
-Please report any issues before disabling HTTP/2 support: https://golang.org/s/http2bug
+Please report any issues before disabling HTTP/2 support: https://golanglang.org/s/http2bug
 
 The http package's [Transport] and [Server] both automatically enable
 HTTP/2 support for simple configurations. To enable HTTP/2 for more
 complex configurations, to use lower-level HTTP/2 features, or to use
-a newer version of Go's http2 package, import "golang.org/x/net/http2"
+a newer version of Go's http2 package, import "golanglang.org/x/net/http2"
 directly and use its ConfigureTransport and/or ConfigureServer
-functions. Manually configuring HTTP/2 via the golang.org/x/net/http2
+functions. Manually configuring HTTP/2 via the golanglang.org/x/net/http2
 package takes precedence over the net/http package's built-in HTTP/2
 support.
 */

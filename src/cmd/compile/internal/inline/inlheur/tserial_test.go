@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package inlheur
@@ -49,10 +49,10 @@ func TestSerDeser(t *testing.T) {
 	for k, tc := range testcases {
 		s := tc.SerializeToString()
 		fp := DeserializeFromString(s)
-		got := fp.String()
+		golangt := fp.String()
 		want := tc.String()
 		if !fpeq(*fp, tc) {
-			t.Errorf("eq check failed for test %d: got:\n%s\nwant:\n%s\n", k, got, want)
+			t.Errorf("eq check failed for test %d: golangt:\n%s\nwant:\n%s\n", k, golangt, want)
 		}
 	}
 

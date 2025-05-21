@@ -1,5 +1,5 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 .file "gcc_aix_ppc64.S"
@@ -30,7 +30,7 @@ crosscall_ppc64:
 	stdu	1, -296(1)
 
 	// Set up Go ABI constant registers
-	// Must match _cgo_reginit in runtime package.
+	// Must match _cgolang_reginit in runtime package.
 	xor 0, 0, 0
 
 	// Restore g pointer (r30 in Go ABI, which may have been clobbered by C)

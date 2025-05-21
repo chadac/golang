@@ -1,12 +1,12 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package big
 
 import (
 	"bytes"
-	"encoding/gob"
+	"encoding/golangb"
 	"encoding/json"
 	"encoding/xml"
 	"testing"
@@ -24,8 +24,8 @@ var encodingTests = []string{
 
 func TestIntGobEncoding(t *testing.T) {
 	var medium bytes.Buffer
-	enc := gob.NewEncoder(&medium)
-	dec := gob.NewDecoder(&medium)
+	enc := golangb.NewEncoder(&medium)
+	dec := golangb.NewDecoder(&medium)
 	for _, test := range encodingTests {
 		for _, sign := range []string{"", "+", "-"} {
 			x := sign + test
@@ -42,35 +42,35 @@ func TestIntGobEncoding(t *testing.T) {
 				continue
 			}
 			if rx.Cmp(&tx) != 0 {
-				t.Errorf("transmission of %s failed: got %s want %s", &tx, &rx, &tx)
+				t.Errorf("transmission of %s failed: golangt %s want %s", &tx, &rx, &tx)
 			}
 		}
 	}
 }
 
-// Sending a nil Int pointer (inside a slice) on a round trip through gob should yield a zero.
+// Sending a nil Int pointer (inside a slice) on a round trip through golangb should yield a zero.
 // TODO: top-level nils.
 func TestGobEncodingNilIntInSlice(t *testing.T) {
 	buf := new(bytes.Buffer)
-	enc := gob.NewEncoder(buf)
-	dec := gob.NewDecoder(buf)
+	enc := golangb.NewEncoder(buf)
+	dec := golangb.NewDecoder(buf)
 
 	var in = make([]*Int, 1)
 	err := enc.Encode(&in)
 	if err != nil {
-		t.Errorf("gob encode failed: %q", err)
+		t.Errorf("golangb encode failed: %q", err)
 	}
 	var out []*Int
 	err = dec.Decode(&out)
 	if err != nil {
-		t.Fatalf("gob decode failed: %q", err)
+		t.Fatalf("golangb decode failed: %q", err)
 	}
 	if len(out) != 1 {
-		t.Fatalf("wrong len; want 1 got %d", len(out))
+		t.Fatalf("wrong len; want 1 golangt %d", len(out))
 	}
 	var zero Int
 	if out[0].Cmp(&zero) != 0 {
-		t.Fatalf("transmission of (*Int)(nil) failed: got %s want 0", out)
+		t.Fatalf("transmission of (*Int)(nil) failed: golangt %s want 0", out)
 	}
 }
 
@@ -91,7 +91,7 @@ func TestIntJSONEncoding(t *testing.T) {
 				continue
 			}
 			if rx.Cmp(&tx) != 0 {
-				t.Errorf("JSON encoding of %s failed: got %s want %s", &tx, &rx, &tx)
+				t.Errorf("JSON encoding of %s failed: golangt %s want %s", &tx, &rx, &tx)
 			}
 		}
 	}
@@ -103,10 +103,10 @@ func TestIntJSONEncodingNil(t *testing.T) {
 	if err != nil {
 		t.Fatalf("marshaling of nil failed: %s", err)
 	}
-	got := string(b)
+	golangt := string(b)
 	want := "null"
-	if got != want {
-		t.Fatalf("marshaling of nil failed: got %s want %s", got, want)
+	if golangt != want {
+		t.Fatalf("marshaling of nil failed: golangt %s want %s", golangt, want)
 	}
 }
 
@@ -127,7 +127,7 @@ func TestIntXMLEncoding(t *testing.T) {
 				continue
 			}
 			if rx.Cmp(&tx) != 0 {
-				t.Errorf("XML encoding of %s failed: got %s want %s", &tx, &rx, &tx)
+				t.Errorf("XML encoding of %s failed: golangt %s want %s", &tx, &rx, &tx)
 			}
 		}
 	}
@@ -151,7 +151,7 @@ func TestIntAppendText(t *testing.T) {
 				continue
 			}
 			if rx.Cmp(&tx) != 0 {
-				t.Errorf("AppendText of %s failed: got %s want %s", &tx, &rx, &tx)
+				t.Errorf("AppendText of %s failed: golangt %s want %s", &tx, &rx, &tx)
 			}
 		}
 	}
@@ -162,6 +162,6 @@ func TestIntAppendTextNil(t *testing.T) {
 	buf := make([]byte, 4, 16)
 	data, _ := x.AppendText(buf)
 	if string(data[4:]) != "<nil>" {
-		t.Errorf("got %q, want <nil>", data[4:])
+		t.Errorf("golangt %q, want <nil>", data[4:])
 	}
 }

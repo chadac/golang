@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package crc32 implements the 32-bit cyclic redundancy check, or CRC-32,
@@ -47,10 +47,10 @@ type Table [256]uint32
 // The interface that they implement is as follows:
 //
 //    // archAvailableIEEE reports whether an architecture-specific CRC32-IEEE
-//    // algorithm is available.
+//    // algolangrithm is available.
 //    archAvailableIEEE() bool
 //
-//    // archInitIEEE initializes the architecture-specific CRC3-IEEE algorithm.
+//    // archInitIEEE initializes the architecture-specific CRC3-IEEE algolangrithm.
 //    // It can only be called if archAvailableIEEE() returns true.
 //    archInitIEEE()
 //
@@ -59,11 +59,11 @@ type Table [256]uint32
 //    archUpdateIEEE(crc uint32, p []byte) uint32
 //
 //    // archAvailableCastagnoli reports whether an architecture-specific
-//    // CRC32-C algorithm is available.
+//    // CRC32-C algolangrithm is available.
 //    archAvailableCastagnoli() bool
 //
 //    // archInitCastagnoli initializes the architecture-specific CRC32-C
-//    // algorithm. It can only be called if archAvailableCastagnoli() returns
+//    // algolangrithm. It can only be called if archAvailableCastagnoli() returns
 //    // true.
 //    archInitCastagnoli()
 //

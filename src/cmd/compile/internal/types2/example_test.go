@@ -1,19 +1,19 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Only run where builders (build.golang.org) have
+// Only run where builders (build.golanglang.org) have
 // access to compiled packages for import.
 //
-//go:build !android && !ios && !js && !wasip1
+//golang:build !android && !ios && !js && !wasip1
 
 package types2_test
 
-// This file shows examples of basic usage of the go/types API.
+// This file shows examples of basic usage of the golang/types API.
 //
-// To locate a Go package, use (*go/build.Context).Import.
+// To locate a Go package, use (*golang/build.Context).Import.
 // To load, parse, and type-check a complete Go program
-// from source, use golang.org/x/tools/go/loader.
+// from source, use golanglang.org/x/tools/golang/loader.
 
 import (
 	"cmd/compile/internal/syntax"

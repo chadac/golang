@@ -1,17 +1,17 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file implements a simple printer performance benchmark:
-// go test -bench=BenchmarkPrint
+// golang test -bench=BenchmarkPrint
 
 package printer
 
 import (
 	"bytes"
-	"go/ast"
-	"go/parser"
-	"go/token"
+	"golang/ast"
+	"golang/parser"
+	"golang/token"
 	"io"
 	"log"
 	"os"
@@ -32,9 +32,9 @@ func testprint(out io.Writer, node ast.Node) {
 	}
 }
 
-// cannot initialize in init because (printer) Fprint launches goroutines.
+// cannot initialize in init because (printer) Fprint launches golangroutines.
 func initialize() {
-	const filename = "testdata/parser.go"
+	const filename = "testdata/parser.golang"
 
 	src, err := os.ReadFile(filename)
 	if err != nil {

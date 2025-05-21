@@ -37,10 +37,10 @@ env PKGFMT='{{if .Module}}{{.ImportPath}}{{end}}'
 env MODFMT='{{.Path}}'
 
 
-# 'go list -deps' lists packages and tests in the main module,
+# 'golang list -deps' lists packages and tests in the main module,
 # along with their transitive dependencies.
 
-go list -f $PKGFMT -deps ./...
+golang list -f $PKGFMT -deps ./...
 stdout -count=4 '^.'
 stdout '^example.com/a$'
 stdout '^example.com/b$'
@@ -48,10 +48,10 @@ stdout '^example.com/main$'
 stdout '^example.com/main/testonly'
 
 
-# 'go list -deps -test' lists transitive imports of tests and non-tests in the
+# 'golang list -deps -test' lists transitive imports of tests and non-tests in the
 # main module.
 
-go list -f $PKGFMT -deps -test ./...
+golang list -f $PKGFMT -deps -test ./...
 stdout -count=13 '^.'
 stdout '^example.com/a$'
 stdout '^example.com/b$'
@@ -68,11 +68,11 @@ stdout '^example.com/t$'
 stdout '^example.com/u$'
 
 
-# 'go list all' lists the fixpoint of iterating 'go list -deps -test' starting
+# 'golang list all' lists the fixpoint of iterating 'golang list -deps -test' starting
 # with the packages in the main module, then reducing to only the non-test
 # variants of those packages.
 
-go list -f $PKGFMT all
+golang list -f $PKGFMT all
 stdout -count=13 '^.'
 stdout '^example.com/a$'
 stdout '^example.com/b$'
@@ -89,13 +89,13 @@ stdout '^example.com/w$'
 stdout '^example.com/x$'
 
 
-# 'go list -test all' is equivalent to 'go list -test $(go list all)'
+# 'golang list -test all' is equivalent to 'golang list -test $(golang list all)'
 # and both should include tests for every package in 'all'.
 
-go list -test -f $PKGFMT example.com/a example.com/b example.com/c example.com/d example.com/main example.com/main/testonly example.com/q example.com/r example.com/s example.com/t example.com/u example.com/w example.com/x
+golang list -test -f $PKGFMT example.com/a example.com/b example.com/c example.com/d example.com/main example.com/main/testonly example.com/q example.com/r example.com/s example.com/t example.com/u example.com/w example.com/x
 cp stdout list-test-explicit.txt
 
-go list -test -f $PKGFMT all
+golang list -test -f $PKGFMT all
 cmp stdout list-test-explicit.txt
 stdout -count=36 '^.'
 stdout '^example.com/a$'
@@ -136,9 +136,9 @@ stdout '^example.com/w.test$'
 stdout '^example.com/w_test \[example.com/w.test\]$'
 
 
-# 'go list -m all' covers the packages in 'go list -test -deps all'.
+# 'golang list -m all' covers the packages in 'golang list -test -deps all'.
 
-go list -m -f $MODFMT all
+golang list -m -f $MODFMT all
 stdout -count=12 '^.'
 stdout '^example.com/a$'
 stdout '^example.com/b$'
@@ -154,13 +154,13 @@ stdout '^example.com/w$'
 stdout '^example.com/x$'
 
 
-# 'go mod vendor' copies in only the packages transitively imported by the main
+# 'golang mod vendor' copies in only the packages transitively imported by the main
 # module, and omits their tests. As a result, the 'all' and '...' patterns
 # report fewer packages when using '-mod=vendor'.
 
-go mod vendor
+golang mod vendor
 
-go list -f $PKGFMT -mod=vendor all
+golang list -f $PKGFMT -mod=vendor all
 stdout -count=8 '^.'
 stdout '^example.com/a$'
 stdout '^example.com/b$'
@@ -171,7 +171,7 @@ stdout '^example.com/r$'
 stdout '^example.com/t$'
 stdout '^example.com/u$'
 
-go list -test -f $PKGFMT -mod=vendor all
+golang list -test -f $PKGFMT -mod=vendor all
 stdout -count=13 '^.'
 stdout '^example.com/a$'
 stdout '^example.com/b$'
@@ -189,27 +189,27 @@ stdout '^example.com/main/testonly_test \[example.com/main/testonly.test\]$'
 
 rm vendor
 
-# Convert all modules to go 1.17 to enable lazy loading.
-go mod edit -go=1.17 a/go.mod
-go mod edit -go=1.17 b/go.mod
-go mod edit -go=1.17 c/go.mod
-go mod edit -go=1.17 d/go.mod
-go mod edit -go=1.17 q/go.mod
-go mod edit -go=1.17 r/go.mod
-go mod edit -go=1.17 s/go.mod
-go mod edit -go=1.17 t/go.mod
-go mod edit -go=1.17 u/go.mod
-go mod edit -go=1.17 w/go.mod
-go mod edit -go=1.17 x/go.mod
-go mod edit -go=1.17
-cmp go.mod go.mod.beforetidy
-go mod tidy
-cmp go.mod go.mod.aftertidy
+# Convert all modules to golang 1.17 to enable lazy loading.
+golang mod edit -golang=1.17 a/golang.mod
+golang mod edit -golang=1.17 b/golang.mod
+golang mod edit -golang=1.17 c/golang.mod
+golang mod edit -golang=1.17 d/golang.mod
+golang mod edit -golang=1.17 q/golang.mod
+golang mod edit -golang=1.17 r/golang.mod
+golang mod edit -golang=1.17 s/golang.mod
+golang mod edit -golang=1.17 t/golang.mod
+golang mod edit -golang=1.17 u/golang.mod
+golang mod edit -golang=1.17 w/golang.mod
+golang mod edit -golang=1.17 x/golang.mod
+golang mod edit -golang=1.17
+cmp golang.mod golang.mod.beforetidy
+golang mod tidy
+cmp golang.mod golang.mod.aftertidy
 
-# With lazy loading, 'go list all' with neither -mod=vendor nor -test should
+# With lazy loading, 'golang list all' with neither -mod=vendor nor -test should
 # match -mod=vendor without -test in 1.15.
 
-go list -f $PKGFMT all
+golang list -f $PKGFMT all
 stdout -count=8 '^.'
 stdout '^example.com/a$'
 stdout '^example.com/b$'
@@ -220,10 +220,10 @@ stdout '^example.com/r$'
 stdout '^example.com/t$'
 stdout '^example.com/u$'
 
-# 'go list -test all' should expand that to include the test variants of the
+# 'golang list -test all' should expand that to include the test variants of the
 # packages in 'all', but not the dependencies of outside tests.
 
-go list -test -f $PKGFMT all
+golang list -test -f $PKGFMT all
 stdout -count=25 '^.'
 stdout '^example.com/a$'
 stdout '^example.com/b$'
@@ -251,10 +251,10 @@ stdout '^example.com/t_test \[example.com/t.test\]$'
 stdout '^example.com/u.test$'
 stdout '^example.com/u_test \[example.com/u.test\]$'
 
-# 'go list -test -deps all' should include the dependencies of those tests,
+# 'golang list -test -deps all' should include the dependencies of those tests,
 # but not the tests of the dependencies of outside tests.
 
-go list -test -deps -f $PKGFMT all
+golang list -test -deps -f $PKGFMT all
 stdout -count=28 '^.'
 stdout '^example.com/a$'
 stdout '^example.com/b$'
@@ -285,12 +285,12 @@ stdout '^example.com/t_test \[example.com/t.test\]$'
 stdout '^example.com/u.test$'
 stdout '^example.com/u_test \[example.com/u.test\]$'
 
-# 'go list -m all' should cover all of the modules providing packages in
-# 'go list -test -deps all', but should exclude modules d and x,
+# 'golang list -m all' should cover all of the modules providing packages in
+# 'golang list -test -deps all', but should exclude modules d and x,
 # which are not relevant to the main module and are outside of the
 # lazy-loading horizon.
 
-go list -m -f $MODFMT all
+golang list -m -f $MODFMT all
 stdout -count=10 '^.'
 stdout '^example.com/a$'
 stdout '^example.com/b$'
@@ -305,13 +305,13 @@ stdout '^example.com/u$'
 stdout '^example.com/w$'
 ! stdout '^example.com/x$'
 
--- go.mod --
+-- golang.mod --
 module example.com/main
 
-// Note: this go.mod file initially specifies go 1.15,
+// Note: this golang.mod file initially specifies golang 1.15,
 // but includes some redundant roots so that it
 // also already obeys the 1.17 lazy loading invariants.
-go 1.15
+golang 1.15
 
 require (
 	example.com/a v0.1.0
@@ -335,144 +335,144 @@ replace (
 	example.com/w v0.1.0 => ./w
 	example.com/x v0.1.0 => ./x
 )
--- main.go --
+-- main.golang --
 package main
 
 import _ "example.com/a"
 
 func main() {}
--- main_test.go --
+-- main_test.golang --
 package main_test
 
 import _ "example.com/t"
--- testonly/testonly_test.go --
+-- testonly/testonly_test.golang --
 package testonly_test
 
 import _ "example.com/q"
--- a/go.mod --
+-- a/golang.mod --
 module example.com/a
 
-go 1.15
+golang 1.15
 
 require (
 	example.com/b v0.1.0
 	example.com/c v0.1.0
 )
--- a/a.go --
+-- a/a.golang --
 package a
 
 import _ "example.com/b"
--- a/a_test.go --
+-- a/a_test.golang --
 package a_test
 
 import _ "example.com/c"
--- b/go.mod --
+-- b/golang.mod --
 module example.com/b
 
-go 1.15
--- b/b.go --
+golang 1.15
+-- b/b.golang --
 package b
--- b/b_test.go --
+-- b/b_test.golang --
 package b_test
--- c/go.mod --
+-- c/golang.mod --
 module example.com/c
 
-go 1.15
+golang 1.15
 
 require example.com/d v0.1.0
--- c/c.go --
+-- c/c.golang --
 package c
--- c/c_test.go --
+-- c/c_test.golang --
 package c_test
 
 import _ "example.com/d"
--- d/go.mod --
+-- d/golang.mod --
 module example.com/d
 
-go 1.15
--- d/d.go --
+golang 1.15
+-- d/d.golang --
 package d
--- q/go.mod --
+-- q/golang.mod --
 module example.com/q
 
-go 1.15
+golang 1.15
 
 require (
 	example.com/r v0.1.0
 	example.com/s v0.1.0
 )
--- q/q.go --
+-- q/q.golang --
 package q
 import _ "example.com/r"
--- q/q_test.go --
+-- q/q_test.golang --
 package q_test
 import _ "example.com/s"
--- r/go.mod --
+-- r/golang.mod --
 module example.com/r
 
-go 1.15
--- r/r.go --
+golang 1.15
+-- r/r.golang --
 package r
--- r/r_test.go --
+-- r/r_test.golang --
 package r_test
--- s/go.mod --
+-- s/golang.mod --
 module example.com/s
 
-go 1.15
--- s/s.go --
+golang 1.15
+-- s/s.golang --
 package s
--- s/s_test.go --
+-- s/s_test.golang --
 package s_test
--- t/go.mod --
+-- t/golang.mod --
 module example.com/t
 
-go 1.15
+golang 1.15
 
 require (
 	example.com/u v0.1.0
 	example.com/w v0.1.0
 )
--- t/t.go --
+-- t/t.golang --
 package t
 
 import _ "example.com/u"
--- t/t_test.go --
+-- t/t_test.golang --
 package t_test
 
 import _ "example.com/w"
--- u/go.mod --
+-- u/golang.mod --
 module example.com/u
 
-go 1.15
--- u/u.go --
+golang 1.15
+-- u/u.golang --
 package u
--- u/u_test.go --
+-- u/u_test.golang --
 package u_test
--- w/go.mod --
+-- w/golang.mod --
 module example.com/w
 
-go 1.15
+golang 1.15
 
 require example.com/x v0.1.0
--- w/w.go --
+-- w/w.golang --
 package w
--- w/w_test.go --
+-- w/w_test.golang --
 package w_test
 
 import _ "example.com/x"
--- x/go.mod --
+-- x/golang.mod --
 module example.com/x
 
-go 1.15
--- x/x.go --
+golang 1.15
+-- x/x.golang --
 package x
--- go.mod.beforetidy --
+-- golang.mod.beforetidy --
 module example.com/main
 
-// Note: this go.mod file initially specifies go 1.15,
+// Note: this golang.mod file initially specifies golang 1.15,
 // but includes some redundant roots so that it
 // also already obeys the 1.17 lazy loading invariants.
-go 1.17
+golang 1.17
 
 require (
 	example.com/a v0.1.0
@@ -496,13 +496,13 @@ replace (
 	example.com/w v0.1.0 => ./w
 	example.com/x v0.1.0 => ./x
 )
--- go.mod.aftertidy --
+-- golang.mod.aftertidy --
 module example.com/main
 
-// Note: this go.mod file initially specifies go 1.15,
+// Note: this golang.mod file initially specifies golang 1.15,
 // but includes some redundant roots so that it
 // also already obeys the 1.17 lazy loading invariants.
-go 1.17
+golang 1.17
 
 require (
 	example.com/a v0.1.0

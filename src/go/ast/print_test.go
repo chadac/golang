@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ast
@@ -90,7 +90,7 @@ func TestPrint(t *testing.T) {
 			t.Errorf("Fprint failed: %s", err)
 		}
 		if s, ts := trim(buf.String()), trim(test.s); s != ts {
-			t.Errorf("got:\n%s\nexpected:\n%s\n", s, ts)
+			t.Errorf("golangt:\n%s\nexpected:\n%s\n", s, ts)
 		}
 	}
 }

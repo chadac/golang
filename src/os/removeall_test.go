@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package os_test
@@ -153,7 +153,7 @@ func TestRemoveAllLarge(t *testing.T) {
 
 func TestRemoveAllLongPath(t *testing.T) {
 	switch runtime.GOOS {
-	case "aix", "darwin", "ios", "dragonfly", "freebsd", "linux", "netbsd", "openbsd", "illumos", "solaris":
+	case "aix", "darwin", "ios", "dragolangnfly", "freebsd", "linux", "netbsd", "openbsd", "illumos", "solaris":
 		break
 	default:
 		t.Skip("skipping for not implemented platforms")
@@ -466,8 +466,8 @@ func TestRemoveAllNoFcntl(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	if got := bytes.Count(out, []byte("fcntl")); got >= 100 {
-		t.Errorf("found %d fcntl calls, want < 100", got)
+	if golangt := bytes.Count(out, []byte("fcntl")); golangt >= 100 {
+		t.Errorf("found %d fcntl calls, want < 100", golangt)
 	}
 }
 

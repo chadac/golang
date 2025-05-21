@@ -1,11 +1,11 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package web defines minimal helper routines for accessing HTTP/HTTPS
 // resources without requiring external dependencies on the net package.
 //
-// If the cmd_go_bootstrap build tag is present, web avoids the use of the net
+// If the cmd_golang_bootstrap build tag is present, web avoids the use of the net
 // package and returns errors for all network operations.
 package web
 
@@ -176,7 +176,7 @@ func (r *Response) formatErrorDetail() string {
 // and it is a redacted URL suitable for use in error messages.
 //
 // For the "https" scheme only, credentials are attached using the
-// cmd/go/internal/auth package. If the URL itself includes a username and
+// cmd/golang/internal/auth package. If the URL itself includes a username and
 // password, it will not be attempted under the "http" scheme unless the
 // security mode is Insecure.
 //

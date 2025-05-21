@@ -1,46 +1,46 @@
 env GO111MODULE=off
 
-! go test badtest/badexec
+! golang test badtest/badexec
 ! stdout ^ok
 stdout ^FAIL\tbadtest/badexec
 
-! go test badtest/badsyntax
+! golang test badtest/badsyntax
 ! stdout ^ok
 stdout ^FAIL\tbadtest/badsyntax
 
-! go test badtest/badvar
+! golang test badtest/badvar
 ! stdout ^ok
 stdout ^FAIL\tbadtest/badvar
 
-! go test notest
+! golang test notest
 ! stdout ^ok
-stderr '^notest.hello.go:6:1: syntax error: non-declaration statement outside function body' # Exercise issue #7108
+stderr '^notest.hello.golang:6:1: syntax error: non-declaration statement outside function body' # Exercise issue #7108
 
--- badtest/badexec/x_test.go --
+-- badtest/badexec/x_test.golang --
 package badexec
 
 func init() {
 	panic("badexec")
 }
 
--- badtest/badsyntax/x.go --
+-- badtest/badsyntax/x.golang --
 package badsyntax
 
--- badtest/badsyntax/x_test.go --
+-- badtest/badsyntax/x_test.golang --
 package badsyntax
 
 func func func func func!
 
--- badtest/badvar/x.go --
+-- badtest/badvar/x.golang --
 package badvar
 
--- badtest/badvar/x_test.go --
+-- badtest/badvar/x_test.golang --
 package badvar_test
 
 func f() {
 	_ = notdefined
 }
--- notest/hello.go --
+-- notest/hello.golang --
 package notest
 
 func hello() {

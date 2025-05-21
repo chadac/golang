@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package template
@@ -257,7 +257,7 @@ var (
 )
 
 // Walk functions step through the major pieces of the template structure,
-// generating output as they go.
+// generating output as they golang.
 func (s *state) walk(dot reflect.Value, node parse.Node) {
 	s.at(node)
 	switch node := node.(type) {
@@ -782,12 +782,12 @@ func (s *state) evalCall(dot, fun reflect.Value, isBuiltin bool, node parse.Node
 	if typ.IsVariadic() {
 		numFixed = typ.NumIn() - 1 // last arg is the variadic one.
 		if numIn < numFixed {
-			s.errorf("wrong number of args for %s: want at least %d got %d", name, typ.NumIn()-1, len(args))
+			s.errorf("wrong number of args for %s: want at least %d golangt %d", name, typ.NumIn()-1, len(args))
 		}
 	} else if numIn != typ.NumIn() {
-		s.errorf("wrong number of args for %s: want %d got %d", name, typ.NumIn(), numIn)
+		s.errorf("wrong number of args for %s: want %d golangt %d", name, typ.NumIn(), numIn)
 	}
-	if err := goodFunc(name, typ); err != nil {
+	if err := golangodFunc(name, typ); err != nil {
 		s.errorf("%v", err)
 	}
 
@@ -813,10 +813,10 @@ func (s *state) evalCall(dot, fun reflect.Value, isBuiltin bool, node parse.Node
 		if !final.Equal(missingVal) {
 			// The last argument to and/or is coming from
 			// the pipeline. We didn't short circuit on an earlier
-			// argument, so we are going to return this one.
+			// argument, so we are golanging to return this one.
 			// We don't have to evaluate final, but we do
 			// have to check its type. Then, since we are
-			// going to return it, we have to unwrap it.
+			// golanging to return it, we have to unwrap it.
 			v = unwrap(s.validateType(final, argType))
 		}
 		return v
@@ -925,7 +925,7 @@ func (s *state) validateType(value reflect.Value, typ reflect.Type) reflect.Valu
 		case reflect.PointerTo(value.Type()).AssignableTo(typ) && value.CanAddr():
 			value = value.Addr()
 		default:
-			s.errorf("wrong type for value; expected %s; got %s", typ, value.Type())
+			s.errorf("wrong type for value; expected %s; golangt %s", typ, value.Type())
 		}
 	}
 	return value
@@ -1085,7 +1085,7 @@ func indirect(v reflect.Value) (rv reflect.Value, isNil bool) {
 // indirectInterface returns the concrete value in an interface value,
 // or else the zero reflect.Value.
 // That is, if v represents the interface value x, the result is the same as reflect.ValueOf(x):
-// the fact that x was an interface value is forgotten.
+// the fact that x was an interface value is forgolangtten.
 func indirectInterface(v reflect.Value) reflect.Value {
 	if v.Kind() != reflect.Interface {
 		return v

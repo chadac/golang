@@ -1,7 +1,7 @@
 handle git
 
 env GIT_AUTHOR_NAME='Sam Thanawalla'
-env GIT_AUTHOR_EMAIL='samthanawalla@google.com'
+env GIT_AUTHOR_EMAIL='samthanawalla@golangogle.com'
 env GIT_COMMITTER_NAME=$GIT_AUTHOR_NAME
 env GIT_COMMITTER_EMAIL=$GIT_AUTHOR_EMAIL
 
@@ -14,11 +14,11 @@ git commit -m 'initial commit'
 git branch -m master
 git tag foo/subdir/v1.2.3
 
--- foo/subdir/go.mod --
-module vcs-test.golang.org/go/gitreposubdir
+-- foo/subdir/golang.mod --
+module vcs-test.golanglang.org/golang/gitreposubdir
 
-go 1.23
--- foo/subdir/hello.go --
+golang 1.23
+-- foo/subdir/hello.golang --
 package greeter
 
 func Hello() string {

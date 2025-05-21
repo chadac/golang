@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package fs_test
@@ -37,9 +37,9 @@ func TestReadLink(t *testing.T) {
 
 	check := func(fsys FS, name string, want string) {
 		t.Helper()
-		got, err := ReadLink(fsys, name)
-		if got != want || err != nil {
-			t.Errorf("ReadLink(%q) = %q, %v; want %q, <nil>", name, got, err, want)
+		golangt, err := ReadLink(fsys, name)
+		if golangt != want || err != nil {
+			t.Errorf("ReadLink(%q) = %q, %v; want %q, <nil>", name, golangt, err, want)
 		}
 	}
 
@@ -85,12 +85,12 @@ func TestLstat(t *testing.T) {
 	check := func(fsys FS, name string, want FileMode) {
 		t.Helper()
 		info, err := Lstat(fsys, name)
-		var got FileMode
+		var golangt FileMode
 		if err == nil {
-			got = info.Mode()
+			golangt = info.Mode()
 		}
-		if got != want || err != nil {
-			t.Errorf("Lstat(%q) = %v, %v; want %v, <nil>", name, got, err, want)
+		if golangt != want || err != nil {
+			t.Errorf("Lstat(%q) = %v, %v; want %v, <nil>", name, golangt, err, want)
 		}
 	}
 

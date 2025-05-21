@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package cookiejar
@@ -152,10 +152,10 @@ var punycodeTestCases = [...]struct {
 
 func TestPunycode(t *testing.T) {
 	for _, tc := range punycodeTestCases {
-		if got, err := encode("", tc.s); err != nil {
+		if golangt, err := encode("", tc.s); err != nil {
 			t.Errorf(`encode("", %q): %v`, tc.s, err)
-		} else if got != tc.encoded {
-			t.Errorf(`encode("", %q): got %q, want %q`, tc.s, got, tc.encoded)
+		} else if golangt != tc.encoded {
+			t.Errorf(`encode("", %q): golangt %q, want %q`, tc.s, golangt, tc.encoded)
 		}
 	}
 }

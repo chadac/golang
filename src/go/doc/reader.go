@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package doc
@@ -7,8 +7,8 @@ package doc
 import (
 	"cmp"
 	"fmt"
-	"go/ast"
-	"go/token"
+	"golang/ast"
+	"golang/token"
 	"internal/lazyregexp"
 	"path"
 	"slices"
@@ -73,7 +73,7 @@ func (mset methodSet) set(f *ast.FuncDecl, preserveAST bool) {
 		// A function with the same name has already been registered;
 		// since it has documentation, assume f is simply another
 		// implementation and ignore it. This does not happen if the
-		// caller is using go/build.ScanDir to determine the list of
+		// caller is using golang/build.ScanDir to determine the list of
 		// files implementing a package.
 		return
 	}
@@ -609,7 +609,7 @@ func (r *reader) readFile(src *ast.File) {
 					// common case: single declaration w/o parentheses
 					// (if a single declaration is parenthesized,
 					// create a new fake declaration below, so that
-					// go/doc type declarations always appear w/o
+					// golang/doc type declarations always appear w/o
 					// parentheses)
 					if s, ok := d.Specs[0].(*ast.TypeSpec); ok {
 						r.readType(d, s)
@@ -628,7 +628,7 @@ func (r *reader) readFile(src *ast.File) {
 							// will lead to the wrong selection range for
 							// the fake declaration if there are more
 							// than one type in the group (this affects
-							// src/cmd/godoc/godoc.go's posLink_urlFunc)
+							// src/cmd/golangdoc/golangdoc.golang's posLink_urlFunc)
 							TokPos: s.Pos(),
 							Tok:    token.TYPE,
 							Specs:  []ast.Spec{s},
@@ -985,7 +985,7 @@ var predeclaredConstants = map[string]bool{
 
 // assumedPackageName returns the assumed package name
 // for a given import path. This is a copy of
-// golang.org/x/tools/internal/imports.ImportPathToAssumedName.
+// golanglang.org/x/tools/internal/imports.ImportPathToAssumedName.
 func assumedPackageName(importPath string) string {
 	notIdentifier := func(ch rune) bool {
 		return !('a' <= ch && ch <= 'z' || 'A' <= ch && ch <= 'Z' ||
@@ -1003,7 +1003,7 @@ func assumedPackageName(importPath string) string {
 			}
 		}
 	}
-	base = strings.TrimPrefix(base, "go-")
+	base = strings.TrimPrefix(base, "golang-")
 	if i := strings.IndexFunc(base, notIdentifier); i >= 0 {
 		base = base[:i]
 	}

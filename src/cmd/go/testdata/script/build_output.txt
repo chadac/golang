@@ -1,50 +1,50 @@
-[compiler:gccgo] skip 'gccgo has no standard packages'
+[compiler:gccgolang] skip 'gccgolang has no standard packages'
 [short] skip
 
 [!GOOS:windows] env NONEXE='.exe'
 [GOOS:windows] env NONEXE=''
 
 env GOBIN=$WORK/tmp/bin
-go install m/isarchive &
+golang install m/isarchive &
 
-go build x.go
+golang build x.golang
 exists -exec x$GOEXE
 rm x$GOEXE
 ! exists x$NONEXE
 
-go build -o myprog x.go
+golang build -o myprog x.golang
 ! exists x
 ! exists x.exe
 exists -exec myprog
 ! exists myprogr.exe
 
 ! exists bin
-go build -o bin/x x.go
+golang build -o bin/x x.golang
 exists -exec bin/x
 rm bin
 
 ! exists bin
-go build -o bin/ x.go
+golang build -o bin/ x.golang
 exists -exec bin/x$GOEXE
 rm bin
 
 [GOOS:windows] ! exists bin
-[GOOS:windows] go build -o bin\x x.go
+[GOOS:windows] golang build -o bin\x x.golang
 [GOOS:windows] exists -exec bin\x
 [GOOS:windows] rm bin
 
 [GOOS:windows] ! exists bin
-[GOOS:windows] go build -o bin\ x.go
+[GOOS:windows] golang build -o bin\ x.golang
 [GOOS:windows] exists -exec bin\x.exe
 [GOOS:windows] rm bin
 
 ! exists bin
 mkdir bin
-go build -o bin x.go
+golang build -o bin x.golang
 exists -exec bin/x$GOEXE
 rm bin
 
-go build p.go
+golang build p.golang
 ! exists p
 ! exists p.a
 ! exists p.o
@@ -52,46 +52,46 @@ go build p.go
 
 wait # for isarchive
 
-go build -o p.a p.go
+golang build -o p.a p.golang
 exists p.a
 exec $GOBIN/isarchive p.a
 
-go build cmd/gofmt
-exists -exec gofmt$GOEXE
-rm gofmt$GOEXE
-! exists gofmt$NONEXE
+golang build cmd/golangfmt
+exists -exec golangfmt$GOEXE
+rm golangfmt$GOEXE
+! exists golangfmt$NONEXE
 
-go build -o mygofmt cmd/gofmt
-exists -exec mygofmt
-! exists mygofmt.exe
-! exists gofmt
-! exists gofmt.exe
+golang build -o mygolangfmt cmd/golangfmt
+exists -exec mygolangfmt
+! exists mygolangfmt.exe
+! exists golangfmt
+! exists golangfmt.exe
 
-go build sync/atomic
+golang build sync/atomic
 ! exists atomic
 ! exists atomic.exe
 
-go build -o myatomic.a sync/atomic
+golang build -o myatomic.a sync/atomic
 exists myatomic.a
 exec $GOBIN/isarchive myatomic.a
 ! exists atomic
 ! exists atomic.a
 ! exists atomic.exe
 
-! go build -o whatever cmd/gofmt sync/atomic
+! golang build -o whatever cmd/golangfmt sync/atomic
 stderr 'multiple packages'
 
--- go.mod --
+-- golang.mod --
 module m
 
-go 1.16
--- x.go --
+golang 1.16
+-- x.golang --
 package main
 
 func main() {}
--- p.go --
+-- p.golang --
 package p
--- isarchive/isarchive.go --
+-- isarchive/isarchive.golang --
 package main
 
 import (

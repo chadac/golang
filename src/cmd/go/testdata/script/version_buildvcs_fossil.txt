@@ -6,10 +6,10 @@
 [GOOS:plan9] skip
 [!exec:fossil] skip
 [short] skip
-env GOBIN=$WORK/gopath/bin
+env GOBIN=$WORK/golangpath/bin
 env oldpath=$PATH
 env HOME=$WORK
-env USER=gopher
+env USER=golangpher
 [!GOOS:windows] env fslckout=.fslckout
 [GOOS:windows] env fslckout=_FOSSIL_
 exec pwd
@@ -17,8 +17,8 @@ exec fossil init repo.fossil
 cd repo/a
 
 # If there's no local repository, there's no VCS info.
-go install
-go version -m $GOBIN/a$GOEXE
+golang install
+golang version -m $GOBIN/a$GOEXE
 ! stdout vcs.revision
 rm $GOBIN/a$GOEXE
 
@@ -30,7 +30,7 @@ env PATH=$WORK${/}fakebin${:}$oldpath
 chmod 0755 $WORK/fakebin/fossil
 ! exec fossil help
 cd a
-! go install
+! golang install
 stderr '^error obtaining VCS status: exit status 1\n\tUse -buildvcs=false to disable VCS stamping.$'
 rm $GOBIN/a$GOEXE
 cd ..
@@ -42,8 +42,8 @@ exec fossil open ../repo.fossil -f
 exec fossil add a README
 exec fossil commit -m 'initial commit'
 cd a
-go install
-go version -m $GOBIN/a$GOEXE
+golang install
+golang version -m $GOBIN/a$GOEXE
 stdout '^\tbuild\tvcs=fossil\n'
 stdout '^\tbuild\tvcs.revision='
 stdout '^\tbuild\tvcs.time='
@@ -51,15 +51,15 @@ stdout '^\tbuild\tvcs.modified=false$'
 rm $GOBIN/a$GOEXE
 
 # Building with -buildvcs=false suppresses the info.
-go install -buildvcs=false
-go version -m $GOBIN/a$GOEXE
+golang install -buildvcs=false
+golang version -m $GOBIN/a$GOEXE
 ! stdout vcs.revision
 rm $GOBIN/a$GOEXE
 
 # An untracked file is shown as modified, even if it isn't part of the build.
 cp ../../outside/empty.txt .
-go install
-go version -m $GOBIN/a$GOEXE
+golang install
+golang version -m $GOBIN/a$GOEXE
 stdout '^\tbuild\tvcs=fossil\n'
 stdout '^\tbuild\tvcs.modified=true$'
 rm empty.txt
@@ -67,8 +67,8 @@ rm $GOBIN/a$GOEXE
 
 # An edited file is shown as modified, even if it isn't part of the build.
 cp ../../outside/empty.txt ../README
-go install
-go version -m $GOBIN/a$GOEXE
+golang install
+golang version -m $GOBIN/a$GOEXE
 stdout '^\tbuild\tvcs=fossil\n'
 stdout '^\tbuild\tvcs.modified=true$'
 exec fossil revert ../README
@@ -83,11 +83,11 @@ exit 1
 Far out in the uncharted backwaters of the unfashionable end of the western
 spiral arm of the Galaxy lies a small, unregarded yellow sun.
 -- repo/fslckout --
--- repo/a/go.mod --
+-- repo/a/golang.mod --
 module example.com/a
 
-go 1.18
--- repo/a/a.go --
+golang 1.18
+-- repo/a/a.golang --
 package main
 
 func main() {}

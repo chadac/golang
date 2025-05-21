@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test finalizers work for tiny (combined) allocations.
@@ -14,9 +14,9 @@ import (
 )
 
 func main() {
-	// Does not work on gccgo due to partially conservative GC.
+	// Does not work on gccgolang due to partially conservative GC.
 	// Try to enable when we have fully precise GC.
-	if runtime.Compiler == "gccgo" {
+	if runtime.Compiler == "gccgolang" {
 		return
 	}
 	const N = 100
@@ -43,11 +43,11 @@ func main() {
 			// It's a bit tricky, because we can't capture another variable
 			// with the expected value (it would be combined as well).
 			if x < 0 || x >= N {
-				println("got", x)
+				println("golangt", x)
 				panic("corrupted")
 			}
 			if done[x] {
-				println("got", x)
+				println("golangt", x)
 				panic("already finalized")
 			}
 			done[x] = true

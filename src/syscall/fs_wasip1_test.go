@@ -1,8 +1,8 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build wasip1
+//golang:build wasip1
 
 package syscall_test
 
@@ -59,7 +59,7 @@ func TestJoinPath(t *testing.T) {
 		t.Run("", func(t *testing.T) {
 			path := syscall.JoinPath(test.dir, test.file)
 			if path != test.path {
-				t.Errorf("join(%q,%q): want=%q got=%q", test.dir, test.file, test.path, path)
+				t.Errorf("join(%q,%q): want=%q golangt=%q", test.dir, test.file, test.path, path)
 			}
 		})
 	}

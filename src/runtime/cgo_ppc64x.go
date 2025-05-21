@@ -1,8 +1,8 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build ppc64 || ppc64le
+//golang:build ppc64 || ppc64le
 
 package runtime
 
@@ -10,4 +10,4 @@ package runtime
 // Go runtime expects and so the symbol it calls needs to be exported
 // for external linking to work.
 //
-//go:cgo_export_static _cgo_reginit
+//golang:cgolang_export_static _cgolang_reginit

@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package x509
@@ -1458,7 +1458,7 @@ var nameConstraintsTests = []nameConstraintsTest{
 
 	// An invalid DNS SAN should be detected only at validation time so
 	// that we can process CA certificates in the wild that have invalid SANs.
-	// See https://github.com/golang/go/issues/23995
+	// See https://github.com/golanglang/golang/issues/23995
 
 	// #77: an invalid DNS or mail SAN will not be detected if name constraint
 	// checking is not triggered.
@@ -1985,7 +1985,7 @@ func TestConstraintCases(t *testing.T) {
 				if err == nil {
 					t.Error("unexpected success")
 				} else if !strings.Contains(err.Error(), test.expectedError) {
-					t.Errorf("expected error containing %q, but got: %s", test.expectedError, err)
+					t.Errorf("expected error containing %q, but golangt: %s", test.expectedError, err)
 				} else {
 					logInfo = false
 				}

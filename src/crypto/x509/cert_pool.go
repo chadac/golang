@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package x509
@@ -53,7 +53,7 @@ type lazyCert struct {
 	//
 	// It is not meant to do network operations or anything else
 	// where a failure is likely; the func is meant to lazily
-	// parse/decompress data that is already known to be good. The
+	// parse/decompress data that is already known to be golangod. The
 	// error in the signature primarily is meant for use in the
 	// case where a cert file existed on local disk when the program
 	// started up is deleted later before it's read.
@@ -283,7 +283,7 @@ func (s *CertPool) Equal(other *CertPool) bool {
 // constraint. When Certificate.Verify builds a chain which is rooted by cert,
 // it will additionally pass the whole chain to constraint to determine its
 // validity. If constraint returns a non-nil error, the chain will be discarded.
-// constraint may be called concurrently from multiple goroutines.
+// constraint may be called concurrently from multiple golangroutines.
 func (s *CertPool) AddCertWithConstraint(cert *Certificate, constraint func([]*Certificate) error) {
 	if cert == nil {
 		panic("adding nil Certificate to CertPool")

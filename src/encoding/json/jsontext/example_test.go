@@ -1,8 +1,8 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build goexperiment.jsonv2
+//golang:build golangexperiment.jsonv2
 
 package jsontext_test
 
@@ -101,7 +101,7 @@ func Example_stringReplace() {
 // This example shows how to obtain equivalent behavior provided by the
 // v1 [encoding/json] package that is no longer directly supported by this package.
 // Newly written code that intermix JSON and HTML should instead be using the
-// [github.com/google/safehtml] module for safety purposes.
+// [github.com/golangogle/safehtml] module for safety purposes.
 func ExampleEscapeForHTML() {
 	page := struct {
 		Title string

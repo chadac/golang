@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package escape
@@ -91,7 +91,7 @@ func (e *escape) call(ks []hole, call ir.Node) {
 		// Strings are okay as the hash depends on only the content,
 		// not the pointer.
 		// The actual call we match is
-		//   hash/maphash.escapeForHash[go.shape.T](dict, go.shape.T)
+		//   hash/maphash.escapeForHash[golang.shape.T](dict, golang.shape.T)
 		if fn != nil && fn.Sym().Pkg.Path == "hash/maphash" && strings.HasPrefix(fn.Sym().Name, "escapeForHash[") {
 			ps := fntype.Params()
 			if len(ps) == 2 && ps[1].Type.IsShape() {
@@ -222,8 +222,8 @@ func (e *escape) call(ks []hole, call ir.Node) {
 	}
 }
 
-// goDeferStmt analyzes a "go" or "defer" statement.
-func (e *escape) goDeferStmt(n *ir.GoDeferStmt) {
+// golangDeferStmt analyzes a "golang" or "defer" statement.
+func (e *escape) golangDeferStmt(n *ir.GoDeferStmt) {
 	k := e.heapHole()
 	if n.Op() == ir.ODEFER && e.loopDepth == 1 && n.DeferAt == nil {
 		// Top-level defer arguments don't escape to the heap,
@@ -231,7 +231,7 @@ func (e *escape) goDeferStmt(n *ir.GoDeferStmt) {
 		k = e.later(e.discardHole())
 
 		// force stack allocation of defer record, unless
-		// open-coded defers are used (see ssa.go)
+		// open-coded defers are used (see ssa.golang)
 		n.SetEsc(ir.EscNever)
 	}
 
@@ -239,7 +239,7 @@ func (e *escape) goDeferStmt(n *ir.GoDeferStmt) {
 	// just escape analyze it normally.
 	//
 	// Note that the runtime is aware of this optimization for
-	// "go" statements that start in reflect.makeFuncStub or
+	// "golang" statements that start in reflect.makeFuncStub or
 	// reflect.methodValueCall.
 
 	call, ok := n.Call.(*ir.CallExpr)
@@ -294,7 +294,7 @@ func (e *escape) rewriteArgument(arg ir.Node, call *ir.CallExpr, fn *ir.Name) {
 
 		k := e.mutatorHole()
 		if pragma&ir.UintptrEscapes != 0 {
-			k = e.heapHole().note(conv, "//go:uintptrescapes")
+			k = e.heapHole().note(conv, "//golang:uintptrescapes")
 		}
 		e.flow(k, e.oldLoc(tmp))
 

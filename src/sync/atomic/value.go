@@ -1,5 +1,5 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package atomic
@@ -54,7 +54,7 @@ func (v *Value) Store(val any) {
 		typ := LoadPointer(&vp.typ)
 		if typ == nil {
 			// Attempt to start first store.
-			// Disable preemption so that other goroutines can use
+			// Disable preemption so that other golangroutines can use
 			// active spin wait to wait for completion.
 			runtime_procPin()
 			if !CompareAndSwapPointer(&vp.typ, nil, unsafe.Pointer(&firstStoreInProgress)) {
@@ -97,7 +97,7 @@ func (v *Value) Swap(new any) (old any) {
 		typ := LoadPointer(&vp.typ)
 		if typ == nil {
 			// Attempt to start first store.
-			// Disable preemption so that other goroutines can use
+			// Disable preemption so that other golangroutines can use
 			// active spin wait to wait for completion; and so that
 			// GC does not see the fake type accidentally.
 			runtime_procPin()
@@ -149,7 +149,7 @@ func (v *Value) CompareAndSwap(old, new any) (swapped bool) {
 				return false
 			}
 			// Attempt to start first store.
-			// Disable preemption so that other goroutines can use
+			// Disable preemption so that other golangroutines can use
 			// active spin wait to wait for completion; and so that
 			// GC does not see the fake type accidentally.
 			runtime_procPin()

@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime_test
@@ -27,14 +27,14 @@ func doRequest(useSelect bool) (*response, error) {
 	done := make(chan struct{}, 0)
 
 	if useSelect {
-		go func() {
+		golang func() {
 			select {
 			case ch <- &async{resp: nil, err: myError{}}:
 			case <-done:
 			}
 		}()
 	} else {
-		go func() {
+		golang func() {
 			ch <- &async{resp: nil, err: myError{}}
 		}()
 	}
@@ -64,7 +64,7 @@ func testChanSendBarrier(useSelect bool) {
 	}
 	for i := 0; i < outer; i++ {
 		wg.Add(1)
-		go func() {
+		golang func() {
 			defer wg.Done()
 			var garbage []byte
 			for j := 0; j < inner; j++ {
@@ -81,7 +81,7 @@ func testChanSendBarrier(useSelect bool) {
 	wg.Wait()
 }
 
-//go:noinline
+//golang:noinline
 func makeByte() []byte {
 	return make([]byte, 1<<10)
 }

@@ -1,5 +1,5 @@
 // Copyright (c) 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package field implements fast arithmetic modulo 2^255-19.
@@ -323,7 +323,7 @@ func (v *Element) Mult32(x *Element, y uint32) *Element {
 	v.l2 = x2lo + x1hi
 	v.l3 = x3lo + x2hi
 	v.l4 = x4lo + x3hi
-	// The hi portions are going to be only 32 bits, plus any previous excess,
+	// The hi portions are golanging to be only 32 bits, plus any previous excess,
 	// so we can skip the carry propagation.
 	return v
 }

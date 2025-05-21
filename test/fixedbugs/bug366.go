@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Issue 2206.  Incorrect sign extension of div arguments.
@@ -25,12 +25,12 @@ func main() {
        var a, b byte = 5, 3
        five(int64(a / (a / b)))
        
-       // integer divide by zero in golang.org sandbox
+       // integer divide by zero in golanglang.org sandbox
        // 0 on windows/amd64
        x := [3]byte{2, 3, 5}
        five(int64(x[2] / (x[2] / x[1])))
 
-       // integer divide by zero in golang.org sandbox
+       // integer divide by zero in golanglang.org sandbox
        // crash on windows/amd64
        y := x[1:3]
        five(int64(y[1] / (y[1] / y[0])))

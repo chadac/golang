@@ -1,8 +1,8 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// This is a package for testing comment placement by go/printer.
+// This is a package for testing comment placement by golang/printer.
 package main
 
 // Test cases for idempotent comment formatting (was issue 1835).

@@ -1,12 +1,12 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime_test
 
 import (
 	"fmt"
-	"internal/goexperiment"
+	"internal/golangexperiment"
 	"internal/testenv"
 	"math"
 	"os"
@@ -20,7 +20,7 @@ import (
 	"unsafe"
 )
 
-// negative zero is a good test because:
+// negative zero is a golangod test because:
 //  1. 0 and -0 are equal, yet have distinct representations.
 //  2. 0 is represented as all zeros, -0 isn't.
 //
@@ -76,7 +76,7 @@ func testMapNan(t *testing.T, m map[float64]int) {
 	}
 }
 
-// nan is a good test because nan != nan, and nan has
+// nan is a golangod test because nan != nan, and nan has
 // a randomized hash value.
 func TestMapAssignmentNan(t *testing.T) {
 	m := make(map[float64]int, 0)
@@ -89,7 +89,7 @@ func TestMapAssignmentNan(t *testing.T) {
 	testMapNan(t, m)
 }
 
-// nan is a good test because nan != nan, and nan has
+// nan is a golangod test because nan != nan, and nan has
 // a randomized hash value.
 func TestMapOperatorAssignmentNan(t *testing.T) {
 	m := make(map[float64]int, 0)
@@ -114,8 +114,8 @@ func TestMapOperatorAssignment(t *testing.T) {
 	m[0] %= 456
 
 	const want = (12345 + 67890) / 123 % 456
-	if got := m[0]; got != want {
-		t.Errorf("got %d, want %d", got, want)
+	if golangt := m[0]; golangt != want {
+		t.Errorf("golangt %d, want %d", golangt, want)
 	}
 }
 
@@ -132,8 +132,8 @@ func TestMapAppendAssignment(t *testing.T) {
 	m[0] = append(m[0], a...)
 
 	want := []int{12345, 67890, 123, 456, 7, 8, 9, 0}
-	if got := m[0]; !slices.Equal(got, want) {
-		t.Errorf("got %v, want %v", got, want)
+	if golangt := m[0]; !slices.Equal(golangt, want) {
+		t.Errorf("golangt %v, want %v", golangt, want)
 	}
 }
 
@@ -322,12 +322,12 @@ func testConcurrentReadsAfterGrowth(t *testing.T, useReflect bool) {
 			var wg sync.WaitGroup
 			wg.Add(numReader * 2)
 			for nr := 0; nr < numReader; nr++ {
-				go func() {
+				golang func() {
 					defer wg.Done()
 					for range m {
 					}
 				}()
-				go func() {
+				golang func() {
 					defer wg.Done()
 					for key := 0; key < gs; key++ {
 						_ = m[key]
@@ -335,7 +335,7 @@ func testConcurrentReadsAfterGrowth(t *testing.T, useReflect bool) {
 				}()
 				if useReflect {
 					wg.Add(1)
-					go func() {
+					golang func() {
 						defer wg.Done()
 						mv := reflect.ValueOf(m)
 						keys := mv.MapKeys()
@@ -558,15 +558,15 @@ func TestMapIterDuplicate(t *testing.T) {
 			want = append(want, i)
 		}
 
-		var got []int
+		var golangt []int
 		for i := range m {
-			got = append(got, i)
+			golangt = append(golangt, i)
 		}
 
-		slices.Sort(got)
+		slices.Sort(golangt)
 
-		if !reflect.DeepEqual(got, want) {
-			t.Errorf("iteration got %v want %v\n", got, want)
+		if !reflect.DeepEqual(golangt, want) {
+			t.Errorf("iteration golangt %v want %v\n", golangt, want)
 		}
 	}
 }
@@ -629,7 +629,7 @@ func TestMapLargeKeyNoPointer(t *testing.T) {
 			v[j] = i + j
 		}
 		if m[v] != i {
-			t.Fatalf("corrupted map: want %+v, got %+v", i, m[v])
+			t.Fatalf("corrupted map: want %+v, golangt %+v", i, m[v])
 		}
 	}
 }
@@ -657,7 +657,7 @@ func TestMapLargeValNoPointer(t *testing.T) {
 		v1 := m[i]
 		for j := 0; j < N; j++ {
 			if v1[j] != v[j] {
-				t.Fatalf("corrupted map: want %+v, got %+v", v, v1)
+				t.Fatalf("corrupted map: want %+v, golangt %+v", v, v1)
 			}
 		}
 	}
@@ -679,28 +679,28 @@ func TestNonEscapingMap(t *testing.T) {
 		m[0] = 0
 	})
 	if n != 0 {
-		t.Errorf("mapliteral: want 0 allocs, got %v", n)
+		t.Errorf("mapliteral: want 0 allocs, golangt %v", n)
 	}
 	n = testing.AllocsPerRun(1000, func() {
 		m := make(map[int]int)
 		m[0] = 0
 	})
 	if n != 0 {
-		t.Errorf("no hint: want 0 allocs, got %v", n)
+		t.Errorf("no hint: want 0 allocs, golangt %v", n)
 	}
 	n = testing.AllocsPerRun(1000, func() {
 		m := make(map[int]int, 8)
 		m[0] = 0
 	})
 	if n != 0 {
-		t.Errorf("with small hint: want 0 allocs, got %v", n)
+		t.Errorf("with small hint: want 0 allocs, golangt %v", n)
 	}
 	n = testing.AllocsPerRun(1000, func() {
 		m := make(map[int]int, testNonEscapingMapVariable)
 		m[0] = 0
 	})
 	if n != 0 {
-		t.Errorf("with variable hint: want 0 allocs, got %v", n)
+		t.Errorf("with variable hint: want 0 allocs, golangt %v", n)
 	}
 
 }
@@ -713,7 +713,7 @@ func TestDeferDeleteSlow(t *testing.T) {
 		m[k] = i
 	}
 	if len(m) != len(ks) {
-		t.Errorf("want %d elements, got %d", len(ks), len(m))
+		t.Errorf("want %d elements, golangt %d", len(ks), len(m))
 	}
 
 	func() {
@@ -722,7 +722,7 @@ func TestDeferDeleteSlow(t *testing.T) {
 		}
 	}()
 	if len(m) != 0 {
-		t.Errorf("want 0 elements, got %d", len(m))
+		t.Errorf("want 0 elements, golangt %d", len(m))
 	}
 }
 
@@ -790,7 +790,7 @@ func TestIncrementAfterDeleteKeyValueString(t *testing.T) {
 	delete(m, key1)
 	m[key2] += "1"
 	if n2 := m[key2]; n2 != "1" {
-		t.Errorf("appended '1' to empty (nil) string, got %s", n2)
+		t.Errorf("appended '1' to empty (nil) string, golangt %s", n2)
 	}
 }
 
@@ -1061,7 +1061,7 @@ func TestEmptyMapWithInterfaceKey(t *testing.T) {
 }
 
 func TestMapKeys(t *testing.T) {
-	if goexperiment.SwissMap {
+	if golangexperiment.SwissMap {
 		t.Skip("mapkeys not implemented for swissmaps")
 	}
 
@@ -1080,7 +1080,7 @@ func TestMapKeys(t *testing.T) {
 }
 
 func TestMapValues(t *testing.T) {
-	if goexperiment.SwissMap {
+	if golangexperiment.SwissMap {
 		t.Skip("mapvalues not implemented for swissmaps")
 	}
 
@@ -1114,13 +1114,13 @@ func subprocessHash(t *testing.T, env string) uintptr {
 
 	out, err := cmd.Output()
 	if err != nil {
-		t.Fatalf("cmd.Output got err %v want nil", err)
+		t.Fatalf("cmd.Output golangt err %v want nil", err)
 	}
 
 	s := strings.TrimSpace(string(out))
 	h, err := strconv.ParseUint(s, 10, 64)
 	if err != nil {
-		t.Fatalf("Parse output %q got err %v want nil", s, err)
+		t.Fatalf("Parse output %q golangt err %v want nil", s, err)
 	}
 	return uintptr(h)
 }
@@ -1128,7 +1128,7 @@ func subprocessHash(t *testing.T, env string) uintptr {
 // memhash has unique per-process seeds, so hashes should differ across
 // processes.
 //
-// Regression test for https://go.dev/issue/66885.
+// Regression test for https://golang.dev/issue/66885.
 func TestMemHashGlobalSeed(t *testing.T) {
 	if os.Getenv("GO_TEST_SUBPROCESS_HASH") != "" {
 		fmt.Println(computeHash())
@@ -1153,7 +1153,7 @@ func TestMemHashGlobalSeed(t *testing.T) {
 		t.Logf("%d", h3)
 
 		if h1 == h2 && h2 == h3 {
-			t.Errorf("got duplicate hash %d want unique", h1)
+			t.Errorf("golangt duplicate hash %d want unique", h1)
 		}
 	})
 
@@ -1171,7 +1171,7 @@ func TestMemHashGlobalSeed(t *testing.T) {
 		t.Logf("%d", h3)
 
 		if h1 == h2 && h2 == h3 {
-			t.Errorf("got duplicate hash %d want unique", h1)
+			t.Errorf("golangt duplicate hash %d want unique", h1)
 		}
 	})
 }
@@ -1196,7 +1196,7 @@ func TestMapIterDeleteReplace(t *testing.T) {
 
 			for k, v := range m {
 				if !v {
-					t.Errorf("m[%d] got false want true", k)
+					t.Errorf("m[%d] golangt false want true", k)
 				}
 			}
 		})

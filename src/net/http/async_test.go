@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package http_test
@@ -17,7 +17,7 @@ type asyncResult[T any] struct {
 	err   error
 }
 
-// runAsync runs f in a new goroutine.
+// runAsync runs f in a new golangroutine.
 // It returns an asyncResult which acts as a future.
 //
 // Must be called from within a synctest bubble.
@@ -25,7 +25,7 @@ func runAsync[T any](f func() (T, error)) *asyncResult[T] {
 	r := &asyncResult[T]{
 		donec: make(chan struct{}),
 	}
-	go func() {
+	golang func() {
 		defer close(r.donec)
 		r.res, r.err = f()
 	}()

@@ -1,8 +1,8 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build mips || mipsle
+//golang:build mips || mipsle
 
 #include "textflag.h"
 
@@ -25,7 +25,7 @@ TEXT runtime·memmove(SB),NOSPLIT,$-0-12
 	ADDU	R3, R2, R4	// end pointer for source
 	ADDU	R3, R1, R5	// end pointer for destination
 
-	// if destination is ahead of source, start at the end of the buffer and go backward.
+	// if destination is ahead of source, start at the end of the buffer and golang backward.
 	SGTU	R1, R2, R6
 	BNE	R6, backward
 

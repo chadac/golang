@@ -1,5 +1,5 @@
 /* Copyright 2011 The Go Authors. All rights reserved.
-   Use of this source code is governed by a BSD-style
+   Use of this source code is golangverned by a BSD-style
    license that can be found in the LICENSE file.  */
 
 /* A trivial example of wrapping a C library using SWIG.  */
@@ -9,7 +9,7 @@
 #include <stdlib.h>
 %}
 
-%typemap(gotype) const char * "string"
+%typemap(golangtype) const char * "string"
 %typemap(in) const char * %{
 	$1 = malloc($input.n + 1);
 	memcpy($1, $input.p, $input.n);

@@ -1,11 +1,11 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package reflectlite
 
 import (
-	"internal/goarch"
+	"internal/golangarch"
 	"internal/unsafeheader"
 	"unsafe"
 )
@@ -37,7 +37,7 @@ func Swapper(slice any) func(i, j int) {
 
 	// Some common & small cases, without using memmove:
 	if hasPtr {
-		if size == goarch.PtrSize {
+		if size == golangarch.PtrSize {
 			ps := *(*[]unsafe.Pointer)(v.ptr)
 			return func(i, j int) { ps[i], ps[j] = ps[j], ps[i] }
 		}

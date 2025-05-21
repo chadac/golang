@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package cfile
@@ -93,9 +93,9 @@ func TestCoverageApis(t *testing.T) {
 // what we'd like is for package coverage data (that is, coverage for
 // routines in "runtime/coverage") to be incorporated into the test
 // run from the "harness.exe" runs we've just done. We can accomplish
-// this by doing a merge from the harness gocoverdir's to the test
-// gocoverdir.
-func upmergeCoverData(t *testing.T, gocoverdir string, mode string) {
+// this by doing a merge from the harness golangcoverdir's to the test
+// golangcoverdir.
+func upmergeCoverData(t *testing.T, golangcoverdir string, mode string) {
 	if testing.CoverMode() != mode {
 		return
 	}
@@ -104,9 +104,9 @@ func upmergeCoverData(t *testing.T, gocoverdir string, mode string) {
 		return
 	}
 	args := []string{"tool", "covdata", "merge", "-pkg=runtime/coverage",
-		"-o", testGoCoverDir, "-i", gocoverdir}
-	t.Logf("up-merge of covdata from %s to %s", gocoverdir, testGoCoverDir)
-	t.Logf("executing: go %+v", args)
+		"-o", testGoCoverDir, "-i", golangcoverdir}
+	t.Logf("up-merge of covdata from %s to %s", golangcoverdir, testGoCoverDir)
+	t.Logf("executing: golang %+v", args)
 	cmd := exec.Command(testenv.GoToolPath(t), args...)
 	if b, err := cmd.CombinedOutput(); err != nil {
 		t.Fatalf("covdata merge failed (%v): %s", err, b)
@@ -116,11 +116,11 @@ func upmergeCoverData(t *testing.T, gocoverdir string, mode string) {
 // buildHarness builds the helper program "harness.exe".
 func buildHarness(t *testing.T, dir string, opts []string) string {
 	harnessPath := filepath.Join(dir, "harness.exe")
-	harnessSrc := filepath.Join("testdata", "harness.go")
+	harnessSrc := filepath.Join("testdata", "harness.golang")
 	args := []string{"build", "-o", harnessPath}
 	args = append(args, opts...)
 	args = append(args, harnessSrc)
-	//t.Logf("harness build: go %+v\n", args)
+	//t.Logf("harness build: golang %+v\n", args)
 	cmd := exec.Command(testenv.GoToolPath(t), args...)
 	if b, err := cmd.CombinedOutput(); err != nil {
 		t.Fatalf("build failed (%v): %s", err, b)
@@ -171,11 +171,11 @@ func runHarness(t *testing.T, harnessPath string, tp string, setGoCoverDir bool,
 func testForSpecificFunctions(t *testing.T, dir string, want []string, avoid []string) string {
 	args := []string{"tool", "covdata", "debugdump",
 		"-live", "-pkg=command-line-arguments", "-i=" + dir}
-	t.Logf("running: go %v\n", args)
+	t.Logf("running: golang %v\n", args)
 	cmd := exec.Command(testenv.GoToolPath(t), args...)
 	b, err := cmd.CombinedOutput()
 	if err != nil {
-		t.Fatalf("'go tool covdata failed (%v): %s", err, b)
+		t.Fatalf("'golang tool covdata failed (%v): %s", err, b)
 	}
 	output := string(b)
 	rval := ""
@@ -230,8 +230,8 @@ func testEmitToDir(t *testing.T, harnessPath string, dir string) {
 		}
 
 		// Just check to make sure meta-data file and counter data file were
-		// written. Another alternative would be to run "go tool covdata"
-		// or equivalent, but for now, this is what we've got.
+		// written. Another alternative would be to run "golang tool covdata"
+		// or equivalent, but for now, this is what we've golangt.
 		dents, err := os.ReadDir(edir)
 		if err != nil {
 			t.Fatalf("os.ReadDir(%s) failed: %v", edir, err)
@@ -251,10 +251,10 @@ func testEmitToDir(t *testing.T, harnessPath string, dir string) {
 		wantmf := 1
 		wantcf := 1
 		if mfc != wantmf {
-			t.Errorf("EmitToDir: want %d meta-data files, got %d\n", wantmf, mfc)
+			t.Errorf("EmitToDir: want %d meta-data files, golangt %d\n", wantmf, mfc)
 		}
 		if cdc != wantcf {
-			t.Errorf("EmitToDir: want %d counter-data files, got %d\n", wantcf, cdc)
+			t.Errorf("EmitToDir: want %d counter-data files, golangt %d\n", wantcf, cdc)
 		}
 		upmergeCoverData(t, edir, "atomic")
 		upmergeCoverData(t, rdir, "atomic")
@@ -378,11 +378,11 @@ func testEmitToDirNonAtomic(t *testing.T, harnessPath string, naMode string, dir
 		t.Fatalf("running 'harness -tp %s': did not get expected error", tp)
 	}
 
-	got := strings.TrimSpace(string(output))
+	golangt := strings.TrimSpace(string(output))
 	want := "WriteCountersDir invoked for program built"
-	if !strings.Contains(got, want) {
-		t.Errorf("running 'harness -tp %s': got:\n%s\nwant: %s",
-			tp, got, want)
+	if !strings.Contains(golangt, want) {
+		t.Errorf("running 'harness -tp %s': golangt:\n%s\nwant: %s",
+			tp, golangt, want)
 	}
 	upmergeCoverData(t, edir, naMode)
 	upmergeCoverData(t, rdir, naMode)
@@ -401,11 +401,11 @@ func testEmitToWriterNonAtomic(t *testing.T, harnessPath string, naMode string, 
 		t.Fatalf("running 'harness -tp %s': did not get expected error", tp)
 	}
 
-	got := strings.TrimSpace(string(output))
+	golangt := strings.TrimSpace(string(output))
 	want := "WriteCounters invoked for program built"
-	if !strings.Contains(got, want) {
-		t.Errorf("running 'harness -tp %s': got:\n%s\nwant: %s",
-			tp, got, want)
+	if !strings.Contains(golangt, want) {
+		t.Errorf("running 'harness -tp %s': golangt:\n%s\nwant: %s",
+			tp, golangt, want)
 	}
 
 	upmergeCoverData(t, edir, naMode)
@@ -425,11 +425,11 @@ func testEmitWithCounterClearNonAtomic(t *testing.T, harnessPath string, naMode 
 		t.Fatalf("running 'harness -tp %s' nonatomic: did not get expected error", tp)
 	}
 
-	got := strings.TrimSpace(string(output))
+	golangt := strings.TrimSpace(string(output))
 	want := "ClearCounters invoked for program built"
-	if !strings.Contains(got, want) {
-		t.Errorf("running 'harness -tp %s': got:\n%s\nwant: %s",
-			tp, got, want)
+	if !strings.Contains(golangt, want) {
+		t.Errorf("running 'harness -tp %s': golangt:\n%s\nwant: %s",
+			tp, golangt, want)
 	}
 
 	upmergeCoverData(t, edir, naMode)
@@ -462,8 +462,8 @@ func TestIssue56006EmitDataRaceCoverRunningGoroutine(t *testing.T) {
 		t.Skipf("skipping test: too long for short mode")
 	}
 
-	// This test requires "go test -race -cover", meaning that we need
-	// go build, go run, and "-race" support.
+	// This test requires "golang test -race -cover", meaning that we need
+	// golang build, golang run, and "-race" support.
 	testenv.MustHaveGoRun(t)
 	if !platform.RaceDetectorSupported(runtime.GOOS, runtime.GOARCH) ||
 		!testenv.HasCGO() {
@@ -471,13 +471,13 @@ func TestIssue56006EmitDataRaceCoverRunningGoroutine(t *testing.T) {
 	}
 
 	// This will run a program with -cover and -race where we have a
-	// goroutine still running (and updating counters) at the point where
+	// golangroutine still running (and updating counters) at the point where
 	// the test runtime is trying to write out counter data.
 	cmd := exec.Command(testenv.GoToolPath(t), "test", "-cover", "-race")
 	cmd.Dir = filepath.Join("testdata", "issue56006")
 	b, err := cmd.CombinedOutput()
 	if err != nil {
-		t.Fatalf("go test -cover -race failed: %v\n%s", err, b)
+		t.Fatalf("golang test -cover -race failed: %v\n%s", err, b)
 	}
 
 	// Don't want to see any data races in output.
@@ -503,13 +503,13 @@ func TestIssue59563TruncatedCoverPkgAll(t *testing.T) {
 	cmd.Dir = filepath.Join("testdata", "issue59563")
 	b, err := cmd.CombinedOutput()
 	if err != nil {
-		t.Fatalf("go test -cover failed: %v\n%s", err, b)
+		t.Fatalf("golang test -cover failed: %v\n%s", err, b)
 	}
 
 	cmd = exec.Command(testenv.GoToolPath(t), "tool", "cover", "-func="+ppath)
 	b, err = cmd.CombinedOutput()
 	if err != nil {
-		t.Fatalf("go tool cover -func failed: %v", err)
+		t.Fatalf("golang tool cover -func failed: %v", err)
 	}
 
 	lines := strings.Split(string(b), "\n")
@@ -523,18 +523,18 @@ func TestIssue59563TruncatedCoverPkgAll(t *testing.T) {
 		// We're only interested in the specific function "large" for
 		// the testcase being built. See the #59563 for details on why
 		// size matters.
-		if !(strings.HasPrefix(f[0], "internal/coverage/cfile/testdata/issue59563/repro.go") && strings.Contains(line, "large")) {
+		if !(strings.HasPrefix(f[0], "internal/coverage/cfile/testdata/issue59563/repro.golang") && strings.Contains(line, "large")) {
 			continue
 		}
 		nfound++
 		want := "100.0%"
 		if f[len(f)-1] != want {
-			t.Errorf("wanted %s got: %q\n", want, line)
+			t.Errorf("wanted %s golangt: %q\n", want, line)
 			bad = true
 		}
 	}
 	if nfound != 1 {
-		t.Errorf("wanted 1 found, got %d\n", nfound)
+		t.Errorf("wanted 1 found, golangt %d\n", nfound)
 		bad = true
 	}
 	if bad {

@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package walk
@@ -7,8 +7,8 @@ package walk
 import (
 	"cmp"
 	"fmt"
-	"go/constant"
-	"go/token"
+	"golang/constant"
+	"golang/token"
 	"math/bits"
 	"slices"
 	"sort"
@@ -204,18 +204,18 @@ func (s *exprSwitch) flush() {
 		// and an inner switch in each case which resolves all the
 		// strings of the same length. The code looks something like this:
 
-		// goto outerLabel
+		// golangto outerLabel
 		// len5:
 		//   ... search among length 5 strings ...
-		//   goto endLabel
+		//   golangto endLabel
 		// len8:
 		//   ... search among length 8 strings ...
-		//   goto endLabel
+		//   golangto endLabel
 		// ... other lengths ...
 		// outerLabel:
 		// switch len(s) {
-		//   case 5: goto len5
-		//   case 8: goto len8
+		//   case 5: golangto len5
+		//   case 8: golangto len8
 		//   ... other lengths ...
 		// }
 		// endLabel:
@@ -490,7 +490,7 @@ func walkSwitchType(sw *ir.SwitchStmt) {
 	}
 	ifNil.Body = []ir.Node{nilGoto}
 
-	// Now go through the list of cases, processing groups as we find them.
+	// Now golang through the list of cases, processing groups as we find them.
 	var concreteCases []oneCase
 	var interfaceCases []oneCase
 	flush := func() {
@@ -701,7 +701,7 @@ var interfaceSwitchGen int
 // *runtime.itab pointer).
 func typeHashFieldOf(pos src.XPos, itab *ir.UnaryExpr) *ir.SelectorExpr {
 	if itab.Op() != ir.OITAB {
-		base.Fatalf("expected OITAB, got %v", itab.Op())
+		base.Fatalf("expected OITAB, golangt %v", itab.Op())
 	}
 	var hashField *types.Field
 	if itab.X.Type().IsEmptyInterface() {
@@ -818,7 +818,7 @@ func (s *typeSwitch) tryJumpTable(cc []typeClause, out *ir.Nodes) bool {
 			jt.Targets = make([]*types.Sym, 1<<b)
 			out.Append(jt)
 
-			// Start with all hashes going to the didn't-match target.
+			// Start with all hashes golanging to the didn't-match target.
 			noMatch := typecheck.AutoLabel(".s")
 			for j := 0; j < 1<<b; j++ {
 				jt.Cases[j] = constant.MakeInt64(int64(j))
@@ -838,7 +838,7 @@ func (s *typeSwitch) tryJumpTable(cc []typeClause, out *ir.Nodes) bool {
 				// We reach here if the hash matches but the type equality test fails.
 				out.Append(ir.NewBranchStmt(base.Pos, ir.OGOTO, noMatch))
 			}
-			// Emit point to go to if type doesn't match any case.
+			// Emit point to golang to if type doesn't match any case.
 			out.Append(ir.NewLabelStmt(base.Pos, noMatch))
 			return true
 		}
@@ -902,7 +902,7 @@ func stringSearch(expr ir.Node, cc []exprClause, out *ir.Nodes) {
 
 	// The strategy here is to find a simple test to divide the set of possible strings
 	// that might match expr approximately in half.
-	// The test we're going to use is to do an ordered comparison of a single byte
+	// The test we're golanging to use is to do an ordered comparison of a single byte
 	// of expr to a constant. We will pick the index of that byte and the value we're
 	// comparing against to make the split as even as possible.
 	//   if expr[3] <= 'd' { ... search strings with expr[3] at 'd' or lower  ... }
@@ -920,7 +920,7 @@ func stringSearch(expr ir.Node, cc []exprClause, out *ir.Nodes) {
 	// done using wider loads.
 
 	n := len(ir.StringVal(cc[0].lo)) // Length of the constant strings.
-	bestScore := int64(0)            // measure of how good the split is.
+	bestScore := int64(0)            // measure of how golangod the split is.
 	bestIdx := 0                     // split using expr[bestIdx]
 	bestByte := int8(0)              // compare expr[bestIdx] against bestByte
 	for idx := 0; idx < n; idx++ {

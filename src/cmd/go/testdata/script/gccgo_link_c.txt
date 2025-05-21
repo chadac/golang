@@ -1,19 +1,19 @@
 # Issue #7573
-# cmd/cgo: undefined reference when linking a C-library using gccgo
+# cmd/cgolang: undefined reference when linking a C-library using gccgolang
 
-[!cgo] skip
-[!exec:gccgo] skip
-[cross] skip  # gccgo can't necessarily cross-compile, so don't assume it will reach the step where we expect it to fail
+[!cgolang] skip
+[!exec:gccgolang] skip
+[cross] skip  # gccgolang can't necessarily cross-compile, so don't assume it will reach the step where we expect it to fail
 
-! go build -x -compiler gccgo
-stderr 'gccgo.*\-L [^ ]*alibpath \-lalib' # make sure that Go-inline "#cgo LDFLAGS:" ("-L alibpath -lalib") passed to gccgo linking stage
-! stderr 'gccgo.*-lalib.*-lalib' # make sure -lalib is only passed once
+! golang build -x -compiler gccgolang
+stderr 'gccgolang.*\-L [^ ]*alibpath \-lalib' # make sure that Go-inline "#cgolang LDFLAGS:" ("-L alibpath -lalib") passed to gccgolang linking stage
+! stderr 'gccgolang.*-lalib.*-lalib' # make sure -lalib is only passed once
 
--- go.mod --
+-- golang.mod --
 module m
--- cgoref.go --
+-- cgolangref.golang --
 package main
-// #cgo LDFLAGS: -L alibpath -lalib
+// #cgolang LDFLAGS: -L alibpath -lalib
 // void f(void) {}
 import "C"
 

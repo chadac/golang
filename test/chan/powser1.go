@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test concurrency primitives: power series.
@@ -96,7 +96,7 @@ func dosplit(in *dch, out *dch2, wait chan int) {
 	seqno++
 	in.req <- seqno
 	release := make(chan int)
-	go dosplit(in, out, release)
+	golang dosplit(in, out, release)
 	dat := <-in.dat
 	out[0].dat <- dat
 	if !both {
@@ -109,7 +109,7 @@ func dosplit(in *dch, out *dch2, wait chan int) {
 
 func split(in *dch, out *dch2) {
 	release := make(chan int)
-	go dosplit(in, out, release)
+	golang dosplit(in, out, release)
 	release <- 0
 }
 
@@ -326,14 +326,14 @@ func eval(c rat, U PS, n int) rat {
 
 func Split(U PS) *dch2 {
 	UU := mkdch2()
-	go split(U, UU)
+	golang split(U, UU)
 	return UU
 }
 
 // Add two power series
 func Add(U, V PS) PS {
 	Z := mkPS()
-	go func() {
+	golang func() {
 		var uv []rat
 		for {
 			<-Z.req
@@ -358,7 +358,7 @@ func Add(U, V PS) PS {
 // Multiply a power series by a constant
 func Cmul(c rat, U PS) PS {
 	Z := mkPS()
-	go func() {
+	golang func() {
 		done := false
 		for !done {
 			<-Z.req
@@ -384,7 +384,7 @@ func Sub(U, V PS) PS {
 
 func Monmul(U PS, n int) PS {
 	Z := mkPS()
-	go func() {
+	golang func() {
 		for ; n > 0; n-- {
 			put(zero, Z)
 		}
@@ -401,7 +401,7 @@ func Xmul(U PS) PS {
 
 func Rep(c rat) PS {
 	Z := mkPS()
-	go repeat(c, Z)
+	golang repeat(c, Z)
 	return Z
 }
 
@@ -409,7 +409,7 @@ func Rep(c rat) PS {
 
 func Mon(c rat, n int) PS {
 	Z := mkPS()
-	go func() {
+	golang func() {
 		if c.num != 0 {
 			for ; n > 0; n = n - 1 {
 				put(zero, Z)
@@ -423,7 +423,7 @@ func Mon(c rat, n int) PS {
 
 func Shift(c rat, U PS) PS {
 	Z := mkPS()
-	go func() {
+	golang func() {
 		put(c, Z)
 		copy(U, Z)
 	}()
@@ -451,14 +451,14 @@ func Poly(a []rat) PS {
 }
 */
 
-// Multiply. The algorithm is
+// Multiply. The algolangrithm is
 //	let U = u + x*UU
 //	let V = v + x*VV
 //	then UV = u*v + x*(u*VV+v*UU) + x*x*UU*VV
 
 func Mul(U, V PS) PS {
 	Z := mkPS()
-	go func() {
+	golang func() {
 		<-Z.req
 		uv := get2(U, V)
 		if end(uv[0]) != 0 || end(uv[1]) != 0 {
@@ -480,7 +480,7 @@ func Mul(U, V PS) PS {
 
 func Diff(U PS) PS {
 	Z := mkPS()
-	go func() {
+	golang func() {
 		<-Z.req
 		u := get(U)
 		if end(u) == 0 {
@@ -503,7 +503,7 @@ func Diff(U PS) PS {
 // Integrate, with const of integration
 func Integ(c rat, U PS) PS {
 	Z := mkPS()
-	go func() {
+	golang func() {
 		put(c, Z)
 		done := false
 		for i := 1; !done; i++ {
@@ -523,7 +523,7 @@ func Integ(c rat, U PS) PS {
 
 func Binom(c rat) PS {
 	Z := mkPS()
-	go func() {
+	golang func() {
 		n := 1
 		t := itor(1)
 		for c.num != 0 {
@@ -547,7 +547,7 @@ func Binom(c rat) PS {
 
 func Recip(U PS) PS {
 	Z := mkPS()
-	go func() {
+	golang func() {
 		ZZ := mkPS2()
 		<-Z.req
 		z := inv(get(U))
@@ -579,7 +579,7 @@ func Exp(U PS) PS {
 
 func Subst(U, V PS) PS {
 	Z := mkPS()
-	go func() {
+	golang func() {
 		VV := Split(V)
 		<-Z.req
 		u := get(U)
@@ -600,7 +600,7 @@ func Subst(U, V PS) PS {
 
 func MonSubst(U PS, c0 rat, n int) PS {
 	Z := mkPS()
-	go func() {
+	golang func() {
 		c := one
 		for {
 			<-Z.req
@@ -635,7 +635,7 @@ func check(U PS, c rat, count int, str string) {
 	for i := 0; i < count; i++ {
 		r := get(U)
 		if !r.eq(c) {
-			print("got: ")
+			print("golangt: ")
 			r.pr()
 			print("should get ")
 			c.pr()

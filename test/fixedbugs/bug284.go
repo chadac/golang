@@ -1,7 +1,7 @@
 // errorcheck
 
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test cases for revised conversion rules.
@@ -184,7 +184,7 @@ func main() {
 	c2 = C2(c1) // ERROR "cannot|invalid"
 	c2 = c2
 
-	// internal compiler error (6g and gccgo)
+	// internal compiler error (6g and gccgolang)
 	type T interface{}
 	var _ T = 17 // assignment compatible
 	_ = T(17)    // internal compiler error even though assignment compatible

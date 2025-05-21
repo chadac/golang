@@ -1,14 +1,14 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// This program can be used as go_ios_$GOARCH_exec by the Go tool. It executes
+// This program can be used as golang_ios_$GOARCH_exec by the Go tool. It executes
 // binaries on the iOS Simulator using the XCode toolchain.
 package main
 
 import (
 	"fmt"
-	"go/build"
+	"golang/build"
 	"log"
 	"os"
 	"os/exec"
@@ -37,16 +37,16 @@ var lock *os.File
 
 func main() {
 	log.SetFlags(0)
-	log.SetPrefix("go_ios_exec: ")
+	log.SetPrefix("golang_ios_exec: ")
 	if debug {
 		log.Println(strings.Join(os.Args, " "))
 	}
 	if len(os.Args) < 2 {
-		log.Fatal("usage: go_ios_exec a.out")
+		log.Fatal("usage: golang_ios_exec a.out")
 	}
 
 	// For compatibility with the old builders, use a fallback bundle ID
-	bundleID = "golang.gotest"
+	bundleID = "golanglang.golangtest"
 
 	exitCode, err := runMain()
 	if err != nil {
@@ -57,7 +57,7 @@ func main() {
 
 func runMain() (int, error) {
 	var err error
-	tmpdir, err = os.MkdirTemp("", "go_ios_exec_")
+	tmpdir, err = os.MkdirTemp("", "golang_ios_exec_")
 	if err != nil {
 		return 1, err
 	}
@@ -65,7 +65,7 @@ func runMain() (int, error) {
 		defer os.RemoveAll(tmpdir)
 	}
 
-	appdir := filepath.Join(tmpdir, "gotest.app")
+	appdir := filepath.Join(tmpdir, "golangtest.app")
 	os.RemoveAll(appdir)
 
 	if err := assembleApp(appdir, os.Args[1]); err != nil {
@@ -78,7 +78,7 @@ func runMain() (int, error) {
 	//
 	// The lock file is never deleted, to avoid concurrent locks on distinct
 	// files with the same path.
-	lockName := filepath.Join(os.TempDir(), "go_ios_exec-"+deviceID+".lock")
+	lockName := filepath.Join(os.TempDir(), "golang_ios_exec-"+deviceID+".lock")
 	lock, err = os.OpenFile(lockName, os.O_CREATE|os.O_RDONLY, 0666)
 	if err != nil {
 		return 1, err
@@ -107,7 +107,7 @@ func assembleApp(appdir, bin string) error {
 		return err
 	}
 
-	if err := cp(filepath.Join(appdir, "gotest"), bin); err != nil {
+	if err := cp(filepath.Join(appdir, "golangtest"), bin); err != nil {
 		return err
 	}
 
@@ -145,7 +145,7 @@ func installSimulator(appdir string) error {
 func runSimulator(appdir, bundleID string, args []string) error {
 	xcrunArgs := []string{"simctl", "spawn",
 		"booted",
-		appdir + "/gotest",
+		appdir + "/golangtest",
 	}
 	xcrunArgs = append(xcrunArgs, args...)
 	cmd := exec.Command("xcrun", xcrunArgs...)
@@ -267,12 +267,12 @@ func subdir() (pkgpath string, underGoRoot bool, err error) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	goroot, err := filepath.EvalSymlinks(runtime.GOROOT())
+	golangroot, err := filepath.EvalSymlinks(runtime.GOROOT())
 	if err != nil {
 		return "", false, err
 	}
-	if strings.HasPrefix(cwd, goroot) {
-		subdir, err := filepath.Rel(goroot, cwd)
+	if strings.HasPrefix(cwd, golangroot) {
+		subdir, err := filepath.Rel(golangroot, cwd)
 		if err != nil {
 			return "", false, err
 		}
@@ -305,15 +305,15 @@ func infoPlist(pkgpath string) string {
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-<key>CFBundleName</key><string>golang.gotest</string>
+<key>CFBundleName</key><string>golanglang.golangtest</string>
 <key>CFBundleSupportedPlatforms</key><array><string>iPhoneOS</string></array>
-<key>CFBundleExecutable</key><string>gotest</string>
+<key>CFBundleExecutable</key><string>golangtest</string>
 <key>CFBundleVersion</key><string>1.0</string>
 <key>CFBundleShortVersionString</key><string>1.0</string>
 <key>CFBundleIdentifier</key><string>` + bundleID + `</string>
 <key>CFBundleResourceSpecification</key><string>ResourceRules.plist</string>
 <key>LSRequiresIPhoneOS</key><true/>
-<key>CFBundleDisplayName</key><string>gotest</string>
+<key>CFBundleDisplayName</key><string>golangtest</string>
 <key>GoExecWrapperWorkingDirectory</key><string>` + pkgpath + `</string>
 </dict>
 </plist>

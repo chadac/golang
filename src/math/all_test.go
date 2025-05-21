@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package math_test
@@ -1937,7 +1937,7 @@ var vfsqrtSC = []float64{
 	0,
 	Inf(1),
 	NaN(),
-	Float64frombits(2), // subnormal; see https://golang.org/issue/13013
+	Float64frombits(2), // subnormal; see https://golanglang.org/issue/13013
 }
 var sqrtSC = []float64{
 	NaN(),
@@ -3142,28 +3142,28 @@ var PortableFMA = FMA // hide call from compiler intrinsic; falls back to portab
 
 func TestFMA(t *testing.T) {
 	for _, c := range fmaC {
-		got := FMA(c.x, c.y, c.z)
-		if !alike(got, c.want) {
-			t.Errorf("FMA(%g,%g,%g) == %g; want %g", c.x, c.y, c.z, got, c.want)
+		golangt := FMA(c.x, c.y, c.z)
+		if !alike(golangt, c.want) {
+			t.Errorf("FMA(%g,%g,%g) == %g; want %g", c.x, c.y, c.z, golangt, c.want)
 		}
-		got = PortableFMA(c.x, c.y, c.z)
-		if !alike(got, c.want) {
-			t.Errorf("PortableFMA(%g,%g,%g) == %g; want %g", c.x, c.y, c.z, got, c.want)
+		golangt = PortableFMA(c.x, c.y, c.z)
+		if !alike(golangt, c.want) {
+			t.Errorf("PortableFMA(%g,%g,%g) == %g; want %g", c.x, c.y, c.z, golangt, c.want)
 		}
 	}
 }
 
-//go:noinline
+//golang:noinline
 func fmsub(x, y, z float64) float64 {
 	return FMA(x, y, -z)
 }
 
-//go:noinline
+//golang:noinline
 func fnmsub(x, y, z float64) float64 {
 	return FMA(-x, y, z)
 }
 
-//go:noinline
+//golang:noinline
 func fnmadd(x, y, z float64) float64 {
 	return FMA(-x, y, -z)
 }
@@ -3175,19 +3175,19 @@ func TestFMANegativeArgs(t *testing.T) {
 	// are applied correctly, if they exist.
 	for _, c := range fmaC {
 		want := PortableFMA(c.x, c.y, -c.z)
-		got := fmsub(c.x, c.y, c.z)
-		if !alike(got, want) {
-			t.Errorf("FMA(%g, %g, -(%g)) == %g, want %g", c.x, c.y, c.z, got, want)
+		golangt := fmsub(c.x, c.y, c.z)
+		if !alike(golangt, want) {
+			t.Errorf("FMA(%g, %g, -(%g)) == %g, want %g", c.x, c.y, c.z, golangt, want)
 		}
 		want = PortableFMA(-c.x, c.y, c.z)
-		got = fnmsub(c.x, c.y, c.z)
-		if !alike(got, want) {
-			t.Errorf("FMA(-(%g), %g, %g) == %g, want %g", c.x, c.y, c.z, got, want)
+		golangt = fnmsub(c.x, c.y, c.z)
+		if !alike(golangt, want) {
+			t.Errorf("FMA(-(%g), %g, %g) == %g, want %g", c.x, c.y, c.z, golangt, want)
 		}
 		want = PortableFMA(-c.x, c.y, -c.z)
-		got = fnmadd(c.x, c.y, c.z)
-		if !alike(got, want) {
-			t.Errorf("FMA(-(%g), %g, -(%g)) == %g, want %g", c.x, c.y, c.z, got, want)
+		golangt = fnmadd(c.x, c.y, c.z)
+		if !alike(golangt, want) {
+			t.Errorf("FMA(-(%g), %g, -(%g)) == %g, want %g", c.x, c.y, c.z, golangt, want)
 		}
 	}
 }
@@ -3259,25 +3259,25 @@ func TestTrigReduce(t *testing.T) {
 		xred := float64(j)*(Pi/4) + z
 
 		if f, fred := Sin(x), Sin(xred); !close(f, fred) {
-			t.Errorf("Sin(trigReduce(%g)) != Sin(%g), got %g, want %g", x, x, fred, f)
+			t.Errorf("Sin(trigReduce(%g)) != Sin(%g), golangt %g, want %g", x, x, fred, f)
 		}
 		if f, fred := Cos(x), Cos(xred); !close(f, fred) {
-			t.Errorf("Cos(trigReduce(%g)) != Cos(%g), got %g, want %g", x, x, fred, f)
+			t.Errorf("Cos(trigReduce(%g)) != Cos(%g), golangt %g, want %g", x, x, fred, f)
 		}
 		if f, fred := Tan(x), Tan(xred); !close(f, fred) {
-			t.Errorf(" Tan(trigReduce(%g)) != Tan(%g), got %g, want %g", x, x, fred, f)
+			t.Errorf(" Tan(trigReduce(%g)) != Tan(%g), golangt %g, want %g", x, x, fred, f)
 		}
 		f, g := Sincos(x)
 		fred, gred := Sincos(xred)
 		if !close(f, fred) || !close(g, gred) {
-			t.Errorf(" Sincos(trigReduce(%g)) != Sincos(%g), got %g, %g, want %g, %g", x, x, fred, gred, f, g)
+			t.Errorf(" Sincos(trigReduce(%g)) != Sincos(%g), golangt %g, %g, want %g, %g", x, x, fred, gred, f, g)
 		}
 	}
 }
 
 // Check that math constants are accepted by compiler
 // and have right value (assumes strconv.ParseFloat works).
-// https://golang.org/issue/201
+// https://golanglang.org/issue/201
 
 type floatTest struct {
 	val  any
@@ -3316,15 +3316,15 @@ var indirectSqrt = Sqrt
 func TestFloat32Sqrt(t *testing.T) {
 	for _, v := range sqrt32 {
 		want := float32(indirectSqrt(float64(v)))
-		got := float32(Sqrt(float64(v)))
+		golangt := float32(Sqrt(float64(v)))
 		if IsNaN(float64(want)) {
-			if !IsNaN(float64(got)) {
-				t.Errorf("got=%#v want=NaN, v=%#v", got, v)
+			if !IsNaN(float64(golangt)) {
+				t.Errorf("golangt=%#v want=NaN, v=%#v", golangt, v)
 			}
 			continue
 		}
-		if got != want {
-			t.Errorf("got=%#v want=%#v, v=%#v", got, want, v)
+		if golangt != want {
+			t.Errorf("golangt=%#v want=%#v, v=%#v", golangt, want, v)
 		}
 	}
 }

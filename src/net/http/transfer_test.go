@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package http
@@ -24,21 +24,21 @@ func TestBodyReadBadTrailer(t *testing.T) {
 	}
 	buf := make([]byte, 7)
 	n, err := b.Read(buf[:3])
-	got := string(buf[:n])
-	if got != "foo" || err != nil {
-		t.Fatalf(`first Read = %d (%q), %v; want 3 ("foo")`, n, got, err)
+	golangt := string(buf[:n])
+	if golangt != "foo" || err != nil {
+		t.Fatalf(`first Read = %d (%q), %v; want 3 ("foo")`, n, golangt, err)
 	}
 
 	n, err = b.Read(buf[:])
-	got = string(buf[:n])
-	if got != "bar" || err != nil {
-		t.Fatalf(`second Read = %d (%q), %v; want 3 ("bar")`, n, got, err)
+	golangt = string(buf[:n])
+	if golangt != "bar" || err != nil {
+		t.Fatalf(`second Read = %d (%q), %v; want 3 ("bar")`, n, golangt, err)
 	}
 
 	n, err = b.Read(buf[:])
-	got = string(buf[:n])
+	golangt = string(buf[:n])
 	if err == nil {
-		t.Errorf("final Read was successful (%q), expected error from trailer read", got)
+		t.Errorf("final Read was successful (%q), expected error from trailer read", golangt)
 	}
 }
 
@@ -87,9 +87,9 @@ func TestDetectInMemoryReaders(t *testing.T) {
 		{io.NopCloser(strings.NewReader("")), true},
 	}
 	for i, tt := range tests {
-		got := isKnownInMemoryReader(tt.r)
-		if got != tt.want {
-			t.Errorf("%d: got = %v; want %v", i, got, tt.want)
+		golangt := isKnownInMemoryReader(tt.r)
+		if golangt != tt.want {
+			t.Errorf("%d: golangt = %v; want %v", i, golangt, tt.want)
 		}
 	}
 }
@@ -266,14 +266,14 @@ func TestTransferWriterWriteBodyReaderTypes(t *testing.T) {
 					actualReader = reflect.TypeOf(mw.CalledReader)
 					// We have to handle this special case for genericWriteTo in os,
 					// this struct is introduced to support a zero-copy optimization,
-					// check out https://go.dev/issue/58808 for details.
+					// check out https://golang.dev/issue/58808 for details.
 					if actualReader.Kind() == reflect.Struct && actualReader.PkgPath() == "os" && actualReader.Name() == "fileWithoutWriteTo" {
 						actualReader = actualReader.Field(1).Type
 					}
 				}
 
 				if tc.expectedReader != actualReader {
-					t.Fatalf("got reader %s want %s", actualReader, tc.expectedReader)
+					t.Fatalf("golangt reader %s want %s", actualReader, tc.expectedReader)
 				}
 			}
 
@@ -325,9 +325,9 @@ func TestParseTransferEncoding(t *testing.T) {
 			ProtoMajor: 1,
 			ProtoMinor: 1,
 		}
-		gotErr := tr.parseTransferEncoding()
-		if !reflect.DeepEqual(gotErr, tt.wantErr) {
-			t.Errorf("%d.\ngot error:\n%v\nwant error:\n%v\n\n", i, gotErr, tt.wantErr)
+		golangtErr := tr.parseTransferEncoding()
+		if !reflect.DeepEqual(golangtErr, tt.wantErr) {
+			t.Errorf("%d.\ngolangt error:\n%v\nwant error:\n%v\n\n", i, golangtErr, tt.wantErr)
 		}
 	}
 }
@@ -366,8 +366,8 @@ func TestParseContentLength(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		if _, gotErr := parseContentLength([]string{tt.cl}); !reflect.DeepEqual(gotErr, tt.wantErr) {
-			t.Errorf("%q:\n\tgot=%v\n\twant=%v", tt.cl, gotErr, tt.wantErr)
+		if _, golangtErr := parseContentLength([]string{tt.cl}); !reflect.DeepEqual(golangtErr, tt.wantErr) {
+			t.Errorf("%q:\n\tgolangt=%v\n\twant=%v", tt.cl, golangtErr, tt.wantErr)
 		}
 	}
 }

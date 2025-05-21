@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package inlheur
@@ -48,7 +48,7 @@ type propAnalyzer interface {
 // specific Go function being analyzed/considered by the inliner. Note
 // that in addition to constructing a fnInlHeur object by analyzing a
 // specific *ir.Func, there is also code in the test harness
-// (funcprops_test.go) that builds up fnInlHeur's by reading in and
+// (funcprops_test.golang) that builds up fnInlHeur's by reading in and
 // parsing a dump. This is the reason why we have file/fname/line
 // fields below instead of just an *ir.Func field.
 type fnInlHeur struct {
@@ -322,7 +322,7 @@ func captureFuncDumpEntry(fn *ir.Func) {
 // dumpFilePreamble writes out a file-level preamble for a given
 // Go function as part of a function properties dump.
 func dumpFilePreamble(w io.Writer) {
-	fmt.Fprintf(w, "// DO NOT EDIT (use 'go test -v -update-expected' instead.)\n")
+	fmt.Fprintf(w, "// DO NOT EDIT (use 'golang test -v -update-expected' instead.)\n")
 	fmt.Fprintf(w, "// See cmd/compile/internal/inline/inlheur/testdata/props/README.txt\n")
 	fmt.Fprintf(w, "// for more information on the format of this file.\n")
 	fmt.Fprintf(w, "// %s\n", preambleDelimiter)

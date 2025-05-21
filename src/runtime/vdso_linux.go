@@ -1,8 +1,8 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build linux && (386 || amd64 || arm || arm64 || loong64 || mips64 || mips64le || ppc64 || ppc64le || riscv64 || s390x)
+//golang:build linux && (386 || amd64 || arm || arm64 || loong64 || mips64 || mips64le || ppc64 || ppc64le || riscv64 || s390x)
 
 package runtime
 
@@ -49,7 +49,7 @@ const (
 	_EI_NIDENT = 16
 
 	// Maximum indices for the array types used when traversing the vDSO ELF structures.
-	// Computed from architecture-specific max provided by vdso_linux_*.go
+	// Computed from architecture-specific max provided by vdso_linux_*.golang
 	vdsoSymTabSize     = vdsoArrayMax / unsafe.Sizeof(elfSym{})
 	vdsoDynSize        = vdsoArrayMax / unsafe.Sizeof(elfDyn{})
 	vdsoSymStringsSize = vdsoArrayMax     // byte
@@ -99,7 +99,7 @@ type vdsoInfo struct {
 
 var vdsoLoadStart, vdsoLoadEnd uintptr
 
-// see vdso_linux_*.go for vdsoSymbolKeys[] and vdso*Sym vars
+// see vdso_linux_*.golang for vdsoSymbolKeys[] and vdso*Sym vars
 
 func vdsoInitFromSysinfoEhdr(info *vdsoInfo, hdr *elfEhdr) {
 	info.valid = false
@@ -194,7 +194,7 @@ func vdsoFindVersion(info *vdsoInfo, ver *vdsoVersionKey) int32 {
 	for {
 		if def.vd_flags&_VER_FLG_BASE == 0 {
 			aux := (*elfVerdaux)(add(unsafe.Pointer(def), uintptr(def.vd_aux)))
-			if def.vd_hash == ver.verHash && ver.version == gostringnocopy(&info.symstrings[aux.vda_name]) {
+			if def.vd_hash == ver.verHash && ver.version == golangstringnocopy(&info.symstrings[aux.vda_name]) {
 				return int32(def.vd_ndx & 0x7fff)
 			}
 		}
@@ -221,7 +221,7 @@ func vdsoParseSymbols(info *vdsoInfo, version int32) {
 		if typ != _STT_FUNC && typ != _STT_NOTYPE || bind != _STB_GLOBAL && bind != _STB_WEAK || sym.st_shndx == _SHN_UNDEF {
 			return false
 		}
-		if k.name != gostringnocopy(&info.symstrings[sym.st_name]) {
+		if k.name != golangstringnocopy(&info.symstrings[sym.st_name]) {
 			return false
 		}
 		// Check symbol version.
@@ -287,7 +287,7 @@ func vdsoauxv(tag, val uintptr) {
 
 // vdsoMarker reports whether PC is on the VDSO page.
 //
-//go:nosplit
+//golang:nosplit
 func inVDSOPage(pc uintptr) bool {
 	return pc >= vdsoLoadStart && pc < vdsoLoadEnd
 }

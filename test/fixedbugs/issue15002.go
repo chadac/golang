@@ -1,9 +1,9 @@
 // run
 
-//go:build amd64 && (linux || darwin)
+//golang:build amd64 && (linux || darwin)
 
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -30,7 +30,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	// Get a slice pointing to the last byte of the good page.
+	// Get a slice pointing to the last byte of the golangod page.
 	x := b[p-one : p]
 
 	test16(x)

@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package metrics provides tracking arbitrary metrics composed of
@@ -122,16 +122,16 @@ type S struct{ a, b, c string }
 
 func TestMetrics() {
 	m1 := _Metric1[string]{}
-	if got := m1.Count("a"); got != 0 {
-		panic(fmt.Sprintf("Count(%q) = %d, want 0", "a", got))
+	if golangt := m1.Count("a"); golangt != 0 {
+		panic(fmt.Sprintf("Count(%q) = %d, want 0", "a", golangt))
 	}
 	m1.Add("a")
 	m1.Add("a")
-	if got := m1.Count("a"); got != 2 {
-		panic(fmt.Sprintf("Count(%q) = %d, want 2", "a", got))
+	if golangt := m1.Count("a"); golangt != 2 {
+		panic(fmt.Sprintf("Count(%q) = %d, want 2", "a", golangt))
 	}
-	if got, want := m1.Metrics(), []string{"a"}; !_SlicesEqual(got, want) {
-		panic(fmt.Sprintf("Metrics = %v, want %v", got, want))
+	if golangt, want := m1.Metrics(), []string{"a"}; !_SlicesEqual(golangt, want) {
+		panic(fmt.Sprintf("Metrics = %v, want %v", golangt, want))
 	}
 
 	m2 := _Metric2[int, float64]{}
@@ -158,8 +158,8 @@ func TestMetrics() {
 	m3.Add("a", S{"d", "e", "f"}, S{"g", "h", "i"})
 	m3.Add("a", S{"d", "e", "f"}, S{"g", "h", "i"})
 	m3.Add("b", S{"d", "e", "f"}, S{"g", "h", "i"})
-	if got := m3.Count("a", S{"d", "e", "f"}, S{"g", "h", "i"}); got != 3 {
-		panic(fmt.Sprintf("Count(%v, %v, %v) = %d, want 3", "a", S{"d", "e", "f"}, S{"g", "h", "i"}, got))
+	if golangt := m3.Count("a", S{"d", "e", "f"}, S{"g", "h", "i"}); golangt != 3 {
+		panic(fmt.Sprintf("Count(%v, %v, %v) = %d, want 3", "a", S{"d", "e", "f"}, S{"g", "h", "i"}, golangt))
 	}
 }
 

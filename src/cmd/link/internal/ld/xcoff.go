@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ld
@@ -20,8 +20,8 @@ import (
 	"cmd/link/internal/sym"
 )
 
-// This file handles all algorithms related to XCOFF files generation.
-// Most of them are adaptations of the ones in  cmd/link/internal/pe.go
+// This file handles all algolangrithms related to XCOFF files generation.
+// Most of them are adaptations of the ones in  cmd/link/internal/pe.golang
 // as PE and XCOFF are based on COFF files.
 // XCOFF files generated are 64 bits.
 
@@ -425,7 +425,7 @@ type xcoffFile struct {
 	sync.Mutex                           // currently protect loaderReloc
 }
 
-// Var used by XCOFF Generation algorithms
+// Var used by XCOFF Generation algolangrithms
 var (
 	xfile xcoffFile
 )
@@ -601,13 +601,13 @@ func xcoffUpdateOuterSize(ctxt *Link, size int64, stype sym.SymKind) {
 			outerSymSize["type:*"] = size - tsize
 		}
 	case sym.SGOSTRING:
-		outerSymSize["go:string.*"] = size
+		outerSymSize["golang:string.*"] = size
 	case sym.SGOFUNC:
 		if !ctxt.DynlinkingGo() {
-			outerSymSize["go:func.*"] = size
+			outerSymSize["golang:func.*"] = size
 		}
 	case sym.SGOFUNCRELRO:
-		outerSymSize["go:funcrel.*"] = size
+		outerSymSize["golang:funcrel.*"] = size
 	case sym.SGCBITS:
 		outerSymSize["runtime.gcbits.*"] = size
 	case sym.SPCLNTAB:
@@ -673,7 +673,7 @@ func (f *xcoffFile) writeSymbolNewFile(ctxt *Link, name string, firstEntry uint6
 		var dwsize uint64
 		if ctxt.LinkMode == LinkInternal {
 			// Find the size of this corresponding package DWARF compilation unit.
-			// This size is set during DWARF generation (see dwarf.go).
+			// This size is set during DWARF generation (see dwarf.golang).
 			dwsize = getDwsectCUSize(sect.Name, name)
 			// .debug_abbrev is common to all packages and not found with the previous function
 			if sect.Name == ".debug_abbrev" {
@@ -725,7 +725,7 @@ func (f *xcoffFile) writeSymbolNewFile(ctxt *Link, name string, firstEntry uint6
 
 	/* .csect */
 	// Check if extnum is in text.
-	// This is temporary and only here to check if this algorithm is correct.
+	// This is temporary and only here to check if this algolangrithm is correct.
 	if extnum != 1 {
 		Exitf("XCOFF symtab: A new file was detected with its first symbol not in .text")
 	}
@@ -791,9 +791,9 @@ func (f *xcoffFile) writeSymbolFunc(ctxt *Link, x loader.Sym) []xcoffSym {
 	if strings.Contains(name, "-tramp") || strings.HasPrefix(name, "runtime.text.") {
 		// Trampoline don't have a FILE so there are considered
 		// in the current file.
-		// Same goes for runtime.text.X symbols.
+		// Same golanges for runtime.text.X symbols.
 	} else if ldr.SymPkg(x) == "" { // Undefined global symbol
-		// If this happens, the algorithm must be redone.
+		// If this happens, the algolangrithm must be redone.
 		if currSymSrcFile.name != "" {
 			Exitf("undefined global symbol found inside another file")
 		}
@@ -810,12 +810,12 @@ func (f *xcoffFile) writeSymbolFunc(ctxt *Link, x loader.Sym) []xcoffSym {
 				// .FILE and DWARF debugging enable, somewhere during
 				// the relocation phase.
 				// Therefore, all packages are merged under a fake .FILE
-				// "go_functions".
+				// "golang_functions".
 				// TODO(aix); remove once ld has been fixed or the triggering
 				// relocation has been found and fixed.
 				if currSymSrcFile.name == "" {
 					currSymSrcFile.name = ldr.SymPkg(x)
-					f.writeSymbolNewFile(ctxt, "go_functions", uint64(ldr.SymValue(x)), xfile.getXCOFFscnum(ldr.SymSect(x)))
+					f.writeSymbolNewFile(ctxt, "golang_functions", uint64(ldr.SymValue(x)), xfile.getXCOFFscnum(ldr.SymSect(x)))
 				}
 			}
 
@@ -893,7 +893,7 @@ func putaixsym(ctxt *Link, x loader.Sym, t SymbolType) {
 			syms = xfile.writeSymbolFunc(ctxt, x)
 		} else {
 			// Only runtime.text and runtime.etext come through this way
-			if name != "runtime.text" && name != "runtime.etext" && name != "go:buildid" {
+			if name != "runtime.text" && name != "runtime.etext" && name != "golang:buildid" {
 				Exitf("putaixsym: unknown text symbol %s", name)
 			}
 			s := &XcoffSymEnt64{
@@ -999,9 +999,9 @@ func putaixsym(ctxt *Link, x loader.Sym, t SymbolType) {
 		}
 
 		if ldr.SymName(x) == "__n_pthreads" {
-			// Currently, all imported symbols made by cgo_import_dynamic are
+			// Currently, all imported symbols made by cgolang_import_dynamic are
 			// syscall functions, except __n_pthreads which is a variable.
-			// TODO(aix): Find a way to detect variables imported by cgo.
+			// TODO(aix): Find a way to detect variables imported by cgolang.
 			a4.Xsmclas = XMC_RW
 		}
 
@@ -1041,7 +1041,7 @@ func putaixsym(ctxt *Link, x loader.Sym, t SymbolType) {
 // at the very end, especially after relocation sections which needs symbols' index.
 func (f *xcoffFile) asmaixsym(ctxt *Link) {
 	ldr := ctxt.loader
-	// Get correct size for symbols wrapping others symbols like go.string.*
+	// Get correct size for symbols wrapping others symbols like golang.string.*
 	// sym.Size can be used directly as the symbols have already been written.
 	for name, size := range outerSymSize {
 		sym := ldr.Lookup(name, 0)
@@ -1058,7 +1058,7 @@ func (f *xcoffFile) asmaixsym(ctxt *Link) {
 	s := ldr.Lookup("runtime.text", 0)
 	if ldr.SymType(s).IsText() {
 		// We've already included this symbol in ctxt.Textp on AIX with external linker.
-		// See data.go:/textaddress
+		// See data.golang:/textaddress
 		if !ctxt.IsExternal() {
 			putaixsym(ctxt, s, TextSym)
 		}
@@ -1085,7 +1085,7 @@ func (f *xcoffFile) asmaixsym(ctxt *Link) {
 	if ldr.SymType(s).IsText() {
 		// We've already included this symbol in ctxt.Textp
 		// on AIX with external linker.
-		// See data.go:/textaddress
+		// See data.golang:/textaddress
 		if !ctxt.IsExternal() {
 			putaixsym(ctxt, s, TextSym)
 		}
@@ -1201,9 +1201,9 @@ func (f *xcoffFile) adddynimpsym(ctxt *Link, s loader.Sym) {
 		smclas: XMC_DS,
 	}
 	if ldr.SymName(s) == "__n_pthreads" {
-		// Currently, all imported symbols made by cgo_import_dynamic are
+		// Currently, all imported symbols made by cgolang_import_dynamic are
 		// syscall functions, except __n_pthreads which is a variable.
-		// TODO(aix): Find a way to detect variables imported by cgo.
+		// TODO(aix): Find a way to detect variables imported by cgolang.
 		lds.smclas = XMC_RW
 	}
 	f.loaderSymbols = append(f.loaderSymbols, lds)
@@ -1314,17 +1314,17 @@ func (ctxt *Link) doxcoff() {
 	}
 
 	if ctxt.IsExternal() {
-		// Change rt0_go name to match name in runtime/cgo:main().
-		rt0 := ldr.Lookup("runtime.rt0_go", 0)
-		ldr.SetSymExtname(rt0, "runtime_rt0_go")
+		// Change rt0_golang name to match name in runtime/cgolang:main().
+		rt0 := ldr.Lookup("runtime.rt0_golang", 0)
+		ldr.SetSymExtname(rt0, "runtime_rt0_golang")
 
 		nsym := loader.Sym(ldr.NSym())
 		for s := loader.Sym(1); s < nsym; s++ {
-			if !ldr.AttrCgoExport(s) {
+			if !ldr.AttrCgolangExport(s) {
 				continue
 			}
 			if ldr.IsFileLocal(s) {
-				panic("cgo_export on static symbol")
+				panic("cgolang_export on static symbol")
 			}
 
 			if ldr.SymType(s).IsText() {
@@ -1662,7 +1662,7 @@ func asmbXcoff(ctxt *Link) {
 	xcoffwrite(ctxt)
 }
 
-// emitRelocations emits relocation entries for go.o in external linking.
+// emitRelocations emits relocation entries for golang.o in external linking.
 func (f *xcoffFile) emitRelocations(ctxt *Link, fileoff int64) {
 	ctxt.Out.SeekSet(fileoff)
 	for ctxt.Out.Offset()&7 != 0 {
@@ -1697,7 +1697,7 @@ func (f *xcoffFile) emitRelocations(ctxt *Link, fileoff int64) {
 				break
 			}
 
-			// Compute external relocations on the go, and pass to Xcoffreloc1 to stream out.
+			// Compute external relocations on the golang, and pass to Xcoffreloc1 to stream out.
 			// Relocation must be ordered by address, so create a list of sorted indices.
 			relocs := ldr.Relocs(s)
 			sorted := make([]int, relocs.Count())
@@ -1780,11 +1780,11 @@ func xcoffCreateExportFile(ctxt *Link) (fname string) {
 
 	ldr := ctxt.loader
 	for s, nsym := loader.Sym(1), loader.Sym(ldr.NSym()); s < nsym; s++ {
-		if !ldr.AttrCgoExport(s) {
+		if !ldr.AttrCgolangExport(s) {
 			continue
 		}
 		extname := ldr.SymExtname(s)
-		if !strings.HasPrefix(extname, "._cgoexp_") {
+		if !strings.HasPrefix(extname, "._cgolangexp_") {
 			continue
 		}
 		if ldr.IsFileLocal(s) {
@@ -1792,9 +1792,9 @@ func xcoffCreateExportFile(ctxt *Link) (fname string) {
 		}
 
 		// Retrieve the name of the initial symbol
-		// exported by cgo.
+		// exported by cgolang.
 		// The corresponding Go symbol is:
-		// _cgoexp_hashcode_symname.
+		// _cgolangexp_hashcode_symname.
 		name := strings.SplitN(extname, "_", 4)[3]
 
 		buf.Write([]byte(name + "\n"))

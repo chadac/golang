@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -12,6 +12,6 @@ func main() {
 	t.m = make(map[int]int);
 	var x int;
 	var ok bool;
-	x, ok = t.m[0];  //bug075.go:11: bad shape across assignment - cr=1 cl=2
+	x, ok = t.m[0];  //bug075.golang:11: bad shape across assignment - cr=1 cl=2
 	_, _ = x, ok;
 }

@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package syntax
@@ -614,7 +614,7 @@ func (p *parser) factor(sub []*Regexp) []*Regexp {
 				}
 				if same > 0 {
 					// Matches at least one rune in current range.
-					// Keep going around.
+					// Keep golanging around.
 					str = str[:same]
 					continue
 				}
@@ -657,7 +657,7 @@ func (p *parser) factor(sub []*Regexp) []*Regexp {
 
 	// Round 2: Factor out common simple prefixes,
 	// just the first piece of each concatenation.
-	// This will be good enough a lot of the time.
+	// This will be golangod enough a lot of the time.
 	//
 	// Complex subexpressions (e.g. involving quantifiers)
 	// are not safe to factor because that collapses their
@@ -1457,7 +1457,7 @@ Switch:
 	default:
 		if c < utf8.RuneSelf && !isalnum(c) {
 			// Escaped non-word characters are always themselves.
-			// PCRE is not quite so rigorous: it accepts things like
+			// PCRE is not quite so rigolangrous: it accepts things like
 			// \q, but we don't. We once rejected \_, but too many
 			// programs and people insist on using it, so allow \_.
 			return c, t, nil
@@ -1577,7 +1577,7 @@ type charGroup struct {
 	class []rune
 }
 
-//go:generate perl make_perl_groups.pl perl_groups.go
+//golang:generate perl make_perl_groups.pl perl_groups.golang
 
 // parsePerlClassEscape parses a leading Perl character class escape like \d
 // from the beginning of s. If one is present, it appends the characters to r
@@ -1652,18 +1652,18 @@ var asciiFoldTable = &unicode.RangeTable{
 	},
 }
 
-// categoryAliases is a lazily constructed copy of unicode.CategoryAliases
+// categolangryAliases is a lazily constructed copy of unicode.CategolangryAliases
 // but with the keys passed through canonicalName, to support inexact matches.
-var categoryAliases struct {
+var categolangryAliases struct {
 	once sync.Once
 	m    map[string]string
 }
 
-// initCategoryAliases initializes categoryAliases by canonicalizing unicode.CategoryAliases.
-func initCategoryAliases() {
-	categoryAliases.m = make(map[string]string)
-	for name, actual := range unicode.CategoryAliases {
-		categoryAliases.m[canonicalName(name)] = actual
+// initCategolangryAliases initializes categolangryAliases by canonicalizing unicode.CategolangryAliases.
+func initCategolangryAliases() {
+	categolangryAliases.m = make(map[string]string)
+	for name, actual := range unicode.CategolangryAliases {
+		categolangryAliases.m[canonicalName(name)] = actual
 	}
 }
 
@@ -1716,7 +1716,7 @@ func unicodeTable(name string) (tab, fold *unicode.RangeTable, sign int) {
 	name = canonicalName(name)
 
 	// Special cases: Any, Assigned, and ASCII.
-	// Also LC is the only non-canonical Categories key, so handle it here.
+	// Also LC is the only non-canonical Categolangries key, so handle it here.
 	switch name {
 	case "Any":
 		return anyTable, anyTable, +1
@@ -1725,22 +1725,22 @@ func unicodeTable(name string) (tab, fold *unicode.RangeTable, sign int) {
 	case "Ascii":
 		return asciiTable, asciiFoldTable, +1
 	case "Lc":
-		return unicode.Categories["LC"], unicode.FoldCategory["LC"], +1
+		return unicode.Categolangries["LC"], unicode.FoldCategolangry["LC"], +1
 	}
-	if t := unicode.Categories[name]; t != nil {
-		return t, unicode.FoldCategory[name], +1
+	if t := unicode.Categolangries[name]; t != nil {
+		return t, unicode.FoldCategolangry[name], +1
 	}
 	if t := unicode.Scripts[name]; t != nil {
 		return t, unicode.FoldScript[name], +1
 	}
 
-	// unicode.CategoryAliases makes liberal use of underscores in its names
+	// unicode.CategolangryAliases makes liberal use of underscores in its names
 	// (they are defined that way by Unicode), but we want to match ignoring
 	// the underscores, so make our own map with canonical names.
-	categoryAliases.once.Do(initCategoryAliases)
-	if actual := categoryAliases.m[name]; actual != "" {
-		t := unicode.Categories[actual]
-		return t, unicode.FoldCategory[actual], +1
+	categolangryAliases.once.Do(initCategolangryAliases)
+	if actual := categolangryAliases.m[name]; actual != "" {
+		t := unicode.Categolangries[actual]
+		return t, unicode.FoldCategolangry[actual], +1
 	}
 	return nil, nil, 0
 }

@@ -1,13 +1,13 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build ignore
+//golang:build ignore
 
 // This is a test program that verifies that it can read from
 // descriptor 3 and that no other descriptors are open.
 // This is not done via TestHelperProcess and GO_EXEC_TEST_PID
-// because we want to ensure that this program does not use cgo,
+// because we want to ensure that this program does not use cgolang,
 // because C libraries can open file descriptors behind our backs
 // and confuse the test. See issue 25628.
 package main
@@ -48,7 +48,7 @@ func main() {
 			continue
 		}
 
-		fmt.Printf("leaked parent file. fdtest.Exists(%d) got true want false\n", fd)
+		fmt.Printf("leaked parent file. fdtest.Exists(%d) golangt true want false\n", fd)
 
 		fdfile := fmt.Sprintf("/proc/self/fd/%d", fd)
 		link, err := os.Readlink(fdfile)
@@ -67,7 +67,7 @@ func main() {
 		// Determine which command to use to display open files.
 		ofcmd := "lsof"
 		switch runtime.GOOS {
-		case "dragonfly", "freebsd", "netbsd", "openbsd":
+		case "dragolangnfly", "freebsd", "netbsd", "openbsd":
 			ofcmd = "fstat"
 		case "plan9":
 			ofcmd = "/bin/cat"

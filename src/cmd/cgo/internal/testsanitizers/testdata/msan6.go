@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -9,8 +9,8 @@ package main
 // when the stack is used for something else. Issue 26209.
 
 /*
-#cgo LDFLAGS: -fsanitize=memory
-#cgo CPPFLAGS: -fsanitize=memory
+#cgolang LDFLAGS: -fsanitize=memory
+#cgolang CPPFLAGS: -fsanitize=memory
 
 #include <stdint.h>
 #include <stdlib.h>
@@ -33,7 +33,7 @@ import "C"
 // allocateStack extends the stack so that stack copying doesn't
 // confuse the msan data structures.
 //
-//go:noinline
+//golang:noinline
 func allocateStack(i int) int {
 	if i == 0 {
 		return i
@@ -45,7 +45,7 @@ func allocateStack(i int) int {
 // C.f returns an uninitialized struct on the stack, so msan will mark
 // the stack as uninitialized.
 //
-//go:noinline
+//golang:noinline
 func F1() uintptr {
 	s := C.f()
 	return uintptr(s.a[0])
@@ -54,7 +54,7 @@ func F1() uintptr {
 // F2 allocates a struct on the stack and converts it to an empty interface,
 // which will call msanread and see that the data appears uninitialized.
 //
-//go:noinline
+//golang:noinline
 func F2() interface{} {
 	return C.S{}
 }

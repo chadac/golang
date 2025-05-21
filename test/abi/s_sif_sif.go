@@ -1,9 +1,9 @@
 // run
 
-//go:build !wasm
+//golang:build !wasm
 
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -22,8 +22,8 @@ type T struct {
 	d, e P
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func G(t T) float64 {
 	return float64(t.d.a+t.e.a) + t.d.x + t.e.x
 }
@@ -31,6 +31,6 @@ func G(t T) float64 {
 func main() {
 	x := G(T{P{10, 20}, P{30, 40}})
 	if x != 100.0 {
-		fmt.Printf("FAIL, Expected 100, got %f\n", x)
+		fmt.Printf("FAIL, Expected 100, golangt %f\n", x)
 	}
 }

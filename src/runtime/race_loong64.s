@@ -1,19 +1,19 @@
 // Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build race
+//golang:build race
 
-#include "go_asm.h"
+#include "golang_asm.h"
 #include "funcdata.h"
 #include "textflag.h"
-#include "cgo/abi_loong64.h"
+#include "cgolang/abi_loong64.h"
 
 // The following thunks allow calling the gcc-compiled race runtime directly
-// from Go code without going all the way through cgo.
+// from Go code without golanging all the way through cgolang.
 // First, it's much faster (up to 50% speedup for real Go programs).
-// Second, it eliminates race-related special cases from cgocall and scheduler.
-// Third, in long-term it will allow to remove cyclic runtime/race dependency on cmd/go.
+// Second, it eliminates race-related special cases from cgolangcall and scheduler.
+// Third, in long-term it will allow to remove cyclic runtime/race dependency on cmd/golang.
 
 // A brief recap of the loong64 calling convention.
 // Arguments are passed in R4...R11, the rest is on stack.
@@ -145,7 +145,7 @@ TEXT	runtime·racewriterangepc1(SB), NOSPLIT, $0-24
 // RARG0 = *ThreadState a.k.a. g_racectx from g
 // RARG1 = addr passed to __tsan function
 //
-// If addr (RARG1) is out of range, do nothing. Otherwise, setup goroutine
+// If addr (RARG1) is out of range, do nothing. Otherwise, setup golangroutine
 // context and invoke racecall. Other arguments already set.
 TEXT	racecalladdr<>(SB), NOSPLIT, $0-0
 	// Check that addr is within [arenastart, arenaend) or within [racedatastart, racedataend).
@@ -175,7 +175,7 @@ TEXT	runtime·racefuncenter<ABIInternal>(SB), NOSPLIT, $0-8
 // RCALL = caller's return address
 TEXT	racefuncenter<>(SB), NOSPLIT, $0-0
 	load_g
-	MOVV	g_racectx(g), RARG0	// goroutine racectx
+	MOVV	g_racectx(g), RARG0	// golangroutine racectx
 	MOVV	RCALL, RARG1
 	// void __tsan_func_enter(ThreadState *thr, void *pc);
 	MOVV	$__tsan_func_enter(SB), RCALL
@@ -199,13 +199,13 @@ TEXT	runtime·racefuncexit<ABIInternal>(SB), NOSPLIT, $0-0
 // Load
 TEXT	sync∕atomic·LoadInt32(SB), NOSPLIT, $0-12
 	GO_ARGS
-	MOVV	$__tsan_go_atomic32_load(SB), RCALL
+	MOVV	$__tsan_golang_atomic32_load(SB), RCALL
 	JAL	racecallatomic<>(SB)
 	RET
 
 TEXT	sync∕atomic·LoadInt64(SB), NOSPLIT, $0-16
 	GO_ARGS
-	MOVV	$__tsan_go_atomic64_load(SB), RCALL
+	MOVV	$__tsan_golang_atomic64_load(SB), RCALL
 	JAL	racecallatomic<>(SB)
 	RET
 
@@ -228,13 +228,13 @@ TEXT	sync∕atomic·LoadPointer(SB), NOSPLIT, $0-16
 // Store
 TEXT	sync∕atomic·StoreInt32(SB), NOSPLIT, $0-12
 	GO_ARGS
-	MOVV	$__tsan_go_atomic32_store(SB), RCALL
+	MOVV	$__tsan_golang_atomic32_store(SB), RCALL
 	JAL	racecallatomic<>(SB)
 	RET
 
 TEXT	sync∕atomic·StoreInt64(SB), NOSPLIT, $0-16
 	GO_ARGS
-	MOVV	$__tsan_go_atomic64_store(SB), RCALL
+	MOVV	$__tsan_golang_atomic64_store(SB), RCALL
 	JAL	racecallatomic<>(SB)
 	RET
 
@@ -253,13 +253,13 @@ TEXT	sync∕atomic·StoreUintptr(SB), NOSPLIT, $0-16
 // Swap
 TEXT	sync∕atomic·SwapInt32(SB), NOSPLIT, $0-20
 	GO_ARGS
-	MOVV	$__tsan_go_atomic32_exchange(SB), RCALL
+	MOVV	$__tsan_golang_atomic32_exchange(SB), RCALL
 	JAL	racecallatomic<>(SB)
 	RET
 
 TEXT	sync∕atomic·SwapInt64(SB), NOSPLIT, $0-24
 	GO_ARGS
-	MOVV	$__tsan_go_atomic64_exchange(SB), RCALL
+	MOVV	$__tsan_golang_atomic64_exchange(SB), RCALL
 	JAL	racecallatomic<>(SB)
 	RET
 
@@ -278,7 +278,7 @@ TEXT	sync∕atomic·SwapUintptr(SB), NOSPLIT, $0-24
 // Add
 TEXT	sync∕atomic·AddInt32(SB), NOSPLIT, $0-20
 	GO_ARGS
-	MOVV	$__tsan_go_atomic32_fetch_add(SB), RCALL
+	MOVV	$__tsan_golang_atomic32_fetch_add(SB), RCALL
 	JAL	racecallatomic<>(SB)
 	MOVW	add+8(FP), RARG0	// convert fetch_add to add_fetch
 	MOVW	ret+16(FP), RARG1
@@ -288,7 +288,7 @@ TEXT	sync∕atomic·AddInt32(SB), NOSPLIT, $0-20
 
 TEXT	sync∕atomic·AddInt64(SB), NOSPLIT, $0-24
 	GO_ARGS
-	MOVV	$__tsan_go_atomic64_fetch_add(SB), RCALL
+	MOVV	$__tsan_golang_atomic64_fetch_add(SB), RCALL
 	JAL	racecallatomic<>(SB)
 	MOVV	add+8(FP), RARG0	// convert fetch_add to add_fetch
 	MOVV	ret+16(FP), RARG1
@@ -311,13 +311,13 @@ TEXT	sync∕atomic·AddUintptr(SB), NOSPLIT, $0-24
 // And
 TEXT	sync∕atomic·AndInt32(SB), NOSPLIT, $0-20
 	GO_ARGS
-	MOVV	$__tsan_go_atomic32_fetch_and(SB), RCALL
+	MOVV	$__tsan_golang_atomic32_fetch_and(SB), RCALL
 	JAL	racecallatomic<>(SB)
 	RET
 
 TEXT	sync∕atomic·AndInt64(SB), NOSPLIT, $0-24
 	GO_ARGS
-	MOVV	$__tsan_go_atomic64_fetch_and(SB), RCALL
+	MOVV	$__tsan_golang_atomic64_fetch_and(SB), RCALL
 	JAL	racecallatomic<>(SB)
 	RET
 
@@ -336,13 +336,13 @@ TEXT	sync∕atomic·AndUintptr(SB), NOSPLIT, $0-24
 // Or
 TEXT	sync∕atomic·OrInt32(SB), NOSPLIT, $0-20
 	GO_ARGS
-	MOVV	$__tsan_go_atomic32_fetch_or(SB), RCALL
+	MOVV	$__tsan_golang_atomic32_fetch_or(SB), RCALL
 	JAL	racecallatomic<>(SB)
 	RET
 
 TEXT	sync∕atomic·OrInt64(SB), NOSPLIT, $0-24
 	GO_ARGS
-	MOVV	$__tsan_go_atomic64_fetch_or(SB), RCALL
+	MOVV	$__tsan_golang_atomic64_fetch_or(SB), RCALL
 	JAL	racecallatomic<>(SB)
 	RET
 
@@ -361,13 +361,13 @@ TEXT	sync∕atomic·OrUintptr(SB), NOSPLIT, $0-24
 // CompareAndSwap
 TEXT	sync∕atomic·CompareAndSwapInt32(SB), NOSPLIT, $0-17
 	GO_ARGS
-	MOVV	$__tsan_go_atomic32_compare_exchange(SB), RCALL
+	MOVV	$__tsan_golang_atomic32_compare_exchange(SB), RCALL
 	JAL	racecallatomic<>(SB)
 	RET
 
 TEXT	sync∕atomic·CompareAndSwapInt64(SB), NOSPLIT, $0-25
 	GO_ARGS
-	MOVV	$__tsan_go_atomic64_compare_exchange(SB), RCALL
+	MOVV	$__tsan_golang_atomic64_compare_exchange(SB), RCALL
 	JAL	racecallatomic<>(SB)
 	RET
 
@@ -409,9 +409,9 @@ racecallatomic_data:
 	BGE	RARG3, R12, racecallatomic_ignore
 
 racecallatomic_ok:
-	// Addr is within the good range, call the atomic function.
+	// Addr is within the golangod range, call the atomic function.
 	load_g
-	MOVV	g_racectx(g), RARG0	// goroutine context
+	MOVV	g_racectx(g), RARG0	// golangroutine context
 	MOVV	8(R3), RARG1	// caller pc
 	MOVV	RCALL, RARG2	// pc
 	ADDV	$24, R3, RARG3
@@ -419,28 +419,28 @@ racecallatomic_ok:
 	RET
 
 racecallatomic_ignore:
-	// Addr is outside the good range.
-	// Call __tsan_go_ignore_sync_begin to ignore synchronization during the atomic op.
+	// Addr is outside the golangod range.
+	// Call __tsan_golang_ignore_sync_begin to ignore synchronization during the atomic op.
 	// An attempt to synchronize on the address would cause crash.
 	MOVV	RCALL, R25	// remember the original function
-	MOVV	$__tsan_go_ignore_sync_begin(SB), RCALL
+	MOVV	$__tsan_golang_ignore_sync_begin(SB), RCALL
 	load_g
-	MOVV	g_racectx(g), RARG0	// goroutine context
+	MOVV	g_racectx(g), RARG0	// golangroutine context
 	JAL	racecall<>(SB)
 	MOVV	R25, RCALL	// restore the original function
 
 	// Call the atomic function.
 	// racecall will call LLVM race code which might clobber R22 (g)
 	load_g
-	MOVV	g_racectx(g), RARG0	// goroutine context
+	MOVV	g_racectx(g), RARG0	// golangroutine context
 	MOVV	8(R3), RARG1	// caller pc
 	MOVV	RCALL, RARG2	// pc
 	ADDV	$24, R3, RARG3	// arguments
 	JAL	racecall<>(SB)
 
-	// Call __tsan_go_ignore_sync_end.
-	MOVV	$__tsan_go_ignore_sync_end(SB), RCALL
-	MOVV	g_racectx(g), RARG0	// goroutine context
+	// Call __tsan_golang_ignore_sync_end.
+	MOVV	$__tsan_golang_ignore_sync_end(SB), RCALL
+	MOVV	g_racectx(g), RARG0	// golangroutine context
 	JAL	racecall<>(SB)
 	RET
 
@@ -463,7 +463,7 @@ TEXT	racecall<>(SB), NOSPLIT|NOFRAME, $0-0
 	MOVV	R1, R24	// callee-saved, preserved across the CALL
 	MOVV	m_g0(R12), R13
 	BEQ	R13, g, call	// already on g0
-	MOVV	(g_sched+gobuf_sp)(R13), R3
+	MOVV	(g_sched+golangbuf_sp)(R13), R3
 call:
 	JAL	(RCALL)
 	MOVV	R23, R3

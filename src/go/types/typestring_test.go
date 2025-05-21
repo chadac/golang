@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package types_test
@@ -8,7 +8,7 @@ import (
 	"internal/testenv"
 	"testing"
 
-	. "go/types"
+	. "golang/types"
 )
 
 const filename = "<src>"
@@ -130,8 +130,8 @@ func TestTypeString(t *testing.T) {
 			continue
 		}
 		typ := obj.Type().Underlying()
-		if got := typ.String(); got != test.str {
-			t.Errorf("%s: got %s, want %s", test.src, got, test.str)
+		if golangt := typ.String(); golangt != test.str {
+			t.Errorf("%s: golangt %s, want %s", test.src, golangt, test.str)
 		}
 	}
 }
@@ -159,9 +159,9 @@ func TestQualifiedTypeString(t *testing.T) {
 			}
 			return ""
 		}
-		if got := TypeString(test.typ, qualifier); got != test.want {
+		if golangt := TypeString(test.typ, qualifier); golangt != test.want {
 			t.Errorf("TypeString(%s, %s) = %s, want %s",
-				test.this, test.typ, got, test.want)
+				test.this, test.typ, golangt, test.want)
 		}
 	}
 }

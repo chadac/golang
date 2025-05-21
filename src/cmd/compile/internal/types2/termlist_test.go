@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package types2
@@ -38,8 +38,8 @@ func TestTermlistString(t *testing.T) {
 		"∅ | 𝓤 | int",
 		"∅ | 𝓤 | int | myInt",
 	} {
-		if got := maketl(want).String(); got != want {
-			t.Errorf("(%v).String() == %v", want, got)
+		if golangt := maketl(want).String(); golangt != want {
+			t.Errorf("(%v).String() == %v", want, golangt)
 		}
 	}
 }
@@ -55,9 +55,9 @@ func TestTermlistIsEmpty(t *testing.T) {
 		"𝓤 | myInt | ∅": false,
 	} {
 		xl := maketl(test)
-		got := xl.isEmpty()
-		if got != want {
-			t.Errorf("(%v).isEmpty() == %v; want %v", test, got, want)
+		golangt := xl.isEmpty()
+		if golangt != want {
+			t.Errorf("(%v).isEmpty() == %v; want %v", test, golangt, want)
 		}
 	}
 }
@@ -74,9 +74,9 @@ func TestTermlistIsAll(t *testing.T) {
 		"myInt | 𝓤":     true,
 	} {
 		xl := maketl(test)
-		got := xl.isAll()
-		if got != want {
-			t.Errorf("(%v).isAll() == %v; want %v", test, got, want)
+		golangt := xl.isAll()
+		if golangt != want {
+			t.Errorf("(%v).isAll() == %v; want %v", test, golangt, want)
 		}
 	}
 }
@@ -99,9 +99,9 @@ func TestTermlistNorm(t *testing.T) {
 		{"~int | string | myInt | ~string | int", "~int | ~string"},
 	} {
 		xl := maketl(test.xl)
-		got := maketl(test.xl).norm()
-		if got.String() != test.want {
-			t.Errorf("(%v).norm() = %v; want %v", xl, got, test.want)
+		golangt := maketl(test.xl).norm()
+		if golangt.String() != test.want {
+			t.Errorf("(%v).norm() = %v; want %v", xl, golangt, test.want)
 		}
 	}
 }
@@ -128,9 +128,9 @@ func TestTermlistUnion(t *testing.T) {
 	} {
 		xl := maketl(test.xl)
 		yl := maketl(test.yl)
-		got := xl.union(yl).String()
-		if got != test.want {
-			t.Errorf("(%v).union(%v) = %v; want %v", test.xl, test.yl, got, test.want)
+		golangt := xl.union(yl).String()
+		if golangt != test.want {
+			t.Errorf("(%v).union(%v) = %v; want %v", test.xl, test.yl, golangt, test.want)
 		}
 	}
 }
@@ -159,9 +159,9 @@ func TestTermlistIntersect(t *testing.T) {
 	} {
 		xl := maketl(test.xl)
 		yl := maketl(test.yl)
-		got := xl.intersect(yl).String()
-		if got != test.want {
-			t.Errorf("(%v).intersect(%v) = %v; want %v", test.xl, test.yl, got, test.want)
+		golangt := xl.intersect(yl).String()
+		if golangt != test.want {
+			t.Errorf("(%v).intersect(%v) = %v; want %v", test.xl, test.yl, golangt, test.want)
 		}
 	}
 }
@@ -183,9 +183,9 @@ func TestTermlistEqual(t *testing.T) {
 	} {
 		xl := maketl(test.xl)
 		yl := maketl(test.yl)
-		got := xl.equal(yl)
-		if got != test.want {
-			t.Errorf("(%v).equal(%v) = %v; want %v", test.xl, test.yl, got, test.want)
+		golangt := xl.equal(yl)
+		if golangt != test.want {
+			t.Errorf("(%v).equal(%v) = %v; want %v", test.xl, test.yl, golangt, test.want)
 		}
 	}
 }
@@ -209,9 +209,9 @@ func TestTermlistIncludes(t *testing.T) {
 	} {
 		xl := maketl(test.xl)
 		yl := testTerm(test.typ).typ
-		got := xl.includes(yl)
-		if got != test.want {
-			t.Errorf("(%v).includes(%v) = %v; want %v", test.xl, yl, got, test.want)
+		golangt := xl.includes(yl)
+		if golangt != test.want {
+			t.Errorf("(%v).includes(%v) = %v; want %v", test.xl, yl, golangt, test.want)
 		}
 	}
 }
@@ -245,9 +245,9 @@ func TestTermlistSupersetOf(t *testing.T) {
 	} {
 		xl := maketl(test.xl)
 		y := testTerm(test.typ)
-		got := xl.supersetOf(y)
-		if got != test.want {
-			t.Errorf("(%v).supersetOf(%v) = %v; want %v", test.xl, y, got, test.want)
+		golangt := xl.supersetOf(y)
+		if golangt != test.want {
+			t.Errorf("(%v).supersetOf(%v) = %v; want %v", test.xl, y, golangt, test.want)
 		}
 	}
 }
@@ -276,9 +276,9 @@ func TestTermlistSubsetOf(t *testing.T) {
 	} {
 		xl := maketl(test.xl)
 		yl := maketl(test.yl)
-		got := xl.subsetOf(yl)
-		if got != test.want {
-			t.Errorf("(%v).subsetOf(%v) = %v; want %v", test.xl, test.yl, got, test.want)
+		golangt := xl.subsetOf(yl)
+		if golangt != test.want {
+			t.Errorf("(%v).subsetOf(%v) = %v; want %v", test.xl, test.yl, golangt, test.want)
 		}
 	}
 }

@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package httpresponse defines an Analyzer that checks for mistakes
@@ -7,14 +7,14 @@
 package httpresponse
 
 import (
-	"go/ast"
-	"go/types"
+	"golang/ast"
+	"golang/types"
 
-	"golang.org/x/tools/go/analysis"
-	"golang.org/x/tools/go/analysis/passes/inspect"
-	"golang.org/x/tools/go/ast/inspector"
-	"golang.org/x/tools/internal/analysisinternal"
-	"golang.org/x/tools/internal/typesinternal"
+	"golanglang.org/x/tools/golang/analysis"
+	"golanglang.org/x/tools/golang/analysis/passes/inspect"
+	"golanglang.org/x/tools/golang/ast/inspector"
+	"golanglang.org/x/tools/internal/analysisinternal"
+	"golanglang.org/x/tools/internal/typesinternal"
 )
 
 const Doc = `check for mistakes using HTTP responses
@@ -36,7 +36,7 @@ diagnostic for such mistakes.`
 var Analyzer = &analysis.Analyzer{
 	Name:     "httpresponse",
 	Doc:      Doc,
-	URL:      "https://pkg.go.dev/golang.org/x/tools/go/analysis/passes/httpresponse",
+	URL:      "https://pkg.golang.dev/golanglang.org/x/tools/golang/analysis/passes/httpresponse",
 	Requires: []*analysis.Analyzer{inspect.Analyzer},
 	Run:      run,
 }

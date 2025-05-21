@@ -1,8 +1,8 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build unix
+//golang:build unix
 
 package runtime_test
 
@@ -41,12 +41,12 @@ func TestBadOpen(t *testing.T) {
 	}
 	var buf [32]byte
 	r := runtime.Read(-1, unsafe.Pointer(&buf[0]), int32(len(buf)))
-	if got, want := r, -int32(syscall.EBADF); got != want {
-		t.Errorf("read()=%d, want %d", got, want)
+	if golangt, want := r, -int32(syscall.EBADF); golangt != want {
+		t.Errorf("read()=%d, want %d", golangt, want)
 	}
 	w := runtime.Write(^uintptr(0), unsafe.Pointer(&buf[0]), int32(len(buf)))
-	if got, want := w, -int32(syscall.EBADF); got != want {
-		t.Errorf("write()=%d, want %d", got, want)
+	if golangt, want := w, -int32(syscall.EBADF); golangt != want {
+		t.Errorf("write()=%d, want %d", golangt, want)
 	}
 	c := runtime.Close(-1)
 	if c != -1 {
@@ -60,7 +60,7 @@ func TestCrashDumpsAllThreads(t *testing.T) {
 	}
 
 	switch runtime.GOOS {
-	case "darwin", "dragonfly", "freebsd", "linux", "netbsd", "openbsd", "illumos", "solaris":
+	case "darwin", "dragolangnfly", "freebsd", "linux", "netbsd", "openbsd", "illumos", "solaris":
 	default:
 		t.Skipf("skipping; not supported on %v", runtime.GOOS)
 	}
@@ -71,7 +71,7 @@ func TestCrashDumpsAllThreads(t *testing.T) {
 	}
 
 	if runtime.Sigisblocked(int(syscall.SIGQUIT)) {
-		t.Skip("skipping; SIGQUIT is blocked, see golang.org/issue/19196")
+		t.Skip("skipping; SIGQUIT is blocked, see golanglang.org/issue/19196")
 	}
 
 	testenv.MustHaveGoBuild(t)
@@ -94,7 +94,7 @@ func TestCrashDumpsAllThreads(t *testing.T) {
 	cmd.Dir = t.TempDir() // put any core file in tempdir
 	cmd.Env = append(cmd.Env,
 		"GOTRACEBACK=crash",
-		// Set GOGC=off. Because of golang.org/issue/10958, the tight
+		// Set GOGC=off. Because of golanglang.org/issue/10958, the tight
 		// loops in the test program are not preemptible. If GC kicks
 		// in, it may lock up and prevent main from saying it's ready.
 		"GOGC=off",
@@ -137,8 +137,8 @@ func TestCrashDumpsAllThreads(t *testing.T) {
 	cmd.Wait()
 
 	// We want to see a stack trace for each thread.
-	// Before https://golang.org/cl/2811 running threads would say
-	// "goroutine running on other thread; stack unavailable".
+	// Before https://golanglang.org/cl/2811 running threads would say
+	// "golangroutine running on other thread; stack unavailable".
 	out := outbuf.Bytes()
 	n := bytes.Count(out, []byte("main.crashDumpsAllThreadsLoop("))
 	if n != 4 {
@@ -159,7 +159,7 @@ func TestPanicSystemstack(t *testing.T) {
 	}
 
 	if runtime.Sigisblocked(int(syscall.SIGQUIT)) {
-		t.Skip("skipping; SIGQUIT is blocked, see golang.org/issue/19196")
+		t.Skip("skipping; SIGQUIT is blocked, see golanglang.org/issue/19196")
 	}
 
 	t.Parallel()
@@ -214,7 +214,7 @@ func TestPanicSystemstack(t *testing.T) {
 	nUser := bytes.Count(tb, []byte(userFunc))
 	nSys := bytes.Count(tb, []byte(sysFunc))
 	if nUser != 2 || nSys != 2 {
-		t.Fatalf("want %d user stack frames in %s and %d system stack frames in %s, got %d and %d:\n%s", 2, userFunc, 2, sysFunc, nUser, nSys, string(tb))
+		t.Fatalf("want %d user stack frames in %s and %d system stack frames in %s, golangt %d and %d:\n%s", 2, userFunc, 2, sysFunc, nUser, nSys, string(tb))
 	}
 
 	// Traceback should not contain "unexpected SPWRITE" when
@@ -226,15 +226,15 @@ func TestPanicSystemstack(t *testing.T) {
 
 func init() {
 	if len(os.Args) >= 2 && os.Args[1] == "testPanicSystemstackInternal" {
-		// Complete any in-flight GCs and disable future ones. We're going to
-		// block goroutines on runtime locks, which aren't ever preemptible for the
+		// Complete any in-flight GCs and disable future ones. We're golanging to
+		// block golangroutines on runtime locks, which aren't ever preemptible for the
 		// GC to scan them.
 		runtime.GC()
 		debug.SetGCPercent(-1)
 		// Get two threads running on the system stack with
 		// something recognizable in the stack trace.
 		runtime.GOMAXPROCS(2)
-		go testPanicSystemstackInternal()
+		golang testPanicSystemstackInternal()
 		testPanicSystemstackInternal()
 	}
 }
@@ -258,7 +258,7 @@ func TestSignalExitStatus(t *testing.T) {
 	} else if ws, ok := ee.Sys().(syscall.WaitStatus); !ok {
 		t.Errorf("error.Sys (%v) has type %T; expected syscall.WaitStatus", ee.Sys(), ee.Sys())
 	} else if !ws.Signaled() || ws.Signal() != syscall.SIGTERM {
-		t.Errorf("got %v; expected SIGTERM", ee)
+		t.Errorf("golangt %v; expected SIGTERM", ee)
 	}
 }
 
@@ -270,20 +270,20 @@ func TestSignalIgnoreSIGTRAP(t *testing.T) {
 	output := runTestProg(t, "testprognet", "SignalIgnoreSIGTRAP")
 	want := "OK\n"
 	if output != want {
-		t.Fatalf("want %s, got %s\n", want, output)
+		t.Fatalf("want %s, golangt %s\n", want, output)
 	}
 }
 
 func TestSignalDuringExec(t *testing.T) {
 	switch runtime.GOOS {
-	case "darwin", "dragonfly", "freebsd", "linux", "netbsd", "openbsd":
+	case "darwin", "dragolangnfly", "freebsd", "linux", "netbsd", "openbsd":
 	default:
 		t.Skipf("skipping test on %s", runtime.GOOS)
 	}
 	output := runTestProg(t, "testprognet", "SignalDuringExec")
 	want := "OK\n"
 	if output != want {
-		t.Fatalf("want %s, got %s\n", want, output)
+		t.Fatalf("want %s, golangt %s\n", want, output)
 	}
 }
 
@@ -299,13 +299,13 @@ func TestSignalM(t *testing.T) {
 	runtime.Closeonexec(r)
 	runtime.Closeonexec(w)
 
-	var want, got int64
+	var want, golangt int64
 	var wg sync.WaitGroup
 	ready := make(chan *runtime.M)
 	wg.Add(1)
-	go func() {
+	golang func() {
 		runtime.LockOSThread()
-		want, got = runtime.WaitForSigusr1(r, w, func(mp *runtime.M) {
+		want, golangt = runtime.WaitForSigusr1(r, w, func(mp *runtime.M) {
 			ready <- mp
 		})
 		runtime.UnlockOSThread()
@@ -324,9 +324,9 @@ func TestSignalM(t *testing.T) {
 	defer timer.Stop()
 
 	wg.Wait()
-	if got == -1 {
+	if golangt == -1 {
 		t.Fatal("signalM signal not received")
-	} else if want != got {
-		t.Fatalf("signal sent to M %d, but received on M %d", want, got)
+	} else if want != golangt {
+		t.Fatalf("signal sent to M %d, but received on M %d", want, golangt)
 	}
 }

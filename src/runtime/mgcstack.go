@@ -1,20 +1,20 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Garbage collector: stack objects and stack tracing
-// See the design doc at https://docs.google.com/document/d/1un-Jn47yByHL7I0aVIP_uVCMxjdM5mpelJhiKlIqxkE/edit?usp=sharing
+// See the design doc at https://docs.golangogle.com/document/d/1un-Jn47yByHL7I0aVIP_uVCMxjdM5mpelJhiKlIqxkE/edit?usp=sharing
 // Also see issue 22350.
 
 // Stack tracing solves the problem of determining which parts of the
 // stack are live and should be scanned. It runs as part of scanning
-// a single goroutine stack.
+// a single golangroutine stack.
 //
 // Normally determining which parts of the stack are live is easy to
 // do statically, as user code has explicit references (reads and
 // writes) to stack variables. The compiler can do a simple dataflow
 // analysis to determine liveness of stack variables at every point in
-// the code. See cmd/compile/internal/gc/plive.go for that analysis.
+// the code. See cmd/compile/internal/gc/plive.golang for that analysis.
 //
 // However, when we take the address of a stack variable, determining
 // whether that variable is still live is less clear. We can still
@@ -95,7 +95,7 @@
 package runtime
 
 import (
-	"internal/goarch"
+	"internal/golangarch"
 	"internal/runtime/sys"
 	"unsafe"
 )
@@ -107,7 +107,7 @@ const stackTraceDebug = false
 type stackWorkBuf struct {
 	_ sys.NotInHeap
 	stackWorkBufHdr
-	obj [(_WorkbufSize - unsafe.Sizeof(stackWorkBufHdr{})) / goarch.PtrSize]uintptr
+	obj [(_WorkbufSize - unsafe.Sizeof(stackWorkBufHdr{})) / golangarch.PtrSize]uintptr
 }
 
 // Header declaration must come after the buf declaration above, because of issue #14620.
@@ -120,7 +120,7 @@ type stackWorkBufHdr struct {
 	// the lfnode API.
 }
 
-// Buffer for stack objects found on a goroutine stack.
+// Buffer for stack objects found on a golangroutine stack.
 // Must be smaller than or equal to workbuf.
 type stackObjectBuf struct {
 	_ sys.NotInHeap
@@ -156,7 +156,7 @@ type stackObject struct {
 
 // obj.r = r, but with no write barrier.
 //
-//go:nowritebarrier
+//golang:nowritebarrier
 func (obj *stackObject) setRecord(r *stackObjectRecord) {
 	// Types of stack objects are always in read-only memory, not the heap.
 	// So not using a write barrier is ok.
@@ -164,7 +164,7 @@ func (obj *stackObject) setRecord(r *stackObjectRecord) {
 }
 
 // A stackScanState keeps track of the state used during the GC walk
-// of a goroutine.
+// of a golangroutine.
 type stackScanState struct {
 	// stack limits
 	stack stack

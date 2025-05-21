@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package math
@@ -22,7 +22,7 @@ func Exp(x float64) float64 {
 
 // The original C code, the long comment, and the constants
 // below are from FreeBSD's /usr/src/lib/msun/src/e_exp.c
-// and came with this notice. The go code is a simplified
+// and came with this notice. The golang code is a simplified
 // version of the original C.
 //
 // ====================================================
@@ -51,7 +51,7 @@ func Exp(x float64) float64 {
 //      the interval [0,0.34658]:
 //      Write
 //          R(r**2) = r*(exp(r)+1)/(exp(r)-1) = 2 + r*r/6 - r**4/360 + ...
-//      We use a special Remez algorithm on [0,0.34658] to generate
+//      We use a special Remez algolangrithm on [0,0.34658] to generate
 //      a polynomial of degree 5 to approximate R. The maximum error
 //      of this polynomial approximation is bounded by 2**-59. In
 //      other words,

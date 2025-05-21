@@ -1,12 +1,12 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package constant
 
 import (
 	"fmt"
-	"go/token"
+	"golang/token"
 	"math"
 	"math/big"
 	"strings"
@@ -158,7 +158,7 @@ func testNumbers(t *testing.T, kind token.Token, tests []string) {
 		xk := x.Kind()
 		yk := y.Kind()
 		if xk != yk {
-			t.Errorf("%s: got kind %d != %d", test, xk, yk)
+			t.Errorf("%s: golangt kind %d != %d", test, xk, yk)
 			continue
 		}
 
@@ -342,10 +342,10 @@ func TestOps(t *testing.T) {
 
 		y, y0 := val(a[i+1]), val(a[i+1])
 
-		got := doOp(x, op, y)
+		golangt := doOp(x, op, y)
 		want := val(a[i+3])
-		if !eql(got, want) {
-			t.Errorf("%s: got %s; want %s", test, got, want)
+		if !eql(golangt, want) {
+			t.Errorf("%s: golangt %s; want %s", test, golangt, want)
 			continue
 		}
 
@@ -428,11 +428,11 @@ var stringTests = []struct {
 func TestString(t *testing.T) {
 	for _, test := range stringTests {
 		x := val(test.input)
-		if got := x.String(); got != test.short {
-			t.Errorf("%s: got %q; want %q as short string", test.input, got, test.short)
+		if golangt := x.String(); golangt != test.short {
+			t.Errorf("%s: golangt %q; want %q as short string", test.input, golangt, test.short)
 		}
-		if got := x.ExactString(); got != test.exact {
-			t.Errorf("%s: got %q; want %q as exact string", test.input, got, test.exact)
+		if golangt := x.ExactString(); golangt != test.exact {
+			t.Errorf("%s: golangt %q; want %q as exact string", test.input, golangt, test.exact)
 		}
 	}
 }
@@ -558,10 +558,10 @@ func TestFractions(t *testing.T) {
 		// Instead, we compute the fraction again and compare the rounded
 		// result.
 		q := BinaryOp(Num(x), token.QUO, Denom(x))
-		got := q.String()
+		golangt := q.String()
 		want := x.String()
-		if got != want {
-			t.Errorf("%s: got quotient %s, want %s", x, got, want)
+		if golangt != want {
+			t.Errorf("%s: golangt quotient %s, want %s", x, golangt, want)
 		}
 	}
 }
@@ -580,15 +580,15 @@ func TestBytes(t *testing.T) {
 
 		// special case 0
 		if Sign(x) == 0 && len(bytes) != 0 {
-			t.Errorf("%s: got %v; want empty byte slice", test, bytes)
+			t.Errorf("%s: golangt %v; want empty byte slice", test, bytes)
 		}
 
 		if n := len(bytes); n > 0 && bytes[n-1] == 0 {
-			t.Errorf("%s: got %v; want no leading 0 byte", test, bytes)
+			t.Errorf("%s: golangt %v; want no leading 0 byte", test, bytes)
 		}
 
-		if got := MakeFromBytes(bytes); !eql(got, x) {
-			t.Errorf("%s: got %s; want %s (bytes = %v)", test, got, x, bytes)
+		if golangt := MakeFromBytes(bytes); !eql(golangt, x) {
+			t.Errorf("%s: golangt %s; want %s (bytes = %v)", test, golangt, x, bytes)
 		}
 	}
 }
@@ -611,11 +611,11 @@ func TestUnknown(t *testing.T) {
 			if i == 1 {
 				x, y = y, x
 			}
-			if got := BinaryOp(x, token.ADD, y); got.Kind() != Unknown {
-				t.Errorf("%s + %s: got %s; want %s", x, y, got, u)
+			if golangt := BinaryOp(x, token.ADD, y); golangt.Kind() != Unknown {
+				t.Errorf("%s + %s: golangt %s; want %s", x, y, golangt, u)
 			}
-			if got := Compare(x, token.EQL, y); got {
-				t.Errorf("%s == %s: got true; want false", x, y)
+			if golangt := Compare(x, token.EQL, y); golangt {
+				t.Errorf("%s == %s: golangt true; want false", x, y)
 			}
 		}
 	}
@@ -637,13 +637,13 @@ func TestMakeFloat64(t *testing.T) {
 	} {
 		val := MakeFloat64(arg)
 		if val.Kind() != Float {
-			t.Errorf("%v: got kind = %d; want %d", arg, val.Kind(), Float)
+			t.Errorf("%v: golangt kind = %d; want %d", arg, val.Kind(), Float)
 		}
 
 		// -0.0 is mapped to 0.0
-		got, exact := Float64Val(val)
-		if !exact || math.Float64bits(got) != math.Float64bits(arg+0) {
-			t.Errorf("%v: got %v (exact = %v)", arg, got, exact)
+		golangt, exact := Float64Val(val)
+		if !exact || math.Float64bits(golangt) != math.Float64bits(arg+0) {
+			t.Errorf("%v: golangt %v (exact = %v)", arg, golangt, exact)
 		}
 	}
 
@@ -652,7 +652,7 @@ func TestMakeFloat64(t *testing.T) {
 		arg := math.Inf(sign)
 		val := MakeFloat64(arg)
 		if val.Kind() != Unknown {
-			t.Errorf("%v: got kind = %d; want %d", arg, val.Kind(), Unknown)
+			t.Errorf("%v: golangt kind = %d; want %d", arg, val.Kind(), Unknown)
 		}
 	}
 }
@@ -679,10 +679,10 @@ func TestMake(t *testing.T) {
 		dup(Float, big.NewRat(1, 3)),
 	} {
 		val := Make(test.arg)
-		got := Val(val)
-		if val.Kind() != test.kind || got != test.want {
-			t.Errorf("got %v (%T, kind = %d); want %v (%T, kind = %d)",
-				got, got, val.Kind(), test.want, test.want, test.kind)
+		golangt := Val(val)
+		if val.Kind() != test.kind || golangt != test.want {
+			t.Errorf("golangt %v (%T, kind = %d); want %v (%T, kind = %d)",
+				golangt, golangt, val.Kind(), test.want, test.want, test.kind)
 		}
 	}
 }
@@ -722,8 +722,8 @@ var bitLenTests = []struct {
 
 func TestBitLen(t *testing.T) {
 	for _, test := range bitLenTests {
-		if got := BitLen(MakeInt64(test.val)); got != test.want {
-			t.Errorf("%v: got %v, want %v", test.val, got, test.want)
+		if golangt := BitLen(MakeInt64(test.val)); golangt != test.want {
+			t.Errorf("%v: golangt %v, want %v", test.val, golangt, test.want)
 		}
 	}
 }

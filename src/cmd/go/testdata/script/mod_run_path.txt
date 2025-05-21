@@ -1,15 +1,15 @@
-# Test that go run does not get confused by conflict
-# between go.mod's module path and what you'd
-# expect from GOPATH. golang.org/issue/26046.
+# Test that golang run does not get confused by conflict
+# between golang.mod's module path and what you'd
+# expect from GOPATH. golanglang.org/issue/26046.
 
 env GO111MODULE=on
 
 cd $GOPATH/src/example.com/hello
-go run main.go
+golang run main.golang
 
--- $GOPATH/src/example.com/hello/go.mod --
+-- $GOPATH/src/example.com/hello/golang.mod --
 module example.com/hello/v2
 
--- $GOPATH/src/example.com/hello/main.go --
+-- $GOPATH/src/example.com/hello/main.golang --
 package main
 func main() {}

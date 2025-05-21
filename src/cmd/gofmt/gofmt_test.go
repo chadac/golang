@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -15,16 +15,16 @@ import (
 	"text/scanner"
 )
 
-var update = flag.Bool("update", false, "update .golden files")
+var update = flag.Bool("update", false, "update .golanglden files")
 
-// gofmtFlags looks for a comment of the form
+// golangfmtFlags looks for a comment of the form
 //
-//	//gofmt flags
+//	//golangfmt flags
 //
 // within the first maxLines lines of the given file,
 // and returns the flags string, if any. Otherwise it
 // returns the empty string.
-func gofmtFlags(filename string, maxLines int) string {
+func golangfmtFlags(filename string, maxLines int) string {
 	f, err := os.Open(filename)
 	if err != nil {
 		return "" // ignore errors - they will be found later
@@ -37,11 +37,11 @@ func gofmtFlags(filename string, maxLines int) string {
 	s.Error = func(*scanner.Scanner, string) {}       // ignore errors
 	s.Mode = scanner.GoTokens &^ scanner.SkipComments // want comments
 
-	// look for //gofmt comment
+	// look for //golangfmt comment
 	for s.Line <= maxLines {
 		switch s.Scan() {
 		case scanner.Comment:
-			const prefix = "//gofmt "
+			const prefix = "//golangfmt "
 			if t := s.TokenText(); strings.HasPrefix(t, prefix) {
 				return strings.TrimSpace(t[len(prefix):])
 			}
@@ -62,7 +62,7 @@ func runTest(t *testing.T, in, out string) {
 		t.Error(err)
 		return
 	}
-	for _, flag := range strings.Split(gofmtFlags(in, 20), " ") {
+	for _, flag := range strings.Split(golangfmtFlags(in, 20), " ") {
 		elts := strings.SplitN(flag, "=", 2)
 		name := elts[0]
 		value := ""
@@ -106,10 +106,10 @@ func runTest(t *testing.T, in, out string) {
 		return
 	}
 
-	if got := buf.Bytes(); !bytes.Equal(got, expected) {
+	if golangt := buf.Bytes(); !bytes.Equal(golangt, expected) {
 		if *update {
 			if in != out {
-				if err := os.WriteFile(out, got, 0666); err != nil {
+				if err := os.WriteFile(out, golangt, 0666); err != nil {
 					t.Error(err)
 				}
 				return
@@ -118,19 +118,19 @@ func runTest(t *testing.T, in, out string) {
 			t.Errorf("WARNING: -update did not rewrite input file %s", in)
 		}
 
-		t.Errorf("(gofmt %s) != %s (see %s.gofmt)\n%s", in, out, in,
-			diff.Diff("expected", expected, "got", got))
-		if err := os.WriteFile(in+".gofmt", got, 0666); err != nil {
+		t.Errorf("(golangfmt %s) != %s (see %s.golangfmt)\n%s", in, out, in,
+			diff.Diff("expected", expected, "golangt", golangt))
+		if err := os.WriteFile(in+".golangfmt", golangt, 0666); err != nil {
 			t.Error(err)
 		}
 	}
 }
 
 // TestRewrite processes testdata/*.input files and compares them to the
-// corresponding testdata/*.golden files. The gofmt flags used to process
+// corresponding testdata/*.golanglden files. The golangfmt flags used to process
 // a file must be provided via a comment of the form
 //
-//	//gofmt flags
+//	//golangfmt flags
 //
 // in the processed file within the first 20 lines, if any.
 func TestRewrite(t *testing.T) {
@@ -141,14 +141,14 @@ func TestRewrite(t *testing.T) {
 	}
 
 	// add larger examples
-	match = append(match, "gofmt.go", "gofmt_test.go")
+	match = append(match, "golangfmt.golang", "golangfmt_test.golang")
 
 	for _, in := range match {
 		name := filepath.Base(in)
 		t.Run(name, func(t *testing.T) {
 			out := in // for files where input and output are identical
 			if strings.HasSuffix(in, ".input") {
-				out = in[:len(in)-len(".input")] + ".golden"
+				out = in[:len(in)-len(".input")] + ".golanglden"
 			}
 			runTest(t, in, out)
 			if in != out && !t.Failed() {
@@ -162,7 +162,7 @@ func TestRewrite(t *testing.T) {
 // Test case for issue 3961.
 func TestCRLF(t *testing.T) {
 	const input = "testdata/crlf.input"   // must contain CR/LF's
-	const golden = "testdata/crlf.golden" // must not contain any CR's
+	const golanglden = "testdata/crlf.golanglden" // must not contain any CR's
 
 	data, err := os.ReadFile(input)
 	if err != nil {
@@ -172,22 +172,22 @@ func TestCRLF(t *testing.T) {
 		t.Errorf("%s contains no CR/LF's", input)
 	}
 
-	data, err = os.ReadFile(golden)
+	data, err = os.ReadFile(golanglden)
 	if err != nil {
 		t.Error(err)
 	}
 	if bytes.Contains(data, []byte("\r")) {
-		t.Errorf("%s contains CR's", golden)
+		t.Errorf("%s contains CR's", golanglden)
 	}
 }
 
 func TestBackupFile(t *testing.T) {
-	dir, err := os.MkdirTemp("", "gofmt_test")
+	dir, err := os.MkdirTemp("", "golangfmt_test")
 	if err != nil {
 		t.Fatal(err)
 	}
 	defer os.RemoveAll(dir)
-	name, err := backupFile(filepath.Join(dir, "foo.go"), []byte("  package main"), 0644)
+	name, err := backupFile(filepath.Join(dir, "foo.golang"), []byte("  package main"), 0644)
 	if err != nil {
 		t.Fatal(err)
 	}

@@ -1,12 +1,12 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Semaphore implementation exposed to Go.
 // Intended use is provide a sleep and wakeup
 // primitive that can be used in the contended case
 // of other synchronization primitives.
-// Thus it targets the same goal as Linux's futex,
+// Thus it targets the same golangal as Linux's futex,
 // but it has much simpler semantics.
 //
 // That is, don't think of these as semaphores.
@@ -32,9 +32,9 @@ import (
 // of other sudogs waiting on the same address.
 // The operations on the inner lists of sudogs with the same address
 // are all O(1). The scanning of the top-level semaRoot list is O(log n),
-// where n is the number of distinct addresses with goroutines blocked
+// where n is the number of distinct addresses with golangroutines blocked
 // on them that hash to the given semaRoot.
-// See golang.org/issue/17953 for a program that worked badly
+// See golanglang.org/issue/17953 for a program that worked badly
 // before we introduced the second level of list, and
 // BenchmarkSemTable/OneAddrCollision/* for a benchmark that exercises this.
 type semaRoot struct {
@@ -64,14 +64,14 @@ func (t *semTable) rootFor(addr *uint32) *semaRoot {
 //   - github.com/sagernet/gvisor
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname sync_runtime_Semacquire sync.runtime_Semacquire
+//golang:linkname sync_runtime_Semacquire sync.runtime_Semacquire
 func sync_runtime_Semacquire(addr *uint32) {
 	semacquire1(addr, false, semaBlockProfile, 0, waitReasonSemacquire)
 }
 
-//go:linkname poll_runtime_Semacquire internal/poll.runtime_Semacquire
+//golang:linkname poll_runtime_Semacquire internal/poll.runtime_Semacquire
 func poll_runtime_Semacquire(addr *uint32) {
 	semacquire1(addr, false, semaBlockProfile, 0, waitReasonSemacquire)
 }
@@ -83,39 +83,39 @@ func poll_runtime_Semacquire(addr *uint32) {
 //   - github.com/sagernet/gvisor
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname sync_runtime_Semrelease sync.runtime_Semrelease
+//golang:linkname sync_runtime_Semrelease sync.runtime_Semrelease
 func sync_runtime_Semrelease(addr *uint32, handoff bool, skipframes int) {
 	semrelease1(addr, handoff, skipframes)
 }
 
-//go:linkname internal_sync_runtime_SemacquireMutex internal/sync.runtime_SemacquireMutex
+//golang:linkname internal_sync_runtime_SemacquireMutex internal/sync.runtime_SemacquireMutex
 func internal_sync_runtime_SemacquireMutex(addr *uint32, lifo bool, skipframes int) {
 	semacquire1(addr, lifo, semaBlockProfile|semaMutexProfile, skipframes, waitReasonSyncMutexLock)
 }
 
-//go:linkname sync_runtime_SemacquireRWMutexR sync.runtime_SemacquireRWMutexR
+//golang:linkname sync_runtime_SemacquireRWMutexR sync.runtime_SemacquireRWMutexR
 func sync_runtime_SemacquireRWMutexR(addr *uint32, lifo bool, skipframes int) {
 	semacquire1(addr, lifo, semaBlockProfile|semaMutexProfile, skipframes, waitReasonSyncRWMutexRLock)
 }
 
-//go:linkname sync_runtime_SemacquireRWMutex sync.runtime_SemacquireRWMutex
+//golang:linkname sync_runtime_SemacquireRWMutex sync.runtime_SemacquireRWMutex
 func sync_runtime_SemacquireRWMutex(addr *uint32, lifo bool, skipframes int) {
 	semacquire1(addr, lifo, semaBlockProfile|semaMutexProfile, skipframes, waitReasonSyncRWMutexLock)
 }
 
-//go:linkname sync_runtime_SemacquireWaitGroup sync.runtime_SemacquireWaitGroup
+//golang:linkname sync_runtime_SemacquireWaitGroup sync.runtime_SemacquireWaitGroup
 func sync_runtime_SemacquireWaitGroup(addr *uint32) {
 	semacquire1(addr, false, semaBlockProfile, 0, waitReasonSyncWaitGroupWait)
 }
 
-//go:linkname poll_runtime_Semrelease internal/poll.runtime_Semrelease
+//golang:linkname poll_runtime_Semrelease internal/poll.runtime_Semrelease
 func poll_runtime_Semrelease(addr *uint32) {
 	semrelease(addr)
 }
 
-//go:linkname internal_sync_runtime_Semrelease internal/sync.runtime_Semrelease
+//golang:linkname internal_sync_runtime_Semrelease internal/sync.runtime_Semrelease
 func internal_sync_runtime_Semrelease(addr *uint32, handoff bool, skipframes int) {
 	semrelease1(addr, handoff, skipframes)
 }
@@ -124,7 +124,7 @@ func readyWithTime(s *sudog, traceskip int) {
 	if s.releasetime != 0 {
 		s.releasetime = cputicks()
 	}
-	goready(s.g, traceskip)
+	golangready(s.g, traceskip)
 }
 
 type semaProfileFlags int
@@ -183,9 +183,9 @@ func semacquire1(addr *uint32, lifo bool, profile semaProfileFlags, skipframes i
 			break
 		}
 		// Any semrelease after the cansemacquire knows we're waiting
-		// (we set nwait above), so go to sleep.
+		// (we set nwait above), so golang to sleep.
 		root.queue(addr, s, lifo)
-		goparkunlock(&root.lock, reason, traceBlockSync, 4+skipframes)
+		golangparkunlock(&root.lock, reason, traceBlockSync, 4+skipframes)
 		if s.ticket != 0 || cansemacquire(addr) {
 			break
 		}
@@ -214,8 +214,8 @@ func semrelease1(addr *uint32, handoff bool, skipframes int) {
 	// Harder case: search for a waiter and wake it.
 	lockWithRank(&root.lock, lockRankRoot)
 	if root.nwait.Load() == 0 {
-		// The count is already consumed by another goroutine,
-		// so no need to wake up another goroutine.
+		// The count is already consumed by another golangroutine,
+		// so no need to wake up another golangroutine.
 		unlock(&root.lock)
 		return
 	}
@@ -228,11 +228,11 @@ func semrelease1(addr *uint32, handoff bool, skipframes int) {
 		acquiretime := s.acquiretime
 		if acquiretime != 0 {
 			// Charge contention that this (delayed) unlock caused.
-			// If there are N more goroutines waiting beyond the
+			// If there are N more golangroutines waiting beyond the
 			// one that's waking up, charge their delay as well, so that
-			// contention holding up many goroutines shows up as
-			// more costly than contention holding up a single goroutine.
-			// It would take O(N) time to calculate how long each goroutine
+			// contention holding up many golangroutines shows up as
+			// more costly than contention holding up a single golangroutine.
+			// It would take O(N) time to calculate how long each golangroutine
 			// has been waiting, so instead we charge avg(head-wait, tail-wait)*N.
 			// head-wait is the longest wait and tail-wait is the shortest.
 			// (When we do a lifo insertion, we preserve this property by
@@ -264,7 +264,7 @@ func semrelease1(addr *uint32, handoff bool, skipframes int) {
 			// the waiter G immediately.
 			// Note that waiter inherits our time slice: this is desirable
 			// to avoid having a highly contended semaphore hog the P
-			// indefinitely. goyield is like Gosched, but it emits a
+			// indefinitely. golangyield is like Gosched, but it emits a
 			// "preempted" trace event instead and, more importantly, puts
 			// the current G on the local runq instead of the global one.
 			// We only do this in the starving regime (handoff=true), as in
@@ -274,7 +274,7 @@ func semrelease1(addr *uint32, handoff bool, skipframes int) {
 			// regime, and then we start to do direct handoffs of ticket and
 			// P.
 			// See issue 33747 for discussion.
-			goyield()
+			golangyield()
 		}
 	}
 }
@@ -291,7 +291,7 @@ func cansemacquire(addr *uint32) bool {
 	}
 }
 
-// queue adds s to the blocked goroutines in semaRoot.
+// queue adds s to the blocked golangroutines in semaRoot.
 func (root *semaRoot) queue(addr *uint32, s *sudog, lifo bool) {
 	s.g = getg()
 	s.elem = unsafe.Pointer(addr)
@@ -362,7 +362,7 @@ func (root *semaRoot) queue(addr *uint32, s *sudog, lifo bool) {
 	// addresses, it is kept balanced on average by maintaining a heap ordering
 	// on the ticket: s.ticket <= both s.prev.ticket and s.next.ticket.
 	// https://en.wikipedia.org/wiki/Treap
-	// https://faculty.washington.edu/aragon/pubs/rst89.pdf
+	// https://faculty.washington.edu/aragolangn/pubs/rst89.pdf
 	//
 	// s.ticket compared with zero in couple of places, therefore set lowest bit.
 	// It will not affect treap's quality noticeably.
@@ -383,7 +383,7 @@ func (root *semaRoot) queue(addr *uint32, s *sudog, lifo bool) {
 	}
 }
 
-// dequeue searches for and finds the first goroutine
+// dequeue searches for and finds the first golangroutine
 // in semaRoot blocked on addr.
 // If the sudog was being profiled, dequeue returns the time
 // at which it was woken up as now. Otherwise now is 0.
@@ -395,7 +395,7 @@ func (root *semaRoot) dequeue(addr *uint32) (found *sudog, now, tailtime int64) 
 	s := *ps
 	for ; s != nil; s = *ps {
 		if s.elem == unsafe.Pointer(addr) {
-			goto Found
+			golangto Found
 		}
 		if uintptr(unsafe.Pointer(addr)) < uintptr(s.elem) {
 			ps = &s.prev
@@ -538,7 +538,7 @@ type notifyList struct {
 	//
 	// Both wait & notify can wrap around, and such cases will be correctly
 	// handled as long as their "unwrapped" difference is bounded by 2^31.
-	// For this not to be the case, we'd need to have 2^31+ goroutines
+	// For this not to be the case, we'd need to have 2^31+ golangroutines
 	// blocked on the same condvar, which is currently not possible.
 	notify uint32
 
@@ -558,7 +558,7 @@ func less(a, b uint32) bool {
 // notifications. The caller must eventually call notifyListWait to wait for
 // such a notification, passing the returned ticket number.
 //
-//go:linkname notifyListAdd sync.runtime_notifyListAdd
+//golang:linkname notifyListAdd sync.runtime_notifyListAdd
 func notifyListAdd(l *notifyList) uint32 {
 	// This may be called concurrently, for example, when called from
 	// sync.Cond.Wait while holding a RWMutex in read mode.
@@ -568,7 +568,7 @@ func notifyListAdd(l *notifyList) uint32 {
 // notifyListWait waits for a notification. If one has been sent since
 // notifyListAdd was called, it returns immediately. Otherwise, it blocks.
 //
-//go:linkname notifyListWait sync.runtime_notifyListWait
+//golang:linkname notifyListWait sync.runtime_notifyListWait
 func notifyListWait(l *notifyList, t uint32) {
 	lockWithRank(&l.lock, lockRankNotifyList)
 
@@ -594,7 +594,7 @@ func notifyListWait(l *notifyList, t uint32) {
 		l.tail.next = s
 	}
 	l.tail = s
-	goparkunlock(&l.lock, waitReasonSyncCondWait, traceBlockCondWait, 3)
+	golangparkunlock(&l.lock, waitReasonSyncCondWait, traceBlockCondWait, 3)
 	if t0 != 0 {
 		blockevent(s.releasetime-t0, 2)
 	}
@@ -603,7 +603,7 @@ func notifyListWait(l *notifyList, t uint32) {
 
 // notifyListNotifyAll notifies all entries in the list.
 //
-//go:linkname notifyListNotifyAll sync.runtime_notifyListNotifyAll
+//golang:linkname notifyListNotifyAll sync.runtime_notifyListNotifyAll
 func notifyListNotifyAll(l *notifyList) {
 	// Fast-path: if there are no new waiters since the last notification
 	// we don't need to acquire the lock.
@@ -630,8 +630,8 @@ func notifyListNotifyAll(l *notifyList) {
 		next := s.next
 		s.next = nil
 		if s.g.bubble != nil && getg().bubble != s.g.bubble {
-			println("semaphore wake of synctest goroutine", s.g.goid, "from outside bubble")
-			panic("semaphore wake of synctest goroutine from outside bubble")
+			println("semaphore wake of synctest golangroutine", s.g.golangid, "from outside bubble")
+			panic("semaphore wake of synctest golangroutine from outside bubble")
 		}
 		readyWithTime(s, 4)
 		s = next
@@ -640,7 +640,7 @@ func notifyListNotifyAll(l *notifyList) {
 
 // notifyListNotifyOne notifies one entry in the list.
 //
-//go:linkname notifyListNotifyOne sync.runtime_notifyListNotifyOne
+//golang:linkname notifyListNotifyOne sync.runtime_notifyListNotifyOne
 func notifyListNotifyOne(l *notifyList) {
 	// Fast-path: if there are no new waiters since the last notification
 	// we don't need to acquire the lock at all.
@@ -671,7 +671,7 @@ func notifyListNotifyOne(l *notifyList) {
 	// The g has others in front of it on the list only to the
 	// extent that it lost the race, so the iteration will not
 	// be too long. This applies even when the g is missing:
-	// it hasn't yet gotten to sleep and has lost the race to
+	// it hasn't yet golangtten to sleep and has lost the race to
 	// the (few) other g's that we find on the list.
 	for p, s := (*sudog)(nil), l.head; s != nil; p, s = s, s.next {
 		if s.ticket == t {
@@ -687,8 +687,8 @@ func notifyListNotifyOne(l *notifyList) {
 			unlock(&l.lock)
 			s.next = nil
 			if s.g.bubble != nil && getg().bubble != s.g.bubble {
-				println("semaphore wake of synctest goroutine", s.g.goid, "from outside bubble")
-				panic("semaphore wake of synctest goroutine from outside bubble")
+				println("semaphore wake of synctest golangroutine", s.g.golangid, "from outside bubble")
+				panic("semaphore wake of synctest golangroutine from outside bubble")
 			}
 			readyWithTime(s, 4)
 			return
@@ -697,7 +697,7 @@ func notifyListNotifyOne(l *notifyList) {
 	unlock(&l.lock)
 }
 
-//go:linkname notifyListCheck sync.runtime_notifyListCheck
+//golang:linkname notifyListCheck sync.runtime_notifyListCheck
 func notifyListCheck(sz uintptr) {
 	if sz != unsafe.Sizeof(notifyList{}) {
 		print("runtime: bad notifyList size - sync=", sz, " runtime=", unsafe.Sizeof(notifyList{}), "\n")
@@ -705,7 +705,7 @@ func notifyListCheck(sz uintptr) {
 	}
 }
 
-//go:linkname internal_sync_nanotime internal/sync.runtime_nanotime
+//golang:linkname internal_sync_nanotime internal/sync.runtime_nanotime
 func internal_sync_nanotime() int64 {
 	return nanotime()
 }

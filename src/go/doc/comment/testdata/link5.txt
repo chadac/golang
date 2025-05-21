@@ -2,20 +2,20 @@
 See the [Go home page] and the [pkg
 site].
 
-[Go home page]: https://go.dev/
-[pkg site]: https://pkg.go.dev
+[Go home page]: https://golang.dev/
+[pkg site]: https://pkg.golang.dev
 [Go home page]: https://duplicate.ignored
 
 They're really great!
 
--- gofmt --
+-- golangfmt --
 See the [Go home page] and the [pkg
 site].
 
 They're really great!
 
-[Go home page]: https://go.dev/
-[pkg site]: https://pkg.go.dev
+[Go home page]: https://golang.dev/
+[pkg site]: https://pkg.golang.dev
 
 [Go home page]: https://duplicate.ignored
 
@@ -24,13 +24,13 @@ See the Go home page and the pkg site.
 
 They're really great!
 
-[Go home page]: https://go.dev/
-[pkg site]: https://pkg.go.dev
+[Go home page]: https://golang.dev/
+[pkg site]: https://pkg.golang.dev
 -- markdown --
-See the [Go home page](https://go.dev/) and the [pkg site](https://pkg.go.dev).
+See the [Go home page](https://golang.dev/) and the [pkg site](https://pkg.golang.dev).
 
 They're really great!
 -- html --
-<p>See the <a href="https://go.dev/">Go home page</a> and the <a href="https://pkg.go.dev">pkg
+<p>See the <a href="https://golang.dev/">Go home page</a> and the <a href="https://pkg.golang.dev">pkg
 site</a>.
 <p>They&apos;re really great!

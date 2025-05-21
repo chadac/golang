@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package url parses URLs and implements query escaping.
@@ -102,7 +102,7 @@ func (e InvalidHostError) Error() string {
 // appearing in a URL string, according to RFC 3986.
 //
 // Please be informed that for now shouldEscape does not check all
-// reserved characters correctly. See golang.org/issue/5684.
+// reserved characters correctly. See golanglang.org/issue/5684.
 func shouldEscape(c byte, mode encoding) bool {
 	// §2.3 Unreserved characters (alphanum)
 	if 'a' <= c && c <= 'z' || 'A' <= c && c <= 'Z' || '0' <= c && c <= '9' {
@@ -227,7 +227,7 @@ func unescape(s string, mode encoding) (string, error) {
 				return "", EscapeError(s[i : i+3])
 			}
 			if mode == encodeZone {
-				// RFC 6874 says basically "anything goes" for zone identifiers
+				// RFC 6874 says basically "anything golanges" for zone identifiers
 				// and that even non-ASCII can be redundantly escaped,
 				// but it seems prudent to restrict %-escaped bytes here to those
 				// that are valid host name bytes in their unescaped form.
@@ -551,7 +551,7 @@ func parse(rawURL string, viaRequest bool) (*URL, error) {
 		}
 
 		// Avoid confusion with malformed schemes, like cache_object:foo/bar.
-		// See golang.org/issue/16822.
+		// See golanglang.org/issue/16822.
 		//
 		// RFC 3986, §3.3:
 		// In addition, a URI reference (Section 4.1) may be a relative-path reference,
@@ -574,7 +574,7 @@ func parse(rawURL string, viaRequest bool) (*URL, error) {
 		}
 	} else if url.Scheme != "" && strings.HasPrefix(rest, "/") {
 		// OmitHost is set to true when rawURL has an empty host (authority).
-		// See golang.org/issue/46059.
+		// See golanglang.org/issue/46059.
 		url.OmitHost = true
 	}
 
@@ -689,9 +689,9 @@ func parseHost(host string) (string, error) {
 //   - github.com/sagernet/sing
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname badSetPath net/url.(*URL).setPath
+//golang:linkname badSetPath net/url.(*URL).setPath
 func (u *URL) setPath(p string) error {
 	path, err := unescape(p, encodePath)
 	if err != nil {
@@ -1287,11 +1287,11 @@ func validUserinfo(s string) bool {
 			// It is a delimiter between userinfo and host.
 			// However, URLs are diverse, and in some cases,
 			// the userinfo may contain an '@' character,
-			// for example, in "http://username:p@ssword@google.com",
+			// for example, in "http://username:p@ssword@golangogle.com",
 			// the string "username:p@ssword" should be treated as valid userinfo.
 			// Ref:
-			//   https://go.dev/issue/3439
-			//   https://go.dev/issue/22655
+			//   https://golang.dev/issue/3439
+			//   https://golang.dev/issue/22655
 			continue
 		default:
 			return false

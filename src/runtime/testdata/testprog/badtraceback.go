@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -23,18 +23,18 @@ func BadTraceback() {
 
 	// Run badLR1 on its own stack to minimize the stack size and
 	// exercise the stack bounds logic in the hex dump.
-	go badLR1()
+	golang badLR1()
 	select {}
 }
 
-//go:noinline
+//golang:noinline
 func badLR1() {
 	// We need two frames on LR machines because we'll smash this
 	// frame's saved LR.
 	badLR2(0)
 }
 
-//go:noinline
+//golang:noinline
 func badLR2(arg int) {
 	// Smash the return PC or saved LR.
 	lrOff := unsafe.Sizeof(uintptr(0))

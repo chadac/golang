@@ -1,2 +1,2 @@
-! go asdf
-stderr '^go asdf: unknown command'
+! golang asdf
+stderr '^golang asdf: unknown command'

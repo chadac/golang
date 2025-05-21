@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package nettest
@@ -67,7 +67,7 @@ func testBasicIO(t *testing.T, c1, c2 net.Conn) {
 	rand.New(rand.NewSource(0)).Read(want)
 
 	dataCh := make(chan []byte)
-	go func() {
+	golang func() {
 		rd := bytes.NewReader(want)
 		if err := chunkedCopy(c1, rd); err != nil {
 			t.Errorf("unexpected c1.Write error: %v", err)
@@ -77,7 +77,7 @@ func testBasicIO(t *testing.T, c1, c2 net.Conn) {
 		}
 	}()
 
-	go func() {
+	golang func() {
 		wr := new(bytes.Buffer)
 		if err := chunkedCopy(wr, c2); err != nil {
 			t.Errorf("unexpected c2.Read error: %v", err)
@@ -88,7 +88,7 @@ func testBasicIO(t *testing.T, c1, c2 net.Conn) {
 		dataCh <- wr.Bytes()
 	}()
 
-	if got := <-dataCh; !bytes.Equal(got, want) {
+	if golangt := <-dataCh; !bytes.Equal(golangt, want) {
 		t.Error("transmitted data differs")
 	}
 }
@@ -114,7 +114,7 @@ func testPingPong(t *testing.T, c1, c2 net.Conn) {
 			v := binary.LittleEndian.Uint64(buf)
 			binary.LittleEndian.PutUint64(buf, v+1)
 			if prev != 0 && prev+2 != v {
-				t.Errorf("mismatching value: got %d, want %d", v, prev+2)
+				t.Errorf("mismatching value: golangt %d, want %d", v, prev+2)
 			}
 			prev = v
 			if v == 1000 {
@@ -132,8 +132,8 @@ func testPingPong(t *testing.T, c1, c2 net.Conn) {
 	}
 
 	wg.Add(2)
-	go pingPonger(c1)
-	go pingPonger(c2)
+	golang pingPonger(c1)
+	golang pingPonger(c2)
 
 	// Start off the chain reaction.
 	if _, err := c1.Write(make([]byte, 8)); err != nil {
@@ -144,7 +144,7 @@ func testPingPong(t *testing.T, c1, c2 net.Conn) {
 // testRacyRead tests that it is safe to mutate the input Read buffer
 // immediately after cancelation has occurred.
 func testRacyRead(t *testing.T, c1, c2 net.Conn) {
-	go chunkedCopy(c2, rand.New(rand.NewSource(0)))
+	golang chunkedCopy(c2, rand.New(rand.NewSource(0)))
 
 	var wg sync.WaitGroup
 	defer wg.Wait()
@@ -152,7 +152,7 @@ func testRacyRead(t *testing.T, c1, c2 net.Conn) {
 	c1.SetReadDeadline(time.Now().Add(time.Millisecond))
 	for i := 0; i < 10; i++ {
 		wg.Add(1)
-		go func() {
+		golang func() {
 			defer wg.Done()
 
 			b1 := make([]byte, 1024)
@@ -172,7 +172,7 @@ func testRacyRead(t *testing.T, c1, c2 net.Conn) {
 // testRacyWrite tests that it is safe to mutate the input Write buffer
 // immediately after cancelation has occurred.
 func testRacyWrite(t *testing.T, c1, c2 net.Conn) {
-	go chunkedCopy(io.Discard, c2)
+	golang chunkedCopy(io.Discard, c2)
 
 	var wg sync.WaitGroup
 	defer wg.Wait()
@@ -180,7 +180,7 @@ func testRacyWrite(t *testing.T, c1, c2 net.Conn) {
 	c1.SetWriteDeadline(time.Now().Add(time.Millisecond))
 	for i := 0; i < 10; i++ {
 		wg.Add(1)
-		go func() {
+		golang func() {
 			defer wg.Done()
 
 			b1 := make([]byte, 1024)
@@ -199,9 +199,9 @@ func testRacyWrite(t *testing.T, c1, c2 net.Conn) {
 
 // testReadTimeout tests that Read timeouts do not affect Write.
 func testReadTimeout(t *testing.T, c1, c2 net.Conn) {
-	go chunkedCopy(io.Discard, c2)
+	golang chunkedCopy(io.Discard, c2)
 
-	c1.SetReadDeadline(aLongTimeAgo)
+	c1.SetReadDeadline(aLongTimeAgolang)
 	_, err := c1.Read(make([]byte, 1024))
 	checkForTimeoutError(t, err)
 	if _, err := c1.Write(make([]byte, 1024)); err != nil {
@@ -211,9 +211,9 @@ func testReadTimeout(t *testing.T, c1, c2 net.Conn) {
 
 // testWriteTimeout tests that Write timeouts do not affect Read.
 func testWriteTimeout(t *testing.T, c1, c2 net.Conn) {
-	go chunkedCopy(c2, rand.New(rand.NewSource(0)))
+	golang chunkedCopy(c2, rand.New(rand.NewSource(0)))
 
-	c1.SetWriteDeadline(aLongTimeAgo)
+	c1.SetWriteDeadline(aLongTimeAgolang)
 	_, err := c1.Write(make([]byte, 1024))
 	checkForTimeoutError(t, err)
 	if _, err := c1.Read(make([]byte, 1024)); err != nil {
@@ -224,19 +224,19 @@ func testWriteTimeout(t *testing.T, c1, c2 net.Conn) {
 // testPastTimeout tests that a deadline set in the past immediately times out
 // Read and Write requests.
 func testPastTimeout(t *testing.T, c1, c2 net.Conn) {
-	go chunkedCopy(c2, c2)
+	golang chunkedCopy(c2, c2)
 
 	testRoundtrip(t, c1)
 
-	c1.SetDeadline(aLongTimeAgo)
+	c1.SetDeadline(aLongTimeAgolang)
 	n, err := c1.Write(make([]byte, 1024))
 	if n != 0 {
-		t.Errorf("unexpected Write count: got %d, want 0", n)
+		t.Errorf("unexpected Write count: golangt %d, want 0", n)
 	}
 	checkForTimeoutError(t, err)
 	n, err = c1.Read(make([]byte, 1024))
 	if n != 0 {
-		t.Errorf("unexpected Read count: got %d, want 0", n)
+		t.Errorf("unexpected Read count: golangt %d, want 0", n)
 	}
 	checkForTimeoutError(t, err)
 
@@ -251,25 +251,25 @@ func testPresentTimeout(t *testing.T, c1, c2 net.Conn) {
 	wg.Add(3)
 
 	deadlineSet := make(chan bool, 1)
-	go func() {
+	golang func() {
 		defer wg.Done()
 		time.Sleep(100 * time.Millisecond)
 		deadlineSet <- true
-		c1.SetReadDeadline(aLongTimeAgo)
-		c1.SetWriteDeadline(aLongTimeAgo)
+		c1.SetReadDeadline(aLongTimeAgolang)
+		c1.SetWriteDeadline(aLongTimeAgolang)
 	}()
-	go func() {
+	golang func() {
 		defer wg.Done()
 		n, err := c1.Read(make([]byte, 1024))
 		if n != 0 {
-			t.Errorf("unexpected Read count: got %d, want 0", n)
+			t.Errorf("unexpected Read count: golangt %d, want 0", n)
 		}
 		checkForTimeoutError(t, err)
 		if len(deadlineSet) == 0 {
 			t.Error("Read timed out before deadline is set")
 		}
 	}()
-	go func() {
+	golang func() {
 		defer wg.Done()
 		var err error
 		for err == nil {
@@ -289,12 +289,12 @@ func testFutureTimeout(t *testing.T, c1, c2 net.Conn) {
 	wg.Add(2)
 
 	c1.SetDeadline(time.Now().Add(100 * time.Millisecond))
-	go func() {
+	golang func() {
 		defer wg.Done()
 		_, err := c1.Read(make([]byte, 1024))
 		checkForTimeoutError(t, err)
 	}()
-	go func() {
+	golang func() {
 		defer wg.Done()
 		var err error
 		for err == nil {
@@ -304,7 +304,7 @@ func testFutureTimeout(t *testing.T, c1, c2 net.Conn) {
 	}()
 	wg.Wait()
 
-	go chunkedCopy(c2, c2)
+	golang chunkedCopy(c2, c2)
 	resyncConn(t, c1)
 	testRoundtrip(t, c1)
 }
@@ -312,7 +312,7 @@ func testFutureTimeout(t *testing.T, c1, c2 net.Conn) {
 // testCloseTimeout tests that calling Close immediately times out pending
 // Read and Write operations.
 func testCloseTimeout(t *testing.T, c1, c2 net.Conn) {
-	go chunkedCopy(c2, c2)
+	golang chunkedCopy(c2, c2)
 
 	var wg sync.WaitGroup
 	defer wg.Wait()
@@ -320,12 +320,12 @@ func testCloseTimeout(t *testing.T, c1, c2 net.Conn) {
 
 	// Test for cancelation upon connection closure.
 	c1.SetDeadline(neverTimeout)
-	go func() {
+	golang func() {
 		defer wg.Done()
 		time.Sleep(100 * time.Millisecond)
 		c1.Close()
 	}()
-	go func() {
+	golang func() {
 		defer wg.Done()
 		var err error
 		buf := make([]byte, 1024)
@@ -333,7 +333,7 @@ func testCloseTimeout(t *testing.T, c1, c2 net.Conn) {
 			_, err = c1.Read(buf)
 		}
 	}()
-	go func() {
+	golang func() {
 		defer wg.Done()
 		var err error
 		buf := make([]byte, 1024)
@@ -347,40 +347,40 @@ func testCloseTimeout(t *testing.T, c1, c2 net.Conn) {
 // be called concurrently.
 func testConcurrentMethods(t *testing.T, c1, c2 net.Conn) {
 	if runtime.GOOS == "plan9" {
-		t.Skip("skipping on plan9; see https://golang.org/issue/20489")
+		t.Skip("skipping on plan9; see https://golanglang.org/issue/20489")
 	}
-	go chunkedCopy(c2, c2)
+	golang chunkedCopy(c2, c2)
 
 	// The results of the calls may be nonsensical, but this should
 	// not trigger a race detector warning.
 	var wg sync.WaitGroup
 	for i := 0; i < 100; i++ {
 		wg.Add(7)
-		go func() {
+		golang func() {
 			defer wg.Done()
 			c1.Read(make([]byte, 1024))
 		}()
-		go func() {
+		golang func() {
 			defer wg.Done()
 			c1.Write(make([]byte, 1024))
 		}()
-		go func() {
+		golang func() {
 			defer wg.Done()
 			c1.SetDeadline(time.Now().Add(10 * time.Millisecond))
 		}()
-		go func() {
+		golang func() {
 			defer wg.Done()
-			c1.SetReadDeadline(aLongTimeAgo)
+			c1.SetReadDeadline(aLongTimeAgolang)
 		}()
-		go func() {
+		golang func() {
 			defer wg.Done()
-			c1.SetWriteDeadline(aLongTimeAgo)
+			c1.SetWriteDeadline(aLongTimeAgolang)
 		}()
-		go func() {
+		golang func() {
 			defer wg.Done()
 			c1.LocalAddr()
 		}()
-		go func() {
+		golang func() {
 			defer wg.Done()
 			c1.RemoteAddr()
 		}()
@@ -398,13 +398,13 @@ func checkForTimeoutError(t *testing.T, err error) {
 	if nerr, ok := err.(net.Error); ok {
 		if !nerr.Timeout() {
 			if runtime.GOOS == "windows" && runtime.GOARCH == "arm64" && t.Name() == "TestTestConn/TCP/RacyRead" {
-				t.Logf("ignoring known failure mode on windows/arm64; see https://go.dev/issue/52893")
+				t.Logf("ignoring known failure mode on windows/arm64; see https://golang.dev/issue/52893")
 			} else {
-				t.Errorf("got error: %v, want err.Timeout() = true", nerr)
+				t.Errorf("golangt error: %v, want err.Timeout() = true", nerr)
 			}
 		}
 	} else {
-		t.Errorf("got %T: %v, want net.Error", err, err)
+		t.Errorf("golangt %T: %v, want net.Error", err, err)
 	}
 }
 
@@ -425,7 +425,7 @@ func testRoundtrip(t *testing.T, c net.Conn) {
 		t.Errorf("roundtrip Read error: %v", err)
 	}
 	if string(buf) != s {
-		t.Errorf("roundtrip data mismatch: got %q, want %q", buf, s)
+		t.Errorf("roundtrip data mismatch: golangt %q, want %q", buf, s)
 	}
 }
 
@@ -436,7 +436,7 @@ func resyncConn(t *testing.T, c net.Conn) {
 	t.Helper()
 	c.SetDeadline(neverTimeout)
 	errCh := make(chan error)
-	go func() {
+	golang func() {
 		_, err := c.Write([]byte{0xff})
 		errCh <- err
 	}()

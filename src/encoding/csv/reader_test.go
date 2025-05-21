@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package csv
@@ -430,17 +430,17 @@ func TestRead(t *testing.T) {
 			out, err := r.ReadAll()
 			if wantErr := firstError(tt.Errors, positions, errPositions); wantErr != nil {
 				if !reflect.DeepEqual(err, wantErr) {
-					t.Fatalf("ReadAll() error mismatch:\ngot  %v (%#v)\nwant %v (%#v)", err, err, wantErr, wantErr)
+					t.Fatalf("ReadAll() error mismatch:\ngolangt  %v (%#v)\nwant %v (%#v)", err, err, wantErr, wantErr)
 				}
 				if out != nil {
-					t.Fatalf("ReadAll() output:\ngot  %q\nwant nil", out)
+					t.Fatalf("ReadAll() output:\ngolangt  %q\nwant nil", out)
 				}
 			} else {
 				if err != nil {
 					t.Fatalf("unexpected Readall() error: %v", err)
 				}
 				if !reflect.DeepEqual(out, tt.Output) {
-					t.Fatalf("ReadAll() output:\ngot  %q\nwant %q", out, tt.Output)
+					t.Fatalf("ReadAll() output:\ngolangt  %q\nwant %q", out, tt.Output)
 				}
 			}
 
@@ -448,7 +448,7 @@ func TestRead(t *testing.T) {
 			inputByteSize := len(input)
 			inputOffset := r.InputOffset()
 			if err == nil && int64(inputByteSize) != inputOffset {
-				t.Errorf("wrong input offset after call ReadAll():\ngot:  %d\nwant: %d\ninput: %s", inputOffset, inputByteSize, input)
+				t.Errorf("wrong input offset after call ReadAll():\ngolangt:  %d\nwant: %d\ninput: %s", inputOffset, inputByteSize, input)
 			}
 
 			// Check field and error positions.
@@ -462,17 +462,17 @@ func TestRead(t *testing.T) {
 					wantErr = io.EOF
 				}
 				if !reflect.DeepEqual(err, wantErr) {
-					t.Fatalf("Read() error at record %d:\ngot %v (%#v)\nwant %v (%#v)", recNum, err, err, wantErr, wantErr)
+					t.Fatalf("Read() error at record %d:\ngolangt %v (%#v)\nwant %v (%#v)", recNum, err, err, wantErr, wantErr)
 				}
 				// ErrFieldCount is explicitly non-fatal.
 				if err != nil && !errors.Is(err, ErrFieldCount) {
 					if recNum < len(tt.Output) {
-						t.Fatalf("need more records; got %d want %d", recNum, len(tt.Output))
+						t.Fatalf("need more records; golangt %d want %d", recNum, len(tt.Output))
 					}
 					break
 				}
-				if got, want := rec, tt.Output[recNum]; !slices.Equal(got, want) {
-					t.Errorf("Read vs ReadAll mismatch;\ngot %q\nwant %q", got, want)
+				if golangt, want := rec, tt.Output[recNum]; !slices.Equal(golangt, want) {
+					t.Errorf("Read vs ReadAll mismatch;\ngolangt %q\nwant %q", golangt, want)
 				}
 				pos := positions[recNum]
 				if len(pos) != len(rec) {
@@ -480,8 +480,8 @@ func TestRead(t *testing.T) {
 				}
 				for i := range rec {
 					line, col := r.FieldPos(i)
-					if got, want := [2]int{line, col}, pos[i]; got != want {
-						t.Errorf("position mismatch at record %d, field %d;\ngot %v\nwant %v", recNum, i, got, want)
+					if golangt, want := [2]int{line, col}, pos[i]; golangt != want {
+						t.Errorf("position mismatch at record %d, field %d;\ngolangt %v\nwant %v", recNum, i, golangt, want)
 					}
 				}
 			}

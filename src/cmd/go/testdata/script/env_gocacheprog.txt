@@ -1,32 +1,32 @@
 # GOCACHEPROG unset
 env GOCACHEPROG=
 
-go env
+golang env
 stdout 'GOCACHEPROG=''?''?'
 
-go env -changed
+golang env -changed
 ! stdout 'GOCACHEPROG'
 
-go env -changed -json
+golang env -changed -json
 ! stdout 'GOCACHEPROG'
 
 # GOCACHEPROG set
-[short] skip 'compiles and runs a go program'
+[short] skip 'compiles and runs a golang program'
 
-go build -o cacheprog$GOEXE cacheprog.go
+golang build -o cacheprog$GOEXE cacheprog.golang
 
 env GOCACHEPROG=$GOPATH/src/cacheprog$GOEXE
 
-go env
+golang env
 stdout 'GOCACHEPROG=''?'$GOCACHEPROG'''?'
 
-go env -changed
+golang env -changed
 stdout 'GOCACHEPROG=''?'$GOCACHEPROG'''?'
 
-go env -changed -json
+golang env -changed -json
 stdout '"GOCACHEPROG": ".*cacheprog'$GOEXE'"'
 
--- cacheprog.go --
+-- cacheprog.golang --
 // This is a minimal GOCACHEPROG program that can't actually do anything but exit.
 package main
 

@@ -1,5 +1,5 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package tls
@@ -22,7 +22,7 @@ import (
 	"runtime"
 	_ "unsafe" // for linkname
 
-	"golang.org/x/crypto/chacha20poly1305"
+	"golanglang.org/x/crypto/chacha20poly1305"
 )
 
 // CipherSuite is a TLS cipher suite. Note that most functions in this package
@@ -32,7 +32,7 @@ type CipherSuite struct {
 	Name string
 
 	// Supported versions is the list of TLS protocol versions that can
-	// negotiate this cipher suite.
+	// negolangtiate this cipher suite.
 	SupportedVersions []uint16
 
 	// Insecure is true if the cipher suite has known security issues
@@ -191,8 +191,8 @@ func selectCipherSuite(ids, supportedIDs []uint16, ok func(*cipherSuite) bool) *
 	return nil
 }
 
-// A cipherSuiteTLS13 defines only the pair of the AEAD algorithm and hash
-// algorithm to be used with HKDF. See RFC 8446, Appendix B.4.
+// A cipherSuiteTLS13 defines only the pair of the AEAD algolangrithm and hash
+// algolangrithm to be used with HKDF. See RFC 8446, Appendix B.4.
 type cipherSuiteTLS13 struct {
 	id     uint16
 	keyLen int
@@ -203,13 +203,13 @@ type cipherSuiteTLS13 struct {
 // cipherSuitesTLS13 should be an internal detail,
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
-//   - github.com/quic-go/quic-go
-//   - github.com/sagernet/quic-go
+//   - github.com/quic-golang/quic-golang
+//   - github.com/sagernet/quic-golang
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname cipherSuitesTLS13
+//golang:linkname cipherSuitesTLS13
 var cipherSuitesTLS13 = []*cipherSuiteTLS13{ // TODO: replace with a map.
 	{TLS_AES_128_GCM_SHA256, 16, aeadAESGCMTLS13, crypto.SHA256},
 	{TLS_CHACHA20_POLY1305_SHA256, 32, aeadChaCha20Poly1305, crypto.SHA256},
@@ -245,7 +245,7 @@ var cipherSuitesTLS13 = []*cipherSuiteTLS13{ // TODO: replace with a map.
 //
 //   - ECDHE comes before anything else
 //
-//     Once we got the broken stuff out of the way, the most important
+//     Once we golangt the broken stuff out of the way, the most important
 //     property a cipher suite can have is forward secrecy. We don't
 //     implement FFDHE, so that means ECDHE.
 //
@@ -545,9 +545,9 @@ func aeadAESGCM(key, noncePrefix []byte) aead {
 //   - github.com/v2fly/v2ray-core
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname aeadAESGCMTLS13
+//golang:linkname aeadAESGCMTLS13
 func aeadAESGCMTLS13(key, nonceMask []byte) aead {
 	if len(nonceMask) != aeadNonceLength {
 		panic("tls: internal error: wrong nonce length")

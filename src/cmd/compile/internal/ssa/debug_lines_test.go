@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ssa_test
@@ -30,9 +30,9 @@ var asmLine *regexp.Regexp = regexp.MustCompile(`^\s[vb]\d+\s+\d+\s\(\+(\d+)\)`)
 // Matches lines in genssa output that describe an inlined file.
 // Note it expects an unadventurous choice of basename.
 var sepRE = regexp.QuoteMeta(string(filepath.Separator))
-var inlineLine *regexp.Regexp = regexp.MustCompile(`^#\s.*` + sepRE + `[-\w]+\.go:(\d+)`)
+var inlineLine *regexp.Regexp = regexp.MustCompile(`^#\s.*` + sepRE + `[-\w]+\.golang:(\d+)`)
 
-// this matches e.g.                                 #  /pa/inline-dumpxxxx.go:6
+// this matches e.g.                                 #  /pa/inline-dumpxxxx.golang:6
 
 var testGoArchFlag = flag.String("arch", "", "run test for specified architecture")
 
@@ -67,12 +67,12 @@ func testDebugLinesDefault(t *testing.T, gcflags, file, function string, wantStm
 }
 
 func TestDebugLinesSayHi(t *testing.T) {
-	// This test is potentially fragile, the goal is that debugging should step properly through "sayhi"
+	// This test is potentially fragile, the golangal is that debugging should step properly through "sayhi"
 	// If the blocks are reordered in a way that changes the statement order but execution flows correctly,
 	// then rearrange the expected numbers.  Register abi and not-register-abi also have different sequences,
 	// at least for now.
 
-	testDebugLinesDefault(t, "-N -l", "sayhi.go", "sayhi", []int{8, 9, 10, 11}, false)
+	testDebugLinesDefault(t, "-N -l", "sayhi.golang", "sayhi", []int{8, 9, 10, 11}, false)
 }
 
 func TestDebugLinesPushback(t *testing.T) {
@@ -83,8 +83,8 @@ func TestDebugLinesPushback(t *testing.T) {
 		t.Skip("skipped for many architectures")
 
 	case "arm64", "amd64", "loong64": // register ABI
-		fn := "(*List[go.shape.int]).PushBack"
-		testDebugLines(t, "-N -l", "pushback.go", fn, []int{17, 18, 19, 20, 21, 22, 24}, true)
+		fn := "(*List[golang.shape.int]).PushBack"
+		testDebugLines(t, "-N -l", "pushback.golang", fn, []int{17, 18, 19, 20, 21, 22, 24}, true)
 	}
 }
 
@@ -96,8 +96,8 @@ func TestDebugLinesConvert(t *testing.T) {
 		t.Skip("skipped for many architectures")
 
 	case "arm64", "amd64", "loong64": // register ABI
-		fn := "G[go.shape.int]"
-		testDebugLines(t, "-N -l", "convertline.go", fn, []int{9, 10, 11}, true)
+		fn := "G[golang.shape.int]"
+		testDebugLines(t, "-N -l", "convertline.golang", fn, []int{9, 10, 11}, true)
 	}
 }
 
@@ -108,11 +108,11 @@ func TestInlineLines(t *testing.T) {
 	}
 
 	want := [][]int{{3}, {4, 10}, {4, 10, 16}, {4, 10}, {4, 11, 16}, {4, 11}, {4}, {5, 10}, {5, 10, 16}, {5, 10}, {5, 11, 16}, {5, 11}, {5}}
-	testInlineStack(t, "inline-dump.go", "f", want)
+	testInlineStack(t, "inline-dump.golang", "f", want)
 }
 
 func TestDebugLines_53456(t *testing.T) {
-	testDebugLinesDefault(t, "-N -l", "b53456.go", "(*T).Inc", []int{15, 16, 17, 18}, true)
+	testDebugLinesDefault(t, "-N -l", "b53456.golang", "(*T).Inc", []int{15, 16, 17, 18}, true)
 }
 
 func compileAndDump(t *testing.T, file, function, moreGCFlags string) []byte {
@@ -156,7 +156,7 @@ func compileAndDump(t *testing.T, file, function, moreGCFlags string) []byte {
 	}
 
 	if s := stderr.String(); s != "" {
-		t.Fatalf("Wanted empty stderr, instead got:\n%s\n", s)
+		t.Fatalf("Wanted empty stderr, instead golangt:\n%s\n", s)
 	}
 
 	dumpFile := filepath.Join(tmpdir, function+"_01__genssa.dump")
@@ -187,8 +187,8 @@ func testInlineStack(t *testing.T, file, function string, wantStacks [][]int) {
 	dumpBytes := compileAndDump(t, file, function, "-N")
 	dump := bufio.NewScanner(bytes.NewReader(dumpBytes))
 	dumpLineNum := 0
-	var gotStmts []int
-	var gotStacks [][]int
+	var golangtStmts []int
+	var golangtStacks [][]int
 	for dump.Scan() {
 		line := dump.Text()
 		dumpLineNum++
@@ -201,20 +201,20 @@ func testInlineStack(t *testing.T, file, function string, wantStacks [][]int) {
 			if testing.Verbose() {
 				fmt.Printf("Saw stmt# %d for submatch '%s' on dump line #%d = '%s'\n", stmt, matches[1], dumpLineNum, line)
 			}
-			gotStmts = append(gotStmts, int(stmt))
-		} else if len(gotStmts) > 0 {
-			gotStacks = append(gotStacks, gotStmts)
-			gotStmts = nil
+			golangtStmts = append(golangtStmts, int(stmt))
+		} else if len(golangtStmts) > 0 {
+			golangtStacks = append(golangtStacks, golangtStmts)
+			golangtStmts = nil
 		}
 	}
-	if len(gotStmts) > 0 {
-		gotStacks = append(gotStacks, gotStmts)
-		gotStmts = nil
+	if len(golangtStmts) > 0 {
+		golangtStacks = append(golangtStacks, golangtStmts)
+		golangtStmts = nil
 	}
-	sortInlineStacks(gotStacks)
+	sortInlineStacks(golangtStacks)
 	sortInlineStacks(wantStacks)
-	if !reflect.DeepEqual(wantStacks, gotStacks) {
-		t.Errorf("wanted inlines %+v but got %+v\n%s", wantStacks, gotStacks, dumpBytes)
+	if !reflect.DeepEqual(wantStacks, golangtStacks) {
+		t.Errorf("wanted inlines %+v but golangt %+v\n%s", wantStacks, golangtStacks, dumpBytes)
 	}
 
 }
@@ -222,11 +222,11 @@ func testInlineStack(t *testing.T, file, function string, wantStacks [][]int) {
 // testDebugLines compiles testdata/<file> with flags -N -l and -d=ssa/genssa/dump=<function>
 // then verifies that the statement-marked lines in that file are the same as those in wantStmts
 // These files must all be short because this is super-fragile.
-// "go build" is run in a temporary directory that is normally deleted, unless -test.v
+// "golang build" is run in a temporary directory that is normally deleted, unless -test.v
 func testDebugLines(t *testing.T, gcflags, file, function string, wantStmts []int, ignoreRepeats bool) {
 	dumpBytes := compileAndDump(t, file, function, gcflags)
 	dump := bufio.NewScanner(bytes.NewReader(dumpBytes))
-	var gotStmts []int
+	var golangtStmts []int
 	dumpLineNum := 0
 	for dump.Scan() {
 		line := dump.Text()
@@ -240,23 +240,23 @@ func testDebugLines(t *testing.T, gcflags, file, function string, wantStmts []in
 			if testing.Verbose() {
 				fmt.Printf("Saw stmt# %d for submatch '%s' on dump line #%d = '%s'\n", stmt, matches[1], dumpLineNum, line)
 			}
-			gotStmts = append(gotStmts, int(stmt))
+			golangtStmts = append(golangtStmts, int(stmt))
 		}
 	}
-	if ignoreRepeats { // remove repeats from gotStmts
-		newGotStmts := []int{gotStmts[0]}
-		for _, x := range gotStmts {
+	if ignoreRepeats { // remove repeats from golangtStmts
+		newGotStmts := []int{golangtStmts[0]}
+		for _, x := range golangtStmts {
 			if x != newGotStmts[len(newGotStmts)-1] {
 				newGotStmts = append(newGotStmts, x)
 			}
 		}
 		if !reflect.DeepEqual(wantStmts, newGotStmts) {
-			t.Errorf("wanted stmts %v but got %v (with repeats still in: %v)", wantStmts, newGotStmts, gotStmts)
+			t.Errorf("wanted stmts %v but golangt %v (with repeats still in: %v)", wantStmts, newGotStmts, golangtStmts)
 		}
 
 	} else {
-		if !reflect.DeepEqual(wantStmts, gotStmts) {
-			t.Errorf("wanted stmts %v but got %v", wantStmts, gotStmts)
+		if !reflect.DeepEqual(wantStmts, golangtStmts) {
+			t.Errorf("wanted stmts %v but golangt %v", wantStmts, golangtStmts)
 		}
 	}
 }

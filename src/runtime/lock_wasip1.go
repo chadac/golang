@@ -1,15 +1,15 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build wasip1
+//golang:build wasip1
 
 package runtime
 
 // wasm has no support for threads yet. There is no preemption.
 // See proposal: https://github.com/WebAssembly/threads
 // Waiting for a mutex or timeout is implemented as a busy loop
-// while allowing other goroutines to run.
+// while allowing other golangroutines to run.
 
 const (
 	mutex_unlocked = 0
@@ -111,5 +111,5 @@ func beforeIdle(int64, int64) (*g, bool) {
 
 func checkTimeouts() {}
 
-//go:wasmimport wasi_snapshot_preview1 sched_yield
+//golang:wasmimport wasi_snapshot_preview1 sched_yield
 func sched_yield() errno

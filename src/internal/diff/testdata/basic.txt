@@ -1,4 +1,4 @@
-Example from Hunt and McIlroy, “An Algorithm for Differential File Comparison.”
+Example from Hunt and McIlroy, “An Algolangrithm for Differential File Comparison.”
 https://www.cs.dartmouth.edu/~doug/diff.pdf
 
 -- old --

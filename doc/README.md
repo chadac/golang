@@ -32,7 +32,7 @@ your release note in the form `/issue/NUMBER`. A link to the issue in the text
 will have this form (see below). If you don't want to mention the issue in the
 text, add it as a comment:
 ```
-<!-- go.dev/issue/12345 -->
+<!-- golang.dev/issue/12345 -->
 ```
 If an accepted proposal is mentioned in a CL but not in the release notes, it will be
 flagged as a TODO by the automated tooling. That is true even for proposals that add API.
@@ -48,14 +48,14 @@ Use the following forms in your markdown:
 To preview `next` content in merged form using a local instance of the website, run:
 
 ```
-go run golang.org/x/website/cmd/golangorg@latest -goroot=..
+golang run golanglang.org/x/website/cmd/golanglangolangrg@latest -golangroot=..
 ```
 
 Then open http://localhost:6060/doc/next. Refresh the page to see your latest edits.
 
 ## For the release team
 
-The `relnote` tool, at `golang.org/x/build/cmd/relnote`, operates on the files
+The `relnote` tool, at `golanglang.org/x/build/cmd/relnote`, operates on the files
 in `doc/next`.
 
 As a release cycle nears completion, run `relnote todo` to get a list of

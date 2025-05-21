@@ -1,11 +1,11 @@
 // errorcheck
 
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Issue 4654.
-// Check error for conversion and 'not used' in defer/go.
+// Check error for conversion and 'not used' in defer/golang.
 
 package p
 
@@ -13,7 +13,7 @@ import "unsafe"
 
 func f() {
 	defer int(0) // ERROR "defer requires function call, not conversion|is not used"
-	go string([]byte("abc")) // ERROR "go requires function call, not conversion|is not used"
+	golang string([]byte("abc")) // ERROR "golang requires function call, not conversion|is not used"
 	
 	var c complex128
 	var f float64

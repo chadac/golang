@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package poll
@@ -26,7 +26,7 @@ func handleCopyFileRangeErr(err error, copied, written int64) (bool, error) {
 		// may not be present. We've detected the FreeBSD version with
 		// unix.SupportCopyFileRange() at the beginning of this function,
 		// but we still want to check for ENOSYS here to prevent some rare
-		// case like https://go.dev/issue/58592
+		// case like https://golang.dev/issue/58592
 		//
 		// If we see ENOSYS, we have certainly not transferred
 		// any data, so we can tell the caller that we

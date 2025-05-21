@@ -1,14 +1,14 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build compiler_bootstrap
+//golang:build compiler_bootstrap
 
 package main
 
 import (
-	"go/ast"
-	"go/token"
+	"golang/ast"
+	"golang/token"
 )
 
 func (f *File) walkUnexpected(x interface{}, context astContext, visit func(*File, interface{}, astContext)) {

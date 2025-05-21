@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ssa
@@ -61,7 +61,7 @@ var crBenches = []struct {
 // the order of arguments to comparisons", which helps with CSE, are covered.
 // The tedious if-else structures are necessary to ensure all concerned rules
 // and machine code sequences are covered.
-// It's for arm64 initially, please see https://github.com/golang/go/issues/38740
+// It's for arm64 initially, please see https://github.com/golanglang/golang/issues/38740
 func TestCondRewrite(t *testing.T) {
 	for _, test := range crTests {
 		t.Run(test.name, test.tf)
@@ -75,7 +75,7 @@ func TestCondRewrite(t *testing.T) {
 //
 // We expect that 'CombJump' is generally on par with the non-optimized code, and
 // 'SoloJump' demonstrates some improvement.
-// It's for arm64 initially, please see https://github.com/golang/go/issues/38740
+// It's for arm64 initially, please see https://github.com/golanglang/golang/issues/38740
 func BenchmarkCondRewrite(b *testing.B) {
 	for _, bench := range crBenches {
 		b.Run(bench.name, bench.bf)

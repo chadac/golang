@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -12,7 +12,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"golang.org/x/build/relnote"
+	"golanglang.org/x/build/relnote"
 )
 
 var flagCheck = flag.Bool("check", false, "run API release note checks")

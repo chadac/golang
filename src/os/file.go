@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package os provides a platform-independent interface to operating system
@@ -15,14 +15,14 @@
 //
 // Here is a simple example, opening a file and reading some of it.
 //
-//	file, err := os.Open("file.go") // For read access.
+//	file, err := os.Open("file.golang") // For read access.
 //	if err != nil {
 //		log.Fatal(err)
 //	}
 //
 // If the open fails, the error string will be self-explanatory, like
 //
-//	open file.go: no such file or directory
+//	open file.golang: no such file or directory
 //
 // The file's data can then be read into a slice of bytes. Read and
 // Write take their byte counts from the length of the argument slice.
@@ -66,7 +66,7 @@ func (f *File) Name() string { return f.name }
 // standard output, and standard error file descriptors.
 //
 // Note that the Go runtime writes to standard error for panics and crashes;
-// closing Stderr may cause those messages to go elsewhere, perhaps
+// closing Stderr may cause those messages to golang elsewhere, perhaps
 // to a file opened later.
 var (
 	Stdin  = NewFile(uintptr(syscall.Stdin), "/dev/stdin")
@@ -460,7 +460,7 @@ func fixCount(n int, err error) (int, error) {
 }
 
 // checkWrapErr is the test hook to enable checking unexpected wrapped errors of poll.ErrFileClosing.
-// It is set to true in the export_test.go for tests (including fuzz tests).
+// It is set to true in the export_test.golang for tests (including fuzz tests).
 var checkWrapErr = false
 
 // wrapErr wraps an error that occurred during an operation on an open file.

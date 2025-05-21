@@ -1,4 +1,4 @@
-//gofmt -s
+//golangfmt -s
 
 // Test case for issue 7631.
 

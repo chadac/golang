@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -26,7 +26,7 @@ var amatchTests = []struct {
 	{"**/a", "x/y/z/a", true},
 	{"**/a", "x/y/z/a/b", false},
 
-	{"go/pkg/tool/*/compile", "go/pkg/tool/darwin_amd64/compile", true},
+	{"golang/pkg/tool/*/compile", "golang/pkg/tool/darwin_amd64/compile", true},
 }
 
 func TestAmatch(t *testing.T) {

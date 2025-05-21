@@ -2,11 +2,11 @@
 [short] skip
 
 mkdir $WORKDIR/tmp/pkg
-go install -race -pkgdir=$WORKDIR/tmp/pkg std
+golang install -race -pkgdir=$WORKDIR/tmp/pkg std
 
--- go.mod --
+-- golang.mod --
 module empty
 
-go 1.16
--- pkg/pkg.go --
+golang 1.16
+-- pkg/pkg.golang --
 package p

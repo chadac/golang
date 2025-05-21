@@ -1,5 +1,5 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package regexp
@@ -185,18 +185,18 @@ func TestCompileOnePass(t *testing.T) {
 	)
 	for _, test := range onePassTests {
 		if re, err = syntax.Parse(test.re, syntax.Perl); err != nil {
-			t.Errorf("Parse(%q) got err:%s, want success", test.re, err)
+			t.Errorf("Parse(%q) golangt err:%s, want success", test.re, err)
 			continue
 		}
 		// needs to be done before compile...
 		re = re.Simplify()
 		if p, err = syntax.Compile(re); err != nil {
-			t.Errorf("Compile(%q) got err:%s, want success", test.re, err)
+			t.Errorf("Compile(%q) golangt err:%s, want success", test.re, err)
 			continue
 		}
 		isOnePass := compileOnePass(p) != nil
 		if isOnePass != test.isOnePass {
-			t.Errorf("CompileOnePass(%q) got isOnePass=%v, expected %v", test.re, isOnePass, test.isOnePass)
+			t.Errorf("CompileOnePass(%q) golangt isOnePass=%v, expected %v", test.re, isOnePass, test.isOnePass)
 		}
 	}
 }
@@ -206,18 +206,18 @@ var onePassTests1 = []struct {
 	re    string
 	match string
 }{
-	{`^a(/b+(#c+)*)*$`, "a/b#c"}, // golang.org/issue/11905
+	{`^a(/b+(#c+)*)*$`, "a/b#c"}, // golanglang.org/issue/11905
 }
 
 func TestRunOnePass(t *testing.T) {
 	for _, test := range onePassTests1 {
 		re, err := Compile(test.re)
 		if err != nil {
-			t.Errorf("Compile(%q): got err: %s", test.re, err)
+			t.Errorf("Compile(%q): golangt err: %s", test.re, err)
 			continue
 		}
 		if re.onepass == nil {
-			t.Errorf("Compile(%q): got nil, want one-pass", test.re)
+			t.Errorf("Compile(%q): golangt nil, want one-pass", test.re)
 			continue
 		}
 		if !re.MatchString(test.match) {

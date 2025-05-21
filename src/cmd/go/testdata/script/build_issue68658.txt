@@ -1,13 +1,13 @@
-# Test for issue #68658: In GOPATH mode, files with a //go:build fileVersion
-# earlier than go1.21 should downgrade to go1.21 and no further.
+# Test for issue #68658: In GOPATH mode, files with a //golang:build fileVersion
+# earlier than golang1.21 should downgrade to golang1.21 and no further.
 
 [short] skip 'requires build'
 
 env GO111MODULE=off
-go build foo bar
+golang build foo bar
 
--- foo/main.go --
-//go:build go1.10
+-- foo/main.golang --
+//golang:build golang1.10
 
 package p
 
@@ -18,8 +18,8 @@ func main() {
 	fmt.Println(x)
 }
 
--- bar/main.go --
-//go:build go1.20
+-- bar/main.golang --
+//golang:build golang1.20
 
 package p
 

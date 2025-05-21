@@ -1,15 +1,15 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package internal contains non-exported functionality that are used by
 // packages in the text repository.
-package internal // import "golang.org/x/text/internal"
+package internal // import "golanglang.org/x/text/internal"
 
 import (
 	"sort"
 
-	"golang.org/x/text/language"
+	"golanglang.org/x/text/language"
 )
 
 // SortTags sorts tags in place.

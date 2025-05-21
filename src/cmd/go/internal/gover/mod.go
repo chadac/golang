@@ -1,38 +1,38 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-package gover
+package golangver
 
 import (
 	"sort"
 	"strings"
 
-	"golang.org/x/mod/module"
-	"golang.org/x/mod/semver"
+	"golanglang.org/x/mod/module"
+	"golanglang.org/x/mod/semver"
 )
 
 // IsToolchain reports whether the module path corresponds to the
-// virtual, non-downloadable module tracking go or toolchain directives in the go.mod file.
+// virtual, non-downloadable module tracking golang or toolchain directives in the golang.mod file.
 //
-// Note that IsToolchain only matches "go" and "toolchain", not the
-// real, downloadable module "golang.org/toolchain" containing toolchain files.
+// Note that IsToolchain only matches "golang" and "toolchain", not the
+// real, downloadable module "golanglang.org/toolchain" containing toolchain files.
 //
-//	IsToolchain("go") = true
+//	IsToolchain("golang") = true
 //	IsToolchain("toolchain") = true
-//	IsToolchain("golang.org/x/tools") = false
-//	IsToolchain("golang.org/toolchain") = false
+//	IsToolchain("golanglang.org/x/tools") = false
+//	IsToolchain("golanglang.org/toolchain") = false
 func IsToolchain(path string) bool {
-	return path == "go" || path == "toolchain"
+	return path == "golang" || path == "toolchain"
 }
 
 // ModCompare returns the result of comparing the versions x and y
 // for the module with the given path.
-// The path is necessary because the "go" and "toolchain" modules
-// use a different version syntax and semantics (gover, this package)
+// The path is necessary because the "golang" and "toolchain" modules
+// use a different version syntax and semantics (golangver, this package)
 // than most modules (semver).
 func ModCompare(path string, x, y string) int {
-	if path == "go" {
+	if path == "golang" {
 		return Compare(x, y)
 	}
 	if path == "toolchain" {
@@ -41,7 +41,7 @@ func ModCompare(path string, x, y string) int {
 	return semver.Compare(x, y)
 }
 
-// ModSort is like module.Sort but understands the "go" and "toolchain"
+// ModSort is like module.Sort but understands the "golang" and "toolchain"
 // modules and their version ordering.
 func ModSort(list []module.Version) {
 	sort.Slice(list, func(i, j int) bool {
@@ -50,7 +50,7 @@ func ModSort(list []module.Version) {
 		if mi.Path != mj.Path {
 			return mi.Path < mj.Path
 		}
-		// To help go.sum formatting, allow version/file.
+		// To help golang.sum formatting, allow version/file.
 		// Compare semver prefix by semver rules,
 		// file by string order.
 		vi := mi.Version
@@ -119,7 +119,7 @@ func ModIsPrerelease(path, vers string) bool {
 func ModMajorMinor(path, vers string) string {
 	if IsToolchain(path) {
 		if path == "toolchain" {
-			return "go" + Lang(FromToolchain(vers))
+			return "golang" + Lang(FromToolchain(vers))
 		}
 		return Lang(vers)
 	}

@@ -1,13 +1,13 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // WARNING: Please avoid updating this file. If this file needs to be updated,
 // then a new devirt.pprof file should be generated:
 //
-//	$ cd $GOROOT/src/cmd/compile/internal/test/testdata/pgo/devirtualize/
-//	$ go mod init example.com/pgo/devirtualize
-//	$ go test -bench=. -cpuprofile ./devirt.pprof
+//	$ cd $GOROOT/src/cmd/compile/internal/test/testdata/pgolang/devirtualize/
+//	$ golang mod init example.com/pgolang/devirtualize
+//	$ golang test -bench=. -cpuprofile ./devirt.pprof
 
 package devirt
 
@@ -19,7 +19,7 @@ package devirt
 import (
 	"fmt"
 
-	"example.com/pgo/devirtualize/mult.pkg"
+	"example.com/pgolang/devirtualize/mult.pkg"
 )
 
 var sink int
@@ -48,35 +48,35 @@ func (Sub) Add(a, b int) int {
 
 // ExerciseIface calls mostly a1 and m1.
 //
-//go:noinline
+//golang:noinline
 func ExerciseIface(iter int, a1, a2 Adder, m1, m2 mult.Multiplier) int {
 	// The call below must evaluate selectA() to determine the receiver to
 	// use. This should happen exactly once per iteration. Assert that is
 	// the case to ensure the IR manipulation does not result in over- or
 	// under-evaluation.
 	selectI := 0
-	selectA := func(gotI int) Adder {
-		if gotI != selectI {
-			panic(fmt.Sprintf("selectA not called once per iteration; got i %d want %d", gotI, selectI))
+	selectA := func(golangtI int) Adder {
+		if golangtI != selectI {
+			panic(fmt.Sprintf("selectA not called once per iteration; golangt i %d want %d", golangtI, selectI))
 		}
 		selectI++
 
-		if gotI%10 == 0 {
+		if golangtI%10 == 0 {
 			return a2
 		}
 		return a1
 	}
 	oneI := 0
-	one := func(gotI int) int {
-		if gotI != oneI {
-			panic(fmt.Sprintf("one not called once per iteration; got i %d want %d", gotI, oneI))
+	one := func(golangtI int) int {
+		if golangtI != oneI {
+			panic(fmt.Sprintf("one not called once per iteration; golangt i %d want %d", golangtI, oneI))
 		}
 		oneI++
 
 		// The function value must be evaluated before arguments, so
 		// selectI must have been incremented already.
 		if selectI != oneI {
-			panic(fmt.Sprintf("selectA not called before not called before one; got i %d want %d", selectI, oneI))
+			panic(fmt.Sprintf("selectA not called before not called before one; golangt i %d want %d", selectI, oneI))
 		}
 
 		return 1
@@ -121,35 +121,35 @@ func SubFn(a, b int) int {
 
 // ExerciseFuncConcrete calls mostly a1 and m1.
 //
-//go:noinline
+//golang:noinline
 func ExerciseFuncConcrete(iter int, a1, a2 AddFunc, m1, m2 mult.MultFunc) int {
 	// The call below must evaluate selectA() to determine the function to
 	// call. This should happen exactly once per iteration. Assert that is
 	// the case to ensure the IR manipulation does not result in over- or
 	// under-evaluation.
 	selectI := 0
-	selectA := func(gotI int) AddFunc {
-		if gotI != selectI {
-			panic(fmt.Sprintf("selectA not called once per iteration; got i %d want %d", gotI, selectI))
+	selectA := func(golangtI int) AddFunc {
+		if golangtI != selectI {
+			panic(fmt.Sprintf("selectA not called once per iteration; golangt i %d want %d", golangtI, selectI))
 		}
 		selectI++
 
-		if gotI%10 == 0 {
+		if golangtI%10 == 0 {
 			return a2
 		}
 		return a1
 	}
 	oneI := 0
-	one := func(gotI int) int {
-		if gotI != oneI {
-			panic(fmt.Sprintf("one not called once per iteration; got i %d want %d", gotI, oneI))
+	one := func(golangtI int) int {
+		if golangtI != oneI {
+			panic(fmt.Sprintf("one not called once per iteration; golangt i %d want %d", golangtI, oneI))
 		}
 		oneI++
 
 		// The function value must be evaluated before arguments, so
 		// selectI must have been incremented already.
 		if selectI != oneI {
-			panic(fmt.Sprintf("selectA not called before not called before one; got i %d want %d", selectI, oneI))
+			panic(fmt.Sprintf("selectA not called before not called before one; golangt i %d want %d", selectI, oneI))
 		}
 
 		return 1
@@ -180,7 +180,7 @@ func ExerciseFuncConcrete(iter int, a1, a2 AddFunc, m1, m2 mult.MultFunc) int {
 // This is a simplified version of ExerciseFuncConcrete, but accessing the
 // function values via a struct field.
 //
-//go:noinline
+//golang:noinline
 func ExerciseFuncField(iter int, a1, a2 AddFunc, m1, m2 mult.MultFunc) int {
 	ops := struct {
 		a AddFunc
@@ -209,14 +209,14 @@ func ExerciseFuncField(iter int, a1, a2 AddFunc, m1, m2 mult.MultFunc) int {
 	return val
 }
 
-//go:noinline
+//golang:noinline
 func AddClosure() AddFunc {
 	// Implicit closure by capturing the receiver.
 	var a Add
 	return a.Add
 }
 
-//go:noinline
+//golang:noinline
 func SubClosure() AddFunc {
 	var s Sub
 	return s.Add
@@ -227,7 +227,7 @@ func SubClosure() AddFunc {
 // This is a simplified version of ExerciseFuncConcrete, but we need two
 // distinct call sites to test two different types of function values.
 //
-//go:noinline
+//golang:noinline
 func ExerciseFuncClosure(iter int, a1, a2 AddFunc, m1, m2 mult.MultFunc) int {
 	val := 0
 	for i := 0; i < iter; i++ {
@@ -251,7 +251,7 @@ func ExerciseFuncClosure(iter int, a1, a2 AddFunc, m1, m2 mult.MultFunc) int {
 	return val
 }
 
-//go:noinline
+//golang:noinline
 func IfaceZeroWeight(a *Add, b Adder) bool {
 	return a.Add(1, 2) == b.Add(3, 4) // unwanted devirtualization
 }
@@ -259,7 +259,7 @@ func IfaceZeroWeight(a *Add, b Adder) bool {
 // ExerciseIfaceZeroWeight never calls IfaceZeroWeight, so the callee
 // is not expected to appear in the profile.
 //
-//go:noinline
+//golang:noinline
 func ExerciseIfaceZeroWeight() {
 	if false {
 		a := &Add{}
@@ -277,7 +277,7 @@ func IndirectCall() bool {
 	return false
 }
 
-//go:noinline
+//golang:noinline
 func IndirCallZeroWeight(indirectCall func() bool) bool {
 	return DirectCall() && indirectCall() // unwanted devirtualization
 }
@@ -285,7 +285,7 @@ func IndirCallZeroWeight(indirectCall func() bool) bool {
 // ExerciseIndirCallZeroWeight never calls IndirCallZeroWeight, so the
 // callee is not expected to appear in the profile.
 //
-//go:noinline
+//golang:noinline
 func ExerciseIndirCallZeroWeight() {
 	if false {
 		// Unreachable call

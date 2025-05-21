@@ -1,13 +1,13 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 //
 // System calls and other sys.stuff for 386, FreeBSD
 // /usr/src/sys/kern/syscalls.master for syscall numbers.
 //
 
-#include "go_asm.h"
-#include "go_tls.h"
+#include "golang_asm.h"
+#include "golang_tls.h"
 #include "textflag.h"
 
 #define CLOCK_REALTIME		0
@@ -296,7 +296,7 @@ TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME,$12
 	MOVL	BX, 4(SP)
 	MOVL	24(SP), BX // context
 	MOVL	BX, 8(SP)
-	CALL	runtime·sigtrampgo(SB)
+	CALL	runtime·sigtrampgolang(SB)
 
 	// call sigreturn
 	MOVL	24(SP), AX	// context
@@ -383,7 +383,7 @@ TEXT runtime·setldt(SB),NOSPLIT,$32
 	RET
 
 TEXT i386_set_ldt<>(SB),NOSPLIT,$16
-	LEAL	args+0(FP), AX	// 0(FP) == 4(SP) before SP got moved
+	LEAL	args+0(FP), AX	// 0(FP) == 4(SP) before SP golangt moved
 	MOVL	$0, 0(SP)	// syscall gap
 	MOVL	$1, 4(SP)
 	MOVL	AX, 8(SP)

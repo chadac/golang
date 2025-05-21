@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -16,7 +16,7 @@ import (
 )
 
 func usage() {
-	fmt.Fprintf(os.Stderr, "usage: go tool buildid [-w] file\n")
+	fmt.Fprintf(os.Stderr, "usage: golang tool buildid [-w] file\n")
 	flag.PrintDefaults()
 	os.Exit(2)
 }
@@ -45,7 +45,7 @@ func main() {
 		return
 	}
 
-	// Keep in sync with src/cmd/go/internal/work/buildid.go:updateBuildID
+	// Keep in sync with src/cmd/golang/internal/work/buildid.golang:updateBuildID
 
 	f, err := os.Open(file)
 	if err != nil {
@@ -57,7 +57,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	// <= go 1.7 doesn't embed the contentID or actionID, so no slash is present
+	// <= golang 1.7 doesn't embed the contentID or actionID, so no slash is present
 	if !strings.Contains(id, "/") {
 		log.Fatalf("%s: build ID is a legacy format...binary too old for this tool", file)
 	}

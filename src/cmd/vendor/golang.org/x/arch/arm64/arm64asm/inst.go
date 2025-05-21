@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package arm64asm
@@ -12,7 +12,7 @@ import (
 // An Op is an ARM64 opcode.
 type Op uint16
 
-// NOTE: The actual Op values are defined in tables.go.
+// NOTE: The actual Op values are defined in tables.golang.
 // They are chosen to simplify instruction decoding and
 // are not a dense packing from 0 to N, although the
 // density is high, probably at least 90%.

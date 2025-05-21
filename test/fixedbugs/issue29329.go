@@ -1,9 +1,9 @@
 // run -race
 
-//go:build cgo && linux && amd64
+//golang:build cgolang && linux && amd64
 
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -15,7 +15,7 @@ import (
 type LineString []Point
 type Point [2]float64
 
-//go:noinline
+//golang:noinline
 func benchmarkData() LineString {
 	return LineString{{1.0, 2.0}}
 }

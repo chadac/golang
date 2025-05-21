@@ -1,5 +1,5 @@
 // Copyright (c) 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package edwards25519
@@ -46,14 +46,14 @@ func TestGenerator(t *testing.T) {
 	// little endian hex.
 	x := "1ad5258f602d56c9b2a7259560c72c695cdcd6fd31e2a4c0fe536ecdd3366921"
 	y := "5866666666666666666666666666666666666666666666666666666666666666"
-	if got := hex.EncodeToString(B.x.Bytes()); got != x {
-		t.Errorf("wrong B.x: got %s, expected %s", got, x)
+	if golangt := hex.EncodeToString(B.x.Bytes()); golangt != x {
+		t.Errorf("wrong B.x: golangt %s, expected %s", golangt, x)
 	}
-	if got := hex.EncodeToString(B.y.Bytes()); got != y {
-		t.Errorf("wrong B.y: got %s, expected %s", got, y)
+	if golangt := hex.EncodeToString(B.y.Bytes()); golangt != y {
+		t.Errorf("wrong B.y: golangt %s, expected %s", golangt, y)
 	}
 	if B.z.Equal(feOne) != 1 {
-		t.Errorf("wrong B.z: got %v, expected 1", B.z)
+		t.Errorf("wrong B.z: golangt %v, expected 1", B.z)
 	}
 	// Check that t is correct.
 	checkOnCurve(t, B)
@@ -269,7 +269,7 @@ func TestNonCanonicalPoints(t *testing.T) {
 				t.Errorf("equivalent points are not equal: %v, %v", p1, p2)
 			}
 			if encoding := hex.EncodeToString(p1.Bytes()); encoding != tt.canonical {
-				t.Errorf("re-encoding does not match canonical; got %q, expected %q", encoding, tt.canonical)
+				t.Errorf("re-encoding does not match canonical; golangt %q, expected %q", encoding, tt.canonical)
 			}
 			checkOnCurve(t, p1, p2)
 		})

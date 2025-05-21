@@ -1,5 +1,5 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -53,7 +53,7 @@ func runAddr2Line(t *testing.T, dbgExePath, addr string) (funcname, path, lineno
 	cmd.Stdin = strings.NewReader(addr)
 	out, err := cmd.CombinedOutput()
 	if err != nil {
-		t.Fatalf("go tool addr2line %v: %v\n%s", os.Args[0], err, string(out))
+		t.Fatalf("golang tool addr2line %v: %v\n%s", os.Args[0], err, string(out))
 	}
 	f := strings.Split(string(out), "\n")
 	if len(f) < 3 && f[2] == "" {
@@ -77,9 +77,9 @@ const symName = "cmd/addr2line.TestAddr2Line"
 func testAddr2Line(t *testing.T, dbgExePath, addr string) {
 	funcName, srcPath, srcLineNo := runAddr2Line(t, dbgExePath, addr)
 	if symName != funcName {
-		t.Fatalf("expected function name %v; got %v", symName, funcName)
+		t.Fatalf("expected function name %v; golangt %v", symName, funcName)
 	}
-	fi1, err := os.Stat("addr2line_test.go")
+	fi1, err := os.Stat("addr2line_test.golang")
 	if err != nil {
 		t.Fatalf("Stat failed: %v", err)
 	}
@@ -91,7 +91,7 @@ func testAddr2Line(t *testing.T, dbgExePath, addr string) {
 		t.Fatalf("Stat failed: %v", err)
 	}
 	if !os.SameFile(fi1, fi2) {
-		t.Fatalf("addr2line_test.go and %s are not same file", srcPath)
+		t.Fatalf("addr2line_test.golang and %s are not same file", srcPath)
 	}
 	if want := "102"; srcLineNo != want {
 		t.Fatalf("line number = %v; want %s", srcLineNo, want)
@@ -109,7 +109,7 @@ func TestAddr2Line(t *testing.T) {
 	exepath := filepath.Join(tmpDir, "testaddr2line_test.exe")
 	out, err := testenv.Command(t, testenv.GoToolPath(t), "test", "-c", "-o", exepath, "cmd/addr2line").CombinedOutput()
 	if err != nil {
-		t.Fatalf("go test -c -o %v cmd/addr2line: %v\n%s", exepath, err, string(out))
+		t.Fatalf("golang test -c -o %v cmd/addr2line: %v\n%s", exepath, err, string(out))
 	}
 
 	syms := loadSyms(t, exepath)

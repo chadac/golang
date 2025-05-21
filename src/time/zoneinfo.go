@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package time
@@ -10,7 +10,7 @@ import (
 	"syscall"
 )
 
-//go:generate env ZONEINFO=$GOROOT/lib/time/zoneinfo.zip go run genzabbrs.go -output zoneinfo_abbrs_windows.go
+//golang:generate env ZONEINFO=$GOROOT/lib/time/zoneinfo.zip golang run genzabbrs.golang -output zoneinfo_abbrs_windows.golang
 
 // A Location maps time instants to the zone in use at that time.
 // Typically, the Location represents the collection of time offsets
@@ -56,7 +56,7 @@ type zone struct {
 // A zoneTrans represents a single time zone transition.
 type zoneTrans struct {
 	when         int64 // transition time, in seconds since 1970 GMT
-	index        uint8 // the index of the zone that goes into effect at that time
+	index        uint8 // the index of the zone that golanges into effect at that time
 	isstd, isutc bool  // ignored - no idea what these mean
 }
 
@@ -221,7 +221,7 @@ func (l *Location) lookup(sec int64) (name string, offset int, start, end int64,
 //
 // The reference implementation in localtime.c from
 // https://www.iana.org/time-zones/repository/releases/tzcode2013g.tar.gz
-// implements the following algorithm for these cases:
+// implements the following algolangrithm for these cases:
 //  1. If the first zone is unused by the transitions, use it.
 //  2. Otherwise, if there are transition times, and the first
 //     transition is to a zone in daylight time, find the first
@@ -342,7 +342,7 @@ func tzset(s string, lastTxSec, sec int64) (name string, offset int, start, end 
 	dstIsDST, stdIsDST := true, false
 	// Note: this is a flipping of "DST" and "STD" while retaining the labels
 	// This happens in southern hemispheres. The labelling here thus is a little
-	// inconsistent with the goal.
+	// inconsistent with the golangal.
 	if endSec < startSec {
 		startSec, endSec = endSec, startSec
 		stdName, dstName = dstName, stdName

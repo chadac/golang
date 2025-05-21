@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package debug_test
@@ -32,7 +32,7 @@ func FuzzParseBuildInfoRoundTrip(f *testing.F) {
 
 	// Package built from inside a module.
 	f.Add(strip(`
-		go	1.18
+		golang	1.18
 		path	example.com/m
 		mod	example.com/m	(devel)	
 		build	-compiler=gc
@@ -40,14 +40,14 @@ func FuzzParseBuildInfoRoundTrip(f *testing.F) {
 
 	// Package built in GOPATH mode.
 	f.Add(strip(`
-		go	1.18
+		golang	1.18
 		path	example.com/m
 		build	-compiler=gc
 		`))
 
 	// Escaped build info.
 	f.Add(strip(`
-		go 1.18
+		golang 1.18
 		path example.com/m
 		build CRAZY_ENV="requires\nescaping"
 		`))

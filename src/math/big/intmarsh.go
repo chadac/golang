@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file implements encoding/decoding of Ints.
@@ -14,7 +14,7 @@ import (
 // Gob codec version. Permits backward-compatible changes to the encoding.
 const intGobVersion byte = 1
 
-// GobEncode implements the [encoding/gob.GobEncoder] interface.
+// GobEncode implements the [encoding/golangb.GobEncoder] interface.
 func (x *Int) GobEncode() ([]byte, error) {
 	if x == nil {
 		return nil, nil
@@ -29,7 +29,7 @@ func (x *Int) GobEncode() ([]byte, error) {
 	return buf[i:], nil
 }
 
-// GobDecode implements the [encoding/gob.GobDecoder] interface.
+// GobDecode implements the [encoding/golangb.GobDecoder] interface.
 func (z *Int) GobDecode(buf []byte) error {
 	if len(buf) == 0 {
 		// Other side sent a nil or default value.

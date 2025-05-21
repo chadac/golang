@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package script
@@ -50,7 +50,7 @@ func DefaultConds() map[string]Cond {
 				return true, nil
 			}
 			switch suffix {
-			case "gc", "gccgo":
+			case "gc", "gccgolang":
 				return false, nil
 			default:
 				return false, fmt.Errorf("unrecognized compiler %q", suffix)

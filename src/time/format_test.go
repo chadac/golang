@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package time_test
@@ -126,11 +126,11 @@ func TestAppendInt(t *testing.T) {
 		{123456, 9, "000123456"},
 		{123456789, 9, "123456789"},
 	}
-	var got []byte
+	var golangt []byte
 	for _, tt := range tests {
-		got = AppendInt(got[:0], tt.in, tt.width)
-		if string(got) != tt.want {
-			t.Errorf("appendInt(%d, %d) = %s, want %s", tt.in, tt.width, got, tt.want)
+		golangt = AppendInt(golangt[:0], tt.in, tt.width)
+		if string(golangt) != tt.want {
+			t.Errorf("appendInt(%d, %d) = %s, want %s", tt.in, tt.width, golangt, tt.want)
 		}
 	}
 }
@@ -181,12 +181,12 @@ func TestFormat(t *testing.T) {
 	for _, test := range formatTests {
 		result := time.Format(test.format)
 		if result != test.result {
-			t.Errorf("%s expected %q got %q", test.name, test.result, result)
+			t.Errorf("%s expected %q golangt %q", test.name, test.result, result)
 		}
 	}
 }
 
-var goStringTests = []struct {
+var golangStringTests = []struct {
 	in   Time
 	want string
 }{
@@ -204,9 +204,9 @@ var goStringTests = []struct {
 
 func TestGoString(t *testing.T) {
 	// The numeric time represents Thu Feb  4 21:00:57.012345600 PST 2009
-	for _, tt := range goStringTests {
+	for _, tt := range golangStringTests {
 		if tt.in.GoString() != tt.want {
-			t.Errorf("GoString (%q): got %q want %q", tt.in, tt.in.GoString(), tt.want)
+			t.Errorf("GoString (%q): golangt %q want %q", tt.in, tt.in.GoString(), tt.want)
 		}
 	}
 }
@@ -217,7 +217,7 @@ func TestFormatSingleDigits(t *testing.T) {
 	test := FormatTest{"single digit format", "3:4:5", "4:5:6"}
 	result := time.Format(test.format)
 	if result != test.result {
-		t.Errorf("%s expected %q got %q", test.name, test.result, result)
+		t.Errorf("%s expected %q golangt %q", test.name, test.result, result)
 	}
 }
 
@@ -408,12 +408,12 @@ func TestParseDayOutOfRange(t *testing.T) {
 			// OK
 		case !test.ok && err != nil:
 			if !strings.Contains(err.Error(), "day out of range") {
-				t.Errorf("%q: expected 'day' error, got %v", test.date, err)
+				t.Errorf("%q: expected 'day' error, golangt %v", test.date, err)
 			}
 		case test.ok && err != nil:
 			t.Errorf("%q: unexpected error: %v", test.date, err)
 		case !test.ok && err == nil:
-			t.Errorf("%q: expected 'day' error, got none", test.date)
+			t.Errorf("%q: expected 'day' error, golangt none", test.date)
 		}
 	}
 }
@@ -425,7 +425,7 @@ func TestParseDayOutOfRange(t *testing.T) {
 //
 // ICANN has been slowly phasing out invented abbreviation in favor of
 // numeric time zones (for example, the Asia/Baghdad time zone
-// abbreviation got changed from AST to +03 in the 2017a tzdata
+// abbreviation golangt changed from AST to +03 in the 2017a tzdata
 // release); but we still want to make sure that the time package does
 // not get confused on systems with slightly older tzdata packages.
 func TestParseInLocation(t *testing.T) {
@@ -623,9 +623,9 @@ func TestParseTimeZone(t *testing.T) {
 	for _, test := range parseTimeZoneTests {
 		length, ok := ParseTimeZone(test.value)
 		if ok != test.ok {
-			t.Errorf("expected %t for %q got %t", test.ok, test.value, ok)
+			t.Errorf("expected %t for %q golangt %t", test.ok, test.value, ok)
 		} else if length != test.length {
-			t.Errorf("expected %d for %q got %d", test.length, test.value, length)
+			t.Errorf("expected %d for %q golangt %d", test.length, test.value, length)
 		}
 	}
 }
@@ -696,7 +696,7 @@ func TestParseErrors(t *testing.T) {
 		if err == nil {
 			t.Errorf("expected error for %q %q", test.format, test.value)
 		} else if !strings.Contains(err.Error(), test.expect) {
-			t.Errorf("expected error with %q for %q %q; got %s", test.expect, test.format, test.value, err)
+			t.Errorf("expected error with %q for %q %q; golangt %s", test.expect, test.format, test.value, err)
 		}
 	}
 }
@@ -704,26 +704,26 @@ func TestParseErrors(t *testing.T) {
 func TestNoonIs12PM(t *testing.T) {
 	noon := Date(0, January, 1, 12, 0, 0, 0, UTC)
 	const expect = "12:00PM"
-	got := noon.Format("3:04PM")
-	if got != expect {
-		t.Errorf("got %q; expect %q", got, expect)
+	golangt := noon.Format("3:04PM")
+	if golangt != expect {
+		t.Errorf("golangt %q; expect %q", golangt, expect)
 	}
-	got = noon.Format("03:04PM")
-	if got != expect {
-		t.Errorf("got %q; expect %q", got, expect)
+	golangt = noon.Format("03:04PM")
+	if golangt != expect {
+		t.Errorf("golangt %q; expect %q", golangt, expect)
 	}
 }
 
 func TestMidnightIs12AM(t *testing.T) {
 	midnight := Date(0, January, 1, 0, 0, 0, 0, UTC)
 	expect := "12:00AM"
-	got := midnight.Format("3:04PM")
-	if got != expect {
-		t.Errorf("got %q; expect %q", got, expect)
+	golangt := midnight.Format("3:04PM")
+	if golangt != expect {
+		t.Errorf("golangt %q; expect %q", golangt, expect)
 	}
-	got = midnight.Format("03:04PM")
-	if got != expect {
-		t.Errorf("got %q; expect %q", got, expect)
+	golangt = midnight.Format("03:04PM")
+	if golangt != expect {
+		t.Errorf("golangt %q; expect %q", golangt, expect)
 	}
 }
 
@@ -733,14 +733,14 @@ func Test12PMIsNoon(t *testing.T) {
 		t.Fatal("error parsing date:", err)
 	}
 	if noon.Hour() != 12 {
-		t.Errorf("got %d; expect 12", noon.Hour())
+		t.Errorf("golangt %d; expect 12", noon.Hour())
 	}
 	noon, err = Parse("03:04PM", "12:00PM")
 	if err != nil {
 		t.Fatal("error parsing date:", err)
 	}
 	if noon.Hour() != 12 {
-		t.Errorf("got %d; expect 12", noon.Hour())
+		t.Errorf("golangt %d; expect 12", noon.Hour())
 	}
 }
 
@@ -750,14 +750,14 @@ func Test12AMIsMidnight(t *testing.T) {
 		t.Fatal("error parsing date:", err)
 	}
 	if midnight.Hour() != 0 {
-		t.Errorf("got %d; expect 0", midnight.Hour())
+		t.Errorf("golangt %d; expect 0", midnight.Hour())
 	}
 	midnight, err = Parse("03:04PM", "12:00AM")
 	if err != nil {
 		t.Fatal("error parsing date:", err)
 	}
 	if midnight.Hour() != 0 {
-		t.Errorf("got %d; expect 0", midnight.Hour())
+		t.Errorf("golangt %d; expect 0", midnight.Hour())
 	}
 }
 
@@ -771,7 +771,7 @@ func TestMissingZone(t *testing.T) {
 	expect := "Thu Feb  2 16:10:03 -0500 2006" // -0500 not EST
 	str := time.Format(UnixDate)               // uses MST as its time zone
 	if str != expect {
-		t.Errorf("got %s; expect %s", str, expect)
+		t.Errorf("golangt %s; expect %s", str, expect)
 	}
 }
 
@@ -838,13 +838,13 @@ func TestUnderscoreTwoThousand(t *testing.T) {
 		t.Error(err)
 	}
 	if y, m, d := time.Date(); y != 2015 || m != 6 || d != 18 {
-		t.Errorf("Incorrect y/m/d, got %d/%d/%d", y, m, d)
+		t.Errorf("Incorrect y/m/d, golangt %d/%d/%d", y, m, d)
 	}
 	if h := time.Hour(); h != 14 {
-		t.Errorf("Incorrect hour, got %d", h)
+		t.Errorf("Incorrect hour, golangt %d", h)
 	}
 	if m := time.Minute(); m != 38 {
-		t.Errorf("Incorrect minute, got %d", m)
+		t.Errorf("Incorrect minute, golangt %d", m)
 	}
 }
 
@@ -884,12 +884,12 @@ func TestParseMonthOutOfRange(t *testing.T) {
 		switch {
 		case !test.ok && err != nil:
 			if !strings.Contains(err.Error(), "month out of range") {
-				t.Errorf("%q: expected 'month' error, got %v", test.value, err)
+				t.Errorf("%q: expected 'month' error, golangt %v", test.value, err)
 			}
 		case test.ok && err != nil:
 			t.Errorf("%q: unexpected error: %v", test.value, err)
 		case !test.ok && err == nil:
-			t.Errorf("%q: expected 'month' error, got none", test.value)
+			t.Errorf("%q: expected 'month' error, golangt none", test.value)
 		}
 	}
 }
@@ -903,7 +903,7 @@ func TestParseYday(t *testing.T) {
 		if err != nil {
 			t.Errorf("unexpected error for %s: %v", d, err)
 		} else if tm.Year() != 2020 || tm.YearDay() != i {
-			t.Errorf("got year %d yearday %d, want %d %d", tm.Year(), tm.YearDay(), 2020, i)
+			t.Errorf("golangt year %d yearday %d, want %d %d", tm.Year(), tm.YearDay(), 2020, i)
 		}
 	}
 }
@@ -923,7 +923,7 @@ func TestQuote(t *testing.T) {
 	}
 	for _, tt := range tests {
 		if q := Quote(tt.s); q != tt.want {
-			t.Errorf("Quote(%q) = got %q, want %q", tt.s, q, tt.want)
+			t.Errorf("Quote(%q) = golangt %q, want %q", tt.s, q, tt.want)
 		}
 	}
 
@@ -944,7 +944,7 @@ func TestFormatFractionalSecondSeparators(t *testing.T) {
 	time := Unix(0, 1233810057012345600)
 	for _, tt := range tests {
 		if q := time.Format(tt.s); q != tt.want {
-			t.Errorf("Format(%q) = got %q, want %q", tt.s, q, tt.want)
+			t.Errorf("Format(%q) = golangt %q, want %q", tt.s, q, tt.want)
 		}
 	}
 }
@@ -985,8 +985,8 @@ func TestParseFractionalSecondsLongerThanNineDigits(t *testing.T) {
 				t.Errorf("Parse(%q, %q) error: %v", format, tt.value, err)
 				continue
 			}
-			if got := tm.Nanosecond(); got != tt.want {
-				t.Errorf("Parse(%q, %q) = got %d, want %d", format, tt.value, got, tt.want)
+			if golangt := tm.Nanosecond(); golangt != tt.want {
+				t.Errorf("Parse(%q, %q) = golangt %d, want %d", format, tt.value, golangt, tt.want)
 			}
 		}
 	}
@@ -1020,16 +1020,16 @@ func FuzzFormatRFC3339(f *testing.F) {
 		}
 		ts := Unix(sec, nsec).In(loc)
 
-		got := AppendFormatRFC3339(ts, nil, false)
+		golangt := AppendFormatRFC3339(ts, nil, false)
 		want := AppendFormatAny(ts, nil, RFC3339)
-		if !bytes.Equal(got, want) {
-			t.Errorf("Format(%s, RFC3339) mismatch:\n\tgot:  %s\n\twant: %s", ts, got, want)
+		if !bytes.Equal(golangt, want) {
+			t.Errorf("Format(%s, RFC3339) mismatch:\n\tgolangt:  %s\n\twant: %s", ts, golangt, want)
 		}
 
-		gotNanos := AppendFormatRFC3339(ts, nil, true)
+		golangtNanos := AppendFormatRFC3339(ts, nil, true)
 		wantNanos := AppendFormatAny(ts, nil, RFC3339Nano)
-		if !bytes.Equal(gotNanos, wantNanos) {
-			t.Errorf("Format(%s, RFC3339Nano) mismatch:\n\tgot:  %s\n\twant: %s", ts, gotNanos, wantNanos)
+		if !bytes.Equal(golangtNanos, wantNanos) {
+			t.Errorf("Format(%s, RFC3339Nano) mismatch:\n\tgolangt:  %s\n\twant: %s", ts, golangtNanos, wantNanos)
 		}
 	})
 }
@@ -1062,12 +1062,12 @@ func FuzzParseRFC3339(f *testing.F) {
 			t2, err2 := ParseAny(RFC3339Nano, s, UTC, tz)
 			switch {
 			case (err1 == nil) != (err2 == nil):
-				t.Fatalf("ParseAny(%q) error mismatch:\n\tgot:  %v\n\twant: %v", s, err1, err2)
+				t.Fatalf("ParseAny(%q) error mismatch:\n\tgolangt:  %v\n\twant: %v", s, err1, err2)
 			case !equalTime(t1, t2):
-				t.Fatalf("ParseAny(%q) value mismatch:\n\tgot:  %v\n\twant: %v", s, t1, t2)
+				t.Fatalf("ParseAny(%q) value mismatch:\n\tgolangt:  %v\n\twant: %v", s, t1, t2)
 			}
 
-			// TODO(https://go.dev/issue/54580):
+			// TODO(https://golang.dev/issue/54580):
 			// Remove these checks after ParseAny rejects all invalid RFC 3339.
 			if err1 == nil {
 				num2 := func(s string) byte { return 10*(s[0]-'0') + (s[1] - '0') }
@@ -1082,11 +1082,11 @@ func FuzzParseRFC3339(f *testing.F) {
 			}
 
 			// Customized parser should be identical to general parser.
-			switch got, ok := ParseRFC3339(s, tz); {
+			switch golangt, ok := ParseRFC3339(s, tz); {
 			case ok != (err1 == nil):
-				t.Fatalf("ParseRFC3339(%q) error mismatch:\n\tgot:  %v\n\twant: %v", s, ok, err1 == nil)
-			case !equalTime(got, t1):
-				t.Fatalf("ParseRFC3339(%q) value mismatch:\n\tgot:  %v\n\twant: %v", s, got, t2)
+				t.Fatalf("ParseRFC3339(%q) error mismatch:\n\tgolangt:  %v\n\twant: %v", s, ok, err1 == nil)
+			case !equalTime(golangt, t1):
+				t.Fatalf("ParseRFC3339(%q) value mismatch:\n\tgolangt:  %v\n\twant: %v", s, golangt, t2)
 			}
 		}
 	})

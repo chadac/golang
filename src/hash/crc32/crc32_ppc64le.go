@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package crc32
@@ -15,12 +15,12 @@ const (
 	crcCast      = 2
 )
 
-//go:noescape
+//golang:noescape
 func ppc64SlicingUpdateBy8(crc uint32, table8 *slicing8Table, p []byte) uint32
 
 // this function requires the buffer to be 16 byte aligned and > 16 bytes long.
 //
-//go:noescape
+//golang:noescape
 func vectorCrc32(crc uint32, poly uint32, p []byte) uint32
 
 var archCastagnoliTable8 *slicing8Table

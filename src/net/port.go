@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package net
@@ -9,13 +9,13 @@ package net
 // parse service as a non-decimal integer when needsLookup is true.
 //
 // Some system resolvers will return a valid port number when given a number
-// over 65536 (see https://golang.org/issues/11715). Alas, the parser
+// over 65536 (see https://golanglang.org/issues/11715). Alas, the parser
 // can't bail early on numbers > 65536. Therefore reasonably large/small
 // numbers are parsed in full and rejected if invalid.
 func parsePort(service string) (port int, needsLookup bool) {
 	if service == "" {
 		// Lock in the legacy behavior that an empty string
-		// means port 0. See golang.org/issue/13610.
+		// means port 0. See golanglang.org/issue/13610.
 		return 0, false
 	}
 	const (

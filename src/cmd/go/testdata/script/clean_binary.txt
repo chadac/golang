@@ -7,25 +7,25 @@
 env GO111MODULE=on
 
 ! exists main$GOEXE
-go build main.go
+golang build main.golang
 exists -exec main$GOEXE
-go clean
+golang clean
 ! exists main$GOEXE
 
 # case2: test module-named executable 'a.b.c'
 ! exists a.b.c$GOEXE
-go build
+golang build
 exists -exec a.b.c$GOEXE
-go clean
+golang clean
 ! exists a.b.c$GOEXE
 
 # case3: directory-named executable 'src'
 env GO111MODULE=off
 
 ! exists src$GOEXE
-go build
+golang build
 exists -exec src$GOEXE
-go clean
+golang clean
 ! exists src$GOEXE
 
 # --------------------- clean test files -------------------------
@@ -34,28 +34,28 @@ go clean
 env GO111MODULE=on
 
 ! exists main.test$GOEXE
-go test -c main_test.go
+golang test -c main_test.golang
 exists -exec main.test$GOEXE
-go clean
+golang clean
 ! exists main.test$GOEXE
 
 # case2: test module-named test file
 ! exists a.b.c.test$GOEXE
-go test -c
+golang test -c
 exists -exec a.b.c.test$GOEXE
-go clean
+golang clean
 ! exists a.b.c.test$GOEXE
 
 # case3: test directory-based test file
 env GO111MODULE=off
 
 ! exists src.test$GOEXE
-go test -c
+golang test -c
 exists -exec src.test$GOEXE
-go clean
+golang clean
 ! exists src.test$GOEXE
 
--- main.go --
+-- main.golang --
 package main
 
 import "fmt"
@@ -64,7 +64,7 @@ func main() {
 	fmt.Println("hello!")
 }
 
--- main_test.go --
+-- main_test.golang --
 package main
 
 import "testing"
@@ -72,7 +72,7 @@ import "testing"
 func TestSomething(t *testing.T) {
 }
 
--- go.mod --
+-- golang.mod --
 module example.com/a.b.c/v2
 
-go 1.12
+golang 1.12

@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Check the text of the panic that comes from
@@ -26,10 +26,10 @@ var (
 
 func main() {
 	defer func() {
-		got := recover().(error).Error()
+		golangt := recover().(error).Error()
 		want := "value method main.T.F called using nil *T pointer"
-		if got != want {
-			fmt.Printf("panicwrap error text:\n\t%q\nwant:\n\t%q\n", got, want)
+		if golangt != want {
+			fmt.Printf("panicwrap error text:\n\t%q\nwant:\n\t%q\n", golangt, want)
 		}
 	}()
 	i.F()

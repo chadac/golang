@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // TODO: This test could be implemented on all (most?) UNIXes if we
@@ -9,7 +9,7 @@
 // spends all of its time in the race runtime, which isn't a safe
 // point.
 
-//go:build (amd64 || arm64 || loong64 || ppc64le) && linux && !race
+//golang:build (amd64 || arm64 || loong64 || ppc64le) && linux && !race
 
 package runtime_test
 
@@ -55,8 +55,8 @@ func startDebugCallWorker(t *testing.T) (g *runtime.G, after func()) {
 	//
 	// We use 8 Ps so there's room for the debug call worker,
 	// something that's trying to preempt the call worker, and the
-	// goroutine that's trying to stop the call worker.
-	ogomaxprocs := runtime.GOMAXPROCS(8)
+	// golangroutine that's trying to stop the call worker.
+	ogolangmaxprocs := runtime.GOMAXPROCS(8)
 	ogcpercent := debug.SetGCPercent(-1)
 	runtime.GC()
 
@@ -66,7 +66,7 @@ func startDebugCallWorker(t *testing.T) (g *runtime.G, after func()) {
 	ready := make(chan *runtime.G, 1)
 	var stop uint32
 	done := make(chan error)
-	go debugCallWorker(ready, &stop, done)
+	golang debugCallWorker(ready, &stop, done)
 	g = <-ready
 	return g, func() {
 		atomic.StoreUint32(&stop, 1)
@@ -74,7 +74,7 @@ func startDebugCallWorker(t *testing.T) (g *runtime.G, after func()) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		runtime.GOMAXPROCS(ogomaxprocs)
+		runtime.GOMAXPROCS(ogolangmaxprocs)
 		debug.SetGCPercent(ogcpercent)
 	}
 }
@@ -88,7 +88,7 @@ func debugCallWorker(ready chan<- *runtime.G, stop *uint32, done chan<- error) {
 	x := 2
 	debugCallWorker2(stop, &x)
 	if x != 1 {
-		done <- fmt.Errorf("want x = 2, got %d; register pointer not adjusted?", x)
+		done <- fmt.Errorf("want x = 2, golangt %d; register pointer not adjusted?", x)
 	}
 	close(done)
 }
@@ -96,7 +96,7 @@ func debugCallWorker(ready chan<- *runtime.G, stop *uint32, done chan<- error) {
 // Don't inline this function, since we want to test adjusting
 // pointers in the arguments.
 //
-//go:noinline
+//golang:noinline
 func debugCallWorker2(stop *uint32, x *int) {
 	for atomic.LoadUint32(stop) == 0 {
 		// Strongly encourage x to live in a register so we
@@ -143,7 +143,7 @@ func TestDebugCall(t *testing.T) {
 		y1Ret float64
 	}
 
-	// Inject a call into the debugCallWorker goroutine and test
+	// Inject a call into the debugCallWorker golangroutine and test
 	// basic argument and result passing.
 	fn := func(x int, y float64) (y0Ret int, y1Ret float64) {
 		return x + 1, y + 1.0
@@ -176,10 +176,10 @@ func TestDebugCall(t *testing.T) {
 		result1 = args.y1Ret
 	}
 	if result0 != 43 {
-		t.Errorf("want 43, got %d", result0)
+		t.Errorf("want 43, golangt %d", result0)
 	}
 	if result1 != fval+1 {
-		t.Errorf("want 43, got %f", result1)
+		t.Errorf("want 43, golangt %f", result1)
 	}
 }
 
@@ -208,7 +208,7 @@ func TestDebugCallLarge(t *testing.T) {
 		t.Fatal(err)
 	}
 	if want != args.out {
-		t.Fatalf("want %v, got %v", want, args.out)
+		t.Fatalf("want %v, golangt %v", want, args.out)
 	}
 }
 
@@ -233,7 +233,7 @@ func TestDebugCallGrowStack(t *testing.T) {
 	}
 }
 
-//go:nosplit
+//golang:nosplit
 func debugCallUnsafePointWorker(gpp **runtime.G, ready, stop *uint32) {
 	// The nosplit causes this function to not contain safe-points
 	// except at calls.
@@ -265,14 +265,14 @@ func TestDebugCallUnsafePoint(t *testing.T) {
 	var g *runtime.G
 	var ready, stop uint32
 	defer atomic.StoreUint32(&stop, 1)
-	go debugCallUnsafePointWorker(&g, &ready, &stop)
+	golang debugCallUnsafePointWorker(&g, &ready, &stop)
 	for atomic.LoadUint32(&ready) == 0 {
 		runtime.Gosched()
 	}
 
 	_, err := runtime.InjectDebugCall(g, func() {}, nil, nil, debugCallTKill, true)
 	if msg := "call not at safe point"; err == nil || err.Error() != msg {
-		t.Fatalf("want %q, got %s", msg, err)
+		t.Fatalf("want %q, golangt %s", msg, err)
 	}
 }
 
@@ -298,7 +298,7 @@ func TestDebugCallPanic(t *testing.T) {
 	ready := make(chan *runtime.G)
 	var stop uint32
 	defer atomic.StoreUint32(&stop, 1)
-	go func() {
+	golang func() {
 		runtime.LockOSThread()
 		defer runtime.UnlockOSThread()
 		ready <- runtime.Getg()
@@ -312,6 +312,6 @@ func TestDebugCallPanic(t *testing.T) {
 		t.Fatal(err)
 	}
 	if ps, ok := p.(string); !ok || ps != "test" {
-		t.Fatalf("wanted panic %v, got %v", "test", p)
+		t.Fatalf("wanted panic %v, golangt %v", "test", p)
 	}
 }

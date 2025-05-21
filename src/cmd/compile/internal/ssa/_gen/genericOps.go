@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -375,7 +375,7 @@ var genericOps = []opData{
 	// Normally we require that the source and destination of Move do not overlap.
 	// There is an exception when we know all the loads will happen before all
 	// the stores. In that case, overlap is ok. See
-	// memmove inlining in generic.rules. When inlineablememmovesize (in ../rewrite.go)
+	// memmove inlining in generic.rules. When inlineablememmovesize (in ../rewrite.golang)
 	// returns true, we must do all loads before all stores, when lowering Move.
 	// The type of Move is used for the write barrier pass to insert write barriers
 	// and for alignment on some architectures.
@@ -404,7 +404,7 @@ var genericOps = []opData{
 
 	// PanicBounds and PanicExtend generate a runtime panic.
 	// Their arguments provide index values to use in panic messages.
-	// Both PanicBounds and PanicExtend have an AuxInt value from the BoundsKind type (in ../op.go).
+	// Both PanicBounds and PanicExtend have an AuxInt value from the BoundsKind type (in ../op.golang).
 	// PanicBounds' index is int sized.
 	// PanicExtend's index is int64 sized. (PanicExtend is only used on 32-bit archs.)
 	{name: "PanicBounds", argLength: 3, aux: "Int64", typ: "Mem", call: true}, // arg0=idx, arg1=len, arg2=mem, returns memory.
@@ -677,7 +677,7 @@ var genericOps = []opData{
 
 var genericBlocks = []blockData{
 	{name: "Plain"},                  // a single successor
-	{name: "If", controls: 1},        // if Controls[0] goto Succs[0] else goto Succs[1]
+	{name: "If", controls: 1},        // if Controls[0] golangto Succs[0] else golangto Succs[1]
 	{name: "Defer", controls: 1},     // Succs[0]=defer queued, Succs[1]=defer recovery branch (jmp performed by runtime). Controls[0] is call op (of memory type).
 	{name: "Ret", controls: 1},       // no successors, Controls[0] value is memory result
 	{name: "RetJmp", controls: 1},    // no successors, Controls[0] value is a tail call

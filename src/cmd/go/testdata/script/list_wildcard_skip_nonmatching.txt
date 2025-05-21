@@ -1,17 +1,17 @@
 # Test that wildcards don't look in useless directories.
 
 # First make sure that badpkg fails the list of '...'.
-! go list ./...
+! golang list ./...
 stderr badpkg
 
-# Check that the list of './goodpkg...' succeeds. That implies badpkg was skipped.
-go list ./goodpkg...
+# Check that the list of './golangodpkg...' succeeds. That implies badpkg was skipped.
+golang list ./golangodpkg...
 
--- go.mod --
+-- golang.mod --
 module m
 
-go 1.16
--- goodpkg/x.go --
-package goodpkg
--- badpkg/x.go --
+golang 1.16
+-- golangodpkg/x.golang --
+package golangodpkg
+-- badpkg/x.golang --
 pkg badpkg

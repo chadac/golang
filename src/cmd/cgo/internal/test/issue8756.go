@@ -1,18 +1,18 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-package cgotest
+package cgolangtest
 
 /*
-#cgo !darwin LDFLAGS: -lm
+#cgolang !darwin LDFLAGS: -lm
 #include <math.h>
 */
 import "C"
 import (
 	"testing"
 
-	"cmd/cgo/internal/test/issue8756"
+	"cmd/cgolang/internal/test/issue8756"
 )
 
 func test8756(t *testing.T) {

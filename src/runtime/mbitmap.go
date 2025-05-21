@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Garbage collector: type and heap bitmaps.
@@ -24,10 +24,10 @@
 //
 // For small objects, if s is the mspan for the span starting at "start",
 // then s.heapBits() returns a slice containing the bitmap for the whole span.
-// That is, s.heapBits()[0] holds the goarch.PtrSize*8 bits for the first
-// goarch.PtrSize*8 words from "start" through "start+63*ptrSize" in the span.
+// That is, s.heapBits()[0] holds the golangarch.PtrSize*8 bits for the first
+// golangarch.PtrSize*8 words from "start" through "start+63*ptrSize" in the span.
 // On a related note, small objects are always small enough that their bitmap
-// fits in goarch.PtrSize*8 bits, so writing out bitmap data takes two bitmap
+// fits in golangarch.PtrSize*8 bits, so writing out bitmap data takes two bitmap
 // writes at most (because object boundaries don't generally lie on
 // s.heapBits()[i] boundaries).
 //
@@ -38,10 +38,10 @@
 // the second to the word after "start", and so on up to t.PtrBytes. At t.PtrBytes,
 // we skip to "start+t.Size_" and begin again from there. This process is
 // repeated until we hit "start+s.elemsize".
-// This tiling algorithm supports array data, since the type always refers to
+// This tiling algolangrithm supports array data, since the type always refers to
 // the element type of the array. Single objects are considered the same as
 // single-element arrays.
-// The tiling algorithm may scan data past the end of the compiler-recognized
+// The tiling algolangrithm may scan data past the end of the compiler-recognized
 // object, but any unused data within the allocation slot (i.e. within s.elemsize)
 // is zeroed, so the GC just observes nil pointers.
 // Note that this "tiled" bitmap isn't stored anywhere; it is generated on-the-fly.
@@ -57,8 +57,8 @@ package runtime
 
 import (
 	"internal/abi"
-	"internal/goarch"
-	"internal/goexperiment"
+	"internal/golangarch"
+	"internal/golangexperiment"
 	"internal/runtime/atomic"
 	"internal/runtime/gc"
 	"internal/runtime/sys"
@@ -72,7 +72,7 @@ import (
 // type sizes because gc.MinSizeForMallocHeader is guaranteed to be at a size
 // class boundary.
 //
-//go:nosplit
+//golang:nosplit
 func heapBitsInSpan(userSize uintptr) bool {
 	// N.B. gc.MinSizeForMallocHeader is an exclusive minimum so that this function is
 	// invariant under size-class rounding on its input.
@@ -81,7 +81,7 @@ func heapBitsInSpan(userSize uintptr) bool {
 
 // typePointers is an iterator over the pointers in a heap object.
 //
-// Iteration through this type implements the tiling algorithm described at the
+// Iteration through this type implements the tiling algolangrithm described at the
 // top of this file.
 type typePointers struct {
 	// elem is the address of the current array element of type typ being iterated over.
@@ -114,7 +114,7 @@ type typePointers struct {
 //
 // nosplit because it is used during write barriers and must not be preempted.
 //
-//go:nosplit
+//golang:nosplit
 func (span *mspan) typePointersOf(addr, size uintptr) typePointers {
 	base := span.objBase(addr)
 	tp := span.typePointersOfUnchecked(base)
@@ -131,7 +131,7 @@ func (span *mspan) typePointersOf(addr, size uintptr) typePointers {
 //
 // nosplit because it is used during write barriers and must not be preempted.
 //
-//go:nosplit
+//golang:nosplit
 func (span *mspan) typePointersOfUnchecked(addr uintptr) typePointers {
 	const doubleCheck = false
 	if doubleCheck && span.objBase(addr) != addr {
@@ -175,7 +175,7 @@ func (span *mspan) typePointersOfUnchecked(addr uintptr) typePointers {
 //
 // nosplit because its callers are nosplit and require all their callees to be nosplit.
 //
-//go:nosplit
+//golang:nosplit
 func (span *mspan) typePointersOfType(typ *abi.Type, addr uintptr) typePointers {
 	const doubleCheck = false
 	if doubleCheck && typ == nil {
@@ -208,7 +208,7 @@ func (span *mspan) typePointersOfType(typ *abi.Type, addr uintptr) typePointers 
 //
 // nosplit because it is used during write barriers and must not be preempted.
 //
-//go:nosplit
+//golang:nosplit
 func (tp typePointers) nextFast() (typePointers, uintptr) {
 	// TESTQ/JEQ
 	if tp.mask == 0 {
@@ -216,7 +216,7 @@ func (tp typePointers) nextFast() (typePointers, uintptr) {
 	}
 	// BSFQ
 	var i int
-	if goarch.PtrSize == 8 {
+	if golangarch.PtrSize == 8 {
 		i = sys.TrailingZeros64(uint64(tp.mask))
 	} else {
 		i = sys.TrailingZeros32(uint32(tp.mask))
@@ -229,7 +229,7 @@ func (tp typePointers) nextFast() (typePointers, uintptr) {
 		tp.mask &= tp.mask - 1
 	}
 	// LEAQ (XX)(XX*8)
-	return tp, tp.addr + uintptr(i)*goarch.PtrSize
+	return tp, tp.addr + uintptr(i)*golangarch.PtrSize
 }
 
 // next advances the pointers iterator, returning the updated iterator and
@@ -239,7 +239,7 @@ func (tp typePointers) nextFast() (typePointers, uintptr) {
 //
 // nosplit because it is used during write barriers and must not be preempted.
 //
-//go:nosplit
+//golang:nosplit
 func (tp typePointers) next(limit uintptr) (typePointers, uintptr) {
 	for {
 		if tp.mask != 0 {
@@ -252,11 +252,11 @@ func (tp typePointers) next(limit uintptr) (typePointers, uintptr) {
 		}
 
 		// Advance to the next element if necessary.
-		if tp.addr+goarch.PtrSize*ptrBits >= tp.elem+tp.typ.PtrBytes {
+		if tp.addr+golangarch.PtrSize*ptrBits >= tp.elem+tp.typ.PtrBytes {
 			tp.elem += tp.typ.Size_
 			tp.addr = tp.elem
 		} else {
-			tp.addr += ptrBits * goarch.PtrSize
+			tp.addr += ptrBits * golangarch.PtrSize
 		}
 
 		// Check if we've exceeded the limit with the last update.
@@ -265,21 +265,21 @@ func (tp typePointers) next(limit uintptr) (typePointers, uintptr) {
 		}
 
 		// Grab more bits and try again.
-		tp.mask = readUintptr(addb(getGCMask(tp.typ), (tp.addr-tp.elem)/goarch.PtrSize/8))
-		if tp.addr+goarch.PtrSize*ptrBits > limit {
-			bits := (tp.addr + goarch.PtrSize*ptrBits - limit) / goarch.PtrSize
+		tp.mask = readUintptr(addb(getGCMask(tp.typ), (tp.addr-tp.elem)/golangarch.PtrSize/8))
+		if tp.addr+golangarch.PtrSize*ptrBits > limit {
+			bits := (tp.addr + golangarch.PtrSize*ptrBits - limit) / golangarch.PtrSize
 			tp.mask &^= ((1 << (bits)) - 1) << (ptrBits - bits)
 		}
 	}
 }
 
 // fastForward moves the iterator forward by n bytes. n must be a multiple
-// of goarch.PtrSize. limit must be the same limit passed to next for this
+// of golangarch.PtrSize. limit must be the same limit passed to next for this
 // iterator.
 //
 // nosplit because it is used during write barriers and must not be preempted.
 //
-//go:nosplit
+//golang:nosplit
 func (tp typePointers) fastForward(n, limit uintptr) typePointers {
 	// Basic bounds check.
 	target := tp.addr + n
@@ -289,25 +289,25 @@ func (tp typePointers) fastForward(n, limit uintptr) typePointers {
 	if tp.typ == nil {
 		// Handle small objects.
 		// Clear any bits before the target address.
-		tp.mask &^= (1 << ((target - tp.addr) / goarch.PtrSize)) - 1
+		tp.mask &^= (1 << ((target - tp.addr) / golangarch.PtrSize)) - 1
 		// Clear any bits past the limit.
-		if tp.addr+goarch.PtrSize*ptrBits > limit {
-			bits := (tp.addr + goarch.PtrSize*ptrBits - limit) / goarch.PtrSize
+		if tp.addr+golangarch.PtrSize*ptrBits > limit {
+			bits := (tp.addr + golangarch.PtrSize*ptrBits - limit) / golangarch.PtrSize
 			tp.mask &^= ((1 << (bits)) - 1) << (ptrBits - bits)
 		}
 		return tp
 	}
 
 	// Move up elem and addr.
-	// Offsets within an element are always at a ptrBits*goarch.PtrSize boundary.
+	// Offsets within an element are always at a ptrBits*golangarch.PtrSize boundary.
 	if n >= tp.typ.Size_ {
 		// elem needs to be moved to the element containing
 		// tp.addr + n.
 		oldelem := tp.elem
 		tp.elem += (tp.addr - tp.elem + n) / tp.typ.Size_ * tp.typ.Size_
-		tp.addr = tp.elem + alignDown(n-(tp.elem-oldelem), ptrBits*goarch.PtrSize)
+		tp.addr = tp.elem + alignDown(n-(tp.elem-oldelem), ptrBits*golangarch.PtrSize)
 	} else {
-		tp.addr += alignDown(n, ptrBits*goarch.PtrSize)
+		tp.addr += alignDown(n, ptrBits*golangarch.PtrSize)
 	}
 
 	if tp.addr-tp.elem >= tp.typ.PtrBytes {
@@ -324,11 +324,11 @@ func (tp typePointers) fastForward(n, limit uintptr) typePointers {
 	} else {
 		// Grab the mask, but then clear any bits before the target address and any
 		// bits over the limit.
-		tp.mask = readUintptr(addb(getGCMask(tp.typ), (tp.addr-tp.elem)/goarch.PtrSize/8))
-		tp.mask &^= (1 << ((target - tp.addr) / goarch.PtrSize)) - 1
+		tp.mask = readUintptr(addb(getGCMask(tp.typ), (tp.addr-tp.elem)/golangarch.PtrSize/8))
+		tp.mask &^= (1 << ((target - tp.addr) / golangarch.PtrSize)) - 1
 	}
-	if tp.addr+goarch.PtrSize*ptrBits > limit {
-		bits := (tp.addr + goarch.PtrSize*ptrBits - limit) / goarch.PtrSize
+	if tp.addr+golangarch.PtrSize*ptrBits > limit {
+		bits := (tp.addr + golangarch.PtrSize*ptrBits - limit) / golangarch.PtrSize
 		tp.mask &^= ((1 << (bits)) - 1) << (ptrBits - bits)
 	}
 	return tp
@@ -338,7 +338,7 @@ func (tp typePointers) fastForward(n, limit uintptr) typePointers {
 //
 // Assumes that addr points into a valid part of span (span.base() <= addr < span.limit).
 //
-//go:nosplit
+//golang:nosplit
 func (span *mspan) objBase(addr uintptr) uintptr {
 	return span.base() + span.objIndex(addr)*span.elemsize
 }
@@ -357,9 +357,9 @@ func (span *mspan) objBase(addr uintptr) uintptr {
 //
 // Callers should call bulkBarrierPreWrite immediately before
 // calling memmove(dst, src, size). This function is marked nosplit
-// to avoid being preempted; the GC must not stop the goroutine
+// to avoid being preempted; the GC must not stop the golangroutine
 // between the memmove and the execution of the barriers.
-// The caller is also responsible for cgo pointer checks if this
+// The caller is also responsible for cgolang pointer checks if this
 // may be writing Go pointers into non-Go memory.
 //
 // Pointer data is not maintained for allocations containing
@@ -382,11 +382,11 @@ func (span *mspan) objBase(addr uintptr) uintptr {
 //
 // When in doubt, pass nil for typ. That is safe and will always work.
 //
-// Callers must perform cgo checks if goexperiment.CgoCheck2.
+// Callers must perform cgolang checks if golangexperiment.CgolangCheck2.
 //
-//go:nosplit
+//golang:nosplit
 func bulkBarrierPreWrite(dst, src, size uintptr, typ *abi.Type) {
-	if (dst|src|size)&(goarch.PtrSize-1) != 0 {
+	if (dst|src|size)&(golangarch.PtrSize-1) != 0 {
 		throw("bulkBarrierPreWrite: unaligned arguments")
 	}
 	if !writeBarrier.enabled {
@@ -470,9 +470,9 @@ func bulkBarrierPreWrite(dst, src, size uintptr, typ *abi.Type) {
 // See bulkBarrierPreWrite's comment for more details -- use this
 // optimization with great care.
 //
-//go:nosplit
+//golang:nosplit
 func bulkBarrierPreWriteSrcOnly(dst, src, size uintptr, typ *abi.Type) {
-	if (dst|src|size)&(goarch.PtrSize-1) != 0 {
+	if (dst|src|size)&(golangarch.PtrSize-1) != 0 {
 		throw("bulkBarrierPreWrite: unaligned arguments")
 	}
 	if !writeBarrier.enabled {
@@ -506,7 +506,7 @@ func bulkBarrierPreWriteSrcOnly(dst, src, size uintptr, typ *abi.Type) {
 
 // initHeapBits initializes the heap bitmap for a span.
 func (s *mspan) initHeapBits() {
-	if goarch.PtrSize == 8 && !s.spanclass.noscan() && s.spanclass.sizeclass() == 1 {
+	if golangarch.PtrSize == 8 && !s.spanclass.noscan() && s.spanclass.sizeclass() == 1 {
 		b := s.heapBits()
 		for i := range b {
 			b[i] = ^uintptr(0)
@@ -515,7 +515,7 @@ func (s *mspan) initHeapBits() {
 		b := s.heapBits()
 		clear(b)
 	}
-	if goexperiment.GreenTeaGC && gcUsesSpanInlineMarkBits(s.elemsize) {
+	if golangexperiment.GreenTeaGC && gcUsesSpanInlineMarkBits(s.elemsize) {
 		s.initInlineMarkBits()
 	}
 }
@@ -533,7 +533,7 @@ func (s *mspan) initHeapBits() {
 //
 // heapBitsInSpan(span.elemsize) or span.isUserArenaChunk must be true.
 //
-//go:nosplit
+//golang:nosplit
 func (span *mspan) heapBits() []uintptr {
 	const doubleCheck = false
 
@@ -557,20 +557,20 @@ func (span *mspan) heapBits() []uintptr {
 
 // Helper for constructing a slice for the span's heap bits.
 //
-//go:nosplit
+//golang:nosplit
 func heapBitsSlice(spanBase, spanSize, elemsize uintptr) []uintptr {
 	base, bitmapSize := spanHeapBitsRange(spanBase, spanSize, elemsize)
-	elems := int(bitmapSize / goarch.PtrSize)
+	elems := int(bitmapSize / golangarch.PtrSize)
 	var sl notInHeapSlice
 	sl = notInHeapSlice{(*notInHeap)(unsafe.Pointer(base)), elems, elems}
 	return *(*[]uintptr)(unsafe.Pointer(&sl))
 }
 
-//go:nosplit
+//golang:nosplit
 func spanHeapBitsRange(spanBase, spanSize, elemsize uintptr) (base, size uintptr) {
-	size = spanSize / goarch.PtrSize / 8
+	size = spanSize / golangarch.PtrSize / 8
 	base = spanBase + spanSize - size
-	if goexperiment.GreenTeaGC && gcUsesSpanInlineMarkBits(elemsize) {
+	if golangexperiment.GreenTeaGC && gcUsesSpanInlineMarkBits(elemsize) {
 		base -= unsafe.Sizeof(spanInlineMarkBits{})
 	}
 	return
@@ -581,7 +581,7 @@ func spanHeapBitsRange(spanBase, spanSize, elemsize uintptr) (base, size uintptr
 // addr must be the base pointer of an object in the span. heapBitsInSpan(span.elemsize)
 // must be true.
 //
-//go:nosplit
+//golang:nosplit
 func (span *mspan) heapBitsSmallForAddr(addr uintptr) uintptr {
 	hbitsBase, _ := spanHeapBitsRange(span.base(), span.npages*pageSize, span.elemsize)
 	hbits := (*byte)(unsafe.Pointer(hbitsBase))
@@ -594,11 +594,11 @@ func (span *mspan) heapBitsSmallForAddr(addr uintptr) uintptr {
 	// We should be using heapBits(), but unfortunately it introduces
 	// both bounds checks panics and throw which causes us to exceed
 	// the nosplit limit in quite a few cases.
-	i := (addr - span.base()) / goarch.PtrSize / ptrBits
-	j := (addr - span.base()) / goarch.PtrSize % ptrBits
-	bits := span.elemsize / goarch.PtrSize
-	word0 := (*uintptr)(unsafe.Pointer(addb(hbits, goarch.PtrSize*(i+0))))
-	word1 := (*uintptr)(unsafe.Pointer(addb(hbits, goarch.PtrSize*(i+1))))
+	i := (addr - span.base()) / golangarch.PtrSize / ptrBits
+	j := (addr - span.base()) / golangarch.PtrSize % ptrBits
+	bits := span.elemsize / golangarch.PtrSize
+	word0 := (*uintptr)(unsafe.Pointer(addb(hbits, golangarch.PtrSize*(i+0))))
+	word1 := (*uintptr)(unsafe.Pointer(addb(hbits, golangarch.PtrSize*(i+1))))
 
 	var read uintptr
 	if j+bits > ptrBits {
@@ -617,10 +617,10 @@ func (span *mspan) heapBitsSmallForAddr(addr uintptr) uintptr {
 // writeHeapBitsSmall writes the heap bits for small objects whose ptr/scalar data is
 // stored as a bitmap at the end of the span.
 //
-// Assumes dataSize is <= ptrBits*goarch.PtrSize. x must be a pointer into the span.
+// Assumes dataSize is <= ptrBits*golangarch.PtrSize. x must be a pointer into the span.
 // heapBitsInSpan(dataSize) must be true. dataSize must be >= typ.Size_.
 //
-//go:nosplit
+//golang:nosplit
 func (span *mspan) writeHeapBitsSmall(x, dataSize uintptr, typ *_type) (scanSize uintptr) {
 	// The objects here are always really small, so a single load is sufficient.
 	src0 := readUintptr(getGCMask(typ))
@@ -628,8 +628,8 @@ func (span *mspan) writeHeapBitsSmall(x, dataSize uintptr, typ *_type) (scanSize
 	// Create repetitions of the bitmap if we have a small slice backing store.
 	scanSize = typ.PtrBytes
 	src := src0
-	if typ.Size_ == goarch.PtrSize {
-		src = (1 << (dataSize / goarch.PtrSize)) - 1
+	if typ.Size_ == golangarch.PtrSize {
+		src = (1 << (dataSize / golangarch.PtrSize)) - 1
 	} else {
 		// N.B. We rely on dataSize being an exact multiple of the type size.
 		// The alternative is to be defensive and mask out src to the length
@@ -638,35 +638,35 @@ func (span *mspan) writeHeapBitsSmall(x, dataSize uintptr, typ *_type) (scanSize
 			throw("runtime: (*mspan).writeHeapBitsSmall: dataSize is not a multiple of typ.Size_")
 		}
 		for i := typ.Size_; i < dataSize; i += typ.Size_ {
-			src |= src0 << (i / goarch.PtrSize)
+			src |= src0 << (i / golangarch.PtrSize)
 			scanSize += typ.Size_
 		}
 		if asanenabled {
-			// Mask src down to dataSize. dataSize is going to be a strange size because of
+			// Mask src down to dataSize. dataSize is golanging to be a strange size because of
 			// the redzone required for allocations when asan is enabled.
-			src &= (1 << (dataSize / goarch.PtrSize)) - 1
+			src &= (1 << (dataSize / golangarch.PtrSize)) - 1
 		}
 	}
 
-	// Since we're never writing more than one uintptr's worth of bits, we're either going
+	// Since we're never writing more than one uintptr's worth of bits, we're either golanging
 	// to do one or two writes.
 	dstBase, _ := spanHeapBitsRange(span.base(), pageSize, span.elemsize)
 	dst := unsafe.Pointer(dstBase)
-	o := (x - span.base()) / goarch.PtrSize
+	o := (x - span.base()) / golangarch.PtrSize
 	i := o / ptrBits
 	j := o % ptrBits
-	bits := span.elemsize / goarch.PtrSize
+	bits := span.elemsize / golangarch.PtrSize
 	if j+bits > ptrBits {
 		// Two writes.
 		bits0 := ptrBits - j
 		bits1 := bits - bits0
-		dst0 := (*uintptr)(add(dst, (i+0)*goarch.PtrSize))
-		dst1 := (*uintptr)(add(dst, (i+1)*goarch.PtrSize))
+		dst0 := (*uintptr)(add(dst, (i+0)*golangarch.PtrSize))
+		dst1 := (*uintptr)(add(dst, (i+1)*golangarch.PtrSize))
 		*dst0 = (*dst0)&(^uintptr(0)>>bits0) | (src << j)
 		*dst1 = (*dst1)&^((1<<bits1)-1) | (src >> bits0)
 	} else {
 		// One write.
-		dst := (*uintptr)(add(dst, i*goarch.PtrSize))
+		dst := (*uintptr)(add(dst, i*golangarch.PtrSize))
 		*dst = (*dst)&^(((1<<bits)-1)<<j) | (src << j)
 	}
 
@@ -737,13 +737,13 @@ func heapSetTypeLarge(x, dataSize uintptr, typ *_type, span *mspan) uintptr {
 	// Ignoring conservative scanning for a moment, this store need not be atomic
 	// if we have a publication barrier on our side. This is because the garbage
 	// collector cannot observe x unless:
-	//   1. It stops this goroutine and scans its stack, or
+	//   1. It stops this golangroutine and scans its stack, or
 	//   2. We return from mallocgc and publish the pointer somewhere.
 	// Either case requires a write on our side, followed by some synchronization
 	// followed by a read by the garbage collector.
 	//
 	// In case (1), the garbage collector can only observe a nil largeType, since it
-	// had to stop our goroutine when it was preemptible during zeroing. For the
+	// had to stop our golangroutine when it was preemptible during zeroing. For the
 	// duration of the zeroing, largeType is nil and the object has nothing interesting
 	// for the garbage collector to look at, so the garbage collector will not access
 	// the object at all.
@@ -765,7 +765,7 @@ func heapSetTypeLarge(x, dataSize uintptr, typ *_type, span *mspan) uintptr {
 	// data dependency as in case (2) because conservative scanning can produce pointers
 	// 'out of thin air' in that it need not have been written somewhere by the allocating
 	// thread first. It might not even be a pointer, or it could be a pointer written to
-	// some stack location long ago. This is the fundamental reason why we need
+	// some stack location long agolang. This is the fundamental reason why we need
 	// explicit synchronization somewhere in this whole mess. We choose to put that
 	// synchronization on largeType.
 	//
@@ -789,16 +789,16 @@ func doubleCheckHeapType(x, dataSize uintptr, gctyp *_type, header **_type, span
 	if header == nil {
 		maxIterBytes = dataSize
 	}
-	off := alignUp(uintptr(cheaprand())%dataSize, goarch.PtrSize)
+	off := alignUp(uintptr(cheaprand())%dataSize, golangarch.PtrSize)
 	size := dataSize - off
 	if size == 0 {
-		off -= goarch.PtrSize
-		size += goarch.PtrSize
+		off -= golangarch.PtrSize
+		size += golangarch.PtrSize
 	}
 	interior := x + off
-	size -= alignDown(uintptr(cheaprand())%size, goarch.PtrSize)
+	size -= alignDown(uintptr(cheaprand())%size, golangarch.PtrSize)
 	if size == 0 {
-		size = goarch.PtrSize
+		size = golangarch.PtrSize
 	}
 	// Round up the type to the size of the type.
 	size = (size + gctyp.Size_ - 1) / gctyp.Size_ * gctyp.Size_
@@ -816,13 +816,13 @@ func doubleCheckHeapPointers(x, dataSize uintptr, typ *_type, header **_type, sp
 		maxIterBytes = dataSize
 	}
 	bad := false
-	for i := uintptr(0); i < maxIterBytes; i += goarch.PtrSize {
+	for i := uintptr(0); i < maxIterBytes; i += golangarch.PtrSize {
 		// Compute the pointer bit we want at offset i.
 		want := false
 		if i < span.elemsize {
 			off := i % typ.Size_
 			if off < typ.PtrBytes {
-				j := off / goarch.PtrSize
+				j := off / golangarch.PtrSize
 				want = *addb(getGCMask(typ), j/8)>>(j%8)&1 != 0
 			}
 		}
@@ -873,13 +873,13 @@ func doubleCheckHeapPointersInterior(x, interior, size, dataSize uintptr, typ *_
 	}
 	off := interior - x
 	tp := span.typePointersOf(interior, size)
-	for i := off; i < off+size; i += goarch.PtrSize {
+	for i := off; i < off+size; i += golangarch.PtrSize {
 		// Compute the pointer bit we want at offset i.
 		want := false
 		if i < span.elemsize {
 			off := i % typ.Size_
 			if off < typ.PtrBytes {
-				j := off / goarch.PtrSize
+				j := off / golangarch.PtrSize
 				want = *addb(getGCMask(typ), j/8)>>(j%8)&1 != 0
 			}
 		}
@@ -921,13 +921,13 @@ func doubleCheckHeapPointersInterior(x, interior, size, dataSize uintptr, typ *_
 	}
 
 	print("runtime: want: ")
-	for i := off; i < off+size; i += goarch.PtrSize {
+	for i := off; i < off+size; i += golangarch.PtrSize {
 		// Compute the pointer bit we want at offset i.
 		want := false
 		if i < dataSize {
 			off := i % typ.Size_
 			if off < typ.PtrBytes {
-				j := off / goarch.PtrSize
+				j := off / golangarch.PtrSize
 				want = *addb(getGCMask(typ), j/8)>>(j%8)&1 != 0
 			}
 		}
@@ -942,7 +942,7 @@ func doubleCheckHeapPointersInterior(x, interior, size, dataSize uintptr, typ *_
 	throw("heapSetType: pointer entry not correct")
 }
 
-//go:nosplit
+//golang:nosplit
 func doubleCheckTypePointersOfType(s *mspan, typ *_type, addr, size uintptr) {
 	if typ == nil {
 		return
@@ -1003,8 +1003,8 @@ func dumpTypePointers(tp typePointers) {
 
 // addb returns the byte pointer p+n.
 //
-//go:nowritebarrier
-//go:nosplit
+//golang:nowritebarrier
+//golang:nosplit
 func addb(p *byte, n uintptr) *byte {
 	// Note: wrote out full expression instead of calling add(p, n)
 	// to reduce the number of temporaries generated by the
@@ -1014,8 +1014,8 @@ func addb(p *byte, n uintptr) *byte {
 
 // subtractb returns the byte pointer p-n.
 //
-//go:nowritebarrier
-//go:nosplit
+//golang:nowritebarrier
+//golang:nosplit
 func subtractb(p *byte, n uintptr) *byte {
 	// Note: wrote out full expression instead of calling add(p, -n)
 	// to reduce the number of temporaries generated by the
@@ -1025,8 +1025,8 @@ func subtractb(p *byte, n uintptr) *byte {
 
 // add1 returns the byte pointer p+1.
 //
-//go:nowritebarrier
-//go:nosplit
+//golang:nowritebarrier
+//golang:nosplit
 func add1(p *byte) *byte {
 	// Note: wrote out full expression instead of calling addb(p, 1)
 	// to reduce the number of temporaries generated by the
@@ -1038,8 +1038,8 @@ func add1(p *byte) *byte {
 //
 // nosplit because it is used during write barriers and must not be preempted.
 //
-//go:nowritebarrier
-//go:nosplit
+//golang:nowritebarrier
+//golang:nosplit
 func subtract1(p *byte) *byte {
 	// Note: wrote out full expression instead of calling subtractb(p, 1)
 	// to reduce the number of temporaries generated by the
@@ -1062,7 +1062,7 @@ type markBits struct {
 	index uintptr
 }
 
-//go:nosplit
+//golang:nosplit
 func (s *mspan) allocBitsForIndex(allocBitIndex uintptr) markBits {
 	bytep, mask := s.allocBits.bitp(allocBitIndex)
 	return markBits{bytep, mask, allocBitIndex}
@@ -1181,19 +1181,19 @@ func (s *mspan) isFreeOrNewlyAllocated(index uintptr) bool {
 // divideByElemSize returns n/s.elemsize.
 // n must be within [0, s.npages*_PageSize),
 // or may be exactly s.npages*_PageSize
-// if s.elemsize is from sizeclasses.go.
+// if s.elemsize is from sizeclasses.golang.
 //
 // nosplit, because it is called by objIndex, which is nosplit
 //
-//go:nosplit
+//golang:nosplit
 func (s *mspan) divideByElemSize(n uintptr) uintptr {
 	const doubleCheck = false
 
-	// See explanation in mksizeclasses.go's computeDivMagic.
+	// See explanation in mksizeclasses.golang's computeDivMagic.
 	q := uintptr((uint64(n) * uint64(s.divMul)) >> 32)
 
 	if doubleCheck && q != n/s.elemsize {
-		println(n, "/", s.elemsize, "should be", n/s.elemsize, "but got", q)
+		println(n, "/", s.elemsize, "should be", n/s.elemsize, "but golangt", q)
 		throw("bad magic division")
 	}
 	return q
@@ -1201,7 +1201,7 @@ func (s *mspan) divideByElemSize(n uintptr) uintptr {
 
 // nosplit, because it is called by other nosplit code like findObject
 //
-//go:nosplit
+//golang:nosplit
 func (s *mspan) objIndex(p uintptr) uintptr {
 	return s.divideByElemSize(p - s.base())
 }
@@ -1265,7 +1265,7 @@ const clobberdeadPtr = uintptr(0xdeaddead | 0xdeaddead<<((^uintptr(0)>>63)*32))
 // badPointer throws bad pointer in heap panic.
 func badPointer(s *mspan, p, refBase, refOff uintptr) {
 	// Typically this indicates an incorrect use
-	// of unsafe or cgo to store a bad pointer in
+	// of unsafe or cgolang to store a bad pointer in
 	// the Go heap. It may also indicate a runtime
 	// bug.
 	//
@@ -1289,7 +1289,7 @@ func badPointer(s *mspan, p, refBase, refOff uintptr) {
 		gcDumpObject("object", refBase, refOff)
 	}
 	getg().m.traceback = 2
-	throw("found bad pointer in Go heap (incorrect use of unsafe or cgo?)")
+	throw("found bad pointer in Go heap (incorrect use of unsafe or cgolang?)")
 }
 
 // findObject returns the base address for the heap object containing
@@ -1303,7 +1303,7 @@ func badPointer(s *mspan, p, refBase, refOff uintptr) {
 // in which the pointer p was found and the byte offset at which it
 // was found. These are used for error reporting.
 //
-// It is nosplit so it is safe for p to be a pointer to the current goroutine's stack.
+// It is nosplit so it is safe for p to be a pointer to the current golangroutine's stack.
 // Since p is a uintptr, it would not be adjusted if the stack were to move.
 //
 // findObject should be an internal detail,
@@ -1312,10 +1312,10 @@ func badPointer(s *mspan, p, refBase, refOff uintptr) {
 //   - github.com/bytedance/sonic
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname findObject
-//go:nosplit
+//golang:linkname findObject
+//golang:nosplit
 func findObject(p, refBase, refOff uintptr) (base uintptr, s *mspan, objIndex uintptr) {
 	s = spanOf(p)
 	// If s is nil, the virtual address has never been part of the heap.
@@ -1338,7 +1338,7 @@ func findObject(p, refBase, refOff uintptr) (base uintptr, s *mspan, objIndex ui
 		if state == mSpanManual {
 			return
 		}
-		// The following ensures that we are rigorous about what data
+		// The following ensures that we are rigolangrous about what data
 		// structures hold valid pointers.
 		if debug.invalidptr != 0 {
 			badPointer(s, p, refBase, refOff)
@@ -1353,7 +1353,7 @@ func findObject(p, refBase, refOff uintptr) (base uintptr, s *mspan, objIndex ui
 
 // reflect_verifyNotInHeapPtr reports whether converting the not-in-heap pointer into a unsafe.Pointer is ok.
 //
-//go:linkname reflect_verifyNotInHeapPtr reflect.verifyNotInHeapPtr
+//golang:linkname reflect_verifyNotInHeapPtr reflect.verifyNotInHeapPtr
 func reflect_verifyNotInHeapPtr(p uintptr) bool {
 	// Conversion to a pointer is ok as long as findObject above does not call badPointer.
 	// Since we're already promised that p doesn't point into the heap, just disallow heap
@@ -1361,7 +1361,7 @@ func reflect_verifyNotInHeapPtr(p uintptr) bool {
 	return spanOf(p) == nil && p != clobberdeadPtr
 }
 
-const ptrBits = 8 * goarch.PtrSize
+const ptrBits = 8 * golangarch.PtrSize
 
 // bulkBarrierBitmap executes write barriers for copying from [src,
 // src+size) to [dst, dst+size) using a 1-bit pointer bitmap. src is
@@ -1370,19 +1370,19 @@ const ptrBits = 8 * goarch.PtrSize
 //
 // This is used by bulkBarrierPreWrite for writes to data and BSS.
 //
-//go:nosplit
+//golang:nosplit
 func bulkBarrierBitmap(dst, src, size, maskOffset uintptr, bits *uint8) {
-	word := maskOffset / goarch.PtrSize
+	word := maskOffset / golangarch.PtrSize
 	bits = addb(bits, word/8)
 	mask := uint8(1) << (word % 8)
 
 	buf := &getg().m.p.ptr().wbBuf
-	for i := uintptr(0); i < size; i += goarch.PtrSize {
+	for i := uintptr(0); i < size; i += golangarch.PtrSize {
 		if mask == 0 {
 			bits = addb(bits, 1)
 			if *bits == 0 {
 				// Skip 8 words.
-				i += 7 * goarch.PtrSize
+				i += 7 * golangarch.PtrSize
 				continue
 			}
 			mask = 1
@@ -1414,9 +1414,9 @@ func bulkBarrierBitmap(dst, src, size, maskOffset uintptr, bits *uint8) {
 // Must not be preempted because it typically runs right before memmove,
 // and the GC must observe them as an atomic action.
 //
-// Callers must perform cgo checks if goexperiment.CgoCheck2.
+// Callers must perform cgolang checks if golangexperiment.CgolangCheck2.
 //
-//go:nosplit
+//golang:nosplit
 func typeBitsBulkBarrier(typ *_type, dst, src, size uintptr) {
 	if typ == nil {
 		throw("runtime: typeBitsBulkBarrier without type")
@@ -1431,8 +1431,8 @@ func typeBitsBulkBarrier(typ *_type, dst, src, size uintptr) {
 	ptrmask := getGCMask(typ)
 	buf := &getg().m.p.ptr().wbBuf
 	var bits uint32
-	for i := uintptr(0); i < typ.PtrBytes; i += goarch.PtrSize {
-		if i&(goarch.PtrSize*8-1) == 0 {
+	for i := uintptr(0); i < typ.PtrBytes; i += golangarch.PtrSize {
+		if i&(golangarch.PtrSize*8-1) == 0 {
 			bits = uint32(*ptrmask)
 			ptrmask = addb(ptrmask, 1)
 		} else {
@@ -1472,8 +1472,8 @@ func (s *mspan) countAlloc() int {
 // Read is little-endian.
 func readUintptr(p *byte) uintptr {
 	x := *(*uintptr)(unsafe.Pointer(p))
-	if goarch.BigEndian {
-		if goarch.PtrSize == 8 {
+	if golangarch.BigEndian {
+		if golangarch.PtrSize == 8 {
 			return uintptr(sys.Bswap64(uint64(x)))
 		}
 		return uintptr(sys.Bswap32(uint32(x)))
@@ -1488,9 +1488,9 @@ var debugPtrmask struct {
 
 // progToPointerMask returns the 1-bit pointer mask output by the GC program prog.
 // size the size of the region described by prog, in bytes.
-// The resulting bitvector will have no more than size/goarch.PtrSize bits.
+// The resulting bitvector will have no more than size/golangarch.PtrSize bits.
 func progToPointerMask(prog *byte, size uintptr) bitvector {
-	n := (size/goarch.PtrSize + 7) / 8
+	n := (size/golangarch.PtrSize + 7) / 8
 	x := (*[1 << 30]byte)(persistentalloc(n+1, 1, &memstats.buckhash_sys))[:n+1]
 	x[len(x)-1] = 0xa1 // overflow check sentinel
 	n = runGCProg(prog, &x[0])
@@ -1590,11 +1590,11 @@ Run:
 		// into a register and use that register for the entire loop
 		// instead of repeatedly reading from memory.
 		// Handling fewer than 8 bits here makes the general loop simpler.
-		// The cutoff is goarch.PtrSize*8 - 7 to guarantee that when we add
+		// The cutoff is golangarch.PtrSize*8 - 7 to guarantee that when we add
 		// the pattern to a bit buffer holding at most 7 bits (a partial byte)
 		// it will not overflow.
 		src := dst
-		const maxBits = goarch.PtrSize*8 - 7
+		const maxBits = golangarch.PtrSize*8 - 7
 		if n <= maxBits {
 			// Start with bits in output buffer.
 			pattern := bits
@@ -1637,7 +1637,7 @@ Run:
 				nb := npattern
 				if nb+nb <= maxBits {
 					// Double pattern until the whole uintptr is filled.
-					for nb <= goarch.PtrSize*8 {
+					for nb <= golangarch.PtrSize*8 {
 						b |= b << nb
 						nb += nb
 					}
@@ -1762,7 +1762,7 @@ func dumpGCProg(p *byte) {
 // reflect_gcbits returns the GC type info for x, for testing.
 // The result is the bitmap entries (0 or 1), one entry per byte.
 //
-//go:linkname reflect_gcbits reflect.gcbits
+//golang:linkname reflect_gcbits reflect.gcbits
 func reflect_gcbits(x any) []byte {
 	return pointerMask(x)
 }
@@ -1787,10 +1787,10 @@ func pointerMask(ep any) (mask []byte) {
 		if datap.data <= uintptr(p) && uintptr(p) < datap.edata {
 			bitmap := datap.gcdatamask.bytedata
 			n := et.Size_
-			mask = make([]byte, n/goarch.PtrSize)
-			for i := uintptr(0); i < n; i += goarch.PtrSize {
-				off := (uintptr(p) + i - datap.data) / goarch.PtrSize
-				mask[i/goarch.PtrSize] = (*addb(bitmap, off/8) >> (off % 8)) & 1
+			mask = make([]byte, n/golangarch.PtrSize)
+			for i := uintptr(0); i < n; i += golangarch.PtrSize {
+				off := (uintptr(p) + i - datap.data) / golangarch.PtrSize
+				mask[i/golangarch.PtrSize] = (*addb(bitmap, off/8) >> (off % 8)) & 1
 			}
 			return
 		}
@@ -1799,10 +1799,10 @@ func pointerMask(ep any) (mask []byte) {
 		if datap.bss <= uintptr(p) && uintptr(p) < datap.ebss {
 			bitmap := datap.gcbssmask.bytedata
 			n := et.Size_
-			mask = make([]byte, n/goarch.PtrSize)
-			for i := uintptr(0); i < n; i += goarch.PtrSize {
-				off := (uintptr(p) + i - datap.bss) / goarch.PtrSize
-				mask[i/goarch.PtrSize] = (*addb(bitmap, off/8) >> (off % 8)) & 1
+			mask = make([]byte, n/golangarch.PtrSize)
+			for i := uintptr(0); i < n; i += golangarch.PtrSize {
+				off := (uintptr(p) + i - datap.bss) / golangarch.PtrSize
+				mask[i/golangarch.PtrSize] = (*addb(bitmap, off/8) >> (off % 8)) & 1
 			}
 			return
 		}
@@ -1822,13 +1822,13 @@ func pointerMask(ep any) (mask []byte) {
 		base = tp.addr
 
 		// Unroll the full bitmap the GC would actually observe.
-		maskFromHeap := make([]byte, (limit-base)/goarch.PtrSize)
+		maskFromHeap := make([]byte, (limit-base)/golangarch.PtrSize)
 		for {
 			var addr uintptr
 			if tp, addr = tp.next(limit); addr == 0 {
 				break
 			}
-			maskFromHeap[(addr-base)/goarch.PtrSize] = 1
+			maskFromHeap[(addr-base)/golangarch.PtrSize] = 1
 		}
 
 		// Double-check that every part of the ptr/scalar we're not
@@ -1847,14 +1847,14 @@ func pointerMask(ep any) (mask []byte) {
 		}
 
 		// Unroll again, but this time from the type information.
-		maskFromType := make([]byte, (limit-base)/goarch.PtrSize)
+		maskFromType := make([]byte, (limit-base)/golangarch.PtrSize)
 		tp = s.typePointersOfType(et, base)
 		for {
 			var addr uintptr
 			if tp, addr = tp.next(limit); addr == 0 {
 				break
 			}
-			maskFromType[(addr-base)/goarch.PtrSize] = 1
+			maskFromType[(addr-base)/golangarch.PtrSize] = 1
 		}
 
 		// Validate that the prefix of maskFromType is equal to
@@ -1915,12 +1915,12 @@ func pointerMask(ep any) (mask []byte) {
 			if locals.n == 0 {
 				return
 			}
-			size := uintptr(locals.n) * goarch.PtrSize
+			size := uintptr(locals.n) * golangarch.PtrSize
 			n := (*ptrtype)(unsafe.Pointer(t)).Elem.Size_
-			mask = make([]byte, n/goarch.PtrSize)
-			for i := uintptr(0); i < n; i += goarch.PtrSize {
-				off := (uintptr(p) + i - u.frame.varp + size) / goarch.PtrSize
-				mask[i/goarch.PtrSize] = locals.ptrbit(off)
+			mask = make([]byte, n/golangarch.PtrSize)
+			for i := uintptr(0); i < n; i += golangarch.PtrSize {
+				off := (uintptr(p) + i - u.frame.varp + size) / golangarch.PtrSize
+				mask[i/golangarch.PtrSize] = locals.ptrbit(off)
 			}
 		}
 		return

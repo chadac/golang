@@ -1,5 +1,5 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package io_test
@@ -32,16 +32,16 @@ func TestMultiReader(t *testing.T) {
 		nread++
 		n, gerr := mr.Read(buf[0:size])
 		if n != len(expected) {
-			t.Errorf("#%d, expected %d bytes; got %d",
+			t.Errorf("#%d, expected %d bytes; golangt %d",
 				nread, len(expected), n)
 		}
-		got := string(buf[0:n])
-		if got != expected {
-			t.Errorf("#%d, expected %q; got %q",
-				nread, expected, got)
+		golangt := string(buf[0:n])
+		if golangt != expected {
+			t.Errorf("#%d, expected %q; golangt %q",
+				nread, expected, golangt)
 		}
 		if gerr != eerr {
-			t.Errorf("#%d, expected error %v; got %v",
+			t.Errorf("#%d, expected error %v; golangt %v",
 				nread, eerr, gerr)
 		}
 		buf = buf[n:]
@@ -78,13 +78,13 @@ func TestMultiReaderAsWriterTo(t *testing.T) {
 	sink := &strings.Builder{}
 	n, err := mrAsWriterTo.WriteTo(sink)
 	if err != nil {
-		t.Fatalf("expected no error; got %v", err)
+		t.Fatalf("expected no error; golangt %v", err)
 	}
 	if n != 7 {
-		t.Errorf("expected read 7 bytes; got %d", n)
+		t.Errorf("expected read 7 bytes; golangt %d", n)
 	}
 	if result := sink.String(); result != "foo bar" {
-		t.Errorf(`expected "foo bar"; got %q`, result)
+		t.Errorf(`expected "foo bar"; golangt %q`, result)
 	}
 }
 
@@ -162,7 +162,7 @@ func testMultiWriter(t *testing.T, sink interface {
 	}
 
 	if sink.String() != sourceString {
-		t.Errorf("expected %q; got %q", sourceString, sink.String())
+		t.Errorf("expected %q; golangt %q", sourceString, sink.String())
 	}
 }
 
@@ -195,7 +195,7 @@ func TestMultiWriterSingleChainFlatten(t *testing.T) {
 	mw.Write(nil) // don't care about errors, just want to check the call-depth for Write
 
 	if writeDepth != 4*(myDepth+2) { // 2 should be multiWriter.Write and writerFunc.Write
-		t.Errorf("multiWriter did not flatten chained multiWriters: expected writeDepth %d, got %d",
+		t.Errorf("multiWriter did not flatten chained multiWriters: expected writeDepth %d, golangt %d",
 			4*(myDepth+2), writeDepth)
 	}
 }
@@ -279,7 +279,7 @@ func TestMultiReaderFlatten(t *testing.T) {
 	r.Read(nil) // don't care about errors, just want to check the call-depth for Read
 
 	if readDepth != myDepth+2 { // 2 should be multiReader.Read and fakeReader.Read
-		t.Errorf("multiReader did not flatten chained multiReaders: expected readDepth %d, got %d",
+		t.Errorf("multiReader did not flatten chained multiReaders: expected readDepth %d, golangt %d",
 			myDepth+2, readDepth)
 	}
 }
@@ -300,13 +300,13 @@ func (b byteAndEOFReader) Read(p []byte) (n int, err error) {
 
 // This used to yield bytes forever; issue 16795.
 func TestMultiReaderSingleByteWithEOF(t *testing.T) {
-	got, err := ReadAll(LimitReader(MultiReader(byteAndEOFReader('a'), byteAndEOFReader('b')), 10))
+	golangt, err := ReadAll(LimitReader(MultiReader(byteAndEOFReader('a'), byteAndEOFReader('b')), 10))
 	if err != nil {
 		t.Fatal(err)
 	}
 	const want = "ab"
-	if string(got) != want {
-		t.Errorf("got %q; want %q", got, want)
+	if string(golangt) != want {
+		t.Errorf("golangt %q; want %q", golangt, want)
 	}
 }
 
@@ -318,7 +318,7 @@ func TestMultiReaderFinalEOF(t *testing.T) {
 	buf := make([]byte, 2)
 	n, err := r.Read(buf)
 	if n != 1 || err != EOF {
-		t.Errorf("got %v, %v; want 1, EOF", n, err)
+		t.Errorf("golangt %v, %v; want 1, EOF", n, err)
 	}
 }
 
@@ -364,14 +364,14 @@ func TestInterleavedMultiReader(t *testing.T) {
 	// Have mr2 use mr1's []Readers.
 	// Consume r1 (and clear it for GC to handle) and consume part of r2.
 	n, err := ReadFull(mr2, buf)
-	if got := string(buf[:n]); got != "1234" || err != nil {
-		t.Errorf(`ReadFull(mr2) = (%q, %v), want ("1234", nil)`, got, err)
+	if golangt := string(buf[:n]); golangt != "1234" || err != nil {
+		t.Errorf(`ReadFull(mr2) = (%q, %v), want ("1234", nil)`, golangt, err)
 	}
 
 	// Consume the rest of r2 via mr1.
 	// This should not panic even though mr2 cleared r1.
 	n, err = ReadFull(mr1, buf)
-	if got := string(buf[:n]); got != "5678" || err != nil {
-		t.Errorf(`ReadFull(mr1) = (%q, %v), want ("5678", nil)`, got, err)
+	if golangt := string(buf[:n]); golangt != "5678" || err != nil {
+		t.Errorf(`ReadFull(mr1) = (%q, %v), want ("5678", nil)`, golangt, err)
 	}
 }

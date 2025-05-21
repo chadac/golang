@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -8,13 +8,13 @@ import (
 	"bufio"
 	"bytes"
 	"fmt"
-	"go/ast"
-	"go/build"
-	"go/doc"
-	"go/format"
-	"go/parser"
-	"go/printer"
-	"go/token"
+	"golang/ast"
+	"golang/build"
+	"golang/doc"
+	"golang/format"
+	"golang/parser"
+	"golang/printer"
+	"golang/token"
 	"io"
 	"io/fs"
 	"log"
@@ -97,13 +97,13 @@ func (pkg *Package) prettyPath() string {
 	path = filepath.Clean(filepath.ToSlash(pkg.build.Dir))
 	// Can we find a decent prefix?
 	if buildCtx.GOROOT != "" {
-		goroot := filepath.Join(buildCtx.GOROOT, "src")
-		if p, ok := trim(path, filepath.ToSlash(goroot)); ok {
+		golangroot := filepath.Join(buildCtx.GOROOT, "src")
+		if p, ok := trim(path, filepath.ToSlash(golangroot)); ok {
 			return p
 		}
 	}
-	for _, gopath := range splitGopath() {
-		if p, ok := trim(path, filepath.ToSlash(gopath)); ok {
+	for _, golangpath := range splitGopath() {
+		if p, ok := trim(path, filepath.ToSlash(golangpath)); ok {
 			return p
 		}
 	}
@@ -139,7 +139,7 @@ func (pkg *Package) Fatalf(format string, args ...any) {
 // we can then use to generate documentation.
 func parsePackage(writer io.Writer, pkg *build.Package, userPath string) *Package {
 	// include tells parser.ParseDir which files to include.
-	// That means the file must be in the build package's GoFiles or CgoFiles
+	// That means the file must be in the build package's GoFiles or CgolangFiles
 	// list only (no tag-ignored files, tests, swig or other non-Go files).
 	include := func(info fs.FileInfo) bool {
 		for _, name := range pkg.GoFiles {
@@ -147,7 +147,7 @@ func parsePackage(writer io.Writer, pkg *build.Package, userPath string) *Packag
 				return true
 			}
 		}
-		for _, name := range pkg.CgoFiles {
+		for _, name := range pkg.CgolangFiles {
 			if name == info.Name() {
 				return true
 			}
@@ -168,13 +168,13 @@ func parsePackage(writer io.Writer, pkg *build.Package, userPath string) *Packag
 	}
 	astPkg := pkgs[pkg.Name]
 
-	// TODO: go/doc does not include typed constants in the constants
+	// TODO: golang/doc does not include typed constants in the constants
 	// list, which is what we want. For instance, time.Sunday is of type
 	// time.Weekday, so it is defined in the type but not in the
 	// Consts list for the package. This prevents
-	//	go doc time.Sunday
+	//	golang doc time.Sunday
 	// from finding the symbol. Work around this for now, but we
-	// should fix it in go/doc.
+	// should fix it in golang/doc.
 	// A similar story applies to factory functions.
 	mode := doc.AllDecls
 	if showSrc {
@@ -240,7 +240,7 @@ func (pkg *Package) newlines(n int) {
 }
 
 // emit prints the node. If showSrc is true, it ignores the provided comment,
-// assuming the comment is in the node itself. Otherwise, the go/doc package
+// assuming the comment is in the node itself. Otherwise, the golang/doc package
 // clears the stuff we don't want to print anyway. It's a bit of a magic trick.
 func (pkg *Package) emit(comment string, node ast.Node) {
 	if node != nil {
@@ -646,7 +646,7 @@ func (pkg *Package) valueSummary(values []*doc.Value, showGrouped bool) {
 // are printed by typeSummary, below, and so can be suppressed here.
 func (pkg *Package) funcSummary(funcs []*doc.Func, showConstructors bool) {
 	for _, fun := range funcs {
-		// Exported functions only. The go/doc package does not include methods here.
+		// Exported functions only. The golang/doc package does not include methods here.
 		if isExported(fun.Name) {
 			if showConstructors || !pkg.constructor[fun] {
 				pkg.Printf("%s\n", pkg.oneLineNode(fun.Decl))
@@ -789,7 +789,7 @@ func (pkg *Package) valueDoc(value *doc.Value, printed map[*ast.GenDecl]bool) {
 	// (See issue 11008.)
 	// TODO: Should we elide unexported symbols from a single spec?
 	// It's an unlikely scenario, probably not worth the trouble.
-	// TODO: Would be nice if go/doc did this for us.
+	// TODO: Would be nice if golang/doc did this for us.
 	specs := make([]ast.Spec, 0, len(value.Decl.Specs))
 	var typ ast.Expr
 	for _, spec := range value.Decl.Specs {
@@ -896,14 +896,14 @@ func trimUnexportedFields(fields *ast.FieldList, isInterface bool) *ast.FieldLis
 	list := make([]*ast.Field, 0, len(fields.List))
 	for _, field := range fields.List {
 		// When printing fields we normally print field.Doc.
-		// Here we are going to pass the AST to go/format,
+		// Here we are golanging to pass the AST to golang/format,
 		// which will print the comments from the AST,
-		// not field.Doc which is from go/doc.
+		// not field.Doc which is from golang/doc.
 		// The two are similar but not identical;
 		// for example, field.Doc does not include directives.
 		// In order to consistently print field.Doc,
 		// we replace the comment in the AST with field.Doc.
-		// That will cause go/format to print what we want.
+		// That will cause golang/format to print what we want.
 		// See issue #56592.
 		if field.Doc != nil {
 			doc := field.Doc
@@ -1032,7 +1032,7 @@ func (pkg *Package) printMethodDoc(symbol, method string) bool {
 		if symbol == "" {
 			continue
 		}
-		// Type may be an interface. The go/doc package does not attach
+		// Type may be an interface. The golang/doc package does not attach
 		// an interface's methods to the doc.Type. We need to dig around.
 		spec := pkg.findTypeSpec(typ.Decl, typ.Name)
 		inter, ok := spec.Type.(*ast.InterfaceType)

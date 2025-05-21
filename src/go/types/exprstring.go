@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file implements printing of expressions.
@@ -9,7 +9,7 @@ package types
 import (
 	"bytes"
 	"fmt"
-	"go/ast"
+	"golang/ast"
 )
 
 // ExprString returns the (possibly shortened) string representation for x.

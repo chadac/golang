@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package strconv_test
@@ -272,7 +272,7 @@ var atoftests = []atofTest{
 	// https://www.exploringbinary.com/php-hangs-on-numeric-value-2-2250738585072011e-308/
 	{"2.2250738585072011e-308", "2.225073858507201e-308", nil},
 
-	// A very large number (initially wrongly parsed by the fast algorithm).
+	// A very large number (initially wrongly parsed by the fast algolangrithm).
 	{"4.630813248087435e+307", "4.630813248087435e+307", nil},
 
 	// A different kind of very large number.
@@ -424,7 +424,7 @@ var atof32tests = []atofTest{
 	// is an exact power of two that needs 8 decimal digits to be correctly
 	// parsed back.
 	// The float32 before is 16777215p+68 = 4.95175986e+27
-	// The halfway is 4.951760009. A bad algorithm that thinks the previous
+	// The halfway is 4.951760009. A bad algolangrithm that thinks the previous
 	// float32 is 8388607p+69 will shorten incorrectly to 4.95176e+27.
 	{"4951760157141521099596496896", "4.9517602e+27", nil},
 }

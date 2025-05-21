@@ -1,12 +1,12 @@
 // run
 
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test stack splitting code.
 // Try to tickle stack splitting bugs by doing
-// go, defer, and closure calls at different stack depths.
+// golang, defer, and closure calls at different stack depths.
 
 package main
 
@@ -66,11 +66,11 @@ func recur(n int) {
 	if len(ss) != len(b) {
 		panic("bad []byte -> string")
 	}
-	go g(c, t)
+	golang g(c, t)
 	f0()
 	s := <-c
 	if s != len(t) {
-		println("bad go", s)
+		println("bad golang", s)
 		panic("fail")
 	}
 	f := func(t T) int {

@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package types2_test
@@ -40,7 +40,7 @@ func TestErrorCalls(t *testing.T) {
 			// check.errorf calls should have at least errorfMinArgCount arguments:
 			// position, code, format string, and arguments to format
 			if n := len(call.ArgList); n < errorfMinArgCount {
-				t.Errorf("%s: got %d arguments, want at least %d", call.Pos(), n, errorfMinArgCount)
+				t.Errorf("%s: golangt %d arguments, want at least %d", call.Pos(), n, errorfMinArgCount)
 				return false
 			}
 			format := call.ArgList[errorfFormatIndex]

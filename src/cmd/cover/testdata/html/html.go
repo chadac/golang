@@ -2,7 +2,7 @@ package html
 
 import "fmt"
 
-// This file is tested by html_test.go.
+// This file is tested by html_test.golang.
 // The comments below are markers for extracting the annotated source
 // from the HTML output.
 
@@ -19,7 +19,7 @@ func f() {
 
 // END f
 
-// https://golang.org/issue/25767
+// https://golanglang.org/issue/25767
 // START g
 func g() {
 	if false {

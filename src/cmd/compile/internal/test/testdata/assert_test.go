@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Tests type assertion expressions and statements
@@ -37,16 +37,16 @@ func i2t_ssa(i I) *U {
 }
 
 func testAssertE2TOk(t *testing.T) {
-	if got := e2t_ssa(u); got != u {
-		t.Errorf("e2t_ssa(u)=%v want %v", got, u)
+	if golangt := e2t_ssa(u); golangt != u {
+		t.Errorf("e2t_ssa(u)=%v want %v", golangt, u)
 	}
 }
 
 func testAssertE2TPanic(t *testing.T) {
-	var got *U
+	var golangt *U
 	defer func() {
-		if got != nil {
-			t.Errorf("e2t_ssa(s)=%v want nil", got)
+		if golangt != nil {
+			t.Errorf("e2t_ssa(s)=%v want nil", golangt)
 		}
 		e := recover()
 		err, ok := e.(*runtime.TypeAssertionError)
@@ -55,25 +55,25 @@ func testAssertE2TPanic(t *testing.T) {
 		}
 		want := "interface conversion: interface {} is *main.S, not *main.U"
 		if err.Error() != want {
-			t.Errorf("e2t_ssa(s) wrong error, want '%s', got '%s'", want, err.Error())
+			t.Errorf("e2t_ssa(s) wrong error, want '%s', golangt '%s'", want, err.Error())
 		}
 	}()
-	got = e2t_ssa(s)
+	golangt = e2t_ssa(s)
 	t.Errorf("e2t_ssa(s) should panic")
 
 }
 
 func testAssertI2TOk(t *testing.T) {
-	if got := i2t_ssa(u); got != u {
-		t.Errorf("i2t_ssa(u)=%v want %v", got, u)
+	if golangt := i2t_ssa(u); golangt != u {
+		t.Errorf("i2t_ssa(u)=%v want %v", golangt, u)
 	}
 }
 
 func testAssertI2TPanic(t *testing.T) {
-	var got *U
+	var golangt *U
 	defer func() {
-		if got != nil {
-			t.Errorf("i2t_ssa(s)=%v want nil", got)
+		if golangt != nil {
+			t.Errorf("i2t_ssa(s)=%v want nil", golangt)
 		}
 		e := recover()
 		err, ok := e.(*runtime.TypeAssertionError)
@@ -82,10 +82,10 @@ func testAssertI2TPanic(t *testing.T) {
 		}
 		want := "interface conversion: main.I is *main.S, not *main.U"
 		if err.Error() != want {
-			t.Errorf("i2t_ssa(s) wrong error, want '%s', got '%s'", want, err.Error())
+			t.Errorf("i2t_ssa(s) wrong error, want '%s', golangt '%s'", want, err.Error())
 		}
 	}()
-	got = i2t_ssa(s)
+	golangt = i2t_ssa(s)
 	t.Errorf("i2t_ssa(s) should panic")
 }
 
@@ -100,20 +100,20 @@ func i2t2_ssa(i I) (*U, bool) {
 }
 
 func testAssertE2T2(t *testing.T) {
-	if got, ok := e2t2_ssa(u); !ok || got != u {
-		t.Errorf("e2t2_ssa(u)=(%v, %v) want (%v, %v)", got, ok, u, true)
+	if golangt, ok := e2t2_ssa(u); !ok || golangt != u {
+		t.Errorf("e2t2_ssa(u)=(%v, %v) want (%v, %v)", golangt, ok, u, true)
 	}
-	if got, ok := e2t2_ssa(s); ok || got != nil {
-		t.Errorf("e2t2_ssa(s)=(%v, %v) want (%v, %v)", got, ok, nil, false)
+	if golangt, ok := e2t2_ssa(s); ok || golangt != nil {
+		t.Errorf("e2t2_ssa(s)=(%v, %v) want (%v, %v)", golangt, ok, nil, false)
 	}
 }
 
 func testAssertI2T2(t *testing.T) {
-	if got, ok := i2t2_ssa(u); !ok || got != u {
-		t.Errorf("i2t2_ssa(u)=(%v, %v) want (%v, %v)", got, ok, u, true)
+	if golangt, ok := i2t2_ssa(u); !ok || golangt != u {
+		t.Errorf("i2t2_ssa(u)=(%v, %v) want (%v, %v)", golangt, ok, u, true)
 	}
-	if got, ok := i2t2_ssa(s); ok || got != nil {
-		t.Errorf("i2t2_ssa(s)=(%v, %v) want (%v, %v)", got, ok, nil, false)
+	if golangt, ok := i2t2_ssa(s); ok || golangt != nil {
+		t.Errorf("i2t2_ssa(s)=(%v, %v) want (%v, %v)", golangt, ok, nil, false)
 	}
 }
 

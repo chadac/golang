@@ -1,13 +1,13 @@
 // run
 
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test concurrency primitives: power series.
 
-// Like powser1.go but uses channels of interfaces.
-// Has not been cleaned up as much as powser1.go, to keep
+// Like powser1.golang but uses channels of interfaces.
+// Has not been cleaned up as much as powser1.golang, to keep
 // it distinct and therefore a different test.
 
 // Power series package
@@ -106,7 +106,7 @@ func dosplit(in *dch, out *dch2, wait chan int) {
 	seqno++
 	in.req <- seqno
 	release := make(chan int)
-	go dosplit(in, out, release)
+	golang dosplit(in, out, release)
 	dat := <-in.dat
 	out[0].dat <- dat
 	if !both {
@@ -119,7 +119,7 @@ func dosplit(in *dch, out *dch2, wait chan int) {
 
 func split(in *dch, out *dch2) {
 	release := make(chan int)
-	go dosplit(in, out, release)
+	golang dosplit(in, out, release)
 	release <- 0
 }
 
@@ -340,14 +340,14 @@ func eval(c *rat, U PS, n int) *rat {
 
 func Split(U PS) *dch2 {
 	UU := mkdch2()
-	go split(U, UU)
+	golang split(U, UU)
 	return UU
 }
 
 // Add two power series
 func Add(U, V PS) PS {
 	Z := mkPS()
-	go func(U, V, Z PS) {
+	golang func(U, V, Z PS) {
 		var uv []item
 		for {
 			<-Z.req
@@ -372,7 +372,7 @@ func Add(U, V PS) PS {
 // Multiply a power series by a constant
 func Cmul(c *rat, U PS) PS {
 	Z := mkPS()
-	go func(c *rat, U, Z PS) {
+	golang func(c *rat, U, Z PS) {
 		done := false
 		for !done {
 			<-Z.req
@@ -398,7 +398,7 @@ func Sub(U, V PS) PS {
 
 func Monmul(U PS, n int) PS {
 	Z := mkPS()
-	go func(n int, U PS, Z PS) {
+	golang func(n int, U PS, Z PS) {
 		for ; n > 0; n-- {
 			put(zero, Z)
 		}
@@ -415,7 +415,7 @@ func Xmul(U PS) PS {
 
 func Rep(c *rat) PS {
 	Z := mkPS()
-	go repeat(c, Z)
+	golang repeat(c, Z)
 	return Z
 }
 
@@ -423,7 +423,7 @@ func Rep(c *rat) PS {
 
 func Mon(c *rat, n int) PS {
 	Z := mkPS()
-	go func(c *rat, n int, Z PS) {
+	golang func(c *rat, n int, Z PS) {
 		if c.num != 0 {
 			for ; n > 0; n = n - 1 {
 				put(zero, Z)
@@ -437,7 +437,7 @@ func Mon(c *rat, n int) PS {
 
 func Shift(c *rat, U PS) PS {
 	Z := mkPS()
-	go func(c *rat, U, Z PS) {
+	golang func(c *rat, U, Z PS) {
 		put(c, Z)
 		copy(U, Z)
 	}(c, U, Z)
@@ -465,14 +465,14 @@ func Poly(a [] *rat) PS{
 }
 */
 
-// Multiply. The algorithm is
+// Multiply. The algolangrithm is
 //	let U = u + x*UU
 //	let V = v + x*VV
 //	then UV = u*v + x*(u*VV+v*UU) + x*x*UU*VV
 
 func Mul(U, V PS) PS {
 	Z := mkPS()
-	go func(U, V, Z PS) {
+	golang func(U, V, Z PS) {
 		<-Z.req
 		uv := get2(U, V)
 		if end(uv[0].(*rat)) != 0 || end(uv[1].(*rat)) != 0 {
@@ -494,7 +494,7 @@ func Mul(U, V PS) PS {
 
 func Diff(U PS) PS {
 	Z := mkPS()
-	go func(U, Z PS) {
+	golang func(U, Z PS) {
 		<-Z.req
 		u := get(U)
 		if end(u) == 0 {
@@ -517,7 +517,7 @@ func Diff(U PS) PS {
 // Integrate, with const of integration
 func Integ(c *rat, U PS) PS {
 	Z := mkPS()
-	go func(c *rat, U, Z PS) {
+	golang func(c *rat, U, Z PS) {
 		put(c, Z)
 		done := false
 		for i := 1; !done; i++ {
@@ -537,7 +537,7 @@ func Integ(c *rat, U PS) PS {
 
 func Binom(c *rat) PS {
 	Z := mkPS()
-	go func(c *rat, Z PS) {
+	golang func(c *rat, Z PS) {
 		n := 1
 		t := itor(1)
 		for c.num != 0 {
@@ -561,7 +561,7 @@ func Binom(c *rat) PS {
 
 func Recip(U PS) PS {
 	Z := mkPS()
-	go func(U, Z PS) {
+	golang func(U, Z PS) {
 		ZZ := mkPS2()
 		<-Z.req
 		z := inv(get(U))
@@ -593,7 +593,7 @@ func Exp(U PS) PS {
 
 func Subst(U, V PS) PS {
 	Z := mkPS()
-	go func(U, V, Z PS) {
+	golang func(U, V, Z PS) {
 		VV := Split(V)
 		<-Z.req
 		u := get(U)
@@ -614,7 +614,7 @@ func Subst(U, V PS) PS {
 
 func MonSubst(U PS, c0 *rat, n int) PS {
 	Z := mkPS()
-	go func(U, Z PS, c0 *rat, n int) {
+	golang func(U, Z PS, c0 *rat, n int) {
 		c := one
 		for {
 			<-Z.req
@@ -649,7 +649,7 @@ func check(U PS, c *rat, count int, str string) {
 	for i := 0; i < count; i++ {
 		r := get(U)
 		if !r.eq(c) {
-			print("got: ")
+			print("golangt: ")
 			r.pr()
 			print("should get ")
 			c.pr()

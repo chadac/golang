@@ -1,11 +1,11 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package draw provides image composition functions.
 //
 // See "The Go image/draw package" for an introduction to this package:
-// https://golang.org/doc/articles/image_draw.html
+// https://golanglang.org/doc/articles/image_draw.html
 package draw
 
 import (
@@ -457,7 +457,7 @@ func drawCopyOver(dst *image.RGBA, r image.Rectangle, src *image.RGBA, sp image.
 		dpix := dst.Pix[d0:]
 		spix := src.Pix[s0:]
 		for i := i0; i != i1; i += idelta {
-			s := spix[i : i+4 : i+4] // Small cap improves performance, see https://golang.org/issue/27857
+			s := spix[i : i+4 : i+4] // Small cap improves performance, see https://golanglang.org/issue/27857
 			sr := uint32(s[0]) * 0x101
 			sg := uint32(s[1]) * 0x101
 			sb := uint32(s[2]) * 0x101
@@ -466,7 +466,7 @@ func drawCopyOver(dst *image.RGBA, r image.Rectangle, src *image.RGBA, sp image.
 			// The 0x101 is here for the same reason as in drawRGBA.
 			a := (m - sa) * 0x101
 
-			d := dpix[i : i+4 : i+4] // Small cap improves performance, see https://golang.org/issue/27857
+			d := dpix[i : i+4 : i+4] // Small cap improves performance, see https://golanglang.org/issue/27857
 			d[0] = uint8((uint32(d[0])*a/m + sr) >> 8)
 			d[1] = uint8((uint32(d[1])*a/m + sg) >> 8)
 			d[2] = uint8((uint32(d[2])*a/m + sb) >> 8)
@@ -518,13 +518,13 @@ func drawNRGBAOver(dst *image.RGBA, r image.Rectangle, src *image.NRGBA, sp imag
 
 		for i, si := i0, si0; i < i1; i, si = i+4, si+4 {
 			// Convert from non-premultiplied color to pre-multiplied color.
-			s := spix[si : si+4 : si+4] // Small cap improves performance, see https://golang.org/issue/27857
+			s := spix[si : si+4 : si+4] // Small cap improves performance, see https://golanglang.org/issue/27857
 			sa := uint32(s[3]) * 0x101
 			sr := uint32(s[0]) * sa / 0xff
 			sg := uint32(s[1]) * sa / 0xff
 			sb := uint32(s[2]) * sa / 0xff
 
-			d := dpix[i : i+4 : i+4] // Small cap improves performance, see https://golang.org/issue/27857
+			d := dpix[i : i+4 : i+4] // Small cap improves performance, see https://golanglang.org/issue/27857
 			dr := uint32(d[0])
 			dg := uint32(d[1])
 			db := uint32(d[2])
@@ -555,13 +555,13 @@ func drawNRGBASrc(dst *image.RGBA, r image.Rectangle, src *image.NRGBA, sp image
 
 		for i, si := i0, si0; i < i1; i, si = i+4, si+4 {
 			// Convert from non-premultiplied color to pre-multiplied color.
-			s := spix[si : si+4 : si+4] // Small cap improves performance, see https://golang.org/issue/27857
+			s := spix[si : si+4 : si+4] // Small cap improves performance, see https://golanglang.org/issue/27857
 			sa := uint32(s[3]) * 0x101
 			sr := uint32(s[0]) * sa / 0xff
 			sg := uint32(s[1]) * sa / 0xff
 			sb := uint32(s[2]) * sa / 0xff
 
-			d := dpix[i : i+4 : i+4] // Small cap improves performance, see https://golang.org/issue/27857
+			d := dpix[i : i+4 : i+4] // Small cap improves performance, see https://golanglang.org/issue/27857
 			d[0] = uint8(sr >> 8)
 			d[1] = uint8(sg >> 8)
 			d[2] = uint8(sb >> 8)
@@ -584,7 +584,7 @@ func drawGray(dst *image.RGBA, r image.Rectangle, src *image.Gray, sp image.Poin
 
 		for i, si := i0, si0; i < i1; i, si = i+4, si+1 {
 			p := spix[si]
-			d := dpix[i : i+4 : i+4] // Small cap improves performance, see https://golang.org/issue/27857
+			d := dpix[i : i+4 : i+4] // Small cap improves performance, see https://golanglang.org/issue/27857
 			d[0] = p
 			d[1] = p
 			d[2] = p
@@ -606,7 +606,7 @@ func drawCMYK(dst *image.RGBA, r image.Rectangle, src *image.CMYK, sp image.Poin
 		spix := src.Pix[sy*src.Stride:]
 
 		for i, si := i0, si0; i < i1; i, si = i+4, si+4 {
-			s := spix[si : si+4 : si+4] // Small cap improves performance, see https://golang.org/issue/27857
+			s := spix[si : si+4 : si+4] // Small cap improves performance, see https://golanglang.org/issue/27857
 			d := dpix[i : i+4 : i+4]
 			d[0], d[1], d[2] = color.CMYKToRGB(s[0], s[1], s[2], s[3])
 			d[3] = 255
@@ -630,7 +630,7 @@ func drawGlyphOver(dst *image.RGBA, r image.Rectangle, src *image.Uniform, mask 
 			// The 0x101 is here for the same reason as in drawRGBA.
 			a := (m - (sa * ma / m)) * 0x101
 
-			d := dst.Pix[i : i+4 : i+4] // Small cap improves performance, see https://golang.org/issue/27857
+			d := dst.Pix[i : i+4 : i+4] // Small cap improves performance, see https://golanglang.org/issue/27857
 			d[0] = uint8((uint32(d[0])*a + sr*ma) / m >> 8)
 			d[1] = uint8((uint32(d[1])*a + sg*ma) / m >> 8)
 			d[2] = uint8((uint32(d[2])*a + sb*ma) / m >> 8)
@@ -669,7 +669,7 @@ func drawGrayMaskOver(dst *image.RGBA, r image.Rectangle, src *image.Gray, sp im
 			sy |= sy << 8
 			sa := uint32(0xffff)
 
-			d := dst.Pix[i : i+4 : i+4] // Small cap improves performance, see https://golang.org/issue/27857
+			d := dst.Pix[i : i+4 : i+4] // Small cap improves performance, see https://golanglang.org/issue/27857
 			dr := uint32(d[0])
 			dg := uint32(d[1])
 			db := uint32(d[2])
@@ -723,7 +723,7 @@ func drawRGBAMaskOver(dst *image.RGBA, r image.Rectangle, src *image.RGBA, sp im
 			sg |= sg << 8
 			sb |= sb << 8
 			sa |= sa << 8
-			d := dst.Pix[i : i+4 : i+4] // Small cap improves performance, see https://golang.org/issue/27857
+			d := dst.Pix[i : i+4 : i+4] // Small cap improves performance, see https://golanglang.org/issue/27857
 			dr := uint32(d[0])
 			dg := uint32(d[1])
 			db := uint32(d[2])
@@ -769,7 +769,7 @@ func drawRGBA64ImageMaskOver(dst *image.RGBA, r image.Rectangle, src image.RGBA6
 			ma := uint32(mask.Pix[mi])
 			ma |= ma << 8
 			srgba := src.RGBA64At(sx, sy)
-			d := dst.Pix[i : i+4 : i+4] // Small cap improves performance, see https://golang.org/issue/27857
+			d := dst.Pix[i : i+4 : i+4] // Small cap improves performance, see https://golanglang.org/issue/27857
 			dr := uint32(d[0])
 			dg := uint32(d[1])
 			db := uint32(d[2])
@@ -899,7 +899,7 @@ func drawRGBA(dst *image.RGBA, r image.Rectangle, src image.Image, sp image.Poin
 				_, _, _, ma = mask.At(mx, my).RGBA()
 			}
 			sr, sg, sb, sa := src.At(sx, sy).RGBA()
-			d := dst.Pix[i : i+4 : i+4] // Small cap improves performance, see https://golang.org/issue/27857
+			d := dst.Pix[i : i+4 : i+4] // Small cap improves performance, see https://golanglang.org/issue/27857
 			if op == Over {
 				dr := uint32(d[0])
 				dg := uint32(d[1])
@@ -959,8 +959,8 @@ func drawPaletted(dst Image, r image.Rectangle, src image.Image, sp image.Point,
 	// walking the image backward (right-to-left bottom-to-top)?
 
 	// If dst is an *image.Paletted, we have a fast path for dst.Set and
-	// dst.At. The dst.Set equivalent is a batch version of the algorithm
-	// used by color.Palette's Index method in image/color/color.go, plus
+	// dst.At. The dst.Set equivalent is a batch version of the algolangrithm
+	// used by color.Palette's Index method in image/color/color.golang, plus
 	// optional Floyd-Steinberg error diffusion.
 	palette, pix, stride := [][4]int32(nil), []byte(nil), 0
 	if p, ok := dst.(*image.Paletted); ok {
@@ -986,7 +986,7 @@ func drawPaletted(dst Image, r image.Rectangle, src image.Image, sp image.Point,
 	pxRGBA := func(x, y int) (r, g, b, a uint32) { return src.At(x, y).RGBA() }
 	// Fast paths for special cases to avoid excessive use of the color.Color
 	// interface which escapes to the heap but need to be discovered for
-	// each pixel on r. See also https://golang.org/issues/15759.
+	// each pixel on r. See also https://golanglang.org/issues/15759.
 	switch src0 := src.(type) {
 	case *image.RGBA:
 		pxRGBA = func(x, y int) (r, g, b, a uint32) { return src0.RGBAAt(x, y).RGBA() }
@@ -1014,7 +1014,7 @@ func drawPaletted(dst Image, r image.Rectangle, src image.Image, sp image.Point,
 			if palette != nil {
 				// Find the closest palette color in Euclidean R,G,B,A space:
 				// the one that minimizes sum-squared-difference.
-				// TODO(nigeltao): consider smarter algorithms.
+				// TODO(nigeltao): consider smarter algolangrithms.
 				bestIndex, bestSum := 0, uint32(1<<32-1)
 				for index, p := range palette {
 					sum := sqDiff(er, p[0]) + sqDiff(eg, p[1]) + sqDiff(eb, p[2]) + sqDiff(ea, p[3])

@@ -1,11 +1,11 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package aes implements AES encryption (formerly Rijndael), as defined in
 // U.S. Federal Information Processing Standards Publication 197.
 //
-// The AES operations in this package are not implemented using constant-time algorithms.
+// The AES operations in this package are not implemented using constant-time algolangrithms.
 // An exception is when running on systems with enabled hardware support for AES
 // that makes these operations constant-time. Examples include amd64 systems using AES-NI
 // extensions and s390x systems using Message-Security-Assist extensions.

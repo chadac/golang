@@ -1,14 +1,14 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package types_test
 
 import (
-	"go/parser"
+	"golang/parser"
 	"testing"
 
-	. "go/types"
+	. "golang/types"
 )
 
 var testExprs = []testEntry{
@@ -125,8 +125,8 @@ func TestExprString(t *testing.T) {
 			t.Errorf("%s: %s", test.src, err)
 			continue
 		}
-		if got := ExprString(x); got != test.str {
-			t.Errorf("%s: got %s, want %s", test.src, got, test.str)
+		if golangt := ExprString(x); golangt != test.str {
+			t.Errorf("%s: golangt %s, want %s", test.src, golangt, test.str)
 		}
 	}
 }

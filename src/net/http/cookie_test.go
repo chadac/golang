@@ -1,5 +1,5 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package http
@@ -177,8 +177,8 @@ func TestWriteSetCookies(t *testing.T) {
 		}
 	}
 
-	if got, sub := logbuf.String(), "dropping domain attribute"; !strings.Contains(got, sub) {
-		t.Errorf("Expected substring %q in log output. Got:\n%s", sub, got)
+	if golangt, sub := logbuf.String(), "dropping domain attribute"; !strings.Contains(golangt, sub) {
+		t.Errorf("Expected substring %q in log output. Got:\n%s", sub, golangt)
 	}
 }
 
@@ -201,13 +201,13 @@ func TestSetCookie(t *testing.T) {
 	SetCookie(headerOnlyResponseWriter(m), &Cookie{Name: "cookie-1", Value: "one", Path: "/restricted/"})
 	SetCookie(headerOnlyResponseWriter(m), &Cookie{Name: "cookie-2", Value: "two", MaxAge: 3600})
 	if l := len(m["Set-Cookie"]); l != 2 {
-		t.Fatalf("expected %d cookies, got %d", 2, l)
+		t.Fatalf("expected %d cookies, golangt %d", 2, l)
 	}
 	if g, e := m["Set-Cookie"][0], "cookie-1=one; Path=/restricted/"; g != e {
-		t.Errorf("cookie #1: want %q, got %q", e, g)
+		t.Errorf("cookie #1: want %q, golangt %q", e, g)
 	}
 	if g, e := m["Set-Cookie"][1], "cookie-2=two; Max-Age=3600"; g != e {
-		t.Errorf("cookie #2: want %q, got %q", e, g)
+		t.Errorf("cookie #2: want %q, golangt %q", e, g)
 	}
 }
 
@@ -249,7 +249,7 @@ func TestAddCookie(t *testing.T) {
 			req.AddCookie(c)
 		}
 		if g := req.Header.Get("Cookie"); g != tt.Raw {
-			t.Errorf("Test %d:\nwant: %s\n got: %s\n", i, tt.Raw, g)
+			t.Errorf("Test %d:\nwant: %s\n golangt: %s\n", i, tt.Raw, g)
 		}
 	}
 }
@@ -263,16 +263,16 @@ var readSetCookiesTests = []struct {
 		[]*Cookie{{Name: "Cookie-1", Value: "v$1", Raw: "Cookie-1=v$1"}},
 	},
 	{
-		Header{"Set-Cookie": {"NID=99=YsDT5i3E-CXax-; expires=Wed, 23-Nov-2011 01:05:03 GMT; path=/; domain=.google.ch; HttpOnly"}},
+		Header{"Set-Cookie": {"NID=99=YsDT5i3E-CXax-; expires=Wed, 23-Nov-2011 01:05:03 GMT; path=/; domain=.golangogle.ch; HttpOnly"}},
 		[]*Cookie{{
 			Name:       "NID",
 			Value:      "99=YsDT5i3E-CXax-",
 			Path:       "/",
-			Domain:     ".google.ch",
+			Domain:     ".golangogle.ch",
 			HttpOnly:   true,
 			Expires:    time.Date(2011, 11, 23, 1, 5, 3, 0, time.UTC),
 			RawExpires: "Wed, 23-Nov-2011 01:05:03 GMT",
-			Raw:        "NID=99=YsDT5i3E-CXax-; expires=Wed, 23-Nov-2011 01:05:03 GMT; path=/; domain=.google.ch; HttpOnly",
+			Raw:        "NID=99=YsDT5i3E-CXax-; expires=Wed, 23-Nov-2011 01:05:03 GMT; path=/; domain=.golangogle.ch; HttpOnly",
 		}},
 	},
 	{
@@ -489,20 +489,20 @@ func TestSetCookieDoubleQuotes(t *testing.T) {
 	res.Header.Add("Set-Cookie", `quoted1="cookieValue"; max-age=31`)
 	res.Header.Add("Set-Cookie", `quoted2=cookieAV; max-age="32"`)
 	res.Header.Add("Set-Cookie", `quoted3="both"; max-age="33"`)
-	got := res.Cookies()
+	golangt := res.Cookies()
 	want := []*Cookie{
 		{Name: "quoted0", Value: "none", MaxAge: 30},
 		{Name: "quoted1", Value: "cookieValue", MaxAge: 31},
 		{Name: "quoted2", Value: "cookieAV"},
 		{Name: "quoted3", Value: "both"},
 	}
-	if len(got) != len(want) {
-		t.Fatalf("got %d cookies, want %d", len(got), len(want))
+	if len(golangt) != len(want) {
+		t.Fatalf("golangt %d cookies, want %d", len(golangt), len(want))
 	}
 	for i, w := range want {
-		g := got[i]
+		g := golangt[i]
 		if g.Name != w.Name || g.Value != w.Value || g.MaxAge != w.MaxAge {
-			t.Errorf("cookie #%d:\ngot  %v\nwant %v", i, g, w)
+			t.Errorf("cookie #%d:\ngolangt  %v\nwant %v", i, g, w)
 		}
 	}
 }
@@ -532,13 +532,13 @@ func TestCookieSanitizeValue(t *testing.T) {
 		{"a,", false, `"a,"`},
 	}
 	for _, tt := range tests {
-		if got := sanitizeCookieValue(tt.in, tt.quoted); got != tt.want {
-			t.Errorf("sanitizeCookieValue(%q) = %q; want %q", tt.in, got, tt.want)
+		if golangt := sanitizeCookieValue(tt.in, tt.quoted); golangt != tt.want {
+			t.Errorf("sanitizeCookieValue(%q) = %q; want %q", tt.in, golangt, tt.want)
 		}
 	}
 
-	if got, sub := logbuf.String(), "dropping invalid bytes"; !strings.Contains(got, sub) {
-		t.Errorf("Expected substring %q in log output. Got:\n%s", sub, got)
+	if golangt, sub := logbuf.String(), "dropping invalid bytes"; !strings.Contains(golangt, sub) {
+		t.Errorf("Expected substring %q in log output. Got:\n%s", sub, golangt)
 	}
 }
 
@@ -555,13 +555,13 @@ func TestCookieSanitizePath(t *testing.T) {
 		{"/just;no;semicolon\x00orstuff/", "/justnosemicolonorstuff/"},
 	}
 	for _, tt := range tests {
-		if got := sanitizeCookiePath(tt.in); got != tt.want {
-			t.Errorf("sanitizeCookiePath(%q) = %q; want %q", tt.in, got, tt.want)
+		if golangt := sanitizeCookiePath(tt.in); golangt != tt.want {
+			t.Errorf("sanitizeCookiePath(%q) = %q; want %q", tt.in, golangt, tt.want)
 		}
 	}
 
-	if got, sub := logbuf.String(), "dropping invalid bytes"; !strings.Contains(got, sub) {
-		t.Errorf("Expected substring %q in log output. Got:\n%s", sub, got)
+	if golangt, sub := logbuf.String(), "dropping invalid bytes"; !strings.Contains(golangt, sub) {
+		t.Errorf("Expected substring %q in log output. Got:\n%s", sub, golangt)
 	}
 }
 
@@ -619,7 +619,7 @@ func BenchmarkCookieString(b *testing.B) {
 func BenchmarkReadSetCookies(b *testing.B) {
 	header := Header{
 		"Set-Cookie": {
-			"NID=99=YsDT5i3E-CXax-; expires=Wed, 23-Nov-2011 01:05:03 GMT; path=/; domain=.google.ch; HttpOnly",
+			"NID=99=YsDT5i3E-CXax-; expires=Wed, 23-Nov-2011 01:05:03 GMT; path=/; domain=.golangogle.ch; HttpOnly",
 			".ASPXAUTH=7E3AA; expires=Wed, 07-Mar-2012 14:25:06 GMT; path=/; HttpOnly",
 		},
 	}
@@ -628,11 +628,11 @@ func BenchmarkReadSetCookies(b *testing.B) {
 			Name:       "NID",
 			Value:      "99=YsDT5i3E-CXax-",
 			Path:       "/",
-			Domain:     ".google.ch",
+			Domain:     ".golangogle.ch",
 			HttpOnly:   true,
 			Expires:    time.Date(2011, 11, 23, 1, 5, 3, 0, time.UTC),
 			RawExpires: "Wed, 23-Nov-2011 01:05:03 GMT",
-			Raw:        "NID=99=YsDT5i3E-CXax-; expires=Wed, 23-Nov-2011 01:05:03 GMT; path=/; domain=.google.ch; HttpOnly",
+			Raw:        "NID=99=YsDT5i3E-CXax-; expires=Wed, 23-Nov-2011 01:05:03 GMT; path=/; domain=.golangogle.ch; HttpOnly",
 		},
 		{
 			Name:       ".ASPXAUTH",
@@ -658,7 +658,7 @@ func BenchmarkReadSetCookies(b *testing.B) {
 func BenchmarkReadCookies(b *testing.B) {
 	header := Header{
 		"Cookie": {
-			`de=; client_region=0; rpld1=0:hispeed.ch|20:che|21:zh|22:zurich|23:47.36|24:8.53|; rpld0=1:08|; backplane-channel=newspaper.com:1471; devicetype=0; osfam=0; rplmct=2; s_pers=%20s_vmonthnum%3D1472680800496%2526vn%253D1%7C1472680800496%3B%20s_nr%3D1471686767664-New%7C1474278767664%3B%20s_lv%3D1471686767669%7C1566294767669%3B%20s_lv_s%3DFirst%2520Visit%7C1471688567669%3B%20s_monthinvisit%3Dtrue%7C1471688567677%3B%20gvp_p5%3Dsports%253Ablog%253Aearly-lead%2520-%2520184693%2520-%252020160820%2520-%2520u-s%7C1471688567681%3B%20gvp_p51%3Dwp%2520-%2520sports%7C1471688567684%3B; s_sess=%20s_wp_ep%3Dhomepage%3B%20s._ref%3Dhttps%253A%252F%252Fwww.google.ch%252F%3B%20s_cc%3Dtrue%3B%20s_ppvl%3Dsports%25253Ablog%25253Aearly-lead%252520-%252520184693%252520-%25252020160820%252520-%252520u-lawyer%252C12%252C12%252C502%252C1231%252C502%252C1680%252C1050%252C2%252CP%3B%20s_ppv%3Dsports%25253Ablog%25253Aearly-lead%252520-%252520184693%252520-%25252020160820%252520-%252520u-s-lawyer%252C12%252C12%252C502%252C1231%252C502%252C1680%252C1050%252C2%252CP%3B%20s_dslv%3DFirst%2520Visit%3B%20s_sq%3Dwpninewspapercom%253D%252526pid%25253Dsports%2525253Ablog%2525253Aearly-lead%25252520-%25252520184693%25252520-%2525252020160820%25252520-%25252520u-s%252526pidt%25253D1%252526oid%25253Dhttps%2525253A%2525252F%2525252Fwww.newspaper.com%2525252F%2525253Fnid%2525253Dmenu_nav_homepage%252526ot%25253DA%3B`,
+			`de=; client_region=0; rpld1=0:hispeed.ch|20:che|21:zh|22:zurich|23:47.36|24:8.53|; rpld0=1:08|; backplane-channel=newspaper.com:1471; devicetype=0; osfam=0; rplmct=2; s_pers=%20s_vmonthnum%3D1472680800496%2526vn%253D1%7C1472680800496%3B%20s_nr%3D1471686767664-New%7C1474278767664%3B%20s_lv%3D1471686767669%7C1566294767669%3B%20s_lv_s%3DFirst%2520Visit%7C1471688567669%3B%20s_monthinvisit%3Dtrue%7C1471688567677%3B%20gvp_p5%3Dsports%253Ablog%253Aearly-lead%2520-%2520184693%2520-%252020160820%2520-%2520u-s%7C1471688567681%3B%20gvp_p51%3Dwp%2520-%2520sports%7C1471688567684%3B; s_sess=%20s_wp_ep%3Dhomepage%3B%20s._ref%3Dhttps%253A%252F%252Fwww.golangogle.ch%252F%3B%20s_cc%3Dtrue%3B%20s_ppvl%3Dsports%25253Ablog%25253Aearly-lead%252520-%252520184693%252520-%25252020160820%252520-%252520u-lawyer%252C12%252C12%252C502%252C1231%252C502%252C1680%252C1050%252C2%252CP%3B%20s_ppv%3Dsports%25253Ablog%25253Aearly-lead%252520-%252520184693%252520-%25252020160820%252520-%252520u-s-lawyer%252C12%252C12%252C502%252C1231%252C502%252C1680%252C1050%252C2%252CP%3B%20s_dslv%3DFirst%2520Visit%3B%20s_sq%3Dwpninewspapercom%253D%252526pid%25253Dsports%2525253Ablog%2525253Aearly-lead%25252520-%25252520184693%25252520-%2525252020160820%25252520-%25252520u-s%252526pidt%25253D1%252526oid%25253Dhttps%2525253A%2525252F%2525252Fwww.newspaper.com%2525252F%2525253Fnid%2525253Dmenu_nav_homepage%252526ot%25253DA%3B`,
 		},
 	}
 	wantCookies := []*Cookie{
@@ -671,7 +671,7 @@ func BenchmarkReadCookies(b *testing.B) {
 		{Name: "osfam", Value: "0"},
 		{Name: "rplmct", Value: "2"},
 		{Name: "s_pers", Value: "%20s_vmonthnum%3D1472680800496%2526vn%253D1%7C1472680800496%3B%20s_nr%3D1471686767664-New%7C1474278767664%3B%20s_lv%3D1471686767669%7C1566294767669%3B%20s_lv_s%3DFirst%2520Visit%7C1471688567669%3B%20s_monthinvisit%3Dtrue%7C1471688567677%3B%20gvp_p5%3Dsports%253Ablog%253Aearly-lead%2520-%2520184693%2520-%252020160820%2520-%2520u-s%7C1471688567681%3B%20gvp_p51%3Dwp%2520-%2520sports%7C1471688567684%3B"},
-		{Name: "s_sess", Value: "%20s_wp_ep%3Dhomepage%3B%20s._ref%3Dhttps%253A%252F%252Fwww.google.ch%252F%3B%20s_cc%3Dtrue%3B%20s_ppvl%3Dsports%25253Ablog%25253Aearly-lead%252520-%252520184693%252520-%25252020160820%252520-%252520u-lawyer%252C12%252C12%252C502%252C1231%252C502%252C1680%252C1050%252C2%252CP%3B%20s_ppv%3Dsports%25253Ablog%25253Aearly-lead%252520-%252520184693%252520-%25252020160820%252520-%252520u-s-lawyer%252C12%252C12%252C502%252C1231%252C502%252C1680%252C1050%252C2%252CP%3B%20s_dslv%3DFirst%2520Visit%3B%20s_sq%3Dwpninewspapercom%253D%252526pid%25253Dsports%2525253Ablog%2525253Aearly-lead%25252520-%25252520184693%25252520-%2525252020160820%25252520-%25252520u-s%252526pidt%25253D1%252526oid%25253Dhttps%2525253A%2525252F%2525252Fwww.newspaper.com%2525252F%2525253Fnid%2525253Dmenu_nav_homepage%252526ot%25253DA%3B"},
+		{Name: "s_sess", Value: "%20s_wp_ep%3Dhomepage%3B%20s._ref%3Dhttps%253A%252F%252Fwww.golangogle.ch%252F%3B%20s_cc%3Dtrue%3B%20s_ppvl%3Dsports%25253Ablog%25253Aearly-lead%252520-%252520184693%252520-%25252020160820%252520-%252520u-lawyer%252C12%252C12%252C502%252C1231%252C502%252C1680%252C1050%252C2%252CP%3B%20s_ppv%3Dsports%25253Ablog%25253Aearly-lead%252520-%252520184693%252520-%25252020160820%252520-%252520u-s-lawyer%252C12%252C12%252C502%252C1231%252C502%252C1680%252C1050%252C2%252CP%3B%20s_dslv%3DFirst%2520Visit%3B%20s_sq%3Dwpninewspapercom%253D%252526pid%25253Dsports%2525253Ablog%2525253Aearly-lead%25252520-%25252520184693%25252520-%2525252020160820%25252520-%25252520u-s%252526pidt%25253D1%252526oid%25253Dhttps%2525253A%2525252F%2525252Fwww.newspaper.com%2525252F%2525253Fnid%2525253Dmenu_nav_homepage%252526ot%25253DA%3B"},
 	}
 	var c []*Cookie
 	b.ReportAllocs()
@@ -724,12 +724,12 @@ func TestParseCookie(t *testing.T) {
 		},
 	}
 	for i, tt := range tests {
-		gotCookies, gotErr := ParseCookie(tt.line)
-		if !errors.Is(gotErr, tt.err) {
-			t.Errorf("#%d ParseCookie got error %v, want error %v", i, gotErr, tt.err)
+		golangtCookies, golangtErr := ParseCookie(tt.line)
+		if !errors.Is(golangtErr, tt.err) {
+			t.Errorf("#%d ParseCookie golangt error %v, want error %v", i, golangtErr, tt.err)
 		}
-		if !reflect.DeepEqual(gotCookies, tt.cookies) {
-			t.Errorf("#%d ParseCookie:\ngot cookies: %s\nwant cookies: %s\n", i, toJSON(gotCookies), toJSON(tt.cookies))
+		if !reflect.DeepEqual(golangtCookies, tt.cookies) {
+			t.Errorf("#%d ParseCookie:\ngolangt cookies: %s\nwant cookies: %s\n", i, toJSON(golangtCookies), toJSON(tt.cookies))
 		}
 	}
 }
@@ -745,16 +745,16 @@ func TestParseSetCookie(t *testing.T) {
 			cookie: &Cookie{Name: "Cookie-1", Value: "v$1", Raw: "Cookie-1=v$1"},
 		},
 		{
-			line: "NID=99=YsDT5i3E-CXax-; expires=Wed, 23-Nov-2011 01:05:03 GMT; path=/; domain=.google.ch; HttpOnly",
+			line: "NID=99=YsDT5i3E-CXax-; expires=Wed, 23-Nov-2011 01:05:03 GMT; path=/; domain=.golangogle.ch; HttpOnly",
 			cookie: &Cookie{
 				Name:       "NID",
 				Value:      "99=YsDT5i3E-CXax-",
 				Path:       "/",
-				Domain:     ".google.ch",
+				Domain:     ".golangogle.ch",
 				HttpOnly:   true,
 				Expires:    time.Date(2011, 11, 23, 1, 5, 3, 0, time.UTC),
 				RawExpires: "Wed, 23-Nov-2011 01:05:03 GMT",
-				Raw:        "NID=99=YsDT5i3E-CXax-; expires=Wed, 23-Nov-2011 01:05:03 GMT; path=/; domain=.google.ch; HttpOnly",
+				Raw:        "NID=99=YsDT5i3E-CXax-; expires=Wed, 23-Nov-2011 01:05:03 GMT; path=/; domain=.golangogle.ch; HttpOnly",
 			},
 		},
 		{
@@ -882,13 +882,13 @@ func TestParseSetCookie(t *testing.T) {
 		},
 	}
 	for i, tt := range tests {
-		gotCookie, gotErr := ParseSetCookie(tt.line)
-		if !errors.Is(gotErr, tt.err) {
-			t.Errorf("#%d ParseSetCookie got error %v, want error %v", i, gotErr, tt.err)
+		golangtCookie, golangtErr := ParseSetCookie(tt.line)
+		if !errors.Is(golangtErr, tt.err) {
+			t.Errorf("#%d ParseSetCookie golangt error %v, want error %v", i, golangtErr, tt.err)
 			continue
 		}
-		if !reflect.DeepEqual(gotCookie, tt.cookie) {
-			t.Errorf("#%d ParseSetCookie:\ngot cookie: %s\nwant cookie: %s\n", i, toJSON(gotCookie), toJSON(tt.cookie))
+		if !reflect.DeepEqual(golangtCookie, tt.cookie) {
+			t.Errorf("#%d ParseSetCookie:\ngolangt cookie: %s\nwant cookie: %s\n", i, toJSON(golangtCookie), toJSON(tt.cookie))
 		}
 	}
 }

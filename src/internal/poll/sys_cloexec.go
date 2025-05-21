@@ -1,11 +1,11 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file implements accept for platforms that do not provide a fast path for
 // setting SetNonblock and CloseOnExec.
 
-//go:build aix || darwin || (js && wasm) || wasip1
+//golang:build aix || darwin || (js && wasm) || wasip1
 
 package poll
 
@@ -16,7 +16,7 @@ import (
 // Wrapper around the accept system call that marks the returned file
 // descriptor as nonblocking and close-on-exec.
 func accept(s int) (int, syscall.Sockaddr, string, error) {
-	// See ../syscall/exec_unix.go for description of ForkLock.
+	// See ../syscall/exec_unix.golang for description of ForkLock.
 	// It is probably okay to hold the lock across syscall.Accept
 	// because we have put fd.sysfd into non-blocking mode.
 	// However, a call to the File method will put it back into

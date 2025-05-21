@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ld
@@ -39,7 +39,7 @@ const outbufMode = 0775
 //
 // And finally, it provides a mechanism by which you can multithread the
 // writing of output files. This mechanism is accomplished by copying a OutBuf,
-// and using it in the thread/goroutine.
+// and using it in the thread/golangroutine.
 //
 // Parallel OutBuf is intended to be used like:
 //
@@ -52,7 +52,7 @@ const outbufMode = 0775
 //	       // handle output
 //	       continue
 //	    }
-//	    go func(out *OutBuf, i int) {
+//	    golang func(out *OutBuf, i int) {
 //	      // do output
 //	      wg.Done()
 //	    }(view, i)

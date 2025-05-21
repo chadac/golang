@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ssa
@@ -13,7 +13,7 @@ import (
 )
 
 // memcombine combines smaller loads and stores into larger ones.
-// We ensure this generates good code for encoding/binary operations.
+// We ensure this generates golangod code for encoding/binary operations.
 // It may help other cases also.
 func memcombine(f *Func) {
 	// This optimization requires that the architecture has
@@ -559,7 +559,7 @@ func combineStores(root *Value) {
 	if len(a) <= 1 {
 		return
 	}
-	// Memory location we're going to write at (the lowest one).
+	// Memory location we're golanging to write at (the lowest one).
 	ptr := a[0].store.Args[0]
 
 	// Check for constant stores

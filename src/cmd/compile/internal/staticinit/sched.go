@@ -1,13 +1,13 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package staticinit
 
 import (
 	"fmt"
-	"go/constant"
-	"go/token"
+	"golang/constant"
+	"golang/token"
 	"os"
 	"strings"
 
@@ -281,9 +281,9 @@ func (s *Schedule) staticcopy(l *ir.Name, loff int64, rn *ir.Name, typ *types.Ty
 func (s *Schedule) StaticAssign(l *ir.Name, loff int64, r ir.Node, typ *types.Type) bool {
 	// If we're building for FIPS, avoid global data relocations
 	// by treating all address-of operations as non-static.
-	// See ../../../internal/obj/fips.go for more context.
+	// See ../../../internal/obj/fips.golang for more context.
 	// We do this even in non-PIE mode to avoid generating
-	// static temporaries that would go into SRODATAFIPS
+	// static temporaries that would golang into SRODATAFIPS
 	// but need relocations. We can't handle that in the verification.
 	disableGlobalAddrs := base.Ctxt.IsFIPS()
 
@@ -458,7 +458,7 @@ func (s *Schedule) StaticAssign(l *ir.Name, loff int64, r ir.Node, typ *types.Ty
 		}
 
 		if val.Type().HasShape() {
-			// See comment in cmd/compile/internal/walk/convert.go:walkConvInterface
+			// See comment in cmd/compile/internal/walk/convert.golang:walkConvInterface
 			return false
 		}
 
@@ -586,7 +586,7 @@ func (s *Schedule) staticAssignInlinedCall(l *ir.Name, loff int64, call *ir.Inli
 
 	// Handle the special case of an inlined call of
 	// a function body with a single return statement,
-	// which turns into a single assignment plus a goto.
+	// which turns into a single assignment plus a golangto.
 	//
 	// For example code like this:
 	//
@@ -598,29 +598,29 @@ func (s *Schedule) staticAssignInlinedCall(l *ir.Name, loff int64, call *ir.Inli
 	//
 	// 	INLCALL-init
 	// 	.   AS2-init
-	// 	.   .   DCL # x.go:18:13
-	// 	.   .   .   NAME-p.x Class:PAUTO Offset:0 InlFormal OnStack Used int tc(1) # x.go:14:9,x.go:18:13
-	// 	.   AS2 Def tc(1) # x.go:18:13
+	// 	.   .   DCL # x.golang:18:13
+	// 	.   .   .   NAME-p.x Class:PAUTO Offset:0 InlFormal OnStack Used int tc(1) # x.golang:14:9,x.golang:18:13
+	// 	.   AS2 Def tc(1) # x.golang:18:13
 	// 	.   AS2-Lhs
-	// 	.   .   NAME-p.x Class:PAUTO Offset:0 InlFormal OnStack Used int tc(1) # x.go:14:9,x.go:18:13
+	// 	.   .   NAME-p.x Class:PAUTO Offset:0 InlFormal OnStack Used int tc(1) # x.golang:14:9,x.golang:18:13
 	// 	.   AS2-Rhs
-	// 	.   .   LITERAL-400 int tc(1) # x.go:18:14
-	// 	.   INLMARK Index:1 # +x.go:18:13
-	// 	INLCALL PTR-*T tc(1) # x.go:18:13
+	// 	.   .   LITERAL-400 int tc(1) # x.golang:18:14
+	// 	.   INLMARK Index:1 # +x.golang:18:13
+	// 	INLCALL PTR-*T tc(1) # x.golang:18:13
 	// 	INLCALL-Body
-	// 	.   BLOCK tc(1) # x.go:18:13
+	// 	.   BLOCK tc(1) # x.golang:18:13
 	// 	.   BLOCK-List
-	// 	.   .   DCL tc(1) # x.go:18:13
-	// 	.   .   .   NAME-p.~R0 Class:PAUTO Offset:0 OnStack Used PTR-*T tc(1) # x.go:18:13
-	// 	.   .   AS2 tc(1) # x.go:18:13
+	// 	.   .   DCL tc(1) # x.golang:18:13
+	// 	.   .   .   NAME-p.~R0 Class:PAUTO Offset:0 OnStack Used PTR-*T tc(1) # x.golang:18:13
+	// 	.   .   AS2 tc(1) # x.golang:18:13
 	// 	.   .   AS2-Lhs
-	// 	.   .   .   NAME-p.~R0 Class:PAUTO Offset:0 OnStack Used PTR-*T tc(1) # x.go:18:13
+	// 	.   .   .   NAME-p.~R0 Class:PAUTO Offset:0 OnStack Used PTR-*T tc(1) # x.golang:18:13
 	// 	.   .   AS2-Rhs
 	// 	.   .   .   INLINED RETURN ARGUMENT HERE
-	// 	.   .   GOTO p..i1 tc(1) # x.go:18:13
-	// 	.   LABEL p..i1 # x.go:18:13
+	// 	.   .   GOTO p..i1 tc(1) # x.golang:18:13
+	// 	.   LABEL p..i1 # x.golang:18:13
 	// 	INLCALL-ReturnVars
-	// 	.   NAME-p.~R0 Class:PAUTO Offset:0 OnStack Used PTR-*T tc(1) # x.go:18:13
+	// 	.   NAME-p.~R0 Class:PAUTO Offset:0 OnStack Used PTR-*T tc(1) # x.golang:18:13
 	//
 	// In non-unified IR, the tree is slightly different:
 	//  - if there are no arguments to the inlined function,
@@ -1020,7 +1020,7 @@ func subst(n ir.Node, m map[*ir.Name]ir.Node) (ir.Node, bool) {
 		x = ir.Copy(x)
 		ir.EditChildrenWithHidden(x, edit)
 
-		// TODO: handle more operations, see details discussion in go.dev/cl/466277.
+		// TODO: handle more operations, see details discussion in golang.dev/cl/466277.
 		switch x.Op() {
 		case ir.OCONV:
 			x := x.(*ir.ConvExpr)

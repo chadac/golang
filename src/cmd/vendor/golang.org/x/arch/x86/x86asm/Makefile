@@ -1,3 +1,3 @@
-tables.go: ../x86map/map.go ../x86.csv 
-	go run ../x86map/map.go -fmt=decoder ../x86.csv >_tables.go && gofmt _tables.go >tables.go && rm _tables.go
+tables.golang: ../x86map/map.golang ../x86.csv 
+	golang run ../x86map/map.golang -fmt=decoder ../x86.csv >_tables.golang && golangfmt _tables.golang >tables.golang && rm _tables.golang
 

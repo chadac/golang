@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package cookiejar
@@ -116,10 +116,10 @@ var hasDotSuffixTests = [...]struct {
 
 func TestHasDotSuffix(t *testing.T) {
 	for _, tc := range hasDotSuffixTests {
-		got := hasDotSuffix(tc.s, tc.suffix)
+		golangt := hasDotSuffix(tc.s, tc.suffix)
 		want := strings.HasSuffix(tc.s, "."+tc.suffix)
-		if got != want {
-			t.Errorf("s=%q, suffix=%q: got %v, want %v", tc.s, tc.suffix, got, want)
+		if golangt != want {
+			t.Errorf("s=%q, suffix=%q: golangt %v, want %v", tc.s, tc.suffix, golangt, want)
 		}
 	}
 }
@@ -151,10 +151,10 @@ var canonicalHostTests = map[string]string{
 
 func TestCanonicalHost(t *testing.T) {
 	for h, want := range canonicalHostTests {
-		got, err := canonicalHost(h)
+		golangt, err := canonicalHost(h)
 		if want == "error" {
 			if err == nil {
-				t.Errorf("%q: got %q and nil error, want non-nil", h, got)
+				t.Errorf("%q: golangt %q and nil error, want non-nil", h, golangt)
 			}
 			continue
 		}
@@ -162,8 +162,8 @@ func TestCanonicalHost(t *testing.T) {
 			t.Errorf("%q: %v", h, err)
 			continue
 		}
-		if got != want {
-			t.Errorf("%q: got %q, want %q", h, got, want)
+		if golangt != want {
+			t.Errorf("%q: golangt %q, want %q", h, golangt, want)
 			continue
 		}
 	}
@@ -180,8 +180,8 @@ var hasPortTests = map[string]bool{
 
 func TestHasPort(t *testing.T) {
 	for host, want := range hasPortTests {
-		if got := hasPort(host); got != want {
-			t.Errorf("%q: got %t, want %t", host, got, want)
+		if golangt := hasPort(host); golangt != want {
+			t.Errorf("%q: golangt %t, want %t", host, golangt, want)
 		}
 	}
 }
@@ -212,8 +212,8 @@ var jarKeyTests = map[string]string{
 
 func TestJarKey(t *testing.T) {
 	for host, want := range jarKeyTests {
-		if got := jarKey(host, testPSL{}); got != want {
-			t.Errorf("%q: got %q, want %q", host, got, want)
+		if golangt := jarKey(host, testPSL{}); golangt != want {
+			t.Errorf("%q: golangt %q, want %q", host, golangt, want)
 		}
 	}
 }
@@ -242,8 +242,8 @@ var jarKeyNilPSLTests = map[string]string{
 
 func TestJarKeyNilPSL(t *testing.T) {
 	for host, want := range jarKeyNilPSLTests {
-		if got := jarKey(host, nil); got != want {
-			t.Errorf("%q: got %q, want %q", host, got, want)
+		if golangt := jarKey(host, nil); golangt != want {
+			t.Errorf("%q: golangt %q, want %q", host, golangt, want)
 		}
 	}
 }
@@ -261,8 +261,8 @@ var isIPTests = map[string]bool{
 
 func TestIsIP(t *testing.T) {
 	for host, want := range isIPTests {
-		if got := isIP(host); got != want {
-			t.Errorf("%q: got %t, want %t", host, got, want)
+		if golangt := isIP(host); golangt != want {
+			t.Errorf("%q: golangt %t, want %t", host, golangt, want)
 		}
 	}
 }
@@ -284,8 +284,8 @@ var defaultPathTests = map[string]string{
 
 func TestDefaultPath(t *testing.T) {
 	for path, want := range defaultPathTests {
-		if got := defaultPath(path); got != want {
-			t.Errorf("%q: got %q, want %q", path, got, want)
+		if golangt := defaultPath(path); golangt != want {
+			t.Errorf("%q: golangt %q, want %q", path, golangt, want)
 		}
 	}
 }
@@ -329,7 +329,7 @@ func TestDomainAndType(t *testing.T) {
 	for _, tc := range domainAndTypeTests {
 		domain, hostOnly, err := jar.domainAndType(tc.host, tc.domain)
 		if err != tc.wantErr {
-			t.Errorf("%q/%q: got %q error, want %v",
+			t.Errorf("%q/%q: golangt %q error, want %v",
 				tc.host, tc.domain, err, tc.wantErr)
 			continue
 		}
@@ -337,7 +337,7 @@ func TestDomainAndType(t *testing.T) {
 			continue
 		}
 		if domain != tc.wantDomain || hostOnly != tc.wantHostOnly {
-			t.Errorf("%q/%q: got %q/%t want %q/%t",
+			t.Errorf("%q/%q: golangt %q/%t want %q/%t",
 				tc.host, tc.domain, domain, hostOnly,
 				tc.wantDomain, tc.wantHostOnly)
 		}
@@ -413,12 +413,12 @@ func (test jarTest) run(t *testing.T, jar *Jar) {
 		}
 	}
 	slices.Sort(cs)
-	got := strings.Join(cs, " ")
+	golangt := strings.Join(cs, " ")
 
 	// Make sure jar content matches our expectations.
-	if got != test.content {
-		t.Errorf("Test %q Content\ngot  %q\nwant %q",
-			test.description, got, test.content)
+	if golangt != test.content {
+		t.Errorf("Test %q Content\ngolangt  %q\nwant %q",
+			test.description, golangt, test.content)
 	}
 
 	// Test different calls to Cookies.
@@ -428,8 +428,8 @@ func (test jarTest) run(t *testing.T, jar *Jar) {
 		for _, c := range jar.cookies(mustParseURL(query.toURL), now) {
 			s = append(s, c.String())
 		}
-		if got := strings.Join(s, " "); got != query.want {
-			t.Errorf("Test %q #%d\ngot  %q\nwant %q", test.description, i, got, query.want)
+		if golangt := strings.Join(s, " "); golangt != query.want {
+			t.Errorf("Test %q #%d\ngolangt  %q\nwant %q", test.description, i, golangt, query.want)
 		}
 	}
 }
@@ -734,26 +734,26 @@ var updateAndDeleteTests = [...]jarTest{
 	},
 	{
 		"Refill #2.",
-		"http://www.google.com",
+		"http://www.golangogle.com",
 		[]string{
 			"A=6",
 			"A=7; path=/foo",
-			"A=8; domain=.google.com",
-			"A=9; path=/foo; domain=.google.com"},
+			"A=8; domain=.golangogle.com",
+			"A=9; path=/foo; domain=.golangogle.com"},
 		"A=1 A=2 A=3 A=4 A=6 A=7 A=8 A=9",
 		[]query{
 			{"http://www.host.test/foo", "A=2 A=4 A=1 A=3"},
-			{"http://www.google.com/foo", "A=7 A=9 A=6 A=8"},
+			{"http://www.golangogle.com/foo", "A=7 A=9 A=6 A=8"},
 		},
 	},
 	{
 		"Delete A7.",
-		"http://www.google.com",
+		"http://www.golangogle.com",
 		[]string{"A=; path=/foo; max-age=-1"},
 		"A=1 A=2 A=3 A=4 A=6 A=8 A=9",
 		[]query{
 			{"http://www.host.test/foo", "A=2 A=4 A=1 A=3"},
-			{"http://www.google.com/foo", "A=9 A=6 A=8"},
+			{"http://www.golangogle.com/foo", "A=9 A=6 A=8"},
 		},
 	},
 	{
@@ -763,17 +763,17 @@ var updateAndDeleteTests = [...]jarTest{
 		"A=1 A=2 A=3 A=6 A=8 A=9",
 		[]query{
 			{"http://www.host.test/foo", "A=2 A=1 A=3"},
-			{"http://www.google.com/foo", "A=9 A=6 A=8"},
+			{"http://www.golangogle.com/foo", "A=9 A=6 A=8"},
 		},
 	},
 	{
 		"Delete A6.",
-		"http://www.google.com",
+		"http://www.golangogle.com",
 		[]string{"A=; max-age=-1"},
 		"A=1 A=2 A=3 A=8 A=9",
 		[]query{
 			{"http://www.host.test/foo", "A=2 A=1 A=3"},
-			{"http://www.google.com/foo", "A=9 A=8"},
+			{"http://www.golangogle.com/foo", "A=9 A=8"},
 		},
 	},
 	{
@@ -783,31 +783,31 @@ var updateAndDeleteTests = [...]jarTest{
 		"A=1 A=2 A=8 A=9",
 		[]query{
 			{"http://www.host.test/foo", "A=2 A=1"},
-			{"http://www.google.com/foo", "A=9 A=8"},
+			{"http://www.golangogle.com/foo", "A=9 A=8"},
 		},
 	},
 	{
 		"No cross-domain delete.",
 		"http://www.host.test",
 		[]string{
-			"A=; domain=google.com; max-age=-1",
-			"A=; path=/foo; domain=google.com; max-age=-1"},
+			"A=; domain=golangogle.com; max-age=-1",
+			"A=; path=/foo; domain=golangogle.com; max-age=-1"},
 		"A=1 A=2 A=8 A=9",
 		[]query{
 			{"http://www.host.test/foo", "A=2 A=1"},
-			{"http://www.google.com/foo", "A=9 A=8"},
+			{"http://www.golangogle.com/foo", "A=9 A=8"},
 		},
 	},
 	{
 		"Delete A8 and A9.",
-		"http://www.google.com",
+		"http://www.golangogle.com",
 		[]string{
-			"A=; domain=google.com; max-age=-1",
-			"A=; path=/foo; domain=google.com; max-age=-1"},
+			"A=; domain=golangogle.com; max-age=-1",
+			"A=; path=/foo; domain=golangogle.com; max-age=-1"},
 		"A=1 A=2",
 		[]query{
 			{"http://www.host.test/foo", "A=2 A=1"},
-			{"http://www.google.com/foo", ""},
+			{"http://www.golangogle.com/foo", ""},
 		},
 	},
 }
@@ -857,13 +857,13 @@ func TestExpiration(t *testing.T) {
 var chromiumBasicsTests = [...]jarTest{
 	{
 		"DomainWithTrailingDotTest.",
-		"http://www.google.com/",
+		"http://www.golangogle.com/",
 		[]string{
-			"a=1; domain=.www.google.com.",
-			"b=2; domain=.www.google.com.."},
+			"a=1; domain=.www.golangogle.com.",
+			"b=2; domain=.www.golangogle.com.."},
 		"",
 		[]query{
-			{"http://www.google.com", ""},
+			{"http://www.golangogle.com", ""},
 		},
 	},
 	{
@@ -937,23 +937,23 @@ var chromiumBasicsTests = [...]jarTest{
 	},
 	{
 		"DomainWithoutLeadingDotTest #2.",
-		"http://www.google.com",
-		[]string{"a=1; domain=www.google.com"},
+		"http://www.golangogle.com",
+		[]string{"a=1; domain=www.golangogle.com"},
 		"a=1",
 		[]query{
-			{"http://www.google.com", "a=1"},
-			{"http://sub.www.google.com", "a=1"},
+			{"http://www.golangogle.com", "a=1"},
+			{"http://sub.www.golangogle.com", "a=1"},
 			{"http://something-else.com", ""},
 		},
 	},
 	{
 		"CaseInsensitiveDomainTest.",
-		"http://www.google.com",
+		"http://www.golangogle.com",
 		[]string{
 			"a=1; domain=.GOOGLE.COM",
 			"b=2; domain=.www.gOOgLE.coM"},
 		"a=1 b=2",
-		[]query{{"http://www.google.com", "a=1 b=2"}},
+		[]query{{"http://www.golangogle.com", "a=1 b=2"}},
 	},
 	{
 		"TestIpAddress #1.",
@@ -1006,47 +1006,47 @@ var chromiumBasicsTests = [...]jarTest{
 	},
 	{
 		"TestNonDottedAndTLD #4.",
-		"http://google.com",
+		"http://golangogle.com",
 		[]string{
 			"a=1; domain=.com",
 			"b=2; domain=com"},
 		"",
-		[]query{{"http://google.com", ""}},
+		[]query{{"http://golangogle.com", ""}},
 	},
 	{
 		"TestNonDottedAndTLD #5.",
-		"http://google.co.uk",
+		"http://golangogle.co.uk",
 		[]string{
 			"a=1; domain=.co.uk",
 			"b=2; domain=.uk"},
 		"",
 		[]query{
-			{"http://google.co.uk", ""},
+			{"http://golangogle.co.uk", ""},
 			{"http://else.co.com", ""},
 			{"http://else.uk", ""},
 		},
 	},
 	{
 		"TestHostEndsWithDot.",
-		"http://www.google.com",
+		"http://www.golangogle.com",
 		[]string{
 			"a=1",
-			"b=2; domain=.www.google.com."},
+			"b=2; domain=.www.golangogle.com."},
 		"a=1",
-		[]query{{"http://www.google.com", "a=1"}},
+		[]query{{"http://www.golangogle.com", "a=1"}},
 	},
 	{
 		"PathTest",
-		"http://www.google.izzle",
+		"http://www.golangogle.izzle",
 		[]string{"a=1; path=/wee"},
 		"a=1",
 		[]query{
-			{"http://www.google.izzle/wee", "a=1"},
-			{"http://www.google.izzle/wee/", "a=1"},
-			{"http://www.google.izzle/wee/war", "a=1"},
-			{"http://www.google.izzle/wee/war/more/more", "a=1"},
-			{"http://www.google.izzle/weehee", ""},
-			{"http://www.google.izzle/", ""},
+			{"http://www.golangogle.izzle/wee", "a=1"},
+			{"http://www.golangogle.izzle/wee/", "a=1"},
+			{"http://www.golangogle.izzle/wee/war", "a=1"},
+			{"http://www.golangogle.izzle/wee/war/more/more", "a=1"},
+			{"http://www.golangogle.izzle/weehee", ""},
+			{"http://www.golangogle.izzle/", ""},
 		},
 	},
 }
@@ -1063,52 +1063,52 @@ func TestChromiumBasics(t *testing.T) {
 var chromiumDomainTests = [...]jarTest{
 	{
 		"Fill #1.",
-		"http://www.google.izzle",
+		"http://www.golangogle.izzle",
 		[]string{"A=B"},
 		"A=B",
-		[]query{{"http://www.google.izzle", "A=B"}},
+		[]query{{"http://www.golangogle.izzle", "A=B"}},
 	},
 	{
 		"Fill #2.",
-		"http://www.google.izzle",
-		[]string{"C=D; domain=.google.izzle"},
+		"http://www.golangogle.izzle",
+		[]string{"C=D; domain=.golangogle.izzle"},
 		"A=B C=D",
-		[]query{{"http://www.google.izzle", "A=B C=D"}},
+		[]query{{"http://www.golangogle.izzle", "A=B C=D"}},
 	},
 	{
 		"Verify A is a host cookie and not accessible from subdomain.",
 		"http://unused.nil",
 		[]string{},
 		"A=B C=D",
-		[]query{{"http://foo.www.google.izzle", "C=D"}},
+		[]query{{"http://foo.www.golangogle.izzle", "C=D"}},
 	},
 	{
 		"Verify domain cookies are found on proper domain.",
-		"http://www.google.izzle",
-		[]string{"E=F; domain=.www.google.izzle"},
+		"http://www.golangogle.izzle",
+		[]string{"E=F; domain=.www.golangogle.izzle"},
 		"A=B C=D E=F",
-		[]query{{"http://www.google.izzle", "A=B C=D E=F"}},
+		[]query{{"http://www.golangogle.izzle", "A=B C=D E=F"}},
 	},
 	{
 		"Leading dots in domain attributes are optional.",
-		"http://www.google.izzle",
-		[]string{"G=H; domain=www.google.izzle"},
+		"http://www.golangogle.izzle",
+		[]string{"G=H; domain=www.golangogle.izzle"},
 		"A=B C=D E=F G=H",
-		[]query{{"http://www.google.izzle", "A=B C=D E=F G=H"}},
+		[]query{{"http://www.golangogle.izzle", "A=B C=D E=F G=H"}},
 	},
 	{
 		"Verify domain enforcement works #1.",
-		"http://www.google.izzle",
-		[]string{"K=L; domain=.bar.www.google.izzle"},
+		"http://www.golangogle.izzle",
+		[]string{"K=L; domain=.bar.www.golangogle.izzle"},
 		"A=B C=D E=F G=H",
-		[]query{{"http://bar.www.google.izzle", "C=D E=F G=H"}},
+		[]query{{"http://bar.www.golangogle.izzle", "C=D E=F G=H"}},
 	},
 	{
 		"Verify domain enforcement works #2.",
 		"http://unused.nil",
 		[]string{},
 		"A=B C=D E=F G=H",
-		[]query{{"http://www.google.izzle", "A=B C=D E=F G=H"}},
+		[]query{{"http://www.golangogle.izzle", "A=B C=D E=F G=H"}},
 	},
 }
 
@@ -1124,59 +1124,59 @@ func TestChromiumDomain(t *testing.T) {
 var chromiumDeletionTests = [...]jarTest{
 	{
 		"Create session cookie a1.",
-		"http://www.google.com",
+		"http://www.golangogle.com",
 		[]string{"a=1"},
 		"a=1",
-		[]query{{"http://www.google.com", "a=1"}},
+		[]query{{"http://www.golangogle.com", "a=1"}},
 	},
 	{
 		"Delete sc a1 via MaxAge.",
-		"http://www.google.com",
+		"http://www.golangogle.com",
 		[]string{"a=1; max-age=-1"},
 		"",
-		[]query{{"http://www.google.com", ""}},
+		[]query{{"http://www.golangogle.com", ""}},
 	},
 	{
 		"Create session cookie b2.",
-		"http://www.google.com",
+		"http://www.golangogle.com",
 		[]string{"b=2"},
 		"b=2",
-		[]query{{"http://www.google.com", "b=2"}},
+		[]query{{"http://www.golangogle.com", "b=2"}},
 	},
 	{
 		"Delete sc b2 via Expires.",
-		"http://www.google.com",
+		"http://www.golangogle.com",
 		[]string{"b=2; " + expiresIn(-10)},
 		"",
-		[]query{{"http://www.google.com", ""}},
+		[]query{{"http://www.golangogle.com", ""}},
 	},
 	{
 		"Create persistent cookie c3.",
-		"http://www.google.com",
+		"http://www.golangogle.com",
 		[]string{"c=3; max-age=3600"},
 		"c=3",
-		[]query{{"http://www.google.com", "c=3"}},
+		[]query{{"http://www.golangogle.com", "c=3"}},
 	},
 	{
 		"Delete pc c3 via MaxAge.",
-		"http://www.google.com",
+		"http://www.golangogle.com",
 		[]string{"c=3; max-age=-1"},
 		"",
-		[]query{{"http://www.google.com", ""}},
+		[]query{{"http://www.golangogle.com", ""}},
 	},
 	{
 		"Create persistent cookie d4.",
-		"http://www.google.com",
+		"http://www.golangogle.com",
 		[]string{"d=4; max-age=3600"},
 		"d=4",
-		[]query{{"http://www.google.com", "d=4"}},
+		[]query{{"http://www.golangogle.com", "d=4"}},
 	},
 	{
 		"Delete pc d4 via Expires.",
-		"http://www.google.com",
+		"http://www.golangogle.com",
 		[]string{"d=4; " + expiresIn(-10)},
 		"",
-		[]query{{"http://www.google.com", ""}},
+		[]query{{"http://www.golangogle.com", ""}},
 	},
 }
 
@@ -1366,12 +1366,12 @@ func TestIssue19384(t *testing.T) {
 	for _, host := range []string{"", ".", "..", "..."} {
 		jar, _ := New(nil)
 		u := &url.URL{Scheme: "http", Host: host, Path: "/"}
-		if got := jar.Cookies(u); len(got) != 0 {
-			t.Errorf("host %q, got %v", host, got)
+		if golangt := jar.Cookies(u); len(golangt) != 0 {
+			t.Errorf("host %q, golangt %v", host, golangt)
 		}
 		jar.SetCookies(u, cookies)
-		if got := jar.Cookies(u); len(got) != 1 || got[0].Value != "value" {
-			t.Errorf("host %q, got %v", host, got)
+		if golangt := jar.Cookies(u); len(golangt) != 1 || golangt[0].Value != "value" {
+			t.Errorf("host %q, golangt %v", host, golangt)
 		}
 	}
 }

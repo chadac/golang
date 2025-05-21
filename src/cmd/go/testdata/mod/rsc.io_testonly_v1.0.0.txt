@@ -5,5 +5,5 @@ written by hand
 module rsc.io/testonly
 -- .info --
 {"Version":"v1.0.0"}
--- testonly.go --
+-- testonly.golang --
 package testonly

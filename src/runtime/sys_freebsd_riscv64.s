@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 //
@@ -7,8 +7,8 @@
 // /usr/src/sys/kern/syscalls.master for syscall numbers.
 //
 
-#include "go_asm.h"
-#include "go_tls.h"
+#include "golang_asm.h"
+#include "golang_tls.h"
 #include "textflag.h"
 
 #define CLOCK_REALTIME		0
@@ -278,11 +278,11 @@ TEXT runtime·sigtramp(SB),NOSPLIT,$64
 
 	// this might be called in external code context,
 	// where g is not set.
-	MOVBU	runtime·iscgo(SB), A0
+	MOVBU	runtime·iscgolang(SB), A0
 	BEQ	A0, ZERO, ok
 	CALL	runtime·load_g(SB)
 ok:
-	MOV	$runtime·sigtrampgo(SB), A0
+	MOV	$runtime·sigtrampgolang(SB), A0
 	JALR	RA, A0
 	RET
 

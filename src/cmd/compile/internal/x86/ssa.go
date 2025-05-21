@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package x86
@@ -10,7 +10,7 @@ import (
 
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/ir"
-	"cmd/compile/internal/logopt"
+	"cmd/compile/internal/logolangpt"
 	"cmd/compile/internal/ssa"
 	"cmd/compile/internal/ssagen"
 	"cmd/compile/internal/types"
@@ -295,7 +295,7 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 
 	case ssa.Op386AVGLU:
 		// compute (x+y)/2 unsigned.
-		// Do a 32-bit add, the overflow goes into the carry.
+		// Do a 32-bit add, the overflow golanges into the carry.
 		// Shift right once and pull the carry back into the 31st bit.
 		p := s.Prog(x86.AADDL)
 		p.From.Type = obj.TYPE_REG
@@ -690,7 +690,7 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 		ssagen.CheckLoweredGetClosurePtr(v)
 	case ssa.Op386LoweredGetG:
 		r := v.Reg()
-		// See the comments in cmd/internal/obj/x86/obj6.go
+		// See the comments in cmd/internal/obj/x86/obj6.golang
 		// near CanUse1InsnTLS for a detailed explanation of these instructions.
 		if x86.CanUse1InsnTLS(base.Ctxt) {
 			// MOVL (TLS), r
@@ -825,8 +825,8 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 		p.To.Type = obj.TYPE_MEM
 		p.To.Reg = v.Args[0].Reg()
 		ssagen.AddAux(&p.To, v)
-		if logopt.Enabled() {
-			logopt.LogOpt(v.Pos, "nilcheck", "genssa", v.Block.Func.Name)
+		if logolangpt.Enabled() {
+			logolangpt.LogOpt(v.Pos, "nilcheck", "genssa", v.Block.Func.Name)
 		}
 		if base.Debug.Nil != 0 && v.Pos.Line() > 1 { // v.Pos.Line()==1 in generated wrappers
 			base.WarnfAt(v.Pos, "generated nil check")

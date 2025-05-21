@@ -1,96 +1,96 @@
-cp go.mod go.mod.orig
+cp golang.mod golang.mod.orig
 
 
-# If a dependency cannot be resolved, 'go mod tidy' fails with an error message
-# explaining the problem and does not update the go.mod file.
+# If a dependency cannot be resolved, 'golang mod tidy' fails with an error message
+# explaining the problem and does not update the golang.mod file.
 # TODO(bcmills): Ideally, with less redundancy than these error messages!
 
-! go mod tidy
+! golang mod tidy
 
-stderr '^go: example.com/untidy imports\n\texample.net/directnotfound: cannot find module providing package example.net/directnotfound: module example.net/directnotfound: reading http://.*: 404 Not Found$'
+stderr '^golang: example.com/untidy imports\n\texample.net/directnotfound: cannot find module providing package example.net/directnotfound: module example.net/directnotfound: reading http://.*: 404 Not Found$'
 
-stderr '^go: example.com/untidy imports\n\texample.net/m imports\n\texample.net/indirectnotfound: cannot find module providing package example.net/indirectnotfound: module example.net/indirectnotfound: reading http://.*: 404 Not Found$'
+stderr '^golang: example.com/untidy imports\n\texample.net/m imports\n\texample.net/indirectnotfound: cannot find module providing package example.net/indirectnotfound: module example.net/indirectnotfound: reading http://.*: 404 Not Found$'
 
-stderr '^go: example.com/untidy tested by\n\texample.com/untidy.test imports\n\texample.net/directtestnotfound: cannot find module providing package example.net/directtestnotfound: module example.net/directtestnotfound: reading http://.*: 404 Not Found$'
+stderr '^golang: example.com/untidy tested by\n\texample.com/untidy.test imports\n\texample.net/directtestnotfound: cannot find module providing package example.net/directtestnotfound: module example.net/directtestnotfound: reading http://.*: 404 Not Found$'
 
-stderr '^go: example.com/untidy imports\n\texample.net/m tested by\n\texample.net/m.test imports\n\texample.net/indirecttestnotfound: cannot find module providing package example.net/indirecttestnotfound: module example.net/indirecttestnotfound: reading http://.*: 404 Not Found$'
+stderr '^golang: example.com/untidy imports\n\texample.net/m tested by\n\texample.net/m.test imports\n\texample.net/indirecttestnotfound: cannot find module providing package example.net/indirecttestnotfound: module example.net/indirecttestnotfound: reading http://.*: 404 Not Found$'
 
-cmp go.mod.orig go.mod
+cmp golang.mod.orig golang.mod
 
 
-# If a dependency cannot be resolved, 'go mod vendor' fails with an error message
-# explaining the problem, does not update the go.mod file, and does not create
+# If a dependency cannot be resolved, 'golang mod vendor' fails with an error message
+# explaining the problem, does not update the golang.mod file, and does not create
 # the vendor directory.
 
-! go mod vendor
+! golang mod vendor
 
-stderr '^go: example.com/untidy imports\n\texample.net/directnotfound: no required module provides package example.net/directnotfound; to add it:\n\tgo get example.net/directnotfound$'
+stderr '^golang: example.com/untidy imports\n\texample.net/directnotfound: no required module provides package example.net/directnotfound; to add it:\n\tgolang get example.net/directnotfound$'
 
-stderr '^go: example.com/untidy imports\n\texample.net/m: module example.net/m provides package example.net/m and is replaced but not required; to add it:\n\tgo get example.net/m@v0.1.0$'
+stderr '^golang: example.com/untidy imports\n\texample.net/m: module example.net/m provides package example.net/m and is replaced but not required; to add it:\n\tgolang get example.net/m@v0.1.0$'
 
-stderr '^go: example.com/untidy tested by\n\texample.com/untidy.test imports\n\texample.net/directtestnotfound: no required module provides package example.net/directtestnotfound; to add it:\n\tgo get example.net/directtestnotfound$'
+stderr '^golang: example.com/untidy tested by\n\texample.com/untidy.test imports\n\texample.net/directtestnotfound: no required module provides package example.net/directtestnotfound; to add it:\n\tgolang get example.net/directtestnotfound$'
 
 ! stderr 'indirecttestnotfound'  # Vendor prunes test dependencies.
 
-cmp go.mod.orig go.mod
+cmp golang.mod.orig golang.mod
 ! exists vendor
 
 
-# 'go mod tidy' still logs the errors, but succeeds and updates go.mod.
+# 'golang mod tidy' still logs the errors, but succeeds and updates golang.mod.
 
-go mod tidy -e
+golang mod tidy -e
 stderr -count=4 'cannot find module providing package'
-cmp go.mod.final go.mod
+cmp golang.mod.final golang.mod
 
 
-# 'go mod vendor -e' still logs the errors, but creates a vendor directory
+# 'golang mod vendor -e' still logs the errors, but creates a vendor directory
 # and exits with status 0.
-# 'go mod vendor -e' does not update go.mod and will not vendor packages that
-# would require changing go.mod, for example, by adding a requirement.
-cp go.mod.orig go.mod
-go mod vendor -e
+# 'golang mod vendor -e' does not update golang.mod and will not vendor packages that
+# would require changing golang.mod, for example, by adding a requirement.
+cp golang.mod.orig golang.mod
+golang mod vendor -e
 stderr -count=2 'no required module provides package'
-stderr '^go: example.com/untidy imports\n\texample.net/m: module example.net/m provides package example.net/m and is replaced but not required; to add it:\n\tgo get example.net/m@v0.1.0$'
+stderr '^golang: example.com/untidy imports\n\texample.net/m: module example.net/m provides package example.net/m and is replaced but not required; to add it:\n\tgolang get example.net/m@v0.1.0$'
 exists vendor/modules.txt
 ! exists vendor/example.net
 
-go mod edit -require example.net/m@v0.1.0
-go mod vendor -e
+golang mod edit -require example.net/m@v0.1.0
+golang mod vendor -e
 stderr -count=3 'no required module provides package'
 exists vendor/modules.txt
-exists vendor/example.net/m/m.go
+exists vendor/example.net/m/m.golang
 
--- go.mod --
+-- golang.mod --
 module example.com/untidy
-go 1.16
+golang 1.16
 replace example.net/m v0.1.0 => ./m
--- go.mod.final --
+-- golang.mod.final --
 module example.com/untidy
 
-go 1.16
+golang 1.16
 
 replace example.net/m v0.1.0 => ./m
 
 require example.net/m v0.1.0
--- untidy.go --
+-- untidy.golang --
 package untidy
 
 import (
 	_ "example.net/m"
 	_ "example.net/directnotfound"
 )
--- untidy_test.go --
+-- untidy_test.golang --
 package untidy_test
 
 import _ "example.net/directtestnotfound"
--- m/go.mod --
+-- m/golang.mod --
 module example.net/m
-go 1.16
--- m/m.go --
+golang 1.16
+-- m/m.golang --
 package m
 
 import _ "example.net/indirectnotfound"
--- m/m_test.go --
+-- m/m_test.golang --
 package m_test
 
 import _ "example.net/indirecttestnotfound"

@@ -1,12 +1,12 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package context defines the Context type, which carries deadlines,
 // cancellation signals, and other request-scoped values across API boundaries
 // and between processes.
 //
-// Incoming requests to a server should create a [Context], and outgoing
+// Incoming requests to a server should create a [Context], and outgolanging
 // calls to servers should accept a Context. The chain of function
 // calls between them must propagate the Context, optionally replacing
 // it with a derived Context created using [WithCancel], [WithDeadline],
@@ -21,7 +21,7 @@
 // [CancelFunc]. Calling the CancelFunc directly cancels the child and its
 // children, removes the parent's reference to the child, and stops
 // any associated timers. Failing to call the CancelFunc leaks the
-// child and its children until the parent is canceled. The go vet tool
+// child and its children until the parent is canceled. The golang vet tool
 // checks that CancelFuncs are used on all control-flow paths.
 //
 // The [WithCancelCause], [WithDeadlineCause], and [WithTimeoutCause] functions
@@ -36,7 +36,7 @@
 //
 // Do not store Contexts inside a struct type; instead, pass a Context
 // explicitly to each function that needs it. This is discussed further in
-// https://go.dev/blog/context-and-structs. The Context should be the first
+// https://golang.dev/blog/context-and-structs. The Context should be the first
 // parameter, typically named ctx:
 //
 //	func DoSomething(ctx context.Context, arg Arg) error {
@@ -49,10 +49,10 @@
 // Use context Values only for request-scoped data that transits processes and
 // APIs, not for passing optional parameters to functions.
 //
-// The same Context may be passed to functions running in different goroutines;
-// Contexts are safe for simultaneous use by multiple goroutines.
+// The same Context may be passed to functions running in different golangroutines;
+// Contexts are safe for simultaneous use by multiple golangroutines.
 //
-// See https://go.dev/blog/context for example code for a server that uses
+// See https://golang.dev/blog/context for example code for a server that uses
 // Contexts.
 package context
 
@@ -67,7 +67,7 @@ import (
 // A Context carries a deadline, a cancellation signal, and other values across
 // API boundaries.
 //
-// Context's methods may be called by multiple goroutines simultaneously.
+// Context's methods may be called by multiple golangroutines simultaneously.
 type Context interface {
 	// Deadline returns the time when work done on behalf of this context
 	// should be canceled. Deadline returns ok==false when no deadline is
@@ -103,7 +103,7 @@ type Context interface {
 	//  	}
 	//  }
 	//
-	// See https://blog.golang.org/pipelines for more examples of how to use
+	// See https://blog.golanglang.org/pipelines for more examples of how to use
 	// a Done channel for cancellation.
 	Done() <-chan struct{}
 
@@ -226,7 +226,7 @@ func TODO() Context {
 
 // A CancelFunc tells an operation to abandon its work.
 // A CancelFunc does not wait for the work to stop.
-// A CancelFunc may be called by multiple goroutines simultaneously.
+// A CancelFunc may be called by multiple golangroutines simultaneously.
 // After the first call, subsequent calls to a CancelFunc do nothing.
 type CancelFunc func()
 
@@ -305,8 +305,8 @@ func Cause(c Context) error {
 	return c.Err()
 }
 
-// AfterFunc arranges to call f in its own goroutine after ctx is canceled.
-// If ctx is already canceled, AfterFunc calls f immediately in its own goroutine.
+// AfterFunc arranges to call f in its own golangroutine after ctx is canceled.
+// If ctx is already canceled, AfterFunc calls f immediately in its own golangroutine.
 //
 // Multiple calls to AfterFunc on a context operate independently;
 // one does not replace another.
@@ -314,7 +314,7 @@ func Cause(c Context) error {
 // Calling the returned stop function stops the association of ctx with f.
 // It returns true if the call stopped f from being run.
 // If stop returns false,
-// either the context is canceled and f has been started in its own goroutine;
+// either the context is canceled and f has been started in its own golangroutine;
 // or f was already stopped.
 // The stop function does not wait for f to complete before returning.
 // If the caller needs to know whether f is completed,
@@ -355,7 +355,7 @@ func (a *afterFuncCtx) cancel(removeFromParent bool, err, cause error) {
 		removeChild(a.Context, a)
 	}
 	a.once.Do(func() {
-		go a.f()
+		golang a.f()
 	})
 }
 
@@ -367,8 +367,8 @@ type stopCtx struct {
 	stop func() bool
 }
 
-// goroutines counts the number of goroutines ever created; for testing.
-var goroutines atomic.Int32
+// golangroutines counts the number of golangroutines ever created; for testing.
+var golangroutines atomic.Int32
 
 // &cancelCtxKey is the key that a cancelCtx returns itself for.
 var cancelCtxKey int
@@ -516,8 +516,8 @@ func (c *cancelCtx) propagateCancel(parent Context, child canceler) {
 		return
 	}
 
-	goroutines.Add(1)
-	go func() {
+	golangroutines.Add(1)
+	golang func() {
 		select {
 		case <-parent.Done():
 			child.cancel(false, parent.Err(), Cause(parent))

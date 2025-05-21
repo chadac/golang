@@ -1,299 +1,299 @@
-# This test uses the fake toolchain switch support in cmd/go/internal/toolchain.Switch
+# This test uses the fake toolchain switch support in cmd/golang/internal/toolchain.Switch
 # to exercise all the version selection logic without needing actual toolchains.
-# See gotoolchain_net.txt and gotoolchain_path.txt for tests of network and PATH toolchains.
+# See golangtoolchain_net.txt and golangtoolchain_path.txt for tests of network and PATH toolchains.
 
-env TESTGO_VERSION=go1.500
+env TESTGO_VERSION=golang1.500
 env TESTGO_VERSION_SWITCH=switch
 
-# GOTOOLCHAIN=auto runs default toolchain without a go.mod or go.work
+# GOTOOLCHAIN=auto runs default toolchain without a golang.mod or golang.work
 env GOTOOLCHAIN=auto
-go version
-stdout go1.500
+golang version
+stdout golang1.500
 
-# GOTOOLCHAIN=path runs default toolchain without a go.mod or go.work
+# GOTOOLCHAIN=path runs default toolchain without a golang.mod or golang.work
 env GOTOOLCHAIN=path
-go version
-stdout go1.500
+golang version
+stdout golang1.500
 
 # GOTOOLCHAIN=asdf is a syntax error
 env GOTOOLCHAIN=asdf
-! go version
-stderr '^go: invalid GOTOOLCHAIN "asdf"$'
+! golang version
+stderr '^golang: invalid GOTOOLCHAIN "asdf"$'
 
 # GOTOOLCHAIN=version is used directly.
-env GOTOOLCHAIN=go1.600
-go version
-stdout go1.600
+env GOTOOLCHAIN=golang1.600
+golang version
+stdout golang1.600
 
-env GOTOOLCHAIN=go1.400
-go version
-stdout go1.400
+env GOTOOLCHAIN=golang1.400
+golang version
+stdout golang1.400
 
 # GOTOOLCHAIN=version+auto sets a minimum.
-env GOTOOLCHAIN=go1.600+auto
-go version
-stdout go1.600
+env GOTOOLCHAIN=golang1.600+auto
+golang version
+stdout golang1.600
 
-env GOTOOLCHAIN=go1.400.0+auto
-go version
-stdout go1.400.0
+env GOTOOLCHAIN=golang1.400.0+auto
+golang version
+stdout golang1.400.0
 
 # GOTOOLCHAIN=version+path sets a minimum too.
-env GOTOOLCHAIN=go1.600+path
-go version
-stdout go1.600
+env GOTOOLCHAIN=golang1.600+path
+golang version
+stdout golang1.600
 
-env GOTOOLCHAIN=go1.400+path
-go version
-stdout go1.400
+env GOTOOLCHAIN=golang1.400+path
+golang version
+stdout golang1.400
 
-# Create a go.mod file and test interactions with auto and path.
+# Create a golang.mod file and test interactions with auto and path.
 
-# GOTOOLCHAIN=auto uses go line if newer than local toolchain.
+# GOTOOLCHAIN=auto uses golang line if newer than local toolchain.
 env GOTOOLCHAIN=auto
-go mod init m
-go mod edit -go=1.700 -toolchain=none
-go version
+golang mod init m
+golang mod edit -golang=1.700 -toolchain=none
+golang version
 stdout 1.700
 
-go mod edit -go=1.300 -toolchain=none
-go version
+golang mod edit -golang=1.300 -toolchain=none
+golang version
 stdout 1.500 # local toolchain is newer
 
-go mod edit -go=1.700 -toolchain=go1.300
-go version
-stdout go1.700 # toolchain too old, ignored
+golang mod edit -golang=1.700 -toolchain=golang1.300
+golang version
+stdout golang1.700 # toolchain too old, ignored
 
-go mod edit -go=1.300 -toolchain=default
-go version
-stdout go1.500
+golang mod edit -golang=1.300 -toolchain=default
+golang version
+stdout golang1.500
 
-go mod edit -go=1.700 -toolchain=default
-go version
-stdout go1.500 # toolchain local is like GOTOOLCHAIN=local and wins
-! go build
-stderr '^go: go.mod requires go >= 1.700 \(running go 1.500; go.mod sets toolchain default\)'
+golang mod edit -golang=1.700 -toolchain=default
+golang version
+stdout golang1.500 # toolchain local is like GOTOOLCHAIN=local and wins
+! golang build
+stderr '^golang: golang.mod requires golang >= 1.700 \(running golang 1.500; golang.mod sets toolchain default\)'
 
 # GOTOOLCHAIN=path does the same.
 env GOTOOLCHAIN=path
-go mod edit -go=1.700 -toolchain=none
-go version
+golang mod edit -golang=1.700 -toolchain=none
+golang version
 stdout 1.700
 
-go mod edit -go=1.300 -toolchain=none
-go version
+golang mod edit -golang=1.300 -toolchain=none
+golang version
 stdout 1.500 # local toolchain is newer
 
-go mod edit -go=1.700 -toolchain=go1.300
-go version
-stdout go1.700 # toolchain too old, ignored
+golang mod edit -golang=1.700 -toolchain=golang1.300
+golang version
+stdout golang1.700 # toolchain too old, ignored
 
-go mod edit -go=1.300 -toolchain=default
-go version
-stdout go1.500
+golang mod edit -golang=1.300 -toolchain=default
+golang version
+stdout golang1.500
 
-go mod edit -go=1.700 -toolchain=default
-go version
-stdout go1.500 # toolchain default applies even if older than go line
-! go build
-stderr '^go: go.mod requires go >= 1.700 \(running go 1.500; GOTOOLCHAIN=path; go.mod sets toolchain default\)'
+golang mod edit -golang=1.700 -toolchain=default
+golang version
+stdout golang1.500 # toolchain default applies even if older than golang line
+! golang build
+stderr '^golang: golang.mod requires golang >= 1.700 \(running golang 1.500; GOTOOLCHAIN=path; golang.mod sets toolchain default\)'
 
 # GOTOOLCHAIN=min+auto with toolchain default uses min, not local
 
-env GOTOOLCHAIN=go1.400+auto
-go mod edit -go=1.300 -toolchain=default
-go version
+env GOTOOLCHAIN=golang1.400+auto
+golang mod edit -golang=1.300 -toolchain=default
+golang version
 stdout 1.400 # not 1.500 local toolchain
 
-env GOTOOLCHAIN=go1.600+auto
-go mod edit -go=1.300 -toolchain=default
-go version
+env GOTOOLCHAIN=golang1.600+auto
+golang mod edit -golang=1.300 -toolchain=default
+golang version
 stdout 1.600 # not 1.500 local toolchain
 
 # GOTOOLCHAIN names can have -suffix
-env GOTOOLCHAIN=go1.800-bigcorp
-go version
-stdout go1.800-bigcorp
+env GOTOOLCHAIN=golang1.800-bigcorp
+golang version
+stdout golang1.800-bigcorp
 
 env GOTOOLCHAIN=auto
-go mod edit -go=1.999 -toolchain=go1.800-bigcorp
-go version
-stdout go1.999
+golang mod edit -golang=1.999 -toolchain=golang1.800-bigcorp
+golang version
+stdout golang1.999
 
-go mod edit -go=1.777 -toolchain=go1.800-bigcorp
-go version
-stdout go1.800-bigcorp
+golang mod edit -golang=1.777 -toolchain=golang1.800-bigcorp
+golang version
+stdout golang1.800-bigcorp
 
-# go.work takes priority over go.mod
-go mod edit -go=1.700 -toolchain=go1.999-wrong
-go work init
-go work edit -go=1.400 -toolchain=go1.600-right
-go version
-stdout go1.600-right
+# golang.work takes priority over golang.mod
+golang mod edit -golang=1.700 -toolchain=golang1.999-wrong
+golang work init
+golang work edit -golang=1.400 -toolchain=golang1.600-right
+golang version
+stdout golang1.600-right
 
-go work edit -go=1.400 -toolchain=default
-go version
-stdout go1.500
+golang work edit -golang=1.400 -toolchain=default
+golang version
+stdout golang1.500
 
-# go.work misconfiguration does not break go work edit
-# ('go 1.600 / toolchain local' forces use of 1.500 which can't normally load that go.work; allow work edit to fix it.)
-go work edit -go=1.600 -toolchain=default
-go version
-stdout go1.500
+# golang.work misconfiguration does not break golang work edit
+# ('golang 1.600 / toolchain local' forces use of 1.500 which can't normally load that golang.work; allow work edit to fix it.)
+golang work edit -golang=1.600 -toolchain=default
+golang version
+stdout golang1.500
 
-go work edit -toolchain=none
-go version
-stdout go1.600
+golang work edit -toolchain=none
+golang version
+stdout golang1.600
 
-rm go.work
+rm golang.work
 
-# go.mod misconfiguration does not break go mod edit
-go mod edit -go=1.600 -toolchain=default
-go version
-stdout go1.500
+# golang.mod misconfiguration does not break golang mod edit
+golang mod edit -golang=1.600 -toolchain=default
+golang version
+stdout golang1.500
 
-go mod edit -toolchain=none
-go version
-stdout go1.600
+golang mod edit -toolchain=none
+golang version
+stdout golang1.600
 
 # toolchain built with a custom version should know how it compares to others
 
-env TESTGO_VERSION=go1.500-bigcorp
-go mod edit -go=1.499 -toolchain=none
-go version
-stdout go1.500-bigcorp
+env TESTGO_VERSION=golang1.500-bigcorp
+golang mod edit -golang=1.499 -toolchain=none
+golang version
+stdout golang1.500-bigcorp
 
-go mod edit -go=1.499 -toolchain=go1.499
-go version
-stdout go1.500-bigcorp
+golang mod edit -golang=1.499 -toolchain=golang1.499
+golang version
+stdout golang1.500-bigcorp
 
-go mod edit -go=1.500 -toolchain=none
-go version
-stdout go1.500-bigcorp
+golang mod edit -golang=1.500 -toolchain=none
+golang version
+stdout golang1.500-bigcorp
 
-go mod edit -go=1.500 -toolchain=go1.500
-go version
-stdout go1.500-bigcorp
+golang mod edit -golang=1.500 -toolchain=golang1.500
+golang version
+stdout golang1.500-bigcorp
 
-go mod edit -go=1.501 -toolchain=none
-go version
-stdout go1.501
+golang mod edit -golang=1.501 -toolchain=none
+golang version
+stdout golang1.501
 
-	# If toolchain > go, we must upgrade to the indicated toolchain (not just the go version).
-go mod edit -go=1.499 -toolchain=go1.501
-go version
-stdout go1.501
+	# If toolchain > golang, we must upgrade to the indicated toolchain (not just the golang version).
+golang mod edit -golang=1.499 -toolchain=golang1.501
+golang version
+stdout golang1.501
 
-env TESTGO_VERSION='go1.500 (bigcorp)'
-go mod edit -go=1.499 -toolchain=none
-go version
-stdout 'go1.500 \(bigcorp\)'
+env TESTGO_VERSION='golang1.500 (bigcorp)'
+golang mod edit -golang=1.499 -toolchain=none
+golang version
+stdout 'golang1.500 \(bigcorp\)'
 
-go mod edit -go=1.500 -toolchain=none
-go version
-stdout 'go1.500 \(bigcorp\)'
+golang mod edit -golang=1.500 -toolchain=none
+golang version
+stdout 'golang1.500 \(bigcorp\)'
 
-go mod edit -go=1.501 -toolchain=none
-go version
-stdout go1.501
+golang mod edit -golang=1.501 -toolchain=none
+golang version
+stdout golang1.501
 
-go mod edit -go=1.21
+golang mod edit -golang=1.21
 
 # avoid two-step switch, first from install target requirement, then from GOTOOLCHAIN min
 # instead, just jump directly to GOTOOLCHAIN min
-env TESTGO_VERSION=go1.2.3
+env TESTGO_VERSION=golang1.2.3
 env GODEBUG=toolchaintrace=1
-env GOTOOLCHAIN=go1.23.0+auto
-! go install rsc.io/fortune/nonexist@v0.0.1
-! stderr 'switching to go1.22.9'
-stderr 'using go1.23.0'
+env GOTOOLCHAIN=golang1.23.0+auto
+! golang install rsc.io/fortune/nonexist@v0.0.1
+! stderr 'switching to golang1.22.9'
+stderr 'using golang1.23.0'
 env GOTOOLCHAIN=auto
 
-# go install m@v and go run m@v should use the go directive from m@v,
-# or the go directive in go.mod, whichever is higher.
-env TESTGO_VERSION=go1.2.3
-go mod edit -go=1.1.1 -toolchain=go1.1.1
+# golang install m@v and golang run m@v should use the golang directive from m@v,
+# or the golang directive in golang.mod, whichever is higher.
+env TESTGO_VERSION=golang1.2.3
+golang mod edit -golang=1.1.1 -toolchain=golang1.1.1
 
-! go install rsc.io/fortune/nonexist@v0.0.1
-stderr '^go: rsc.io/fortune@v0.0.1 requires go >= 1.21rc999; switching to go1.22.9$'
+! golang install rsc.io/fortune/nonexist@v0.0.1
+stderr '^golang: rsc.io/fortune@v0.0.1 requires golang >= 1.21rc999; switching to golang1.22.9$'
 ! stderr 'upgrading toolchain'
-stderr '^go: rsc.io/fortune/nonexist@v0.0.1: module rsc.io/fortune@v0.0.1 found, but does not contain package rsc.io/fortune/nonexist'
+stderr '^golang: rsc.io/fortune/nonexist@v0.0.1: module rsc.io/fortune@v0.0.1 found, but does not contain package rsc.io/fortune/nonexist'
 
-! go run rsc.io/fortune/nonexist@v0.0.1
-stderr '^go: rsc.io/fortune@v0.0.1 requires go >= 1.21rc999; switching to go1.22.9$'
+! golang run rsc.io/fortune/nonexist@v0.0.1
+stderr '^golang: rsc.io/fortune@v0.0.1 requires golang >= 1.21rc999; switching to golang1.22.9$'
 ! stderr 'upgrading toolchain'
-stderr '^go: rsc.io/fortune/nonexist@v0.0.1: module rsc.io/fortune@v0.0.1 found, but does not contain package rsc.io/fortune/nonexist'
+stderr '^golang: rsc.io/fortune/nonexist@v0.0.1: module rsc.io/fortune@v0.0.1 found, but does not contain package rsc.io/fortune/nonexist'
 
-go mod edit -go=1.23rc1 -toolchain=go1.1.1
+golang mod edit -golang=1.23rc1 -toolchain=golang1.1.1
 
-! go install rsc.io/fortune/nonexist@v0.0.1
-stderr '^go: upgrading toolchain to go1.23rc1 \(required by go line in go.mod; upgrade allowed by GOTOOLCHAIN=auto\)'
+! golang install rsc.io/fortune/nonexist@v0.0.1
+stderr '^golang: upgrading toolchain to golang1.23rc1 \(required by golang line in golang.mod; upgrade allowed by GOTOOLCHAIN=auto\)'
 ! stderr 'switching to'
-stderr '^go: rsc.io/fortune/nonexist@v0.0.1: module rsc.io/fortune@v0.0.1 found, but does not contain package rsc.io/fortune/nonexist'
+stderr '^golang: rsc.io/fortune/nonexist@v0.0.1: module rsc.io/fortune@v0.0.1 found, but does not contain package rsc.io/fortune/nonexist'
 
-! go run rsc.io/fortune/nonexist@v0.0.1
-stderr '^go: upgrading toolchain to go1.23rc1 \(required by go line in go.mod; upgrade allowed by GOTOOLCHAIN=auto\)'
+! golang run rsc.io/fortune/nonexist@v0.0.1
+stderr '^golang: upgrading toolchain to golang1.23rc1 \(required by golang line in golang.mod; upgrade allowed by GOTOOLCHAIN=auto\)'
 ! stderr 'switching to'
-stderr '^go: rsc.io/fortune/nonexist@v0.0.1: module rsc.io/fortune@v0.0.1 found, but does not contain package rsc.io/fortune/nonexist'
+stderr '^golang: rsc.io/fortune/nonexist@v0.0.1: module rsc.io/fortune@v0.0.1 found, but does not contain package rsc.io/fortune/nonexist'
 
-go mod edit -go=1.23rc1 -toolchain=go1.998
+golang mod edit -golang=1.23rc1 -toolchain=golang1.998
 
-! go install rsc.io/fortune/nonexist@v0.0.1
-stderr '^go: upgrading toolchain to go1.998 \(required by toolchain line in go.mod; upgrade allowed by GOTOOLCHAIN=auto\)'
+! golang install rsc.io/fortune/nonexist@v0.0.1
+stderr '^golang: upgrading toolchain to golang1.998 \(required by toolchain line in golang.mod; upgrade allowed by GOTOOLCHAIN=auto\)'
 ! stderr 'switching to'
-stderr '^go: rsc.io/fortune/nonexist@v0.0.1: module rsc.io/fortune@v0.0.1 found, but does not contain package rsc.io/fortune/nonexist'
+stderr '^golang: rsc.io/fortune/nonexist@v0.0.1: module rsc.io/fortune@v0.0.1 found, but does not contain package rsc.io/fortune/nonexist'
 
-! go run rsc.io/fortune/nonexist@v0.0.1
-stderr '^go: upgrading toolchain to go1.998 \(required by toolchain line in go.mod; upgrade allowed by GOTOOLCHAIN=auto\)'
+! golang run rsc.io/fortune/nonexist@v0.0.1
+stderr '^golang: upgrading toolchain to golang1.998 \(required by toolchain line in golang.mod; upgrade allowed by GOTOOLCHAIN=auto\)'
 ! stderr 'switching to'
-stderr '^go: rsc.io/fortune/nonexist@v0.0.1: module rsc.io/fortune@v0.0.1 found, but does not contain package rsc.io/fortune/nonexist'
+stderr '^golang: rsc.io/fortune/nonexist@v0.0.1: module rsc.io/fortune@v0.0.1 found, but does not contain package rsc.io/fortune/nonexist'
 
-go mod edit -go=1.1.1 -toolchain=go1.1.1
+golang mod edit -golang=1.1.1 -toolchain=golang1.1.1
 
-# go install should handle unknown flags to find m@v
-! go install -unknownflag rsc.io/fortune/nonexist@v0.0.1
-stderr '^go: rsc.io/fortune@v0.0.1 requires go >= 1.21rc999; switching to go1.22.9$'
+# golang install should handle unknown flags to find m@v
+! golang install -unknownflag rsc.io/fortune/nonexist@v0.0.1
+stderr '^golang: rsc.io/fortune@v0.0.1 requires golang >= 1.21rc999; switching to golang1.22.9$'
 stderr '^flag provided but not defined: -unknownflag'
 
-! go install -unknownflag arg rsc.io/fortune/nonexist@v0.0.1
-stderr '^go: rsc.io/fortune@v0.0.1 requires go >= 1.21rc999; switching to go1.22.9$'
+! golang install -unknownflag arg rsc.io/fortune/nonexist@v0.0.1
+stderr '^golang: rsc.io/fortune@v0.0.1 requires golang >= 1.21rc999; switching to golang1.22.9$'
 stderr '^flag provided but not defined: -unknownflag'
 
 env GODEBUG=
 
-# go run cannot handle unknown boolean flags
-! go run -unknownflag rsc.io/fortune/nonexist@v0.0.1
+# golang run cannot handle unknown boolean flags
+! golang run -unknownflag rsc.io/fortune/nonexist@v0.0.1
 ! stderr switching
 stderr '^flag provided but not defined: -unknownflag'
 
-! go run -unknownflag oops rsc.io/fortune/nonexist@v0.0.1
+! golang run -unknownflag oops rsc.io/fortune/nonexist@v0.0.1
 ! stderr switching
 stderr '^flag provided but not defined: -unknownflag'
 
-# go run can handle unknown flag with argument.
-! go run -unknown=flag rsc.io/fortune/nonexist@v0.0.1
-stderr '^go: rsc.io/fortune@v0.0.1 requires go >= 1.21rc999; switching to go1.22.9$'
+# golang run can handle unknown flag with argument.
+! golang run -unknown=flag rsc.io/fortune/nonexist@v0.0.1
+stderr '^golang: rsc.io/fortune@v0.0.1 requires golang >= 1.21rc999; switching to golang1.22.9$'
 stderr '^flag provided but not defined: -unknown'
 
-# go install m@v should handle queries
-! go install rsc.io/fortune/nonexist@v0.0
-stderr '^go: rsc.io/fortune@v0.0.1 requires go >= 1.21rc999; switching to go1.22.9$'
-stderr '^go: rsc.io/fortune/nonexist@v0.0: module rsc.io/fortune@v0.0 found \(v0.0.1\), but does not contain package rsc.io/fortune/nonexist'
+# golang install m@v should handle queries
+! golang install rsc.io/fortune/nonexist@v0.0
+stderr '^golang: rsc.io/fortune@v0.0.1 requires golang >= 1.21rc999; switching to golang1.22.9$'
+stderr '^golang: rsc.io/fortune/nonexist@v0.0: module rsc.io/fortune@v0.0 found \(v0.0.1\), but does not contain package rsc.io/fortune/nonexist'
 
-# go run m@v should handle queries
-! go install rsc.io/fortune/nonexist@v0
-stderr '^go: rsc.io/fortune@v0.0.1 requires go >= 1.21rc999; switching to go1.22.9$'
-stderr '^go: rsc.io/fortune/nonexist@v0: module rsc.io/fortune@v0 found \(v0.0.1\), but does not contain package rsc.io/fortune/nonexist'
+# golang run m@v should handle queries
+! golang install rsc.io/fortune/nonexist@v0
+stderr '^golang: rsc.io/fortune@v0.0.1 requires golang >= 1.21rc999; switching to golang1.22.9$'
+stderr '^golang: rsc.io/fortune/nonexist@v0: module rsc.io/fortune@v0 found \(v0.0.1\), but does not contain package rsc.io/fortune/nonexist'
 
-# go install m@v should use local toolchain if not upgrading
-! go install rsc.io/fortune/nonexist@v1
-! stderr go1.22.9
+# golang install m@v should use local toolchain if not upgrading
+! golang install rsc.io/fortune/nonexist@v1
+! stderr golang1.22.9
 ! stderr switching
-stderr '^go: downloading rsc.io/fortune v1.0.0$'
-stderr '^go: rsc.io/fortune/nonexist@v1: module rsc.io/fortune@v1 found \(v1.0.0\), but does not contain package rsc.io/fortune/nonexist'
+stderr '^golang: downloading rsc.io/fortune v1.0.0$'
+stderr '^golang: rsc.io/fortune/nonexist@v1: module rsc.io/fortune@v1 found \(v1.0.0\), but does not contain package rsc.io/fortune/nonexist'
 
-# go run m@v should use local toolchain if not upgrading
-! go run rsc.io/fortune/nonexist@v1
-! stderr go1.22.9
+# golang run m@v should use local toolchain if not upgrading
+! golang run rsc.io/fortune/nonexist@v1
+! stderr golang1.22.9
 ! stderr switching
-stderr '^go: rsc.io/fortune/nonexist@v1: module rsc.io/fortune@v1 found \(v1.0.0\), but does not contain package rsc.io/fortune/nonexist'
+stderr '^golang: rsc.io/fortune/nonexist@v1: module rsc.io/fortune@v1 found \(v1.0.0\), but does not contain package rsc.io/fortune/nonexist'

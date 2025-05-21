@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package sync
@@ -27,7 +27,7 @@ func runtime_SemacquireWaitGroup(s *uint32)
 func runtime_SemacquireRWMutexR(s *uint32, lifo bool, skipframes int)
 func runtime_SemacquireRWMutex(s *uint32, lifo bool, skipframes int)
 
-// Semrelease atomically increments *s and notifies a waiting goroutine
+// Semrelease atomically increments *s and notifies a waiting golangroutine
 // if one is blocked in Semacquire.
 // It is intended as a simple wakeup primitive for use by the synchronization
 // library and should not be used directly.
@@ -36,16 +36,16 @@ func runtime_SemacquireRWMutex(s *uint32, lifo bool, skipframes int)
 // runtime_Semrelease's caller.
 func runtime_Semrelease(s *uint32, handoff bool, skipframes int)
 
-// See runtime/sema.go for documentation.
+// See runtime/sema.golang for documentation.
 func runtime_notifyListAdd(l *notifyList) uint32
 
-// See runtime/sema.go for documentation.
+// See runtime/sema.golang for documentation.
 func runtime_notifyListWait(l *notifyList, t uint32)
 
-// See runtime/sema.go for documentation.
+// See runtime/sema.golang for documentation.
 func runtime_notifyListNotifyAll(l *notifyList)
 
-// See runtime/sema.go for documentation.
+// See runtime/sema.golang for documentation.
 func runtime_notifyListNotifyOne(l *notifyList)
 
 // Ensure that sync and runtime agree on size of notifyList.

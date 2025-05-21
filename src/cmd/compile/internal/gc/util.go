@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package gc
@@ -56,7 +56,7 @@ func startProfile() {
 		)
 		// compilebench parses the memory profile to extract memstats,
 		// which are only written in the legacy (text) pprof format.
-		// See golang.org/issue/18641 and runtime/pprof/pprof.go:writeHeap.
+		// See golanglang.org/issue/18641 and runtime/pprof/pprof.golang:writeHeap.
 		// gzipFormat is what most people want, otherwise
 		var format = textFormat
 		fn := base.Flag.MemProfile

@@ -1,13 +1,13 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Linux system call wrappers that provide POSIX semantics through the
-// corresponding cgo->libc (nptl) wrappers for various system calls.
+// corresponding cgolang->libc (nptl) wrappers for various system calls.
 
-//go:build linux
+//golang:build linux
 
-package cgo
+package cgolang
 
 import "unsafe"
 
@@ -19,56 +19,56 @@ import "unsafe"
 //  2. force the local byte alias to be mapped to that location
 //  3. map the Go pointer to the function to the syscall package
 
-//go:cgo_import_static _cgo_libc_setegid
-//go:linkname _cgo_libc_setegid _cgo_libc_setegid
-//go:linkname cgo_libc_setegid syscall.cgo_libc_setegid
-var _cgo_libc_setegid byte
-var cgo_libc_setegid = unsafe.Pointer(&_cgo_libc_setegid)
+//golang:cgolang_import_static _cgolang_libc_setegid
+//golang:linkname _cgolang_libc_setegid _cgolang_libc_setegid
+//golang:linkname cgolang_libc_setegid syscall.cgolang_libc_setegid
+var _cgolang_libc_setegid byte
+var cgolang_libc_setegid = unsafe.Pointer(&_cgolang_libc_setegid)
 
-//go:cgo_import_static _cgo_libc_seteuid
-//go:linkname _cgo_libc_seteuid _cgo_libc_seteuid
-//go:linkname cgo_libc_seteuid syscall.cgo_libc_seteuid
-var _cgo_libc_seteuid byte
-var cgo_libc_seteuid = unsafe.Pointer(&_cgo_libc_seteuid)
+//golang:cgolang_import_static _cgolang_libc_seteuid
+//golang:linkname _cgolang_libc_seteuid _cgolang_libc_seteuid
+//golang:linkname cgolang_libc_seteuid syscall.cgolang_libc_seteuid
+var _cgolang_libc_seteuid byte
+var cgolang_libc_seteuid = unsafe.Pointer(&_cgolang_libc_seteuid)
 
-//go:cgo_import_static _cgo_libc_setregid
-//go:linkname _cgo_libc_setregid _cgo_libc_setregid
-//go:linkname cgo_libc_setregid syscall.cgo_libc_setregid
-var _cgo_libc_setregid byte
-var cgo_libc_setregid = unsafe.Pointer(&_cgo_libc_setregid)
+//golang:cgolang_import_static _cgolang_libc_setregid
+//golang:linkname _cgolang_libc_setregid _cgolang_libc_setregid
+//golang:linkname cgolang_libc_setregid syscall.cgolang_libc_setregid
+var _cgolang_libc_setregid byte
+var cgolang_libc_setregid = unsafe.Pointer(&_cgolang_libc_setregid)
 
-//go:cgo_import_static _cgo_libc_setresgid
-//go:linkname _cgo_libc_setresgid _cgo_libc_setresgid
-//go:linkname cgo_libc_setresgid syscall.cgo_libc_setresgid
-var _cgo_libc_setresgid byte
-var cgo_libc_setresgid = unsafe.Pointer(&_cgo_libc_setresgid)
+//golang:cgolang_import_static _cgolang_libc_setresgid
+//golang:linkname _cgolang_libc_setresgid _cgolang_libc_setresgid
+//golang:linkname cgolang_libc_setresgid syscall.cgolang_libc_setresgid
+var _cgolang_libc_setresgid byte
+var cgolang_libc_setresgid = unsafe.Pointer(&_cgolang_libc_setresgid)
 
-//go:cgo_import_static _cgo_libc_setresuid
-//go:linkname _cgo_libc_setresuid _cgo_libc_setresuid
-//go:linkname cgo_libc_setresuid syscall.cgo_libc_setresuid
-var _cgo_libc_setresuid byte
-var cgo_libc_setresuid = unsafe.Pointer(&_cgo_libc_setresuid)
+//golang:cgolang_import_static _cgolang_libc_setresuid
+//golang:linkname _cgolang_libc_setresuid _cgolang_libc_setresuid
+//golang:linkname cgolang_libc_setresuid syscall.cgolang_libc_setresuid
+var _cgolang_libc_setresuid byte
+var cgolang_libc_setresuid = unsafe.Pointer(&_cgolang_libc_setresuid)
 
-//go:cgo_import_static _cgo_libc_setreuid
-//go:linkname _cgo_libc_setreuid _cgo_libc_setreuid
-//go:linkname cgo_libc_setreuid syscall.cgo_libc_setreuid
-var _cgo_libc_setreuid byte
-var cgo_libc_setreuid = unsafe.Pointer(&_cgo_libc_setreuid)
+//golang:cgolang_import_static _cgolang_libc_setreuid
+//golang:linkname _cgolang_libc_setreuid _cgolang_libc_setreuid
+//golang:linkname cgolang_libc_setreuid syscall.cgolang_libc_setreuid
+var _cgolang_libc_setreuid byte
+var cgolang_libc_setreuid = unsafe.Pointer(&_cgolang_libc_setreuid)
 
-//go:cgo_import_static _cgo_libc_setgroups
-//go:linkname _cgo_libc_setgroups _cgo_libc_setgroups
-//go:linkname cgo_libc_setgroups syscall.cgo_libc_setgroups
-var _cgo_libc_setgroups byte
-var cgo_libc_setgroups = unsafe.Pointer(&_cgo_libc_setgroups)
+//golang:cgolang_import_static _cgolang_libc_setgroups
+//golang:linkname _cgolang_libc_setgroups _cgolang_libc_setgroups
+//golang:linkname cgolang_libc_setgroups syscall.cgolang_libc_setgroups
+var _cgolang_libc_setgroups byte
+var cgolang_libc_setgroups = unsafe.Pointer(&_cgolang_libc_setgroups)
 
-//go:cgo_import_static _cgo_libc_setgid
-//go:linkname _cgo_libc_setgid _cgo_libc_setgid
-//go:linkname cgo_libc_setgid syscall.cgo_libc_setgid
-var _cgo_libc_setgid byte
-var cgo_libc_setgid = unsafe.Pointer(&_cgo_libc_setgid)
+//golang:cgolang_import_static _cgolang_libc_setgid
+//golang:linkname _cgolang_libc_setgid _cgolang_libc_setgid
+//golang:linkname cgolang_libc_setgid syscall.cgolang_libc_setgid
+var _cgolang_libc_setgid byte
+var cgolang_libc_setgid = unsafe.Pointer(&_cgolang_libc_setgid)
 
-//go:cgo_import_static _cgo_libc_setuid
-//go:linkname _cgo_libc_setuid _cgo_libc_setuid
-//go:linkname cgo_libc_setuid syscall.cgo_libc_setuid
-var _cgo_libc_setuid byte
-var cgo_libc_setuid = unsafe.Pointer(&_cgo_libc_setuid)
+//golang:cgolang_import_static _cgolang_libc_setuid
+//golang:linkname _cgolang_libc_setuid _cgolang_libc_setuid
+//golang:linkname cgolang_libc_setuid syscall.cgolang_libc_setuid
+var _cgolang_libc_setuid byte
+var cgolang_libc_setuid = unsafe.Pointer(&_cgolang_libc_setuid)

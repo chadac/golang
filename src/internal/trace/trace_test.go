@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package trace_test
@@ -23,7 +23,7 @@ import (
 )
 
 func TestTraceAnnotations(t *testing.T) {
-	testTraceProg(t, "annotations.go", func(t *testing.T, tb, _ []byte, _ bool) {
+	testTraceProg(t, "annotations.golang", func(t *testing.T, tb, _ []byte, _ bool) {
 		type evDesc struct {
 			kind trace.EventKind
 			task trace.TaskID
@@ -66,7 +66,7 @@ func TestTraceAnnotations(t *testing.T) {
 					match = reg.Task == wantEv.task && reg.Type == wantEv.args[0]
 				case trace.EventLog:
 					log := ev.Log()
-					match = log.Task == wantEv.task && log.Category == wantEv.args[0] && log.Message == wantEv.args[1]
+					match = log.Task == wantEv.task && log.Categolangry == wantEv.args[0] && log.Message == wantEv.args[1]
 				}
 				if match {
 					want[i] = want[len(want)-1]
@@ -84,21 +84,21 @@ func TestTraceAnnotations(t *testing.T) {
 }
 
 func TestTraceAnnotationsStress(t *testing.T) {
-	testTraceProg(t, "annotations-stress.go", nil)
+	testTraceProg(t, "annotations-stress.golang", nil)
 }
 
-func TestTraceCgoCallback(t *testing.T) {
+func TestTraceCgolangCallback(t *testing.T) {
 	testenv.MustHaveCGO(t)
 
 	switch runtime.GOOS {
 	case "plan9", "windows":
-		t.Skipf("cgo callback test requires pthreads and is not supported on %s", runtime.GOOS)
+		t.Skipf("cgolang callback test requires pthreads and is not supported on %s", runtime.GOOS)
 	}
-	testTraceProg(t, "cgo-callback.go", nil)
+	testTraceProg(t, "cgolang-callback.golang", nil)
 }
 
 func TestTraceCPUProfile(t *testing.T) {
-	testTraceProg(t, "cpu-profile.go", func(t *testing.T, tb, stderr []byte, _ bool) {
+	testTraceProg(t, "cpu-profile.golang", func(t *testing.T, tb, stderr []byte, _ bool) {
 		// Parse stderr which has a CPU profile summary, if everything went well.
 		// (If it didn't, we shouldn't even make it here.)
 		scanner := bufio.NewScanner(bytes.NewReader(stderr))
@@ -122,7 +122,7 @@ func TestTraceCPUProfile(t *testing.T) {
 		}
 
 		// Examine the execution tracer's view of the CPU profile samples. Filter it
-		// to only include samples from the single test goroutine. Use the goroutine
+		// to only include samples from the single test golangroutine. Use the golangroutine
 		// ID that was recorded in the events: that should reflect getg().m.curg,
 		// same as the profiler's labels (even when the M is using its g0 stack).
 		totalTraceSamples := 0
@@ -151,7 +151,7 @@ func TestTraceCPUProfile(t *testing.T) {
 					traceSamples++
 					var fns []string
 					for frame := range ev.Stack().Frames() {
-						if frame.Func != "runtime.goexit" {
+						if frame.Func != "runtime.golangexit" {
 							fns = append(fns, fmt.Sprintf("%s:%d", frame.Func, frame.Line))
 						}
 					}
@@ -164,7 +164,7 @@ func TestTraceCPUProfile(t *testing.T) {
 			}
 		}
 		if hogRegion == nil {
-			t.Fatalf("execution trace did not identify cpuHogger goroutine")
+			t.Fatalf("execution trace did not identify cpuHogger golangroutine")
 		} else if !hogRegionClosed {
 			t.Fatalf("execution trace did not close cpuHogger region")
 		}
@@ -211,12 +211,12 @@ func TestTraceCPUProfile(t *testing.T) {
 }
 
 func TestTraceFutileWakeup(t *testing.T) {
-	testTraceProg(t, "futile-wakeup.go", func(t *testing.T, tb, _ []byte, _ bool) {
-		// Check to make sure that no goroutine in the "special" trace region
+	testTraceProg(t, "futile-wakeup.golang", func(t *testing.T, tb, _ []byte, _ bool) {
+		// Check to make sure that no golangroutine in the "special" trace region
 		// ends up blocking, unblocking, then immediately blocking again.
 		//
-		// The goroutines are careful to call runtime.Gosched in between blocking,
-		// so there should never be a clean block/unblock on the goroutine unless
+		// The golangroutines are careful to call runtime.Gosched in between blocking,
+		// so there should never be a clean block/unblock on the golangroutine unless
 		// the runtime was generating extraneous events.
 		const (
 			entered = iota
@@ -238,9 +238,9 @@ func TestTraceFutileWakeup(t *testing.T) {
 			if err != nil {
 				t.Fatal(err)
 			}
-			// Only track goroutines in the special region we control, so runtime
-			// goroutines don't interfere (it's totally valid in traces for a
-			// goroutine to block, run, and block again; that's not what we care about).
+			// Only track golangroutines in the special region we control, so runtime
+			// golangroutines don't interfere (it's totally valid in traces for a
+			// golangroutine to block, run, and block again; that's not what we care about).
 			if ev.Kind() == trace.EventRegionBegin && ev.Region().Type == "special" {
 				seenSpecialGoroutines = true
 				gs[ev.Goroutine()] = entered
@@ -248,14 +248,14 @@ func TestTraceFutileWakeup(t *testing.T) {
 			if ev.Kind() == trace.EventRegionEnd && ev.Region().Type == "special" {
 				delete(gs, ev.Goroutine())
 			}
-			// Track state transitions for goroutines we care about.
+			// Track state transitions for golangroutines we care about.
 			//
-			// The goroutines we care about will advance through the state machine
+			// The golangroutines we care about will advance through the state machine
 			// of entered -> blocked -> runnable -> running. If in the running state
 			// we block, then we have a futile wakeup. Because of the runtime.Gosched
-			// on these specially marked goroutines, we should end up back in runnable
-			// first. If at any point we go to a different state, switch back to entered
-			// and wait for the next time the goroutine blocks.
+			// on these specially marked golangroutines, we should end up back in runnable
+			// first. If at any point we golang to a different state, switch back to entered
+			// and wait for the next time the golangroutine blocks.
 			if ev.Kind() != trace.EventStateTransition {
 				continue
 			}
@@ -290,7 +290,7 @@ func TestTraceFutileWakeup(t *testing.T) {
 				}
 			case running:
 				if new == trace.GoWaiting {
-					t.Fatalf("found futile wakeup on goroutine %d", id)
+					t.Fatalf("found futile wakeup on golangroutine %d", id)
 				} else {
 					state = entered
 				}
@@ -298,21 +298,21 @@ func TestTraceFutileWakeup(t *testing.T) {
 			gs[id] = state
 		}
 		if !seenSpecialGoroutines {
-			t.Fatal("did not see a goroutine in a the region 'special'")
+			t.Fatal("did not see a golangroutine in a the region 'special'")
 		}
 	})
 }
 
 func TestTraceGCStress(t *testing.T) {
-	testTraceProg(t, "gc-stress.go", nil)
+	testTraceProg(t, "gc-stress.golang", nil)
 }
 
 func TestTraceGOMAXPROCS(t *testing.T) {
-	testTraceProg(t, "gomaxprocs.go", nil)
+	testTraceProg(t, "golangmaxprocs.golang", nil)
 }
 
 func TestTraceStacks(t *testing.T) {
-	testTraceProg(t, "stacks.go", func(t *testing.T, tb, _ []byte, stress bool) {
+	testTraceProg(t, "stacks.golang", func(t *testing.T, tb, _ []byte, stress bool) {
 		type frame struct {
 			fn   string
 			line int
@@ -322,7 +322,7 @@ func TestTraceStacks(t *testing.T) {
 			match  string
 			frames []frame
 		}
-		// mainLine is the line number of `func main()` in testprog/stacks.go.
+		// mainLine is the line number of `func main()` in testprog/stacks.golang.
 		const mainLine = 21
 		want := []evDesc{
 			{trace.EventStateTransition, "Goroutine Running->Runnable", []frame{
@@ -360,11 +360,11 @@ func TestTraceStacks(t *testing.T) {
 				{"main.main", mainLine + 85},
 			}},
 			{trace.EventStateTransition, "Goroutine Running->Waiting", []frame{
-				{"runtime.selectgo", 0},
+				{"runtime.selectgolang", 0},
 				{"main.main.func6", 0},
 			}},
 			{trace.EventStateTransition, "Goroutine Waiting->Runnable", []frame{
-				{"runtime.selectgo", 0},
+				{"runtime.selectgolang", 0},
 				{"main.main", mainLine + 86},
 			}},
 			{trace.EventStateTransition, "Goroutine Running->Waiting", []frame{
@@ -396,8 +396,8 @@ func TestTraceStacks(t *testing.T) {
 				{"time.Sleep", 0},
 				{"main.main", 0},
 			}},
-			{trace.EventMetric, "/sched/gomaxprocs:threads", []frame{
-				{"runtime.startTheWorld", 0}, // this is when the current gomaxprocs is logged.
+			{trace.EventMetric, "/sched/golangmaxprocs:threads", []frame{
+				{"runtime.startTheWorld", 0}, // this is when the current golangmaxprocs is logged.
 				{"runtime.startTheWorldGC", 0},
 				{"runtime.GOMAXPROCS", 0},
 				{"main.main", 0},
@@ -502,7 +502,7 @@ func TestTraceStress(t *testing.T) {
 	case "js", "wasip1":
 		t.Skip("no os.Pipe on " + runtime.GOOS)
 	}
-	testTraceProg(t, "stress.go", checkReaderDeterminism)
+	testTraceProg(t, "stress.golang", checkReaderDeterminism)
 }
 
 func TestTraceStressStartStop(t *testing.T) {
@@ -510,24 +510,24 @@ func TestTraceStressStartStop(t *testing.T) {
 	case "js", "wasip1":
 		t.Skip("no os.Pipe on " + runtime.GOOS)
 	}
-	testTraceProg(t, "stress-start-stop.go", nil)
+	testTraceProg(t, "stress-start-stop.golang", nil)
 }
 
 func TestTraceManyStartStop(t *testing.T) {
-	testTraceProg(t, "many-start-stop.go", nil)
+	testTraceProg(t, "many-start-stop.golang", nil)
 }
 
 func TestTraceWaitOnPipe(t *testing.T) {
 	switch runtime.GOOS {
-	case "dragonfly", "freebsd", "linux", "netbsd", "openbsd", "solaris":
-		testTraceProg(t, "wait-on-pipe.go", nil)
+	case "dragolangnfly", "freebsd", "linux", "netbsd", "openbsd", "solaris":
+		testTraceProg(t, "wait-on-pipe.golang", nil)
 		return
 	}
 	t.Skip("no applicable syscall.Pipe on " + runtime.GOOS)
 }
 
 func TestTraceIterPull(t *testing.T) {
-	testTraceProg(t, "iter-pull.go", nil)
+	testTraceProg(t, "iter-pull.golang", nil)
 }
 
 func checkReaderDeterminism(t *testing.T, tb, _ []byte, _ bool) {
@@ -572,11 +572,11 @@ func testTraceProg(t *testing.T, progName string, extra func(t *testing.T, trace
 
 	// Check if we're on a builder.
 	onBuilder := testenv.Builder() != ""
-	onOldBuilder := !strings.Contains(testenv.Builder(), "gotip") && !strings.Contains(testenv.Builder(), "go1")
+	onOldBuilder := !strings.Contains(testenv.Builder(), "golangtip") && !strings.Contains(testenv.Builder(), "golang1")
 
-	if progName == "cgo-callback.go" && onBuilder && !onOldBuilder &&
+	if progName == "cgolang-callback.golang" && onBuilder && !onOldBuilder &&
 		runtime.GOOS == "freebsd" && runtime.GOARCH == "amd64" && race.Enabled {
-		t.Skip("test fails on freebsd-amd64-race in LUCI; see go.dev/issue/71556")
+		t.Skip("test fails on freebsd-amd64-race in LUCI; see golang.dev/issue/71556")
 	}
 
 	testPath := filepath.Join("./testdata/testprog", progName)
@@ -590,16 +590,16 @@ func testTraceProg(t *testing.T, progName string, extra func(t *testing.T, trace
 		cmd.Args = append(cmd.Args, testPath)
 		cmd.Env = append(os.Environ(), "GOEXPERIMENT=rangefunc")
 		// Add a stack ownership check. This is cheap enough for testing.
-		godebug := "tracecheckstackownership=1"
+		golangdebug := "tracecheckstackownership=1"
 		if stress {
 			// Advance a generation constantly to stress the tracer.
-			godebug += ",traceadvanceperiod=0"
+			golangdebug += ",traceadvanceperiod=0"
 		}
 		if extraGODEBUG != "" {
 			// Add extra GODEBUG flags.
-			godebug += "," + extraGODEBUG
+			golangdebug += "," + extraGODEBUG
 		}
-		cmd.Env = append(cmd.Env, "GODEBUG="+godebug)
+		cmd.Env = append(cmd.Env, "GODEBUG="+golangdebug)
 
 		// Capture stdout and stderr.
 		//

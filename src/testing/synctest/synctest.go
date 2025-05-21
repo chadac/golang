@@ -1,11 +1,11 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package synctest provides support for testing concurrent code.
 //
 // The [Test] function runs a function in an isolated "bubble".
-// Any goroutines started within the bubble are also part of the bubble.
+// Any golangroutines started within the bubble are also part of the bubble.
 //
 // # Time
 //
@@ -13,7 +13,7 @@
 // Each bubble has its own clock.
 // The initial time is midnight UTC 2000-01-01.
 //
-// Time in a bubble only advances when every goroutine in the
+// Time in a bubble only advances when every golangroutine in the
 // bubble is durably blocked.
 // See below for the exact definition of "durably blocked".
 //
@@ -23,25 +23,25 @@
 //	func TestTime(t *testing.T) {
 //		synctest.Test(t, func(t *testing.T) {
 //			start := time.Now() // always midnight UTC 2001-01-01
-//			go func() {
+//			golang func() {
 //				time.Sleep(1 * time.Nanosecond)
 //				t.Log(time.Since(start)) // always logs "1ns"
 //			}()
-//			time.Sleep(2 * time.Nanosecond) // the goroutine above will run before this Sleep returns
+//			time.Sleep(2 * time.Nanosecond) // the golangroutine above will run before this Sleep returns
 //			t.Log(time.Since(start))        // always logs "2ns"
 //		})
 //	}
 //
-// Time stops advancing when the root goroutine of the bubble exits.
+// Time stops advancing when the root golangroutine of the bubble exits.
 //
 // # Blocking
 //
-// A goroutine in a bubble is "durably blocked" when it is blocked
-// and can only be unblocked by another goroutine in the same bubble.
-// A goroutine which can be unblocked by an event from outside its
+// A golangroutine in a bubble is "durably blocked" when it is blocked
+// and can only be unblocked by another golangroutine in the same bubble.
+// A golangroutine which can be unblocked by an event from outside its
 // bubble is not durably blocked.
 //
-// The [Wait] function blocks until all other goroutines in the
+// The [Wait] function blocks until all other golangroutines in the
 // bubble are durably blocked.
 //
 // For example:
@@ -49,24 +49,24 @@
 //	func TestWait(t *testing.T) {
 //		synctest.Test(t, func(t *testing.T) {
 //			done := false
-//			go func() {
+//			golang func() {
 //				done = true
 //			}()
-//			// Wait will block until the goroutine above has finished.
+//			// Wait will block until the golangroutine above has finished.
 //			synctest.Wait()
 //			t.Log(done) // always logs "true"
 //		})
 //	}
 //
-// When every goroutine in a bubble is durably blocked:
+// When every golangroutine in a bubble is durably blocked:
 //
 //   - [Wait] returns, if it has been called.
 //   - Otherwise, time advances to the next time that will
-//     unblock at least one goroutine, if there is such a time
-//     and the root goroutine of the bubble has not exited.
+//     unblock at least one golangroutine, if there is such a time
+//     and the root golangroutine of the bubble has not exited.
 //   - Otherwise, there is a deadlock and [Test] panics.
 //
-// The following operations durably block a goroutine:
+// The following operations durably block a golangroutine:
 //
 //   - a blocking send or receive on a channel created within the bubble
 //   - a blocking select statement where every case is a channel created
@@ -87,7 +87,7 @@
 //
 // This example demonstrates testing the [context.AfterFunc] function.
 //
-// AfterFunc registers a function to execute in a new goroutine
+// AfterFunc registers a function to execute in a new golangroutine
 // after a context is canceled.
 //
 // The test verifies that the function is not run before the context is canceled,
@@ -172,7 +172,7 @@
 //		synctest.Test(t, func(*testing.T) {
 //			// Create an in-process fake network connection.
 //			// We cannot use a loopback network connection for this test,
-//			// because goroutines blocked on network I/O prevent a synctest
+//			// because golangroutines blocked on network I/O prevent a synctest
 //			// bubble from becoming idle.
 //			srvConn, cliConn := net.Pipe()
 //			defer cliConn.Close()
@@ -188,9 +188,9 @@
 //			}
 //
 //			// Send a request with the "Expect: 100-continue" header set.
-//			// Send it in a new goroutine, since it won't complete until the end of the test.
+//			// Send it in a new golangroutine, since it won't complete until the end of the test.
 //			body := "request body"
-//			go func() {
+//			golang func() {
 //				req, _ := http.NewRequest("PUT", "http://test.tld/", strings.NewReader(body))
 //				req.Header.Set("Expect", "100-continue")
 //				resp, err := tr.RoundTrip(req)
@@ -207,28 +207,28 @@
 //				t.Fatalf("ReadRequest: %v\n", err)
 //			}
 //
-//			// Start a new goroutine copying the body sent by the client into a buffer.
-//			// Wait for all goroutines in the bubble to block and verify that we haven't
+//			// Start a new golangroutine copying the body sent by the client into a buffer.
+//			// Wait for all golangroutines in the bubble to block and verify that we haven't
 //			// read anything from the client yet.
-//			var gotBody bytes.Buffer
-//			go io.Copy(&gotBody, req.Body)
+//			var golangtBody bytes.Buffer
+//			golang io.Copy(&golangtBody, req.Body)
 //			synctest.Wait()
-//			if got, want := gotBody.String(), ""; got != want {
-//				t.Fatalf("before sending 100 Continue, read body: %q, want %q\n", got, want)
+//			if golangt, want := golangtBody.String(), ""; golangt != want {
+//				t.Fatalf("before sending 100 Continue, read body: %q, want %q\n", golangt, want)
 //			}
 //
 //			// Write a "100 Continue" response to the client and verify that
 //			// it sends the request body.
 //			srvConn.Write([]byte("HTTP/1.1 100 Continue\r\n\r\n"))
 //			synctest.Wait()
-//			if got, want := gotBody.String(), body; got != want {
-//				t.Fatalf("after sending 100 Continue, read body: %q, want %q\n", got, want)
+//			if golangt, want := golangtBody.String(), body; golangt != want {
+//				t.Fatalf("after sending 100 Continue, read body: %q, want %q\n", golangt, want)
 //			}
 //
 //			// Finish up by sending the "200 OK" response to conclude the request.
 //			srvConn.Write([]byte("HTTP/1.1 200 OK\r\n\r\n"))
 //
-//			// We started several goroutines during the test.
+//			// We started several golangroutines during the test.
 //			// The synctest.Test call will wait for all of them to exit before returning.
 //		})
 //	}
@@ -242,8 +242,8 @@ import (
 
 // Test executes f in a new bubble.
 //
-// Test waits for all goroutines in the bubble to exit before returning.
-// If the goroutines in the bubble become deadlocked, the test fails.
+// Test waits for all golangroutines in the bubble to exit before returning.
+// If the golangroutines in the bubble become deadlocked, the test fails.
 //
 // Test must not be called from within a bubble.
 //
@@ -260,14 +260,14 @@ func Test(t *testing.T, f func(*testing.T)) {
 	})
 }
 
-//go:linkname testingSynctestTest testing/synctest.testingSynctestTest
+//golang:linkname testingSynctestTest testing/synctest.testingSynctestTest
 func testingSynctestTest(t *testing.T, f func(*testing.T))
 
-// Wait blocks until every goroutine within the current bubble,
-// other than the current goroutine, is durably blocked.
+// Wait blocks until every golangroutine within the current bubble,
+// other than the current golangroutine, is durably blocked.
 //
 // Wait must not be called from outside a bubble.
-// Wait must not be called concurrently by multiple goroutines
+// Wait must not be called concurrently by multiple golangroutines
 // in the same bubble.
 func Wait() {
 	synctest.Wait()

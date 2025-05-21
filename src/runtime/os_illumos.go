@@ -1,5 +1,5 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
@@ -8,17 +8,17 @@ import (
 	"unsafe"
 )
 
-//go:cgo_import_dynamic libc_getrctl getrctl "libc.so"
-//go:cgo_import_dynamic libc_rctlblk_get_local_action rctlblk_get_local_action "libc.so"
-//go:cgo_import_dynamic libc_rctlblk_get_local_flags rctlblk_get_local_flags "libc.so"
-//go:cgo_import_dynamic libc_rctlblk_get_value rctlblk_get_value "libc.so"
-//go:cgo_import_dynamic libc_rctlblk_size rctlblk_size "libc.so"
+//golang:cgolang_import_dynamic libc_getrctl getrctl "libc.so"
+//golang:cgolang_import_dynamic libc_rctlblk_get_local_action rctlblk_get_local_action "libc.so"
+//golang:cgolang_import_dynamic libc_rctlblk_get_local_flags rctlblk_get_local_flags "libc.so"
+//golang:cgolang_import_dynamic libc_rctlblk_get_value rctlblk_get_value "libc.so"
+//golang:cgolang_import_dynamic libc_rctlblk_size rctlblk_size "libc.so"
 
-//go:linkname libc_getrctl libc_getrctl
-//go:linkname libc_rctlblk_get_local_action libc_rctlblk_get_local_action
-//go:linkname libc_rctlblk_get_local_flags libc_rctlblk_get_local_flags
-//go:linkname libc_rctlblk_get_value libc_rctlblk_get_value
-//go:linkname libc_rctlblk_size libc_rctlblk_size
+//golang:linkname libc_getrctl libc_getrctl
+//golang:linkname libc_rctlblk_get_local_action libc_rctlblk_get_local_action
+//golang:linkname libc_rctlblk_get_local_flags libc_rctlblk_get_local_flags
+//golang:linkname libc_rctlblk_get_value libc_rctlblk_get_value
+//golang:linkname libc_rctlblk_size libc_rctlblk_size
 
 var (
 	libc_getrctl,
@@ -106,27 +106,27 @@ func getCPUCount() int32 {
 	return n
 }
 
-//go:nosplit
+//golang:nosplit
 func getrctl(controlname, oldbuf, newbuf unsafe.Pointer, flags uint32) uintptr {
 	return sysvicall4(&libc_getrctl, uintptr(controlname), uintptr(oldbuf), uintptr(newbuf), uintptr(flags))
 }
 
-//go:nosplit
+//golang:nosplit
 func rctlblk_get_local_action(buf unsafe.Pointer) uintptr {
 	return sysvicall2(&libc_rctlblk_get_local_action, uintptr(buf), uintptr(0))
 }
 
-//go:nosplit
+//golang:nosplit
 func rctlblk_get_local_flags(buf unsafe.Pointer) uintptr {
 	return sysvicall1(&libc_rctlblk_get_local_flags, uintptr(buf))
 }
 
-//go:nosplit
+//golang:nosplit
 func rctlblk_get_value(buf unsafe.Pointer) uint64 {
 	return uint64(sysvicall1(&libc_rctlblk_get_value, uintptr(buf)))
 }
 
-//go:nosplit
+//golang:nosplit
 func rctlblk_size() uintptr {
 	return sysvicall0(&libc_rctlblk_size)
 }

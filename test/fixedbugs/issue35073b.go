@@ -1,7 +1,7 @@
 // errorcheck -0 -d=checkptr -m
 
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test that we can inline the receiver arguments for

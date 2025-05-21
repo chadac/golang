@@ -1,8 +1,8 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build unix || (js && wasm) || wasip1 || windows
+//golang:build unix || (js && wasm) || wasip1 || windows
 
 package runtime
 
@@ -29,8 +29,8 @@ import (
 // func netpoll(delta int64) (gList, int32)
 //     Poll the network. If delta < 0, block indefinitely. If delta == 0,
 //     poll without blocking. If delta > 0, block for up to delta nanoseconds.
-//     Return a list of goroutines built by calling netpollready,
-//     and a delta to add to netpollWaiters when all goroutines are ready.
+//     Return a list of golangroutines built by calling netpollready,
+//     and a delta to add to netpollWaiters when all golangroutines are ready.
 //     This must never return an empty list with a non-zero delta.
 //
 // func netpollBreak()
@@ -40,7 +40,7 @@ import (
 //     Reports whether fd is a file descriptor used by the poller.
 
 // Error codes returned by runtime_pollReset and runtime_pollWait.
-// These must match the values in internal/poll/fd_poll_runtime.go.
+// These must match the values in internal/poll/fd_poll_runtime.golang.
 const (
 	pollNoError        = 0 // no error
 	pollErrClosing     = 1 // descriptor is closed
@@ -49,17 +49,17 @@ const (
 )
 
 // pollDesc contains 2 binary semaphores, rg and wg, to park reader and writer
-// goroutines respectively. The semaphore can be in the following states:
+// golangroutines respectively. The semaphore can be in the following states:
 //
 //	pdReady - io readiness notification is pending;
-//	          a goroutine consumes the notification by changing the state to pdNil.
-//	pdWait - a goroutine prepares to park on the semaphore, but not yet parked;
-//	         the goroutine commits to park by changing the state to G pointer,
+//	          a golangroutine consumes the notification by changing the state to pdNil.
+//	pdWait - a golangroutine prepares to park on the semaphore, but not yet parked;
+//	         the golangroutine commits to park by changing the state to G pointer,
 //	         or, alternatively, concurrent io notification changes the state to pdReady,
 //	         or, alternatively, concurrent timeout/close changes the state to pdNil.
-//	G pointer - the goroutine is blocked on the semaphore;
+//	G pointer - the golangroutine is blocked on the semaphore;
 //	            io notification or timeout/close changes the state to pdReady or pdNil respectively
-//	            and unparks the goroutine.
+//	            and unparks the golangroutine.
 //	pdNil - none of the above.
 const (
 	pdNil   uintptr = 0
@@ -91,7 +91,7 @@ type pollDesc struct {
 	// stops netpollblock from blocking anew
 	// (by changing the result of netpollcheckerr).
 	// atomicInfo also holds the eventErr bit,
-	// recording whether a poll event on the fd got an error;
+	// recording whether a poll event on the fd golangt an error;
 	// atomicInfo is the only source of truth for that bit.
 	atomicInfo atomic.Uint32 // atomic pollInfo
 
@@ -208,9 +208,9 @@ var (
 )
 
 // netpollWaiters is accessed in tests
-//go:linkname netpollWaiters
+//golang:linkname netpollWaiters
 
-//go:linkname poll_runtime_pollServerInit internal/poll.runtime_pollServerInit
+//golang:linkname poll_runtime_pollServerInit internal/poll.runtime_pollServerInit
 func poll_runtime_pollServerInit() {
 	netpollGenericInit()
 }
@@ -232,7 +232,7 @@ func netpollinited() bool {
 	return netpollInited.Load() != 0
 }
 
-//go:linkname poll_runtime_isPollServerDescriptor internal/poll.runtime_isPollServerDescriptor
+//golang:linkname poll_runtime_isPollServerDescriptor internal/poll.runtime_isPollServerDescriptor
 
 // poll_runtime_isPollServerDescriptor reports whether fd is a
 // descriptor being used by netpoll.
@@ -240,7 +240,7 @@ func poll_runtime_isPollServerDescriptor(fd uintptr) bool {
 	return netpollIsPollDescriptor(fd)
 }
 
-//go:linkname poll_runtime_pollOpen internal/poll.runtime_pollOpen
+//golang:linkname poll_runtime_pollOpen internal/poll.runtime_pollOpen
 func poll_runtime_pollOpen(fd uintptr) (*pollDesc, int) {
 	pd := pollcache.alloc()
 	lock(&pd.lock)
@@ -277,7 +277,7 @@ func poll_runtime_pollOpen(fd uintptr) (*pollDesc, int) {
 	return pd, 0
 }
 
-//go:linkname poll_runtime_pollClose internal/poll.runtime_pollClose
+//golang:linkname poll_runtime_pollClose internal/poll.runtime_pollClose
 func poll_runtime_pollClose(pd *pollDesc) {
 	if !pd.closing {
 		throw("runtime: close polldesc w/o unblock")
@@ -319,7 +319,7 @@ func (c *pollCache) free(pd *pollDesc) {
 // prepares a descriptor for polling in mode, which is 'r' or 'w'.
 // This returns an error code; the codes are defined above.
 //
-//go:linkname poll_runtime_pollReset internal/poll.runtime_pollReset
+//golang:linkname poll_runtime_pollReset internal/poll.runtime_pollReset
 func poll_runtime_pollReset(pd *pollDesc, mode int) int {
 	errcode := netpollcheckerr(pd, int32(mode))
 	if errcode != pollNoError {
@@ -338,7 +338,7 @@ func poll_runtime_pollReset(pd *pollDesc, mode int) int {
 // according to mode, which is 'r' or 'w'.
 // This returns an error code; the codes are defined above.
 //
-//go:linkname poll_runtime_pollWait internal/poll.runtime_pollWait
+//golang:linkname poll_runtime_pollWait internal/poll.runtime_pollWait
 func poll_runtime_pollWait(pd *pollDesc, mode int) int {
 	errcode := netpollcheckerr(pd, int32(mode))
 	if errcode != pollNoError {
@@ -360,7 +360,7 @@ func poll_runtime_pollWait(pd *pollDesc, mode int) int {
 	return pollNoError
 }
 
-//go:linkname poll_runtime_pollWaitCanceled internal/poll.runtime_pollWaitCanceled
+//golang:linkname poll_runtime_pollWaitCanceled internal/poll.runtime_pollWaitCanceled
 func poll_runtime_pollWaitCanceled(pd *pollDesc, mode int) {
 	// This function is used only on windows after a failed attempt to cancel
 	// a pending async IO operation. Wait for ioready, ignore closing or timeouts.
@@ -368,7 +368,7 @@ func poll_runtime_pollWaitCanceled(pd *pollDesc, mode int) {
 	}
 }
 
-//go:linkname poll_runtime_pollSetDeadline internal/poll.runtime_pollSetDeadline
+//golang:linkname poll_runtime_pollSetDeadline internal/poll.runtime_pollSetDeadline
 func poll_runtime_pollSetDeadline(pd *pollDesc, d int64, mode int) {
 	lock(&pd.lock)
 	if pd.closing {
@@ -440,15 +440,15 @@ func poll_runtime_pollSetDeadline(pd *pollDesc, d int64, mode int) {
 	}
 	unlock(&pd.lock)
 	if rg != nil {
-		netpollgoready(rg, 3)
+		netpollgolangready(rg, 3)
 	}
 	if wg != nil {
-		netpollgoready(wg, 3)
+		netpollgolangready(wg, 3)
 	}
 	netpollAdjustWaiters(delta)
 }
 
-//go:linkname poll_runtime_pollUnblock internal/poll.runtime_pollUnblock
+//golang:linkname poll_runtime_pollUnblock internal/poll.runtime_pollUnblock
 func poll_runtime_pollUnblock(pd *pollDesc) {
 	lock(&pd.lock)
 	if pd.closing {
@@ -472,17 +472,17 @@ func poll_runtime_pollUnblock(pd *pollDesc) {
 	}
 	unlock(&pd.lock)
 	if rg != nil {
-		netpollgoready(rg, 3)
+		netpollgolangready(rg, 3)
 	}
 	if wg != nil {
-		netpollgoready(wg, 3)
+		netpollgolangready(wg, 3)
 	}
 	netpollAdjustWaiters(delta)
 }
 
 // netpollready is called by the platform-specific netpoll function.
 // It declares that the fd associated with pd is ready for I/O.
-// The toRun argument is used to build a list of goroutines to return
+// The toRun argument is used to build a list of golangroutines to return
 // from netpoll. The mode argument is 'r', 'w', or 'r'+'w' to indicate
 // whether the fd is ready for reading or writing or both.
 //
@@ -490,7 +490,7 @@ func poll_runtime_pollUnblock(pd *pollDesc) {
 //
 // This may run while the world is stopped, so write barriers are not allowed.
 //
-//go:nowritebarrier
+//golang:nowritebarrier
 func netpollready(toRun *gList, pd *pollDesc, mode int32) int32 {
 	delta := int32(0)
 	var rg, wg *g
@@ -529,7 +529,7 @@ func netpollcheckerr(pd *pollDesc, mode int32) int {
 func netpollblockcommit(gp *g, gpp unsafe.Pointer) bool {
 	r := atomic.Casuintptr((*uintptr)(gpp), pdWait, uintptr(unsafe.Pointer(gp)))
 	if r {
-		// Bump the count of goroutines waiting for the poller.
+		// Bump the count of golangroutines waiting for the poller.
 		// The scheduler uses this to decide whether to block
 		// waiting for the poller if there is nothing else to do.
 		netpollAdjustWaiters(1)
@@ -537,14 +537,14 @@ func netpollblockcommit(gp *g, gpp unsafe.Pointer) bool {
 	return r
 }
 
-func netpollgoready(gp *g, traceskip int) {
-	goready(gp, traceskip+1)
+func netpollgolangready(gp *g, traceskip int) {
+	golangready(gp, traceskip+1)
 }
 
 // returns true if IO is ready, or false if timed out or closed
 // waitio - wait only for completed IO, ignore errors
 // Concurrent calls to netpollblock in the same mode are forbidden, as pollDesc
-// can hold only a single waiting goroutine for each mode.
+// can hold only a single waiting golangroutine for each mode.
 func netpollblock(pd *pollDesc, mode int32, waitio bool) bool {
 	gpp := &pd.rg
 	if mode == 'w' {
@@ -572,7 +572,7 @@ func netpollblock(pd *pollDesc, mode int32, waitio bool) bool {
 	// this is necessary because runtime_pollUnblock/runtime_pollSetDeadline/deadlineimpl
 	// do the opposite: store to closing/rd/wd, publishInfo, load of rg/wg
 	if waitio || netpollcheckerr(pd, mode) == pollNoError {
-		gopark(netpollblockcommit, unsafe.Pointer(gpp), waitReasonIOWait, traceBlockNet, 5)
+		golangpark(netpollblockcommit, unsafe.Pointer(gpp), waitReasonIOWait, traceBlockNet, 5)
 	}
 	// be careful to not lose concurrent pdReady notification
 	old := gpp.Swap(pdNil)
@@ -584,9 +584,9 @@ func netpollblock(pd *pollDesc, mode int32, waitio bool) bool {
 
 // netpollunblock moves either pd.rg (if mode == 'r') or
 // pd.wg (if mode == 'w') into the pdReady state.
-// This returns any goroutine blocked on pd.{rg,wg}.
+// This returns any golangroutine blocked on pd.{rg,wg}.
 // It adds any adjustment to netpollWaiters to *delta;
-// this adjustment should be applied after the goroutine has
+// this adjustment should be applied after the golangroutine has
 // been marked ready.
 func netpollunblock(pd *pollDesc, mode int32, ioready bool, delta *int32) *g {
 	gpp := &pd.rg
@@ -653,10 +653,10 @@ func netpolldeadlineimpl(pd *pollDesc, seq uintptr, read, write bool) {
 	}
 	unlock(&pd.lock)
 	if rg != nil {
-		netpollgoready(rg, 0)
+		netpollgolangready(rg, 0)
 	}
 	if wg != nil {
-		netpollgoready(wg, 0)
+		netpollgolangready(wg, 0)
 	}
 	netpollAdjustWaiters(delta)
 }
@@ -673,7 +673,7 @@ func netpollWriteDeadline(arg any, seq uintptr, delta int64) {
 	netpolldeadlineimpl(arg.(*pollDesc), seq, false, true)
 }
 
-// netpollAnyWaiters reports whether any goroutines are waiting for I/O.
+// netpollAnyWaiters reports whether any golangroutines are waiting for I/O.
 func netpollAnyWaiters() bool {
 	return netpollWaiters.Load() > 0
 }

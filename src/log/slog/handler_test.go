@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // TODO: verify that the output of Marshal{Text,JSON} is suitably escaped.
@@ -89,9 +89,9 @@ func TestDefaultHandle(t *testing.T) {
 		},
 	} {
 		t.Run(test.name, func(t *testing.T) {
-			var got string
+			var golangt string
 			var h Handler = newDefaultHandler(func(_ uintptr, b []byte) error {
-				got = string(b)
+				golangt = string(b)
 				return nil
 			})
 			if test.with != nil {
@@ -102,8 +102,8 @@ func TestDefaultHandle(t *testing.T) {
 			if err := h.Handle(ctx, r); err != nil {
 				t.Fatal(err)
 			}
-			if got != test.want {
-				t.Errorf("\ngot  %s\nwant %s", got, test.want)
+			if golangt != test.want {
+				t.Errorf("\ngolangt  %s\nwant %s", golangt, test.want)
 			}
 		})
 	}
@@ -133,7 +133,7 @@ func TestConcurrentWrites(t *testing.T) {
 				sub2Record := NewRecord(time.Time{}, LevelInfo, "hello from sub2", 0)
 				sub2Record.AddAttrs(Int("i", i))
 				wg.Add(1)
-				go func() {
+				golang func() {
 					defer wg.Done()
 					if err := sub1.Handle(ctx, sub1Record); err != nil {
 						t.Error(err)
@@ -148,7 +148,7 @@ func TestConcurrentWrites(t *testing.T) {
 				want := "hello from sub" + strconv.Itoa(i)
 				n := strings.Count(buf.String(), want)
 				if n != count {
-					t.Fatalf("want %d occurrences of %q, got %d", count, want, n)
+					t.Fatalf("want %d occurrences of %q, golangt %d", count, want, n)
 				}
 			}
 		})
@@ -421,8 +421,8 @@ func TestJSONAndTextHandlers(t *testing.T) {
 				return removeKeys(TimeKey, LevelKey)(gs, a)
 			},
 			addSource: true,
-			wantText:  `source=handler_test.go:$LINE msg=message`,
-			wantJSON:  `{"source":{"function":"log/slog.TestJSONAndTextHandlers","file":"handler_test.go","line":$LINE},"msg":"message"}`,
+			wantText:  `source=handler_test.golang:$LINE msg=message`,
+			wantJSON:  `{"source":{"function":"log/slog.TestJSONAndTextHandlers","file":"handler_test.golang","line":$LINE},"msg":"message"}`,
 		},
 		{
 			name: "replace built-in with group",
@@ -574,9 +574,9 @@ func TestJSONAndTextHandlers(t *testing.T) {
 						t.Fatal(err)
 					}
 					want := strings.ReplaceAll(handler.want, "$LINE", line)
-					got := strings.TrimSuffix(buf.String(), "\n")
-					if got != want {
-						t.Errorf("\ngot  %s\nwant %s\n", got, want)
+					golangt := strings.TrimSuffix(buf.String(), "\n")
+					if golangt != want {
+						t.Errorf("\ngolangt  %s\nwant %s\n", golangt, want)
 					}
 				})
 			}
@@ -631,9 +631,9 @@ func TestHandlerEnabled(t *testing.T) {
 		{levelVar(LevelDebug), true},
 	} {
 		h := &commonHandler{opts: HandlerOptions{Level: test.leveler}}
-		got := h.enabled(LevelInfo)
-		if got != test.want {
-			t.Errorf("%v: got %t, want %t", test.leveler, got, test.want)
+		golangt := h.enabled(LevelInfo)
+		if golangt != test.want {
+			t.Errorf("%v: golangt %t, want %t", test.leveler, golangt, test.want)
 		}
 	}
 }
@@ -664,9 +664,9 @@ func TestJSONAndTextHandlersWithUnavailableSource(t *testing.T) {
 			}
 
 			want := strings.TrimSpace(test.want)
-			got := strings.TrimSpace(buf.String())
-			if got != want {
-				t.Errorf("\ngot  %s\nwant %s", got, want)
+			golangt := strings.TrimSpace(buf.String())
+			if golangt != want {
+				t.Errorf("\ngolangt  %s\nwant %s", golangt, want)
 			}
 		})
 	}
@@ -685,10 +685,10 @@ func TestSecondWith(t *testing.T) {
 	appLogger := logger.With("type", "log") // this becomes type=met
 	_ = logger.With("type", "metric")
 	appLogger.Info("foo")
-	got := strings.TrimSpace(buf.String())
+	golangt := strings.TrimSpace(buf.String())
 	want := `level=INFO msg=foo app=playground role=tester data_version=2 type=log`
-	if got != want {
-		t.Errorf("\ngot  %s\nwant %s", got, want)
+	if golangt != want {
+		t.Errorf("\ngolangt  %s\nwant %s", golangt, want)
 	}
 }
 
@@ -700,14 +700,14 @@ func TestReplaceAttrGroups(t *testing.T) {
 		val    string
 	}
 
-	var got []ga
+	var golangt []ga
 
 	h := NewTextHandler(io.Discard, &HandlerOptions{ReplaceAttr: func(gs []string, a Attr) Attr {
 		v := a.Value.String()
 		if a.Key == TimeKey {
 			v = "<now>"
 		}
-		got = append(got, ga{strings.Join(gs, ","), a.Key, v})
+		golangt = append(golangt, ga{strings.Join(gs, ","), a.Key, v})
 		return a
 	}})
 	New(h).
@@ -737,8 +737,8 @@ func TestReplaceAttrGroups(t *testing.T) {
 		{"g1,g2,g4", "h", "7"},
 		{"g1,g2", "i", "8"},
 	}
-	if !slices.Equal(got, want) {
-		t.Errorf("\ngot  %v\nwant %v", got, want)
+	if !slices.Equal(golangt, want) {
+		t.Errorf("\ngolangt  %v\nwant %v", golangt, want)
 	}
 }
 
@@ -750,10 +750,10 @@ func TestWriteTimeRFC3339(t *testing.T) {
 		time.Date(2000, 1, 2, 3, 4, 5, 400, time.Local),
 		time.Date(2000, 11, 12, 3, 4, 500, 5e7, time.UTC),
 	} {
-		got := string(appendRFC3339Millis(nil, tm))
+		golangt := string(appendRFC3339Millis(nil, tm))
 		want := tm.Format(rfc3339Millis)
-		if got != want {
-			t.Errorf("got %s, want %s", got, want)
+		if golangt != want {
+			t.Errorf("golangt %s, want %s", golangt, want)
 		}
 	}
 }

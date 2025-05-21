@@ -5,8 +5,8 @@ module example.com/printversion
 -- .info --
 {"Version":"v0.1.0"}
 -- README.txt --
-There is no go.mod file for this version of the module.
--- printversion.go --
+There is no golang.mod file for this version of the module.
+-- printversion.golang --
 package main
 
 import (

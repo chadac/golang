@@ -1,5 +1,5 @@
 // Copyright 2009,2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // OpenBSD system calls.
@@ -8,7 +8,7 @@
 // which parses the //sys lines and generates system call stubs.
 // Note that sometimes we use a lowercase //sys name and wrap
 // it in our own nicer implementation, either here or in
-// syscall_bsd.go or syscall_unix.go.
+// syscall_bsd.golang or syscall_unix.golang.
 
 package unix
 

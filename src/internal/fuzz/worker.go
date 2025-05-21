@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package fuzz
@@ -25,7 +25,7 @@ const (
 	// variations of an input given by the coordinator.
 	workerFuzzDuration = 100 * time.Millisecond
 
-	// workerTimeoutDuration is the amount of time a worker can go without
+	// workerTimeoutDuration is the amount of time a worker can golang without
 	// responding to the coordinator before being stopped.
 	workerTimeoutDuration = 1 * time.Second
 
@@ -40,7 +40,7 @@ const (
 )
 
 // worker manages a worker process running a test binary. The worker object
-// exists only in the coordinator (the process started by 'go test -fuzz').
+// exists only in the coordinator (the process started by 'golang test -fuzz').
 // workerClient is used by the coordinator to send RPCs to the worker process,
 // which handles them with workerServer.
 type worker struct {
@@ -255,7 +255,7 @@ func (w *worker) minimize(ctx context.Context, input fuzzMinimizeInput) (min fuz
 			// Worker was interrupted, possibly by the user pressing ^C.
 			// Normally, workers can handle interrupts and timeouts gracefully and
 			// will return without error. An error here indicates the worker
-			// may not have been in a good state, but the error won't be meaningful
+			// may not have been in a golangod state, but the error won't be meaningful
 			// to the user. Just return the original crasher without logging anything.
 			return fuzzResult{
 				entry:        input.entry,
@@ -383,7 +383,7 @@ func (w *worker) start() (err error) {
 	m := newMutator()
 	w.client = newWorkerClient(comm, m)
 
-	go func() {
+	golang func() {
 		w.waitErr = w.cmd.Wait()
 		close(w.termC)
 	}()
@@ -423,14 +423,14 @@ func (w *worker) stop() error {
 	// Tell the worker to stop by closing fuzz_in. It won't actually stop until it
 	// finishes with earlier calls.
 	closeC := make(chan struct{})
-	go func() {
+	golang func() {
 		w.client.Close()
 		close(closeC)
 	}()
 
 	sig := os.Interrupt
 	if runtime.GOOS == "windows" {
-		// Per https://golang.org/pkg/os/#Signal, “Interrupt is not implemented on
+		// Per https://golanglang.org/pkg/os/#Signal, “Interrupt is not implemented on
 		// Windows; using it with os.Process.Signal will return an error.”
 		// Fall back to Kill instead.
 		sig = os.Kill
@@ -706,7 +706,7 @@ const chainedMutations = 5
 func (ws *workerServer) fuzz(ctx context.Context, args fuzzArgs) (resp fuzzResponse) {
 	if args.CoverageData != nil {
 		if ws.coverageMask != nil && len(args.CoverageData) != len(ws.coverageMask) {
-			resp.InternalErr = fmt.Sprintf("unexpected size for CoverageData: got %d, expected %d", len(args.CoverageData), len(ws.coverageMask))
+			resp.InternalErr = fmt.Sprintf("unexpected size for CoverageData: golangt %d, expected %d", len(args.CoverageData), len(ws.coverageMask))
 			return resp
 		}
 		ws.coverageMask = args.CoverageData
@@ -898,7 +898,7 @@ func (ws *workerServer) minimizeInput(ctx context.Context, vals []any, mem *shar
 			if keepCoverage != nil {
 				// Now that we've found a crash, that's more important than any
 				// minimization of interesting inputs that was being done. Clear out
-				// keepCoverage to only minimize the crash going forward.
+				// keepCoverage to only minimize the crash golanging forward.
 				keepCoverage = nil
 			}
 			return true
@@ -975,8 +975,8 @@ func (wc *workerClient) Close() error {
 }
 
 // errSharedMemClosed is returned by workerClient methods that cannot access
-// shared memory because it was closed and unmapped by another goroutine. That
-// can happen when worker.cleanup is called in the worker goroutine while a
+// shared memory because it was closed and unmapped by another golangroutine. That
+// can happen when worker.cleanup is called in the worker golangroutine while a
 // workerClient.fuzz call runs concurrently.
 //
 // This error should not be reported. It indicates the operation was
@@ -1177,11 +1177,11 @@ func (cr *contextReader) Read(b []byte) (int, error) {
 	}
 	done := make(chan struct{})
 
-	// This goroutine may stay blocked after Read returns because the underlying
+	// This golangroutine may stay blocked after Read returns because the underlying
 	// read is blocked.
 	var n int
 	var err error
-	go func() {
+	golang func() {
 		n, err = cr.r.Read(b)
 		close(done)
 	}()

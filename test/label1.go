@@ -1,11 +1,11 @@
 // errorcheck
 
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Verify that erroneous labels are caught by the compiler.
-// This set is caught by pass 2. That's why this file is label1.go.
+// This set is caught by pass 2. That's why this file is label1.golang.
 // Does not compile.
 
 package main
@@ -33,7 +33,7 @@ L1:
 		if x == 1 {
 			continue L1
 		}
-		goto L1
+		golangto L1
 	}
 
 L2:
@@ -45,7 +45,7 @@ L2:
 		if x == 1 {
 			continue L2 // ERROR "invalid continue label .*L2|continue is not in a loop$"
 		}
-		goto L2
+		golangto L2
 	}
 
 	for {
@@ -63,7 +63,7 @@ L3:
 		if x == 12 {
 			continue L3 // ERROR "invalid continue label .*L3|continue is not in a loop$"
 		}
-		goto L3
+		golangto L3
 	}
 
 L4:
@@ -75,7 +75,7 @@ L4:
 			continue L4 // ERROR "invalid continue label .*L4|continue is not in a loop$"
 		}
 		if x == 15 {
-			goto L4
+			golangto L4
 		}
 	}
 
@@ -88,7 +88,7 @@ L5:
 		continue L5 // ERROR "invalid continue label .*L5|continue is not in a loop$"
 	}
 	if x == 18 {
-		goto L5
+		golangto L5
 	}
 
 	for {
@@ -99,7 +99,7 @@ L5:
 			continue L1 // ERROR "invalid continue label .*L1"
 		}
 		if x == 21 {
-			goto L1
+			golangto L1
 		}
 	}
 

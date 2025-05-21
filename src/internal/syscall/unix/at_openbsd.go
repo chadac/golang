@@ -1,8 +1,8 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build openbsd && !mips64
+//golang:build openbsd && !mips64
 
 package unix
 
@@ -12,7 +12,7 @@ import (
 	"unsafe"
 )
 
-//go:cgo_import_dynamic libc_readlinkat readlinkat "libc.so"
+//golang:cgolang_import_dynamic libc_readlinkat readlinkat "libc.so"
 
 func libc_readlinkat_trampoline()
 
@@ -34,7 +34,7 @@ func Readlinkat(dirfd int, path string, buf []byte) (int, error) {
 	return int(n), nil
 }
 
-//go:cgo_import_dynamic libc_mkdirat mkdirat "libc.so"
+//golang:cgolang_import_dynamic libc_mkdirat mkdirat "libc.so"
 
 func libc_mkdirat_trampoline()
 
@@ -50,7 +50,7 @@ func Mkdirat(dirfd int, path string, mode uint32) error {
 	return nil
 }
 
-//go:cgo_import_dynamic libc_fchmodat fchmodat "libc.so"
+//golang:cgolang_import_dynamic libc_fchmodat fchmodat "libc.so"
 
 func libc_fchmodat_trampoline()
 
@@ -72,7 +72,7 @@ func Fchmodat(dirfd int, path string, mode uint32, flags int) error {
 	return nil
 }
 
-//go:cgo_import_dynamic libc_fchownat fchownat "libc.so"
+//golang:cgolang_import_dynamic libc_fchownat fchownat "libc.so"
 
 func libc_fchownat_trampoline()
 
@@ -94,7 +94,7 @@ func Fchownat(dirfd int, path string, uid, gid int, flags int) error {
 	return nil
 }
 
-//go:cgo_import_dynamic libc_renameat renameat "libc.so"
+//golang:cgolang_import_dynamic libc_renameat renameat "libc.so"
 
 func libc_renameat_trampoline()
 
@@ -122,7 +122,7 @@ func Renameat(olddirfd int, oldpath string, newdirfd int, newpath string) error 
 
 func libc_linkat_trampoline()
 
-//go:cgo_import_dynamic libc_linkat linkat "libc.so"
+//golang:cgolang_import_dynamic libc_linkat linkat "libc.so"
 
 func Linkat(olddirfd int, oldpath string, newdirfd int, newpath string, flag int) error {
 	oldp, err := syscall.BytePtrFromString(oldpath)
@@ -148,7 +148,7 @@ func Linkat(olddirfd int, oldpath string, newdirfd int, newpath string, flag int
 
 func libc_symlinkat_trampoline()
 
-//go:cgo_import_dynamic libc_symlinkat symlinkat "libc.so"
+//golang:cgolang_import_dynamic libc_symlinkat symlinkat "libc.so"
 
 func Symlinkat(oldpath string, newdirfd int, newpath string) error {
 	oldp, err := syscall.BytePtrFromString(oldpath)

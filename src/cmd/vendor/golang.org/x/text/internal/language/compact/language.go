@@ -1,9 +1,9 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:generate go run gen.go gen_index.go -output tables.go
-//go:generate go run gen_parents.go
+//golang:generate golang run gen.golang gen_index.golang -output tables.golang
+//golang:generate golang run gen_parents.golang
 
 package compact
 
@@ -13,7 +13,7 @@ package compact
 import (
 	"strings"
 
-	"golang.org/x/text/internal/language"
+	"golanglang.org/x/text/internal/language"
 )
 
 // Tag represents a BCP 47 language tag. It is used to specify an instance of a

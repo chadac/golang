@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ssa_test
@@ -29,11 +29,11 @@ func TestFmaHash(t *testing.T) {
 	}
 
 	testenv.MustHaveGoBuild(t)
-	gocmd := testenv.GoToolPath(t)
+	golangcmd := testenv.GoToolPath(t)
 	tmpdir := t.TempDir()
-	source := filepath.Join("testdata", "fma.go")
+	source := filepath.Join("testdata", "fma.golang")
 	output := filepath.Join(tmpdir, "fma.exe")
-	cmd := testenv.Command(t, gocmd, "build", "-o", output, source)
+	cmd := testenv.Command(t, golangcmd, "build", "-o", output, source)
 	// The hash-dependence on file path name is dodged by specifying "all hashes ending in 1" plus "all hashes ending in 0"
 	// i.e., all hashes.  This will print all the FMAs; this test is only interested in one of them (that should appear near the end).
 	cmd.Env = append(cmd.Env, "GOCOMPILEDEBUG=fmahash=1/0", "GOOS=linux", "GOARCH=arm64", "HOME="+tmpdir)
@@ -44,7 +44,7 @@ func TestFmaHash(t *testing.T) {
 		t.Errorf("build failed: %v\n%s", e, b)
 	}
 	s := string(b) // Looking for "GOFMAHASH triggered main.main:24"
-	re := "fmahash(0?) triggered .*fma.go:29:..;.*fma.go:18:.."
+	re := "fmahash(0?) triggered .*fma.golang:29:..;.*fma.golang:18:.."
 	match := regexp.MustCompile(re)
 	if !match.MatchString(s) {
 		t.Errorf("Expected to match '%s' with \n-----\n%s-----", re, s)

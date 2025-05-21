@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package rsa_test
@@ -179,10 +179,10 @@ func ExampleVerifyPKCS1v15() {
 }
 
 func ExampleEncryptOAEP() {
-	secretMessage := []byte("send reinforcements, we're going to advance")
+	secretMessage := []byte("send reinforcements, we're golanging to advance")
 	label := []byte("orders")
 
-	// crypto/rand.Reader is a good source of entropy for randomizing the
+	// crypto/rand.Reader is a golangod source of entropy for randomizing the
 	// encryption function.
 	rng := rand.Reader
 

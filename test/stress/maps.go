@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -44,7 +44,7 @@ func stressMapType(mt MapType, done func()) {
 		const numGets = 10
 		wg.Add(numGets)
 		for i := 0; i < numGets; i++ {
-			go func(i int) {
+			golang func(i int) {
 				if i&1 == 0 {
 					m.GetItem()
 				} else {
@@ -106,7 +106,7 @@ func stressMaps() {
 		var wg sync.WaitGroup
 		for _, mt := range mapTypes() {
 			wg.Add(1)
-			go stressMapType(mt, wg.Done)
+			golang stressMapType(mt, wg.Done)
 		}
 		wg.Wait()
 	}

@@ -1,9 +1,9 @@
-// run fake-arg-to-force-use-of-go-run
+// run fake-arg-to-force-use-of-golang-run
 
-//go:build cgo && !windows
+//golang:build cgolang && !windows
 
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main

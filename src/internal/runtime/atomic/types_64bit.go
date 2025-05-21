@@ -1,8 +1,8 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build amd64 || arm64 || loong64 || mips64 || mips64le || ppc64 || ppc64le || riscv64 || s390x || wasm
+//golang:build amd64 || arm64 || loong64 || mips64 || mips64le || ppc64 || ppc64le || riscv64 || s390x || wasm
 
 package atomic
 
@@ -14,7 +14,7 @@ package atomic
 //
 // WARNING: Use sparingly and with great care.
 //
-//go:nosplit
+//golang:nosplit
 func (u *Uint64) LoadAcquire() uint64 {
 	return LoadAcq64(&u.value)
 }
@@ -27,7 +27,7 @@ func (u *Uint64) LoadAcquire() uint64 {
 //
 // WARNING: Use sparingly and with great care.
 //
-//go:nosplit
+//golang:nosplit
 func (u *Uint64) StoreRelease(value uint64) {
 	StoreRel64(&u.value, value)
 }

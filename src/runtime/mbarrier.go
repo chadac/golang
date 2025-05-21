@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Garbage collector: write barriers.
@@ -9,14 +9,14 @@
 // emitting calls to write barriers. The main write barrier for
 // individual pointer writes is gcWriteBarrier and is implemented in
 // assembly. This file contains write barrier entry points for bulk
-// operations. See also mwbbuf.go.
+// operations. See also mwbbuf.golang.
 
 package runtime
 
 import (
 	"internal/abi"
-	"internal/goarch"
-	"internal/goexperiment"
+	"internal/golangarch"
+	"internal/golangexperiment"
 	"internal/runtime/sys"
 	"unsafe"
 )
@@ -25,7 +25,7 @@ import (
 // barrier—which shades the object whose reference is being
 // overwritten—with Dijkstra insertion barrier—which shades the object
 // whose reference is being written. The insertion part of the barrier
-// is necessary while the calling goroutine's stack is grey. In
+// is necessary while the calling golangroutine's stack is grey. In
 // pseudocode, the barrier is:
 //
 //     writePointer(slot, ptr):
@@ -35,7 +35,7 @@ import (
 //         *slot = ptr
 //
 // slot is the destination in Go code.
-// ptr is the value that goes into the slot in Go code.
+// ptr is the value that golanges into the slot in Go code.
 //
 // Shade indicates that it has seen a white pointer by adding the referent
 // to wbuf as well as marking it.
@@ -52,7 +52,7 @@ import (
 // heap. If it attempts to install the pointer into a black object,
 // this will shade it.
 //
-// 3. Once a goroutine's stack is black, the shade(ptr) becomes
+// 3. Once a golangroutine's stack is black, the shade(ptr) becomes
 // unnecessary. shade(ptr) prevents hiding an object by moving it from
 // the stack to the heap, but this requires first having a pointer
 // hidden on the stack. Immediately after a stack is scanned, it only
@@ -61,7 +61,7 @@ import (
 // stack.
 //
 // For a detailed description of this barrier and proof of
-// correctness, see https://github.com/golang/proposal/blob/master/design/17503-eliminate-rescan.md
+// correctness, see https://github.com/golanglang/proposal/blob/master/design/17503-eliminate-rescan.md
 //
 //
 //
@@ -88,7 +88,7 @@ import (
 // result on most HW (including 386/amd64) can be r1==r2==0. This is a classic
 // example of what can happen when loads are allowed to be reordered with older
 // stores (avoiding such reorderings lies at the heart of the classic
-// Peterson/Dekker algorithms for mutual exclusion). Rather than require memory
+// Peterson/Dekker algolangrithms for mutual exclusion). Rather than require memory
 // barriers, which will slow down both the mutator and the GC, we always grey
 // the ptr object regardless of the slot's color.
 //
@@ -115,7 +115,7 @@ import (
 //
 // The write barrier is *pre-publication*, meaning that the write
 // barrier happens prior to the *slot = ptr write that may make ptr
-// reachable by some goroutine that currently cannot reach it.
+// reachable by some golangroutine that currently cannot reach it.
 //
 //
 // Signal handler pointer writes:
@@ -124,16 +124,16 @@ import (
 // barrier because it may run without a P or even during the write
 // barrier.
 //
-// There is exactly one exception: profbuf.go omits a barrier during
+// There is exactly one exception: profbuf.golang omits a barrier during
 // signal handler profile logging. That's safe only because of the
-// deletion barrier. See profbuf.go for a detailed argument. If we
+// deletion barrier. See profbuf.golang for a detailed argument. If we
 // remove the deletion barrier, we'll have to work out a new way to
 // handle the profile logging.
 
 // typedmemmove copies a value of type typ to dst from src.
 // Must be nosplit, see #16026.
 //
-// TODO: Perfect for go:nosplitrec since we can't have a safe point
+// TODO: Perfect for golang:nosplitrec since we can't have a safe point
 // anywhere in the bulk barrier or memmove.
 //
 // typedmemmove should be an internal detail,
@@ -143,10 +143,10 @@ import (
 //   - github.com/segmentio/encoding
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname typedmemmove
-//go:nosplit
+//golang:linkname typedmemmove
+//golang:nosplit
 func typedmemmove(typ *abi.Type, dst, src unsafe.Pointer) {
 	if dst == src {
 		return
@@ -157,16 +157,16 @@ func typedmemmove(typ *abi.Type, dst, src unsafe.Pointer) {
 		// bulkBarrierPreWrite.
 		bulkBarrierPreWrite(uintptr(dst), uintptr(src), typ.PtrBytes, typ)
 	}
-	// There's a race here: if some other goroutine can write to
+	// There's a race here: if some other golangroutine can write to
 	// src, it may change some pointer in src after we've
 	// performed the write barrier but before we perform the
 	// memory copy. This safe because the write performed by that
-	// other goroutine must also be accompanied by a write
+	// other golangroutine must also be accompanied by a write
 	// barrier, so at worst we've unnecessarily greyed the old
 	// pointer that was in src.
 	memmove(dst, src, typ.Size_)
-	if goexperiment.CgoCheck2 {
-		cgoCheckMemmove2(typ, dst, src, 0, typ.Size_)
+	if golangexperiment.CgolangCheck2 {
+		cgolangCheckMemmove2(typ, dst, src, 0, typ.Size_)
 	}
 }
 
@@ -174,8 +174,8 @@ func typedmemmove(typ *abi.Type, dst, src unsafe.Pointer) {
 // zeroing a region of memory at address dst of type typ.
 // Does not actually do the zeroing.
 //
-//go:nowritebarrierrec
-//go:nosplit
+//golang:nowritebarrierrec
+//golang:nosplit
 func wbZero(typ *_type, dst unsafe.Pointer) {
 	// This always copies a full value of type typ so it's safe
 	// to pass typ along as an optimization. See the comment on
@@ -187,8 +187,8 @@ func wbZero(typ *_type, dst unsafe.Pointer) {
 // copying a region of memory from src to dst of type typ.
 // Does not actually do the copying.
 //
-//go:nowritebarrierrec
-//go:nosplit
+//golang:nowritebarrierrec
+//golang:nosplit
 func wbMove(typ *_type, dst, src unsafe.Pointer) {
 	// This always copies a full value of type typ so it's safe to
 	// pass a type here.
@@ -200,16 +200,16 @@ func wbMove(typ *_type, dst, src unsafe.Pointer) {
 // reflect_typedmemmove is meant for package reflect,
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
-//   - gitee.com/quant1x/gox
-//   - github.com/goccy/json
-//   - github.com/modern-go/reflect2
-//   - github.com/ugorji/go/codec
+//   - gitee.com/quant1x/golangx
+//   - github.com/golangccy/json
+//   - github.com/modern-golang/reflect2
+//   - github.com/ugolangrji/golang/codec
 //   - github.com/v2pro/plz
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname reflect_typedmemmove reflect.typedmemmove
+//golang:linkname reflect_typedmemmove reflect.typedmemmove
 func reflect_typedmemmove(typ *_type, dst, src unsafe.Pointer) {
 	if raceenabled {
 		raceWriteObjectPC(typ, dst, sys.GetCallerPC(), abi.FuncPCABIInternal(reflect_typedmemmove))
@@ -226,12 +226,12 @@ func reflect_typedmemmove(typ *_type, dst, src unsafe.Pointer) {
 	typedmemmove(typ, dst, src)
 }
 
-//go:linkname reflectlite_typedmemmove internal/reflectlite.typedmemmove
+//golang:linkname reflectlite_typedmemmove internal/reflectlite.typedmemmove
 func reflectlite_typedmemmove(typ *_type, dst, src unsafe.Pointer) {
 	reflect_typedmemmove(typ, dst, src)
 }
 
-//go:linkname maps_typedmemmove internal/runtime/maps.typedmemmove
+//golang:linkname maps_typedmemmove internal/runtime/maps.typedmemmove
 func maps_typedmemmove(typ *_type, dst, src unsafe.Pointer) {
 	typedmemmove(typ, dst, src)
 }
@@ -245,9 +245,9 @@ func maps_typedmemmove(typ *_type, dst, src unsafe.Pointer) {
 // It must be nosplit and must only call nosplit functions because the
 // stack map of reflectcall is wrong.
 //
-//go:nosplit
+//golang:nosplit
 func reflectcallmove(typ *_type, dst, src unsafe.Pointer, size uintptr, regs *abi.RegArgs) {
-	if writeBarrier.enabled && typ != nil && typ.Pointers() && size >= goarch.PtrSize {
+	if writeBarrier.enabled && typ != nil && typ.Pointers() && size >= golangarch.PtrSize {
 		// Pass nil for the type. dst does not point to value of type typ,
 		// but rather points into one, so applying the optimization is not
 		// safe. See the comment on this function.
@@ -269,10 +269,10 @@ func reflectcallmove(typ *_type, dst, src unsafe.Pointer, size uintptr, regs *ab
 //   - github.com/segmentio/encoding
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname typedslicecopy
-//go:nosplit
+//golang:linkname typedslicecopy
+//golang:nosplit
 func typedslicecopy(typ *_type, dstPtr unsafe.Pointer, dstLen int, srcPtr unsafe.Pointer, srcLen int) int {
 	n := dstLen
 	if n > srcLen {
@@ -301,8 +301,8 @@ func typedslicecopy(typ *_type, dstPtr unsafe.Pointer, dstLen int, srcPtr unsafe
 		asanread(srcPtr, uintptr(n)*typ.Size_)
 	}
 
-	if goexperiment.CgoCheck2 {
-		cgoCheckSliceCopy(typ, dstPtr, srcPtr, n)
+	if golangexperiment.CgolangCheck2 {
+		cgolangCheckSliceCopy(typ, dstPtr, srcPtr, n)
 	}
 
 	if dstPtr == srcPtr {
@@ -330,16 +330,16 @@ func typedslicecopy(typ *_type, dstPtr unsafe.Pointer, dstLen int, srcPtr unsafe
 // reflect_typedslicecopy is meant for package reflect,
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
-//   - gitee.com/quant1x/gox
-//   - github.com/modern-go/reflect2
+//   - gitee.com/quant1x/golangx
+//   - github.com/modern-golang/reflect2
 //   - github.com/RomiChan/protobuf
 //   - github.com/segmentio/encoding
 //   - github.com/v2pro/plz
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname reflect_typedslicecopy reflect.typedslicecopy
+//golang:linkname reflect_typedslicecopy reflect.typedslicecopy
 func reflect_typedslicecopy(elemType *_type, dst, src slice) int {
 	if !elemType.Pointers() {
 		return slicecopy(dst.array, dst.len, src.array, src.len, elemType.Size_)
@@ -355,9 +355,9 @@ func reflect_typedslicecopy(elemType *_type, dst, src slice) int {
 // If the caller knows that typ has pointers, it can alternatively
 // call memclrHasPointers.
 //
-// TODO: A "go:nosplitrec" annotation would be perfect for this.
+// TODO: A "golang:nosplitrec" annotation would be perfect for this.
 //
-//go:nosplit
+//golang:nosplit
 func typedmemclr(typ *_type, ptr unsafe.Pointer) {
 	if writeBarrier.enabled && typ.Pointers() {
 		// This always clears a whole value of type typ, so it's
@@ -371,22 +371,22 @@ func typedmemclr(typ *_type, ptr unsafe.Pointer) {
 // reflect_typedmemclr is meant for package reflect,
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
-//   - github.com/ugorji/go/codec
+//   - github.com/ugolangrji/golang/codec
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname reflect_typedmemclr reflect.typedmemclr
+//golang:linkname reflect_typedmemclr reflect.typedmemclr
 func reflect_typedmemclr(typ *_type, ptr unsafe.Pointer) {
 	typedmemclr(typ, ptr)
 }
 
-//go:linkname maps_typedmemclr internal/runtime/maps.typedmemclr
+//golang:linkname maps_typedmemclr internal/runtime/maps.typedmemclr
 func maps_typedmemclr(typ *_type, ptr unsafe.Pointer) {
 	typedmemclr(typ, ptr)
 }
 
-//go:linkname reflect_typedmemclrpartial reflect.typedmemclrpartial
+//golang:linkname reflect_typedmemclrpartial reflect.typedmemclrpartial
 func reflect_typedmemclrpartial(typ *_type, ptr unsafe.Pointer, off, size uintptr) {
 	if writeBarrier.enabled && typ.Pointers() {
 		// Pass nil for the type. ptr does not point to value of type typ,
@@ -398,7 +398,7 @@ func reflect_typedmemclrpartial(typ *_type, ptr unsafe.Pointer, off, size uintpt
 	memclrNoHeapPointers(ptr, size)
 }
 
-//go:linkname reflect_typedarrayclear reflect.typedarrayclear
+//golang:linkname reflect_typedarrayclear reflect.typedarrayclear
 func reflect_typedarrayclear(typ *_type, ptr unsafe.Pointer, len int) {
 	size := typ.Size_ * uintptr(len)
 	if writeBarrier.enabled && typ.Pointers() {
@@ -420,10 +420,10 @@ func reflect_typedarrayclear(typ *_type, ptr unsafe.Pointer, len int) {
 //   - github.com/bytedance/sonic
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname memclrHasPointers
-//go:nosplit
+//golang:linkname memclrHasPointers
+//golang:nosplit
 func memclrHasPointers(ptr unsafe.Pointer, n uintptr) {
 	// Pass nil for the type since we don't have one here anyway.
 	bulkBarrierPreWrite(uintptr(ptr), 0, n, nil)

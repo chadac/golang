@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package testtrace
@@ -34,10 +34,10 @@ func (e *Expectation) Check(err error) error {
 		return fmt.Errorf("unexpected error while reading the trace: %v", err)
 	}
 	if e.failure && err == nil {
-		return fmt.Errorf("expected error while reading the trace: want something matching %q, got none", e.errorMatcher)
+		return fmt.Errorf("expected error while reading the trace: want something matching %q, golangt none", e.errorMatcher)
 	}
 	if e.failure && err != nil && !e.errorMatcher.MatchString(err.Error()) {
-		return fmt.Errorf("unexpected error while reading the trace: want something matching %q, got %s", e.errorMatcher, err.Error())
+		return fmt.Errorf("unexpected error while reading the trace: want something matching %q, golangt %s", e.errorMatcher, err.Error())
 	}
 	return nil
 }

@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ecdsa
@@ -203,10 +203,10 @@ func TestVectors(t *testing.T) {
 
 func testVectors(t *testing.T) {
 	// This test runs the full set of NIST test vectors from
-	// https://csrc.nist.gov/groups/STM/cavp/documents/dss/186-3ecdsatestvectors.zip
+	// https://csrc.nist.golangv/groups/STM/cavp/documents/dss/186-3ecdsatestvectors.zip
 	//
 	// The SigVer.rsp file has been edited to remove test vectors for
-	// unsupported algorithms and has been compressed.
+	// unsupported algolangrithms and has been compressed.
 
 	if testing.Short() {
 		return
@@ -456,7 +456,7 @@ func TestRFC6979(t *testing.T) {
 	t.Run("P-256", func(t *testing.T) {
 		// This vector was bruteforced to find a message that causes the
 		// generation of k to loop. It was checked against
-		// github.com/codahale/rfc6979 (https://go.dev/play/p/FK5-fmKf7eK),
+		// github.com/codahale/rfc6979 (https://golang.dev/play/p/FK5-fmKf7eK),
 		// OpenSSL 3.2.0 (https://github.com/openssl/openssl/pull/23130),
 		// and python-ecdsa:
 		//
@@ -542,7 +542,7 @@ func testRFC6979(t *testing.T, curve elliptic.Curve, D, X, Y, msg, r, s string) 
 		t.Fatal(err)
 	}
 	if !bytes.Equal(sig, expected) {
-		t.Errorf("signature mismatch:\n got: %x\nwant: %x", sig, expected)
+		t.Errorf("signature mismatch:\n golangt: %x\nwant: %x", sig, expected)
 	}
 }
 

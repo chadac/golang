@@ -1,36 +1,36 @@
 # Package with external tests
-! go vet m/vetpkg
+! golang vet m/vetpkg
 stderr 'Printf'
 
 # With tags
-! go vet -tags tagtest m/vetpkg
-stderr 'c\.go.*Printf'
+! golang vet -tags tagtest m/vetpkg
+stderr 'c\.golang.*Printf'
 
 # With flags on
-! go vet -printf m/vetpkg
+! golang vet -printf m/vetpkg
 stderr 'Printf'
 
 # With flags off
-go vet -printf=false m/vetpkg
+golang vet -printf=false m/vetpkg
 ! stderr .
 
 # With only test files (tests issue #23395)
-go vet m/onlytest
+golang vet m/onlytest
 ! stderr .
 
-# With only cgo files (tests issue #24193)
-[!cgo] skip
+# With only cgolang files (tests issue #24193)
+[!cgolang] skip
 [short] skip
-go vet m/onlycgo
+golang vet m/onlycgolang
 ! stderr .
 
--- go.mod --
+-- golang.mod --
 module m
 
-go 1.16
--- vetpkg/a_test.go --
+golang 1.16
+-- vetpkg/a_test.golang --
 package p_test
--- vetpkg/b.go --
+-- vetpkg/b.golang --
 package p
 
 import "fmt"
@@ -38,7 +38,7 @@ import "fmt"
 func f() {
 	fmt.Printf("%d")
 }
--- vetpkg/c.go --
+-- vetpkg/c.golang --
 // +build tagtest
 
 package p
@@ -48,13 +48,13 @@ import "fmt"
 func g() {
 	fmt.Printf("%d", 3, 4)
 }
--- onlytest/p_test.go --
+-- onlytest/p_test.golang --
 package p
 
 import "testing"
 
 func TestMe(*testing.T) {}
--- onlycgo/p.go --
+-- onlycgolang/p.golang --
 package p
 
 import "C"

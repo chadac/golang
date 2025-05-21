@@ -19,7 +19,7 @@ Because text precedes it,
 
 ## Not a heading either.
 
--- gofmt --
+-- golangfmt --
 Some text.
 
 # An Old Heading

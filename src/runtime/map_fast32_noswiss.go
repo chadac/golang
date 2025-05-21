@@ -1,14 +1,14 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !goexperiment.swissmap
+//golang:build !golangexperiment.swissmap
 
 package runtime
 
 import (
 	"internal/abi"
-	"internal/goarch"
+	"internal/golangarch"
 	"internal/runtime/sys"
 	"unsafe"
 )
@@ -56,12 +56,12 @@ func mapaccess1_fast32(t *maptype, h *hmap, key uint32) unsafe.Pointer {
 // mapaccess2_fast32 should be an internal detail,
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
-//   - github.com/ugorji/go/codec
+//   - github.com/ugolangrji/golang/codec
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname mapaccess2_fast32
+//golang:linkname mapaccess2_fast32
 func mapaccess2_fast32(t *maptype, h *hmap, key uint32) (unsafe.Pointer, bool) {
 	if raceenabled && h != nil {
 		callerpc := sys.GetCallerPC()
@@ -106,12 +106,12 @@ func mapaccess2_fast32(t *maptype, h *hmap, key uint32) (unsafe.Pointer, bool) {
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
 //   - github.com/bytedance/sonic
-//   - github.com/ugorji/go/codec
+//   - github.com/ugolangrji/golang/codec
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname mapassign_fast32
+//golang:linkname mapassign_fast32
 func mapassign_fast32(t *maptype, h *hmap, key uint32) unsafe.Pointer {
 	if h == nil {
 		panic(plainError("assignment to entry in nil map"))
@@ -162,7 +162,7 @@ bucketloop:
 			}
 			inserti = i
 			insertb = b
-			goto done
+			golangto done
 		}
 		ovf := b.overflow(t)
 		if ovf == nil {
@@ -177,7 +177,7 @@ bucketloop:
 	// and we're not already in the middle of growing, start growing.
 	if !h.growing() && (overLoadFactor(h.count+1, h.B) || tooManyOverflowBuckets(h.noverflow, h.B)) {
 		hashGrow(t, h)
-		goto again // Growing the table invalidates everything, so try again
+		golangto again // Growing the table invalidates everything, so try again
 	}
 
 	if insertb == nil {
@@ -205,12 +205,12 @@ done:
 // mapassign_fast32ptr should be an internal detail,
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
-//   - github.com/ugorji/go/codec
+//   - github.com/ugolangrji/golang/codec
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname mapassign_fast32ptr
+//golang:linkname mapassign_fast32ptr
 func mapassign_fast32ptr(t *maptype, h *hmap, key unsafe.Pointer) unsafe.Pointer {
 	if h == nil {
 		panic(plainError("assignment to entry in nil map"))
@@ -261,7 +261,7 @@ bucketloop:
 			}
 			inserti = i
 			insertb = b
-			goto done
+			golangto done
 		}
 		ovf := b.overflow(t)
 		if ovf == nil {
@@ -276,7 +276,7 @@ bucketloop:
 	// and we're not already in the middle of growing, start growing.
 	if !h.growing() && (overLoadFactor(h.count+1, h.B) || tooManyOverflowBuckets(h.noverflow, h.B)) {
 		hashGrow(t, h)
-		goto again // Growing the table invalidates everything, so try again
+		golangto again // Growing the table invalidates everything, so try again
 	}
 
 	if insertb == nil {
@@ -333,7 +333,7 @@ search:
 			// Only clear key if there are pointers in it.
 			// This can only happen if pointers are 32 bit
 			// wide as 64 bit pointers do not fit into a 32 bit key.
-			if goarch.PtrSize == 4 && t.Key.Pointers() {
+			if golangarch.PtrSize == 4 && t.Key.Pointers() {
 				// The key must be a pointer as we checked pointers are
 				// 32 bits wide and the key is 32 bits wide also.
 				*(*unsafe.Pointer)(k) = nil
@@ -349,11 +349,11 @@ search:
 			// change those to emptyRest states.
 			if i == abi.OldMapBucketCount-1 {
 				if b.overflow(t) != nil && b.overflow(t).tophash[0] != emptyRest {
-					goto notLast
+					golangto notLast
 				}
 			} else {
 				if b.tophash[i+1] != emptyRest {
-					goto notLast
+					golangto notLast
 				}
 			}
 			for {
@@ -459,7 +459,7 @@ func evacuate_fast32(t *maptype, h *hmap, oldbucket uintptr) {
 				dst.b.tophash[dst.i&(abi.OldMapBucketCount-1)] = top // mask dst.i as an optimization, to avoid a bounds check
 
 				// Copy key.
-				if goarch.PtrSize == 4 && t.Key.Pointers() && writeBarrier.enabled {
+				if golangarch.PtrSize == 4 && t.Key.Pointers() && writeBarrier.enabled {
 					// Write with a write barrier.
 					*(*unsafe.Pointer)(dst.k) = *(*unsafe.Pointer)(k)
 				} else {

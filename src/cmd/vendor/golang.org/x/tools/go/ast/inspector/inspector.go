@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package inspector provides helper functions for traversal over the
@@ -19,7 +19,7 @@
 // one-off traversals.
 package inspector
 
-// There are four orthogonal features in a traversal:
+// There are four orthogolangnal features in a traversal:
 //  1 type filtering
 //  2 pruning
 //  3 postorder calls to f
@@ -36,10 +36,10 @@ package inspector
 // and found to degrade performance significantly (30%).
 
 import (
-	"go/ast"
+	"golang/ast"
 	_ "unsafe"
 
-	"golang.org/x/tools/internal/astutil/edge"
+	"golanglang.org/x/tools/internal/astutil/edge"
 )
 
 // An Inspector provides methods for inspecting
@@ -48,10 +48,10 @@ type Inspector struct {
 	events []event
 }
 
-//go:linkname events golang.org/x/tools/go/ast/inspector.events
+//golang:linkname events golanglang.org/x/tools/golang/ast/inspector.events
 func events(in *Inspector) []event { return in.events }
 
-//go:linkname packEdgeKindAndIndex golang.org/x/tools/go/ast/inspector.packEdgeKindAndIndex
+//golang:linkname packEdgeKindAndIndex golanglang.org/x/tools/golang/ast/inspector.packEdgeKindAndIndex
 func packEdgeKindAndIndex(ek edge.Kind, index int) int32 {
 	return int32(uint32(index+1)<<7 | uint32(ek))
 }
@@ -59,7 +59,7 @@ func packEdgeKindAndIndex(ek edge.Kind, index int) int32 {
 // unpackEdgeKindAndIndex unpacks the edge kind and edge index (within
 // an []ast.Node slice) from the parent field of a pop event.
 //
-//go:linkname unpackEdgeKindAndIndex golang.org/x/tools/go/ast/inspector.unpackEdgeKindAndIndex
+//golang:linkname unpackEdgeKindAndIndex golanglang.org/x/tools/golang/ast/inspector.unpackEdgeKindAndIndex
 func unpackEdgeKindAndIndex(x int32) (edge.Kind, int) {
 	// The "parent" field of a pop node holds the
 	// edge Kind in the lower 7 bits and the index+1

@@ -1,14 +1,14 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package noder
 
 import (
 	"fmt"
-	"go/constant"
-	"go/token"
-	"go/version"
+	"golang/constant"
+	"golang/token"
+	"golang/version"
 	"internal/buildcfg"
 	"internal/pkgbits"
 	"os"
@@ -48,7 +48,7 @@ import (
 //   which in general is a mix of low-level coding primitives (e.g.,
 //   ints and strings) or uses of other things.
 //
-// A design goal of Unified IR is to have a single, canonical writer
+// A design golangal of Unified IR is to have a single, canonical writer
 // implementation, but multiple reader implementations each tailored
 // to their respective needs. For example, within cmd/compile's own
 // backend, inlining is implemented largely by just re-running the
@@ -85,12 +85,12 @@ type pkgWriter struct {
 	typDecls map[*types2.TypeName]typeDeclGen
 
 	// linknames maps package-scope objects to their linker symbol name,
-	// if specified by a //go:linkname directive.
+	// if specified by a //golang:linkname directive.
 	linknames map[types2.Object]string
 
-	// cgoPragmas accumulates any //go:cgo_* pragmas that need to be
+	// cgolangPragmas accumulates any //golang:cgolang_* pragmas that need to be
 	// passed through to cmd/link.
-	cgoPragmas [][]string
+	cgolangPragmas [][]string
 }
 
 // newPkgWriter returns an initialized pkgWriter for the specified
@@ -446,7 +446,7 @@ func (pw *pkgWriter) pkgIdx(pkg *types2.Package) index {
 	// user-defined packages.
 	switch pkg {
 	case nil: // universe
-		w.String("builtin") // same package path used by godoc
+		w.String("builtin") // same package path used by golangdoc
 	case types2.Unsafe:
 		w.String("unsafe")
 	default:
@@ -502,7 +502,7 @@ func (pw *pkgWriter) typIdx(typ types2.Type, dict *writerDict) typeInfo {
 	// Strip non-global aliases, because they only appear in inline
 	// bodies anyway. Otherwise, they can cause types.Sym collisions
 	// (e.g., "main.C" for both of the local type aliases in
-	// test/fixedbugs/issue50190.go).
+	// test/fixedbugs/issue50190.golang).
 	for {
 		if alias, ok := typ.(*types2.Alias); ok && !isGlobal(alias.Obj()) {
 			typ = alias.Rhs()
@@ -593,8 +593,8 @@ func (pw *pkgWriter) typIdx(typ types2.Type, dict *writerDict) typeInfo {
 	case *types2.Interface:
 		// Handle "any" as reference to its TypeName.
 		// The underlying "any" interface is canonical, so this logic handles both
-		// GODEBUG=gotypesalias=1 (when any is represented as a types2.Alias), and
-		// gotypesalias=0.
+		// GODEBUG=golangtypesalias=1 (when any is represented as a types2.Alias), and
+		// golangtypesalias=0.
 		if types2.Unalias(typ) == types2.Unalias(anyTypeName.Type()) {
 			w.Code(pkgbits.TypeNamed)
 			w.obj(anyTypeName, nil)
@@ -784,11 +784,11 @@ func (pw *pkgWriter) objIdx(obj types2.Object) index {
 	//   specific type of Object it is (Var, Func, etc).
 	//
 	// - RelocObj has the remaining public details about the object,
-	//   relevant to go/types importers.
+	//   relevant to golang/types importers.
 	//
 	// - RelocObjExt has additional private details about the object,
 	//   which are only relevant to cmd/compile itself. This is
-	//   separated from RelocObj so that go/types importers are
+	//   separated from RelocObj so that golang/types importers are
 	//   unaffected by internal compiler changes.
 	//
 	// - RelocObjDict has public details about the object's type
@@ -899,8 +899,8 @@ func (w *writer) doObj(wext *writer, obj types2.Object) pkgbits.CodeObj {
 
 // objDict writes the dictionary needed for reading the given object.
 func (w *writer) objDict(obj types2.Object, dict *writerDict) {
-	// TODO(mdempsky): Split objDict into multiple entries? reader.go
-	// doesn't care about the type parameter bounds, and reader2.go
+	// TODO(mdempsky): Split objDict into multiple entries? reader.golang
+	// doesn't care about the type parameter bounds, and reader2.golang
 	// doesn't care about referenced functions.
 
 	w.dict = dict // TODO(mdempsky): This is a bit sketchy.
@@ -925,7 +925,7 @@ func (w *writer) objDict(obj types2.Object, dict *writerDict) {
 
 	// Write runtime dictionary information.
 	//
-	// N.B., the go/types importer reads up to the section, but doesn't
+	// N.B., the golang/types importer reads up to the section, but doesn't
 	// read any further, so it's safe to change. (See TODO above.)
 
 	// For each type parameter, write out whether the constraint is a
@@ -1066,17 +1066,17 @@ func (w *writer) funcExt(obj *types2.Func) {
 
 	pragma := asPragmaFlag(decl.Pragma)
 	if pragma&ir.Systemstack != 0 && pragma&ir.Nosplit != 0 {
-		w.p.errorf(decl, "go:nosplit and go:systemstack cannot be combined")
+		w.p.errorf(decl, "golang:nosplit and golang:systemstack cannot be combined")
 	}
 	wi := asWasmImport(decl.Pragma)
 	we := asWasmExport(decl.Pragma)
 
 	if decl.Body != nil {
 		if pragma&ir.Noescape != 0 {
-			w.p.errorf(decl, "can only use //go:noescape with external func implementations")
+			w.p.errorf(decl, "can only use //golang:noescape with external func implementations")
 		}
 		if wi != nil {
-			w.p.errorf(decl, "can only use //go:wasmimport with external func implementations")
+			w.p.errorf(decl, "can only use //golang:wasmimport with external func implementations")
 		}
 		if (pragma&ir.UintptrKeepAlive != 0 && pragma&ir.UintptrEscapes == 0) && pragma&ir.Nosplit == 0 {
 			// Stack growth can't handle uintptr arguments that may
@@ -1092,7 +1092,7 @@ func (w *writer) funcExt(obj *types2.Func) {
 			// TODO(prattmic): Functions with no body (i.e.,
 			// assembly) must also be nosplit, but we can't check
 			// that here.
-			w.p.errorf(decl, "go:uintptrkeepalive requires go:nosplit")
+			w.p.errorf(decl, "golang:uintptrkeepalive requires golang:nosplit")
 		}
 	} else {
 		if base.Flag.Complete || decl.Name.Value == "init" {
@@ -1561,7 +1561,7 @@ func (w *writer) forStmt(stmt *syntax.ForStmt) {
 func (w *writer) distinctVars(stmt *syntax.ForStmt) bool {
 	lv := base.Debug.LoopVar
 	fileVersion := w.p.info.FileVersions[stmt.Pos().Base()]
-	is122 := fileVersion == "" || version.Compare(fileVersion, "go1.22") >= 0
+	is122 := fileVersion == "" || version.Compare(fileVersion, "golang1.22") >= 0
 
 	// Turning off loopvar for 1.22 is only possible with loopvarhash=qn
 	//
@@ -1570,7 +1570,7 @@ func (w *writer) distinctVars(stmt *syntax.ForStmt) bool {
 	// the new, unshared, loopvar behavior apply to versions less than 1.21 because
 	// (1) 1.21 also did that and (2) this is believed to be the likely use case;
 	// anyone checking to see if it affects their code will just run the GOEXPERIMENT
-	// but will not also update all their go.mod files to 1.21.
+	// but will not also update all their golang.mod files to 1.21.
 	//
 	// -gcflags=-d=loopvar=3 enables logging for 1.22 but does not turn loopvar on for <= 1.21.
 
@@ -1695,7 +1695,7 @@ func (w *writer) switchStmt(stmt *syntax.SwitchStmt) {
 			}()
 		}
 
-		// Walk is going to emit comparisons between the tag value and
+		// Walk is golanging to emit comparisons between the tag value and
 		// each case expression, and we want these comparisons to always
 		// have the same type. If there are any case values that can't be
 		// converted to the tag value's type, then convert everything to
@@ -1838,7 +1838,7 @@ func (w *writer) expr(expr syntax.Expr) {
 		}
 
 		// With shape types (and particular pointer shaping), we may have
-		// an expression of type "go.shape.*uint8", but need to reshape it
+		// an expression of type "golang.shape.*uint8", but need to reshape it
 		// to another shape-identical type to allow use in field
 		// selection, indexing, etc.
 		if typ := tv.Type; !tv.IsBuiltin() && !isTuple(typ) && !isUntyped(typ) {
@@ -2662,15 +2662,15 @@ func (pw *pkgWriter) collectDecls(noders []*noder) {
 			file:    &file,
 		})
 
-		pw.cgoPragmas = append(pw.cgoPragmas, p.pragcgobuf...)
+		pw.cgolangPragmas = append(pw.cgolangPragmas, p.pragcgolangbuf...)
 
 		for _, l := range p.linknames {
 			if !file.importedUnsafe {
-				pw.errorf(l.pos, "//go:linkname only allowed in Go files that import \"unsafe\"")
+				pw.errorf(l.pos, "//golang:linkname only allowed in Go files that import \"unsafe\"")
 				continue
 			}
 			if strings.Contains(l.remote, "[") && strings.Contains(l.remote, "]") {
-				pw.errorf(l.pos, "//go:linkname reference of an instantiation is not allowed")
+				pw.errorf(l.pos, "//golang:linkname reference of an instantiation is not allowed")
 				continue
 			}
 
@@ -2679,12 +2679,12 @@ func (pw *pkgWriter) collectDecls(noders []*noder) {
 				if _, ok := pw.linknames[obj]; !ok {
 					pw.linknames[obj] = l.remote
 				} else {
-					pw.errorf(l.pos, "duplicate //go:linkname for %s", l.local)
+					pw.errorf(l.pos, "duplicate //golang:linkname for %s", l.local)
 				}
 
 			default:
 				if types.AllowsGoVersion(1, 18) {
-					pw.errorf(l.pos, "//go:linkname must refer to declared function or variable")
+					pw.errorf(l.pos, "//golang:linkname must refer to declared function or variable")
 				}
 			}
 		}
@@ -2705,15 +2705,15 @@ func (pw *pkgWriter) checkPragmas(p syntax.Pragma, allowed ir.PragmaFlag, embedO
 
 	if !embedOK {
 		for _, e := range pragma.Embeds {
-			pw.errorf(e.Pos, "misplaced go:embed directive")
+			pw.errorf(e.Pos, "misplaced golang:embed directive")
 		}
 	}
 }
 
 func (w *writer) pkgInit(noders []*noder) {
-	w.Len(len(w.p.cgoPragmas))
-	for _, cgoPragma := range w.p.cgoPragmas {
-		w.Strings(cgoPragma)
+	w.Len(len(w.p.cgolangPragmas))
+	for _, cgolangPragma := range w.p.cgolangPragmas {
+		w.Strings(cgolangPragma)
 	}
 
 	w.pkgInitOrder()

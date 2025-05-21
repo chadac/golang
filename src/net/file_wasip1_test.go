@@ -1,8 +1,8 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build wasip1
+//golang:build wasip1
 
 package net
 
@@ -42,10 +42,10 @@ func TestWasip1FileConnNet(t *testing.T) {
 	for _, test := range tests {
 		net, err := fileConnNet(test.filetype)
 		if net != test.network {
-			t.Errorf("fileConnNet: network mismatch: want=%q got=%q", test.network, net)
+			t.Errorf("fileConnNet: network mismatch: want=%q golangt=%q", test.network, net)
 		}
 		if err != test.error {
-			t.Errorf("fileConnNet: error mismatch: want=%v got=%v", test.error, err)
+			t.Errorf("fileConnNet: error mismatch: want=%v golangt=%v", test.error, err)
 		}
 	}
 }
@@ -68,10 +68,10 @@ func TestWasip1FileListenNet(t *testing.T) {
 	for _, test := range tests {
 		net, err := fileListenNet(test.filetype)
 		if net != test.network {
-			t.Errorf("fileListenNet: network mismatch: want=%q got=%q", test.network, net)
+			t.Errorf("fileListenNet: network mismatch: want=%q golangt=%q", test.network, net)
 		}
 		if err != test.error {
-			t.Errorf("fileListenNet: error mismatch: want=%v got=%v", test.error, err)
+			t.Errorf("fileListenNet: error mismatch: want=%v golangt=%v", test.error, err)
 		}
 	}
 }

@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 #include <stdint.h>
@@ -36,7 +36,7 @@ int check_int32(void* handle, const char* fname, int32_t want) {
   return 0;
 }
 
-// Tests libgo.so to export the following functions.
+// Tests libgolang.so to export the following functions.
 //   int8_t DidInitRun() // returns true
 //   int8_t DidMainRun() // returns true
 //   int32_t FromPkg() // returns 1024

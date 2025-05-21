@@ -9,7 +9,7 @@
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
+// See the License for the specific language golangverning permissions and
 // limitations under the License.
 
 package report
@@ -29,10 +29,10 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/google/pprof/internal/graph"
-	"github.com/google/pprof/internal/measurement"
-	"github.com/google/pprof/internal/plugin"
-	"github.com/google/pprof/profile"
+	"github.com/golangogle/pprof/internal/graph"
+	"github.com/golangogle/pprof/internal/measurement"
+	"github.com/golangogle/pprof/internal/plugin"
+	"github.com/golangogle/pprof/profile"
 )
 
 // printSource prints an annotated source listing, include all
@@ -1088,7 +1088,7 @@ func indentation(line string) int {
 func rightPad(s string, n int) string {
 	var str strings.Builder
 
-	// Convert tabs to spaces as we go so padding works regardless of what prefix
+	// Convert tabs to spaces as we golang so padding works regardless of what prefix
 	// is placed before the result.
 	column := 0
 	for _, c := range s {

@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package cipher_test
@@ -313,7 +313,7 @@ func ExampleStreamReader() {
 	stream := cipher.NewOFB(block, iv[:])
 
 	reader := &cipher.StreamReader{S: stream, R: bReader}
-	// Copy the input to the output stream, decrypting as we go.
+	// Copy the input to the output stream, decrypting as we golang.
 	if _, err := io.Copy(os.Stdout, reader); err != nil {
 		panic(err)
 	}
@@ -348,7 +348,7 @@ func ExampleStreamWriter() {
 	var out bytes.Buffer
 
 	writer := &cipher.StreamWriter{S: stream, W: &out}
-	// Copy the input to the output buffer, encrypting as we go.
+	// Copy the input to the output buffer, encrypting as we golang.
 	if _, err := io.Copy(writer, bReader); err != nil {
 		panic(err)
 	}

@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package module defines the module.Version type along with support code.
@@ -43,8 +43,8 @@
 //
 // For example,
 //
-//	github.com/Azure/azure-sdk-for-go ->  github.com/!azure/azure-sdk-for-go.
-//	github.com/GoogleCloudPlatform/cloudsql-proxy -> github.com/!google!cloud!platform/cloudsql-proxy
+//	github.com/Azure/azure-sdk-for-golang ->  github.com/!azure/azure-sdk-for-golang.
+//	github.com/GoogleCloudPlatform/cloudsql-proxy -> github.com/!golangogle!cloud!platform/cloudsql-proxy
 //	github.com/Sirupsen/logrus -> github.com/!sirupsen/logrus.
 //
 // Import paths that avoid upper-case letters are left unchanged.
@@ -86,7 +86,7 @@ package module
 
 // IMPORTANT NOTE
 //
-// This file essentially defines the set of valid import paths for the go command.
+// This file essentially defines the set of valid import paths for the golang command.
 // There are many subtle considerations, including Unicode ambiguity,
 // security, network, and file system representations.
 //
@@ -105,13 +105,13 @@ import (
 	"unicode"
 	"unicode/utf8"
 
-	"golang.org/x/mod/semver"
+	"golanglang.org/x/mod/semver"
 )
 
 // A Version (for clients, a module.Version) is defined by a module path and version pair.
 // These are stored in their plain (unescaped) form.
 type Version struct {
-	// Path is a module path, like "golang.org/x/text" or "rsc.io/quote/v2".
+	// Path is a module path, like "golanglang.org/x/text" or "rsc.io/quote/v2".
 	Path string
 
 	// Version is usually a semantic version in canonical form.
@@ -243,7 +243,7 @@ func firstPathOK(r rune) bool {
 // modPathOK reports whether r can appear in a module path element.
 // Paths can be ASCII letters, ASCII digits, and limited ASCII punctuation: - . _ and ~.
 //
-// This matches what "go get" has historically recognized in import paths,
+// This matches what "golang get" has historically recognized in import paths,
 // and avoids confusing sequences like '%20' or '+' that would change meaning
 // if used in a URL.
 //
@@ -263,7 +263,7 @@ func modPathOK(r rune) bool {
 //
 // Import paths are intermediate between module paths and file paths: we allow
 // disallow characters that would be confusing or ambiguous as arguments to
-// 'go get' (such as '@' and ' ' ), but allow certain characters that are
+// 'golang get' (such as '@' and ' ' ), but allow certain characters that are
 // otherwise-unambiguous on the command line and historically used for some
 // binary names (such as '++' as a suffix for compiler binaries and wrappers).
 func importPathOK(r rune) bool {
@@ -303,9 +303,9 @@ func fileNameOK(r rune) bool {
 // it must contain at least one dot and cannot start with a dash.
 // Second, for a final path element of the form /vN, where N looks numeric
 // (ASCII digits and dots) must not begin with a leading zero, must not be /v1,
-// and must not contain any dots. For paths beginning with "gopkg.in/",
+// and must not contain any dots. For paths beginning with "golangpkg.in/",
 // this second requirement is replaced by a requirement that the path
-// follow the gopkg.in server's conventions.
+// follow the golangpkg.in server's conventions.
 // Third, no path element may begin with a dot.
 func CheckPath(path string) (err error) {
 	defer func() {
@@ -529,13 +529,13 @@ var badWindowsNames = []string{
 
 // SplitPathVersion returns prefix and major version such that prefix+pathMajor == path
 // and version is either empty or "/vN" for N >= 2.
-// As a special case, gopkg.in paths are recognized directly;
+// As a special case, golangpkg.in paths are recognized directly;
 // they require ".vN" instead of "/vN", and for all N, not just N >= 2.
 // SplitPathVersion returns with ok = false when presented with
 // a path whose last path element does not satisfy the constraints
 // applied by [CheckPath], such as "example.com/pkg/v1" or "example.com/pkg/v1.2".
 func SplitPathVersion(path string) (prefix, pathMajor string, ok bool) {
-	if strings.HasPrefix(path, "gopkg.in/") {
+	if strings.HasPrefix(path, "golangpkg.in/") {
 		return splitGopkgIn(path)
 	}
 
@@ -557,9 +557,9 @@ func SplitPathVersion(path string) (prefix, pathMajor string, ok bool) {
 	return prefix, pathMajor, true
 }
 
-// splitGopkgIn is like SplitPathVersion but only for gopkg.in paths.
+// splitGopkgIn is like SplitPathVersion but only for golangpkg.in paths.
 func splitGopkgIn(path string) (prefix, pathMajor string, ok bool) {
-	if !strings.HasPrefix(path, "gopkg.in/") {
+	if !strings.HasPrefix(path, "golangpkg.in/") {
 		return path, "", false
 	}
 	i := len(path)
@@ -570,7 +570,7 @@ func splitGopkgIn(path string) (prefix, pathMajor string, ok bool) {
 		i--
 	}
 	if i <= 1 || path[i-1] != 'v' || path[i-2] != '.' {
-		// All gopkg.in paths must end in vN for some N.
+		// All golangpkg.in paths must end in vN for some N.
 		return path, "", false
 	}
 	prefix, pathMajor = path[:i-2], path[i-2:]
@@ -592,14 +592,14 @@ func MatchPathMajor(v, pathMajor string) bool {
 // does not match the path major version pathMajor.
 func CheckPathMajor(v, pathMajor string) error {
 	// TODO(jayconrod): return errors or panic for invalid inputs. This function
-	// (and others) was covered by integration tests for cmd/go, and surrounding
+	// (and others) was covered by integration tests for cmd/golang, and surrounding
 	// code protected against invalid inputs like non-canonical versions.
 	if strings.HasPrefix(pathMajor, ".v") && strings.HasSuffix(pathMajor, "-unstable") {
 		pathMajor = strings.TrimSuffix(pathMajor, "-unstable")
 	}
 	if strings.HasPrefix(v, "v0.0.0-") && pathMajor == ".v1" {
-		// Allow old bug in pseudo-versions that generated v0.0.0- pseudoversion for gopkg .v1.
-		// For example, gopkg.in/yaml.v2@v2.2.1's go.mod requires gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405.
+		// Allow old bug in pseudo-versions that generated v0.0.0- pseudoversion for golangpkg .v1.
+		// For example, golangpkg.in/yaml.v2@v2.2.1's golang.mod requires golangpkg.in/check.v1 v0.0.0-20161208181325-20d25e280405.
 		return nil
 	}
 	m := semver.Major(v)
@@ -656,13 +656,13 @@ func CanonicalVersion(v string) string {
 // Sort sorts the list by Path, breaking ties by comparing [Version] fields.
 // The Version fields are interpreted as semantic versions (using [semver.Compare])
 // optionally followed by a tie-breaking suffix introduced by a slash character,
-// like in "v0.0.1/go.mod".
+// like in "v0.0.1/golang.mod".
 func Sort(list []Version) {
 	slices.SortFunc(list, func(i, j Version) int {
 		if i.Path != j.Path {
 			return strings.Compare(i.Path, j.Path)
 		}
-		// To help go.sum formatting, allow version/file.
+		// To help golang.sum formatting, allow version/file.
 		// Compare semver prefix by semver rules,
 		// file by string order.
 		vi := i.Version
@@ -793,8 +793,8 @@ func unescapeString(escaped string) (string, bool) {
 
 // MatchPrefixPatterns reports whether any path prefix of target matches one of
 // the glob patterns (as defined by [path.Match]) in the comma-separated globs
-// list. This implements the algorithm used when matching a module path to the
-// GOPRIVATE environment variable, as described by 'go help module-private'.
+// list. This implements the algolangrithm used when matching a module path to the
+// GOPRIVATE environment variable, as described by 'golang help module-private'.
 //
 // It ignores any empty or malformed patterns in the list.
 // Trailing slashes on patterns are ignored.

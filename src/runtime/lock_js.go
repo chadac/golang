@@ -1,14 +1,14 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build js && wasm
+//golang:build js && wasm
 
 package runtime
 
 import (
 	"internal/runtime/sys"
-	_ "unsafe" // for go:linkname
+	_ "unsafe" // for golang:linkname
 )
 
 // js/wasm has no support for threads yet. There is no preemption.
@@ -84,7 +84,7 @@ func notewakeup(n *note) {
 	cleared := n.status == note_cleared
 	n.status = note_woken
 	if cleared {
-		goready(n.gp, 1)
+		golangready(n.gp, 1)
 	}
 }
 
@@ -121,7 +121,7 @@ func notetsleepg(n *note, ns int64) bool {
 		n.allnext = allDeadlineNotes
 		allDeadlineNotes = n
 
-		gopark(nil, nil, waitReasonSleep, traceBlockSleep, 1)
+		golangpark(nil, nil, waitReasonSleep, traceBlockSleep, 1)
 
 		clearTimeoutEvent(id) // note might have woken early, clear timeout
 
@@ -142,20 +142,20 @@ func notetsleepg(n *note, ns int64) bool {
 	for n.status != note_woken {
 		n.gp = gp
 
-		gopark(nil, nil, waitReasonZero, traceBlockGeneric, 1)
+		golangpark(nil, nil, waitReasonZero, traceBlockGeneric, 1)
 
 		n.gp = nil
 	}
 	return true
 }
 
-// checkTimeouts resumes goroutines that are waiting on a note which has reached its deadline.
+// checkTimeouts resumes golangroutines that are waiting on a note which has reached its deadline.
 func checkTimeouts() {
 	now := nanotime()
 	for n := allDeadlineNotes; n != nil; n = n.allnext {
 		if n.status == note_cleared && n.deadline != 0 && now >= n.deadline {
 			n.status = note_timeout
-			goready(n.gp, 1)
+			golangready(n.gp, 1)
 		}
 	}
 }
@@ -164,11 +164,11 @@ func checkTimeouts() {
 var events []*event
 
 type event struct {
-	// g was the active goroutine when the call from JavaScript occurred.
+	// g was the active golangroutine when the call from JavaScript occurred.
 	// It needs to be active when returning to JavaScript.
 	gp *g
 	// returned reports whether the event handler has returned.
-	// When all goroutines are idle and the event handler has returned,
+	// When all golangroutines are idle and the event handler has returned,
 	// then g gets resumed and returns the execution to JavaScript.
 	returned bool
 }
@@ -204,14 +204,14 @@ func (e *timeoutEvent) clear() {
 // The timeout event started by beforeIdle.
 var idleTimeout *timeoutEvent
 
-// beforeIdle gets called by the scheduler if no goroutine is awake.
+// beforeIdle gets called by the scheduler if no golangroutine is awake.
 // If we are not already handling an event, then we pause for an async event.
 // If an event handler returned, we resume it and it will pause the execution.
-// beforeIdle either returns the specific goroutine to schedule next or
-// indicates with otherReady that some goroutine became ready.
+// beforeIdle either returns the specific golangroutine to schedule next or
+// indicates with otherReady that some golangroutine became ready.
 // TODO(drchase): need to understand if write barriers are really okay in this context.
 //
-//go:yeswritebarrierrec
+//golang:yeswritebarrierrec
 func beforeIdle(now, pollUntil int64) (gp *g, otherReady bool) {
 	delay := int64(-1)
 	if pollUntil != 0 {
@@ -236,7 +236,7 @@ func beforeIdle(now, pollUntil int64) (gp *g, otherReady bool) {
 
 	if len(events) == 0 {
 		// TODO: this is the line that requires the yeswritebarrierrec
-		go handleAsyncEvent()
+		golang handleAsyncEvent()
 		return nil, true
 	}
 
@@ -263,17 +263,17 @@ func clearIdleTimeout() {
 // scheduleTimeoutEvent tells the WebAssembly environment to trigger an event after ms milliseconds.
 // It returns a timer id that can be used with clearTimeoutEvent.
 //
-//go:wasmimport gojs runtime.scheduleTimeoutEvent
+//golang:wasmimport golangjs runtime.scheduleTimeoutEvent
 func scheduleTimeoutEvent(ms int64) int32
 
 // clearTimeoutEvent clears a timeout event scheduled by scheduleTimeoutEvent.
 //
-//go:wasmimport gojs runtime.clearTimeoutEvent
+//golang:wasmimport golangjs runtime.clearTimeoutEvent
 func clearTimeoutEvent(id int32)
 
 // handleEvent gets invoked on a call from JavaScript into Go. It calls the event handler of the syscall/js package
-// and then parks the handler goroutine to allow other goroutines to run before giving execution back to JavaScript.
-// When no other goroutine is awake any more, beforeIdle resumes the handler goroutine. Now that the same goroutine
+// and then parks the handler golangroutine to allow other golangroutines to run before giving execution back to JavaScript.
+// When no other golangroutine is awake any more, beforeIdle resumes the handler golangroutine. Now that the same golangroutine
 // is running as was running when the call came in from JavaScript, execution can be safely passed back to JavaScript.
 func handleEvent() {
 	sched.idleTime.Add(nanotime() - idleStart)
@@ -289,9 +289,9 @@ func handleEvent() {
 		clearIdleTimeout()
 	}
 
-	// wait until all goroutines are idle
+	// wait until all golangroutines are idle
 	e.returned = true
-	gopark(nil, nil, waitReasonZero, traceBlockGeneric, 1)
+	golangpark(nil, nil, waitReasonZero, traceBlockGeneric, 1)
 
 	events[len(events)-1] = nil
 	events = events[:len(events)-1]
@@ -305,7 +305,7 @@ func handleEvent() {
 // It returns true if an event was handled.
 var eventHandler func() bool
 
-//go:linkname setEventHandler syscall/js.setEventHandler
+//golang:linkname setEventHandler syscall/js.setEventHandler
 func setEventHandler(fn func() bool) {
 	eventHandler = fn
 }

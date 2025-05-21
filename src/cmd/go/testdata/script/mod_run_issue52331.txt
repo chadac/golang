@@ -1,27 +1,27 @@
-# Regression test for https://go.dev/issue/52331: 'go run -mod=mod'
-# failed to write go.mod and go.sum with the resolved dependencies.
+# Regression test for https://golang.dev/issue/52331: 'golang run -mod=mod'
+# failed to write golang.mod and golang.sum with the resolved dependencies.
 
 [short] skip
 
-! go run main.go
-# stderr '^main\.go:6:2: no required module provides package example\.com/version; to add it:\n\tgo get example\.com/version\n\z'
+! golang run main.golang
+# stderr '^main\.golang:6:2: no required module provides package example\.com/version; to add it:\n\tgolang get example\.com/version\n\z'
 
-go run -mod=mod main.go
-cmp go.mod go.mod.want
-grep -count=1 '^example\.com/version v1.1.0 h1:' go.sum
-grep -count=1 '^example\.com/version v1.1.0/go.mod h1:' go.sum
+golang run -mod=mod main.golang
+cmp golang.mod golang.mod.want
+grep -count=1 '^example\.com/version v1.1.0 h1:' golang.sum
+grep -count=1 '^example\.com/version v1.1.0/golang.mod h1:' golang.sum
 
--- go.mod --
+-- golang.mod --
 module example
 
-go 1.17
--- go.mod.want --
+golang 1.17
+-- golang.mod.want --
 module example
 
-go 1.17
+golang 1.17
 
 require example.com/version v1.1.0 // indirect
--- main.go --
+-- main.golang --
 package main
 
 import (

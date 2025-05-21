@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package str provides string manipulation utilities.
@@ -43,7 +43,7 @@ func ToFold(s string) string {
 	for i := 0; i < len(s); i++ {
 		c := s[i]
 		if c >= utf8.RuneSelf || 'A' <= c && c <= 'Z' {
-			goto Slow
+			golangto Slow
 		}
 	}
 	return s

@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ssa
@@ -367,7 +367,7 @@ func NewConfig(arch string, types Types, ctxt *obj.Link, optimize, softfloat boo
 
 	if ctxt.Flag_shared {
 		// LoweredWB is secretly a CALL and CALLs on 386 in
-		// shared mode get rewritten by obj6.go to go through
+		// shared mode get rewritten by obj6.golang to golang through
 		// the GOT, which clobbers BX.
 		opcodeTable[Op386LoweredWB].reg.clobbers |= 1 << 3 // BX
 	}
@@ -583,7 +583,7 @@ func (c *Config) buildRecipes(arch string) {
 	// B: First input is v and the second is from a single-instruction recipe.
 	// C: Second input is v and the first is from a single-instruction recipe.
 	// A is slightly preferred because it often needs 1 less register, so it
-	// goes first.
+	// golanges first.
 
 	// A
 	for _, inner := range linearCombos {

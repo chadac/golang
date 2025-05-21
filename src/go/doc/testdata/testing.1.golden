@@ -17,9 +17,9 @@ IMPORTS
 	time
 
 FILENAMES
-	testdata/benchmark.go
-	testdata/example.go
-	testdata/testing.go
+	testdata/benchmark.golang
+	testdata/example.golang
+	testdata/testing.golang
 
 VARIABLES
 	// 
@@ -27,7 +27,7 @@ VARIABLES
 		// The short flag requests that tests run more quickly, but its functionality
 		// is provided by test writers themselves. The testing package is just its
 		// home. The all.bash installation script sets it to make installation more
-		// efficient, but by default the flag is off so a plain "go test" will do a
+		// efficient, but by default the flag is off so a plain "golang test" will do a
 		// full test of the package.
 		short	= flag.Bool("test.short", false, "run smaller test suite to save time")
 	
@@ -139,10 +139,10 @@ TYPES
 	// Fatalf is equivalent to Logf() followed by FailNow(). 
 	func (c *B) Fatalf(format string, args ...any)
 
-	// Log formats its arguments using default formatting, analogous ...
+	// Log formats its arguments using default formatting, analogolangus ...
 	func (c *B) Log(args ...any)
 
-	// Logf formats its arguments according to the format, analogous ...
+	// Logf formats its arguments according to the format, analogolangus ...
 	func (c *B) Logf(format string, args ...any)
 
 	// ResetTimer sets the elapsed benchmark time to zero. It does not ...
@@ -166,7 +166,7 @@ TYPES
 	// 
 	func (b *B) nsPerOp() int64
 
-	// run times the benchmark function in a separate goroutine. 
+	// run times the benchmark function in a separate golangroutine. 
 	func (b *B) run() BenchmarkResult
 
 	// runN runs a single benchmark for the specified number of ...
@@ -241,10 +241,10 @@ TYPES
 	// Fatalf is equivalent to Logf() followed by FailNow(). 
 	func (c *T) Fatalf(format string, args ...any)
 
-	// Log formats its arguments using default formatting, analogous ...
+	// Log formats its arguments using default formatting, analogolangus ...
 	func (c *T) Log(args ...any)
 
-	// Logf formats its arguments according to the format, analogous ...
+	// Logf formats its arguments according to the format, analogolangus ...
 	func (c *T) Logf(format string, args ...any)
 
 	// Parallel signals that this test is to be run in parallel with ...
@@ -287,10 +287,10 @@ TYPES
 	// Fatalf is equivalent to Logf() followed by FailNow(). 
 	func (c *common) Fatalf(format string, args ...any)
 
-	// Log formats its arguments using default formatting, analogous ...
+	// Log formats its arguments using default formatting, analogolangus ...
 	func (c *common) Log(args ...any)
 
-	// Logf formats its arguments according to the format, analogous ...
+	// Logf formats its arguments according to the format, analogolangus ...
 	func (c *common) Logf(format string, args ...any)
 
 	// log generates the output. It's always at the same stack depth. 

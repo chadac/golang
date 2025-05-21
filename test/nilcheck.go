@@ -1,7 +1,7 @@
 // errorcheck -0 -N -d=nil
 
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test that nil checks are inserted.
@@ -111,7 +111,7 @@ func f3(x *[10000]int) {
 
 	fx10k()
 	// This one is a bit redundant, if we figured out that
-	// x wasn't going to change across the function call.
+	// x wasn't golanging to change across the function call.
 	// But it's a little complex to do and in practice doesn't
 	// matter enough.
 	_ = x[9999] // ERROR "nil check"

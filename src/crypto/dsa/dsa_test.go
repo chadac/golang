@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package dsa
@@ -35,11 +35,11 @@ func testParameterGeneration(t *testing.T, sizes ParameterSizes, L, N int) {
 	}
 
 	if params.P.BitLen() != L {
-		t.Errorf("%d: params.BitLen got:%d want:%d", int(sizes), params.P.BitLen(), L)
+		t.Errorf("%d: params.BitLen golangt:%d want:%d", int(sizes), params.P.BitLen(), L)
 	}
 
 	if params.Q.BitLen() != N {
-		t.Errorf("%d: q.BitLen got:%d want:%d", int(sizes), params.Q.BitLen(), L)
+		t.Errorf("%d: q.BitLen golangt:%d want:%d", int(sizes), params.Q.BitLen(), L)
 	}
 
 	one := new(big.Int)

@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package syntax
@@ -47,7 +47,7 @@ var parseTests = []parseTest{
 	{`x{2,1`, `str{x{2,1}`},
 	{`x{1,9876543210`, `str{x{1,9876543210}`},
 	{``, `emp{}`},
-	{`|`, `emp{}`}, // alt{emp{}emp{}} but got factored
+	{`|`, `emp{}`}, // alt{emp{}emp{}} but golangt factored
 	{`|x|`, `alt{emp{}lit{x}emp{}}`},
 	{`.`, `dot{}`},
 	{`^`, `bol{}`},

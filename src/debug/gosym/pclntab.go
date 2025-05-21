@@ -1,12 +1,12 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 /*
  * Line tables
  */
 
-package gosym
+package golangsym
 
 import (
 	"bytes"
@@ -123,7 +123,7 @@ func (t *LineTable) slice(pc uint64) *LineTable {
 // Deprecated: Use Table's PCToLine method instead.
 func (t *LineTable) PCToLine(pc uint64) int {
 	if t.isGo12() {
-		return t.go12PCToLine(pc)
+		return t.golang12PCToLine(pc)
 	}
 	_, _, line := t.parse(pc, -1)
 	return line
@@ -152,20 +152,20 @@ func (t *LineTable) LineToPC(line int, maxpc uint64) uint64 {
 // value stored in the 'runtime.text' symbol.
 // This value may differ from the start
 // address of the text segment if
-// binary was built with cgo enabled.
+// binary was built with cgolang enabled.
 func NewLineTable(data []byte, text uint64) *LineTable {
 	return &LineTable{Data: data, PC: text, Line: 0, funcNames: make(map[uint32]string), strings: make(map[uint32]string)}
 }
 
 // Go 1.2 symbol table format.
-// See golang.org/s/go12symtab.
+// See golanglang.org/s/golang12symtab.
 //
 // A general note about the methods here: rather than try to avoid
 // index out of bounds errors, we trust Go to detect them, and then
 // we recover from the panics and treat them as indicative of a malformed
 // or incomplete table.
 //
-// The methods called by symtab.go, which begin with "go12" prefixes,
+// The methods called by symtab.golang, which begin with "golang12" prefixes,
 // are expected to have that recovery logic.
 
 // isGo12 reports whether this is a Go 1.2 (or later) symbol table.
@@ -175,10 +175,10 @@ func (t *LineTable) isGo12() bool {
 }
 
 const (
-	go12magic  = 0xfffffffb
-	go116magic = 0xfffffffa
-	go118magic = 0xfffffff0
-	go120magic = 0xfffffff1
+	golang12magic  = 0xfffffffb
+	golang116magic = 0xfffffffa
+	golang118magic = 0xfffffff0
+	golang120magic = 0xfffffff1
 )
 
 // uintptr returns the pointer-sized value encoded at b.
@@ -223,21 +223,21 @@ func (t *LineTable) parsePclnTab() {
 	leMagic := binary.LittleEndian.Uint32(t.Data)
 	beMagic := binary.BigEndian.Uint32(t.Data)
 	switch {
-	case leMagic == go12magic:
+	case leMagic == golang12magic:
 		t.binary, possibleVersion = binary.LittleEndian, ver12
-	case beMagic == go12magic:
+	case beMagic == golang12magic:
 		t.binary, possibleVersion = binary.BigEndian, ver12
-	case leMagic == go116magic:
+	case leMagic == golang116magic:
 		t.binary, possibleVersion = binary.LittleEndian, ver116
-	case beMagic == go116magic:
+	case beMagic == golang116magic:
 		t.binary, possibleVersion = binary.BigEndian, ver116
-	case leMagic == go118magic:
+	case leMagic == golang118magic:
 		t.binary, possibleVersion = binary.LittleEndian, ver118
-	case beMagic == go118magic:
+	case beMagic == golang118magic:
 		t.binary, possibleVersion = binary.BigEndian, ver118
-	case leMagic == go120magic:
+	case leMagic == golang120magic:
 		t.binary, possibleVersion = binary.LittleEndian, ver120
-	case beMagic == go120magic:
+	case beMagic == golang120magic:
 		t.binary, possibleVersion = binary.BigEndian, ver120
 	default:
 		return
@@ -296,8 +296,8 @@ func (t *LineTable) parsePclnTab() {
 	}
 }
 
-// go12Funcs returns a slice of Funcs derived from the Go 1.2+ pcln table.
-func (t *LineTable) go12Funcs() []Func {
+// golang12Funcs returns a slice of Funcs derived from the Go 1.2+ pcln table.
+func (t *LineTable) golang12Funcs() []Func {
 	// Assume it is malformed and return nil on error.
 	if !disableRecover {
 		defer func() {
@@ -321,7 +321,7 @@ func (t *LineTable) go12Funcs() []Func {
 			Name:      t.funcName(info.nameOff()),
 			GoType:    0,
 			Func:      f,
-			goVersion: t.version,
+			golangVersion: t.version,
 		}
 		f.Sym = &syms[i]
 	}
@@ -454,7 +454,7 @@ func (f *funcData) entryPC() uint64 {
 	// from a uintptr entry PC to a uint32 entry offset.
 	if f.t.version >= ver118 {
 		// TODO: support multiple text sections.
-		// See runtime/symtab.go:(*moduledata).textAddr.
+		// See runtime/symtab.golang:(*moduledata).textAddr.
 		return uint64(f.t.binary.Uint32(f.data)) + f.t.textStart
 	}
 	return f.t.uintptr(f.data)
@@ -523,7 +523,7 @@ func (t *LineTable) pcvalue(off uint32, entry, targetpc uint64) int32 {
 // It does so by running the pc-value tables mapping program counter
 // to file number. Since most functions come from a single file, these
 // are usually short and quick to scan. If a file match is found, then the
-// code goes to the expense of looking for a simultaneous line number match.
+// code golanges to the expense of looking for a simultaneous line number match.
 func (t *LineTable) findFileLine(entry uint64, filetab, linetab uint32, filenum, line int32, cutab []byte) uint64 {
 	if filetab == 0 || linetab == 0 {
 		return 0
@@ -565,8 +565,8 @@ func (t *LineTable) findFileLine(entry uint64, filetab, linetab uint32, filenum,
 	return 0
 }
 
-// go12PCToLine maps program counter to line number for the Go 1.2+ pcln table.
-func (t *LineTable) go12PCToLine(pc uint64) (line int) {
+// golang12PCToLine maps program counter to line number for the Go 1.2+ pcln table.
+func (t *LineTable) golang12PCToLine(pc uint64) (line int) {
 	defer func() {
 		if !disableRecover && recover() != nil {
 			line = -1
@@ -582,8 +582,8 @@ func (t *LineTable) go12PCToLine(pc uint64) (line int) {
 	return int(t.pcvalue(linetab, entry, pc))
 }
 
-// go12PCToFile maps program counter to file name for the Go 1.2+ pcln table.
-func (t *LineTable) go12PCToFile(pc uint64) (file string) {
+// golang12PCToFile maps program counter to file name for the Go 1.2+ pcln table.
+func (t *LineTable) golang12PCToFile(pc uint64) (file string) {
 	defer func() {
 		if !disableRecover && recover() != nil {
 			file = ""
@@ -614,8 +614,8 @@ func (t *LineTable) go12PCToFile(pc uint64) (file string) {
 	return ""
 }
 
-// go12LineToPC maps a (file, line) pair to a program counter for the Go 1.2+ pcln table.
-func (t *LineTable) go12LineToPC(file string, line int) (pc uint64) {
+// golang12LineToPC maps a (file, line) pair to a program counter for the Go 1.2+ pcln table.
+func (t *LineTable) golang12LineToPC(file string, line int) (pc uint64) {
 	defer func() {
 		if !disableRecover && recover() != nil {
 			pc = 0
@@ -678,10 +678,10 @@ func (t *LineTable) initFileMap() {
 	t.fileMap = m
 }
 
-// go12MapFiles adds to m a key for every file in the Go 1.2 LineTable.
+// golang12MapFiles adds to m a key for every file in the Go 1.2 LineTable.
 // Every key maps to obj. That's not a very interesting map, but it provides
 // a way for callers to obtain the list of files in the program.
-func (t *LineTable) go12MapFiles(m map[string]*Obj, obj *Obj) {
+func (t *LineTable) golang12MapFiles(m map[string]*Obj, obj *Obj) {
 	if !disableRecover {
 		defer func() {
 			recover()

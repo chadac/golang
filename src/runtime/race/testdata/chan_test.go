@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package race_test
@@ -14,7 +14,7 @@ func TestNoRaceChanSync(t *testing.T) {
 	v := 0
 	_ = v
 	c := make(chan int)
-	go func() {
+	golang func() {
 		v = 1
 		c <- 0
 	}()
@@ -26,7 +26,7 @@ func TestNoRaceChanSyncRev(t *testing.T) {
 	v := 0
 	_ = v
 	c := make(chan int)
-	go func() {
+	golang func() {
 		c <- 0
 		v = 2
 	}()
@@ -38,7 +38,7 @@ func TestNoRaceChanAsync(t *testing.T) {
 	v := 0
 	_ = v
 	c := make(chan int, 10)
-	go func() {
+	golang func() {
 		v = 1
 		c <- 0
 	}()
@@ -50,7 +50,7 @@ func TestRaceChanAsyncRev(t *testing.T) {
 	v := 0
 	_ = v
 	c := make(chan int, 10)
-	go func() {
+	golang func() {
 		c <- 0
 		v = 1
 	}()
@@ -62,7 +62,7 @@ func TestNoRaceChanAsyncCloseRecv(t *testing.T) {
 	v := 0
 	_ = v
 	c := make(chan int, 10)
-	go func() {
+	golang func() {
 		v = 1
 		close(c)
 	}()
@@ -79,7 +79,7 @@ func TestNoRaceChanAsyncCloseRecv2(t *testing.T) {
 	v := 0
 	_ = v
 	c := make(chan int, 10)
-	go func() {
+	golang func() {
 		v = 1
 		close(c)
 	}()
@@ -91,7 +91,7 @@ func TestNoRaceChanAsyncCloseRecv3(t *testing.T) {
 	v := 0
 	_ = v
 	c := make(chan int, 10)
-	go func() {
+	golang func() {
 		v = 1
 		close(c)
 	}()
@@ -104,7 +104,7 @@ func TestNoRaceChanSyncCloseRecv(t *testing.T) {
 	v := 0
 	_ = v
 	c := make(chan int)
-	go func() {
+	golang func() {
 		v = 1
 		close(c)
 	}()
@@ -121,7 +121,7 @@ func TestNoRaceChanSyncCloseRecv2(t *testing.T) {
 	v := 0
 	_ = v
 	c := make(chan int)
-	go func() {
+	golang func() {
 		v = 1
 		close(c)
 	}()
@@ -133,7 +133,7 @@ func TestNoRaceChanSyncCloseRecv3(t *testing.T) {
 	v := 0
 	_ = v
 	c := make(chan int)
-	go func() {
+	golang func() {
 		v = 1
 		close(c)
 	}()
@@ -146,7 +146,7 @@ func TestRaceChanSyncCloseSend(t *testing.T) {
 	v := 0
 	_ = v
 	c := make(chan int)
-	go func() {
+	golang func() {
 		v = 1
 		close(c)
 	}()
@@ -163,7 +163,7 @@ func TestRaceChanAsyncCloseSend(t *testing.T) {
 	v := 0
 	_ = v
 	c := make(chan int, 10)
-	go func() {
+	golang func() {
 		v = 1
 		close(c)
 	}()
@@ -184,7 +184,7 @@ func TestRaceChanCloseClose(t *testing.T) {
 	v2 := 0
 	_ = v1 + v2
 	c := make(chan int)
-	go func() {
+	golang func() {
 		defer func() {
 			if recover() != nil {
 				v2 = 2
@@ -194,7 +194,7 @@ func TestRaceChanCloseClose(t *testing.T) {
 		v1 = 1
 		close(c)
 	}()
-	go func() {
+	golang func() {
 		defer func() {
 			if recover() != nil {
 				v1 = 2
@@ -212,7 +212,7 @@ func TestRaceChanSendLen(t *testing.T) {
 	v := 0
 	_ = v
 	c := make(chan int, 10)
-	go func() {
+	golang func() {
 		v = 1
 		c <- 1
 	}()
@@ -227,7 +227,7 @@ func TestRaceChanRecvLen(t *testing.T) {
 	_ = v
 	c := make(chan int, 10)
 	c <- 1
-	go func() {
+	golang func() {
 		v = 1
 		<-c
 	}()
@@ -243,7 +243,7 @@ func TestRaceChanSendSend(t *testing.T) {
 	v2 := 0
 	_ = v1 + v2
 	c := make(chan int, 1)
-	go func() {
+	golang func() {
 		v1 = 1
 		select {
 		case c <- 1:
@@ -252,7 +252,7 @@ func TestRaceChanSendSend(t *testing.T) {
 		}
 		compl <- true
 	}()
-	go func() {
+	golang func() {
 		v2 = 1
 		select {
 		case c <- 1:
@@ -270,7 +270,7 @@ func TestNoRaceChanPtr(t *testing.T) {
 		x int
 	}
 	c := make(chan *msg)
-	go func() {
+	golang func() {
 		c <- &msg{1}
 	}()
 	m := <-c
@@ -282,11 +282,11 @@ func TestRaceChanWrongSend(t *testing.T) {
 	v2 := 0
 	_ = v1 + v2
 	c := make(chan int, 2)
-	go func() {
+	golang func() {
 		v1 = 1
 		c <- 1
 	}()
-	go func() {
+	golang func() {
 		v2 = 2
 		c <- 2
 	}()
@@ -304,7 +304,7 @@ func TestRaceChanWrongClose(t *testing.T) {
 	_ = v1 + v2
 	c := make(chan int, 1)
 	done := make(chan bool)
-	go func() {
+	golang func() {
 		defer func() {
 			recover()
 		}()
@@ -312,7 +312,7 @@ func TestRaceChanWrongClose(t *testing.T) {
 		c <- 1
 		done <- true
 	}()
-	go func() {
+	golang func() {
 		time.Sleep(1e7)
 		v2 = 2
 		close(c)
@@ -331,14 +331,14 @@ func TestRaceChanWrongClose(t *testing.T) {
 func TestRaceChanSendClose(t *testing.T) {
 	compl := make(chan bool, 2)
 	c := make(chan int, 1)
-	go func() {
+	golang func() {
 		defer func() {
 			recover()
 			compl <- true
 		}()
 		c <- 1
 	}()
-	go func() {
+	golang func() {
 		time.Sleep(10 * time.Millisecond)
 		close(c)
 		compl <- true
@@ -351,7 +351,7 @@ func TestRaceChanSendSelectClose(t *testing.T) {
 	compl := make(chan bool, 2)
 	c := make(chan int, 1)
 	c1 := make(chan int)
-	go func() {
+	golang func() {
 		defer func() {
 			recover()
 			compl <- true
@@ -362,7 +362,7 @@ func TestRaceChanSendSelectClose(t *testing.T) {
 		case <-c1:
 		}
 	}()
-	go func() {
+	golang func() {
 		close(c)
 		compl <- true
 	}()
@@ -377,7 +377,7 @@ func TestRaceSelectReadWriteAsync(t *testing.T) {
 	c2 := make(chan int, 10)
 	c3 := make(chan int)
 	c2 <- 1
-	go func() {
+	golang func() {
 		select {
 		case c1 <- x: // read of x races with...
 		case c3 <- 1:
@@ -398,13 +398,13 @@ func TestRaceSelectReadWriteSync(t *testing.T) {
 	c2 := make(chan int)
 	c3 := make(chan int)
 	// make c1 and c2 ready for communication
-	go func() {
+	golang func() {
 		<-c1
 	}()
-	go func() {
+	golang func() {
 		c2 <- 1
 	}()
-	go func() {
+	golang func() {
 		select {
 		case c1 <- x: // read of x races with...
 		case c3 <- 1:
@@ -423,7 +423,7 @@ func TestNoRaceSelectReadWriteAsync(t *testing.T) {
 	x := 0
 	c1 := make(chan int)
 	c2 := make(chan int)
-	go func() {
+	golang func() {
 		select {
 		case c1 <- x: // read of x does not race with...
 		case c2 <- 1:
@@ -443,7 +443,7 @@ func TestRaceChanReadWriteAsync(t *testing.T) {
 	c2 := make(chan int, 10)
 	c2 <- 10
 	x := 0
-	go func() {
+	golang func() {
 		c1 <- x // read of x races with...
 		done <- true
 	}()
@@ -456,14 +456,14 @@ func TestRaceChanReadWriteSync(t *testing.T) {
 	c1 := make(chan int)
 	c2 := make(chan int)
 	// make c1 and c2 ready for communication
-	go func() {
+	golang func() {
 		<-c1
 	}()
-	go func() {
+	golang func() {
 		c2 <- 10
 	}()
 	x := 0
-	go func() {
+	golang func() {
 		c1 <- x // read of x races with...
 		done <- true
 	}()
@@ -475,7 +475,7 @@ func TestNoRaceChanReadWriteAsync(t *testing.T) {
 	done := make(chan bool)
 	c1 := make(chan int, 10)
 	x := 0
-	go func() {
+	golang func() {
 		c1 <- x // read of x does not race with...
 		done <- true
 	}()
@@ -491,7 +491,7 @@ func TestNoRaceProducerConsumerUnbuffered(t *testing.T) {
 
 	queue := make(chan Task)
 
-	go func() {
+	golang func() {
 		t := <-queue
 		t.f()
 		t.done <- true
@@ -513,7 +513,7 @@ func TestNoRaceProducerConsumerUnbuffered(t *testing.T) {
 func TestRaceChanItselfSend(t *testing.T) {
 	compl := make(chan bool, 1)
 	c := make(chan int, 10)
-	go func() {
+	golang func() {
 		c <- 0
 		compl <- true
 	}()
@@ -525,7 +525,7 @@ func TestRaceChanItselfRecv(t *testing.T) {
 	compl := make(chan bool, 1)
 	c := make(chan int, 10)
 	c <- 1
-	go func() {
+	golang func() {
 		<-c
 		compl <- true
 	}()
@@ -536,7 +536,7 @@ func TestRaceChanItselfRecv(t *testing.T) {
 
 func TestRaceChanItselfNil(t *testing.T) {
 	c := make(chan int, 10)
-	go func() {
+	golang func() {
 		c <- 0
 	}()
 	time.Sleep(1e7)
@@ -547,7 +547,7 @@ func TestRaceChanItselfNil(t *testing.T) {
 func TestRaceChanItselfClose(t *testing.T) {
 	compl := make(chan bool, 1)
 	c := make(chan int)
-	go func() {
+	golang func() {
 		close(c)
 		compl <- true
 	}()
@@ -558,7 +558,7 @@ func TestRaceChanItselfClose(t *testing.T) {
 func TestRaceChanItselfLen(t *testing.T) {
 	compl := make(chan bool, 1)
 	c := make(chan int)
-	go func() {
+	golang func() {
 		_ = len(c)
 		compl <- true
 	}()
@@ -569,7 +569,7 @@ func TestRaceChanItselfLen(t *testing.T) {
 func TestRaceChanItselfCap(t *testing.T) {
 	compl := make(chan bool, 1)
 	c := make(chan int)
-	go func() {
+	golang func() {
 		_ = cap(c)
 		compl <- true
 	}()
@@ -580,10 +580,10 @@ func TestRaceChanItselfCap(t *testing.T) {
 func TestNoRaceChanCloseLen(t *testing.T) {
 	c := make(chan int, 10)
 	r := make(chan int, 10)
-	go func() {
+	golang func() {
 		r <- len(c)
 	}()
-	go func() {
+	golang func() {
 		close(c)
 		r <- 0
 	}()
@@ -594,10 +594,10 @@ func TestNoRaceChanCloseLen(t *testing.T) {
 func TestNoRaceChanCloseCap(t *testing.T) {
 	c := make(chan int, 10)
 	r := make(chan int, 10)
-	go func() {
+	golang func() {
 		r <- cap(c)
 	}()
-	go func() {
+	golang func() {
 		close(c)
 		r <- 0
 	}()
@@ -608,7 +608,7 @@ func TestNoRaceChanCloseCap(t *testing.T) {
 func TestRaceChanCloseSend(t *testing.T) {
 	compl := make(chan bool, 1)
 	c := make(chan int, 10)
-	go func() {
+	golang func() {
 		close(c)
 		compl <- true
 	}()
@@ -621,7 +621,7 @@ func TestNoRaceChanMutex(t *testing.T) {
 	mtx := make(chan struct{}, 1)
 	data := 0
 	_ = data
-	go func() {
+	golang func() {
 		mtx <- struct{}{}
 		data = 42
 		<-mtx
@@ -639,7 +639,7 @@ func TestNoRaceSelectMutex(t *testing.T) {
 	aux := make(chan bool)
 	data := 0
 	_ = data
-	go func() {
+	golang func() {
 		select {
 		case mtx <- struct{}{}:
 		case <-aux:
@@ -668,7 +668,7 @@ func TestRaceChanSem(t *testing.T) {
 	mtx := make(chan bool, 2)
 	data := 0
 	_ = data
-	go func() {
+	golang func() {
 		mtx <- true
 		data = 42
 		<-mtx
@@ -686,7 +686,7 @@ func TestNoRaceChanWaitGroup(t *testing.T) {
 	data := make([]int, N)
 	for i := 0; i < N; i++ {
 		chanWg <- true
-		go func(i int) {
+		golang func(i int) {
 			data[i] = 42
 			<-chanWg
 		}(i)
@@ -703,7 +703,7 @@ func TestNoRaceChanWaitGroup(t *testing.T) {
 func TestNoRaceBlockedSendSync(t *testing.T) {
 	c := make(chan *int, 1)
 	c <- nil
-	go func() {
+	golang func() {
 		i := 42
 		c <- &i
 	}()
@@ -723,7 +723,7 @@ func TestNoRaceBlockedSendSync(t *testing.T) {
 func TestNoRaceBlockedSelectSendSync(t *testing.T) {
 	c := make(chan *int, 1)
 	c <- nil
-	go func() {
+	golang func() {
 		i := 42
 		c <- &i
 	}()
@@ -739,14 +739,14 @@ func TestNoRaceBlockedSelectSendSync(t *testing.T) {
 }
 
 // Test that close synchronizes with a read from the empty closed channel.
-// See https://golang.org/issue/36714.
+// See https://golanglang.org/issue/36714.
 func TestNoRaceCloseHappensBeforeRead(t *testing.T) {
 	for i := 0; i < 100; i++ {
 		var loc int
 		var write = make(chan struct{})
 		var read = make(chan struct{})
 
-		go func() {
+		golang func() {
 			select {
 			case <-write:
 				_ = loc
@@ -755,7 +755,7 @@ func TestNoRaceCloseHappensBeforeRead(t *testing.T) {
 			close(read)
 		}()
 
-		go func() {
+		golang func() {
 			loc = 1
 			close(write)
 		}()
@@ -765,17 +765,17 @@ func TestNoRaceCloseHappensBeforeRead(t *testing.T) {
 }
 
 // Test that we call the proper race detector function when c.elemsize==0.
-// See https://github.com/golang/go/issues/42598
+// See https://github.com/golanglang/golang/issues/42598
 func TestNoRaceElemSize0(t *testing.T) {
 	var x, y int
 	var c = make(chan struct{}, 2)
 	c <- struct{}{}
 	c <- struct{}{}
-	go func() {
+	golang func() {
 		x += 1
 		<-c
 	}()
-	go func() {
+	golang func() {
 		y += 1
 		<-c
 	}()

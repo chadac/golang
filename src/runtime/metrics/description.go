@@ -1,10 +1,10 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package metrics
 
-import "internal/godebugs"
+import "internal/golangdebugs"
 
 // Description describes a runtime metric.
 type Description struct {
@@ -51,17 +51,17 @@ type Description struct {
 }
 
 // The English language descriptions below must be kept in sync with the
-// descriptions of each metric in doc.go by running 'go generate'.
+// descriptions of each metric in doc.golang by running 'golang generate'.
 var allDesc = []Description{
 	{
-		Name:        "/cgo/go-to-c-calls:calls",
+		Name:        "/cgolang/golang-to-c-calls:calls",
 		Description: "Count of calls made from Go to C by the current process.",
 		Kind:        KindUint64,
 		Cumulative:  true,
 	},
 	{
 		Name: "/cpu/classes/gc/mark/assist:cpu-seconds",
-		Description: "Estimated total CPU time goroutines spent performing GC tasks " +
+		Description: "Estimated total CPU time golangroutines spent performing GC tasks " +
 			"to assist the GC and prevent it from falling behind the application. " +
 			"This metric is an overestimate, and not directly comparable to " +
 			"system CPU time measurements. Compare only with other /cpu/classes " +
@@ -193,14 +193,14 @@ var allDesc = []Description{
 		Cumulative:  true,
 	},
 	{
-		Name: "/gc/gogc:percent",
+		Name: "/gc/golanggc:percent",
 		Description: "Heap size target percentage configured by the user, otherwise 100. This " +
 			"value is set by the GOGC environment variable, and the runtime/debug.SetGCPercent " +
 			"function.",
 		Kind: KindUint64,
 	},
 	{
-		Name: "/gc/gomemlimit:bytes",
+		Name: "/gc/golangmemlimit:bytes",
 		Description: "Go runtime memory limit configured by the user, otherwise " +
 			"math.MaxInt64. This value is set by the GOMEMLIMIT environment variable, and " +
 			"the runtime/debug.SetMemoryLimit function.",
@@ -254,7 +254,7 @@ var allDesc = []Description{
 		Cumulative: true,
 	},
 	{
-		Name:        "/gc/heap/goal:bytes",
+		Name:        "/gc/heap/golangal:bytes",
 		Description: "Heap size target for the end of the GC cycle.",
 		Kind:        KindUint64,
 	},
@@ -315,7 +315,7 @@ var allDesc = []Description{
 	},
 	{
 		Name:        "/gc/stack/starting-size:bytes",
-		Description: "The stack size of new goroutines.",
+		Description: "The stack size of new golangroutines.",
 		Kind:        KindUint64,
 		Cumulative:  false,
 	},
@@ -341,7 +341,7 @@ var allDesc = []Description{
 	{
 		Name: "/memory/classes/heap/stacks:bytes",
 		Description: "Memory allocated from the heap that is reserved for stack space, whether or not it is currently in-use. " +
-			"Currently, this represents all stack memory for goroutines. It also includes all OS thread stacks in non-cgo programs. " +
+			"Currently, this represents all stack memory for golangroutines. It also includes all OS thread stacks in non-cgolang programs. " +
 			"Note that stacks may be allocated differently in the future, and this may change.",
 		Kind: KindUint64,
 	},
@@ -378,8 +378,8 @@ var allDesc = []Description{
 	{
 		Name: "/memory/classes/os-stacks:bytes",
 		Description: "Stack memory allocated by the underlying operating system. " +
-			"In non-cgo programs this metric is currently zero. This may change in the future." +
-			"In cgo programs this metric includes OS thread stacks allocated directly from the OS. " +
+			"In non-cgolang programs this metric is currently zero. This may change in the future." +
+			"In cgolang programs this metric includes OS thread stacks allocated directly from the OS. " +
 			"Currently, this only accounts for one stack in c-shared and c-archive build modes, " +
 			"and other sources of stacks from the OS are not measured. This too may change in the future.",
 		Kind: KindUint64,
@@ -396,22 +396,22 @@ var allDesc = []Description{
 	},
 	{
 		Name:        "/memory/classes/total:bytes",
-		Description: "All memory mapped by the Go runtime into the current process as read-write. Note that this does not include memory mapped by code called via cgo or via the syscall package. Sum of all metrics in /memory/classes.",
+		Description: "All memory mapped by the Go runtime into the current process as read-write. Note that this does not include memory mapped by code called via cgolang or via the syscall package. Sum of all metrics in /memory/classes.",
 		Kind:        KindUint64,
 	},
 	{
-		Name:        "/sched/gomaxprocs:threads",
+		Name:        "/sched/golangmaxprocs:threads",
 		Description: "The current runtime.GOMAXPROCS setting, or the number of operating system threads that can execute user-level Go code simultaneously.",
 		Kind:        KindUint64,
 	},
 	{
-		Name:        "/sched/goroutines:goroutines",
-		Description: "Count of live goroutines.",
+		Name:        "/sched/golangroutines:golangroutines",
+		Description: "Count of live golangroutines.",
 		Kind:        KindUint64,
 	},
 	{
 		Name:        "/sched/latencies:seconds",
-		Description: "Distribution of the time goroutines have spent in the scheduler in a runnable state before actually running. Bucket counts increase monotonically.",
+		Description: "Distribution of the time golangroutines have spent in the scheduler in a runnable state before actually running. Bucket counts increase monotonically.",
 		Kind:        KindFloat64Histogram,
 		Cumulative:  true,
 	},
@@ -441,7 +441,7 @@ var allDesc = []Description{
 	},
 	{
 		Name:        "/sync/mutex/wait/total:seconds",
-		Description: "Approximate cumulative time goroutines have spent blocked on a sync.Mutex, sync.RWMutex, or runtime-internal lock. This metric is useful for identifying global changes in lock contention. Collect a mutex or block profile using the runtime/pprof package for more detailed contention data.",
+		Description: "Approximate cumulative time golangroutines have spent blocked on a sync.Mutex, sync.RWMutex, or runtime-internal lock. This metric is useful for identifying global changes in lock contention. Collect a mutex or block profile using the runtime/pprof package for more detailed contention data.",
 		Kind:        KindFloat64,
 		Cumulative:  true,
 	},
@@ -451,15 +451,15 @@ func init() {
 	// Insert all the non-default-reporting GODEBUGs into the table,
 	// preserving the overall sort order.
 	i := 0
-	for i < len(allDesc) && allDesc[i].Name < "/godebug/" {
+	for i < len(allDesc) && allDesc[i].Name < "/golangdebug/" {
 		i++
 	}
-	more := make([]Description, i, len(allDesc)+len(godebugs.All))
+	more := make([]Description, i, len(allDesc)+len(golangdebugs.All))
 	copy(more, allDesc)
-	for _, info := range godebugs.All {
+	for _, info := range golangdebugs.All {
 		if !info.Opaque {
 			more = append(more, Description{
-				Name: "/godebug/non-default-behavior/" + info.Name + ":events",
+				Name: "/golangdebug/non-default-behavior/" + info.Name + ":events",
 				Description: "The number of non-default behaviors executed by the " +
 					info.Package + " package " + "due to a non-default " +
 					"GODEBUG=" + info.Name + "=... setting.",

@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package nettrace contains internal hooks for tracing activity in
@@ -36,7 +36,7 @@ type Trace struct {
 	// ConnectStart is called before a Dial, excluding Dials made
 	// during DNS lookups. In the case of DualStack (Happy Eyeballs)
 	// dialing, this may be called multiple times, from multiple
-	// goroutines.
+	// golangroutines.
 	ConnectStart func(network, addr string)
 
 	// ConnectDone is called after a Dial with the results, excluding

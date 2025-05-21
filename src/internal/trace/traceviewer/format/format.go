@@ -1,15 +1,15 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package traceviewer provides definitions of the JSON data structures
 // used by the Chrome trace viewer.
 //
 // The official description of the format is in this file:
-// https://docs.google.com/document/d/1CvAClvFfyA5R-PhYUmn5OOQtYMH4h6I0nSsKchNAySU/preview
+// https://docs.golangogle.com/document/d/1CvAClvFfyA5R-PhYUmn5OOQtYMH4h6I0nSsKchNAySU/preview
 //
 // Note: This can't be part of the parent traceviewer package as that would
-// throw. go_bootstrap cannot depend on the cgo version of package net in ./make.bash.
+// throw. golang_bootstrap cannot depend on the cgolang version of package net in ./make.bash.
 package format
 
 type Data struct {
@@ -32,7 +32,7 @@ type Event struct {
 	EndStack  int     `json:"esf,omitempty"`
 	Arg       any     `json:"args,omitempty"`
 	Cname     string  `json:"cname,omitempty"`
-	Category  string  `json:"cat,omitempty"`
+	Categolangry  string  `json:"cat,omitempty"`
 }
 
 type Frame struct {

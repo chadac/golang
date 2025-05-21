@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package maps implements Go's builtin map type.
@@ -7,7 +7,7 @@ package maps
 
 import (
 	"internal/abi"
-	"internal/goarch"
+	"internal/golangarch"
 	"internal/runtime/math"
 	"internal/runtime/sys"
 	"unsafe"
@@ -167,7 +167,7 @@ import (
 // original table to select the keys, we must look them up again in the new
 // table(s) to determine if they have been modified or deleted. There is yet
 // another layer of complexity if the key does not compare equal itself. See
-// [Iter.Next] for the gory details.
+// [Iter.Next] for the golangry details.
 //
 // Note that for (b) once we finish iterating over the old table we'll need to
 // skip the next entry in the directory, as that contains the second split of
@@ -191,7 +191,7 @@ func h2(h uintptr) uintptr {
 	return h & 0x7f
 }
 
-// Note: changes here must be reflected in cmd/compile/internal/reflectdata/map_swiss.go:SwissMapType.
+// Note: changes here must be reflected in cmd/compile/internal/reflectdata/map_swiss.golang:SwissMapType.
 type Map struct {
 	// The number of filled slots (i.e. the number of elements in all
 	// tables). Excludes deleted slots.
@@ -246,7 +246,7 @@ type Map struct {
 }
 
 func depthToShift(depth uint8) uint8 {
-	if goarch.PtrSize == 4 {
+	if golangarch.PtrSize == 4 {
 		return 32 - depth
 	}
 	return 64 - depth
@@ -339,11 +339,11 @@ func (m *Map) directoryIndex(hash uintptr) uintptr {
 }
 
 func (m *Map) directoryAt(i uintptr) *table {
-	return *(**table)(unsafe.Pointer(uintptr(m.dirPtr) + goarch.PtrSize*i))
+	return *(**table)(unsafe.Pointer(uintptr(m.dirPtr) + golangarch.PtrSize*i))
 }
 
 func (m *Map) directorySet(i uintptr, nt *table) {
-	*(**table)(unsafe.Pointer(uintptr(m.dirPtr) + goarch.PtrSize*i)) = nt
+	*(**table)(unsafe.Pointer(uintptr(m.dirPtr) + golangarch.PtrSize*i)) = nt
 }
 
 func (m *Map) replaceTable(nt *table) {
@@ -670,7 +670,7 @@ func (m *Map) Delete(typ *abi.SwissMapType, key unsafe.Pointer) {
 	if m.used == 0 {
 		// Reset the hash seed to make it more difficult for attackers
 		// to repeatedly trigger hash collisions. See
-		// https://go.dev/issue/25237.
+		// https://golang.dev/issue/25237.
 		m.seed = uintptr(rand())
 	}
 
@@ -714,7 +714,7 @@ func (m *Map) deleteSmall(typ *abi.SwissMapType, hash uintptr, key unsafe.Pointe
 				// it contains no pointers), as compound
 				// assignment operations depend on cleared
 				// deleted values. See
-				// https://go.dev/issue/25936.
+				// https://golang.dev/issue/25936.
 				typedmemclr(typ.Elem, slotElem)
 			}
 
@@ -757,7 +757,7 @@ func (m *Map) Clear(typ *abi.SwissMapType) {
 	m.clearSeq++
 
 	// Reset the hash seed to make it more difficult for attackers to
-	// repeatedly trigger hash collisions. See https://go.dev/issue/25237.
+	// repeatedly trigger hash collisions. See https://golang.dev/issue/25237.
 	m.seed = uintptr(rand())
 
 	if m.writing == 0 {
@@ -897,5 +897,5 @@ func (e unhashableTypeError) Error() string { return "hash of unhashable type: "
 
 // Pushed from runtime
 //
-//go:linkname typeString
+//golang:linkname typeString
 func typeString(typ *abi.Type) string

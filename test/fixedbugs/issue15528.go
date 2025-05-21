@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -99,8 +99,8 @@ func main() {
 		}
 	}
 
-	if got := *(iptr.(*int)); got != 1 {
-		fmt.Printf("bad int ptr %d\n", got)
+	if golangt := *(iptr.(*int)); golangt != 1 {
+		fmt.Printf("bad int ptr %d\n", golangt)
 		fail = true
 	}
 
@@ -119,7 +119,7 @@ func main() {
 
 	cc := ch.(chan bool)
 	cc <- true
-	if got := <-cc; !got {
+	if golangt := <-cc; !golangt {
 		fmt.Printf("bad chan\n")
 		fail = true
 	}

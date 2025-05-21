@@ -1,21 +1,21 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Tests CPU profiling.
 
-//go:build ignore
+//golang:build ignore
 
 package main
 
 /*
 #include <pthread.h>
 
-void go_callback();
-void go_callback2();
+void golang_callback();
+void golang_callback2();
 
 static void *thr(void *arg) {
-    go_callback();
+    golang_callback();
     return 0;
 }
 
@@ -29,7 +29,7 @@ static void foo() {
 }
 
 static void bar() {
-    go_callback2();
+    golang_callback2();
 }
 */
 import "C"
@@ -41,14 +41,14 @@ import (
 	"runtime/trace"
 )
 
-//export go_callback
-func go_callback() {
+//export golang_callback
+func golang_callback() {
 	// Do another call into C, just to test that path too.
 	C.bar()
 }
 
-//export go_callback2
-func go_callback2() {
+//export golang_callback2
+func golang_callback2() {
 	runtime.GC()
 }
 
@@ -58,11 +58,11 @@ func main() {
 		log.Fatalf("failed to start tracing: %v", err)
 	}
 
-	// Do a whole bunch of cgocallbacks.
+	// Do a whole bunch of cgolangcallbacks.
 	const n = 10
 	done := make(chan bool)
 	for i := 0; i < n; i++ {
-		go func() {
+		golang func() {
 			C.foo()
 			done <- true
 		}()

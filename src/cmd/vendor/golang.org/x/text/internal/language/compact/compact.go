@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package compact defines a compact representation of language tags.
@@ -11,13 +11,13 @@
 //
 // It may want to export this functionality at some point, but at this point
 // this is only available for use within x/text.
-package compact // import "golang.org/x/text/internal/language/compact"
+package compact // import "golanglang.org/x/text/internal/language/compact"
 
 import (
 	"sort"
 	"strings"
 
-	"golang.org/x/text/internal/language"
+	"golanglang.org/x/text/internal/language"
 )
 
 // ID is an integer identifying a single tag.

@@ -1,12 +1,12 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 #include <pthread.h>
-#include "libcgo.h"
+#include "libcgolang.h"
 
 void
-x_cgo_getstackbound(uintptr bounds[2])
+x_cgolang_getstackbound(uintptr bounds[2])
 {
 	void* addr;
 	size_t size;
@@ -18,8 +18,8 @@ x_cgo_getstackbound(uintptr bounds[2])
 
 	// bounds points into the Go stack. TSAN can't see the synchronization
 	// in Go around stack reuse.
-	_cgo_tsan_acquire();
+	_cgolang_tsan_acquire();
 	bounds[0] = (uintptr)addr - size;
 	bounds[1] = (uintptr)addr;
-	_cgo_tsan_release();
+	_cgolang_tsan_release();
 }

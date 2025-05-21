@@ -4,28 +4,28 @@
 # external objects most likely compiled with gcc's
 # -Os option.
 #
-# Verifies golang.org/issue/52366 for linux/ppc64le
+# Verifies golanglang.org/issue/52366 for linux/ppc64le
 [!GOOS:linux] skip
 [!compiler:gc] skip
-[!cgo] skip
+[!cgolang] skip
 [!GOARCH:ppc64le] skip
 
-go build -ldflags='-linkmode=internal'
+golang build -ldflags='-linkmode=internal'
 exec ./abitest
 stdout success
 
-go build -buildmode=pie -o abitest.pie -ldflags='-linkmode=internal'
+golang build -buildmode=pie -o abitest.pie -ldflags='-linkmode=internal'
 exec ./abitest.pie
 stdout success
 
--- go.mod --
+-- golang.mod --
 module abitest
 
--- abitest.go --
+-- abitest.golang --
 package main
 
 /*
-#cgo CFLAGS: -Os
+#cgolang CFLAGS: -Os
 
 int foo_fpr() {
         asm volatile("":::"fr31","fr30","fr29","fr28");

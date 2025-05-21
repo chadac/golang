@@ -1,4 +1,4 @@
-// Based on cmd/internal/obj/ppc64/a.out.go.
+// Based on cmd/internal/obj/ppc64/a.out.golang.
 //
 //	Copyright © 1994-1999 Lucent Technologies Inc.  All rights reserved.
 //	Portions Copyright © 1995-1997 C H Forsyth (forsyth@terzarima.net)
@@ -31,7 +31,7 @@ package s390x
 
 import "cmd/internal/obj"
 
-//go:generate go run ../stringer.go -i $GOFILE -o anames.go -p s390x
+//golang:generate golang run ../stringer.golang -i $GOFILE -o anames.golang -p s390x
 
 const (
 	NSNAME = 8
@@ -189,8 +189,8 @@ const (
 	USETMP // generated code of this Prog uses REGTMP
 )
 
-//go:generate go run ../mkcnames.go -i a.out.go -o anamesz.go -p s390x
-const ( // comments from func aclass in asmz.go
+//golang:generate golang run ../mkcnames.golang -i a.out.golang -o anamesz.golang -p s390x
+const ( // comments from func aclass in asmz.golang
 	C_NONE     = iota
 	C_REG      // general-purpose register (64-bit)
 	C_FREG     // floating-point register (64-bit)

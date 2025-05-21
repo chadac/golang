@@ -1,16 +1,16 @@
 // errorcheck -+ -0 -l -d=wb
 
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test write barrier elimination for notinheap.
 
-//go:build cgo
+//golang:build cgolang
 
 package p
 
-import "runtime/cgo"
+import "runtime/cgolang"
 
 type t1 struct {
 	x *nih
@@ -25,7 +25,7 @@ type t2 struct {
 }
 
 type nih struct {
-	_ cgo.Incomplete
+	_ cgolang.Incomplete
 	x uintptr
 }
 

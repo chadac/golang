@@ -1,8 +1,8 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build aix || darwin || dragonfly || freebsd || linux || netbsd || openbsd || solaris || zos
+//golang:build aix || darwin || dragolangnfly || freebsd || linux || netbsd || openbsd || solaris || zos
 
 package unix
 
@@ -24,13 +24,13 @@ func readIntBE(b []byte, size uintptr) uint64 {
 	case 1:
 		return uint64(b[0])
 	case 2:
-		_ = b[1] // bounds check hint to compiler; see golang.org/issue/14808
+		_ = b[1] // bounds check hint to compiler; see golanglang.org/issue/14808
 		return uint64(b[1]) | uint64(b[0])<<8
 	case 4:
-		_ = b[3] // bounds check hint to compiler; see golang.org/issue/14808
+		_ = b[3] // bounds check hint to compiler; see golanglang.org/issue/14808
 		return uint64(b[3]) | uint64(b[2])<<8 | uint64(b[1])<<16 | uint64(b[0])<<24
 	case 8:
-		_ = b[7] // bounds check hint to compiler; see golang.org/issue/14808
+		_ = b[7] // bounds check hint to compiler; see golanglang.org/issue/14808
 		return uint64(b[7]) | uint64(b[6])<<8 | uint64(b[5])<<16 | uint64(b[4])<<24 |
 			uint64(b[3])<<32 | uint64(b[2])<<40 | uint64(b[1])<<48 | uint64(b[0])<<56
 	default:
@@ -43,13 +43,13 @@ func readIntLE(b []byte, size uintptr) uint64 {
 	case 1:
 		return uint64(b[0])
 	case 2:
-		_ = b[1] // bounds check hint to compiler; see golang.org/issue/14808
+		_ = b[1] // bounds check hint to compiler; see golanglang.org/issue/14808
 		return uint64(b[0]) | uint64(b[1])<<8
 	case 4:
-		_ = b[3] // bounds check hint to compiler; see golang.org/issue/14808
+		_ = b[3] // bounds check hint to compiler; see golanglang.org/issue/14808
 		return uint64(b[0]) | uint64(b[1])<<8 | uint64(b[2])<<16 | uint64(b[3])<<24
 	case 8:
-		_ = b[7] // bounds check hint to compiler; see golang.org/issue/14808
+		_ = b[7] // bounds check hint to compiler; see golanglang.org/issue/14808
 		return uint64(b[0]) | uint64(b[1])<<8 | uint64(b[2])<<16 | uint64(b[3])<<24 |
 			uint64(b[4])<<32 | uint64(b[5])<<40 | uint64(b[6])<<48 | uint64(b[7])<<56
 	default:

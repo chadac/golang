@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package filepath_test
@@ -230,8 +230,8 @@ func TestIsLocal(t *testing.T) {
 		tests = append(tests, plan9islocaltests...)
 	}
 	for _, test := range tests {
-		if got := filepath.IsLocal(test.path); got != test.isLocal {
-			t.Errorf("IsLocal(%q) = %v, want %v", test.path, got, test.isLocal)
+		if golangt := filepath.IsLocal(test.path); golangt != test.isLocal {
+			t.Errorf("IsLocal(%q) = %v, want %v", test.path, golangt, test.isLocal)
 		}
 	}
 }
@@ -292,13 +292,13 @@ func TestLocalize(t *testing.T) {
 		tests = append(tests, unixlocalizetests...)
 	}
 	for _, test := range tests {
-		got, err := filepath.Localize(test.path)
+		golangt, err := filepath.Localize(test.path)
 		wantErr := "<nil>"
 		if test.want == "" {
 			wantErr = "error"
 		}
-		if got != test.want || ((err == nil) != (test.want != "")) {
-			t.Errorf("IsLocal(%q) = %q, %v want %q, %v", test.path, got, err, test.want, wantErr)
+		if golangt != test.want || ((err == nil) != (test.want != "")) {
+			t.Errorf("IsLocal(%q) = %q, %v want %q, %v", test.path, golangt, err, test.want, wantErr)
 		}
 	}
 }
@@ -497,10 +497,10 @@ type ExtTest struct {
 }
 
 var exttests = []ExtTest{
-	{"path.go", ".go"},
-	{"path.pb.go", ".go"},
+	{"path.golang", ".golang"},
+	{"path.pb.golang", ".golang"},
 	{"a.dir/b", ""},
-	{"a.dir/b.go", ".go"},
+	{"a.dir/b.golang", ".golang"},
 	{"a.dir/", ""},
 }
 
@@ -646,7 +646,7 @@ func testWalk(t *testing.T, walk func(string, fs.WalkDirFunc) error, errVisit in
 	t.Run("PermErr", func(t *testing.T) {
 		// Test permission errors. Only possible if we're not root
 		// and only on some file systems (AFS, FAT).  To avoid errors during
-		// all.bash on those file systems, skip during go test -short.
+		// all.bash on those file systems, skip during golang test -short.
 		// Chmod is not supported on wasip1.
 		if runtime.GOOS == "windows" || runtime.GOOS == "wasip1" {
 			t.Skip("skipping on " + runtime.GOOS)
@@ -671,10 +671,10 @@ func testWalk(t *testing.T, walk func(string, fs.WalkDirFunc) error, errVisit in
 		tree.entries[3].mark -= errVisit
 		err := walk(tree.name, markFn)
 		if err != nil {
-			t.Fatalf("expected no error return from Walk, got %s", err)
+			t.Fatalf("expected no error return from Walk, golangt %s", err)
 		}
 		if len(errors) != 2 {
-			t.Errorf("expected 2 errors, got %d: %s", len(errors), errors)
+			t.Errorf("expected 2 errors, golangt %d: %s", len(errors), errors)
 		}
 		// the inaccessible subtrees were marked manually
 		checkMarks(t, true)
@@ -693,7 +693,7 @@ func testWalk(t *testing.T, walk func(string, fs.WalkDirFunc) error, errVisit in
 			t.Fatalf("expected error return from Walk")
 		}
 		if len(errors) != 1 {
-			t.Errorf("expected 1 error, got %d: %s", len(errors), errors)
+			t.Errorf("expected 1 error, golangt %d: %s", len(errors), errors)
 		}
 		// the inaccessible subtrees were marked manually
 		checkMarks(t, false)
@@ -840,10 +840,10 @@ func TestWalkFileError(t *testing.T) {
 		}
 		return os.Lstat(path)
 	}
-	got := map[string]error{}
+	golangt := map[string]error{}
 	err := filepath.Walk(td, func(path string, fi fs.FileInfo, err error) error {
 		rel, _ := filepath.Rel(td, path)
-		got[filepath.ToSlash(rel)] = err
+		golangt[filepath.ToSlash(rel)] = err
 		return nil
 	})
 	if err != nil {
@@ -857,8 +857,8 @@ func TestWalkFileError(t *testing.T) {
 		"dir/baz":        nil,
 		"dir/stat-error": statErr,
 	}
-	if !reflect.DeepEqual(got, want) {
-		t.Errorf("Walked %#v; want %#v", got, want)
+	if !reflect.DeepEqual(golangt, want) {
+		t.Errorf("Walked %#v; want %#v", golangt, want)
 	}
 }
 
@@ -933,7 +933,7 @@ func TestWalkSymlinkRoot(t *testing.T) {
 			desc:      "double link with slash",
 			root:      linklink + string(filepath.Separator),
 			want:      []string{linklink, filepath.Join(linklink, "foo")},
-			buggyGOOS: []string{"darwin", "ios"}, // https://go.dev/issue/59586
+			buggyGOOS: []string{"darwin", "ios"}, // https://golang.dev/issue/59586
 		},
 	} {
 		tt := tt
@@ -1250,7 +1250,7 @@ func TestEvalSymlinksIsNotExist(t *testing.T) {
 
 	_, err := filepath.EvalSymlinks("notexist")
 	if !os.IsNotExist(err) {
-		t.Errorf("expected the file is not found, got %v\n", err)
+		t.Errorf("expected the file is not found, golangt %v\n", err)
 	}
 
 	err = os.Symlink("notexist", "link")
@@ -1261,7 +1261,7 @@ func TestEvalSymlinksIsNotExist(t *testing.T) {
 
 	_, err = filepath.EvalSymlinks("link")
 	if !os.IsNotExist(err) {
-		t.Errorf("expected the file is not found, got %v\n", err)
+		t.Errorf("expected the file is not found, golangt %v\n", err)
 	}
 }
 
@@ -1439,7 +1439,7 @@ func TestAbs(t *testing.T) {
 	}
 }
 
-// Empty path needs to be special-cased on Windows. See golang.org/issue/24441.
+// Empty path needs to be special-cased on Windows. See golanglang.org/issue/24441.
 // We test it separately from all other absTests because the empty string is not
 // a valid path, so it can't be used with os.Stat.
 func TestAbsEmptyString(t *testing.T) {
@@ -1534,18 +1534,18 @@ func TestRel(t *testing.T) {
 		tests = append(tests, winreltests...)
 	}
 	for _, test := range tests {
-		got, err := filepath.Rel(test.root, test.path)
+		golangt, err := filepath.Rel(test.root, test.path)
 		if test.want == "err" {
 			if err == nil {
-				t.Errorf("Rel(%q, %q)=%q, want error", test.root, test.path, got)
+				t.Errorf("Rel(%q, %q)=%q, want error", test.root, test.path, golangt)
 			}
 			continue
 		}
 		if err != nil {
-			t.Errorf("Rel(%q, %q): want %q, got error: %s", test.root, test.path, test.want, err)
+			t.Errorf("Rel(%q, %q): want %q, golangt error: %s", test.root, test.path, test.want, err)
 		}
-		if got != test.want {
-			t.Errorf("Rel(%q, %q)=%q, want %q", test.root, test.path, got, test.want)
+		if golangt != test.want {
+			t.Errorf("Rel(%q, %q)=%q, want %q", test.root, test.path, golangt, test.want)
 		}
 	}
 }
@@ -1635,7 +1635,7 @@ func TestDriveLetterInEvalSymlinks(t *testing.T) {
 	}
 }
 
-func TestBug3486(t *testing.T) { // https://golang.org/issue/3486
+func TestBug3486(t *testing.T) { // https://golanglang.org/issue/3486
 	if runtime.GOOS == "ios" {
 		t.Skipf("skipping on %s/%s", runtime.GOOS, runtime.GOARCH)
 	}
@@ -1727,7 +1727,7 @@ func TestIssue29372(t *testing.T) {
 	for i, test := range tests {
 		_, err = filepath.EvalSymlinks(test)
 		if err != syscall.ENOTDIR {
-			t.Fatalf("test#%d: want %q, got %q", i, syscall.ENOTDIR, err)
+			t.Fatalf("test#%d: want %q, golangt %q", i, syscall.ENOTDIR, err)
 		}
 	}
 }
@@ -1849,7 +1849,7 @@ func TestIssue51617(t *testing.T) {
 	}
 	want := []string{".", "a", filepath.Join("a", "bad"), filepath.Join("a", "next")}
 	if !slices.Equal(saw, want) {
-		t.Errorf("got directories %v, want %v", saw, want)
+		t.Errorf("golangt directories %v, want %v", saw, want)
 	}
 }
 
@@ -1886,7 +1886,7 @@ func TestEvalSymlinksTooManyLinks(t *testing.T) {
 	}
 	_, err = filepath.EvalSymlinks(dir)
 	if err == nil {
-		t.Fatal("expected error, got nil")
+		t.Fatal("expected error, golangt nil")
 	}
 }
 

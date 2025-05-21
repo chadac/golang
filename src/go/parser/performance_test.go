@@ -1,16 +1,16 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package parser
 
 import (
-	"go/token"
+	"golang/token"
 	"os"
 	"testing"
 )
 
-var src = readFile("../printer/nodes.go")
+var src = readFile("../printer/nodes.golang")
 
 func readFile(filename string) []byte {
 	data, err := os.ReadFile(filename)

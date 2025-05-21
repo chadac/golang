@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package slicereader
@@ -43,27 +43,27 @@ func TestSliceReader(t *testing.T) {
 		slr := NewReader(b, i == 0)
 		g32 := slr.ReadUint32()
 		if g32 != e32 {
-			t.Fatalf("slr.ReadUint32() got %d want %d", g32, e32)
+			t.Fatalf("slr.ReadUint32() golangt %d want %d", g32, e32)
 		}
 		g64 := slr.ReadUint64()
 		if g64 != e64 {
-			t.Fatalf("slr.ReadUint64() got %d want %d", g64, e64)
+			t.Fatalf("slr.ReadUint64() golangt %d want %d", g64, e64)
 		}
 		g32 = uint32(slr.ReadULEB128())
 		if g32 != e32 {
-			t.Fatalf("slr.ReadULEB128() got %d want %d", g32, e32)
+			t.Fatalf("slr.ReadULEB128() golangt %d want %d", g32, e32)
 		}
 		g64 = slr.ReadULEB128()
 		if g64 != e64 {
-			t.Fatalf("slr.ReadULEB128() got %d want %d", g64, e64)
+			t.Fatalf("slr.ReadULEB128() golangt %d want %d", g64, e64)
 		}
 		gs1 := readStr(slr)
 		if gs1 != s1 {
-			t.Fatalf("readStr got %s want %s", gs1, s1)
+			t.Fatalf("readStr golangt %s want %s", gs1, s1)
 		}
 		gs2 := readStr(slr)
 		if gs2 != s2 {
-			t.Fatalf("readStr got %s want %s", gs2, s2)
+			t.Fatalf("readStr golangt %s want %s", gs2, s2)
 		}
 		if _, err := slr.Seek(4, io.SeekStart); err != nil {
 			t.Fatal(err)
@@ -74,7 +74,7 @@ func TestSliceReader(t *testing.T) {
 		}
 		g64 = slr.ReadUint64()
 		if g64 != e64 {
-			t.Fatalf("post-seek slr.ReadUint64() got %d want %d", g64, e64)
+			t.Fatalf("post-seek slr.ReadUint64() golangt %d want %d", g64, e64)
 		}
 	}
 }

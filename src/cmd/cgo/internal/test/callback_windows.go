@@ -1,8 +1,8 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-package cgotest
+package cgolangtest
 
 /*
 #include <windows.h>
@@ -58,7 +58,7 @@ import (
 func testCallbackCallersSEH(t *testing.T) {
 	testenv.SkipIfOptimizationOff(t) // This test requires inlining.
 	if runtime.Compiler != "gc" {
-		// The exact function names are not going to be the same.
+		// The exact function names are not golanging to be the same.
 		t.Skip("skipping for non-gc toolchain")
 	}
 	if runtime.GOARCH != "amd64" {
@@ -70,7 +70,7 @@ func testCallbackCallersSEH(t *testing.T) {
 		"test._Cfunc_backtrace",
 		"test.testCallbackCallersSEH.func1.1",
 		// "test.testCallbackCallersSEH.func1", // hidden by inlining
-		"test.goCallback",
+		"test.golangCallback",
 		"test._Cfunc_callback",
 		"test.nestedCall.func1",
 		// "test.nestedCall", // hidden by inlining
@@ -82,7 +82,7 @@ func testCallbackCallersSEH(t *testing.T) {
 	nestedCall(func() {
 		n = int(C.backtrace(C.DWORD(len(pc)), (*C.PVOID)(unsafe.Pointer(&pc[0]))))
 	})
-	got := make([]string, 0, n)
+	golangt := make([]string, 0, n)
 	for i := 0; i < n; i++ {
 		// This test is brittle in the face of inliner changes
 		f := runtime.FuncForPC(pc[i] - 1)
@@ -91,20 +91,20 @@ func testCallbackCallersSEH(t *testing.T) {
 		}
 		fname := f.Name()
 		switch fname {
-		case "goCallback":
+		case "golangCallback":
 			// TODO(qmuntal): investigate why this function doesn't appear
 			// when using the external linker.
 			continue
 		}
 		// In module mode, this package has a fully-qualified import path.
 		// Remove it if present.
-		fname = strings.TrimPrefix(fname, "cmd/cgo/internal/")
+		fname = strings.TrimPrefix(fname, "cmd/cgolang/internal/")
 		if !strings.HasPrefix(fname, "test.") {
 			continue
 		}
-		got = append(got, fname)
+		golangt = append(golangt, fname)
 	}
-	if !reflect.DeepEqual(want, got) {
-		t.Errorf("incorrect backtrace:\nwant:\t%v\ngot:\t%v", want, got)
+	if !reflect.DeepEqual(want, golangt) {
+		t.Errorf("incorrect backtrace:\nwant:\t%v\ngolangt:\t%v", want, golangt)
 	}
 }

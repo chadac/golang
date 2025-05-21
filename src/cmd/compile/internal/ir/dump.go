@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file implements textual dumping of arbitrary data structures
@@ -34,7 +34,7 @@ func DumpAny(root interface{}, filter string, depth int) {
 //
 // The depth parameter controls how deep traversal recurses
 // before it returns (higher value means greater depth).
-// If an empty field filter is given, a good depth default value
+// If an empty field filter is given, a golangod depth default value
 // is 4. A negative depth means no depth limit, which may be fine
 // for small data structures or if there is a non-empty filter.
 //

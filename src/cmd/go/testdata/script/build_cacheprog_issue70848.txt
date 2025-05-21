@@ -1,17 +1,17 @@
-[short] skip 'builds go programs'
+[short] skip 'builds golang programs'
 
-go build -o cacheprog$GOEXE cacheprog.go
+golang build -o cacheprog$GOEXE cacheprog.golang
 env GOCACHEPROG=$GOPATH/src/cacheprog$GOEXE
 
 # This should not deadlock
-go build simple.go
+golang build simple.golang
 ! stderr 'cacheprog closed'
 
--- simple.go --
+-- simple.golang --
 package main
 
 func main() {}
--- cacheprog.go --
+-- cacheprog.golang --
 // This is a minimal GOCACHEPROG program that doesn't respond to close.
 package main
 

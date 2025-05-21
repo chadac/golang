@@ -4,7 +4,7 @@ package x86
 
 import "cmd/internal/obj"
 
-//go:generate go run ../stringer.go -i $GOFILE -o anames.go -p x86
+//golang:generate golang run ../stringer.golang -i $GOFILE -o anames.golang -p x86
 
 const (
 	AAAA = obj.ABaseAMD64 + obj.A_ARCHSPECIFIC + iota

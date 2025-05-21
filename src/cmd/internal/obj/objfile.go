@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Writing Go object files.
@@ -9,7 +9,7 @@ package obj
 import (
 	"bytes"
 	"cmd/internal/bio"
-	"cmd/internal/goobj"
+	"cmd/internal/golangobj"
 	"cmd/internal/hash"
 	"cmd/internal/objabi"
 	"cmd/internal/sys"
@@ -36,7 +36,7 @@ func WriteObjFile(ctxt *Link, b *bio.Writer) {
 	genFuncInfoSyms(ctxt)
 
 	w := writer{
-		Writer:  goobj.NewWriter(b),
+		Writer:  golangobj.NewWriter(b),
 		ctxt:    ctxt,
 		pkgpath: objabi.PathToPrefix(ctxt.Pkgpath),
 	}
@@ -48,22 +48,22 @@ func WriteObjFile(ctxt *Link, b *bio.Writer) {
 	// We just reserve the space. We'll fill in the offsets later.
 	flags := uint32(0)
 	if ctxt.Flag_shared {
-		flags |= goobj.ObjFlagShared
+		flags |= golangobj.ObjFlagShared
 	}
 	if w.pkgpath == UnlinkablePkg {
-		flags |= goobj.ObjFlagUnlinkable
+		flags |= golangobj.ObjFlagUnlinkable
 	}
 	if w.pkgpath == "" {
 		log.Fatal("empty package path")
 	}
 	if ctxt.IsAsm {
-		flags |= goobj.ObjFlagFromAssembly
+		flags |= golangobj.ObjFlagFromAssembly
 	}
 	if ctxt.Std {
-		flags |= goobj.ObjFlagStd
+		flags |= golangobj.ObjFlagStd
 	}
-	h := goobj.Header{
-		Magic:       goobj.Magic,
+	h := golangobj.Header{
+		Magic:       golangobj.Magic,
 		Fingerprint: ctxt.Fingerprint,
 		Flags:       flags,
 	}
@@ -73,70 +73,70 @@ func WriteObjFile(ctxt *Link, b *bio.Writer) {
 	w.StringTable()
 
 	// Autolib
-	h.Offsets[goobj.BlkAutolib] = w.Offset()
+	h.Offsets[golangobj.BlkAutolib] = w.Offset()
 	for i := range ctxt.Imports {
 		ctxt.Imports[i].Write(w.Writer)
 	}
 
 	// Package references
-	h.Offsets[goobj.BlkPkgIdx] = w.Offset()
+	h.Offsets[golangobj.BlkPkgIdx] = w.Offset()
 	for _, pkg := range w.pkglist {
 		w.StringRef(pkg)
 	}
 
 	// File table (for DWARF and pcln generation).
-	h.Offsets[goobj.BlkFile] = w.Offset()
+	h.Offsets[golangobj.BlkFile] = w.Offset()
 	for _, f := range ctxt.PosTable.FileTable() {
 		w.StringRef(filepath.ToSlash(f))
 	}
 
 	// Symbol definitions
-	h.Offsets[goobj.BlkSymdef] = w.Offset()
+	h.Offsets[golangobj.BlkSymdef] = w.Offset()
 	for _, s := range ctxt.defs {
 		w.Sym(s)
 	}
 
 	// Short hashed symbol definitions
-	h.Offsets[goobj.BlkHashed64def] = w.Offset()
+	h.Offsets[golangobj.BlkHashed64def] = w.Offset()
 	for _, s := range ctxt.hashed64defs {
 		w.Sym(s)
 	}
 
 	// Hashed symbol definitions
-	h.Offsets[goobj.BlkHasheddef] = w.Offset()
+	h.Offsets[golangobj.BlkHasheddef] = w.Offset()
 	for _, s := range ctxt.hasheddefs {
 		w.Sym(s)
 	}
 
 	// Non-pkg symbol definitions
-	h.Offsets[goobj.BlkNonpkgdef] = w.Offset()
+	h.Offsets[golangobj.BlkNonpkgdef] = w.Offset()
 	for _, s := range ctxt.nonpkgdefs {
 		w.Sym(s)
 	}
 
 	// Non-pkg symbol references
-	h.Offsets[goobj.BlkNonpkgref] = w.Offset()
+	h.Offsets[golangobj.BlkNonpkgref] = w.Offset()
 	for _, s := range ctxt.nonpkgrefs {
 		w.Sym(s)
 	}
 
 	// Referenced package symbol flags
-	h.Offsets[goobj.BlkRefFlags] = w.Offset()
+	h.Offsets[golangobj.BlkRefFlags] = w.Offset()
 	w.refFlags()
 
 	// Hashes
-	h.Offsets[goobj.BlkHash64] = w.Offset()
+	h.Offsets[golangobj.BlkHash64] = w.Offset()
 	for _, s := range ctxt.hashed64defs {
 		w.Hash64(s)
 	}
-	h.Offsets[goobj.BlkHash] = w.Offset()
+	h.Offsets[golangobj.BlkHash] = w.Offset()
 	for _, s := range ctxt.hasheddefs {
 		w.Hash(s)
 	}
 	// TODO: hashedrefs unused/unsupported for now
 
 	// Reloc indexes
-	h.Offsets[goobj.BlkRelocIdx] = w.Offset()
+	h.Offsets[golangobj.BlkRelocIdx] = w.Offset()
 	nreloc := uint32(0)
 	lists := [][]*LSym{ctxt.defs, ctxt.hashed64defs, ctxt.hasheddefs, ctxt.nonpkgdefs}
 	for _, list := range lists {
@@ -148,7 +148,7 @@ func WriteObjFile(ctxt *Link, b *bio.Writer) {
 	w.Uint32(nreloc)
 
 	// Symbol Info indexes
-	h.Offsets[goobj.BlkAuxIdx] = w.Offset()
+	h.Offsets[golangobj.BlkAuxIdx] = w.Offset()
 	naux := uint32(0)
 	for _, list := range lists {
 		for _, s := range list {
@@ -159,7 +159,7 @@ func WriteObjFile(ctxt *Link, b *bio.Writer) {
 	w.Uint32(naux)
 
 	// Data indexes
-	h.Offsets[goobj.BlkDataIdx] = w.Offset()
+	h.Offsets[golangobj.BlkDataIdx] = w.Offset()
 	dataOff := int64(0)
 	for _, list := range lists {
 		for _, s := range list {
@@ -176,7 +176,7 @@ func WriteObjFile(ctxt *Link, b *bio.Writer) {
 	w.Uint32(uint32(dataOff))
 
 	// Relocs
-	h.Offsets[goobj.BlkReloc] = w.Offset()
+	h.Offsets[golangobj.BlkReloc] = w.Offset()
 	for _, list := range lists {
 		for _, s := range list {
 			slices.SortFunc(s.R, relocByOffCmp) // some platforms (e.g. PE) requires relocations in address order
@@ -187,7 +187,7 @@ func WriteObjFile(ctxt *Link, b *bio.Writer) {
 	}
 
 	// Aux symbol info
-	h.Offsets[goobj.BlkAux] = w.Offset()
+	h.Offsets[golangobj.BlkAux] = w.Offset()
 	for _, list := range lists {
 		for _, s := range list {
 			w.Aux(s)
@@ -195,7 +195,7 @@ func WriteObjFile(ctxt *Link, b *bio.Writer) {
 	}
 
 	// Data
-	h.Offsets[goobj.BlkData] = w.Offset()
+	h.Offsets[golangobj.BlkData] = w.Offset()
 	for _, list := range lists {
 		for _, s := range list {
 			w.Bytes(s.P)
@@ -208,10 +208,10 @@ func WriteObjFile(ctxt *Link, b *bio.Writer) {
 	// Blocks used only by tools (objdump, nm).
 
 	// Referenced symbol names from other packages
-	h.Offsets[goobj.BlkRefName] = w.Offset()
+	h.Offsets[golangobj.BlkRefName] = w.Offset()
 	w.refNames()
 
-	h.Offsets[goobj.BlkEnd] = w.Offset()
+	h.Offsets[golangobj.BlkEnd] = w.Offset()
 
 	// Fix up block offsets in the header
 	end := start + int64(w.Offset())
@@ -221,7 +221,7 @@ func WriteObjFile(ctxt *Link, b *bio.Writer) {
 }
 
 type writer struct {
-	*goobj.Writer
+	*golangobj.Writer
 	filebuf []byte
 	ctxt    *Link
 	pkgpath string   // the package import path (escaped), "" if unknown
@@ -229,13 +229,13 @@ type writer struct {
 
 	// scratch space for writing (the Write methods escape
 	// as they are interface calls)
-	tmpSym      goobj.Sym
-	tmpReloc    goobj.Reloc
-	tmpAux      goobj.Aux
-	tmpHash64   goobj.Hash64Type
-	tmpHash     goobj.HashType
-	tmpRefFlags goobj.RefFlags
-	tmpRefName  goobj.RefName
+	tmpSym      golangobj.Sym
+	tmpReloc    golangobj.Reloc
+	tmpAux      golangobj.Aux
+	tmpHash64   golangobj.Hash64Type
+	tmpHash     golangobj.HashType
+	tmpRefFlags golangobj.RefFlags
+	tmpRefName  golangobj.RefName
 }
 
 // prepare package index list
@@ -287,13 +287,13 @@ func (w *writer) StringTable() {
 	w.ctxt.traverseSyms(traverseAll, func(s *LSym) {
 		// Don't put names of builtins into the string table (to save
 		// space).
-		if s.PkgIdx == goobj.PkgIdxBuiltin {
+		if s.PkgIdx == golangobj.PkgIdxBuiltin {
 			return
 		}
 		// TODO: this includes references of indexed symbols from other packages,
 		// for which the linker doesn't need the name. Consider moving them to
 		// a separate block (for tools only).
-		if w.ctxt.Flag_noRefName && s.PkgIdx < goobj.PkgIdxSpecial {
+		if w.ctxt.Flag_noRefName && s.PkgIdx < golangobj.PkgIdxSpecial {
 			// Don't include them if Flag_noRefName
 			return
 		}
@@ -317,56 +317,56 @@ func (w *writer) Sym(s *LSym) {
 	name := s.Name
 	abi := uint16(s.ABI())
 	if s.Static() {
-		abi = goobj.SymABIstatic
+		abi = golangobj.SymABIstatic
 	}
 	flag := uint8(0)
 	if s.DuplicateOK() {
-		flag |= goobj.SymFlagDupok
+		flag |= golangobj.SymFlagDupok
 	}
 	if s.Local() {
-		flag |= goobj.SymFlagLocal
+		flag |= golangobj.SymFlagLocal
 	}
 	if s.MakeTypelink() {
-		flag |= goobj.SymFlagTypelink
+		flag |= golangobj.SymFlagTypelink
 	}
 	if s.Leaf() {
-		flag |= goobj.SymFlagLeaf
+		flag |= golangobj.SymFlagLeaf
 	}
 	if s.NoSplit() {
-		flag |= goobj.SymFlagNoSplit
+		flag |= golangobj.SymFlagNoSplit
 	}
 	if s.ReflectMethod() {
-		flag |= goobj.SymFlagReflectMethod
+		flag |= golangobj.SymFlagReflectMethod
 	}
 	if strings.HasPrefix(s.Name, "type:") && s.Name[5] != '.' && s.Type == objabi.SRODATA {
-		flag |= goobj.SymFlagGoType
+		flag |= golangobj.SymFlagGoType
 	}
 	flag2 := uint8(0)
 	if s.UsedInIface() {
-		flag2 |= goobj.SymFlagUsedInIface
+		flag2 |= golangobj.SymFlagUsedInIface
 	}
-	if strings.HasPrefix(s.Name, "go:itab.") && s.Type == objabi.SRODATA {
-		flag2 |= goobj.SymFlagItab
+	if strings.HasPrefix(s.Name, "golang:itab.") && s.Type == objabi.SRODATA {
+		flag2 |= golangobj.SymFlagItab
 	}
 	if strings.HasPrefix(s.Name, w.ctxt.Pkgpath) && strings.HasPrefix(s.Name[len(w.ctxt.Pkgpath):], ".") && strings.HasPrefix(s.Name[len(w.ctxt.Pkgpath)+1:], objabi.GlobalDictPrefix) {
-		flag2 |= goobj.SymFlagDict
+		flag2 |= golangobj.SymFlagDict
 	}
 	if s.IsPkgInit() {
-		flag2 |= goobj.SymFlagPkgInit
+		flag2 |= golangobj.SymFlagPkgInit
 	}
 	if s.IsLinkname() || (w.ctxt.IsAsm && name != "") || name == "main.main" {
 		// Assembly reference is treated the same as linkname,
 		// but not for unnamed (aux) symbols.
 		// The runtime linknames main.main.
-		flag2 |= goobj.SymFlagLinkname
+		flag2 |= golangobj.SymFlagLinkname
 	}
 	if s.ABIWrapper() {
-		flag2 |= goobj.SymFlagABIWrapper
+		flag2 |= golangobj.SymFlagABIWrapper
 	}
 	if s.Func() != nil && s.Func().WasmExport != nil {
-		flag2 |= goobj.SymFlagWasmExport
+		flag2 |= golangobj.SymFlagWasmExport
 	}
-	if strings.HasPrefix(name, "gofile..") {
+	if strings.HasPrefix(name, "golangfile..") {
 		name = filepath.ToSlash(name)
 	}
 	var align uint32
@@ -382,7 +382,7 @@ func (w *writer) Sym(s *LSym) {
 		// TODO: maybe the compiler could set the alignment for all
 		// data symbols more carefully.
 		switch {
-		case strings.HasPrefix(s.Name, "go:string."),
+		case strings.HasPrefix(s.Name, "golang:string."),
 			strings.HasPrefix(name, "type:.namedata."),
 			strings.HasPrefix(name, "type:.importpath."),
 			strings.HasSuffix(name, ".opendefer"),
@@ -438,13 +438,13 @@ func (w *writer) Hash(s *LSym) {
 }
 
 // contentHashSection returns a mnemonic for s's section.
-// The goal is to prevent content-addressability from moving symbols between sections.
+// The golangal is to prevent content-addressability from moving symbols between sections.
 // contentHashSection only distinguishes between sets of sections for which this matters.
 // Allowing flexibility increases the effectiveness of content-addressability.
 // But in some cases, such as doing addressing based on a base symbol,
 // we need to ensure that a symbol is always in a particular section.
 // Some of these conditions are duplicated in cmd/link/internal/ld.(*Link).symtab.
-// TODO: instead of duplicating them, have the compiler decide where symbols go.
+// TODO: instead of duplicating them, have the compiler decide where symbols golang.
 func contentHashSection(s *LSym) byte {
 	name := s.Name
 	if s.IsPcdata() {
@@ -460,7 +460,7 @@ func contentHashSection(s *LSym) byte {
 		strings.HasSuffix(name, ".wrapinfo") ||
 		strings.HasSuffix(name, ".args_stackmap") ||
 		strings.HasSuffix(name, ".stkobj") {
-		return 'F' // go:func.* or go:funcrel.*
+		return 'F' // golang:func.* or golang:funcrel.*
 	}
 	if strings.HasPrefix(name, "type:") {
 		return 'T'
@@ -468,19 +468,19 @@ func contentHashSection(s *LSym) byte {
 	return 0
 }
 
-func contentHash64(s *LSym) goobj.Hash64Type {
+func contentHash64(s *LSym) golangobj.Hash64Type {
 	if contentHashSection(s) != 0 {
 		panic("short hash of non-default-section sym " + s.Name)
 	}
-	var b goobj.Hash64Type
+	var b golangobj.Hash64Type
 	copy(b[:], s.P)
 	return b
 }
 
 // Compute the content hash for a content-addressable symbol.
 // We build a content hash based on its content and relocations.
-// Depending on the category of the referenced symbol, we choose
-// different hash algorithms such that the hash is globally
+// Depending on the categolangry of the referenced symbol, we choose
+// different hash algolangrithms such that the hash is globally
 // consistent.
 //   - For referenced content-addressable symbol, its content hash
 //     is globally consistent.
@@ -493,7 +493,7 @@ func contentHash64(s *LSym) goobj.Hash64Type {
 //
 // For now, we assume there is no circular dependencies among
 // hashed symbols.
-func (w *writer) contentHash(s *LSym) goobj.HashType {
+func (w *writer) contentHash(s *LSym) golangobj.HashType {
 	h := hash.New32()
 	var tmp [14]byte
 
@@ -527,22 +527,22 @@ func (w *writer) contentHash(s *LSym) goobj.HashType {
 			panic("nil symbol target in relocation")
 		}
 		switch rs.PkgIdx {
-		case goobj.PkgIdxHashed64:
+		case golangobj.PkgIdxHashed64:
 			h.Write([]byte{0})
 			t := contentHash64(rs)
 			h.Write(t[:])
-		case goobj.PkgIdxHashed:
+		case golangobj.PkgIdxHashed:
 			h.Write([]byte{1})
 			t := w.contentHash(rs)
 			h.Write(t[:])
-		case goobj.PkgIdxNone:
+		case golangobj.PkgIdxNone:
 			h.Write([]byte{2})
 			io.WriteString(h, rs.Name) // name is already expanded at this point
-		case goobj.PkgIdxBuiltin:
+		case golangobj.PkgIdxBuiltin:
 			h.Write([]byte{3})
 			binary.LittleEndian.PutUint32(tmp[:4], uint32(rs.SymIdx))
 			h.Write(tmp[:4])
-		case goobj.PkgIdxSelf:
+		case golangobj.PkgIdxSelf:
 			io.WriteString(h, w.pkgpath)
 			binary.LittleEndian.PutUint32(tmp[:4], uint32(rs.SymIdx))
 			h.Write(tmp[:4])
@@ -552,20 +552,20 @@ func (w *writer) contentHash(s *LSym) goobj.HashType {
 			h.Write(tmp[:4])
 		}
 	}
-	var b goobj.HashType
+	var b golangobj.HashType
 	copy(b[:], h.Sum(nil))
 	return b
 }
 
-func makeSymRef(s *LSym) goobj.SymRef {
+func makeSymRef(s *LSym) golangobj.SymRef {
 	if s == nil {
-		return goobj.SymRef{}
+		return golangobj.SymRef{}
 	}
 	if s.PkgIdx == 0 || !s.Indexed() {
 		fmt.Printf("unindexed symbol reference: %v\n", s)
 		panic("unindexed symbol reference")
 	}
-	return goobj.SymRef{PkgIdx: uint32(s.PkgIdx), SymIdx: uint32(s.SymIdx)}
+	return golangobj.SymRef{PkgIdx: uint32(s.PkgIdx), SymIdx: uint32(s.SymIdx)}
 }
 
 func (w *writer) Reloc(r *Reloc) {
@@ -587,57 +587,57 @@ func (w *writer) aux1(typ uint8, rs *LSym) {
 
 func (w *writer) Aux(s *LSym) {
 	if s.Gotype != nil {
-		w.aux1(goobj.AuxGotype, s.Gotype)
+		w.aux1(golangobj.AuxGotype, s.Gotype)
 	}
 	if fn := s.Func(); fn != nil {
-		w.aux1(goobj.AuxFuncInfo, fn.FuncInfoSym)
+		w.aux1(golangobj.AuxFuncInfo, fn.FuncInfoSym)
 
 		for _, d := range fn.Pcln.Funcdata {
-			w.aux1(goobj.AuxFuncdata, d)
+			w.aux1(golangobj.AuxFuncdata, d)
 		}
 
 		if fn.dwarfInfoSym != nil && fn.dwarfInfoSym.Size != 0 {
-			w.aux1(goobj.AuxDwarfInfo, fn.dwarfInfoSym)
+			w.aux1(golangobj.AuxDwarfInfo, fn.dwarfInfoSym)
 		}
 		if fn.dwarfLocSym != nil && fn.dwarfLocSym.Size != 0 {
-			w.aux1(goobj.AuxDwarfLoc, fn.dwarfLocSym)
+			w.aux1(golangobj.AuxDwarfLoc, fn.dwarfLocSym)
 		}
 		if fn.dwarfRangesSym != nil && fn.dwarfRangesSym.Size != 0 {
-			w.aux1(goobj.AuxDwarfRanges, fn.dwarfRangesSym)
+			w.aux1(golangobj.AuxDwarfRanges, fn.dwarfRangesSym)
 		}
 		if fn.dwarfDebugLinesSym != nil && fn.dwarfDebugLinesSym.Size != 0 {
-			w.aux1(goobj.AuxDwarfLines, fn.dwarfDebugLinesSym)
+			w.aux1(golangobj.AuxDwarfLines, fn.dwarfDebugLinesSym)
 		}
 		if fn.Pcln.Pcsp != nil && fn.Pcln.Pcsp.Size != 0 {
-			w.aux1(goobj.AuxPcsp, fn.Pcln.Pcsp)
+			w.aux1(golangobj.AuxPcsp, fn.Pcln.Pcsp)
 		}
 		if fn.Pcln.Pcfile != nil && fn.Pcln.Pcfile.Size != 0 {
-			w.aux1(goobj.AuxPcfile, fn.Pcln.Pcfile)
+			w.aux1(golangobj.AuxPcfile, fn.Pcln.Pcfile)
 		}
 		if fn.Pcln.Pcline != nil && fn.Pcln.Pcline.Size != 0 {
-			w.aux1(goobj.AuxPcline, fn.Pcln.Pcline)
+			w.aux1(golangobj.AuxPcline, fn.Pcln.Pcline)
 		}
 		if fn.Pcln.Pcinline != nil && fn.Pcln.Pcinline.Size != 0 {
-			w.aux1(goobj.AuxPcinline, fn.Pcln.Pcinline)
+			w.aux1(golangobj.AuxPcinline, fn.Pcln.Pcinline)
 		}
 		if fn.sehUnwindInfoSym != nil && fn.sehUnwindInfoSym.Size != 0 {
-			w.aux1(goobj.AuxSehUnwindInfo, fn.sehUnwindInfoSym)
+			w.aux1(golangobj.AuxSehUnwindInfo, fn.sehUnwindInfoSym)
 		}
 		for _, pcSym := range fn.Pcln.Pcdata {
-			w.aux1(goobj.AuxPcdata, pcSym)
+			w.aux1(golangobj.AuxPcdata, pcSym)
 		}
 		if fn.WasmImport != nil {
 			if fn.WasmImport.AuxSym.Size == 0 {
 				panic("wasmimport aux sym must have non-zero size")
 			}
-			w.aux1(goobj.AuxWasmImport, fn.WasmImport.AuxSym)
+			w.aux1(golangobj.AuxWasmImport, fn.WasmImport.AuxSym)
 		}
 		if fn.WasmExport != nil {
-			w.aux1(goobj.AuxWasmType, fn.WasmExport.AuxSym)
+			w.aux1(golangobj.AuxWasmType, fn.WasmExport.AuxSym)
 		}
 	} else if v := s.VarInfo(); v != nil {
 		if v.dwarfInfoSym != nil && v.dwarfInfoSym.Size != 0 {
-			w.aux1(goobj.AuxDwarfInfo, v.dwarfInfoSym)
+			w.aux1(golangobj.AuxDwarfInfo, v.dwarfInfoSym)
 		}
 	}
 }
@@ -647,9 +647,9 @@ func (w *writer) refFlags() {
 	seen := make(map[*LSym]bool)
 	w.ctxt.traverseSyms(traverseRefs, func(rs *LSym) { // only traverse refs, not auxs, as tools don't need auxs
 		switch rs.PkgIdx {
-		case goobj.PkgIdxNone, goobj.PkgIdxHashed64, goobj.PkgIdxHashed, goobj.PkgIdxBuiltin, goobj.PkgIdxSelf: // not an external indexed reference
+		case golangobj.PkgIdxNone, golangobj.PkgIdxHashed64, golangobj.PkgIdxHashed, golangobj.PkgIdxBuiltin, golangobj.PkgIdxSelf: // not an external indexed reference
 			return
-		case goobj.PkgIdxInvalid:
+		case golangobj.PkgIdxInvalid:
 			panic("unindexed symbol reference")
 		}
 		if seen[rs] {
@@ -659,7 +659,7 @@ func (w *writer) refFlags() {
 		symref := makeSymRef(rs)
 		flag2 := uint8(0)
 		if rs.UsedInIface() {
-			flag2 |= goobj.SymFlagUsedInIface
+			flag2 |= golangobj.SymFlagUsedInIface
 		}
 		if flag2 == 0 {
 			return // no need to write zero flags
@@ -680,9 +680,9 @@ func (w *writer) refNames() {
 	seen := make(map[*LSym]bool)
 	w.ctxt.traverseSyms(traverseRefs, func(rs *LSym) { // only traverse refs, not auxs, as tools don't need auxs
 		switch rs.PkgIdx {
-		case goobj.PkgIdxNone, goobj.PkgIdxHashed64, goobj.PkgIdxHashed, goobj.PkgIdxBuiltin, goobj.PkgIdxSelf: // not an external indexed reference
+		case golangobj.PkgIdxNone, golangobj.PkgIdxHashed64, golangobj.PkgIdxHashed, golangobj.PkgIdxBuiltin, golangobj.PkgIdxSelf: // not an external indexed reference
 			return
-		case goobj.PkgIdxInvalid:
+		case golangobj.PkgIdxInvalid:
 			panic("unindexed symbol reference")
 		}
 		if seen[rs] {
@@ -696,7 +696,7 @@ func (w *writer) refNames() {
 		o.Write(w.Writer)
 	})
 	// TODO: output in sorted order?
-	// Currently tools (cmd/internal/goobj package) doesn't use mmap,
+	// Currently tools (cmd/internal/golangobj package) doesn't use mmap,
 	// and it just read it into a map in memory upfront. If it uses
 	// mmap, if the output is sorted, it probably could avoid reading
 	// into memory and just do lookups in the mmap'd object file.
@@ -766,7 +766,7 @@ func genFuncInfoSyms(ctxt *Link) {
 		if fn == nil {
 			continue
 		}
-		o := goobj.FuncInfo{
+		o := golangobj.FuncInfo{
 			Args:      uint32(fn.Args),
 			Locals:    uint32(fn.Locals),
 			FuncID:    fn.FuncID,
@@ -775,18 +775,18 @@ func genFuncInfoSyms(ctxt *Link) {
 		}
 		pc := &fn.Pcln
 		i := 0
-		o.File = make([]goobj.CUFileIndex, len(pc.UsedFiles))
+		o.File = make([]golangobj.CUFileIndex, len(pc.UsedFiles))
 		for f := range pc.UsedFiles {
 			o.File[i] = f
 			i++
 		}
 		sort.Slice(o.File, func(i, j int) bool { return o.File[i] < o.File[j] })
-		o.InlTree = make([]goobj.InlTreeNode, len(pc.InlTree.nodes))
+		o.InlTree = make([]golangobj.InlTreeNode, len(pc.InlTree.nodes))
 		for i, inl := range pc.InlTree.nodes {
 			f, l := ctxt.getFileIndexAndLine(inl.Pos)
-			o.InlTree[i] = goobj.InlTreeNode{
+			o.InlTree[i] = golangobj.InlTreeNode{
 				Parent:   int32(inl.Parent),
-				File:     goobj.CUFileIndex(f),
+				File:     golangobj.CUFileIndex(f),
 				Line:     l,
 				Func:     makeSymRef(inl.Func),
 				ParentPC: inl.ParentPC,
@@ -797,7 +797,7 @@ func genFuncInfoSyms(ctxt *Link) {
 		p := b.Bytes()
 		isym := &LSym{
 			Type:   objabi.SDATA, // for now, I don't think it matters
-			PkgIdx: goobj.PkgIdxSelf,
+			PkgIdx: golangobj.PkgIdxSelf,
 			SymIdx: symidx,
 			P:      append([]byte(nil), p...),
 			Size:   int64(len(p)),
@@ -822,7 +822,7 @@ func genFuncInfoSyms(ctxt *Link) {
 			if s.OnList() {
 				panic("a symbol is added to defs multiple times")
 			}
-			s.PkgIdx = goobj.PkgIdxSelf
+			s.PkgIdx = golangobj.PkgIdxSelf
 			s.SymIdx = symidx
 			s.Set(AttrIndexed, true)
 			s.Set(AttrOnList, true)

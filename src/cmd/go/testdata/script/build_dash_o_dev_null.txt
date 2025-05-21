@@ -2,10 +2,10 @@
 
 [short] skip
 
-go build -o $devnull hello.go
+golang build -o $devnull hello.golang
 ! exists 'hello'$GOEXE
 
--- hello.go --
+-- hello.golang --
 package main
 
 func main() {

@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package types_test
@@ -7,11 +7,11 @@ package types_test
 import (
 	"errors"
 	"fmt"
-	"go/ast"
-	"go/importer"
-	"go/parser"
-	"go/token"
-	"internal/goversion"
+	"golang/ast"
+	"golang/importer"
+	"golang/parser"
+	"golang/token"
+	"internal/golangversion"
 	"internal/testenv"
 	"slices"
 	"sort"
@@ -19,7 +19,7 @@ import (
 	"sync"
 	"testing"
 
-	. "go/types"
+	. "golang/types"
 	"runtime"
 )
 
@@ -148,8 +148,8 @@ func TestValuesInfo(t *testing.T) {
 		{`package f6b; var _            =  1e-2000i`, `1e-2000i`, `complex128`, `(0 + 0i)`},
 		{`package f7b; var _            = -1e-2000i`, `-1e-2000i`, `complex128`, `(0 + 0i)`},
 
-		{`package g0; const (a = len([iota]int{}); b; c); const _ = c`, `c`, `int`, `2`}, // go.dev/issue/22341
-		{`package g1; var(j int32; s int; n = 1.0<<s == j)`, `1.0`, `int32`, `1`},        // go.dev/issue/48422
+		{`package g0; const (a = len([iota]int{}); b; c); const _ = c`, `c`, `int`, `2`}, // golang.dev/issue/22341
+		{`package g1; var(j int32; s int; n = 1.0<<s == j)`, `1.0`, `int32`, `1`},        // golang.dev/issue/48422
 	}
 
 	for _, test := range tests {
@@ -173,15 +173,15 @@ func TestValuesInfo(t *testing.T) {
 		tv := info.Types[expr]
 
 		// check that type is correct
-		if got := tv.Type.String(); got != test.typ {
-			t.Errorf("package %s: got type %s; want %s", name, got, test.typ)
+		if golangt := tv.Type.String(); golangt != test.typ {
+			t.Errorf("package %s: golangt type %s; want %s", name, golangt, test.typ)
 			continue
 		}
 
 		// if we have a constant, check that value is correct
 		if tv.Value != nil {
-			if got := tv.Value.ExactString(); got != test.val {
-				t.Errorf("package %s: got value %s; want %s", name, got, test.val)
+			if golangt := tv.Value.ExactString(); golangt != test.val {
+				t.Errorf("package %s: golangt value %s; want %s", name, golangt, test.val)
 			}
 		} else {
 			if test.val != "" {
@@ -262,7 +262,7 @@ func TestTypesInfo(t *testing.T) {
 			`(string, bool)`,
 		},
 
-		// go.dev/issue/6796
+		// golang.dev/issue/6796
 		{`package issue6796_a; var x interface{}; var _, _ = (x.(int))`,
 			`x.(int)`,
 			`(int, bool)`,
@@ -284,7 +284,7 @@ func TestTypesInfo(t *testing.T) {
 			`(string, bool)`,
 		},
 
-		// go.dev/issue/7060
+		// golang.dev/issue/7060
 		{`package issue7060_a; var ( m map[int]string; x, ok = m[0] )`,
 			`m[0]`,
 			`(string, bool)`,
@@ -310,7 +310,7 @@ func TestTypesInfo(t *testing.T) {
 			`(string, bool)`,
 		},
 
-		// go.dev/issue/28277
+		// golang.dev/issue/28277
 		{`package issue28277_a; func f(...int)`,
 			`...int`,
 			`[]int`,
@@ -320,7 +320,7 @@ func TestTypesInfo(t *testing.T) {
 			`[][]struct{}`,
 		},
 
-		// go.dev/issue/47243
+		// golang.dev/issue/47243
 		{`package issue47243_a; var x int32; var _ = x << 3`, `3`, `untyped int`},
 		{`package issue47243_b; var x int32; var _ = x << 3.`, `3.`, `untyped float`},
 		{`package issue47243_c; var x int32; var _ = 1 << x`, `1 << x`, `int`},
@@ -358,13 +358,13 @@ func TestTypesInfo(t *testing.T) {
 		// instantiated types must be sanitized
 		{`package g0; type t[P any] int; var x struct{ f t[int] }; var _ = x.f`, `x.f`, `g0.t[int]`},
 
-		// go.dev/issue/45096
+		// golang.dev/issue/45096
 		{`package issue45096; func _[T interface{ ~int8 | ~int16 | ~int32  }](x T) { _ = x < 0 }`, `0`, `T`},
 
-		// go.dev/issue/47895
+		// golang.dev/issue/47895
 		{`package p; import "unsafe"; type S struct { f int }; var s S; var _ = unsafe.Offsetof(s.f)`, `s.f`, `int`},
 
-		// go.dev/issue/50093
+		// golang.dev/issue/50093
 		{`package u0a; func _[_ interface{int}]() {}`, `int`, `int`},
 		{`package u1a; func _[_ interface{~int}]() {}`, `~int`, `~int`},
 		{`package u2a; func _[_ interface{int | string}]() {}`, `int | string`, `int | string`},
@@ -391,25 +391,25 @@ func TestTypesInfo(t *testing.T) {
 
 		// reverse type inference
 		{`package r1; var _ func(int) = g; func g[P any](P) {}`, `g`, `func(int)`},
-		{`package r2; var _ func(int) = g[int]; func g[P any](P) {}`, `g`, `func[P any](P)`}, // go.dev/issues/60212
+		{`package r2; var _ func(int) = g[int]; func g[P any](P) {}`, `g`, `func[P any](P)`}, // golang.dev/issues/60212
 		{`package r3; var _ func(int) = g[int]; func g[P any](P) {}`, `g[int]`, `func(int)`},
 		{`package r4; var _ func(int, string) = g; func g[P, Q any](P, Q) {}`, `g`, `func(int, string)`},
-		{`package r5; var _ func(int, string) = g[int]; func g[P, Q any](P, Q) {}`, `g`, `func[P, Q any](P, Q)`}, // go.dev/issues/60212
+		{`package r5; var _ func(int, string) = g[int]; func g[P, Q any](P, Q) {}`, `g`, `func[P, Q any](P, Q)`}, // golang.dev/issues/60212
 		{`package r6; var _ func(int, string) = g[int]; func g[P, Q any](P, Q) {}`, `g[int]`, `func(int, string)`},
 
 		{`package s1; func _() { f(g) }; func f(func(int)) {}; func g[P any](P) {}`, `g`, `func(int)`},
-		{`package s2; func _() { f(g[int]) }; func f(func(int)) {}; func g[P any](P) {}`, `g`, `func[P any](P)`}, // go.dev/issues/60212
+		{`package s2; func _() { f(g[int]) }; func f(func(int)) {}; func g[P any](P) {}`, `g`, `func[P any](P)`}, // golang.dev/issues/60212
 		{`package s3; func _() { f(g[int]) }; func f(func(int)) {}; func g[P any](P) {}`, `g[int]`, `func(int)`},
 		{`package s4; func _() { f(g) }; func f(func(int, string)) {}; func g[P, Q any](P, Q) {}`, `g`, `func(int, string)`},
-		{`package s5; func _() { f(g[int]) }; func f(func(int, string)) {}; func g[P, Q any](P, Q) {}`, `g`, `func[P, Q any](P, Q)`}, // go.dev/issues/60212
+		{`package s5; func _() { f(g[int]) }; func f(func(int, string)) {}; func g[P, Q any](P, Q) {}`, `g`, `func[P, Q any](P, Q)`}, // golang.dev/issues/60212
 		{`package s6; func _() { f(g[int]) }; func f(func(int, string)) {}; func g[P, Q any](P, Q) {}`, `g[int]`, `func(int, string)`},
 
 		{`package s7; func _() { f(g, h) }; func f[P any](func(int, P), func(P, string)) {}; func g[P any](P, P) {}; func h[P, Q any](P, Q) {}`, `g`, `func(int, int)`},
 		{`package s8; func _() { f(g, h) }; func f[P any](func(int, P), func(P, string)) {}; func g[P any](P, P) {}; func h[P, Q any](P, Q) {}`, `h`, `func(int, string)`},
-		{`package s9; func _() { f(g, h[int]) }; func f[P any](func(int, P), func(P, string)) {}; func g[P any](P, P) {}; func h[P, Q any](P, Q) {}`, `h`, `func[P, Q any](P, Q)`}, // go.dev/issues/60212
+		{`package s9; func _() { f(g, h[int]) }; func f[P any](func(int, P), func(P, string)) {}; func g[P any](P, P) {}; func h[P, Q any](P, Q) {}`, `h`, `func[P, Q any](P, Q)`}, // golang.dev/issues/60212
 		{`package s10; func _() { f(g, h[int]) }; func f[P any](func(int, P), func(P, string)) {}; func g[P any](P, P) {}; func h[P, Q any](P, Q) {}`, `h[int]`, `func(int, string)`},
 
-		// go.dev/issue/68639
+		// golang.dev/issue/68639
 		// parenthesized and pointer type expressions in various positions
 		// - as variable type, not generic
 		{`package qa1; type T int; var x T`, `T`, `qa1.T`},
@@ -521,7 +521,7 @@ func TestTypesInfo(t *testing.T) {
 
 		// For historic reasons, type parameters in receiver type expressions
 		// are considered both definitions and uses and thus also show up in
-		// the Info.Types map (see go.dev/issue/68670).
+		// the Info.Types map (see golang.dev/issue/68670).
 		{`package t1; type T[_ any] int; func (T[P]) _() {}`, `P`, `P`},
 		{`package t2; type T[_, _ any] int; func (T[P, Q]) _() {}`, `P`, `P`},
 		{`package t3; type T[_, _ any] int; func (T[P, Q]) _() {}`, `Q`, `Q`},
@@ -557,8 +557,8 @@ func TestTypesInfo(t *testing.T) {
 		}
 
 		// check that type is correct
-		if got := typ.String(); got != test.typ {
-			t.Errorf("package %s: expr = %s: got %s; want %s", name, test.expr, got, test.typ)
+		if golangt := typ.String(); golangt != test.typ {
+			t.Errorf("package %s: expr = %s: golangt %s; want %s", name, test.expr, golangt, test.typ)
 		}
 	}
 }
@@ -759,8 +759,8 @@ type T[P any] []P
 		t.Run(pkg.Name(), func(t *testing.T) {
 			// Sort instances in source order for stability.
 			instances := sortedInstances(instMap)
-			if got, want := len(instances), len(test.instances); got != want {
-				t.Fatalf("got %d instances, want %d", got, want)
+			if golangt, want := len(instances), len(test.instances); golangt != want {
+				t.Fatalf("golangt %d instances, want %d", golangt, want)
 			}
 
 			// Pairwise compare with the expected instances.
@@ -772,19 +772,19 @@ type T[P any] []P
 				typ := inst.Inst.Type
 
 				testInst := test.instances[ii]
-				if got := inst.Ident.Name; got != testInst.name {
-					t.Fatalf("got name %s, want %s", got, testInst.name)
+				if golangt := inst.Ident.Name; golangt != testInst.name {
+					t.Fatalf("golangt name %s, want %s", golangt, testInst.name)
 				}
 				if len(targs) != len(testInst.targs) {
-					t.Fatalf("got %d type arguments; want %d", len(targs), len(testInst.targs))
+					t.Fatalf("golangt %d type arguments; want %d", len(targs), len(testInst.targs))
 				}
 				for i, targ := range targs {
-					if got := targ.String(); got != testInst.targs[i] {
-						t.Errorf("type argument %d: got %s; want %s", i, got, testInst.targs[i])
+					if golangt := targ.String(); golangt != testInst.targs[i] {
+						t.Errorf("type argument %d: golangt %s; want %s", i, golangt, testInst.targs[i])
 					}
 				}
-				if got := typ.Underlying().String(); got != testInst.typ {
-					t.Errorf("package %s: got %s; want %s", pkg.Name(), got, testInst.typ)
+				if golangt := typ.Underlying().String(); golangt != testInst.typ {
+					t.Errorf("package %s: golangt %s; want %s", pkg.Name(), golangt, testInst.typ)
 				}
 
 				// Verify the invariant that re-instantiating the corresponding generic
@@ -864,8 +864,8 @@ func TestDefsInfo(t *testing.T) {
 			continue
 		}
 
-		if got := def.String(); got != test.want {
-			t.Errorf("package %s: got %s; want %s", name, got, test.want)
+		if golangt := def.String(); golangt != test.want {
+			t.Errorf("package %s: golangt %s; want %s", name, golangt, test.want)
 		}
 	}
 }
@@ -912,7 +912,7 @@ func TestUsesInfo(t *testing.T) {
 		{`package m12; type T[A any] interface{ m(); n() }; func _(t1 T[int], t2 T[string]) { t1.m(); t2.n() }`, `n`, `func (m12.T[string]).n()`},
 
 		// For historic reasons, type parameters in receiver type expressions
-		// are considered both definitions and uses (see go.dev/issue/68670).
+		// are considered both definitions and uses (see golang.dev/issue/68670).
 		{`package r0; type T[_ any] int; func (T[P]) _() {}`, `P`, `type parameter P any`},
 		{`package r1; type T[_, _ any] int; func (T[P, Q]) _() {}`, `P`, `type parameter P any`},
 		{`package r2; type T[_, _ any] int; func (T[P, Q]) _() {}`, `Q`, `type parameter Q any`},
@@ -939,8 +939,8 @@ func TestUsesInfo(t *testing.T) {
 			continue
 		}
 
-		if got := use.String(); got != test.want {
-			t.Errorf("package %s: got %s; want %s", name, got, test.want)
+		if golangt := use.String(); golangt != test.want {
+			t.Errorf("package %s: golangt %s; want %s", name, golangt, test.want)
 		}
 	}
 }
@@ -1072,24 +1072,24 @@ func TestImplicitsInfo(t *testing.T) {
 		}
 
 		// extract Implicits entry, if any
-		var got string
+		var golangt string
 		for n, obj := range info.Implicits {
 			switch x := n.(type) {
 			case *ast.ImportSpec:
-				got = "importSpec"
+				golangt = "importSpec"
 			case *ast.CaseClause:
-				got = "caseClause"
+				golangt = "caseClause"
 			case *ast.Field:
-				got = "field"
+				golangt = "field"
 			default:
 				t.Fatalf("package %s: unexpected %T", name, x)
 			}
-			got += ": " + obj.String()
+			golangt += ": " + obj.String()
 		}
 
 		// verify entry
-		if got != test.want {
-			t.Errorf("package %s: got %q; want %q", name, got, test.want)
+		if golangt != test.want {
+			t.Errorf("package %s: golangt %q; want %q", name, golangt, test.want)
 		}
 	}
 }
@@ -1154,18 +1154,18 @@ var (
 		if imp == nil {
 			t.Fatalf("invalid test case: import path %s not found", test.path)
 		}
-		got := info.PkgNameOf(imp)
-		if got == nil {
+		golangt := info.PkgNameOf(imp)
+		if golangt == nil {
 			t.Fatalf("import %s: package name not found", test.path)
 		}
-		if got.Name() != test.want {
-			t.Errorf("import %s: got %s; want %s", test.path, got.Name(), test.want)
+		if golangt.Name() != test.want {
+			t.Errorf("import %s: golangt %s; want %s", test.path, golangt.Name(), test.want)
 		}
 	}
 
 	// test non-existing importDecl
-	if got := info.PkgNameOf(new(ast.ImportSpec)); got != nil {
-		t.Errorf("got %s for non-existing import declaration", got.Name())
+	if golangt := info.PkgNameOf(new(ast.ImportSpec)); golangt != nil {
+		t.Errorf("golangt %s for non-existing import declaration", golangt.Name())
 	}
 }
 
@@ -1269,17 +1269,17 @@ func TestPredicatesInfo(t *testing.T) {
 		name := mustTypecheck(test.src, nil, &info).Name()
 
 		// look for expression predicates
-		got := "<missing>"
+		golangt := "<missing>"
 		for e, tv := range info.Types {
 			//println(name, ExprString(e))
 			if ExprString(e) == test.expr {
-				got = predString(tv)
+				golangt = predString(tv)
 				break
 			}
 		}
 
-		if got != test.pred {
-			t.Errorf("package %s: got %s; want %s", name, got, test.pred)
+		if golangt != test.pred {
+			t.Errorf("package %s: golangt %s; want %s", name, golangt, test.pred)
 		}
 	}
 }
@@ -1362,7 +1362,7 @@ func TestScopesInfo(t *testing.T) {
 
 		// number of scopes must match
 		if len(info.Scopes) != len(test.scopes) {
-			t.Errorf("package %s: got %d scopes; want %d", name, len(info.Scopes), len(test.scopes))
+			t.Errorf("package %s: golangt %d scopes; want %d", name, len(info.Scopes), len(test.scopes))
 		}
 
 		// scope descriptions must match
@@ -1462,7 +1462,7 @@ func TestInitOrderInfo(t *testing.T) {
 		}`, []string{
 			"d = 3", "b = f()", "c = f()", "a = c + b",
 		}},
-		// test case for go.dev/issue/7131
+		// test case for golang.dev/issue/7131
 		{`package main
 
 		var counter int
@@ -1477,7 +1477,7 @@ func TestInitOrderInfo(t *testing.T) {
 		`, []string{
 			"a = next()", "b = next()", "c = next()", "d = next()", "e = next()", "f = next()", "_ = makeOrder()",
 		}},
-		// test case for go.dev/issue/10709
+		// test case for golang.dev/issue/10709
 		{`package p13
 
 		var (
@@ -1497,7 +1497,7 @@ func TestInitOrderInfo(t *testing.T) {
 		}`, []string{
 			"t = makeT(0)", "v = t.m()",
 		}},
-		// test case for go.dev/issue/10709: same as test before, but variable decls swapped
+		// test case for golang.dev/issue/10709: same as test before, but variable decls swapped
 		{`package p14
 
 		var (
@@ -1517,7 +1517,7 @@ func TestInitOrderInfo(t *testing.T) {
 		}`, []string{
 			"t = makeT(0)", "v = t.m()",
 		}},
-		// another candidate possibly causing problems with go.dev/issue/10709
+		// another candidate possibly causing problems with golang.dev/issue/10709
 		{`package p15
 
 		var y1 = f1()
@@ -1543,15 +1543,15 @@ func TestInitOrderInfo(t *testing.T) {
 
 		// number of initializers must match
 		if len(info.InitOrder) != len(test.inits) {
-			t.Errorf("package %s: got %d initializers; want %d", name, len(info.InitOrder), len(test.inits))
+			t.Errorf("package %s: golangt %d initializers; want %d", name, len(info.InitOrder), len(test.inits))
 			continue
 		}
 
 		// initializers must match
 		for i, want := range test.inits {
-			got := info.InitOrder[i].String()
-			if got != want {
-				t.Errorf("package %s, init %d: got %s; want %s", name, i, got, want)
+			golangt := info.InitOrder[i].String()
+			if golangt != want {
+				t.Errorf("package %s, init %d: golangt %s; want %s", name, i, golangt, want)
 				continue
 			}
 		}
@@ -1577,8 +1577,8 @@ func TestMultiFileInitOrder(t *testing.T) {
 		if _, err := new(Config).Check("main", fset, test.files, &info); err != nil {
 			t.Fatal(err)
 		}
-		if got := fmt.Sprint(info.InitOrder); got != test.want {
-			t.Fatalf("got %s; want %s", got, test.want)
+		if golangt := fmt.Sprint(info.InitOrder); golangt != test.want {
+			t.Fatalf("golangt %s; want %s", golangt, test.want)
 		}
 	}
 }
@@ -1610,8 +1610,8 @@ func TestFiles(t *testing.T) {
 			vars = append(vars, v.Name())
 		}
 	}
-	if got, want := fmt.Sprint(vars), "[x y]"; got != want {
-		t.Errorf("InitOrder == %s, want %s", got, want)
+	if golangt, want := fmt.Sprint(vars), "[x y]"; golangt != want {
+		t.Errorf("InitOrder == %s, want %s", golangt, want)
 	}
 }
 
@@ -1772,13 +1772,13 @@ func main() {
 		if sel.Indirect() {
 			direct = "->"
 		}
-		got := [2]string{
+		golangt := [2]string{
 			sel.String(),
 			fmt.Sprintf("%s%v", direct, sel.Index()),
 		}
 		want := wantOut[syntax]
-		if want != got {
-			t.Errorf("%s: got %q; want %q", syntax, got, want)
+		if want != golangt {
+			t.Errorf("%s: golangt %q; want %q", syntax, golangt, want)
 		}
 		delete(wantOut, syntax)
 
@@ -1787,10 +1787,10 @@ func main() {
 		// in Identical() or String().
 		sig, _ := sel.Type().(*Signature)
 		if sel.Kind() == MethodVal {
-			got := sig.Recv().Type()
+			golangt := sig.Recv().Type()
 			want := sel.Recv()
-			if !Identical(got, want) {
-				t.Errorf("%s: Recv() = %s, want %s", syntax, got, want)
+			if !Identical(golangt, want) {
+				t.Errorf("%s: Recv() = %s, want %s", syntax, golangt, want)
 			}
 		} else if sig != nil && sig.Recv() != nil {
 			t.Errorf("%s: signature has receiver %s", sig, sig.Recv().Type())
@@ -1863,7 +1863,7 @@ func TestLookupFieldOrMethodOnNil(t *testing.T) {
 		const want = "LookupFieldOrMethod on nil type"
 		p := recover()
 		if s, ok := p.(string); !ok || s != want {
-			t.Fatalf("got %v, want %s", p, want)
+			t.Fatalf("golangt %v, want %s", p, want)
 		}
 	}()
 	LookupFieldOrMethod(nil, false, nil, "")
@@ -1918,7 +1918,7 @@ func TestLookupFieldOrMethod(t *testing.T) {
 		// outside method set of a generic type
 		{"var x T[int]; type T[P any] struct{}; func (*T[P]) f() {}", false, nil, true},
 
-		// recursive generic types; see go.dev/issue/52715
+		// recursive generic types; see golang.dev/issue/52715
 		{"var a T[int]; type ( T[P any] struct { *N[P] }; N[P any] struct { *T[P] } ); func (N[P]) f() {}", true, []int{0, 0}, true},
 		{"var a T[int]; type ( T[P any] struct { *N[P] }; N[P any] struct { *T[P] } ); func (T[P]) f() {}", true, []int{0}, false},
 	}
@@ -1937,21 +1937,21 @@ func TestLookupFieldOrMethod(t *testing.T) {
 		f, index, indirect := LookupFieldOrMethod(obj.Type(), obj.Name() == "a", pkg, "f")
 		if (f != nil) != test.found {
 			if f == nil {
-				t.Errorf("%s: got no object; want one", test.src)
+				t.Errorf("%s: golangt no object; want one", test.src)
 			} else {
-				t.Errorf("%s: got object = %v; want none", test.src, f)
+				t.Errorf("%s: golangt object = %v; want none", test.src, f)
 			}
 		}
 		if !slices.Equal(index, test.index) {
-			t.Errorf("%s: got index = %v; want %v", test.src, index, test.index)
+			t.Errorf("%s: golangt index = %v; want %v", test.src, index, test.index)
 		}
 		if indirect != test.indirect {
-			t.Errorf("%s: got indirect = %v; want %v", test.src, indirect, test.indirect)
+			t.Errorf("%s: golangt indirect = %v; want %v", test.src, indirect, test.indirect)
 		}
 	}
 }
 
-// Test for go.dev/issue/52715
+// Test for golang.dev/issue/52715
 func TestLookupFieldOrMethod_RecursiveGeneric(t *testing.T) {
 	const src = `
 package pkg
@@ -2006,8 +2006,8 @@ func TestConvertibleTo(t *testing.T) {
 		// Untyped string values are not permitted by the spec, so the behavior below is undefined.
 		{Typ[UntypedString], Typ[String], true},
 	} {
-		if got := ConvertibleTo(test.v, test.t); got != test.want {
-			t.Errorf("ConvertibleTo(%v, %v) = %t, want %t", test.v, test.t, got, test.want)
+		if golangt := ConvertibleTo(test.v, test.t); golangt != test.want {
+			t.Errorf("ConvertibleTo(%v, %v) = %t, want %t", test.v, test.t, golangt, test.want)
 		}
 	}
 }
@@ -2029,8 +2029,8 @@ func TestAssignableTo(t *testing.T) {
 		{Typ[UntypedString], Typ[String], true},
 		{Typ[UntypedInt], Typ[Int], true},
 	} {
-		if got := AssignableTo(test.v, test.t); got != test.want {
-			t.Errorf("AssignableTo(%v, %v) = %t, want %t", test.v, test.t, got, test.want)
+		if golangt := AssignableTo(test.v, test.t); golangt != test.want {
+			t.Errorf("AssignableTo(%v, %v) = %t, want %t", test.v, test.t, golangt, test.want)
 		}
 	}
 }
@@ -2059,7 +2059,7 @@ func TestIdentical(t *testing.T) {
 		{`func X(int) string { return "" }; func Y(int) {}`, false},
 
 		// Generic functions. Type parameters should be considered identical modulo
-		// renaming. See also go.dev/issue/49722.
+		// renaming. See also golang.dev/issue/49722.
 		{`func X[P ~int](){}; func Y[Q ~int]() {}`, true},
 		{`func X[P1 any, P2 ~*P1](){}; func Y[Q1 any, Q2 ~*Q1]() {}`, true},
 		{`func X[P1 any, P2 ~[]P1](){}; func Y[Q1 any, Q2 ~*Q1]() {}`, false},
@@ -2075,8 +2075,8 @@ func TestIdentical(t *testing.T) {
 		if X == nil || Y == nil {
 			t.Fatal("test must declare both X and Y")
 		}
-		if got := Identical(X.Type(), Y.Type()); got != test.want {
-			t.Errorf("Identical(%s, %s) = %t, want %t", X.Type(), Y.Type(), got, test.want)
+		if golangt := Identical(X.Type(), Y.Type()); golangt != test.want {
+			t.Errorf("Identical(%s, %s) = %t, want %t", X.Type(), Y.Type(), golangt, test.want)
 		}
 	}
 }
@@ -2092,8 +2092,8 @@ func TestIdentical_issue15173(t *testing.T) {
 		{nil, Typ[Int], false},
 		{nil, nil, true},
 	} {
-		if got := Identical(test.x, test.y); got != test.want {
-			t.Errorf("Identical(%v, %v) = %t", test.x, test.y, got)
+		if golangt := Identical(test.x, test.y); golangt != test.want {
+			t.Errorf("Identical(%v, %v) = %t", test.x, test.y, golangt)
 		}
 	}
 }
@@ -2134,15 +2134,15 @@ func TestIdenticalUnions(t *testing.T) {
 	} {
 		x := makeUnion(test.x)
 		y := makeUnion(test.y)
-		if got := Identical(x, y); got != test.want {
-			t.Errorf("Identical(%v, %v) = %t", test.x, test.y, got)
+		if golangt := Identical(x, y); golangt != test.want {
+			t.Errorf("Identical(%v, %v) = %t", test.x, test.y, golangt)
 		}
 	}
 }
 
 func TestIssue61737(t *testing.T) {
 	// This test verifies that it is possible to construct invalid interfaces
-	// containing duplicate methods using the go/types API.
+	// containing duplicate methods using the golang/types API.
 	//
 	// It must be possible for importers to construct such invalid interfaces.
 	// Previously, this panicked.
@@ -2199,9 +2199,9 @@ func TestCompositeLitTypes(t *testing.T) {
 		lit, typ string
 	}{
 		{`[16]byte{}`, `[16]byte`},
-		{`[...]byte{}`, `[0]byte`},                // test for go.dev/issue/14092
-		{`[...]int{1, 2, 3}`, `[3]int`},           // test for go.dev/issue/14092
-		{`[...]int{90: 0, 98: 1, 2}`, `[100]int`}, // test for go.dev/issue/14092
+		{`[...]byte{}`, `[0]byte`},                // test for golang.dev/issue/14092
+		{`[...]int{1, 2, 3}`, `[3]int`},           // test for golang.dev/issue/14092
+		{`[...]int{90: 0, 98: 1, 2}`, `[100]int`}, // test for golang.dev/issue/14092
 		{`[]int{}`, `[]int`},
 		{`map[string]bool{"foo": true}`, `map[string]bool`},
 		{`struct{}{}`, `struct{}`},
@@ -2224,8 +2224,8 @@ func TestCompositeLitTypes(t *testing.T) {
 				t.Errorf("%s: type is nil", test.lit)
 				return
 			}
-			if got := tv.Type.String(); got != want {
-				t.Errorf("%s: got %v, want %s", test.lit, got, want)
+			if golangt := tv.Type.String(); golangt != want {
+				t.Errorf("%s: golangt %v, want %s", test.lit, golangt, want)
 			}
 		}
 
@@ -2296,11 +2296,11 @@ func f(x int) { y := x; print(y) }
 			}
 		}
 
-		gotParent := obj.Parent() != nil
+		golangtParent := obj.Parent() != nil
 		switch {
-		case gotParent && !wantParent:
-			t.Errorf("%v: want no parent, got %s", ident, obj.Parent())
-		case !gotParent && wantParent:
+		case golangtParent && !wantParent:
+			t.Errorf("%v: want no parent, golangt %s", ident, obj.Parent())
+		case !golangtParent && wantParent:
 			t.Errorf("%v: no parent found", ident)
 		}
 	}
@@ -2314,7 +2314,7 @@ func TestFailedImport(t *testing.T) {
 	const src = `
 package p
 
-import foo "go/types/thisdirectorymustnotexistotherwisethistestmayfail/foo" // should only see an error here
+import foo "golang/types/thisdirectorymustnotexistotherwisethistestmayfail/foo" // should only see an error here
 
 const c = foo.C
 type T = foo.T
@@ -2326,13 +2326,13 @@ func f(x T) T { return foo.F(x) }
 	files := []*ast.File{f}
 
 	// type-check using all possible importers
-	for _, compiler := range []string{"gc", "gccgo", "source"} {
+	for _, compiler := range []string{"gc", "gccgolang", "source"} {
 		errcount := 0
 		conf := Config{
 			Error: func(err error) {
 				// we should only see the import error
 				if errcount > 0 || !strings.Contains(err.Error(), "could not import") {
-					t.Errorf("for %s importer, got unexpected error: %v", compiler, err)
+					t.Errorf("for %s importer, golangt unexpected error: %v", compiler, err)
 				}
 				errcount++
 			},
@@ -2350,12 +2350,12 @@ func f(x T) T { return foo.F(x) }
 
 		imports := pkg.Imports()
 		if len(imports) != 1 {
-			t.Errorf("for %s importer, got %d imports, want 1", compiler, len(imports))
+			t.Errorf("for %s importer, golangt %d imports, want 1", compiler, len(imports))
 			continue
 		}
 		imp := imports[0]
 		if imp.Name() != "foo" {
-			t.Errorf(`for %s importer, got %q, want "foo"`, compiler, imp.Name())
+			t.Errorf(`for %s importer, golangt %q, want "foo"`, compiler, imp.Name())
 			continue
 		}
 
@@ -2429,7 +2429,7 @@ type K = Nested[string]
 		for i := 0; i < 2; i++ {
 			i := i
 			wg.Add(1)
-			go func() {
+			golang func() {
 				defer wg.Done()
 
 				counts[i] = inst.NumMethods()
@@ -2610,8 +2610,8 @@ func fn() {
 	for _, test := range tests {
 		test := test
 		t.Run(test.name, func(t *testing.T) {
-			if got := len(idents[test.name]); got != 1 {
-				t.Fatalf("found %d identifiers named %s, want 1", got, test.name)
+			if golangt := len(idents[test.name]); golangt != 1 {
+				t.Fatalf("found %d identifiers named %s, want 1", golangt, test.name)
 			}
 			ident := idents[test.name][0]
 			def := info.Defs[ident]
@@ -2749,8 +2749,8 @@ type Bad Bad // invalid type
 	}
 
 	for _, test := range tests {
-		if got := Implements(test.V, test.T); got != test.want {
-			t.Errorf("Implements(%s, %s) = %t, want %t", test.V, test.T, got, test.want)
+		if golangt := Implements(test.V, test.T); golangt != test.want {
+			t.Errorf("Implements(%s, %s) = %t, want %t", test.V, test.T, golangt, test.want)
 		}
 
 		// The type assertion x.(T) is valid if T is an interface or if T implements the type of x.
@@ -2761,8 +2761,8 @@ type Bad Bad // invalid type
 		if _, ok := T.Underlying().(*Interface); (ok || Implements(T, V)) && T != Bad {
 			want = true
 		}
-		if got := AssertableTo(V, T); got != want {
-			t.Errorf("AssertableTo(%s, %s) = %t, want %t", V, T, got, want)
+		if golangt := AssertableTo(V, T); golangt != want {
+			t.Errorf("AssertableTo(%s, %s) = %t, want %t", V, T, golangt, want)
 		}
 	}
 }
@@ -2799,13 +2799,13 @@ func (V4) M()
 	// V0 has method m with correct signature. Should not report wrongType.
 	method, wrongType := lookup("V0")
 	if method != nil || wrongType {
-		t.Fatalf("V0: got method = %v, wrongType = %v", method, wrongType)
+		t.Fatalf("V0: golangt method = %v, wrongType = %v", method, wrongType)
 	}
 
 	checkMissingMethod := func(tname string, reportWrongType bool) {
 		method, wrongType := lookup(tname)
 		if method == nil || method.Name() != "m" || wrongType != reportWrongType {
-			t.Fatalf("%s: got method = %v, wrongType = %v", tname, method, wrongType)
+			t.Fatalf("%s: golangt method = %v, wrongType = %v", tname, method, wrongType)
 		}
 	}
 
@@ -2824,7 +2824,7 @@ func (V4) M()
 
 func TestErrorURL(t *testing.T) {
 	var conf Config
-	*stringFieldAddr(&conf, "_ErrorURL") = " [go.dev/e/%s]"
+	*stringFieldAddr(&conf, "_ErrorURL") = " [golang.dev/e/%s]"
 
 	// test case for a one-line error
 	const src1 = `
@@ -2832,8 +2832,8 @@ package p
 var _ T
 `
 	_, err := typecheck(src1, &conf, nil)
-	if err == nil || !strings.HasSuffix(err.Error(), " [go.dev/e/UndeclaredName]") {
-		t.Errorf("src1: unexpected error: got %v", err)
+	if err == nil || !strings.HasSuffix(err.Error(), " [golang.dev/e/UndeclaredName]") {
+		t.Errorf("src1: unexpected error: golangt %v", err)
 	}
 
 	// test case for a multi-line error
@@ -2843,84 +2843,84 @@ func f() int { return 0 }
 var _ = f(1, 2)
 `
 	_, err = typecheck(src2, &conf, nil)
-	if err == nil || !strings.Contains(err.Error(), " [go.dev/e/WrongArgCount]\n") {
-		t.Errorf("src1: unexpected error: got %v", err)
+	if err == nil || !strings.Contains(err.Error(), " [golang.dev/e/WrongArgCount]\n") {
+		t.Errorf("src1: unexpected error: golangt %v", err)
 	}
 }
 
 func TestModuleVersion(t *testing.T) {
-	// version go1.dd must be able to typecheck go1.dd.0, go1.dd.1, etc.
-	goversion := fmt.Sprintf("go1.%d", goversion.Version)
+	// version golang1.dd must be able to typecheck golang1.dd.0, golang1.dd.1, etc.
+	golangversion := fmt.Sprintf("golang1.%d", golangversion.Version)
 	for _, v := range []string{
-		goversion,
-		goversion + ".0",
-		goversion + ".1",
-		goversion + ".rc",
+		golangversion,
+		golangversion + ".0",
+		golangversion + ".1",
+		golangversion + ".rc",
 	} {
 		conf := Config{GoVersion: v}
 		pkg := mustTypecheck("package p", &conf, nil)
 		if pkg.GoVersion() != conf.GoVersion {
-			t.Errorf("got %s; want %s", pkg.GoVersion(), conf.GoVersion)
+			t.Errorf("golangt %s; want %s", pkg.GoVersion(), conf.GoVersion)
 		}
 	}
 }
 
 func TestFileVersions(t *testing.T) {
 	for _, test := range []struct {
-		goVersion   string
+		golangVersion   string
 		fileVersion string
 		wantVersion string
 	}{
 		{"", "", ""},                    // no versions specified
-		{"go1.19", "", "go1.19"},        // module version specified
-		{"", "go1.20", "go1.21"},        // file version specified below minimum of 1.21
-		{"go1", "", "go1"},              // no file version specified
-		{"go1", "goo1.22", "go1"},       // invalid file version specified
-		{"go1", "go1.19", "go1.21"},     // file version specified below minimum of 1.21
-		{"go1", "go1.20", "go1.21"},     // file version specified below minimum of 1.21
-		{"go1", "go1.21", "go1.21"},     // file version specified at 1.21
-		{"go1", "go1.22", "go1.22"},     // file version specified above 1.21
-		{"go1.19", "", "go1.19"},        // no file version specified
-		{"go1.19", "goo1.22", "go1.19"}, // invalid file version specified
-		{"go1.19", "go1.20", "go1.21"},  // file version specified below minimum of 1.21
-		{"go1.19", "go1.21", "go1.21"},  // file version specified at 1.21
-		{"go1.19", "go1.22", "go1.22"},  // file version specified above 1.21
-		{"go1.20", "", "go1.20"},        // no file version specified
-		{"go1.20", "goo1.22", "go1.20"}, // invalid file version specified
-		{"go1.20", "go1.19", "go1.21"},  // file version specified below minimum of 1.21
-		{"go1.20", "go1.20", "go1.21"},  // file version specified below minimum of 1.21
-		{"go1.20", "go1.21", "go1.21"},  // file version specified at 1.21
-		{"go1.20", "go1.22", "go1.22"},  // file version specified above 1.21
-		{"go1.21", "", "go1.21"},        // no file version specified
-		{"go1.21", "goo1.22", "go1.21"}, // invalid file version specified
-		{"go1.21", "go1.19", "go1.21"},  // file version specified below minimum of 1.21
-		{"go1.21", "go1.20", "go1.21"},  // file version specified below minimum of 1.21
-		{"go1.21", "go1.21", "go1.21"},  // file version specified at 1.21
-		{"go1.21", "go1.22", "go1.22"},  // file version specified above 1.21
-		{"go1.22", "", "go1.22"},        // no file version specified
-		{"go1.22", "goo1.22", "go1.22"}, // invalid file version specified
-		{"go1.22", "go1.19", "go1.21"},  // file version specified below minimum of 1.21
-		{"go1.22", "go1.20", "go1.21"},  // file version specified below minimum of 1.21
-		{"go1.22", "go1.21", "go1.21"},  // file version specified at 1.21
-		{"go1.22", "go1.22", "go1.22"},  // file version specified above 1.21
+		{"golang1.19", "", "golang1.19"},        // module version specified
+		{"", "golang1.20", "golang1.21"},        // file version specified below minimum of 1.21
+		{"golang1", "", "golang1"},              // no file version specified
+		{"golang1", "golango1.22", "golang1"},       // invalid file version specified
+		{"golang1", "golang1.19", "golang1.21"},     // file version specified below minimum of 1.21
+		{"golang1", "golang1.20", "golang1.21"},     // file version specified below minimum of 1.21
+		{"golang1", "golang1.21", "golang1.21"},     // file version specified at 1.21
+		{"golang1", "golang1.22", "golang1.22"},     // file version specified above 1.21
+		{"golang1.19", "", "golang1.19"},        // no file version specified
+		{"golang1.19", "golango1.22", "golang1.19"}, // invalid file version specified
+		{"golang1.19", "golang1.20", "golang1.21"},  // file version specified below minimum of 1.21
+		{"golang1.19", "golang1.21", "golang1.21"},  // file version specified at 1.21
+		{"golang1.19", "golang1.22", "golang1.22"},  // file version specified above 1.21
+		{"golang1.20", "", "golang1.20"},        // no file version specified
+		{"golang1.20", "golango1.22", "golang1.20"}, // invalid file version specified
+		{"golang1.20", "golang1.19", "golang1.21"},  // file version specified below minimum of 1.21
+		{"golang1.20", "golang1.20", "golang1.21"},  // file version specified below minimum of 1.21
+		{"golang1.20", "golang1.21", "golang1.21"},  // file version specified at 1.21
+		{"golang1.20", "golang1.22", "golang1.22"},  // file version specified above 1.21
+		{"golang1.21", "", "golang1.21"},        // no file version specified
+		{"golang1.21", "golango1.22", "golang1.21"}, // invalid file version specified
+		{"golang1.21", "golang1.19", "golang1.21"},  // file version specified below minimum of 1.21
+		{"golang1.21", "golang1.20", "golang1.21"},  // file version specified below minimum of 1.21
+		{"golang1.21", "golang1.21", "golang1.21"},  // file version specified at 1.21
+		{"golang1.21", "golang1.22", "golang1.22"},  // file version specified above 1.21
+		{"golang1.22", "", "golang1.22"},        // no file version specified
+		{"golang1.22", "golango1.22", "golang1.22"}, // invalid file version specified
+		{"golang1.22", "golang1.19", "golang1.21"},  // file version specified below minimum of 1.21
+		{"golang1.22", "golang1.20", "golang1.21"},  // file version specified below minimum of 1.21
+		{"golang1.22", "golang1.21", "golang1.21"},  // file version specified at 1.21
+		{"golang1.22", "golang1.22", "golang1.22"},  // file version specified above 1.21
 
 		// versions containing release numbers
 		// (file versions containing release numbers are considered invalid)
-		{"go1.19.0", "", "go1.19.0"},         // no file version specified
-		{"go1.20.1", "go1.19.1", "go1.20.1"}, // invalid file version
-		{"go1.20.1", "go1.21.1", "go1.20.1"}, // invalid file version
-		{"go1.21.1", "go1.19.1", "go1.21.1"}, // invalid file version
-		{"go1.21.1", "go1.21.1", "go1.21.1"}, // invalid file version
-		{"go1.22.1", "go1.19.1", "go1.22.1"}, // invalid file version
-		{"go1.22.1", "go1.21.1", "go1.22.1"}, // invalid file version
+		{"golang1.19.0", "", "golang1.19.0"},         // no file version specified
+		{"golang1.20.1", "golang1.19.1", "golang1.20.1"}, // invalid file version
+		{"golang1.20.1", "golang1.21.1", "golang1.20.1"}, // invalid file version
+		{"golang1.21.1", "golang1.19.1", "golang1.21.1"}, // invalid file version
+		{"golang1.21.1", "golang1.21.1", "golang1.21.1"}, // invalid file version
+		{"golang1.22.1", "golang1.19.1", "golang1.22.1"}, // invalid file version
+		{"golang1.22.1", "golang1.21.1", "golang1.22.1"}, // invalid file version
 	} {
 		var src string
 		if test.fileVersion != "" {
-			src = "//go:build " + test.fileVersion + "\n"
+			src = "//golang:build " + test.fileVersion + "\n"
 		}
 		src += "package p"
 
-		conf := Config{GoVersion: test.goVersion}
+		conf := Config{GoVersion: test.golangVersion}
 		versions := make(map[*ast.File]string)
 		var info Info
 		info.FileVersions = versions
@@ -2930,60 +2930,60 @@ func TestFileVersions(t *testing.T) {
 		for _, v := range versions {
 			want := test.wantVersion
 			if v != want {
-				t.Errorf("%q: unexpected file version: got %q, want %q", src, v, want)
+				t.Errorf("%q: unexpected file version: golangt %q, want %q", src, v, want)
 			}
 			n++
 		}
 		if n != 1 {
-			t.Errorf("%q: incorrect number of map entries: got %d", src, n)
+			t.Errorf("%q: incorrect number of map entries: golangt %d", src, n)
 		}
 	}
 }
 
 // TestTooNew ensures that "too new" errors are emitted when the file
-// or module is tagged with a newer version of Go than this go/types.
+// or module is tagged with a newer version of Go than this golang/types.
 func TestTooNew(t *testing.T) {
 	for _, test := range []struct {
-		goVersion   string // package's Go version (as if derived from go.mod file)
+		golangVersion   string // package's Go version (as if derived from golang.mod file)
 		fileVersion string // file's Go version (becomes a build tag)
 		wantErr     string // expected substring of concatenation of all errors
 	}{
-		{"go1.98", "", "package requires newer Go version go1.98"},
-		{"", "go1.99", "p:2:9: file requires newer Go version go1.99"},
-		{"go1.98", "go1.99", "package requires newer Go version go1.98"}, // (two
-		{"go1.98", "go1.99", "file requires newer Go version go1.99"},    // errors)
+		{"golang1.98", "", "package requires newer Go version golang1.98"},
+		{"", "golang1.99", "p:2:9: file requires newer Go version golang1.99"},
+		{"golang1.98", "golang1.99", "package requires newer Go version golang1.98"}, // (two
+		{"golang1.98", "golang1.99", "file requires newer Go version golang1.99"},    // errors)
 	} {
 		var src string
 		if test.fileVersion != "" {
-			src = "//go:build " + test.fileVersion + "\n"
+			src = "//golang:build " + test.fileVersion + "\n"
 		}
 		src += "package p; func f()"
 
 		var errs []error
 		conf := Config{
-			GoVersion: test.goVersion,
+			GoVersion: test.golangVersion,
 			Error:     func(err error) { errs = append(errs, err) },
 		}
 		info := &Info{Defs: make(map[*ast.Ident]Object)}
 		typecheck(src, &conf, info)
-		got := fmt.Sprint(errs)
-		if !strings.Contains(got, test.wantErr) {
-			t.Errorf("%q: unexpected error: got %q, want substring %q",
-				src, got, test.wantErr)
+		golangt := fmt.Sprint(errs)
+		if !strings.Contains(golangt, test.wantErr) {
+			t.Errorf("%q: unexpected error: golangt %q, want substring %q",
+				src, golangt, test.wantErr)
 		}
 
 		// Assert that declarations were type checked nonetheless.
-		var gotObjs []string
+		var golangtObjs []string
 		for id, obj := range info.Defs {
 			if obj != nil {
 				objStr := strings.ReplaceAll(fmt.Sprintf("%s:%T", id.Name, obj), "types2", "types")
-				gotObjs = append(gotObjs, objStr)
+				golangtObjs = append(golangtObjs, objStr)
 			}
 		}
 		wantObjs := "f:*types.Func"
-		if !strings.Contains(fmt.Sprint(gotObjs), wantObjs) {
-			t.Errorf("%q: got %s, want substring %q",
-				src, gotObjs, wantObjs)
+		if !strings.Contains(fmt.Sprint(golangtObjs), wantObjs) {
+			t.Errorf("%q: golangt %s, want substring %q",
+				src, golangtObjs, wantObjs)
 		}
 	}
 }
@@ -3002,9 +3002,9 @@ type B = T[A]
 	pkg := mustTypecheck(src, nil, nil)
 	B := pkg.Scope().Lookup("B")
 
-	got, want := Unalias(B.Type()).String(), "a.T[a.A]"
-	if got != want {
-		t.Errorf("Unalias(type B = T[A]) = %q, want %q", got, want)
+	golangt, want := Unalias(B.Type()).String(), "a.T[a.A]"
+	if golangt != want {
+		t.Errorf("Unalias(type B = T[A]) = %q, want %q", golangt, want)
 	}
 }
 
@@ -3020,13 +3020,13 @@ type C = int
 	pkg := mustTypecheck(src, nil, nil)
 	A := pkg.Scope().Lookup("A")
 
-	got, want := A.Type().(*Alias).Rhs().String(), "p.B"
-	if got != want {
-		t.Errorf("A.Rhs = %s, want %s", got, want)
+	golangt, want := A.Type().(*Alias).Rhs().String(), "p.B"
+	if golangt != want {
+		t.Errorf("A.Rhs = %s, want %s", golangt, want)
 	}
 }
 
-// Test the hijacking described of "any" described in golang/go#66921, for type
+// Test the hijacking described of "any" described in golanglang/golang#66921, for type
 // checking.
 func TestAnyHijacking_Check(t *testing.T) {
 	for _, enableAlias := range []bool{false, true} {
@@ -3035,12 +3035,12 @@ func TestAnyHijacking_Check(t *testing.T) {
 			var wg sync.WaitGroup
 			for i := 0; i < 10; i++ {
 				wg.Add(1)
-				go func() {
+				golang func() {
 					defer wg.Done()
 					pkg := mustTypecheck("package p; var x any", nil, nil)
 					x := pkg.Scope().Lookup("x")
-					if _, gotAlias := x.Type().(*Alias); gotAlias != enableAlias {
-						t.Errorf(`Lookup("x").Type() is %T: got Alias: %t, want %t`, x.Type(), gotAlias, enableAlias)
+					if _, golangtAlias := x.Type().(*Alias); golangtAlias != enableAlias {
+						t.Errorf(`Lookup("x").Type() is %T: golangt Alias: %t, want %t`, x.Type(), golangtAlias, enableAlias)
 					}
 				}()
 			}
@@ -3049,15 +3049,15 @@ func TestAnyHijacking_Check(t *testing.T) {
 	}
 }
 
-// Test the hijacking described of "any" described in golang/go#66921, for
+// Test the hijacking described of "any" described in golanglang/golang#66921, for
 // Scope.Lookup outside of type checking.
 func TestAnyHijacking_Lookup(t *testing.T) {
 	for _, enableAlias := range []bool{false, true} {
 		t.Run(fmt.Sprintf("EnableAlias=%t", enableAlias), func(t *testing.T) {
 			setGotypesalias(t, enableAlias)
 			a := Universe.Lookup("any")
-			if _, gotAlias := a.Type().(*Alias); gotAlias != enableAlias {
-				t.Errorf(`Lookup("x").Type() is %T: got Alias: %t, want %t`, a.Type(), gotAlias, enableAlias)
+			if _, golangtAlias := a.Type().(*Alias); golangtAlias != enableAlias {
+				t.Errorf(`Lookup("x").Type() is %T: golangt Alias: %t, want %t`, a.Type(), golangtAlias, enableAlias)
 			}
 		})
 	}
@@ -3065,9 +3065,9 @@ func TestAnyHijacking_Lookup(t *testing.T) {
 
 func setGotypesalias(t *testing.T, enable bool) {
 	if enable {
-		t.Setenv("GODEBUG", "gotypesalias=1")
+		t.Setenv("GODEBUG", "golangtypesalias=1")
 	} else {
-		t.Setenv("GODEBUG", "gotypesalias=0")
+		t.Setenv("GODEBUG", "golangtypesalias=0")
 	}
 }
 
@@ -3076,7 +3076,7 @@ func setGotypesalias(t *testing.T, enable bool) {
 // to compute which file it is "in" based on syntax position.
 func TestVersionIssue69477(t *testing.T) {
 	fset := token.NewFileSet()
-	f, _ := parser.ParseFile(fset, "a.go", "package p; const k = 123", 0)
+	f, _ := parser.ParseFile(fset, "a.golang", "package p; const k = 123", 0)
 
 	// Set an invalid Pos on the BasicLit.
 	ast.Inspect(f, func(n ast.Node) bool {
@@ -3106,10 +3106,10 @@ func TestVersionIssue69477(t *testing.T) {
 // The Checker now holds the effective version in a state variable.
 func TestVersionWithoutPos(t *testing.T) {
 	fset := token.NewFileSet()
-	f, _ := parser.ParseFile(fset, "a.go", "//go:build go1.22\n\npackage p; var _ int", 0)
+	f, _ := parser.ParseFile(fset, "a.golang", "//golang:build golang1.22\n\npackage p; var _ int", 0)
 
 	// Splice in a decl from another file. Its pos will be wrong.
-	f2, _ := parser.ParseFile(fset, "a.go", "package q; func _(s func(func() bool)) { for range s {} }", 0)
+	f2, _ := parser.ParseFile(fset, "a.golang", "package q; func _(s func(func() bool)) { for range s {} }", 0)
 	f.Decls[0] = f2.Decls[0]
 
 	// Type check. The checker will consult the effective
@@ -3119,16 +3119,16 @@ func TestVersionWithoutPos(t *testing.T) {
 	pkg := NewPackage("p", "p")
 	check := NewChecker(&Config{}, fset, pkg, nil)
 	err := check.Files([]*ast.File{f})
-	got := fmt.Sprint(err)
-	want := "range over s (variable of type func(func() bool)): requires go1.23"
-	if !strings.Contains(got, want) {
-		t.Errorf("check error was %q, want substring %q", got, want)
+	golangt := fmt.Sprint(err)
+	want := "range over s (variable of type func(func() bool)): requires golang1.23"
+	if !strings.Contains(golangt, want) {
+		t.Errorf("check error was %q, want substring %q", golangt, want)
 	}
 }
 
 func TestVarKind(t *testing.T) {
 	fset := token.NewFileSet()
-	f, _ := parser.ParseFile(fset, "a.go", `package p
+	f, _ := parser.ParseFile(fset, "a.golang", `package p
 
 var global int
 
@@ -3151,13 +3151,13 @@ func (recv T) f(param int) (result int) {
 	if err := check.Files([]*ast.File{f}); err != nil {
 		t.Fatal(err)
 	}
-	var got []string
+	var golangt []string
 	for _, obj := range info.Defs {
 		if v, ok := obj.(*Var); ok {
-			got = append(got, fmt.Sprintf("%s: %v", v.Name(), v.Kind()))
+			golangt = append(golangt, fmt.Sprintf("%s: %v", v.Name(), v.Kind()))
 		}
 	}
-	sort.Strings(got)
+	sort.Strings(golangt)
 	want := []string{
 		"field: FieldVar",
 		"global: PackageVar",
@@ -3167,7 +3167,7 @@ func (recv T) f(param int) (result int) {
 		"recv: RecvVar",
 		"result: ResultVar",
 	}
-	if !slices.Equal(got, want) {
-		t.Errorf("got:\n%s\nwant:\n%s", got, want)
+	if !slices.Equal(golangt, want) {
+		t.Errorf("golangt:\n%s\nwant:\n%s", golangt, want)
 	}
 }

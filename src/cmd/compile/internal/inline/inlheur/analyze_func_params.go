@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package inlheur
@@ -310,7 +310,7 @@ func (pa *paramsAnalyzer) nodeVisitPre(n ir.Node) {
 }
 
 // condLevelTracker helps keeps track very roughly of "level of conditional
-// nesting", e.g. how many "if" statements you have to go through to
+// nesting", e.g. how many "if" statements you have to golang through to
 // get to the point where a given stmt executes. Example:
 //
 //	                      cond nesting level

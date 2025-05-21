@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 #include "textflag.h"
@@ -22,7 +22,7 @@ TEXT cas<>(SB),NOSPLIT,$0
 	MOVW	$0xffff0fc0, R15 // R15 is hardware PC.
 
 TEXT ·Cas(SB),NOSPLIT|NOFRAME,$0
-	MOVB	runtime·goarm(SB), R11
+	MOVB	runtime·golangarm(SB), R11
 	CMP	$7, R11
 	BLT	2(PC)
 	JMP	·armcas(SB)
@@ -61,7 +61,7 @@ TEXT	·Load(SB),NOSPLIT,$0-8
 	MOVW	addr+0(FP), R0
 	MOVW	(R0), R1
 
-	MOVB	runtime·goarm(SB), R11
+	MOVB	runtime·golangarm(SB), R11
 	CMP	$7, R11
 	BGE	native_barrier
 	BL	memory_barrier<>(SB)
@@ -76,7 +76,7 @@ TEXT	·Store(SB),NOSPLIT,$0-8
 	MOVW	addr+0(FP), R1
 	MOVW	v+4(FP), R2
 
-	MOVB	runtime·goarm(SB), R8
+	MOVB	runtime·golangarm(SB), R8
 	CMP	$7, R8
 	BGE	native_barrier
 	BL	memory_barrier<>(SB)
@@ -99,7 +99,7 @@ TEXT	·Load8(SB),NOSPLIT,$0-5
 	MOVW	addr+0(FP), R0
 	MOVB	(R0), R1
 
-	MOVB	runtime·goarm(SB), R11
+	MOVB	runtime·golangarm(SB), R11
 	CMP	$7, R11
 	BGE	native_barrier
 	BL	memory_barrier<>(SB)
@@ -114,7 +114,7 @@ TEXT	·Store8(SB),NOSPLIT,$0-5
 	MOVW	addr+0(FP), R1
 	MOVB	v+4(FP), R2
 
-	MOVB	runtime·goarm(SB), R8
+	MOVB	runtime·golangarm(SB), R8
 	CMP	$7, R8
 	BGE	native_barrier
 	BL	memory_barrier<>(SB)

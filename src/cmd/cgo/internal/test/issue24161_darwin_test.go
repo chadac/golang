@@ -1,19 +1,19 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build cgo
+//golang:build cgolang
 
-package cgotest
+package cgolangtest
 
 import (
 	"testing"
 
-	"cmd/cgo/internal/test/issue24161arg"
-	"cmd/cgo/internal/test/issue24161e0"
-	"cmd/cgo/internal/test/issue24161e1"
-	"cmd/cgo/internal/test/issue24161e2"
-	"cmd/cgo/internal/test/issue24161res"
+	"cmd/cgolang/internal/test/issue24161arg"
+	"cmd/cgolang/internal/test/issue24161e0"
+	"cmd/cgolang/internal/test/issue24161e1"
+	"cmd/cgolang/internal/test/issue24161e2"
+	"cmd/cgolang/internal/test/issue24161res"
 )
 
 func Test24161Arg(t *testing.T) {

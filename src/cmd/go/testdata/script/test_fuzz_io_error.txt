@@ -11,7 +11,7 @@ env GOCACHE=$WORK/cache
 
 # If the I/O error occurs before F.Fuzz is called, the coordinator should
 # stop the worker and say that.
-! go test -fuzz=FuzzClosePipeBefore -parallel=1
+! golang test -fuzz=FuzzClosePipeBefore -parallel=1
 stdout '\s*fuzzing process terminated without fuzzing:'
 ! stdout 'communicating with fuzzing process'
 ! exists testdata
@@ -19,15 +19,15 @@ stdout '\s*fuzzing process terminated without fuzzing:'
 # If the I/O error occurs after F.Fuzz is called (unlikely), just exit.
 # It's hard to distinguish this case from the worker being interrupted by ^C
 # or exiting with status 0 (which it should do when interrupted by ^C).
-! go test -fuzz=FuzzClosePipeAfter -parallel=1
+! golang test -fuzz=FuzzClosePipeAfter -parallel=1
 stdout '^\s*communicating with fuzzing process: invalid character ''!'' looking for beginning of value$'
 ! exists testdata
 
--- go.mod --
+-- golang.mod --
 module test
 
-go 1.17
--- io_error_test.go --
+golang 1.17
+-- io_error_test.golang --
 package io_error
 
 import (
@@ -64,7 +64,7 @@ func FuzzClosePipeAfter(f *testing.F) {
 		}
 	})
 }
--- io_error_windows_test.go --
+-- io_error_windows_test.golang --
 package io_error
 
 import (
@@ -84,7 +84,7 @@ func sendGarbageToCoordinator(tb testing.TB) {
 		tb.Fatalf("writing fuzz_out: %v", err)
 	}
 }
--- io_error_notwindows_test.go --
+-- io_error_notwindows_test.golang --
 // +build !windows
 
 package io_error

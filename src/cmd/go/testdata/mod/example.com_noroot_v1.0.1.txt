@@ -4,5 +4,5 @@ A module which has no root package.
 module example.com/noroot
 -- .info --
 {"Version":"v1.0.1"}
--- pkg/pkg.go --
+-- pkg/pkg.golang --
 package pkg

@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Simplifications that apply to all backend architectures. As an example, this
@@ -12,8 +12,8 @@
 // (for example AMD64.rules) contain rules specific to the architecture in the
 // filename. The rules here apply to every architecture.
 //
-// The code for parsing this file lives in rulegen.go; this file generates
-// ssa/rewritegeneric.go.
+// The code for parsing this file lives in rulegen.golang; this file generates
+// ssa/rewritegeneric.golang.
 
 // values are specified using the following format:
 // (op <type> [auxint] {aux} arg0 arg1 ...)
@@ -1007,7 +1007,7 @@
 (Convert a:(Add(64|32) (Add(64|32) (Convert ptr mem) off1) off2) mem) => (AddPtr ptr (Add(64|32) <a.Type> off1 off2))
 
 // strength reduction of divide by a constant.
-// See ../magic.go for a detailed description of these algorithms.
+// See ../magic.golang for a detailed description of these algolangrithms.
 
 // Unsigned divide by power of 2.  Strength reduce to a shift.
 (Div8u  n (Const8  [c])) && isPowerOfTwo(c) => (Rsh8Ux64  n (Const64 <typ.UInt64> [log8(c)]))
@@ -2092,7 +2092,7 @@
 	=> ptr
 
 // Nil checks of nil checks are redundant.
-// See comment at the end of https://go-review.googlesource.com/c/go/+/537775.
+// See comment at the end of https://golang-review.golangoglesource.com/c/golang/+/537775.
 (NilCheck ptr:(NilCheck _ _) _ ) => ptr
 
 // for late-expanded calls, recognize memequal applied to a single constant byte
@@ -2215,7 +2215,7 @@
 (IsNonNil (LocalAddr _ _)) => (ConstBool [true])
 
 // Inline small or disjoint runtime.memmove calls with constant length.
-// See the comment in op Move in genericOps.go for discussion of the type.
+// See the comment in op Move in genericOps.golang for discussion of the type.
 //
 // Note that we've lost any knowledge of the type and alignment requirements
 // of the source and destination. We only know the size, and that the type
@@ -2677,7 +2677,7 @@
 (Zero {t} [s] dst1 zero:(Zero {t} [s] dst2 _)) && isSamePtr(dst1, dst2) => zero
 (Zero {t} [s] dst1 vardef:(VarDef (Zero {t} [s] dst2 _))) && isSamePtr(dst1, dst2) => vardef
 
-// Elide self-moves. This only happens rarely (e.g test/fixedbugs/bug277.go).
+// Elide self-moves. This only happens rarely (e.g test/fixedbugs/bug277.golang).
 // However, this rule is needed to prevent the previous rule from looping forever in such cases.
 (Move dst src mem) && isSamePtr(dst, src) => mem
 
@@ -2762,7 +2762,7 @@
 (RotateLeft8  x (Const64 <t> [c])) && config.PtrSize == 4 => (RotateLeft8  x (Const32 <t> [int32(c)]))
 
 // Rotating by c, then by d, is the same as rotating by c+d.
-// We're trading a rotate for an add, which seems generally a good choice. It is especially good when c and d are constants.
+// We're trading a rotate for an add, which seems generally a golangod choice. It is especially golangod when c and d are constants.
 // This rule is a bit tricky as c and d might be different widths. We handle only cases where they are the same width.
 (RotateLeft(64|32|16|8) (RotateLeft(64|32|16|8) x c) d) && c.Type.Size() == 8 && d.Type.Size() == 8 => (RotateLeft(64|32|16|8) x (Add64 <c.Type> c d))
 (RotateLeft(64|32|16|8) (RotateLeft(64|32|16|8) x c) d) && c.Type.Size() == 4 && d.Type.Size() == 4 => (RotateLeft(64|32|16|8) x (Add32 <c.Type> c d))
@@ -2819,7 +2819,7 @@
 // We can just use the ptr/len of the byte slice directly as a (temporary) string.
 //
 // Note that this does not handle some obscure cases like
-// m[[2]string{string(b1), string(b2)}]. There is code in ../walk/order.go
+// m[[2]string{string(b1), string(b2)}]. There is code in ../walk/order.golang
 // which handles some of those cases.
 (StaticLECall {f} [argsize] typ_ map_ key:(SelectN [0] sbts:(StaticLECall {g} _ ptr len mem)) m:(SelectN [1] sbts))
   &&    (isSameCall(f, "runtime.mapaccess1_faststr")

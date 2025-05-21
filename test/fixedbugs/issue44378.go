@@ -1,14 +1,14 @@
 // compile
 
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This test case caused a panic in the compiler's DWARF gen code.
 
 // Note to future maintainers of this code:
 //
-//    ** Do NOT run gofmt when editing this file **
+//    ** Do NOT run golangfmt when editing this file **
 //
 // In order for the buggy behavior to be triggered in the compiler,
 // we need to have a the function of interest all on one gigantic line.

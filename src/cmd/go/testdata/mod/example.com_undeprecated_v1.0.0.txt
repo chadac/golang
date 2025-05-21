@@ -4,16 +4,16 @@
 // Deprecated: in v1.0.0
 module example.com/undeprecated
 
-go 1.17
--- go.mod --
+golang 1.17
+-- golang.mod --
 // Deprecated: in v1.0.0
 module example.com/undeprecated
 
-go 1.17
--- undeprecated.go --
+golang 1.17
+-- undeprecated.golang --
 package undeprecated
 
--- cmd/a/a.go --
+-- cmd/a/a.golang --
 package main
 
 import "fmt"

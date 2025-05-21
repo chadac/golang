@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 #include "textflag.h"
@@ -19,5 +19,5 @@ TEXT _rt0_s390x_linux_lib(SB), NOSPLIT, $0
 	BR   R1
 
 TEXT main(SB), NOSPLIT|NOFRAME, $0
-	MOVD $runtime·rt0_go(SB), R1
+	MOVD $runtime·rt0_golang(SB), R1
 	BR   R1

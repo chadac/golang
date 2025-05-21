@@ -1,17 +1,17 @@
 [!GOOS:darwin] skip
-[!cgo] skip
+[!cgolang] skip
 
-! go build
-stderr 'invalid flag in #cgo LDFLAGS: -lto_library'
+! golang build
+stderr 'invalid flag in #cgolang LDFLAGS: -lto_library'
 
--- go.mod --
+-- golang.mod --
 module ldflag
 
--- main.go --
+-- main.golang --
 package main
 
-// #cgo CFLAGS: -flto
-// #cgo LDFLAGS: -lto_library bad.dylib
+// #cgolang CFLAGS: -flto
+// #cgolang LDFLAGS: -lto_library bad.dylib
 import "C"
 
 func main() {}

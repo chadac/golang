@@ -1,5 +1,5 @@
 // Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package typeindex provides an [Index] of type information for a
@@ -10,15 +10,15 @@ package typeindex
 
 import (
 	"encoding/binary"
-	"go/ast"
-	"go/types"
+	"golang/ast"
+	"golang/types"
 	"iter"
 
-	"golang.org/x/tools/go/ast/inspector"
-	"golang.org/x/tools/go/types/typeutil"
-	"golang.org/x/tools/internal/astutil/cursor"
-	"golang.org/x/tools/internal/astutil/edge"
-	"golang.org/x/tools/internal/typesinternal"
+	"golanglang.org/x/tools/golang/ast/inspector"
+	"golanglang.org/x/tools/golang/types/typeutil"
+	"golanglang.org/x/tools/internal/astutil/cursor"
+	"golanglang.org/x/tools/internal/astutil/edge"
+	"golanglang.org/x/tools/internal/typesinternal"
 )
 
 // New constructs an Index for the package of type-annotated syntax

@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Parsing of Mach-O executables (OS X).
@@ -83,12 +83,12 @@ func (f *machoFile) pcln() (textStart uint64, symtab, pclntab []byte, err error)
 	if sect := f.macho.Section("__text"); sect != nil {
 		textStart = sect.Addr
 	}
-	if sect := f.macho.Section("__gosymtab"); sect != nil {
+	if sect := f.macho.Section("__golangsymtab"); sect != nil {
 		if symtab, err = sect.Data(); err != nil {
 			return 0, nil, nil, err
 		}
 	}
-	if sect := f.macho.Section("__gopclntab"); sect != nil {
+	if sect := f.macho.Section("__golangpclntab"); sect != nil {
 		if pclntab, err = sect.Data(); err != nil {
 			return 0, nil, nil, err
 		}
@@ -106,7 +106,7 @@ func (f *machoFile) text() (textStart uint64, text []byte, err error) {
 	return
 }
 
-func (f *machoFile) goarch() string {
+func (f *machoFile) golangarch() string {
 	switch f.macho.Cpu {
 	case macho.Cpu386:
 		return "386"

@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // issue 17381: make sure leave function with non-empty frame
@@ -38,7 +38,7 @@ func funcPC(f interface{}) uintptr {
 	return **(**uintptr)(unsafe.Pointer(uintptr(unsafe.Pointer(&f)) + unsafe.Sizeof(ptr)))
 }
 
-//go:noinline
+//golang:noinline
 func f() {
 	var t [1]int // non-empty frame
 	*(*int)(nil) = t[0]
@@ -46,7 +46,7 @@ func f() {
 
 var p = funcPC(runtime.GC) + 8
 
-//go:noinline
+//golang:noinline
 func prep() {
 	// put some garbage on stack
 	var x = [20]uintptr{p, p, p, p, p, p, p, p, p, p, p, p, p, p, p, p, p, p, p, p}

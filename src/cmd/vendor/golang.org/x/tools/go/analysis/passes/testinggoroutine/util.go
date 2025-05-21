@@ -1,16 +1,16 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-package testinggoroutine
+package testinggolangroutine
 
 import (
-	"go/ast"
-	"go/types"
+	"golang/ast"
+	"golang/types"
 	"slices"
 )
 
-// AST and types utilities that not specific to testinggoroutines.
+// AST and types utilities that not specific to testinggolangroutines.
 
 // localFunctionDecls returns a mapping from *types.Func to *ast.FuncDecl in files.
 func localFunctionDecls(info *types.Info, files []*ast.File) func(*types.Func) *ast.FuncDecl {

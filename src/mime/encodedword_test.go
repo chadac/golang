@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package mime
@@ -179,27 +179,27 @@ func TestCharsetDecoder(t *testing.T) {
 		dec := &WordDecoder{
 			CharsetReader: func(charset string, input io.Reader) (io.Reader, error) {
 				if charset != test.charsets[i] {
-					t.Errorf("DecodeHeader(%q), got charset %q, want %q", test.src, charset, test.charsets[i])
+					t.Errorf("DecodeHeader(%q), golangt charset %q, want %q", test.src, charset, test.charsets[i])
 				}
 				content, err := io.ReadAll(input)
 				if err != nil {
 					t.Errorf("DecodeHeader(%q), error in reader: %v", test.src, err)
 				}
-				got := string(content)
-				if got != test.content[i] {
-					t.Errorf("DecodeHeader(%q), got content %q, want %q", test.src, got, test.content[i])
+				golangt := string(content)
+				if golangt != test.content[i] {
+					t.Errorf("DecodeHeader(%q), golangt content %q, want %q", test.src, golangt, test.content[i])
 				}
 				i++
 
-				return strings.NewReader(got), nil
+				return strings.NewReader(golangt), nil
 			},
 		}
-		got, err := dec.DecodeHeader(test.src)
+		golangt, err := dec.DecodeHeader(test.src)
 		if err != nil {
 			t.Errorf("DecodeHeader(%q): %v", test.src, err)
 		}
-		if got != test.want {
-			t.Errorf("DecodeHeader(%q) = %q, want %q", test.src, got, test.want)
+		if golangt != test.want {
+			t.Errorf("DecodeHeader(%q) = %q, want %q", test.src, golangt, test.want)
 		}
 	}
 }

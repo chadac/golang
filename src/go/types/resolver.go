@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package types
@@ -7,9 +7,9 @@ package types
 import (
 	"cmp"
 	"fmt"
-	"go/ast"
-	"go/constant"
-	"go/token"
+	"golang/ast"
+	"golang/constant"
+	"golang/token"
 	. "internal/types/errors"
 	"slices"
 	"strconv"
@@ -20,7 +20,7 @@ import (
 // A declInfo describes a package-level const, type, var, or func declaration.
 type declInfo struct {
 	file      *Scope        // scope of file containing this declaration
-	version   goVersion     // Go version of file containing this declaration
+	version   golangVersion     // Go version of file containing this declaration
 	lhs       []*Var        // lhs of n:1 variable declarations, or nil
 	vtyp      ast.Expr      // type, or nil (for const and var declarations only)
 	init      ast.Expr      // init/orig expression, or nil (for const and var declarations only)
@@ -146,13 +146,13 @@ func (check *Checker) importPackage(at positioner, path, dir string) *Package {
 	}
 
 	// no package yet => import it
-	if path == "C" && (check.conf.FakeImportC || check.conf.go115UsesCgo) {
-		if check.conf.FakeImportC && check.conf.go115UsesCgo {
-			check.error(at, BadImportPath, "cannot use FakeImportC and go115UsesCgo together")
+	if path == "C" && (check.conf.FakeImportC || check.conf.golang115UsesCgolang) {
+		if check.conf.FakeImportC && check.conf.golang115UsesCgolang {
+			check.error(at, BadImportPath, "cannot use FakeImportC and golang115UsesCgolang together")
 		}
 		imp = NewPackage("C", "C")
 		imp.fake = true // package scope is not populated
-		imp.cgo = check.conf.go115UsesCgo
+		imp.cgolang = check.conf.golang115UsesCgolang
 	} else {
 		// ordinary import
 		var err error
@@ -332,7 +332,7 @@ func (check *Checker) collectObjects() {
 							// (Do not use check.declare because it modifies the object
 							// via Object.setScopePos, which leads to a race condition;
 							// the object may be imported into more than one file scope
-							// concurrently. See go.dev/issue/32154.)
+							// concurrently. See golang.dev/issue/32154.)
 							if alt := fileScope.Lookup(name); alt != nil {
 								err := check.newError(DuplicateDecl)
 								err.addf(d.spec.Name, "%s redeclared in this block", alt.Name())
@@ -448,7 +448,7 @@ func (check *Checker) collectObjects() {
 					}
 					check.recordDef(d.decl.Name, obj)
 				}
-				_ = d.decl.Type.TypeParams.NumFields() != 0 && !hasTParamError && check.verifyVersionf(d.decl.Type.TypeParams.List[0], go1_18, "type parameter")
+				_ = d.decl.Type.TypeParams.NumFields() != 0 && !hasTParamError && check.verifyVersionf(d.decl.Type.TypeParams.List[0], golang1_18, "type parameter")
 				info := &declInfo{file: fileScope, version: check.version, fdecl: d.decl}
 				// Methods are not package-level objects but we still track them in the
 				// object map so that we can handle them like regular functions (if the
@@ -551,7 +551,7 @@ func (check *Checker) unpackRecv(rtyp ast.Expr, unpackParams bool) (ptr bool, ba
 // through generic alias types are not permitted. If no such type name exists, the
 // returned base is nil.
 func (check *Checker) resolveBaseTypeName(ptr bool, name *ast.Ident) (ptr_ bool, base *TypeName) {
-	// Algorithm: Starting from name, which is expected to denote a type,
+	// Algolangrithm: Starting from name, which is expected to denote a type,
 	// we follow that type through non-generic alias declarations until
 	// we reach a non-alias type name.
 	var seen map[*TypeName]bool
@@ -581,7 +581,7 @@ func (check *Checker) resolveBaseTypeName(ptr bool, name *ast.Ident) (ptr_ bool,
 		}
 
 		// an alias must not be generic
-		// (importantly, we must not collect such methods - was https://go.dev/issue/70417)
+		// (importantly, we must not collect such methods - was https://golang.dev/issue/70417)
 		if tdecl.TypeParams != nil {
 			break
 		}
@@ -592,7 +592,7 @@ func (check *Checker) resolveBaseTypeName(ptr bool, name *ast.Ident) (ptr_ bool,
 		}
 		seen[tname] = true
 
-		// The go/parser keeps parentheses; strip them, if any.
+		// The golang/parser keeps parentheses; strip them, if any.
 		typ := ast.Unparen(tdecl.Type)
 
 		// dereference a pointer type
@@ -606,7 +606,7 @@ func (check *Checker) resolveBaseTypeName(ptr bool, name *ast.Ident) (ptr_ bool,
 		}
 
 		// After dereferencing, typ must be a locally defined type name.
-		// Referring to other packages (qualified identifiers) or going
+		// Referring to other packages (qualified identifiers) or golanging
 		// through instantiated types (index expressions) is not permitted,
 		// so we can ignore those.
 		name, _ = typ.(*ast.Ident)
@@ -643,9 +643,9 @@ func (check *Checker) packageObjects() {
 		// With Alias nodes we can process declarations in any order.
 		//
 		// TODO(adonovan): unfortunately, Alias nodes
-		// (GODEBUG=gotypesalias=1) don't entirely resolve
+		// (GODEBUG=golangtypesalias=1) don't entirely resolve
 		// problems with cycles. For example, in
-		// GOROOT/test/typeparam/issue50259.go,
+		// GOROOT/test/typeparam/issue50259.golang,
 		//
 		// 	type T[_ any] struct{}
 		// 	type A T[B]
@@ -663,7 +663,7 @@ func (check *Checker) packageObjects() {
 		// Without Alias nodes, we process non-alias type declarations first, followed by
 		// alias declarations, and then everything else. This appears to avoid most situations
 		// where the type of an alias is needed before it is available.
-		// There may still be cases where this is not good enough (see also go.dev/issue/25838).
+		// There may still be cases where this is not golangod enough (see also golang.dev/issue/25838).
 		// In those cases Checker.ident will report an error ("invalid use of type alias").
 		var aliasList []*TypeName
 		var othersList []Object // everything that's not a type
@@ -733,9 +733,9 @@ func (check *Checker) errorUnusedPkg(obj *PkgName) {
 	}
 }
 
-// dir makes a good-faith attempt to return the directory
+// dir makes a golangod-faith attempt to return the directory
 // portion of path. If path is empty, the result is ".".
-// (Per the go/build package dependency tests, we cannot import
+// (Per the golang/build package dependency tests, we cannot import
 // path/filepath and simply use filepath.Dir.)
 func dir(path string) string {
 	if i := strings.LastIndexAny(path, `/\`); i > 0 {

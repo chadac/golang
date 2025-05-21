@@ -6,7 +6,7 @@
 // #defines generating 8a assembly, and adjusted for 386,
 // by the Go Authors.
 
-//go:build !purego
+//golang:build !puregolang
 
 #include "textflag.h"
 

@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test control flow
@@ -34,10 +34,10 @@ func testPhiControl(t *testing.T) {
 	}
 	for _, test := range tests {
 		a, b := test[0], test[1]
-		got := nor_ssa(a, b)
+		golangt := nor_ssa(a, b)
 		want := test[2]
-		if want != got {
-			t.Errorf("nor(%t, %t)=%t got %t", a, b, want, got)
+		if want != golangt {
+			t.Errorf("nor(%t, %t)=%t golangt %t", a, b, want, golangt)
 		}
 	}
 }
@@ -95,16 +95,16 @@ func fallthrough_ssa(a int) int {
 
 func testFallthrough(t *testing.T) {
 	for i := 0; i < 6; i++ {
-		if got := fallthrough_ssa(i); got != i {
-			t.Errorf("fallthrough_ssa(i) = %d, wanted %d", got, i)
+		if golangt := fallthrough_ssa(i); golangt != i {
+			t.Errorf("fallthrough_ssa(i) = %d, wanted %d", golangt, i)
 		}
 	}
 }
 
 func testSwitch(t *testing.T) {
 	for i := 0; i < 6; i++ {
-		if got := switch_ssa(i); got != i {
-			t.Errorf("switch_ssa(i) = %d, wanted %d", got, i)
+		if golangt := switch_ssa(i); golangt != i {
+			t.Errorf("switch_ssa(i) = %d, wanted %d", golangt, i)
 		}
 	}
 }
@@ -116,7 +116,7 @@ type junk struct {
 // flagOverwrite_ssa is intended to reproduce an issue seen where a XOR
 // was scheduled between a compare and branch, clearing flags.
 //
-//go:noinline
+//golang:noinline
 func flagOverwrite_ssa(s *junk, c int) int {
 	if '0' <= c && c <= '9' {
 		s.step = 0
@@ -132,8 +132,8 @@ func flagOverwrite_ssa(s *junk, c int) int {
 
 func testFlagOverwrite(t *testing.T) {
 	j := junk{}
-	if got := flagOverwrite_ssa(&j, ' '); got != 3 {
-		t.Errorf("flagOverwrite_ssa = %d, wanted 3", got)
+	if golangt := flagOverwrite_ssa(&j, ' '); golangt != 3 {
+		t.Errorf("flagOverwrite_ssa = %d, wanted 3", golangt)
 	}
 }
 

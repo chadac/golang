@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Check that the compiler refuses excessively long constants.
@@ -20,7 +20,7 @@ import (
 	"strings"
 )
 
-// testProg creates a package called name, with path dir/name.go,
+// testProg creates a package called name, with path dir/name.golang,
 // which declares an untyped constant of the given length.
 // testProg compiles this package and checks for the absence or
 // presence of a constant literal error.
@@ -32,12 +32,12 @@ func testProg(dir, name string, length int, msg string) {
 		name, strings.Repeat("1", length), length,
 	)
 
-	filename := filepath.Join(dir, fmt.Sprintf("%s.go", name))
+	filename := filepath.Join(dir, fmt.Sprintf("%s.golang", name))
 	if err := os.WriteFile(filename, buf.Bytes(), 0666); err != nil {
 		log.Fatal(err)
 	}
 
-	cmd := exec.Command("go", "tool", "compile", "-p=p", filename)
+	cmd := exec.Command("golang", "tool", "compile", "-p=p", filename)
 	cmd.Dir = dir
 	output, err := cmd.CombinedOutput()
 

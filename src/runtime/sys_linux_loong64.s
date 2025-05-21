@@ -1,15 +1,15 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 //
 // System calls and other sys.stuff for loong64, Linux
 //
 
-#include "go_asm.h"
-#include "go_tls.h"
+#include "golang_asm.h"
+#include "golang_tls.h"
 #include "textflag.h"
-#include "cgo/abi_loong64.h"
+#include "cgolang/abi_loong64.h"
 
 #define AT_FDCWD	-100
 #define CLOCK_REALTIME	0
@@ -226,7 +226,7 @@ TEXT runtime·walltime<ABIInternal>(SB),NOSPLIT,$24
 	BNE	R4, R5, noswitch
 
 	MOVV	m_g0(R24), R4
-	MOVV	(g_sched+gobuf_sp)(R4), R25	// Set SP to g0 stack
+	MOVV	(g_sched+golangbuf_sp)(R4), R25	// Set SP to g0 stack
 
 noswitch:
 	SUBV	$16, R25
@@ -240,7 +240,7 @@ noswitch:
 	BEQ	R20, fallback
 
 	// Store g on gsignal's stack, see sys_linux_arm64.s for detail
-	MOVBU	runtime·iscgo(SB), R25
+	MOVBU	runtime·iscgolang(SB), R25
 	BNE	R25, nosaveg
 
 	MOVV	m_gsignal(R24), R25	// g.m.gsignal
@@ -304,7 +304,7 @@ TEXT runtime·nanotime1<ABIInternal>(SB),NOSPLIT,$24
 	BNE	R4, R5, noswitch
 
 	MOVV	m_g0(R24), R4
-	MOVV	(g_sched+gobuf_sp)(R4), R25	// Set SP to g0 stack
+	MOVV	(g_sched+golangbuf_sp)(R4), R25	// Set SP to g0 stack
 
 noswitch:
 	SUBV	$16, R25
@@ -318,7 +318,7 @@ noswitch:
 	BEQ	R20, fallback
 
 	// Store g on gsignal's stack, see sys_linux_arm64.s for detail
-	MOVBU	runtime·iscgo(SB), R25
+	MOVBU	runtime·iscgolang(SB), R25
 	BNE	R25, nosaveg
 
 	MOVV	m_gsignal(R24), R25	// g.m.gsignal
@@ -378,10 +378,10 @@ TEXT runtime·rt_sigaction<ABIInternal>(SB),NOSPLIT,$0
 	SYSCALL
 	RET
 
-// Call the function stored in _cgo_sigaction using the GCC calling convention.
-TEXT runtime·callCgoSigaction<ABIInternal>(SB),NOSPLIT,$0
+// Call the function stored in _cgolang_sigaction using the GCC calling convention.
+TEXT runtime·callCgolangSigaction<ABIInternal>(SB),NOSPLIT,$0
 	// R4: sig, R5: new, R6: old
-	MOVV    _cgo_sigaction(SB), R7
+	MOVV    _cgolang_sigaction(SB), R7
 	SUBV    $16, R3 // reserve 16 bytes for sp-8 where fp may be saved.
 	JAL     (R7)
 	ADDV    $16, R3
@@ -405,18 +405,18 @@ TEXT runtime·sigfwd<ABIInternal>(SB),NOSPLIT,$0
 // func sigtramp(signo, ureg, ctxt unsafe.Pointer)
 TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME,$168
 	// Save callee-save registers in the case of signal forwarding.
-	// Please refer to https://golang.org/issue/31827 .
+	// Please refer to https://golanglang.org/issue/31827 .
 	SAVE_R22_TO_R31((4*8))
 	SAVE_F24_TO_F31((14*8))
 
 	// this might be called in external code context,
 	// where g is not set.
-	MOVB	runtime·iscgo(SB), R7
+	MOVB	runtime·iscgolang(SB), R7
 	BEQ	R7, 2(PC)
 	JAL	runtime·load_g(SB)
 
 	// R5 and R6 already contain info and ctx, respectively.
-	MOVV	$runtime·sigtrampgo<ABIInternal>(SB), R7
+	MOVV	$runtime·sigtrampgolang<ABIInternal>(SB), R7
 	JAL	(R7)
 
 	// Restore callee-save registers.
@@ -440,7 +440,7 @@ TEXT runtime·sigprofNonGoWrapper<>(SB),NOSPLIT,$168
 	RET
 
 // Called from c-abi, R4: sig, R5: info, R6: cxt
-TEXT runtime·cgoSigtramp(SB),NOSPLIT|NOFRAME,$0
+TEXT runtime·cgolangSigtramp(SB),NOSPLIT|NOFRAME,$0
 	// The stack unwinder, presumably written in C, may not be able to
 	// handle Go frame correctly. So, this function is NOFRAME, and we
 	// save/restore LR manually.
@@ -451,40 +451,40 @@ TEXT runtime·cgoSigtramp(SB),NOSPLIT|NOFRAME,$0
 	MOVV	g, R14
 
 	// If no traceback function, do usual sigtramp.
-	MOVV	runtime·cgoTraceback(SB), R15
+	MOVV	runtime·cgolangTraceback(SB), R15
 	BEQ	R15, sigtramp
 
 	// If no traceback support function, which means that
-	// runtime/cgo was not linked in, do usual sigtramp.
-	MOVV	_cgo_callers(SB), R15
+	// runtime/cgolang was not linked in, do usual sigtramp.
+	MOVV	_cgolang_callers(SB), R15
 	BEQ	R15, sigtramp
 
-	// Figure out if we are currently in a cgo call.
+	// Figure out if we are currently in a cgolang call.
 	// If not, just do usual sigtramp.
 	CALL	runtime·load_g(SB)
 	BEQ	g, sigtrampnog // g == nil
 
 	MOVV	g_m(g), R15
 	BEQ	R15, sigtramp    // g.m == nil
-	MOVW	m_ncgo(R15), R16
-	BEQ	R16, sigtramp    // g.m.ncgo = 0
+	MOVW	m_ncgolang(R15), R16
+	BEQ	R16, sigtramp    // g.m.ncgolang = 0
 	MOVV	m_curg(R15), R16
 	BEQ	R16, sigtramp    // g.m.curg == nil
 	MOVV	g_syscallsp(R16), R17
 	BEQ     R17, sigtramp    // g.m.curg.syscallsp == 0
-	MOVV	m_cgoCallers(R15), R8 // R8 is the fifth arg in C calling convention.
-	BEQ	R8, sigtramp    // g.m.cgoCallers == nil
-	MOVW	m_cgoCallersUse(R15), R16
-	BNE	R16, sigtramp    // g.m.cgoCallersUse != 0
+	MOVV	m_cgolangCallers(R15), R8 // R8 is the fifth arg in C calling convention.
+	BEQ	R8, sigtramp    // g.m.cgolangCallers == nil
+	MOVW	m_cgolangCallersUse(R15), R16
+	BNE	R16, sigtramp    // g.m.cgolangCallersUse != 0
 
-	// Jump to a function in runtime/cgo.
+	// Jump to a function in runtime/cgolang.
 	// That function, written in C, will call the user's traceback
 	// function with proper unwind info, and will then call back here.
 	// The first three arguments, and the fifth, are already in registers.
 	// Set the two remaining arguments now.
-	MOVV	runtime·cgoTraceback(SB), R7
+	MOVV	runtime·cgolangTraceback(SB), R7
 	MOVV	$runtime·sigtramp(SB), R9
-	MOVV	_cgo_callers(SB), R15
+	MOVV	_cgolang_callers(SB), R15
 	MOVV	R12, R1 // restore
 	MOVV	R13, R30
 	MOVV	R14, g
@@ -512,14 +512,14 @@ cas_again:
 	BEQ	R15, cas_again
 	DBAR    $0x14
 
-	// Jump to the traceback function in runtime/cgo.
+	// Jump to the traceback function in runtime/cgolang.
 	// It will call back to sigprofNonGo, which will ignore the
 	// arguments passed in registers.
 	// First three arguments to traceback function are in registers already.
-	MOVV	runtime·cgoTraceback(SB), R7
+	MOVV	runtime·cgolangTraceback(SB), R7
 	MOVV	$runtime·sigprofCallers(SB), R8
 	MOVV	$runtime·sigprofNonGoWrapper<>(SB), R9
-	MOVV	_cgo_callers(SB), R15
+	MOVV	_cgolang_callers(SB), R15
 	MOVV	R12, R1 // restore
 	MOVV	R13, R30
 	MOVV	R14, g
@@ -542,11 +542,11 @@ ok:
 	MOVV	$0, R5
 	RET
 
-// Call the function stored in _cgo_mmap using the GCC calling convention.
+// Call the function stored in _cgolang_mmap using the GCC calling convention.
 // This must be called on the system stack.
-// func callCgoMmap(addr unsafe.Pointer, n uintptr, prot, flags, fd int32, off uint32) uintptr
-TEXT runtime·callCgoMmap<ABIInternal>(SB),NOSPLIT,$0
-	MOVV	_cgo_mmap(SB), R13
+// func callCgolangMmap(addr unsafe.Pointer, n uintptr, prot, flags, fd int32, off uint32) uintptr
+TEXT runtime·callCgolangMmap<ABIInternal>(SB),NOSPLIT,$0
+	MOVV	_cgolang_mmap(SB), R13
 	SUBV	$16, R3		// reserve 16 bytes for sp-8 where fp may be saved.
 	JAL	(R13)
 	ADDV	$16, R3
@@ -562,11 +562,11 @@ TEXT runtime·sysMunmap<ABIInternal>(SB),NOSPLIT,$0
 	MOVV	R0, 0xf3(R0)	// crash
 	RET
 
-// Call the function stored in _cgo_munmap using the GCC calling convention.
+// Call the function stored in _cgolang_munmap using the GCC calling convention.
 // This must be called on the system stack.
-// func callCgoMunmap(addr unsafe.Pointer, n uintptr)
-TEXT runtime·callCgoMunmap<ABIInternal>(SB),NOSPLIT,$0
-	MOVV	_cgo_munmap(SB), R13
+// func callCgolangMunmap(addr unsafe.Pointer, n uintptr)
+TEXT runtime·callCgolangMunmap<ABIInternal>(SB),NOSPLIT,$0
+	MOVV	_cgolang_munmap(SB), R13
 	SUBV	$16, R3		// reserve 16 bytes for sp-8 where fp may be saved.
 	JAL	(R13)
 	ADDV	$16, R3
@@ -670,19 +670,19 @@ TEXT runtime·sbrk0<ABIInternal>(SB),NOSPLIT,$0
 	SYSCALL
 	RET
 
-// unimplemented, only needed for android; declared in stubs_linux.go
+// unimplemented, only needed for android; declared in stubs_linux.golang
 TEXT runtime·access(SB),$0-20
 	MOVV	R0, 2(R0)
 	MOVW	R0, ret+16(FP) // for vet
 	RET
 
-// unimplemented, only needed for android; declared in stubs_linux.go
+// unimplemented, only needed for android; declared in stubs_linux.golang
 TEXT runtime·connect(SB),$0-28
 	MOVV	R0, 2(R0)
 	MOVW	R0, ret+24(FP) // for vet
 	RET
 
-// unimplemented, only needed for android; declared in stubs_linux.go
+// unimplemented, only needed for android; declared in stubs_linux.golang
 TEXT runtime·socket(SB),$0-20
 	MOVV	R0, 2(R0)
 	MOVW	R0, ret+16(FP) // for vet
@@ -706,7 +706,7 @@ TEXT runtime·vgetrandom1<ABIInternal>(SB),NOSPLIT,$16
 
 	AND	$~15, R3
 
-	MOVBU	runtime·iscgo(SB), R13
+	MOVBU	runtime·iscgolang(SB), R13
 	BNE	R13, nosaveg
 	MOVV	m_gsignal(R24), R13
 	BEQ	R13, nosaveg
@@ -728,5 +728,5 @@ restore:
 	MOVV	R25, m_vdsoSP(R24)
 	MOVV	8(R3), R25
 	MOVV	R25, m_vdsoPC(R24)
-	NOP	R4 // Satisfy go vet, since the return value comes from the vDSO function.
+	NOP	R4 // Satisfy golang vet, since the return value comes from the vDSO function.
 	RET

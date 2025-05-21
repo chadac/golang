@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package poll_test
@@ -63,7 +63,7 @@ func TestMutexCloseUnblock(t *testing.T) {
 	var mu XFDMutex
 	mu.RWLock(true)
 	for i := 0; i < 4; i++ {
-		go func() {
+		golang func() {
 			if mu.RWLock(true) {
 				t.Error("broken")
 				return
@@ -71,7 +71,7 @@ func TestMutexCloseUnblock(t *testing.T) {
 			c <- true
 		}()
 	}
-	// Concurrent goroutines must not be able to read lock the mutex.
+	// Concurrent golangroutines must not be able to read lock the mutex.
 	time.Sleep(time.Millisecond)
 	select {
 	case <-c:
@@ -156,7 +156,7 @@ func TestMutexStress(t *testing.T) {
 	var readState [2]uint64
 	var writeState [2]uint64
 	for p := 0; p < P; p++ {
-		go func() {
+		golang func() {
 			defer func() {
 				done <- !t.Failed()
 			}()

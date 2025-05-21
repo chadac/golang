@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test that zero division causes a panic.
@@ -46,7 +46,7 @@ var (
 	c128, d128, e128 complex128 = 0 + 0i, 0 + 0i, 1 + 1i
 )
 
-// Fool gccgo into thinking that these variables can change.
+// Fool gccgolang into thinking that these variables can change.
 func NotCalled() {
 	i++
 	j++
@@ -210,20 +210,20 @@ func main() {
 				bad = true
 				fmt.Printf("BUG\n")
 			}
-			fmt.Printf("%s: expected %q; got no error\n", t.name, t.err)
+			fmt.Printf("%s: expected %q; golangt no error\n", t.name, t.err)
 		case t.err == "" && err != "":
 			if !bad {
 				bad = true
 				fmt.Printf("BUG\n")
 			}
-			fmt.Printf("%s: expected no error; got %q\n", t.name, err)
+			fmt.Printf("%s: expected no error; golangt %q\n", t.name, err)
 		case t.err != "" && err != "":
 			if !strings.Contains(err, t.err) {
 				if !bad {
 					bad = true
 					fmt.Printf("BUG\n")
 				}
-				fmt.Printf("%s: expected %q; got %q\n", t.name, t.err, err)
+				fmt.Printf("%s: expected %q; golangt %q\n", t.name, t.err, err)
 				continue
 			}
 		}
@@ -237,7 +237,7 @@ func main() {
 				bad = true
 				fmt.Printf("BUG\n")
 			}
-			fmt.Printf("%v/%v: expected %g error; got %g\n", t.f, t.g, t.out, x)
+			fmt.Printf("%v/%v: expected %g error; golangt %g\n", t.f, t.g, t.out, x)
 		}
 	}
 	if bad {

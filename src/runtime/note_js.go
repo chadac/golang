@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
@@ -17,9 +17,9 @@ package runtime
 //
 // notetsleep is like notesleep but wakes up after
 // a given number of nanoseconds even if the event
-// has not yet happened.  if a goroutine uses notetsleep to
+// has not yet happened.  if a golangroutine uses notetsleep to
 // wake up early, it must wait to call noteclear until it
-// can be sure that no other goroutine is calling
+// can be sure that no other golangroutine is calling
 // notewakeup.
 //
 // notesleep/notetsleep are generally called on g0,

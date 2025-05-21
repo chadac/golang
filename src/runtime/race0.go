@@ -1,8 +1,8 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !race
+//golang:build !race
 
 // Dummy race detection API, used when not built with -race.
 
@@ -36,10 +36,10 @@ func racereleaseacquire(addr unsafe.Pointer)                                { th
 func racereleaseacquireg(gp *g, addr unsafe.Pointer)                        { throw("race") }
 func racereleasemerge(addr unsafe.Pointer)                                  { throw("race") }
 func racereleasemergeg(gp *g, addr unsafe.Pointer)                          { throw("race") }
-func racefingo()                                                            { throw("race") }
+func racefingolang()                                                            { throw("race") }
 func racemalloc(p unsafe.Pointer, sz uintptr)                               { throw("race") }
 func racefree(p unsafe.Pointer, sz uintptr)                                 { throw("race") }
-func racegostart(pc uintptr) uintptr                                        { throw("race"); return 0 }
-func racegoend()                                                            { throw("race") }
+func racegolangstart(pc uintptr) uintptr                                        { throw("race"); return 0 }
+func racegolangend()                                                            { throw("race") }
 func racectxstart(spawnctx, racectx uintptr) uintptr                        { throw("race"); return 0 }
 func racectxend(racectx uintptr)                                            { throw("race") }

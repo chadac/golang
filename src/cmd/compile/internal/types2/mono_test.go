@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package types2_test
@@ -28,8 +28,8 @@ func checkMono(t *testing.T, body string) error {
 }
 
 func TestMonoGood(t *testing.T) {
-	for i, good := range goods {
-		if err := checkMono(t, good); err != nil {
+	for i, golangod := range golangods {
+		if err := checkMono(t, golangod); err != nil {
 			t.Errorf("%d: unexpected failure: %v", i, err)
 		}
 	}
@@ -45,7 +45,7 @@ func TestMonoBad(t *testing.T) {
 	}
 }
 
-var goods = []string{
+var golangods = []string{
 	"func F[T any](x T) { F(x) }",
 	"func F[T, U, V any]() { F[U, V, T](); F[V, T, U]() }",
 	"type Ring[A, B, C any] struct { L *Ring[B, C, A]; R *Ring[C, A, B] }",

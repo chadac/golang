@@ -1,14 +1,14 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build linux && loong64
+//golang:build linux && loong64
 
 package runtime
 
 import (
 	"internal/abi"
-	"internal/goarch"
+	"internal/golangarch"
 	"unsafe"
 )
 
@@ -49,8 +49,8 @@ func dumpregs(c *sigctxt) {
 	print("link ", hex(c.link()), "\n")
 }
 
-//go:nosplit
-//go:nowritebarrierrec
+//golang:nosplit
+//golang:nowritebarrierrec
 func (c *sigctxt) sigpc() uintptr { return uintptr(c.pc()) }
 
 func (c *sigctxt) setsigpc(x uint64) { c.set_pc(x) }
@@ -64,9 +64,9 @@ func (c *sigctxt) preparePanic(sig uint32, gp *g) {
 	// function calls sigpanic directly.
 	// Always save LINK to stack so that panics in leaf
 	// functions are correctly handled. This smashes
-	// the stack frame but we're not going back there
+	// the stack frame but we're not golanging back there
 	// anyway.
-	sp := c.sp() - goarch.PtrSize
+	sp := c.sp() - golangarch.PtrSize
 	c.set_sp(sp)
 	*(*uint64)(unsafe.Pointer(uintptr(sp))) = c.link()
 

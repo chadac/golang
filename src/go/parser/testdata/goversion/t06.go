@@ -1,3 +1,3 @@
-//go:build go1
+//golang:build golang1
 
-package go1
+package golang1

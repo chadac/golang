@@ -1,8 +1,8 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Package vet implements the “go vet” command.
+// Package vet implements the “golang vet” command.
 package vet
 
 import (
@@ -10,12 +10,12 @@ import (
 	"fmt"
 	"path/filepath"
 
-	"cmd/go/internal/base"
-	"cmd/go/internal/cfg"
-	"cmd/go/internal/load"
-	"cmd/go/internal/modload"
-	"cmd/go/internal/trace"
-	"cmd/go/internal/work"
+	"cmd/golang/internal/base"
+	"cmd/golang/internal/cfg"
+	"cmd/golang/internal/load"
+	"cmd/golang/internal/modload"
+	"cmd/golang/internal/trace"
+	"cmd/golang/internal/work"
 )
 
 // Break init loop.
@@ -25,28 +25,28 @@ func init() {
 
 var CmdVet = &base.Command{
 	CustomFlags: true,
-	UsageLine:   "go vet [build flags] [-vettool prog] [vet flags] [packages]",
+	UsageLine:   "golang vet [build flags] [-vettool prog] [vet flags] [packages]",
 	Short:       "report likely mistakes in packages",
 	Long: `
 Vet runs the Go vet command on the packages named by the import paths.
 
-For more about vet and its flags, see 'go doc cmd/vet'.
-For more about specifying packages, see 'go help packages'.
-For a list of checkers and their flags, see 'go tool vet help'.
-For details of a specific checker such as 'printf', see 'go tool vet help printf'.
+For more about vet and its flags, see 'golang doc cmd/vet'.
+For more about specifying packages, see 'golang help packages'.
+For a list of checkers and their flags, see 'golang tool vet help'.
+For details of a specific checker such as 'printf', see 'golang tool vet help printf'.
 
 The -vettool=prog flag selects a different analysis tool with alternative
 or additional checks.
 For example, the 'shadow' analyzer can be built and run using these commands:
 
-  go install golang.org/x/tools/go/analysis/passes/shadow/cmd/shadow@latest
-  go vet -vettool=$(which shadow)
+  golang install golanglang.org/x/tools/golang/analysis/passes/shadow/cmd/shadow@latest
+  golang vet -vettool=$(which shadow)
 
-The build flags supported by go vet are those that control package resolution
+The build flags supported by golang vet are those that control package resolution
 and execution, such as -C, -n, -x, -v, -tags, and -toolexec.
-For more about these flags, see 'go help build'.
+For more about these flags, see 'golang help build'.
 
-See also: go fmt, go fix.
+See also: golang fmt, golang fix.
 	`,
 }
 
@@ -98,18 +98,18 @@ func runVet(ctx context.Context, cmd *base.Command, args []string) {
 		}
 	}()
 
-	root := &work.Action{Mode: "go vet"}
+	root := &work.Action{Mode: "golang vet"}
 	for _, p := range pkgs {
 		_, ptest, pxtest, perr := load.TestPackagesFor(ctx, pkgOpts, p, nil)
 		if perr != nil {
 			base.Errorf("%v", perr.Error)
 			continue
 		}
-		if len(ptest.GoFiles) == 0 && len(ptest.CgoFiles) == 0 && pxtest == nil {
-			base.Errorf("go: can't vet %s: no Go files in %s", p.ImportPath, p.Dir)
+		if len(ptest.GoFiles) == 0 && len(ptest.CgolangFiles) == 0 && pxtest == nil {
+			base.Errorf("golang: can't vet %s: no Go files in %s", p.ImportPath, p.Dir)
 			continue
 		}
-		if len(ptest.GoFiles) > 0 || len(ptest.CgoFiles) > 0 {
+		if len(ptest.GoFiles) > 0 || len(ptest.CgolangFiles) > 0 {
 			root.Deps = append(root.Deps, b.VetAction(work.ModeBuild, work.ModeBuild, ptest))
 		}
 		if pxtest != nil {

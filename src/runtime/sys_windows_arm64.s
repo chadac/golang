@@ -1,13 +1,13 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-#include "go_asm.h"
-#include "go_tls.h"
+#include "golang_asm.h"
+#include "golang_tls.h"
 #include "textflag.h"
 #include "funcdata.h"
 #include "time_windows.h"
-#include "cgo/abi_arm64.h"
+#include "cgolang/abi_arm64.h"
 
 // Offsets into Thread Environment Block (pointer in R18)
 #define TEB_error 0x68
@@ -110,7 +110,7 @@ TEXT runtime·getlasterror(SB),NOSPLIT,$0
 // R0 is pointer to struct containing
 // exception record and context pointers.
 // R1 is the kind of sigtramp function.
-// Return value of sigtrampgo is stored in R0.
+// Return value of sigtrampgolang is stored in R0.
 TEXT sigtramp<>(SB),NOSPLIT,$176
 	// Switch from the host ABI to the Go ABI, safe args and lr.
 	MOVD	R0, R5
@@ -124,7 +124,7 @@ TEXT sigtramp<>(SB),NOSPLIT,$176
 	MOVD	R5, R0
 	MOVD	R6, R1
 	// Calling ABIInternal because TLS might be nil.
-	BL	runtime·sigtrampgo<ABIInternal>(SB)
+	BL	runtime·sigtrampgolang<ABIInternal>(SB)
 	// Return value is already stored in R0.
 
 	// Restore callee-save registers.
@@ -136,7 +136,7 @@ TEXT sigtramp<>(SB),NOSPLIT,$176
 // Trampoline to resume execution from exception handler.
 // This is part of the control flow guard workaround.
 // It switches stacks and jumps to the continuation address.
-// R0 and R1 are set above at the end of sigtrampgo
+// R0 and R1 are set above at the end of sigtrampgolang
 // in the context that starts executing at sigresume.
 TEXT runtime·sigresume(SB),NOSPLIT|NOFRAME,$0
 	// Important: do not smash LR,
@@ -187,13 +187,13 @@ TEXT runtime·callbackasm1(SB),NOSPLIT,$208-0
 	MOVD	$0, R0
 	MOVD	R0, callbackArgs_result(R13)	// result
 
-	// Call cgocallback, which will call callbackWrap(frame).
-	MOVD	$·callbackWrap<ABIInternal>(SB), R0	// PC of function to call, cgocallback takes an ABIInternal entry-point
+	// Call cgolangcallback, which will call callbackWrap(frame).
+	MOVD	$·callbackWrap<ABIInternal>(SB), R0	// PC of function to call, cgolangcallback takes an ABIInternal entry-point
 	MOVD	R13, R1	// frame (&callbackArgs{...})
 	MOVD	$0, R2	// context
 	STP	(R0, R1), (1*8)(RSP)
 	MOVD	R2, (3*8)(RSP)
-	BL	runtime·cgocallback(SB)
+	BL	runtime·cgolangcallback(SB)
 
 	// Get callback result.
 	MOVD	$cbargs-(18*8+callbackArgs__size)(SP), R13
@@ -236,7 +236,7 @@ TEXT runtime·nanotime1(SB),NOSPLIT,$0-8
 	MOVD	R0, ret+0(FP)
 	RET
 
-// This is called from rt0_go, which runs on the system stack
+// This is called from rt0_golang, which runs on the system stack
 // using the initial stack allocated by the OS.
 // It calls back into standard C using the BL below.
 TEXT runtime·wintls(SB),NOSPLIT,$0
@@ -250,7 +250,7 @@ TEXT runtime·wintls(SB),NOSPLIT,$0
 	CMP	$64, R0
 	BLT	ok
 	// Fallback to the TEB arbitrary pointer.
-	// TODO: don't use the arbitrary pointer (see go.dev/issue/59824)
+	// TODO: don't use the arbitrary pointer (see golang.dev/issue/59824)
 	MOVD	$TEB_ArbitraryPtr, R0
 	B	settls
 ok:

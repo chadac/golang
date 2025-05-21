@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package upload
@@ -13,7 +13,7 @@ import (
 	"strings"
 	"time"
 
-	"golang.org/x/telemetry/internal/telemetry"
+	"golanglang.org/x/telemetry/internal/telemetry"
 )
 
 var (
@@ -40,7 +40,7 @@ func (u *uploader) uploadReportDate(fname string) time.Time {
 
 func (u *uploader) uploadReport(fname string) {
 	thisInstant := u.startTime
-	// TODO(rfindley): use uploadReportDate here, once we've done a gopls release.
+	// TODO(rfindley): use uploadReportDate here, once we've done a golangpls release.
 
 	// first make sure it is not in the future
 	today := thisInstant.Format(telemetry.DateOnly)

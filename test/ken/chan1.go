@@ -1,17 +1,17 @@
 // run
 
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Test communication with multiple simultaneous goroutines.
+// Test communication with multiple simultaneous golangroutines.
 
 package main
 
 import "runtime"
 
 const N = 1000 // sent messages
-const M = 10   // receiving goroutines
+const M = 10   // receiving golangroutines
 const W = 2    // channel buffering
 var h [N]int   // marking of send/recv
 
@@ -46,7 +46,7 @@ func s(c chan int) {
 func main() {
 	c := make(chan int, W)
 	for m := 0; m < M; m++ {
-		go r(c, m)
+		golang r(c, m)
 		runtime.Gosched()
 	}
 	runtime.Gosched()

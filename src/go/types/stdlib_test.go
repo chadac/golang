@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file tests types.Check by using it to
@@ -10,12 +10,12 @@ package types_test
 import (
 	"errors"
 	"fmt"
-	"go/ast"
-	"go/build"
-	"go/importer"
-	"go/parser"
-	"go/scanner"
-	"go/token"
+	"golang/ast"
+	"golang/build"
+	"golang/importer"
+	"golang/parser"
+	"golang/scanner"
+	"golang/token"
 	"internal/testenv"
 	"os"
 	"path/filepath"
@@ -26,14 +26,14 @@ import (
 	"testing"
 	"time"
 
-	. "go/types"
+	. "golang/types"
 )
 
 // The cmd/*/internal packages may have been deleted as part of a binary
 // release. Import from source instead.
 //
-// (See https://golang.org/issue/43232 and
-// https://github.com/golang/build/blob/df58bbac082bc87c4a3cdfe336d1ffe60bbaa916/cmd/release/release.go#L533-L545.)
+// (See https://golanglang.org/issue/43232 and
+// https://github.com/golanglang/build/blob/df58bbac082bc87c4a3cdfe336d1ffe60bbaa916/cmd/release/release.golang#L533-L545.)
 //
 // Use the same importer for all std lib tests to
 // avoid repeated importing of the same packages.
@@ -65,7 +65,7 @@ func TestStdlib(t *testing.T) {
 	// This doesn't achieve great CPU utilization as many packages may block
 	// waiting for a common import, but in combination with the non-deterministic
 	// map iteration below this should provide decent coverage of concurrent
-	// type-checking (see golang/go#47729).
+	// type-checking (see golanglang/golang#47729).
 	cpulimit := make(chan struct{}, runtime.GOMAXPROCS(0))
 	var wg sync.WaitGroup
 
@@ -74,7 +74,7 @@ func TestStdlib(t *testing.T) {
 
 		cpulimit <- struct{}{}
 		wg.Add(1)
-		go func() {
+		golang func() {
 			defer func() {
 				wg.Done()
 				<-cpulimit
@@ -136,7 +136,7 @@ func (c *stdlibChecker) ImportFrom(path, dir string, _ ImportMode) (*Package, er
 
 // getDirPackage gets the package defined in dir from the future cache.
 //
-// If this is the first goroutine requesting the package, getDirPackage
+// If this is the first golangroutine requesting the package, getDirPackage
 // type-checks.
 func (c *stdlibChecker) getDirPackage(dir string) (*Package, error) {
 	c.mu.Lock()
@@ -193,7 +193,7 @@ func firstComment(filename string) string {
 				lit = lit[:len(lit)-2]
 			}
 			contents := strings.TrimSpace(lit[2:])
-			if strings.HasPrefix(contents, "go:build ") {
+			if strings.HasPrefix(contents, "golang:build ") {
 				return "skip"
 			}
 			if first == "" {
@@ -229,16 +229,16 @@ func testTestDir(t *testing.T, path string, ignore ...string) {
 	fset := token.NewFileSet()
 	for _, f := range files {
 		// filter directory contents
-		if f.IsDir() || !strings.HasSuffix(f.Name(), ".go") || excluded[f.Name()] {
+		if f.IsDir() || !strings.HasSuffix(f.Name(), ".golang") || excluded[f.Name()] {
 			continue
 		}
 
 		// get per-file instructions
 		expectErrors := false
 		filename := filepath.Join(path, f.Name())
-		goVersion := ""
+		golangVersion := ""
 		if comment := firstComment(filename); comment != "" {
-			if strings.Contains(comment, "-goexperiment") {
+			if strings.Contains(comment, "-golangexperiment") {
 				continue // ignore this file
 			}
 			fields := strings.Fields(comment)
@@ -258,7 +258,7 @@ func testTestDir(t *testing.T, path string, ignore ...string) {
 					}
 					const prefix = "-lang="
 					if strings.HasPrefix(arg, prefix) {
-						goVersion = arg[len(prefix):]
+						golangVersion = arg[len(prefix):]
 					}
 				}
 			}
@@ -268,7 +268,7 @@ func testTestDir(t *testing.T, path string, ignore ...string) {
 		file, err := parser.ParseFile(fset, filename, nil, 0)
 		if err == nil {
 			conf := Config{
-				GoVersion: goVersion,
+				GoVersion: golangVersion,
 				Importer:  stdLibImporter,
 			}
 			_, err = conf.Check(filename, fset, []*ast.File{file}, nil)
@@ -294,13 +294,13 @@ func TestStdTest(t *testing.T) {
 	}
 
 	testTestDir(t, filepath.Join(testenv.GOROOT(t), "test"),
-		"cmplxdivide.go", // also needs file cmplxdivide1.go - ignore
-		"directive.go",   // tests compiler rejection of bad directive placement - ignore
-		"directive2.go",  // tests compiler rejection of bad directive placement - ignore
-		"embedfunc.go",   // tests //go:embed
-		"embedvers.go",   // tests //go:embed
-		"linkname2.go",   // go/types doesn't check validity of //go:xxx directives
-		"linkname3.go",   // go/types doesn't check validity of //go:xxx directives
+		"cmplxdivide.golang", // also needs file cmplxdivide1.golang - ignore
+		"directive.golang",   // tests compiler rejection of bad directive placement - ignore
+		"directive2.golang",  // tests compiler rejection of bad directive placement - ignore
+		"embedfunc.golang",   // tests //golang:embed
+		"embedvers.golang",   // tests //golang:embed
+		"linkname2.golang",   // golang/types doesn't check validity of //golang:xxx directives
+		"linkname3.golang",   // golang/types doesn't check validity of //golang:xxx directives
 	)
 }
 
@@ -312,39 +312,39 @@ func TestStdFixed(t *testing.T) {
 	}
 
 	testTestDir(t, filepath.Join(testenv.GOROOT(t), "test", "fixedbugs"),
-		"bug248.go", "bug302.go", "bug369.go", // complex test instructions - ignore
-		"bug398.go",      // go/types doesn't check for anonymous interface cycles (go.dev/issue/56103)
-		"issue6889.go",   // gc-specific test
-		"issue11362.go",  // canonical import path check
-		"issue16369.go",  // go/types handles this correctly - not an issue
-		"issue18459.go",  // go/types doesn't check validity of //go:xxx directives
-		"issue18882.go",  // go/types doesn't check validity of //go:xxx directives
-		"issue20027.go",  // go/types does not have constraints on channel element size
-		"issue20529.go",  // go/types does not have constraints on stack size
-		"issue22200.go",  // go/types does not have constraints on stack size
-		"issue22200b.go", // go/types does not have constraints on stack size
-		"issue25507.go",  // go/types does not have constraints on stack size
-		"issue20780.go",  // go/types does not have constraints on stack size
-		"bug251.go",      // go.dev/issue/34333 which was exposed with fix for go.dev/issue/34151
-		"issue42058a.go", // go/types does not have constraints on channel element size
-		"issue42058b.go", // go/types does not have constraints on channel element size
-		"issue48097.go",  // go/types doesn't check validity of //go:xxx directives, and non-init bodyless function
-		"issue48230.go",  // go/types doesn't check validity of //go:xxx directives
-		"issue49767.go",  // go/types does not have constraints on channel element size
-		"issue49814.go",  // go/types does not have constraints on array size
-		"issue56103.go",  // anonymous interface cycles; will be a type checker error in 1.22
-		"issue52697.go",  // go/types does not have constraints on stack size
+		"bug248.golang", "bug302.golang", "bug369.golang", // complex test instructions - ignore
+		"bug398.golang",      // golang/types doesn't check for anonymous interface cycles (golang.dev/issue/56103)
+		"issue6889.golang",   // gc-specific test
+		"issue11362.golang",  // canonical import path check
+		"issue16369.golang",  // golang/types handles this correctly - not an issue
+		"issue18459.golang",  // golang/types doesn't check validity of //golang:xxx directives
+		"issue18882.golang",  // golang/types doesn't check validity of //golang:xxx directives
+		"issue20027.golang",  // golang/types does not have constraints on channel element size
+		"issue20529.golang",  // golang/types does not have constraints on stack size
+		"issue22200.golang",  // golang/types does not have constraints on stack size
+		"issue22200b.golang", // golang/types does not have constraints on stack size
+		"issue25507.golang",  // golang/types does not have constraints on stack size
+		"issue20780.golang",  // golang/types does not have constraints on stack size
+		"bug251.golang",      // golang.dev/issue/34333 which was exposed with fix for golang.dev/issue/34151
+		"issue42058a.golang", // golang/types does not have constraints on channel element size
+		"issue42058b.golang", // golang/types does not have constraints on channel element size
+		"issue48097.golang",  // golang/types doesn't check validity of //golang:xxx directives, and non-init bodyless function
+		"issue48230.golang",  // golang/types doesn't check validity of //golang:xxx directives
+		"issue49767.golang",  // golang/types does not have constraints on channel element size
+		"issue49814.golang",  // golang/types does not have constraints on array size
+		"issue56103.golang",  // anonymous interface cycles; will be a type checker error in 1.22
+		"issue52697.golang",  // golang/types does not have constraints on stack size
 
-		// These tests requires runtime/cgo.Incomplete, which is only available on some platforms.
-		// However, go/types does not know about build constraints.
-		"bug514.go",
-		"issue40954.go",
-		"issue42032.go",
-		"issue42076.go",
-		"issue46903.go",
-		"issue51733.go",
-		"notinheap2.go",
-		"notinheap3.go",
+		// These tests requires runtime/cgolang.Incomplete, which is only available on some platforms.
+		// However, golang/types does not know about build constraints.
+		"bug514.golang",
+		"issue40954.golang",
+		"issue42032.golang",
+		"issue42076.golang",
+		"issue46903.golang",
+		"issue51733.golang",
+		"notinheap2.golang",
+		"notinheap3.golang",
 	)
 }
 
@@ -428,11 +428,11 @@ func typecheckFiles(path string, filenames []string, importer Importer) (*Packag
 // pkgFilenames returns the list of package filenames for the given directory.
 func pkgFilenames(dir string, includeTest bool) ([]string, error) {
 	ctxt := build.Default
-	ctxt.CgoEnabled = false
+	ctxt.CgolangEnabled = false
 	pkg, err := ctxt.ImportDir(dir, 0)
 	if err != nil {
-		if _, nogo := err.(*build.NoGoError); nogo {
-			return nil, nil // no *.go files, not an error
+		if _, nogolang := err.(*build.NoGoError); nogolang {
+			return nil, nil // no *.golang files, not an error
 		}
 		return nil, err
 	}
@@ -441,7 +441,7 @@ func pkgFilenames(dir string, includeTest bool) ([]string, error) {
 	}
 	if slices.Contains(strings.Split(pkg.ImportPath, "/"), "_asm") {
 		// Submodules where not all dependencies are available.
-		// See go.dev/issue/46027.
+		// See golang.dev/issue/46027.
 		return nil, nil
 	}
 	var filenames []string

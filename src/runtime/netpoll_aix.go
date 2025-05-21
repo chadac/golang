@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
@@ -9,16 +9,16 @@ import (
 	"unsafe"
 )
 
-// This is based on the former libgo/runtime/netpoll_select.c implementation
+// This is based on the former libgolang/runtime/netpoll_select.c implementation
 // except that it uses poll instead of select and is written in Go.
 // It's also based on Solaris implementation for the arming mechanisms
 
-//go:cgo_import_dynamic libc_poll poll "libc.a/shr_64.o"
-//go:linkname libc_poll libc_poll
+//golang:cgolang_import_dynamic libc_poll poll "libc.a/shr_64.o"
+//golang:linkname libc_poll libc_poll
 
 var libc_poll libFunc
 
-//go:nosplit
+//golang:nosplit
 func poll(pfds *pollfd, npfds uintptr, timeout uintptr) (int32, int32) {
 	r, err := syscall3(&libc_poll, uintptr(unsafe.Pointer(pfds)), npfds, timeout)
 	return int32(r), int32(err)
@@ -148,7 +148,7 @@ func netpollBreak() {
 }
 
 // netpoll checks for ready network connections.
-// Returns a list of goroutines that become runnable,
+// Returns a list of golangroutines that become runnable,
 // and a delta to add to netpollWaiters.
 // This must never return an empty list with a non-zero delta.
 //
@@ -156,7 +156,7 @@ func netpollBreak() {
 // delay == 0: does not block, just polls
 // delay > 0: block for up to that many nanoseconds
 //
-//go:nowritebarrierrec
+//golang:nowritebarrierrec
 func netpoll(delay int64) (gList, int32) {
 	var timeout uintptr
 	if delay < 0 {
@@ -191,7 +191,7 @@ retry:
 		if timeout > 0 {
 			return gList{}, 0
 		}
-		goto retry
+		golangto retry
 	}
 	// Check if some descriptors need to be changed
 	if n != 0 && pfds[0].revents&(_POLLIN|_POLLHUP|_POLLERR) != 0 {

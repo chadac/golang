@@ -1,15 +1,15 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build unix || wasip1
+//golang:build unix || wasip1
 
 package net
 
 import "syscall"
 
 // concurrentThreadsLimit returns the number of threads we permit to
-// run concurrently doing DNS lookups via cgo. A DNS lookup may use a
+// run concurrently doing DNS lookups via cgolang. A DNS lookup may use a
 // file descriptor so we limit this to less than the number of
 // permitted open files. On some systems, notably Darwin, if
 // getaddrinfo is unable to open a file descriptor it simply returns

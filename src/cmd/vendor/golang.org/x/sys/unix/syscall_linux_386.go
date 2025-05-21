@@ -1,8 +1,8 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build 386 && linux
+//golang:build 386 && linux
 
 package unix
 
@@ -110,7 +110,7 @@ func Seek(fd int, offset int64, whence int) (newoffset int64, err error) {
 //sys	Utime(path string, buf *Utimbuf) (err error)
 //sys	utimes(path string, times *[2]Timeval) (err error)
 
-// On x86 Linux, all the socket calls go through an extra indirection,
+// On x86 Linux, all the socket calls golang through an extra indirection,
 // I think because the 5-register system call interface can't handle
 // the 6-argument calls like sendto and recvfrom. Instead the
 // arguments to the underlying system call are the number below

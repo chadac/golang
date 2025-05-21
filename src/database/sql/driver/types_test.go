@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package driver
@@ -64,13 +64,13 @@ var valueConverterTests = []valueConverterTest{
 func TestValueConverters(t *testing.T) {
 	for i, tt := range valueConverterTests {
 		out, err := tt.c.ConvertValue(tt.in)
-		goterr := ""
+		golangterr := ""
 		if err != nil {
-			goterr = err.Error()
+			golangterr = err.Error()
 		}
-		if goterr != tt.err {
+		if golangterr != tt.err {
 			t.Errorf("test %d: %T(%T(%v)) error = %q; want error = %q",
-				i, tt.c, tt.in, tt.in, goterr, tt.err)
+				i, tt.c, tt.in, tt.in, golangterr, tt.err)
 		}
 		if tt.err != "" {
 			continue

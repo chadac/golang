@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package template
@@ -81,7 +81,7 @@ func (c context) mangle(templateName string) string {
 //
 // It bounds the top of the element stack, and by extension the HTML insertion
 // mode, but also contains state that does not correspond to anything in the
-// HTML5 parsing algorithm because a single token production in the HTML
+// HTML5 parsing algolangrithm because a single token production in the HTML
 // grammar may contain embedded actions in a template. For instance, the quoted
 // HTML attribute produced by
 //
@@ -90,7 +90,7 @@ func (c context) mangle(templateName string) string {
 // is a single token in HTML's grammar but in a template spans several nodes.
 type state uint8
 
-//go:generate stringer -type state
+//golang:generate stringer -type state
 
 const (
 	// stateText is parsed character data. An HTML parser is in
@@ -196,7 +196,7 @@ func isInScriptLiteral(s state) bool {
 // delim is the delimiter that will end the current HTML attribute.
 type delim uint8
 
-//go:generate stringer -type delim
+//golang:generate stringer -type delim
 
 const (
 	// delimNone occurs outside any attribute.
@@ -214,7 +214,7 @@ const (
 // encoding strategies.
 type urlPart uint8
 
-//go:generate stringer -type urlPart
+//golang:generate stringer -type urlPart
 
 const (
 	// urlPartNone occurs when not in a URL, or possibly at the start:
@@ -235,7 +235,7 @@ const (
 // division operator.
 type jsCtx uint8
 
-//go:generate stringer -type jsCtx
+//golang:generate stringer -type jsCtx
 
 const (
 	// jsCtxRegexp occurs where a '/' would start a regexp literal.
@@ -253,7 +253,7 @@ const (
 // end delimiter for the body.
 type element uint8
 
-//go:generate stringer -type element
+//golang:generate stringer -type element
 
 const (
 	// elementNone occurs outside a special tag or special element body.
@@ -269,7 +269,7 @@ const (
 	elementTitle
 )
 
-//go:generate stringer -type attr
+//golang:generate stringer -type attr
 
 // attr identifies the current HTML attribute when inside the attribute,
 // that is, starting from stateAttrName until stateTag/stateText (exclusive).

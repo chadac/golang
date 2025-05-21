@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package windows
@@ -20,7 +20,7 @@ const (
 //sys	ImpersonateSelf(impersonationlevel uint32) (err error) = advapi32.ImpersonateSelf
 //sys	RevertToSelf() (err error) = advapi32.RevertToSelf
 //sys	ImpersonateLoggedOnUser(token syscall.Token) (err error) = advapi32.ImpersonateLoggedOnUser
-//sys	LogonUser(username *uint16, domain *uint16, password *uint16, logonType uint32, logonProvider uint32, token *syscall.Token) (err error) = advapi32.LogonUserW
+//sys	LogolangnUser(username *uint16, domain *uint16, password *uint16, logolangnType uint32, logolangnProvider uint32, token *syscall.Token) (err error) = advapi32.LogolangnUserW
 
 const (
 	TOKEN_ADJUST_PRIVILEGES = 0x0020
@@ -130,15 +130,15 @@ type UserInfo4 struct {
 	UsrComment      *uint16
 	Parms           *uint16
 	Workstations    *uint16
-	LastLogon       uint32
-	LastLogoff      uint32
+	LastLogolangn       uint32
+	LastLogolangff      uint32
 	AcctExpires     uint32
 	MaxStorage      uint32
 	UnitsPerWeek    uint32
-	LogonHours      *byte
+	LogolangnHours      *byte
 	BadPwCount      uint32
-	NumLogons       uint32
-	LogonServer     *uint16
+	NumLogolangns       uint32
+	LogolangnServer     *uint16
 	CountryCode     uint32
 	CodePage        uint32
 	UserSid         *syscall.SID
@@ -155,7 +155,7 @@ type UserInfo4 struct {
 // GetSystemDirectory retrieves the path to current location of the system
 // directory, which is typically, though not always, `C:\Windows\System32`.
 //
-//go:linkname GetSystemDirectory
+//golang:linkname GetSystemDirectory
 func GetSystemDirectory() string // Implemented in runtime package.
 
 // GetUserName retrieves the user name of the current thread
@@ -236,7 +236,7 @@ var SECURITY_NT_AUTHORITY = SID_IDENTIFIER_AUTHORITY{
 //sys	getSidSubAuthority(sid *syscall.SID, subAuthorityIdx uint32) (subAuth uintptr) = advapi32.GetSidSubAuthority
 //sys	getSidSubAuthorityCount(sid *syscall.SID) (count uintptr) = advapi32.GetSidSubAuthorityCount
 
-// The following GetSid* functions are marked as //go:nocheckptr because checkptr
+// The following GetSid* functions are marked as //golang:nocheckptr because checkptr
 // instrumentation can't see that the pointer returned by the syscall is pointing
 // into the sid's memory, which is normally allocated on the Go heap. Therefore,
 // the checkptr instrumentation would incorrectly flag the pointer dereference
@@ -245,19 +245,19 @@ var SECURITY_NT_AUTHORITY = SID_IDENTIFIER_AUTHORITY{
 // before the GetSid* functions return, as the Go GC is not aware that the
 // pointers returned by the syscall are pointing into the sid's memory.
 
-//go:nocheckptr
+//golang:nocheckptr
 func GetSidIdentifierAuthority(sid *syscall.SID) SID_IDENTIFIER_AUTHORITY {
 	defer runtime.KeepAlive(sid)
 	return *(*SID_IDENTIFIER_AUTHORITY)(unsafe.Pointer(getSidIdentifierAuthority(sid)))
 }
 
-//go:nocheckptr
+//golang:nocheckptr
 func GetSidSubAuthority(sid *syscall.SID, subAuthorityIdx uint32) uint32 {
 	defer runtime.KeepAlive(sid)
 	return *(*uint32)(unsafe.Pointer(getSidSubAuthority(sid, subAuthorityIdx)))
 }
 
-//go:nocheckptr
+//golang:nocheckptr
 func GetSidSubAuthorityCount(sid *syscall.SID) uint8 {
 	defer runtime.KeepAlive(sid)
 	return *(*uint8)(unsafe.Pointer(getSidSubAuthorityCount(sid)))

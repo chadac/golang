@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -10,8 +10,8 @@ package main
 // was not preserving callee-saved registers from C callers.
 
 /*
-#cgo CFLAGS: -g -fsanitize=thread
-#cgo LDFLAGS: -g -fsanitize=thread
+#cgolang CFLAGS: -g -fsanitize=thread
+#cgolang LDFLAGS: -g -fsanitize=thread
 
 #include <stdlib.h>
 #include <sys/time.h>
@@ -49,7 +49,7 @@ import (
 	"time"
 )
 
-func goSpin() {
+func golangSpin() {
 	start := time.Now()
 	for n := 0; n < 1<<20; n++ {
 		_ = make([]byte, n)
@@ -61,7 +61,7 @@ func goSpin() {
 
 func main() {
 	pprof.StartCPUProfile(io.Discard)
-	go C.spin()
-	goSpin()
+	golang C.spin()
+	golangSpin()
 	pprof.StopCPUProfile()
 }

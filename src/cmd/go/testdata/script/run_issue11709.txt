@@ -1,9 +1,9 @@
-# 'go run' should not pass extraneous environment variables to the subprocess.
-go run run.go
+# 'golang run' should not pass extraneous environment variables to the subprocess.
+golang run run.golang
 ! stdout .
 ! stderr .
 
--- run.go --
+-- run.golang --
 package main
 
 import "os"

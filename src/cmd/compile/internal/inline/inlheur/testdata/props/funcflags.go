@@ -1,8 +1,8 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// DO NOT EDIT (use 'go test -v -update-expected' instead.)
+// DO NOT EDIT (use 'golang test -v -update-expected' instead.)
 // See cmd/compile/internal/inline/inlheur/testdata/props/README.txt
 // for more information on the format of this file.
 // <endfilepreamble>
@@ -11,7 +11,7 @@ package funcflags
 
 import "os"
 
-// funcflags.go T_simple 20 0 1
+// funcflags.golang T_simple 20 0 1
 // Flags FuncPropNeverReturns
 // <endpropsdump>
 // {"Flags":1,"ParamFlags":null,"ResultFlags":null}
@@ -21,7 +21,7 @@ func T_simple() {
 	panic("bad")
 }
 
-// funcflags.go T_nested 32 0 1
+// funcflags.golang T_nested 32 0 1
 // Flags FuncPropNeverReturns
 // ParamFlags
 //   0 ParamFeedsIfOrSwitch
@@ -33,11 +33,11 @@ func T_nested(x int) {
 	if x < 10 {
 		panic("bad")
 	} else {
-		panic("good")
+		panic("golangod")
 	}
 }
 
-// funcflags.go T_block1 46 0 1
+// funcflags.golang T_block1 46 0 1
 // Flags FuncPropNeverReturns
 // <endpropsdump>
 // {"Flags":1,"ParamFlags":[0],"ResultFlags":null}
@@ -50,7 +50,7 @@ func T_block1(x int) {
 	}
 }
 
-// funcflags.go T_block2 60 0 1
+// funcflags.golang T_block2 60 0 1
 // ParamFlags
 //   0 ParamFeedsIfOrSwitch
 // <endpropsdump>
@@ -64,7 +64,7 @@ func T_block2(x int) {
 	panic("bad")
 }
 
-// funcflags.go T_switches1 75 0 1
+// funcflags.golang T_switches1 75 0 1
 // Flags FuncPropNeverReturns
 // ParamFlags
 //   0 ParamFeedsIfOrSwitch
@@ -82,7 +82,7 @@ func T_switches1(x int) {
 	panic("whatev")
 }
 
-// funcflags.go T_switches1a 92 0 1
+// funcflags.golang T_switches1a 92 0 1
 // ParamFlags
 //   0 ParamFeedsIfOrSwitch
 // <endpropsdump>
@@ -96,7 +96,7 @@ func T_switches1a(x int) {
 	}
 }
 
-// funcflags.go T_switches2 106 0 1
+// funcflags.golang T_switches2 106 0 1
 // ParamFlags
 //   0 ParamFeedsIfOrSwitch
 // <endpropsdump>
@@ -115,7 +115,7 @@ func T_switches2(x int) {
 	panic("whatev")
 }
 
-// funcflags.go T_switches3 123 0 1
+// funcflags.golang T_switches3 123 0 1
 // <endpropsdump>
 // {"Flags":0,"ParamFlags":[0],"ResultFlags":null}
 // <endcallsites>
@@ -129,7 +129,7 @@ func T_switches3(x interface{}) {
 	}
 }
 
-// funcflags.go T_switches4 138 0 1
+// funcflags.golang T_switches4 138 0 1
 // Flags FuncPropNeverReturns
 // <endpropsdump>
 // {"Flags":1,"ParamFlags":[0],"ResultFlags":null}
@@ -149,7 +149,7 @@ func T_switches4(x int) {
 	panic("whatev")
 }
 
-// funcflags.go T_recov 157 0 1
+// funcflags.golang T_recov 157 0 1
 // <endpropsdump>
 // {"Flags":0,"ParamFlags":[0],"ResultFlags":null}
 // <endcallsites>
@@ -160,7 +160,7 @@ func T_recov(x int) {
 	}
 }
 
-// funcflags.go T_forloops1 169 0 1
+// funcflags.golang T_forloops1 169 0 1
 // Flags FuncPropNeverReturns
 // <endpropsdump>
 // {"Flags":1,"ParamFlags":[0],"ResultFlags":null}
@@ -172,7 +172,7 @@ func T_forloops1(x int) {
 	}
 }
 
-// funcflags.go T_forloops2 180 0 1
+// funcflags.golang T_forloops2 180 0 1
 // <endpropsdump>
 // {"Flags":0,"ParamFlags":[0],"ResultFlags":null}
 // <endcallsites>
@@ -187,7 +187,7 @@ func T_forloops2(x int) {
 	}
 }
 
-// funcflags.go T_forloops3 195 0 1
+// funcflags.golang T_forloops3 195 0 1
 // <endpropsdump>
 // {"Flags":0,"ParamFlags":[0],"ResultFlags":null}
 // <endcallsites>
@@ -207,35 +207,35 @@ func T_forloops3(x int) {
 	panic("whatev")
 }
 
-// funcflags.go T_hasgotos 215 0 1
+// funcflags.golang T_hasgolangtos 215 0 1
 // <endpropsdump>
 // {"Flags":0,"ParamFlags":[0,0],"ResultFlags":null}
 // <endcallsites>
 // <endfuncpreamble>
-func T_hasgotos(x int, y int) {
+func T_hasgolangtos(x int, y int) {
 	{
 		xx := x
 		panic("bad")
 	lab1:
-		goto lab2
+		golangto lab2
 	lab2:
 		if false {
-			goto lab1
+			golangto lab1
 		} else {
-			goto lab4
+			golangto lab4
 		}
 	lab4:
 		if xx < y {
 		lab3:
 			if false {
-				goto lab3
+				golangto lab3
 			}
 		}
 		println(9)
 	}
 }
 
-// funcflags.go T_break_with_label 246 0 1
+// funcflags.golang T_break_with_label 246 0 1
 // ParamFlags
 //   0 ParamMayFeedIfOrSwitch
 //   1 ParamNoInfo
@@ -245,7 +245,7 @@ func T_hasgotos(x int, y int) {
 // <endfuncpreamble>
 func T_break_with_label(x int, y int) {
 	// presence of break with label should pessimize this func
-	// (similar to goto).
+	// (similar to golangto).
 	panic("bad")
 lab1:
 	for {
@@ -257,7 +257,7 @@ lab1:
 	}
 }
 
-// funcflags.go T_callsexit 268 0 1
+// funcflags.golang T_callsexit 268 0 1
 // Flags FuncPropNeverReturns
 // ParamFlags
 //   0 ParamFeedsIfOrSwitch
@@ -272,10 +272,10 @@ func T_callsexit(x int) {
 	os.Exit(2)
 }
 
-// funcflags.go T_exitinexpr 281 0 1
+// funcflags.golang T_exitinexpr 281 0 1
 // <endpropsdump>
 // {"Flags":0,"ParamFlags":[0],"ResultFlags":null}
-// callsite: funcflags.go:286:18|0 flagstr "CallSiteOnPanicPath" flagval 2 score 102 mask 1 maskstr "panicPathAdj"
+// callsite: funcflags.golang:286:18|0 flagstr "CallSiteOnPanicPath" flagval 2 score 102 mask 1 maskstr "panicPathAdj"
 // <endcallsites>
 // <endfuncpreamble>
 func T_exitinexpr(x int) {
@@ -288,7 +288,7 @@ func T_exitinexpr(x int) {
 	}
 }
 
-// funcflags.go T_select_noreturn 297 0 1
+// funcflags.golang T_select_noreturn 297 0 1
 // Flags FuncPropNeverReturns
 // <endpropsdump>
 // {"Flags":1,"ParamFlags":[0,0,0],"ResultFlags":null}
@@ -306,7 +306,7 @@ func T_select_noreturn(chi chan int, chf chan float32, p *int) {
 	panic("bad")
 }
 
-// funcflags.go T_select_mayreturn 314 0 1
+// funcflags.golang T_select_mayreturn 314 0 1
 // <endpropsdump>
 // {"Flags":0,"ParamFlags":[0,0,0],"ResultFlags":[0]}
 // <endcallsites>
@@ -324,11 +324,11 @@ func T_select_mayreturn(chi chan int, chf chan float32, p *int) int {
 	panic("bad")
 }
 
-// funcflags.go T_calls_callsexit 334 0 1
+// funcflags.golang T_calls_callsexit 334 0 1
 // Flags FuncPropNeverReturns
 // <endpropsdump>
 // {"Flags":1,"ParamFlags":[0],"ResultFlags":null}
-// callsite: funcflags.go:335:15|0 flagstr "CallSiteOnPanicPath" flagval 2 score 102 mask 1 maskstr "panicPathAdj"
+// callsite: funcflags.golang:335:15|0 flagstr "CallSiteOnPanicPath" flagval 2 score 102 mask 1 maskstr "panicPathAdj"
 // <endcallsites>
 // <endfuncpreamble>
 func T_calls_callsexit(x int) {

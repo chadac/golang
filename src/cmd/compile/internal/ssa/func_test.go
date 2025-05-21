@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file contains some utility functions to help define Funcs for testing.
@@ -293,7 +293,7 @@ func TestArgs(t *testing.T) {
 	sum := fun.values["sum"]
 	for i, name := range []string{"a", "b"} {
 		if sum.Args[i] != fun.values[name] {
-			t.Errorf("arg %d for sum is incorrect: want %s, got %s",
+			t.Errorf("arg %d for sum is incorrect: want %s, golangt %s",
 				i, sum.Args[i], fun.values[name])
 		}
 	}

@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -92,8 +92,8 @@ func foo() int32 {
 
 func TestPhi(t *testing.T) {
 	want := int32(0)
-	got := foo()
-	if got != want {
-		t.Fatalf("want %d, got %d\n", want, got)
+	golangt := foo()
+	if golangt != want {
+		t.Fatalf("want %d, golangt %d\n", want, golangt)
 	}
 }

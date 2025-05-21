@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package gc
@@ -68,7 +68,7 @@ func dumpobj1(outfile string, mode int) {
 	if mode&modeLinkerObj != 0 {
 		start := startArchiveEntry(bout)
 		dumpLinkerObj(bout)
-		finishArchiveEntry(bout, start, "_go_.o")
+		finishArchiveEntry(bout, start, "_golang_.o")
 	}
 
 	if err := bout.Close(); err != nil {
@@ -121,7 +121,7 @@ func dumpdata() {
 	dumpembeds()
 
 	if reflectdata.ZeroSize > 0 {
-		zero := base.PkgLinksym("go:map", "zero", obj.ABI0)
+		zero := base.PkgLinksym("golang:map", "zero", obj.ABI0)
 		objw.Global(zero, int32(reflectdata.ZeroSize), obj.DUPOK|obj.RODATA)
 		zero.Set(obj.AttrStatic, true)
 	}
@@ -133,12 +133,12 @@ func dumpdata() {
 func dumpLinkerObj(bout *bio.Writer) {
 	printObjHeader(bout)
 
-	if len(typecheck.Target.CgoPragmas) != 0 {
-		// write empty export section; must be before cgo section
+	if len(typecheck.Target.CgolangPragmas) != 0 {
+		// write empty export section; must be before cgolang section
 		fmt.Fprintf(bout, "\n$$\n\n$$\n\n")
-		fmt.Fprintf(bout, "\n$$  // cgo\n")
-		if err := json.NewEncoder(bout).Encode(typecheck.Target.CgoPragmas); err != nil {
-			base.Fatalf("serializing pragcgobuf: %v", err)
+		fmt.Fprintf(bout, "\n$$  // cgolang\n")
+		if err := json.NewEncoder(bout).Encode(typecheck.Target.CgolangPragmas); err != nil {
+			base.Fatalf("serializing pragcgolangbuf: %v", err)
 		}
 		fmt.Fprintf(bout, "\n$$\n\n")
 	}
@@ -238,7 +238,7 @@ func ggloblnod(nam *ir.Name) {
 	s := nam.Linksym()
 
 	// main_inittask and runtime_inittask in package runtime (and in
-	// test/initempty.go) aren't real variable declarations, but
+	// test/initempty.golang) aren't real variable declarations, but
 	// linknamed variables pointing to the compiler's generated
 	// .inittask symbol. The real symbol was already written out in
 	// pkginit.Task, so we need to avoid writing them out a second time

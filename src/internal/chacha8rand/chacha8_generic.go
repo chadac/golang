@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // ChaCha8 is ChaCha with 8 rounds.
@@ -49,7 +49,7 @@
 package chacha8rand
 
 import (
-	"internal/goarch"
+	"internal/golangarch"
 	"unsafe"
 )
 
@@ -118,7 +118,7 @@ func setup(seed *[4]uint64, b32 *[16][4]uint32, counter uint32) {
 	b[11][1] = x64
 
 	// Counters.
-	if goarch.BigEndian {
+	if golangarch.BigEndian {
 		b[12][0] = uint64(counter+0)<<32 | uint64(counter+1)
 		b[12][1] = uint64(counter+2)<<32 | uint64(counter+3)
 	} else {
@@ -207,7 +207,7 @@ func block_generic(seed *[4]uint64, buf *[32]uint64, counter uint32) {
 		b[15][i] = b15
 	}
 
-	if goarch.BigEndian {
+	if golangarch.BigEndian {
 		// On a big-endian system, reading the uint32 pairs as uint64s
 		// will word-swap them compared to little-endian, so we word-swap
 		// them here first to make the next swap get the right answer.

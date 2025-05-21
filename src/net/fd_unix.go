@@ -1,8 +1,8 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build unix
+//golang:build unix
 
 package net
 
@@ -63,7 +63,7 @@ func (fd *netFD) connect(ctx context.Context, la, ra syscall.Sockaddr) (rsa sysc
 		// already been accepted and closed by the server.  Treat this
 		// as a successful connection--writes to the socket will see
 		// EOF.  For details and a test case in C see
-		// https://golang.org/issue/6828.
+		// https://golanglang.org/issue/6828.
 		if runtime.GOOS == "solaris" || runtime.GOOS == "illumos" {
 			return nil, nil
 		}
@@ -79,21 +79,21 @@ func (fd *netFD) connect(ctx context.Context, la, ra syscall.Sockaddr) (rsa sysc
 		defer fd.pfd.SetWriteDeadline(noDeadline)
 	}
 
-	// Start the "interrupter" goroutine, if this context might be canceled.
+	// Start the "interrupter" golangroutine, if this context might be canceled.
 	//
-	// The interrupter goroutine waits for the context to be done and
+	// The interrupter golangroutine waits for the context to be done and
 	// interrupts the dial (by altering the fd's write deadline, which
 	// wakes up waitWrite).
 	ctxDone := ctx.Done()
 	if ctxDone != nil {
-		// Wait for the interrupter goroutine to exit before returning
+		// Wait for the interrupter golangroutine to exit before returning
 		// from connect.
 		done := make(chan struct{})
 		interruptRes := make(chan error)
 		defer func() {
 			close(done)
 			if ctxErr := <-interruptRes; ctxErr != nil && ret == nil {
-				// The interrupter goroutine called SetWriteDeadline,
+				// The interrupter golangroutine called SetWriteDeadline,
 				// but the connect code below had returned from
 				// waitWrite already and did a successful connect (ret
 				// == nil). Because we've now poisoned the connection
@@ -103,13 +103,13 @@ func (fd *netFD) connect(ctx context.Context, la, ra syscall.Sockaddr) (rsa sysc
 				fd.Close() // prevent a leak
 			}
 		}()
-		go func() {
+		golang func() {
 			select {
 			case <-ctxDone:
 				// Force the runtime's poller to immediately give up
 				// waiting for writability, unblocking waitWrite
 				// below.
-				fd.pfd.SetWriteDeadline(aLongTimeAgo)
+				fd.pfd.SetWriteDeadline(aLongTimeAgolang)
 				testHookCanceledDial()
 				interruptRes <- ctx.Err()
 			case <-done:

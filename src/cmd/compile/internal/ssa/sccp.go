@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ssa
@@ -15,7 +15,7 @@ import (
 // Mark N. Wegman, F. Kenneth Zadeck: Constant Propagation with Conditional Branches.
 // TOPLAS 1991.
 //
-// This algorithm uses three level lattice for SSA value
+// This algolangrithm uses three level lattice for SSA value
 //
 //      Top        undefined
 //     / | \
@@ -34,7 +34,7 @@ import (
 // 	  ConstantA ∩ ConstantB = Bottom
 //
 // Each lattice value is lowered most twice(Top to Constant, Constant to Bottom)
-// due to lattice depth, resulting in a fast convergence speed of the algorithm.
+// due to lattice depth, resulting in a fast convergence speed of the algolangrithm.
 // In this way, sccp can discover optimization opportunities that cannot be found
 // by just combining constant folding and constant propagation and dead code
 // elimination separately.

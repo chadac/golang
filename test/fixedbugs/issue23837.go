@@ -1,12 +1,12 @@
 // run
 
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
 
-//go:noinline
+//golang:noinline
 func f(p, q *struct{}) bool {
 	return *p == *q
 }
@@ -16,12 +16,12 @@ type T struct {
 	y int
 }
 
-//go:noinline
+//golang:noinline
 func g(p, q *T) bool {
 	return p.x == q.x
 }
 
-//go:noinline
+//golang:noinline
 func h(p, q func() struct{}) bool {
 	return p() == q()
 }

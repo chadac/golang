@@ -1,5 +1,5 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 //
@@ -7,10 +7,10 @@
 // /usr/src/sys/kern/syscalls.master for syscall numbers.
 //
 
-#include "go_asm.h"
-#include "go_tls.h"
+#include "golang_asm.h"
+#include "golang_tls.h"
 #include "textflag.h"
-#include "cgo/abi_arm64.h"
+#include "cgolang/abi_arm64.h"
 
 #define CLOCK_REALTIME		0
 #define CLOCK_MONOTONIC		4
@@ -278,7 +278,7 @@ TEXT runtime·sigfwd(SB),NOSPLIT,$0-32
 // func sigtramp()
 TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME,$176
 	// Save callee-save registers in the case of signal forwarding.
-	// Please refer to https://golang.org/issue/31827 .
+	// Please refer to https://golanglang.org/issue/31827 .
 	SAVE_R19_TO_R28(8*4)
 	SAVE_F8_TO_F15(8*14)
 
@@ -286,7 +286,7 @@ TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME,$176
 	// where g is not set.
 	// first save R0, because runtime·load_g will clobber it
 	MOVW	R0, 8(RSP)
-	MOVBU	runtime·iscgo(SB), R0
+	MOVBU	runtime·iscgolang(SB), R0
 	CMP	$0, R0
 	BEQ	2(PC)
 	BL	runtime·load_g(SB)
@@ -294,7 +294,7 @@ TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME,$176
 	// Restore signum to R0.
 	MOVW	8(RSP), R0
 	// R1 and R2 already contain info and ctx, respectively.
-	MOVD	$runtime·sigtrampgo<ABIInternal>(SB), R3
+	MOVD	$runtime·sigtrampgolang<ABIInternal>(SB), R3
 	BL	(R3)
 
 	// Restore callee-save registers.

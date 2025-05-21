@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package types2
@@ -92,7 +92,7 @@ func (t *TypeParam) SetConstraint(bound Type) {
 // Underlying returns the [underlying type] of the type parameter t, which is
 // the underlying type of its constraint. This type is always an interface.
 //
-// [underlying type]: https://go.dev/ref/spec#Underlying_types.
+// [underlying type]: https://golang.dev/ref/spec#Underlying_types.
 func (t *TypeParam) Underlying() Type {
 	return t.iface()
 }

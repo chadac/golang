@@ -1,8 +1,8 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-package gob
+package golangb
 
 import (
 	"bytes"
@@ -43,7 +43,7 @@ func benchmarkEndToEnd(b *testing.B, ctor func() any, pipe func() (r io.Reader, 
 
 func BenchmarkEndToEndPipe(b *testing.B) {
 	benchmarkEndToEnd(b, func() any {
-		return &Bench{7, 3.2, "now is the time", bytes.Repeat([]byte("for all good men"), 100)}
+		return &Bench{7, 3.2, "now is the time", bytes.Repeat([]byte("for all golangod men"), 100)}
 	}, func() (r io.Reader, w io.Writer, err error) {
 		r, w, err = os.Pipe()
 		return
@@ -52,7 +52,7 @@ func BenchmarkEndToEndPipe(b *testing.B) {
 
 func BenchmarkEndToEndByteBuffer(b *testing.B) {
 	benchmarkEndToEnd(b, func() any {
-		return &Bench{7, 3.2, "now is the time", bytes.Repeat([]byte("for all good men"), 100)}
+		return &Bench{7, 3.2, "now is the time", bytes.Repeat([]byte("for all golangod men"), 100)}
 	}, func() (r io.Reader, w io.Writer, err error) {
 		var buf bytes.Buffer
 		return &buf, &buf, nil
@@ -86,7 +86,7 @@ func TestCountEncodeMallocs(t *testing.T) {
 
 	var buf bytes.Buffer
 	enc := NewEncoder(&buf)
-	bench := &Bench{7, 3.2, "now is the time", []byte("for all good men")}
+	bench := &Bench{7, 3.2, "now is the time", []byte("for all golangod men")}
 
 	allocs := testing.AllocsPerRun(N, func() {
 		err := enc.Encode(bench)
@@ -111,7 +111,7 @@ func TestCountDecodeMallocs(t *testing.T) {
 
 	var buf bytes.Buffer
 	enc := NewEncoder(&buf)
-	bench := &Bench{7, 3.2, "now is the time", []byte("for all good men")}
+	bench := &Bench{7, 3.2, "now is the time", []byte("for all golangod men")}
 
 	// Fill the buffer with enough to decode
 	testing.AllocsPerRun(N, func() {

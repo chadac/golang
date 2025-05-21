@@ -1,19 +1,19 @@
 // errorcheck -+
 
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test walk errors for not-in-heap.
 
-//go:build cgo
+//golang:build cgolang
 
 package p
 
-import "runtime/cgo"
+import "runtime/cgolang"
 
 type nih struct {
-	_    cgo.Incomplete
+	_    cgolang.Incomplete
 	next *nih
 }
 
@@ -48,7 +48,7 @@ type embed3 struct { // implicitly notinheap
 	x [1]nih
 }
 
-// Type aliases inherit the go:notinheap-ness of the type they alias.
+// Type aliases inherit the golang:notinheap-ness of the type they alias.
 type nihAlias = nih
 
 type embedAlias1 struct { // implicitly notinheap
@@ -79,7 +79,7 @@ func g() {
 
 var p *nih
 
-//go:nowritebarrier
+//golang:nowritebarrier
 func h() {
 	y.next = p.next
 }

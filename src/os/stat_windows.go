@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package os
@@ -32,7 +32,7 @@ func stat(funcname, name string, followSurrogates bool) (FileInfo, error) {
 	}
 
 	// Try GetFileAttributesEx first, because it is faster than CreateFile.
-	// See https://golang.org/issues/19922#issuecomment-300031421 for details.
+	// See https://golanglang.org/issues/19922#issuecomment-300031421 for details.
 	var fa syscall.Win32FileAttributeData
 	err = syscall.GetFileAttributesEx(namep, syscall.GetFileExInfoStandard, (*byte)(unsafe.Pointer(&fa)))
 	if errors.Is(err, ErrNotExist) {
@@ -40,7 +40,7 @@ func stat(funcname, name string, followSurrogates bool) (FileInfo, error) {
 	}
 	if err == nil && fa.FileAttributes&syscall.FILE_ATTRIBUTE_REPARSE_POINT == 0 {
 		// Not a surrogate for another named entity, because it isn't any kind of reparse point.
-		// The information we got from GetFileAttributesEx is good enough for now.
+		// The information we golangt from GetFileAttributesEx is golangod enough for now.
 		fs := newFileStatFromWin32FileAttributeData(&fa)
 		if err := fs.saveInfoFromPath(name); err != nil {
 			return nil, err
@@ -58,7 +58,7 @@ func stat(funcname, name string, followSurrogates bool) (FileInfo, error) {
 		}
 		syscall.FindClose(sh)
 		if fd.FileAttributes&syscall.FILE_ATTRIBUTE_REPARSE_POINT == 0 {
-			// Not a surrogate for another named entity. FindFirstFile is good enough.
+			// Not a surrogate for another named entity. FindFirstFile is golangod enough.
 			fs := newFileStatFromWin32finddata(&fd)
 			if err := fs.saveInfoFromPath(name); err != nil {
 				return nil, err

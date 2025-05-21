@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package image
@@ -200,7 +200,7 @@ func NewYCbCr(r Rectangle, subsampleRatio YCbCrSubsampleRatio) *YCbCr {
 }
 
 // NYCbCrA is an in-memory image of non-alpha-premultiplied Y'CbCr-with-alpha
-// colors. A and AStride are analogous to the Y and YStride fields of the
+// colors. A and AStride are analogolangus to the Y and YStride fields of the
 // embedded YCbCr.
 type NYCbCrA struct {
 	YCbCr

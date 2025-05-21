@@ -1,8 +1,8 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build aix
+//golang:build aix
 
 package runtime
 
@@ -129,7 +129,7 @@ type timespec struct {
 	tv_nsec int64
 }
 
-//go:nosplit
+//golang:nosplit
 func (ts *timespec) setNsec(ns int64) {
 	ts.tv_sec = ns / 1e9
 	ts.tv_nsec = ns % 1e9
@@ -138,7 +138,7 @@ func (ts *timespec) setNsec(ns int64) {
 type timeval struct {
 	tv_sec    int64
 	tv_usec   int32
-	pad_cgo_0 [4]byte
+	pad_cgolang_0 [4]byte
 }
 
 func (tv *timeval) set_usec(x int32) {
@@ -155,12 +155,12 @@ type stackt struct {
 	ss_size   uintptr
 	ss_flags  int32
 	__pad     [4]int32
-	pas_cgo_0 [4]byte
+	pas_cgolang_0 [4]byte
 }
 
 type sigcontext struct {
 	sc_onstack int32
-	pad_cgo_0  [4]byte
+	pad_cgolang_0  [4]byte
 	sc_mask    sigset
 	sc_uerror  int32
 	sc_jmpbuf  context64
@@ -168,10 +168,10 @@ type sigcontext struct {
 
 type ucontext struct {
 	__sc_onstack   int32
-	pad_cgo_0      [4]byte
+	pad_cgolang_0      [4]byte
 	uc_sigmask     sigset
 	__sc_error     int32
-	pad_cgo_1      [4]byte
+	pad_cgolang_1      [4]byte
 	uc_mcontext    context64
 	uc_link        *ucontext
 	uc_stack       stackt
@@ -203,7 +203,7 @@ type sigactiont struct {
 	sa_handler uintptr // a union of two pointer
 	sa_mask    sigset
 	sa_flags   int32
-	pad_cgo_0  [4]byte
+	pad_cgolang_0  [4]byte
 }
 
 type pthread uint32

@@ -1,5 +1,5 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ioutil_test
@@ -85,7 +85,7 @@ func TestTempFile_BadPattern(t *testing.T) {
 				if err == nil {
 					t.Errorf("Expected an error for pattern %q", tt.pattern)
 				} else if !strings.Contains(err.Error(), patternHasSeparator) {
-					t.Errorf("Error mismatch: got %#v, want %q for pattern %q", err, patternHasSeparator, tt.pattern)
+					t.Errorf("Error mismatch: golangt %#v, want %q for pattern %q", err, patternHasSeparator, tt.pattern)
 				}
 			} else if err != nil {
 				t.Errorf("Unexpected error %v for pattern %q", err, tt.pattern)
@@ -186,7 +186,7 @@ func TestTempDir_BadPattern(t *testing.T) {
 				if err == nil {
 					t.Errorf("Expected an error for pattern %q", tt.pattern)
 				} else if !strings.Contains(err.Error(), patternHasSeparator) {
-					t.Errorf("Error mismatch: got %#v, want %q for pattern %q", err, patternHasSeparator, tt.pattern)
+					t.Errorf("Error mismatch: golangt %#v, want %q for pattern %q", err, patternHasSeparator, tt.pattern)
 				}
 			} else if err != nil {
 				t.Errorf("Unexpected error %v for pattern %q", err, tt.pattern)

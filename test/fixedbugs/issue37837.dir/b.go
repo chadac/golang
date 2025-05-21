@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -24,9 +24,9 @@ func main() {
 	_ = (*a.G(true).(*interface{})).(bool)            // ERROR "inlining call to a.G" "does not escape"
 }
 
-//go:noinline
-func check(want, got int) {
-	if want != got {
-		println("want", want, "but got", got)
+//golang:noinline
+func check(want, golangt int) {
+	if want != golangt {
+		println("want", want, "but golangt", golangt)
 	}
 }

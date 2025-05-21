@@ -1,15 +1,15 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 //
 // System calls and other sys.stuff for AMD64, NetBSD
 // /usr/src/sys/kern/syscalls.master for syscall numbers.
 //
 
-#include "go_asm.h"
-#include "go_tls.h"
+#include "golang_asm.h"
+#include "golang_tls.h"
 #include "textflag.h"
-#include "cgo/abi_amd64.h"
+#include "cgolang/abi_amd64.h"
 
 #define CLOCK_REALTIME		0
 #define CLOCK_MONOTONIC		3
@@ -319,7 +319,7 @@ TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME|NOFRAME,$0
 	MOVQ	DI, AX	// sig
 	MOVQ	SI, BX	// info
 	MOVQ	DX, CX	// ctx
-	CALL	·sigtrampgo<ABIInternal>(SB)
+	CALL	·sigtrampgolang<ABIInternal>(SB)
 
 	ADJSP	$-24
 

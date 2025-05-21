@@ -1,10 +1,10 @@
 // errorcheck
 
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// issue 5172: spurious warn about type conversion on broken type inside go and defer
+// issue 5172: spurious warn about type conversion on broken type inside golang and defer
 
 package main
 
@@ -18,9 +18,9 @@ func (t T) Bar() {}
 
 func main() {
 	var f foo
-	go f.bar()    // ERROR "undefined"
+	golang f.bar()    // ERROR "undefined"
 	defer f.bar() // ERROR "undefined"
 
 	t := T{1} // ERROR "too many"
-	go t.Bar()
+	golang t.Bar()
 }

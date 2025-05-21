@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package walk
@@ -27,7 +27,7 @@ func Walk(fn *ir.Func) {
 
 	// Set and then clear a package-level cache of static values for this fn.
 	// (At some point, it might be worthwhile to have a walkState structure
-	// that gets passed everywhere where things like this can go.)
+	// that gets passed everywhere where things like this can golang.)
 	staticValues = findStaticValues(fn)
 	defer func() { staticValues = nil }()
 
@@ -106,7 +106,7 @@ func vmkcall(fn ir.Node, t *types.Type, init *ir.Nodes, va []ir.Node) *ir.CallEx
 
 	n := fn.Type().NumParams()
 	if n != len(va) {
-		base.Fatalf("vmkcall %v needs %v args got %v", fn, n, len(va))
+		base.Fatalf("vmkcall %v needs %v args golangt %v", fn, n, len(va))
 	}
 
 	call := typecheck.Call(base.Pos, fn, va, false).(*ir.CallExpr)

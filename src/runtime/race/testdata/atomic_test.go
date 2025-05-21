@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package race_test
@@ -17,14 +17,14 @@ func TestNoRaceAtomicAddInt64(t *testing.T) {
 	_ = x1 + x2
 	var s int64
 	ch := make(chan bool, 2)
-	go func() {
+	golang func() {
 		x1 = 1
 		if atomic.AddInt64(&s, 1) == 2 {
 			x2 = 1
 		}
 		ch <- true
 	}()
-	go func() {
+	golang func() {
 		x2 = 1
 		if atomic.AddInt64(&s, 1) == 2 {
 			x1 = 1
@@ -40,14 +40,14 @@ func TestRaceAtomicAddInt64(t *testing.T) {
 	_ = x1 + x2
 	var s int64
 	ch := make(chan bool, 2)
-	go func() {
+	golang func() {
 		x1 = 1
 		if atomic.AddInt64(&s, 1) == 1 {
 			x2 = 1
 		}
 		ch <- true
 	}()
-	go func() {
+	golang func() {
 		x2 = 1
 		if atomic.AddInt64(&s, 1) == 1 {
 			x1 = 1
@@ -63,14 +63,14 @@ func TestNoRaceAtomicAddInt32(t *testing.T) {
 	_ = x1 + x2
 	var s int32
 	ch := make(chan bool, 2)
-	go func() {
+	golang func() {
 		x1 = 1
 		if atomic.AddInt32(&s, 1) == 2 {
 			x2 = 1
 		}
 		ch <- true
 	}()
-	go func() {
+	golang func() {
 		x2 = 1
 		if atomic.AddInt32(&s, 1) == 2 {
 			x1 = 1
@@ -85,7 +85,7 @@ func TestNoRaceAtomicLoadAddInt32(t *testing.T) {
 	var x int64
 	_ = x
 	var s int32
-	go func() {
+	golang func() {
 		x = 2
 		atomic.AddInt32(&s, 1)
 	}()
@@ -99,7 +99,7 @@ func TestNoRaceAtomicLoadStoreInt32(t *testing.T) {
 	var x int64
 	_ = x
 	var s int32
-	go func() {
+	golang func() {
 		x = 2
 		atomic.StoreInt32(&s, 1)
 	}()
@@ -113,7 +113,7 @@ func TestNoRaceAtomicStoreCASInt32(t *testing.T) {
 	var x int64
 	_ = x
 	var s int32
-	go func() {
+	golang func() {
 		x = 2
 		atomic.StoreInt32(&s, 1)
 	}()
@@ -127,7 +127,7 @@ func TestNoRaceAtomicCASLoadInt32(t *testing.T) {
 	var x int64
 	_ = x
 	var s int32
-	go func() {
+	golang func() {
 		x = 2
 		if !atomic.CompareAndSwapInt32(&s, 0, 1) {
 			panic("")
@@ -143,7 +143,7 @@ func TestNoRaceAtomicCASCASInt32(t *testing.T) {
 	var x int64
 	_ = x
 	var s int32
-	go func() {
+	golang func() {
 		x = 2
 		if !atomic.CompareAndSwapInt32(&s, 0, 1) {
 			panic("")
@@ -160,14 +160,14 @@ func TestNoRaceAtomicCASCASInt32_2(t *testing.T) {
 	_ = x1 + x2
 	var s int32
 	ch := make(chan bool, 2)
-	go func() {
+	golang func() {
 		x1 = 1
 		if !atomic.CompareAndSwapInt32(&s, 0, 1) {
 			x2 = 1
 		}
 		ch <- true
 	}()
-	go func() {
+	golang func() {
 		x2 = 1
 		if !atomic.CompareAndSwapInt32(&s, 0, 1) {
 			x1 = 1
@@ -182,7 +182,7 @@ func TestNoRaceAtomicLoadInt64(t *testing.T) {
 	var x int32
 	_ = x
 	var s int64
-	go func() {
+	golang func() {
 		x = 2
 		atomic.AddInt64(&s, 1)
 	}()
@@ -196,7 +196,7 @@ func TestNoRaceAtomicCASCASUInt64(t *testing.T) {
 	var x int64
 	_ = x
 	var s uint64
-	go func() {
+	golang func() {
 		x = 2
 		if !atomic.CompareAndSwapUint64(&s, 0, 1) {
 			panic("")
@@ -214,7 +214,7 @@ func TestNoRaceAtomicLoadStorePointer(t *testing.T) {
 	var s unsafe.Pointer
 	var y int = 2
 	var p unsafe.Pointer = unsafe.Pointer(&y)
-	go func() {
+	golang func() {
 		x = 2
 		atomic.StorePointer(&s, p)
 	}()
@@ -228,7 +228,7 @@ func TestNoRaceAtomicStoreCASUint64(t *testing.T) {
 	var x int64
 	_ = x
 	var s uint64
-	go func() {
+	golang func() {
 		x = 2
 		atomic.StoreUint64(&s, 1)
 	}()
@@ -241,7 +241,7 @@ func TestNoRaceAtomicStoreCASUint64(t *testing.T) {
 func TestRaceAtomicStoreLoad(t *testing.T) {
 	c := make(chan bool)
 	var a uint64
-	go func() {
+	golang func() {
 		atomic.StoreUint64(&a, 1)
 		c <- true
 	}()
@@ -252,7 +252,7 @@ func TestRaceAtomicStoreLoad(t *testing.T) {
 func TestRaceAtomicLoadStore(t *testing.T) {
 	c := make(chan bool)
 	var a uint64
-	go func() {
+	golang func() {
 		_ = atomic.LoadUint64(&a)
 		c <- true
 	}()
@@ -263,7 +263,7 @@ func TestRaceAtomicLoadStore(t *testing.T) {
 func TestRaceAtomicAddLoad(t *testing.T) {
 	c := make(chan bool)
 	var a uint64
-	go func() {
+	golang func() {
 		atomic.AddUint64(&a, 1)
 		c <- true
 	}()
@@ -274,7 +274,7 @@ func TestRaceAtomicAddLoad(t *testing.T) {
 func TestRaceAtomicAddStore(t *testing.T) {
 	c := make(chan bool)
 	var a uint64
-	go func() {
+	golang func() {
 		atomic.AddUint64(&a, 1)
 		c <- true
 	}()
@@ -314,7 +314,7 @@ func TestNoRaceDeferAtomicStore(t *testing.T) {
 		if depth > 0 {
 			for i := 0; i < 2; i++ {
 				f2 := &foo{}
-				go doFork(f2, depth-1)
+				golang doFork(f2, depth-1)
 			}
 		}
 		runtime.GC()

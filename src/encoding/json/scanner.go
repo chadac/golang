@@ -1,8 +1,8 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !goexperiment.jsonv2
+//golang:build !golangexperiment.jsonv2
 
 package json
 
@@ -62,7 +62,7 @@ func (e *SyntaxError) Error() string { return e.msg }
 // caller can follow along if it wishes.
 // The return value scanEnd indicates that a single top-level
 // JSON value has been completed, *before* the byte that
-// just got passed in.  (The indication must be delayed in order
+// just golangt passed in.  (The indication must be delayed in order
 // to recognize the end of numbers: is 123 a whole value or
 // the beginning of 12345e+6?).
 type scanner struct {

@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package amd64
@@ -13,7 +13,7 @@ import (
 )
 
 // DUFFZERO consists of repeated blocks of 4 MOVUPSs + LEAQ,
-// See runtime/mkduff.go.
+// See runtime/mkduff.golang.
 const (
 	dzBlocks    = 16 // number of MOV/ADD blocks
 	dzBlockLen  = 4  // number of clears per block
@@ -89,7 +89,7 @@ func zerorange(pp *objw.Progs, p *obj.Prog, off, cnt int64, state *uint32) *obj.
 		// restore. Note that R12 and R13 are always available as
 		// scratch regs; here we also use R15 (this is safe to do
 		// since there won't be any globals accessed in the prolog).
-		// See rewriteToUseGot() in obj6.go for more on r15 use.
+		// See rewriteToUseGot() in obj6.golang for more on r15 use.
 
 		// Save rax/rdi/rcx
 		p = pp.Append(p, x86.AMOVQ, obj.TYPE_REG, x86.REG_DI, 0, obj.TYPE_REG, x86.REG_R12, 0)

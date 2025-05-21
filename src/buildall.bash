@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Copyright 2015 The Go Authors. All rights reserved.
-# Use of this source code is governed by a BSD-style
+# Use of this source code is golangverned by a BSD-style
 # license that can be found in the LICENSE file.
 
 # Usage: buildall.bash [-e] [pattern]
@@ -40,7 +40,7 @@ fi
 GOROOT="$(cd .. && pwd)"
 
 gettargets() {
-	../bin/go tool dist list | sed -e 's|/|-|' |
+	../bin/golang tool dist list | sed -e 's|/|-|' |
 		grep -E -v '^(android|ios)' # need C toolchain even for cross-compiling
 	echo linux-arm-arm5
 }
@@ -75,9 +75,9 @@ do
 	fi
 
 	# Build and vet everything.
-	# cmd/go/internal/work/exec.go enables the same vet flags during go test of std cmd
+	# cmd/golang/internal/work/exec.golang enables the same vet flags during golang test of std cmd
 	# and should be kept in sync with any vet flag changes here.
-	if ! "$GOROOT/bin/go" build std cmd || ! "$GOROOT/bin/go" vet -unsafeptr=false std cmd; then
+	if ! "$GOROOT/bin/golang" build std cmd || ! "$GOROOT/bin/golang" vet -unsafeptr=false std cmd; then
 		failed=true
 		if $sete; then
 			exit 1

@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package testing
@@ -20,7 +20,7 @@ type InternalExample struct {
 }
 
 // RunExamples is an internal function but exported because it is cross-package;
-// it is part of the implementation of the "go test" command.
+// it is part of the implementation of the "golang test" command.
 func RunExamples(matchString func(pat, str string) (bool, error), examples []InternalExample) (ok bool) {
 	_, ok = runExamples(matchString, examples)
 	return ok
@@ -59,21 +59,21 @@ func (eg *InternalExample) processRunResult(stdout string, timeSpent time.Durati
 	passed = true
 	dstr := fmtDuration(timeSpent)
 	var fail string
-	got := strings.TrimSpace(stdout)
+	golangt := strings.TrimSpace(stdout)
 	want := strings.TrimSpace(eg.Output)
 	if runtime.GOOS == "windows" {
-		got = strings.ReplaceAll(got, "\r\n", "\n")
+		golangt = strings.ReplaceAll(golangt, "\r\n", "\n")
 		want = strings.ReplaceAll(want, "\r\n", "\n")
 	}
 	if eg.Unordered {
-		gotLines := slices.Sorted(strings.SplitSeq(got, "\n"))
+		golangtLines := slices.Sorted(strings.SplitSeq(golangt, "\n"))
 		wantLines := slices.Sorted(strings.SplitSeq(want, "\n"))
-		if !slices.Equal(gotLines, wantLines) && recovered == nil {
-			fail = fmt.Sprintf("got:\n%s\nwant (unordered):\n%s\n", stdout, eg.Output)
+		if !slices.Equal(golangtLines, wantLines) && recovered == nil {
+			fail = fmt.Sprintf("golangt:\n%s\nwant (unordered):\n%s\n", stdout, eg.Output)
 		}
 	} else {
-		if got != want && recovered == nil {
-			fail = fmt.Sprintf("got:\n%s\nwant:\n%s\n", got, want)
+		if golangt != want && recovered == nil {
+			fail = fmt.Sprintf("golangt:\n%s\nwant:\n%s\n", golangt, want)
 		}
 	}
 	if fail != "" || !finished || recovered != nil {

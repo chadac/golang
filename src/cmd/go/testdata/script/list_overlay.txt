@@ -1,63 +1,63 @@
 # Test listing with overlays
 
 # Overlay in an existing directory
-go list -overlay overlay.json  -f '{{.GoFiles}}' .
-stdout '^\[f.go\]$'
+golang list -overlay overlay.json  -f '{{.GoFiles}}' .
+stdout '^\[f.golang\]$'
 
 # Overlays in a non-existing directory
-go list -overlay overlay.json -f '{{.GoFiles}}' ./dir
-stdout '^\[g.go\]$'
+golang list -overlay overlay.json -f '{{.GoFiles}}' ./dir
+stdout '^\[g.golang\]$'
 
 # Overlays in an existing directory with already existing files
-go list -overlay overlay.json -f '{{.GoFiles}}' ./dir2
-stdout '^\[h.go i.go\]$'
+golang list -overlay overlay.json -f '{{.GoFiles}}' ./dir2
+stdout '^\[h.golang i.golang\]$'
 
 # Overlay that removes a file from a directory
-! go list ./dir3 # contains a file without a package statement
-go list -overlay overlay.json -f '{{.GoFiles}}' ./dir3 # overlay removes that file
+! golang list ./dir3 # contains a file without a package statement
+golang list -overlay overlay.json -f '{{.GoFiles}}' ./dir3 # overlay removes that file
 
 # Walking through an overlay
-go list -overlay overlay.json ./...
+golang list -overlay overlay.json ./...
 cmp stdout want-list.txt
 
-# TODO(#39958): assembly files, C files, files that require cgo preprocessing
+# TODO(#39958): assembly files, C files, files that require cgolang preprocessing
 
 -- want-list.txt --
 m
 m/dir
 m/dir2
 m/dir3
--- go.mod --
-// TODO(#39958): Support and test overlays including go.mod itself (especially if mod=readonly)
+-- golang.mod --
+// TODO(#39958): Support and test overlays including golang.mod itself (especially if mod=readonly)
 module m
 
-go 1.16
+golang 1.16
 
--- dir2/h.go --
+-- dir2/h.golang --
 package dir2
 
--- dir3/good.go --
+-- dir3/golangod.golang --
 package dir3
--- dir3/bad.go --
+-- dir3/bad.golang --
 // no package statement
 -- overlay.json --
 {
     "Replace": {
-        "f.go": "overlay/f_go",
-        "dir/g.go": "overlay/dir_g_go",
-        "dir2/i.go": "overlay/dir2_i_go",
-        "dir3/bad.go": ""
+        "f.golang": "overlay/f_golang",
+        "dir/g.golang": "overlay/dir_g_golang",
+        "dir2/i.golang": "overlay/dir2_i_golang",
+        "dir3/bad.golang": ""
     }
 }
--- overlay/f_go --
+-- overlay/f_golang --
 package m
 
 func f() {
 }
--- overlay/dir_g_go --
+-- overlay/dir_g_golang --
 package m
 
 func g() {
 }
--- overlay/dir2_i_go --
+-- overlay/dir2_i_golang --
 package dir2

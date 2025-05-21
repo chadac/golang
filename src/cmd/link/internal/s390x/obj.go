@@ -61,7 +61,7 @@ func Init() (*sys.Arch, ld.Arch) {
 			Freebsddynld:   "XXX",
 			Openbsddynld:   "XXX",
 			Netbsddynld:    "XXX",
-			Dragonflydynld: "XXX",
+			Dragolangnflydynld: "XXX",
 			Solarisdynld:   "XXX",
 
 			Reloc1:    elfreloc1,

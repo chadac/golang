@@ -1,16 +1,16 @@
 # Auxiliary test for inclusion of otherwise-unused replacements in
-# vendor/modules.txt for golang.org/issue/33848.
+# vendor/modules.txt for golanglang.org/issue/33848.
 # We need metadata about replacements in order to verify that modules.txt
-# remains in sync with the main module's go.mod file.
+# remains in sync with the main module's golang.mod file.
 
 env GO111MODULE=on
 
-go mod vendor
-cmp go1.14-modules.txt vendor/modules.txt
+golang mod vendor
+cmp golang1.14-modules.txt vendor/modules.txt
 
--- go.mod --
+-- golang.mod --
 module example.com/foo
-go 1.14
+golang 1.14
 
 require (
 	example.com/a v0.1.0
@@ -25,36 +25,36 @@ replace (
 	example.com/d v0.2.0 => ./d2
 	example.com/e => example.com/e v0.1.0-unused
 )
--- foo.go --
+-- foo.golang --
 package foo
 import _ "example.com/a"
--- a/go.mod --
+-- a/golang.mod --
 module example.com/a
 require (
 	example.com/b v0.1.0 // indirect
 	example.com/c v0.1.0 // indirect
 )
--- a/a.go --
+-- a/a.golang --
 package a
 import _ "example.com/d"
--- b1/go.mod --
+-- b1/golang.mod --
 module example.com/b
 require example.com/d v0.1.0
--- b2/go.mod --
+-- b2/golang.mod --
 module example.com/b
 require example.com/c v0.2.0
--- c/go.mod --
+-- c/golang.mod --
 module example.com/c
 require example.com/d v0.2.0
--- d1/go.mod --
+-- d1/golang.mod --
 module example.com/d
--- d1/d1.go --
+-- d1/d1.golang --
 package d
--- d2/go.mod --
+-- d2/golang.mod --
 module example.com/d
--- d2/d2.go --
+-- d2/d2.golang --
 package d
--- go1.14-modules.txt --
+-- golang1.14-modules.txt --
 # example.com/a v0.1.0 => ./a
 ## explicit
 example.com/a

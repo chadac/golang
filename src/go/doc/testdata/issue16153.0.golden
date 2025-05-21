@@ -5,7 +5,7 @@ IMPORTPATH
 	testdata/issue16153
 
 FILENAMES
-	testdata/issue16153.go
+	testdata/issue16153.golang
 
 CONSTANTS
 	// 

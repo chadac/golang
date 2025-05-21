@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Issue 51101: on RISCV64, difference of two pointers
@@ -15,7 +15,7 @@ func main() {
 	F(&b, &a)
 }
 
-//go:noinline
+//golang:noinline
 func F(a, b *int) bool {
 	x := a == b
 	G(x)
@@ -23,7 +23,7 @@ func F(a, b *int) bool {
 	return y
 }
 
-//go:noinline
+//golang:noinline
 func G(bool) {
 	grow([1000]int{20})
 }

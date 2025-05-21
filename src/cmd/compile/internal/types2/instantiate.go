@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file implements instantiation of generic types
@@ -60,7 +60,7 @@ func Instantiate(ctxt *Context, orig Type, targs []Type, validate bool) (Type, e
 		tparams := orig_.TypeParams().list()
 		assert(len(tparams) > 0)
 		if len(targs) != len(tparams) {
-			return nil, fmt.Errorf("got %d type arguments but %s has %d type parameters", len(targs), orig, len(tparams))
+			return nil, fmt.Errorf("golangt %d type arguments but %s has %d type parameters", len(targs), orig, len(tparams))
 		}
 		if i, err := (*Checker)(nil).verify(nopos, tparams, targs, ctxt); err != nil {
 			return nil, &ArgumentError{i, err}
@@ -134,7 +134,7 @@ func (check *Checker) instance(pos syntax.Pos, orig genericType, targs []Type, e
 			assert(expanding == nil) // Alias instances cannot be reached from Named types
 		}
 
-		// verify type parameter count (see go.dev/issue/71198 for a test case)
+		// verify type parameter count (see golang.dev/issue/71198 for a test case)
 		tparams := orig.TypeParams()
 		if !check.validateTArgLen(pos, orig.obj.Name(), tparams.Len(), len(targs)) {
 			// TODO(gri) Consider returning a valid alias instance with invalid
@@ -182,21 +182,21 @@ func (check *Checker) instance(pos syntax.Pos, orig genericType, targs []Type, e
 	return updateContexts(res)
 }
 
-// validateTArgLen checks that the number of type arguments (got) matches the
+// validateTArgLen checks that the number of type arguments (golangt) matches the
 // number of type parameters (want); if they don't match an error is reported.
 // If validation fails and check is nil, validateTArgLen panics.
-func (check *Checker) validateTArgLen(pos syntax.Pos, name string, want, got int) bool {
+func (check *Checker) validateTArgLen(pos syntax.Pos, name string, want, golangt int) bool {
 	var qual string
 	switch {
-	case got < want:
+	case golangt < want:
 		qual = "not enough"
-	case got > want:
+	case golangt > want:
 		qual = "too many"
 	default:
 		return true
 	}
 
-	msg := check.sprintf("%s type arguments for type %s: have %d, want %d", qual, name, got, want)
+	msg := check.sprintf("%s type arguments for type %s: have %d, want %d", qual, name, golangt, want)
 	if check != nil {
 		check.error(atPos(pos), WrongTypeArgCount, msg)
 		return false
@@ -209,7 +209,7 @@ func (check *Checker) validateTArgLen(pos syntax.Pos, name string, want, got int
 func (check *Checker) verify(pos syntax.Pos, tparams []*TypeParam, targs []Type, ctxt *Context) (int, error) {
 	smap := makeSubstMap(tparams, targs)
 	for i, tpar := range tparams {
-		// Ensure that we have a (possibly implicit) interface as type bound (go.dev/issue/51048).
+		// Ensure that we have a (possibly implicit) interface as type bound (golang.dev/issue/51048).
 		tpar.iface()
 		// The type parameter bound is parameterized with the same type parameters
 		// as the instantiated type; before we can use it for bounds checking we
@@ -237,7 +237,7 @@ func (check *Checker) implements(V, T Type, constraint bool, cause *string) bool
 		return true // avoid follow-on errors
 	}
 	if p, _ := Vu.(*Pointer); p != nil && !isValid(under(p.base)) {
-		return true // avoid follow-on errors (see go.dev/issue/49541 for an example)
+		return true // avoid follow-on errors (see golang.dev/issue/49541 for an example)
 	}
 
 	verb := "implement"
@@ -303,11 +303,11 @@ func (check *Checker) implements(V, T Type, constraint bool, cause *string) bool
 		// so that ordinary, non-type parameter interfaces implement comparable.
 		if constraint && comparableType(V, true /* spec comparability */, nil) == nil {
 			// V is comparable if we are at Go 1.20 or higher.
-			if check == nil || check.allowVersion(go1_20) {
+			if check == nil || check.allowVersion(golang1_20) {
 				return true
 			}
 			if cause != nil {
-				*cause = check.sprintf("%s to %s comparable requires go1.20 or later", V, verb)
+				*cause = check.sprintf("%s to %s comparable requires golang1.20 or later", V, verb)
 			}
 			return false
 		}

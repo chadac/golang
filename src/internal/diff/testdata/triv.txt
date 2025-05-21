@@ -1,5 +1,5 @@
 Another example from Hunt and McIlroy,
-“An Algorithm for Differential File Comparison.”
+“An Algolangrithm for Differential File Comparison.”
 https://www.cs.dartmouth.edu/~doug/diff.pdf
 
 Anchored diff gives up on finding anything,

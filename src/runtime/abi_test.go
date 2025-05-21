@@ -1,8 +1,8 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build goexperiment.regabiargs
+//golang:build golangexperiment.regabiargs
 
 // This file contains tests specific to making sure the register ABI
 // works in a bunch of contexts in the runtime.
@@ -23,13 +23,13 @@ import (
 
 var regConfirmRun atomic.Int32
 
-//go:registerparams
+//golang:registerparams
 func regFinalizerPointer(v *TintPointer) (int, float32, [10]byte) {
 	regConfirmRun.Store(int32(*(*int)(v.p)))
 	return 5151, 4.0, [10]byte{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 }
 
-//go:registerparams
+//golang:registerparams
 func regFinalizerIface(v Tinter) (int, float32, [10]byte) {
 	regConfirmRun.Store(int32(*(*int)(v.(*TintPointer).p)))
 	return 5151, 4.0, [10]byte{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
@@ -66,11 +66,11 @@ func TestFinalizerRegisterABI(t *testing.T) {
 	runtime.GC()
 	runtime.GC()
 
-	// Make sure the finalizer goroutine is running.
+	// Make sure the finalizer golangroutine is running.
 	runtime.SetFinalizer(new(TintPointer), func(_ *TintPointer) {})
 
 	// fing will only pick the new IntRegArgs up if it's currently
-	// sleeping and wakes up, so wait for it to go to sleep.
+	// sleeping and wakes up, so wait for it to golang to sleep.
 	success := false
 	for i := 0; i < 100; i++ {
 		if runtime.FinalizerGAsleep() {
@@ -110,8 +110,8 @@ func TestFinalizerRegisterABI(t *testing.T) {
 			if !runtime.BlockUntilEmptyFinalizerQueue(int64(time.Second)) {
 				t.Fatal("finalizer failed to execute")
 			}
-			if got := int(regConfirmRun.Load()); got != test.confirmValue {
-				t.Fatalf("wrong finalizer executed? got %d, want %d", got, test.confirmValue)
+			if golangt := int(regConfirmRun.Load()); golangt != test.confirmValue {
+				t.Fatalf("wrong finalizer executed? golangt %d, want %d", golangt, test.confirmValue)
 			}
 		})
 	}

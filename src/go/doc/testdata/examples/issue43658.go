@@ -1,7 +1,7 @@
 // Copyright ©2016 The Gonum Authors. All rights reserved.
 // Copyright 2021 The Go Authors. All rights reserved.
 // (above line required for our license-header checker)
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package community_test
@@ -11,16 +11,16 @@ import (
 	"log"
 	"sort"
 
-	"golang.org/x/exp/rand"
+	"golanglang.org/x/exp/rand"
 
-	"gonum.org/v1/gonum/graph/community"
-	"gonum.org/v1/gonum/graph/internal/ordered"
-	"gonum.org/v1/gonum/graph/simple"
+	"golangnum.org/v1/golangnum/graph/community"
+	"golangnum.org/v1/golangnum/graph/internal/ordered"
+	"golangnum.org/v1/golangnum/graph/simple"
 )
 
 func ExampleProfile_simple() {
-	// Profile calls Modularize which implements the Louvain modularization algorithm.
-	// Since this is a randomized algorithm we use a defined random source to ensure
+	// Profile calls Modularize which implements the Louvain modularization algolangrithm.
+	// Since this is a randomized algolangrithm we use a defined random source to ensure
 	// consistency between test runs. In practice, results will not differ greatly
 	// between runs with different PRNG seeds.
 	src := rand.NewSource(1)
@@ -174,7 +174,7 @@ func init() {
 
 func ExampleProfile_multiplex() {
 	// Profile calls ModularizeMultiplex which implements the Louvain modularization
-	// algorithm. Since this is a randomized algorithm we use a defined random source
+	// algolangrithm. Since this is a randomized algolangrithm we use a defined random source
 	// to ensure consistency between test runs. In practice, results will not differ
 	// greatly between runs with different PRNG seeds.
 	src := rand.NewSource(1)

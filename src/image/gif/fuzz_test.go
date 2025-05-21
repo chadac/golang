@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package gif
@@ -55,10 +55,10 @@ func FuzzDecode(f *testing.F) {
 			if err != nil {
 				t.Fatalf("failed to decode roundtripped image: %s", err)
 			}
-			got := img1.Bounds()
+			golangt := img1.Bounds()
 			want := img.Bounds()
-			if !got.Eq(want) {
-				t.Fatalf("roundtripped image bounds have changed, got: %v, want: %v", got, want)
+			if !golangt.Eq(want) {
+				t.Fatalf("roundtripped image bounds have changed, golangt: %v, want: %v", golangt, want)
 			}
 		}
 	})

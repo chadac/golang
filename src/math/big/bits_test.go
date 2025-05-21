@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file implements the Bits type used for testing Float operations
@@ -51,10 +51,10 @@ func TestMulBits(t *testing.T) {
 		{Bits{-1}, Bits{1}, Bits{0}},
 		{Bits{-10, -1, 0, 1, 10}, Bits{1, 2, 3}, Bits{-9, -8, -7, 0, 1, 2, 1, 2, 3, 2, 3, 4, 11, 12, 13}},
 	} {
-		got := fmt.Sprintf("%v", test.x.mul(test.y))
+		golangt := fmt.Sprintf("%v", test.x.mul(test.y))
 		want := fmt.Sprintf("%v", test.want)
-		if got != want {
-			t.Errorf("%v * %v = %s; want %s", test.x, test.y, got, want)
+		if golangt != want {
+			t.Errorf("%v * %v = %s; want %s", test.x, test.y, golangt, want)
 		}
 
 	}
@@ -93,10 +93,10 @@ func TestNormBits(t *testing.T) {
 		{Bits{3, 1, 1}, Bits{2, 3}},
 		{Bits{10, 9, 8, 7, 6, 6}, Bits{11}},
 	} {
-		got := fmt.Sprintf("%v", test.x.norm())
+		golangt := fmt.Sprintf("%v", test.x.norm())
 		want := fmt.Sprintf("%v", test.want)
-		if got != want {
-			t.Errorf("normBits(%v) = %s; want %s", test.x, got, want)
+		if golangt != want {
+			t.Errorf("normBits(%v) = %s; want %s", test.x, golangt, want)
 		}
 
 	}
@@ -217,8 +217,8 @@ func TestFromBits(t *testing.T) {
 		{append(Bits{2, 1, 0} /* 7 */, Bits{3, 1} /* 10 */ ...), "0x.88p+5" /* 17 */},
 	} {
 		f := test.bits.Float()
-		if got := f.Text('p', 0); got != test.want {
-			t.Errorf("setBits(%v) = %s; want %s", test.bits, got, test.want)
+		if golangt := f.Text('p', 0); golangt != test.want {
+			t.Errorf("setBits(%v) = %s; want %s", test.bits, golangt, test.want)
 		}
 	}
 }

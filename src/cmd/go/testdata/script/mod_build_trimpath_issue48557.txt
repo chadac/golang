@@ -7,20 +7,20 @@
 [short] skip  # links and runs binaries
 
 env GOFLAGS=-trimpath
-env GOCACHE=$WORK/gocache
+env GOCACHE=$WORK/golangcache
 
 
 # When we build a binary in module mode with -trimpath, the -D flag (for the
 # "local import prefix") should not be passed to it.
 
 cd $WORK/tmp/foo
-go build -x -o a.exe main.go
+golang build -x -o a.exe main.golang
 stderr ${/}compile$GOEXE.*' -nolocalimports'
 ! stderr ${/}compile$GOEXE.*' -D[ =]'
 
-go tool buildid a.exe
+golang tool buildid a.exe
 cp stdout ../foo-buildid.txt
-go version a.exe
+golang version a.exe
 cp stdout ../foo-version.txt
 cd ..
 
@@ -30,14 +30,14 @@ cd ..
 # Only the linker and buildid tool should be needed.
 
 mkdir bar
-cp foo/main.go bar/main.go
+cp foo/main.golang bar/main.golang
 cd bar
-go build -x -o a.exe main.go
+golang build -x -o a.exe main.golang
 ! stderr ${/}compile$GOEXE
 
-go tool buildid a.exe
+golang tool buildid a.exe
 cp stdout ../bar-buildid.txt
-go version a.exe
+golang version a.exe
 cp stdout ../bar-version.txt
 cd ..
 
@@ -46,7 +46,7 @@ cmp bar-version.txt foo-version.txt
 cmp bar/a.exe foo/a.exe
 
 
--- $WORK/tmp/foo/main.go --
+-- $WORK/tmp/foo/main.golang --
 package main
 
 func main() {}

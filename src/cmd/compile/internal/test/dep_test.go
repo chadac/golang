@@ -1,5 +1,5 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package test
@@ -17,11 +17,11 @@ func TestDeps(t *testing.T) {
 	}
 	for _, dep := range strings.Fields(strings.Trim(string(out), "[]")) {
 		switch dep {
-		case "go/build", "go/scanner":
+		case "golang/build", "golang/scanner":
 			// cmd/compile/internal/importer introduces a dependency
-			// on go/build and go/token; cmd/compile/internal/ uses
-			// go/constant which uses go/token in its API. Once we
-			// got rid of those dependencies, enable this check again.
+			// on golang/build and golang/token; cmd/compile/internal/ uses
+			// golang/constant which uses golang/token in its API. Once we
+			// golangt rid of those dependencies, enable this check again.
 			// TODO(gri) fix this
 			// t.Errorf("undesired dependency on %q", dep)
 		}

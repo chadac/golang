@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Make sure address calculations don't float up before
@@ -13,14 +13,14 @@ type T struct {
 	a, b int
 }
 
-//go:noinline
+//golang:noinline
 func f(x *T, p *bool, n int) {
 	*p = n != 0
 	useStack(1000)
 	g(&x.b)
 }
 
-//go:noinline
+//golang:noinline
 func g(p *int) {
 }
 
@@ -41,7 +41,7 @@ func main() {
 func mustPanic(f func()) {
 	defer func() {
 		if recover() == nil {
-			panic("expected panic, got nil")
+			panic("expected panic, golangt nil")
 		}
 	}()
 	f()

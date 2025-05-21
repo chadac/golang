@@ -1,4 +1,4 @@
-  src/cmd/compile/internal/ssa/testdata/i22600.go
+  src/cmd/compile/internal/ssa/testdata/i22600.golang
 8:	func test() {
 9:		pwd, err := os.Getwd()
 10:		if err != nil {

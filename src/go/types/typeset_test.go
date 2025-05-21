@@ -1,13 +1,13 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package types
 
 import (
-	"go/ast"
-	"go/parser"
-	"go/token"
+	"golang/ast"
+	"golang/parser"
+	"golang/token"
 	"testing"
 )
 
@@ -48,7 +48,7 @@ func TestTypeSetString(t *testing.T) {
 		// parse
 		src := "package p; type T interface" + body
 		fset := token.NewFileSet()
-		file, err := parser.ParseFile(fset, "p.go", src, parser.AllErrors)
+		file, err := parser.ParseFile(fset, "p.golang", src, parser.AllErrors)
 		if file == nil {
 			t.Fatalf("%s: %v (invalid test case)", body, err)
 		}
@@ -71,9 +71,9 @@ func TestTypeSetString(t *testing.T) {
 		}
 
 		// verify test case
-		got := T.typeSet().String()
-		if got != want {
-			t.Errorf("%s: got %s; want %s", body, got, want)
+		golangt := T.typeSet().String()
+		if golangt != want {
+			t.Errorf("%s: golangt %s; want %s", body, golangt, want)
 		}
 	}
 }

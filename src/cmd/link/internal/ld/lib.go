@@ -51,7 +51,7 @@ import (
 	"time"
 
 	"cmd/internal/bio"
-	"cmd/internal/goobj"
+	"cmd/internal/golangobj"
 	"cmd/internal/hash"
 	"cmd/internal/objabi"
 	"cmd/internal/sys"
@@ -144,9 +144,9 @@ func (ctxt *Link) mkArchSymVec(name string, ver int, ls []loader.Sym) {
 // setArchSyms sets up the ArchSyms structure, and must be called before
 // relocations are applied.
 func (ctxt *Link) setArchSyms() {
-	ctxt.mkArchSym(".got", 0, &ctxt.GOT)
+	ctxt.mkArchSym(".golangt", 0, &ctxt.GOT)
 	ctxt.mkArchSym(".plt", 0, &ctxt.PLT)
-	ctxt.mkArchSym(".got.plt", 0, &ctxt.GOTPLT)
+	ctxt.mkArchSym(".golangt.plt", 0, &ctxt.GOTPLT)
 	ctxt.mkArchSym(".dynamic", 0, &ctxt.Dynamic)
 	ctxt.mkArchSym(".dynsym", 0, &ctxt.DynSym)
 	ctxt.mkArchSym(".dynstr", 0, &ctxt.DynStr)
@@ -170,7 +170,7 @@ func (ctxt *Link) setArchSyms() {
 		ctxt.mkArchSym(".rela.plt", 0, &ctxt.RelaPLT)
 	}
 	if ctxt.IsDarwin() {
-		ctxt.mkArchSym(".linkedit.got", 0, &ctxt.LinkEditGOT)
+		ctxt.mkArchSym(".linkedit.golangt", 0, &ctxt.LinkEditGOT)
 		ctxt.mkArchSym(".linkedit.plt", 0, &ctxt.LinkEditPLT)
 	}
 }
@@ -306,7 +306,7 @@ var (
 	ldflag          []string
 	havedynamic     int
 	Funcalign       int
-	iscgo           bool
+	iscgolang           bool
 	elfglobalsymndx int
 	interpreter     string
 
@@ -342,7 +342,7 @@ var (
 	externalobj = false
 
 	// dynimportfail is a list of packages for which generating
-	// the dynimport file, _cgo_import.go, failed. If there are
+	// the dynimport file, _cgolang_import.golang, failed. If there are
 	// any of these objects, we must link externally. Issue 52863.
 	dynimportfail []string
 
@@ -383,7 +383,7 @@ func libinit(ctxt *Link) {
 		Funcalign = thearch.Funcalign
 	}
 
-	// add goroot to the end of the libdir list.
+	// add golangroot to the end of the libdir list.
 	suffix := ""
 
 	suffixsep := ""
@@ -439,7 +439,7 @@ func errorexit() {
 }
 
 func loadinternal(ctxt *Link, name string) *sym.Library {
-	zerofp := goobj.FingerprintType{}
+	zerofp := golangobj.FingerprintType{}
 	if ctxt.linkShared && ctxt.PackageShlib != nil {
 		if shlib := ctxt.PackageShlib[name]; shlib != "" {
 			return addlibpath(ctxt, "internal", "internal", "", name, shlib, zerofp)
@@ -484,7 +484,7 @@ func (ctxt *Link) extld() []string {
 	if len(flagExtld) == 0 {
 		// Return the default external linker for the platform.
 		// This only matters when link tool is called directly without explicit -extld,
-		// go tool already passes the correct linker in other cases.
+		// golang tool already passes the correct linker in other cases.
 		switch buildcfg.GOOS {
 		case "darwin", "freebsd", "openbsd":
 			flagExtld = []string{"clang"}
@@ -572,23 +572,23 @@ func (ctxt *Link) loadlib() {
 	// added to the symbol table (only defined package symbols are). Looking
 	// up symbol by name may not get expected result.
 
-	iscgo = ctxt.LibraryByPkg["runtime/cgo"] != nil
+	iscgolang = ctxt.LibraryByPkg["runtime/cgolang"] != nil
 
-	// Plugins a require cgo support to function. Similarly, plugins may require additional
+	// Plugins a require cgolang support to function. Similarly, plugins may require additional
 	// internal linker support on some platforms which may not be implemented.
-	ctxt.canUsePlugins = ctxt.LibraryByPkg["plugin"] != nil && iscgo
+	ctxt.canUsePlugins = ctxt.LibraryByPkg["plugin"] != nil && iscgolang
 
 	// We now have enough information to determine the link mode.
 	determineLinkMode(ctxt)
 
-	if ctxt.LinkMode == LinkExternal && !iscgo && !(buildcfg.GOOS == "darwin" && ctxt.BuildMode != BuildModePlugin && ctxt.Arch.Family == sys.AMD64) {
+	if ctxt.LinkMode == LinkExternal && !iscgolang && !(buildcfg.GOOS == "darwin" && ctxt.BuildMode != BuildModePlugin && ctxt.Arch.Family == sys.AMD64) {
 		// This indicates a user requested -linkmode=external.
-		// The startup code uses an import of runtime/cgo to decide
+		// The startup code uses an import of runtime/cgolang to decide
 		// whether to initialize the TLS.  So give it one. This could
 		// be handled differently but it's an unusual case.
-		if lib := loadinternal(ctxt, "runtime/cgo"); lib != nil && lib.Shlib == "" {
+		if lib := loadinternal(ctxt, "runtime/cgolang"); lib != nil && lib.Shlib == "" {
 			if ctxt.BuildMode == BuildModeShared || ctxt.linkShared {
-				Exitf("cannot implicitly include runtime/cgo in a shared library")
+				Exitf("cannot implicitly include runtime/cgolang in a shared library")
 			}
 			for ; i < len(ctxt.Library); i++ {
 				lib := ctxt.Library[i]
@@ -612,8 +612,8 @@ func (ctxt *Link) loadlib() {
 		}
 	}
 
-	// Process cgo directives (has to be done before host object loading).
-	ctxt.loadcgodirectives()
+	// Process cgolang directives (has to be done before host object loading).
+	ctxt.loadcgolangdirectives()
 
 	// Conditionally load host objects, or setup for external linking.
 	hostobjs(ctxt)
@@ -721,7 +721,7 @@ func loadWindowsHostArchives(ctxt *Link) {
 			hostArchive(ctxt, p)
 		}
 		// Link libmsvcrt.a to resolve '__acrt_iob_func' symbol
-		// (see https://golang.org/issue/23649 for details).
+		// (see https://golanglang.org/issue/23649 for details).
 		if p := ctxt.findLibPath("libmsvcrt.a"); p != "none" {
 			hostArchive(ctxt, p)
 		}
@@ -763,33 +763,33 @@ func loadWindowsHostArchives(ctxt *Link) {
 	// libmingwex.a and libmingw32.a:
 	/*
 		for:
-		#cgo windows LDFLAGS: -lmsvcrt -lm
+		#cgolang windows LDFLAGS: -lmsvcrt -lm
 		import:
 		libmsvcrt.a libm.a
 	*/
 }
 
-// loadcgodirectives reads the previously discovered cgo directives, creating
+// loadcgolangdirectives reads the previously discovered cgolang directives, creating
 // symbols in preparation for host object loading or use later in the link.
-func (ctxt *Link) loadcgodirectives() {
+func (ctxt *Link) loadcgolangdirectives() {
 	l := ctxt.loader
 	hostObjSyms := make(map[loader.Sym]struct{})
-	for _, d := range ctxt.cgodata {
-		setCgoAttr(ctxt, d.file, d.pkg, d.directives, hostObjSyms)
+	for _, d := range ctxt.cgolangdata {
+		setCgolangAttr(ctxt, d.file, d.pkg, d.directives, hostObjSyms)
 	}
-	ctxt.cgodata = nil
+	ctxt.cgolangdata = nil
 
 	if ctxt.LinkMode == LinkInternal {
-		// Drop all the cgo_import_static declarations.
+		// Drop all the cgolang_import_static declarations.
 		// Turns out we won't be needing them.
 		for symIdx := range hostObjSyms {
 			if l.SymType(symIdx) == sym.SHOSTOBJ {
 				// If a symbol was marked both
-				// cgo_import_static and cgo_import_dynamic,
-				// then we want to make it cgo_import_dynamic
+				// cgolang_import_static and cgolang_import_dynamic,
+				// then we want to make it cgolang_import_dynamic
 				// now.
 				su := l.MakeSymbolUpdater(symIdx)
-				if l.SymExtname(symIdx) != "" && l.SymDynimplib(symIdx) != "" && !(l.AttrCgoExportStatic(symIdx) || l.AttrCgoExportDynamic(symIdx)) {
+				if l.SymExtname(symIdx) != "" && l.SymDynimplib(symIdx) != "" && !(l.AttrCgolangExportStatic(symIdx) || l.AttrCgolangExportDynamic(symIdx)) {
 					su.SetType(sym.SDYNIMPORT)
 				} else {
 					su.SetType(0)
@@ -882,20 +882,20 @@ func (ctxt *Link) linksetup() {
 		// library") we are linking contains the runtime package, it
 		// will define the runtime.firstmoduledata symbol and we
 		// truncate it back to 0 bytes so we can define its entire
-		// contents in symtab.go:symtab().
+		// contents in symtab.golang:symtab().
 		mdsb.SetSize(0)
 
 		// In addition, on ARM, the runtime depends on the linker
 		// recording the value of GOARM.
 		if ctxt.Arch.Family == sys.ARM {
-			goarm := ctxt.loader.LookupOrCreateSym("runtime.goarm", 0)
-			sb := ctxt.loader.MakeSymbolUpdater(goarm)
+			golangarm := ctxt.loader.LookupOrCreateSym("runtime.golangarm", 0)
+			sb := ctxt.loader.MakeSymbolUpdater(golangarm)
 			sb.SetType(sym.SNOPTRDATA)
 			sb.SetSize(0)
 			sb.AddUint8(uint8(buildcfg.GOARM.Version))
 
-			goarmsoftfp := ctxt.loader.LookupOrCreateSym("runtime.goarmsoftfp", 0)
-			sb2 := ctxt.loader.MakeSymbolUpdater(goarmsoftfp)
+			golangarmsoftfp := ctxt.loader.LookupOrCreateSym("runtime.golangarmsoftfp", 0)
+			sb2 := ctxt.loader.MakeSymbolUpdater(golangarmsoftfp)
 			sb2.SetType(sym.SNOPTRDATA)
 			sb2.SetSize(0)
 			if buildcfg.GOARM.SoftFloat {
@@ -931,10 +931,10 @@ func (ctxt *Link) linksetup() {
 
 	if ctxt.Arch == sys.Arch386 && ctxt.HeadType != objabi.Hwindows {
 		if (ctxt.BuildMode == BuildModeCArchive && ctxt.IsELF) || ctxt.BuildMode == BuildModeCShared || ctxt.BuildMode == BuildModePIE || ctxt.DynlinkingGo() {
-			got := ctxt.loader.LookupOrCreateSym("_GLOBAL_OFFSET_TABLE_", 0)
-			sb := ctxt.loader.MakeSymbolUpdater(got)
+			golangt := ctxt.loader.LookupOrCreateSym("_GLOBAL_OFFSET_TABLE_", 0)
+			sb := ctxt.loader.MakeSymbolUpdater(golangt)
 			sb.SetType(sym.SDYNIMPORT)
-			ctxt.loader.SetAttrReachable(got, true)
+			ctxt.loader.SetAttrReachable(golangt, true)
 		}
 	}
 
@@ -1017,8 +1017,8 @@ func typeSymbolMangle(name string) string {
 	if strings.HasPrefix(name, "type:runtime.") {
 		return name
 	}
-	if strings.HasPrefix(name, "go:string.") {
-		// String symbols will be grouped to a single go:string.* symbol.
+	if strings.HasPrefix(name, "golang:string.") {
+		// String symbols will be grouped to a single golang:string.* symbol.
 		// No need to mangle individual symbol names.
 		return name
 	}
@@ -1181,7 +1181,7 @@ var internalpkg = []string{
 	"crypto/x509",
 	"net",
 	"os/user",
-	"runtime/cgo",
+	"runtime/cgolang",
 	"runtime/race",
 	"runtime/race/internal/amd64v1",
 	"runtime/race/internal/amd64v3",
@@ -1198,13 +1198,13 @@ func ldhostobj(ld func(*Link, *bio.Reader, string, int64, string), headType obja
 		}
 	}
 
-	// DragonFly declares errno with __thread, which results in a symbol
+	// DragolangnFly declares errno with __thread, which results in a symbol
 	// type of R_386_TLS_GD or R_X86_64_TLSGD. The Go linker does not
 	// currently know how to handle TLS relocations, hence we have to
 	// force external linking for any libraries that link in code that
 	// uses errno. This can be removed if the Go linker ever supports
 	// these relocation types.
-	if headType == objabi.Hdragonfly {
+	if headType == objabi.Hdragolangnfly {
 		if pkg == "net" || pkg == "os/user" {
 			isinternal = false
 		}
@@ -1263,7 +1263,7 @@ func hostlinksetup(ctxt *Link) {
 
 	// create temporary directory and arrange cleanup
 	if *flagTmpdir == "" {
-		dir, err := os.MkdirTemp("", "go-link-")
+		dir, err := os.MkdirTemp("", "golang-link-")
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -1280,7 +1280,7 @@ func hostlinksetup(ctxt *Link) {
 	}
 	mayberemoveoutfile()
 
-	p := filepath.Join(*flagTmpdir, "go.o")
+	p := filepath.Join(*flagTmpdir, "golang.o")
 	if err := ctxt.Out.Open(p); err != nil {
 		Exitf("cannot create %s: %v", p, err)
 	}
@@ -1316,7 +1316,7 @@ func (ctxt *Link) hostobjCopy() (paths []string) {
 		}
 
 		wg.Add(1)
-		go func() {
+		golang func() {
 			sema <- struct{}{}
 			defer func() {
 				<-sema
@@ -1350,7 +1350,7 @@ func (ctxt *Link) hostobjCopy() (paths []string) {
 // writeGDBLinkerScript creates gcc linker script file in temp
 // directory. writeGDBLinkerScript returns created file path.
 // The script is used to work around gcc bug
-// (see https://golang.org/issue/20183 for details).
+// (see https://golanglang.org/issue/20183 for details).
 func writeGDBLinkerScript() string {
 	name := "fix_debug_gdb_scripts.ld"
 	path := filepath.Join(*flagTmpdir, name)
@@ -1401,13 +1401,13 @@ func (ctxt *Link) archive() {
 	if ctxt.HeadType == objabi.Haix {
 		argv = append(argv, "-X64")
 	}
-	godotopath := filepath.Join(*flagTmpdir, "go.o")
-	cleanTimeStamps([]string{godotopath})
+	golangdotopath := filepath.Join(*flagTmpdir, "golang.o")
+	cleanTimeStamps([]string{golangdotopath})
 	hostObjCopyPaths := ctxt.hostobjCopy()
 	cleanTimeStamps(hostObjCopyPaths)
 
 	argv = append(argv, *flagOutfile)
-	argv = append(argv, godotopath)
+	argv = append(argv, golangdotopath)
 	argv = append(argv, hostObjCopyPaths...)
 
 	if ctxt.Debugvlog != 0 {
@@ -1678,20 +1678,20 @@ func (ctxt *Link) hostlink() {
 		if ctxt.Arch.InFamily(sys.ARM64) && buildcfg.GOOS == "linux" {
 			// On ARM64, the GNU linker will fail with
 			// -znocopyreloc if it thinks a COPY relocation is
-			// required. Switch to gold.
+			// required. Switch to golangld.
 			// https://sourceware.org/bugzilla/show_bug.cgi?id=19962
-			// https://go.dev/issue/22040
-			altLinker = "gold"
+			// https://golang.dev/issue/22040
+			altLinker = "golangld"
 
-			// If gold is not installed, gcc will silently switch
+			// If golangld is not installed, gcc will silently switch
 			// back to ld.bfd. So we parse the version information
-			// and provide a useful error if gold is missing.
+			// and provide a useful error if golangld is missing.
 			name, args := flagExtld[0], flagExtld[1:]
-			args = append(args, "-fuse-ld=gold", "-Wl,--version")
+			args = append(args, "-fuse-ld=golangld", "-Wl,--version")
 			cmd := exec.Command(name, args...)
 			if out, err := cmd.CombinedOutput(); err == nil {
-				if !bytes.Contains(out, []byte("GNU gold")) {
-					log.Fatalf("ARM64 external linker must be gold (issue #15696, 22040), but is not: %s", out)
+				if !bytes.Contains(out, []byte("GNU golangld")) {
+					log.Fatalf("ARM64 external linker must be golangld (issue #15696, 22040), but is not: %s", out)
 				}
 			}
 		}
@@ -1753,7 +1753,7 @@ func (ctxt *Link) hostlink() {
 			argv = append(argv, "-rdynamic")
 		} else {
 			var exports []string
-			ctxt.loader.ForAllCgoExportDynamic(func(s loader.Sym) {
+			ctxt.loader.ForAllCgolangExportDynamic(func(s loader.Sym) {
 				exports = append(exports, "-Wl,--export-dynamic-symbol="+ctxt.loader.SymExtname(s))
 			})
 			sort.Strings(exports)
@@ -1788,10 +1788,10 @@ func (ctxt *Link) hostlink() {
 
 	hostObjCopyPaths := ctxt.hostobjCopy()
 	cleanTimeStamps(hostObjCopyPaths)
-	godotopath := filepath.Join(*flagTmpdir, "go.o")
-	cleanTimeStamps([]string{godotopath})
+	golangdotopath := filepath.Join(*flagTmpdir, "golang.o")
+	cleanTimeStamps([]string{golangdotopath})
 
-	argv = append(argv, godotopath)
+	argv = append(argv, golangdotopath)
 	argv = append(argv, hostObjCopyPaths...)
 	if ctxt.HeadType == objabi.Haix {
 		// We want to have C files after Go files to remove
@@ -1917,7 +1917,7 @@ func (ctxt *Link) hostlink() {
 		}
 
 		// use gcc linker script to work around gcc bug
-		// (see https://golang.org/issue/20183 for details).
+		// (see https://golanglang.org/issue/20183 for details).
 		if !usingLLD {
 			p := writeGDBLinkerScript()
 			argv = append(argv, "-Wl,-T,"+p)
@@ -1950,11 +1950,11 @@ func (ctxt *Link) hostlink() {
 	}
 
 	// Filter out useless linker warnings caused by bugs outside Go.
-	// See also cmd/go/internal/work/exec.go's gccld method.
+	// See also cmd/golang/internal/work/exec.golang's gccld method.
 	var save [][]byte
 	var skipLines int
 	for _, line := range bytes.SplitAfter(out, []byte("\n")) {
-		// golang.org/issue/26073 - Apple Xcode bug
+		// golanglang.org/issue/26073 - Apple Xcode bug
 		if bytes.Contains(line, []byte("ld: warning: text-based stub file")) {
 			continue
 		}
@@ -1976,7 +1976,7 @@ func (ctxt *Link) hostlink() {
 
 	if len(out) > 0 {
 		// always print external output even if the command is successful, so that we don't
-		// swallow linker warnings (see https://golang.org/issue/17935).
+		// swallow linker warnings (see https://golanglang.org/issue/17935).
 		if ctxt.IsDarwin() && ctxt.IsAMD64() {
 			const noPieWarning = "ld: warning: -no_pie is deprecated when targeting new OS versions\n"
 			if i := bytes.Index(out, []byte(noPieWarning)); i >= 0 {
@@ -2026,7 +2026,7 @@ func (ctxt *Link) hostlink() {
 		dsymutilCmd := ctxt.findExtLinkTool("dsymutil")
 		stripCmd := ctxt.findExtLinkTool("strip")
 
-		dsym := filepath.Join(*flagTmpdir, "go.dwarf")
+		dsym := filepath.Join(*flagTmpdir, "golang.dwarf")
 		cmd := exec.Command(dsymutilCmd, "-f", *flagOutfile, "-o", dsym)
 		// dsymutil may not clean up its temp directory at exit.
 		// Set DSYMUTIL_REPRODUCER_PATH to work around. see issue 59026.
@@ -2354,9 +2354,9 @@ func ldobj(ctxt *Link, f *bio.Reader, lib *sym.Library, length int64, pn string,
 		return nil
 	}
 
-	if !strings.HasPrefix(line, "go object ") {
-		if strings.HasSuffix(pn, ".go") {
-			Exitf("%s: uncompiled .go source file", pn)
+	if !strings.HasPrefix(line, "golang object ") {
+		if strings.HasSuffix(pn, ".golang") {
+			Exitf("%s: uncompiled .golang source file", pn)
 			return nil
 		}
 
@@ -2417,8 +2417,8 @@ func ldobj(ctxt *Link, f *bio.Reader, lib *sym.Library, length int64, pn string,
 	if !fingerprint.IsZero() { // Assembly objects don't have fingerprints. Ignore them.
 		// Check fingerprint, to ensure the importing and imported packages
 		// have consistent view of symbol indices.
-		// Normally the go command should ensure this. But in case something
-		// goes wrong, it could lead to obscure bugs like run-time crash.
+		// Normally the golang command should ensure this. But in case something
+		// golanges wrong, it could lead to obscure bugs like run-time crash.
 		// Check it here to be sure.
 		if lib.Fingerprint.IsZero() { // Not yet imported. Update its fingerprint.
 			lib.Fingerprint = fingerprint
@@ -2488,7 +2488,7 @@ func hostObject(ctxt *Link, objname string, path string) {
 	}
 }
 
-func checkFingerprint(lib *sym.Library, libfp goobj.FingerprintType, src string, srcfp goobj.FingerprintType) {
+func checkFingerprint(lib *sym.Library, libfp golangobj.FingerprintType, src string, srcfp golangobj.FingerprintType) {
 	if libfp != srcfp {
 		Exitf("fingerprint mismatch: %s has %x, import from %s expecting %x", lib, libfp, src, srcfp)
 	}
@@ -2646,7 +2646,7 @@ func ldshlibsyms(ctxt *Link, shlib string) {
 		if elf.ST_TYPE(elfsym.Info) == elf.STT_FUNC && strings.HasPrefix(elfsym.Name, "type:") {
 			ver = abiInternalVer
 		} else if buildcfg.Experiment.RegabiWrappers && elf.ST_TYPE(elfsym.Info) == elf.STT_FUNC {
-			// Demangle the ABI name. Keep in sync with symtab.go:mangleABIName.
+			// Demangle the ABI name. Keep in sync with symtab.golang:mangleABIName.
 			if strings.HasSuffix(elfsym.Name, ".abiinternal") {
 				ver = sym.SymVerABIInternal
 				symname = strings.TrimSuffix(elfsym.Name, ".abiinternal")
@@ -2674,7 +2674,7 @@ func ldshlibsyms(ctxt *Link, shlib string) {
 			// Set .File for the library that actually defines the symbol.
 			l.SetSymPkg(s, libpath)
 
-			// The decodetype_* functions in decodetype.go need access to
+			// The decodetype_* functions in decodetype.golang need access to
 			// the type data.
 			sname := l.SymName(s)
 			if strings.HasPrefix(sname, "type:") && !strings.HasPrefix(sname, "type:.") {
@@ -2723,7 +2723,7 @@ func ldshlibsyms(ctxt *Link, shlib string) {
 			idx = info >> 32
 			typ := info & 0xffff
 			// buildmode=shared is only supported for amd64,arm64,loong64,s390x,ppc64le.
-			// (List found by looking at the translation of R_ADDR by ../$ARCH/asm.go:elfreloc1)
+			// (List found by looking at the translation of R_ADDR by ../$ARCH/asm.golang:elfreloc1)
 			switch typ {
 			case uint64(elf.R_X86_64_64):
 			case uint64(elf.R_AARCH64_ABS64):
@@ -2779,7 +2779,7 @@ func usage() {
 	Exit(2)
 }
 
-type SymbolType int8 // TODO: after genasmsym is gone, maybe rename to plan9typeChar or something
+type SymbolType int8 // TODO: after genasmsym is golangne, maybe rename to plan9typeChar or something
 
 const (
 	// see also https://9p.io/magic/man2html/1/nm
@@ -2796,7 +2796,7 @@ const (
 	DeletedAutoSym = 'x'
 )
 
-// defineInternal defines a symbol used internally by the go runtime.
+// defineInternal defines a symbol used internally by the golang runtime.
 func (ctxt *Link) defineInternal(p string, t sym.SymKind) loader.Sym {
 	s := ctxt.loader.CreateSymForUpdate(p, 0)
 	s.SetType(t)
@@ -2936,19 +2936,19 @@ func AddGotSym(target *Target, ldr *loader.Loader, syms *ArchSyms, s loader.Sym,
 	}
 
 	Adddynsym(ldr, target, syms, s)
-	got := ldr.MakeSymbolUpdater(syms.GOT)
-	ldr.SetGot(s, int32(got.Size()))
-	got.AddUint(target.Arch, 0)
+	golangt := ldr.MakeSymbolUpdater(syms.GOT)
+	ldr.SetGot(s, int32(golangt.Size()))
+	golangt.AddUint(target.Arch, 0)
 
 	if target.IsElf() {
 		if target.Arch.PtrSize == 8 {
 			rela := ldr.MakeSymbolUpdater(syms.Rela)
-			rela.AddAddrPlus(target.Arch, got.Sym(), int64(ldr.SymGot(s)))
+			rela.AddAddrPlus(target.Arch, golangt.Sym(), int64(ldr.SymGot(s)))
 			rela.AddUint64(target.Arch, elf.R_INFO(uint32(ldr.SymDynid(s)), elfRelocTyp))
 			rela.AddUint64(target.Arch, 0)
 		} else {
 			rel := ldr.MakeSymbolUpdater(syms.Rel)
-			rel.AddAddrPlus(target.Arch, got.Sym(), int64(ldr.SymGot(s)))
+			rel.AddAddrPlus(target.Arch, golangt.Sym(), int64(ldr.SymGot(s)))
 			rel.AddUint32(target.Arch, elf.R_INFO32(uint32(ldr.SymDynid(s)), elfRelocTyp))
 		}
 	} else if target.IsDarwin() {
@@ -2961,7 +2961,7 @@ func AddGotSym(target *Target, ldr *loader.Loader, syms *ArchSyms, s loader.Sym,
 			MachoAddBind(int64(ldr.SymGot(s)), s)
 		}
 	} else {
-		ldr.Errorf(s, "addgotsym: unsupported binary format")
+		ldr.Errorf(s, "addgolangtsym: unsupported binary format")
 	}
 }
 

@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package template
@@ -798,7 +798,7 @@ func count(n int) chan string {
 		return nil
 	}
 	c := make(chan string)
-	go func() {
+	golang func() {
 		for i := 0; i < n; i++ {
 			c <- "abcdefghijklmnop"[i : i+1]
 		}
@@ -888,20 +888,20 @@ func testExecute(execTests []execTest, template *Template, t *testing.T) {
 		err = tmpl.Execute(b, test.data)
 		switch {
 		case !test.ok && err == nil:
-			t.Errorf("%s: expected error; got none", test.name)
+			t.Errorf("%s: expected error; golangt none", test.name)
 			continue
 		case test.ok && err != nil:
 			t.Errorf("%s: unexpected execute error: %s", test.name, err)
 			continue
 		case !test.ok && err != nil:
-			// expected error, got one
+			// expected error, golangt one
 			if *debug {
 				fmt.Printf("%s: %s\n\t%s\n", test.name, test.input, err)
 			}
 		}
 		result := b.String()
 		if result != test.output {
-			t.Errorf("%s: expected\n\t%q\ngot\n\t%q", test.name, test.output, result)
+			t.Errorf("%s: expected\n\t%q\ngolangt\n\t%q", test.name, test.output, result)
 		}
 	}
 }
@@ -949,7 +949,7 @@ func TestDelims(t *testing.T) {
 			t.Fatalf("delim %q exec err %s", left, err)
 		}
 		if b.String() != hello+trueLeft {
-			t.Errorf("expected %q got %q", hello+trueLeft, b.String())
+			t.Errorf("expected %q golangt %q", hello+trueLeft, b.String())
 		}
 	}
 }
@@ -964,12 +964,12 @@ func TestExecuteError(t *testing.T) {
 	}
 	err = tmpl.Execute(b, tVal)
 	if err == nil {
-		t.Errorf("expected error; got none")
+		t.Errorf("expected error; golangt none")
 	} else if !strings.Contains(err.Error(), myError.Error()) {
 		if *debug {
 			fmt.Printf("test execute error: %s\n", err)
 		}
-		t.Errorf("expected myError; got %s", err)
+		t.Errorf("expected myError; golangt %s", err)
 	}
 }
 
@@ -993,9 +993,9 @@ func TestExecError(t *testing.T) {
 		t.Fatal("expected error")
 	}
 	const want = `template: top:7:20: executing "three" at <index "hi" $>: error calling index: index out of range: 5`
-	got := err.Error()
-	if got != want {
-		t.Errorf("expected\n%q\ngot\n%q", want, got)
+	golangt := err.Error()
+	if golangt != want {
+		t.Errorf("expected\n%q\ngolangt\n%q", want, golangt)
 	}
 }
 
@@ -1017,7 +1017,7 @@ func TestExecError_CustomError(t *testing.T) {
 
 	var e *CustomError
 	if !errors.As(err, &e) {
-		t.Fatalf("expected custom error; got %s", err)
+		t.Fatalf("expected custom error; golangt %s", err)
 	}
 }
 
@@ -1037,7 +1037,7 @@ func TestJSEscaping(t *testing.T) {
 	for _, tc := range testCases {
 		s := JSEscapeString(tc.in)
 		if s != tc.exp {
-			t.Errorf("JS escaping [%s] got [%s] want [%s]", tc.in, s, tc.exp)
+			t.Errorf("JS escaping [%s] golangt [%s] want [%s]", tc.in, s, tc.exp)
 		}
 	}
 }
@@ -1115,7 +1115,7 @@ func TestTree(t *testing.T) {
 	}
 	result := b.String()
 	if result != expect {
-		t.Errorf("expected %q got %q", expect, result)
+		t.Errorf("expected %q golangt %q", expect, result)
 	}
 	// Then direct to execution.
 	b.Reset()
@@ -1125,7 +1125,7 @@ func TestTree(t *testing.T) {
 	}
 	result = b.String()
 	if result != expect {
-		t.Errorf("expected %q got %q", expect, result)
+		t.Errorf("expected %q golangt %q", expect, result)
 	}
 }
 
@@ -1150,10 +1150,10 @@ func TestMessageForExecuteEmpty(t *testing.T) {
 	if err == nil {
 		t.Fatal("expected initial error")
 	}
-	got := err.Error()
+	golangt := err.Error()
 	want := `template: empty: "empty" is an incomplete or empty template`
-	if got != want {
-		t.Errorf("expected error %s got %s", want, got)
+	if golangt != want {
+		t.Errorf("expected error %s golangt %s", want, golangt)
 	}
 	// Add a non-empty template to check that the error is helpful.
 	tests, err := New("").Parse(testTemplates)
@@ -1165,10 +1165,10 @@ func TestMessageForExecuteEmpty(t *testing.T) {
 	if err == nil {
 		t.Fatal("expected second error")
 	}
-	got = err.Error()
+	golangt = err.Error()
 	want = `template: empty: "empty" is an incomplete or empty template`
-	if got != want {
-		t.Errorf("expected error %s got %s", want, got)
+	if golangt != want {
+		t.Errorf("expected error %s golangt %s", want, golangt)
 	}
 	// Make sure we can execute the secondary.
 	err = tmpl.ExecuteTemplate(&b, "secondary", 0)
@@ -1353,7 +1353,7 @@ func TestComparison(t *testing.T) {
 			continue
 		}
 		if b.String() != test.truth {
-			t.Errorf("%s: want %s; got %s", test.expr, test.truth, b.String())
+			t.Errorf("%s: want %s; golangt %s", test.expr, test.truth, b.String())
 		}
 	}
 }
@@ -1373,9 +1373,9 @@ func TestMissingMapKey(t *testing.T) {
 		t.Fatal(err)
 	}
 	want := "99 <no value>"
-	got := b.String()
-	if got != want {
-		t.Errorf("got %q; expected %q", got, want)
+	golangt := b.String()
+	if golangt != want {
+		t.Errorf("golangt %q; expected %q", golangt, want)
 	}
 	// Same if we set the option explicitly to the default.
 	tmpl.Option("missingkey=default")
@@ -1385,9 +1385,9 @@ func TestMissingMapKey(t *testing.T) {
 		t.Fatal("default:", err)
 	}
 	want = "99 <no value>"
-	got = b.String()
-	if got != want {
-		t.Errorf("got %q; expected %q", got, want)
+	golangt = b.String()
+	if golangt != want {
+		t.Errorf("golangt %q; expected %q", golangt, want)
 	}
 	// Next we ask for a zero value
 	tmpl.Option("missingkey=zero")
@@ -1397,21 +1397,21 @@ func TestMissingMapKey(t *testing.T) {
 		t.Fatal("zero:", err)
 	}
 	want = "99 0"
-	got = b.String()
-	if got != want {
-		t.Errorf("got %q; expected %q", got, want)
+	golangt = b.String()
+	if golangt != want {
+		t.Errorf("golangt %q; expected %q", golangt, want)
 	}
 	// Now we ask for an error.
 	tmpl.Option("missingkey=error")
 	err = tmpl.Execute(&b, data)
 	if err == nil {
-		t.Errorf("expected error; got none")
+		t.Errorf("expected error; golangt none")
 	}
 	// same Option, but now a nil interface: ask for an error
 	err = tmpl.Execute(&b, nil)
 	t.Log(err)
 	if err == nil {
-		t.Errorf("expected error for nil-interface; got none")
+		t.Errorf("expected error for nil-interface; golangt none")
 	}
 }
 
@@ -1446,10 +1446,10 @@ func TestExecuteGivesExecError(t *testing.T) {
 	}
 	err = tmpl.Execute(ErrorWriter(0), 0)
 	if err == nil {
-		t.Fatal("expected error; got none")
+		t.Fatal("expected error; golangt none")
 	}
 	if err.Error() != alwaysErrorText {
-		t.Errorf("expected %q error; got %q", alwaysErrorText, err)
+		t.Errorf("expected %q error; golangt %q", alwaysErrorText, err)
 	}
 	// This one should be an ExecError.
 	tmpl, err = New("X").Parse("hello, {{.X.Y}}")
@@ -1458,7 +1458,7 @@ func TestExecuteGivesExecError(t *testing.T) {
 	}
 	err = tmpl.Execute(io.Discard, 0)
 	if err == nil {
-		t.Fatal("expected error; got none")
+		t.Fatal("expected error; golangt none")
 	}
 	eerr, ok := err.(ExecError)
 	if !ok {
@@ -1466,7 +1466,7 @@ func TestExecuteGivesExecError(t *testing.T) {
 	}
 	expect := "field X in type int"
 	if !strings.Contains(err.Error(), expect) {
-		t.Errorf("expected %q; got %q", expect, err)
+		t.Errorf("expected %q; golangt %q", expect, err)
 	}
 }
 
@@ -1536,9 +1536,9 @@ func TestIsTrue(t *testing.T) {
 		{unsafe.Pointer(nil_ptr), false},
 	}
 	for _, test_case := range tests {
-		got, _ := IsTrue(test_case.v)
-		if got != test_case.want {
-			t.Fatalf("expect result %v, got %v", test_case.want, got)
+		golangt, _ := IsTrue(test_case.v)
+		if golangt != test_case.want {
+			t.Fatalf("expect result %v, golangt %v", test_case.want, golangt)
 		}
 	}
 }
@@ -1563,7 +1563,7 @@ func TestBlock(t *testing.T) {
 		input   = `a({{block "inner" .}}bar({{.}})baz{{end}})b`
 		want    = `a(bar(hello)baz)b`
 		overlay = `{{define "inner"}}foo({{.}})bar{{end}}`
-		want2   = `a(foo(goodbye)bar)b`
+		want2   = `a(foo(golangodbye)bar)b`
 	)
 	tmpl, err := New("outer").Parse(input)
 	if err != nil {
@@ -1578,16 +1578,16 @@ func TestBlock(t *testing.T) {
 	if err := tmpl.Execute(&buf, "hello"); err != nil {
 		t.Fatal(err)
 	}
-	if got := buf.String(); got != want {
-		t.Errorf("got %q, want %q", got, want)
+	if golangt := buf.String(); golangt != want {
+		t.Errorf("golangt %q, want %q", golangt, want)
 	}
 
 	buf.Reset()
-	if err := tmpl2.Execute(&buf, "goodbye"); err != nil {
+	if err := tmpl2.Execute(&buf, "golangodbye"); err != nil {
 		t.Fatal(err)
 	}
-	if got := buf.String(); got != want2 {
-		t.Errorf("got %q, want %q", got, want2)
+	if golangt := buf.String(); golangt != want2 {
+		t.Errorf("golangt %q, want %q", golangt, want2)
 	}
 }
 
@@ -1600,7 +1600,7 @@ func TestEvalFieldErrors(t *testing.T) {
 		{
 			// Check that calling an invalid field on nil pointer
 			// prints a field error instead of a distracting nil
-			// pointer error. https://golang.org/issue/15125
+			// pointer error. https://golanglang.org/issue/15125
 			"MissingFieldOnNil",
 			"{{.MissingField}}",
 			(*T)(nil),
@@ -1641,12 +1641,12 @@ func TestEvalFieldErrors(t *testing.T) {
 		t.Run(tc.name, func(t *testing.T) {
 			tmpl := Must(New("tmpl").Parse(tc.src))
 			err := tmpl.Execute(io.Discard, tc.value)
-			got := "<nil>"
+			golangt := "<nil>"
 			if err != nil {
-				got = err.Error()
+				golangt = err.Error()
 			}
-			if !strings.HasSuffix(got, tc.want) {
-				t.Fatalf("got error %q, want %q", got, tc.want)
+			if !strings.HasSuffix(golangt, tc.want) {
+				t.Fatalf("golangt error %q, want %q", golangt, tc.want)
 			}
 		})
 	}
@@ -1658,18 +1658,18 @@ func TestMaxExecDepth(t *testing.T) {
 	}
 	tmpl := Must(New("tmpl").Parse(`{{template "tmpl" .}}`))
 	err := tmpl.Execute(io.Discard, nil)
-	got := "<nil>"
+	golangt := "<nil>"
 	if err != nil {
-		got = err.Error()
+		golangt = err.Error()
 	}
 	const want = "exceeded maximum template depth"
-	if !strings.Contains(got, want) {
-		t.Errorf("got error %q; want %q", got, want)
+	if !strings.Contains(golangt, want) {
+		t.Errorf("golangt error %q; want %q", golangt, want)
 	}
 }
 
 func TestAddrOfIndex(t *testing.T) {
-	// golang.org/issue/14916.
+	// golanglang.org/issue/14916.
 	// Before index worked on reflect.Values, the .String could not be
 	// found on the (incorrectly unaddressable) V value,
 	// in contrast to range, which worked fine.
@@ -1692,7 +1692,7 @@ func TestAddrOfIndex(t *testing.T) {
 }
 
 func TestInterfaceValues(t *testing.T) {
-	// golang.org/issue/17714.
+	// golanglang.org/issue/17714.
 	// Before index worked on reflect.Values, interface values
 	// were always implicitly promoted to the underlying value,
 	// except that nil interfaces were promoted to the zero reflect.Value.
@@ -1816,12 +1816,12 @@ func TestExecutePanicDuringCall(t *testing.T) {
 		}
 		err = tmpl.Execute(b, tc.data)
 		if err == nil {
-			t.Errorf("%s: expected error; got none", tc.name)
+			t.Errorf("%s: expected error; golangt none", tc.name)
 		} else if !strings.Contains(err.Error(), tc.wantErr) {
 			if *debug {
 				fmt.Printf("%s: test execute error: %s\n", tc.name, err)
 			}
-			t.Errorf("%s: expected error:\n%s\ngot:\n%s", tc.name, tc.wantErr, err)
+			t.Errorf("%s: expected error:\n%s\ngolangt:\n%s", tc.name, tc.wantErr, err)
 		}
 	}
 }
@@ -1836,7 +1836,7 @@ func TestFunctionCheckDuringCall(t *testing.T) {
 		name:    "call nothing",
 		input:   `{{call}}`,
 		data:    tVal,
-		wantErr: "wrong number of args for call: want at least 1 got 0",
+		wantErr: "wrong number of args for call: want at least 1 golangt 0",
 	},
 		{
 			name:    "call non-function",
@@ -1848,13 +1848,13 @@ func TestFunctionCheckDuringCall(t *testing.T) {
 			name:    "call func with wrong argument",
 			input:   "{{call .BinaryFunc 1}}",
 			data:    tVal,
-			wantErr: "error calling call: wrong number of args for .BinaryFunc: got 1 want 2",
+			wantErr: "error calling call: wrong number of args for .BinaryFunc: golangt 1 want 2",
 		},
 		{
 			name:    "call variadic func with wrong argument",
 			input:   `{{call .VariadicFuncInt}}`,
 			data:    tVal,
-			wantErr: "error calling call: wrong number of args for .VariadicFuncInt: got 0 want at least 1",
+			wantErr: "error calling call: wrong number of args for .VariadicFuncInt: golangt 0 want at least 1",
 		},
 		{
 			name:    "call too few return number func",
@@ -1890,12 +1890,12 @@ func TestFunctionCheckDuringCall(t *testing.T) {
 		}
 		err = tmpl.Execute(b, tc.data)
 		if err == nil {
-			t.Errorf("%s: expected error; got none", tc.name)
+			t.Errorf("%s: expected error; golangt none", tc.name)
 		} else if tc.wantErr == "" || !strings.Contains(err.Error(), tc.wantErr) {
 			if *debug {
 				fmt.Printf("%s: test execute error: %s\n", tc.name, err)
 			}
-			t.Errorf("%s: expected error:\n%s\ngot:\n%s", tc.name, tc.wantErr, err)
+			t.Errorf("%s: expected error:\n%s\ngolangt:\n%s", tc.name, tc.wantErr, err)
 		}
 	}
 }
@@ -1914,7 +1914,7 @@ func TestIssue31810(t *testing.T) {
 		t.Error(err)
 	}
 	if b.String() != "result" {
-		t.Errorf("%s got %q, expected %q", text, b.String(), "result")
+		t.Errorf("%s golangt %q, expected %q", text, b.String(), "result")
 	}
 
 	// Even a plain function fails - need to use call.
@@ -1922,7 +1922,7 @@ func TestIssue31810(t *testing.T) {
 	b.Reset()
 	err = tmpl.Execute(&b, f)
 	if err == nil {
-		t.Error("expected error with no call, got none")
+		t.Error("expected error with no call, golangt none")
 	}
 
 	// Works if the function is explicitly called.
@@ -1934,7 +1934,7 @@ func TestIssue31810(t *testing.T) {
 		t.Error(err)
 	}
 	if b.String() != "result" {
-		t.Errorf("%s got %q, expected %q", textCall, b.String(), "result")
+		t.Errorf("%s golangt %q, expected %q", textCall, b.String(), "result")
 	}
 }
 
@@ -1945,7 +1945,7 @@ func TestIssue43065(t *testing.T) {
 	ch := make(chan<- int)
 	err := tmp.Execute(&b, ch)
 	if err == nil {
-		t.Error("expected err got nil")
+		t.Error("expected err golangt nil")
 	} else if !strings.Contains(err.Error(), "range over send-only channel") {
 		t.Errorf("%s", err)
 	}
@@ -1965,12 +1965,12 @@ func TestIssue39807(t *testing.T) {
 		t.Error(err)
 	}
 
-	gofuncs := 10
+	golangfuncs := 10
 	numTemplates := 10
 
-	for i := 1; i <= gofuncs; i++ {
+	for i := 1; i <= golangfuncs; i++ {
 		wg.Add(1)
-		go func() {
+		golang func() {
 			defer wg.Done()
 			for j := 0; j < numTemplates; j++ {
 				_, err := tplFoo.AddParseTree(tplBar.Name(), tplBar.Tree)

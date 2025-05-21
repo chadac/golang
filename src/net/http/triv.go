@@ -1,8 +1,8 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build ignore
+//golang:build ignore
 
 package main
 
@@ -89,7 +89,7 @@ type Chan chan int
 
 func ChanCreate() Chan {
 	c := make(Chan)
-	go func(c Chan) {
+	golang func(c Chan) {
 		for x := 0; ; x++ {
 			c <- x
 		}
@@ -129,12 +129,12 @@ func main() {
 	http.Handle("/counter", ctr)
 	http.Handle("/", http.HandlerFunc(Logger))
 	if *webroot != "" {
-		http.Handle("/go/", http.StripPrefix("/go/", http.FileServer(http.Dir(*webroot))))
+		http.Handle("/golang/", http.StripPrefix("/golang/", http.FileServer(http.Dir(*webroot))))
 	}
 	http.Handle("/chan", ChanCreate())
 	http.HandleFunc("/flags", FlagServer)
 	http.HandleFunc("/args", ArgServer)
-	http.HandleFunc("/go/hello", HelloServer)
+	http.HandleFunc("/golang/hello", HelloServer)
 	http.HandleFunc("/date", DateServer)
 	log.Fatal(http.ListenAndServe("localhost:12345", nil))
 }

@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package bidi
@@ -11,25 +11,25 @@ import (
 )
 
 // This file contains a port of the reference implementation of the
-// Bidi Parentheses Algorithm:
+// Bidi Parentheses Algolangrithm:
 // https://www.unicode.org/Public/PROGRAMS/BidiReferenceJava/BidiPBAReference.java
 //
 // The implementation in this file covers definitions BD14-BD16 and rule N0
 // of UAX#9.
 //
 // Some preprocessing is done for each rune before data is passed to this
-// algorithm:
+// algolangrithm:
 //  - opening and closing brackets are identified
 //  - a bracket pair type, like '(' and ')' is assigned a unique identifier that
 //    is identical for the opening and closing bracket. It is left to do these
 //    mappings.
-//  - The BPA algorithm requires that bracket characters that are canonical
+//  - The BPA algolangrithm requires that bracket characters that are canonical
 //    equivalents of each other be able to be substituted for each other.
 //    It is the responsibility of the caller to do this canonicalization.
 //
 // In implementing BD16, this implementation departs slightly from the "logical"
-// algorithm defined in UAX#9. In particular, the stack referenced there
-// supports operations that go beyond a "basic" stack. An equivalent
+// algolangrithm defined in UAX#9. In particular, the stack referenced there
+// supports operations that golang beyond a "basic" stack. An equivalent
 // implementation based on a linked list is used here.
 
 // Bidi_Paired_Bracket_Type
@@ -64,7 +64,7 @@ func (b bracketPairs) Len() int           { return len(b) }
 func (b bracketPairs) Swap(i, j int)      { b[i], b[j] = b[j], b[i] }
 func (b bracketPairs) Less(i, j int) bool { return b[i].opener < b[j].opener }
 
-// resolvePairedBrackets runs the paired bracket part of the UBA algorithm.
+// resolvePairedBrackets runs the paired bracket part of the UBA algolangrithm.
 //
 // For each rune, it takes the indexes into the original string, the class the
 // bracket type (in pairTypes) and the bracket identifier (pairValues). It also
@@ -90,7 +90,7 @@ func resolvePairedBrackets(s *isolatingRunSequence) {
 type bracketPairer struct {
 	sos Class // direction corresponding to start of sequence
 
-	// The following is a restatement of BD 16 using non-algorithmic language.
+	// The following is a restatement of BD 16 using non-algolangrithmic language.
 	//
 	// A bracket pair is a pair of characters consisting of an opening
 	// paired bracket and a closing paired bracket such that the

@@ -1,10 +1,10 @@
 // run
 
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Used to die in runtime due to init goroutine exiting while
+// Used to die in runtime due to init golangroutine exiting while
 // locked to main thread.
 
 package main
@@ -19,7 +19,7 @@ func init() {
 	defer func() {
 		c <- 0
 	}()
-	go func() {
+	golang func() {
 		os.Exit(<-c)
 	}()
 	runtime.Goexit()
@@ -33,18 +33,18 @@ func main() {
 invalid m->locked = 2
 fatal error: internal lockOSThread error
 
-goroutine 2 [runnable]:
+golangroutine 2 [runnable]:
 runtime.MHeap_Scavenger()
-	/Users/rsc/g/go/src/pkg/runtime/mheap.c:438
-runtime.goexit()
-	/Users/rsc/g/go/src/pkg/runtime/proc.c:1313
+	/Users/rsc/g/golang/src/pkg/runtime/mheap.c:438
+runtime.golangexit()
+	/Users/rsc/g/golang/src/pkg/runtime/proc.c:1313
 created by runtime.main
-	/Users/rsc/g/go/src/pkg/runtime/proc.c:165
+	/Users/rsc/g/golang/src/pkg/runtime/proc.c:165
 
-goroutine 3 [runnable]:
+golangroutine 3 [runnable]:
 main.func·002()
-	/Users/rsc/g/go/test/fixedbugs/issue5963.go:22
+	/Users/rsc/g/golang/test/fixedbugs/issue5963.golang:22
 created by main.init·1
-	/Users/rsc/g/go/test/fixedbugs/issue5963.go:24 +0xb9
+	/Users/rsc/g/golang/test/fixedbugs/issue5963.golang:24 +0xb9
 exit status 2
 */

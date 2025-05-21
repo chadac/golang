@@ -1,5 +1,5 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package types2
@@ -7,7 +7,7 @@ package types2
 import (
 	"cmd/compile/internal/syntax"
 	"fmt"
-	"go/constant"
+	"golang/constant"
 	"internal/buildcfg"
 	. "internal/types/errors"
 	"slices"
@@ -46,7 +46,7 @@ func pathString(path []Object) string {
 }
 
 // objDecl type-checks the declaration of obj in its respective (file) environment.
-// For the meaning of def, see Checker.definedType, in typexpr.go.
+// For the meaning of def, see Checker.definedType, in typexpr.golang.
 func (check *Checker) objDecl(obj Object, def *TypeName) {
 	if tracePos {
 		check.pushPos(obj.Pos())
@@ -311,7 +311,7 @@ loop:
 func (check *Checker) cycleError(cycle []Object, start int) {
 	// name returns the (possibly qualified) object name.
 	// This is needed because with generic types, cycles
-	// may refer to imported types. See go.dev/issue/50788.
+	// may refer to imported types. See golang.dev/issue/50788.
 	// TODO(gri) This functionality is used elsewhere. Factor it out.
 	name := func(obj Object) string {
 		return packagePrefix(obj.Pkg(), check.qualifier) + obj.Name()
@@ -384,7 +384,7 @@ func (check *Checker) constDecl(obj *Const, typ, init syntax.Expr, inherited boo
 		t := check.typ(typ)
 		if !isConstType(t) {
 			// don't report an error if the type is an invalid C (defined) type
-			// (go.dev/issue/22090)
+			// (golang.dev/issue/22090)
 			if isValid(under(t)) {
 				check.errorf(typ, InvalidConstType, "invalid constant type %s", t)
 			}
@@ -403,7 +403,7 @@ func (check *Checker) constDecl(obj *Const, typ, init syntax.Expr, inherited boo
 			// expression and not the current constant declaration. Use
 			// the constant identifier position for any errors during
 			// init expression evaluation since that is all we have
-			// (see issues go.dev/issue/42991, go.dev/issue/42992).
+			// (see issues golang.dev/issue/42991, golang.dev/issue/42992).
 			check.errpos = obj.pos
 		}
 		check.expr(nil, &x, init)
@@ -454,7 +454,7 @@ func (check *Checker) varDecl(obj *Var, lhs []*Var, typ, init syntax.Expr) {
 	// We have multiple variables on the lhs and one init expr.
 	// Make sure all variables have been given the same type if
 	// one was specified, otherwise they assume the type of the
-	// init expression values (was go.dev/issue/15755).
+	// init expression values (was golang.dev/issue/15755).
 	if typ != nil {
 		for _, lhs := range lhs {
 			lhs.typ = obj.typ
@@ -486,7 +486,7 @@ func (check *Checker) typeDecl(obj *TypeName, tdecl *syntax.TypeDecl, def *TypeN
 			check.validType(t)
 		}
 		// If typ is local, an error was already reported where typ is specified/defined.
-		_ = !versionErr && check.isImportedConstraint(rhs) && check.verifyVersionf(tdecl.Type, go1_18, "using type constraint %s", rhs)
+		_ = !versionErr && check.isImportedConstraint(rhs) && check.verifyVersionf(tdecl.Type, golang1_18, "using type constraint %s", rhs)
 	}).describef(obj, "validType(%s)", obj.Name())
 
 	// First type parameter, or nil.
@@ -499,10 +499,10 @@ func (check *Checker) typeDecl(obj *TypeName, tdecl *syntax.TypeDecl, def *TypeN
 	if tdecl.Alias {
 		// Report highest version requirement first so that fixing a version issue
 		// avoids possibly two -lang changes (first to Go 1.9 and then to Go 1.23).
-		if !versionErr && tparam0 != nil && !check.verifyVersionf(tparam0, go1_23, "generic type alias") {
+		if !versionErr && tparam0 != nil && !check.verifyVersionf(tparam0, golang1_23, "generic type alias") {
 			versionErr = true
 		}
-		if !versionErr && !check.verifyVersionf(tdecl, go1_9, "type alias") {
+		if !versionErr && !check.verifyVersionf(tdecl, golang1_9, "type alias") {
 			versionErr = true
 		}
 
@@ -535,7 +535,7 @@ func (check *Checker) typeDecl(obj *TypeName, tdecl *syntax.TypeDecl, def *TypeN
 			Unalias(alias) // resolve alias.actual
 		} else {
 			if !versionErr && tparam0 != nil {
-				check.error(tdecl, UnsupportedFeature, "generic type alias requires GODEBUG=gotypesalias=1 or unset")
+				check.error(tdecl, UnsupportedFeature, "generic type alias requires GODEBUG=golangtypesalias=1 or unset")
 				versionErr = true
 			}
 
@@ -547,7 +547,7 @@ func (check *Checker) typeDecl(obj *TypeName, tdecl *syntax.TypeDecl, def *TypeN
 	}
 
 	// type definition or generic type declaration
-	if !versionErr && tparam0 != nil && !check.verifyVersionf(tparam0, go1_18, "type parameter") {
+	if !versionErr && tparam0 != nil && !check.verifyVersionf(tparam0, golang1_18, "type parameter") {
 		versionErr = true
 	}
 
@@ -571,7 +571,7 @@ func (check *Checker) typeDecl(obj *TypeName, tdecl *syntax.TypeDecl, def *TypeN
 		named.underlying = Typ[Invalid]
 	}
 
-	// Disallow a lone type parameter as the RHS of a type declaration (go.dev/issue/45639).
+	// Disallow a lone type parameter as the RHS of a type declaration (golang.dev/issue/45639).
 	// We don't need this restriction anymore if we make the underlying type of a type
 	// parameter its constraint interface: if the RHS is a lone type parameter, we will
 	// use its underlying type (like we do for any RHS in a type declaration), and its
@@ -596,7 +596,7 @@ func (check *Checker) collectTypeParams(dst **TypeParamList, list []*syntax.Fiel
 	}
 
 	// Set the type parameters before collecting the type constraints because
-	// the parameterized type may be used by the constraints (go.dev/issue/47887).
+	// the parameterized type may be used by the constraints (golang.dev/issue/47887).
 	// Example: type T[P T[P]] interface{}
 	*dst = bindTParams(tparams)
 
@@ -683,7 +683,7 @@ func (check *Checker) collectMethods(obj *TypeName) {
 	if base != nil {
 		assert(base.TypeArgs().Len() == 0) // collectMethods should not be called on an instantiated type
 
-		// See go.dev/issue/52529: we must delay the expansion of underlying here, as
+		// See golang.dev/issue/52529: we must delay the expansion of underlying here, as
 		// base may not be fully set-up.
 		check.later(func() {
 			check.checkFieldUniqueness(base)

@@ -1,8 +1,8 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !js && !plan9 && !wasip1 && !windows
+//golang:build !js && !plan9 && !wasip1 && !windows
 
 package socktest_test
 
@@ -33,7 +33,7 @@ func TestSwitch(t *testing.T) {
 	var wg sync.WaitGroup
 	wg.Add(N)
 	for i := 0; i < N; i++ {
-		go func() {
+		golang func() {
 			defer wg.Done()
 			for _, family := range []int{syscall.AF_INET, syscall.AF_INET6} {
 				socketFunc(family, syscall.SOCK_STREAM, syscall.IPPROTO_TCP)

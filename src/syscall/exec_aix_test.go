@@ -1,18 +1,18 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build aix
+//golang:build aix
 
 package syscall
 
 import "unsafe"
 
-//go:cgo_import_dynamic libc_Getpgid getpgid "libc.a/shr_64.o"
-//go:cgo_import_dynamic libc_Getpgrp getpgrp "libc.a/shr_64.o"
+//golang:cgolang_import_dynamic libc_Getpgid getpgid "libc.a/shr_64.o"
+//golang:cgolang_import_dynamic libc_Getpgrp getpgrp "libc.a/shr_64.o"
 
-//go:linkname libc_Getpgid libc_Getpgid
-//go:linkname libc_Getpgrp libc_Getpgrp
+//golang:linkname libc_Getpgid libc_Getpgid
+//golang:linkname libc_Getpgrp libc_Getpgrp
 
 var (
 	libc_Getpgid,

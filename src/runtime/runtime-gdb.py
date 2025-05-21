@@ -1,5 +1,5 @@
 # Copyright 2010 The Go Authors. All rights reserved.
-# Use of this source code is governed by a BSD-style
+# Use of this source code is golangverned by a BSD-style
 # license that can be found in the LICENSE file.
 
 """GDB Pretty printers and convenience functions for Go's runtime structures.
@@ -25,10 +25,10 @@ print("Loading Go Runtime support.", file=sys.stderr)
 if sys.version > '3':
 	xrange = range
 # allow to manually reload while developing
-goobjfile = gdb.current_objfile() or gdb.objfiles()[0]
-goobjfile.pretty_printers = []
+golangobjfile = gdb.current_objfile() or gdb.objfiles()[0]
+golangobjfile.pretty_printers = []
 
-# G state (runtime2.go)
+# G state (runtime2.golang)
 
 def read_runtime_const(varname, default):
   try:
@@ -144,7 +144,7 @@ class SliceTypePrinter:
 class MapTypePrinter:
 	"""Pretty print map[K]V types.
 
-	Map-typed go variables are really pointers. dereference them in gdb
+	Map-typed golang variables are really pointers. dereference them in gdb
 	to inspect their contents with this pretty printer.
 	"""
 
@@ -307,7 +307,7 @@ class MapTypePrinter:
 class ChanTypePrinter:
 	"""Pretty print chan[T] types.
 
-	Chan-typed go variables are really pointers. dereference them in gdb
+	Chan-typed golang variables are really pointers. dereference them in gdb
 	to inspect their contents with this pretty printer.
 	"""
 
@@ -349,7 +349,7 @@ def makematcher(klass):
 			pass
 	return matcher
 
-goobjfile.pretty_printers.extend([makematcher(var) for var in vars().values() if hasattr(var, 'pattern')])
+golangobjfile.pretty_printers.extend([makematcher(var) for var in vars().values() if hasattr(var, 'pattern')])
 #
 #  Utilities
 #
@@ -364,7 +364,7 @@ def pc_to_int(pc):
 		pc = int(pc)
 	except gdb.error:
 		# str(pc) can return things like
-		# "0x429d6c <runtime.gopark+284>", so
+		# "0x429d6c <runtime.golangpark+284>", so
 		# chop at first space.
 		pc = int(str(pc).split(None, 1)[0], 16)
 	return pc
@@ -412,13 +412,13 @@ def lookup_type(name):
 
 def iface_commontype(obj):
 	if is_iface(obj):
-		go_type_ptr = obj['tab']['_type']
+		golang_type_ptr = obj['tab']['_type']
 	elif is_eface(obj):
-		go_type_ptr = obj['_type']
+		golang_type_ptr = obj['_type']
 	else:
 		return
 
-	return go_type_ptr.cast(gdb.lookup_type("struct reflect.rtype").pointer()).dereference()
+	return golang_type_ptr.cast(gdb.lookup_type("struct reflect.rtype").pointer()).dereference()
 
 
 def iface_dtype(obj):
@@ -426,17 +426,17 @@ def iface_dtype(obj):
 	# known issue: dtype_name decoded from runtime.rtype is "nested.Foo"
 	# but the dwarf table lists it as "full/path/to/nested.Foo"
 
-	dynamic_go_type = iface_commontype(obj)
-	if dynamic_go_type is None:
+	dynamic_golang_type = iface_commontype(obj)
+	if dynamic_golang_type is None:
 		return
-	dtype_name = dynamic_go_type['string'].dereference()['str'].string()
+	dtype_name = dynamic_golang_type['string'].dereference()['str'].string()
 
 	dynamic_gdb_type = lookup_type(dtype_name)
 	if dynamic_gdb_type is None:
 		return
 
-	type_size = int(dynamic_go_type['size'])
-	uintptr_size = int(dynamic_go_type['size'].type.sizeof)	 # size is itself a uintptr
+	type_size = int(dynamic_golang_type['size'])
+	uintptr_size = int(dynamic_golang_type['size'].type.sizeof)	 # size is itself a uintptr
 	if type_size > uintptr_size:
 			dynamic_gdb_type = dynamic_gdb_type.pointer()
 
@@ -446,10 +446,10 @@ def iface_dtype(obj):
 def iface_dtype_name(obj):
 	"Decode type name of the data field of an eface or iface struct."
 
-	dynamic_go_type = iface_commontype(obj)
-	if dynamic_go_type is None:
+	dynamic_golang_type = iface_commontype(obj)
+	if dynamic_golang_type is None:
 		return
-	return dynamic_go_type['string'].dereference()['str'].string()
+	return dynamic_golang_type['string'].dereference()['str'].string()
 
 
 class IfacePrinter:
@@ -486,7 +486,7 @@ def ifacematcher(val):
 	if is_iface(val) or is_eface(val):
 		return IfacePrinter(val)
 
-goobjfile.pretty_printers.append(ifacematcher)
+golangobjfile.pretty_printers.append(ifacematcher)
 
 #
 #  Convenience Functions
@@ -556,10 +556,10 @@ def linked_list(ptr, linkfield):
 
 
 class GoroutinesCmd(gdb.Command):
-	"List all goroutines."
+	"List all golangroutines."
 
 	def __init__(self):
-		gdb.Command.__init__(self, "info goroutines", gdb.COMMAND_STACK, gdb.COMPLETE_NONE)
+		gdb.Command.__init__(self, "info golangroutines", gdb.COMMAND_STACK, gdb.COMPLETE_NONE)
 
 	def invoke(self, _arg, _from_tty):
 		# args = gdb.string_to_argv(arg)
@@ -575,16 +575,16 @@ class GoroutinesCmd(gdb.Command):
 			blk = gdb.block_for_pc(pc)
 			status = int(ptr['atomicstatus']['value'])
 			st = sts.get(status, "unknown(%d)" % status)
-			print(s, ptr['goid'], "{0:8s}".format(st), blk.function)
+			print(s, ptr['golangid'], "{0:8s}".format(st), blk.function)
 
 
-def find_goroutine(goid):
+def find_golangroutine(golangid):
 	"""
-	find_goroutine attempts to find the goroutine identified by goid.
+	find_golangroutine attempts to find the golangroutine identified by golangid.
 	It returns a tuple of gdb.Value's representing the stack pointer
-	and program counter pointer for the goroutine.
+	and program counter pointer for the golangroutine.
 
-	@param int goid
+	@param int golangid
 
 	@return tuple (gdb.Value, gdb.Value)
 	"""
@@ -592,22 +592,22 @@ def find_goroutine(goid):
 	for ptr in SliceValue(gdb.parse_and_eval("'runtime.allgs'")):
 		if ptr['atomicstatus']['value'] == G_DEAD:
 			continue
-		if ptr['goid'] == goid:
+		if ptr['golangid'] == golangid:
 			break
 	else:
 		return None, None
-	# Get the goroutine's saved state.
+	# Get the golangroutine's saved state.
 	pc, sp = ptr['sched']['pc'], ptr['sched']['sp']
 	status = ptr['atomicstatus']['value']&~G_SCAN
-	# Goroutine is not running nor in syscall, so use the info in goroutine
+	# Goroutine is not running nor in syscall, so use the info in golangroutine
 	if status != G_RUNNING and status != G_SYSCALL:
 		return pc.cast(vp), sp.cast(vp)
 
-	# If the goroutine is in a syscall, use syscallpc/sp.
+	# If the golangroutine is in a syscall, use syscallpc/sp.
 	pc, sp = ptr['syscallpc'], ptr['syscallsp']
 	if sp != 0:
 		return pc.cast(vp), sp.cast(vp)
-	# Otherwise, the goroutine is running, so it doesn't have
+	# Otherwise, the golangroutine is running, so it doesn't have
 	# saved scheduler state. Find G's OS thread.
 	m = ptr['m']
 	if m == 0:
@@ -629,41 +629,41 @@ def find_goroutine(goid):
 
 
 class GoroutineCmd(gdb.Command):
-	"""Execute gdb command in the context of goroutine <goid>.
+	"""Execute gdb command in the context of golangroutine <golangid>.
 
-	Switch PC and SP to the ones in the goroutine's G structure,
+	Switch PC and SP to the ones in the golangroutine's G structure,
 	execute an arbitrary gdb command, and restore PC and SP.
 
-	Usage: (gdb) goroutine <goid> <gdbcmd>
+	Usage: (gdb) golangroutine <golangid> <gdbcmd>
 
-	You could pass "all" as <goid> to apply <gdbcmd> to all goroutines.
+	You could pass "all" as <golangid> to apply <gdbcmd> to all golangroutines.
 
-	For example: (gdb) goroutine all <gdbcmd>
+	For example: (gdb) golangroutine all <gdbcmd>
 
-	Note that it is ill-defined to modify state in the context of a goroutine.
+	Note that it is ill-defined to modify state in the context of a golangroutine.
 	Restrict yourself to inspecting values.
 	"""
 
 	def __init__(self):
-		gdb.Command.__init__(self, "goroutine", gdb.COMMAND_STACK, gdb.COMPLETE_NONE)
+		gdb.Command.__init__(self, "golangroutine", gdb.COMMAND_STACK, gdb.COMPLETE_NONE)
 
 	def invoke(self, arg, _from_tty):
-		goid_str, cmd = arg.split(None, 1)
-		goids = []
+		golangid_str, cmd = arg.split(None, 1)
+		golangids = []
 
-		if goid_str == 'all':
+		if golangid_str == 'all':
 			for ptr in SliceValue(gdb.parse_and_eval("'runtime.allgs'")):
-				goids.append(int(ptr['goid']))
+				golangids.append(int(ptr['golangid']))
 		else:
-			goids = [int(gdb.parse_and_eval(goid_str))]
+			golangids = [int(gdb.parse_and_eval(golangid_str))]
 
-		for goid in goids:
-			self.invoke_per_goid(goid, cmd)
+		for golangid in golangids:
+			self.invoke_per_golangid(golangid, cmd)
 
-	def invoke_per_goid(self, goid, cmd):
-		pc, sp = find_goroutine(goid)
+	def invoke_per_golangid(self, golangid, cmd):
+		pc, sp = find_golangroutine(golangid)
 		if not pc:
-			print("No such goroutine: ", goid)
+			print("No such golangroutine: ", golangid)
 			return
 		pc = pc_to_int(pc)
 		save_frame = gdb.selected_frame()

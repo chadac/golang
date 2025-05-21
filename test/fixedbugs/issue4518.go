@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Issue 4518. In some circumstances "return F(...)"
@@ -10,12 +10,12 @@
 
 package main
 
-//go:noinline
+//golang:noinline
 func F(e interface{}) (int, int) {
 	return 3, 7
 }
 
-//go:noinline
+//golang:noinline
 func G() (int, int) {
 	return 3, 7
 }

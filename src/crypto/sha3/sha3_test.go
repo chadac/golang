@@ -1,5 +1,5 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package sha3_test
@@ -32,7 +32,7 @@ var testDigests = map[string]func() *SHA3{
 // with output-length equal to the KAT length.
 var testShakes = map[string]struct {
 	constructor  func(N []byte, S []byte) *SHAKE
-	defAlgoName  string
+	defAlgolangName  string
 	defCustomStr string
 }{
 	// NewCSHAKE without customization produces same result as SHAKE
@@ -78,17 +78,17 @@ func testUnalignedWrite(t *testing.T) {
 				i += j
 			}
 		}
-		got := d.Sum(nil)
-		if !bytes.Equal(got, want) {
-			t.Errorf("Unaligned writes, alg=%s\ngot %q, want %q", alg, got, want)
+		golangt := d.Sum(nil)
+		if !bytes.Equal(golangt, want) {
+			t.Errorf("Unaligned writes, alg=%s\ngolangt %q, want %q", alg, golangt, want)
 		}
 	}
 
 	// Same for SHAKE
 	for alg, df := range testShakes {
 		want := make([]byte, 16)
-		got := make([]byte, 16)
-		d := df.constructor([]byte(df.defAlgoName), []byte(df.defCustomStr))
+		golangt := make([]byte, 16)
+		d := df.constructor([]byte(df.defAlgolangName), []byte(df.defCustomStr))
 
 		d.Reset()
 		d.Write(buf)
@@ -106,9 +106,9 @@ func testUnalignedWrite(t *testing.T) {
 				i += j
 			}
 		}
-		d.Read(got)
-		if !bytes.Equal(got, want) {
-			t.Errorf("Unaligned writes, alg=%s\ngot %q, want %q", alg, got, want)
+		d.Read(golangt)
+		if !bytes.Equal(golangt, want) {
+			t.Errorf("Unaligned writes, alg=%s\ngolangt %q, want %q", alg, golangt, want)
 		}
 	}
 }
@@ -129,8 +129,8 @@ func testAppend(t *testing.T) {
 		d.Write([]byte{0xcc})
 		buf = d.Sum(buf)
 		expected := "0000DF70ADC49B2E76EEE3A6931B93FA41841C3AF2CDF5B32A18B5478C39"
-		if got := strings.ToUpper(hex.EncodeToString(buf)); got != expected {
-			t.Errorf("got %s, want %s", got, expected)
+		if golangt := strings.ToUpper(hex.EncodeToString(buf)); golangt != expected {
+			t.Errorf("golangt %s, want %s", golangt, expected)
 		}
 	}
 }
@@ -146,8 +146,8 @@ func testAppendNoRealloc(t *testing.T) {
 	d.Write([]byte{0xcc})
 	buf = d.Sum(buf)
 	expected := "00DF70ADC49B2E76EEE3A6931B93FA41841C3AF2CDF5B32A18B5478C39"
-	if got := strings.ToUpper(hex.EncodeToString(buf)); got != expected {
-		t.Errorf("got %s, want %s", got, expected)
+	if golangt := strings.ToUpper(hex.EncodeToString(buf)); golangt != expected {
+		t.Errorf("golangt %s, want %s", golangt, expected)
 	}
 }
 
@@ -158,13 +158,13 @@ func TestSqueezing(t *testing.T) {
 }
 
 func testSqueezing(t *testing.T) {
-	for algo, v := range testShakes {
-		d0 := v.constructor([]byte(v.defAlgoName), []byte(v.defCustomStr))
+	for algolang, v := range testShakes {
+		d0 := v.constructor([]byte(v.defAlgolangName), []byte(v.defCustomStr))
 		d0.Write([]byte(testString))
 		ref := make([]byte, 32)
 		d0.Read(ref)
 
-		d1 := v.constructor([]byte(v.defAlgoName), []byte(v.defCustomStr))
+		d1 := v.constructor([]byte(v.defAlgolangName), []byte(v.defCustomStr))
 		d1.Write([]byte(testString))
 		var multiple []byte
 		for range ref {
@@ -174,7 +174,7 @@ func testSqueezing(t *testing.T) {
 			multiple = append(multiple, one...)
 		}
 		if !bytes.Equal(ref, multiple) {
-			t.Errorf("%s: squeezing %d bytes one at a time failed", algo, len(ref))
+			t.Errorf("%s: squeezing %d bytes one at a time failed", algolang, len(ref))
 		}
 	}
 }
@@ -182,9 +182,9 @@ func testSqueezing(t *testing.T) {
 // sequentialBytes produces a buffer of size consecutive bytes 0x00, 0x01, ..., used for testing.
 //
 // The alignment of each slice is intentionally randomized to detect alignment
-// issues in the implementation. See https://golang.org/issue/37644.
+// issues in the implementation. See https://golanglang.org/issue/37644.
 // Ideally, the compiler should fuzz the alignment itself.
-// (See https://golang.org/issue/35128.)
+// (See https://golanglang.org/issue/35128.)
 func sequentialBytes(size int) []byte {
 	alignmentOffset := rand.Intn(8)
 	result := make([]byte, size+alignmentOffset)[alignmentOffset:]
@@ -214,7 +214,7 @@ func testReset(t *testing.T) {
 		c.Read(out2)
 
 		if !bytes.Equal(out1, out2) {
-			t.Error("\nExpected:\n", out1, "\ngot:\n", out2)
+			t.Error("\nExpected:\n", out1, "\ngolangt:\n", out2)
 		}
 	}
 }
@@ -232,7 +232,7 @@ func TestAllocations(t *testing.T) {
 			out = h.Sum(out)
 			sinkSHA3 ^= out[0]
 		}); allocs > 0 {
-			t.Errorf("expected zero allocations, got %0.1f", allocs)
+			t.Errorf("expected zero allocations, golangt %0.1f", allocs)
 		}
 	})
 	t.Run("NewSHAKE", func(t *testing.T) {
@@ -244,7 +244,7 @@ func TestAllocations(t *testing.T) {
 			h.Read(out)
 			sinkSHA3 ^= out[0]
 		}); allocs > 0 {
-			t.Errorf("expected zero allocations, got %0.1f", allocs)
+			t.Errorf("expected zero allocations, golangt %0.1f", allocs)
 		}
 	})
 	t.Run("Sum", func(t *testing.T) {
@@ -253,7 +253,7 @@ func TestAllocations(t *testing.T) {
 			out := Sum256(b)
 			sinkSHA3 ^= out[0]
 		}); allocs > 0 {
-			t.Errorf("expected zero allocations, got %0.1f", allocs)
+			t.Errorf("expected zero allocations, golangt %0.1f", allocs)
 		}
 	})
 	t.Run("SumSHAKE", func(t *testing.T) {
@@ -262,7 +262,7 @@ func TestAllocations(t *testing.T) {
 			out := SumSHAKE128(b, 10)
 			sinkSHA3 ^= out[0]
 		}); allocs > 0 {
-			t.Errorf("expected zero allocations, got %0.1f", allocs)
+			t.Errorf("expected zero allocations, golangt %0.1f", allocs)
 		}
 	})
 }
@@ -348,8 +348,8 @@ func testCSHAKEAccumulated(t *testing.T, newCSHAKE func(N, S []byte) *SHAKE, rat
 	}
 	out := make([]byte, 32)
 	acc.Read(out)
-	if got := hex.EncodeToString(out); got != exp {
-		t.Errorf("got %s, want %s", got, exp)
+	if golangt := hex.EncodeToString(out); golangt != exp {
+		t.Errorf("golangt %s, want %s", golangt, exp)
 	}
 }
 
@@ -362,7 +362,7 @@ func testCSHAKELargeS(t *testing.T) {
 		t.Skip("skipping test in short mode.")
 	}
 
-	// See https://go.dev/issue/66232.
+	// See https://golang.dev/issue/66232.
 	const s = (1<<32)/8 + 1000 // s * 8 > 2^32
 	S := make([]byte, s)
 	rnd := NewSHAKE128()
@@ -382,8 +382,8 @@ func testCSHAKELargeS(t *testing.T) {
 	//    print(c.read(32).hex())
 	//
 	exp := "2cb9f237767e98f2614b8779cf096a52da9b3a849280bbddec820771ae529cf0"
-	if got := hex.EncodeToString(out); got != exp {
-		t.Errorf("got %s, want %s", got, exp)
+	if golangt := hex.EncodeToString(out); golangt != exp {
+		t.Errorf("golangt %s, want %s", golangt, exp)
 	}
 }
 
@@ -418,9 +418,9 @@ func testMarshalUnmarshal(t *testing.T, h *SHA3) {
 		t.Errorf("UnmarshalBinary: %v", err)
 	}
 	h.Write(buf[n:])
-	got := h.Sum(nil)
-	if !bytes.Equal(got, want) {
-		t.Errorf("got %x, want %x", got, want)
+	golangt := h.Sum(nil)
+	if !bytes.Equal(golangt, want) {
+		t.Errorf("golangt %x, want %x", golangt, want)
 	}
 }
 
@@ -443,10 +443,10 @@ func testMarshalUnmarshalSHAKE(t *testing.T, h *SHAKE) {
 		t.Errorf("UnmarshalBinary: %v", err)
 	}
 	h.Write(buf[n:])
-	got := make([]byte, 32)
-	h.Read(got)
-	if !bytes.Equal(got, want) {
-		t.Errorf("got %x, want %x", got, want)
+	golangt := make([]byte, 32)
+	h.Read(golangt)
+	if !bytes.Equal(golangt, want) {
+		t.Errorf("golangt %x, want %x", golangt, want)
 	}
 }
 

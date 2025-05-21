@@ -1,14 +1,14 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package typesinternal
 
 import (
 	"fmt"
-	"go/types"
+	"golang/types"
 
-	"golang.org/x/tools/go/types/typeutil"
+	"golanglang.org/x/tools/golang/types/typeutil"
 )
 
 // ForEachElement calls f for type T and each type reachable from its
@@ -21,7 +21,7 @@ import (
 // (Its final value holds all the elements seen, matching the arguments
 // passed to f.)
 //
-// TODO(adonovan): share/harmonize with go/callgraph/rta.
+// TODO(adonovan): share/harmonize with golang/callgraph/rta.
 func ForEachElement(rtypes *typeutil.Map, msets *typeutil.MethodSetCache, T types.Type, f func(types.Type)) {
 	var visit func(T types.Type, skip bool)
 	visit = func(T types.Type, skip bool) {
@@ -38,7 +38,7 @@ func ForEachElement(rtypes *typeutil.Map, msets *typeutil.MethodSetCache, T type
 		for i := 0; i < tmset.Len(); i++ {
 			sig := tmset.At(i).Type().(*types.Signature)
 			// It is tempting to call visit(sig, false)
-			// but, as noted in golang.org/cl/65450043,
+			// but, as noted in golanglang.org/cl/65450043,
 			// the Signature.Recv field is ignored by
 			// types.Identical and typeutil.Map, which
 			// is confusing at best.

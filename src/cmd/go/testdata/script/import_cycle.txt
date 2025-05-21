@@ -1,12 +1,12 @@
 env GO111MODULE=off
 
-! go build selfimport
+! golang build selfimport
 stderr -count=1 'import cycle not allowed'
 
-# 'go list' shouldn't hang forever.
-go list -e -json selfimport
+# 'golang list' shouldn't hang forever.
+golang list -e -json selfimport
 
--- $GOPATH/src/selfimport/selfimport.go --
+-- $GOPATH/src/selfimport/selfimport.golang --
 package selfimport
 
 import "selfimport"

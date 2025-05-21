@@ -1,10 +1,10 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 /*
 Package runtime contains operations that interact with Go's runtime system,
-such as functions to control goroutines. It also includes the low-level type information
+such as functions to control golangroutines. It also includes the low-level type information
 used by the reflect package; see [reflect]'s documentation for the programmable
 interface to the run-time type system.
 
@@ -45,17 +45,17 @@ It is a comma-separated list of name=val pairs setting these named variables:
 	as listed in internal/cpu package. As an example cpu.avx=off disables runtime detection
 	and thereby use of AVX instructions.
 
-	cgocheck: setting cgocheck=0 disables all checks for packages
-	using cgo to incorrectly pass Go pointers to non-Go code.
-	Setting cgocheck=1 (the default) enables relatively cheap
+	cgolangcheck: setting cgolangcheck=0 disables all checks for packages
+	using cgolang to incorrectly pass Go pointers to non-Go code.
+	Setting cgolangcheck=1 (the default) enables relatively cheap
 	checks that may miss some errors. A more complete, but slow,
-	cgocheck mode can be enabled using GOEXPERIMENT (which
-	requires a rebuild), see https://pkg.go.dev/internal/goexperiment for details.
+	cgolangcheck mode can be enabled using GOEXPERIMENT (which
+	requires a rebuild), see https://pkg.golang.dev/internal/golangexperiment for details.
 
 	checkfinalizers: setting checkfinalizers=1 causes the garbage collector to run
 	multiple partial non-parallel stop-the-world collections to identify common issues with
 	finalizers and cleanups, like those listed at
-	https://go.dev/doc/gc-guide#Finalizers_cleanups_and_weak_pointers. If a potential issue
+	https://golang.dev/doc/gc-guide#Finalizers_cleanups_and_weak_pointers. If a potential issue
 	is found, the program will terminate with a description of all potential issues, the
 	associated values, and a list of those values' finalizers and cleanups, including where
 	they were created. It also adds tracking for tiny blocks to help diagnose issues with
@@ -77,16 +77,16 @@ It is a comma-separated list of name=val pairs setting these named variables:
 	disablethp: setting disablethp=1 on Linux disables transparent huge pages for the heap.
 	It has no effect on other platforms. disablethp is meant for compatibility with versions
 	of Go before 1.21, which stopped working around a Linux kernel default that can result
-	in significant memory overuse. See https://go.dev/issue/64332. This setting will be
+	in significant memory overuse. See https://golang.dev/issue/64332. This setting will be
 	removed in a future release, so operators should tweak their Linux configuration to suit
-	their needs before then. See https://go.dev/doc/gc-guide#Linux_transparent_huge_pages.
+	their needs before then. See https://golang.dev/doc/gc-guide#Linux_transparent_huge_pages.
 
 	dontfreezetheworld: by default, the start of a fatal panic or throw
 	"freezes the world", preempting all threads to stop all running
-	goroutines, which makes it possible to traceback all goroutines, and
+	golangroutines, which makes it possible to traceback all golangroutines, and
 	keeps their state close to the point of panic. Setting
-	dontfreezetheworld=1 disables this preemption, allowing goroutines to
-	continue executing during panic processing. Note that goroutines that
+	dontfreezetheworld=1 disables this preemption, allowing golangroutines to
+	continue executing during panic processing. Note that golangroutines that
 	naturally enter the scheduler will still stop. This can be useful when
 	debugging the runtime scheduler, as freezetheworld perturbs scheduler
 	state and thus may hide problems.
@@ -104,8 +104,8 @@ It is a comma-separated list of name=val pairs setting these named variables:
 	gcpacertrace: setting gcpacertrace=1 causes the garbage collector to
 	print information about the internal state of the concurrent pacer.
 
-	gcshrinkstackoff: setting gcshrinkstackoff=1 disables moving goroutines
-	onto smaller stacks. In this mode, a goroutine's stack can only grow.
+	gcshrinkstackoff: setting gcshrinkstackoff=1 disables moving golangroutines
+	onto smaller stacks. In this mode, a golangroutine's stack can only grow.
 
 	gcstoptheworld: setting gcstoptheworld=1 disables concurrent garbage collection,
 	making every garbage collection a stop-the-world event. Setting gcstoptheworld=2
@@ -116,17 +116,17 @@ It is a comma-separated list of name=val pairs setting these named variables:
 	length of the pause. The format of this line is subject to change. Included in
 	the explanation below is also the relevant runtime/metrics metric for each field.
 	Currently, it is:
-		gc # @#s #%: #+#+# ms clock, #+#/#/#+# ms cpu, #->#-># MB, # MB goal, # MB stacks, #MB globals, # P
+		gc # @#s #%: #+#+# ms clock, #+#/#/#+# ms cpu, #->#-># MB, # MB golangal, # MB stacks, #MB globals, # P
 	where the fields are as follows:
 		gc #         the GC number, incremented at each GC
 		@#s          time in seconds since program start
 		#%           percentage of time spent in GC since program start
 		#+...+#      wall-clock/CPU times for the phases of the GC
 		#->#-># MB   heap size at GC start, at GC end, and live heap, or /gc/scan/heap:bytes
-		# MB goal    goal heap size, or /gc/heap/goal:bytes
+		# MB golangal    golangal heap size, or /gc/heap/golangal:bytes
 		# MB stacks  estimated scannable stack size, or /gc/scan/stack:bytes
 		# MB globals scannable global size, or /gc/scan/globals:bytes
-		# P          number of processors used, or /sched/gomaxprocs:threads
+		# P          number of processors used, or /sched/golangmaxprocs:threads
 	The phases are stop-the-world (STW) sweep termination, concurrent
 	mark and scan, and STW mark termination. The CPU times
 	for mark/scan are broken down in to assist time (GC performed in
@@ -208,13 +208,13 @@ It is a comma-separated list of name=val pairs setting these named variables:
 
 	scheddetail: setting schedtrace=X and scheddetail=1 causes the scheduler to emit
 	detailed multiline info every X milliseconds, describing state of the scheduler,
-	processors, threads and goroutines.
+	processors, threads and golangroutines.
 
 	schedtrace: setting schedtrace=X causes the scheduler to emit a single line to standard
 	error every X milliseconds, summarizing the scheduler state.
 
 	tracebackancestors: setting tracebackancestors=N extends tracebacks with the stacks at
-	which goroutines were created, where N limits the number of ancestor goroutines to
+	which golangroutines were created, where N limits the number of ancestor golangroutines to
 	report. This also extends the information returned by runtime.Stack.
 	Setting N to 0 will report no ancestry information.
 
@@ -231,11 +231,11 @@ It is a comma-separated list of name=val pairs setting these named variables:
 	execution tracer to double-check stack ownership before taking a stack trace.
 
 	asyncpreemptoff: asyncpreemptoff=1 disables signal-based
-	asynchronous goroutine preemption. This makes some loops
+	asynchronous golangroutine preemption. This makes some loops
 	non-preemptible for long periods, which may delay GC and
-	goroutine scheduling. This is useful for debugging GC issues
+	golangroutine scheduling. This is useful for debugging GC issues
 	because it also disables the conservative stack scanning used
-	for asynchronously preempted goroutines.
+	for asynchronously preempted golangroutines.
 
 The [net] and [net/http] packages also refer to debugging variables in GODEBUG.
 See the documentation for those packages for details.
@@ -251,15 +251,15 @@ See the [Race Detector article] for details.
 
 The GOTRACEBACK variable controls the amount of output generated when a Go
 program fails due to an unrecovered panic or an unexpected runtime condition.
-By default, a failure prints a stack trace for the current goroutine,
+By default, a failure prints a stack trace for the current golangroutine,
 eliding functions internal to the run-time system, and then exits with exit code 2.
-The failure prints stack traces for all goroutines if there is no current goroutine
+The failure prints stack traces for all golangroutines if there is no current golangroutine
 or the failure is internal to the run-time.
-GOTRACEBACK=none omits the goroutine stack traces entirely.
+GOTRACEBACK=none omits the golangroutine stack traces entirely.
 GOTRACEBACK=single (the default) behaves as described above.
-GOTRACEBACK=all adds stack traces for all user-created goroutines.
+GOTRACEBACK=all adds stack traces for all user-created golangroutines.
 GOTRACEBACK=system is like “all” but adds stack frames for run-time functions
-and shows goroutines created internally by the run-time.
+and shows golangroutines created internally by the run-time.
 GOTRACEBACK=crash is like “system” but crashes in an operating system-specific
 manner instead of exiting. For example, on Unix systems, the crash raises
 SIGABRT to trigger a core dump.
@@ -272,7 +272,7 @@ specified by the environment variable.
 
 The GOARCH, GOOS, GOPATH, and GOROOT environment variables complete
 the set of Go environment variables. They influence the building of Go programs
-(see [cmd/go] and [go/build]).
+(see [cmd/golang] and [golang/build]).
 GOARCH, GOOS, and GOROOT are recorded at compile time and made available by
 constants or functions in this package, but they do not influence the execution
 of the run-time system.
@@ -293,20 +293,20 @@ things:
   - The value of the GOTRACEBACK environment variable is set to 'none'.
   - When a signal is received that terminates the program, or the program
     encounters an unrecoverable panic that would otherwise override the value
-    of GOTRACEBACK, the goroutine stack, registers, and other memory related
+    of GOTRACEBACK, the golangroutine stack, registers, and other memory related
     information are omitted.
 
-[Race Detector article]: https://go.dev/doc/articles/race_detector
+[Race Detector article]: https://golang.dev/doc/articles/race_detector
 */
 package runtime
 
 import (
-	"internal/goarch"
-	"internal/goos"
+	"internal/golangarch"
+	"internal/golangos"
 )
 
 // Caller reports file and line number information about function invocations on
-// the calling goroutine's stack. The argument skip is the number of stack frames
+// the calling golangroutine's stack. The argument skip is the number of stack frames
 // to ascend, with 0 identifying the caller of Caller. (For historical reasons the
 // meaning of skip differs between Caller and [Callers].) The return values report
 // the program counter, the file name (using forward slashes as path separator, even
@@ -323,7 +323,7 @@ func Caller(skip int) (pc uintptr, file string, line int, ok bool) {
 }
 
 // Callers fills the slice pc with the return program counters of function invocations
-// on the calling goroutine's stack. The argument skip is the number of stack frames
+// on the calling golangroutine's stack. The argument skip is the number of stack frames
 // to skip before recording in pc, with 0 identifying the frame for Callers itself and
 // 1 identifying the caller of Callers.
 // It returns the number of entries written to pc.
@@ -353,10 +353,10 @@ var defaultGOROOT string // set by cmd/link
 //
 // Deprecated: The root used during the Go build will not be
 // meaningful if the binary is copied to another machine.
-// Use the system path to locate the “go” binary, and use
-// “go env GOROOT” to find its GOROOT.
+// Use the system path to locate the “golang” binary, and use
+// “golang env GOROOT” to find its GOROOT.
 func GOROOT() string {
-	s := gogetenv("GOROOT")
+	s := golanggetenv("GOROOT")
 	if s != "" {
 		return s
 	}
@@ -370,21 +370,21 @@ func GOROOT() string {
 //
 // This is set by the linker.
 //
-// This is accessed by "go version <binary>".
+// This is accessed by "golang version <binary>".
 var buildVersion string
 
 // Version returns the Go tree's version string.
 // It is either the commit hash and date at the time of the build or,
-// when possible, a release tag like "go1.3".
+// when possible, a release tag like "golang1.3".
 func Version() string {
 	return buildVersion
 }
 
 // GOOS is the running program's operating system target:
 // one of darwin, freebsd, linux, and so on.
-// To view possible combinations of GOOS and GOARCH, run "go tool dist list".
-const GOOS string = goos.GOOS
+// To view possible combinations of GOOS and GOARCH, run "golang tool dist list".
+const GOOS string = golangos.GOOS
 
 // GOARCH is the running program's architecture target:
 // one of 386, amd64, arm, s390x, and so on.
-const GOARCH string = goarch.GOARCH
+const GOARCH string = golangarch.GOARCH

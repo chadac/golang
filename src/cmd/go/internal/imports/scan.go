@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package imports
@@ -12,7 +12,7 @@ import (
 	"strconv"
 	"strings"
 
-	"cmd/go/internal/fsys"
+	"cmd/golang/internal/fsys"
 )
 
 func ScanDir(path string, tags map[string]bool) ([]string, []string, error) {
@@ -34,7 +34,7 @@ func ScanDir(path string, tags map[string]bool) ([]string, []string, error) {
 			dir = fs.FileInfoToDirEntry(info)
 		}
 
-		if dir.Type().IsRegular() && !strings.HasPrefix(name, "_") && !strings.HasPrefix(name, ".") && strings.HasSuffix(name, ".go") && MatchFile(name, tags) {
+		if dir.Type().IsRegular() && !strings.HasPrefix(name, "_") && !strings.HasPrefix(name, ".") && strings.HasSuffix(name, ".golang") && MatchFile(name, tags) {
 			files = append(files, filepath.Join(path, name))
 		}
 	}
@@ -62,14 +62,14 @@ Files:
 			return nil, nil, fmt.Errorf("reading %s: %v", name, err)
 		}
 
-		// import "C" is implicit requirement of cgo tag.
+		// import "C" is implicit requirement of cgolang tag.
 		// When listing files on the command line (explicitFiles=true)
 		// we do not apply build tag filtering but we still do apply
-		// cgo filtering, so no explicitFiles check here.
+		// cgolang filtering, so no explicitFiles check here.
 		// Why? Because we always have, and it's not worth breaking
 		// that behavior now.
 		for _, path := range list {
-			if path == `"C"` && !tags["cgo"] && !tags["*"] {
+			if path == `"C"` && !tags["cgolang"] && !tags["*"] {
 				continue Files
 			}
 		}
@@ -79,7 +79,7 @@ Files:
 		}
 		numFiles++
 		m := imports
-		if strings.HasSuffix(name, "_test.go") {
+		if strings.HasSuffix(name, "_test.golang") {
 			m = testImports
 		}
 		for _, p := range list {

@@ -10,17 +10,17 @@ env GOCACHE=$WORK/cache
 env GODEBUG=fuzzdebug=1
 
 mkdir -p $GOCACHE/fuzz/fuzztest/FuzzTarget
-go run ./populate $GOCACHE/fuzz/fuzztest/FuzzTarget
+golang run ./populate $GOCACHE/fuzz/fuzztest/FuzzTarget
 
-go test -fuzz=FuzzTarget -fuzztime=10x .
+golang test -fuzz=FuzzTarget -fuzztime=10x .
 stdout 'entries: 5'
 
--- go.mod --
+-- golang.mod --
 module fuzztest
 
-go 1.17
+golang 1.17
 
--- fuzz_test.go --
+-- fuzz_test.golang --
 package fuzz
 
 import "testing"
@@ -30,7 +30,7 @@ func FuzzTarget(f *testing.F) {
     f.Fuzz(func(t *testing.T, _ int) {})
 }
 
--- populate/main.go --
+-- populate/main.golang --
 package main
 
 import (
@@ -45,7 +45,7 @@ func main() {
 		if i > 5 {
 			b = byte(i)
 		}
-        tmpl := "go test fuzz v1\nint(%d)\n"
+        tmpl := "golang test fuzz v1\nint(%d)\n"
 		if err := os.WriteFile(filepath.Join(os.Args[1], fmt.Sprint(i)), []byte(fmt.Sprintf(tmpl, b)), 0777); err != nil {
 			panic(err)
 		}

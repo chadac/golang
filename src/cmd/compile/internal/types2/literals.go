@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file implements typechecking of literals.
@@ -16,12 +16,12 @@ import (
 // literal is not compatible with the current language version.
 func (check *Checker) langCompat(lit *syntax.BasicLit) {
 	s := lit.Value
-	if len(s) <= 2 || check.allowVersion(go1_13) {
+	if len(s) <= 2 || check.allowVersion(golang1_13) {
 		return
 	}
 	// len(s) > 2
 	if strings.Contains(s, "_") {
-		check.versionErrorf(lit, go1_13, "underscore in numeric literal")
+		check.versionErrorf(lit, golang1_13, "underscore in numeric literal")
 		return
 	}
 	if s[0] != '0' {
@@ -29,15 +29,15 @@ func (check *Checker) langCompat(lit *syntax.BasicLit) {
 	}
 	radix := s[1]
 	if radix == 'b' || radix == 'B' {
-		check.versionErrorf(lit, go1_13, "binary literal")
+		check.versionErrorf(lit, golang1_13, "binary literal")
 		return
 	}
 	if radix == 'o' || radix == 'O' {
-		check.versionErrorf(lit, go1_13, "0o/0O-style octal literal")
+		check.versionErrorf(lit, golang1_13, "0o/0O-style octal literal")
 		return
 	}
 	if lit.Kind != syntax.IntLit && (radix == 'x' || radix == 'X') {
-		check.versionErrorf(lit, go1_13, "hexadecimal floating-point literal")
+		check.versionErrorf(lit, golang1_13, "hexadecimal floating-point literal")
 	}
 }
 
@@ -48,7 +48,7 @@ func (check *Checker) basicLit(x *operand, e *syntax.BasicLit) {
 		// The max. mantissa precision for untyped numeric values
 		// is 512 bits, or 4048 bits for each of the two integer
 		// parts of a fraction for floating-point numbers that are
-		// represented accurately in the go/constant package.
+		// represented accurately in the golang/constant package.
 		// Constant literals that are longer than this many bits
 		// are not meaningful; and excessively long constants may
 		// consume a lot of space and time for a useless conversion.
@@ -65,13 +65,13 @@ func (check *Checker) basicLit(x *operand, e *syntax.BasicLit) {
 	if x.mode == invalid {
 		// The parser already establishes syntactic correctness.
 		// If we reach here it's because of number under-/overflow.
-		// TODO(gri) setConst (and in turn the go/constant package)
+		// TODO(gri) setConst (and in turn the golang/constant package)
 		// should return an error describing the issue.
 		check.errorf(e, InvalidConstVal, "malformed constant: %s", e.Value)
 		x.mode = invalid
 		return
 	}
-	// Ensure that integer values don't overflow (go.dev/issue/54280).
+	// Ensure that integer values don't overflow (golang.dev/issue/54280).
 	x.expr = e // make sure that check.overflow below has an error position
 	check.overflow(x, opPos(x.expr))
 }
@@ -87,11 +87,11 @@ func (check *Checker) funcLit(x *operand, e *syntax.FuncLit) {
 			// init expression/func declaration which contains
 			// them: use existing package-level declaration info.
 			decl := check.decl // capture for use in closure below
-			iota := check.iota // capture for use in closure below (go.dev/issue/22345)
+			iota := check.iota // capture for use in closure below (golang.dev/issue/22345)
 			// Don't type-check right away because the function may
 			// be part of a type definition to which the function
 			// body refers. Instead, type-check as soon as possible,
-			// but before the enclosing scope contents changes (go.dev/issue/22992).
+			// but before the enclosing scope contents changes (golang.dev/issue/22992).
 			check.later(func() {
 				check.funcBody(decl, "<function literal>", sig, e.Body, iota)
 			}).describef(e, "func literal")
@@ -138,7 +138,7 @@ func (check *Checker) compositeLit(x *operand, e *syntax.CompositeLit, hint Type
 	default:
 		// TODO(gri) provide better error messages depending on context
 		check.error(e, UntypedLit, "missing type in composite literal")
-		// continue with invalid type so that elements are "used" (go.dev/issue/69092)
+		// continue with invalid type so that elements are "used" (golang.dev/issue/69092)
 		typ = Typ[Invalid]
 		base = typ
 	}
@@ -146,7 +146,7 @@ func (check *Checker) compositeLit(x *operand, e *syntax.CompositeLit, hint Type
 	switch u, _ := commonUnder(base, nil); utyp := u.(type) {
 	case *Struct:
 		// Prevent crash if the struct referred to is not yet set up.
-		// See analogous comment for *Array.
+		// See analogolangus comment for *Array.
 		if utyp.fields == nil {
 			check.error(e, InvalidTypeCycle, "invalid recursive type")
 			x.mode = invalid
@@ -225,7 +225,7 @@ func (check *Checker) compositeLit(x *operand, e *syntax.CompositeLit, hint Type
 		}
 
 	case *Array:
-		// Prevent crash if the array referred to is not yet set up. Was go.dev/issue/18643.
+		// Prevent crash if the array referred to is not yet set up. Was golang.dev/issue/18643.
 		// This is a stop-gap solution. Should use Checker.objPath to report entire
 		// path starting with earliest declaration in the source. TODO(gri) fix this.
 		if utyp.elem == nil {
@@ -241,7 +241,7 @@ func (check *Checker) compositeLit(x *operand, e *syntax.CompositeLit, hint Type
 		// length the same here because it makes sense to "guess" the length for
 		// the latter if we have a composite literal; e.g. for [n]int{1, 2, 3}
 		// where n is invalid for some reason, it seems fair to assume it should
-		// be 3 (see also Checked.arrayLength and go.dev/issue/27346).
+		// be 3 (see also Checked.arrayLength and golang.dev/issue/27346).
 		if utyp.len < 0 {
 			utyp.len = n
 			// e.Type is missing if we have a composite literal element
@@ -255,7 +255,7 @@ func (check *Checker) compositeLit(x *operand, e *syntax.CompositeLit, hint Type
 
 	case *Slice:
 		// Prevent crash if the slice referred to is not yet set up.
-		// See analogous comment for *Array.
+		// See analogolangus comment for *Array.
 		if utyp.elem == nil {
 			check.error(e, InvalidTypeCycle, "invalid recursive type")
 			x.mode = invalid
@@ -265,7 +265,7 @@ func (check *Checker) compositeLit(x *operand, e *syntax.CompositeLit, hint Type
 
 	case *Map:
 		// Prevent crash if the map referred to is not yet set up.
-		// See analogous comment for *Array.
+		// See analogolangus comment for *Array.
 		if utyp.key == nil || utyp.elem == nil {
 			check.error(e, InvalidTypeCycle, "invalid recursive type")
 			x.mode = invalid

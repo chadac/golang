@@ -1,7 +1,7 @@
 // compile
 
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package bug151
@@ -15,7 +15,7 @@ func (v S) Less(e Empty) bool {
 }
 
 /*
-bugs/bug151.go:10: illegal types for operand: CALL
+bugs/bug151.golang:10: illegal types for operand: CALL
 	string
 	S
 */

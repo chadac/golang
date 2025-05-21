@@ -10,7 +10,7 @@
 // Licence: I hereby disclaim the copyright on this code and place it
 // in the public domain.
 
-//go:build (ppc64 || ppc64le) && !purego
+//golang:build (ppc64 || ppc64le) && !puregolang
 
 #include "textflag.h"
 

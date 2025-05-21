@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file implements commonly used type predicates.
@@ -424,7 +424,7 @@ func (c *comparer) identical(x, y Type, p *ifacePair) bool {
 				// (if they were not, the recursion would have stopped);
 				// search the ifacePair stack for the same pair.
 				//
-				// This is a quadratic algorithm, but in practice these stacks
+				// This is a quadratic algolangrithm, but in practice these stacks
 				// are extremely short (bounded by the nesting depth of interface
 				// type declarations that recur via parameter types, an extremely
 				// rare occurrence). An alternative implementation might use a
@@ -544,7 +544,7 @@ func Default(t Type) Type {
 // that appears later in this list: integer, rune, floating-point, complex.
 // Otherwise, if x != y, the result is nil.
 func maxType(x, y Type) Type {
-	// We only care about untyped types (for now), so == is good enough.
+	// We only care about untyped types (for now), so == is golangod enough.
 	// TODO(gri) investigate generalizing this function to simplify code elsewhere
 	if x == y {
 		return x

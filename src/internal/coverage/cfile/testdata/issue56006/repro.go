@@ -1,6 +1,6 @@
 package main
 
-//go:noinline
+//golang:noinline
 func blah(x int) int {
 	if x != 0 {
 		return x + 42
@@ -9,7 +9,7 @@ func blah(x int) int {
 }
 
 func main() {
-	go infloop()
+	golang infloop()
 	println(blah(1) + blah(0))
 }
 

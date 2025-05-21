@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package httptest
@@ -70,16 +70,16 @@ func TestRecorder(t *testing.T) {
 	}
 	hasOldHeader := func(key, want string) checkFunc {
 		return func(rec *ResponseRecorder) error {
-			if got := rec.HeaderMap.Get(key); got != want {
-				return fmt.Errorf("HeaderMap header %s = %q; want %q", key, got, want)
+			if golangt := rec.HeaderMap.Get(key); golangt != want {
+				return fmt.Errorf("HeaderMap header %s = %q; want %q", key, golangt, want)
 			}
 			return nil
 		}
 	}
 	hasHeader := func(key, want string) checkFunc {
 		return func(rec *ResponseRecorder) error {
-			if got := rec.Result().Header.Get(key); got != want {
-				return fmt.Errorf("final header %s = %q; want %q", key, got, want)
+			if golangt := rec.Result().Header.Get(key); golangt != want {
+				return fmt.Errorf("final header %s = %q; want %q", key, golangt, want)
 			}
 			return nil
 		}
@@ -97,8 +97,8 @@ func TestRecorder(t *testing.T) {
 	}
 	hasTrailer := func(key, want string) checkFunc {
 		return func(rec *ResponseRecorder) error {
-			if got := rec.Result().Trailer.Get(key); got != want {
-				return fmt.Errorf("trailer %s = %q; want %q", key, got, want)
+			if golangt := rec.Result().Trailer.Get(key); golangt != want {
+				return fmt.Errorf("trailer %s = %q; want %q", key, golangt, want)
 			}
 			return nil
 		}
@@ -117,8 +117,8 @@ func TestRecorder(t *testing.T) {
 	}
 	hasContentLength := func(length int64) checkFunc {
 		return func(rec *ResponseRecorder) error {
-			if got := rec.Result().ContentLength; got != length {
-				return fmt.Errorf("ContentLength = %d; want %d", got, length)
+			if golangt := rec.Result().ContentLength; golangt != length {
+				return fmt.Errorf("ContentLength = %d; want %d", golangt, length)
 			}
 			return nil
 		}
@@ -339,14 +339,14 @@ func TestParseContentLength(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		if got := parseContentLength(tt.cl); got != tt.want {
-			t.Errorf("%q:\n\tgot=%d\n\twant=%d", tt.cl, got, tt.want)
+		if golangt := parseContentLength(tt.cl); golangt != tt.want {
+			t.Errorf("%q:\n\tgolangt=%d\n\twant=%d", tt.cl, golangt, tt.want)
 		}
 	}
 }
 
 // Ensure that httptest.Recorder panics when given a non-3 digit (XXX)
-// status HTTP code. See https://golang.org/issues/45353
+// status HTTP code. See https://golanglang.org/issues/45353
 func TestRecorderPanicsOnNonXXXStatusCode(t *testing.T) {
 	badCodes := []int{
 		-100, 0, 99, 1000, 20000,

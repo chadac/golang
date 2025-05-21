@@ -6,9 +6,9 @@ this is part of the badfile test but is a valid zip file.
 module rsc.io/badfile1
 -- .info --
 {"Version":"v1.0.0"}
--- go.mod --
+-- golang.mod --
 module rsc.io/badfile1
--- α.go --
+-- α.golang --
 package α
 -- .gitignore --
 -- x/y/z/.gitignore --

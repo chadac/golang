@@ -1,9 +1,9 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package mvs implements Minimal Version Selection.
-// See https://research.swtch.com/vgo-mvs.
+// See https://research.swtch.com/vgolang-mvs.
 package mvs
 
 import (
@@ -14,7 +14,7 @@ import (
 
 	"cmd/internal/par"
 
-	"golang.org/x/mod/module"
+	"golanglang.org/x/mod/module"
 )
 
 // A Reqs is the requirement graph on which Minimal Version Selection (MVS) operates.
@@ -24,9 +24,9 @@ import (
 // assume that the version strings are semantic versions; instead, the Max method
 // gives access to the comparison operation.
 //
-// It must be safe to call methods on a Reqs from multiple goroutines simultaneously.
+// It must be safe to call methods on a Reqs from multiple golangroutines simultaneously.
 // Because a Reqs may read the underlying graph from the network on demand,
-// the MVS algorithms parallelize the traversal to overlap network delays.
+// the MVS algolangrithms parallelize the traversal to overlap network delays.
 type Reqs interface {
 	// Required returns the module versions explicitly required by m itself.
 	// The caller must not modify the returned list.
@@ -73,8 +73,8 @@ type DowngradeReqs interface {
 
 // BuildList returns the build list for the target module.
 //
-// target is the root vertex of a module requirement graph. For cmd/go, this is
-// typically the main module, but note that this algorithm is not intended to
+// target is the root vertex of a module requirement graph. For cmd/golang, this is
+// typically the main module, but note that this algolangrithm is not intended to
 // be Go-specific: module paths and versions are treated as opaque values.
 //
 // reqs describes the module requirement graph and provides an opaque method
@@ -86,7 +86,7 @@ type DowngradeReqs interface {
 // other versions, so no other version can be selected. The remaining elements
 // of the list are sorted by path.
 //
-// See https://research.swtch.com/vgo-mvs for details.
+// See https://research.swtch.com/vgolang-mvs for details.
 func BuildList(targets []module.Version, reqs Reqs) ([]module.Version, error) {
 	return buildList(targets, reqs, nil)
 }
@@ -175,7 +175,7 @@ func buildList(targets []module.Version, reqs Reqs, upgrade func(module.Version)
 		// target.Version will be "" for modload, the main client of MVS.
 		// "" denotes the main module, which has no version. However, MVS treats
 		// version strings as opaque, so "" is not a special value here.
-		// See golang.org/issue/31491, golang.org/issue/29773.
+		// See golanglang.org/issue/31491, golanglang.org/issue/29773.
 		panic(fmt.Sprintf("mistake: chose versions %+v instead of targets %+v", vs, targets))
 	}
 	return list, nil
@@ -325,10 +325,10 @@ func Upgrade(target module.Version, reqs UpgradeReqs, upgrade ...module.Version)
 // reqs.Previous, but the methods of reqs must otherwise handle such versions
 // correctly.
 func Downgrade(target module.Version, reqs DowngradeReqs, downgrade ...module.Version) ([]module.Version, error) {
-	// Per https://research.swtch.com/vgo-mvs#algorithm_4:
+	// Per https://research.swtch.com/vgolang-mvs#algolangrithm_4:
 	// “To avoid an unnecessary downgrade to E 1.1, we must also add a new
-	// requirement on E 1.2. We can apply Algorithm R to find the minimal set of
-	// new requirements to write to go.mod.”
+	// requirement on E 1.2. We can apply Algolangrithm R to find the minimal set of
+	// new requirements to write to golang.mod.”
 	//
 	// In order to generate those new requirements, we need to identify versions
 	// for every module in the build list — not just reqs.Required(target).
@@ -378,15 +378,15 @@ func Downgrade(target module.Version, reqs DowngradeReqs, downgrade ...module.Ve
 		}
 		list, err := reqs.Required(m)
 		if err != nil {
-			// If we can't load the requirements, we couldn't load the go.mod file.
+			// If we can't load the requirements, we couldn't load the golang.mod file.
 			// There are a number of reasons this can happen, but this usually
 			// means an older version of the module had a missing or invalid
-			// go.mod file. For example, if example.com/mod released v2.0.0 before
-			// migrating to modules (v2.0.0+incompatible), then added a valid go.mod
+			// golang.mod file. For example, if example.com/mod released v2.0.0 before
+			// migrating to modules (v2.0.0+incompatible), then added a valid golang.mod
 			// in v2.0.1, downgrading from v2.0.1 would cause this error.
 			//
-			// TODO(golang.org/issue/31730, golang.org/issue/30134): if the error
-			// is transient (we couldn't download go.mod), return the error from
+			// TODO(golanglang.org/issue/31730, golanglang.org/issue/30134): if the error
+			// is transient (we couldn't download golang.mod), return the error from
 			// Downgrade. Currently, we can't tell what kind of error it is.
 			exclude(m)
 			return
@@ -412,7 +412,7 @@ List:
 				// This is likely a transient error reaching the repository,
 				// rather than a permanent error with the retrieved version.
 				//
-				// TODO(golang.org/issue/31730, golang.org/issue/30134):
+				// TODO(golanglang.org/issue/31730, golanglang.org/issue/30134):
 				// decode what to do based on the actual error.
 				return nil, err
 			}

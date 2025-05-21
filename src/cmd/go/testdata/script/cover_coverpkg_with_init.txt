@@ -1,6 +1,6 @@
 
 # Testcase inspired by issue #58770, intended to verify that we're
-# doing the right thing when running "go test -coverpkg=./... ./..."
+# doing the right thing when running "golang test -coverpkg=./... ./..."
 # on a collection of packages where some have init functions and some
 # do not, some have tests and some do not.
 
@@ -14,7 +14,7 @@
 # coverage. For packages "x" and "f" (which have no tests), check for
 # 0% stmts covered (as opposed to "no test files").
 
-go test -count=1 -coverprofile=cov.dat -coverpkg=./... ./...
+golang test -count=1 -coverprofile=cov.dat -coverpkg=./... ./...
 stdout '^\s*\?\s+M/n\s+\[no test files\]'
 stdout '^\s*M/x\s+coverage: 0.0% of statements'
 stdout '^\s*M/f\s+coverage: 0.0% of statements'
@@ -24,16 +24,16 @@ stdout '^ok\s+M/main\s+\S+\s+coverage: 80.0% of statements in ./...'
 
 # Check for selected elements in the collected coverprofile as well.
 
-go tool cover -func=cov.dat
-stdout '^M/x/x.go:3:\s+XFunc\s+0.0%'
-stdout '^M/b/b.go:7:\s+BFunc\s+100.0%'
+golang tool cover -func=cov.dat
+stdout '^M/x/x.golang:3:\s+XFunc\s+0.0%'
+stdout '^M/b/b.golang:7:\s+BFunc\s+100.0%'
 stdout '^total:\s+\(statements\)\s+80.0%'
 
--- go.mod --
+-- golang.mod --
 module M
 
-go 1.21
--- a/a.go --
+golang 1.21
+-- a/a.golang --
 package a
 
 import "M/f"
@@ -45,7 +45,7 @@ func init() {
 func AFunc() int {
 	return f.Id()
 }
--- a/a_test.go --
+-- a/a_test.golang --
 package a
 
 import "testing"
@@ -55,7 +55,7 @@ func TestA(t *testing.T) {
 		t.Fatalf("bad!")
 	}
 }
--- b/b.go --
+-- b/b.golang --
 package b
 
 func init() {
@@ -65,7 +65,7 @@ func init() {
 func BFunc() int {
 	return -42
 }
--- b/b_test.go --
+-- b/b_test.golang --
 package b
 
 import "testing"
@@ -75,13 +75,13 @@ func TestB(t *testing.T) {
 		t.Fatalf("bad!")
 	}
 }
--- f/f.go --
+-- f/f.golang --
 package f
 
 func Id() int {
      return 42
 }
--- main/main.go --
+-- main/main.golang --
 package main
 
 import (
@@ -104,7 +104,7 @@ func init() {
 func main() {
 	println(a.AFunc() + b.BFunc())
 }
--- main/main_test.go --
+-- main/main_test.golang --
 package main
 
 import "testing"
@@ -117,11 +117,11 @@ func TestMain(t *testing.T) {
 		t.Fatalf("also bad!")
 	}
 }
--- n/n.go --
+-- n/n.golang --
 package n
 
 type N int
--- x/x.go --
+-- x/x.golang --
 package x
 
 func XFunc() int {

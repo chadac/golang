@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Make sure return values aren't scanned until they
@@ -37,7 +37,7 @@ func f(d func() *byte) *byte {
 	return d()
 }
 
-//go:noinline
+//golang:noinline
 func g(x uintptr) {
 }
 

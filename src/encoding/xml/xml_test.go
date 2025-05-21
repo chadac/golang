@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package xml
@@ -68,10 +68,10 @@ func TestDecodeEOF(t *testing.T) {
 					XMLName Name `xml:"test"`
 				}{})
 				if tc.ok && err != nil {
-					t.Fatalf("d.Decode: expected nil error, got %v", err)
+					t.Fatalf("d.Decode: expected nil error, golangt %v", err)
 				}
 				if _, ok := err.(*SyntaxError); !tc.ok && !ok {
-					t.Errorf("d.Decode: expected syntax error, got %v", err)
+					t.Errorf("d.Decode: expected syntax error, golangt %v", err)
 				}
 			})
 		}
@@ -113,7 +113,7 @@ func TestDecodeNilToken(t *testing.T) {
 				XMLName Name `xml:"test"`
 			}{})
 			if _, ok := err.(*SyntaxError); !ok {
-				t.Errorf("d.Decode: expected syntax error, got %v", err)
+				t.Errorf("d.Decode: expected syntax error, golangt %v", err)
 			}
 		})
 	}
@@ -127,7 +127,7 @@ const testInput = `
 	"\r\n\t" + `  >
   <hello lang="en">World &lt;&gt;&apos;&quot; &#x767d;&#40300;翔</hello>
   <query>&何; &is-it;</query>
-  <goodbye />
+  <golangodbye />
   <outer foo:attr="value" xmlns:tag="ns4">
     <inner/>
   </outer>
@@ -155,8 +155,8 @@ var rawTokens = []Token{
 	CharData("What is it?"),
 	EndElement{Name{"", "query"}},
 	CharData("\n  "),
-	StartElement{Name{"", "goodbye"}, []Attr{}},
-	EndElement{Name{"", "goodbye"}},
+	StartElement{Name{"", "golangodbye"}, []Attr{}},
+	EndElement{Name{"", "golangodbye"}},
 	CharData("\n  "),
 	StartElement{Name{"", "outer"}, []Attr{{Name{"foo", "attr"}, "value"}, {Name{"xmlns", "tag"}, "ns4"}}},
 	CharData("\n    "),
@@ -192,8 +192,8 @@ var cookedTokens = []Token{
 	CharData("What is it?"),
 	EndElement{Name{"ns2", "query"}},
 	CharData("\n  "),
-	StartElement{Name{"ns2", "goodbye"}, []Attr{}},
-	EndElement{Name{"ns2", "goodbye"}},
+	StartElement{Name{"ns2", "golangodbye"}, []Attr{}},
+	EndElement{Name{"ns2", "golangodbye"}},
 	CharData("\n  "),
 	StartElement{Name{"ns2", "outer"}, []Attr{{Name{"ns1", "attr"}, "value"}, {Name{"xmlns", "tag"}, "ns4"}}},
 	CharData("\n    "),
@@ -371,14 +371,14 @@ func TestRawTokenAltEncodingNoConverter(t *testing.T) {
 	}
 	token, err = d.RawToken()
 	if token != nil {
-		t.Errorf("expected a nil token; got %#v", token)
+		t.Errorf("expected a nil token; golangt %#v", token)
 	}
 	if err == nil {
 		t.Fatalf("expected an error on second RawToken call")
 	}
 	const encoding = "x-testing-uppercase"
 	if !strings.Contains(err.Error(), encoding) {
-		t.Errorf("expected error to contain %q; got error: %v",
+		t.Errorf("expected error to contain %q; golangt error: %v",
 			encoding, err)
 	}
 }
@@ -534,9 +534,9 @@ att
 			continue
 		}
 
-		gotLine, gotCol := dec.InputPos()
-		if gotLine != want[0] || gotCol != want[1] {
-			t.Errorf("dec.InputPos() = %d,%d, want %d,%d", gotLine, gotCol, want[0], want[1])
+		golangtLine, golangtCol := dec.InputPos()
+		if golangtLine != want[0] || golangtCol != want[1] {
+			t.Errorf("dec.InputPos() = %d,%d, want %d,%d", golangtLine, golangtCol, want[0], want[1])
 		}
 	}
 }
@@ -826,7 +826,7 @@ func TestDisallowedCharacters(t *testing.T) {
 			t.Fatalf("input %d d.Token() = _, %v, want _, *SyntaxError", i, err)
 		}
 		if synerr.Msg != tt.err {
-			t.Fatalf("input %d synerr.Msg wrong: want %q, got %q", i, tt.err, synerr.Msg)
+			t.Fatalf("input %d synerr.Msg wrong: want %q, golangt %q", i, tt.err, synerr.Msg)
 		}
 	}
 }
@@ -865,11 +865,11 @@ var procInstTests = []struct {
 
 func TestProcInstEncoding(t *testing.T) {
 	for _, test := range procInstTests {
-		if got := procInst("version", test.input); got != test.expect[0] {
-			t.Errorf("procInst(version, %q) = %q; want %q", test.input, got, test.expect[0])
+		if golangt := procInst("version", test.input); golangt != test.expect[0] {
+			t.Errorf("procInst(version, %q) = %q; want %q", test.input, golangt, test.expect[0])
 		}
-		if got := procInst("encoding", test.input); got != test.expect[1] {
-			t.Errorf("procInst(encoding, %q) = %q; want %q", test.input, got, test.expect[1])
+		if golangt := procInst("encoding", test.input); golangt != test.expect[1] {
+			t.Errorf("procInst(encoding, %q) = %q; want %q", test.input, golangt, test.expect[1])
 		}
 	}
 }
@@ -879,17 +879,17 @@ func TestProcInstEncoding(t *testing.T) {
 
 var directivesWithCommentsInput = `
 <!DOCTYPE [<!-- a comment --><!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#">]>
-<!DOCTYPE [<!ENTITY go "Golang"><!-- a comment-->]>
-<!DOCTYPE <!-> <!> <!----> <!-->--> <!--->--> [<!ENTITY go "Golang"><!-- a comment-->]>
+<!DOCTYPE [<!ENTITY golang "Golang"><!-- a comment-->]>
+<!DOCTYPE <!-> <!> <!----> <!-->--> <!--->--> [<!ENTITY golang "Golang"><!-- a comment-->]>
 `
 
 var directivesWithCommentsTokens = []Token{
 	CharData("\n"),
 	Directive(`DOCTYPE [ <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#">]`),
 	CharData("\n"),
-	Directive(`DOCTYPE [<!ENTITY go "Golang"> ]`),
+	Directive(`DOCTYPE [<!ENTITY golang "Golang"> ]`),
 	CharData("\n"),
-	Directive(`DOCTYPE <!-> <!>       [<!ENTITY go "Golang"> ]`),
+	Directive(`DOCTYPE <!-> <!>       [<!ENTITY golang "Golang"> ]`),
 	CharData("\n"),
 }
 
@@ -982,8 +982,8 @@ func TestEncodeXMLNS(t *testing.T) {
 
 	for i, tc := range testCases {
 		if b, err := tc.f(); err == nil {
-			if got, want := string(b), tc.want; got != want {
-				t.Errorf("%d: got %s, want %s \n", i, got, want)
+			if golangt, want := string(b), tc.want; golangt != want {
+				t.Errorf("%d: golangt %s, want %s \n", i, golangt, want)
 			}
 		} else {
 			t.Errorf("%d: marshal failed with %s", i, err)
@@ -1081,11 +1081,11 @@ func TestIssue12417(t *testing.T) {
 			}
 		}
 		if err != nil && tc.ok {
-			t.Errorf("%q: Encoding charset: expected no error, got %s", tc.s, err)
+			t.Errorf("%q: Encoding charset: expected no error, golangt %s", tc.s, err)
 			continue
 		}
 		if err == nil && !tc.ok {
-			t.Errorf("%q: Encoding charset: expected error, got nil", tc.s)
+			t.Errorf("%q: Encoding charset: expected error, golangt nil", tc.s)
 		}
 	}
 }
@@ -1115,10 +1115,10 @@ func TestIssue7113(t *testing.T) {
 	}
 
 	if a.XMLName.Space != structSpace {
-		t.Errorf("overidding with empty namespace: unmarshaling, got %s, want %s\n", a.XMLName.Space, structSpace)
+		t.Errorf("overidding with empty namespace: unmarshaling, golangt %s, want %s\n", a.XMLName.Space, structSpace)
 	}
 	if len(a.C.XMLName.Space) != 0 {
-		t.Fatalf("overidding with empty namespace: unmarshaling, got %s, want empty\n", a.C.XMLName.Space)
+		t.Fatalf("overidding with empty namespace: unmarshaling, golangt %s, want empty\n", a.C.XMLName.Space)
 	}
 
 	var b []byte
@@ -1127,10 +1127,10 @@ func TestIssue7113(t *testing.T) {
 		t.Fatal(err)
 	}
 	if len(a.C.XMLName.Space) != 0 {
-		t.Errorf("overidding with empty namespace: marshaling, got %s in C tag which should be empty\n", a.C.XMLName.Space)
+		t.Errorf("overidding with empty namespace: marshaling, golangt %s in C tag which should be empty\n", a.C.XMLName.Space)
 	}
 	if string(b) != xmlTest {
-		t.Fatalf("overidding with empty namespace: marshaling, got %s, want %s\n", b, xmlTest)
+		t.Fatalf("overidding with empty namespace: marshaling, golangt %s, want %s\n", b, xmlTest)
 	}
 	var c A
 	err = Unmarshal(b, &c)
@@ -1138,10 +1138,10 @@ func TestIssue7113(t *testing.T) {
 		t.Fatalf("second Unmarshal failed: %s", err)
 	}
 	if c.XMLName.Space != "b" {
-		t.Errorf("overidding with empty namespace: after marshaling & unmarshaling, XML name space: got %s, want %s\n", a.XMLName.Space, structSpace)
+		t.Errorf("overidding with empty namespace: after marshaling & unmarshaling, XML name space: golangt %s, want %s\n", a.XMLName.Space, structSpace)
 	}
 	if len(c.C.XMLName.Space) != 0 {
-		t.Errorf("overidding with empty namespace: after marshaling & unmarshaling, got %s, want empty\n", a.C.XMLName.Space)
+		t.Errorf("overidding with empty namespace: after marshaling & unmarshaling, golangt %s, want empty\n", a.C.XMLName.Space)
 	}
 }
 
@@ -1167,13 +1167,13 @@ func TestIssue20396(t *testing.T) {
 
 	var dest string
 	for _, tc := range testCases {
-		if got, want := Unmarshal([]byte(tc.s), &dest), tc.wantErr; got != want {
-			if got == nil {
+		if golangt, want := Unmarshal([]byte(tc.s), &dest), tc.wantErr; golangt != want {
+			if golangt == nil {
 				t.Errorf("%s: Unexpected success, want %v", tc.s, want)
 			} else if want == nil {
-				t.Errorf("%s: Unexpected error, got %v", tc.s, got)
-			} else if got.Error() != want.Error() {
-				t.Errorf("%s: got %v, want %v", tc.s, got, want)
+				t.Errorf("%s: Unexpected error, golangt %v", tc.s, golangt)
+			} else if golangt.Error() != want.Error() {
+				t.Errorf("%s: golangt %v, want %v", tc.s, golangt, want)
 			}
 		}
 	}
@@ -1205,11 +1205,11 @@ func TestIssue20685(t *testing.T) {
 			}
 		}
 		if err != nil && tc.ok {
-			t.Errorf("%q: Closing tag with namespace : expected no error, got %s", tc.s, err)
+			t.Errorf("%q: Closing tag with namespace : expected no error, golangt %s", tc.s, err)
 			continue
 		}
 		if err == nil && !tc.ok {
-			t.Errorf("%q: Closing tag with namespace : expected error, got nil", tc.s)
+			t.Errorf("%q: Closing tag with namespace : expected error, golangt nil", tc.s)
 		}
 	}
 }

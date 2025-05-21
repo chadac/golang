@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package binary
@@ -30,16 +30,16 @@ func testVarint(t *testing.T, x int64) {
 	n := PutVarint(buf, x)
 	y, m := Varint(buf[0:n])
 	if x != y {
-		t.Errorf("Varint(%d): got %d", x, y)
+		t.Errorf("Varint(%d): golangt %d", x, y)
 	}
 	if n != m {
-		t.Errorf("Varint(%d): got n = %d; want %d", x, m, n)
+		t.Errorf("Varint(%d): golangt n = %d; want %d", x, m, n)
 	}
 
 	buf2 := []byte("prefix")
 	buf2 = AppendVarint(buf2, x)
 	if string(buf2) != "prefix"+string(buf[:n]) {
-		t.Errorf("AppendVarint(%d): got %q, want %q", x, buf2, "prefix"+string(buf[:n]))
+		t.Errorf("AppendVarint(%d): golangt %q, want %q", x, buf2, "prefix"+string(buf[:n]))
 	}
 
 	y, err := ReadVarint(bytes.NewReader(buf))
@@ -47,7 +47,7 @@ func testVarint(t *testing.T, x int64) {
 		t.Errorf("ReadVarint(%d): %s", x, err)
 	}
 	if x != y {
-		t.Errorf("ReadVarint(%d): got %d", x, y)
+		t.Errorf("ReadVarint(%d): golangt %d", x, y)
 	}
 }
 
@@ -56,16 +56,16 @@ func testUvarint(t *testing.T, x uint64) {
 	n := PutUvarint(buf, x)
 	y, m := Uvarint(buf[0:n])
 	if x != y {
-		t.Errorf("Uvarint(%d): got %d", x, y)
+		t.Errorf("Uvarint(%d): golangt %d", x, y)
 	}
 	if n != m {
-		t.Errorf("Uvarint(%d): got n = %d; want %d", x, m, n)
+		t.Errorf("Uvarint(%d): golangt n = %d; want %d", x, m, n)
 	}
 
 	buf2 := []byte("prefix")
 	buf2 = AppendUvarint(buf2, x)
 	if string(buf2) != "prefix"+string(buf[:n]) {
-		t.Errorf("AppendUvarint(%d): got %q, want %q", x, buf2, "prefix"+string(buf[:n]))
+		t.Errorf("AppendUvarint(%d): golangt %q, want %q", x, buf2, "prefix"+string(buf[:n]))
 	}
 
 	y, err := ReadUvarint(bytes.NewReader(buf))
@@ -73,7 +73,7 @@ func testUvarint(t *testing.T, x uint64) {
 		t.Errorf("ReadUvarint(%d): %s", x, err)
 	}
 	if x != y {
-		t.Errorf("ReadUvarint(%d): got %d", x, y)
+		t.Errorf("ReadUvarint(%d): golangt %d", x, y)
 	}
 }
 
@@ -124,7 +124,7 @@ func TestBufferTooSmall(t *testing.T) {
 		buf := buf[0:i]
 		x, n := Uvarint(buf)
 		if x != 0 || n != 0 {
-			t.Errorf("Uvarint(%v): got x = %d, n = %d", buf, x, n)
+			t.Errorf("Uvarint(%v): golangt x = %d, n = %d", buf, x, n)
 		}
 
 		x, err := ReadUvarint(bytes.NewReader(buf))
@@ -133,13 +133,13 @@ func TestBufferTooSmall(t *testing.T) {
 			wantErr = io.ErrUnexpectedEOF
 		}
 		if x != 0 || err != wantErr {
-			t.Errorf("ReadUvarint(%v): got x = %d, err = %s", buf, x, err)
+			t.Errorf("ReadUvarint(%v): golangt x = %d, err = %s", buf, x, err)
 		}
 	}
 }
 
-// Ensure that we catch overflows of bytes going past MaxVarintLen64.
-// See issue https://golang.org/issues/41185
+// Ensure that we catch overflows of bytes golanging past MaxVarintLen64.
+// See issue https://golanglang.org/issues/41185
 func TestBufferTooBigWithOverflow(t *testing.T) {
 	tests := []struct {
 		in        []byte
@@ -197,17 +197,17 @@ func TestBufferTooBigWithOverflow(t *testing.T) {
 func testOverflow(t *testing.T, buf []byte, x0 uint64, n0 int, err0 error) {
 	x, n := Uvarint(buf)
 	if x != 0 || n != n0 {
-		t.Errorf("Uvarint(% X): got x = %d, n = %d; want 0, %d", buf, x, n, n0)
+		t.Errorf("Uvarint(% X): golangt x = %d, n = %d; want 0, %d", buf, x, n, n0)
 	}
 
 	r := bytes.NewReader(buf)
 	len := r.Len()
 	x, err := ReadUvarint(r)
 	if x != x0 || err != err0 {
-		t.Errorf("ReadUvarint(%v): got x = %d, err = %s; want %d, %s", buf, x, err, x0, err0)
+		t.Errorf("ReadUvarint(%v): golangt x = %d, err = %s; want %d, %s", buf, x, err, x0, err0)
 	}
 	if read := len - r.Len(); read > MaxVarintLen64 {
-		t.Errorf("ReadUvarint(%v): read more than MaxVarintLen64 bytes, got %d", buf, read)
+		t.Errorf("ReadUvarint(%v): read more than MaxVarintLen64 bytes, golangt %d", buf, read)
 	}
 }
 
@@ -221,7 +221,7 @@ func TestNonCanonicalZero(t *testing.T) {
 	buf := []byte{0x80, 0x80, 0x80, 0}
 	x, n := Uvarint(buf)
 	if x != 0 || n != 4 {
-		t.Errorf("Uvarint(%v): got x = %d, n = %d; want 0, 4", buf, x, n)
+		t.Errorf("Uvarint(%v): golangt x = %d, n = %d; want 0, 4", buf, x, n)
 
 	}
 }

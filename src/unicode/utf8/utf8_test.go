@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package utf8_test
@@ -221,24 +221,24 @@ func runtimeRuneCount(s string) int {
 // Check that a range loop, len([]rune(string)) optimization and
 // []rune conversions visit the same runes.
 // Not really a test of this package, but the assumption is used here and
-// it's good to verify.
+// it's golangod to verify.
 func TestRuntimeConversion(t *testing.T) {
 	for _, ts := range testStrings {
 		count := RuneCountInString(ts)
 		if n := runtimeRuneCount(ts); n != count {
-			t.Errorf("%q: len([]rune()) counted %d runes; got %d from RuneCountInString", ts, n, count)
+			t.Errorf("%q: len([]rune()) counted %d runes; golangt %d from RuneCountInString", ts, n, count)
 			break
 		}
 
 		runes := []rune(ts)
 		if n := len(runes); n != count {
-			t.Errorf("%q: []rune() has length %d; got %d from RuneCountInString", ts, n, count)
+			t.Errorf("%q: []rune() has length %d; golangt %d from RuneCountInString", ts, n, count)
 			break
 		}
 		i := 0
 		for _, r := range ts {
 			if r != runes[i] {
-				t.Errorf("%q[%d]: expected %c (%U); got %c (%U)", ts, i, runes[i], runes[i], r, r)
+				t.Errorf("%q[%d]: expected %c (%U); golangt %c (%U)", ts, i, runes[i], runes[i], r, r)
 			}
 			i++
 		}
@@ -433,7 +433,7 @@ func TestRuneCountNonASCIIAllocation(t *testing.T) {
 		s := []byte("日本語日本語日本語日")
 		_ = RuneCount(s)
 	}); n > 0 {
-		t.Errorf("unexpected RuneCount allocation, got %v, want 0", n)
+		t.Errorf("unexpected RuneCount allocation, golangt %v, want 0", n)
 	}
 }
 

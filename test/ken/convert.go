@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test, near-exhaustive, of converting numbers between types.
@@ -42,7 +42,7 @@ const (
 
 var	x = []t{
 
-	/* value good in all types (10) */
+	/* value golangod in all types (10) */
 	{ ti8,  ti8,  10 }, { ti8,  tu8,  10 }, { ti8,  ti16, 10 }, { ti8,  tu16, 10 },
 	{ ti8,  ti32, 10 }, { ti8,  tu32, 10 }, { ti8,  ti64, 10 }, { ti8,  tu64, 10 },
 	{ ti8,  tf32, 10 }, { ti8,  tf64, 10 },
@@ -83,7 +83,7 @@ var	x = []t{
 	{ tf64, ti32, 10 }, { tf64, tu32, 10 }, { tf64, ti64, 10 }, { tf64, tu64, 10 },
 	{ tf64, tf32, 10 }, { tf64, tf64, 10 },
 
-	/* value good in all signed types (-4) */
+	/* value golangod in all signed types (-4) */
 	{ ti8,  ti8,  -4 }, { ti8,  ti16, -4 },
 	{ ti8,  ti32, -4 }, { ti8,  ti64, -4 },
 	{ ti8,  tf32, -4 }, { ti8,  tf64, -4 },
@@ -108,7 +108,7 @@ var	x = []t{
 	{ tf64, ti32, -4 }, { tf64, ti64, -4 },
 	{ tf64, tf32, -4 }, { tf64, tf64, -4 },
 
-	/* value good in u8 and up (175) */
+	/* value golangod in u8 and up (175) */
 	{ tu8,  tu8,  175 }, { tu8,  ti16, 175 }, { tu8,  tu16, 175 },
 	{ tu8,  ti32, 175 }, { tu8,  tu32, 175 }, { tu8,  ti64, 175 }, { tu8,  tu64, 175 },
 	{ tu8,  tf32, 175 }, { tu8,  tf64, 175 },
@@ -145,7 +145,7 @@ var	x = []t{
 	{ tf64, ti32, 175 }, { tf64, tu32, 175 }, { tf64, ti64, 175 }, { tf64, tu64, 175 },
 	{ tf64, tf32, 175 }, { tf64, tf64, 175 },
 
-	/* value good in u16 and up (41259) */
+	/* value golangod in u16 and up (41259) */
 	{ tu16, tu16, 41259 },
 	{ tu16, ti32, 41259 }, { tu16, ti64, 41259 }, { tu16, tu64, 41259 },
 	{ tu16, tf32, 41259 }, { tu16, tf64, 41259 },
@@ -174,7 +174,7 @@ var	x = []t{
 	{ tf64, ti32, 41259 }, { tf64, tu32, 41259 }, { tf64, ti64, 41259 }, { tf64, tu64, 41259 },
 	{ tf64, tf32, 41259 }, { tf64, tf64, 41259 },
 
-	/* value good in u32 and up (3758096384) */
+	/* value golangod in u32 and up (3758096384) */
 	{ tu32, tu32, 3758096384 }, { tu32, ti64, 3758096384 }, { tu32, tu64, 3758096384 },
 	{ tu32, tf32, 3758096384 }, { tu32, tf64, 3758096384 },
 
@@ -190,7 +190,7 @@ var	x = []t{
 	{ tf64, tu32, 3758096384 }, { tf64, ti64, 3758096384 }, { tf64, tu64, 3758096384 },
 	{ tf64, tf32, 3758096384 }, { tf64, tf64, 3758096384 },
 
-	/* value good in u64 and up (16717361816799281152) */
+	/* value golangod in u64 and up (16717361816799281152) */
 	{ tu64, tu64, 16717361816799281152 },
 	{ tu64, tf32, 16717361816799281152 }, { tu64, tf64, 16717361816799281152 },
 

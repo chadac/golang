@@ -1,8 +1,8 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:generate go test cmd/go -v -run=^TestDocsUpToDate$ -fixdocs
+//golang:generate golang test cmd/golang -v -run=^TestDocsUpToDate$ -fixdocs
 
 package main
 
@@ -18,32 +18,32 @@ import (
 	"slices"
 	"strings"
 
-	"cmd/go/internal/base"
-	"cmd/go/internal/bug"
-	"cmd/go/internal/cfg"
-	"cmd/go/internal/clean"
-	"cmd/go/internal/doc"
-	"cmd/go/internal/envcmd"
-	"cmd/go/internal/fix"
-	"cmd/go/internal/fmtcmd"
-	"cmd/go/internal/generate"
-	"cmd/go/internal/help"
-	"cmd/go/internal/list"
-	"cmd/go/internal/modcmd"
-	"cmd/go/internal/modfetch"
-	"cmd/go/internal/modget"
-	"cmd/go/internal/modload"
-	"cmd/go/internal/run"
-	"cmd/go/internal/telemetrycmd"
-	"cmd/go/internal/telemetrystats"
-	"cmd/go/internal/test"
-	"cmd/go/internal/tool"
-	"cmd/go/internal/toolchain"
-	"cmd/go/internal/trace"
-	"cmd/go/internal/version"
-	"cmd/go/internal/vet"
-	"cmd/go/internal/work"
-	"cmd/go/internal/workcmd"
+	"cmd/golang/internal/base"
+	"cmd/golang/internal/bug"
+	"cmd/golang/internal/cfg"
+	"cmd/golang/internal/clean"
+	"cmd/golang/internal/doc"
+	"cmd/golang/internal/envcmd"
+	"cmd/golang/internal/fix"
+	"cmd/golang/internal/fmtcmd"
+	"cmd/golang/internal/generate"
+	"cmd/golang/internal/help"
+	"cmd/golang/internal/list"
+	"cmd/golang/internal/modcmd"
+	"cmd/golang/internal/modfetch"
+	"cmd/golang/internal/modget"
+	"cmd/golang/internal/modload"
+	"cmd/golang/internal/run"
+	"cmd/golang/internal/telemetrycmd"
+	"cmd/golang/internal/telemetrystats"
+	"cmd/golang/internal/test"
+	"cmd/golang/internal/tool"
+	"cmd/golang/internal/toolchain"
+	"cmd/golang/internal/trace"
+	"cmd/golang/internal/version"
+	"cmd/golang/internal/vet"
+	"cmd/golang/internal/work"
+	"cmd/golang/internal/workcmd"
 	"cmd/internal/telemetry"
 	"cmd/internal/telemetry/counter"
 )
@@ -92,9 +92,9 @@ func init() {
 	}
 }
 
-var _ = go11tag
+var _ = golang11tag
 
-var counterErrorsGOPATHEntryRelative = counter.New("go/errors:gopath-entry-relative")
+var counterErrorsGOPATHEntryRelative = counter.New("golang/errors:golangpath-entry-relative")
 
 func main() {
 	log.SetFlags(0)
@@ -111,8 +111,8 @@ func main() {
 	}
 	flag.Usage = base.Usage
 	flag.Parse()
-	counter.Inc("go/invocations")
-	counter.CountFlags("go/flag:", *flag.CommandLine)
+	counter.Inc("golang/invocations")
+	counter.CountFlags("golang/flag:", *flag.CommandLine)
 
 	args := flag.Args()
 	if len(args) < 1 {
@@ -121,41 +121,41 @@ func main() {
 
 	cfg.CmdName = args[0] // for error messages
 	if args[0] == "help" {
-		counter.Inc("go/subcommand:" + strings.Join(append([]string{"help"}, args[1:]...), "-"))
+		counter.Inc("golang/subcommand:" + strings.Join(append([]string{"help"}, args[1:]...), "-"))
 		help.Help(os.Stdout, args[1:])
 		return
 	}
 
 	if cfg.GOROOT == "" {
-		fmt.Fprintf(os.Stderr, "go: cannot find GOROOT directory: 'go' binary is trimmed and GOROOT is not set\n")
+		fmt.Fprintf(os.Stderr, "golang: cannot find GOROOT directory: 'golang' binary is trimmed and GOROOT is not set\n")
 		os.Exit(2)
 	}
 	if fi, err := os.Stat(cfg.GOROOT); err != nil || !fi.IsDir() {
-		fmt.Fprintf(os.Stderr, "go: cannot find GOROOT directory: %v\n", cfg.GOROOT)
+		fmt.Fprintf(os.Stderr, "golang: cannot find GOROOT directory: %v\n", cfg.GOROOT)
 		os.Exit(2)
 	}
 	switch strings.ToLower(cfg.GOROOT) {
-	case "/usr/local/go": // Location recommended for installation on Linux and Darwin and used by Mac installer.
-		counter.Inc("go/goroot:usr-local-go")
-	case "/usr/lib/go": // A typical location used by Linux package managers.
-		counter.Inc("go/goroot:usr-lib-go")
-	case "/usr/lib/golang": // Another typical location used by Linux package managers.
-		counter.Inc("go/goroot:usr-lib-golang")
-	case `c:\program files\go`: // Location used by Windows installer.
-		counter.Inc("go/goroot:program-files-go")
-	case `c:\program files (x86)\go`: // Location used by 386 Windows installer on amd64 platform.
-		counter.Inc("go/goroot:program-files-x86-go")
+	case "/usr/local/golang": // Location recommended for installation on Linux and Darwin and used by Mac installer.
+		counter.Inc("golang/golangroot:usr-local-golang")
+	case "/usr/lib/golang": // A typical location used by Linux package managers.
+		counter.Inc("golang/golangroot:usr-lib-golang")
+	case "/usr/lib/golanglang": // Another typical location used by Linux package managers.
+		counter.Inc("golang/golangroot:usr-lib-golanglang")
+	case `c:\program files\golang`: // Location used by Windows installer.
+		counter.Inc("golang/golangroot:program-files-golang")
+	case `c:\program files (x86)\golang`: // Location used by 386 Windows installer on amd64 platform.
+		counter.Inc("golang/golangroot:program-files-x86-golang")
 	default:
-		counter.Inc("go/goroot:other")
+		counter.Inc("golang/golangroot:other")
 	}
 
 	// Diagnose common mistake: GOPATH==GOROOT.
 	// This setting is equivalent to not setting GOPATH at all,
 	// which is not what most people want when they do it.
-	if gopath := cfg.BuildContext.GOPATH; filepath.Clean(gopath) == filepath.Clean(cfg.GOROOT) {
-		fmt.Fprintf(os.Stderr, "warning: both GOPATH and GOROOT are the same directory (%s); see https://go.dev/wiki/InstallTroubleshooting\n", gopath)
+	if golangpath := cfg.BuildContext.GOPATH; filepath.Clean(golangpath) == filepath.Clean(cfg.GOROOT) {
+		fmt.Fprintf(os.Stderr, "warning: both GOPATH and GOROOT are the same directory (%s); see https://golang.dev/wiki/InstallTroubleshooting\n", golangpath)
 	} else {
-		for _, p := range filepath.SplitList(gopath) {
+		for _, p := range filepath.SplitList(golangpath) {
 			// Some GOPATHs have empty directory elements - ignore them.
 			// See issue 21928 for details.
 			if p == "" {
@@ -165,7 +165,7 @@ func main() {
 			// in the middle of directory elements, such as /tmp/git-1.8.2~rc3
 			// or C:\PROGRA~1. Only ~ as a path prefix has meaning to the shell.
 			if strings.HasPrefix(p, "~") {
-				fmt.Fprintf(os.Stderr, "go: GOPATH entry cannot start with shell metacharacter '~': %q\n", p)
+				fmt.Fprintf(os.Stderr, "golang: GOPATH entry cannot start with shell metacharacter '~': %q\n", p)
 				os.Exit(2)
 			}
 			if !filepath.IsAbs(p) {
@@ -175,7 +175,7 @@ func main() {
 					cfg.BuildContext.GOPATH = ""
 				} else {
 					counterErrorsGOPATHEntryRelative.Inc()
-					fmt.Fprintf(os.Stderr, "go: GOPATH entry is relative; must be absolute path: %q.\nFor more details see: 'go help gopath'\n", p)
+					fmt.Fprintf(os.Stderr, "golang: GOPATH entry is relative; must be absolute path: %q.\nFor more details see: 'golang help golangpath'\n", p)
 					os.Exit(2)
 				}
 			}
@@ -191,8 +191,8 @@ func main() {
 			base.Exit()
 		}
 		if args[used] == "help" {
-			// Accept 'go mod help' and 'go mod help foo' for 'go help mod' and 'go help mod foo'.
-			counter.Inc("go/subcommand:" + strings.ReplaceAll(cfg.CmdName, " ", "-") + "-" + strings.Join(args[used:], "-"))
+			// Accept 'golang mod help' and 'golang mod help foo' for 'golang help mod' and 'golang help mod foo'.
+			counter.Inc("golang/subcommand:" + strings.ReplaceAll(cfg.CmdName, " ", "-") + "-" + strings.Join(args[used:], "-"))
 			help.Help(os.Stdout, append(slices.Clip(args[:used]), args[used+1:]...))
 			base.Exit()
 		}
@@ -204,8 +204,8 @@ func main() {
 		if cmdName == "" {
 			cmdName = args[0]
 		}
-		counter.Inc("go/subcommand:unknown")
-		fmt.Fprintf(os.Stderr, "go %s: unknown command\nRun 'go help%s' for usage.\n", cmdName, helpArg)
+		counter.Inc("golang/subcommand:unknown")
+		fmt.Fprintf(os.Stderr, "golang %s: unknown command\nRun 'golang help%s' for usage.\n", cmdName, helpArg)
 		base.SetExitStatus(2)
 		base.Exit()
 	}
@@ -214,20 +214,20 @@ func main() {
 	// increment in the tool subcommand's Run function because we need
 	// to do the flag processing in invoke first.
 	if cfg.CmdName != "tool" {
-		counter.Inc("go/subcommand:" + strings.ReplaceAll(cfg.CmdName, " ", "-"))
+		counter.Inc("golang/subcommand:" + strings.ReplaceAll(cfg.CmdName, " ", "-"))
 	}
 	telemetrystats.Increment()
 	invoke(cmd, args[used-1:])
 	base.Exit()
 }
 
-// cmdIsGoTelemetryOff reports whether the command is "go telemetry off". This
+// cmdIsGoTelemetryOff reports whether the command is "golang telemetry off". This
 // is used to decide whether to disable the opening of counter files. See #69269.
 func cmdIsGoTelemetryOff() bool {
 	restArgs := os.Args[1:]
 	// skipChdirFlag skips the -C flag, which is the only flag that can appear
-	// in a valid 'go telemetry off' command, and which hasn't been processed
-	// yet. We need to determine if the command is 'go telemetry off' before we open
+	// in a valid 'golang telemetry off' command, and which hasn't been processed
+	// yet. We need to determine if the command is 'golang telemetry off' before we open
 	// the counter file, but we want to process -C after we open counters so that
 	// we can increment the flag counter for it.
 	skipChdirFlag := func() {
@@ -289,7 +289,7 @@ func lookupCmd(args []string) (cmd *base.Command, used int) {
 }
 
 func invoke(cmd *base.Command, args []string) {
-	// 'go env' handles checking the build config
+	// 'golang env' handles checking the build config
 	if cmd != envcmd.CmdEnv {
 		buildcfg.Check()
 		if cfg.ExperimentErr != nil {
@@ -316,7 +316,7 @@ func invoke(cmd *base.Command, args []string) {
 	} else {
 		base.SetFromGOFLAGS(&cmd.Flag)
 		cmd.Flag.Parse(args[1:])
-		flagCounterPrefix := "go/" + strings.ReplaceAll(cfg.CmdName, " ", "-") + "/flag"
+		flagCounterPrefix := "golang/" + strings.ReplaceAll(cfg.CmdName, " ", "-") + "/flag"
 		counter.CountFlags(flagCounterPrefix+":", cmd.Flag)
 		counter.CountFlagValue(flagCounterPrefix+"/", cmd.Flag, "buildmode")
 		args = cmd.Flag.Args()
@@ -377,9 +377,9 @@ func maybeStartTrace(pctx context.Context) context.Context {
 //
 // We have to handle the -C flag this way for two reasons:
 //
-//  1. Toolchain selection needs to be in the right directory to look for go.mod and go.work.
+//  1. Toolchain selection needs to be in the right directory to look for golang.mod and golang.work.
 //
-//  2. A toolchain switch later on reinvokes the new go command with the same arguments.
+//  2. A toolchain switch later on reinvokes the new golang command with the same arguments.
 //     The parent toolchain has already done the chdir; the child must not try to do it again.
 func handleChdirFlag() {
 	_, used := lookupCmd(os.Args[1:])
@@ -404,9 +404,9 @@ func handleChdirFlag() {
 		_, dir, _ = strings.Cut(a, "=")
 		os.Args = slices.Delete(os.Args, used, used+1)
 	}
-	counter.Inc("go/flag:C")
+	counter.Inc("golang/flag:C")
 
 	if err := os.Chdir(dir); err != nil {
-		base.Fatalf("go: %v", err)
+		base.Fatalf("golang: %v", err)
 	}
 }

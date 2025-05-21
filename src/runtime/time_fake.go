@@ -1,8 +1,8 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build faketime && !windows
+//golang:build faketime && !windows
 
 // Faketime isn't currently supported on Windows. This would require
 // modifying syscall.Write to call syscall.faketimeWrite,
@@ -31,13 +31,13 @@ var faketimeState struct {
 	lastfd uintptr
 }
 
-//go:linkname nanotime
-//go:nosplit
+//golang:linkname nanotime
+//golang:nosplit
 func nanotime() int64 {
 	return faketime
 }
 
-//go:linkname time_now time.now
+//golang:linkname time_now time.now
 func time_now() (sec int64, nsec int32, mono int64) {
 	return faketime / 1e9, int32(faketime % 1e9), faketime
 }
@@ -46,7 +46,7 @@ func time_now() (sec int64, nsec int32, mono int64) {
 // We have to avoid write barriers to avoid potential deadlock
 // on write calls.
 //
-//go:nowritebarrierrec
+//golang:nowritebarrierrec
 func write(fd uintptr, p unsafe.Pointer, n int32) int32 {
 	if !(fd == 1 || fd == 2) {
 		// Do an ordinary write.

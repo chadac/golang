@@ -5,4 +5,4 @@ IMPORTPATH
 	testdata/issue17788
 
 FILENAMES
-	testdata/issue17788.go
+	testdata/issue17788.golang

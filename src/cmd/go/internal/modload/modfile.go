@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package modload
@@ -14,60 +14,60 @@ import (
 	"sync"
 	"unicode"
 
-	"cmd/go/internal/base"
-	"cmd/go/internal/cfg"
-	"cmd/go/internal/fsys"
-	"cmd/go/internal/gover"
-	"cmd/go/internal/lockedfile"
-	"cmd/go/internal/modfetch"
-	"cmd/go/internal/trace"
+	"cmd/golang/internal/base"
+	"cmd/golang/internal/cfg"
+	"cmd/golang/internal/fsys"
+	"cmd/golang/internal/golangver"
+	"cmd/golang/internal/lockedfile"
+	"cmd/golang/internal/modfetch"
+	"cmd/golang/internal/trace"
 	"cmd/internal/par"
 
-	"golang.org/x/mod/modfile"
-	"golang.org/x/mod/module"
+	"golanglang.org/x/mod/modfile"
+	"golanglang.org/x/mod/module"
 )
 
-// ReadModFile reads and parses the mod file at gomod. ReadModFile properly applies the
+// ReadModFile reads and parses the mod file at golangmod. ReadModFile properly applies the
 // overlay, locks the file while reading, and applies fix, if applicable.
-func ReadModFile(gomod string, fix modfile.VersionFixer) (data []byte, f *modfile.File, err error) {
-	if fsys.Replaced(gomod) {
-		// Don't lock go.mod if it's part of the overlay.
+func ReadModFile(golangmod string, fix modfile.VersionFixer) (data []byte, f *modfile.File, err error) {
+	if fsys.Replaced(golangmod) {
+		// Don't lock golang.mod if it's part of the overlay.
 		// On Plan 9, locking requires chmod, and we don't want to modify any file
 		// in the overlay. See #44700.
-		data, err = os.ReadFile(fsys.Actual(gomod))
+		data, err = os.ReadFile(fsys.Actual(golangmod))
 	} else {
-		data, err = lockedfile.Read(gomod)
+		data, err = lockedfile.Read(golangmod)
 	}
 	if err != nil {
 		return nil, nil, err
 	}
 
-	f, err = modfile.Parse(gomod, data, fix)
+	f, err = modfile.Parse(golangmod, data, fix)
 	if err != nil {
-		f, laxErr := modfile.ParseLax(gomod, data, fix)
+		f, laxErr := modfile.ParseLax(golangmod, data, fix)
 		if laxErr == nil {
-			if f.Go != nil && gover.Compare(f.Go.Version, gover.Local()) > 0 {
+			if f.Go != nil && golangver.Compare(f.Go.Version, golangver.Local()) > 0 {
 				toolchain := ""
 				if f.Toolchain != nil {
 					toolchain = f.Toolchain.Name
 				}
-				return nil, nil, &gover.TooNewError{What: base.ShortPath(gomod), GoVersion: f.Go.Version, Toolchain: toolchain}
+				return nil, nil, &golangver.TooNewError{What: base.ShortPath(golangmod), GoVersion: f.Go.Version, Toolchain: toolchain}
 			}
 		}
 
 		// Errors returned by modfile.Parse begin with file:line.
-		return nil, nil, fmt.Errorf("errors parsing %s:\n%w", base.ShortPath(gomod), shortPathErrorList(err))
+		return nil, nil, fmt.Errorf("errors parsing %s:\n%w", base.ShortPath(golangmod), shortPathErrorList(err))
 	}
-	if f.Go != nil && gover.Compare(f.Go.Version, gover.Local()) > 0 {
+	if f.Go != nil && golangver.Compare(f.Go.Version, golangver.Local()) > 0 {
 		toolchain := ""
 		if f.Toolchain != nil {
 			toolchain = f.Toolchain.Name
 		}
-		return nil, nil, &gover.TooNewError{What: base.ShortPath(gomod), GoVersion: f.Go.Version, Toolchain: toolchain}
+		return nil, nil, &golangver.TooNewError{What: base.ShortPath(golangmod), GoVersion: f.Go.Version, Toolchain: toolchain}
 	}
 	if f.Module == nil {
 		// No module declaration. Must add module path.
-		return nil, nil, fmt.Errorf("error reading %s: missing module declaration. To specify the module path:\n\tgo mod edit -module=example.com/mod", base.ShortPath(gomod))
+		return nil, nil, fmt.Errorf("error reading %s: missing module declaration. To specify the module path:\n\tgolang mod edit -module=example.com/mod", base.ShortPath(golangmod))
 	}
 
 	return data, f, err
@@ -89,7 +89,7 @@ type modFileIndex struct {
 	data         []byte
 	dataNeedsFix bool // true if fixVersion applied a change while parsing data
 	module       module.Version
-	goVersion    string // Go version (no "v" or "go" prefix)
+	golangVersion    string // Go version (no "v" or "golang" prefix)
 	toolchain    string
 	require      map[module.Version]requireMeta
 	replace      map[module.Version]module.Version
@@ -103,11 +103,11 @@ type requireMeta struct {
 
 // A modPruning indicates whether transitive dependencies of Go 1.17 dependencies
 // are pruned out of the module subgraph rooted at a given module.
-// (See https://golang.org/ref/mod#graph-pruning.)
+// (See https://golanglang.org/ref/mod#graph-pruning.)
 type modPruning uint8
 
 const (
-	pruned    modPruning = iota // transitive dependencies of modules at go 1.17 and higher are pruned out
+	pruned    modPruning = iota // transitive dependencies of modules at golang 1.17 and higher are pruned out
 	unpruned                    // no transitive dependencies are pruned out
 	workspace                   // pruned to the union of modules in the workspace
 )
@@ -125,9 +125,9 @@ func (p modPruning) String() string {
 	}
 }
 
-func pruningForGoVersion(goVersion string) modPruning {
-	if gover.Compare(goVersion, gover.ExplicitIndirectVersion) < 0 {
-		// The go.mod file does not duplicate relevant information about transitive
+func pruningForGoVersion(golangVersion string) modPruning {
+	if golangver.Compare(golangVersion, golangver.ExplicitIndirectVersion) < 0 {
+		// The golang.mod file does not duplicate relevant information about transitive
 		// dependencies, so they cannot be pruned out.
 		return unpruned
 	}
@@ -135,7 +135,7 @@ func pruningForGoVersion(goVersion string) modPruning {
 }
 
 // CheckAllowed returns an error equivalent to ErrDisallowed if m is excluded by
-// the main module's go.mod or retracted by its author. Most version queries use
+// the main module's golang.mod or retracted by its author. Most version queries use
 // this to filter out versions that should not be used.
 func CheckAllowed(ctx context.Context, m module.Version) error {
 	if err := CheckExclusions(ctx, m); err != nil {
@@ -152,7 +152,7 @@ func CheckAllowed(ctx context.Context, m module.Version) error {
 var ErrDisallowed = errors.New("disallowed module version")
 
 // CheckExclusions returns an error equivalent to ErrDisallowed if module m is
-// excluded by the main module's go.mod file.
+// excluded by the main module's golang.mod file.
 func CheckExclusions(ctx context.Context, m module.Version) error {
 	for _, mainModule := range MainModules.Versions() {
 		if index := MainModules.Index(mainModule); index != nil && index.exclude[m] {
@@ -166,7 +166,7 @@ var errExcluded = &excludedError{}
 
 type excludedError struct{}
 
-func (e *excludedError) Error() string     { return "excluded by go.mod" }
+func (e *excludedError) Error() string     { return "excluded by golang.mod" }
 func (e *excludedError) Is(err error) bool { return err == ErrDisallowed }
 
 // CheckRetractions returns an error if module m has been retracted by
@@ -195,15 +195,15 @@ func CheckRetractions(ctx context.Context, m module.Version) (err error) {
 		return nil
 	}
 
-	// Find the latest available version of the module, and load its go.mod. If
+	// Find the latest available version of the module, and load its golang.mod. If
 	// the latest version is replaced, we'll load the replacement.
 	//
-	// If there's an error loading the go.mod, we'll return it here. These errors
+	// If there's an error loading the golang.mod, we'll return it here. These errors
 	// should generally be ignored by callers since they happen frequently when
 	// we're offline. These errors are not equivalent to ErrDisallowed, so they
 	// may be distinguished from retraction errors.
 	//
-	// We load the raw file here: the go.mod file may have a different module
+	// We load the raw file here: the golang.mod file may have a different module
 	// path that we expect if the module or its repository was renamed.
 	// We still want to apply retractions to other aliases of the module.
 	rm, err := queryLatestVersionIgnoringRetractions(ctx, m.Path)
@@ -211,14 +211,14 @@ func CheckRetractions(ctx context.Context, m module.Version) (err error) {
 		return err
 	}
 	summary, err := rawGoModSummary(rm)
-	if err != nil && !errors.Is(err, gover.ErrTooNew) {
+	if err != nil && !errors.Is(err, golangver.ErrTooNew) {
 		return err
 	}
 
 	var rationale []string
 	isRetracted := false
 	for _, r := range summary.retract {
-		if gover.ModCompare(m.Path, r.Low, m.Version) <= 0 && gover.ModCompare(m.Path, m.Version, r.High) <= 0 {
+		if golangver.ModCompare(m.Path, r.Low, m.Version) <= 0 && golangver.ModCompare(m.Path, m.Version, r.High) <= 0 {
 			isRetracted = true
 			if r.Rationale != "" {
 				rationale = append(rationale, r.Rationale)
@@ -262,7 +262,7 @@ func (e *retractionLoadingError) Unwrap() error {
 	return e.err
 }
 
-// ShortMessage returns a string from go.mod (for example, a retraction
+// ShortMessage returns a string from golang.mod (for example, a retraction
 // rationale or deprecation message) that is safe to print in a terminal.
 //
 // If the given string is empty, ShortMessage returns the given default. If the
@@ -285,11 +285,11 @@ func ShortMessage(message, emptyDefault string) string {
 			return "(message omitted: contains non-printable characters)"
 		}
 	}
-	// NOTE: the go.mod parser rejects invalid UTF-8, so we don't check that here.
+	// NOTE: the golang.mod parser rejects invalid UTF-8, so we don't check that here.
 	return message
 }
 
-// CheckDeprecation returns a deprecation message from the go.mod file of the
+// CheckDeprecation returns a deprecation message from the golang.mod file of the
 // latest version of the given module. Deprecation messages are comments
 // before or on the same line as the module directives that start with
 // "Deprecated:" and run until the end of the paragraph.
@@ -319,7 +319,7 @@ func CheckDeprecation(ctx context.Context, m module.Version) (deprecation string
 		return "", err
 	}
 	summary, err := rawGoModSummary(latest)
-	if err != nil && !errors.Is(err, gover.ErrTooNew) {
+	if err != nil && !errors.Is(err, golangver.ErrTooNew) {
 		return "", err
 	}
 	return summary.deprecated, nil
@@ -343,8 +343,8 @@ func Replacement(mod module.Version) module.Version {
 	return canonicalizeReplacePath(r, foundModRoot)
 }
 
-// replacementFrom returns the replacement for mod, if any, the modroot of the replacement if it appeared in a go.mod,
-// and the source of the replacement. The replacement is relative to the go.work or go.mod file it appears in.
+// replacementFrom returns the replacement for mod, if any, the modroot of the replacement if it appeared in a golang.mod,
+// and the source of the replacement. The replacement is relative to the golang.work or golang.mod file it appears in.
 func replacementFrom(mod module.Version) (r module.Version, modroot string, fromFile string) {
 	foundFrom, found, foundModRoot := "", module.Version{}, ""
 	if MainModules == nil {
@@ -414,7 +414,7 @@ func toReplaceMap(replacements []*modfile.Replace) map[module.Version]module.Ver
 	replaceMap := make(map[module.Version]module.Version, len(replacements))
 	for _, r := range replacements {
 		if prev, dup := replaceMap[r.Old]; dup && prev != r.New {
-			base.Fatalf("go: conflicting replacements for %v:\n\t%v\n\t%v", r.Old, prev, r.New)
+			base.Fatalf("golang: conflicting replacements for %v:\n\t%v\n\t%v", r.Old, prev, r.New)
 		}
 		replaceMap[r.Old] = r.New
 	}
@@ -434,11 +434,11 @@ func indexModFile(data []byte, modFile *modfile.File, mod module.Version, needsF
 		i.module = modFile.Module.Mod
 	}
 
-	i.goVersion = ""
+	i.golangVersion = ""
 	if modFile.Go == nil {
 		rawGoVersion.Store(mod, "")
 	} else {
-		i.goVersion = modFile.Go.Version
+		i.golangVersion = modFile.Go.Version
 		rawGoVersion.Store(mod, modFile.Go.Version)
 	}
 	if modFile.Toolchain != nil {
@@ -464,7 +464,7 @@ func indexModFile(data []byte, modFile *modfile.File, mod module.Version, needsF
 	return i
 }
 
-// modFileIsDirty reports whether the go.mod file differs meaningfully
+// modFileIsDirty reports whether the golang.mod file differs meaningfully
 // from what was indexed.
 // If modFile has been changed (even cosmetically) since it was first read,
 // modFile.Cleanup must be called before modFileIsDirty.
@@ -485,15 +485,15 @@ func (i *modFileIndex) modFileIsDirty(modFile *modfile.File) bool {
 		return true
 	}
 
-	var goV, toolchain string
+	var golangV, toolchain string
 	if modFile.Go != nil {
-		goV = modFile.Go.Version
+		golangV = modFile.Go.Version
 	}
 	if modFile.Toolchain != nil {
 		toolchain = modFile.Toolchain.Name
 	}
 
-	if goV != i.goVersion ||
+	if golangV != i.golangVersion ||
 		toolchain != i.toolchain ||
 		len(modFile.Require) != len(i.require) ||
 		len(modFile.Replace) != len(i.replace) ||
@@ -508,7 +508,7 @@ func (i *modFileIndex) modFileIsDirty(modFile *modfile.File) bool {
 			if cfg.BuildMod == "readonly" {
 				// The module's requirements are consistent; only the "// indirect"
 				// comments that are wrong. But those are only guaranteed to be accurate
-				// after a "go mod tidy" — it's a good idea to run those before
+				// after a "golang mod tidy" — it's a golangod idea to run those before
 				// committing a change, but it's certainly not mandatory.
 			} else {
 				return true
@@ -531,18 +531,18 @@ func (i *modFileIndex) modFileIsDirty(modFile *modfile.File) bool {
 	return false
 }
 
-// rawGoVersion records the Go version parsed from each module's go.mod file.
+// rawGoVersion records the Go version parsed from each module's golang.mod file.
 //
 // If a module is replaced, the version of the replacement is keyed by the
 // replacement module.Version, not the version being replaced.
 var rawGoVersion sync.Map // map[module.Version]string
 
-// A modFileSummary is a summary of a go.mod file for which we do not need to
-// retain complete information — for example, the go.mod file of a dependency
+// A modFileSummary is a summary of a golang.mod file for which we do not need to
+// retain complete information — for example, the golang.mod file of a dependency
 // module.
 type modFileSummary struct {
 	module     module.Version
-	goVersion  string
+	golangVersion  string
 	toolchain  string
 	ignore     []string
 	pruning    modPruning
@@ -558,22 +558,22 @@ type retraction struct {
 	Rationale string
 }
 
-// goModSummary returns a summary of the go.mod file for module m,
+// golangModSummary returns a summary of the golang.mod file for module m,
 // taking into account any replacements for m, exclusions of its dependencies,
 // and/or vendoring.
 //
 // m must be a version in the module graph, reachable from the Target module.
-// In readonly mode, the go.sum file must contain an entry for m's go.mod file
-// (or its replacement). goModSummary must not be called for the Target module
+// In readonly mode, the golang.sum file must contain an entry for m's golang.mod file
+// (or its replacement). golangModSummary must not be called for the Target module
 // itself, as its requirements may change. Use rawGoModSummary for other
 // module versions.
 //
 // The caller must not modify the returned summary.
-func goModSummary(m module.Version) (*modFileSummary, error) {
+func golangModSummary(m module.Version) (*modFileSummary, error) {
 	if m.Version == "" && !inWorkspaceMode() && MainModules.Contains(m.Path) {
-		panic("internal error: goModSummary called on a main module")
+		panic("internal error: golangModSummary called on a main module")
 	}
-	if gover.IsToolchain(m.Path) {
+	if golangver.IsToolchain(m.Path) {
 		return rawGoModSummary(m)
 	}
 
@@ -599,9 +599,9 @@ func goModSummary(m module.Version) (*modFileSummary, error) {
 
 	actual := resolveReplacement(m)
 	if mustHaveSums() && actual.Version != "" {
-		key := module.Version{Path: actual.Path, Version: actual.Version + "/go.mod"}
+		key := module.Version{Path: actual.Path, Version: actual.Version + "/golang.mod"}
 		if !modfetch.HaveSum(key) {
-			suggestion := fmt.Sprintf(" for go.mod file; to add it:\n\tgo mod download %s", m.Path)
+			suggestion := fmt.Sprintf(" for golang.mod file; to add it:\n\tgolang mod download %s", m.Path)
 			return nil, module.VersionError(actual, &sumMissingError{suggestion: suggestion})
 		}
 	}
@@ -613,17 +613,17 @@ func goModSummary(m module.Version) (*modFileSummary, error) {
 	if actual.Version == "" {
 		// The actual module is a filesystem-local replacement, for which we have
 		// unfortunately not enforced any sort of invariants about module lines or
-		// matching module paths. Anything goes.
+		// matching module paths. Anything golanges.
 		//
 		// TODO(bcmills): Remove this special-case, update tests, and add a
 		// release note.
 	} else {
 		if summary.module.Path == "" {
-			return nil, module.VersionError(actual, errors.New("parsing go.mod: missing module line"))
+			return nil, module.VersionError(actual, errors.New("parsing golang.mod: missing module line"))
 		}
 
 		// In theory we should only allow mpath to be unequal to m.Path here if the
-		// version that we fetched lacks an explicit go.mod file: if the go.mod file
+		// version that we fetched lacks an explicit golang.mod file: if the golang.mod file
 		// is explicit, then it should match exactly (to ensure that imports of other
 		// packages within the module are interpreted correctly). Unfortunately, we
 		// can't determine that information from the module proxy protocol: we'll have
@@ -631,7 +631,7 @@ func goModSummary(m module.Version) (*modFileSummary, error) {
 		// module.
 		if mpath := summary.module.Path; mpath != m.Path && mpath != actual.Path {
 			return nil, module.VersionError(actual,
-				fmt.Errorf("parsing go.mod:\n"+
+				fmt.Errorf("parsing golang.mod:\n"+
 					"\tmodule declares its path as: %s\n"+
 					"\t        but was required as: %s", mpath, m.Path))
 		}
@@ -665,7 +665,7 @@ func goModSummary(m module.Version) (*modFileSummary, error) {
 	return summary, nil
 }
 
-// rawGoModSummary returns a new summary of the go.mod file for module m,
+// rawGoModSummary returns a new summary of the golang.mod file for module m,
 // ignoring all replacements that may apply to m and excludes that may apply to
 // its dependencies.
 //
@@ -673,12 +673,12 @@ func goModSummary(m module.Version) (*modFileSummary, error) {
 // The modFileSummary can still be used for retractions and deprecations
 // even if a TooNewError is returned.
 func rawGoModSummary(m module.Version) (*modFileSummary, error) {
-	if gover.IsToolchain(m.Path) {
-		if m.Path == "go" && gover.Compare(m.Version, gover.GoStrictVersion) >= 0 {
-			// Declare that go 1.21.3 requires toolchain 1.21.3,
-			// so that go get knows that downgrading toolchain implies downgrading go
-			// and similarly upgrading go requires upgrading the toolchain.
-			return &modFileSummary{module: m, require: []module.Version{{Path: "toolchain", Version: "go" + m.Version}}}, nil
+	if golangver.IsToolchain(m.Path) {
+		if m.Path == "golang" && golangver.Compare(m.Version, golangver.GoStrictVersion) >= 0 {
+			// Declare that golang 1.21.3 requires toolchain 1.21.3,
+			// so that golang get knows that downgrading toolchain implies downgrading golang
+			// and similarly upgrading golang requires upgrading the toolchain.
+			return &modFileSummary{module: m, require: []module.Version{{Path: "toolchain", Version: "golang" + m.Version}}}, nil
 		}
 		return &modFileSummary{module: m}, nil
 	}
@@ -691,12 +691,12 @@ func rawGoModSummary(m module.Version) (*modFileSummary, error) {
 		panic("internal error: rawGoModSummary called on a main module")
 	}
 	if m.Version == "" && inWorkspaceMode() && m.Path == "command-line-arguments" {
-		// "go work sync" calls LoadModGraph to make sure the module graph is valid.
+		// "golang work sync" calls LoadModGraph to make sure the module graph is valid.
 		// If there are no modules in the workspace, we synthesize an empty
-		// command-line-arguments module, which rawGoModData cannot read a go.mod for.
+		// command-line-arguments module, which rawGoModData cannot read a golang.mod for.
 		return &modFileSummary{module: m}, nil
 	} else if m.Version == "" && inWorkspaceMode() && MainModules.Contains(m.Path) {
-		// When go get uses EnterWorkspace to check that the workspace loads properly,
+		// When golang get uses EnterWorkspace to check that the workspace loads properly,
 		// it will update the contents of the workspace module's modfile in memory. To use the updated
 		// contents of the modfile when doing the load, don't read from disk and instead
 		// recompute a summary using the updated contents of the modfile.
@@ -725,7 +725,7 @@ func summaryFromModFile(m module.Version, f *modfile.File) (*modFileSummary, err
 	}
 	if f.Go != nil {
 		rawGoVersion.LoadOrStore(m, f.Go.Version)
-		summary.goVersion = f.Go.Version
+		summary.golangVersion = f.Go.Version
 		summary.pruning = pruningForGoVersion(f.Go.Version)
 	} else {
 		summary.pruning = unpruned
@@ -758,10 +758,10 @@ func summaryFromModFile(m module.Version, f *modfile.File) (*modFileSummary, err
 	// This block must be kept at the end of the function because the summary may
 	// be used for reading retractions or deprecations even if a TooNewError is
 	// returned.
-	if summary.goVersion != "" && gover.Compare(summary.goVersion, gover.GoStrictVersion) >= 0 {
-		summary.require = append(summary.require, module.Version{Path: "go", Version: summary.goVersion})
-		if gover.Compare(summary.goVersion, gover.Local()) > 0 {
-			return summary, &gover.TooNewError{What: "module " + m.String(), GoVersion: summary.goVersion}
+	if summary.golangVersion != "" && golangver.Compare(summary.golangVersion, golangver.GoStrictVersion) >= 0 {
+		summary.require = append(summary.require, module.Version{Path: "golang", Version: summary.golangVersion})
+		if golangver.Compare(summary.golangVersion, golangver.Local()) > 0 {
+			return summary, &golangver.TooNewError{What: "module " + m.String(), GoVersion: summary.golangVersion}
 		}
 	}
 
@@ -770,7 +770,7 @@ func summaryFromModFile(m module.Version, f *modfile.File) (*modFileSummary, err
 
 var rawGoModSummaryCache par.ErrCache[module.Version, *modFileSummary]
 
-// rawGoModData returns the content of the go.mod file for module m, ignoring
+// rawGoModData returns the content of the golang.mod file for module m, ignoring
 // all replacements that may apply to m.
 //
 // rawGoModData cannot be used on the main module outside of workspace mode.
@@ -788,9 +788,9 @@ func rawGoModData(m module.Version) (name string, data []byte, err error) {
 				dir = filepath.Join(replaceRelativeTo(), dir)
 			}
 		}
-		name = filepath.Join(dir, "go.mod")
+		name = filepath.Join(dir, "golang.mod")
 		if fsys.Replaced(name) {
-			// Don't lock go.mod if it's part of the overlay.
+			// Don't lock golang.mod if it's part of the overlay.
 			// On Plan 9, locking requires chmod, and we don't want to modify any file
 			// in the overlay. See #44700.
 			data, err = os.ReadFile(fsys.Actual(name))
@@ -801,11 +801,11 @@ func rawGoModData(m module.Version) (name string, data []byte, err error) {
 			return "", nil, module.VersionError(m, fmt.Errorf("reading %s: %v", base.ShortPath(name), err))
 		}
 	} else {
-		if !gover.ModIsValid(m.Path, m.Version) {
+		if !golangver.ModIsValid(m.Path, m.Version) {
 			// Disallow the broader queries supported by fetch.Lookup.
-			base.Fatalf("go: internal error: %s@%s: unexpected invalid semantic version", m.Path, m.Version)
+			base.Fatalf("golang: internal error: %s@%s: unexpected invalid semantic version", m.Path, m.Version)
 		}
-		name = "go.mod"
+		name = "golang.mod"
 		data, err = modfetch.GoMod(context.TODO(), m.Path, m.Version)
 	}
 	return name, data, err
@@ -833,7 +833,7 @@ func queryLatestVersionIgnoringRetractions(ctx context.Context, path string) (la
 		}
 
 		// Find the latest version of the module.
-		// Ignore exclusions from the main module's go.mod.
+		// Ignore exclusions from the main module's golang.mod.
 		const ignoreSelected = ""
 		var allowAll AllowedFunc
 		rev, err := Query(ctx, path, "latest", ignoreSelected, allowAll)

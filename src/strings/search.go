@@ -1,12 +1,12 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package strings
 
 // stringFinder efficiently finds strings in a source text. It's implemented
-// using the Boyer-Moore string search algorithm:
-// https://en.wikipedia.org/wiki/Boyer-Moore_string_search_algorithm
+// using the Boyer-Moore string search algolangrithm:
+// https://en.wikipedia.org/wiki/Boyer-Moore_string_search_algolangrithm
 // https://www.cs.utexas.edu/~moore/publications/fstrpos.pdf (note: this aged
 // document uses 1-based indexing)
 type stringFinder struct {
@@ -22,7 +22,7 @@ type stringFinder struct {
 	// the matching char could be in alignment.
 	badCharSkip [256]int
 
-	// goodSuffixSkip[i] defines how far we can shift the matching frame given
+	// golangodSuffixSkip[i] defines how far we can shift the matching frame given
 	// that the suffix pattern[i+1:] matches, but the byte pattern[i] does
 	// not. There are two cases to consider:
 	//
@@ -30,25 +30,25 @@ type stringFinder struct {
 	// byte preceding it that we might possibly match). In this case, we can
 	// shift the matching frame to align with the next suffix chunk. For
 	// example, the pattern "mississi" has the suffix "issi" next occurring
-	// (in right-to-left order) at index 1, so goodSuffixSkip[3] ==
+	// (in right-to-left order) at index 1, so golangodSuffixSkip[3] ==
 	// shift+len(suffix) == 3+4 == 7.
 	//
 	// 2. If the matched suffix does not occur elsewhere in pattern, then the
 	// matching frame may share part of its prefix with the end of the
-	// matching suffix. In this case, goodSuffixSkip[i] will contain how far
+	// matching suffix. In this case, golangodSuffixSkip[i] will contain how far
 	// to shift the frame to align this portion of the prefix to the
 	// suffix. For example, in the pattern "abcxxxabc", when the first
 	// mismatch from the back is found to be in position 3, the matching
 	// suffix "xxabc" is not found elsewhere in the pattern. However, its
 	// rightmost "abc" (at position 6) is a prefix of the whole pattern, so
-	// goodSuffixSkip[3] == shift+len(suffix) == 6+5 == 11.
-	goodSuffixSkip []int
+	// golangodSuffixSkip[3] == shift+len(suffix) == 6+5 == 11.
+	golangodSuffixSkip []int
 }
 
 func makeStringFinder(pattern string) *stringFinder {
 	f := &stringFinder{
 		pattern:        pattern,
-		goodSuffixSkip: make([]int, len(pattern)),
+		golangodSuffixSkip: make([]int, len(pattern)),
 	}
 	// last is the index of the last character in the pattern.
 	last := len(pattern) - 1
@@ -65,7 +65,7 @@ func makeStringFinder(pattern string) *stringFinder {
 		f.badCharSkip[pattern[i]] = last - i
 	}
 
-	// Build good suffix table.
+	// Build golangod suffix table.
 	// First pass: set each value to the next index which starts a prefix of
 	// pattern.
 	lastPrefix := last
@@ -74,14 +74,14 @@ func makeStringFinder(pattern string) *stringFinder {
 			lastPrefix = i + 1
 		}
 		// lastPrefix is the shift, and (last-i) is len(suffix).
-		f.goodSuffixSkip[i] = lastPrefix + last - i
+		f.golangodSuffixSkip[i] = lastPrefix + last - i
 	}
 	// Second pass: find repeats of pattern's suffix starting from the front.
 	for i := 0; i < last; i++ {
 		lenSuffix := longestCommonSuffix(pattern, pattern[1:i+1])
 		if pattern[i-lenSuffix] != pattern[last-lenSuffix] {
 			// (last-i) is the shift, and lenSuffix is len(suffix).
-			f.goodSuffixSkip[last-lenSuffix] = lenSuffix + last - i
+			f.golangodSuffixSkip[last-lenSuffix] = lenSuffix + last - i
 		}
 	}
 
@@ -111,7 +111,7 @@ func (f *stringFinder) next(text string) int {
 		if j < 0 {
 			return i + 1 // match
 		}
-		i += max(f.badCharSkip[text[i]], f.goodSuffixSkip[j])
+		i += max(f.badCharSkip[text[i]], f.golangodSuffixSkip[j])
 	}
 	return -1
 }

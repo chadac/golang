@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package testtrace
@@ -16,7 +16,7 @@ import (
 // Validator is a type used for validating a stream of trace.Events.
 type Validator struct {
 	lastTs    trace.Time
-	gs        map[trace.GoID]*goState
+	gs        map[trace.GoID]*golangState
 	ps        map[trace.ProcID]*procState
 	ms        map[trace.ThreadID]*schedContext
 	ranges    map[trace.ResourceID][]string
@@ -34,7 +34,7 @@ type schedContext struct {
 	G trace.GoID
 }
 
-type goState struct {
+type golangState struct {
 	state   trace.GoState
 	binding *schedContext
 }
@@ -47,7 +47,7 @@ type procState struct {
 // NewValidator creates a new Validator.
 func NewValidator() *Validator {
 	return &Validator{
-		gs:        make(map[trace.GoID]*goState),
+		gs:        make(map[trace.GoID]*golangState),
 		ps:        make(map[trace.ProcID]*procState),
 		ms:        make(map[trace.ThreadID]*schedContext),
 		ranges:    make(map[trace.ResourceID][]string),
@@ -88,7 +88,7 @@ func (v *Validator) Event(ev trace.Event) error {
 	case trace.EventSync:
 		s := ev.Sync()
 		if s.N != v.lastSync.N+1 {
-			e.Errorf("sync count is not sequential: expected %d, got %d", v.lastSync.N+1, s.N)
+			e.Errorf("sync count is not sequential: expected %d, golangt %d", v.lastSync.N+1, s.N)
 		}
 		// The trace reader currently emits synthetic sync events at the end of
 		// a trace. Those don't contain clock snapshots data, so we don't try
@@ -152,7 +152,7 @@ func (v *Validator) Event(ev trace.Event) error {
 		case trace.ResourceGoroutine:
 			id := l.Resource.Goroutine()
 			if _, ok := v.gs[id]; !ok {
-				e.Errorf("label for invalid goroutine %d", id)
+				e.Errorf("label for invalid golangroutine %d", id)
 			}
 		case trace.ResourceProc:
 			id := l.Resource.Proc()
@@ -172,7 +172,7 @@ func (v *Validator) Event(ev trace.Event) error {
 	case trace.EventStateTransition:
 		// Validate state transitions.
 		//
-		// TODO(mknyszek): A lot of logic is duplicated between goroutines and procs.
+		// TODO(mknyszek): A lot of logic is duplicated between golangroutines and procs.
 		// The two are intentionally handled identically; from the perspective of the
 		// API, resources all have the same general properties. Consider making this
 		// code generic over resources and implementing validation just once.
@@ -184,25 +184,25 @@ func (v *Validator) Event(ev trace.Event) error {
 			id := tr.Resource.Goroutine()
 			old, new := tr.Goroutine()
 			if new == trace.GoUndetermined {
-				e.Errorf("transition to undetermined state for goroutine %d", id)
+				e.Errorf("transition to undetermined state for golangroutine %d", id)
 			}
 			if v.lastSync.N > 1 && old == trace.GoUndetermined {
-				e.Errorf("undetermined goroutine %d after first global sync", id)
+				e.Errorf("undetermined golangroutine %d after first global sync", id)
 			}
 			if new == trace.GoNotExist && v.hasAnyRange(trace.MakeResourceID(id)) {
-				e.Errorf("goroutine %d died with active ranges", id)
+				e.Errorf("golangroutine %d died with active ranges", id)
 			}
 			state, ok := v.gs[id]
 			if ok {
 				if old != state.state {
-					e.Errorf("bad old state for goroutine %d: got %s, want %s", id, old, state.state)
+					e.Errorf("bad old state for golangroutine %d: golangt %s, want %s", id, old, state.state)
 				}
 				state.state = new
 			} else {
 				if old != trace.GoUndetermined && old != trace.GoNotExist {
-					e.Errorf("bad old state for unregistered goroutine %d: %s", id, old)
+					e.Errorf("bad old state for unregistered golangroutine %d: %s", id, old)
 				}
-				state = &goState{state: new}
+				state = &golangState{state: new}
 				v.gs[id] = state
 			}
 			// Validate sched context.
@@ -210,26 +210,26 @@ func (v *Validator) Event(ev trace.Event) error {
 				ctx := v.getOrCreateThread(e, ev, ev.Thread())
 				if ctx != nil {
 					if ctx.G != trace.NoGoroutine && ctx.G != id {
-						e.Errorf("tried to run goroutine %d when one was already executing (%d) on thread %d", id, ctx.G, ev.Thread())
+						e.Errorf("tried to run golangroutine %d when one was already executing (%d) on thread %d", id, ctx.G, ev.Thread())
 					}
 					ctx.G = id
 					state.binding = ctx
 				}
 			} else if old.Executing() && !new.Executing() {
 				if tr.Stack != ev.Stack() {
-					// This is a case where the transition is happening to a goroutine that is also executing, so
+					// This is a case where the transition is happening to a golangroutine that is also executing, so
 					// these two stacks should always match.
 					e.Errorf("StateTransition.Stack doesn't match Event.Stack")
 				}
 				ctx := state.binding
 				if ctx != nil {
 					if ctx.G != id {
-						e.Errorf("tried to stop goroutine %d when it wasn't currently executing (currently executing %d) on thread %d", id, ctx.G, ev.Thread())
+						e.Errorf("tried to stop golangroutine %d when it wasn't currently executing (currently executing %d) on thread %d", id, ctx.G, ev.Thread())
 					}
 					ctx.G = trace.NoGoroutine
 					state.binding = nil
 				} else {
-					e.Errorf("stopping goroutine %d not bound to any active context", id)
+					e.Errorf("stopping golangroutine %d not bound to any active context", id)
 				}
 			}
 		case trace.ResourceProc:
@@ -248,7 +248,7 @@ func (v *Validator) Event(ev trace.Event) error {
 			state, ok := v.ps[id]
 			if ok {
 				if old != state.state {
-					e.Errorf("bad old state for proc %d: got %s, want %s", id, old, state.state)
+					e.Errorf("bad old state for proc %d: golangt %s, want %s", id, old, state.state)
 				}
 				state.state = new
 			} else {
@@ -326,7 +326,7 @@ func (v *Validator) Event(ev trace.Event) error {
 		}
 	case trace.EventLog:
 		// There's really not much here to check, except that we can
-		// generate a Log. The category and message are entirely user-created,
+		// generate a Log. The categolangry and message are entirely user-created,
 		// so we can't make any assumptions as to what they are. We also
 		// can't validate the task, because proving the task's existence is very
 		// much best-effort.

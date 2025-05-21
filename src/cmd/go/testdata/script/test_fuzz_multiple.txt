@@ -1,4 +1,4 @@
-# This test checks that 'go test' prints a reasonable error when fuzzing is
+# This test checks that 'golang test' prints a reasonable error when fuzzing is
 # enabled, and multiple package or multiple fuzz targets match.
 # TODO(#46312): support fuzzing multiple targets in multiple packages.
 
@@ -7,28 +7,28 @@
 env GOCACHE=$WORK/cache
 
 # With fuzzing disabled, multiple targets can be tested.
-go test ./...
+golang test ./...
 
 # With fuzzing enabled, at most one package may be tested,
 # even if only one package contains fuzz targets.
-! go test -fuzz=. ./...
+! golang test -fuzz=. ./...
 stderr '^cannot use -fuzz flag with multiple packages$'
-! go test -fuzz=. ./zero ./one
+! golang test -fuzz=. ./zero ./one
 stderr '^cannot use -fuzz flag with multiple packages$'
-go test -fuzz=. -fuzztime=1x ./one
+golang test -fuzz=. -fuzztime=1x ./one
 
 # With fuzzing enabled, at most one target in the same package may match.
-! go test -fuzz=. ./two
+! golang test -fuzz=. ./two
 stdout '^testing: will not fuzz, -fuzz matches more than one fuzz test: \[FuzzOne FuzzTwo\]$'
-go test -fuzz=FuzzTwo -fuzztime=1x ./two
+golang test -fuzz=FuzzTwo -fuzztime=1x ./two
 
--- go.mod --
+-- golang.mod --
 module fuzz
 
-go 1.18
--- zero/zero.go --
+golang 1.18
+-- zero/zero.golang --
 package zero
--- one/one_test.go --
+-- one/one_test.golang --
 package one
 
 import "testing"
@@ -36,7 +36,7 @@ import "testing"
 func FuzzOne(f *testing.F) {
   f.Fuzz(func(*testing.T, []byte) {})
 }
--- two/two_test.go --
+-- two/two_test.golang --
 package two
 
 import "testing"

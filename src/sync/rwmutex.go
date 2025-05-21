@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package sync
@@ -10,7 +10,7 @@ import (
 	"unsafe"
 )
 
-// There is a modified copy of this file in runtime/rwmutex.go.
+// There is a modified copy of this file in runtime/rwmutex.golang.
 // If you make any changes here, see if you should make them there.
 
 // A RWMutex is a reader/writer mutual exclusion lock.
@@ -19,7 +19,7 @@ import (
 //
 // A RWMutex must not be copied after first use.
 //
-// If any goroutine calls [RWMutex.Lock] while the lock is already held by
+// If any golangroutine calls [RWMutex.Lock] while the lock is already held by
 // one or more readers, concurrent calls to [RWMutex.RLock] will block until
 // the writer has acquired (and released) the lock, to ensure that
 // the lock eventually becomes available to the writer.
@@ -35,7 +35,7 @@ import (
 // and the corresponding call to [RWMutex.RUnlock] “synchronizes before”
 // the n+1'th call to Lock.
 //
-// [the Go memory model]: https://go.dev/ref/mem
+// [the Go memory model]: https://golang.dev/ref/mem
 type RWMutex struct {
 	w           Mutex        // held if there are pending writers
 	writerSem   uint32       // semaphore for writers to wait for completing readers
@@ -196,8 +196,8 @@ func (rw *RWMutex) TryLock() bool {
 // not locked for writing on entry to Unlock.
 //
 // As with Mutexes, a locked [RWMutex] is not associated with a particular
-// goroutine. One goroutine may [RWMutex.RLock] ([RWMutex.Lock]) a RWMutex and then
-// arrange for another goroutine to [RWMutex.RUnlock] ([RWMutex.Unlock]) it.
+// golangroutine. One golangroutine may [RWMutex.RLock] ([RWMutex.Lock]) a RWMutex and then
+// arrange for another golangroutine to [RWMutex.RUnlock] ([RWMutex.Unlock]) it.
 func (rw *RWMutex) Unlock() {
 	if race.Enabled {
 		race.Read(unsafe.Pointer(&rw.w))
@@ -222,14 +222,14 @@ func (rw *RWMutex) Unlock() {
 	}
 }
 
-// syscall_hasWaitingReaders reports whether any goroutine is waiting
+// syscall_hasWaitingReaders reports whether any golangroutine is waiting
 // to acquire a read lock on rw. This exists because syscall.ForkLock
 // is an RWMutex, and we can't change that without breaking compatibility.
 // We don't need or want RWMutex semantics for ForkLock, and we use
 // this private API to avoid having to change the type of ForkLock.
 // For more details see the syscall package.
 //
-//go:linkname syscall_hasWaitingReaders syscall.hasWaitingReaders
+//golang:linkname syscall_hasWaitingReaders syscall.hasWaitingReaders
 func syscall_hasWaitingReaders(rw *RWMutex) bool {
 	r := rw.readerCount.Load()
 	return r < 0 && r+rwmutexMaxReaders > 0

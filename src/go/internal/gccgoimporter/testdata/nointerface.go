@@ -1,12 +1,12 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package nointerface
 
 type I int
 
-//go:nointerface
+//golang:nointerface
 func (p *I) Get() int { return int(*p) }
 
 func (p *I) Set(v int) { *p = I(v) }

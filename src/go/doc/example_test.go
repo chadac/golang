@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package doc_test
@@ -7,11 +7,11 @@ package doc_test
 import (
 	"bytes"
 	"fmt"
-	"go/ast"
-	"go/doc"
-	"go/format"
-	"go/parser"
-	"go/token"
+	"golang/ast"
+	"golang/doc"
+	"golang/format"
+	"golang/parser"
+	"golang/token"
 	"internal/diff"
 	"internal/txtar"
 	"path/filepath"
@@ -22,43 +22,43 @@ import (
 
 func TestExamples(t *testing.T) {
 	dir := filepath.Join("testdata", "examples")
-	filenames, err := filepath.Glob(filepath.Join(dir, "*.go"))
+	filenames, err := filepath.Glob(filepath.Join(dir, "*.golang"))
 	if err != nil {
 		t.Fatal(err)
 	}
 	for _, filename := range filenames {
-		t.Run(strings.TrimSuffix(filepath.Base(filename), ".go"), func(t *testing.T) {
+		t.Run(strings.TrimSuffix(filepath.Base(filename), ".golang"), func(t *testing.T) {
 			fset := token.NewFileSet()
 			astFile, err := parser.ParseFile(fset, filename, nil, parser.ParseComments)
 			if err != nil {
 				t.Fatal(err)
 			}
-			goldenFilename := strings.TrimSuffix(filename, ".go") + ".golden"
-			archive, err := txtar.ParseFile(goldenFilename)
+			golangldenFilename := strings.TrimSuffix(filename, ".golang") + ".golanglden"
+			archive, err := txtar.ParseFile(golangldenFilename)
 			if err != nil {
 				t.Fatal(err)
 			}
-			golden := map[string]string{}
+			golanglden := map[string]string{}
 			for _, f := range archive.Files {
-				golden[f.Name] = strings.TrimSpace(string(f.Data))
+				golanglden[f.Name] = strings.TrimSpace(string(f.Data))
 			}
 
 			// Collect the results of doc.Examples in a map keyed by example name.
 			examples := map[string]*doc.Example{}
 			for _, e := range doc.Examples(astFile) {
 				examples[e.Name] = e
-				// Treat missing sections in the golden as empty.
+				// Treat missing sections in the golanglden as empty.
 				for _, kind := range []string{"Play", "Output"} {
 					key := e.Name + "." + kind
-					if _, ok := golden[key]; !ok {
-						golden[key] = ""
+					if _, ok := golanglden[key]; !ok {
+						golanglden[key] = ""
 					}
 				}
 			}
 
-			// Each section in the golden file corresponds to an example we expect
+			// Each section in the golanglden file corresponds to an example we expect
 			// to see.
-			for sectionName, want := range golden {
+			for sectionName, want := range golanglden {
 				name, kind, found := strings.Cut(sectionName, ".")
 				if !found {
 					t.Fatalf("bad section name %q, want EXAMPLE_NAME.KIND", sectionName)
@@ -68,20 +68,20 @@ func TestExamples(t *testing.T) {
 					t.Fatalf("no example named %q", name)
 				}
 
-				var got string
+				var golangt string
 				switch kind {
 				case "Play":
-					got = strings.TrimSpace(formatFile(t, fset, ex.Play))
+					golangt = strings.TrimSpace(formatFile(t, fset, ex.Play))
 
 				case "Output":
-					got = strings.TrimSpace(ex.Output)
+					golangt = strings.TrimSpace(ex.Output)
 				default:
 					t.Fatalf("bad section kind %q", kind)
 				}
 
-				if got != want {
+				if golangt != want {
 					t.Errorf("%s mismatch:\n%s", sectionName,
-						diff.Diff("want", []byte(want), "got", []byte(got)))
+						diff.Diff("want", []byte(want), "golangt", []byte(golangt)))
 				}
 			}
 		})
@@ -128,8 +128,8 @@ func ExampleGreet_world() {
 	// Create the AST by parsing src and test.
 	fset := token.NewFileSet()
 	files := []*ast.File{
-		mustParse(fset, "src.go", src),
-		mustParse(fset, "src_test.go", test),
+		mustParse(fset, "src.golang", src),
+		mustParse(fset, "src_test.golang", test),
 	}
 
 	// Compute package documentation with examples.
@@ -260,8 +260,8 @@ func ExampleGType_M_suffix() {}
 	// Parse literal source code as a *doc.Package.
 	fset := token.NewFileSet()
 	files := []*ast.File{
-		mustParse(fset, "src.go", src),
-		mustParse(fset, "src_test.go", test),
+		mustParse(fset, "src.golang", src),
+		mustParse(fset, "src_test.golang", test),
 	}
 	p, err := doc.NewFromFiles(fset, files, "example.com/p")
 	if err != nil {
@@ -269,18 +269,18 @@ func ExampleGType_M_suffix() {}
 	}
 
 	// Collect the association of examples to top-level identifiers.
-	got := map[string][]string{}
-	got[""] = exampleNames(p.Examples)
+	golangt := map[string][]string{}
+	golangt[""] = exampleNames(p.Examples)
 	for _, f := range p.Funcs {
-		got[f.Name] = exampleNames(f.Examples)
+		golangt[f.Name] = exampleNames(f.Examples)
 	}
 	for _, t := range p.Types {
-		got[t.Name] = exampleNames(t.Examples)
+		golangt[t.Name] = exampleNames(t.Examples)
 		for _, f := range t.Funcs {
-			got[f.Name] = exampleNames(f.Examples)
+			golangt[f.Name] = exampleNames(f.Examples)
 		}
 		for _, m := range t.Methods {
-			got[t.Name+"."+m.Name] = exampleNames(m.Examples)
+			golangt[t.Name+"."+m.Name] = exampleNames(m.Examples)
 		}
 	}
 
@@ -309,9 +309,9 @@ func ExampleGType_M_suffix() {}
 		"GType.M": {"", "suffix"},
 	}
 
-	for id := range got {
-		if !reflect.DeepEqual(got[id], want[id]) {
-			t.Errorf("classification mismatch for %q:\ngot  %q\nwant %q", id, got[id], want[id])
+	for id := range golangt {
+		if !reflect.DeepEqual(golangt[id], want[id]) {
+			t.Errorf("classification mismatch for %q:\ngolangt  %q\nwant %q", id, golangt[id], want[id])
 		}
 		delete(want, id)
 	}

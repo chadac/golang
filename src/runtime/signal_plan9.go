@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
@@ -11,11 +11,11 @@ type sigTabT struct {
 
 // Incoming notes are compared against this table using strncmp, so the
 // order matters: longer patterns must appear before their prefixes.
-// There are _SIG constants in os2_plan9.go for the table index of some
+// There are _SIG constants in os2_plan9.golang for the table index of some
 // of these.
 //
 // If you add entries to this table, you must respect the prefix ordering
-// and also update the constant values is os2_plan9.go.
+// and also update the constant values is os2_plan9.golang.
 var sigtable = [...]sigTabT{
 	// Traps that we cannot be recovered.
 	{_SigThrow, "sys: trap: debug exception"},
@@ -40,7 +40,7 @@ var sigtable = [...]sigTabT{
 	{_SigThrow, "sys:"},
 
 	// Issued to all other procs when calling runtime·exit.
-	{_SigGoExit, "go: exit "},
+	{_SigGoExit, "golang: exit "},
 
 	// Kill is sent by external programs to cause an exit.
 	{_SigKill, "kill"},

@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package subtle
@@ -17,7 +17,7 @@ import (
 // of constant-time operations. WithDataIndependentTiming does not make
 // variable-time code constant-time.
 //
-// WithDataIndependentTiming may lock the current goroutine to the OS thread for
+// WithDataIndependentTiming may lock the current golangroutine to the OS thread for
 // the duration of f. Calls to WithDataIndependentTiming may be nested.
 //
 // On Arm64 processors with FEAT_DIT, WithDataIndependentTiming enables
@@ -26,7 +26,7 @@ import (
 // Currently, on all other architectures WithDataIndependentTiming executes f immediately
 // with no other side-effects.
 //
-//go:noinline
+//golang:noinline
 func WithDataIndependentTiming(f func()) {
 	if !sys.DITSupported {
 		f()

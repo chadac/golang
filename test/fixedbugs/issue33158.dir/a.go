@@ -1,5 +1,5 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package a
@@ -19,7 +19,7 @@ func M() string {
 
 // getname can be any function returning a string, just has to be non-inlinable.
 
-//go:noinline
+//golang:noinline
 func getname(s string) string {
 	return s + "foo"
 }

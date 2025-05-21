@@ -1,20 +1,20 @@
 [short] skip
 [!race] skip
 
-go test -race testrace
+golang test -race testrace
 
--- go.mod --
+-- golang.mod --
 module testrace
 
-go 1.16
--- race_test.go --
+golang 1.16
+-- race_test.golang --
 package testrace
 
 import "testing"
 
 func TestRace(t *testing.T) {
 	helperDone := make(chan struct{})
-	go func() {
+	golang func() {
 		t.Logf("Something happened before cleanup.")
 		close(helperDone)
 	}()

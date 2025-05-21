@@ -2,7 +2,7 @@
 {"Version": "v1.1.0"}
 -- .mod --
 module example.com/tools
--- cmd/hello/hello.go --
+-- cmd/hello/hello.golang --
 package main
 
 import "fmt"

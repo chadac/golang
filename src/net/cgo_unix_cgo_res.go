@@ -1,10 +1,10 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// res_search, for cgo systems where that is thread-safe.
+// res_search, for cgolang systems where that is thread-safe.
 
-//go:build cgo && !netgo && (linux || openbsd)
+//golang:build cgolang && !netgolang && (linux || openbsd)
 
 package net
 
@@ -18,7 +18,7 @@ package net
 #include <arpa/nameser.h>
 #include <resolv.h>
 
-#cgo !android,!openbsd LDFLAGS: -lresolv
+#cgolang !android,!openbsd LDFLAGS: -lresolv
 */
 import "C"
 

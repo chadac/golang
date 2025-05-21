@@ -1,22 +1,22 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build ignore
+//golang:build ignore
 
-// Build this command explicitly: go build gotype.go
+// Build this command explicitly: golang build golangtype.golang
 
 /*
-The gotype command, like the front-end of a Go compiler, parses and
+The golangtype command, like the front-end of a Go compiler, parses and
 type-checks a single Go package. Errors are reported if the analysis
-fails; otherwise gotype is quiet (unless -v is set).
+fails; otherwise golangtype is quiet (unless -v is set).
 
-Without a list of paths, gotype reads from standard input, which
+Without a list of paths, golangtype reads from standard input, which
 must provide a single Go source file defining a complete package.
 
-With a single directory argument, gotype checks the Go files in
+With a single directory argument, golangtype checks the Go files in
 that directory, comprising a single package. Use -t to include the
-(in-package) _test.go files. Use -x to type check only external
+(in-package) _test.golang files. Use -x to type check only external
 test files.
 
 Otherwise, each path must be the filename of a Go file belonging
@@ -26,14 +26,14 @@ Imports are processed by importing directly from the source of
 imported packages (default), or by importing from compiled and
 installed packages (by setting -c to the respective compiler).
 
-The -c flag must be set to a compiler ("gc", "gccgo") when type-
+The -c flag must be set to a compiler ("gc", "gccgolang") when type-
 checking packages containing imports with relative import paths
 (import "./mypkg") because the source importer cannot know which
 files to include for such packages.
 
 Usage:
 
-	gotype [flags] [path...]
+	golangtype [flags] [path...]
 
 The flags are:
 
@@ -46,7 +46,7 @@ The flags are:
 	-v
 		verbose mode
 	-c
-		compiler used for installed packages (gc, gccgo, or source); default: source
+		compiler used for installed packages (gc, gccgolang, or source); default: source
 
 Flags controlling additional output:
 
@@ -61,35 +61,35 @@ Flags controlling additional output:
 
 Examples:
 
-To check the files a.go, b.go, and c.go:
+To check the files a.golang, b.golang, and c.golang:
 
-	gotype a.go b.go c.go
+	golangtype a.golang b.golang c.golang
 
 To check an entire package including (in-package) tests in the directory dir and print the processed files:
 
-	gotype -t -v dir
+	golangtype -t -v dir
 
 To check the external test package (if any) in the current directory, based on installed packages compiled with
 cmd/compile:
 
-	gotype -c=gc -x .
+	golangtype -c=gc -x .
 
 To verify the output of a pipe:
 
-	echo "package foo" | gotype
+	echo "package foo" | golangtype
 */
 package main
 
 import (
 	"flag"
 	"fmt"
-	"go/ast"
-	"go/build"
-	"go/importer"
-	"go/parser"
-	"go/scanner"
-	"go/token"
-	"go/types"
+	"golang/ast"
+	"golang/build"
+	"golang/importer"
+	"golang/parser"
+	"golang/scanner"
+	"golang/token"
+	"golang/types"
 	"io"
 	"os"
 	"path/filepath"
@@ -103,7 +103,7 @@ var (
 	xtestFiles = flag.Bool("x", false, "consider only external test files in a directory")
 	allErrors  = flag.Bool("e", false, "report all errors, not just the first 10")
 	verbose    = flag.Bool("v", false, "verbose mode")
-	compiler   = flag.String("c", "source", "compiler used for installed packages (gc, gccgo, or source)")
+	compiler   = flag.String("c", "source", "compiler used for installed packages (gc, gccgolang, or source)")
 
 	// additional output control
 	printAST      = flag.Bool("ast", false, "print AST")
@@ -135,18 +135,18 @@ func initParserMode() {
 	}
 }
 
-const usageString = `usage: gotype [flags] [path ...]
+const usageString = `usage: golangtype [flags] [path ...]
 
-The gotype command, like the front-end of a Go compiler, parses and
+The golangtype command, like the front-end of a Go compiler, parses and
 type-checks a single Go package. Errors are reported if the analysis
-fails; otherwise gotype is quiet (unless -v is set).
+fails; otherwise golangtype is quiet (unless -v is set).
 
-Without a list of paths, gotype reads from standard input, which
+Without a list of paths, golangtype reads from standard input, which
 must provide a single Go source file defining a complete package.
 
-With a single directory argument, gotype checks the Go files in
+With a single directory argument, golangtype checks the Go files in
 that directory, comprising a single package. Use -t to include the
-(in-package) _test.go files. Use -x to type check only external
+(in-package) _test.golang files. Use -x to type check only external
 test files.
 
 Otherwise, each path must be the filename of a Go file belonging
@@ -156,7 +156,7 @@ Imports are processed by importing directly from the source of
 imported packages (default), or by importing from compiled and
 installed packages (by setting -c to the respective compiler).
 
-The -c flag must be set to a compiler ("gc", "gccgo") when type-
+The -c flag must be set to a compiler ("gc", "gccgolang") when type-
 checking packages containing imports with relative import paths
 (import "./mypkg") because the source importer cannot know which
 files to include for such packages.
@@ -207,7 +207,7 @@ func parseFiles(dir string, filenames []string) ([]*ast.File, error) {
 	var wg sync.WaitGroup
 	for i, filename := range filenames {
 		wg.Add(1)
-		go func(i int, filepath string) {
+		golang func(i int, filepath string) {
 			defer wg.Done()
 			files[i], errors[i] = parse(filepath, nil)
 		}(i, filepath.Join(dir, filename))
@@ -223,7 +223,7 @@ func parseFiles(dir string, filenames []string) ([]*ast.File, error) {
 		if err != nil {
 			first = err
 			// If we have an error, some files may be nil.
-			// Remove them. (The go/parser always returns
+			// Remove them. (The golang/parser always returns
 			// a possibly partial AST even in the presence
 			// of errors, except if the file doesn't exist
 			// in the first place, in which case it cannot
@@ -246,7 +246,7 @@ func parseFiles(dir string, filenames []string) ([]*ast.File, error) {
 func parseDir(dir string) ([]*ast.File, error) {
 	ctxt := build.Default
 	pkginfo, err := ctxt.ImportDir(dir, 0)
-	if _, nogo := err.(*build.NoGoError); err != nil && !nogo {
+	if _, nogolang := err.(*build.NoGoError); err != nil && !nogolang {
 		return nil, err
 	}
 
@@ -254,7 +254,7 @@ func parseDir(dir string) ([]*ast.File, error) {
 		return parseFiles(dir, pkginfo.XTestGoFiles)
 	}
 
-	filenames := append(pkginfo.GoFiles, pkginfo.CgoFiles...)
+	filenames := append(pkginfo.GoFiles, pkginfo.CgolangFiles...)
 	if *testFiles {
 		filenames = append(filenames, pkginfo.TestGoFiles...)
 	}

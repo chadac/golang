@@ -14,15 +14,15 @@ p.rule {
 
 <p>
 The Go memory model specifies the conditions under which
-reads of a variable in one goroutine can be guaranteed to
-observe values produced by writes to the same variable in a different goroutine.
+reads of a variable in one golangroutine can be guaranteed to
+observe values produced by writes to the same variable in a different golangroutine.
 </p>
 
 
 <h3 id="advice">Advice</h3>
 
 <p>
-Programs that modify data being simultaneously accessed by multiple goroutines
+Programs that modify data being simultaneously accessed by multiple golangroutines
 must serialize such access.
 </p>
 
@@ -56,7 +56,7 @@ a write to a memory location happening concurrently with another read or write t
 unless all the accesses involved are atomic data accesses as provided by the <code>sync/atomic</code> package.
 As noted already, programmers are strongly encouraged to use appropriate synchronization
 to avoid data races.
-In the absence of data races, Go programs behave as if all the goroutines
+In the absence of data races, Go programs behave as if all the golangroutines
 were multiplexed onto a single processor.
 This property is sometimes referred to as DRF-SC: data-race-free programs
 execute in a sequentially consistent manner.
@@ -67,7 +67,7 @@ While programmers should write Go programs without data races,
 there are limitations to what a Go implementation can do in response to a data race.
 An implementation may always react to a data race by reporting the race and terminating the program.
 Otherwise, each read of a single-word-sized or sub-word-sized memory location
-must observe a value actually written to that location (perhaps by a concurrent executing goroutine)
+must observe a value actually written to that location (perhaps by a concurrent executing golangroutine)
 and not yet overwritten.
 These implementation constraints make Go more like Java or JavaScript,
 in that most races have a limited number of outcomes,
@@ -90,7 +90,7 @@ for race-free programs are equivalent to the ones in that work.
 
 <p>
 The memory model describes the requirements on program executions,
-which are made up of goroutine executions,
+which are made up of golangroutine executions,
 which in turn are made up of memory operations.
 </p>
 
@@ -112,12 +112,12 @@ Some, such as atomic compare-and-swap, are both read-like and write-like.
 </p>
 
 <p>
-A <i>goroutine execution</i> is modeled as a set of memory operations executed by a single goroutine.
+A <i>golangroutine execution</i> is modeled as a set of memory operations executed by a single golangroutine.
 </p>
 
 <p>
 <b>Requirement 1</b>:
-The memory operations in each goroutine must correspond to a correct sequential execution of that goroutine,
+The memory operations in each golangroutine must correspond to a correct sequential execution of that golangroutine,
 given the values read from and written to memory.
 That execution must be consistent with the <i>sequenced before</i> relation,
 defined as the partial order requirements set out by the <a href="/ref/spec">Go language specification</a>
@@ -125,7 +125,7 @@ for Go's control flow constructs as well as the <a href="/ref/spec#Order_of_eval
 </p>
 
 <p>
-A Go <i>program execution</i> is modeled as a set of goroutine executions,
+A Go <i>program execution</i> is modeled as a set of golangroutine executions,
 together with a mapping <i>W</i> that specifies the write-like operation that each read-like operation reads from.
 (Multiple executions of the same program can have different program executions.)
 </p>
@@ -193,7 +193,7 @@ the single <i>w</i> that immediately precedes it in the happens before order.
 More generally, it can be shown that any Go program that is data-race-free,
 meaning it has no program executions with read-write or write-write data races,
 can only have outcomes explained by some sequentially consistent interleaving
-of the goroutine executions.
+of the golangroutine executions.
 (The proof is the same as Section 7 of Boehm and Adve's paper cited above.)
 This property is called DRF-SC.
 </p>
@@ -205,7 +205,7 @@ by other languages, including C, C++, Java, JavaScript, Rust, and Swift.
 </p>
 
 <p>
-Certain Go language operations such as goroutine creation and memory allocation
+Certain Go language operations such as golangroutine creation and memory allocation
 act as synchronization operations.
 The effect of these operations on the synchronized-before partial order
 is documented in the “Synchronization” section below.
@@ -225,7 +225,7 @@ for programs that do contain races.
 Any implementation can, upon detecting a data race,
 report the race and halt execution of the program.
 Implementations using ThreadSanitizer
-(accessed with “<code>go</code> <code>build</code> <code>-race</code>”)
+(accessed with “<code>golang</code> <code>build</code> <code>-race</code>”)
 do exactly this.
 </p>
 
@@ -286,8 +286,8 @@ Examples of the limitations on implementations are given in the
 <h3 id="init">Initialization</h3>
 
 <p>
-Program initialization runs in a single goroutine,
-but that goroutine may create other goroutines,
+Program initialization runs in a single golangroutine,
+but that golangroutine may create other golangroutines,
 which run concurrently.
 </p>
 
@@ -301,11 +301,11 @@ The completion of all <code>init</code> functions is synchronized before
 the start of the function <code>main.main</code>.
 </p>
 
-<h3 id="go">Goroutine creation</h3>
+<h3 id="golang">Goroutine creation</h3>
 
 <p class="rule">
-The <code>go</code> statement that starts a new goroutine
-is synchronized before the start of the goroutine's execution.
+The <code>golang</code> statement that starts a new golangroutine
+is synchronized before the start of the golangroutine's execution.
 </p>
 
 <p>
@@ -321,7 +321,7 @@ func f() {
 
 func hello() {
 	a = "hello, world"
-	go f()
+	golang f()
 }
 </pre>
 
@@ -330,10 +330,10 @@ calling <code>hello</code> will print <code>"hello, world"</code>
 at some point in the future (perhaps after <code>hello</code> has returned).
 </p>
 
-<h3 id="goexit">Goroutine destruction</h3>
+<h3 id="golangexit">Goroutine destruction</h3>
 
 <p>
-The exit of a goroutine is not guaranteed to be synchronized before
+The exit of a golangroutine is not guaranteed to be synchronized before
 any event in the program.
 For example, in this program:
 </p>
@@ -342,7 +342,7 @@ For example, in this program:
 var a string
 
 func hello() {
-	go func() { a = "hello" }()
+	golang func() { a = "hello" }()
 	print(a)
 }
 </pre>
@@ -350,12 +350,12 @@ func hello() {
 <p>
 the assignment to <code>a</code> is not followed by
 any synchronization event, so it is not guaranteed to be
-observed by any other goroutine.
-In fact, an aggressive compiler might delete the entire <code>go</code> statement.
+observed by any other golangroutine.
+In fact, an aggressive compiler might delete the entire <code>golang</code> statement.
 </p>
 
 <p>
-If the effects of a goroutine must be observed by another goroutine,
+If the effects of a golangroutine must be observed by another golangroutine,
 use a synchronization mechanism such as a lock or channel
 communication to establish a relative ordering.
 </p>
@@ -364,9 +364,9 @@ communication to establish a relative ordering.
 
 <p>
 Channel communication is the main method of synchronization
-between goroutines.  Each send on a particular channel
+between golangroutines.  Each send on a particular channel
 is matched to a corresponding receive from that channel,
-usually in a different goroutine.
+usually in a different golangroutine.
 </p>
 
 <p class="rule">
@@ -388,7 +388,7 @@ func f() {
 }
 
 func main() {
-	go f()
+	golang f()
 	&lt;-c
 	print(a)
 }
@@ -432,7 +432,7 @@ func f() {
 }
 
 func main() {
-	go f()
+	golang f()
 	c &lt;- 0
 	print(a)
 }
@@ -467,8 +467,8 @@ This is a common idiom for limiting concurrency.
 </p>
 
 <p>
-This program starts a goroutine for every entry in the work list, but the
-goroutines coordinate using the <code>limit</code> channel to ensure
+This program starts a golangroutine for every entry in the work list, but the
+golangroutines coordinate using the <code>limit</code> channel to ensure
 that at most three are running work functions at a time.
 </p>
 
@@ -477,7 +477,7 @@ var limit = make(chan int, 3)
 
 func main() {
 	for _, w := range work {
-		go func(w func()) {
+		golang func(w func()) {
 			limit &lt;- 1
 			w()
 			&lt;-limit
@@ -514,7 +514,7 @@ func f() {
 
 func main() {
 	l.Lock()
-	go f()
+	golang f()
 	l.Lock()
 	print(a)
 }
@@ -548,7 +548,7 @@ even when the mutex <i>l</i> is unlocked.
 
 <p>
 The <code>sync</code> package provides a safe mechanism for
-initialization in the presence of multiple goroutines
+initialization in the presence of multiple golangroutines
 through the use of the <code>Once</code> type.
 Multiple threads can execute <code>once.Do(f)</code> for a particular <code>f</code>,
 but only one will run <code>f()</code>, and the other calls block
@@ -578,8 +578,8 @@ func doprint() {
 }
 
 func twoprint() {
-	go doprint()
-	go doprint()
+	golang doprint()
+	golang doprint()
 }
 </pre>
 
@@ -597,7 +597,7 @@ twice.
 <p>
 The APIs in the <a href="/pkg/sync/atomic/"><code>sync/atomic</code></a>
 package are collectively “atomic operations”
-that can be used to synchronize the execution of different goroutines.
+that can be used to synchronize the execution of different golangroutines.
 If the effect of an atomic operation <i>A</i> is observed by atomic operation <i>B</i>,
 then <i>A</i> is synchronized before <i>B</i>.
 All the atomic operations executed in a program behave as though executed
@@ -666,7 +666,7 @@ func g() {
 }
 
 func main() {
-	go f()
+	golang f()
 	g()
 }
 </pre>
@@ -702,8 +702,8 @@ func doprint() {
 }
 
 func twoprint() {
-	go doprint()
-	go doprint()
+	golang doprint()
+	golang doprint()
 }
 </pre>
 
@@ -728,7 +728,7 @@ func setup() {
 }
 
 func main() {
-	go setup()
+	golang setup()
 	for !done {
 	}
 	print(a)
@@ -764,7 +764,7 @@ func setup() {
 }
 
 func main() {
-	go setup()
+	golang setup()
 	for g == nil {
 	}
 	print(g.msg)
@@ -794,7 +794,7 @@ and it must not allow a single write to write multiple values.
 
 <p>
 All the following examples assume that `*p` and `*q` refer to
-memory locations accessible to multiple goroutines.
+memory locations accessible to multiple golangroutines.
 </p>
 
 <p>
@@ -822,9 +822,9 @@ if !cond {
 </pre>
 
 <p>
-If <code>cond</code> is false and another goroutine is reading <code>*p</code>,
-then in the original program, the other goroutine can only observe any prior value of <code>*p</code> and <code>1</code>.
-In the rewritten program, the other goroutine can observe <code>2</code>, which was previously impossible.
+If <code>cond</code> is false and another golangroutine is reading <code>*p</code>,
+then in the original program, the other golangroutine can only observe any prior value of <code>*p</code> and <code>1</code>.
+In the rewritten program, the other golangroutine can observe <code>2</code>, which was previously impossible.
 </p>
 
 <p>
@@ -848,7 +848,7 @@ then the original program would never access <code>*p</code> or <code>*q</code>,
 but the rewritten program would.
 (Moving `*p` ahead would be safe if the compiler can prove `*p` will not panic;
 moving `*q` ahead would also require the compiler proving that no other
-goroutine can access `*q`.)
+golangroutine can access `*q`.)
 </p>
 
 <p>

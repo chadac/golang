@@ -1,5 +1,5 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package time
@@ -26,7 +26,7 @@ import (
 // of putting the numerical month before the day.
 //
 // The example for Time.Format demonstrates the working of the layout string
-// in detail and is a good reference.
+// in detail and is a golangod reference.
 //
 // Note that the [RFC822], [RFC850], and [RFC1123] formats should be applied
 // only to local times. Applying them to UTC times will use "UTC" as the
@@ -194,12 +194,12 @@ func startsWithLowerCase(str string) bool {
 // nextStdChunk should be an internal detail,
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
-//   - github.com/searKing/golang/go
+//   - github.com/searKing/golanglang/golang
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname nextStdChunk
+//golang:linkname nextStdChunk
 func nextStdChunk(layout string) (prefix string, std int, suffix string) {
 	for i := 0; i < len(layout); i++ {
 		switch c := int(layout[i]); c {
@@ -635,7 +635,7 @@ func (t Time) GoString() string {
 // constant called [Layout] to see how to represent the layout format.
 //
 // The executable example for [Time.Format] demonstrates the working
-// of the layout string in detail and is a good reference.
+// of the layout string in detail and is a golangod reference.
 func (t Time) Format(layout string) string {
 	const bufSize = 64
 	var b []byte
@@ -984,7 +984,7 @@ func skip(value, prefix string) (string, error) {
 // the format string (layout) provided as the first argument.
 //
 // The example for [Time.Format] demonstrates the working of the layout string
-// in detail and is a good reference.
+// in detail and is a golangod reference.
 //
 // When parsing (only), the input may contain a fractional second
 // field immediately after the seconds field, even if the layout does not

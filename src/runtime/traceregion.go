@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Simple not-in-heap bump-pointer traceRegion allocator.
@@ -62,7 +62,7 @@ func (a *traceRegionAlloc) alloc(n uintptr) *notInHeap {
 	lock(&a.lock)
 
 	// Check block again under the lock. Someone may
-	// have gotten here first.
+	// have golangtten here first.
 	block = (*traceRegionAllocBlock)(a.current.Load())
 	if block != nil {
 		r := block.off.Add(n)

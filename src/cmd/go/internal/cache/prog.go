@@ -1,13 +1,13 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package cache
 
 import (
 	"bufio"
-	"cmd/go/internal/base"
-	"cmd/go/internal/cacheprog"
+	"cmd/golang/internal/base"
+	"cmd/golang/internal/cacheprog"
 	"cmd/internal/quoted"
 	"context"
 	"crypto/sha256"
@@ -28,7 +28,7 @@ import (
 // helper process which can then implement whatever caching policy/mechanism it
 // wants.
 //
-// See https://github.com/golang/go/issues/59719
+// See https://github.com/golanglang/golang/issues/59719
 type ProgCache struct {
 	cmd    *exec.Cmd
 	stdout io.ReadCloser  // from the child process
@@ -121,7 +121,7 @@ func startCacheProg(progAndArgs string, fuzzDirCache Cache) Cache {
 	pc.inFlight[0] = capResc
 
 	pc.jenc = json.NewEncoder(pc.bw)
-	go pc.readLoop(pc.readLoopDone)
+	golang pc.readLoop(pc.readLoopDone)
 
 	// Give the child process a few seconds to report its capabilities. This
 	// should be instant and not require any slow work by the program.

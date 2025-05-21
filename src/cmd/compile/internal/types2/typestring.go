@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file implements printing of types.
@@ -111,7 +111,7 @@ func (w *typeWriter) error(msg string) {
 
 func (w *typeWriter) typ(typ Type) {
 	if w.seen[typ] {
-		w.error("cycle to " + goTypeName(typ))
+		w.error("cycle to " + golangTypeName(typ))
 		return
 	}
 	w.seen[typ] = true
@@ -122,7 +122,7 @@ func (w *typeWriter) typ(typ Type) {
 		w.error("nil")
 
 	case *Basic:
-		// exported basic types go into package unsafe
+		// exported basic types golang into package unsafe
 		// (currently this is just unsafe.Pointer)
 		if isExported(t.name) {
 			if obj, _ := Unsafe.scope.Lookup(t.name).(*TypeName); obj != nil {
@@ -160,7 +160,7 @@ func (w *typeWriter) typ(typ Type) {
 
 			// This doesn't do the right thing for embedded type
 			// aliases where we should print the alias name, not
-			// the aliased type (see go.dev/issue/44410).
+			// the aliased type (see golang.dev/issue/44410).
 			if !f.embedded {
 				w.string(f.name)
 				w.byte(' ')
@@ -215,7 +215,7 @@ func (w *typeWriter) typ(typ Type) {
 				// When not hashing, we can try to improve type strings by writing "any"
 				// for a type that is pointer-identical to universeAny.
 				// TODO(rfindley): this logic should not be necessary with
-				// gotypesalias=1. Remove once that is always the case.
+				// golangtypesalias=1. Remove once that is always the case.
 				w.string("any")
 				break
 			}

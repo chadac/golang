@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package fipstest
@@ -12,7 +12,7 @@ import (
 )
 
 func TestCMAC(t *testing.T) {
-	// https://csrc.nist.gov/CSRC/media/Projects/Cryptographic-Standards-and-Guidelines/documents/examples/AES_CMAC.pdf
+	// https://csrc.nist.golangv/CSRC/media/Projects/Cryptographic-Standards-and-Guidelines/documents/examples/AES_CMAC.pdf
 	key := "2B7E1516 28AED2A6 ABF71588 09CF4F3C"
 	tests := []struct {
 		in, out string
@@ -39,9 +39,9 @@ func TestCMAC(t *testing.T) {
 	for i, test := range tests {
 		in := decodeHex(t, test.in)
 		out := decodeHex(t, test.out)
-		got := c.MAC(in)
-		if !bytes.Equal(got[:], out) {
-			t.Errorf("test %d: got %x, want %x", i, got, out)
+		golangt := c.MAC(in)
+		if !bytes.Equal(golangt[:], out) {
+			t.Errorf("test %d: golangt %x, want %x", i, golangt, out)
 		}
 	}
 }

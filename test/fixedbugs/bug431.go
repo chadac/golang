@@ -1,10 +1,10 @@
 // compile
 
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// gccgo gave an invalid error ("floating point constant truncated to
+// gccgolang gave an invalid error ("floating point constant truncated to
 // integer") compiling this.
 
 package p

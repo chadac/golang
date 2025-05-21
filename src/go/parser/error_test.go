@@ -1,11 +1,11 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file implements a parser test harness. The files in the testdata
 // directory are parsed and the errors reported are compared against the
 // error messages expected in the test files. The test files must end in
-// .src rather than .go so that they are not disturbed by gofmt runs.
+// .src rather than .golang so that they are not disturbed by golangfmt runs.
 //
 // Expected errors are indicated in the test files by putting a comment
 // of the form /* ERROR "rx" */ immediately following an offending token.
@@ -24,8 +24,8 @@ package parser
 
 import (
 	"flag"
-	"go/scanner"
-	"go/token"
+	"golang/scanner"
+	"golang/token"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -190,7 +190,7 @@ func TestErrors(t *testing.T) {
 	for _, d := range list {
 		name := d.Name()
 		t.Run(name, func(t *testing.T) {
-			if !d.IsDir() && !strings.HasPrefix(name, ".") && (strings.HasSuffix(name, ".src") || strings.HasSuffix(name, ".go2")) {
+			if !d.IsDir() && !strings.HasPrefix(name, ".") && (strings.HasSuffix(name, ".src") || strings.HasSuffix(name, ".golang2")) {
 				mode := DeclarationErrors | AllErrors
 				if *traceErrs {
 					mode |= Trace

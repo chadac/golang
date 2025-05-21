@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -57,7 +57,7 @@ type metaMerge struct {
 	p *pkstate
 	// current pod state
 	pod *podstate
-	// counter data file osargs/goos/goarch state
+	// counter data file osargs/golangos/golangarch state
 	astate *argstate
 }
 
@@ -120,8 +120,8 @@ func (mm *metaMerge) visitMetaDataFile(mdf string, mfr *decodemeta.CoverageMetaF
 func (mm *metaMerge) beginCounterDataFile(cdr *decodecounter.CounterDataReader) {
 	state := argvalues{
 		osargs: cdr.OsArgs(),
-		goos:   cdr.Goos(),
-		goarch: cdr.Goarch(),
+		golangos:   cdr.Goos(),
+		golangarch: cdr.Goarch(),
 	}
 	mm.astate.Merge(state)
 }

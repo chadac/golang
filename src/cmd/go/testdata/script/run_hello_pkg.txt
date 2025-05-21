@@ -1,15 +1,15 @@
-go run m/hello
+golang run m/hello
 stderr 'hello, world'
 
 cd hello
-go run .
+golang run .
 stderr 'hello, world'
 
--- go.mod --
+-- golang.mod --
 module m
 
-go 1.16
--- hello/hello.go --
+golang 1.16
+-- hello/hello.golang --
 package main
 
 func main() {

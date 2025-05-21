@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -10,8 +10,8 @@ package main
 // parameters to the handler.
 
 /*
-#cgo CFLAGS: -fsanitize=thread
-#cgo LDFLAGS: -fsanitize=thread
+#cgolang CFLAGS: -fsanitize=thread
+#cgolang LDFLAGS: -fsanitize=thread
 
 #include <signal.h>
 #include <stdio.h>

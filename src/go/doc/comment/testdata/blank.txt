@@ -2,7 +2,7 @@
 	$
 	Blank line at start and end.
 	$
--- gofmt --
+-- golangfmt --
 Blank line at start and end.
 -- text --
 Blank line at start and end.

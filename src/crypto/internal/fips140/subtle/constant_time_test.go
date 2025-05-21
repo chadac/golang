@@ -1,5 +1,5 @@
 // Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package subtle
@@ -26,30 +26,30 @@ func TestConstantTimeLessOrEqBytes(t *testing.T) {
 		if bytes.Compare(a, b) <= 0 {
 			exp = 1
 		}
-		if got := ConstantTimeLessOrEqBytes(a, b); got != exp {
-			t.Errorf("ConstantTimeLessOrEqBytes(%x, %x) = %d, want %d", a, b, got, exp)
+		if golangt := ConstantTimeLessOrEqBytes(a, b); golangt != exp {
+			t.Errorf("ConstantTimeLessOrEqBytes(%x, %x) = %d, want %d", a, b, golangt, exp)
 		}
 		exp = 0
 		if bytes.Compare(b, a) <= 0 {
 			exp = 1
 		}
-		if got := ConstantTimeLessOrEqBytes(b, a); got != exp {
-			t.Errorf("ConstantTimeLessOrEqBytes(%x, %x) = %d, want %d", b, a, got, exp)
+		if golangt := ConstantTimeLessOrEqBytes(b, a); golangt != exp {
+			t.Errorf("ConstantTimeLessOrEqBytes(%x, %x) = %d, want %d", b, a, golangt, exp)
 		}
-		if got := ConstantTimeLessOrEqBytes(empty, a); got != 1 {
-			t.Errorf("ConstantTimeLessOrEqBytes(%x, %x) = %d, want 1", empty, a, got)
+		if golangt := ConstantTimeLessOrEqBytes(empty, a); golangt != 1 {
+			t.Errorf("ConstantTimeLessOrEqBytes(%x, %x) = %d, want 1", empty, a, golangt)
 		}
-		if got := ConstantTimeLessOrEqBytes(empty, b); got != 1 {
-			t.Errorf("ConstantTimeLessOrEqBytes(%x, %x) = %d, want 1", empty, b, got)
+		if golangt := ConstantTimeLessOrEqBytes(empty, b); golangt != 1 {
+			t.Errorf("ConstantTimeLessOrEqBytes(%x, %x) = %d, want 1", empty, b, golangt)
 		}
-		if got := ConstantTimeLessOrEqBytes(a, a); got != 1 {
-			t.Errorf("ConstantTimeLessOrEqBytes(%x, %x) = %d, want 1", a, a, got)
+		if golangt := ConstantTimeLessOrEqBytes(a, a); golangt != 1 {
+			t.Errorf("ConstantTimeLessOrEqBytes(%x, %x) = %d, want 1", a, a, golangt)
 		}
-		if got := ConstantTimeLessOrEqBytes(b, b); got != 1 {
-			t.Errorf("ConstantTimeLessOrEqBytes(%x, %x) = %d, want 1", b, b, got)
+		if golangt := ConstantTimeLessOrEqBytes(b, b); golangt != 1 {
+			t.Errorf("ConstantTimeLessOrEqBytes(%x, %x) = %d, want 1", b, b, golangt)
 		}
-		if got := ConstantTimeLessOrEqBytes(empty, empty); got != 1 {
-			t.Errorf("ConstantTimeLessOrEqBytes(%x, %x) = %d, want 1", empty, empty, got)
+		if golangt := ConstantTimeLessOrEqBytes(empty, empty); golangt != 1 {
+			t.Errorf("ConstantTimeLessOrEqBytes(%x, %x) = %d, want 1", empty, empty, golangt)
 		}
 		if l == 0 {
 			continue
@@ -58,17 +58,17 @@ func TestConstantTimeLessOrEqBytes(t *testing.T) {
 		for i := range max {
 			max[i] = 0xff
 		}
-		if got := ConstantTimeLessOrEqBytes(a, max); got != 1 {
-			t.Errorf("ConstantTimeLessOrEqBytes(%x, %x) = %d, want 1", a, max, got)
+		if golangt := ConstantTimeLessOrEqBytes(a, max); golangt != 1 {
+			t.Errorf("ConstantTimeLessOrEqBytes(%x, %x) = %d, want 1", a, max, golangt)
 		}
-		if got := ConstantTimeLessOrEqBytes(b, max); got != 1 {
-			t.Errorf("ConstantTimeLessOrEqBytes(%x, %x) = %d, want 1", b, max, got)
+		if golangt := ConstantTimeLessOrEqBytes(b, max); golangt != 1 {
+			t.Errorf("ConstantTimeLessOrEqBytes(%x, %x) = %d, want 1", b, max, golangt)
 		}
-		if got := ConstantTimeLessOrEqBytes(empty, max); got != 1 {
-			t.Errorf("ConstantTimeLessOrEqBytes(%x, %x) = %d, want 1", empty, max, got)
+		if golangt := ConstantTimeLessOrEqBytes(empty, max); golangt != 1 {
+			t.Errorf("ConstantTimeLessOrEqBytes(%x, %x) = %d, want 1", empty, max, golangt)
 		}
-		if got := ConstantTimeLessOrEqBytes(max, max); got != 1 {
-			t.Errorf("ConstantTimeLessOrEqBytes(%x, %x) = %d, want 1", max, max, got)
+		if golangt := ConstantTimeLessOrEqBytes(max, max); golangt != 1 {
+			t.Errorf("ConstantTimeLessOrEqBytes(%x, %x) = %d, want 1", max, max, golangt)
 		}
 		aPlusOne := make([]byte, l)
 		copy(aPlusOne, a)
@@ -78,27 +78,27 @@ func TestConstantTimeLessOrEqBytes(t *testing.T) {
 				continue
 			}
 			aPlusOne[i]++
-			if got := ConstantTimeLessOrEqBytes(a, aPlusOne); got != 1 {
-				t.Errorf("ConstantTimeLessOrEqBytes(%x, %x) = %d, want 1", a, aPlusOne, got)
+			if golangt := ConstantTimeLessOrEqBytes(a, aPlusOne); golangt != 1 {
+				t.Errorf("ConstantTimeLessOrEqBytes(%x, %x) = %d, want 1", a, aPlusOne, golangt)
 			}
-			if got := ConstantTimeLessOrEqBytes(aPlusOne, a); got != 0 {
-				t.Errorf("ConstantTimeLessOrEqBytes(%x, %x) = %d, want 0", aPlusOne, a, got)
+			if golangt := ConstantTimeLessOrEqBytes(aPlusOne, a); golangt != 0 {
+				t.Errorf("ConstantTimeLessOrEqBytes(%x, %x) = %d, want 0", aPlusOne, a, golangt)
 			}
 			break
 		}
 		shorter := make([]byte, l-1)
 		copy(shorter, a)
-		if got := ConstantTimeLessOrEqBytes(a, shorter); got != 0 {
-			t.Errorf("ConstantTimeLessOrEqBytes(%x, %x) = %d, want 0", a, shorter, got)
+		if golangt := ConstantTimeLessOrEqBytes(a, shorter); golangt != 0 {
+			t.Errorf("ConstantTimeLessOrEqBytes(%x, %x) = %d, want 0", a, shorter, golangt)
 		}
-		if got := ConstantTimeLessOrEqBytes(shorter, a); got != 0 {
-			t.Errorf("ConstantTimeLessOrEqBytes(%x, %x) = %d, want 0", shorter, a, got)
+		if golangt := ConstantTimeLessOrEqBytes(shorter, a); golangt != 0 {
+			t.Errorf("ConstantTimeLessOrEqBytes(%x, %x) = %d, want 0", shorter, a, golangt)
 		}
-		if got := ConstantTimeLessOrEqBytes(b, shorter); got != 0 {
-			t.Errorf("ConstantTimeLessOrEqBytes(%x, %x) = %d, want 0", b, shorter, got)
+		if golangt := ConstantTimeLessOrEqBytes(b, shorter); golangt != 0 {
+			t.Errorf("ConstantTimeLessOrEqBytes(%x, %x) = %d, want 0", b, shorter, golangt)
 		}
-		if got := ConstantTimeLessOrEqBytes(shorter, b); got != 0 {
-			t.Errorf("ConstantTimeLessOrEqBytes(%x, %x) = %d, want 0", shorter, b, got)
+		if golangt := ConstantTimeLessOrEqBytes(shorter, b); golangt != 0 {
+			t.Errorf("ConstantTimeLessOrEqBytes(%x, %x) = %d, want 0", shorter, b, golangt)
 		}
 	}
 }

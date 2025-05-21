@@ -1,5 +1,5 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package filepathlite
@@ -202,7 +202,7 @@ func IsAbs(path string) (b bool) {
 //
 // See:
 // https://learn.microsoft.com/en-us/dotnet/standard/io/file-path-formats
-// https://googleprojectzero.blogspot.com/2016/02/the-definitive-guide-on-win32-to-nt.html
+// https://golangogleprojectzero.blogspot.com/2016/02/the-definitive-guide-on-win32-to-nt.html
 func volumeNameLen(path string) int {
 	switch {
 	case len(path) >= 2 && path[1] == ':':
@@ -220,7 +220,7 @@ func volumeNameLen(path string) int {
 		return 0
 
 	case pathHasPrefixFold(path, `\\.\UNC`):
-		// We're going to treat the UNC host and share as part of the volume
+		// We're golanging to treat the UNC host and share as part of the volume
 		// prefix for historical reasons, but this isn't really principled;
 		// Windows's own GetFullPathName will happily remove the first
 		// component of the path in this space, converting

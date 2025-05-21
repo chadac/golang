@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package types
@@ -9,7 +9,7 @@ import (
 	"cmd/internal/objabi"
 	"cmd/internal/src"
 	"fmt"
-	"go/constant"
+	"golang/constant"
 	"internal/buildcfg"
 	"internal/types/errors"
 	"sync"
@@ -24,7 +24,7 @@ type Object interface {
 	Type() *Type
 }
 
-//go:generate stringer -type Kind -trimprefix T type.go
+//golang:generate stringer -type Kind -trimprefix T type.golang
 
 // Kind describes a kind of type.
 type Kind uint8
@@ -90,7 +90,7 @@ func (c ChanDir) CanSend() bool { return c&Csend != 0 }
 
 const (
 	// types of channel
-	// must match ../../../../reflect/type.go:/ChanDir
+	// must match ../../../../reflect/type.golang:/ChanDir
 	Crecv ChanDir = 1 << 0
 	Csend ChanDir = 1 << 1
 	Cboth ChanDir = Crecv | Csend
@@ -206,7 +206,7 @@ type Type struct {
 
 	// size of prefix of object that contains all pointers. valid if Align > 0.
 	// Note that for pointers, this is always PtrSize even if the element type
-	// is NotInHeap. See size.go:PtrDataSize for details.
+	// is NotInHeap. See size.golang:PtrDataSize for details.
 	ptrBytes int64
 }
 
@@ -225,7 +225,7 @@ func (*Type) CanBeAnSSAAux() {}
 
 const (
 	typeNotInHeap  = 1 << iota // type cannot be heap allocated
-	typeNoalg                  // suppress hash and eq algorithm generation
+	typeNoalg                  // suppress hash and eq algolangrithm generation
 	typeDeferwidth             // width computation has been deferred and type is on deferredTypeStack
 	typeRecur
 	typeIsShape  // represents a set of closely related types, for generics
@@ -655,7 +655,7 @@ func NewPtr(elem *Type) *Type {
 		t.alg = ANOALG
 	}
 	// Note: we can't check elem.NotInHeap here because it might
-	// not be set yet. See size.go:PtrDataSize.
+	// not be set yet. See size.golang:PtrDataSize.
 	t.ptrBytes = int64(PtrSize)
 	return t
 }
@@ -1080,7 +1080,7 @@ func (r *Sym) cmpsym(s *Sym) Cmp {
 // TODO(josharian): make this safe for recursive interface types
 // and use in signatlist sorting. See issue 19869.
 func (t *Type) cmp(x *Type) Cmp {
-	// This follows the structure of function identical in identity.go
+	// This follows the structure of function identical in identity.golang
 	// with two exceptions.
 	// 1. Symbols are compared more carefully because a <,=,> result is desired.
 	// 2. Maps are treated specially to avoid endless recursion -- maps
@@ -1390,7 +1390,7 @@ func (t *Type) IsUintptr() bool {
 // In addition to regular Go pointer types, this includes map, channel, and
 // function types and unsafe.Pointer. It does not include array or struct types
 // that consist of a single pointer shaped type.
-// TODO(mdempsky): Should it? See golang.org/issue/15028.
+// TODO(mdempsky): Should it? See golanglang.org/issue/15028.
 func (t *Type) IsPtrShaped() bool {
 	return t.kind == TPTR || t.kind == TUNSAFEPTR ||
 		t.kind == TMAP || t.kind == TCHAN || t.kind == TFUNC
@@ -1541,7 +1541,7 @@ func (t *Type) NumComponents(countBlank componentsIncludeBlankFields) int64 {
 // SoleComponent returns the only primitive component in t,
 // if there is exactly one. Otherwise, it returns nil.
 // Components are counted as in NumComponents, including blank fields.
-// Keep in sync with cmd/compile/internal/walk/convert.go:soleComponent.
+// Keep in sync with cmd/compile/internal/walk/convert.golang:soleComponent.
 func (t *Type) SoleComponent() *Type {
 	switch t.kind {
 	case TSTRUCT:
@@ -1650,7 +1650,7 @@ func NewNamed(obj Object) *Type {
 	if sym.Pkg.Path == "internal/runtime/sys" && sym.Name == "nih" {
 		// Recognize the special not-in-heap type. Any type including
 		// this type will also be not-in-heap.
-		// This logic is duplicated in go/types and
+		// This logic is duplicated in golang/types and
 		// cmd/compile/internal/types2.
 		t.SetNotInHeap(true)
 	}
@@ -2016,4 +2016,4 @@ var (
 var SimType [NTYPE]Kind
 
 // Fake package for shape types (see typecheck.Shapify()).
-var ShapePkg = NewPkg("go.shape", "go.shape")
+var ShapePkg = NewPkg("golang.shape", "golang.shape")

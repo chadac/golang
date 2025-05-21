@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package elf
@@ -55,7 +55,7 @@ var fileTests = []fileTest{
 			{".ctors", SHT_PROGBITS, SHF_WRITE + SHF_ALLOC, 0x80496a4, 0x6a4, 0x8, 0x0, 0x0, 0x4, 0x0, 0x8},
 			{".dtors", SHT_PROGBITS, SHF_WRITE + SHF_ALLOC, 0x80496ac, 0x6ac, 0x8, 0x0, 0x0, 0x4, 0x0, 0x8},
 			{".jcr", SHT_PROGBITS, SHF_WRITE + SHF_ALLOC, 0x80496b4, 0x6b4, 0x4, 0x0, 0x0, 0x4, 0x0, 0x4},
-			{".got", SHT_PROGBITS, SHF_WRITE + SHF_ALLOC, 0x80496b8, 0x6b8, 0x1c, 0x0, 0x0, 0x4, 0x4, 0x1c},
+			{".golangt", SHT_PROGBITS, SHF_WRITE + SHF_ALLOC, 0x80496b8, 0x6b8, 0x1c, 0x0, 0x0, 0x4, 0x4, 0x1c},
 			{".bss", SHT_NOBITS, SHF_WRITE + SHF_ALLOC, 0x80496d4, 0x6d4, 0x20, 0x0, 0x0, 0x4, 0x0, 0x20},
 			{".comment", SHT_PROGBITS, 0x0, 0x0, 0x6d4, 0x12d, 0x0, 0x0, 0x1, 0x0, 0x12d},
 			{".debug_aranges", SHT_PROGBITS, 0x0, 0x0, 0x801, 0x20, 0x0, 0x0, 0x1, 0x0, 0x20},
@@ -180,8 +180,8 @@ var fileTests = []fileTest{
 			{".dtors", SHT_PROGBITS, SHF_WRITE + SHF_ALLOC, 0x600698, 0x698, 0x10, 0x0, 0x0, 0x8, 0x0, 0x10},
 			{".jcr", SHT_PROGBITS, SHF_WRITE + SHF_ALLOC, 0x6006a8, 0x6a8, 0x8, 0x0, 0x0, 0x8, 0x0, 0x8},
 			{".dynamic", SHT_DYNAMIC, SHF_WRITE + SHF_ALLOC, 0x6006b0, 0x6b0, 0x1a0, 0x6, 0x0, 0x8, 0x10, 0x1a0},
-			{".got", SHT_PROGBITS, SHF_WRITE + SHF_ALLOC, 0x600850, 0x850, 0x8, 0x0, 0x0, 0x8, 0x8, 0x8},
-			{".got.plt", SHT_PROGBITS, SHF_WRITE + SHF_ALLOC, 0x600858, 0x858, 0x28, 0x0, 0x0, 0x8, 0x8, 0x28},
+			{".golangt", SHT_PROGBITS, SHF_WRITE + SHF_ALLOC, 0x600850, 0x850, 0x8, 0x0, 0x0, 0x8, 0x8, 0x8},
+			{".golangt.plt", SHT_PROGBITS, SHF_WRITE + SHF_ALLOC, 0x600858, 0x858, 0x28, 0x0, 0x0, 0x8, 0x8, 0x28},
 			{".data", SHT_PROGBITS, SHF_WRITE + SHF_ALLOC, 0x600880, 0x880, 0x18, 0x0, 0x0, 0x8, 0x0, 0x18},
 			{".bss", SHT_NOBITS, SHF_WRITE + SHF_ALLOC, 0x600898, 0x898, 0x8, 0x0, 0x0, 0x4, 0x0, 0x8},
 			{".comment", SHT_PROGBITS, 0x0, 0x0, 0x898, 0x126, 0x0, 0x0, 0x1, 0x0, 0x126},
@@ -402,7 +402,7 @@ var fileTests = []fileTest{
 		},
 	},
 	{
-		"testdata/go-relocation-test-gcc620-sparc64.obj",
+		"testdata/golang-relocation-test-gcc620-sparc64.obj",
 		FileHeader{Class: ELFCLASS64, Data: ELFDATA2MSB, Version: EV_CURRENT, OSABI: ELFOSABI_NONE, ABIVersion: 0x0, ByteOrder: binary.BigEndian, Type: ET_REL, Machine: EM_SPARCV9, Entry: 0x0},
 		[]SectionHeader{
 			{"", SHT_NULL, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0},
@@ -470,8 +470,8 @@ var fileTests = []fileTest{
 			{".init_array", SHT_INIT_ARRAY, SHF_WRITE + SHF_ALLOC, 0x11e08, 0xe08, 0x8, 0x0, 0x0, 0x8, 0x8, 0x8},
 			{".fini_array", SHT_FINI_ARRAY, SHF_WRITE + SHF_ALLOC, 0x11e10, 0xe10, 0x8, 0x0, 0x0, 0x8, 0x8, 0x8},
 			{".dynamic", SHT_DYNAMIC, SHF_WRITE + SHF_ALLOC, 0x11e18, 0xe18, 0x1d0, 0x6, 0x0, 0x8, 0x10, 0x1d0},
-			{".got", SHT_PROGBITS, SHF_WRITE + SHF_ALLOC, 0x11fe8, 0xfe8, 0x8, 0x0, 0x0, 0x8, 0x8, 0x8},
-			{".got.plt", SHT_PROGBITS, SHF_WRITE + SHF_ALLOC, 0x11ff0, 0xff0, 0x20, 0x0, 0x0, 0x8, 0x8, 0x20},
+			{".golangt", SHT_PROGBITS, SHF_WRITE + SHF_ALLOC, 0x11fe8, 0xfe8, 0x8, 0x0, 0x0, 0x8, 0x8, 0x8},
+			{".golangt.plt", SHT_PROGBITS, SHF_WRITE + SHF_ALLOC, 0x11ff0, 0xff0, 0x20, 0x0, 0x0, 0x8, 0x8, 0x20},
 			{".sdata", SHT_PROGBITS, SHF_WRITE + SHF_ALLOC, 0x12010, 0x1010, 0x8, 0x0, 0x0, 0x8, 0x0, 0x8},
 			{".bss", SHT_NOBITS, SHF_WRITE + SHF_ALLOC, 0x12018, 0x1018, 0x8, 0x0, 0x0, 0x1, 0x0, 0x8},
 			{".comment", SHT_PROGBITS, SHF_MERGE + SHF_STRINGS, 0x0, 0x1018, 0x26, 0x0, 0x0, 0x1, 0x1, 0x26},
@@ -603,7 +603,7 @@ type relocationTest struct {
 
 var relocationTests = []relocationTest{
 	{
-		"testdata/go-relocation-test-gcc441-x86-64.obj",
+		"testdata/golang-relocation-test-gcc441-x86-64.obj",
 		[]relocationTestEntry{
 			{
 				entry: &dwarf.Entry{
@@ -613,7 +613,7 @@ var relocationTests = []relocationTest{
 					Field: []dwarf.Field{
 						{Attr: dwarf.AttrProducer, Val: "GNU C 4.4.1", Class: dwarf.ClassString},
 						{Attr: dwarf.AttrLanguage, Val: int64(1), Class: dwarf.ClassConstant},
-						{Attr: dwarf.AttrName, Val: "go-relocation-test.c", Class: dwarf.ClassString},
+						{Attr: dwarf.AttrName, Val: "golang-relocation-test.c", Class: dwarf.ClassString},
 						{Attr: dwarf.AttrCompDir, Val: "/tmp", Class: dwarf.ClassString},
 						{Attr: dwarf.AttrLowpc, Val: uint64(0x0), Class: dwarf.ClassAddress},
 						{Attr: dwarf.AttrHighpc, Val: uint64(0x6), Class: dwarf.ClassAddress},
@@ -625,7 +625,7 @@ var relocationTests = []relocationTest{
 		},
 	},
 	{
-		"testdata/go-relocation-test-gcc441-x86.obj",
+		"testdata/golang-relocation-test-gcc441-x86.obj",
 		[]relocationTestEntry{
 			{
 				entry: &dwarf.Entry{
@@ -647,7 +647,7 @@ var relocationTests = []relocationTest{
 		},
 	},
 	{
-		"testdata/go-relocation-test-gcc424-x86-64.obj",
+		"testdata/golang-relocation-test-gcc424-x86-64.obj",
 		[]relocationTestEntry{
 			{
 				entry: &dwarf.Entry{
@@ -657,7 +657,7 @@ var relocationTests = []relocationTest{
 					Field: []dwarf.Field{
 						{Attr: dwarf.AttrProducer, Val: "GNU C 4.2.4 (Ubuntu 4.2.4-1ubuntu4)", Class: dwarf.ClassString},
 						{Attr: dwarf.AttrLanguage, Val: int64(1), Class: dwarf.ClassConstant},
-						{Attr: dwarf.AttrName, Val: "go-relocation-test-gcc424.c", Class: dwarf.ClassString},
+						{Attr: dwarf.AttrName, Val: "golang-relocation-test-gcc424.c", Class: dwarf.ClassString},
 						{Attr: dwarf.AttrCompDir, Val: "/tmp", Class: dwarf.ClassString},
 						{Attr: dwarf.AttrLowpc, Val: uint64(0x0), Class: dwarf.ClassAddress},
 						{Attr: dwarf.AttrHighpc, Val: uint64(0x6), Class: dwarf.ClassAddress},
@@ -669,7 +669,7 @@ var relocationTests = []relocationTest{
 		},
 	},
 	{
-		"testdata/go-relocation-test-gcc482-aarch64.obj",
+		"testdata/golang-relocation-test-gcc482-aarch64.obj",
 		[]relocationTestEntry{
 			{
 				entry: &dwarf.Entry{
@@ -679,7 +679,7 @@ var relocationTests = []relocationTest{
 					Field: []dwarf.Field{
 						{Attr: dwarf.AttrProducer, Val: "GNU C 4.8.2 -g -fstack-protector", Class: dwarf.ClassString},
 						{Attr: dwarf.AttrLanguage, Val: int64(1), Class: dwarf.ClassConstant},
-						{Attr: dwarf.AttrName, Val: "go-relocation-test-gcc482.c", Class: dwarf.ClassString},
+						{Attr: dwarf.AttrName, Val: "golang-relocation-test-gcc482.c", Class: dwarf.ClassString},
 						{Attr: dwarf.AttrCompDir, Val: "/tmp", Class: dwarf.ClassString},
 						{Attr: dwarf.AttrLowpc, Val: uint64(0x0), Class: dwarf.ClassAddress},
 						{Attr: dwarf.AttrHighpc, Val: int64(0x24), Class: dwarf.ClassConstant},
@@ -691,7 +691,7 @@ var relocationTests = []relocationTest{
 		},
 	},
 	{
-		"testdata/go-relocation-test-gcc492-arm.obj",
+		"testdata/golang-relocation-test-gcc492-arm.obj",
 		[]relocationTestEntry{
 			{
 				entry: &dwarf.Entry{
@@ -701,8 +701,8 @@ var relocationTests = []relocationTest{
 					Field: []dwarf.Field{
 						{Attr: dwarf.AttrProducer, Val: "GNU C 4.9.2 20141224 (prerelease) -march=armv7-a -mfloat-abi=hard -mfpu=vfpv3-d16 -mtls-dialect=gnu -g", Class: dwarf.ClassString},
 						{Attr: dwarf.AttrLanguage, Val: int64(1), Class: dwarf.ClassConstant},
-						{Attr: dwarf.AttrName, Val: "go-relocation-test-gcc492.c", Class: dwarf.ClassString},
-						{Attr: dwarf.AttrCompDir, Val: "/root/go/src/debug/elf/testdata", Class: dwarf.ClassString},
+						{Attr: dwarf.AttrName, Val: "golang-relocation-test-gcc492.c", Class: dwarf.ClassString},
+						{Attr: dwarf.AttrCompDir, Val: "/root/golang/src/debug/elf/testdata", Class: dwarf.ClassString},
 						{Attr: dwarf.AttrLowpc, Val: uint64(0x0), Class: dwarf.ClassAddress},
 						{Attr: dwarf.AttrHighpc, Val: int64(0x28), Class: dwarf.ClassConstant},
 						{Attr: dwarf.AttrStmtList, Val: int64(0), Class: dwarf.ClassLinePtr},
@@ -713,7 +713,7 @@ var relocationTests = []relocationTest{
 		},
 	},
 	{
-		"testdata/go-relocation-test-clang-arm.obj",
+		"testdata/golang-relocation-test-clang-arm.obj",
 		[]relocationTestEntry{
 			{
 				entry: &dwarf.Entry{
@@ -735,7 +735,7 @@ var relocationTests = []relocationTest{
 		},
 	},
 	{
-		"testdata/go-relocation-test-gcc5-ppc.obj",
+		"testdata/golang-relocation-test-gcc5-ppc.obj",
 		[]relocationTestEntry{
 			{
 				entry: &dwarf.Entry{
@@ -745,7 +745,7 @@ var relocationTests = []relocationTest{
 					Field: []dwarf.Field{
 						{Attr: dwarf.AttrProducer, Val: "GNU C11 5.0.0 20150116 (experimental) -Asystem=linux -Asystem=unix -Asystem=posix -g", Class: dwarf.ClassString},
 						{Attr: dwarf.AttrLanguage, Val: int64(12), Class: dwarf.ClassConstant},
-						{Attr: dwarf.AttrName, Val: "go-relocation-test-gcc5-ppc.c", Class: dwarf.ClassString},
+						{Attr: dwarf.AttrName, Val: "golang-relocation-test-gcc5-ppc.c", Class: dwarf.ClassString},
 						{Attr: dwarf.AttrCompDir, Val: "/tmp", Class: dwarf.ClassString},
 						{Attr: dwarf.AttrLowpc, Val: uint64(0x0), Class: dwarf.ClassAddress},
 						{Attr: dwarf.AttrHighpc, Val: int64(0x44), Class: dwarf.ClassConstant},
@@ -757,7 +757,7 @@ var relocationTests = []relocationTest{
 		},
 	},
 	{
-		"testdata/go-relocation-test-gcc482-ppc64le.obj",
+		"testdata/golang-relocation-test-gcc482-ppc64le.obj",
 		[]relocationTestEntry{
 			{
 				entry: &dwarf.Entry{
@@ -767,7 +767,7 @@ var relocationTests = []relocationTest{
 					Field: []dwarf.Field{
 						{Attr: dwarf.AttrProducer, Val: "GNU C 4.8.2 -Asystem=linux -Asystem=unix -Asystem=posix -msecure-plt -mtune=power8 -mcpu=power7 -gdwarf-2 -fstack-protector", Class: dwarf.ClassString},
 						{Attr: dwarf.AttrLanguage, Val: int64(1), Class: dwarf.ClassConstant},
-						{Attr: dwarf.AttrName, Val: "go-relocation-test-gcc482-ppc64le.c", Class: dwarf.ClassString},
+						{Attr: dwarf.AttrName, Val: "golang-relocation-test-gcc482-ppc64le.c", Class: dwarf.ClassString},
 						{Attr: dwarf.AttrCompDir, Val: "/tmp", Class: dwarf.ClassString},
 						{Attr: dwarf.AttrLowpc, Val: uint64(0x0), Class: dwarf.ClassAddress},
 						{Attr: dwarf.AttrHighpc, Val: uint64(0x24), Class: dwarf.ClassAddress},
@@ -779,7 +779,7 @@ var relocationTests = []relocationTest{
 		},
 	},
 	{
-		"testdata/go-relocation-test-gcc492-mips64.obj",
+		"testdata/golang-relocation-test-gcc492-mips64.obj",
 		[]relocationTestEntry{
 			{
 				entry: &dwarf.Entry{
@@ -801,7 +801,7 @@ var relocationTests = []relocationTest{
 		},
 	},
 	{
-		"testdata/go-relocation-test-gcc531-s390x.obj",
+		"testdata/golang-relocation-test-gcc531-s390x.obj",
 		[]relocationTestEntry{
 			{
 				entry: &dwarf.Entry{
@@ -823,7 +823,7 @@ var relocationTests = []relocationTest{
 		},
 	},
 	{
-		"testdata/go-relocation-test-gcc620-sparc64.obj",
+		"testdata/golang-relocation-test-gcc620-sparc64.obj",
 		[]relocationTestEntry{
 			{
 				entry: &dwarf.Entry{
@@ -845,7 +845,7 @@ var relocationTests = []relocationTest{
 		},
 	},
 	{
-		"testdata/go-relocation-test-gcc492-mipsle.obj",
+		"testdata/golang-relocation-test-gcc492-mipsle.obj",
 		[]relocationTestEntry{
 			{
 				entry: &dwarf.Entry{
@@ -867,7 +867,7 @@ var relocationTests = []relocationTest{
 		},
 	},
 	{
-		"testdata/go-relocation-test-gcc540-mips.obj",
+		"testdata/golang-relocation-test-gcc540-mips.obj",
 		[]relocationTestEntry{
 			{
 				entry: &dwarf.Entry{
@@ -889,7 +889,7 @@ var relocationTests = []relocationTest{
 		},
 	},
 	{
-		"testdata/go-relocation-test-gcc493-mips64le.obj",
+		"testdata/golang-relocation-test-gcc493-mips64le.obj",
 		[]relocationTestEntry{
 			{
 				entry: &dwarf.Entry{
@@ -911,7 +911,7 @@ var relocationTests = []relocationTest{
 		},
 	},
 	{
-		"testdata/go-relocation-test-gcc720-riscv64.obj",
+		"testdata/golang-relocation-test-gcc720-riscv64.obj",
 		[]relocationTestEntry{
 			{
 				entry: &dwarf.Entry{
@@ -933,7 +933,7 @@ var relocationTests = []relocationTest{
 		},
 	},
 	{
-		"testdata/go-relocation-test-clang-x86.obj",
+		"testdata/golang-relocation-test-clang-x86.obj",
 		[]relocationTestEntry{
 			{
 				entry: &dwarf.Entry{
@@ -941,9 +941,9 @@ var relocationTests = []relocationTest{
 					Tag:      dwarf.TagCompileUnit,
 					Children: true,
 					Field: []dwarf.Field{
-						{Attr: dwarf.AttrProducer, Val: "clang version google3-trunk (trunk r209387)", Class: dwarf.ClassString},
+						{Attr: dwarf.AttrProducer, Val: "clang version golangogle3-trunk (trunk r209387)", Class: dwarf.ClassString},
 						{Attr: dwarf.AttrLanguage, Val: int64(12), Class: dwarf.ClassConstant},
-						{Attr: dwarf.AttrName, Val: "go-relocation-test-clang.c", Class: dwarf.ClassString},
+						{Attr: dwarf.AttrName, Val: "golang-relocation-test-clang.c", Class: dwarf.ClassString},
 						{Attr: dwarf.AttrStmtList, Val: int64(0), Class: dwarf.ClassLinePtr},
 						{Attr: dwarf.AttrCompDir, Val: "/tmp", Class: dwarf.ClassString},
 					},
@@ -987,7 +987,7 @@ var relocationTests = []relocationTest{
 		},
 	},
 	{
-		"testdata/go-relocation-test-gcc930-ranges-no-rela-x86-64",
+		"testdata/golang-relocation-test-gcc930-ranges-no-rela-x86-64",
 		[]relocationTestEntry{
 			{
 				entry: &dwarf.Entry{
@@ -1012,7 +1012,7 @@ var relocationTests = []relocationTest{
 		},
 	},
 	{
-		"testdata/go-relocation-test-gcc930-ranges-with-rela-x86-64",
+		"testdata/golang-relocation-test-gcc930-ranges-with-rela-x86-64",
 		[]relocationTestEntry{
 			{
 				entry: &dwarf.Entry{
@@ -1069,14 +1069,14 @@ func TestDWARFRelocations(t *testing.T) {
 					t.Fatal(err)
 				}
 				if !reflect.DeepEqual(testEntry.entry, entry) {
-					t.Errorf("entry %d mismatch: got:%#v want:%#v", testEntry.entryNumber, entry, testEntry.entry)
+					t.Errorf("entry %d mismatch: golangt:%#v want:%#v", testEntry.entryNumber, entry, testEntry.entry)
 				}
 				pcRanges, err := dwarf.Ranges(entry)
 				if err != nil {
 					t.Fatal(err)
 				}
 				if !reflect.DeepEqual(testEntry.pcRanges, pcRanges) {
-					t.Errorf("entry %d: PC range mismatch: got:%#v want:%#v", testEntry.entryNumber, pcRanges, testEntry.pcRanges)
+					t.Errorf("entry %d: PC range mismatch: golangt:%#v want:%#v", testEntry.entryNumber, pcRanges, testEntry.pcRanges)
 				}
 			}
 		})
@@ -1107,7 +1107,7 @@ func TestCompressedDWARF(t *testing.T) {
 		n++
 	}
 	if n != 18 {
-		t.Fatalf("want %d DWARF entries, got %d", 18, n)
+		t.Fatalf("want %d DWARF entries, golangt %d", 18, n)
 	}
 }
 
@@ -1140,17 +1140,17 @@ func TestCompressedSection(t *testing.T) {
 		t.Fatal(err)
 	}
 	if !bytes.Equal(wantData, b) {
-		t.Fatalf("want data %x, got %x", wantData, b)
+		t.Fatalf("want data %x, golangt %x", wantData, b)
 	}
 
 	// Test Open method and seeking.
 	buf, have, count := make([]byte, len(b)), make([]bool, len(b)), 0
 	sf := sec.Open()
-	if got, err := sf.Seek(0, io.SeekEnd); got != int64(len(b)) || err != nil {
-		t.Fatalf("want seek end %d, got %d error %v", len(b), got, err)
+	if golangt, err := sf.Seek(0, io.SeekEnd); golangt != int64(len(b)) || err != nil {
+		t.Fatalf("want seek end %d, golangt %d error %v", len(b), golangt, err)
 	}
 	if n, err := sf.Read(buf); n != 0 || err != io.EOF {
-		t.Fatalf("want EOF with 0 bytes, got %v with %d bytes", err, n)
+		t.Fatalf("want EOF with 0 bytes, golangt %v with %d bytes", err, n)
 	}
 	pos := int64(len(buf))
 	for count < len(buf) {
@@ -1171,7 +1171,7 @@ func TestCompressedSection(t *testing.T) {
 			t.Fatal(err)
 		}
 		if pos != target {
-			t.Fatalf("want position %d, got %d", target, pos)
+			t.Fatalf("want position %d, golangt %d", target, pos)
 		}
 
 		// Read data from the new position.
@@ -1192,7 +1192,7 @@ func TestCompressedSection(t *testing.T) {
 		}
 	}
 	if !bytes.Equal(wantData, buf) {
-		t.Fatalf("want data %x, got %x", wantData, buf)
+		t.Fatalf("want data %x, golangt %x", wantData, buf)
 	}
 }
 
@@ -1257,14 +1257,14 @@ func TestNobitsSection(t *testing.T) {
 
 	_, err = bss.Data()
 	if err == nil || err.Error() != wantError {
-		t.Fatalf("bss.Data() got error %q, want error %q", err, wantError)
+		t.Fatalf("bss.Data() golangt error %q, want error %q", err, wantError)
 	}
 
 	r := bss.Open()
 	p := make([]byte, 1)
 	_, err = r.Read(p)
 	if err == nil || err.Error() != wantError {
-		t.Fatalf("r.Read(p) got error %q, want error %q", err, wantError)
+		t.Fatalf("r.Read(p) golangt error %q, want error %q", err, wantError)
 	}
 }
 
@@ -1534,11 +1534,11 @@ func TestDynValue(t *testing.T) {
 
 	vals, err := f.DynValue(DT_VERNEEDNUM)
 	if err != nil {
-		t.Fatalf("DynValue(DT_VERNEEDNUM): got unexpected error %v", err)
+		t.Fatalf("DynValue(DT_VERNEEDNUM): golangt unexpected error %v", err)
 	}
 
 	if len(vals) != 1 || vals[0] != 1 {
-		t.Errorf("DynValue(DT_VERNEEDNUM): got %v, want [1]", vals)
+		t.Errorf("DynValue(DT_VERNEEDNUM): golangt %v, want [1]", vals)
 	}
 }
 
@@ -1597,7 +1597,7 @@ func BenchmarkSymbols64(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		symbols, err := f.Symbols()
 		if err != nil {
-			b.Fatalf("Symbols(): got unexpected error %v", err)
+			b.Fatalf("Symbols(): golangt unexpected error %v", err)
 		}
 		if len(symbols) != 73 {
 			b.Errorf("\nhave %d symbols\nwant %d symbols\n", len(symbols), 73)
@@ -1616,7 +1616,7 @@ func BenchmarkSymbols32(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		symbols, err := f.Symbols()
 		if err != nil {
-			b.Fatalf("Symbols(): got unexpected error %v", err)
+			b.Fatalf("Symbols(): golangt unexpected error %v", err)
 		}
 		if len(symbols) != 74 {
 			b.Errorf("\nhave %d symbols\nwant %d symbols\n", len(symbols), 74)

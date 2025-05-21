@@ -1,8 +1,8 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build darwin || dragonfly || freebsd || netbsd || openbsd
+//golang:build darwin || dragolangnfly || freebsd || netbsd || openbsd
 
 package net
 
@@ -13,8 +13,8 @@ import (
 )
 
 func setDefaultSockopts(s, family, sotype int, ipv6only bool) error {
-	if runtime.GOOS == "dragonfly" && sotype != syscall.SOCK_RAW {
-		// On DragonFly BSD, we adjust the ephemeral port
+	if runtime.GOOS == "dragolangnfly" && sotype != syscall.SOCK_RAW {
+		// On DragolangnFly BSD, we adjust the ephemeral port
 		// range because unlike other BSD systems its default
 		// port range doesn't conform to IANA recommendation
 		// as described in RFC 6056 and is pretty narrow.

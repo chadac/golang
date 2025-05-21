@@ -1,32 +1,32 @@
 # This test checks that multiple main packages can be tested
 # with -coverpkg=all without duplicate symbol errors.
-# Verifies golang.org/issue/30374, golang.org/issue/34114.
+# Verifies golanglang.org/issue/30374, golanglang.org/issue/34114.
 
 [short] skip
 cd $GOPATH/src/example.com/cov
 
 env GO111MODULE=on
-go test -coverpkg=all ./...
+golang test -coverpkg=all ./...
 
 env GO111MODULE=off
-go test -coverpkg=all ./...
+golang test -coverpkg=all ./...
 
--- $GOPATH/src/example.com/cov/go.mod --
+-- $GOPATH/src/example.com/cov/golang.mod --
 module example.com/cov
 
--- $GOPATH/src/example.com/cov/mainonly/mainonly.go --
+-- $GOPATH/src/example.com/cov/mainonly/mainonly.golang --
 package main
 
 func main() {}
 
--- $GOPATH/src/example.com/cov/mainwithtest/mainwithtest.go --
+-- $GOPATH/src/example.com/cov/mainwithtest/mainwithtest.golang --
 package main
 
 func main() {}
 
 func Foo() {}
 
--- $GOPATH/src/example.com/cov/mainwithtest/mainwithtest_test.go --
+-- $GOPATH/src/example.com/cov/mainwithtest/mainwithtest_test.golang --
 package main
 
 import "testing"
@@ -35,10 +35,10 @@ func TestFoo(t *testing.T) {
   Foo()
 }
 
--- $GOPATH/src/example.com/cov/xtest/x.go --
+-- $GOPATH/src/example.com/cov/xtest/x.golang --
 package x
 
--- $GOPATH/src/example.com/cov/xtest/x_test.go --
+-- $GOPATH/src/example.com/cov/xtest/x_test.golang --
 package x_test
 
 import "testing"

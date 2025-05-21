@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package language
@@ -10,7 +10,7 @@ import (
 	"fmt"
 	"sort"
 
-	"golang.org/x/text/internal/tag"
+	"golanglang.org/x/text/internal/tag"
 )
 
 // isAlpha returns true if the byte is not a digit.
@@ -153,9 +153,9 @@ func (s *scanner) replace(repl string) {
 	copy(s.b[s.start:], repl)
 }
 
-// gobble removes the current token from the input.
-// Caller must call scan after calling gobble.
-func (s *scanner) gobble(e error) {
+// golangbble removes the current token from the input.
+// Caller must call scan after calling golangbble.
+func (s *scanner) golangbble(e error) {
 	s.setError(e)
 	if s.start == 0 {
 		s.b = s.b[:+copy(s.b, s.b[s.next:])]
@@ -178,7 +178,7 @@ func (s *scanner) deleteRange(start, end int) {
 
 // scan parses the next token of a BCP 47 string.  Tokens that are larger
 // than 8 characters or include non-alphanumeric characters result in an error
-// and are gobbled and removed from the output.
+// and are golangbbled and removed from the output.
 // It returns the end position of the last token consumed.
 func (s *scanner) scan() (end int) {
 	end = s.end
@@ -195,7 +195,7 @@ func (s *scanner) scan() (end int) {
 		}
 		token := s.b[s.start:s.end]
 		if i < 1 || i > 8 || !isAlphaNum(token) {
-			s.gobble(ErrSyntax)
+			s.golangbble(ErrSyntax)
 			continue
 		}
 		s.token = token
@@ -317,21 +317,21 @@ func parseTag(scan *scanner, doNorm bool) (t Tag, end int) {
 				scan.b[langStart+len(langStr)] = '-'
 				scan.start = langStart + len(langStr) + 1
 			}
-			scan.gobble(e)
+			scan.golangbble(e)
 		}
 		end = scan.scan()
 	}
 	if len(scan.token) == 4 && isAlpha(scan.token[0]) {
 		t.ScriptID, e = getScriptID(script, scan.token)
 		if t.ScriptID == 0 {
-			scan.gobble(e)
+			scan.golangbble(e)
 		}
 		end = scan.scan()
 	}
 	if n := len(scan.token); n >= 2 && n <= 3 {
 		t.RegionID, e = getRegionID(scan.token)
 		if t.RegionID == 0 {
-			scan.gobble(e)
+			scan.golangbble(e)
 		} else {
 			scan.replace(t.RegionID.String())
 		}
@@ -363,7 +363,7 @@ func parseVariants(scan *scanner, end int, t Tag) int {
 		if !ok {
 			// unknown variant
 			// TODO: allow user-defined variants?
-			scan.gobble(NewValueError(scan.token))
+			scan.golangbble(NewValueError(scan.token))
 			continue
 		}
 		varID = append(varID, v)

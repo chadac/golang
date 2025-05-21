@@ -3,18 +3,18 @@ env GO111MODULE=off
 cd m
 
 # Import comment matches
-go build -n works.go
+golang build -n works.golang
 
 # Import comment mismatch
-! go build -n wrongplace.go
+! golang build -n wrongplace.golang
 stderr 'wrongplace expects import "my/x"'
 
 # Import comment syntax error
-! go build -n bad.go
+! golang build -n bad.golang
 stderr 'cannot parse import comment'
 
 # Import comment conflict
-! go build -n conflict.go
+! golang build -n conflict.golang
 stderr 'found import comments'
 
 
@@ -23,46 +23,46 @@ stderr 'found import comments'
 env GO111MODULE=on
 
 # Import comment matches
-go build -n works.go
+golang build -n works.golang
 
 # Import comment mismatch
-go build -n wrongplace.go
+golang build -n wrongplace.golang
 
 # Import comment syntax error
-go build -n bad.go
+golang build -n bad.golang
 
 # Import comment conflict
-go build -n conflict.go
+golang build -n conflict.golang
 
--- m/go.mod --
+-- m/golang.mod --
 module m
 
-go 1.16
--- m/bad.go --
+golang 1.16
+-- m/bad.golang --
 package p
 
 import "m/bad"
--- m/conflict.go --
+-- m/conflict.golang --
 package p
 
 import "m/conflict"
--- m/works.go --
+-- m/works.golang --
 package p
 
 import _ "m/works/x"
--- m/wrongplace.go --
+-- m/wrongplace.golang --
 package p
 
 import "m/wrongplace"
--- m/bad/bad.go --
+-- m/bad/bad.golang --
 package bad // import
--- m/conflict/a.go --
+-- m/conflict/a.golang --
 package conflict // import "a"
--- m/conflict/b.go --
+-- m/conflict/b.golang --
 package conflict /* import "b" */
--- m/works/x/x.go --
+-- m/works/x/x.golang --
 package x // import "m/works/x"
--- m/works/x/x1.go --
+-- m/works/x/x1.golang --
 package x // important! not an import comment
--- m/wrongplace/x.go --
+-- m/wrongplace/x.golang --
 package x // import "my/x"

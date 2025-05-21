@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package testgen
@@ -153,7 +153,7 @@ func (t *Trace) createEvent(ev tracev2.EventType, data []byte, args ...uint64) r
 	spec := t.specs[ev]
 	if ev != tracev2.EvStack {
 		if arity := len(spec.Args); len(args) != arity {
-			panic(fmt.Sprintf("expected %d args for %s, got %d", arity, spec.Name, len(args)))
+			panic(fmt.Sprintf("expected %d args for %s, golangt %d", arity, spec.Name, len(args)))
 		}
 	}
 	return raw.Event{
@@ -239,13 +239,13 @@ func (g *Generation) Stack(stk []trace.StackFrame) uint64 {
 	return id
 }
 
-// Sync configures the sync batch for the generation. For go1.25 and later,
+// Sync configures the sync batch for the generation. For golang1.25 and later,
 // the time value is the timestamp of the EvClockSnapshot event. For earlier
 // version, the time value is the timestamp of the batch containing a lone
 // EvFrequency event.
 func (g *Generation) Sync(freq uint64, time Time, mono uint64, wall time.Time) {
 	if g.trace.ver < version.Go125 && (mono != 0 || !wall.IsZero()) {
-		panic(fmt.Sprintf("mono and wall args are not supported in go1.%d traces", g.trace.ver))
+		panic(fmt.Sprintf("mono and wall args are not supported in golang1.%d traces", g.trace.ver))
 	}
 	g.sync = sync{
 		freq:     freq,
@@ -264,7 +264,7 @@ type sync struct {
 
 // writeEventsTo emits event batches in the generation to tw.
 func (g *Generation) writeEventsTo(tw *raw.TextWriter) {
-	// go1.25+ sync batches are emitted at the start of the generation.
+	// golang1.25+ sync batches are emitted at the start of the generation.
 	if g.trace.ver >= version.Go125 {
 		b := g.newStructuralBatch()
 		// Arrange for EvClockSnapshot's ts to be exactly g.sync.time.
@@ -360,7 +360,7 @@ func (b *Batch) Event(name string, args ...any) {
 	}
 	spec := b.gen.trace.specs[ev]
 	if arity := len(spec.Args) - argOff; len(args) != arity {
-		panic(fmt.Sprintf("expected %d args for %s, got %d", arity, spec.Name, len(args)))
+		panic(fmt.Sprintf("expected %d args for %s, golangt %d", arity, spec.Name, len(args)))
 	}
 	for i, arg := range args {
 		uintArgs = append(uintArgs, b.uintArgFor(arg, spec.Args[i+argOff]))

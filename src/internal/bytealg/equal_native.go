@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package bytealg
@@ -14,8 +14,8 @@ import "unsafe"
 // In addition, the runtime calls runtime.memequal explicitly.
 // Those functions are implemented in this package.
 
-//go:linkname abigen_runtime_memequal runtime.memequal
+//golang:linkname abigen_runtime_memequal runtime.memequal
 func abigen_runtime_memequal(a, b unsafe.Pointer, size uintptr) bool
 
-//go:linkname abigen_runtime_memequal_varlen runtime.memequal_varlen
+//golang:linkname abigen_runtime_memequal_varlen runtime.memequal_varlen
 func abigen_runtime_memequal_varlen(a, b unsafe.Pointer) bool

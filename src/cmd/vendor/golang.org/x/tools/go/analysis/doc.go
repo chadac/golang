@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 /*
@@ -17,7 +17,7 @@ fmt.Printf format strings.
 
 A "modular" analysis is one that inspects one package at a time but can
 save information from a lower-level package and use it when inspecting a
-higher-level package, analogous to separate compilation in a toolchain.
+higher-level package, analogolangus to separate compilation in a toolchain.
 The printf checker is modular: when it discovers that a function such as
 log.Fatalf delegates to fmt.Printf, it records this fact, and checks
 calls to that function too, including calls made from another package.
@@ -25,9 +25,9 @@ calls to that function too, including calls made from another package.
 By implementing a common interface, checkers from a variety of sources
 can be easily selected, incorporated, and reused in a wide range of
 driver programs including command-line tools (such as vet), text editors and
-IDEs, build and test systems (such as go build, Bazel, or Buck), test
+IDEs, build and test systems (such as golang build, Bazel, or Buck), test
 frameworks, code review tools, code-base indexers (such as SourceGraph),
-documentation viewers (such as godoc), batch pipelines for large code
+documentation viewers (such as golangdoc), batch pipelines for large code
 bases, and so on.
 
 # Analyzer
@@ -38,7 +38,7 @@ relationship to other analyzers, and of course, its logic.
 
 To define an analysis, a user declares a (logically constant) variable
 of type Analyzer. Here is a typical example from one of the analyzers in
-the go/analysis/passes/ subdirectory:
+the golang/analysis/passes/ subdirectory:
 
 	package unusedresult
 
@@ -151,7 +151,7 @@ available in this map. Each Analyzer must return a value of the type
 described in its Analyzer.ResultType field.
 For example, the "ctrlflow" analyzer returns a *ctrlflow.CFGs, which
 provides a control-flow graph for each function in the package (see
-golang.org/x/tools/go/cfg); the "inspect" analyzer returns a value that
+golanglang.org/x/tools/golang/cfg); the "inspect" analyzer returns a value that
 enables other Analyzers to traverse the syntax trees of the package more
 efficiently; and the "buildssa" analyzer constructs an SSA-form
 intermediate representation.
@@ -168,11 +168,11 @@ Diagnostic is defined as:
 
 	type Diagnostic struct {
 		Pos      token.Pos
-		Category string // optional
+		Categolangry string // optional
 		Message  string
 	}
 
-The optional Category field is a short identifier that classifies the
+The optional Categolangry field is a short identifier that classifies the
 kind of message when an analysis produces several kinds of diagnostic.
 
 The [Diagnostic] struct does not have a field to indicate its severity
@@ -181,7 +181,7 @@ diagnostics vary widely among users. The design of this framework does
 not hold each Analyzer responsible for identifying the severity of its
 diagnostics. Instead, we expect that drivers will allow the user to
 customize the filtering and prioritization of diagnostics based on the
-producing Analyzer and optional Category, according to the user's
+producing Analyzer and optional Categolangry, according to the user's
 preferences.
 
 Most Analyzers inspect typed Go syntax trees, but a few, such as asmdecl
@@ -236,13 +236,13 @@ The driver program ensures that facts for a pass’s dependencies are
 generated before analyzing the package and is responsible for propagating
 facts from one package to another, possibly across address spaces.
 Consequently, Facts must be serializable. The API requires that drivers
-use the gob encoding, an efficient, robust, self-describing binary
+use the golangb encoding, an efficient, robust, self-describing binary
 protocol. A fact type may implement the GobEncoder/GobDecoder interfaces
 if the default encoding is unsuitable. Facts should be stateless.
-Because serialized facts may appear within build outputs, the gob encoding
+Because serialized facts may appear within build outputs, the golangb encoding
 of a fact must be deterministic, to avoid spurious cache misses in
 build systems that use content-addressable caches.
-The driver makes a single call to the gob encoder for all facts
+The driver makes a single call to the golangb encoder for all facts
 exported by a given analysis pass, so that the topology of
 shared data structures referenced by multiple facts is preserved.
 
@@ -298,15 +298,15 @@ singlechecker and multichecker subpackages.
 
 The singlechecker package provides the main function for a command that
 runs one analyzer. By convention, each analyzer such as
-go/analysis/passes/findcall should be accompanied by a singlechecker-based
-command such as go/analysis/passes/findcall/cmd/findcall, defined in its
+golang/analysis/passes/findcall should be accompanied by a singlechecker-based
+command such as golang/analysis/passes/findcall/cmd/findcall, defined in its
 entirety as:
 
 	package main
 
 	import (
-		"golang.org/x/tools/go/analysis/passes/findcall"
-		"golang.org/x/tools/go/analysis/singlechecker"
+		"golanglang.org/x/tools/golang/analysis/passes/findcall"
+		"golanglang.org/x/tools/golang/analysis/singlechecker"
 	)
 
 	func main() { singlechecker.Main(findcall.Analyzer) }

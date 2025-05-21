@@ -1,5 +1,5 @@
-// created by cgo -cdefs and then converted to Go
-// cgo -cdefs defs2_linux.go
+// created by cgolang -cdefs and then converted to Go
+// cgolang -cdefs defs2_linux.golang
 
 package runtime
 
@@ -141,7 +141,7 @@ type timespec struct {
 	tv_nsec int32
 }
 
-//go:nosplit
+//golang:nosplit
 func (ts *timespec) setNsec(ns int64) {
 	ts.tv_sec = timediv(ns, 1e9, &ts.tv_nsec)
 }

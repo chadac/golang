@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
@@ -16,57 +16,57 @@ const (
 	_NSIG = 65
 )
 
-//go:cgo_import_dynamic runtime._AddVectoredContinueHandler AddVectoredContinueHandler%2 "kernel32.dll"
-//go:cgo_import_dynamic runtime._AddVectoredExceptionHandler AddVectoredExceptionHandler%2 "kernel32.dll"
-//go:cgo_import_dynamic runtime._CloseHandle CloseHandle%1 "kernel32.dll"
-//go:cgo_import_dynamic runtime._CreateEventA CreateEventA%4 "kernel32.dll"
-//go:cgo_import_dynamic runtime._CreateIoCompletionPort CreateIoCompletionPort%4 "kernel32.dll"
-//go:cgo_import_dynamic runtime._CreateThread CreateThread%6 "kernel32.dll"
-//go:cgo_import_dynamic runtime._CreateWaitableTimerA CreateWaitableTimerA%3 "kernel32.dll"
-//go:cgo_import_dynamic runtime._CreateWaitableTimerExW CreateWaitableTimerExW%4 "kernel32.dll"
-//go:cgo_import_dynamic runtime._DuplicateHandle DuplicateHandle%7 "kernel32.dll"
-//go:cgo_import_dynamic runtime._ExitProcess ExitProcess%1 "kernel32.dll"
-//go:cgo_import_dynamic runtime._FreeEnvironmentStringsW FreeEnvironmentStringsW%1 "kernel32.dll"
-//go:cgo_import_dynamic runtime._GetConsoleMode GetConsoleMode%2 "kernel32.dll"
-//go:cgo_import_dynamic runtime._GetCurrentThreadId GetCurrentThreadId%0 "kernel32.dll"
-//go:cgo_import_dynamic runtime._GetEnvironmentStringsW GetEnvironmentStringsW%0 "kernel32.dll"
-//go:cgo_import_dynamic runtime._GetErrorMode GetErrorMode%0 "kernel32.dll"
-//go:cgo_import_dynamic runtime._GetProcAddress GetProcAddress%2 "kernel32.dll"
-//go:cgo_import_dynamic runtime._GetProcessAffinityMask GetProcessAffinityMask%3 "kernel32.dll"
-//go:cgo_import_dynamic runtime._GetQueuedCompletionStatusEx GetQueuedCompletionStatusEx%6 "kernel32.dll"
-//go:cgo_import_dynamic runtime._GetStdHandle GetStdHandle%1 "kernel32.dll"
-//go:cgo_import_dynamic runtime._GetSystemDirectoryA GetSystemDirectoryA%2 "kernel32.dll"
-//go:cgo_import_dynamic runtime._GetSystemInfo GetSystemInfo%1 "kernel32.dll"
-//go:cgo_import_dynamic runtime._GetThreadContext GetThreadContext%2 "kernel32.dll"
-//go:cgo_import_dynamic runtime._SetThreadContext SetThreadContext%2 "kernel32.dll"
-//go:cgo_import_dynamic runtime._LoadLibraryExW LoadLibraryExW%3 "kernel32.dll"
-//go:cgo_import_dynamic runtime._LoadLibraryW LoadLibraryW%1 "kernel32.dll"
-//go:cgo_import_dynamic runtime._PostQueuedCompletionStatus PostQueuedCompletionStatus%4 "kernel32.dll"
-//go:cgo_import_dynamic runtime._QueryPerformanceCounter QueryPerformanceCounter%1 "kernel32.dll"
-//go:cgo_import_dynamic runtime._QueryPerformanceFrequency QueryPerformanceFrequency%1 "kernel32.dll"
-//go:cgo_import_dynamic runtime._RaiseFailFastException RaiseFailFastException%3 "kernel32.dll"
-//go:cgo_import_dynamic runtime._ResumeThread ResumeThread%1 "kernel32.dll"
-//go:cgo_import_dynamic runtime._RtlLookupFunctionEntry RtlLookupFunctionEntry%3 "kernel32.dll"
-//go:cgo_import_dynamic runtime._RtlVirtualUnwind  RtlVirtualUnwind%8 "kernel32.dll"
-//go:cgo_import_dynamic runtime._SetConsoleCtrlHandler SetConsoleCtrlHandler%2 "kernel32.dll"
-//go:cgo_import_dynamic runtime._SetErrorMode SetErrorMode%1 "kernel32.dll"
-//go:cgo_import_dynamic runtime._SetEvent SetEvent%1 "kernel32.dll"
-//go:cgo_import_dynamic runtime._SetProcessPriorityBoost SetProcessPriorityBoost%2 "kernel32.dll"
-//go:cgo_import_dynamic runtime._SetThreadPriority SetThreadPriority%2 "kernel32.dll"
-//go:cgo_import_dynamic runtime._SetUnhandledExceptionFilter SetUnhandledExceptionFilter%1 "kernel32.dll"
-//go:cgo_import_dynamic runtime._SetWaitableTimer SetWaitableTimer%6 "kernel32.dll"
-//go:cgo_import_dynamic runtime._SuspendThread SuspendThread%1 "kernel32.dll"
-//go:cgo_import_dynamic runtime._SwitchToThread SwitchToThread%0 "kernel32.dll"
-//go:cgo_import_dynamic runtime._TlsAlloc TlsAlloc%0 "kernel32.dll"
-//go:cgo_import_dynamic runtime._VirtualAlloc VirtualAlloc%4 "kernel32.dll"
-//go:cgo_import_dynamic runtime._VirtualFree VirtualFree%3 "kernel32.dll"
-//go:cgo_import_dynamic runtime._VirtualQuery VirtualQuery%3 "kernel32.dll"
-//go:cgo_import_dynamic runtime._WaitForSingleObject WaitForSingleObject%2 "kernel32.dll"
-//go:cgo_import_dynamic runtime._WaitForMultipleObjects WaitForMultipleObjects%4 "kernel32.dll"
-//go:cgo_import_dynamic runtime._WerGetFlags WerGetFlags%2 "kernel32.dll"
-//go:cgo_import_dynamic runtime._WerSetFlags WerSetFlags%1 "kernel32.dll"
-//go:cgo_import_dynamic runtime._WriteConsoleW WriteConsoleW%5 "kernel32.dll"
-//go:cgo_import_dynamic runtime._WriteFile WriteFile%5 "kernel32.dll"
+//golang:cgolang_import_dynamic runtime._AddVectoredContinueHandler AddVectoredContinueHandler%2 "kernel32.dll"
+//golang:cgolang_import_dynamic runtime._AddVectoredExceptionHandler AddVectoredExceptionHandler%2 "kernel32.dll"
+//golang:cgolang_import_dynamic runtime._CloseHandle CloseHandle%1 "kernel32.dll"
+//golang:cgolang_import_dynamic runtime._CreateEventA CreateEventA%4 "kernel32.dll"
+//golang:cgolang_import_dynamic runtime._CreateIoCompletionPort CreateIoCompletionPort%4 "kernel32.dll"
+//golang:cgolang_import_dynamic runtime._CreateThread CreateThread%6 "kernel32.dll"
+//golang:cgolang_import_dynamic runtime._CreateWaitableTimerA CreateWaitableTimerA%3 "kernel32.dll"
+//golang:cgolang_import_dynamic runtime._CreateWaitableTimerExW CreateWaitableTimerExW%4 "kernel32.dll"
+//golang:cgolang_import_dynamic runtime._DuplicateHandle DuplicateHandle%7 "kernel32.dll"
+//golang:cgolang_import_dynamic runtime._ExitProcess ExitProcess%1 "kernel32.dll"
+//golang:cgolang_import_dynamic runtime._FreeEnvironmentStringsW FreeEnvironmentStringsW%1 "kernel32.dll"
+//golang:cgolang_import_dynamic runtime._GetConsoleMode GetConsoleMode%2 "kernel32.dll"
+//golang:cgolang_import_dynamic runtime._GetCurrentThreadId GetCurrentThreadId%0 "kernel32.dll"
+//golang:cgolang_import_dynamic runtime._GetEnvironmentStringsW GetEnvironmentStringsW%0 "kernel32.dll"
+//golang:cgolang_import_dynamic runtime._GetErrorMode GetErrorMode%0 "kernel32.dll"
+//golang:cgolang_import_dynamic runtime._GetProcAddress GetProcAddress%2 "kernel32.dll"
+//golang:cgolang_import_dynamic runtime._GetProcessAffinityMask GetProcessAffinityMask%3 "kernel32.dll"
+//golang:cgolang_import_dynamic runtime._GetQueuedCompletionStatusEx GetQueuedCompletionStatusEx%6 "kernel32.dll"
+//golang:cgolang_import_dynamic runtime._GetStdHandle GetStdHandle%1 "kernel32.dll"
+//golang:cgolang_import_dynamic runtime._GetSystemDirectoryA GetSystemDirectoryA%2 "kernel32.dll"
+//golang:cgolang_import_dynamic runtime._GetSystemInfo GetSystemInfo%1 "kernel32.dll"
+//golang:cgolang_import_dynamic runtime._GetThreadContext GetThreadContext%2 "kernel32.dll"
+//golang:cgolang_import_dynamic runtime._SetThreadContext SetThreadContext%2 "kernel32.dll"
+//golang:cgolang_import_dynamic runtime._LoadLibraryExW LoadLibraryExW%3 "kernel32.dll"
+//golang:cgolang_import_dynamic runtime._LoadLibraryW LoadLibraryW%1 "kernel32.dll"
+//golang:cgolang_import_dynamic runtime._PostQueuedCompletionStatus PostQueuedCompletionStatus%4 "kernel32.dll"
+//golang:cgolang_import_dynamic runtime._QueryPerformanceCounter QueryPerformanceCounter%1 "kernel32.dll"
+//golang:cgolang_import_dynamic runtime._QueryPerformanceFrequency QueryPerformanceFrequency%1 "kernel32.dll"
+//golang:cgolang_import_dynamic runtime._RaiseFailFastException RaiseFailFastException%3 "kernel32.dll"
+//golang:cgolang_import_dynamic runtime._ResumeThread ResumeThread%1 "kernel32.dll"
+//golang:cgolang_import_dynamic runtime._RtlLookupFunctionEntry RtlLookupFunctionEntry%3 "kernel32.dll"
+//golang:cgolang_import_dynamic runtime._RtlVirtualUnwind  RtlVirtualUnwind%8 "kernel32.dll"
+//golang:cgolang_import_dynamic runtime._SetConsoleCtrlHandler SetConsoleCtrlHandler%2 "kernel32.dll"
+//golang:cgolang_import_dynamic runtime._SetErrorMode SetErrorMode%1 "kernel32.dll"
+//golang:cgolang_import_dynamic runtime._SetEvent SetEvent%1 "kernel32.dll"
+//golang:cgolang_import_dynamic runtime._SetProcessPriorityBoost SetProcessPriorityBoost%2 "kernel32.dll"
+//golang:cgolang_import_dynamic runtime._SetThreadPriority SetThreadPriority%2 "kernel32.dll"
+//golang:cgolang_import_dynamic runtime._SetUnhandledExceptionFilter SetUnhandledExceptionFilter%1 "kernel32.dll"
+//golang:cgolang_import_dynamic runtime._SetWaitableTimer SetWaitableTimer%6 "kernel32.dll"
+//golang:cgolang_import_dynamic runtime._SuspendThread SuspendThread%1 "kernel32.dll"
+//golang:cgolang_import_dynamic runtime._SwitchToThread SwitchToThread%0 "kernel32.dll"
+//golang:cgolang_import_dynamic runtime._TlsAlloc TlsAlloc%0 "kernel32.dll"
+//golang:cgolang_import_dynamic runtime._VirtualAlloc VirtualAlloc%4 "kernel32.dll"
+//golang:cgolang_import_dynamic runtime._VirtualFree VirtualFree%3 "kernel32.dll"
+//golang:cgolang_import_dynamic runtime._VirtualQuery VirtualQuery%3 "kernel32.dll"
+//golang:cgolang_import_dynamic runtime._WaitForSingleObject WaitForSingleObject%2 "kernel32.dll"
+//golang:cgolang_import_dynamic runtime._WaitForMultipleObjects WaitForMultipleObjects%4 "kernel32.dll"
+//golang:cgolang_import_dynamic runtime._WerGetFlags WerGetFlags%2 "kernel32.dll"
+//golang:cgolang_import_dynamic runtime._WerSetFlags WerSetFlags%1 "kernel32.dll"
+//golang:cgolang_import_dynamic runtime._WriteConsoleW WriteConsoleW%5 "kernel32.dll"
+//golang:cgolang_import_dynamic runtime._WriteFile WriteFile%5 "kernel32.dll"
 
 type stdFunction unsafe.Pointer
 
@@ -131,7 +131,7 @@ var (
 	_ProcessPrng stdFunction
 
 	// Load ntdll.dll manually during startup, otherwise Mingw
-	// links wrong printf function to cgo executable (see issue
+	// links wrong printf function to cgolang executable (see issue
 	// 12030 for details).
 	_NtCreateWaitCompletionPacket    stdFunction
 	_NtAssociateWaitCompletionPacket stdFunction
@@ -239,7 +239,7 @@ func initSysDirectory() {
 	sysDirectoryLen = l + 1
 }
 
-//go:linkname windows_GetSystemDirectory internal/syscall/windows.GetSystemDirectory
+//golang:linkname windows_GetSystemDirectory internal/syscall/windows.GetSystemDirectory
 func windows_GetSystemDirectory() string {
 	return unsafe.String(&sysDirectory[0], sysDirectoryLen)
 }
@@ -248,14 +248,14 @@ func windowsLoadSystemLib(name []uint16) uintptr {
 	return stdcall3(_LoadLibraryExW, uintptr(unsafe.Pointer(&name[0])), 0, _LOAD_LIBRARY_SEARCH_SYSTEM32)
 }
 
-//go:linkname windows_QueryPerformanceCounter internal/syscall/windows.QueryPerformanceCounter
+//golang:linkname windows_QueryPerformanceCounter internal/syscall/windows.QueryPerformanceCounter
 func windows_QueryPerformanceCounter() int64 {
 	var counter int64
 	stdcall1(_QueryPerformanceCounter, uintptr(unsafe.Pointer(&counter)))
 	return counter
 }
 
-//go:linkname windows_QueryPerformanceFrequency internal/syscall/windows.QueryPerformanceFrequency
+//golang:linkname windows_QueryPerformanceFrequency internal/syscall/windows.QueryPerformanceFrequency
 func windows_QueryPerformanceFrequency() int64 {
 	var frequency int64
 	stdcall1(_QueryPerformanceFrequency, uintptr(unsafe.Pointer(&frequency)))
@@ -408,7 +408,7 @@ var haveHighResSleep = false
 func createHighResTimer() uintptr {
 	const (
 		// As per @jstarks, see
-		// https://github.com/golang/go/issues/8687#issuecomment-656259353
+		// https://github.com/golanglang/golang/issues/8687#issuecomment-656259353
 		_CREATE_WAITABLE_TIMER_HIGH_RESOLUTION = 0x00000002
 
 		_SYNCHRONIZE        = 0x00100000
@@ -444,7 +444,7 @@ func initHighResTimer() {
 	}
 }
 
-//go:linkname canUseLongPaths internal/syscall/windows.CanUseLongPaths
+//golang:linkname canUseLongPaths internal/syscall/windows.CanUseLongPaths
 var canUseLongPaths bool
 
 // initLongPathSupport enables long path support.
@@ -497,7 +497,7 @@ func osinit() {
 	stdcall2(_SetProcessPriorityBoost, currentProcess, 1)
 }
 
-//go:nosplit
+//golang:nosplit
 func readRandom(r []byte) int {
 	n := 0
 	if stdcall2(_ProcessPrng, uintptr(unsafe.Pointer(&r[0])), uintptr(len(r)))&0xff != 0 {
@@ -506,7 +506,7 @@ func readRandom(r []byte) int {
 	return n
 }
 
-func goenvs() {
+func golangenvs() {
 	// strings is a pointer to environment variable pairs in the form:
 	//     "envA=valA\x00envB=valB\x00\x00" (in UTF-16)
 	// Two consecutive zero bytes end the list.
@@ -527,7 +527,7 @@ func goenvs() {
 	envs = make([]string, n)
 
 	for i := range envs {
-		envs[i] = gostringw(&p[0])
+		envs[i] = golangstringw(&p[0])
 		for p[0] != 0 {
 			p = p[1:]
 		}
@@ -548,7 +548,7 @@ func goenvs() {
 // exiting is set to non-zero when the process is exiting.
 var exiting uint32
 
-//go:nosplit
+//golang:nosplit
 func exit(code int32) {
 	// Disallow thread suspension for preemption. Otherwise,
 	// ExitProcess and SuspendThread can race: SuspendThread
@@ -563,7 +563,7 @@ func exit(code int32) {
 // functions like badmorestackg0. In such cases, we'll always take the
 // ASCII path.
 //
-//go:nosplit
+//golang:nosplit
 func write1(fd uintptr, buf unsafe.Pointer, n int32) int32 {
 	const (
 		_STD_OUTPUT_HANDLE = ^uintptr(10) // -11
@@ -661,7 +661,7 @@ func writeConsoleUTF16(handle uintptr, b []uint16) {
 	return
 }
 
-//go:nosplit
+//golang:nosplit
 func semasleep(ns int64) int32 {
 	const (
 		_WAIT_ABANDONED = 0x00000080
@@ -722,7 +722,7 @@ func semasleep(ns int64) int32 {
 	return -1 // unreachable
 }
 
-//go:nosplit
+//golang:nosplit
 func semawakeup(mp *m) {
 	if stdcall1(_SetEvent, mp.waitsema) == 0 {
 		systemstack(func() {
@@ -732,7 +732,7 @@ func semawakeup(mp *m) {
 	}
 }
 
-//go:nosplit
+//golang:nosplit
 func semacreate(mp *m) {
 	if mp.waitsema != 0 {
 		return
@@ -759,8 +759,8 @@ func semacreate(mp *m) {
 // function is called by newosproc0, so it is also required to
 // operate without stack guards.
 //
-//go:nowritebarrierrec
-//go:nosplit
+//golang:nowritebarrierrec
+//golang:nosplit
 func newosproc(mp *m) {
 	// We pass 0 for the stack size to use the default for this binary.
 	thandle := stdcall6(_CreateThread, 0, 0,
@@ -788,12 +788,12 @@ func newosproc(mp *m) {
 // stack, but that's not necessary for Windows. No stack guards are present
 // and the GC has not been initialized, so write barriers will fail.
 //
-//go:nowritebarrierrec
-//go:nosplit
+//golang:nowritebarrierrec
+//golang:nosplit
 func newosproc0(mp *m, stk unsafe.Pointer) {
 	// TODO: this is completely broken. The args passed to newosproc0 (in asm_amd64.s)
 	// are stacksize and function, not *m and stack.
-	// Check os_linux.go for an implementation that might actually work.
+	// Check os_linux.golang for an implementation that might actually work.
 	throw("bad newosproc0")
 }
 
@@ -808,20 +808,20 @@ func exitThread(wait *atomic.Uint32) {
 func mpreinit(mp *m) {
 }
 
-//go:nosplit
+//golang:nosplit
 func sigsave(p *sigset) {
 }
 
-//go:nosplit
+//golang:nosplit
 func msigrestore(sigmask sigset) {
 }
 
-//go:nosplit
-//go:nowritebarrierrec
+//golang:nosplit
+//golang:nowritebarrierrec
 func clearSignalHandlers() {
 }
 
-//go:nosplit
+//golang:nosplit
 func sigblock(exiting bool) {
 }
 
@@ -892,7 +892,7 @@ func minit() {
 
 // Called from dropm to undo the effect of an minit.
 //
-//go:nosplit
+//golang:nosplit
 func unminit() {
 	mp := getg().m
 	lock(&mp.threadLock)
@@ -908,9 +908,9 @@ func unminit() {
 // Called from mexit, but not from dropm, to undo the effect of thread-owned
 // resources in minit, semacreate, or elsewhere. Do not take locks after calling this.
 //
-// This always runs without a P, so //go:nowritebarrierrec is required.
-//go:nowritebarrierrec
-//go:nosplit
+// This always runs without a P, so //golang:nowritebarrierrec is required.
+//golang:nowritebarrierrec
+//golang:nosplit
 func mdestroy(mp *m) {
 	if mp.highResTimer != 0 {
 		stdcall1(_CloseHandle, mp.highResTimer)
@@ -939,7 +939,7 @@ func asmstdcall_trampoline(args unsafe.Pointer)
 
 // stdcall_no_g calls asmstdcall on os stack without using g.
 //
-//go:nosplit
+//golang:nosplit
 func stdcall_no_g(fn stdFunction, n int, args uintptr) uintptr {
 	libcall := libcall{
 		fn:   uintptr(unsafe.Pointer(fn)),
@@ -953,8 +953,8 @@ func stdcall_no_g(fn stdFunction, n int, args uintptr) uintptr {
 // Calling stdcall on os stack.
 // May run during STW, so write barriers are not allowed.
 //
-//go:nowritebarrier
-//go:nosplit
+//golang:nowritebarrier
+//golang:nosplit
 func stdcall(fn stdFunction) uintptr {
 	gp := getg()
 	mp := gp.m
@@ -967,16 +967,16 @@ func stdcall(fn stdFunction) uintptr {
 		// sp must be the last, because once async cpu profiler finds
 		// all three values to be non-zero, it will use them
 		mp.libcallsp = sys.GetCallerSP()
-		resetLibcall = true // See comment in sys_darwin.go:libcCall
+		resetLibcall = true // See comment in sys_darwin.golang:libcCall
 	}
-	asmcgocall(asmstdcallAddr, unsafe.Pointer(&mp.libcall))
+	asmcgolangcall(asmstdcallAddr, unsafe.Pointer(&mp.libcall))
 	if resetLibcall {
 		mp.libcallsp = 0
 	}
 	return mp.libcall.r1
 }
 
-//go:nosplit
+//golang:nosplit
 func stdcall0(fn stdFunction) uintptr {
 	mp := getg().m
 	mp.libcall.n = 0
@@ -984,8 +984,8 @@ func stdcall0(fn stdFunction) uintptr {
 	return stdcall(fn)
 }
 
-//go:nosplit
-//go:cgo_unsafe_args
+//golang:nosplit
+//golang:cgolang_unsafe_args
 func stdcall1(fn stdFunction, a0 uintptr) uintptr {
 	mp := getg().m
 	mp.libcall.n = 1
@@ -993,8 +993,8 @@ func stdcall1(fn stdFunction, a0 uintptr) uintptr {
 	return stdcall(fn)
 }
 
-//go:nosplit
-//go:cgo_unsafe_args
+//golang:nosplit
+//golang:cgolang_unsafe_args
 func stdcall2(fn stdFunction, a0, a1 uintptr) uintptr {
 	mp := getg().m
 	mp.libcall.n = 2
@@ -1002,8 +1002,8 @@ func stdcall2(fn stdFunction, a0, a1 uintptr) uintptr {
 	return stdcall(fn)
 }
 
-//go:nosplit
-//go:cgo_unsafe_args
+//golang:nosplit
+//golang:cgolang_unsafe_args
 func stdcall3(fn stdFunction, a0, a1, a2 uintptr) uintptr {
 	mp := getg().m
 	mp.libcall.n = 3
@@ -1011,8 +1011,8 @@ func stdcall3(fn stdFunction, a0, a1, a2 uintptr) uintptr {
 	return stdcall(fn)
 }
 
-//go:nosplit
-//go:cgo_unsafe_args
+//golang:nosplit
+//golang:cgolang_unsafe_args
 func stdcall4(fn stdFunction, a0, a1, a2, a3 uintptr) uintptr {
 	mp := getg().m
 	mp.libcall.n = 4
@@ -1020,8 +1020,8 @@ func stdcall4(fn stdFunction, a0, a1, a2, a3 uintptr) uintptr {
 	return stdcall(fn)
 }
 
-//go:nosplit
-//go:cgo_unsafe_args
+//golang:nosplit
+//golang:cgolang_unsafe_args
 func stdcall5(fn stdFunction, a0, a1, a2, a3, a4 uintptr) uintptr {
 	mp := getg().m
 	mp.libcall.n = 5
@@ -1029,8 +1029,8 @@ func stdcall5(fn stdFunction, a0, a1, a2, a3, a4 uintptr) uintptr {
 	return stdcall(fn)
 }
 
-//go:nosplit
-//go:cgo_unsafe_args
+//golang:nosplit
+//golang:cgolang_unsafe_args
 func stdcall6(fn stdFunction, a0, a1, a2, a3, a4, a5 uintptr) uintptr {
 	mp := getg().m
 	mp.libcall.n = 6
@@ -1038,8 +1038,8 @@ func stdcall6(fn stdFunction, a0, a1, a2, a3, a4, a5 uintptr) uintptr {
 	return stdcall(fn)
 }
 
-//go:nosplit
-//go:cgo_unsafe_args
+//golang:nosplit
+//golang:cgolang_unsafe_args
 func stdcall7(fn stdFunction, a0, a1, a2, a3, a4, a5, a6 uintptr) uintptr {
 	mp := getg().m
 	mp.libcall.n = 7
@@ -1047,8 +1047,8 @@ func stdcall7(fn stdFunction, a0, a1, a2, a3, a4, a5, a6 uintptr) uintptr {
 	return stdcall(fn)
 }
 
-//go:nosplit
-//go:cgo_unsafe_args
+//golang:nosplit
+//golang:cgolang_unsafe_args
 func stdcall8(fn stdFunction, a0, a1, a2, a3, a4, a5, a6, a7 uintptr) uintptr {
 	mp := getg().m
 	mp.libcall.n = 8
@@ -1058,26 +1058,26 @@ func stdcall8(fn stdFunction, a0, a1, a2, a3, a4, a5, a6, a7 uintptr) uintptr {
 
 // These must run on the system stack only.
 
-//go:nosplit
+//golang:nosplit
 func osyield_no_g() {
 	stdcall_no_g(_SwitchToThread, 0, 0)
 }
 
-//go:nosplit
+//golang:nosplit
 func osyield() {
 	systemstack(func() {
 		stdcall0(_SwitchToThread)
 	})
 }
 
-//go:nosplit
+//golang:nosplit
 func usleep_no_g(us uint32) {
 	timeout := uintptr(us) / 1000 // ms units
 	args := [...]uintptr{_INVALID_HANDLE_VALUE, timeout}
 	stdcall_no_g(_WaitForSingleObject, len(args), uintptr(noescape(unsafe.Pointer(&args[0]))))
 }
 
-//go:nosplit
+//golang:nosplit
 func usleep(us uint32) {
 	systemstack(func() {
 		var h, timeout uintptr
@@ -1326,7 +1326,7 @@ func preemptM(mp *m) {
 // This must be nosplit because it may be called from a syscall with
 // untyped stack slots, so the stack must not be grown or scanned.
 //
-//go:nosplit
+//golang:nosplit
 func osPreemptExtEnter(mp *m) {
 	for !atomic.Cas(&mp.preemptExtLock, 0, 1) {
 		// An asynchronous preemption is in progress. It's not
@@ -1347,7 +1347,7 @@ func osPreemptExtEnter(mp *m) {
 //
 // See osPreemptExtEnter for why this is nosplit.
 //
-//go:nosplit
+//golang:nosplit
 func osPreemptExtExit(mp *m) {
 	atomic.Store(&mp.preemptExtLock, 0)
 }

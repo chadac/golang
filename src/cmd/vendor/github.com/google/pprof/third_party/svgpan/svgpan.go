@@ -7,5 +7,5 @@ import _ "embed"
 
 // https://github.com/aleofreddi/svgpan
 
-//go:embed svgpan.js
+//golang:embed svgpan.js
 var JSSource string

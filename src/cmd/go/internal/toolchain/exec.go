@@ -1,27 +1,27 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !js && !wasip1
+//golang:build !js && !wasip1
 
 package toolchain
 
 import (
-	"cmd/go/internal/base"
+	"cmd/golang/internal/base"
 	"fmt"
-	"internal/godebug"
+	"internal/golangdebug"
 	"os"
 	"os/exec"
 	"runtime"
 	"syscall"
 )
 
-// execGoToolchain execs the Go toolchain with the given name (gotoolchain),
-// GOROOT directory, and go command executable.
+// execGoToolchain execs the Go toolchain with the given name (golangtoolchain),
+// GOROOT directory, and golang command executable.
 // The GOROOT directory is empty if we are invoking a command named
-// gotoolchain found in $PATH.
-func execGoToolchain(gotoolchain, dir, exe string) {
-	os.Setenv(targetEnv, gotoolchain)
+// golangtoolchain found in $PATH.
+func execGoToolchain(golangtoolchain, dir, exe string) {
+	os.Setenv(targetEnv, golangtoolchain)
 	if dir == "" {
 		os.Unsetenv("GOROOT")
 	} else {
@@ -29,9 +29,9 @@ func execGoToolchain(gotoolchain, dir, exe string) {
 	}
 	if toolchainTrace {
 		if dir == "" {
-			fmt.Fprintf(os.Stderr, "go: using %s toolchain located in system PATH (%s)\n", gotoolchain, exe)
+			fmt.Fprintf(os.Stderr, "golang: using %s toolchain located in system PATH (%s)\n", golangtoolchain, exe)
 		} else {
-			fmt.Fprintf(os.Stderr, "go: using %s toolchain from cache located at %s\n", gotoolchain, exe)
+			fmt.Fprintf(os.Stderr, "golang: using %s toolchain from cache located at %s\n", golangtoolchain, exe)
 		}
 	}
 
@@ -39,9 +39,9 @@ func execGoToolchain(gotoolchain, dir, exe string) {
 	// is run a subprocess and exit with the same status.
 	// Doing the same on Unix would be a problem because it wouldn't
 	// propagate signals and such, but there are no signals on Windows.
-	// We also use the exec case when GODEBUG=gotoolchainexec=0,
+	// We also use the exec case when GODEBUG=golangtoolchainexec=0,
 	// to allow testing this code even when not on Windows.
-	if godebug.New("#gotoolchainexec").Value() == "0" || runtime.GOOS == "windows" {
+	if golangdebug.New("#golangtoolchainexec").Value() == "0" || runtime.GOOS == "windows" {
 		cmd := exec.Command(exe, os.Args[1:]...)
 		cmd.Stdin = os.Stdin
 		cmd.Stdout = os.Stdout
@@ -52,12 +52,12 @@ func execGoToolchain(gotoolchain, dir, exe string) {
 				if e.ProcessState.Exited() {
 					os.Exit(e.ProcessState.ExitCode())
 				}
-				base.Fatalf("exec %s: %s", gotoolchain, e.ProcessState)
+				base.Fatalf("exec %s: %s", golangtoolchain, e.ProcessState)
 			}
 			base.Fatalf("exec %s: %s", exe, err)
 		}
 		os.Exit(0)
 	}
 	err := syscall.Exec(exe, os.Args, os.Environ())
-	base.Fatalf("exec %s: %v", gotoolchain, err)
+	base.Fatalf("exec %s: %v", golangtoolchain, err)
 }

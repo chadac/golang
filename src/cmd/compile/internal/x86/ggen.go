@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package x86
@@ -40,7 +40,7 @@ func zerorange(pp *objw.Progs, p *obj.Prog, off, cnt int64, ax *uint32) *obj.Pro
 }
 
 func ginsnop(pp *objw.Progs) *obj.Prog {
-	// See comment in ../amd64/ggen.go.
+	// See comment in ../amd64/ggen.golang.
 	p := pp.Prog(x86.AXCHGL)
 	p.From.Type = obj.TYPE_REG
 	p.From.Reg = x86.REG_AX

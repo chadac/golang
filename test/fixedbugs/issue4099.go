@@ -1,19 +1,19 @@
 // errorcheck -0 -m
 
-//go:build !goexperiment.newinliner
+//golang:build !golangexperiment.newinliner
 
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Check go:noescape annotations.
+// Check golang:noescape annotations.
 
 package p
 
 // The noescape comment only applies to the next func,
 // which must not have a body.
 
-//go:noescape
+//golang:noescape
 
 func F1([]byte)
 

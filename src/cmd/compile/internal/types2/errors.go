@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file implements error reporting.
@@ -55,7 +55,7 @@ func (check *Checker) newError(code Code) *error_ {
 // The position of the first call to addf determines the position of the reported Error.
 // Subsequent calls to addf provide additional information in the form of additional lines
 // in the error message (types2) or continuation errors identified by a tab-indented error
-// message (go/types).
+// message (golang/types).
 func (err *error_) addf(at poser, format string, args ...interface{}) {
 	err.desc = append(err.desc, errorDesc{atPos(at), err.check.sprintf(format, args...)})
 }
@@ -125,7 +125,7 @@ func (err *error_) report() {
 		check.trace(err.pos(), "ERROR: %s (code = %d)", err.desc[0].msg, err.code)
 	}
 
-	// In go/types, if there is a sub-error with a valid position,
+	// In golang/types, if there is a sub-error with a valid position,
 	// call the typechecker error handler for each sub-error.
 	// Otherwise, call it once, with a single combined message.
 	multiError := false
@@ -235,7 +235,7 @@ func (check *Checker) softErrorf(at poser, code Code, format string, args ...any
 	err.report()
 }
 
-func (check *Checker) versionErrorf(at poser, v goVersion, format string, args ...any) {
+func (check *Checker) versionErrorf(at poser, v golangVersion, format string, args ...any) {
 	msg := check.sprintf(format, args...)
 	err := check.newError(UnsupportedFeature)
 	err.addf(at, "%s requires %s or later", msg, v)

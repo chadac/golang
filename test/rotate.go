@@ -1,9 +1,9 @@
 // skip
 
-// NOTE: the actual tests to run are rotate[0123].go
+// NOTE: the actual tests to run are rotate[0123].golang
 
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Generate test of shift and rotate by constants.

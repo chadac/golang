@@ -1,4 +1,4 @@
-  ./testdata/hist.go
+  ./testdata/hist.golang
 55:	func test() {
 57:		l := line{point{1 + zero, 2 + zero}, point{3 + zero, 4 + zero}}
 58:		tinycall()                // this forces l etc to stack

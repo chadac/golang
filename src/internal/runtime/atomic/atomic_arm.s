@@ -1,8 +1,8 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-#include "go_asm.h"
+#include "golang_asm.h"
 #include "textflag.h"
 #include "funcdata.h"
 
@@ -286,7 +286,7 @@ xchg8loop:
 // 8-byte aligned. Since we're calling back into Go code to do this,
 // we have to cooperate with stack unwinding. In the normal case, the
 // functions tail-call into the appropriate implementation, which
-// means they must not open a frame. Hence, when they go down the
+// means they must not open a frame. Hence, when they golang down the
 // panic path, at that point they push the LR to create a real frame
 // (they don't need to pop it because panic won't return; however, we
 // do need to set the SP delta back).
@@ -309,7 +309,7 @@ TEXT ·Cas64(SB),NOSPLIT,$-4-21
 	MOVB	internal∕cpu·ARM+const_offsetARMHasV7Atomics(SB), R11
 	CMP	$1, R11
 	BEQ	2(PC)
-	JMP	·goCas64(SB)
+	JMP	·golangCas64(SB)
 #endif
 	JMP	armCas64<>(SB)
 
@@ -322,7 +322,7 @@ TEXT ·Xadd64(SB),NOSPLIT,$-4-20
 	MOVB	internal∕cpu·ARM+const_offsetARMHasV7Atomics(SB), R11
 	CMP	$1, R11
 	BEQ	2(PC)
-	JMP	·goXadd64(SB)
+	JMP	·golangXadd64(SB)
 #endif
 	JMP	armXadd64<>(SB)
 
@@ -335,7 +335,7 @@ TEXT ·Xchg64(SB),NOSPLIT,$-4-20
 	MOVB	internal∕cpu·ARM+const_offsetARMHasV7Atomics(SB), R11
 	CMP	$1, R11
 	BEQ	2(PC)
-	JMP	·goXchg64(SB)
+	JMP	·golangXchg64(SB)
 #endif
 	JMP	armXchg64<>(SB)
 
@@ -348,7 +348,7 @@ TEXT ·Load64(SB),NOSPLIT,$-4-12
 	MOVB	internal∕cpu·ARM+const_offsetARMHasV7Atomics(SB), R11
 	CMP	$1, R11
 	BEQ	2(PC)
-	JMP	·goLoad64(SB)
+	JMP	·golangLoad64(SB)
 #endif
 	JMP	armLoad64<>(SB)
 
@@ -361,7 +361,7 @@ TEXT ·Store64(SB),NOSPLIT,$-4-12
 	MOVB	internal∕cpu·ARM+const_offsetARMHasV7Atomics(SB), R11
 	CMP	$1, R11
 	BEQ	2(PC)
-	JMP	·goStore64(SB)
+	JMP	·golangStore64(SB)
 #endif
 	JMP	armStore64<>(SB)
 
@@ -375,7 +375,7 @@ TEXT ·And8(SB),NOSPLIT,$-4-5
 	MOVB	internal∕cpu·ARM+const_offsetARMHasV7Atomics(SB), R11
 	CMP	$1, R11
 	BEQ	2(PC)
-	JMP	·goAnd8(SB)
+	JMP	·golangAnd8(SB)
 #endif
 	JMP	armAnd8<>(SB)
 
@@ -389,7 +389,7 @@ TEXT ·Or8(SB),NOSPLIT,$-4-5
 	MOVB	internal∕cpu·ARM+const_offsetARMHasV7Atomics(SB), R11
 	CMP	$1, R11
 	BEQ	2(PC)
-	JMP	·goOr8(SB)
+	JMP	·golangOr8(SB)
 #endif
 	JMP	armOr8<>(SB)
 
@@ -403,6 +403,6 @@ TEXT ·Xchg8(SB),NOSPLIT,$-4-9
 	MOVB	internal∕cpu·ARM+const_offsetARMHasV7Atomics(SB), R11
 	CMP	$1, R11
 	BEQ	2(PC)
-	JMP	·goXchg8(SB)
+	JMP	·golangXchg8(SB)
 #endif
 	JMP	armXchg8<>(SB)

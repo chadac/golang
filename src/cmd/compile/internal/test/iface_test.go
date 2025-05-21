@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package test
@@ -15,8 +15,8 @@ func TestEfaceConv1(t *testing.T) {
 	a := 5
 	i := interface{}(a)
 	a += 2
-	if got := i.(int); got != 5 {
-		t.Errorf("wanted 5, got %d\n", got)
+	if golangt := i.(int); golangt != 5 {
+		t.Errorf("wanted 5, golangt %d\n", golangt)
 	}
 }
 
@@ -25,19 +25,19 @@ func TestEfaceConv2(t *testing.T) {
 	sink = &a
 	i := interface{}(a)
 	a += 2
-	if got := i.(int); got != 5 {
-		t.Errorf("wanted 5, got %d\n", got)
+	if golangt := i.(int); golangt != 5 {
+		t.Errorf("wanted 5, golangt %d\n", golangt)
 	}
 }
 
 func TestEfaceConv3(t *testing.T) {
 	x = 5
-	if got := e2int3(x); got != 5 {
-		t.Errorf("wanted 5, got %d\n", got)
+	if golangt := e2int3(x); golangt != 5 {
+		t.Errorf("wanted 5, golangt %d\n", golangt)
 	}
 }
 
-//go:noinline
+//golang:noinline
 func e2int3(i interface{}) int {
 	x = 7
 	return i.(int)
@@ -45,12 +45,12 @@ func e2int3(i interface{}) int {
 
 func TestEfaceConv4(t *testing.T) {
 	a := 5
-	if got := e2int4(a, &a); got != 5 {
-		t.Errorf("wanted 5, got %d\n", got)
+	if golangt := e2int4(a, &a); golangt != 5 {
+		t.Errorf("wanted 5, golangt %d\n", golangt)
 	}
 }
 
-//go:noinline
+//golang:noinline
 func e2int4(i interface{}, p *int) int {
 	*p = 7
 	return i.(int)
@@ -71,8 +71,8 @@ func TestIfaceConv1(t *testing.T) {
 	a := Int(5)
 	i := interface{}(a)
 	a += 2
-	if got := i.(Int); got != 5 {
-		t.Errorf("wanted 5, got %d\n", int(got))
+	if golangt := i.(Int); golangt != 5 {
+		t.Errorf("wanted 5, golangt %d\n", int(golangt))
 	}
 }
 
@@ -81,19 +81,19 @@ func TestIfaceConv2(t *testing.T) {
 	sink = &a
 	i := interface{}(a)
 	a += 2
-	if got := i.(Int); got != 5 {
-		t.Errorf("wanted 5, got %d\n", int(got))
+	if golangt := i.(Int); golangt != 5 {
+		t.Errorf("wanted 5, golangt %d\n", int(golangt))
 	}
 }
 
 func TestIfaceConv3(t *testing.T) {
 	y = 5
-	if got := i2Int3(y); got != 5 {
-		t.Errorf("wanted 5, got %d\n", int(got))
+	if golangt := i2Int3(y); golangt != 5 {
+		t.Errorf("wanted 5, golangt %d\n", int(golangt))
 	}
 }
 
-//go:noinline
+//golang:noinline
 func i2Int3(i I) Int {
 	y = 7
 	return i.(Int)
@@ -101,12 +101,12 @@ func i2Int3(i I) Int {
 
 func TestIfaceConv4(t *testing.T) {
 	a := Int(5)
-	if got := i2Int4(a, &a); got != 5 {
-		t.Errorf("wanted 5, got %d\n", int(got))
+	if golangt := i2Int4(a, &a); golangt != 5 {
+		t.Errorf("wanted 5, golangt %d\n", int(golangt))
 	}
 }
 
-//go:noinline
+//golang:noinline
 func i2Int4(i I, p *Int) Int {
 	*p = 7
 	return i.(Int)
@@ -120,7 +120,7 @@ func BenchmarkEfaceInteger(b *testing.B) {
 	sink = sum
 }
 
-//go:noinline
+//golang:noinline
 func i2int(i interface{}) int {
 	return i.(int)
 }

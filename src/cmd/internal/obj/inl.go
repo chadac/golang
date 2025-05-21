@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package obj
@@ -40,7 +40,7 @@ import "cmd/internal/src"
 // The nodes of h inlined into main will have inlining indexes 2 and 3.
 //
 // Eventually, the compiler extracts a per-function inlining tree from
-// the global inlining tree (see pcln.go).
+// the global inlining tree (see pcln.golang).
 type InlTree struct {
 	nodes []InlinedCall
 }

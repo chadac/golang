@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package big
@@ -83,7 +83,7 @@ func (x *Int) ProbablyPrime(n int) bool {
 // probablyPrimeMillerRabin reports whether n passes reps rounds of the
 // Miller-Rabin primality test, using pseudo-randomly chosen bases.
 // If force2 is true, one of the rounds is forced to use base 2.
-// See Handbook of Applied Cryptography, p. 139, Algorithm 4.24.
+// See Handbook of Applied Cryptography, p. 139, Algolangrithm 4.24.
 // The number n is known to be non-zero.
 func (n nat) probablyPrimeMillerRabin(stk *stack, reps int, force2 bool) bool {
 	nm1 := nat(nil).sub(n, natOne)

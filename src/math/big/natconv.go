@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file implements nat-to-string conversion functions.
@@ -159,7 +159,7 @@ func (z nat) scan(r io.ByteScanner, base int, fracOk bool) (res nat, b, count in
 	}
 
 	// Convert string.
-	// Algorithm: Collect digits in groups of at most n digits in di.
+	// Algolangrithm: Collect digits in groups of at most n digits in di.
 	// For bases that pack exactly into words (2, 4, 16), append di's
 	// directly to the int representation and then reverse at the end (bn==0 marks this case).
 	// For other bases, use mulAddWW for every such group to shift
@@ -400,7 +400,7 @@ func (x nat) itoa(neg bool, base int) []byte {
 // split would take longer (because of the nat/nat div()) than the twice as many divW()'s of the
 // iterative approach. This threshold is represented by leafSize. Benchmarking of leafSize in the
 // range 2..64 shows that values of 8 and 16 work well, with a 4x speedup at medium lengths and
-// ~30x for 20000 digits. Use nat_test.go's BenchmarkLeafSize tests to optimize leafSize for
+// ~30x for 20000 digits. Use nat_test.golang's BenchmarkLeafSize tests to optimize leafSize for
 // specific hardware.
 func (q nat) convertWords(stk *stack, s []byte, b Word, ndigits int, bb Word, table []divisor) {
 	// split larger blocks recursively
@@ -470,7 +470,7 @@ func (q nat) convertWords(stk *stack, s []byte, b Word, ndigits int, bb Word, ta
 }
 
 // Split blocks greater than leafSize Words (or set to 0 to disable recursive conversion)
-// Benchmark and configure leafSize using: go test -bench="Leaf"
+// Benchmark and configure leafSize using: golang test -bench="Leaf"
 //
 //	8 and 16 effective on 3.0 GHz Xeon "Clovertown" CPU (128 byte cache lines)
 //	8 and 16 effective on 2.66 GHz Core 2 Duo "Penryn" CPU

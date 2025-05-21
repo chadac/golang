@@ -1,5 +1,5 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Writes dwarf information to object files.
@@ -95,7 +95,7 @@ func (ctxt *Link) generateDebugLinesSymbol(s, lines *LSym) {
 	//
 	// Note: at one point in time, Delve did not support multiple end
 	// sequence ops within a compilation unit (bug for this:
-	// https://github.com/go-delve/delve/issues/1694), however the bug
+	// https://github.com/golang-delve/delve/issues/1694), however the bug
 	// has since been fixed (Oct 2019).
 	//
 	// Issue 38192: the DWARF standard specifies that when you issue

@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime_test
@@ -145,12 +145,12 @@ func TestStringConcatenationAllocs(t *testing.T) {
 		}
 		s := "foo" + string(b)
 		if want := "foo0123456789"; s != want {
-			t.Fatalf("want %v, got %v", want, s)
+			t.Fatalf("want %v, golangt %v", want, s)
 		}
 	})
 	// Only string concatenation allocates.
 	if n != 1 {
-		t.Fatalf("want 1 allocation, got %v", n)
+		t.Fatalf("want 1 allocation, golangt %v", n)
 	}
 }
 
@@ -243,10 +243,10 @@ func TestPageCacheLeak(t *testing.T) {
 }
 
 func TestPhysicalMemoryUtilization(t *testing.T) {
-	got := runTestProg(t, "testprog", "GCPhys")
+	golangt := runTestProg(t, "testprog", "GCPhys")
 	want := "OK\n"
-	if got != want {
-		t.Fatalf("expected %q, but got %q", want, got)
+	if golangt != want {
+		t.Fatalf("expected %q, but golangt %q", want, golangt)
 	}
 }
 
@@ -256,7 +256,7 @@ func TestScavengedBitsCleared(t *testing.T) {
 		t.Errorf("uncleared scavenged bits")
 		for _, m := range mismatches[:n] {
 			t.Logf("\t@ address 0x%x", m.Base)
-			t.Logf("\t|  got: %064b", m.Got)
+			t.Logf("\t|  golangt: %064b", m.Got)
 			t.Logf("\t| want: %064b", m.Want)
 		}
 		t.FailNow()
@@ -283,7 +283,7 @@ func TestArenaCollision(t *testing.T) {
 			// doesn't support this, so look for the
 			// expected failure.
 			if want := "too many address space collisions"; !strings.Contains(string(out), want) {
-				t.Fatalf("want %q, got:\n%s", want, string(out))
+				t.Fatalf("want %q, golangt:\n%s", want, string(out))
 			}
 		} else if !strings.Contains(string(out), "PASS\n") || err != nil {
 			t.Fatalf("%s\n(exit status %v)", string(out), err)
@@ -292,7 +292,7 @@ func TestArenaCollision(t *testing.T) {
 	}
 	disallowed := [][2]uintptr{}
 	// Drop all but the next 3 hints. 64-bit has a lot of hints,
-	// so it would take a lot of memory to go through all of them.
+	// so it would take a lot of memory to golang through all of them.
 	KeepNArenaHints(3)
 	// Consume these 3 hints and force the runtime to find some
 	// fallback hints.
@@ -366,7 +366,7 @@ func BenchmarkMallocLargeStruct(b *testing.B) {
 	}
 }
 
-var n = flag.Int("n", 1000, "number of goroutines")
+var n = flag.Int("n", 1000, "number of golangroutines")
 
 func BenchmarkGoroutineSelect(b *testing.B) {
 	quit := make(chan struct{})
@@ -408,7 +408,7 @@ func benchHelper(b *testing.B, n int, read func(chan struct{})) {
 	m := make([]chan struct{}, n)
 	for i := range m {
 		m[i] = make(chan struct{}, 1)
-		go read(m[i])
+		golang read(m[i])
 	}
 	b.StopTimer()
 	b.ResetTimer()
@@ -438,7 +438,7 @@ func BenchmarkGoroutineIdle(b *testing.B) {
 		<-quit
 	}
 	for i := 0; i < *n; i++ {
-		go fn()
+		golang fn()
 	}
 
 	GC()

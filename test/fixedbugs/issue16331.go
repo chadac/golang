@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Perform tracebackdefers with a deferred reflection method.
@@ -21,7 +21,7 @@ func F(args []reflect.Value) (results []reflect.Value) {
 
 func main() {
 	done := make(chan bool)
-	go func() {
+	golang func() {
 		// Test reflect.makeFuncStub.
 		t := reflect.TypeOf((func())(nil))
 		f := reflect.MakeFunc(t, F).Interface().(func())
@@ -30,7 +30,7 @@ func main() {
 		done <- true
 	}()
 	<-done
-	go func() {
+	golang func() {
 		// Test reflect.methodValueCall.
 		f := reflect.ValueOf(T{}).Method(0).Interface().(func())
 		defer f()

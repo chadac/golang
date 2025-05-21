@@ -1,8 +1,8 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Cgo; see doc.go for an overview.
+// Cgolang; see doc.golang for an overview.
 
 // TODO(rsc):
 //	Emit correct line number annotations.
@@ -13,9 +13,9 @@ package main
 import (
 	"flag"
 	"fmt"
-	"go/ast"
-	"go/printer"
-	"go/token"
+	"golang/ast"
+	"golang/printer"
+	"golang/token"
 	"internal/buildcfg"
 	"io"
 	"maps"
@@ -33,7 +33,7 @@ import (
 	"cmd/internal/telemetry/counter"
 )
 
-// A Package collects information about the package we're going to write.
+// A Package collects information about the package we're golanging to write.
 type Package struct {
 	PackageName string // name of package
 	PackagePath string
@@ -41,18 +41,18 @@ type Package struct {
 	IntSize     int64
 	GccOptions  []string
 	GccIsClang  bool
-	LdFlags     []string // #cgo LDFLAGS
+	LdFlags     []string // #cgolang LDFLAGS
 	Written     map[string]bool
 	Name        map[string]*Name // accumulated Name from Files
 	ExpFunc     []*ExpFunc       // accumulated ExpFunc from Files
 	Decl        []ast.Decl
 	GoFiles     []string        // list of Go files
 	GccFiles    []string        // list of gcc output files
-	Preamble    string          // collected preamble for _cgo_export.h
+	Preamble    string          // collected preamble for _cgolang_export.h
 	typedefs    map[string]bool // type names that appear in the types of the objects we're interested in
 	typedefList []typedefInfo
-	noCallbacks map[string]bool // C function names with #cgo nocallback directive
-	noEscapes   map[string]bool // C function names with #cgo noescape directive
+	noCallbacks map[string]bool // C function names with #cgolang nocallback directive
+	noEscapes   map[string]bool // C function names with #cgolang noescape directive
 }
 
 // A typedefInfo is an element on Package.typedefList: a typedef name
@@ -73,8 +73,8 @@ type File struct {
 	ExpFunc     []*ExpFunc          // exported functions for this file
 	Name        map[string]*Name    // map from Go name to Name
 	NamePos     map[*Name]token.Pos // map from Name to position of the first reference
-	NoCallbacks map[string]bool     // C function names that with #cgo nocallback directive
-	NoEscapes   map[string]bool     // C function names that with #cgo noescape directive
+	NoCallbacks map[string]bool     // C function names that with #cgolang nocallback directive
+	NoEscapes   map[string]bool     // C function names that with #cgolang noescape directive
 	Edit        *edit.Buffer
 }
 
@@ -194,7 +194,7 @@ func (t *FuncType) fuzzyMatch(t2 *FuncType) bool {
 }
 
 func usage() {
-	fmt.Fprint(os.Stderr, "usage: cgo -- [compiler options] file.go ...\n")
+	fmt.Fprint(os.Stderr, "usage: cgolang -- [compiler options] file.golang ...\n")
 	flag.PrintDefaults()
 	os.Exit(2)
 }
@@ -263,7 +263,7 @@ var dynlinker = flag.Bool("dynlinker", false, "record dynamic linker information
 // This flag is for bootstrapping a new Go implementation,
 // to generate Go types that match the data layout and
 // constant values used in the host's C libraries and system calls.
-var godefs = flag.Bool("godefs", false, "for bootstrap: write Go definitions for C file to standard output")
+var golangdefs = flag.Bool("golangdefs", false, "for bootstrap: write Go definitions for C file to standard output")
 
 var srcDir = flag.String("srcdir", "", "source directory")
 var objDir = flag.String("objdir", "", "object directory")
@@ -272,38 +272,38 @@ var exportHeader = flag.String("exportheader", "", "where to write export header
 
 var ldflags = flag.String("ldflags", "", "flags to pass to C linker")
 
-var gccgo = flag.Bool("gccgo", false, "generate files for use with gccgo")
-var gccgoprefix = flag.String("gccgoprefix", "", "-fgo-prefix option used with gccgo")
-var gccgopkgpath = flag.String("gccgopkgpath", "", "-fgo-pkgpath option used with gccgo")
-var gccgoMangler func(string) string
-var gccgoDefineCgoIncomplete = flag.Bool("gccgo_define_cgoincomplete", false, "define cgo.Incomplete for older gccgo/GoLLVM")
-var importRuntimeCgo = flag.Bool("import_runtime_cgo", true, "import runtime/cgo in generated code")
+var gccgolang = flag.Bool("gccgolang", false, "generate files for use with gccgolang")
+var gccgolangprefix = flag.String("gccgolangprefix", "", "-fgolang-prefix option used with gccgolang")
+var gccgolangpkgpath = flag.String("gccgolangpkgpath", "", "-fgolang-pkgpath option used with gccgolang")
+var gccgolangMangler func(string) string
+var gccgolangDefineCgolangIncomplete = flag.Bool("gccgolang_define_cgolangincomplete", false, "define cgolang.Incomplete for older gccgolang/GoLLVM")
+var importRuntimeCgolang = flag.Bool("import_runtime_cgolang", true, "import runtime/cgolang in generated code")
 var importSyscall = flag.Bool("import_syscall", true, "import syscall in generated code")
 var trimpath = flag.String("trimpath", "", "applies supplied rewrites or trims prefixes to recorded source file paths")
 
-var goarch, goos, gomips, gomips64 string
+var golangarch, golangos, golangmips, golangmips64 string
 var gccBaseCmd []string
 
 func main() {
 	counter.Open()
 	objabi.AddVersionFlag() // -V
 	objabi.Flagparse(usage)
-	counter.Inc("cgo/invocations")
-	counter.CountFlags("cgo/flag:", *flag.CommandLine)
+	counter.Inc("cgolang/invocations")
+	counter.CountFlags("cgolang/flag:", *flag.CommandLine)
 
-	if *gccgoDefineCgoIncomplete {
-		if !*gccgo {
-			fmt.Fprintf(os.Stderr, "cgo: -gccgo_define_cgoincomplete without -gccgo\n")
+	if *gccgolangDefineCgolangIncomplete {
+		if !*gccgolang {
+			fmt.Fprintf(os.Stderr, "cgolang: -gccgolang_define_cgolangincomplete without -gccgolang\n")
 			os.Exit(2)
 		}
-		incomplete = "_cgopackage_Incomplete"
+		incomplete = "_cgolangpackage_Incomplete"
 	}
 
 	if *dynobj != "" {
-		// cgo -dynimport is essentially a separate helper command
-		// built into the cgo binary. It scans a gcc-produced executable
+		// cgolang -dynimport is essentially a separate helper command
+		// built into the cgolang binary. It scans a gcc-produced executable
 		// and dumps information about the imported symbols and the
-		// imported libraries. The 'go build' rules for cgo prepare an
+		// imported libraries. The 'golang build' rules for cgolang prepare an
 		// appropriate executable and then use its import information
 		// instead of needing to make the linkers duplicate all the
 		// specialized knowledge gcc has about where to look for imported
@@ -312,7 +312,7 @@ func main() {
 		return
 	}
 
-	if *godefs {
+	if *golangdefs {
 		// Generating definitions pulled from header files,
 		// to be checked into Go repositories.
 		// Line numbers are just noise.
@@ -324,11 +324,11 @@ func main() {
 		usage()
 	}
 
-	// Find first arg that looks like a go file and assume everything before
+	// Find first arg that looks like a golang file and assume everything before
 	// that are options to pass to gcc.
 	var i int
 	for i = len(args); i > 0; i-- {
-		if !strings.HasSuffix(args[i-1], ".go") {
+		if !strings.HasSuffix(args[i-1], ".golang") {
 			break
 		}
 	}
@@ -336,11 +336,11 @@ func main() {
 		usage()
 	}
 
-	// Save original command line arguments for the godefs generated comment. Relative file
+	// Save original command line arguments for the golangdefs generated comment. Relative file
 	// paths in os.Args will be rewritten to absolute file paths in the loop below.
 	osArgs := make([]string, len(os.Args))
 	copy(osArgs, os.Args[:])
-	goFiles := args[i:]
+	golangFiles := args[i:]
 
 	for _, arg := range args[:i] {
 		if arg == "-fsanitize=thread" {
@@ -372,11 +372,11 @@ func main() {
 
 	// For backward compatibility for Bazel, record CGO_LDFLAGS
 	// from the environment for external linking.
-	// This should not happen with cmd/go, which removes CGO_LDFLAGS
-	// from the environment when invoking cgo.
+	// This should not happen with cmd/golang, which removes CGO_LDFLAGS
+	// from the environment when invoking cgolang.
 	// This can be removed when we no longer need to support
 	// older versions of Bazel. See issue #66456 and
-	// https://github.com/bazelbuild/rules_go/issues/3979.
+	// https://github.com/bazelbuild/rules_golang/issues/3979.
 	if envFlags := os.Getenv("CGO_LDFLAGS"); envFlags != "" {
 		args, err := splitQuoted(envFlags)
 		if err != nil {
@@ -387,22 +387,22 @@ func main() {
 
 	// Need a unique prefix for the global C symbols that
 	// we use to coordinate between gcc and ourselves.
-	// We already put _cgo_ at the beginning, so the main
-	// concern is other cgo wrappers for the same functions.
+	// We already put _cgolang_ at the beginning, so the main
+	// concern is other cgolang wrappers for the same functions.
 	// Use the beginning of the 16 bytes hash of the input to disambiguate.
 	h := hash.New32()
 	io.WriteString(h, *importPath)
 	var once sync.Once
 	var wg sync.WaitGroup
-	fs := make([]*File, len(goFiles))
-	for i, input := range goFiles {
+	fs := make([]*File, len(golangFiles))
+	for i, input := range golangFiles {
 		if *srcDir != "" {
 			input = filepath.Join(*srcDir, input)
 		}
 
 		// Create absolute path for file, so that it will be used in error
 		// messages and recorded in debug line number information.
-		// This matches the rest of the toolchain. See golang.org/issue/5122.
+		// This matches the rest of the toolchain. See golanglang.org/issue/5122.
 		if aname, err := filepath.Abs(input); err == nil {
 			input = aname
 		}
@@ -416,7 +416,7 @@ func main() {
 		}
 
 		wg.Add(1)
-		go func() {
+		golang func() {
 			defer wg.Done()
 			// Apply trimpath to the file path. The path won't be read from after this point.
 			input, _ = objabi.ApplyRewrites(input, *trimpath)
@@ -426,12 +426,12 @@ func main() {
 				// Bail early if we see anything newline-like in the trimmed path.
 				fatalf("input path contains newline character: %q", input)
 			}
-			goFiles[i] = input
+			golangFiles[i] = input
 
 			f := new(File)
 			f.Edit = edit.NewBuffer(b)
 			f.ParseGo(input, b)
-			f.ProcessCgoDirectives()
+			f.ProcessCgolangDirectives()
 			gccIsClang := f.loadDefines(p.GccOptions)
 			once.Do(func() {
 				p.GccIsClang = gccIsClang
@@ -453,7 +453,7 @@ func main() {
 	os.MkdirAll(*objDir, 0o700)
 	*objDir += string(filepath.Separator)
 
-	for i, input := range goFiles {
+	for i, input := range golangFiles {
 		f := fs[i]
 		p.Translate(f)
 		for _, cref := range f.Ref {
@@ -464,7 +464,7 @@ func main() {
 				}
 				old := *cref.Expr
 				*cref.Expr = cref.Name.Type.Go
-				f.Edit.Replace(f.offset(old.Pos()), f.offset(old.End()), gofmt(cref.Name.Type.Go))
+				f.Edit.Replace(f.offset(old.Pos()), f.offset(old.End()), golangfmt(cref.Name.Type.Go))
 			}
 		}
 		if nerrors > 0 {
@@ -472,8 +472,8 @@ func main() {
 		}
 		p.PackagePath = f.Package
 		p.Record(f)
-		if *godefs {
-			os.Stdout.WriteString(p.godefs(f, osArgs))
+		if *golangdefs {
+			os.Stdout.WriteString(p.golangdefs(f, osArgs))
 		} else {
 			p.writeOutput(f, input)
 		}
@@ -488,17 +488,17 @@ func main() {
 
 	for funcName := range p.noEscapes {
 		if _, found := cFunctions[funcName]; !found {
-			error_(token.NoPos, "#cgo noescape %s: no matched C function", funcName)
+			error_(token.NoPos, "#cgolang noescape %s: no matched C function", funcName)
 		}
 	}
 
 	for funcName := range p.noCallbacks {
 		if _, found := cFunctions[funcName]; !found {
-			error_(token.NoPos, "#cgo nocallback %s: no matched C function", funcName)
+			error_(token.NoPos, "#cgolang nocallback %s: no matched C function", funcName)
 		}
 	}
 
-	if !*godefs {
+	if !*golangdefs {
 		p.writeDefs()
 	}
 	if nerrors > 0 {
@@ -509,24 +509,24 @@ func main() {
 // newPackage returns a new Package that will invoke
 // gcc with the additional arguments specified in args.
 func newPackage(args []string) *Package {
-	goarch = runtime.GOARCH
+	golangarch = runtime.GOARCH
 	if s := os.Getenv("GOARCH"); s != "" {
-		goarch = s
+		golangarch = s
 	}
-	goos = runtime.GOOS
+	golangos = runtime.GOOS
 	if s := os.Getenv("GOOS"); s != "" {
-		goos = s
+		golangos = s
 	}
 	buildcfg.Check()
-	gomips = buildcfg.GOMIPS
-	gomips64 = buildcfg.GOMIPS64
-	ptrSize := ptrSizeMap[goarch]
+	golangmips = buildcfg.GOMIPS
+	golangmips64 = buildcfg.GOMIPS64
+	ptrSize := ptrSizeMap[golangarch]
 	if ptrSize == 0 {
-		fatalf("unknown ptrSize for $GOARCH %q", goarch)
+		fatalf("unknown ptrSize for $GOARCH %q", golangarch)
 	}
-	intSize := intSizeMap[goarch]
+	intSize := intSizeMap[golangarch]
 	if intSize == 0 {
-		fatalf("unknown intSize for $GOARCH %q", goarch)
+		fatalf("unknown intSize for $GOARCH %q", golangarch)
 	}
 
 	// Reset locale variables so gcc emits English errors [sic].

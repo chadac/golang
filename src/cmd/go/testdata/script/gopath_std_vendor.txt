@@ -2,43 +2,43 @@ env GO111MODULE=off
 
 [!compiler:gc] skip
 
-go list -f '{{.Dir}}' vendor/golang.org/x/net/http2/hpack
+golang list -f '{{.Dir}}' vendor/golanglang.org/x/net/http2/hpack
 stdout $GOPATH[/\\]src[/\\]vendor
 
 # A package importing 'net/http' should resolve its dependencies
-# to the package 'vendor/golang.org/x/net/http2/hpack' within GOROOT.
+# to the package 'vendor/golanglang.org/x/net/http2/hpack' within GOROOT.
 cd importnethttp
-go list -deps -f '{{.ImportPath}} {{.Dir}}'
-stdout ^vendor/golang.org/x/net/http2/hpack
-stdout $GOROOT[/\\]src[/\\]vendor[/\\]golang.org[/\\]x[/\\]net[/\\]http2[/\\]hpack
+golang list -deps -f '{{.ImportPath}} {{.Dir}}'
+stdout ^vendor/golanglang.org/x/net/http2/hpack
+stdout $GOROOT[/\\]src[/\\]vendor[/\\]golanglang.org[/\\]x[/\\]net[/\\]http2[/\\]hpack
 ! stdout $GOPATH[/\\]src[/\\]vendor
 
-# In the presence of $GOPATH/src/vendor/golang.org/x/net/http2/hpack,
-# a package in GOPATH importing 'golang.org/x/net/http2/hpack' should
+# In the presence of $GOPATH/src/vendor/golanglang.org/x/net/http2/hpack,
+# a package in GOPATH importing 'golanglang.org/x/net/http2/hpack' should
 # resolve its dependencies in GOPATH/src.
 cd ../issue16333
-go build .
+golang build .
 
-go list -deps -f '{{.ImportPath}} {{.Dir}}' .
-stdout $GOPATH[/\\]src[/\\]vendor[/\\]golang.org[/\\]x[/\\]net[/\\]http2[/\\]hpack
+golang list -deps -f '{{.ImportPath}} {{.Dir}}' .
+stdout $GOPATH[/\\]src[/\\]vendor[/\\]golanglang.org[/\\]x[/\\]net[/\\]http2[/\\]hpack
 ! stdout $GOROOT[/\\]src[/\\]vendor
 
-go list -test -deps -f '{{.ImportPath}} {{.Dir}}' .
-stdout $GOPATH[/\\]src[/\\]vendor[/\\]golang.org[/\\]x[/\\]net[/\\]http2[/\\]hpack
+golang list -test -deps -f '{{.ImportPath}} {{.Dir}}' .
+stdout $GOPATH[/\\]src[/\\]vendor[/\\]golanglang.org[/\\]x[/\\]net[/\\]http2[/\\]hpack
 ! stdout $GOROOT[/\\]src[/\\]vendor
 
--- issue16333/issue16333.go --
+-- issue16333/issue16333.golang --
 package vendoring17
 
-import _ "golang.org/x/net/http2/hpack"
--- issue16333/issue16333_test.go --
+import _ "golanglang.org/x/net/http2/hpack"
+-- issue16333/issue16333_test.golang --
 package vendoring17
 
 import _ "testing"
-import _ "golang.org/x/net/http2/hpack"
--- importnethttp/http.go --
+import _ "golanglang.org/x/net/http2/hpack"
+-- importnethttp/http.golang --
 package importnethttp
 
 import _ "net/http"
--- $GOPATH/src/vendor/golang.org/x/net/http2/hpack/hpack.go --
+-- $GOPATH/src/vendor/golanglang.org/x/net/http2/hpack/hpack.golang --
 package hpack

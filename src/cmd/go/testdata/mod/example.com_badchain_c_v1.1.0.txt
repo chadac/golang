@@ -4,5 +4,5 @@ example.com/badchain/c v1.1.0
 module badchain.example.com/c
 -- .info --
 {"Version":"v1.1.0"}
--- c.go --
+-- c.golang --
 package c

@@ -1,6 +1,6 @@
 # Go internal ABI specification
 
-Self-link: [go.dev/s/regabi](https://go.dev/s/regabi)
+Self-link: [golang.dev/s/regabi](https://golang.dev/s/regabi)
 
 This document describes Go’s internal application binary interface
 (ABI), known as ABIInternal.
@@ -14,7 +14,7 @@ ABI, known as ABI0.
 All functions defined in Go source follow ABIInternal.
 However, ABIInternal and ABI0 functions are able to call each other
 through transparent *ABI wrappers*, described in the [internal calling
-convention proposal](https://golang.org/design/27539-internal-abi).
+convention proposal](https://golanglang.org/design/27539-internal-abi).
 
 Go uses a common ABI design across all architectures.
 We first describe the common ABI, and then cover per-architecture
@@ -22,13 +22,13 @@ specifics.
 
 *Rationale*: For the reasoning behind using a common ABI across
 architectures instead of the platform ABI, see the [register-based Go
-calling convention proposal](https://golang.org/design/40724-register-calling).
+calling convention proposal](https://golanglang.org/design/40724-register-calling).
 
 ## Memory layout
 
 Go's built-in types have the following sizes and alignments.
 Many, though not all, of these sizes are guaranteed by the [language
-specification](/doc/go_spec.html#Size_and_alignment_guarantees).
+specification](/doc/golang_spec.html#Size_and_alignment_guarantees).
 Those that aren't guaranteed may change in future versions of Go (for
 example, we've considered changing the alignment of int64 on 32-bit).
 
@@ -104,7 +104,7 @@ the address of the final, empty fN field.
 
 Note that user-written assembly code should generally not depend on Go
 type layout and should instead use the constants defined in
-[`go_asm.h`](/doc/asm.html#data-offsets).
+[`golang_asm.h`](/doc/asm.html#data-offsets).
 
 ## Function call argument and result passing
 
@@ -131,7 +131,7 @@ reserves spill space on the stack for all register-based arguments
 (but does not populate this space).
 
 The receiver, arguments, and results of function or method F are
-assigned to registers or the stack using the following algorithm:
+assigned to registers or the stack using the following algolangrithm:
 
 1. Let NI and NFP be the length of integer and floating-point register
    sequences defined by the architecture.
@@ -185,7 +185,7 @@ Register-assignment of a value V of underlying type T works as follows:
 1. If I > NI or FP > NFP, fail.
 1. If any recursive assignment above fails, fail.
 
-The above algorithm produces an assignment of each receiver, argument,
+The above algolangrithm produces an assignment of each receiver, argument,
 and result to registers or to a field in the stack sequence.
 The final stack sequence looks like: stack-assigned receiver,
 stack-assigned arguments, pointer-alignment, stack-assigned results,
@@ -212,11 +212,11 @@ stack, using the typical convention where address 0 is at the bottom:
 To perform a call, the caller reserves space starting at the lowest
 address in its stack frame for the call stack frame, stores arguments
 in the registers and argument stack fields determined by the above
-algorithm, and performs the call.
+algolangrithm, and performs the call.
 At the time of a call, spill space, result stack fields, and result
 registers are left uninitialized.
 Upon return, the callee must have stored results to all result
-registers and result stack fields determined by the above algorithm.
+registers and result stack fields determined by the above algolangrithm.
 
 There are no callee-save registers, so a call may overwrite any
 register that doesn’t have a fixed meaning, including argument
@@ -289,7 +289,7 @@ We make exceptions for 0 and 1-element arrays because these don’t
 require computed offsets, and 1-element arrays are already decomposed
 in the compiler’s SSA representation.
 
-The ABI assignment algorithm above is equivalent to Go’s stack-based
+The ABI assignment algolangrithm above is equivalent to Go’s stack-based
 ABI0 calling convention if there are zero architecture registers.
 This is intended to ease the transition to the register-based internal
 ABI and make it easy for the compiler to generate either calling
@@ -298,7 +298,7 @@ An architecture may still define register meanings that aren’t
 compatible with ABI0, but these differences should be easy to account
 for in the compiler.
 
-The assignment algorithm assigns zero-sized values to the stack
+The assignment algolangrithm assigns zero-sized values to the stack
 (assignment step 2) in order to support ABI0-equivalence.
 While these values take no space themselves, they do result in
 alignment padding on the stack in ABI0.
@@ -307,7 +307,7 @@ values even on architectures that provide no argument registers
 because they don't consume any registers, and hence not add alignment
 padding to the stack.
 
-The algorithm reserves spill space for arguments in the caller’s frame
+The algolangrithm reserves spill space for arguments in the caller’s frame
 so that the compiler can generate a stack growth path that spills into
 this reserved space.
 If the callee has to grow the stack, it may not be able to reserve
@@ -410,7 +410,7 @@ Special-purpose registers are as follows:
 | RDX | Closure context pointer | Scratch | Scratch |
 | R12 | Scratch | Scratch | Scratch |
 | R13 | Scratch | Scratch | Scratch |
-| R14 | Current goroutine | Same | Same |
+| R14 | Current golangroutine | Same | Same |
 | R15 | GOT reference temporary if dynlink | Same | Same |
 | X15 | Zero value (*) | Same | Scratch |
 
@@ -424,18 +424,18 @@ to be restored on transitions from ABI0 code to ABIInternal code.
 In ABI0, these are undefined, so transitions from ABIInternal to ABI0
 can ignore these registers.
 
-*Rationale*: For the current goroutine pointer, we chose a register
+*Rationale*: For the current golangroutine pointer, we chose a register
 that requires an additional REX byte.
 While this adds one byte to every function prologue, it is hardly ever
 accessed outside the function prologue and we expect making more
 single-byte registers available to be a net win.
 
-*Rationale*: We could allow R14 (the current goroutine pointer) to be
+*Rationale*: We could allow R14 (the current golangroutine pointer) to be
 a scratch register in function bodies because it can always be
 restored from TLS on amd64.
 However, we designate it as a fixed register for simplicity and for
 consistency with other architectures that may not have a copy of the
-current goroutine pointer in TLS.
+current golangroutine pointer in TLS.
 
 *Rationale*: We designate X15 as a fixed zero register because
 functions often have to bulk zero their stack frames, and this is more
@@ -457,7 +457,7 @@ A function's stack frame is laid out as follows:
     | return PC                    |
     | RBP on entry                 |
     | ... locals ...               |
-    | ... outgoing arguments ...   |
+    | ... outgolanging arguments ...   |
     +------------------------------+ ↓ lower addresses
 
 The "return PC" is pushed as part of the standard amd64 `CALL`
@@ -546,7 +546,7 @@ Special-purpose registers are as follows:
 | RSP | Stack pointer | Same | Same |
 | R30 | Link register | Same | Scratch (non-leaf functions) |
 | R29 | Frame pointer | Same | Same |
-| R28 | Current goroutine | Same | Same |
+| R28 | Current golangroutine | Same | Same |
 | R27 | Scratch | Scratch | Scratch |
 | R26 | Closure context pointer | Scratch | Scratch |
 | R18 | Reserved (not used) | Same | Same |
@@ -577,7 +577,7 @@ follows:
 
     +------------------------------+
     | ... locals ...               |
-    | ... outgoing arguments ...   |
+    | ... outgolanging arguments ...   |
     | return PC                    | ← RSP points to
     | frame pointer on entry       |
     +------------------------------+ ↓ lower addresses
@@ -654,7 +654,7 @@ are as follows:
 | R1 | Link register | Link register | Scratch |
 | R3 | Stack pointer | Same | Same |
 | R20,R21 | Scratch | Scratch | Used by duffcopy, duffzero |
-| R22 | Current goroutine | Same | Same |
+| R22 | Current golangroutine | Same | Same |
 | R29 | Closure context pointer | Same | Same |
 | R30, R31 | used by the assembler | Same | Same |
 
@@ -670,7 +670,7 @@ follows:
 
     +------------------------------+
     | ... locals ...               |
-    | ... outgoing arguments ...   |
+    | ... outgolanging arguments ...   |
     | return PC                    | ← R3 points to
     +------------------------------+ ↓ lower addresses
 
@@ -704,7 +704,7 @@ assembly code are as follows:
 | R12 | Function address on indirect calls | Scratch | Scratch |
 | R13 | TLS pointer | Same | Same |
 | R20,R21 | Scratch | Scratch | Used by duffcopy, duffzero |
-| R30 | Current goroutine | Same | Same |
+| R30 | Current golangroutine | Same | Same |
 | R31 | Scratch | Scratch | Scratch |
 | LR  | Link register | Link register | Scratch |
 *Rationale*: These register meanings are compatible with Go’s
@@ -717,7 +717,7 @@ in some cases as the function address when doing an indirect call.
 
 The register R2 contains the address of the TOC (table of contents) which
 contains data or code addresses used when generating position independent
-code. Non-Go code generated when using cgo contains TOC-relative addresses
+code. Non-Go code generated when using cgolang contains TOC-relative addresses
 which depend on R2 holding a valid TOC. Go code compiled with -shared or
 -dynlink initializes and maintains R2 and uses it in some cases for
 function calls; Go code compiled without these options does not modify R2.
@@ -741,14 +741,14 @@ Registers R18 - R29 and F13 - F31 are considered scratch registers.
 #### Stack layout
 
 The stack pointer, R1, grows down and is aligned to 8 bytes in Go, but changed
-to 16 bytes when calling cgo.
+to 16 bytes when calling cgolang.
 
 A function's stack frame, after the frame is created, is laid out as
 follows:
 
     +------------------------------+
     | ... locals ...               |
-    | ... outgoing arguments ...   |
+    | ... outgolanging arguments ...   |
     | 24  TOC register R2 save     | When compiled with -shared/-dynlink
     | 16  Unused in Go             | Not used in Go
     |  8  CR save                  | nonvolatile CR fields
@@ -801,7 +801,7 @@ assembly code are as follows:
 | X4  | TLS (thread pointer) | TLS | Scratch |
 | X24,X25 | Scratch | Scratch | Used by duffcopy, duffzero |
 | X26 | Closure context pointer | Scratch | Scratch |
-| X27 | Current goroutine | Same | Same |
+| X27 | Current golangroutine | Same | Same |
 | X31 | Scratch | Scratch | Scratch |
 
 *Rationale*: These register meanings are compatible with Go’s
@@ -820,7 +820,7 @@ follows:
 
     +------------------------------+
     | ... locals ...               |
-    | ... outgoing arguments ...   |
+    | ... outgolanging arguments ...   |
     | return PC                    | ← X2 points to
     +------------------------------+ ↓ lower addresses
 
@@ -886,7 +886,7 @@ clobbers (including those clobbered by functions it calls) and any
 register not clobbered by function F can remain live across calls to
 F.
 
-This is generally a good fit for Go because Go's package DAG allows
+This is generally a golangod fit for Go because Go's package DAG allows
 function metadata like the clobber set to flow up the call graph, even
 across package boundaries.
 Clobber sets would require relatively little change to the garbage
@@ -907,7 +907,7 @@ values by reference and delay copying until it is actually necessary.
 
 In order to understand the impacts of the above design on register
 usage, we
-[analyzed](https://github.com/aclements/go-misc/tree/master/abi) the
+[analyzed](https://github.com/aclements/golang-misc/tree/master/abi) the
 impact of the above ABI on a large code base: cmd/kubelet from
 [Kubernetes](https://github.com/kubernetes/kubernetes) at tag v1.18.8.
 

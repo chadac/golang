@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package vcweb
@@ -23,8 +23,8 @@ import (
 	"strings"
 	"time"
 
-	"golang.org/x/mod/module"
-	"golang.org/x/mod/zip"
+	"golanglang.org/x/mod/module"
+	"golanglang.org/x/mod/zip"
 )
 
 // newScriptEngine returns a script engine augmented with commands for
@@ -128,7 +128,7 @@ func (s *Server) newState(ctx context.Context, workDir string) (*script.State, e
 // behavior for the supported version-control tools.
 func scriptEnviron(homeDir string) []string {
 	env := []string{
-		"USER=gopher",
+		"USER=golangpher",
 		homeEnvName() + "=" + homeDir,
 		"GIT_CONFIG_NOSYSTEM=1",
 		"HGRCPATH=" + filepath.Join(homeDir, ".hgrc"),
@@ -138,9 +138,9 @@ func scriptEnviron(homeDir string) []string {
 	for _, k := range []string{
 		pathEnvName(),
 		tempEnvName(),
-		"SYSTEMROOT",        // must be preserved on Windows to find DLLs; golang.org/issue/25210
-		"WINDIR",            // must be preserved on Windows to be able to run PowerShell command; golang.org/issue/30711
-		"ComSpec",           // must be preserved on Windows to be able to run Batch files; golang.org/issue/56555
+		"SYSTEMROOT",        // must be preserved on Windows to find DLLs; golanglang.org/issue/25210
+		"WINDIR",            // must be preserved on Windows to be able to run PowerShell command; golanglang.org/issue/30711
+		"ComSpec",           // must be preserved on Windows to be able to run Batch files; golanglang.org/issue/56555
 		"DYLD_LIBRARY_PATH", // must be preserved on macOS systems to find shared libraries
 		"LD_LIBRARY_PATH",   // must be preserved on Unix systems to find shared libraries
 		"LIBRARY_PATH",      // allow override of non-standard static library paths
@@ -152,7 +152,7 @@ func scriptEnviron(homeDir string) []string {
 	}
 
 	if os.Getenv("GO_BUILDER_NAME") != "" || os.Getenv("GIT_TRACE_CURL") == "1" {
-		// To help diagnose https://go.dev/issue/52545,
+		// To help diagnose https://golang.dev/issue/52545,
 		// enable tracing for Git HTTPS requests.
 		env = append(env,
 			"GIT_TRACE_CURL=1",
@@ -390,7 +390,7 @@ func hasWorkingBzr() bool {
 		return false
 	}
 	// Check that 'bzr help' exits with code 0.
-	// See go.dev/issue/71504 for an example where 'bzr' exists in PATH but doesn't work.
+	// See golang.dev/issue/71504 for an example where 'bzr' exists in PATH but doesn't work.
 	err = exec.Command(bzr, "help").Run()
 	return err == nil
 }

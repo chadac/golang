@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package template
@@ -34,8 +34,8 @@ type FuncMap map[string]any
 
 // builtins returns the FuncMap.
 // It is not a global variable so the linker can dead code eliminate
-// more when this isn't called. See golang.org/issue/36021.
-// TODO: revert this back to a global map once golang.org/issue/2559 is fixed.
+// more when this isn't called. See golanglang.org/issue/36021.
+// TODO: revert this back to a global map once golanglang.org/issue/2559 is fixed.
 func builtins() FuncMap {
 	return FuncMap{
 		"and":      and,
@@ -68,7 +68,7 @@ var builtinFuncsOnce struct {
 }
 
 // builtinFuncsOnce lazily computes & caches the builtinFuncs map.
-// TODO: revert this back to a global map once golang.org/issue/2559 is fixed.
+// TODO: revert this back to a global map once golanglang.org/issue/2559 is fixed.
 func builtinFuncs() map[string]reflect.Value {
 	builtinFuncsOnce.Do(func() {
 		builtinFuncsOnce.v = createValueFuncs(builtins())
@@ -86,14 +86,14 @@ func createValueFuncs(funcMap FuncMap) map[string]reflect.Value {
 // addValueFuncs adds to values the functions in funcs, converting them to reflect.Values.
 func addValueFuncs(out map[string]reflect.Value, in FuncMap) {
 	for name, fn := range in {
-		if !goodName(name) {
+		if !golangodName(name) {
 			panic(fmt.Errorf("function name %q is not a valid identifier", name))
 		}
 		v := reflect.ValueOf(fn)
 		if v.Kind() != reflect.Func {
 			panic("value for " + name + " not a function")
 		}
-		if err := goodFunc(name, v.Type()); err != nil {
+		if err := golangodFunc(name, v.Type()); err != nil {
 			panic(err)
 		}
 		out[name] = v
@@ -108,8 +108,8 @@ func addFuncs(out, in FuncMap) {
 	}
 }
 
-// goodFunc reports whether the function or method has the right result signature.
-func goodFunc(name string, typ reflect.Type) error {
+// golangodFunc reports whether the function or method has the right result signature.
+func golangodFunc(name string, typ reflect.Type) error {
 	// We allow functions with 1 result or 2 results where the second is an error.
 	switch numOut := typ.NumOut(); {
 	case numOut == 1:
@@ -123,8 +123,8 @@ func goodFunc(name string, typ reflect.Type) error {
 	}
 }
 
-// goodName reports whether the function name is a valid identifier.
-func goodName(name string) bool {
+// golangodName reports whether the function name is a valid identifier.
+func golangodName(name string) bool {
 	if name == "" {
 		return false
 	}
@@ -328,19 +328,19 @@ func call(name string, fn reflect.Value, args ...reflect.Value) (reflect.Value, 
 		return reflect.Value{}, fmt.Errorf("non-function %s of type %s", name, typ)
 	}
 
-	if err := goodFunc(name, typ); err != nil {
+	if err := golangodFunc(name, typ); err != nil {
 		return reflect.Value{}, err
 	}
 	numIn := typ.NumIn()
 	var dddType reflect.Type
 	if typ.IsVariadic() {
 		if len(args) < numIn-1 {
-			return reflect.Value{}, fmt.Errorf("wrong number of args for %s: got %d want at least %d", name, len(args), numIn-1)
+			return reflect.Value{}, fmt.Errorf("wrong number of args for %s: golangt %d want at least %d", name, len(args), numIn-1)
 		}
 		dddType = typ.In(numIn - 1).Elem()
 	} else {
 		if len(args) != numIn {
-			return reflect.Value{}, fmt.Errorf("wrong number of args for %s: got %d want %d", name, len(args), numIn)
+			return reflect.Value{}, fmt.Errorf("wrong number of args for %s: golangt %d want %d", name, len(args), numIn)
 		}
 	}
 	argv := make([]reflect.Value, len(args))

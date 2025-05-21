@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package counter
@@ -183,7 +183,7 @@ func eq(a, b []uintptr) bool {
 
 // ReadStack reads the given stack counter.
 // This is the implementation of
-// golang.org/x/telemetry/counter/countertest.ReadStackCounter.
+// golanglang.org/x/telemetry/counter/countertest.ReadStackCounter.
 func ReadStack(c *StackCounter) (map[string]uint64, error) {
 	ret := map[string]uint64{}
 	for _, ctr := range c.Counters() {

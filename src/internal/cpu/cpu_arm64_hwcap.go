@@ -1,8 +1,8 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build arm64 && linux
+//golang:build arm64 && linux
 
 package cpu
 
@@ -16,9 +16,9 @@ import _ "unsafe" // for linkname
 //   - github.com/klauspost/cpuid/v2
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname HWCap
+//golang:linkname HWCap
 var HWCap uint
 
 // HWCAP bits. These are exposed by Linux.

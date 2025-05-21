@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package trace
@@ -22,22 +22,22 @@ type ProcID int64
 // P in particular.
 const NoProc = ProcID(-1)
 
-// GoID is the runtime-internal G structure's goid field. This is unique
-// for each goroutine.
+// GoID is the runtime-internal G structure's golangid field. This is unique
+// for each golangroutine.
 type GoID int64
 
 // NoGoroutine indicates that the relevant events don't correspond to any
-// goroutine in particular.
+// golangroutine in particular.
 const NoGoroutine = GoID(-1)
 
-// GoState represents the state of a goroutine.
+// GoState represents the state of a golangroutine.
 //
 // New GoStates may be added in the future. Users of this type must be robust
 // to that possibility.
 type GoState uint8
 
 const (
-	GoUndetermined GoState = iota // No information is known about the goroutine.
+	GoUndetermined GoState = iota // No information is known about the golangroutine.
 	GoNotExist                    // Goroutine does not exist.
 	GoRunnable                    // Goroutine is runnable but not running.
 	GoRunning                     // Goroutine is running.
@@ -45,7 +45,7 @@ const (
 	GoSyscall                     // Goroutine is in a system call.
 )
 
-// Executing returns true if the state indicates that the goroutine is executing
+// Executing returns true if the state indicates that the golangroutine is executing
 // and bound to its thread.
 func (s GoState) Executing() bool {
 	return s == GoRunning || s == GoSyscall
@@ -216,10 +216,10 @@ type StateTransition struct {
 	// this StateTransition came from.
 	//
 	// An example of this difference is the NotExist -> Runnable transition for
-	// goroutines, which indicates goroutine creation. In this particular case,
-	// a Stack here would refer to the starting stack of the new goroutine, and
+	// golangroutines, which indicates golangroutine creation. In this particular case,
+	// a Stack here would refer to the starting stack of the new golangroutine, and
 	// an (Event).Stack would refer to the stack trace of whoever created the
-	// goroutine.
+	// golangroutine.
 	Stack Stack
 
 	// The actual transition data. Stored in a neutral form so that
@@ -229,7 +229,7 @@ type StateTransition struct {
 	newState uint8
 }
 
-func goStateTransition(id GoID, from, to GoState) StateTransition {
+func golangStateTransition(id GoID, from, to GoState) StateTransition {
 	return StateTransition{
 		Resource: ResourceID{Kind: ResourceGoroutine, id: int64(id)},
 		oldState: uint8(from),
@@ -245,11 +245,11 @@ func procStateTransition(id ProcID, from, to ProcState) StateTransition {
 	}
 }
 
-// Goroutine returns the state transition for a goroutine.
+// Goroutine returns the state transition for a golangroutine.
 //
 // Transitions to and from states that are Executing are special in that
 // they change the future execution context. In other words, future events
-// on the same thread will feature the same goroutine until it stops running.
+// on the same thread will feature the same golangroutine until it stops running.
 //
 // Panics if d.Resource.Kind is not ResourceGoroutine.
 func (d StateTransition) Goroutine() (from, to GoState) {
@@ -263,7 +263,7 @@ func (d StateTransition) Goroutine() (from, to GoState) {
 //
 // Transitions to and from states that are Executing are special in that
 // they change the future execution context. In other words, future events
-// on the same thread will feature the same goroutine until it stops running.
+// on the same thread will feature the same golangroutine until it stops running.
 //
 // Panics if d.Resource.Kind is not ResourceProc.
 func (d StateTransition) Proc() (from, to ProcState) {

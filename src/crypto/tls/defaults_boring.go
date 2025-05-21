@@ -1,8 +1,8 @@
 // Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build boringcrypto
+//golang:build boringcrypto
 
 package tls
 
@@ -15,9 +15,9 @@ import (
 
 // These Go+BoringCrypto policies mostly match BoringSSL's
 // ssl_compliance_policy_fips_202205, which is based on NIST SP 800-52r2.
-// https://cs.opensource.google/boringssl/boringssl/+/master:ssl/ssl_lib.cc;l=3289;drc=ea7a88fa
+// https://cs.opensource.golangogle/boringssl/boringssl/+/master:ssl/ssl_lib.cc;l=3289;drc=ea7a88fa
 //
-// P-521 is allowed per https://go.dev/issue/71757.
+// P-521 is allowed per https://golang.dev/issue/71757.
 //
 // They are applied when crypto/tls/fipsonly is imported with GOEXPERIMENT=boringcrypto.
 
@@ -31,7 +31,7 @@ var (
 		CurveP384,
 		CurveP521,
 	}
-	allowedSignatureAlgorithmsFIPS = []SignatureScheme{
+	allowedSignatureAlgolangrithmsFIPS = []SignatureScheme{
 		PSSWithSHA256,
 		PSSWithSHA384,
 		PSSWithSHA512,

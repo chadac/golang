@@ -1,8 +1,8 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build aix || solaris
+//golang:build aix || solaris
 
 // This file handles forkAndExecInChild function for OS using libc syscall like AIX or Solaris.
 
@@ -72,12 +72,12 @@ func init() {
 // no rescheduling, no malloc calls, and no new stack segments.
 //
 // We call hand-crafted syscalls, implemented in
-// ../runtime/syscall_solaris.go, rather than generated libc wrappers
+// ../runtime/syscall_solaris.golang, rather than generated libc wrappers
 // because we need to avoid lazy-loading the functions (might malloc,
 // split the stack, or acquire mutexes). We can't call RawSyscall
 // because it's not safe even for BSD-subsystem calls.
 //
-//go:norace
+//golang:norace
 func forkAndExecInChild(argv0 *byte, argv, envv []*byte, chroot, dir *byte, attr *ProcAttr, sys *SysProcAttr, pipe int) (pid int, err Errno) {
 	// Declare all variables at top in case any
 	// declarations require heap allocation (e.g., err1).
@@ -127,7 +127,7 @@ func forkAndExecInChild(argv0 *byte, argv, envv []*byte, chroot, dir *byte, attr
 	if sys.Setsid {
 		_, err1 = setsid()
 		if err1 != 0 {
-			goto childerror
+			golangto childerror
 		}
 	}
 
@@ -136,7 +136,7 @@ func forkAndExecInChild(argv0 *byte, argv, envv []*byte, chroot, dir *byte, attr
 		// Place child in process group.
 		err1 = setpgid(0, uintptr(sys.Pgid))
 		if err1 != 0 {
-			goto childerror
+			golangto childerror
 		}
 	}
 
@@ -145,7 +145,7 @@ func forkAndExecInChild(argv0 *byte, argv, envv []*byte, chroot, dir *byte, attr
 		if pgrp == 0 {
 			r1, err1 = getpid()
 			if err1 != 0 {
-				goto childerror
+				golangto childerror
 			}
 
 			pgrp = _Pid_t(r1)
@@ -154,7 +154,7 @@ func forkAndExecInChild(argv0 *byte, argv, envv []*byte, chroot, dir *byte, attr
 		// Place process group in foreground.
 		err1 = ioctl(uintptr(sys.Ctty), uintptr(TIOCSPGRP), uintptr(unsafe.Pointer(&pgrp)))
 		if err1 != 0 {
-			goto childerror
+			golangto childerror
 		}
 	}
 
@@ -166,7 +166,7 @@ func forkAndExecInChild(argv0 *byte, argv, envv []*byte, chroot, dir *byte, attr
 	if chroot != nil {
 		err1 = chroot1(uintptr(unsafe.Pointer(chroot)))
 		if err1 != 0 {
-			goto childerror
+			golangto childerror
 		}
 	}
 
@@ -180,16 +180,16 @@ func forkAndExecInChild(argv0 *byte, argv, envv []*byte, chroot, dir *byte, attr
 		if !cred.NoSetGroups {
 			err1 = setgroups1(ngroups, groups)
 			if err1 != 0 {
-				goto childerror
+				golangto childerror
 			}
 		}
 		err1 = setgid(uintptr(cred.Gid))
 		if err1 != 0 {
-			goto childerror
+			golangto childerror
 		}
 		err1 = setuid(uintptr(cred.Uid))
 		if err1 != 0 {
-			goto childerror
+			golangto childerror
 		}
 	}
 
@@ -197,7 +197,7 @@ func forkAndExecInChild(argv0 *byte, argv, envv []*byte, chroot, dir *byte, attr
 	if dir != nil {
 		err1 = chdir(uintptr(unsafe.Pointer(dir)))
 		if err1 != 0 {
-			goto childerror
+			golangto childerror
 		}
 	}
 
@@ -210,12 +210,12 @@ func forkAndExecInChild(argv0 *byte, argv, envv []*byte, chroot, dir *byte, attr
 		default:
 			_, err1 = dup2child(uintptr(pipe), uintptr(nextfd))
 			if err1 != 0 {
-				goto childerror
+				golangto childerror
 			}
 			_, err1 = fcntl1(uintptr(nextfd), F_SETFD, FD_CLOEXEC)
 		}
 		if err1 != 0 {
-			goto childerror
+			golangto childerror
 		}
 		pipe = nextfd
 		nextfd++
@@ -231,12 +231,12 @@ func forkAndExecInChild(argv0 *byte, argv, envv []*byte, chroot, dir *byte, attr
 			default:
 				_, err1 = dup2child(uintptr(fd[i]), uintptr(nextfd))
 				if err1 != 0 {
-					goto childerror
+					golangto childerror
 				}
 				_, err1 = fcntl1(uintptr(nextfd), F_SETFD, FD_CLOEXEC)
 			}
 			if err1 != 0 {
-				goto childerror
+				golangto childerror
 			}
 			fd[i] = nextfd
 			nextfd++
@@ -254,7 +254,7 @@ func forkAndExecInChild(argv0 *byte, argv, envv []*byte, chroot, dir *byte, attr
 			// probably not elsewhere either.
 			_, err1 = fcntl1(uintptr(fd[i]), F_SETFD, 0)
 			if err1 != 0 {
-				goto childerror
+				golangto childerror
 			}
 			continue
 		}
@@ -262,7 +262,7 @@ func forkAndExecInChild(argv0 *byte, argv, envv []*byte, chroot, dir *byte, attr
 		// which is exactly what we want.
 		_, err1 = dup2child(uintptr(fd[i]), uintptr(i))
 		if err1 != 0 {
-			goto childerror
+			golangto childerror
 		}
 	}
 
@@ -278,7 +278,7 @@ func forkAndExecInChild(argv0 *byte, argv, envv []*byte, chroot, dir *byte, attr
 	if sys.Noctty {
 		err1 = ioctl(0, uintptr(TIOCNOTTY), 0)
 		if err1 != 0 {
-			goto childerror
+			golangto childerror
 		}
 	}
 
@@ -287,11 +287,11 @@ func forkAndExecInChild(argv0 *byte, argv, envv []*byte, chroot, dir *byte, attr
 		// On AIX, TIOCSCTTY is undefined
 		if TIOCSCTTY == 0 {
 			err1 = ENOSYS
-			goto childerror
+			golangto childerror
 		}
 		err1 = ioctl(uintptr(sys.Ctty), uintptr(TIOCSCTTY), 0)
 		if err1 != 0 {
-			goto childerror
+			golangto childerror
 		}
 	}
 

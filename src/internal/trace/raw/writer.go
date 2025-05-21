@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package raw
@@ -36,7 +36,7 @@ func NewWriter(w io.Writer, v version.Version) (*Writer, error) {
 func (w *Writer) WriteEvent(e Event) error {
 	// Check version.
 	if e.Version != w.v {
-		return fmt.Errorf("mismatched version between writer (go 1.%d) and event (go 1.%d)", w.v, e.Version)
+		return fmt.Errorf("mismatched version between writer (golang 1.%d) and event (golang 1.%d)", w.v, e.Version)
 	}
 
 	// Write event header byte.

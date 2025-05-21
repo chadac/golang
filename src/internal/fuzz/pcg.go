@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package fuzz
@@ -41,7 +41,7 @@ type pcgRand struct {
 	inc    uint64
 }
 
-func godebugSeed() *int {
+func golangdebugSeed() *int {
 	debug := strings.Split(os.Getenv("GODEBUG"), ",")
 	for _, f := range debug {
 		if strings.HasPrefix(f, "fuzzseed=") {
@@ -59,7 +59,7 @@ func godebugSeed() *int {
 func newPcgRand() *pcgRand {
 	r := new(pcgRand)
 	now := uint64(time.Now().UnixNano())
-	if seed := godebugSeed(); seed != nil {
+	if seed := golangdebugSeed(); seed != nil {
 		now = uint64(*seed)
 	}
 	inc := globalInc.Add(1)
@@ -130,10 +130,10 @@ func (r *pcgRand) bool() bool {
 // noCopy may be embedded into structs which must not be copied
 // after the first use.
 //
-// See https://golang.org/issues/8005#issuecomment-190753527
+// See https://golanglang.org/issues/8005#issuecomment-190753527
 // for details.
 type noCopy struct{}
 
-// Lock is a no-op used by -copylocks checker from `go vet`.
+// Lock is a no-op used by -copylocks checker from `golang vet`.
 func (*noCopy) Lock()   {}
 func (*noCopy) Unlock() {}

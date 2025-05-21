@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package auth
@@ -44,9 +44,9 @@ protocol=https
 host=example.com
 username=bob
 password=secr3t
-url=https://go.dev
+url=https://golang.dev
 `,
-			wantPrefix:   "https://go.dev",
+			wantPrefix:   "https://golang.dev",
 			wantUsername: "bob",
 			wantPassword: "secr3t",
 		},

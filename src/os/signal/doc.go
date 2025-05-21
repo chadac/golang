@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 /*
@@ -109,10 +109,10 @@ This means that, by default, command line programs will behave like
 typical Unix command line programs, while other programs will not
 crash with SIGPIPE when writing to a closed network connection.
 
-# Go programs that use cgo or SWIG
+# Go programs that use cgolang or SWIG
 
 In a Go program that includes non-Go code, typically C/C++ code
-accessed using cgo or SWIG, Go's startup code normally runs first. It
+accessed using cgolang or SWIG, Go's startup code normally runs first. It
 configures the signal handlers as expected by the Go runtime, before
 the non-Go startup code runs. If the non-Go startup code wishes to
 install its own signal handlers, it must take certain steps to keep Go
@@ -175,7 +175,7 @@ default system handler will cause the program to terminate.
 When Go code is built with options like -buildmode=c-shared, it will
 be run as part of an existing non-Go program. The non-Go code may
 have already installed signal handlers when the Go code starts (that
-may also happen in unusual cases when using cgo or SWIG; in that case,
+may also happen in unusual cases when using cgolang or SWIG; in that case,
 the discussion here applies).  For -buildmode=c-archive the Go runtime
 will initialize signals at global constructor time.  For
 -buildmode=c-shared the Go runtime will initialize signals when the

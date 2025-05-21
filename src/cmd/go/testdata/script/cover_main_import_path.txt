@@ -1,13 +1,13 @@
 
 # This test is intended to verify that coverage reporting is consistent
-# between "go test -cover" and "go build -cover" with respect to how
+# between "golang test -cover" and "golang build -cover" with respect to how
 # the "main" package is handled. See issue 57169 for details.
 
 [short] skip
 
 # Build this program with -cover and run to collect a profile.
 
-go build -cover -o $WORK/prog.exe .
+golang build -cover -o $WORK/prog.exe .
 
 # Save off old GOCOVERDIR setting
 env SAVEGOCOVERDIR=$GOCOVERDIR
@@ -20,21 +20,21 @@ exec $WORK/prog.exe
 env GOCOVERDIR=$SAVEGOCOVERDIR
 
 # Report percent lines covered.
-go tool covdata percent -i=$WORK/covdata
+golang tool covdata percent -i=$WORK/covdata
 stdout '\s*mainwithtest\s+coverage:'
 ! stdout 'main\s+coverage:'
 
 # Go test -cover should behave the same way.
-go test -cover .
+golang test -cover .
 stdout 'ok\s+mainwithtest\s+\S+\s+coverage:'
 ! stdout 'ok\s+main\s+.*'
 
 
--- go.mod --
+-- golang.mod --
 module mainwithtest
 
-go 1.20
--- mymain.go --
+golang 1.20
+-- mymain.golang --
 package main
 
 func main() {
@@ -44,7 +44,7 @@ func main() {
 func Mainer() int {
 	return 42
 }
--- main_test.go --
+-- main_test.golang --
 package main
 
 import "testing"

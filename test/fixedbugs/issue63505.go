@@ -1,7 +1,7 @@
 // compile
 
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -27,7 +27,7 @@ func (e explainer) Map() map[string]string {
 	return e.m
 }
 
-//go:noinline
+//golang:noinline
 func newExplainer() explainer {
 	m := make(map[string]string)
 	m["Hello"] = "World!"

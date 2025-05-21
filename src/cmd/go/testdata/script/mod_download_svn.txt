@@ -1,9 +1,9 @@
 [short] skip
 [!exec:svn] skip
 
-# 'go mod download' will fall back to svn+ssh once svn fails over protocols like https.
-# If vcs-test.golang.org isn't in the user's known_hosts file, this will result
-# in an ssh prompt, which will stop 'go test' entirely
+# 'golang mod download' will fall back to svn+ssh once svn fails over protocols like https.
+# If vcs-test.golanglang.org isn't in the user's known_hosts file, this will result
+# in an ssh prompt, which will stop 'golang test' entirely
 #
 # Unfortunately, there isn't a way to globally disable host checking for ssh,
 # without modifying the real system's or user's configs. Changing $HOME won't
@@ -19,11 +19,11 @@ env GOPROXY=direct
 env GOSUMDB=off
 
 # Attempting to get a module zip using svn should succeed.
-go mod download vcs-test.golang.org/svn/hello.svn@000000000001
-exists $GOPATH/pkg/mod/cache/download/vcs-test.golang.org/svn/hello.svn/@v/v0.0.0-20170922011245-000000000001.zip
+golang mod download vcs-test.golanglang.org/svn/hello.svn@000000000001
+exists $GOPATH/pkg/mod/cache/download/vcs-test.golanglang.org/svn/hello.svn/@v/v0.0.0-20170922011245-000000000001.zip
 
 # Attempting to get a nonexistent module using svn should fail with a
 # reasonable message instead of a panic.
-! go mod download vcs-test.golang.org/svn/nonexistent.svn@latest
+! golang mod download vcs-test.golanglang.org/svn/nonexistent.svn@latest
 ! stderr panic
-stderr 'go: module vcs-test.golang.org/svn/nonexistent.svn: no matching versions for query "latest"$'
+stderr 'golang: module vcs-test.golanglang.org/svn/nonexistent.svn: no matching versions for query "latest"$'

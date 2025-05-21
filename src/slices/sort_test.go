@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package slices_test
@@ -24,7 +24,7 @@ func TestSortIntSlice(t *testing.T) {
 	Sort(data)
 	if !IsSorted(data) {
 		t.Errorf("sorted %v", ints)
-		t.Errorf("   got %v", data)
+		t.Errorf("   golangt %v", data)
 	}
 }
 
@@ -33,7 +33,7 @@ func TestSortFuncIntSlice(t *testing.T) {
 	SortFunc(data, func(a, b int) int { return a - b })
 	if !IsSorted(data) {
 		t.Errorf("sorted %v", ints)
-		t.Errorf("   got %v", data)
+		t.Errorf("   golangt %v", data)
 	}
 }
 
@@ -42,7 +42,7 @@ func TestSortFloat64Slice(t *testing.T) {
 	Sort(data)
 	if !IsSorted(data) {
 		t.Errorf("sorted %v", float64s)
-		t.Errorf("   got %v", data)
+		t.Errorf("   golangt %v", data)
 	}
 }
 
@@ -51,7 +51,7 @@ func TestSortStringSlice(t *testing.T) {
 	Sort(data)
 	if !IsSorted(data) {
 		t.Errorf("sorted %v", strs)
-		t.Errorf("   got %v", data)
+		t.Errorf("   golangt %v", data)
 	}
 }
 
@@ -191,24 +191,24 @@ func TestMinMax(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(fmt.Sprintf("%v", tt.data), func(t *testing.T) {
-			gotMin := Min(tt.data)
-			if gotMin != tt.wantMin {
-				t.Errorf("Min got %v, want %v", gotMin, tt.wantMin)
+			golangtMin := Min(tt.data)
+			if golangtMin != tt.wantMin {
+				t.Errorf("Min golangt %v, want %v", golangtMin, tt.wantMin)
 			}
 
-			gotMinFunc := MinFunc(tt.data, intCmp)
-			if gotMinFunc != tt.wantMin {
-				t.Errorf("MinFunc got %v, want %v", gotMinFunc, tt.wantMin)
+			golangtMinFunc := MinFunc(tt.data, intCmp)
+			if golangtMinFunc != tt.wantMin {
+				t.Errorf("MinFunc golangt %v, want %v", golangtMinFunc, tt.wantMin)
 			}
 
-			gotMax := Max(tt.data)
-			if gotMax != tt.wantMax {
-				t.Errorf("Max got %v, want %v", gotMax, tt.wantMax)
+			golangtMax := Max(tt.data)
+			if golangtMax != tt.wantMax {
+				t.Errorf("Max golangt %v, want %v", golangtMax, tt.wantMax)
 			}
 
-			gotMaxFunc := MaxFunc(tt.data, intCmp)
-			if gotMaxFunc != tt.wantMax {
-				t.Errorf("MaxFunc got %v, want %v", gotMaxFunc, tt.wantMax)
+			golangtMaxFunc := MaxFunc(tt.data, intCmp)
+			if golangtMaxFunc != tt.wantMax {
+				t.Errorf("MaxFunc golangt %v, want %v", golangtMaxFunc, tt.wantMax)
 			}
 		})
 	}
@@ -220,26 +220,26 @@ func TestMinMax(t *testing.T) {
 		{2, "b"},
 	}
 
-	gotMin := MinFunc(svals, cmpS)
+	golangtMin := MinFunc(svals, cmpS)
 	wantMin := S{1, "a"}
-	if gotMin != wantMin {
-		t.Errorf("MinFunc(%v) = %v, want %v", svals, gotMin, wantMin)
+	if golangtMin != wantMin {
+		t.Errorf("MinFunc(%v) = %v, want %v", svals, golangtMin, wantMin)
 	}
 
-	gotMax := MaxFunc(svals, cmpS)
+	golangtMax := MaxFunc(svals, cmpS)
 	wantMax := S{2, "a"}
-	if gotMax != wantMax {
-		t.Errorf("MaxFunc(%v) = %v, want %v", svals, gotMax, wantMax)
+	if golangtMax != wantMax {
+		t.Errorf("MaxFunc(%v) = %v, want %v", svals, golangtMax, wantMax)
 	}
 }
 
 func TestMinMaxNaNs(t *testing.T) {
 	fs := []float64{1.0, 999.9, 3.14, -400.4, -5.14}
 	if Min(fs) != -400.4 {
-		t.Errorf("got min %v, want -400.4", Min(fs))
+		t.Errorf("golangt min %v, want -400.4", Min(fs))
 	}
 	if Max(fs) != 999.9 {
-		t.Errorf("got max %v, want 999.9", Max(fs))
+		t.Errorf("golangt max %v, want 999.9", Max(fs))
 	}
 
 	// No matter which element of fs is replaced with a NaN, both Min and Max
@@ -250,12 +250,12 @@ func TestMinMaxNaNs(t *testing.T) {
 
 		fmin := Min(testfs)
 		if !math.IsNaN(fmin) {
-			t.Errorf("got min %v, want NaN", fmin)
+			t.Errorf("golangt min %v, want NaN", fmin)
 		}
 
 		fmax := Max(testfs)
 		if !math.IsNaN(fmax) {
-			t.Errorf("got max %v, want NaN", fmax)
+			t.Errorf("golangt max %v, want NaN", fmax)
 		}
 	}
 }
@@ -265,19 +265,19 @@ func TestMinMaxPanics(t *testing.T) {
 	emptySlice := []int{}
 
 	if !panics(func() { Min(emptySlice) }) {
-		t.Errorf("Min([]): got no panic, want panic")
+		t.Errorf("Min([]): golangt no panic, want panic")
 	}
 
 	if !panics(func() { Max(emptySlice) }) {
-		t.Errorf("Max([]): got no panic, want panic")
+		t.Errorf("Max([]): golangt no panic, want panic")
 	}
 
 	if !panics(func() { MinFunc(emptySlice, intCmp) }) {
-		t.Errorf("MinFunc([]): got no panic, want panic")
+		t.Errorf("MinFunc([]): golangt no panic, want panic")
 	}
 
 	if !panics(func() { MaxFunc(emptySlice, intCmp) }) {
-		t.Errorf("MaxFunc([]): got no panic, want panic")
+		t.Errorf("MaxFunc([]): golangt no panic, want panic")
 	}
 }
 
@@ -345,14 +345,14 @@ func TestBinarySearch(t *testing.T) {
 			{
 				pos, found := BinarySearch(tt.data, tt.target)
 				if pos != tt.wantPos || found != tt.wantFound {
-					t.Errorf("BinarySearch got (%v, %v), want (%v, %v)", pos, found, tt.wantPos, tt.wantFound)
+					t.Errorf("BinarySearch golangt (%v, %v), want (%v, %v)", pos, found, tt.wantPos, tt.wantFound)
 				}
 			}
 
 			{
 				pos, found := BinarySearchFunc(tt.data, tt.target, strings.Compare)
 				if pos != tt.wantPos || found != tt.wantFound {
-					t.Errorf("BinarySearchFunc got (%v, %v), want (%v, %v)", pos, found, tt.wantPos, tt.wantFound)
+					t.Errorf("BinarySearchFunc golangt (%v, %v), want (%v, %v)", pos, found, tt.wantPos, tt.wantFound)
 				}
 			}
 		})
@@ -376,7 +376,7 @@ func TestBinarySearchInts(t *testing.T) {
 			{
 				pos, found := BinarySearch(data, tt.target)
 				if pos != tt.wantPos || found != tt.wantFound {
-					t.Errorf("BinarySearch got (%v, %v), want (%v, %v)", pos, found, tt.wantPos, tt.wantFound)
+					t.Errorf("BinarySearch golangt (%v, %v), want (%v, %v)", pos, found, tt.wantPos, tt.wantFound)
 				}
 			}
 
@@ -386,7 +386,7 @@ func TestBinarySearchInts(t *testing.T) {
 				}
 				pos, found := BinarySearchFunc(data, tt.target, cmp)
 				if pos != tt.wantPos || found != tt.wantFound {
-					t.Errorf("BinarySearchFunc got (%v, %v), want (%v, %v)", pos, found, tt.wantPos, tt.wantFound)
+					t.Errorf("BinarySearchFunc golangt (%v, %v), want (%v, %v)", pos, found, tt.wantPos, tt.wantFound)
 				}
 			}
 		})
@@ -412,7 +412,7 @@ func TestBinarySearchFloats(t *testing.T) {
 			{
 				pos, found := BinarySearch(data, tt.target)
 				if pos != tt.wantPos || found != tt.wantFound {
-					t.Errorf("BinarySearch got (%v, %v), want (%v, %v)", pos, found, tt.wantPos, tt.wantFound)
+					t.Errorf("BinarySearch golangt (%v, %v), want (%v, %v)", pos, found, tt.wantPos, tt.wantFound)
 				}
 			}
 		})

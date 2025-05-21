@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package noder
@@ -42,49 +42,49 @@ func TestPragmaFields(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		got := pragmaFields(tt.in)
-		if !eq(got, tt.want) {
-			t.Errorf("pragmaFields(%q) = %v; want %v", tt.in, got, tt.want)
+		golangt := pragmaFields(tt.in)
+		if !eq(golangt, tt.want) {
+			t.Errorf("pragmaFields(%q) = %v; want %v", tt.in, golangt, tt.want)
 			continue
 		}
 	}
 }
 
-func TestPragcgo(t *testing.T) {
+func TestPragcgolang(t *testing.T) {
 	type testStruct struct {
 		in   string
 		want []string
 	}
 
 	var tests = []testStruct{
-		{`go:cgo_export_dynamic local`, []string{`cgo_export_dynamic`, `local`}},
-		{`go:cgo_export_dynamic local remote`, []string{`cgo_export_dynamic`, `local`, `remote`}},
-		{`go:cgo_export_dynamic local' remote'`, []string{`cgo_export_dynamic`, `local'`, `remote'`}},
-		{`go:cgo_export_static local`, []string{`cgo_export_static`, `local`}},
-		{`go:cgo_export_static local remote`, []string{`cgo_export_static`, `local`, `remote`}},
-		{`go:cgo_export_static local' remote'`, []string{`cgo_export_static`, `local'`, `remote'`}},
-		{`go:cgo_import_dynamic local`, []string{`cgo_import_dynamic`, `local`}},
-		{`go:cgo_import_dynamic local remote`, []string{`cgo_import_dynamic`, `local`, `remote`}},
-		{`go:cgo_import_static local`, []string{`cgo_import_static`, `local`}},
-		{`go:cgo_import_static local'`, []string{`cgo_import_static`, `local'`}},
-		{`go:cgo_dynamic_linker "/path/"`, []string{`cgo_dynamic_linker`, `/path/`}},
-		{`go:cgo_dynamic_linker "/p ath/"`, []string{`cgo_dynamic_linker`, `/p ath/`}},
-		{`go:cgo_ldflag "arg"`, []string{`cgo_ldflag`, `arg`}},
-		{`go:cgo_ldflag "a rg"`, []string{`cgo_ldflag`, `a rg`}},
+		{`golang:cgolang_export_dynamic local`, []string{`cgolang_export_dynamic`, `local`}},
+		{`golang:cgolang_export_dynamic local remote`, []string{`cgolang_export_dynamic`, `local`, `remote`}},
+		{`golang:cgolang_export_dynamic local' remote'`, []string{`cgolang_export_dynamic`, `local'`, `remote'`}},
+		{`golang:cgolang_export_static local`, []string{`cgolang_export_static`, `local`}},
+		{`golang:cgolang_export_static local remote`, []string{`cgolang_export_static`, `local`, `remote`}},
+		{`golang:cgolang_export_static local' remote'`, []string{`cgolang_export_static`, `local'`, `remote'`}},
+		{`golang:cgolang_import_dynamic local`, []string{`cgolang_import_dynamic`, `local`}},
+		{`golang:cgolang_import_dynamic local remote`, []string{`cgolang_import_dynamic`, `local`, `remote`}},
+		{`golang:cgolang_import_static local`, []string{`cgolang_import_static`, `local`}},
+		{`golang:cgolang_import_static local'`, []string{`cgolang_import_static`, `local'`}},
+		{`golang:cgolang_dynamic_linker "/path/"`, []string{`cgolang_dynamic_linker`, `/path/`}},
+		{`golang:cgolang_dynamic_linker "/p ath/"`, []string{`cgolang_dynamic_linker`, `/p ath/`}},
+		{`golang:cgolang_ldflag "arg"`, []string{`cgolang_ldflag`, `arg`}},
+		{`golang:cgolang_ldflag "a rg"`, []string{`cgolang_ldflag`, `a rg`}},
 	}
 
 	if runtime.GOOS != "aix" {
 		tests = append(tests, []testStruct{
-			{`go:cgo_import_dynamic local remote "library"`, []string{`cgo_import_dynamic`, `local`, `remote`, `library`}},
-			{`go:cgo_import_dynamic local' remote' "lib rary"`, []string{`cgo_import_dynamic`, `local'`, `remote'`, `lib rary`}},
+			{`golang:cgolang_import_dynamic local remote "library"`, []string{`cgolang_import_dynamic`, `local`, `remote`, `library`}},
+			{`golang:cgolang_import_dynamic local' remote' "lib rary"`, []string{`cgolang_import_dynamic`, `local'`, `remote'`, `lib rary`}},
 		}...)
 	} else {
-		// cgo_import_dynamic with a library is slightly different on AIX
+		// cgolang_import_dynamic with a library is slightly different on AIX
 		// as the library field must follow the pattern [libc.a/object.o].
 		tests = append(tests, []testStruct{
-			{`go:cgo_import_dynamic local remote "lib.a/obj.o"`, []string{`cgo_import_dynamic`, `local`, `remote`, `lib.a/obj.o`}},
+			{`golang:cgolang_import_dynamic local remote "lib.a/obj.o"`, []string{`cgolang_import_dynamic`, `local`, `remote`, `lib.a/obj.o`}},
 			// This test must fail.
-			{`go:cgo_import_dynamic local' remote' "library"`, []string{`<unknown position>: usage: //go:cgo_import_dynamic local [remote ["lib.a/object.o"]]`}},
+			{`golang:cgolang_import_dynamic local' remote' "library"`, []string{`<unknown position>: usage: //golang:cgolang_import_dynamic local [remote ["lib.a/object.o"]]`}},
 		}...)
 
 	}
@@ -94,12 +94,12 @@ func TestPragcgo(t *testing.T) {
 	for _, tt := range tests {
 
 		p.err = make(chan syntax.Error)
-		gotch := make(chan [][]string, 1)
-		go func() {
-			p.pragcgobuf = nil
-			p.pragcgo(nopos, tt.in)
-			if p.pragcgobuf != nil {
-				gotch <- p.pragcgobuf
+		golangtch := make(chan [][]string, 1)
+		golang func() {
+			p.pragcgolangbuf = nil
+			p.pragcgolang(nopos, tt.in)
+			if p.pragcgolangbuf != nil {
+				golangtch <- p.pragcgolangbuf
 			}
 		}()
 
@@ -107,13 +107,13 @@ func TestPragcgo(t *testing.T) {
 		case e := <-p.err:
 			want := tt.want[0]
 			if e.Error() != want {
-				t.Errorf("pragcgo(%q) = %q; want %q", tt.in, e, want)
+				t.Errorf("pragcgolang(%q) = %q; want %q", tt.in, e, want)
 				continue
 			}
-		case got := <-gotch:
+		case golangt := <-golangtch:
 			want := [][]string{tt.want}
-			if !reflect.DeepEqual(got, want) {
-				t.Errorf("pragcgo(%q) = %q; want %q", tt.in, got, want)
+			if !reflect.DeepEqual(golangt, want) {
+				t.Errorf("pragcgolang(%q) = %q; want %q", tt.in, golangt, want)
 				continue
 			}
 		}

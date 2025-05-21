@@ -1,12 +1,12 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package big
 
 import (
 	"bytes"
-	"encoding/gob"
+	"encoding/golangb"
 	"encoding/json"
 	"io"
 	"strings"
@@ -29,8 +29,8 @@ var floatVals = []string{
 
 func TestFloatGobEncoding(t *testing.T) {
 	var medium bytes.Buffer
-	enc := gob.NewEncoder(&medium)
-	dec := gob.NewDecoder(&medium)
+	enc := golangb.NewEncoder(&medium)
+	dec := golangb.NewDecoder(&medium)
 	for _, test := range floatVals {
 		for _, sign := range []string{"", "+", "-"} {
 			for _, prec := range []uint{0, 1, 2, 10, 53, 64, 100, 1000} {
@@ -62,20 +62,20 @@ func TestFloatGobEncoding(t *testing.T) {
 					}
 
 					if rx.Cmp(&tx) != 0 {
-						t.Errorf("transmission of %s failed: got %s want %s", x, rx.String(), tx.String())
+						t.Errorf("transmission of %s failed: golangt %s want %s", x, rx.String(), tx.String())
 						continue
 					}
 
 					if rx.Prec() != prec {
-						t.Errorf("transmission of %s's prec failed: got %d want %d", x, rx.Prec(), prec)
+						t.Errorf("transmission of %s's prec failed: golangt %d want %d", x, rx.Prec(), prec)
 					}
 
 					if rx.Mode() != mode {
-						t.Errorf("transmission of %s's mode failed: got %s want %s", x, rx.Mode(), mode)
+						t.Errorf("transmission of %s's mode failed: golangt %s want %s", x, rx.Mode(), mode)
 					}
 
 					if rx.Acc() != tx.Acc() {
-						t.Errorf("transmission of %s's accuracy failed: got %s want %s", x, rx.Acc(), tx.Acc())
+						t.Errorf("transmission of %s's accuracy failed: golangt %s want %s", x, rx.Acc(), tx.Acc())
 					}
 				}
 			}
@@ -86,23 +86,23 @@ func TestFloatGobEncoding(t *testing.T) {
 func TestFloatCorruptGob(t *testing.T) {
 	var buf bytes.Buffer
 	tx := NewFloat(4 / 3).SetPrec(1000).SetMode(ToPositiveInf)
-	if err := gob.NewEncoder(&buf).Encode(tx); err != nil {
+	if err := golangb.NewEncoder(&buf).Encode(tx); err != nil {
 		t.Fatal(err)
 	}
 	b := buf.Bytes()
 
 	var rx Float
-	if err := gob.NewDecoder(bytes.NewReader(b)).Decode(&rx); err != nil {
+	if err := golangb.NewDecoder(bytes.NewReader(b)).Decode(&rx); err != nil {
 		t.Fatal(err)
 	}
 
-	if err := gob.NewDecoder(bytes.NewReader(b[:10])).Decode(&rx); err != io.ErrUnexpectedEOF {
-		t.Errorf("got %v want EOF", err)
+	if err := golangb.NewDecoder(bytes.NewReader(b[:10])).Decode(&rx); err != io.ErrUnexpectedEOF {
+		t.Errorf("golangt %v want EOF", err)
 	}
 
 	b[1] = 0
-	if err := gob.NewDecoder(bytes.NewReader(b)).Decode(&rx); err == nil {
-		t.Fatal("got nil want version error")
+	if err := golangb.NewDecoder(bytes.NewReader(b)).Decode(&rx); err == nil {
+		t.Fatal("golangt nil want version error")
 	}
 }
 
@@ -132,7 +132,7 @@ func TestFloatJSONEncoding(t *testing.T) {
 					continue
 				}
 				if rx.Cmp(&tx) != 0 {
-					t.Errorf("JSON encoding of %v (prec = %d) failed: got %v want %v", &tx, prec, &rx, &tx)
+					t.Errorf("JSON encoding of %v (prec = %d) failed: golangt %v want %v", &tx, prec, &rx, &tx)
 				}
 			}
 		}
@@ -167,7 +167,7 @@ func TestFloatGobDecodeInvalid(t *testing.T) {
 	} {
 		err := NewFloat(0).GobDecode(tc.buf)
 		if err == nil || !strings.HasPrefix(err.Error(), tc.msg) {
-			t.Errorf("expected GobDecode error prefix: %s, got: %v", tc.msg, err)
+			t.Errorf("expected GobDecode error prefix: %s, golangt: %v", tc.msg, err)
 		}
 	}
 }
@@ -199,7 +199,7 @@ func TestFloatAppendText(t *testing.T) {
 					continue
 				}
 				if rx.Cmp(&tx) != 0 {
-					t.Errorf("AppendText of %v (prec = %d) failed: got %v want %v", &tx, prec, &rx, &tx)
+					t.Errorf("AppendText of %v (prec = %d) failed: golangt %v want %v", &tx, prec, &rx, &tx)
 				}
 			}
 		}
@@ -211,6 +211,6 @@ func TestFloatAppendTextNil(t *testing.T) {
 	buf := make([]byte, 4, 16)
 	data, _ := x.AppendText(buf)
 	if string(data[4:]) != "<nil>" {
-		t.Errorf("got %q, want <nil>", data[4:])
+		t.Errorf("golangt %q, want <nil>", data[4:])
 	}
 }

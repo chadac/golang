@@ -1,9 +1,9 @@
 // run -race
 
-//go:build cgo && linux && amd64
+//golang:build cgolang && linux && amd64
 
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test that CL 281293 doesn't interfere with race detector
@@ -36,7 +36,7 @@ func main() {
 	h(f(0), x1, f(2), x3, f(4))
 }
 
-//go:noinline
+//golang:noinline
 func f(k int) (x Big) {
 	for i := range x {
 		x[i] = k*N + i
@@ -44,7 +44,7 @@ func f(k int) (x Big) {
 	return
 }
 
-//go:noinline
+//golang:noinline
 func g(k int, x Big) {
 	for i := range x {
 		if x[i] != k*N+i {
@@ -53,7 +53,7 @@ func g(k int, x Big) {
 	}
 }
 
-//go:noinline
+//golang:noinline
 func h(x0, x1, x2, x3, x4 Big) {
 	g(0, x0)
 	g(1, x1)

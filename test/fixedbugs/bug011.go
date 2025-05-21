@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -23,5 +23,5 @@ func main() {
 	_ = r10
 }
 /*
-bug11.go:16: fatal error: walktype: switch 1 unknown op CALLMETH l(16) <int32>INT32
+bug11.golang:16: fatal error: walktype: switch 1 unknown op CALLMETH l(16) <int32>INT32
 */

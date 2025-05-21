@@ -1,11 +1,11 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
 
 // This file contains functions and apis to support the "merge"
-// subcommand of "go tool covdata".
+// subcommand of "golang tool covdata".
 
 import (
 	"flag"
@@ -45,10 +45,10 @@ func (m *mstate) Usage(msg string) {
 	if len(msg) > 0 {
 		fmt.Fprintf(os.Stderr, "error: %s\n", msg)
 	}
-	fmt.Fprintf(os.Stderr, "usage: go tool covdata merge -i=<directories> -o=<dir>\n\n")
+	fmt.Fprintf(os.Stderr, "usage: golang tool covdata merge -i=<directories> -o=<dir>\n\n")
 	flag.PrintDefaults()
 	fmt.Fprintf(os.Stderr, "\nExamples:\n\n")
-	fmt.Fprintf(os.Stderr, "  go tool covdata merge -i=dir1,dir2,dir3 -o=outdir\n\n")
+	fmt.Fprintf(os.Stderr, "  golang tool covdata merge -i=dir1,dir2,dir3 -o=outdir\n\n")
 	fmt.Fprintf(os.Stderr, "  \tmerges all files in dir1/dir2/dir3\n")
 	fmt.Fprintf(os.Stderr, "  \tinto output dir outdir\n")
 	Exit(2)

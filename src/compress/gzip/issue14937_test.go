@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package gzip
@@ -22,7 +22,7 @@ import (
 //
 //	$ dd if=/dev/zero bs=1 seek=4 count=4 conv=notrunc of=filename.gz
 //
-// See https://golang.org/issue/14937.
+// See https://golanglang.org/issue/14937.
 func TestGZIPFilesHaveZeroMTimes(t *testing.T) {
 	// To avoid spurious false positives due to untracked GZIP files that
 	// may be in the user's GOROOT (Issue 18604), we only run this test on
@@ -32,12 +32,12 @@ func TestGZIPFilesHaveZeroMTimes(t *testing.T) {
 	}
 	testenv.MustHaveSource(t)
 
-	goroot, err := filepath.EvalSymlinks(runtime.GOROOT())
+	golangroot, err := filepath.EvalSymlinks(runtime.GOROOT())
 	if err != nil {
 		t.Fatal("error evaluating GOROOT: ", err)
 	}
 	var files []string
-	err = filepath.WalkDir(goroot, func(path string, info fs.DirEntry, err error) error {
+	err = filepath.WalkDir(golangroot, func(path string, info fs.DirEntry, err error) error {
 		if err != nil {
 			return err
 		}

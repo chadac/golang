@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package sql
@@ -63,7 +63,7 @@ var (
 )
 
 func conversionTests() []conversionTest {
-	// Return a fresh instance to test so "go test -count 2" works correctly.
+	// Return a fresh instance to test so "golang test -count 2" works correctly.
 	return []conversionTest{
 		// Exact conversions (destination pointer type matches source type)
 		{s: "foo", d: &scanstr, wantstr: "foo"},
@@ -222,48 +222,48 @@ func TestConversions(t *testing.T) {
 			t.Errorf(base+format, args...)
 		}
 		if errstr != ct.wanterr {
-			errf("got error %q, want error %q", errstr, ct.wanterr)
+			errf("golangt error %q, want error %q", errstr, ct.wanterr)
 		}
 		if ct.wantstr != "" && ct.wantstr != scanstr {
-			errf("want string %q, got %q", ct.wantstr, scanstr)
+			errf("want string %q, golangt %q", ct.wantstr, scanstr)
 		}
 		if ct.wantbytes != nil && string(ct.wantbytes) != string(scanbytes) {
-			errf("want byte %q, got %q", ct.wantbytes, scanbytes)
+			errf("want byte %q, golangt %q", ct.wantbytes, scanbytes)
 		}
 		if ct.wantraw != nil && string(ct.wantraw) != string(scanraw) {
-			errf("want RawBytes %q, got %q", ct.wantraw, scanraw)
+			errf("want RawBytes %q, golangt %q", ct.wantraw, scanraw)
 		}
 		if ct.wantint != 0 && ct.wantint != intValue(ct.d) {
-			errf("want int %d, got %d", ct.wantint, intValue(ct.d))
+			errf("want int %d, golangt %d", ct.wantint, intValue(ct.d))
 		}
 		if ct.wantuint != 0 && ct.wantuint != uintValue(ct.d) {
-			errf("want uint %d, got %d", ct.wantuint, uintValue(ct.d))
+			errf("want uint %d, golangt %d", ct.wantuint, uintValue(ct.d))
 		}
 		if ct.wantf32 != 0 && ct.wantf32 != float32Value(ct.d) {
-			errf("want float32 %v, got %v", ct.wantf32, float32Value(ct.d))
+			errf("want float32 %v, golangt %v", ct.wantf32, float32Value(ct.d))
 		}
 		if ct.wantf64 != 0 && ct.wantf64 != float64Value(ct.d) {
-			errf("want float32 %v, got %v", ct.wantf64, float64Value(ct.d))
+			errf("want float32 %v, golangt %v", ct.wantf64, float64Value(ct.d))
 		}
 		if bp, boolTest := ct.d.(*bool); boolTest && *bp != ct.wantbool && ct.wanterr == "" {
-			errf("want bool %v, got %v", ct.wantbool, *bp)
+			errf("want bool %v, golangt %v", ct.wantbool, *bp)
 		}
 		if !ct.wanttime.IsZero() && !ct.wanttime.Equal(timeValue(ct.d)) {
-			errf("want time %v, got %v", ct.wanttime, timeValue(ct.d))
+			errf("want time %v, golangt %v", ct.wanttime, timeValue(ct.d))
 		}
 		if ct.wantnil && *ct.d.(**int64) != nil {
-			errf("want nil, got %v", intPtrValue(ct.d))
+			errf("want nil, golangt %v", intPtrValue(ct.d))
 		}
 		if ct.wantptr != nil {
 			if *ct.d.(**int64) == nil {
-				errf("want pointer to %v, got nil", *ct.wantptr)
+				errf("want pointer to %v, golangt nil", *ct.wantptr)
 			} else if *ct.wantptr != intPtrValue(ct.d) {
-				errf("want pointer to %v, got %v", *ct.wantptr, intPtrValue(ct.d))
+				errf("want pointer to %v, golangt %v", *ct.wantptr, intPtrValue(ct.d))
 			}
 		}
 		if ifptr, ok := ct.d.(*any); ok {
 			if !reflect.DeepEqual(ct.wantiface, scaniface) {
-				errf("want interface %#v, got %#v", ct.wantiface, scaniface)
+				errf("want interface %#v, golangt %#v", ct.wantiface, scaniface)
 				continue
 			}
 			if srcBytes, ok := ct.s.([]byte); ok {
@@ -274,10 +274,10 @@ func TestConversions(t *testing.T) {
 			}
 		}
 		if ct.wantusrdef != 0 && ct.wantusrdef != *ct.d.(*userDefined) {
-			errf("want userDefined %f, got %f", ct.wantusrdef, *ct.d.(*userDefined))
+			errf("want userDefined %f, golangt %f", ct.wantusrdef, *ct.d.(*userDefined))
 		}
 		if len(ct.wantusrstr) != 0 && ct.wantusrstr != *ct.d.(*userDefinedString) {
-			errf("want userDefined %q, got %q", ct.wantusrstr, *ct.d.(*userDefinedString))
+			errf("want userDefined %q, golangt %q", ct.wantusrstr, *ct.d.(*userDefinedString))
 		}
 	}
 }
@@ -289,14 +289,14 @@ func TestNullString(t *testing.T) {
 		t.Errorf("expecting not null")
 	}
 	if ns.String != "foo" {
-		t.Errorf("expecting foo; got %q", ns.String)
+		t.Errorf("expecting foo; golangt %q", ns.String)
 	}
 	convertAssign(&ns, nil)
 	if ns.Valid {
 		t.Errorf("expecting null on nil")
 	}
 	if ns.String != "" {
-		t.Errorf("expecting blank on nil; got %q", ns.String)
+		t.Errorf("expecting blank on nil; golangt %q", ns.String)
 	}
 }
 
@@ -314,13 +314,13 @@ var valueConverterTests = []valueConverterTest{
 func TestValueConverters(t *testing.T) {
 	for i, tt := range valueConverterTests {
 		out, err := tt.c.ConvertValue(tt.in)
-		goterr := ""
+		golangterr := ""
 		if err != nil {
-			goterr = err.Error()
+			golangterr = err.Error()
 		}
-		if goterr != tt.err {
+		if golangterr != tt.err {
 			t.Errorf("test %d: %T(%T(%v)) error = %q; want error = %q",
-				i, tt.c, tt.in, tt.in, goterr, tt.err)
+				i, tt.c, tt.in, tt.in, golangterr, tt.err)
 		}
 		if tt.err != "" {
 			continue
@@ -374,7 +374,7 @@ func TestRawBytesAllocs(t *testing.T) {
 			}
 		}
 		if !match {
-			t.Fatalf("%s: got %q (len %d); want %q (len %d)", name, buf, len(buf), want, len(want))
+			t.Fatalf("%s: golangt %q (len %d); want %q (len %d)", name, buf, len(buf), want, len(want))
 		}
 	}
 
@@ -387,7 +387,7 @@ func TestRawBytesAllocs(t *testing.T) {
 
 	// The numbers below are only valid for 64-bit interface word sizes,
 	// and gc. With 32-bit words there are more convT2E allocs, and
-	// with gccgo, only pointers currently go in interface data.
+	// with gccgolang, only pointers currently golang in interface data.
 	// So only care on amd64 gc for now.
 	measureAllocs := false
 	switch runtime.GOARCH {
@@ -408,7 +408,7 @@ func TestRawBytesAllocs(t *testing.T) {
 	}
 }
 
-// https://golang.org/issues/13905
+// https://golanglang.org/issues/13905
 func TestUserDefinedBytes(t *testing.T) {
 	type userDefinedBytes []byte
 	var u userDefinedBytes
@@ -416,7 +416,7 @@ func TestUserDefinedBytes(t *testing.T) {
 
 	convertAssign(&u, v)
 	if &u[0] == &v[0] {
-		t.Fatal("userDefinedBytes got potentially dirty driver memory")
+		t.Fatal("userDefinedBytes golangt potentially dirty driver memory")
 	}
 }
 
@@ -491,13 +491,13 @@ func TestDriverArgs(t *testing.T) {
 	}
 	for i, tt := range tests {
 		ds := &driverStmt{Locker: &sync.Mutex{}, si: stubDriverStmt{nil}}
-		got, err := driverArgsConnLocked(nil, ds, tt.args)
+		golangt, err := driverArgsConnLocked(nil, ds, tt.args)
 		if err != nil {
 			t.Errorf("test[%d]: %v", i, err)
 			continue
 		}
-		if !reflect.DeepEqual(got, tt.want) {
-			t.Errorf("test[%d]: got %v, want %v", i, got, tt.want)
+		if !reflect.DeepEqual(golangt, tt.want) {
+			t.Errorf("test[%d]: golangt %v, want %v", i, golangt, tt.want)
 		}
 	}
 }
@@ -600,7 +600,7 @@ func TestDecimal(t *testing.T) {
 				t.Fatalf("unexpected error: %v", err)
 			}
 			if !reflect.DeepEqual(out, item.out) {
-				t.Fatalf("got %#v want %#v", out, item.out)
+				t.Fatalf("golangt %#v want %#v", out, item.out)
 			}
 		})
 	}

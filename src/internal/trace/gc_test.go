@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package trace_test
@@ -56,20 +56,20 @@ func TestMMU(t *testing.T) {
 		{5 * time.Second, 3 / 5.0, []float64{3 / 5.0}},
 		{6 * time.Second, 3 / 5.0, []float64{3 / 5.0}},
 	} {
-		if got := mmuCurve.MMU(test.window); !aeq(test.want, got) {
-			t.Errorf("for %s window, want mu = %f, got %f", test.window, test.want, got)
+		if golangt := mmuCurve.MMU(test.window); !aeq(test.want, golangt) {
+			t.Errorf("for %s window, want mu = %f, golangt %f", test.window, test.want, golangt)
 		}
 		worst := mmuCurve.Examples(test.window, 2)
 		// Which exact windows are returned is unspecified
 		// (and depends on the exact banding), so we just
-		// check that we got the right number with the right
+		// check that we golangt the right number with the right
 		// utilizations.
 		if len(worst) != len(test.worst) {
-			t.Errorf("for %s window, want worst %v, got %v", test.window, test.worst, worst)
+			t.Errorf("for %s window, want worst %v, golangt %v", test.window, test.worst, worst)
 		} else {
 			for i := range worst {
 				if worst[i].MutatorUtil != test.worst[i] {
-					t.Errorf("for %s window, want worst %v, got %v", test.window, test.worst, worst)
+					t.Errorf("for %s window, want worst %v, golangt %v", test.window, test.worst, worst)
 					break
 				}
 			}
@@ -91,16 +91,16 @@ func TestMMUTrace(t *testing.T) {
 		// correct" implementation.
 		for window := time.Nanosecond; window < 10*time.Second; window *= 10 {
 			want := mmuSlow(mu[0], window)
-			got := mmuCurve.MMU(window)
-			if !aeq(want, got) {
-				t.Errorf("want %f, got %f mutator utilization in window %s", want, got, window)
+			golangt := mmuCurve.MMU(window)
+			if !aeq(want, golangt) {
+				t.Errorf("want %f, golangt %f mutator utilization in window %s", want, golangt, window)
 			}
 		}
 
 		// Test MUD with band optimization against MUD without band
 		// optimization. We don't have a simple testing implementation
 		// of MUDs (the simplest implementation is still quite
-		// complex), but this is still a pretty good test.
+		// complex), but this is still a pretty golangod test.
 		defer func(old int) { trace.BandsPerSeries = old }(trace.BandsPerSeries)
 		trace.BandsPerSeries = 1
 		mmuCurve2 := trace.NewMMUCurve(mu)
@@ -110,14 +110,14 @@ func TestMMUTrace(t *testing.T) {
 			mud2 := mmuCurve2.MUD(window, quantiles)
 			for i := range mud1 {
 				if !aeq(mud1[i], mud2[i]) {
-					t.Errorf("for quantiles %v at window %v, want %v, got %v", quantiles, window, mud2, mud1)
+					t.Errorf("for quantiles %v at window %v, want %v, golangt %v", quantiles, window, mud2, mud1)
 					break
 				}
 			}
 		}
 	}
 	t.Run("V2", func(t *testing.T) {
-		testPath := "testdata/tests/go122-gc-stress.test"
+		testPath := "testdata/tests/golang122-gc-stress.test"
 		r, _, _, err := testtrace.ParseFile(testPath)
 		if err != nil {
 			t.Fatalf("malformed test %s: bad trace file: %v", testPath, err)

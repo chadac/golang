@@ -1,15 +1,15 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build cgo
+//golang:build cgolang
 
 // Issue 30527: function call rewriting casts untyped
 // constants to int because of ":=" usage.
 
-package cgotest
+package cgolangtest
 
-import "cmd/cgo/internal/test/issue30527"
+import "cmd/cgolang/internal/test/issue30527"
 
 func issue30527G() {
 	issue30527.G(nil)

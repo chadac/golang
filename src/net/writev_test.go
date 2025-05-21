@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package net
@@ -25,12 +25,12 @@ func TestBuffers_read(t *testing.T) {
 		[]byte("in "),
 		[]byte("Gopherland ... "),
 	}
-	got, err := io.ReadAll(&buffers)
+	golangt, err := io.ReadAll(&buffers)
 	if err != nil {
 		t.Fatal(err)
 	}
-	if string(got) != story {
-		t.Errorf("read %q; want %q", got, story)
+	if string(golangt) != story {
+		t.Errorf("read %q; want %q", golangt, story)
 	}
 	if len(buffers) != 0 {
 		t.Errorf("len(buffers) = %d; want 0", len(buffers))
@@ -144,14 +144,14 @@ func testBuffer_writeTo(t *testing.T, chunks int, useCopy bool) {
 		}
 
 		writeLog.Lock() // no need to unlock
-		var gotSum int
+		var golangtSum int
 		for _, v := range writeLog.log {
-			gotSum += v
+			golangtSum += v
 		}
 
 		var wantSum int
 		switch runtime.GOOS {
-		case "aix", "android", "darwin", "ios", "dragonfly", "freebsd", "illumos", "linux", "netbsd", "openbsd", "solaris":
+		case "aix", "android", "darwin", "ios", "dragolangnfly", "freebsd", "illumos", "linux", "netbsd", "openbsd", "solaris":
 			var wantMinCalls int
 			wantSum = want.Len()
 			v := chunks
@@ -172,8 +172,8 @@ func testBuffer_writeTo(t *testing.T, chunks int, useCopy bool) {
 				t.Errorf("write calls = %v; want %v", len(writeLog.log), wantCalls)
 			}
 		}
-		if gotSum != wantSum {
-			t.Errorf("writev call sum  = %v; want %v", gotSum, wantSum)
+		if golangtSum != wantSum {
+			t.Errorf("writev call sum  = %v; want %v", golangtSum, wantSum)
 		}
 		return nil
 	})
@@ -194,7 +194,7 @@ func TestWritevError(t *testing.T) {
 		}
 	}()
 
-	go func() {
+	golang func() {
 		defer close(ch)
 		c, err := ln.Accept()
 		if err != nil {
@@ -214,7 +214,7 @@ func TestWritevError(t *testing.T) {
 	}
 	c2.Close()
 
-	// 1 GB of data should be enough to notice the connection is gone.
+	// 1 GB of data should be enough to notice the connection is golangne.
 	// Just a few bytes is not enough.
 	// Arrange to reuse the same 1 MB buffer so that we don't allocate much.
 	buf := make([]byte, 1<<20)

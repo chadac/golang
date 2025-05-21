@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package template
@@ -35,15 +35,15 @@ func TestHTMLNospaceEscaper(t *testing.T) {
 		"\u00A0\u0100\u2028\u2029\ufeff&#xfdec;\U0001D11E" +
 		"erroneous&#xfffd;0") // keep at the end
 
-	got := htmlNospaceEscaper(input)
-	if got != want {
-		t.Errorf("encode: want\n\t%q\nbut got\n\t%q", want, got)
+	golangt := htmlNospaceEscaper(input)
+	if golangt != want {
+		t.Errorf("encode: want\n\t%q\nbut golangt\n\t%q", want, golangt)
 	}
 
 	r := strings.NewReplacer("\x00", "\ufffd", "\x96", "\ufffd")
-	got, want = html.UnescapeString(got), r.Replace(input)
-	if want != got {
-		t.Errorf("decode: want\n\t%q\nbut got\n\t%q", want, got)
+	golangt, want = html.UnescapeString(golangt), r.Replace(input)
+	if want != golangt {
+		t.Errorf("decode: want\n\t%q\nbut golangt\n\t%q", want, golangt)
 	}
 }
 
@@ -66,8 +66,8 @@ func TestStripTags(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		if got := stripTags(test.input); got != test.want {
-			t.Errorf("%q: want %q, got %q", test.input, test.want, got)
+		if golangt := stripTags(test.input); golangt != test.want {
+			t.Errorf("%q: want %q, golangt %q", test.input, test.want, golangt)
 		}
 	}
 }

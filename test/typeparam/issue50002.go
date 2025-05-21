@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test for cases where certain instantiations of a generic function (F in this
@@ -25,17 +25,17 @@ func F[T, A any](x I[T], shouldMatch bool) {
 	switch x.(type) {
 	case A:
 		if !shouldMatch {
-			fmt.Printf("wanted mis-match, got match")
+			fmt.Printf("wanted mis-match, golangt match")
 		}
 	default:
 		if shouldMatch {
-			fmt.Printf("wanted match, got mismatch")
+			fmt.Printf("wanted match, golangt mismatch")
 		}
 	}
 
 	_, ok := x.(A)
 	if ok != shouldMatch {
-		fmt.Printf("ok: got %v, wanted %v", ok, shouldMatch)
+		fmt.Printf("ok: golangt %v, wanted %v", ok, shouldMatch)
 	}
 
 	if !shouldMatch {

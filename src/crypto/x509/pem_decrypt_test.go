@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package x509
@@ -55,7 +55,7 @@ func TestEncrypt(t *testing.T) {
 			t.Error("PEM block does not appear to be encrypted")
 		}
 		if block.Type != "RSA PRIVATE KEY" {
-			t.Errorf("unexpected block type; got %q want %q", block.Type, "RSA PRIVATE KEY")
+			t.Errorf("unexpected block type; golangt %q want %q", block.Type, "RSA PRIVATE KEY")
 		}
 		if block.Headers["Proc-Type"] != "4,ENCRYPTED" {
 			t.Errorf("block does not have correct Proc-Type header")
@@ -242,7 +242,7 @@ func TestIncompleteBlock(t *testing.T) {
 	}
 	const expectedSubstr = "block size"
 	if e := err.Error(); !strings.Contains(e, expectedSubstr) {
-		t.Fatalf("Expected error containing %q but got: %q", expectedSubstr, e)
+		t.Fatalf("Expected error containing %q but golangt: %q", expectedSubstr, e)
 	}
 }
 

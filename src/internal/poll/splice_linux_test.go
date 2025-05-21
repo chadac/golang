@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package poll_test
@@ -56,7 +56,7 @@ func TestSplicePipePool(t *testing.T) {
 	ps = nil
 	p = nil
 
-	// Exploit the timeout of "go test" as a timer for the subsequent verification.
+	// Exploit the timeout of "golang test" as a timer for the subsequent verification.
 	timeout := 5 * time.Minute
 	if deadline, ok := t.Deadline(); ok {
 		timeout = deadline.Sub(time.Now())

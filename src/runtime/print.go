@@ -1,11 +1,11 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
 
 import (
-	"internal/goarch"
+	"internal/golangarch"
 	"unsafe"
 )
 
@@ -34,7 +34,7 @@ var (
 // extracted from a core dump.
 //
 // The text written during a process crash (following "panic" or "fatal
-// error") is not saved, since the goroutine stacks will generally be readable
+// error") is not saved, since the golangroutine stacks will generally be readable
 // from the runtime data structures in the core file.
 func recordForPanic(b []byte) {
 	printlock()
@@ -80,7 +80,7 @@ func printunlock() {
 	}
 }
 
-// write to goroutine-local buffer if diverting output,
+// write to golangroutine-local buffer if diverting output,
 // or else standard error.
 func gwrite(b []byte) {
 	if len(b) == 0 {
@@ -270,7 +270,7 @@ func hexdumpWords(p, end uintptr, mark func(uintptr) byte) {
 	var markbuf [1]byte
 	markbuf[0] = ' '
 	minhexdigits = int(unsafe.Sizeof(uintptr(0)) * 2)
-	for i := uintptr(0); p+i < end; i += goarch.PtrSize {
+	for i := uintptr(0); p+i < end; i += golangarch.PtrSize {
 		if i%16 == 0 {
 			if i != 0 {
 				println()

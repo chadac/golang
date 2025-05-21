@@ -1,8 +1,8 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !js
+//golang:build !js
 
 package pprof
 
@@ -26,7 +26,7 @@ func allocateTransient1M() {
 	}
 }
 
-//go:noinline
+//golang:noinline
 func allocateTransient2M() {
 	memSink = make([]byte, 2<<20)
 }
@@ -98,31 +98,31 @@ func TestMemoryProfiler(t *testing.T) {
 	}{{
 		stk: []string{"runtime/pprof.allocatePersistent1K", "runtime/pprof.TestMemoryProfiler"},
 		legacy: fmt.Sprintf(`%v: %v \[%v: %v\] @ 0x[0-9,a-f]+ 0x[0-9,a-f]+ 0x[0-9,a-f]+ 0x[0-9,a-f]+
-#	0x[0-9,a-f]+	runtime/pprof\.allocatePersistent1K\+0x[0-9,a-f]+	.*runtime/pprof/mprof_test\.go:48
-#	0x[0-9,a-f]+	runtime/pprof\.TestMemoryProfiler\+0x[0-9,a-f]+	.*runtime/pprof/mprof_test\.go:87
+#	0x[0-9,a-f]+	runtime/pprof\.allocatePersistent1K\+0x[0-9,a-f]+	.*runtime/pprof/mprof_test\.golang:48
+#	0x[0-9,a-f]+	runtime/pprof\.TestMemoryProfiler\+0x[0-9,a-f]+	.*runtime/pprof/mprof_test\.golang:87
 `, 32*memoryProfilerRun, 1024*memoryProfilerRun, 32*memoryProfilerRun, 1024*memoryProfilerRun),
 	}, {
 		stk: []string{"runtime/pprof.allocateTransient1M", "runtime/pprof.TestMemoryProfiler"},
 		legacy: fmt.Sprintf(`0: 0 \[%v: %v\] @ 0x[0-9,a-f]+ 0x[0-9,a-f]+ 0x[0-9,a-f]+ 0x[0-9,a-f]+
-#	0x[0-9,a-f]+	runtime/pprof\.allocateTransient1M\+0x[0-9,a-f]+	.*runtime/pprof/mprof_test.go:25
-#	0x[0-9,a-f]+	runtime/pprof\.TestMemoryProfiler\+0x[0-9,a-f]+	.*runtime/pprof/mprof_test.go:84
+#	0x[0-9,a-f]+	runtime/pprof\.allocateTransient1M\+0x[0-9,a-f]+	.*runtime/pprof/mprof_test.golang:25
+#	0x[0-9,a-f]+	runtime/pprof\.TestMemoryProfiler\+0x[0-9,a-f]+	.*runtime/pprof/mprof_test.golang:84
 `, (1<<10)*memoryProfilerRun, (1<<20)*memoryProfilerRun),
 	}, {
 		stk: []string{"runtime/pprof.allocateTransient2M", "runtime/pprof.TestMemoryProfiler"},
 		legacy: fmt.Sprintf(`0: 0 \[%v: %v\] @ 0x[0-9,a-f]+ 0x[0-9,a-f]+ 0x[0-9,a-f]+ 0x[0-9,a-f]+
-#	0x[0-9,a-f]+	runtime/pprof\.allocateTransient2M\+0x[0-9,a-f]+	.*runtime/pprof/mprof_test.go:31
-#	0x[0-9,a-f]+	runtime/pprof\.TestMemoryProfiler\+0x[0-9,a-f]+	.*runtime/pprof/mprof_test.go:85
+#	0x[0-9,a-f]+	runtime/pprof\.allocateTransient2M\+0x[0-9,a-f]+	.*runtime/pprof/mprof_test.golang:31
+#	0x[0-9,a-f]+	runtime/pprof\.TestMemoryProfiler\+0x[0-9,a-f]+	.*runtime/pprof/mprof_test.golang:85
 `, memoryProfilerRun, (2<<20)*memoryProfilerRun),
 	}, {
 		stk: []string{"runtime/pprof.allocateTransient2MInline", "runtime/pprof.TestMemoryProfiler"},
 		legacy: fmt.Sprintf(`0: 0 \[%v: %v\] @ 0x[0-9,a-f]+ 0x[0-9,a-f]+ 0x[0-9,a-f]+ 0x[0-9,a-f]+
-#	0x[0-9,a-f]+	runtime/pprof\.allocateTransient2MInline\+0x[0-9,a-f]+	.*runtime/pprof/mprof_test.go:35
-#	0x[0-9,a-f]+	runtime/pprof\.TestMemoryProfiler\+0x[0-9,a-f]+	.*runtime/pprof/mprof_test.go:86
+#	0x[0-9,a-f]+	runtime/pprof\.allocateTransient2MInline\+0x[0-9,a-f]+	.*runtime/pprof/mprof_test.golang:35
+#	0x[0-9,a-f]+	runtime/pprof\.TestMemoryProfiler\+0x[0-9,a-f]+	.*runtime/pprof/mprof_test.golang:86
 `, memoryProfilerRun, (2<<20)*memoryProfilerRun),
 	}, {
 		stk: []string{"runtime/pprof.allocateReflectTransient"},
 		legacy: fmt.Sprintf(`0: 0 \[%v: %v\] @( 0x[0-9,a-f]+)+
-#	0x[0-9,a-f]+	runtime/pprof\.allocateReflectTransient\+0x[0-9,a-f]+	.*runtime/pprof/mprof_test.go:56
+#	0x[0-9,a-f]+	runtime/pprof\.allocateReflectTransient\+0x[0-9,a-f]+	.*runtime/pprof/mprof_test.golang:56
 `, memoryProfilerRun, (2<<20)*memoryProfilerRun),
 	}}
 
@@ -174,7 +174,7 @@ func TestMemoryProfiler(t *testing.T) {
 				}
 			}
 			if inlinedCallee != inlinedCaller {
-				t.Errorf("want allocateTransient2MInline after TestMemoryProfiler in one location, got separate location entries:\n%v", loc)
+				t.Errorf("want allocateTransient2MInline after TestMemoryProfiler in one location, golangt separate location entries:\n%v", loc)
 			}
 		}
 	})

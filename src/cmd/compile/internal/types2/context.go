@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package types2
@@ -25,7 +25,7 @@ import (
 // (somewhat obviously).
 //
 // However, neither of these purposes require that our hash is perfect, and so
-// this was not an explicit design goal of the context type. In fact, due to
+// this was not an explicit design golangal of the context type. In fact, due to
 // concurrent use it is convenient not to guarantee de-duplication.
 //
 // Nevertheless, in the future it could be helpful to allow users to leverage

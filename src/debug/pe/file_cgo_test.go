@@ -1,8 +1,8 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build cgo
+//golang:build cgolang
 
 package pe
 
@@ -12,7 +12,7 @@ import (
 	"testing"
 )
 
-func testCgoDWARF(t *testing.T, linktype int) {
+func testCgolangDWARF(t *testing.T, linktype int) {
 	if _, err := exec.LookPath("gcc"); err != nil {
 		t.Skip("skipping test: gcc is missing")
 	}
@@ -20,16 +20,16 @@ func testCgoDWARF(t *testing.T, linktype int) {
 }
 
 func TestDefaultLinkerDWARF(t *testing.T) {
-	testCgoDWARF(t, linkCgoDefault)
+	testCgolangDWARF(t, linkCgolangDefault)
 }
 
 func TestInternalLinkerDWARF(t *testing.T) {
 	if runtime.GOARCH == "arm64" {
 		t.Skip("internal linker disabled on windows/arm64")
 	}
-	testCgoDWARF(t, linkCgoInternal)
+	testCgolangDWARF(t, linkCgolangInternal)
 }
 
 func TestExternalLinkerDWARF(t *testing.T) {
-	testCgoDWARF(t, linkCgoExternal)
+	testCgolangDWARF(t, linkCgolangExternal)
 }

@@ -1,7 +1,7 @@
 // compile
 
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -38,7 +38,7 @@ func main() {
 }
 
 /*
- * bug143.go:19: assignment count mismatch: 2 = 1
- * bug143.go:18: x: undefined
- * bug143.go:18: ok: undefined
+ * bug143.golang:19: assignment count mismatch: 2 = 1
+ * bug143.golang:18: x: undefined
+ * bug143.golang:18: ok: undefined
  */

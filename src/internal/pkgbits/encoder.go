@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package pkgbits
@@ -8,7 +8,7 @@ import (
 	"bytes"
 	"crypto/sha256"
 	"encoding/binary"
-	"go/constant"
+	"golang/constant"
 	"io"
 	"math/big"
 	"runtime"
@@ -170,7 +170,7 @@ func (w *Encoder) Flush() RelElemIdx {
 
 	// TODO(mdempsky): Consider writing these out separately so they're
 	// easier to strip, along with function bodies, so that we can prune
-	// down to just the data that's relevant to go/types.
+	// down to just the data that's relevant to golang/types.
 	if w.encodingRelocHeader {
 		panic("encodingRelocHeader already true; recursive flush?")
 	}

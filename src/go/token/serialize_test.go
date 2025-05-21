@@ -1,12 +1,12 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package token
 
 import (
 	"bytes"
-	"encoding/gob"
+	"encoding/golangb"
 	"fmt"
 	"testing"
 )
@@ -65,7 +65,7 @@ func equal(p, q *FileSet) error {
 func checkSerialize(t *testing.T, p *FileSet) {
 	var buf bytes.Buffer
 	encode := func(x any) error {
-		return gob.NewEncoder(&buf).Encode(x)
+		return golangb.NewEncoder(&buf).Encode(x)
 	}
 	if err := p.Write(encode); err != nil {
 		t.Errorf("writing fileset failed: %s", err)
@@ -73,7 +73,7 @@ func checkSerialize(t *testing.T, p *FileSet) {
 	}
 	q := NewFileSet()
 	decode := func(x any) error {
-		return gob.NewDecoder(&buf).Decode(x)
+		return golangb.NewDecoder(&buf).Decode(x)
 	}
 	if err := q.Read(decode); err != nil {
 		t.Errorf("reading fileset failed: %s", err)

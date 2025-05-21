@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file contains tests for Eval.
@@ -8,52 +8,52 @@ package types_test
 
 import (
 	"fmt"
-	"go/ast"
-	"go/parser"
-	"go/token"
-	"go/types"
-	"internal/godebug"
+	"golang/ast"
+	"golang/parser"
+	"golang/token"
+	"golang/types"
+	"internal/golangdebug"
 	"internal/testenv"
 	"strings"
 	"testing"
 
-	. "go/types"
+	. "golang/types"
 )
 
 func testEval(t *testing.T, fset *token.FileSet, pkg *Package, pos token.Pos, expr string, typ Type, typStr, valStr string) {
-	gotTv, err := Eval(fset, pkg, pos, expr)
+	golangtTv, err := Eval(fset, pkg, pos, expr)
 	if err != nil {
 		t.Errorf("Eval(%q) failed: %s", expr, err)
 		return
 	}
-	if gotTv.Type == nil {
-		t.Errorf("Eval(%q) got nil type but no error", expr)
+	if golangtTv.Type == nil {
+		t.Errorf("Eval(%q) golangt nil type but no error", expr)
 		return
 	}
 
 	// compare types
 	if typ != nil {
 		// we have a type, check identity
-		if !Identical(gotTv.Type, typ) {
-			t.Errorf("Eval(%q) got type %s, want %s", expr, gotTv.Type, typ)
+		if !Identical(golangtTv.Type, typ) {
+			t.Errorf("Eval(%q) golangt type %s, want %s", expr, golangtTv.Type, typ)
 			return
 		}
 	} else {
 		// we have a string, compare type string
-		gotStr := gotTv.Type.String()
-		if gotStr != typStr {
-			t.Errorf("Eval(%q) got type %s, want %s", expr, gotStr, typStr)
+		golangtStr := golangtTv.Type.String()
+		if golangtStr != typStr {
+			t.Errorf("Eval(%q) golangt type %s, want %s", expr, golangtStr, typStr)
 			return
 		}
 	}
 
 	// compare values
-	gotStr := ""
-	if gotTv.Value != nil {
-		gotStr = gotTv.Value.ExactString()
+	golangtStr := ""
+	if golangtTv.Value != nil {
+		golangtStr = golangtTv.Value.ExactString()
 	}
-	if gotStr != valStr {
-		t.Errorf("Eval(%q) got value %s, want %s", expr, gotStr, valStr)
+	if golangtStr != valStr {
+		t.Errorf("Eval(%q) golangt value %s, want %s", expr, golangtStr, valStr)
 	}
 }
 
@@ -176,8 +176,8 @@ func TestEvalPos(t *testing.T) {
 
 		// Materialized aliases give a different (better)
 		// result for the final test, so skip it for now.
-		// TODO(adonovan): reenable when gotypesalias=1 is the default.
-		switch gotypesalias.Value() {
+		// TODO(adonovan): reenable when golangtypesalias=1 is the default.
+		switch golangtypesalias.Value() {
 		case "", "1":
 			if strings.Contains(src, "interface{R}.Read") {
 				continue
@@ -207,8 +207,8 @@ func TestEvalPos(t *testing.T) {
 	}
 }
 
-// gotypesalias controls the use of Alias types.
-var gotypesalias = godebug.New("gotypesalias")
+// golangtypesalias controls the use of Alias types.
+var golangtypesalias = golangdebug.New("golangtypesalias")
 
 // split splits string s at the first occurrence of s, trimming spaces.
 func split(s, sep string) (string, string) {
@@ -330,7 +330,7 @@ func _[A any](A) {}
 		if fun, _ := d.(*ast.FuncDecl); fun != nil {
 			// type parameter A is not found at the start of the function type
 			if err := types.CheckExpr(fset, pkg, fun.Type.Pos(), fun.Type, nil); err == nil || !strings.Contains(err.Error(), "undefined") {
-				t.Fatalf("got %s, want undefined error", err)
+				t.Fatalf("golangt %s, want undefined error", err)
 			}
 			// type parameter A must be found at the end of the function type
 			if err := types.CheckExpr(fset, pkg, fun.Type.End(), fun.Type, nil); err != nil {

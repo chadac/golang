@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package p
@@ -7,7 +7,7 @@ package p
 // Constraint type inference should be independent of the
 // ordering of the type parameter declarations. Try all
 // permutations in the test case below.
-// Permutations produced by https://go.dev/play/p/PHcZNGJTEBZ.
+// Permutations produced by https://golang.dev/play/p/PHcZNGJTEBZ.
 
 func f00[S1 ~[]E1, S2 ~[]E2, E1 ~byte, E2 ~byte](S1, S2) {}
 func f01[S2 ~[]E2, S1 ~[]E1, E1 ~byte, E2 ~byte](S1, S2) {}

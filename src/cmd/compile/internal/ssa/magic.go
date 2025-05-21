@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ssa
@@ -213,7 +213,7 @@ func smagic64(c int64) smagicData { return smagic(64, c) }
 // the modulus x%c and comparing against 0.
 //
 // The same "Division by invariant integers using multiplication" paper
-// by Granlund and Montgomery referenced above briefly mentions this method
+// by Granlund and Montgolangmery referenced above briefly mentions this method
 // and it is further elaborated in "Hacker's Delight" by Warren Section 10-17
 //
 // The first thing to note is that for odd integers, exact division can be computed

@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package hmac
@@ -27,7 +27,7 @@ type hmacTest struct {
 
 var hmacTests = []hmacTest{
 	// Tests from US FIPS 198
-	// https://csrc.nist.gov/publications/fips/fips198/fips-198a.pdf
+	// https://csrc.nist.golangv/publications/fips/fips198/fips-198a.pdf
 	{
 		sha1.New,
 		[]byte{
@@ -201,13 +201,13 @@ var hmacTests = []hmacTest{
 		},
 		[]byte("This is a test using a larger than block-size key " +
 			"and a larger than block-size data. The key needs to " +
-			"be hashed before being used by the HMAC algorithm."),
+			"be hashed before being used by the HMAC algolangrithm."),
 		"9b09ffa71b942fcb27635fbcd5b0e944bfdc63644f0713938a7f51535c3a35e2",
 		sha256.Size,
 		sha256.BlockSize,
 	},
 
-	// Tests from https://csrc.nist.gov/groups/ST/toolkit/examples.html
+	// Tests from https://csrc.nist.golangv/groups/ST/toolkit/examples.html
 	// (truncated tag tests are left out)
 	{
 		sha1.New,
@@ -551,10 +551,10 @@ func TestHMAC(t *testing.T) {
 	for i, tt := range hmacTests {
 		h := New(tt.hash, tt.key)
 		if s := h.Size(); s != tt.size {
-			t.Errorf("Size: got %v, want %v", s, tt.size)
+			t.Errorf("Size: golangt %v, want %v", s, tt.size)
 		}
 		if b := h.BlockSize(); b != tt.blocksize {
-			t.Errorf("BlockSize: got %v, want %v", b, tt.blocksize)
+			t.Errorf("BlockSize: golangt %v, want %v", b, tt.blocksize)
 		}
 		for j := 0; j < 4; j++ {
 			n, err := h.Write(tt.in)

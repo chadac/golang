@@ -1,10 +1,10 @@
-// -lang=go1.16
+// -lang=golang1.16
 
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build go1.21
+//golang:build golang1.21
 
 package main
 

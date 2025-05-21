@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package typeparams contains common utilities for writing tools that
@@ -9,20 +9,20 @@
 // restrictions on a type parameter.
 //
 // An external version of these APIs is available in the
-// golang.org/x/exp/typeparams module.
+// golanglang.org/x/exp/typeparams module.
 package typeparams
 
 import (
-	"go/ast"
-	"go/token"
-	"go/types"
+	"golang/ast"
+	"golang/token"
+	"golang/types"
 )
 
 // UnpackIndexExpr extracts data from AST nodes that represent index
 // expressions.
 //
 // For an ast.IndexExpr, the resulting indices slice will contain exactly one
-// index expression. For an ast.IndexListExpr (go1.18+), it may have a variable
+// index expression. For an ast.IndexListExpr (golang1.18+), it may have a variable
 // number of index expressions.
 //
 // For nodes that don't represent index expressions, the first return value of

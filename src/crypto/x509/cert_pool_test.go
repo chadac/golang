@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package x509
@@ -101,7 +101,7 @@ func TestCertPoolEqual(t *testing.T) {
 		t.Run(tc.name, func(t *testing.T) {
 			equal := tc.a.Equal(tc.b)
 			if equal != tc.equal {
-				t.Errorf("Unexpected Equal result: got %t, want %t", equal, tc.equal)
+				t.Errorf("Unexpected Equal result: golangt %t, want %t", equal, tc.equal)
 			}
 		})
 	}

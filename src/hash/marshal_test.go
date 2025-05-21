@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test that the hashes in the standard library implement
@@ -35,7 +35,7 @@ func fromHex(s string) []byte {
 var marshalTests = []struct {
 	name   string
 	new    func() hash.Hash
-	golden []byte
+	golanglden []byte
 }{
 	{"adler32", func() hash.Hash { return adler32.New() }, fromHex("61646c01460a789d")},
 	{"crc32", func() hash.Hash { return crc32.NewIEEE() }, fromHex("63726301ca87914dc956d3e8")},
@@ -82,8 +82,8 @@ func TestMarshalHash(t *testing.T) {
 			if err != nil {
 				t.Fatalf("MarshalBinary: %v", err)
 			}
-			if !bytes.Equal(enc, tt.golden) {
-				t.Errorf("MarshalBinary = %x, want %x", enc, tt.golden)
+			if !bytes.Equal(enc, tt.golanglden) {
+				t.Errorf("MarshalBinary = %x, want %x", enc, tt.golanglden)
 			}
 			h3u, ok := h3.(encoding.BinaryUnmarshaler)
 			if !ok {

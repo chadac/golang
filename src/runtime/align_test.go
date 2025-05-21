@@ -1,17 +1,17 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime_test
 
 import (
-	"go/ast"
-	"go/build"
-	"go/importer"
-	"go/parser"
-	"go/printer"
-	"go/token"
-	"go/types"
+	"golang/ast"
+	"golang/build"
+	"golang/importer"
+	"golang/parser"
+	"golang/printer"
+	"golang/token"
+	"golang/types"
 	"internal/testenv"
 	"os"
 	"regexp"
@@ -23,12 +23,12 @@ import (
 // Check that 64-bit fields on which we apply atomic operations
 // are aligned to 8 bytes. This can be a problem on 32-bit systems.
 func TestAtomicAlignment(t *testing.T) {
-	testenv.MustHaveGoBuild(t) // go command needed to resolve std .a files for importer.Default().
+	testenv.MustHaveGoBuild(t) // golang command needed to resolve std .a files for importer.Default().
 
 	// Read the code making the tables above, to see which fields and
 	// variables we are currently checking.
 	checked := map[string]bool{}
-	x, err := os.ReadFile("./align_runtime_test.go")
+	x, err := os.ReadFile("./align_runtime_test.golang")
 	if err != nil {
 		t.Fatalf("read failed: %v", err)
 	}
@@ -83,7 +83,7 @@ func TestAtomicAlignment(t *testing.T) {
 		}
 	}
 
-	// Call go/types to analyze the runtime package.
+	// Call golang/types to analyze the runtime package.
 	var info types.Info
 	info.Types = map[ast.Expr]types.TypeAndValue{}
 	conf := types.Config{Importer: importer.Default()}
@@ -157,7 +157,7 @@ func (v *Visitor) checkAddr(n ast.Node) {
 	case *ast.SelectorExpr:
 		t := v.types[n.X].Type
 		if t == nil {
-			// Not sure what is happening here, go/types fails to
+			// Not sure what is happening here, golang/types fails to
 			// type the selector arg on some platforms.
 			return
 		}
@@ -191,7 +191,7 @@ func (v *Visitor) print(n ast.Node) string {
 // that are actually used for the build, given GOOS/GOARCH restrictions.
 func buildableFiles(t *testing.T, dir string) []string {
 	ctxt := build.Default
-	ctxt.CgoEnabled = true
+	ctxt.CgolangEnabled = true
 	pkg, err := ctxt.ImportDir(dir, 0)
 	if err != nil {
 		t.Fatalf("can't find buildable files: %v", err)

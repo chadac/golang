@@ -1,5 +1,5 @@
 [short] skip
-[!cgo] skip
+[!cgolang] skip
 
 [!exec:/usr/bin/env] skip
 [!exec:bash] skip
@@ -7,19 +7,19 @@
 mkdir $WORK/tmp/cache
 env GOCACHE=$WORK/tmp/cache
 
-# Before building our test main.go, ensure that an up-to-date copy of
-# runtime/cgo is present in the cache. If it isn't, the 'go build' step below
-# will fail with "can't open import". See golang.org/issue/29004.
+# Before building our test main.golang, ensure that an up-to-date copy of
+# runtime/cgolang is present in the cache. If it isn't, the 'golang build' step below
+# will fail with "can't open import". See golanglang.org/issue/29004.
 #
-# (The fix in golang.org/issue/29004 didn't completely fix the underlying issue:
-# cmd/go/internal/load adds a bunch of implicit dependencies
+# (The fix in golanglang.org/issue/29004 didn't completely fix the underlying issue:
+# cmd/golang/internal/load adds a bunch of implicit dependencies
 # based on various heuristics, and, due to a bug described in
-# https://golang.org/issue/31544#issuecomment-490607180,
+# https://golanglang.org/issue/31544#issuecomment-490607180,
 # those implicit dependencies are not added early enough during
 # loading to properly affect the import graph.)
-go build runtime/cgo
+golang build runtime/cgolang
 
-go build -x -o main ./...
+golang build -x -o main ./...
 cp stderr commands.txt
 cat header.txt commands.txt
 cp stdout test.sh
@@ -34,7 +34,7 @@ cmp stderr hello.txt
 
 grep '^WORK=(.*)\n' commands.txt
 
--- main.go --
+-- main.golang --
 package main
 
 import "C"
@@ -42,10 +42,10 @@ import "C"
 func main() {
 	print("hello\n")
 }
--- go.mod --
+-- golang.mod --
 module example
 
-go 1.24
+golang 1.24
 
 ignore foo
 -- foo/foo.txt --

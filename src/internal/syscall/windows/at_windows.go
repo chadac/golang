@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package windows
@@ -16,7 +16,7 @@ import (
 // These are invented values.
 //
 // When adding a new flag here, add an unexported version to
-// the set of invented O_ values in syscall/types_windows.go
+// the set of invented O_ values in syscall/types_windows.golang
 // to avoid overlap.
 const (
 	O_DIRECTORY    = 0x100000   // target must be a directory

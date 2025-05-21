@@ -5,7 +5,7 @@ written by hand
 module rsc.io/breaker
 -- .info --
 {"Version":"v2.0.0+incompatible", "Name": "7307b307f4f0dde421900f8e5126fadac1e13aed", "Short": "7307b307f4f0"}
--- breaker.go --
+-- breaker.golang --
 package breaker
 
 const XX = 2

@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Tests for package cgi
@@ -82,17 +82,17 @@ readlines:
 	}
 
 	for key, expected := range expectedMap {
-		got := m[key]
+		golangt := m[key]
 		if key == "cwd" {
-			// For Windows. golang.org/issue/4645.
-			fi1, _ := os.Stat(got)
+			// For Windows. golanglang.org/issue/4645.
+			fi1, _ := os.Stat(golangt)
 			fi2, _ := os.Stat(expected)
 			if os.SameFile(fi1, fi2) {
-				got = expected
+				golangt = expected
 			}
 		}
-		if got != expected {
-			t.Errorf("for key %q got %q; expected %q", key, got, expected)
+		if golangt != expected {
+			t.Errorf("for key %q golangt %q; expected %q", key, golangt, expected)
 		}
 	}
 	for _, check := range checks {
@@ -123,15 +123,15 @@ func TestCGIBasicGet(t *testing.T) {
 		"env-SCRIPT_NAME":       "/test.cgi",
 		"env-SERVER_NAME":       "example.com",
 		"env-SERVER_PORT":       "80",
-		"env-SERVER_SOFTWARE":   "go",
+		"env-SERVER_SOFTWARE":   "golang",
 	}
 	replay := runCgiTest(t, h, "GET /test.cgi?foo=bar&a=b HTTP/1.0\nHost: example.com:80\n\n", expectedMap)
 
-	if expected, got := "text/html", replay.Header().Get("Content-Type"); got != expected {
-		t.Errorf("got a Content-Type of %q; expected %q", got, expected)
+	if expected, golangt := "text/html", replay.Header().Get("Content-Type"); golangt != expected {
+		t.Errorf("golangt a Content-Type of %q; expected %q", golangt, expected)
 	}
-	if expected, got := "X-Test-Value", replay.Header().Get("X-Test-Header"); got != expected {
-		t.Errorf("got a X-Test-Header of %q; expected %q", got, expected)
+	if expected, golangt := "X-Test-Value", replay.Header().Get("X-Test-Header"); golangt != expected {
+		t.Errorf("golangt a X-Test-Header of %q; expected %q", golangt, expected)
 	}
 }
 
@@ -158,7 +158,7 @@ func TestCGIEnvIPv6(t *testing.T) {
 		"env-SCRIPT_NAME":       "/test.cgi",
 		"env-SERVER_NAME":       "example.com",
 		"env-SERVER_PORT":       "80",
-		"env-SERVER_SOFTWARE":   "go",
+		"env-SERVER_SOFTWARE":   "golang",
 	}
 
 	rw := httptest.NewRecorder()
@@ -322,9 +322,9 @@ Transfer-Encoding: chunked
 	}
 	expectedMap := map[string]string{}
 	resp := runCgiTest(t, h, postReq, expectedMap)
-	if got, expected := resp.Code, http.StatusBadRequest; got != expected {
-		t.Fatalf("Expected %v response code from chunked request body; got %d",
-			expected, got)
+	if golangt, expected := resp.Code, http.StatusBadRequest; golangt != expected {
+		t.Fatalf("Expected %v response code from chunked request body; golangt %d",
+			expected, golangt)
 	}
 }
 
@@ -336,10 +336,10 @@ func TestRedirect(t *testing.T) {
 	}
 	rec := runCgiTest(t, h, "GET /test.cgi?loc=http://foo.com/ HTTP/1.0\nHost: example.com\n\n", nil)
 	if e, g := 302, rec.Code; e != g {
-		t.Errorf("expected status code %d; got %d", e, g)
+		t.Errorf("expected status code %d; golangt %d", e, g)
 	}
 	if e, g := "http://foo.com/", rec.Header().Get("Location"); e != g {
-		t.Errorf("expected Location header of %q; got %q", e, g)
+		t.Errorf("expected Location header of %q; golangt %q", e, g)
 	}
 }
 
@@ -362,9 +362,9 @@ func TestInternalRedirect(t *testing.T) {
 }
 
 // TestCopyError tests that we kill the process if there's an error copying
-// its output. (for example, from the client having gone away)
+// its output. (for example, from the client having golangne away)
 //
-// If we fail to do so, the test will time out (and dump its goroutines) with a
+// If we fail to do so, the test will time out (and dump its golangroutines) with a
 // call to [Handler.ServeHTTP] blocked on a deferred call to [exec.Cmd.Wait].
 func TestCopyError(t *testing.T) {
 	testenv.MustHaveExec(t)
@@ -413,7 +413,7 @@ func TestCopyError(t *testing.T) {
 	}
 }
 
-// handlerRunning reports whether any goroutine is currently running
+// handlerRunning reports whether any golangroutine is currently running
 // [Handler.ServeHTTP].
 func handlerRunning() bool {
 	r := regexp.MustCompile(`net/http/cgi\.\(\*Handler\)\.ServeHTTP`)
@@ -423,7 +423,7 @@ func handlerRunning() bool {
 		if n < len(buf) {
 			return r.Match(buf[:n])
 		}
-		// Buffer wasn't large enough for a full goroutine dump.
+		// Buffer wasn't large enough for a full golangroutine dump.
 		// Resize it and try again.
 		buf = make([]byte, 2*len(buf))
 	}
@@ -489,8 +489,8 @@ func TestHandlerStderr(t *testing.T) {
 	rw := httptest.NewRecorder()
 	req := newRequest("GET /test.cgi?writestderr=1 HTTP/1.0\nHost: example.com\n\n")
 	h.ServeHTTP(rw, req)
-	if got, want := stderr.String(), "Hello, stderr!\n"; got != want {
-		t.Errorf("Stderr = %q; want %q", got, want)
+	if golangt, want := stderr.String(), "Hello, stderr!\n"; golangt != want {
+		t.Errorf("Stderr = %q; want %q", golangt, want)
 	}
 }
 
@@ -509,9 +509,9 @@ func TestRemoveLeadingDuplicates(t *testing.T) {
 		},
 	}
 	for _, tt := range tests {
-		got := removeLeadingDuplicates(tt.env)
-		if !slices.Equal(got, tt.want) {
-			t.Errorf("removeLeadingDuplicates(%q) = %q; want %q", tt.env, got, tt.want)
+		golangt := removeLeadingDuplicates(tt.env)
+		if !slices.Equal(golangt, tt.want) {
+			t.Errorf("removeLeadingDuplicates(%q) = %q; want %q", tt.env, golangt, tt.want)
 		}
 	}
 }

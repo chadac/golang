@@ -1,11 +1,11 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package load
 
 import (
-	"cmd/go/internal/cfg"
+	"cmd/golang/internal/cfg"
 	"testing"
 )
 
@@ -30,7 +30,7 @@ func TestPkgDefaultExecName(t *testing.T) {
 		{"v0", []string{}, "v0", "v0"},
 		{"v1", []string{}, "v1", "v1"},
 		{"v2", []string{}, "v2", "v2"},
-		{"command-line-arguments", []string{"output.go", "foo.go"}, "output", "output"},
+		{"command-line-arguments", []string{"output.golang", "foo.golang"}, "output", "output"},
 	} {
 		{
 			cfg.ModulesEnabled = true
@@ -38,9 +38,9 @@ func TestPkgDefaultExecName(t *testing.T) {
 			pkg.ImportPath = tt.in
 			pkg.GoFiles = tt.files
 			pkg.Internal.CmdlineFiles = len(tt.files) > 0
-			gotMod := pkg.DefaultExecName()
-			if gotMod != tt.wantMod {
-				t.Errorf("pkg.DefaultExecName with ImportPath = %q in module mode = %v; want %v", tt.in, gotMod, tt.wantMod)
+			golangtMod := pkg.DefaultExecName()
+			if golangtMod != tt.wantMod {
+				t.Errorf("pkg.DefaultExecName with ImportPath = %q in module mode = %v; want %v", tt.in, golangtMod, tt.wantMod)
 			}
 		}
 		{
@@ -49,9 +49,9 @@ func TestPkgDefaultExecName(t *testing.T) {
 			pkg.ImportPath = tt.in
 			pkg.GoFiles = tt.files
 			pkg.Internal.CmdlineFiles = len(tt.files) > 0
-			gotGopath := pkg.DefaultExecName()
-			if gotGopath != tt.wantGopath {
-				t.Errorf("pkg.DefaultExecName with ImportPath = %q in gopath mode = %v; want %v", tt.in, gotGopath, tt.wantGopath)
+			golangtGopath := pkg.DefaultExecName()
+			if golangtGopath != tt.wantGopath {
+				t.Errorf("pkg.DefaultExecName with ImportPath = %q in golangpath mode = %v; want %v", tt.in, golangtGopath, tt.wantGopath)
 			}
 		}
 	}
@@ -74,9 +74,9 @@ func TestIsVersionElement(t *testing.T) {
 		{"v", false},
 		{"vx", false},
 	} {
-		got := isVersionElement(tt.in)
-		if got != tt.want {
-			t.Errorf("isVersionElement(%q) = %v; want %v", tt.in, got, tt.want)
+		golangt := isVersionElement(tt.in)
+		if golangt != tt.want {
+			t.Errorf("isVersionElement(%q) = %v; want %v", tt.in, golangt, tt.want)
 		}
 	}
 }

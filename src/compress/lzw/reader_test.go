@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package lzw
@@ -109,13 +109,13 @@ func TestReader(t *testing.T) {
 				// Even if the input is truncated, we should still return the
 				// partial decoded result.
 				if n == 0 || !strings.HasPrefix(tt.raw, s) {
-					t.Errorf("got %d bytes (%q), want a non-empty prefix of %q", n, s, tt.raw)
+					t.Errorf("golangt %d bytes (%q), want a non-empty prefix of %q", n, s, tt.raw)
 				}
 			}
 			continue
 		}
 		if s != tt.raw {
-			t.Errorf("%s: got %d-byte %q want %d-byte %q", tt.desc, n, s, len(tt.raw), tt.raw)
+			t.Errorf("%s: golangt %d-byte %q want %d-byte %q", tt.desc, n, s, len(tt.raw), tt.raw)
 		}
 	}
 }
@@ -147,7 +147,7 @@ func TestReaderReset(t *testing.T) {
 				// Even if the input is truncated, we should still return the
 				// partial decoded result.
 				if n == 0 || !strings.HasPrefix(tt.raw, b.String()) {
-					t.Errorf("got %d bytes (%q), want a non-empty prefix of %q", n, b.String(), tt.raw)
+					t.Errorf("golangt %d bytes (%q), want a non-empty prefix of %q", n, b.String(), tt.raw)
 				}
 			}
 			continue
@@ -214,10 +214,10 @@ func TestNoLongerSavingPriorExpansions(t *testing.T) {
 		nBits += e.n * e.width
 	}
 	if nCodes != 3839 {
-		t.Fatalf("nCodes: got %v, want %v", nCodes, 3839)
+		t.Fatalf("nCodes: golangt %v, want %v", nCodes, 3839)
 	}
 	if nBits != 43255 {
-		t.Fatalf("nBits: got %v, want %v", nBits, 43255)
+		t.Fatalf("nBits: golangt %v, want %v", nBits, 43255)
 	}
 
 	// Construct our input of 43255 zero bits (which gets d.hi and d.width up
@@ -258,7 +258,7 @@ func TestNoLongerSavingPriorExpansions(t *testing.T) {
 	// nDecoded should be 3841: 3839 literal codes and then 2 decoded bytes
 	// from 1 non-literal code. The EOF code contributes 0 decoded bytes.
 	if nDecoded != int64(nCodes+2) {
-		t.Fatalf("nDecoded: got %v, want %v", nDecoded, nCodes+2)
+		t.Fatalf("nDecoded: golangt %v, want %v", nDecoded, nCodes+2)
 	}
 }
 

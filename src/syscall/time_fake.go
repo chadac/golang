@@ -1,8 +1,8 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build faketime
+//golang:build faketime
 
 package syscall
 
@@ -14,7 +14,7 @@ const faketime = true
 // the runtime's write function, since that adds the framing that
 // reports the emulated time.
 
-//go:linkname runtimeWrite runtime.write
+//golang:linkname runtimeWrite runtime.write
 func runtimeWrite(fd uintptr, p unsafe.Pointer, n int32) int32
 
 func faketimeWrite(fd int, p []byte) int {

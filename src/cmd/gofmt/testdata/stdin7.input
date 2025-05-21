@@ -1,4 +1,4 @@
-															//gofmt -stdin
+															//golangfmt -stdin
 
 															if err != nil {
 								source := strings.NewReader(`line 1.

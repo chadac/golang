@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -17,32 +17,32 @@ var m2 = map[int]string{1: "2", 2: "4", 4: "8", 8: "16"}
 func TestKeys() {
 	want := []int{1, 2, 4, 8}
 
-	got1 := a.Keys(m1)
-	sort.Ints(got1)
-	if !a.SliceEqual(got1, want) {
-		panic(fmt.Sprintf("a.Keys(%v) = %v, want %v", m1, got1, want))
+	golangt1 := a.Keys(m1)
+	sort.Ints(golangt1)
+	if !a.SliceEqual(golangt1, want) {
+		panic(fmt.Sprintf("a.Keys(%v) = %v, want %v", m1, golangt1, want))
 	}
 
-	got2 := a.Keys(m2)
-	sort.Ints(got2)
-	if !a.SliceEqual(got2, want) {
-		panic(fmt.Sprintf("a.Keys(%v) = %v, want %v", m2, got2, want))
+	golangt2 := a.Keys(m2)
+	sort.Ints(golangt2)
+	if !a.SliceEqual(golangt2, want) {
+		panic(fmt.Sprintf("a.Keys(%v) = %v, want %v", m2, golangt2, want))
 	}
 }
 
 func TestValues() {
-	got1 := a.Values(m1)
+	golangt1 := a.Values(m1)
 	want1 := []int{2, 4, 8, 16}
-	sort.Ints(got1)
-	if !a.SliceEqual(got1, want1) {
-		panic(fmt.Sprintf("a.Values(%v) = %v, want %v", m1, got1, want1))
+	sort.Ints(golangt1)
+	if !a.SliceEqual(golangt1, want1) {
+		panic(fmt.Sprintf("a.Values(%v) = %v, want %v", m1, golangt1, want1))
 	}
 
-	got2 := a.Values(m2)
+	golangt2 := a.Values(m2)
 	want2 := []string{"16", "2", "4", "8"}
-	sort.Strings(got2)
-	if !a.SliceEqual(got2, want2) {
-		panic(fmt.Sprintf("a.Values(%v) = %v, want %v", m2, got2, want2))
+	sort.Strings(golangt2)
+	if !a.SliceEqual(golangt2, want2) {
+		panic(fmt.Sprintf("a.Values(%v) = %v, want %v", m2, golangt2, want2))
 	}
 }
 

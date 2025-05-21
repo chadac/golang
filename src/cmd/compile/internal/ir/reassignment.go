@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ir
@@ -11,7 +11,7 @@ import (
 // A ReassignOracle efficiently answers queries about whether local
 // variables are reassigned. This helper works by looking for function
 // params and short variable declarations (e.g.
-// https://go.dev/ref/spec#Short_variable_declarations) that are
+// https://golang.dev/ref/spec#Short_variable_declarations) that are
 // neither address taken nor subsequently re-assigned. It is intended
 // to operate much like "ir.StaticValue" and "ir.Reassigned", but in a
 // way that does just a single walk of the containing function (as

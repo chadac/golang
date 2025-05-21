@@ -1,14 +1,14 @@
 [short] skip
 
-go test -timeout=0 -run=TestNoDeadline
-go test -timeout=1m -run=TestDeadlineWithinMinute
-go test -timeout=1m -run=TestSubtestDeadlineWithinMinute
+golang test -timeout=0 -run=TestNoDeadline
+golang test -timeout=1m -run=TestDeadlineWithinMinute
+golang test -timeout=1m -run=TestSubtestDeadlineWithinMinute
 
--- go.mod --
+-- golang.mod --
 module m
 
-go 1.16
--- deadline_test.go --
+golang 1.16
+-- deadline_test.golang --
 package testing_test
 
 import (

@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package comment
@@ -27,7 +27,7 @@ func TestTestdata(t *testing.T) {
 	}
 	p.LookupPackage = func(name string) (importPath string, ok bool) {
 		if name == "comment" {
-			return "go/doc/comment", true
+			return "golang/doc/comment", true
 		}
 		return DefaultLookupPackage(name)
 	}
@@ -75,7 +75,7 @@ func TestTestdata(t *testing.T) {
 					t.Fatalf("unknown output file %q", f.Name)
 				case "dump":
 					out = dump(d)
-				case "gofmt":
+				case "golangfmt":
 					out = pr.Comment(d)
 				case "html":
 					out = pr.HTML(d)

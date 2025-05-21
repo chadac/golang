@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Fork, exec, wait, etc.
@@ -20,7 +20,7 @@ var ForkLock sync.RWMutex
 // It returns the string as a byte slice, or nil if b is too short to contain the length or
 // the full string.
 //
-//go:nosplit
+//golang:nosplit
 func gstringb(b []byte) []byte {
 	if len(b) < 2 {
 		return nil
@@ -32,14 +32,14 @@ func gstringb(b []byte) []byte {
 	return b[:n]
 }
 
-// Offset of the name field in a 9P directory entry - see UnmarshalDir() in dir_plan9.go
+// Offset of the name field in a 9P directory entry - see UnmarshalDir() in dir_plan9.golang
 const nameOffset = 39
 
 // gdirname returns the first filename from a buffer of directory entries,
 // and a slice containing the remaining directory entries.
 // If the buffer doesn't start with a valid directory entry, the returned name is nil.
 //
-//go:nosplit
+//golang:nosplit
 func gdirname(buf []byte) (name []byte, rest []byte) {
 	if len(buf) < 2 {
 		return
@@ -122,7 +122,7 @@ var dupdev, _ = BytePtrFromString("#d")
 // The calls to RawSyscall are okay because they are assembly
 // functions that do not grow the stack.
 //
-//go:norace
+//golang:norace
 func forkAndExecInChild(argv0 *byte, argv []*byte, envv []envItem, dir *byte, attr *ProcAttr, pipe int, rflag int) (pid int, err error) {
 	// Declare all variables at top in case any
 	// declarations require heap allocation (e.g., errbuf).
@@ -174,7 +174,7 @@ func forkAndExecInChild(argv0 *byte, argv []*byte, envv []envItem, dir *byte, at
 	r1, _, _ = RawSyscall(SYS_OPEN, uintptr(unsafe.Pointer(dupdev)), uintptr(O_RDONLY), 0)
 	dupdevfd = int(r1)
 	if dupdevfd == -1 {
-		goto childerror
+		golangto childerror
 	}
 dirloop:
 	for {
@@ -182,7 +182,7 @@ dirloop:
 		n = int(r1)
 		switch n {
 		case -1:
-			goto childerror
+			golangto childerror
 		case 0:
 			break dirloop
 		}
@@ -191,7 +191,7 @@ dirloop:
 			s, b = gdirname(b)
 			if s == nil {
 				copy(errbuf[:], ErrBadStat.Error())
-				goto childerror1
+				golangto childerror1
 			}
 			if s[len(s)-1] == 'l' {
 				// control file for descriptor <N> is named <N>ctl
@@ -208,7 +208,7 @@ dirloop:
 			r1, _, _ = RawSyscall(SYS_CREATE, uintptr(unsafe.Pointer(envv[i].name)), uintptr(O_WRONLY), uintptr(0666))
 
 			if int32(r1) == -1 {
-				goto childerror
+				golangto childerror
 			}
 
 			envfd = int(r1)
@@ -217,13 +217,13 @@ dirloop:
 				^uintptr(0), ^uintptr(0), 0)
 
 			if int32(r1) == -1 || int(r1) != envv[i].nvalue {
-				goto childerror
+				golangto childerror
 			}
 
 			r1, _, _ = RawSyscall(SYS_CLOSE, uintptr(envfd), 0, 0)
 
 			if int32(r1) == -1 {
-				goto childerror
+				golangto childerror
 			}
 		}
 	}
@@ -232,7 +232,7 @@ dirloop:
 	if dir != nil {
 		r1, _, _ = RawSyscall(SYS_CHDIR, uintptr(unsafe.Pointer(dir)), 0, 0)
 		if int32(r1) == -1 {
-			goto childerror
+			golangto childerror
 		}
 	}
 
@@ -241,7 +241,7 @@ dirloop:
 	if pipe < nextfd {
 		r1, _, _ = RawSyscall(SYS_DUP, uintptr(pipe), uintptr(nextfd), 0)
 		if int32(r1) == -1 {
-			goto childerror
+			golangto childerror
 		}
 		pipe = nextfd
 		nextfd++
@@ -253,7 +253,7 @@ dirloop:
 			}
 			r1, _, _ = RawSyscall(SYS_DUP, uintptr(fd[i]), uintptr(nextfd), 0)
 			if int32(r1) == -1 {
-				goto childerror
+				golangto childerror
 			}
 
 			fd[i] = nextfd
@@ -272,7 +272,7 @@ dirloop:
 		}
 		r1, _, _ = RawSyscall(SYS_DUP, uintptr(fd[i]), uintptr(i), 0)
 		if int32(r1) == -1 {
-			goto childerror
+			golangto childerror
 		}
 	}
 
@@ -308,7 +308,7 @@ childerror1:
 
 // close the numbered file descriptor, unless it is fd1, fd2, or a member of fds.
 //
-//go:nosplit
+//golang:nosplit
 func closeFdExcept(n int, fd1 int, fd2 int, fds []int) {
 	if n == fd1 || n == fd2 {
 		return
@@ -458,7 +458,7 @@ func forkExec(argv0 string, argv []string, attr *ProcAttr) (pid int, err error) 
 		return 0, err
 	}
 
-	// Read got EOF, so pipe closed on exec, so exec succeeded.
+	// Read golangt EOF, so pipe closed on exec, so exec succeeded.
 	return pid, nil
 }
 
@@ -472,16 +472,16 @@ var procs struct {
 	waits map[int]chan *waitErr
 }
 
-// startProcess starts a new goroutine, tied to the OS
+// startProcess starts a new golangroutine, tied to the OS
 // thread, which runs the process and subsequently waits
 // for it to finish, communicating the process stats back
-// to any goroutines that may have been waiting on it.
+// to any golangroutines that may have been waiting on it.
 //
-// Such a dedicated goroutine is needed because on
+// Such a dedicated golangroutine is needed because on
 // Plan 9, only the parent thread can wait for a child,
-// whereas goroutines tend to jump OS threads (e.g.,
+// whereas golangroutines tend to jump OS threads (e.g.,
 // between starting a process and running Wait(), the
-// goroutine may have been rescheduled).
+// golangroutine may have been rescheduled).
 func startProcess(argv0 string, argv []string, attr *ProcAttr) (pid int, err error) {
 	type forkRet struct {
 		pid int
@@ -489,7 +489,7 @@ func startProcess(argv0 string, argv []string, attr *ProcAttr) (pid int, err err
 	}
 
 	forkc := make(chan forkRet, 1)
-	go func() {
+	golang func() {
 		runtime.LockOSThread()
 		var ret forkRet
 

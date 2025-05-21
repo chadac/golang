@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Tests syscall P stealing.
@@ -26,7 +26,7 @@ func gen(t *testgen.Trace) {
 
 	g := t.Generation(1)
 
-	// A goroutine execute a syscall and steals its own P, then starts running
+	// A golangroutine execute a syscall and steals its own P, then starts running
 	// on that P.
 	b0 := g.Batch(trace.ThreadID(0), 0)
 	b0.Event("ProcStatus", trace.ProcID(0), tracev2.ProcRunning)

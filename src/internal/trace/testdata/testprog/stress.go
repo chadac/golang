@@ -1,11 +1,11 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Tests a many interesting cases (network, syscalls, a little GC, busy goroutines,
-// blocked goroutines, LockOSThread, pipes, and GOMAXPROCS).
+// Tests a many interesting cases (network, syscalls, a little GC, busy golangroutines,
+// blocked golangroutines, LockOSThread, pipes, and GOMAXPROCS).
 
-//go:build ignore
+//golang:build ignore
 
 package main
 
@@ -23,14 +23,14 @@ func main() {
 	var wg sync.WaitGroup
 	done := make(chan bool)
 
-	// Create a goroutine blocked before tracing.
+	// Create a golangroutine blocked before tracing.
 	wg.Add(1)
-	go func() {
+	golang func() {
 		<-done
 		wg.Done()
 	}()
 
-	// Create a goroutine blocked in syscall before tracing.
+	// Create a golangroutine blocked in syscall before tracing.
 	rp, wp, err := os.Pipe()
 	if err != nil {
 		log.Fatalf("failed to create pipe: %v", err)
@@ -40,13 +40,13 @@ func main() {
 		wp.Close()
 	}()
 	wg.Add(1)
-	go func() {
+	golang func() {
 		var tmp [1]byte
 		rp.Read(tmp[:])
 		<-done
 		wg.Done()
 	}()
-	time.Sleep(time.Millisecond) // give the goroutine above time to block
+	time.Sleep(time.Millisecond) // give the golangroutine above time to block
 
 	if err := trace.Start(os.Stdout); err != nil {
 		log.Fatalf("failed to start tracing: %v", err)
@@ -56,7 +56,7 @@ func main() {
 	procs := runtime.GOMAXPROCS(10)
 	time.Sleep(50 * time.Millisecond) // test proc stop/start events
 
-	go func() {
+	golang func() {
 		runtime.LockOSThread()
 		for {
 			select {
@@ -75,10 +75,10 @@ func main() {
 		_ = make([]byte, 1<<20)
 	}
 
-	// Create a bunch of busy goroutines to load all Ps.
+	// Create a bunch of busy golangroutines to load all Ps.
 	for p := 0; p < 10; p++ {
 		wg.Add(1)
-		go func() {
+		golang func() {
 			// Do something useful.
 			tmp := make([]byte, 1<<16)
 			for i := range tmp {
@@ -92,7 +92,7 @@ func main() {
 
 	// Block in syscall.
 	wg.Add(1)
-	go func() {
+	golang func() {
 		var tmp [1]byte
 		rp.Read(tmp[:])
 		<-done
@@ -101,7 +101,7 @@ func main() {
 
 	// Test timers.
 	timerDone := make(chan bool)
-	go func() {
+	golang func() {
 		time.Sleep(time.Millisecond)
 		timerDone <- true
 	}()
@@ -113,7 +113,7 @@ func main() {
 		log.Fatalf("listen failed: %v", err)
 	}
 	defer ln.Close()
-	go func() {
+	golang func() {
 		c, err := ln.Accept()
 		if err != nil {
 			return
@@ -131,12 +131,12 @@ func main() {
 	c.Read(tmp[:])
 	c.Close()
 
-	go func() {
+	golang func() {
 		runtime.Gosched()
 		select {}
 	}()
 
-	// Unblock helper goroutines and wait them to finish.
+	// Unblock helper golangroutines and wait them to finish.
 	wp.Write(tmp[:])
 	wp.Write(tmp[:])
 	close(done)

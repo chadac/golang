@@ -1,4 +1,4 @@
-// Code generated from _gen/ARM64.rules using 'go generate'; DO NOT EDIT.
+// Code generated from _gen/ARM64.rules using 'golang generate'; DO NOT EDIT.
 
 package ssa
 

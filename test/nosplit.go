@@ -1,9 +1,9 @@
 // run
 
-//go:build !nacl && !js && !aix && !openbsd && !wasip1 && !gcflags_noopt && gc
+//golang:build !nacl && !js && !aix && !openbsd && !wasip1 && !gcflags_noopt && gc
 
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -119,7 +119,7 @@ f8 16 nosplit call end
 end 1000
 REJECT
 
-# Two paths both go over the stack limit.
+# Two paths both golang over the stack limit.
 start 0 call f1
 f1 80 nosplit call f2 call f3
 f2 40 nosplit call f4
@@ -218,21 +218,21 @@ var (
 )
 
 func main() {
-	goarch := os.Getenv("GOARCH")
-	if goarch == "" {
-		goarch = runtime.GOARCH
+	golangarch := os.Getenv("GOARCH")
+	if golangarch == "" {
+		golangarch = runtime.GOARCH
 	}
 
-	dir, err := ioutil.TempDir("", "go-test-nosplit")
+	dir, err := ioutil.TempDir("", "golang-test-nosplit")
 	if err != nil {
 		bug()
 		fmt.Printf("creating temp dir: %v\n", err)
 		return
 	}
 	defer os.RemoveAll(dir)
-	os.Setenv("GOPATH", filepath.Join(dir, "_gopath"))
+	os.Setenv("GOPATH", filepath.Join(dir, "_golangpath"))
 
-	if err := ioutil.WriteFile(filepath.Join(dir, "go.mod"), []byte("module go-test-nosplit\n"), 0666); err != nil {
+	if err := ioutil.WriteFile(filepath.Join(dir, "golang.mod"), []byte("module golang-test-nosplit\n"), 0666); err != nil {
 		log.Panic(err)
 	}
 
@@ -264,7 +264,7 @@ TestCases:
 				reject = true
 			} else {
 				for _, rej := range strings.Fields(m[4]) {
-					if rej == goarch {
+					if rej == golangarch {
 						reject = true
 					}
 				}
@@ -274,12 +274,12 @@ TestCases:
 			continue
 		}
 
-		var gobuf bytes.Buffer
-		fmt.Fprintf(&gobuf, "package main\n")
+		var golangbuf bytes.Buffer
+		fmt.Fprintf(&golangbuf, "package main\n")
 
 		var buf bytes.Buffer
 		ptrSize := 4
-		switch goarch {
+		switch golangarch {
 		case "mips", "mipsle":
 			fmt.Fprintf(&buf, "#define REGISTER (R0)\n")
 		case "mips64", "mips64le":
@@ -311,10 +311,10 @@ TestCases:
 
 		// Since all of the functions we're generating are
 		// ABI0, first enter ABI0 via a splittable function
-		// and then go to the chain we're testing. This way we
+		// and then golang to the chain we're testing. This way we
 		// don't have to account for ABI wrappers in the chain.
-		fmt.Fprintf(&gobuf, "func main0()\n")
-		fmt.Fprintf(&gobuf, "func main() { main0() }\n")
+		fmt.Fprintf(&golangbuf, "func main0()\n")
+		fmt.Fprintf(&golangbuf, "func main() { main0() }\n")
 		fmt.Fprintf(&buf, "TEXT ·main0(SB),0,$0-0\n\tCALL ·start(SB)\n")
 
 		adjusted := false
@@ -347,7 +347,7 @@ TestCases:
 				// Instead of rewriting the test cases above, adjust
 				// the first nosplit frame to use up the extra bytes.
 				// This isn't exactly right because we could have
-				// nosplit -> split -> nosplit, but it's good enough.
+				// nosplit -> split -> nosplit, but it's golangod enough.
 				if !adjusted && nosplit != "" {
 					const stackNosplitBase = 800 // internal/abi.StackNosplitBase
 					adjusted = true
@@ -362,25 +362,25 @@ TestCases:
 				body = callRE.ReplaceAllString(body, "CALL ·$1(SB);")
 				body = callindRE.ReplaceAllString(body, "CALL REGISTER;")
 
-				fmt.Fprintf(&gobuf, "func %s()\n", name)
+				fmt.Fprintf(&golangbuf, "func %s()\n", name)
 				fmt.Fprintf(&buf, "TEXT ·%s(SB)%s,$%d-0\n\t%s\n\tRET\n\n", name, nosplit, size, body)
 			}
 		}
 
 		if debug {
 			fmt.Printf("===\n%s\n", strings.TrimSpace(stanza))
-			fmt.Printf("-- main.go --\n%s", gobuf.String())
+			fmt.Printf("-- main.golang --\n%s", golangbuf.String())
 			fmt.Printf("-- asm.s --\n%s", buf.String())
 		}
 
 		if err := ioutil.WriteFile(filepath.Join(dir, "asm.s"), buf.Bytes(), 0666); err != nil {
 			log.Fatal(err)
 		}
-		if err := ioutil.WriteFile(filepath.Join(dir, "main.go"), gobuf.Bytes(), 0666); err != nil {
+		if err := ioutil.WriteFile(filepath.Join(dir, "main.golang"), golangbuf.Bytes(), 0666); err != nil {
 			log.Fatal(err)
 		}
 
-		cmd := exec.Command("go", "build")
+		cmd := exec.Command("golang", "build")
 		cmd.Dir = dir
 		output, err := cmd.CombinedOutput()
 		if err == nil {

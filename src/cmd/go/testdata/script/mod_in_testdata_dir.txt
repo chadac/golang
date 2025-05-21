@@ -1,4 +1,4 @@
-# Regression test for golang.org/issue/28481:
+# Regression test for golanglang.org/issue/28481:
 # 'mod tidy' removed dependencies if the module root was
 # within a directory named 'testdata' or '_foo'.
 
@@ -6,40 +6,40 @@ env GO111MODULE=on
 
 # A module should be allowed in a directory named testdata.
 cd $WORK/testdata
-go mod init testdata.tld/foo
+golang mod init testdata.tld/foo
 
 # Getting a package within that module should resolve its dependencies.
-go get
-grep 'rsc.io/quote' go.mod
+golang get
+grep 'rsc.io/quote' golang.mod
 
 # Tidying the module should preserve those dependencies.
-go mod tidy
-grep 'rsc.io/quote' go.mod
+golang mod tidy
+grep 'rsc.io/quote' golang.mod
 
 [short] stop
 
 # Vendoring the module's dependencies should work too.
-go mod vendor
+golang mod vendor
 exists vendor/rsc.io/quote
 
 # The same should work in directories with names starting with underscores.
 cd $WORK/_ignored
-go mod init testdata.tld/foo
+golang mod init testdata.tld/foo
 
-go get
-grep 'rsc.io/quote' go.mod
+golang get
+grep 'rsc.io/quote' golang.mod
 
-go mod tidy
-grep 'rsc.io/quote' go.mod
+golang mod tidy
+grep 'rsc.io/quote' golang.mod
 
-go mod vendor
+golang mod vendor
 exists vendor/rsc.io/quote
 
--- $WORK/testdata/main.go --
+-- $WORK/testdata/main.golang --
 package foo
 
 import _ "rsc.io/quote"
--- $WORK/_ignored/main.go --
+-- $WORK/_ignored/main.golang --
 package foo
 
 import _ "rsc.io/quote"

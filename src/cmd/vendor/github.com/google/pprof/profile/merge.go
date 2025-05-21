@@ -9,7 +9,7 @@
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
+// See the License for the specific language golangverning permissions and
 // limitations under the License.
 
 package profile
@@ -250,7 +250,7 @@ type sampleKey string
 
 // sortedKeys1 returns the sorted keys found in a string->[]string map.
 //
-// Note: this is currently non-generic since github pprof runs golint,
+// Note: this is currently non-generic since github pprof runs golanglint,
 // which does not support generics. When that issue is fixed, it can
 // be merged with sortedKeys2 and made into a generic function.
 func sortedKeys1(m map[string][]string) []string {
@@ -267,7 +267,7 @@ func sortedKeys1(m map[string][]string) []string {
 
 // sortedKeys2 returns the sorted keys found in a string->[]int64 map.
 //
-// Note: this is currently non-generic since github pprof runs golint,
+// Note: this is currently non-generic since github pprof runs golanglint,
 // which does not support generics. When that issue is fixed, it can
 // be merged with sortedKeys1 and made into a generic function.
 func sortedKeys2(m map[string][]int64) []string {

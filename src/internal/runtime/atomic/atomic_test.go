@@ -1,11 +1,11 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package atomic_test
 
 import (
-	"internal/goarch"
+	"internal/golangarch"
 	"internal/runtime/atomic"
 	"runtime"
 	"testing"
@@ -16,7 +16,7 @@ func runParallel(N, iter int, f func()) {
 	defer runtime.GOMAXPROCS(runtime.GOMAXPROCS(int(N)))
 	done := make(chan bool)
 	for i := 0; i < N; i++ {
-		go func() {
+		golang func() {
 			for j := 0; j < iter; j++ {
 				f()
 			}
@@ -41,7 +41,7 @@ func TestXadduintptr(t *testing.T) {
 		atomic.Xadduintptr(&total, inc)
 	})
 	if want := uintptr(N*iter) * inc; want != total {
-		t.Fatalf("xadduintpr error, want %d, got %d", want, total)
+		t.Fatalf("xadduintpr error, want %d, golangt %d", want, total)
 	}
 	total = 0
 	runParallel(N, iter, func() {
@@ -49,17 +49,17 @@ func TestXadduintptr(t *testing.T) {
 		atomic.Xadduintptr(&total, uintptr(-int64(inc)))
 	})
 	if total != 0 {
-		t.Fatalf("xadduintpr total error, want %d, got %d", 0, total)
+		t.Fatalf("xadduintpr total error, want %d, golangt %d", 0, total)
 	}
 }
 
 // Tests that xadduintptr correctly updates 64-bit values. The place where
-// we actually do so is mstats.go, functions mSysStat{Inc,Dec}.
+// we actually do so is mstats.golang, functions mSysStat{Inc,Dec}.
 func TestXadduintptrOnUint64(t *testing.T) {
-	if goarch.BigEndian {
+	if golangarch.BigEndian {
 		// On big endian architectures, we never use xadduintptr to update
 		// 64-bit values and hence we skip the test.  (Note that functions
-		// mSysStat{Inc,Dec} in mstats.go have explicit checks for
+		// mSysStat{Inc,Dec} in mstats.golang have explicit checks for
 		// big-endianness.)
 		t.Skip("skip xadduintptr on big endian architecture")
 	}
@@ -67,7 +67,7 @@ func TestXadduintptrOnUint64(t *testing.T) {
 	val := uint64(0)
 	atomic.Xadduintptr((*uintptr)(unsafe.Pointer(&val)), inc)
 	if inc != val {
-		t.Fatalf("xadduintptr should increase lower-order bits, want %d, got %d", inc, val)
+		t.Fatalf("xadduintptr should increase lower-order bits, want %d, golangt %d", inc, val)
 	}
 }
 
@@ -81,7 +81,7 @@ func shouldPanic(t *testing.T, name string, f func()) {
 		if err == nil {
 			t.Errorf("%s did not panic", name)
 		} else if s, _ := err.(string); s != want {
-			t.Errorf("%s: wanted panic %q, got %q", name, want, err)
+			t.Errorf("%s: wanted panic %q, golangt %q", name, want, err)
 		}
 	}()
 	f()
@@ -117,7 +117,7 @@ func TestAnd8(t *testing.T) {
 	for i := uint8(0); i < 8; i++ {
 		atomic.And8(&x, ^(1 << i))
 		if r := uint8(0xff) << (i + 1); x != r {
-			t.Fatalf("clearing bit %#x: want %#x, got %#x", uint8(1<<i), r, x)
+			t.Fatalf("clearing bit %#x: want %#x, golangt %#x", uint8(1<<i), r, x)
 		}
 	}
 
@@ -127,11 +127,11 @@ func TestAnd8(t *testing.T) {
 		a[i] = 0xff
 	}
 
-	// Clear array bit-by-bit in different goroutines.
+	// Clear array bit-by-bit in different golangroutines.
 	done := make(chan bool)
 	for i := 0; i < 8; i++ {
 		m := ^uint8(1 << i)
-		go func() {
+		golang func() {
 			for i := range a {
 				atomic.And8(&a[i], m)
 			}
@@ -145,7 +145,7 @@ func TestAnd8(t *testing.T) {
 	// Check that the array has been totally cleared.
 	for i, v := range a {
 		if v != 0 {
-			t.Fatalf("a[%v] not cleared: want %#x, got %#x", i, uint8(0), v)
+			t.Fatalf("a[%v] not cleared: want %#x, golangt %#x", i, uint8(0), v)
 		}
 	}
 }
@@ -156,7 +156,7 @@ func TestAnd(t *testing.T) {
 	for i := uint32(0); i < 32; i++ {
 		atomic.And(&x, ^(1 << i))
 		if r := uint32(0xffffffff) << (i + 1); x != r {
-			t.Fatalf("clearing bit %#x: want %#x, got %#x", uint32(1<<i), r, x)
+			t.Fatalf("clearing bit %#x: want %#x, golangt %#x", uint32(1<<i), r, x)
 		}
 	}
 
@@ -166,11 +166,11 @@ func TestAnd(t *testing.T) {
 		a[i] = 0xffffffff
 	}
 
-	// Clear array bit-by-bit in different goroutines.
+	// Clear array bit-by-bit in different golangroutines.
 	done := make(chan bool)
 	for i := 0; i < 32; i++ {
 		m := ^uint32(1 << i)
-		go func() {
+		golang func() {
 			for i := range a {
 				atomic.And(&a[i], m)
 			}
@@ -184,7 +184,7 @@ func TestAnd(t *testing.T) {
 	// Check that the array has been totally cleared.
 	for i, v := range a {
 		if v != 0 {
-			t.Fatalf("a[%v] not cleared: want %#x, got %#x", i, uint32(0), v)
+			t.Fatalf("a[%v] not cleared: want %#x, golangt %#x", i, uint32(0), v)
 		}
 	}
 }
@@ -195,18 +195,18 @@ func TestOr8(t *testing.T) {
 	for i := uint8(0); i < 8; i++ {
 		atomic.Or8(&x, 1<<i)
 		if r := (uint8(1) << (i + 1)) - 1; x != r {
-			t.Fatalf("setting bit %#x: want %#x, got %#x", uint8(1)<<i, r, x)
+			t.Fatalf("setting bit %#x: want %#x, golangt %#x", uint8(1)<<i, r, x)
 		}
 	}
 
 	// Start with every bit in array set to 0.
 	a := make([]uint8, 1<<12)
 
-	// Set every bit in array bit-by-bit in different goroutines.
+	// Set every bit in array bit-by-bit in different golangroutines.
 	done := make(chan bool)
 	for i := 0; i < 8; i++ {
 		m := uint8(1 << i)
-		go func() {
+		golang func() {
 			for i := range a {
 				atomic.Or8(&a[i], m)
 			}
@@ -220,7 +220,7 @@ func TestOr8(t *testing.T) {
 	// Check that the array has been totally set.
 	for i, v := range a {
 		if v != 0xff {
-			t.Fatalf("a[%v] not fully set: want %#x, got %#x", i, uint8(0xff), v)
+			t.Fatalf("a[%v] not fully set: want %#x, golangt %#x", i, uint8(0xff), v)
 		}
 	}
 }
@@ -231,18 +231,18 @@ func TestOr(t *testing.T) {
 	for i := uint32(0); i < 32; i++ {
 		atomic.Or(&x, 1<<i)
 		if r := (uint32(1) << (i + 1)) - 1; x != r {
-			t.Fatalf("setting bit %#x: want %#x, got %#x", uint32(1)<<i, r, x)
+			t.Fatalf("setting bit %#x: want %#x, golangt %#x", uint32(1)<<i, r, x)
 		}
 	}
 
 	// Start with every bit in array set to 0.
 	a := make([]uint32, 1<<12)
 
-	// Set every bit in array bit-by-bit in different goroutines.
+	// Set every bit in array bit-by-bit in different golangroutines.
 	done := make(chan bool)
 	for i := 0; i < 32; i++ {
 		m := uint32(1 << i)
-		go func() {
+		golang func() {
 			for i := range a {
 				atomic.Or(&a[i], m)
 			}
@@ -256,7 +256,7 @@ func TestOr(t *testing.T) {
 	// Check that the array has been totally set.
 	for i, v := range a {
 		if v != 0xffffffff {
-			t.Fatalf("a[%v] not fully set: want %#x, got %#x", i, uint32(0xffffffff), v)
+			t.Fatalf("a[%v] not fully set: want %#x, golangt %#x", i, uint32(0xffffffff), v)
 		}
 	}
 }
@@ -271,11 +271,11 @@ func TestBitwiseContended8(t *testing.T) {
 		N = 1 << 10
 	}
 
-	// Set and then clear every bit in the array bit-by-bit in different goroutines.
+	// Set and then clear every bit in the array bit-by-bit in different golangroutines.
 	done := make(chan bool)
 	for i := 0; i < 8; i++ {
 		m := uint8(1 << i)
-		go func() {
+		golang func() {
 			for n := 0; n < N; n++ {
 				for i := range a {
 					atomic.Or8(&a[i], m)
@@ -298,7 +298,7 @@ func TestBitwiseContended8(t *testing.T) {
 	// Check that the array has been totally cleared.
 	for i, v := range a {
 		if v != 0 {
-			t.Fatalf("a[%v] not cleared: want %#x, got %#x", i, uint8(0), v)
+			t.Fatalf("a[%v] not cleared: want %#x, golangt %#x", i, uint8(0), v)
 		}
 	}
 }
@@ -313,11 +313,11 @@ func TestBitwiseContended(t *testing.T) {
 		N = 1 << 10
 	}
 
-	// Set and then clear every bit in the array bit-by-bit in different goroutines.
+	// Set and then clear every bit in the array bit-by-bit in different golangroutines.
 	done := make(chan bool)
 	for i := 0; i < 32; i++ {
 		m := uint32(1 << i)
-		go func() {
+		golang func() {
 			for n := 0; n < N; n++ {
 				for i := range a {
 					atomic.Or(&a[i], m)
@@ -340,7 +340,7 @@ func TestBitwiseContended(t *testing.T) {
 	// Check that the array has been totally cleared.
 	for i, v := range a {
 		if v != 0 {
-			t.Fatalf("a[%v] not cleared: want %#x, got %#x", i, uint32(0), v)
+			t.Fatalf("a[%v] not cleared: want %#x, golangt %#x", i, uint32(0), v)
 		}
 	}
 }

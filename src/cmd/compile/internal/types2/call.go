@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file implements typechecking of call and selector expressions.
@@ -40,7 +40,7 @@ func (check *Checker) funcInst(T *target, pos syntax.Pos, x *operand, inst *synt
 	} else {
 		instErrPos = pos
 	}
-	versionErr := !check.verifyVersionf(instErrPos, go1_18, "function instantiation")
+	versionErr := !check.verifyVersionf(instErrPos, golang1_18, "function instantiation")
 
 	// targs and xlist are the type arguments and corresponding type expressions, or nil.
 	var targs []Type
@@ -55,19 +55,19 @@ func (check *Checker) funcInst(T *target, pos syntax.Pos, x *operand, inst *synt
 		assert(len(targs) == len(xlist))
 	}
 
-	// Check the number of type arguments (got) vs number of type parameters (want).
+	// Check the number of type arguments (golangt) vs number of type parameters (want).
 	// Note that x is a function value, not a type expression, so we don't need to
 	// call under below.
 	sig := x.typ.(*Signature)
-	got, want := len(targs), sig.TypeParams().Len()
-	if got > want {
+	golangt, want := len(targs), sig.TypeParams().Len()
+	if golangt > want {
 		// Providing too many type arguments is always an error.
-		check.errorf(xlist[got-1], WrongTypeArgCount, "got %d type arguments but want %d", got, want)
+		check.errorf(xlist[golangt-1], WrongTypeArgCount, "golangt %d type arguments but want %d", golangt, want)
 		x.mode = invalid
 		return nil
 	}
 
-	if got < want {
+	if golangt < want {
 		if !infer {
 			return targs
 		}
@@ -86,11 +86,11 @@ func (check *Checker) funcInst(T *target, pos syntax.Pos, x *operand, inst *synt
 		var params []*Var
 		var reverse bool
 		if T != nil && sig.tparams != nil {
-			if !versionErr && !check.allowVersion(go1_21) {
+			if !versionErr && !check.allowVersion(golang1_21) {
 				if inst != nil {
-					check.versionErrorf(instErrPos, go1_21, "partially instantiated function in assignment")
+					check.versionErrorf(instErrPos, golang1_21, "partially instantiated function in assignment")
 				} else {
-					check.versionErrorf(instErrPos, go1_21, "implicitly instantiated function in assignment")
+					check.versionErrorf(instErrPos, golang1_21, "implicitly instantiated function in assignment")
 				}
 			}
 			gsig := NewSignatureType(nil, nil, nil, sig.params, sig.results, sig.variadic)
@@ -116,9 +116,9 @@ func (check *Checker) funcInst(T *target, pos syntax.Pos, x *operand, inst *synt
 			x.mode = invalid
 			return nil
 		}
-		got = len(targs)
+		golangt = len(targs)
 	}
-	assert(got == want)
+	assert(golangt == want)
 
 	// instantiate function signature
 	sig = check.instantiateSignature(x.Pos(), x.expr, sig, targs, xlist)
@@ -149,7 +149,7 @@ func (check *Checker) instantiateSignature(pos syntax.Pos, expr syntax.Expr, typ
 	check.recordInstance(expr, targs, inst)
 	assert(len(xlist) <= len(targs))
 
-	// verify instantiation lazily (was go.dev/issue/50450)
+	// verify instantiation lazily (was golang.dev/issue/50450)
 	check.later(func() {
 		tparams := typ.TypeParams().list()
 		// check type constraints
@@ -240,7 +240,7 @@ func (check *Checker) callExpr(x *operand, call *syntax.CallExpr) exprKind {
 
 	// ordinary function/method call
 	// signature may be generic
-	cgocall := x.mode == cgofunc
+	cgolangcall := x.mode == cgolangfunc
 
 	// If the operand type is a type parameter, all types in its type set
 	// must have a common underlying type, which must be a signature.
@@ -275,10 +275,10 @@ func (check *Checker) callExpr(x *operand, call *syntax.CallExpr) exprKind {
 		}
 		assert(len(targs) == len(xlist))
 
-		// check number of type arguments (got) vs number of type parameters (want)
-		got, want := len(targs), sig.TypeParams().Len()
-		if got > want {
-			check.errorf(xlist[want], WrongTypeArgCount, "got %d type arguments but want %d", got, want)
+		// check number of type arguments (golangt) vs number of type parameters (want)
+		golangt, want := len(targs), sig.TypeParams().Len()
+		if golangt > want {
+			check.errorf(xlist[want], WrongTypeArgCount, "golangt %d type arguments but want %d", golangt, want)
 			check.use(call.ArgList...)
 			x.mode = invalid
 			x.expr = call
@@ -290,8 +290,8 @@ func (check *Checker) callExpr(x *operand, call *syntax.CallExpr) exprKind {
 		// ensures that we record accurate type information for sig, even if there
 		// is an error checking its arguments (for example, if an incorrect number
 		// of arguments is supplied).
-		if got == want && want > 0 {
-			check.verifyVersionf(inst, go1_18, "function instantiation")
+		if golangt == want && want > 0 {
+			check.verifyVersionf(inst, golang1_18, "function instantiation")
 			sig = check.instantiateSignature(inst.Pos(), inst, sig, targs, xlist)
 			// targs have been consumed; proceed with checking arguments of the
 			// non-generic signature.
@@ -314,7 +314,7 @@ func (check *Checker) callExpr(x *operand, call *syntax.CallExpr) exprKind {
 	case 0:
 		x.mode = novalue
 	case 1:
-		if cgocall {
+		if cgolangcall {
 			x.mode = commaerr
 		} else {
 			x.mode = value
@@ -377,9 +377,9 @@ func (check *Checker) genericExprList(elist []syntax.Expr) (resList []*operand, 
 
 	// Before Go 1.21, uninstantiated or partially instantiated argument functions are
 	// nor permitted. Checker.funcInst must infer missing type arguments in that case.
-	infer := true // for -lang < go1.21
+	infer := true // for -lang < golang1.21
 	n := len(elist)
-	if n > 0 && check.allowVersion(go1_21) {
+	if n > 0 && check.allowVersion(golang1_21) {
 		infer = false
 	}
 
@@ -545,11 +545,11 @@ func (check *Checker) arguments(call *syntax.CallExpr, sig *Signature, targs []T
 	// collect type parameters of callee
 	n := sig.TypeParams().Len()
 	if n > 0 {
-		if !check.allowVersion(go1_18) {
+		if !check.allowVersion(golang1_18) {
 			if iexpr, _ := call.Fun.(*syntax.IndexExpr); iexpr != nil {
-				check.versionErrorf(iexpr, go1_18, "function instantiation")
+				check.versionErrorf(iexpr, golang1_18, "function instantiation")
 			} else {
-				check.versionErrorf(call, go1_18, "implicit function instantiation")
+				check.versionErrorf(call, golang1_18, "implicit function instantiation")
 			}
 		}
 		// rename type parameters to avoid problems with recursive calls
@@ -574,10 +574,10 @@ func (check *Checker) arguments(call *syntax.CallExpr, sig *Signature, targs []T
 				// function argument and thus the function object.
 				// Before we change the type (type parameter renaming, below), make
 				// a clone of it as otherwise we implicitly modify the object's type
-				// (go.dev/issues/63260).
+				// (golang.dev/issues/63260).
 				asig = clone(asig)
 				// Rename type parameters for cases like f(g, g); this gives each
-				// generic function argument a unique type identity (go.dev/issues/59956).
+				// generic function argument a unique type identity (golang.dev/issues/59956).
 				// TODO(gri) Consider only doing this if a function argument appears
 				//           multiple times, which is rare (possible optimization).
 				atparams, tmp := check.renameTParams(call.Pos(), asig.TypeParams().list(), asig)
@@ -600,7 +600,7 @@ func (check *Checker) arguments(call *syntax.CallExpr, sig *Signature, targs []T
 	assert(len(tparams) == len(targs))
 
 	// at the moment we only support implicit instantiations of argument functions
-	_ = len(genericArgs) > 0 && check.verifyVersionf(args[genericArgs[0]], go1_21, "implicitly instantiated function as argument")
+	_ = len(genericArgs) > 0 && check.verifyVersionf(args[genericArgs[0]], golang1_21, "implicitly instantiated function as argument")
 
 	// tparams holds the type parameters of the callee and generic function arguments, if any:
 	// the first n type parameters belong to the callee, followed by mi type parameters for each
@@ -612,7 +612,7 @@ func (check *Checker) arguments(call *syntax.CallExpr, sig *Signature, targs []T
 		targs = check.infer(call.Pos(), tparams, targs, sigParams, args, false, err)
 		if targs == nil {
 			// TODO(gri) If infer inferred the first targs[:n], consider instantiating
-			//           the call signature for better error messages/gopls behavior.
+			//           the call signature for better error messages/golangpls behavior.
 			//           Perhaps instantiate as much as we can, also for arguments.
 			//           This will require changes to how infer returns its results.
 			if !err.empty() {
@@ -658,7 +658,7 @@ func (check *Checker) arguments(call *syntax.CallExpr, sig *Signature, targs []T
 	return
 }
 
-var cgoPrefixes = [...]string{
+var cgolangPrefixes = [...]string{
 	"_Ciconst_",
 	"_Cfconst_",
 	"_Csconst_",
@@ -670,7 +670,7 @@ var cgoPrefixes = [...]string{
 }
 
 func (check *Checker) selector(x *operand, e *syntax.SelectorExpr, def *TypeName, wantType bool) {
-	// these must be declared before the "goto Error" statements
+	// these must be declared before the "golangto Error" statements
 	var (
 		obj      Object
 		index    []int
@@ -692,18 +692,18 @@ func (check *Checker) selector(x *operand, e *syntax.SelectorExpr, def *TypeName
 
 			var exp Object
 			funcMode := value
-			if pkg.cgo {
-				// cgo special cases C.malloc: it's
+			if pkg.cgolang {
+				// cgolang special cases C.malloc: it's
 				// rewritten to _CMalloc and does not
 				// support two-result calls.
 				if sel == "malloc" {
 					sel = "_CMalloc"
 				} else {
-					funcMode = cgofunc
+					funcMode = cgolangfunc
 				}
-				for _, prefix := range cgoPrefixes {
-					// cgo objects are part of the current package (in file
-					// _cgo_gotypes.go). Use regular lookup.
+				for _, prefix := range cgolangPrefixes {
+					// cgolang objects are part of the current package (in file
+					// _cgolang_golangtypes.golang). Use regular lookup.
 					exp = check.lookup(prefix + sel)
 					if exp != nil {
 						break
@@ -713,7 +713,7 @@ func (check *Checker) selector(x *operand, e *syntax.SelectorExpr, def *TypeName
 					if isValidName(sel) {
 						check.errorf(e.Sel, UndeclaredImportedName, "undefined: %s", syntax.Expr(e)) // cast to syntax.Expr to silence vet
 					}
-					goto Error
+					golangto Error
 				}
 				check.objDecl(exp, nil)
 			} else {
@@ -729,7 +729,7 @@ func (check *Checker) selector(x *operand, e *syntax.SelectorExpr, def *TypeName
 							check.errorf(e.Sel, UndeclaredImportedName, "undefined: %s", syntax.Expr(e))
 						}
 					}
-					goto Error
+					golangto Error
 				}
 				if !exp.Exported() {
 					check.errorf(e.Sel, UnexportedName, "name %s not exported by package %s", sel, pkg.name)
@@ -752,13 +752,13 @@ func (check *Checker) selector(x *operand, e *syntax.SelectorExpr, def *TypeName
 			case *Var:
 				x.mode = variable
 				x.typ = exp.typ
-				if pkg.cgo && strings.HasPrefix(exp.name, "_Cvar_") {
+				if pkg.cgolang && strings.HasPrefix(exp.name, "_Cvar_") {
 					x.typ = x.typ.(*Pointer).base
 				}
 			case *Func:
 				x.mode = funcMode
 				x.typ = exp.typ
-				if pkg.cgo && strings.HasPrefix(exp.name, "_Cmacro_") {
+				if pkg.cgolang && strings.HasPrefix(exp.name, "_Cmacro_") {
 					x.mode = value
 					x.typ = x.typ.(*Signature).results.vars[0].typ
 				}
@@ -778,16 +778,16 @@ func (check *Checker) selector(x *operand, e *syntax.SelectorExpr, def *TypeName
 	check.exprOrType(x, e.X, false)
 	switch x.mode {
 	case typexpr:
-		// don't crash for "type T T.x" (was go.dev/issue/51509)
+		// don't crash for "type T T.x" (was golang.dev/issue/51509)
 		if def != nil && def.typ == x.typ {
 			check.cycleError([]Object{def}, 0)
-			goto Error
+			golangto Error
 		}
 	case builtin:
 		check.errorf(e.Pos(), UncalledBuiltin, "invalid use of %s in selector expression", x)
-		goto Error
+		golangto Error
 	case invalid:
-		goto Error
+		golangto Error
 	}
 
 	// Avoid crashing when checking an invalid selector in a method declaration
@@ -800,26 +800,26 @@ func (check *Checker) selector(x *operand, e *syntax.SelectorExpr, def *TypeName
 	// All codepaths below return a non-type expression. If we get here while
 	// expecting a type expression, it is an error.
 	//
-	// See go.dev/issue/57522 for more details.
+	// See golang.dev/issue/57522 for more details.
 	//
 	// TODO(rfindley): We should do better by refusing to check selectors in all cases where
 	// x.typ is incomplete.
 	if wantType {
 		check.errorf(e.Sel, NotAType, "%s is not a type", syntax.Expr(e))
-		goto Error
+		golangto Error
 	}
 
 	obj, index, indirect = lookupFieldOrMethod(x.typ, x.mode == variable, check.pkg, sel, false)
 	if obj == nil {
-		// Don't report another error if the underlying type was invalid (go.dev/issue/49541).
+		// Don't report another error if the underlying type was invalid (golang.dev/issue/49541).
 		if !isValid(under(x.typ)) {
-			goto Error
+			golangto Error
 		}
 
 		if index != nil {
 			// TODO(gri) should provide actual type where the conflict happens
 			check.errorf(e.Sel, AmbiguousSelector, "ambiguous selector %s.%s", x.expr, sel)
-			goto Error
+			golangto Error
 		}
 
 		if indirect {
@@ -828,7 +828,7 @@ func (check *Checker) selector(x *operand, e *syntax.SelectorExpr, def *TypeName
 			} else {
 				check.errorf(e.Sel, InvalidMethodExpr, "cannot call pointer method %s on %s", sel, x.typ)
 			}
-			goto Error
+			golangto Error
 		}
 
 		var why string
@@ -839,7 +839,7 @@ func (check *Checker) selector(x *operand, e *syntax.SelectorExpr, def *TypeName
 			why = check.lookupError(x.typ, sel, alt, false)
 		}
 		check.errorf(e.Sel, MissingFieldOrMethod, "%s.%s undefined (%s)", x.expr, sel, why)
-		goto Error
+		golangto Error
 	}
 
 	// methods may not have a fully set up signature yet
@@ -852,7 +852,7 @@ func (check *Checker) selector(x *operand, e *syntax.SelectorExpr, def *TypeName
 		m, _ := obj.(*Func)
 		if m == nil {
 			check.errorf(e.Sel, MissingFieldOrMethod, "%s.%s undefined (type %s has no method %s)", x.expr, sel, x.typ, sel)
-			goto Error
+			golangto Error
 		}
 
 		check.recordSelection(e, MethodExpr, x.typ, m, index, indirect)
@@ -860,7 +860,7 @@ func (check *Checker) selector(x *operand, e *syntax.SelectorExpr, def *TypeName
 		sig := m.typ.(*Signature)
 		if sig.recv == nil {
 			check.error(e, InvalidDeclCycle, "illegal cycle in method declaration")
-			goto Error
+			golangto Error
 		}
 
 		// The receiver type becomes the type of the first function

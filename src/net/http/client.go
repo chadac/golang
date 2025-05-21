@@ -1,11 +1,11 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // HTTP client. See RFC 7230 through 7235.
 //
 // This is the high-level Client interface.
-// The low-level implementation is in transport.go.
+// The low-level implementation is in transport.golang.
 
 package http
 
@@ -32,7 +32,7 @@ import (
 //
 // The [Client.Transport] typically has internal state (cached TCP
 // connections), so Clients should be reused instead of created as
-// needed. Clients are safe for concurrent use by multiple goroutines.
+// needed. Clients are safe for concurrent use by multiple golangroutines.
 //
 // A Client is higher-level than a [RoundTripper] (such as [Transport])
 // and additionally handles HTTP details such as cookies and
@@ -112,7 +112,7 @@ var DefaultClient = &Client{}
 // single HTTP transaction, obtaining the [Response] for a given [Request].
 //
 // A RoundTripper must be safe for concurrent use by multiple
-// goroutines.
+// golangroutines.
 type RoundTripper interface {
 	// RoundTrip executes a single HTTP transaction, returning
 	// a Response for the provided Request.
@@ -127,13 +127,13 @@ type RoundTripper interface {
 	//
 	// RoundTrip should not modify the request, except for
 	// consuming and closing the Request's Body. RoundTrip may
-	// read fields of the request in a separate goroutine. Callers
+	// read fields of the request in a separate golangroutine. Callers
 	// should not mutate or reuse the request until the Response's
 	// Body has been closed.
 	//
 	// RoundTrip must always close the body, including on errors,
 	// but depending on the implementation may do so in a separate
-	// goroutine even after RoundTrip returns. This means that
+	// golangroutine even after RoundTrip returns. This means that
 	// callers wanting to reuse the body for subsequent requests
 	// must arrange to wait for the Close call before doing so.
 	//
@@ -265,7 +265,7 @@ func send(ireq *Request, rt RoundTripper, deadline time.Time) (resp *Response, d
 		if tlsErr, ok := err.(tls.RecordHeaderError); ok {
 			// If we get a bad TLS record header, check to see if the
 			// response looks like HTTP and give a more helpful error.
-			// See golang.org/issue/11111.
+			// See golanglang.org/issue/11111.
 			if string(tlsErr.RecordHeader[:]) == "HTTP/" {
 				err = ErrSchemeMismatch
 			}
@@ -282,7 +282,7 @@ func send(ireq *Request, rt RoundTripper, deadline time.Time) (resp *Response, d
 		// that same constraint for arbitrary RoundTripper implementations, and
 		// RoundTripper implementations in the wild (mostly in tests) assume that
 		// they can use a nil Body to mean an empty one (similar to Request.Body).
-		// (See https://golang.org/issue/38095.)
+		// (See https://golanglang.org/issue/38095.)
 		//
 		// If the ContentLength allows the Body to be empty, fill in an empty one
 		// here to ensure that it is non-nil.
@@ -328,11 +328,11 @@ func knownRoundTripperImpl(rt RoundTripper, req *Request) bool {
 		return true
 	}
 	// There's a very minor chance of a false positive with this.
-	// Instead of detecting our golang.org/x/net/http2.Transport,
+	// Instead of detecting our golanglang.org/x/net/http2.Transport,
 	// it might detect a Transport type in a different http2
 	// package. But I know of none, and the only problem would be
-	// some temporarily leaked goroutines if the transport didn't
-	// support contexts. So this is a good enough heuristic:
+	// some temporarily leaked golangroutines if the transport didn't
+	// support contexts. So this is a golangod enough heuristic:
 	if reflect.TypeOf(rt).String() == "*http2.Transport" {
 		return true
 	}
@@ -398,7 +398,7 @@ func setRequestCancel(req *Request, rt RoundTripper, deadline time.Time) (stopTi
 	timer := time.NewTimer(time.Until(deadline))
 	var timedOut atomic.Bool
 
-	go func() {
+	golang func() {
 		select {
 		case <-initialReqCancel:
 			doCancel()
@@ -523,7 +523,7 @@ func redirectBehavior(reqMethod string, resp *Response, ireq *Request) (redirect
 		shouldRedirect = true
 		includeBody = true
 
-		if ireq.GetBody == nil && ireq.outgoingLength() != 0 {
+		if ireq.GetBody == nil && ireq.outgolangingLength() != 0 {
 			// We had a request body, and 307/308 require
 			// re-sending it, but GetBody is not defined. So just
 			// return this response to the user instead of an
@@ -600,7 +600,7 @@ func (c *Client) do(req *Request) (retres *Response, reterr error) {
 			Err: errors.New("http: nil Request.URL"),
 		}
 	}
-	_ = *c // panic early if c is nil; see go.dev/issue/53521
+	_ = *c // panic early if c is nil; see golang.dev/issue/53521
 
 	var (
 		deadline      = c.deadline()
@@ -715,7 +715,7 @@ func (c *Client) do(req *Request) (retres *Response, reterr error) {
 			if err != nil {
 				// Special case for Go 1 compatibility: return both the response
 				// and an error if the CheckRedirect function failed.
-				// See https://golang.org/issue/3795
+				// See https://golanglang.org/issue/3795
 				// The resp.Body has already been closed.
 				ue := uerr(err)
 				ue.(*url.Error).URL = loc
@@ -778,7 +778,7 @@ func (c *Client) makeHeadersCopier(ireq *Request) func(req *Request, stripSensit
 		// assumes any new set cookies override the original cookie
 		// regardless of domain or path.
 		//
-		// See https://golang.org/issue/17494
+		// See https://golanglang.org/issue/17494
 		if c.Jar != nil && icookies != nil {
 			var changed bool
 			resp := req.Response // The response that caused the upcoming redirect
@@ -994,11 +994,11 @@ func shouldCopyHeaderOnRedirect(initial, dest *url.URL) bool {
 
 	// Note that we don't send all cookies to subdomains
 	// automatically. This function is only used for
-	// Cookies set explicitly on the initial outgoing
+	// Cookies set explicitly on the initial outgolanging
 	// client request. Cookies automatically added via the
 	// CookieJar mechanism continue to follow each
 	// cookie's scope as set by Set-Cookie. But for
-	// outgoing requests with the Cookie header set
+	// outgolanging requests with the Cookie header set
 	// directly, we don't know their scope, so we assume
 	// it's for *.domain.com.
 

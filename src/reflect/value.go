@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package reflect
@@ -7,7 +7,7 @@ package reflect
 import (
 	"errors"
 	"internal/abi"
-	"internal/goarch"
+	"internal/golangarch"
 	"internal/itoa"
 	"internal/unsafeheader"
 	"math"
@@ -29,7 +29,7 @@ import (
 // Most functions and methods never return an invalid value.
 // If one does, its documentation states the conditions explicitly.
 //
-// A Value can be used concurrently by multiple goroutines provided that
+// A Value can be used concurrently by multiple golangroutines provided that
 // the underlying Go value can be used concurrently for the equivalent
 // direct operations.
 //
@@ -109,7 +109,7 @@ func (v Value) typ() *abi.Type {
 // v.Kind() must be Pointer, Map, Chan, Func, or UnsafePointer
 // if v.Kind() == Pointer, the base type must not be not-in-heap.
 func (v Value) pointer() unsafe.Pointer {
-	if v.typ().Size() != goarch.PtrSize || !v.typ().Pointers() {
+	if v.typ().Size() != golangarch.PtrSize || !v.typ().Pointers() {
 		panic("can't call pointer on a non-pointer Value")
 	}
 	if v.flag&flagIndir != 0 {
@@ -562,7 +562,7 @@ func (v Value) call(op string, in []Value) []Value {
 	}
 	// TODO(mknyszek): Remove this when we no longer have
 	// caller reserved spill space.
-	frameSize = align(frameSize, goarch.PtrSize)
+	frameSize = align(frameSize, golangarch.PtrSize)
 	frameSize += abid.spill
 
 	// Mark pointers in registers for the return path.
@@ -676,7 +676,7 @@ func (v Value) call(op string, in []Value) []Value {
 // callReflect converts a call of a function with a concrete argument
 // frame into a call using Values.
 // It is in this file so that it can be next to the call method above.
-// The remainder of the MakeFunc implementation is in makefunc.go.
+// The remainder of the MakeFunc implementation is in makefunc.golang.
 //
 // NOTE: This function must be marked as a "wrapper" in the generated code,
 // so that the linker can make it work correctly for panic and recover.
@@ -933,7 +933,7 @@ func align(x, n uintptr) uintptr {
 // already laid out the argument frame for us, so we don't have
 // to deal with individual Values for each argument.
 // It is in this file so that it can be next to the two similar functions above.
-// The remainder of the makeMethodValue implementation is in makefunc.go.
+// The remainder of the makeMethodValue implementation is in makefunc.golang.
 //
 // NOTE: This function must be marked as a "wrapper" in the generated code,
 // so that the linker can make it work correctly for panic and recover.
@@ -1086,7 +1086,7 @@ func callMethod(ctxt *methodValue, frame unsafe.Pointer, retValid *bool, regs *a
 	methodFrameSize := methodFrameType.Size()
 	// TODO(mknyszek): Remove this when we no longer have
 	// caller reserved spill space.
-	methodFrameSize = align(methodFrameSize, goarch.PtrSize)
+	methodFrameSize = align(methodFrameSize, golangarch.PtrSize)
 	methodFrameSize += methodABI.spill
 
 	// Mark pointers in registers for the return path.
@@ -1709,7 +1709,7 @@ func (v Value) IsZero() bool {
 	}
 }
 
-// isZero For all zeros, performance is not as good as
+// isZero For all zeros, performance is not as golangod as
 // return bytealg.Count(b, byte(0)) == len(b)
 func isZero(b []byte) bool {
 	if len(b) == 0 {
@@ -1990,7 +1990,7 @@ func (v Value) OverflowUint(x uint64) bool {
 	panic(&ValueError{"reflect.Value.OverflowUint", v.kind()})
 }
 
-//go:nocheckptr
+//golang:nocheckptr
 // This prevents inlining Value.Pointer when -d=checkptr is enabled,
 // which ensures cmd/compile can recognize unsafe.Pointer(v.Pointer())
 // and make an exception.
@@ -2457,7 +2457,7 @@ func (v Value) Type() Type {
 	return v.typeSlow()
 }
 
-//go:noinline
+//golang:noinline
 func (v Value) typeSlow() Type {
 	return toRType(v.abiTypeSlow())
 }
@@ -2532,7 +2532,7 @@ func (v Value) Uint() uint64 {
 	panic(&ValueError{"reflect.Value.Uint", v.kind()})
 }
 
-//go:nocheckptr
+//golang:nocheckptr
 // This prevents inlining Value.UnsafeAddr when -d=checkptr is enabled,
 // which ensures cmd/compile can recognize unsafe.Pointer(v.UnsafeAddr())
 // and make an exception.
@@ -2799,7 +2799,7 @@ func Copy(dst, src Value) int {
 }
 
 // A runtimeSelect is a single case passed to rselect.
-// This must match ../runtime/select.go:/runtimeSelect
+// This must match ../runtime/select.golang:/runtimeSelect
 type runtimeSelect struct {
 	dir SelectDir      // SelectSend, SelectRecv or SelectDefault
 	typ *rtype         // channel type
@@ -2817,13 +2817,13 @@ type runtimeSelect struct {
 // have a way to represent that in the function signature. So we handle
 // that with a forced escape in function Select.
 //
-//go:noescape
+//golang:noescape
 func rselect([]runtimeSelect) (chosen int, recvOK bool)
 
 // A SelectDir describes the communication direction of a select case.
 type SelectDir int
 
-// NOTE: These values must match ../runtime/select.go:/selectDir.
+// NOTE: These values must match ../runtime/select.golang:/selectDir.
 
 const (
 	_             SelectDir = iota
@@ -2967,10 +2967,10 @@ func Select(cases []SelectCase) (chosen int, recv Value, recvOK bool) {
 
 // implemented in package runtime
 
-//go:noescape
+//golang:noescape
 func unsafe_New(*abi.Type) unsafe.Pointer
 
-//go:noescape
+//golang:noescape
 func unsafe_NewArray(*abi.Type, int) unsafe.Pointer
 
 // MakeSlice creates a new zero-initialized slice value
@@ -3077,7 +3077,7 @@ func Zero(typ Type) Value {
 	return Value{t, nil, fl}
 }
 
-//go:linkname zeroVal runtime.zeroVal
+//golang:linkname zeroVal runtime.zeroVal
 var zeroVal [abi.ZeroValSize]byte
 
 // New returns a Value representing a pointer to a new zero value
@@ -3090,7 +3090,7 @@ func New(typ Type) Value {
 	pt := ptrTo(t)
 	if pt.IfaceIndir() {
 		// This is a pointer to a not-in-heap type.
-		panic("reflect: New of type that may not be allocated in heap (possibly undefined cgo C type)")
+		panic("reflect: New of type that may not be allocated in heap (possibly undefined cgolang C type)")
 	}
 	ptr := unsafe_New(t)
 	fl := flag(Pointer)
@@ -3622,13 +3622,13 @@ func cvtI2I(v Value, typ Type) Value {
 
 // implemented in ../runtime
 //
-//go:noescape
+//golang:noescape
 func chancap(ch unsafe.Pointer) int
 
-//go:noescape
+//golang:noescape
 func chanclose(ch unsafe.Pointer)
 
-//go:noescape
+//golang:noescape
 func chanlen(ch unsafe.Pointer) int
 
 // Note: some of the noescape annotations below are technically a lie,
@@ -3638,10 +3638,10 @@ func chanlen(ch unsafe.Pointer) int
 // We add a 0 to their names and wrap them in functions with the
 // proper escape behavior.
 
-//go:noescape
+//golang:noescape
 func chanrecv(ch unsafe.Pointer, nb bool, val unsafe.Pointer) (selected, received bool)
 
-//go:noescape
+//golang:noescape
 func chansend0(ch unsafe.Pointer, val unsafe.Pointer, nb bool) bool
 
 func chansend(ch unsafe.Pointer, val unsafe.Pointer, nb bool) bool {
@@ -3652,32 +3652,32 @@ func chansend(ch unsafe.Pointer, val unsafe.Pointer, nb bool) bool {
 func makechan(typ *abi.Type, size int) (ch unsafe.Pointer)
 func makemap(t *abi.Type, cap int) (m unsafe.Pointer)
 
-//go:noescape
+//golang:noescape
 func mapaccess(t *abi.Type, m unsafe.Pointer, key unsafe.Pointer) (val unsafe.Pointer)
 
-//go:noescape
+//golang:noescape
 func mapaccess_faststr(t *abi.Type, m unsafe.Pointer, key string) (val unsafe.Pointer)
 
-//go:noescape
+//golang:noescape
 func mapassign0(t *abi.Type, m unsafe.Pointer, key, val unsafe.Pointer)
 
 // mapassign should be an internal detail,
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
-//   - github.com/modern-go/reflect2
-//   - github.com/goccy/go-json
+//   - github.com/modern-golang/reflect2
+//   - github.com/golangccy/golang-json
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname mapassign
+//golang:linkname mapassign
 func mapassign(t *abi.Type, m unsafe.Pointer, key, val unsafe.Pointer) {
 	contentEscapes(key)
 	contentEscapes(val)
 	mapassign0(t, m, key, val)
 }
 
-//go:noescape
+//golang:noescape
 func mapassign_faststr0(t *abi.Type, m unsafe.Pointer, key string, val unsafe.Pointer)
 
 func mapassign_faststr(t *abi.Type, m unsafe.Pointer, key string, val unsafe.Pointer) {
@@ -3686,13 +3686,13 @@ func mapassign_faststr(t *abi.Type, m unsafe.Pointer, key string, val unsafe.Poi
 	mapassign_faststr0(t, m, key, val)
 }
 
-//go:noescape
+//golang:noescape
 func mapdelete(t *abi.Type, m unsafe.Pointer, key unsafe.Pointer)
 
-//go:noescape
+//golang:noescape
 func mapdelete_faststr(t *abi.Type, m unsafe.Pointer, key string)
 
-//go:noescape
+//golang:noescape
 func maplen(m unsafe.Pointer) int
 
 func mapclear(t *abi.Type, m unsafe.Pointer)
@@ -3721,54 +3721,54 @@ func mapclear(t *abi.Type, m unsafe.Pointer)
 // very limited callee of call, the stackArgs are copied, and regArgs is only
 // used in the call frame.
 //
-//go:noescape
-//go:linkname call runtime.reflectcall
+//golang:noescape
+//golang:linkname call runtime.reflectcall
 func call(stackArgsType *abi.Type, f, stackArgs unsafe.Pointer, stackArgsSize, stackRetOffset, frameSize uint32, regArgs *abi.RegArgs)
 
 func ifaceE2I(t *abi.Type, src any, dst unsafe.Pointer)
 
 // memmove copies size bytes to dst from src. No write barriers are used.
 //
-//go:noescape
+//golang:noescape
 func memmove(dst, src unsafe.Pointer, size uintptr)
 
 // typedmemmove copies a value of type t to dst from src.
 //
-//go:noescape
+//golang:noescape
 func typedmemmove(t *abi.Type, dst, src unsafe.Pointer)
 
 // typedmemclr zeros the value at ptr of type t.
 //
-//go:noescape
+//golang:noescape
 func typedmemclr(t *abi.Type, ptr unsafe.Pointer)
 
 // typedmemclrpartial is like typedmemclr but assumes that
 // dst points off bytes into the value and only clears size bytes.
 //
-//go:noescape
+//golang:noescape
 func typedmemclrpartial(t *abi.Type, ptr unsafe.Pointer, off, size uintptr)
 
 // typedslicecopy copies a slice of elemType values from src to dst,
 // returning the number of elements copied.
 //
-//go:noescape
+//golang:noescape
 func typedslicecopy(t *abi.Type, dst, src unsafeheader.Slice) int
 
 // typedarrayclear zeroes the value at ptr of an array of elemType,
 // only clears len elem.
 //
-//go:noescape
+//golang:noescape
 func typedarrayclear(elemType *abi.Type, ptr unsafe.Pointer, len int)
 
-//go:noescape
+//golang:noescape
 func typehash(t *abi.Type, p unsafe.Pointer, h uintptr) uintptr
 
 func verifyNotInHeapPtr(p uintptr) bool
 
-//go:noescape
+//golang:noescape
 func growslice(t *abi.Type, old unsafeheader.Slice, num int) unsafeheader.Slice
 
-//go:noescape
+//golang:noescape
 func unsafeslice(t *abi.Type, ptr unsafe.Pointer, len int)
 
 // Dummy annotation marking that the value x escapes,

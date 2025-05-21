@@ -1,8 +1,8 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build unix || (js && wasm) || wasip1
+//golang:build unix || (js && wasm) || wasip1
 
 package filepath
 
@@ -30,7 +30,7 @@ func abs(path string) (string, error) {
 }
 
 func join(elem []string) string {
-	// If there's a bug here, fix the logic in ./path_plan9.go too.
+	// If there's a bug here, fix the logic in ./path_plan9.golang too.
 	for i, e := range elem {
 		if e != "" {
 			return Clean(strings.Join(elem[i:], string(Separator)))

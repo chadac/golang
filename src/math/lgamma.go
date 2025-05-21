@@ -1,5 +1,5 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package math
@@ -10,7 +10,7 @@ package math
 
 // The original C code and the long comment below are
 // from FreeBSD's /usr/src/lib/msun/src/e_lgamma_r.c and
-// came with this notice. The go code is a simplified
+// came with this notice. The golang code is a simplified
 // version of the original C.
 //
 // ====================================================
@@ -47,7 +47,7 @@ package math
 //              lgamma(x) = 0.5*s + s*P(s)/Q(s)
 //      with accuracy
 //              |P/Q - (lgamma(x)-0.5s)| < 2**-61.71
-//      Our algorithms are based on the following observation
+//      Our algolangrithms are based on the following observation
 //
 //                             zeta(2)-1    2    zeta(3)-1    3
 // lgamma(2+s) = s*(1-Euler) + --------- * s  -  --------- * s  + ...

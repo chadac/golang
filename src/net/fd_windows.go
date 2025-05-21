@@ -1,5 +1,5 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package net
@@ -59,7 +59,7 @@ func (fd *netFD) init() error {
 	switch fd.net {
 	case "udp", "udp4", "udp6":
 		// Disable reporting of PORT_UNREACHABLE errors.
-		// See https://go.dev/issue/5834.
+		// See https://golang.dev/issue/5834.
 		ret := uint32(0)
 		flag := uint32(0)
 		size := uint32(unsafe.Sizeof(flag))
@@ -68,7 +68,7 @@ func (fd *netFD) init() error {
 			return wrapSyscallError("wsaioctl", err)
 		}
 		// Disable reporting of NET_UNREACHABLE errors.
-		// See https://go.dev/issue/68614.
+		// See https://golang.dev/issue/68614.
 		ret = 0
 		flag = 0
 		size = uint32(unsafe.Sizeof(flag))
@@ -97,7 +97,7 @@ func (fd *netFD) connect(ctx context.Context, la, ra syscall.Sockaddr) (syscall.
 		defer fd.pfd.SetWriteDeadline(noDeadline)
 
 		if ctx.Err() != nil {
-			fd.pfd.SetWriteDeadline(aLongTimeAgo)
+			fd.pfd.SetWriteDeadline(aLongTimeAgolang)
 		} else {
 			if deadline, ok := ctx.Deadline(); ok && !deadline.IsZero() {
 				fd.pfd.SetWriteDeadline(deadline)
@@ -107,7 +107,7 @@ func (fd *netFD) connect(ctx context.Context, la, ra syscall.Sockaddr) (syscall.
 			stop := context.AfterFunc(ctx, func() {
 				// Force the runtime's poller to immediately give
 				// up waiting for writability.
-				fd.pfd.SetWriteDeadline(aLongTimeAgo)
+				fd.pfd.SetWriteDeadline(aLongTimeAgolang)
 				close(done)
 			})
 			defer func() {

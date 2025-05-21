@@ -9,18 +9,18 @@
 [!symlink] skip
 [short] skip
 
-go build net
+golang build net
 ! stale net
 
 symlink new -> $GOROOT
 env OLDGOROOT=$GOROOT
-env GOROOT=$WORK${/}gopath${/}src${/}new
-go env GOROOT
-stdout $WORK[\\/]gopath[\\/]src[\\/]new
+env GOROOT=$WORK${/}golangpath${/}src${/}new
+golang env GOROOT
+stdout $WORK[\\/]golangpath[\\/]src[\\/]new
 cd new
 ! stale net
 
 # Add a control case to check that std is
 # stale with an empty cache
-env GOCACHE=$WORK${/}gopath${/}cache
+env GOCACHE=$WORK${/}golangpath${/}cache
 stale net

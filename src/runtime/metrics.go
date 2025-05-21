@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
@@ -7,7 +7,7 @@ package runtime
 // Metrics implementation exported to runtime/metrics.
 
 import (
-	"internal/godebugs"
+	"internal/golangdebugs"
 	"internal/runtime/gc"
 	"unsafe"
 )
@@ -40,7 +40,7 @@ type metricData struct {
 
 func metricsLock() {
 	// Acquire the metricsSema but with handoff. Operations are typically
-	// expensive enough that queueing up goroutines and handing off between
+	// expensive enough that queueing up golangroutines and handing off between
 	// them will be noticeably better-behaved.
 	semacquire1(&metricsSema, true, 0, 0, waitReasonSemacquire)
 	if raceenabled {
@@ -86,10 +86,10 @@ func initMetrics() {
 
 	timeHistBuckets = timeHistogramMetricsBuckets()
 	metrics = map[string]metricData{
-		"/cgo/go-to-c-calls:calls": {
+		"/cgolang/golang-to-c-calls:calls": {
 			compute: func(_ *statAggregate, out *metricValue) {
 				out.kind = metricKindUint64
-				out.scalar = uint64(NumCgoCall())
+				out.scalar = uint64(NumCgolangCall())
 			},
 		},
 		"/cpu/classes/gc/mark/assist:cpu-seconds": {
@@ -270,20 +270,20 @@ func initMetrics() {
 				out.scalar = in.heapStats.totalFrees
 			},
 		},
-		"/gc/heap/goal:bytes": {
+		"/gc/heap/golangal:bytes": {
 			deps: makeStatDepSet(sysStatsDep),
 			compute: func(in *statAggregate, out *metricValue) {
 				out.kind = metricKindUint64
 				out.scalar = in.sysStats.heapGoal
 			},
 		},
-		"/gc/gomemlimit:bytes": {
+		"/gc/golangmemlimit:bytes": {
 			compute: func(in *statAggregate, out *metricValue) {
 				out.kind = metricKindUint64
 				out.scalar = uint64(gcController.memoryLimit.Load())
 			},
 		},
-		"/gc/gogc:percent": {
+		"/gc/golanggc:percent": {
 			compute: func(in *statAggregate, out *metricValue) {
 				out.kind = metricKindUint64
 				out.scalar = uint64(gcController.gcPercent.Load())
@@ -430,13 +430,13 @@ func initMetrics() {
 					in.sysStats.gcMiscSys + in.sysStats.otherSys
 			},
 		},
-		"/sched/gomaxprocs:threads": {
+		"/sched/golangmaxprocs:threads": {
 			compute: func(_ *statAggregate, out *metricValue) {
 				out.kind = metricKindUint64
-				out.scalar = uint64(gomaxprocs)
+				out.scalar = uint64(golangmaxprocs)
 			},
 		},
-		"/sched/goroutines:goroutines": {
+		"/sched/golangroutines:golangroutines": {
 			compute: func(_ *statAggregate, out *metricValue) {
 				out.kind = metricKindUint64
 				out.scalar = uint64(gcount())
@@ -475,9 +475,9 @@ func initMetrics() {
 		},
 	}
 
-	for _, info := range godebugs.All {
+	for _, info := range golangdebugs.All {
 		if !info.Opaque {
-			metrics["/godebug/non-default-behavior/"+info.Name+":events"] = metricData{compute: compute0}
+			metrics["/golangdebug/non-default-behavior/"+info.Name+":events"] = metricData{compute: compute0}
 		}
 	}
 
@@ -496,8 +496,8 @@ func (f metricReader) compute(_ *statAggregate, out *metricValue) {
 	out.scalar = f()
 }
 
-//go:linkname godebug_registerMetric internal/godebug.registerMetric
-func godebug_registerMetric(name string, read func() uint64) {
+//golang:linkname golangdebug_registerMetric internal/golangdebug.registerMetric
+func golangdebug_registerMetric(name string, read func() uint64) {
 	metricsLock()
 	initMetrics()
 	d, ok := metrics[name]
@@ -809,7 +809,7 @@ type metricName struct {
 // readMetricNames is the implementation of runtime/metrics.readMetricNames,
 // used by the runtime/metrics test and otherwise unreferenced.
 //
-//go:linkname readMetricNames runtime/metrics_test.runtime_readMetricNames
+//golang:linkname readMetricNames runtime/metrics_test.runtime_readMetricNames
 func readMetricNames() []string {
 	metricsLock()
 	initMetrics()
@@ -829,7 +829,7 @@ func readMetricNames() []string {
 
 // readMetrics is the implementation of runtime/metrics.Read.
 //
-//go:linkname readMetrics runtime/metrics.runtime_readMetrics
+//golang:linkname readMetrics runtime/metrics.runtime_readMetrics
 func readMetrics(samplesp unsafe.Pointer, len int, cap int) {
 	metricsLock()
 

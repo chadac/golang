@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // PE (Portable Executable) file writing
@@ -564,7 +564,7 @@ func (f *peFile) addInitArray(ctxt *Link) *peSection {
 	return sect
 }
 
-// emitRelocations emits relocation entries for go.o in external linking.
+// emitRelocations emits relocation entries for golang.o in external linking.
 func (f *peFile) emitRelocations(ctxt *Link) {
 	for ctxt.Out.Offset()&7 != 0 {
 		ctxt.Out.Write8(0)
@@ -597,7 +597,7 @@ func (f *peFile) emitRelocations(ctxt *Link) {
 			if ldr.SymValue(s) >= eaddr {
 				break
 			}
-			// Compute external relocations on the go, and pass to PEreloc1
+			// Compute external relocations on the golang, and pass to PEreloc1
 			// to stream out.
 			relocs := ldr.Relocs(s)
 			for ri := 0; ri < relocs.Count(); ri++ {
@@ -762,12 +762,12 @@ func (f *peFile) writeSymbols(ctxt *Link) {
 
 		// Only windows/386 requires underscore prefix on external symbols.
 		if ctxt.Is386() && ctxt.IsExternal() &&
-			(t == sym.SHOSTOBJ || t == sym.SUNDEFEXT || ldr.AttrCgoExport(s) ||
+			(t == sym.SHOSTOBJ || t == sym.SUNDEFEXT || ldr.AttrCgolangExport(s) ||
 				// TODO(cuonglm): remove this hack
 				//
 				// Previously, windows/386 requires underscore prefix on external symbols,
-				// but that's only applied for SHOSTOBJ/SUNDEFEXT or cgo export symbols.
-				// "go.buildid" is STEXT, "type.*" is STYPE, thus they are not prefixed
+				// but that's only applied for SHOSTOBJ/SUNDEFEXT or cgolang export symbols.
+				// "golang.buildid" is STEXT, "type.*" is STYPE, thus they are not prefixed
 				// with underscore.
 				//
 				// In external linking mode, the external linker can't resolve them as
@@ -782,7 +782,7 @@ func (f *peFile) writeSymbols(ctxt *Link) {
 				// underscore prefix for these 2 symbols. I don't have enough knowledge to
 				// verify whether adding the underscore for all STEXT/STYPE symbols are
 				// fine, even if it could be, that would be done in future CL.
-				name == "go:buildid" || name == "type:*") {
+				name == "golang:buildid" || name == "type:*") {
 			name = "_" + name
 		}
 
@@ -888,7 +888,7 @@ func (f *peFile) writeSymbolTableAndStringTable(ctxt *Link) {
 	size := f.stringTable.size() + 18*f.symbolCount
 	var h *peSection
 	if ctxt.LinkMode != LinkExternal {
-		// We do not really need .symtab for go.o, and if we have one, ld
+		// We do not really need .symtab for golang.o, and if we have one, ld
 		// will also include it in the exe, and that will confuse windows.
 		h = f.addSection(".symtab", size, size)
 		h.characteristics = IMAGE_SCN_MEM_READ | IMAGE_SCN_MEM_DISCARDABLE
@@ -1038,7 +1038,7 @@ func (f *peFile) writeOptionalHeader(ctxt *Link) {
 
 	// On 64-bit, we always reserve 2MB stacks. "Pure" Go code is
 	// okay with much smaller stacks, but the syscall package
-	// makes it easy to call into arbitrary C code without cgo,
+	// makes it easy to call into arbitrary C code without cgolang,
 	// and system calls even in "pure" Go code are actually C
 	// calls that may need more stack than we think.
 	//
@@ -1053,17 +1053,17 @@ func (f *peFile) writeOptionalHeader(ctxt *Link) {
 	// the actual stack bounds so that the stack size doesn't need
 	// to be hard-coded into the runtime.
 	oh64.SizeOfStackReserve = 0x00200000
-	if !iscgo {
+	if !iscgolang {
 		oh64.SizeOfStackCommit = 0x00001000
 	} else {
-		// TODO(brainman): Maybe remove optional header writing altogether for cgo.
-		// For cgo it is the external linker that is building final executable.
+		// TODO(brainman): Maybe remove optional header writing altogether for cgolang.
+		// For cgolang it is the external linker that is building final executable.
 		// And it probably does not use any information stored in optional header.
 		oh64.SizeOfStackCommit = 0x00200000 - 0x2000 // account for 2 guard pages
 	}
 
 	oh.SizeOfStackReserve = 0x00100000
-	if !iscgo {
+	if !iscgolang {
 		oh.SizeOfStackCommit = 0x00001000
 	} else {
 		oh.SizeOfStackCommit = 0x00100000 - 0x2000 // account for 2 guard pages
@@ -1384,7 +1384,7 @@ func addimports(ctxt *Link, datsect *peSection) {
 func initdynexport(ctxt *Link) {
 	ldr := ctxt.loader
 	for s := loader.Sym(1); s < loader.Sym(ldr.NSym()); s++ {
-		if !ldr.AttrReachable(s) || !ldr.AttrCgoExportDynamic(s) {
+		if !ldr.AttrReachable(s) || !ldr.AttrCgolangExportDynamic(s) {
 			continue
 		}
 		if len(dexport) >= math.MaxUint16 {

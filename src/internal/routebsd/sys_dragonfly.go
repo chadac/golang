@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package routebsd
@@ -25,7 +25,7 @@ func probeRoutingStack() (int, map[int]*wireFormat) {
 
 	rel, _ := syscall.SysctlUint32("kern.osreldate")
 	if rel >= 500705 {
-		// https://github.com/DragonFlyBSD/DragonFlyBSD/commit/43a373152df2d405c9940983e584e6a25e76632d
+		// https://github.com/DragolangnFlyBSD/DragolangnFlyBSD/commit/43a373152df2d405c9940983e584e6a25e76632d
 		// but only the size of struct ifa_msghdr actually changed
 		rtmVersion = 7
 		ifam.bodyOff = 0x18

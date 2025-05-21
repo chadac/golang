@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -55,7 +55,7 @@ func UserRegionsHandlerFunc(t *parsedTrace) http.HandlerFunc {
 	}
 }
 
-// regionFingerprint is a way to categorize regions that goes just one step beyond the region's Type
+// regionFingerprint is a way to categolangrize regions that golanges just one step beyond the region's Type
 // by including the top stack frame.
 type regionFingerprint struct {
 	Frame trace.StackFrame
@@ -129,7 +129,7 @@ However, the "Count" column includes all regions, including those that only star
 or ended during the traced period.
 Regions that were active through the trace period were not recorded, and so are not
 accounted for at all.
-Click on the links to explore a breakdown of time spent for each region by goroutine
+Click on the links to explore a breakdown of time spent for each region by golangroutine
 and user-defined task.
 <br>
 <br>
@@ -162,7 +162,7 @@ func UserRegionHandlerFunc(t *parsedTrace) http.HandlerFunc {
 			return
 		}
 
-		// Collect all the regions with their goroutines.
+		// Collect all the regions with their golangroutines.
 		type region struct {
 			*trace.UserRegionSummary
 			Goroutine           trace.GoID
@@ -363,7 +363,7 @@ Table of contents
 
 <h3 id="breakdown">Breakdown</h3>
 
-The table below breaks down where each goroutine is spent its time during the
+The table below breaks down where each golangroutine is spent its time during the
 traced period.
 All of the columns except total time are non-overlapping.
 <br>
@@ -381,7 +381,7 @@ All of the columns except total time are non-overlapping.
 </tr>
 {{range .Regions}}
 	<tr>
-		<td> <a href="/trace?goid={{.Goroutine}}">{{.Goroutine}}</a> </td>
+		<td> <a href="/trace?golangid={{.Goroutine}}">{{.Goroutine}}</a> </td>
 		<td> {{if .TaskID}}<a href="/trace?focustask={{.TaskID}}">{{.TaskID}}</a>{{end}} </td>
 		<td> {{ .TotalTime.String }} </td>
 		<td>
@@ -406,13 +406,13 @@ All of the columns except total time are non-overlapping.
 
 <h3 id="ranges">Special ranges</h3>
 
-The table below describes how much of the traced period each goroutine spent in
+The table below describes how much of the traced period each golangroutine spent in
 certain special time ranges.
-If a goroutine has spent no time in any special time ranges, it is excluded from
+If a golangroutine has spent no time in any special time ranges, it is excluded from
 the table.
 For example, how much time it spent helping the GC. Note that these times do
 overlap with the times from the first table.
-In general the goroutine may not be executing in these special time ranges.
+In general the golangroutine may not be executing in these special time ranges.
 For example, it may have blocked while trying to help the GC.
 This must be taken into account when interpreting the data.
 <br>
@@ -430,7 +430,7 @@ This must be taken into account when interpreting the data.
 {{range .Regions}}
 	{{if .HasRangeTime}}
 		<tr>
-			<td> <a href="/trace?goid={{.Goroutine}}">{{.Goroutine}}</a> </td>
+			<td> <a href="/trace?golangid={{.Goroutine}}">{{.Goroutine}}</a> </td>
 			<td> {{if .TaskID}}<a href="/trace?focustask={{.TaskID}}">{{.TaskID}}</a>{{end}} </td>
 			<td> {{ .TotalTime.String }} </td>
 			{{$Region := .}}

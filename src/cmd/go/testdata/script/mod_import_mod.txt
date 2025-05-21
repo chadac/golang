@@ -1,7 +1,7 @@
 # Test that GOPATH/pkg/mod is excluded
 env GO111MODULE=off
-! go list mod/foo
+! golang list mod/foo
 stderr 'disallowed import path'
 
--- mod/foo/foo.go --
+-- mod/foo/foo.golang --
 package foo

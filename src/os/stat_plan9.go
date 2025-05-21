@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package os
@@ -76,7 +76,7 @@ func dirstat(arg any) (*syscall.Dir, error) {
 		size = int(uint16(buf[0]) | uint16(buf[1])<<8)
 
 		// If the stat message is larger than our buffer we will
-		// go around the loop and allocate one that is big enough.
+		// golang around the loop and allocate one that is big enough.
 		if size <= n {
 			d, err := syscall.UnmarshalDir(buf[:n])
 			if err != nil {

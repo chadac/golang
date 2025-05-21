@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test os/signal.Notify and os/signal.Reset.
@@ -14,7 +14,7 @@
 #include <unistd.h>
 #include <pthread.h>
 
-#include "libgo3.h"
+#include "libgolang3.h"
 
 static void die(const char* msg) {
 	perror(msg);

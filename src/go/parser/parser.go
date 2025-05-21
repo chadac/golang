@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package parser implements a parser for Go source files. Input may be
@@ -17,10 +17,10 @@ package parser
 
 import (
 	"fmt"
-	"go/ast"
-	"go/build/constraint"
-	"go/scanner"
-	"go/token"
+	"golang/ast"
+	"golang/build/constraint"
+	"golang/scanner"
+	"golang/token"
 	"strings"
 )
 
@@ -40,7 +40,7 @@ type parser struct {
 	leadComment *ast.CommentGroup // last lead comment
 	lineComment *ast.CommentGroup // last line comment
 	top         bool              // in top of file (before package clause)
-	goVersion   string            // minimum Go version found in //go:build comment
+	golangVersion   string            // minimum Go version found in //golang:build comment
 
 	// Next token
 	pos token.Pos   // token position
@@ -145,9 +145,9 @@ func (p *parser) next0() {
 	for {
 		p.pos, p.tok, p.lit = p.scanner.Scan()
 		if p.tok == token.COMMENT {
-			if p.top && strings.HasPrefix(p.lit, "//go:build") {
+			if p.top && strings.HasPrefix(p.lit, "//golang:build") {
 				if x, err := constraint.Parse(p.lit); err == nil {
-					p.goVersion = constraint.GoVersion(x)
+					p.golangVersion = constraint.GoVersion(x)
 				}
 			}
 			if p.mode&ParseComments == 0 {
@@ -379,7 +379,7 @@ func (p *parser) atComma(context string, follow token.Token) bool {
 
 func assert(cond bool, msg string) {
 	if !cond {
-		panic("go/parser internal error: " + msg)
+		panic("golang/parser internal error: " + msg)
 	}
 }
 
@@ -945,7 +945,7 @@ func (p *parser) parseParameterList(name0 *ast.Ident, typ0 ast.Expr, closing tok
 		}
 		if tparams {
 			// This is the same error handling as below, adjusted for type parameters only.
-			// See comment below for details. (go.dev/issue/64534)
+			// See comment below for details. (golang.dev/issue/64534)
 			var errPos token.Pos
 			var msg string
 			if named == typed /* same as typed == 0 */ {
@@ -999,7 +999,7 @@ func (p *parser) parseParameterList(name0 *ast.Ident, typ0 ast.Expr, closing tok
 			} else {
 				if tparams {
 					msg = "missing type parameter name"
-					// go.dev/issue/60812
+					// golang.dev/issue/60812
 					if len(list) == 1 {
 						msg += " or invalid array length"
 					}
@@ -1571,7 +1571,7 @@ func (p *parser) parseIndexOrSliceOrInstance(x ast.Expr) ast.Expr {
 	var colons [N - 1]token.Pos
 	if p.tok != token.COLON {
 		// We can't know if we have an index expression or a type instantiation;
-		// so even if we see a (named) type we are not going to be in type context.
+		// so even if we see a (named) type we are not golanging to be in type context.
 		index[0] = p.parseRhs()
 	}
 	ncolons := 0
@@ -1606,7 +1606,7 @@ func (p *parser) parseIndexOrSliceOrInstance(x ast.Expr) ast.Expr {
 		if ncolons == 2 {
 			slice3 = true
 			// Check presence of middle and final index here rather than during type-checking
-			// to prevent erroneous programs from passing through gofmt (was go.dev/issue/7305).
+			// to prevent erroneous programs from passing through golangfmt (was golang.dev/issue/7305).
 			if index[1] == nil {
 				p.error(colons[0], "middle index required in 3-index slice")
 				index[1] = &ast.BadExpr{From: colons[0] + 1, To: colons[1]}
@@ -2024,10 +2024,10 @@ func (p *parser) parseGoStmt() ast.Stmt {
 	}
 
 	pos := p.expect(token.GO)
-	call := p.parseCallExpr("go")
+	call := p.parseCallExpr("golang")
 	p.expectSemi()
 	if call == nil {
-		return &ast.BadStmt{From: pos, To: pos + 2} // len("go")
+		return &ast.BadStmt{From: pos, To: pos + 2} // len("golang")
 	}
 
 	return &ast.GoStmt{Go: pos, Call: call}
@@ -2095,7 +2095,7 @@ func (p *parser) makeExpr(s ast.Stmt, want string) ast.Expr {
 }
 
 // parseIfHeader is an adjusted version of parser.header
-// in cmd/compile/internal/syntax/parser.go, which has
+// in cmd/compile/internal/syntax/parser.golang, which has
 // been tuned for better error handling.
 func (p *parser) parseIfHeader() (init ast.Stmt, cond ast.Expr) {
 	if p.tok == token.LBRACE {
@@ -2930,7 +2930,7 @@ func (p *parser) parseFile() *ast.File {
 		// File{Start,End} are set by the defer in the caller.
 		Imports:   p.imports,
 		Comments:  p.comments,
-		GoVersion: p.goVersion,
+		GoVersion: p.golangVersion,
 	}
 	var declErr func(token.Pos, string)
 	if p.mode&DeclarationErrors != 0 {

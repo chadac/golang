@@ -1,28 +1,28 @@
-go env GOWORK
-stdout '^'$GOPATH'[\\/]src[\\/]go.work$'
-go env
-stdout '^(set )?GOWORK=''?'$GOPATH'[\\/]src[\\/]go.work''?$'
+golang env GOWORK
+stdout '^'$GOPATH'[\\/]src[\\/]golang.work$'
+golang env
+stdout '^(set )?GOWORK=''?'$GOPATH'[\\/]src[\\/]golang.work''?$'
 
 cd ..
-go env GOWORK
+golang env GOWORK
 ! stdout .
-go env
+golang env
 stdout 'GOWORK=("")?'
 
 cd src
-go env GOWORK
-stdout 'go.work'
+golang env GOWORK
+stdout 'golang.work'
 
 env GOWORK='off'
-go env GOWORK
+golang env GOWORK
 stdout 'off'
 
-! go env -w GOWORK=off
-stderr '^go: GOWORK cannot be modified$'
+! golang env -w GOWORK=off
+stderr '^golang: GOWORK cannot be modified$'
 
--- go.work --
-go 1.18
+-- golang.work --
+golang 1.18
 
 use a
--- a/go.mod --
+-- a/golang.mod --
 module example.com/a

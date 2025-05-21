@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -12,11 +12,11 @@ import (
 	. "github.com/mmcloughlin/avo/reg"
 )
 
-//go:generate go run . -out ../nat_amd64.s -pkg bigmod
+//golang:generate golang run . -out ../nat_amd64.s -pkg bigmod
 
 func main() {
 	Package("crypto/internal/fips140/bigmod")
-	ConstraintExpr("!purego")
+	ConstraintExpr("!puregolang")
 
 	addMulVVW(1024)
 	addMulVVW(1536)

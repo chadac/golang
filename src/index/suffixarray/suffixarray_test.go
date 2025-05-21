@@ -1,5 +1,5 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package suffixarray
@@ -93,18 +93,18 @@ var testCases = []testCase{
 
 	{
 		"typing drill",
-		"Now is the time for all good men to come to the aid of their country.",
+		"Now is the time for all golangod men to come to the aid of their country.",
 		[]string{
 			"Now",
 			"the time",
 			"to come the aid",
-			"is the time for all good men to come to the aid of their",
+			"is the time for all golangod men to come to the aid of their",
 			"to (come|the)?",
 		},
 	},
 
 	{
-		"godoc simulation",
+		"golangdoc simulation",
 		"package main\n\nimport(\n    \"rand\"\n    ",
 		[]string{},
 	},
@@ -133,7 +133,7 @@ func testLookup(t *testing.T, tc *testCase, x *Index, s string, n int) {
 
 	// check that the lengths match
 	if len(res) != len(exp) {
-		t.Errorf("test %q, lookup %q (n = %d): expected %d results; got %d", tc.name, s, n, len(exp), len(res))
+		t.Errorf("test %q, lookup %q (n = %d): expected %d results; golangt %d", tc.name, s, n, len(exp), len(res))
 	}
 
 	// if n >= 0 the number of results is limited --- unless n >= all results,
@@ -159,7 +159,7 @@ func testLookup(t *testing.T, tc *testCase, x *Index, s string, n int) {
 		for i, r := range res {
 			e := exp[i]
 			if r != e {
-				t.Errorf("test %q, lookup %q, result %d: expected index %d; got %d", tc.name, s, i, e, r)
+				t.Errorf("test %q, lookup %q, result %d: expected index %d; golangt %d", tc.name, s, i, e, r)
 			}
 		}
 	}
@@ -171,7 +171,7 @@ func testFindAllIndex(t *testing.T, tc *testCase, x *Index, rx *regexp.Regexp, n
 
 	// check that the lengths match
 	if len(res) != len(exp) {
-		t.Errorf("test %q, FindAllIndex %q (n = %d): expected %d results; got %d", tc.name, rx, n, len(exp), len(res))
+		t.Errorf("test %q, FindAllIndex %q (n = %d): expected %d results; golangt %d", tc.name, rx, n, len(exp), len(res))
 	}
 
 	// if n >= 0 the number of results is limited --- unless n >= all results,
@@ -193,7 +193,7 @@ func testFindAllIndex(t *testing.T, tc *testCase, x *Index, rx *regexp.Regexp, n
 		for i, r := range res {
 			e := exp[i]
 			if r[0] != e[0] || r[1] != e[1] {
-				t.Errorf("test %q, FindAllIndex %q, result %d: expected match [%d, %d]; got [%d, %d]",
+				t.Errorf("test %q, FindAllIndex %q, result %d: expected match [%d, %d]; golangt [%d, %d]",
 					tc.name, rx, i, e[0], e[1], r[0], r[1])
 			}
 		}
@@ -473,7 +473,7 @@ var (
 )
 
 // Of all possible inputs, the random bytes have the least amount of substring
-// repetition, and the repeated bytes have the most. For most algorithms,
+// repetition, and the repeated bytes have the most. For most algolangrithms,
 // the running time of every input will be between these two.
 func benchmarkNew(b *testing.B, random bool) {
 	b.ReportAllocs()
@@ -503,9 +503,9 @@ func makeText(name string) ([]byte, error) {
 		if err != nil {
 			return nil, err
 		}
-	case "go":
+	case "golang":
 		err := filepath.WalkDir("../..", func(path string, info fs.DirEntry, err error) error {
-			if err == nil && strings.HasSuffix(path, ".go") && !info.IsDir() {
+			if err == nil && strings.HasSuffix(path, ".golang") && !info.IsDir() {
 				file, err := os.ReadFile(path)
 				if err != nil {
 					return err
@@ -540,7 +540,7 @@ func setBits(bits int) (cleanup func()) {
 }
 
 func BenchmarkNew(b *testing.B) {
-	for _, text := range []string{"opticks", "go", "zero", "rand"} {
+	for _, text := range []string{"opticks", "golang", "zero", "rand"} {
 		b.Run("text="+text, func(b *testing.B) {
 			data, err := makeText(text)
 			if err != nil {

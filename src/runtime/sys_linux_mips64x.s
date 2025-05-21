@@ -1,15 +1,15 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build linux && (mips64 || mips64le)
+//golang:build linux && (mips64 || mips64le)
 
 //
 // System calls and other sys.stuff for mips64, Linux
 //
 
-#include "go_asm.h"
-#include "go_tls.h"
+#include "golang_asm.h"
+#include "golang_tls.h"
 #include "textflag.h"
 
 #define AT_FDCWD -100
@@ -249,7 +249,7 @@ TEXT runtime·walltime(SB),NOSPLIT,$16-12
 	BNE	R4, R5, noswitch
 
 	MOVV	m_g0(R17), R4
-	MOVV	(g_sched+gobuf_sp)(R4), R1	// Set SP to g0 stack
+	MOVV	(g_sched+golangbuf_sp)(R4), R1	// Set SP to g0 stack
 
 noswitch:
 	SUBV	$16, R1
@@ -264,7 +264,7 @@ noswitch:
 
 	JAL	(R25)
 	// check on vdso call return for kernel compatibility
-	// see https://golang.org/issues/39046
+	// see https://golanglang.org/issues/39046
 	// if we get any error make fallback permanent.
 	BEQ	R2, R0, finish
 	MOVV	R0, runtime·vdsoClockgettimeSym(SB)
@@ -319,7 +319,7 @@ TEXT runtime·nanotime1(SB),NOSPLIT,$16-8
 	BNE	R4, R5, noswitch
 
 	MOVV	m_g0(R17), R4
-	MOVV	(g_sched+gobuf_sp)(R4), R1	// Set SP to g0 stack
+	MOVV	(g_sched+golangbuf_sp)(R4), R1	// Set SP to g0 stack
 
 noswitch:
 	SUBV	$16, R1
@@ -408,18 +408,18 @@ TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME,$64
 
 	// this might be called in external code context,
 	// where g is not set.
-	MOVB	runtime·iscgo(SB), R1
+	MOVB	runtime·iscgolang(SB), R1
 	BEQ	R1, 2(PC)
 	JAL	runtime·load_g(SB)
 
 	MOVW	R4, 8(R29)
 	MOVV	R5, 16(R29)
 	MOVV	R6, 24(R29)
-	MOVV	$runtime·sigtrampgo(SB), R1
+	MOVV	$runtime·sigtrampgolang(SB), R1
 	JAL	(R1)
 	RET
 
-TEXT runtime·cgoSigtramp(SB),NOSPLIT,$0
+TEXT runtime·cgolangSigtramp(SB),NOSPLIT,$0
 	JMP	runtime·sigtramp(SB)
 
 TEXT runtime·mmap(SB),NOSPLIT|NOFRAME,$0
@@ -573,16 +573,16 @@ TEXT runtime·sbrk0(SB),NOSPLIT|NOFRAME,$0-8
 	RET
 
 TEXT runtime·access(SB),$0-20
-	MOVV	R0, 2(R0) // unimplemented, only needed for android; declared in stubs_linux.go
+	MOVV	R0, 2(R0) // unimplemented, only needed for android; declared in stubs_linux.golang
 	MOVW	R0, ret+16(FP) // for vet
 	RET
 
 TEXT runtime·connect(SB),$0-28
-	MOVV	R0, 2(R0) // unimplemented, only needed for android; declared in stubs_linux.go
+	MOVV	R0, 2(R0) // unimplemented, only needed for android; declared in stubs_linux.golang
 	MOVW	R0, ret+24(FP) // for vet
 	RET
 
 TEXT runtime·socket(SB),$0-20
-	MOVV	R0, 2(R0) // unimplemented, only needed for android; declared in stubs_linux.go
+	MOVV	R0, 2(R0) // unimplemented, only needed for android; declared in stubs_linux.golang
 	MOVW	R0, ret+16(FP) // for vet
 	RET

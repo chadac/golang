@@ -1,16 +1,16 @@
 # Test support for declaring needed Go version in module.
 
 env GO111MODULE=on
-env TESTGO_VERSION=go1.21
+env TESTGO_VERSION=golang1.21
 
-! go list
-stderr -count=1 '^go: sub@v1.0.0: module ./sub requires go >= 1.999 \(running go 1.21\)$'
-! go build sub
-stderr -count=1 '^go: sub@v1.0.0: module ./sub requires go >= 1.999 \(running go 1.21\)$'
+! golang list
+stderr -count=1 '^golang: sub@v1.0.0: module ./sub requires golang >= 1.999 \(running golang 1.21\)$'
+! golang build sub
+stderr -count=1 '^golang: sub@v1.0.0: module ./sub requires golang >= 1.999 \(running golang 1.21\)$'
 
--- go.mod --
+-- golang.mod --
 module m
-go 1.1
+golang 1.1
 require (
 	sub v1.0.0
 )
@@ -18,12 +18,12 @@ replace (
 	sub => ./sub
 )
 
--- x.go --
+-- x.golang --
 package x
 
--- sub/go.mod --
+-- sub/golang.mod --
 module sub
-go 1.999
+golang 1.999
 
--- sub/x.go --
+-- sub/x.golang --
 package x

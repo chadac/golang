@@ -5,35 +5,35 @@ These are not links.
 
 [x]:
 
-[x]:https://go.dev
+[x]:https://golang.dev
 
-[x]https://go.dev
+[x]https://golang.dev
 
-[x]: surprise://go.dev
+[x]: surprise://golang.dev
 
 [x]: surprise!
 
 But this is, with a tab (although it's unused).
 
-[z]:	https://go.dev
--- gofmt --
+[z]:	https://golang.dev
+-- golangfmt --
 These are not links.
 
 [x
 
 [x]:
 
-[x]:https://go.dev
+[x]:https://golang.dev
 
-[x]https://go.dev
+[x]https://golang.dev
 
-[x]: surprise://go.dev
+[x]: surprise://golang.dev
 
 [x]: surprise!
 
 But this is, with a tab (although it's unused).
 
-[z]: https://go.dev
+[z]: https://golang.dev
 -- text --
 These are not links.
 
@@ -41,11 +41,11 @@ These are not links.
 
 [x]:
 
-[x]:https://go.dev
+[x]:https://golang.dev
 
-[x]https://go.dev
+[x]https://golang.dev
 
-[x]: surprise://go.dev
+[x]: surprise://golang.dev
 
 [x]: surprise!
 
@@ -57,11 +57,11 @@ These are not links.
 
 \[x]:
 
-\[x]:[https://go.dev](https://go.dev)
+\[x]:[https://golang.dev](https://golang.dev)
 
-\[x][https://go.dev](https://go.dev)
+\[x][https://golang.dev](https://golang.dev)
 
-\[x]: surprise://go.dev
+\[x]: surprise://golang.dev
 
 \[x]: surprise!
 
@@ -70,8 +70,8 @@ But this is, with a tab (although it's unused).
 <p>These are not links.
 <p>[x
 <p>[x]:
-<p>[x]:<a href="https://go.dev">https://go.dev</a>
-<p>[x]<a href="https://go.dev">https://go.dev</a>
-<p>[x]: surprise://go.dev
+<p>[x]:<a href="https://golang.dev">https://golang.dev</a>
+<p>[x]<a href="https://golang.dev">https://golang.dev</a>
+<p>[x]: surprise://golang.dev
 <p>[x]: surprise!
 <p>But this is, with a tab (although it&apos;s unused).

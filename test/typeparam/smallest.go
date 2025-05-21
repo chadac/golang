@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -32,11 +32,11 @@ func main() {
 	vec2 := []string{"abc", "def", "aaa"}
 
 	want1 := 1.2
-	if got := Smallest(vec1); got != want1 {
-		panic(fmt.Sprintf("got %d, want %d", got, want1))
+	if golangt := Smallest(vec1); golangt != want1 {
+		panic(fmt.Sprintf("golangt %d, want %d", golangt, want1))
 	}
 	want2 := "aaa"
-	if got := Smallest(vec2); got != want2 {
-		panic(fmt.Sprintf("got %d, want %d", got, want2))
+	if golangt := Smallest(vec2); golangt != want2 {
+		panic(fmt.Sprintf("golangt %d, want %d", golangt, want2))
 	}
 }

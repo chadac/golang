@@ -1,21 +1,21 @@
 handle git
 
 env GIT_AUTHOR_NAME='Bryan C. Mills'
-env GIT_AUTHOR_EMAIL='bcmills@google.com'
+env GIT_AUTHOR_EMAIL='bcmills@golangogle.com'
 env GIT_COMMITTER_NAME=$GIT_AUTHOR_NAME
 env GIT_COMMITTER_EMAIL=$GIT_AUTHOR_EMAIL
 
 git init
 
 at 2019-07-15T17:16:47-04:00
-git add go.mod main.go
-git commit -m 'all: add go.mod and main.go'
+git add golang.mod main.golang
+git commit -m 'all: add golang.mod and main.golang'
 git branch -m master
 git tag v1.0.0
 
 at 2019-07-15T17:17:27-04:00
-cp _next/main.go main.go
-git add main.go
+cp _next/main.golang main.golang
+git add main.golang
 git commit -m 'add init function'
 
 git log --oneline --decorate=short
@@ -23,16 +23,16 @@ cmp stdout .git-log
 
 -- .git-log --
 b325d82 (HEAD -> master) add init function
-8da67e0 (tag: v1.0.0) all: add go.mod and main.go
--- go.mod --
-module vcs-test.golang.org/git/commit-after-tag.git
+8da67e0 (tag: v1.0.0) all: add golang.mod and main.golang
+-- golang.mod --
+module vcs-test.golanglang.org/git/commit-after-tag.git
 
-go 1.13
--- main.go --
+golang 1.13
+-- main.golang --
 package main
 
 func main() {}
--- _next/main.go --
+-- _next/main.golang --
 package main
 
 func main() {}

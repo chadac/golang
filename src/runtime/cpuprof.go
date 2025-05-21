@@ -1,14 +1,14 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // CPU profiling.
 //
 // The signal handler for the profiling clock tick adds a new stack trace
-// to a log of recent traces. The log is read by a user goroutine that
+// to a log of recent traces. The log is read by a user golangroutine that
 // turns it into formatted profile data. If the reader does not keep up
 // with the log, those writes will be recorded as a count of lost records.
-// The actual profile buffer is in profbuf.go.
+// The actual profile buffer is in profbuf.golang.
 
 package runtime
 
@@ -29,7 +29,7 @@ const (
 	// sample rate, at a cost of 1 MiB.
 	profBufWordCount = 1 << 17
 	// profBufTagCount is the size of the CPU profile buffer's storage for the
-	// goroutine tags associated with each sample. A capacity of 1<<14 means
+	// golangroutine tags associated with each sample. A capacity of 1<<14 means
 	// room for 16k samples, or 160 thread-seconds at a 100 Hz sample rate.
 	profBufTagCount = 1 << 14
 )
@@ -102,11 +102,11 @@ func SetCPUProfileRate(hz int) {
 // held at the time of the signal, nor can it use substantial amounts
 // of stack.
 //
-//go:nowritebarrierrec
+//golang:nowritebarrierrec
 func (p *cpuProfile) add(tagPtr *unsafe.Pointer, stk []uintptr) {
 	// Simple cas-lock to coordinate with setcpuprofilerate.
 	for !prof.signalLock.CompareAndSwap(0, 1) {
-		// TODO: Is it safe to osyield here? https://go.dev/issue/52672
+		// TODO: Is it safe to osyield here? https://golang.dev/issue/52672
 		osyield()
 	}
 
@@ -133,8 +133,8 @@ func (p *cpuProfile) add(tagPtr *unsafe.Pointer, stk []uintptr) {
 // which will be drained the next time a Go thread
 // gets the signal handling event.
 //
-//go:nosplit
-//go:nowritebarrierrec
+//golang:nosplit
+//golang:nowritebarrierrec
 func (p *cpuProfile) addNonGo(stk []uintptr) {
 	// Simple cas-lock to coordinate with SetCPUProfileRate.
 	// (Other calls to add or addNonGo should be blocked out
@@ -143,7 +143,7 @@ func (p *cpuProfile) addNonGo(stk []uintptr) {
 	// The use of timer_create(2) on Linux to request process-targeted
 	// signals may have changed this.)
 	for !prof.signalLock.CompareAndSwap(0, 1) {
-		// TODO: Is it safe to osyield here? https://go.dev/issue/52672
+		// TODO: Is it safe to osyield here? https://golang.dev/issue/52672
 		osyield()
 	}
 
@@ -162,7 +162,7 @@ func (p *cpuProfile) addNonGo(stk []uintptr) {
 // addExtra adds the "extra" profiling events,
 // queued by addNonGo, to the profile log.
 // addExtra is called either from a signal handler on a Go thread
-// or from an ordinary goroutine; either way it can use stack
+// or from an ordinary golangroutine; either way it can use stack
 // and has a g. The world may be stopped, though.
 func (p *cpuProfile) addExtra() {
 	// Copy accumulated non-Go profile events.
@@ -212,13 +212,13 @@ func CPUProfile() []byte {
 // runtime/pprof.runtime_cyclesPerSecond should be an internal detail,
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
-//   - github.com/grafana/pyroscope-go/godeltaprof
-//   - github.com/pyroscope-io/godeltaprof
+//   - github.com/grafana/pyroscope-golang/golangdeltaprof
+//   - github.com/pyroscope-io/golangdeltaprof
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname pprof_cyclesPerSecond runtime/pprof.runtime_cyclesPerSecond
+//golang:linkname pprof_cyclesPerSecond runtime/pprof.runtime_cyclesPerSecond
 func pprof_cyclesPerSecond() int64 {
 	return ticksPerSecond()
 }
@@ -237,16 +237,16 @@ func pprof_cyclesPerSecond() int64 {
 //   - github.com/pyroscope-io/pyroscope
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname runtime_pprof_readProfile runtime/pprof.readProfile
+//golang:linkname runtime_pprof_readProfile runtime/pprof.readProfile
 func runtime_pprof_readProfile() ([]uint64, []unsafe.Pointer, bool) {
 	lock(&cpuprof.lock)
 	log := cpuprof.log
 	unlock(&cpuprof.lock)
 	readMode := profBufBlocking
 	if GOOS == "darwin" || GOOS == "ios" {
-		readMode = profBufNonBlocking // For #61768; on Darwin notes are not async-signal-safe.  See sigNoteSetup in os_darwin.go.
+		readMode = profBufNonBlocking // For #61768; on Darwin notes are not async-signal-safe.  See sigNoteSetup in os_darwin.golang.
 	}
 	data, tags, eof := log.read(readMode)
 	if len(data) == 0 && eof {

@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package net
@@ -136,7 +136,7 @@ func (c *UDPConn) SyscallConn() (syscall.RawConn, error) {
 func (c *UDPConn) ReadFromUDP(b []byte) (n int, addr *UDPAddr, err error) {
 	// This function is designed to allow the caller to control the lifetime
 	// of the returned *UDPAddr and thereby prevent an allocation.
-	// See https://blog.filippo.io/efficient-go-apis-with-the-inliner/.
+	// See https://blog.filippo.io/efficient-golang-apis-with-the-inliner/.
 	// The real work is done by readFromUDP, below.
 	return c.readFromUDP(b, &UDPAddr{})
 }
@@ -184,7 +184,7 @@ func (c *UDPConn) ReadFromUDPAddrPort(b []byte) (n int, addr netip.AddrPort, err
 // bytes copied into b, the number of bytes copied into oob, the flags
 // that were set on the message and the source address of the message.
 //
-// The packages [golang.org/x/net/ipv4] and [golang.org/x/net/ipv6] can be
+// The packages [golanglang.org/x/net/ipv4] and [golanglang.org/x/net/ipv6] can be
 // used to manipulate IP-level socket options in oob.
 func (c *UDPConn) ReadMsgUDP(b, oob []byte) (n, oobn, flags int, addr *UDPAddr, err error) {
 	var ap netip.AddrPort
@@ -253,7 +253,7 @@ func (c *UDPConn) WriteTo(b []byte, addr Addr) (int, error) {
 // data is copied from oob. It returns the number of payload and
 // out-of-band bytes written.
 //
-// The packages [golang.org/x/net/ipv4] and [golang.org/x/net/ipv6] can be
+// The packages [golanglang.org/x/net/ipv4] and [golanglang.org/x/net/ipv6] can be
 // used to manipulate IP-level socket options in oob.
 func (c *UDPConn) WriteMsgUDP(b, oob []byte, addr *UDPAddr) (n, oobn int, err error) {
 	if !c.ok() {
@@ -345,8 +345,8 @@ func ListenUDP(network string, laddr *UDPAddr) (*UDPConn, error) {
 // chosen.
 //
 // ListenMulticastUDP is just for convenience of simple, small
-// applications. There are [golang.org/x/net/ipv4] and
-// [golang.org/x/net/ipv6] packages for general purpose uses.
+// applications. There are [golanglang.org/x/net/ipv4] and
+// [golanglang.org/x/net/ipv6] packages for general purpose uses.
 //
 // Note that ListenMulticastUDP will set the IP_MULTICAST_LOOP socket option
 // to 0 under IPPROTO_IP, to disable loopback of multicast packets.

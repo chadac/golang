@@ -1,12 +1,12 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package loader
 
 import (
 	"bytes"
-	"cmd/internal/goobj"
+	"cmd/internal/golangobj"
 	"cmd/internal/objabi"
 	"cmd/internal/sys"
 	"cmd/link/internal/sym"
@@ -22,7 +22,7 @@ import (
 func addDummyObjSym(t *testing.T, ldr *Loader, or *oReader, name string) Sym {
 	idx := uint32(len(ldr.objSyms))
 	st := loadState{l: ldr}
-	return st.addSym(name, 0, or, idx, nonPkgDef, &goobj.Sym{})
+	return st.addSym(name, 0, or, idx, nonPkgDef, &golangobj.Sym{})
 }
 
 func mkLoader() *Loader {
@@ -37,7 +37,7 @@ func TestAddMaterializedSymbol(t *testing.T) {
 	dummyOreader := oReader{version: -1, syms: make([]Sym, 100)}
 	or := &dummyOreader
 
-	// Create some syms from a dummy object file symbol to get things going.
+	// Create some syms from a dummy object file symbol to get things golanging.
 	ts1 := addDummyObjSym(t, ldr, or, "type:uint8")
 	ts2 := addDummyObjSym(t, ldr, or, "mumble")
 	ts3 := addDummyObjSym(t, ldr, or, "type:string")
@@ -49,11 +49,11 @@ func TestAddMaterializedSymbol(t *testing.T) {
 	}
 	es1x := ldr.LookupOrCreateSym("extnew1", 0)
 	if es1x != es1 {
-		t.Fatalf("LookupOrCreateSym lookup: expected %d got %d for second lookup", es1, es1x)
+		t.Fatalf("LookupOrCreateSym lookup: expected %d golangt %d for second lookup", es1, es1x)
 	}
-	es2 := ldr.LookupOrCreateSym("go:info.type.uint8", 0)
+	es2 := ldr.LookupOrCreateSym("golang:info.type.uint8", 0)
 	if es2 == 0 {
-		t.Fatalf("LookupOrCreateSym failed for go.info.type.uint8")
+		t.Fatalf("LookupOrCreateSym failed for golang.info.type.uint8")
 	}
 	// Create a nameless symbol
 	es3 := ldr.CreateStaticSym("")
@@ -76,16 +76,16 @@ func TestAddMaterializedSymbol(t *testing.T) {
 	// Check get/set symbol type
 	es3typ := sb3.Type()
 	if es3typ != sym.Sxxx {
-		t.Errorf("SymType(es3): expected %v, got %v", sym.Sxxx, es3typ)
+		t.Errorf("SymType(es3): expected %v, golangt %v", sym.Sxxx, es3typ)
 	}
 	sb3.SetType(sym.SRODATA)
 	es3typ = sb3.Type()
 	if es3typ != sym.SRODATA {
-		t.Errorf("SymType(es3): expected %v, got %v", sym.SRODATA, es3typ)
+		t.Errorf("SymType(es3): expected %v, golangt %v", sym.SRODATA, es3typ)
 	}
 	es3typ = ldr.SymType(es3)
 	if es3typ != sym.SRODATA {
-		t.Errorf("SymType(es3): expected %v, got %v", sym.SRODATA, es3typ)
+		t.Errorf("SymType(es3): expected %v, golangt %v", sym.SRODATA, es3typ)
 	}
 
 	// New symbols should not initially be reachable.
@@ -138,24 +138,24 @@ func TestAddMaterializedSymbol(t *testing.T) {
 	toTest := []Sym{ts2, es3}
 	for i, s := range toTest {
 		if v := ldr.SymValue(s); v != 0 {
-			t.Errorf("ldr.Value(%d): expected 0 got %d\n", s, v)
+			t.Errorf("ldr.Value(%d): expected 0 golangt %d\n", s, v)
 		}
 		nv := int64(i + 101)
 		ldr.SetSymValue(s, nv)
 		if v := ldr.SymValue(s); v != nv {
-			t.Errorf("ldr.SetValue(%d,%d): expected %d got %d\n", s, nv, nv, v)
+			t.Errorf("ldr.SetValue(%d,%d): expected %d golangt %d\n", s, nv, nv, v)
 		}
 	}
 
 	// Check/set alignment
 	es3al := ldr.SymAlign(es3)
 	if es3al != 0 {
-		t.Errorf("SymAlign(es3): expected 0, got %d", es3al)
+		t.Errorf("SymAlign(es3): expected 0, golangt %d", es3al)
 	}
 	ldr.SetSymAlign(es3, 128)
 	es3al = ldr.SymAlign(es3)
 	if es3al != 128 {
-		t.Errorf("SymAlign(es3): expected 128, got %d", es3al)
+		t.Errorf("SymAlign(es3): expected 128, golangt %d", es3al)
 	}
 
 	// Add some relocations to the new symbols.
@@ -186,32 +186,32 @@ func TestAddMaterializedSymbol(t *testing.T) {
 		rsl := sb.Relocs()
 		exp := expRel[k]
 		if !sameRelocSlice(&rsl, exp) {
-			t.Errorf("expected relocs %v, got %v", exp, rsl)
+			t.Errorf("expected relocs %v, golangt %v", exp, rsl)
 		}
 	}
 
 	// ... then data.
 	dat := sb2.Data()
 	if !bytes.Equal(dat, d2) {
-		t.Errorf("expected es2 data %v, got %v", d2, dat)
+		t.Errorf("expected es2 data %v, golangt %v", d2, dat)
 	}
 
 	// Nameless symbol should still be nameless.
 	es3name := ldr.SymName(es3)
 	if "" != es3name {
-		t.Errorf("expected es3 name of '', got '%s'", es3name)
+		t.Errorf("expected es3 name of '', golangt '%s'", es3name)
 	}
 
 	// Read value of materialized symbol.
 	es1val := sb1.Value()
 	if 0 != es1val {
-		t.Errorf("expected es1 value of 0, got %v", es1val)
+		t.Errorf("expected es1 value of 0, golangt %v", es1val)
 	}
 
 	// Test other misc methods
 	irm := ldr.IsReflectMethod(es1)
 	if 0 != es1val {
-		t.Errorf("expected IsReflectMethod(es1) value of 0, got %v", irm)
+		t.Errorf("expected IsReflectMethod(es1) value of 0, golangt %v", irm)
 	}
 }
 
@@ -236,7 +236,7 @@ func sameRelocSlice(s1 *Relocs, s2 []Reloc) bool {
 type addFunc func(l *Loader, s Sym, s2 Sym) Sym
 
 func mkReloc(l *Loader, typ objabi.RelocType, off int32, siz uint8, add int64, sym Sym) Reloc {
-	r := Reloc{&goobj.Reloc{}, l.extReader, l}
+	r := Reloc{&golangobj.Reloc{}, l.extReader, l}
 	r.SetType(typ)
 	r.SetOff(off)
 	r.SetSiz(siz)
@@ -359,16 +359,16 @@ func TestAddDataMethods(t *testing.T) {
 		}
 		mi = tp.addDataFunc(ldr, mi, pmi)
 		if ldr.SymType(mi) != tp.expKind {
-			t.Errorf("testing Loader.%s: expected kind %s got %s",
+			t.Errorf("testing Loader.%s: expected kind %s golangt %s",
 				tp.which, tp.expKind, ldr.SymType(mi))
 		}
 		if !bytes.Equal(ldr.Data(mi), tp.expData) {
-			t.Errorf("testing Loader.%s: expected data %v got %v",
+			t.Errorf("testing Loader.%s: expected data %v golangt %v",
 				tp.which, tp.expData, ldr.Data(mi))
 		}
 		relocs := ldr.Relocs(mi)
 		if !sameRelocSlice(&relocs, tp.expRel) {
-			t.Fatalf("testing Loader.%s: got relocslice %+v wanted %+v",
+			t.Fatalf("testing Loader.%s: golangt relocslice %+v wanted %+v",
 				tp.which, relocs, tp.expRel)
 		}
 		pmi = mi
@@ -401,34 +401,34 @@ func TestOuterSub(t *testing.T) {
 	// Establish first outer/sub relationship
 	ldr.AddInteriorSym(es1, es2)
 	if ldr.OuterSym(es1) != 0 {
-		t.Errorf("ldr.OuterSym(es1) got %d wanted %d", ldr.OuterSym(es1), 0)
+		t.Errorf("ldr.OuterSym(es1) golangt %d wanted %d", ldr.OuterSym(es1), 0)
 	}
 	if ldr.OuterSym(es2) != es1 {
-		t.Errorf("ldr.OuterSym(es2) got %d wanted %d", ldr.OuterSym(es2), es1)
+		t.Errorf("ldr.OuterSym(es2) golangt %d wanted %d", ldr.OuterSym(es2), es1)
 	}
 	if ldr.SubSym(es1) != es2 {
-		t.Errorf("ldr.SubSym(es1) got %d wanted %d", ldr.SubSym(es1), es2)
+		t.Errorf("ldr.SubSym(es1) golangt %d wanted %d", ldr.SubSym(es1), es2)
 	}
 	if ldr.SubSym(es2) != 0 {
-		t.Errorf("ldr.SubSym(es2) got %d wanted %d", ldr.SubSym(es2), 0)
+		t.Errorf("ldr.SubSym(es2) golangt %d wanted %d", ldr.SubSym(es2), 0)
 	}
 
 	// Establish second outer/sub relationship
 	ldr.AddInteriorSym(es1, es3)
 	if ldr.OuterSym(es1) != 0 {
-		t.Errorf("ldr.OuterSym(es1) got %d wanted %d", ldr.OuterSym(es1), 0)
+		t.Errorf("ldr.OuterSym(es1) golangt %d wanted %d", ldr.OuterSym(es1), 0)
 	}
 	if ldr.OuterSym(es2) != es1 {
-		t.Errorf("ldr.OuterSym(es2) got %d wanted %d", ldr.OuterSym(es2), es1)
+		t.Errorf("ldr.OuterSym(es2) golangt %d wanted %d", ldr.OuterSym(es2), es1)
 	}
 	if ldr.OuterSym(es3) != es1 {
-		t.Errorf("ldr.OuterSym(es3) got %d wanted %d", ldr.OuterSym(es3), es1)
+		t.Errorf("ldr.OuterSym(es3) golangt %d wanted %d", ldr.OuterSym(es3), es1)
 	}
 	if ldr.SubSym(es1) != es3 {
-		t.Errorf("ldr.SubSym(es1) got %d wanted %d", ldr.SubSym(es1), es3)
+		t.Errorf("ldr.SubSym(es1) golangt %d wanted %d", ldr.SubSym(es1), es3)
 	}
 	if ldr.SubSym(es3) != es2 {
-		t.Errorf("ldr.SubSym(es3) got %d wanted %d", ldr.SubSym(es3), es2)
+		t.Errorf("ldr.SubSym(es3) golangt %d wanted %d", ldr.SubSym(es3), es2)
 	}
 
 	// Some more
@@ -446,7 +446,7 @@ func TestOuterSub(t *testing.T) {
 	// Sort
 	news := ldr.SortSub(es1)
 	if news != es3 {
-		t.Errorf("ldr.SortSub leader got %d wanted %d", news, es3)
+		t.Errorf("ldr.SortSub leader golangt %d wanted %d", news, es3)
 	}
 	pv := int64(-1)
 	count := 0
@@ -460,6 +460,6 @@ func TestOuterSub(t *testing.T) {
 		count++
 	}
 	if count != 5 {
-		t.Errorf("expected %d in sub list got %d", 5, count)
+		t.Errorf("expected %d in sub list golangt %d", 5, count)
 	}
 }

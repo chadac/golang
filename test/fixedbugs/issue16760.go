@@ -1,14 +1,14 @@
 // run
 
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Make sure we don't start marshaling (writing to the stack)
 // arguments until those arguments are evaluated and known
 // not to unconditionally panic. If they unconditionally panic,
 // we write some args but never do the call. That messes up
-// the logic which decides how big the argout section needs to be.
+// the logic which decides how big the argolangut section needs to be.
 
 package main
 

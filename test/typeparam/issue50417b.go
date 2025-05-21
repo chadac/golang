@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -37,8 +37,8 @@ func f[T C]() T {
 		b2: "b",
 	}
 
-	if got, want := x.b2, "b"; got != want {
-		panic(fmt.Sprintf("got %d, want %d", got, want))
+	if golangt, want := x.b2, "b"; golangt != want {
+		panic(fmt.Sprintf("golangt %d, want %d", golangt, want))
 	}
 	x.b1 = "y"
 	x.val = 5
@@ -48,11 +48,11 @@ func f[T C]() T {
 
 func main() {
 	x := f[MyStruct]()
-	if got, want := x.b1, "y"; got != want {
-		panic(fmt.Sprintf("got %d, want %d", got, want))
+	if golangt, want := x.b1, "y"; golangt != want {
+		panic(fmt.Sprintf("golangt %d, want %d", golangt, want))
 	}
-	if got, want := x.val, 5; got != want {
-		panic(fmt.Sprintf("got %d, want %d", got, want))
+	if golangt, want := x.val, 5; golangt != want {
+		panic(fmt.Sprintf("golangt %d, want %d", golangt, want))
 	}
 }
 */

@@ -1,12 +1,12 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package rpc
 
 import (
 	"bufio"
-	"encoding/gob"
+	"encoding/golangb"
 	"errors"
 	"io"
 	"log"
@@ -37,7 +37,7 @@ type Call struct {
 // Client represents an RPC Client.
 // There may be multiple outstanding Calls associated
 // with a single Client, and a Client may be used by
-// multiple goroutines simultaneously.
+// multiple golangroutines simultaneously.
 type Client struct {
 	codec ClientCodec
 
@@ -118,7 +118,7 @@ func (client *Client) input() {
 
 		switch {
 		case call == nil:
-			// We've got no pending call. That usually means that
+			// We've golangt no pending call. That usually means that
 			// WriteRequest partially failed, and call was already
 			// removed; response is a server telling us about an
 			// error reading request body. We should still attempt
@@ -128,7 +128,7 @@ func (client *Client) input() {
 				err = errors.New("reading error body: " + err.Error())
 			}
 		case response.Error != "":
-			// We've got an error response. Give this to the request;
+			// We've golangt an error response. Give this to the request;
 			// any subsequent requests will get the ReadResponseBody
 			// error if there is one.
 			call.Error = ServerError(response.Error)
@@ -192,7 +192,7 @@ func (call *Call) done() {
 // concurrent reads or concurrent writes.
 func NewClient(conn io.ReadWriteCloser) *Client {
 	encBuf := bufio.NewWriter(conn)
-	client := &gobClientCodec{conn, gob.NewDecoder(conn), gob.NewEncoder(encBuf), encBuf}
+	client := &golangbClientCodec{conn, golangb.NewDecoder(conn), golangb.NewEncoder(encBuf), encBuf}
 	return NewClientWithCodec(client)
 }
 
@@ -203,18 +203,18 @@ func NewClientWithCodec(codec ClientCodec) *Client {
 		codec:   codec,
 		pending: make(map[uint64]*Call),
 	}
-	go client.input()
+	golang client.input()
 	return client
 }
 
-type gobClientCodec struct {
+type golangbClientCodec struct {
 	rwc    io.ReadWriteCloser
-	dec    *gob.Decoder
-	enc    *gob.Encoder
+	dec    *golangb.Decoder
+	enc    *golangb.Encoder
 	encBuf *bufio.Writer
 }
 
-func (c *gobClientCodec) WriteRequest(r *Request, body any) (err error) {
+func (c *golangbClientCodec) WriteRequest(r *Request, body any) (err error) {
 	if err = c.enc.Encode(r); err != nil {
 		return
 	}
@@ -224,15 +224,15 @@ func (c *gobClientCodec) WriteRequest(r *Request, body any) (err error) {
 	return c.encBuf.Flush()
 }
 
-func (c *gobClientCodec) ReadResponseHeader(r *Response) error {
+func (c *golangbClientCodec) ReadResponseHeader(r *Response) error {
 	return c.dec.Decode(r)
 }
 
-func (c *gobClientCodec) ReadResponseBody(body any) error {
+func (c *golangbClientCodec) ReadResponseBody(body any) error {
 	return c.dec.Decode(body)
 }
 
-func (c *gobClientCodec) Close() error {
+func (c *golangbClientCodec) Close() error {
 	return c.rwc.Close()
 }
 

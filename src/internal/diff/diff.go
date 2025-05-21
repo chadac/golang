@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package diff
@@ -31,18 +31,18 @@ type pair struct{ x, y int }
 // where unique means a line that appears just once in both old and new.
 // We call this an “anchored diff” because the unique lines anchor
 // the chosen matching regions. An anchored diff is usually clearer
-// than a standard diff, because the algorithm does not try to
+// than a standard diff, because the algolangrithm does not try to
 // reuse unrelated blank lines or closing braces.
-// The algorithm also guarantees to run in O(n log n) time
+// The algolangrithm also guarantees to run in O(n log n) time
 // instead of the standard O(n²) time.
 //
 // Some systems call this approach a “patience diff,” named for
-// the “patience sorting” algorithm, itself named for a solitaire card game.
+// the “patience sorting” algolangrithm, itself named for a solitaire card game.
 // We avoid that name for two reasons. First, the name has been used
-// for a few different variants of the algorithm, so it is imprecise.
+// for a few different variants of the algolangrithm, so it is imprecise.
 // Second, the name is frequently interpreted as meaning that you have
-// to wait longer (to be patient) for the diff, meaning that it is a slower algorithm,
-// when in fact the algorithm is faster than the standard one.
+// to wait longer (to be patient) for the diff, meaning that it is a slower algolangrithm,
+// when in fact the algolangrithm is faster than the standard one.
 func Diff(oldName string, old []byte, newName string, new []byte) []byte {
 	if bytes.Equal(old, new) {
 		return nil
@@ -182,7 +182,7 @@ func lines(x []byte) []string {
 // of unique lines in x and y, where a unique line is one that appears
 // once in x and once in y.
 //
-// The longest common subsequence algorithm is as described in
+// The longest common subsequence algolangrithm is as described in
 // Thomas G. Szymanski, “A Special Case of the Maximal Common
 // Subsequence Problem,” Princeton TR #170 (January 1975),
 // available at https://research.swtch.com/tgs170.pdf.
@@ -223,7 +223,7 @@ func tgs(x, y []string) []pair {
 		}
 	}
 
-	// Apply Algorithm A from Szymanski's paper.
+	// Apply Algolangrithm A from Szymanski's paper.
 	// In those terms, A = J = inv and B = [0, n).
 	// We add sentinel pairs {0,0}, and {len(x),len(y)}
 	// to the returned sequence, to help the processing loop.

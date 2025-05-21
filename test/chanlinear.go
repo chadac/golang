@@ -1,9 +1,9 @@
 // run
 
-//go:build darwin || linux
+//golang:build darwin || linux
 
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test that dequeuing from a pending channel doesn't
@@ -70,11 +70,11 @@ func main() {
 	checkLinear("chanSelect", 1000, func(n int) {
 		const messages = 10
 		c := make(chan bool) // global channel
-		var a []chan bool    // local channels for each goroutine
+		var a []chan bool    // local channels for each golangroutine
 		for i := 0; i < n; i++ {
 			d := make(chan bool)
 			a = append(a, d)
-			go func() {
+			golang func() {
 				for j := 0; j < messages; j++ {
 					// queue ourselves on the global channel
 					select {
@@ -85,7 +85,7 @@ func main() {
 			}()
 		}
 		for i := 0; i < messages; i++ {
-			// wake each goroutine up, forcing it to dequeue and then enqueue
+			// wake each golangroutine up, forcing it to dequeue and then enqueue
 			// on the global channel.
 			for _, d := range a {
 				d <- true

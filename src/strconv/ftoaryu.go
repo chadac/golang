@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package strconv
@@ -8,12 +8,12 @@ import (
 	"math/bits"
 )
 
-// binary to decimal conversion using the Ryū algorithm.
+// binary to decimal conversion using the Ryū algolangrithm.
 //
 // See Ulf Adams, "Ryū: Fast Float-to-String Conversion" (doi:10.1145/3192366.3192369)
 //
 // Fixed precision formatting is a variant of the original paper's
-// algorithm, where a single multiplication by 10^k is required,
+// algolangrithm, where a single multiplication by 10^k is required,
 // sharing the same rounding guarantees.
 
 // ryuFtoaFixed32 formats mant*(2^exp) with prec decimal digits.
@@ -244,7 +244,7 @@ func ryuFtoaShortest(d *decimalSlice, mant uint64, exp int, flt *floatInfo) {
 	// Find 10^q *larger* than 2^-e2
 	q := mulByLog2Log10(-e2) + 1
 
-	// We are going to multiply by 10^q using 128-bit arithmetic.
+	// We are golanging to multiply by 10^q using 128-bit arithmetic.
 	// The exponent is the same for all 3 numbers.
 	var dl, dc, du uint64
 	var dl0, dc0, du0 bool
@@ -424,12 +424,12 @@ func ryuDigits32(d *decimalSlice, lower, central, upper uint32,
 		// l = Ceil(lower / 10^k)
 		// c = Round(central / 10^k)
 		// u = Floor(upper / 10^k)
-		// and stop when c goes out of the (l, u) interval.
+		// and stop when c golanges out of the (l, u) interval.
 		l := (lower + 9) / 10
 		c, cdigit := central/10, central%10
 		u := upper / 10
 		if l > u {
-			// don't trim the last digit as it is forbidden to go below l
+			// don't trim the last digit as it is forbidden to golang below l
 			// other, trim and exit now.
 			break
 		}

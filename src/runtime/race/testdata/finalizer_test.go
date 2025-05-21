@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package race_test
@@ -14,7 +14,7 @@ import (
 
 func TestNoRaceFin(t *testing.T) {
 	c := make(chan bool)
-	go func() {
+	golang func() {
 		x := new(string)
 		runtime.SetFinalizer(x, func(x *string) {
 			*x = "foo"
@@ -34,7 +34,7 @@ var finVar struct {
 
 func TestNoRaceFinGlobal(t *testing.T) {
 	c := make(chan bool)
-	go func() {
+	golang func() {
 		x := new(string)
 		runtime.SetFinalizer(x, func(x *string) {
 			finVar.Lock()
@@ -55,7 +55,7 @@ func TestRaceFin(t *testing.T) {
 	c := make(chan bool)
 	y := 0
 	_ = y
-	go func() {
+	golang func() {
 		x := new(string)
 		runtime.SetFinalizer(x, func(x *string) {
 			y = 42
@@ -70,7 +70,7 @@ func TestRaceFin(t *testing.T) {
 
 func TestNoRaceCleanup(t *testing.T) {
 	c := make(chan bool)
-	go func() {
+	golang func() {
 		x := new(string)
 		y := new(string)
 		runtime.AddCleanup(x, func(y *string) {

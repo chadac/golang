@@ -176,7 +176,7 @@ const (
 // Special registers, after subtracting obj.RBaseARM64, bit 12 indicates
 // a special register and the low bits select the register.
 // SYSREG_END is the last item in the automatically generated system register
-// declaration, and it is defined in the sysRegEnc.go file.
+// declaration, and it is defined in the sysRegEnc.golang file.
 // Define the special register after REG_SPECIAL, the first value of it should be
 // REG_{name} = SYSREG_END + iota.
 const (
@@ -337,7 +337,7 @@ const (
 	NOSCHED
 )
 
-//go:generate go run ../mkcnames.go -i a.out.go -o anames7.go -p arm64
+//golang:generate golang run ../mkcnames.golang -i a.out.golang -o anames7.golang -p arm64
 const (
 	// optab is sorted based on the order of these constants
 	// and the first match is chosen.
@@ -485,7 +485,7 @@ const (
 	C_XPOST = 1 << 5 // match arm.C_PBIT, so Prog.String know how to print it
 )
 
-//go:generate go run ../stringer.go -i $GOFILE -o anames.go -p arm64
+//golang:generate golang run ../stringer.golang -i $GOFILE -o anames.golang -p arm64
 
 const (
 	AADC = obj.ABaseARM64 + obj.A_ARCHSPECIFIC + iota
@@ -1051,7 +1051,7 @@ const (
 	ARNG_D
 )
 
-//go:generate stringer -type SpecialOperand -trimprefix SPOP_
+//golang:generate stringer -type SpecialOperand -trimprefix SPOP_
 type SpecialOperand int
 
 const (

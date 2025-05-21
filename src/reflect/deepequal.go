@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Deep equality test via reflection
@@ -12,7 +12,7 @@ import (
 )
 
 // During deepValueEqual, must keep track of checks that are
-// in progress. The comparison algorithm assumes that all
+// in progress. The comparison algolangrithm assumes that all
 // checks in progress are true when it reencounters them.
 // Visited comparisons are stored in a map indexed by visit.
 type visit struct {
@@ -43,7 +43,7 @@ func deepValueEqual(v1, v2 Value, visited map[visit]bool) bool {
 				// not-in-heap pointers can't be cyclic.
 				// At least, all of our current uses of internal/runtime/sys.NotInHeap
 				// have that property. The runtime ones aren't cyclic (and we don't use
-				// DeepEqual on them anyway), and the cgo-generated ones are
+				// DeepEqual on them anyway), and the cgolang-generated ones are
 				// all empty structs.
 				return false
 			}

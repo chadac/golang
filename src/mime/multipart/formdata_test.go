@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package multipart
@@ -91,7 +91,7 @@ func TestReadFormMaxMemoryOverflow(t *testing.T) {
 }
 
 func TestReadFormWithTextContentType(t *testing.T) {
-	// From https://github.com/golang/go/issues/24041
+	// From https://github.com/golanglang/golang/issues/24041
 	b := strings.NewReader(strings.ReplaceAll(messageWithTextContentType, "\n", "\r\n"))
 	r := NewReader(b, boundary)
 	f, err := r.ReadForm(25)
@@ -248,7 +248,7 @@ Content-Disposition: form-data; name="largetext"
 			continue
 		}
 		if g := f.Value["largetext"][0]; g != largeTextValue {
-			t.Errorf("largetext mismatch: got size: %v, expected size: %v", len(g), len(largeTextValue))
+			t.Errorf("largetext mismatch: golangt size: %v, expected size: %v", len(g), len(largeTextValue))
 		}
 		f.RemoveAll()
 		if maxMemory < failWhenMaxMemoryLessThan {
@@ -344,8 +344,8 @@ func testReadFormManyFiles(t *testing.T, distinct bool) {
 	}
 	for i := 0; i < numFiles; i++ {
 		name := fmt.Sprint(i)
-		if got := len(form.File[name]); got != 1 {
-			t.Fatalf("form.File[%q] has %v entries, want 1", name, got)
+		if golangt := len(form.File[name]); golangt != 1 {
+			t.Fatalf("form.File[%q] has %v entries, want 1", name, golangt)
 		}
 		fh := form.File[name][0]
 		file, err := fh.Open()
@@ -357,10 +357,10 @@ func testReadFormManyFiles(t *testing.T, distinct bool) {
 				t.Fatalf("form.File[%q].Open: %T, want *os.File", name, file)
 			}
 		}
-		got, err := io.ReadAll(file)
+		golangt, err := io.ReadAll(file)
 		file.Close()
-		if string(got) != name || err != nil {
-			t.Fatalf("read form.File[%q]: %q, %v; want %q, nil", name, string(got), err, name)
+		if string(golangt) != name || err != nil {
+			t.Fatalf("read form.File[%q]: %q, %v; want %q, nil", name, string(golangt), err, name)
 		}
 	}
 	dir, err := os.Open(fr.tempDir)
@@ -397,7 +397,7 @@ func TestReadFormLimits(t *testing.T) {
 		files            int
 		extraKeysPerFile int
 		wantErr          error
-		godebug          string
+		golangdebug          string
 	}{
 		{values: 1000},
 		{values: 1001, wantErr: ErrMessageTooLarge},
@@ -407,18 +407,18 @@ func TestReadFormLimits(t *testing.T) {
 		{files: 1001, wantErr: ErrMessageTooLarge},
 		{files: 1, extraKeysPerFile: 9998}, // plus Content-Disposition and Content-Type
 		{files: 1, extraKeysPerFile: 10000, wantErr: ErrMessageTooLarge},
-		{godebug: "multipartmaxparts=100", values: 100},
-		{godebug: "multipartmaxparts=100", values: 101, wantErr: ErrMessageTooLarge},
-		{godebug: "multipartmaxheaders=100", files: 2, extraKeysPerFile: 48},
-		{godebug: "multipartmaxheaders=100", files: 2, extraKeysPerFile: 50, wantErr: ErrMessageTooLarge},
+		{golangdebug: "multipartmaxparts=100", values: 100},
+		{golangdebug: "multipartmaxparts=100", values: 101, wantErr: ErrMessageTooLarge},
+		{golangdebug: "multipartmaxheaders=100", files: 2, extraKeysPerFile: 48},
+		{golangdebug: "multipartmaxheaders=100", files: 2, extraKeysPerFile: 50, wantErr: ErrMessageTooLarge},
 	} {
 		name := fmt.Sprintf("values=%v/files=%v/extraKeysPerFile=%v", test.values, test.files, test.extraKeysPerFile)
-		if test.godebug != "" {
-			name += fmt.Sprintf("/godebug=%v", test.godebug)
+		if test.golangdebug != "" {
+			name += fmt.Sprintf("/golangdebug=%v", test.golangdebug)
 		}
 		t.Run(name, func(t *testing.T) {
-			if test.godebug != "" {
-				t.Setenv("GODEBUG", test.godebug)
+			if test.golangdebug != "" {
+				t.Setenv("GODEBUG", test.golangdebug)
 			}
 			var buf bytes.Buffer
 			fw := NewWriter(&buf)

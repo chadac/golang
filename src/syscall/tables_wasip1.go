@@ -1,8 +1,8 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build wasip1
+//golang:build wasip1
 
 package syscall
 
@@ -87,7 +87,7 @@ const (
 	EXDEV           Errno = 75
 	ENOTCAPABLE     Errno = 76
 	EBADFD          Errno = 77
-	// needed by src/net/error_unix_test.go
+	// needed by src/net/error_unix_test.golang
 	EOPNOTSUPP = ENOTSUP
 )
 
@@ -189,8 +189,8 @@ var (
 // in the performance of syscall functions since the time is dominated by calls
 // to the imports and path resolution.
 //
-//go:noinline
-//go:nosplit
+//golang:noinline
+//golang:nosplit
 func errnoErr(e Errno) error {
 	switch e {
 	case 0:

@@ -7,7 +7,7 @@ module example.com/downgrade/v2
 require rsc.io/quote v1.5.2
 -- .info --
 {"Version":"v2.0.1"}
--- go.mod --
+-- golang.mod --
 module example.com/downgrade/v2
 
 require rsc.io/quote v1.5.2

@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package norm
@@ -304,7 +304,7 @@ func (rb *reorderBuffer) bytesAt(n int) []byte {
 	return rb.byte[inf.pos : int(inf.pos)+int(inf.size)]
 }
 
-// For Hangul we combine algorithmically, instead of using tables.
+// For Hangul we combine algolangrithmically, instead of using tables.
 const (
 	hangulBase  = 0xAC00 // UTF-8(hangulBase) -> EA B0 80
 	hangulBase0 = 0xEA
@@ -405,7 +405,7 @@ func decomposeHangul(buf []byte, r rune) int {
 	return 2 * JamoUTF8Len
 }
 
-// decomposeHangul algorithmically decomposes a Hangul rune into
+// decomposeHangul algolangrithmically decomposes a Hangul rune into
 // its Jamo components.
 // See https://unicode.org/reports/tr15/#Hangul for details on decomposing Hangul.
 func (rb *reorderBuffer) decomposeHangul(r rune) {
@@ -419,7 +419,7 @@ func (rb *reorderBuffer) decomposeHangul(r rune) {
 	}
 }
 
-// combineHangul algorithmically combines Jamo character components into Hangul.
+// combineHangul algolangrithmically combines Jamo character components into Hangul.
 // See https://unicode.org/reports/tr15/#Hangul for details on combining Hangul.
 func (rb *reorderBuffer) combineHangul(s, i, k int) {
 	b := rb.rune[:]

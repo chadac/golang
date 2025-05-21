@@ -1,5 +1,5 @@
 // Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -69,7 +69,7 @@ func waitForMaxProcsChange(from, to int) {
 			return
 		}
 		if procs != from {
-			panic(fmt.Sprintf("GOMAXPROCS change got %d want %d", procs, to))
+			panic(fmt.Sprintf("GOMAXPROCS change golangt %d want %d", procs, to))
 		}
 
 		time.Sleep(100*time.Millisecond)
@@ -90,7 +90,7 @@ func mustNotChangeMaxProcs(curr int) {
 		procs := runtime.GOMAXPROCS(0)
 		println("GOMAXPROCS:", procs)
 		if procs != curr {
-			panic(fmt.Sprintf("GOMAXPROCS change got %d want %d", procs, curr))
+			panic(fmt.Sprintf("GOMAXPROCS change golangt %d want %d", procs, curr))
 		}
 
 		time.Sleep(100*time.Millisecond)
@@ -107,7 +107,7 @@ func UpdateGOMAXPROCS() {
 	procs := runtime.GOMAXPROCS(0)
 	println("GOMAXPROCS:", procs)
 	if procs != ncpu {
-		panic(fmt.Sprintf("GOMAXPROCS got %d want %d", procs, ncpu))
+		panic(fmt.Sprintf("GOMAXPROCS golangt %d want %d", procs, ncpu))
 	}
 
 	path := os.Getenv("GO_TEST_CPU_MAX_PATH")

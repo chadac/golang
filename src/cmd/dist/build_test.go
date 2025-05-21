@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -12,13 +12,13 @@ import (
 // TestMustLinkExternal verifies that the mustLinkExternal helper
 // function matches internal/platform.MustLinkExternal.
 func TestMustLinkExternal(t *testing.T) {
-	for _, goos := range okgoos {
-		for _, goarch := range okgoarch {
-			for _, cgoEnabled := range []bool{true, false} {
-				got := mustLinkExternal(goos, goarch, cgoEnabled)
-				want := platform.MustLinkExternal(goos, goarch, cgoEnabled)
-				if got != want {
-					t.Errorf("mustLinkExternal(%q, %q, %v) = %v; want %v", goos, goarch, cgoEnabled, got, want)
+	for _, golangos := range okgolangos {
+		for _, golangarch := range okgolangarch {
+			for _, cgolangEnabled := range []bool{true, false} {
+				golangt := mustLinkExternal(golangos, golangarch, cgolangEnabled)
+				want := platform.MustLinkExternal(golangos, golangarch, cgolangEnabled)
+				if golangt != want {
+					t.Errorf("mustLinkExternal(%q, %q, %v) = %v; want %v", golangos, golangarch, cgolangEnabled, golangt, want)
 				}
 			}
 		}
@@ -36,8 +36,8 @@ func TestRequiredBootstrapVersion(t *testing.T) {
 	}
 
 	for v, want := range testCases {
-		if got := requiredBootstrapVersion(v); got != want {
-			t.Errorf("requiredBootstrapVersion(%v): got %v, want %v", v, got, want)
+		if golangt := requiredBootstrapVersion(v); golangt != want {
+			t.Errorf("requiredBootstrapVersion(%v): golangt %v, want %v", v, golangt, want)
 		}
 	}
 }

@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ir
@@ -51,7 +51,7 @@ import (
 // the generated ODCLFUNC, but there is no
 // pointer from the Func back to the OMETHVALUE.
 type Func struct {
-	// if you add or remove a field, don't forget to update sizeof_test.go
+	// if you add or remove a field, don't forget to update sizeof_test.golang
 
 	miniNode
 	Body Nodes
@@ -99,22 +99,22 @@ type Func struct {
 	// the closure for the body of a range function.
 	RangeParent *Func
 
-	// funcLitGen, rangeLitGen and goDeferGen track how many closures have been
+	// funcLitGen, rangeLitGen and golangDeferGen track how many closures have been
 	// created in this function for function literals, range-over-func loops,
-	// and go/defer wrappers, respectively. Used by closureName for creating
+	// and golang/defer wrappers, respectively. Used by closureName for creating
 	// unique function names.
-	// Tracking goDeferGen separately avoids wrappers throwing off
+	// Tracking golangDeferGen separately avoids wrappers throwing off
 	// function literal numbering (e.g., runtime/trace_test.TestTraceSymbolize.func11).
 	funcLitGen  int32
 	rangeLitGen int32
-	goDeferGen  int32
+	golangDeferGen  int32
 
 	Label int32 // largest auto-generated label in this function
 
 	Endlineno src.XPos
 	WBPos     src.XPos // position of first write barrier; see SetWBPos
 
-	Pragma PragmaFlag // go:xxx function annotations
+	Pragma PragmaFlag // golang:xxx function annotations
 
 	flags bitset16
 
@@ -136,29 +136,29 @@ type Func struct {
 	NumReturns int32 // number of explicit returns in the function
 
 	// NWBRCalls records the LSyms of functions called by this
-	// function for go:nowritebarrierrec analysis. Only filled in
+	// function for golang:nowritebarrierrec analysis. Only filled in
 	// if nowritebarrierrecCheck != nil.
 	NWBRCalls *[]SymAndPos
 
 	// For wrapper functions, WrappedFunc point to the original Func.
-	// Currently only used for go/defer wrappers.
+	// Currently only used for golang/defer wrappers.
 	WrappedFunc *Func
 
-	// WasmImport is used by the //go:wasmimport directive to store info about
+	// WasmImport is used by the //golang:wasmimport directive to store info about
 	// a WebAssembly function import.
 	WasmImport *WasmImport
-	// WasmExport is used by the //go:wasmexport directive to store info about
+	// WasmExport is used by the //golang:wasmexport directive to store info about
 	// a WebAssembly function import.
 	WasmExport *WasmExport
 }
 
-// WasmImport stores metadata associated with the //go:wasmimport pragma.
+// WasmImport stores metadata associated with the //golang:wasmimport pragma.
 type WasmImport struct {
 	Module string
 	Name   string
 }
 
-// WasmExport stores metadata associated with the //go:wasmexport pragma.
+// WasmExport stores metadata associated with the //golang:wasmexport pragma.
 type WasmExport struct {
 	Name string
 }
@@ -445,7 +445,7 @@ func closureName(outerfn *Func, pos src.XPos, why Op) *types.Sym {
 	case ORANGE:
 		suffix = "-range"
 	case OGO:
-		suffix = ".gowrap"
+		suffix = ".golangwrap"
 	case ODEFER:
 		suffix = ".deferwrap"
 	}
@@ -464,7 +464,7 @@ func closureName(outerfn *Func, pos src.XPos, why Op) *types.Sym {
 		case ORANGE:
 			gen = &outerfn.rangeLitGen
 		default:
-			gen = &outerfn.goDeferGen
+			gen = &outerfn.golangDeferGen
 		}
 	}
 
@@ -561,7 +561,7 @@ func IsIfaceOfFunc(n Node) *Func {
 // assertion?
 func FuncPC(pos src.XPos, n Node, wantABI obj.ABI) Node {
 	if !n.Type().IsInterface() {
-		base.ErrorfAt(pos, 0, "internal/abi.FuncPC%s expects an interface value, got %v", wantABI, n.Type())
+		base.ErrorfAt(pos, 0, "internal/abi.FuncPC%s expects an interface value, golangt %v", wantABI, n.Type())
 	}
 
 	if fn := IsIfaceOfFunc(n); fn != nil {

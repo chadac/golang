@@ -1,5 +1,5 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package auth
@@ -49,7 +49,7 @@ func runAuthCommand(command string, url string, res *http.Response) (map[string]
 // returns a mapping of prefix → http.Header without the leading "https://"
 // or an error if the data does not follow the expected format.
 // Returns an nil error and an empty map if the data is empty.
-// See the expected format in 'go help goauth'.
+// See the expected format in 'golang help golangauth'.
 func parseUserAuth(data string) (map[string]http.Header, error) {
 	credentials := make(map[string]http.Header)
 	for data != "" {

@@ -9,7 +9,7 @@ Bools are written as uint32s: 0 for false and 1 for true.
 
 The following is the format for a full module:
 
-“go index v2\n”
+“golang index v2\n”
 str uint32 - offset of string table
 n uint32 - number of packages
 for each rawPackage:
@@ -28,8 +28,8 @@ for each rawPackage:
 		pkgName - string offset
 		ignoreFile - int32 bool // report the file in Ignored(Go|Other)Files because there was an error reading it or parsing its build constraints.
 		binaryOnly uint32 bool
-		cgoDirectives string offset // the #cgo directive lines in the comment on import "C"
-		goBuildConstraint  - string offset
+		cgolangDirectives string offset // the #cgolang directive lines in the comment on import "C"
+		golangBuildConstraint  - string offset
 		len(plusBuildConstraints) - uint32
 		plusBuildConstraints - [n]uint32 (string offsets)
 		len(imports) uint32
@@ -49,7 +49,7 @@ for each rawPackage:
 
 The following is the format for a single indexed package:
 
-“go index v0\n”
+“golang index v0\n”
 str uint32 - offset of string table
 for the single RawPackage:
 	[same RawPackage format as above]

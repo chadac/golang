@@ -1,18 +1,18 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
 
 import (
-	"cmd/go/internal/base"
+	"cmd/golang/internal/base"
 	"os"
 	"strings"
 	"testing"
 )
 
 func TestChdir(t *testing.T) {
-	// We want -C to apply to every go subcommand.
+	// We want -C to apply to every golang subcommand.
 	// Test that every command either has a -C flag registered
 	// or has CustomFlags set. In the latter case, the command
 	// must be explicitly tested in TestScript/chdir.
@@ -45,5 +45,5 @@ func TestChdir(t *testing.T) {
 			t.Errorf("%s has -C flag but not from AddChdirFlag", name)
 		}
 	}
-	walk("go", base.Go)
+	walk("golang", base.Go)
 }

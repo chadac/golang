@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package fs_test
@@ -17,11 +17,11 @@ var globTests = []struct {
 	fs              FS
 	pattern, result string
 }{
-	{os.DirFS("."), "glob.go", "glob.go"},
-	{os.DirFS("."), "gl?b.go", "glob.go"},
-	{os.DirFS("."), `gl\ob.go`, "glob.go"},
-	{os.DirFS("."), "*", "glob.go"},
-	{os.DirFS(".."), "*/glob.go", "fs/glob.go"},
+	{os.DirFS("."), "glob.golang", "glob.golang"},
+	{os.DirFS("."), "gl?b.golang", "glob.golang"},
+	{os.DirFS("."), `gl\ob.golang`, "glob.golang"},
+	{os.DirFS("."), "*", "glob.golang"},
+	{os.DirFS(".."), "*/glob.golang", "fs/glob.golang"},
 }
 
 func TestGlob(t *testing.T) {

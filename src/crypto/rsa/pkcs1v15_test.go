@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package rsa_test
@@ -73,7 +73,7 @@ func TestDecryptPKCS1v15(t *testing.T) {
 			}
 			want := []byte(test.out)
 			if !bytes.Equal(out, want) {
-				t.Errorf("#%d got:%#v want:%#v", i, out, want)
+				t.Errorf("#%d golangt:%#v want:%#v", i, out, want)
 			}
 		}
 	}
@@ -150,7 +150,7 @@ func TestEncryptPKCS1v15SessionKey(t *testing.T) {
 		}
 		want := []byte(test.out)
 		if !bytes.Equal(key, want) {
-			t.Errorf("#%d got:%#v want:%#v", i, key, want)
+			t.Errorf("#%d golangt:%#v want:%#v", i, key, want)
 		}
 	}
 }
@@ -163,11 +163,11 @@ func TestEncryptPKCS1v15DecrypterSessionKey(t *testing.T) {
 			t.Fatalf("#%d: error decrypting: %s", i, err)
 		}
 		if len(plaintext) != 4 {
-			t.Fatalf("#%d: incorrect length plaintext: got %d, want 4", i, len(plaintext))
+			t.Fatalf("#%d: incorrect length plaintext: golangt %d, want 4", i, len(plaintext))
 		}
 
 		if test.out != "FAIL" && !bytes.Equal(plaintext, []byte(test.out)) {
-			t.Errorf("#%d: incorrect plaintext: got %x, want %x", i, plaintext, test.out)
+			t.Errorf("#%d: incorrect plaintext: golangt %x, want %x", i, plaintext, test.out)
 		}
 	}
 }
@@ -213,7 +213,7 @@ func TestSignPKCS1v15(t *testing.T) {
 
 		expected, _ := hex.DecodeString(test.out)
 		if !bytes.Equal(s, expected) {
-			t.Errorf("#%d got: %x want: %x", i, s, expected)
+			t.Errorf("#%d golangt: %x want: %x", i, s, expected)
 		}
 	}
 }
@@ -260,7 +260,7 @@ func TestUnpaddedSignature(t *testing.T) {
 		t.Fatalf("SignPKCS1v15 failed: %s", err)
 	}
 	if !bytes.Equal(sig, expectedSig) {
-		t.Fatalf("signature is not expected value: got %x, want %x", sig, expectedSig)
+		t.Fatalf("signature is not expected value: golangt %x, want %x", sig, expectedSig)
 	}
 	if err := VerifyPKCS1v15(&test512Key.PublicKey, crypto.Hash(0), msg, sig); err != nil {
 		t.Fatalf("signature failed to verify: %s", err)

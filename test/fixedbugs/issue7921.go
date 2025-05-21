@@ -1,9 +1,9 @@
 // errorcheck -0 -m
 
-//go:build !gcflags_noopt && !goexperiment.newinliner
+//golang:build !gcflags_noopt && !golangexperiment.newinliner
 
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package foo
@@ -52,7 +52,7 @@ func bufferNoEscape5() { // ERROR "can inline bufferNoEscape5$"
 	useBuffer(b)
 }
 
-//go:noinline
+//golang:noinline
 func useBuffer(b *bytes.Buffer) { // ERROR "b does not escape$"
 	b.WriteString("1234")
 }

@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package cformat_test
@@ -36,15 +36,15 @@ func TestBasics(t *testing.T) {
 	}
 	fm.SetPackage("my/pack1")
 	for k, u := range fn1units {
-		fm.AddUnit("p.go", "f1", false, u, uint32(k))
+		fm.AddUnit("p.golang", "f1", false, u, uint32(k))
 	}
 	for k, u := range fn2units {
-		fm.AddUnit("q.go", "f2", false, u, 0)
-		fm.AddUnit("q.go", "f2", false, u, uint32(k))
+		fm.AddUnit("q.golang", "f2", false, u, 0)
+		fm.AddUnit("q.golang", "f2", false, u, uint32(k))
 	}
 	fm.SetPackage("my/pack2")
 	for _, u := range fn3units {
-		fm.AddUnit("lit.go", "f3", true, u, 0)
+		fm.AddUnit("lit.golang", "f3", true, u, 0)
 	}
 
 	var b1, b2, b3, b4, b5 strings.Builder
@@ -53,15 +53,15 @@ func TestBasics(t *testing.T) {
 	}
 	wantText := strings.TrimSpace(`
 mode: atomic
-p.go:10.0,11.0 2 0
-p.go:15.0,11.0 1 1
-q.go:20.0,25.0 3 0
-q.go:30.0,31.0 2 1
-q.go:33.0,40.0 7 2
-lit.go:99.0,100.0 1 0`)
-	gotText := strings.TrimSpace(b1.String())
-	if wantText != gotText {
-		t.Errorf("emit text: got:\n%s\nwant:\n%s\n", gotText, wantText)
+p.golang:10.0,11.0 2 0
+p.golang:15.0,11.0 1 1
+q.golang:20.0,25.0 3 0
+q.golang:30.0,31.0 2 1
+q.golang:33.0,40.0 7 2
+lit.golang:99.0,100.0 1 0`)
+	golangtText := strings.TrimSpace(b1.String())
+	if wantText != golangtText {
+		t.Errorf("emit text: golangt:\n%s\nwant:\n%s\n", golangtText, wantText)
 	}
 
 	selected := []string{"my/pack2"}
@@ -70,10 +70,10 @@ lit.go:99.0,100.0 1 0`)
 	}
 	wantText = strings.TrimSpace(`
 mode: atomic
-lit.go:99.0,100.0 1 0`)
-	gotText = strings.TrimSpace(b5.String())
-	if wantText != gotText {
-		t.Errorf("emit text: got:\n%s\nwant:\n%s\n", gotText, wantText)
+lit.golang:99.0,100.0 1 0`)
+	golangtText = strings.TrimSpace(b5.String())
+	if wantText != golangtText {
+		t.Errorf("emit text: golangt:\n%s\nwant:\n%s\n", golangtText, wantText)
 	}
 
 	// Percent output with no aggregation.
@@ -85,10 +85,10 @@ lit.go:99.0,100.0 1 0`)
        	my/pack1		coverage: 66.7% of statements
         my/pack2		coverage: 0.0% of statements
 `)
-	gotPercent := strings.Fields(b2.String())
-	if !slices.Equal(wantPercent, gotPercent) {
-		t.Errorf("emit percent: got:\n%+v\nwant:\n%+v\n",
-			gotPercent, wantPercent)
+	golangtPercent := strings.Fields(b2.String())
+	if !slices.Equal(wantPercent, golangtPercent) {
+		t.Errorf("emit percent: golangt:\n%+v\nwant:\n%+v\n",
+			golangtPercent, wantPercent)
 	}
 
 	// Percent mode with aggregation.
@@ -99,22 +99,22 @@ lit.go:99.0,100.0 1 0`)
 	wantPercent = strings.Fields(`
 		coverage: 62.5% of statements in ./...
 `)
-	gotPercent = strings.Fields(b3.String())
-	if !slices.Equal(wantPercent, gotPercent) {
-		t.Errorf("emit percent: got:\n%+v\nwant:\n%+v\n",
-			gotPercent, wantPercent)
+	golangtPercent = strings.Fields(b3.String())
+	if !slices.Equal(wantPercent, golangtPercent) {
+		t.Errorf("emit percent: golangt:\n%+v\nwant:\n%+v\n",
+			golangtPercent, wantPercent)
 	}
 
 	if err := fm.EmitFuncs(&b4); err != nil {
 		t.Fatalf("EmitFuncs returned %v", err)
 	}
 	wantFuncs := strings.TrimSpace(`
-p.go:10:	f1		33.3%
-q.go:20:	f2		75.0%
+p.golang:10:	f1		33.3%
+q.golang:20:	f2		75.0%
 total		(statements)	62.5%`)
-	gotFuncs := strings.TrimSpace(b4.String())
-	if wantFuncs != gotFuncs {
-		t.Errorf("emit funcs: got:\n%s\nwant:\n%s\n", gotFuncs, wantFuncs)
+	golangtFuncs := strings.TrimSpace(b4.String())
+	if wantFuncs != golangtFuncs {
+		t.Errorf("emit funcs: golangt:\n%s\nwant:\n%s\n", golangtFuncs, wantFuncs)
 	}
 	if false {
 		t.Logf("text is %s\n", b1.String())
@@ -133,10 +133,10 @@ total		(statements)	62.5%`)
 		wantPercent := strings.Fields(`
        	my/pack1		coverage: 66.7% of statements
 `)
-		gotPercent := strings.Fields(b.String())
-		if !slices.Equal(wantPercent, gotPercent) {
-			t.Errorf("emit percent: got:\n%+v\nwant:\n%+v\n",
-				gotPercent, wantPercent)
+		golangtPercent := strings.Fields(b.String())
+		if !slices.Equal(wantPercent, golangtPercent) {
+			t.Errorf("emit percent: golangt:\n%+v\nwant:\n%+v\n",
+				golangtPercent, wantPercent)
 		}
 	}
 
@@ -159,10 +159,10 @@ func TestEmptyPackages(t *testing.T) {
        	my/pack1 coverage:	[no statements]
         my/pack2 coverage:	[no statements]
 `)
-		gotPercent := strings.Fields(b.String())
-		if !slices.Equal(wantPercent, gotPercent) {
-			t.Errorf("emit percent: got:\n%+v\nwant:\n%+v\n",
-				gotPercent, wantPercent)
+		golangtPercent := strings.Fields(b.String())
+		if !slices.Equal(wantPercent, golangtPercent) {
+			t.Errorf("emit percent: golangt:\n%+v\nwant:\n%+v\n",
+				golangtPercent, wantPercent)
 		}
 	}
 
@@ -176,10 +176,10 @@ func TestEmptyPackages(t *testing.T) {
 		wantPercent := strings.Fields(`
        	coverage:	[no statements]
 `)
-		gotPercent := strings.Fields(b.String())
-		if !slices.Equal(wantPercent, gotPercent) {
-			t.Errorf("emit percent: got:\n%+v\nwant:\n%+v\n",
-				gotPercent, wantPercent)
+		golangtPercent := strings.Fields(b.String())
+		if !slices.Equal(wantPercent, golangtPercent) {
+			t.Errorf("emit percent: golangt:\n%+v\nwant:\n%+v\n",
+				golangtPercent, wantPercent)
 		}
 	}
 }

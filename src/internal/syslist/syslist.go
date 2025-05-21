@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package syslist stores tables of OS and ARCH names that are
@@ -7,8 +7,8 @@
 
 package syslist
 
-// Note that this file is read by internal/goarch/gengoarch.go and by
-// internal/goos/gengoos.go. If you change this file, look at those
+// Note that this file is read by internal/golangarch/gengolangarch.golang and by
+// internal/golangos/gengolangos.golang. If you change this file, look at those
 // files as well.
 
 // KnownOS is the list of past, present, and future known GOOS values.
@@ -18,7 +18,7 @@ var KnownOS = map[string]bool{
 	"aix":       true,
 	"android":   true,
 	"darwin":    true,
-	"dragonfly": true,
+	"dragolangnfly": true,
 	"freebsd":   true,
 	"hurd":      true,
 	"illumos":   true,
@@ -37,12 +37,12 @@ var KnownOS = map[string]bool{
 
 // UnixOS is the set of GOOS values matched by the "unix" build tag.
 // This is not used for filename matching.
-// This list also appears in cmd/dist/build.go.
+// This list also appears in cmd/dist/build.golang.
 var UnixOS = map[string]bool{
 	"aix":       true,
 	"android":   true,
 	"darwin":    true,
-	"dragonfly": true,
+	"dragolangnfly": true,
 	"freebsd":   true,
 	"hurd":      true,
 	"illumos":   true,

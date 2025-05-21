@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Liveness calculations were wrong for a result parameter pushed onto
@@ -14,14 +14,14 @@ import "errors"
 
 var sink interface{}
 
-//go:noinline
+//golang:noinline
 func f(err *error) {
 	if err != nil {
 		sink = err
 	}
 }
 
-//go:noinline
+//golang:noinline
 func A(n, m int64) (res int64, err error) {
 	defer f(&err) // output parameter's address escapes to a defer.
 	if n < 0 {
@@ -39,7 +39,7 @@ func A(n, m int64) (res int64, err error) {
 }
 
 // B does a little bit of recursion dribbling not-zero onto the stack.
-//go:noinline
+//golang:noinline
 func B(n int64) (res int64) {
 	if n <= 1 { // Prefer to leave a 1 on the stack.
 		return n

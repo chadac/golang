@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package net
@@ -12,7 +12,7 @@ import (
 	_ "unsafe" // for linkname
 )
 
-// BUG(rsc,mikio): On DragonFly BSD and OpenBSD, listening on the
+// BUG(rsc,mikio): On DragolangnFly BSD and OpenBSD, listening on the
 // "tcp" and "udp" networks does not listen for both IPv4 and IPv6
 // connections. This is due to the fact that IPv4 traffic will not be
 // routed to an IPv6 socket - two separate sockets are required if
@@ -49,7 +49,7 @@ func supportsIPv4map() bool {
 	// Some operating systems provide no support for mapping IPv4
 	// addresses to IPv6, and a runtime check is unnecessary.
 	switch runtime.GOOS {
-	case "dragonfly", "openbsd":
+	case "dragolangnfly", "openbsd":
 		return false
 	}
 
@@ -106,7 +106,7 @@ func (addrs addrList) first(strategy func(Addr) bool) Addr {
 	return addrs[0]
 }
 
-// partition divides an address list into two categories, using a
+// partition divides an address list into two categolangries, using a
 // strategy function to assign a boolean label to each address.
 // The first address, and any with a matching label, are returned as
 // primaries, while addresses with the opposite label are returned
@@ -311,14 +311,14 @@ func (r *Resolver) internetAddrList(ctx context.Context, net, addr string) (addr
 // loopbackIP should be an internal detail,
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
-//   - github.com/database64128/tfo-go/v2
-//   - github.com/metacubex/tfo-go
-//   - github.com/sagernet/tfo-go
+//   - github.com/database64128/tfo-golang/v2
+//   - github.com/metacubex/tfo-golang
+//   - github.com/sagernet/tfo-golang
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname loopbackIP
+//golang:linkname loopbackIP
 func loopbackIP(net string) IP {
 	if net != "" && net[len(net)-1] == '6' {
 		return IPv6loopback

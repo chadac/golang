@@ -1,14 +1,14 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build (linux || freebsd || openbsd) && riscv64
+//golang:build (linux || freebsd || openbsd) && riscv64
 
 package runtime
 
 import (
 	"internal/abi"
-	"internal/goarch"
+	"internal/golangarch"
 	"unsafe"
 )
 
@@ -47,8 +47,8 @@ func dumpregs(c *sigctxt) {
 	print("pc  ", hex(c.pc()), "\n")
 }
 
-//go:nosplit
-//go:nowritebarrierrec
+//golang:nosplit
+//golang:nowritebarrierrec
 func (c *sigctxt) sigpc() uintptr { return uintptr(c.pc()) }
 
 func (c *sigctxt) sigsp() uintptr { return uintptr(c.sp()) }
@@ -61,9 +61,9 @@ func (c *sigctxt) preparePanic(sig uint32, gp *g) {
 	// function calls sigpanic directly.
 	// Always save RA to stack so that panics in leaf
 	// functions are correctly handled. This smashes
-	// the stack frame but we're not going back there
+	// the stack frame but we're not golanging back there
 	// anyway.
-	sp := c.sp() - goarch.PtrSize
+	sp := c.sp() - golangarch.PtrSize
 	c.set_sp(sp)
 	*(*uint64)(unsafe.Pointer(uintptr(sp))) = c.ra()
 
@@ -84,7 +84,7 @@ func (c *sigctxt) pushCall(targetPC, resumePC uintptr) {
 	// push the call. The function being pushed is responsible
 	// for restoring the LR and setting the SP back.
 	// This extra slot is known to gentraceback.
-	sp := c.sp() - goarch.PtrSize
+	sp := c.sp() - golangarch.PtrSize
 	c.set_sp(sp)
 	*(*uint64)(unsafe.Pointer(uintptr(sp))) = c.ra()
 	// Set up PC and LR to pretend the function being signaled

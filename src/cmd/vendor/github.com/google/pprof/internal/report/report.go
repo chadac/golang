@@ -9,7 +9,7 @@
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
+// See the License for the specific language golangverning permissions and
 // limitations under the License.
 
 // Package report summarizes a performance profile into a
@@ -28,10 +28,10 @@ import (
 	"text/tabwriter"
 	"time"
 
-	"github.com/google/pprof/internal/graph"
-	"github.com/google/pprof/internal/measurement"
-	"github.com/google/pprof/internal/plugin"
-	"github.com/google/pprof/profile"
+	"github.com/golangogle/pprof/internal/graph"
+	"github.com/golangogle/pprof/internal/measurement"
+	"github.com/golangogle/pprof/internal/plugin"
+	"github.com/golangogle/pprof/profile"
 )
 
 // Output formats.
@@ -274,7 +274,7 @@ func (rpt *Report) newGraph(nodes graph.NodeSet) *graph.Graph {
 		return measurement.ScaledLabel(v, key, o.OutputUnit)
 	}
 
-	gopt := &graph.Options{
+	golangpt := &graph.Options{
 		SampleValue:       o.SampleValue,
 		SampleMeanDivisor: o.SampleMeanDivisor,
 		FormatTag:         formatTag,
@@ -287,10 +287,10 @@ func (rpt *Report) newGraph(nodes graph.NodeSet) *graph.Graph {
 	// remove it to allow merging of functions across binaries.
 	switch o.OutputFormat {
 	case Raw, List, WebList, Dis, Callgrind:
-		gopt.ObjNames = true
+		golangpt.ObjNames = true
 	}
 
-	return graph.New(rpt.prof, gopt)
+	return graph.New(rpt.prof, golangpt)
 }
 
 // printProto writes the incoming proto via the writer w.
@@ -869,7 +869,7 @@ func printTraces(w io.Writer, rpt *Report) error {
 			nodes := locations[loc.ID]
 			for i, n := range nodes {
 				// The inline flag may be inaccurate if 'show' or 'hide' filter is
-				// used. See https://github.com/google/pprof/issues/511.
+				// used. See https://github.com/golangogle/pprof/issues/511.
 				inline := i != len(nodes)-1
 				stack = append(stack, stk{&n.Info, inline})
 			}
@@ -959,7 +959,7 @@ func printCallgrind(w io.Writer, rpt *Report) error {
 		sv, _ := measurement.Scale(n.FlatValue(), o.SampleUnit, o.OutputUnit)
 		fmt.Fprintf(w, "%s %d %d\n", addr, n.Info.Lineno, int64(sv))
 
-		// Print outgoing edges.
+		// Print outgolanging edges.
 		for _, out := range n.Out.Sort() {
 			c, _ := measurement.Scale(out.Weight, o.SampleUnit, o.OutputUnit)
 			callee := out.Dest
@@ -1111,7 +1111,7 @@ func printTree(w io.Writer, rpt *Report) error {
 			measurement.Percentage(cum, rpt.total),
 			name)
 
-		// Print outgoing edges.
+		// Print outgolanging edges.
 		outEdges := n.Out.Sort()
 		for _, out := range outEdges {
 			var inline string

@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime_test
@@ -25,12 +25,12 @@ func TestChan(t *testing.T) {
 			// Ensure that receive from empty chan blocks.
 			c := make(chan int, chanCap)
 			recv1 := false
-			go func() {
+			golang func() {
 				_ = <-c
 				recv1 = true
 			}()
 			recv2 := false
-			go func() {
+			golang func() {
 				_, _ = <-c
 				recv2 = true
 			}()
@@ -60,7 +60,7 @@ func TestChan(t *testing.T) {
 				c <- i
 			}
 			sent := uint32(0)
-			go func() {
+			golang func() {
 				c <- 0
 				atomic.StoreUint32(&sent, 1)
 			}()
@@ -102,7 +102,7 @@ func TestChan(t *testing.T) {
 			// Ensure that close unblocks receive.
 			c := make(chan int, chanCap)
 			done := make(chan bool)
-			go func() {
+			golang func() {
 				v, ok := <-c
 				done <- v == 0 && ok == false
 			}()
@@ -117,7 +117,7 @@ func TestChan(t *testing.T) {
 			// Send 100 integers,
 			// ensure that we receive them non-corrupted in FIFO order.
 			c := make(chan int, chanCap)
-			go func() {
+			golang func() {
 				for i := 0; i < 100; i++ {
 					c <- i
 				}
@@ -130,7 +130,7 @@ func TestChan(t *testing.T) {
 			}
 
 			// Same, but using recv2.
-			go func() {
+			golang func() {
 				for i := 0; i < 100; i++ {
 					c <- i
 				}
@@ -145,12 +145,12 @@ func TestChan(t *testing.T) {
 				}
 			}
 
-			// Send 1000 integers in 4 goroutines,
+			// Send 1000 integers in 4 golangroutines,
 			// ensure that we receive what we send.
 			const P = 4
 			const L = 1000
 			for p := 0; p < P; p++ {
-				go func() {
+				golang func() {
 					for i := 0; i < L; i++ {
 						c <- i
 					}
@@ -158,7 +158,7 @@ func TestChan(t *testing.T) {
 			}
 			done := make(chan map[int]int)
 			for p := 0; p < P; p++ {
-				go func() {
+				golang func() {
 					recv := make(map[int]int)
 					for i := 0; i < L; i++ {
 						v := <-c
@@ -187,13 +187,13 @@ func TestChan(t *testing.T) {
 			// Test len/cap.
 			c := make(chan int, chanCap)
 			if len(c) != 0 || cap(c) != chanCap {
-				t.Fatalf("chan[%d]: bad len/cap, expect %v/%v, got %v/%v", chanCap, 0, chanCap, len(c), cap(c))
+				t.Fatalf("chan[%d]: bad len/cap, expect %v/%v, golangt %v/%v", chanCap, 0, chanCap, len(c), cap(c))
 			}
 			for i := 0; i < chanCap; i++ {
 				c <- i
 			}
 			if len(c) != chanCap || cap(c) != chanCap {
-				t.Fatalf("chan[%d]: bad len/cap, expect %v/%v, got %v/%v", chanCap, chanCap, chanCap, len(c), cap(c))
+				t.Fatalf("chan[%d]: bad len/cap, expect %v/%v, golangt %v/%v", chanCap, chanCap, chanCap, len(c), cap(c))
 			}
 		}
 
@@ -208,7 +208,7 @@ func TestNonblockRecvRace(t *testing.T) {
 	for i := 0; i < n; i++ {
 		c := make(chan int, 1)
 		c <- 1
-		go func() {
+		golang func() {
 			select {
 			case <-c:
 			default:
@@ -225,17 +225,17 @@ func TestNonblockRecvRace(t *testing.T) {
 
 // This test checks that select acts on the state of the channels at one
 // moment in the execution, not over a smeared time window.
-// In the test, one goroutine does:
+// In the test, one golangroutine does:
 //
 //	create c1, c2
 //	make c1 ready for receiving
-//	create second goroutine
+//	create second golangroutine
 //	make c2 ready for receiving
 //	make c1 no longer ready for receiving (if possible)
 //
-// The second goroutine does a non-blocking select receiving from c1 and c2.
-// From the time the second goroutine is created, at least one of c1 and c2
-// is always ready for receiving, so the select in the second goroutine must
+// The second golangroutine does a non-blocking select receiving from c1 and c2.
+// From the time the second golangroutine is created, at least one of c1 and c2
+// is always ready for receiving, so the select in the second golangroutine must
 // always receive from one or the other. It must never execute the default case.
 func TestNonblockSelectRace(t *testing.T) {
 	n := 100000
@@ -247,7 +247,7 @@ func TestNonblockSelectRace(t *testing.T) {
 		c1 := make(chan int, 1)
 		c2 := make(chan int, 1)
 		c1 <- 1
-		go func() {
+		golang func() {
 			select {
 			case <-c1:
 			case <-c2:
@@ -279,7 +279,7 @@ func TestNonblockSelectRace2(t *testing.T) {
 		c1 := make(chan int, 1)
 		c2 := make(chan int)
 		c1 <- 1
-		go func() {
+		golang func() {
 			select {
 			case <-c1:
 			case <-c2:
@@ -310,7 +310,7 @@ func TestSelfSelect(t *testing.T) {
 		c := make(chan int, chanCap)
 		for p := 0; p < 2; p++ {
 			p := p
-			go func() {
+			golang func() {
 				defer wg.Done()
 				for i := 0; i < 1000; i++ {
 					if p == 0 || i%2 == 0 {
@@ -350,30 +350,30 @@ func TestSelectStress(t *testing.T) {
 	if testing.Short() {
 		N /= 10
 	}
-	// There are 4 goroutines that send N values on each of the chans,
-	// + 4 goroutines that receive N values on each of the chans,
-	// + 1 goroutine that sends N values on each of the chans in a single select,
-	// + 1 goroutine that receives N values on each of the chans in a single select.
+	// There are 4 golangroutines that send N values on each of the chans,
+	// + 4 golangroutines that receive N values on each of the chans,
+	// + 1 golangroutine that sends N values on each of the chans in a single select,
+	// + 1 golangroutine that receives N values on each of the chans in a single select.
 	// All these sends, receives and selects interact chaotically at runtime,
 	// but we are careful that this whole construct does not deadlock.
 	var wg sync.WaitGroup
 	wg.Add(10)
 	for k := 0; k < 4; k++ {
 		k := k
-		go func() {
+		golang func() {
 			for i := 0; i < N; i++ {
 				c[k] <- 0
 			}
 			wg.Done()
 		}()
-		go func() {
+		golang func() {
 			for i := 0; i < N; i++ {
 				<-c[k]
 			}
 			wg.Done()
 		}()
 	}
-	go func() {
+	golang func() {
 		var n [4]int
 		c1 := c
 		for i := 0; i < 4*N; i++ {
@@ -402,7 +402,7 @@ func TestSelectStress(t *testing.T) {
 		}
 		wg.Done()
 	}()
-	go func() {
+	golang func() {
 		var n [4]int
 		c1 := c
 		for i := 0; i < 4*N; i++ {
@@ -451,7 +451,7 @@ func TestSelectFairness(t *testing.T) {
 	done := make(chan byte)
 	var wg sync.WaitGroup
 	wg.Add(1)
-	go func() {
+	golang func() {
 		defer wg.Done()
 		for {
 			var b byte
@@ -479,7 +479,7 @@ func TestSelectFairness(t *testing.T) {
 			t.Fatalf("unexpected value %d on channel", b)
 		}
 	}
-	// If the select in the goroutine is fair,
+	// If the select in the golangroutine is fair,
 	// cnt1 and cnt2 should be about the same value.
 	// See if we're more than 10 sigma away from the expected value.
 	// 10 sigma is a lot, but we're ok with some systematic bias as
@@ -517,7 +517,7 @@ func TestPseudoRandomSend(t *testing.T) {
 		l := make([]int, n)
 		var m sync.Mutex
 		m.Lock()
-		go func() {
+		golang func() {
 			for i := 0; i < n; i++ {
 				runtime.Gosched()
 				l[i] = <-c
@@ -538,7 +538,7 @@ func TestPseudoRandomSend(t *testing.T) {
 			n1 += i
 		}
 		if n0 <= n/10 || n1 <= n/10 {
-			t.Errorf("Want pseudorandom, got %d zeros and %d ones (chan cap %d)", n0, n1, chanCap)
+			t.Errorf("Want pseudorandom, golangt %d zeros and %d ones (chan cap %d)", n0, n1, chanCap)
 		}
 	}
 }
@@ -556,7 +556,7 @@ func TestMultiConsumer(t *testing.T) {
 	var wg sync.WaitGroup
 	for i := 0; i < nwork; i++ {
 		wg.Add(1)
-		go func(w int) {
+		golang func(w int) {
 			for v := range q {
 				// mess with the fifo-ish nature of range
 				if pn[w%len(pn)] == v {
@@ -570,7 +570,7 @@ func TestMultiConsumer(t *testing.T) {
 
 	// feeder & closer
 	expect := 0
-	go func() {
+	golang func() {
 		for i := 0; i < niter; i++ {
 			v := pn[i%len(pn)]
 			expect += v
@@ -589,7 +589,7 @@ func TestMultiConsumer(t *testing.T) {
 		s += v
 	}
 	if n != niter || s != expect {
-		t.Errorf("Expected sum %d (got %d) from %d iter (saw %d)",
+		t.Errorf("Expected sum %d (golangt %d) from %d iter (saw %d)",
 			expect, s, niter, n)
 	}
 }
@@ -597,13 +597,13 @@ func TestMultiConsumer(t *testing.T) {
 func TestShrinkStackDuringBlockedSend(t *testing.T) {
 	// make sure that channel operations still work when we are
 	// blocked on a channel send and we shrink the stack.
-	// NOTE: this test probably won't fail unless stack1.go:stackDebug
+	// NOTE: this test probably won't fail unless stack1.golang:stackDebug
 	// is set to >= 1.
 	const n = 10
 	c := make(chan int)
 	done := make(chan struct{})
 
-	go func() {
+	golang func() {
 		for i := 0; i < n; i++ {
 			c <- i
 			// use lots of stack, briefly.
@@ -615,7 +615,7 @@ func TestShrinkStackDuringBlockedSend(t *testing.T) {
 	for i := 0; i < n; i++ {
 		x := <-c
 		if x != i {
-			t.Errorf("bad channel read: want %d, got %d", i, x)
+			t.Errorf("bad channel read: want %d, golangt %d", i, x)
 		}
 		// Waste some time so sender can finish using lots of stack
 		// and block in channel send.
@@ -634,14 +634,14 @@ func TestNoShrinkStackWhileParking(t *testing.T) {
 		testenv.SkipFlaky(t, 51482)
 	}
 
-	// The goal of this test is to trigger a "racy sudog adjustment"
-	// throw. Basically, there's a window between when a goroutine
+	// The golangal of this test is to trigger a "racy sudog adjustment"
+	// throw. Basically, there's a window between when a golangroutine
 	// becomes available for preemption for stack scanning (and thus,
-	// stack shrinking) but before the goroutine has fully parked on a
+	// stack shrinking) but before the golangroutine has fully parked on a
 	// channel. See issue 40641 for more details on the problem.
 	//
 	// The way we try to induce this failure is to set up two
-	// goroutines: a sender and a receiver that communicate across
+	// golangroutines: a sender and a receiver that communicate across
 	// a channel. We try to set up a situation where the sender
 	// grows its stack temporarily then *fully* blocks on a channel
 	// often. Meanwhile a GC is triggered so that we try to get a
@@ -656,7 +656,7 @@ func TestNoShrinkStackWhileParking(t *testing.T) {
 		for i := 0; i < n; i++ {
 			c <- i
 			// Use lots of stack briefly so that
-			// the GC is going to want to shrink us
+			// the GC is golanging to want to shrink us
 			// when it scans us. Make sure not to
 			// do any function calls otherwise
 			// in order to avoid us shrinking ourselves
@@ -677,11 +677,11 @@ func TestNoShrinkStackWhileParking(t *testing.T) {
 	for i := 0; i < n*20; i++ {
 		c := make(chan int)
 		done := make(chan struct{})
-		go recv(c, done)
-		go send(c, done)
+		golang recv(c, done)
+		golang send(c, done)
 		// Wait a little bit before triggering
 		// the GC to make sure the sender and
-		// receiver have gotten into their groove.
+		// receiver have golangtten into their groove.
 		time.Sleep(50 * time.Microsecond)
 		runtime.GC()
 		<-done
@@ -696,8 +696,8 @@ func TestSelectDuplicateChannel(t *testing.T) {
 	d := make(chan int)
 	e := make(chan int)
 
-	// goroutine A
-	go func() {
+	// golangroutine A
+	golang func() {
 		select {
 		case <-c:
 		case <-c:
@@ -705,13 +705,13 @@ func TestSelectDuplicateChannel(t *testing.T) {
 		}
 		e <- 9
 	}()
-	time.Sleep(time.Millisecond) // make sure goroutine A gets queued first on c
+	time.Sleep(time.Millisecond) // make sure golangroutine A gets queued first on c
 
-	// goroutine B
-	go func() {
+	// golangroutine B
+	golang func() {
 		<-c
 	}()
-	time.Sleep(time.Millisecond) // make sure goroutine B gets queued on c before continuing
+	time.Sleep(time.Millisecond) // make sure golangroutine B gets queued on c before continuing
 
 	d <- 7 // wake up A, it dequeues itself from c.  This operation used to corrupt c.recvq.
 	<-e    // A tells us it's done
@@ -766,10 +766,10 @@ func TestSelectStackAdjust(t *testing.T) {
 		ready <- true
 	}
 
-	go f(ready1, false)
-	go f(ready2, true)
+	golang f(ready1, false)
+	golang f(ready2, true)
 
-	// Let the goroutines get into the select.
+	// Let the golangroutines get into the select.
 	<-ready1
 	<-ready2
 	time.Sleep(10 * time.Millisecond)
@@ -866,7 +866,7 @@ func BenchmarkSelectSyncContended(b *testing.B) {
 	myc3 := make(chan int)
 	done := make(chan int)
 	b.RunParallel(func(pb *testing.PB) {
-		go func() {
+		golang func() {
 			for {
 				select {
 				case myc1 <- 0:
@@ -969,7 +969,7 @@ func benchmarkChanSync(b *testing.B, work int) {
 	c := make(chan bool, procs)
 	myc := make(chan int)
 	for p := 0; p < procs; p++ {
-		go func() {
+		golang func() {
 			for {
 				i := atomic.AddInt32(&N, -1)
 				if i < 0 {
@@ -1012,7 +1012,7 @@ func benchmarkChanProdCons(b *testing.B, chanSize, localWork int) {
 	c := make(chan bool, 2*procs)
 	myc := make(chan int, chanSize)
 	for p := 0; p < procs; p++ {
-		go func() {
+		golang func() {
 			foo := 0
 			for atomic.AddInt32(&N, -1) >= 0 {
 				for g := 0; g < CallsPerSched; g++ {
@@ -1026,7 +1026,7 @@ func benchmarkChanProdCons(b *testing.B, chanSize, localWork int) {
 			myc <- 0
 			c <- foo == 42
 		}()
-		go func() {
+		golang func() {
 			foo := 0
 			for {
 				v := <-myc
@@ -1079,7 +1079,7 @@ func BenchmarkSelectProdCons(b *testing.B) {
 	myc := make(chan int, 128)
 	myclose := make(chan bool)
 	for p := 0; p < procs; p++ {
-		go func() {
+		golang func() {
 			// Producer: sends to myc.
 			foo := 0
 			// Intended to not fire during benchmarking.
@@ -1101,7 +1101,7 @@ func BenchmarkSelectProdCons(b *testing.B) {
 			myc <- 0
 			c <- foo == 42
 		}()
-		go func() {
+		golang func() {
 			// Consumer: receives from myc.
 			foo := 0
 			// Intended to not fire during benchmarking.
@@ -1174,7 +1174,7 @@ func BenchmarkChanPopular(b *testing.B) {
 	for j := 0; j < n; j++ {
 		d := make(chan bool)
 		a = append(a, d)
-		go func() {
+		golang func() {
 			for i := 0; i < b.N; i++ {
 				select {
 				case <-c:

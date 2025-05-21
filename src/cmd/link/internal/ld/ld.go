@@ -39,7 +39,7 @@ import (
 	"strconv"
 	"strings"
 
-	"cmd/internal/goobj"
+	"cmd/internal/golangobj"
 	"cmd/link/internal/loader"
 	"cmd/link/internal/sym"
 )
@@ -139,7 +139,7 @@ func findlib(ctxt *Link, lib string) (string, bool) {
 	return pname, isshlib
 }
 
-func addlib(ctxt *Link, src, obj, lib string, fingerprint goobj.FingerprintType) *sym.Library {
+func addlib(ctxt *Link, src, obj, lib string, fingerprint golangobj.FingerprintType) *sym.Library {
 	pkg := pkgname(ctxt, lib)
 
 	// already loaded?
@@ -169,13 +169,13 @@ func addlib(ctxt *Link, src, obj, lib string, fingerprint goobj.FingerprintType)
  * add library to library list, return added library.
  *	srcref: src file referring to package
  *	objref: object file referring to package
- *	file: object file, e.g., /home/rsc/go/pkg/container/vector.a
+ *	file: object file, e.g., /home/rsc/golang/pkg/container/vector.a
  *	pkg: package import path, e.g. container/vector
  *	shlib: path to shared library, or .shlibname file holding path
  *	fingerprint: if not 0, expected fingerprint for import from srcref
  *	             fingerprint is 0 if the library is not imported (e.g. main)
  */
-func addlibpath(ctxt *Link, srcref, objref, file, pkg, shlib string, fingerprint goobj.FingerprintType) *sym.Library {
+func addlibpath(ctxt *Link, srcref, objref, file, pkg, shlib string, fingerprint golangobj.FingerprintType) *sym.Library {
 	if l := ctxt.LibraryByPkg[pkg]; l != nil {
 		return l
 	}
@@ -211,7 +211,7 @@ func atolwhex(s string) int64 {
 }
 
 // PrepareAddmoduledata returns a symbol builder that target-specific
-// code can use to build up the linker-generated go.link.addmoduledata
+// code can use to build up the linker-generated golang.link.addmoduledata
 // function, along with the sym for runtime.addmoduledata itself. If
 // this function is not needed (for example in cases where we're
 // linking a module that contains the runtime) the returned builder
@@ -230,7 +230,7 @@ func PrepareAddmoduledata(ctxt *Link) (*loader.SymbolBuilder, loader.Sym) {
 
 	// Create a new init func text symbol. Caller will populate this
 	// sym with arch-specific content.
-	ifs := ctxt.loader.LookupOrCreateSym("go:link.addmoduledata", 0)
+	ifs := ctxt.loader.LookupOrCreateSym("golang:link.addmoduledata", 0)
 	initfunc := ctxt.loader.MakeSymbolUpdater(ifs)
 	ctxt.loader.SetAttrReachable(ifs, true)
 	ctxt.loader.SetAttrLocal(ifs, true)
@@ -243,7 +243,7 @@ func PrepareAddmoduledata(ctxt *Link) (*loader.SymbolBuilder, loader.Sym) {
 	ctxt.Textp = append(ctxt.Textp, initfunc.Sym())
 
 	// Create an init array entry
-	amdi := ctxt.loader.LookupOrCreateSym("go:link.addmoduledatainit", 0)
+	amdi := ctxt.loader.LookupOrCreateSym("golang:link.addmoduledatainit", 0)
 	initarray_entry := ctxt.loader.MakeSymbolUpdater(amdi)
 	ctxt.loader.SetAttrReachable(amdi, true)
 	ctxt.loader.SetAttrLocal(amdi, true)

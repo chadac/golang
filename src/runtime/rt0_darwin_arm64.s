@@ -1,12 +1,12 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 #include "textflag.h"
-#include "cgo/abi_arm64.h"
+#include "cgolang/abi_arm64.h"
 
 TEXT _rt0_arm64_darwin(SB),NOSPLIT|NOFRAME,$0
-	MOVD	$runtime·rt0_go(SB), R2
+	MOVD	$runtime·rt0_golang(SB), R2
 	BL	(R2)
 exit:
 	MOVD	$0, R0
@@ -18,7 +18,7 @@ exit:
 // this symbol is called from a global initialization function.
 //
 // Note that all currently shipping darwin/arm64 platforms require
-// cgo and do not support c-shared.
+// cgolang and do not support c-shared.
 TEXT _rt0_arm64_darwin_lib(SB),NOSPLIT,$152
 	// Preserve callee-save registers.
 	SAVE_R19_TO_R28(8)
@@ -34,8 +34,8 @@ TEXT _rt0_arm64_darwin_lib(SB),NOSPLIT,$152
 	BL	(R4)
 
 	// Create a new thread to do the runtime initialization and return.
-	MOVD  _cgo_sys_thread_create(SB), R4
-	MOVD  $_rt0_arm64_darwin_lib_go(SB), R0
+	MOVD  _cgolang_sys_thread_create(SB), R4
+	MOVD  $_rt0_arm64_darwin_lib_golang(SB), R0
 	MOVD  $0, R1
 	SUB   $16, RSP		// reserve 16 bytes for sp-8 where fp may be saved.
 	BL    (R4)
@@ -47,10 +47,10 @@ TEXT _rt0_arm64_darwin_lib(SB),NOSPLIT,$152
 
 	RET
 
-TEXT _rt0_arm64_darwin_lib_go(SB),NOSPLIT,$0
+TEXT _rt0_arm64_darwin_lib_golang(SB),NOSPLIT,$0
 	MOVD  _rt0_arm64_darwin_lib_argc<>(SB), R0
 	MOVD  _rt0_arm64_darwin_lib_argv<>(SB), R1
-	MOVD  $runtime·rt0_go(SB), R4
+	MOVD  $runtime·rt0_golang(SB), R4
 	B     (R4)
 
 DATA  _rt0_arm64_darwin_lib_argc<>(SB)/8, $0

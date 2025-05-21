@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file implements NewPackage.
@@ -8,8 +8,8 @@ package ast
 
 import (
 	"fmt"
-	"go/scanner"
-	"go/token"
+	"golang/scanner"
+	"golang/token"
 	"strconv"
 )
 
@@ -61,7 +61,7 @@ func resolve(scope *Scope, ident *Ident) bool {
 // a new *[Object] (pkg), record pkg in the imports map, and then
 // return pkg.
 //
-// Deprecated: use the type checker [go/types] instead; see [Object].
+// Deprecated: use the type checker [golang/types] instead; see [Object].
 type Importer func(imports map[string]*Object, path string) (pkg *Object, err error)
 
 // NewPackage creates a new [Package] node from a set of [File] nodes. It resolves
@@ -73,7 +73,7 @@ type Importer func(imports map[string]*Object, path string) (pkg *Object, err er
 // different package names are reported and then ignored.
 // The result is a package node and a [scanner.ErrorList] if there were errors.
 //
-// Deprecated: use the type checker [go/types] instead; see [Object].
+// Deprecated: use the type checker [golang/types] instead; see [Object].
 func NewPackage(fset *token.FileSet, files map[string]*File, importer Importer, universe *Scope) (*Package, error) {
 	var p pkgBuilder
 	p.fset = fset

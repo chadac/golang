@@ -1,42 +1,42 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package unmarshal
 
 import (
 	_ "embed"
-	"go/ast"
-	"go/types"
+	"golang/ast"
+	"golang/types"
 
-	"golang.org/x/tools/go/analysis"
-	"golang.org/x/tools/go/analysis/passes/inspect"
-	"golang.org/x/tools/go/analysis/passes/internal/analysisutil"
-	"golang.org/x/tools/go/ast/inspector"
-	"golang.org/x/tools/go/types/typeutil"
-	"golang.org/x/tools/internal/typesinternal"
+	"golanglang.org/x/tools/golang/analysis"
+	"golanglang.org/x/tools/golang/analysis/passes/inspect"
+	"golanglang.org/x/tools/golang/analysis/passes/internal/analysisutil"
+	"golanglang.org/x/tools/golang/ast/inspector"
+	"golanglang.org/x/tools/golang/types/typeutil"
+	"golanglang.org/x/tools/internal/typesinternal"
 )
 
-//go:embed doc.go
+//golang:embed doc.golang
 var doc string
 
 var Analyzer = &analysis.Analyzer{
 	Name:     "unmarshal",
 	Doc:      analysisutil.MustExtractDoc(doc, "unmarshal"),
-	URL:      "https://pkg.go.dev/golang.org/x/tools/go/analysis/passes/unmarshal",
+	URL:      "https://pkg.golang.dev/golanglang.org/x/tools/golang/analysis/passes/unmarshal",
 	Requires: []*analysis.Analyzer{inspect.Analyzer},
 	Run:      run,
 }
 
 func run(pass *analysis.Pass) (any, error) {
 	switch pass.Pkg.Path() {
-	case "encoding/gob", "encoding/json", "encoding/xml", "encoding/asn1":
+	case "encoding/golangb", "encoding/json", "encoding/xml", "encoding/asn1":
 		// These packages know how to use their own APIs.
 		// Sometimes they are testing what happens to incorrect programs.
 		return nil, nil
 	}
 
-	// Note: (*"encoding/json".Decoder).Decode, (* "encoding/gob".Decoder).Decode
+	// Note: (*"encoding/json".Decoder).Decode, (* "encoding/golangb".Decoder).Decode
 	// and (* "encoding/xml".Decoder).Decode are methods and can be a typeutil.Callee
 	// without directly importing their packages. So we cannot just skip this package
 	// when !analysisutil.Imports(pass.Pkg, "encoding/...").
@@ -68,12 +68,12 @@ func run(pass *analysis.Pass) (any, error) {
 			}
 		} else if fn.Name() == "Decode" && recv != nil {
 			// (*"encoding/json".Decoder).Decode
-			// (* "encoding/gob".Decoder).Decode
+			// (* "encoding/golangb".Decoder).Decode
 			// (* "encoding/xml".Decoder).Decode
 			_, named := typesinternal.ReceiverNamed(recv)
 			if tname := named.Obj(); tname.Name() == "Decoder" {
 				switch tname.Pkg().Path() {
-				case "encoding/json", "encoding/xml", "encoding/gob":
+				case "encoding/json", "encoding/xml", "encoding/golangb":
 					argidx = 0 // func(interface{})
 				}
 			}

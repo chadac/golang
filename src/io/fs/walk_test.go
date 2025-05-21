@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package fs_test
@@ -130,8 +130,8 @@ func TestWalkDirSymlink(t *testing.T) {
 		marks[path]++
 		if want, ok := wantTypes[path]; !ok {
 			t.Errorf("Unexpected path %q in walk", path)
-		} else if got := entry.Type(); got != want {
-			t.Errorf("%s entry type = %v; want %v", path, got, want)
+		} else if golangt := entry.Type(); golangt != want {
+			t.Errorf("%s entry type = %v; want %v", path, golangt, want)
 		}
 		if err != nil {
 			t.Errorf("Walking %s: %v", path, err)
@@ -145,8 +145,8 @@ func TestWalkDirSymlink(t *testing.T) {
 		t.Fatalf("no error expected, found: %s", err)
 	}
 	for path := range wantTypes {
-		if got := marks[path]; got != 1 {
-			t.Errorf("%s visited %d times; expected 1", path, got)
+		if golangt := marks[path]; golangt != 1 {
+			t.Errorf("%s visited %d times; expected 1", path, golangt)
 		}
 	}
 }
@@ -178,6 +178,6 @@ func TestIssue51617(t *testing.T) {
 	}
 	want := []string{".", "a", "a/bad", "a/next"}
 	if !slices.Equal(saw, want) {
-		t.Errorf("got directories %v, want %v", saw, want)
+		t.Errorf("golangt directories %v, want %v", saw, want)
 	}
 }

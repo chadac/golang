@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package syscall
@@ -59,9 +59,9 @@ func sendfile(outfd int, infd int, offset *int64, count int) (written int, err e
 
 func libc_sendfile_trampoline()
 
-//go:cgo_import_dynamic libc_sendfile sendfile "/usr/lib/libSystem.B.dylib"
+//golang:cgolang_import_dynamic libc_sendfile sendfile "/usr/lib/libSystem.B.dylib"
 
-// Implemented in the runtime package (runtime/sys_darwin_64.go)
+// Implemented in the runtime package (runtime/sys_darwin_64.golang)
 func syscallX(fn, a1, a2, a3 uintptr) (r1, r2 uintptr, err Errno)
 
 func Syscall9(trap, a1, a2, a3, a4, a5, a6, a7, a8, a9 uintptr) (r1, r2 uintptr, err Errno)

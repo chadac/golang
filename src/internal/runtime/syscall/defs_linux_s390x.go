@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package syscall
@@ -25,6 +25,6 @@ const (
 
 type EpollEvent struct {
 	Events    uint32
-	pad_cgo_0 [4]byte
+	pad_cgolang_0 [4]byte
 	Data      [8]byte // unaligned uintptr
 }

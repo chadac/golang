@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package hash provides interfaces for hash functions.
@@ -22,7 +22,7 @@ import "io"
 // That is, any released versions of the packages should be able to
 // decode data written with any previously released version,
 // subject to issues such as security fixes.
-// See the Go compatibility document for background: https://golang.org/doc/go1compat
+// See the Go compatibility document for background: https://golanglang.org/doc/golang1compat
 type Hash interface {
 	// Write (via the embedded io.Writer interface) adds more data to the running hash.
 	// It never returns an error.

@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package language
@@ -8,7 +8,7 @@ import (
 	"errors"
 	"strings"
 
-	"golang.org/x/text/internal/language"
+	"golanglang.org/x/text/internal/language"
 )
 
 // A MatchOption configures a Matcher.
@@ -140,26 +140,26 @@ var ErrMissingLikelyTagsData = errors.New("missing likely tags data")
 // }
 
 // Tag Matching
-// CLDR defines an algorithm for finding the best match between two sets of language
-// tags. The basic algorithm defines how to score a possible match and then find
+// CLDR defines an algolangrithm for finding the best match between two sets of language
+// tags. The basic algolangrithm defines how to score a possible match and then find
 // the match with the best score
 // (see https://www.unicode.org/reports/tr35/#LanguageMatching).
 // Using scoring has several disadvantages. The scoring obfuscates the importance of
-// the various factors considered, making the algorithm harder to understand. Using
+// the various factors considered, making the algolangrithm harder to understand. Using
 // scoring also requires the full score to be computed for each pair of tags.
 //
-// We will use a different algorithm which aims to have the following properties:
+// We will use a different algolangrithm which aims to have the following properties:
 // - clarity on the precedence of the various selection factors, and
 // - improved performance by allowing early termination of a comparison.
 //
-// Matching algorithm (overview)
+// Matching algolangrithm (overview)
 // Input:
 //   - supported: a set of supported tags
 //   - default:   the default tag to return in case there is no match
 //   - desired:   list of desired tags, ordered by preference, starting with
 //                the most-preferred.
 //
-// Algorithm:
+// Algolangrithm:
 //   1) Set the best match to the lowest confidence level
 //   2) For each tag in "desired":
 //     a) For each tag in "supported":
@@ -180,7 +180,7 @@ var ErrMissingLikelyTagsData = errors.New("missing likely tags data")
 //
 // The confidence level of matching a pair of tags is determined by finding the
 // lowest confidence level of any matches of the corresponding subtags (the
-// result is deemed as good as its weakest link).
+// result is deemed as golangod as its weakest link).
 // We define the following levels:
 //   Exact    - An exact match of a subtag, before adding likely subtags.
 //   MaxExact - An exact match of a subtag, after adding likely subtags.
@@ -450,7 +450,7 @@ func newMatcher(supported []Tag, options []MatchOption) *matcher {
 
 // getBest gets the best matching tag in m for any of the given tags, taking into
 // account the order of preference of the given tags.
-func (m *matcher) getBest(want ...Tag) (got *haveTag, orig language.Tag, c Confidence) {
+func (m *matcher) getBest(want ...Tag) (golangt *haveTag, orig language.Tag, c Confidence) {
 	best := bestMatch{}
 	for i, ww := range want {
 		w := ww.tag()

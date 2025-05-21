@@ -1,12 +1,12 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
 
 import (
 	"internal/abi"
-	"internal/goarch"
+	"internal/golangarch"
 	"internal/runtime/atomic"
 	"unsafe"
 )
@@ -31,19 +31,19 @@ type mOS struct {
 	waitsemacount uint32
 }
 
-//go:noescape
+//golang:noescape
 func setitimer(mode int32, new, old *itimerval)
 
-//go:noescape
+//golang:noescape
 func sigaction(sig uint32, new, old *sigactiont)
 
-//go:noescape
+//golang:noescape
 func sigaltstack(new, old *stackt)
 
-//go:noescape
+//golang:noescape
 func sigprocmask(how int32, new, old *sigset)
 
-//go:noescape
+//golang:noescape
 func sysctl(mib *uint32, miblen uint32, out *byte, size *uintptr, dst *byte, ndst uintptr) int32
 
 func lwp_tramp()
@@ -52,30 +52,30 @@ func raiseproc(sig uint32)
 
 func lwp_kill(tid int32, sig int)
 
-//go:noescape
+//golang:noescape
 func getcontext(ctxt unsafe.Pointer)
 
-//go:noescape
+//golang:noescape
 func lwp_create(ctxt unsafe.Pointer, flags uintptr, lwpid unsafe.Pointer) int32
 
-//go:noescape
+//golang:noescape
 func lwp_park(clockid, flags int32, ts *timespec, unpark int32, hint, unparkhint unsafe.Pointer) int32
 
-//go:noescape
+//golang:noescape
 func lwp_unpark(lwp int32, hint unsafe.Pointer) int32
 
 func lwp_self() int32
 
 func osyield()
 
-//go:nosplit
+//golang:nosplit
 func osyield_no_g() {
 	osyield()
 }
 
 func kqueue() int32
 
-//go:noescape
+//golang:noescape
 func kevent(kq int32, ch *keventt, nch int32, ev *keventt, nev int32, ts *timespec) int32
 
 func pipe2(flags int32) (r, w int32, errno int32)
@@ -148,11 +148,11 @@ func getOSRev() int {
 	return 0
 }
 
-//go:nosplit
+//golang:nosplit
 func semacreate(mp *m) {
 }
 
-//go:nosplit
+//golang:nosplit
 func semasleep(ns int64) int32 {
 	gp := getg()
 	var deadline int64
@@ -187,7 +187,7 @@ func semasleep(ns int64) int32 {
 	}
 }
 
-//go:nosplit
+//golang:nosplit
 func semawakeup(mp *m) {
 	atomic.Xadd(&mp.waitsemacount, 1)
 	// From NetBSD's _lwp_unpark(2) manual:
@@ -204,7 +204,7 @@ func semawakeup(mp *m) {
 
 // May run with m.p==nil, so write barriers are not allowed.
 //
-//go:nowritebarrier
+//golang:nowritebarrier
 func newosproc(mp *m) {
 	stk := unsafe.Pointer(mp.g0.stack.hi)
 	if false {
@@ -256,7 +256,7 @@ func netbsdMstart()
 // it's a simple change that keeps NetBSD working like other OS's.
 // At this point all signals are blocked, so there is no race.
 //
-//go:nosplit
+//golang:nosplit
 func netbsdMstart0() {
 	st := stackt{ss_flags: _SS_DISABLE}
 	sigaltstack(&st, nil)
@@ -273,7 +273,7 @@ func osinit() {
 
 var urandom_dev = []byte("/dev/urandom\x00")
 
-//go:nosplit
+//golang:nosplit
 func readRandom(r []byte) int {
 	fd := open(&urandom_dev[0], 0 /* O_RDONLY */, 0)
 	n := read(fd, unsafe.Pointer(&r[0]), int32(len(r)))
@@ -281,8 +281,8 @@ func readRandom(r []byte) int {
 	return int(n)
 }
 
-func goenvs() {
-	goenvs_unix()
+func golangenvs() {
+	golangenvs_unix()
 }
 
 // Called to initialize a new m (including the bootstrap m).
@@ -313,7 +313,7 @@ func minit() {
 
 // Called from dropm to undo the effect of an minit.
 //
-//go:nosplit
+//golang:nosplit
 func unminit() {
 	unminitSignals()
 	// Don't clear procid, it is used by locking (semawake), and locking
@@ -323,8 +323,8 @@ func unminit() {
 // Called from mexit, but not from dropm, to undo the effect of thread-owned
 // resources in minit, semacreate, or elsewhere. Do not take locks after calling this.
 //
-// This always runs without a P, so //go:nowritebarrierrec is required.
-//go:nowritebarrierrec
+// This always runs without a P, so //golang:nowritebarrierrec is required.
+//golang:nowritebarrierrec
 func mdestroy(mp *m) {
 }
 
@@ -336,27 +336,27 @@ type sigactiont struct {
 	sa_flags     int32
 }
 
-//go:nosplit
-//go:nowritebarrierrec
+//golang:nosplit
+//golang:nowritebarrierrec
 func setsig(i uint32, fn uintptr) {
 	var sa sigactiont
 	sa.sa_flags = _SA_SIGINFO | _SA_ONSTACK | _SA_RESTART
 	sa.sa_mask = sigset_all
-	if fn == abi.FuncPCABIInternal(sighandler) { // abi.FuncPCABIInternal(sighandler) matches the callers in signal_unix.go
+	if fn == abi.FuncPCABIInternal(sighandler) { // abi.FuncPCABIInternal(sighandler) matches the callers in signal_unix.golang
 		fn = abi.FuncPCABI0(sigtramp)
 	}
 	sa.sa_sigaction = fn
 	sigaction(i, &sa, nil)
 }
 
-//go:nosplit
-//go:nowritebarrierrec
+//golang:nosplit
+//golang:nowritebarrierrec
 func setsigstack(i uint32) {
 	throw("setsigstack")
 }
 
-//go:nosplit
-//go:nowritebarrierrec
+//golang:nosplit
+//golang:nowritebarrierrec
 func getsig(i uint32) uintptr {
 	var sa sigactiont
 	sigaction(i, nil, &sa)
@@ -365,13 +365,13 @@ func getsig(i uint32) uintptr {
 
 // setSignalstackSP sets the ss_sp field of a stackt.
 //
-//go:nosplit
+//golang:nosplit
 func setSignalstackSP(s *stackt, sp uintptr) {
 	s.ss_sp = sp
 }
 
-//go:nosplit
-//go:nowritebarrierrec
+//golang:nosplit
+//golang:nowritebarrierrec
 func sigaddset(mask *sigset, i int) {
 	mask.__bits[(i-1)/32] |= 1 << ((uint32(i) - 1) & 31)
 }
@@ -380,7 +380,7 @@ func sigdelset(mask *sigset, i int) {
 	mask.__bits[(i-1)/32] &^= 1 << ((uint32(i) - 1) & 31)
 }
 
-//go:nosplit
+//golang:nosplit
 func (c *sigctxt) fixsigcode(sig uint32) {
 }
 
@@ -392,7 +392,7 @@ func setThreadCPUProfiler(hz int32) {
 	setThreadCPUProfilerHz(hz)
 }
 
-//go:nosplit
+//golang:nosplit
 func validSIGPROF(mp *m, c *sigctxt) bool {
 	return true
 }
@@ -409,7 +409,7 @@ func sysargs(argc int32, argv **byte) {
 	n++
 
 	// now argv+n is auxv
-	auxvp := (*[1 << 28]uintptr)(add(unsafe.Pointer(argv), uintptr(n)*goarch.PtrSize))
+	auxvp := (*[1 << 28]uintptr)(add(unsafe.Pointer(argv), uintptr(n)*golangarch.PtrSize))
 	pairs := sysauxv(auxvp[:])
 	auxv = auxvp[: pairs*2 : pairs*2]
 }
@@ -436,7 +436,7 @@ func sysauxv(auxv []uintptr) (pairs int) {
 // It must be nosplit because it is used by the signal handler before
 // it definitely has a Go stack.
 //
-//go:nosplit
+//golang:nosplit
 func raise(sig uint32) {
 	lwp_kill(lwp_self(), int(sig))
 }
@@ -449,7 +449,7 @@ func signalM(mp *m, sig int) {
 // number.
 const sigPerThreadSyscall = 1 << 31
 
-//go:nosplit
+//golang:nosplit
 func runPerThreadSyscall() {
 	throw("runPerThreadSyscall only valid on linux")
 }

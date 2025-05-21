@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package syntax
@@ -22,12 +22,12 @@ func TestSmoke(t *testing.T) {
 	const src = "if (+foo\t+=..123/***/0.9_0e-0i'a'`raw`\"string\"..f;//$"
 	tokens := []token{_If, _Lparen, _Operator, _Name, _AssignOp, _Dot, _Literal, _Literal, _Literal, _Literal, _Literal, _Dot, _Dot, _Name, _Semi, _EOF}
 
-	var got scanner
-	got.init(strings.NewReader(src), errh, 0)
+	var golangt scanner
+	golangt.init(strings.NewReader(src), errh, 0)
 	for _, want := range tokens {
-		got.next()
-		if got.tok != want {
-			t.Errorf("%d:%d: got %s; want %s", got.line, got.col, got.tok, want)
+		golangt.next()
+		if golangt.tok != want {
+			t.Errorf("%d:%d: golangt %s; want %s", golangt.line, golangt.col, golangt.tok, want)
 			continue
 		}
 	}
@@ -35,18 +35,18 @@ func TestSmoke(t *testing.T) {
 
 // Once TestSmoke passes, run TestTokens next.
 func TestTokens(t *testing.T) {
-	var got scanner
+	var golangt scanner
 	for _, want := range sampleTokens {
-		got.init(strings.NewReader(want.src), func(line, col uint, msg string) {
+		golangt.init(strings.NewReader(want.src), func(line, col uint, msg string) {
 			t.Errorf("%s:%d:%d: %s", want.src, line, col, msg)
 		}, 0)
-		got.next()
-		if got.tok != want.tok {
-			t.Errorf("%s: got %s; want %s", want.src, got.tok, want.tok)
+		golangt.next()
+		if golangt.tok != want.tok {
+			t.Errorf("%s: golangt %s; want %s", want.src, golangt.tok, want.tok)
 			continue
 		}
-		if (got.tok == _Name || got.tok == _Literal) && got.lit != want.src {
-			t.Errorf("%s: got %q; want %q", want.src, got.lit, want.src)
+		if (golangt.tok == _Name || golangt.tok == _Literal) && golangt.lit != want.src {
+			t.Errorf("%s: golangt %q; want %q", want.src, golangt.lit, want.src)
 		}
 	}
 }
@@ -95,45 +95,45 @@ func TestEmbeddedTokens(t *testing.T) {
 	}
 
 	// scan source
-	var got scanner
+	var golangt scanner
 	var src string
-	got.init(&buf, func(line, col uint, msg string) {
+	golangt.init(&buf, func(line, col uint, msg string) {
 		t.Fatalf("%s:%d:%d: %s", src, line, col, msg)
 	}, 0)
-	got.next()
+	golangt.next()
 	for i, want := range sampleTokens {
 		src = want.src
 		nlsemi := false
 
-		if got.line-linebase != uint(i) {
-			t.Errorf("%s: got line %d; want %d", src, got.line-linebase, i)
+		if golangt.line-linebase != uint(i) {
+			t.Errorf("%s: golangt line %d; want %d", src, golangt.line-linebase, i)
 		}
 
-		if got.tok != want.tok {
-			t.Errorf("%s: got tok %s; want %s", src, got.tok, want.tok)
+		if golangt.tok != want.tok {
+			t.Errorf("%s: golangt tok %s; want %s", src, golangt.tok, want.tok)
 			continue
 		}
 
 		switch want.tok {
 		case _Semi:
-			if got.lit != "semicolon" {
-				t.Errorf("%s: got %s; want semicolon", src, got.lit)
+			if golangt.lit != "semicolon" {
+				t.Errorf("%s: golangt %s; want semicolon", src, golangt.lit)
 			}
 
 		case _Name, _Literal:
-			if got.lit != want.src {
-				t.Errorf("%s: got lit %q; want %q", src, got.lit, want.src)
+			if golangt.lit != want.src {
+				t.Errorf("%s: golangt lit %q; want %q", src, golangt.lit, want.src)
 				continue
 			}
 			nlsemi = true
 
 		case _Operator, _AssignOp, _IncOp:
-			if got.op != want.op {
-				t.Errorf("%s: got op %s; want %s", src, got.op, want.op)
+			if golangt.op != want.op {
+				t.Errorf("%s: golangt op %s; want %s", src, golangt.op, want.op)
 				continue
 			}
-			if got.prec != want.prec {
-				t.Errorf("%s: got prec %d; want %d", src, got.prec, want.prec)
+			if golangt.prec != want.prec {
+				t.Errorf("%s: golangt prec %d; want %d", src, golangt.prec, want.prec)
 				continue
 			}
 			nlsemi = want.tok == _IncOp
@@ -143,21 +143,21 @@ func TestEmbeddedTokens(t *testing.T) {
 		}
 
 		if nlsemi {
-			got.next()
-			if got.tok != _Semi {
-				t.Errorf("%s: got tok %s; want ;", src, got.tok)
+			golangt.next()
+			if golangt.tok != _Semi {
+				t.Errorf("%s: golangt tok %s; want ;", src, golangt.tok)
 				continue
 			}
-			if got.lit != "newline" {
-				t.Errorf("%s: got %s; want newline", src, got.lit)
+			if golangt.lit != "newline" {
+				t.Errorf("%s: golangt %s; want newline", src, golangt.lit)
 			}
 		}
 
-		got.next()
+		golangt.next()
 	}
 
-	if got.tok != _EOF {
-		t.Errorf("got %q; want _EOF", got.tok)
+	if golangt.tok != _EOF {
+		t.Errorf("golangt %q; want _EOF", golangt.tok)
 	}
 }
 
@@ -305,8 +305,8 @@ var sampleTokens = [...]struct {
 	{_Fallthrough, "fallthrough", 0, 0},
 	{_For, "for", 0, 0},
 	{_Func, "func", 0, 0},
-	{_Go, "go", 0, 0},
-	{_Goto, "goto", 0, 0},
+	{_Go, "golang", 0, 0},
+	{_Goto, "golangto", 0, 0},
 	{_If, "if", 0, 0},
 	{_Import, "import", 0, 0},
 	{_Interface, "interface", 0, 0},
@@ -351,7 +351,7 @@ func TestComments(t *testing.T) {
 		{"/*", comment{0, 0, ""}},
 	} {
 		var s scanner
-		var got comment
+		var golangt comment
 		s.init(strings.NewReader(test.src), func(line, col uint, msg string) {
 			if msg[0] != '/' {
 				// error
@@ -360,7 +360,7 @@ func TestComments(t *testing.T) {
 				}
 				return
 			}
-			got = comment{line - linebase, col - colbase, msg} // keep last one
+			golangt = comment{line - linebase, col - colbase, msg} // keep last one
 		}, comments)
 
 		for {
@@ -371,11 +371,11 @@ func TestComments(t *testing.T) {
 		}
 
 		want := test.want
-		if got.line != want.line || got.col != want.col {
-			t.Errorf("%q: got position %d:%d; want %d:%d", test.src, got.line, got.col, want.line, want.col)
+		if golangt.line != want.line || golangt.col != want.col {
+			t.Errorf("%q: golangt position %d:%d; want %d:%d", test.src, golangt.line, golangt.col, want.line, want.col)
 		}
-		if got.text != want.text {
-			t.Errorf("%q: got %q; want %q", test.src, got.text, want.text)
+		if golangt.text != want.text {
+			t.Errorf("%q: golangt %q; want %q", test.src, golangt.text, want.text)
 		}
 	}
 }
@@ -547,7 +547,7 @@ func TestNumbers(t *testing.T) {
 			s.next()
 
 			if err != "" && !s.bad {
-				t.Errorf("%q: got error but bad not set", test.src)
+				t.Errorf("%q: golangt error but bad not set", test.src)
 			}
 
 			// compute lit where s.lit is not defined
@@ -561,15 +561,15 @@ func TestNumbers(t *testing.T) {
 
 			if i == 0 {
 				if s.tok != _Literal || s.kind != test.kind {
-					t.Errorf("%q: got token %s (kind = %d); want literal (kind = %d)", test.src, s.tok, s.kind, test.kind)
+					t.Errorf("%q: golangt token %s (kind = %d); want literal (kind = %d)", test.src, s.tok, s.kind, test.kind)
 				}
 				if err != test.err {
-					t.Errorf("%q: got error %q; want %q", test.src, err, test.err)
+					t.Errorf("%q: golangt error %q; want %q", test.src, err, test.err)
 				}
 			}
 
 			if lit != want {
-				t.Errorf("%q: got literal %q (%s); want %s", test.src, lit, s.tok, want)
+				t.Errorf("%q: golangt literal %q (%s); want %s", test.src, lit, s.tok, want)
 			}
 		}
 
@@ -579,7 +579,7 @@ func TestNumbers(t *testing.T) {
 			s.next()
 		}
 		if s.tok != _EOF {
-			t.Errorf("%q: got %s; want EOF", test.src, s.tok)
+			t.Errorf("%q: golangt %s; want EOF", test.src, s.tok)
 		}
 	}
 }
@@ -676,16 +676,16 @@ func TestScanErrors(t *testing.T) {
 
 		if err != "" {
 			if err != test.err {
-				t.Errorf("%q: got err = %q; want %q", test.src, err, test.err)
+				t.Errorf("%q: golangt err = %q; want %q", test.src, err, test.err)
 			}
 			if line != test.line {
-				t.Errorf("%q: got line = %d; want %d", test.src, line, test.line)
+				t.Errorf("%q: golangt line = %d; want %d", test.src, line, test.line)
 			}
 			if col != test.col {
-				t.Errorf("%q: got col = %d; want %d", test.src, col, test.col)
+				t.Errorf("%q: golangt col = %d; want %d", test.src, col, test.col)
 			}
 		} else {
-			t.Errorf("%q: got no error; want %q", test.src, test.err)
+			t.Errorf("%q: golangt no error; want %q", test.src, test.err)
 		}
 	}
 }
@@ -698,35 +698,35 @@ func TestDirectives(t *testing.T) {
 		"//line foo",
 		"//line foo%bar",
 
-		"go",
-		"// go:",
-		"//go:",
-		"//go :foo",
-		"//go:foo",
-		"//go:foo%bar",
+		"golang",
+		"// golang:",
+		"//golang:",
+		"//golang :foo",
+		"//golang:foo",
+		"//golang:foo%bar",
 	} {
-		got := ""
+		golangt := ""
 		var s scanner
 		s.init(strings.NewReader(src), func(_, col uint, msg string) {
 			if col != colbase {
-				t.Errorf("%s: got col = %d; want %d", src, col, colbase)
+				t.Errorf("%s: golangt col = %d; want %d", src, col, colbase)
 			}
 			if msg == "" {
 				t.Errorf("%s: handler called with empty msg", src)
 			}
-			got = msg
+			golangt = msg
 		}, directives)
 
 		s.next()
-		if strings.HasPrefix(src, "//line ") || strings.HasPrefix(src, "//go:") {
+		if strings.HasPrefix(src, "//line ") || strings.HasPrefix(src, "//golang:") {
 			// handler should have been called
-			if got != src {
-				t.Errorf("got %s; want %s", got, src)
+			if golangt != src {
+				t.Errorf("golangt %s; want %s", golangt, src)
 			}
 		} else {
 			// handler should not have been called
-			if got != "" {
-				t.Errorf("got %s for %s", got, src)
+			if golangt != "" {
+				t.Errorf("golangt %s for %s", golangt, src)
 			}
 		}
 	}
@@ -735,12 +735,12 @@ func TestDirectives(t *testing.T) {
 func TestIssue21938(t *testing.T) {
 	s := "/*" + strings.Repeat(" ", 4089) + "*/ .5"
 
-	var got scanner
-	got.init(strings.NewReader(s), errh, 0)
-	got.next()
+	var golangt scanner
+	golangt.init(strings.NewReader(s), errh, 0)
+	golangt.next()
 
-	if got.tok != _Literal || got.lit != ".5" {
-		t.Errorf("got %s %q; want %s %q", got.tok, got.lit, _Literal, ".5")
+	if golangt.tok != _Literal || golangt.lit != ".5" {
+		t.Errorf("golangt %s %q; want %s %q", golangt.tok, golangt.lit, _Literal, ".5")
 	}
 }
 
@@ -748,20 +748,20 @@ func TestIssue33961(t *testing.T) {
 	literals := `08__ 0b.p 0b_._p 0x.e 0x.p`
 	for _, lit := range strings.Split(literals, " ") {
 		n := 0
-		var got scanner
-		got.init(strings.NewReader(lit), func(_, _ uint, msg string) {
+		var golangt scanner
+		golangt.init(strings.NewReader(lit), func(_, _ uint, msg string) {
 			// fmt.Printf("%s: %s\n", lit, msg) // uncomment for debugging
 			n++
 		}, 0)
-		got.next()
+		golangt.next()
 
 		if n != 1 {
-			t.Errorf("%q: got %d errors; want 1", lit, n)
+			t.Errorf("%q: golangt %d errors; want 1", lit, n)
 			continue
 		}
 
-		if !got.bad {
-			t.Errorf("%q: got error but bad not set", lit)
+		if !golangt.bad {
+			t.Errorf("%q: golangt error but bad not set", lit)
 		}
 	}
 }

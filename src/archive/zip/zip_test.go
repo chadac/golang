@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Tests that involve both reading and writing.
@@ -45,8 +45,8 @@ func TestOver65kFiles(t *testing.T) {
 	if err != nil {
 		t.Fatalf("NewReader: %v", err)
 	}
-	if got := len(zr.File); got != nFiles {
-		t.Fatalf("File contains %d files, want %d", got, nFiles)
+	if golangt := len(zr.File); golangt != nFiles {
+		t.Fatalf("File contains %d files, want %d", golangt, nFiles)
 	}
 	for i := 0; i < nFiles; i++ {
 		want := fmt.Sprintf("%d.dat", i)
@@ -62,7 +62,7 @@ func TestModTime(t *testing.T) {
 	fh.SetModTime(testTime)
 	outTime := fh.ModTime()
 	if !outTime.Equal(testTime) {
-		t.Errorf("times don't match: got %s, want %s", outTime, testTime)
+		t.Errorf("times don't match: golangt %s, want %s", outTime, testTime)
 	}
 }
 
@@ -72,20 +72,20 @@ func testHeaderRoundTrip(fh *FileHeader, wantUncompressedSize uint32, wantUncomp
 	if err != nil {
 		t.Fatal(err)
 	}
-	if got, want := fh2.Name, fh.Name; got != want {
-		t.Errorf("Name: got %s, want %s\n", got, want)
+	if golangt, want := fh2.Name, fh.Name; golangt != want {
+		t.Errorf("Name: golangt %s, want %s\n", golangt, want)
 	}
-	if got, want := fh2.UncompressedSize, wantUncompressedSize; got != want {
-		t.Errorf("UncompressedSize: got %d, want %d\n", got, want)
+	if golangt, want := fh2.UncompressedSize, wantUncompressedSize; golangt != want {
+		t.Errorf("UncompressedSize: golangt %d, want %d\n", golangt, want)
 	}
-	if got, want := fh2.UncompressedSize64, wantUncompressedSize64; got != want {
-		t.Errorf("UncompressedSize64: got %d, want %d\n", got, want)
+	if golangt, want := fh2.UncompressedSize64, wantUncompressedSize64; golangt != want {
+		t.Errorf("UncompressedSize64: golangt %d, want %d\n", golangt, want)
 	}
-	if got, want := fh2.ModifiedTime, fh.ModifiedTime; got != want {
-		t.Errorf("ModifiedTime: got %d, want %d\n", got, want)
+	if golangt, want := fh2.ModifiedTime, fh.ModifiedTime; golangt != want {
+		t.Errorf("ModifiedTime: golangt %d, want %d\n", golangt, want)
 	}
-	if got, want := fh2.ModifiedDate, fh.ModifiedDate; got != want {
-		t.Errorf("ModifiedDate: got %d, want %d\n", got, want)
+	if golangt, want := fh2.ModifiedDate, fh.ModifiedDate; golangt != want {
+		t.Errorf("ModifiedDate: golangt %d, want %d\n", golangt, want)
 	}
 
 	if sysfh, ok := fi.Sys().(*FileHeader); !ok && sysfh != fh {
@@ -126,11 +126,11 @@ func TestFileHeaderRoundTripModified(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if got, want := fh2.Modified, fh.Modified.UTC(); got != want {
-		t.Errorf("Modified: got %s, want %s\n", got, want)
+	if golangt, want := fh2.Modified, fh.Modified.UTC(); golangt != want {
+		t.Errorf("Modified: golangt %s, want %s\n", golangt, want)
 	}
-	if got, want := fi.ModTime(), fh.Modified.UTC(); got != want {
-		t.Errorf("Modified: got %s, want %s\n", got, want)
+	if golangt, want := fi.ModTime(), fh.Modified.UTC(); golangt != want {
+		t.Errorf("Modified: golangt %s, want %s\n", golangt, want)
 	}
 }
 
@@ -146,11 +146,11 @@ func TestFileHeaderRoundTripWithoutModified(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if got, want := fh2.ModTime(), fh.ModTime(); got != want {
-		t.Errorf("Modified: got %s, want %s\n", got, want)
+	if golangt, want := fh2.ModTime(), fh.ModTime(); golangt != want {
+		t.Errorf("Modified: golangt %s, want %s\n", golangt, want)
 	}
-	if got, want := fi.ModTime(), fh.ModTime(); got != want {
-		t.Errorf("Modified: got %s, want %s\n", got, want)
+	if golangt, want := fi.ModTime(), fh.ModTime(); golangt != want {
+		t.Errorf("Modified: golangt %s, want %s\n", golangt, want)
 	}
 }
 
@@ -290,7 +290,7 @@ func TestZip64EdgeCase(t *testing.T) {
 	// Test a zip file with uncompressed size 0xFFFFFFFF.
 	// That's the magic marker for a 64-bit file, so even though
 	// it fits in a 32-bit field we must use the 64-bit field.
-	// Go 1.5 and earlier got this wrong,
+	// Go 1.5 and earlier golangt this wrong,
 	// writing an invalid zip file.
 	const size = 1<<32 - 1 - int64(len("END\n")) // before the "END\n" part
 	buf := testZip64(t, size)
@@ -487,7 +487,7 @@ func suffixIsZip64(t *testing.T, zip sizedReaderAt) bool {
 
 	size := b.uint64()
 	if size != directory64EndLen-12 {
-		t.Errorf("expected length of %d, got %d", directory64EndLen-12, size)
+		t.Errorf("expected length of %d, golangt %d", directory64EndLen-12, size)
 	}
 	return true
 }
@@ -612,25 +612,25 @@ func testZip64(t testing.TB, size int64) *rleBuffer {
 			t.Fatal("read:", err)
 		}
 	}
-	gotEnd, err := io.ReadAll(rc)
+	golangtEnd, err := io.ReadAll(rc)
 	if err != nil {
 		t.Fatal("read end:", err)
 	}
-	if !bytes.Equal(gotEnd, end) {
-		t.Errorf("End of zip64 archive %q, want %q", gotEnd, end)
+	if !bytes.Equal(golangtEnd, end) {
+		t.Errorf("End of zip64 archive %q, want %q", golangtEnd, end)
 	}
 	err = rc.Close()
 	if err != nil {
 		t.Fatal("closing:", err)
 	}
 	if size+int64(len("END\n")) >= 1<<32-1 {
-		if got, want := f0.UncompressedSize, uint32(uint32max); got != want {
-			t.Errorf("UncompressedSize %#x, want %#x", got, want)
+		if golangt, want := f0.UncompressedSize, uint32(uint32max); golangt != want {
+			t.Errorf("UncompressedSize %#x, want %#x", golangt, want)
 		}
 	}
 
-	if got, want := f0.UncompressedSize64, uint64(size)+uint64(len(end)); got != want {
-		t.Errorf("UncompressedSize64 %#x, want %#x", got, want)
+	if golangt, want := f0.UncompressedSize64, uint64(size)+uint64(len(end)); golangt != want {
+		t.Errorf("UncompressedSize64 %#x, want %#x", golangt, want)
 	}
 
 	return buf
@@ -661,11 +661,11 @@ func testValidHeader(h *FileHeader, t *testing.T) {
 	b := buf.Bytes()
 	zf, err := NewReader(bytes.NewReader(b), int64(len(b)))
 	if err != nil {
-		t.Fatalf("got %v, expected nil", err)
+		t.Fatalf("golangt %v, expected nil", err)
 	}
 	zh := zf.File[0].FileHeader
 	if zh.Name != h.Name || zh.Method != h.Method || zh.UncompressedSize64 != uint64(len("hi")) {
-		t.Fatalf("got %q/%d/%d expected %q/%d/%d", zh.Name, zh.Method, zh.UncompressedSize64, h.Name, h.Method, len("hi"))
+		t.Fatalf("golangt %q/%d/%d expected %q/%d/%d", zh.Name, zh.Method, zh.UncompressedSize64, h.Name, h.Method, len("hi"))
 	}
 }
 
@@ -780,15 +780,15 @@ func TestSuffixSaver(t *testing.T) {
 	const keep = 10
 	ss := &suffixSaver{keep: keep}
 	ss.Write([]byte("abc"))
-	if got := string(ss.Suffix()); got != "abc" {
-		t.Errorf("got = %q; want abc", got)
+	if golangt := string(ss.Suffix()); golangt != "abc" {
+		t.Errorf("golangt = %q; want abc", golangt)
 	}
 	ss.Write([]byte("defghijklmno"))
-	if got := string(ss.Suffix()); got != "fghijklmno" {
-		t.Errorf("got = %q; want fghijklmno", got)
+	if golangt := string(ss.Suffix()); golangt != "fghijklmno" {
+		t.Errorf("golangt = %q; want fghijklmno", golangt)
 	}
-	if got, want := ss.Size(), int64(len("abc")+len("defghijklmno")); got != want {
-		t.Errorf("Size = %d; want %d", got, want)
+	if golangt, want := ss.Size(), int64(len("abc")+len("defghijklmno")); golangt != want {
+		t.Errorf("Size = %d; want %d", golangt, want)
 	}
 	buf := make([]byte, ss.Size())
 	for off := int64(0); off < ss.Size(); off++ {
@@ -802,9 +802,9 @@ func TestSuffixSaver(t *testing.T) {
 				continue
 			}
 			want := "abcdefghijklmno"[off : off+int64(size)]
-			got := string(readBuf[:n])
-			if err != nil || got != want {
-				t.Errorf("off %d, size %d = %v, %v (%q); want %q", off, size, n, err, got, want)
+			golangt := string(readBuf[:n])
+			if err != nil || golangt != want {
+				t.Errorf("off %d, size %d = %v, %v (%q); want %q", off, size, n, err, golangt, want)
 			}
 		}
 	}

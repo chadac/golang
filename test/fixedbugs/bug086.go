@@ -1,7 +1,7 @@
 // errorcheck
 
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -18,6 +18,6 @@ func main() {
 }
 
 /*
-uetli:~/Source/go1/usr/gri/gosrc gri$ 6g bug.go && 6l bug.6 && 6.out
+uetli:~/Source/golang1/usr/gri/golangsrc gri$ 6g bug.golang && 6l bug.6 && 6.out
 4882
 */

@@ -1,5 +1,5 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package sync
@@ -89,7 +89,7 @@ func (d *poolDequeue) pushHead(val any) bool {
 	// Check if the head slot has been released by popTail.
 	typ := atomic.LoadPointer(&slot.typ)
 	if typ != nil {
-		// Another goroutine is still cleaning up the tail, so
+		// Another golangroutine is still cleaning up the tail, so
 		// the queue is actually still full.
 		return false
 	}

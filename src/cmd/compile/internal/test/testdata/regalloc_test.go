@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Tests phi implementation
@@ -21,9 +21,9 @@ func phiOverwrite_ssa() int {
 
 func phiOverwrite(t *testing.T) {
 	want := 5
-	got := phiOverwrite_ssa()
-	if got != want {
-		t.Errorf("phiOverwrite_ssa()= %d, got %d", want, got)
+	golangt := phiOverwrite_ssa()
+	if golangt != want {
+		t.Errorf("phiOverwrite_ssa()= %d, golangt %d", want, golangt)
 	}
 }
 
@@ -38,9 +38,9 @@ func phiOverwriteBig_ssa() int {
 
 func phiOverwriteBig(t *testing.T) {
 	want := 1
-	got := phiOverwriteBig_ssa()
-	if got != want {
-		t.Errorf("phiOverwriteBig_ssa()= %d, got %d", want, got)
+	golangt := phiOverwriteBig_ssa()
+	if golangt != want {
+		t.Errorf("phiOverwriteBig_ssa()= %d, golangt %d", want, golangt)
 	}
 }
 

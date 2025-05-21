@@ -1,7 +1,7 @@
 // compile
 
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -21,11 +21,11 @@ L4:
 		print(i)
 		break L4
 	}
-	goto L1
-	goto L3
+	golangto L1
+	golangto L3
 }
 
 /*
-bug137.go:9: break label is not defined: L2
-bug137.go:15: break label is not defined: L4
+bug137.golang:9: break label is not defined: L2
+bug137.golang:15: break label is not defined: L4
 */

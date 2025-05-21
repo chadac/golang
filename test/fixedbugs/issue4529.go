@@ -1,10 +1,10 @@
 // compile
 
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Issue 4529: escape analysis crashes on "go f(g())"
+// Issue 4529: escape analysis crashes on "golang f(g())"
 // when g has multiple returns.
 
 package main
@@ -27,7 +27,7 @@ func Init(a string, b *A, c interface {
 	I() (<-chan M, chan<- M)
 }) {
 	b.a = a
-	go b.c(c.I())
+	golang b.c(c.I())
 }
 
 func (a *A) c(b <-chan M, _ chan<- M) {}

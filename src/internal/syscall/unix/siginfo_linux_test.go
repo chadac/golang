@@ -1,11 +1,11 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package unix_test
 
 import (
-	"internal/goarch"
+	"internal/golangarch"
 	"internal/syscall/unix"
 	"runtime"
 	"strings"
@@ -18,10 +18,10 @@ import (
 func TestSiginfoChildLayout(t *testing.T) {
 	var si unix.SiginfoChild
 
-	const host64bit = goarch.PtrSize == 8
+	const host64bit = golangarch.PtrSize == 8
 
 	if v := unsafe.Sizeof(si); v != 128 {
-		t.Fatalf("sizeof: got %d, want 128", v)
+		t.Fatalf("sizeof: golangt %d, want 128", v)
 	}
 
 	ofSigno := 0
@@ -40,7 +40,7 @@ func TestSiginfoChildLayout(t *testing.T) {
 
 	offsets := []struct {
 		name string
-		got  uintptr
+		golangt  uintptr
 		want int
 	}{
 		{"Signo", unsafe.Offsetof(si.Signo), ofSigno},
@@ -52,8 +52,8 @@ func TestSiginfoChildLayout(t *testing.T) {
 	}
 
 	for _, tc := range offsets {
-		if int(tc.got) != tc.want {
-			t.Errorf("offsetof %s: got %d, want %d", tc.name, tc.got, tc.want)
+		if int(tc.golangt) != tc.want {
+			t.Errorf("offsetof %s: golangt %d, want %d", tc.name, tc.golangt, tc.want)
 		}
 	}
 }

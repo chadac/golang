@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 (Add(Ptr|64|32|16|8) ...) => (ADD ...)
@@ -418,7 +418,7 @@
 		(Zero [s-s%16] ptr mem))
 
 // medium zeroing uses a duff device
-// 4, 16, and 64 are magic constants, see runtime/mkduff.go
+// 4, 16, and 64 are magic constants, see runtime/mkduff.golang
 (Zero [s] ptr mem)
 	&& s%16 == 0 && s > 64 && s <= 16*64 =>
 	(DUFFZERO [4 * (64 - s/16)] ptr mem)

@@ -1,17 +1,17 @@
 // run
-//go:build cgo
+//golang:build cgolang
 
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
 
-import "runtime/cgo"
+import "runtime/cgolang"
 
 type A struct {
 	B
-	_ cgo.Incomplete
+	_ cgolang.Incomplete
 }
 type B struct{ x byte }
 type I interface{ M() *B }
@@ -24,9 +24,9 @@ var (
 )
 
 func main() {
-	got, want := i.M(), &a.B
-	if got != want {
-		println(got, "!=", want)
+	golangt, want := i.M(), &a.B
+	if golangt != want {
+		println(golangt, "!=", want)
 		panic("FAIL")
 	}
 }

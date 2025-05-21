@@ -1,10 +1,10 @@
 // run
 
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Issue 31419: race in getitab when two goroutines try
+// Issue 31419: race in getitab when two golangroutines try
 // to do the same failed interface conversion.
 
 package main
@@ -26,7 +26,7 @@ var ch = make(chan int)
 func main() {
 	_, ok = e.(I) // populate itab cache with a false result
 
-	go f() // get itab in a loop
+	golang f() // get itab in a loop
 
 	var i I
 	for k := 0; k < 10000; k++ {

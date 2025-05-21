@@ -1,8 +1,8 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build goexperiment.arenas
+//golang:build golangexperiment.arenas
 
 /*
 The arena package provides the ability to allocate memory for a collection
@@ -40,7 +40,7 @@ import (
 // it is no longer referenced, so it must be kept alive (see runtime.KeepAlive)
 // until any memory allocated from it is no longer needed.
 //
-// An Arena must never be used concurrently by multiple goroutines.
+// An Arena must never be used concurrently by multiple golangroutines.
 type Arena struct {
 	a unsafe.Pointer
 }
@@ -84,25 +84,25 @@ func Clone[T any](s T) T {
 	return runtime_arena_heapify(s).(T)
 }
 
-//go:linkname reflect_arena_New reflect.arena_New
+//golang:linkname reflect_arena_New reflect.arena_New
 func reflect_arena_New(a *Arena, typ any) any {
 	return runtime_arena_arena_New(a.a, typ)
 }
 
-//go:linkname runtime_arena_newArena
+//golang:linkname runtime_arena_newArena
 func runtime_arena_newArena() unsafe.Pointer
 
-//go:linkname runtime_arena_arena_New
+//golang:linkname runtime_arena_arena_New
 func runtime_arena_arena_New(arena unsafe.Pointer, typ any) any
 
 // Mark as noescape to avoid escaping the slice header.
 //
-//go:noescape
-//go:linkname runtime_arena_arena_Slice
+//golang:noescape
+//golang:linkname runtime_arena_arena_Slice
 func runtime_arena_arena_Slice(arena unsafe.Pointer, slice any, cap int)
 
-//go:linkname runtime_arena_arena_Free
+//golang:linkname runtime_arena_arena_Free
 func runtime_arena_arena_Free(arena unsafe.Pointer)
 
-//go:linkname runtime_arena_heapify
+//golang:linkname runtime_arena_heapify
 func runtime_arena_heapify(any) any

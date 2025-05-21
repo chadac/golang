@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package inlheur
@@ -253,7 +253,7 @@ func (ffa *funcFlagsAnalyzer) nodeVisitPost(n ir.Node) {
 		// track whether the currently enclosing loop is a "for {" or
 		// a for/range with condition, then use mayReturn only for the
 		// former. Note also that "break X" or "continue X" is treated
-		// the same as "goto", since we don't have a good way to track
+		// the same as "golangto", since we don't have a golangod way to track
 		// the target of the branch.
 		st = psMayReturn
 		n := n.(*ir.BranchStmt)
@@ -293,7 +293,7 @@ func (ffa *funcFlagsAnalyzer) nodeVisitPost(n ir.Node) {
 			st = psMayReturn
 		}
 	case ir.OGOTO:
-		// punt if we see even one goto. if we built a control
+		// punt if we see even one golangto. if we built a control
 		// flow graph we could do more, but this is just a tree walk.
 		ffa.pessimize()
 	case ir.OSELECT:

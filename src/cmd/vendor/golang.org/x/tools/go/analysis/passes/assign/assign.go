@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package assign
@@ -10,25 +10,25 @@ package assign
 import (
 	_ "embed"
 	"fmt"
-	"go/ast"
-	"go/token"
-	"go/types"
+	"golang/ast"
+	"golang/token"
+	"golang/types"
 	"reflect"
 
-	"golang.org/x/tools/go/analysis"
-	"golang.org/x/tools/go/analysis/passes/inspect"
-	"golang.org/x/tools/go/analysis/passes/internal/analysisutil"
-	"golang.org/x/tools/go/ast/inspector"
-	"golang.org/x/tools/internal/analysisinternal"
+	"golanglang.org/x/tools/golang/analysis"
+	"golanglang.org/x/tools/golang/analysis/passes/inspect"
+	"golanglang.org/x/tools/golang/analysis/passes/internal/analysisutil"
+	"golanglang.org/x/tools/golang/ast/inspector"
+	"golanglang.org/x/tools/internal/analysisinternal"
 )
 
-//go:embed doc.go
+//golang:embed doc.golang
 var doc string
 
 var Analyzer = &analysis.Analyzer{
 	Name:     "assign",
 	Doc:      analysisutil.MustExtractDoc(doc, "assign"),
-	URL:      "https://pkg.go.dev/golang.org/x/tools/go/analysis/passes/assign",
+	URL:      "https://pkg.golang.dev/golanglang.org/x/tools/golang/analysis/passes/assign",
 	Requires: []*analysis.Analyzer{inspect.Analyzer},
 	Run:      run,
 }
@@ -56,7 +56,7 @@ func run(pass *analysis.Pass) (any, error) {
 				continue // expressions may not be equal
 			}
 			if reflect.TypeOf(lhs) != reflect.TypeOf(rhs) {
-				continue // short-circuit the heavy-weight gofmt check
+				continue // short-circuit the heavy-weight golangfmt check
 			}
 			le := analysisinternal.Format(pass.Fset, lhs)
 			re := analysisinternal.Format(pass.Fset, rhs)

@@ -1,14 +1,14 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build darwin || freebsd || linux || netbsd || openbsd
+//golang:build darwin || freebsd || linux || netbsd || openbsd
 
 package runtime
 
 import (
 	"internal/abi"
-	"internal/goarch"
+	"internal/golangarch"
 	"internal/runtime/sys"
 	"unsafe"
 )
@@ -50,8 +50,8 @@ func dumpregs(c *sigctxt) {
 	print("fault   ", hex(c.fault()), "\n")
 }
 
-//go:nosplit
-//go:nowritebarrierrec
+//golang:nosplit
+//golang:nowritebarrierrec
 func (c *sigctxt) sigpc() uintptr { return uintptr(c.pc()) }
 
 func (c *sigctxt) setsigpc(x uint64) { c.set_pc(x) }
@@ -64,7 +64,7 @@ func (c *sigctxt) preparePanic(sig uint32, gp *g) {
 	// function calls sigpanic directly.
 	// Always save LR to stack so that panics in leaf
 	// functions are correctly handled. This smashes
-	// the stack frame but we're not going back there
+	// the stack frame but we're not golanging back there
 	// anyway.
 	sp := c.sp() - sys.StackAlign // needs only sizeof uint64, but must align the stack
 	c.set_sp(sp)
@@ -74,7 +74,7 @@ func (c *sigctxt) preparePanic(sig uint32, gp *g) {
 	// Frame pointer unwinding won't visit the sigpanic frame, since
 	// sigpanic will save the same frame pointer before calling into a panic
 	// function.
-	*(*uint64)(unsafe.Pointer(uintptr(sp - goarch.PtrSize))) = c.r29()
+	*(*uint64)(unsafe.Pointer(uintptr(sp - golangarch.PtrSize))) = c.r29()
 
 	pc := gp.sigpc
 
@@ -99,7 +99,7 @@ func (c *sigctxt) pushCall(targetPC, resumePC uintptr) {
 	// Make sure a valid frame pointer is saved on the stack so that the
 	// frame pointer checks in adjustframe are happy, if they're enabled.
 	// This is not actually used for unwinding.
-	*(*uint64)(unsafe.Pointer(uintptr(sp - goarch.PtrSize))) = c.r29()
+	*(*uint64)(unsafe.Pointer(uintptr(sp - golangarch.PtrSize))) = c.r29()
 	// Set up PC and LR to pretend the function being signaled
 	// calls targetPC at resumePC.
 	c.set_lr(uint64(resumePC))

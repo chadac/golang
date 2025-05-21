@@ -1,8 +1,8 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build unix
+//golang:build unix
 
 package runtime_test
 
@@ -14,9 +14,9 @@ import (
 
 func TestSyscallFlagAlignment(t *testing.T) {
 	// TODO(mknyszek): Check other flags.
-	check := func(name string, got, want int) {
-		if got != want {
-			t.Errorf("flag %s does not line up: got %d, want %d", name, got, want)
+	check := func(name string, golangt, want int) {
+		if golangt != want {
+			t.Errorf("flag %s does not line up: golangt %d, want %d", name, golangt, want)
 		}
 	}
 	check("O_WRONLY", runtime.O_WRONLY, syscall.O_WRONLY)

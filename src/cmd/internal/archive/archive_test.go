@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package archive
@@ -80,18 +80,18 @@ func copyFile(dst, src string) (err error) {
 
 var (
 	buildOnce   sync.Once
-	builtGoobjs goobjPaths
+	builtGoobjs golangobjPaths
 	buildErr    error
 )
 
-type goobjPaths struct {
-	go1obj     string
-	go2obj     string
-	goarchive  string
-	cgoarchive string
+type golangobjPaths struct {
+	golang1obj     string
+	golang2obj     string
+	golangarchive  string
+	cgolangarchive string
 }
 
-func buildGoobj(t *testing.T) goobjPaths {
+func buildGoobj(t *testing.T) golangobjPaths {
 	buildOnce.Do(func() {
 		buildErr = func() (err error) {
 			buildDir, err = os.MkdirTemp("", "TestGoobj")
@@ -99,59 +99,59 @@ func buildGoobj(t *testing.T) goobjPaths {
 				return err
 			}
 
-			go1obj := filepath.Join(buildDir, "go1.o")
-			go2obj := filepath.Join(buildDir, "go2.o")
-			goarchive := filepath.Join(buildDir, "go.a")
-			cgoarchive := ""
+			golang1obj := filepath.Join(buildDir, "golang1.o")
+			golang2obj := filepath.Join(buildDir, "golang2.o")
+			golangarchive := filepath.Join(buildDir, "golang.a")
+			cgolangarchive := ""
 
-			gotool, err := testenv.GoTool()
+			golangtool, err := testenv.GoTool()
 			if err != nil {
 				return err
 			}
 
-			go1src := filepath.Join("testdata", "go1.go")
-			go2src := filepath.Join("testdata", "go2.go")
+			golang1src := filepath.Join("testdata", "golang1.golang")
+			golang2src := filepath.Join("testdata", "golang2.golang")
 
 			importcfgfile := filepath.Join(buildDir, "importcfg")
-			testenv.WriteImportcfg(t, importcfgfile, nil, go1src, go2src)
+			testenv.WriteImportcfg(t, importcfgfile, nil, golang1src, golang2src)
 
-			out, err := testenv.Command(t, gotool, "tool", "compile", "-importcfg="+importcfgfile, "-p=p", "-o", go1obj, go1src).CombinedOutput()
+			out, err := testenv.Command(t, golangtool, "tool", "compile", "-importcfg="+importcfgfile, "-p=p", "-o", golang1obj, golang1src).CombinedOutput()
 			if err != nil {
-				return fmt.Errorf("go tool compile -o %s %s: %v\n%s", go1obj, go1src, err, out)
+				return fmt.Errorf("golang tool compile -o %s %s: %v\n%s", golang1obj, golang1src, err, out)
 			}
-			out, err = testenv.Command(t, gotool, "tool", "compile", "-importcfg="+importcfgfile, "-p=p", "-o", go2obj, go2src).CombinedOutput()
+			out, err = testenv.Command(t, golangtool, "tool", "compile", "-importcfg="+importcfgfile, "-p=p", "-o", golang2obj, golang2src).CombinedOutput()
 			if err != nil {
-				return fmt.Errorf("go tool compile -o %s %s: %v\n%s", go2obj, go2src, err, out)
+				return fmt.Errorf("golang tool compile -o %s %s: %v\n%s", golang2obj, golang2src, err, out)
 			}
-			out, err = testenv.Command(t, gotool, "tool", "pack", "c", goarchive, go1obj, go2obj).CombinedOutput()
+			out, err = testenv.Command(t, golangtool, "tool", "pack", "c", golangarchive, golang1obj, golang2obj).CombinedOutput()
 			if err != nil {
-				return fmt.Errorf("go tool pack c %s %s %s: %v\n%s", goarchive, go1obj, go2obj, err, out)
+				return fmt.Errorf("golang tool pack c %s %s %s: %v\n%s", golangarchive, golang1obj, golang2obj, err, out)
 			}
 
 			if testenv.HasCGO() {
-				cgoarchive = filepath.Join(buildDir, "mycgo.a")
-				gopath := filepath.Join(buildDir, "gopath")
-				err = copyDir(filepath.Join(gopath, "src", "mycgo"), filepath.Join("testdata", "mycgo"))
+				cgolangarchive = filepath.Join(buildDir, "mycgolang.a")
+				golangpath := filepath.Join(buildDir, "golangpath")
+				err = copyDir(filepath.Join(golangpath, "src", "mycgolang"), filepath.Join("testdata", "mycgolang"))
 				if err == nil {
-					err = os.WriteFile(filepath.Join(gopath, "src", "mycgo", "go.mod"), []byte("module mycgo\n"), 0666)
+					err = os.WriteFile(filepath.Join(golangpath, "src", "mycgolang", "golang.mod"), []byte("module mycgolang\n"), 0666)
 				}
 				if err != nil {
 					return err
 				}
-				cmd := testenv.Command(t, gotool, "build", "-buildmode=archive", "-o", cgoarchive, "-gcflags=all="+os.Getenv("GO_GCFLAGS"), "mycgo")
-				cmd.Dir = filepath.Join(gopath, "src", "mycgo")
-				cmd.Env = append(os.Environ(), "GOPATH="+gopath)
+				cmd := testenv.Command(t, golangtool, "build", "-buildmode=archive", "-o", cgolangarchive, "-gcflags=all="+os.Getenv("GO_GCFLAGS"), "mycgolang")
+				cmd.Dir = filepath.Join(golangpath, "src", "mycgolang")
+				cmd.Env = append(os.Environ(), "GOPATH="+golangpath)
 				out, err = cmd.CombinedOutput()
 				if err != nil {
-					return fmt.Errorf("go install mycgo: %v\n%s", err, out)
+					return fmt.Errorf("golang install mycgolang: %v\n%s", err, out)
 				}
 			}
 
-			builtGoobjs = goobjPaths{
-				go1obj:     go1obj,
-				go2obj:     go2obj,
-				goarchive:  goarchive,
-				cgoarchive: cgoarchive,
+			builtGoobjs = golangobjPaths{
+				golang1obj:     golang1obj,
+				golang2obj:     golang2obj,
+				golangarchive:  golangarchive,
+				cgolangarchive: cgolangarchive,
 			}
 			return nil
 		}()
@@ -165,7 +165,7 @@ func buildGoobj(t *testing.T) goobjPaths {
 }
 
 func TestParseGoobj(t *testing.T) {
-	path := buildGoobj(t).go1obj
+	path := buildGoobj(t).golang1obj
 
 	f, err := os.Open(path)
 	if err != nil {
@@ -185,7 +185,7 @@ func TestParseGoobj(t *testing.T) {
 			continue
 		}
 		if e.Type != EntryGoObj {
-			t.Errorf("wrong type of object: want EntryGoObj, got %v", e.Type)
+			t.Errorf("wrong type of object: want EntryGoObj, golangt %v", e.Type)
 		}
 		if !bytes.Contains(e.Obj.TextHeader, []byte(runtime.GOARCH)) {
 			t.Errorf("text header does not contain GOARCH %s: %q", runtime.GOARCH, e.Obj.TextHeader)
@@ -194,7 +194,7 @@ func TestParseGoobj(t *testing.T) {
 }
 
 func TestParseArchive(t *testing.T) {
-	path := buildGoobj(t).goarchive
+	path := buildGoobj(t).golangarchive
 
 	f, err := os.Open(path)
 	if err != nil {
@@ -216,30 +216,30 @@ func TestParseArchive(t *testing.T) {
 			continue
 		}
 		if e.Type != EntryGoObj {
-			t.Errorf("wrong type of object: want EntryGoObj, got %v", e.Type)
+			t.Errorf("wrong type of object: want EntryGoObj, golangt %v", e.Type)
 		}
 		if !bytes.Contains(e.Obj.TextHeader, []byte(runtime.GOARCH)) {
 			t.Errorf("text header does not contain GOARCH %s: %q", runtime.GOARCH, e.Obj.TextHeader)
 		}
-		if e.Name == "go1.o" {
+		if e.Name == "golang1.o" {
 			found1 = true
 		}
-		if e.Name == "go2.o" {
+		if e.Name == "golang2.o" {
 			found2 = true
 		}
 	}
 	if !found1 {
-		t.Errorf(`object "go1.o" not found`)
+		t.Errorf(`object "golang1.o" not found`)
 	}
 	if !found2 {
-		t.Errorf(`object "go2.o" not found`)
+		t.Errorf(`object "golang2.o" not found`)
 	}
 }
 
 func TestParseCGOArchive(t *testing.T) {
 	testenv.MustHaveCGO(t)
 
-	path := buildGoobj(t).cgoarchive
+	path := buildGoobj(t).cgolangarchive
 
 	f, err := os.Open(path)
 	if err != nil {
@@ -268,7 +268,7 @@ func TestParseCGOArchive(t *testing.T) {
 		c2 = "." + c2
 	}
 
-	var foundgo, found1, found2 bool
+	var foundgolang, found1, found2 bool
 
 	for _, e := range a.Entries {
 		switch e.Type {
@@ -277,7 +277,7 @@ func TestParseCGOArchive(t *testing.T) {
 		case EntryPkgDef:
 			continue
 		case EntryGoObj:
-			foundgo = true
+			foundgolang = true
 			if !bytes.Contains(e.Obj.TextHeader, []byte(runtime.GOARCH)) {
 				t.Errorf("text header does not contain GOARCH %s: %q", runtime.GOARCH, e.Obj.TextHeader)
 			}
@@ -349,8 +349,8 @@ func TestParseCGOArchive(t *testing.T) {
 		}
 	}
 
-	if !foundgo {
-		t.Errorf(`go object not found`)
+	if !foundgolang {
+		t.Errorf(`golang object not found`)
 	}
 	if !found1 {
 		t.Errorf(`symbol %q not found`, c1)
@@ -374,14 +374,14 @@ func TestExactly16Bytes(t *testing.T) {
 		"1234567890123456日本語7日本語890",
 	}
 	for _, str := range tests {
-		got := exactly16Bytes(str)
-		if len(got) != 16 {
-			t.Errorf("exactly16Bytes(%q) is %q, length %d", str, got, len(got))
+		golangt := exactly16Bytes(str)
+		if len(golangt) != 16 {
+			t.Errorf("exactly16Bytes(%q) is %q, length %d", str, golangt, len(golangt))
 		}
 		// Make sure it is full runes.
-		for _, c := range got {
+		for _, c := range golangt {
 			if c == utf8.RuneError {
-				t.Errorf("exactly16Bytes(%q) is %q, has partial rune", str, got)
+				t.Errorf("exactly16Bytes(%q) is %q, has partial rune", str, golangt)
 			}
 		}
 	}

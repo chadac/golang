@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 #include "textflag.h"
@@ -12,6 +12,6 @@ TEXT _rt0_386_netbsd_lib(SB),NOSPLIT,$0
 
 TEXT main(SB),NOSPLIT,$0
 	// Remove the return address from the stack.
-	// rt0_go doesn't expect it to be there.
+	// rt0_golang doesn't expect it to be there.
 	ADDL	$4, SP
-	JMP	runtime·rt0_go(SB)
+	JMP	runtime·rt0_golang(SB)

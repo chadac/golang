@@ -1,16 +1,16 @@
 // errorcheck -0 -m -live -std
 
-//go:build !windows && !js && !wasip1
+//golang:build !windows && !js && !wasip1
 
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test escape analysis and liveness inferred for uintptrkeepalive functions.
 //
 // This behavior is enabled automatically for function declarations with no
 // bodies (assembly, linkname), as well as explicitly on complete functions
-// with //go:uintptrkeepalive.
+// with //golang:uintptrkeepalive.
 //
 // This is most important for syscall.Syscall (and similar functions), so we
 // test it explicitly.
@@ -24,8 +24,8 @@ import (
 
 func implicit(uintptr) // ERROR "assuming ~p0 is unsafe uintptr"
 
-//go:uintptrkeepalive
-//go:nosplit
+//golang:uintptrkeepalive
+//golang:nosplit
 func explicit(uintptr) {
 }
 

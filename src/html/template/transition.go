@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package template
@@ -106,7 +106,7 @@ func tTag(c context, s []byte) (context, int) {
 	if i == j {
 		return context{
 			state: stateError,
-			err:   errorf(ErrBadHTML, nil, 0, "expected space, attr name, or end of tag, but got %q", s[i:]),
+			err:   errorf(ErrBadHTML, nil, 0, "expected space, attr name, or end of tag, but golangt %q", s[i:]),
 		}, len(s)
 	}
 

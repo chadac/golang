@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This test makes sure that naming named
@@ -21,7 +21,7 @@ type B [4]int
 // small (SSAable) array
 type A1 [3]*B
 
-//go:noinline
+//golang:noinline
 func f1() (t A1) {
 	t[0] = &B{91, 92, 93, 94}
 	runtime.GC()
@@ -31,7 +31,7 @@ func f1() (t A1) {
 // large (non-SSAable) array
 type A2 [8]*B
 
-//go:noinline
+//golang:noinline
 func f2() (t A2) {
 	t[0] = &B{91, 92, 93, 94}
 	runtime.GC()
@@ -43,7 +43,7 @@ type A3 struct {
 	a, b, c *B
 }
 
-//go:noinline
+//golang:noinline
 func f3() (t A3) {
 	t.a = &B{91, 92, 93, 94}
 	runtime.GC()
@@ -55,7 +55,7 @@ type A4 struct {
 	a, b, c, d, e, f *B
 }
 
-//go:noinline
+//golang:noinline
 func f4() (t A4) {
 	t.a = &B{91, 92, 93, 94}
 	runtime.GC()

@@ -1,8 +1,8 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build ignore
+//golang:build ignore
 
 package main
 
@@ -12,7 +12,7 @@ import "C"
 func FuncInt() int { return 1 }
 
 // Add a recursive type to check that type equality across plugins doesn't
-// crash. See https://golang.org/issues/19258
+// crash. See https://golanglang.org/issues/19258
 func FuncRecursive() X { return X{} }
 
 type Y struct {

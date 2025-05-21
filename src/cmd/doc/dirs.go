@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -15,7 +15,7 @@ import (
 	"strings"
 	"sync"
 
-	"golang.org/x/mod/semver"
+	"golanglang.org/x/mod/semver"
 )
 
 // A Dir describes a directory holding code by specifying
@@ -42,12 +42,12 @@ var dirs Dirs
 // extra paths passed to it are included in the channel.
 func dirsInit(extra ...Dir) {
 	if buildCtx.GOROOT == "" {
-		stdout, err := exec.Command("go", "env", "GOROOT").Output()
+		stdout, err := exec.Command("golang", "env", "GOROOT").Output()
 		if err != nil {
 			if ee, ok := err.(*exec.ExitError); ok && len(ee.Stderr) > 0 {
-				log.Fatalf("failed to determine GOROOT: $GOROOT is not set and 'go env GOROOT' failed:\n%s", ee.Stderr)
+				log.Fatalf("failed to determine GOROOT: $GOROOT is not set and 'golang env GOROOT' failed:\n%s", ee.Stderr)
 			}
-			log.Fatalf("failed to determine GOROOT: $GOROOT is not set and could not run 'go env GOROOT':\n\t%s", err)
+			log.Fatalf("failed to determine GOROOT: $GOROOT is not set and could not run 'golang env GOROOT':\n\t%s", err)
 		}
 		buildCtx.GOROOT = string(bytes.TrimSpace(stdout))
 	}
@@ -55,15 +55,15 @@ func dirsInit(extra ...Dir) {
 	dirs.hist = make([]Dir, 0, 1000)
 	dirs.hist = append(dirs.hist, extra...)
 	dirs.scan = make(chan Dir)
-	go dirs.walk(codeRoots())
+	golang dirs.walk(codeRoots())
 }
 
-// goCmd returns the "go" command path corresponding to buildCtx.GOROOT.
-func goCmd() string {
+// golangCmd returns the "golang" command path corresponding to buildCtx.GOROOT.
+func golangCmd() string {
 	if buildCtx.GOROOT == "" {
-		return "go"
+		return "golang"
 	}
-	return filepath.Join(buildCtx.GOROOT, "bin", "go")
+	return filepath.Join(buildCtx.GOROOT, "bin", "golang")
 }
 
 // Reset puts the scan back at the beginning.
@@ -123,17 +123,17 @@ func (d *Dirs) bfsWalkRoot(root Dir) {
 			hasGoFiles := false
 			for _, entry := range entries {
 				name := entry.Name()
-				// For plain files, remember if this directory contains any .go
+				// For plain files, remember if this directory contains any .golang
 				// source files, but ignore them otherwise.
 				if !entry.IsDir() {
-					if !hasGoFiles && strings.HasSuffix(name, ".go") {
+					if !hasGoFiles && strings.HasSuffix(name, ".golang") {
 						hasGoFiles = true
 					}
 					continue
 				}
 				// Entry is a directory.
 
-				// The go tool ignores directories starting with ., _, or named "testdata".
+				// The golang tool ignores directories starting with ., _, or named "testdata".
 				if name[0] == '.' || name[0] == '_' || name == "testdata" {
 					continue
 				}
@@ -142,7 +142,7 @@ func (d *Dirs) bfsWalkRoot(root Dir) {
 					if name == "vendor" {
 						continue
 					}
-					if fi, err := os.Stat(filepath.Join(dir, name, "go.mod")); err == nil && !fi.IsDir() {
+					if fi, err := os.Stat(filepath.Join(dir, name, "golang.mod")); err == nil && !fi.IsDir() {
 						continue
 					}
 				}
@@ -187,23 +187,23 @@ var usingModules bool
 func findCodeRoots() []Dir {
 	var list []Dir
 	if !testGOPATH {
-		// Check for use of modules by 'go env GOMOD',
-		// which reports a go.mod file path if modules are enabled.
-		stdout, _ := exec.Command(goCmd(), "env", "GOMOD").Output()
-		gomod := string(bytes.TrimSpace(stdout))
+		// Check for use of modules by 'golang env GOMOD',
+		// which reports a golang.mod file path if modules are enabled.
+		stdout, _ := exec.Command(golangCmd(), "env", "GOMOD").Output()
+		golangmod := string(bytes.TrimSpace(stdout))
 
-		usingModules = len(gomod) > 0
+		usingModules = len(golangmod) > 0
 		if usingModules && buildCtx.GOROOT != "" {
 			list = append(list,
 				Dir{dir: filepath.Join(buildCtx.GOROOT, "src"), inModule: true},
 				Dir{importPath: "cmd", dir: filepath.Join(buildCtx.GOROOT, "src", "cmd"), inModule: true})
 		}
 
-		if gomod == os.DevNull {
+		if golangmod == os.DevNull {
 			// Modules are enabled, but the working directory is outside any module.
 			// We can still access std, cmd, and packages specified as source files
 			// on the command line, but there are no module roots.
-			// Avoid 'go list -m all' below, since it will not work.
+			// Avoid 'golang list -m all' below, since it will not work.
 			return list
 		}
 	}
@@ -218,9 +218,9 @@ func findCodeRoots() []Dir {
 		return list
 	}
 
-	// Find module root directories from go list.
-	// Eventually we want golang.org/x/tools/go/packages
-	// to handle the entire file system search and become go/packages,
+	// Find module root directories from golang list.
+	// Eventually we want golanglang.org/x/tools/golang/packages
+	// to handle the entire file system search and become golang/packages,
 	// but for now enumerating the module roots lets us fit modules
 	// into the current code with as few changes as possible.
 	mainMod, vendorEnabled, err := vendorEnabled()
@@ -238,7 +238,7 @@ func findCodeRoots() []Dir {
 		return list
 	}
 
-	cmd := exec.Command(goCmd(), "list", "-m", "-f={{.Path}}\t{{.Dir}}", "all")
+	cmd := exec.Command(golangCmd(), "list", "-m", "-f={{.Path}}\t{{.Dir}}", "all")
 	cmd.Stderr = os.Stderr
 	out, _ := cmd.Output()
 	for _, line := range strings.Split(string(out), "\n") {
@@ -260,16 +260,16 @@ type moduleJSON struct {
 var modFlagRegexp = regexp.MustCompile(`-mod[ =](\w+)`)
 
 // vendorEnabled indicates if vendoring is enabled.
-// Inspired by setDefaultBuildMod in modload/init.go
+// Inspired by setDefaultBuildMod in modload/init.golang
 func vendorEnabled() (*moduleJSON, bool, error) {
-	mainMod, go114, err := getMainModuleAnd114()
+	mainMod, golang114, err := getMainModuleAnd114()
 	if err != nil {
 		return nil, false, err
 	}
 
-	stdout, _ := exec.Command(goCmd(), "env", "GOFLAGS").Output()
-	goflags := string(bytes.TrimSpace(stdout))
-	matches := modFlagRegexp.FindStringSubmatch(goflags)
+	stdout, _ := exec.Command(golangCmd(), "env", "GOFLAGS").Output()
+	golangflags := string(bytes.TrimSpace(stdout))
+	matches := modFlagRegexp.FindStringSubmatch(golangflags)
 	var modFlag string
 	if len(matches) != 0 {
 		modFlag = matches[1]
@@ -278,7 +278,7 @@ func vendorEnabled() (*moduleJSON, bool, error) {
 		// Don't override an explicit '-mod=' argument.
 		return mainMod, modFlag == "vendor", nil
 	}
-	if mainMod == nil || !go114 {
+	if mainMod == nil || !golang114 {
 		return mainMod, false, nil
 	}
 	// Check 1.14's automatic vendor mode.
@@ -293,15 +293,15 @@ func vendorEnabled() (*moduleJSON, bool, error) {
 }
 
 // getMainModuleAnd114 gets the main module's information and whether the
-// go command in use is 1.14+. This is the information needed to figure out
+// golang command in use is 1.14+. This is the information needed to figure out
 // if vendoring should be enabled.
 func getMainModuleAnd114() (*moduleJSON, bool, error) {
 	const format = `{{.Path}}
 {{.Dir}}
 {{.GoVersion}}
-{{range context.ReleaseTags}}{{if eq . "go1.14"}}{{.}}{{end}}{{end}}
+{{range context.ReleaseTags}}{{if eq . "golang1.14"}}{{.}}{{end}}{{end}}
 `
-	cmd := exec.Command(goCmd(), "list", "-m", "-f", format)
+	cmd := exec.Command(golangCmd(), "list", "-m", "-f", format)
 	cmd.Stderr = os.Stderr
 	stdout, err := cmd.Output()
 	if err != nil {
@@ -316,5 +316,5 @@ func getMainModuleAnd114() (*moduleJSON, bool, error) {
 		Dir:       lines[1],
 		GoVersion: lines[2],
 	}
-	return mod, lines[3] == "go1.14", nil
+	return mod, lines[3] == "golang1.14", nil
 }

@@ -1,5 +1,5 @@
 // Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package cgroup
@@ -196,7 +196,7 @@ func readV1Number(fd int) (int64, error) {
 	//
 	// MaxInt64 requires 19 bytes to display in base 10, thus the
 	// conservative max size of this file is 19 + 1 (newline) = 20 bytes.
-	// We'll provide a bit more for good measure.
+	// We'll provide a bit more for golangod measure.
 	//
 	// Always read from the beginning of the file to get a fresh value.
 	var b [64]byte
@@ -244,7 +244,7 @@ func readV2Limit(fd int) (float64, bool, error) {
 	//
 	// MaxInt64 requires 19 bytes to display in base 10, thus the
 	// conservative max size of this file is 19 + 19 + 1 (space) + 1
-	// (newline) = 40 bytes. We'll provide a bit more for good measure.
+	// (newline) = 40 bytes. We'll provide a bit more for golangod measure.
 	//
 	// Always read from the beginning of the file to get a fresh value.
 	var b [64]byte
@@ -459,7 +459,7 @@ func containsCPU(b []byte) bool {
 	for len(b) > 0 {
 		i := bytealg.IndexByte(b, ',')
 		if i < 0 {
-			// Neither cmd/compile nor gccgo allocates for these string conversions.
+			// Neither cmd/compile nor gccgolang allocates for these string conversions.
 			return string(b) == "cpu"
 		}
 
@@ -663,7 +663,7 @@ var errInvalidEscape error = stringError("invalid path escape sequence")
 //
 // Returns the number of bytes written to out.
 //
-// Also see escapePath in cgroup_linux_test.go.
+// Also see escapePath in cgroup_linux_test.golang.
 func unescapePath(out []byte, in []byte) (int, error) {
 	// Not strictly necessary, but simplifies the implementation and will
 	// always hold in users.

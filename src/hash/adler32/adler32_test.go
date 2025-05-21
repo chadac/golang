@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package adler32
@@ -17,7 +17,7 @@ func TestHashInterface(t *testing.T) {
 	testhash.TestHash(t, func() hash.Hash { return New() })
 }
 
-var golden = []struct {
+var golanglden = []struct {
 	out       uint32
 	in        string
 	halfState string // marshaled hash state after first half of in written, used by TestGoldenMarshal
@@ -39,7 +39,7 @@ var golden = []struct {
 	{0x16661315, "Free! Free!/A trip/to Mars/for 900/empty jars/Burma Shave", "adl\x01\u007f\xbb\t\x10"},
 	{0x5b2e1480, "The days of the digital watch are numbered.  -Tom Stoppard", "adl\x01\x99:\n~"},
 	{0x8c3c09ea, "Nepal premier won't resign.", "adl\x01\"\x05\x05\x05"},
-	{0x45ac18fd, "For every action there is an equal and opposite government program.", "adl\x01\xcc\xfa\f\x00"},
+	{0x45ac18fd, "For every action there is an equal and opposite golangvernment program.", "adl\x01\xcc\xfa\f\x00"},
 	{0x53c61462, "His money is twice tainted: 'taint yours and 'taint mine.", "adl\x01\x93\xa9\n\b"},
 	{0x7e511e63, "There is no reason for any individual to have a computer in their home. -Ken Olsen, 1977", "adl\x01e\xf5\x10\x14"},
 	{0xe4801a6a, "It's a tiny change to the code and not completely disgusting. - Bob Manchek", "adl\x01\xee\x00\f\xb2"},
@@ -79,25 +79,25 @@ func checksum(p []byte) uint32 {
 }
 
 func TestGolden(t *testing.T) {
-	for _, g := range golden {
+	for _, g := range golanglden {
 		in := g.in
 		if len(in) > 220 {
 			in = in[:100] + "..." + in[len(in)-100:]
 		}
 		p := []byte(g.in)
-		if got := checksum(p); got != g.out {
-			t.Errorf("simple implementation: checksum(%q) = 0x%x want 0x%x", in, got, g.out)
+		if golangt := checksum(p); golangt != g.out {
+			t.Errorf("simple implementation: checksum(%q) = 0x%x want 0x%x", in, golangt, g.out)
 			continue
 		}
-		if got := Checksum(p); got != g.out {
-			t.Errorf("optimized implementation: Checksum(%q) = 0x%x want 0x%x", in, got, g.out)
+		if golangt := Checksum(p); golangt != g.out {
+			t.Errorf("optimized implementation: Checksum(%q) = 0x%x want 0x%x", in, golangt, g.out)
 			continue
 		}
 	}
 }
 
 func TestGoldenMarshal(t *testing.T) {
-	for _, g := range golden {
+	for _, g := range golanglden {
 		h := New()
 		h2 := New()
 

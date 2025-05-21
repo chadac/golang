@@ -1,25 +1,25 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Garbage collector: sweeping
 
-// The sweeper consists of two different algorithms:
+// The sweeper consists of two different algolangrithms:
 //
 // * The object reclaimer finds and frees unmarked slots in spans. It
 //   can free a whole span if none of the objects are marked, but that
-//   isn't its goal. This can be driven either synchronously by
+//   isn't its golangal. This can be driven either synchronously by
 //   mcentral.cacheSpan for mcentral spans, or asynchronously by
 //   sweepone, which looks at all the mcentral lists.
 //
 // * The span reclaimer looks for spans that contain no marked objects
-//   and frees whole spans. This is a separate algorithm because
+//   and frees whole spans. This is a separate algolangrithm because
 //   freeing whole spans is the hardest task for the object reclaimer,
 //   but is critical when allocating new spans. The entry point for
 //   this is mheap_.reclaim and it's driven by a sequential scan of
 //   the page marks bitmap in the heap arenas.
 //
-// Both algorithms ultimately call mspan.sweep, which sweeps a single
+// Both algolangrithms ultimately call mspan.sweep, which sweeps a single
 // heap span.
 
 package runtime
@@ -227,7 +227,7 @@ func (a *activeSweep) reset() {
 // The world must be stopped. This ensures there are no sweeps in
 // progress.
 //
-//go:nowritebarrier
+//golang:nowritebarrier
 func finishsweep_m() {
 	assertWorldStopped()
 
@@ -276,11 +276,11 @@ func bgsweep(c chan int) {
 	lock(&sweep.lock)
 	sweep.parked = true
 	c <- 1
-	goparkunlock(&sweep.lock, waitReasonGCSweepWait, traceBlockGCSweep, 1)
+	golangparkunlock(&sweep.lock, waitReasonGCSweepWait, traceBlockGCSweep, 1)
 
 	for {
-		// bgsweep attempts to be a "low priority" goroutine by intentionally
-		// yielding time. It's OK if it doesn't run, because goroutines allocating
+		// bgsweep attempts to be a "low priority" golangroutine by intentionally
+		// yielding time. It's OK if it doesn't run, because golangroutines allocating
 		// memory will sweep and ensure that all spans are swept before the next
 		// GC cycle. We really only want to run when we're idle.
 		//
@@ -294,33 +294,33 @@ func bgsweep(c chan int) {
 		// at the end of every batch. Furthermore, it only yields its time if there
 		// isn't spare idle time available on other cores. If there's available idle
 		// time, helping to sweep can reduce allocation latencies by getting ahead of
-		// the proportional sweeper and having spans ready to go for allocation.
+		// the proportional sweeper and having spans ready to golang for allocation.
 		const sweepBatchSize = 10
 		nSwept := 0
 		for sweepone() != ^uintptr(0) {
 			nSwept++
 			if nSwept%sweepBatchSize == 0 {
-				goschedIfBusy()
+				golangschedIfBusy()
 			}
 		}
 		for freeSomeWbufs(true) {
 			// N.B. freeSomeWbufs is already batched internally.
-			goschedIfBusy()
+			golangschedIfBusy()
 		}
 		lock(&sweep.lock)
 		if !isSweepDone() {
 			// This can happen if a GC runs between
-			// gosweepone returning ^0 above
+			// golangsweepone returning ^0 above
 			// and the lock being acquired.
 			unlock(&sweep.lock)
-			// This goroutine must preempt when we have no work to do
+			// This golangroutine must preempt when we have no work to do
 			// but isSweepDone returns false because of another existing sweeper.
 			// See issue #73499.
-			goschedIfBusy()
+			golangschedIfBusy()
 			continue
 		}
 		sweep.parked = true
-		goparkunlock(&sweep.lock, waitReasonGCSweepWait, traceBlockGCSweep, 1)
+		golangparkunlock(&sweep.lock, waitReasonGCSweepWait, traceBlockGCSweep, 1)
 	}
 }
 
@@ -358,7 +358,7 @@ func (l *sweepLocker) tryAcquire(s *mspan) (sweepLocked, bool) {
 func sweepone() uintptr {
 	gp := getg()
 
-	// Increment locks to ensure that the goroutine is not preempted
+	// Increment locks to ensure that the golangroutine is not preempted
 	// in the middle of sweep thus leaving the span in an inconsistent state for next GC
 	gp.m.locks++
 
@@ -460,11 +460,11 @@ func isSweepDone() bool {
 
 // Returns only when span s has been swept.
 //
-//go:nowritebarrier
+//golang:nowritebarrier
 func (s *mspan) ensureSwept() {
 	// Caller must disable preemption.
 	// Otherwise when this function returns the span can become unswept again
-	// (if GC is triggered on another goroutine).
+	// (if GC is triggered on another golangroutine).
 	gp := getg()
 	if gp.m.locks == 0 && gp.m.mallocing == 0 && gp != gp.m.g0 {
 		throw("mspan.ensureSwept: m is not locked")
@@ -485,7 +485,7 @@ func (s *mspan) ensureSwept() {
 	}
 
 	// Unfortunately we can't sweep the span ourselves. Somebody else
-	// got to it first. We don't have efficient means to wait, but that's
+	// golangt to it first. We don't have efficient means to wait, but that's
 	// OK, it will be swept fairly soon.
 	for {
 		spangen := atomic.Load(&s.sweepgen)
@@ -539,7 +539,7 @@ func (sl *sweepLocked) sweep(preserve bool) bool {
 	// If the allocBits index is >= s.freeindex and the bit
 	// is not marked then the object remains unallocated
 	// since the last GC.
-	// This situation is analogous to being on a freelist.
+	// This situation is analogolangus to being on a freelist.
 
 	// Unlink & free special records for any objects we're about to free.
 	// Two complications here:
@@ -728,7 +728,7 @@ func (sl *sweepLocked) sweep(preserve bool) bool {
 	//
 	// Serialization point.
 	// At this point the mark bits are cleared and allocation ready
-	// to go so release the span.
+	// to golang so release the span.
 	atomic.Store(&s.sweepgen, sweepgen)
 
 	if s.isUserArenaChunk {
@@ -754,7 +754,7 @@ func (sl *sweepLocked) sweep(preserve bool) bool {
 		// and place it on the ready list. Don't add it back to any sweep lists.
 		systemstack(func() {
 			// It's the arena code's responsibility to get the chunk on the quarantine
-			// list by the time all references to the chunk are gone.
+			// list by the time all references to the chunk are golangne.
 			if s.list != &mheap_.userArena.quarantineList {
 				throw("user arena span is on the wrong list")
 			}
@@ -857,7 +857,7 @@ func (sl *sweepLocked) sweep(preserve bool) bool {
 // 2. User code (or a compiler bug) constructed a bad pointer that
 // points to a free slot, often a past-the-end pointer.
 //
-// 3. The GC two cycles ago missed a pointer and freed a live object,
+// 3. The GC two cycles agolang missed a pointer and freed a live object,
 // but it was still live in the last cycle, so this GC cycle found a
 // pointer to that object and marked it.
 func (s *mspan) reportZombies() {
@@ -900,7 +900,7 @@ func (s *mspan) reportZombies() {
 // deductSweepCredit deducts sweep credit for allocating a span of
 // size spanBytes. This must be performed *before* the span is
 // allocated to ensure the system has enough credit. If necessary, it
-// performs sweeping to prevent going in to debt. If the caller will
+// performs sweeping to prevent golanging in to debt. If the caller will
 // also sweep pages (e.g., for a large allocation), it can pass a
 // non-zero callerSweepPages to leave that many pages unswept.
 //
@@ -958,7 +958,7 @@ retry:
 		}
 		if mheap_.pagesSweptBasis.Load() != sweptBasis {
 			// Sweep pacing changed. Recompute debt.
-			goto retry
+			golangto retry
 		}
 	}
 

@@ -1,5 +1,5 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -21,7 +21,7 @@ For compatibility with old Go build environments the op string grc is
 accepted as a synonym for c.
 
 For more information, run
-	go doc cmd/pack`
+	golang doc cmd/pack`
 
 func usage() {
 	fmt.Fprintln(os.Stderr, usageMessage)
@@ -80,7 +80,7 @@ var (
 
 // setOp parses the operation string (first argument).
 func setOp(arg string) {
-	// Recognize 'go tool pack grc' because that was the
+	// Recognize 'golang tool pack grc' because that was the
 	// formerly canonical way to build a new archive
 	// from a set of input files. Accepting it keeps old
 	// build systems working with both Go 1.2 and Go 1.3.
@@ -211,11 +211,11 @@ func (ar *Archive) addFiles() {
 		if err != nil || !isGoCompilerObjFile(aro) {
 			f.Seek(0, io.SeekStart)
 			ar.addFile(f)
-			goto close
+			golangto close
 		}
 
 		for _, e := range aro.Entries {
-			if e.Type != archive.EntryGoObj || e.Name != "_go_.o" {
+			if e.Type != archive.EntryGoObj || e.Name != "_golang_.o" {
 				continue
 			}
 			ar.a.AddEntry(archive.EntryGoObj, filepath.Base(file), 0, 0, 0, 0644, e.Size, io.NewSectionReader(f, e.Offset, e.Size))
@@ -261,7 +261,7 @@ func (ar *Archive) addPkgdef() {
 		}
 		aro, err := archive.Parse(f, false)
 		if err != nil || !isGoCompilerObjFile(aro) {
-			goto close
+			golangto close
 		}
 
 		for _, e := range aro.Entries {
@@ -323,11 +323,11 @@ func (ar *Archive) extractContents1(e *archive.Entry, out io.Writer) {
 
 // isGoCompilerObjFile reports whether file is an object file created
 // by the Go compiler, which is an archive file with exactly one entry
-// of __.PKGDEF, or _go_.o, or both entries.
+// of __.PKGDEF, or _golang_.o, or both entries.
 func isGoCompilerObjFile(a *archive.Archive) bool {
 	switch len(a.Entries) {
 	case 1:
-		return (a.Entries[0].Type == archive.EntryGoObj && a.Entries[0].Name == "_go_.o") ||
+		return (a.Entries[0].Type == archive.EntryGoObj && a.Entries[0].Name == "_golang_.o") ||
 			(a.Entries[0].Type == archive.EntryPkgDef && a.Entries[0].Name == "__.PKGDEF")
 	case 2:
 		var foundPkgDef, foundGo bool
@@ -335,7 +335,7 @@ func isGoCompilerObjFile(a *archive.Archive) bool {
 			if e.Type == archive.EntryPkgDef && e.Name == "__.PKGDEF" {
 				foundPkgDef = true
 			}
-			if e.Type == archive.EntryGoObj && e.Name == "_go_.o" {
+			if e.Type == archive.EntryGoObj && e.Name == "_golang_.o" {
 				foundGo = true
 			}
 		}

@@ -1,8 +1,8 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build msan
+//golang:build msan
 
 package runtime
 
@@ -29,8 +29,8 @@ const msanenabled = true
 // anyhow for values on the stack. Just ignore msanread when running
 // on the system stack. The other msan functions are fine.
 //
-//go:linkname msanread
-//go:nosplit
+//golang:linkname msanread
+//golang:nosplit
 func msanread(addr unsafe.Pointer, sz uintptr) {
 	gp := getg()
 	if gp == nil || gp.m == nil || gp == gp.m.g0 || gp == gp.m.gsignal {
@@ -39,29 +39,29 @@ func msanread(addr unsafe.Pointer, sz uintptr) {
 	domsanread(addr, sz)
 }
 
-//go:noescape
+//golang:noescape
 func domsanread(addr unsafe.Pointer, sz uintptr)
 
-//go:linkname msanwrite
-//go:noescape
+//golang:linkname msanwrite
+//golang:noescape
 func msanwrite(addr unsafe.Pointer, sz uintptr)
 
-//go:linkname msanmalloc
-//go:noescape
+//golang:linkname msanmalloc
+//golang:noescape
 func msanmalloc(addr unsafe.Pointer, sz uintptr)
 
-//go:linkname msanfree
-//go:noescape
+//golang:linkname msanfree
+//golang:noescape
 func msanfree(addr unsafe.Pointer, sz uintptr)
 
-//go:linkname msanmove
-//go:noescape
+//golang:linkname msanmove
+//golang:noescape
 func msanmove(dst, src unsafe.Pointer, sz uintptr)
 
 // These are called from msan_GOARCH.s
 //
-//go:cgo_import_static __msan_read_go
-//go:cgo_import_static __msan_write_go
-//go:cgo_import_static __msan_malloc_go
-//go:cgo_import_static __msan_free_go
-//go:cgo_import_static __msan_memmove_go
+//golang:cgolang_import_static __msan_read_golang
+//golang:cgolang_import_static __msan_write_golang
+//golang:cgolang_import_static __msan_malloc_golang
+//golang:cgolang_import_static __msan_free_golang
+//golang:cgolang_import_static __msan_memmove_golang

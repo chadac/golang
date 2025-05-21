@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2016 The Go Authors.  All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // issue 16515: spilled Duff-adjusted address may be invalid
@@ -14,7 +14,7 @@ type T [62]int // DUFFZERO with non-zero adjustment on AMD64
 
 var sink interface{}
 
-//go:noinline
+//golang:noinline
 func zero(x *T) {
 	// Two DUFFZEROs on the same address with a function call in between.
 	// Duff-adjusted address will be spilled and loaded
@@ -26,7 +26,7 @@ func zero(x *T) {
 	*x = T{} // DUFFZERO again
 }
 
-//go:noinline
+//golang:noinline
 // a function with large frame
 func g() {
 	var x [1000]int

@@ -7,7 +7,7 @@ module example.com/pseudoupgrade
 -- .info --
 {"Version":"v0.1.0","Name":"","Short":"","Time":"2019-04-29T07:30:30Z"}
 
--- pseudoupgrade.go --
+-- pseudoupgrade.golang --
 package pseudoupgrade
 
 const X = 1

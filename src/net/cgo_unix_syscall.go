@@ -1,8 +1,8 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !netgo && darwin
+//golang:build !netgolang && darwin
 
 package net
 
@@ -83,18 +83,18 @@ func _C_res_nclose(state *_C_struct___res_state) {
 	unix.ResNclose(state)
 }
 
-func cgoNameinfoPTR(b []byte, sa *syscall.RawSockaddr, salen int) (int, error) {
+func cgolangNameinfoPTR(b []byte, sa *syscall.RawSockaddr, salen int) (int, error) {
 	gerrno, err := unix.Getnameinfo(sa, salen, &b[0], len(b), nil, 0, unix.NI_NAMEREQD)
 	return int(gerrno), err
 }
 
-func cgoSockaddrInet4(ip IP) *syscall.RawSockaddr {
+func cgolangSockaddrInet4(ip IP) *syscall.RawSockaddr {
 	sa := syscall.RawSockaddrInet4{Len: syscall.SizeofSockaddrInet4, Family: syscall.AF_INET}
 	copy(sa.Addr[:], ip)
 	return (*syscall.RawSockaddr)(unsafe.Pointer(&sa))
 }
 
-func cgoSockaddrInet6(ip IP, zone int) *syscall.RawSockaddr {
+func cgolangSockaddrInet6(ip IP, zone int) *syscall.RawSockaddr {
 	sa := syscall.RawSockaddrInet6{Len: syscall.SizeofSockaddrInet6, Family: syscall.AF_INET6, Scope_id: uint32(zone)}
 	copy(sa.Addr[:], ip)
 	return (*syscall.RawSockaddr)(unsafe.Pointer(&sa))

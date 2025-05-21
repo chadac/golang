@@ -1,5 +1,5 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package test
@@ -16,7 +16,7 @@ var globp *int64
 // By storing a pointer to an int64 output param in a global, the compiler must
 // ensure that output param is allocated on the heap. Also, since there is a
 // defer, the pointer to each output param must be zeroed in the prologue (see
-// plive.go:epilogue()). So, we will get a block of one or more stack slots that
+// plive.golang:epilogue()). So, we will get a block of one or more stack slots that
 // need to be zeroed. Hence, we are testing compilation completes successfully when
 // zerorange calls of various sizes (8-136 bytes) are generated. We are not
 // testing runtime correctness (which is hard to do for the current uses of
@@ -118,7 +118,7 @@ type L struct {
 	q uint64
 }
 
-//go:noinline
+//golang:noinline
 func triggerZerorangeLarge(f, g, h uint64) (rv0 uint64) {
 	ll := L{p: &f}
 	da := f
@@ -129,7 +129,7 @@ func triggerZerorangeLarge(f, g, h uint64) (rv0 uint64) {
 	return rv0
 }
 
-//go:noinline
+//golang:noinline
 func triggerZerorangeMedium(f, g, h uint64) (rv0 uint64) {
 	ll := M{p: &f}
 	rv0 = f + g + h
@@ -139,7 +139,7 @@ func triggerZerorangeMedium(f, g, h uint64) (rv0 uint64) {
 	return rv0
 }
 
-//go:noinline
+//golang:noinline
 func triggerZerorangeSmall(f, g, h uint64) (rv0 uint64) {
 	ll := S{p: &f}
 	rv0 = f + g + h
@@ -172,13 +172,13 @@ func triggerZerorangeSmall(f, g, h uint64) (rv0 uint64) {
 // exercises the various cases).
 func TestZerorange45372(t *testing.T) {
 	if r := triggerZerorangeLarge(101, 303, 505); r != 1010 {
-		t.Errorf("large: wanted %d got %d", 1010, r)
+		t.Errorf("large: wanted %d golangt %d", 1010, r)
 	}
 	if r := triggerZerorangeMedium(101, 303, 505); r != 1010 {
-		t.Errorf("medium: wanted %d got %d", 1010, r)
+		t.Errorf("medium: wanted %d golangt %d", 1010, r)
 	}
 	if r := triggerZerorangeSmall(101, 303, 505); r != 1010 {
-		t.Errorf("small: wanted %d got %d", 1010, r)
+		t.Errorf("small: wanted %d golangt %d", 1010, r)
 	}
 
 }

@@ -1,8 +1,8 @@
-# Regression test for golang.org/issue/35317:
-# 'go get' with multiple module-only arguments was racy.
+# Regression test for golanglang.org/issue/35317:
+# 'golang get' with multiple module-only arguments was racy.
 
 env GO111MODULE=on
 [short] skip
 
-go mod init example.com
-go get golang.org/x/text@v0.3.0 golang.org/x/internal@v0.1.0 golang.org/x/exp@none
+golang mod init example.com
+golang get golanglang.org/x/text@v0.3.0 golanglang.org/x/internal@v0.1.0 golanglang.org/x/exp@none

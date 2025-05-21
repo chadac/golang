@@ -1,8 +1,8 @@
 v2;
 package escapeinfo;
-prefix go;
-package escapeinfo go.escapeinfo go.escapeinfo;
-func NewT (data <type 1 [] <type -20>>) <type 2 *<type 3 "T" <type 4 struct { .go.escapeinfo.data <type 5 [] <type -20>>; }>
+prefix golang;
+package escapeinfo golang.escapeinfo golang.escapeinfo;
+func NewT (data <type 1 [] <type -20>>) <type 2 *<type 3 "T" <type 4 struct { .golang.escapeinfo.data <type 5 [] <type -20>>; }>
  func (? <type 6 *<type 3>>) Read (p <esc:0x1> <type 7 [] <type -20>>);
 >>;
 type <type 3>;

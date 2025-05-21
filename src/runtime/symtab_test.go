@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime_test
@@ -15,7 +15,7 @@ func TestCaller(t *testing.T) {
 	procs := runtime.GOMAXPROCS(-1)
 	c := make(chan bool, procs)
 	for p := 0; p < procs; p++ {
-		go func() {
+		golang func() {
 			for i := 0; i < 1000; i++ {
 				testCallerFoo(t)
 			}
@@ -30,18 +30,18 @@ func TestCaller(t *testing.T) {
 // These are marked noinline so that we can use FuncForPC
 // in testCallerBar.
 //
-//go:noinline
+//golang:noinline
 func testCallerFoo(t *testing.T) {
 	testCallerBar(t)
 }
 
-//go:noinline
+//golang:noinline
 func testCallerBar(t *testing.T) {
 	for i := 0; i < 2; i++ {
 		pc, file, line, ok := runtime.Caller(i)
 		f := runtime.FuncForPC(pc)
 		if !ok ||
-			!strings.HasSuffix(file, "symtab_test.go") ||
+			!strings.HasSuffix(file, "symtab_test.golang") ||
 			(i == 0 && !strings.HasSuffix(f.Name(), "testCallerBar")) ||
 			(i == 1 && !strings.HasSuffix(f.Name(), "testCallerFoo")) ||
 			line < 5 || line > 1000 ||
@@ -150,9 +150,9 @@ func TestLineNumber(t *testing.T) {
 		{"l39", l39, 39},
 		{"l40", l40, 40},
 	} {
-		if got := test.val - firstLine; got != test.want {
+		if golangt := test.val - firstLine; golangt != test.want {
 			t.Errorf("%s on firstLine+%d want firstLine+%d (firstLine=%d, val=%d)",
-				test.name, got, test.want, firstLine, test.val)
+				test.name, golangt, test.want, firstLine, test.val)
 		}
 	}
 }
@@ -160,11 +160,11 @@ func TestLineNumber(t *testing.T) {
 func TestNilName(t *testing.T) {
 	defer func() {
 		if ex := recover(); ex != nil {
-			t.Fatalf("expected no nil panic, got=%v", ex)
+			t.Fatalf("expected no nil panic, golangt=%v", ex)
 		}
 	}()
-	if got := (*runtime.Func)(nil).Name(); got != "" {
-		t.Errorf("Name() = %q, want %q", got, "")
+	if golangt := (*runtime.Func)(nil).Name(); golangt != "" {
+		t.Errorf("Name() = %q, want %q", golangt, "")
 	}
 }
 
@@ -179,7 +179,7 @@ func inlined() {
 //
 // No inline to ensure this complete function appears in output.
 //
-//go:noinline
+//golang:noinline
 func tracebackFunc(t *testing.T) uintptr {
 	// This body must be more complex than a single call to inlined to get
 	// an inline tree.
@@ -189,7 +189,7 @@ func tracebackFunc(t *testing.T) uintptr {
 	// Acquire a PC in this function.
 	pc, _, _, ok := runtime.Caller(0)
 	if !ok {
-		t.Fatalf("Caller(0) got ok false, want true")
+		t.Fatalf("Caller(0) golangt ok false, want true")
 	}
 
 	return pc
@@ -199,8 +199,8 @@ func tracebackFunc(t *testing.T) uintptr {
 // functions (int 3 on amd64) without crashing.
 //
 // Go will never generate a stack trace containing such an address, as it is
-// not a valid call site. However, the cgo traceback function passed to
-// runtime.SetCgoTraceback may not be completely accurate and may incorrect
+// not a valid call site. However, the cgolang traceback function passed to
+// runtime.SetCgolangTraceback may not be completely accurate and may incorrect
 // provide PCs in Go code or the alignment region between functions.
 //
 // Go obviously doesn't easily expose the problematic PCs to running programs,
@@ -220,7 +220,7 @@ func tracebackFunc(t *testing.T) uintptr {
 func TestFunctionAlignmentTraceback(t *testing.T) {
 	pc := tracebackFunc(t)
 
-	// Double-check we got the right PC.
+	// Double-check we golangt the right PC.
 	f := runtime.FuncForPC(pc)
 	if !strings.HasSuffix(f.Name(), "tracebackFunc") {
 		t.Fatalf("Caller(0) = %+v, want tracebackFunc", f)
@@ -239,7 +239,7 @@ func TestFunctionAlignmentTraceback(t *testing.T) {
 	if runtime.GOARCH == "amd64" {
 		code := *(*uint8)(unsafe.Pointer(pc))
 		if code != 0xcc { // INT $3
-			t.Errorf("PC %v code got %#x want 0xcc", pc, code)
+			t.Errorf("PC %v code golangt %#x want 0xcc", pc, code)
 		}
 	}
 
@@ -248,7 +248,7 @@ func TestFunctionAlignmentTraceback(t *testing.T) {
 	frames := runtime.CallersFrames([]uintptr{pc})
 	frame, _ := frames.Next()
 	if frame.Func != f {
-		t.Errorf("frames.Next() got %+v want %+v", frame.Func, f)
+		t.Errorf("frames.Next() golangt %+v want %+v", frame.Func, f)
 	}
 }
 
@@ -277,7 +277,7 @@ func BenchmarkFunc(b *testing.B) {
 	b.Run("FileLine", func(b *testing.B) {
 		for i := 0; i < b.N; i++ {
 			file, line := f.FileLine(pc)
-			if !strings.HasSuffix(file, "symtab_test.go") || line == 0 {
+			if !strings.HasSuffix(file, "symtab_test.golang") || line == 0 {
 				b.Fatalf("unexpected file/line %q:%d", file, line)
 			}
 		}

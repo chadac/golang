@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Existing pull linknames in the wild are allowed _for now_,
@@ -13,10 +13,10 @@ import (
 	"unsafe"
 )
 
-//go:linkname noescape runtime.noescape
+//golang:linkname noescape runtime.noescape
 func noescape(unsafe.Pointer) unsafe.Pointer
 
-//go:linkname rtype_String reflect.(*rtype).String
+//golang:linkname rtype_String reflect.(*rtype).String
 func rtype_String(unsafe.Pointer) string
 
 func main() {

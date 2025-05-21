@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package pprof
@@ -96,9 +96,9 @@ func mergeLabelSets(left, right LabelSet) LabelSet {
 // Labels takes an even number of strings representing key-value pairs
 // and makes a [LabelSet] containing them.
 // A label overwrites a prior label with the same key.
-// Currently only the CPU and goroutine profiles utilize any labels
+// Currently only the CPU and golangroutine profiles utilize any labels
 // information.
-// See https://golang.org/issue/23458 for details.
+// See https://golanglang.org/issue/23458 for details.
 func Labels(args ...string) LabelSet {
 	if len(args)%2 != 0 {
 		panic("uneven number of arguments to pprof.Labels")

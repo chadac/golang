@@ -1,35 +1,35 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
 
 import (
 	"internal/abi"
-	"internal/goarch"
+	"internal/golangarch"
 	"unsafe"
 )
 
 // libc function wrappers. Must run on system stack.
 
-//go:nosplit
-//go:cgo_unsafe_args
+//golang:nosplit
+//golang:cgolang_unsafe_args
 func g0_pthread_key_create(k *pthreadkey, destructor uintptr) int32 {
-	ret := asmcgocall(unsafe.Pointer(abi.FuncPCABI0(pthread_key_create_trampoline)), unsafe.Pointer(&k))
+	ret := asmcgolangcall(unsafe.Pointer(abi.FuncPCABI0(pthread_key_create_trampoline)), unsafe.Pointer(&k))
 	KeepAlive(k)
 	return ret
 }
 func pthread_key_create_trampoline()
 
-//go:nosplit
-//go:cgo_unsafe_args
+//golang:nosplit
+//golang:cgolang_unsafe_args
 func g0_pthread_setspecific(k pthreadkey, value uintptr) int32 {
-	return asmcgocall(unsafe.Pointer(abi.FuncPCABI0(pthread_setspecific_trampoline)), unsafe.Pointer(&k))
+	return asmcgolangcall(unsafe.Pointer(abi.FuncPCABI0(pthread_setspecific_trampoline)), unsafe.Pointer(&k))
 }
 func pthread_setspecific_trampoline()
 
-//go:cgo_import_dynamic libc_pthread_key_create pthread_key_create "/usr/lib/libSystem.B.dylib"
-//go:cgo_import_dynamic libc_pthread_setspecific pthread_setspecific "/usr/lib/libSystem.B.dylib"
+//golang:cgolang_import_dynamic libc_pthread_key_create pthread_key_create "/usr/lib/libSystem.B.dylib"
+//golang:cgolang_import_dynamic libc_pthread_setspecific pthread_setspecific "/usr/lib/libSystem.B.dylib"
 
 // tlsinit allocates a thread-local storage slot for g.
 //
@@ -38,9 +38,9 @@ func pthread_setspecific_trampoline()
 //
 // This runs at startup on g0 stack, but before g is set, so it must
 // not split stack (transitively). g is expected to be nil, so things
-// (e.g. asmcgocall) will skip saving or reading g.
+// (e.g. asmcgolangcall) will skip saving or reading g.
 //
-//go:nosplit
+//golang:nosplit
 func tlsinit(tlsg *uintptr, tlsbase *[_PTHREAD_KEYS_MAX]uintptr) {
 	var k pthreadkey
 	err := g0_pthread_key_create(&k, 0)
@@ -56,7 +56,7 @@ func tlsinit(tlsg *uintptr, tlsbase *[_PTHREAD_KEYS_MAX]uintptr) {
 
 	for i, x := range tlsbase {
 		if x == magic {
-			*tlsg = uintptr(i * goarch.PtrSize)
+			*tlsg = uintptr(i * golangarch.PtrSize)
 			g0_pthread_setspecific(k, 0)
 			return
 		}

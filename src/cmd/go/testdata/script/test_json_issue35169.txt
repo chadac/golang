@@ -1,4 +1,4 @@
-! go test -json .
+! golang test -json .
 
 	# We should see only JSON output on stdout, no non-JSON.
 	# To simplify the check, we just look for non-curly-braces, since
@@ -15,14 +15,14 @@
 stdout '\{.*"Action":"output","Package":"example","Output":"FAIL\\texample \[build failed\]\\n"\}'
 stdout '\{.*"Action":"fail","Package":"example",.*\}'
 
--- go.mod --
+-- golang.mod --
 module example
-go 1.19
--- example.go --
+golang 1.19
+-- example.golang --
 package example
 
 This is not valid Go source.
--- example_test.go --
+-- example_test.golang --
 package  example
 
 func Test(*testing.T) {}

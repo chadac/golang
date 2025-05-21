@@ -1,16 +1,16 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package typeutil
 
-import "go/types"
+import "golang/types"
 
 // Dependencies returns all dependencies of the specified packages.
 //
 // Dependent packages appear in topological order: if package P imports
 // package Q, Q appears earlier than P in the result.
-// The algorithm follows import statements in the order they
+// The algolangrithm follows import statements in the order they
 // appear in the source code, so the result is a total order.
 func Dependencies(pkgs ...*types.Package) []*types.Package {
 	var result []*types.Package

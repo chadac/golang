@@ -1,9 +1,9 @@
 // run
 
-//go:build !js && !wasip1 && gc
+//golang:build !js && !wasip1 && gc
 
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -28,7 +28,7 @@ func main() {
 	}
 	f.Close()
 
-	out := run("go", "tool", "compile", "-p=p", "-o", f.Name(), "-S", "a.go")
+	out := run("golang", "tool", "compile", "-p=p", "-o", f.Name(), "-S", "a.golang")
 	os.Remove(f.Name())
 
 	// 6g/8g print the offset as dec, but 5g/9g print the offset as hex.

@@ -1,8 +1,8 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build unix
+//golang:build unix
 
 package runtime_test
 
@@ -13,7 +13,7 @@ import (
 )
 
 // Test that the error value returned by mmap is positive, as that is
-// what the code in mem_bsd.go, mem_darwin.go, and mem_linux.go expects.
+// what the code in mem_bsd.golang, mem_darwin.golang, and mem_linux.golang expects.
 // See the uses of ENOMEM in sysMap in those files.
 func TestMmapErrorSign(t *testing.T) {
 	p, err := runtime.Mmap(nil, ^uintptr(0)&^(runtime.GetPhysPageSize()-1), 0, runtime.MAP_ANON|runtime.MAP_PRIVATE, -1, 0)

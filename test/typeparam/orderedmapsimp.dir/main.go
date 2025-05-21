@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -51,10 +51,10 @@ func TestMap() {
 			r = append(r, v)
 		}
 	}
-	got := gather(m.Iterate())
+	golangt := gather(m.Iterate())
 	want := []int{'a', 'b', 'x'}
-	if !a.SliceEqual(got, want) {
-		panic(fmt.Sprintf("Iterate returned %v, want %v", got, want))
+	if !a.SliceEqual(golangt, want) {
+		panic(fmt.Sprintf("Iterate returned %v, want %v", golangt, want))
 	}
 
 }

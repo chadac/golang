@@ -1,5 +1,5 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime_test
@@ -39,12 +39,12 @@ func TestVectoredHandlerExceptionInNonGoThread(t *testing.T) {
 		t.Fatalf("failed to build c exe: %s\n%s", err, out)
 	}
 
-	// build go exe
+	// build golang exe
 	exe := filepath.Join(dir, "test.exe")
-	cmd = exec.Command(testenv.GoToolPath(t), "build", "-o", exe, "testdata/testwinlibthrow/main.go")
+	cmd = exec.Command(testenv.GoToolPath(t), "build", "-o", exe, "testdata/testwinlibthrow/main.golang")
 	out, err = testenv.CleanCmdEnv(cmd).CombinedOutput()
 	if err != nil {
-		t.Fatalf("failed to build go library: %s\n%s", err, out)
+		t.Fatalf("failed to build golang library: %s\n%s", err, out)
 	}
 
 	// run test program in same thread
@@ -82,7 +82,7 @@ func TestVectoredHandlerDontCrashOnLibrary(t *testing.T) {
 	if runtime.GOARCH == "arm" {
 		//TODO: remove this skip and update testwinlib/main.c
 		// once windows/arm supports c-shared buildmode.
-		// See go.dev/issues/43800.
+		// See golang.dev/issues/43800.
 		t.Skip("this test can't run on windows/arm")
 	}
 	testenv.MustHaveGoBuild(t)
@@ -92,12 +92,12 @@ func TestVectoredHandlerDontCrashOnLibrary(t *testing.T) {
 	defer testprog.Unlock()
 	dir := t.TempDir()
 
-	// build go dll
+	// build golang dll
 	dll := filepath.Join(dir, "testwinlib.dll")
-	cmd := exec.Command(testenv.GoToolPath(t), "build", "-o", dll, "-buildmode", "c-shared", "testdata/testwinlib/main.go")
+	cmd := exec.Command(testenv.GoToolPath(t), "build", "-o", dll, "-buildmode", "c-shared", "testdata/testwinlib/main.golang")
 	out, err := testenv.CleanCmdEnv(cmd).CombinedOutput()
 	if err != nil {
-		t.Fatalf("failed to build go library: %s\n%s", err, out)
+		t.Fatalf("failed to build golang library: %s\n%s", err, out)
 	}
 
 	// build c program
@@ -124,7 +124,7 @@ func TestVectoredHandlerDontCrashOnLibrary(t *testing.T) {
 	// cleaning output
 	cleanedOut := strings.ReplaceAll(string(out), "\r\n", "\n")
 	if cleanedOut != expectedOutput {
-		t.Errorf("expected output %q, got %q", expectedOutput, cleanedOut)
+		t.Errorf("expected output %q, golangt %q", expectedOutput, cleanedOut)
 	}
 }
 
@@ -145,17 +145,17 @@ func sendCtrlBreak(pid int) error {
 }
 
 // TestCtrlHandler tests that Go can gracefully handle closing the console window.
-// See https://golang.org/issues/41884.
+// See https://golanglang.org/issues/41884.
 func TestCtrlHandler(t *testing.T) {
 	testenv.MustHaveGoBuild(t)
 	t.Parallel()
 
-	// build go program
+	// build golang program
 	exe := filepath.Join(t.TempDir(), "test.exe")
-	cmd := exec.Command(testenv.GoToolPath(t), "build", "-o", exe, "testdata/testwinsignal/main.go")
+	cmd := exec.Command(testenv.GoToolPath(t), "build", "-o", exe, "testdata/testwinsignal/main.golang")
 	out, err := testenv.CleanCmdEnv(cmd).CombinedOutput()
 	if err != nil {
-		t.Fatalf("failed to build go exe: %v\n%s", err, out)
+		t.Fatalf("failed to build golang exe: %v\n%s", err, out)
 	}
 
 	// run test program
@@ -191,13 +191,13 @@ func TestCtrlHandler(t *testing.T) {
 	}
 
 	// check child received, handled SIGTERM
-	if expected, got := syscall.SIGTERM.String(), strings.TrimSpace(stdout.String()); expected != got {
-		t.Fatalf("Expected '%s' got: %s", expected, got)
+	if expected, golangt := syscall.SIGTERM.String(), strings.TrimSpace(stdout.String()); expected != golangt {
+		t.Fatalf("Expected '%s' golangt: %s", expected, golangt)
 	}
 }
 
 // TestLibraryCtrlHandler tests that Go DLL allows calling program to handle console control events.
-// See https://golang.org/issues/35965.
+// See https://golanglang.org/issues/35965.
 func TestLibraryCtrlHandler(t *testing.T) {
 	if *flagQuick {
 		t.Skip("-quick")
@@ -212,12 +212,12 @@ func TestLibraryCtrlHandler(t *testing.T) {
 	defer testprog.Unlock()
 	dir := t.TempDir()
 
-	// build go dll
+	// build golang dll
 	dll := filepath.Join(dir, "dummy.dll")
-	cmd := exec.Command(testenv.GoToolPath(t), "build", "-o", dll, "-buildmode", "c-shared", "testdata/testwinlibsignal/dummy.go")
+	cmd := exec.Command(testenv.GoToolPath(t), "build", "-o", dll, "-buildmode", "c-shared", "testdata/testwinlibsignal/dummy.golang")
 	out, err := testenv.CleanCmdEnv(cmd).CombinedOutput()
 	if err != nil {
-		t.Fatalf("failed to build go library: %s\n%s", err, out)
+		t.Fatalf("failed to build golang library: %s\n%s", err, out)
 	}
 
 	// build c program
@@ -246,7 +246,7 @@ func TestLibraryCtrlHandler(t *testing.T) {
 	}
 
 	errCh := make(chan error, 1)
-	go func() {
+	golang func() {
 		if line, err := outReader.ReadString('\n'); err != nil {
 			errCh <- fmt.Errorf("could not read stdout: %v", err)
 		} else if strings.TrimSpace(line) != "ready" {
@@ -274,7 +274,7 @@ func TestIssue59213(t *testing.T) {
 	testenv.MustHaveGoBuild(t)
 	testenv.MustHaveCGO(t)
 
-	goEnv := func(arg string) string {
+	golangEnv := func(arg string) string {
 		cmd := testenv.Command(t, testenv.GoToolPath(t), "env", arg)
 		cmd.Stderr = new(bytes.Buffer)
 
@@ -287,26 +287,26 @@ func TestIssue59213(t *testing.T) {
 		return out
 	}
 
-	cc := goEnv("CC")
-	cgoCflags := goEnv("CGO_CFLAGS")
+	cc := golangEnv("CC")
+	cgolangCflags := golangEnv("CGO_CFLAGS")
 
 	t.Parallel()
 
 	tmpdir := t.TempDir()
 	dllfile := filepath.Join(tmpdir, "test.dll")
-	exefile := filepath.Join(tmpdir, "gotest.exe")
+	exefile := filepath.Join(tmpdir, "golangtest.exe")
 
-	// build go dll
-	cmd := testenv.Command(t, testenv.GoToolPath(t), "build", "-o", dllfile, "-buildmode", "c-shared", "testdata/testwintls/main.go")
+	// build golang dll
+	cmd := testenv.Command(t, testenv.GoToolPath(t), "build", "-o", dllfile, "-buildmode", "c-shared", "testdata/testwintls/main.golang")
 	out, err := testenv.CleanCmdEnv(cmd).CombinedOutput()
 	if err != nil {
-		t.Fatalf("failed to build go library: %s\n%s", err, out)
+		t.Fatalf("failed to build golang library: %s\n%s", err, out)
 	}
 
 	// build c program
 	cmd = testenv.Command(t, cc, "-o", exefile, "testdata/testwintls/main.c")
 	testenv.CleanCmdEnv(cmd)
-	cmd.Env = append(cmd.Env, "CGO_CFLAGS="+cgoCflags)
+	cmd.Env = append(cmd.Env, "CGO_CFLAGS="+cgolangCflags)
 	out, err = cmd.CombinedOutput()
 	if err != nil {
 		t.Fatalf("failed to build c exe: %s\n%s", err, out)

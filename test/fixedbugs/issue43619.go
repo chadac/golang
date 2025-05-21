@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -11,7 +11,7 @@ import (
 	"math"
 )
 
-//go:noinline
+//golang:noinline
 func fcmplt(a, b float64, x uint64) uint64 {
 	if a < b {
 		x = 0
@@ -19,7 +19,7 @@ func fcmplt(a, b float64, x uint64) uint64 {
 	return x
 }
 
-//go:noinline
+//golang:noinline
 func fcmple(a, b float64, x uint64) uint64 {
 	if a <= b {
 		x = 0
@@ -27,7 +27,7 @@ func fcmple(a, b float64, x uint64) uint64 {
 	return x
 }
 
-//go:noinline
+//golang:noinline
 func fcmpgt(a, b float64, x uint64) uint64 {
 	if a > b {
 		x = 0
@@ -35,7 +35,7 @@ func fcmpgt(a, b float64, x uint64) uint64 {
 	return x
 }
 
-//go:noinline
+//golang:noinline
 func fcmpge(a, b float64, x uint64) uint64 {
 	if a >= b {
 		x = 0
@@ -43,7 +43,7 @@ func fcmpge(a, b float64, x uint64) uint64 {
 	return x
 }
 
-//go:noinline
+//golang:noinline
 func fcmpeq(a, b float64, x uint64) uint64 {
 	if a == b {
 		x = 0
@@ -51,7 +51,7 @@ func fcmpeq(a, b float64, x uint64) uint64 {
 	return x
 }
 
-//go:noinline
+//golang:noinline
 func fcmpne(a, b float64, x uint64) uint64 {
 	if a != b {
 		x = 0
@@ -111,9 +111,9 @@ func main() {
 		{fcmpeq, NaN, NaN, 123, 123},
 		{fcmpne, NaN, NaN, 123, 0},
 	} {
-		got := t.f(t.a, t.b, t.x)
-		if got != t.want {
-			panic(fmt.Sprintf("want %v, got %v", t.want, got))
+		golangt := t.f(t.a, t.b, t.x)
+		if golangt != t.want {
+			panic(fmt.Sprintf("want %v, golangt %v", t.want, golangt))
 		}
 	}
 }

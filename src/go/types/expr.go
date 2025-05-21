@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file implements typechecking of expressions.
@@ -8,14 +8,14 @@ package types
 
 import (
 	"fmt"
-	"go/ast"
-	"go/constant"
-	"go/token"
+	"golang/ast"
+	"golang/constant"
+	"golang/token"
 	. "internal/types/errors"
 )
 
 /*
-Basic algorithm:
+Basic algolangrithm:
 
 Expressions are checked recursively, top down. Expression checker functions
 are generally of the form:
@@ -280,7 +280,7 @@ func (check *Checker) updateExprType(x ast.Expr, typ Type, final bool) {
 		*ast.MapType,
 		*ast.ChanType:
 		// These expression are never untyped - nothing to do.
-		// The respective sub-expressions got their final types
+		// The respective sub-expressions golangt their final types
 		// upon assignment or use.
 		if debug {
 			check.dump("%v: found old type(%s): %s (new: %s)", x.Pos(), x, old.typ, typ)
@@ -355,7 +355,7 @@ func (check *Checker) updateExprType(x ast.Expr, typ Type, final bool) {
 		}
 		// Even if we have an integer, if the value is a constant we
 		// still must check that it is representable as the specific
-		// int type requested (was go.dev/issue/22969). Fall through here.
+		// int type requested (was golang.dev/issue/22969). Fall through here.
 	}
 	if old.val != nil {
 		// If x is a constant, it must be representable as a value of typ.
@@ -432,7 +432,7 @@ func (check *Checker) implicitTypeAndValue(x *operand, target Type) (Type, const
 			if !hasNil(target) {
 				return nil, nil, InvalidUntypedConversion
 			}
-			// Preserve the type of nil as UntypedNil: see go.dev/issue/13061.
+			// Preserve the type of nil as UntypedNil: see golang.dev/issue/13061.
 			return Typ[UntypedNil], nil, 0
 		default:
 			return nil, nil, InvalidUntypedConversion
@@ -448,14 +448,14 @@ func (check *Checker) implicitTypeAndValue(x *operand, target Type) (Type, const
 			}) {
 				return nil, nil, InvalidUntypedConversion
 			}
-			// keep nil untyped (was bug go.dev/issue/39755)
+			// keep nil untyped (was bug golang.dev/issue/39755)
 			if x.isNil() {
 				return Typ[UntypedNil], nil, 0
 			}
 			break
 		}
 		// Values must have concrete dynamic types. If the value is nil,
-		// keep it untyped (this is important for tools such as go vet which
+		// keep it untyped (this is important for tools such as golang vet which
 		// need the dynamic type for argument checking of say, print
 		// functions)
 		if x.isNil() {
@@ -480,7 +480,7 @@ func (check *Checker) implicitTypeAndValue(x *operand, target Type) (Type, const
 
 // If switchCase is true, the operator op is ignored.
 func (check *Checker) comparison(x, y *operand, op token.Token, switchCase bool) {
-	// Avoid spurious errors if any of the operands has an invalid type (go.dev/issue/54405).
+	// Avoid spurious errors if any of the operands has an invalid type (golang.dev/issue/54405).
 	if !isValid(x.typ) || !isValid(y.typ) {
 		x.mode = invalid
 		return
@@ -506,7 +506,7 @@ func (check *Checker) comparison(x, y *operand, op token.Token, switchCase bool)
 		// a type mismatch.
 		errOp = y
 		cause = check.sprintf("mismatched types %s and %s", x.typ, y.typ)
-		goto Error
+		golangto Error
 	}
 
 	// check if comparison is defined for operands
@@ -527,18 +527,18 @@ func (check *Checker) comparison(x, y *operand, op token.Token, switchCase bool)
 				// know after seeing the 2nd operand whether we have
 				// an invalid comparison.
 				errOp = y
-				goto Error
+				golangto Error
 			}
 
 		case !Comparable(x.typ):
 			errOp = x
 			cause = check.incomparableCause(x.typ)
-			goto Error
+			golangto Error
 
 		case !Comparable(y.typ):
 			errOp = y
 			cause = check.incomparableCause(y.typ)
-			goto Error
+			golangto Error
 		}
 
 	case token.LSS, token.LEQ, token.GTR, token.GEQ:
@@ -546,10 +546,10 @@ func (check *Checker) comparison(x, y *operand, op token.Token, switchCase bool)
 		switch {
 		case !allOrdered(x.typ):
 			errOp = x
-			goto Error
+			golangto Error
 		case !allOrdered(y.typ):
 			errOp = y
-			goto Error
+			golangto Error
 		}
 
 	default:
@@ -636,10 +636,10 @@ func (check *Checker) shift(x, y *operand, e ast.Expr, op token.Token) {
 	// or be an untyped constant representable by a value of type uint."
 
 	// Check that constants are representable by uint, but do not convert them
-	// (see also go.dev/issue/47243).
+	// (see also golang.dev/issue/47243).
 	var yval constant.Value
 	if y.mode == constant_ {
-		// Provide a good error message for negative shift counts.
+		// Provide a golangod error message for negative shift counts.
 		yval = constant.ToInt(y.val) // consider -1, 1.0, but not -1.1
 		if yval.Kind() == constant.Int && constant.Sign(yval) < 0 {
 			check.errorf(y, InvalidShiftCount, invalidOp+"negative shift count %s", y)
@@ -649,7 +649,7 @@ func (check *Checker) shift(x, y *operand, e ast.Expr, op token.Token) {
 
 		if isUntyped(y.typ) {
 			// Caution: Check for representability here, rather than in the switch
-			// below, because isInteger includes untyped integers (was bug go.dev/issue/43697).
+			// below, because isInteger includes untyped integers (was bug golang.dev/issue/43697).
 			check.representable(y, Typ[Uint])
 			if y.mode == invalid {
 				x.mode = invalid
@@ -660,13 +660,13 @@ func (check *Checker) shift(x, y *operand, e ast.Expr, op token.Token) {
 		// Check that RHS is otherwise at least of integer type.
 		switch {
 		case allInteger(y.typ):
-			if !allUnsigned(y.typ) && !check.verifyVersionf(y, go1_13, invalidOp+"signed shift count %s", y) {
+			if !allUnsigned(y.typ) && !check.verifyVersionf(y, golang1_13, invalidOp+"signed shift count %s", y) {
 				x.mode = invalid
 				return
 			}
 		case isUntyped(y.typ):
 			// This is incorrect, but preserves pre-existing behavior.
-			// See also go.dev/issue/47410.
+			// See also golang.dev/issue/47410.
 			check.convertUntyped(y, Typ[Uint])
 			if y.mode == invalid {
 				x.mode = invalid
@@ -691,7 +691,7 @@ func (check *Checker) shift(x, y *operand, e ast.Expr, op token.Token) {
 				return
 			}
 			// rhs must be within reasonable bounds in constant shifts
-			const shiftBound = 1023 - 1 + 52 // so we can express smallestFloat64 (see go.dev/issue/44057)
+			const shiftBound = 1023 - 1 + 52 // so we can express smallestFloat64 (see golang.dev/issue/44057)
 			s, ok := constant.Uint64Val(yval)
 			if !ok || s > shiftBound {
 				check.errorf(y, InvalidShiftCount, invalidOp+"invalid shift count %s", y)
@@ -732,7 +732,7 @@ func (check *Checker) shift(x, y *operand, e ast.Expr, op token.Token) {
 			// the same expr node still just leads to one entry for
 			// that node, and it can only be deleted once).
 			// Be cautious and check for presence of entry.
-			// Example: var e, f = int(1<<""[f]) // go.dev/issue/11347
+			// Example: var e, f = int(1<<""[f]) // golang.dev/issue/11347
 			if info, found := check.untyped[x.expr]; found {
 				info.isLhs = true
 				check.untyped[x.expr] = info
@@ -837,7 +837,7 @@ func (check *Checker) binary(x *operand, e ast.Expr, lhs, rhs ast.Expr, op token
 			return
 		}
 
-		// check for divisor underflow in complex division (see go.dev/issue/20227)
+		// check for divisor underflow in complex division (see golang.dev/issue/20227)
 		if x.mode == constant_ && y.mode == constant_ && isComplex(x.typ) {
 			re, im := constant.Real(y.val), constant.Imag(y.val)
 			re2, im2 := constant.BinaryOp(re, token.MUL, re), constant.BinaryOp(im, token.MUL, im)
@@ -1020,13 +1020,13 @@ func (check *Checker) nonGeneric(T *target, x *operand) {
 // (See rawExpr for an explanation of the parameters.)
 func (check *Checker) exprInternal(T *target, x *operand, e ast.Expr, hint Type) exprKind {
 	// make sure x has a valid state in case of bailout
-	// (was go.dev/issue/5770)
+	// (was golang.dev/issue/5770)
 	x.mode = invalid
 	x.typ = Typ[Invalid]
 
 	switch e := e.(type) {
 	case *ast.BadExpr:
-		goto Error // error was reported before
+		golangto Error // error was reported before
 
 	case *ast.Ident:
 		check.ident(x, e, nil, false)
@@ -1034,28 +1034,28 @@ func (check *Checker) exprInternal(T *target, x *operand, e ast.Expr, hint Type)
 	case *ast.Ellipsis:
 		// ellipses are handled explicitly where they are valid
 		check.error(e, InvalidSyntaxTree, "invalid use of ...")
-		goto Error
+		golangto Error
 
 	case *ast.BasicLit:
 		check.basicLit(x, e)
 		if x.mode == invalid {
-			goto Error
+			golangto Error
 		}
 
 	case *ast.FuncLit:
 		check.funcLit(x, e)
 		if x.mode == invalid {
-			goto Error
+			golangto Error
 		}
 
 	case *ast.CompositeLit:
 		check.compositeLit(x, e, hint)
 		if x.mode == invalid {
-			goto Error
+			golangto Error
 		}
 
 	case *ast.ParenExpr:
-		// type inference doesn't go past parentheses (target type T = nil)
+		// type inference doesn't golang past parentheses (target type T = nil)
 		kind := check.rawExpr(nil, x, e.X, nil, false)
 		x.expr = e
 		return kind
@@ -1072,38 +1072,38 @@ func (check *Checker) exprInternal(T *target, x *operand, e ast.Expr, hint Type)
 			check.funcInst(T, e.Pos(), x, ix, true)
 		}
 		if x.mode == invalid {
-			goto Error
+			golangto Error
 		}
 
 	case *ast.SliceExpr:
 		check.sliceExpr(x, e)
 		if x.mode == invalid {
-			goto Error
+			golangto Error
 		}
 
 	case *ast.TypeAssertExpr:
 		check.expr(nil, x, e.X)
 		if x.mode == invalid {
-			goto Error
+			golangto Error
 		}
 		// x.(type) expressions are handled explicitly in type switches
 		if e.Type == nil {
 			// Don't use InvalidSyntaxTree because this can occur in the AST produced by
-			// go/parser.
+			// golang/parser.
 			check.error(e, BadTypeKeyword, "use of .(type) outside type switch")
-			goto Error
+			golangto Error
 		}
 		if isTypeParam(x.typ) {
 			check.errorf(x, InvalidAssert, invalidOp+"cannot use type assertion on type parameter value %s", x)
-			goto Error
+			golangto Error
 		}
 		if _, ok := under(x.typ).(*Interface); !ok {
 			check.errorf(x, InvalidAssert, invalidOp+"%s is not an interface", x)
-			goto Error
+			golangto Error
 		}
 		T := check.varType(e.Type)
 		if !isValid(T) {
-			goto Error
+			golangto Error
 		}
 		check.typeAssertion(e, x, T, false)
 		x.mode = commaok
@@ -1116,7 +1116,7 @@ func (check *Checker) exprInternal(T *target, x *operand, e ast.Expr, hint Type)
 		check.exprOrType(x, e.X, false)
 		switch x.mode {
 		case invalid:
-			goto Error
+			golangto Error
 		case typexpr:
 			check.validVarType(e.X, x.typ)
 			x.typ = &Pointer{base: x.typ}
@@ -1135,7 +1135,7 @@ func (check *Checker) exprInternal(T *target, x *operand, e ast.Expr, hint Type)
 				base = p.base
 				return true
 			}) {
-				goto Error
+				golangto Error
 			}
 			x.mode = variable
 			x.typ = base
@@ -1144,7 +1144,7 @@ func (check *Checker) exprInternal(T *target, x *operand, e ast.Expr, hint Type)
 	case *ast.UnaryExpr:
 		check.unary(x, e)
 		if x.mode == invalid {
-			goto Error
+			golangto Error
 		}
 		if e.Op == token.ARROW {
 			x.expr = e
@@ -1154,13 +1154,13 @@ func (check *Checker) exprInternal(T *target, x *operand, e ast.Expr, hint Type)
 	case *ast.BinaryExpr:
 		check.binary(x, e, e.X, e.Y, e.Op, e.OpPos)
 		if x.mode == invalid {
-			goto Error
+			golangto Error
 		}
 
 	case *ast.KeyValueExpr:
 		// key:value expressions are handled in composite literals
 		check.error(e, InvalidSyntaxTree, "no key:value expected")
-		goto Error
+		golangto Error
 
 	case *ast.ArrayType, *ast.StructType, *ast.FuncType,
 		*ast.InterfaceType, *ast.MapType, *ast.ChanType:

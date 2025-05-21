@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ld
@@ -13,7 +13,7 @@ import (
 	"testing"
 )
 
-// See also $GOROOT/test/nosplit.go for multi-platform edge case tests.
+// See also $GOROOT/test/nosplit.golang for multi-platform edge case tests.
 
 func TestStackCheckOutput(t *testing.T) {
 	testenv.MustHaveGoBuild(t)
@@ -66,7 +66,7 @@ func TestStackCheckOutput(t *testing.T) {
 
 	// Parse stanzas
 	stanza := regexp.MustCompile(`^(.*): nosplit stack over \d+ byte limit\n(.*\n(?: .*\n)*)`)
-	// Strip comments from cmd/go
+	// Strip comments from cmd/golang
 	out = regexp.MustCompile(`(?m)^#.*\n`).ReplaceAllString(out, "")
 	for len(out) > 0 {
 		m := stanza.FindStringSubmatch(out)
@@ -75,13 +75,13 @@ func TestStackCheckOutput(t *testing.T) {
 		}
 		out = out[len(m[0]):]
 		fn := m[1]
-		got := m[2]
+		golangt := m[2]
 
 		want, ok := wantMap[fn]
 		if !ok {
 			t.Errorf("unexpected function: %s", fn)
-		} else if want != got {
-			t.Errorf("want:\n%sgot:\n%s", want, got)
+		} else if want != golangt {
+			t.Errorf("want:\n%sgolangt:\n%s", want, golangt)
 		}
 	}
 }

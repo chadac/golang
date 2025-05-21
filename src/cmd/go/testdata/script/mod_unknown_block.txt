@@ -1,11 +1,11 @@
 env GOTOOLCHAIN=local
-! go list .
-stderr 'go: go.mod requires go >= 1.999'
+! golang list .
+stderr 'golang: golang.mod requires golang >= 1.999'
 
 
--- go.mod --
+-- golang.mod --
 module example.com
 
-go 1.999
+golang 1.999
 
 anewblock foo

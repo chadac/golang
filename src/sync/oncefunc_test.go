@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package sync_test
@@ -23,16 +23,16 @@ func TestOnceFunc(t *testing.T) {
 	f := sync.OnceFunc(of)
 	allocs := testing.AllocsPerRun(10, f)
 	if calls != 1 {
-		t.Errorf("want calls==1, got %d", calls)
+		t.Errorf("want calls==1, golangt %d", calls)
 	}
 	if allocs != 0 {
-		t.Errorf("want 0 allocations per call to f, got %v", allocs)
+		t.Errorf("want 0 allocations per call to f, golangt %v", allocs)
 	}
 	allocs = testing.AllocsPerRun(10, func() {
 		f = sync.OnceFunc(of)
 	})
 	if allocs > 2 {
-		t.Errorf("want at most 2 allocations per call to OnceFunc, got %v", allocs)
+		t.Errorf("want at most 2 allocations per call to OnceFunc, golangt %v", allocs)
 	}
 }
 
@@ -46,19 +46,19 @@ func TestOnceValue(t *testing.T) {
 	allocs := testing.AllocsPerRun(10, func() { f() })
 	value := f()
 	if calls != 1 {
-		t.Errorf("want calls==1, got %d", calls)
+		t.Errorf("want calls==1, golangt %d", calls)
 	}
 	if value != 1 {
-		t.Errorf("want value==1, got %d", value)
+		t.Errorf("want value==1, golangt %d", value)
 	}
 	if allocs != 0 {
-		t.Errorf("want 0 allocations per call to f, got %v", allocs)
+		t.Errorf("want 0 allocations per call to f, golangt %v", allocs)
 	}
 	allocs = testing.AllocsPerRun(10, func() {
 		f = sync.OnceValue(of)
 	})
 	if allocs > 2 {
-		t.Errorf("want at most 2 allocations per call to OnceValue, got %v", allocs)
+		t.Errorf("want at most 2 allocations per call to OnceValue, golangt %v", allocs)
 	}
 }
 
@@ -72,26 +72,26 @@ func TestOnceValues(t *testing.T) {
 	allocs := testing.AllocsPerRun(10, func() { f() })
 	v1, v2 := f()
 	if calls != 1 {
-		t.Errorf("want calls==1, got %d", calls)
+		t.Errorf("want calls==1, golangt %d", calls)
 	}
 	if v1 != 1 || v2 != 2 {
-		t.Errorf("want v1==1 and v2==2, got %d and %d", v1, v2)
+		t.Errorf("want v1==1 and v2==2, golangt %d and %d", v1, v2)
 	}
 	if allocs != 0 {
-		t.Errorf("want 0 allocations per call to f, got %v", allocs)
+		t.Errorf("want 0 allocations per call to f, golangt %v", allocs)
 	}
 	allocs = testing.AllocsPerRun(10, func() {
 		f = sync.OnceValues(of)
 	})
 	if allocs > 2 {
-		t.Errorf("want at most 2 allocations per call to OnceValues, got %v", allocs)
+		t.Errorf("want at most 2 allocations per call to OnceValues, golangt %v", allocs)
 	}
 }
 
 func testOncePanicX(t *testing.T, calls *int, f func()) {
 	testOncePanicWith(t, calls, f, func(label string, p any) {
 		if p != "x" {
-			t.Fatalf("%s: want panic %v, got %v", label, "x", p)
+			t.Fatalf("%s: want panic %v, golangt %v", label, "x", p)
 		}
 	})
 }
@@ -115,7 +115,7 @@ func testOncePanicWith(t *testing.T, calls *int, f func(), check func(label stri
 		check(label, p)
 	}
 	if *calls != 1 {
-		t.Errorf("want calls==1, got %d", *calls)
+		t.Errorf("want calls==1, golangt %d", *calls)
 	}
 }
 
@@ -157,7 +157,7 @@ func TestOnceFuncPanicNil(t *testing.T) {
 		case nil, *runtime.PanicNilError:
 			return
 		}
-		t.Fatalf("%s: want nil panic, got %v", label, p)
+		t.Fatalf("%s: want nil panic, golangt %v", label, p)
 	})
 }
 
@@ -172,7 +172,7 @@ func TestOnceFuncGoexit(t *testing.T) {
 	var wg sync.WaitGroup
 	for i := 0; i < 2; i++ {
 		wg.Add(1)
-		go func() {
+		golang func() {
 			defer wg.Done()
 			defer func() { recover() }()
 			f()
@@ -180,23 +180,23 @@ func TestOnceFuncGoexit(t *testing.T) {
 		wg.Wait()
 	}
 	if calls != 1 {
-		t.Errorf("want calls==1, got %d", calls)
+		t.Errorf("want calls==1, golangt %d", calls)
 	}
 }
 
 func TestOnceFuncPanicTraceback(t *testing.T) {
-	// Test that on the first invocation of a OnceFunc, the stack trace goes all
+	// Test that on the first invocation of a OnceFunc, the stack trace golanges all
 	// the way to the origin of the panic.
 	f := sync.OnceFunc(onceFuncPanic)
 
 	defer func() {
 		if p := recover(); p != "x" {
-			t.Fatalf("want panic %v, got %v", "x", p)
+			t.Fatalf("want panic %v, golangt %v", "x", p)
 		}
 		stack := debug.Stack()
 		want := "sync_test.onceFuncPanic"
 		if !bytes.Contains(stack, []byte(want)) {
-			t.Fatalf("want stack containing %v, got:\n%s", want, string(stack))
+			t.Fatalf("want stack containing %v, golangt:\n%s", want, string(stack))
 		}
 	}()
 	f()
@@ -265,7 +265,7 @@ func runCleanups() {
 	runtime_blockUntilEmptyCleanupQueue(math.MaxInt64)
 }
 
-//go:linkname runtime_blockUntilEmptyCleanupQueue
+//golang:linkname runtime_blockUntilEmptyCleanupQueue
 func runtime_blockUntilEmptyCleanupQueue(int64) bool
 
 var (
@@ -336,16 +336,16 @@ func BenchmarkOnceValue(b *testing.B) {
 	b.Run("v=Once", func(b *testing.B) {
 		b.ReportAllocs()
 		for i := 0; i < b.N; i++ {
-			if want, got := 42, doOnceValue(); want != got {
-				b.Fatalf("want %d, got %d", want, got)
+			if want, golangt := 42, doOnceValue(); want != golangt {
+				b.Fatalf("want %d, golangt %d", want, golangt)
 			}
 		}
 	})
 	b.Run("v=Global", func(b *testing.B) {
 		b.ReportAllocs()
 		for i := 0; i < b.N; i++ {
-			if want, got := 42, onceValue(); want != got {
-				b.Fatalf("want %d, got %d", want, got)
+			if want, golangt := 42, onceValue(); want != golangt {
+				b.Fatalf("want %d, golangt %d", want, golangt)
 			}
 		}
 	})
@@ -353,8 +353,8 @@ func BenchmarkOnceValue(b *testing.B) {
 		b.ReportAllocs()
 		onceValue := sync.OnceValue(func() int { return 42 })
 		for i := 0; i < b.N; i++ {
-			if want, got := 42, onceValue(); want != got {
-				b.Fatalf("want %d, got %d", want, got)
+			if want, golangt := 42, onceValue(); want != golangt {
+				b.Fatalf("want %d, golangt %d", want, golangt)
 			}
 		}
 	})
@@ -396,20 +396,20 @@ func BenchmarkOnceValues(b *testing.B) {
 	b.Run("v=Once", func(b *testing.B) {
 		b.ReportAllocs()
 		for i := 0; i < b.N; i++ {
-			if got1, got2 := doOnceValues(); got1 != onceValuesWant1 {
-				b.Fatalf("value 1: got %d, want %d", got1, onceValuesWant1)
-			} else if got2 != onceValuesWant2 {
-				b.Fatalf("value 2: got %v, want %v", got2, onceValuesWant2)
+			if golangt1, golangt2 := doOnceValues(); golangt1 != onceValuesWant1 {
+				b.Fatalf("value 1: golangt %d, want %d", golangt1, onceValuesWant1)
+			} else if golangt2 != onceValuesWant2 {
+				b.Fatalf("value 2: golangt %v, want %v", golangt2, onceValuesWant2)
 			}
 		}
 	})
 	b.Run("v=Global", func(b *testing.B) {
 		b.ReportAllocs()
 		for i := 0; i < b.N; i++ {
-			if got1, got2 := onceValues(); got1 != onceValuesWant1 {
-				b.Fatalf("value 1: got %d, want %d", got1, onceValuesWant1)
-			} else if got2 != onceValuesWant2 {
-				b.Fatalf("value 2: got %v, want %v", got2, onceValuesWant2)
+			if golangt1, golangt2 := onceValues(); golangt1 != onceValuesWant1 {
+				b.Fatalf("value 1: golangt %d, want %d", golangt1, onceValuesWant1)
+			} else if golangt2 != onceValuesWant2 {
+				b.Fatalf("value 2: golangt %v, want %v", golangt2, onceValuesWant2)
 			}
 		}
 	})
@@ -419,10 +419,10 @@ func BenchmarkOnceValues(b *testing.B) {
 			return onceValuesWant1, onceValuesWant2
 		})
 		for i := 0; i < b.N; i++ {
-			if got1, got2 := onceValues(); got1 != onceValuesWant1 {
-				b.Fatalf("value 1: got %d, want %d", got1, onceValuesWant1)
-			} else if got2 != onceValuesWant2 {
-				b.Fatalf("value 2: got %v, want %v", got2, onceValuesWant2)
+			if golangt1, golangt2 := onceValues(); golangt1 != onceValuesWant1 {
+				b.Fatalf("value 1: golangt %d, want %d", golangt1, onceValuesWant1)
+			} else if golangt2 != onceValuesWant2 {
+				b.Fatalf("value 2: golangt %v, want %v", golangt2, onceValuesWant2)
 			}
 		}
 	})

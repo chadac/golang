@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -37,9 +37,9 @@ func expectError(expectLine int) {
 	for i := 1;; i++ {
 		_, file, line, ok := runtime.Caller(i)
 		if !ok {
-			panic("cannot find issue4562.go on stack")
+			panic("cannot find issue4562.golang on stack")
 		}
-		if strings.HasSuffix(file, "issue4562.go") {
+		if strings.HasSuffix(file, "issue4562.golang") {
 			if line != expectLine {
 				panic(fmt.Sprintf("crashed at line %d, wanted line %d", line, expectLine))
 			}

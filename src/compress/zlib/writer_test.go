@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package zlib
@@ -26,14 +26,14 @@ var data = []string{
 // Tests that compressing and then decompressing the given file at the given compression level and dictionary
 // yields equivalent bytes to the original file.
 func testFileLevelDict(t *testing.T, fn string, level int, d string) {
-	// Read the file, as golden output.
-	golden, err := os.Open(fn)
+	// Read the file, as golanglden output.
+	golanglden, err := os.Open(fn)
 	if err != nil {
 		t.Errorf("%s (level=%d, dict=%q): %v", fn, level, d, err)
 		return
 	}
-	defer golden.Close()
-	b0, err0 := io.ReadAll(golden)
+	defer golanglden.Close()
+	b0, err0 := io.ReadAll(golanglden)
 	if err0 != nil {
 		t.Errorf("%s (level=%d, dict=%q): %v", fn, level, d, err0)
 		return
@@ -51,7 +51,7 @@ func testLevelDict(t *testing.T, fn string, b0 []byte, level int, d string) {
 	// Push data through a pipe that compresses at the write end, and decompresses at the read end.
 	piper, pipew := io.Pipe()
 	defer piper.Close()
-	go func() {
+	golang func() {
 		defer pipew.Close()
 		zlibw, err := NewWriterLevelDict(pipew, level, dict)
 		if err != nil {
@@ -135,7 +135,7 @@ func testFileLevelDictReset(t *testing.T, fn string, level int, dict []byte) {
 	out2 := buf2.String()
 
 	if out2 != out {
-		t.Errorf("%s (level=%d): different output after reset (got %d bytes, expected %d",
+		t.Errorf("%s (level=%d): different output after reset (golangt %d bytes, expected %d",
 			fn, level, len(out2), len(out))
 	}
 }
@@ -219,6 +219,6 @@ func TestWriterDictIsUsed(t *testing.T) {
 	const expectedMaxSize = 25
 	output := buf.Bytes()
 	if len(output) > expectedMaxSize {
-		t.Errorf("result too large (got %d, want <= %d bytes). Is the dictionary being used?", len(output), expectedMaxSize)
+		t.Errorf("result too large (golangt %d, want <= %d bytes). Is the dictionary being used?", len(output), expectedMaxSize)
 	}
 }

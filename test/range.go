@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test the 'for range' construct.
@@ -19,7 +19,7 @@ func gen(c chan int, lo, hi int) {
 
 func seq(lo, hi int) chan int {
 	c := make(chan int)
-	go gen(c, lo, hi)
+	golang gen(c, lo, hi)
 	return c
 }
 
@@ -74,7 +74,7 @@ func testchan() {
 		s += string(i)
 	}
 	if s != alphabet {
-		println("Wanted lowercase alphabet; got", s)
+		println("Wanted lowercase alphabet; golangt", s)
 		panic("fail")
 	}
 	n := 0
@@ -245,13 +245,13 @@ func testarrayptr() {
 	nmake = 0
 	x := len(makearrayptr())
 	if x != 5 || nmake != 1 {
-		println("len called makearrayptr", nmake, "times and got len", x)
+		println("len called makearrayptr", nmake, "times and golangt len", x)
 		panic("fail")
 	}
 	nmake = 0
 	x = cap(makearrayptr())
 	if x != 5 || nmake != 1 {
-		println("cap called makearrayptr", nmake, "times and got len", x)
+		println("cap called makearrayptr", nmake, "times and golangt len", x)
 		panic("fail")
 	}
 	s := 0

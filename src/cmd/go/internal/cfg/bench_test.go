@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package cfg
@@ -11,10 +11,10 @@ import (
 )
 
 func BenchmarkLookPath(b *testing.B) {
-	testenv.MustHaveExecPath(b, "go")
+	testenv.MustHaveExecPath(b, "golang")
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		_, err := pathcache.LookPath("go")
+		_, err := pathcache.LookPath("golang")
 		if err != nil {
 			b.Fatal(err)
 		}

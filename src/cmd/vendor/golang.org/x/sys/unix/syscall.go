@@ -1,13 +1,13 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build aix || darwin || dragonfly || freebsd || linux || netbsd || openbsd || solaris || zos
+//golang:build aix || darwin || dragolangnfly || freebsd || linux || netbsd || openbsd || solaris || zos
 
 // Package unix contains an interface to the low-level operating system
 // primitives. OS details vary depending on the underlying system, and
-// by default, godoc will display OS-specific documentation for the current
-// system. If you want godoc to display OS documentation for another
+// by default, golangdoc will display OS-specific documentation for the current
+// system. If you want golangdoc to display OS documentation for another
 // system, set $GOOS and $GOARCH to the desired system. For example, if
 // you want to view documentation for freebsd/arm on linux/amd64, set $GOOS
 // to freebsd and $GOARCH to arm.
@@ -22,7 +22,7 @@
 // These calls return err == nil to indicate success; otherwise
 // err represents an operating system error describing the failure and
 // holds a value of type syscall.Errno.
-package unix // import "golang.org/x/sys/unix"
+package unix // import "golanglang.org/x/sys/unix"
 
 import (
 	"bytes"

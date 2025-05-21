@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
@@ -23,7 +23,7 @@ type Pinner struct {
 // A pointer to a pinned object can be directly stored in C memory or can be
 // contained in Go memory passed to C functions. If the pinned object itself
 // contains pointers to Go objects, these objects must be pinned separately if they
-// are going to be accessed from C code.
+// are golanging to be accessed from C code.
 //
 // The argument must be a pointer of any type or an [unsafe.Pointer].
 // It's safe to call Pin on non-Go pointers, in which case Pin will do nothing.
@@ -119,9 +119,9 @@ func pinnerGetPtr(i *any) unsafe.Pointer {
 }
 
 // isPinned checks if a Go pointer is pinned.
-// nosplit, because it's called from nosplit code in cgocheck.
+// nosplit, because it's called from nosplit code in cgolangcheck.
 //
-//go:nosplit
+//golang:nosplit
 func isPinned(ptr unsafe.Pointer) bool {
 	span := spanOfHeap(uintptr(ptr))
 	if span == nil {
@@ -223,7 +223,7 @@ type pinState struct {
 
 // nosplit, because it's called by isPinned, which is nosplit
 //
-//go:nosplit
+//golang:nosplit
 func (v *pinState) isPinned() bool {
 	return (v.byteVal & v.mask) != 0
 }
@@ -260,7 +260,7 @@ type pinnerBits gcBits
 // ofObject returns the pinState of the n'th object.
 // nosplit, because it's called by isPinned, which is nosplit
 //
-//go:nosplit
+//golang:nosplit
 func (p *pinnerBits) ofObject(n uintptr) pinState {
 	bytep, mask := (*gcBits)(p).bitp(n * 2)
 	byteVal := atomic.Load8(bytep)
@@ -280,7 +280,7 @@ func (s *mspan) newPinnerBits() *pinnerBits {
 
 // nosplit, because it's called by isPinned, which is nosplit
 //
-//go:nosplit
+//golang:nosplit
 func (s *mspan) getPinnerBits() *pinnerBits {
 	return (*pinnerBits)(atomic.Loadp(unsafe.Pointer(&s.pinnerBits)))
 }
@@ -379,5 +379,5 @@ func pinnerGetPinCounter(addr unsafe.Pointer) *uintptr {
 // to be able to test that the GC panics when a pinned pointer is leaking, this
 // panic function is a variable, that can be overwritten by a test.
 var pinnerLeakPanic = func() {
-	panic(errorString("runtime.Pinner: found leaking pinned pointer; forgot to call Unpin()?"))
+	panic(errorString("runtime.Pinner: found leaking pinned pointer; forgolangt to call Unpin()?"))
 }

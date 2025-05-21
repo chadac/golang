@@ -1,28 +1,28 @@
 [!symlink] skip
 env GO111MODULE=off
 
-mkdir $WORK/tmp/gopath/src/dir1/vendor/v
-cp p.go $WORK/tmp/gopath/src/dir1/p.go
-cp v.go $WORK/tmp/gopath/src/dir1/vendor/v/v.go
-symlink $WORK/tmp/symdir1 -> $WORK/tmp/gopath/src/dir1
-env GOPATH=$WORK/tmp/gopath
+mkdir $WORK/tmp/golangpath/src/dir1/vendor/v
+cp p.golang $WORK/tmp/golangpath/src/dir1/p.golang
+cp v.golang $WORK/tmp/golangpath/src/dir1/vendor/v/v.golang
+symlink $WORK/tmp/symdir1 -> $WORK/tmp/golangpath/src/dir1
+env GOPATH=$WORK/tmp/golangpath
 cd $WORK/tmp/symdir1
 
-go list -f '{{.Root}}' .
-stdout '^'$WORK/tmp/gopath'$'
+golang list -f '{{.Root}}' .
+stdout '^'$WORK/tmp/golangpath'$'
 
 # All of these should succeed, not die in vendor-handling code.
-go run p.go &
-go build &
-go install &
+golang run p.golang &
+golang build &
+golang install &
 
 wait
 
--- p.go --
+-- p.golang --
 package main
 
 import _ `v`
 
 func main () {}
--- v.go --
+-- v.golang --
 package v

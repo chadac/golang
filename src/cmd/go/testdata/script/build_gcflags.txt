@@ -2,16 +2,16 @@ env GO111MODULE=off
 
 # Test that the user can override default code generation flags.
 
-[compiler:gccgo] skip  # gccgo does not use -gcflags
-[!cgo] skip
+[compiler:gccgolang] skip  # gccgolang does not use -gcflags
+[!cgolang] skip
 [!GOOS:linux] skip  # test only works if c-archive implies -shared
 [short] skip
 
-env GOCACHE=$WORK/gocache  # Looking for compile commands, so need a clean cache.
-go build -x -n -buildmode=c-archive -gcflags=all=-shared=false ./override.go
+env GOCACHE=$WORK/golangcache  # Looking for compile commands, so need a clean cache.
+golang build -x -n -buildmode=c-archive -gcflags=all=-shared=false ./override.golang
 stderr '^.*/compile (.* )?-shared (.* )?-shared=false'
 
--- override.go --
+-- override.golang --
 package main
 
 import "C"

@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime_test
@@ -16,7 +16,7 @@ import (
 	"sync/atomic"
 	"testing"
 	"time"
-	_ "unsafe" // for go:linkname
+	_ "unsafe" // for golang:linkname
 )
 
 // TestStackMem measures per-thread stack segment cache behavior.
@@ -37,7 +37,7 @@ func TestStackMem(t *testing.T) {
 	for b := 0; b < BatchCount; b++ {
 		c := make(chan bool, BatchSize)
 		for i := 0; i < BatchSize; i++ {
-			go func() {
+			golang func() {
 				var f func(k int, a [ArraySize]byte)
 				f = func(k int, a [ArraySize]byte) {
 					if k == 0 {
@@ -54,7 +54,7 @@ func TestStackMem(t *testing.T) {
 			<-c
 		}
 
-		// The goroutines have signaled via c that they are ready to exit.
+		// The golangroutines have signaled via c that they are ready to exit.
 		// Give them a chance to exit by sleeping. If we don't wait, we
 		// might not reuse them on the next batch.
 		time.Sleep(10 * time.Millisecond)
@@ -65,14 +65,14 @@ func TestStackMem(t *testing.T) {
 	t.Logf("Consumed %vMB for stack mem", consumed>>20)
 	estimate := int64(8 * BatchSize * ArraySize * RecursionDepth) // 8 is to reduce flakiness.
 	if consumed > estimate {
-		t.Fatalf("Stack mem: want %v, got %v", estimate, consumed)
+		t.Fatalf("Stack mem: want %v, golangt %v", estimate, consumed)
 	}
-	// Due to broken stack memory accounting (https://golang.org/issue/7468),
+	// Due to broken stack memory accounting (https://golanglang.org/issue/7468),
 	// StackInuse can decrease during function execution, so we cast the values to int64.
 	inuse := int64(s1.StackInuse) - int64(s0.StackInuse)
 	t.Logf("Inuse %vMB for stack mem", inuse>>20)
 	if inuse > 4<<20 {
-		t.Fatalf("Stack inuse: want %v, got %v", 4<<20, inuse)
+		t.Fatalf("Stack inuse: want %v, golangt %v", 4<<20, inuse)
 	}
 }
 
@@ -84,10 +84,10 @@ func TestStackGrowth(t *testing.T) {
 
 	var wg sync.WaitGroup
 
-	// in a normal goroutine
+	// in a normal golangroutine
 	var growDuration time.Duration // For debugging failures
 	wg.Add(1)
-	go func() {
+	golang func() {
 		defer wg.Done()
 		start := time.Now()
 		growStack(nil)
@@ -96,9 +96,9 @@ func TestStackGrowth(t *testing.T) {
 	wg.Wait()
 	t.Log("first growStack took", growDuration)
 
-	// in locked goroutine
+	// in locked golangroutine
 	wg.Add(1)
-	go func() {
+	golang func() {
 		defer wg.Done()
 		LockOSThread()
 		growStack(nil)
@@ -126,12 +126,12 @@ func TestStackGrowth(t *testing.T) {
 		timeout := time.Until(d) * 19 / 20
 		timer := time.AfterFunc(timeout, func() {
 			// Panic — instead of calling t.Error and returning from the test — so
-			// that we get a useful goroutine dump if the test times out, especially
+			// that we get a useful golangroutine dump if the test times out, especially
 			// if GOTRACEBACK=system or GOTRACEBACK=crash is set.
 			if !started.Load() {
 				panic("finalizer did not start")
 			} else {
-				panic(fmt.Sprintf("finalizer started %s ago (%s after registration) and ran %d iterations, but did not return", time.Since(finalizerStart), finalizerStart.Sub(setFinalizerTime), progress.Load()))
+				panic(fmt.Sprintf("finalizer started %s agolang (%s after registration) and ran %d iterations, but did not return", time.Since(finalizerStart), finalizerStart.Sub(setFinalizerTime), progress.Load()))
 			}
 		})
 		defer timer.Stop()
@@ -187,7 +187,7 @@ func TestStackGrowthCallback(t *testing.T) {
 
 	// test stack growth at chan op
 	wg.Add(1)
-	go func() {
+	golang func() {
 		defer wg.Done()
 		c := make(chan int, 1)
 		growStackWithCallback(func() {
@@ -198,7 +198,7 @@ func TestStackGrowthCallback(t *testing.T) {
 
 	// test stack growth at map op
 	wg.Add(1)
-	go func() {
+	golang func() {
 		defer wg.Done()
 		m := make(map[int]int)
 		growStackWithCallback(func() {
@@ -207,13 +207,13 @@ func TestStackGrowthCallback(t *testing.T) {
 		})
 	}()
 
-	// test stack growth at goroutine creation
+	// test stack growth at golangroutine creation
 	wg.Add(1)
-	go func() {
+	golang func() {
 		defer wg.Done()
 		growStackWithCallback(func() {
 			done := make(chan bool)
-			go func() {
+			golang func() {
 				done <- true
 			}()
 			<-done
@@ -258,13 +258,13 @@ type bigBuf [4 * 1024]byte
 // TestDeferPtrsGoexit is like TestDeferPtrs but exercises the possibility that the
 // stack grows as part of starting the deferred function. It calls Goexit at various
 // stack depths, forcing the deferred function (with >4kB of args) to be run at
-// the bottom of the stack. The goal is to find a stack depth less than 4kB from
-// the end of the stack. Each trial runs in a different goroutine so that an earlier
+// the bottom of the stack. The golangal is to find a stack depth less than 4kB from
+// the end of the stack. Each trial runs in a different golangroutine so that an earlier
 // stack growth does not invalidate a later attempt.
 func TestDeferPtrsGoexit(t *testing.T) {
 	for i := 0; i < 100; i++ {
 		c := make(chan int, 1)
-		go testDeferPtrsGoexit(c, i)
+		golang testDeferPtrsGoexit(c, i)
 		if n := <-c; n != 42 {
 			t.Fatalf("defer's stack references were not adjusted appropriately (i=%d n=%d)", i, n)
 		}
@@ -290,7 +290,7 @@ func setBig(p *int, x int, b bigBuf) {
 func TestDeferPtrsPanic(t *testing.T) {
 	for i := 0; i < 100; i++ {
 		c := make(chan int, 1)
-		go testDeferPtrsGoexit(c, i)
+		golang testDeferPtrsGoexit(c, i)
 		if n := <-c; n != 42 {
 			t.Fatalf("defer's stack references were not adjusted appropriately (i=%d n=%d)", i, n)
 		}
@@ -310,7 +310,7 @@ func testDeferPtrsPanic(c chan int, i int) {
 	useStackAndCall(i, func() { panic(1) })
 }
 
-//go:noinline
+//golang:noinline
 func testDeferLeafSigpanic1() {
 	// Cause a sigpanic to be injected in this frame.
 	//
@@ -426,7 +426,7 @@ func growing(c chan int, done chan struct{}) {
 }
 
 func TestStackCache(t *testing.T) {
-	// Allocate a bunch of goroutines and grow their stacks.
+	// Allocate a bunch of golangroutines and grow their stacks.
 	// Repeat a few times to test the stack cache.
 	const (
 		R = 4
@@ -438,7 +438,7 @@ func TestStackCache(t *testing.T) {
 		done := make(chan struct{})
 		for j := 0; j < G; j++ {
 			reqchans[j] = make(chan int)
-			go growing(reqchans[j], done)
+			golang growing(reqchans[j], done)
 		}
 		for s := 0; s < S; s++ {
 			for j := 0; j < G; j++ {
@@ -460,26 +460,26 @@ func TestStackCache(t *testing.T) {
 func TestStackOutput(t *testing.T) {
 	b := make([]byte, 1024)
 	stk := string(b[:Stack(b, false)])
-	if !strings.HasPrefix(stk, "goroutine ") {
+	if !strings.HasPrefix(stk, "golangroutine ") {
 		t.Errorf("Stack (len %d):\n%s", len(stk), stk)
-		t.Errorf("Stack output should begin with \"goroutine \"")
+		t.Errorf("Stack output should begin with \"golangroutine \"")
 	}
 }
 
 func TestStackAllOutput(t *testing.T) {
 	b := make([]byte, 1024)
 	stk := string(b[:Stack(b, true)])
-	if !strings.HasPrefix(stk, "goroutine ") {
+	if !strings.HasPrefix(stk, "golangroutine ") {
 		t.Errorf("Stack (len %d):\n%s", len(stk), stk)
-		t.Errorf("Stack output should begin with \"goroutine \"")
+		t.Errorf("Stack output should begin with \"golangroutine \"")
 	}
 }
 
 func TestStackPanic(t *testing.T) {
 	// Test that stack copying copies panics correctly. This is difficult
 	// to test because it is very unlikely that the stack will be copied
-	// in the middle of gopanic. But it can happen.
-	// To make this test effective, edit panic.go:gopanic and uncomment
+	// in the middle of golangpanic. But it can happen.
+	// To make this test effective, edit panic.golang:golangpanic and uncomment
 	// the GC() call just before freedefer(d).
 	defer func() {
 		if x := recover(); x == nil {
@@ -493,7 +493,7 @@ func TestStackPanic(t *testing.T) {
 func BenchmarkStackCopyPtr(b *testing.B) {
 	c := make(chan bool)
 	for i := 0; i < b.N; i++ {
-		go func() {
+		golang func() {
 			i := 1000000
 			countp(&i)
 			c <- true
@@ -513,7 +513,7 @@ func countp(n *int) {
 func BenchmarkStackCopy(b *testing.B) {
 	c := make(chan bool)
 	for i := 0; i < b.N; i++ {
-		go func() {
+		golang func() {
 			count(1000000)
 			c <- true
 		}()
@@ -531,7 +531,7 @@ func count(n int) int {
 func BenchmarkStackCopyNoCache(b *testing.B) {
 	c := make(chan bool)
 	for i := 0; i < b.N; i++ {
-		go func() {
+		golang func() {
 			count1(1000000)
 			c <- true
 		}()
@@ -588,7 +588,7 @@ func Sum(n int64, p *stkobjT) {
 func BenchmarkStackCopyWithStkobj(b *testing.B) {
 	c := make(chan bool)
 	for i := 0; i < b.N; i++ {
-		go func() {
+		golang func() {
 			var s stkobjT
 			Sum(100000, &s)
 			c <- true
@@ -598,7 +598,7 @@ func BenchmarkStackCopyWithStkobj(b *testing.B) {
 }
 
 func BenchmarkIssue18138(b *testing.B) {
-	// Channel with N "can run a goroutine" tokens
+	// Channel with N "can run a golangroutine" tokens
 	const N = 10
 	c := make(chan []byte, N)
 	for i := 0; i < N; i++ {
@@ -607,7 +607,7 @@ func BenchmarkIssue18138(b *testing.B) {
 
 	for i := 0; i < b.N; i++ {
 		<-c // get token
-		go func() {
+		golang func() {
 			useStackPtrs(1000, false) // uses ~1MB max
 			m := make([]byte, 8192)   // make GC trigger occasionally
 			c <- m                    // return token
@@ -708,7 +708,7 @@ func TestStackWrapperStackInlinePanic(t *testing.T) {
 		if strings.Contains(stk, "<autogenerated>") {
 			t.Fatalf("<autogenerated> appears in stack trace:\n%s", stk)
 		}
-		// Self-check: make sure inlinablePanic got inlined.
+		// Self-check: make sure inlinablePanic golangt inlined.
 		if !testenv.OptimizationOff() {
 			if !strings.Contains(stk, "inlinablePanic(...)") {
 				t.Fatalf("inlinablePanic not inlined")
@@ -786,10 +786,10 @@ func TestCallersFromWrapper(t *testing.T) {
 	frames := CallersFrames([]uintptr{pc})
 	frame, more := frames.Next()
 	if frame.Function != "runtime_test.I.M" {
-		t.Fatalf("want function %s, got %s", "runtime_test.I.M", frame.Function)
+		t.Fatalf("want function %s, golangt %s", "runtime_test.I.M", frame.Function)
 	}
 	if more {
-		t.Fatalf("want 1 frame, got > 1")
+		t.Fatalf("want 1 frame, golangt > 1")
 	}
 }
 
@@ -821,12 +821,12 @@ func TestTracebackSystemstack(t *testing.T) {
 		}
 	}
 	if countIn != 5 || countOut != 1 {
-		t.Fatalf("expected 5 calls to TracebackSystemstack and 1 call to TestTracebackSystemstack, got:%s", tb.String())
+		t.Fatalf("expected 5 calls to TracebackSystemstack and 1 call to TestTracebackSystemstack, golangt:%s", tb.String())
 	}
 }
 
 func TestTracebackAncestors(t *testing.T) {
-	goroutineRegex := regexp.MustCompile(`goroutine [0-9]+ \[`)
+	golangroutineRegex := regexp.MustCompile(`golangroutine [0-9]+ \[`)
 	for _, tracebackDepth := range []int{0, 1, 5, 50} {
 		output := runTestProg(t, "testprog", "TracebackAncestors", fmt.Sprintf("GODEBUG=tracebackancestors=%d", tracebackDepth))
 
@@ -837,9 +837,9 @@ func TestTracebackAncestors(t *testing.T) {
 			ancestorsExpected = tracebackDepth
 		}
 
-		matches := goroutineRegex.FindAllStringSubmatch(output, -1)
+		matches := golangroutineRegex.FindAllStringSubmatch(output, -1)
 		if len(matches) != 2 {
-			t.Fatalf("want 2 goroutines, got:\n%s", output)
+			t.Fatalf("want 2 golangroutines, golangt:\n%s", output)
 		}
 
 		// Check functions in the traceback.
@@ -850,7 +850,7 @@ func TestTracebackAncestors(t *testing.T) {
 			}
 		}
 
-		if want, count := "originating from goroutine", ancestorsExpected; strings.Count(output, want) != count {
+		if want, count := "originating from golangroutine", ancestorsExpected; strings.Count(output, want) != count {
 			t.Errorf("output does not contain %d instances of %q:\n%s", count, want, output)
 		}
 
@@ -884,7 +884,7 @@ func TestDeferHeapAndStack(t *testing.T) {
 	}
 	c := make(chan bool)
 	for p := 0; p < P; p++ {
-		go func() {
+		golang func() {
 			for i := 0; i < N; i++ {
 				if deferHeapAndStack(D) != 2*D {
 					panic("bad result")
@@ -949,7 +949,7 @@ func TestSystemstackFramePointerAdjust(t *testing.T) {
 	growAndShrinkStack(512, [1024]byte{})
 }
 
-// growAndShrinkStack grows the stack of the current goroutine in order to
+// growAndShrinkStack grows the stack of the current golangroutine in order to
 // shrink it again and verify that all frame pointers on the new stack have
 // been correctly adjusted. stackBallast is used to ensure we're not depending
 // on the current heuristics of stack shrinking too much.

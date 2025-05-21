@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package subtle
@@ -25,7 +25,7 @@ var testConstantTimeCompareData = []TestConstantTimeCompareStruct{
 func TestConstantTimeCompare(t *testing.T) {
 	for i, test := range testConstantTimeCompareData {
 		if r := ConstantTimeCompare(test.a, test.b); r != test.out {
-			t.Errorf("#%d bad result (got %x, want %x)", i, r, test.out)
+			t.Errorf("#%d bad result (golangt %x, want %x)", i, r, test.out)
 		}
 	}
 }
@@ -53,7 +53,7 @@ func byteEq(a, b uint8) int {
 func TestConstantTimeByteEq(t *testing.T) {
 	for i, test := range testConstandTimeByteEqData {
 		if r := ConstantTimeByteEq(test.a, test.b); r != test.out {
-			t.Errorf("#%d bad result (got %x, want %x)", i, r, test.out)
+			t.Errorf("#%d bad result (golangt %x, want %x)", i, r, test.out)
 		}
 	}
 	err := quick.CheckEqual(ConstantTimeByteEq, byteEq, nil)

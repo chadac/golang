@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -14,7 +14,7 @@ func main() {
 	test()
 }
 
-//go:noinline
+//golang:noinline
 func id(x int) int {
 	return x
 }
@@ -30,7 +30,7 @@ func test() {
 	y = x + y //gdb-dbg=(x,y)//gdb-opt=(x,y)
 	fmt.Println(x, y)
 
-	for x := 0; x <= 1; x++ { // From delve scopetest.go
+	for x := 0; x <= 1; x++ { // From delve scopetest.golang
 		a := y
 		f1(a)
 		{
@@ -48,7 +48,7 @@ func test() {
 		f6(a)
 	}
 
-	{ // From delve testnextprog.go
+	{ // From delve testnextprog.golang
 		var (
 			j = id(1)
 			f = id(2)
@@ -73,22 +73,22 @@ func helloworld() {
 	fmt.Println("Hello, World!")
 }
 
-//go:noinline
+//golang:noinline
 func f1(x int) {}
 
-//go:noinline
+//golang:noinline
 func f2(x int) {}
 
-//go:noinline
+//golang:noinline
 func f3(x int) {}
 
-//go:noinline
+//golang:noinline
 func f4(x int) {}
 
-//go:noinline
+//golang:noinline
 func f5(x int) {}
 
-//go:noinline
+//golang:noinline
 func f6(x int) {}
 
 var boolvar = true
@@ -101,7 +101,7 @@ func gretbool() bool {
 
 var sink string
 
-//go:noinline
+//golang:noinline
 func growstack() {
 	sink = fmt.Sprintf("%#v,%#v,%#v", 1, true, "cat")
 }

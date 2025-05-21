@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ssa
@@ -175,7 +175,7 @@ func insertLoopReschedChecks(f *Func) {
 		bb := p.b
 		mem0 := headerMemPhi.Args[i]
 		// bb e->p h,
-		// Because we're going to insert a rare-call, make sure the
+		// Because we're golanging to insert a rare-call, make sure the
 		// looping edge still looks likely.
 		likely := BranchLikely
 		if p.i != 0 {
@@ -193,14 +193,14 @@ func insertLoopReschedChecks(f *Func) {
 		//
 		// new block(s):
 		// test:
-		//    if sp < g.limit { goto sched }
-		//    goto join
+		//    if sp < g.limit { golangto sched }
+		//    golangto join
 		// sched:
 		//    mem1 := call resched (mem0)
-		//    goto join
+		//    golangto join
 		// join:
 		//    mem2 := phi(mem0, mem1)
-		//    goto h
+		//    golangto h
 		//
 		// and correct arg i of headerMemPhi and headerCtrPhi
 		//
@@ -216,8 +216,8 @@ func insertLoopReschedChecks(f *Func) {
 		test.Pos = bb.Pos
 		sched.Pos = bb.Pos
 
-		// if sp < g.limit { goto sched }
-		// goto header
+		// if sp < g.limit { golangto sched }
+		// golangto header
 
 		cfgtypes := &f.Config.Types
 		pt := cfgtypes.Uintptr
@@ -232,7 +232,7 @@ func insertLoopReschedChecks(f *Func) {
 		cmp := test.NewValue2(bb.Pos, cmpOp, cfgtypes.Bool, sp, lim)
 		test.SetControl(cmp)
 
-		// if true, goto sched
+		// if true, golangto sched
 		test.AddEdgeTo(sched)
 
 		// if false, rewrite edge to header.
@@ -246,8 +246,8 @@ func insertLoopReschedChecks(f *Func) {
 
 		// sched:
 		//    mem1 := call resched (mem0)
-		//    goto header
-		resched := f.fe.Syslook("goschedguarded")
+		//    golangto header
+		resched := f.fe.Syslook("golangschedguarded")
 		call := sched.NewValue1A(bb.Pos, OpStaticCall, types.TypeResultMem, StaticAuxCall(resched, bb.Func.ABIDefault.ABIAnalyzeTypes(nil, nil)), mem0)
 		mem1 := sched.NewValue1I(bb.Pos, OpSelectN, types.TypeMem, 0, call)
 		sched.AddEdgeTo(h)
@@ -410,7 +410,7 @@ func findLastMems(f *Func) []*Value {
 	storeUse := f.newSparseSet(f.NumValues())
 	defer f.retSparseSet(storeUse)
 	for _, b := range f.Blocks {
-		// Find all the stores in this block. Categorize their uses:
+		// Find all the stores in this block. Categolangrize their uses:
 		//  storeUse contains stores which are used by a subsequent store.
 		storeUse.clear()
 		stores = stores[:0]

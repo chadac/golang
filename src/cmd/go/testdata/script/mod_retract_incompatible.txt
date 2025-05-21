@@ -3,13 +3,13 @@
 # +incompatible versions when looking for retractions.
 # Verifies #42601.
 
-go mod init m
+golang mod init m
 
 # Request a +incompatible version retracted in v1.0.0.
-go get example.com/retract/incompatible@v2.0.0+incompatible
-stderr '^go: warning: example.com/retract/incompatible@v2.0.0\+incompatible: retracted by module author$'
+golang get example.com/retract/incompatible@v2.0.0+incompatible
+stderr '^golang: warning: example.com/retract/incompatible@v2.0.0\+incompatible: retracted by module author$'
 
 # We should still see a warning if the +incompatible was previously in the
 # build list.
-go get example.com/retract/incompatible@v2.0.0+incompatible
-stderr '^go: warning: example.com/retract/incompatible@v2.0.0\+incompatible: retracted by module author$'
+golang get example.com/retract/incompatible@v2.0.0+incompatible
+stderr '^golang: warning: example.com/retract/incompatible@v2.0.0\+incompatible: retracted by module author$'

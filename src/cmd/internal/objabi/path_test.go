@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package objabi
@@ -24,7 +24,7 @@ var escapeTests = []struct {
 	{"f.o.o/b.a.r/v%1", "f.o.o/b.a.r/v%251"},
 	{"runtime", "runtime"},
 	{"sync/atomic", "sync/atomic"},
-	{"golang.org/x/tools/godoc", "golang.org/x/tools/godoc"},
+	{"golanglang.org/x/tools/golangdoc", "golanglang.org/x/tools/golangdoc"},
 	{"foo.bar/baz.quux", "foo.bar/baz%2equux"},
 	{"", ""},
 	{"%foo%bar", "%25foo%25bar"},
@@ -33,20 +33,20 @@ var escapeTests = []struct {
 
 func TestPathToPrefix(t *testing.T) {
 	for _, tc := range escapeTests {
-		if got := PathToPrefix(tc.Path); got != tc.Escaped {
-			t.Errorf("expected PathToPrefix(%s) = %s, got %s", tc.Path, tc.Escaped, got)
+		if golangt := PathToPrefix(tc.Path); golangt != tc.Escaped {
+			t.Errorf("expected PathToPrefix(%s) = %s, golangt %s", tc.Path, tc.Escaped, golangt)
 		}
 	}
 }
 
 func TestPrefixToPath(t *testing.T) {
 	for _, tc := range escapeTests {
-		got, err := PrefixToPath(tc.Escaped)
+		golangt, err := PrefixToPath(tc.Escaped)
 		if err != nil {
-			t.Errorf("expected PrefixToPath(%s) err = nil, got %v", tc.Escaped, err)
+			t.Errorf("expected PrefixToPath(%s) err = nil, golangt %v", tc.Escaped, err)
 		}
-		if got != tc.Path {
-			t.Errorf("expected PrefixToPath(%s) = %s, got %s", tc.Escaped, tc.Path, got)
+		if golangt != tc.Path {
+			t.Errorf("expected PrefixToPath(%s) = %s, golangt %s", tc.Escaped, tc.Path, golangt)
 		}
 	}
 }
@@ -61,7 +61,7 @@ func TestPrefixToPathError(t *testing.T) {
 	for _, tc := range tests {
 		_, err := PrefixToPath(tc)
 		if err == nil {
-			t.Errorf("expected PrefixToPath(%s) err != nil, got nil", tc)
+			t.Errorf("expected PrefixToPath(%s) err != nil, golangt nil", tc)
 		}
 	}
 }
@@ -71,11 +71,11 @@ func TestRuntimePackageList(t *testing.T) {
 	// Test that all packages imported by the runtime are marked as runtime
 	// packages.
 	testenv.MustHaveGoBuild(t)
-	goCmd, err := testenv.GoTool()
+	golangCmd, err := testenv.GoTool()
 	if err != nil {
 		t.Fatal(err)
 	}
-	pkgList, err := exec.Command(goCmd, "list", "-deps", "runtime").Output()
+	pkgList, err := exec.Command(golangCmd, "list", "-deps", "runtime").Output()
 	if err != nil {
 		if err, ok := err.(*exec.ExitError); ok {
 			t.Log(string(err.Stderr))

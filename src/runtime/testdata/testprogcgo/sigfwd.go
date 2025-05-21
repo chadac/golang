@@ -1,8 +1,8 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build unix
+//golang:build unix
 
 package main
 
@@ -53,7 +53,7 @@ static void __attribute__ ((constructor)) sigsetup(void) {
 import "C"
 
 func init() {
-	register("CgoSigfwd", CgoSigfwd)
+	register("CgolangSigfwd", CgolangSigfwd)
 }
 
 var nilPtr *byte
@@ -70,7 +70,7 @@ func f() (ret bool) {
 	return false
 }
 
-func CgoSigfwd() {
+func CgolangSigfwd() {
 	if os.Getenv("GO_TEST_CGOSIGFWD") == "" {
 		fmt.Fprintf(os.Stderr, "test must be run with GO_TEST_CGOSIGFWD set\n")
 		os.Exit(1)

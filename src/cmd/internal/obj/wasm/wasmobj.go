@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package wasm
@@ -139,10 +139,10 @@ const (
 
 const (
 	// This is a special wasm module name that when used as the module name
-	// in //go:wasmimport will cause the generated code to pass the stack pointer
+	// in //golang:wasmimport will cause the generated code to pass the stack pointer
 	// directly to the imported function. In other words, any function that
-	// uses the gojs module understands the internal Go WASM ABI directly.
-	GojsModule = "gojs"
+	// uses the golangjs module understands the internal Go WASM ABI directly.
+	GojsModule = "golangjs"
 )
 
 func instinit(ctxt *obj.Link) {
@@ -296,7 +296,7 @@ func preprocess(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
 		// don't have full stack information, so this can be
 		// ACALLNORESUME.
 		p = appendp(p, ACALLNORESUME, constAddr(0))
-		// See ../x86/obj6.go
+		// See ../x86/obj6.golang
 		sym := ctxt.LookupABI(ctxt.Flag_maymorestack, s.ABI())
 		p.To = obj.Addr{Type: obj.TYPE_MEM, Name: obj.NAME_EXTERN, Sym: sym}
 
@@ -546,7 +546,7 @@ func preprocess(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
 				p = appendp(p, obj.AUNDEF)
 				p = appendp(p, AEnd)
 			} else {
-				// unwinding WebAssembly stack to switch goroutine, return 1
+				// unwinding WebAssembly stack to switch golangroutine, return 1
 				p = appendp(p, ABrIf)
 				unwindExitBranches = append(unwindExitBranches, p)
 			}
@@ -811,7 +811,7 @@ func genWasmImportWrapper(s *obj.LSym, appendp func(p *obj.Prog, as obj.As, args
 		Sym:  s,
 	}
 
-	// If the module that the import is for is our magic "gojs" module, then this
+	// If the module that the import is for is our magic "golangjs" module, then this
 	// indicates that the called function understands the Go stack-based call convention
 	// so we just pass the stack pointer to it, knowing it will read the params directly
 	// off the stack and push the results into memory based on the stack pointer.
@@ -840,7 +840,7 @@ func genWasmImportWrapper(s *obj.LSym, appendp func(p *obj.Prog, as obj.As, args
 			// from sp because we store the return address as an int64 at the bottom of the stack.
 			// Ie the stack looks like [return_addr, param3, param2, param1, etc]
 
-			// Ergo, we add 8 to the true byte offset of the param to skip the return address.
+			// Ergolang, we add 8 to the true byte offset of the param to skip the return address.
 			loadOffset := f.Offset + 8
 
 			// We're reading the value from the Go stack onto the WASM stack and leaving it there

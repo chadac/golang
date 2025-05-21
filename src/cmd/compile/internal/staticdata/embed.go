@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package staticdata
@@ -31,11 +31,11 @@ func embedFileList(v *ir.Name, kind int) []string {
 		for _, pattern := range e.Patterns {
 			files, ok := base.Flag.Cfg.Embed.Patterns[pattern]
 			if !ok {
-				base.ErrorfAt(e.Pos, 0, "invalid go:embed: build system did not map pattern: %s", pattern)
+				base.ErrorfAt(e.Pos, 0, "invalid golang:embed: build system did not map pattern: %s", pattern)
 			}
 			for _, file := range files {
 				if base.Flag.Cfg.Embed.Files[file] == "" {
-					base.ErrorfAt(e.Pos, 0, "invalid go:embed: build system did not map file: %s", file)
+					base.ErrorfAt(e.Pos, 0, "invalid golang:embed: build system did not map file: %s", file)
 					continue
 				}
 				if !have[file] {
@@ -57,7 +57,7 @@ func embedFileList(v *ir.Name, kind int) []string {
 
 	if kind == embedString || kind == embedBytes {
 		if len(list) > 1 {
-			base.ErrorfAt(v.Pos(), 0, "invalid go:embed: multiple files for type %v", v.Type())
+			base.ErrorfAt(v.Pos(), 0, "invalid golang:embed: multiple files for type %v", v.Type())
 			return nil
 		}
 	}
@@ -89,26 +89,26 @@ func embedFileNameSplit(name string) (dir, elem string, isDir bool) {
 }
 
 // embedFileLess implements the sort order for a list of embedded files.
-// See the comment inside ../../../../embed/embed.go's Files struct for rationale.
+// See the comment inside ../../../../embed/embed.golang's Files struct for rationale.
 func embedFileLess(x, y string) bool {
 	xdir, xelem, _ := embedFileNameSplit(x)
 	ydir, yelem, _ := embedFileNameSplit(y)
 	return xdir < ydir || xdir == ydir && xelem < yelem
 }
 
-// WriteEmbed emits the init data for a //go:embed variable,
+// WriteEmbed emits the init data for a //golang:embed variable,
 // which is either a string, a []byte, or an embed.FS.
 func WriteEmbed(v *ir.Name) {
 	// TODO(mdempsky): User errors should be reported by the frontend.
 
 	commentPos := (*v.Embed)[0].Pos
 	if base.Flag.Cfg.Embed.Patterns == nil {
-		base.ErrorfAt(commentPos, 0, "invalid go:embed: build system did not supply embed configuration")
+		base.ErrorfAt(commentPos, 0, "invalid golang:embed: build system did not supply embed configuration")
 		return
 	}
 	kind := embedKind(v.Type())
 	if kind == embedUnknown {
-		base.ErrorfAt(v.Pos(), 0, "go:embed cannot apply to var of type %v", v.Type())
+		base.ErrorfAt(v.Pos(), 0, "golang:embed cannot apply to var of type %v", v.Type())
 		return
 	}
 
@@ -139,7 +139,7 @@ func WriteEmbed(v *ir.Name) {
 		off = objw.Uintptr(slicedata, off, uint64(len(files)))
 		off = objw.Uintptr(slicedata, off, uint64(len(files)))
 
-		// embed/embed.go type file is:
+		// embed/embed.golang type file is:
 		//	name string
 		//	data string
 		//	hash [16]byte

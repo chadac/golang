@@ -1,4 +1,4 @@
-//go:build !android
+//golang:build !android
 // +build !android
 
 package android

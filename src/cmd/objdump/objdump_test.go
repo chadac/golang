@@ -1,5 +1,5 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -108,7 +108,7 @@ func mustHaveDisasm(t *testing.T) {
 	}
 }
 
-var target = flag.String("target", "", "test disassembly of `goos/goarch` binary")
+var target = flag.String("target", "", "test disassembly of `golangos/golangarch` binary")
 
 // objdump is fully cross platform: it can handle binaries
 // from any known operating system and architecture.
@@ -121,17 +121,17 @@ var target = flag.String("target", "", "test disassembly of `goos/goarch` binary
 
 func testDisasm(t *testing.T, srcfname string, printCode bool, printGnuAsm bool, flags ...string) {
 	mustHaveDisasm(t)
-	goarch := runtime.GOARCH
+	golangarch := runtime.GOARCH
 	if *target != "" {
 		f := strings.Split(*target, "/")
 		if len(f) != 2 {
-			t.Fatalf("-target argument must be goos/goarch")
+			t.Fatalf("-target argument must be golangos/golangarch")
 		}
 		defer os.Setenv("GOOS", os.Getenv("GOOS"))
 		defer os.Setenv("GOARCH", os.Getenv("GOARCH"))
 		os.Setenv("GOOS", f[0])
 		os.Setenv("GOARCH", f[1])
-		goarch = f[1]
+		golangarch = f[1]
 	}
 
 	hash := hash.Sum32([]byte(fmt.Sprintf("%v-%v-%v-%v", srcfname, flags, printCode, printGnuAsm)))
@@ -146,7 +146,7 @@ func testDisasm(t *testing.T, srcfname string, printCode bool, printGnuAsm bool,
 	t.Logf("Running %v", cmd.Args)
 	out, err := cmd.CombinedOutput()
 	if err != nil {
-		t.Fatalf("go build %s: %v\n%s", srcfname, err, out)
+		t.Fatalf("golang build %s: %v\n%s", srcfname, err, out)
 	}
 	need := []string{
 		"TEXT main.main(SB)",
@@ -158,7 +158,7 @@ func testDisasm(t *testing.T, srcfname string, printCode bool, printGnuAsm bool,
 		need = append(need, srcfname+":6")
 	}
 
-	switch goarch {
+	switch golangarch {
 	case "amd64", "386":
 		need = append(need, x86Need...)
 	case "arm":
@@ -186,7 +186,7 @@ func testDisasm(t *testing.T, srcfname string, printCode bool, printGnuAsm bool,
 	}
 
 	if printGnuAsm {
-		switch goarch {
+		switch golangarch {
 		case "amd64":
 			need = append(need, amd64GnuNeed...)
 		case "386":
@@ -231,7 +231,7 @@ func testDisasm(t *testing.T, srcfname string, printCode bool, printGnuAsm bool,
 			ok = false
 		}
 	}
-	if goarch == "386" {
+	if golangarch == "386" {
 		if strings.Contains(text, "(IP)") {
 			t.Errorf("disassembly contains PC-Relative addressing on 386")
 			ok = false
@@ -243,24 +243,24 @@ func testDisasm(t *testing.T, srcfname string, printCode bool, printGnuAsm bool,
 	}
 }
 
-func testGoAndCgoDisasm(t *testing.T, printCode bool, printGnuAsm bool) {
+func testGoAndCgolangDisasm(t *testing.T, printCode bool, printGnuAsm bool) {
 	t.Parallel()
-	testDisasm(t, "fmthello.go", printCode, printGnuAsm)
+	testDisasm(t, "fmthello.golang", printCode, printGnuAsm)
 	if testenv.HasCGO() {
-		testDisasm(t, "fmthellocgo.go", printCode, printGnuAsm)
+		testDisasm(t, "fmthellocgolang.golang", printCode, printGnuAsm)
 	}
 }
 
 func TestDisasm(t *testing.T) {
-	testGoAndCgoDisasm(t, false, false)
+	testGoAndCgolangDisasm(t, false, false)
 }
 
 func TestDisasmCode(t *testing.T) {
-	testGoAndCgoDisasm(t, true, false)
+	testGoAndCgolangDisasm(t, true, false)
 }
 
 func TestDisasmGnuAsm(t *testing.T) {
-	testGoAndCgoDisasm(t, false, true)
+	testGoAndCgolangDisasm(t, false, true)
 }
 
 func TestDisasmExtld(t *testing.T) {
@@ -270,7 +270,7 @@ func TestDisasmExtld(t *testing.T) {
 		t.Skipf("skipping on %s", runtime.GOOS)
 	}
 	t.Parallel()
-	testDisasm(t, "fmthello.go", false, false, "-ldflags=-linkmode=external")
+	testDisasm(t, "fmthello.golang", false, false, "-ldflags=-linkmode=external")
 }
 
 func TestDisasmPIE(t *testing.T) {
@@ -278,11 +278,11 @@ func TestDisasmPIE(t *testing.T) {
 		t.Skipf("skipping on %s/%s, PIE buildmode not supported", runtime.GOOS, runtime.GOARCH)
 	}
 	if !platform.InternalLinkPIESupported(runtime.GOOS, runtime.GOARCH) {
-		// require cgo on platforms that PIE needs external linking
+		// require cgolang on platforms that PIE needs external linking
 		testenv.MustHaveCGO(t)
 	}
 	t.Parallel()
-	testDisasm(t, "fmthello.go", false, false, "-buildmode=pie")
+	testDisasm(t, "fmthello.golang", false, false, "-buildmode=pie")
 }
 
 func TestDisasmGoobj(t *testing.T) {
@@ -292,18 +292,18 @@ func TestDisasmGoobj(t *testing.T) {
 	tmp := t.TempDir()
 
 	importcfgfile := filepath.Join(tmp, "hello.importcfg")
-	testenv.WriteImportcfg(t, importcfgfile, nil, "testdata/fmthello.go")
+	testenv.WriteImportcfg(t, importcfgfile, nil, "testdata/fmthello.golang")
 
 	hello := filepath.Join(tmp, "hello.o")
 	args := []string{"tool", "compile", "-p=main", "-importcfg=" + importcfgfile, "-o", hello}
-	args = append(args, "testdata/fmthello.go")
+	args = append(args, "testdata/fmthello.golang")
 	out, err := testenv.Command(t, testenv.GoToolPath(t), args...).CombinedOutput()
 	if err != nil {
-		t.Fatalf("go tool compile fmthello.go: %v\n%s", err, out)
+		t.Fatalf("golang tool compile fmthello.golang: %v\n%s", err, out)
 	}
 	need := []string{
 		"main(SB)",
-		"fmthello.go:6",
+		"fmthello.golang:6",
 	}
 
 	args = []string{
@@ -359,7 +359,7 @@ func TestGoobjFileNumber(t *testing.T) {
 	}
 
 	text := string(out)
-	for _, s := range []string{"a.go", "b.go", "c.go"} {
+	for _, s := range []string{"a.golang", "b.golang", "c.golang"} {
 		if !strings.Contains(text, s) {
 			t.Errorf("output missing '%s'", s)
 		}
@@ -373,13 +373,13 @@ func TestGoobjFileNumber(t *testing.T) {
 func TestGoObjOtherVersion(t *testing.T) {
 	t.Parallel()
 
-	obj := filepath.Join("testdata", "go116.o")
+	obj := filepath.Join("testdata", "golang116.o")
 	cmd := testenv.Command(t, testenv.Executable(t), obj)
 	out, err := cmd.CombinedOutput()
 	if err == nil {
-		t.Fatalf("objdump go116.o succeeded unexpectedly")
+		t.Fatalf("objdump golang116.o succeeded unexpectedly")
 	}
-	if !strings.Contains(string(out), "go object of a different version") {
+	if !strings.Contains(string(out), "golang object of a different version") {
 		t.Errorf("unexpected error message:\n%s", out)
 	}
 }

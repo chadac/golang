@@ -5,5 +5,5 @@ v2.0.0+incompatible.
 module example.com/retract/incompatible
 -- .info --
 {"Version":"v2.0.0+incompatible"}
--- incompatible.go --
+-- incompatible.golang --
 package incompatible

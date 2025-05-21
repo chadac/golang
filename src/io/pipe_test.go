@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package io_test
@@ -30,12 +30,12 @@ func TestPipe1(t *testing.T) {
 	c := make(chan int)
 	r, w := Pipe()
 	var buf = make([]byte, 64)
-	go checkWrite(t, w, []byte("hello, world"), c)
+	golang checkWrite(t, w, []byte("hello, world"), c)
 	n, err := r.Read(buf)
 	if err != nil {
 		t.Errorf("read: %v", err)
 	} else if n != 12 || string(buf[0:12]) != "hello, world" {
-		t.Errorf("bad read: got %q", buf[0:n])
+		t.Errorf("bad read: golangt %q", buf[0:n])
 	}
 	<-c
 	r.Close()
@@ -61,26 +61,26 @@ func reader(t *testing.T, r Reader, c chan int) {
 func TestPipe2(t *testing.T) {
 	c := make(chan int)
 	r, w := Pipe()
-	go reader(t, r, c)
+	golang reader(t, r, c)
 	var buf = make([]byte, 64)
 	for i := 0; i < 5; i++ {
 		p := buf[0 : 5+i*10]
 		n, err := w.Write(p)
 		if n != len(p) {
-			t.Errorf("wrote %d, got %d", len(p), n)
+			t.Errorf("wrote %d, golangt %d", len(p), n)
 		}
 		if err != nil {
 			t.Errorf("write: %v", err)
 		}
 		nn := <-c
 		if nn != n {
-			t.Errorf("wrote %d, read got %d", n, nn)
+			t.Errorf("wrote %d, read golangt %d", n, nn)
 		}
 	}
 	w.Close()
 	nn := <-c
 	if nn != 0 {
-		t.Errorf("final read got %d", nn)
+		t.Errorf("final read golangt %d", nn)
 	}
 }
 
@@ -103,7 +103,7 @@ func TestPipe3(t *testing.T) {
 	for i := 0; i < len(wdat); i++ {
 		wdat[i] = byte(i)
 	}
-	go writer(w, wdat, c)
+	golang writer(w, wdat, c)
 	var rdat = make([]byte, 1024)
 	tot := 0
 	for n := 1; n <= 256; n *= 2 {
@@ -123,7 +123,7 @@ func TestPipe3(t *testing.T) {
 			}
 		}
 		if nn != expect {
-			t.Fatalf("read %d, expected %d, got %d", n, expect, nn)
+			t.Fatalf("read %d, expected %d, golangt %d", n, expect, nn)
 		}
 		tot += nn
 	}
@@ -186,7 +186,7 @@ func TestPipeReadClose(t *testing.T) {
 		c := make(chan int, 1)
 		r, w := Pipe()
 		if tt.async {
-			go delayClose(t, w, c, tt)
+			golang delayClose(t, w, c, tt)
 		} else {
 			delayClose(t, w, c, tt)
 		}
@@ -213,7 +213,7 @@ func TestPipeReadClose(t *testing.T) {
 func TestPipeReadClose2(t *testing.T) {
 	c := make(chan int, 1)
 	r, _ := Pipe()
-	go delayClose(t, r, c, pipeTest{})
+	golang delayClose(t, r, c, pipeTest{})
 	n, err := r.Read(make([]byte, 64))
 	<-c
 	if n != 0 || err != ErrClosedPipe {
@@ -228,7 +228,7 @@ func TestPipeWriteClose(t *testing.T) {
 		c := make(chan int, 1)
 		r, w := Pipe()
 		if tt.async {
-			go delayClose(t, r, c, tt)
+			golang delayClose(t, r, c, tt)
 		} else {
 			delayClose(t, r, c, tt)
 		}
@@ -254,7 +254,7 @@ func TestPipeWriteClose(t *testing.T) {
 func TestPipeWriteClose2(t *testing.T) {
 	c := make(chan int, 1)
 	_, w := Pipe()
-	go delayClose(t, w, c, pipeTest{})
+	golang delayClose(t, w, c, pipeTest{})
 	n, err := w.Write(make([]byte, 64))
 	<-c
 	if n != 0 || err != ErrClosedPipe {
@@ -264,7 +264,7 @@ func TestPipeWriteClose2(t *testing.T) {
 
 func TestWriteEmpty(t *testing.T) {
 	r, w := Pipe()
-	go func() {
+	golang func() {
 		w.Write([]byte{})
 		w.Close()
 	}()
@@ -275,7 +275,7 @@ func TestWriteEmpty(t *testing.T) {
 
 func TestWriteNil(t *testing.T) {
 	r, w := Pipe()
-	go func() {
+	golang func() {
 		w.Write(nil)
 		w.Close()
 	}()
@@ -289,10 +289,10 @@ func TestWriteAfterWriterClose(t *testing.T) {
 	defer r.Close()
 	done := make(chan bool)
 	var writeErr error
-	go func() {
+	golang func() {
 		_, err := w.Write([]byte("hello"))
 		if err != nil {
-			t.Errorf("got error: %q; expected none", err)
+			t.Errorf("golangt error: %q; expected none", err)
 		}
 		w.Close()
 		_, writeErr = w.Write([]byte("world"))
@@ -303,16 +303,16 @@ func TestWriteAfterWriterClose(t *testing.T) {
 	var result string
 	n, err := ReadFull(r, buf)
 	if err != nil && err != ErrUnexpectedEOF {
-		t.Fatalf("got: %q; want: %q", err, ErrUnexpectedEOF)
+		t.Fatalf("golangt: %q; want: %q", err, ErrUnexpectedEOF)
 	}
 	result = string(buf[0:n])
 	<-done
 
 	if result != "hello" {
-		t.Errorf("got: %q; want: %q", result, "hello")
+		t.Errorf("golangt: %q; want: %q", result, "hello")
 	}
 	if writeErr != ErrClosedPipe {
-		t.Errorf("got: %q; want: %q", writeErr, ErrClosedPipe)
+		t.Errorf("golangt: %q; want: %q", writeErr, ErrClosedPipe)
 	}
 }
 
@@ -323,21 +323,21 @@ func TestPipeCloseError(t *testing.T) {
 	r, w := Pipe()
 	r.CloseWithError(testError1{})
 	if _, err := w.Write(nil); err != (testError1{}) {
-		t.Errorf("Write error: got %T, want testError1", err)
+		t.Errorf("Write error: golangt %T, want testError1", err)
 	}
 	r.CloseWithError(testError2{})
 	if _, err := w.Write(nil); err != (testError1{}) {
-		t.Errorf("Write error: got %T, want testError1", err)
+		t.Errorf("Write error: golangt %T, want testError1", err)
 	}
 
 	r, w = Pipe()
 	w.CloseWithError(testError1{})
 	if _, err := r.Read(nil); err != (testError1{}) {
-		t.Errorf("Read error: got %T, want testError1", err)
+		t.Errorf("Read error: golangt %T, want testError1", err)
 	}
 	w.CloseWithError(testError2{})
 	if _, err := r.Read(nil); err != (testError1{}) {
-		t.Errorf("Read error: got %T, want testError1", err)
+		t.Errorf("Read error: golangt %T, want testError1", err)
 	}
 }
 
@@ -352,7 +352,7 @@ func TestPipeConcurrent(t *testing.T) {
 		r, w := Pipe()
 
 		for i := 0; i < count; i++ {
-			go func() {
+			golang func() {
 				time.Sleep(time.Millisecond) // Increase probability of race
 				if n, err := w.Write([]byte(input)); n != len(input) || err != nil {
 					t.Errorf("Write() = (%d, %v); want (%d, nil)", n, err, len(input))
@@ -369,10 +369,10 @@ func TestPipeConcurrent(t *testing.T) {
 
 		// Since each Write is fully gated, if multiple Read calls were needed,
 		// the contents of Write should still appear together in the output.
-		got := string(buf)
+		golangt := string(buf)
 		want := strings.Repeat(input, count)
-		if got != want {
-			t.Errorf("got: %q; want: %q", got, want)
+		if golangt != want {
+			t.Errorf("golangt: %q; want: %q", golangt, want)
 		}
 	})
 
@@ -381,7 +381,7 @@ func TestPipeConcurrent(t *testing.T) {
 
 		c := make(chan []byte, count*len(input)/readSize)
 		for i := 0; i < cap(c); i++ {
-			go func() {
+			golang func() {
 				time.Sleep(time.Millisecond) // Increase probability of race
 				buf := make([]byte, readSize)
 				if n, err := r.Read(buf); n != readSize || err != nil {
@@ -399,15 +399,15 @@ func TestPipeConcurrent(t *testing.T) {
 
 		// Since each read is independent, the only guarantee about the output
 		// is that it is a permutation of the input in readSized groups.
-		got := make([]byte, 0, count*len(input))
+		golangt := make([]byte, 0, count*len(input))
 		for i := 0; i < cap(c); i++ {
-			got = append(got, (<-c)...)
+			golangt = append(golangt, (<-c)...)
 		}
-		got = sortBytesInGroups(got, readSize)
+		golangt = sortBytesInGroups(golangt, readSize)
 		want := bytes.Repeat([]byte(input), count)
 		want = sortBytesInGroups(want, readSize)
-		if string(got) != string(want) {
-			t.Errorf("got: %q; want: %q", got, want)
+		if string(golangt) != string(want) {
+			t.Errorf("golangt: %q; want: %q", golangt, want)
 		}
 	})
 }
@@ -432,7 +432,7 @@ func TestPipeAllocations(t *testing.T) {
 		rSink, wSink = Pipe()
 	})
 
-	// go.dev/cl/473535 claimed Pipe() should only do 2 allocations,
+	// golang.dev/cl/473535 claimed Pipe() should only do 2 allocations,
 	// plus the 2 escaping to heap for simulating real world usages.
 	expectedAllocs := 4
 	if int(numAllocs) > expectedAllocs {

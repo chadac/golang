@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Server unit tests
@@ -59,9 +59,9 @@ func TestServerTLSHandshakeTimeout(t *testing.T) {
 		},
 	}
 	for i, tt := range tests {
-		got := tt.s.tlsHandshakeTimeout()
-		if got != tt.want {
-			t.Errorf("%d. got %v; want %v", i, got, tt.want)
+		golangt := tt.s.tlsHandshakeTimeout()
+		if golangt != tt.want {
+			t.Errorf("%d. golangt %v; want %v", i, golangt, tt.want)
 		}
 	}
 }
@@ -110,10 +110,10 @@ func TestFindHandler(t *testing.T) {
 		r.Method = test.method
 		r.Host = "example.com"
 		r.URL = &url.URL{Path: test.path}
-		gotH, _, _, _ := mux.findHandler(&r)
-		got := fmt.Sprintf("%#v", gotH)
-		if got != test.wantHandler {
-			t.Errorf("%s %q: got %q, want %q", test.method, test.path, got, test.wantHandler)
+		golangtH, _, _, _ := mux.findHandler(&r)
+		golangt := fmt.Sprintf("%#v", golangtH)
+		if golangt != test.wantHandler {
+			t.Errorf("%s %q: golangt %q, want %q", test.method, test.path, golangt, test.wantHandler)
 		}
 	}
 }
@@ -128,7 +128,7 @@ func TestEmptyServeMux(t *testing.T) {
 	r.URL = &url.URL{Path: "/"}
 	_, p := mux.Handler(&r)
 	if p != "" {
-		t.Errorf(`got %q, want ""`, p)
+		t.Errorf(`golangt %q, want ""`, p)
 	}
 }
 
@@ -146,16 +146,16 @@ func TestRegisterErr(t *testing.T) {
 		{"/", nil, "nil handler"},
 		{"/", HandlerFunc(nil), "nil handler"},
 		{"/{x", h, `parsing "/\{x": at offset 1: bad wildcard segment`},
-		{"/a", h, `conflicts with pattern.* \(registered at .*/server_test.go:\d+`},
+		{"/a", h, `conflicts with pattern.* \(registered at .*/server_test.golang:\d+`},
 	} {
 		t.Run(fmt.Sprintf("%s:%#v", test.pattern, test.handler), func(t *testing.T) {
 			err := mux.registerErr(test.pattern, test.handler)
 			if err == nil {
-				t.Fatal("got nil error")
+				t.Fatal("golangt nil error")
 			}
 			re := regexp.MustCompile(test.wantRegexp)
 			if g := err.Error(); !re.MatchString(g) {
-				t.Errorf("\ngot %q\nwant string matching %q", g, test.wantRegexp)
+				t.Errorf("\ngolangt %q\nwant string matching %q", g, test.wantRegexp)
 			}
 		})
 	}
@@ -181,9 +181,9 @@ func TestExactMatch(t *testing.T) {
 			pat := mustParsePattern(t, test.pattern)
 			n = &routingNode{pattern: pat}
 		}
-		got := exactMatch(n, test.path)
-		if got != test.want {
-			t.Errorf("%q, %s: got %t, want %t", test.pattern, test.path, got, test.want)
+		golangt := exactMatch(n, test.path)
+		if golangt != test.want {
+			t.Errorf("%q, %s: golangt %t, want %t", test.pattern, test.path, golangt, test.want)
 		}
 	}
 }
@@ -238,9 +238,9 @@ func TestEscapedPathsAndPatterns(t *testing.T) {
 				req := &Request{
 					URL: u,
 				}
-				_, gotPattern := mux.Handler(req)
-				if g, w := gotPattern, m.pattern; g != w {
-					t.Errorf("%s: pattern: got %q, want %q", p, g, w)
+				_, golangtPattern := mux.Handler(req)
+				if g, w := golangtPattern, m.pattern; g != w {
+					t.Errorf("%s: pattern: golangt %q, want %q", p, g, w)
 				}
 			}
 		}
@@ -261,9 +261,9 @@ func TestCleanPath(t *testing.T) {
 		{"a//b/////c", "/a/b/c"},
 		{"/foo/../bar/./..//baz", "/baz"},
 	} {
-		got := cleanPath(test.in)
-		if got != test.want {
-			t.Errorf("%s: got %q, want %q", test.in, got, test.want)
+		golangt := cleanPath(test.in)
+		if golangt != test.want {
+			t.Errorf("%s: golangt %q, want %q", test.in, golangt, test.want)
 		}
 	}
 }

@@ -57,7 +57,7 @@ type Section struct {
 	Rellen  uint64
 	// Relcount is the number of *host* relocations applied to this section
 	// (when external linking).
-	// Incremented atomically on multiple goroutines.
+	// Incremented atomically on multiple golangroutines.
 	// Note: this may differ from number of Go relocations, as one Go relocation
 	// may turn into multiple host relocations.
 	Relcount uint32

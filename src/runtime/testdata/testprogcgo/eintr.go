@@ -1,8 +1,8 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !plan9 && !windows
+//golang:build !plan9 && !windows
 // +build !plan9,!windows
 
 package main
@@ -71,7 +71,7 @@ func EINTR() {
 // spin does CPU bound spinning and allocating for a millisecond,
 // to get a SIGURG.
 //
-//go:noinline
+//golang:noinline
 func spin() (float64, []byte) {
 	stop := time.Now().Add(time.Millisecond)
 	r1 := 0.0
@@ -100,7 +100,7 @@ func winch() {
 // sendSomeSignals triggers a few SIGURG and SIGWINCH signals.
 func sendSomeSignals() {
 	done := make(chan struct{})
-	go func() {
+	golang func() {
 		spin()
 		close(done)
 	}()
@@ -121,32 +121,32 @@ func testPipe(wg *sync.WaitGroup) {
 		log.Fatal(err)
 	}
 	wg.Add(2)
-	go func() {
+	golang func() {
 		defer wg.Done()
 		defer w.Close()
 		// Spin before calling Write so that the first ReadFull
-		// in the other goroutine will likely be interrupted
+		// in the other golangroutine will likely be interrupted
 		// by a signal.
 		sendSomeSignals()
 		// This Write will likely be interrupted by a signal
-		// as the other goroutine spins in the middle of reading.
+		// as the other golangroutine spins in the middle of reading.
 		// We write enough data that we should always fill the
 		// pipe buffer and need multiple write system calls.
 		if _, err := w.Write(bytes.Repeat([]byte{0}, 2<<20)); err != nil {
 			log.Fatal(err)
 		}
 	}()
-	go func() {
+	golang func() {
 		defer wg.Done()
 		defer r.Close()
 		b := make([]byte, 1<<20)
 		// This ReadFull will likely be interrupted by a signal,
-		// as the other goroutine spins before writing anything.
+		// as the other golangroutine spins before writing anything.
 		if _, err := io.ReadFull(r, b); err != nil {
 			log.Fatal(err)
 		}
 		// Spin after reading half the data so that the Write
-		// in the other goroutine will likely be interrupted
+		// in the other golangroutine will likely be interrupted
 		// before it completes.
 		sendSomeSignals()
 		if _, err := io.ReadFull(r, b); err != nil {
@@ -165,7 +165,7 @@ func testNet(wg *sync.WaitGroup) {
 		log.Fatal(err)
 	}
 	wg.Add(2)
-	go func() {
+	golang func() {
 		defer wg.Done()
 		defer ln.Close()
 		c, err := ln.Accept()
@@ -187,7 +187,7 @@ func testNet(wg *sync.WaitGroup) {
 			log.Fatal(err)
 		}
 	}()
-	go func() {
+	golang func() {
 		defer wg.Done()
 		sendSomeSignals()
 		c, err := net.Dial("tcp", ln.Addr().String())
@@ -217,7 +217,7 @@ func testNet(wg *sync.WaitGroup) {
 
 func testExec(wg *sync.WaitGroup) {
 	wg.Add(1)
-	go func() {
+	golang func() {
 		defer wg.Done()
 		cmd := exec.Command(os.Args[0], "Block")
 		stdin, err := cmd.StdinPipe()
@@ -230,7 +230,7 @@ func testExec(wg *sync.WaitGroup) {
 			log.Fatal(err)
 		}
 
-		go func() {
+		golang func() {
 			sendSomeSignals()
 			stdin.Close()
 		}()

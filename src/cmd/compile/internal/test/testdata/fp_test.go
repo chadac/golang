@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Tests floating point arithmetic expressions
@@ -15,7 +15,7 @@ import (
 // pressure or unfriendly operand ordering in registers (and at
 // least once it succeeded in this).
 //
-//go:noinline
+//golang:noinline
 func manysub_ssa(a, b, c, d float64) (aa, ab, ac, ad, ba, bb, bc, bd, ca, cb, cc, cd, da, db, dc, dd float64) {
 	aa = a + 11.0 - a
 	ab = a - b
@@ -39,7 +39,7 @@ func manysub_ssa(a, b, c, d float64) (aa, ab, ac, ad, ba, bb, bc, bd, ca, cb, cc
 // fpspill_ssa attempts to trigger a bug where phis with floating point values
 // were stored in non-fp registers causing an error in doasm.
 //
-//go:noinline
+//golang:noinline
 func fpspill_ssa(a int) float64 {
 
 	ret := -1.0
@@ -82,57 +82,57 @@ func fpspill_ssa(a int) float64 {
 	return ret
 }
 
-//go:noinline
+//golang:noinline
 func add64_ssa(a, b float64) float64 {
 	return a + b
 }
 
-//go:noinline
+//golang:noinline
 func mul64_ssa(a, b float64) float64 {
 	return a * b
 }
 
-//go:noinline
+//golang:noinline
 func sub64_ssa(a, b float64) float64 {
 	return a - b
 }
 
-//go:noinline
+//golang:noinline
 func div64_ssa(a, b float64) float64 {
 	return a / b
 }
 
-//go:noinline
+//golang:noinline
 func neg64_ssa(a, b float64) float64 {
 	return -a + -1*b
 }
 
-//go:noinline
+//golang:noinline
 func add32_ssa(a, b float32) float32 {
 	return a + b
 }
 
-//go:noinline
+//golang:noinline
 func mul32_ssa(a, b float32) float32 {
 	return a * b
 }
 
-//go:noinline
+//golang:noinline
 func sub32_ssa(a, b float32) float32 {
 	return a - b
 }
 
-//go:noinline
+//golang:noinline
 func div32_ssa(a, b float32) float32 {
 	return a / b
 }
 
-//go:noinline
+//golang:noinline
 func neg32_ssa(a, b float32) float32 {
 	return -a + -1*b
 }
 
-//go:noinline
+//golang:noinline
 func conv2Float64_ssa(a int8, b uint8, c int16, d uint16,
 	e int32, f uint32, g int64, h uint64, i float32) (aa, bb, cc, dd, ee, ff, gg, hh, ii float64) {
 	aa = float64(a)
@@ -147,7 +147,7 @@ func conv2Float64_ssa(a int8, b uint8, c int16, d uint16,
 	return
 }
 
-//go:noinline
+//golang:noinline
 func conv2Float32_ssa(a int8, b uint8, c int16, d uint16,
 	e int32, f uint32, g int64, h uint64, i float64) (aa, bb, cc, dd, ee, ff, gg, hh, ii float32) {
 	aa = float32(a)
@@ -252,9 +252,9 @@ func multiplyAdd(t *testing.T) {
 			{0.6280982, 0.12675293, 0.2813303, 0.36094356},    // fused multiply-add result: 0.3609436
 			{0.29400632, 0.75316125, 0.15096405, 0.3723982},   // fused multiply-add result: 0.37239823
 		}
-		check := func(s string, got, expected float32) {
-			if got != expected {
-				fmt.Printf("multiplyAdd: %s, expected %g, got %g\n", s, expected, got)
+		check := func(s string, golangt, expected float32) {
+			if golangt != expected {
+				fmt.Printf("multiplyAdd: %s, expected %g, golangt %g\n", s, expected, golangt)
 			}
 		}
 		for _, t := range tests {
@@ -292,9 +292,9 @@ func multiplyAdd(t *testing.T) {
 			{0.3691117091643448, 0.826454125634742, 0.34768170859156955, 0.6527356034505334},    // fused multiply-add result: 0.6527356034505333
 			{0.16867966833433606, 0.33136826030698385, 0.8279280961505588, 0.8838231843956668},  // fused multiply-add result: 0.8838231843956669
 		}
-		check := func(s string, got, expected float64) {
-			if got != expected {
-				fmt.Printf("multiplyAdd: %s, expected %g, got %g\n", s, expected, got)
+		check := func(s string, golangt, expected float64) {
+			if golangt != expected {
+				fmt.Printf("multiplyAdd: %s, expected %g, golangt %g\n", s, expected, golangt)
 			}
 		}
 		for _, t := range tests {
@@ -335,9 +335,9 @@ func multiplyAdd(t *testing.T) {
 			{0.8963417453962161, 0.3220839705208817, (3.0111092067095298 + 3i)},   // fused multiply-add result: (3.01110920670953 + 3i)
 			{0.39998376285699544, 0.497868113342702, (1.697819401913688 + 3i)},    // fused multiply-add result: (1.6978194019136883 + 3i)
 		}
-		check := func(s string, got, expected complex128) {
-			if got != expected {
-				fmt.Printf("multiplyAdd: %s, expected %v, got %v\n", s, expected, got)
+		check := func(s string, golangt, expected complex128) {
+			if golangt != expected {
+				fmt.Printf("multiplyAdd: %s, expected %v, golangt %v\n", s, expected, golangt)
 			}
 		}
 		for _, t := range tests {
@@ -379,7 +379,7 @@ const (
 	dd = 0x1
 )
 
-//go:noinline
+//golang:noinline
 func compares64_ssa(a, b, c, d float64) (lt, le, eq, ne, ge, gt uint64) {
 	if a < a {
 		lt += aa
@@ -696,7 +696,7 @@ func compares64_ssa(a, b, c, d float64) (lt, le, eq, ne, ge, gt uint64) {
 	return
 }
 
-//go:noinline
+//golang:noinline
 func compares32_ssa(a, b, c, d float32) (lt, le, eq, ne, ge, gt uint64) {
 	if a < a {
 		lt += aa
@@ -1013,37 +1013,37 @@ func compares32_ssa(a, b, c, d float32) (lt, le, eq, ne, ge, gt uint64) {
 	return
 }
 
-//go:noinline
+//golang:noinline
 func le64_ssa(x, y float64) bool {
 	return x <= y
 }
 
-//go:noinline
+//golang:noinline
 func ge64_ssa(x, y float64) bool {
 	return x >= y
 }
 
-//go:noinline
+//golang:noinline
 func lt64_ssa(x, y float64) bool {
 	return x < y
 }
 
-//go:noinline
+//golang:noinline
 func gt64_ssa(x, y float64) bool {
 	return x > y
 }
 
-//go:noinline
+//golang:noinline
 func eq64_ssa(x, y float64) bool {
 	return x == y
 }
 
-//go:noinline
+//golang:noinline
 func ne64_ssa(x, y float64) bool {
 	return x != y
 }
 
-//go:noinline
+//golang:noinline
 func eqbr64_ssa(x, y float64) float64 {
 	if x == y {
 		return 17
@@ -1051,7 +1051,7 @@ func eqbr64_ssa(x, y float64) float64 {
 	return 42
 }
 
-//go:noinline
+//golang:noinline
 func nebr64_ssa(x, y float64) float64 {
 	if x != y {
 		return 17
@@ -1059,7 +1059,7 @@ func nebr64_ssa(x, y float64) float64 {
 	return 42
 }
 
-//go:noinline
+//golang:noinline
 func gebr64_ssa(x, y float64) float64 {
 	if x >= y {
 		return 17
@@ -1067,7 +1067,7 @@ func gebr64_ssa(x, y float64) float64 {
 	return 42
 }
 
-//go:noinline
+//golang:noinline
 func lebr64_ssa(x, y float64) float64 {
 	if x <= y {
 		return 17
@@ -1075,7 +1075,7 @@ func lebr64_ssa(x, y float64) float64 {
 	return 42
 }
 
-//go:noinline
+//golang:noinline
 func ltbr64_ssa(x, y float64) float64 {
 	if x < y {
 		return 17
@@ -1083,7 +1083,7 @@ func ltbr64_ssa(x, y float64) float64 {
 	return 42
 }
 
-//go:noinline
+//golang:noinline
 func gtbr64_ssa(x, y float64) float64 {
 	if x > y {
 		return 17
@@ -1091,37 +1091,37 @@ func gtbr64_ssa(x, y float64) float64 {
 	return 42
 }
 
-//go:noinline
+//golang:noinline
 func le32_ssa(x, y float32) bool {
 	return x <= y
 }
 
-//go:noinline
+//golang:noinline
 func ge32_ssa(x, y float32) bool {
 	return x >= y
 }
 
-//go:noinline
+//golang:noinline
 func lt32_ssa(x, y float32) bool {
 	return x < y
 }
 
-//go:noinline
+//golang:noinline
 func gt32_ssa(x, y float32) bool {
 	return x > y
 }
 
-//go:noinline
+//golang:noinline
 func eq32_ssa(x, y float32) bool {
 	return x == y
 }
 
-//go:noinline
+//golang:noinline
 func ne32_ssa(x, y float32) bool {
 	return x != y
 }
 
-//go:noinline
+//golang:noinline
 func eqbr32_ssa(x, y float32) float32 {
 	if x == y {
 		return 17
@@ -1129,7 +1129,7 @@ func eqbr32_ssa(x, y float32) float32 {
 	return 42
 }
 
-//go:noinline
+//golang:noinline
 func nebr32_ssa(x, y float32) float32 {
 	if x != y {
 		return 17
@@ -1137,7 +1137,7 @@ func nebr32_ssa(x, y float32) float32 {
 	return 42
 }
 
-//go:noinline
+//golang:noinline
 func gebr32_ssa(x, y float32) float32 {
 	if x >= y {
 		return 17
@@ -1145,7 +1145,7 @@ func gebr32_ssa(x, y float32) float32 {
 	return 42
 }
 
-//go:noinline
+//golang:noinline
 func lebr32_ssa(x, y float32) float32 {
 	if x <= y {
 		return 17
@@ -1153,7 +1153,7 @@ func lebr32_ssa(x, y float32) float32 {
 	return 42
 }
 
-//go:noinline
+//golang:noinline
 func ltbr32_ssa(x, y float32) float32 {
 	if x < y {
 		return 17
@@ -1161,7 +1161,7 @@ func ltbr32_ssa(x, y float32) float32 {
 	return 42
 }
 
-//go:noinline
+//golang:noinline
 func gtbr32_ssa(x, y float32) float32 {
 	if x > y {
 		return 17
@@ -1169,82 +1169,82 @@ func gtbr32_ssa(x, y float32) float32 {
 	return 42
 }
 
-//go:noinline
+//golang:noinline
 func F32toU8_ssa(x float32) uint8 {
 	return uint8(x)
 }
 
-//go:noinline
+//golang:noinline
 func F32toI8_ssa(x float32) int8 {
 	return int8(x)
 }
 
-//go:noinline
+//golang:noinline
 func F32toU16_ssa(x float32) uint16 {
 	return uint16(x)
 }
 
-//go:noinline
+//golang:noinline
 func F32toI16_ssa(x float32) int16 {
 	return int16(x)
 }
 
-//go:noinline
+//golang:noinline
 func F32toU32_ssa(x float32) uint32 {
 	return uint32(x)
 }
 
-//go:noinline
+//golang:noinline
 func F32toI32_ssa(x float32) int32 {
 	return int32(x)
 }
 
-//go:noinline
+//golang:noinline
 func F32toU64_ssa(x float32) uint64 {
 	return uint64(x)
 }
 
-//go:noinline
+//golang:noinline
 func F32toI64_ssa(x float32) int64 {
 	return int64(x)
 }
 
-//go:noinline
+//golang:noinline
 func F64toU8_ssa(x float64) uint8 {
 	return uint8(x)
 }
 
-//go:noinline
+//golang:noinline
 func F64toI8_ssa(x float64) int8 {
 	return int8(x)
 }
 
-//go:noinline
+//golang:noinline
 func F64toU16_ssa(x float64) uint16 {
 	return uint16(x)
 }
 
-//go:noinline
+//golang:noinline
 func F64toI16_ssa(x float64) int16 {
 	return int16(x)
 }
 
-//go:noinline
+//golang:noinline
 func F64toU32_ssa(x float64) uint32 {
 	return uint32(x)
 }
 
-//go:noinline
+//golang:noinline
 func F64toI32_ssa(x float64) int32 {
 	return int32(x)
 }
 
-//go:noinline
+//golang:noinline
 func F64toU64_ssa(x float64) uint64 {
 	return uint64(x)
 }
 
-//go:noinline
+//golang:noinline
 func F64toI64_ssa(x float64) int64 {
 	return int64(x)
 }
@@ -1368,76 +1368,76 @@ func floatingToIntegerConversionsTest(t *testing.T) {
 func fail64(s string, f func(a, b float64) float64, a, b, e float64) {
 	d := f(a, b)
 	if d != e {
-		fmt.Printf("For (float64) %v %v %v, expected %v, got %v\n", a, s, b, e, d)
+		fmt.Printf("For (float64) %v %v %v, expected %v, golangt %v\n", a, s, b, e, d)
 	}
 }
 
 func fail64bool(s string, f func(a, b float64) bool, a, b float64, e bool) {
 	d := f(a, b)
 	if d != e {
-		fmt.Printf("For (float64) %v %v %v, expected %v, got %v\n", a, s, b, e, d)
+		fmt.Printf("For (float64) %v %v %v, expected %v, golangt %v\n", a, s, b, e, d)
 	}
 }
 
 func fail32(s string, f func(a, b float32) float32, a, b, e float32) {
 	d := f(a, b)
 	if d != e {
-		fmt.Printf("For (float32) %v %v %v, expected %v, got %v\n", a, s, b, e, d)
+		fmt.Printf("For (float32) %v %v %v, expected %v, golangt %v\n", a, s, b, e, d)
 	}
 }
 
 func fail32bool(s string, f func(a, b float32) bool, a, b float32, e bool) {
 	d := f(a, b)
 	if d != e {
-		fmt.Printf("For (float32) %v %v %v, expected %v, got %v\n", a, s, b, e, d)
+		fmt.Printf("For (float32) %v %v %v, expected %v, golangt %v\n", a, s, b, e, d)
 	}
 }
 
 func expect64(t *testing.T, s string, x, expected float64) {
 	if x != expected {
-		println("F64 Expected", expected, "for", s, ", got", x)
+		println("F64 Expected", expected, "for", s, ", golangt", x)
 	}
 }
 
 func expect32(t *testing.T, s string, x, expected float32) {
 	if x != expected {
-		println("F32 Expected", expected, "for", s, ", got", x)
+		println("F32 Expected", expected, "for", s, ", golangt", x)
 	}
 }
 
 func expectUint64(t *testing.T, s string, x, expected uint64) {
 	if x != expected {
-		fmt.Printf("U64 Expected 0x%016x for %s, got 0x%016x\n", expected, s, x)
+		fmt.Printf("U64 Expected 0x%016x for %s, golangt 0x%016x\n", expected, s, x)
 	}
 }
 
 func expectInt64(t *testing.T, s string, x, expected int64) {
 	if x != expected {
-		fmt.Printf("%s: Expected 0x%016x, got 0x%016x\n", s, expected, x)
+		fmt.Printf("%s: Expected 0x%016x, golangt 0x%016x\n", s, expected, x)
 	}
 }
 
 func expectUint32(t *testing.T, s string, x, expected uint32) {
 	if x != expected {
-		fmt.Printf("U32 %s: Expected 0x%08x, got 0x%08x\n", s, expected, x)
+		fmt.Printf("U32 %s: Expected 0x%08x, golangt 0x%08x\n", s, expected, x)
 	}
 }
 
 func expectInt32(t *testing.T, s string, x, expected int32) {
 	if x != expected {
-		fmt.Printf("I32 %s: Expected 0x%08x, got 0x%08x\n", s, expected, x)
+		fmt.Printf("I32 %s: Expected 0x%08x, golangt 0x%08x\n", s, expected, x)
 	}
 }
 
 func expectUint16(t *testing.T, s string, x, expected uint16) {
 	if x != expected {
-		fmt.Printf("U16 %s: Expected 0x%04x, got 0x%04x\n", s, expected, x)
+		fmt.Printf("U16 %s: Expected 0x%04x, golangt 0x%04x\n", s, expected, x)
 	}
 }
 
 func expectInt16(t *testing.T, s string, x, expected int16) {
 	if x != expected {
-		fmt.Printf("I16 %s: Expected 0x%04x, got 0x%04x\n", s, expected, x)
+		fmt.Printf("I16 %s: Expected 0x%04x, golangt 0x%04x\n", s, expected, x)
 	}
 }
 
@@ -1504,120 +1504,120 @@ func cmpOpTest(t *testing.T,
 
 func expectCx128(t *testing.T, s string, x, expected complex128) {
 	if x != expected {
-		t.Errorf("Cx 128 Expected %f for %s, got %f", expected, s, x)
+		t.Errorf("Cx 128 Expected %f for %s, golangt %f", expected, s, x)
 	}
 }
 
 func expectCx64(t *testing.T, s string, x, expected complex64) {
 	if x != expected {
-		t.Errorf("Cx 64 Expected %f for %s, got %f", expected, s, x)
+		t.Errorf("Cx 64 Expected %f for %s, golangt %f", expected, s, x)
 	}
 }
 
-//go:noinline
+//golang:noinline
 func cx128sum_ssa(a, b complex128) complex128 {
 	return a + b
 }
 
-//go:noinline
+//golang:noinline
 func cx128diff_ssa(a, b complex128) complex128 {
 	return a - b
 }
 
-//go:noinline
+//golang:noinline
 func cx128prod_ssa(a, b complex128) complex128 {
 	return a * b
 }
 
-//go:noinline
+//golang:noinline
 func cx128quot_ssa(a, b complex128) complex128 {
 	return a / b
 }
 
-//go:noinline
+//golang:noinline
 func cx128neg_ssa(a complex128) complex128 {
 	return -a
 }
 
-//go:noinline
+//golang:noinline
 func cx128real_ssa(a complex128) float64 {
 	return real(a)
 }
 
-//go:noinline
+//golang:noinline
 func cx128imag_ssa(a complex128) float64 {
 	return imag(a)
 }
 
-//go:noinline
+//golang:noinline
 func cx128cnst_ssa(a complex128) complex128 {
 	b := 2 + 3i
 	return a * b
 }
 
-//go:noinline
+//golang:noinline
 func cx64sum_ssa(a, b complex64) complex64 {
 	return a + b
 }
 
-//go:noinline
+//golang:noinline
 func cx64diff_ssa(a, b complex64) complex64 {
 	return a - b
 }
 
-//go:noinline
+//golang:noinline
 func cx64prod_ssa(a, b complex64) complex64 {
 	return a * b
 }
 
-//go:noinline
+//golang:noinline
 func cx64quot_ssa(a, b complex64) complex64 {
 	return a / b
 }
 
-//go:noinline
+//golang:noinline
 func cx64neg_ssa(a complex64) complex64 {
 	return -a
 }
 
-//go:noinline
+//golang:noinline
 func cx64real_ssa(a complex64) float32 {
 	return real(a)
 }
 
-//go:noinline
+//golang:noinline
 func cx64imag_ssa(a complex64) float32 {
 	return imag(a)
 }
 
-//go:noinline
+//golang:noinline
 func cx128eq_ssa(a, b complex128) bool {
 	return a == b
 }
 
-//go:noinline
+//golang:noinline
 func cx128ne_ssa(a, b complex128) bool {
 	return a != b
 }
 
-//go:noinline
+//golang:noinline
 func cx64eq_ssa(a, b complex64) bool {
 	return a == b
 }
 
-//go:noinline
+//golang:noinline
 func cx64ne_ssa(a, b complex64) bool {
 	return a != b
 }
 
 func expectTrue(t *testing.T, s string, b bool) {
 	if !b {
-		t.Errorf("expected true for %s, got false", s)
+		t.Errorf("expected true for %s, golangt false", s)
 	}
 }
 func expectFalse(t *testing.T, s string, b bool) {
 	if b {
-		t.Errorf("expected false for %s, got true", s)
+		t.Errorf("expected false for %s, golangt true", s)
 	}
 }
 

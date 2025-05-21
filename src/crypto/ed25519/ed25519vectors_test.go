@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ed25519_test
@@ -71,7 +71,7 @@ func TestEd25519Vectors(t *testing.T) {
 }
 
 func downloadEd25519Vectors(t *testing.T) []byte {
-	// Download the JSON test file from the GOPROXY with `go mod download`,
+	// Download the JSON test file from the GOPROXY with `golang mod download`,
 	// pinning the version so test and module caching works as expected.
 	path := "filippo.io/mostly-harmless/ed25519vectors"
 	version := "v0.0.0-20210322192420-30a2d7243a94"

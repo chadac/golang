@@ -4,7 +4,7 @@ package main
 
 import "fmt"
 
-// We are going to define 256 types T(n),
+// We are golanging to define 256 types T(n),
 // such that T(n) embeds T(2n) and *T(2n+1).
 
 func main() {

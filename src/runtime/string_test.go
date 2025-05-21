@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime_test
@@ -209,7 +209,7 @@ func TestStringW(t *testing.T) {
 		b = append(b, 0)
 		r := runtime.GostringW(b)
 		if r != s {
-			t.Errorf("gostringW(%v) = %s, want %s", b, r, s)
+			t.Errorf("golangstringW(%v) = %s, want %s", b, r, s)
 		}
 	}
 }
@@ -232,7 +232,7 @@ func TestConcatTempString(t *testing.T) {
 		}
 	})
 	if n != 0 {
-		t.Fatalf("want 0 allocs, got %v", n)
+		t.Fatalf("want 0 allocs, golangt %v", n)
 	}
 }
 
@@ -263,7 +263,7 @@ func TestCompareTempString(t *testing.T) {
 		}
 	})
 	if n != 0 {
-		t.Fatalf("want 0 allocs, got %v", n)
+		t.Fatalf("want 0 allocs, golangt %v", n)
 	}
 }
 
@@ -277,7 +277,7 @@ func TestStringIndexHaystack(t *testing.T) {
 		}
 	})
 	if n != 0 {
-		t.Fatalf("want 0 allocs, got %v", n)
+		t.Fatalf("want 0 allocs, golangt %v", n)
 	}
 }
 
@@ -291,7 +291,7 @@ func TestStringIndexNeedle(t *testing.T) {
 		}
 	})
 	if n != 0 {
-		t.Fatalf("want 0 allocs, got %v", n)
+		t.Fatalf("want 0 allocs, golangt %v", n)
 	}
 }
 
@@ -302,7 +302,7 @@ func TestStringOnStack(t *testing.T) {
 	}
 
 	if want := "aaabcbabccbaabcbabccc"; s != want {
-		t.Fatalf("want: '%v', got '%v'", want, s)
+		t.Fatalf("want: '%v', golangt '%v'", want, s)
 	}
 }
 
@@ -313,7 +313,7 @@ func TestIntString(t *testing.T) {
 		s += string(i+'0') + string(i+'0'+1)
 	}
 	if want := "01122334"; s != want {
-		t.Fatalf("want '%v', got '%v'", want, s)
+		t.Fatalf("want '%v', golangt '%v'", want, s)
 	}
 
 	// Escaping result of intstring.
@@ -323,7 +323,7 @@ func TestIntString(t *testing.T) {
 	}
 	s = a[0] + a[1] + a[2] + a[3]
 	if want := "0123"; s != want {
-		t.Fatalf("want '%v', got '%v'", want, s)
+		t.Fatalf("want '%v', golangt '%v'", want, s)
 	}
 }
 
@@ -337,7 +337,7 @@ func TestIntStringAllocs(t *testing.T) {
 		}
 	})
 	if n != 0 {
-		t.Fatalf("want 0 allocs, got %v", n)
+		t.Fatalf("want 0 allocs, golangt %v", n)
 	}
 }
 
@@ -346,12 +346,12 @@ func TestRangeStringCast(t *testing.T) {
 	n := testing.AllocsPerRun(1000, func() {
 		for i, c := range []byte(s) {
 			if c != s[i] {
-				t.Fatalf("want '%c' at pos %v, got '%c'", s[i], i, c)
+				t.Fatalf("want '%c' at pos %v, golangt '%c'", s[i], i, c)
 			}
 		}
 	})
 	if n != 0 {
-		t.Fatalf("want 0 allocs, got %v", n)
+		t.Fatalf("want 0 allocs, golangt %v", n)
 	}
 }
 

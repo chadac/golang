@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 /*
@@ -378,7 +378,7 @@ func (p *addrParser) parseSingleAddress() (*Address, error) {
 		return nil, errors.New("mail: misformatted parenthetical comment")
 	}
 	if !p.empty() {
-		return nil, fmt.Errorf("mail: expected single address, got %q", p.s)
+		return nil, fmt.Errorf("mail: expected single address, golangt %q", p.s)
 	}
 	if len(addrs) == 0 {
 		return nil, errors.New("mail: empty group")
@@ -615,7 +615,7 @@ func (p *addrParser) consumePhrase() (phrase string, err error) {
 		}
 		isPrevEncoded = isEncoded
 	}
-	// Ignore any error if we got at least one word.
+	// Ignore any error if we golangt at least one word.
 	if err != nil && len(words) == 0 {
 		debug.Printf("consumePhrase: hit err: %v", err)
 		return "", fmt.Errorf("mail: missing word in phrase: %v", err)
@@ -678,7 +678,7 @@ Loop:
 // consumeAtom parses an RFC 5322 atom at the start of p.
 // If dot is true, consumeAtom parses an RFC 5322 dot-atom instead.
 // If permissive is true, consumeAtom will not fail on:
-// - leading/trailing/double dots in the atom (see golang.org/issue/4938)
+// - leading/trailing/double dots in the atom (see golanglang.org/issue/4938)
 func (p *addrParser) consumeAtom(dot bool, permissive bool) (atom string, err error) {
 	i := 0
 

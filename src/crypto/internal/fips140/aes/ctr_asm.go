@@ -1,23 +1,23 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build (amd64 || arm64 || ppc64 || ppc64le) && !purego
+//golang:build (amd64 || arm64 || ppc64 || ppc64le) && !puregolang
 
 package aes
 
-//go:generate sh -c "go run ./ctr_arm64_gen.go | asmfmt > ctr_arm64.s"
+//golang:generate sh -c "golang run ./ctr_arm64_gen.golang | asmfmt > ctr_arm64.s"
 
-//go:noescape
+//golang:noescape
 func ctrBlocks1Asm(nr int, xk *[60]uint32, dst, src *[BlockSize]byte, ivlo, ivhi uint64)
 
-//go:noescape
+//golang:noescape
 func ctrBlocks2Asm(nr int, xk *[60]uint32, dst, src *[2 * BlockSize]byte, ivlo, ivhi uint64)
 
-//go:noescape
+//golang:noescape
 func ctrBlocks4Asm(nr int, xk *[60]uint32, dst, src *[4 * BlockSize]byte, ivlo, ivhi uint64)
 
-//go:noescape
+//golang:noescape
 func ctrBlocks8Asm(nr int, xk *[60]uint32, dst, src *[8 * BlockSize]byte, ivlo, ivhi uint64)
 
 func ctrBlocks1(b *Block, dst, src *[BlockSize]byte, ivlo, ivhi uint64) {

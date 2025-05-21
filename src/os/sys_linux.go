@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package os
@@ -23,7 +23,7 @@ func hostname() (name string, err error) {
 			break
 		}
 	}
-	// If we got a name and it's not potentially truncated
+	// If we golangt a name and it's not potentially truncated
 	// (Nodename is 65 bytes), return it.
 	if err == nil && len(name) > 0 && len(name) < 64 {
 		return name, nil

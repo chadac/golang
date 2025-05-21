@@ -1,16 +1,16 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package work
 
 import (
 	"bytes"
-	"cmd/go/internal/base"
-	"cmd/go/internal/cache"
-	"cmd/go/internal/cfg"
-	"cmd/go/internal/load"
-	"cmd/go/internal/str"
+	"cmd/golang/internal/base"
+	"cmd/golang/internal/cache"
+	"cmd/golang/internal/cfg"
+	"cmd/golang/internal/load"
+	"cmd/golang/internal/str"
 	"cmd/internal/par"
 	"cmd/internal/pathcache"
 	"errors"
@@ -133,7 +133,7 @@ func (sh *Shell) moveOrCopyFile(dst, src string, perm fs.FileMode, force bool) e
 	}
 
 	// On Windows, always copy the file, so that we respect the NTFS
-	// permissions of the parent folder. https://golang.org/issue/22343.
+	// permissions of the parent folder. https://golanglang.org/issue/22343.
 	// What matters here is not cfg.Goos (the system we are building
 	// for) but runtime.GOOS (the system we are building on).
 	if runtime.GOOS == "windows" {
@@ -142,7 +142,7 @@ func (sh *Shell) moveOrCopyFile(dst, src string, perm fs.FileMode, force bool) e
 
 	// If the destination directory has the group sticky bit set,
 	// we have to copy the file to retain the correct permissions.
-	// https://golang.org/issue/18878
+	// https://golanglang.org/issue/18878
 	if fi, err := os.Stat(filepath.Dir(dst)); err == nil {
 		if fi.IsDir() && (fi.Mode()&fs.ModeSetgid) != 0 {
 			return sh.CopyFile(dst, src, perm, force)
@@ -155,7 +155,7 @@ func (sh *Shell) moveOrCopyFile(dst, src string, perm fs.FileMode, force bool) e
 	// This avoids build tags and works even on systems like Plan 9
 	// where the file mask computation incorporates other information.
 	mode := perm
-	f, err := os.OpenFile(filepath.Clean(dst)+"-go-tmp-umask", os.O_WRONLY|os.O_CREATE|os.O_EXCL, perm)
+	f, err := os.OpenFile(filepath.Clean(dst)+"-golang-tmp-umask", os.O_WRONLY|os.O_CREATE|os.O_EXCL, perm)
 	if err == nil {
 		fi, err := f.Stat()
 		if err == nil {
@@ -410,20 +410,20 @@ func (sh *Shell) ShowCmd(dir string, format string, args ...any) {
 // shorter. This is usually more pleasant. For example, if fmt doesn't compile
 // and we are in src/html, the output is
 //
-//	$ go build
+//	$ golang build
 //	# fmt
-//	../fmt/print.go:1090: undefined: asdf
+//	../fmt/print.golang:1090: undefined: asdf
 //	$
 //
 // instead of
 //
-//	$ go build
+//	$ golang build
 //	# fmt
-//	/usr/gopher/go/src/fmt/print.go:1090: undefined: asdf
+//	/usr/golangpher/golang/src/fmt/print.golang:1090: undefined: asdf
 //	$
 //
 // reportCmd also replaces references to the work directory with $WORK, replaces
-// cgo file paths with the original file path, and replaces cgo-mangled names
+// cgolang file paths with the original file path, and replaces cgolang-mangled names
 // with "C.name".
 //
 // desc is optional. If "", a.Package.Desc() is used.
@@ -477,7 +477,7 @@ func (sh *Shell) reportCmd(desc, dir string, cmdOut []byte, cmdErr error) error 
 		// Note that dir starts out long, something like
 		// /foo/bar/baz/root/a
 		// The target string to be reduced is something like
-		// (blah-blah-blah) /foo/bar/baz/root/sibling/whatever.go:blah:blah
+		// (blah-blah-blah) /foo/bar/baz/root/sibling/whatever.golang:blah:blah
 		// /foo/bar/baz/root/a doesn't match /foo/bar/baz/root/sibling, but the prefix
 		// /foo/bar/baz/root does.  And there may be other niblings sharing shorter
 		// prefixes, the only way to find them is to look.
@@ -498,13 +498,13 @@ func (sh *Shell) reportCmd(desc, dir string, cmdOut []byte, cmdErr error) error 
 		dir = dirP
 	}
 
-	// Fix up output referring to cgo-generated code to be more readable.
-	// Replace x.go:19[/tmp/.../x.cgo1.go:18] with x.go:19.
+	// Fix up output referring to cgolang-generated code to be more readable.
+	// Replace x.golang:19[/tmp/.../x.cgolang1.golang:18] with x.golang:19.
 	// Replace *[100]_Ctype_foo with *[100]C.foo.
 	// If we're using -x, assume we're debugging and want the full dump, so disable the rewrite.
-	if !cfg.BuildX && cgoLine.MatchString(out) {
-		out = cgoLine.ReplaceAllString(out, "")
-		out = cgoTypeSigRe.ReplaceAllString(out, "C.")
+	if !cfg.BuildX && cgolangLine.MatchString(out) {
+		out = cgolangLine.ReplaceAllString(out, "")
+		out = cgolangTypeSigRe.ReplaceAllString(out, "C.")
 	}
 
 	// Usually desc is already p.Desc(), but if not, signal cmdError.Error to
@@ -567,8 +567,8 @@ func (e *cmdError) ImportPath() string {
 	return e.importPath
 }
 
-var cgoLine = lazyregexp.New(`\[[^\[\]]+\.(cgo1|cover)\.go:[0-9]+(:[0-9]+)?\]`)
-var cgoTypeSigRe = lazyregexp.New(`\b_C2?(type|func|var|macro)_\B`)
+var cgolangLine = lazyregexp.New(`\[[^\[\]]+\.(cgolang1|cover)\.golang:[0-9]+(:[0-9]+)?\]`)
+var cgolangTypeSigRe = lazyregexp.New(`\b_C2?(type|func|var|macro)_\B`)
 
 // run runs the command given by cmdline in the directory dir.
 // If the command fails, run prints information about the failure
@@ -590,7 +590,7 @@ func (sh *Shell) runOut(dir string, env []string, cmdargs ...any) ([]byte, error
 	cmdline := str.StringList(cmdargs...)
 
 	for _, arg := range cmdline {
-		// GNU binutils commands, including gcc and gccgo, interpret an argument
+		// GNU binutils commands, including gcc and gccgolang, interpret an argument
 		// @foo anywhere in the command line (even following --) as meaning
 		// "read and insert arguments from the file named foo."
 		// Don't say anything that might be misinterpreted that way.
@@ -639,8 +639,8 @@ func (sh *Shell) runOut(dir string, env []string, cmdargs ...any) ([]byte, error
 	// Add the TOOLEXEC_IMPORTPATH environment variable for -toolexec tools.
 	// It doesn't really matter if -toolexec isn't being used.
 	// Note that a.Package.Desc is not really an import path,
-	// but this is consistent with 'go list -f {{.ImportPath}}'.
-	// Plus, it is useful to uniquely identify packages in 'go list -json'.
+	// but this is consistent with 'golang list -f {{.ImportPath}}'.
+	// Plus, it is useful to uniquely identify packages in 'golang list -json'.
 	if a != nil && a.Package != nil {
 		cmd.Env = append(cmd.Env, "TOOLEXEC_IMPORTPATH="+a.Package.Desc())
 	}
@@ -679,7 +679,7 @@ func joinUnambiguously(a []string) string {
 			buf.WriteByte(' ')
 		}
 		q := strconv.Quote(s)
-		// A gccgo command line can contain -( and -).
+		// A gccgolang command line can contain -( and -).
 		// Make sure we quote them since they are special to the shell.
 		// The trimpath argument can also contain > (part of =>) and ;. Quote those too.
 		if s == "" || strings.ContainsAny(s, " ()>;") || len(q) > len(s)+2 {

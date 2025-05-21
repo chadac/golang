@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package ioutil implements some I/O utility functions.
@@ -25,7 +25,7 @@ import (
 //
 // Deprecated: As of Go 1.16, this function simply calls [io.ReadAll].
 //
-//go:fix inline
+//golang:fix inline
 func ReadAll(r io.Reader) ([]byte, error) {
 	return io.ReadAll(r)
 }
@@ -37,7 +37,7 @@ func ReadAll(r io.Reader) ([]byte, error) {
 //
 // Deprecated: As of Go 1.16, this function simply calls [os.ReadFile].
 //
-//go:fix inline
+//golang:fix inline
 func ReadFile(filename string) ([]byte, error) {
 	return os.ReadFile(filename)
 }
@@ -48,7 +48,7 @@ func ReadFile(filename string) ([]byte, error) {
 //
 // Deprecated: As of Go 1.16, this function simply calls [os.WriteFile].
 //
-//go:fix inline
+//golang:fix inline
 func WriteFile(filename string, data []byte, perm fs.FileMode) error {
 	return os.WriteFile(filename, data, perm)
 }
@@ -94,7 +94,7 @@ func ReadDir(dirname string) ([]fs.FileInfo, error) {
 //
 // Deprecated: As of Go 1.16, this function simply calls [io.NopCloser].
 //
-//go:fix inline
+//golang:fix inline
 func NopCloser(r io.Reader) io.ReadCloser {
 	return io.NopCloser(r)
 }

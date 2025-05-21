@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file implements functions for untyped constant operands.
@@ -8,8 +8,8 @@ package types2
 
 import (
 	"cmd/compile/internal/syntax"
-	"go/constant"
-	"go/token"
+	"golang/constant"
+	"golang/token"
 	. "internal/types/errors"
 	"math"
 )
@@ -22,8 +22,8 @@ func (check *Checker) overflow(x *operand, opPos syntax.Pos) {
 
 	if x.val.Kind() == constant.Unknown {
 		// TODO(gri) We should report exactly what went wrong. At the
-		//           moment we don't have the (go/constant) API for that.
-		//           See also TODO in go/constant/value.go.
+		//           moment we don't have the (golang/constant) API for that.
+		//           See also TODO in golang/constant/value.golang.
 		check.error(atPos(opPos), InvalidConstVal, "constant result is not representable")
 		return
 	}

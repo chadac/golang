@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Issue 26438: arm64 backend may use 64-bit TST for
@@ -10,7 +10,7 @@
 
 package main
 
-//go:noinline
+//golang:noinline
 func tstw(a, b uint64) uint64 {
 	if uint32(a)&uint32(b) == 0 {
 		return 100

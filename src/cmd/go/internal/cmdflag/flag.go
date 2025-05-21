@@ -1,8 +1,8 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Package cmdflag handles flag processing common to several go tools.
+// Package cmdflag handles flag processing common to several golang tools.
 package cmdflag
 
 import (
@@ -12,7 +12,7 @@ import (
 	"strings"
 )
 
-// The flag handling part of go commands such as test is large and distracting.
+// The flag handling part of golang commands such as test is large and distracting.
 // We can't use the standard flag package because some of the flags from
 // our command line are for us, and some are for the binary we're running,
 // and some are for both.

@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package dwarf generates DWARF debugging information.
@@ -21,15 +21,15 @@ import (
 )
 
 // InfoPrefix is the prefix for all the symbols containing DWARF info entries.
-const InfoPrefix = "go:info."
+const InfoPrefix = "golang:info."
 
 // ConstInfoPrefix is the prefix for all symbols containing DWARF info
 // entries that contain constants.
-const ConstInfoPrefix = "go:constinfo."
+const ConstInfoPrefix = "golang:constinfo."
 
 // CUInfoPrefix is the prefix for symbols containing information to
 // populate the DWARF compilation unit info entries.
-const CUInfoPrefix = "go:cuinfo."
+const CUInfoPrefix = "golang:cuinfo."
 
 // Used to form the symbol name assigned to the DWARF "abstract subprogram"
 // info entry for a function
@@ -307,17 +307,17 @@ type dwAttrForm struct {
 
 // Go-specific type attributes.
 const (
-	DW_AT_go_kind = 0x2900
-	DW_AT_go_key  = 0x2901
-	DW_AT_go_elem = 0x2902
+	DW_AT_golang_kind = 0x2900
+	DW_AT_golang_key  = 0x2901
+	DW_AT_golang_elem = 0x2902
 	// Attribute for DW_TAG_member of a struct type.
 	// Nonzero value indicates the struct field is an embedded field.
-	DW_AT_go_embedded_field = 0x2903
-	DW_AT_go_runtime_type   = 0x2904
+	DW_AT_golang_embedded_field = 0x2903
+	DW_AT_golang_runtime_type   = 0x2904
 
-	DW_AT_go_package_name   = 0x2905 // Attribute for DW_TAG_compile_unit
-	DW_AT_go_dict_index     = 0x2906 // Attribute for DW_TAG_typedef_type, index of the dictionary entry describing the real type of this type shape
-	DW_AT_go_closure_offset = 0x2907 // Attribute for DW_TAG_variable, offset in the closure struct where this captured variable resides
+	DW_AT_golang_package_name   = 0x2905 // Attribute for DW_TAG_compile_unit
+	DW_AT_golang_dict_index     = 0x2906 // Attribute for DW_TAG_typedef_type, index of the dictionary entry describing the real type of this type shape
+	DW_AT_golang_closure_offset = 0x2907 // Attribute for DW_TAG_variable, offset in the closure struct where this captured variable resides
 
 	DW_AT_internal_location = 253 // params and locals; not emitted
 )
@@ -455,7 +455,7 @@ var abbrevs = []dwAbbrev{
 			{DW_AT_ranges, DW_FORM_sec_offset},
 			{DW_AT_comp_dir, DW_FORM_string},
 			{DW_AT_producer, DW_FORM_string},
-			{DW_AT_go_package_name, DW_FORM_string},
+			{DW_AT_golang_package_name, DW_FORM_string},
 			// NB: DWARF5 adds DW_AT_addr_base here.
 		},
 	},
@@ -469,7 +469,7 @@ var abbrevs = []dwAbbrev{
 			{DW_AT_language, DW_FORM_data1},
 			{DW_AT_comp_dir, DW_FORM_string},
 			{DW_AT_producer, DW_FORM_string},
-			{DW_AT_go_package_name, DW_FORM_string},
+			{DW_AT_golang_package_name, DW_FORM_string},
 		},
 	},
 
@@ -617,7 +617,7 @@ var abbrevs = []dwAbbrev{
 			{DW_AT_name, DW_FORM_string},
 			{DW_AT_data_member_location, DW_FORM_udata},
 			{DW_AT_type, DW_FORM_ref_addr},
-			{DW_AT_go_embedded_field, DW_FORM_flag},
+			{DW_AT_golang_embedded_field, DW_FORM_flag},
 		},
 	},
 
@@ -690,8 +690,8 @@ var abbrevs = []dwAbbrev{
 			{DW_AT_name, DW_FORM_string},
 			{DW_AT_encoding, DW_FORM_data1},
 			{DW_AT_byte_size, DW_FORM_data1},
-			{DW_AT_go_kind, DW_FORM_data1},
-			{DW_AT_go_runtime_type, DW_FORM_addr},
+			{DW_AT_golang_kind, DW_FORM_data1},
+			{DW_AT_golang_runtime_type, DW_FORM_addr},
 		},
 	},
 
@@ -704,8 +704,8 @@ var abbrevs = []dwAbbrev{
 			{DW_AT_name, DW_FORM_string},
 			{DW_AT_type, DW_FORM_ref_addr},
 			{DW_AT_byte_size, DW_FORM_udata},
-			{DW_AT_go_kind, DW_FORM_data1},
-			{DW_AT_go_runtime_type, DW_FORM_addr},
+			{DW_AT_golang_kind, DW_FORM_data1},
+			{DW_AT_golang_runtime_type, DW_FORM_addr},
 		},
 	},
 
@@ -716,9 +716,9 @@ var abbrevs = []dwAbbrev{
 		[]dwAttrForm{
 			{DW_AT_name, DW_FORM_string},
 			{DW_AT_type, DW_FORM_ref_addr},
-			{DW_AT_go_kind, DW_FORM_data1},
-			{DW_AT_go_runtime_type, DW_FORM_addr},
-			{DW_AT_go_elem, DW_FORM_ref_addr},
+			{DW_AT_golang_kind, DW_FORM_data1},
+			{DW_AT_golang_runtime_type, DW_FORM_addr},
+			{DW_AT_golang_elem, DW_FORM_ref_addr},
 		},
 	},
 
@@ -729,8 +729,8 @@ var abbrevs = []dwAbbrev{
 		[]dwAttrForm{
 			{DW_AT_name, DW_FORM_string},
 			{DW_AT_byte_size, DW_FORM_udata},
-			{DW_AT_go_kind, DW_FORM_data1},
-			{DW_AT_go_runtime_type, DW_FORM_addr},
+			{DW_AT_golang_kind, DW_FORM_data1},
+			{DW_AT_golang_runtime_type, DW_FORM_addr},
 		},
 	},
 
@@ -741,8 +741,8 @@ var abbrevs = []dwAbbrev{
 		[]dwAttrForm{
 			{DW_AT_name, DW_FORM_string},
 			{DW_AT_type, DW_FORM_ref_addr},
-			{DW_AT_go_kind, DW_FORM_data1},
-			{DW_AT_go_runtime_type, DW_FORM_addr},
+			{DW_AT_golang_kind, DW_FORM_data1},
+			{DW_AT_golang_runtime_type, DW_FORM_addr},
 		},
 	},
 
@@ -753,10 +753,10 @@ var abbrevs = []dwAbbrev{
 		[]dwAttrForm{
 			{DW_AT_name, DW_FORM_string},
 			{DW_AT_type, DW_FORM_ref_addr},
-			{DW_AT_go_kind, DW_FORM_data1},
-			{DW_AT_go_runtime_type, DW_FORM_addr},
-			{DW_AT_go_key, DW_FORM_ref_addr},
-			{DW_AT_go_elem, DW_FORM_ref_addr},
+			{DW_AT_golang_kind, DW_FORM_data1},
+			{DW_AT_golang_runtime_type, DW_FORM_addr},
+			{DW_AT_golang_key, DW_FORM_ref_addr},
+			{DW_AT_golang_elem, DW_FORM_ref_addr},
 		},
 	},
 
@@ -767,8 +767,8 @@ var abbrevs = []dwAbbrev{
 		[]dwAttrForm{
 			{DW_AT_name, DW_FORM_string},
 			{DW_AT_type, DW_FORM_ref_addr},
-			{DW_AT_go_kind, DW_FORM_data1},
-			{DW_AT_go_runtime_type, DW_FORM_addr},
+			{DW_AT_golang_kind, DW_FORM_data1},
+			{DW_AT_golang_runtime_type, DW_FORM_addr},
 		},
 	},
 
@@ -778,7 +778,7 @@ var abbrevs = []dwAbbrev{
 		DW_CHILDREN_no,
 		[]dwAttrForm{
 			{DW_AT_name, DW_FORM_string},
-			{DW_AT_go_runtime_type, DW_FORM_addr},
+			{DW_AT_golang_runtime_type, DW_FORM_addr},
 		},
 	},
 
@@ -789,9 +789,9 @@ var abbrevs = []dwAbbrev{
 		[]dwAttrForm{
 			{DW_AT_name, DW_FORM_string},
 			{DW_AT_byte_size, DW_FORM_udata},
-			{DW_AT_go_kind, DW_FORM_data1},
-			{DW_AT_go_runtime_type, DW_FORM_addr},
-			{DW_AT_go_elem, DW_FORM_ref_addr},
+			{DW_AT_golang_kind, DW_FORM_data1},
+			{DW_AT_golang_runtime_type, DW_FORM_addr},
+			{DW_AT_golang_elem, DW_FORM_ref_addr},
 		},
 	},
 
@@ -802,8 +802,8 @@ var abbrevs = []dwAbbrev{
 		[]dwAttrForm{
 			{DW_AT_name, DW_FORM_string},
 			{DW_AT_byte_size, DW_FORM_udata},
-			{DW_AT_go_kind, DW_FORM_data1},
-			{DW_AT_go_runtime_type, DW_FORM_addr},
+			{DW_AT_golang_kind, DW_FORM_data1},
+			{DW_AT_golang_runtime_type, DW_FORM_addr},
 		},
 	},
 
@@ -814,8 +814,8 @@ var abbrevs = []dwAbbrev{
 		[]dwAttrForm{
 			{DW_AT_name, DW_FORM_string},
 			{DW_AT_byte_size, DW_FORM_udata},
-			{DW_AT_go_kind, DW_FORM_data1},
-			{DW_AT_go_runtime_type, DW_FORM_addr},
+			{DW_AT_golang_kind, DW_FORM_data1},
+			{DW_AT_golang_runtime_type, DW_FORM_addr},
 		},
 	},
 
@@ -836,7 +836,7 @@ var abbrevs = []dwAbbrev{
 		[]dwAttrForm{
 			{DW_AT_name, DW_FORM_string},
 			{DW_AT_type, DW_FORM_ref_addr},
-			{DW_AT_go_dict_index, DW_FORM_udata},
+			{DW_AT_golang_dict_index, DW_FORM_udata},
 		},
 	},
 }
@@ -889,7 +889,7 @@ type DWDie struct {
 func putattr(ctxt Context, s Sym, abbrev int, form int, cls int, value int64, data interface{}) error {
 	switch form {
 	case DW_FORM_addr: // address
-		// Allow nil addresses for DW_AT_go_runtime_type.
+		// Allow nil addresses for DW_AT_golang_runtime_type.
 		if data == nil && value == 0 {
 			ctxt.AddInt(s, ctxt.PtrSize(), 0)
 			break
@@ -1165,9 +1165,9 @@ func inlinedVarTable(inlcalls *InlCalls) map[*Var]bool {
 // The s.Scopes slice contains variables were originally part of the
 // function being emitted, as well as variables that were imported
 // from various callee functions during the inlining process. This
-// function prunes out any variables from the latter category (since
+// function prunes out any variables from the latter categolangry (since
 // they will be emitted as part of DWARF inlined_subroutine DIEs) and
-// then generates scopes for vars in the former category.
+// then generates scopes for vars in the former categolangry.
 func putPrunedScopes(ctxt Context, s *FnState, fnabbrev int) error {
 	if len(s.Scopes) == 0 {
 		return nil
@@ -1627,7 +1627,7 @@ func putvar(ctxt Context, s *FnState, v *Var, absfn Sym, fnabbrev, inlIndex int,
 		}
 
 		if v.ClosureOffset > 0 {
-			putattr(ctxt, s.Info, abbrev, DW_FORM_udata, DW_CLS_CONSTANT, v.ClosureOffset, nil) // DW_AT_go_closure_offset
+			putattr(ctxt, s.Info, abbrev, DW_FORM_udata, DW_CLS_CONSTANT, v.ClosureOffset, nil) // DW_AT_golang_closure_offset
 		}
 	}
 

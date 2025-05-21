@@ -1,14 +1,14 @@
 // run
 
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test that the implementation catches nil ptr indirection
 // in a large address space.
 
 // Address space starts at 1<<32 on AIX and on darwin/arm64 and on windows/[amd64/arm64], so dummy is too far.
-//go:build !aix && (!darwin || !arm64) && (!windows || (!amd64 && !arm64))
+//golang:build !aix && (!darwin || !arm64) && (!windows || (!amd64 && !arm64))
 
 package main
 
@@ -160,7 +160,7 @@ func p12() {
 	println(*(&((*p).i)))
 }
 
-// Tests suggested in golang.org/issue/6080.
+// Tests suggested in golanglang.org/issue/6080.
 
 func p13() {
 	var x *[10]int

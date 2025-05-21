@@ -1,21 +1,21 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Doc (usually run as go doc) accepts zero, one or two arguments.
+// Doc (usually run as golang doc) accepts zero, one or two arguments.
 //
 // Zero arguments:
 //
-//	go doc
+//	golang doc
 //
 // Show the documentation for the package in the current directory.
 //
 // One argument:
 //
-//	go doc <pkg>
-//	go doc <sym>[.<methodOrField>]
-//	go doc [<pkg>.]<sym>[.<methodOrField>]
-//	go doc [<pkg>.][<sym>.]<methodOrField>
+//	golang doc <pkg>
+//	golang doc <sym>[.<methodOrField>]
+//	golang doc [<pkg>.]<sym>[.<methodOrField>]
+//	golang doc [<pkg>.][<sym>.]<methodOrField>
 //
 // The first item in this list that succeeds is the one whose documentation
 // is printed. If there is a symbol but no package, the package in the current
@@ -24,13 +24,13 @@
 //
 // Two arguments:
 //
-//	go doc <pkg> <sym>[.<methodOrField>]
+//	golang doc <pkg> <sym>[.<methodOrField>]
 //
 // Show the documentation for the package, symbol, and method or field. The
 // first argument must be a full package path. This is similar to the
-// command-line usage for the godoc command.
+// command-line usage for the golangdoc command.
 //
-// For commands, unless the -cmd flag is present "go doc command"
+// For commands, unless the -cmd flag is present "golang doc command"
 // shows only the package-level docs for the package.
 //
 // The -src flag causes doc to print the full source code for the symbol, such
@@ -39,7 +39,7 @@
 // The -all flag causes doc to print all documentation for the package and
 // all its visible symbols. The argument must identify a package.
 //
-// For complete documentation, run "go help doc".
+// For complete documentation, run "golang help doc".
 package main
 
 import (
@@ -47,8 +47,8 @@ import (
 	"errors"
 	"flag"
 	"fmt"
-	"go/build"
-	"go/token"
+	"golang/build"
+	"golang/token"
 	"io"
 	"log"
 	"net"
@@ -75,15 +75,15 @@ var (
 
 // usage is a replacement usage function for the flags package.
 func usage() {
-	fmt.Fprintf(os.Stderr, "Usage of [go] doc:\n")
-	fmt.Fprintf(os.Stderr, "\tgo doc\n")
-	fmt.Fprintf(os.Stderr, "\tgo doc <pkg>\n")
-	fmt.Fprintf(os.Stderr, "\tgo doc <sym>[.<methodOrField>]\n")
-	fmt.Fprintf(os.Stderr, "\tgo doc [<pkg>.]<sym>[.<methodOrField>]\n")
-	fmt.Fprintf(os.Stderr, "\tgo doc [<pkg>.][<sym>.]<methodOrField>\n")
-	fmt.Fprintf(os.Stderr, "\tgo doc <pkg> <sym>[.<methodOrField>]\n")
+	fmt.Fprintf(os.Stderr, "Usage of [golang] doc:\n")
+	fmt.Fprintf(os.Stderr, "\tgolang doc\n")
+	fmt.Fprintf(os.Stderr, "\tgolang doc <pkg>\n")
+	fmt.Fprintf(os.Stderr, "\tgolang doc <sym>[.<methodOrField>]\n")
+	fmt.Fprintf(os.Stderr, "\tgolang doc [<pkg>.]<sym>[.<methodOrField>]\n")
+	fmt.Fprintf(os.Stderr, "\tgolang doc [<pkg>.][<sym>.]<methodOrField>\n")
+	fmt.Fprintf(os.Stderr, "\tgolang doc <pkg> <sym>[.<methodOrField>]\n")
 	fmt.Fprintf(os.Stderr, "For more information run\n")
-	fmt.Fprintf(os.Stderr, "\tgo help doc\n\n")
+	fmt.Fprintf(os.Stderr, "\tgolang help doc\n\n")
 	fmt.Fprintf(os.Stderr, "Flags:\n")
 	flag.PrintDefaults()
 	os.Exit(2)
@@ -122,22 +122,22 @@ func do(writer io.Writer, flagSet *flag.FlagSet, args []string) (err error) {
 		}
 	}
 	if serveHTTP {
-		// Special case: if there are no arguments, try to go to an appropriate page
+		// Special case: if there are no arguments, try to golang to an appropriate page
 		// depending on whether we're in a module or workspace. The pkgsite homepage
 		// is often not the most useful page.
 		if len(flagSet.Args()) == 0 {
-			mod, err := runCmd(append(os.Environ(), "GOWORK=off"), "go", "list", "-m")
+			mod, err := runCmd(append(os.Environ(), "GOWORK=off"), "golang", "list", "-m")
 			if err == nil && mod != "" && mod != "command-line-arguments" {
-				// If there's a module, go to the module's doc page.
+				// If there's a module, golang to the module's doc page.
 				return doPkgsite(mod)
 			}
-			gowork, err := runCmd(nil, "go", "env", "GOWORK")
-			if err == nil && gowork != "" {
-				// Outside a module, but in a workspace, go to the home page
+			golangwork, err := runCmd(nil, "golang", "env", "GOWORK")
+			if err == nil && golangwork != "" {
+				// Outside a module, but in a workspace, golang to the home page
 				// with links to each of the modules' pages.
 				return doPkgsite("")
 			}
-			// Outside a module or workspace, go to the documentation for the standard library.
+			// Outside a module or workspace, golang to the documentation for the standard library.
 			return doPkgsite("std")
 		}
 
@@ -186,7 +186,7 @@ func do(writer io.Writer, flagSet *flag.FlagSet, args []string) (err error) {
 		var found bool
 		switch {
 		case symbol == "":
-			pkg.packageDoc() // The package exists, so we got some output.
+			pkg.packageDoc() // The package exists, so we golangt some output.
 			found = true
 		case method == "":
 			if pkg.symbolDoc(symbol) {
@@ -217,7 +217,7 @@ func runCmd(env []string, cmdline ...string) (string, error) {
 	cmd.Stdout = &stdout
 	cmd.Stderr = &stderr
 	if err := cmd.Run(); err != nil {
-		return "", fmt.Errorf("go doc: %s: %v\n%s\n", strings.Join(cmdline, " "), err, stderr.String())
+		return "", fmt.Errorf("golang doc: %s: %v\n%s\n", strings.Join(cmdline, " "), err, stderr.String())
 	}
 	return strings.TrimSpace(stdout.String()), nil
 }
@@ -226,10 +226,10 @@ func objectPath(userPath string, pkg *Package, symbol, method string) (string, e
 	var err error
 	path := pkg.build.ImportPath
 	if path == "." {
-		// go/build couldn't determine the import path, probably
+		// golang/build couldn't determine the import path, probably
 		// because this was a relative path into a module. Use
-		// go list to get the import path.
-		path, err = runCmd(nil, "go", "list", userPath)
+		// golang list to get the import path.
+		path, err = runCmd(nil, "golang", "list", userPath)
 		if err != nil {
 			return "", err
 		}
@@ -259,15 +259,15 @@ func doPkgsite(urlPath string) error {
 	signal.Ignore(signalsToIgnore...)
 
 	const version = "v0.0.0-20250520201116-40659211760d"
-	docatversion := "golang.org/x/pkgsite/cmd/internal/doc@" + version
+	docatversion := "golanglang.org/x/pkgsite/cmd/internal/doc@" + version
 	// First download the module and then try to run with GOPROXY=off to circumvent
 	// the deprecation check. This will allow the pkgsite command to run if it's
 	// in the module cache but there's no network.
-	if _, err := runCmd(nil, "go", "mod", "download", docatversion); err != nil {
+	if _, err := runCmd(nil, "golang", "mod", "download", docatversion); err != nil {
 		return err
 	}
-	cmd := exec.Command("go", "run", docatversion,
-		"-gorepo", buildCtx.GOROOT,
+	cmd := exec.Command("golang", "run", docatversion,
+		"-golangrepo", buildCtx.GOROOT,
 		"-http", addr,
 		"-open", path)
 	cmd.Env = append(os.Environ(), "GOPROXY=off")
@@ -445,9 +445,9 @@ func parseArgs(args []string) (pkg *build.Package, path, symbol string, more boo
 		// build.Import should always include the path in its error message,
 		// and we should avoid repeating it. Unfortunately, build.Import doesn't
 		// return a structured error. That can't easily be fixed, since it
-		// invokes 'go list' and returns the error text from the loaded package.
-		// TODO(golang.org/issue/34750): load using golang.org/x/tools/go/packages
-		// instead of go/build.
+		// invokes 'golang list' and returns the error text from the loaded package.
+		// TODO(golanglang.org/issue/34750): load using golanglang.org/x/tools/golang/packages
+		// instead of golang/build.
 		importErrStr := importErr.Error()
 		if strings.Contains(importErrStr, arg[:period]) {
 			log.Fatal(importErrStr)

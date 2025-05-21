@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package types
@@ -39,8 +39,8 @@ func NewPkg(path, name string) *Pkg {
 	p := new(Pkg)
 	p.Path = path
 	p.Name = name
-	if path == "go.shape" {
-		// Don't escape "go.shape", since it's not needed (it's a builtin
+	if path == "golang.shape" {
+		// Don't escape "golang.shape", since it's not needed (it's a builtin
 		// package), and we don't want escape codes showing up in shape type
 		// names, which also appear in names of function/method
 		// instantiations.

@@ -130,7 +130,7 @@ func adddynrel(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s loade
 
 	case objabi.ElfRelocOffset + objabi.RelocType(elf.R_ARM_GOT32): // R_ARM_GOT_BREL
 		if targType != sym.SDYNIMPORT {
-			addgotsyminternal(target, ldr, syms, targ)
+			addgolangtsyminternal(target, ldr, syms, targ)
 		} else {
 			ld.AddGotSym(target, ldr, syms, targ, uint32(elf.R_ARM_GLOB_DAT))
 		}
@@ -143,7 +143,7 @@ func adddynrel(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s loade
 
 	case objabi.ElfRelocOffset + objabi.RelocType(elf.R_ARM_GOT_PREL): // GOT(nil) + A - nil
 		if targType != sym.SDYNIMPORT {
-			addgotsyminternal(target, ldr, syms, targ)
+			addgolangtsyminternal(target, ldr, syms, targ)
 		} else {
 			ld.AddGotSym(target, ldr, syms, targ, uint32(elf.R_ARM_GLOB_DAT))
 		}
@@ -304,7 +304,7 @@ func elfreloc1(ctxt *ld.Link, out *ld.OutBuf, ldr *loader.Loader, s loader.Sym, 
 	return true
 }
 
-func elfsetupplt(ctxt *ld.Link, ldr *loader.Loader, plt, got *loader.SymbolBuilder, dynamic loader.Sym) {
+func elfsetupplt(ctxt *ld.Link, ldr *loader.Loader, plt, golangt *loader.SymbolBuilder, dynamic loader.Sym) {
 	if plt.Size() == 0 {
 		// str lr, [sp, #-4]!
 		plt.AddUint32(ctxt.Arch, 0xe52de004)
@@ -319,13 +319,13 @@ func elfsetupplt(ctxt *ld.Link, ldr *loader.Loader, plt, got *loader.SymbolBuild
 		plt.AddUint32(ctxt.Arch, 0xe5bef008)
 
 		// .word &GLOBAL_OFFSET_TABLE[0] - .
-		plt.AddPCRelPlus(ctxt.Arch, got.Sym(), 4)
+		plt.AddPCRelPlus(ctxt.Arch, golangt.Sym(), 4)
 
-		// the first .plt entry requires 3 .plt.got entries
-		got.AddUint32(ctxt.Arch, 0)
+		// the first .plt entry requires 3 .plt.golangt entries
+		golangt.AddUint32(ctxt.Arch, 0)
 
-		got.AddUint32(ctxt.Arch, 0)
-		got.AddUint32(ctxt.Arch, 0)
+		golangt.AddUint32(ctxt.Arch, 0)
+		golangt.AddUint32(ctxt.Arch, 0)
 	}
 }
 
@@ -371,7 +371,7 @@ func signext24(x int64) int32 {
 	return (int32(x) << 8) >> 8
 }
 
-// encode an immediate in ARM's imm12 format. copied from ../../../internal/obj/arm/asm5.go
+// encode an immediate in ARM's imm12 format. copied from ../../../internal/obj/arm/asm5.golang
 func immrot(v uint32) uint32 {
 	for i := 0; i < 16; i++ {
 		if v&^0xff == 0 {
@@ -585,7 +585,7 @@ func archreloc(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, r loade
 	// Linux/ARM ELF's PLT entry (3 assembler instruction)
 	case objabi.R_PLT0: // add ip, pc, #0xXX00000
 		if ldr.SymValue(syms.GOTPLT) < ldr.SymValue(syms.PLT) {
-			ldr.Errorf(s, ".got.plt should be placed after .plt section.")
+			ldr.Errorf(s, ".golangt.plt should be placed after .plt section.")
 		}
 		return 0xe28fc600 + (0xff & (int64(uint32(ldr.SymValue(rs)-(ldr.SymValue(syms.PLT)+int64(r.Off()))+r.Add())) >> 20)), noExtReloc, isOk
 	case objabi.R_PLT1: // add ip, ip, #0xYY000
@@ -630,9 +630,9 @@ func extreloc(target *ld.Target, ldr *loader.Loader, r loader.Reloc, s loader.Sy
 	return rr, false
 }
 
-func addpltreloc(ldr *loader.Loader, plt *loader.SymbolBuilder, got *loader.SymbolBuilder, s loader.Sym, typ objabi.RelocType) {
+func addpltreloc(ldr *loader.Loader, plt *loader.SymbolBuilder, golangt *loader.SymbolBuilder, s loader.Sym, typ objabi.RelocType) {
 	r, _ := plt.AddRel(typ)
-	r.SetSym(got.Sym())
+	r.SetSym(golangt.Sym())
 	r.SetOff(int32(plt.Size()))
 	r.SetSiz(4)
 	r.SetAdd(int64(ldr.SymGot(s)) - 8)
@@ -651,29 +651,29 @@ func addpltsym(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s loade
 
 	if target.IsElf() {
 		plt := ldr.MakeSymbolUpdater(syms.PLT)
-		got := ldr.MakeSymbolUpdater(syms.GOTPLT)
+		golangt := ldr.MakeSymbolUpdater(syms.GOTPLT)
 		rel := ldr.MakeSymbolUpdater(syms.RelPLT)
 		if plt.Size() == 0 {
 			panic("plt is not set up")
 		}
 
-		// .got entry
-		ldr.SetGot(s, int32(got.Size()))
+		// .golangt entry
+		ldr.SetGot(s, int32(golangt.Size()))
 
 		// In theory, all GOT should point to the first PLT entry,
 		// Linux/ARM's dynamic linker will do that for us, but FreeBSD/ARM's
 		// dynamic linker won't, so we'd better do it ourselves.
-		got.AddAddrPlus(target.Arch, plt.Sym(), 0)
+		golangt.AddAddrPlus(target.Arch, plt.Sym(), 0)
 
-		// .plt entry, this depends on the .got entry
+		// .plt entry, this depends on the .golangt entry
 		ldr.SetPlt(s, int32(plt.Size()))
 
-		addpltreloc(ldr, plt, got, s, objabi.R_PLT0) // add lr, pc, #0xXX00000
-		addpltreloc(ldr, plt, got, s, objabi.R_PLT1) // add lr, lr, #0xYY000
-		addpltreloc(ldr, plt, got, s, objabi.R_PLT2) // ldr pc, [lr, #0xZZZ]!
+		addpltreloc(ldr, plt, golangt, s, objabi.R_PLT0) // add lr, pc, #0xXX00000
+		addpltreloc(ldr, plt, golangt, s, objabi.R_PLT1) // add lr, lr, #0xYY000
+		addpltreloc(ldr, plt, golangt, s, objabi.R_PLT2) // ldr pc, [lr, #0xZZZ]!
 
 		// rel
-		rel.AddAddrPlus(target.Arch, got.Sym(), int64(ldr.SymGot(s)))
+		rel.AddAddrPlus(target.Arch, golangt.Sym(), int64(ldr.SymGot(s)))
 
 		rel.AddUint32(target.Arch, elf.R_INFO32(uint32(ldr.SymDynid(s)), uint32(elf.R_ARM_JUMP_SLOT)))
 	} else {
@@ -681,17 +681,17 @@ func addpltsym(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s loade
 	}
 }
 
-func addgotsyminternal(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s loader.Sym) {
+func addgolangtsyminternal(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s loader.Sym) {
 	if ldr.SymGot(s) >= 0 {
 		return
 	}
 
-	got := ldr.MakeSymbolUpdater(syms.GOT)
-	ldr.SetGot(s, int32(got.Size()))
-	got.AddAddrPlus(target.Arch, s, 0)
+	golangt := ldr.MakeSymbolUpdater(syms.GOT)
+	ldr.SetGot(s, int32(golangt.Size()))
+	golangt.AddAddrPlus(target.Arch, s, 0)
 
 	if target.IsElf() {
 	} else {
-		ldr.Errorf(s, "addgotsyminternal: unsupported binary format")
+		ldr.Errorf(s, "addgolangtsyminternal: unsupported binary format")
 	}
 }

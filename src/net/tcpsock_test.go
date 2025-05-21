@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package net
@@ -105,7 +105,7 @@ func benchmarkTCP(b *testing.B, persistent, timeout bool, laddr string) {
 	defer ln.Close()
 	serverSem := make(chan bool, numConcurrent)
 	// Acceptor.
-	go func() {
+	golang func() {
 		for {
 			c, err := ln.Accept()
 			if err != nil {
@@ -113,7 +113,7 @@ func benchmarkTCP(b *testing.B, persistent, timeout bool, laddr string) {
 			}
 			serverSem <- true
 			// Server connection.
-			go func(c Conn) {
+			golang func(c Conn) {
 				defer func() {
 					c.Close()
 					<-serverSem
@@ -134,7 +134,7 @@ func benchmarkTCP(b *testing.B, persistent, timeout bool, laddr string) {
 	for i := 0; i < conns; i++ {
 		clientSem <- true
 		// Client connection.
-		go func() {
+		golang func() {
 			defer func() {
 				<-clientSem
 			}()
@@ -176,7 +176,7 @@ func benchmarkTCPConcurrentReadWrite(b *testing.B, laddr string) {
 	testHookUninstaller.Do(uninstallTestHooks)
 
 	// The benchmark creates GOMAXPROCS client/server pairs.
-	// Each pair creates 4 goroutines: client reader/writer and server reader/writer.
+	// Each pair creates 4 golangroutines: client reader/writer and server reader/writer.
 	// The benchmark stresses concurrent reading and writing to the same connection.
 	// Such pattern is used in net/http and net/rpc.
 
@@ -195,7 +195,7 @@ func benchmarkTCPConcurrentReadWrite(b *testing.B, laddr string) {
 	}
 	defer ln.Close()
 	done := make(chan bool)
-	go func() {
+	golang func() {
 		for p := 0; p < P; p++ {
 			s, err := ln.Accept()
 			if err != nil {
@@ -221,7 +221,7 @@ func benchmarkTCPConcurrentReadWrite(b *testing.B, laddr string) {
 	wg.Add(4 * P)
 	for p := 0; p < P; p++ {
 		// Client writer.
-		go func(c Conn) {
+		golang func(c Conn) {
 			defer wg.Done()
 			var buf [1]byte
 			for i := 0; i < N; i++ {
@@ -242,7 +242,7 @@ func benchmarkTCPConcurrentReadWrite(b *testing.B, laddr string) {
 		pipe := make(chan byte, 128)
 
 		// Server reader.
-		go func(s Conn) {
+		golang func(s Conn) {
 			defer wg.Done()
 			var buf [1]byte
 			for i := 0; i < N; i++ {
@@ -256,7 +256,7 @@ func benchmarkTCPConcurrentReadWrite(b *testing.B, laddr string) {
 		}(servers[p])
 
 		// Server writer.
-		go func(s Conn) {
+		golang func(s Conn) {
 			defer wg.Done()
 			var buf [1]byte
 			for i := 0; i < N; i++ {
@@ -275,7 +275,7 @@ func benchmarkTCPConcurrentReadWrite(b *testing.B, laddr string) {
 		}(servers[p])
 
 		// Client reader.
-		go func(c Conn) {
+		golang func(c Conn) {
 			defer wg.Done()
 			var buf [1]byte
 			for i := 0; i < N; i++ {
@@ -367,7 +367,7 @@ func TestTCPListenerName(t *testing.T) {
 		defer ln.Close()
 		la := ln.Addr()
 		if a, ok := la.(*TCPAddr); !ok || a.Port == 0 {
-			t.Fatalf("got %v; expected a proper address with non-zero port number", la)
+			t.Fatalf("golangt %v; expected a proper address with non-zero port number", la)
 		}
 	}
 }
@@ -395,7 +395,7 @@ func TestIPv6LinkLocalUnicastTCP(t *testing.T) {
 			t.Fatal(err)
 		}
 		if la, ok := ln.Addr().(*TCPAddr); !ok || !tt.nameLookup && la.Zone == "" {
-			t.Fatalf("got %v; expected a proper address with zone identifier", la)
+			t.Fatalf("golangt %v; expected a proper address with zone identifier", la)
 		}
 
 		c, err := Dial(tt.network, ls.Listener.Addr().String())
@@ -404,10 +404,10 @@ func TestIPv6LinkLocalUnicastTCP(t *testing.T) {
 		}
 		defer c.Close()
 		if la, ok := c.LocalAddr().(*TCPAddr); !ok || !tt.nameLookup && la.Zone == "" {
-			t.Fatalf("got %v; expected a proper address with zone identifier", la)
+			t.Fatalf("golangt %v; expected a proper address with zone identifier", la)
 		}
 		if ra, ok := c.RemoteAddr().(*TCPAddr); !ok || !tt.nameLookup && ra.Zone == "" {
-			t.Fatalf("got %v; expected a proper address with zone identifier", ra)
+			t.Fatalf("golangt %v; expected a proper address with zone identifier", ra)
 		}
 
 		if _, err := c.Write([]byte("TCP OVER IPV6 LINKLOCAL TEST")); err != nil {
@@ -434,7 +434,7 @@ func TestTCPConcurrentAccept(t *testing.T) {
 	var wg sync.WaitGroup
 	wg.Add(N)
 	for i := 0; i < N; i++ {
-		go func() {
+		golang func() {
 			for {
 				c, err := ln.Accept()
 				if err != nil {
@@ -471,7 +471,7 @@ func TestTCPReadWriteAllocs(t *testing.T) {
 	case "plan9":
 		// The implementation of asynchronous cancelable
 		// I/O on Plan 9 allocates memory.
-		// See net/fd_io_plan9.go.
+		// See net/fd_io_plan9.golang.
 		t.Skipf("not supported on %s", runtime.GOOS)
 	}
 
@@ -482,7 +482,7 @@ func TestTCPReadWriteAllocs(t *testing.T) {
 	defer ln.Close()
 	var server Conn
 	errc := make(chan error, 1)
-	go func() {
+	golang func() {
 		var err error
 		server, err = ln.Accept()
 		errc <- err
@@ -509,13 +509,13 @@ func TestTCPReadWriteAllocs(t *testing.T) {
 		}
 	})
 	if allocs > 0 {
-		t.Fatalf("got %v; want 0", allocs)
+		t.Fatalf("golangt %v; want 0", allocs)
 	}
 
 	var bufwrt [128]byte
 	ch := make(chan bool)
 	defer close(ch)
-	go func() {
+	golang func() {
 		for <-ch {
 			_, err := server.Write(bufwrt[:])
 			errc <- err
@@ -531,7 +531,7 @@ func TestTCPReadWriteAllocs(t *testing.T) {
 		}
 	})
 	if allocs > 0 {
-		t.Fatalf("got %v; want 0", allocs)
+		t.Fatalf("golangt %v; want 0", allocs)
 	}
 }
 
@@ -569,7 +569,7 @@ func TestTCPStress(t *testing.T) {
 	}
 	done := make(chan bool)
 	// Acceptor.
-	go func() {
+	golang func() {
 		defer func() {
 			done <- true
 		}()
@@ -579,7 +579,7 @@ func TestTCPStress(t *testing.T) {
 				break
 			}
 			// Server connection.
-			go func(c Conn) {
+			golang func(c Conn) {
 				defer c.Close()
 				var buf [msgLen]byte
 				for m := 0; m < msgs; m++ {
@@ -592,7 +592,7 @@ func TestTCPStress(t *testing.T) {
 	}()
 	for i := 0; i < conns; i++ {
 		// Client connection.
-		go func() {
+		golang func() {
 			defer func() {
 				done <- true
 			}()
@@ -632,7 +632,7 @@ func TestTCPBig(t *testing.T) {
 			x := int(1 << 30)
 			x = x*5 + 1<<20 // just over 5 GB on 64-bit, just over 1GB on 32-bit
 			done := make(chan int)
-			go func() {
+			golang func() {
 				defer close(done)
 				c, err := ln.Accept()
 				if err != nil {
@@ -684,7 +684,7 @@ func TestCopyPipeIntoTCP(t *testing.T) {
 			t.Error(err)
 		}
 	}()
-	go func() {
+	golang func() {
 		c, err := ln.Accept()
 		if err != nil {
 			errc <- err
@@ -695,7 +695,7 @@ func TestCopyPipeIntoTCP(t *testing.T) {
 		buf := make([]byte, 100)
 		n, err := io.ReadFull(c, buf)
 		if err != io.ErrUnexpectedEOF || n != 2 {
-			errc <- fmt.Errorf("got err=%q n=%v; want err=%q n=2", err, n, io.ErrUnexpectedEOF)
+			errc <- fmt.Errorf("golangt err=%q n=%v; want err=%q n=2", err, n, io.ErrUnexpectedEOF)
 			return
 		}
 
@@ -723,7 +723,7 @@ func TestCopyPipeIntoTCP(t *testing.T) {
 
 	defer w.Close()
 
-	go func() {
+	golang func() {
 		_, err := io.Copy(c, r)
 		errc2 <- err
 	}()
@@ -747,7 +747,7 @@ func BenchmarkSetReadDeadline(b *testing.B) {
 	defer ln.Close()
 	var serv Conn
 	done := make(chan error)
-	go func() {
+	golang func() {
 		var err error
 		serv, err = ln.Accept()
 		done <- err
@@ -774,8 +774,8 @@ func TestDialTCPDefaultKeepAlive(t *testing.T) {
 	ln := newLocalListener(t, "tcp")
 	defer ln.Close()
 
-	got := time.Duration(-1)
-	testHookSetKeepAlive = func(cfg KeepAliveConfig) { got = cfg.Idle }
+	golangt := time.Duration(-1)
+	testHookSetKeepAlive = func(cfg KeepAliveConfig) { golangt = cfg.Idle }
 	defer func() { testHookSetKeepAlive = func(KeepAliveConfig) {} }()
 
 	c, err := DialTCP("tcp", nil, ln.Addr().(*TCPAddr))
@@ -784,13 +784,13 @@ func TestDialTCPDefaultKeepAlive(t *testing.T) {
 	}
 	defer c.Close()
 
-	if got != 0 {
-		t.Errorf("got keepalive %v; want %v", got, defaultTCPKeepAliveIdle)
+	if golangt != 0 {
+		t.Errorf("golangt keepalive %v; want %v", golangt, defaultTCPKeepAliveIdle)
 	}
 }
 
 func TestTCPListenAfterClose(t *testing.T) {
-	// Regression test for https://go.dev/issue/50216:
+	// Regression test for https://golang.dev/issue/50216:
 	// after calling Close on a Listener, the fake net implementation would
 	// erroneously Accept a connection dialed before the call to Close.
 
@@ -803,7 +803,7 @@ func TestTCPListenAfterClose(t *testing.T) {
 	d := &Dialer{}
 	for n := 2; n > 0; n-- {
 		wg.Add(1)
-		go func() {
+		golang func() {
 			defer wg.Done()
 
 			c, err := d.DialContext(ctx, ln.Addr().Network(), ln.Addr().String())

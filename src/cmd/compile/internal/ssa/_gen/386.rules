@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Lowering arithmetic
@@ -560,7 +560,7 @@
 // multiple memory values alive simultaneously.
 // Make sure we don't combine these ops if the load has another use.
 // This prevents a single load from being split into multiple loads
-// which then might return different values.  See test/atomicload.go.
+// which then might return different values.  See test/atomicload.golang.
 (MOVBLSX x:(MOVBload [off] {sym} ptr mem)) && x.Uses == 1 && clobber(x) => @x.Block (MOVBLSXload <v.Type> [off] {sym} ptr mem)
 (MOVBLZX x:(MOVBload [off] {sym} ptr mem)) && x.Uses == 1 && clobber(x) => @x.Block (MOVBload <v.Type> [off] {sym} ptr mem)
 (MOVWLSX x:(MOVWload [off] {sym} ptr mem)) && x.Uses == 1 && clobber(x) => @x.Block (MOVWLSXload <v.Type> [off] {sym} ptr mem)
@@ -584,7 +584,7 @@
 (MOVBstore [off] {sym} ptr (MOVBL(S|Z)X x) mem) => (MOVBstore [off] {sym} ptr x mem)
 
 // fold constants into memory operations
-// Note that this is not always a good idea because if not all the uses of
+// Note that this is not always a golangod idea because if not all the uses of
 // the ADDLconst get eliminated, we still have to compute the ADDLconst and we now
 // have potentially two live values (ptr and (ADDLconst [off] ptr)) instead of one.
 // Nevertheless, let's do it!
@@ -622,7 +622,7 @@
 // position-independent code (when Flag_shared is set).
 // PIC needs a spare register to load the PC into.  Having the LEAL be
 // a separate instruction gives us that register.  Having the LEAL be
-// a separate instruction also allows it to be CSEd (which is good because
+// a separate instruction also allows it to be CSEd (which is golangod because
 // it compiles to a thunk call).
 (MOV(L|W|B|SS|SD|BLSX|WLSX)load  [off1] {sym1} (LEAL [off2] {sym2} base) mem) && is32Bit(int64(off1)+int64(off2)) && canMergeSym(sym1, sym2)
   && (base.Op != OpSB || !config.ctxt.Flag_shared) =>
@@ -876,7 +876,7 @@
 (ORLconst [c] x)  && c==0  => x
 (ORLconst [c] _)  && c==-1 => (MOVLconst [-1])
 (XORLconst [c] x) && c==0  => x
-// TODO: since we got rid of the W/B versions, we might miss
+// TODO: since we golangt rid of the W/B versions, we might miss
 // things like (ANDLconst [0x100] x) which were formerly
 // (ANDBconst [0] x).  Probably doesn't happen very often.
 // If we cared, we might do:

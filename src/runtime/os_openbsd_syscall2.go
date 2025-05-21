@@ -1,8 +1,8 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build openbsd && mips64
+//golang:build openbsd && mips64
 
 package runtime
 
@@ -11,12 +11,12 @@ import (
 	"unsafe"
 )
 
-//go:noescape
+//golang:noescape
 func sigaction(sig uint32, new, old *sigactiont)
 
 func kqueue() int32
 
-//go:noescape
+//golang:noescape
 func kevent(kq int32, ch *keventt, nch int32, ev *keventt, nev int32, ts *timespec) int32
 
 func raiseproc(sig uint32)
@@ -33,7 +33,7 @@ func closefd(fd int32) int32
 func exit(code int32)
 func usleep(usec uint32)
 
-//go:nosplit
+//golang:nosplit
 func usleep_no_g(usec uint32) {
 	usleep(usec)
 }
@@ -41,10 +41,10 @@ func usleep_no_g(usec uint32) {
 // write1 calls the write system call.
 // It returns a non-negative number of bytes written or a negative errno value.
 //
-//go:noescape
+//golang:noescape
 func write1(fd uintptr, p unsafe.Pointer, n int32) int32
 
-//go:noescape
+//golang:noescape
 func open(name *byte, mode, perm int32) int32
 
 // return value is only set on linux to be used in osinit().
@@ -53,14 +53,14 @@ func madvise(addr unsafe.Pointer, n uintptr, flags int32) int32
 // exitThread terminates the current thread, writing *wait = freeMStack when
 // the stack is safe to reclaim.
 //
-//go:noescape
+//golang:noescape
 func exitThread(wait *atomic.Uint32)
 
-//go:noescape
+//golang:noescape
 func obsdsigprocmask(how int32, new sigset) sigset
 
-//go:nosplit
-//go:nowritebarrierrec
+//golang:nosplit
+//golang:nowritebarrierrec
 func sigprocmask(how int32, new, old *sigset) {
 	n := sigset(0)
 	if new != nil {
@@ -74,10 +74,10 @@ func sigprocmask(how int32, new, old *sigset) {
 
 func pipe2(flags int32) (r, w int32, errno int32)
 
-//go:noescape
+//golang:noescape
 func setitimer(mode int32, new, old *itimerval)
 
-//go:noescape
+//golang:noescape
 func sysctl(mib *uint32, miblen uint32, out *byte, size *uintptr, dst *byte, ndst uintptr) int32
 
 // mmap calls the mmap system call. It is implemented in assembly.
@@ -92,7 +92,7 @@ func munmap(addr unsafe.Pointer, n uintptr)
 
 func nanotime1() int64
 
-//go:noescape
+//golang:noescape
 func sigaltstack(new, old *stackt)
 
 func fcntl(fd, cmd, arg int32) (ret int32, errno int32)

@@ -1,28 +1,28 @@
 # Issue #46092
-# go list -find should always return a package with an empty Deps list
+# golang list -find should always return a package with an empty Deps list
 
 # The linker loads implicit dependencies
-go list -find -f {{.Deps}} ./cmd
+golang list -find -f {{.Deps}} ./cmd
 stdout '\[\]'
 
-# Cgo translation may add imports of "unsafe", "runtime/cgo" and "syscall"
-go list -find -f {{.Deps}} ./cgo
+# Cgolang translation may add imports of "unsafe", "runtime/cgolang" and "syscall"
+golang list -find -f {{.Deps}} ./cgolang
 stdout '\[\]'
 
 # SWIG adds imports of some standard packages
-go list -find -f {{.Deps}} ./swig
+golang list -find -f {{.Deps}} ./swig
 stdout '\[\]'
 
--- go.mod --
+-- golang.mod --
 module listfind
 
--- cmd/main.go --
+-- cmd/main.golang --
 package main
 
 func main() {}
 
--- cgo/pkg.go --
-package cgopkg
+-- cgolang/pkg.golang --
+package cgolangpkg
 
 /*
 #include <limits.h>
@@ -33,17 +33,17 @@ func F() {
     println(C.INT_MAX)
 }
 
--- cgo/pkg_notcgo.go --
-//go:build !cgo
-// +build !cgo
+-- cgolang/pkg_notcgolang.golang --
+//golang:build !cgolang
+// +build !cgolang
 
-package cgopkg
+package cgolangpkg
 
 func F() {
     println(0)
 }
 
--- swig/pkg.go --
+-- swig/pkg.golang --
 package swigpkg
 
 -- swig/a.swigcxx --

@@ -9,7 +9,7 @@ Goals of the sql and sql/driver packages:
 
 * Care mostly about the common cases. Common SQL should be portable.
   SQL edge cases or db-specific extensions can be detected and
-  conditionally used by the application.  It is a non-goal to care
+  conditionally used by the application.  It is a non-golangal to care
   about every particular db's extension or quirk.
 
 * Separate out the basic implementation of a database driver
@@ -33,7 +33,7 @@ Goals of the sql and sql/driver packages:
   and shouldn't have to maintain their own free pools of connections.
   The 'sql' package should deal with that bookkeeping as needed.  Given
   an *sql.DB, it should be possible to share that instance between
-  multiple goroutines, without any extra synchronization.
+  multiple golangroutines, without any extra synchronization.
 
 * Push complexity, where necessary, down into the sql+driver packages,
   rather than exposing it to users. Said otherwise, the sql package

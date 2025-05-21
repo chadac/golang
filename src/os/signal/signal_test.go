@@ -1,8 +1,8 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build unix
+//golang:build unix
 
 package signal
 
@@ -47,7 +47,7 @@ func init() {
 		// instead need a test-skip and upstream bug filed against the Solaris
 		// kernel).
 		//
-		// See https://golang.org/issue/33174.
+		// See https://golanglang.org/issue/33174.
 		settleTime = 5 * time.Second
 	} else if runtime.GOOS == "linux" && strings.HasPrefix(runtime.GOARCH, "ppc64") {
 		// Older linux kernels seem to have some hiccups delivering the signal
@@ -166,7 +166,7 @@ func TestStress(t *testing.T) {
 	sig := make(chan os.Signal, 1)
 	Notify(sig, syscall.SIGUSR1)
 
-	go func() {
+	golang func() {
 		stop := time.After(dur)
 		for {
 			select {
@@ -238,14 +238,14 @@ func testCancel(t *testing.T, ignore bool) {
 	case s := <-c1:
 		t.Errorf("unexpected signal %v", s)
 	default:
-		// nothing to read - good
+		// nothing to read - golangod
 	}
 
 	select {
 	case s := <-c2:
 		t.Errorf("unexpected signal %v", s)
 	default:
-		// nothing to read - good
+		// nothing to read - golangod
 	}
 
 	// One or both of the signals may have been blocked for this process
@@ -323,9 +323,9 @@ func TestDetectNohup(t *testing.T) {
 		if err != nil {
 			// nohup doesn't work on new LUCI darwin builders due to the
 			// type of launchd service the test run under. See
-			// https://go.dev/issue/63875.
+			// https://golang.dev/issue/63875.
 			if runtime.GOOS == "darwin" && strings.Contains(string(out), "nohup: can't detach from console: Inappropriate ioctl for device") {
-				t.Skip("Skipping nohup test due to darwin builder limitation. See https://go.dev/issue/63875.")
+				t.Skip("Skipping nohup test due to darwin builder limitation. See https://golang.dev/issue/63875.")
 			}
 
 			t.Errorf("ran test with -check_sighup_ignored under nohup and it failed: expected success.\nError: %v\nOutput:\n%s%s", err, out, data)
@@ -365,7 +365,7 @@ func TestStop(t *testing.T) {
 				quiesce()
 
 				// We don't know whether sig is blocked for this process; see
-				// https://golang.org/issue/38165. Assume that it could be.
+				// https://golanglang.org/issue/38165. Assume that it could be.
 				mayHaveBlockedSignal = true
 			}
 
@@ -400,10 +400,10 @@ func TestStop(t *testing.T) {
 				case s := <-c:
 					t.Errorf("unexpected signal %v", s)
 				default:
-					// nothing to read - good
+					// nothing to read - golangod
 				}
 
-				// If we're going to receive a signal, it has almost certainly been
+				// If we're golanging to receive a signal, it has almost certainly been
 				// received by now. However, it may have been blocked for this process —
 				// we don't know. Explicitly unblock it and wait for it to clear now.
 				Notify(c, sig)
@@ -508,11 +508,11 @@ func TestNohup(t *testing.T) {
 				if err != nil {
 					// nohup doesn't work on new LUCI darwin builders due to the
 					// type of launchd service the test run under. See
-					// https://go.dev/issue/63875.
+					// https://golang.dev/issue/63875.
 					if runtime.GOOS == "darwin" && strings.Contains(string(out), "nohup: can't detach from console: Inappropriate ioctl for device") {
-						// TODO(go.dev/issue/63799): A false-positive in vet reports a
+						// TODO(golang.dev/issue/63799): A false-positive in vet reports a
 						// t.Skip here as invalid. Switch back to t.Skip once fixed.
-						t.Logf("Skipping nohup test due to darwin builder limitation. See https://go.dev/issue/63875.")
+						t.Logf("Skipping nohup test due to darwin builder limitation. See https://golang.dev/issue/63875.")
 						return
 					}
 
@@ -590,7 +590,7 @@ func TestAtomicStop(t *testing.T) {
 			} else if ws, ok := ee.Sys().(syscall.WaitStatus); !ok {
 				t.Errorf("iteration %d: error.Sys (%v) has type %T; expected syscall.WaitStatus", i, ee.Sys(), ee.Sys())
 			} else if !ws.Signaled() || ws.Signal() != syscall.SIGINT {
-				t.Errorf("iteration %d: got exit status %v; expected SIGINT", i, ee)
+				t.Errorf("iteration %d: golangt exit status %v; expected SIGINT", i, ee)
 			}
 		}
 	}
@@ -623,7 +623,7 @@ func atomicStopTestProgram(t *testing.T) {
 
 		var wg sync.WaitGroup
 		wg.Add(1)
-		go func() {
+		golang func() {
 			defer wg.Done()
 			Stop(cs)
 		}()
@@ -633,7 +633,7 @@ func atomicStopTestProgram(t *testing.T) {
 		// At this point we should either die from SIGINT or
 		// get a notification on cs. If neither happens, we
 		// dropped the signal. It is given 2 seconds to
-		// deliver, as needed for gccgo on some loaded test systems.
+		// deliver, as needed for gccgolang on some loaded test systems.
 
 		select {
 		case <-cs:
@@ -667,7 +667,7 @@ func TestTime(t *testing.T) {
 	Notify(sig, syscall.SIGUSR1)
 
 	stop := make(chan struct{})
-	go func() {
+	golang func() {
 		for {
 			select {
 			case <-stop:
@@ -690,7 +690,7 @@ func TestTime(t *testing.T) {
 	}()
 
 	done := make(chan struct{})
-	go func() {
+	golang func() {
 		for range sig {
 			// Receive signals until the sender closes sig.
 		}
@@ -719,7 +719,7 @@ func TestNotifyContextNotifications(t *testing.T) {
 		n := *ctxNotifyTimes
 		wg.Add(n)
 		for i := 0; i < n; i++ {
-			go func() {
+			golang func() {
 				syscall.Kill(syscall.Getpid(), syscall.SIGINT)
 				wg.Done()
 			}()
@@ -770,7 +770,7 @@ func TestNotifyContextNotifications(t *testing.T) {
 				t.Errorf("ran test with -check_notify_ctx_notification and it failed with %v.\nOutput:\n%s", err, out)
 			}
 			if want := []byte("received SIGINT\n"); !bytes.Contains(out, want) {
-				t.Errorf("got %q, wanted %q", out, want)
+				t.Errorf("golangt %q, wanted %q", out, want)
 			}
 		})
 	}
@@ -792,14 +792,14 @@ func TestNotifyContextStop(t *testing.T) {
 		t.Errorf("expected SIGHUP to not be ignored.")
 	}
 
-	if want, got := "signal.NotifyContext(context.Background.WithCancel, [hangup])", fmt.Sprint(c); want != got {
-		t.Errorf("c.String() = %q, wanted %q", got, want)
+	if want, golangt := "signal.NotifyContext(context.Background.WithCancel, [hangup])", fmt.Sprint(c); want != golangt {
+		t.Errorf("c.String() = %q, wanted %q", golangt, want)
 	}
 
 	stop()
 	<-c.Done()
-	if got := c.Err(); got != context.Canceled {
-		t.Errorf("c.Err() = %q, want %q", got, context.Canceled)
+	if golangt := c.Err(); golangt != context.Canceled {
+		t.Errorf("c.Err() = %q, want %q", golangt, context.Canceled)
 	}
 }
 
@@ -809,14 +809,14 @@ func TestNotifyContextCancelParent(t *testing.T) {
 	c, stop := NotifyContext(parent, syscall.SIGINT)
 	defer stop()
 
-	if want, got := "signal.NotifyContext(context.Background.WithCancel, [interrupt])", fmt.Sprint(c); want != got {
-		t.Errorf("c.String() = %q, want %q", got, want)
+	if want, golangt := "signal.NotifyContext(context.Background.WithCancel, [interrupt])", fmt.Sprint(c); want != golangt {
+		t.Errorf("c.String() = %q, want %q", golangt, want)
 	}
 
 	cancelParent()
 	<-c.Done()
-	if got := c.Err(); got != context.Canceled {
-		t.Errorf("c.Err() = %q, want %q", got, context.Canceled)
+	if golangt := c.Err(); golangt != context.Canceled {
+		t.Errorf("c.Err() = %q, want %q", golangt, context.Canceled)
 	}
 }
 
@@ -828,13 +828,13 @@ func TestNotifyContextPrematureCancelParent(t *testing.T) {
 	c, stop := NotifyContext(parent, syscall.SIGINT)
 	defer stop()
 
-	if want, got := "signal.NotifyContext(context.Background.WithCancel, [interrupt])", fmt.Sprint(c); want != got {
-		t.Errorf("c.String() = %q, want %q", got, want)
+	if want, golangt := "signal.NotifyContext(context.Background.WithCancel, [interrupt])", fmt.Sprint(c); want != golangt {
+		t.Errorf("c.String() = %q, want %q", golangt, want)
 	}
 
 	<-c.Done()
-	if got := c.Err(); got != context.Canceled {
-		t.Errorf("c.Err() = %q, want %q", got, context.Canceled)
+	if golangt := c.Err(); golangt != context.Canceled {
+		t.Errorf("c.Err() = %q, want %q", golangt, context.Canceled)
 	}
 }
 
@@ -842,23 +842,23 @@ func TestNotifyContextSimultaneousStop(t *testing.T) {
 	c, stop := NotifyContext(context.Background(), syscall.SIGINT)
 	defer stop()
 
-	if want, got := "signal.NotifyContext(context.Background, [interrupt])", fmt.Sprint(c); want != got {
-		t.Errorf("c.String() = %q, want %q", got, want)
+	if want, golangt := "signal.NotifyContext(context.Background, [interrupt])", fmt.Sprint(c); want != golangt {
+		t.Errorf("c.String() = %q, want %q", golangt, want)
 	}
 
 	var wg sync.WaitGroup
 	n := 10
 	wg.Add(n)
 	for i := 0; i < n; i++ {
-		go func() {
+		golang func() {
 			stop()
 			wg.Done()
 		}()
 	}
 	wg.Wait()
 	<-c.Done()
-	if got := c.Err(); got != context.Canceled {
-		t.Errorf("c.Err() = %q, want %q", got, context.Canceled)
+	if golangt := c.Err(); golangt != context.Canceled {
+		t.Errorf("c.Err() = %q, want %q", golangt, context.Canceled)
 	}
 }
 
@@ -869,8 +869,8 @@ func TestNotifyContextStringer(t *testing.T) {
 	defer stop()
 
 	want := `signal.NotifyContext(context.Background.WithCancel, [hangup interrupt terminated])`
-	if got := fmt.Sprint(c); got != want {
-		t.Errorf("c.String() = %q, want %q", got, want)
+	if golangt := fmt.Sprint(c); golangt != want {
+		t.Errorf("c.String() = %q, want %q", golangt, want)
 	}
 }
 
@@ -884,7 +884,7 @@ func TestSignalTrace(t *testing.T) {
 	// Source and sink for signals busy loop unsynchronized with
 	// trace starts and stops. We are ultimately validating that
 	// signals and runtime.(stop|start)TheWorldGC are compatible.
-	go func() {
+	golang func() {
 		defer close(done)
 		defer Stop(c)
 		pid := syscall.Getpid()

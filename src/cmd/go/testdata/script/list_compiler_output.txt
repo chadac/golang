@@ -1,16 +1,16 @@
 [short] skip
 
-go install -gcflags=-m .
+golang install -gcflags=-m .
 stderr 'can inline main'
-go list -gcflags=-m -f '{{.Stale}}' .
+golang list -gcflags=-m -f '{{.Stale}}' .
 stdout 'false'
 ! stderr 'can inline main'
 
--- go.mod --
+-- golang.mod --
 module example.com/foo
 
-go 1.20
--- main.go --
+golang 1.20
+-- main.golang --
 package main
 
 func main() {}

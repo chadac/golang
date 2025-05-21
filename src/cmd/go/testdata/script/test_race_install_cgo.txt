@@ -3,27 +3,27 @@
 [!race] skip
 
 env GOBIN=$WORK/bin
-go install m/mtime m/sametime
+golang install m/mtime m/sametime
 
-go tool -n cgo
-cp stdout cgopath.txt
-exec $GOBIN/mtime cgopath.txt # get the mtime of the file whose name is in cgopath.txt
-cp stdout cgotime_before.txt
+golang tool -n cgolang
+cp stdout cgolangpath.txt
+exec $GOBIN/mtime cgolangpath.txt # get the mtime of the file whose name is in cgolangpath.txt
+cp stdout cgolangtime_before.txt
 
- # For this test, we don't actually care whether 'go test -race -i' succeeds.
+ # For this test, we don't actually care whether 'golang test -race -i' succeeds.
  # It may fail if GOROOT is read-only (perhaps it was installed as root).
- # We only care that it does not overwrite cmd/cgo regardless.
-? go test -race -i runtime/race
+ # We only care that it does not overwrite cmd/cgolang regardless.
+? golang test -race -i runtime/race
 
-exec $GOBIN/mtime cgopath.txt # get the mtime of the file whose name is in cgopath.txt
-cp stdout cgotime_after.txt
-exec $GOBIN/sametime cgotime_before.txt cgotime_after.txt
+exec $GOBIN/mtime cgolangpath.txt # get the mtime of the file whose name is in cgolangpath.txt
+cp stdout cgolangtime_after.txt
+exec $GOBIN/sametime cgolangtime_before.txt cgolangtime_after.txt
 
--- go.mod --
+-- golang.mod --
 module m
 
-go 1.16
--- mtime/mtime.go --
+golang 1.16
+-- mtime/mtime.golang --
 package main
 
 import (
@@ -50,7 +50,7 @@ func main() {
 		os.Exit(1)
 	}
 }
--- sametime/sametime.go --
+-- sametime/sametime.golang --
 package main
 
 import (

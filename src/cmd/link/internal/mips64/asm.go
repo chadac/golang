@@ -49,16 +49,16 @@ var (
 	// section.
 	dynSymCount uint64
 
-	// gotLocalCount contains the number of local global offset table
+	// golangtLocalCount contains the number of local global offset table
 	// entries. This is used to populate the DT_MIPS_LOCAL_GOTNO entry in
 	// the .dynamic section.
-	gotLocalCount uint64
+	golangtLocalCount uint64
 
-	// gotSymIndex contains the index of the first dynamic symbol table
+	// golangtSymIndex contains the index of the first dynamic symbol table
 	// entry that corresponds to an entry in the global offset table.
 	// This is used to populate the DT_MIPS_GOTSYM entry in the .dynamic
 	// section.
-	gotSymIndex uint64
+	golangtSymIndex uint64
 )
 
 func gentext(ctxt *ld.Link, ldr *loader.Loader) {
@@ -71,12 +71,12 @@ func gentext(ctxt *ld.Link, ldr *loader.Loader) {
 	ld.Elfwritedynent(ctxt.Arch, dynamic, elf.DT_MIPS_RLD_VERSION, 1)
 	ld.Elfwritedynent(ctxt.Arch, dynamic, elf.DT_MIPS_BASE_ADDRESS, 0)
 
-	// elfsetupplt should have been called and gotLocalCount should now
+	// elfsetupplt should have been called and golangtLocalCount should now
 	// have its correct value.
-	if gotLocalCount == 0 {
+	if golangtLocalCount == 0 {
 		ctxt.Errorf(0, "internal error: elfsetupplt has not been called")
 	}
-	ld.Elfwritedynent(ctxt.Arch, dynamic, elf.DT_MIPS_LOCAL_GOTNO, gotLocalCount)
+	ld.Elfwritedynent(ctxt.Arch, dynamic, elf.DT_MIPS_LOCAL_GOTNO, golangtLocalCount)
 
 	// DT_* entries have to exist prior to elfdynhash(), which finalises the
 	// table by adding DT_NULL. However, the values for the following entries
@@ -184,21 +184,21 @@ func elfreloc1(ctxt *ld.Link, out *ld.OutBuf, ldr *loader.Loader, s loader.Sym, 
 	return true
 }
 
-func elfsetupplt(ctxt *ld.Link, ldr *loader.Loader, plt, gotplt *loader.SymbolBuilder, dynamic loader.Sym) {
+func elfsetupplt(ctxt *ld.Link, ldr *loader.Loader, plt, golangtplt *loader.SymbolBuilder, dynamic loader.Sym) {
 	if plt.Size() != 0 {
 		return
 	}
 
-	// Load resolver address from got[0] into r25.
-	plt.AddSymRef(ctxt.Arch, gotplt.Sym(), 0, objabi.R_ADDRMIPSU, 4)
+	// Load resolver address from golangt[0] into r25.
+	plt.AddSymRef(ctxt.Arch, golangtplt.Sym(), 0, objabi.R_ADDRMIPSU, 4)
 	plt.SetUint32(ctxt.Arch, plt.Size()-4, 0x3c0e0000) // lui   $14, %hi(&GOTPLT[0])
-	plt.AddSymRef(ctxt.Arch, gotplt.Sym(), 0, objabi.R_ADDRMIPS, 4)
+	plt.AddSymRef(ctxt.Arch, golangtplt.Sym(), 0, objabi.R_ADDRMIPS, 4)
 	plt.SetUint32(ctxt.Arch, plt.Size()-4, 0xddd90000) // ld    $25, %lo(&GOTPLT[0])($14)
 
-	// Load return address into r15, the index of the got.plt entry into r24, then
-	// JALR to the resolver. The address of the got.plt entry is currently in r24,
+	// Load return address into r15, the index of the golangt.plt entry into r24, then
+	// JALR to the resolver. The address of the golangt.plt entry is currently in r24,
 	// which we have to turn into an index.
-	plt.AddSymRef(ctxt.Arch, gotplt.Sym(), 0, objabi.R_ADDRMIPS, 4)
+	plt.AddSymRef(ctxt.Arch, golangtplt.Sym(), 0, objabi.R_ADDRMIPS, 4)
 	plt.SetUint32(ctxt.Arch, plt.Size()-4, 0x25ce0000) // addiu $14, $14, %lo(&GOTPLT[0])
 	plt.AddUint32(ctxt.Arch, 0x030ec023)               // subu  $24, $24, $14
 	plt.AddUint32(ctxt.Arch, 0x03e07825)               // move  $15, $31
@@ -206,19 +206,19 @@ func elfsetupplt(ctxt *ld.Link, ldr *loader.Loader, plt, gotplt *loader.SymbolBu
 	plt.AddUint32(ctxt.Arch, 0x0320f809)               // jalr  $25
 	plt.AddUint32(ctxt.Arch, 0x2718fffe)               // subu  $24, $24, 2
 
-	if gotplt.Size() != 0 {
-		ctxt.Errorf(gotplt.Sym(), "got.plt is not empty")
+	if golangtplt.Size() != 0 {
+		ctxt.Errorf(golangtplt.Sym(), "golangt.plt is not empty")
 	}
 
-	// Reserve got[0] for resolver address (populated by dynamic loader).
-	gotplt.AddUint32(ctxt.Arch, 0)
-	gotplt.AddUint32(ctxt.Arch, 0)
-	gotLocalCount++
+	// Reserve golangt[0] for resolver address (populated by dynamic loader).
+	golangtplt.AddUint32(ctxt.Arch, 0)
+	golangtplt.AddUint32(ctxt.Arch, 0)
+	golangtLocalCount++
 
-	// Reserve got[1] for ELF object pointer (populated by dynamic loader).
-	gotplt.AddUint32(ctxt.Arch, 0)
-	gotplt.AddUint32(ctxt.Arch, 0)
-	gotLocalCount++
+	// Reserve golangt[1] for ELF object pointer (populated by dynamic loader).
+	golangtplt.AddUint32(ctxt.Arch, 0)
+	golangtplt.AddUint32(ctxt.Arch, 0)
+	golangtLocalCount++
 }
 
 func addpltsym(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s loader.Sym) {
@@ -229,10 +229,10 @@ func addpltsym(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s loade
 	dynamic := ldr.MakeSymbolUpdater(syms.Dynamic)
 
 	const dynSymEntrySize = 20
-	if gotSymIndex == 0 {
+	if golangtSymIndex == 0 {
 		// Compute and update GOT symbol index.
-		gotSymIndex = uint64(ldr.SymSize(syms.DynSym) / dynSymEntrySize)
-		dynamic.SetUint(target.Arch, dtOffsets[elf.DT_MIPS_GOTSYM], gotSymIndex)
+		golangtSymIndex = uint64(ldr.SymSize(syms.DynSym) / dynSymEntrySize)
+		dynamic.SetUint(target.Arch, dtOffsets[elf.DT_MIPS_GOTSYM], golangtSymIndex)
 	}
 	if dynSymCount == 0 {
 		dynSymCount = uint64(ldr.SymSize(syms.DynSym) / dynSymEntrySize)
@@ -246,24 +246,24 @@ func addpltsym(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s loade
 	}
 
 	plt := ldr.MakeSymbolUpdater(syms.PLT)
-	gotplt := ldr.MakeSymbolUpdater(syms.GOTPLT)
+	golangtplt := ldr.MakeSymbolUpdater(syms.GOTPLT)
 	if plt.Size() == 0 {
 		panic("plt is not set up")
 	}
 
-	// Load got.plt entry into r25.
-	plt.AddSymRef(target.Arch, gotplt.Sym(), gotplt.Size(), objabi.R_ADDRMIPSU, 4)
-	plt.SetUint32(target.Arch, plt.Size()-4, 0x3c0f0000) // lui   $15, %hi(.got.plt entry)
-	plt.AddSymRef(target.Arch, gotplt.Sym(), gotplt.Size(), objabi.R_ADDRMIPS, 4)
-	plt.SetUint32(target.Arch, plt.Size()-4, 0xddf90000) // ld    $25, %lo(.got.plt entry)($15)
+	// Load golangt.plt entry into r25.
+	plt.AddSymRef(target.Arch, golangtplt.Sym(), golangtplt.Size(), objabi.R_ADDRMIPSU, 4)
+	plt.SetUint32(target.Arch, plt.Size()-4, 0x3c0f0000) // lui   $15, %hi(.golangt.plt entry)
+	plt.AddSymRef(target.Arch, golangtplt.Sym(), golangtplt.Size(), objabi.R_ADDRMIPS, 4)
+	plt.SetUint32(target.Arch, plt.Size()-4, 0xddf90000) // ld    $25, %lo(.golangt.plt entry)($15)
 
-	// Load address of got.plt entry into r24 and JALR to address in r25.
+	// Load address of golangt.plt entry into r24 and JALR to address in r25.
 	plt.AddUint32(target.Arch, 0x03200008) // jr  $25
-	plt.AddSymRef(target.Arch, gotplt.Sym(), gotplt.Size(), objabi.R_ADDRMIPS, 4)
-	plt.SetUint32(target.Arch, plt.Size()-4, 0x65f80000) // daddiu $24, $15, %lo(.got.plt entry)
+	plt.AddSymRef(target.Arch, golangtplt.Sym(), golangtplt.Size(), objabi.R_ADDRMIPS, 4)
+	plt.SetUint32(target.Arch, plt.Size()-4, 0x65f80000) // daddiu $24, $15, %lo(.golangt.plt entry)
 
-	// Add pointer to plt[0] to got.plt
-	gotplt.AddAddrPlus(target.Arch, plt.Sym(), 0)
+	// Add pointer to plt[0] to golangt.plt
+	golangtplt.AddAddrPlus(target.Arch, plt.Sym(), 0)
 
 	ldr.SetPlt(s, int32(plt.Size()-16))
 

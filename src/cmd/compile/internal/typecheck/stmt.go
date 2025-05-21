@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package typecheck
@@ -232,7 +232,7 @@ func normalizeGoDeferCall(pos src.XPos, op ir.Op, call ir.Node, init *ir.Nodes) 
 	wrapperFn.SetWrapper(true)
 
 	// argps collects the list of operands within the call expression
-	// that must be evaluated at the go/defer statement.
+	// that must be evaluated at the golang/defer statement.
 	var argps []*ir.Node
 
 	var visit func(argp *ir.Node)
@@ -264,10 +264,10 @@ func normalizeGoDeferCall(pos src.XPos, op ir.Op, call ir.Node, init *ir.Nodes) 
 
 			// For unsafe.Pointer->uintptr conversion arguments, save the
 			// unsafe.Pointer argument. This is necessary to handle cases
-			// like fixedbugs/issue24491a.go correctly.
+			// like fixedbugs/issue24491a.golang correctly.
 			//
 			// TODO(mdempsky): Limit to static callees with
-			// //go:uintptr{escapes,keepalive}?
+			// //golang:uintptr{escapes,keepalive}?
 			if arg.Type().IsUintptr() && arg.X.Type().IsUnsafePtr() {
 				visit(&arg.X)
 				return
@@ -275,7 +275,7 @@ func normalizeGoDeferCall(pos src.XPos, op ir.Op, call ir.Node, init *ir.Nodes) 
 
 		case ir.OARRAYLIT, ir.OSLICELIT, ir.OSTRUCTLIT:
 			// TODO(mdempsky): For very large slices, it may be preferable
-			// to construct them at the go/defer statement instead.
+			// to construct them at the golang/defer statement instead.
 			list := arg.(*ir.CompLitExpr).List
 			for i, el := range list {
 				switch el := el.(type) {
@@ -364,8 +364,8 @@ func normalizeGoDeferCall(pos src.XPos, op ir.Op, call ir.Node, init *ir.Nodes) 
 		}
 		init.Append(Stmt(as))
 
-		// For "go/defer iface.M()", if iface is nil, we need to panic at
-		// the point of the go/defer statement.
+		// For "golang/defer iface.M()", if iface is nil, we need to panic at
+		// the point of the golang/defer statement.
 		if call.Op() == ir.OCALLINTER {
 			iface := as.Lhs[0]
 			init.Append(Stmt(ir.NewUnaryExpr(stmtPos, ir.OCHECKNIL, ir.NewUnaryExpr(iface.Pos(), ir.OITAB, iface))))

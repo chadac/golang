@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package sigchanyzer defines an Analyzer that detects
@@ -11,26 +11,26 @@ import (
 	"slices"
 
 	_ "embed"
-	"go/ast"
-	"go/format"
-	"go/token"
-	"go/types"
+	"golang/ast"
+	"golang/format"
+	"golang/token"
+	"golang/types"
 
-	"golang.org/x/tools/go/analysis"
-	"golang.org/x/tools/go/analysis/passes/inspect"
-	"golang.org/x/tools/go/analysis/passes/internal/analysisutil"
-	"golang.org/x/tools/go/ast/inspector"
-	"golang.org/x/tools/internal/analysisinternal"
+	"golanglang.org/x/tools/golang/analysis"
+	"golanglang.org/x/tools/golang/analysis/passes/inspect"
+	"golanglang.org/x/tools/golang/analysis/passes/internal/analysisutil"
+	"golanglang.org/x/tools/golang/ast/inspector"
+	"golanglang.org/x/tools/internal/analysisinternal"
 )
 
-//go:embed doc.go
+//golang:embed doc.golang
 var doc string
 
 // Analyzer describes sigchanyzer analysis function detector.
 var Analyzer = &analysis.Analyzer{
 	Name:     "sigchanyzer",
 	Doc:      analysisutil.MustExtractDoc(doc, "sigchanyzer"),
-	URL:      "https://pkg.go.dev/golang.org/x/tools/go/analysis/passes/sigchanyzer",
+	URL:      "https://pkg.golang.dev/golanglang.org/x/tools/golang/analysis/passes/sigchanyzer",
 	Requires: []*analysis.Analyzer{inspect.Analyzer},
 	Run:      run,
 }
@@ -58,7 +58,7 @@ func run(pass *analysis.Pass) (any, error) {
 			}
 		case *ast.CallExpr:
 			// Only signal.Notify(make(chan os.Signal), os.Interrupt) is safe,
-			// conservatively treat others as not safe, see golang/go#45043
+			// conservatively treat others as not safe, see golanglang/golang#45043
 			if isBuiltinMake(pass.TypesInfo, arg) {
 				return
 			}
@@ -69,7 +69,7 @@ func run(pass *analysis.Pass) (any, error) {
 		}
 
 		// Make a copy of the channel's declaration to avoid
-		// mutating the AST. See https://golang.org/issue/46129.
+		// mutating the AST. See https://golanglang.org/issue/46129.
 		chanDeclCopy := &ast.CallExpr{}
 		*chanDeclCopy = *chanDecl
 		chanDeclCopy.Args = slices.Clone(chanDecl.Args)

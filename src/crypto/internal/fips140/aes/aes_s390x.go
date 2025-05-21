@@ -1,8 +1,8 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !purego
+//golang:build !puregolang
 
 package aes
 
@@ -32,7 +32,7 @@ type block struct {
 // the given function code. This is equivalent to AES in ECB
 // mode. The length must be a multiple of BlockSize (16).
 //
-//go:noescape
+//golang:noescape
 func cryptBlocks(c code, key, dst, src *byte, length int)
 
 var supportsAES = cpu.S390XHasAES && cpu.S390XHasAESCBC

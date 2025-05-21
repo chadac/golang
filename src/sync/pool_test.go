@@ -1,10 +1,10 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Pool is no-op under race detector, so all these tests do not work.
 //
-//go:build !race
+//golang:build !race
 
 package sync_test
 
@@ -26,19 +26,19 @@ func TestPool(t *testing.T) {
 		t.Fatal("expected empty")
 	}
 
-	// Make sure that the goroutine doesn't migrate to another P
+	// Make sure that the golangroutine doesn't migrate to another P
 	// between Put and Get calls.
 	Runtime_procPin()
 	p.Put("a")
 	p.Put("b")
 	if g := p.Get(); g != "a" {
-		t.Fatalf("got %#v; want a", g)
+		t.Fatalf("golangt %#v; want a", g)
 	}
 	if g := p.Get(); g != "b" {
-		t.Fatalf("got %#v; want b", g)
+		t.Fatalf("golangt %#v; want b", g)
 	}
 	if g := p.Get(); g != nil {
-		t.Fatalf("got %#v; want nil", g)
+		t.Fatalf("golangt %#v; want nil", g)
 	}
 	Runtime_procUnpin()
 
@@ -50,12 +50,12 @@ func TestPool(t *testing.T) {
 	// After one GC, the victim cache should keep them alive.
 	runtime.GC()
 	if g := p.Get(); g != "c" {
-		t.Fatalf("got %#v; want c after GC", g)
+		t.Fatalf("golangt %#v; want c after GC", g)
 	}
 	// A second GC should drop the victim cache.
 	runtime.GC()
 	if g := p.Get(); g != nil {
-		t.Fatalf("got %#v; want nil after second GC", g)
+		t.Fatalf("golangt %#v; want nil after second GC", g)
 	}
 }
 
@@ -71,23 +71,23 @@ func TestPoolNew(t *testing.T) {
 		},
 	}
 	if v := p.Get(); v != 1 {
-		t.Fatalf("got %v; want 1", v)
+		t.Fatalf("golangt %v; want 1", v)
 	}
 	if v := p.Get(); v != 2 {
-		t.Fatalf("got %v; want 2", v)
+		t.Fatalf("golangt %v; want 2", v)
 	}
 
-	// Make sure that the goroutine doesn't migrate to another P
+	// Make sure that the golangroutine doesn't migrate to another P
 	// between Put and Get calls.
 	Runtime_procPin()
 	p.Put(42)
 	if v := p.Get(); v != 42 {
-		t.Fatalf("got %v; want 42", v)
+		t.Fatalf("golangt %v; want 42", v)
 	}
 	Runtime_procUnpin()
 
 	if v := p.Get(); v != 3 {
-		t.Fatalf("got %v; want 3", v)
+		t.Fatalf("golangt %v; want 3", v)
 	}
 }
 
@@ -155,7 +155,7 @@ func TestPoolStress(t *testing.T) {
 	var p Pool
 	done := make(chan bool)
 	for i := 0; i < P; i++ {
-		go func() {
+		golang func() {
 			var v any = 0
 			for j := 0; j < N; j++ {
 				if v == nil {
@@ -164,7 +164,7 @@ func TestPoolStress(t *testing.T) {
 				p.Put(v)
 				v = p.Get()
 				if v != nil && v.(int) != 0 {
-					t.Errorf("expect 0, got %v", v)
+					t.Errorf("expect 0, golangt %v", v)
 					break
 				}
 			}
@@ -203,7 +203,7 @@ func testPoolDequeue(t *testing.T, d PoolDequeue) {
 	// Start P-1 consumers.
 	for i := 1; i < P; i++ {
 		wg.Add(1)
-		go func() {
+		golang func() {
 			fail := 0
 			for atomic.LoadInt32(&stop) == 0 {
 				val, ok := d.PopTail()
@@ -225,7 +225,7 @@ func testPoolDequeue(t *testing.T, d PoolDequeue) {
 	// Start 1 producer.
 	nPopHead := 0
 	wg.Add(1)
-	go func() {
+	golang func() {
 		for j := 0; j < N; j++ {
 			for !d.PushHead(j) {
 				// Allow a popper to run.
@@ -246,7 +246,7 @@ func testPoolDequeue(t *testing.T, d PoolDequeue) {
 	// Check results.
 	for i, count := range have {
 		if count != 1 {
-			t.Errorf("expected have[%d] = 1, got %d", i, count)
+			t.Errorf("expected have[%d] = 1, golangt %d", i, count)
 		}
 	}
 	// Check that at least some PopHeads succeeded. We skip this
@@ -381,7 +381,7 @@ func BenchmarkPoolExpensiveNew(b *testing.B) {
 	var mstats1, mstats2 runtime.MemStats
 	runtime.ReadMemStats(&mstats1)
 	b.RunParallel(func(pb *testing.PB) {
-		// Simulate 100X the number of goroutines having items
+		// Simulate 100X the number of golangroutines having items
 		// checked out from the Pool simultaneously.
 		items := make([]any, 100)
 		var sink []byte

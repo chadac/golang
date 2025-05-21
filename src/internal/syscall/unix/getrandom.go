@@ -1,8 +1,8 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build dragonfly || freebsd || linux
+//golang:build dragolangnfly || freebsd || linux
 
 package unix
 
@@ -12,8 +12,8 @@ import (
 	"unsafe"
 )
 
-//go:linkname vgetrandom runtime.vgetrandom
-//go:noescape
+//golang:linkname vgetrandom runtime.vgetrandom
+//golang:noescape
 func vgetrandom(p []byte, flags uint32) (ret int, supported bool)
 
 var getrandomUnsupported atomic.Bool

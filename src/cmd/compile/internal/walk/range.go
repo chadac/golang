@@ -1,11 +1,11 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package walk
 
 import (
-	"go/constant"
+	"golang/constant"
 	"internal/buildcfg"
 	"unicode/utf8"
 
@@ -247,7 +247,7 @@ func walkRange(nrange *ir.RangeStmt) ir.Node {
 		hit := nrange.Prealloc
 		th := hit.Type()
 		// depends on layout of iterator struct.
-		// See cmd/compile/internal/reflectdata/reflect.go:MapIterType
+		// See cmd/compile/internal/reflectdata/reflect.golang:MapIterType
 		var keysym, elemsym *types.Sym
 		var iterInit, iterNext string
 		if buildcfg.Experiment.SwissMap {

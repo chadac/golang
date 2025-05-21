@@ -1,12 +1,12 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
 
 import (
-	"go/ast"
-	"go/token"
+	"golang/ast"
+	"golang/token"
 	"reflect"
 )
 
@@ -58,10 +58,10 @@ func (s simplifier) Visit(node ast.Node) ast.Visitor {
 		//       (April 2022, after years of supporting this rewrite feature)
 		//       has never come up, so let's keep it working as is (see also #15153).
 		//
-		// Also note that this code used to use go/ast's object tracking,
-		// which was removed in exchange for go/parser.Mode.SkipObjectResolution.
+		// Also note that this code used to use golang/ast's object tracking,
+		// which was removed in exchange for golang/parser.Mode.SkipObjectResolution.
 		// False positives are extremely unlikely as described above,
-		// and go/ast's object tracking is incomplete in any case.
+		// and golang/ast's object tracking is incomplete in any case.
 		if n.Max != nil {
 			// - 3-index slices always require the 2nd and 3rd index
 			break

@@ -1,7 +1,7 @@
 # Check that if the PATH directory containing the C compiler has a space,
-# we can still use that compiler with cgo.
+# we can still use that compiler with cgolang.
 # Verifies #43808.
-[!cgo] skip
+[!cgolang] skip
 
 # Set CC explicitly to something that requires a PATH lookup.
 # Normally, the default is gcc or clang, but if CC was set during make.bash,
@@ -20,7 +20,7 @@
 [GOOS:windows] env PATH=$WORK\'program files';%PATH%
 
 ! exists $WORK/log.txt
-? go build -x
+? golang build -x
 exists $WORK/log.txt
 rm $WORK/log.txt
 
@@ -30,13 +30,13 @@ rm $WORK/log.txt
 # variables. For now, this doesn't work.
 [!GOOS:windows] env CC=$WORK/'program files'/gcc
 [GOOS:windows] env CC=$WORK\'program files'\gcc.bat
-! go build -x
+! golang build -x
 ! exists $WORK/log.txt
 
--- go.mod --
+-- golang.mod --
 module m
 
--- m.go --
+-- m.golang --
 package m
 
 // #define X 1

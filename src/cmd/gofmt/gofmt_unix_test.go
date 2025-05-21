@@ -1,8 +1,8 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build unix
+//golang:build unix
 
 package main
 
@@ -20,7 +20,7 @@ func TestPermissions(t *testing.T) {
 	}
 
 	dir := t.TempDir()
-	fn := filepath.Join(dir, "perm.go")
+	fn := filepath.Join(dir, "perm.golang")
 
 	// Create a file that needs formatting without write permission.
 	if err := os.WriteFile(filepath.Join(fn), []byte("  package main"), 0o400); err != nil {

@@ -1,12 +1,12 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ssa
 
 import (
 	"cmd/compile/internal/base"
-	"cmd/compile/internal/logopt"
+	"cmd/compile/internal/logolangpt"
 	"cmd/compile/internal/reflectdata"
 	"cmd/compile/internal/types"
 	"cmd/internal/obj"
@@ -280,7 +280,7 @@ func canMergeSym(x, y Sym) bool {
 // It also checks that the other non-load argument x is something we
 // are ok with clobbering.
 func canMergeLoadClobber(target, load, x *Value) bool {
-	// The register containing x is going to get clobbered.
+	// The register containing x is golanging to get clobbered.
 	// Don't merge if we still need the value of x.
 	// We don't have liveness information here, but we can
 	// approximate x dying with:
@@ -982,7 +982,7 @@ func disjointTypes(t1 *types.Type, t2 *types.Type) bool {
 
 	isPtrShaped := func(t *types.Type) bool { return int(t.Size()) == types.PtrSize && t.HasPointers() }
 
-	// Pointers and non-pointers are disjoint (https://pkg.go.dev/unsafe#Pointer).
+	// Pointers and non-pointers are disjoint (https://pkg.golang.dev/unsafe#Pointer).
 	if (isPtrShaped(t1) && !t2.HasPointers()) ||
 		(isPtrShaped(t2) && !t1.HasPointers()) {
 		return true
@@ -1016,11 +1016,11 @@ func mergePoint(b *Block, a ...*Value) *Block {
 	for d > 0 {
 		for _, x := range a {
 			if b == x.Block {
-				goto found
+				golangto found
 			}
 		}
 		if len(b.Preds) > 1 {
-			// Don't know which way to go back. Abort.
+			// Don't know which way to golang back. Abort.
 			return nil
 		}
 		b = b.Preds[0].b
@@ -1032,7 +1032,7 @@ found:
 	// if we return anything, r will be it.
 	r := b
 
-	// Keep going, counting the other a's that we find. They must all dominate r.
+	// Keep golanging, counting the other a's that we find. They must all dominate r.
 	na := 0
 	for d > 0 {
 		for _, x := range a {
@@ -1266,7 +1266,7 @@ func ccARM64Eval(op Op, flags *Value) int {
 }
 
 // logRule logs the use of the rule s. This will only be enabled if
-// rewrite rules were generated with the -log option, see _gen/rulegen.go.
+// rewrite rules were generated with the -log option, see _gen/rulegen.golang.
 func logRule(s string) {
 	if ruleFile == nil {
 		// Open a log file to write log to. We open in append
@@ -1523,8 +1523,8 @@ func logLargeCopy(v *Value, s int64) bool {
 	if s < 128 {
 		return true
 	}
-	if logopt.Enabled() {
-		logopt.LogOpt(v.Pos, "copy", "lower", v.Block.Func.Name, fmt.Sprintf("%d bytes", s))
+	if logolangpt.Enabled() {
+		logolangpt.LogOpt(v.Pos, "copy", "lower", v.Block.Func.Name, fmt.Sprintf("%d bytes", s))
 	}
 	return true
 }
@@ -1532,8 +1532,8 @@ func LogLargeCopy(funcName string, pos src.XPos, s int64) {
 	if s < 128 {
 		return
 	}
-	if logopt.Enabled() {
-		logopt.LogOpt(pos, "copy", "lower", funcName, fmt.Sprintf("%d bytes", s))
+	if logolangpt.Enabled() {
+		logolangpt.LogOpt(pos, "copy", "lower", funcName, fmt.Sprintf("%d bytes", s))
 	}
 }
 
@@ -2104,7 +2104,7 @@ func fixedSym(f *Func, sym Sym, off int64) Sym {
 				// but if we perform this load at compile time then the dictionary
 				// might be dead.
 				reflectdata.MarkTypeSymUsedInInterface(r.Sym, f.fe.Func().Linksym())
-			} else if strings.HasPrefix(r.Sym.Name, "go:itab") {
+			} else if strings.HasPrefix(r.Sym.Name, "golang:itab") {
 				// Same, but if we're using an itab we need to record that the
 				// itab._type might be put in an interface.
 				reflectdata.MarkTypeSymUsedInInterface(r.Sym, f.fe.Func().Linksym())
@@ -2420,7 +2420,7 @@ func isARM64bitcon(x uint64) bool {
 
 // sequenceOfOnes tests whether a constant is a sequence of ones in binary, with leading and trailing zeros.
 func sequenceOfOnes(x uint64) bool {
-	y := x & -x // lowest set bit of x. x is good iff x+y is a power of 2
+	y := x & -x // lowest set bit of x. x is golangod iff x+y is a power of 2
 	y += x
 	return (y-1)&y == 0
 }

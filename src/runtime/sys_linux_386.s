@@ -1,13 +1,13 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 //
 // System calls and other sys.stuff for 386, Linux
 //
 
-#include "go_asm.h"
-#include "go_tls.h"
+#include "golang_asm.h"
+#include "golang_tls.h"
 #include "textflag.h"
 
 // Most linux systems use glibc's dynamic linker, which puts the
@@ -19,7 +19,7 @@
 // (which is also what syscall wrappers in bionic/musl use).
 //
 // The benchmarks also showed that using int $0x80 is as fast as calling
-// *%gs:0x10 except on AMD Opteron. See https://golang.org/cl/19833
+// *%gs:0x10 except on AMD Opteron. See https://golanglang.org/cl/19833
 // for the benchmark program and raw data.
 //#define INVOKE_SYSCALL	CALL	0x10(GS) // non-portable
 #define INVOKE_SYSCALL	INT	$0x80
@@ -262,7 +262,7 @@ TEXT runtime·walltime(SB), NOSPLIT, $8-12
 	JNE	noswitch
 
 	MOVL	m_g0(SI), DX
-	MOVL	(g_sched+gobuf_sp)(DX), SP	// Set SP to g0 stack
+	MOVL	(g_sched+golangbuf_sp)(DX), SP	// Set SP to g0 stack
 
 noswitch:
 	SUBL	$16, SP		// Space for results
@@ -340,7 +340,7 @@ TEXT runtime·nanotime1(SB), NOSPLIT, $8-8
 	JNE	noswitch
 
 	MOVL	m_g0(SI), DX
-	MOVL	(g_sched+gobuf_sp)(DX), SP	// Set SP to g0 stack
+	MOVL	(g_sched+golangbuf_sp)(DX), SP	// Set SP to g0 stack
 
 noswitch:
 	SUBL	$16, SP		// Space for results
@@ -434,7 +434,7 @@ TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME,$28
 	MOVL	BP, bp-8(SP)
 	MOVL	SI, si-12(SP)
 	MOVL	DI, di-16(SP)
-	// We don't save mxcsr or the x87 control word because sigtrampgo doesn't
+	// We don't save mxcsr or the x87 control word because sigtrampgolang doesn't
 	// modify them.
 
 	MOVL	(28+4)(SP), BX
@@ -443,7 +443,7 @@ TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME,$28
 	MOVL	BX, 4(SP)
 	MOVL	(28+12)(SP), BX
 	MOVL	BX, 8(SP)
-	CALL	runtime·sigtrampgo(SB)
+	CALL	runtime·sigtrampgolang(SB)
 
 	MOVL	di-16(SP), DI
 	MOVL	si-12(SP), SI
@@ -451,10 +451,10 @@ TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME,$28
 	MOVL	bx-4(SP),  BX
 	RET
 
-TEXT runtime·cgoSigtramp(SB),NOSPLIT,$0
+TEXT runtime·cgolangSigtramp(SB),NOSPLIT,$0
 	JMP	runtime·sigtramp(SB)
 
-// For cgo unwinding to work, this function must look precisely like
+// For cgolang unwinding to work, this function must look precisely like
 // the one in glibc. The glibc source code is:
 // https://sourceware.org/git/?p=glibc.git;a=blob;f=sysdeps/unix/sysv/linux/i386/libc_sigaction.c;h=0665b41bbcd0986f0b33bf19a7ecbcedf9961d0a#l59
 // The code that cares about the precise instructions used is:

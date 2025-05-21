@@ -1,8 +1,8 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build unix
+//golang:build unix
 
 package syscall_test
 
@@ -108,27 +108,27 @@ func TestFcntlFlock(t *testing.T) {
 		}
 	} else {
 		// child
-		got := flock
+		golangt := flock
 		// make sure the child lock is conflicting with the parent lock
-		got.Start--
-		got.Len++
-		if err := syscall.FcntlFlock(3, syscall.F_GETLK, &got); err != nil {
+		golangt.Start--
+		golangt.Len++
+		if err := syscall.FcntlFlock(3, syscall.F_GETLK, &golangt); err != nil {
 			t.Fatalf("FcntlFlock(F_GETLK) failed: %v", err)
 		}
 		flock.Pid = int32(syscall.Getppid())
 		// Linux kernel always set Whence to 0
 		flock.Whence = 0
-		if got.Type == flock.Type && got.Start == flock.Start && got.Len == flock.Len && got.Pid == flock.Pid && got.Whence == flock.Whence {
+		if golangt.Type == flock.Type && golangt.Start == flock.Start && golangt.Len == flock.Len && golangt.Pid == flock.Pid && golangt.Whence == flock.Whence {
 			os.Exit(0)
 		}
-		t.Fatalf("FcntlFlock got %v, want %v", got, flock)
+		t.Fatalf("FcntlFlock golangt %v, want %v", golangt, flock)
 	}
 }
 
 // TestPassFD tests passing a file descriptor over a Unix socket.
 //
 // This test involved both a parent and child process. The parent
-// process is invoked as a normal test, with "go test", which then
+// process is invoked as a normal test, with "golang test", which then
 // runs the child process by running the current test binary with args
 // "-test.run=^TestPassFD$" and an environment variable used to signal
 // that the test should become the child process instead.
@@ -188,7 +188,7 @@ func TestPassFD(t *testing.T) {
 
 	uc, ok := c.(*net.UnixConn)
 	if !ok {
-		t.Fatalf("unexpected FileConn type; expected UnixConn, got %T", c)
+		t.Fatalf("unexpected FileConn type; expected UnixConn, golangt %T", c)
 	}
 
 	buf := make([]byte, 32) // expect 1 byte
@@ -208,24 +208,24 @@ func TestPassFD(t *testing.T) {
 		t.Fatalf("ParseSocketControlMessage: %v", err)
 	}
 	if len(scms) != 1 {
-		t.Fatalf("expected 1 SocketControlMessage; got scms = %#v", scms)
+		t.Fatalf("expected 1 SocketControlMessage; golangt scms = %#v", scms)
 	}
 	scm := scms[0]
-	gotFds, err := syscall.ParseUnixRights(&scm)
+	golangtFds, err := syscall.ParseUnixRights(&scm)
 	if err != nil {
 		t.Fatalf("syscall.ParseUnixRights: %v", err)
 	}
-	if len(gotFds) != 1 {
-		t.Fatalf("wanted 1 fd; got %#v", gotFds)
+	if len(golangtFds) != 1 {
+		t.Fatalf("wanted 1 fd; golangt %#v", golangtFds)
 	}
 
-	f := os.NewFile(uintptr(gotFds[0]), "fd-from-child")
+	f := os.NewFile(uintptr(golangtFds[0]), "fd-from-child")
 	defer f.Close()
 
-	got, err := io.ReadAll(f)
+	golangt, err := io.ReadAll(f)
 	want := "Hello from child process!\n"
-	if string(got) != want {
-		t.Errorf("child process ReadAll: %q, %v; want %q", got, err, want)
+	if string(golangt) != want {
+		t.Errorf("child process ReadAll: %q, %v; want %q", golangt, err, want)
 	}
 }
 
@@ -234,7 +234,7 @@ func passFDChild() {
 	defer os.Exit(0)
 
 	// Look for our fd. It should be fd 3, but we work around an fd leak
-	// bug here (https://golang.org/issue/2603) to let it be elsewhere.
+	// bug here (https://golanglang.org/issue/2603) to let it be elsewhere.
 	var uc *net.UnixConn
 	for fd := uintptr(3); fd <= 10; fd++ {
 		f := os.NewFile(fd, "unix-conn")
@@ -306,20 +306,20 @@ func TestUnixRightsRoundtrip(t *testing.T) {
 			t.Fatalf("ParseSocketControlMessage: %v", err)
 		}
 		if len(scms) != len(testCase) {
-			t.Fatalf("expected %v SocketControlMessage; got scms = %#v", len(testCase), scms)
+			t.Fatalf("expected %v SocketControlMessage; golangt scms = %#v", len(testCase), scms)
 		}
 		for i, scm := range scms {
-			gotFds, err := syscall.ParseUnixRights(&scm)
+			golangtFds, err := syscall.ParseUnixRights(&scm)
 			if err != nil {
 				t.Fatalf("ParseUnixRights: %v", err)
 			}
 			wantFds := testCase[i]
-			if len(gotFds) != len(wantFds) {
-				t.Fatalf("expected %v fds, got %#v", len(wantFds), gotFds)
+			if len(golangtFds) != len(wantFds) {
+				t.Fatalf("expected %v fds, golangt %#v", len(wantFds), golangtFds)
 			}
-			for j, fd := range gotFds {
+			for j, fd := range golangtFds {
 				if fd != wantFds[j] {
-					t.Fatalf("expected fd %v, got %v", wantFds[j], fd)
+					t.Fatalf("expected fd %v, golangt %v", wantFds[j], fd)
 				}
 			}
 		}

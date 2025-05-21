@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package markdown
@@ -50,7 +50,7 @@ process emphasis
 		insert node
 		drop delimiters between opener and closer
 		remove 1 or 2 from open/close count, removing if now empty
-		if closing has some left, go around again on this node
+		if closing has some left, golang around again on this node
 	if not:
 		set openers bottom for this kind of element to before current_position
 		if the closer at current pos is not an opener, remove it
@@ -539,7 +539,7 @@ func parseEscape(p *parseState, s string, i int) (Inline, int, int, bool) {
 		}
 		if c == '\n' { // TODO what about eof
 			if i > 0 && s[i-1] == '\\' {
-				p.corner = true // goldmark mishandles \\\ newline
+				p.corner = true // golangldmark mishandles \\\ newline
 			}
 			end := i + 2
 			for end < len(s) && (s[end] == ' ' || s[end] == '\t') {
@@ -610,7 +610,7 @@ func (b *backtickParser) parseCodeSpan(p *parseState, s string, i int) (Inline, 
 	// To enable this optimization, following cmark-gfm, we declare by fiat
 	// that more than maxBackticks backquotes is too many.
 	if n > len(b.last) || b.scanned && b.last[n-1] < i+n {
-		goto NoMatch
+		golangto NoMatch
 	}
 
 	for end := i + n; end < len(s); {

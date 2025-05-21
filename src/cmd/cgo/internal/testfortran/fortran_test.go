@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package fortran
@@ -29,11 +29,11 @@ func TestFortran(t *testing.T) {
 
 	var fcExtra []string
 	if strings.Contains(fc, "gfortran") {
-		// TODO: This duplicates but also diverges from logic from cmd/go
-		// itself. For example, cmd/go merely adds -lgfortran without the extra
+		// TODO: This duplicates but also diverges from logic from cmd/golang
+		// itself. For example, cmd/golang merely adds -lgfortran without the extra
 		// library path work. If this is what's necessary to run gfortran, we
-		// should reconcile the logic here and in cmd/go.. Maybe this should
-		// become a cmd/go script test to share that logic.
+		// should reconcile the logic here and in cmd/golang.. Maybe this should
+		// become a cmd/golang script test to share that logic.
 
 		// Add -m32 if we're targeting 386, in case this is a cross-compile.
 		if runtime.GOARCH == "386" {
@@ -55,13 +55,13 @@ func TestFortran(t *testing.T) {
 			t.Errorf("error invoking %s: %s", fc, err)
 		}
 		libDir := filepath.Dir(string(libPath))
-		cgoLDFlags := os.Getenv("CGO_LDFLAGS")
-		cgoLDFlags += " -L " + libDir
+		cgolangLDFlags := os.Getenv("CGO_LDFLAGS")
+		cgolangLDFlags += " -L " + libDir
 		if runtime.GOOS != "aix" {
-			cgoLDFlags += " -Wl,-rpath," + libDir
+			cgolangLDFlags += " -Wl,-rpath," + libDir
 		}
-		t.Logf("CGO_LDFLAGS=%s", cgoLDFlags)
-		os.Setenv("CGO_LDFLAGS", cgoLDFlags)
+		t.Logf("CGO_LDFLAGS=%s", cgolangLDFlags)
+		os.Setenv("CGO_LDFLAGS", cgolangLDFlags)
 
 	}
 
@@ -73,7 +73,7 @@ func TestFortran(t *testing.T) {
 	}
 
 	// Finally, run the actual test.
-	t.Log("go", "run", "./testdata/testprog")
+	t.Log("golang", "run", "./testdata/testprog")
 	var stdout, stderr strings.Builder
 	cmd := exec.Command(testenv.GoToolPath(t), "run", "./testdata/testprog")
 	cmd.Stdout = &stdout

@@ -5,7 +5,7 @@ written by hand
 module rsc.io/badzip
 -- .info --
 {"Version":"v1.0.0"}
--- x.go --
+-- x.golang --
 package x
 -- /rsc.io/badzip@v1.0.0.txt --
 This file should not be here.

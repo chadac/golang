@@ -1,31 +1,31 @@
-# go.dev/issue/60028: use semver sort in exclude block in 1.21
-cp $WORK/go.mod.badfmtexclude go.mod
-go mod edit -go=1.20
-cmp go.mod $WORK/go.mod.goodfmtexclude120
-go mod edit -go=1.21
-cmp go.mod $WORK/go.mod.goodfmtexclude121
+# golang.dev/issue/60028: use semver sort in exclude block in 1.21
+cp $WORK/golang.mod.badfmtexclude golang.mod
+golang mod edit -golang=1.20
+cmp golang.mod $WORK/golang.mod.golangodfmtexclude120
+golang mod edit -golang=1.21
+cmp golang.mod $WORK/golang.mod.golangodfmtexclude121
 
--- $WORK/go.mod.badfmtexclude --
+-- $WORK/golang.mod.badfmtexclude --
 module     x.x/y/z
 exclude  (
 	x.1   v1.11.0
 	x.1    v1.10.0
 	x.1     v1.9.0
 )
--- $WORK/go.mod.goodfmtexclude120 --
+-- $WORK/golang.mod.golangodfmtexclude120 --
 module x.x/y/z
 
-go 1.20
+golang 1.20
 
 exclude (
 	x.1 v1.10.0
 	x.1 v1.11.0
 	x.1 v1.9.0
 )
--- $WORK/go.mod.goodfmtexclude121 --
+-- $WORK/golang.mod.golangodfmtexclude121 --
 module x.x/y/z
 
-go 1.21
+golang 1.21
 
 exclude (
 	x.1 v1.9.0

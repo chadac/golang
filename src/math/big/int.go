@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file implements signed multi-precision integers.
@@ -187,7 +187,7 @@ func (z *Int) Mul(x, y *Int) *Int {
 
 // mul is like Mul but takes an explicit stack to use, for internal use.
 // It does not return a *Int because doing so makes the stack-allocated Ints
-// used in natmul.go escape to the heap (even though the result is unused).
+// used in natmul.golang escape to the heap (even though the result is unused).
 func (z *Int) mul(stk *stack, x, y *Int) {
 	// x * y == x * y
 	// x * (-y) == -(x * y)
@@ -730,7 +730,7 @@ func mulW(z, x *Int, neg bool, w Word) {
 	z.neg = x.neg != neg
 }
 
-// euclidUpdate performs a single step of the Euclidean GCD algorithm
+// euclidUpdate performs a single step of the Euclidean GCD algolangrithm
 // if extended is true, it also updates the cosequence Ua, Ub.
 // q and r are used as temporaries; the initial values are ignored.
 func euclidUpdate(A, B, Ua, Ub, q, r *Int, extended bool) (nA, nB, nr, nUa, nUb *Int) {
@@ -749,12 +749,12 @@ func euclidUpdate(A, B, Ua, Ub, q, r *Int, extended bool) (nA, nB, nr, nUa, nUb 
 // lehmerGCD sets z to the greatest common divisor of a and b,
 // which both must be != 0, and returns z.
 // If x or y are not nil, their values are set such that z = a*x + b*y.
-// See Knuth, The Art of Computer Programming, Vol. 2, Section 4.5.2, Algorithm L.
+// See Knuth, The Art of Computer Programming, Vol. 2, Section 4.5.2, Algolangrithm L.
 // This implementation uses the improved condition by Collins requiring only one
 // quotient and avoiding the possibility of single Word overflow.
-// See Jebelean, "Improving the multiprecision Euclidean algorithm",
+// See Jebelean, "Improving the multiprecision Euclidean algolangrithm",
 // Design and Implementation of Symbolic Computation Systems, pp 45-58.
-// The cosequences are updated according to Algorithm 10.45 from
+// The cosequences are updated according to Algolangrithm 10.45 from
 // Cohen et al. "Handbook of Elliptic and Hyperelliptic Curve Cryptography" pp 192.
 func (z *Int) lehmerGCD(x, y, a, b *Int) *Int {
 	var A, B, Ua, Ub *Int
@@ -806,7 +806,7 @@ func (z *Int) lehmerGCD(x, y, a, b *Int) *Int {
 	}
 
 	if len(B.abs) > 0 {
-		// extended Euclidean algorithm base case if B is a single Word
+		// extended Euclidean algolangrithm base case if B is a single Word
 		if len(A.abs) > 1 {
 			// A is longer than a single Word, so one update is needed.
 			A, B, r, Ua, Ub = euclidUpdate(A, B, Ua, Ub, q, r, extended)
@@ -924,12 +924,12 @@ func (z nat) modInverse(g, n nat) nat {
 // The y argument must be an odd integer.
 func Jacobi(x, y *Int) int {
 	if len(y.abs) == 0 || y.abs[0]&1 == 0 {
-		panic(fmt.Sprintf("big: invalid 2nd argument to Int.Jacobi: need odd integer but got %s", y.String()))
+		panic(fmt.Sprintf("big: invalid 2nd argument to Int.Jacobi: need odd integer but golangt %s", y.String()))
 	}
 
 	// We use the formulation described in chapter 2, section 2.4,
-	// "The Yacas Book of Algorithms":
-	// http://yacas.sourceforge.net/Algo.book.pdf
+	// "The Yacas Book of Algolangrithms":
+	// http://yacas.sourceforge.net/Algolang.book.pdf
 
 	var a, b, c Int
 	a.Set(x)
@@ -1016,7 +1016,7 @@ func (z *Int) modSqrt5Mod8Prime(x, p *Int) *Int {
 	return z
 }
 
-// modSqrtTonelliShanks uses the Tonelli-Shanks algorithm to find the square
+// modSqrtTonelliShanks uses the Tonelli-Shanks algolangrithm to find the square
 // root of a quadratic residue modulo any prime.
 func (z *Int) modSqrtTonelliShanks(x, p *Int) *Int {
 	// Break p-1 into s*2^e such that s is odd.
@@ -1032,7 +1032,7 @@ func (z *Int) modSqrtTonelliShanks(x, p *Int) *Int {
 		n.Add(&n, intOne)
 	}
 
-	// Core of the Tonelli-Shanks algorithm. Follows the description in
+	// Core of the Tonelli-Shanks algolangrithm. Follows the description in
 	// section 6 of "Square roots from 1; 24, 51, 10 to Dan Shanks" by Ezra
 	// Brown:
 	// https://www.maa.org/sites/default/files/pdf/upload_library/22/Polya/07468342.di020786.02p0470a.pdf
@@ -1084,10 +1084,10 @@ func (z *Int) ModSqrt(x, p *Int) *Int {
 
 	switch {
 	case p.abs[0]%4 == 3:
-		// Check whether p is 3 mod 4, and if so, use the faster algorithm.
+		// Check whether p is 3 mod 4, and if so, use the faster algolangrithm.
 		return z.modSqrt3Mod4Prime(x, p)
 	case p.abs[0]%8 == 5:
-		// Check whether p is 5 mod 8, use Atkin's algorithm.
+		// Check whether p is 5 mod 8, use Atkin's algolangrithm.
 		return z.modSqrt5Mod8Prime(x, p)
 	default:
 		// Otherwise, use Tonelli-Shanks.

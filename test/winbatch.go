@@ -1,11 +1,11 @@
 // run
 
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Check that batch files are maintained as CRLF files (consistent
-// behavior on all operating systems). See golang.org/issue/37791.
+// behavior on all operating systems). See golanglang.org/issue/37791.
 
 package main
 
@@ -36,7 +36,7 @@ func main() {
 		}
 		if path == filepath.Join(runtime.GOROOT(), "pkg") {
 			// GOROOT/pkg is known to contain generated artifacts, not source code.
-			// Skip it to avoid false positives. (Also see golang.org/issue/37929.)
+			// Skip it to avoid false positives. (Also see golanglang.org/issue/37929.)
 			return filepath.SkipDir
 		}
 		if filepath.Ext(d.Name()) == ".bat" {
@@ -62,7 +62,7 @@ func enforceBatchStrictCRLF(path string) {
 			path = rel
 		}
 		fmt.Printf("Windows batch file %s does not use strict CRLF line termination.\n", path)
-		fmt.Printf("Please convert it to CRLF before checking it in due to golang.org/issue/37791.\n")
+		fmt.Printf("Please convert it to CRLF before checking it in due to golanglang.org/issue/37791.\n")
 		os.Exit(1)
 	}
 }

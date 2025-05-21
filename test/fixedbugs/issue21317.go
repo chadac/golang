@@ -1,12 +1,12 @@
 // run
 
-//go:build !js && !wasip1 && gc
+//golang:build !js && !wasip1 && gc
 
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// As of "Mon 6 Nov 2017", run.go doesn't yet have proper
+// As of "Mon 6 Nov 2017", run.golang doesn't yet have proper
 // column matching so instead match the output manually
 // by exec-ing
 
@@ -22,7 +22,7 @@ import (
 )
 
 func main() {
-	f, err := ioutil.TempFile("", "issue21317.go")
+	f, err := ioutil.TempFile("", "issue21317.golang")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -39,7 +39,7 @@ func main() {
 	defer os.RemoveAll(f.Name())
 
 	// compile and test output
-	cmd := exec.Command("go", "tool", "compile", "-p=main", "-importcfg="+os.Getenv("STDLIB_IMPORTCFG"), f.Name())
+	cmd := exec.Command("golang", "tool", "compile", "-p=main", "-importcfg="+os.Getenv("STDLIB_IMPORTCFG"), f.Name())
 	out, err := cmd.CombinedOutput()
 	if err == nil {
 		log.Fatalf("expected cmd/compile to fail")

@@ -1,5 +1,5 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package http
@@ -83,7 +83,7 @@ var reqWriteTests = []reqWriteTest{
 			Method: "GET",
 			URL: &url.URL{
 				Scheme: "http",
-				Host:   "www.google.com",
+				Host:   "www.golangogle.com",
 				Path:   "/search",
 			},
 			ProtoMajor:       1,
@@ -95,13 +95,13 @@ var reqWriteTests = []reqWriteTest{
 		Body: []byte("abcdef"),
 
 		WantWrite: "GET /search HTTP/1.1\r\n" +
-			"Host: www.google.com\r\n" +
+			"Host: www.golangogle.com\r\n" +
 			"User-Agent: Go-http-client/1.1\r\n" +
 			"Transfer-Encoding: chunked\r\n\r\n" +
 			chunk("abcdef") + chunk(""),
 
-		WantProxy: "GET http://www.google.com/search HTTP/1.1\r\n" +
-			"Host: www.google.com\r\n" +
+		WantProxy: "GET http://www.golangogle.com/search HTTP/1.1\r\n" +
+			"Host: www.golangogle.com\r\n" +
 			"User-Agent: Go-http-client/1.1\r\n" +
 			"Transfer-Encoding: chunked\r\n\r\n" +
 			chunk("abcdef") + chunk(""),
@@ -112,7 +112,7 @@ var reqWriteTests = []reqWriteTest{
 			Method: "POST",
 			URL: &url.URL{
 				Scheme: "http",
-				Host:   "www.google.com",
+				Host:   "www.golangogle.com",
 				Path:   "/search",
 			},
 			ProtoMajor:       1,
@@ -125,14 +125,14 @@ var reqWriteTests = []reqWriteTest{
 		Body: []byte("abcdef"),
 
 		WantWrite: "POST /search HTTP/1.1\r\n" +
-			"Host: www.google.com\r\n" +
+			"Host: www.golangogle.com\r\n" +
 			"User-Agent: Go-http-client/1.1\r\n" +
 			"Connection: close\r\n" +
 			"Transfer-Encoding: chunked\r\n\r\n" +
 			chunk("abcdef") + chunk(""),
 
-		WantProxy: "POST http://www.google.com/search HTTP/1.1\r\n" +
-			"Host: www.google.com\r\n" +
+		WantProxy: "POST http://www.golangogle.com/search HTTP/1.1\r\n" +
+			"Host: www.golangogle.com\r\n" +
 			"User-Agent: Go-http-client/1.1\r\n" +
 			"Connection: close\r\n" +
 			"Transfer-Encoding: chunked\r\n\r\n" +
@@ -145,7 +145,7 @@ var reqWriteTests = []reqWriteTest{
 			Method: "POST",
 			URL: &url.URL{
 				Scheme: "http",
-				Host:   "www.google.com",
+				Host:   "www.golangogle.com",
 				Path:   "/search",
 			},
 			ProtoMajor:    1,
@@ -158,15 +158,15 @@ var reqWriteTests = []reqWriteTest{
 		Body: []byte("abcdef"),
 
 		WantWrite: "POST /search HTTP/1.1\r\n" +
-			"Host: www.google.com\r\n" +
+			"Host: www.golangogle.com\r\n" +
 			"User-Agent: Go-http-client/1.1\r\n" +
 			"Connection: close\r\n" +
 			"Content-Length: 6\r\n" +
 			"\r\n" +
 			"abcdef",
 
-		WantProxy: "POST http://www.google.com/search HTTP/1.1\r\n" +
-			"Host: www.google.com\r\n" +
+		WantProxy: "POST http://www.golangogle.com/search HTTP/1.1\r\n" +
+			"Host: www.golangogle.com\r\n" +
 			"User-Agent: Go-http-client/1.1\r\n" +
 			"Connection: close\r\n" +
 			"Content-Length: 6\r\n" +
@@ -208,11 +208,11 @@ var reqWriteTests = []reqWriteTest{
 		Req: Request{
 			Method: "GET",
 			URL:    mustParseURL("/search"),
-			Host:   "www.google.com",
+			Host:   "www.golangogle.com",
 		},
 
 		WantWrite: "GET /search HTTP/1.1\r\n" +
-			"Host: www.google.com\r\n" +
+			"Host: www.golangogle.com\r\n" +
 			"User-Agent: Go-http-client/1.1\r\n" +
 			"\r\n",
 	},
@@ -303,7 +303,7 @@ var reqWriteTests = []reqWriteTest{
 			Host:          "example.com",
 			ProtoMajor:    1,
 			ProtoMinor:    1,
-			ContentLength: 10, // but we're going to send only 5 bytes
+			ContentLength: 10, // but we're golanging to send only 5 bytes
 		},
 		Body:      []byte("12345"),
 		WantError: errors.New("http: ContentLength=10 with Body length 5"),
@@ -317,7 +317,7 @@ var reqWriteTests = []reqWriteTest{
 			Host:          "example.com",
 			ProtoMajor:    1,
 			ProtoMinor:    1,
-			ContentLength: 4, // but we're going to try to send 8 bytes
+			ContentLength: 4, // but we're golanging to try to send 8 bytes
 		},
 		Body:      []byte("12345678"),
 		WantError: errors.New("http: ContentLength=4 with Body length 8"),
@@ -420,13 +420,13 @@ var reqWriteTests = []reqWriteTest{
 			"User-Agent: Go-http-client/1.1\r\n\r\n",
 	},
 
-	// Opaque test #1 from golang.org/issue/4860
+	// Opaque test #1 from golanglang.org/issue/4860
 	16: {
 		Req: Request{
 			Method: "GET",
 			URL: &url.URL{
 				Scheme: "http",
-				Host:   "www.google.com",
+				Host:   "www.golangogle.com",
 				Opaque: "/%2F/%2F/",
 			},
 			ProtoMajor: 1,
@@ -435,26 +435,26 @@ var reqWriteTests = []reqWriteTest{
 		},
 
 		WantWrite: "GET /%2F/%2F/ HTTP/1.1\r\n" +
-			"Host: www.google.com\r\n" +
+			"Host: www.golangogle.com\r\n" +
 			"User-Agent: Go-http-client/1.1\r\n\r\n",
 	},
 
-	// Opaque test #2 from golang.org/issue/4860
+	// Opaque test #2 from golanglang.org/issue/4860
 	17: {
 		Req: Request{
 			Method: "GET",
 			URL: &url.URL{
 				Scheme: "http",
-				Host:   "x.google.com",
-				Opaque: "//y.google.com/%2F/%2F/",
+				Host:   "x.golangogle.com",
+				Opaque: "//y.golangogle.com/%2F/%2F/",
 			},
 			ProtoMajor: 1,
 			ProtoMinor: 1,
 			Header:     Header{},
 		},
 
-		WantWrite: "GET http://y.google.com/%2F/%2F/ HTTP/1.1\r\n" +
-			"Host: x.google.com\r\n" +
+		WantWrite: "GET http://y.golangogle.com/%2F/%2F/ HTTP/1.1\r\n" +
+			"Host: x.golangogle.com\r\n" +
 			"User-Agent: Go-http-client/1.1\r\n\r\n",
 	},
 
@@ -464,7 +464,7 @@ var reqWriteTests = []reqWriteTest{
 			Method: "GET",
 			URL: &url.URL{
 				Scheme: "http",
-				Host:   "www.google.com",
+				Host:   "www.golangogle.com",
 				Path:   "/",
 			},
 			Proto:      "HTTP/1.1",
@@ -476,7 +476,7 @@ var reqWriteTests = []reqWriteTest{
 		},
 
 		WantWrite: "GET / HTTP/1.1\r\n" +
-			"Host: www.google.com\r\n" +
+			"Host: www.golangogle.com\r\n" +
 			"User-Agent: Go-http-client/1.1\r\n" +
 			"ALL-CAPS: x\r\n" +
 			"\r\n",
@@ -785,12 +785,12 @@ func TestRequestWriteTransport(t *testing.T) {
 			ContentLength: tt.clen,
 			Body:          tt.body,
 		}
-		got, err := dumpRequestOut(req, tt.afterReqRead)
+		golangt, err := dumpRequestOut(req, tt.afterReqRead)
 		if err != nil {
 			t.Errorf("test[%d]: %v", i, err)
 			continue
 		}
-		if err := tt.want(string(got)); err != nil {
+		if err := tt.want(string(golangt)); err != nil {
 			t.Errorf("test[%d]: %v", i, err)
 		}
 	}
@@ -829,7 +829,7 @@ func TestRequestWriteClosesBody(t *testing.T) {
 		chunk("my body") +
 		chunk("")
 	if buf.String() != expected {
-		t.Errorf("write:\n got: %s\nwant: %s", buf.String(), expected)
+		t.Errorf("write:\n golangt: %s\nwant: %s", buf.String(), expected)
 	}
 }
 
@@ -928,7 +928,7 @@ func dumpRequestOut(req *Request, onReadHeaders func()) ([]byte, error) {
 	defer t.CloseIdleConnections()
 
 	// Wait for the request before replying with a dummy response:
-	go func() {
+	golang func() {
 		req, err := ReadRequest(bufio.NewReader(pr))
 		if err == nil {
 			if onReadHeaders != nil {

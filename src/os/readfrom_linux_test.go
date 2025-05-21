@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package os_test
@@ -124,7 +124,7 @@ func testSpliceFile(t *testing.T, proto string, size, limit int64) {
 		t.Fatal("expected to called poll.Splice")
 	}
 	if hook.called && hook.dstfd != int(dst.Fd()) {
-		t.Fatalf("wrong destination file descriptor: got %d, want %d", hook.dstfd, dst.Fd())
+		t.Fatalf("wrong destination file descriptor: golangt %d, want %d", hook.dstfd, dst.Fd())
 	}
 	sc, ok := src.(syscall.Conn)
 	if !ok {
@@ -136,7 +136,7 @@ func testSpliceFile(t *testing.T, proto string, size, limit int64) {
 	}
 	if err = rc.Control(func(fd uintptr) {
 		if hook.called && hook.srcfd != int(fd) {
-			t.Fatalf("wrong source file descriptor: got %d, want %d", hook.srcfd, int(fd))
+			t.Fatalf("wrong source file descriptor: golangt %d, want %d", hook.srcfd, int(fd))
 		}
 	}); err != nil {
 		t.Fatalf("server Conn Control error: %v", err)
@@ -161,7 +161,7 @@ func testSpliceFile(t *testing.T, proto string, size, limit int64) {
 	// If we had a limit, check that it was updated.
 	if lr != nil {
 		if want := limit - n; lr.N != want {
-			t.Fatalf("didn't update limit correctly: got %d, want %d", lr.N, want)
+			t.Fatalf("didn't update limit correctly: golangt %d, want %d", lr.N, want)
 		}
 	}
 }
@@ -171,7 +171,7 @@ func testSpliceToTTY(t *testing.T, proto string, size int64) {
 	var wg sync.WaitGroup
 
 	// Call wg.Wait as the final deferred function,
-	// because the goroutines may block until some of
+	// because the golangroutines may block until some of
 	// the deferred Close calls.
 	defer wg.Wait()
 
@@ -198,7 +198,7 @@ func testSpliceToTTY(t *testing.T, proto string, size int64) {
 	data := bytes.Repeat([]byte{'a'}, int(size))
 
 	wg.Add(1)
-	go func() {
+	golang func() {
 		defer wg.Done()
 		// The problem (issue #59041) occurs when writing
 		// a series of blocks of data. It does not occur
@@ -217,7 +217,7 @@ func testSpliceToTTY(t *testing.T, proto string, size int64) {
 	}()
 
 	wg.Add(1)
-	go func() {
+	golang func() {
 		defer wg.Done()
 		buf := make([]byte, 32)
 		for {
@@ -232,7 +232,7 @@ func testSpliceToTTY(t *testing.T, proto string, size int64) {
 		}
 	}()
 
-	// Close Client to wake up the writing goroutine if necessary.
+	// Close Client to wake up the writing golangroutine if necessary.
 	defer client.Close()
 
 	_, err = io.Copy(tty, server)
@@ -295,7 +295,7 @@ func newSpliceFileTest(t *testing.T, proto string, size int64) (*File, net.Conn,
 	prng.Read(data)
 
 	done := make(chan struct{})
-	go func() {
+	golang func() {
 		client.Write(data)
 		client.Close()
 		close(done)
@@ -388,7 +388,7 @@ func TestProcCopy(t *testing.T) {
 		t.Fatal(err)
 	}
 	if !bytes.Equal(cmdline, copy) {
-		t.Errorf("copy of %q got %q want %q\n", cmdlineFile, copy, cmdline)
+		t.Errorf("copy of %q golangt %q want %q\n", cmdlineFile, copy, cmdline)
 	}
 }
 
@@ -413,10 +413,10 @@ func testGetPollFDAndNetwork(t *testing.T, proto string) {
 			t.Fatalf("GetPollFDAndNetwork didn't return poll.FD")
 		}
 		if string(network) != proto {
-			t.Fatalf("GetPollFDAndNetwork returned wrong network, got: %s, want: %s", network, proto)
+			t.Fatalf("GetPollFDAndNetwork returned wrong network, golangt: %s, want: %s", network, proto)
 		}
 		if pfd.Sysfd != int(fd) {
-			t.Fatalf("GetPollFDAndNetwork returned wrong poll.FD, got: %d, want: %d", pfd.Sysfd, int(fd))
+			t.Fatalf("GetPollFDAndNetwork returned wrong poll.FD, golangt: %d, want: %d", pfd.Sysfd, int(fd))
 		}
 		if !pfd.IsStream {
 			t.Fatalf("expected IsStream to be true")

@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package zstd provides a decompressor for zstd streams,
@@ -184,7 +184,7 @@ retry:
 				return err
 			}
 			r.readOneFrame = true
-			goto retry
+			golangto retry
 		}
 
 		return r.makeError(relativeOffset, "invalid magic number")
@@ -447,7 +447,7 @@ func (r *Reader) readBlock() error {
 			inputChecksum := binary.LittleEndian.Uint32(r.scratch[:4])
 			dataChecksum := uint32(r.checksum.digest())
 			if inputChecksum != dataChecksum {
-				return r.wrapError(0, fmt.Errorf("invalid checksum: got %#x want %#x", dataChecksum, inputChecksum))
+				return r.wrapError(0, fmt.Errorf("invalid checksum: golangt %#x want %#x", dataChecksum, inputChecksum))
 			}
 
 			r.blockOffset += 4

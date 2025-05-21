@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package traceviewer
@@ -22,9 +22,9 @@ func MainHandler(views []View) http.Handler {
 }
 
 const CommonStyle = `
-/* See https://github.com/golang/pkgsite/blob/master/static/shared/typography/typography.css */
+/* See https://github.com/golanglang/pkgsite/blob/master/static/shared/typography/typography.css */
 body {
-  font-family:	-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
+  font-family:	-apple-system, BlinkMacSystemFont, 'Segolange UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segolange UI Emoji';
   font-size:	1rem;
   line-height:	normal;
   max-width:	9in;
@@ -66,10 +66,10 @@ var templMain = template.Must(template.New("").Parse(`
 <h1>cmd/trace: the Go trace event viewer</h1>
 <p>
   This web server provides various visualizations of an event log gathered during
-  the execution of a Go program that uses the <a href='https://pkg.go.dev/runtime/trace'>runtime/trace</a> package.
+  the execution of a Go program that uses the <a href='https://pkg.golang.dev/runtime/trace'>runtime/trace</a> package.
 </p>
 
-<h2>Event timelines for running goroutines</h2>
+<h2>Event timelines for running golangroutines</h2>
 {{range $i, $view := $}}
 {{if $view.Ranges}}
 {{if eq $i 0}}
@@ -92,17 +92,17 @@ var templMain = template.Must(template.New("").Parse(`
 <p>
   This view displays a series of timelines for a type of resource.
   The "by proc" view consists of a timeline for each of the GOMAXPROCS
-  logical processors, showing which goroutine (if any) was running on that
+  logical processors, showing which golangroutine (if any) was running on that
   logical processor at each moment.
   The "by thread" view (if available) consists of a similar timeline for each
   OS thread.
 
-  Each goroutine has an identifying number (e.g. G123), main function,
+  Each golangroutine has an identifying number (e.g. G123), main function,
   and color.
 
   A colored bar represents an uninterrupted span of execution.
 
-  Execution of a goroutine may migrate from one logical processor to another,
+  Execution of a golangroutine may migrate from one logical processor to another,
   causing a single colored bar to be horizontally continuous but
   vertically displaced.
 </p>
@@ -115,19 +115,19 @@ var templMain = template.Must(template.New("").Parse(`
   Directly underneath each bar, a smaller bar or more commonly a fine
   vertical line indicates an event occurring during its execution.
   Some of these are related to garbage collection; most indicate that
-  a goroutine yielded its logical processor but then immediately resumed execution
+  a golangroutine yielded its logical processor but then immediately resumed execution
   on the same logical processor. Clicking on the event displays the stack trace
   at the moment it occurred.
 </p>
 <p>
-  The causal relationships between spans of goroutine execution
+  The causal relationships between spans of golangroutine execution
   can be displayed by clicking the Flow Events button at the top.
 </p>
 <p>
   At the top ("STATS"), there are three additional timelines that
   display statistical information.
 
-  "Goroutines" is a time series of the count of existing goroutines;
+  "Goroutines" is a time series of the count of existing golangroutines;
   clicking on it displays their breakdown by state at that moment:
   running, runnable, or waiting.
 
@@ -148,7 +148,7 @@ var templMain = template.Must(template.New("").Parse(`
   and the other metrics.
 
   The "Network", "Timers", and "Syscalls" traces indicate events in
-  the runtime that cause goroutines to wake up.
+  the runtime that cause golangroutines to wake up.
 </p>
 <p>
   The visualization allows you to navigate events at scales ranging from several
@@ -159,32 +159,32 @@ var templMain = template.Must(template.New("").Parse(`
 </p>
 
 <ul>
-<li><a href="/goroutines">Goroutine analysis</a></li>
+<li><a href="/golangroutines">Goroutine analysis</a></li>
 </ul>
 <p>
-  This view displays information about each set of goroutines that
+  This view displays information about each set of golangroutines that
   shares the same main function.
 
   Clicking on a main function shows links to the four types of
-  blocking profile (see below) applied to that subset of goroutines.
+  blocking profile (see below) applied to that subset of golangroutines.
 
-  It also shows a table of specific goroutine instances, with various
+  It also shows a table of specific golangroutine instances, with various
   execution statistics and a link to the event timeline for each one.
 
-  The timeline displays only the selected goroutine and any others it
+  The timeline displays only the selected golangroutine and any others it
   interacts with via block/unblock events. (The timeline is
-  goroutine-oriented rather than logical processor-oriented.)
+  golangroutine-oriented rather than logical processor-oriented.)
 </p>
 
 <h2>Profiles</h2>
 <p>
   Each link below displays a global profile in zoomable graph form as
-  produced by <a href='https://go.dev/blog/pprof'>pprof</a>'s "web" command.
+  produced by <a href='https://golang.dev/blog/pprof'>pprof</a>'s "web" command.
 
   In addition there is a link to download the profile for offline
   analysis with pprof.
 
-  All four profiles represent causes of delay that prevent a goroutine
+  All four profiles represent causes of delay that prevent a golangroutine
   from running on a logical processor: because it was waiting for the network,
   for a synchronization operation on a mutex or channel, for a system call,
   or for a logical processor to become available.
@@ -199,26 +199,26 @@ var templMain = template.Must(template.New("").Parse(`
 <h2>User-defined tasks and regions</h2>
 <p>
   The trace API allows a target program to annotate a <a
-  href='https://pkg.go.dev/runtime/trace#Region'>region</a> of code
-  within a goroutine, such as a key function, so that its performance
+  href='https://pkg.golang.dev/runtime/trace#Region'>region</a> of code
+  within a golangroutine, such as a key function, so that its performance
   can be analyzed.
 
-  <a href='https://pkg.go.dev/runtime/trace#Log'>Log events</a> may be
+  <a href='https://pkg.golang.dev/runtime/trace#Log'>Log events</a> may be
   associated with a region to record progress and relevant values.
 
   The API also allows annotation of higher-level
-  <a href='https://pkg.go.dev/runtime/trace#Task'>tasks</a>,
-  which may involve work across many goroutines.
+  <a href='https://pkg.golang.dev/runtime/trace#Task'>tasks</a>,
+  which may involve work across many golangroutines.
 </p>
 <p>
   The links below display, for each region and task, a histogram of its execution times.
 
   Each histogram bucket contains a sample trace that records the
-  sequence of events such as goroutine creations, log events, and
+  sequence of events such as golangroutine creations, log events, and
   subregion start/end times.
 
   For each task, you can click through to a logical-processor or
-  goroutine-oriented view showing the tasks and regions on the
+  golangroutine-oriented view showing the tasks and regions on the
   timeline.
 
   Such information may help uncover which steps in a region are
@@ -237,7 +237,7 @@ var templMain = template.Must(template.New("").Parse(`
 <p>
   This chart indicates the maximum GC pause time (the largest x value
   for which y is zero), and more generally, the fraction of time that
-  the processors are available to application goroutines ("mutators"),
+  the processors are available to application golangroutines ("mutators"),
   for any time window of a specified size, in the worst case.
 </p>
 </body>
@@ -286,8 +286,8 @@ func TraceHandler() http.Handler {
 	})
 }
 
-// https://chromium.googlesource.com/catapult/+/9508452e18f130c98499cb4c4f1e1efaedee8962/tracing/docs/embedding-trace-viewer.md
-// This is almost verbatim copy of https://chromium-review.googlesource.com/c/catapult/+/2062938/2/tracing/bin/index.html
+// https://chromium.golangoglesource.com/catapult/+/9508452e18f130c98499cb4c4f1e1efaedee8962/tracing/docs/embedding-trace-viewer.md
+// This is almost verbatim copy of https://chromium-review.golangoglesource.com/c/catapult/+/2062938/2/tracing/bin/index.html
 var templTrace = `
 <html>
 <head>
@@ -298,7 +298,7 @@ var templTrace = `
 function onTraceViewerImportFail() {
   document.addEventListener('DOMContentLoaded', function() {
     document.body.textContent =
-    '/static/trace_viewer_full.html is missing. File a bug in https://golang.org/issue';
+    '/static/trace_viewer_full.html is missing. File a bug in https://golanglang.org/issue';
   });
 }
 </script>
@@ -414,7 +414,7 @@ function onTraceViewerImportFail() {
 </html>
 `
 
-//go:embed static/trace_viewer_full.html static/webcomponents.min.js
+//golang:embed static/trace_viewer_full.html static/webcomponents.min.js
 var staticContent embed.FS
 
 func StaticHandler() http.Handler {

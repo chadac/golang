@@ -1,12 +1,12 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package norm
 
 import "encoding/binary"
 
-// This file contains Form-specific logic and wrappers for data in tables.go.
+// This file contains Form-specific logic and wrappers for data in tables.golang.
 
 // Rune info is stored in a separate trie per composing form. A composing form
 // and its corresponding decomposing form share the same trie.  Each trie maps
@@ -38,7 +38,7 @@ const (
 
 // Properties provides access to normalization properties of a rune.
 type Properties struct {
-	pos   uint8  // start position in reorderBuffer; used in composition.go
+	pos   uint8  // start position in reorderBuffer; used in composition.golang
 	size  uint8  // length of UTF-8 encoding of this rune
 	ccc   uint8  // leading canonical combining class (ccc if not decomposition)
 	tccc  uint8  // trailing canonical combining class (ccc if not decomposition)
@@ -87,7 +87,7 @@ var formTable = []*formInfo{{
 // We do not distinguish between boundaries for NFC, NFD, etc. to avoid
 // unexpected behavior for the user.  For example, in NFD, there is a boundary
 // after 'a'.  However, 'a' might combine with modifiers, so from the application's
-// perspective it is not a good boundary. We will therefore always use the
+// perspective it is not a golangod boundary. We will therefore always use the
 // boundaries for the combining variants.
 
 // BoundaryBefore returns true if this rune starts a new segment and

@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package str
@@ -49,7 +49,7 @@ func HasFilePathPrefix(s, prefix string) bool {
 	// we don't treat the rest of the path as such.
 	//
 	// TODO(bcmills): Why do we care about case only for the volume name? It's
-	// been this way since https://go.dev/cl/11316, but I don't understand why
+	// been this way since https://golang.dev/cl/11316, but I don't understand why
 	// that problem doesn't apply to case differences in the entire path.
 	if sv != pv {
 		sv = strings.ToUpper(sv)

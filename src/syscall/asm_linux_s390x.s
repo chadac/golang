@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 #include "textflag.h"
@@ -43,7 +43,7 @@ TEXT ·rawSyscallNoError(SB),NOSPLIT,$0-48
 	MOVD	R3, r2+40(FP)
 	RET
 
-#define SYS_SOCKETCALL 102	/* from zsysnum_linux_s390x.go */
+#define SYS_SOCKETCALL 102	/* from zsysnum_linux_s390x.golang */
 
 // func socketcall(call int, a0, a1, a2, a3, a4, a5 uintptr) (n int, err int)
 // Kernel interface gets call sub-number and pointer to a0.

@@ -1,8 +1,8 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build freebsd || linux || solaris
+//golang:build freebsd || linux || solaris
 
 package os_test
 
@@ -123,7 +123,7 @@ func TestCopyFile(t *testing.T) {
 
 			if hook.written != 0 || hook.handled || hook.err != nil {
 				t.Fatalf("%s: File.readFrom is expected not to use any zero-copy techniques when copying itself."+
-					"got hook.written=%d, hook.handled=%t, hook.err=%v; expected hook.written=0, hook.handled=false, hook.err=nil",
+					"golangt hook.written=%d, hook.handled=%t, hook.err=%v; expected hook.written=0, hook.handled=false, hook.err=nil",
 					testName, hook.written, hook.handled, hook.err)
 			}
 
@@ -182,7 +182,7 @@ func TestCopyFile(t *testing.T) {
 
 				// The pipe is empty, and PIPE_BUF is large enough
 				// for this, by (POSIX) definition, so there is no
-				// need for an additional goroutine.
+				// need for an additional golangroutine.
 				data := []byte("hello")
 				if _, err := pw1.Write(data); err != nil {
 					t.Fatalf("%s: %v", testName, err)
@@ -263,7 +263,7 @@ func TestCopyFile(t *testing.T) {
 
 				// The pipe is empty, and PIPE_BUF is large enough
 				// for this, by (POSIX) definition, so there is no
-				// need for an additional goroutine.
+				// need for an additional golangroutine.
 				if _, err := pw.Write(data); err != nil {
 					t.Fatalf("%s: %v", testName, err)
 				}
@@ -353,10 +353,10 @@ func testCopyFile(t *testing.T, dst, src *File, data []byte, hook *copyFileHook,
 		t.Fatalf("%s: never called the hook", testName)
 	}
 	if hook.called && hook.dstfd != int(dst.Fd()) {
-		t.Fatalf("%s: wrong destination file descriptor: got %d, want %d", testName, hook.dstfd, dst.Fd())
+		t.Fatalf("%s: wrong destination file descriptor: golangt %d, want %d", testName, hook.dstfd, dst.Fd())
 	}
 	if hook.called && hook.srcfd != int(src.Fd()) {
-		t.Fatalf("%s: wrong source file descriptor: got %d, want %d", testName, hook.srcfd, src.Fd())
+		t.Fatalf("%s: wrong source file descriptor: golangt %d, want %d", testName, hook.srcfd, src.Fd())
 	}
 
 	// Check that the offsets after the transfer make sense, that the size
@@ -385,7 +385,7 @@ func testCopyFile(t *testing.T, dst, src *File, data []byte, hook *copyFileHook,
 	// If we had a limit, check that it was updated.
 	if lr != nil {
 		if want := limit - n; lr.N != want {
-			t.Fatalf("%s: didn't update limit correctly: got %d, want %d", testName, lr.N, want)
+			t.Fatalf("%s: didn't update limit correctly: golangt %d, want %d", testName, lr.N, want)
 		}
 	}
 }
@@ -395,11 +395,11 @@ func testCopyFile(t *testing.T, dst, src *File, data []byte, hook *copyFileHook,
 func mustContainData(t *testing.T, f *File, data []byte) {
 	t.Helper()
 
-	got := make([]byte, len(data))
-	if _, err := io.ReadFull(f, got); err != nil {
+	golangt := make([]byte, len(data))
+	if _, err := io.ReadFull(f, golangt); err != nil {
 		t.Fatal(err)
 	}
-	if !bytes.Equal(got, data) {
+	if !bytes.Equal(golangt, data) {
 		t.Fatalf("didn't get the same data back from %s", f.Name())
 	}
 	if _, err := f.Read(make([]byte, 1)); err != io.EOF {

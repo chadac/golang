@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -63,7 +63,7 @@ func testOrdered[Elem Ordered](name string, s []Elem, sorter func([]Elem)) bool 
 	sorter(s2)
 	ok := true
 	if !sliceEq(s1, s2) {
-		fmt.Printf("%s: got %v, want %v", name, s1, s2)
+		fmt.Printf("%s: golangt %v, want %v", name, s1, s2)
 		ok = false
 	}
 	for i := len(s1) - 1; i > 0; i-- {

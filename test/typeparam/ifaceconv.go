@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test that we can convert type parameters to both empty
@@ -59,25 +59,25 @@ func js[T any](x T) interface{} {
 }
 
 func main() {
-	if got, want := f[int](7), 7; got != want {
-		panic(fmt.Sprintf("got %d want %d", got, want))
+	if golangt, want := f[int](7), 7; golangt != want {
+		panic(fmt.Sprintf("golangt %d want %d", golangt, want))
 	}
-	if got, want := fs[int](7), []int{7}; got.([]int)[0] != want[0] {
-		panic(fmt.Sprintf("got %d want %d", got, want))
+	if golangt, want := fs[int](7), []int{7}; golangt.([]int)[0] != want[0] {
+		panic(fmt.Sprintf("golangt %d want %d", golangt, want))
 	}
-	if got, want := g[int](7), 7; got != want {
-		panic(fmt.Sprintf("got %d want %d", got, want))
+	if golangt, want := g[int](7), 7; golangt != want {
+		panic(fmt.Sprintf("golangt %d want %d", golangt, want))
 	}
-	if got, want := h[myInt](7).foo(), 8; got != want {
-		panic(fmt.Sprintf("got %d want %d", got, want))
+	if golangt, want := h[myInt](7).foo(), 8; golangt != want {
+		panic(fmt.Sprintf("golangt %d want %d", golangt, want))
 	}
-	if got, want := i[myInt](7).foo(), 8; got != want {
-		panic(fmt.Sprintf("got %d want %d", got, want))
+	if golangt, want := i[myInt](7).foo(), 8; golangt != want {
+		panic(fmt.Sprintf("golangt %d want %d", golangt, want))
 	}
-	if got, want := j[myInt](7).foo(), 8; got != want {
-		panic(fmt.Sprintf("got %d want %d", got, want))
+	if golangt, want := j[myInt](7).foo(), 8; golangt != want {
+		panic(fmt.Sprintf("golangt %d want %d", golangt, want))
 	}
-	if got, want := js[int](7), []int{7}; got.([]int)[0] != want[0] {
-		panic(fmt.Sprintf("got %d want %d", got, want))
+	if golangt, want := js[int](7), []int{7}; golangt.([]int)[0] != want[0] {
+		panic(fmt.Sprintf("golangt %d want %d", golangt, want))
 	}
 }

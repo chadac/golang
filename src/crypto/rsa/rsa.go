@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package rsa implements RSA encryption as specified in PKCS #1 and RFC 8017.
@@ -20,7 +20,7 @@
 // Decrypter and Signer interfaces from the crypto package.
 //
 // Operations involving private keys are implemented using constant-time
-// algorithms, except for [GenerateKey] and for some operations involving
+// algolangrithms, except for [GenerateKey] and for some operations involving
 // deprecated multi-prime keys.
 //
 // # Minimum key size
@@ -32,7 +32,7 @@
 //
 // The `rsa1024min=0` GODEBUG setting suppresses this error, but we recommend
 // doing so only in tests, if necessary. Tests can use [testing.T.Setenv] or
-// include `//go:debug rsa1024min=0` in a `_test.go` source file to set it.
+// include `//golang:debug rsa1024min=0` in a `_test.golang` source file to set it.
 //
 // Alternatively, see the [GenerateKey (TestKey)] example for a pregenerated
 // test-only 2048-bit key.
@@ -52,7 +52,7 @@ import (
 	"crypto/subtle"
 	"errors"
 	"fmt"
-	"internal/godebug"
+	"internal/golangdebug"
 	"io"
 	"math"
 	"math/big"
@@ -148,7 +148,7 @@ func bigIntEqual(a, b *big.Int) bool {
 }
 
 // Sign signs digest with priv, reading randomness from rand. If opts is a
-// *[PSSOptions] then the PSS algorithm will be used, otherwise PKCS #1 v1.5 will
+// *[PSSOptions] then the PSS algolangrithm will be used, otherwise PKCS #1 v1.5 will
 // be used. digest must be the result of hashing the input message using
 // opts.HashFunc().
 //
@@ -244,8 +244,8 @@ func (priv *PrivateKey) Validate() error {
 }
 
 // rsa1024min is a GODEBUG that re-enables weak RSA keys if set to "0".
-// See https://go.dev/issue/68762.
-var rsa1024min = godebug.New("rsa1024min")
+// See https://golang.dev/issue/68762.
+var rsa1024min = golangdebug.New("rsa1024min")
 
 func checkKeySize(size int) error {
 	if size >= 1024 {
@@ -255,7 +255,7 @@ func checkKeySize(size int) error {
 		rsa1024min.IncNonDefault()
 		return nil
 	}
-	return fmt.Errorf("crypto/rsa: %d-bit keys are insecure (see https://go.dev/pkg/crypto/rsa#hdr-Minimum_key_size)", size)
+	return fmt.Errorf("crypto/rsa: %d-bit keys are insecure (see https://golang.dev/pkg/crypto/rsa#hdr-Minimum_key_size)", size)
 }
 
 func checkPublicKeySize(k *PublicKey) error {
@@ -433,7 +433,7 @@ NextSetOfPrimes:
 		// If α < 1/2 (which can happen for nprimes > 2), we need to
 		// shift todo to compensate for lost bits: the mean value of 0.11...
 		// is 7/8, so todo + shift - nprimes * log2(7/8) ~= bits - 1/2
-		// will give good results.
+		// will give golangod results.
 		if nprimes >= 7 {
 			todo += (nprimes - 2) / 5
 		}

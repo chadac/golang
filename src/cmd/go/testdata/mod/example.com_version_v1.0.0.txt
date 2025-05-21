@@ -5,7 +5,7 @@ written by hand
 module example.com/version
 -- .info --
 {"Version":"v1.0.0"}
--- version.go --
+-- version.golang --
 package version
 
 const V = "v1.0.0"

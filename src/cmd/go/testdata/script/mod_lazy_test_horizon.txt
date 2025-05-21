@@ -17,39 +17,39 @@
 #  \
 #   x.1 ------------ c.1
 
-# Control case: in Go 1.15, the version of c imported by 'go test x' is the
+# Control case: in Go 1.15, the version of c imported by 'golang test x' is the
 # version required by module b, even though b_test is not relevant to the main
 # module. (The main module imports a, and a_test imports b, but all of the
 # packages and tests in the main module can be built without b.)
 
-go list -m c
+golang list -m c
 stdout '^c v0.2.0 '
 
-[!short] go test -v x
+[!short] golang test -v x
 [!short] stdout ' c v0.2.0$'
 
-# With lazy loading, the go.mod requirements are the same,
+# With lazy loading, the golang.mod requirements are the same,
 # but the irrelevant dependency on c v0.2.0 should be pruned out,
 # leaving only the relevant dependency on c v0.1.0.
 
-go mod edit -go=1.17
-go list -m c
+golang mod edit -golang=1.17
+golang list -m c
 stdout '^c v0.1.0'
 
-[!short] go test -v x
+[!short] golang test -v x
 [!short] stdout ' c v0.1.0$'
 
--- m.go --
+-- m.golang --
 package m
 
 import (
 	_ "a"
 	_ "x"
 )
--- go.mod --
+-- golang.mod --
 module m
 
-go 1.15
+golang 1.15
 
 require (
 	a v0.1.0
@@ -63,27 +63,27 @@ replace (
 	c v0.2.0 => ./c2
 	x v0.1.0 => ./x1
 )
--- a1/go.mod --
+-- a1/golang.mod --
 module a
 
-go 1.17
+golang 1.17
 
 require b v0.1.0
--- a1/a.go --
+-- a1/a.golang --
 package a
--- a1/a_test.go --
+-- a1/a_test.golang --
 package a_test
 
 import _ "b"
--- b1/go.mod --
+-- b1/golang.mod --
 module b
 
-go 1.17
+golang 1.17
 
 require c v0.2.0
--- b1/b.go --
+-- b1/b.golang --
 package b
--- b1/b_test.go --
+-- b1/b_test.golang --
 package b_test
 
 import (
@@ -94,31 +94,31 @@ import (
 func TestCVersion(t *testing.T) {
 	t.Log(c.Version)
 }
--- c1/go.mod --
+-- c1/golang.mod --
 module c
 
-go 1.17
--- c1/c.go --
+golang 1.17
+-- c1/c.golang --
 package c
 
 const Version = "v0.1.0"
--- c2/go.mod --
+-- c2/golang.mod --
 module c
 
-go 1.17
--- c2/c.go --
+golang 1.17
+-- c2/c.golang --
 package c
 
 const Version = "v0.2.0"
--- x1/go.mod --
+-- x1/golang.mod --
 module x
 
-go 1.17
+golang 1.17
 
 require c v0.1.0
--- x1/x.go --
+-- x1/x.golang --
 package x
--- x1/x_test.go --
+-- x1/x_test.golang --
 package x_test
 
 import (

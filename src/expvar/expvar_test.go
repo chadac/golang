@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package expvar
@@ -34,7 +34,7 @@ func TestNil(t *testing.T) {
 	RemoveAll()
 	val := Get("missing")
 	if val != nil {
-		t.Errorf("got %v, want nil", val)
+		t.Errorf("golangt %v, want nil", val)
 	}
 }
 
@@ -172,7 +172,7 @@ func TestMapInit(t *testing.T) {
 	n := 0
 	colors.Do(func(KeyValue) { n++ })
 	if n != 3 {
-		t.Errorf("after three Add calls with distinct keys, Do should invoke f 3 times; got %v", n)
+		t.Errorf("after three Add calls with distinct keys, Do should invoke f 3 times; golangt %v", n)
 	}
 
 	colors.Init()
@@ -180,7 +180,7 @@ func TestMapInit(t *testing.T) {
 	n = 0
 	colors.Do(func(KeyValue) { n++ })
 	if n != 0 {
-		t.Errorf("after Init, Do should invoke f 0 times; got %v", n)
+		t.Errorf("after Init, Do should invoke f 0 times; golangt %v", n)
 	}
 }
 
@@ -195,35 +195,35 @@ func TestMapDelete(t *testing.T) {
 	n := 0
 	colors.Do(func(KeyValue) { n++ })
 	if n != 2 {
-		t.Errorf("after two Add calls with distinct keys, Do should invoke f 2 times; got %v", n)
+		t.Errorf("after two Add calls with distinct keys, Do should invoke f 2 times; golangt %v", n)
 	}
 
 	colors.Delete("red")
 	if v := colors.Get("red"); v != nil {
-		t.Errorf("removed red, Get should return nil; got %v", v)
+		t.Errorf("removed red, Get should return nil; golangt %v", v)
 	}
 	n = 0
 	colors.Do(func(KeyValue) { n++ })
 	if n != 1 {
-		t.Errorf("removed red, Do should invoke f 1 times; got %v", n)
+		t.Errorf("removed red, Do should invoke f 1 times; golangt %v", n)
 	}
 
 	colors.Delete("notfound")
 	n = 0
 	colors.Do(func(KeyValue) { n++ })
 	if n != 1 {
-		t.Errorf("attempted to remove notfound, Do should invoke f 1 times; got %v", n)
+		t.Errorf("attempted to remove notfound, Do should invoke f 1 times; golangt %v", n)
 	}
 
 	colors.Delete("blue")
 	colors.Delete("blue")
 	if v := colors.Get("blue"); v != nil {
-		t.Errorf("removed blue, Get should return nil; got %v", v)
+		t.Errorf("removed blue, Get should return nil; golangt %v", v)
 	}
 	n = 0
 	colors.Do(func(KeyValue) { n++ })
 	if n != 0 {
-		t.Errorf("all keys removed, Do should invoke f 0 times; got %v", n)
+		t.Errorf("all keys removed, Do should invoke f 0 times; golangt %v", n)
 	}
 }
 
@@ -488,8 +488,8 @@ func TestHandler(t *testing.T) {
 "map2": {"0": 0, "1": 1, "2": 2, "3": 3, "4": 4, "5": 5, "6": 6, "7": 7, "8": 8}
 }
 `
-	if got := rr.Body.String(); got != want {
-		t.Errorf("HTTP handler wrote:\n%s\nWant:\n%s", got, want)
+	if golangt := rr.Body.String(); golangt != want {
+		t.Errorf("HTTP handler wrote:\n%s\nWant:\n%s", golangt, want)
 	}
 }
 
@@ -522,7 +522,7 @@ func BenchmarkRealworldExpvarUsage(b *testing.B) {
 	)
 
 	// The benchmark creates GOMAXPROCS client/server pairs.
-	// Each pair creates 4 goroutines: client reader/writer and server reader/writer.
+	// Each pair creates 4 golangroutines: client reader/writer and server reader/writer.
 	// The benchmark stresses concurrent reading and writing to the same connection.
 	// Such pattern is used in net/http and net/rpc.
 
@@ -541,7 +541,7 @@ func BenchmarkRealworldExpvarUsage(b *testing.B) {
 	}
 	defer ln.Close()
 	done := make(chan bool, 1)
-	go func() {
+	golang func() {
 		for p := 0; p < P; p++ {
 			s, err := ln.Accept()
 			if err != nil {
@@ -571,7 +571,7 @@ func BenchmarkRealworldExpvarUsage(b *testing.B) {
 	wg.Add(4 * P)
 	for p := 0; p < P; p++ {
 		// Client writer.
-		go func(c net.Conn) {
+		golang func(c net.Conn) {
 			defer wg.Done()
 			var buf [1]byte
 			for i := 0; i < N; i++ {
@@ -594,7 +594,7 @@ func BenchmarkRealworldExpvarUsage(b *testing.B) {
 		pipe := make(chan byte, 128)
 
 		// Server reader.
-		go func(s net.Conn) {
+		golang func(s net.Conn) {
 			defer wg.Done()
 			var buf [1]byte
 			for i := 0; i < N; i++ {
@@ -611,7 +611,7 @@ func BenchmarkRealworldExpvarUsage(b *testing.B) {
 		}(servers[p])
 
 		// Server writer.
-		go func(s net.Conn) {
+		golang func(s net.Conn) {
 			defer wg.Done()
 			var buf [1]byte
 			for i := 0; i < N; i++ {
@@ -632,7 +632,7 @@ func BenchmarkRealworldExpvarUsage(b *testing.B) {
 		}(servers[p])
 
 		// Client reader.
-		go func(c net.Conn) {
+		golang func(c net.Conn) {
 			defer wg.Done()
 			var buf [1]byte
 			for i := 0; i < N; i++ {
@@ -657,13 +657,13 @@ func TestAppendJSONQuote(t *testing.T) {
 		b = append(b, byte(i))
 	}
 	b = append(b, "\u2028\u2029"...)
-	got := string(appendJSONQuote(nil, string(b[:])))
+	golangt := string(appendJSONQuote(nil, string(b[:])))
 	want := `"` +
 		`\u0000\u0001\u0002\u0003\u0004\u0005\u0006\u0007\u0008\t\n\u000b\u000c\r\u000e\u000f` +
 		`\u0010\u0011\u0012\u0013\u0014\u0015\u0016\u0017\u0018\u0019\u001a\u001b\u001c\u001d\u001e\u001f` +
 		` !\"#$%\u0026'()*+,-./0123456789:;\u003c=\u003e?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_` +
 		"`" + `abcdefghijklmnopqrstuvwxyz{|}~` + "\x7f" + `\u2028\u2029"`
-	if got != want {
-		t.Errorf("appendJSONQuote mismatch:\ngot  %v\nwant %v", got, want)
+	if golangt != want {
+		t.Errorf("appendJSONQuote mismatch:\ngolangt  %v\nwant %v", golangt, want)
 	}
 }

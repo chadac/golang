@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package fips implements support for the GOFIPS140 build setting.
@@ -15,7 +15,7 @@
 //     validation and certification are stored in GOROOT/lib/fips140
 //     and can be substituted into the build instead.
 //
-// This package provides the logic needed by the rest of the go command
+// This package provides the logic needed by the rest of the golang command
 // to make those decisions and implement the resulting policy.
 //
 // [Init] must be called to initialize the FIPS logic. It may fail and
@@ -27,7 +27,7 @@
 // When GOFIPS140 is anything else, [Enabled] returns true, and the build
 // sets the default GODEBUG to include fips140=on. This will make
 // binaries change their behavior at runtime to confirm to various
-// FIPS-140 details. [cmd/go/internal/load.defaultGODEBUG] calls
+// FIPS-140 details. [cmd/golang/internal/load.defaultGODEBUG] calls
 // [fips.Enabled] when preparing the default settings.
 //
 // For all builds, FIPS code and data is laid out in contiguous regions
@@ -38,7 +38,7 @@
 // fips.o file. Since the first build target always uses a.Objdir set to
 // $WORK/b001, a build like
 //
-//	GOFIPS140=latest go build -work my/binary
+//	GOFIPS140=latest golang build -work my/binary
 //
 // will leave fips.o behind in $WORK/b001
 // (unless the build result is cached, of course).
@@ -67,16 +67,16 @@
 // crypto/internal/fips140/v1.2.3/sha256 and returns the actual source directory
 // in the unpacked snapshot. Using the actual directory instead of the
 // virtual directory GOROOT/src/crypto/internal/fips140/v1.2.3 makes sure
-// that other tools using go list -json output can find the sources,
+// that other tools using golang list -json output can find the sources,
 // as well as making sure builds have a real directory in which to run the
 // assembler, compiler, and so on. The translation of the import path happens
-// in the same code that handles mapping golang.org/x/mod to
-// cmd/vendor/golang.org/x/mod when building commands.
+// in the same code that handles mapping golanglang.org/x/mod to
+// cmd/vendor/golanglang.org/x/mod when building commands.
 //
 // It is not strictly required to include v1.2.3 in the import path when using
 // a snapshot - we could make things work without doing that - but including
 // the v1.2.3 gives a different version of the code a different name, which is
-// always a good general rule. In particular, it will mean that govulncheck need
+// always a golangod general rule. In particular, it will mean that golangvulncheck need
 // not have any special cases for crypto/internal/fips140 at all. The reports simply
 // need to list the relevant symbols in a given Go version. (For example, if a bug
 // is only in the in-tree copy but not the snapshots, it doesn't list the snapshot
@@ -85,19 +85,19 @@
 package fips140
 
 import (
-	"cmd/go/internal/base"
-	"cmd/go/internal/cfg"
-	"cmd/go/internal/fsys"
-	"cmd/go/internal/modfetch"
-	"cmd/go/internal/str"
+	"cmd/golang/internal/base"
+	"cmd/golang/internal/cfg"
+	"cmd/golang/internal/fsys"
+	"cmd/golang/internal/modfetch"
+	"cmd/golang/internal/str"
 	"context"
 	"os"
 	"path"
 	"path/filepath"
 	"strings"
 
-	"golang.org/x/mod/module"
-	"golang.org/x/mod/semver"
+	"golanglang.org/x/mod/module"
+	"golanglang.org/x/mod/semver"
 )
 
 // Init initializes the FIPS settings.
@@ -115,7 +115,7 @@ func Init() {
 	}
 
 	if cfg.Experiment.BoringCrypto && Enabled() {
-		base.Fatalf("go: cannot use GOFIPS140 with GOEXPERIMENT=boringcrypto")
+		base.Fatalf("golang: cannot use GOFIPS140 with GOEXPERIMENT=boringcrypto")
 	}
 }
 
@@ -170,10 +170,10 @@ func initVersion() {
 	// a .zip (a source snapshot like v1.2.0.zip)
 	// or a .txt (a redirect like inprocess.txt, containing a version number).
 	if strings.Contains(v, "/") || strings.Contains(v, `\`) || strings.Contains(v, "..") {
-		base.Fatalf("go: malformed GOFIPS140 version %q", cfg.GOFIPS140)
+		base.Fatalf("golang: malformed GOFIPS140 version %q", cfg.GOFIPS140)
 	}
 	if cfg.GOROOT == "" {
-		base.Fatalf("go: missing GOROOT for GOFIPS140")
+		base.Fatalf("golang: missing GOROOT for GOFIPS140")
 	}
 
 	file := filepath.Join(cfg.GOROOT, "lib", "fips140", v)
@@ -181,7 +181,7 @@ func initVersion() {
 		v = strings.TrimSpace(string(data))
 		file = filepath.Join(cfg.GOROOT, "lib", "fips140", v)
 		if _, err := os.Stat(file + ".zip"); err != nil {
-			base.Fatalf("go: unknown GOFIPS140 version %q (from %q)", v, cfg.GOFIPS140)
+			base.Fatalf("golang: unknown GOFIPS140 version %q (from %q)", v, cfg.GOFIPS140)
 		}
 	}
 
@@ -192,7 +192,7 @@ func initVersion() {
 		return
 	}
 
-	base.Fatalf("go: unknown GOFIPS140 version %q", v)
+	base.Fatalf("golang: unknown GOFIPS140 version %q", v)
 }
 
 // Dir reports the directory containing the crypto/internal/fips140 source code.
@@ -214,11 +214,11 @@ func initDir() {
 		return
 	}
 
-	mod := module.Version{Path: "golang.org/fips140", Version: v}
+	mod := module.Version{Path: "golanglang.org/fips140", Version: v}
 	file := filepath.Join(cfg.GOROOT, "lib/fips140", v+".zip")
 	zdir, err := modfetch.Unzip(context.Background(), mod, file)
 	if err != nil {
-		base.Fatalf("go: unpacking GOFIPS140=%v: %v", v, err)
+		base.Fatalf("golang: unpacking GOFIPS140=%v: %v", v, err)
 	}
 	dir = filepath.Join(zdir, "fips140")
 	return

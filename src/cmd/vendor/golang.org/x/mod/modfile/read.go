@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package modfile
@@ -72,7 +72,7 @@ func (c *Comments) Comment() *Comments {
 	return c
 }
 
-// A FileSyntax represents an entire go.mod file.
+// A FileSyntax represents an entire golang.mod file.
 type FileSyntax struct {
 	Name string // file path
 	Comments
@@ -708,7 +708,7 @@ func (in *input) assignComments() {
 		}
 	}
 
-	// Remaining line comments go at end of file.
+	// Remaining line comments golang at end of file.
 	in.file.After = append(in.file.After, line...)
 
 	if debug {
@@ -760,7 +760,7 @@ func (in *input) assignComments() {
 		reverseComments(x.Comment().Suffix)
 	}
 
-	// Remaining suffix comments go at beginning of file.
+	// Remaining suffix comments golang at beginning of file.
 	in.file.Before = append(in.file.Before, suffix...)
 }
 
@@ -926,9 +926,9 @@ var (
 	moduleStr  = []byte("module")
 )
 
-// ModulePath returns the module path from the gomod file text.
+// ModulePath returns the module path from the golangmod file text.
 // If it cannot find a module path, it returns an empty string.
-// It is tolerant of unrelated problems in the go.mod file.
+// It is tolerant of unrelated problems in the golang.mod file.
 func ModulePath(mod []byte) string {
 	for len(mod) > 0 {
 		line := mod

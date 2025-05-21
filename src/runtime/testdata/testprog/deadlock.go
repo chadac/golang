@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -57,7 +57,7 @@ func LockedDeadlock() {
 }
 
 func LockedDeadlock2() {
-	go func() {
+	golang func() {
 		runtime.LockOSThread()
 		select {}
 	}()
@@ -71,8 +71,8 @@ func GoexitDeadlock() {
 		}
 	}
 
-	go F()
-	go F()
+	golang F()
+	golang F()
 	runtime.Goexit()
 }
 
@@ -90,7 +90,7 @@ func ThreadExhaustion() {
 	debug.SetMaxThreads(10)
 	c := make(chan int)
 	for i := 0; i < 100; i++ {
-		go func() {
+		golang func() {
 			runtime.LockOSThread()
 			c <- 0
 			select {}
@@ -169,12 +169,12 @@ func RecursivePanic5() {
 	panic("third panic")
 }
 
-//go:noinline
+//golang:noinline
 func one() {
 	two()
 }
 
-//go:noinline
+//golang:noinline
 func two() {
 	defer func() {
 	}()
@@ -182,7 +182,7 @@ func two() {
 	three()
 }
 
-//go:noinline
+//golang:noinline
 func three() {
 	defer func() {
 	}()
@@ -201,7 +201,7 @@ func three() {
 
 func GoexitExit() {
 	println("t1")
-	go func() {
+	golang func() {
 		time.Sleep(time.Millisecond)
 	}()
 	i := 0
@@ -218,7 +218,7 @@ func GoNil() {
 		recover()
 	}()
 	var f func()
-	go f()
+	golang f()
 	select {}
 }
 
@@ -238,7 +238,7 @@ func Breakpoint() {
 }
 
 func GoexitInPanic() {
-	go func() {
+	golang func() {
 		defer func() {
 			runtime.Goexit()
 		}()
@@ -293,7 +293,7 @@ func RecoveredPanicAfterGoexit() {
 func RecoverBeforePanicAfterGoexit() {
 	// 1. defer a function that recovers
 	// 2. defer a function that panics
-	// 3. call goexit
+	// 3. call golangexit
 	// Goexit runs the #2 defer. Its panic
 	// is caught by the #1 defer.  For Goexit, we explicitly
 	// resume execution in the Goexit loop, instead of resuming
@@ -317,7 +317,7 @@ func RecoverBeforePanicAfterGoexit2() {
 	}
 	// 1. defer a function that recovers
 	// 2. defer a function that panics
-	// 3. call goexit
+	// 3. call golangexit
 	// Goexit runs the #2 defer. Its panic
 	// is caught by the #1 defer.  For Goexit, we explicitly
 	// resume execution in the Goexit loop, instead of resuming

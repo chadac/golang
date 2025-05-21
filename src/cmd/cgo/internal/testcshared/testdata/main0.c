@@ -1,14 +1,14 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 #include <stdint.h>
 #include <stdio.h>
 
 #include "p.h"
-#include "libgo.h"
+#include "libgolang.h"
 
-// Tests libgo.so to export the following functions.
+// Tests libgolang.so to export the following functions.
 //   int8_t DidInitRun();
 //   int8_t DidMainRun();
 //   int32_t FromPkg();

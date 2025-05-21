@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 /*
@@ -9,7 +9,7 @@ a top-level declaration of a package, const, func, type, or var.
 
 Go doc comment syntax is a simplified subset of Markdown that supports
 links, headings, paragraphs, lists (without nesting), and preformatted text blocks.
-The details of the syntax are documented at https://go.dev/doc/comment.
+The details of the syntax are documented at https://golang.dev/doc/comment.
 
 To parse the text associated with a doc comment (after removing comment markers),
 use a [Parser]:

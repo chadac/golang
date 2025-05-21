@@ -1,19 +1,19 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package analysisutil defines various helper functions
-// used by two or more packages beneath go/analysis.
+// used by two or more packages beneath golang/analysis.
 package analysisutil
 
 import (
-	"go/ast"
-	"go/token"
-	"go/types"
+	"golang/ast"
+	"golang/token"
+	"golang/types"
 	"os"
 
-	"golang.org/x/tools/go/analysis"
-	"golang.org/x/tools/internal/analysisinternal"
+	"golanglang.org/x/tools/golang/analysis"
+	"golanglang.org/x/tools/internal/analysisinternal"
 )
 
 // HasSideEffects reports whether evaluation of e has side effects.
@@ -71,8 +71,8 @@ func LineStart(f *token.File, line int) token.Pos {
 	// Use binary search to find the start offset of this line.
 	//
 	// TODO(adonovan): eventually replace this function with the
-	// simpler and more efficient (*go/token.File).LineStart, added
-	// in go1.12.
+	// simpler and more efficient (*golang/token.File).LineStart, added
+	// in golang1.12.
 
 	min := 0        // inclusive
 	max := f.Size() // exclusive

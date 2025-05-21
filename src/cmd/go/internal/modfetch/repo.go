@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package modfetch
@@ -13,19 +13,19 @@ import (
 	"strconv"
 	"time"
 
-	"cmd/go/internal/cfg"
-	"cmd/go/internal/modfetch/codehost"
-	"cmd/go/internal/vcs"
-	web "cmd/go/internal/web"
+	"cmd/golang/internal/cfg"
+	"cmd/golang/internal/modfetch/codehost"
+	"cmd/golang/internal/vcs"
+	web "cmd/golang/internal/web"
 	"cmd/internal/par"
 
-	"golang.org/x/mod/module"
+	"golanglang.org/x/mod/module"
 )
 
 const traceRepo = false // trace all repo actions, for debugging
 
 // A Repo represents a repository storing all versions of a single module.
-// It must be safe for simultaneous use by multiple goroutines.
+// It must be safe for simultaneous use by multiple golangroutines.
 type Repo interface {
 	// ModulePath returns the module path.
 	ModulePath() string
@@ -61,7 +61,7 @@ type Repo interface {
 	// It is only used when there are no tagged versions.
 	Latest(ctx context.Context) (*RevInfo, error)
 
-	// GoMod returns the go.mod file for the given version.
+	// GoMod returns the golang.mod file for the given version.
 	GoMod(ctx context.Context, version string) (data []byte, err error)
 
 	// Zip writes a zip file for the given version to dst.
@@ -91,15 +91,15 @@ type RevInfo struct {
 // Re: module paths, import paths, repository roots, and lookups
 //
 // A module is a collection of Go packages stored in a file tree
-// with a go.mod file at the root of the tree.
-// The go.mod defines the module path, which is the import path
+// with a golang.mod file at the root of the tree.
+// The golang.mod defines the module path, which is the import path
 // corresponding to the root of the file tree.
 // The import path of a directory within that file tree is the module path
 // joined with the name of the subdirectory relative to the root.
 //
 // For example, the module with path rsc.io/qr corresponds to the
 // file tree in the repository https://github.com/rsc/qr.
-// That file tree has a go.mod that says "module rsc.io/qr".
+// That file tree has a golang.mod that says "module rsc.io/qr".
 // The package in the root directory has import path "rsc.io/qr".
 // The package in the gf256 subdirectory has import path "rsc.io/qr/gf256".
 // In this example, "rsc.io/qr" is both a module path and an import path.
@@ -107,23 +107,23 @@ type RevInfo struct {
 // it names an importable package, but not a module.
 //
 // As a special case to incorporate code written before modules were
-// introduced, if a path p resolves using the pre-module "go get" lookup
-// to the root of a source code repository without a go.mod file,
-// that repository is treated as if it had a go.mod in its root directory
+// introduced, if a path p resolves using the pre-module "golang get" lookup
+// to the root of a source code repository without a golang.mod file,
+// that repository is treated as if it had a golang.mod in its root directory
 // declaring module path p.
 //
 // The presentation so far ignores the fact that a source code repository
 // has many different versions of a file tree, and those versions may
-// differ in whether a particular go.mod exists and what it contains.
+// differ in whether a particular golang.mod exists and what it contains.
 // In fact there is a well-defined mapping only from a module path, version
 // pair - often written path@version - to a particular file tree.
-// For example rsc.io/qr@v0.1.0 depends on the "implicit go.mod at root of
-// repository" rule, while rsc.io/qr@v0.2.0 has an explicit go.mod.
-// Because the "go get" import paths rsc.io/qr and github.com/rsc/qr
+// For example rsc.io/qr@v0.1.0 depends on the "implicit golang.mod at root of
+// repository" rule, while rsc.io/qr@v0.2.0 has an explicit golang.mod.
+// Because the "golang get" import paths rsc.io/qr and github.com/rsc/qr
 // both redirect to the Git repository https://github.com/rsc/qr,
 // github.com/rsc/qr@v0.1.0 is the same file tree as rsc.io/qr@v0.1.0
 // but a different module (a different name). In contrast, since v0.2.0
-// of that repository has an explicit go.mod that declares path rsc.io/qr,
+// of that repository has an explicit golang.mod that declares path rsc.io/qr,
 // github.com/rsc/qr@v0.2.0 is an invalid module path, version pair.
 // Before modules, import comments would have had the same effect.
 //
@@ -135,7 +135,7 @@ type RevInfo struct {
 // For example, suppose that we want to split rsc.io/qr/gf256 into its
 // own module, so that there would be two modules rsc.io/qr and rsc.io/qr/gf256.
 // Then we can simultaneously issue rsc.io/qr v0.3.0 (dropping the gf256 subdirectory)
-// and rsc.io/qr/gf256 v0.1.0, including in their respective go.mod
+// and rsc.io/qr/gf256 v0.1.0, including in their respective golang.mod
 // cyclic requirements pointing at each other: rsc.io/qr v0.3.0 requires
 // rsc.io/qr/gf256 v0.1.0 and vice versa. Then a build can be
 // using an older rsc.io/qr module that includes the gf256 package, but if
@@ -149,7 +149,7 @@ type RevInfo struct {
 // in its root directory, along with a new requirement cycle.
 // The ability to shift module boundaries in this way is expected to be
 // important in large-scale program refactorings, similar to the ones
-// described in https://talks.golang.org/2016/refactor.article.
+// described in https://talks.golanglang.org/2016/refactor.article.
 //
 // The possibility of shifting module boundaries reemphasizes
 // that you must know both the module path and its version
@@ -160,13 +160,13 @@ type RevInfo struct {
 // as a limited kind of monorepo. For example rsc.io/qr/v2,
 // the v2.x.x continuation of rsc.io/qr, is expected to be found
 // in v2-tagged commits in https://github.com/rsc/qr, either
-// in the root or in a v2 subdirectory, disambiguated by go.mod.
+// in the root or in a v2 subdirectory, disambiguated by golang.mod.
 // Again the precise file tree corresponding to a module
 // depends on which version we are considering.
 //
 // It is also possible for the underlying repository to change over time,
 // without changing the module path. If I copy the github repo over
-// to https://bitbucket.org/rsc/qr and update https://rsc.io/qr?go-get=1,
+// to https://bitbucket.org/rsc/qr and update https://rsc.io/qr?golang-get=1,
 // then clients of all versions should start fetching from bitbucket
 // instead of github. That is, in contrast to the exact file tree,
 // the location of the source code repository associated with a module path
@@ -259,8 +259,8 @@ func lookup(ctx context.Context, proxy, path string) (r Repo, err error) {
 	}
 
 	switch path {
-	case "go", "toolchain":
-		return &toolchainRepo{path, Lookup(ctx, proxy, "golang.org/toolchain")}, nil
+	case "golang", "toolchain":
+		return &toolchainRepo{path, Lookup(ctx, proxy, "golanglang.org/toolchain")}, nil
 	}
 
 	if module.MatchPrefixPatterns(cfg.GONOPROXY, path) {

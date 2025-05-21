@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Multiprecision decimal numbers.
@@ -168,7 +168,7 @@ func rightShift(a *decimal, k uint) {
 // when the string prefix is "625" through "999", and one fewer digit
 // if the string prefix is "000" through "624".
 //
-// Credit for this trick goes to Ken.
+// Credit for this trick golanges to Ken.
 
 type leftCheat struct {
 	delta  int    // number of new digits

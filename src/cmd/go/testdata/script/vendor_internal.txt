@@ -1,16 +1,16 @@
-go build ./vendor/foo.com/internal/bar/a
+golang build ./vendor/foo.com/internal/bar/a
 
--- go.mod --
+-- golang.mod --
 module example.com/x
-go 1.19
+golang 1.19
 
 require "foo.com/internal/bar" v1.0.0
 -- vendor/modules.txt --
 # foo.com/internal/bar v1.0.0
 ## explicit
 foo.com/internal/bar/a
--- vendor/foo.com/internal/bar/a/a.go --
+-- vendor/foo.com/internal/bar/a/a.golang --
 package a
 import _ "foo.com/internal/bar/b"
--- vendor/foo.com/internal/bar/b/b.go --
+-- vendor/foo.com/internal/bar/b/b.golang --
 package b

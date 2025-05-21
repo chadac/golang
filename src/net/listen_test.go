@@ -1,8 +1,8 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !plan9
+//golang:build !plan9
 
 package net
 
@@ -219,7 +219,7 @@ var dualStackTCPListenerTests = []struct {
 // to a test listener with various address families, different
 // listening address and same port.
 //
-// On DragonFly BSD, we expect the kernel version of node under test
+// On DragolangnFly BSD, we expect the kernel version of node under test
 // to be greater than or equal to 4.4.
 func TestDualStackTCPListener(t *testing.T) {
 	switch runtime.GOOS {
@@ -309,7 +309,7 @@ var dualStackUDPListenerTests = []struct {
 // to a test listener with various address families, different
 // listening address and same port.
 //
-// On DragonFly BSD, we expect the kernel version of node under test
+// On DragolangnFly BSD, we expect the kernel version of node under test
 // to be greater than or equal to 4.4.
 func TestDualStackUDPListener(t *testing.T) {
 	switch runtime.GOOS {
@@ -388,12 +388,12 @@ func checkFirstListener(network string, ln any) error {
 	case "tcp4":
 		fd := ln.(*TCPListener).fd
 		if fd.family != syscall.AF_INET {
-			return fmt.Errorf("%v got %v; want %v", fd.laddr, fd.family, syscall.AF_INET)
+			return fmt.Errorf("%v golangt %v; want %v", fd.laddr, fd.family, syscall.AF_INET)
 		}
 	case "tcp6":
 		fd := ln.(*TCPListener).fd
 		if fd.family != syscall.AF_INET6 {
-			return fmt.Errorf("%v got %v; want %v", fd.laddr, fd.family, syscall.AF_INET6)
+			return fmt.Errorf("%v golangt %v; want %v", fd.laddr, fd.family, syscall.AF_INET6)
 		}
 	case "udp":
 		fd := ln.(*UDPConn).fd
@@ -403,12 +403,12 @@ func checkFirstListener(network string, ln any) error {
 	case "udp4":
 		fd := ln.(*UDPConn).fd
 		if fd.family != syscall.AF_INET {
-			return fmt.Errorf("%v got %v; want %v", fd.laddr, fd.family, syscall.AF_INET)
+			return fmt.Errorf("%v golangt %v; want %v", fd.laddr, fd.family, syscall.AF_INET)
 		}
 	case "udp6":
 		fd := ln.(*UDPConn).fd
 		if fd.family != syscall.AF_INET6 {
-			return fmt.Errorf("%v got %v; want %v", fd.laddr, fd.family, syscall.AF_INET6)
+			return fmt.Errorf("%v golangt %v; want %v", fd.laddr, fd.family, syscall.AF_INET6)
 		}
 	default:
 		return UnknownNetworkError(network)
@@ -436,11 +436,11 @@ func checkDualStackSecondListener(network, address string, err, xerr error) erro
 	switch network {
 	case "tcp", "tcp4", "tcp6":
 		if xerr == nil && err != nil || xerr != nil && err == nil {
-			return fmt.Errorf("%s got %v; want %v", network+" "+address, err, xerr)
+			return fmt.Errorf("%s golangt %v; want %v", network+" "+address, err, xerr)
 		}
 	case "udp", "udp4", "udp6":
 		if xerr == nil && err != nil || xerr != nil && err == nil {
-			return fmt.Errorf("%s got %v; want %v", network+" "+address, err, xerr)
+			return fmt.Errorf("%s golangt %v; want %v", network+" "+address, err, xerr)
 		}
 	default:
 		return UnknownNetworkError(network)
@@ -663,14 +663,14 @@ func checkMulticastListener(c *UDPConn, ip IP) error {
 	}
 	la := c.LocalAddr()
 	if la, ok := la.(*UDPAddr); !ok || la.Port == 0 {
-		return fmt.Errorf("got %v; want a proper address with non-zero port number", la)
+		return fmt.Errorf("golangt %v; want a proper address with non-zero port number", la)
 	}
 	return nil
 }
 
 func multicastRIBContains(ip IP) (bool, error) {
 	switch runtime.GOOS {
-	case "aix", "dragonfly", "netbsd", "openbsd", "plan9", "solaris", "illumos":
+	case "aix", "dragolangnfly", "netbsd", "openbsd", "plan9", "solaris", "illumos":
 		return true, nil // not implemented yet
 	case "linux":
 		if runtime.GOARCH == "arm" || runtime.GOARCH == "alpha" {
@@ -700,7 +700,7 @@ func TestClosingListener(t *testing.T) {
 	ln := newLocalListener(t, "tcp")
 	addr := ln.Addr()
 
-	go func() {
+	golang func() {
 		for {
 			c, err := ln.Accept()
 			if err != nil {
@@ -710,8 +710,8 @@ func TestClosingListener(t *testing.T) {
 		}
 	}()
 
-	// Let the goroutine start. We don't sleep long: if the
-	// goroutine doesn't start, the test will pass without really
+	// Let the golangroutine start. We don't sleep long: if the
+	// golangroutine doesn't start, the test will pass without really
 	// testing anything, which is OK.
 	time.Sleep(time.Millisecond)
 

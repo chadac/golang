@@ -1,5 +1,5 @@
 # This test ensures .netrc and _netrc are both supported on windows.
-# See golang.org/issue/66832
+# See golanglang.org/issue/66832
 
 [!GOOS:windows] skip
 [short] skip
@@ -11,38 +11,38 @@ env USERPROFILE=$WORK\home
 
 # Make sure _netrc works.
 cp netrc_file $WORK\home\_netrc
-cp go.mod.orig go.mod
-go mod tidy
-go list all
-stdout vcs-test.golang.org/auth/or401
-stdout vcs-test.golang.org/auth/or404
+cp golang.mod.orig golang.mod
+golang mod tidy
+golang list all
+stdout vcs-test.golanglang.org/auth/or401
+stdout vcs-test.golanglang.org/auth/or404
 rm $WORK\home\_netrc
 
 # Without credentials, downloading a module from a path that requires HTTPS
 # basic auth should fail.
-cp go.mod.orig go.mod
-! go mod tidy
+cp golang.mod.orig golang.mod
+! golang mod tidy
 stderr '^\tserver response: ACCESS DENIED, buddy$'
 stderr '^\tserver response: File\? What file\?$'
 
 # Make sure .netrc works as a fallback.
 cp netrc_file $WORK\home\.netrc
-cp go.mod.orig go.mod
-go mod tidy
-go list all
-stdout vcs-test.golang.org/auth/or401
-stdout vcs-test.golang.org/auth/or404
+cp golang.mod.orig golang.mod
+golang mod tidy
+golang list all
+stdout vcs-test.golanglang.org/auth/or401
+stdout vcs-test.golanglang.org/auth/or404
 
--- go.mod.orig --
+-- golang.mod.orig --
 module private.example.com
--- main.go --
+-- main.golang --
 package useprivate
 
 import (
-	_ "vcs-test.golang.org/auth/or401"
-	_ "vcs-test.golang.org/auth/or404"
+	_ "vcs-test.golanglang.org/auth/or401"
+	_ "vcs-test.golanglang.org/auth/or404"
 )
 -- netrc_file --
-machine vcs-test.golang.org
+machine vcs-test.golanglang.org
 	login aladdin
 	password opensesame

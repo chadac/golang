@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package netip
@@ -44,14 +44,14 @@ func TestPrefixValid(t *testing.T) {
 		{PrefixFrom(Addr{}, 128), false},
 	}
 	for _, tt := range tests {
-		got := tt.ipp.IsValid()
-		if got != tt.want {
-			t.Errorf("(%v).IsValid() = %v want %v", tt.ipp, got, tt.want)
+		golangt := tt.ipp.IsValid()
+		if golangt != tt.want {
+			t.Errorf("(%v).IsValid() = %v want %v", tt.ipp, golangt, tt.want)
 		}
 
 		// Test that there is only one invalid Prefix representation per Addr.
 		invalid := PrefixFrom(tt.ipp.Addr(), -1)
-		if !got && tt.ipp != invalid {
+		if !golangt && tt.ipp != invalid {
 			t.Errorf("(%v == %v) = false, want true", tt.ipp, invalid)
 		}
 	}
@@ -81,9 +81,9 @@ func TestIPNextPrev(t *testing.T) {
 		mustIP("0.0.0.0"),
 		mustIP("::"),
 	} {
-		got := ip.Prev()
-		if !got.isZero() {
-			t.Errorf("IP(%v).Prev = %v; want zero", ip, got)
+		golangt := ip.Prev()
+		if !golangt.isZero() {
+			t.Errorf("IP(%v).Prev = %v; want zero", ip, golangt)
 		}
 	}
 
@@ -96,9 +96,9 @@ func TestIPNextPrev(t *testing.T) {
 		mustIP("255.255.255.255"),
 		AddrFrom16(allFF),
 	} {
-		got := ip.Next()
-		if !got.isZero() {
-			t.Errorf("IP(%v).Next = %v; want zero", ip, got)
+		golangt := ip.Next()
+		if !golangt.isZero() {
+			t.Errorf("IP(%v).Next = %v; want zero", ip, golangt)
 		}
 	}
 }
@@ -140,9 +140,9 @@ func TestIPBitLen(t *testing.T) {
 		{mustIP("::ffff:10.0.0.1"), 128},
 	}
 	for _, tt := range tests {
-		got := tt.ip.BitLen()
-		if got != tt.want {
-			t.Errorf("BitLen(%v) = %d; want %d", tt.ip, got, tt.want)
+		golangt := tt.ip.BitLen()
+		if golangt != tt.want {
+			t.Errorf("BitLen(%v) = %d; want %d", tt.ip, golangt, tt.want)
 		}
 	}
 }
@@ -166,7 +166,7 @@ func TestPrefixContains(t *testing.T) {
 		{mustPrefix("::1/127"), mustIP("::2"), false},
 		{mustPrefix("::1/128"), mustIP("::1"), true},
 		{mustPrefix("::1/127"), mustIP("::2"), false},
-		// Zones ignored: https://go.dev/issue/51899
+		// Zones ignored: https://golang.dev/issue/51899
 		{Prefix{mustIP("1.2.3.4").WithZone("a"), 32}, mustIP("1.2.3.4"), true},
 		{Prefix{mustIP("::1").WithZone("a"), 128}, mustIP("::1"), true},
 		// invalid IP
@@ -183,9 +183,9 @@ func TestPrefixContains(t *testing.T) {
 		{mustPrefix("1.2.3.4/0"), mustIP("::1"), false},
 	}
 	for _, tt := range tests {
-		got := tt.ipp.Contains(tt.ip)
-		if got != tt.want {
-			t.Errorf("(%v).Contains(%v) = %v want %v", tt.ipp, tt.ip, got, tt.want)
+		golangt := tt.ipp.Contains(tt.ip)
+		if golangt != tt.want {
+			t.Errorf("(%v).Contains(%v) = %v want %v", tt.ipp, tt.ip, golangt, tt.want)
 		}
 	}
 }
@@ -227,8 +227,8 @@ func TestParseIPError(t *testing.T) {
 			if test.errstr == "" {
 				test.errstr = "unable to parse IP"
 			}
-			if got := err.Error(); !strings.Contains(got, test.errstr) {
-				t.Errorf("error is missing substring %q: %s", test.errstr, got)
+			if golangt := err.Error(); !strings.Contains(golangt, test.errstr) {
+				t.Errorf("error is missing substring %q: %s", test.errstr, golangt)
 			}
 		})
 	}
@@ -250,25 +250,25 @@ func TestParseAddrPort(t *testing.T) {
 	}
 	for _, test := range tests {
 		t.Run(test.in, func(t *testing.T) {
-			got, err := ParseAddrPort(test.in)
+			golangt, err := ParseAddrPort(test.in)
 			if err != nil {
 				if test.wantErr {
 					return
 				}
 				t.Fatal(err)
 			}
-			if got != test.want {
-				t.Errorf("got %v; want %v", got, test.want)
+			if golangt != test.want {
+				t.Errorf("golangt %v; want %v", golangt, test.want)
 			}
-			if got.String() != test.in {
-				t.Errorf("String = %q; want %q", got.String(), test.in)
+			if golangt.String() != test.in {
+				t.Errorf("String = %q; want %q", golangt.String(), test.in)
 			}
 		})
 
 		t.Run(test.in+"/AppendTo", func(t *testing.T) {
-			got, err := ParseAddrPort(test.in)
+			golangt, err := ParseAddrPort(test.in)
 			if err == nil {
-				testAppendToMarshal(t, got)
+				testAppendToMarshal(t, golangt)
 			}
 		})
 
@@ -276,24 +276,24 @@ func TestParseAddrPort(t *testing.T) {
 		// ParseAddrPort and String. Divergent behavior are handled in
 		// TestAddrPortMarshalUnmarshal.
 		t.Run(test.in+"/Marshal", func(t *testing.T) {
-			var got AddrPort
+			var golangt AddrPort
 			jsin := `"` + test.in + `"`
-			err := json.Unmarshal([]byte(jsin), &got)
+			err := json.Unmarshal([]byte(jsin), &golangt)
 			if err != nil {
 				if test.wantErr {
 					return
 				}
 				t.Fatal(err)
 			}
-			if got != test.want {
-				t.Errorf("got %v; want %v", got, test.want)
+			if golangt != test.want {
+				t.Errorf("golangt %v; want %v", golangt, test.want)
 			}
-			gotb, err := json.Marshal(got)
+			golangtb, err := json.Marshal(golangt)
 			if err != nil {
 				t.Fatal(err)
 			}
-			if string(gotb) != jsin {
-				t.Errorf("Marshal = %q; want %q", string(gotb), jsin)
+			if string(golangtb) != jsin {
+				t.Errorf("Marshal = %q; want %q", string(golangtb), jsin)
 			}
 		})
 	}
@@ -358,8 +358,8 @@ func TestIPv6Accessor(t *testing.T) {
 	}
 	ip := AddrFrom16(a)
 	for i := range a {
-		if got, want := ip.v6(uint8(i)), uint8(i)+1; got != want {
-			t.Errorf("v6(%v) = %v; want %v", i, got, want)
+		if golangt, want := ip.v6(uint8(i)), uint8(i)+1; golangt != want {
+			t.Errorf("v6(%v) = %v; want %v", i, golangt, want)
 		}
 	}
 }

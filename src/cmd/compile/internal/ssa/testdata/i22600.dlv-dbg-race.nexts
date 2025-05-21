@@ -1,4 +1,4 @@
-  ./testdata/i22600.go
+  ./testdata/i22600.golang
 8:	func test() {
 9:		pwd, err := os.Getwd()
 10:		if err != nil {

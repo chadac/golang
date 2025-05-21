@@ -1,11 +1,11 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Tests a GC-heavy program. This is useful for shaking out
 // all sorts of corner cases about GC-related ranges.
 
-//go:build ignore
+//golang:build ignore
 
 package main
 
@@ -59,7 +59,7 @@ func main() {
 
 	for i := 0; i < procs; i++ {
 		i := i
-		go func() {
+		golang func() {
 			for {
 				sink[i] = make([]byte, 4<<10)
 			}

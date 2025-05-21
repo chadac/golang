@@ -1,32 +1,32 @@
 env GO111MODULE=off
 
-# Issue 36173. Verify that "go vet" prints line numbers on load errors.
+# Issue 36173. Verify that "golang vet" prints line numbers on load errors.
 
-! go vet a/a.go
-stderr '^package command-line-arguments\n\ta[/\\]a.go:5:3: use of internal package'
+! golang vet a/a.golang
+stderr '^package command-line-arguments\n\ta[/\\]a.golang:5:3: use of internal package'
 
-! go vet a/a_test.go
-stderr '^package command-line-arguments \(test\)\n\ta[/\\]a_test.go:4:3: use of internal package'
+! golang vet a/a_test.golang
+stderr '^package command-line-arguments \(test\)\n\ta[/\\]a_test.golang:4:3: use of internal package'
 
-! go vet a
-stderr '^package a\n\ta[/\\]a.go:5:3: use of internal package'
+! golang vet a
+stderr '^package a\n\ta[/\\]a.golang:5:3: use of internal package'
 
-go vet b/b.go
+golang vet b/b.golang
 ! stderr 'use of internal package'
 
-! go vet b/b_test.go
-stderr '^package command-line-arguments \(test\)\n\tb[/\\]b_test.go:4:3: use of internal package'
+! golang vet b/b_test.golang
+stderr '^package command-line-arguments \(test\)\n\tb[/\\]b_test.golang:4:3: use of internal package'
 
-! go vet depends-on-a/depends-on-a.go
-stderr '^package command-line-arguments\n\timports a\n\ta[/\\]a.go:5:3: use of internal package'
+! golang vet depends-on-a/depends-on-a.golang
+stderr '^package command-line-arguments\n\timports a\n\ta[/\\]a.golang:5:3: use of internal package'
 
-! go vet depends-on-a/depends-on-a_test.go
-stderr '^package command-line-arguments \(test\)\n\timports a\n\ta[/\\]a.go:5:3: use of internal package a/x/internal/y not allowed'
+! golang vet depends-on-a/depends-on-a_test.golang
+stderr '^package command-line-arguments \(test\)\n\timports a\n\ta[/\\]a.golang:5:3: use of internal package a/x/internal/y not allowed'
 
-! go vet depends-on-a
-stderr '^package depends-on-a\n\timports a\n\ta[/\\]a.go:5:3: use of internal package'
+! golang vet depends-on-a
+stderr '^package depends-on-a\n\timports a\n\ta[/\\]a.golang:5:3: use of internal package'
 
--- a/a.go --
+-- a/a.golang --
 // A package with bad imports in both src and test
 package a
 
@@ -34,25 +34,25 @@ import (
   _ "a/x/internal/y"
 )
 
--- a/a_test.go --
+-- a/a_test.golang --
 package a
 
 import (
   _ "a/x/internal/y"
 )
 
--- b/b.go --
+-- b/b.golang --
 // A package with a bad import in test only
 package b
 
--- b/b_test.go --
+-- b/b_test.golang --
 package b
 
 import (
   _ "a/x/internal/y"
 )
 
--- depends-on-a/depends-on-a.go --
+-- depends-on-a/depends-on-a.golang --
 // A package that depends on a package with a bad import
 package depends
 
@@ -60,12 +60,12 @@ import (
   _ "a"
 )
 
--- depends-on-a/depends-on-a_test.go --
+-- depends-on-a/depends-on-a_test.golang --
 package depends
 
 import (
   _ "a"
 )
 
--- a/x/internal/y/y.go --
+-- a/x/internal/y/y.golang --
 package y

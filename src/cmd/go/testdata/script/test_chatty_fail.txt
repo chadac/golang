@@ -1,5 +1,5 @@
 # Run chatty tests. Assert on CONT lines.
-! go test chatty_test.go -v
+! golang test chatty_test.golang -v
 
 # Sanity check that output occurs.
 stdout -count=2 'this is sub-0'
@@ -12,7 +12,7 @@ stdout -count=1 'error from sub-2'
 # Non-parallel tests should not print CONT.
 ! stdout CONT
 
--- chatty_test.go --
+-- chatty_test.golang --
 package chatty_test
 
 import (

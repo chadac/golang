@@ -1,34 +1,34 @@
-# Regression test for https://golang.org/issue/47979:
+# Regression test for https://golanglang.org/issue/47979:
 #
-# An argument to 'go get' that results in an upgrade to a different existing
-# root should be allowed, and should not panic the 'go' command.
+# An argument to 'golang get' that results in an upgrade to a different existing
+# root should be allowed, and should not panic the 'golang' command.
 
-cp go.mod go.mod.orig
+cp golang.mod golang.mod.orig
 
 
 # Transitive upgrades from upgraded roots should not prevent
-# 'go get -u' from performing upgrades.
+# 'golang get -u' from performing upgrades.
 
-cp go.mod.orig go.mod
-go get -u .
-cmp go.mod go.mod.want
+cp golang.mod.orig golang.mod
+golang get -u .
+cmp golang.mod golang.mod.want
 
 
-# 'go get' of a specific version should allow upgrades of
+# 'golang get' of a specific version should allow upgrades of
 # every dependency (transitively) required by that version,
 # including dependencies that are pulled into the module
 # graph by upgrading other root requirements
 # (in this case, example.net/indirect).
 
-cp go.mod.orig go.mod
-go get example.net/a@v0.2.0
-cmp go.mod go.mod.want
+cp golang.mod.orig golang.mod
+golang get example.net/a@v0.2.0
+cmp golang.mod golang.mod.want
 
 
--- go.mod --
-module golang.org/issue47979
+-- golang.mod --
+module golanglang.org/issue47979
 
-go 1.17
+golang 1.17
 
 replace (
 	example.net/a v0.1.0 => ./a1
@@ -45,10 +45,10 @@ require (
 )
 
 require example.net/indirect v0.1.0 // indirect
--- go.mod.want --
-module golang.org/issue47979
+-- golang.mod.want --
+module golanglang.org/issue47979
 
-go 1.17
+golang 1.17
 
 replace (
 	example.net/a v0.1.0 => ./a1
@@ -65,53 +65,53 @@ require (
 )
 
 require example.net/indirect v0.2.0 // indirect
--- issue.go --
+-- issue.golang --
 package issue
 
 import _ "example.net/a"
--- useother/useother.go --
+-- useother/useother.golang --
 package useother
 
 import _ "example.net/other"
--- a1/go.mod --
+-- a1/golang.mod --
 module example.net/a
 
-go 1.17
+golang 1.17
 
 require example.net/indirect v0.1.0
--- a1/a.go --
+-- a1/a.golang --
 package a
--- a2/go.mod --
+-- a2/golang.mod --
 module example.net/a
 
-go 1.17
+golang 1.17
 
 require example.net/indirect v0.2.0
--- a2/a.go --
+-- a2/a.golang --
 package a
 
 import "example.net/indirect"
--- indirect1/go.mod --
+-- indirect1/golang.mod --
 module example.net/indirect
 
-go 1.17
+golang 1.17
 
 require example.net/other v0.1.0
--- indirect1/indirect.go --
+-- indirect1/indirect.golang --
 package indirect
--- indirect2/go.mod --
+-- indirect2/golang.mod --
 module example.net/indirect
 
-go 1.17
+golang 1.17
 
 require example.net/other v0.2.0
--- indirect2/indirect.go --
+-- indirect2/indirect.golang --
 package indirect
 
 import "example.net/other"
--- other/go.mod --
+-- other/golang.mod --
 module example.net/other
 
-go 1.17
--- other/other.go --
+golang 1.17
+-- other/other.golang --
 package other

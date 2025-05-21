@@ -1,9 +1,9 @@
 // run
 
-//go:build !nacl && !js && !wasip1
+//golang:build !nacl && !js && !wasip1
 
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Ensure that label redefinition errors print out
@@ -71,12 +71,12 @@ bar            :
 	}
 
 	for i, test := range tests {
-		filename := filepath.Join(tmpdir, fmt.Sprintf("%d.go", i))
+		filename := filepath.Join(tmpdir, fmt.Sprintf("%d.golang", i))
 		if err := ioutil.WriteFile(filename, []byte(test.code), 0644); err != nil {
 			log.Printf("#%d: failed to create file %s", i, filename)
 			continue
 		}
-		output, _ := exec.Command("go", "tool", "compile", "-p=p", filename).CombinedOutput()
+		output, _ := exec.Command("golang", "tool", "compile", "-p=p", filename).CombinedOutput()
 
 		// remove each matching error from the output
 		for _, err := range test.errors {

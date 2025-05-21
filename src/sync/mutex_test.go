@@ -1,8 +1,8 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// GOMAXPROCS=10 go test
+// GOMAXPROCS=10 golang test
 
 package sync_test
 
@@ -31,7 +31,7 @@ func TestSemaphore(t *testing.T) {
 	*s = 1
 	c := make(chan bool)
 	for i := 0; i < 10; i++ {
-		go HammerSemaphore(s, 1000, c)
+		golang HammerSemaphore(s, 1000, c)
 	}
 	for i := 0; i < 10; i++ {
 		<-c
@@ -52,8 +52,8 @@ func BenchmarkContendedSemaphore(b *testing.B) {
 	defer runtime.GOMAXPROCS(runtime.GOMAXPROCS(2))
 	b.StartTimer()
 
-	go HammerSemaphore(s, b.N/2, c)
-	go HammerSemaphore(s, b.N/2, c)
+	golang HammerSemaphore(s, b.N/2, c)
+	golang HammerSemaphore(s, b.N/2, c)
 	<-c
 	<-c
 }
@@ -74,7 +74,7 @@ func HammerMutex(m *Mutex, loops int, cdone chan bool) {
 
 func TestMutex(t *testing.T) {
 	if n := runtime.SetMutexProfileFraction(1); n != 0 {
-		t.Logf("got mutexrate %d expected 0", n)
+		t.Logf("golangt mutexrate %d expected 0", n)
 	}
 	defer runtime.SetMutexProfileFraction(0)
 
@@ -92,7 +92,7 @@ func TestMutex(t *testing.T) {
 
 	c := make(chan bool)
 	for i := 0; i < 10; i++ {
-		go HammerMutex(m, 1000, c)
+		golang HammerMutex(m, 1000, c)
 	}
 	for i := 0; i < 10; i++ {
 		<-c
@@ -199,7 +199,7 @@ func TestMutexFairness(t *testing.T) {
 	var mu Mutex
 	stop := make(chan bool)
 	defer close(stop)
-	go func() {
+	golang func() {
 		for {
 			mu.Lock()
 			time.Sleep(100 * time.Microsecond)
@@ -212,7 +212,7 @@ func TestMutexFairness(t *testing.T) {
 		}
 	}()
 	done := make(chan bool, 1)
-	go func() {
+	golang func() {
 		for i := 0; i < 10; i++ {
 			time.Sleep(100 * time.Microsecond)
 			mu.Lock()
@@ -281,9 +281,9 @@ func BenchmarkMutexWorkSlack(b *testing.B) {
 func BenchmarkMutexNoSpin(b *testing.B) {
 	// This benchmark models a situation where spinning in the mutex should be
 	// non-profitable and allows to confirm that spinning does not do harm.
-	// To achieve this we create excess of goroutines most of which do local work.
-	// These goroutines yield during local work, so that switching from
-	// a blocked goroutine to other goroutines is profitable.
+	// To achieve this we create excess of golangroutines most of which do local work.
+	// These golangroutines yield during local work, so that switching from
+	// a blocked golangroutine to other golangroutines is profitable.
 	// As a matter of fact, this benchmark still triggers some spinning in the mutex.
 	var m Mutex
 	var acc0, acc1 uint64
@@ -302,8 +302,8 @@ func BenchmarkMutexNoSpin(b *testing.B) {
 					data[i]++
 				}
 				// Elaborate way to say runtime.Gosched
-				// that does not put the goroutine onto global runq.
-				go func() {
+				// that does not put the golangroutine onto global runq.
+				golang func() {
 					c <- true
 				}()
 				<-c
@@ -314,8 +314,8 @@ func BenchmarkMutexNoSpin(b *testing.B) {
 
 func BenchmarkMutexSpin(b *testing.B) {
 	// This benchmark models a situation where spinning in the mutex should be
-	// profitable. To achieve this we create a goroutine per-proc.
-	// These goroutines access considerable amount of local data so that
+	// profitable. To achieve this we create a golangroutine per-proc.
+	// These golangroutines access considerable amount of local data so that
 	// unnecessary rescheduling is penalized by cache misses.
 	var m Mutex
 	var acc0, acc1 uint64

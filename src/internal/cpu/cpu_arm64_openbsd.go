@@ -1,8 +1,8 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build arm64
+//golang:build arm64
 
 package cpu
 
@@ -16,7 +16,7 @@ const (
 	_CPU_ID_AA64PFR0  = 8
 )
 
-//go:noescape
+//golang:noescape
 func sysctlUint64(mib []uint32) (uint64, bool)
 
 func osInit() {

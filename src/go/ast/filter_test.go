@@ -1,16 +1,16 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// To avoid a cyclic dependency with go/parser, this file is in a separate package.
+// To avoid a cyclic dependency with golang/parser, this file is in a separate package.
 
 package ast_test
 
 import (
-	"go/ast"
-	"go/format"
-	"go/parser"
-	"go/token"
+	"golang/ast"
+	"golang/format"
+	"golang/parser"
+	"golang/token"
 	"strings"
 	"testing"
 )
@@ -38,7 +38,7 @@ func (x *t2) f2() {}
 // of one without, and it favors duplicate entries appearing
 // later in the source over ones appearing earlier. This is why
 // (*t2).f2 is kept and t2.f2 is eliminated in this test case.
-const golden = `package p
+const golanglden = `package p
 
 type t1 struct{}
 type t2 struct{}
@@ -79,7 +79,7 @@ func TestFilterDuplicates(t *testing.T) {
 	}
 	output := buf.String()
 
-	if output != golden {
+	if output != golanglden {
 		t.Errorf("incorrect output:\n%s", output)
 	}
 }

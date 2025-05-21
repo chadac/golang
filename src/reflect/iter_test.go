@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package reflect_test
@@ -35,7 +35,7 @@ func TestValueSeq(t *testing.T) {
 			i := int64(0)
 			for v := range s {
 				if v.Int() != i {
-					t.Fatalf("got %d, want %d", v.Int(), i)
+					t.Fatalf("golangt %d, want %d", v.Int(), i)
 				}
 				i++
 			}
@@ -47,7 +47,7 @@ func TestValueSeq(t *testing.T) {
 			i := int8(0)
 			for v := range s {
 				if v.Interface().(int8) != i {
-					t.Fatalf("got %d, want %d", v.Int(), i)
+					t.Fatalf("golangt %d, want %d", v.Int(), i)
 				}
 				i++
 			}
@@ -59,7 +59,7 @@ func TestValueSeq(t *testing.T) {
 			i := uint64(0)
 			for v := range s {
 				if v.Uint() != i {
-					t.Fatalf("got %d, want %d", v.Uint(), i)
+					t.Fatalf("golangt %d, want %d", v.Uint(), i)
 				}
 				i++
 			}
@@ -71,7 +71,7 @@ func TestValueSeq(t *testing.T) {
 			i := uint8(0)
 			for v := range s {
 				if v.Interface().(uint8) != i {
-					t.Fatalf("got %d, want %d", v.Int(), i)
+					t.Fatalf("golangt %d, want %d", v.Int(), i)
 				}
 				i++
 			}
@@ -83,7 +83,7 @@ func TestValueSeq(t *testing.T) {
 			i := int64(0)
 			for v := range s {
 				if v.Int() != i {
-					t.Fatalf("got %d, want %d", v.Int(), i)
+					t.Fatalf("golangt %d, want %d", v.Int(), i)
 				}
 				i++
 			}
@@ -95,7 +95,7 @@ func TestValueSeq(t *testing.T) {
 			i := int64(0)
 			for v := range s {
 				if v.Int() != i {
-					t.Fatalf("got %d, want %d", v.Int(), i)
+					t.Fatalf("golangt %d, want %d", v.Int(), i)
 				}
 				i++
 			}
@@ -107,7 +107,7 @@ func TestValueSeq(t *testing.T) {
 			i := int64(0)
 			for v := range s {
 				if v.Int() != i {
-					t.Fatalf("got %d, want %d", v.Int(), i)
+					t.Fatalf("golangt %d, want %d", v.Int(), i)
 				}
 				i++
 			}
@@ -120,7 +120,7 @@ func TestValueSeq(t *testing.T) {
 			indexes := []int64{0, 1, 2, 5}
 			for v := range s {
 				if v.Int() != indexes[i] {
-					t.Fatalf("got %d, want %d", v.Int(), indexes[i])
+					t.Fatalf("golangt %d, want %d", v.Int(), indexes[i])
 				}
 				i++
 			}
@@ -168,7 +168,7 @@ func TestValueSeq(t *testing.T) {
 			i := int64(0)
 			for v := range s {
 				if v.Int() != i {
-					t.Fatalf("got %d, want %d", v.Int(), i)
+					t.Fatalf("golangt %d, want %d", v.Int(), i)
 				}
 				i++
 			}
@@ -180,7 +180,7 @@ func TestValueSeq(t *testing.T) {
 			i := int64(0)
 			for v := range s {
 				if v.Int() != i {
-					t.Fatalf("got %d, want %d", v.Int(), i)
+					t.Fatalf("golangt %d, want %d", v.Int(), i)
 				}
 				i++
 			}
@@ -192,11 +192,11 @@ func TestValueSeq(t *testing.T) {
 			i := N(0)
 			for v := range s {
 				if v.Int() != int64(i) {
-					t.Fatalf("got %d, want %d", v.Int(), i)
+					t.Fatalf("golangt %d, want %d", v.Int(), i)
 				}
 				i++
 				if v.Type() != reflect.TypeOf(i) {
-					t.Fatalf("got %s, want %s", v.Type(), reflect.TypeOf(i))
+					t.Fatalf("golangt %s, want %s", v.Type(), reflect.TypeOf(i))
 				}
 			}
 			if i != 4 {
@@ -226,11 +226,11 @@ func TestValueSeq2(t *testing.T) {
 			i := int64(0)
 			for v1, v2 := range s {
 				if v1.Int() != i {
-					t.Fatalf("got %d, want %d", v1.Int(), i)
+					t.Fatalf("golangt %d, want %d", v1.Int(), i)
 				}
 				i++
 				if v2.Int() != i {
-					t.Fatalf("got %d, want %d", v2.Int(), i)
+					t.Fatalf("golangt %d, want %d", v2.Int(), i)
 				}
 			}
 			if i != 4 {
@@ -241,11 +241,11 @@ func TestValueSeq2(t *testing.T) {
 			i := int64(0)
 			for v1, v2 := range s {
 				if v1.Int() != i {
-					t.Fatalf("got %d, want %d", v1.Int(), i)
+					t.Fatalf("golangt %d, want %d", v1.Int(), i)
 				}
 				i++
 				if v2.Int() != i {
-					t.Fatalf("got %d, want %d", v2.Int(), i)
+					t.Fatalf("golangt %d, want %d", v2.Int(), i)
 				}
 			}
 			if i != 4 {
@@ -256,11 +256,11 @@ func TestValueSeq2(t *testing.T) {
 			i := int64(0)
 			for v1, v2 := range s {
 				if v1.Int() != i {
-					t.Fatalf("got %d, want %d", v1.Int(), i)
+					t.Fatalf("golangt %d, want %d", v1.Int(), i)
 				}
 				i++
 				if v2.Int() != i {
-					t.Fatalf("got %d, want %d", v2.Int(), i)
+					t.Fatalf("golangt %d, want %d", v2.Int(), i)
 				}
 			}
 			if i != 4 {
@@ -277,10 +277,10 @@ func TestValueSeq2(t *testing.T) {
 					t.Fatalf("should loop four times")
 				}
 				if v1.Int() != int64(j) {
-					t.Fatalf("got %d, want %d", v1.Int(), j)
+					t.Fatalf("golangt %d, want %d", v1.Int(), j)
 				}
 				if v2.Interface() != s {
-					t.Fatalf("got %v, want %v", v2.Interface(), s)
+					t.Fatalf("golangt %v, want %v", v2.Interface(), s)
 				}
 				i++
 			}
@@ -296,7 +296,7 @@ func TestValueSeq2(t *testing.T) {
 					t.Fatalf("unexpected %v", v1.String())
 				}
 				if v != v2.Interface() {
-					t.Fatalf("got %v, want %d", v2.Interface(), v)
+					t.Fatalf("golangt %v, want %d", v2.Interface(), v)
 				}
 				delete(copy, v1.String())
 			}
@@ -312,11 +312,11 @@ func TestValueSeq2(t *testing.T) {
 			i := int64(0)
 			for v1, v2 := range s {
 				if v1.Int() != i {
-					t.Fatalf("got %d, want %d", v1.Int(), i)
+					t.Fatalf("golangt %d, want %d", v1.Int(), i)
 				}
 				i++
 				if v2.Int() != i {
-					t.Fatalf("got %d, want %d", v2.Int(), i)
+					t.Fatalf("golangt %d, want %d", v2.Int(), i)
 				}
 			}
 			if i != 4 {
@@ -327,11 +327,11 @@ func TestValueSeq2(t *testing.T) {
 			i := int64(0)
 			for v1, v2 := range s {
 				if v1.Int() != i {
-					t.Fatalf("got %d, want %d", v1.Int(), i)
+					t.Fatalf("golangt %d, want %d", v1.Int(), i)
 				}
 				i++
 				if v2.Int() != i {
-					t.Fatalf("got %d, want %d", v2.Int(), i)
+					t.Fatalf("golangt %d, want %d", v2.Int(), i)
 				}
 			}
 			if i != 4 {
@@ -342,14 +342,14 @@ func TestValueSeq2(t *testing.T) {
 			i := N(0)
 			for v1, v2 := range s {
 				if v1.Int() != int64(i) {
-					t.Fatalf("got %d, want %d", v1.Int(), i)
+					t.Fatalf("golangt %d, want %d", v1.Int(), i)
 				}
 				if v2.Int() != int64(i) {
-					t.Fatalf("got %d, want %d", v2.Int(), i)
+					t.Fatalf("golangt %d, want %d", v2.Int(), i)
 				}
 				i++
 				if v2.Type() != reflect.TypeOf(i) {
-					t.Fatalf("got %s, want %s", v2.Type(), reflect.TypeOf(i))
+					t.Fatalf("golangt %s, want %s", v2.Type(), reflect.TypeOf(i))
 				}
 			}
 			if i != 4 {
@@ -360,14 +360,14 @@ func TestValueSeq2(t *testing.T) {
 			i := N(0)
 			for v1, v2 := range s {
 				if v1.Int() != int64(i) {
-					t.Fatalf("got %d, want %d", v1.Int(), i)
+					t.Fatalf("golangt %d, want %d", v1.Int(), i)
 				}
 				i++
 				if v2.Int() != int64(i) {
-					t.Fatalf("got %d, want %d", v2.Int(), i)
+					t.Fatalf("golangt %d, want %d", v2.Int(), i)
 				}
 				if v2.Type() != reflect.TypeOf(i) {
-					t.Fatalf("got %s, want %s", v2.Type(), reflect.TypeOf(i))
+					t.Fatalf("golangt %s, want %s", v2.Type(), reflect.TypeOf(i))
 				}
 			}
 			if i != 4 {

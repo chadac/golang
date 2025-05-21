@@ -1,8 +1,8 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !plan9
+//golang:build !plan9
 
 package lockedfile
 
@@ -10,7 +10,7 @@ import (
 	"io/fs"
 	"os"
 
-	"cmd/go/internal/lockedfile/internal/filelock"
+	"cmd/golang/internal/lockedfile/internal/filelock"
 )
 
 func openFile(name string, flag int, perm fs.FileMode) (*os.File, error) {
@@ -38,7 +38,7 @@ func openFile(name string, flag int, perm fs.FileMode) (*os.File, error) {
 	if flag&os.O_TRUNC == os.O_TRUNC {
 		if err := f.Truncate(0); err != nil {
 			// The documentation for os.O_TRUNC says “if possible, truncate file when
-			// opened”, but doesn't define “possible” (golang.org/issue/28699).
+			// opened”, but doesn't define “possible” (golanglang.org/issue/28699).
 			// We'll treat regular files (and symlinks to regular files) as “possible”
 			// and ignore errors for the rest.
 			if fi, statErr := f.Stat(); statErr != nil || fi.Mode().IsRegular() {

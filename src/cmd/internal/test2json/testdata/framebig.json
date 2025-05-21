@@ -89,8 +89,8 @@
 {"Action":"output","Test":"ExampleLastIndexFunc","Output":"=== RUN   ExampleLastIndexFunc\n"}
 {"Action":"output","Test":"ExampleLastIndexFunc","Output":"--- PASS: ExampleLastIndexFunc (0.00s)\n"}
 {"Action":"pass","Test":"ExampleLastIndexFunc"}
-{"Action":"output","Output":"goos: darwin\n"}
-{"Action":"output","Output":"goarch: amd64\n"}
+{"Action":"output","Output":"golangos: darwin\n"}
+{"Action":"output","Output":"golangarch: amd64\n"}
 {"Action":"output","Output":"pkg: strings\n"}
 {"Action":"output","Output":"cpu: Intel(R) Core(TM) i9-9980HK CPU @ 2.40GHz\n"}
 {"Action":"run","Test":"BenchmarkIndexRune"}

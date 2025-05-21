@@ -1,12 +1,12 @@
 -- .mod --
-module example.com/retract/newergoversion
+module example.com/retract/newergolangversion
 
-go 1.23
+golang 1.23
 
 retract v1.2.0
 
 -- .info --
 {"Version":"v1.2.0"}
 
--- retract.go --
-package newergoversion
+-- retract.golang --
+package newergolangversion

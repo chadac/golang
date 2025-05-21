@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Garbage collector liveness bitmap generation.
@@ -497,8 +497,8 @@ func IsUnsafe(f *ssa.Func) bool {
 	// in the runtime unsafe. obj will add prologues and their
 	// safe-points.
 	//
-	// go:nosplit functions are similar. Since safe points used to
-	// be coupled with stack checks, go:nosplit often actually
+	// golang:nosplit functions are similar. Since safe points used to
+	// be coupled with stack checks, golang:nosplit often actually
 	// means "no safe points in this function".
 	return base.Flag.CompilingRuntime || f.NoSplit
 }
@@ -530,13 +530,13 @@ func (lv *Liveness) markUnsafePoints() {
 			}
 			// WBend appears at the start of a block, like this:
 			//    ...
-			//    if wbEnabled: goto C else D
+			//    if wbEnabled: golangto C else D
 			// C:
 			//    ... some write barrier enabled code ...
-			//    goto B
+			//    golangto B
 			// D:
 			//    ... some write barrier disabled code ...
-			//    goto B
+			//    golangto B
 			// B:
 			//    m1 = Phi mem_C mem_D
 			//    m2 = store operation ... m1
@@ -769,7 +769,7 @@ func (lv *Liveness) epilogue() {
 					// its stack copy is not live.
 					continue
 				}
-				// Note: zeroing is handled by zeroResults in walk.go.
+				// Note: zeroing is handled by zeroResults in walk.golang.
 				livedefer.Set(int32(i))
 			}
 			if n.IsOutputParamHeapAddr() {
@@ -910,7 +910,7 @@ func (lv *Liveness) epilogue() {
 // function execution than the local variable bitmaps, so it is possible that
 // we could introduce a separate PCDATA index for arguments vs locals and
 // then compact the set of argument bitmaps separately from the set of
-// local variable bitmaps. As of 2014-04-02, doing this to the godoc binary
+// local variable bitmaps. As of 2014-04-02, doing this to the golangdoc binary
 // is actually a net loss: we save about 50k of argument bitmaps but the new
 // PCDATA tables cost about 100k. So for now we keep using a single index for
 // both bitmap lists.
@@ -945,7 +945,7 @@ func (lv *Liveness) enableClobber() {
 	if !base.Flag.ClobberDead {
 		return
 	}
-	if lv.fn.Pragma&ir.CgoUnsafeArgs != 0 {
+	if lv.fn.Pragma&ir.CgolangUnsafeArgs != 0 {
 		// C or assembly code uses the exact frame layout. Don't clobber.
 		return
 	}
@@ -966,12 +966,12 @@ func (lv *Liveness) enableClobber() {
 	if lv.f.Name == "wbBufFlush" ||
 		((lv.f.Name == "callReflect" || lv.f.Name == "callMethod") && lv.fn.ABIWrapper()) {
 		// runtime.wbBufFlush must not modify its arguments. See the comments
-		// in runtime/mwbbuf.go:wbBufFlush.
+		// in runtime/mwbbuf.golang:wbBufFlush.
 		//
 		// reflect.callReflect and reflect.callMethod are called from special
 		// functions makeFuncStub and methodValueCall. The runtime expects
 		// that it can find the first argument (ctxt) at 0(SP) in makeFuncStub
-		// and methodValueCall's frame (see runtime/traceback.go:getArgInfo).
+		// and methodValueCall's frame (see runtime/traceback.golang:getArgInfo).
 		// Normally callReflect and callMethod already do not modify the
 		// argument, and keep it alive. But the compiler-generated ABI wrappers
 		// don't do that. Special case the wrappers to not clobber its arguments.
@@ -1351,7 +1351,7 @@ func (lv *Liveness) emit() (argsSym, liveSym *obj.LSym) {
 	// We cannot shrink them to only hold the largest pointer,
 	// because their size is used to calculate the beginning
 	// of the local variables frame.
-	// Further discussion in https://golang.org/cl/104175.
+	// Further discussion in https://golanglang.org/cl/104175.
 	// TODO: consider trimming leading zeros.
 	// This would require shifting all bitmaps.
 	maxLocals := lv.stkptrsize
@@ -1470,7 +1470,7 @@ func (lv *Liveness) emitStackObjects() *obj.LSym {
 	slices.SortFunc(vars, func(a, b *ir.Name) int { return cmp.Compare(a.FrameOffset(), b.FrameOffset()) })
 
 	// Populate the stack object data.
-	// Format must match runtime/stack.go:stackObjectRecord.
+	// Format must match runtime/stack.golang:stackObjectRecord.
 	x := base.Ctxt.Lookup(lv.fn.LSym.Name + ".stkobj")
 	x.Set(obj.AttrContentAddressable, true)
 	lv.fn.LSym.Func().StackObjects = x

@@ -1,13 +1,13 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package typecheck
 
 import (
 	"fmt"
-	"go/constant"
-	"go/token"
+	"golang/constant"
+	"golang/token"
 	"internal/types/errors"
 	"strings"
 
@@ -354,7 +354,7 @@ func tcConv(n *ir.ConvExpr) ir.Node {
 	}
 	op, why := convertOp(n.X.Op() == ir.OLITERAL, t, n.Type())
 	if op == ir.OXXX {
-		// Due to //go:nointerface, we may be stricter than types2 here (#63333).
+		// Due to //golang:nointerface, we may be stricter than types2 here (#63333).
 		base.ErrorfAt(n.Pos(), errors.InvalidConversion, "cannot convert %L to type %v%s", n.X, n.Type(), why)
 		n.SetType(nil)
 		return n

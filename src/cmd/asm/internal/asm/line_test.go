@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package asm
@@ -35,9 +35,9 @@ func TestAMD64BadInstParser(t *testing.T) {
 	})
 }
 
-func testBadInstParser(t *testing.T, goarch string, tests []badInstTest) {
+func testBadInstParser(t *testing.T, golangarch string, tests []badInstTest) {
 	for i, test := range tests {
-		arch, ctxt := setArch(goarch)
+		arch, ctxt := setArch(golangarch)
 		tokenizer := lex.NewTokenizer("", strings.NewReader(test.input+"\n"), nil)
 		parser := NewParser(ctxt, arch, tokenizer)
 

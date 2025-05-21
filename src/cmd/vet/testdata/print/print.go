@@ -1,5 +1,5 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file contains tests for the printf checker.
@@ -29,7 +29,7 @@ func (errorTest1) Error(...interface{}) string {
 	return "hi"
 }
 
-type errorTest2 int // Analogous to testing's *T type.
+type errorTest2 int // Analogolangus to testing's *T type.
 func (errorTest2) Error(...interface{}) {
 }
 
@@ -61,7 +61,7 @@ func PrintfTests() {
 	var imap map[int]int
 	var fslice []float64
 	var c complex64
-	// Some good format/argtypes
+	// Some golangod format/argtypes
 	fmt.Printf("")
 	fmt.Printf("%b %b %b", 3, i, x)
 	fmt.Printf("%c %c %c %c", 3, i, 'x', r)

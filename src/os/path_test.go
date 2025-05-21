@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package os_test
@@ -127,8 +127,8 @@ func TestMkdirAllAtSlash(t *testing.T) {
 		t.Skipf("skipping non-hermetic test outside of Go builders")
 	}
 
-	RemoveAll("/_go_os_test")
-	const dir = "/_go_os_test/dir"
+	RemoveAll("/_golang_os_test")
+	const dir = "/_golang_os_test/dir"
 	err := MkdirAll(dir, 0777)
 	if err != nil {
 		pathErr, ok := err.(*PathError)
@@ -136,7 +136,7 @@ func TestMkdirAllAtSlash(t *testing.T) {
 		if ok && (pathErr.Err == syscall.EACCES || isReadonlyError(pathErr.Err)) {
 			t.Skipf("could not create %v: %v", dir, err)
 		}
-		t.Fatalf(`MkdirAll "/_go_os_test/dir": %v, %s`, err, pathErr.Err)
+		t.Fatalf(`MkdirAll "/_golang_os_test/dir": %v, %s`, err, pathErr.Err)
 	}
-	RemoveAll("/_go_os_test")
+	RemoveAll("/_golang_os_test")
 }

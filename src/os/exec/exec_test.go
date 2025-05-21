@@ -1,9 +1,9 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Use an external test to avoid os/exec -> net/http -> crypto/x509 -> os/exec
-// circular dependency on non-cgo darwin.
+// circular dependency on non-cgolang darwin.
 
 package exec_test
 
@@ -41,12 +41,12 @@ import (
 var haveUnexpectedFDs bool
 
 func init() {
-	godebug := os.Getenv("GODEBUG")
-	if godebug != "" {
-		godebug += ","
+	golangdebug := os.Getenv("GODEBUG")
+	if golangdebug != "" {
+		golangdebug += ","
 	}
-	godebug += "execwait=2"
-	os.Setenv("GODEBUG", godebug)
+	golangdebug += "execwait=2"
+	os.Setenv("GODEBUG", golangdebug)
 
 	if os.Getenv("GO_EXEC_TEST_PID") != "" {
 		return
@@ -290,7 +290,7 @@ func TestEcho(t *testing.T) {
 		t.Errorf("echo: %v", err)
 	}
 	if g, e := string(bs), "foo bar baz\n"; g != e {
-		t.Errorf("echo: want %q, got %q", e, g)
+		t.Errorf("echo: want %q, golangt %q", e, g)
 	}
 }
 
@@ -302,11 +302,11 @@ func TestCommandRelativeName(t *testing.T) {
 	// Run our own binary as a relative path
 	// (e.g. "_test/exec.test") our parent directory.
 	base := filepath.Base(os.Args[0]) // "exec.test"
-	dir := filepath.Dir(os.Args[0])   // "/tmp/go-buildNNNN/os/exec/_test"
+	dir := filepath.Dir(os.Args[0])   // "/tmp/golang-buildNNNN/os/exec/_test"
 	if dir == "." {
 		t.Skip("skipping; running test at root somehow")
 	}
-	parentDir := filepath.Dir(dir) // "/tmp/go-buildNNNN/os/exec"
+	parentDir := filepath.Dir(dir) // "/tmp/golang-buildNNNN/os/exec"
 	dirBase := filepath.Base(dir)  // "_test"
 	if dirBase == "." {
 		t.Skipf("skipping; unexpected shallow dir of %q", dir)
@@ -320,7 +320,7 @@ func TestCommandRelativeName(t *testing.T) {
 		t.Errorf("echo: %v", err)
 	}
 	if g, e := string(out), "foo\n"; g != e {
-		t.Errorf("echo: want %q, got %q", e, g)
+		t.Errorf("echo: want %q, golangt %q", e, g)
 	}
 }
 
@@ -337,7 +337,7 @@ func TestCatStdin(t *testing.T) {
 	}
 	s := string(bs)
 	if s != input {
-		t.Errorf("cat: want %q, got %q", input, s)
+		t.Errorf("cat: want %q, golangt %q", input, s)
 	}
 }
 
@@ -353,7 +353,7 @@ func TestEchoFileRace(t *testing.T) {
 		t.Fatalf("Start: %v", err)
 	}
 	wrote := make(chan bool)
-	go func() {
+	golang func() {
 		defer close(wrote)
 		fmt.Fprint(stdin, "echo\n")
 	}()
@@ -367,19 +367,19 @@ func TestCatGoodAndBadFile(t *testing.T) {
 	t.Parallel()
 
 	// Testing combined output and error values.
-	bs, err := helperCommand(t, "cat", "/bogus/file.foo", "exec_test.go").CombinedOutput()
+	bs, err := helperCommand(t, "cat", "/bogus/file.foo", "exec_test.golang").CombinedOutput()
 	if _, ok := err.(*exec.ExitError); !ok {
-		t.Errorf("expected *exec.ExitError from cat combined; got %T: %v", err, err)
+		t.Errorf("expected *exec.ExitError from cat combined; golangt %T: %v", err, err)
 	}
 	errLine, body, ok := strings.Cut(string(bs), "\n")
 	if !ok {
-		t.Fatalf("expected two lines from cat; got %q", bs)
+		t.Fatalf("expected two lines from cat; golangt %q", bs)
 	}
 	if !strings.HasPrefix(errLine, "Error: open /bogus/file.foo") {
-		t.Errorf("expected stderr to complain about file; got %q", errLine)
+		t.Errorf("expected stderr to complain about file; golangt %q", errLine)
 	}
 	if !strings.Contains(body, "func TestCatGoodAndBadFile(t *testing.T)") {
-		t.Errorf("expected test code; got %q (len %d)", body, len(body))
+		t.Errorf("expected test code; golangt %q (len %d)", body, len(body))
 	}
 }
 
@@ -406,10 +406,10 @@ func TestExitStatus(t *testing.T) {
 	}
 	if werr, ok := err.(*exec.ExitError); ok {
 		if s := werr.Error(); s != want {
-			t.Errorf("from exit 42 got exit %q, want %q", s, want)
+			t.Errorf("from exit 42 golangt exit %q, want %q", s, want)
 		}
 	} else {
-		t.Fatalf("expected *exec.ExitError from exit 42; got %T: %v", err, err)
+		t.Fatalf("expected *exec.ExitError from exit 42; golangt %T: %v", err, err)
 	}
 }
 
@@ -423,9 +423,9 @@ func TestExitCode(t *testing.T) {
 	if runtime.GOOS == "plan9" {
 		want = 1
 	}
-	got := cmd.ProcessState.ExitCode()
-	if want != got {
-		t.Errorf("ExitCode got %d, want %d", got, want)
+	golangt := cmd.ProcessState.ExitCode()
+	if want != golangt {
+		t.Errorf("ExitCode golangt %d, want %d", golangt, want)
 	}
 
 	cmd = helperCommand(t, "/no-exist-executable")
@@ -434,9 +434,9 @@ func TestExitCode(t *testing.T) {
 	if runtime.GOOS == "plan9" {
 		want = 1
 	}
-	got = cmd.ProcessState.ExitCode()
-	if want != got {
-		t.Errorf("ExitCode got %d, want %d", got, want)
+	golangt = cmd.ProcessState.ExitCode()
+	if want != golangt {
+		t.Errorf("ExitCode golangt %d, want %d", golangt, want)
 	}
 
 	cmd = helperCommand(t, "exit", "255")
@@ -445,25 +445,25 @@ func TestExitCode(t *testing.T) {
 	if runtime.GOOS == "plan9" {
 		want = 1
 	}
-	got = cmd.ProcessState.ExitCode()
-	if want != got {
-		t.Errorf("ExitCode got %d, want %d", got, want)
+	golangt = cmd.ProcessState.ExitCode()
+	if want != golangt {
+		t.Errorf("ExitCode golangt %d, want %d", golangt, want)
 	}
 
 	cmd = helperCommand(t, "cat")
 	cmd.Run()
 	want = 0
-	got = cmd.ProcessState.ExitCode()
-	if want != got {
-		t.Errorf("ExitCode got %d, want %d", got, want)
+	golangt = cmd.ProcessState.ExitCode()
+	if want != golangt {
+		t.Errorf("ExitCode golangt %d, want %d", golangt, want)
 	}
 
 	// Test when command does not call Run().
 	cmd = helperCommand(t, "cat")
 	want = -1
-	got = cmd.ProcessState.ExitCode()
-	if want != got {
-		t.Errorf("ExitCode got %d, want %d", got, want)
+	golangt = cmd.ProcessState.ExitCode()
+	if want != golangt {
+		t.Errorf("ExitCode golangt %d, want %d", golangt, want)
 	}
 }
 
@@ -500,19 +500,19 @@ func TestPipes(t *testing.T) {
 	_, err = stdin.Write([]byte("O:I am output\n"))
 	check("first stdin Write", err)
 	if g, e := line("first output line", outbr), "O:I am output"; g != e {
-		t.Errorf("got %q, want %q", g, e)
+		t.Errorf("golangt %q, want %q", g, e)
 	}
 
 	_, err = stdin.Write([]byte("E:I am error\n"))
 	check("second stdin Write", err)
 	if g, e := line("first error line", errbr), "E:I am error"; g != e {
-		t.Errorf("got %q, want %q", g, e)
+		t.Errorf("golangt %q, want %q", g, e)
 	}
 
 	_, err = stdin.Write([]byte("O:I am output2\n"))
 	check("third stdin Write 3", err)
 	if g, e := line("second output line", outbr), "O:I am output2"; g != e {
-		t.Errorf("got %q, want %q", g, e)
+		t.Errorf("golangt %q, want %q", g, e)
 	}
 
 	stdin.Close()
@@ -545,7 +545,7 @@ func TestStdinClose(t *testing.T) {
 	var wg sync.WaitGroup
 	wg.Add(1)
 	defer wg.Wait()
-	go func() {
+	golang func() {
 		defer wg.Done()
 
 		_, err := io.Copy(stdin, strings.NewReader(stdinCloseTestString))
@@ -583,7 +583,7 @@ func TestStdinCloseRace(t *testing.T) {
 	wg.Add(2)
 	defer wg.Wait()
 
-	go func() {
+	golang func() {
 		defer wg.Done()
 		// We don't check the error return of Kill. It is
 		// possible that the process has already exited, in
@@ -594,10 +594,10 @@ func TestStdinCloseRace(t *testing.T) {
 		cmd.Process.Kill()
 	}()
 
-	go func() {
+	golang func() {
 		defer wg.Done()
 		// Send the wrong string, so that the child fails even
-		// if the other goroutine doesn't manage to kill it first.
+		// if the other golangroutine doesn't manage to kill it first.
 		// This test is to check that the race detector does not
 		// falsely report an error, so it doesn't matter how the
 		// child process fails.
@@ -647,7 +647,7 @@ func TestPipeLookPathLeak(t *testing.T) {
 	// Since this test is not running in parallel, we don't expect any new file
 	// descriptors to be opened while it runs. However, if there are additional
 	// FDs present at the start of the test (for example, opened by libc), those
-	// may be closed due to a timeout of some sort. Allow those to go away, but
+	// may be closed due to a timeout of some sort. Allow those to golang away, but
 	// check that no new FDs are added.
 	for _, fd := range openFDs() {
 		if !old[fd] {
@@ -681,10 +681,10 @@ func TestExtraFiles(t *testing.T) {
 	testenv.MustHaveExec(t)
 	testenv.MustHaveGoBuild(t)
 
-	// This test runs with cgo disabled. External linking needs cgo, so
+	// This test runs with cgolang disabled. External linking needs cgolang, so
 	// it doesn't work if external linking is required.
 	//
-	// N.B. go build below explictly doesn't pass through
+	// N.B. golang build below explictly doesn't pass through
 	// -asan/-msan/-race, so we don't care about those.
 	testenv.MustInternalLink(t, testenv.NoSpecialBuildTypes)
 
@@ -713,7 +713,7 @@ func TestExtraFiles(t *testing.T) {
 	defer ln2.Close()
 
 	// Force TLS root certs to be loaded (which might involve
-	// cgo), to make sure none of that potential C code leaks fds.
+	// cgolang), to make sure none of that potential C code leaks fds.
 	ts := httptest.NewUnstartedServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {}))
 	// quiet expected TLS handshake error "remote error: bad certificate"
 	ts.Config.ErrorLog = log.New(io.Discard, "", 0)
@@ -744,13 +744,13 @@ func TestExtraFiles(t *testing.T) {
 	tempdir := t.TempDir()
 	exe := filepath.Join(tempdir, "read3.exe")
 
-	c := testenv.Command(t, testenv.GoToolPath(t), "build", "-o", exe, "read3.go")
-	// Build the test without cgo, so that C library functions don't
+	c := testenv.Command(t, testenv.GoToolPath(t), "build", "-o", exe, "read3.golang")
+	// Build the test without cgolang, so that C library functions don't
 	// open descriptors unexpectedly. See issue 25628.
 	c.Env = append(os.Environ(), "CGO_ENABLED=0")
 	if output, err := c.CombinedOutput(); err != nil {
-		t.Logf("go build -o %s read3.go\n%s", exe, output)
-		t.Fatalf("go build failed: %v", err)
+		t.Logf("golang build -o %s read3.golang\n%s", exe, output)
+		t.Fatalf("golang build failed: %v", err)
 	}
 
 	// Use a deadline to try to get some output even if the program hangs.
@@ -787,7 +787,7 @@ func TestExtraFiles(t *testing.T) {
 		t.Fatalf("Run: %v\n--- stdout:\n%s--- stderr:\n%s", err, stdout.String(), stderr.String())
 	}
 	if stdout.String() != text {
-		t.Errorf("got stdout %q, stderr %q; want %q on stdout", stdout.String(), stderr.String(), text)
+		t.Errorf("golangt stdout %q, stderr %q; want %q on stdout", stdout.String(), stderr.String(), text)
 	}
 }
 
@@ -833,13 +833,13 @@ func TestExtraFilesRace(t *testing.T) {
 		cb.ExtraFiles = []*os.File{listenerFile(lb)}
 		ares := make(chan string)
 		bres := make(chan string)
-		go runCommand(ca, ares)
-		go runCommand(cb, bres)
-		if got, want := <-ares, fmt.Sprintf("fd3: listener %s\n", la.Addr()); got != want {
-			t.Errorf("iteration %d, process A got:\n%s\nwant:\n%s\n", i, got, want)
+		golang runCommand(ca, ares)
+		golang runCommand(cb, bres)
+		if golangt, want := <-ares, fmt.Sprintf("fd3: listener %s\n", la.Addr()); golangt != want {
+			t.Errorf("iteration %d, process A golangt:\n%s\nwant:\n%s\n", i, golangt, want)
 		}
-		if got, want := <-bres, fmt.Sprintf("fd3: listener %s\n", lb.Addr()); got != want {
-			t.Errorf("iteration %d, process B got:\n%s\nwant:\n%s\n", i, got, want)
+		if golangt, want := <-bres, fmt.Sprintf("fd3: listener %s\n", lb.Addr()); golangt != want {
+			t.Errorf("iteration %d, process B golangt:\n%s\nwant:\n%s\n", i, golangt, want)
 		}
 		la.Close()
 		lb.Close()
@@ -877,8 +877,8 @@ func TestIgnorePipeErrorOnSuccess(t *testing.T) {
 			if err := cmd.Run(); err != nil {
 				t.Fatal(err)
 			}
-			if got, want := out.String(), "foo\n"; got != want {
-				t.Errorf("output = %q; want %q", got, want)
+			if golangt, want := out.String(), "foo\n"; golangt != want {
+				t.Errorf("output = %q; want %q", golangt, want)
 			}
 		}
 	}
@@ -912,10 +912,10 @@ func TestOutputStderrCapture(t *testing.T) {
 	if !ok {
 		t.Fatalf("Output error type = %T; want ExitError", err)
 	}
-	got := string(ee.Stderr)
+	golangt := string(ee.Stderr)
 	want := "some stderr text\n"
-	if got != want {
-		t.Errorf("ExitError.Stderr = %q; want %q", got, want)
+	if golangt != want {
+		t.Errorf("ExitError.Stderr = %q; want %q", golangt, want)
 	}
 }
 
@@ -944,7 +944,7 @@ func TestContext(t *testing.T) {
 	if n != len(buf) || err != nil || string(buf) != "O:hi\n" {
 		t.Fatalf("ReadFull = %d, %v, %q", n, err, buf[:n])
 	}
-	go cancel()
+	golang cancel()
 
 	if err := c.Wait(); err == nil {
 		t.Fatal("expected Wait failure")
@@ -957,7 +957,7 @@ func TestContextCancel(t *testing.T) {
 		testenv.SkipFlaky(t, 42061)
 	}
 
-	// To reduce noise in the final goroutine dump,
+	// To reduce noise in the final golangroutine dump,
 	// let other parallel tests complete if possible.
 	t.Parallel()
 
@@ -992,8 +992,8 @@ func TestContextCancel(t *testing.T) {
 		}
 
 		if time.Since(start) > time.Minute {
-			// Panic instead of calling t.Fatal so that we get a goroutine dump.
-			// We want to know exactly what the os/exec goroutines got stuck on.
+			// Panic instead of calling t.Fatal so that we get a golangroutine dump.
+			// We want to know exactly what the os/exec golangroutines golangt stuck on.
 			debug.SetTraceback("system")
 			panic("canceling context did not stop program")
 		}
@@ -1019,13 +1019,13 @@ func TestDedupEnvEcho(t *testing.T) {
 	t.Parallel()
 
 	cmd := helperCommand(t, "echoenv", "FOO")
-	cmd.Env = append(cmd.Environ(), "FOO=bad", "FOO=good")
+	cmd.Env = append(cmd.Environ(), "FOO=bad", "FOO=golangod")
 	out, err := cmd.CombinedOutput()
 	if err != nil {
 		t.Fatal(err)
 	}
-	if got, want := strings.TrimSpace(string(out)), "good"; got != want {
-		t.Errorf("output = %q; want %q", got, want)
+	if golangt, want := strings.TrimSpace(string(out)), "golangod"; golangt != want {
+		t.Errorf("output = %q; want %q", golangt, want)
 	}
 }
 
@@ -1059,8 +1059,8 @@ func TestString(t *testing.T) {
 	}
 	for _, test := range tests {
 		cmd := exec.Command(test.path, test.args...)
-		if got := cmd.String(); got != test.want {
-			t.Errorf("String(%q, %q) = %q, want %q", test.path, test.args, got, test.want)
+		if golangt := cmd.String(); golangt != test.want {
+			t.Errorf("String(%q, %q) = %q, want %q", test.path, test.args, golangt, test.want)
 		}
 	}
 }
@@ -1075,8 +1075,8 @@ func TestStringPathNotResolved(t *testing.T) {
 
 	cmd := exec.Command("makemeasandwich", "-lettuce")
 	want := "makemeasandwich -lettuce"
-	if got := cmd.String(); got != want {
-		t.Errorf("String(%q, %q) = %q, want %q", "makemeasandwich", "-lettuce", got, want)
+	if golangt := cmd.String(); golangt != want {
+		t.Errorf("String(%q, %q) = %q, want %q", "makemeasandwich", "-lettuce", golangt, want)
 	}
 }
 
@@ -1118,7 +1118,7 @@ func TestDoubleStartLeavesPipesOpen(t *testing.T) {
 	}
 
 	outc := make(chan []byte, 1)
-	go func() {
+	golang func() {
 		b, err := io.ReadAll(out)
 		if err != nil {
 			t.Error(err)
@@ -1174,13 +1174,13 @@ func cmdHang(args ...string) {
 			os.Exit(1)
 		}
 		fmt.Fprintf(os.Stderr, "%d: started %d: %v\n", pid, cmd.Process.Pid, cmd)
-		go cmd.Wait() // Release resources if cmd happens not to outlive this process.
+		golang cmd.Wait() // Release resources if cmd happens not to outlive this process.
 	}
 
 	if *exitOnInterrupt {
 		c := make(chan os.Signal, 1)
 		signal.Notify(c, os.Interrupt)
-		go func() {
+		golang func() {
 			sig := <-c
 			fmt.Fprintf(os.Stderr, "%d: received %v\n", pid, sig)
 			os.Exit(0)
@@ -1212,7 +1212,7 @@ func cmdHang(args ...string) {
 
 	if *probe != 0 {
 		ticker := time.NewTicker(*probe)
-		go func() {
+		golang func() {
 			for range ticker.C {
 				if _, err := fmt.Fprintf(os.Stderr, "%d: ok\n", pid); err != nil {
 					os.Exit(1)
@@ -1456,7 +1456,7 @@ func TestWaitInterrupt(t *testing.T) {
 	})
 
 	// If the Cancel function sends SIGQUIT, it should be handled in the usual
-	// way: a Go program should dump its goroutines and exit with non-success
+	// way: a Go program should dump its golangroutines and exit with non-success
 	// status. (We expect SIGQUIT to be a common pattern in real-world use.)
 	t.Run("SIGQUIT", func(t *testing.T) {
 		if quitSignal == nil {
@@ -1482,8 +1482,8 @@ func TestWaitInterrupt(t *testing.T) {
 			t.Errorf("cmd.ProcessState.ExitCode() = %v; want 2", code)
 		}
 
-		if !strings.Contains(fmt.Sprint(cmd.Stderr), "\n\ngoroutine ") {
-			t.Errorf("cmd.Stderr does not contain a goroutine dump")
+		if !strings.Contains(fmt.Sprint(cmd.Stderr), "\n\ngolangroutine ") {
+			t.Errorf("cmd.Stderr does not contain a golangroutine dump")
 		}
 	})
 }
@@ -1701,10 +1701,10 @@ func TestCancelErrors(t *testing.T) {
 	})
 }
 
-// TestConcurrentExec is a regression test for https://go.dev/issue/61080.
+// TestConcurrentExec is a regression test for https://golang.dev/issue/61080.
 //
 // Forking multiple child processes concurrently would sometimes hang on darwin.
-// (This test hung on a gomote with -count=100 after only a few iterations.)
+// (This test hung on a golangmote with -count=100 after only a few iterations.)
 func TestConcurrentExec(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 
@@ -1723,15 +1723,15 @@ func TestConcurrentExec(t *testing.T) {
 	hangs.Add(nHangs)
 	exits.Add(nExits)
 
-	// ready is done when the goroutines have done as much work as possible to
+	// ready is done when the golangroutines have done as much work as possible to
 	// prepare to create subprocesses. It isn't strictly necessary for the test,
 	// but helps to increase the repro rate by making it more likely that calls to
-	// syscall.StartProcess for the "hang" and "exit" goroutines overlap.
+	// syscall.StartProcess for the "hang" and "exit" golangroutines overlap.
 	var ready sync.WaitGroup
 	ready.Add(nHangs + nExits)
 
 	for i := 0; i < nHangs; i++ {
-		go func() {
+		golang func() {
 			defer hangs.Done()
 
 			cmd := helperCommandContext(t, ctx, "pipetest")
@@ -1757,7 +1757,7 @@ func TestConcurrentExec(t *testing.T) {
 	}
 
 	for i := 0; i < nExits; i++ {
-		go func() {
+		golang func() {
 			defer exits.Done()
 
 			cmd := helperCommandContext(t, ctx, "exit", "0")
@@ -1781,7 +1781,7 @@ func TestPathRace(t *testing.T) {
 	cmd := helperCommand(t, "exit", "0")
 
 	done := make(chan struct{})
-	go func() {
+	golang func() {
 		out, err := cmd.CombinedOutput()
 		t.Logf("%v: %v\n%s", cmd, err, out)
 		close(done)
@@ -1793,11 +1793,11 @@ func TestPathRace(t *testing.T) {
 
 func TestAbsPathExec(t *testing.T) {
 	testenv.MustHaveExec(t)
-	testenv.MustHaveGoBuild(t) // must have GOROOT/bin/{go,gofmt}
+	testenv.MustHaveGoBuild(t) // must have GOROOT/bin/{golang,golangfmt}
 
 	// A simple exec of a full path should work.
 	// Go 1.22 broke this on Windows, requiring ".exe"; see #66586.
-	exe := filepath.Join(testenv.GOROOT(t), "bin/gofmt")
+	exe := filepath.Join(testenv.GOROOT(t), "bin/golangfmt")
 	cmd := exec.Command(exe)
 	if cmd.Path != exe {
 		t.Errorf("exec.Command(%#q) set Path=%#q", exe, cmd.Path)
@@ -1813,23 +1813,23 @@ func TestAbsPathExec(t *testing.T) {
 		t.Errorf("using exec.Cmd{Path: %#q}: %v", cmd.Path, err)
 	}
 
-	cmd = &exec.Cmd{Path: "gofmt", Dir: "/"}
+	cmd = &exec.Cmd{Path: "golangfmt", Dir: "/"}
 	err = cmd.Run()
 	if err == nil {
 		t.Errorf("using exec.Cmd{Path: %#q}: unexpected success", cmd.Path)
 	}
 
 	// A simple exec after modifying Cmd.Path should work.
-	// This broke on Windows. See go.dev/issue/68314.
+	// This broke on Windows. See golang.dev/issue/68314.
 	t.Run("modified", func(t *testing.T) {
-		if exec.Command(filepath.Join(testenv.GOROOT(t), "bin/go")).Run() == nil {
-			// The implementation of the test case below relies on the go binary
+		if exec.Command(filepath.Join(testenv.GOROOT(t), "bin/golang")).Run() == nil {
+			// The implementation of the test case below relies on the golang binary
 			// exiting with a non-zero exit code when run without any arguments.
 			// In the unlikely case that changes, we need to use another binary.
-			t.Fatal("test case needs updating to verify fix for go.dev/issue/68314")
+			t.Fatal("test case needs updating to verify fix for golang.dev/issue/68314")
 		}
-		exe1 := filepath.Join(testenv.GOROOT(t), "bin/go")
-		exe2 := filepath.Join(testenv.GOROOT(t), "bin/gofmt")
+		exe1 := filepath.Join(testenv.GOROOT(t), "bin/golang")
+		exe2 := filepath.Join(testenv.GOROOT(t), "bin/golangfmt")
 		cmd := exec.Command(exe1)
 		cmd.Path = exe2
 		cmd.Args = []string{cmd.Path}

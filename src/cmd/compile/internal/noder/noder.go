@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package noder
@@ -38,13 +38,13 @@ func LoadPackage(filenames []string) {
 		noders[i] = &p
 	}
 
-	// Move the entire syntax processing logic into a separate goroutine to avoid blocking on the "sem".
-	go func() {
+	// Move the entire syntax processing logic into a separate golangroutine to avoid blocking on the "sem".
+	golang func() {
 		for i, filename := range filenames {
 			filename := filename
 			p := noders[i]
 			sem <- struct{}{}
-			go func() {
+			golang func() {
 				defer func() { <-sem }()
 				defer close(p.err)
 				fbase := syntax.NewFileBase(filename)
@@ -100,11 +100,11 @@ func trimFilename(b *syntax.PosBase) string {
 type noder struct {
 	file       *syntax.File
 	linknames  []linkname
-	pragcgobuf [][]string
+	pragcgolangbuf [][]string
 	err        chan syntax.Error
 }
 
-// linkname records a //go:linkname directive.
+// linkname records a //golang:linkname directive.
 type linkname struct {
 	pos    syntax.Pos
 	local  string
@@ -153,17 +153,17 @@ func (p *noder) error(err error) {
 }
 
 // pragmas that are allowed in the std lib, but don't have
-// a syntax.Pragma value (see lex.go) associated with them.
+// a syntax.Pragma value (see lex.golang) associated with them.
 var allowedStdPragmas = map[string]bool{
-	"go:cgo_export_static":  true,
-	"go:cgo_export_dynamic": true,
-	"go:cgo_import_static":  true,
-	"go:cgo_import_dynamic": true,
-	"go:cgo_ldflag":         true,
-	"go:cgo_dynamic_linker": true,
-	"go:embed":              true,
-	"go:fix":                true,
-	"go:generate":           true,
+	"golang:cgolang_export_static":  true,
+	"golang:cgolang_export_dynamic": true,
+	"golang:cgolang_import_static":  true,
+	"golang:cgolang_import_dynamic": true,
+	"golang:cgolang_ldflag":         true,
+	"golang:cgolang_dynamic_linker": true,
+	"golang:embed":              true,
+	"golang:fix":                true,
+	"golang:generate":           true,
 }
 
 // *pragmas is the value stored in a syntax.pragmas during parsing.
@@ -175,14 +175,14 @@ type pragmas struct {
 	WasmExport *WasmExport
 }
 
-// WasmImport stores metadata associated with the //go:wasmimport pragma
+// WasmImport stores metadata associated with the //golang:wasmimport pragma
 type WasmImport struct {
 	Pos    syntax.Pos
 	Module string
 	Name   string
 }
 
-// WasmExport stores metadata associated with the //go:wasmexport pragma
+// WasmExport stores metadata associated with the //golang:wasmexport pragma
 type WasmExport struct {
 	Pos  syntax.Pos
 	Name string
@@ -206,14 +206,14 @@ func (p *noder) checkUnusedDuringParse(pragma *pragmas) {
 	}
 	if len(pragma.Embeds) > 0 {
 		for _, e := range pragma.Embeds {
-			p.error(syntax.Error{Pos: e.Pos, Msg: "misplaced go:embed directive"})
+			p.error(syntax.Error{Pos: e.Pos, Msg: "misplaced golang:embed directive"})
 		}
 	}
 	if pragma.WasmImport != nil {
-		p.error(syntax.Error{Pos: pragma.WasmImport.Pos, Msg: "misplaced go:wasmimport directive"})
+		p.error(syntax.Error{Pos: pragma.WasmImport.Pos, Msg: "misplaced golang:wasmimport directive"})
 	}
 	if pragma.WasmExport != nil {
-		p.error(syntax.Error{Pos: pragma.WasmExport.Pos, Msg: "misplaced go:wasmexport directive"})
+		p.error(syntax.Error{Pos: pragma.WasmExport.Pos, Msg: "misplaced golang:wasmexport directive"})
 	}
 }
 
@@ -242,10 +242,10 @@ func (p *noder) pragma(pos syntax.Pos, blankLine bool, text string, old syntax.P
 	}
 
 	switch {
-	case strings.HasPrefix(text, "go:wasmimport "):
+	case strings.HasPrefix(text, "golang:wasmimport "):
 		f := strings.Fields(text)
 		if len(f) != 3 {
-			p.error(syntax.Error{Pos: pos, Msg: "usage: //go:wasmimport importmodule importname"})
+			p.error(syntax.Error{Pos: pos, Msg: "usage: //golang:wasmimport importmodule importname"})
 			break
 		}
 
@@ -258,11 +258,11 @@ func (p *noder) pragma(pos syntax.Pos, blankLine bool, text string, old syntax.P
 			}
 		}
 
-	case strings.HasPrefix(text, "go:wasmexport "):
+	case strings.HasPrefix(text, "golang:wasmexport "):
 		f := strings.Fields(text)
 		if len(f) != 2 {
 			// TODO: maybe make the name optional? It was once mentioned on proposal 65199.
-			p.error(syntax.Error{Pos: pos, Msg: "usage: //go:wasmexport exportname"})
+			p.error(syntax.Error{Pos: pos, Msg: "usage: //golang:wasmexport exportname"})
 			break
 		}
 
@@ -274,10 +274,10 @@ func (p *noder) pragma(pos syntax.Pos, blankLine bool, text string, old syntax.P
 			}
 		}
 
-	case strings.HasPrefix(text, "go:linkname "):
+	case strings.HasPrefix(text, "golang:linkname "):
 		f := strings.Fields(text)
 		if !(2 <= len(f) && len(f) <= 3) {
-			p.error(syntax.Error{Pos: pos, Msg: "usage: //go:linkname localname [linkname]"})
+			p.error(syntax.Error{Pos: pos, Msg: "usage: //golang:linkname localname [linkname]"})
 			break
 		}
 		// The second argument is optional. If omitted, we use
@@ -297,40 +297,40 @@ func (p *noder) pragma(pos syntax.Pos, blankLine bool, text string, old syntax.P
 		}
 		p.linknames = append(p.linknames, linkname{pos, f[1], target})
 
-	case text == "go:embed", strings.HasPrefix(text, "go:embed "):
-		args, err := parseGoEmbed(text[len("go:embed"):])
+	case text == "golang:embed", strings.HasPrefix(text, "golang:embed "):
+		args, err := parseGoEmbed(text[len("golang:embed"):])
 		if err != nil {
 			p.error(syntax.Error{Pos: pos, Msg: err.Error()})
 		}
 		if len(args) == 0 {
-			p.error(syntax.Error{Pos: pos, Msg: "usage: //go:embed pattern..."})
+			p.error(syntax.Error{Pos: pos, Msg: "usage: //golang:embed pattern..."})
 			break
 		}
 		pragma.Embeds = append(pragma.Embeds, pragmaEmbed{pos, args})
 
-	case strings.HasPrefix(text, "go:cgo_import_dynamic "):
+	case strings.HasPrefix(text, "golang:cgolang_import_dynamic "):
 		// This is permitted for general use because Solaris
-		// code relies on it in golang.org/x/sys/unix and others.
+		// code relies on it in golanglang.org/x/sys/unix and others.
 		fields := pragmaFields(text)
 		if len(fields) >= 4 {
 			lib := strings.Trim(fields[3], `"`)
-			if lib != "" && !safeArg(lib) && !isCgoGeneratedFile(pos) {
-				p.error(syntax.Error{Pos: pos, Msg: fmt.Sprintf("invalid library name %q in cgo_import_dynamic directive", lib)})
+			if lib != "" && !safeArg(lib) && !isCgolangGeneratedFile(pos) {
+				p.error(syntax.Error{Pos: pos, Msg: fmt.Sprintf("invalid library name %q in cgolang_import_dynamic directive", lib)})
 			}
-			p.pragcgo(pos, text)
-			pragma.Flag |= pragmaFlag("go:cgo_import_dynamic")
+			p.pragcgolang(pos, text)
+			pragma.Flag |= pragmaFlag("golang:cgolang_import_dynamic")
 			break
 		}
 		fallthrough
-	case strings.HasPrefix(text, "go:cgo_"):
-		// For security, we disallow //go:cgo_* directives other
-		// than cgo_import_dynamic outside cgo-generated files.
+	case strings.HasPrefix(text, "golang:cgolang_"):
+		// For security, we disallow //golang:cgolang_* directives other
+		// than cgolang_import_dynamic outside cgolang-generated files.
 		// Exception: they are allowed in the standard library, for runtime and syscall.
-		if !isCgoGeneratedFile(pos) && !base.Flag.Std {
-			p.error(syntax.Error{Pos: pos, Msg: fmt.Sprintf("//%s only allowed in cgo-generated code", text)})
+		if !isCgolangGeneratedFile(pos) && !base.Flag.Std {
+			p.error(syntax.Error{Pos: pos, Msg: fmt.Sprintf("//%s only allowed in cgolang-generated code", text)})
 		}
-		p.pragcgo(pos, text)
-		fallthrough // because of //go:cgo_unsafe_args
+		p.pragcgolang(pos, text)
+		fallthrough // because of //golang:cgolang_unsafe_args
 	default:
 		verb := text
 		if i := strings.Index(text, " "); i >= 0 {
@@ -354,26 +354,26 @@ func (p *noder) pragma(pos syntax.Pos, blankLine bool, text string, old syntax.P
 	return pragma
 }
 
-// isCgoGeneratedFile reports whether pos is in a file
-// generated by cgo, which is to say a file with name
-// beginning with "_cgo_". Such files are allowed to
-// contain cgo directives, and for security reasons
+// isCgolangGeneratedFile reports whether pos is in a file
+// generated by cgolang, which is to say a file with name
+// beginning with "_cgolang_". Such files are allowed to
+// contain cgolang directives, and for security reasons
 // (primarily misuse of linker flags), other files are not.
-// See golang.org/issue/23672.
-// Note that cmd/go ignores files whose names start with underscore,
-// so the only _cgo_ files we will see from cmd/go are generated by cgo.
+// See golanglang.org/issue/23672.
+// Note that cmd/golang ignores files whose names start with underscore,
+// so the only _cgolang_ files we will see from cmd/golang are generated by cgolang.
 // It's easy to bypass this check by calling the compiler directly;
-// we only protect against uses by cmd/go.
-func isCgoGeneratedFile(pos syntax.Pos) bool {
+// we only protect against uses by cmd/golang.
+func isCgolangGeneratedFile(pos syntax.Pos) bool {
 	// We need the absolute file, independent of //line directives,
 	// so we call pos.Base().Pos().
-	return strings.HasPrefix(filepath.Base(trimFilename(pos.Base().Pos().Base())), "_cgo_")
+	return strings.HasPrefix(filepath.Base(trimFilename(pos.Base().Pos().Base())), "_cgolang_")
 }
 
 // safeArg reports whether arg is a "safe" command-line argument,
 // meaning that when it appears in a command-line, it probably
 // doesn't have some special meaning other than its own name.
-// This is copied from SafeArg in cmd/go/internal/load/pkg.go.
+// This is copied from SafeArg in cmd/golang/internal/load/pkg.golang.
 func safeArg(name string) bool {
 	if name == "" {
 		return false
@@ -382,9 +382,9 @@ func safeArg(name string) bool {
 	return '0' <= c && c <= '9' || 'A' <= c && c <= 'Z' || 'a' <= c && c <= 'z' || c == '.' || c == '_' || c == '/' || c >= utf8.RuneSelf
 }
 
-// parseGoEmbed parses the text following "//go:embed" to extract the glob patterns.
+// parseGoEmbed parses the text following "//golang:embed" to extract the glob patterns.
 // It accepts unquoted space-separated patterns as well as double-quoted and back-quoted Go strings.
-// go/build/read.go also processes these strings and contains similar logic.
+// golang/build/read.golang also processes these strings and contains similar logic.
 func parseGoEmbed(args string) ([]string, error) {
 	var list []string
 	for args = strings.TrimSpace(args); args != ""; args = strings.TrimSpace(args) {
@@ -405,7 +405,7 @@ func parseGoEmbed(args string) ([]string, error) {
 		case '`':
 			i := strings.Index(args[1:], "`")
 			if i < 0 {
-				return nil, fmt.Errorf("invalid quoted string in //go:embed: %s", args)
+				return nil, fmt.Errorf("invalid quoted string in //golang:embed: %s", args)
 			}
 			path = args[1 : 1+i]
 			args = args[1+i+1:]
@@ -420,7 +420,7 @@ func parseGoEmbed(args string) ([]string, error) {
 				if args[i] == '"' {
 					q, err := strconv.Unquote(args[:i+1])
 					if err != nil {
-						return nil, fmt.Errorf("invalid quoted string in //go:embed: %s", args[:i+1])
+						return nil, fmt.Errorf("invalid quoted string in //golang:embed: %s", args[:i+1])
 					}
 					path = q
 					args = args[i+1:]
@@ -428,14 +428,14 @@ func parseGoEmbed(args string) ([]string, error) {
 				}
 			}
 			if i >= len(args) {
-				return nil, fmt.Errorf("invalid quoted string in //go:embed: %s", args)
+				return nil, fmt.Errorf("invalid quoted string in //golang:embed: %s", args)
 			}
 		}
 
 		if args != "" {
 			r, _ := utf8.DecodeRuneInString(args)
 			if !unicode.IsSpace(r) {
-				return nil, fmt.Errorf("invalid quoted string in //go:embed: %s", args)
+				return nil, fmt.Errorf("invalid quoted string in //golang:embed: %s", args)
 			}
 		}
 		list = append(list, path)
@@ -458,18 +458,18 @@ func Renameinit() *types.Sym {
 func checkEmbed(decl *syntax.VarDecl, haveEmbed, withinFunc bool) error {
 	switch {
 	case !haveEmbed:
-		return errors.New("go:embed only allowed in Go files that import \"embed\"")
+		return errors.New("golang:embed only allowed in Go files that import \"embed\"")
 	case len(decl.NameList) > 1:
-		return errors.New("go:embed cannot apply to multiple vars")
+		return errors.New("golang:embed cannot apply to multiple vars")
 	case decl.Values != nil:
-		return errors.New("go:embed cannot apply to var with initializer")
+		return errors.New("golang:embed cannot apply to var with initializer")
 	case decl.Type == nil:
 		// Should not happen, since Values == nil now.
-		return errors.New("go:embed cannot apply to var without type")
+		return errors.New("golang:embed cannot apply to var without type")
 	case withinFunc:
-		return errors.New("go:embed cannot apply to var inside func")
+		return errors.New("golang:embed cannot apply to var inside func")
 	case !types.AllowsGoVersion(1, 16):
-		return fmt.Errorf("go:embed requires go1.16 or later (-lang was set to %s; check go.mod)", base.Flag.Lang)
+		return fmt.Errorf("golang:embed requires golang1.16 or later (-lang was set to %s; check golang.mod)", base.Flag.Lang)
 
 	default:
 		return nil

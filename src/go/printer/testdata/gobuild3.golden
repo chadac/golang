@@ -1,6 +1,6 @@
 // other comment
 
-//go:build x
+//golang:build x
 // +build x
 
 // yet another comment

@@ -1,10 +1,10 @@
 // compile
 
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// PR61265: The gccgo middle-end failed to represent array composite literals
+// PR61265: The gccgolang middle-end failed to represent array composite literals
 // where the elements are zero-sized values.
 // This is a reduction of a program reported by GoSmith.
 

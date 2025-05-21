@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 var numericRE = /^\d+$/;
@@ -14,27 +14,27 @@ function urlForInput(t) {
 
     if (numericRE.test(t)) {
         if (t < 150000) {
-            // We could use the golang.org/cl/ handler here, but
-            // avoid some redirect latency and go right there, since
+            // We could use the golanglang.org/cl/ handler here, but
+            // avoid some redirect latency and golang right there, since
             // one is easy. (no server-side mapping)
-            return "https://github.com/golang/go/issues/" + t;
+            return "https://github.com/golanglang/golang/issues/" + t;
         }
-        return "https://golang.org/cl/" + t;
+        return "https://golanglang.org/cl/" + t;
     }
 
     if (gerritChangeIdRE.test(t)) {
-        return "https://golang.org/cl/" + t;
+        return "https://golanglang.org/cl/" + t;
     }
 
     var match = commitRE.exec(t);
     if (match) {
-        return "https://golang.org/change/" + match[1];
+        return "https://golanglang.org/change/" + match[1];
     }
 
     if (pkgRE.test(t)) {
         // TODO: make this smarter, using a list of packages + substring matches.
-        // Get the list from godoc itself in JSON format?
-        return "https://golang.org/pkg/" + t;
+        // Get the list from golangdoc itself in JSON format?
+        return "https://golanglang.org/pkg/" + t;
     }
 
     return null;

@@ -1,8 +1,8 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build dragonfly || freebsd || linux || netbsd || openbsd || solaris
+//golang:build dragolangnfly || freebsd || linux || netbsd || openbsd || solaris
 
 package x509
 
@@ -130,7 +130,7 @@ func TestEnvVars(t *testing.T) {
 				}
 			}
 			if r.len() > len(tc.cns) {
-				t.Errorf("got %v certs, which is more than %v wanted", r.len(), len(tc.cns))
+				t.Errorf("golangt %v certs, which is more than %v wanted", r.len(), len(tc.cns))
 			}
 		})
 	}
@@ -139,7 +139,7 @@ func TestEnvVars(t *testing.T) {
 // Ensure that "SSL_CERT_DIR" when used as the environment
 // variable delimited by colons, allows loadSystemRoots to
 // load all the roots from the respective directories.
-// See https://golang.org/issue/35325.
+// See https://golanglang.org/issue/35325.
 func TestLoadSystemCertsLoadColonSeparatedDirs(t *testing.T) {
 	origFile, origDir := os.Getenv(certFileEnv), os.Getenv(certDirEnv)
 	origCertFiles := certFiles[:]
@@ -160,7 +160,7 @@ func TestLoadSystemCertsLoadColonSeparatedDirs(t *testing.T) {
 
 	rootPEMs := []string{
 		gtsRoot,
-		googleLeaf,
+		golangogleLeaf,
 	}
 
 	var certDirs []string
@@ -184,14 +184,14 @@ func TestLoadSystemCertsLoadColonSeparatedDirs(t *testing.T) {
 	// Now finally concatenate them with a colon.
 	colonConcatCertDirs := strings.Join(certDirs, ":")
 	os.Setenv(certDirEnv, colonConcatCertDirs)
-	gotPool, err := loadSystemRoots()
+	golangtPool, err := loadSystemRoots()
 	if err != nil {
 		t.Fatalf("Failed to load system roots: %v", err)
 	}
-	subjects := gotPool.Subjects()
+	subjects := golangtPool.Subjects()
 	// We expect exactly len(rootPEMs) subjects back.
 	if g, w := len(subjects), len(rootPEMs); g != w {
-		t.Fatalf("Invalid number of subjects: got %d want %d", g, w)
+		t.Fatalf("Invalid number of subjects: golangt %d want %d", g, w)
 	}
 
 	wantPool := NewCertPool()
@@ -202,8 +202,8 @@ func TestLoadSystemCertsLoadColonSeparatedDirs(t *testing.T) {
 		return string(bytes.Join(p.Subjects(), []byte("\n")))
 	}
 
-	if !certPoolEqual(gotPool, wantPool) {
-		g, w := strCertPool(gotPool), strCertPool(wantPool)
+	if !certPoolEqual(golangtPool, wantPool) {
+		g, w := strCertPool(golangtPool), strCertPool(wantPool)
 		t.Fatalf("Mismatched certPools\nGot:\n%s\n\nWant:\n%s", g, w)
 	}
 }
@@ -222,16 +222,16 @@ func TestReadUniqueDirectoryEntries(t *testing.T) {
 	if err := os.Symlink("../target-out", temp("link-out")); err != nil {
 		t.Fatal(err)
 	}
-	got, err := readUniqueDirectoryEntries(tmp)
+	golangt, err := readUniqueDirectoryEntries(tmp)
 	if err != nil {
 		t.Fatal(err)
 	}
-	gotNames := []string{}
-	for _, fi := range got {
-		gotNames = append(gotNames, fi.Name())
+	golangtNames := []string{}
+	for _, fi := range golangt {
+		golangtNames = append(golangtNames, fi.Name())
 	}
 	wantNames := []string{"file", "link-out"}
-	if !slices.Equal(gotNames, wantNames) {
-		t.Errorf("got %q; want %q", gotNames, wantNames)
+	if !slices.Equal(golangtNames, wantNames) {
+		t.Errorf("golangt %q; want %q", golangtNames, wantNames)
 	}
 }

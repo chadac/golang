@@ -1,11 +1,11 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package vcstest_test
 
 import (
-	"cmd/go/internal/vcweb"
+	"cmd/golang/internal/vcweb"
 	"errors"
 	"flag"
 	"fmt"
@@ -75,7 +75,7 @@ func serveStandalone(host string, port int) (err error) {
 	return http.Serve(l, v)
 }
 
-// TestScripts verifies that the VCS setup scripts in cmd/go/testdata/vcstest
+// TestScripts verifies that the VCS setup scripts in cmd/golang/testdata/vcstest
 // run successfully.
 func TestScripts(t *testing.T) {
 	scriptDir, err := filepath.Abs(*dir)

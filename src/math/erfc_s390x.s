@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 #include "textflag.h"
@@ -135,15 +135,15 @@ GLOBL ·erfctab2069<> + 0(SB), RODATA, $128
 //      Erfc(+Inf) = 0
 //      Erfc(-Inf) = 2
 //      Erfc(NaN) = NaN
-// The algorithm used is minimax polynomial approximation
-// with coefficients determined with a Remez exchange algorithm.
+// The algolangrithm used is minimax polynomial approximation
+// with coefficients determined with a Remez exchange algolangrithm.
 // This assembly implementation handles inputs in the range [-2.11, +15].
 // For all other inputs we call the generic Go implementation.
 
 TEXT	·erfcAsm(SB), NOSPLIT|NOFRAME, $0-16
 	MOVD	x+0(FP), R1
 	MOVD	$Neg2p11, R2
-	CMPUBGT	R1, R2, usego
+	CMPUBGT	R1, R2, usegolang
 
 	FMOVD	x+0(FP), F0
 	MOVD	$·erfcrodataL38<>+0(SB), R9
@@ -153,7 +153,7 @@ TEXT	·erfcAsm(SB), NOSPLIT|NOFRAME, $0-16
 	ANDW	$0x7FFF, R1
 	MOVH	$Pos15, R3
 	CMPW	R1, R3
-	BGT	usego
+	BGT	usegolang
 	MOVH	$0x3FFF, R3
 	MOVW	R1, R6
 	MOVW	R3, R7
@@ -523,5 +523,5 @@ L18:
 L25:
 	FMOVD	568(R9), F2
 	BR	L1
-usego:
+usegolang:
 	BR	·erfc(SB)

@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package devirtualize implements two "devirtualization" optimization passes:
@@ -26,10 +26,10 @@ func StaticCall(call *ir.CallExpr) {
 	// expressions that can panic (e.g., ODEREF, ODOTPTR,
 	// ODOTINTER). Devirtualization involves inlining these expressions
 	// (and possible panics) to the call site. This normally isn't a
-	// problem, but for go/defer statements it can move the panic from
-	// when/where the call executes to the go/defer statement itself,
+	// problem, but for golang/defer statements it can move the panic from
+	// when/where the call executes to the golang/defer statement itself,
 	// which is a visible change in semantics (e.g., #52072). To prevent
-	// this, we skip devirtualizing calls within go/defer statements
+	// this, we skip devirtualizing calls within golang/defer statements
 	// altogether.
 	if call.GoDefer {
 		return
@@ -59,7 +59,7 @@ func StaticCall(call *ir.CallExpr) {
 	}
 
 	// If typ *has* a shape type, then it's a shaped, instantiated
-	// type like T[go.shape.int], and its methods (may) have an extra
+	// type like T[golang.shape.int], and its methods (may) have an extra
 	// dictionary parameter. We could devirtualize this call if we
 	// could derive an appropriate dictionary argument.
 	//
@@ -71,7 +71,7 @@ func StaticCall(call *ir.CallExpr) {
 	// should be possible to compute the represented type's runtime
 	// dictionary from this (e.g., by adding a pointer from T[int]'s
 	// *runtime._type to .dict.T[int]; or by recognizing static
-	// references to go:itab.T[int],iface and constructing a direct
+	// references to golang:itab.T[int],iface and constructing a direct
 	// reference to .dict.T[int]).
 	if typ.HasShape() {
 		if base.Flag.LowerM != 0 {

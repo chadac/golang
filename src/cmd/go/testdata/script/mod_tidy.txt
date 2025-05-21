@@ -1,29 +1,29 @@
 env GO111MODULE=on
 
 # tidy removes unused y, but everything else is used
-go mod tidy -v
+golang mod tidy -v
 stderr '^unused y.1'
 ! stderr '^unused [^y]'
 
-grep 'go 1.10' go.mod
+grep 'golang 1.10' golang.mod
 
-go list -m all
+golang list -m all
 ! stdout '^y'
 stdout '^w.1 v1.2.0'
 stdout '^z.1 v1.2.0'
 
 # empty tidy should not crash
 cd triv
-! grep 'go ' go.mod
-go mod tidy
+! grep 'golang ' golang.mod
+golang mod tidy
 
-# tidy should add missing go line
-grep 'go ' go.mod
+# tidy should add missing golang line
+grep 'golang ' golang.mod
 
--- go.mod --
+-- golang.mod --
 module m
 
-go 1.10
+golang 1.10
 
 require (
 	x.1 v1.0.0
@@ -37,36 +37,36 @@ replace z.1 v1.1.0 => ./z
 replace z.1 v1.2.0 => ./z
 replace w.1 => ./w
 
--- m.go --
+-- m.golang --
 package m
 
 import _ "x.1"
 import _ "z.1/sub"
 
--- w/go.mod --
+-- w/golang.mod --
 module w
 
--- w/w.go --
+-- w/w.golang --
 package w
 
--- x/go.mod --
+-- x/golang.mod --
 module x
 require w.1 v1.1.0
 require z.1 v1.1.0
 
--- x/x.go --
+-- x/x.golang --
 package x
 import _ "w.1"
 
--- y/go.mod --
+-- y/golang.mod --
 module y
 require z.1 v1.2.0
 
--- z/go.mod --
+-- z/golang.mod --
 module z
 
--- z/sub/sub.go --
+-- z/sub/sub.golang --
 package sub
 
--- triv/go.mod --
+-- triv/golang.mod --
 module triv

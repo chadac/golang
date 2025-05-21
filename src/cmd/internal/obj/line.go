@@ -1,17 +1,17 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package obj
 
 import (
-	"cmd/internal/goobj"
+	"cmd/internal/golangobj"
 	"cmd/internal/src"
 )
 
 // AddImport adds a package to the list of imported packages.
-func (ctxt *Link) AddImport(pkg string, fingerprint goobj.FingerprintType) {
-	ctxt.Imports = append(ctxt.Imports, goobj.ImportedPkg{Pkg: pkg, Fingerprint: fingerprint})
+func (ctxt *Link) AddImport(pkg string, fingerprint golangobj.FingerprintType) {
+	ctxt.Imports = append(ctxt.Imports, golangobj.ImportedPkg{Pkg: pkg, Fingerprint: fingerprint})
 }
 
 // getFileIndexAndLine returns the relative file index (local to the CU), and

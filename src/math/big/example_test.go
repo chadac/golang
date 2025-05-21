@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package big_test
@@ -93,7 +93,7 @@ func Example_fibonacci() {
 
 	// Test a for primality.
 	// (ProbablyPrimes' argument sets the number of Miller-Rabin
-	// rounds to be performed. 20 is a good value.)
+	// rounds to be performed. 20 is a golangod value.)
 	fmt.Println(a.ProbablyPrime(20))
 
 	// Output:

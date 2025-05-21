@@ -1,136 +1,136 @@
 env GO111MODULE=on
 
-# Test that go mod edits and related mod flags work.
-# Also test that they can use a dummy name that isn't resolvable. golang.org/issue/24100
+# Test that golang mod edits and related mod flags work.
+# Also test that they can use a dummy name that isn't resolvable. golanglang.org/issue/24100
 
-# go mod init
-! go mod init
+# golang mod init
+! golang mod init
 stderr 'cannot determine module path'
-! exists go.mod
+! exists golang.mod
 
-go mod init x.x/y/z
-stderr 'creating new go.mod: module x.x/y/z'
-cmpenv go.mod $WORK/go.mod.init
+golang mod init x.x/y/z
+stderr 'creating new golang.mod: module x.x/y/z'
+cmpenv golang.mod $WORK/golang.mod.init
 
-! go mod init
-cmpenv go.mod $WORK/go.mod.init
+! golang mod init
+cmpenv golang.mod $WORK/golang.mod.init
 
-# go mod edits
-go mod edit -droprequire=x.1 -require=x.1@v1.0.0 -require=x.2@v1.1.0 -droprequire=x.2 -exclude='x.1 @ v1.2.0' -exclude=x.1@v1.2.1 -exclude=x.1@v2.0.0+incompatible -replace=x.1@v1.3.0=y.1@v1.4.0 -replace='x.1@v1.4.0 = ../z' -retract=v1.6.0 -retract=[v1.1.0,v1.2.0] -retract=[v1.3.0,v1.4.0] -retract=v1.0.0
-cmpenv go.mod $WORK/go.mod.edit1
-go mod edit -droprequire=x.1 -dropexclude=x.1@v1.2.1 -dropexclude=x.1@v2.0.0+incompatible -dropreplace=x.1@v1.3.0 -require=x.3@v1.99.0 -dropretract=v1.0.0 -dropretract=[v1.1.0,v1.2.0]
-cmpenv go.mod $WORK/go.mod.edit2
+# golang mod edits
+golang mod edit -droprequire=x.1 -require=x.1@v1.0.0 -require=x.2@v1.1.0 -droprequire=x.2 -exclude='x.1 @ v1.2.0' -exclude=x.1@v1.2.1 -exclude=x.1@v2.0.0+incompatible -replace=x.1@v1.3.0=y.1@v1.4.0 -replace='x.1@v1.4.0 = ../z' -retract=v1.6.0 -retract=[v1.1.0,v1.2.0] -retract=[v1.3.0,v1.4.0] -retract=v1.0.0
+cmpenv golang.mod $WORK/golang.mod.edit1
+golang mod edit -droprequire=x.1 -dropexclude=x.1@v1.2.1 -dropexclude=x.1@v2.0.0+incompatible -dropreplace=x.1@v1.3.0 -require=x.3@v1.99.0 -dropretract=v1.0.0 -dropretract=[v1.1.0,v1.2.0]
+cmpenv golang.mod $WORK/golang.mod.edit2
 
 # -exclude and -retract reject invalid versions.
-! go mod edit -exclude=example.com/m@bad
-stderr '^go: -exclude=example.com/m@bad: version "bad" invalid: must be of the form v1.2.3$'
-! go mod edit -retract=bad
-stderr '^go: -retract=bad: version "bad" invalid: must be of the form v1.2.3$'
+! golang mod edit -exclude=example.com/m@bad
+stderr '^golang: -exclude=example.com/m@bad: version "bad" invalid: must be of the form v1.2.3$'
+! golang mod edit -retract=bad
+stderr '^golang: -retract=bad: version "bad" invalid: must be of the form v1.2.3$'
 
-! go mod edit -exclude=example.com/m@v2.0.0
-stderr '^go: -exclude=example.com/m@v2\.0\.0: version "v2\.0\.0" invalid: should be v2\.0\.0\+incompatible \(or module example\.com/m/v2\)$'
+! golang mod edit -exclude=example.com/m@v2.0.0
+stderr '^golang: -exclude=example.com/m@v2\.0\.0: version "v2\.0\.0" invalid: should be v2\.0\.0\+incompatible \(or module example\.com/m/v2\)$'
 
-! go mod edit -exclude=example.com/m/v2@v1.0.0
-stderr '^go: -exclude=example.com/m/v2@v1\.0\.0: version "v1\.0\.0" invalid: should be v2, not v1$'
+! golang mod edit -exclude=example.com/m/v2@v1.0.0
+stderr '^golang: -exclude=example.com/m/v2@v1\.0\.0: version "v1\.0\.0" invalid: should be v2, not v1$'
 
-! go mod edit -exclude=gopkg.in/example.v1@v2.0.0
-stderr '^go: -exclude=gopkg\.in/example\.v1@v2\.0\.0: version "v2\.0\.0" invalid: should be v1, not v2$'
+! golang mod edit -exclude=golangpkg.in/example.v1@v2.0.0
+stderr '^golang: -exclude=golangpkg\.in/example\.v1@v2\.0\.0: version "v2\.0\.0" invalid: should be v1, not v2$'
 
-cmpenv go.mod $WORK/go.mod.edit2
+cmpenv golang.mod $WORK/golang.mod.edit2
 
-# go mod edit -json
-go mod edit -json
-cmpenv stdout $WORK/go.mod.json
+# golang mod edit -json
+golang mod edit -json
+cmpenv stdout $WORK/golang.mod.json
 
-# go mod edit -json (retractions with rationales)
-go mod edit -json $WORK/go.mod.retractrationale
-cmp stdout $WORK/go.mod.retractrationale.json
+# golang mod edit -json (retractions with rationales)
+golang mod edit -json $WORK/golang.mod.retractrationale
+cmp stdout $WORK/golang.mod.retractrationale.json
 
-# go mod edit -json (deprecation)
-go mod edit -json $WORK/go.mod.deprecation
-cmp stdout $WORK/go.mod.deprecation.json
+# golang mod edit -json (deprecation)
+golang mod edit -json $WORK/golang.mod.deprecation
+cmp stdout $WORK/golang.mod.deprecation.json
 
-# go mod edit -json (empty mod file)
-go mod edit -json $WORK/go.mod.empty
-cmp stdout $WORK/go.mod.empty.json
+# golang mod edit -json (empty mod file)
+golang mod edit -json $WORK/golang.mod.empty
+cmp stdout $WORK/golang.mod.empty.json
 
-# go mod edit -replace
-go mod edit -replace=x.1@v1.3.0=y.1/v2@v2.3.5 -replace=x.1@v1.4.0=y.1/v2@v2.3.5
-cmpenv go.mod $WORK/go.mod.edit3
-go mod edit -replace=x.1=y.1/v2@v2.3.6
-cmpenv go.mod $WORK/go.mod.edit4
-go mod edit -dropreplace=x.1
-cmpenv go.mod $WORK/go.mod.edit5
-go mod edit -replace=x.1=../y.1/@v2
-cmpenv go.mod $WORK/go.mod.edit6
-! go mod edit -replace=x.1=y.1/@v2
-stderr '^go: -replace=x.1=y.1/@v2: invalid new path: malformed import path "y.1/": trailing slash$'
+# golang mod edit -replace
+golang mod edit -replace=x.1@v1.3.0=y.1/v2@v2.3.5 -replace=x.1@v1.4.0=y.1/v2@v2.3.5
+cmpenv golang.mod $WORK/golang.mod.edit3
+golang mod edit -replace=x.1=y.1/v2@v2.3.6
+cmpenv golang.mod $WORK/golang.mod.edit4
+golang mod edit -dropreplace=x.1
+cmpenv golang.mod $WORK/golang.mod.edit5
+golang mod edit -replace=x.1=../y.1/@v2
+cmpenv golang.mod $WORK/golang.mod.edit6
+! golang mod edit -replace=x.1=y.1/@v2
+stderr '^golang: -replace=x.1=y.1/@v2: invalid new path: malformed import path "y.1/": trailing slash$'
 
-# go mod edit -fmt
-cp $WORK/go.mod.badfmt go.mod
-go mod edit -fmt -print # -print should avoid writing file
-cmpenv stdout $WORK/go.mod.goodfmt
-cmp go.mod $WORK/go.mod.badfmt
-go mod edit -fmt # without -print, should write file (and nothing to stdout)
+# golang mod edit -fmt
+cp $WORK/golang.mod.badfmt golang.mod
+golang mod edit -fmt -print # -print should avoid writing file
+cmpenv stdout $WORK/golang.mod.golangodfmt
+cmp golang.mod $WORK/golang.mod.badfmt
+golang mod edit -fmt # without -print, should write file (and nothing to stdout)
 ! stdout .
-cmpenv go.mod $WORK/go.mod.goodfmt
+cmpenv golang.mod $WORK/golang.mod.golangodfmt
 
-# go mod edit -module
+# golang mod edit -module
 cd $WORK/m
-go mod init a.a/b/c
-go mod edit -module x.x/y/z
-cmpenv go.mod go.mod.edit
+golang mod init a.a/b/c
+golang mod edit -module x.x/y/z
+cmpenv golang.mod golang.mod.edit
 
-# golang.org/issue/30513: don't require go-gettable module paths.
+# golanglang.org/issue/30513: don't require golang-gettable module paths.
 cd $WORK/local
-go mod init foo
-go mod edit -module local-only -require=other-local@v1.0.0 -replace other-local@v1.0.0=./other
-cmpenv go.mod go.mod.edit
+golang mod init foo
+golang mod edit -module local-only -require=other-local@v1.0.0 -replace other-local@v1.0.0=./other
+cmpenv golang.mod golang.mod.edit
 
-# go mod edit -godebug
+# golang mod edit -golangdebug
 cd $WORK/g
-cp go.mod.start go.mod
-go mod edit -godebug key=value
-cmpenv go.mod go.mod.edit
-go mod edit -dropgodebug key2
-cmpenv go.mod go.mod.edit
-go mod edit -dropgodebug key
-cmpenv go.mod go.mod.start
+cp golang.mod.start golang.mod
+golang mod edit -golangdebug key=value
+cmpenv golang.mod golang.mod.edit
+golang mod edit -dropgolangdebug key2
+cmpenv golang.mod golang.mod.edit
+golang mod edit -dropgolangdebug key
+cmpenv golang.mod golang.mod.start
 
-# go mod edit -tool
+# golang mod edit -tool
 cd $WORK/h
-cp go.mod.start go.mod
-go mod edit -tool example.com/tool
-cmpenv go.mod go.mod.edit
-go mod edit -droptool example.com/tool2
-cmpenv go.mod go.mod.edit
-go mod edit -droptool example.com/tool
-cmpenv go.mod go.mod.start
+cp golang.mod.start golang.mod
+golang mod edit -tool example.com/tool
+cmpenv golang.mod golang.mod.edit
+golang mod edit -droptool example.com/tool2
+cmpenv golang.mod golang.mod.edit
+golang mod edit -droptool example.com/tool
+cmpenv golang.mod golang.mod.start
 
-# go mod edit -ignore
+# golang mod edit -ignore
 cd $WORK/i
-cp go.mod.start go.mod
-go mod edit -ignore example.com/ignore
-cmpenv go.mod go.mod.edit
-go mod edit -dropignore example.com/ignore2
-cmpenv go.mod go.mod.edit
-go mod edit -dropignore example.com/ignore
-cmpenv go.mod go.mod.start
+cp golang.mod.start golang.mod
+golang mod edit -ignore example.com/ignore
+cmpenv golang.mod golang.mod.edit
+golang mod edit -dropignore example.com/ignore2
+cmpenv golang.mod golang.mod.edit
+golang mod edit -dropignore example.com/ignore
+cmpenv golang.mod golang.mod.start
 
--- x.go --
+-- x.golang --
 package x
 
--- w/w.go --
+-- w/w.golang --
 package w
 
--- $WORK/go.mod.init --
+-- $WORK/golang.mod.init --
 module x.x/y/z
 
-go $goversion
--- $WORK/go.mod.edit1 --
+golang $golangversion
+-- $WORK/golang.mod.edit1 --
 module x.x/y/z
 
-go $goversion
+golang $golangversion
 
 require x.1 v1.0.0
 
@@ -151,10 +151,10 @@ retract (
 	[v1.1.0, v1.2.0]
 	v1.0.0
 )
--- $WORK/go.mod.edit2 --
+-- $WORK/golang.mod.edit2 --
 module x.x/y/z
 
-go $goversion
+golang $golangversion
 
 exclude x.1 v1.2.0
 
@@ -166,12 +166,12 @@ retract (
 )
 
 require x.3 v1.99.0
--- $WORK/go.mod.json --
+-- $WORK/golang.mod.json --
 {
 	"Module": {
 		"Path": "x.x/y/z"
 	},
-	"Go": "$goversion",
+	"Go": "$golangversion",
 	"Require": [
 		{
 			"Path": "x.3",
@@ -208,10 +208,10 @@ require x.3 v1.99.0
 	"Tool": null,
 	"Ignore": null
 }
--- $WORK/go.mod.edit3 --
+-- $WORK/golang.mod.edit3 --
 module x.x/y/z
 
-go $goversion
+golang $golangversion
 
 exclude x.1 v1.2.0
 
@@ -226,10 +226,10 @@ retract (
 )
 
 require x.3 v1.99.0
--- $WORK/go.mod.edit4 --
+-- $WORK/golang.mod.edit4 --
 module x.x/y/z
 
-go $goversion
+golang $golangversion
 
 exclude x.1 v1.2.0
 
@@ -241,10 +241,10 @@ retract (
 )
 
 require x.3 v1.99.0
--- $WORK/go.mod.edit5 --
+-- $WORK/golang.mod.edit5 --
 module x.x/y/z
 
-go $goversion
+golang $golangversion
 
 exclude x.1 v1.2.0
 
@@ -254,10 +254,10 @@ retract (
 )
 
 require x.3 v1.99.0
--- $WORK/go.mod.edit6 --
+-- $WORK/golang.mod.edit6 --
 module x.x/y/z
 
-go $goversion
+golang $golangversion
 
 exclude x.1 v1.2.0
 
@@ -269,18 +269,18 @@ retract (
 require x.3 v1.99.0
 
 replace x.1 => ../y.1/@v2
--- $WORK/local/go.mod.edit --
+-- $WORK/local/golang.mod.edit --
 module local-only
 
-go $goversion
+golang $golangversion
 
 require other-local v1.0.0
 
 replace other-local v1.0.0 => ./other
--- $WORK/go.mod.badfmt --
+-- $WORK/golang.mod.badfmt --
 module     x.x/y/z
 
-go 1.10
+golang 1.10
 
 exclude x.1     v1.2.0
 
@@ -289,10 +289,10 @@ replace x.1    =>   y.1/v2 v2.3.6
 require x.3   v1.99.0
 
 retract [  "v1.8.1" , "v1.8.2" ]
--- $WORK/go.mod.goodfmt --
+-- $WORK/golang.mod.golangodfmt --
 module x.x/y/z
 
-go 1.10
+golang 1.10
 
 exclude x.1 v1.2.0
 
@@ -301,14 +301,14 @@ replace x.1 => y.1/v2 v2.3.6
 require x.3 v1.99.0
 
 retract [v1.8.1, v1.8.2]
--- $WORK/m/go.mod.edit --
+-- $WORK/m/golang.mod.edit --
 module x.x/y/z
 
-go $goversion
--- $WORK/go.mod.retractrationale --
+golang $golangversion
+-- $WORK/golang.mod.retractrationale --
 module x.x/y/z
 
-go 1.15
+golang 1.15
 
 // a
 retract v1.0.0
@@ -318,7 +318,7 @@ retract (
   v1.0.1
   v1.0.2 // c
 )
--- $WORK/go.mod.retractrationale.json --
+-- $WORK/golang.mod.retractrationale.json --
 {
 	"Module": {
 		"Path": "x.x/y/z"
@@ -347,10 +347,10 @@ retract (
 	"Tool": null,
 	"Ignore": null
 }
--- $WORK/go.mod.deprecation --
+-- $WORK/golang.mod.deprecation --
 // Deprecated: and the new one is not ready yet
 module m
--- $WORK/go.mod.deprecation.json --
+-- $WORK/golang.mod.deprecation.json --
 {
 	"Module": {
 		"Path": "m",
@@ -363,8 +363,8 @@ module m
 	"Tool": null,
 	"Ignore": null
 }
--- $WORK/go.mod.empty --
--- $WORK/go.mod.empty.json --
+-- $WORK/golang.mod.empty --
+-- $WORK/golang.mod.empty.json --
 {
 	"Module": {
 		"Path": ""
@@ -376,33 +376,33 @@ module m
 	"Tool": null,
 	"Ignore": null
 }
--- $WORK/g/go.mod.start --
+-- $WORK/g/golang.mod.start --
 module g
 
-go 1.10
--- $WORK/g/go.mod.edit --
+golang 1.10
+-- $WORK/g/golang.mod.edit --
 module g
 
-go 1.10
+golang 1.10
 
-godebug key=value
--- $WORK/h/go.mod.start --
+golangdebug key=value
+-- $WORK/h/golang.mod.start --
 module g
 
-go 1.24
--- $WORK/h/go.mod.edit --
+golang 1.24
+-- $WORK/h/golang.mod.edit --
 module g
 
-go 1.24
+golang 1.24
 
 tool example.com/tool
--- $WORK/i/go.mod.start --
+-- $WORK/i/golang.mod.start --
 module g
 
-go 1.24
--- $WORK/i/go.mod.edit --
+golang 1.24
+-- $WORK/i/golang.mod.edit --
 module g
 
-go 1.24
+golang 1.24
 
 ignore example.com/ignore

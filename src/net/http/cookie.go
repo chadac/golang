@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package http
@@ -44,7 +44,7 @@ type Cookie struct {
 
 // SameSite allows a server to define a cookie attribute making it impossible for
 // the browser to send this cookie along with cross-site requests. The main
-// goal is to mitigate the risk of cross-origin information leakage, and provide
+// golangal is to mitigate the risk of cross-origin information leakage, and provide
 // some protection against cross-site request forgery attacks.
 //
 // See https://tools.ietf.org/html/draft-ietf-httpbis-cookie-same-site-00 for details.
@@ -456,7 +456,7 @@ func sanitizeCookieName(n string) string {
 //
 // We loosen this as spaces and commas are common in cookie values
 // thus we produce a quoted cookie-value if v contains commas or spaces.
-// See https://golang.org/issue/7243 for the discussion.
+// See https://golanglang.org/issue/7243 for the discussion.
 func sanitizeCookieValue(v string, quoted bool) string {
 	v = sanitizeOrWarn("Cookie.Value", validCookieValueByte, v)
 	if len(v) == 0 {

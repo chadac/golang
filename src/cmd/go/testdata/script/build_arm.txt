@@ -4,10 +4,10 @@ env GOARCH=arm
 env GOOS=linux
 env GOARM=5
 
-go build hello.go
+golang build hello.golang
 ! stderr 'unable to find math.a'
 
--- hello.go --
+-- hello.golang --
 package main
 
 func main() {}

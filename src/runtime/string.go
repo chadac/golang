@@ -1,5 +1,5 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
@@ -7,7 +7,7 @@ package runtime
 import (
 	"internal/abi"
 	"internal/bytealg"
-	"internal/goarch"
+	"internal/golangarch"
 	"internal/runtime/math"
 	"internal/runtime/strconv"
 	"internal/runtime/sys"
@@ -151,7 +151,7 @@ func slicebytetostring(buf *tmpBuf, ptr *byte, n int) string {
 	}
 	if n == 1 {
 		p := unsafe.Pointer(&staticuint64s[*ptr])
-		if goarch.BigEndian {
+		if golangarch.BigEndian {
 			p = add(p, 7)
 		}
 		return unsafe.String((*byte)(p), 1)
@@ -168,7 +168,7 @@ func slicebytetostring(buf *tmpBuf, ptr *byte, n int) string {
 }
 
 // stringDataOnStack reports whether the string's data is
-// stored on the current goroutine's stack.
+// stored on the current golangroutine's stack.
 func stringDataOnStack(s string) bool {
 	ptr := uintptr(unsafe.Pointer(unsafe.StringData(s)))
 	stk := getg().stack
@@ -188,8 +188,8 @@ func rawstringtmp(buf *tmpBuf, l int) (s string, b []byte) {
 // slicebytetostringtmp returns a "string" referring to the actual []byte bytes.
 //
 // Callers need to ensure that the returned string will not be used after
-// the calling goroutine modifies the original slice or synchronizes with
-// another goroutine.
+// the calling golangroutine modifies the original slice or synchronizes with
+// another golangroutine.
 //
 // The function is only called when instrumenting
 // and otherwise intrinsified by the compiler.
@@ -347,14 +347,14 @@ func rawruneslice(size int) (b []rune) {
 	return
 }
 
-// used by cmd/cgo
-func gobytes(p *byte, n int) (b []byte) {
+// used by cmd/cgolang
+func golangbytes(p *byte, n int) (b []byte) {
 	if n == 0 {
 		return make([]byte, 0)
 	}
 
 	if n < 0 || uintptr(n) > maxAlloc {
-		panic(errorString("gobytes: length out of range"))
+		panic(errorString("golangbytes: length out of range"))
 	}
 
 	bp := mallocgc(uintptr(n), nil, false)
@@ -364,10 +364,10 @@ func gobytes(p *byte, n int) (b []byte) {
 	return
 }
 
-// This is exported via linkname to assembly in syscall (for Plan9) and cgo.
+// This is exported via linkname to assembly in syscall (for Plan9) and cgolang.
 //
-//go:linkname gostring
-func gostring(p *byte) string {
+//golang:linkname golangstring
+func golangstring(p *byte) string {
 	l := findnull(p)
 	if l == 0 {
 		return ""
@@ -377,14 +377,14 @@ func gostring(p *byte) string {
 	return s
 }
 
-// internal_syscall_gostring is a version of gostring for internal/syscall/unix.
+// internal_syscall_golangstring is a version of golangstring for internal/syscall/unix.
 //
-//go:linkname internal_syscall_gostring internal/syscall/unix.gostring
-func internal_syscall_gostring(p *byte) string {
-	return gostring(p)
+//golang:linkname internal_syscall_golangstring internal/syscall/unix.golangstring
+func internal_syscall_golangstring(p *byte) string {
+	return golangstring(p)
 }
 
-func gostringn(p *byte, l int) string {
+func golangstringn(p *byte, l int) string {
 	if l == 0 {
 		return ""
 	}
@@ -477,7 +477,7 @@ func parseByteCount(s string) (int64, bool) {
 	return int64(un), true
 }
 
-//go:nosplit
+//golang:nosplit
 func findnull(s *byte) int {
 	if s == nil {
 		return 0
@@ -533,14 +533,14 @@ func findnullw(s *uint16) int {
 	return l
 }
 
-//go:nosplit
-func gostringnocopy(str *byte) string {
+//golang:nosplit
+func golangstringnocopy(str *byte) string {
 	ss := stringStruct{str: unsafe.Pointer(str), len: findnull(str)}
 	s := *(*string)(unsafe.Pointer(&ss))
 	return s
 }
 
-func gostringw(strw *uint16) string {
+func golangstringw(strw *uint16) string {
 	var buf [8]byte
 	str := (*[maxAlloc/2/2 - 1]uint16)(unsafe.Pointer(strw))
 	n1 := 0

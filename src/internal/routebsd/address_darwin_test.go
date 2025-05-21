@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package routebsd
@@ -93,7 +93,7 @@ var parseAddrsOnDarwinLittleEndianTests = []parseAddrsOnDarwinTest{
 			nil,
 		},
 	},
-	// golang/go#70528, the kernel can produce addresses of length 0
+	// golanglang/golang#70528, the kernel can produce addresses of length 0
 	{
 		syscall.RTA_DST | syscall.RTA_GATEWAY | syscall.RTA_NETMASK,
 		[]byte{
@@ -118,7 +118,7 @@ var parseAddrsOnDarwinLittleEndianTests = []parseAddrsOnDarwinTest{
 			nil,
 		},
 	},
-	// Additional case: golang/go/issues/70528#issuecomment-2498692877
+	// Additional case: golanglang/golang/issues/70528#issuecomment-2498692877
 	{
 		syscall.RTA_DST | syscall.RTA_GATEWAY | syscall.RTA_NETMASK,
 		[]byte{
@@ -158,7 +158,7 @@ func TestParseAddrsOnDarwin(t *testing.T) {
 			continue
 		}
 		if !reflect.DeepEqual(as, tt.as) {
-			t.Errorf("#%d: got %+v; want %+v", i, as, tt.as)
+			t.Errorf("#%d: golangt %+v; want %+v", i, as, tt.as)
 			continue
 		}
 	}

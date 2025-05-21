@@ -1,10 +1,10 @@
 # Matches only subtests
-go test -run Test/Sub standalone_sub_test.go
+golang test -run Test/Sub standalone_sub_test.golang
 ! stdout '^ok.*\[no tests to run\]'
 ! stderr '^ok.*\[no tests to run\]'
 stdout '^ok'
 
--- standalone_sub_test.go --
+-- standalone_sub_test.golang --
 package standalone_sub_test
 
 import "testing"

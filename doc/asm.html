@@ -50,39 +50,39 @@ You can also examine what the compiler emits as assembly code
 </p>
 
 <pre>
-$ cat x.go
+$ cat x.golang
 package main
 
 func main() {
 	println(3)
 }
-$ GOOS=linux GOARCH=amd64 go tool compile -S x.go        # or: go build -gcflags -S x.go
+$ GOOS=linux GOARCH=amd64 golang tool compile -S x.golang        # or: golang build -gcflags -S x.golang
 "".main STEXT size=74 args=0x0 locals=0x10
-	0x0000 00000 (x.go:3)	TEXT	"".main(SB), $16-0
-	0x0000 00000 (x.go:3)	MOVQ	(TLS), CX
-	0x0009 00009 (x.go:3)	CMPQ	SP, 16(CX)
-	0x000d 00013 (x.go:3)	JLS	67
-	0x000f 00015 (x.go:3)	SUBQ	$16, SP
-	0x0013 00019 (x.go:3)	MOVQ	BP, 8(SP)
-	0x0018 00024 (x.go:3)	LEAQ	8(SP), BP
-	0x001d 00029 (x.go:3)	FUNCDATA	$0, gclocals·33cdeccccebe80329f1fdbee7f5874cb(SB)
-	0x001d 00029 (x.go:3)	FUNCDATA	$1, gclocals·33cdeccccebe80329f1fdbee7f5874cb(SB)
-	0x001d 00029 (x.go:3)	FUNCDATA	$2, gclocals·33cdeccccebe80329f1fdbee7f5874cb(SB)
-	0x001d 00029 (x.go:4)	PCDATA	$0, $0
-	0x001d 00029 (x.go:4)	PCDATA	$1, $0
-	0x001d 00029 (x.go:4)	CALL	runtime.printlock(SB)
-	0x0022 00034 (x.go:4)	MOVQ	$3, (SP)
-	0x002a 00042 (x.go:4)	CALL	runtime.printint(SB)
-	0x002f 00047 (x.go:4)	CALL	runtime.printnl(SB)
-	0x0034 00052 (x.go:4)	CALL	runtime.printunlock(SB)
-	0x0039 00057 (x.go:5)	MOVQ	8(SP), BP
-	0x003e 00062 (x.go:5)	ADDQ	$16, SP
-	0x0042 00066 (x.go:5)	RET
-	0x0043 00067 (x.go:5)	NOP
-	0x0043 00067 (x.go:3)	PCDATA	$1, $-1
-	0x0043 00067 (x.go:3)	PCDATA	$0, $-1
-	0x0043 00067 (x.go:3)	CALL	runtime.morestack_noctxt(SB)
-	0x0048 00072 (x.go:3)	JMP	0
+	0x0000 00000 (x.golang:3)	TEXT	"".main(SB), $16-0
+	0x0000 00000 (x.golang:3)	MOVQ	(TLS), CX
+	0x0009 00009 (x.golang:3)	CMPQ	SP, 16(CX)
+	0x000d 00013 (x.golang:3)	JLS	67
+	0x000f 00015 (x.golang:3)	SUBQ	$16, SP
+	0x0013 00019 (x.golang:3)	MOVQ	BP, 8(SP)
+	0x0018 00024 (x.golang:3)	LEAQ	8(SP), BP
+	0x001d 00029 (x.golang:3)	FUNCDATA	$0, gclocals·33cdeccccebe80329f1fdbee7f5874cb(SB)
+	0x001d 00029 (x.golang:3)	FUNCDATA	$1, gclocals·33cdeccccebe80329f1fdbee7f5874cb(SB)
+	0x001d 00029 (x.golang:3)	FUNCDATA	$2, gclocals·33cdeccccebe80329f1fdbee7f5874cb(SB)
+	0x001d 00029 (x.golang:4)	PCDATA	$0, $0
+	0x001d 00029 (x.golang:4)	PCDATA	$1, $0
+	0x001d 00029 (x.golang:4)	CALL	runtime.printlock(SB)
+	0x0022 00034 (x.golang:4)	MOVQ	$3, (SP)
+	0x002a 00042 (x.golang:4)	CALL	runtime.printint(SB)
+	0x002f 00047 (x.golang:4)	CALL	runtime.printnl(SB)
+	0x0034 00052 (x.golang:4)	CALL	runtime.printunlock(SB)
+	0x0039 00057 (x.golang:5)	MOVQ	8(SP), BP
+	0x003e 00062 (x.golang:5)	ADDQ	$16, SP
+	0x0042 00066 (x.golang:5)	RET
+	0x0043 00067 (x.golang:5)	NOP
+	0x0043 00067 (x.golang:3)	PCDATA	$1, $-1
+	0x0043 00067 (x.golang:3)	PCDATA	$0, $-1
+	0x0043 00067 (x.golang:3)	CALL	runtime.morestack_noctxt(SB)
+	0x0048 00072 (x.golang:3)	JMP	0
 ...
 </pre>
 
@@ -92,29 +92,29 @@ for use by the garbage collector; they are introduced by the compiler.
 </p>
 
 <p>
-To see what gets put in the binary after linking, use <code>go tool objdump</code>:
+To see what gets put in the binary after linking, use <code>golang tool objdump</code>:
 </p>
 
 <pre>
-$ go build -o x.exe x.go
-$ go tool objdump -s main.main x.exe
-TEXT main.main(SB) /tmp/x.go
-  x.go:3		0x10501c0		65488b0c2530000000	MOVQ GS:0x30, CX
-  x.go:3		0x10501c9		483b6110		CMPQ 0x10(CX), SP
-  x.go:3		0x10501cd		7634			JBE 0x1050203
-  x.go:3		0x10501cf		4883ec10		SUBQ $0x10, SP
-  x.go:3		0x10501d3		48896c2408		MOVQ BP, 0x8(SP)
-  x.go:3		0x10501d8		488d6c2408		LEAQ 0x8(SP), BP
-  x.go:4		0x10501dd		e86e45fdff		CALL runtime.printlock(SB)
-  x.go:4		0x10501e2		48c7042403000000	MOVQ $0x3, 0(SP)
-  x.go:4		0x10501ea		e8e14cfdff		CALL runtime.printint(SB)
-  x.go:4		0x10501ef		e8ec47fdff		CALL runtime.printnl(SB)
-  x.go:4		0x10501f4		e8d745fdff		CALL runtime.printunlock(SB)
-  x.go:5		0x10501f9		488b6c2408		MOVQ 0x8(SP), BP
-  x.go:5		0x10501fe		4883c410		ADDQ $0x10, SP
-  x.go:5		0x1050202		c3			RET
-  x.go:3		0x1050203		e83882ffff		CALL runtime.morestack_noctxt(SB)
-  x.go:3		0x1050208		ebb6			JMP main.main(SB)
+$ golang build -o x.exe x.golang
+$ golang tool objdump -s main.main x.exe
+TEXT main.main(SB) /tmp/x.golang
+  x.golang:3		0x10501c0		65488b0c2530000000	MOVQ GS:0x30, CX
+  x.golang:3		0x10501c9		483b6110		CMPQ 0x10(CX), SP
+  x.golang:3		0x10501cd		7634			JBE 0x1050203
+  x.golang:3		0x10501cf		4883ec10		SUBQ $0x10, SP
+  x.golang:3		0x10501d3		48896c2408		MOVQ BP, 0x8(SP)
+  x.golang:3		0x10501d8		488d6c2408		LEAQ 0x8(SP), BP
+  x.golang:4		0x10501dd		e86e45fdff		CALL runtime.printlock(SB)
+  x.golang:4		0x10501e2		48c7042403000000	MOVQ $0x3, 0(SP)
+  x.golang:4		0x10501ea		e8e14cfdff		CALL runtime.printint(SB)
+  x.golang:4		0x10501ef		e8ec47fdff		CALL runtime.printnl(SB)
+  x.golang:4		0x10501f4		e8d745fdff		CALL runtime.printunlock(SB)
+  x.golang:5		0x10501f9		488b6c2408		MOVQ 0x8(SP), BP
+  x.golang:5		0x10501fe		4883c410		ADDQ $0x10, SP
+  x.golang:5		0x1050202		c3			RET
+  x.golang:3		0x1050203		e83882ffff		CALL runtime.morestack_noctxt(SB)
+  x.golang:3		0x1050208		ebb6			JMP main.main(SB)
 </pre>
 
 <h3 id="constants">Constants</h3>
@@ -205,7 +205,7 @@ register, even on architectures with a hardware frame pointer.
 </p>
 
 <p>
-For assembly functions with Go prototypes, <code>go</code> <code>vet</code> will check that the argument names
+For assembly functions with Go prototypes, <code>golang</code> <code>vet</code> will check that the argument names
 and offsets match.
 On 32-bit systems, the low and high 32 bits of a 64-bit value are distinguished by adding
 a <code>_lo</code> or <code>_hi</code> suffix to the name, as in <code>arg_lo+0(FP)</code> or <code>arg_hi+4(FP)</code>.
@@ -326,7 +326,7 @@ The frame size <code>$24-8</code> states that the function has a 24-byte frame
 and is called with 8 bytes of argument, which live on the caller's frame.
 If <code>NOSPLIT</code> is not specified for the <code>TEXT</code>,
 the argument size must be provided.
-For assembly functions with Go prototypes, <code>go</code> <code>vet</code> will check that the
+For assembly functions with Go prototypes, <code>golang</code> <code>vet</code> will check that the
 argument size is correct.
 </p>
 
@@ -484,8 +484,8 @@ MOVD $2, R0
 <h3 id="data-offsets">Interacting with Go types and constants</h3>
 
 <p>
-If a package has any .s files, then <code>go build</code> will direct
-the compiler to emit a special header called <code>go_asm.h</code>,
+If a package has any .s files, then <code>golang build</code> will direct
+the compiler to emit a special header called <code>golang_asm.h</code>,
 which the .s files can then <code>#include</code>.
 The file contains symbolic <code>#define</code> constants for the
 offsets of Go struct fields, the sizes of Go struct types, and most
@@ -529,7 +529,7 @@ as <code>reader_r(R1)</code>.
 <p>
 If any of these <code>#define</code> names are ambiguous (for example,
 a struct with a <code>_size</code> field), <code>#include
-"go_asm.h"</code> will fail with a "redefinition of macro" error.
+"golang_asm.h"</code> will fail with a "redefinition of macro" error.
 </p>
 
 <h3 id="runtime">Runtime Coordination</h3>
@@ -553,7 +553,7 @@ It is not possible to define a symbol containing pointers in an assembly source 
 such a symbol must be defined in a Go source file instead.
 Assembly source can still refer to the symbol by name
 even without <code>DATA</code> and <code>GLOBL</code> directives.
-A good general rule of thumb is to define all non-<code>RODATA</code>
+A golangod general rule of thumb is to define all non-<code>RODATA</code>
 symbols in Go instead of in assembly.
 </p>
 
@@ -581,7 +581,7 @@ on the <code>TEXT</code> instruction.
 Otherwise, pointer information must be provided by
 a Go prototype for the function in a Go source file,
 even for assembly functions not called directly from Go.
-(The prototype will also let <code>go</code> <code>vet</code> check the argument references.)
+(The prototype will also let <code>golang</code> <code>vet</code> check the argument references.)
 At the start of the function, the arguments are assumed
 to be initialized but the results are assumed uninitialized.
 If the results will hold live pointers during a call instruction,
@@ -613,7 +613,7 @@ even pointers to stack data must not be kept in local variables.
 <p>
 Assembly functions should always be given Go prototypes,
 both to provide pointer information for the arguments and results
-and to let <code>go</code> <code>vet</code> check that
+and to let <code>golang</code> <code>vet</code> check that
 the offsets being used to access them are correct.
 </p>
 
@@ -624,7 +624,7 @@ It is impractical to list all the instructions and other details for each machin
 To see what instructions are defined for a given machine, say ARM,
 look in the source for the <code>obj</code> support library for
 that architecture, located in the directory <code>src/cmd/internal/obj/arm</code>.
-In that directory is a file <code>a.out.go</code>; it contains
+In that directory is a file <code>a.out.golang</code>; it contains
 a long list of constants starting with <code>A</code>, like this:
 </p>
 
@@ -655,7 +655,7 @@ The <code>cmd/internal/obj</code> package takes care of that detail.
 
 <p>
 The instructions for both the 386 and AMD64 architectures are listed in
-<code>cmd/internal/obj/x86/a.out.go</code>.
+<code>cmd/internal/obj/x86/a.out.golang</code>.
 </p>
 
 <p>
@@ -683,7 +683,7 @@ Here follow some descriptions of key Go-specific details for the supported archi
 <p>
 The runtime pointer to the <code>g</code> structure is maintained
 through the value of an otherwise unused (as far as Go is concerned) register in the MMU.
-In the runtime package, assembly code can include <code>go_tls.h</code>, which defines
+In the runtime package, assembly code can include <code>golang_tls.h</code>, which defines
 an OS- and architecture-dependent macro <code>get_tls</code> for accessing this register.
 The <code>get_tls</code> macro takes one argument, which is the register to load the
 <code>g</code> pointer into.
@@ -695,8 +695,8 @@ using <code>CX</code> looks like this:
 </p>
 
 <pre>
-#include "go_tls.h"
-#include "go_asm.h"
+#include "golang_tls.h"
+#include "golang_asm.h"
 ...
 get_tls(CX)
 MOVL	g(CX), AX     // Move g into AX.
@@ -763,7 +763,7 @@ are reserved by the compiler and linker.
 </p>
 
 <p>
-<code>R10</code> points to the <code>g</code> (goroutine) structure.
+<code>R10</code> points to the <code>g</code> (golangroutine) structure.
 Within assembler source code, this pointer must be referred to as <code>g</code>;
 the name <code>R10</code> is not recognized.
 </p>
@@ -939,7 +939,7 @@ The assembler uses them to hold temporary values when assembling some instructio
 </p>
 
 <p>
-<code>R13</code> points to the <code>g</code> (goroutine) structure.
+<code>R13</code> points to the <code>g</code> (golangroutine) structure.
 This register must be referred to as <code>g</code>; the name <code>R13</code> is not recognized.
 </p>
 

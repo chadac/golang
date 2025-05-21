@@ -1,8 +1,8 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build ignore
+//golang:build ignore
 
 // Interactive debugging shell for codehost.Repo implementations.
 
@@ -20,12 +20,12 @@ import (
 	"strings"
 	"time"
 
-	"cmd/go/internal/cfg"
-	"cmd/go/internal/modfetch/codehost"
+	"cmd/golang/internal/cfg"
+	"cmd/golang/internal/modfetch/codehost"
 )
 
 func usage() {
-	fmt.Fprintf(os.Stderr, "usage: go run shell.go vcs remote\n")
+	fmt.Fprintf(os.Stderr, "usage: golang run shell.golang vcs remote\n")
 	os.Exit(2)
 }
 

@@ -1,14 +1,14 @@
 handle git
 
 env GIT_AUTHOR_NAME='Russ Cox'
-env GIT_AUTHOR_EMAIL='rsc@golang.org'
+env GIT_AUTHOR_EMAIL='rsc@golanglang.org'
 env GIT_COMMITTER_NAME=$GIT_AUTHOR_NAME
 env GIT_COMMITTER_EMAIL=$GIT_AUTHOR_EMAIL
 
 git init
 
 at 2018-07-03T22:35:49-04:00
-git add go.mod
+git add golang.mod
 git commit -m 'initial'
 git branch -m master
 
@@ -17,5 +17,5 @@ cmp stdout .git-log
 
 -- .git-log --
 7bb9146 initial
--- go.mod --
-module vcs-test.golang.org/git/emptytest.git
+-- golang.mod --
+module vcs-test.golanglang.org/git/emptytest.git

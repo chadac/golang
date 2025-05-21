@@ -1,8 +1,8 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Package analysisinternal provides gopls' internal analyses with a
+// Package analysisinternal provides golangpls' internal analyses with a
 // number of helper functions that operate on typed syntax trees.
 package analysisinternal
 
@@ -10,24 +10,24 @@ import (
 	"bytes"
 	"cmp"
 	"fmt"
-	"go/ast"
-	"go/printer"
-	"go/scanner"
-	"go/token"
-	"go/types"
+	"golang/ast"
+	"golang/printer"
+	"golang/scanner"
+	"golang/token"
+	"golang/types"
 	"iter"
 	pathpkg "path"
 	"slices"
 	"strings"
 
-	"golang.org/x/tools/go/analysis"
-	"golang.org/x/tools/go/ast/inspector"
-	"golang.org/x/tools/internal/astutil/cursor"
-	"golang.org/x/tools/internal/typesinternal"
+	"golanglang.org/x/tools/golang/analysis"
+	"golanglang.org/x/tools/golang/ast/inspector"
+	"golanglang.org/x/tools/internal/astutil/cursor"
+	"golanglang.org/x/tools/internal/typesinternal"
 )
 
 // Deprecated: this heuristic is ill-defined.
-// TODO(adonovan): move to sole use in gopls/internal/cache.
+// TODO(adonovan): move to sole use in golangpls/internal/cache.
 func TypeErrorEndPos(fset *token.FileSet, src []byte, start token.Pos) token.Pos {
 	// Get the end position for the type error.
 	file := fset.File(start)
@@ -51,7 +51,7 @@ func TypeErrorEndPos(fset *token.FileSet, src []byte, start token.Pos) token.Pos
 	// to add end position to all type checker errors.
 	//
 	// Nevertheless, ensure that the end position at least spans the current
-	// token at the cursor (this was golang/go#69505).
+	// token at the cursor (this was golanglang/golang#69505).
 	end := start
 	{
 		var s scanner.Scanner
@@ -170,17 +170,17 @@ func MatchingIdents(typs []types.Type, node ast.Node, pos token.Pos, info *types
 	return matches
 }
 
-func equivalentTypes(want, got types.Type) bool {
-	if types.Identical(want, got) {
+func equivalentTypes(want, golangt types.Type) bool {
+	if types.Identical(want, golangt) {
 		return true
 	}
-	// Code segment to help check for untyped equality from (golang/go#32146).
+	// Code segment to help check for untyped equality from (golanglang/golang#32146).
 	if rhs, ok := want.(*types.Basic); ok && rhs.Info()&types.IsUntyped > 0 {
-		if lhs, ok := got.Underlying().(*types.Basic); ok {
+		if lhs, ok := golangt.Underlying().(*types.Basic); ok {
 			return rhs.Info()&types.IsConstType == lhs.Info()&types.IsConstType
 		}
 	}
-	return types.AssignableTo(want, got)
+	return types.AssignableTo(want, golangt)
 }
 
 // A ReadFileFunc is a function that returns the
@@ -282,7 +282,7 @@ func AddImport(info *types.Info, file *ast.File, preferredName, pkgpath, member 
 		pos = gd.Rparen
 		// if it's a std lib, we should append it at the beginning of import group.
 		// otherwise we may see the std package is put at the last behind a 3rd module which doesn't follow our convention.
-		// besides, gofmt doesn't help in this case.
+		// besides, golangfmt doesn't help in this case.
 		if IsStdPackage(pkgpath) && len(gd.Specs) != 0 {
 			pos = gd.Specs[0].Pos()
 			newText += "\n\t"
@@ -452,7 +452,7 @@ func validateFix(fset *token.FileSet, fix *analysis.SuggestedFix) error {
 				// actual token positions. In such cases, truncate end to EOF.
 				//
 				// This is a workaround for #71659; see:
-				// https://github.com/golang/go/issues/71659#issuecomment-2651606031
+				// https://github.com/golanglang/golang/issues/71659#issuecomment-2651606031
 				// A better fix would be more faithful recording of token
 				// positions (or their absence) in the AST.
 				edit.End = fileEnd
@@ -522,7 +522,7 @@ func CanImport(from, to string) bool {
 
 // DeleteStmt returns the edits to remove stmt if it is contained
 // in a BlockStmt, CaseClause, CommClause, or is the STMT in switch STMT; ... {...}
-// The report function abstracts gopls' bug.Report.
+// The report function abstracts golangpls' bug.Report.
 func DeleteStmt(fset *token.FileSet, astFile *ast.File, stmt ast.Stmt, report func(string, ...any)) []analysis.TextEdit {
 	// TODO: pass in the cursor to a ast.Stmt. callers should provide the Cursor
 	insp := inspector.New([]*ast.File{astFile})
@@ -623,9 +623,9 @@ Outer:
 		// remove just the statment.
 		// we can't tell if there is a ; or whitespace right after the statment
 		// ideally we'd like to remove the former and leave the latter
-		// (if gofmt has run, there likely won't be a ;)
+		// (if golangfmt has run, there likely won't be a ;)
 		// In type switches we know there's a semicolon somewhere after the statement,
-		// but the extra work for this special case is not worth it, as gofmt will fix it.
+		// but the extra work for this special case is not worth it, as golangfmt will fix it.
 		return []analysis.TextEdit{edit}
 	}
 	// remove the whole line
@@ -664,7 +664,7 @@ func Comments(file *ast.File, start, end token.Pos) iter.Seq[*ast.Comment] {
 // package in the standard library (including internal dependencies).
 func IsStdPackage(path string) bool {
 	// A standard package has no dot in its first segment.
-	// (It may yet have a dot, e.g. "vendor/golang.org/x/foo".)
+	// (It may yet have a dot, e.g. "vendor/golanglang.org/x/foo".)
 	slash := strings.IndexByte(path, '/')
 	if slash < 0 {
 		slash = len(path)

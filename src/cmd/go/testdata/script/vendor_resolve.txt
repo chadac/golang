@@ -1,21 +1,21 @@
 env GO111MODULE=off
-! go build p
+! golang build p
 stderr 'must be imported as x'
 
--- p/p.go --
+-- p/p.golang --
 package p
 
 import (
 	_ "q/y"
 	_ "q/z"
 )
--- q/vendor/x/x.go --
+-- q/vendor/x/x.golang --
 package x
--- q/y/y.go --
+-- q/y/y.golang --
 package y
 
 import _ "x"
--- q/z/z.go --
+-- q/z/z.golang --
 package z
 
 import _ "q/vendor/x"

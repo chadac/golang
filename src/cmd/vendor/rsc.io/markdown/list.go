@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package markdown
@@ -302,7 +302,7 @@ func (p *parseState) taskList(list *List) {
 			continue
 		}
 		if s[3] != ' ' && s[3] != '\t' {
-			p.corner = true // goldmark does not require the space
+			p.corner = true // golangldmark does not require the space
 			continue
 		}
 		text.Inline = append([]Inline{&Task{Checked: s[1] == 'x' || s[1] == 'X'},

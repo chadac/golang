@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 #include "textflag.h"
@@ -20,11 +20,11 @@ TEXT _rt0_386_windows_lib(SB),NOSPLIT,$0x1C
 	MOVL  DX, 0x18(SP)
 
 	// Create a new thread to do the runtime initialization and return.
-	MOVL	_cgo_sys_thread_create(SB), AX
-	MOVL	$_rt0_386_windows_lib_go(SB), 0x00(SP)
+	MOVL	_cgolang_sys_thread_create(SB), AX
+	MOVL	$_rt0_386_windows_lib_golang(SB), 0x00(SP)
 	MOVL	$0, 0x04(SP)
 
-	 // Top two items on the stack are passed to _cgo_sys_thread_create
+	 // Top two items on the stack are passed to _cgolang_sys_thread_create
 	 // as parameters. This is the calling convention on 32-bit Windows.
 	CALL	AX
 
@@ -35,13 +35,13 @@ TEXT _rt0_386_windows_lib(SB),NOSPLIT,$0x1C
 	MOVL	0x18(SP), DX
 	RET
 
-TEXT _rt0_386_windows_lib_go(SB),NOSPLIT,$0
+TEXT _rt0_386_windows_lib_golang(SB),NOSPLIT,$0
 	PUSHL	$0
 	PUSHL	$0
-	JMP	runtime·rt0_go(SB)
+	JMP	runtime·rt0_golang(SB)
 
 TEXT _main(SB),NOSPLIT,$0
 	// Remove the return address from the stack.
-	// rt0_go doesn't expect it to be there.
+	// rt0_golang doesn't expect it to be there.
 	ADDL	$4, SP
-	JMP	runtime·rt0_go(SB)
+	JMP	runtime·rt0_golang(SB)

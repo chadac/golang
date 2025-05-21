@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file implements typechecking of index/slice expressions.
@@ -7,9 +7,9 @@
 package types
 
 import (
-	"go/ast"
-	"go/constant"
-	"go/token"
+	"golang/ast"
+	"golang/constant"
+	"golang/token"
 	. "internal/types/errors"
 )
 
@@ -248,7 +248,7 @@ func (check *Checker) sliceExpr(x *operand, e *ast.SliceExpr) {
 	})
 	if hasString {
 		// If we saw a string, proceed with string type,
-		// but don't go from untyped string to string.
+		// but don't golang from untyped string to string.
 		cu = Typ[String]
 		if !isTypeParam(x.typ) {
 			cu = under(x.typ) // untyped string remains untyped
@@ -454,7 +454,7 @@ func (check *Checker) isValidIndex(x *operand, code Code, what string, allowNega
 // Orig holds the original ast.Expr from which this indexedExpr was derived.
 //
 // Note: indexedExpr (intentionally) does not wrap ast.Expr, as that leads to
-// accidental misuse such as encountered in golang/go#63933.
+// accidental misuse such as encountered in golanglang/golang#63933.
 //
 // TODO(rfindley): remove this helper, in favor of just having a helper
 // function that returns indices.

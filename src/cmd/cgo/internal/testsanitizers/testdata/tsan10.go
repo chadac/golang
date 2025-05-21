@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -8,7 +8,7 @@ package main
 // TSAN defers asynchronous signals until the signaled thread calls into libc.
 // Since the Go runtime makes direct futex syscalls, Go runtime threads could
 // run for an arbitrarily long time without triggering the libc interceptors.
-// See https://golang.org/issue/18717.
+// See https://golanglang.org/issue/18717.
 
 import (
 	"os"
@@ -17,8 +17,8 @@ import (
 )
 
 /*
-#cgo CFLAGS: -g -fsanitize=thread
-#cgo LDFLAGS: -g -fsanitize=thread
+#cgolang CFLAGS: -g -fsanitize=thread
+#cgolang LDFLAGS: -g -fsanitize=thread
 */
 import "C"
 

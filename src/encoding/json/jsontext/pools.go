@@ -1,8 +1,8 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build goexperiment.jsonv2
+//golang:build golangexperiment.jsonv2
 
 package jsontext
 
@@ -13,7 +13,7 @@ import (
 	"sync"
 )
 
-// TODO(https://go.dev/issue/47657): Use sync.PoolOf.
+// TODO(https://golang.dev/issue/47657): Use sync.PoolOf.
 
 var (
 	// This owns the internal buffer since there is no io.Writer to output to.
@@ -35,7 +35,7 @@ var (
 
 // bufferStatistics is statistics to track buffer utilization.
 // It is used to determine whether to recycle a buffer or not
-// to avoid https://go.dev/issue/23199.
+// to avoid https://golang.dev/issue/23199.
 type bufferStatistics struct {
 	strikes int // number of times the buffer was under-utilized
 	prevLen int // length of previous buffer
@@ -45,7 +45,7 @@ func getBufferedEncoder(opts ...Options) *Encoder {
 	e := bufferedEncoderPool.Get().(*Encoder)
 	if e.s.Buf == nil {
 		// Round up to nearest 2ⁿ to make best use of malloc size classes.
-		// See runtime/sizeclasses.go on Go1.15.
+		// See runtime/sizeclasses.golang on Go1.15.
 		// Logical OR with 63 to ensure 64 as the minimum buffer size.
 		n := 1 << bits.Len(uint(e.s.bufStats.prevLen|63))
 		e.s.Buf = make([]byte, 0, n)
@@ -67,7 +67,7 @@ func putBufferedEncoder(e *Encoder) {
 	// the absolute worst-case utilization. Without this check,
 	// this would be theoretically 0%, which is infinitely worse.
 	//
-	// See https://go.dev/issue/27735.
+	// See https://golang.dev/issue/27735.
 	switch {
 	case cap(e.s.Buf) <= 4<<10: // always recycle buffers smaller than 4KiB
 		e.s.bufStats.strikes = 0

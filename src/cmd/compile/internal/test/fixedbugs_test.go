@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package test
@@ -17,7 +17,7 @@ type T struct {
 	p *byte    // has a pointer
 }
 
-//go:noinline
+//golang:noinline
 func makeT() T {
 	return T{}
 }
@@ -60,7 +60,7 @@ func TestIssue16214(t *testing.T) {
 	testenv.MustHaveGoBuild(t)
 	dir := t.TempDir()
 
-	src := filepath.Join(dir, "x.go")
+	src := filepath.Join(dir, "x.golang")
 	err := os.WriteFile(src, []byte(issue16214src), 0644)
 	if err != nil {
 		t.Fatalf("could not write file: %v", err)
@@ -69,7 +69,7 @@ func TestIssue16214(t *testing.T) {
 	cmd := testenv.Command(t, testenv.GoToolPath(t), "tool", "compile", "-p=main", "-S", "-o", filepath.Join(dir, "out.o"), src)
 	out, err := cmd.CombinedOutput()
 	if err != nil {
-		t.Fatalf("go tool compile: %v\n%s", err, out)
+		t.Fatalf("golang tool compile: %v\n%s", err, out)
 	}
 
 	if strings.Contains(string(out), "unknown line number") {

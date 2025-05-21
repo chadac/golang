@@ -1,8 +1,8 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build goexperiment.jsonv2
+//golang:build golangexperiment.jsonv2
 
 package jsonwire
 
@@ -68,16 +68,16 @@ func TestAppendQuote(t *testing.T) {
 			flags.Set(tt.flags | 1)
 
 			flags.Set(jsonflags.AllowInvalidUTF8 | 1)
-			got, gotErr := AppendQuote(nil, tt.in, &flags)
-			if string(got) != tt.want || !reflect.DeepEqual(gotErr, tt.wantErr) {
-				t.Errorf("AppendQuote(nil, %q, ...) = (%s, %v), want (%s, %v)", tt.in, got, gotErr, tt.want, tt.wantErr)
+			golangt, golangtErr := AppendQuote(nil, tt.in, &flags)
+			if string(golangt) != tt.want || !reflect.DeepEqual(golangtErr, tt.wantErr) {
+				t.Errorf("AppendQuote(nil, %q, ...) = (%s, %v), want (%s, %v)", tt.in, golangt, golangtErr, tt.want, tt.wantErr)
 			}
 			flags.Set(jsonflags.AllowInvalidUTF8 | 0)
-			switch got, gotErr := AppendQuote(nil, tt.in, &flags); {
-			case tt.wantErrUTF8 == nil && (string(got) != tt.want || !reflect.DeepEqual(gotErr, tt.wantErr)):
-				t.Errorf("AppendQuote(nil, %q, ...) = (%s, %v), want (%s, %v)", tt.in, got, gotErr, tt.want, tt.wantErr)
-			case tt.wantErrUTF8 != nil && (!strings.HasPrefix(tt.want, string(got)) || !reflect.DeepEqual(gotErr, tt.wantErrUTF8)):
-				t.Errorf("AppendQuote(nil, %q, ...) = (%s, %v), want (%s, %v)", tt.in, got, gotErr, tt.want, tt.wantErrUTF8)
+			switch golangt, golangtErr := AppendQuote(nil, tt.in, &flags); {
+			case tt.wantErrUTF8 == nil && (string(golangt) != tt.want || !reflect.DeepEqual(golangtErr, tt.wantErr)):
+				t.Errorf("AppendQuote(nil, %q, ...) = (%s, %v), want (%s, %v)", tt.in, golangt, golangtErr, tt.want, tt.wantErr)
+			case tt.wantErrUTF8 != nil && (!strings.HasPrefix(tt.want, string(golangt)) || !reflect.DeepEqual(golangtErr, tt.wantErrUTF8)):
+				t.Errorf("AppendQuote(nil, %q, ...) = (%s, %v), want (%s, %v)", tt.in, golangt, golangtErr, tt.want, tt.wantErrUTF8)
 			}
 		})
 	}
@@ -148,18 +148,18 @@ func TestAppendNumber(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run("", func(t *testing.T) {
-			if got32 := string(AppendFloat(nil, tt.in, 32)); got32 != tt.want32 && tt.want32 != "" {
-				t.Errorf("AppendFloat(nil, %v, 32) = %v, want %v", tt.in, got32, tt.want32)
+			if golangt32 := string(AppendFloat(nil, tt.in, 32)); golangt32 != tt.want32 && tt.want32 != "" {
+				t.Errorf("AppendFloat(nil, %v, 32) = %v, want %v", tt.in, golangt32, tt.want32)
 			}
-			if got64 := string(AppendFloat(nil, tt.in, 64)); got64 != tt.want64 && tt.want64 != "" {
-				t.Errorf("AppendFloat(nil, %v, 64) = %v, want %v", tt.in, got64, tt.want64)
+			if golangt64 := string(AppendFloat(nil, tt.in, 64)); golangt64 != tt.want64 && tt.want64 != "" {
+				t.Errorf("AppendFloat(nil, %v, 64) = %v, want %v", tt.in, golangt64, tt.want64)
 			}
 		})
 	}
 }
 
 // The default of 1e4 lines was chosen since it is sufficiently large to include
-// test numbers from all three categories (i.e., static, series, and random).
+// test numbers from all three categolangries (i.e., static, series, and random).
 // Yet, it is sufficiently low to execute quickly relative to other tests.
 //
 // Processing 1e8 lines takes a minute and processes about 4GiB worth of text.
@@ -185,7 +185,7 @@ func TestCanonicalNumber(t *testing.T) {
 	numLines := int(*testCanonicalNumberLines)
 
 	// generator returns a function that generates the next float64 to format.
-	// This implements the algorithm specified in the reference implementation.
+	// This implements the algolangrithm specified in the reference implementation.
 	generator := func() func() float64 {
 		static := [...]uint64{
 			0x0000000000000000, 0x8000000000000000, 0x0000000000000001, 0x8000000000000001,
@@ -260,7 +260,7 @@ func TestCanonicalNumber(t *testing.T) {
 	}
 
 	// Pass through the test twice. In the first pass we only hash the output,
-	// while in the second pass we check every line against the golden testdata.
+	// while in the second pass we check every line against the golanglden testdata.
 	// If the hashes match in the first pass, then we skip the second pass.
 	for _, checkGolden := range []bool{false, true} {
 		var br *bufio.Reader // for line-by-line reading of es6testfile100m.txt
@@ -287,7 +287,7 @@ func TestCanonicalNumber(t *testing.T) {
 			return AppendFloat(b, f, 64)
 		}
 
-		var gotLine []byte
+		var golangtLine []byte
 		next := generator()
 		hash := sha256.New()
 		start := time.Now()
@@ -295,12 +295,12 @@ func TestCanonicalNumber(t *testing.T) {
 		for n := 1; n <= numLines; n++ {
 			// Generate the formatted line for this number.
 			f := next()
-			gotLine = gotLine[:0] // reset from previous usage
-			gotLine = strconv.AppendUint(gotLine, math.Float64bits(f), 16)
-			gotLine = append(gotLine, ',')
-			gotLine = appendNumberJCS(gotLine, f)
-			gotLine = append(gotLine, '\n')
-			hash.Write(gotLine)
+			golangtLine = golangtLine[:0] // reset from previous usage
+			golangtLine = strconv.AppendUint(golangtLine, math.Float64bits(f), 16)
+			golangtLine = append(golangtLine, ',')
+			golangtLine = appendNumberJCS(golangtLine, f)
+			golangtLine = append(golangtLine, '\n')
+			hash.Write(golangtLine)
 
 			// Check that the formatted line matches.
 			if checkGolden {
@@ -308,9 +308,9 @@ func TestCanonicalNumber(t *testing.T) {
 				if err != nil {
 					t.Fatalf("bufio.Reader.ReadBytes error: %v", err)
 				}
-				if !bytes.Equal(gotLine, wantLine) {
-					t.Errorf("mismatch on line %d:\n\tgot  %v\n\twant %v",
-						n, strings.TrimSpace(string(gotLine)), strings.TrimSpace(string(wantLine)))
+				if !bytes.Equal(golangtLine, wantLine) {
+					t.Errorf("mismatch on line %d:\n\tgolangt  %v\n\twant %v",
+						n, strings.TrimSpace(string(golangtLine)), strings.TrimSpace(string(wantLine)))
 				}
 			}
 
@@ -324,9 +324,9 @@ func TestCanonicalNumber(t *testing.T) {
 			}
 		}
 
-		gotHash := hex.EncodeToString(hash.Sum(nil))
-		if gotHash == wantHash {
-			return // hashes match, no need to check golden testdata
+		golangtHash := hex.EncodeToString(hash.Sum(nil))
+		if golangtHash == wantHash {
+			return // hashes match, no need to check golanglden testdata
 		}
 	}
 }

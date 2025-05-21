@@ -1,5 +1,5 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package token
@@ -14,7 +14,7 @@ import (
 )
 
 // If debug is set, invalid offset and position values cause a panic
-// (go.dev/issue/57490).
+// (golang.dev/issue/57490).
 const debug = false
 
 // -----------------------------------------------------------------------------
@@ -241,7 +241,7 @@ func (f *File) LineStart(line int) Pos {
 // number information (such as provided via a //line directive)
 // for a given file offset.
 type lineInfo struct {
-	// fields are exported to make them accessible to gob
+	// fields are exported to make them accessible to golangb
 	Offset       int
 	Filename     string
 	Line, Column int
@@ -297,7 +297,7 @@ func (f *File) fixOffset(offset int) int {
 //
 // If offset is negative, the result is the file's start
 // position; if the offset is too large, the result is
-// the file's end position (see also go.dev/issue/57490).
+// the file's end position (see also golang.dev/issue/57490).
 //
 // The following invariant, though not true for Pos values
 // in general, holds for the result p:
@@ -310,7 +310,7 @@ func (f *File) Pos(offset int) Pos {
 //
 // If p is before the file's start position (or if p is NoPos),
 // the result is 0; if p is past the file's end position,
-// the result is the file size (see also go.dev/issue/57490).
+// the result is the file size (see also golang.dev/issue/57490).
 //
 // The following invariant, though not true for offset values
 // in general, holds for the result offset:
@@ -370,7 +370,7 @@ func (f *File) unpack(offset int, adjusted bool) (filename string, line, column 
 		}
 	}
 	// TODO(mvdan): move Unlock back under Lock with a defer statement once
-	// https://go.dev/issue/38471 is fixed to remove the performance penalty.
+	// https://golang.dev/issue/38471 is fixed to remove the performance penalty.
 	f.mutex.Unlock()
 	return
 }
@@ -405,7 +405,7 @@ func (f *File) Position(p Pos) (pos Position) {
 // FileSet
 
 // A FileSet represents a set of source files.
-// Methods of file sets are synchronized; multiple goroutines
+// Methods of file sets are synchronized; multiple golangroutines
 // may invoke them concurrently.
 //
 // The byte offsets for each file in a file set are mapped into
@@ -663,9 +663,9 @@ func searchInts(a []int, x int) int {
 	//   return sort.Search(len(a), func(i int) bool { return a[i] > x }) - 1
 	//
 	// With better compiler optimizations, this may not be needed in the
-	// future, but at the moment this change improves the go/printer
+	// future, but at the moment this change improves the golang/printer
 	// benchmark performance by ~30%. This has a direct impact on the
-	// speed of gofmt and thus seems worthwhile (2011-04-29).
+	// speed of golangfmt and thus seems worthwhile (2011-04-29).
 	// TODO(gri): Remove this when compilers have caught up.
 	i, j := 0, len(a)
 	for i < j {

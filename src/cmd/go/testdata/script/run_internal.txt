@@ -1,63 +1,63 @@
 env GO111MODULE=off
 
-go list -e -f '{{.Incomplete}}' m/runbad1.go
+golang list -e -f '{{.Incomplete}}' m/runbad1.golang
 stdout true
-! go run m/runbad1.go
+! golang run m/runbad1.golang
 stderr 'use of internal package m/x/internal not allowed'
 
-go list -e -f '{{.Incomplete}}' m/runbad2.go
+golang list -e -f '{{.Incomplete}}' m/runbad2.golang
 stdout true
-! go run m/runbad2.go
+! golang run m/runbad2.golang
 stderr 'use of internal package m/x/internal/y not allowed'
 
-go list -e -f '{{.Incomplete}}' m/runok.go
+golang list -e -f '{{.Incomplete}}' m/runok.golang
 stdout false
-go run m/runok.go
+golang run m/runok.golang
 
 cd m
 env GO111MODULE=on
 
-go list -e -f '{{.Incomplete}}' runbad1.go
+golang list -e -f '{{.Incomplete}}' runbad1.golang
 stdout true
-! go run runbad1.go
+! golang run runbad1.golang
 stderr 'use of internal package m/x/internal not allowed'
 
-go list -e -f '{{.Incomplete}}' runbad2.go
+golang list -e -f '{{.Incomplete}}' runbad2.golang
 stdout true
-! go run runbad2.go
+! golang run runbad2.golang
 stderr 'use of internal package m/x/internal/y not allowed'
 
-go list -e -f '{{.Incomplete}}' runok.go
+golang list -e -f '{{.Incomplete}}' runok.golang
 stdout false
-go run runok.go
+golang run runok.golang
 
 
--- m/go.mod --
+-- m/golang.mod --
 module m
 
--- m/x/internal/internal.go --
+-- m/x/internal/internal.golang --
 package internal
 
--- m/x/internal/y/y.go --
+-- m/x/internal/y/y.golang --
 package y
 
--- m/internal/internal.go --
+-- m/internal/internal.golang --
 package internal
 
--- m/internal/z/z.go --
+-- m/internal/z/z.golang --
 package z
 
--- m/runbad1.go --
+-- m/runbad1.golang --
 package main
 import _ "m/x/internal"
 func main() {}
 
--- m/runbad2.go --
+-- m/runbad2.golang --
 package main
 import _ "m/x/internal/y"
 func main() {}
 
--- m/runok.go --
+-- m/runok.golang --
 package main
 import _ "m/internal"
 import _ "m/internal/z"

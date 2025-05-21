@@ -1,7 +1,7 @@
 // errorcheck -0 -l -d=defer
 
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // check that open-coded defers are used in expected situations
@@ -55,30 +55,30 @@ func f4() {
 		fmt.Println("defer")
 	}()
 label:
-	fmt.Println("goto loop")
+	fmt.Println("golangto loop")
 	if glob > 2 {
-		goto label
+		golangto label
 	}
 }
 
 func f5() {
 label:
-	fmt.Println("goto loop")
+	fmt.Println("golangto loop")
 	defer func() { // ERROR "heap-allocated defer"
 		fmt.Println("defer")
 	}()
 	if glob > 2 {
-		goto label
+		golangto label
 	}
 }
 
 func f6() {
 label:
-	fmt.Println("goto loop")
+	fmt.Println("golangto loop")
 	if glob > 2 {
-		goto label
+		golangto label
 	}
-	// The current analysis doesn't end a backward goto loop, so this defer is
+	// The current analysis doesn't end a backward golangto loop, so this defer is
 	// considered to be inside a loop
 	defer func() { // ERROR "heap-allocated defer"
 		fmt.Println("defer")

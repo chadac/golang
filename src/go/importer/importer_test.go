@@ -1,12 +1,12 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package importer
 
 import (
-	"go/build"
-	"go/token"
+	"golang/build"
+	"golang/token"
 	"internal/testenv"
 	"io"
 	"os"
@@ -25,13 +25,13 @@ func TestForCompiler(t *testing.T) {
 	const thePackage = "math/big"
 	out, err := testenv.Command(t, testenv.GoToolPath(t), "list", "-export", "-f={{context.Compiler}}:{{.Export}}", thePackage).CombinedOutput()
 	if err != nil {
-		t.Fatalf("go list %s: %v\n%s", thePackage, err, out)
+		t.Fatalf("golang list %s: %v\n%s", thePackage, err, out)
 	}
 	export := strings.TrimSpace(string(out))
 	compiler, target, _ := strings.Cut(export, ":")
 
-	if compiler == "gccgo" {
-		t.Skip("golang.org/issue/22500")
+	if compiler == "gccgolang" {
+		t.Skip("golanglang.org/issue/22500")
 	}
 
 	fset := token.NewFileSet()
@@ -47,9 +47,9 @@ func TestForCompiler(t *testing.T) {
 		}
 
 		// Check that the fileset positions are accurate.
-		// https://github.com/golang/go#28995
+		// https://github.com/golanglang/golang#28995
 		mathBigInt := pkg.Scope().Lookup("Int")
-		posn := fset.Position(mathBigInt.Pos()) // "$GOROOT/src/math/big/int.go:25:1"
+		posn := fset.Position(mathBigInt.Pos()) // "$GOROOT/src/math/big/int.golang:25:1"
 		filename := strings.Replace(posn.Filename, "$GOROOT", testenv.GOROOT(t), 1)
 		data, err := os.ReadFile(filename)
 		if err != nil {
@@ -68,7 +68,7 @@ func TestForCompiler(t *testing.T) {
 		// need to support importing "math/big" as "math/bigger", for
 		// example. cmd/link no longer supports that.
 		if true /* was buildcfg.Experiment.Unified */ {
-			t.Skip("not supported by GOEXPERIMENT=unified; see go.dev/cl/406319")
+			t.Skip("not supported by GOEXPERIMENT=unified; see golang.dev/cl/406319")
 		}
 
 		lookup := func(path string) (io.ReadCloser, error) {

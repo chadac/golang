@@ -1,14 +1,14 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !goexperiment.swissmap
+//golang:build !golangexperiment.swissmap
 
 package reflect
 
 import (
 	"internal/abi"
-	"internal/goarch"
+	"internal/golangarch"
 	"unsafe"
 )
 
@@ -19,10 +19,10 @@ type mapType struct {
 
 // Pushed from runtime.
 
-//go:noescape
+//golang:noescape
 func mapiterinit(t *abi.Type, m unsafe.Pointer, it *hiter)
 
-//go:noescape
+//golang:noescape
 func mapiternext(it *hiter)
 
 func (t *rtype) Key() Type {
@@ -65,7 +65,7 @@ func MapOf(key, elem Type) Type {
 
 	// Make a map type.
 	// Note: flag values must match those used in the TMAP case
-	// in ../cmd/compile/internal/reflectdata/reflect.go:writeType.
+	// in ../cmd/compile/internal/reflectdata/reflect.golang:writeType.
 	var imap any = (map[unsafe.Pointer]unsafe.Pointer)(nil)
 	mt := **(**mapType)(unsafe.Pointer(&imap))
 	mt.Str = resolveReflectName(newName(s, "", false, false))
@@ -79,13 +79,13 @@ func MapOf(key, elem Type) Type {
 	}
 	mt.Flags = 0
 	if ktyp.Size_ > abi.OldMapMaxKeyBytes {
-		mt.KeySize = uint8(goarch.PtrSize)
+		mt.KeySize = uint8(golangarch.PtrSize)
 		mt.Flags |= 1 // indirect key
 	} else {
 		mt.KeySize = uint8(ktyp.Size_)
 	}
 	if etyp.Size_ > abi.OldMapMaxElemBytes {
-		mt.ValueSize = uint8(goarch.PtrSize)
+		mt.ValueSize = uint8(golangarch.PtrSize)
 		mt.Flags |= 2 // indirect value
 	} else {
 		mt.ValueSize = uint8(etyp.Size_)
@@ -122,34 +122,34 @@ func bucketOf(ktyp, etyp *abi.Type) *abi.Type {
 	var gcdata *byte
 	var ptrdata uintptr
 
-	size := abi.OldMapBucketCount*(1+ktyp.Size_+etyp.Size_) + goarch.PtrSize
+	size := abi.OldMapBucketCount*(1+ktyp.Size_+etyp.Size_) + golangarch.PtrSize
 	if size&uintptr(ktyp.Align_-1) != 0 || size&uintptr(etyp.Align_-1) != 0 {
 		panic("reflect: bad size computation in MapOf")
 	}
 
 	if ktyp.Pointers() || etyp.Pointers() {
-		nptr := (abi.OldMapBucketCount*(1+ktyp.Size_+etyp.Size_) + goarch.PtrSize) / goarch.PtrSize
+		nptr := (abi.OldMapBucketCount*(1+ktyp.Size_+etyp.Size_) + golangarch.PtrSize) / golangarch.PtrSize
 		n := (nptr + 7) / 8
 
 		// Runtime needs pointer masks to be a multiple of uintptr in size.
-		n = (n + goarch.PtrSize - 1) &^ (goarch.PtrSize - 1)
+		n = (n + golangarch.PtrSize - 1) &^ (golangarch.PtrSize - 1)
 		mask := make([]byte, n)
-		base := uintptr(abi.OldMapBucketCount / goarch.PtrSize)
+		base := uintptr(abi.OldMapBucketCount / golangarch.PtrSize)
 
 		if ktyp.Pointers() {
 			emitGCMask(mask, base, ktyp, abi.OldMapBucketCount)
 		}
-		base += abi.OldMapBucketCount * ktyp.Size_ / goarch.PtrSize
+		base += abi.OldMapBucketCount * ktyp.Size_ / golangarch.PtrSize
 
 		if etyp.Pointers() {
 			emitGCMask(mask, base, etyp, abi.OldMapBucketCount)
 		}
-		base += abi.OldMapBucketCount * etyp.Size_ / goarch.PtrSize
+		base += abi.OldMapBucketCount * etyp.Size_ / golangarch.PtrSize
 
 		word := base
 		mask[word/8] |= 1 << (word % 8)
 		gcdata = &mask[0]
-		ptrdata = (word + 1) * goarch.PtrSize
+		ptrdata = (word + 1) * golangarch.PtrSize
 
 		// overflow word must be last
 		if ptrdata != size {
@@ -158,7 +158,7 @@ func bucketOf(ktyp, etyp *abi.Type) *abi.Type {
 	}
 
 	b := &abi.Type{
-		Align_:   goarch.PtrSize,
+		Align_:   golangarch.PtrSize,
 		Size_:    size,
 		Kind_:    abi.Struct,
 		PtrBytes: ptrdata,
@@ -415,7 +415,7 @@ func (v Value) MapRange() *MapIter {
 	// This is inlinable to take advantage of "function outlining".
 	// The allocation of MapIter can be stack allocated if the caller
 	// does not allow it to escape.
-	// See https://blog.filippo.io/efficient-go-apis-with-the-inliner/
+	// See https://blog.filippo.io/efficient-golang-apis-with-the-inliner/
 	if v.kind() != Map {
 		v.panicNotMap()
 	}
@@ -478,7 +478,7 @@ func (v Value) SetMapIndex(key, elem Value) {
 // inlining budget of the caller.
 // TODO: undo when the inliner is no longer bottom-up only.
 //
-//go:noinline
+//golang:noinline
 func (f flag) panicNotMap() {
 	f.mustBe(Map)
 }

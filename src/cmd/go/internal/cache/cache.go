@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package cache implements a build artifact cache.
@@ -11,7 +11,7 @@ import (
 	"encoding/hex"
 	"errors"
 	"fmt"
-	"internal/godebug"
+	"internal/golangdebug"
 	"io"
 	"io/fs"
 	"os"
@@ -20,9 +20,9 @@ import (
 	"strings"
 	"time"
 
-	"cmd/go/internal/base"
-	"cmd/go/internal/lockedfile"
-	"cmd/go/internal/mmap"
+	"cmd/golang/internal/base"
+	"cmd/golang/internal/lockedfile"
+	"cmd/golang/internal/mmap"
 )
 
 // An ActionID is a cache action key, the hash of a complete description of a
@@ -33,7 +33,7 @@ type ActionID [HashSize]byte
 // An OutputID is a cache output key, the hash of an output of a computation.
 type OutputID [HashSize]byte
 
-// Cache is the interface as used by the cmd/go.
+// Cache is the interface as used by the cmd/golang.
 type Cache interface {
 	// Get returns the cache entry for the provided ActionID.
 	// On miss, the error type should be of type *entryNotFoundError.
@@ -48,13 +48,13 @@ type Cache interface {
 	// the seek position is not guaranteed to be in any particular state.
 	//
 	// As a special case, if the ReadSeeker is of type noVerifyReadSeeker,
-	// the verification from GODEBUG=goverifycache=1 is skipped.
+	// the verification from GODEBUG=golangverifycache=1 is skipped.
 	//
 	// After a successful call to Put, OutputFile(OutputID) must
 	// exist on disk until Close is called (at the end of the process).
 	Put(ActionID, io.ReadSeeker) (_ OutputID, size int64, _ error)
 
-	// Close is called at the end of the go process. Implementations can do
+	// Close is called at the end of the golang process. Implementations can do
 	// cache cleanup work at this phase, or wait for and report any errors from
 	// background cleanup work started earlier. Any cache trimming in one
 	// process should not cause the invariants of this interface to be
@@ -149,33 +149,33 @@ const (
 // had the cache entry been returned from Get.
 //
 // verify is enabled by setting the environment variable
-// GODEBUG=gocacheverify=1.
+// GODEBUG=golangcacheverify=1.
 var verify = false
 
-var errVerifyMode = errors.New("gocacheverify=1")
+var errVerifyMode = errors.New("golangcacheverify=1")
 
-// DebugTest is set when GODEBUG=gocachetest=1 is in the environment.
+// DebugTest is set when GODEBUG=golangcachetest=1 is in the environment.
 var DebugTest = false
 
 func init() { initEnv() }
 
 var (
-	gocacheverify = godebug.New("gocacheverify")
-	gocachehash   = godebug.New("gocachehash")
-	gocachetest   = godebug.New("gocachetest")
+	golangcacheverify = golangdebug.New("golangcacheverify")
+	golangcachehash   = golangdebug.New("golangcachehash")
+	golangcachetest   = golangdebug.New("golangcachetest")
 )
 
 func initEnv() {
-	if gocacheverify.Value() == "1" {
-		gocacheverify.IncNonDefault()
+	if golangcacheverify.Value() == "1" {
+		golangcacheverify.IncNonDefault()
 		verify = true
 	}
-	if gocachehash.Value() == "1" {
-		gocachehash.IncNonDefault()
+	if golangcachehash.Value() == "1" {
+		golangcachehash.IncNonDefault()
 		debugHash = true
 	}
-	if gocachetest.Value() == "1" {
-		gocachetest.IncNonDefault()
+	if golangcachetest.Value() == "1" {
+		golangcachetest.IncNonDefault()
 		DebugTest = true
 	}
 }
@@ -343,7 +343,7 @@ func (c *DiskCache) OutputFile(out OutputID) string {
 // When we do scan the cache, we delete entries that have not been used for
 // at least trimLimit (5 days). Statistics gathered from a month of usage by
 // Go developers found that essentially all reuse of cached entries happened
-// within 5 days of the previous reuse. See golang.org/issue/22990.
+// within 5 days of the previous reuse. See golanglang.org/issue/22990.
 const (
 	mtimeInterval = 1 * time.Hour
 	trimInterval  = 24 * time.Hour
@@ -455,7 +455,7 @@ func (c *DiskCache) putIndexEntry(id ActionID, out OutputID, size int64, allowVe
 	// don't make a big deal about it. In particular, we leave the action
 	// cache entries writable specifically so that they can be overwritten.
 	//
-	// Setting GODEBUG=gocacheverify=1 does make a big deal:
+	// Setting GODEBUG=golangcacheverify=1 does make a big deal:
 	// in verify mode we are double-checking that the cache entries
 	// are entirely reproducible. As just noted, this may be unrealistic
 	// in some cases but the check is also useful for shaking out real bugs.
@@ -464,7 +464,7 @@ func (c *DiskCache) putIndexEntry(id ActionID, out OutputID, size int64, allowVe
 		old, err := c.get(id)
 		if err == nil && (old.OutputID != out || old.Size != size) {
 			// panic to show stack trace, so we can see what code is generating this cache entry.
-			msg := fmt.Sprintf("go: internal cache error: cache verify failed: id=%x changed:<<<\n%s\n>>>\nold: %x %d\nnew: %x %d", id, reverseHash(id), out, size, old.OutputID, old.Size)
+			msg := fmt.Sprintf("golang: internal cache error: cache verify failed: id=%x changed:<<<\n%s\n>>>\nold: %x %d\nnew: %x %d", id, reverseHash(id), out, size, old.OutputID, old.Size)
 			panic(msg)
 		}
 	}
@@ -491,7 +491,7 @@ func (c *DiskCache) putIndexEntry(id ActionID, out OutputID, size int64, allowVe
 		err = closeErr
 	}
 	if err != nil {
-		// TODO(bcmills): This Remove potentially races with another go command writing to file.
+		// TODO(bcmills): This Remove potentially races with another golang command writing to file.
 		// Can we eliminate it?
 		os.Remove(file)
 		return err
@@ -503,7 +503,7 @@ func (c *DiskCache) putIndexEntry(id ActionID, out OutputID, size int64, allowVe
 
 // noVerifyReadSeeker is an io.ReadSeeker wrapper sentinel type
 // that says that Cache.Put should skip the verify check
-// (from GODEBUG=goverifycache=1).
+// (from GODEBUG=golangverifycache=1).
 type noVerifyReadSeeker struct {
 	io.ReadSeeker
 }
@@ -533,7 +533,7 @@ func (c *DiskCache) PutExecutable(id ActionID, name string, file io.ReadSeeker) 
 }
 
 // PutNoVerify is like Put but disables the verify check
-// when GODEBUG=goverifycache=1 is set.
+// when GODEBUG=golangverifycache=1 is set.
 // It is meant for data that is OK to cache but that we expect to vary slightly from run to run,
 // like test output containing times and the like.
 func PutNoVerify(c Cache, id ActionID, file io.ReadSeeker) (OutputID, int64, error) {
@@ -625,7 +625,7 @@ func (c *DiskCache) copyFile(file io.ReadSeeker, executableName string, out Outp
 	if err != nil {
 		if base.IsETXTBSY(err) {
 			// This file is being used by an executable. It must have
-			// already been written by another go process and then run.
+			// already been written by another golang process and then run.
 			// return without an error.
 			return nil
 		}
@@ -690,8 +690,8 @@ func (c *DiskCache) copyFile(file io.ReadSeeker, executableName string, out Outp
 // The subdirectory may not exist.
 //
 // This directory is managed by the internal/fuzz package. Files in this
-// directory aren't removed by the 'go clean -cache' command or by Trim.
-// They may be removed with 'go clean -fuzzcache'.
+// directory aren't removed by the 'golang clean -cache' command or by Trim.
+// They may be removed with 'golang clean -fuzzcache'.
 //
 // TODO(#48526): make Trim remove unused files from this directory.
 func (c *DiskCache) FuzzDir() string {

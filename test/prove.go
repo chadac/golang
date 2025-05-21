@@ -1,9 +1,9 @@
 // errorcheck -0 -d=ssa/prove/debug=1
 
-//go:build amd64
+//golang:build amd64
 
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -253,7 +253,7 @@ func f9(a, b bool) int {
 
 func f10(a string) int {
 	n := len(a)
-	// We optimize comparisons with small constant strings (see cmd/compile/internal/gc/walk.go),
+	// We optimize comparisons with small constant strings (see cmd/compile/internal/gc/walk.golang),
 	// so this string literal must be long.
 	if a[:n>>1] == "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" {
 		return 0
@@ -1430,7 +1430,7 @@ func mod64uWithSmallerDividendMax(a, b uint64, ensureBothBranchesCouldHappen boo
 	a = min(a, 0xff)
 	b = min(b, 0xfff)
 
-	z := bits.Len64(a % b) // see go.dev/issue/68857 for bits.Len64
+	z := bits.Len64(a % b) // see golang.dev/issue/68857 for bits.Len64
 
 	if ensureBothBranchesCouldHappen {
 		if z > bits.Len64(0xff) { // ERROR "Disproved Less64$"
@@ -1447,7 +1447,7 @@ func mod64uWithSmallerDivisorMax(a, b uint64, ensureBothBranchesCouldHappen bool
 	a = min(a, 0xfff)
 	b = min(b, 0x10) // we need bits.Len64(b.umax) != bits.Len64(b.umax-1)
 
-	z := bits.Len64(a % b) // see go.dev/issue/68857 for bits.Len64
+	z := bits.Len64(a % b) // see golang.dev/issue/68857 for bits.Len64
 
 	if ensureBothBranchesCouldHappen {
 		if z > bits.Len64(0x10-1) { // ERROR "Disproved Less64$"
@@ -1464,7 +1464,7 @@ func mod64uWithIdenticalMax(a, b uint64, ensureBothBranchesCouldHappen bool) int
 	a = min(a, 0x10)
 	b = min(b, 0x10) // we need bits.Len64(b.umax) != bits.Len64(b.umax-1)
 
-	z := bits.Len64(a % b) // see go.dev/issue/68857 for bits.Len64
+	z := bits.Len64(a % b) // see golang.dev/issue/68857 for bits.Len64
 
 	if ensureBothBranchesCouldHappen {
 		if z > bits.Len64(0x10-1) { // ERROR "Disproved Less64$"
@@ -2041,11 +2041,11 @@ func cvtBoolToUint8BCE(b bool, a [2]int64) int64 {
 	return a[c] // ERROR "Proved IsInBounds$"
 }
 
-//go:noinline
+//golang:noinline
 func useInt(a int) {
 }
 
-//go:noinline
+//golang:noinline
 func useSlice(a []int) {
 }
 

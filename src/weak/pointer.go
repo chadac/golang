@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package weak
@@ -91,8 +91,8 @@ func (p Pointer[T]) Value() *T {
 
 // Implemented in runtime.
 
-//go:linkname runtime_registerWeakPointer
+//golang:linkname runtime_registerWeakPointer
 func runtime_registerWeakPointer(unsafe.Pointer) unsafe.Pointer
 
-//go:linkname runtime_makeStrongFromWeak
+//golang:linkname runtime_makeStrongFromWeak
 func runtime_makeStrongFromWeak(unsafe.Pointer) unsafe.Pointer

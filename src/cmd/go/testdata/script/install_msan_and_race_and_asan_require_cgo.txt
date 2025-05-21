@@ -2,21 +2,21 @@
 
 env CGO_ENABLED=0
 
-[GOOS:darwin] [!short] [race] go build -race triv.go
+[GOOS:darwin] [!short] [race] golang build -race triv.golang
 
-[!GOOS:darwin] [race] ! go install -race triv.go
-[!GOOS:darwin] [race] stderr '-race requires cgo'
+[!GOOS:darwin] [race] ! golang install -race triv.golang
+[!GOOS:darwin] [race] stderr '-race requires cgolang'
 [!GOOS:darwin] [race] ! stderr '-msan'
 
-[msan] ! go install -msan triv.go
-[msan] stderr '-msan requires cgo'
+[msan] ! golang install -msan triv.golang
+[msan] stderr '-msan requires cgolang'
 [msan] ! stderr '-race'
 
-[asan] ! go install -asan triv.go
-[asan] stderr '(-asan: the version of $(go env CC) could not be parsed)|(-asan: C compiler is not gcc or clang)|(-asan is not supported with [A-Za-z]+ compiler (\d+)\.(\d+))|(-asan requires cgo)'
+[asan] ! golang install -asan triv.golang
+[asan] stderr '(-asan: the version of $(golang env CC) could not be parsed)|(-asan: C compiler is not gcc or clang)|(-asan is not supported with [A-Za-z]+ compiler (\d+)\.(\d+))|(-asan requires cgolang)'
 [asan] ! stderr '-msan'
 
--- triv.go --
+-- triv.golang --
 package main
 
 func main() {}

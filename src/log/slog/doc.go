@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 /*
@@ -109,7 +109,7 @@ Setting the [HandlerOptions.Level] field to a [Level] value
 fixes the handler's minimum level throughout its lifetime.
 Setting it to a [LevelVar] allows the level to be varied dynamically.
 A LevelVar holds a Level and is safe to read or write from multiple
-goroutines.
+golangroutines.
 To vary the level dynamically for an entire program, first initialize
 a global LevelVar:
 
@@ -229,17 +229,17 @@ Handler authors and others may wish to use [Value.Resolve] instead of calling Lo
 The logger functions use reflection over the call stack to find the file name
 and line number of the logging call within the application. This can produce
 incorrect source information for functions that wrap slog. For instance, if you
-define this function in file mylog.go:
+define this function in file mylog.golang:
 
 	func Infof(logger *slog.Logger, format string, args ...any) {
 	    logger.Info(fmt.Sprintf(format, args...))
 	}
 
-and you call it like this in main.go:
+and you call it like this in main.golang:
 
 	Infof(slog.Default(), "hello, %s", "world")
 
-then slog will report the source file as mylog.go, not main.go.
+then slog will report the source file as mylog.golang, not main.golang.
 
 A correct implementation of Infof will obtain the source location
 (pc) and pass it to NewRecord.
@@ -317,6 +317,6 @@ User-defined handlers are responsible for their own locking and sorting.
 
 # Writing a handler
 
-For a guide to writing a custom handler, see https://golang.org/s/slog-handler-guide.
+For a guide to writing a custom handler, see https://golanglang.org/s/slog-handler-guide.
 */
 package slog

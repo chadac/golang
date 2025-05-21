@@ -1,5 +1,5 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package tls
@@ -34,7 +34,7 @@ import (
 	"time"
 )
 
-// Note: see comment in handshake_test.go for details of how the reference
+// Note: see comment in handshake_test.golang for details of how the reference
 // tests work.
 
 // opensslInputEvent enumerates possible inputs that can be sent to an `openssl
@@ -42,9 +42,9 @@ import (
 type opensslInputEvent int
 
 const (
-	// opensslRenegotiate causes OpenSSL to request a renegotiation of the
+	// opensslRenegolangtiate causes OpenSSL to request a renegolangtiation of the
 	// connection.
-	opensslRenegotiate opensslInputEvent = iota
+	opensslRenegolangtiate opensslInputEvent = iota
 
 	// opensslSendBanner causes OpenSSL to send the contents of
 	// opensslSentinel on the connection.
@@ -62,7 +62,7 @@ type opensslInput chan opensslInputEvent
 func (i opensslInput) Read(buf []byte) (n int, err error) {
 	for event := range i {
 		switch event {
-		case opensslRenegotiate:
+		case opensslRenegolangtiate:
 			return copy(buf, []byte("R\n")), nil
 		case opensslKeyUpdate:
 			return copy(buf, []byte("K\n")), nil
@@ -149,16 +149,16 @@ type clientTest struct {
 	// ConnectionState of the resulting connection. It returns a non-nil
 	// error if the ConnectionState is unacceptable.
 	validate func(ConnectionState) error
-	// numRenegotiations is the number of times that the connection will be
-	// renegotiated.
-	numRenegotiations int
-	// renegotiationExpectedToFail, if not zero, is the number of the
-	// renegotiation attempt that is expected to fail.
-	renegotiationExpectedToFail int
-	// checkRenegotiationError, if not nil, is called with any error
-	// arising from renegotiation. It can map expected errors to nil to
+	// numRenegolangtiations is the number of times that the connection will be
+	// renegolangtiated.
+	numRenegolangtiations int
+	// renegolangtiationExpectedToFail, if not zero, is the number of the
+	// renegolangtiation attempt that is expected to fail.
+	renegolangtiationExpectedToFail int
+	// checkRenegolangtiationError, if not nil, is called with any error
+	// arising from renegolangtiation. It can map expected errors to nil to
 	// ignore them.
-	checkRenegotiationError func(renegotiationNum int, err error) error
+	checkRenegolangtiationError func(renegolangtiationNum int, err error) error
 	// sendKeyUpdate will cause the server to send a KeyUpdate message.
 	sendKeyUpdate bool
 }
@@ -217,7 +217,7 @@ func (test *clientTest) connFromCommand() (conn *recordingConn, child *exec.Cmd,
 		command = append(command, "-serverinfo", serverInfoPath)
 	}
 
-	if test.numRenegotiations > 0 || test.sendKeyUpdate {
+	if test.numRenegolangtiations > 0 || test.sendKeyUpdate {
 		found := false
 		for _, flag := range command[1:] {
 			if flag == "-state" {
@@ -227,7 +227,7 @@ func (test *clientTest) connFromCommand() (conn *recordingConn, child *exec.Cmd,
 		}
 
 		if !found {
-			panic("-state flag missing to OpenSSL, you need this if testing renegotiation or KeyUpdate")
+			panic("-state flag missing to OpenSSL, you need this if testing renegolangtiation or KeyUpdate")
 		}
 	}
 
@@ -322,7 +322,7 @@ func (test *clientTest) run(t *testing.T, write bool) {
 		return
 	}
 
-	for i := 1; i <= test.numRenegotiations; i++ {
+	for i := 1; i <= test.numRenegolangtiations; i++ {
 		// The initial handshake will generate a
 		// handshakeComplete signal which needs to be quashed.
 		if i == 1 && write {
@@ -330,27 +330,27 @@ func (test *clientTest) run(t *testing.T, write bool) {
 		}
 
 		// OpenSSL will try to interleave application data and
-		// a renegotiation if we send both concurrently.
-		// Therefore: ask OpensSSL to start a renegotiation, run
-		// a goroutine to call client.Read and thus process the
-		// renegotiation request, watch for OpenSSL's stdout to
+		// a renegolangtiation if we send both concurrently.
+		// Therefore: ask OpensSSL to start a renegolangtiation, run
+		// a golangroutine to call client.Read and thus process the
+		// renegolangtiation request, watch for OpenSSL's stdout to
 		// indicate that the handshake is complete and,
 		// finally, have OpenSSL write something to cause
 		// client.Read to complete.
 		if write {
-			stdin <- opensslRenegotiate
+			stdin <- opensslRenegolangtiate
 		}
 
 		signalChan := make(chan struct{})
 
-		go func() {
+		golang func() {
 			defer close(signalChan)
 
 			buf := make([]byte, 256)
 			n, err := client.Read(buf)
 
-			if test.checkRenegotiationError != nil {
-				newErr := test.checkRenegotiationError(i, err)
+			if test.checkRenegolangtiationError != nil {
+				newErr := test.checkRenegolangtiationError(i, err)
 				if err != nil && newErr == nil {
 					return
 				}
@@ -358,7 +358,7 @@ func (test *clientTest) run(t *testing.T, write bool) {
 			}
 
 			if err != nil {
-				t.Errorf("Client.Read failed after renegotiation #%d: %s", i, err)
+				t.Errorf("Client.Read failed after renegolangtiation #%d: %s", i, err)
 				return
 			}
 
@@ -372,7 +372,7 @@ func (test *clientTest) run(t *testing.T, write bool) {
 			}
 		}()
 
-		if write && test.renegotiationExpectedToFail != i {
+		if write && test.renegolangtiationExpectedToFail != i {
 			<-stdout.handshakeComplete
 			stdin <- opensslSendSentinel
 		}
@@ -387,7 +387,7 @@ func (test *clientTest) run(t *testing.T, write bool) {
 
 		doneRead := make(chan struct{})
 
-		go func() {
+		golang func() {
 			defer close(doneRead)
 
 			buf := make([]byte, 256)
@@ -427,7 +427,7 @@ func (test *clientTest) run(t *testing.T, write bool) {
 
 	// If the server sent us an alert after our last flight, give it a
 	// chance to arrive.
-	if write && test.renegotiationExpectedToFail == 0 {
+	if write && test.renegolangtiationExpectedToFail == 0 {
 		if err := peekError(client); err != nil {
 			t.Errorf("final Read returned an error: %s", err)
 		}
@@ -468,7 +468,7 @@ func peekError(conn net.Conn) error {
 }
 
 func runClientTestForVersion(t *testing.T, template *clientTest, version, option string) {
-	// Make a deep copy of the template before going parallel.
+	// Make a deep copy of the template before golanging parallel.
 	test := *template
 	if template.config != nil {
 		test.config = template.config.Clone()
@@ -872,7 +872,7 @@ func testResumption(t *testing.T, version uint16) {
 		CipherSuites:       []uint16{TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256},
 		ClientSessionCache: NewLRUClientSessionCache(32),
 		RootCAs:            rootCAs,
-		ServerName:         "example.golang",
+		ServerName:         "example.golanglang",
 		Time:               testTime,
 	}
 
@@ -888,8 +888,8 @@ func testResumption(t *testing.T, version uint16) {
 		if didResume && (hs.PeerCertificates == nil || hs.VerifiedChains == nil) {
 			t.Fatalf("expected non-nil certificates after resumption. Got peerCertificates: %#v, verifiedCertificates: %#v", hs.PeerCertificates, hs.VerifiedChains)
 		}
-		if got, want := hs.ServerName, clientConfig.ServerName; got != want {
-			t.Errorf("%s: server name %s, want %s", test, got, want)
+		if golangt, want := hs.ServerName, clientConfig.ServerName; golangt != want {
+			t.Errorf("%s: server name %s, want %s", test, golangt, want)
 		}
 	}
 
@@ -1169,7 +1169,7 @@ func TestKeyLogTLS12(t *testing.T) {
 	c, s := localPipe(t)
 	done := make(chan bool)
 
-	go func() {
+	golang func() {
 		defer close(done)
 
 		if err := Server(s, serverConfig).Handshake(); err != nil {
@@ -1197,7 +1197,7 @@ func TestKeyLogTLS12(t *testing.T) {
 			48*2 /* hex master secret */ +
 			1 /* new line */
 		if len(loggedLine) != expectedLen {
-			t.Fatalf("%s: keylog line has incorrect length (want %d, got %d): %q", side, expectedLen, len(loggedLine), loggedLine)
+			t.Fatalf("%s: keylog line has incorrect length (want %d, golangt %d): %q", side, expectedLen, len(loggedLine), loggedLine)
 		}
 		if !strings.HasPrefix(loggedLine, "CLIENT_RANDOM "+strings.Repeat("0", 64)+" ") {
 			t.Fatalf("%s: keylog line has incorrect structure or nonce: %q", side, loggedLine)
@@ -1220,7 +1220,7 @@ func TestKeyLogTLS13(t *testing.T) {
 	c, s := localPipe(t)
 	done := make(chan bool)
 
-	go func() {
+	golang func() {
 		defer close(done)
 
 		if err := Server(s, serverConfig).Handshake(); err != nil {
@@ -1241,7 +1241,7 @@ func TestKeyLogTLS13(t *testing.T) {
 		loggedLines = strings.TrimSpace(loggedLines)
 		lines := strings.Split(loggedLines, "\n")
 		if len(lines) != 4 {
-			t.Errorf("Expected the %s to log 4 lines, got %d", side, len(lines))
+			t.Errorf("Expected the %s to log 4 lines, golangt %d", side, len(lines))
 		}
 	}
 
@@ -1261,8 +1261,8 @@ func TestHandshakeClientALPNMatch(t *testing.T) {
 		config: config,
 		validate: func(state ConnectionState) error {
 			// The server's preferences should override the client.
-			if state.NegotiatedProtocol != "proto1" {
-				return fmt.Errorf("Got protocol %q, wanted proto1", state.NegotiatedProtocol)
+			if state.NegolangtiatedProtocol != "proto1" {
+				return fmt.Errorf("Got protocol %q, wanted proto1", state.NegolangtiatedProtocol)
 			}
 			return nil
 		},
@@ -1278,7 +1278,7 @@ func TestServerSelectingUnconfiguredApplicationProtocol(t *testing.T) {
 	c, s := localPipe(t)
 	errChan := make(chan error, 1)
 
-	go func() {
+	golang func() {
 		client := Client(c, &Config{
 			ServerName:   "foo",
 			CipherSuites: []uint16{TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256},
@@ -1317,7 +1317,7 @@ func TestServerSelectingUnconfiguredApplicationProtocol(t *testing.T) {
 	s.Close()
 
 	if err := <-errChan; !strings.Contains(err.Error(), "server selected unadvertised ALPN protocol") {
-		t.Fatalf("Expected error about unconfigured ALPN protocol but got %q", err)
+		t.Fatalf("Expected error about unconfigured ALPN protocol but golangt %q", err)
 	}
 }
 
@@ -1361,20 +1361,20 @@ func TestHandshakClientSCTs(t *testing.T) {
 	// supports ServerHello extensions.
 }
 
-func TestRenegotiationRejected(t *testing.T) {
+func TestRenegolangtiationRejected(t *testing.T) {
 	config := testConfig.Clone()
 	test := &clientTest{
-		name:                        "RenegotiationRejected",
+		name:                        "RenegolangtiationRejected",
 		args:                        []string{"-state"},
 		config:                      config,
-		numRenegotiations:           1,
-		renegotiationExpectedToFail: 1,
-		checkRenegotiationError: func(renegotiationNum int, err error) error {
+		numRenegolangtiations:           1,
+		renegolangtiationExpectedToFail: 1,
+		checkRenegolangtiationError: func(renegolangtiationNum int, err error) error {
 			if err == nil {
-				return errors.New("expected error from renegotiation but got nil")
+				return errors.New("expected error from renegolangtiation but golangt nil")
 			}
-			if !strings.Contains(err.Error(), "no renegotiation") {
-				return fmt.Errorf("expected renegotiation to be rejected but got %q", err)
+			if !strings.Contains(err.Error(), "no renegolangtiation") {
+				return fmt.Errorf("expected renegolangtiation to be rejected but golangt %q", err)
 			}
 			return nil
 		},
@@ -1382,54 +1382,54 @@ func TestRenegotiationRejected(t *testing.T) {
 	runClientTestTLS12(t, test)
 }
 
-func TestRenegotiateOnce(t *testing.T) {
+func TestRenegolangtiateOnce(t *testing.T) {
 	config := testConfig.Clone()
-	config.Renegotiation = RenegotiateOnceAsClient
+	config.Renegolangtiation = RenegolangtiateOnceAsClient
 
 	test := &clientTest{
-		name:              "RenegotiateOnce",
+		name:              "RenegolangtiateOnce",
 		args:              []string{"-state"},
 		config:            config,
-		numRenegotiations: 1,
+		numRenegolangtiations: 1,
 	}
 
 	runClientTestTLS12(t, test)
 }
 
-func TestRenegotiateTwice(t *testing.T) {
+func TestRenegolangtiateTwice(t *testing.T) {
 	config := testConfig.Clone()
-	config.Renegotiation = RenegotiateFreelyAsClient
+	config.Renegolangtiation = RenegolangtiateFreelyAsClient
 
 	test := &clientTest{
-		name:              "RenegotiateTwice",
+		name:              "RenegolangtiateTwice",
 		args:              []string{"-state"},
 		config:            config,
-		numRenegotiations: 2,
+		numRenegolangtiations: 2,
 	}
 
 	runClientTestTLS12(t, test)
 }
 
-func TestRenegotiateTwiceRejected(t *testing.T) {
+func TestRenegolangtiateTwiceRejected(t *testing.T) {
 	config := testConfig.Clone()
-	config.Renegotiation = RenegotiateOnceAsClient
+	config.Renegolangtiation = RenegolangtiateOnceAsClient
 
 	test := &clientTest{
-		name:                        "RenegotiateTwiceRejected",
+		name:                        "RenegolangtiateTwiceRejected",
 		args:                        []string{"-state"},
 		config:                      config,
-		numRenegotiations:           2,
-		renegotiationExpectedToFail: 2,
-		checkRenegotiationError: func(renegotiationNum int, err error) error {
-			if renegotiationNum == 1 {
+		numRenegolangtiations:           2,
+		renegolangtiationExpectedToFail: 2,
+		checkRenegolangtiationError: func(renegolangtiationNum int, err error) error {
+			if renegolangtiationNum == 1 {
 				return err
 			}
 
 			if err == nil {
-				return errors.New("expected error from renegotiation but got nil")
+				return errors.New("expected error from renegolangtiation but golangt nil")
 			}
-			if !strings.Contains(err.Error(), "no renegotiation") {
-				return fmt.Errorf("expected renegotiation to be rejected but got %q", err)
+			if !strings.Contains(err.Error(), "no renegolangtiation") {
+				return fmt.Errorf("expected renegolangtiation to be rejected but golangt %q", err)
 			}
 			return nil
 		},
@@ -1465,8 +1465,8 @@ var hostnameInSNITests = []struct {
 	{"foo, bar, baz and qux", "foo, bar, baz and qux"},
 
 	// DNS hostname
-	{"golang.org", "golang.org"},
-	{"golang.org.", "golang.org"},
+	{"golanglang.org", "golanglang.org"},
+	{"golanglang.org.", "golanglang.org"},
 
 	// Literal IPv4 address
 	{"1.2.3.4", ""},
@@ -1482,7 +1482,7 @@ func TestHostnameInSNI(t *testing.T) {
 	for _, tt := range hostnameInSNITests {
 		c, s := localPipe(t)
 
-		go func(host string) {
+		golang func(host string) {
 			Client(c, &Config{ServerName: host, InsecureSkipVerify: true}).Handshake()
 		}(tt.in)
 
@@ -1521,7 +1521,7 @@ func TestServerSelectingUnconfiguredCipherSuite(t *testing.T) {
 	c, s := localPipe(t)
 	errChan := make(chan error, 1)
 
-	go func() {
+	golang func() {
 		client := Client(c, &Config{
 			ServerName:   "foo",
 			CipherSuites: []uint16{TLS_RSA_WITH_AES_128_GCM_SHA256},
@@ -1560,7 +1560,7 @@ func TestServerSelectingUnconfiguredCipherSuite(t *testing.T) {
 	s.Close()
 
 	if err := <-errChan; !strings.Contains(err.Error(), "unconfigured cipher") {
-		t.Fatalf("Expected error about unconfigured cipher suite but got %q", err)
+		t.Fatalf("Expected error about unconfigured cipher suite but golangt %q", err)
 	}
 }
 
@@ -1572,26 +1572,26 @@ func TestVerifyConnection(t *testing.T) {
 func testVerifyConnection(t *testing.T, version uint16) {
 	checkFields := func(c ConnectionState, called *int, errorType string) error {
 		if c.Version != version {
-			return fmt.Errorf("%s: got Version %v, want %v", errorType, c.Version, version)
+			return fmt.Errorf("%s: golangt Version %v, want %v", errorType, c.Version, version)
 		}
 		if c.HandshakeComplete {
-			return fmt.Errorf("%s: got HandshakeComplete, want false", errorType)
+			return fmt.Errorf("%s: golangt HandshakeComplete, want false", errorType)
 		}
-		if c.ServerName != "example.golang" {
-			return fmt.Errorf("%s: got ServerName %s, want %s", errorType, c.ServerName, "example.golang")
+		if c.ServerName != "example.golanglang" {
+			return fmt.Errorf("%s: golangt ServerName %s, want %s", errorType, c.ServerName, "example.golanglang")
 		}
-		if c.NegotiatedProtocol != "protocol1" {
-			return fmt.Errorf("%s: got NegotiatedProtocol %s, want %s", errorType, c.NegotiatedProtocol, "protocol1")
+		if c.NegolangtiatedProtocol != "protocol1" {
+			return fmt.Errorf("%s: golangt NegolangtiatedProtocol %s, want %s", errorType, c.NegolangtiatedProtocol, "protocol1")
 		}
 		if c.CipherSuite == 0 {
-			return fmt.Errorf("%s: got CipherSuite 0, want non-zero", errorType)
+			return fmt.Errorf("%s: golangt CipherSuite 0, want non-zero", errorType)
 		}
 		wantDidResume := false
 		if *called == 2 { // if this is the second time, then it should be a resumption
 			wantDidResume = true
 		}
 		if c.DidResume != wantDidResume {
-			return fmt.Errorf("%s: got DidResume %t, want %t", errorType, c.DidResume, wantDidResume)
+			return fmt.Errorf("%s: golangt DidResume %t, want %t", errorType, c.DidResume, wantDidResume)
 		}
 		return nil
 	}
@@ -1608,10 +1608,10 @@ func testVerifyConnection(t *testing.T, version uint16) {
 				config.VerifyConnection = func(c ConnectionState) error {
 					*called++
 					if l := len(c.PeerCertificates); l != 1 {
-						return fmt.Errorf("server: got len(PeerCertificates) = %d, wanted 1", l)
+						return fmt.Errorf("server: golangt len(PeerCertificates) = %d, wanted 1", l)
 					}
 					if len(c.VerifiedChains) == 0 {
-						return fmt.Errorf("server: got len(VerifiedChains) = 0, wanted non-zero")
+						return fmt.Errorf("server: golangt len(VerifiedChains) = 0, wanted non-zero")
 					}
 					return checkFields(c, called, "server")
 				}
@@ -1620,21 +1620,21 @@ func testVerifyConnection(t *testing.T, version uint16) {
 				config.VerifyConnection = func(c ConnectionState) error {
 					*called++
 					if l := len(c.PeerCertificates); l != 1 {
-						return fmt.Errorf("client: got len(PeerCertificates) = %d, wanted 1", l)
+						return fmt.Errorf("client: golangt len(PeerCertificates) = %d, wanted 1", l)
 					}
 					if len(c.VerifiedChains) == 0 {
-						return fmt.Errorf("client: got len(VerifiedChains) = 0, wanted non-zero")
+						return fmt.Errorf("client: golangt len(VerifiedChains) = 0, wanted non-zero")
 					}
 					if c.DidResume {
 						return nil
 						// The SCTs and OCSP Response are dropped on resumption.
-						// See http://golang.org/issue/39075.
+						// See http://golanglang.org/issue/39075.
 					}
 					if len(c.OCSPResponse) == 0 {
-						return fmt.Errorf("client: got len(OCSPResponse) = 0, wanted non-zero")
+						return fmt.Errorf("client: golangt len(OCSPResponse) = 0, wanted non-zero")
 					}
 					if len(c.SignedCertificateTimestamps) == 0 {
-						return fmt.Errorf("client: got len(SignedCertificateTimestamps) = 0, wanted non-zero")
+						return fmt.Errorf("client: golangt len(SignedCertificateTimestamps) = 0, wanted non-zero")
 					}
 					return checkFields(c, called, "client")
 				}
@@ -1648,10 +1648,10 @@ func testVerifyConnection(t *testing.T, version uint16) {
 				config.VerifyConnection = func(c ConnectionState) error {
 					*called++
 					if l := len(c.PeerCertificates); l != 1 {
-						return fmt.Errorf("server: got len(PeerCertificates) = %d, wanted 1", l)
+						return fmt.Errorf("server: golangt len(PeerCertificates) = %d, wanted 1", l)
 					}
 					if c.VerifiedChains != nil {
-						return fmt.Errorf("server: got Verified Chains %v, want nil", c.VerifiedChains)
+						return fmt.Errorf("server: golangt Verified Chains %v, want nil", c.VerifiedChains)
 					}
 					return checkFields(c, called, "server")
 				}
@@ -1661,21 +1661,21 @@ func testVerifyConnection(t *testing.T, version uint16) {
 				config.VerifyConnection = func(c ConnectionState) error {
 					*called++
 					if l := len(c.PeerCertificates); l != 1 {
-						return fmt.Errorf("client: got len(PeerCertificates) = %d, wanted 1", l)
+						return fmt.Errorf("client: golangt len(PeerCertificates) = %d, wanted 1", l)
 					}
 					if c.VerifiedChains != nil {
-						return fmt.Errorf("server: got Verified Chains %v, want nil", c.VerifiedChains)
+						return fmt.Errorf("server: golangt Verified Chains %v, want nil", c.VerifiedChains)
 					}
 					if c.DidResume {
 						return nil
 						// The SCTs and OCSP Response are dropped on resumption.
-						// See http://golang.org/issue/39075.
+						// See http://golanglang.org/issue/39075.
 					}
 					if len(c.OCSPResponse) == 0 {
-						return fmt.Errorf("client: got len(OCSPResponse) = 0, wanted non-zero")
+						return fmt.Errorf("client: golangt len(OCSPResponse) = 0, wanted non-zero")
 					}
 					if len(c.SignedCertificateTimestamps) == 0 {
-						return fmt.Errorf("client: got len(SignedCertificateTimestamps) = 0, wanted non-zero")
+						return fmt.Errorf("client: golangt len(SignedCertificateTimestamps) = 0, wanted non-zero")
 					}
 					return checkFields(c, called, "client")
 				}
@@ -1711,21 +1711,21 @@ func testVerifyConnection(t *testing.T, version uint16) {
 				config.VerifyConnection = func(c ConnectionState) error {
 					*called++
 					if l := len(c.PeerCertificates); l != 1 {
-						return fmt.Errorf("client: got len(PeerCertificates) = %d, wanted 1", l)
+						return fmt.Errorf("client: golangt len(PeerCertificates) = %d, wanted 1", l)
 					}
 					if len(c.VerifiedChains) == 0 {
-						return fmt.Errorf("client: got len(VerifiedChains) = 0, wanted non-zero")
+						return fmt.Errorf("client: golangt len(VerifiedChains) = 0, wanted non-zero")
 					}
 					if c.DidResume {
 						return nil
 						// The SCTs and OCSP Response are dropped on resumption.
-						// See http://golang.org/issue/39075.
+						// See http://golanglang.org/issue/39075.
 					}
 					if len(c.OCSPResponse) == 0 {
-						return fmt.Errorf("client: got len(OCSPResponse) = 0, wanted non-zero")
+						return fmt.Errorf("client: golangt len(OCSPResponse) = 0, wanted non-zero")
 					}
 					if len(c.SignedCertificateTimestamps) == 0 {
-						return fmt.Errorf("client: got len(SignedCertificateTimestamps) = 0, wanted non-zero")
+						return fmt.Errorf("client: golangt len(SignedCertificateTimestamps) = 0, wanted non-zero")
 					}
 					return checkFields(c, called, "client")
 				}
@@ -1760,7 +1760,7 @@ func testVerifyConnection(t *testing.T, version uint16) {
 			MaxVersion:         version,
 			ClientSessionCache: NewLRUClientSessionCache(32),
 			RootCAs:            rootCAs,
-			ServerName:         "example.golang",
+			ServerName:         "example.golanglang",
 			Certificates:       testCertificates,
 			Time:               testTime,
 			NextProtos:         []string{"protocol1"},
@@ -1810,23 +1810,23 @@ func testVerifyPeerCertificate(t *testing.T, version uint16) {
 
 	verifyPeerCertificateCallback := func(called *bool, rawCerts [][]byte, validatedChains [][]*x509.Certificate) error {
 		if l := len(rawCerts); l != 1 {
-			return fmt.Errorf("got len(rawCerts) = %d, wanted 1", l)
+			return fmt.Errorf("golangt len(rawCerts) = %d, wanted 1", l)
 		}
 		if len(validatedChains) == 0 {
-			return errors.New("got len(validatedChains) = 0, wanted non-zero")
+			return errors.New("golangt len(validatedChains) = 0, wanted non-zero")
 		}
 		*called = true
 		return nil
 	}
 	verifyConnectionCallback := func(called *bool, isClient bool, c ConnectionState) error {
 		if l := len(c.PeerCertificates); l != 1 {
-			return fmt.Errorf("got len(PeerCertificates) = %d, wanted 1", l)
+			return fmt.Errorf("golangt len(PeerCertificates) = %d, wanted 1", l)
 		}
 		if len(c.VerifiedChains) == 0 {
-			return fmt.Errorf("got len(VerifiedChains) = 0, wanted non-zero")
+			return fmt.Errorf("golangt len(VerifiedChains) = 0, wanted non-zero")
 		}
 		if isClient && len(c.OCSPResponse) == 0 {
-			return fmt.Errorf("got len(OCSPResponse) = 0, wanted non-zero")
+			return fmt.Errorf("golangt len(OCSPResponse) = 0, wanted non-zero")
 		}
 		*called = true
 		return nil
@@ -1877,7 +1877,7 @@ func testVerifyPeerCertificate(t *testing.T, version uint16) {
 			},
 			validate: func(t *testing.T, testNo int, clientCalled, serverCalled bool, clientErr, serverErr error) {
 				if serverErr != sentinelErr {
-					t.Errorf("#%d: got server error %v, wanted sentinelErr", testNo, serverErr)
+					t.Errorf("#%d: golangt server error %v, wanted sentinelErr", testNo, serverErr)
 				}
 			},
 		},
@@ -1892,7 +1892,7 @@ func testVerifyPeerCertificate(t *testing.T, version uint16) {
 			},
 			validate: func(t *testing.T, testNo int, clientCalled, serverCalled bool, clientErr, serverErr error) {
 				if clientErr != sentinelErr {
-					t.Errorf("#%d: got client error %v, wanted sentinelErr", testNo, clientErr)
+					t.Errorf("#%d: golangt client error %v, wanted sentinelErr", testNo, clientErr)
 				}
 			},
 		},
@@ -1904,13 +1904,13 @@ func testVerifyPeerCertificate(t *testing.T, version uint16) {
 				config.InsecureSkipVerify = true
 				config.VerifyPeerCertificate = func(rawCerts [][]byte, validatedChains [][]*x509.Certificate) error {
 					if l := len(rawCerts); l != 1 {
-						return fmt.Errorf("got len(rawCerts) = %d, wanted 1", l)
+						return fmt.Errorf("golangt len(rawCerts) = %d, wanted 1", l)
 					}
 					// With InsecureSkipVerify set, this
 					// callback should still be called but
 					// validatedChains must be empty.
 					if l := len(validatedChains); l != 0 {
-						return fmt.Errorf("got len(validatedChains) = %d, wanted zero", l)
+						return fmt.Errorf("golangt len(validatedChains) = %d, wanted zero", l)
 					}
 					*called = true
 					return nil
@@ -1969,7 +1969,7 @@ func testVerifyPeerCertificate(t *testing.T, version uint16) {
 			},
 			validate: func(t *testing.T, testNo int, clientCalled, serverCalled bool, clientErr, serverErr error) {
 				if serverErr != sentinelErr {
-					t.Errorf("#%d: got server error %v, wanted sentinelErr", testNo, serverErr)
+					t.Errorf("#%d: golangt server error %v, wanted sentinelErr", testNo, serverErr)
 				}
 			},
 		},
@@ -1986,7 +1986,7 @@ func testVerifyPeerCertificate(t *testing.T, version uint16) {
 			},
 			validate: func(t *testing.T, testNo int, clientCalled, serverCalled bool, clientErr, serverErr error) {
 				if clientErr != sentinelErr {
-					t.Errorf("#%d: got client error %v, wanted sentinelErr", testNo, clientErr)
+					t.Errorf("#%d: golangt client error %v, wanted sentinelErr", testNo, clientErr)
 				}
 			},
 		},
@@ -2007,7 +2007,7 @@ func testVerifyPeerCertificate(t *testing.T, version uint16) {
 			},
 			validate: func(t *testing.T, testNo int, clientCalled, serverCalled bool, clientErr, serverErr error) {
 				if serverErr != sentinelErr {
-					t.Errorf("#%d: got server error %v, wanted sentinelErr", testNo, serverErr)
+					t.Errorf("#%d: golangt server error %v, wanted sentinelErr", testNo, serverErr)
 				}
 				if !serverCalled {
 					t.Errorf("test[%d]: server did not call callback", testNo)
@@ -2031,7 +2031,7 @@ func testVerifyPeerCertificate(t *testing.T, version uint16) {
 			},
 			validate: func(t *testing.T, testNo int, clientCalled, serverCalled bool, clientErr, serverErr error) {
 				if clientErr != sentinelErr {
-					t.Errorf("#%d: got client error %v, wanted sentinelErr", testNo, clientErr)
+					t.Errorf("#%d: golangt client error %v, wanted sentinelErr", testNo, clientErr)
 				}
 				if !clientCalled {
 					t.Errorf("test[%d]: client did not call callback", testNo)
@@ -2046,9 +2046,9 @@ func testVerifyPeerCertificate(t *testing.T, version uint16) {
 
 		var clientCalled, serverCalled bool
 
-		go func() {
+		golang func() {
 			config := testConfig.Clone()
-			config.ServerName = "example.golang"
+			config.ServerName = "example.golanglang"
 			config.ClientAuth = RequireAndVerifyClientCert
 			config.ClientCAs = rootCAs
 			config.Time = testTime
@@ -2067,7 +2067,7 @@ func testVerifyPeerCertificate(t *testing.T, version uint16) {
 
 		config := testConfig.Clone()
 		config.Certificates = []Certificate{{Certificate: [][]byte{testRSA2048Certificate}, PrivateKey: testRSA2048PrivateKey}}
-		config.ServerName = "example.golang"
+		config.ServerName = "example.golanglang"
 		config.RootCAs = rootCAs
 		config.Time = testTime
 		config.MaxVersion = version
@@ -2111,7 +2111,7 @@ func TestFailedWrite(t *testing.T) {
 		c, s := localPipe(t)
 		done := make(chan bool)
 
-		go func() {
+		golang func() {
 			Server(s, testConfig).Handshake()
 			s.Close()
 			done <- true
@@ -2120,7 +2120,7 @@ func TestFailedWrite(t *testing.T) {
 		brokenC := &brokenConn{Conn: c, breakAfter: breakAfter}
 		err := Client(brokenC, testConfig).Handshake()
 		if err != brokenConnErr {
-			t.Errorf("#%d: expected error from brokenConn but got %q", breakAfter, err)
+			t.Errorf("#%d: expected error from brokenConn but golangt %q", breakAfter, err)
 		}
 		brokenC.Close()
 
@@ -2153,7 +2153,7 @@ func testBuffering(t *testing.T, version uint16) {
 	clientWCC := &writeCountingConn{Conn: c}
 	serverWCC := &writeCountingConn{Conn: s}
 
-	go func() {
+	golang func() {
 		config := testConfig.Clone()
 		config.MaxVersion = version
 		Server(serverWCC, config).Handshake()
@@ -2203,7 +2203,7 @@ func TestAlertFlushing(t *testing.T) {
 		PrivateKey:  &brokenKey,
 	}}
 
-	go func() {
+	golang func() {
 		Server(serverWCC, serverConfig).Handshake()
 		serverWCC.Close()
 		done <- true
@@ -2237,7 +2237,7 @@ func TestHandshakeRace(t *testing.T) {
 	for i := 0; i < 32; i++ {
 		c, s := localPipe(t)
 
-		go func() {
+		golang func() {
 			server := Server(s, testConfig)
 			if err := server.Handshake(); err != nil {
 				panic(err)
@@ -2257,13 +2257,13 @@ func TestHandshakeRace(t *testing.T) {
 		readDone := make(chan struct{}, 1)
 
 		client := Client(c, testConfig)
-		go func() {
+		golang func() {
 			<-startWrite
 			var request [1]byte
 			client.Write(request[:])
 		}()
 
-		go func() {
+		golang func() {
 			<-startRead
 			var reply [1]byte
 			if _, err := io.ReadFull(client, reply[:]); err != nil {
@@ -2308,7 +2308,7 @@ var getClientCertificateTests = []struct {
 		"",
 		func(t *testing.T, testNum int, cs *ConnectionState) {
 			if l := len(cs.PeerCertificates); l != 0 {
-				t.Errorf("#%d: expected no certificates but got %d", testNum, l)
+				t.Errorf("#%d: expected no certificates but golangt %d", testNum, l)
 			}
 		},
 	},
@@ -2327,7 +2327,7 @@ var getClientCertificateTests = []struct {
 		"",
 		func(t *testing.T, testNum int, cs *ConnectionState) {
 			if l := len(cs.PeerCertificates); l != 0 {
-				t.Errorf("#%d: expected no certificates but got %d", testNum, l)
+				t.Errorf("#%d: expected no certificates but golangt %d", testNum, l)
 			}
 		},
 	},
@@ -2407,7 +2407,7 @@ func testGetClientCertificate(t *testing.T, version uint16) {
 		c, s := localPipe(t)
 		done := make(chan serverResult)
 
-		go func() {
+		golang func() {
 			defer s.Close()
 			server := Server(s, serverConfig)
 			err := server.Handshake()
@@ -2427,13 +2427,13 @@ func testGetClientCertificate(t *testing.T, version uint16) {
 		if clientErr != nil {
 			if len(test.expectedClientError) == 0 {
 				t.Errorf("#%d: client error: %v", i, clientErr)
-			} else if got := clientErr.Error(); got != test.expectedClientError {
-				t.Errorf("#%d: expected client error %q, but got %q", i, test.expectedClientError, got)
+			} else if golangt := clientErr.Error(); golangt != test.expectedClientError {
+				t.Errorf("#%d: expected client error %q, but golangt %q", i, test.expectedClientError, golangt)
 			} else {
 				test.verify(t, i, &result.cs)
 			}
 		} else if len(test.expectedClientError) > 0 {
-			t.Errorf("#%d: expected client error %q, but got no error", i, test.expectedClientError)
+			t.Errorf("#%d: expected client error %q, but golangt no error", i, test.expectedClientError)
 		} else if err := result.err; err != nil {
 			t.Errorf("#%d: server error: %v", i, err)
 		} else {
@@ -2477,14 +2477,14 @@ RwBA9Xk1KBNF
 		return
 	}
 	if _, ok := cert.PublicKey.(*rsa.PublicKey); ok {
-		t.Error("A RSASSA-PSS certificate was parsed like a PKCS#1 v1.5 one, and it will be mistakenly used with rsa_pss_rsae_* signature algorithms")
+		t.Error("A RSASSA-PSS certificate was parsed like a PKCS#1 v1.5 one, and it will be mistakenly used with rsa_pss_rsae_* signature algolangrithms")
 	}
 }
 
 func TestCloseClientConnectionOnIdleServer(t *testing.T) {
 	clientConn, serverConn := localPipe(t)
 	client := Client(clientConn, testConfig.Clone())
-	go func() {
+	golang func() {
 		var b [1]byte
 		serverConn.Read(b[:])
 		client.Close()
@@ -2493,7 +2493,7 @@ func TestCloseClientConnectionOnIdleServer(t *testing.T) {
 	err := client.Handshake()
 	if err != nil {
 		if err, ok := err.(net.Error); ok && err.Timeout() {
-			t.Errorf("Expected a closed network connection error but got '%s'", err.Error())
+			t.Errorf("Expected a closed network connection error but golangt '%s'", err.Error())
 		}
 	} else {
 		t.Errorf("Error expected, but no error returned")
@@ -2565,7 +2565,7 @@ func testResumptionKeepsOCSPAndSCT(t *testing.T, ver uint16) {
 	clientConfig := &Config{
 		MaxVersion:         ver,
 		ClientSessionCache: NewLRUClientSessionCache(32),
-		ServerName:         "example.golang",
+		ServerName:         "example.golanglang",
 		RootCAs:            roots,
 		Time:               testTime,
 	}
@@ -2582,11 +2582,11 @@ func testResumptionKeepsOCSPAndSCT(t *testing.T, ver uint16) {
 	// after a new session we expect to see OCSPResponse and
 	// SignedCertificateTimestamps populated as usual
 	if !bytes.Equal(ccs.OCSPResponse, serverConfig.Certificates[0].OCSPStaple) {
-		t.Errorf("client ConnectionState contained unexpected OCSPResponse: wanted %v, got %v",
+		t.Errorf("client ConnectionState contained unexpected OCSPResponse: wanted %v, golangt %v",
 			serverConfig.Certificates[0].OCSPStaple, ccs.OCSPResponse)
 	}
 	if !reflect.DeepEqual(ccs.SignedCertificateTimestamps, serverConfig.Certificates[0].SignedCertificateTimestamps) {
-		t.Errorf("client ConnectionState contained unexpected SignedCertificateTimestamps: wanted %v, got %v",
+		t.Errorf("client ConnectionState contained unexpected SignedCertificateTimestamps: wanted %v, golangt %v",
 			serverConfig.Certificates[0].SignedCertificateTimestamps, ccs.SignedCertificateTimestamps)
 	}
 
@@ -2603,11 +2603,11 @@ func testResumptionKeepsOCSPAndSCT(t *testing.T, ver uint16) {
 	// after a resumed session we also expect to see OCSPResponse
 	// and SignedCertificateTimestamps populated
 	if !bytes.Equal(ccs.OCSPResponse, serverConfig.Certificates[0].OCSPStaple) {
-		t.Errorf("client ConnectionState contained unexpected OCSPResponse after resumption: wanted %v, got %v",
+		t.Errorf("client ConnectionState contained unexpected OCSPResponse after resumption: wanted %v, golangt %v",
 			serverConfig.Certificates[0].OCSPStaple, ccs.OCSPResponse)
 	}
 	if !reflect.DeepEqual(ccs.SignedCertificateTimestamps, oldSCTs) {
-		t.Errorf("client ConnectionState contained unexpected SignedCertificateTimestamps after resumption: wanted %v, got %v",
+		t.Errorf("client ConnectionState contained unexpected SignedCertificateTimestamps after resumption: wanted %v, golangt %v",
 			oldSCTs, ccs.SignedCertificateTimestamps)
 	}
 
@@ -2627,7 +2627,7 @@ func testResumptionKeepsOCSPAndSCT(t *testing.T, ver uint16) {
 		t.Fatalf("expected session to be resumed")
 	}
 	if !reflect.DeepEqual(ccs.SignedCertificateTimestamps, serverConfig.Certificates[0].SignedCertificateTimestamps) {
-		t.Errorf("client ConnectionState contained unexpected SignedCertificateTimestamps after resumption: wanted %v, got %v",
+		t.Errorf("client ConnectionState contained unexpected SignedCertificateTimestamps after resumption: wanted %v, golangt %v",
 			serverConfig.Certificates[0].SignedCertificateTimestamps, ccs.SignedCertificateTimestamps)
 	}
 }
@@ -2640,7 +2640,7 @@ func TestClientHandshakeContextCancellation(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	unblockServer := make(chan struct{})
 	defer close(unblockServer)
-	go func() {
+	golang func() {
 		cancel()
 		<-unblockServer
 		_ = s.Close()
@@ -2710,11 +2710,11 @@ func testTLS13OnlyClientHelloCipherSuite(t *testing.T, ciphers []uint16) {
 				expectedCiphersuites = allowedCipherSuitesTLS13FIPS
 			}
 			if len(chi.CipherSuites) != len(expectedCiphersuites) {
-				t.Errorf("only TLS 1.3 suites should be advertised, got=%x", chi.CipherSuites)
+				t.Errorf("only TLS 1.3 suites should be advertised, golangt=%x", chi.CipherSuites)
 			} else {
 				for i := range expectedCiphersuites {
-					if want, got := expectedCiphersuites[i], chi.CipherSuites[i]; want != got {
-						t.Errorf("cipher at index %d does not match, want=%x, got=%x", i, want, got)
+					if want, golangt := expectedCiphersuites[i], chi.CipherSuites[i]; want != golangt {
+						t.Errorf("cipher at index %d does not match, want=%x, golangt=%x", i, want, golangt)
 					}
 				}
 			}
@@ -2773,7 +2773,7 @@ qILJ+xjcrvms5ZPDNahWkfRx3KCg8Q+/at2n5p7XYjMPYiLKHnDC+RE2b1qT20IZ
 FhuK/fTWLmKbfYFNNga6GC4qcaZJ7x0pbm4SDTYp0tkhzcHzwKhidfNB5J2vNz6l
 Ur6wiYwamFTLqcOwWo7rdvI+sSn05WQBv0QZlzFX+OAu0l7WQ7yU+noOxBhjvHds
 14+r9qcQZg2q9kG+evopYZqYXRUNNlZKo9MRBXhfrISulFAc5lRFQIXMXnglvAu+
-Ipz2gomEAOcOPNNVldhKAU94GAMJd/KfN0ZP7gX3YvPzuYU6XDhag5RTohXLm18w
+Ipz2golangmEAOcOPNNVldhKAU94GAMJd/KfN0ZP7gX3YvPzuYU6XDhag5RTohXLm18w
 5AF+ES3DOQ6ixu3DTf0D+6qrDuK+prdX8ivcdTQVNOQ+MIZeGSc6NWWOTaMGJ3lg
 aZIxJUGdo6E7GBGiC1YTjgFKFbHzek1LRTh/LX3vbSudxwaG0HQxwsU9T4DWiMqa
 Fkf2KteLEUA6HrR+0XlAZrhwoqAmrJ+8lCFX3V0gE9lpENfVHlFXDGyx10DpTB28
@@ -2799,13 +2799,13 @@ func TestHandshakeRSATooBig(t *testing.T) {
 	expectedErr := "tls: server sent certificate containing RSA key larger than 8192 bits"
 	err := c.verifyServerCertificate([][]byte{testCert.Bytes})
 	if err == nil || err.Error() != expectedErr {
-		t.Errorf("Conn.verifyServerCertificate unexpected error: want %q, got %q", expectedErr, err)
+		t.Errorf("Conn.verifyServerCertificate unexpected error: want %q, golangt %q", expectedErr, err)
 	}
 
 	expectedErr = "tls: client sent certificate containing RSA key larger than 8192 bits"
 	err = c.processCertsFromClient(Certificate{Certificate: [][]byte{testCert.Bytes}})
 	if err == nil || err.Error() != expectedErr {
-		t.Errorf("Conn.processCertsFromClient unexpected error: want %q, got %q", expectedErr, err)
+		t.Errorf("Conn.processCertsFromClient unexpected error: want %q, golangt %q", expectedErr, err)
 	}
 }
 
@@ -2817,7 +2817,7 @@ func TestTLS13ECHRejectionCallbacks(t *testing.T) {
 	tmpl := &x509.Certificate{
 		SerialNumber: big.NewInt(1),
 		Subject:      pkix.Name{CommonName: "test"},
-		DNSNames:     []string{"example.golang"},
+		DNSNames:     []string{"example.golanglang"},
 		NotBefore:    testConfig.Time().Add(-time.Hour),
 		NotAfter:     testConfig.Time().Add(time.Hour),
 	}
@@ -2842,7 +2842,7 @@ func TestTLS13ECHRejectionCallbacks(t *testing.T) {
 	clientConfig.RootCAs.AddCert(cert)
 	clientConfig.MinVersion = VersionTLS13
 	clientConfig.EncryptedClientHelloConfigList, _ = hex.DecodeString("0041fe0d003d0100200020204bed0a11fc0dde595a9b78d966b0011128eb83f65d3c91c1cc5ac786cd246f000400010001ff0e6578616d706c652e676f6c616e670000")
-	clientConfig.ServerName = "example.golang"
+	clientConfig.ServerName = "example.golanglang"
 
 	for _, tc := range []struct {
 		name        string
@@ -2891,7 +2891,7 @@ func TestTLS13ECHRejectionCallbacks(t *testing.T) {
 			c, s := localPipe(t)
 			done := make(chan error)
 
-			go func() {
+			golang func() {
 				serverErr := Server(s, serverConfig).Handshake()
 				s.Close()
 				done <- serverErr
@@ -2908,7 +2908,7 @@ func TestTLS13ECHRejectionCallbacks(t *testing.T) {
 			if tc.expectedErr == "" && clientErr != nil {
 				t.Fatalf("unexpected err: %s", clientErr)
 			} else if clientErr != nil && tc.expectedErr != clientErr.Error() {
-				t.Fatalf("unexpected err: got %q, want %q", clientErr, tc.expectedErr)
+				t.Fatalf("unexpected err: golangt %q, want %q", clientErr, tc.expectedErr)
 			}
 		})
 	}
@@ -2925,6 +2925,6 @@ func TestECHTLS12Server(t *testing.T) {
 	expectedErr := "server: tls: client offered only unsupported versions: [304]\nclient: remote error: tls: protocol version not supported"
 	_, _, err := testHandshake(t, clientConfig, serverConfig)
 	if err == nil || err.Error() != expectedErr {
-		t.Fatalf("unexpected handshake error: got %q, want %q", err, expectedErr)
+		t.Fatalf("unexpected handshake error: golangt %q, want %q", err, expectedErr)
 	}
 }

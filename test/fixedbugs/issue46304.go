@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This testcase caused a crash when the register ABI was in effect,
@@ -24,7 +24,7 @@ type P struct {
 
 type M int
 
-//go:noinline
+//golang:noinline
 func (w *M) walkP(p *P) *P {
 	np := &P{}
 	*np = *p

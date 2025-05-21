@@ -1,8 +1,8 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build goexperiment.regabiargs
+//golang:build golangexperiment.regabiargs
 
 package reflect_test
 
@@ -53,46 +53,46 @@ func TestMethodValueCallABI(t *testing.T) {
 	f0 := i.(func(StructFewRegs, MagicLastTypeNameForTestingRegisterABI) StructFewRegs)
 	r0 := f0(a0, MagicLastTypeNameForTestingRegisterABI{})
 	if r0 != a0 {
-		t.Errorf("bad method value call: got %#v, want %#v", r0, a0)
+		t.Errorf("bad method value call: golangt %#v, want %#v", r0, a0)
 	}
 	if s.Value != 1 {
-		t.Errorf("bad method value call: failed to set s.Value: got %d, want %d", s.Value, 1)
+		t.Errorf("bad method value call: failed to set s.Value: golangt %d, want %d", s.Value, 1)
 	}
 
 	s, i = makeMethodValue("RegsAndStackCall")
 	f1 := i.(func(StructFewRegs, [4]uint64, MagicLastTypeNameForTestingRegisterABI) (StructFewRegs, [4]uint64))
 	r0, r1 := f1(a0, a1, MagicLastTypeNameForTestingRegisterABI{})
 	if r0 != a0 {
-		t.Errorf("bad method value call: got %#v, want %#v", r0, a0)
+		t.Errorf("bad method value call: golangt %#v, want %#v", r0, a0)
 	}
 	if r1 != a1 {
-		t.Errorf("bad method value call: got %#v, want %#v", r1, a1)
+		t.Errorf("bad method value call: golangt %#v, want %#v", r1, a1)
 	}
 	if s.Value != 2 {
-		t.Errorf("bad method value call: failed to set s.Value: got %d, want %d", s.Value, 2)
+		t.Errorf("bad method value call: failed to set s.Value: golangt %d, want %d", s.Value, 2)
 	}
 
 	s, i = makeMethodValue("SpillStructCall")
 	f2 := i.(func(StructFillRegs, MagicLastTypeNameForTestingRegisterABI) StructFillRegs)
 	r2 := f2(a2, MagicLastTypeNameForTestingRegisterABI{})
 	if r2 != a2 {
-		t.Errorf("bad method value call: got %#v, want %#v", r2, a2)
+		t.Errorf("bad method value call: golangt %#v, want %#v", r2, a2)
 	}
 	if s.Value != 3 {
-		t.Errorf("bad method value call: failed to set s.Value: got %d, want %d", s.Value, 3)
+		t.Errorf("bad method value call: failed to set s.Value: golangt %d, want %d", s.Value, 3)
 	}
 
 	s, i = makeMethodValue("ValueRegMethodSpillInt")
 	f3 := i.(func(StructFillRegs, int, MagicLastTypeNameForTestingRegisterABI) (StructFillRegs, int))
 	r3a, r3b := f3(a2, 42, MagicLastTypeNameForTestingRegisterABI{})
 	if r3a != a2 {
-		t.Errorf("bad method value call: got %#v, want %#v", r3a, a2)
+		t.Errorf("bad method value call: golangt %#v, want %#v", r3a, a2)
 	}
 	if r3b != 42 {
-		t.Errorf("bad method value call: got %#v, want %#v", r3b, 42)
+		t.Errorf("bad method value call: golangt %#v, want %#v", r3b, 42)
 	}
 	if s.Value != 4 {
-		t.Errorf("bad method value call: failed to set s.Value: got %d, want %d", s.Value, 4)
+		t.Errorf("bad method value call: failed to set s.Value: golangt %d, want %d", s.Value, 4)
 	}
 
 	s, i = makeMethodValue("ValueRegMethodSpillPtr")
@@ -100,13 +100,13 @@ func TestMethodValueCallABI(t *testing.T) {
 	vb := byte(10)
 	r4a, r4b := f4(a2, &vb, MagicLastTypeNameForTestingRegisterABI{})
 	if r4a != a2 {
-		t.Errorf("bad method value call: got %#v, want %#v", r4a, a2)
+		t.Errorf("bad method value call: golangt %#v, want %#v", r4a, a2)
 	}
 	if r4b != &vb {
-		t.Errorf("bad method value call: got %#v, want %#v", r4b, &vb)
+		t.Errorf("bad method value call: golangt %#v, want %#v", r4b, &vb)
 	}
 	if s.Value != 5 {
-		t.Errorf("bad method value call: failed to set s.Value: got %d, want %d", s.Value, 5)
+		t.Errorf("bad method value call: failed to set s.Value: golangt %d, want %d", s.Value, 5)
 	}
 }
 
@@ -184,7 +184,7 @@ func TestReflectCallABI(t *testing.T) {
 				if reflect.DeepEqual(x, y) {
 					continue
 				}
-				t.Errorf("arg and result %d differ: got %+v, want %+v", i, y, x)
+				t.Errorf("arg and result %d differ: golangt %+v, want %+v", i, y, x)
 			}
 		})
 	}
@@ -222,7 +222,7 @@ func TestReflectMakeFuncCallABI(t *testing.T) {
 				if reflect.DeepEqual(x, y) {
 					continue
 				}
-				t.Errorf("arg and result %d differ: got %+v, want %+v", i, y, x)
+				t.Errorf("arg and result %d differ: golangt %+v, want %+v", i, y, x)
 			}
 		})
 	}
@@ -305,240 +305,240 @@ var abiCallTestCases = []any{
 
 // Functions for testing reflect function call functionality.
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func passNone() {}
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func passInt(a int) int {
 	return a
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func passInt8(a int8) int8 {
 	return a
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func passInt16(a int16) int16 {
 	return a
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func passInt32(a int32) int32 {
 	return a
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func passInt64(a int64) int64 {
 	return a
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func passUint(a uint) uint {
 	return a
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func passUint8(a uint8) uint8 {
 	return a
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func passUint16(a uint16) uint16 {
 	return a
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func passUint32(a uint32) uint32 {
 	return a
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func passUint64(a uint64) uint64 {
 	return a
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func passFloat32(a float32) float32 {
 	return a
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func passFloat64(a float64) float64 {
 	return a
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func passComplex64(a complex64) complex64 {
 	return a
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func passComplex128(a complex128) complex128 {
 	return a
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func passArray1(a [1]uint32) [1]uint32 {
 	return a
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func passArray(a [2]uintptr) [2]uintptr {
 	return a
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func passArray1Mix(a int, b [1]uint32, c float64) (int, [1]uint32, float64) {
 	return a, b, c
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func passString(a string) string {
 	return a
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func passSlice(a []byte) []byte {
 	return a
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func passPointer(a *byte) *byte {
 	return a
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func passManyInt(a, b, c, d, e, f, g, h, i, j int) (int, int, int, int, int, int, int, int, int, int) {
 	return a, b, c, d, e, f, g, h, i, j
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func passManyFloat64(a, b, c, d, e, f, g, h, i, j, l, m, n, o, p, q, r, s, t float64) (float64, float64, float64, float64, float64, float64, float64, float64, float64, float64, float64, float64, float64, float64, float64, float64, float64, float64, float64) {
 	return a, b, c, d, e, f, g, h, i, j, l, m, n, o, p, q, r, s, t
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func passStruct1(a Struct1) Struct1 {
 	return a
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func passStruct2(a Struct2) Struct2 {
 	return a
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func passStruct3(a Struct3) Struct3 {
 	return a
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func passStruct4(a Struct4) Struct4 {
 	return a
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func passStruct5(a Struct5) Struct5 {
 	return a
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func passStruct6(a Struct6) Struct6 {
 	return a
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func passStruct7(a Struct7) Struct7 {
 	return a
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func passStruct8(a Struct8) Struct8 {
 	return a
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func passStruct9(a Struct9) Struct9 {
 	return a
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func passStruct10(a Struct10) Struct10 {
 	return a
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func passStruct11(a Struct11) Struct11 {
 	return a
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func passStruct12(a Struct12) Struct12 {
 	return a
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func passStruct13(a Struct13) Struct13 {
 	return a
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func passStruct14(a Struct14) Struct14 {
 	return a
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func passStruct15(a Struct15) Struct15 {
 	return a
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func pass2Struct1(a, b Struct1) (x, y Struct1) {
 	return a, b
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func passEmptyStruct(a int, b struct{}, c float64) (int, struct{}, float64) {
 	return a, b, c
 }
@@ -546,8 +546,8 @@ func passEmptyStruct(a int, b struct{}, c float64) (int, struct{}, float64) {
 // This test case forces a large argument to the stack followed by more
 // in-register arguments.
 //
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func passStruct10AndSmall(a Struct10, b byte, c uint) (Struct10, byte, uint) {
 	return a, b, c
 }
@@ -598,242 +598,242 @@ var abiMakeFuncTestCases = []any{
 	callArgsEmptyStruct,
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func callArgsNone(f func(MagicLastTypeNameForTestingRegisterABI)) {
 	f(MagicLastTypeNameForTestingRegisterABI{})
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func callArgsInt(f func(int, MagicLastTypeNameForTestingRegisterABI) int, a0 int) int {
 	return f(a0, MagicLastTypeNameForTestingRegisterABI{})
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func callArgsInt8(f func(int8, MagicLastTypeNameForTestingRegisterABI) int8, a0 int8) int8 {
 	return f(a0, MagicLastTypeNameForTestingRegisterABI{})
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func callArgsInt16(f func(int16, MagicLastTypeNameForTestingRegisterABI) int16, a0 int16) int16 {
 	return f(a0, MagicLastTypeNameForTestingRegisterABI{})
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func callArgsInt32(f func(int32, MagicLastTypeNameForTestingRegisterABI) int32, a0 int32) int32 {
 	return f(a0, MagicLastTypeNameForTestingRegisterABI{})
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func callArgsInt64(f func(int64, MagicLastTypeNameForTestingRegisterABI) int64, a0 int64) int64 {
 	return f(a0, MagicLastTypeNameForTestingRegisterABI{})
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func callArgsUint(f func(uint, MagicLastTypeNameForTestingRegisterABI) uint, a0 uint) uint {
 	return f(a0, MagicLastTypeNameForTestingRegisterABI{})
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func callArgsUint8(f func(uint8, MagicLastTypeNameForTestingRegisterABI) uint8, a0 uint8) uint8 {
 	return f(a0, MagicLastTypeNameForTestingRegisterABI{})
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func callArgsUint16(f func(uint16, MagicLastTypeNameForTestingRegisterABI) uint16, a0 uint16) uint16 {
 	return f(a0, MagicLastTypeNameForTestingRegisterABI{})
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func callArgsUint32(f func(uint32, MagicLastTypeNameForTestingRegisterABI) uint32, a0 uint32) uint32 {
 	return f(a0, MagicLastTypeNameForTestingRegisterABI{})
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func callArgsUint64(f func(uint64, MagicLastTypeNameForTestingRegisterABI) uint64, a0 uint64) uint64 {
 	return f(a0, MagicLastTypeNameForTestingRegisterABI{})
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func callArgsFloat32(f func(float32, MagicLastTypeNameForTestingRegisterABI) float32, a0 float32) float32 {
 	return f(a0, MagicLastTypeNameForTestingRegisterABI{})
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func callArgsFloat64(f func(float64, MagicLastTypeNameForTestingRegisterABI) float64, a0 float64) float64 {
 	return f(a0, MagicLastTypeNameForTestingRegisterABI{})
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func callArgsComplex64(f func(complex64, MagicLastTypeNameForTestingRegisterABI) complex64, a0 complex64) complex64 {
 	return f(a0, MagicLastTypeNameForTestingRegisterABI{})
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func callArgsComplex128(f func(complex128, MagicLastTypeNameForTestingRegisterABI) complex128, a0 complex128) complex128 {
 	return f(a0, MagicLastTypeNameForTestingRegisterABI{})
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func callArgsArray1(f func([1]uint32, MagicLastTypeNameForTestingRegisterABI) [1]uint32, a0 [1]uint32) [1]uint32 {
 	return f(a0, MagicLastTypeNameForTestingRegisterABI{})
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func callArgsArray(f func([2]uintptr, MagicLastTypeNameForTestingRegisterABI) [2]uintptr, a0 [2]uintptr) [2]uintptr {
 	return f(a0, MagicLastTypeNameForTestingRegisterABI{})
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func callArgsArray1Mix(f func(int, [1]uint32, float64, MagicLastTypeNameForTestingRegisterABI) (int, [1]uint32, float64), a0 int, a1 [1]uint32, a2 float64) (int, [1]uint32, float64) {
 	return f(a0, a1, a2, MagicLastTypeNameForTestingRegisterABI{})
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func callArgsString(f func(string, MagicLastTypeNameForTestingRegisterABI) string, a0 string) string {
 	return f(a0, MagicLastTypeNameForTestingRegisterABI{})
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func callArgsSlice(f func([]byte, MagicLastTypeNameForTestingRegisterABI) []byte, a0 []byte) []byte {
 	return f(a0, MagicLastTypeNameForTestingRegisterABI{})
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func callArgsPointer(f func(*byte, MagicLastTypeNameForTestingRegisterABI) *byte, a0 *byte) *byte {
 	return f(a0, MagicLastTypeNameForTestingRegisterABI{})
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func callArgsManyInt(f func(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9 int, x MagicLastTypeNameForTestingRegisterABI) (r0, r1, r2, r3, r4, r5, r6, r7, r8, r9 int), a0, a1, a2, a3, a4, a5, a6, a7, a8, a9 int) (int, int, int, int, int, int, int, int, int, int) {
 	return f(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, MagicLastTypeNameForTestingRegisterABI{})
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func callArgsManyFloat64(f func(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14, a15, a16, a17, a18 float64, x MagicLastTypeNameForTestingRegisterABI) (r0, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12, r13, r14, r15, r16, r17, r18 float64), a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14, a15, a16, a17, a18 float64) (r0, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12, r13, r14, r15, r16, r17, r18 float64) {
 	return f(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14, a15, a16, a17, a18, MagicLastTypeNameForTestingRegisterABI{})
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func callArgsStruct1(f func(Struct1, MagicLastTypeNameForTestingRegisterABI) Struct1, a0 Struct1) Struct1 {
 	return f(a0, MagicLastTypeNameForTestingRegisterABI{})
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func callArgsStruct2(f func(Struct2, MagicLastTypeNameForTestingRegisterABI) Struct2, a0 Struct2) Struct2 {
 	return f(a0, MagicLastTypeNameForTestingRegisterABI{})
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func callArgsStruct3(f func(Struct3, MagicLastTypeNameForTestingRegisterABI) Struct3, a0 Struct3) Struct3 {
 	return f(a0, MagicLastTypeNameForTestingRegisterABI{})
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func callArgsStruct4(f func(Struct4, MagicLastTypeNameForTestingRegisterABI) Struct4, a0 Struct4) Struct4 {
 	return f(a0, MagicLastTypeNameForTestingRegisterABI{})
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func callArgsStruct5(f func(Struct5, MagicLastTypeNameForTestingRegisterABI) Struct5, a0 Struct5) Struct5 {
 	return f(a0, MagicLastTypeNameForTestingRegisterABI{})
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func callArgsStruct6(f func(Struct6, MagicLastTypeNameForTestingRegisterABI) Struct6, a0 Struct6) Struct6 {
 	return f(a0, MagicLastTypeNameForTestingRegisterABI{})
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func callArgsStruct7(f func(Struct7, MagicLastTypeNameForTestingRegisterABI) Struct7, a0 Struct7) Struct7 {
 	return f(a0, MagicLastTypeNameForTestingRegisterABI{})
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func callArgsStruct8(f func(Struct8, MagicLastTypeNameForTestingRegisterABI) Struct8, a0 Struct8) Struct8 {
 	return f(a0, MagicLastTypeNameForTestingRegisterABI{})
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func callArgsStruct9(f func(Struct9, MagicLastTypeNameForTestingRegisterABI) Struct9, a0 Struct9) Struct9 {
 	return f(a0, MagicLastTypeNameForTestingRegisterABI{})
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func callArgsStruct10(f func(Struct10, MagicLastTypeNameForTestingRegisterABI) Struct10, a0 Struct10) Struct10 {
 	return f(a0, MagicLastTypeNameForTestingRegisterABI{})
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func callArgsStruct11(f func(Struct11, MagicLastTypeNameForTestingRegisterABI) Struct11, a0 Struct11) Struct11 {
 	return f(a0, MagicLastTypeNameForTestingRegisterABI{})
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func callArgsStruct12(f func(Struct12, MagicLastTypeNameForTestingRegisterABI) Struct12, a0 Struct12) Struct12 {
 	return f(a0, MagicLastTypeNameForTestingRegisterABI{})
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func callArgsStruct13(f func(Struct13, MagicLastTypeNameForTestingRegisterABI) Struct13, a0 Struct13) Struct13 {
 	return f(a0, MagicLastTypeNameForTestingRegisterABI{})
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func callArgsStruct14(f func(Struct14, MagicLastTypeNameForTestingRegisterABI) Struct14, a0 Struct14) Struct14 {
 	return f(a0, MagicLastTypeNameForTestingRegisterABI{})
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func callArgsStruct15(f func(Struct15, MagicLastTypeNameForTestingRegisterABI) Struct15, a0 Struct15) Struct15 {
 	return f(a0, MagicLastTypeNameForTestingRegisterABI{})
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func callArgs2Struct1(f func(Struct1, Struct1, MagicLastTypeNameForTestingRegisterABI) (Struct1, Struct1), a0, a1 Struct1) (r0, r1 Struct1) {
 	return f(a0, a1, MagicLastTypeNameForTestingRegisterABI{})
 }
 
-//go:registerparams
-//go:noinline
+//golang:registerparams
+//golang:noinline
 func callArgsEmptyStruct(f func(int, struct{}, float64, MagicLastTypeNameForTestingRegisterABI) (int, struct{}, float64), a0 int, a1 struct{}, a2 float64) (int, struct{}, float64) {
 	return f(a0, a1, a2, MagicLastTypeNameForTestingRegisterABI{})
 }

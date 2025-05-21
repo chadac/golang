@@ -1,15 +1,15 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build cgo
+//golang:build cgolang
 
-package cgotest
+package cgolangtest
 
 import (
 	"testing"
 
-	"cmd/cgo/internal/test/gcc68255"
+	"cmd/cgolang/internal/test/gcc68255"
 )
 
 func testGCC68255(t *testing.T) {

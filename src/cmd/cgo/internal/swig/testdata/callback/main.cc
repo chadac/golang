@@ -1,8 +1,8 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// This .cc file will be automatically compiled by the go tool and
+// This .cc file will be automatically compiled by the golang tool and
 // included in the package.
 
 #include <string>

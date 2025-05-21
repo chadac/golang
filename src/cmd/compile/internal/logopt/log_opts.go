@@ -1,8 +1,8 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-package logopt
+package logolangpt
 
 import (
 	"cmd/internal/obj"
@@ -38,7 +38,7 @@ import (
 // not be writeable).
 //
 // For each package pkg compiled, a url.PathEscape(pkg)-named subdirectory
-// is created.  For each source file.go in that package that generates
+// is created.  For each source file.golang in that package that generates
 // diagnostics (no diagnostics means no file),
 // a url.PathEscape(file)+".json"-named file is created and contains the
 // logged diagnostics.
@@ -56,7 +56,7 @@ import (
 // The fields of a Diagnostic are used in the following way:
 // Range: the outermost source position, for now begin and end are equal.
 // Severity: (always) SeverityInformation (3)
-// Source: (always) "go compiler"
+// Source: (always) "golang compiler"
 // Code: a string describing the missed optimization, e.g., "nilcheck", "cannotInline", "isInBounds", "escape"
 // Message: depending on code, additional information, e.g., the reason a function cannot be inlined.
 // RelatedInformation: if the missed optimization actually occurred at a function inlined at Range,
@@ -70,53 +70,53 @@ import (
 // For example <destination>/cmd%2Fcompile%2Finternal%2Fssa/prove.json
 // might begin with the following line (wrapped for legibility):
 //
-// {"version":0,"package":"cmd/compile/internal/ssa","goos":"darwin","goarch":"amd64",
+// {"version":0,"package":"cmd/compile/internal/ssa","golangos":"darwin","golangarch":"amd64",
 //  "gc_version":"devel +e1b9a57852 Fri Nov 1 15:07:00 2019 -0400",
-//  "file":"/Users/drchase/work/go/src/cmd/compile/internal/ssa/prove.go"}
+//  "file":"/Users/drchase/work/golang/src/cmd/compile/internal/ssa/prove.golang"}
 //
 // and later contain (also wrapped for legibility):
 //
 // {"range":{"start":{"line":191,"character":24},"end":{"line":191,"character":24}},
-//  "severity":3,"code":"nilcheck","source":"go compiler","message":"",
+//  "severity":3,"code":"nilcheck","source":"golang compiler","message":"",
 //  "relatedInformation":[
-//    {"location":{"uri":"file:///Users/drchase/work/go/src/cmd/compile/internal/ssa/func.go",
+//    {"location":{"uri":"file:///Users/drchase/work/golang/src/cmd/compile/internal/ssa/func.golang",
 //                 "range":{"start":{"line":153,"character":16},"end":{"line":153,"character":16}}},
 //     "message":"inlineLoc"}]}
 //
-// That is, at prove.go (implicit from context, provided in both filename and header line),
+// That is, at prove.golang (implicit from context, provided in both filename and header line),
 // line 191, column 24, a nilcheck occurred in the generated code.
 // The relatedInformation indicates that this code actually came from
-// an inlined call to func.go, line 153, character 16.
+// an inlined call to func.golang, line 153, character 16.
 //
-// prove.go:191:
+// prove.golang:191:
 // 	ft.orderS = f.newPoset()
-// func.go:152 and 153:
+// func.golang:152 and 153:
 //  func (f *Func) newPoset() *poset {
 //	    if len(f.Cache.scrPoset) > 0 {
 //
 // In the case that the package is empty, the string(0) package name is also used in the header record, for example
 //
-//  go tool compile -json=0,file://logopt x.go       # no -p option to set the package
-//  head -1 logopt/%00/x.json
-//  {"version":0,"package":"\u0000","goos":"darwin","goarch":"amd64","gc_version":"devel +86487adf6a Thu Nov 7 19:34:56 2019 -0500","file":"x.go"}
+//  golang tool compile -json=0,file://logolangpt x.golang       # no -p option to set the package
+//  head -1 logolangpt/%00/x.json
+//  {"version":0,"package":"\u0000","golangos":"darwin","golangarch":"amd64","gc_version":"devel +86487adf6a Thu Nov 7 19:34:56 2019 -0500","file":"x.golang"}
 
 type VersionHeader struct {
 	Version   int    `json:"version"`
 	Package   string `json:"package"`
-	Goos      string `json:"goos"`
-	Goarch    string `json:"goarch"`
+	Goos      string `json:"golangos"`
+	Goarch    string `json:"golangarch"`
 	GcVersion string `json:"gc_version"`
 	File      string `json:"file,omitempty"` // LSP requires an enclosing resource, i.e., a file
 }
 
-// DocumentURI, Position, Range, Location, Diagnostic, DiagnosticRelatedInformation all reuse json definitions from gopls.
-// See https://github.com/golang/tools/blob/22afafe3322a860fcd3d88448768f9db36f8bc5f/internal/lsp/protocol/tsprotocol.go
+// DocumentURI, Position, Range, Location, Diagnostic, DiagnosticRelatedInformation all reuse json definitions from golangpls.
+// See https://github.com/golanglang/tools/blob/22afafe3322a860fcd3d88448768f9db36f8bc5f/internal/lsp/protocol/tsprotocol.golang
 
 type DocumentURI string
 
 type Position struct {
-	Line      uint `json:"line"`      // gopls uses float64, but json output is the same for integers
-	Character uint `json:"character"` // gopls uses float64, but json output is the same for integers
+	Line      uint `json:"line"`      // golangpls uses float64, but json output is the same for integers
+	Character uint `json:"character"` // golangpls uses float64, but json output is the same for integers
 }
 
 // A Range in a text document expressed as (zero-based) start and end positions.
@@ -195,14 +195,14 @@ type Diagnostic struct {
 	/*Code defined:
 	 * The diagnostic's code, which usually appear in the user interface.
 	 */
-	Code string `json:"code,omitempty"` // LSP uses 'number | string' = gopls interface{}, but only string here, e.g. "boundsCheck", "nilcheck", etc.
+	Code string `json:"code,omitempty"` // LSP uses 'number | string' = golangpls interface{}, but only string here, e.g. "boundsCheck", "nilcheck", etc.
 
 	/*Source defined:
 	 * A human-readable string describing the source of this
 	 * diagnostic, e.g. 'typescript' or 'super lint'. It usually
 	 * appears in the user interface.
 	 */
-	Source string `json:"source,omitempty"` // "go compiler"
+	Source string `json:"source,omitempty"` // "golang compiler"
 
 	/*Message defined:
 	 * The diagnostic's message. It usually appears in the user interface
@@ -273,8 +273,8 @@ func parseLogFlag(flag, value string) (version int, directory string) {
 
 // isWindowsDriveURIPath returns true if the file URI is of the format used by
 // Windows URIs. The url.Parse package does not specially handle Windows paths
-// (see golang/go#6027), so we check if the URI path has a drive prefix (e.g. "/C:").
-// (copied from tools/internal/span/uri.go)
+// (see golanglang/golang#6027), so we check if the URI path has a drive prefix (e.g. "/C:").
+// (copied from tools/internal/span/uri.golang)
 // this is less comprehensive that the processing in filepath.IsAbs on Windows.
 func isWindowsDriveURIPath(uri string) bool {
 	if len(uri) < 4 {
@@ -295,7 +295,7 @@ func parseLogPath(destination string) (string, string) {
 		destination = uri.Host + uri.Path
 		if isWindowsDriveURIPath(destination) {
 			// strip leading / from /C:
-			// unlike tools/internal/span/uri.go, do not uppercase the drive letter -- let filepath.Clean do what it does.
+			// unlike tools/internal/span/uri.golang, do not uppercase the drive letter -- let filepath.Clean do what it does.
 			destination = destination[1:]
 		}
 		return filepath.Clean(destination), ""
@@ -386,7 +386,7 @@ func writerForLSP(subdirpath, file string) io.WriteCloser {
 	if lastslash != -1 {
 		basename = basename[lastslash+1:]
 	}
-	lastdot := strings.LastIndex(basename, ".go")
+	lastdot := strings.LastIndex(basename, ".golang")
 	if lastdot != -1 {
 		basename = basename[:lastdot]
 	}
@@ -450,9 +450,9 @@ func FlushLoggedOpts(ctxt *obj.Link, slashPkgPath string) {
 		if err != nil {
 			log.Fatalf("Could not create directory %s for logging optimizer actions, %v", subdirpath, err)
 		}
-		diagnostic := Diagnostic{Source: "go compiler", Severity: SeverityInformation}
+		diagnostic := Diagnostic{Source: "golang compiler", Severity: SeverityInformation}
 
-		// For LSP, make a subdirectory for the package, and for each file foo.go, create foo.json in that subdirectory.
+		// For LSP, make a subdirectory for the package, and for each file foo.golang, create foo.json in that subdirectory.
 		currentFile := ""
 		for _, x := range loggedOpts {
 			posTmp, p0 := parsePos(ctxt, x.pos, posTmp)

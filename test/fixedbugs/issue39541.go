@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -20,7 +20,7 @@ func main() {
 	f := reflect.MakeFunc(reflect.TypeOf((func() interface{})(nil)), sub).Interface().(func() interface{})
 	c := make(chan bool, 100)
 	for i := 0; i < 100; i++ {
-		go func() {
+		golang func() {
 			for j := 0; j < 10000; j++ {
 				f()
 			}

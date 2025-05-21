@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package escape
@@ -231,7 +231,7 @@ func HeapAllocReason(n ir.Node) string {
 			// avoid a heap allocation.
 			// Note we have to be careful that assigning s[i] = v
 			// still escapes v, because we forbid heap->stack pointers.
-			// Implementation is in ../walk/builtin.go:walkMakeSlice.
+			// Implementation is in ../walk/builtin.golang:walkMakeSlice.
 			return ""
 		}
 		if ir.Int64Val(r) > ir.MaxImplicitStackVarSize/elem.Size() {

@@ -1,5 +1,5 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 /*
@@ -241,7 +241,7 @@ The following registers should not be modified by user Go assembler code.
 	R1: Stack pointer
 	R2: TOC pointer when compiled with -shared or -dynlink (a.k.a position independent code)
 	R13: TLS pointer
-	R30: g (goroutine)
+	R30: g (golangroutine)
 
 Register names:
 

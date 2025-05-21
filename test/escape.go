@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -35,11 +35,11 @@ func noalias(p, q *int, s string) {
 
 func val(p, q *int, v int, s string) {
 	if *p != v {
-		println("wrong value want", v, "got", *p, "after", s)
+		println("wrong value want", v, "golangt", *p, "after", s)
 		bad = true
 	}
 	if *q != v+1 {
-		println("wrong value want", v+1, "got", *q, "after", s)
+		println("wrong value want", v+1, "golangt", *q, "after", s)
 		bad = true
 	}
 }
@@ -51,11 +51,11 @@ func chk(p, q *int, v int, s string) {
 
 func chkalias(p, q *int, v int, s string) {
 	if p != q {
-		println("want aliased pointers but got different after", s)
+		println("want aliased pointers but golangt different after", s)
 		bad = true
 	}
 	if *q != v+1 {
-		println("wrong value want", v+1, "got", *q, "after", s)
+		println("wrong value want", v+1, "golangt", *q, "after", s)
 		bad = true
 	}
 }
@@ -87,7 +87,7 @@ func send(c chan int, x int) {
 
 func select_escapes(x int) *int {
 	c := make(chan int)
-	go send(c, x)
+	golang send(c, x)
 	select {
 	case req := <-c:
 		return &req
@@ -102,7 +102,7 @@ func select_escapes1(x int, y int) (*int, *int) {
 	a[0] = x
 	a[1] = y
 	for i := 0; i < 2; i++ {
-		go send(c, a[i])
+		golang send(c, a[i])
 		select {
 		case req := <-c:
 			p[i] = &req
@@ -170,7 +170,7 @@ func out_escapes_2(i int) (x int, p *int) {
 
 func defer1(i int) (x int) {
 	c := make(chan int)
-	go func() { x = i; c <- 1 }()
+	golang func() { x = i; c <- 1 }()
 	<-c
 	return
 }

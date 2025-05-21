@@ -1,7 +1,7 @@
 // asmcheck
 
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package codegen
@@ -154,17 +154,17 @@ func sliceInit(base uintptr) []uintptr {
 	return *(*[]uintptr)(unsafe.Pointer(&sl))
 }
 
-//go:noinline
+//golang:noinline
 func nopInt() int {
 	return 0
 }
 
-//go:noinline
+//golang:noinline
 func getp1() *[4]int {
 	return nil
 }
 
-//go:noinline
+//golang:noinline
 func getp2() *[4]int {
 	return nil
 }

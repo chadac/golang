@@ -1,8 +1,8 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build goexperiment.jsonv2
+//golang:build golangexperiment.jsonv2
 
 package json
 
@@ -54,7 +54,7 @@ func makeTimeArshaler(fncs *arshaler, t reflect.Type) *arshaler {
 				return marshalNano(enc, va, mo)
 			}
 
-			// TODO(https://go.dev/issue/62121): Use reflect.Value.AssertTo.
+			// TODO(https://golang.dev/issue/62121): Use reflect.Value.AssertTo.
 			m.td = *va.Addr().Interface().(*time.Duration)
 			k := stringOrNumberKind(!m.isNumeric() || xe.Tokens.Last.NeedObjectName() || mo.Flags.Get(jsonflags.StringifyNumbers))
 			if err := xe.AppendRaw(k, true, m.appendMarshal); err != nil {
@@ -123,7 +123,7 @@ func makeTimeArshaler(fncs *arshaler, t reflect.Type) *arshaler {
 				}
 			}
 
-			// TODO(https://go.dev/issue/62121): Use reflect.Value.AssertTo.
+			// TODO(https://golang.dev/issue/62121): Use reflect.Value.AssertTo.
 			m.tt = *va.Addr().Interface().(*time.Time)
 			k := stringOrNumberKind(!m.isNumeric() || xe.Tokens.Last.NeedObjectName() || mo.Flags.Get(jsonflags.StringifyNumbers))
 			if err := xe.AppendRaw(k, !m.hasCustomFormat(), m.appendMarshal); err != nil {
@@ -342,7 +342,7 @@ func (a *timeArshaler) appendMarshal(b []byte) ([]byte, error) {
 		b = a.tt.AppendFormat(b, format)
 		// Not all Go timestamps can be represented as valid RFC 3339.
 		// Explicitly check for these edge cases.
-		// See https://go.dev/issue/4556 and https://go.dev/issue/54580.
+		// See https://golang.dev/issue/4556 and https://golang.dev/issue/54580.
 		switch b := b[n0:]; {
 		case b[len("9999")] != '-': // year must be exactly 4 digits wide
 			return b, errors.New("year outside of range [0,9999]")
@@ -367,7 +367,7 @@ func (a *timeArshaler) unmarshal(b []byte) (err error) {
 		if err := a.tt.UnmarshalText(b); err != nil {
 			return err
 		}
-		// TODO(https://go.dev/issue/57912):
+		// TODO(https://golang.dev/issue/57912):
 		// RFC 3339 specifies the grammar for a valid timestamp.
 		// However, the parsing functionality in "time" is too loose and
 		// incorrectly accepts invalid timestamps as valid.

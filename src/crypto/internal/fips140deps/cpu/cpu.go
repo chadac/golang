@@ -1,20 +1,20 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package cpu
 
 import (
 	"internal/cpu"
-	"internal/goarch"
+	"internal/golangarch"
 )
 
 const (
-	BigEndian = goarch.BigEndian
-	AMD64     = goarch.IsAmd64 == 1
-	ARM64     = goarch.IsArm64 == 1
-	PPC64     = goarch.IsPpc64 == 1
-	PPC64le   = goarch.IsPpc64le == 1
+	BigEndian = golangarch.BigEndian
+	AMD64     = golangarch.IsAmd64 == 1
+	ARM64     = golangarch.IsArm64 == 1
+	PPC64     = golangarch.IsPpc64 == 1
+	PPC64le   = golangarch.IsPpc64le == 1
 )
 
 var (

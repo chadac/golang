@@ -1,9 +1,9 @@
 // run
 
-//go:build gc
+//golang:build gc
 
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test error message when EOF is encountered in the
@@ -33,7 +33,7 @@ func main() {
 	defer os.Remove(f.Name())
 
 	// compile and test output
-	cmd := exec.Command("go", "tool", "compile", f.Name())
+	cmd := exec.Command("golang", "tool", "compile", f.Name())
 	out, err := cmd.CombinedOutput()
 	if err == nil {
 		log.Fatalf("expected cmd/compile to fail")

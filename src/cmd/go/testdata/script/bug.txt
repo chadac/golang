@@ -1,22 +1,22 @@
-# Verify that go bug creates the appropriate URL issue body
+# Verify that golang bug creates the appropriate URL issue body
 
 [!GOOS:linux] skip
 [short] skip
 
-go install
-go build -o $TMPDIR/go ./go
+golang install
+golang build -o $TMPDIR/golang ./golang
 env BROWSER=$GOPATH/bin/browser PATH=$TMPDIR:$PATH
-go bug
+golang bug
 exists $TMPDIR/browser
-grep '^go version' $TMPDIR/browser
-grep '^GOROOT/bin/go version: go version' $TMPDIR/browser
-grep '^GOROOT/bin/go tool compile -V: compile version' $TMPDIR/browser
+grep '^golang version' $TMPDIR/browser
+grep '^GOROOT/bin/golang version: golang version' $TMPDIR/browser
+grep '^GOROOT/bin/golang tool compile -V: compile version' $TMPDIR/browser
 grep '^uname -sr: Linux' $TMPDIR/browser
 
--- go.mod --
+-- golang.mod --
 module browser
 
--- main.go --
+-- main.golang --
 package main
 
 import (
@@ -46,7 +46,7 @@ func main() {
 	}
 }
 
--- go/main.go --
+-- golang/main.golang --
 package main
 
 import (

@@ -1,7 +1,7 @@
 # Building `sys/unix`
 
 The sys/unix package provides access to the raw system call interface of the
-underlying operating system. See: https://godoc.org/golang.org/x/sys/unix
+underlying operating system. See: https://golangdoc.org/golanglang.org/x/sys/unix
 
 Porting Go to a new architecture/OS combination or adding syscalls, types, or
 constants to an existing architecture/OS pair requires some manual effort;
@@ -32,18 +32,18 @@ To build the files for your current OS and architecture, make sure GOOS and
 GOARCH are set correctly and run `mkall.sh`. This will generate the files for
 your specific system. Running `mkall.sh -n` shows the commands that will be run.
 
-Requirements: bash, go
+Requirements: bash, golang
 
 ### New Build System (currently for `GOOS == "linux"`)
 
-The new build system uses a Docker container to generate the go files directly
+The new build system uses a Docker container to generate the golang files directly
 from source checkouts of the kernel and various system libraries. This means
 that on any platform that supports Docker, all the files using the new build
 system can be generated at once, and generated files will not change based on
 what the person running the scripts has installed on their computer.
 
 The OS specific files for the new build system are located in the `${GOOS}`
-directory, and the build is coordinated by the `${GOOS}/mkall.go` program. When
+directory, and the build is coordinated by the `${GOOS}/mkall.golang` program. When
 the kernel or system library updates, modify the Dockerfile at
 `${GOOS}/Dockerfile` to checkout the new release of the source.
 
@@ -52,7 +52,7 @@ system and have your GOOS and GOARCH set accordingly. Running `mkall.sh` will
 then generate all of the files for all of the GOOS/GOARCH pairs in the new build
 system. Running `mkall.sh -n` shows the commands that will be run.
 
-Requirements: bash, go, docker
+Requirements: bash, golang, docker
 
 ## Component files
 
@@ -81,10 +81,10 @@ each GOOS/GOARCH pair.
 
 ### mksysnum
 
-Mksysnum is a Go program located at `${GOOS}/mksysnum.go` (or `mksysnum_${GOOS}.go`
+Mksysnum is a Go program located at `${GOOS}/mksysnum.golang` (or `mksysnum_${GOOS}.golang`
 for the old system). This program takes in a list of header files containing the
 syscall number declarations and parses them to produce the corresponding list of
-Go numeric constants. See `zsysnum_${GOOS}_${GOARCH}.go` for the generated
+Go numeric constants. See `zsysnum_${GOOS}_${GOARCH}.golang` for the generated
 constants.
 
 Adding new syscall numbers is mostly done by running the build on a sufficiently
@@ -92,33 +92,33 @@ new installation of the target OS (or updating the source checkouts for the
 new build system). However, depending on the OS, you may need to update the
 parsing in mksysnum.
 
-### mksyscall.go
+### mksyscall.golang
 
-The `syscall.go`, `syscall_${GOOS}.go`, `syscall_${GOOS}_${GOARCH}.go` are
+The `syscall.golang`, `syscall_${GOOS}.golang`, `syscall_${GOOS}_${GOARCH}.golang` are
 hand-written Go files which implement system calls (for unix, the specific OS,
 or the specific OS/Architecture pair respectively) that need special handling
 and list `//sys` comments giving prototypes for ones that can be generated.
 
-The mksyscall.go program takes the `//sys` and `//sysnb` comments and converts
+The mksyscall.golang program takes the `//sys` and `//sysnb` comments and converts
 them into syscalls. This requires the name of the prototype in the comment to
-match a syscall number in the `zsysnum_${GOOS}_${GOARCH}.go` file. The function
+match a syscall number in the `zsysnum_${GOOS}_${GOARCH}.golang` file. The function
 prototype can be exported (capitalized) or not.
 
 Adding a new syscall often just requires adding a new `//sys` function prototype
 with the desired arguments and a capitalized name so it is exported. However, if
 you want the interface to the syscall to be different, often one will make an
 unexported `//sys` prototype, and then write a custom wrapper in
-`syscall_${GOOS}.go`.
+`syscall_${GOOS}.golang`.
 
 ### types files
 
-For each OS, there is a hand-written Go file at `${GOOS}/types.go` (or
-`types_${GOOS}.go` on the old system). This file includes standard C headers and
+For each OS, there is a hand-written Go file at `${GOOS}/types.golang` (or
+`types_${GOOS}.golang` on the old system). This file includes standard C headers and
 creates Go type aliases to the corresponding C types. The file is then fed
-through godef to get the Go compatible definitions. Finally, the generated code
-is fed though mkpost.go to format the code correctly and remove any hidden or
+through golangdef to get the Go compatible definitions. Finally, the generated code
+is fed though mkpost.golang to format the code correctly and remove any hidden or
 private identifiers. This cleaned-up code is written to
-`ztypes_${GOOS}_${GOARCH}.go`.
+`ztypes_${GOOS}_${GOARCH}.golang`.
 
 The hardest part about preparing this file is figuring out which headers to
 include and which symbols need to be `#define`d to get the actual data
@@ -126,7 +126,7 @@ structures that pass through to the kernel system calls. Some C libraries
 preset alternate versions for binary compatibility and translate them on the
 way in and out of system calls, but there is almost always a `#define` that can
 get the real ones.
-See `types_darwin.go` and `linux/types.go` for examples.
+See `types_darwin.golang` and `linux/types.golang` for examples.
 
 To add a new type, add in the necessary include statement at the top of the
 file (if it is not already there) and add in a type alias line. Note that if
@@ -142,7 +142,7 @@ of include files in the `includes_${uname}` variable. A regex then picks out
 the desired `#define` statements, and generates the corresponding Go constants.
 The error numbers and strings are generated from `#include <errno.h>`, and the
 signal numbers and strings are generated from `#include <signal.h>`. All of
-these constants are written to `zerrors_${GOOS}_${GOARCH}.go` via a C program,
+these constants are written to `zerrors_${GOOS}_${GOARCH}.golang` via a C program,
 `_errors.c`, which prints out all the constants.
 
 To add a constant, add the header that includes it to the appropriate variable.
@@ -163,22 +163,22 @@ The merge is performed in the following steps:
 
 ## Generated files
 
-### `zerrors_${GOOS}_${GOARCH}.go`
+### `zerrors_${GOOS}_${GOARCH}.golang`
 
 A file containing all of the system's generated error numbers, error strings,
 signal numbers, and constants. Generated by `mkerrors.sh` (see above).
 
-### `zsyscall_${GOOS}_${GOARCH}.go`
+### `zsyscall_${GOOS}_${GOARCH}.golang`
 
 A file containing all the generated syscalls for a specific GOOS and GOARCH.
-Generated by `mksyscall.go` (see above).
+Generated by `mksyscall.golang` (see above).
 
-### `zsysnum_${GOOS}_${GOARCH}.go`
+### `zsysnum_${GOOS}_${GOARCH}.golang`
 
 A list of numeric constants for all the syscall number of the specific GOOS
 and GOARCH. Generated by mksysnum (see above).
 
-### `ztypes_${GOOS}_${GOARCH}.go`
+### `ztypes_${GOOS}_${GOARCH}.golang`
 
 A file containing Go types for passing into (or returning from) syscalls.
-Generated by godefs and the types file (see above).
+Generated by golangdefs and the types file (see above).

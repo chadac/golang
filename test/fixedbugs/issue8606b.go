@@ -1,9 +1,9 @@
 // run
 
-//go:build linux || darwin
+//golang:build linux || darwin
 
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This is an optimization check. We want to make sure that we compare
@@ -60,7 +60,7 @@ func main() {
 		{SS{s: bad1, t: "a"}, SS{s: bad2, t: "aa"}},
 		{SS{s: "a", t: bad1}, SS{s: "b", t: bad2}},
 		// This one would panic because the length of both strings match, and we check
-		// the body of the bad strings before the body of the good strings.
+		// the body of the bad strings before the body of the golangod strings.
 		//{SS{s: bad1, t: "a"}, SS{s: bad2, t: "b"}},
 	} {
 		if test.a == test.b {

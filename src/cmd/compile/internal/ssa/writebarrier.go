@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ssa
@@ -60,7 +60,7 @@ func mightContainHeapPointer(ptr *Value, size int64, mem *Value, zeroes map[ID]Z
 		ptr.Fatalf("unaligned pointer write")
 	}
 	if off < 0 || off+size > 64*ptrSize {
-		// memory range goes off end of tracked offsets
+		// memory range golanges off end of tracked offsets
 		return true
 	}
 	z := zeroes[mem.ID]
@@ -136,7 +136,7 @@ func needWBdst(ptr, mem *Value, zeroes map[ID]ZeroRegion) bool {
 		return true // see issue 61187
 	}
 	if off < 0 || off >= 64*ptrSize {
-		// write goes off end of tracked offsets
+		// write golanges off end of tracked offsets
 		return true
 	}
 	z := zeroes[mem.ID]
@@ -167,12 +167,12 @@ func writebarrier(f *Func) {
 	}
 
 	// Number of write buffer entries we can request at once.
-	// Must match runtime/mwbbuf.go:wbMaxEntriesPerCall.
+	// Must match runtime/mwbbuf.golang:wbMaxEntriesPerCall.
 	// It must also match the number of instances of runtime.gcWriteBarrier{X}.
 	const maxEntries = 8
 
 	var sb, sp, wbaddr, const0 *Value
-	var cgoCheckPtrWrite, cgoCheckMemmove *obj.LSym
+	var cgolangCheckPtrWrite, cgolangCheckMemmove *obj.LSym
 	var wbZero, wbMove *obj.LSym
 	var stores, after []*Value
 	var sset, sset2 *sparseSet
@@ -227,9 +227,9 @@ func writebarrier(f *Func) {
 			wbaddr = f.Entry.NewValue1A(initpos, OpAddr, f.Config.Types.UInt32Ptr, wbsym, sb)
 			wbZero = f.fe.Syslook("wbZero")
 			wbMove = f.fe.Syslook("wbMove")
-			if buildcfg.Experiment.CgoCheck2 {
-				cgoCheckPtrWrite = f.fe.Syslook("cgoCheckPtrWrite")
-				cgoCheckMemmove = f.fe.Syslook("cgoCheckMemmove")
+			if buildcfg.Experiment.CgolangCheck2 {
+				cgolangCheckPtrWrite = f.fe.Syslook("cgolangCheckPtrWrite")
+				cgolangCheckMemmove = f.fe.Syslook("cgolangCheckMemmove")
 			}
 			const0 = f.ConstInt32(f.Config.Types.UInt32, 0)
 
@@ -319,9 +319,9 @@ func writebarrier(f *Func) {
 		var volatiles []volatileCopy
 
 		if !(f.ABIDefault == f.ABI1 && len(f.Config.intParamRegs) >= 3) {
-			// We don't need to do this if the calls we're going to do take
+			// We don't need to do this if the calls we're golanging to do take
 			// all their arguments in registers.
-			// 3 is the magic number because it covers wbZero, wbMove, cgoCheckMemmove.
+			// 3 is the magic number because it covers wbZero, wbMove, cgolangCheckMemmove.
 		copyLoop:
 			for _, w := range stores {
 				if w.Op == OpMoveWB {
@@ -498,9 +498,9 @@ func writebarrier(f *Func) {
 			case OpStoreWB:
 				ptr := w.Args[0]
 				val := w.Args[1]
-				if buildcfg.Experiment.CgoCheck2 {
-					// Issue cgo checking code.
-					mem = wbcall(pos, bEnd, cgoCheckPtrWrite, sp, mem, ptr, val)
+				if buildcfg.Experiment.CgolangCheck2 {
+					// Issue cgolang checking code.
+					mem = wbcall(pos, bEnd, cgolangCheckPtrWrite, sp, mem, ptr, val)
 				}
 				mem = bEnd.NewValue3A(pos, OpStore, types.TypeMem, w.Aux, ptr, val, mem)
 			case OpZeroWB:
@@ -518,11 +518,11 @@ func writebarrier(f *Func) {
 						}
 					}
 				}
-				if buildcfg.Experiment.CgoCheck2 {
-					// Issue cgo checking code.
+				if buildcfg.Experiment.CgolangCheck2 {
+					// Issue cgolang checking code.
 					typ := reflectdata.TypeLinksym(w.Aux.(*types.Type))
 					taddr := b.NewValue1A(pos, OpAddr, b.Func.Config.Types.Uintptr, typ, sb)
-					mem = wbcall(pos, bEnd, cgoCheckMemmove, sp, mem, taddr, dst, src)
+					mem = wbcall(pos, bEnd, cgolangCheckMemmove, sp, mem, taddr, dst, src)
 				}
 				mem = bEnd.NewValue3I(pos, OpMove, types.TypeMem, w.AuxInt, dst, src, mem)
 				mem.Aux = w.Aux
@@ -566,7 +566,7 @@ func writebarrier(f *Func) {
 
 		// if we have more stores in this block, do this block again
 		if nWBops > 0 {
-			goto again
+			golangto again
 		}
 	}
 }

@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Linux system calls.
@@ -26,40 +26,40 @@ import (
 // entersyscall fetches the caller PC and SP and thus can't have a wrapper
 // inbetween.
 
-//go:linkname runtime_entersyscall runtime.entersyscall
+//golang:linkname runtime_entersyscall runtime.entersyscall
 func runtime_entersyscall()
 
-//go:linkname runtime_exitsyscall runtime.exitsyscall
+//golang:linkname runtime_exitsyscall runtime.exitsyscall
 func runtime_exitsyscall()
 
 // N.B. For the Syscall functions below:
 //
-// //go:uintptrkeepalive because the uintptr argument may be converted pointers
+// //golang:uintptrkeepalive because the uintptr argument may be converted pointers
 // that need to be kept alive in the caller.
 //
-// //go:nosplit because stack copying does not account for uintptrkeepalive, so
+// //golang:nosplit because stack copying does not account for uintptrkeepalive, so
 // the stack must not grow. Stack copying cannot blindly assume that all
 // uintptr arguments are pointers, because some values may look like pointers,
 // but not really be pointers, and adjusting their value would break the call.
 //
-// //go:norace, on RawSyscall, to avoid race instrumentation if RawSyscall is
+// //golang:norace, on RawSyscall, to avoid race instrumentation if RawSyscall is
 // called after fork, or from a signal handler.
 //
-// //go:linkname to ensure ABI wrappers are generated for external callers
+// //golang:linkname to ensure ABI wrappers are generated for external callers
 // (notably x/sys/unix assembly).
 
-//go:uintptrkeepalive
-//go:nosplit
-//go:norace
-//go:linkname RawSyscall
+//golang:uintptrkeepalive
+//golang:nosplit
+//golang:norace
+//golang:linkname RawSyscall
 func RawSyscall(trap, a1, a2, a3 uintptr) (r1, r2 uintptr, err Errno) {
 	return RawSyscall6(trap, a1, a2, a3, 0, 0, 0)
 }
 
-//go:uintptrkeepalive
-//go:nosplit
-//go:norace
-//go:linkname RawSyscall6
+//golang:uintptrkeepalive
+//golang:nosplit
+//golang:norace
+//golang:linkname RawSyscall6
 func RawSyscall6(trap, a1, a2, a3, a4, a5, a6 uintptr) (r1, r2 uintptr, err Errno) {
 	var errno uintptr
 	r1, r2, errno = runtimesyscall.Syscall6(trap, a1, a2, a3, a4, a5, a6)
@@ -67,9 +67,9 @@ func RawSyscall6(trap, a1, a2, a3, a4, a5, a6 uintptr) (r1, r2 uintptr, err Errn
 	return
 }
 
-//go:uintptrkeepalive
-//go:nosplit
-//go:linkname Syscall
+//golang:uintptrkeepalive
+//golang:nosplit
+//golang:linkname Syscall
 func Syscall(trap, a1, a2, a3 uintptr) (r1, r2 uintptr, err Errno) {
 	runtime_entersyscall()
 	// N.B. Calling RawSyscall here is unsafe with atomic coverage
@@ -82,16 +82,16 @@ func Syscall(trap, a1, a2, a3 uintptr) (r1, r2 uintptr, err Errno) {
 	// RawSyscall6 is fine because it is implemented in assembly and thus
 	// has no coverage instrumentation.
 	//
-	// This is typically not a problem in the runtime because cmd/go avoids
+	// This is typically not a problem in the runtime because cmd/golang avoids
 	// adding coverage instrumentation to the runtime in race mode.
 	r1, r2, err = RawSyscall6(trap, a1, a2, a3, 0, 0, 0)
 	runtime_exitsyscall()
 	return
 }
 
-//go:uintptrkeepalive
-//go:nosplit
-//go:linkname Syscall6
+//golang:uintptrkeepalive
+//golang:nosplit
+//golang:linkname Syscall6
 func Syscall6(trap, a1, a2, a3, a4, a5, a6 uintptr) (r1, r2 uintptr, err Errno) {
 	runtime_entersyscall()
 	r1, r2, err = RawSyscall6(trap, a1, a2, a3, a4, a5, a6)
@@ -414,18 +414,18 @@ func Getgroups() (gids []int, err error) {
 	return
 }
 
-var cgo_libc_setgroups unsafe.Pointer // non-nil if cgo linked.
+var cgolang_libc_setgroups unsafe.Pointer // non-nil if cgolang linked.
 
 func Setgroups(gids []int) (err error) {
 	n := uintptr(len(gids))
 	if n == 0 {
-		if cgo_libc_setgroups == nil {
+		if cgolang_libc_setgroups == nil {
 			if _, _, e1 := AllThreadsSyscall(_SYS_setgroups, 0, 0, 0); e1 != 0 {
 				err = errnoErr(e1)
 			}
 			return
 		}
-		if ret := cgocaller(cgo_libc_setgroups, 0, 0); ret != 0 {
+		if ret := cgolangcaller(cgolang_libc_setgroups, 0, 0); ret != 0 {
 			err = errnoErr(Errno(ret))
 		}
 		return
@@ -435,13 +435,13 @@ func Setgroups(gids []int) (err error) {
 	for i, v := range gids {
 		a[i] = _Gid_t(v)
 	}
-	if cgo_libc_setgroups == nil {
+	if cgolang_libc_setgroups == nil {
 		if _, _, e1 := AllThreadsSyscall(_SYS_setgroups, n, uintptr(unsafe.Pointer(&a[0])), 0); e1 != 0 {
 			err = errnoErr(e1)
 		}
 		return
 	}
-	if ret := cgocaller(cgo_libc_setgroups, n, uintptr(unsafe.Pointer(&a[0]))); ret != 0 {
+	if ret := cgolangcaller(cgolang_libc_setgroups, n, uintptr(unsafe.Pointer(&a[0]))); ret != 0 {
 		err = errnoErr(Errno(ret))
 	}
 	return
@@ -1100,7 +1100,7 @@ func Getpgrp() (pid int) {
 // world and invokes the syscall on each OS thread. Once this function returns,
 // all threads are in sync.
 //
-//go:uintptrescapes
+//golang:uintptrescapes
 func runtime_doAllThreadsSyscall(trap, a1, a2, a3, a4, a5, a6 uintptr) (r1, r2, err uintptr)
 
 // AllThreadsSyscall performs a syscall on each OS thread of the Go
@@ -1116,12 +1116,12 @@ func runtime_doAllThreadsSyscall(trap, a1, a2, a3, a4, a5, a6 uintptr) (r1, r2, 
 // per-thread state of the Go runtime.
 //
 // AllThreadsSyscall is unaware of any threads that are launched
-// explicitly by cgo linked code, so the function always returns
-// [ENOTSUP] in binaries that use cgo.
+// explicitly by cgolang linked code, so the function always returns
+// [ENOTSUP] in binaries that use cgolang.
 //
-//go:uintptrescapes
+//golang:uintptrescapes
 func AllThreadsSyscall(trap, a1, a2, a3 uintptr) (r1, r2 uintptr, err Errno) {
-	if cgo_libc_setegid != nil {
+	if cgolang_libc_setegid != nil {
 		return minus1, minus1, ENOTSUP
 	}
 	r1, r2, errno := runtime_doAllThreadsSyscall(trap, a1, a2, a3, 0, 0, 0)
@@ -1131,121 +1131,121 @@ func AllThreadsSyscall(trap, a1, a2, a3 uintptr) (r1, r2 uintptr, err Errno) {
 // AllThreadsSyscall6 is like [AllThreadsSyscall], but extended to six
 // arguments.
 //
-//go:uintptrescapes
+//golang:uintptrescapes
 func AllThreadsSyscall6(trap, a1, a2, a3, a4, a5, a6 uintptr) (r1, r2 uintptr, err Errno) {
-	if cgo_libc_setegid != nil {
+	if cgolang_libc_setegid != nil {
 		return minus1, minus1, ENOTSUP
 	}
 	r1, r2, errno := runtime_doAllThreadsSyscall(trap, a1, a2, a3, a4, a5, a6)
 	return r1, r2, Errno(errno)
 }
 
-// linked by runtime.cgocall.go
+// linked by runtime.cgolangcall.golang
 //
-//go:uintptrescapes
-func cgocaller(unsafe.Pointer, ...uintptr) uintptr
+//golang:uintptrescapes
+func cgolangcaller(unsafe.Pointer, ...uintptr) uintptr
 
-var cgo_libc_setegid unsafe.Pointer // non-nil if cgo linked.
+var cgolang_libc_setegid unsafe.Pointer // non-nil if cgolang linked.
 
 const minus1 = ^uintptr(0)
 
 func Setegid(egid int) (err error) {
-	if cgo_libc_setegid == nil {
+	if cgolang_libc_setegid == nil {
 		if _, _, e1 := AllThreadsSyscall(SYS_SETRESGID, minus1, uintptr(egid), minus1); e1 != 0 {
 			err = errnoErr(e1)
 		}
-	} else if ret := cgocaller(cgo_libc_setegid, uintptr(egid)); ret != 0 {
+	} else if ret := cgolangcaller(cgolang_libc_setegid, uintptr(egid)); ret != 0 {
 		err = errnoErr(Errno(ret))
 	}
 	return
 }
 
-var cgo_libc_seteuid unsafe.Pointer // non-nil if cgo linked.
+var cgolang_libc_seteuid unsafe.Pointer // non-nil if cgolang linked.
 
 func Seteuid(euid int) (err error) {
-	if cgo_libc_seteuid == nil {
+	if cgolang_libc_seteuid == nil {
 		if _, _, e1 := AllThreadsSyscall(SYS_SETRESUID, minus1, uintptr(euid), minus1); e1 != 0 {
 			err = errnoErr(e1)
 		}
-	} else if ret := cgocaller(cgo_libc_seteuid, uintptr(euid)); ret != 0 {
+	} else if ret := cgolangcaller(cgolang_libc_seteuid, uintptr(euid)); ret != 0 {
 		err = errnoErr(Errno(ret))
 	}
 	return
 }
 
-var cgo_libc_setgid unsafe.Pointer // non-nil if cgo linked.
+var cgolang_libc_setgid unsafe.Pointer // non-nil if cgolang linked.
 
 func Setgid(gid int) (err error) {
-	if cgo_libc_setgid == nil {
+	if cgolang_libc_setgid == nil {
 		if _, _, e1 := AllThreadsSyscall(sys_SETGID, uintptr(gid), 0, 0); e1 != 0 {
 			err = errnoErr(e1)
 		}
-	} else if ret := cgocaller(cgo_libc_setgid, uintptr(gid)); ret != 0 {
+	} else if ret := cgolangcaller(cgolang_libc_setgid, uintptr(gid)); ret != 0 {
 		err = errnoErr(Errno(ret))
 	}
 	return
 }
 
-var cgo_libc_setregid unsafe.Pointer // non-nil if cgo linked.
+var cgolang_libc_setregid unsafe.Pointer // non-nil if cgolang linked.
 
 func Setregid(rgid, egid int) (err error) {
-	if cgo_libc_setregid == nil {
+	if cgolang_libc_setregid == nil {
 		if _, _, e1 := AllThreadsSyscall(sys_SETREGID, uintptr(rgid), uintptr(egid), 0); e1 != 0 {
 			err = errnoErr(e1)
 		}
-	} else if ret := cgocaller(cgo_libc_setregid, uintptr(rgid), uintptr(egid)); ret != 0 {
+	} else if ret := cgolangcaller(cgolang_libc_setregid, uintptr(rgid), uintptr(egid)); ret != 0 {
 		err = errnoErr(Errno(ret))
 	}
 	return
 }
 
-var cgo_libc_setresgid unsafe.Pointer // non-nil if cgo linked.
+var cgolang_libc_setresgid unsafe.Pointer // non-nil if cgolang linked.
 
 func Setresgid(rgid, egid, sgid int) (err error) {
-	if cgo_libc_setresgid == nil {
+	if cgolang_libc_setresgid == nil {
 		if _, _, e1 := AllThreadsSyscall(sys_SETRESGID, uintptr(rgid), uintptr(egid), uintptr(sgid)); e1 != 0 {
 			err = errnoErr(e1)
 		}
-	} else if ret := cgocaller(cgo_libc_setresgid, uintptr(rgid), uintptr(egid), uintptr(sgid)); ret != 0 {
+	} else if ret := cgolangcaller(cgolang_libc_setresgid, uintptr(rgid), uintptr(egid), uintptr(sgid)); ret != 0 {
 		err = errnoErr(Errno(ret))
 	}
 	return
 }
 
-var cgo_libc_setresuid unsafe.Pointer // non-nil if cgo linked.
+var cgolang_libc_setresuid unsafe.Pointer // non-nil if cgolang linked.
 
 func Setresuid(ruid, euid, suid int) (err error) {
-	if cgo_libc_setresuid == nil {
+	if cgolang_libc_setresuid == nil {
 		if _, _, e1 := AllThreadsSyscall(sys_SETRESUID, uintptr(ruid), uintptr(euid), uintptr(suid)); e1 != 0 {
 			err = errnoErr(e1)
 		}
-	} else if ret := cgocaller(cgo_libc_setresuid, uintptr(ruid), uintptr(euid), uintptr(suid)); ret != 0 {
+	} else if ret := cgolangcaller(cgolang_libc_setresuid, uintptr(ruid), uintptr(euid), uintptr(suid)); ret != 0 {
 		err = errnoErr(Errno(ret))
 	}
 	return
 }
 
-var cgo_libc_setreuid unsafe.Pointer // non-nil if cgo linked.
+var cgolang_libc_setreuid unsafe.Pointer // non-nil if cgolang linked.
 
 func Setreuid(ruid, euid int) (err error) {
-	if cgo_libc_setreuid == nil {
+	if cgolang_libc_setreuid == nil {
 		if _, _, e1 := AllThreadsSyscall(sys_SETREUID, uintptr(ruid), uintptr(euid), 0); e1 != 0 {
 			err = errnoErr(e1)
 		}
-	} else if ret := cgocaller(cgo_libc_setreuid, uintptr(ruid), uintptr(euid)); ret != 0 {
+	} else if ret := cgolangcaller(cgolang_libc_setreuid, uintptr(ruid), uintptr(euid)); ret != 0 {
 		err = errnoErr(Errno(ret))
 	}
 	return
 }
 
-var cgo_libc_setuid unsafe.Pointer // non-nil if cgo linked.
+var cgolang_libc_setuid unsafe.Pointer // non-nil if cgolang linked.
 
 func Setuid(uid int) (err error) {
-	if cgo_libc_setuid == nil {
+	if cgolang_libc_setuid == nil {
 		if _, _, e1 := AllThreadsSyscall(sys_SETUID, uintptr(uid), 0, 0); e1 != 0 {
 			err = errnoErr(e1)
 		}
-	} else if ret := cgocaller(cgo_libc_setuid, uintptr(uid)); ret != 0 {
+	} else if ret := cgolangcaller(cgolang_libc_setuid, uintptr(uid)); ret != 0 {
 		err = errnoErr(Errno(ret))
 	}
 	return
@@ -1266,7 +1266,7 @@ func Setuid(uid int) (err error) {
 //sys	exitThread(code int) (err error) = SYS_EXIT
 //sys	readlen(fd int, p *byte, np int) (n int, err error) = SYS_READ
 
-// mmap varies by architecture; see syscall_linux_*.go.
+// mmap varies by architecture; see syscall_linux_*.golang.
 //sys	munmap(addr uintptr, length uintptr) (err error)
 
 var mapper = &mmapper{
@@ -1296,7 +1296,7 @@ func Getrlimit(resource int, rlim *Rlimit) (err error) {
 }
 
 // setrlimit sets a resource limit.
-// The Setrlimit function is in rlimit.go, and calls this one.
+// The Setrlimit function is in rlimit.golang, and calls this one.
 func setrlimit(resource int, rlim *Rlimit) (err error) {
 	return prlimit1(0, resource, rlim, nil)
 }
@@ -1304,10 +1304,10 @@ func setrlimit(resource int, rlim *Rlimit) (err error) {
 // prlimit changes a resource limit. We use a single definition so that
 // we can tell StartProcess to not restore the original NOFILE limit.
 //
-// golang.org/x/sys linknames prlimit.
+// golanglang.org/x/sys linknames prlimit.
 // Do not remove or change the type signature.
 //
-//go:linkname prlimit
+//golang:linkname prlimit
 func prlimit(pid int, resource int, newlimit *Rlimit, old *Rlimit) (err error) {
 	err = prlimit1(pid, resource, newlimit, old)
 	if err == nil && newlimit != nil && resource == RLIMIT_NOFILE && (pid == 0 || pid == Getpid()) {

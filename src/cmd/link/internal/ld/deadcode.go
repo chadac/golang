@@ -1,11 +1,11 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ld
 
 import (
-	"cmd/internal/goobj"
+	"cmd/internal/golangobj"
 	"cmd/internal/objabi"
 	"cmd/internal/sys"
 	"cmd/link/internal/loader"
@@ -83,11 +83,11 @@ func (d *deadcodePass) init() {
 	// We redirect unreachable methods to it.
 	names = append(names, "runtime.unreachableMethod")
 	if d.ctxt.BuildMode == BuildModePlugin {
-		names = append(names, objabi.PathToPrefix(*flagPluginPath)+"..inittask", objabi.PathToPrefix(*flagPluginPath)+".main", "go:plugin.tabs")
+		names = append(names, objabi.PathToPrefix(*flagPluginPath)+"..inittask", objabi.PathToPrefix(*flagPluginPath)+".main", "golang:plugin.tabs")
 
-		// We don't keep the go.plugin.exports symbol,
+		// We don't keep the golang.plugin.exports symbol,
 		// but we do keep the symbols it refers to.
-		exportsIdx := d.ldr.Lookup("go:plugin.exports", 0)
+		exportsIdx := d.ldr.Lookup("golang:plugin.exports", 0)
 		if exportsIdx != 0 {
 			relocs := d.ldr.Relocs(exportsIdx)
 			for i := 0; i < relocs.Count(); i++ {
@@ -142,11 +142,11 @@ func (d *deadcodePass) flood() {
 		// and mark all exported methods of all reachable types as reachable.
 		d.reflectSeen = d.reflectSeen || d.ldr.IsReflectMethod(symIdx)
 
-		isgotype := d.ldr.IsGoType(symIdx)
+		isgolangtype := d.ldr.IsGoType(symIdx)
 		relocs := d.ldr.Relocs(symIdx)
 		var usedInIface bool
 
-		if isgotype {
+		if isgolangtype {
 			if d.dynlink {
 				// When dynamic linking, a type may be passed across DSO
 				// boundary and get converted to interface at the other side.
@@ -259,7 +259,7 @@ func (d *deadcodePass) flood() {
 				continue
 			}
 			rs := r.Sym()
-			if isgotype && usedInIface && d.ldr.IsGoType(rs) && !d.ldr.AttrUsedInIface(rs) {
+			if isgolangtype && usedInIface && d.ldr.IsGoType(rs) && !d.ldr.AttrUsedInIface(rs) {
 				// If a type is converted to an interface, it is possible to obtain an
 				// interface with a "child" type of it using reflection (e.g. obtain an
 				// interface of T from []chan T). We need to traverse its "child" types
@@ -279,7 +279,7 @@ func (d *deadcodePass) flood() {
 		naux := d.ldr.NAux(symIdx)
 		for i := 0; i < naux; i++ {
 			a := d.ldr.Aux(symIdx, i)
-			if a.Type() == goobj.AuxGotype {
+			if a.Type() == golangobj.AuxGotype {
 				// A symbol being reachable doesn't imply we need its
 				// type descriptor. Don't mark it.
 				continue
@@ -304,7 +304,7 @@ func (d *deadcodePass) flood() {
 		}
 
 		if len(methods) != 0 {
-			if !isgotype {
+			if !isgolangtype {
 				panic("method found on non-type symbol")
 			}
 			// Decode runtime type information for type methods
@@ -339,7 +339,7 @@ func (d *deadcodePass) mapinitcleanup() {
 				// double check to make sure target is indeed map.init
 				rsn := d.ldr.SymName(rs)
 				if !strings.Contains(rsn, "map.init") {
-					panic(fmt.Sprintf("internal error: expected map.init sym for weak call reloc, got %s -> %s", d.ldr.SymName(idx), rsn))
+					panic(fmt.Sprintf("internal error: expected map.init sym for weak call reloc, golangt %s -> %s", d.ldr.SymName(idx), rsn))
 				}
 				d.ldr.SetAttrReachable(d.mapinitnoop, true)
 				if d.ctxt.Debugvlog > 1 {

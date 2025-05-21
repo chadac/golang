@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package rsa
@@ -73,7 +73,7 @@ func TestMillerRabin(t *testing.T) {
 				if result != expected {
 					t.Logf("W = %s", W)
 					t.Logf("B = %s", B)
-					t.Fatalf("unexpected result: got %v, want %v", result, expected)
+					t.Fatalf("unexpected result: golangt %v, want %v", result, expected)
 				}
 			})
 		default:
@@ -128,23 +128,23 @@ func TestTotient(t *testing.T) {
 				gcd, err := bigmod.NewNat().GCDVarTime(a, b)
 				// GCD doesn't work if a and b are both even, but LCM handles it.
 				if err == nil {
-					if got := strings.TrimLeft(hex.EncodeToString(gcd.Bytes(p)), "0"); got != GCD {
-						t.Fatalf("unexpected GCD: got %s, want %s", got, GCD)
+					if golangt := strings.TrimLeft(hex.EncodeToString(gcd.Bytes(p)), "0"); golangt != GCD {
+						t.Fatalf("unexpected GCD: golangt %s, want %s", golangt, GCD)
 					}
 				}
 
 				lcm, err := totient(p, q)
 				if oddDivisorLargerThan32Bits(decodeHex(t, GCD)) {
 					if err != errDivisorTooLarge {
-						t.Fatalf("expected divisor too large error, got %v", err)
+						t.Fatalf("expected divisor too large error, golangt %v", err)
 					}
 					t.Skip("GCD too large")
 				}
 				if err != nil {
 					t.Fatalf("failed to calculate totient: %v", err)
 				}
-				if got := strings.TrimLeft(hex.EncodeToString(lcm.Nat().Bytes(lcm)), "0"); got != LCM {
-					t.Fatalf("unexpected LCM: got %s, want %s", got, LCM)
+				if golangt := strings.TrimLeft(hex.EncodeToString(lcm.Nat().Bytes(lcm)), "0"); golangt != LCM {
+					t.Fatalf("unexpected LCM: golangt %s, want %s", golangt, LCM)
 				}
 			})
 		default:

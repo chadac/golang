@@ -1,11 +1,11 @@
-// The package e is a go/doc test for embedded methods. 
+// The package e is a golang/doc test for embedded methods. 
 PACKAGE e
 
 IMPORTPATH
 	testdata/e
 
 FILENAMES
-	testdata/e.go
+	testdata/e.golang
 
 TYPES
 	// T1 has no embedded (level 1) M method due to conflict. 

@@ -1,12 +1,12 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // System calls and other system stuff for Linux s390x; see
 // /usr/include/asm/unistd.h for the syscall number definitions.
 
-#include "go_asm.h"
-#include "go_tls.h"
+#include "golang_asm.h"
+#include "golang_tls.h"
 #include "textflag.h"
 
 #define SYS_exit                  1
@@ -236,7 +236,7 @@ TEXT runtime·walltime(SB),NOSPLIT,$32-12
 	BNE		noswitch
 
 	MOVD	m_g0(R6), R4
-	MOVD	(g_sched+gobuf_sp)(R4), R15	// Set SP to g0 stack
+	MOVD	(g_sched+golangbuf_sp)(R4), R15	// Set SP to g0 stack
 
 noswitch:
 	SUB		$16, R15		// reserve 2x 8 bytes for parameters
@@ -244,7 +244,7 @@ noswitch:
 	AND		R4, R15
 	MOVD	R15, R3			// R15 needs to be in R3 as expected by kernel_clock_gettime
 
-	MOVB	runtime·iscgo(SB),R12
+	MOVB	runtime·iscgolang(SB),R12
 	CMPBNE	R12, $0, nosaveg
 
 	MOVD	m_gsignal(R6), R12	// g.m.gsignal
@@ -322,7 +322,7 @@ TEXT runtime·nanotime1(SB),NOSPLIT,$32-8
 	BNE		noswitch
 
 	MOVD	m_g0(R6), R4
-	MOVD	(g_sched+gobuf_sp)(R4), R15	// Set SP to g0 stack
+	MOVD	(g_sched+golangbuf_sp)(R4), R15	// Set SP to g0 stack
 
 noswitch:
 	SUB		$16, R15		// reserve 2x 8 bytes for parameters
@@ -330,7 +330,7 @@ noswitch:
 	AND		R4, R15
 	MOVD	R15, R3			// R15 needs to be in R3 as expected by kernel_clock_gettime
 
-	MOVB	runtime·iscgo(SB),R12
+	MOVB	runtime·iscgolang(SB),R12
 	CMPBNE	R12, $0, nosaveg
 
 	MOVD	m_gsignal(R6), R12	// g.m.gsignal
@@ -419,18 +419,18 @@ TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME,$64
 
 	// this might be called in external code context,
 	// where g is not set.
-	MOVB	runtime·iscgo(SB), R6
+	MOVB	runtime·iscgolang(SB), R6
 	CMPBEQ	R6, $0, 2(PC)
 	BL	runtime·load_g(SB)
 
 	MOVW	R2, 8(R15)
 	MOVD	R3, 16(R15)
 	MOVD	R4, 24(R15)
-	MOVD	$runtime·sigtrampgo(SB), R5
+	MOVD	$runtime·sigtrampgolang(SB), R5
 	BL	R5
 	RET
 
-TEXT runtime·cgoSigtramp(SB),NOSPLIT,$0
+TEXT runtime·cgolangSigtramp(SB),NOSPLIT,$0
 	BR	runtime·sigtramp(SB)
 
 // func mmap(addr unsafe.Pointer, n uintptr, prot, flags, fd int32, off uint32) unsafe.Pointer
@@ -592,17 +592,17 @@ TEXT runtime·sbrk0(SB),NOSPLIT|NOFRAME,$0-8
 	RET
 
 TEXT runtime·access(SB),$0-20
-	MOVD	$0, 2(R0) // unimplemented, only needed for android; declared in stubs_linux.go
+	MOVD	$0, 2(R0) // unimplemented, only needed for android; declared in stubs_linux.golang
 	MOVW	R0, ret+16(FP)
 	RET
 
 TEXT runtime·connect(SB),$0-28
-	MOVD	$0, 2(R0) // unimplemented, only needed for android; declared in stubs_linux.go
+	MOVD	$0, 2(R0) // unimplemented, only needed for android; declared in stubs_linux.golang
 	MOVW	R0, ret+24(FP)
 	RET
 
 TEXT runtime·socket(SB),$0-20
-	MOVD	$0, 2(R0) // unimplemented, only needed for android; declared in stubs_linux.go
+	MOVD	$0, 2(R0) // unimplemented, only needed for android; declared in stubs_linux.golang
 	MOVW	R0, ret+16(FP)
 	RET
 
@@ -631,7 +631,7 @@ TEXT runtime·vgetrandom1(SB),NOSPLIT,$16-48
 	MOVD	$~7, R12
 	AND	R12, R15
 
-	MOVB	runtime·iscgo(SB), R12
+	MOVB	runtime·iscgolang(SB), R12
 	CMPBNE	R12, $0, nosaveg
 	MOVD	m_gsignal(R9), R12
 	CMPBEQ	R12, $0, nosaveg

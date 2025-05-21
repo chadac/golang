@@ -7,10 +7,10 @@ available, and that should be matched by @latest.
 -- .mod --
 module example.com/retract/self/prerelease
 
-go 1.15
+golang 1.15
 
 -- .info --
 {"Version":"v1.9.1-pre"}
 
--- p.go --
+-- p.golang --
 package p

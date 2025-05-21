@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package xml implements a simple XML 1.0 parser that
@@ -749,7 +749,7 @@ func (d *Decoder) rawToken() (Token, error) {
 							d.buf.WriteByte(s[j])
 						}
 						depth++
-						goto HandleB
+						golangto HandleB
 					}
 				}
 

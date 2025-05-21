@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package pkginit
@@ -18,7 +18,7 @@ import (
 )
 
 // MakeTask makes an initialization record for the package, if necessary.
-// See runtime/proc.go:initTask for its layout.
+// See runtime/proc.golang:initTask for its layout.
 // The 3 tasks for initialization are:
 //  1. Initialize all of the packages the current package depends on.
 //  2. Initialize all the variables that have initializers.
@@ -42,7 +42,7 @@ func MakeTask() {
 		// Make an initialization function to call runtime.asanregisterglobals to register an
 		// array of instrumented global variables when -asan is enabled. An instrumented global
 		// variable is described by a structure.
-		// See the _asan_global structure declared in src/runtime/asan/asan.go.
+		// See the _asan_global structure declared in src/runtime/asan/asan.golang.
 		//
 		// func init {
 		// 		var globals []_asan_global {...}

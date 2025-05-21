@@ -460,7 +460,7 @@ func setPCs(p *obj.Prog, pc int64) int64 {
 // FixedFrameSize makes other packages aware of the space allocated for RA.
 //
 // A nicer version of this diagram can be found on slide 21 of the presentation
-// attached to https://golang.org/issue/16922#issuecomment-243748180.
+// attached to https://golanglang.org/issue/16922#issuecomment-243748180.
 func stackOffset(a *obj.Addr, stacksize int64) {
 	switch a.Name {
 	case obj.NAME_AUTO:
@@ -553,7 +553,7 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 
 		prologue = ctxt.EndUnsafePoint(prologue, newprog, -1)
 
-		// On Linux, in a cgo binary we may get a SIGSETXID signal early on
+		// On Linux, in a cgolang binary we may get a SIGSETXID signal early on
 		// before the signal stack is set, as glibc doesn't allow us to block
 		// SIGSETXID. So a signal may land on the current stack and clobber
 		// the content below the SP. We store the LR again after the SP is
@@ -636,11 +636,11 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 		setargp.Reg = obj.REG_NONE
 		setargp.To = obj.Addr{Type: obj.TYPE_MEM, Reg: REG_X5, Offset: 0} // Panic.argp
 
-		godone := obj.Appendp(setargp, newprog)
-		godone.As = AJAL
-		godone.From = obj.Addr{Type: obj.TYPE_REG, Reg: REG_ZERO}
-		godone.To.Type = obj.TYPE_BRANCH
-		godone.To.SetTarget(endadj)
+		golangdone := obj.Appendp(setargp, newprog)
+		golangdone.As = AJAL
+		golangdone.From = obj.Addr{Type: obj.TYPE_REG, Reg: REG_ZERO}
+		golangdone.To.Type = obj.TYPE_BRANCH
+		golangdone.To.SetTarget(endadj)
 	}
 
 	// Update stack-based offsets.
@@ -791,7 +791,7 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 					if !big {
 						break
 					}
-					// This function is going to be too large for JALs
+					// This function is golanging to be too large for JALs
 					// to reach trampolines. Replace with AUIPC+JALR.
 					jmp := obj.Appendp(p, newprog)
 					jmp.As = AJALR
@@ -876,7 +876,7 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 		case obj.APCALIGN:
 			alignedValue := p.From.Offset
 			if (alignedValue&(alignedValue-1) != 0) || 4 > alignedValue || alignedValue > 2048 {
-				ctxt.Diag("alignment value of an instruction must be a power of two and in the range [4, 2048], got %d\n", alignedValue)
+				ctxt.Diag("alignment value of an instruction must be a power of two and in the range [4, 2048], golangt %d\n", alignedValue)
 			}
 			// Update the current text symbol alignment value.
 			if int32(alignedValue) > cursym.Func().Align {
@@ -934,7 +934,7 @@ func stacksplit(ctxt *obj.Link, p *obj.Prog, cursym *obj.LSym, newprog obj.ProgA
 		p = obj.Appendp(p, newprog)
 		p.As = obj.ACALL
 		p.To.Type = obj.TYPE_BRANCH
-		// See ../x86/obj6.go
+		// See ../x86/obj6.golang
 		p.To.Sym = ctxt.LookupABI(ctxt.Flag_maymorestack, cursym.ABI())
 		jalToSym(ctxt, p, REG_X5)
 
@@ -988,7 +988,7 @@ func stacksplit(ctxt *obj.Link, p *obj.Prog, cursym *obj.LSym, newprog obj.ProgA
 
 	if framesize <= abi.StackSmall {
 		// small stack
-		//	// if SP > stackguard { goto done }
+		//	// if SP > stackguard { golangto done }
 		//	BLTU	stackguard, SP, done
 		p = obj.Appendp(p, newprog)
 		p.As = ABLTU
@@ -1029,7 +1029,7 @@ func stacksplit(ctxt *obj.Link, p *obj.Prog, cursym *obj.LSym, newprog obj.ProgA
 
 		// Check against the stack guard. We've ensured this won't underflow.
 		//	ADD	$-(framesize-StackSmall), SP, X7
-		//	// if X7 > stackguard { goto done }
+		//	// if X7 > stackguard { golangto done }
 		//	BLTU	stackguard, X7, done
 		p = obj.Appendp(p, newprog)
 		p.As = AADDI
@@ -1239,7 +1239,7 @@ func wantReg(ctxt *obj.Link, ins *instruction, pos string, descr string, r, min,
 	if r < min || r > max {
 		var suffix string
 		if r != obj.REG_NONE {
-			suffix = fmt.Sprintf(" but got non-%s register %s", descr, RegName(int(r)))
+			suffix = fmt.Sprintf(" but golangt non-%s register %s", descr, RegName(int(r)))
 		}
 		ctxt.Diag("%v: expected %s register in %s position%s", ins, descr, pos, suffix)
 	}
@@ -1247,7 +1247,7 @@ func wantReg(ctxt *obj.Link, ins *instruction, pos string, descr string, r, min,
 
 func wantNoneReg(ctxt *obj.Link, ins *instruction, pos string, r uint32) {
 	if r != obj.REG_NONE {
-		ctxt.Diag("%v: expected no register in %s but got register %s", ins, pos, RegName(int(r)))
+		ctxt.Diag("%v: expected no register in %s but golangt register %s", ins, pos, RegName(int(r)))
 	}
 }
 

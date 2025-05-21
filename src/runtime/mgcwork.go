@@ -1,12 +1,12 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
 
 import (
-	"internal/goarch"
-	"internal/goexperiment"
+	"internal/golangarch"
+	"internal/golangexperiment"
 	"internal/runtime/atomic"
 	"internal/runtime/gc"
 	"internal/runtime/sys"
@@ -102,11 +102,11 @@ type gcWork struct {
 
 	// spanq is a queue of spans to process.
 	//
-	// Only used if goexperiment.GreenTeaGC.
+	// Only used if golangexperiment.GreenTeaGC.
 	spanq localSpanQueue
 
 	// ptrBuf is a temporary buffer used by span scanning.
-	ptrBuf *[pageSize / goarch.PtrSize]uintptr
+	ptrBuf *[pageSize / golangarch.PtrSize]uintptr
 
 	// Bytes marked (blackened) on this gcWork. This is aggregated
 	// into work.bytesMarked by dispose.
@@ -125,7 +125,7 @@ type gcWork struct {
 
 	// mayNeedWorker is a hint that we may need to spin up a new
 	// worker, and that gcDrain* should call enlistWorker. This flag
-	// is set only if goexperiment.GreenTeaGC. If !goexperiment.GreenTeaGC,
+	// is set only if golangexperiment.GreenTeaGC. If !golangexperiment.GreenTeaGC,
 	// enlistWorker is called directly instead.
 	mayNeedWorker bool
 
@@ -133,7 +133,7 @@ type gcWork struct {
 	stats [gc.NumSizeClasses]sizeClassScanStats
 }
 
-// Most of the methods of gcWork are go:nowritebarrierrec because the
+// Most of the methods of gcWork are golang:nowritebarrierrec because the
 // write barrier itself can invoke gcWork methods but the methods are
 // not generally re-entrant. Hence, if a gcWork method invoked the
 // write barrier while the gcWork was in an inconsistent state, and
@@ -152,7 +152,7 @@ func (w *gcWork) init() {
 // putObj enqueues a pointer for the garbage collector to trace.
 // obj must point to the beginning of a heap object or an oblet.
 //
-//go:nowritebarrierrec
+//golang:nowritebarrierrec
 func (w *gcWork) putObj(obj uintptr) {
 	flushed := false
 	wbuf := w.wbuf1
@@ -184,7 +184,7 @@ func (w *gcWork) putObj(obj uintptr) {
 	// the end of put so that w is in a consistent state, since
 	// enlistWorker may itself manipulate w.
 	if flushed && gcphase == _GCmark {
-		if goexperiment.GreenTeaGC {
+		if golangexperiment.GreenTeaGC {
 			w.mayNeedWorker = true
 		} else {
 			gcController.enlistWorker()
@@ -195,7 +195,7 @@ func (w *gcWork) putObj(obj uintptr) {
 // putObjFast does a put and reports whether it can be done quickly
 // otherwise it returns false and the caller needs to call put.
 //
-//go:nowritebarrierrec
+//golang:nowritebarrierrec
 func (w *gcWork) putObjFast(obj uintptr) bool {
 	wbuf := w.wbuf1
 	if wbuf == nil || wbuf.nobj == len(wbuf.obj) {
@@ -210,7 +210,7 @@ func (w *gcWork) putObjFast(obj uintptr) bool {
 // putObjBatch performs a put on every pointer in obj. See put for
 // constraints on these pointers.
 //
-//go:nowritebarrierrec
+//golang:nowritebarrierrec
 func (w *gcWork) putObjBatch(obj []uintptr) {
 	if len(obj) == 0 {
 		return
@@ -237,7 +237,7 @@ func (w *gcWork) putObjBatch(obj []uintptr) {
 	}
 
 	if flushed && gcphase == _GCmark {
-		if goexperiment.GreenTeaGC {
+		if golangexperiment.GreenTeaGC {
 			w.mayNeedWorker = true
 		} else {
 			gcController.enlistWorker()
@@ -251,7 +251,7 @@ func (w *gcWork) putObjBatch(obj []uintptr) {
 // queue, tryGet returns 0.  Note that there may still be pointers in
 // other gcWork instances or other caches.
 //
-//go:nowritebarrierrec
+//golang:nowritebarrierrec
 func (w *gcWork) tryGetObj() uintptr {
 	wbuf := w.wbuf1
 	if wbuf == nil {
@@ -281,7 +281,7 @@ func (w *gcWork) tryGetObj() uintptr {
 // if one is readily available. Otherwise it returns 0 and
 // the caller is expected to call tryGet().
 //
-//go:nowritebarrierrec
+//golang:nowritebarrierrec
 func (w *gcWork) tryGetObjFast() uintptr {
 	wbuf := w.wbuf1
 	if wbuf == nil || wbuf.nobj == 0 {
@@ -298,7 +298,7 @@ func (w *gcWork) tryGetObjFast() uintptr {
 // GC can inspect them. This helps reduce the mutator's
 // ability to hide pointers during the concurrent mark phase.
 //
-//go:nowritebarrierrec
+//golang:nowritebarrierrec
 func (w *gcWork) dispose() {
 	if wbuf := w.wbuf1; wbuf != nil {
 		if wbuf.nobj == 0 {
@@ -338,7 +338,7 @@ func (w *gcWork) dispose() {
 // balance moves some work that's cached in this gcWork back on the
 // global queue.
 //
-//go:nowritebarrierrec
+//golang:nowritebarrierrec
 func (w *gcWork) balance() {
 	if w.wbuf1 == nil {
 		return
@@ -355,7 +355,7 @@ func (w *gcWork) balance() {
 	}
 	// We flushed a buffer to the full list, so wake a worker.
 	if gcphase == _GCmark {
-		if goexperiment.GreenTeaGC {
+		if golangexperiment.GreenTeaGC {
 			w.mayNeedWorker = true
 		} else {
 			gcController.enlistWorker()
@@ -365,7 +365,7 @@ func (w *gcWork) balance() {
 
 // empty reports whether w has no mark work available.
 //
-//go:nowritebarrierrec
+//golang:nowritebarrierrec
 func (w *gcWork) empty() bool {
 	return (w.wbuf1 == nil || (w.wbuf1.nobj == 0 && w.wbuf2.nobj == 0)) && w.spanq.empty()
 }
@@ -383,7 +383,7 @@ type workbuf struct {
 	_ sys.NotInHeap
 	workbufhdr
 	// account for the above fields
-	obj [(_WorkbufSize - unsafe.Sizeof(workbufhdr{})) / goarch.PtrSize]uintptr
+	obj [(_WorkbufSize - unsafe.Sizeof(workbufhdr{})) / golangarch.PtrSize]uintptr
 }
 
 // workbuf factory routines. These funcs are used to manage the
@@ -406,7 +406,7 @@ func (b *workbuf) checkempty() {
 // getempty pops an empty work buffer off the work.empty list,
 // allocating new buffers if none are available.
 //
-//go:nowritebarrier
+//golang:nowritebarrier
 func getempty() *workbuf {
 	var b *workbuf
 	if work.empty != 0 {
@@ -460,9 +460,9 @@ func getempty() *workbuf {
 }
 
 // putempty puts a workbuf onto the work.empty list.
-// Upon entry this goroutine owns b. The lfstack.push relinquishes ownership.
+// Upon entry this golangroutine owns b. The lfstack.push relinquishes ownership.
 //
-//go:nowritebarrier
+//golang:nowritebarrier
 func putempty(b *workbuf) {
 	b.checkempty()
 	work.empty.push(&b.node)
@@ -472,7 +472,7 @@ func putempty(b *workbuf) {
 // putfull accepts partially full buffers so the GC can avoid competing
 // with the mutators for ownership of partially full buffers.
 //
-//go:nowritebarrier
+//golang:nowritebarrier
 func putfull(b *workbuf) {
 	b.checknonempty()
 	work.full.push(&b.node)
@@ -481,7 +481,7 @@ func putfull(b *workbuf) {
 // trygetfull tries to get a full or partially empty workbuffer.
 // If one is not immediately available return nil.
 //
-//go:nowritebarrier
+//golang:nowritebarrier
 func trygetfull() *workbuf {
 	b := (*workbuf)(work.full.pop())
 	if b != nil {
@@ -491,7 +491,7 @@ func trygetfull() *workbuf {
 	return b
 }
 
-//go:nowritebarrier
+//golang:nowritebarrier
 func handoff(b *workbuf) *workbuf {
 	// Make new buffer with half of b's pointers.
 	b1 := getempty()

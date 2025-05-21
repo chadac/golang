@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -90,13 +90,13 @@ func (x *SettableString) Set(s string) {
 func main() {
 	s := fromStrings1[SettableInt, *SettableInt]([]string{"1"})
 	if len(s) != 1 || s[0] != 1 {
-		panic(fmt.Sprintf("got %v, want %v", s, []int{1}))
+		panic(fmt.Sprintf("golangt %v, want %v", s, []int{1}))
 	}
 
 	s2 := fromStrings1a[SettableInt, *SettableInt]([]string{"1"})
 	if len(s2) != 1 || *s2[0] != 1 {
 		x := 1
-		panic(fmt.Sprintf("got %v, want %v", s2, []*int{&x}))
+		panic(fmt.Sprintf("golangt %v, want %v", s2, []*int{&x}))
 	}
 
 	// Test out constraint type inference, which should determine that the second
@@ -108,7 +108,7 @@ func main() {
 
 	s = fromStrings2([]string{"1"}, func(p *SettableInt, s string) { p.Set(s) })
 	if len(s) != 1 || s[0] != 1 {
-		panic(fmt.Sprintf("got %v, want %v", s, []int{1}))
+		panic(fmt.Sprintf("golangt %v, want %v", s, []int{1}))
 	}
 
 	defer func() {

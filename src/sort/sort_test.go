@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package sort_test
@@ -27,7 +27,7 @@ func TestSortIntSlice(t *testing.T) {
 	Sort(a)
 	if !IsSorted(a) {
 		t.Errorf("sorted %v", ints)
-		t.Errorf("   got %v", data)
+		t.Errorf("   golangt %v", data)
 	}
 }
 
@@ -37,7 +37,7 @@ func TestSortFloat64Slice(t *testing.T) {
 	Sort(a)
 	if !IsSorted(a) {
 		t.Errorf("sorted %v", float64s)
-		t.Errorf("   got %v", data)
+		t.Errorf("   golangt %v", data)
 	}
 }
 
@@ -51,7 +51,7 @@ func TestSortFloat64sCompareSlicesSort(t *testing.T) {
 
 	// Compare for equality using cmp.Compare, which considers NaNs equal.
 	if !slices.EqualFunc(slice1, slice2, func(a, b float64) bool { return cmp.Compare(a, b) == 0 }) {
-		t.Errorf("mismatch between Sort and slices.Sort: got %v, want %v", slice1, slice2)
+		t.Errorf("mismatch between Sort and slices.Sort: golangt %v, want %v", slice1, slice2)
 	}
 }
 
@@ -61,7 +61,7 @@ func TestSortStringSlice(t *testing.T) {
 	Sort(a)
 	if !IsSorted(a) {
 		t.Errorf("sorted %v", stringsData)
-		t.Errorf("   got %v", data)
+		t.Errorf("   golangt %v", data)
 	}
 }
 
@@ -70,7 +70,7 @@ func TestInts(t *testing.T) {
 	Ints(data[0:])
 	if !IntsAreSorted(data[0:]) {
 		t.Errorf("sorted %v", ints)
-		t.Errorf("   got %v", data)
+		t.Errorf("   golangt %v", data)
 	}
 }
 
@@ -79,7 +79,7 @@ func TestFloat64s(t *testing.T) {
 	Float64s(data[0:])
 	if !Float64sAreSorted(data[0:]) {
 		t.Errorf("sorted %v", float64s)
-		t.Errorf("   got %v", data)
+		t.Errorf("   golangt %v", data)
 	}
 }
 
@@ -88,7 +88,7 @@ func TestStrings(t *testing.T) {
 	Strings(data[0:])
 	if !StringsAreSorted(data[0:]) {
 		t.Errorf("sorted %v", stringsData)
-		t.Errorf("   got %v", data)
+		t.Errorf("   golangt %v", data)
 	}
 }
 
@@ -99,7 +99,7 @@ func TestSlice(t *testing.T) {
 	})
 	if !SliceIsSorted(data[:], func(i, j int) bool { return data[i] < data[j] }) {
 		t.Errorf("sorted %v", stringsData)
-		t.Errorf("   got %v", data)
+		t.Errorf("   golangt %v", data)
 	}
 }
 
@@ -190,7 +190,7 @@ func (t *nonDeterministicTestingData) Swap(i, j int) {
 
 func TestNonDeterministicComparison(t *testing.T) {
 	// Ensure that sort.Sort does not panic when Less returns inconsistent results.
-	// See https://golang.org/issue/14377.
+	// See https://golanglang.org/issue/14377.
 	defer func() {
 		if r := recover(); r != nil {
 			t.Error(r)
@@ -507,7 +507,7 @@ func testBentleyMcIlroy(t *testing.T, sort func(Interface), maxswap func(int) in
 					// x against it, to ensure that qsort was only permuting
 					// the data, not (for example) overwriting it with zeros.
 					//
-					// In go, we don't have to be so paranoid: since the only
+					// In golang, we don't have to be so paranoid: since the only
 					// mutating method Sort can call is TestingData.swap,
 					// it suffices here just to check that the final slice is sorted.
 					if !IntsAreSorted(mdata) {
@@ -602,7 +602,7 @@ func TestStableInts(t *testing.T) {
 	data := ints
 	Stable(IntSlice(data[0:]))
 	if !IntsAreSorted(data[0:]) {
-		t.Errorf("nsorted %v\n   got %v", ints, data)
+		t.Errorf("nsorted %v\n   golangt %v", ints, data)
 	}
 }
 
@@ -688,7 +688,7 @@ func TestStability(t *testing.T) {
 
 var countOpsSizes = []int{1e2, 3e2, 1e3, 3e3, 1e4, 3e4, 1e5, 3e5, 1e6}
 
-func countOps(t *testing.T, algo func(Interface), name string) {
+func countOps(t *testing.T, algolang func(Interface), name string) {
 	sizes := countOpsSizes
 	if testing.Short() {
 		sizes = sizes[:5]
@@ -706,7 +706,7 @@ func countOps(t *testing.T, algo func(Interface), name string) {
 		for i := 0; i < n; i++ {
 			td.data[i] = rand.IntN(n / 5)
 		}
-		algo(&td)
+		algolang(&td)
 		t.Logf("%s %8d elements: %11d Swap, %10d Less", name, n, td.nswap, td.ncmp)
 	}
 }
@@ -714,7 +714,7 @@ func countOps(t *testing.T, algo func(Interface), name string) {
 func TestCountStableOps(t *testing.T) { countOps(t, Stable, "Stable") }
 func TestCountSortOps(t *testing.T)   { countOps(t, Sort, "Sort  ") }
 
-func bench(b *testing.B, size int, algo func(Interface), name string) {
+func bench(b *testing.B, size int, algolang func(Interface), name string) {
 	if strings.HasSuffix(testenv.Builder(), "-race") && size > 1e4 {
 		b.Skip("skipping slow benchmark on race builder")
 	}
@@ -733,7 +733,7 @@ func bench(b *testing.B, size int, algo func(Interface), name string) {
 			}
 			data.initB()
 			b.StartTimer()
-			algo(data)
+			algolang(data)
 			b.StopTimer()
 			if !IsSorted(data) {
 				b.Errorf("%s did not sort %d ints", name, n)

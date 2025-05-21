@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -93,7 +93,7 @@ func init() {
 		gpsp   = gp | buildReg("SP")
 		gpspsb = gpsp | buildReg("SB")
 		// The "registers", which are actually local variables, can get clobbered
-		// if we're switching goroutines, because it unwinds the WebAssembly stack.
+		// if we're switching golangroutines, because it unwinds the WebAssembly stack.
 		callerSave = gp | fp32 | fp64 | buildReg("g")
 	)
 
@@ -263,7 +263,7 @@ func init() {
 	archs = append(archs, arch{
 		name:            "Wasm",
 		pkg:             "cmd/internal/obj/wasm",
-		genfile:         "../../wasm/ssa.go",
+		genfile:         "../../wasm/ssa.golang",
 		ops:             WasmOps,
 		blocks:          nil,
 		regnames:        regNamesWasm,

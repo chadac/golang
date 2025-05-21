@@ -1,8 +1,8 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build goexperiment.jsonv2
+//golang:build golangexperiment.jsonv2
 
 package json
 
@@ -299,7 +299,7 @@ func makeBytesArshaler(t reflect.Type, fncs *arshaler) *arshaler {
 	// NOTE: This handles both []~byte and [N]~byte.
 	// The v2 default is to treat a []namedByte as equivalent to []T
 	// since being able to convert []namedByte to []byte relies on
-	// dubious Go reflection behavior (see https://go.dev/issue/24746).
+	// dubious Go reflection behavior (see https://golang.dev/issue/24746).
 	// For v1 emulation, we use jsonflags.FormatBytesWithLegacySemantics
 	// to forcibly treat []namedByte as a []byte.
 	marshalArray := fncs.marshal
@@ -396,7 +396,7 @@ func makeBytesArshaler(t reflect.Type, fncs *arshaler) *arshaler {
 				return newUnmarshalErrorAfter(dec, t, err)
 			}
 			if len(val) != encodedLen(len(b)) && !uo.Flags.Get(jsonflags.FormatBytesWithLegacySemantics) {
-				// TODO(https://go.dev/issue/53845): RFC 4648, section 3.3,
+				// TODO(https://golang.dev/issue/53845): RFC 4648, section 3.3,
 				// specifies that non-alphabet characters must be rejected.
 				// Unfortunately, the "base32" and "base64" packages allow
 				// '\r' and '\n' characters by default.
@@ -813,7 +813,7 @@ func makeMapArshaler(t reflect.Type) *arshaler {
 					if err := enc.WriteToken(jsontext.String(name)); err != nil {
 						return err
 					}
-					// TODO(https://go.dev/issue/57061): Use v.SetMapIndexOf.
+					// TODO(https://golang.dev/issue/57061): Use v.SetMapIndexOf.
 					k.SetString(name)
 					v.Set(va.MapIndex(k.Value))
 					if err := marshalVal(enc, v, mo); err != nil {
@@ -1677,7 +1677,7 @@ func makePointerArshaler(t reflect.Type) *arshaler {
 			// within the pointer value, rather than the indirect value.
 			//
 			// TODO: This does not correctly handle escaped nulls
-			// (e.g., "\u006e\u0075\u006c\u006c"), but is good enough
+			// (e.g., "\u006e\u0075\u006c\u006c"), but is golangod enough
 			// for such an esoteric use case of the `string` option.
 			if string(export.Decoder(dec).PreviousTokenOrValue()) == `"null"` {
 				va.SetZero()
@@ -1786,7 +1786,7 @@ func makeInterfaceArshaler(t reflect.Type) *arshaler {
 				(uo.Unmarshalers == nil || !uo.Unmarshalers.(*Unmarshalers).fromAny) {
 				v, err := unmarshalValueAny(dec, uo)
 				// We must check for nil interface values up front.
-				// See https://go.dev/issue/52310.
+				// See https://golang.dev/issue/52310.
 				if v != nil {
 					va.Set(reflect.ValueOf(v))
 				}
@@ -1843,7 +1843,7 @@ func isAnyType(t reflect.Type) bool {
 	// This is forward compatible if the Go language permits type sets within
 	// ordinary interfaces where an interface with zero methods does not
 	// necessarily mean it can hold every possible Go type.
-	// See https://go.dev/issue/45346.
+	// See https://golang.dev/issue/45346.
 	return t == anyType || anyType.Implements(t)
 }
 

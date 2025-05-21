@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -24,7 +24,7 @@ func newB(pid int) *B {
 	}
 }
 
-//go:noinline
+//golang:noinline
 func Sq(i int) uint64 {
 	S++
 	return uint64(i * i)
@@ -47,7 +47,7 @@ func Bad() RO {
 func (b *B) startit() chan<- struct{} {
 	stop := make(chan struct{})
 	b.wg.Add(1)
-	go func() {
+	golang func() {
 		defer b.wg.Done()
 		var v uint64
 		for {
@@ -69,7 +69,7 @@ func (b *B) startit() chan<- struct{} {
 
 var S, G int
 
-//go:noinline
+//golang:noinline
 func rec(x int) int {
 	if x == 0 {
 		return 9
@@ -77,7 +77,7 @@ func rec(x int) int {
 	return rec(x-1) + 1
 }
 
-//go:noinline
+//golang:noinline
 func recur(x int) {
 	for i := 0; i < x; i++ {
 		G = rec(i)

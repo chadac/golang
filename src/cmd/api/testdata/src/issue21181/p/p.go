@@ -4,6 +4,6 @@ import (
 	"dep"
 )
 
-type algo struct {
+type algolang struct {
 	indrt func(dep.Interface)
 }

@@ -1,12 +1,12 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package test
 
 import (
-	"cmd/go/internal/base"
-	"cmd/go/internal/cfg"
+	"cmd/golang/internal/base"
+	"cmd/golang/internal/cfg"
 	"fmt"
 	"io"
 	"os"
@@ -22,7 +22,7 @@ var coverMerge struct {
 // initCoverProfile initializes the test coverage profile.
 // It must be run before any calls to mergeCoverProfile or closeCoverProfile.
 // Using this function clears the profile in case it existed from a previous run,
-// or in case it doesn't exist and the test is going to fail to create it (or not run).
+// or in case it doesn't exist and the test is golanging to fail to create it (or not run).
 func initCoverProfile() {
 	if testCoverProfile == "" || testC {
 		return
@@ -31,7 +31,7 @@ func initCoverProfile() {
 		testCoverProfile = filepath.Join(testOutputDir.getAbs(), testCoverProfile)
 	}
 
-	// No mutex - caller's responsibility to call with no racing goroutines.
+	// No mutex - caller's responsibility to call with no racing golangroutines.
 	f, err := os.Create(testCoverProfile)
 	if err != nil {
 		base.Fatalf("%v", err)

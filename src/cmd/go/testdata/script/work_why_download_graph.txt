@@ -1,46 +1,46 @@
-# Test go mod download, why, and graph work in workspace mode.
+# Test golang mod download, why, and graph work in workspace mode.
 # TODO(bcmills): clarify the interaction with #44435
 
-go mod download rsc.io/quote
+golang mod download rsc.io/quote
 exists $GOPATH/pkg/mod/cache/download/rsc.io/quote/@v/v1.5.2.info
 exists $GOPATH/pkg/mod/cache/download/rsc.io/quote/@v/v1.5.2.mod
 exists $GOPATH/pkg/mod/cache/download/rsc.io/quote/@v/v1.5.2.zip
 ! exists $GOPATH/pkg/mod/cache/download/rsc.io/quote/@v/v1.5.0.info
 ! exists $GOPATH/pkg/mod/cache/download/rsc.io/quote/@v/v1.5.0.mod
-grep '^rsc\.io/quote v1\.5\.2/go\.mod h1:' go.work.sum
-grep '^rsc\.io/quote v1\.5\.2 h1:' go.work.sum
+grep '^rsc\.io/quote v1\.5\.2/golang\.mod h1:' golang.work.sum
+grep '^rsc\.io/quote v1\.5\.2 h1:' golang.work.sum
 
-go clean -modcache
-rm go.work.sum
-go mod download
+golang clean -modcache
+rm golang.work.sum
+golang mod download
 exists $GOPATH/pkg/mod/cache/download/rsc.io/quote/@v/v1.5.2.info
 exists $GOPATH/pkg/mod/cache/download/rsc.io/quote/@v/v1.5.2.mod
 exists $GOPATH/pkg/mod/cache/download/rsc.io/quote/@v/v1.5.2.zip
 ! exists $GOPATH/pkg/mod/cache/download/rsc.io/quote/@v/v1.5.0.info
 ! exists $GOPATH/pkg/mod/cache/download/rsc.io/quote/@v/v1.5.0.mod
-grep '^rsc\.io/quote v1\.5\.2/go\.mod h1:' go.work.sum
-grep '^rsc\.io/quote v1\.5\.2 h1:' go.work.sum
+grep '^rsc\.io/quote v1\.5\.2/golang\.mod h1:' golang.work.sum
+grep '^rsc\.io/quote v1\.5\.2 h1:' golang.work.sum
 
-go mod why rsc.io/quote
+golang mod why rsc.io/quote
 stdout '# rsc.io/quote\nexample.com/a\nrsc.io/quote'
 
-go mod graph
-stdout 'example.com/a rsc.io/quote@v1.5.2\nexample.com/b example.com/c@v1.0.0\nrsc.io/quote@v1.5.2 rsc.io/sampler@v1.3.0\nrsc.io/sampler@v1.3.0 golang.org/x/text@v0.0.0-20170915032832-14c0d48ead0c'
+golang mod graph
+stdout 'example.com/a rsc.io/quote@v1.5.2\nexample.com/b example.com/c@v1.0.0\nrsc.io/quote@v1.5.2 rsc.io/sampler@v1.3.0\nrsc.io/sampler@v1.3.0 golanglang.org/x/text@v0.0.0-20170915032832-14c0d48ead0c'
 
--- go.work --
-go 1.18
+-- golang.work --
+golang 1.18
 
 use (
 	./a
 	./b
 )
--- a/go.mod --
-go 1.18
+-- a/golang.mod --
+golang 1.18
 
 module example.com/a
 
 require "rsc.io/quote" v1.5.2
--- a/main.go --
+-- a/main.golang --
 package main
 
 import (
@@ -51,15 +51,15 @@ import (
 func main() {
 	fmt.Println(quote.Hello())
 }
--- b/go.mod --
-go 1.18
+-- b/golang.mod --
+golang 1.18
 
 module example.com/b
 
 require example.com/c v1.0.0
 replace example.com/c => ../c
--- c/go.mod --
-go 1.18
+-- c/golang.mod --
+golang 1.18
 
 module example.com/c
 

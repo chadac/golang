@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file implements source, a buffered rune reader
@@ -7,7 +7,7 @@
 // ASCII characters, maintaining current (line, col)
 // position information, and recording of the most
 // recently read source segment are highly optimized.
-// This file is self-contained (go tool compile source.go
+// This file is self-contained (golang tool compile source.golang
 // compiles) and thus could be made into its own package.
 
 package syntax
@@ -124,7 +124,7 @@ redo:
 		s.chw = 1
 		if s.ch == 0 {
 			s.error("invalid NUL character")
-			goto redo
+			golangto redo
 		}
 		return
 	}
@@ -151,7 +151,7 @@ redo:
 
 	if s.ch == utf8.RuneError && s.chw == 1 {
 		s.error("invalid UTF-8 encoding")
-		goto redo
+		golangto redo
 	}
 
 	// BOM's are only allowed as the first character in a file
@@ -160,7 +160,7 @@ redo:
 		if s.line > 0 || s.col > 0 {
 			s.error("invalid BOM in the middle of the file")
 		}
-		goto redo
+		golangto redo
 	}
 }
 

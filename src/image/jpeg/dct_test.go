@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package jpeg
@@ -51,41 +51,41 @@ func TestDCT(t *testing.T) {
 	// level shift. Scaling reduces the rounding errors in the conversion from
 	// floats to ints.
 	for i, b := range blocks {
-		got, want := b, b
-		for j := range got {
-			got[j] = (got[j] - 128) * 8
+		golangt, want := b, b
+		for j := range golangt {
+			golangt[j] = (golangt[j] - 128) * 8
 		}
-		slowFDCT(&got)
-		slowIDCT(&got)
-		for j := range got {
-			got[j] = got[j]/8 + 128
+		slowFDCT(&golangt)
+		slowIDCT(&golangt)
+		for j := range golangt {
+			golangt[j] = golangt[j]/8 + 128
 		}
-		if differ(&got, &want) {
-			t.Errorf("i=%d: IDCT(FDCT)\nsrc\n%s\ngot\n%s\nwant\n%s\n", i, &b, &got, &want)
+		if differ(&golangt, &want) {
+			t.Errorf("i=%d: IDCT(FDCT)\nsrc\n%s\ngolangt\n%s\nwant\n%s\n", i, &b, &golangt, &want)
 		}
 	}
 
 	// Check that the optimized and slow FDCT implementations agree.
 	// The fdct function already does a scale and level shift.
 	for i, b := range blocks {
-		got, want := b, b
-		fdct(&got)
+		golangt, want := b, b
+		fdct(&golangt)
 		for j := range want {
 			want[j] = (want[j] - 128) * 8
 		}
 		slowFDCT(&want)
-		if differ(&got, &want) {
-			t.Errorf("i=%d: FDCT\nsrc\n%s\ngot\n%s\nwant\n%s\n", i, &b, &got, &want)
+		if differ(&golangt, &want) {
+			t.Errorf("i=%d: FDCT\nsrc\n%s\ngolangt\n%s\nwant\n%s\n", i, &b, &golangt, &want)
 		}
 	}
 
 	// Check that the optimized and slow IDCT implementations agree.
 	for i, b := range blocks {
-		got, want := b, b
-		idct(&got)
+		golangt, want := b, b
+		idct(&golangt)
 		slowIDCT(&want)
-		if differ(&got, &want) {
-			t.Errorf("i=%d: IDCT\nsrc\n%s\ngot\n%s\nwant\n%s\n", i, &b, &got, &want)
+		if differ(&golangt, &want) {
+			t.Errorf("i=%d: IDCT\nsrc\n%s\ngolangt\n%s\nwant\n%s\n", i, &b, &golangt, &want)
 		}
 	}
 }

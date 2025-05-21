@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This program generates a test to verify that a program can be
@@ -27,7 +27,7 @@ func TestLargeText(t *testing.T) {
 	const FN = 4
 	tmpdir := t.TempDir()
 
-	if err := os.WriteFile(tmpdir+"/go.mod", []byte("module big_test\n"), 0666); err != nil {
+	if err := os.WriteFile(tmpdir+"/golang.mod", []byte("module big_test\n"), 0666); err != nil {
 		t.Fatal(err)
 	}
 
@@ -76,7 +76,7 @@ func TestLargeText(t *testing.T) {
 	fmt.Fprintf(&w, "\t}\n")
 	fmt.Fprintf(&w, "\tfmt.Printf(\"PASS\\n\")\n")
 	fmt.Fprintf(&w, "}")
-	err := os.WriteFile(tmpdir+"/bigfn.go", w.Bytes(), 0666)
+	err := os.WriteFile(tmpdir+"/bigfn.golang", w.Bytes(), 0666)
 	if err != nil {
 		t.Fatalf("can't write output: %v\n", err)
 	}

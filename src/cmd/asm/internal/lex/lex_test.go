@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package lex
@@ -262,7 +262,7 @@ func TestLex(t *testing.T) {
 		input.Push(NewTokenizer(test.name, strings.NewReader(test.input), nil))
 		result := drain(input)
 		if result != test.output {
-			t.Errorf("%s: got %q expected %q", test.name, result, test.output)
+			t.Errorf("%s: golangt %q expected %q", test.name, result, test.output)
 		}
 	}
 }
@@ -332,11 +332,11 @@ func TestBadLex(t *testing.T) {
 		input.Push(NewTokenizer(test.error, strings.NewReader(test.input), nil))
 		err := firstError(input)
 		if err == nil {
-			t.Errorf("%s: got no error", test.error)
+			t.Errorf("%s: golangt no error", test.error)
 			continue
 		}
 		if !strings.Contains(err.Error(), test.error) {
-			t.Errorf("got error %q expected %q", err.Error(), test.error)
+			t.Errorf("golangt error %q expected %q", err.Error(), test.error)
 		}
 	}
 }

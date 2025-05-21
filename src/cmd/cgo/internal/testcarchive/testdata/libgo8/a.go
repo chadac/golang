@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -14,10 +14,10 @@ import (
 
 var started int32
 
-// Start a goroutine that loops forever.
+// Start a golangroutine that loops forever.
 func init() {
 	runtime.GOMAXPROCS(1)
-	go func() {
+	golang func() {
 		for {
 			atomic.StoreInt32(&started, 1)
 		}

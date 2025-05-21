@@ -1,12 +1,12 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-#include "go_asm.h"
-#include "go_tls.h"
+#include "golang_asm.h"
+#include "golang_tls.h"
 #include "textflag.h"
 #include "time_windows.h"
-#include "cgo/abi_amd64.h"
+#include "cgolang/abi_amd64.h"
 
 // Offsets into Thread Environment Block (pointer in GS)
 #define TEB_TlsSlots 0x1480
@@ -21,7 +21,7 @@ TEXT runtime·asmstdcall(SB),NOSPLIT,$16
 	MOVQ	SP, AX
 	ANDQ	$~15, SP	// alignment as per Windows requirement
 	MOVQ	AX, 8(SP)
-	MOVQ	CX, 0(SP)	// asmcgocall will put first argument into CX.
+	MOVQ	CX, 0(SP)	// asmcgolangcall will put first argument into CX.
 
 	MOVQ	libcall_fn(CX), AX
 	MOVQ	libcall_args(CX), SI
@@ -102,14 +102,14 @@ TEXT runtime·getlasterror(SB),NOSPLIT,$0
 // CX is pointer to struct containing
 // exception record and context pointers.
 // DX is the kind of sigtramp function.
-// Return value of sigtrampgo is stored in AX.
+// Return value of sigtrampgolang is stored in AX.
 TEXT sigtramp<>(SB),NOSPLIT,$0-0
 	// Switch from the host ABI to the Go ABI.
 	PUSH_REGS_HOST_TO_ABI0()
 
 	// Set up ABIInternal environment: cleared X15 and R14.
 	// R14 is cleared in case there's a non-zero value in there
-	// if called from a non-go thread.
+	// if called from a non-golang thread.
 	XORPS	X15, X15
 	XORQ	R14, R14
 
@@ -124,7 +124,7 @@ TEXT sigtramp<>(SB),NOSPLIT,$0-0
 	MOVQ	CX, AX
 	MOVQ	DX, BX
 	// Calling ABIInternal because TLS might be nil.
-	CALL	runtime·sigtrampgo<ABIInternal>(SB)
+	CALL	runtime·sigtrampgolang<ABIInternal>(SB)
 	// Return value is already stored in AX.
 
 	ADJSP	$-16
@@ -135,7 +135,7 @@ TEXT sigtramp<>(SB),NOSPLIT,$0-0
 // Trampoline to resume execution from exception handler.
 // This is part of the control flow guard workaround.
 // It switches stacks and jumps to the continuation address.
-// R8 and R9 are set above at the end of sigtrampgo
+// R8 and R9 are set above at the end of sigtrampgolang
 // in the context that starts executing at sigresume.
 TEXT runtime·sigresume(SB),NOSPLIT|NOFRAME,$0
 	MOVQ	R8, SP
@@ -189,7 +189,7 @@ TEXT runtime·sehtramp(SB),NOSPLIT,$40-0
 	RET
 
 TEXT runtime·callbackasm1(SB),NOSPLIT|NOFRAME,$0
-	// Construct args vector for cgocallback().
+	// Construct args vector for cgolangcallback().
 	// By windows/amd64 calling convention first 4 args are in CX, DX, R8, R9
 	// args from the 5th on are on the stack.
 	// In any case, even if function has 0,1,2,3,4 args, there is reserved
@@ -218,18 +218,18 @@ TEXT runtime·callbackasm1(SB),NOSPLIT|NOFRAME,$0
 	PUSH_REGS_HOST_TO_ABI0()
 
 	// Create a struct callbackArgs on our stack to be passed as
-	// the "frame" to cgocallback and on to callbackWrap.
+	// the "frame" to cgolangcallback and on to callbackWrap.
 	SUBQ	$(24+callbackArgs__size), SP
 	MOVQ	AX, (24+callbackArgs_index)(SP) 	// callback index
 	MOVQ	R8, (24+callbackArgs_args)(SP)  	// address of args vector
 	MOVQ	$0, (24+callbackArgs_result)(SP)	// result
 	LEAQ	24(SP), AX
-	// Call cgocallback, which will call callbackWrap(frame).
+	// Call cgolangcallback, which will call callbackWrap(frame).
 	MOVQ	$0, 16(SP)	// context
 	MOVQ	AX, 8(SP)	// frame (address of callbackArgs)
-	LEAQ	·callbackWrap<ABIInternal>(SB), BX	// cgocallback takes an ABIInternal entry-point
+	LEAQ	·callbackWrap<ABIInternal>(SB), BX	// cgolangcallback takes an ABIInternal entry-point
 	MOVQ	BX, 0(SP)	// PC of function value to call (callbackWrap)
-	CALL	·cgocallback(SB)
+	CALL	·cgolangcallback(SB)
 	// Get callback result.
 	MOVQ	(24+callbackArgs_result)(SP), AX
 	ADDQ	$(24+callbackArgs__size), SP
@@ -291,7 +291,7 @@ TEXT runtime·osSetupTLS(SB),NOSPLIT,$0-8
 	CALL	runtime·settls(SB)
 	RET
 
-// This is called from rt0_go, which runs on the system stack
+// This is called from rt0_golang, which runs on the system stack
 // using the initial stack allocated by the OS.
 TEXT runtime·wintls(SB),NOSPLIT,$0
 	// Allocate a TLS slot to hold g across calls to external code
@@ -311,7 +311,7 @@ TEXT runtime·wintls(SB),NOSPLIT,$0
 	JB	ok
 
 	// Fallback to the TEB arbitrary pointer.
-	// TODO: don't use the arbitrary pointer (see go.dev/issue/59824)
+	// TODO: don't use the arbitrary pointer (see golang.dev/issue/59824)
 	MOVQ	$TEB_ArbitraryPtr, CX
 	JMP	settls
 ok:

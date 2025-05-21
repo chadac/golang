@@ -1,11 +1,11 @@
-cp go.mod go.mod.orig
-go mod tidy
-cmp go.mod go.mod.orig
+cp golang.mod golang.mod.orig
+golang mod tidy
+cmp golang.mod golang.mod.orig
 
--- go.mod --
+-- golang.mod --
 module m.test
 
-go 1.16
--- .ignore.go --
+golang 1.16
+-- .ignore.golang --
 package p
-import _ "golang.org/x/mod/modfile"
+import _ "golanglang.org/x/mod/modfile"

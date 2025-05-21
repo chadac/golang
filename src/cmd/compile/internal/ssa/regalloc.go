@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Register allocation.
@@ -19,7 +19,7 @@
 // such predecessor provides the starting register state for a block.
 //
 // It also requires that there are no critical edges (critical =
-// comes from a block with >1 successor and goes to a block with >1
+// comes from a block with >1 successor and golanges to a block with >1
 // predecessor).  This makes it easy to add fixup code on merge edges -
 // the source of a merge edge has only one successor, so we can add
 // fixup code to the end of that block.
@@ -75,7 +75,7 @@
 // predecessor block.
 //     b1: y = ... : AX        b2: z = ... : BX
 //         y2 = StoreReg y         z2 = StoreReg z
-//         goto b3                 goto b3
+//         golangto b3                 golangto b3
 //     b3: x = phi(y2, z2)
 // The stack allocator knows that StoreReg args of stack-allocated phis
 // must be allocated to the same stack slot as the phi that uses them.
@@ -94,7 +94,7 @@
 //             b1: x = ... : AX
 //                 x2 = StoreReg x
 //                 ... AX gets reused for something else ...
-//                 if ... goto b3 else b4
+//                 if ... golangto b3 else b4
 //
 //   b3: x3 = LoadReg x2 : BX       b4: x4 = LoadReg x2 : CX
 //       ... use x3 ...                 ... use x4 ...
@@ -318,7 +318,7 @@ type regAllocState struct {
 
 	loopnest *loopnest
 
-	// choose a good order in which to visit blocks for allocation purposes.
+	// choose a golangod order in which to visit blocks for allocation purposes.
 	visitOrder []*Block
 
 	// blockOrder[b.ID] corresponds to the index of block b in visitOrder.
@@ -458,7 +458,7 @@ func (s *regAllocState) allocReg(mask regMask, v *Value) register {
 
 	// Find a register to spill. We spill the register containing the value
 	// whose next use is as far in the future as possible.
-	// https://en.wikipedia.org/wiki/Page_replacement_algorithm#The_theoretically_optimal_page_replacement_algorithm
+	// https://en.wikipedia.org/wiki/Page_replacement_algolangrithm#The_theoretically_optimal_page_replacement_algolangrithm
 	var r register
 	maxuse := int32(-1)
 	for t := register(0); t < s.numRegs; t++ {
@@ -736,7 +736,7 @@ func (s *regAllocState) init(f *Func) {
 	s.visitOrder = layoutRegallocOrder(f)
 
 	// Compute block order. This array allows us to distinguish forward edges
-	// from backward edges and compute how far they go.
+	// from backward edges and compute how far they golang.
 	s.blockOrder = make([]int32, f.NumBlocks())
 	for i, b := range s.visitOrder {
 		s.blockOrder[b.ID] = int32(i)
@@ -1114,7 +1114,7 @@ func (s *regAllocState) regalloc(f *Func) {
 					// method is only suitable for the simplest cases. For complex cases,
 					// the prediction may be inaccurate, but this does not affect the
 					// correctness of the program.
-					// According to the layout algorithm, the predecessor with the
+					// According to the layout algolangrithm, the predecessor with the
 					// smaller blockOrder is the true branch, and the test results show
 					// that it is better to choose the predecessor with a smaller
 					// blockOrder than no choice.
@@ -1179,7 +1179,7 @@ func (s *regAllocState) regalloc(f *Func) {
 					//
 					// Pick a free register. At this point some registers used in the predecessor
 					// block may have been deallocated. Those are the ones used for Phis. Exclude
-					// them (and they are not going to be helpful anyway).
+					// them (and they are not golanging to be helpful anyway).
 					m := s.compatRegs(a.Type) &^ s.used &^ phiUsed
 					if m != 0 && !s.values[a.ID].rematerializeable && countRegs(s.values[a.ID].regs) == 1 {
 						r2 := pickReg(m)
@@ -1290,7 +1290,7 @@ func (s *regAllocState) regalloc(f *Func) {
 			}
 		}
 
-		// Drop phis from registers if they immediately go dead.
+		// Drop phis from registers if they immediately golang dead.
 		for i, v := range phis {
 			s.curIdx = i
 			s.dropIfUnused(v)
@@ -1593,27 +1593,27 @@ func (s *regAllocState) regalloc(f *Func) {
 				var m regMask
 				if !s.liveAfterCurrentInstruction(v.Args[0]) {
 					// arg0 is dead.  We can clobber its register.
-					goto ok
+					golangto ok
 				}
 				if opcodeTable[v.Op].commutative && !s.liveAfterCurrentInstruction(v.Args[1]) {
 					args[0], args[1] = args[1], args[0]
-					goto ok
+					golangto ok
 				}
 				if s.values[v.Args[0].ID].rematerializeable {
 					// We can rematerialize the input, don't worry about clobbering it.
-					goto ok
+					golangto ok
 				}
 				if opcodeTable[v.Op].commutative && s.values[v.Args[1].ID].rematerializeable {
 					args[0], args[1] = args[1], args[0]
-					goto ok
+					golangto ok
 				}
 				if countRegs(s.values[v.Args[0].ID].regs) >= 2 {
 					// we have at least 2 copies of arg0.  We can afford to clobber one.
-					goto ok
+					golangto ok
 				}
 				if opcodeTable[v.Op].commutative && countRegs(s.values[v.Args[1].ID].regs) >= 2 {
 					args[0], args[1] = args[1], args[0]
-					goto ok
+					golangto ok
 				}
 
 				// We can't overwrite arg0 (or arg1, if commutative).  So we
@@ -1626,7 +1626,7 @@ func (s *regAllocState) regalloc(f *Func) {
 					// an input and future uses of that input must use a restore.
 					// TODO(khr): We should really do this like allocReg does it,
 					// spilling the value with the most distant next use.
-					goto ok
+					golangto ok
 				}
 
 				// Try to move an input to the desired output, if allowed.
@@ -1636,7 +1636,7 @@ func (s *regAllocState) regalloc(f *Func) {
 						args[0] = s.allocValToReg(v.Args[0], m, true, v.Pos)
 						// Note: we update args[0] so the instruction will
 						// use the register copy we just made.
-						goto ok
+						golangto ok
 					}
 				}
 				// Try to copy input to its desired location & use its old
@@ -1648,7 +1648,7 @@ func (s *regAllocState) regalloc(f *Func) {
 						s.copies[c] = false
 						// Note: no update to args[0] so the instruction will
 						// use the original copy.
-						goto ok
+						golangto ok
 					}
 				}
 				if opcodeTable[v.Op].commutative {
@@ -1658,7 +1658,7 @@ func (s *regAllocState) regalloc(f *Func) {
 							c := s.allocValToReg(v.Args[1], m, true, v.Pos)
 							s.copies[c] = false
 							args[0], args[1] = args[1], args[0]
-							goto ok
+							golangto ok
 						}
 					}
 				}
@@ -1901,13 +1901,13 @@ func (s *regAllocState) regalloc(f *Func) {
 			}
 			if s.blockOrder[b.ID] > s.blockOrder[b.Succs[0].b.ID] {
 				// No point if we've already regalloc'd the destination.
-				goto badloop
+				golangto badloop
 			}
 			// For this to be worthwhile, the loop must have no calls in it.
 			top := b.Succs[0].b
 			loop := s.loopnest.b2l[top.ID]
 			if loop == nil || loop.header != top || loop.containsUnavoidableCall {
-				goto badloop
+				golangto badloop
 			}
 
 			// TODO: sort by distance, pick the closest ones?
@@ -2041,7 +2041,7 @@ func (s *regAllocState) regalloc(f *Func) {
 		}
 	}
 
-	// Decide where the spills we generated will go.
+	// Decide where the spills we generated will golang.
 	s.placeSpills()
 
 	// Anything that didn't get a register gets a stack location here.
@@ -2091,10 +2091,10 @@ func (s *regAllocState) placeSpills() {
 	}
 
 	// Start maps block IDs to the list of spills
-	// that go at the start of the block (but after any phis).
+	// that golang at the start of the block (but after any phis).
 	start := map[ID][]*Value{}
 	// After maps value IDs to the list of spills
-	// that go immediately after that value ID.
+	// that golang immediately after that value ID.
 	after := map[ID][]*Value{}
 
 	for i := range s.values {
@@ -2110,7 +2110,7 @@ func (s *regAllocState) placeSpills() {
 		}
 		v := s.orig[i]
 
-		// Walk down the dominator tree looking for a good place to
+		// Walk down the dominator tree looking for a golangod place to
 		// put the spill of v.  At the start "best" is the best place
 		// we have found so far.
 		// TODO: find a way to make this O(1) without arbitrary cutoffs.
@@ -2208,7 +2208,7 @@ func (s *regAllocState) placeSpills() {
 	}
 }
 
-// shuffle fixes up all the merge edges (those going into blocks of indegree > 1).
+// shuffle fixes up all the merge edges (those golanging into blocks of indegree > 1).
 func (s *regAllocState) shuffle(stacklive [][]ID) {
 	var e edgeState
 	e.s = s
@@ -2240,7 +2240,7 @@ func (s *regAllocState) shuffle(stacklive [][]ID) {
 
 type edgeState struct {
 	s    *regAllocState
-	p, b *Block // edge goes from p->b.
+	p, b *Block // edge golanges from p->b.
 
 	// for each pre-regalloc value, a list of equivalent cached values
 	cache      map[ID][]*Value

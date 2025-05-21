@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Original source:
@@ -17,11 +17,11 @@ import (
 	. "github.com/mmcloughlin/avo/reg"
 )
 
-//go:generate go run . -out ../md5block_amd64.s -pkg md5
+//golang:generate golang run . -out ../md5block_amd64.s -pkg md5
 
 func main() {
 	Package("crypto/md5")
-	ConstraintExpr("!purego")
+	ConstraintExpr("!puregolang")
 	block()
 	Generate()
 }

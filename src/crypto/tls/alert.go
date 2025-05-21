@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package tls
@@ -48,7 +48,7 @@ const (
 	alertInternalError                alert = 80
 	alertInappropriateFallback        alert = 86
 	alertUserCanceled                 alert = 90
-	alertNoRenegotiation              alert = 100
+	alertNoRenegolangtiation              alert = 100
 	alertMissingExtension             alert = 109
 	alertUnsupportedExtension         alert = 110
 	alertCertificateUnobtainable      alert = 111
@@ -85,7 +85,7 @@ var alertText = map[alert]string{
 	alertInternalError:                "internal error",
 	alertInappropriateFallback:        "inappropriate fallback",
 	alertUserCanceled:                 "user canceled",
-	alertNoRenegotiation:              "no renegotiation",
+	alertNoRenegolangtiation:              "no renegolangtiation",
 	alertMissingExtension:             "missing extension",
 	alertUnsupportedExtension:         "unsupported extension",
 	alertCertificateUnobtainable:      "certificate unobtainable",

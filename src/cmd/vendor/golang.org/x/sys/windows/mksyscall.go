@@ -1,9 +1,9 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build generate
+//golang:build generate
 
 package windows
 
-//go:generate go run golang.org/x/sys/windows/mkwinsyscall -output zsyscall_windows.go eventlog.go service.go syscall_windows.go security_windows.go setupapi_windows.go
+//golang:generate golang run golanglang.org/x/sys/windows/mkwinsyscall -output zsyscall_windows.golang eventlog.golang service.golang syscall_windows.golang security_windows.golang setupapi_windows.golang

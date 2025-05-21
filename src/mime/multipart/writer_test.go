@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package multipart
@@ -49,14 +49,14 @@ func TestWriter(t *testing.T) {
 		t.Fatalf("part 1: %v", err)
 	}
 	if g, e := part.FormName(), "myfile"; g != e {
-		t.Errorf("part 1: want form name %q, got %q", e, g)
+		t.Errorf("part 1: want form name %q, golangt %q", e, g)
 	}
 	slurp, err := io.ReadAll(part)
 	if err != nil {
 		t.Fatalf("part 1: ReadAll: %v", err)
 	}
 	if e, g := string(fileContents), string(slurp); e != g {
-		t.Errorf("part 1: want contents %q, got %q", e, g)
+		t.Errorf("part 1: want contents %q, golangt %q", e, g)
 	}
 
 	part, err = r.NextPart()
@@ -64,19 +64,19 @@ func TestWriter(t *testing.T) {
 		t.Fatalf("part 2: %v", err)
 	}
 	if g, e := part.FormName(), "key"; g != e {
-		t.Errorf("part 2: want form name %q, got %q", e, g)
+		t.Errorf("part 2: want form name %q, golangt %q", e, g)
 	}
 	slurp, err = io.ReadAll(part)
 	if err != nil {
 		t.Fatalf("part 2: ReadAll: %v", err)
 	}
 	if e, g := "val", string(slurp); e != g {
-		t.Errorf("part 2: want contents %q, got %q", e, g)
+		t.Errorf("part 2: want contents %q, golangt %q", e, g)
 	}
 
 	part, err = r.NextPart()
 	if part != nil || err == nil {
-		t.Fatalf("expected end of parts; got %v, %v", part, err)
+		t.Fatalf("expected end of parts; golangt %v, %v", part, err)
 	}
 }
 
@@ -101,13 +101,13 @@ func TestWriterSetBoundary(t *testing.T) {
 		var b strings.Builder
 		w := NewWriter(&b)
 		err := w.SetBoundary(tt.b)
-		got := err == nil
-		if got != tt.ok {
-			t.Errorf("%d. boundary %q = %v (%v); want %v", i, tt.b, got, err, tt.ok)
+		golangt := err == nil
+		if golangt != tt.ok {
+			t.Errorf("%d. boundary %q = %v (%v); want %v", i, tt.b, golangt, err, tt.ok)
 		} else if tt.ok {
-			got := w.Boundary()
-			if got != tt.b {
-				t.Errorf("boundary = %q; want %q", got, tt.b)
+			golangt := w.Boundary()
+			if golangt != tt.b {
+				t.Errorf("boundary = %q; want %q", golangt, tt.b)
 			}
 
 			ct := w.FormDataContentType()
@@ -122,8 +122,8 @@ func TestWriterSetBoundary(t *testing.T) {
 
 			w.Close()
 			wantSub := "\r\n--" + tt.b + "--\r\n"
-			if got := b.String(); !strings.Contains(got, wantSub) {
-				t.Errorf("expected %q in output. got: %q", wantSub, got)
+			if golangt := b.String(); !strings.Contains(golangt, wantSub) {
+				t.Errorf("expected %q in output. golangt: %q", wantSub, golangt)
 			}
 		}
 	}
@@ -131,12 +131,12 @@ func TestWriterSetBoundary(t *testing.T) {
 
 func TestWriterBoundaryGoroutines(t *testing.T) {
 	// Verify there's no data race accessing any lazy boundary if it's used by
-	// different goroutines. This was previously broken by
+	// different golangroutines. This was previously broken by
 	// https://codereview.appspot.com/95760043/ and reverted in
 	// https://codereview.appspot.com/117600043/
 	w := NewWriter(io.Discard)
 	done := make(chan int)
-	go func() {
+	golang func() {
 		w.CreateFormField("foo")
 		done <- 1
 	}()
@@ -169,7 +169,7 @@ func TestSortedHeader(t *testing.T) {
 
 	want := "--MIMEBOUNDARY\r\nA: 2\r\nB: 5\r\nB: 7\r\nB: 6\r\nC: 4\r\nM: 3\r\nZ: 1\r\n\r\nfoo\r\n--MIMEBOUNDARY--\r\n"
 	if want != buf.String() {
-		t.Fatalf("\n got: %q\nwant: %q\n", buf.String(), want)
+		t.Fatalf("\n golangt: %q\nwant: %q\n", buf.String(), want)
 	}
 }
 

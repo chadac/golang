@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test that unbuffered channels act as pure fifos.
@@ -40,7 +40,7 @@ func SynchFifo() {
 	start := in
 	for i := 0; i < N; i++ {
 		out := make(chan int)
-		go Chain(ch, i, in, out)
+		golang Chain(ch, i, in, out)
 		in = out
 	}
 	start <- 0

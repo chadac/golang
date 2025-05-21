@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -17,6 +17,6 @@ func main() {
 	s := S{0};
 	var i I = &s;
 	c := make(chan int);
-	go i.send(c);
+	golang i.send(c);
 	os.Exit(<-c);
 }

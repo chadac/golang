@@ -1,20 +1,20 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build ignore
+//golang:build ignore
 
 /*
-Input to cgo.
+Input to cgolang.
 On a Debian Lenny arm linux distribution:
 
-cgo -cdefs defs_arm.c >arm/defs.h
+cgolang -cdefs defs_arm.c >arm/defs.h
 */
 
 package runtime
 
 /*
-#cgo CFLAGS: -I/usr/src/linux-headers-2.6.26-2-versatile/include
+#cgolang CFLAGS: -I/usr/src/linux-headers-2.6.26-2-versatile/include
 
 #define __ARCH_SI_UID_T int
 #include <asm/signal.h>

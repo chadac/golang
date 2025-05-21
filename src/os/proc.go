@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Process etc.
@@ -17,7 +17,7 @@ var Args []string
 
 func init() {
 	if runtime.GOOS == "windows" {
-		// Initialized in exec_windows.go.
+		// Initialized in exec_windows.golang.
 		return
 	}
 	Args = runtime_args()

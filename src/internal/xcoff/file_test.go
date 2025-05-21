@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package xcoff
@@ -95,7 +95,7 @@ func TestOpen(t *testing.T) {
 }
 
 func TestOpenFailure(t *testing.T) {
-	filename := "file.go"    // not an XCOFF object file
+	filename := "file.golang"    // not an XCOFF object file
 	_, err := Open(filename) // don't crash
 	if err == nil {
 		t.Errorf("open %s: succeeded unexpectedly", filename)

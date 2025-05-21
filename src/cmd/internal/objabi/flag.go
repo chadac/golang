@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package objabi
@@ -95,19 +95,19 @@ func (versionFlag) Set(s string) error {
 
 	p := ""
 
-	if s == "goexperiment" {
-		// test/run.go uses this to discover the full set of
+	if s == "golangexperiment" {
+		// test/run.golang uses this to discover the full set of
 		// experiment tags. Report everything.
 		p = " X:" + strings.Join(buildcfg.Experiment.All(), ",")
 	} else {
 		// If the enabled experiments differ from the baseline,
 		// include that difference.
-		if goexperiment := buildcfg.Experiment.String(); goexperiment != "" {
-			p = " X:" + goexperiment
+		if golangexperiment := buildcfg.Experiment.String(); golangexperiment != "" {
+			p = " X:" + golangexperiment
 		}
 	}
 
-	// The go command invokes -V=full to get a unique identifier
+	// The golang command invokes -V=full to get a unique identifier
 	// for this tool. It is assumed that the release version is sufficient
 	// for releases, but during development we include the full
 	// build ID of the binary, so that if the compiler is changed and

@@ -1,10 +1,10 @@
 // compile
 
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// /tmp/x.go:5: cannot use _ as value
+// /tmp/x.golang:5: cannot use _ as value
 
 package p
 

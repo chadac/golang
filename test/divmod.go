@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test division of variables. Generate many test cases,
@@ -61,7 +61,7 @@ func gen2(n1, w1, n2, w2 int, f func(uint64, uint64)) {
 func checkdiv1(x, y uint64) {
 	checkdiv2(x, y)
 	// If the low bit is set in x or y, adding or subtracting 1
-	// produces a number that checkdiv1 is going to be called
+	// produces a number that checkdiv1 is golanging to be called
 	// with anyway, so don't duplicate effort.
 	if x&1 == 0 {
 		checkdiv2(x+1, y)

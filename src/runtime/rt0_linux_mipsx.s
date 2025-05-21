@@ -1,8 +1,8 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build linux && (mips || mipsle)
+//golang:build linux && (mips || mipsle)
 
 #include "textflag.h"
 
@@ -23,5 +23,5 @@ TEXT _main<>(SB),NOSPLIT|NOFRAME,$0
 
 TEXT main(SB),NOSPLIT|NOFRAME,$0
 	// In external linking, libc jumps to main with argc in R4, argv in R5
-	MOVW	$runtime·rt0_go(SB), R1
+	MOVW	$runtime·rt0_golang(SB), R1
 	JMP	(R1)

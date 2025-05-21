@@ -1,5 +1,5 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 //
 
@@ -31,7 +31,7 @@ import (
 	"bufio"
 	"bytes"
 	"fmt"
-	"internal/godebug"
+	"internal/golangdebug"
 	"io"
 	"mime"
 	"mime/quotedprintable"
@@ -350,7 +350,7 @@ const maxMIMEHeaderSize = 10 << 20
 // multipartmaxheaders is the maximum number of header entries NextPart will return,
 // as well as the maximum combined total of header entries Reader.ReadForm will return
 // in FileHeaders.
-var multipartmaxheaders = godebug.New("multipartmaxheaders")
+var multipartmaxheaders = golangdebug.New("multipartmaxheaders")
 
 func maxMIMEHeaders() int64 {
 	if s := multipartmaxheaders.Value(); s != "" {
@@ -420,7 +420,7 @@ func (r *Reader) nextPart(rawPart bool, maxMIMEHeaderSize, maxMIMEHeaders int64)
 		}
 
 		if expectNewPart {
-			return nil, fmt.Errorf("multipart: expecting a new Part; got line %q", string(line))
+			return nil, fmt.Errorf("multipart: expecting a new Part; golangt line %q", string(line))
 		}
 
 		if r.partsRead == 0 {

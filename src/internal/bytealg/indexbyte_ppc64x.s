@@ -1,10 +1,10 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build ppc64 || ppc64le
+//golang:build ppc64 || ppc64le
 
-#include "go_asm.h"
+#include "golang_asm.h"
 #include "textflag.h"
 
 TEXT ·IndexByte<ABIInternal>(SB),NOSPLIT|NOFRAME,$0-40

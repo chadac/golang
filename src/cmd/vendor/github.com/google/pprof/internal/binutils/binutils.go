@@ -9,7 +9,7 @@
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
+// See the License for the specific language golangverning permissions and
 // limitations under the License.
 
 // Package binutils provides access to the GNU binutils.
@@ -32,8 +32,8 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/google/pprof/internal/elfexec"
-	"github.com/google/pprof/internal/plugin"
+	"github.com/golangogle/pprof/internal/elfexec"
+	"github.com/golangogle/pprof/internal/plugin"
 )
 
 // A Binutils implements plugin.ObjTool by invoking the GNU binutils.
@@ -154,7 +154,7 @@ func initTools(b *binrep, config string) {
 
 // findObjdump finds and returns path to preferred objdump binary.
 // Order of preference is: llvm-objdump, objdump.
-// On MacOS only, also looks for gobjdump with least preference.
+// On MacOS only, also looks for golangbjdump with least preference.
 // Accepts a list of paths and returns:
 // a string with path to the preferred objdump binary if found,
 // or an empty string if not found;
@@ -163,7 +163,7 @@ func initTools(b *binrep, config string) {
 func findObjdump(paths []string) (string, bool, bool) {
 	objdumpNames := []string{"llvm-objdump", "objdump"}
 	if runtime.GOOS == "darwin" {
-		objdumpNames = append(objdumpNames, "gobjdump")
+		objdumpNames = append(objdumpNames, "golangbjdump")
 	}
 
 	for _, objdumpName := range objdumpNames {

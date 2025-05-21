@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package math
@@ -12,7 +12,7 @@ func expAsm(x float64) float64
 func logTrampolineSetup(x float64) float64
 func logAsm(x float64) float64
 
-// Below here all functions are grouped in stubs.go for other
+// Below here all functions are grouped in stubs.golang for other
 // architectures.
 
 const haveArchLog10 = true

@@ -1,32 +1,32 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// go work sync
+// golang work sync
 
 package workcmd
 
 import (
-	"cmd/go/internal/base"
-	"cmd/go/internal/gover"
-	"cmd/go/internal/imports"
-	"cmd/go/internal/modload"
-	"cmd/go/internal/toolchain"
+	"cmd/golang/internal/base"
+	"cmd/golang/internal/golangver"
+	"cmd/golang/internal/imports"
+	"cmd/golang/internal/modload"
+	"cmd/golang/internal/toolchain"
 	"context"
 
-	"golang.org/x/mod/module"
+	"golanglang.org/x/mod/module"
 )
 
 var cmdSync = &base.Command{
-	UsageLine: "go work sync",
+	UsageLine: "golang work sync",
 	Short:     "sync workspace build list to modules",
 	Long: `Sync syncs the workspace's build list back to the
 workspace's modules
 
 The workspace's build list is the set of versions of all the
-(transitive) dependency modules used to do builds in the workspace. go
+(transitive) dependency modules used to do builds in the workspace. golang
 work sync generates that build list using the Minimal Version Selection
-algorithm, and then syncs those versions back to each of modules
+algolangrithm, and then syncs those versions back to each of modules
 specified in the workspace (with use directives).
 
 The syncing is done by sequentially upgrading each of the dependency
@@ -36,7 +36,7 @@ list's version. Note that Minimal Version Selection guarantees that the
 build list's version of each module is always the same or higher than
 that in each workspace module.
 
-See the workspaces reference at https://go.dev/ref/mod#workspaces
+See the workspaces reference at https://golang.dev/ref/mod#workspaces
 for more information.
 `,
 	Run: runSync,
@@ -51,7 +51,7 @@ func runSync(ctx context.Context, cmd *base.Command, args []string) {
 	modload.ForceUseModules = true
 	modload.InitWorkfile()
 	if modload.WorkFilePath() == "" {
-		base.Fatalf("go: no go.work file found\n\t(run 'go work init' first or specify path using GOWORK environment variable)")
+		base.Fatalf("golang: no golang.work file found\n\t(run 'golang work init' first or specify path using GOWORK environment variable)")
 	}
 
 	_, err := modload.LoadModGraph(ctx, "")
@@ -87,18 +87,18 @@ func runSync(ctx context.Context, cmd *base.Command, args []string) {
 				inMustSelect[r] = true
 			}
 		}
-		gover.ModSort(mustSelect) // ensure determinism
+		golangver.ModSort(mustSelect) // ensure determinism
 		mustSelectFor[m] = mustSelect
 	}
 
-	workFilePath := modload.WorkFilePath() // save go.work path because EnterModule clobbers it.
+	workFilePath := modload.WorkFilePath() // save golang.work path because EnterModule clobbers it.
 
-	var goV string
+	var golangV string
 	for _, m := range mms.Versions() {
 		if mms.ModRoot(m) == "" && m.Path == "command-line-arguments" {
 			// This is not a real module.
 			// TODO(#49228): Remove this special case once the special
-			// command-line-arguments module is gone.
+			// command-line-arguments module is golangne.
 			continue
 		}
 
@@ -106,12 +106,12 @@ func runSync(ctx context.Context, cmd *base.Command, args []string) {
 		// single-module mode using the modroot of m.
 		modload.EnterModule(ctx, mms.ModRoot(m))
 
-		// Edit the build list in the same way that 'go get' would if we
+		// Edit the build list in the same way that 'golang get' would if we
 		// requested the relevant module versions explicitly.
 		// TODO(#57001): Do we need a toolchain.SwitchOrFatal here,
 		// and do we need to pass a toolchain.Switcher in LoadPackages?
 		// If so, think about saving the WriteGoMods for after the loop,
-		// so we don't write some go.mods with the "before" toolchain
+		// so we don't write some golang.mods with the "before" toolchain
 		// and others with the "after" toolchain. If nothing else, that
 		// discrepancy could show up in auto-recorded toolchain lines.
 		changed, err := modload.EditBuildList(ctx, nil, mustSelectFor[m])
@@ -131,14 +131,14 @@ func runSync(ctx context.Context, cmd *base.Command, args []string) {
 			}, "all")
 			modload.WriteGoMod(ctx, modload.WriteOpts{})
 		}
-		goV = gover.Max(goV, modload.MainModules.GoVersion())
+		golangV = golangver.Max(golangV, modload.MainModules.GoVersion())
 	}
 
 	wf, err := modload.ReadWorkFile(workFilePath)
 	if err != nil {
 		base.Fatal(err)
 	}
-	modload.UpdateWorkGoVersion(wf, goV)
+	modload.UpdateWorkGoVersion(wf, golangV)
 	modload.UpdateWorkFile(wf)
 	if err := modload.WriteWorkFile(workFilePath, wf); err != nil {
 		base.Fatal(err)

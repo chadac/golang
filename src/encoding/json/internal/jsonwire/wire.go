@@ -1,8 +1,8 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build goexperiment.jsonv2
+//golang:build golangexperiment.jsonv2
 
 // Package jsonwire implements stateless functionality for handling JSON text.
 package jsonwire
@@ -72,7 +72,7 @@ func QuoteRune[Bytes ~[]byte | ~string](b Bytes) string {
 // This implements the ordering specified in RFC 8785, section 3.2.3.
 func CompareUTF16[Bytes ~[]byte | ~string](x, y Bytes) int {
 	// NOTE: This is an optimized, mostly allocation-free implementation
-	// of CompareUTF16Simple in wire_test.go. FuzzCompareUTF16 verifies that the
+	// of CompareUTF16Simple in wire_test.golang. FuzzCompareUTF16 verifies that the
 	// two implementations agree on the result of comparing any two strings.
 	isUTF16Self := func(r rune) bool {
 		return ('\u0000' <= r && r <= '\uD7FF') || ('\uE000' <= r && r <= '\uFFFF')
@@ -137,7 +137,7 @@ func CompareUTF16[Bytes ~[]byte | ~string](x, y Bytes) int {
 // Converting a []byte to a string is stack allocated since
 // truncateMaxUTF8 guarantees that the []byte is short.
 func truncateMaxUTF8[Bytes ~[]byte | ~string](b Bytes) Bytes {
-	// TODO(https://go.dev/issue/56948): Remove this function and
+	// TODO(https://golang.dev/issue/56948): Remove this function and
 	// instead directly call generic utf8 functions wherever used.
 	if len(b) > utf8.UTFMax {
 		return b[:utf8.UTFMax]
@@ -145,7 +145,7 @@ func truncateMaxUTF8[Bytes ~[]byte | ~string](b Bytes) Bytes {
 	return b
 }
 
-// TODO(https://go.dev/issue/70547): Use utf8.ErrInvalid instead.
+// TODO(https://golang.dev/issue/70547): Use utf8.ErrInvalid instead.
 var ErrInvalidUTF8 = errors.New("invalid UTF-8")
 
 func NewInvalidCharacterError[Bytes ~[]byte | ~string](prefix Bytes, where string) error {

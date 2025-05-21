@@ -1,9 +1,9 @@
 // Copyright 2011 The Go Authors.  All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This package is a lightly modified version of the mmap code
-// in github.com/google/codesearch/index.
+// in github.com/golangogle/codesearch/index.
 
 // The mmap package provides an abstraction for memory mapping files
 // on different platforms.

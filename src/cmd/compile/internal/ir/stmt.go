@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ir
@@ -9,7 +9,7 @@ import (
 	"cmd/compile/internal/types"
 	"cmd/internal/obj"
 	"cmd/internal/src"
-	"go/constant"
+	"golang/constant"
 )
 
 // A Decl is a declaration of a const, type, or var. (A declared func is a Func.)
@@ -145,7 +145,7 @@ func NewBlockStmt(pos src.XPos, list []Node) *BlockStmt {
 	return n
 }
 
-// A BranchStmt is a break, continue, fallthrough, or goto statement.
+// A BranchStmt is a break, continue, fallthrough, or golangto statement.
 type BranchStmt struct {
 	miniStmt
 	Label *types.Sym // label if present
@@ -236,11 +236,11 @@ func NewForStmt(pos src.XPos, init Node, cond, post Node, body []Node, distinctV
 	return n
 }
 
-// A GoDeferStmt is a go or defer statement: go Call / defer Call.
+// A GoDeferStmt is a golang or defer statement: golang Call / defer Call.
 //
 // The two opcodes use a single syntax because the implementations
 // are very similar: both are concerned with saving Call and running it
-// in a different context (a separate goroutine or a later time).
+// in a different context (a separate golangroutine or a later time).
 type GoDeferStmt struct {
 	miniStmt
 	Call    Node
@@ -280,12 +280,12 @@ func NewIfStmt(pos src.XPos, cond Node, body, els []Node) *IfStmt {
 // A JumpTableStmt is used to implement switches. Its semantics are:
 //
 //	tmp := jt.Idx
-//	if tmp == Cases[0] goto Targets[0]
-//	if tmp == Cases[1] goto Targets[1]
+//	if tmp == Cases[0] golangto Targets[0]
+//	if tmp == Cases[1] golangto Targets[1]
 //	...
-//	if tmp == Cases[n] goto Targets[n]
+//	if tmp == Cases[n] golangto Targets[n]
 //
-// Note that a JumpTableStmt is more like a multiway-goto than
+// Note that a JumpTableStmt is more like a multiway-golangto than
 // a multiway-if. In particular, the case bodies are just
 // labels to jump to, not full Nodes lists.
 type JumpTableStmt struct {
@@ -387,7 +387,7 @@ type RangeStmt struct {
 	Label        *types.Sym
 	Def          bool
 	X            Node
-	RType        Node `mknode:"-"` // see reflectdata/helpers.go
+	RType        Node `mknode:"-"` // see reflectdata/helpers.golang
 	Key          Node
 	Value        Node
 	Body         Nodes

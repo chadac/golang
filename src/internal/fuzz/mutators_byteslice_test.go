@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package fuzz
@@ -174,7 +174,7 @@ func TestByteSliceMutators(t *testing.T) {
 			m := &mutator{r: r}
 			b := tc.mutator(m, tc.input)
 			if !bytes.Equal(b, tc.expected) {
-				t.Errorf("got %x, want %x", b, tc.expected)
+				t.Errorf("golangt %x, want %x", b, tc.expected)
 			}
 		})
 	}

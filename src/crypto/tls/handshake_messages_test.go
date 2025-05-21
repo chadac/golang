@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package tls
@@ -25,7 +25,7 @@ var tests = []handshakeMessage{
 	&certificateMsg{},
 	&certificateRequestMsg{},
 	&certificateVerifyMsg{
-		hasSignatureAlgorithm: true,
+		hasSignatureAlgolangrithm: true,
 	},
 	&certificateStatusMsg{},
 	&clientKeyExchangeMsg{},
@@ -97,7 +97,7 @@ func TestMarshalUnmarshal(t *testing.T) {
 				}
 
 				if !reflect.DeepEqual(m1, m) {
-					t.Errorf("#%d got:%#v want:%#v %x", i, m, m1, marshaled)
+					t.Errorf("#%d golangt:%#v want:%#v %x", i, m, m1, marshaled)
 					break
 				}
 
@@ -152,7 +152,7 @@ func (*clientHelloMsg) Generate(rand *rand.Rand, size int) reflect.Value {
 	m.cipherSuites = make([]uint16, rand.Intn(63)+1)
 	for i := 0; i < len(m.cipherSuites); i++ {
 		cs := uint16(rand.Int31())
-		if cs == scsvRenegotiation {
+		if cs == scsvRenegolangtiation {
 			cs += 1
 		}
 		m.cipherSuites[i] = cs
@@ -179,10 +179,10 @@ func (*clientHelloMsg) Generate(rand *rand.Rand, size int) reflect.Value {
 		}
 	}
 	if rand.Intn(10) > 5 {
-		m.supportedSignatureAlgorithms = supportedSignatureAlgorithms(VersionTLS12)
+		m.supportedSignatureAlgolangrithms = supportedSignatureAlgolangrithms(VersionTLS12)
 	}
 	if rand.Intn(10) > 5 {
-		m.supportedSignatureAlgorithmsCert = supportedSignatureAlgorithms(VersionTLS12)
+		m.supportedSignatureAlgolangrithmsCert = supportedSignatureAlgolangrithms(VersionTLS12)
 	}
 	for i := 0; i < rand.Intn(5); i++ {
 		m.alpnProtocols = append(m.alpnProtocols, randomString(rand.Intn(20)+1, rand))
@@ -191,8 +191,8 @@ func (*clientHelloMsg) Generate(rand *rand.Rand, size int) reflect.Value {
 		m.scts = true
 	}
 	if rand.Intn(10) > 5 {
-		m.secureRenegotiationSupported = true
-		m.secureRenegotiation = randomBytes(rand.Intn(50)+1, rand)
+		m.secureRenegolangtiationSupported = true
+		m.secureRenegolangtiation = randomBytes(rand.Intn(50)+1, rand)
 	}
 	if rand.Intn(10) > 5 {
 		m.extendedMasterSecret = true
@@ -259,8 +259,8 @@ func (*serverHelloMsg) Generate(rand *rand.Rand, size int) reflect.Value {
 	}
 
 	if rand.Intn(10) > 5 {
-		m.secureRenegotiationSupported = true
-		m.secureRenegotiation = randomBytes(rand.Intn(50)+1, rand)
+		m.secureRenegolangtiationSupported = true
+		m.secureRenegolangtiation = randomBytes(rand.Intn(50)+1, rand)
 	}
 	if rand.Intn(10) > 5 {
 		m.extendedMasterSecret = true
@@ -327,8 +327,8 @@ func (*certificateRequestMsg) Generate(rand *rand.Rand, size int) reflect.Value 
 
 func (*certificateVerifyMsg) Generate(rand *rand.Rand, size int) reflect.Value {
 	m := &certificateVerifyMsg{}
-	m.hasSignatureAlgorithm = true
-	m.signatureAlgorithm = SignatureScheme(rand.Intn(30000))
+	m.hasSignatureAlgolangrithm = true
+	m.signatureAlgolangrithm = SignatureScheme(rand.Intn(30000))
 	m.signature = randomBytes(rand.Intn(15)+1, rand)
 	return reflect.ValueOf(m)
 }
@@ -473,10 +473,10 @@ func (*certificateRequestMsgTLS13) Generate(rand *rand.Rand, size int) reflect.V
 		m.scts = true
 	}
 	if rand.Intn(10) > 5 {
-		m.supportedSignatureAlgorithms = supportedSignatureAlgorithms(VersionTLS12)
+		m.supportedSignatureAlgolangrithms = supportedSignatureAlgolangrithms(VersionTLS12)
 	}
 	if rand.Intn(10) > 5 {
-		m.supportedSignatureAlgorithmsCert = supportedSignatureAlgorithms(VersionTLS12)
+		m.supportedSignatureAlgolangrithmsCert = supportedSignatureAlgolangrithms(VersionTLS12)
 	}
 	if rand.Intn(10) > 5 {
 		m.certificateAuthorities = make([][]byte, 3)

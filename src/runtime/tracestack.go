@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Trace stack table and acquisition.
@@ -8,7 +8,7 @@ package runtime
 
 import (
 	"internal/abi"
-	"internal/goarch"
+	"internal/golangarch"
 	"internal/trace/tracev2"
 	"unsafe"
 )
@@ -21,7 +21,7 @@ const (
 	logicalStackSentinel = ^uintptr(0)
 )
 
-// traceStack captures a stack trace from a goroutine and registers it in the trace
+// traceStack captures a stack trace from a golangroutine and registers it in the trace
 // stack table. It then returns its unique ID. If gp == nil, then traceStack will
 // attempt to use the current execution context.
 //
@@ -47,18 +47,18 @@ func traceStack(skip int, gp *g, gen uintptr) uint64 {
 		// If the scan bit is set, assume we're the ones that acquired it.
 		if status&_Gscan == 0 {
 			// Use the trace status to check this. There are a number of cases
-			// where a running goroutine might be in _Gwaiting, and these cases
+			// where a running golangroutine might be in _Gwaiting, and these cases
 			// are totally fine for taking a stack trace. They're captured
-			// correctly in goStatusToTraceGoStatus.
-			switch goStatusToTraceGoStatus(status, gp.waitreason) {
+			// correctly in golangStatusToTraceGoStatus.
+			switch golangStatusToTraceGoStatus(status, gp.waitreason) {
 			case tracev2.GoRunning, tracev2.GoSyscall:
 				if getg() == gp || mp.curg == gp {
 					break
 				}
 				fallthrough
 			default:
-				print("runtime: gp=", unsafe.Pointer(gp), " gp.goid=", gp.goid, " status=", gStatusStrings[status], "\n")
-				throw("attempted to trace stack of a goroutine this thread does not own")
+				print("runtime: gp=", unsafe.Pointer(gp), " gp.golangid=", gp.golangid, " status=", gStatusStrings[status], "\n")
+				throw("attempted to trace stack of a golangroutine this thread does not own")
 			}
 		}
 	}
@@ -69,12 +69,12 @@ func traceStack(skip int, gp *g, gen uintptr) uint64 {
 		mp = gp.lockedm.ptr()
 	}
 	nstk := 1
-	if tracefpunwindoff() || (mp != nil && mp.hasCgoOnStack()) {
+	if tracefpunwindoff() || (mp != nil && mp.hasCgolangOnStack()) {
 		// Slow path: Unwind using default unwinder. Used when frame pointer
 		// unwinding is unavailable or disabled (tracefpunwindoff), or might
-		// produce incomplete results or crashes (hasCgoOnStack). Note that no
-		// cgo callback related crashes have been observed yet. The main
-		// motivation is to take advantage of a potentially registered cgo
+		// produce incomplete results or crashes (hasCgolangOnStack). Note that no
+		// cgolang callback related crashes have been observed yet. The main
+		// motivation is to take advantage of a potentially registered cgolang
 		// symbolizer.
 		pcBuf[0] = logicalStackSentinel
 		if getg() == gp {
@@ -114,9 +114,9 @@ func traceStack(skip int, gp *g, gen uintptr) uint64 {
 		}
 	}
 	if nstk > 0 {
-		nstk-- // skip runtime.goexit
+		nstk-- // skip runtime.golangexit
 	}
-	if nstk > 0 && gp.goid == 1 {
+	if nstk > 0 && gp.golangid == 1 {
 		nstk-- // skip runtime.main
 	}
 	id := trace.stackTab[gen%2].put(pcBuf[:nstk])
@@ -241,7 +241,7 @@ func makeTraceFrame(gen uintptr, f Frame) traceFrame {
 // tracefpunwindoff returns true if frame pointer unwinding for the tracer is
 // disabled via GODEBUG or not supported by the architecture.
 func tracefpunwindoff() bool {
-	return debug.tracefpunwindoff != 0 || (goarch.ArchFamily != goarch.AMD64 && goarch.ArchFamily != goarch.ARM64)
+	return debug.tracefpunwindoff != 0 || (golangarch.ArchFamily != golangarch.AMD64 && golangarch.ArchFamily != golangarch.ARM64)
 }
 
 // fpTracebackPCs populates pcBuf with the return addresses for each frame and
@@ -251,14 +251,14 @@ func tracefpunwindoff() bool {
 func fpTracebackPCs(fp unsafe.Pointer, pcBuf []uintptr) (i int) {
 	for i = 0; i < len(pcBuf) && fp != nil; i++ {
 		// return addr sits one word above the frame pointer
-		pcBuf[i] = *(*uintptr)(unsafe.Pointer(uintptr(fp) + goarch.PtrSize))
+		pcBuf[i] = *(*uintptr)(unsafe.Pointer(uintptr(fp) + golangarch.PtrSize))
 		// follow the frame pointer to the next one
 		fp = unsafe.Pointer(*(*uintptr)(fp))
 	}
 	return i
 }
 
-//go:linkname pprof_fpunwindExpand
+//golang:linkname pprof_fpunwindExpand
 func pprof_fpunwindExpand(dst, src []uintptr) int {
 	return fpunwindExpand(dst, src)
 }
@@ -325,7 +325,7 @@ outer:
 	return n
 }
 
-// startPCForTrace returns the start PC of a goroutine for tracing purposes.
+// startPCForTrace returns the start PC of a golangroutine for tracing purposes.
 // If pc is a wrapper, it returns the PC of the wrapped function. Otherwise it
 // returns pc.
 func startPCForTrace(pc uintptr) uintptr {

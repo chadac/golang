@@ -1,4 +1,4 @@
 
-//line x20.go:4
+//line x20.golang:4
 package main
 func F20() {}

@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Issue 23546: type..eq function not generated when
@@ -18,5 +18,5 @@ func f() [2]interface{} {
 	return out
 }
 
-//go:noinline
+//golang:noinline
 func use(bool) {}

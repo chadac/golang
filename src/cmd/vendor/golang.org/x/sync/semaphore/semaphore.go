@@ -1,9 +1,9 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package semaphore provides a weighted semaphore implementation.
-package semaphore // import "golang.org/x/sync/semaphore"
+package semaphore // import "golanglang.org/x/sync/semaphore"
 
 import (
 	"container/list"
@@ -139,7 +139,7 @@ func (s *Weighted) notifyWaiters() {
 
 		w := next.Value.(waiter)
 		if s.size-s.cur < w.n {
-			// Not enough tokens for the next waiter.  We could keep going (to try to
+			// Not enough tokens for the next waiter.  We could keep golanging (to try to
 			// find a waiter with a smaller request), but under load that could cause
 			// starvation for large requests; instead, we leave all remaining waiters
 			// blocked.

@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package maps
@@ -232,10 +232,10 @@ func TestCloneLarge(t *testing.T) {
 		// Make sure c still has its old key and value.
 		for k, v := range c {
 			if math.Signbit(k[0]) {
-				t.Errorf("tst%d: sign bit of key changed; got %v want %v", tst, k, k1)
+				t.Errorf("tst%d: sign bit of key changed; golangt %v want %v", tst, k, k1)
 			}
 			if v != v1 {
-				t.Errorf("tst%d: value changed; got %v want %v", tst, v, v1)
+				t.Errorf("tst%d: value changed; golangt %v want %v", tst, v, v1)
 			}
 		}
 	}

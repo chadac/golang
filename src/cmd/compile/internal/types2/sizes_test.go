@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file contains tests for sizes.
@@ -30,7 +30,7 @@ func findStructTypeConfig(t *testing.T, src string, conf *types2.Config) *types2
 	return nil
 }
 
-// go.dev/issue/16316
+// golang.dev/issue/16316
 func TestMultipleSizeUse(t *testing.T) {
 	const src = `
 package main
@@ -44,16 +44,16 @@ type S struct {
 `
 	ts := findStructType(t, src)
 	sizes := types2.StdSizes{WordSize: 4, MaxAlign: 4}
-	if got := sizes.Sizeof(ts); got != 20 {
-		t.Errorf("Sizeof(%v) with WordSize 4 = %d want 20", ts, got)
+	if golangt := sizes.Sizeof(ts); golangt != 20 {
+		t.Errorf("Sizeof(%v) with WordSize 4 = %d want 20", ts, golangt)
 	}
 	sizes = types2.StdSizes{WordSize: 8, MaxAlign: 8}
-	if got := sizes.Sizeof(ts); got != 40 {
-		t.Errorf("Sizeof(%v) with WordSize 8 = %d want 40", ts, got)
+	if golangt := sizes.Sizeof(ts); golangt != 40 {
+		t.Errorf("Sizeof(%v) with WordSize 8 = %d want 40", ts, golangt)
 	}
 }
 
-// go.dev/issue/16464
+// golang.dev/issue/16464
 func TestAlignofNaclSlice(t *testing.T) {
 	const src = `
 package main
@@ -96,7 +96,7 @@ const _ = unsafe.Offsetof(struct{ x int64 }{}.x)
 	}
 }
 
-// go.dev/issue/53884.
+// golang.dev/issue/53884.
 func TestAtomicAlign(t *testing.T) {
 	testenv.MustHaveGoBuild(t) // The Go command is needed for the importer to determine the locations of stdlib .a files.
 

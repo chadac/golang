@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -12,10 +12,10 @@ func init() {
 
 func TgkillSegv() {
 	c := make(chan bool)
-	go func() {
+	golang func() {
 		close(c)
 		for i := 0; ; i++ {
-			// Sum defined in segv.go.
+			// Sum defined in segv.golang.
 			Sum += i
 		}
 	}()

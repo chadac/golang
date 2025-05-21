@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -18,7 +18,7 @@ import (
 //
 // Reference:
 // S. Gulley, et al, "New Instructions Supporting the Secure Hash
-// Algorithm on Intel® Architecture Processors", July 2013
+// Algolangrithm on Intel® Architecture Processors", July 2013
 // https://www.intel.com/content/www/us/en/developer/articles/technical/intel-sha-extensions.html
 
 func blockSHANI() {

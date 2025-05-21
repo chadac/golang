@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package test
@@ -7,9 +7,9 @@ package test
 import (
 	"bytes"
 	"fmt"
-	"go/ast"
-	"go/parser"
-	"go/token"
+	"golang/ast"
+	"golang/parser"
+	"golang/token"
 	"internal/testenv"
 	"os"
 	"path/filepath"
@@ -24,24 +24,24 @@ import (
 // of the generated test.
 func runGenTest(t *testing.T, filename, tmpname string, ev ...string) {
 	testenv.MustHaveGoRun(t)
-	gotool := testenv.GoToolPath(t)
+	golangtool := testenv.GoToolPath(t)
 	var stdout, stderr bytes.Buffer
-	cmd := testenv.Command(t, gotool, "run", filepath.Join("testdata", filename))
+	cmd := testenv.Command(t, golangtool, "run", filepath.Join("testdata", filename))
 	cmd.Stdout = &stdout
 	cmd.Stderr = &stderr
 	if err := cmd.Run(); err != nil {
 		t.Fatalf("Failed: %v:\nOut: %s\nStderr: %s\n", err, &stdout, &stderr)
 	}
 	// Write stdout into a temporary file
-	rungo := filepath.Join(t.TempDir(), "run.go")
-	ok := os.WriteFile(rungo, stdout.Bytes(), 0600)
+	rungolang := filepath.Join(t.TempDir(), "run.golang")
+	ok := os.WriteFile(rungolang, stdout.Bytes(), 0600)
 	if ok != nil {
-		t.Fatalf("Failed to create temporary file %s", rungo)
+		t.Fatalf("Failed to create temporary file %s", rungolang)
 	}
 
 	stdout.Reset()
 	stderr.Reset()
-	cmd = testenv.Command(t, gotool, "run", "-gcflags=-d=ssa/check/on", rungo)
+	cmd = testenv.Command(t, golangtool, "run", "-gcflags=-d=ssa/check/on", rungolang)
 	cmd.Stdout = &stdout
 	cmd.Stderr = &stderr
 	cmd.Env = append(cmd.Env, ev...)
@@ -61,16 +61,16 @@ func TestGenFlowGraph(t *testing.T) {
 	if testing.Short() {
 		t.Skip("not run in short mode.")
 	}
-	runGenTest(t, "flowgraph_generator1.go", "ssa_fg_tmp1")
+	runGenTest(t, "flowgraph_generator1.golang", "ssa_fg_tmp1")
 }
 
 // TestCode runs all the tests in the testdata directory as subtests.
 // These tests are special because we want to run them with different
-// compiler flags set (and thus they can't just be _test.go files in
+// compiler flags set (and thus they can't just be _test.golang files in
 // this directory).
 func TestCode(t *testing.T) {
 	testenv.MustHaveGoBuild(t)
-	gotool := testenv.GoToolPath(t)
+	golangtool := testenv.GoToolPath(t)
 
 	// Make a temporary directory to work in.
 	tmpdir := t.TempDir()
@@ -87,7 +87,7 @@ func TestCode(t *testing.T) {
 		t.Fatalf("can't read testdata directory: %v", err)
 	}
 	for _, f := range files {
-		if !strings.HasSuffix(f.Name(), "_test.go") {
+		if !strings.HasSuffix(f.Name(), "_test.golang") {
 			continue
 		}
 		text, err := os.ReadFile(filepath.Join("testdata", f.Name()))
@@ -156,7 +156,7 @@ func TestCode(t *testing.T) {
 	for _, flag := range flags {
 		args := []string{"test", "-c", "-gcflags=-d=ssa/check/on" + flag, "-o", filepath.Join(tmpdir, "code.test")}
 		args = append(args, srcs...)
-		out, err := testenv.Command(t, gotool, args...).CombinedOutput()
+		out, err := testenv.Command(t, golangtool, args...).CombinedOutput()
 		if err != nil || len(out) != 0 {
 			t.Fatalf("Build failed: %v\n%s\n", err, out)
 		}

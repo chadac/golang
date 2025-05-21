@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package bzip2
@@ -84,7 +84,7 @@ func newHuffmanTree(lengths []uint8) (huffmanTree, error) {
 	// There are many possible trees that assign the same code length to
 	// each symbol (consider reflecting a tree down the middle, for
 	// example). Since the code length assignments determine the
-	// efficiency of the tree, each of these trees is equally good. In
+	// efficiency of the tree, each of these trees is equally golangod. In
 	// order to minimize the amount of information needed to build a tree
 	// bzip2 uses a canonical tree so that it can be reconstructed given
 	// only the code length assignments.

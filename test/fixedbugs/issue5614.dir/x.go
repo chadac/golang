@@ -1,7 +1,7 @@
 package x
 
-import "./rethinkgo"
+import "./rethinkgolang"
 
-var S *rethinkgo.Session
+var S *rethinkgolang.Session
 
 

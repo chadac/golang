@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package tls
@@ -158,8 +158,8 @@ type quicState struct {
 
 	waitingForDrain bool
 
-	// readbuf is shared between HandleData and the handshake goroutine.
-	// HandshakeCryptoData passes ownership to the handshake goroutine by
+	// readbuf is shared between HandleData and the handshake golangroutine.
+	// HandshakeCryptoData passes ownership to the handshake golangroutine by
 	// reading from signalc, and reclaims ownership by reading from blockedc.
 	readbuf []byte
 
@@ -208,7 +208,7 @@ func (q *QUICConn) Start(ctx context.Context) error {
 	if q.conn.config.MinVersion < VersionTLS13 {
 		return quicError(errors.New("tls: Config MinVersion must be at least TLS 1.3"))
 	}
-	go q.conn.HandshakeContext(ctx)
+	golang q.conn.HandshakeContext(ctx)
 	if _, ok := <-q.conn.quic.blockedc; !ok {
 		return q.conn.handshakeErr
 	}
@@ -247,7 +247,7 @@ func (q *QUICConn) Close() error {
 	}
 	q.conn.quic.cancel()
 	for range q.conn.quic.blockedc {
-		// Wait for the handshake goroutine to return.
+		// Wait for the handshake golangroutine to return.
 	}
 	return q.conn.handshakeErr
 }
@@ -263,10 +263,10 @@ func (q *QUICConn) HandleData(level QUICEncryptionLevel, data []byte) error {
 	<-c.quic.signalc
 	_, ok := <-c.quic.blockedc
 	if ok {
-		// The handshake goroutine is waiting for more data.
+		// The handshake golangroutine is waiting for more data.
 		return nil
 	}
-	// The handshake goroutine has exited.
+	// The handshake golangroutine has exited.
 	c.handshakeMutex.Lock()
 	defer c.handshakeMutex.Unlock()
 	c.hand.Write(c.quic.readbuf)

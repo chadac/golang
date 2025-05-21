@@ -1,11 +1,11 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ld
 
 // This file provides helper functions for updating/rewriting the UUID
-// load command within a Go go binary generated on Darwin using
+// load command within a Go golang binary generated on Darwin using
 // external linking. Why is it necessary to update the UUID load
 // command? See issue #64947 for more detail, but the short answer is
 // that newer versions of the Macos toolchain (the newer linker in

@@ -1,4 +1,4 @@
 package notinheap
 
-//go:notinheap
+//golang:notinheap
 type S struct{}

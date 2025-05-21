@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package big
@@ -20,11 +20,11 @@ func TestFloatSqrt64(t *testing.T) {
 		}
 		r := rand.Float64()
 
-		got := new(Float).SetPrec(53)
-		got.Sqrt(NewFloat(r))
+		golangt := new(Float).SetPrec(53)
+		golangt.Sqrt(NewFloat(r))
 		want := NewFloat(math.Sqrt(r))
-		if got.Cmp(want) != 0 {
-			t.Fatalf("Sqrt(%g) =\n got %g;\nwant %g", r, got, want)
+		if golangt.Cmp(want) != 0 {
+			t.Fatalf("Sqrt(%g) =\n golangt %g;\nwant %g", r, golangt, want)
 		}
 	}
 }
@@ -56,36 +56,36 @@ func TestFloatSqrt(t *testing.T) {
 			x := new(Float).SetPrec(prec)
 			x.Parse(test.x, 10)
 
-			got := new(Float).SetPrec(prec).Sqrt(x)
+			golangt := new(Float).SetPrec(prec).Sqrt(x)
 			want := new(Float).SetPrec(prec)
 			want.Parse(test.want, 10)
-			if got.Cmp(want) != 0 {
-				t.Errorf("prec = %d, Sqrt(%v) =\ngot  %g;\nwant %g",
-					prec, test.x, got, want)
+			if golangt.Cmp(want) != 0 {
+				t.Errorf("prec = %d, Sqrt(%v) =\ngolangt  %g;\nwant %g",
+					prec, test.x, golangt, want)
 			}
 
 			// Square test.
-			// If got holds the square root of x to precision p, then
-			//   got = √x + k
+			// If golangt holds the square root of x to precision p, then
+			//   golangt = √x + k
 			// for some k such that |k| < 2**(-p). Thus,
-			//   got² = (√x + k)² = x + 2k√n + k²
+			//   golangt² = (√x + k)² = x + 2k√n + k²
 			// and the error must satisfy
-			//   err = |got² - x| ≈ | 2k√n | < 2**(-p+1)*√n
+			//   err = |golangt² - x| ≈ | 2k√n | < 2**(-p+1)*√n
 			// Ignoring the k² term for simplicity.
 
-			// err = |got² - x|
+			// err = |golangt² - x|
 			// (but do intermediate steps with 32 guard digits to
 			// avoid introducing spurious rounding-related errors)
-			sq := new(Float).SetPrec(prec+32).Mul(got, got)
+			sq := new(Float).SetPrec(prec+32).Mul(golangt, golangt)
 			diff := new(Float).Sub(sq, x)
 			err := diff.Abs(diff).SetPrec(prec)
 
 			// maxErr = 2**(-p+1)*√x
 			one := new(Float).SetPrec(prec).SetInt64(1)
-			maxErr := new(Float).Mul(new(Float).SetMantExp(one, -int(prec)+1), got)
+			maxErr := new(Float).Mul(new(Float).SetMantExp(one, -int(prec)+1), golangt)
 
 			if err.Cmp(maxErr) >= 0 {
-				t.Errorf("prec = %d, Sqrt(%v) =\ngot err  %g;\nwant maxErr %g",
+				t.Errorf("prec = %d, Sqrt(%v) =\ngolangt err  %g;\nwant maxErr %g",
 					prec, test.x, err, maxErr)
 			}
 		}
@@ -101,10 +101,10 @@ func TestFloatSqrtSpecial(t *testing.T) {
 		{NewFloat(-0), NewFloat(-0)},
 		{NewFloat(math.Inf(+1)), NewFloat(math.Inf(+1))},
 	} {
-		got := new(Float).Sqrt(test.x)
-		if got.neg != test.want.neg || got.form != test.want.form {
+		golangt := new(Float).Sqrt(test.x)
+		if golangt.neg != test.want.neg || golangt.form != test.want.form {
 			t.Errorf("Sqrt(%v) = %v (neg: %v); want %v (neg: %v)",
-				test.x, got, got.neg, test.want, test.want.neg)
+				test.x, golangt, golangt.neg, test.want, test.want.neg)
 		}
 	}
 

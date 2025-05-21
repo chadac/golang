@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Time-related runtime and pieces of package time.
@@ -13,7 +13,7 @@ import (
 	"unsafe"
 )
 
-//go:linkname time_runtimeNow time.runtimeNow
+//golang:linkname time_runtimeNow time.runtimeNow
 func time_runtimeNow() (sec int64, nsec int32, mono int64) {
 	if bubble := getg().bubble; bubble != nil {
 		sec = bubble.now / (1000 * 1000 * 1000)
@@ -29,7 +29,7 @@ func time_runtimeNow() (sec int64, nsec int32, mono int64) {
 	return time_now()
 }
 
-//go:linkname time_runtimeNano time.runtimeNano
+//golang:linkname time_runtimeNano time.runtimeNano
 func time_runtimeNano() int64 {
 	gp := getg()
 	if gp.bubble != nil {
@@ -38,7 +38,7 @@ func time_runtimeNano() int64 {
 	return nanotime()
 }
 
-//go:linkname time_runtimeIsBubbled time.runtimeIsBubbled
+//golang:linkname time_runtimeIsBubbled time.runtimeIsBubbled
 func time_runtimeIsBubbled() bool {
 	return getg().bubble != nil
 }
@@ -47,7 +47,7 @@ func time_runtimeIsBubbled() bool {
 // Timers are allocated by client code, often as part of other data structures.
 // Each P has a heap of pointers to timers that it manages.
 //
-// A timer is expected to be used by only one client goroutine at a time,
+// A timer is expected to be used by only one client golangroutine at a time,
 // but there will be concurrent access by the P managing that timer.
 // Timer accesses are protected by the lock t.mu, with a snapshot of
 // t's state bits published in t.astate to enable certain fast paths to make
@@ -61,10 +61,10 @@ type timer struct {
 	isChan bool         // timer has a channel; immutable; can be read without lock
 	isFake bool         // timer is using fake time; immutable; can be read without lock
 
-	blocked uint32 // number of goroutines blocked on timer's channel
+	blocked uint32 // number of golangroutines blocked on timer's channel
 
 	// Timer wakes up at when, and then at when+period, ... (period > 0 only)
-	// each time calling f(arg, seq, delay) in the timer goroutine, so f must be
+	// each time calling f(arg, seq, delay) in the timer golangroutine, so f must be
 	// a well-behaved function and not block.
 	//
 	// The arg and seq are client-specified opaque arguments passed back to f.
@@ -82,7 +82,7 @@ type timer struct {
 	// so reads are allowed when holding either of the two mutexes.
 	//
 	// The delay argument is nanotime() - t.when, meaning the delay in ns between
-	// when the timer should have gone off and now. Normally that amount is
+	// when the timer should have golangne off and now. Normally that amount is
 	// small enough not to matter, but for channel timers that are fed lazily,
 	// the delay can be arbitrarily long; package time subtracts it out to make
 	// it look like the send happened earlier than it actually did.
@@ -310,9 +310,9 @@ const verifyTimers = false
 
 // time.now is implemented in assembly.
 
-// timeSleep puts the current goroutine to sleep for at least ns nanoseconds.
+// timeSleep puts the current golangroutine to sleep for at least ns nanoseconds.
 //
-//go:linkname timeSleep time.Sleep
+//golang:linkname timeSleep time.Sleep
 func timeSleep(ns int64) {
 	if ns <= 0 {
 		return
@@ -322,7 +322,7 @@ func timeSleep(ns int64) {
 	t := gp.timer
 	if t == nil {
 		t = new(timer)
-		t.init(goroutineReady, gp)
+		t.init(golangroutineReady, gp)
 		if gp.bubble != nil {
 			t.isFake = true
 		}
@@ -340,20 +340,20 @@ func timeSleep(ns int64) {
 	}
 	gp.sleepWhen = when
 	if t.isFake {
-		// Call timer.reset in this goroutine, since it's the one in a bubble.
-		// We don't need to worry about the timer function running before the goroutine
+		// Call timer.reset in this golangroutine, since it's the one in a bubble.
+		// We don't need to worry about the timer function running before the golangroutine
 		// is parked, because time won't advance until we park.
 		resetForSleep(gp, nil)
-		gopark(nil, nil, waitReasonSleep, traceBlockSleep, 1)
+		golangpark(nil, nil, waitReasonSleep, traceBlockSleep, 1)
 	} else {
-		gopark(resetForSleep, nil, waitReasonSleep, traceBlockSleep, 1)
+		golangpark(resetForSleep, nil, waitReasonSleep, traceBlockSleep, 1)
 	}
 }
 
-// resetForSleep is called after the goroutine is parked for timeSleep.
+// resetForSleep is called after the golangroutine is parked for timeSleep.
 // We can't call timer.reset in timeSleep itself because if this is a short
-// sleep and there are many goroutines then the P can wind up running the
-// timer function, goroutineReady, before the goroutine has been parked.
+// sleep and there are many golangroutines then the P can wind up running the
+// timer function, golangroutineReady, before the golangroutine has been parked.
 func resetForSleep(gp *g, _ unsafe.Pointer) bool {
 	gp.timer.reset(gp.sleepWhen, 0)
 	return true
@@ -371,7 +371,7 @@ type timeTimer struct {
 // newTimer allocates and returns a new time.Timer or time.Ticker (same layout)
 // with the given parameters.
 //
-//go:linkname newTimer time.newTimer
+//golang:linkname newTimer time.newTimer
 func newTimer(when, period int64, f func(arg any, seq uintptr, delay int64), arg any, c *hchan) *timeTimer {
 	t := new(timeTimer)
 	t.timer.init(nil, nil)
@@ -398,7 +398,7 @@ func newTimer(when, period int64, f func(arg any, seq uintptr, delay int64), arg
 // stopTimer stops a timer.
 // It reports whether t was stopped before being run.
 //
-//go:linkname stopTimer time.stopTimer
+//golang:linkname stopTimer time.stopTimer
 func stopTimer(t *timeTimer) bool {
 	if t.isFake && getg().bubble == nil {
 		panic("stop of synctest timer from outside bubble")
@@ -410,7 +410,7 @@ func stopTimer(t *timeTimer) bool {
 //
 // Reports whether the timer was modified before it was run.
 //
-//go:linkname resetTimer time.resetTimer
+//golang:linkname resetTimer time.resetTimer
 func resetTimer(t *timeTimer, when, period int64) bool {
 	if raceenabled {
 		racerelease(unsafe.Pointer(&t.timer))
@@ -423,9 +423,9 @@ func resetTimer(t *timeTimer, when, period int64) bool {
 
 // Go runtime.
 
-// Ready the goroutine arg.
-func goroutineReady(arg any, _ uintptr, _ int64) {
-	goready(arg.(*g), 0)
+// Ready the golangroutine arg.
+func golangroutineReady(arg any, _ uintptr, _ int64) {
+	golangready(arg.(*g), 0)
 }
 
 // addHeap adds t to the timers heap.
@@ -507,7 +507,7 @@ func (t *timer) stop() bool {
 		t.seq++
 
 		// If there is currently a send in progress,
-		// incrementing seq is going to prevent that
+		// incrementing seq is golanging to prevent that
 		// send from actually happening. That means
 		// that we should return true: the timer was
 		// stopped, even though t.when may be zero.
@@ -611,7 +611,7 @@ func (t *timer) modify(when, period int64, f func(arg any, seq uintptr, delay in
 		t.seq++
 
 		// If there is currently a send in progress,
-		// incrementing seq is going to prevent that
+		// incrementing seq is golanging to prevent that
 		// send from actually happening. That means
 		// that we should return true: the timer was
 		// stopped, even though t.when may be zero.
@@ -675,7 +675,7 @@ func (t *timer) maybeAdd() {
 	// call to ts.lock. If a reschedule happened then, we would be
 	// adding t to some other P's timers, perhaps even a P that the scheduler
 	// has marked as idle with no timers, in which case the timer could
-	// go unnoticed until long after t.when.
+	// golang unnoticed until long after t.when.
 	// Calling acquirem instead of using getg().m makes sure that
 	// we end up locking and inserting into the current P's timers.
 	mp := acquirem()
@@ -832,7 +832,7 @@ func (ts *timers) adjust(now int64, force bool) {
 
 	// minWhenModified is a lower bound on the earliest t.when
 	// among the timerModified timers. We want to make it more precise:
-	// we are going to scan the heap and clean out all the timerModified bits,
+	// we are golanging to scan the heap and clean out all the timerModified bits,
 	// at which point minWhenModified can be set to 0 (indicating none at all).
 	//
 	// Other P's can be calling ts.wakeTime concurrently, and we'd like to
@@ -844,7 +844,7 @@ func (ts *timers) adjust(now int64, force bool) {
 	// To avoid that, we want to set minWhenModified to 0 *after* the scan.
 	//
 	// Setting minWhenModified = 0 *after* the scan could result in missing
-	// concurrent timer modifications in other goroutines; those will lock
+	// concurrent timer modifications in other golangroutines; those will lock
 	// the specific timer, set the timerModified bit, and set t.when.
 	// To avoid that, we want to set minWhenModified to 0 *before* the scan.
 	//
@@ -857,7 +857,7 @@ func (ts *timers) adjust(now int64, force bool) {
 	//
 	//	1. Set minWhenHeap = min(minWhenHeap, minWhenModified)
 	//	2. Set minWhenModified = 0
-	//	   (Other goroutines may modify timers and update minWhenModified now.)
+	//	   (Other golangroutines may modify timers and update minWhenModified now.)
 	//	3. Scan timers
 	//	4. Set minWhenHeap = heap[0].when
 	//
@@ -935,7 +935,7 @@ func (ts *timers) adjust(now int64, force bool) {
 // This function is invoked when dropping a P, so it must run without
 // any write barriers.
 //
-//go:nowritebarrierrec
+//golang:nowritebarrierrec
 func (ts *timers) wakeTime() int64 {
 	// Note that the order of these two loads matters:
 	// adjust updates minWhen to make it safe to clear minNextWhen.
@@ -959,7 +959,7 @@ func (ts *timers) wakeTime() int64 {
 // it is always larger than the returned time.
 // We pass now in and out to avoid extra calls of nanotime.
 //
-//go:yeswritebarrierrec
+//golang:yeswritebarrierrec
 func (ts *timers) check(now int64) (rnow, pollUntil int64, ran bool) {
 	ts.trace("check")
 	// If it's not yet time for the first timer, or the first adjusted
@@ -1024,7 +1024,7 @@ func (ts *timers) check(now int64) (rnow, pollUntil int64, ran bool) {
 // The caller must have locked ts.
 // If a timer is run, this will temporarily unlock ts.
 //
-//go:systemstack
+//golang:systemstack
 func (ts *timers) run(now int64) int64 {
 	ts.trace("run")
 	assertLockHeld(&ts.mu)
@@ -1046,7 +1046,7 @@ Redo:
 	t.lock()
 	if t.updateHeap() {
 		t.unlock()
-		goto Redo
+		golangto Redo
 	}
 
 	if t.state&timerHeaped == 0 || t.state&timerModified != 0 {
@@ -1069,7 +1069,7 @@ Redo:
 // and this call will temporarily unlock the timer set while running the timer function.
 // unlockAndRun returns with t unlocked and t.ts (re-)locked.
 //
-//go:systemstack
+//golang:systemstack
 func (t *timer) unlockAndRun(now int64) {
 	t.trace("unlockAndRun")
 	assertLockHeld(&t.mu)
@@ -1088,7 +1088,7 @@ func (t *timer) unlockAndRun(now int64) {
 			tsLocal = &t.ts.bubble.timers
 		}
 		if tsLocal.raceCtx == 0 {
-			tsLocal.raceCtx = racegostart(abi.FuncPCABIInternal((*timers).run) + sys.PCQuantum)
+			tsLocal.raceCtx = racegolangstart(abi.FuncPCABIInternal((*timers).run) + sys.PCQuantum)
 		}
 		raceacquirectx(tsLocal.raceCtx, unsafe.Pointer(t))
 	}
@@ -1296,8 +1296,8 @@ func timeSleepUntil() int64 {
 
 const timerHeapN = 4
 
-// Heap maintenance algorithms.
-// These algorithms check for slice index errors manually.
+// Heap maintenance algolangrithms.
+// These algolangrithms check for slice index errors manually.
 // Slice index error can happen if the program is using racy
 // access to timers. We don't want to panic here, because
 // it will cause the program to crash with a mysterious
@@ -1490,7 +1490,7 @@ func unblockTimerChan(c *hchan) {
 	}
 	t.blocked--
 	if t.blocked == 0 && t.state&timerHeaped != 0 && t.state&timerZombie == 0 {
-		// Last goroutine that was blocked on this timer.
+		// Last golangroutine that was blocked on this timer.
 		// Mark for removal from heap but do not clear t.when,
 		// so that we know what time it is still meant to trigger.
 		t.state |= timerZombie

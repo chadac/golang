@@ -1,10 +1,10 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 #include "textflag.h"
 #include "funcdata.h"
-#include "go_asm.h"
+#include "golang_asm.h"
 
 // The frames of each of the two functions below contain two locals, at offsets
 // that are known to the runtime.
@@ -21,7 +21,7 @@
 #define LOCAL_REGARGS 40
 
 // makeFuncStub is the code half of the function returned by MakeFunc.
-// See the comment on the declaration of makeFuncStub in makefunc.go
+// See the comment on the declaration of makeFuncStub in makefunc.golang
 // for more details.
 // No arg size here; runtime pulls arg map out of the func value.
 // This frame contains two locals. See the comment above LOCAL_RETVALID.
@@ -50,7 +50,7 @@ TEXT ·makeFuncStub(SB),(NOSPLIT|WRAPPER),$312
 	RET
 
 // methodValueCall is the code half of the function returned by makeMethodValue.
-// See the comment on the declaration of methodValueCall in makefunc.go
+// See the comment on the declaration of methodValueCall in makefunc.golang
 // for more details.
 // No arg size here; runtime pulls arg map out of the func value.
 // This frame contains two locals. See the comment above LOCAL_RETVALID.

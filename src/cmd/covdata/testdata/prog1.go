@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -9,17 +9,17 @@ import (
 	"prog/dep"
 )
 
-//go:noinline
+//golang:noinline
 func first() {
 	println("whee")
 }
 
-//go:noinline
+//golang:noinline
 func second() {
 	println("oy")
 }
 
-//go:noinline
+//golang:noinline
 func third(x int) int {
 	if x != 0 {
 		return 42
@@ -28,7 +28,7 @@ func third(x int) int {
 	return 0
 }
 
-//go:noinline
+//golang:noinline
 func fourth() int {
 	return 99
 }

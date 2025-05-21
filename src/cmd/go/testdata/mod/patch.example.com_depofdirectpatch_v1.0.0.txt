@@ -5,7 +5,7 @@ written by hand
 module patch.example.com/depofdirectpatch
 -- .info --
 {"Version":"v1.0.0"}
--- go.mod --
+-- golang.mod --
 module patch.example.com/depofdirectpatch
--- depofdirectpatch.go --
+-- depofdirectpatch.golang --
 package depofdirectpatch

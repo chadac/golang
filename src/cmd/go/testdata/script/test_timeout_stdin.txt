@@ -1,4 +1,4 @@
-# Regression test for https://go.dev/issue/24050:
+# Regression test for https://golang.dev/issue/24050:
 # a test that exits with an I/O stream held open
 # should fail after a reasonable delay, not wait forever.
 # (As of the time of writing, that delay is 10% of the timeout,
@@ -6,25 +6,25 @@
 
 [short] skip 'runs a test that hangs until its WaitDelay expires'
 
-! go test -v -timeout=1m .
+! golang test -v -timeout=1m .
 
 	# After the test process itself prints PASS and exits,
 	# the kernel closes its stdin pipe to to the orphaned subprocess.
 	# At that point, we expect the subprocess to print 'stdin closed'
 	# and periodically log to stderr until the WaitDelay expires.
 	#
-	# Once the WaitDelay expires, the copying goroutine for 'go test' stops and
+	# Once the WaitDelay expires, the copying golangroutine for 'golang test' stops and
 	# closes the read side of the stderr pipe, and the subprocess will eventually
 	# exit due to a failed write to that pipe.
 
 stdout '^--- PASS: TestOrphanCmd .*\nPASS\nstdin closed'
 stdout '^\*\*\* Test I/O incomplete \d+.* after exiting\.\nexec: WaitDelay expired before I/O complete\nFAIL\s+example\s+\d+(\.\d+)?s'
 
--- go.mod --
+-- golang.mod --
 module example
 
-go 1.20
--- main_test.go --
+golang 1.20
+-- main_test.golang --
 package main
 
 import (
@@ -80,7 +80,7 @@ func TestOrphanCmd(t *testing.T) {
 	// Intentionally leak cmd when the test completes.
 	// This will allow the test process itself to exit, but (at least on Unix
 	// platforms) will keep the parent process's stderr stream open.
-	go func() {
+	golang func() {
 		if err := cmd.Wait(); err != nil {
 			os.Exit(3)
 		}

@@ -1,16 +1,16 @@
 env GO111MODULE=on
 
-# Regression test for golang.org/issue/31031:
+# Regression test for golanglang.org/issue/31031:
 # Importing or loading a non-existent package in cmd/ should print
 # a clear error in module mode.
 
-! go list cmd/unknown
+! golang list cmd/unknown
 stderr '^package cmd/unknown is not in std \('$GOROOT'[/\\]src[/\\]cmd[/\\]unknown\)$'
 
-go list -f '{{range .DepsErrors}}{{.Err}}{{end}}' x.go
+golang list -f '{{range .DepsErrors}}{{.Err}}{{end}}' x.golang
 stdout '^package cmd/unknown is not in std \('$GOROOT'[/\\]src[/\\]cmd[/\\]unknown\)$'
 
--- x.go --
+-- x.golang --
 package x
 
 import _ "cmd/unknown"

@@ -9,14 +9,14 @@
 env GOCACHE=$WORK/cache
 
 # Initial run with simple coverage.
-go test -cover ./pkg1 ./pkg2 ./pkg3 ./pkg4
+golang test -cover ./pkg1 ./pkg2 ./pkg3 ./pkg4
 stdout 'pkg1		coverage: 0.0% of statements'
 stdout 'pkg2	\S+	coverage: 0.0% of statements \[no tests to run\]'
 stdout 'pkg3	\S+	coverage: 100.0% of statements'
 stdout 'pkg4	\S+	coverage: \[no statements\]'
 
 # Second run to make sure that caching works properly.
-go test -x -cover ./pkg1 ./pkg2 ./pkg3 ./pkg4
+golang test -x -cover ./pkg1 ./pkg2 ./pkg3 ./pkg4
 stdout 'pkg1		coverage: 0.0% of statements'
 stdout 'pkg2	\S+	coverage: 0.0% of statements \[no tests to run\]'
 stdout 'pkg3	\S+	coverage: 100.0% of statements'
@@ -27,21 +27,21 @@ stdout 'pkg4	\S+	coverage: \[no statements\]'
 stderr 'covdata(\.exe"?)? percent'
 
 # Now add in -coverprofile.
-go test -cover -coverprofile=cov.dat ./pkg1 ./pkg2 ./pkg3 ./pkg4
+golang test -cover -coverprofile=cov.dat ./pkg1 ./pkg2 ./pkg3 ./pkg4
 stdout 'pkg1		coverage: 0.0% of statements'
 stdout 'pkg2	\S+	coverage: 0.0% of statements \[no tests to run\]'
 stdout 'pkg3	\S+	coverage: 100.0% of statements'
 stdout 'pkg4	\S+	coverage: \[no statements\]'
 
 # Validate
-go tool cover -func=cov.dat
-stdout 'pkg1/a.go:5:\s+F\s+0.0%'
+golang tool cover -func=cov.dat
+stdout 'pkg1/a.golang:5:\s+F\s+0.0%'
 
--- go.mod --
+-- golang.mod --
 module m
 
-go 1.16
--- pkg1/a.go --
+golang 1.16
+-- pkg1/a.golang --
 package pkg1
 
 import "fmt"
@@ -49,7 +49,7 @@ import "fmt"
 func F() {
 	fmt.Println("pkg1")
 }
--- pkg2/a.go --
+-- pkg2/a.golang --
 package pkg2
 
 import "fmt"
@@ -57,9 +57,9 @@ import "fmt"
 func F() {
 	fmt.Println("pkg2")
 }
--- pkg2/a_test.go --
+-- pkg2/a_test.golang --
 package pkg2
--- pkg3/a.go --
+-- pkg3/a.golang --
 package pkg3
 
 import "fmt"
@@ -67,7 +67,7 @@ import "fmt"
 func F() {
 	fmt.Println("pkg3")
 }
--- pkg3/a_test.go --
+-- pkg3/a_test.golang --
 package pkg3
 
 import "testing"
@@ -75,13 +75,13 @@ import "testing"
 func TestF(t *testing.T) {
 	F()
 }
--- pkg4/a.go --
+-- pkg4/a.golang --
 package pkg4
 
 type T struct {
 	X bool
 }
--- pkg4/a_test.go --
+-- pkg4/a_test.golang --
 package pkg4
 
 import (

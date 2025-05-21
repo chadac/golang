@@ -1,5 +1,5 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package http_test
@@ -95,7 +95,7 @@ func testServeFile(t *testing.T, mode testMode) {
 
 	// Get contents via various methods.
 	//
-	// See https://go.dev/issue/59471 for a proposal to limit the set of methods handled.
+	// See https://golang.dev/issue/59471 for a proposal to limit the set of methods handled.
 	// For now, test the historical behavior.
 	for _, method := range []string{
 		MethodGet,
@@ -109,7 +109,7 @@ func testServeFile(t *testing.T, mode testMode) {
 		req.Method = method
 		_, body := getBody(t, method, req, c)
 		if !bytes.Equal(body, file) {
-			t.Fatalf("body mismatch for %v request: got %q, want %q", method, body, file)
+			t.Fatalf("body mismatch for %v request: golangt %q, want %q", method, body, file)
 		}
 	}
 
@@ -117,10 +117,10 @@ func testServeFile(t *testing.T, mode testMode) {
 	req.Method = MethodHead
 	resp, body := getBody(t, "HEAD", req, c)
 	if len(body) != 0 {
-		t.Fatalf("body mismatch for HEAD request: got %q, want empty", body)
+		t.Fatalf("body mismatch for HEAD request: golangt %q, want empty", body)
 	}
-	if got, want := resp.Header.Get("Content-Length"), fmt.Sprint(len(file)); got != want {
-		t.Fatalf("Content-Length mismatch for HEAD request: got %v, want %v", got, want)
+	if golangt, want := resp.Header.Get("Content-Length"), fmt.Sprint(len(file)); golangt != want {
+		t.Fatalf("Content-Length mismatch for HEAD request: golangt %v, want %v", golangt, want)
 	}
 
 	// Range tests
@@ -198,7 +198,7 @@ Cases:
 			}
 			_, err = mr.NextPart()
 			if err != io.EOF {
-				t.Errorf("range=%q; expected final error io.EOF; got %v", rt.r, err)
+				t.Errorf("range=%q; expected final error io.EOF; golangt %v", rt.r, err)
 			}
 		}
 	}
@@ -286,7 +286,7 @@ func testFSRedirect(t *testing.T, mode testMode) {
 		}
 		res.Body.Close()
 		if g, e := res.Request.URL.Path, data.redirect; g != e {
-			t.Errorf("redirect from %s: got %s, want %s", data.original, g, e)
+			t.Errorf("redirect from %s: golangt %s, want %s", data.original, g, e)
 		}
 	}
 }
@@ -318,8 +318,8 @@ func TestFileServerCleans(t *testing.T) {
 		rec := httptest.NewRecorder()
 		req.URL.Path = test.reqPath
 		fs.ServeHTTP(rec, req)
-		if got := <-ch; got != test.openArg {
-			t.Errorf("test %d: got %q, want %q", n, got, test.openArg)
+		if golangt := <-ch; golangt != test.openArg {
+			t.Errorf("test %d: golangt %q, want %q", n, golangt, test.openArg)
 		}
 	}
 }
@@ -441,10 +441,10 @@ func testFileServerImplicitLeadingSlash(t *testing.T, mode testMode) {
 		return string(b)
 	}
 	if s := get("/bar/"); !strings.Contains(s, ">foo.txt<") {
-		t.Logf("expected a directory listing with foo.txt, got %q", s)
+		t.Logf("expected a directory listing with foo.txt, golangt %q", s)
 	}
 	if s := get("/bar/foo.txt"); s != "Hello world" {
-		t.Logf("expected %q, got %q", "Hello world", s)
+		t.Logf("expected %q, golangt %q", "Hello world", s)
 	}
 }
 
@@ -467,7 +467,7 @@ func TestDirJoin(t *testing.T) {
 			t.Fatalf("stat of %s: %v", name, err)
 		}
 		if !os.SameFile(gfi, wfi) {
-			t.Errorf("%s got different file", name)
+			t.Errorf("%s golangt different file", name)
 		}
 	}
 	test(Dir("/etc/"), "/hosts")
@@ -486,7 +486,7 @@ func TestDirJoin(t *testing.T) {
 
 func TestEmptyDirOpenCWD(t *testing.T) {
 	test := func(d Dir) {
-		name := "fs_test.go"
+		name := "fs_test.golang"
 		f, err := d.Open(name)
 		if err != nil {
 			t.Fatalf("open of %s: %v", name, err)
@@ -517,7 +517,7 @@ func testServeFileContentType(t *testing.T, mode testMode) {
 			t.Fatal(err)
 		}
 		if h := resp.Header["Content-Type"]; !slices.Equal(h, want) {
-			t.Errorf("Content-Type mismatch: got %v, want %v", h, want)
+			t.Errorf("Content-Type mismatch: golangt %v, want %v", h, want)
 		}
 		resp.Body.Close()
 	}
@@ -538,14 +538,14 @@ func testServeFileMimeType(t *testing.T, mode testMode) {
 	resp.Body.Close()
 	want := "text/css; charset=utf-8"
 	if h := resp.Header.Get("Content-Type"); h != want {
-		t.Errorf("Content-Type mismatch: got %q, want %q", h, want)
+		t.Errorf("Content-Type mismatch: golangt %q, want %q", h, want)
 	}
 }
 
 func TestServeFileFromCWD(t *testing.T) { run(t, testServeFileFromCWD) }
 func testServeFileFromCWD(t *testing.T, mode testMode) {
 	ts := newClientServerTest(t, mode, HandlerFunc(func(w ResponseWriter, r *Request) {
-		ServeFile(w, r, "fs_test.go")
+		ServeFile(w, r, "fs_test.golang")
 	})).ts
 	r, err := ts.Client().Get(ts.URL)
 	if err != nil {
@@ -553,7 +553,7 @@ func testServeFileFromCWD(t *testing.T, mode testMode) {
 	}
 	r.Body.Close()
 	if r.StatusCode != 200 {
-		t.Fatalf("expected 200 OK, got %s", r.Status)
+		t.Fatalf("expected 200 OK, golangt %s", r.Status)
 	}
 }
 
@@ -570,7 +570,7 @@ func testServeDirWithoutTrailingSlash(t *testing.T, mode testMode) {
 	}
 	r.Body.Close()
 	if g := r.Request.URL.Path; g != e {
-		t.Errorf("got %s, want %s", g, e)
+		t.Errorf("golangt %s, want %s", g, e)
 	}
 }
 
@@ -597,7 +597,7 @@ func testServeFileWithContentEncoding(t *testing.T, mode testMode) {
 	}
 	resp.Body.Close()
 	if g, e := resp.ContentLength, int64(-1); g != e {
-		t.Errorf("Content-Length mismatch: got %d, want %d", g, e)
+		t.Errorf("Content-Length mismatch: golangt %d, want %d", g, e)
 	}
 }
 
@@ -638,11 +638,11 @@ func testServeFileNotModified(t *testing.T, mode testMode) {
 		t.Errorf("non-empty body")
 	}
 	if g, e := resp.StatusCode, StatusNotModified; g != e {
-		t.Errorf("status mismatch: got %d, want %d", g, e)
+		t.Errorf("status mismatch: golangt %d, want %d", g, e)
 	}
 	// HTTP1 transport sets ContentLength to 0.
 	if g, e1, e2 := resp.ContentLength, int64(-1), int64(0); g != e1 && g != e2 {
-		t.Errorf("Content-Length mismatch: got %d, want %d or %d", g, e1, e2)
+		t.Errorf("Content-Length mismatch: golangt %d, want %d or %d", g, e1, e2)
 	}
 	if resp.Header.Get("Content-Type") != "" {
 		t.Errorf("Content-Type present, but it should not be")
@@ -679,7 +679,7 @@ func testServeIndexHtml(t *testing.T, mode testMode) {
 					t.Fatal("reading Body:", err)
 				}
 				if s := string(b); s != want {
-					t.Errorf("for path %q got %q, want %q", path, s, want)
+					t.Errorf("for path %q golangt %q, want %q", path, s, want)
 				}
 				res.Body.Close()
 			}
@@ -703,7 +703,7 @@ func testServeIndexHtmlFS(t *testing.T, mode testMode) {
 			t.Fatal("reading Body:", err)
 		}
 		if s := string(b); s != want {
-			t.Errorf("for path %q got %q, want %q", path, s, want)
+			t.Errorf("for path %q golangt %q, want %q", path, s, want)
 		}
 		res.Body.Close()
 	}
@@ -722,14 +722,14 @@ func testFileServerZeroByte(t *testing.T, mode testMode) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	var got bytes.Buffer
-	bufr := bufio.NewReader(io.TeeReader(c, &got))
+	var golangt bytes.Buffer
+	bufr := bufio.NewReader(io.TeeReader(c, &golangt))
 	res, err := ReadResponse(bufr, nil)
 	if err != nil {
 		t.Fatal("ReadResponse: ", err)
 	}
 	if res.StatusCode == 200 {
-		t.Errorf("got status 200; want an error. Body is:\n%s", got.Bytes())
+		t.Errorf("golangt status 200; want an error. Body is:\n%s", golangt.Bytes())
 	}
 }
 
@@ -748,7 +748,7 @@ func testFileServerNullByte(t *testing.T, mode testMode) {
 		}
 		res.Body.Close()
 		if res.StatusCode != 404 {
-			t.Errorf("Get(%q): got status %v, want 404", path, res.StatusCode)
+			t.Errorf("Get(%q): golangt status %v, want 404", path, res.StatusCode)
 		}
 
 	}
@@ -767,7 +767,7 @@ func testFileServerNamesEscape(t *testing.T, mode testMode) {
 		}
 		res.Body.Close()
 		if res.StatusCode < 400 || res.StatusCode > 599 {
-			t.Errorf("Get(%q): got status %v, want 4xx or 5xx", path, res.StatusCode)
+			t.Errorf("Get(%q): golangt status %v, want 4xx or 5xx", path, res.StatusCode)
 		}
 
 	}
@@ -1018,7 +1018,7 @@ func testServeContent(t *testing.T, mode testMode) {
 			wantStatus:      200,
 			wantContentType: "text/css; charset=utf-8",
 		},
-		"range_good": {
+		"range_golangod": {
 			file:      "testdata/style.css",
 			serveETag: `"A"`,
 			reqHeader: map[string]string{
@@ -1207,16 +1207,16 @@ func testServeContent(t *testing.T, mode testMode) {
 			io.Copy(io.Discard, res.Body)
 			res.Body.Close()
 			if res.StatusCode != tt.wantStatus {
-				t.Errorf("test %q using %q: got status = %d; want %d", testName, method, res.StatusCode, tt.wantStatus)
+				t.Errorf("test %q using %q: golangt status = %d; want %d", testName, method, res.StatusCode, tt.wantStatus)
 			}
 			if g, e := res.Header.Get("Content-Type"), tt.wantContentType; g != e {
-				t.Errorf("test %q using %q: got content-type = %q, want %q", testName, method, g, e)
+				t.Errorf("test %q using %q: golangt content-type = %q, want %q", testName, method, g, e)
 			}
 			if g, e := res.Header.Get("Content-Range"), tt.wantContentRange; g != e {
-				t.Errorf("test %q using %q: got content-range = %q, want %q", testName, method, g, e)
+				t.Errorf("test %q using %q: golangt content-range = %q, want %q", testName, method, g, e)
 			}
 			if g, e := res.Header.Get("Last-Modified"), tt.wantLastMod; g != e {
-				t.Errorf("test %q using %q: got last-modified = %q, want %q", testName, method, g, e)
+				t.Errorf("test %q using %q: golangt last-modified = %q, want %q", testName, method, g, e)
 			}
 		}
 	}
@@ -1231,7 +1231,7 @@ func TestServerFileStatError(t *testing.T) {
 	fs := issue12991FS{}
 	ExportServeFile(rec, r, fs, name, redirect)
 	if body := rec.Body.String(); !strings.Contains(body, "403") || !strings.Contains(body, "Forbidden") {
-		t.Errorf("wanted 403 forbidden message; got: %s", body)
+		t.Errorf("wanted 403 forbidden message; golangt: %s", body)
 	}
 }
 
@@ -1287,7 +1287,7 @@ func testFileServerErrorMessages(t *testing.T, mode testMode, keepHeaders bool) 
 			t.Errorf("GET /%d: StatusCode = %d; want %d", code, res.StatusCode, code)
 		}
 		for _, hdr := range []string{"Etag", "Last-Modified", "Cache-Control"} {
-			if v, got := res.Header[hdr]; got != keepHeaders {
+			if v, golangt := res.Header[hdr]; golangt != keepHeaders {
 				want := "not present"
 				if keepHeaders {
 					want = "present"
@@ -1552,7 +1552,7 @@ func testServeFileRejectsInvalidSuffixLengths(t *testing.T, mode testMode) {
 				t.Fatal(err)
 			}
 			if g, w := res.StatusCode, tt.wantCode; g != w {
-				t.Errorf("StatusCode mismatch: got %d want %d", g, w)
+				t.Errorf("StatusCode mismatch: golangt %d want %d", g, w)
 			}
 			slurp, err := io.ReadAll(res.Body)
 			res.Body.Close()
@@ -1579,7 +1579,7 @@ func testFileServerMethods(t *testing.T, mode testMode) {
 
 	// Get contents via various methods.
 	//
-	// See https://go.dev/issue/59471 for a proposal to limit the set of methods handled.
+	// See https://golang.dev/issue/59471 for a proposal to limit the set of methods handled.
 	// For now, test the historical behavior.
 	for _, method := range []string{
 		MethodGet,
@@ -1607,10 +1607,10 @@ func testFileServerMethods(t *testing.T, mode testMode) {
 			wantBody = nil
 		}
 		if !bytes.Equal(body, wantBody) {
-			t.Fatalf("%v: got body %q, want %q", method, body, wantBody)
+			t.Fatalf("%v: golangt body %q, want %q", method, body, wantBody)
 		}
-		if got, want := res.Header.Get("Content-Length"), fmt.Sprint(len(file)); got != want {
-			t.Fatalf("%v: got Content-Length %q, want %q", method, got, want)
+		if golangt, want := res.Header.Get("Content-Length"), fmt.Sprint(len(file)); golangt != want {
+			t.Fatalf("%v: golangt Content-Length %q, want %q", method, golangt, want)
 		}
 	}
 }
@@ -1633,7 +1633,7 @@ func TestFileServerFS(t *testing.T) {
 		t.Fatal("reading Body:", err)
 	}
 	if s := string(b); s != string(contents) {
-		t.Errorf("for path %q got %q, want %q", filename, s, contents)
+		t.Errorf("for path %q golangt %q, want %q", filename, s, contents)
 	}
 	res.Body.Close()
 }
@@ -1658,7 +1658,7 @@ func TestServeFileFS(t *testing.T) {
 		t.Fatal("reading Body:", err)
 	}
 	if s := string(b); s != string(contents) {
-		t.Errorf("for path %q got %q, want %q", filename, s, contents)
+		t.Errorf("for path %q golangt %q, want %q", filename, s, contents)
 	}
 	res.Body.Close()
 }
@@ -1672,10 +1672,10 @@ func TestServeFileZippingResponseWriter(t *testing.T) {
 	// and passing this ResponseWriter to ServeFile.
 	//
 	// This means ServeFile cannot properly set a Content-Length header, because it
-	// doesn't know what content it is going to send--the ResponseWriter is modifying
+	// doesn't know what content it is golanging to send--the ResponseWriter is modifying
 	// the bytes sent.
 	//
-	// Range requests are always going to be broken in this scenario,
+	// Range requests are always golanging to be broken in this scenario,
 	// but verify that we can serve non-range requests correctly.
 	filename := "index.html"
 	contents := []byte("contents will be sent with Content-Encoding: gzip")
@@ -1699,7 +1699,7 @@ func TestServeFileZippingResponseWriter(t *testing.T) {
 		t.Fatal("reading Body:", err)
 	}
 	if s := string(b); s != string(contents) {
-		t.Errorf("for path %q got %q, want %q", filename, s, contents)
+		t.Errorf("for path %q golangt %q, want %q", filename, s, contents)
 	}
 	res.Body.Close()
 }
@@ -1732,7 +1732,7 @@ func testFileServerDirWithRootFile(t *testing.T, mode testMode) {
 			t.Fatal(err)
 		}
 		if g, w := res.StatusCode, StatusInternalServerError; g != w {
-			t.Errorf("StatusCode mismatch: got %d, want: %d", g, w)
+			t.Errorf("StatusCode mismatch: golangt %d, want: %d", g, w)
 		}
 		res.Body.Close()
 	}
@@ -1793,33 +1793,33 @@ func testServeContentHeadersWithError(t *testing.T, keepHeaders bool) {
 		return ""
 	}
 	if g, e := res.StatusCode, 416; g != e {
-		t.Errorf("got status = %d; want %d", g, e)
+		t.Errorf("golangt status = %d; want %d", g, e)
 	}
 	if g, e := string(out), "invalid range: failed to overlap\n"; g != e {
-		t.Errorf("got body = %q; want %q", g, e)
+		t.Errorf("golangt body = %q; want %q", g, e)
 	}
 	if g, e := res.Header.Get("Content-Type"), "text/plain; charset=utf-8"; g != e {
-		t.Errorf("got content-type = %q, want %q", g, e)
+		t.Errorf("golangt content-type = %q, want %q", g, e)
 	}
 	if g, e := res.Header.Get("Content-Length"), strconv.Itoa(len(out)); g != e {
-		t.Errorf("got content-length = %q, want %q", g, e)
+		t.Errorf("golangt content-length = %q, want %q", g, e)
 	}
 	if g, e := res.Header.Get("Content-Encoding"), ifKept("gzip"); g != e {
-		t.Errorf("got content-encoding = %q, want %q", g, e)
+		t.Errorf("golangt content-encoding = %q, want %q", g, e)
 	}
 	if g, e := res.Header.Get("Etag"), ifKept(`"abcdefgh"`); g != e {
-		t.Errorf("got etag = %q, want %q", g, e)
+		t.Errorf("golangt etag = %q, want %q", g, e)
 	}
 	if g, e := res.Header.Get("Last-Modified"), ifKept("Wed, 21 Oct 2015 07:28:00 GMT"); g != e {
-		t.Errorf("got last-modified = %q, want %q", g, e)
+		t.Errorf("golangt last-modified = %q, want %q", g, e)
 	}
 	if g, e := res.Header.Get("Cache-Control"), ifKept("immutable"); g != e {
-		t.Errorf("got cache-control = %q, want %q", g, e)
+		t.Errorf("golangt cache-control = %q, want %q", g, e)
 	}
 	if g, e := res.Header.Get("Content-Range"), "bytes */7"; g != e {
-		t.Errorf("got content-range = %q, want %q", g, e)
+		t.Errorf("golangt content-range = %q, want %q", g, e)
 	}
 	if g, e := res.Header.Get("Other-Header"), "test"; g != e {
-		t.Errorf("got other-header = %q, want %q", g, e)
+		t.Errorf("golangt other-header = %q, want %q", g, e)
 	}
 }

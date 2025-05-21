@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test equality and inequality operations.
@@ -22,14 +22,14 @@ func stringptr(s string) uintptr { return *(*uintptr)(unsafe.Pointer(&s)) }
 func isfalse(b bool) {
 	if b {
 		// stack will explain where
-		panic("wanted false, got true")
+		panic("wanted false, golangt true")
 	}
 }
 
 func istrue(b bool) {
 	if !b {
 		// stack will explain where
-		panic("wanted true, got false")
+		panic("wanted true, golangt false")
 	}
 }
 
@@ -47,10 +47,10 @@ func main() {
 	var d string = "hel" // try to get different pointer
 	d = d + "lo"
 
-	// go.tools/ssa/interp can't handle unsafe.Pointer.
+	// golang.tools/ssa/interp can't handle unsafe.Pointer.
 	if os.Getenv("GOSSAINTERP") == "" {
 		if stringptr(c) == stringptr(d) {
-			panic("compiler too smart -- got same string")
+			panic("compiler too smart -- golangt same string")
 		}
 	}
 
@@ -115,7 +115,7 @@ func main() {
 	isfalse(ic != d)
 	isfalse(ie != e)
 
-	// gc used to let this go through as true.
+	// gc used to let this golang through as true.
 	var g uint64 = 123
 	var h int64 = 123
 	var ig interface{} = g

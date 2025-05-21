@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime_test
@@ -118,11 +118,11 @@ func TestFloatTruncation(t *testing.T) {
 		},
 	}
 	for _, item := range testdata {
-		if got, want := int64(item.input), item.convInt64; got != want {
-			t.Errorf("int64(%f): got %x, want %x", item.input, got, want)
+		if golangt, want := int64(item.input), item.convInt64; golangt != want {
+			t.Errorf("int64(%f): golangt %x, want %x", item.input, golangt, want)
 		}
-		if got, want := uint64(item.input), item.convUInt64; got != want {
-			t.Errorf("uint64(%f): got %x, want %x", item.input, got, want)
+		if golangt, want := uint64(item.input), item.convUInt64; golangt != want {
+			t.Errorf("uint64(%f): golangt %x, want %x", item.input, golangt, want)
 		}
 	}
 }

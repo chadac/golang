@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -30,7 +30,7 @@ func main() {
 	}
 }
 
-//go:noinline
+//golang:noinline
 func f(t *T, i, j uint) {
 	if i == 0 || i > C || j == 0 || j > C {
 		return // gets rid of bounds check below (via prove pass)
@@ -40,7 +40,7 @@ func f(t *T, i, j uint) {
 	runtime.GC()
 	*p = 0
 
-	// This goes badly if compiled to
+	// This golanges badly if compiled to
 	//   q := &t[i*j]
 	//   *(q-1) = 0
 	//   runtime.GC()

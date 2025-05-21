@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package fuzz
@@ -36,12 +36,12 @@ func TestQueue(t *testing.T) {
 	for _, r := range []int{1, 2, 3, 5, 8, 13, 21} {
 		s := make([]int, 0, r)
 		for i := 0; i < r; i++ {
-			if got, ok := q.dequeue(); !ok {
+			if golangt, ok := q.dequeue(); !ok {
 				t.Fatalf("after removing %d of %d elements, could not dequeue", i+1, r)
-			} else if got != want {
-				t.Fatalf("after removing %d of %d elements, got %d; want %d", i+1, r, got, want)
+			} else if golangt != want {
+				t.Fatalf("after removing %d of %d elements, golangt %d; want %d", i+1, r, golangt, want)
 			} else {
-				s = append(s, got.(int))
+				s = append(s, golangt.(int))
 			}
 			want = (want + 1) % N
 			if n := q.len; n != N-i-1 {

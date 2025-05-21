@@ -1,20 +1,20 @@
 // run
 
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build cgo
+//golang:build cgolang
 
 package main
 
 import (
 	"log"
-	"runtime/cgo"
+	"runtime/cgolang"
 	"unsafe"
 )
 
-type S struct{ _ cgo.Incomplete }
+type S struct{ _ cgolang.Incomplete }
 
 func main() {
 	p := (*S)(unsafe.Pointer(uintptr(0x8000)))

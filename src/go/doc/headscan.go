@@ -1,13 +1,13 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build ignore
+//golang:build ignore
 
 /*
 The headscan command extracts comment headings from package files;
 it is used to detect false positives which may require an adjustment
-to the comment formatting heuristics in comment.go.
+to the comment formatting heuristics in comment.golang.
 
 Usage: headscan [-root root_directory]
 
@@ -18,9 +18,9 @@ package main
 import (
 	"flag"
 	"fmt"
-	"go/doc"
-	"go/parser"
-	"go/token"
+	"golang/doc"
+	"golang/parser"
+	"golang/token"
 	"io/fs"
 	"os"
 	"path/filepath"
@@ -34,14 +34,14 @@ var (
 	verbose = flag.Bool("v", false, "verbose mode")
 )
 
-// ToHTML in comment.go assigns a (possibly blank) ID to each heading
+// ToHTML in comment.golang assigns a (possibly blank) ID to each heading
 var html_h = regexp.MustCompile(`<h3 id="[^"]*">`)
 
 const html_endh = "</h3>\n"
 
 func isGoFile(fi fs.FileInfo) bool {
-	return strings.HasSuffix(fi.Name(), ".go") &&
-		!strings.HasSuffix(fi.Name(), "_test.go")
+	return strings.HasSuffix(fi.Name(), ".golang") &&
+		!strings.HasSuffix(fi.Name(), "_test.golang")
 }
 
 func appendHeadings(list []string, comment string) []string {

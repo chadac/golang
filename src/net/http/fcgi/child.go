@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package fcgi
@@ -236,7 +236,7 @@ func (c *child) handleRecord(rec *record) error {
 			} else {
 				body = emptyBody
 			}
-			go c.serveRequest(req, body)
+			golang c.serveRequest(req, body)
 		}
 		if len(content) > 0 {
 			// TODO(eds): This blocks until the handler reads from the pipe.
@@ -308,7 +308,7 @@ func (c *child) serveRequest(req *request, body io.ReadCloser) {
 
 	// Consume the entire body, so the host isn't still writing to
 	// us when we close the socket below in the !keepConn case,
-	// otherwise we'd send a RST. (golang.org/issue/4183)
+	// otherwise we'd send a RST. (golanglang.org/issue/4183)
 	// TODO(bradfitz): also bound this copy in time. Or send
 	// some sort of abort request to the host, so the host
 	// can properly cut off the client sending all the data.
@@ -332,7 +332,7 @@ func (c *child) cleanUp() {
 }
 
 // Serve accepts incoming FastCGI connections on the listener l, creating a new
-// goroutine for each. The goroutine reads requests and then calls handler
+// golangroutine for each. The golangroutine reads requests and then calls handler
 // to reply to them.
 // If l is nil, Serve accepts connections from os.Stdin.
 // If handler is nil, [http.DefaultServeMux] is used.
@@ -354,7 +354,7 @@ func Serve(l net.Listener, handler http.Handler) error {
 			return err
 		}
 		c := newChild(rw, handler)
-		go c.serve()
+		golang c.serve()
 	}
 }
 

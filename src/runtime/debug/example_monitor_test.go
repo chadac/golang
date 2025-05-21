@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package debug_test
@@ -26,7 +26,7 @@ func ExampleSetCrashOutput_monitor() {
 	// To observe the monitor in action, replace the entire text
 	// of this comment with "Output:" and run this command:
 	//
-	//    $ go test -run=ExampleSetCrashOutput_monitor runtime/debug
+	//    $ golang test -run=ExampleSetCrashOutput_monitor runtime/debug
 	//    panic: oops
 	//    ...stack...
 	//    monitor: saved crash report at /tmp/10804884239807998216.crash

@@ -1,5 +1,5 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime_test
@@ -101,7 +101,7 @@ func verifyGCInfo(t *testing.T, name string, p any, mask0 []byte) {
 		// may be larger than we expect.
 		return
 	}
-	t.Errorf("bad GC program for %v:\nwant %+v\ngot  %+v", name, mask0, mask)
+	t.Errorf("bad GC program for %v:\nwant %+v\ngolangt  %+v", name, mask0, mask)
 }
 
 func trimDead(mask []byte) []byte {

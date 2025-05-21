@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -10,7 +10,7 @@ const (
 	smallInt = 42
 
 	// For bigInt, we use a value that's too big for an int64, but still
-	// fits in uint64. go/constant uses a different representation for
+	// fits in uint64. golang/constant uses a different representation for
 	// values larger than int64, but the cmd/asm parser can't parse
 	// anything bigger than a uint64.
 	bigInt = 0xffffffffffffffff
@@ -53,7 +53,7 @@ func main() {
 		println("longStringVal", longStringVal, "!=", string(longStringAsm[:]))
 	}
 
-	// We also include boolean consts in go_asm.h, but they're
+	// We also include boolean consts in golang_asm.h, but they're
 	// defined to be "true" or "false", and it's not clear how to
 	// use that in assembly.
 

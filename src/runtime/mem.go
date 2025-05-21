@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
@@ -45,7 +45,7 @@ import "unsafe"
 // Don't split the stack as this function may be invoked without a valid G,
 // which prevents us from allocating more stack.
 //
-//go:nosplit
+//golang:nosplit
 func sysAlloc(n uintptr, sysStat *sysMemStat, vmaName string) unsafe.Pointer {
 	sysStat.add(int64(n))
 	gcController.mappedReady.Add(int64(n))
@@ -117,7 +117,7 @@ func sysHugePageCollapse(v unsafe.Pointer, n uintptr) {
 // Don't split the stack as this function may be invoked without a valid G,
 // which prevents us from allocating more stack.
 //
-//go:nosplit
+//golang:nosplit
 func sysFree(v unsafe.Pointer, n uintptr, sysStat *sysMemStat) {
 	// When using ASAN leak detection, the memory being freed is
 	// known by the sanitizer. We need to unregister it so it's

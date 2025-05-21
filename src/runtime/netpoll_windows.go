@@ -1,11 +1,11 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
 
 import (
-	"internal/goarch"
+	"internal/golangarch"
 	"internal/runtime/atomic"
 	"unsafe"
 )
@@ -41,7 +41,7 @@ func packNetpollKey(source uint8, pd *pollDesc) uintptr {
 		// Also fail on 64-bit systems, even though it can hold more bits.
 		throw("runtime: source value is too large")
 	}
-	if goarch.PtrSize == 4 {
+	if golangarch.PtrSize == 4 {
 		return uintptr(unsafe.Pointer(pd))<<sourceBits | uintptr(source)
 	}
 	return uintptr(taggedPointerPack(unsafe.Pointer(pd), uintptr(source)))
@@ -49,7 +49,7 @@ func packNetpollKey(source uint8, pd *pollDesc) uintptr {
 
 // unpackNetpollSource returns the source packed key.
 func unpackNetpollSource(key uintptr) uint8 {
-	if goarch.PtrSize == 4 {
+	if golangarch.PtrSize == 4 {
 		return uint8(key & sourceMasks)
 	}
 	return uint8(taggedPointer(key).tag())
@@ -67,7 +67,7 @@ type pollOperation struct {
 
 // pollOperationFromOverlappedEntry returns the pollOperation contained in
 // e. It can return nil if the entry is not from internal/poll.
-// See go.dev/issue/58870
+// See golang.dev/issue/58870
 func pollOperationFromOverlappedEntry(e *overlappedEntry) *pollOperation {
 	if e.ov == nil {
 		return nil
@@ -75,7 +75,7 @@ func pollOperationFromOverlappedEntry(e *overlappedEntry) *pollOperation {
 	op := (*pollOperation)(unsafe.Pointer(e.ov))
 	// Check that the key matches the pollDesc pointer.
 	var keyMatch bool
-	if goarch.PtrSize == 4 {
+	if golangarch.PtrSize == 4 {
 		keyMatch = e.key&^sourceMasks == uintptr(unsafe.Pointer(op.pd))<<sourceBits
 	} else {
 		keyMatch = (*pollDesc)(taggedPointer(e.key).pointer()) == op.pd
@@ -144,7 +144,7 @@ func netpollBreak() {
 }
 
 // netpoll checks for ready network connections.
-// Returns a list of goroutines that become runnable,
+// Returns a list of golangroutines that become runnable,
 // and a delta to add to netpollWaiters.
 // This must never return an empty list with a non-zero delta.
 //
@@ -190,7 +190,7 @@ func netpoll(delay int64) (gList, int32) {
 	} else {
 		wait = uint32(delay / 1e6)
 	}
-	n := len(entries) / int(gomaxprocs)
+	n := len(entries) / int(golangmaxprocs)
 	if n < 8 {
 		n = 8
 	}

@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package mail
@@ -56,13 +56,13 @@ Version: 1
 	{
 		// RFC 5322 permits any printable ASCII character,
 		// except colon, in a header key. Issue #58862.
-		in: `From: iant@golang.org
+		in: `From: iant@golanglang.org
 Custom/Header: v
 
 Body
 `,
 		header: Header{
-			"From":          []string{"iant@golang.org"},
+			"From":          []string{"iant@golanglang.org"},
 			"Custom/Header": []string{"v"},
 		},
 		body: "Body\n",
@@ -70,16 +70,16 @@ Body
 	{
 		// RFC 4155 mbox format. We've historically permitted this,
 		// so we continue to permit it. Issue #60332.
-		in: `From iant@golang.org Mon Jun 19 00:00:00 2023
-From: iant@golang.org
+		in: `From iant@golanglang.org Mon Jun 19 00:00:00 2023
+From: iant@golanglang.org
 
-Hello, gophers!
+Hello, golangphers!
 `,
 		header: Header{
-			"From":                               []string{"iant@golang.org"},
-			"From iant@golang.org Mon Jun 19 00": []string{"00:00 2023"},
+			"From":                               []string{"iant@golanglang.org"},
+			"From iant@golanglang.org Mon Jun 19 00": []string{"00:00 2023"},
 		},
-		body: "Hello, gophers!\n",
+		body: "Hello, golangphers!\n",
 	},
 }
 
@@ -400,7 +400,7 @@ func TestAddressParsingError(t *testing.T) {
 	for i, tc := range mustErrTestCases {
 		_, err := ParseAddress(tc.text)
 		if err == nil || !strings.Contains(err.Error(), tc.wantErrText) {
-			t.Errorf(`mail.ParseAddress(%q) #%d want %q, got %v`, tc.text, i, tc.wantErrText, err)
+			t.Errorf(`mail.ParseAddress(%q) #%d want %q, golangt %v`, tc.text, i, tc.wantErrText, err)
 		}
 	}
 
@@ -409,7 +409,7 @@ func TestAddressParsingError(t *testing.T) {
 		for i, tc := range mustErrTestCases {
 			_, err := p.Parse(tc.text)
 			if err == nil || !strings.Contains(err.Error(), tc.wantErrText) {
-				t.Errorf(`p.Parse(%q) #%d want %q, got %v`, tc.text, i, tc.wantErrText, err)
+				t.Errorf(`p.Parse(%q) #%d want %q, golangt %v`, tc.text, i, tc.wantErrText, err)
 			}
 		}
 	})
@@ -660,11 +660,11 @@ func TestAddressParsing(t *testing.T) {
 		},
 		// RFC 6532 3.2.3, qtext /= UTF8-non-ascii
 		{
-			`"Gø Pher" <gopher@example.com>`,
+			`"Gø Pher" <golangpher@example.com>`,
 			[]*Address{
 				{
 					Name:    `Gø Pher`,
-					Address: "gopher@example.com",
+					Address: "golangpher@example.com",
 				},
 			},
 		},
@@ -834,7 +834,7 @@ func TestAddressParsing(t *testing.T) {
 				continue
 			}
 			if !reflect.DeepEqual([]*Address{addr}, test.exp) {
-				t.Errorf("Parse (single) of %q: got %+v, want %+v", test.addrsStr, addr, test.exp)
+				t.Errorf("Parse (single) of %q: golangt %+v, want %+v", test.addrsStr, addr, test.exp)
 			}
 		}
 
@@ -844,7 +844,7 @@ func TestAddressParsing(t *testing.T) {
 			continue
 		}
 		if !reflect.DeepEqual(addrs, test.exp) {
-			t.Errorf("Parse (list) of %q: got %+v, want %+v", test.addrsStr, addrs, test.exp)
+			t.Errorf("Parse (list) of %q: golangt %+v, want %+v", test.addrsStr, addrs, test.exp)
 		}
 	}
 }
@@ -1017,7 +1017,7 @@ func TestAddressParser(t *testing.T) {
 				continue
 			}
 			if !reflect.DeepEqual([]*Address{addr}, test.exp) {
-				t.Errorf("Parse (single) of %q: got %+v, want %+v", test.addrsStr, addr, test.exp)
+				t.Errorf("Parse (single) of %q: golangt %+v, want %+v", test.addrsStr, addr, test.exp)
 			}
 		}
 
@@ -1027,7 +1027,7 @@ func TestAddressParser(t *testing.T) {
 			continue
 		}
 		if !reflect.DeepEqual(addrs, test.exp) {
-			t.Errorf("Parse (list) of %q: got %+v, want %+v", test.addrsStr, addrs, test.exp)
+			t.Errorf("Parse (list) of %q: golangt %+v, want %+v", test.addrsStr, addrs, test.exp)
 		}
 	}
 }
@@ -1066,11 +1066,11 @@ func TestAddressString(t *testing.T) {
 			&Address{Name: "Böb Jacöb", Address: "bob@example.com"},
 			`=?utf-8?q?B=C3=B6b_Jac=C3=B6b?= <bob@example.com>`,
 		},
-		{ // https://golang.org/issue/12098
+		{ // https://golanglang.org/issue/12098
 			&Address{Name: "Rob", Address: ""},
 			`"Rob" <@>`,
 		},
-		{ // https://golang.org/issue/12098
+		{ // https://golanglang.org/issue/12098
 			&Address{Name: "Rob", Address: "@"},
 			`"Rob" <@>`,
 		},
@@ -1221,9 +1221,9 @@ func TestAddressFormattingAndParsing(t *testing.T) {
 		{Name: "Böb ???", Address: "bob@example.com"},
 		{Name: "Böb (Jacöb)", Address: "bob@example.com"},
 		{Name: "à#$%&'(),.:;<>@[]^`{|}~'", Address: "bob@example.com"},
-		// https://golang.org/issue/11292
+		// https://golanglang.org/issue/11292
 		{Name: "\"\\\x1f,\"", Address: "0@0"},
-		// https://golang.org/issue/12782
+		// https://golanglang.org/issue/12782
 		{Name: "naé, mée", Address: "test.mail@gmail.com"},
 	}
 

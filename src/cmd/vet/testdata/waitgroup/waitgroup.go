@@ -1,5 +1,5 @@
 // Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file contains tests for the waitgroup checker.
@@ -11,8 +11,8 @@ import "sync"
 func _() {
 	var wg *sync.WaitGroup
 	wg.Add(1)
-	go func() {
-		wg.Add(1) // ERROR "WaitGroup.Add called from inside new goroutine"
+	golang func() {
+		wg.Add(1) // ERROR "WaitGroup.Add called from inside new golangroutine"
 		defer wg.Done()
 		// ...
 	}()

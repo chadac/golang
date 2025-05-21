@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Random number generation
@@ -9,10 +9,10 @@ package runtime
 import (
 	"internal/byteorder"
 	"internal/chacha8rand"
-	"internal/goarch"
+	"internal/golangarch"
 	"internal/runtime/math"
 	"unsafe"
-	_ "unsafe" // for go:linkname
+	_ "unsafe" // for golang:linkname
 )
 
 // OS-specific startup can set startupRand if the OS passes
@@ -23,7 +23,7 @@ var startupRand []byte
 // globalRand holds the global random state.
 // It is only used at startup and for creating new m's.
 // Otherwise the per-m random state should be used
-// by calling goodrand.
+// by calling golangodrand.
 var globalRand struct {
 	lock  mutex
 	seed  [32]byte
@@ -62,7 +62,7 @@ func randinit() {
 	clear(seed[:])
 
 	if startupRand != nil {
-		// Overwrite startupRand instead of clearing it, in case cgo programs
+		// Overwrite startupRand instead of clearing it, in case cgolang programs
 		// access it after we used it.
 		for len(startupRand) > 0 {
 			buf := make([]byte, 8)
@@ -145,7 +145,7 @@ func bootstrapRandReseed() {
 
 // rand32 is uint32(rand()), called from compiler-generated code.
 //
-//go:nosplit
+//golang:nosplit
 func rand32() uint32 {
 	return uint32(rand())
 }
@@ -155,8 +155,8 @@ func rand32() uint32 {
 //
 // Do not change signature: used via linkname from other packages.
 //
-//go:nosplit
-//go:linkname rand
+//golang:nosplit
+//golang:linkname rand
 func rand() uint64 {
 	// Note: We avoid acquirem here so that in the fast path
 	// there is just a getg, an inlined c.Next, and a return.
@@ -179,7 +179,7 @@ func rand() uint64 {
 	}
 }
 
-//go:linkname maps_rand internal/runtime/maps.rand
+//golang:linkname maps_rand internal/runtime/maps.rand
 func maps_rand() uint64 {
 	return rand()
 }
@@ -198,8 +198,8 @@ func mrandinit(mp *m) {
 // randn is like rand() % n but faster.
 // Do not change signature: used via linkname from other packages.
 //
-//go:nosplit
-//go:linkname randn
+//golang:nosplit
+//golang:linkname randn
 func randn(n uint32) uint32 {
 	// See https://lemire.me/blog/2016/06/27/a-fast-alternative-to-the-modulo-reduction/
 	return uint32((uint64(uint32(rand())) * uint64(n)) >> 32)
@@ -217,21 +217,21 @@ func randn(n uint32) uint32 {
 // cheaprand should be an internal detail,
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
-//   - github.com/bytedance/gopkg
+//   - github.com/bytedance/golangpkg
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname cheaprand
-//go:nosplit
+//golang:linkname cheaprand
+//golang:nosplit
 func cheaprand() uint32 {
 	mp := getg().m
 	// Implement wyrand: https://github.com/wangyi-fudan/wyhash
 	// Only the platform that math.Mul64 can be lowered
 	// by the compiler should be in this list.
-	if goarch.IsAmd64|goarch.IsArm64|goarch.IsPpc64|
-		goarch.IsPpc64le|goarch.IsMips64|goarch.IsMips64le|
-		goarch.IsS390x|goarch.IsRiscv64|goarch.IsLoong64 == 1 {
+	if golangarch.IsAmd64|golangarch.IsArm64|golangarch.IsPpc64|
+		golangarch.IsPpc64le|golangarch.IsMips64|golangarch.IsMips64le|
+		golangarch.IsS390x|golangarch.IsRiscv64|golangarch.IsLoong64 == 1 {
 		mp.cheaprand += 0xa0761d6478bd642f
 		hi, lo := math.Mul64(mp.cheaprand, mp.cheaprand^0xe7037ed1a0b428db)
 		return uint32(hi ^ lo)
@@ -264,10 +264,10 @@ func cheaprand() uint32 {
 //   - github.com/zhangyunhao116/fastrand
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname cheaprand64
-//go:nosplit
+//golang:linkname cheaprand64
+//golang:nosplit
 func cheaprand64() int64 {
 	return int64(cheaprand())<<31 ^ int64(cheaprand())
 }
@@ -284,33 +284,33 @@ func cheaprand64() int64 {
 //   - github.com/phuslu/log
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname cheaprandn
-//go:nosplit
+//golang:linkname cheaprandn
+//golang:nosplit
 func cheaprandn(n uint32) uint32 {
 	// See https://lemire.me/blog/2016/06/27/a-fast-alternative-to-the-modulo-reduction/
 	return uint32((uint64(cheaprand()) * uint64(n)) >> 32)
 }
 
-// Too much legacy code has go:linkname references
+// Too much legacy code has golang:linkname references
 // to runtime.fastrand and friends, so keep these around for now.
 // Code should migrate to math/rand/v2.Uint64,
 // which is just as fast, but that's only available in Go 1.22+.
 // It would be reasonable to remove these in Go 1.24.
 // Do not call these from package runtime.
 
-//go:linkname legacy_fastrand runtime.fastrand
+//golang:linkname legacy_fastrand runtime.fastrand
 func legacy_fastrand() uint32 {
 	return uint32(rand())
 }
 
-//go:linkname legacy_fastrandn runtime.fastrandn
+//golang:linkname legacy_fastrandn runtime.fastrandn
 func legacy_fastrandn(n uint32) uint32 {
 	return randn(n)
 }
 
-//go:linkname legacy_fastrand64 runtime.fastrand64
+//golang:linkname legacy_fastrand64 runtime.fastrand64
 func legacy_fastrand64() uint64 {
 	return rand()
 }

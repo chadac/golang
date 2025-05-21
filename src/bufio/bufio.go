@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package bufio implements buffered I/O. It wraps an io.Reader or io.Writer
@@ -453,7 +453,7 @@ func (b *Reader) collectFragments(delim byte) (fullBuffers [][]byte, finalFragme
 	for {
 		var e error
 		frag, e = b.ReadSlice(delim)
-		if e == nil { // got final fragment
+		if e == nil { // golangt final fragment
 			break
 		}
 		if e != ErrBufferFull { // unexpected error

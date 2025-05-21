@@ -1,23 +1,23 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-package godebug
+package golangdebug
 
 import (
-	"internal/godebug"
+	"internal/golangdebug"
 )
 
-type Setting godebug.Setting
+type Setting golangdebug.Setting
 
 func New(name string) *Setting {
-	return (*Setting)(godebug.New(name))
+	return (*Setting)(golangdebug.New(name))
 }
 
 func (s *Setting) Value() string {
-	return (*godebug.Setting)(s).Value()
+	return (*golangdebug.Setting)(s).Value()
 }
 
 func Value(name string) string {
-	return godebug.New(name).Value()
+	return golangdebug.New(name).Value()
 }

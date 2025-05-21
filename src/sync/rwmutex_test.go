@@ -1,8 +1,8 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// GOMAXPROCS=10 go test
+// GOMAXPROCS=10 golang test
 
 package sync_test
 
@@ -14,7 +14,7 @@ import (
 	"testing"
 )
 
-// There is a modified copy of this file in runtime/rwmutex_test.go.
+// There is a modified copy of this file in runtime/rwmutex_test.golang.
 // If you make any changes here, see if you should make them there.
 
 func parallelReader(m *RWMutex, clocked, cunlock, cdone chan bool) {
@@ -25,14 +25,14 @@ func parallelReader(m *RWMutex, clocked, cunlock, cdone chan bool) {
 	cdone <- true
 }
 
-func doTestParallelReaders(numReaders, gomaxprocs int) {
-	runtime.GOMAXPROCS(gomaxprocs)
+func doTestParallelReaders(numReaders, golangmaxprocs int) {
+	runtime.GOMAXPROCS(golangmaxprocs)
 	var m RWMutex
 	clocked := make(chan bool)
 	cunlock := make(chan bool)
 	cdone := make(chan bool)
 	for i := 0; i < numReaders; i++ {
-		go parallelReader(&m, clocked, cunlock, cdone)
+		golang parallelReader(&m, clocked, cunlock, cdone)
 	}
 	// Wait for all parallel RLock()s to succeed.
 	for i := 0; i < numReaders; i++ {
@@ -41,7 +41,7 @@ func doTestParallelReaders(numReaders, gomaxprocs int) {
 	for i := 0; i < numReaders; i++ {
 		cunlock <- true
 	}
-	// Wait for the goroutines to finish.
+	// Wait for the golangroutines to finish.
 	for i := 0; i < numReaders; i++ {
 		<-cdone
 	}
@@ -86,20 +86,20 @@ func writer(rwm *RWMutex, num_iterations int, activity *int32, cdone chan bool) 
 	cdone <- true
 }
 
-func HammerRWMutex(gomaxprocs, numReaders, num_iterations int) {
-	runtime.GOMAXPROCS(gomaxprocs)
+func HammerRWMutex(golangmaxprocs, numReaders, num_iterations int) {
+	runtime.GOMAXPROCS(golangmaxprocs)
 	// Number of active readers + 10000 * number of active writers.
 	var activity int32
 	var rwm RWMutex
 	cdone := make(chan bool)
-	go writer(&rwm, num_iterations, &activity, cdone)
+	golang writer(&rwm, num_iterations, &activity, cdone)
 	var i int
 	for i = 0; i < numReaders/2; i++ {
-		go reader(&rwm, num_iterations, &activity, cdone)
+		golang reader(&rwm, num_iterations, &activity, cdone)
 	}
-	go writer(&rwm, num_iterations, &activity, cdone)
+	golang writer(&rwm, num_iterations, &activity, cdone)
 	for ; i < numReaders; i++ {
-		go reader(&rwm, num_iterations, &activity, cdone)
+		golang reader(&rwm, num_iterations, &activity, cdone)
 	}
 	// Wait for the 2 writers and all readers to finish.
 	for i := 0; i < 2+numReaders; i++ {
@@ -160,7 +160,7 @@ func TestRLocker(t *testing.T) {
 	rlocked := make(chan bool, 1)
 	rl = wl.RLocker()
 	n := 10
-	go func() {
+	golang func() {
 		for i := 0; i < n; i++ {
 			rl.Lock()
 			rl.Lock()

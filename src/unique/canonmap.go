@@ -1,12 +1,12 @@
 // Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package unique
 
 import (
 	"internal/abi"
-	"internal/goarch"
+	"internal/golangarch"
 	"runtime"
 	"sync"
 	"sync/atomic"
@@ -38,7 +38,7 @@ func (m *canonMap[T]) Load(key T) *T {
 	hash := m.hash(abi.NoEscape(unsafe.Pointer(&key)), m.seed)
 
 	i := m.root.Load()
-	hashShift := 8 * goarch.PtrSize
+	hashShift := 8 * golangarch.PtrSize
 	for hashShift != 0 {
 		hashShift -= nChildrenLog2
 
@@ -65,7 +65,7 @@ func (m *canonMap[T]) LoadOrStore(key T) *T {
 	for {
 		// Find the key or a candidate location for insertion.
 		i = m.root.Load()
-		hashShift = 8 * goarch.PtrSize
+		hashShift = 8 * golangarch.PtrSize
 		haveInsertPoint := false
 		for hashShift != 0 {
 			hashShift -= nChildrenLog2
@@ -78,7 +78,7 @@ func (m *canonMap[T]) LoadOrStore(key T) *T {
 				break
 			}
 			if n.isEntry {
-				// We found an existing entry, which is as far as we can go.
+				// We found an existing entry, which is as far as we can golang.
 				// If it stays this way, we'll have to replace it with an
 				// indirect node.
 				if v, _ := n.entry().lookup(key); v != nil {
@@ -120,7 +120,7 @@ func (m *canonMap[T]) LoadOrStore(key T) *T {
 	}
 	newEntry, canon, wp := newEntryNode(key, hash)
 	// Prune dead pointers. This is to avoid O(n) lookups when we store the exact same
-	// value in the set but the cleanup hasn't run yet because it got delayed for some
+	// value in the set but the cleanup hasn't run yet because it golangt delayed for some
 	// reason.
 	oldEntry = oldEntry.prune()
 	if oldEntry == nil {
@@ -158,7 +158,7 @@ func (m *canonMap[T]) expand(oldEntry, newEntry *entry[T], newHash uintptr, hash
 		if hashShift == 0 {
 			panic("unique.canonMap: ran out of hash bits while inserting")
 		}
-		hashShift -= nChildrenLog2 // hashShift is for the level parent is at. We need to go deeper.
+		hashShift -= nChildrenLog2 // hashShift is for the level parent is at. We need to golang deeper.
 		oi := (oldHash >> hashShift) & nChildrenMask
 		ni := (newHash >> hashShift) & nChildrenMask
 		if oi != ni {
@@ -185,7 +185,7 @@ func (m *canonMap[T]) cleanup(hash uintptr, wp weak.Pointer[T]) {
 	for {
 		// Find wp in the map by following hash.
 		i = m.root.Load()
-		hashShift = 8 * goarch.PtrSize
+		hashShift = 8 * golangarch.PtrSize
 		haveEntry := false
 		for hashShift != 0 {
 			hashShift -= nChildrenLog2
@@ -231,7 +231,7 @@ func (m *canonMap[T]) cleanup(hash uintptr, wp weak.Pointer[T]) {
 			// since we need to delete each empty node's link in its parent,
 			// which requires the parents' lock.
 			for i.parent != nil && i.empty() {
-				if hashShift == 8*goarch.PtrSize {
+				if hashShift == 8*golangarch.PtrSize {
 					panic("internal/sync.HashTrieMap: ran out of hash bits while iterating")
 				}
 				hashShift += nChildrenLog2
@@ -381,5 +381,5 @@ func (e *entry[T]) prune() *entry[T] {
 // Pull in runtime.rand so that we don't need to take a dependency
 // on math/rand/v2.
 //
-//go:linkname runtime_rand runtime.rand
+//golang:linkname runtime_rand runtime.rand
 func runtime_rand() uint64

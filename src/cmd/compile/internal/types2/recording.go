@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file implements recording of type information
@@ -9,7 +9,7 @@ package types2
 
 import (
 	"cmd/compile/internal/syntax"
-	"go/constant"
+	"golang/constant"
 )
 
 func (check *Checker) record(x *operand) {

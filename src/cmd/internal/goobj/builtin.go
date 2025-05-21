@@ -1,8 +1,8 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-package goobj
+package golangobj
 
 import "internal/buildcfg"
 
@@ -35,7 +35,7 @@ func BuiltinIdx(name string, abi int) int {
 	return i
 }
 
-//go:generate go run mkbuiltin.go
+//golang:generate golang run mkbuiltin.golang
 
 var builtinMap map[string]int
 

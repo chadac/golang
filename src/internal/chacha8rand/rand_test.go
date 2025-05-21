@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package chacha8rand_test
@@ -99,7 +99,7 @@ func TestBlockGeneric(t *testing.T) {
 	}
 }
 
-// Golden output test to make sure algorithm never changes,
+// Golden output test to make sure algolangrithm never changes,
 // so that its use in math/rand/v2 stays stable.
 // See https://c2sp.org/chacha8rand.
 

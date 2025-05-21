@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file sets up the universe scope and the unsafe package.
@@ -7,7 +7,7 @@
 package types2
 
 import (
-	"go/constant"
+	"golang/constant"
 	"strings"
 )
 
@@ -35,7 +35,7 @@ var (
 //
 // The *Basic type for Typ[Byte] will have the name "uint8".
 // Use Universe.Lookup("byte").Type() to obtain the specific
-// alias basic type named "byte" (and analogous for "rune").
+// alias basic type named "byte" (and analogolangus for "rune").
 var Typ = [...]*Basic{
 	Invalid: {Invalid, 0, "invalid type"},
 
@@ -82,8 +82,8 @@ func defPredeclaredTypes() {
 
 	// type any = interface{}
 	//
-	// Implement two representations of any: one for the legacy gotypesalias=0,
-	// and one for gotypesalias=1. This is necessary for consistent
+	// Implement two representations of any: one for the legacy golangtypesalias=0,
+	// and one for golangtypesalias=1. This is necessary for consistent
 	// representation of interface aliases during type checking, and is
 	// implemented via hijacking [Scope.Lookup] for the [Universe] scope.
 	//
@@ -92,7 +92,7 @@ func defPredeclaredTypes() {
 	// representation), and format it as "any" rather than interface{}, which
 	// clarifies user-facing error messages significantly.
 	//
-	// TODO(rfindley): once the gotypesalias GODEBUG variable is obsolete (and we
+	// TODO(rfindley): once the golangtypesalias GODEBUG variable is obsolete (and we
 	// consistently use the Alias node), we should be able to clarify user facing
 	// error messages without using a distinguished pointer for the any
 	// interface.
@@ -100,7 +100,7 @@ func defPredeclaredTypes() {
 		universeAnyNoAlias = NewTypeName(nopos, nil, "any", &Interface{complete: true, tset: &topTypeSet})
 		universeAnyNoAlias.setColor(black)
 		// ensure that the any TypeName reports a consistent Parent, after
-		// hijacking Universe.Lookup with gotypesalias=0.
+		// hijacking Universe.Lookup with golangtypesalias=0.
 		universeAnyNoAlias.setParent(Universe)
 
 		// It shouldn't matter which representation of any is actually inserted
@@ -296,7 +296,7 @@ func def(obj Object) {
 	if typ := asNamed(obj.Type()); typ != nil {
 		typ.obj = obj.(*TypeName)
 	}
-	// exported identifiers go into package unsafe
+	// exported identifiers golang into package unsafe
 	scope := Universe
 	if obj.Exported() {
 		scope = Unsafe.scope

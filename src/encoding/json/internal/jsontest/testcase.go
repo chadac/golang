@@ -1,8 +1,8 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build goexperiment.jsonv2
+//golang:build golangexperiment.jsonv2
 
 package jsontest
 
@@ -12,7 +12,7 @@ import (
 	"runtime"
 )
 
-// TODO(https://go.dev/issue/52751): Replace with native testing support.
+// TODO(https://golang.dev/issue/52751): Replace with native testing support.
 
 // CaseName is a case name annotated with a file and line.
 type CaseName struct {

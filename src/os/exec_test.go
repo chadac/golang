@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package os_test
@@ -28,7 +28,7 @@ func TestProcessLiteral(t *testing.T) {
 
 	p := &os.Process{Pid: os.Getpid()}
 	if err := p.Signal(os.Interrupt); err != nil {
-		t.Fatalf("Signal got err %v, want nil", err)
+		t.Fatalf("Signal golangt err %v, want nil", err)
 	}
 
 	// Verify we actually received the signal.
@@ -46,12 +46,12 @@ func TestProcessReleaseTwice(t *testing.T) {
 
 	r, w, err := os.Pipe()
 	if err != nil {
-		t.Fatalf("Pipe() got err %v, want nil", err)
+		t.Fatalf("Pipe() golangt err %v, want nil", err)
 	}
 	defer r.Close()
 	defer w.Close()
 
-	p, err := os.StartProcess(testenv.GoToolPath(t), []string{"go"}, &os.ProcAttr{
+	p, err := os.StartProcess(testenv.GoToolPath(t), []string{"golang"}, &os.ProcAttr{
 		// N.B. On Windows, StartProcess requires exactly 3 Files. Pass
 		// in a dummy pipe to avoid irrelevant output on the test stdout.
 		Files: []*os.File{r, w, w},
@@ -60,7 +60,7 @@ func TestProcessReleaseTwice(t *testing.T) {
 		t.Fatalf("starting test process: %v", err)
 	}
 	if err := p.Release(); err != nil {
-		t.Fatalf("first Release: got err %v, want nil", err)
+		t.Fatalf("first Release: golangt err %v, want nil", err)
 	}
 
 	err = p.Release()
@@ -72,6 +72,6 @@ func TestProcessReleaseTwice(t *testing.T) {
 	}
 
 	if err != want {
-		t.Fatalf("second Release: got err %v, want %v", err, want)
+		t.Fatalf("second Release: golangt err %v, want %v", err, want)
 	}
 }

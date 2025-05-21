@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime_test
@@ -8,7 +8,7 @@ import (
 	. "runtime"
 	"strconv"
 	"testing"
-	_ "unsafe" // for go:linkname
+	_ "unsafe" // for golang:linkname
 )
 
 func TestReadRandom(t *testing.T) {
@@ -64,13 +64,13 @@ func BenchmarkFastrandn(b *testing.B) {
 	}
 }
 
-//go:linkname fastrand runtime.fastrand
+//golang:linkname fastrand runtime.fastrand
 func fastrand() uint32
 
-//go:linkname fastrandn runtime.fastrandn
+//golang:linkname fastrandn runtime.fastrandn
 func fastrandn(uint32) uint32
 
-//go:linkname fastrand64 runtime.fastrand64
+//golang:linkname fastrand64 runtime.fastrand64
 func fastrand64() uint64
 
 func TestLegacyFastrand(t *testing.T) {

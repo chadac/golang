@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -13,10 +13,10 @@ import (
 
 func main() {
 	c := make(chan bool, 1)
-	go f1(c)
+	golang f1(c)
 	<-c
 	time.Sleep(10 * time.Millisecond)
-	go f2(c)
+	golang f2(c)
 	<-c
 }
 

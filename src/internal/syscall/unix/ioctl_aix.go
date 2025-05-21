@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package unix
@@ -9,11 +9,11 @@ import (
 	"unsafe"
 )
 
-//go:cgo_import_dynamic libc_ioctl ioctl "libc.a/shr_64.o"
-//go:linkname libc_ioctl libc_ioctl
+//golang:cgolang_import_dynamic libc_ioctl ioctl "libc.a/shr_64.o"
+//golang:linkname libc_ioctl libc_ioctl
 var libc_ioctl uintptr
 
-// Implemented in syscall/syscall_aix.go.
+// Implemented in syscall/syscall_aix.golang.
 func syscall6(trap, nargs, a1, a2, a3, a4, a5, a6 uintptr) (r1, r2 uintptr, err syscall.Errno)
 
 func Ioctl(fd int, cmd int, args unsafe.Pointer) (err error) {

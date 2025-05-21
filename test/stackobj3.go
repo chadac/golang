@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This test makes sure that ambiguously live arguments work correctly.
@@ -33,11 +33,11 @@ var null StkObj
 
 var sink *HeapObj
 
-//go:noinline
+//golang:noinline
 func use(p *StkObj) {
 }
 
-//go:noinline
+//golang:noinline
 func f(s StkObj, b bool) {
 	var p *StkObj
 	if b {

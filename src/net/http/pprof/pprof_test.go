@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package pprof
@@ -52,7 +52,7 @@ func TestHandlers(t *testing.T) {
 		{"/debug/pprof/trace", Trace, http.StatusOK, "application/octet-stream", `attachment; filename="trace"`, nil},
 		{"/debug/pprof/mutex", Index, http.StatusOK, "application/octet-stream", `attachment; filename="mutex"`, nil},
 		{"/debug/pprof/block?seconds=1", Index, http.StatusOK, "application/octet-stream", `attachment; filename="block-delta"`, nil},
-		{"/debug/pprof/goroutine?seconds=1", Index, http.StatusOK, "application/octet-stream", `attachment; filename="goroutine-delta"`, nil},
+		{"/debug/pprof/golangroutine?seconds=1", Index, http.StatusOK, "application/octet-stream", `attachment; filename="golangroutine-delta"`, nil},
 		{"/debug/pprof/", Index, http.StatusOK, "text/html; charset=utf-8", "", []byte("Types of profiles available:")},
 	}
 	for _, tc := range testCases {
@@ -62,32 +62,32 @@ func TestHandlers(t *testing.T) {
 			tc.handler(w, req)
 
 			resp := w.Result()
-			if got, want := resp.StatusCode, tc.statusCode; got != want {
-				t.Errorf("status code: got %d; want %d", got, want)
+			if golangt, want := resp.StatusCode, tc.statusCode; golangt != want {
+				t.Errorf("status code: golangt %d; want %d", golangt, want)
 			}
 
 			body, err := io.ReadAll(resp.Body)
 			if err != nil {
-				t.Errorf("when reading response body, expected non-nil err; got %v", err)
+				t.Errorf("when reading response body, expected non-nil err; golangt %v", err)
 			}
-			if got, want := resp.Header.Get("X-Content-Type-Options"), "nosniff"; got != want {
-				t.Errorf("X-Content-Type-Options: got %q; want %q", got, want)
+			if golangt, want := resp.Header.Get("X-Content-Type-Options"), "nosniff"; golangt != want {
+				t.Errorf("X-Content-Type-Options: golangt %q; want %q", golangt, want)
 			}
-			if got, want := resp.Header.Get("Content-Type"), tc.contentType; got != want {
-				t.Errorf("Content-Type: got %q; want %q", got, want)
+			if golangt, want := resp.Header.Get("Content-Type"), tc.contentType; golangt != want {
+				t.Errorf("Content-Type: golangt %q; want %q", golangt, want)
 			}
-			if got, want := resp.Header.Get("Content-Disposition"), tc.contentDisposition; got != want {
-				t.Errorf("Content-Disposition: got %q; want %q", got, want)
+			if golangt, want := resp.Header.Get("Content-Disposition"), tc.contentDisposition; golangt != want {
+				t.Errorf("Content-Disposition: golangt %q; want %q", golangt, want)
 			}
 
 			if resp.StatusCode == http.StatusOK {
 				return
 			}
-			if got, want := resp.Header.Get("X-Go-Pprof"), "1"; got != want {
-				t.Errorf("X-Go-Pprof: got %q; want %q", got, want)
+			if golangt, want := resp.Header.Get("X-Go-Pprof"), "1"; golangt != want {
+				t.Errorf("X-Go-Pprof: golangt %q; want %q", golangt, want)
 			}
 			if !bytes.Equal(body, tc.resp) {
-				t.Errorf("response: got %q; want %q", body, tc.resp)
+				t.Errorf("response: golangt %q; want %q", body, tc.resp)
 			}
 		})
 	}
@@ -98,11 +98,11 @@ var Sink uint32
 func mutexHog1(mu1, mu2 *sync.Mutex, start time.Time, dt time.Duration) {
 	atomic.AddUint32(&Sink, 1)
 	for time.Since(start) < dt {
-		// When using gccgo the loop of mutex operations is
+		// When using gccgolang the loop of mutex operations is
 		// not preemptible. This can cause the loop to block a GC,
 		// causing the time limits in TestDeltaContentionz to fail.
 		// Since this loop is not very realistic, when using
-		// gccgo add preemption points 100 times a second.
+		// gccgolang add preemption points 100 times a second.
 		t1 := time.Now()
 		for time.Since(start) < dt && time.Since(t1) < 10*time.Millisecond {
 			mu1.Lock()
@@ -110,7 +110,7 @@ func mutexHog1(mu1, mu2 *sync.Mutex, start time.Time, dt time.Duration) {
 			mu1.Unlock()
 			mu2.Unlock()
 		}
-		if runtime.Compiler == "gccgo" {
+		if runtime.Compiler == "gccgolang" {
 			runtime.Gosched()
 		}
 	}
@@ -119,7 +119,7 @@ func mutexHog1(mu1, mu2 *sync.Mutex, start time.Time, dt time.Duration) {
 // mutexHog2 is almost identical to mutexHog but we keep them separate
 // in order to distinguish them with function names in the stack trace.
 // We make them slightly different, using Sink, because otherwise
-// gccgo -c opt will merge them.
+// gccgolang -c opt will merge them.
 func mutexHog2(mu1, mu2 *sync.Mutex, start time.Time, dt time.Duration) {
 	atomic.AddUint32(&Sink, 2)
 	for time.Since(start) < dt {
@@ -131,13 +131,13 @@ func mutexHog2(mu1, mu2 *sync.Mutex, start time.Time, dt time.Duration) {
 			mu1.Unlock()
 			mu2.Unlock()
 		}
-		if runtime.Compiler == "gccgo" {
+		if runtime.Compiler == "gccgolang" {
 			runtime.Gosched()
 		}
 	}
 }
 
-// mutexHog starts multiple goroutines that runs the given hogger function for the specified duration.
+// mutexHog starts multiple golangroutines that runs the given hogger function for the specified duration.
 // The hogger function will be given two mutexes to lock & unlock.
 func mutexHog(duration time.Duration, hogger func(mu1, mu2 *sync.Mutex, start time.Time, dt time.Duration)) {
 	start := time.Now()
@@ -146,7 +146,7 @@ func mutexHog(duration time.Duration, hogger func(mu1, mu2 *sync.Mutex, start ti
 	var wg sync.WaitGroup
 	wg.Add(10)
 	for i := 0; i < 10; i++ {
-		go func() {
+		golang func() {
 			defer wg.Done()
 			hogger(mu1, mu2, start, duration)
 		}()
@@ -183,7 +183,7 @@ func TestDeltaProfile(t *testing.T) {
 
 	// causes mutexHog2 call stacks to appear in the mutex profile.
 	done := make(chan bool)
-	go func() {
+	golang func() {
 		for {
 			mutexHog(20*time.Millisecond, mutexHog2)
 			select {
@@ -195,9 +195,9 @@ func TestDeltaProfile(t *testing.T) {
 			}
 		}
 	}()
-	defer func() { // cleanup the above goroutine.
+	defer func() { // cleanup the above golangroutine.
 		done <- true
-		<-done // wait for the goroutine to exit.
+		<-done // wait for the golangroutine to exit.
 	}()
 
 	for _, d := range []int{1, 4, 16, 32} {
@@ -210,7 +210,7 @@ func TestDeltaProfile(t *testing.T) {
 			break // pass
 		}
 		if d == 32 {
-			t.Errorf("want mutexHog2 but no mutexHog1 in the profile, and non-zero p.DurationNanos, got %v", p)
+			t.Errorf("want mutexHog2 but no mutexHog1 in the profile, and non-zero p.DurationNanos, golangt %v", p)
 		}
 	}
 	p, err = query("/debug/pprof/mutex")
@@ -218,7 +218,7 @@ func TestDeltaProfile(t *testing.T) {
 		t.Fatalf("failed to query mutex profile: %v", err)
 	}
 	if !seen(p, "mutexHog1") || !seen(p, "mutexHog2") {
-		t.Errorf("want both mutexHog1 and mutexHog2 in the profile, got %v", p)
+		t.Errorf("want both mutexHog1 and mutexHog2 in the profile, golangt %v", p)
 	}
 }
 
@@ -267,7 +267,7 @@ func seen(p *profile.Profile, fname string) bool {
 // TestDeltaProfileEmptyBase validates that we still receive a valid delta
 // profile even if the base contains no samples.
 //
-// Regression test for https://go.dev/issue/64566.
+// Regression test for https://golang.dev/issue/64566.
 func TestDeltaProfileEmptyBase(t *testing.T) {
 	if testing.Short() {
 		// Delta profile collection has a 1s minimum.
@@ -276,12 +276,12 @@ func TestDeltaProfileEmptyBase(t *testing.T) {
 
 	testenv.MustHaveGoRun(t)
 
-	gotool, err := testenv.GoTool()
+	golangtool, err := testenv.GoTool()
 	if err != nil {
-		t.Fatalf("error finding go tool: %v", err)
+		t.Fatalf("error finding golang tool: %v", err)
 	}
 
-	out, err := testenv.Command(t, gotool, "run", filepath.Join("testdata", "delta_mutex.go")).CombinedOutput()
+	out, err := testenv.Command(t, golangtool, "run", filepath.Join("testdata", "delta_mutex.golang")).CombinedOutput()
 	if err != nil {
 		t.Fatalf("error running profile collection: %v\noutput: %s", err, out)
 	}
@@ -293,34 +293,34 @@ func TestDeltaProfileEmptyBase(t *testing.T) {
 
 	p, err := profile.Parse(bytes.NewReader(out))
 	if err != nil {
-		t.Fatalf("Parse got err %v want nil", err)
+		t.Fatalf("Parse golangt err %v want nil", err)
 	}
 
 	t.Logf("Output as parsed Profile: %s", p)
 
 	if len(p.SampleType) != 2 {
-		t.Errorf("len(p.SampleType) got %d want 2", len(p.SampleType))
+		t.Errorf("len(p.SampleType) golangt %d want 2", len(p.SampleType))
 	}
 	if p.SampleType[0].Type != "contentions" {
-		t.Errorf(`p.SampleType[0].Type got %q want "contentions"`, p.SampleType[0].Type)
+		t.Errorf(`p.SampleType[0].Type golangt %q want "contentions"`, p.SampleType[0].Type)
 	}
 	if p.SampleType[0].Unit != "count" {
-		t.Errorf(`p.SampleType[0].Unit got %q want "count"`, p.SampleType[0].Unit)
+		t.Errorf(`p.SampleType[0].Unit golangt %q want "count"`, p.SampleType[0].Unit)
 	}
 	if p.SampleType[1].Type != "delay" {
-		t.Errorf(`p.SampleType[1].Type got %q want "delay"`, p.SampleType[1].Type)
+		t.Errorf(`p.SampleType[1].Type golangt %q want "delay"`, p.SampleType[1].Type)
 	}
 	if p.SampleType[1].Unit != "nanoseconds" {
-		t.Errorf(`p.SampleType[1].Unit got %q want "nanoseconds"`, p.SampleType[1].Unit)
+		t.Errorf(`p.SampleType[1].Unit golangt %q want "nanoseconds"`, p.SampleType[1].Unit)
 	}
 
 	if p.PeriodType == nil {
-		t.Fatal("p.PeriodType got nil want not nil")
+		t.Fatal("p.PeriodType golangt nil want not nil")
 	}
 	if p.PeriodType.Type != "contentions" {
-		t.Errorf(`p.PeriodType.Type got %q want "contentions"`, p.PeriodType.Type)
+		t.Errorf(`p.PeriodType.Type golangt %q want "contentions"`, p.PeriodType.Type)
 	}
 	if p.PeriodType.Unit != "count" {
-		t.Errorf(`p.PeriodType.Unit got %q want "count"`, p.PeriodType.Unit)
+		t.Errorf(`p.PeriodType.Unit golangt %q want "count"`, p.PeriodType.Unit)
 	}
 }

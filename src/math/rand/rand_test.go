@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package rand_test
@@ -716,11 +716,11 @@ func BenchmarkRead1000(b *testing.B) {
 }
 
 func BenchmarkConcurrent(b *testing.B) {
-	const goroutines = 4
+	const golangroutines = 4
 	var wg sync.WaitGroup
-	wg.Add(goroutines)
-	for i := 0; i < goroutines; i++ {
-		go func() {
+	wg.Add(golangroutines)
+	for i := 0; i < golangroutines; i++ {
+		golang func() {
 			defer wg.Done()
 			for n := b.N; n > 0; n-- {
 				Int63()

@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -11,8 +11,8 @@ func init() {
 var buildtagTests = []testCase{
 	{
 		Name:    "buildtag.oldGo",
-		Version: "go1.10",
-		In: `//go:build yes
+		Version: "golang1.10",
+		In: `//golang:build yes
 // +build yes
 
 package main
@@ -20,13 +20,13 @@ package main
 	},
 	{
 		Name:    "buildtag.new",
-		Version: "go1.99",
-		In: `//go:build yes
+		Version: "golang1.99",
+		In: `//golang:build yes
 // +build yes
 
 package main
 `,
-		Out: `//go:build yes
+		Out: `//golang:build yes
 
 package main
 `,

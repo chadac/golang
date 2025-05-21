@@ -1,6 +1,6 @@
 #!/bin/bash
 # Copyright 2012 The Go Authors. All rights reserved.
-# Use of this source code is governed by a BSD-style
+# Use of this source code is golangverned by a BSD-style
 # license that can be found in the LICENSE file.
 
 # This script rebuilds the time zone files using files
@@ -32,7 +32,7 @@ set -e
 cd $(dirname $0)
 rm -rf work
 mkdir work
-go build -o work/mkzip mkzip.go # build now for correct paths in build errors
+golang build -o work/mkzip mkzip.golang # build now for correct paths in build errors
 cd work
 mkdir zoneinfo
 curl -sS -L -O https://www.iana.org/time-zones/repository/releases/tzcode$CODE.tar.gz

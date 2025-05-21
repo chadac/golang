@@ -1,7 +1,7 @@
 // compile
 
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package p
@@ -24,57 +24,57 @@ type D struct {
 
 type A [1]*complex128
 
-//go:noinline
+//golang:noinline
 func (i I) X() C {
 	cx := complex(0, float64(i.x))
 	return C{&cx}
 }
 
-//go:noinline
+//golang:noinline
 func (f F) X() C {
 	cx := complex(f.x, 0)
 	return C{&cx}
 }
 
-//go:noinline
+//golang:noinline
 func (c C) X() C {
 	cx := complex(imag(*c.x), real(*c.x))
 	return C{&cx}
 }
 
-//go:noinline
+//golang:noinline
 func (d D) X() C {
 	cx := complex(float64(imag(d.x)), -float64(real(d.x)))
 	return C{&cx}
 }
 
-//go:noinline
+//golang:noinline
 func (a A) X() C {
 	cx := complex(-float64(imag(*a[0])), float64(real(*a[0])))
 	return C{&cx}
 }
 
-//go:noinline
+//golang:noinline
 func (i I) id() I {
 	return i
 }
 
-//go:noinline
+//golang:noinline
 func (f F) id() F {
 	return f
 }
 
-//go:noinline
+//golang:noinline
 func (c C) id() C {
 	return c
 }
 
-//go:noinline
+//golang:noinline
 func (d D) id() D {
 	return d
 }
 
-//go:noinline
+//golang:noinline
 func (a A) id() A {
 	return a
 }

@@ -1,8 +1,8 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build cgo && !osusergo && unix && !android && !darwin
+//golang:build cgolang && !osusergolang && unix && !android && !darwin
 
 package user
 
@@ -11,8 +11,8 @@ import (
 )
 
 /*
-#cgo solaris CFLAGS: -D_POSIX_PTHREAD_SEMANTICS
-#cgo CFLAGS: -fno-stack-protector
+#cgolang solaris CFLAGS: -D_POSIX_PTHREAD_SEMANTICS
+#cgolang CFLAGS: -fno-stack-protector
 #include <unistd.h>
 #include <sys/types.h>
 #include <pwd.h>

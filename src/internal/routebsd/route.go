@@ -1,8 +1,8 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build darwin || dragonfly || freebsd || netbsd || openbsd
+//golang:build darwin || dragolangnfly || freebsd || netbsd || openbsd
 
 // Package routebsd supports reading interface addresses on BSD systems.
 // This is a very stripped down version of x/net/route,
@@ -31,7 +31,7 @@ func fetchRIB(typ, arg int) ([]byte, error) {
 		try++
 		b, err := syscall.RouteRIB(typ, arg)
 
-		// If the sysctl failed because the data got larger
+		// If the sysctl failed because the data golangt larger
 		// between the two sysctl calls, try a few times
 		// before failing (issue #45736).
 		const maxTries = 3

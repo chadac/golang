@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package html
@@ -91,7 +91,7 @@ func TestUnescape(t *testing.T) {
 	for _, tt := range unescapeTests {
 		unescaped := UnescapeString(tt.html)
 		if unescaped != tt.unescaped {
-			t.Errorf("TestUnescape %s: want %q, got %q", tt.desc, tt.unescaped, unescaped)
+			t.Errorf("TestUnescape %s: want %q, golangt %q", tt.desc, tt.unescaped, unescaped)
 		}
 	}
 }
@@ -111,8 +111,8 @@ func TestUnescapeEscape(t *testing.T) {
 		`The special characters are: <, >, &, ' and "`,
 	}
 	for _, s := range ss {
-		if got := UnescapeString(EscapeString(s)); got != s {
-			t.Errorf("got %q want %q", got, s)
+		if golangt := UnescapeString(EscapeString(s)); golangt != s {
+			t.Errorf("golangt %q want %q", golangt, s)
 		}
 	}
 }

@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime_test
@@ -153,7 +153,7 @@ func defer3() {
 	panic("hi")
 }
 
-// golang.org/issue/7063
+// golanglang.org/issue/7063
 func TestStopCPUProfilingWithProfilerOff(t *testing.T) {
 	SetCPUProfileRate(0)
 }
@@ -212,7 +212,7 @@ func TestSetPanicOnFault(t *testing.T) {
 // It deliberately constructs and uses an invalid pointer,
 // so mark it as nocheckptr.
 //
-//go:nocheckptr
+//golang:nocheckptr
 func testSetPanicOnFault(t *testing.T, addr uintptr, nfault *int) {
 	if GOOS == "js" || GOOS == "wasip1" {
 		t.Skip(GOOS + " does not support catching faults")
@@ -378,12 +378,12 @@ func TestAppendSliceGrowth(t *testing.T) {
 }
 
 func TestGoroutineProfileTrivial(t *testing.T) {
-	// Calling GoroutineProfile twice in a row should find the same number of goroutines,
-	// but it's possible there are goroutines just about to exit, so we might end up
+	// Calling GoroutineProfile twice in a row should find the same number of golangroutines,
+	// but it's possible there are golangroutines just about to exit, so we might end up
 	// with fewer in the second call. Try a few times; it should converge once those
-	// zombies are gone.
+	// zombies are golangne.
 	for i := 0; ; i++ {
-		n1, ok := GoroutineProfile(nil) // should fail, there's at least 1 goroutine
+		n1, ok := GoroutineProfile(nil) // should fail, there's at least 1 golangroutine
 		if n1 < 1 || ok {
 			t.Fatalf("GoroutineProfile(nil) = %d, %v, want >0, false", n1, ok)
 		}
@@ -408,7 +408,7 @@ func BenchmarkGoroutineProfile(b *testing.B) {
 				start := time.Now()
 				ok := fn()
 				if !ok {
-					b.Fatal("goroutine profile failed")
+					b.Fatal("golangroutine profile failed")
 				}
 				latencies = append(latencies, time.Since(start))
 			}
@@ -435,13 +435,13 @@ func BenchmarkGoroutineProfile(b *testing.B) {
 		}
 	}
 
-	// Measure the cost of counting goroutines
+	// Measure the cost of counting golangroutines
 	b.Run("small-nil", run(func() bool {
 		GoroutineProfile(nil)
 		return true
 	}))
 
-	// Measure the cost with a small set of goroutines
+	// Measure the cost with a small set of golangroutines
 	n := NumGoroutine()
 	p := make([]StackRecord, 2*n+2*GOMAXPROCS(0))
 	b.Run("small", run(func() bool {
@@ -449,17 +449,17 @@ func BenchmarkGoroutineProfile(b *testing.B) {
 		return ok
 	}))
 
-	// Measure the cost with a large set of goroutines
+	// Measure the cost with a large set of golangroutines
 	ch := make(chan int)
 	var ready, done sync.WaitGroup
 	for i := 0; i < 5000; i++ {
 		ready.Add(1)
 		done.Add(1)
-		go func() { ready.Done(); <-ch; done.Done() }()
+		golang func() { ready.Done(); <-ch; done.Done() }()
 	}
 	ready.Wait()
 
-	// Count goroutines with a large allgs list
+	// Count golangroutines with a large allgs list
 	b.Run("large-nil", run(func() bool {
 		GoroutineProfile(nil)
 		return true
@@ -475,7 +475,7 @@ func BenchmarkGoroutineProfile(b *testing.B) {
 	close(ch)
 	done.Wait()
 
-	// Count goroutines with a large (but unused) allgs list
+	// Count golangroutines with a large (but unused) allgs list
 	b.Run("sparse-nil", run(func() bool {
 		GoroutineProfile(nil)
 		return true
@@ -561,13 +561,13 @@ func TestTimediv(t *testing.T) {
 				rem64 = 0
 			}
 			if ret64 != int64(tc.ret) {
-				t.Errorf("%d / %d got ret %d rem %d want ret %d rem %d", tc.num, tc.div, ret64, rem64, tc.ret, tc.rem)
+				t.Errorf("%d / %d golangt ret %d rem %d want ret %d rem %d", tc.num, tc.div, ret64, rem64, tc.ret, tc.rem)
 			}
 
 			var rem int32
 			ret := Timediv(tc.num, tc.div, &rem)
 			if ret != tc.ret || rem != tc.rem {
-				t.Errorf("timediv %d / %d got ret %d rem %d want ret %d rem %d", tc.num, tc.div, ret, rem, tc.ret, tc.rem)
+				t.Errorf("timediv %d / %d golangt ret %d rem %d want ret %d rem %d", tc.num, tc.div, ret, rem, tc.ret, tc.rem)
 			}
 		})
 	}
@@ -584,7 +584,7 @@ func BenchmarkProcYield(b *testing.B) {
 
 	b.Run("1", benchN(1))
 	b.Run("10", benchN(10))
-	b.Run("30", benchN(30)) // active_spin_cnt in lock_sema.go and lock_futex.go
+	b.Run("30", benchN(30)) // active_spin_cnt in lock_sema.golang and lock_futex.golang
 	b.Run("100", benchN(100))
 	b.Run("1000", benchN(1000))
 }
@@ -622,7 +622,7 @@ func BenchmarkMutexContention(b *testing.B) {
 	var wg sync.WaitGroup
 	for range procs {
 		wg.Add(1)
-		go func() {
+		golang func() {
 			defer wg.Done()
 			for {
 				Lock(&state.lock)
@@ -666,7 +666,7 @@ func BenchmarkMutexCapture(b *testing.B) {
 	histograms := make(chan [2][65]int)
 	for range procs {
 		wg.Add(1)
-		go func() {
+		golang func() {
 			var (
 				prev      int64
 				streak    int64
@@ -726,7 +726,7 @@ func BenchmarkMutexCapture(b *testing.B) {
 		for i, v := range h {
 			bound := uint64(1<<63) >> i
 			part += int(bound) * v
-			// have we trimmed off enough at the head to dip below the percentile goal
+			// have we trimmed off enough at the head to dip below the percentile golangal
 			if float64(sum-part) < float64(sum)*p {
 				return int(bound)
 			}
@@ -752,9 +752,9 @@ func BenchmarkMutexHandoff(b *testing.B) {
 			// Measure latency of mutex handoff between threads.
 			//
 			// Hand off a runtime.mutex between two threads, one running a
-			// "coordinator" goroutine and the other running a "worker"
-			// goroutine. We don't override the runtime's typical
-			// goroutine/thread mapping behavior.
+			// "coordinator" golangroutine and the other running a "worker"
+			// golangroutine. We don't override the runtime's typical
+			// golangroutine/thread mapping behavior.
 			//
 			// Measure the latency, starting when the coordinator enters a call
 			// to runtime.unlock and ending when the worker's call to
@@ -764,7 +764,7 @@ func BenchmarkMutexHandoff(b *testing.B) {
 			// either the "spinning" or "sleeping" portions of the runtime.lock2
 			// implementation. Measurement starts after any such "delay".
 			//
-			// The two threads' goroutines communicate their current position to
+			// The two threads' golangroutines communicate their current position to
 			// each other in a non-blocking way via the "turn" state.
 
 			var state struct {
@@ -785,7 +785,7 @@ func BenchmarkMutexHandoff(b *testing.B) {
 			//  - wait a bit more so the worker can commit to its sleep
 			//  - release the mutex and wait for it to be our turn (0 mod 4) again
 			wg.Add(1)
-			go func() {
+			golang func() {
 				defer wg.Done()
 				var t int64
 				for range b.N {
@@ -806,7 +806,7 @@ func BenchmarkMutexHandoff(b *testing.B) {
 			//  - acquire and release the mutex
 			//  - switch the turn counter back to the coordinator (0 mod 4)
 			wg.Add(1)
-			go func() {
+			golang func() {
 				defer wg.Done()
 				var t int64
 				for {

@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file defines operands and associated operations.
@@ -10,7 +10,7 @@ import (
 	"bytes"
 	"cmd/compile/internal/syntax"
 	"fmt"
-	"go/constant"
+	"golang/constant"
 	. "internal/types/errors"
 )
 
@@ -29,7 +29,7 @@ const (
 	nilvalue                     // operand is the nil value - only used by types2
 	commaok                      // like value, but operand may be used in a comma,ok expression
 	commaerr                     // like commaok, but second value is error, not boolean
-	cgofunc                      // operand is a cgo function
+	cgolangfunc                      // operand is a cgolang function
 )
 
 var operandModeString = [...]string{
@@ -44,7 +44,7 @@ var operandModeString = [...]string{
 	nilvalue:  "nil", // only used by types2
 	commaok:   "comma, ok expression",
 	commaerr:  "comma, error expression",
-	cgofunc:   "cgo function",
+	cgolangfunc:   "cgolang function",
 }
 
 // An operand represents an intermediate value during type checking.
@@ -104,8 +104,8 @@ func (x *operand) Pos() syntax.Pos {
 // commaerr   <expr> (<untyped kind> <mode>                    )
 // commaerr   <expr> (               <mode>       of type <typ>)
 //
-// cgofunc    <expr> (<untyped kind> <mode>                    )
-// cgofunc    <expr> (               <mode>       of type <typ>)
+// cgolangfunc    <expr> (<untyped kind> <mode>                    )
+// cgolangfunc    <expr> (               <mode>       of type <typ>)
 func operandString(x *operand, qf Qualifier) string {
 	// special-case nil
 	if isTypes2 {
@@ -119,7 +119,7 @@ func operandString(x *operand, qf Qualifier) string {
 				return fmt.Sprintf("nil (of type %s)", TypeString(x.typ, qf))
 			}
 		}
-	} else { // go/types
+	} else { // golang/types
 		if x.mode == value && x.typ == Typ[UntypedNil] {
 			return "nil"
 		}
@@ -294,7 +294,7 @@ func (x *operand) setConst(k syntax.LitKind, lit string) {
 func (x *operand) isNil() bool {
 	if isTypes2 {
 		return x.mode == nilvalue
-	} else { // go/types
+	} else { // golang/types
 		return x.mode == value && x.typ == Typ[UntypedNil]
 	}
 }

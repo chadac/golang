@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -38,7 +38,7 @@ func main() {
 	tslow := rslow.NsPerOp()
 	tfast := rfast.NsPerOp()
 
-	// Optimization should be good for at least 2x, but be forgiving.
+	// Optimization should be golangod for at least 2x, but be forgiving.
 	// On the ARM simulator we see closer to 1.5x.
 	speedup := float64(tslow) / float64(tfast)
 	want := 1.8

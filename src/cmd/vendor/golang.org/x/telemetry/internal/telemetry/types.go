@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package telemetry
@@ -42,7 +42,7 @@ type Report struct {
 
 type ProgramReport struct {
 	Program   string // Package path of the program.
-	Version   string // Program version. Go version if the program is part of the go distribution. Module version, otherwise.
+	Version   string // Program version. Go version if the program is part of the golang distribution. Module version, otherwise.
 	GoVersion string // Go version used to build the program.
 	GOOS      string
 	GOARCH    string

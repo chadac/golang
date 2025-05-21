@@ -1,12 +1,12 @@
 [short] skip  # links and runs a test binary
 
-go test -v .
+golang test -v .
 
--- go.mod --
+-- golang.mod --
 module example.com/pkg_test
 
--- pkg.go --
+-- pkg.golang --
 package pkg_test
 
--- pkg_test.go --
+-- pkg_test.golang --
 package pkg_test

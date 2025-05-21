@@ -1,29 +1,29 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package sys
 
 import (
 	"encoding/binary"
-	"internal/goarch"
+	"internal/golangarch"
 )
 
-// TODO: just use goarch.ArchFamilyType directly
-type ArchFamily = goarch.ArchFamilyType
+// TODO: just use golangarch.ArchFamilyType directly
+type ArchFamily = golangarch.ArchFamilyType
 
 const (
-	AMD64   = goarch.AMD64
-	ARM     = goarch.ARM
-	ARM64   = goarch.ARM64
-	I386    = goarch.I386
-	Loong64 = goarch.LOONG64
-	MIPS    = goarch.MIPS
-	MIPS64  = goarch.MIPS64
-	PPC64   = goarch.PPC64
-	RISCV64 = goarch.RISCV64
-	S390X   = goarch.S390X
-	Wasm    = goarch.WASM
+	AMD64   = golangarch.AMD64
+	ARM     = golangarch.ARM
+	ARM64   = golangarch.ARM64
+	I386    = golangarch.I386
+	Loong64 = golangarch.LOONG64
+	MIPS    = golangarch.MIPS
+	MIPS64  = golangarch.MIPS64
+	PPC64   = golangarch.PPC64
+	RISCV64 = golangarch.RISCV64
+	S390X   = golangarch.S390X
+	Wasm    = golangarch.WASM
 )
 
 // Arch represents an individual architecture.

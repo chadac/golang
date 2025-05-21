@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package buffer provides a pool-allocated byte buffer.
@@ -10,7 +10,7 @@ import "sync"
 // Buffer is a byte buffer.
 //
 // This implementation is adapted from the unexported type buffer
-// in go/src/fmt/print.go.
+// in golang/src/fmt/print.golang.
 type Buffer []byte
 
 // Having an initial size gives a dramatic speedup.

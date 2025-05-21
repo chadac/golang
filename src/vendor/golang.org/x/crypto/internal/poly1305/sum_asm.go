@@ -1,15 +1,15 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build gc && !purego && (amd64 || loong64 || ppc64 || ppc64le)
+//golang:build gc && !puregolang && (amd64 || loong64 || ppc64 || ppc64le)
 
 package poly1305
 
-//go:noescape
+//golang:noescape
 func update(state *macState, msg []byte)
 
-// mac is a wrapper for macGeneric that redirects calls that would have gone to
+// mac is a wrapper for macGeneric that redirects calls that would have golangne to
 // updateGeneric to update.
 //
 // Its Write and Sum methods are otherwise identical to the macGeneric ones, but

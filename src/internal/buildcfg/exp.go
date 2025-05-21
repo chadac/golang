@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package buildcfg
@@ -9,14 +9,14 @@ import (
 	"reflect"
 	"strings"
 
-	"internal/goexperiment"
+	"internal/golangexperiment"
 )
 
 // ExperimentFlags represents a set of GOEXPERIMENT flags relative to a baseline
 // (platform-default) experiment configuration.
 type ExperimentFlags struct {
-	goexperiment.Flags
-	baseline goexperiment.Flags
+	golangexperiment.Flags
+	baseline golangexperiment.Flags
 }
 
 // Experiment contains the toolchain experiments enabled for the
@@ -54,14 +54,14 @@ var FramePointerEnabled = GOARCH == "amd64" || GOARCH == "arm64"
 // configuration tuple and returns the enabled and baseline experiment
 // flag sets.
 //
-// TODO(mdempsky): Move to internal/goexperiment.
-func ParseGOEXPERIMENT(goos, goarch, goexp string) (*ExperimentFlags, error) {
+// TODO(mdempsky): Move to internal/golangexperiment.
+func ParseGOEXPERIMENT(golangos, golangarch, golangexp string) (*ExperimentFlags, error) {
 	// regabiSupported is set to true on platforms where register ABI is
 	// supported and enabled by default.
 	// regabiAlwaysOn is set to true on platforms where register ABI is
 	// always on.
 	var regabiSupported, regabiAlwaysOn bool
-	switch goarch {
+	switch golangarch {
 	case "amd64", "arm64", "loong64", "ppc64le", "ppc64", "riscv64":
 		regabiAlwaysOn = true
 		regabiSupported = true
@@ -69,16 +69,16 @@ func ParseGOEXPERIMENT(goos, goarch, goexp string) (*ExperimentFlags, error) {
 
 	// Older versions (anything before V16) of dsymutil don't handle
 	// the .debug_rnglists section in DWARF5. See
-	// https://github.com/golang/go/issues/26379#issuecomment-2677068742
+	// https://github.com/golanglang/golang/issues/26379#issuecomment-2677068742
 	// for more context. This disables all DWARF5 on mac, which is not
 	// ideal (would be better to disable just for cases where we know
 	// the build will use external linking). In the GOOS=aix case, the
 	// XCOFF format (as far as can be determined) doesn't seem to
 	// support the necessary section subtypes for DWARF-specific
 	// things like .debug_addr (needed for DWARF 5).
-	dwarf5Supported := (goos != "darwin" && goos != "ios" && goos != "aix")
+	dwarf5Supported := (golangos != "darwin" && golangos != "ios" && golangos != "aix")
 
-	baseline := goexperiment.Flags{
+	baseline := golangexperiment.Flags{
 		RegabiWrappers:  regabiSupported,
 		RegabiArgs:      regabiSupported,
 		AliasTypeParams: true,
@@ -96,7 +96,7 @@ func ParseGOEXPERIMENT(goos, goarch, goexp string) (*ExperimentFlags, error) {
 	// Pick up any changes to the baseline configuration from the
 	// GOEXPERIMENT environment. This can be set at make.bash time
 	// and overridden at build time.
-	if goexp != "" {
+	if golangexp != "" {
 		// Create a map of known experiment names.
 		names := make(map[string]func(bool))
 		rv := reflect.ValueOf(&flags.Flags).Elem()
@@ -116,7 +116,7 @@ func ParseGOEXPERIMENT(goos, goarch, goexp string) (*ExperimentFlags, error) {
 		}
 
 		// Parse names.
-		for _, f := range strings.Split(goexp, ",") {
+		for _, f := range strings.Split(golangexp, ",") {
 			if f == "" {
 				continue
 			}
@@ -124,7 +124,7 @@ func ParseGOEXPERIMENT(goos, goarch, goexp string) (*ExperimentFlags, error) {
 				// GOEXPERIMENT=none disables all experiment flags.
 				// This is used by cmd/dist, which doesn't know how
 				// to build with any experiment flags.
-				flags.Flags = goexperiment.Flags{}
+				flags.Flags = golangexperiment.Flags{}
 				continue
 			}
 			val := true
@@ -165,7 +165,7 @@ func (exp *ExperimentFlags) String() string {
 // experiments that differ from base. base may be nil to indicate no
 // experiments. If all is true, then include all experiment flags,
 // regardless of base.
-func expList(exp, base *goexperiment.Flags, all bool) []string {
+func expList(exp, base *golangexperiment.Flags, all bool) []string {
 	var list []string
 	rv := reflect.ValueOf(exp).Elem()
 	var rBase reflect.Value

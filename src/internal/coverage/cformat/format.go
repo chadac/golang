@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package cformat
@@ -7,7 +7,7 @@ package cformat
 // This package provides apis for producing human-readable summaries
 // of coverage data (e.g. a coverage percentage for a given package or
 // set of packages) and for writing data in the legacy test format
-// emitted by "go test -coverprofile=<outfile>".
+// emitted by "golang test -coverprofile=<outfile>".
 //
 // The model for using these apis is to create a Formatter object,
 // then make a series of calls to SetPackage and AddUnit passing in
@@ -168,7 +168,7 @@ func (p *pstate) sortUnits(units []extcu) {
 // cmd/cover text format to the writer 'w'; if pkgs is empty, text output
 // is emitted for all packages recorded.  We sort the data items by
 // importpath, source file, and line number before emitting (this sorting
-// is not explicitly mandated by the format, but seems like a good idea
+// is not explicitly mandated by the format, but seems like a golangod idea
 // for repeatable/deterministic dumps).
 func (fm *Formatter) EmitTextual(pkgs []string, w io.Writer) error {
 	if fm.cm == coverage.CtrModeInvalid {
@@ -270,7 +270,7 @@ func (fm *Formatter) EmitPercent(w io.Writer, pkgs []string, inpkgs string, note
 // EmitFuncs writes out a function-level summary to the writer 'w'. A
 // note on handling function literals: although we collect coverage
 // data for unnamed literals, it probably does not make sense to
-// include them in the function summary since there isn't any good way
+// include them in the function summary since there isn't any golangod way
 // to name them (this is also consistent with the legacy cmd/cover
 // implementation). We do want to include their counts in the overall
 // summary however.

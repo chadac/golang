@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -14,10 +14,10 @@ import (
 func main() {
 	e := []int{1, 2, 2, 3, 1, 6}
 
-	got := a.Unique(e)
+	golangt := a.Unique(e)
 	want := []int{1, 2, 3, 6}
-	if !reflect.DeepEqual(got, want) {
-		panic(fmt.Sprintf("got %d, want %d", got, want))
+	if !reflect.DeepEqual(golangt, want) {
+		panic(fmt.Sprintf("golangt %d, want %d", golangt, want))
 	}
 
 }

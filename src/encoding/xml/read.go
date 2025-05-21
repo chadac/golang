@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package xml
@@ -312,7 +312,7 @@ var (
 
 const (
 	maxUnmarshalDepth     = 10000
-	maxUnmarshalDepthWasm = 5000 // go.dev/issue/56498
+	maxUnmarshalDepthWasm = 5000 // golang.dev/issue/56498
 )
 
 var errUnmarshalDepth = errors.New("exceeded max depth")

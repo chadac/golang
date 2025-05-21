@@ -1,13 +1,13 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !cgo
+//golang:build !cgolang
 
-package cgotlstest
+package cgolangtlstest
 
 import "testing"
 
 func testTLS(t *testing.T) {
-	t.Skip("cgo not supported")
+	t.Skip("cgolang not supported")
 }

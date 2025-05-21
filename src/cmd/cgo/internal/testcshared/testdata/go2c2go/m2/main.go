@@ -1,10 +1,10 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
 
-// #include "libtestgo2c2go.h"
+// #include "libtestgolang2c2golang.h"
 import "C"
 
 import (
@@ -13,10 +13,10 @@ import (
 )
 
 func main() {
-	got := C.GoFunc()
+	golangt := C.GoFunc()
 	const want = 1
-	if got != want {
-		fmt.Printf("got %#x, want %#x\n", got, want)
+	if golangt != want {
+		fmt.Printf("golangt %#x, want %#x\n", golangt, want)
 		os.Exit(1)
 	}
 }

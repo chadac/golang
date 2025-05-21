@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package image
@@ -47,16 +47,16 @@ func TestImage(t *testing.T) {
 	for _, tc := range testImages {
 		m := tc.image()
 		if !Rect(0, 0, 10, 10).Eq(m.Bounds()) {
-			t.Errorf("%T: want bounds %v, got %v", m, Rect(0, 0, 10, 10), m.Bounds())
+			t.Errorf("%T: want bounds %v, golangt %v", m, Rect(0, 0, 10, 10), m.Bounds())
 			continue
 		}
 		if !cmp(m.ColorModel(), Transparent, m.At(6, 3)) {
-			t.Errorf("%T: at (6, 3), want a zero color, got %v", m, m.At(6, 3))
+			t.Errorf("%T: at (6, 3), want a zero color, golangt %v", m, m.At(6, 3))
 			continue
 		}
 		m.Set(6, 3, Opaque)
 		if !cmp(m.ColorModel(), Opaque, m.At(6, 3)) {
-			t.Errorf("%T: at (6, 3), want a non-zero color, got %v", m, m.At(6, 3))
+			t.Errorf("%T: at (6, 3), want a non-zero color, golangt %v", m, m.At(6, 3))
 			continue
 		}
 		if !m.SubImage(Rect(6, 3, 7, 4)).(image).Opaque() {
@@ -65,20 +65,20 @@ func TestImage(t *testing.T) {
 		}
 		m = m.SubImage(Rect(3, 2, 9, 8)).(image)
 		if !Rect(3, 2, 9, 8).Eq(m.Bounds()) {
-			t.Errorf("%T: sub-image want bounds %v, got %v", m, Rect(3, 2, 9, 8), m.Bounds())
+			t.Errorf("%T: sub-image want bounds %v, golangt %v", m, Rect(3, 2, 9, 8), m.Bounds())
 			continue
 		}
 		if !cmp(m.ColorModel(), Opaque, m.At(6, 3)) {
-			t.Errorf("%T: sub-image at (6, 3), want a non-zero color, got %v", m, m.At(6, 3))
+			t.Errorf("%T: sub-image at (6, 3), want a non-zero color, golangt %v", m, m.At(6, 3))
 			continue
 		}
 		if !cmp(m.ColorModel(), Transparent, m.At(3, 3)) {
-			t.Errorf("%T: sub-image at (3, 3), want a zero color, got %v", m, m.At(3, 3))
+			t.Errorf("%T: sub-image at (3, 3), want a zero color, golangt %v", m, m.At(3, 3))
 			continue
 		}
 		m.Set(3, 3, Opaque)
 		if !cmp(m.ColorModel(), Opaque, m.At(3, 3)) {
-			t.Errorf("%T: sub-image at (3, 3), want a non-zero color, got %v", m, m.At(3, 3))
+			t.Errorf("%T: sub-image at (3, 3), want a non-zero color, golangt %v", m, m.At(3, 3))
 			continue
 		}
 		// Test that taking an empty sub-image starting at a corner does not panic.
@@ -135,11 +135,11 @@ func TestNewXxxBadRectangle(t *testing.T) {
 					r.Max.Y = 27
 				}
 
-				got := call(tc.f, r)
+				golangt := call(tc.f, r)
 				want := !negDx && !negDy
-				if got != want {
-					t.Errorf("New%s: negDx=%t, negDy=%t: got %t, want %t",
-						tc.name, negDx, negDy, got, want)
+				if golangt != want {
+					t.Errorf("New%s: negDx=%t, negDy=%t: golangt %t, want %t",
+						tc.name, negDx, negDy, golangt, want)
 				}
 			}
 		}
@@ -150,12 +150,12 @@ func TestNewXxxBadRectangle(t *testing.T) {
 			zeroAsUint := uint(0)
 			maxUint := zeroAsUint - 1
 			maxInt := int(maxUint / 2)
-			got := call(tc.f, Rectangle{
+			golangt := call(tc.f, Rectangle{
 				Min: Point{0, 0},
 				Max: Point{maxInt, maxInt},
 			})
-			if got {
-				t.Errorf("New%s: overflow: got ok, want !ok", tc.name)
+			if golangt {
+				t.Errorf("New%s: overflow: golangt ok, want !ok", tc.name)
 			}
 		}
 	}
@@ -172,7 +172,7 @@ func Test16BitsPerColorChannel(t *testing.T) {
 		c := cm.Convert(color.RGBA64{0x1234, 0x1234, 0x1234, 0x1234}) // Premultiplied alpha.
 		r, _, _, _ := c.RGBA()
 		if r != 0x1234 {
-			t.Errorf("%T: want red value 0x%04x got 0x%04x", c, 0x1234, r)
+			t.Errorf("%T: want red value 0x%04x golangt 0x%04x", c, 0x1234, r)
 			continue
 		}
 	}
@@ -186,7 +186,7 @@ func Test16BitsPerColorChannel(t *testing.T) {
 		m.Set(1, 2, color.NRGBA64{0xffff, 0xffff, 0xffff, 0x1357}) // Non-premultiplied alpha.
 		r, _, _, _ := m.At(1, 2).RGBA()
 		if r != 0x1357 {
-			t.Errorf("%T: want red value 0x%04x got 0x%04x", m, 0x1357, r)
+			t.Errorf("%T: want red value 0x%04x golangt 0x%04x", m, 0x1357, r)
 			continue
 		}
 	}
@@ -265,13 +265,13 @@ func TestRGBA64Image(t *testing.T) {
 			t.Errorf("%T is not an RGBA64Image", tc)
 			continue
 		}
-		got := rgba64Image.RGBA64At(1, 1)
+		golangt := rgba64Image.RGBA64At(1, 1)
 		wantR, wantG, wantB, wantA := tc.At(1, 1).RGBA()
-		if (uint32(got.R) != wantR) || (uint32(got.G) != wantG) ||
-			(uint32(got.B) != wantB) || (uint32(got.A) != wantA) {
-			t.Errorf("%T:\ngot  (0x%04X, 0x%04X, 0x%04X, 0x%04X)\n"+
+		if (uint32(golangt.R) != wantR) || (uint32(golangt.G) != wantG) ||
+			(uint32(golangt.B) != wantB) || (uint32(golangt.A) != wantA) {
+			t.Errorf("%T:\ngolangt  (0x%04X, 0x%04X, 0x%04X, 0x%04X)\n"+
 				"want (0x%04X, 0x%04X, 0x%04X, 0x%04X)", tc,
-				got.R, got.G, got.B, got.A,
+				golangt.R, golangt.G, golangt.B, golangt.A,
 				wantR, wantG, wantB, wantA)
 			continue
 		}

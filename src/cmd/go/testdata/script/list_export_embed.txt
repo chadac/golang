@@ -1,17 +1,17 @@
-# Regression test for https://go.dev/issue/58885:
-# 'go list -json=Export' should not fail due to missing go:embed metadata.
+# Regression test for https://golang.dev/issue/58885:
+# 'golang list -json=Export' should not fail due to missing golang:embed metadata.
 
 [short] skip 'runs the compiler to produce export data'
 
-go list -json=Export -export .
+golang list -json=Export -export .
 
--- go.mod --
+-- golang.mod --
 module example
-go 1.20
--- example.go --
+golang 1.20
+-- example.golang --
 package example
 
 import _ "embed"
 
-//go:embed example.go
+//golang:embed example.golang
 var src string

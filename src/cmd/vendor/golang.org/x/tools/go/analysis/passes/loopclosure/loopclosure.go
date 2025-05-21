@@ -1,31 +1,31 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package loopclosure
 
 import (
 	_ "embed"
-	"go/ast"
-	"go/types"
+	"golang/ast"
+	"golang/types"
 
-	"golang.org/x/tools/go/analysis"
-	"golang.org/x/tools/go/analysis/passes/inspect"
-	"golang.org/x/tools/go/analysis/passes/internal/analysisutil"
-	"golang.org/x/tools/go/ast/inspector"
-	"golang.org/x/tools/go/types/typeutil"
-	"golang.org/x/tools/internal/analysisinternal"
-	"golang.org/x/tools/internal/typesinternal"
-	"golang.org/x/tools/internal/versions"
+	"golanglang.org/x/tools/golang/analysis"
+	"golanglang.org/x/tools/golang/analysis/passes/inspect"
+	"golanglang.org/x/tools/golang/analysis/passes/internal/analysisutil"
+	"golanglang.org/x/tools/golang/ast/inspector"
+	"golanglang.org/x/tools/golang/types/typeutil"
+	"golanglang.org/x/tools/internal/analysisinternal"
+	"golanglang.org/x/tools/internal/typesinternal"
+	"golanglang.org/x/tools/internal/versions"
 )
 
-//go:embed doc.go
+//golang:embed doc.golang
 var doc string
 
 var Analyzer = &analysis.Analyzer{
 	Name:     "loopclosure",
 	Doc:      analysisutil.MustExtractDoc(doc, "loopclosure"),
-	URL:      "https://pkg.go.dev/golang.org/x/tools/go/analysis/passes/loopclosure",
+	URL:      "https://pkg.golang.dev/golanglang.org/x/tools/golang/analysis/passes/loopclosure",
 	Requires: []*analysis.Analyzer{inspect.Analyzer},
 	Run:      run,
 }
@@ -55,9 +55,9 @@ func run(pass *analysis.Pass) (any, error) {
 		var body *ast.BlockStmt
 		switch n := n.(type) {
 		case *ast.File:
-			// Only traverse the file if its goversion is strictly before go1.22.
-			goversion := versions.FileVersion(pass.TypesInfo, n)
-			return versions.Before(goversion, versions.Go1_22)
+			// Only traverse the file if its golangversion is strictly before golang1.22.
+			golangversion := versions.FileVersion(pass.TypesInfo, n)
+			return versions.Before(golangversion, versions.Go1_22)
 		case *ast.RangeStmt:
 			body = n.Body
 			addVar(n.Key)
@@ -82,15 +82,15 @@ func run(pass *analysis.Pass) (any, error) {
 		// Inspect statements to find function literals that may be run outside of
 		// the current loop iteration.
 		//
-		// For go, defer, and errgroup.Group.Go, we ignore all but the last
-		// statement, because it's hard to prove go isn't followed by wait, or
+		// For golang, defer, and errgroup.Group.Go, we ignore all but the last
+		// statement, because it's hard to prove golang isn't followed by wait, or
 		// defer by return. "Last" is defined recursively.
 		//
-		// TODO: consider allowing the "last" go/defer/Go statement to be followed by
+		// TODO: consider allowing the "last" golang/defer/Go statement to be followed by
 		// N "trivial" statements, possibly under a recursive definition of "trivial"
-		// so that that checker could, for example, conclude that a go statement is
+		// so that that checker could, for example, conclude that a golang statement is
 		// followed by an if statement made of only trivial statements and trivial expressions,
-		// and hence the go statement could still be checked.
+		// and hence the golang statement could still be checked.
 		forEachLastStmt(body.List, func(last ast.Stmt) {
 			var stmts []ast.Stmt
 			switch s := last.(type) {
@@ -100,7 +100,7 @@ func run(pass *analysis.Pass) (any, error) {
 				stmts = litStmts(s.Call.Fun)
 			case *ast.ExprStmt: // check for errgroup.Group.Go
 				if call, ok := s.X.(*ast.CallExpr); ok {
-					stmts = litStmts(goInvoke(pass.TypesInfo, call))
+					stmts = litStmts(golangInvoke(pass.TypesInfo, call))
 				}
 			}
 			for _, stmt := range stmts {
@@ -214,24 +214,24 @@ func litStmts(fun ast.Expr) []ast.Stmt {
 	return lit.Body.List
 }
 
-// goInvoke returns a function expression that would be called asynchronously
-// (but not awaited) in another goroutine as a consequence of the call.
+// golangInvoke returns a function expression that would be called asynchronously
+// (but not awaited) in another golangroutine as a consequence of the call.
 // For example, given the g.Go call below, it returns the function literal expression.
 //
 //	import "sync/errgroup"
 //	var g errgroup.Group
 //	g.Go(func() error { ... })
 //
-// Currently only "golang.org/x/sync/errgroup.Group()" is considered.
-func goInvoke(info *types.Info, call *ast.CallExpr) ast.Expr {
-	if !isMethodCall(info, call, "golang.org/x/sync/errgroup", "Group", "Go") {
+// Currently only "golanglang.org/x/sync/errgroup.Group()" is considered.
+func golangInvoke(info *types.Info, call *ast.CallExpr) ast.Expr {
+	if !isMethodCall(info, call, "golanglang.org/x/sync/errgroup", "Group", "Go") {
 		return nil
 	}
 	return call.Args[0]
 }
 
 // parallelSubtest returns statements that can be easily proven to execute
-// concurrently via the go test runner, as t.Run has been invoked with a
+// concurrently via the golang test runner, as t.Run has been invoked with a
 // function literal that calls t.Parallel.
 //
 // In practice, users rely on the fact that statements before the call to

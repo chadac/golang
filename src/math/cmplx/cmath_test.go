@@ -1,5 +1,5 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package cmplx
@@ -879,7 +879,7 @@ var branchPoints = [][2]complex128{
 	{complex(-zero, -2.0), complex(-eps, -2.0)},
 }
 
-// functions borrowed from pkg/math/all_test.go
+// functions borrowed from pkg/math/all_test.golang
 func tolerance(a, b, e float64) bool {
 	d := a - b
 	if d < 0 {
@@ -974,7 +974,7 @@ func TestAcos(t *testing.T) {
 	}
 	for _, pt := range branchPoints {
 		if f0, f1 := Acos(pt[0]), Acos(pt[1]); !cVeryclose(f0, f1) {
-			t.Errorf("Acos(%g) not continuous, got %g want %g", pt[0], f0, f1)
+			t.Errorf("Acos(%g) not continuous, golangt %g want %g", pt[0], f0, f1)
 		}
 	}
 }
@@ -1000,7 +1000,7 @@ func TestAcosh(t *testing.T) {
 	}
 	for _, pt := range branchPoints {
 		if f0, f1 := Acosh(pt[0]), Acosh(pt[1]); !cVeryclose(f0, f1) {
-			t.Errorf("Acosh(%g) not continuous, got %g want %g", pt[0], f0, f1)
+			t.Errorf("Acosh(%g) not continuous, golangt %g want %g", pt[0], f0, f1)
 		}
 	}
 }
@@ -1033,7 +1033,7 @@ func TestAsin(t *testing.T) {
 	}
 	for _, pt := range branchPoints {
 		if f0, f1 := Asin(pt[0]), Asin(pt[1]); !cVeryclose(f0, f1) {
-			t.Errorf("Asin(%g) not continuous, got %g want %g", pt[0], f0, f1)
+			t.Errorf("Asin(%g) not continuous, golangt %g want %g", pt[0], f0, f1)
 		}
 	}
 }
@@ -1066,7 +1066,7 @@ func TestAsinh(t *testing.T) {
 	}
 	for _, pt := range branchPoints {
 		if f0, f1 := Asinh(pt[0]), Asinh(pt[1]); !cVeryclose(f0, f1) {
-			t.Errorf("Asinh(%g) not continuous, got %g want %g", pt[0], f0, f1)
+			t.Errorf("Asinh(%g) not continuous, golangt %g want %g", pt[0], f0, f1)
 		}
 	}
 }
@@ -1099,7 +1099,7 @@ func TestAtan(t *testing.T) {
 	}
 	for _, pt := range branchPoints {
 		if f0, f1 := Atan(pt[0]), Atan(pt[1]); !cVeryclose(f0, f1) {
-			t.Errorf("Atan(%g) not continuous, got %g want %g", pt[0], f0, f1)
+			t.Errorf("Atan(%g) not continuous, golangt %g want %g", pt[0], f0, f1)
 		}
 	}
 }
@@ -1132,7 +1132,7 @@ func TestAtanh(t *testing.T) {
 	}
 	for _, pt := range branchPoints {
 		if f0, f1 := Atanh(pt[0]), Atanh(pt[1]); !cVeryclose(f0, f1) {
-			t.Errorf("Atanh(%g) not continuous, got %g want %g", pt[0], f0, f1)
+			t.Errorf("Atanh(%g) not continuous, golangt %g want %g", pt[0], f0, f1)
 		}
 	}
 }
@@ -1252,7 +1252,7 @@ func TestLog(t *testing.T) {
 	}
 	for _, pt := range branchPoints {
 		if f0, f1 := Log(pt[0]), Log(pt[1]); !cVeryclose(f0, f1) {
-			t.Errorf("Log(%g) not continuous, got %g want %g", pt[0], f0, f1)
+			t.Errorf("Log(%g) not continuous, golangt %g want %g", pt[0], f0, f1)
 		}
 	}
 }
@@ -1315,7 +1315,7 @@ func TestPow(t *testing.T) {
 	}
 	for _, pt := range branchPoints {
 		if f0, f1 := Pow(pt[0], 0.1), Pow(pt[1], 0.1); !cVeryclose(f0, f1) {
-			t.Errorf("Pow(%g, 0.1) not continuous, got %g want %g", pt[0], f0, f1)
+			t.Errorf("Pow(%g, 0.1) not continuous, golangt %g want %g", pt[0], f0, f1)
 		}
 	}
 }
@@ -1408,7 +1408,7 @@ func TestSqrt(t *testing.T) {
 	}
 	for _, pt := range branchPoints {
 		if f0, f1 := Sqrt(pt[0]), Sqrt(pt[1]); !cVeryclose(f0, f1) {
-			t.Errorf("Sqrt(%g) not continuous, got %g want %g", pt[0], f0, f1)
+			t.Errorf("Sqrt(%g) not continuous, golangt %g want %g", pt[0], f0, f1)
 		}
 	}
 }
@@ -1472,8 +1472,8 @@ func TestTanh(t *testing.T) {
 // See issue 17577
 func TestInfiniteLoopIntanSeries(t *testing.T) {
 	want := Inf()
-	if got := Cot(0); got != want {
-		t.Errorf("Cot(0): got %g, want %g", got, want)
+	if golangt := Cot(0); golangt != want {
+		t.Errorf("Cot(0): golangt %g, want %g", golangt, want)
 	}
 }
 

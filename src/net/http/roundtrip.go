@@ -1,8 +1,8 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !js
+//golang:build !js
 
 package http
 
@@ -14,9 +14,9 @@ import _ "unsafe" // for linkname
 //   - github.com/erda-project/erda-infra
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname badRoundTrip net/http.(*Transport).RoundTrip
+//golang:linkname badRoundTrip net/http.(*Transport).RoundTrip
 func badRoundTrip(*Transport, *Request) (*Response, error)
 
 // RoundTrip implements the [RoundTripper] interface.

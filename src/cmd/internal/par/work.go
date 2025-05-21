@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package par implements parallel execution helpers.
@@ -65,7 +65,7 @@ func (w *Work[T]) Do(n int, f func(item T)) {
 	w.wait.L = &w.mu
 
 	for i := 0; i < n-1; i++ {
-		go w.runner()
+		golang w.runner()
 	}
 	w.runner()
 }

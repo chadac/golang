@@ -1,5 +1,5 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
@@ -276,7 +276,7 @@ func (b *pallocBits) findSmallN(npages uintptr, searchIdx uint) (uint, uint) {
 		// First see if we can pack our allocation in the trailing
 		// zeros plus the end of the last 64 bits.
 		if newSearchIdx == ^uint(0) {
-			// The new searchIdx is going to be at these 64 bits after any
+			// The new searchIdx is golanging to be at these 64 bits after any
 			// 1s we file, so count trailing 1s.
 			newSearchIdx = i*64 + uint(sys.TrailingZeros64(^bi))
 		}
@@ -313,7 +313,7 @@ func (b *pallocBits) findLargeN(npages uintptr, searchIdx uint) (uint, uint) {
 			continue
 		}
 		if newSearchIdx == ^uint(0) {
-			// The new searchIdx is going to be at these 64 bits after any
+			// The new searchIdx is golanging to be at these 64 bits after any
 			// 1s we file, so count trailing 1s.
 			newSearchIdx = i*64 + uint(sys.TrailingZeros64(^x))
 		}

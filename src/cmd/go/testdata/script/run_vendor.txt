@@ -1,10 +1,10 @@
 # Run
 env GO111MODULE=off
 cd vend/hello
-go run hello.go
+golang run hello.golang
 stdout 'hello, world'
 
--- vend/hello/hello.go --
+-- vend/hello/hello.golang --
 package main
 
 import (
@@ -15,7 +15,7 @@ import (
 func main() {
 	fmt.Printf("%s\n", strings.Msg)
 }
--- vend/hello/hello_test.go --
+-- vend/hello/hello_test.golang --
 package main
 
 import (
@@ -28,7 +28,7 @@ func TestMsgInternal(t *testing.T) {
 		t.Fatalf("unexpected msg: %v", strings.Msg)
 	}
 }
--- vend/vendor/strings/msg.go --
+-- vend/vendor/strings/msg.golang --
 package strings
 
 var Msg = "hello, world"

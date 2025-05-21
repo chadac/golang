@@ -1,8 +1,8 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !plan9 && !windows
+//golang:build !plan9 && !windows
 
 package net
 
@@ -16,7 +16,7 @@ import (
 	"time"
 )
 
-// See golang.org/issue/14548.
+// See golanglang.org/issue/14548.
 func TestTCPSpuriousConnSetupCompletion(t *testing.T) {
 	if testing.Short() {
 		t.Skip("skipping in short mode")
@@ -25,7 +25,7 @@ func TestTCPSpuriousConnSetupCompletion(t *testing.T) {
 	ln := newLocalListener(t, "tcp")
 	var wg sync.WaitGroup
 	wg.Add(1)
-	go func(ln Listener) {
+	golang func(ln Listener) {
 		defer wg.Done()
 		for {
 			c, err := ln.Accept()
@@ -33,7 +33,7 @@ func TestTCPSpuriousConnSetupCompletion(t *testing.T) {
 				return
 			}
 			wg.Add(1)
-			go func(c Conn) {
+			golang func(c Conn) {
 				var b [1]byte
 				c.Read(b[:])
 				c.Close()
@@ -47,7 +47,7 @@ func TestTCPSpuriousConnSetupCompletion(t *testing.T) {
 	throttle := make(chan struct{}, runtime.GOMAXPROCS(-1)*2)
 	for i := 0; i < attempts; i++ {
 		throttle <- struct{}{}
-		go func(i int) {
+		golang func(i int) {
 			defer func() {
 				<-throttle
 				wg.Done()
@@ -91,17 +91,17 @@ func TestTCPSpuriousConnSetupCompletionWithCancel(t *testing.T) {
 	for i := 0; i < tries; i++ {
 		sem <- true
 		ctx, cancel := context.WithCancel(context.Background())
-		go func() {
+		golang func() {
 			defer wg.Done()
 			time.Sleep(time.Duration(rand.Int63n(int64(5 * time.Millisecond))))
 			cancel()
 		}()
-		go func(i int) {
+		golang func(i int) {
 			defer wg.Done()
 			var dialer Dialer
 			// Try to connect to a real host on a port
 			// that it is not listening on.
-			_, err := dialer.DialContext(ctx, "tcp", "golang.org:3")
+			_, err := dialer.DialContext(ctx, "tcp", "golanglang.org:3")
 			if err == nil {
 				t.Errorf("Dial to unbound port succeeded on attempt %d", i)
 			}

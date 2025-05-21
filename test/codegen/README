@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 The codegen directory contains code generation tests for the gc
@@ -9,7 +9,7 @@ compiler.
 - Introduction
 
 The test harness compiles Go code inside files in this directory and
-matches the generated assembly (the output of `go tool compile -S`)
+matches the generated assembly (the output of `golang tool compile -S`)
 against a set of regexps to be specified in comments that follow a
 special syntax (described below). The test driver is implemented as
 an action within the GOROOT/test test suite, called "asmcheck".
@@ -21,11 +21,11 @@ GOARCH are enabled by default, and only on GOOS=linux.
 To perform comprehensive tests for all the supported architectures
 (even on a non-Linux system), one can run the following command:
 
-  $ ../../bin/go test cmd/internal/testdir -run='Test/codegen' -all_codegen -v
+  $ ../../bin/golang test cmd/internal/testdir -run='Test/codegen' -all_codegen -v
 
 This is recommended after any change that affect the compiler's code.
 
-The test harness compiles the tests with the same go toolchain that is
+The test harness compiles the tests with the same golang toolchain that is
 used to run the test. After writing tests for a newly added codegen
 transformation, it can be useful to first run the test harness with a
 toolchain from a released Go version (and verify that the new tests

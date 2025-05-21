@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package net
@@ -18,6 +18,6 @@ func TestMaxAckBacklog(t *testing.T) {
 		expected = n
 	}
 	if backlog != expected {
-		t.Fatalf(`Kernel version: "%d.%d", sk_max_ack_backlog mismatch, got %d, want %d`, major, minor, backlog, expected)
+		t.Fatalf(`Kernel version: "%d.%d", sk_max_ack_backlog mismatch, golangt %d, want %d`, major, minor, backlog, expected)
 	}
 }

@@ -164,7 +164,7 @@ func genpltstub(ctxt *ld.Link, ldr *loader.Loader, r loader.Reloc, ri int, s loa
 	// The ppc64 ABI PLT has similar concepts to other
 	// architectures, but is laid out quite differently. When we
 	// see a relocation to a dynamic symbol (indicating that the
-	// call needs to go through the PLT), we generate up to three
+	// call needs to golang through the PLT), we generate up to three
 	// stubs and reserve a PLT slot.
 	//
 	// 1) The call site is a "bl x" where genpltstub rewrites it to
@@ -176,7 +176,7 @@ func genpltstub(ctxt *ld.Link, ldr *loader.Loader, r loader.Reloc, ri int, s loa
 	// 2) We reserve space for a pointer in the .plt section (once
 	//    per referenced dynamic function).  .plt is a data
 	//    section filled solely by the dynamic linker (more like
-	//    .plt.got on other architectures).  Initially, the
+	//    .plt.golangt on other architectures).  Initially, the
 	//    dynamic linker will fill each slot with a pointer to the
 	//    corresponding x@plt entry point.
 	//
@@ -191,12 +191,12 @@ func genpltstub(ctxt *ld.Link, ldr *loader.Loader, r loader.Reloc, ri int, s loa
 	//    computes which symbol resolver stub we came through and
 	//    invokes the dynamic resolver via a pointer provided by
 	//    the dynamic linker. This will patch up the .plt slot to
-	//    point directly at the function so future calls go
+	//    point directly at the function so future calls golang
 	//    straight from the call stub to the real function, and
 	//    then call the function.
 
 	// NOTE: It's possible we could make ppc64 closer to other
-	// architectures: ppc64's .plt is like .plt.got on other
+	// architectures: ppc64's .plt is like .plt.golangt on other
 	// platforms and ppc64's .glink is like .plt on other
 	// platforms.
 
@@ -274,7 +274,7 @@ func genstubs(ctxt *ld.Link, ldr *loader.Loader) {
 			case objabi.ElfRelocOffset + objabi.RelocType(elf.R_PPC64_REL24), objabi.R_CALLPOWER:
 				switch t := ldr.SymType(r.Sym()); {
 				case t == sym.SDYNIMPORT:
-					// This call goes through the PLT, generate and call through a PLT stub.
+					// This call golanges through the PLT, generate and call through a PLT stub.
 					if sym, firstUse := genpltstub(ctxt, ldr, r, i, s); firstUse {
 						stubs = append(stubs, sym)
 					}
@@ -310,7 +310,7 @@ func genstubs(ctxt *ld.Link, ldr *loader.Loader) {
 			case objabi.ElfRelocOffset + objabi.RelocType(elf.R_PPC64_REL24_NOTOC):
 				switch rt := ldr.SymType(r.Sym()); {
 				case rt == sym.SDYNIMPORT:
-					// This call goes through the PLT, generate and call through a PLT stub.
+					// This call golanges through the PLT, generate and call through a PLT stub.
 					if sym, firstUse := genpltstub(ctxt, ldr, r, i, s); firstUse {
 						stubs = append(stubs, sym)
 					}
@@ -361,7 +361,7 @@ func genstubs(ctxt *ld.Link, ldr *loader.Loader) {
 		}
 	}
 
-	// Append any usage of the go versions of ELF save/restore
+	// Append any usage of the golang versions of ELF save/restore
 	// functions to the end of the callstub list to minimize
 	// chances a trampoline might be needed.
 	stubs = append(stubs, abifuncs...)
@@ -413,14 +413,14 @@ func genaddmoduledata(ctxt *ld.Link, ldr *loader.Loader) {
 
 	if !hasPCrel {
 		sz := initfunc.AddSymRef(ctxt.Arch, tgt, 0, objabi.R_ADDRPOWER_GOT, 8)
-		initfunc.SetUint32(ctxt.Arch, sz-8, 0x3c620000) // addis r3, r2, local.moduledata@got@ha
-		initfunc.SetUint32(ctxt.Arch, sz-4, 0xe8630000) // ld r3, local.moduledata@got@l(r3)
+		initfunc.SetUint32(ctxt.Arch, sz-8, 0x3c620000) // addis r3, r2, local.moduledata@golangt@ha
+		initfunc.SetUint32(ctxt.Arch, sz-4, 0xe8630000) // ld r3, local.moduledata@golangt@l(r3)
 	} else {
 		sz := initfunc.AddSymRef(ctxt.Arch, tgt, 0, objabi.R_ADDRPOWER_GOT_PCREL34, 8)
 		// Note, this is prefixed instruction. It must not cross a 64B boundary.
 		// It is doubleworld aligned here, so it will never cross (this function is 16B aligned, minimum).
 		initfunc.SetUint32(ctxt.Arch, sz-8, OP_PLD_PFX_PCREL)
-		initfunc.SetUint32(ctxt.Arch, sz-4, OP_PLD_SFX|(3<<21)) // pld r3, local.moduledata@got@pcrel
+		initfunc.SetUint32(ctxt.Arch, sz-4, OP_PLD_SFX|(3<<21)) // pld r3, local.moduledata@golangt@pcrel
 	}
 
 	// Call runtime.addmoduledata
@@ -468,7 +468,7 @@ func rewriteABIFuncReloc(ctxt *ld.Link, ldr *loader.Loader, tname string, r load
 	}
 
 	// tname is a valid relocation to an ABI defined register save/restore function. Re-relocate
-	// them to a go version of these functions in runtime/asm_ppc64x.s
+	// them to a golang version of these functions in runtime/asm_ppc64x.s
 	ts := ldr.LookupOrCreateSym("runtime.elf_"+s[1], 0)
 	r.SetSym(ts)
 	r.SetAdd(int64((n - minReg) * offMul))
@@ -607,7 +607,7 @@ func addelfdynrel(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s lo
 
 		// This is a local call, so the caller isn't setting
 		// up r12 and r2 is the same for the caller and
-		// callee. Hence, we need to go to the local entry
+		// callee. Hence, we need to golang to the local entry
 		// point.  (If we don't do this, the callee will try
 		// to use r12 to compute r2.)
 		localEoffset := int64(ldr.SymLocalentry(targ))
@@ -636,7 +636,7 @@ func addelfdynrel(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s lo
 			su.SetRelocSym(rIdx, syms.GOT)
 			su.SetRelocAdd(rIdx, r.Add()+int64(ldr.SymGot(targ)))
 		} else {
-			// The address of targ is known at link time. Rewrite to "pla rt,targ" from "pld rt,targ@got"
+			// The address of targ is known at link time. Rewrite to "pla rt,targ" from "pld rt,targ@golangt"
 			rewritetoinsn(target, ldr, su, int64(r.Off()), MASK_PLD_PFX, OP_PLD_PFX_PCREL, OP_PLA_PFX)
 			pla_sfx := target.Arch.ByteOrder.Uint32(su.Data()[r.Off()+4:])&MASK_PLD_RT | OP_PLA_SFX
 			rewritetoinsn(target, ldr, su, int64(r.Off()+4), MASK_PLD_SFX, OP_PLD_SFX, pla_sfx)
@@ -815,7 +815,7 @@ func addelfdynrel(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s lo
 			// final dynamically linked address as a dynamic
 			// relocation would provide.
 			switch ldr.SymName(s) {
-			case ".dynsym", ".rela", ".rela.plt", ".got.plt", ".dynamic":
+			case ".dynsym", ".rela", ".rela.plt", ".golangt.plt", ".dynamic":
 				return false
 			}
 		} else {
@@ -858,7 +858,7 @@ func addelfdynrel(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s lo
 		// Not mark r done here. So we still apply it statically,
 		// so in the file content we'll also have the right offset
 		// to the relocation target. So it can be examined statically
-		// (e.g. go version).
+		// (e.g. golang version).
 		return true
 	}
 
@@ -998,7 +998,7 @@ func elfreloc1(ctxt *ld.Link, out *ld.OutBuf, ldr *loader.Loader, s loader.Sym, 
 	return true
 }
 
-func elfsetupplt(ctxt *ld.Link, ldr *loader.Loader, plt, got *loader.SymbolBuilder, dynamic loader.Sym) {
+func elfsetupplt(ctxt *ld.Link, ldr *loader.Loader, plt, golangt *loader.SymbolBuilder, dynamic loader.Sym) {
 	if plt.Size() == 0 {
 		// The dynamic linker stores the address of the
 		// dynamic resolver and the DSO identifier in the two
@@ -1434,9 +1434,9 @@ func archreloc(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, r loade
 
 		tgtName := ldr.SymName(rs)
 
-		// If we are linking PIE or shared code, non-PCrel golang generated object files have an extra 2 instruction prologue
+		// If we are linking PIE or shared code, non-PCrel golanglang generated object files have an extra 2 instruction prologue
 		// to regenerate the TOC pointer from R12.  The exception are two special case functions tested below.  Note,
-		// local call offsets for externally generated objects are accounted for when converting into golang relocs.
+		// local call offsets for externally generated objects are accounted for when converting into golanglang relocs.
 		if !hasPCrel && !ldr.AttrExternal(rs) && ldr.AttrShared(rs) && tgtName != "runtime.duffzero" && tgtName != "runtime.duffcopy" {
 			// Furthermore, only apply the offset if the target looks like the start of a function call.
 			if r.Add() == 0 && ldr.SymType(rs).IsText() {
@@ -1483,8 +1483,8 @@ func archreloc(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, r loade
 		}
 
 		// We are an ELF binary, we can safely convert to TLS_LE from:
-		// addis to, r2, x@got@tprel@ha
-		// ld to, to, x@got@tprel@l(to)
+		// addis to, r2, x@golangt@tprel@ha
+		// ld to, to, x@golangt@tprel@l(to)
 		//
 		// to TLS_LE by converting to:
 		// addis to, r0, x@tprel@ha
@@ -1513,7 +1513,7 @@ func archreloc(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, r loade
 		}
 
 		// We are an ELF binary, we can safely convert to TLS_LE_TPREL34 from:
-		// pld rX, x@got@tprel@pcrel
+		// pld rX, x@golangt@tprel@pcrel
 		//
 		// to TLS_LE_TPREL32 by converting to:
 		// pla rX, x@tprel
@@ -1564,12 +1564,12 @@ func archrelocvariant(target *ld.Target, ldr *loader.Loader, r loader.Reloc, rv 
 				26, // xori
 				28: // andi
 				if t>>16 != 0 {
-					goto overflow
+					golangto overflow
 				}
 
 			default:
 				if int64(int16(t)) != t {
-					goto overflow
+					golangto overflow
 				}
 			}
 		}
@@ -1598,12 +1598,12 @@ func archrelocvariant(target *ld.Target, ldr *loader.Loader, r loader.Reloc, rv 
 				27, // xoris
 				29: // andis
 				if t>>16 != 0 {
-					goto overflow
+					golangto overflow
 				}
 
 			default:
 				if int64(int16(t)) != t {
-					goto overflow
+					golangto overflow
 				}
 			}
 		}
@@ -1621,7 +1621,7 @@ func archrelocvariant(target *ld.Target, ldr *loader.Loader, r loader.Reloc, rv 
 			ldr.Errorf(s, "relocation for %s+%d is not aligned: %d", ldr.SymName(rs), r.Off(), t)
 		}
 		if (rv&sym.RV_CHECK_OVERFLOW != 0) && int64(int16(t)) != t {
-			goto overflow
+			golangto overflow
 		}
 		return int64(o1)&0x3 | int64(int16(t))
 	}

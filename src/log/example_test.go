@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package log_test
@@ -20,7 +20,7 @@ func ExampleLogger() {
 
 	fmt.Print(&buf)
 	// Output:
-	// logger: example_test.go:19: Hello, log file!
+	// logger: example_test.golang:19: Hello, log file!
 }
 
 func ExampleLogger_Output() {
@@ -37,5 +37,5 @@ func ExampleLogger_Output() {
 
 	fmt.Print(&buf)
 	// Output:
-	// INFO: example_test.go:36: Hello world
+	// INFO: example_test.golang:36: Hello world
 }

@@ -1,8 +1,8 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build freebsd
+//golang:build freebsd
 
 package runtime
 
@@ -15,7 +15,7 @@ const _VDSO_TH_NUM = 4 // defined in <sys/vdso.h> #ifdef _KERNEL
 
 var timekeepSharedPage *vdsoTimekeep
 
-//go:nosplit
+//golang:nosplit
 func (bt *bintime) Add(bt2 *bintime) {
 	u := bt.frac
 	bt.frac += bt2.frac
@@ -25,7 +25,7 @@ func (bt *bintime) Add(bt2 *bintime) {
 	bt.sec += bt2.sec
 }
 
-//go:nosplit
+//golang:nosplit
 func (bt *bintime) AddX(x uint64) {
 	u := bt.frac
 	bt.frac += x
@@ -45,7 +45,7 @@ var (
 
 // based on /usr/src/lib/libc/sys/__vdso_gettimeofday.c
 //
-//go:nosplit
+//golang:nosplit
 func binuptime(abs bool) (bt bintime) {
 	timehands := (*[_VDSO_TH_NUM]vdsoTimehands)(add(unsafe.Pointer(timekeepSharedPage), vdsoTimekeepSize))
 	for {
@@ -76,7 +76,7 @@ func binuptime(abs bool) (bt bintime) {
 	return bt
 }
 
-//go:nosplit
+//golang:nosplit
 func vdsoClockGettime(clockID int32) bintime {
 	if timekeepSharedPage == nil || timekeepSharedPage.ver != _VDSO_TK_VER_CURR {
 		return zeroBintime
@@ -96,7 +96,7 @@ func vdsoClockGettime(clockID int32) bintime {
 func fallback_nanotime() int64
 func fallback_walltime() (sec int64, nsec int32)
 
-//go:nosplit
+//golang:nosplit
 func nanotime1() int64 {
 	bt := vdsoClockGettime(_CLOCK_MONOTONIC)
 	if bt == zeroBintime {

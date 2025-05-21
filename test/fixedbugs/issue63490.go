@@ -1,7 +1,7 @@
 // compile
 
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -17,13 +17,13 @@ type SubscriptionAssignmentResource struct {
 
 type assignmentBaseResource struct{}
 
-//go:noinline
+//golang:noinline
 func (a assignmentBaseResource) f(s string) ResourceFunc {
 	println(s)
 	return ResourceFunc{}
 }
 
-//go:noinline
+//golang:noinline
 func (r SubscriptionAssignmentResource) Hi() ResourceFunc {
 	rf := r.base.f("Hello world")
 	rf.base = r.base

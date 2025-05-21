@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package buildinfo_test
@@ -35,7 +35,7 @@ func TestReadFile(t *testing.T) {
 	}
 	testenv.MustHaveGoBuild(t)
 
-	type platform struct{ goos, goarch string }
+	type platform struct{ golangos, golangarch string }
 	platforms := []platform{
 		{"aix", "ppc64"},
 		{"darwin", "amd64"},
@@ -62,19 +62,19 @@ func TestReadFile(t *testing.T) {
 		buildModes = append(buildModes, "c-shared")
 	}
 
-	// Keep in sync with src/cmd/go/internal/work/init.go:buildModeInit.
-	badmode := func(goos, goarch, buildmode string) string {
-		return fmt.Sprintf("-buildmode=%s not supported on %s/%s", buildmode, goos, goarch)
+	// Keep in sync with src/cmd/golang/internal/work/init.golang:buildModeInit.
+	badmode := func(golangos, golangarch, buildmode string) string {
+		return fmt.Sprintf("-buildmode=%s not supported on %s/%s", buildmode, golangos, golangarch)
 	}
 
-	buildWithModules := func(t *testing.T, goos, goarch, buildmode string) string {
+	buildWithModules := func(t *testing.T, golangos, golangarch, buildmode string) string {
 		dir := t.TempDir()
-		gomodPath := filepath.Join(dir, "go.mod")
-		gomodData := []byte("module example.com/m\ngo 1.18\n")
-		if err := os.WriteFile(gomodPath, gomodData, 0666); err != nil {
+		golangmodPath := filepath.Join(dir, "golang.mod")
+		golangmodData := []byte("module example.com/m\ngolang 1.18\n")
+		if err := os.WriteFile(golangmodPath, golangmodData, 0666); err != nil {
 			t.Fatal(err)
 		}
-		helloPath := filepath.Join(dir, "hello.go")
+		helloPath := filepath.Join(dir, "hello.golang")
 		helloData := []byte("package main\nfunc main() {}\n")
 		if err := os.WriteFile(helloPath, helloData, 0666); err != nil {
 			t.Fatal(err)
@@ -82,11 +82,11 @@ func TestReadFile(t *testing.T) {
 		outPath := filepath.Join(dir, path.Base(t.Name()))
 		cmd := exec.Command(testenv.GoToolPath(t), "build", "-o="+outPath, "-buildmode="+buildmode)
 		cmd.Dir = dir
-		cmd.Env = append(os.Environ(), "GO111MODULE=on", "GOOS="+goos, "GOARCH="+goarch)
+		cmd.Env = append(os.Environ(), "GO111MODULE=on", "GOOS="+golangos, "GOARCH="+golangarch)
 		stderr := &strings.Builder{}
 		cmd.Stderr = stderr
 		if err := cmd.Run(); err != nil {
-			if badmodeMsg := badmode(goos, goarch, buildmode); strings.Contains(stderr.String(), badmodeMsg) {
+			if badmodeMsg := badmode(golangos, golangarch, buildmode); strings.Contains(stderr.String(), badmodeMsg) {
 				t.Skip(badmodeMsg)
 			}
 			t.Fatalf("failed building test file: %v\n%s", err, stderr.String())
@@ -94,25 +94,25 @@ func TestReadFile(t *testing.T) {
 		return outPath
 	}
 
-	buildWithGOPATH := func(t *testing.T, goos, goarch, buildmode string) string {
-		gopathDir := t.TempDir()
-		pkgDir := filepath.Join(gopathDir, "src/example.com/m")
+	buildWithGOPATH := func(t *testing.T, golangos, golangarch, buildmode string) string {
+		golangpathDir := t.TempDir()
+		pkgDir := filepath.Join(golangpathDir, "src/example.com/m")
 		if err := os.MkdirAll(pkgDir, 0777); err != nil {
 			t.Fatal(err)
 		}
-		helloPath := filepath.Join(pkgDir, "hello.go")
+		helloPath := filepath.Join(pkgDir, "hello.golang")
 		helloData := []byte("package main\nfunc main() {}\n")
 		if err := os.WriteFile(helloPath, helloData, 0666); err != nil {
 			t.Fatal(err)
 		}
-		outPath := filepath.Join(gopathDir, path.Base(t.Name()))
+		outPath := filepath.Join(golangpathDir, path.Base(t.Name()))
 		cmd := exec.Command(testenv.GoToolPath(t), "build", "-o="+outPath, "-buildmode="+buildmode)
 		cmd.Dir = pkgDir
-		cmd.Env = append(os.Environ(), "GO111MODULE=off", "GOPATH="+gopathDir, "GOOS="+goos, "GOARCH="+goarch)
+		cmd.Env = append(os.Environ(), "GO111MODULE=off", "GOPATH="+golangpathDir, "GOOS="+golangos, "GOARCH="+golangarch)
 		stderr := &strings.Builder{}
 		cmd.Stderr = stderr
 		if err := cmd.Run(); err != nil {
-			if badmodeMsg := badmode(goos, goarch, buildmode); strings.Contains(stderr.String(), badmodeMsg) {
+			if badmodeMsg := badmode(golangos, golangarch, buildmode); strings.Contains(stderr.String(), badmodeMsg) {
 				t.Skip(badmodeMsg)
 			}
 			t.Fatalf("failed building test file: %v\n%s", err, stderr.String())
@@ -151,32 +151,32 @@ func TestReadFile(t *testing.T) {
 		}
 	}
 
-	goVersionRe := regexp.MustCompile("(?m)^go\t.*\n")
+	golangVersionRe := regexp.MustCompile("(?m)^golang\t.*\n")
 	buildRe := regexp.MustCompile("(?m)^build\t.*\n")
-	cleanOutputForComparison := func(got string) string {
+	cleanOutputForComparison := func(golangt string) string {
 		// Remove or replace anything that might depend on the test's environment
 		// so we can check the output afterward with a string comparison.
 		// We'll remove all build lines except the compiler, just to make sure
 		// build lines are included.
-		got = goVersionRe.ReplaceAllString(got, "go\tGOVERSION\n")
-		got = buildRe.ReplaceAllStringFunc(got, func(match string) string {
+		golangt = golangVersionRe.ReplaceAllString(golangt, "golang\tGOVERSION\n")
+		golangt = buildRe.ReplaceAllStringFunc(golangt, func(match string) string {
 			if strings.HasPrefix(match, "build\t-compiler=") {
 				return match
 			}
 			return ""
 		})
-		return got
+		return golangt
 	}
 
 	cases := []struct {
 		name    string
-		build   func(t *testing.T, goos, goarch, buildmode string) string
+		build   func(t *testing.T, golangos, golangarch, buildmode string) string
 		want    string
 		wantErr string
 	}{
 		{
 			name: "doesnotexist",
-			build: func(t *testing.T, goos, goarch, buildmode string) string {
+			build: func(t *testing.T, golangos, golangarch, buildmode string) string {
 				return "doesnotexist.txt"
 			},
 			wantErr: "doesnotexist",
@@ -196,15 +196,15 @@ func TestReadFile(t *testing.T) {
 		{
 			name:  "valid_modules",
 			build: buildWithModules,
-			want: "go\tGOVERSION\n" +
+			want: "golang\tGOVERSION\n" +
 				"path\texample.com/m\n" +
 				"mod\texample.com/m\t(devel)\t\n" +
 				"build\t-compiler=gc\n",
 		},
 		{
 			name: "invalid_modules",
-			build: func(t *testing.T, goos, goarch, buildmode string) string {
-				name := buildWithModules(t, goos, goarch, buildmode)
+			build: func(t *testing.T, golangos, golangarch, buildmode string) string {
+				name := buildWithModules(t, golangos, golangarch, buildmode)
 				damageBuildInfo(t, name)
 				return name
 			},
@@ -212,24 +212,24 @@ func TestReadFile(t *testing.T) {
 		},
 		{
 			name: "invalid_str_len",
-			build: func(t *testing.T, goos, goarch, buildmode string) string {
-				name := buildWithModules(t, goos, goarch, buildmode)
+			build: func(t *testing.T, golangos, golangarch, buildmode string) string {
+				name := buildWithModules(t, golangos, golangarch, buildmode)
 				damageStringLen(t, name)
 				return name
 			},
 			wantErr: "not a Go executable",
 		},
 		{
-			name:  "valid_gopath",
+			name:  "valid_golangpath",
 			build: buildWithGOPATH,
-			want: "go\tGOVERSION\n" +
+			want: "golang\tGOVERSION\n" +
 				"path\texample.com/m\n" +
 				"build\t-compiler=gc\n",
 		},
 		{
-			name: "invalid_gopath",
-			build: func(t *testing.T, goos, goarch, buildmode string) string {
-				name := buildWithGOPATH(t, goos, goarch, buildmode)
+			name: "invalid_golangpath",
+			build: func(t *testing.T, golangos, golangarch, buildmode string) string {
+				name := buildWithGOPATH(t, golangos, golangarch, buildmode)
 				damageBuildInfo(t, name)
 				return name
 			},
@@ -239,9 +239,9 @@ func TestReadFile(t *testing.T) {
 
 	for _, p := range platforms {
 		p := p
-		t.Run(p.goos+"_"+p.goarch, func(t *testing.T) {
+		t.Run(p.golangos+"_"+p.golangarch, func(t *testing.T) {
 			if p != runtimePlatform && !*flagAll {
-				t.Skipf("skipping platforms other than %s_%s because -all was not set", runtimePlatform.goos, runtimePlatform.goarch)
+				t.Skipf("skipping platforms other than %s_%s because -all was not set", runtimePlatform.golangos, runtimePlatform.golangarch)
 			}
 			for _, mode := range buildModes {
 				mode := mode
@@ -250,20 +250,20 @@ func TestReadFile(t *testing.T) {
 						tc := tc
 						t.Run(tc.name, func(t *testing.T) {
 							t.Parallel()
-							name := tc.build(t, p.goos, p.goarch, mode)
+							name := tc.build(t, p.golangos, p.golangarch, mode)
 							if info, err := buildinfo.ReadFile(name); err != nil {
 								if tc.wantErr == "" {
 									t.Fatalf("unexpected error: %v", err)
 								} else if errMsg := err.Error(); !strings.Contains(errMsg, tc.wantErr) {
-									t.Fatalf("got error %q; want error containing %q", errMsg, tc.wantErr)
+									t.Fatalf("golangt error %q; want error containing %q", errMsg, tc.wantErr)
 								}
 							} else {
 								if tc.wantErr != "" {
 									t.Fatalf("unexpected success; want error containing %q", tc.wantErr)
 								}
-								got := info.String()
-								if clean := cleanOutputForComparison(got); got != tc.want && clean != tc.want {
-									t.Fatalf("got:\n%s\nwant:\n%s", got, tc.want)
+								golangt := info.String()
+								if clean := cleanOutputForComparison(golangt); golangt != tc.want && clean != tc.want {
+									t.Fatalf("golangt:\n%s\nwant:\n%s", golangt, tc.want)
 								}
 							}
 						})
@@ -276,47 +276,47 @@ func TestReadFile(t *testing.T) {
 
 // Test117 verifies that parsing of the old, pre-1.18 format works.
 func Test117(t *testing.T) {
-	b, err := obscuretestdata.ReadFile("testdata/go117/go117.base64")
+	b, err := obscuretestdata.ReadFile("testdata/golang117/golang117.base64")
 	if err != nil {
-		t.Fatalf("ReadFile got err %v, want nil", err)
+		t.Fatalf("ReadFile golangt err %v, want nil", err)
 	}
 
 	info, err := buildinfo.Read(bytes.NewReader(b))
 	if err != nil {
-		t.Fatalf("Read got err %v, want nil", err)
+		t.Fatalf("Read golangt err %v, want nil", err)
 	}
 
-	if info.GoVersion != "go1.17" {
-		t.Errorf("GoVersion got %s want go1.17", info.GoVersion)
+	if info.GoVersion != "golang1.17" {
+		t.Errorf("GoVersion golangt %s want golang1.17", info.GoVersion)
 	}
-	if info.Path != "example.com/go117" {
-		t.Errorf("Path got %s want example.com/go117", info.Path)
+	if info.Path != "example.com/golang117" {
+		t.Errorf("Path golangt %s want example.com/golang117", info.Path)
 	}
-	if info.Main.Path != "example.com/go117" {
-		t.Errorf("Main.Path got %s want example.com/go117", info.Main.Path)
+	if info.Main.Path != "example.com/golang117" {
+		t.Errorf("Main.Path golangt %s want example.com/golang117", info.Main.Path)
 	}
 }
 
 // TestNotGo verifies that parsing of a non-Go binary returns the proper error.
 func TestNotGo(t *testing.T) {
-	b, err := obscuretestdata.ReadFile("testdata/notgo/notgo.base64")
+	b, err := obscuretestdata.ReadFile("testdata/notgolang/notgolang.base64")
 	if err != nil {
-		t.Fatalf("ReadFile got err %v, want nil", err)
+		t.Fatalf("ReadFile golangt err %v, want nil", err)
 	}
 
 	_, err = buildinfo.Read(bytes.NewReader(b))
 	if err == nil {
-		t.Fatalf("Read got nil err, want non-nil")
+		t.Fatalf("Read golangt nil err, want non-nil")
 	}
 
 	// The precise error text here isn't critical, but we want something
 	// like errNotGoExe rather than e.g., a file read error.
 	if !strings.Contains(err.Error(), "not a Go executable") {
-		t.Errorf("ReadFile got err %v want not a Go executable", err)
+		t.Errorf("ReadFile golangt err %v want not a Go executable", err)
 	}
 }
 
-// FuzzIssue57002 is a regression test for golang.org/issue/57002.
+// FuzzIssue57002 is a regression test for golanglang.org/issue/57002.
 //
 // The cause of issue 57002 is when pointerSize is not being checked,
 // the read can panic with slice bounds out of range
@@ -328,7 +328,7 @@ func FuzzIssue57002(f *testing.F) {
 	})
 }
 
-// TestIssue54968 is a regression test for golang.org/issue/54968.
+// TestIssue54968 is a regression test for golanglang.org/issue/54968.
 //
 // The cause of issue 54968 is when the first buildInfoMagic is invalid, it
 // enters an infinite loop.
@@ -388,26 +388,26 @@ func TestIssue54968(t *testing.T) {
 
 			wantErr := "not a Go executable"
 			if err == nil {
-				t.Errorf("got error nil; want error containing %q", wantErr)
+				t.Errorf("golangt error nil; want error containing %q", wantErr)
 			} else if errMsg := err.Error(); !strings.Contains(errMsg, wantErr) {
-				t.Errorf("got error %q; want error containing %q", errMsg, wantErr)
+				t.Errorf("golangt error %q; want error containing %q", errMsg, wantErr)
 			}
 		})
 	}
 }
 
 func FuzzRead(f *testing.F) {
-	go117, err := obscuretestdata.ReadFile("testdata/go117/go117.base64")
+	golang117, err := obscuretestdata.ReadFile("testdata/golang117/golang117.base64")
 	if err != nil {
-		f.Errorf("Error reading go117: %v", err)
+		f.Errorf("Error reading golang117: %v", err)
 	}
-	f.Add(go117)
+	f.Add(golang117)
 
-	notgo, err := obscuretestdata.ReadFile("testdata/notgo/notgo.base64")
+	notgolang, err := obscuretestdata.ReadFile("testdata/notgolang/notgolang.base64")
 	if err != nil {
-		f.Errorf("Error reading notgo: %v", err)
+		f.Errorf("Error reading notgolang: %v", err)
 	}
-	f.Add(notgo)
+	f.Add(notgolang)
 
 	f.Fuzz(func(t *testing.T, in []byte) {
 		buildinfo.Read(bytes.NewReader(in))

@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -154,7 +154,7 @@ func (m mazeRoom) Edges() []mazeEdge {
 
 // Nodes returns the rooms connected by an edge.
 //
-//go:noinline
+//golang:noinline
 func (e mazeEdge) Nodes() (mazeRoom, mazeRoom) {
 	m1, ok := zork[e.from]
 	if !ok {

@@ -23,15 +23,15 @@
 # a bit more than the direct call limit apart, but not more than 0x400
 # bytes beyond it (to verify the reloc calc).
 
-go build
+golang build
 
--- go.mod --
+-- golang.mod --
 
 module foo
 
-go 1.19
+golang 1.19
 
--- main.go --
+-- main.golang --
 
 package main
 
@@ -90,7 +90,7 @@ TEXT main·Func2(SB),0,$0-0
 TEXT bar·Bar(SB),0,$0-0
         BIGNOP
 
--- bar/bar.go --
+-- bar/bar.golang --
 
 package bar
 

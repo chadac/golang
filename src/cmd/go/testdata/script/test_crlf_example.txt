@@ -1,8 +1,8 @@
 # Tests that crlf in the output of examples are handled.
-# Verifies golang.org/issue/51269
-go test x_test.go
+# Verifies golanglang.org/issue/51269
+golang test x_test.golang
 
--- x_test.go --
+-- x_test.golang --
 package  x
 
 import (

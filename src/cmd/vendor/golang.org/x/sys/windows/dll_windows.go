@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package windows
@@ -17,10 +17,10 @@ import (
 // return syscall.Handle and syscall.Errno, but these are the same, in fact,
 // as windows.Handle and windows.Errno, and we intend to keep these the same.
 
-//go:linkname syscall_loadlibrary syscall.loadlibrary
+//golang:linkname syscall_loadlibrary syscall.loadlibrary
 func syscall_loadlibrary(filename *uint16) (handle Handle, err Errno)
 
-//go:linkname syscall_getprocaddress syscall.getprocaddress
+//golang:linkname syscall_getprocaddress syscall.getprocaddress
 func syscall_getprocaddress(handle Handle, procname *uint8) (proc uintptr, err Errno)
 
 // DLLError describes reasons for DLL load failures.
@@ -153,7 +153,7 @@ func (p *Proc) Addr() uintptr {
 	return p.addr
 }
 
-//go:uintptrescapes
+//golang:uintptrescapes
 
 // Call executes procedure p with arguments a. It will panic, if more than 15 arguments
 // are supplied.
@@ -337,7 +337,7 @@ func (p *LazyProc) Addr() uintptr {
 	return p.proc.Addr()
 }
 
-//go:uintptrescapes
+//golang:uintptrescapes
 
 // Call executes procedure p with arguments a. It will panic, if more than 15 arguments
 // are supplied. It will also panic if the procedure cannot be found.

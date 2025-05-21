@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package scripttest adapts the script engine for use in tests.
@@ -36,7 +36,7 @@ type ToolReplacement struct {
 // test binary instead.
 func RunToolScriptTest(t *testing.T, repls []ToolReplacement, scriptsdir string, fixReadme bool) {
 	// Nearly all script tests involve doing builds, so don't
-	// bother here if we don't have "go build".
+	// bother here if we don't have "golang build".
 	testenv.MustHaveGoBuild(t)
 
 	// Skip this path on plan9, which doesn't support symbolic
@@ -46,15 +46,15 @@ func RunToolScriptTest(t *testing.T, repls []ToolReplacement, scriptsdir string,
 	}
 
 	// Locate our Go tool.
-	gotool, err := testenv.GoTool()
+	golangtool, err := testenv.GoTool()
 	if err != nil {
-		t.Fatalf("locating go tool: %v", err)
+		t.Fatalf("locating golang tool: %v", err)
 	}
 
-	goEnv := func(name string) string {
-		out, err := exec.Command(gotool, "env", name).CombinedOutput()
+	golangEnv := func(name string) string {
+		out, err := exec.Command(golangtool, "env", name).CombinedOutput()
 		if err != nil {
-			t.Fatalf("go env %s: %v\n%s", name, err, out)
+			t.Fatalf("golang env %s: %v\n%s", name, err, out)
 		}
 		return strings.TrimSpace(string(out))
 	}
@@ -110,28 +110,28 @@ func RunToolScriptTest(t *testing.T, repls []ToolReplacement, scriptsdir string,
 	}
 	gracePeriod := 60 * time.Second // arbitrary
 
-	// Set up an alternate go root for running script tests, since it
+	// Set up an alternate golang root for running script tests, since it
 	// is possible that we might want to replace one of the installed
 	// tools with a unit test executable.
-	goroot := goEnv("GOROOT")
+	golangroot := golangEnv("GOROOT")
 	tmpdir := t.TempDir()
-	tgr := SetupTestGoRoot(t, tmpdir, goroot)
+	tgr := SetupTestGoRoot(t, tmpdir, golangroot)
 
 	// Replace tools if appropriate
 	for _, repl := range repls {
 		ReplaceGoToolInTestGoRoot(t, tgr, repl.ToolName, repl.ReplacementPath)
 	}
 
-	// Add in commands for "go" and "cc".
-	testgo := filepath.Join(tgr, "bin", "go")
-	gocmd := script.Program(testgo, interrupt, gracePeriod)
-	addcmd("go", gocmd)
+	// Add in commands for "golang" and "cc".
+	testgolang := filepath.Join(tgr, "bin", "golang")
+	golangcmd := script.Program(testgolang, interrupt, gracePeriod)
+	addcmd("golang", golangcmd)
 	cmdExec := cmds["exec"]
-	addcmd("cc", scriptCC(cmdExec, goEnv("CC")))
+	addcmd("cc", scriptCC(cmdExec, golangEnv("CC")))
 
 	// Add various helpful conditions related to builds and toolchain use.
-	goHostOS, goHostArch := goEnv("GOHOSTOS"), goEnv("GOHOSTARCH")
-	AddToolChainScriptConditions(t, conds, goHostOS, goHostArch)
+	golangHostOS, golangHostArch := golangEnv("GOHOSTOS"), golangEnv("GOHOSTARCH")
+	AddToolChainScriptConditions(t, conds, golangHostOS, golangHostArch)
 
 	// Environment setup.
 	env := os.Environ()
@@ -154,7 +154,7 @@ func RunToolScriptTest(t *testing.T, repls []ToolReplacement, scriptsdir string,
 	}
 
 	t.Run("README", func(t *testing.T) {
-		checkScriptReadme(t, engine, env, scriptsdir, gotool, fixReadme)
+		checkScriptReadme(t, engine, env, scriptsdir, golangtool, fixReadme)
 	})
 
 	// ... and kick off tests.
@@ -166,7 +166,7 @@ func RunToolScriptTest(t *testing.T, repls []ToolReplacement, scriptsdir string,
 // RunTests kicks off one or more script-based tests using the
 // specified engine, running all test files that match pattern.
 // This function adapted from Russ's rsc.io/script/scripttest#Run
-// function, which was in turn forked off cmd/go's runner.
+// function, which was in turn forked off cmd/golang's runner.
 func RunTests(t *testing.T, ctx context.Context, engine *script.Engine, env []string, pattern string) {
 	gracePeriod := 100 * time.Millisecond
 	if deadline, ok := t.Deadline(); ok {
@@ -228,7 +228,7 @@ func RunTests(t *testing.T, ctx context.Context, engine *script.Engine, env []st
 			// editors that can jump to file:line references in the output
 			// will work better seeing the full path relative to the
 			// directory containing the command being tested
-			// (e.g. where "go test" command is usually run).
+			// (e.g. where "golang test" command is usually run).
 			Run(t, engine, s, file, bytes.NewReader(a.Comment))
 		})
 	}

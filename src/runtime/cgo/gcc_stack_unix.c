@@ -1,18 +1,18 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build unix && !darwin
+//golang:build unix && !darwin
 
 #ifndef _GNU_SOURCE // pthread_getattr_np
 #define _GNU_SOURCE
 #endif
 
 #include <pthread.h>
-#include "libcgo.h"
+#include "libcgolang.h"
 
 void
-x_cgo_getstackbound(uintptr bounds[2])
+x_cgolang_getstackbound(uintptr bounds[2])
 {
 	pthread_attr_t attr;
 	void *addr;
@@ -41,8 +41,8 @@ x_cgo_getstackbound(uintptr bounds[2])
 
 	// bounds points into the Go stack. TSAN can't see the synchronization
 	// in Go around stack reuse.
-	_cgo_tsan_acquire();
+	_cgolang_tsan_acquire();
 	bounds[0] = (uintptr)addr;
 	bounds[1] = (uintptr)addr + size;
-	_cgo_tsan_release();
+	_cgolang_tsan_release();
 }

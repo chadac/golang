@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Check that we do loads exactly once. The SSA backend
@@ -22,13 +22,13 @@ func main() {
 	var x byte
 	const N = 1000000
 	c := make(chan struct{})
-	go func() {
+	golang func() {
 		for i := 0; i < N; i++ {
 			x = 1
 		}
 		c <- struct{}{}
 	}()
-	go func() {
+	golang func() {
 		for i := 0; i < N; i++ {
 			x = 2
 		}

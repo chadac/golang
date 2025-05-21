@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package types2
@@ -500,7 +500,7 @@ func (t *Named) methodIndex(name string, foldCase bool) int {
 // forwarding declarations. Underlying types are never Named, TypeParam, or
 // Alias types.
 //
-// [underlying type]: https://go.dev/ref/spec#Underlying_types.
+// [underlying type]: https://golang.dev/ref/spec#Underlying_types.
 func (t *Named) Underlying() Type {
 	// TODO(gri) Investigate if Unalias can be moved to where underlying is set.
 	return Unalias(t.resolve().underlying)
@@ -591,7 +591,7 @@ loop:
 	for n := range seen {
 		// We should never have to update the underlying type of an imported type;
 		// those underlying types should have been resolved during the import.
-		// Also, doing so would lead to a race condition (was go.dev/issue/31749).
+		// Also, doing so would lead to a race condition (was golang.dev/issue/31749).
 		// Do this check always, not just in debug mode (it's cheap).
 		if n.obj.pkg != check.pkg {
 			panic("imported type with unresolved underlying type")
@@ -689,7 +689,7 @@ func (n *Named) expandUnderlying() Type {
 			iface.tset = nil // recompute type set with new methods
 
 			// If check != nil, check.newInterface will have saved the interface for later completion.
-			if check == nil { // golang/go#61561: all newly created interfaces must be fully evaluated
+			if check == nil { // golanglang/golang#61561: all newly created interfaces must be fully evaluated
 				iface.typeSet()
 			}
 		}

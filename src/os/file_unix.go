@@ -1,8 +1,8 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build unix || (js && wasm) || wasip1
+//golang:build unix || (js && wasm) || wasip1
 
 package os
 
@@ -13,7 +13,7 @@ import (
 	"runtime"
 	"sync/atomic"
 	"syscall"
-	_ "unsafe" // for go:linkname
+	_ "unsafe" // for golang:linkname
 )
 
 const _UTIME_OMIT = unix.UTIME_OMIT
@@ -109,7 +109,7 @@ func newFileFromNewFile(fd uintptr, name string) *File {
 // the Fd method has returned a blocking descriptor, and we want to
 // retain that behavior because existing code expects it and depends on it.
 //
-//go:linkname net_newUnixFile net.newUnixFile
+//golang:linkname net_newUnixFile net.newUnixFile
 func net_newUnixFile(fd int, name string) *File {
 	if fd < 0 {
 		panic("invalid FD")
@@ -164,7 +164,7 @@ func newFile(fd int, name string, kind newFileKind, nonBlocking bool) *File {
 	// perform this check and allow it to be added to the kqueue.
 	if kind == kindOpenFile {
 		switch runtime.GOOS {
-		case "darwin", "ios", "dragonfly", "freebsd", "netbsd", "openbsd":
+		case "darwin", "ios", "dragolangnfly", "freebsd", "netbsd", "openbsd":
 			var st syscall.Stat_t
 			err := ignoringEINTR(func() error {
 				return syscall.Fstat(fd, &st)
@@ -173,7 +173,7 @@ func newFile(fd int, name string, kind newFileKind, nonBlocking bool) *File {
 			// Don't try to use kqueue with regular files on *BSDs.
 			// On FreeBSD a regular file is always
 			// reported as ready for writing.
-			// On Dragonfly, NetBSD and OpenBSD the fd is signaled
+			// On Dragolangnfly, NetBSD and OpenBSD the fd is signaled
 			// only once as ready (both read and write).
 			// Issue 19093.
 			// Also don't add directories to the netpoller.
@@ -272,7 +272,7 @@ func openFileNolog(name string, flag int, perm FileMode) (*File, error) {
 	}
 
 	// There's a race here with fork/exec, which we are
-	// content to live with. See ../syscall/exec_unix.go.
+	// content to live with. See ../syscall/exec_unix.golang.
 	if !supportsCloseOnExec {
 		syscall.CloseOnExec(r)
 	}

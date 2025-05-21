@@ -1,8 +1,8 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Package slices implements various slice algorithms.
+// Package slices implements various slice algolangrithms.
 package slices
 
 // Map turns a []T1 to a []T2 using a mapping function.

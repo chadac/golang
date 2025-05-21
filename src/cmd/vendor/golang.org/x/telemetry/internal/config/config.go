@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // package config provides methods for loading and querying a
@@ -11,7 +11,7 @@ import (
 	"os"
 	"strings"
 
-	"golang.org/x/telemetry/internal/telemetry"
+	"golanglang.org/x/telemetry/internal/telemetry"
 )
 
 // Config is a wrapper around telemetry.UploadConfig that provides some
@@ -19,9 +19,9 @@ import (
 type Config struct {
 	*telemetry.UploadConfig
 	program         map[string]bool
-	goos            map[string]bool
-	goarch          map[string]bool
-	goversion       map[string]bool
+	golangos            map[string]bool
+	golangarch          map[string]bool
+	golangversion       map[string]bool
 	pgversion       map[pgkey]bool
 	pgcounter       map[pgkey]bool
 	pgcounterprefix map[pgkey]bool
@@ -47,9 +47,9 @@ func ReadConfig(file string) (*Config, error) {
 
 func NewConfig(cfg *telemetry.UploadConfig) *Config {
 	ucfg := Config{UploadConfig: cfg}
-	ucfg.goos = set(ucfg.GOOS)
-	ucfg.goarch = set(ucfg.GOARCH)
-	ucfg.goversion = set(ucfg.GoVersion)
+	ucfg.golangos = set(ucfg.GOOS)
+	ucfg.golangarch = set(ucfg.GOARCH)
+	ucfg.golangversion = set(ucfg.GoVersion)
 	ucfg.program = make(map[string]bool, len(ucfg.Programs))
 	ucfg.pgversion = make(map[pgkey]bool, len(ucfg.Programs))
 	ucfg.pgcounter = make(map[pgkey]bool, len(ucfg.Programs))
@@ -84,15 +84,15 @@ func (r *Config) HasProgram(s string) bool {
 }
 
 func (r *Config) HasGOOS(s string) bool {
-	return r.goos[s]
+	return r.golangos[s]
 }
 
 func (r *Config) HasGOARCH(s string) bool {
-	return r.goarch[s]
+	return r.golangarch[s]
 }
 
 func (r *Config) HasGoVersion(s string) bool {
-	return r.goversion[s]
+	return r.golangversion[s]
 }
 
 func (r *Config) HasVersion(program, version string) bool {

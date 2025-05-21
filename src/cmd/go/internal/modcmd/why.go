@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package modcmd
@@ -9,13 +9,13 @@ import (
 	"fmt"
 	"strings"
 
-	"cmd/go/internal/base"
-	"cmd/go/internal/imports"
-	"cmd/go/internal/modload"
+	"cmd/golang/internal/base"
+	"cmd/golang/internal/imports"
+	"cmd/golang/internal/modload"
 )
 
 var cmdWhy = &base.Command{
-	UsageLine: "go mod why [-m] [-vendor] packages...",
+	UsageLine: "golang mod why [-m] [-vendor] packages...",
 	Short:     "explain why packages or modules are needed",
 	Long: `
 Why shows a shortest path in the import graph from the main module to
@@ -23,7 +23,7 @@ each of the listed packages. If the -m flag is given, why treats the
 arguments as a list of modules and finds a path to any package in each
 of the modules.
 
-By default, why queries the graph of packages matched by "go list all",
+By default, why queries the graph of packages matched by "golang list all",
 which includes tests for reachable packages. The -vendor flag causes why
 to exclude tests of dependencies.
 
@@ -37,17 +37,17 @@ parenthesized note indicating that fact.
 
 For example:
 
-	$ go mod why golang.org/x/text/language golang.org/x/text/encoding
-	# golang.org/x/text/language
+	$ golang mod why golanglang.org/x/text/language golanglang.org/x/text/encoding
+	# golanglang.org/x/text/language
 	rsc.io/quote
 	rsc.io/sampler
-	golang.org/x/text/language
+	golanglang.org/x/text/language
 
-	# golang.org/x/text/encoding
-	(main module does not need package golang.org/x/text/encoding)
+	# golanglang.org/x/text/encoding
+	(main module does not need package golanglang.org/x/text/encoding)
 	$
 
-See https://golang.org/ref/mod#go-mod-why for more about 'go mod why'.
+See https://golanglang.org/ref/mod#golang-mod-why for more about 'golang mod why'.
 	`,
 }
 
@@ -66,7 +66,7 @@ func runWhy(ctx context.Context, cmd *base.Command, args []string) {
 	modload.InitWorkfile()
 	modload.ForceUseModules = true
 	modload.RootMode = modload.NeedRoot
-	modload.ExplicitWriteGoMod = true // don't write go.mod in ListModules
+	modload.ExplicitWriteGoMod = true // don't write golang.mod in ListModules
 
 	loadOpts := modload.PackageOpts{
 		Tags:                     imports.AnyTags(),
@@ -79,7 +79,7 @@ func runWhy(ctx context.Context, cmd *base.Command, args []string) {
 	if *whyM {
 		for _, arg := range args {
 			if strings.Contains(arg, "@") {
-				base.Fatalf("go: %s: 'go mod why' requires a module path, not a version query", arg)
+				base.Fatalf("golang: %s: 'golang mod why' requires a module path, not a version query", arg)
 			}
 		}
 

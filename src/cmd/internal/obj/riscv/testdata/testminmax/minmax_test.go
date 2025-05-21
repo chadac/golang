@@ -1,8 +1,8 @@
 // Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build riscv64
+//golang:build riscv64
 
 package testminmax
 
@@ -40,17 +40,17 @@ func TestMin(t *testing.T) {
 		{-1, 1, -1},
 	}
 	for _, test := range tests {
-		if got := testMIN1(test.a); got != test.a {
-			t.Errorf("Assembly testMIN1 %v = %v, want %v", test.a, got, test.a)
+		if golangt := testMIN1(test.a); golangt != test.a {
+			t.Errorf("Assembly testMIN1 %v = %v, want %v", test.a, golangt, test.a)
 		}
-		if got := testMIN2(test.a, test.b); got != test.want {
-			t.Errorf("Assembly testMIN2 %v, %v = %v, want %v", test.a, test.b, got, test.want)
+		if golangt := testMIN2(test.a, test.b); golangt != test.want {
+			t.Errorf("Assembly testMIN2 %v, %v = %v, want %v", test.a, test.b, golangt, test.want)
 		}
-		if got := testMIN3(test.a, test.b); got != test.want {
-			t.Errorf("Assembly testMIN3 %v, %v = %v, want %v", test.a, test.b, got, test.want)
+		if golangt := testMIN3(test.a, test.b); golangt != test.want {
+			t.Errorf("Assembly testMIN3 %v, %v = %v, want %v", test.a, test.b, golangt, test.want)
 		}
-		if got := testMIN4(test.a, test.b); got != test.want {
-			t.Errorf("Assembly testMIN4 %v, %v = %v, want %v", test.a, test.b, got, test.want)
+		if golangt := testMIN4(test.a, test.b); golangt != test.want {
+			t.Errorf("Assembly testMIN4 %v, %v = %v, want %v", test.a, test.b, golangt, test.want)
 		}
 	}
 }
@@ -68,17 +68,17 @@ func TestMax(t *testing.T) {
 		{-1, 1, 1},
 	}
 	for _, test := range tests {
-		if got := testMAX1(test.a); got != test.a {
-			t.Errorf("Assembly testMAX1 %v = %v, want %v", test.a, got, test.a)
+		if golangt := testMAX1(test.a); golangt != test.a {
+			t.Errorf("Assembly testMAX1 %v = %v, want %v", test.a, golangt, test.a)
 		}
-		if got := testMAX2(test.a, test.b); got != test.want {
-			t.Errorf("Assembly testMAX2 %v, %v = %v, want %v", test.a, test.b, got, test.want)
+		if golangt := testMAX2(test.a, test.b); golangt != test.want {
+			t.Errorf("Assembly testMAX2 %v, %v = %v, want %v", test.a, test.b, golangt, test.want)
 		}
-		if got := testMAX3(test.a, test.b); got != test.want {
-			t.Errorf("Assembly testMAX3 %v, %v = %v, want %v", test.a, test.b, got, test.want)
+		if golangt := testMAX3(test.a, test.b); golangt != test.want {
+			t.Errorf("Assembly testMAX3 %v, %v = %v, want %v", test.a, test.b, golangt, test.want)
 		}
-		if got := testMAX4(test.a, test.b); got != test.want {
-			t.Errorf("Assembly testMAX4 %v, %v = %v, want %v", test.a, test.b, got, test.want)
+		if golangt := testMAX4(test.a, test.b); golangt != test.want {
+			t.Errorf("Assembly testMAX4 %v, %v = %v, want %v", test.a, test.b, golangt, test.want)
 		}
 	}
 }
@@ -96,17 +96,17 @@ func TestMinU(t *testing.T) {
 		{-1, 1, 1},
 	}
 	for _, test := range tests {
-		if got := testMINU1(test.a); got != test.a {
-			t.Errorf("Assembly testMINU1 %v = %v, want %v", test.a, got, test.a)
+		if golangt := testMINU1(test.a); golangt != test.a {
+			t.Errorf("Assembly testMINU1 %v = %v, want %v", test.a, golangt, test.a)
 		}
-		if got := testMINU2(test.a, test.b); got != test.want {
-			t.Errorf("Assembly testMINU2 %v, %v = %v, want %v", test.a, test.b, got, test.want)
+		if golangt := testMINU2(test.a, test.b); golangt != test.want {
+			t.Errorf("Assembly testMINU2 %v, %v = %v, want %v", test.a, test.b, golangt, test.want)
 		}
-		if got := testMINU3(test.a, test.b); got != test.want {
-			t.Errorf("Assembly testMINU3 %v, %v = %v, want %v", test.a, test.b, got, test.want)
+		if golangt := testMINU3(test.a, test.b); golangt != test.want {
+			t.Errorf("Assembly testMINU3 %v, %v = %v, want %v", test.a, test.b, golangt, test.want)
 		}
-		if got := testMINU4(test.a, test.b); got != test.want {
-			t.Errorf("Assembly testMINU4 %v, %v = %v, want %v", test.a, test.b, got, test.want)
+		if golangt := testMINU4(test.a, test.b); golangt != test.want {
+			t.Errorf("Assembly testMINU4 %v, %v = %v, want %v", test.a, test.b, golangt, test.want)
 		}
 	}
 }
@@ -124,17 +124,17 @@ func TestMaxU(t *testing.T) {
 		{-1, 1, -1},
 	}
 	for _, test := range tests {
-		if got := testMAXU1(test.a); got != test.a {
-			t.Errorf("Assembly testMAXU1 %v = %v, want %v", test.a, got, test.a)
+		if golangt := testMAXU1(test.a); golangt != test.a {
+			t.Errorf("Assembly testMAXU1 %v = %v, want %v", test.a, golangt, test.a)
 		}
-		if got := testMAXU2(test.a, test.b); got != test.want {
-			t.Errorf("Assembly testMAXU2 %v, %v = %v, want %v", test.a, test.b, got, test.want)
+		if golangt := testMAXU2(test.a, test.b); golangt != test.want {
+			t.Errorf("Assembly testMAXU2 %v, %v = %v, want %v", test.a, test.b, golangt, test.want)
 		}
-		if got := testMAXU3(test.a, test.b); got != test.want {
-			t.Errorf("Assembly testMAXU3 %v, %v = %v, want %v", test.a, test.b, got, test.want)
+		if golangt := testMAXU3(test.a, test.b); golangt != test.want {
+			t.Errorf("Assembly testMAXU3 %v, %v = %v, want %v", test.a, test.b, golangt, test.want)
 		}
-		if got := testMAXU4(test.a, test.b); got != test.want {
-			t.Errorf("Assembly testMAXU4 %v, %v = %v, want %v", test.a, test.b, got, test.want)
+		if golangt := testMAXU4(test.a, test.b); golangt != test.want {
+			t.Errorf("Assembly testMAXU4 %v, %v = %v, want %v", test.a, test.b, golangt, test.want)
 		}
 	}
 }

@@ -1,5 +1,5 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 #include <limits.h>
@@ -10,8 +10,8 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-#include "libcgo.h"
-#include "libcgo_unix.h"
+#include "libcgolang.h"
+#include "libcgolang_unix.h"
 
 #include <TargetConditionals.h>
 
@@ -24,7 +24,7 @@ static void *threadentry(void*);
 static void (*setg_gcc)(void*);
 
 void
-_cgo_sys_thread_start(ThreadStart *ts)
+_cgolang_sys_thread_start(ThreadStart *ts)
 {
 	pthread_attr_t attr;
 	sigset_t ign, oset;
@@ -32,7 +32,7 @@ _cgo_sys_thread_start(ThreadStart *ts)
 	size_t size;
 	int err;
 
-	//fprintf(stderr, "runtime/cgo: _cgo_sys_thread_start: fn=%p, g=%p\n", ts->fn, ts->g); // debug
+	//fprintf(stderr, "runtime/cgolang: _cgolang_sys_thread_start: fn=%p, g=%p\n", ts->fn, ts->g); // debug
 	sigfillset(&ign);
 	pthread_sigmask(SIG_SETMASK, &ign, &oset);
 
@@ -42,12 +42,12 @@ _cgo_sys_thread_start(ThreadStart *ts)
 	pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_DETACHED);
 	// Leave stacklo=0 and set stackhi=size; mstart will do the rest.
 	ts->g->stackhi = size;
-	err = _cgo_try_pthread_create(&p, &attr, threadentry, ts);
+	err = _cgolang_try_pthread_create(&p, &attr, threadentry, ts);
 
 	pthread_sigmask(SIG_SETMASK, &oset, nil);
 
 	if (err != 0) {
-		fprintf(stderr, "runtime/cgo: pthread_create failed: %s\n", strerror(err));
+		fprintf(stderr, "runtime/cgolang: pthread_create failed: %s\n", strerror(err));
 		abort();
 	}
 }
@@ -87,7 +87,7 @@ init_working_dir()
 
 	bundle = CFBundleGetMainBundle();
 	if (bundle == NULL) {
-		fprintf(stderr, "runtime/cgo: no main bundle\n");
+		fprintf(stderr, "runtime/cgolang: no main bundle\n");
 		return;
 	}
 	url_ref = CFBundleCopyResourceURL(bundle, CFSTR("Info"), CFSTR("plist"), NULL);
@@ -99,7 +99,7 @@ init_working_dir()
 	res = CFStringGetCString(url_str_ref, buf, sizeof(buf), kCFStringEncodingUTF8);
 	CFRelease(url_ref);
 	if (!res) {
-		fprintf(stderr, "runtime/cgo: cannot get URL string\n");
+		fprintf(stderr, "runtime/cgolang: cannot get URL string\n");
 		return;
 	}
 
@@ -107,26 +107,26 @@ init_working_dir()
 	// strip it down to the working directory "/path/to".
 	url_len = strlen(buf);
 	if (url_len < sizeof("file://")+sizeof("/Info.plist")) {
-		fprintf(stderr, "runtime/cgo: bad URL: %s\n", buf);
+		fprintf(stderr, "runtime/cgolang: bad URL: %s\n", buf);
 		return;
 	}
 	buf[url_len-sizeof("/Info.plist")+1] = 0;
 	dir = &buf[0] + sizeof("file://")-1;
 
 	if (chdir(dir) != 0) {
-		fprintf(stderr, "runtime/cgo: chdir(%s) failed\n", dir);
+		fprintf(stderr, "runtime/cgolang: chdir(%s) failed\n", dir);
 	}
 
-	// The test harness in go_ios_exec passes the relative working directory
+	// The test harness in golang_ios_exec passes the relative working directory
 	// in the GoExecWrapperWorkingDirectory property of the app bundle.
 	wd_ref = CFBundleGetValueForInfoDictionaryKey(bundle, CFSTR("GoExecWrapperWorkingDirectory"));
 	if (wd_ref != NULL) {
 		if (!CFStringGetCString(wd_ref, buf, sizeof(buf), kCFStringEncodingUTF8)) {
-			fprintf(stderr, "runtime/cgo: cannot get GoExecWrapperWorkingDirectory string\n");
+			fprintf(stderr, "runtime/cgolang: cannot get GoExecWrapperWorkingDirectory string\n");
 			return;
 		}
 		if (chdir(buf) != 0) {
-			fprintf(stderr, "runtime/cgo: chdir(%s) failed\n", buf);
+			fprintf(stderr, "runtime/cgolang: chdir(%s) failed\n", buf);
 		}
 	}
 }
@@ -134,11 +134,11 @@ init_working_dir()
 #endif // TARGET_OS_IPHONE
 
 void
-x_cgo_init(G *g, void (*setg)(void*))
+x_cgolang_init(G *g, void (*setg)(void*))
 {
-	//fprintf(stderr, "x_cgo_init = %p\n", &x_cgo_init); // aid debugging in presence of ASLR
+	//fprintf(stderr, "x_cgolang_init = %p\n", &x_cgolang_init); // aid debugging in presence of ASLR
 	setg_gcc = setg;
-	_cgo_set_stacklo(g, NULL);
+	_cgolang_set_stacklo(g, NULL);
 
 #if TARGET_OS_IPHONE
 	darwin_arm_init_mach_exception_handler();

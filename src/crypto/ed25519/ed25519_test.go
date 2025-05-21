@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ed25519
@@ -224,7 +224,7 @@ func TestCryptoSigner(t *testing.T) {
 	publicInterface := signer.Public()
 	public2, ok := publicInterface.(PublicKey)
 	if !ok {
-		t.Fatalf("expected PublicKey from Public() but got %T", publicInterface)
+		t.Fatalf("expected PublicKey from Public() but golangt %T", publicInterface)
 	}
 
 	if !bytes.Equal(public, public2) {
@@ -308,7 +308,7 @@ func TestGolden(t *testing.T) {
 		sig = sig[:SignatureSize]
 
 		if l := len(pubKey); l != PublicKeySize {
-			t.Fatalf("bad public key length on line %d: got %d bytes", lineNo, l)
+			t.Fatalf("bad public key length on line %d: golangt %d bytes", lineNo, l)
 		}
 
 		var priv [PrivateKeySize]byte
@@ -379,7 +379,7 @@ func TestAllocations(t *testing.T) {
 			t.Fatal("signature didn't verify")
 		}
 	}); allocs > 0 {
-		t.Errorf("expected zero allocations, got %0.1f", allocs)
+		t.Errorf("expected zero allocations, golangt %0.1f", allocs)
 	}
 }
 

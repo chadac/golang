@@ -1,8 +1,8 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build linux
+//golang:build linux
 
 package runtime
 
@@ -89,7 +89,7 @@ func netpollBreak() {
 }
 
 // netpoll checks for ready network connections.
-// Returns a list of goroutines that become runnable,
+// Returns a list of golangroutines that become runnable,
 // and a delta to add to netpollWaiters.
 // This must never return an empty list with a non-zero delta.
 //
@@ -127,7 +127,7 @@ retry:
 		if waitms > 0 {
 			return gList{}, 0
 		}
-		goto retry
+		golangto retry
 	}
 	var toRun gList
 	delta := int32(0)

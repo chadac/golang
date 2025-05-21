@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test case for issue 849.
@@ -74,17 +74,17 @@ func main() {
 }
 
 /*
-6g bug286.go && 6l bug286.6 && 6.out
+6g bug286.golang && 6l bug286.6 && 6.out
 test2 called g
 panic: wrong method called
 
 panic PC=0x24e040
-runtime.panic+0x7c /home/gri/go1/src/pkg/runtime/proc.c:1012
+runtime.panic+0x7c /home/gri/golang1/src/pkg/runtime/proc.c:1012
 	runtime.panic(0x0, 0x24e0a0)
-main.main+0xef /home/gri/go1/test/bugs/bug286.go:76
+main.main+0xef /home/gri/golang1/test/bugs/bug286.golang:76
 	main.main()
-mainstart+0xf /home/gri/go1/src/pkg/runtime/amd64/asm.s:60
+mainstart+0xf /home/gri/golang1/src/pkg/runtime/amd64/asm.s:60
 	mainstart()
-goexit /home/gri/go1/src/pkg/runtime/proc.c:145
-	goexit()
+golangexit /home/gri/golang1/src/pkg/runtime/proc.c:145
+	golangexit()
 */

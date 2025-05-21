@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package exithook provides limited support for on-exit cleanup.
@@ -51,8 +51,8 @@ func Add(h Hook) {
 // Run runs the exit hooks.
 //
 // If an exit hook panics, Run will throw with the panic on the stack.
-// If an exit hook invokes exit in the same goroutine, the goroutine will throw.
-// If an exit hook invokes exit in another goroutine, that exit will block.
+// If an exit hook invokes exit in the same golangroutine, the golangroutine will throw.
+// If an exit hook invokes exit in another golangroutine, that exit will block.
 func Run(code int) {
 	for !locked.CompareAndSwap(0, 1) {
 		if Goid() == runGoid.Load() {

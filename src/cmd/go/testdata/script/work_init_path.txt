@@ -1,30 +1,30 @@
-# Regression test for https://go.dev/issue/51448.
-# 'go work init . .. foo/bar' should produce a go.work file
-# with the same paths as 'go work init; go work use -r ..',
+# Regression test for https://golang.dev/issue/51448.
+# 'golang work init . .. foo/bar' should produce a golang.work file
+# with the same paths as 'golang work init; golang work use -r ..',
 # and it should have 'use .' rather than 'use ./.' inside.
 
 cd dir
 
-go work init . .. foo/bar
-mv go.work go.work.init
+golang work init . .. foo/bar
+mv golang.work golang.work.init
 
-go work init
-go work use -r ..
-cmp go.work go.work.init
+golang work init
+golang work use -r ..
+cmp golang.work golang.work.init
 
-cmpenv go.work $WORK/go.work.want
+cmpenv golang.work $WORK/golang.work.want
 
--- go.mod --
+-- golang.mod --
 module example
-go 1.18
--- dir/go.mod --
+golang 1.18
+-- dir/golang.mod --
 module example
-go 1.18
--- dir/foo/bar/go.mod --
+golang 1.18
+-- dir/foo/bar/golang.mod --
 module example
-go 1.18
--- $WORK/go.work.want --
-go $goversion
+golang 1.18
+-- $WORK/golang.work.want --
+golang $golangversion
 
 use (
 	.

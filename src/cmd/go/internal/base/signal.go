@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package base
@@ -10,14 +10,14 @@ import (
 	"sync"
 )
 
-// Interrupted is closed when the go command receives an interrupt signal.
+// Interrupted is closed when the golang command receives an interrupt signal.
 var Interrupted = make(chan struct{})
 
 // processSignals setups signal handler.
 func processSignals() {
 	sig := make(chan os.Signal, 1)
 	signal.Notify(sig, signalsToIgnore...)
-	go func() {
+	golang func() {
 		<-sig
 		close(Interrupted)
 	}()

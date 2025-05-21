@@ -1,12 +1,12 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !purego
+//golang:build !puregolang
 
 #include "textflag.h"
 
-// SHA-1 block routine. See sha1block.go for Go equivalent.
+// SHA-1 block routine. See sha1block.golang for Go equivalent.
 //
 // There are 80 rounds of 4 types:
 //   - rounds 0-15 are type 1 and load data (ROUND1 macro).
@@ -99,7 +99,7 @@
 // A stack frame size of 64 bytes is required here, because
 // the frame size used for data expansion is 64 bytes.
 // See the definition of the macro LOAD above, and the definition
-// of the local variable w in the general implementation (sha1block.go).
+// of the local variable w in the general implementation (sha1block.golang).
 TEXT ·block(SB),NOSPLIT,$64-32
 	MOVV	dig+0(FP),	R4
 	MOVV	p_base+8(FP),	R5

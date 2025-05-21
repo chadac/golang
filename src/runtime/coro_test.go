@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime_test
@@ -31,27 +31,27 @@ func TestCoroLockOSThread(t *testing.T) {
 	}
 }
 
-func TestCoroCgoCallback(t *testing.T) {
+func TestCoroCgolangCallback(t *testing.T) {
 	testenv.MustHaveCGO(t)
 	if runtime.GOOS == "windows" {
-		t.Skip("coro cgo callback tests not supported on Windows")
+		t.Skip("coro cgolang callback tests not supported on Windows")
 	}
 	if runtime.GOOS == "freebsd" && race.Enabled {
-		t.Skipf("race + cgo freebsd not supported. See https://go.dev/issue/73788.")
+		t.Skipf("race + cgolang freebsd not supported. See https://golang.dev/issue/73788.")
 	}
 	for _, test := range []string{
-		"CoroCgoIterCallback",
-		"CoroCgoIterCallbackYield",
-		"CoroCgoCallback",
-		"CoroCgoCallbackIterNested",
-		"CoroCgoCallbackIterCallback",
-		"CoroCgoCallbackIterCallbackYield",
-		"CoroCgoCallbackAfterPull",
-		"CoroCgoStopCallback",
-		"CoroCgoStopCallbackIterNested",
+		"CoroCgolangIterCallback",
+		"CoroCgolangIterCallbackYield",
+		"CoroCgolangCallback",
+		"CoroCgolangCallbackIterNested",
+		"CoroCgolangCallbackIterCallback",
+		"CoroCgolangCallbackIterCallbackYield",
+		"CoroCgolangCallbackAfterPull",
+		"CoroCgolangStopCallback",
+		"CoroCgolangStopCallbackIterNested",
 	} {
 		t.Run(test, func(t *testing.T) {
-			checkCoroTestProgOutput(t, runTestProg(t, "testprogcgo", test))
+			checkCoroTestProgOutput(t, runTestProg(t, "testprogcgolang", test))
 		})
 	}
 }
@@ -61,17 +61,17 @@ func checkCoroTestProgOutput(t *testing.T, output string) {
 
 	c := strings.SplitN(output, "\n", 2)
 	if len(c) == 1 {
-		t.Fatalf("expected at least one complete line in the output, got:\n%s", output)
+		t.Fatalf("expected at least one complete line in the output, golangt:\n%s", output)
 	}
 	expect, ok := strings.CutPrefix(c[0], "expect: ")
 	if !ok {
-		t.Fatalf("expected first line of output to start with \"expect: \", got: %q", c[0])
+		t.Fatalf("expected first line of output to start with \"expect: \", golangt: %q", c[0])
 	}
 	rest := c[1]
 	if expect == "OK" && rest != "OK\n" {
-		t.Fatalf("expected just 'OK' in the output, got:\n%s", rest)
+		t.Fatalf("expected just 'OK' in the output, golangt:\n%s", rest)
 	}
 	if !strings.Contains(rest, expect) {
-		t.Fatalf("expected %q in the output, got:\n%s", expect, rest)
+		t.Fatalf("expected %q in the output, golangt:\n%s", expect, rest)
 	}
 }

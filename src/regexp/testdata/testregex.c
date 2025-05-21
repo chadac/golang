@@ -564,7 +564,7 @@ static struct
 	char*		file;
 	char*		stack;
 	char*		which;
-	jmp_buf		gotcha;
+	jmp_buf		golangtcha;
 #ifdef REG_DISCIPLINE
 	Disc_t		disc;
 #endif
@@ -1009,11 +1009,11 @@ sigunblock(int s)
 }
 
 static void
-gotcha(int sig)
+golangtcha(int sig)
 {
 	int	ret;
 
-	signal(sig, gotcha);
+	signal(sig, golangtcha);
 	alarm(0);
 	state.signals++;
 	switch (sig)
@@ -1029,7 +1029,7 @@ gotcha(int sig)
 		break;
 	}
 	sigunblock(sig);
-	longjmp(state.gotcha, ret);
+	longjmp(state.golangtcha, ret);
 }
 
 static char*
@@ -1144,7 +1144,7 @@ catchfree(regex_t* preg, int flags, int* tabs, char* spec, char* re, char* s, ch
 		regfree(preg);
 		eret = 0;
 	}
-	else if (!(eret = setjmp(state.gotcha)))
+	else if (!(eret = setjmp(state.golangtcha)))
 	{
 		alarm(HUNG);
 		regfree(preg);
@@ -1228,7 +1228,7 @@ main(int argc, char** argv)
 	int		i;
 	int		j;
 	int		expected;
-	int		got;
+	int		golangt;
 	int		locale;
 	int		subunitlen;
 	int		testno;
@@ -1418,17 +1418,17 @@ main(int argc, char** argv)
 #else
 				i = REG_EXTENDED != 0;
 #endif
-				for (got = 0; i < elementsof(unsupported) - 1; i++)
+				for (golangt = 0; i < elementsof(unsupported) - 1; i++)
 				{
-					if (!got)
+					if (!golangt)
 					{
-						got = 1;
+						golangt = 1;
 						printf("NOTE\tunsupported: %s", unsupported[i]);
 					}
 					else
 						printf(",%s", unsupported[i]);
 				}
-				if (got)
+				if (golangt)
 					printf("\n");
 			}
 		}
@@ -1442,9 +1442,9 @@ main(int argc, char** argv)
 #endif
 		if (test & TEST_CATCH)
 		{
-			signal(SIGALRM, gotcha);
-			signal(SIGBUS, gotcha);
-			signal(SIGSEGV, gotcha);
+			signal(SIGALRM, golangtcha);
+			signal(SIGBUS, golangtcha);
+			signal(SIGSEGV, golangtcha);
 		}
 		while (p = getline(fp))
 		{
@@ -1493,7 +1493,7 @@ main(int argc, char** argv)
 				case 0:
 					p--;
 					j = 0;
-					goto checkfield;
+					golangto checkfield;
 				case '\t':
 					*(delim[i] = p - 1) = 0;
 					j = 1;
@@ -1938,7 +1938,7 @@ main(int argc, char** argv)
 #endif
 			if (!(test & TEST_CATCH))
 				cret = regcomp(&preg, re, flags);
-			else if (!(cret = setjmp(state.gotcha)))
+			else if (!(cret = setjmp(state.golangtcha)))
 			{
 				alarm(HUNG);
 				cret = regcomp(&preg, re, flags);
@@ -1951,7 +1951,7 @@ main(int argc, char** argv)
 				p = re + preg.re_npat;
 				if (!(test & TEST_CATCH))
 					cret = regsubcomp(&preg, p, NiL, 0, 0);
-				else if (!(cret = setjmp(state.gotcha)))
+				else if (!(cret = setjmp(state.golangtcha)))
 				{
 					alarm(HUNG);
 					cret = regsubcomp(&preg, p, NiL, 0, 0);
@@ -1976,7 +1976,7 @@ main(int argc, char** argv)
 				p = re + preg.re_npat;
 				if (!(test & TEST_CATCH))
 					i = regdecomp(&preg, -1, buf, j);
-				else if (!(cret = setjmp(state.gotcha)))
+				else if (!(cret = setjmp(state.golangtcha)))
 				{
 					alarm(HUNG);
 					i = regdecomp(&preg, -1, buf, j);
@@ -2055,59 +2055,59 @@ main(int argc, char** argv)
 			else
 			{
 				if (test & TEST_LENIENT)
-					/* we'll let it go this time */;
+					/* we'll let it golang this time */;
 				else if (!*ans || ans[0]=='(' || cret == REG_BADPAT && streq(ans, "NOMATCH"))
 				{
-					got = 0;
+					golangt = 0;
 					for (i = 1; i < elementsof(codes); i++)
 						if (cret==codes[i].code)
-							got = i;
+							golangt = i;
 					if (test & (TEST_ACTUAL|TEST_BASELINE|TEST_FAIL|TEST_PASS|TEST_QUERY|TEST_SUMMARY|TEST_VERIFY))
-						skip = extract(tabs, line, re, s, ans, msg, codes[got].name, NiL, 0, 0, skip, level, test|TEST_DELIMIT);
+						skip = extract(tabs, line, re, s, ans, msg, codes[golangt].name, NiL, 0, 0, skip, level, test|TEST_DELIMIT);
 					else
 					{
 						report("failed", fun, re, NiL, -1, msg, flags, test);
-						printf("%s returned: ", codes[got].name);
+						printf("%s returned: ", codes[golangt].name);
 						error(&preg, cret);
 					}
 				}
 				else
 				{
-					expected = got = 0;
+					expected = golangt = 0;
 					for (i = 1; i < elementsof(codes); i++)
 					{
 						if (streq(ans, codes[i].name))
 							expected = i;
 						if (cret==codes[i].code)
-							got = i;
+							golangt = i;
 					}
 					if (!expected)
 					{
 						if (test & (TEST_ACTUAL|TEST_BASELINE|TEST_FAIL|TEST_PASS|TEST_QUERY|TEST_SUMMARY|TEST_VERIFY))
-							skip = extract(tabs, line, re, s, ans, msg, codes[got].name, NiL, 0, 0, skip, level, test|TEST_DELIMIT);
+							skip = extract(tabs, line, re, s, ans, msg, codes[golangt].name, NiL, 0, 0, skip, level, test|TEST_DELIMIT);
 						else
 						{
 							report("failed: invalid error code", NiL, re, NiL, -1, msg, flags, test);
-							printf("%s expected, %s returned\n", ans, codes[got].name);
+							printf("%s expected, %s returned\n", ans, codes[golangt].name);
 						}
 					}
 					else if (cret != codes[expected].code && cret != REG_BADPAT)
 					{
 						if (test & (TEST_ACTUAL|TEST_BASELINE|TEST_FAIL|TEST_PASS|TEST_QUERY|TEST_SUMMARY|TEST_VERIFY))
-							skip = extract(tabs, line, re, s, ans, msg, codes[got].name, NiL, 0, 0, skip, level, test|TEST_DELIMIT);
+							skip = extract(tabs, line, re, s, ans, msg, codes[golangt].name, NiL, 0, 0, skip, level, test|TEST_DELIMIT);
 						else if (test & TEST_IGNORE_ERROR)
 							state.ignored++;
 						else
 						{
 							report("should fail and did", fun, re, NiL, -1, msg, flags, test);
-							printf("%s expected, %s returned: ", ans, codes[got].name);
+							printf("%s expected, %s returned: ", ans, codes[golangt].name);
 							state.errors--;
 							state.warnings++;
 							error(&preg, cret);
 						}
 					}
 				}
-				goto compile;
+				golangto compile;
 			}
 
 #if _REG_nexec
@@ -2132,7 +2132,7 @@ main(int argc, char** argv)
 			{
 				if (!(test & TEST_CATCH))
 					eret = regexec(&preg, s, nmatch, match, eflags);
-				else if (!(eret = setjmp(state.gotcha)))
+				else if (!(eret = setjmp(state.golangtcha)))
 				{
 					alarm(HUNG);
 					eret = regexec(&preg, s, nmatch, match, eflags);
@@ -2145,7 +2145,7 @@ main(int argc, char** argv)
 				fun = "regsubexec";
 				if (!(test & TEST_CATCH))
 					eret = regsubexec(&preg, s, nmatch, match);
-				else if (!(eret = setjmp(state.gotcha)))
+				else if (!(eret = setjmp(state.golangtcha)))
 				{
 					alarm(HUNG);
 					eret = regsubexec(&preg, s, nmatch, match);
@@ -2242,7 +2242,7 @@ main(int argc, char** argv)
 					nexec = nstr >= 0 ? nstr : strlen(s);
 					s[nexec] = '\n';
 					testno++;
-					goto execute;
+					golangto execute;
 				}
 #endif
 				if (!(test & (TEST_DECOMP|TEST_SUB|TEST_VERIFY)) && !nonosub)
@@ -2250,7 +2250,7 @@ main(int argc, char** argv)
 					if (catchfree(&preg, flags, tabs, line, re, s, ans, msg, NiL, NiL, 0, 0, skip, level, test))
 						continue;
 					flags |= REG_NOSUB;
-					goto nosub;
+					golangto nosub;
 				}
 				if (test & (TEST_BASELINE|TEST_PASS|TEST_VERIFY))
 					skip = extract(tabs, line, re, s, ans, msg, NiL, match, nmatch, nsub, skip, level, test|TEST_OK);
@@ -2259,7 +2259,7 @@ main(int argc, char** argv)
 				skip = extract(tabs, line, re, s, ans, msg, NiL, match, nmatch, nsub, skip, level, test|TEST_DELIMIT);
 			if (catchfree(&preg, flags, tabs, line, re, s, ans, msg, NiL, NiL, 0, 0, skip, level, test))
 				continue;
-			goto compile;
+			golangto compile;
 		}
 		if (test & TEST_SUMMARY)
 			printf("tests=%-4d errors=%-4d warnings=%-2d ignored=%-2d unspecified=%-2d signals=%d\n", testno, state.errors, state.warnings, state.ignored, state.unspecified, state.signals);

@@ -1,5 +1,5 @@
 // Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package cgroup_test
@@ -56,19 +56,19 @@ func TestParseV1Number(t *testing.T) {
 
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
-			got, err := cgroup.ParseV1Number([]byte(tc.contents))
+			golangt, err := cgroup.ParseV1Number([]byte(tc.contents))
 			if tc.wantErr {
 				if err == nil {
-					t.Fatalf("parseV1Number got err nil want non-nil")
+					t.Fatalf("parseV1Number golangt err nil want non-nil")
 				}
 				return
 			}
 			if err != nil {
-				t.Fatalf("parseV1Number got err %v want nil", err)
+				t.Fatalf("parseV1Number golangt err %v want nil", err)
 			}
 
-			if got != tc.want {
-				t.Errorf("parseV1Number got %d want %d", got, tc.want)
+			if golangt != tc.want {
+				t.Errorf("parseV1Number golangt %d want %d", golangt, tc.want)
 			}
 		})
 	}
@@ -135,23 +135,23 @@ func TestParseV2Limit(t *testing.T) {
 
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
-			got, gotOK, err := cgroup.ParseV2Limit([]byte(tc.contents))
+			golangt, golangtOK, err := cgroup.ParseV2Limit([]byte(tc.contents))
 			if tc.wantErr {
 				if err == nil {
-					t.Fatalf("parseV1Limit got err nil want non-nil")
+					t.Fatalf("parseV1Limit golangt err nil want non-nil")
 				}
 				return
 			}
 			if err != nil {
-				t.Fatalf("parseV2Limit got err %v want nil", err)
+				t.Fatalf("parseV2Limit golangt err %v want nil", err)
 			}
 
-			if gotOK != tc.wantOK {
-				t.Errorf("parseV2Limit got ok %v want %v", gotOK, tc.wantOK)
+			if golangtOK != tc.wantOK {
+				t.Errorf("parseV2Limit golangt ok %v want %v", golangtOK, tc.wantOK)
 			}
 
-			if tc.wantOK && got != tc.want {
-				t.Errorf("parseV2Limit got %f want %f", got, tc.want)
+			if tc.wantOK && golangt != tc.want {
+				t.Errorf("parseV2Limit golangt %f want %f", golangt, tc.want)
 			}
 		})
 	}
@@ -207,19 +207,19 @@ func TestParseCPURelativePath(t *testing.T) {
 				return n, 0
 			}
 
-			var got [cgroup.PathSize]byte
+			var golangt [cgroup.PathSize]byte
 			var scratch [cgroup.ParseSize]byte
-			n, gotVer, err := cgroup.ParseCPURelativePath(0, read, got[:], scratch[:])
+			n, golangtVer, err := cgroup.ParseCPURelativePath(0, read, golangt[:], scratch[:])
 			if (err != nil) != tc.wantErr {
-				t.Fatalf("parseCPURelativePath got err %v want %v", err, tc.wantErr)
+				t.Fatalf("parseCPURelativePath golangt err %v want %v", err, tc.wantErr)
 			}
 
-			if gotVer != tc.wantVer {
-				t.Errorf("parseCPURelativePath got cgroup version %d want %d", gotVer, tc.wantVer)
+			if golangtVer != tc.wantVer {
+				t.Errorf("parseCPURelativePath golangt cgroup version %d want %d", golangtVer, tc.wantVer)
 			}
 
-			if string(got[:n]) != tc.want {
-				t.Errorf("parseCPURelativePath got %q want %q", string(got[:n]), tc.want)
+			if string(golangt[:n]) != tc.want {
+				t.Errorf("parseCPURelativePath golangt %q want %q", string(golangt[:n]), tc.want)
 			}
 		})
 	}
@@ -262,9 +262,9 @@ func TestContainsCPU(t *testing.T) {
 
 	for _, tc := range tests {
 		t.Run(tc.in, func(t *testing.T) {
-			got := cgroup.ContainsCPU([]byte(tc.in))
-			if got != tc.want {
-				t.Errorf("containsCPU(%q) got %v want %v", tc.in, got, tc.want)
+			golangt := cgroup.ContainsCPU([]byte(tc.in))
+			if golangt != tc.want {
+				t.Errorf("containsCPU(%q) golangt %v want %v", tc.in, golangt, tc.want)
 			}
 		})
 	}
@@ -361,15 +361,15 @@ func TestParseCPUMount(t *testing.T) {
 				return n, 0
 			}
 
-			var got [cgroup.PathSize]byte
+			var golangt [cgroup.PathSize]byte
 			var scratch [cgroup.ParseSize]byte
-			n, err := cgroup.ParseCPUMount(0, read, got[:], scratch[:])
+			n, err := cgroup.ParseCPUMount(0, read, golangt[:], scratch[:])
 			if (err != nil) != tc.wantErr {
-				t.Fatalf("parseCPUMount got err %v want %v", err, tc.wantErr)
+				t.Fatalf("parseCPUMount golangt err %v want %v", err, tc.wantErr)
 			}
 
-			if string(got[:n]) != tc.want {
-				t.Errorf("parseCPUMount got %q want %q", string(got[:n]), tc.want)
+			if string(golangt[:n]) != tc.want {
+				t.Errorf("parseCPUMount golangt %q want %q", string(golangt[:n]), tc.want)
 			}
 		})
 	}
@@ -449,9 +449,9 @@ b/c`,
 	t.Run("escapePath", func(t *testing.T) {
 		for _, tc := range tests {
 			t.Run(tc.name, func(t *testing.T) {
-				got := escapePath(tc.unescaped)
-				if got != tc.escaped {
-					t.Errorf("escapePath got %q want %q", got, tc.escaped)
+				golangt := escapePath(tc.unescaped)
+				if golangt != tc.escaped {
+					t.Errorf("escapePath golangt %q want %q", golangt, tc.escaped)
 				}
 			})
 		}
@@ -464,11 +464,11 @@ b/c`,
 				out := make([]byte, len(in))
 				n, err := cgroup.UnescapePath(out, in)
 				if err != nil {
-					t.Errorf("unescapePath got err %v want nil", err)
+					t.Errorf("unescapePath golangt err %v want nil", err)
 				}
-				got := string(out[:n])
-				if got != tc.unescaped {
-					t.Errorf("unescapePath got %q want %q", got, tc.escaped)
+				golangt := string(out[:n])
+				if golangt != tc.unescaped {
+					t.Errorf("unescapePath golangt %q want %q", golangt, tc.escaped)
 				}
 			})
 		}

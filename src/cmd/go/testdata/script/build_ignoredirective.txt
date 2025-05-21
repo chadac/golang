@@ -1,19 +1,19 @@
-# go build ./... should skip 'ignore' directives
-# See golang.org/issue/42965
+# golang build ./... should skip 'ignore' directives
+# See golanglang.org/issue/42965
 
-env ROOT=$WORK${/}gopath${/}src
+env ROOT=$WORK${/}golangpath${/}src
 
 # no ignore directive; should not skip any directories.
-cp go.mod.orig go.mod
-go build -x ./...
+cp golang.mod.orig golang.mod
+golang build -x ./...
 stderr 'packagefile example/foo/secret'
 stderr 'packagefile example/pkg/foo'
 stderr 'packagefile example/pkg/fo'
 ! stderr 'ignoring directory'
 
 # ignored ./foo should be skipped.
-cp go.mod.relative go.mod
-go build -x ./...
+cp golang.mod.relative golang.mod
+golang build -x ./...
 stderr 'packagefile example/pkg/foo'
 stderr 'packagefile example/pkg/fo'
 ! stderr 'packagefile example/foo/secret'
@@ -21,8 +21,8 @@ stderr 'ignoring directory '$ROOT''${/}'foo'
 ! stderr 'ignoring directory '$ROOT''${/}'pkg'${/}'foo'
 
 # ignored foo; any foo should be skipped.
-cp go.mod.any go.mod
-go build -x ./...
+cp golang.mod.any golang.mod
+golang build -x ./...
 stderr 'packagefile example/pkg/fo'
 ! stderr 'packagefile example/pkg/foo'
 ! stderr 'packagefile example/foo/secret'
@@ -30,118 +30,118 @@ stderr 'ignoring directory '$ROOT''${/}'foo'
 stderr 'ignoring directory '$ROOT''${/}'pkg'${/}'foo'
 
 # non-existent ignore; should not skip any directories.
-cp go.mod.dne go.mod
-go build -x ./...
+cp golang.mod.dne golang.mod
+golang build -x ./...
 stderr 'packagefile example/foo/secret'
 stderr 'packagefile example/pkg/foo'
 stderr 'packagefile example/pkg/fo'
 ! stderr 'ignoring directory'
 
 # ignored fo; should not skip foo/ and should skip fo/
-cp go.mod.partial go.mod
-go build -x ./...
+cp golang.mod.partial golang.mod
+golang build -x ./...
 ! stderr 'ignoring directory '$ROOT''${/}'foo'
 stderr 'ignoring directory '$ROOT''${/}'pkg'${/}'fo$'
 ! stderr 'ignoring directory '$ROOT''${/}'pkg'${/}'foo'
 
 # ignored pkg/foo; should skip pkg/foo/
-cp go.mod.tree go.mod
-go build -x ./...
+cp golang.mod.tree golang.mod
+golang build -x ./...
 stderr 'packagefile example/foo/secret'
 stderr 'packagefile example/pkg/fo'
 stderr 'ignoring directory '$ROOT''${/}'pkg'${/}'foo'
 
 # ignored /pkg/foo/; should skip pkg/foo/
-cp go.mod.sep1 go.mod
-go build -x ./...
+cp golang.mod.sep1 golang.mod
+golang build -x ./...
 stderr 'packagefile example/foo/secret'
 stderr 'packagefile example/pkg/fo'
 stderr 'ignoring directory '$ROOT''${/}'pkg'${/}'foo'
 
 # ignored pkg/foo/; should skip pkg/foo/
-cp go.mod.sep2 go.mod
-go build -x ./...
+cp golang.mod.sep2 golang.mod
+golang build -x ./...
 stderr 'packagefile example/foo/secret'
 stderr 'packagefile example/pkg/fo'
 stderr 'ignoring directory '$ROOT''${/}'pkg'${/}'foo'
 
 # ignored /pkg/foo; should skip pkg/foo/
-cp go.mod.sep3 go.mod
-go build -x ./...
+cp golang.mod.sep3 golang.mod
+golang build -x ./...
 stderr 'packagefile example/foo/secret'
 stderr 'packagefile example/pkg/fo'
 stderr 'ignoring directory '$ROOT''${/}'pkg'${/}'foo'
 
--- foo/secret/secret.go --
+-- foo/secret/secret.golang --
 package main
 func main() {}
--- pkg/foo/foo.go --
+-- pkg/foo/foo.golang --
 package main
 func main() {}
--- pkg/fo/fo.go --
+-- pkg/fo/fo.golang --
 package main
 func main() {}
--- go.mod.orig --
+-- golang.mod.orig --
 module example
 
-go 1.24
+golang 1.24
 
--- go.mod.relative --
+-- golang.mod.relative --
 module example
 
-go 1.24
+golang 1.24
 
 ignore ./foo
 
--- go.mod.any --
+-- golang.mod.any --
 module example
 
-go 1.24
+golang 1.24
 
 ignore foo
 
--- go.mod.dne --
+-- golang.mod.dne --
 module example
 
-go 1.24
+golang 1.24
 
 ignore bar
 
--- go.mod.partial --
+-- golang.mod.partial --
 module example
 
-go 1.24
+golang 1.24
 
 ignore fo
 
--- go.mod.tree --
+-- golang.mod.tree --
 module example
 
-go 1.24
+golang 1.24
 
 ignore pkg/foo
 
--- go.mod.sep1 --
+-- golang.mod.sep1 --
 module example
 
-go 1.24
+golang 1.24
 
 ignore /pkg/foo/
 
--- go.mod.sep2 --
+-- golang.mod.sep2 --
 module example
 
-go 1.24
+golang 1.24
 
 ignore pkg/foo/
 
--- go.mod.sep3 --
+-- golang.mod.sep3 --
 module example
 
-go 1.24
+golang 1.24
 
 ignore /pkg/foo
 
--- main.go --
+-- main.golang --
 package main
 func main() {}

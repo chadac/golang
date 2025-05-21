@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -13,7 +13,7 @@ func main() {
 }
 
 /*
-uetli:~/Source/go1/test/bugs gri$ 6g bug092.go && 6l bug092.6 && 6.out
+uetli:~/Source/golang1/test/bugs gri$ 6g bug092.golang && 6l bug092.6 && 6.out
 Illegal instruction
 
 gri: array size matters, possibly related to stack overflow check?

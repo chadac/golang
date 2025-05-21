@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package netip
@@ -29,17 +29,17 @@ func TestUint128AddSub(t *testing.T) {
 		{uint128{1, 1}, sub1, uint128{1, 0}},
 	}
 	for _, tt := range tests {
-		var got uint128
+		var golangt uint128
 		switch tt.op {
 		case add1:
-			got = tt.in.addOne()
+			golangt = tt.in.addOne()
 		case sub1:
-			got = tt.in.subOne()
+			golangt = tt.in.subOne()
 		default:
 			panic("bogus op")
 		}
-		if got != tt.want {
-			t.Errorf("%v add %d = %v; want %v", tt.in, tt.op, got, tt.want)
+		if golangt != tt.want {
+			t.Errorf("%v add %d = %v; want %v", tt.in, tt.op, golangt, tt.want)
 		}
 	}
 }
@@ -59,9 +59,9 @@ func TestBitsSetFrom(t *testing.T) {
 	}
 	for _, tt := range tests {
 		var zero uint128
-		got := zero.bitsSetFrom(tt.bit)
-		if got != tt.want {
-			t.Errorf("0.bitsSetFrom(%d) = %064b want %064b", tt.bit, got, tt.want)
+		golangt := zero.bitsSetFrom(tt.bit)
+		if golangt != tt.want {
+			t.Errorf("0.bitsSetFrom(%d) = %064b want %064b", tt.bit, golangt, tt.want)
 		}
 	}
 }
@@ -81,9 +81,9 @@ func TestBitsClearedFrom(t *testing.T) {
 	}
 	for _, tt := range tests {
 		ones := uint128{^uint64(0), ^uint64(0)}
-		got := ones.bitsClearedFrom(tt.bit)
-		if got != tt.want {
-			t.Errorf("ones.bitsClearedFrom(%d) = %064b want %064b", tt.bit, got, tt.want)
+		golangt := ones.bitsClearedFrom(tt.bit)
+		if golangt != tt.want {
+			t.Errorf("ones.bitsClearedFrom(%d) = %064b want %064b", tt.bit, golangt, tt.want)
 		}
 	}
 }

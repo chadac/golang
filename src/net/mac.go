@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package net
@@ -38,46 +38,46 @@ func (a HardwareAddr) String() string {
 //	0000.0000.fe80.0000.0000.0000.0200.5e10.0000.0001
 func ParseMAC(s string) (hw HardwareAddr, err error) {
 	if len(s) < 14 {
-		goto error
+		golangto error
 	}
 
 	if s[2] == ':' || s[2] == '-' {
 		if (len(s)+1)%3 != 0 {
-			goto error
+			golangto error
 		}
 		n := (len(s) + 1) / 3
 		if n != 6 && n != 8 && n != 20 {
-			goto error
+			golangto error
 		}
 		hw = make(HardwareAddr, n)
 		for x, i := 0, 0; i < n; i++ {
 			var ok bool
 			if hw[i], ok = xtoi2(s[x:], s[2]); !ok {
-				goto error
+				golangto error
 			}
 			x += 3
 		}
 	} else if s[4] == '.' {
 		if (len(s)+1)%5 != 0 {
-			goto error
+			golangto error
 		}
 		n := 2 * (len(s) + 1) / 5
 		if n != 6 && n != 8 && n != 20 {
-			goto error
+			golangto error
 		}
 		hw = make(HardwareAddr, n)
 		for x, i := 0, 0; i < n; i += 2 {
 			var ok bool
 			if hw[i], ok = xtoi2(s[x:x+2], 0); !ok {
-				goto error
+				golangto error
 			}
 			if hw[i+1], ok = xtoi2(s[x+2:], s[4]); !ok {
-				goto error
+				golangto error
 			}
 			x += 5
 		}
 	} else {
-		goto error
+		golangto error
 	}
 	return hw, nil
 

@@ -6,4 +6,4 @@ func main() {}
 
 func f() {}
 
-//line foo.go:1
+//line foo.golang:1

@@ -1,5 +1,5 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package loadelf implements an ELF file reader.
@@ -186,7 +186,7 @@ func (a *elfAttributeList) done() bool {
 // format used means that we have to parse all of the file-level attributes to
 // find the one we are looking for. This format is slightly documented in "ELF
 // for the ARM Architecture" but mostly this is derived from reading the source
-// to gold and readelf.
+// to golangld and readelf.
 func parseArmAttributes(e binary.ByteOrder, data []byte) (found bool, ehdrFlags uint32, err error) {
 	found = false
 	if data[0] != 'A' {
@@ -321,7 +321,7 @@ func Load(l *loader.Loader, arch *sys.Arch, localSymVersion int, f *bio.Reader, 
 	elfobj.is64 = is64
 
 	if v := uint32(hdrbuf[elf.EI_VERSION]); v != elfobj.version {
-		return errorf("malformed elf version: got %d, want %d", v, elfobj.version)
+		return errorf("malformed elf version: golangt %d, want %d", v, elfobj.version)
 	}
 
 	if elf.Type(elfobj.type_) != elf.ET_REL {
@@ -511,7 +511,7 @@ func Load(l *loader.Loader, arch *sys.Arch, localSymVersion int, f *bio.Reader, 
 		}
 		sectsymNames[name] = true
 
-		sb := l.MakeSymbolUpdater(l.LookupOrCreateCgoExport(name, localSymVersion))
+		sb := l.MakeSymbolUpdater(l.LookupOrCreateCgolangExport(name, localSymVersion))
 
 		switch sect.flags & (elf.SHF_ALLOC | elf.SHF_WRITE | elf.SHF_EXECINSTR) {
 		default:
@@ -531,7 +531,7 @@ func Load(l *loader.Loader, arch *sys.Arch, localSymVersion int, f *bio.Reader, 
 			sb.SetType(sym.STEXT)
 		}
 
-		if sect.name == ".got" || sect.name == ".toc" {
+		if sect.name == ".golangt" || sect.name == ".toc" {
 			sb.SetType(sym.SELFGOT)
 		}
 		if sect.type_ == elf.SHT_PROGBITS {
@@ -644,7 +644,7 @@ func Load(l *loader.Loader, arch *sys.Arch, localSymVersion int, f *bio.Reader, 
 
 		sb.SetType(sectsb.Type())
 		sectsb.AddInteriorSym(s)
-		if !l.AttrCgoExportDynamic(s) {
+		if !l.AttrCgolangExportDynamic(s) {
 			sb.SetDynimplib("") // satisfy dynimport
 		}
 		sb.SetValue(int64(elfsym.value))
@@ -897,11 +897,11 @@ func readelfsym(l *loader.Loader, arch *sys.Arch, elfobj *ElfObj, i int, elfsym 
 	var s loader.Sym
 
 	if elfsym.name == "_GLOBAL_OFFSET_TABLE_" {
-		elfsym.name = ".got"
+		elfsym.name = ".golangt"
 	}
 	if elfsym.name == ".TOC." {
 		// Magic symbol on ppc64.  Will be set to this object
-		// file's .got+0x8000.
+		// file's .golangt+0x8000.
 		elfsym.bind = elf.STB_LOCAL
 	}
 
@@ -913,14 +913,14 @@ func readelfsym(l *loader.Loader, arch *sys.Arch, elfobj *ElfObj, i int, elfsym 
 		switch elfsym.bind {
 		case elf.STB_GLOBAL:
 			if needSym != 0 {
-				s = l.LookupOrCreateCgoExport(elfsym.name, 0)
+				s = l.LookupOrCreateCgolangExport(elfsym.name, 0)
 
 				// for global scoped hidden symbols we should insert it into
 				// symbol hash table, but mark them as hidden.
 				// __i686.get_pc_thunk.bx is allowed to be duplicated, to
 				// workaround that we set dupok.
 				// TODO(minux): correctly handle __i686.get_pc_thunk.bx without
-				// set dupok generally. See https://golang.org/cl/5823055
+				// set dupok generally. See https://golanglang.org/cl/5823055
 				// comment #5 for details.
 				if s != 0 && elfsym.other == 2 {
 					if !l.IsExternal(s) {
@@ -942,7 +942,7 @@ func readelfsym(l *loader.Loader, arch *sys.Arch, elfobj *ElfObj, i int, elfsym 
 				// We need to be able to look this up,
 				// so put it in the hash table.
 				if needSym != 0 {
-					s = l.LookupOrCreateCgoExport(elfsym.name, localSymVersion)
+					s = l.LookupOrCreateCgolangExport(elfsym.name, localSymVersion)
 					l.SetAttrVisibilityHidden(s, true)
 				}
 				break
@@ -961,7 +961,7 @@ func readelfsym(l *loader.Loader, arch *sys.Arch, elfobj *ElfObj, i int, elfsym 
 
 		case elf.STB_WEAK:
 			if needSym != 0 {
-				s = l.LookupOrCreateCgoExport(elfsym.name, 0)
+				s = l.LookupOrCreateCgolangExport(elfsym.name, 0)
 				if elfsym.other == 2 {
 					l.SetAttrVisibilityHidden(s, true)
 				}
@@ -992,7 +992,7 @@ func readelfsym(l *loader.Loader, arch *sys.Arch, elfobj *ElfObj, i int, elfsym 
 // some cases when a relocated value is split across multiple relocations.
 func relSize(arch *sys.Arch, pn string, elftype uint32) (uint8, uint8, error) {
 	// TODO(mdempsky): Replace this with a struct-valued switch statement
-	// once golang.org/issue/15164 is fixed or found to not impair cmd/link
+	// once golanglang.org/issue/15164 is fixed or found to not impair cmd/link
 	// performance.
 
 	const (

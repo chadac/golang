@@ -1,21 +1,21 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package facts
 
 import (
-	"go/types"
+	"golang/types"
 
-	"golang.org/x/tools/internal/aliases"
-	"golang.org/x/tools/internal/typesinternal"
+	"golanglang.org/x/tools/internal/aliases"
+	"golanglang.org/x/tools/internal/typesinternal"
 )
 
 // importMap computes the import map for a package by traversing the
 // entire exported API each of its imports.
 //
 // This is a workaround for the fact that we cannot access the map used
-// internally by the types.Importer returned by go/importer. The entries
+// internally by the types.Importer returned by golang/importer. The entries
 // in this map are the packages and objects that may be relevant to the
 // current analysis unit.
 //

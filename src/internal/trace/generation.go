@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package trace
@@ -74,7 +74,7 @@ func readGeneration(r *bufio.Reader, spill *spilledBatch, ver version.Version) (
 		if err != nil {
 			if g.gen != 0 {
 				// This is an error reading the first batch of the next generation.
-				// This is fine. Let's forge ahead assuming that what we've got so
+				// This is fine. Let's forge ahead assuming that what we've golangt so
 				// far is fine.
 				spillErr = err
 				break
@@ -235,7 +235,7 @@ func addStrings(stringTable *dataTable[stringID, string], b batch) error {
 			return err
 		}
 		if tracev2.EventType(ev) != tracev2.EvString {
-			return fmt.Errorf("expected string event, got %d", ev)
+			return fmt.Errorf("expected string event, golangt %d", ev)
 		}
 
 		// Read the string's ID.
@@ -292,7 +292,7 @@ func addStacks(stackTable *dataTable[stackID, stack], pcs map[uint64]frame, b ba
 			return err
 		}
 		if tracev2.EventType(ev) != tracev2.EvStack {
-			return fmt.Errorf("expected stack event, got %d", ev)
+			return fmt.Errorf("expected stack event, golangt %d", ev)
 		}
 
 		// Read the stack's ID.
@@ -370,7 +370,7 @@ func addCPUSamples(samples []cpuSample, b batch) ([]cpuSample, error) {
 			return nil, err
 		}
 		if tracev2.EventType(ev) != tracev2.EvCPUSample {
-			return nil, fmt.Errorf("expected CPU sample event, got %d", ev)
+			return nil, fmt.Errorf("expected CPU sample event, golangt %d", ev)
 		}
 
 		// Read the sample's timestamp.
@@ -398,9 +398,9 @@ func addCPUSamples(samples []cpuSample, b batch) ([]cpuSample, error) {
 		if err != nil {
 			return nil, err
 		}
-		goid := GoID(g)
+		golangid := GoID(g)
 		if g == 0 {
-			goid = NoGoroutine
+			golangid = NoGoroutine
 		}
 
 		// Read the sample's stack.
@@ -414,7 +414,7 @@ func addCPUSamples(samples []cpuSample, b batch) ([]cpuSample, error) {
 			schedCtx: schedCtx{
 				M: mid,
 				P: pid,
-				G: goid,
+				G: golangid,
 			},
 			time:  Time(ts), // N.B. this is really a "timestamp," not a Time.
 			stack: stackID(s),
@@ -494,7 +494,7 @@ func setSyncBatch(s *sync, b batch, ver version.Version) error {
 			// in the time package right now.
 			s.snapWall = time.Unix(int64(sec), int64(nsec))
 		default:
-			return fmt.Errorf("expected frequency or clock snapshot event, got %d", ev)
+			return fmt.Errorf("expected frequency or clock snapshot event, golangt %d", ev)
 		}
 	}
 	return nil

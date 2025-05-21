@@ -1,8 +1,8 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build goexperiment.jsonv2
+//golang:build golangexperiment.jsonv2
 
 package jsontext
 
@@ -84,13 +84,13 @@ func FuzzCoder(f *testing.F) {
 		}
 
 		// Encoded output and original input must decode to the same thing.
-		var got, want []Token
+		var golangt, want []Token
 		for dec := NewDecoder(bytes.NewReader(b)); dec.PeekKind() > 0; {
 			tok, err := dec.ReadToken()
 			if err != nil {
 				t.Fatalf("Decoder.ReadToken error: %v", err)
 			}
-			got = append(got, tok.Clone())
+			golangt = append(golangt, tok.Clone())
 		}
 		for dec := NewDecoder(dst); dec.PeekKind() > 0; {
 			tok, err := dec.ReadToken()
@@ -99,8 +99,8 @@ func FuzzCoder(f *testing.F) {
 			}
 			want = append(want, tok.Clone())
 		}
-		if !equalTokens(got, want) {
-			t.Fatalf("mismatching output:\ngot  %v\nwant %v", got, want)
+		if !equalTokens(golangt, want) {
+			t.Fatalf("mismatching output:\ngolangt  %v\nwant %v", golangt, want)
 		}
 	})
 }
@@ -118,19 +118,19 @@ func FuzzResumableDecoder(f *testing.F) {
 		t.Run("ReadToken", func(t *testing.T) {
 			decGot := NewDecoder(&FaultyBuffer{B: b, MaxBytes: 8, Rand: rn})
 			decWant := NewDecoder(bytes.NewReader(b))
-			gotTok, gotErr := decGot.ReadToken()
+			golangtTok, golangtErr := decGot.ReadToken()
 			wantTok, wantErr := decWant.ReadToken()
-			if gotTok.String() != wantTok.String() || !equalError(gotErr, wantErr) {
-				t.Errorf("Decoder.ReadToken = (%v, %v), want (%v, %v)", gotTok, gotErr, wantTok, wantErr)
+			if golangtTok.String() != wantTok.String() || !equalError(golangtErr, wantErr) {
+				t.Errorf("Decoder.ReadToken = (%v, %v), want (%v, %v)", golangtTok, golangtErr, wantTok, wantErr)
 			}
 		})
 		t.Run("ReadValue", func(t *testing.T) {
 			decGot := NewDecoder(&FaultyBuffer{B: b, MaxBytes: 8, Rand: rn})
 			decWant := NewDecoder(bytes.NewReader(b))
-			gotVal, gotErr := decGot.ReadValue()
+			golangtVal, golangtErr := decGot.ReadValue()
 			wantVal, wantErr := decWant.ReadValue()
-			if !slices.Equal(gotVal, wantVal) || !equalError(gotErr, wantErr) {
-				t.Errorf("Decoder.ReadValue = (%s, %v), want (%s, %v)", gotVal, gotErr, wantVal, wantErr)
+			if !slices.Equal(golangtVal, wantVal) || !equalError(golangtErr, wantErr) {
+				t.Errorf("Decoder.ReadValue = (%s, %v), want (%s, %v)", golangtVal, golangtErr, wantVal, wantErr)
 			}
 		})
 	})
@@ -189,37 +189,37 @@ func FuzzValueFormat(f *testing.F) {
 			t.Errorf("invalid input per RFC 8259 implies invalid per RFC 7493")
 		}
 
-		gotValid := Value(b).IsValid()
+		golangtValid := Value(b).IsValid()
 		wantValid := validRFC7493
-		if gotValid != wantValid {
-			t.Errorf("Value.IsValid = %v, want %v", gotValid, wantValid)
+		if golangtValid != wantValid {
+			t.Errorf("Value.IsValid = %v, want %v", golangtValid, wantValid)
 		}
 
-		gotCompacted := Value(string(b))
-		gotCompactOk := gotCompacted.Compact() == nil
+		golangtCompacted := Value(string(b))
+		golangtCompactOk := golangtCompacted.Compact() == nil
 		wantCompactOk := validRFC7159
-		if !bytes.Equal(stripWhitespace(gotCompacted), stripWhitespace(b)) {
-			t.Errorf("stripWhitespace(Value.Compact) = %s, want %s", stripWhitespace(gotCompacted), stripWhitespace(b))
+		if !bytes.Equal(stripWhitespace(golangtCompacted), stripWhitespace(b)) {
+			t.Errorf("stripWhitespace(Value.Compact) = %s, want %s", stripWhitespace(golangtCompacted), stripWhitespace(b))
 		}
-		if gotCompactOk != wantCompactOk {
-			t.Errorf("Value.Compact success mismatch: got %v, want %v", gotCompactOk, wantCompactOk)
+		if golangtCompactOk != wantCompactOk {
+			t.Errorf("Value.Compact success mismatch: golangt %v, want %v", golangtCompactOk, wantCompactOk)
 		}
 
-		gotIndented := Value(string(b))
-		gotIndentOk := gotIndented.Indent() == nil
+		golangtIndented := Value(string(b))
+		golangtIndentOk := golangtIndented.Indent() == nil
 		wantIndentOk := validRFC7159
-		if !bytes.Equal(stripWhitespace(gotIndented), stripWhitespace(b)) {
-			t.Errorf("stripWhitespace(Value.Indent) = %s, want %s", stripWhitespace(gotIndented), stripWhitespace(b))
+		if !bytes.Equal(stripWhitespace(golangtIndented), stripWhitespace(b)) {
+			t.Errorf("stripWhitespace(Value.Indent) = %s, want %s", stripWhitespace(golangtIndented), stripWhitespace(b))
 		}
-		if gotIndentOk != wantIndentOk {
-			t.Errorf("Value.Indent success mismatch: got %v, want %v", gotIndentOk, wantIndentOk)
+		if golangtIndentOk != wantIndentOk {
+			t.Errorf("Value.Indent success mismatch: golangt %v, want %v", golangtIndentOk, wantIndentOk)
 		}
 
-		gotCanonicalized := Value(string(b))
-		gotCanonicalizeOk := gotCanonicalized.Canonicalize() == nil
+		golangtCanonicalized := Value(string(b))
+		golangtCanonicalizeOk := golangtCanonicalized.Canonicalize() == nil
 		wantCanonicalizeOk := validRFC7493
-		if gotCanonicalizeOk != wantCanonicalizeOk {
-			t.Errorf("Value.Canonicalize success mismatch: got %v, want %v", gotCanonicalizeOk, wantCanonicalizeOk)
+		if golangtCanonicalizeOk != wantCanonicalizeOk {
+			t.Errorf("Value.Canonicalize success mismatch: golangt %v, want %v", golangtCanonicalizeOk, wantCanonicalizeOk)
 		}
 
 		// Random options should not result in a panic.

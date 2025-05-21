@@ -1,7 +1,7 @@
 // errorcheck -0 -m -l
 
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test escape analysis for function parameters.
@@ -46,9 +46,9 @@ func walk(np **Node) int { // ERROR "leaking param content: np"
 // Test for bug where func var f used prototype's escape analysis results.
 func prototype(xyz []string) {} // ERROR "xyz does not escape"
 func bar() {
-	var got [][]string
+	var golangt [][]string
 	f := prototype
-	f = func(ss []string) { got = append(got, ss) } // ERROR "leaking param: ss" "func literal does not escape" "append escapes to heap"
+	f = func(ss []string) { golangt = append(golangt, ss) } // ERROR "leaking param: ss" "func literal does not escape" "append escapes to heap"
 	s := "string"
 	f([]string{s}) // ERROR "\[\]string{...} escapes to heap"
 }

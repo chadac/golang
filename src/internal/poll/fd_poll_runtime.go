@@ -1,8 +1,8 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build unix || windows || wasip1
+//golang:build unix || windows || wasip1
 
 package poll
 
@@ -11,12 +11,12 @@ import (
 	"sync"
 	"syscall"
 	"time"
-	_ "unsafe" // for go:linkname
+	_ "unsafe" // for golang:linkname
 )
 
 // runtimeNano returns the current value of the runtime clock in nanoseconds.
 //
-//go:linkname runtimeNano runtime.nanotime
+//golang:linkname runtimeNano runtime.nanotime
 func runtimeNano() int64
 
 func runtime_pollServerInit()
@@ -105,7 +105,7 @@ func (pd *pollDesc) pollable() bool {
 }
 
 // Error values returned by runtime_pollReset and runtime_pollWait.
-// These must match the values in runtime/netpoll.go.
+// These must match the values in runtime/netpoll.golang.
 const (
 	pollNoError        = 0
 	pollErrClosing     = 1
@@ -172,9 +172,9 @@ func setDeadlineImpl(fd *FD, t time.Time, mode int) error {
 //   - github.com/opencontainers/runc
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname IsPollDescriptor
+//golang:linkname IsPollDescriptor
 func IsPollDescriptor(fd uintptr) bool {
 	return runtime_isPollServerDescriptor(fd)
 }

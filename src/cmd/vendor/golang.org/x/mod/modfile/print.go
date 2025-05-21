@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Module file printer.
@@ -12,7 +12,7 @@ import (
 	"strings"
 )
 
-// Format returns a go.mod file as a byte slice, formatted in standard style.
+// Format returns a golang.mod file as a byte slice, formatted in standard style.
 func Format(f *FileSyntax) []byte {
 	pr := &printer{}
 	pr.file(f)

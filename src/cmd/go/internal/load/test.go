@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package load
@@ -9,11 +9,11 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"go/ast"
-	"go/build"
-	"go/doc"
-	"go/parser"
-	"go/token"
+	"golang/ast"
+	"golang/build"
+	"golang/doc"
+	"golang/parser"
+	"golang/token"
 	"internal/lazytemplate"
 	"maps"
 	"path/filepath"
@@ -23,9 +23,9 @@ import (
 	"unicode"
 	"unicode/utf8"
 
-	"cmd/go/internal/fsys"
-	"cmd/go/internal/str"
-	"cmd/go/internal/trace"
+	"cmd/golang/internal/fsys"
+	"cmd/golang/internal/str"
+	"cmd/golang/internal/trace"
 )
 
 var TestMainDeps = []string{
@@ -93,7 +93,7 @@ func TestPackagesFor(ctx context.Context, opts PackageOpts, p *Package, cover *T
 // then the returned ptest == p.
 //
 // If done is non-nil, TestPackagesAndErrors will finish filling out the returned
-// package structs in a goroutine and call done once finished. The members of the
+// package structs in a golangroutine and call done once finished. The members of the
 // returned packages should not be accessed until done is called.
 //
 // The caller is expected to have checked that len(p.TestGoFiles)+len(p.XTestGoFiles) > 0,
@@ -253,7 +253,7 @@ func TestPackagesAndErrors(ctx context.Context, done func(), opts PackageOpts, p
 				Asmflags:       p.Internal.Asmflags,
 				Gcflags:        p.Internal.Gcflags,
 				Ldflags:        p.Internal.Ldflags,
-				Gccgoflags:     p.Internal.Gccgoflags,
+				Gccgolangflags:     p.Internal.Gccgolangflags,
 				Embed:          xtestEmbed,
 				OrigImportPath: p.Internal.OrigImportPath,
 				PGOProfile:     p.Internal.PGOProfile,
@@ -266,14 +266,14 @@ func TestPackagesAndErrors(ctx context.Context, done func(), opts PackageOpts, p
 
 	// Arrange for testing.Testing to report true.
 	ldflags := append(p.Internal.Ldflags, "-X", "testing.testBinary=1")
-	gccgoflags := append(p.Internal.Gccgoflags, "-Wl,--defsym,testing.gccgoTestBinary=1")
+	gccgolangflags := append(p.Internal.Gccgolangflags, "-Wl,--defsym,testing.gccgolangTestBinary=1")
 
 	// Build main package.
 	pmain = &Package{
 		PackagePublic: PackagePublic{
 			Name:       "main",
 			Dir:        p.Dir,
-			GoFiles:    []string{"_testmain.go"},
+			GoFiles:    []string{"_testmain.golang"},
 			ImportPath: p.ImportPath + ".test",
 			Root:       p.Root,
 			Imports:    str.StringList(TestMainDeps),
@@ -285,7 +285,7 @@ func TestPackagesAndErrors(ctx context.Context, done func(), opts PackageOpts, p
 			Asmflags:       p.Internal.Asmflags,
 			Gcflags:        p.Internal.Gcflags,
 			Ldflags:        ldflags,
-			Gccgoflags:     gccgoflags,
+			Gccgolangflags:     gccgolangflags,
 			OrigImportPath: p.Internal.OrigImportPath,
 			PGOProfile:     p.Internal.PGOProfile,
 		},
@@ -338,7 +338,7 @@ func TestPackagesAndErrors(ctx context.Context, done func(), opts PackageOpts, p
 		allTestImports = append(allTestImports, ximports...)
 		setToolFlags(allTestImports...)
 
-		// Do initial scan for metadata needed for writing _testmain.go
+		// Do initial scan for metadata needed for writing _testmain.golang
 		// Use that metadata to update the list of imports for package main.
 		// The list of imports is used by recompileForTest and by the loop
 		// afterward that gathers t.Cover information.
@@ -347,7 +347,7 @@ func TestPackagesAndErrors(ctx context.Context, done func(), opts PackageOpts, p
 			pmain.setLoadPackageDataError(err, p.ImportPath, &stk, nil)
 		}
 		t.Cover = cover
-		if len(ptest.GoFiles)+len(ptest.CgoFiles) > 0 {
+		if len(ptest.GoFiles)+len(ptest.CgolangFiles) > 0 {
 			pmain.Internal.Imports = append(pmain.Internal.Imports, ptest)
 			pmain.Imports = append(pmain.Imports, ptest.ImportPath)
 			t.ImportTest = true
@@ -359,7 +359,7 @@ func TestPackagesAndErrors(ctx context.Context, done func(), opts PackageOpts, p
 		}
 
 		// Sort and dedup pmain.Imports.
-		// Only matters for go list -test output.
+		// Only matters for golang list -test output.
 		sort.Strings(pmain.Imports)
 		w := 0
 		for _, path := range pmain.Imports {
@@ -406,7 +406,7 @@ func TestPackagesAndErrors(ctx context.Context, done func(), opts PackageOpts, p
 	}
 
 	if done != nil {
-		go func() {
+		golang func() {
 			parallelizablePart()
 			done()
 		}()
@@ -477,7 +477,7 @@ func recompileForTest(pmain, preal, ptest, pxtest *Package) *PackageError {
 		// but this can still happen if -coverpkg patterns include main packages:
 		// covered packages are imported by pmain. Linking multiple packages
 		// compiled with '-p main' causes duplicate symbol errors.
-		// See golang.org/issue/30907, golang.org/issue/34114.
+		// See golanglang.org/issue/30907, golanglang.org/issue/34114.
 		if p.Name == "main" && p != pmain && p != ptest {
 			split()
 		}
@@ -612,7 +612,7 @@ func loadTestFuncs(ptest *Package) (*testFuncs, error) {
 	return t, err
 }
 
-// formatTestmain returns the content of the _testmain.go file for t.
+// formatTestmain returns the content of the _testmain.golang file for t.
 func formatTestmain(t *testFuncs) ([]byte, error) {
 	var buf bytes.Buffer
 	tmpl := testmainTmpl
@@ -779,7 +779,7 @@ func checkTestFunc(fn *ast.FuncDecl, arg string) error {
 }
 
 var testmainTmpl = lazytemplate.New("main", `
-// Code generated by 'go test'. DO NOT EDIT.
+// Code generated by 'golang test'. DO NOT EDIT.
 
 package main
 

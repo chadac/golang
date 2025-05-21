@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package rand_test
@@ -24,7 +24,7 @@ func TestAuto(t *testing.T) {
 
 	// Look for out in seeded output.
 	// Strictly speaking, we should look for them in order,
-	// but this is good enough and not significantly more
+	// but this is golangod enough and not significantly more
 	// likely to have a false positive.
 	r := New(NewPCG(1, 0))
 	found := 0

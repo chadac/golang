@@ -6,16 +6,16 @@
 env GOOS=linux
 env GOARCH=arm
 env GOARM=5
-go install mycmd
+golang install mycmd
 env GOARM=7
 stale mycmd
 
 
--- go.mod --
+-- golang.mod --
 module mycmd
 
-go 1.16
--- x.go --
+golang 1.16
+-- x.golang --
 package main
 
 func main() {}

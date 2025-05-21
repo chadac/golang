@@ -1,11 +1,11 @@
-go test -v norunexample
+golang test -v norunexample
 stdout 'File with non-runnable example was built.'
 
--- go.mod --
+-- golang.mod --
 module norunexample
 
-go 1.16
--- example_test.go --
+golang 1.16
+-- example_test.golang --
 package pkg_test
 
 import "os"
@@ -17,7 +17,7 @@ func init() {
 func Example_test() {
 	// This test will not be run, it has no "Output:" comment.
 }
--- test_test.go --
+-- test_test.golang --
 package pkg
 
 import (

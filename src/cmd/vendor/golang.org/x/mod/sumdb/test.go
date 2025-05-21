@@ -1,5 +1,5 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package sumdb
@@ -9,23 +9,23 @@ import (
 	"fmt"
 	"sync"
 
-	"golang.org/x/mod/module"
-	"golang.org/x/mod/sumdb/note"
-	"golang.org/x/mod/sumdb/tlog"
+	"golanglang.org/x/mod/module"
+	"golanglang.org/x/mod/sumdb/note"
+	"golanglang.org/x/mod/sumdb/tlog"
 )
 
 // NewTestServer constructs a new [TestServer]
 // that will sign its tree with the given signer key
-// (see [golang.org/x/mod/sumdb/note])
-// and fetch new records as needed by calling gosum.
-func NewTestServer(signer string, gosum func(path, vers string) ([]byte, error)) *TestServer {
-	return &TestServer{signer: signer, gosum: gosum}
+// (see [golanglang.org/x/mod/sumdb/note])
+// and fetch new records as needed by calling golangsum.
+func NewTestServer(signer string, golangsum func(path, vers string) ([]byte, error)) *TestServer {
+	return &TestServer{signer: signer, golangsum: golangsum}
 }
 
 // A TestServer is an in-memory implementation of [ServerOps] for testing.
 type TestServer struct {
 	signer string
-	gosum  func(path, vers string) ([]byte, error)
+	golangsum  func(path, vers string) ([]byte, error)
 
 	mu      sync.Mutex
 	hashes  testHashes
@@ -84,8 +84,8 @@ func (s *TestServer) Lookup(ctx context.Context, m module.Version) (int64, error
 		return id, nil
 	}
 
-	// Look up module and compute go.sum lines.
-	data, err := s.gosum(m.Path, m.Version)
+	// Look up module and compute golang.sum lines.
+	data, err := s.golangsum(m.Path, m.Version)
 	if err != nil {
 		return 0, err
 	}

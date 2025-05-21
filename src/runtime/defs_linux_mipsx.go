@@ -1,8 +1,8 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build (mips || mipsle) && linux
+//golang:build (mips || mipsle) && linux
 
 package runtime
 
@@ -98,7 +98,7 @@ type timespec struct {
 	tv_nsec int32
 }
 
-//go:nosplit
+//golang:nosplit
 func (ts *timespec) setNsec(ns int64) {
 	ts.tv_sec = timediv(ns, 1e9, &ts.tv_nsec)
 }
@@ -108,7 +108,7 @@ type timeval struct {
 	tv_usec int32
 }
 
-//go:nosplit
+//golang:nosplit
 func (tv *timeval) set_usec(x int32) {
 	tv.tv_usec = x
 }
@@ -203,7 +203,7 @@ type ucontext struct {
 	uc_flags    uint32
 	uc_link     *ucontext
 	uc_stack    stackt
-	Pad_cgo_0   [4]byte
+	Pad_cgolang_0   [4]byte
 	uc_mcontext sigcontext
 	uc_sigmask  [4]uint32
 }

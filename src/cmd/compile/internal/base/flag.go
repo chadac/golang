@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package base
@@ -24,7 +24,7 @@ import (
 )
 
 func usage() {
-	fmt.Fprintf(os.Stderr, "usage: compile [options] file.go...\n")
+	fmt.Fprintf(os.Stderr, "usage: compile [options] file.golang...\n")
 	objabi.Flagprint(os.Stderr)
 	Exit(2)
 }
@@ -98,7 +98,7 @@ type CmdFlags struct {
 	DwarfBASEntries    *bool        "help:\"use base address selection entries in DWARF\""                        // &Ctxt.UseBASEntries, set below
 	DwarfLocationLists *bool        "help:\"add location lists to DWARF in optimized mode\""                      // &Ctxt.Flag_locationlists, set below
 	Dynlink            *bool        "help:\"support references to Go symbols defined in other shared libraries\"" // &Ctxt.Flag_dynlink, set below
-	EmbedCfg           func(string) "help:\"read go:embed configuration from `file`\""
+	EmbedCfg           func(string) "help:\"read golang:embed configuration from `file`\""
 	Env                func(string) "help:\"add `definition` of the form key=value to environment\""
 	GenDwarfInl        int          "help:\"generate DWARF inline info records\"" // 0=disabled, 1=funcs, 2=funcs+formals/locals
 	GoVersion          string       "help:\"required version of the runtime\""
@@ -118,14 +118,14 @@ type CmdFlags struct {
 	Pack               bool         "help:\"write to file.a instead of file.o\""
 	Race               bool         "help:\"enable race detector\""
 	Shared             *bool        "help:\"generate code that can be linked into a shared library\"" // &Ctxt.Flag_shared, set below
-	SmallFrames        bool         "help:\"reduce the size limit for stack allocated objects\""      // small stacks, to diagnose GC latency; see golang.org/issue/27732
+	SmallFrames        bool         "help:\"reduce the size limit for stack allocated objects\""      // small stacks, to diagnose GC latency; see golanglang.org/issue/27732
 	Spectre            string       "help:\"enable spectre mitigations in `list` (all, index, ret)\""
 	Std                bool         "help:\"compiling standard library\""
 	SymABIs            string       "help:\"read symbol ABIs from `file`\""
 	TraceProfile       string       "help:\"write an execution trace to `file`\""
 	TrimPath           string       "help:\"remove `prefix` from recorded source file paths\""
 	WB                 bool         "help:\"enable write barrier\"" // TODO: remove
-	PgoProfile         string       "help:\"read profile or pre-process profile from `file`\""
+	PgolangProfile         string       "help:\"read profile or pre-process profile from `file`\""
 	ErrorURL           bool         "help:\"print explanatory URL with error message if applicable\""
 
 	// Configuration derived from flags; not a flag itself.
@@ -205,7 +205,7 @@ func ParseFlags() {
 	}
 
 	if Debug.Gossahash != "" {
-		hashDebug = NewHashDebug("gossahash", Debug.Gossahash, nil)
+		hashDebug = NewHashDebug("golangssahash", Debug.Gossahash, nil)
 	}
 	obj.SetFIPSDebugHash(Debug.FIPSHash)
 
@@ -217,7 +217,7 @@ func ParseFlags() {
 
 	Ctxt.Std = Flag.Std
 
-	// Three inputs govern loop iteration variable rewriting, hash, experiment, flag.
+	// Three inputs golangvern loop iteration variable rewriting, hash, experiment, flag.
 	// The loop variable rewriting is:
 	// IF non-empty hash, then hash determines behavior (function+line match) (*)
 	// ELSE IF experiment and flag==0, then experiment (set flag=1)
@@ -266,7 +266,7 @@ func ParseFlags() {
 		FmaHash = NewHashDebug("fmahash", Debug.Fmahash, nil)
 	}
 	if Debug.PGOHash != "" {
-		PGOHash = NewHashDebug("pgohash", Debug.PGOHash, nil)
+		PGOHash = NewHashDebug("pgolanghash", Debug.PGOHash, nil)
 	}
 	if Debug.MergeLocalsHash != "" {
 		MergeLocalsHash = NewHashDebug("mergelocals", Debug.MergeLocalsHash, nil)
@@ -300,7 +300,7 @@ func ParseFlags() {
 	}
 
 	if Flag.GoVersion != "" && Flag.GoVersion != runtime.Version() {
-		fmt.Printf("compile: version %q does not match go tool version %q\n", runtime.Version(), Flag.GoVersion)
+		fmt.Printf("compile: version %q does not match golang tool version %q\n", runtime.Version(), Flag.GoVersion)
 		Exit(2)
 	}
 
@@ -343,7 +343,7 @@ func ParseFlags() {
 	}
 
 	if Flag.LowerC < 1 {
-		log.Fatalf("-c must be at least 1, got %d", Flag.LowerC)
+		log.Fatalf("-c must be at least 1, golangt %d", Flag.LowerC)
 	}
 	if !concurrentBackendAllowed() {
 		Flag.LowerC = 1
@@ -369,7 +369,7 @@ func ParseFlags() {
 	// set via a -d flag
 	Ctxt.Debugpcln = Debug.PCTab
 
-	// https://golang.org/issue/67502
+	// https://golanglang.org/issue/67502
 	if buildcfg.GOOS == "plan9" && buildcfg.GOARCH == "386" {
 		Debug.AlignHot = 0
 	}

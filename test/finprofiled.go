@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test that tiny allocations with finalizers are correctly profiled.
@@ -69,7 +69,7 @@ func main() {
 	}
 	// 2*tinyBlockSize slack is for any boundary effects.
 	if want := N*int64(unsafe.Sizeof(int32(0))) - 2*tinyBlockSize; totalBytes < want {
-		println("got", totalBytes, "want >=", want)
+		println("golangt", totalBytes, "want >=", want)
 		panic("some of the tiny objects are not profiled")
 	}
 	// Just to keep hold alive.

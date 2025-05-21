@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Make sure we handle instantiated empty interfaces.
@@ -11,12 +11,12 @@ package main
 type E[T any] interface {
 }
 
-//go:noinline
+//golang:noinline
 func f[T any](x E[T]) interface{} {
 	return x
 }
 
-//go:noinline
+//golang:noinline
 func g[T any](x interface{}) E[T] {
 	return x
 }
@@ -29,12 +29,12 @@ type myint int
 
 func (x myint) foo() {}
 
-//go:noinline
+//golang:noinline
 func h[T any](x I[T]) interface{ foo() } {
 	return x
 }
 
-//go:noinline
+//golang:noinline
 func i[T any](x interface{ foo() }) I[T] {
 	return x
 }

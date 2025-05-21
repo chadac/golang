@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Simple append-only thread-safe hash map for tracing.
@@ -17,7 +17,7 @@ package runtime
 
 import (
 	"internal/cpu"
-	"internal/goarch"
+	"internal/golangarch"
 	"internal/runtime/atomic"
 	"internal/runtime/sys"
 	"unsafe"
@@ -107,7 +107,7 @@ func (tab *traceMap) put(data unsafe.Pointer, size uintptr) (uint64, bool) {
 				return n.id, false
 			}
 		}
-		m = &n.children[hashIter>>(8*goarch.PtrSize-2)]
+		m = &n.children[hashIter>>(8*golangarch.PtrSize-2)]
 		hashIter <<= 2
 	}
 }

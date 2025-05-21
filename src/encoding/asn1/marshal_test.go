@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package asn1
@@ -190,7 +190,7 @@ func TestMarshal(t *testing.T) {
 		}
 		out, _ := hex.DecodeString(test.out)
 		if !bytes.Equal(out, data) {
-			t.Errorf("#%d got: %x want %x\n\t%q\n\t%q", i, data, out, data, out)
+			t.Errorf("#%d golangt: %x want %x\n\t%q\n\t%q", i, data, out, data, out)
 
 		}
 	}
@@ -216,7 +216,7 @@ func TestMarshalWithParams(t *testing.T) {
 		}
 		out, _ := hex.DecodeString(test.out)
 		if !bytes.Equal(out, data) {
-			t.Errorf("#%d got: %x want %x\n\t%q\n\t%q", i, data, out, data, out)
+			t.Errorf("#%d golangt: %x want %x\n\t%q\n\t%q", i, data, out, data, out)
 
 		}
 	}
@@ -243,7 +243,7 @@ func TestMarshalError(t *testing.T) {
 		}
 
 		if !strings.Contains(err.Error(), test.err) {
-			t.Errorf("#%d got: %v want %v", i, err, test.err)
+			t.Errorf("#%d golangt: %v want %v", i, err, test.err)
 		}
 	}
 }
@@ -270,7 +270,7 @@ func TestMarshalOID(t *testing.T) {
 		}
 		out, _ := hex.DecodeString(test.out)
 		if !bytes.Equal(out, data) {
-			t.Errorf("#%d got: %x want %x\n\t%q\n\t%q", i, data, out, data, out)
+			t.Errorf("#%d golangt: %x want %x\n\t%q\n\t%q", i, data, out, data, out)
 		}
 	}
 }
@@ -296,7 +296,7 @@ func TestIssue11130(t *testing.T) {
 	}
 
 	if !bytes.Equal(data, data1) {
-		t.Errorf("got: %q, want: %q \n", data1, data)
+		t.Errorf("golangt: %q, want: %q \n", data1, data)
 		return
 	}
 
@@ -307,7 +307,7 @@ func TestIssue11130(t *testing.T) {
 		return
 	}
 	if !reflect.DeepEqual(v, v1) {
-		t.Errorf("got: %#v data=%q, want : %#v data=%q\n ", v1, data1, v, data)
+		t.Errorf("golangt: %#v data=%q, want : %#v data=%q\n ", v1, data1, v, data)
 	}
 }
 
@@ -319,14 +319,14 @@ func TestIssue68241(t *testing.T) {
 			return
 		}
 
-		var got any
-		_, err = Unmarshal(data, &got)
+		var golangt any
+		_, err = Unmarshal(data, &golangt)
 		if err != nil {
 			t.Errorf("cannot Unmarshal: %v", err)
 			return
 		}
-		if !reflect.DeepEqual(got, want) {
-			t.Errorf("#%d Unmarshal, got: %v, want: %v", i, got, want)
+		if !reflect.DeepEqual(golangt, want) {
+			t.Errorf("#%d Unmarshal, golangt: %v, want: %v", i, golangt, want)
 		}
 	}
 }
@@ -368,7 +368,7 @@ func TestSetEncoder(t *testing.T) {
 		t.Error("Unmarshal returned extra garbage")
 	}
 	if !slices.Equal(expectedOrder, resultStruct.Strings) {
-		t.Errorf("Unexpected SET content. got: %s, want: %s", resultStruct.Strings, expectedOrder)
+		t.Errorf("Unexpected SET content. golangt: %s, want: %s", resultStruct.Strings, expectedOrder)
 	}
 }
 
@@ -394,7 +394,7 @@ func TestSetEncoderSETSliceSuffix(t *testing.T) {
 		t.Error("Unmarshal returned extra garbage")
 	}
 	if !reflect.DeepEqual(expectedOrder, resultSet) {
-		t.Errorf("Unexpected SET content. got: %s, want: %s", resultSet, expectedOrder)
+		t.Errorf("Unexpected SET content. golangt: %s, want: %s", resultSet, expectedOrder)
 	}
 }
 

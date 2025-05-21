@@ -1,11 +1,11 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file is here just to cause problems.
-// main.swig turns into a file also named main.go.
-// Make sure cmd/go keeps them separate
-// when both are passed to cgo.
+// main.swig turns into a file also named main.golang.
+// Make sure cmd/golang keeps them separate
+// when both are passed to cgolang.
 
 package main
 
@@ -25,7 +25,7 @@ func main() {
 
 	// Open this file itself and verify that the first few characters are
 	// as expected.
-	f := Fopen("main.go", "r")
+	f := Fopen("main.golang", "r")
 	if f.Swigcptr() == 0 {
 		fatal("fopen failed")
 	}

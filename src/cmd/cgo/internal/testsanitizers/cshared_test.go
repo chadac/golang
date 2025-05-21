@@ -1,8 +1,8 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build linux || (freebsd && amd64)
+//golang:build linux || (freebsd && amd64)
 
 package sanitizers_test
 
@@ -24,12 +24,12 @@ func TestShared(t *testing.T) {
 	t.Parallel()
 	requireOvercommit(t)
 
-	GOOS, err := goEnv("GOOS")
+	GOOS, err := golangEnv("GOOS")
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	GOARCH, err := goEnv("GOARCH")
+	GOARCH, err := golangEnv("GOARCH")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -44,18 +44,18 @@ func TestShared(t *testing.T) {
 		sanitizer string
 	}{
 		{
-			src:       "msan_shared.go",
+			src:       "msan_shared.golang",
 			sanitizer: "memory",
 		},
 		{
-			src:       "tsan_shared.go",
+			src:       "tsan_shared.golang",
 			sanitizer: "thread",
 		},
 	}
 
 	for _, tc := range cases {
 		tc := tc
-		name := strings.TrimSuffix(tc.src, ".go")
+		name := strings.TrimSuffix(tc.src, ".golang")
 		//The memory sanitizer tests require support for the -msan option.
 		if tc.sanitizer == "memory" && !platform.MSanSupported(GOOS, GOARCH) {
 			t.Logf("skipping %s test on %s/%s; -msan option is not supported.", name, GOOS, GOARCH)
@@ -75,7 +75,7 @@ func TestShared(t *testing.T) {
 			defer dir.RemoveAll(t)
 
 			lib := dir.Join(fmt.Sprintf("lib%s.%s", name, libExt))
-			mustRun(t, config.goCmd("build", "-buildmode=c-shared", "-o", lib, srcPath(tc.src)))
+			mustRun(t, config.golangCmd("build", "-buildmode=c-shared", "-o", lib, srcPath(tc.src)))
 
 			cSrc := dir.Join("main.c")
 			if err := os.WriteFile(cSrc, cMain, 0600); err != nil {
@@ -93,7 +93,7 @@ func TestShared(t *testing.T) {
 
 			cmdArgs := []string{dstBin}
 			if tc.sanitizer == "thread" && GOOS == "linux" {
-				// Disable ASLR for TSAN. See https://go.dev/issue/59418.
+				// Disable ASLR for TSAN. See https://golang.dev/issue/59418.
 				out, err := exec.Command("uname", "-m").Output()
 				if err != nil {
 					t.Fatalf("failed to run `uname -m`: %v", err)
@@ -101,7 +101,7 @@ func TestShared(t *testing.T) {
 				arch := strings.TrimSpace(string(out))
 				if _, err := exec.Command("setarch", arch, "-R", "true").Output(); err != nil {
 					// Some systems don't have permission to run `setarch`.
-					// See https://go.dev/issue/70463.
+					// See https://golang.dev/issue/70463.
 					t.Logf("failed to run `setarch %s -R true`: %v", arch, err)
 				} else {
 					cmdArgs = []string{"setarch", arch, "-R", dstBin}

@@ -1,9 +1,9 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-#include "go_asm.h"
-#include "go_tls.h"
+#include "golang_asm.h"
+#include "golang_tls.h"
 #include "funcdata.h"
 #include "textflag.h"
 
@@ -17,18 +17,18 @@
 // thread-local memory, so that we can call externally compiled
 // s390x code that will overwrite this register.
 //
-// If !iscgo, this is a no-op.
+// If !iscgolang, this is a no-op.
 //
 // NOTE: setg_gcc<> assume this clobbers only R10 and R11.
 TEXT runtime·save_g(SB),NOSPLIT|NOFRAME,$0-0
-	MOVB	runtime·iscgo(SB),  R10
-	CMPBEQ	R10, $0, nocgo
+	MOVB	runtime·iscgolang(SB),  R10
+	CMPBEQ	R10, $0, nocgolang
 	MOVW	AR0, R11
 	SLD	$32, R11
 	MOVW	AR1, R11
 	MOVD	runtime·tls_g(SB), R10
 	MOVD	g, 0(R10)(R11*1)
-nocgo:
+nocgolang:
 	RET
 
 // load_g loads the g register from pthread-provided
@@ -39,7 +39,7 @@ nocgo:
 // follow the C ABI), but it may be called from a C context, where the
 // usual Go registers aren't set up.
 //
-// NOTE: _cgo_topofstack assumes this only clobbers g (R13), R10 and R11.
+// NOTE: _cgolang_topofstack assumes this only clobbers g (R13), R10 and R11.
 TEXT runtime·load_g(SB),NOSPLIT|NOFRAME,$0-0
 	MOVW	AR0, R11
 	SLD	$32, R11

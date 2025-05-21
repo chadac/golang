@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package os_test
@@ -102,13 +102,13 @@ func ExampleExpand() {
 }
 
 func ExampleExpandEnv() {
-	os.Setenv("NAME", "gopher")
-	os.Setenv("BURROW", "/usr/gopher")
+	os.Setenv("NAME", "golangpher")
+	os.Setenv("BURROW", "/usr/golangpher")
 
 	fmt.Println(os.ExpandEnv("$NAME lives in ${BURROW}."))
 
 	// Output:
-	// gopher lives in /usr/gopher.
+	// golangpher lives in /usr/golangpher.
 }
 
 func ExampleLookupEnv() {
@@ -135,13 +135,13 @@ func ExampleLookupEnv() {
 }
 
 func ExampleGetenv() {
-	os.Setenv("NAME", "gopher")
-	os.Setenv("BURROW", "/usr/gopher")
+	os.Setenv("NAME", "golangpher")
+	os.Setenv("BURROW", "/usr/golangpher")
 
 	fmt.Printf("%s lives in %s.\n", os.Getenv("NAME"), os.Getenv("BURROW"))
 
 	// Output:
-	// gopher lives in /usr/gopher.
+	// golangpher lives in /usr/golangpher.
 }
 
 func ExampleUnsetenv() {

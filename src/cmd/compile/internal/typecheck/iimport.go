@@ -1,9 +1,9 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Indexed package import.
-// See iexport.go for the export data format.
+// See iexport.golang for the export data format.
 
 package typecheck
 

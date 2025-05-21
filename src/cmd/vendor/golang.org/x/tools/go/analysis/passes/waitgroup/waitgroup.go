@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package waitgroup defines an Analyzer that detects simple misuses
@@ -8,24 +8,24 @@ package waitgroup
 
 import (
 	_ "embed"
-	"go/ast"
+	"golang/ast"
 	"reflect"
 
-	"golang.org/x/tools/go/analysis"
-	"golang.org/x/tools/go/analysis/passes/inspect"
-	"golang.org/x/tools/go/analysis/passes/internal/analysisutil"
-	"golang.org/x/tools/go/ast/inspector"
-	"golang.org/x/tools/go/types/typeutil"
-	"golang.org/x/tools/internal/analysisinternal"
+	"golanglang.org/x/tools/golang/analysis"
+	"golanglang.org/x/tools/golang/analysis/passes/inspect"
+	"golanglang.org/x/tools/golang/analysis/passes/internal/analysisutil"
+	"golanglang.org/x/tools/golang/ast/inspector"
+	"golanglang.org/x/tools/golang/types/typeutil"
+	"golanglang.org/x/tools/internal/analysisinternal"
 )
 
-//go:embed doc.go
+//golang:embed doc.golang
 var doc string
 
 var Analyzer = &analysis.Analyzer{
 	Name:     "waitgroup",
 	Doc:      analysisutil.MustExtractDoc(doc, "waitgroup"),
-	URL:      "https://pkg.go.dev/golang.org/x/tools/go/analysis/passes/waitgroup",
+	URL:      "https://pkg.golang.dev/golanglang.org/x/tools/golang/analysis/passes/waitgroup",
 	Requires: []*analysis.Analyzer{inspect.Analyzer},
 	Run:      run,
 }
@@ -48,7 +48,7 @@ func run(pass *analysis.Pass) (any, error) {
 				hasSuffix(stack, wantSuffix) &&
 				backindex(stack, 1) == backindex(stack, 2).(*ast.BlockStmt).List[0] { // ExprStmt must be Block's first stmt
 
-				pass.Reportf(call.Lparen, "WaitGroup.Add called from inside new goroutine")
+				pass.Reportf(call.Lparen, "WaitGroup.Add called from inside new golangroutine")
 			}
 		}
 		return true
@@ -57,7 +57,7 @@ func run(pass *analysis.Pass) (any, error) {
 	return nil, nil
 }
 
-//	go func() {
+//	golang func() {
 //	   wg.Add(1)
 //	   ...
 //	}()

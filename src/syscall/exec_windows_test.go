@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package syscall_test
@@ -42,8 +42,8 @@ func TestEscapeArg(t *testing.T) {
 		{`\\newserver\tempshare\really.txt`, `\\newserver\tempshare\really.txt`},
 	}
 	for _, test := range tests {
-		if got := syscall.EscapeArg(test.input); got != test.output {
-			t.Errorf("EscapeArg(%#q) = %#q, want %#q", test.input, got, test.output)
+		if golangt := syscall.EscapeArg(test.input); golangt != test.output {
+			t.Errorf("EscapeArg(%#q) = %#q, want %#q", test.input, golangt, test.output)
 		}
 	}
 }
@@ -110,7 +110,7 @@ func TestChangingProcessParent(t *testing.T) {
 	if err != nil {
 		t.Fatalf("reading child output failed: %v", err)
 	}
-	if got, want := string(childOutput), fmt.Sprintf("%d", parent.Process.Pid); got != want {
-		t.Fatalf("child output: want %q, got %q", want, got)
+	if golangt, want := string(childOutput), fmt.Sprintf("%d", parent.Process.Pid); golangt != want {
+		t.Fatalf("child output: want %q, golangt %q", want, golangt)
 	}
 }

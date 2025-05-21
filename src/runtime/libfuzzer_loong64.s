@@ -1,10 +1,10 @@
 // Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build libfuzzer
+//golang:build libfuzzer
 
-#include "go_asm.h"
+#include "golang_asm.h"
 #include "textflag.h"
 
 // Based on race_loong64.s; see commentary there.
@@ -33,7 +33,7 @@ TEXT	runtime·libfuzzerCall4<ABIInternal>(SB), NOSPLIT, $0-0
 	MOVV	R3, R23	// callee-saved, preserved across the CALL
 	MOVV	m_g0(R13), R14
 	BEQ	R14, g, call	// already on g0
-	MOVV	(g_sched+gobuf_sp)(R14), R3
+	MOVV	(g_sched+golangbuf_sp)(R14), R3
 
 call:
 	JAL	(R12)
@@ -53,7 +53,7 @@ TEXT    runtime·libfuzzerCallWithTwoByteBuffers<ABIInternal>(SB), NOSPLIT, $0-0
 	MOVV    R3, R23	// callee-saved, preserved across the CALL
 	MOVV    m_g0(R13), R14
 	BEQ	R14, g, call	// already on g0
-	MOVV    (g_sched+gobuf_sp)(R14), R3
+	MOVV    (g_sched+golangbuf_sp)(R14), R3
 
 call:
 	JAL	(R12)
@@ -79,7 +79,7 @@ TEXT	runtime·libfuzzerCallTraceIntCmp<ABIInternal>(SB), NOSPLIT, $0-0
 	MOVV	R3, R23	// callee-saved, preserved across the CALL
 	MOVV	m_g0(R13), R14
 	BEQ	R14, g, call	// already on g0
-	MOVV	(g_sched+gobuf_sp)(R14), R3
+	MOVV	(g_sched+golangbuf_sp)(R14), R3
 
 call:
 	// Load address of the ret sled into the default register for the return

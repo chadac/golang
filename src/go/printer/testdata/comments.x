@@ -1,4 +1,4 @@
-// This is a package for testing comment placement by go/printer.
+// This is a package for testing comment placement by golang/printer.
 package main
 
 // The SZ struct; it is empty.

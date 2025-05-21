@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ssagen
@@ -1345,8 +1345,8 @@ var wantIntrinsics = map[testIntrinsicKey]struct{}{
 
 func TestIntrinsics(t *testing.T) {
 	cfg := &intrinsicBuildConfig{
-		goppc64:   10,
-		goriscv64: 23,
+		golangppc64:   10,
+		golangriscv64: 23,
 	}
 	initIntrinsics(cfg)
 
@@ -1370,18 +1370,18 @@ func TestIntrinsics(t *testing.T) {
 		return
 	}
 
-	gotIntrinsics := make(map[testIntrinsicKey]struct{})
+	golangtIntrinsics := make(map[testIntrinsicKey]struct{})
 	for ik, _ := range intrinsics {
-		gotIntrinsics[testIntrinsicKey{ik.arch.Name, ik.pkg, ik.fn}] = struct{}{}
+		golangtIntrinsics[testIntrinsicKey{ik.arch.Name, ik.pkg, ik.fn}] = struct{}{}
 	}
-	for ik, _ := range gotIntrinsics {
+	for ik, _ := range golangtIntrinsics {
 		if _, found := wantIntrinsics[ik]; !found {
 			t.Errorf("Got unwanted intrinsic %v %v.%v", ik.archName, ik.pkg, ik.fn)
 		}
 	}
 
 	for ik, _ := range wantIntrinsics {
-		if _, found := gotIntrinsics[ik]; !found {
+		if _, found := golangtIntrinsics[ik]; !found {
 			t.Errorf("Want missing intrinsic %v %v.%v", ik.archName, ik.pkg, ik.fn)
 		}
 	}
@@ -1416,7 +1416,7 @@ func TestIntrinsicBuilders(t *testing.T) {
 		t.Errorf("Found intrinsic for internal/runtime/sys.Bswap64 on arch %v", sys.ArchPPC64)
 	}
 
-	cfg.goppc64 = 10
+	cfg.golangppc64 = 10
 	cfg.instrumenting = true
 
 	initIntrinsics(cfg)

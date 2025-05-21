@@ -1,8 +1,8 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-package cgo
+package cgolang
 
 import (
 	"reflect"
@@ -30,13 +30,13 @@ func TestHandle(t *testing.T) {
 		}
 
 		if uintptr(h1) == uintptr(h2) {
-			t.Fatalf("Duplicated Go values should have different handles, but got equal")
+			t.Fatalf("Duplicated Go values should have different handles, but golangt equal")
 		}
 
 		h1v := h1.Value()
 		h2v := h2.Value()
 		if !reflect.DeepEqual(h1v, h2v) || !reflect.DeepEqual(h1v, tt.v1) {
-			t.Fatalf("Value of a Handle got wrong, got %+v %+v, want %+v", h1v, h2v, tt.v1)
+			t.Fatalf("Value of a Handle golangt wrong, golangt %+v %+v, want %+v", h1v, h2v, tt.v1)
 		}
 
 		h1.Delete()
@@ -49,7 +49,7 @@ func TestHandle(t *testing.T) {
 		return true
 	})
 	if siz != 0 {
-		t.Fatalf("handles are not cleared, got %d, want %d", siz, 0)
+		t.Fatalf("handles are not cleared, golangt %d, want %d", siz, 0)
 	}
 }
 

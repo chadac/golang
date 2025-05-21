@@ -1,10 +1,10 @@
 // runoutput
 
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Issue 10407: gccgo failed to remove carriage returns
+// Issue 10407: gccgolang failed to remove carriage returns
 // from raw string literals.
 
 package main

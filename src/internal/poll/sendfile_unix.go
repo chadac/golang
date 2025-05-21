@@ -1,8 +1,8 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build darwin || dragonfly || freebsd || linux || solaris
+//golang:build darwin || dragolangnfly || freebsd || linux || solaris
 
 package poll
 
@@ -28,7 +28,7 @@ import (
 // has not modified the source or destination,
 // and the caller should perform the copy using a fallback implementation.
 func SendFile(dstFD *FD, src uintptr, size int64) (n int64, err error, handled bool) {
-	if goos := runtime.GOOS; goos == "linux" || goos == "android" {
+	if golangos := runtime.GOOS; golangos == "linux" || golangos == "android" {
 		// Linux's sendfile doesn't require any setup:
 		// It sends from the current position of the source file and
 		// updates the position of the source after sending.

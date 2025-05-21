@@ -1,8 +1,8 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-package pgo
+package pgolang
 
 import (
 	"bufio"
@@ -41,8 +41,8 @@ func FromSerialized(r io.Reader) (*Profile, error) {
 		}
 		return nil, fmt.Errorf("preprocessed profile missing header")
 	}
-	if gotHdr := scanner.Text() + "\n"; gotHdr != serializationHeader {
-		return nil, fmt.Errorf("preprocessed profile malformed header; got %q want %q", gotHdr, serializationHeader)
+	if golangtHdr := scanner.Text() + "\n"; golangtHdr != serializationHeader {
+		return nil, fmt.Errorf("preprocessed profile malformed header; golangt %q want %q", golangtHdr, serializationHeader)
 	}
 
 	for scanner.Scan() {
@@ -69,7 +69,7 @@ func FromSerialized(r io.Reader) (*Profile, error) {
 		split := strings.Split(readStr, " ")
 
 		if len(split) != 2 {
-			return nil, fmt.Errorf("preprocessed profile entry got %v want 2 fields", split)
+			return nil, fmt.Errorf("preprocessed profile entry golangt %v want 2 fields", split)
 		}
 
 		co, err := strconv.Atoi(split[0])

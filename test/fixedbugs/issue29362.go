@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Verify that we don't consider a Go'd function's
@@ -36,7 +36,7 @@ func main() {
 	const N = 1000
 	for i := 0; i < N; i++ {
 		throttle <- struct{}{}
-		go noPointerArgs(badPtr, badPtr, badPtr, badPtr)
+		golang noPointerArgs(badPtr, badPtr, badPtr, badPtr)
 		sink = make([]byte, 4096)
 	}
 }

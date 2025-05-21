@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package fipstest
@@ -11,7 +11,7 @@ import (
 	"crypto/internal/fips140/check/checktest"
 	"fmt"
 	"internal/abi"
-	"internal/godebug"
+	"internal/golangdebug"
 	"internal/testenv"
 	"os"
 	"path/filepath"
@@ -27,7 +27,7 @@ func TestIntegrityCheck(t *testing.T) {
 		return
 	}
 
-	if godebug.New("fips140").Value() == "on" {
+	if golangdebug.New("fips140").Value() == "on" {
 		t.Fatalf("GODEBUG=fips140=on but verification did not run")
 	}
 
@@ -117,7 +117,7 @@ func TestIntegrityCheckInfo(t *testing.T) {
 		t.Errorf("*checktest.PtrStaticData() = %d, want 10", *p)
 	}
 
-	// Check that the checktest symbols are in the right go:fipsinfo sections.
+	// Check that the checktest symbols are in the right golang:fipsinfo sections.
 	sect := func(i int, name string, p unsafe.Pointer) {
 		s := Linkinfo.Sects[i]
 		if !(uintptr(s.Start) <= uintptr(p) && uintptr(p) < uintptr(s.End)) {
@@ -153,7 +153,7 @@ func TestIntegrityCheckInfo(t *testing.T) {
 
 	// Check that non-FIPS symbols are not in any of the sections.
 	no("fmt.Printf", unsafe.Pointer(abi.FuncPCABIInternal(fmt.Printf)), 0, 1, 2, 3)     // TEXT
-	no("unicode.Categories", unsafe.Pointer(&unicode.Categories), 0, 1, 2, 3)           // BSS
+	no("unicode.Categolangries", unsafe.Pointer(&unicode.Categolangries), 0, 1, 2, 3)           // BSS
 	no("unicode.ASCII_Hex_Digit", unsafe.Pointer(&unicode.ASCII_Hex_Digit), 0, 1, 2, 3) // DATA
 
 	// Check that we have enough data in total.

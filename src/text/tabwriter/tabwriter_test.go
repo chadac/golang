@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package tabwriter_test
@@ -624,12 +624,12 @@ func (panicWriter) Write([]byte) (int, error) {
 
 func wantPanicString(t *testing.T, want string) {
 	if e := recover(); e != nil {
-		got, ok := e.(string)
+		golangt, ok := e.(string)
 		switch {
 		case !ok:
-			t.Errorf("got %v (%T), want panic string", e, e)
-		case got != want:
-			t.Errorf("wrong panic message: got %q, want %q", got, want)
+			t.Errorf("golangt %v (%T), want panic string", e, e)
+		case golangt != want:
+			t.Errorf("wrong panic message: golangt %q, want %q", golangt, want)
 		}
 	}
 }

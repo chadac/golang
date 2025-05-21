@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file implements printing of syntax trees in source format.
@@ -546,7 +546,7 @@ func (p *printer) printRawNode(n Node) {
 	case *AssignStmt:
 		p.print(n.Lhs)
 		if n.Rhs == nil {
-			// TODO(gri) This is going to break the mayCombine
+			// TODO(gri) This is golanging to break the mayCombine
 			//           check once we enable that again.
 			p.print(n.Op, n.Op) // ++ or --
 		} else {
@@ -948,7 +948,7 @@ func combinesWithName(x Expr) bool {
 		// is set, so we should never reach here.
 		// Do the right thing (rather than panic) for testing and
 		// in case we change parser behavior.
-		// See also go.dev/issues/69206.
+		// See also golang.dev/issues/69206.
 		return !isTypeElem(x.X)
 	}
 	return false

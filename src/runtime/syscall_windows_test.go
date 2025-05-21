@@ -1,5 +1,5 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime_test
@@ -238,7 +238,7 @@ func TestCallbackPanicLoop(t *testing.T) {
 
 func TestBlockingCallback(t *testing.T) {
 	c := make(chan int)
-	go func() {
+	golang func() {
 		for i := 0; i < 10; i++ {
 			c <- <-c
 		}
@@ -281,12 +281,12 @@ func TestCallbackInAnotherThread(t *testing.T) {
 		t.Fatalf("GetExitCodeThread failed: %v", err)
 	}
 	if ec != 123 {
-		t.Fatalf("expected 123, but got %d", ec)
+		t.Fatalf("expected 123, but golangt %d", ec)
 	}
 }
 
 type cbFunc struct {
-	goFunc any
+	golangFunc any
 }
 
 func (f cbFunc) cName(cdecl bool) string {
@@ -294,7 +294,7 @@ func (f cbFunc) cName(cdecl bool) string {
 	if cdecl {
 		name = "cdecl"
 	}
-	t := reflect.TypeOf(f.goFunc)
+	t := reflect.TypeOf(f.golangFunc)
 	for i := 0; i < t.NumIn(); i++ {
 		name += "_" + t.In(i).Name()
 	}
@@ -303,14 +303,14 @@ func (f cbFunc) cName(cdecl bool) string {
 
 func (f cbFunc) cSrc(w io.Writer, cdecl bool) {
 	// Construct a C function that takes a callback with
-	// f.goFunc's signature, and calls it with integers 1..N.
+	// f.golangFunc's signature, and calls it with integers 1..N.
 	funcname := f.cName(cdecl)
 	attr := "__stdcall"
 	if cdecl {
 		attr = "__cdecl"
 	}
 	typename := "t" + funcname
-	t := reflect.TypeOf(f.goFunc)
+	t := reflect.TypeOf(f.golangFunc)
 	cTypes := make([]string, t.NumIn())
 	cArgs := make([]string, t.NumIn())
 	for i := range cTypes {
@@ -335,11 +335,11 @@ func (f cbFunc) testOne(t *testing.T, dll *syscall.DLL, cdecl bool, cb uintptr) 
 	r1, _, _ := dll.MustFindProc(f.cName(cdecl)).Call(cb)
 
 	want := 0
-	for i := 0; i < reflect.TypeOf(f.goFunc).NumIn(); i++ {
+	for i := 0; i < reflect.TypeOf(f.golangFunc).NumIn(); i++ {
 		want += i + 1
 	}
 	if int(r1) != want {
-		t.Errorf("wanted result %d; got %d", want, r1)
+		t.Errorf("wanted result %d; golangt %d", want, r1)
 	}
 }
 
@@ -393,72 +393,72 @@ var cbFuncs = []cbFunc{
 	}},
 }
 
-//go:registerparams
+//golang:registerparams
 func sum2(i1, i2 uintptr) uintptr {
 	return i1 + i2
 }
 
-//go:registerparams
+//golang:registerparams
 func sum3(i1, i2, i3 uintptr) uintptr {
 	return i1 + i2 + i3
 }
 
-//go:registerparams
+//golang:registerparams
 func sum4(i1, i2, i3, i4 uintptr) uintptr {
 	return i1 + i2 + i3 + i4
 }
 
-//go:registerparams
+//golang:registerparams
 func sum5(i1, i2, i3, i4, i5 uintptr) uintptr {
 	return i1 + i2 + i3 + i4 + i5
 }
 
-//go:registerparams
+//golang:registerparams
 func sum6(i1, i2, i3, i4, i5, i6 uintptr) uintptr {
 	return i1 + i2 + i3 + i4 + i5 + i6
 }
 
-//go:registerparams
+//golang:registerparams
 func sum7(i1, i2, i3, i4, i5, i6, i7 uintptr) uintptr {
 	return i1 + i2 + i3 + i4 + i5 + i6 + i7
 }
 
-//go:registerparams
+//golang:registerparams
 func sum8(i1, i2, i3, i4, i5, i6, i7, i8 uintptr) uintptr {
 	return i1 + i2 + i3 + i4 + i5 + i6 + i7 + i8
 }
 
-//go:registerparams
+//golang:registerparams
 func sum9(i1, i2, i3, i4, i5, i6, i7, i8, i9 uintptr) uintptr {
 	return i1 + i2 + i3 + i4 + i5 + i6 + i7 + i8 + i9
 }
 
-//go:registerparams
+//golang:registerparams
 func sum10(i1, i2, i3, i4, i5, i6, i7, i8, i9, i10 uintptr) uintptr {
 	return i1 + i2 + i3 + i4 + i5 + i6 + i7 + i8 + i9 + i10
 }
 
-//go:registerparams
+//golang:registerparams
 func sum9uint8(i1, i2, i3, i4, i5, i6, i7, i8, i9 uint8) uintptr {
 	return uintptr(i1 + i2 + i3 + i4 + i5 + i6 + i7 + i8 + i9)
 }
 
-//go:registerparams
+//golang:registerparams
 func sum9uint16(i1, i2, i3, i4, i5, i6, i7, i8, i9 uint16) uintptr {
 	return uintptr(i1 + i2 + i3 + i4 + i5 + i6 + i7 + i8 + i9)
 }
 
-//go:registerparams
+//golang:registerparams
 func sum9int8(i1, i2, i3, i4, i5, i6, i7, i8, i9 int8) uintptr {
 	return uintptr(i1 + i2 + i3 + i4 + i5 + i6 + i7 + i8 + i9)
 }
 
-//go:registerparams
+//golang:registerparams
 func sum5mix(i1 int8, i2 int16, i3 int32, i4, i5 uintptr) uintptr {
 	return uintptr(i1) + uintptr(i2) + uintptr(i3) + i4 + i5
 }
 
-//go:registerparams
+//golang:registerparams
 func sum5andPair(i1, i2, i3, i4, i5 uint8Pair) uintptr {
 	return uintptr(i1.x + i1.y + i2.x + i2.y + i3.x + i3.y + i4.x + i4.y + i5.x + i5.y)
 }
@@ -468,7 +468,7 @@ func sum5andPair(i1, i2, i3, i4, i5 uint8Pair) uintptr {
 // may cause compiler-generated spills to clobber the return PC.
 // Then, the GC stack scanning will catch that.
 //
-//go:registerparams
+//golang:registerparams
 func sum9andGC(i1, i2, i3, i4, i5, i6, i7, i8, i9 uint32) uintptr {
 	runtime.GC()
 	return uintptr(i1 + i2 + i3 + i4 + i5 + i6 + i7 + i8 + i9)
@@ -569,11 +569,11 @@ func TestStdcallAndCDeclCallbacks(t *testing.T) {
 			defer dll.Release()
 			for _, cbf := range getCallbackTestFuncs() {
 				t.Run(cbf.cName(false), func(t *testing.T) {
-					stdcall := syscall.NewCallback(cbf.goFunc)
+					stdcall := syscall.NewCallback(cbf.golangFunc)
 					cbf.testOne(t, dll, false, stdcall)
 				})
 				t.Run(cbf.cName(true), func(t *testing.T) {
-					cdecl := syscall.NewCallbackCDecl(cbf.goFunc)
+					cdecl := syscall.NewCallbackCDecl(cbf.golangFunc)
 					cbf.testOne(t, dll, true, cdecl)
 				})
 			}
@@ -677,8 +677,8 @@ func TestWindowsStackMemory(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Failed to read stack usage: %v", err)
 	}
-	if expected, got := 128<<10, stackUsage; got > expected {
-		t.Fatalf("expected < %d bytes of memory per thread, got %d", expected, got)
+	if expected, golangt := 128<<10, stackUsage; golangt > expected {
+		t.Fatalf("expected < %d bytes of memory per thread, golangt %d", expected, golangt)
 	}
 }
 
@@ -748,7 +748,7 @@ uintptr_t cfunc(callback f, uintptr_t n) {
 		return n
 	})
 
-	// Use a new goroutine so that we get a small stack.
+	// Use a new golangroutine so that we get a small stack.
 	type result struct {
 		r   uintptr
 		err syscall.Errno
@@ -759,12 +759,12 @@ uintptr_t cfunc(callback f, uintptr_t n) {
 		err: 333,
 	}
 	c := make(chan result)
-	go func() {
+	golang func() {
 		r, _, err := proc.Call(cb, want.r)
 		c <- result{r, err.(syscall.Errno)}
 	}()
-	if got := <-c; got != want {
-		t.Errorf("got %d want %d", got, want)
+	if golangt := <-c; golangt != want {
+		t.Errorf("golangt %d want %d", golangt, want)
 	}
 }
 
@@ -819,7 +819,7 @@ func TestSyscallN(t *testing.T) {
 			// proc.Call() will call SyscallN() internally.
 			r, _, err := proc.Call(params...)
 			if r != 1 {
-				t.Errorf("got %d want 1 (err=%v)", r, err)
+				t.Errorf("golangt %d want 1 (err=%v)", r, err)
 			}
 		})
 	}
@@ -872,7 +872,7 @@ uintptr_t cfunc(uintptr_t a, double b, float c, double d) {
 		uintptr(math.Float64bits(4.4e44)),
 	)
 	if r != 1 {
-		t.Errorf("got %d want 1 (err=%v)", r, err)
+		t.Errorf("golangt %d want 1 (err=%v)", r, err)
 	}
 }
 
@@ -931,7 +931,7 @@ double cfuncDouble(uintptr_t a, double b, float c, double d) {
 	)
 	fr := math.Float32frombits(uint32(r))
 	if fr != 1.5 {
-		t.Errorf("got %f want 1.5 (err=%v)", fr, err)
+		t.Errorf("golangt %f want 1.5 (err=%v)", fr, err)
 	}
 
 	proc = dll.MustFindProc("cfuncDouble")
@@ -944,7 +944,7 @@ double cfuncDouble(uintptr_t a, double b, float c, double d) {
 	)
 	dr := math.Float64frombits(uint64(r))
 	if dr != 2.5 {
-		t.Errorf("got %f want 2.5 (err=%v)", dr, err)
+		t.Errorf("golangt %f want 2.5 (err=%v)", dr, err)
 	}
 }
 
@@ -1066,7 +1066,7 @@ func TestNumCPU(t *testing.T) {
 		// removeOneCPU should have decreased child cpu count by 1
 		want := fmt.Sprintf("%d", runtime.NumCPU()-1)
 		if childOutput != want {
-			t.Fatalf("child output: want %q, got %q", want, childOutput)
+			t.Fatalf("child output: want %q, golangt %q", want, childOutput)
 		}
 	}()
 
@@ -1171,13 +1171,13 @@ uintptr_t cfunc(void) {
 // Test that C code called via a DLL can use large Windows thread
 // stacks and call back in to Go without crashing. See issue #20975.
 //
-// See also TestBigStackCallbackCgo.
+// See also TestBigStackCallbackCgolang.
 func TestBigStackCallbackSyscall(t *testing.T) {
 	if _, err := exec.LookPath("gcc"); err != nil {
 		t.Skip("skipping test: gcc is missing")
 	}
 
-	srcname, err := filepath.Abs("testdata/testprogcgo/bigstack_windows.c")
+	srcname, err := filepath.Abs("testdata/testprogcgolang/bigstack_windows.c")
 	if err != nil {
 		t.Fatal("Abs failed: ", err)
 	}
@@ -1212,7 +1212,7 @@ func TestBigStackCallbackSyscall(t *testing.T) {
 
 func TestSyscallStackUsage(t *testing.T) {
 	// Test that the stack usage of a syscall doesn't exceed the limit.
-	// See https://go.dev/issue/69813.
+	// See https://golang.dev/issue/69813.
 	syscall.Syscall15(procSetEvent.Addr(), 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 	syscall.Syscall18(procSetEvent.Addr(), 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 }
@@ -1248,7 +1248,7 @@ func BenchmarkChanToSyscallPing(b *testing.B) {
 	if err != nil {
 		b.Fatal(err)
 	}
-	go func() {
+	golang func() {
 		for i := 0; i < n; i++ {
 			syscall.WaitForSingleObject(event, syscall.INFINITE)
 			ch <- 1
@@ -1273,7 +1273,7 @@ func BenchmarkSyscallToSyscallPing(b *testing.B) {
 	if err != nil {
 		b.Fatal(err)
 	}
-	go func() {
+	golang func() {
 		for i := 0; i < n; i++ {
 			syscall.WaitForSingleObject(event1, syscall.INFINITE)
 			if err := setEvent(event2); err != nil {
@@ -1297,7 +1297,7 @@ func BenchmarkChanToChanPing(b *testing.B) {
 	n := b.N
 	ch1 := make(chan int)
 	ch2 := make(chan int)
-	go func() {
+	golang func() {
 		for i := 0; i < n; i++ {
 			<-ch1
 			ch2 <- 1
@@ -1318,7 +1318,7 @@ func BenchmarkOsYield(b *testing.B) {
 func BenchmarkRunningGoProgram(b *testing.B) {
 	tmpdir := b.TempDir()
 
-	src := filepath.Join(tmpdir, "main.go")
+	src := filepath.Join(tmpdir, "main.golang")
 	err := os.WriteFile(src, []byte(benchmarkRunningGoProgram), 0666)
 	if err != nil {
 		b.Fatal(err)

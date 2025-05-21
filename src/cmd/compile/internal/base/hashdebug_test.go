@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package base
@@ -125,16 +125,16 @@ func TestHashSecondMatch(t *testing.T) {
 	wantContains(t, msg, "\nGOSSAHASH0 triggered bar")
 }
 
-func wantPrefix(t *testing.T, got, want string) {
+func wantPrefix(t *testing.T, golangt, want string) {
 	t.Helper()
-	if !strings.HasPrefix(got, want) {
-		t.Errorf("want prefix %q, got:\n%s", want, got)
+	if !strings.HasPrefix(golangt, want) {
+		t.Errorf("want prefix %q, golangt:\n%s", want, golangt)
 	}
 }
 
-func wantContains(t *testing.T, got, want string) {
+func wantContains(t *testing.T, golangt, want string) {
 	t.Helper()
-	if !strings.Contains(got, want) {
-		t.Errorf("want contains %q, got:\n%s", want, got)
+	if !strings.Contains(golangt, want) {
+		t.Errorf("want contains %q, golangt:\n%s", want, golangt)
 	}
 }

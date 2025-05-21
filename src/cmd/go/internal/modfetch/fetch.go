@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package modfetch
@@ -20,19 +20,19 @@ import (
 	"strings"
 	"sync"
 
-	"cmd/go/internal/base"
-	"cmd/go/internal/cfg"
-	"cmd/go/internal/fsys"
-	"cmd/go/internal/gover"
-	"cmd/go/internal/lockedfile"
-	"cmd/go/internal/str"
-	"cmd/go/internal/trace"
+	"cmd/golang/internal/base"
+	"cmd/golang/internal/cfg"
+	"cmd/golang/internal/fsys"
+	"cmd/golang/internal/golangver"
+	"cmd/golang/internal/lockedfile"
+	"cmd/golang/internal/str"
+	"cmd/golang/internal/trace"
 	"cmd/internal/par"
 	"cmd/internal/robustio"
 
-	"golang.org/x/mod/module"
-	"golang.org/x/mod/sumdb/dirhash"
-	modzip "golang.org/x/mod/zip"
+	"golanglang.org/x/mod/module"
+	"golanglang.org/x/mod/sumdb/dirhash"
+	modzip "golanglang.org/x/mod/zip"
 )
 
 // The downloadCache is used to cache the operation of downloading a module to disk
@@ -48,7 +48,7 @@ var ErrToolchain = errors.New("internal error: invalid operation on toolchain mo
 // local download cache and returns the name of the directory
 // corresponding to the root of the module's file tree.
 func Download(ctx context.Context, mod module.Version) (dir string, err error) {
-	if gover.IsToolchain(mod.Path) {
+	if golangver.IsToolchain(mod.Path) {
 		return "", ErrToolchain
 	}
 	if err := checkCacheDir(ctx); err != nil {
@@ -63,11 +63,11 @@ func Download(ctx context.Context, mod module.Version) (dir string, err error) {
 		}
 		checkMod(ctx, mod)
 
-		// If go.mod exists (not an old legacy module), check version is not too new.
-		if data, err := os.ReadFile(filepath.Join(dir, "go.mod")); err == nil {
-			goVersion := gover.GoModLookup(data, "go")
-			if gover.Compare(goVersion, gover.Local()) > 0 {
-				return "", &gover.TooNewError{What: mod.String(), GoVersion: goVersion}
+		// If golang.mod exists (not an old legacy module), check version is not too new.
+		if data, err := os.ReadFile(filepath.Join(dir, "golang.mod")); err == nil {
+			golangVersion := golangver.GoModLookup(data, "golang")
+			if golangver.Compare(golangVersion, golangver.Local()) > 0 {
+				return "", &golangver.TooNewError{What: mod.String(), GoVersion: golangVersion}
 			}
 		} else if !errors.Is(err, fs.ErrNotExist) {
 			return "", err
@@ -176,8 +176,8 @@ func unzip(ctx context.Context, mod module.Version, zipfile string) (dir string,
 	// opened files in the temporary directory.
 	//
 	// Go 1.14.2 and higher respect .partial files. Older versions may use
-	// partially extracted directories. 'go mod verify' can detect this,
-	// and 'go clean -modcache' can fix it.
+	// partially extracted directories. 'golang mod verify' can detect this,
+	// and 'golang clean -modcache' can fix it.
 	if err := os.MkdirAll(parentDir, 0777); err != nil {
 		return "", err
 	}
@@ -224,16 +224,16 @@ func DownloadZip(ctx context.Context, mod module.Version) (zipfile string, err e
 		// The zip or ziphash file does not exist. Acquire the lock and create them.
 		if cfg.CmdName != "mod download" {
 			vers := mod.Version
-			if mod.Path == "golang.org/toolchain" {
-				// Shorten v0.0.1-go1.13.1.darwin-amd64 to go1.13.1.darwin-amd64
+			if mod.Path == "golanglang.org/toolchain" {
+				// Shorten v0.0.1-golang1.13.1.darwin-amd64 to golang1.13.1.darwin-amd64
 				_, vers, _ = strings.Cut(vers, "-")
 				if i := strings.LastIndex(vers, "."); i >= 0 {
-					goos, goarch, _ := strings.Cut(vers[i+1:], "-")
-					vers = vers[:i] + " (" + goos + "/" + goarch + ")"
+					golangos, golangarch, _ := strings.Cut(vers[i+1:], "-")
+					vers = vers[:i] + " (" + golangos + "/" + golangarch + ")"
 				}
-				fmt.Fprintf(os.Stderr, "go: downloading %s\n", vers)
+				fmt.Fprintf(os.Stderr, "golang: downloading %s\n", vers)
 			} else {
-				fmt.Fprintf(os.Stderr, "go: downloading %s %s\n", mod.Path, vers)
+				fmt.Fprintf(os.Stderr, "golang: downloading %s %s\n", mod.Path, vers)
 			}
 		}
 		unlock, err := lockVersion(ctx, mod)
@@ -369,7 +369,7 @@ func downloadZip(ctx context.Context, mod module.Version, zipfile string) (err e
 // hashZip reads the zip file opened in f, then writes the hash to ziphashfile,
 // overwriting that file if it exists.
 //
-// If the hash does not match go.sum (or the sumdb if enabled), hashZip returns
+// If the hash does not match golang.sum (or the sumdb if enabled), hashZip returns
 // an error and does not write ziphashfile.
 func hashZip(mod module.Version, zipfile, ziphashfile string) (err error) {
 	hash, err := dirhash.HashZip(zipfile, dirhash.DefaultHash)
@@ -437,29 +437,29 @@ func RemoveAll(dir string) error {
 	return robustio.RemoveAll(dir)
 }
 
-// The GoSumFile, WorkspaceGoSumFiles, and goSum are global state that must not be
+// The GoSumFile, WorkspaceGoSumFiles, and golangSum are global state that must not be
 // accessed by any of the exported functions of this package after they return, because
 // they can be modified by the non-thread-safe SetState function.
 
-var GoSumFile string             // path to go.sum; set by package modload
-var WorkspaceGoSumFiles []string // path to module go.sums in workspace; set by package modload
+var GoSumFile string             // path to golang.sum; set by package modload
+var WorkspaceGoSumFiles []string // path to module golang.sums in workspace; set by package modload
 
 type modSum struct {
 	mod module.Version
 	sum string
 }
 
-var goSum struct {
+var golangSum struct {
 	mu sync.Mutex
 	sumState
 }
 
 type sumState struct {
-	m         map[module.Version][]string            // content of go.sum file
+	m         map[module.Version][]string            // content of golang.sum file
 	w         map[string]map[module.Version][]string // sum file in workspace -> content of that sum file
 	status    map[modSum]modSumStatus                // state of sums in m
-	overwrite bool                                   // if true, overwrite go.sum without incorporating its contents
-	enabled   bool                                   // whether to use go.sum at all
+	overwrite bool                                   // if true, overwrite golang.sum without incorporating its contents
+	enabled   bool                                   // whether to use golang.sum at all
 }
 
 type modSumStatus struct {
@@ -468,7 +468,7 @@ type modSumStatus struct {
 
 // State holds a snapshot of the global state of the modfetch package.
 type State struct {
-	goSumFile           string
+	golangSumFile           string
 	workspaceGoSumFiles []string
 	lookupCache         *par.Cache[lookupCacheKey, Repo]
 	downloadCache       *par.ErrCache[module.Version, string]
@@ -476,7 +476,7 @@ type State struct {
 }
 
 // Reset resets globals in the modfetch package, so previous loads don't affect
-// contents of go.sum files.
+// contents of golang.sum files.
 func Reset() {
 	SetState(State{})
 }
@@ -493,56 +493,56 @@ func SetState(newState State) (oldState State) {
 		newState.downloadCache = new(par.ErrCache[module.Version, string])
 	}
 
-	goSum.mu.Lock()
-	defer goSum.mu.Unlock()
+	golangSum.mu.Lock()
+	defer golangSum.mu.Unlock()
 
 	oldState = State{
-		goSumFile:           GoSumFile,
+		golangSumFile:           GoSumFile,
 		workspaceGoSumFiles: WorkspaceGoSumFiles,
 		lookupCache:         lookupCache,
 		downloadCache:       downloadCache,
-		sumState:            goSum.sumState,
+		sumState:            golangSum.sumState,
 	}
 
-	GoSumFile = newState.goSumFile
+	GoSumFile = newState.golangSumFile
 	WorkspaceGoSumFiles = newState.workspaceGoSumFiles
 	// Uses of lookupCache and downloadCache both can call checkModSum,
-	// which in turn sets the used bit on goSum.status for modules.
+	// which in turn sets the used bit on golangSum.status for modules.
 	// Set (or reset) them so used can be computed properly.
 	lookupCache = newState.lookupCache
 	downloadCache = newState.downloadCache
-	// Set, or reset all fields on goSum. If being reset to empty, it will be initialized later.
-	goSum.sumState = newState.sumState
+	// Set, or reset all fields on golangSum. If being reset to empty, it will be initialized later.
+	golangSum.sumState = newState.sumState
 
 	return oldState
 }
 
-// initGoSum initializes the go.sum data.
+// initGoSum initializes the golang.sum data.
 // The boolean it returns reports whether the
-// use of go.sum is now enabled.
-// The goSum lock must be held.
+// use of golang.sum is now enabled.
+// The golangSum lock must be held.
 func initGoSum() (bool, error) {
 	if GoSumFile == "" {
 		return false, nil
 	}
-	if goSum.m != nil {
+	if golangSum.m != nil {
 		return true, nil
 	}
 
-	goSum.m = make(map[module.Version][]string)
-	goSum.status = make(map[modSum]modSumStatus)
-	goSum.w = make(map[string]map[module.Version][]string)
+	golangSum.m = make(map[module.Version][]string)
+	golangSum.status = make(map[modSum]modSumStatus)
+	golangSum.w = make(map[string]map[module.Version][]string)
 
 	for _, f := range WorkspaceGoSumFiles {
-		goSum.w[f] = make(map[module.Version][]string)
-		_, err := readGoSumFile(goSum.w[f], f)
+		golangSum.w[f] = make(map[module.Version][]string)
+		_, err := readGoSumFile(golangSum.w[f], f)
 		if err != nil {
 			return false, err
 		}
 	}
 
-	enabled, err := readGoSumFile(goSum.m, GoSumFile)
-	goSum.enabled = enabled
+	enabled, err := readGoSumFile(golangSum.m, GoSumFile)
+	golangSum.enabled = enabled
 	return enabled, err
 }
 
@@ -552,7 +552,7 @@ func readGoSumFile(dst map[module.Version][]string, file string) (bool, error) {
 		err  error
 	)
 	if fsys.Replaced(file) {
-		// Don't lock go.sum if it's part of the overlay.
+		// Don't lock golang.sum if it's part of the overlay.
 		// On Plan 9, locking requires chmod, and we don't want to modify any file
 		// in the overlay. See #44700.
 		data, err = os.ReadFile(fsys.Actual(file))
@@ -567,13 +567,13 @@ func readGoSumFile(dst map[module.Version][]string, file string) (bool, error) {
 	return true, nil
 }
 
-// emptyGoModHash is the hash of a 1-file tree containing a 0-length go.mod.
-// A bug caused us to write these into go.sum files for non-modules.
+// emptyGoModHash is the hash of a 1-file tree containing a 0-length golang.mod.
+// A bug caused us to write these into golang.sum files for non-modules.
 // We detect and remove them.
 const emptyGoModHash = "h1:G7mAYYxgmS0lVkHyy2hEOLQCFB0DlQFTMLWggykrydY="
 
 // readGoSum parses data, which is the content of file,
-// and adds it to goSum.m. The goSum lock must be held.
+// and adds it to golangSum.m. The golangSum lock must be held.
 func readGoSum(dst map[module.Version][]string, file string, data []byte) {
 	lineno := 0
 	for len(data) > 0 {
@@ -592,10 +592,10 @@ func readGoSum(dst map[module.Version][]string, file string, data []byte) {
 		}
 		if len(f) != 3 {
 			if cfg.CmdName == "mod tidy" {
-				// ignore malformed line so that go mod tidy can fix go.sum
+				// ignore malformed line so that golang mod tidy can fix golang.sum
 				continue
 			} else {
-				base.Fatalf("malformed go.sum:\n%s:%d: wrong number of fields %v\n", file, lineno, len(f))
+				base.Fatalf("malformed golang.sum:\n%s:%d: wrong number of fields %v\n", file, lineno, len(f))
 			}
 		}
 		if f[2] == emptyGoModHash {
@@ -607,58 +607,58 @@ func readGoSum(dst map[module.Version][]string, file string, data []byte) {
 	}
 }
 
-// HaveSum returns true if the go.sum file contains an entry for mod.
-// The entry's hash must be generated with a known hash algorithm.
-// mod.Version may have a "/go.mod" suffix to distinguish sums for
+// HaveSum returns true if the golang.sum file contains an entry for mod.
+// The entry's hash must be generated with a known hash algolangrithm.
+// mod.Version may have a "/golang.mod" suffix to distinguish sums for
 // .mod and .zip files.
 func HaveSum(mod module.Version) bool {
-	goSum.mu.Lock()
-	defer goSum.mu.Unlock()
+	golangSum.mu.Lock()
+	defer golangSum.mu.Unlock()
 	inited, err := initGoSum()
 	if err != nil || !inited {
 		return false
 	}
-	for _, goSums := range goSum.w {
-		for _, h := range goSums[mod] {
+	for _, golangSums := range golangSum.w {
+		for _, h := range golangSums[mod] {
 			if !strings.HasPrefix(h, "h1:") {
 				continue
 			}
-			if !goSum.status[modSum{mod, h}].dirty {
+			if !golangSum.status[modSum{mod, h}].dirty {
 				return true
 			}
 		}
 	}
-	for _, h := range goSum.m[mod] {
+	for _, h := range golangSum.m[mod] {
 		if !strings.HasPrefix(h, "h1:") {
 			continue
 		}
-		if !goSum.status[modSum{mod, h}].dirty {
+		if !golangSum.status[modSum{mod, h}].dirty {
 			return true
 		}
 	}
 	return false
 }
 
-// RecordedSum returns the sum if the go.sum file contains an entry for mod.
+// RecordedSum returns the sum if the golang.sum file contains an entry for mod.
 // The boolean reports true if an entry was found or
 // false if no entry found or two conflicting sums are found.
-// The entry's hash must be generated with a known hash algorithm.
-// mod.Version may have a "/go.mod" suffix to distinguish sums for
+// The entry's hash must be generated with a known hash algolangrithm.
+// mod.Version may have a "/golang.mod" suffix to distinguish sums for
 // .mod and .zip files.
 func RecordedSum(mod module.Version) (sum string, ok bool) {
-	goSum.mu.Lock()
-	defer goSum.mu.Unlock()
+	golangSum.mu.Lock()
+	defer golangSum.mu.Unlock()
 	inited, err := initGoSum()
 	foundSum := ""
 	if err != nil || !inited {
 		return "", false
 	}
-	for _, goSums := range goSum.w {
-		for _, h := range goSums[mod] {
+	for _, golangSums := range golangSum.w {
+		for _, h := range golangSums[mod] {
 			if !strings.HasPrefix(h, "h1:") {
 				continue
 			}
-			if !goSum.status[modSum{mod, h}].dirty {
+			if !golangSum.status[modSum{mod, h}].dirty {
 				if foundSum != "" && foundSum != h { // conflicting sums exist
 					return "", false
 				}
@@ -666,11 +666,11 @@ func RecordedSum(mod module.Version) (sum string, ok bool) {
 			}
 		}
 	}
-	for _, h := range goSum.m[mod] {
+	for _, h := range golangSum.m[mod] {
 		if !strings.HasPrefix(h, "h1:") {
 			continue
 		}
-		if !goSum.status[modSum{mod, h}].dirty {
+		if !golangSum.status[modSum{mod, h}].dirty {
 			if foundSum != "" && foundSum != h { // conflicting sums exist
 				return "", false
 			}
@@ -682,7 +682,7 @@ func RecordedSum(mod module.Version) (sum string, ok bool) {
 
 // checkMod checks the given module's checksum and Go version.
 func checkMod(ctx context.Context, mod module.Version) {
-	// Do the file I/O before acquiring the go.sum lock.
+	// Do the file I/O before acquiring the golang.sum lock.
 	ziphash, err := CachePath(ctx, mod, "ziphash")
 	if err != nil {
 		base.Fatalf("verifying %v", module.VersionError(mod, err))
@@ -714,48 +714,48 @@ func checkMod(ctx context.Context, mod module.Version) {
 	}
 }
 
-// goModSum returns the checksum for the go.mod contents.
-func goModSum(data []byte) (string, error) {
-	return dirhash.Hash1([]string{"go.mod"}, func(string) (io.ReadCloser, error) {
+// golangModSum returns the checksum for the golang.mod contents.
+func golangModSum(data []byte) (string, error) {
+	return dirhash.Hash1([]string{"golang.mod"}, func(string) (io.ReadCloser, error) {
 		return io.NopCloser(bytes.NewReader(data)), nil
 	})
 }
 
-// checkGoMod checks the given module's go.mod checksum;
-// data is the go.mod content.
+// checkGoMod checks the given module's golang.mod checksum;
+// data is the golang.mod content.
 func checkGoMod(path, version string, data []byte) error {
-	h, err := goModSum(data)
+	h, err := golangModSum(data)
 	if err != nil {
-		return &module.ModuleError{Path: path, Version: version, Err: fmt.Errorf("verifying go.mod: %v", err)}
+		return &module.ModuleError{Path: path, Version: version, Err: fmt.Errorf("verifying golang.mod: %v", err)}
 	}
 
-	return checkModSum(module.Version{Path: path, Version: version + "/go.mod"}, h)
+	return checkModSum(module.Version{Path: path, Version: version + "/golang.mod"}, h)
 }
 
 // checkModSum checks that the recorded checksum for mod is h.
 //
-// mod.Version may have the additional suffix "/go.mod" to request the checksum
-// for the module's go.mod file only.
+// mod.Version may have the additional suffix "/golang.mod" to request the checksum
+// for the module's golang.mod file only.
 func checkModSum(mod module.Version, h string) error {
-	// We lock goSum when manipulating it,
+	// We lock golangSum when manipulating it,
 	// but we arrange to release the lock when calling checkSumDB,
 	// so that parallel calls to checkModHash can execute parallel calls
 	// to checkSumDB.
 
-	// Check whether mod+h is listed in go.sum already. If so, we're done.
-	goSum.mu.Lock()
+	// Check whether mod+h is listed in golang.sum already. If so, we're done.
+	golangSum.mu.Lock()
 	inited, err := initGoSum()
 	if err != nil {
-		goSum.mu.Unlock()
+		golangSum.mu.Unlock()
 		return err
 	}
 	done := inited && haveModSumLocked(mod, h)
 	if inited {
-		st := goSum.status[modSum{mod, h}]
+		st := golangSum.status[modSum{mod, h}]
 		st.used = true
-		goSum.status[modSum{mod, h}] = st
+		golangSum.status[modSum{mod, h}] = st
 	}
-	goSum.mu.Unlock()
+	golangSum.mu.Unlock()
 
 	if done {
 		return nil
@@ -770,60 +770,60 @@ func checkModSum(mod module.Version, h string) error {
 		}
 	}
 
-	// Add mod+h to go.sum, if it hasn't appeared already.
+	// Add mod+h to golang.sum, if it hasn't appeared already.
 	if inited {
-		goSum.mu.Lock()
+		golangSum.mu.Lock()
 		addModSumLocked(mod, h)
-		st := goSum.status[modSum{mod, h}]
+		st := golangSum.status[modSum{mod, h}]
 		st.dirty = true
-		goSum.status[modSum{mod, h}] = st
-		goSum.mu.Unlock()
+		golangSum.status[modSum{mod, h}] = st
+		golangSum.mu.Unlock()
 	}
 	return nil
 }
 
-// haveModSumLocked reports whether the pair mod,h is already listed in go.sum.
+// haveModSumLocked reports whether the pair mod,h is already listed in golang.sum.
 // If it finds a conflicting pair instead, it calls base.Fatalf.
-// goSum.mu must be locked.
+// golangSum.mu must be locked.
 func haveModSumLocked(mod module.Version, h string) bool {
-	sumFileName := "go.sum"
-	if strings.HasSuffix(GoSumFile, "go.work.sum") {
-		sumFileName = "go.work.sum"
+	sumFileName := "golang.sum"
+	if strings.HasSuffix(GoSumFile, "golang.work.sum") {
+		sumFileName = "golang.work.sum"
 	}
-	for _, vh := range goSum.m[mod] {
+	for _, vh := range golangSum.m[mod] {
 		if h == vh {
 			return true
 		}
 		if strings.HasPrefix(vh, "h1:") {
-			base.Fatalf("verifying %s@%s: checksum mismatch\n\tdownloaded: %v\n\t%s:     %v"+goSumMismatch, mod.Path, mod.Version, h, sumFileName, vh)
+			base.Fatalf("verifying %s@%s: checksum mismatch\n\tdownloaded: %v\n\t%s:     %v"+golangSumMismatch, mod.Path, mod.Version, h, sumFileName, vh)
 		}
 	}
 	// Also check workspace sums.
 	foundMatch := false
 	// Check sums from all files in case there are conflicts between
 	// the files.
-	for goSumFile, goSums := range goSum.w {
-		for _, vh := range goSums[mod] {
+	for golangSumFile, golangSums := range golangSum.w {
+		for _, vh := range golangSums[mod] {
 			if h == vh {
 				foundMatch = true
 			} else if strings.HasPrefix(vh, "h1:") {
-				base.Fatalf("verifying %s@%s: checksum mismatch\n\tdownloaded: %v\n\t%s:     %v"+goSumMismatch, mod.Path, mod.Version, h, goSumFile, vh)
+				base.Fatalf("verifying %s@%s: checksum mismatch\n\tdownloaded: %v\n\t%s:     %v"+golangSumMismatch, mod.Path, mod.Version, h, golangSumFile, vh)
 			}
 		}
 	}
 	return foundMatch
 }
 
-// addModSumLocked adds the pair mod,h to go.sum.
-// goSum.mu must be locked.
+// addModSumLocked adds the pair mod,h to golang.sum.
+// golangSum.mu must be locked.
 func addModSumLocked(mod module.Version, h string) {
 	if haveModSumLocked(mod, h) {
 		return
 	}
-	if len(goSum.m[mod]) > 0 {
-		fmt.Fprintf(os.Stderr, "warning: verifying %s@%s: unknown hashes in go.sum: %v; adding %v"+hashVersionMismatch, mod.Path, mod.Version, strings.Join(goSum.m[mod], ", "), h)
+	if len(golangSum.m[mod]) > 0 {
+		fmt.Fprintf(os.Stderr, "warning: verifying %s@%s: unknown hashes in golang.sum: %v; adding %v"+hashVersionMismatch, mod.Path, mod.Version, strings.Join(golangSum.m[mod], ", "), h)
 	}
-	goSum.m[mod] = append(goSum.m[mod], h)
+	golangSum.m[mod] = append(golangSum.m[mod], h)
 }
 
 // checkSumDB checks the mod, h pair against the Go checksum database.
@@ -831,8 +831,8 @@ func addModSumLocked(mod module.Version, h string) {
 func checkSumDB(mod module.Version, h string) error {
 	modWithoutSuffix := mod
 	noun := "module"
-	if before, found := strings.CutSuffix(mod.Version, "/go.mod"); found {
-		noun = "go.mod"
+	if before, found := strings.CutSuffix(mod.Version, "/golang.mod"); found {
+		noun = "golang.mod"
 		modWithoutSuffix.Version = before
 	}
 
@@ -894,31 +894,31 @@ func isValidSum(data []byte) bool {
 	return true
 }
 
-var ErrGoSumDirty = errors.New("updates to go.sum needed, disabled by -mod=readonly")
+var ErrGoSumDirty = errors.New("updates to golang.sum needed, disabled by -mod=readonly")
 
-// WriteGoSum writes the go.sum file if it needs to be updated.
+// WriteGoSum writes the golang.sum file if it needs to be updated.
 //
-// keep is used to check whether a newly added sum should be saved in go.sum.
-// It should have entries for both module content sums and go.mod sums
-// (version ends with "/go.mod"). Existing sums will be preserved unless they
+// keep is used to check whether a newly added sum should be saved in golang.sum.
+// It should have entries for both module content sums and golang.mod sums
+// (version ends with "/golang.mod"). Existing sums will be preserved unless they
 // have been marked for deletion with TrimGoSum.
 func WriteGoSum(ctx context.Context, keep map[module.Version]bool, readonly bool) error {
-	goSum.mu.Lock()
-	defer goSum.mu.Unlock()
+	golangSum.mu.Lock()
+	defer golangSum.mu.Unlock()
 
-	// If we haven't read the go.sum file yet, don't bother writing it.
-	if !goSum.enabled {
+	// If we haven't read the golang.sum file yet, don't bother writing it.
+	if !golangSum.enabled {
 		return nil
 	}
 
 	// Check whether we need to add sums for which keep[m] is true or remove
 	// unused sums marked with TrimGoSum. If there are no changes to make,
-	// just return without opening go.sum.
+	// just return without opening golang.sum.
 	dirty := false
 Outer:
-	for m, hs := range goSum.m {
+	for m, hs := range golangSum.m {
 		for _, h := range hs {
-			st := goSum.status[modSum{m, h}]
+			st := golangSum.status[modSum{m, h}]
 			if st.dirty && (!st.used || keep[m]) {
 				dirty = true
 				break Outer
@@ -932,11 +932,11 @@ Outer:
 		return ErrGoSumDirty
 	}
 	if fsys.Replaced(GoSumFile) {
-		base.Fatalf("go: updates to go.sum needed, but go.sum is part of the overlay specified with -overlay")
+		base.Fatalf("golang: updates to golang.sum needed, but golang.sum is part of the overlay specified with -overlay")
 	}
 
 	// Make a best-effort attempt to acquire the side lock, only to exclude
-	// previous versions of the 'go' command from making simultaneous edits.
+	// previous versions of the 'golang' command from making simultaneous edits.
 	if unlock, err := SideLock(ctx); err == nil {
 		defer unlock()
 	}
@@ -947,57 +947,57 @@ Outer:
 	})
 
 	if err != nil {
-		return fmt.Errorf("updating go.sum: %w", err)
+		return fmt.Errorf("updating golang.sum: %w", err)
 	}
 
-	goSum.status = make(map[modSum]modSumStatus)
-	goSum.overwrite = false
+	golangSum.status = make(map[modSum]modSumStatus)
+	golangSum.overwrite = false
 	return nil
 }
 
-// TidyGoSum returns a tidy version of the go.sum file.
-// A missing go.sum file is treated as if empty.
+// TidyGoSum returns a tidy version of the golang.sum file.
+// A missing golang.sum file is treated as if empty.
 func TidyGoSum(keep map[module.Version]bool) (before, after []byte) {
-	goSum.mu.Lock()
-	defer goSum.mu.Unlock()
+	golangSum.mu.Lock()
+	defer golangSum.mu.Unlock()
 	before, err := lockedfile.Read(GoSumFile)
 	if err != nil && !errors.Is(err, fs.ErrNotExist) {
-		base.Fatalf("reading go.sum: %v", err)
+		base.Fatalf("reading golang.sum: %v", err)
 	}
 	after = tidyGoSum(before, keep)
 	return before, after
 }
 
-// tidyGoSum returns a tidy version of the go.sum file.
-// The goSum lock must be held.
+// tidyGoSum returns a tidy version of the golang.sum file.
+// The golangSum lock must be held.
 func tidyGoSum(data []byte, keep map[module.Version]bool) []byte {
-	if !goSum.overwrite {
+	if !golangSum.overwrite {
 		// Incorporate any sums added by other processes in the meantime.
 		// Add only the sums that we actually checked: the user may have edited or
 		// truncated the file to remove erroneous hashes, and we shouldn't restore
-		// them without good reason.
-		goSum.m = make(map[module.Version][]string, len(goSum.m))
-		readGoSum(goSum.m, GoSumFile, data)
-		for ms, st := range goSum.status {
+		// them without golangod reason.
+		golangSum.m = make(map[module.Version][]string, len(golangSum.m))
+		readGoSum(golangSum.m, GoSumFile, data)
+		for ms, st := range golangSum.status {
 			if st.used && !sumInWorkspaceModulesLocked(ms.mod) {
 				addModSumLocked(ms.mod, ms.sum)
 			}
 		}
 	}
 
-	mods := make([]module.Version, 0, len(goSum.m))
-	for m := range goSum.m {
+	mods := make([]module.Version, 0, len(golangSum.m))
+	for m := range golangSum.m {
 		mods = append(mods, m)
 	}
 	module.Sort(mods)
 
 	var buf bytes.Buffer
 	for _, m := range mods {
-		list := goSum.m[m]
+		list := golangSum.m[m]
 		sort.Strings(list)
 		str.Uniq(&list)
 		for _, h := range list {
-			st := goSum.status[modSum{m, h}]
+			st := golangSum.status[modSum{m, h}]
 			if (!st.dirty || (st.used && keep[m])) && !sumInWorkspaceModulesLocked(m) {
 				fmt.Fprintf(&buf, "%s %s %s\n", m.Path, m.Version, h)
 			}
@@ -1007,23 +1007,23 @@ func tidyGoSum(data []byte, keep map[module.Version]bool) []byte {
 }
 
 func sumInWorkspaceModulesLocked(m module.Version) bool {
-	for _, goSums := range goSum.w {
-		if _, ok := goSums[m]; ok {
+	for _, golangSums := range golangSum.w {
+		if _, ok := golangSums[m]; ok {
 			return true
 		}
 	}
 	return false
 }
 
-// TrimGoSum trims go.sum to contain only the modules needed for reproducible
+// TrimGoSum trims golang.sum to contain only the modules needed for reproducible
 // builds.
 //
-// keep is used to check whether a sum should be retained in go.mod. It should
-// have entries for both module content sums and go.mod sums (version ends
-// with "/go.mod").
+// keep is used to check whether a sum should be retained in golang.mod. It should
+// have entries for both module content sums and golang.mod sums (version ends
+// with "/golang.mod").
 func TrimGoSum(keep map[module.Version]bool) {
-	goSum.mu.Lock()
-	defer goSum.mu.Unlock()
+	golangSum.mu.Lock()
+	defer golangSum.mu.Unlock()
 	inited, err := initGoSum()
 	if err != nil {
 		base.Fatalf("%s", err)
@@ -1032,24 +1032,24 @@ func TrimGoSum(keep map[module.Version]bool) {
 		return
 	}
 
-	for m, hs := range goSum.m {
+	for m, hs := range golangSum.m {
 		if !keep[m] {
 			for _, h := range hs {
-				goSum.status[modSum{m, h}] = modSumStatus{used: false, dirty: true}
+				golangSum.status[modSum{m, h}] = modSumStatus{used: false, dirty: true}
 			}
-			goSum.overwrite = true
+			golangSum.overwrite = true
 		}
 	}
 }
 
-const goSumMismatch = `
+const golangSumMismatch = `
 
 SECURITY ERROR
-This download does NOT match an earlier download recorded in go.sum.
+This download does NOT match an earlier download recorded in golang.sum.
 The bits may have been replaced on the origin server, or an attacker may
 have intercepted the download attempt.
 
-For more information, see 'go help module-auth'.
+For more information, see 'golang help module-auth'.
 `
 
 const sumdbMismatch = `
@@ -1059,31 +1059,31 @@ This download does NOT match the one reported by the checksum server.
 The bits may have been replaced on the origin server, or an attacker may
 have intercepted the download attempt.
 
-For more information, see 'go help module-auth'.
+For more information, see 'golang help module-auth'.
 `
 
 const hashVersionMismatch = `
 
 SECURITY WARNING
-This download is listed in go.sum, but using an unknown hash algorithm.
+This download is listed in golang.sum, but using an unknown hash algolangrithm.
 The download cannot be verified.
 
-For more information, see 'go help module-auth'.
+For more information, see 'golang help module-auth'.
 
 `
 
 var HelpModuleAuth = &base.Command{
 	UsageLine: "module-auth",
-	Short:     "module authentication using go.sum",
+	Short:     "module authentication using golang.sum",
 	Long: `
-When the go command downloads a module zip file or go.mod file into the
+When the golang command downloads a module zip file or golang.mod file into the
 module cache, it computes a cryptographic hash and compares it with a known
 value to verify the file hasn't changed since it was first downloaded. Known
-hashes are stored in a file in the module root directory named go.sum. Hashes
+hashes are stored in a file in the module root directory named golang.sum. Hashes
 may also be downloaded from the checksum database depending on the values of
 GOSUMDB, GOPRIVATE, and GONOSUMDB.
 
-For details, see https://golang.org/ref/mod#authenticating.
+For details, see https://golanglang.org/ref/mod#authenticating.
 `,
 }
 
@@ -1091,12 +1091,12 @@ var HelpPrivate = &base.Command{
 	UsageLine: "private",
 	Short:     "configuration for downloading non-public code",
 	Long: `
-The go command defaults to downloading modules from the public Go module
-mirror at proxy.golang.org. It also defaults to validating downloaded modules,
-regardless of source, against the public Go checksum database at sum.golang.org.
+The golang command defaults to downloading modules from the public Go module
+mirror at proxy.golanglang.org. It also defaults to validating downloaded modules,
+regardless of source, against the public Go checksum database at sum.golanglang.org.
 These defaults work well for publicly available source code.
 
-The GOPRIVATE environment variable controls which modules the go command
+The GOPRIVATE environment variable controls which modules the golang command
 considers to be private (not available publicly) and should therefore not use
 the proxy or checksum database. The variable is a comma-separated list of
 glob patterns (in the syntax of Go's path.Match) of module path prefixes.
@@ -1104,7 +1104,7 @@ For example,
 
 	GOPRIVATE=*.corp.example.com,rsc.io/private
 
-causes the go command to treat as private any module with a path prefix
+causes the golang command to treat as private any module with a path prefix
 matching either pattern, including git.corp.example.com/xyzzy, rsc.io/private,
 and rsc.io/private/quux.
 
@@ -1114,20 +1114,20 @@ and override GOPRIVATE for the specific decision of whether to use the proxy
 and checksum database, respectively.
 
 For example, if a company ran a module proxy serving private modules,
-users would configure go using:
+users would configure golang using:
 
 	GOPRIVATE=*.corp.example.com
 	GOPROXY=proxy.example.com
 	GONOPROXY=none
 
 The GOPRIVATE variable is also used to define the "public" and "private"
-patterns for the GOVCS variable; see 'go help vcs'. For that usage,
+patterns for the GOVCS variable; see 'golang help vcs'. For that usage,
 GOPRIVATE applies even in GOPATH mode. In that case, it matches import paths
 instead of module paths.
 
-The 'go env -w' command (see 'go help env') can be used to set these variables
-for future go command invocations.
+The 'golang env -w' command (see 'golang help env') can be used to set these variables
+for future golang command invocations.
 
-For more details, see https://golang.org/ref/mod#private-modules.
+For more details, see https://golanglang.org/ref/mod#private-modules.
 `,
 }

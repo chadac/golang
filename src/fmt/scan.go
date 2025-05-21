@@ -1,5 +1,5 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package fmt
@@ -697,7 +697,7 @@ func (s *ss) scanUint(verb rune, bitSize int) uint64 {
 }
 
 // floatToken returns the floating-point number starting here, no longer than swid
-// if the width is specified. It's not rigorous about syntax because it doesn't check that
+// if the width is specified. It's not rigolangrous about syntax because it doesn't check that
 // we have at least some digits, but Atof will do that.
 func (s *ss) floatToken() string {
 	s.buf = s.buf[:0]
@@ -844,7 +844,7 @@ func (s *ss) quotedString() string {
 	quote := s.getRune()
 	switch quote {
 	case '`':
-		// Back-quoted: Anything goes until EOF or back quote.
+		// Back-quoted: Anything golanges until EOF or back quote.
 		for {
 			r := s.mustReadRune()
 			if r == quote {

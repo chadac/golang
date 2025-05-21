@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package modload
@@ -13,12 +13,12 @@ import (
 	"strings"
 	"sync"
 
-	"cmd/go/internal/base"
-	"cmd/go/internal/gover"
+	"cmd/golang/internal/base"
+	"cmd/golang/internal/golangver"
 
-	"golang.org/x/mod/modfile"
-	"golang.org/x/mod/module"
-	"golang.org/x/mod/semver"
+	"golanglang.org/x/mod/modfile"
+	"golanglang.org/x/mod/module"
+	"golanglang.org/x/mod/semver"
 )
 
 var (
@@ -47,7 +47,7 @@ func readVendorList(vendorDir string) {
 		data, err := os.ReadFile(vendorFile)
 		if err != nil {
 			if !errors.Is(err, fs.ErrNotExist) {
-				base.Fatalf("go: %s", err)
+				base.Fatalf("golang: %s", err)
 			}
 			return
 		}
@@ -66,7 +66,7 @@ func readVendorList(vendorDir string) {
 					mod = module.Version{Path: f[1], Version: f[2]}
 					f = f[3:]
 				} else if f[2] == "=>" {
-					// A wildcard replacement found in the main module's go.mod file.
+					// A wildcard replacement found in the main module's golang.mod file.
 					mod = module.Version{Path: f[1]}
 					f = f[2:]
 				} else {
@@ -108,11 +108,11 @@ func readVendorList(vendorDir string) {
 					if entry == "explicit" {
 						meta.Explicit = true
 					}
-					if goVersion, ok := strings.CutPrefix(entry, "go "); ok {
-						meta.GoVersion = goVersion
+					if golangVersion, ok := strings.CutPrefix(entry, "golang "); ok {
+						meta.GoVersion = golangVersion
 						rawGoVersion.Store(mod, meta.GoVersion)
-						if gover.Compare(goVersion, gover.Local()) > 0 {
-							base.Fatal(&gover.TooNewError{What: mod.Path + " in " + base.ShortPath(vendorFile), GoVersion: goVersion})
+						if golangver.Compare(golangVersion, golangver.Local()) > 0 {
+							base.Fatal(&golangver.TooNewError{What: mod.Path + " in " + base.ShortPath(vendorFile), GoVersion: golangVersion})
 						}
 					}
 					// All other tokens are reserved for future use.
@@ -128,7 +128,7 @@ func readVendorList(vendorDir string) {
 				// Since this module provides a package for the build, we know that it
 				// is in the build list and is the selected version of its path.
 				// If this information is new, record it.
-				if v, ok := vendorVersion[mod.Path]; !ok || gover.ModCompare(mod.Path, v, mod.Version) < 0 {
+				if v, ok := vendorVersion[mod.Path]; !ok || golangver.ModCompare(mod.Path, v, mod.Version) < 0 {
 					vendorList = append(vendorList, mod)
 					vendorVersion[mod.Path] = mod.Version
 				}
@@ -138,8 +138,8 @@ func readVendorList(vendorDir string) {
 }
 
 // checkVendorConsistency verifies that the vendor/modules.txt file matches (if
-// go 1.14) or at least does not contradict (go 1.13 or earlier) the
-// requirements and replacements listed in the main module's go.mod file.
+// golang 1.14) or at least does not contradict (golang 1.13 or earlier) the
+// requirements and replacements listed in the main module's golang.mod file.
 func checkVendorConsistency(indexes []*modFileIndex, modFiles []*modfile.File, modRoots []string) {
 	// readVendorList only needs the main module to get the directory
 	// the vendor directory is in.
@@ -159,7 +159,7 @@ func checkVendorConsistency(indexes []*modFileIndex, modFiles []*modfile.File, m
 			panic(fmt.Errorf("not in workspace mode but number of indexes is %v, not 1", len(indexes)))
 		}
 		index := indexes[0]
-		if gover.Compare(index.goVersion, "1.14") < 0 {
+		if golangver.Compare(index.golangVersion, "1.14") < 0 {
 			// Go versions before 1.14 did not include enough information in
 			// vendor/modules.txt to check for consistency.
 			// If we know that we're on an earlier version, relax the consistency check.
@@ -184,14 +184,14 @@ func checkVendorConsistency(indexes []*modFileIndex, modFiles []*modfile.File, m
 			if !vendorMeta[r.Mod].Explicit {
 				if pre114 {
 					// Before 1.14, modules.txt did not indicate whether modules were listed
-					// explicitly in the main module's go.mod file.
+					// explicitly in the main module's golang.mod file.
 					// However, we can at least detect a version mismatch if packages were
 					// vendored from a non-matching version.
 					if vv, ok := vendorVersion[r.Mod.Path]; ok && vv != r.Mod.Version {
-						vendErrorf(r.Mod, fmt.Sprintf("is explicitly required in go.mod, but vendor/modules.txt indicates %s@%s", r.Mod.Path, vv))
+						vendErrorf(r.Mod, fmt.Sprintf("is explicitly required in golang.mod, but vendor/modules.txt indicates %s@%s", r.Mod.Path, vv))
 					}
 				} else {
-					vendErrorf(r.Mod, "is explicitly required in go.mod, but not marked as explicit in vendor/modules.txt")
+					vendErrorf(r.Mod, "is explicitly required in golang.mod, but not marked as explicit in vendor/modules.txt")
 				}
 			}
 		}
@@ -206,7 +206,7 @@ func checkVendorConsistency(indexes []*modFileIndex, modFiles []*modfile.File, m
 
 	// We need to verify *all* replacements that occur in modfile: even if they
 	// don't directly apply to any module in the vendor list, the replacement
-	// go.mod file can affect the selected versions of other (transitive)
+	// golang.mod file can affect the selected versions of other (transitive)
 	// dependencies
 	seenrep := make(map[module.Version]bool)
 	checkReplace := func(replaces []*modfile.Replace) {
@@ -255,7 +255,7 @@ func checkVendorConsistency(indexes []*modFileIndex, modFiles []*modfile.File, m
 				if inWorkspaceMode() {
 					article = "a "
 				}
-				vendErrorf(mod, "is marked as explicit in vendor/modules.txt, but not explicitly required in %vgo.mod", article)
+				vendErrorf(mod, "is marked as explicit in vendor/modules.txt, but not explicitly required in %vgolang.mod", article)
 			}
 
 		}
@@ -263,7 +263,7 @@ func checkVendorConsistency(indexes []*modFileIndex, modFiles []*modfile.File, m
 
 	for _, mod := range vendorReplaced {
 		r := Replacement(mod)
-		replacementSource := "go.mod"
+		replacementSource := "golang.mod"
 		if inWorkspaceMode() {
 			replacementSource = "the workspace"
 		}
@@ -279,6 +279,6 @@ func checkVendorConsistency(indexes []*modFileIndex, modFiles []*modfile.File, m
 		if inWorkspaceMode() {
 			subcmd = "work"
 		}
-		base.Fatalf("go: inconsistent vendoring in %s:%s\n\n\tTo ignore the vendor directory, use -mod=readonly or -mod=mod.\n\tTo sync the vendor directory, run:\n\t\tgo %s vendor", filepath.Dir(VendorDir()), vendErrors, subcmd)
+		base.Fatalf("golang: inconsistent vendoring in %s:%s\n\n\tTo ignore the vendor directory, use -mod=readonly or -mod=mod.\n\tTo sync the vendor directory, run:\n\t\tgolang %s vendor", filepath.Dir(VendorDir()), vendErrors, subcmd)
 	}
 }

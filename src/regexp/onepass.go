@@ -1,5 +1,5 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package regexp
@@ -322,7 +322,7 @@ func makeOnePass(p *onePassProg) *onePassProg {
 				ok = false
 				break
 			}
-			// Match on empty goes in inst.Out
+			// Match on empty golanges in inst.Out
 			if matchArg {
 				inst.Out, inst.Arg = inst.Arg, inst.Out
 				matchOut, matchArg = matchArg, matchOut

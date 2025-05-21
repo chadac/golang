@@ -1,40 +1,40 @@
 # Test that the sum file data state is properly reset between modules in
-# go work sync so that the sum file that's written is correct.
+# golang work sync so that the sum file that's written is correct.
 # Exercises the fix to #50038.
 
-cp b/go.sum b/go.sum.want
+cp b/golang.sum b/golang.sum.want
 
-# As a sanity check, verify b/go.sum is tidy.
+# As a sanity check, verify b/golang.sum is tidy.
 cd b
-go mod tidy
+golang mod tidy
 cd ..
-cmp b/go.sum b/go.sum.want
+cmp b/golang.sum b/golang.sum.want
 
-# Run go work sync and verify it doesn't change b/go.sum.
-go work sync
-cmp b/go.sum b/go.sum.want
+# Run golang work sync and verify it doesn't change b/golang.sum.
+golang work sync
+cmp b/golang.sum b/golang.sum.want
 
--- b/go.sum --
+-- b/golang.sum --
 rsc.io/quote v1.0.0 h1:kQ3IZQzPTiDJxSZI98YaWgxFEhlNdYASHvh+MplbViw=
-rsc.io/quote v1.0.0/go.mod h1:v83Ri/njykPcgJltBc/gEkJTmjTsNgtO1Y7vyIK1CQA=
--- go.work --
-go 1.18
+rsc.io/quote v1.0.0/golang.mod h1:v83Ri/njykPcgJltBc/gEkJTmjTsNgtO1Y7vyIK1CQA=
+-- golang.work --
+golang 1.18
 use (
     ./a
     ./b
 )
 replace example.com/c => ./c
--- a/go.mod --
+-- a/golang.mod --
 module example.com/a
-go 1.18
+golang 1.18
 require rsc.io/fortune v1.0.0
--- a/a.go --
+-- a/a.golang --
 package a
 import "rsc.io/fortune"
--- b/go.mod --
+-- b/golang.mod --
 module example.com/b
-go 1.18
+golang 1.18
 require rsc.io/quote v1.0.0
--- b/b.go --
+-- b/b.golang --
 package b
 import _ "rsc.io/quote"

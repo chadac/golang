@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package constant implements Values representing untyped
@@ -13,7 +13,7 @@ package constant
 
 import (
 	"fmt"
-	"go/token"
+	"golang/token"
 	"math"
 	"math/big"
 	"math/bits"
@@ -23,7 +23,7 @@ import (
 	"unicode/utf8"
 )
 
-//go:generate stringer -type Kind
+//golang:generate stringer -type Kind
 
 // Kind specifies the kind of value represented by a [Value].
 type Kind int
@@ -134,7 +134,7 @@ func (x *stringVal) String() string {
 // If x represents an addition, then it rewrites x to be a single
 // string, to speed future calls. This lazy construction avoids
 // building different string values for all subpieces of a large
-// concatenation. See golang.org/issue/23348.
+// concatenation. See golanglang.org/issue/23348.
 func (x *stringVal) string() string {
 	x.mu.Lock()
 	if x.l != nil {
@@ -312,7 +312,7 @@ func makeFloat(x *big.Float) Value {
 	if x.IsInf() {
 		return unknownVal{}
 	}
-	// No attempt is made to "go back" to ratVal, even if possible,
+	// No attempt is made to "golang back" to ratVal, even if possible,
 	// to avoid providing the illusion of a mathematically exact
 	// representation.
 	return floatVal{x}
@@ -994,7 +994,7 @@ func UnaryOp(op token.Token, y Value, prec uint) Value {
 		case intVal:
 			z.Not(y.val)
 		default:
-			goto Error
+			golangto Error
 		}
 		// For unsigned types, the result will be negative and
 		// thus "too large": We must limit the result precision
@@ -1151,7 +1151,7 @@ func BinaryOp(x_ Value, op token.Token, y_ Value) Value {
 		case token.AND_NOT:
 			c = a &^ b
 		default:
-			goto Error
+			golangto Error
 		}
 		return int64Val(c)
 
@@ -1181,7 +1181,7 @@ func BinaryOp(x_ Value, op token.Token, y_ Value) Value {
 		case token.AND_NOT:
 			c.AndNot(a, b)
 		default:
-			goto Error
+			golangto Error
 		}
 		return makeInt(c)
 
@@ -1199,7 +1199,7 @@ func BinaryOp(x_ Value, op token.Token, y_ Value) Value {
 		case token.QUO:
 			c.Quo(a, b)
 		default:
-			goto Error
+			golangto Error
 		}
 		return makeRat(c)
 
@@ -1217,7 +1217,7 @@ func BinaryOp(x_ Value, op token.Token, y_ Value) Value {
 		case token.QUO:
 			c.Quo(a, b)
 		default:
-			goto Error
+			golangto Error
 		}
 		return makeFloat(c)
 
@@ -1257,7 +1257,7 @@ func BinaryOp(x_ Value, op token.Token, y_ Value) Value {
 			im = sub(bc, ad)
 			im = quo(im, s)
 		default:
-			goto Error
+			golangto Error
 		}
 		return makeComplex(re, im)
 

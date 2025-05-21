@@ -1,8 +1,8 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build linux || (freebsd && amd64)
+//golang:build linux || (freebsd && amd64)
 
 package sanitizers_test
 
@@ -20,31 +20,31 @@ func TestLibFuzzer(t *testing.T) {
 	testenv.MustHaveGoBuild(t)
 	testenv.MustHaveCGO(t)
 
-	goos, err := goEnv("GOOS")
+	golangos, err := golangEnv("GOOS")
 	if err != nil {
 		t.Fatal(err)
 	}
-	goarch, err := goEnv("GOARCH")
+	golangarch, err := golangEnv("GOARCH")
 	if err != nil {
 		t.Fatal(err)
 	}
-	if !libFuzzerSupported(goos, goarch) {
-		t.Skipf("skipping on %s/%s; libfuzzer option is not supported.", goos, goarch)
+	if !libFuzzerSupported(golangos, golangarch) {
+		t.Skipf("skipping on %s/%s; libfuzzer option is not supported.", golangos, golangarch)
 	}
 	config := configure("fuzzer")
 	config.skipIfCSanitizerBroken(t)
 
 	cases := []struct {
-		goSrc         string
+		golangSrc         string
 		cSrc          string
 		expectedError string
 	}{
-		{goSrc: "libfuzzer1.go", expectedError: "panic: found it"},
-		{goSrc: "libfuzzer2.go", cSrc: "libfuzzer2.c", expectedError: "panic: found it"},
+		{golangSrc: "libfuzzer1.golang", expectedError: "panic: found it"},
+		{golangSrc: "libfuzzer2.golang", cSrc: "libfuzzer2.c", expectedError: "panic: found it"},
 	}
 	for _, tc := range cases {
 		tc := tc
-		name := strings.TrimSuffix(tc.goSrc, ".go")
+		name := strings.TrimSuffix(tc.golangSrc, ".golang")
 		t.Run(name, func(t *testing.T) {
 			t.Parallel()
 
@@ -54,7 +54,7 @@ func TestLibFuzzer(t *testing.T) {
 			// build Go code in libfuzzer mode to a c-archive
 			outPath := dir.Join(name)
 			archivePath := dir.Join(name + ".a")
-			mustRun(t, config.goCmd("build", "-buildmode=c-archive", "-o", archivePath, srcPath(tc.goSrc)))
+			mustRun(t, config.golangCmd("build", "-buildmode=c-archive", "-o", archivePath, srcPath(tc.golangSrc)))
 
 			// build C code (if any) and link with Go code
 			cmd, err := cc(config.cFlags...)
@@ -77,7 +77,7 @@ func TestLibFuzzer(t *testing.T) {
 				t.Fatalf("fuzzing succeeded unexpectedly; output:\n%s", out)
 			}
 			if !strings.Contains(out, tc.expectedError) {
-				t.Errorf("exited without expected error %q; got\n%s", tc.expectedError, out)
+				t.Errorf("exited without expected error %q; golangt\n%s", tc.expectedError, out)
 			}
 		})
 	}
@@ -85,11 +85,11 @@ func TestLibFuzzer(t *testing.T) {
 
 // libFuzzerSupported is a copy of the function internal/platform.FuzzInstrumented,
 // because the internal package can't be used here.
-func libFuzzerSupported(goos, goarch string) bool {
-	switch goarch {
+func libFuzzerSupported(golangos, golangarch string) bool {
+	switch golangarch {
 	case "amd64", "arm64":
 		// TODO(#14565): support more architectures.
-		switch goos {
+		switch golangos {
 		case "darwin", "freebsd", "linux", "windows":
 			return true
 		default:

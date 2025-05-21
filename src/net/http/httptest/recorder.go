@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package httptest
@@ -13,7 +13,7 @@ import (
 	"strconv"
 	"strings"
 
-	"golang.org/x/net/http/httpguts"
+	"golanglang.org/x/net/http/httpguts"
 )
 
 // ResponseRecorder is an implementation of [http.ResponseWriter] that
@@ -240,7 +240,7 @@ func (rw *ResponseRecorder) Result() *http.Response {
 // parseContentLength trims whitespace from s and returns -1 if no value
 // is set, or the value if it's >= 0.
 //
-// This a modified version of same function found in net/http/transfer.go. This
+// This a modified version of same function found in net/http/transfer.golang. This
 // one just ignores an invalid header.
 func parseContentLength(cl string) int64 {
 	cl = textproto.TrimString(cl)

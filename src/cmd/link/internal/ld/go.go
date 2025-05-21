@@ -1,8 +1,8 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// go-specific code shared across loaders (5l, 6l, 8l).
+// golang-specific code shared across loaders (5l, 6l, 8l).
 
 package ld
 
@@ -23,7 +23,7 @@ import (
 	"strings"
 )
 
-// go-specific code shared across loaders (5l, 6l, 8l).
+// golang-specific code shared across loaders (5l, 6l, 8l).
 
 // TODO:
 //	generate debugging section in binary.
@@ -59,14 +59,14 @@ func ldpkg(ctxt *Link, f *bio.Reader, lib *sym.Library, length int64, filename s
 		}
 	}
 
-	// look for cgo section
-	p0 := strings.Index(data, "\n$$  // cgo")
+	// look for cgolang section
+	p0 := strings.Index(data, "\n$$  // cgolang")
 	var p1 int
 	if p0 >= 0 {
 		p0 += p1
 		i := strings.IndexByte(data[p0+1:], '\n')
 		if i < 0 {
-			fmt.Fprintf(os.Stderr, "%s: found $$ // cgo but no newline in %s\n", os.Args[0], filename)
+			fmt.Fprintf(os.Stderr, "%s: found $$ // cgolang but no newline in %s\n", os.Args[0], filename)
 			return
 		}
 		p0 += 1 + i
@@ -76,33 +76,33 @@ func ldpkg(ctxt *Link, f *bio.Reader, lib *sym.Library, length int64, filename s
 			p1 = strings.Index(data[p0:], "\n!\n")
 		}
 		if p1 < 0 {
-			fmt.Fprintf(os.Stderr, "%s: cannot find end of // cgo section in %s\n", os.Args[0], filename)
+			fmt.Fprintf(os.Stderr, "%s: cannot find end of // cgolang section in %s\n", os.Args[0], filename)
 			return
 		}
 		p1 += p0
-		loadcgo(ctxt, filename, objabi.PathToPrefix(lib.Pkg), data[p0:p1])
+		loadcgolang(ctxt, filename, objabi.PathToPrefix(lib.Pkg), data[p0:p1])
 	}
 }
 
-func loadcgo(ctxt *Link, file string, pkg string, p string) {
+func loadcgolang(ctxt *Link, file string, pkg string, p string) {
 	var directives [][]string
 	if err := json.NewDecoder(strings.NewReader(p)).Decode(&directives); err != nil {
-		fmt.Fprintf(os.Stderr, "%s: %s: failed decoding cgo directives: %v\n", os.Args[0], file, err)
+		fmt.Fprintf(os.Stderr, "%s: %s: failed decoding cgolang directives: %v\n", os.Args[0], file, err)
 		nerrors++
 		return
 	}
 
 	// Record the directives. We'll process them later after Symbols are created.
-	ctxt.cgodata = append(ctxt.cgodata, cgodata{file, pkg, directives})
+	ctxt.cgolangdata = append(ctxt.cgolangdata, cgolangdata{file, pkg, directives})
 }
 
-// Set symbol attributes or flags based on cgo directives.
+// Set symbol attributes or flags based on cgolang directives.
 // Any newly discovered HOSTOBJ syms are added to 'hostObjSyms'.
-func setCgoAttr(ctxt *Link, file string, pkg string, directives [][]string, hostObjSyms map[loader.Sym]struct{}) {
+func setCgolangAttr(ctxt *Link, file string, pkg string, directives [][]string, hostObjSyms map[loader.Sym]struct{}) {
 	l := ctxt.loader
 	for _, f := range directives {
 		switch f[0] {
-		case "cgo_import_dynamic":
+		case "cgolang_import_dynamic":
 			if len(f) < 2 || len(f) > 4 {
 				break
 			}
@@ -160,7 +160,7 @@ func setCgoAttr(ctxt *Link, file string, pkg string, directives [][]string, host
 
 			continue
 
-		case "cgo_import_static":
+		case "cgolang_import_static":
 			if len(f) != 2 {
 				break
 			}
@@ -173,7 +173,7 @@ func setCgoAttr(ctxt *Link, file string, pkg string, directives [][]string, host
 			hostObjSyms[s] = struct{}{}
 			continue
 
-		case "cgo_export_static", "cgo_export_dynamic":
+		case "cgolang_export_static", "cgolang_export_dynamic":
 			if len(f) < 2 || len(f) > 4 {
 				break
 			}
@@ -189,7 +189,7 @@ func setCgoAttr(ctxt *Link, file string, pkg string, directives [][]string, host
 				var ok bool
 				abi, ok = obj.ParseABI(f[3])
 				if !ok {
-					fmt.Fprintf(os.Stderr, "%s: bad ABI in cgo_export directive %s\n", os.Args[0], f)
+					fmt.Fprintf(os.Stderr, "%s: bad ABI in cgolang_export directive %s\n", os.Args[0], f)
 					nerrors++
 					return
 				}
@@ -208,7 +208,7 @@ func setCgoAttr(ctxt *Link, file string, pkg string, directives [][]string, host
 				}
 			}
 
-			// export overrides import, for openbsd/cgo.
+			// export overrides import, for openbsd/cgolang.
 			// see issue 4878.
 			if l.SymDynimplib(s) != "" {
 				l.SetSymDynimplib(s, "")
@@ -219,19 +219,19 @@ func setCgoAttr(ctxt *Link, file string, pkg string, directives [][]string, host
 				su.SetType(0)
 			}
 
-			if !(l.AttrCgoExportStatic(s) || l.AttrCgoExportDynamic(s)) {
+			if !(l.AttrCgolangExportStatic(s) || l.AttrCgolangExportDynamic(s)) {
 				l.SetSymExtname(s, remote)
 			} else if l.SymExtname(s) != remote {
-				fmt.Fprintf(os.Stderr, "%s: conflicting cgo_export directives: %s as %s and %s\n", os.Args[0], l.SymName(s), l.SymExtname(s), remote)
+				fmt.Fprintf(os.Stderr, "%s: conflicting cgolang_export directives: %s as %s and %s\n", os.Args[0], l.SymName(s), l.SymExtname(s), remote)
 				nerrors++
 				return
 			}
 
 			// Mark exported symbols and also add them to
 			// the lists used for roots in the deadcode pass.
-			if f[0] == "cgo_export_static" {
-				if ctxt.LinkMode == LinkExternal && !l.AttrCgoExportStatic(s) {
-					// Static cgo exports appear
+			if f[0] == "cgolang_export_static" {
+				if ctxt.LinkMode == LinkExternal && !l.AttrCgolangExportStatic(s) {
+					// Static cgolang exports appear
 					// in the exported symbol table.
 					ctxt.dynexp = append(ctxt.dynexp, s)
 				}
@@ -241,21 +241,21 @@ func setCgoAttr(ctxt *Link, file string, pkg string, directives [][]string, host
 					// relocations from host objects.
 					// Record the right Go symbol
 					// version to use.
-					l.AddCgoExport(s)
+					l.AddCgolangExport(s)
 				}
-				l.SetAttrCgoExportStatic(s, true)
+				l.SetAttrCgolangExportStatic(s, true)
 			} else {
-				if ctxt.LinkMode == LinkInternal && !l.AttrCgoExportDynamic(s) {
-					// Dynamic cgo exports appear
+				if ctxt.LinkMode == LinkInternal && !l.AttrCgolangExportDynamic(s) {
+					// Dynamic cgolang exports appear
 					// in the exported symbol table.
 					ctxt.dynexp = append(ctxt.dynexp, s)
 				}
-				l.SetAttrCgoExportDynamic(s, true)
+				l.SetAttrCgolangExportDynamic(s, true)
 			}
 
 			continue
 
-		case "cgo_dynamic_linker":
+		case "cgolang_dynamic_linker":
 			if len(f) != 2 {
 				break
 			}
@@ -271,7 +271,7 @@ func setCgoAttr(ctxt *Link, file string, pkg string, directives [][]string, host
 			}
 			continue
 
-		case "cgo_ldflag":
+		case "cgolang_ldflag":
 			if len(f) != 2 {
 				break
 			}
@@ -279,7 +279,7 @@ func setCgoAttr(ctxt *Link, file string, pkg string, directives [][]string, host
 			continue
 		}
 
-		fmt.Fprintf(os.Stderr, "%s: %s: invalid cgo directive: %q\n", os.Args[0], file, f)
+		fmt.Fprintf(os.Stderr, "%s: %s: invalid cgolang directive: %q\n", os.Args[0], file, f)
 		nerrors++
 	}
 	return
@@ -308,7 +308,7 @@ func openbsdTrimLibVersion(lib string) (string, bool) {
 // dedupLibrariesOpenBSD dedups a list of shared libraries, treating versioned
 // and unversioned libraries as equivalents. Versioned libraries are preferred
 // and retained over unversioned libraries. This avoids the situation where
-// the use of cgo results in a DT_NEEDED for a versioned library (for example,
+// the use of cgolang results in a DT_NEEDED for a versioned library (for example,
 // libc.so.96.1), while a dynamic import specifies an unversioned library (for
 // example, libc.so) - this would otherwise result in two DT_NEEDED entries
 // for the same library, resulting in a failure when ld.so attempts to load
@@ -380,7 +380,7 @@ func Adddynsym(ldr *loader.Loader, target *Target, syms *ArchSyms, s loader.Sym)
 func fieldtrack(arch *sys.Arch, l *loader.Loader) {
 	var buf strings.Builder
 	for i := loader.Sym(1); i < loader.Sym(l.NSym()); i++ {
-		if name := l.SymName(i); strings.HasPrefix(name, "go:track.") {
+		if name := l.SymName(i); strings.HasPrefix(name, "golang:track.") {
 			if l.AttrReachable(i) {
 				l.SetAttrSpecial(i, true)
 				l.SetAttrNotInSymbolTable(i, true)

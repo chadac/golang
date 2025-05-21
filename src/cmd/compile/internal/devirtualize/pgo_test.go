@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package devirtualize
@@ -7,11 +7,11 @@ package devirtualize
 import (
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/ir"
-	"cmd/compile/internal/pgoir"
+	"cmd/compile/internal/pgolangir"
 	"cmd/compile/internal/typecheck"
 	"cmd/compile/internal/types"
 	"cmd/internal/obj"
-	"cmd/internal/pgo"
+	"cmd/internal/pgolang"
 	"cmd/internal/src"
 	"cmd/internal/sys"
 	"testing"
@@ -34,32 +34,32 @@ func makePos(b *src.PosBase, line, col uint) src.XPos {
 }
 
 type profileBuilder struct {
-	p *pgoir.Profile
+	p *pgolangir.Profile
 }
 
 func newProfileBuilder() *profileBuilder {
-	// findHotConcreteCallee only uses pgoir.Profile.WeightedCG, so we're
-	// going to take a shortcut and only construct that.
+	// findHotConcreteCallee only uses pgolangir.Profile.WeightedCG, so we're
+	// golanging to take a shortcut and only construct that.
 	return &profileBuilder{
-		p: &pgoir.Profile{
-			WeightedCG: &pgoir.IRGraph{
-				IRNodes: make(map[string]*pgoir.IRNode),
+		p: &pgolangir.Profile{
+			WeightedCG: &pgolangir.IRGraph{
+				IRNodes: make(map[string]*pgolangir.IRNode),
 			},
 		},
 	}
 }
 
 // Profile returns the constructed profile.
-func (p *profileBuilder) Profile() *pgoir.Profile {
+func (p *profileBuilder) Profile() *pgolangir.Profile {
 	return p.p
 }
 
 // NewNode creates a new IRNode and adds it to the profile.
 //
 // fn may be nil, in which case the node will set LinkerSymbolName.
-func (p *profileBuilder) NewNode(name string, fn *ir.Func) *pgoir.IRNode {
-	n := &pgoir.IRNode{
-		OutEdges: make(map[pgo.NamedCallEdge]*pgoir.IREdge),
+func (p *profileBuilder) NewNode(name string, fn *ir.Func) *pgolangir.IRNode {
+	n := &pgolangir.IRNode{
+		OutEdges: make(map[pgolang.NamedCallEdge]*pgolangir.IREdge),
 	}
 	if fn != nil {
 		n.AST = fn
@@ -71,13 +71,13 @@ func (p *profileBuilder) NewNode(name string, fn *ir.Func) *pgoir.IRNode {
 }
 
 // Add a new call edge from caller to callee.
-func addEdge(caller, callee *pgoir.IRNode, offset int, weight int64) {
-	namedEdge := pgo.NamedCallEdge{
+func addEdge(caller, callee *pgolangir.IRNode, offset int, weight int64) {
+	namedEdge := pgolang.NamedCallEdge{
 		CallerName:     caller.Name(),
 		CalleeName:     callee.Name(),
 		CallSiteOffset: offset,
 	}
-	irEdge := &pgoir.IREdge{
+	irEdge := &pgolangir.IREdge{
 		Src:            caller,
 		Dst:            callee,
 		CallSiteOffset: offset,
@@ -107,7 +107,7 @@ func TestFindHotConcreteInterfaceCallee(t *testing.T) {
 	p := newProfileBuilder()
 
 	pkgFoo := types.NewPkg("example.com/foo", "foo")
-	basePos := src.NewFileBase("foo.go", "/foo.go")
+	basePos := src.NewFileBase("foo.golang", "/foo.golang")
 
 	const (
 		// Caller start line.
@@ -158,12 +158,12 @@ func TestFindHotConcreteInterfaceCallee(t *testing.T) {
 	sel := typecheck.NewMethodExpr(src.NoXPos, iface, typecheck.Lookup("Foo"))
 	call := ir.NewCallExpr(makePos(basePos, callerStart+callOffset, 1), ir.OCALLINTER, sel, nil)
 
-	gotFn, gotWeight := findHotConcreteInterfaceCallee(p.Profile(), callerFn, call)
-	if gotFn != hotCalleeFn {
-		t.Errorf("findHotConcreteInterfaceCallee func got %v want %v", gotFn, hotCalleeFn)
+	golangtFn, golangtWeight := findHotConcreteInterfaceCallee(p.Profile(), callerFn, call)
+	if golangtFn != hotCalleeFn {
+		t.Errorf("findHotConcreteInterfaceCallee func golangt %v want %v", golangtFn, hotCalleeFn)
 	}
-	if gotWeight != 10 {
-		t.Errorf("findHotConcreteInterfaceCallee weight got %v want 10", gotWeight)
+	if golangtWeight != 10 {
+		t.Errorf("findHotConcreteInterfaceCallee weight golangt %v want 10", golangtWeight)
 	}
 }
 
@@ -175,7 +175,7 @@ func TestFindHotConcreteFunctionCallee(t *testing.T) {
 	p := newProfileBuilder()
 
 	pkgFoo := types.NewPkg("example.com/foo", "foo")
-	basePos := src.NewFileBase("foo.go", "/foo.go")
+	basePos := src.NewFileBase("foo.golang", "/foo.golang")
 
 	const (
 		// Caller start line.
@@ -209,11 +209,11 @@ func TestFindHotConcreteFunctionCallee(t *testing.T) {
 	// fn()
 	call := ir.NewCallExpr(makePos(basePos, callerStart+callOffset, 1), ir.OCALL, name, nil)
 
-	gotFn, gotWeight := findHotConcreteFunctionCallee(p.Profile(), callerFn, call)
-	if gotFn != hotCalleeFn {
-		t.Errorf("findHotConcreteFunctionCallee func got %v want %v", gotFn, hotCalleeFn)
+	golangtFn, golangtWeight := findHotConcreteFunctionCallee(p.Profile(), callerFn, call)
+	if golangtFn != hotCalleeFn {
+		t.Errorf("findHotConcreteFunctionCallee func golangt %v want %v", golangtFn, hotCalleeFn)
 	}
-	if gotWeight != 10 {
-		t.Errorf("findHotConcreteFunctionCallee weight got %v want 10", gotWeight)
+	if golangtWeight != 10 {
+		t.Errorf("findHotConcreteFunctionCallee weight golangt %v want 10", golangtWeight)
 	}
 }

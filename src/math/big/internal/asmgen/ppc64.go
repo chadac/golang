@@ -1,5 +1,5 @@
 // Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package asmgen
@@ -20,7 +20,7 @@ var ArchPPC64x = &Arch{
 	// The old assembly also used some complex vector instructions
 	// to implement lshVU and rshVU, but the generated code that uses
 	// ordinary integer instructions is much faster than the vector code was,
-	// at least on the power10 gomote.
+	// at least on the power10 golangmote.
 
 	regs: []string{
 		// R0 is 0 by convention.

@@ -11,9 +11,9 @@ pkg crypto/tls, method (RecordHeaderError) Error() string
 pkg crypto/tls, type RecordHeaderError struct
 pkg crypto/tls, type RecordHeaderError struct, Msg string
 pkg crypto/tls, type RecordHeaderError struct, RecordHeader [5]uint8
-pkg crypto/x509, method (InsecureAlgorithmError) Error() string
-pkg crypto/x509, method (SignatureAlgorithm) String() string
-pkg crypto/x509, type InsecureAlgorithmError int
+pkg crypto/x509, method (InsecureAlgolangrithmError) Error() string
+pkg crypto/x509, method (SignatureAlgolangrithm) String() string
+pkg crypto/x509, type InsecureAlgolangrithmError int
 pkg database/sql, method (*DB) SetConnMaxLifetime(time.Duration)
 pkg debug/dwarf, const ClassUnknown = 0
 pkg debug/dwarf, const ClassUnknown Class
@@ -178,18 +178,18 @@ pkg encoding/asn1, const TagUTCTime = 23
 pkg encoding/asn1, const TagUTCTime ideal-int
 pkg encoding/asn1, const TagUTF8String = 12
 pkg encoding/asn1, const TagUTF8String ideal-int
-pkg go/build, const IgnoreVendor = 8
-pkg go/build, const IgnoreVendor ImportMode
-pkg go/build, type Package struct, InvalidGoFiles []string
-pkg go/constant, func ToComplex(Value) Value
-pkg go/constant, func ToFloat(Value) Value
-pkg go/constant, func ToInt(Value) Value
-pkg go/constant, type Value interface, ExactString() string
-pkg go/types, method (*Package) SetName(string)
-pkg go/types, type ImportMode int
-pkg go/types, type ImporterFrom interface { Import, ImportFrom }
-pkg go/types, type ImporterFrom interface, Import(string) (*Package, error)
-pkg go/types, type ImporterFrom interface, ImportFrom(string, string, ImportMode) (*Package, error)
+pkg golang/build, const IgnoreVendor = 8
+pkg golang/build, const IgnoreVendor ImportMode
+pkg golang/build, type Package struct, InvalidGoFiles []string
+pkg golang/constant, func ToComplex(Value) Value
+pkg golang/constant, func ToFloat(Value) Value
+pkg golang/constant, func ToInt(Value) Value
+pkg golang/constant, type Value interface, ExactString() string
+pkg golang/types, method (*Package) SetName(string)
+pkg golang/types, type ImportMode int
+pkg golang/types, type ImporterFrom interface { Import, ImportFrom }
+pkg golang/types, type ImporterFrom interface, Import(string) (*Package, error)
+pkg golang/types, type ImporterFrom interface, ImportFrom(string, string, ImportMode) (*Package, error)
 pkg html/template, func IsTrue(interface{}) (bool, bool)
 pkg html/template, method (*Template) DefinedTemplates() string
 pkg image, func NewNYCbCrA(Rectangle, YCbCrSubsampleRatio) *NYCbCrA

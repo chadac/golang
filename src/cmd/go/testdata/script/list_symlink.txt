@@ -3,10 +3,10 @@ env GO111MODULE=off
 
 mkdir $WORK/tmp/src
 symlink $WORK/tmp/src/dir1 -> $WORK/tmp
-cp p.go $WORK/tmp/src/dir1/p.go
+cp p.golang $WORK/tmp/src/dir1/p.golang
 env GOPATH=$WORK/tmp
-go list -f '{{.Root}}' dir1
+golang list -f '{{.Root}}' dir1
 stdout '^'$WORK/tmp'$'
 
--- p.go --
+-- p.golang --
 package p

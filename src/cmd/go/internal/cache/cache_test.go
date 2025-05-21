@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package cache
@@ -97,7 +97,7 @@ func TestGrowth(t *testing.T) {
 }
 
 func TestVerifyPanic(t *testing.T) {
-	os.Setenv("GODEBUG", "gocacheverify=1")
+	os.Setenv("GODEBUG", "golangcacheverify=1")
 	initEnv()
 	defer func() {
 		os.Unsetenv("GODEBUG")
@@ -217,8 +217,8 @@ func TestCacheTrim(t *testing.T) {
 	// Fast forward and do another trim just before the 5 day cutoff.
 	// Note that because of usedQuantum the cutoff is actually 5 days + 1 hour.
 	// We used c.Get(id) just now, so 5 days later it should still be kept.
-	// On the other hand almost a full day has gone by since we wrote dummyID(2)
-	// and we haven't looked at it since, so 5 days later it should be gone.
+	// On the other hand almost a full day has golangne by since we wrote dummyID(2)
+	// and we haven't looked at it since, so 5 days later it should be golangne.
 	now += 5 * 86400
 	checkTime(fmt.Sprintf("%x-a", dummyID(2)), start)
 	if err := c.Trim(); err != nil {
@@ -234,7 +234,7 @@ func TestCacheTrim(t *testing.T) {
 	}
 
 	// The c.Get(id) refreshed id's mtime again.
-	// Check that another 5 days later it is still not gone,
+	// Check that another 5 days later it is still not golangne,
 	// but check by using checkTime, which doesn't bring mtime forward.
 	now += 5 * 86400
 	if err := c.Trim(); err != nil {

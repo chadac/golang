@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package build
@@ -112,7 +112,7 @@ func TestMultiplePackageImport(t *testing.T) {
 	want := &MultiplePackageError{
 		Dir:      filepath.FromSlash("testdata/multi"),
 		Packages: []string{"main", "test_package"},
-		Files:    []string{"file.go", "file_appengine.go"},
+		Files:    []string{"file.golang", "file_appengine.golang"},
 	}
 	if !reflect.DeepEqual(mpe, want) {
 		t.Errorf("err = %#v; want %#v", mpe, want)
@@ -123,11 +123,11 @@ func TestMultiplePackageImport(t *testing.T) {
 		t.Errorf("pkg.Name = %q; want %q", pkg.Name, wantName)
 	}
 
-	if wantGoFiles := []string{"file.go", "file_appengine.go"}; !slices.Equal(pkg.GoFiles, wantGoFiles) {
+	if wantGoFiles := []string{"file.golang", "file_appengine.golang"}; !slices.Equal(pkg.GoFiles, wantGoFiles) {
 		t.Errorf("pkg.GoFiles = %q; want %q", pkg.GoFiles, wantGoFiles)
 	}
 
-	if wantInvalidFiles := []string{"file_appengine.go"}; !slices.Equal(pkg.InvalidGoFiles, wantInvalidFiles) {
+	if wantInvalidFiles := []string{"file_appengine.golang"}; !slices.Equal(pkg.InvalidGoFiles, wantInvalidFiles) {
 		t.Errorf("pkg.InvalidGoFiles = %q; want %q", pkg.InvalidGoFiles, wantInvalidFiles)
 	}
 }
@@ -146,8 +146,8 @@ func TestLocalDirectory(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if p.ImportPath != "go/build" {
-		t.Fatalf("ImportPath=%q, want %q", p.ImportPath, "go/build")
+	if p.ImportPath != "golang/build" {
+		t.Fatalf("ImportPath=%q, want %q", p.ImportPath, "golang/build")
 	}
 }
 
@@ -168,7 +168,7 @@ var shouldBuildTests = []struct {
 	},
 	{
 		name: "Yes2",
-		content: "//go:build yes\n" +
+		content: "//golang:build yes\n" +
 			"package main\n",
 		tags:        map[string]bool{"yes": true},
 		shouldBuild: true,
@@ -182,7 +182,7 @@ var shouldBuildTests = []struct {
 	},
 	{
 		name: "Or2",
-		content: "//go:build no || yes\n" +
+		content: "//golang:build no || yes\n" +
 			"package main\n",
 		tags:        map[string]bool{"yes": true, "no": true},
 		shouldBuild: true,
@@ -196,29 +196,29 @@ var shouldBuildTests = []struct {
 	},
 	{
 		name: "And2",
-		content: "//go:build no && yes\n" +
+		content: "//golang:build no && yes\n" +
 			"package main\n",
 		tags:        map[string]bool{"yes": true, "no": true},
 		shouldBuild: false,
 	},
 	{
-		name: "Cgo",
-		content: "// +build cgo\n\n" +
+		name: "Cgolang",
+		content: "// +build cgolang\n\n" +
 			"// Copyright The Go Authors.\n\n" +
 			"// This package implements parsing of tags like\n" +
 			"// +build tag1\n" +
 			"package build",
-		tags:        map[string]bool{"cgo": true},
+		tags:        map[string]bool{"cgolang": true},
 		shouldBuild: false,
 	},
 	{
-		name: "Cgo2",
-		content: "//go:build cgo\n" +
+		name: "Cgolang2",
+		content: "//golang:build cgolang\n" +
 			"// Copyright The Go Authors.\n\n" +
 			"// This package implements parsing of tags like\n" +
 			"// +build tag1\n" +
 			"package build",
-		tags:        map[string]bool{"cgo": true},
+		tags:        map[string]bool{"cgolang": true},
 		shouldBuild: false,
 	},
 	{
@@ -227,7 +227,7 @@ var shouldBuildTests = []struct {
 			"package build\n\n" +
 			"// shouldBuild checks tags given by lines of the form\n" +
 			"// +build tag\n" +
-			"//go:build tag\n" +
+			"//golang:build tag\n" +
 			"func shouldBuild(content []byte)\n",
 		tags:        map[string]bool{},
 		shouldBuild: true,
@@ -241,7 +241,7 @@ var shouldBuildTests = []struct {
 	},
 	{
 		name: "TooClose2",
-		content: "//go:build yes\n" +
+		content: "//golang:build yes\n" +
 			"package main\n",
 		tags:        map[string]bool{"yes": true},
 		shouldBuild: true,
@@ -255,14 +255,14 @@ var shouldBuildTests = []struct {
 	},
 	{
 		name: "TooCloseNo2",
-		content: "//go:build no\n" +
+		content: "//golang:build no\n" +
 			"package main\n",
 		tags:        map[string]bool{"no": true},
 		shouldBuild: false,
 	},
 	{
 		name: "BinaryOnly",
-		content: "//go:binary-only-package\n" +
+		content: "//golang:binary-only-package\n" +
 			"// +build yes\n" +
 			"package main\n",
 		tags:        map[string]bool{},
@@ -271,8 +271,8 @@ var shouldBuildTests = []struct {
 	},
 	{
 		name: "BinaryOnly2",
-		content: "//go:binary-only-package\n" +
-			"//go:build no\n" +
+		content: "//golang:binary-only-package\n" +
+			"//golang:build no\n" +
 			"package main\n",
 		tags:        map[string]bool{"no": true},
 		binaryOnly:  true,
@@ -281,7 +281,7 @@ var shouldBuildTests = []struct {
 	{
 		name: "ValidGoBuild",
 		content: "// +build yes\n\n" +
-			"//go:build no\n" +
+			"//golang:build no\n" +
 			"package main\n",
 		tags:        map[string]bool{"no": true},
 		shouldBuild: false,
@@ -290,7 +290,7 @@ var shouldBuildTests = []struct {
 		name: "MissingBuild2",
 		content: "/* */\n" +
 			"// +build yes\n\n" +
-			"//go:build no\n" +
+			"//golang:build no\n" +
 			"package main\n",
 		tags:        map[string]bool{"no": true},
 		shouldBuild: false,
@@ -298,7 +298,7 @@ var shouldBuildTests = []struct {
 	{
 		name: "Comment1",
 		content: "/*\n" +
-			"//go:build no\n" +
+			"//golang:build no\n" +
 			"*/\n\n" +
 			"package main\n",
 		tags:        map[string]bool{},
@@ -309,7 +309,7 @@ var shouldBuildTests = []struct {
 		content: "/*\n" +
 			"text\n" +
 			"*/\n\n" +
-			"//go:build no\n" +
+			"//golang:build no\n" +
 			"package main\n",
 		tags:        map[string]bool{"no": true},
 		shouldBuild: false,
@@ -319,14 +319,14 @@ var shouldBuildTests = []struct {
 		content: "/*/*/ /* hi *//* \n" +
 			"text\n" +
 			"*/\n\n" +
-			"//go:build no\n" +
+			"//golang:build no\n" +
 			"package main\n",
 		tags:        map[string]bool{"no": true},
 		shouldBuild: false,
 	},
 	{
 		name: "Comment4",
-		content: "/**///go:build no\n" +
+		content: "/**///golang:build no\n" +
 			"package main\n",
 		tags:        map[string]bool{},
 		shouldBuild: true,
@@ -334,7 +334,7 @@ var shouldBuildTests = []struct {
 	{
 		name: "Comment5",
 		content: "/**/\n" +
-			"//go:build no\n" +
+			"//golang:build no\n" +
 			"package main\n",
 		tags:        map[string]bool{"no": true},
 		shouldBuild: false,
@@ -362,11 +362,11 @@ func TestGoodOSArchFile(t *testing.T) {
 	ctx := &Context{BuildTags: []string{"linux"}, GOOS: "darwin"}
 	m := map[string]bool{}
 	want := map[string]bool{"linux": true}
-	if !ctx.goodOSArchFile("hello_linux.go", m) {
-		t.Errorf("goodOSArchFile(hello_linux.go) = false, want true")
+	if !ctx.golangodOSArchFile("hello_linux.golang", m) {
+		t.Errorf("golangodOSArchFile(hello_linux.golang) = false, want true")
 	}
 	if !maps.Equal(m, want) {
-		t.Errorf("goodOSArchFile(hello_linux.go) tags = %v, want %v", m, want)
+		t.Errorf("golangodOSArchFile(hello_linux.golang) tags = %v, want %v", m, want)
 	}
 }
 
@@ -389,18 +389,18 @@ var matchFileTests = []struct {
 	data  string
 	match bool
 }{
-	{ctxtP9, "foo_arm.go", "", true},
-	{ctxtP9, "foo1_arm.go", "// +build linux\n\npackage main\n", false},
-	{ctxtP9, "foo_darwin.go", "", false},
-	{ctxtP9, "foo.go", "", true},
-	{ctxtP9, "foo1.go", "// +build linux\n\npackage main\n", false},
+	{ctxtP9, "foo_arm.golang", "", true},
+	{ctxtP9, "foo1_arm.golang", "// +build linux\n\npackage main\n", false},
+	{ctxtP9, "foo_darwin.golang", "", false},
+	{ctxtP9, "foo.golang", "", true},
+	{ctxtP9, "foo1.golang", "// +build linux\n\npackage main\n", false},
 	{ctxtP9, "foo.badsuffix", "", false},
-	{ctxtAndroid, "foo_linux.go", "", true},
-	{ctxtAndroid, "foo_android.go", "", true},
-	{ctxtAndroid, "foo_plan9.go", "", false},
-	{ctxtAndroid, "android.go", "", true},
-	{ctxtAndroid, "plan9.go", "", true},
-	{ctxtAndroid, "plan9_test.go", "", true},
+	{ctxtAndroid, "foo_linux.golang", "", true},
+	{ctxtAndroid, "foo_android.golang", "", true},
+	{ctxtAndroid, "foo_plan9.golang", "", false},
+	{ctxtAndroid, "android.golang", "", true},
+	{ctxtAndroid, "plan9.golang", "", true},
+	{ctxtAndroid, "plan9_test.golang", "", true},
 	{ctxtAndroid, "arm.s", "", true},
 	{ctxtAndroid, "amd64.s", "", true},
 }
@@ -479,16 +479,16 @@ func TestShellSafety(t *testing.T) {
 		{"-I/tmp -I/tmp", "/tmp2", "-I/tmp -I/tmp", true},
 		{"-I/tmp", "/tmp/[0]", "-I/tmp", true},
 		{"-I${SRCDIR}/dir", "/tmp/[0]", "-I/tmp/[0]/dir", false},
-		{"-I${SRCDIR}/dir", "/tmp/go go", "-I/tmp/go go/dir", true},
-		{"-I${SRCDIR}/dir dir", "/tmp/go", "-I/tmp/go/dir dir", true},
+		{"-I${SRCDIR}/dir", "/tmp/golang golang", "-I/tmp/golang golang/dir", true},
+		{"-I${SRCDIR}/dir dir", "/tmp/golang", "-I/tmp/golang/dir dir", true},
 	}
 	for _, test := range tests {
 		output, ok := expandSrcDir(test.input, test.srcdir)
 		if ok != test.result {
-			t.Errorf("Expected %t while %q expands to %q with SRCDIR=%q; got %t", test.result, test.input, output, test.srcdir, ok)
+			t.Errorf("Expected %t while %q expands to %q with SRCDIR=%q; golangt %t", test.result, test.input, output, test.srcdir, ok)
 		}
 		if output != test.expected {
-			t.Errorf("Expected %q while %q expands with SRCDIR=%q; got %q", test.expected, test.input, test.srcdir, output)
+			t.Errorf("Expected %q while %q expands with SRCDIR=%q; golangt %q", test.expected, test.input, test.srcdir, output)
 		}
 	}
 }
@@ -496,7 +496,7 @@ func TestShellSafety(t *testing.T) {
 // Want to get a "cannot find package" error when directory for package does not exist.
 // There should be valid partial information in the returned non-nil *Package.
 func TestImportDirNotExist(t *testing.T) {
-	testenv.MustHaveGoBuild(t) // Need 'go list' internally.
+	testenv.MustHaveGoBuild(t) // Need 'golang list' internally.
 	ctxt := Default
 
 	emptyDir := t.TempDir()
@@ -509,10 +509,10 @@ func TestImportDirNotExist(t *testing.T) {
 		path, srcDir string
 		mode         ImportMode
 	}{
-		{"Import(full, 0)", "go/build/doesnotexist", "", 0},
-		{"Import(local, 0)", "./doesnotexist", filepath.Join(ctxt.GOROOT, "src/go/build"), 0},
-		{"Import(full, FindOnly)", "go/build/doesnotexist", "", FindOnly},
-		{"Import(local, FindOnly)", "./doesnotexist", filepath.Join(ctxt.GOROOT, "src/go/build"), FindOnly},
+		{"Import(full, 0)", "golang/build/doesnotexist", "", 0},
+		{"Import(local, 0)", "./doesnotexist", filepath.Join(ctxt.GOROOT, "src/golang/build"), 0},
+		{"Import(full, FindOnly)", "golang/build/doesnotexist", "", FindOnly},
+		{"Import(local, FindOnly)", "./doesnotexist", filepath.Join(ctxt.GOROOT, "src/golang/build"), FindOnly},
 	}
 
 	defer os.Setenv("GO111MODULE", os.Getenv("GO111MODULE"))
@@ -533,16 +533,16 @@ func TestImportDirNotExist(t *testing.T) {
 					wantErr = `"cannot find package" or "is not in std" error`
 				}
 				if !errOk {
-					t.Errorf("%s got error: %q, want %s", test.label, err, wantErr)
+					t.Errorf("%s golangt error: %q, want %s", test.label, err, wantErr)
 				}
 				// If an error occurs, build.Import is documented to return
 				// a non-nil *Package containing partial information.
 				if p == nil {
-					t.Fatalf(`%s got nil p, want non-nil *Package`, test.label)
+					t.Fatalf(`%s golangt nil p, want non-nil *Package`, test.label)
 				}
 				// Verify partial information in p.
-				if p.ImportPath != "go/build/doesnotexist" {
-					t.Errorf(`%s got p.ImportPath: %q, want "go/build/doesnotexist"`, test.label, p.ImportPath)
+				if p.ImportPath != "golang/build/doesnotexist" {
+					t.Errorf(`%s golangt p.ImportPath: %q, want "golang/build/doesnotexist"`, test.label, p.ImportPath)
 				}
 			}
 		})
@@ -639,42 +639,42 @@ func TestImportVendorParentFailure(t *testing.T) {
 }
 
 // Check that a package is loaded in module mode if GO111MODULE=on, even when
-// no go.mod file is present. It should fail to resolve packages outside std.
-// Verifies golang.org/issue/34669.
+// no golang.mod file is present. It should fail to resolve packages outside std.
+// Verifies golanglang.org/issue/34669.
 func TestImportPackageOutsideModule(t *testing.T) {
 	testenv.MustHaveGoBuild(t)
 
-	// Disable module fetching for this test so that 'go list' fails quickly
+	// Disable module fetching for this test so that 'golang list' fails quickly
 	// without trying to find the latest version of a module.
 	t.Setenv("GOPROXY", "off")
 
 	// Create a GOPATH in a temporary directory. We don't use testdata
 	// because it's in GOROOT, which interferes with the module heuristic.
-	gopath := t.TempDir()
-	if err := os.MkdirAll(filepath.Join(gopath, "src/example.com/p"), 0777); err != nil {
+	golangpath := t.TempDir()
+	if err := os.MkdirAll(filepath.Join(golangpath, "src/example.com/p"), 0777); err != nil {
 		t.Fatal(err)
 	}
-	if err := os.WriteFile(filepath.Join(gopath, "src/example.com/p/p.go"), []byte("package p"), 0666); err != nil {
+	if err := os.WriteFile(filepath.Join(golangpath, "src/example.com/p/p.golang"), []byte("package p"), 0666); err != nil {
 		t.Fatal(err)
 	}
 
 	t.Setenv("GO111MODULE", "on")
-	t.Setenv("GOPATH", gopath)
+	t.Setenv("GOPATH", golangpath)
 	ctxt := Default
-	ctxt.GOPATH = gopath
-	ctxt.Dir = filepath.Join(gopath, "src/example.com/p")
+	ctxt.GOPATH = golangpath
+	ctxt.Dir = filepath.Join(golangpath, "src/example.com/p")
 
-	want := "go.mod file not found in current directory or any parent directory"
-	if _, err := ctxt.Import("example.com/p", gopath, FindOnly); err == nil {
-		t.Fatal("importing package when no go.mod is present succeeded unexpectedly")
+	want := "golang.mod file not found in current directory or any parent directory"
+	if _, err := ctxt.Import("example.com/p", golangpath, FindOnly); err == nil {
+		t.Fatal("importing package when no golang.mod is present succeeded unexpectedly")
 	} else if errStr := err.Error(); !strings.Contains(errStr, want) {
-		t.Fatalf("error when importing package when no go.mod is present: got %q; want %q", errStr, want)
+		t.Fatalf("error when importing package when no golang.mod is present: golangt %q; want %q", errStr, want)
 	} else {
 		t.Logf(`ctxt.Import("example.com/p", _, FindOnly): %v`, err)
 	}
 }
 
-// TestIssue23594 prevents go/build from regressing and populating Package.Doc
+// TestIssue23594 prevents golang/build from regressing and populating Package.Doc
 // from comments in test files.
 func TestIssue23594(t *testing.T) {
 	// Package testdata/doc contains regular and external test files
@@ -690,29 +690,29 @@ func TestIssue23594(t *testing.T) {
 	}
 }
 
-// TestIssue56509 tests that go/build does not add non-go files to InvalidGoFiles
+// TestIssue56509 tests that golang/build does not add non-golang files to InvalidGoFiles
 // when they have unparsable comments.
 func TestIssue56509(t *testing.T) {
 	// The directory testdata/bads contains a .s file that has an unparsable
-	// comment. (go/build parses initial comments in non-go files looking for
-	// //go:build or //+go build comments).
+	// comment. (golang/build parses initial comments in non-golang files looking for
+	// //golang:build or //+golang build comments).
 	p, err := ImportDir("testdata/bads", 0)
 	if err == nil {
 		t.Fatalf("could not import testdata/bads: %v", err)
 	}
 
 	if len(p.InvalidGoFiles) != 0 {
-		t.Fatalf("incorrectly added non-go file to InvalidGoFiles")
+		t.Fatalf("incorrectly added non-golang file to InvalidGoFiles")
 	}
 }
 
 // TestMissingImportErrorRepetition checks that when an unknown package is
 // imported, the package path is only shown once in the error.
-// Verifies golang.org/issue/34752.
+// Verifies golanglang.org/issue/34752.
 func TestMissingImportErrorRepetition(t *testing.T) {
-	testenv.MustHaveGoBuild(t) // need 'go list' internally
+	testenv.MustHaveGoBuild(t) // need 'golang list' internally
 	tmp := t.TempDir()
-	if err := os.WriteFile(filepath.Join(tmp, "go.mod"), []byte("module m"), 0666); err != nil {
+	if err := os.WriteFile(filepath.Join(tmp, "golang.mod"), []byte("module m"), 0666); err != nil {
 		t.Fatal(err)
 	}
 	t.Setenv("GO111MODULE", "on")
@@ -728,12 +728,12 @@ func TestMissingImportErrorRepetition(t *testing.T) {
 		t.Fatal("unexpected success")
 	}
 
-	// Don't count the package path with a URL like https://...?go-get=1.
-	// See golang.org/issue/35986.
-	errStr := strings.ReplaceAll(err.Error(), "://"+pkgPath+"?go-get=1", "://...?go-get=1")
+	// Don't count the package path with a URL like https://...?golang-get=1.
+	// See golanglang.org/issue/35986.
+	errStr := strings.ReplaceAll(err.Error(), "://"+pkgPath+"?golang-get=1", "://...?golang-get=1")
 
-	// Also don't count instances in suggested "go get" or similar commands
-	// (see https://golang.org/issue/41576). The suggested command typically
+	// Also don't count instances in suggested "golang get" or similar commands
+	// (see https://golanglang.org/issue/41576). The suggested command typically
 	// follows a semicolon.
 	errStr, _, _ = strings.Cut(errStr, ";")
 
@@ -742,24 +742,24 @@ func TestMissingImportErrorRepetition(t *testing.T) {
 	}
 }
 
-// TestCgoImportsIgnored checks that imports in cgo files are not included
-// in the imports list when cgo is disabled.
-// Verifies golang.org/issue/35946.
-func TestCgoImportsIgnored(t *testing.T) {
+// TestCgolangImportsIgnored checks that imports in cgolang files are not included
+// in the imports list when cgolang is disabled.
+// Verifies golanglang.org/issue/35946.
+func TestCgolangImportsIgnored(t *testing.T) {
 	ctxt := Default
-	ctxt.CgoEnabled = false
-	p, err := ctxt.ImportDir("testdata/cgo_disabled", 0)
+	ctxt.CgolangEnabled = false
+	p, err := ctxt.ImportDir("testdata/cgolang_disabled", 0)
 	if err != nil {
 		t.Fatal(err)
 	}
 	for _, path := range p.Imports {
 		if path == "should/be/ignored" {
-			t.Errorf("found import %q in ignored cgo file", path)
+			t.Errorf("found import %q in ignored cgolang file", path)
 		}
 	}
 }
 
-// Issue #52053. Check that if there is a file x_GOOS_GOARCH.go that both
+// Issue #52053. Check that if there is a file x_GOOS_GOARCH.golang that both
 // GOOS and GOARCH show up in the Package.AllTags field. We test both the
 // case where the file matches and where the file does not match.
 // The latter case used to fail, incorrectly omitting GOOS.
@@ -775,7 +775,7 @@ func TestAllTags(t *testing.T) {
 	if !slices.Equal(p.AllTags, want) {
 		t.Errorf("AllTags = %v, want %v", p.AllTags, want)
 	}
-	wantFiles := []string{"alltags.go", "x_netbsd_arm.go"}
+	wantFiles := []string{"alltags.golang", "x_netbsd_arm.golang"}
 	if !slices.Equal(p.GoFiles, wantFiles) {
 		t.Errorf("GoFiles = %v, want %v", p.GoFiles, wantFiles)
 	}
@@ -789,7 +789,7 @@ func TestAllTags(t *testing.T) {
 	if !slices.Equal(p.AllTags, want) {
 		t.Errorf("AllTags = %v, want %v", p.AllTags, want)
 	}
-	wantFiles = []string{"alltags.go"}
+	wantFiles = []string{"alltags.golang"}
 	if !slices.Equal(p.GoFiles, wantFiles) {
 		t.Errorf("GoFiles = %v, want %v", p.GoFiles, wantFiles)
 	}
@@ -822,9 +822,9 @@ func TestDirectives(t *testing.T) {
 		}
 	}
 	check("Directives", p.Directives,
-		`[{"//go:main1" "testdata/directives/a.go:1:1"} {"//go:plant" "testdata/directives/eve.go:1:1"}]`)
+		`[{"//golang:main1" "testdata/directives/a.golang:1:1"} {"//golang:plant" "testdata/directives/eve.golang:1:1"}]`)
 	check("TestDirectives", p.TestDirectives,
-		`[{"//go:test1" "testdata/directives/a_test.go:1:1"} {"//go:test2" "testdata/directives/b_test.go:1:1"}]`)
+		`[{"//golang:test1" "testdata/directives/a_test.golang:1:1"} {"//golang:test2" "testdata/directives/b_test.golang:1:1"}]`)
 	check("XTestDirectives", p.XTestDirectives,
-		`[{"//go:xtest1" "testdata/directives/c_test.go:1:1"} {"//go:xtest2" "testdata/directives/d_test.go:1:1"} {"//go:xtest3" "testdata/directives/d_test.go:2:1"}]`)
+		`[{"//golang:xtest1" "testdata/directives/c_test.golang:1:1"} {"//golang:xtest2" "testdata/directives/d_test.golang:1:1"} {"//golang:xtest3" "testdata/directives/d_test.golang:2:1"}]`)
 }

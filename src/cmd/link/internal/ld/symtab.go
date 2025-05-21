@@ -121,7 +121,7 @@ func putelfsym(ctxt *Link, x loader.Sym, typ elf.SymType, curbind elf.SymBind) {
 	// To avoid filling the dynamic table with lots of unnecessary symbols,
 	// mark all Go symbols local (not global) in the final executable.
 	// But when we're dynamically linking, we need all those global symbols.
-	if !ctxt.DynlinkingGo() && ctxt.IsExternal() && !ldr.AttrCgoExportStatic(x) && elfshnum != elf.SHN_UNDEF {
+	if !ctxt.DynlinkingGo() && ctxt.IsExternal() && !ldr.AttrCgolangExportStatic(x) && elfshnum != elf.SHN_UNDEF {
 		bind = elf.STB_LOCAL
 	}
 
@@ -143,7 +143,7 @@ func putelfsym(ctxt *Link, x loader.Sym, typ elf.SymType, curbind elf.SymBind) {
 		// symbols this is always 8 bytes except for some special functions.
 		hasPCrel := buildcfg.GOPPC64 >= 10 && buildcfg.GOOS == "linux"
 
-		// This should match the preprocessing behavior in cmd/internal/obj/ppc64/obj9.go
+		// This should match the preprocessing behavior in cmd/internal/obj/ppc64/obj9.golang
 		// where the distinct global entry is inserted.
 		if !hasPCrel && ldr.SymName(x) != "runtime.duffzero" && ldr.SymName(x) != "runtime.duffcopy" {
 			other |= 3 << 5
@@ -275,7 +275,7 @@ func asmElfSym(ctxt *Link) {
 	// Avoid having the working directory inserted into the symbol table.
 	// It is added with a name to avoid problems with external linking
 	// encountered on some versions of Solaris. See issue #14957.
-	putelfsyment(ctxt.Out, putelfstr("go.go"), 0, 0, elf.ST_INFO(elf.STB_LOCAL, elf.STT_FILE), elf.SHN_ABS, 0)
+	putelfsyment(ctxt.Out, putelfstr("golang.golang"), 0, 0, elf.ST_INFO(elf.STB_LOCAL, elf.STT_FILE), elf.SHN_ABS, 0)
 	ctxt.numelfsym++
 
 	bindings := []elf.SymBind{elf.STB_LOCAL, elf.STB_GLOBAL}
@@ -395,7 +395,7 @@ func textsectionmap(ctxt *Link) (loader.Sym, uint32) {
 		if sect.Name != ".text" {
 			break
 		}
-		// The fields written should match runtime/symtab.go:textsect.
+		// The fields written should match runtime/symtab.golang:textsect.
 		// They are designed to minimize runtime calculations.
 		vaddr := sect.Vaddr - textbase
 		off = t.SetUint(ctxt.Arch, off, vaddr) // field vaddr
@@ -459,7 +459,7 @@ func (ctxt *Link) symtab(pcln *pclntab) []sym.SymKind {
 	s.SetSize(0)
 	ctxt.xdefine("runtime.egcbss", sym.SRODATA, 0)
 
-	// pseudo-symbols to mark locations of type, string, and go string data.
+	// pseudo-symbols to mark locations of type, string, and golang string data.
 	var symtype, symtyperel loader.Sym
 	if !ctxt.DynlinkingGo() {
 		if ctxt.UseRelro() && (ctxt.BuildMode == BuildModeCArchive || ctxt.BuildMode == BuildModeCShared || ctxt.BuildMode == BuildModePIE) {
@@ -496,14 +496,14 @@ func (ctxt *Link) symtab(pcln *pclntab) []sym.SymKind {
 		return s.Sym()
 	}
 	var (
-		symgostring = groupSym("go:string.*", sym.SGOSTRING)
-		symgofunc   = groupSym("go:func.*", sym.SGOFUNC)
+		symgolangstring = groupSym("golang:string.*", sym.SGOSTRING)
+		symgolangfunc   = groupSym("golang:func.*", sym.SGOFUNC)
 		symgcbits   = groupSym("runtime.gcbits.*", sym.SGCBITS)
 	)
 
-	symgofuncrel := symgofunc
+	symgolangfuncrel := symgolangfunc
 	if ctxt.UseRelro() {
-		symgofuncrel = groupSym("go:funcrel.*", sym.SGOFUNCRELRO)
+		symgolangfuncrel = groupSym("golang:funcrel.*", sym.SGOFUNCRELRO)
 	}
 
 	symt := ldr.CreateSymForUpdate("runtime.symtab", 0)
@@ -529,10 +529,10 @@ func (ctxt *Link) symtab(pcln *pclntab) []sym.SymKind {
 
 		name := ldr.SymName(s)
 		switch {
-		case strings.HasPrefix(name, "go:string."):
+		case strings.HasPrefix(name, "golang:string."):
 			symGroupType[s] = sym.SGOSTRING
 			ldr.SetAttrNotInSymbolTable(s, true)
-			ldr.SetCarrierSym(s, symgostring)
+			ldr.SetCarrierSym(s, symgolangstring)
 
 		case strings.HasPrefix(name, "runtime.gcbits."),
 			strings.HasPrefix(name, "type:.gcprog."):
@@ -547,17 +547,17 @@ func (ctxt *Link) symtab(pcln *pclntab) []sym.SymKind {
 			if ctxt.UseRelro() {
 				symGroupType[s] = sym.SGOFUNCRELRO
 				if !ctxt.DynlinkingGo() {
-					ldr.SetCarrierSym(s, symgofuncrel)
+					ldr.SetCarrierSym(s, symgolangfuncrel)
 				}
 			} else {
 				symGroupType[s] = sym.SGOFUNC
-				ldr.SetCarrierSym(s, symgofunc)
+				ldr.SetCarrierSym(s, symgolangfunc)
 			}
 
 		case strings.HasPrefix(name, "gcargs."),
 			strings.HasPrefix(name, "gclocals."),
 			strings.HasPrefix(name, "gclocals·"),
-			ldr.SymType(s) == sym.SGOFUNC && s != symgofunc, // inltree, see pcln.go
+			ldr.SymType(s) == sym.SGOFUNC && s != symgolangfunc, // inltree, see pcln.golang
 			strings.HasSuffix(name, ".opendefer"),
 			strings.HasSuffix(name, ".arginfo0"),
 			strings.HasSuffix(name, ".arginfo1"),
@@ -567,7 +567,7 @@ func (ctxt *Link) symtab(pcln *pclntab) []sym.SymKind {
 			strings.HasSuffix(name, ".stkobj"):
 			ldr.SetAttrNotInSymbolTable(s, true)
 			symGroupType[s] = sym.SGOFUNC
-			ldr.SetCarrierSym(s, symgofunc)
+			ldr.SetCarrierSym(s, symgolangfunc)
 			if ctxt.Debugvlog != 0 {
 				align := ldr.SymAlign(s)
 				liveness += (ldr.SymSize(s) + int64(align) - 1) &^ (int64(align) - 1)
@@ -575,7 +575,7 @@ func (ctxt *Link) symtab(pcln *pclntab) []sym.SymKind {
 
 		// Note: Check for "type:" prefix after checking for .arginfo1 suffix.
 		// That way symbols like "type:.eq.[2]interface {}.arginfo1" that belong
-		// in go:func.* end up there.
+		// in golang:func.* end up there.
 		case strings.HasPrefix(name, "type:"):
 			if !ctxt.DynlinkingGo() {
 				ldr.SetAttrNotInSymbolTable(s, true)
@@ -595,19 +595,19 @@ func (ctxt *Link) symtab(pcln *pclntab) []sym.SymKind {
 	}
 
 	if ctxt.BuildMode == BuildModeShared {
-		abihashgostr := ldr.CreateSymForUpdate("go:link.abihash."+filepath.Base(*flagOutfile), 0)
-		abihashgostr.SetType(sym.SRODATA)
-		hashsym := ldr.LookupOrCreateSym("go:link.abihashbytes", 0)
-		abihashgostr.AddAddr(ctxt.Arch, hashsym)
-		abihashgostr.AddUint(ctxt.Arch, uint64(ldr.SymSize(hashsym)))
+		abihashgolangstr := ldr.CreateSymForUpdate("golang:link.abihash."+filepath.Base(*flagOutfile), 0)
+		abihashgolangstr.SetType(sym.SRODATA)
+		hashsym := ldr.LookupOrCreateSym("golang:link.abihashbytes", 0)
+		abihashgolangstr.AddAddr(ctxt.Arch, hashsym)
+		abihashgolangstr.AddUint(ctxt.Arch, uint64(ldr.SymSize(hashsym)))
 	}
 	if ctxt.BuildMode == BuildModePlugin || ctxt.CanUsePlugins() {
 		for _, l := range ctxt.Library {
-			s := ldr.CreateSymForUpdate("go:link.pkghashbytes."+l.Pkg, 0)
+			s := ldr.CreateSymForUpdate("golang:link.pkghashbytes."+l.Pkg, 0)
 			s.SetType(sym.SRODATA)
 			s.SetSize(int64(len(l.Fingerprint)))
 			s.SetData(l.Fingerprint[:])
-			str := ldr.CreateSymForUpdate("go:link.pkghash."+l.Pkg, 0)
+			str := ldr.CreateSymForUpdate("golang:link.pkghash."+l.Pkg, 0)
 			str.SetType(sym.SRODATA)
 			str.AddAddr(ctxt.Arch, s.Sym())
 			str.AddUint(ctxt.Arch, uint64(len(l.Fingerprint)))
@@ -618,8 +618,8 @@ func (ctxt *Link) symtab(pcln *pclntab) []sym.SymKind {
 
 	// Information about the layout of the executable image for the
 	// runtime to use. Any changes here must be matched by changes to
-	// the definition of moduledata in runtime/symtab.go.
-	// This code uses several global variables that are set by pcln.go:pclntab.
+	// the definition of moduledata in runtime/symtab.golang.
+	// This code uses several global variables that are set by pcln.golang:pclntab.
 	moduledata := ldr.MakeSymbolUpdater(ctxt.Moduledata)
 
 	slice := func(sym loader.Sym, len uint64) {
@@ -683,7 +683,7 @@ func (ctxt *Link) symtab(pcln *pclntab) []sym.SymKind {
 	moduledata.AddAddr(ctxt.Arch, ldr.Lookup("runtime.types", 0))
 	moduledata.AddAddr(ctxt.Arch, ldr.Lookup("runtime.etypes", 0))
 	moduledata.AddAddr(ctxt.Arch, ldr.Lookup("runtime.rodata", 0))
-	moduledata.AddAddr(ctxt.Arch, ldr.Lookup("go:func.*", 0))
+	moduledata.AddAddr(ctxt.Arch, ldr.Lookup("golang:func.*", 0))
 
 	if ctxt.IsAIX() && ctxt.IsExternal() {
 		// Add R_XCOFFREF relocation to prevent ld's garbage collection of
@@ -704,12 +704,12 @@ func (ctxt *Link) symtab(pcln *pclntab) []sym.SymKind {
 		// important that the offsets we computed stay unchanged by the external
 		// linker, i.e. all symbols in Textp should not be removed.
 		// Most of them are actually referenced (our deadcode pass ensures that),
-		// except go:buildid which is generated late and not used by the program.
-		addRef("go:buildid")
+		// except golang:buildid which is generated late and not used by the program.
+		addRef("golang:buildid")
 	}
 	if ctxt.IsAIX() {
 		// On AIX, an R_ADDR relocation from an RODATA symbol to a DATA symbol
-		// does not work. See data.go:relocsym, case R_ADDR.
+		// does not work. See data.golang:relocsym, case R_ADDR.
 		// Here we record the unrelocated address in aixStaticDataBase (it is
 		// unrelocated as it is in RODATA) so we can compute the delta at
 		// run time.
@@ -733,10 +733,10 @@ func (ctxt *Link) symtab(pcln *pclntab) []sym.SymKind {
 	slice(itablinkSym, nitablinks)
 
 	// The ptab slice
-	if ptab := ldr.Lookup("go:plugin.tabs", 0); ptab != 0 && ldr.AttrReachable(ptab) {
+	if ptab := ldr.Lookup("golang:plugin.tabs", 0); ptab != 0 && ldr.AttrReachable(ptab) {
 		ldr.SetAttrLocal(ptab, true)
 		if ldr.SymType(ptab) != sym.SRODATA {
-			panic(fmt.Sprintf("go:plugin.tabs is %v, not SRODATA", ldr.SymType(ptab)))
+			panic(fmt.Sprintf("golang:plugin.tabs is %v, not SRODATA", ldr.SymType(ptab)))
 		}
 		nentries := uint64(len(ldr.Data(ptab)) / 8) // sizeof(nameOff) + sizeof(typeOff)
 		slice(ptab, nentries)
@@ -745,19 +745,19 @@ func (ctxt *Link) symtab(pcln *pclntab) []sym.SymKind {
 	}
 
 	if ctxt.BuildMode == BuildModePlugin {
-		addgostring(ctxt, ldr, moduledata, "go:link.thispluginpath", objabi.PathToPrefix(*flagPluginPath))
+		addgolangstring(ctxt, ldr, moduledata, "golang:link.thispluginpath", objabi.PathToPrefix(*flagPluginPath))
 
-		pkghashes := ldr.CreateSymForUpdate("go:link.pkghashes", 0)
+		pkghashes := ldr.CreateSymForUpdate("golang:link.pkghashes", 0)
 		pkghashes.SetLocal(true)
 		pkghashes.SetType(sym.SRODATA)
 
 		for i, l := range ctxt.Library {
 			// pkghashes[i].name
-			addgostring(ctxt, ldr, pkghashes, fmt.Sprintf("go:link.pkgname.%d", i), l.Pkg)
+			addgolangstring(ctxt, ldr, pkghashes, fmt.Sprintf("golang:link.pkgname.%d", i), l.Pkg)
 			// pkghashes[i].linktimehash
-			addgostring(ctxt, ldr, pkghashes, fmt.Sprintf("go:link.pkglinkhash.%d", i), string(l.Fingerprint[:]))
+			addgolangstring(ctxt, ldr, pkghashes, fmt.Sprintf("golang:link.pkglinkhash.%d", i), string(l.Fingerprint[:]))
 			// pkghashes[i].runtimehash
-			hash := ldr.Lookup("go:link.pkghash."+l.Pkg, 0)
+			hash := ldr.Lookup("golang:link.pkghash."+l.Pkg, 0)
 			pkghashes.AddAddr(ctxt.Arch, hash)
 		}
 		slice(pkghashes.Sym(), uint64(len(ctxt.Library)))
@@ -790,22 +790,22 @@ func (ctxt *Link) symtab(pcln *pclntab) []sym.SymKind {
 			// it something slightly more comprehensible.
 			thismodulename = "the executable"
 		}
-		addgostring(ctxt, ldr, moduledata, "go:link.thismodulename", thismodulename)
+		addgolangstring(ctxt, ldr, moduledata, "golang:link.thismodulename", thismodulename)
 
-		modulehashes := ldr.CreateSymForUpdate("go:link.abihashes", 0)
+		modulehashes := ldr.CreateSymForUpdate("golang:link.abihashes", 0)
 		modulehashes.SetLocal(true)
 		modulehashes.SetType(sym.SRODATA)
 
 		for i, shlib := range ctxt.Shlibs {
 			// modulehashes[i].modulename
 			modulename := filepath.Base(shlib.Path)
-			addgostring(ctxt, ldr, modulehashes, fmt.Sprintf("go:link.libname.%d", i), modulename)
+			addgolangstring(ctxt, ldr, modulehashes, fmt.Sprintf("golang:link.libname.%d", i), modulename)
 
 			// modulehashes[i].linktimehash
-			addgostring(ctxt, ldr, modulehashes, fmt.Sprintf("go:link.linkhash.%d", i), string(shlib.Hash))
+			addgolangstring(ctxt, ldr, modulehashes, fmt.Sprintf("golang:link.linkhash.%d", i), string(shlib.Hash))
 
 			// modulehashes[i].runtimehash
-			abihash := ldr.LookupOrCreateSym("go:link.abihash."+modulename, 0)
+			abihash := ldr.LookupOrCreateSym("golang:link.abihash."+modulename, 0)
 			ldr.SetAttrReachable(abihash, true)
 			modulehashes.AddAddr(ctxt.Arch, abihash)
 		}
@@ -897,7 +897,7 @@ func mangleABIName(ctxt *Link, ldr *loader.Loader, x loader.Sym, name string) st
 	// except symbols that are exported to C. Type symbols are always
 	// ABIInternal so they are not mangled.
 	if ctxt.IsShared() {
-		if ldr.SymType(x).IsText() && ldr.SymVersion(x) == sym.SymVerABIInternal && !ldr.AttrCgoExport(x) && !strings.HasPrefix(name, "type:") {
+		if ldr.SymType(x).IsText() && ldr.SymVersion(x) == sym.SymVerABIInternal && !ldr.AttrCgolangExport(x) && !strings.HasPrefix(name, "type:") {
 			name = fmt.Sprintf("%s.abiinternal", name)
 		}
 	}

@@ -45,13 +45,13 @@ that allocation events can refer to.
    work by running the tests in the `internal/trace/tracev2` package.
    If you wish for your event argument to be interpreted in a particular
    way, follow the naming convention in
-   `src/internal/trace/tracev2/spec.go`.
+   `src/internal/trace/tracev2/spec.golang`.
    For example, if you intend to emit a string argument, make sure the
    argument name has the suffix `string`.
 3. Add ordering and validation logic for your new events to
-   `src/internal/trace/order.go` by listing handlers for those events in
+   `src/internal/trace/order.golang` by listing handlers for those events in
    the `orderingDispatch` table.
-   If your events are always emitted in a regular user goroutine context,
+   If your events are always emitted in a regular user golangroutine context,
    then the handler should be trivial and just validate the scheduling
    context to match userGoReqs.
    If it's more complicated, see `(*ordering).advanceAllocFree` for a
@@ -60,7 +60,7 @@ that allocation events can refer to.
    If you need to encode a partial ordering, look toward the scheduler
    events (names beginning with `Go`) or just ask someone for help.
 4. Add your new events to the `tracev2Type2Kind` table in
-   `src/internal/trace/event.go`.
+   `src/internal/trace/event.golang`.
 
 ## Emitting data
 

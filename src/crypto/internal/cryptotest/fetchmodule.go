@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package cryptotest
@@ -18,21 +18,21 @@ import (
 // possible in this environment.
 func FetchModule(t *testing.T, module, version string) string {
 	testenv.MustHaveExternalNetwork(t)
-	goTool := testenv.GoToolPath(t)
+	golangTool := testenv.GoToolPath(t)
 
 	// If the default GOMODCACHE doesn't exist, use a temporary directory
-	// instead. (For example, run.bash sets GOPATH=/nonexist-gopath.)
-	out, err := testenv.Command(t, goTool, "env", "GOMODCACHE").Output()
+	// instead. (For example, run.bash sets GOPATH=/nonexist-golangpath.)
+	out, err := testenv.Command(t, golangTool, "env", "GOMODCACHE").Output()
 	if err != nil {
-		t.Errorf("%s env GOMODCACHE: %v\n%s", goTool, err, out)
+		t.Errorf("%s env GOMODCACHE: %v\n%s", golangTool, err, out)
 		if ee, ok := err.(*exec.ExitError); ok {
 			t.Logf("%s", ee.Stderr)
 		}
 		t.FailNow()
 	}
 	modcacheOk := false
-	if gomodcache := string(bytes.TrimSpace(out)); gomodcache != "" {
-		if _, err := os.Stat(gomodcache); err == nil {
+	if golangmodcache := string(bytes.TrimSpace(out)); golangmodcache != "" {
+		if _, err := os.Stat(golangmodcache); err == nil {
 			modcacheOk = true
 		}
 	}
@@ -44,7 +44,7 @@ func FetchModule(t *testing.T, module, version string) string {
 
 	t.Logf("fetching %s@%s\n", module, version)
 
-	output, err := testenv.Command(t, goTool, "mod", "download", "-json", module+"@"+version).CombinedOutput()
+	output, err := testenv.Command(t, golangTool, "mod", "download", "-json", module+"@"+version).CombinedOutput()
 	if err != nil {
 		t.Fatalf("failed to download %s@%s: %s\n%s\n", module, version, err, output)
 	}
@@ -52,7 +52,7 @@ func FetchModule(t *testing.T, module, version string) string {
 		Dir string
 	}
 	if err := json.Unmarshal(output, &j); err != nil {
-		t.Fatalf("failed to parse 'go mod download': %s\n%s\n", err, output)
+		t.Fatalf("failed to parse 'golang mod download': %s\n%s\n", err, output)
 	}
 
 	return j.Dir

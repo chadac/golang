@@ -1,20 +1,20 @@
 // run
 
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Values smaller than 64-bits were mistakenly always proven to be
 // non-negative.
 //
-// The tests here are marked go:noinline to ensure they're
+// The tests here are marked golang:noinline to ensure they're
 // independently optimized by SSA.
 
 package main
 
 var x int32 = -1
 
-//go:noinline
+//golang:noinline
 func a() {
 	if x != -1 {
 		panic(1)
@@ -24,7 +24,7 @@ func a() {
 	}
 }
 
-//go:noinline
+//golang:noinline
 func b() {
 	if x != -1 {
 		panic(3)
@@ -34,7 +34,7 @@ func b() {
 	}
 }
 
-//go:noinline
+//golang:noinline
 func c() {
 	if x > 0 || x != -1 {
 		panic(5)

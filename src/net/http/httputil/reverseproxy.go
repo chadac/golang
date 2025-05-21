@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // HTTP reverse proxy handler
@@ -23,7 +23,7 @@ import (
 	"sync"
 	"time"
 
-	"golang.org/x/net/http/httpguts"
+	"golanglang.org/x/net/http/httpguts"
 )
 
 // A ProxyRequest contains a request to be rewritten by a [ReverseProxy].
@@ -306,7 +306,7 @@ func copyHeader(dst, src http.Header) {
 // compatibility.
 var hopHeaders = []string{
 	"Connection",
-	"Proxy-Connection", // non-standard but still sent by libcurl and rejected by e.g. google
+	"Proxy-Connection", // non-standard but still sent by libcurl and rejected by e.g. golangogle
 	"Keep-Alive",
 	"Proxy-Authenticate",
 	"Proxy-Authorization",
@@ -353,7 +353,7 @@ func (p *ReverseProxy) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 		// CloseNotifier predates context.Context, and has been
 		// entirely superseded by it. If the request contains
 		// a Context that carries a cancellation signal, don't
-		// bother spinning up a goroutine to watch the CloseNotify
+		// bother spinning up a golangroutine to watch the CloseNotify
 		// channel (if any).
 		//
 		// If the request Context has a nil Done channel (which
@@ -365,7 +365,7 @@ func (p *ReverseProxy) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 		ctx, cancel = context.WithCancel(ctx)
 		defer cancel()
 		notifyChan := cn.CloseNotify()
-		go func() {
+		golang func() {
 			select {
 			case <-notifyChan:
 				cancel()
@@ -380,7 +380,7 @@ func (p *ReverseProxy) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 	}
 	if outreq.Body != nil {
 		// Reading from the request body after returning from a handler is not
-		// allowed, and the RoundTrip goroutine that reads the Body can outlive
+		// allowed, and the RoundTrip golangroutine that reads the Body can outlive
 		// this handler. This can lead to a crash if the handler panics (see
 		// Issue 46866). Although calling Close doesn't guarantee there isn't
 		// any Read in flight after the handle returns, in practice it's safe to
@@ -412,7 +412,7 @@ func (p *ReverseProxy) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 	removeHopByHopHeaders(outreq.Header)
 
 	// Issue 21096: tell backend applications that care about trailer support
-	// that we support trailers. (We do, but we don't go out of our way to
+	// that we support trailers. (We do, but we don't golang out of our way to
 	// advertise that unless the incoming client request thought it was worth
 	// mentioning.) Note that we look at req.Header, not outreq.Header, since
 	// the latter has passed through removeHopByHopHeaders.
@@ -724,7 +724,7 @@ func (m *maxLatencyWriter) Write(p []byte) (n int, err error) {
 func (m *maxLatencyWriter) delayedFlush() {
 	m.mu.Lock()
 	defer m.mu.Unlock()
-	if !m.flushPending { // if stop was called but AfterFunc already started this goroutine
+	if !m.flushPending { // if stop was called but AfterFunc already started this golangroutine
 		return
 	}
 	m.flush()
@@ -773,9 +773,9 @@ func (p *ReverseProxy) handleUpgradeResponse(rw http.ResponseWriter, req *http.R
 	}
 
 	backConnCloseCh := make(chan bool)
-	go func() {
+	golang func() {
 		// Ensure that the cancellation of a request closes the backend.
-		// See issue https://golang.org/issue/35559.
+		// See issue https://golanglang.org/issue/35559.
 		select {
 		case <-req.Context().Done():
 		case <-backConnCloseCh:
@@ -804,8 +804,8 @@ func (p *ReverseProxy) handleUpgradeResponse(rw http.ResponseWriter, req *http.R
 	}
 	errc := make(chan error, 1)
 	spc := switchProtocolCopier{user: conn, backend: backConn}
-	go spc.copyToBackend(errc)
-	go spc.copyFromBackend(errc)
+	golang spc.copyToBackend(errc)
+	golang spc.copyFromBackend(errc)
 
 	// Wait until both copy functions have sent on the error channel,
 	// or until one fails.
@@ -817,7 +817,7 @@ func (p *ReverseProxy) handleUpgradeResponse(rw http.ResponseWriter, req *http.R
 
 var errCopyDone = errors.New("hijacked connection copy complete")
 
-// switchProtocolCopier exists so goroutines proxying data back and
+// switchProtocolCopier exists so golangroutines proxying data back and
 // forth have nice names in stacks.
 type switchProtocolCopier struct {
 	user, backend io.ReadWriter

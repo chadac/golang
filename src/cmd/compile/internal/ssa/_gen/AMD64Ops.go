@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -28,7 +28,7 @@ import "strings"
 // D (double)    = 64 bit float
 // S (single)    = 32 bit float
 
-// copied from ../../amd64/reg.go
+// copied from ../../amd64/reg.golang
 var regNamesAMD64 = []string{
 	"AX",
 	"CX",
@@ -660,7 +660,7 @@ func init() {
 		// CMOV with floating point instructions. We need separate pseudo-op to handle
 		// InvertFlags correctly, and to generate special code that handles NaN (unordered flag).
 		// NOTE: the fact that CMOV*EQF here is marked to generate CMOV*NE is not a bug. See
-		// code generation in amd64/ssa.go.
+		// code generation in amd64/ssa.golang.
 		{name: "CMOVQEQF", argLength: 3, reg: gp21, asm: "CMOVQNE", resultInArg0: true, needIntTemp: true},
 		{name: "CMOVQNEF", argLength: 3, reg: gp21, asm: "CMOVQNE", resultInArg0: true},
 		{name: "CMOVQGTF", argLength: 3, reg: gp21, asm: "CMOVQHI", resultInArg0: true},
@@ -973,7 +973,7 @@ func init() {
 		// LoweredGetCallerPC evaluates to the PC to which its "caller" will return.
 		// I.e., if f calls g "calls" sys.GetCallerPC,
 		// the result should be the PC within f that g will return to.
-		// See runtime/stubs.go for a more detailed discussion.
+		// See runtime/stubs.golang for a more detailed discussion.
 		{name: "LoweredGetCallerPC", reg: gp01, rematerializeable: true},
 		// LoweredGetCallerSP returns the SP of the caller of the current function. arg0=mem
 		{name: "LoweredGetCallerSP", argLength: 1, reg: gp01, rematerializeable: true},
@@ -989,9 +989,9 @@ func init() {
 		// There are three of these functions so that they can have three different register inputs.
 		// When we check 0 <= c <= cap (A), then 0 <= b <= c (B), then 0 <= a <= b (C), we want the
 		// default registers to match so we don't need to copy registers around unnecessarily.
-		{name: "LoweredPanicBoundsA", argLength: 3, aux: "Int64", reg: regInfo{inputs: []regMask{dx, bx}}, typ: "Mem", call: true}, // arg0=idx, arg1=len, arg2=mem, returns memory. AuxInt contains report code (see PanicBounds in generic.go).
-		{name: "LoweredPanicBoundsB", argLength: 3, aux: "Int64", reg: regInfo{inputs: []regMask{cx, dx}}, typ: "Mem", call: true}, // arg0=idx, arg1=len, arg2=mem, returns memory. AuxInt contains report code (see PanicBounds in generic.go).
-		{name: "LoweredPanicBoundsC", argLength: 3, aux: "Int64", reg: regInfo{inputs: []regMask{ax, cx}}, typ: "Mem", call: true}, // arg0=idx, arg1=len, arg2=mem, returns memory. AuxInt contains report code (see PanicBounds in generic.go).
+		{name: "LoweredPanicBoundsA", argLength: 3, aux: "Int64", reg: regInfo{inputs: []regMask{dx, bx}}, typ: "Mem", call: true}, // arg0=idx, arg1=len, arg2=mem, returns memory. AuxInt contains report code (see PanicBounds in generic.golang).
+		{name: "LoweredPanicBoundsB", argLength: 3, aux: "Int64", reg: regInfo{inputs: []regMask{cx, dx}}, typ: "Mem", call: true}, // arg0=idx, arg1=len, arg2=mem, returns memory. AuxInt contains report code (see PanicBounds in generic.golang).
+		{name: "LoweredPanicBoundsC", argLength: 3, aux: "Int64", reg: regInfo{inputs: []regMask{ax, cx}}, typ: "Mem", call: true}, // arg0=idx, arg1=len, arg2=mem, returns memory. AuxInt contains report code (see PanicBounds in generic.golang).
 
 		// Constant flag values. For any comparison, there are 5 possible
 		// outcomes: the three from the signed total order (<,==,>) and the
@@ -1229,7 +1229,7 @@ func init() {
 	archs = append(archs, arch{
 		name:               "AMD64",
 		pkg:                "cmd/internal/obj/x86",
-		genfile:            "../../amd64/ssa.go",
+		genfile:            "../../amd64/ssa.golang",
 		ops:                AMD64ops,
 		blocks:             AMD64blocks,
 		regnames:           regNamesAMD64,

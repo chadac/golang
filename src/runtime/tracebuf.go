@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Trace buffer management.
@@ -39,7 +39,7 @@ type traceWriter struct {
 //
 // nosplit to allow for safe reentrant tracing from stack growth paths.
 //
-//go:nosplit
+//golang:nosplit
 func (tl traceLocker) writer() traceWriter {
 	if debugTraceReentrancy {
 		// Checks that the invariants of this function are being upheld.
@@ -70,7 +70,7 @@ func unsafeTraceWriter(gen uintptr, buf *traceBuf) traceWriter {
 // nosplit because it's part of writing an event for an M, which must not
 // have any stack growth.
 //
-//go:nosplit
+//golang:nosplit
 func (w traceWriter) event(ev tracev2.EventType, args ...traceArg) traceWriter {
 	// N.B. Everything in this call must be nosplit to maintain
 	// the stack growth related invariants for writing events.
@@ -100,7 +100,7 @@ func (w traceWriter) event(ev tracev2.EventType, args ...traceArg) traceWriter {
 // nosplit because it's part of writing an event for an M, which must not
 // have any stack growth.
 //
-//go:nosplit
+//golang:nosplit
 func (w traceWriter) end() {
 	if w.mp == nil {
 		// Tolerate a nil mp. It makes code that creates traceWriters directly
@@ -125,7 +125,7 @@ func (w traceWriter) end() {
 // nosplit because it's part of writing an event for an M, which must not
 // have any stack growth.
 //
-//go:nosplit
+//golang:nosplit
 func (w traceWriter) ensure(maxSize int) (traceWriter, bool) {
 	refill := w.traceBuf == nil || !w.available(maxSize)
 	if refill {
@@ -139,7 +139,7 @@ func (w traceWriter) ensure(maxSize int) (traceWriter, bool) {
 // nosplit because it's part of writing an event for an M, which must not
 // have any stack growth.
 //
-//go:nosplit
+//golang:nosplit
 func (w traceWriter) flush() traceWriter {
 	systemstack(func() {
 		lock(&trace.lock)
@@ -277,7 +277,7 @@ type traceBuf struct {
 // nosplit because it's part of writing an event for an M, which must not
 // have any stack growth.
 //
-//go:nosplit
+//golang:nosplit
 func (buf *traceBuf) byte(v byte) {
 	buf.arr[buf.pos] = v
 	buf.pos++
@@ -288,7 +288,7 @@ func (buf *traceBuf) byte(v byte) {
 // nosplit because it's part of writing an event for an M, which must not
 // have any stack growth.
 //
-//go:nosplit
+//golang:nosplit
 func (buf *traceBuf) varint(v uint64) {
 	pos := buf.pos
 	arr := buf.arr[pos : pos+traceBytesPerNumber]
@@ -311,7 +311,7 @@ func (buf *traceBuf) varint(v uint64) {
 // nosplit because it's part of writing an event for an M, which must not
 // have any stack growth.
 //
-//go:nosplit
+//golang:nosplit
 func (buf *traceBuf) varintReserve() int {
 	p := buf.pos
 	buf.pos += traceBytesPerNumber
@@ -323,7 +323,7 @@ func (buf *traceBuf) varintReserve() int {
 // nosplit because it's part of writing an event for an M, which must not
 // have any stack growth.
 //
-//go:nosplit
+//golang:nosplit
 func (buf *traceBuf) stringData(s string) {
 	buf.pos += copy(buf.arr[buf.pos:], s)
 }
@@ -331,7 +331,7 @@ func (buf *traceBuf) stringData(s string) {
 // nosplit because it's part of writing an event for an M, which must not
 // have any stack growth.
 //
-//go:nosplit
+//golang:nosplit
 func (buf *traceBuf) available(size int) bool {
 	return len(buf.arr)-buf.pos >= size
 }
@@ -344,7 +344,7 @@ func (buf *traceBuf) available(size int) bool {
 // nosplit because it's part of writing an event for an M, which must not
 // have any stack growth.
 //
-//go:nosplit
+//golang:nosplit
 func (buf *traceBuf) varintAt(pos int, v uint64) {
 	for i := 0; i < traceBytesPerNumber; i++ {
 		if i < traceBytesPerNumber-1 {
@@ -364,7 +364,7 @@ func (buf *traceBuf) varintAt(pos int, v uint64) {
 //
 // Must run on the system stack because trace.lock must be held.
 //
-//go:systemstack
+//golang:systemstack
 func traceBufFlush(buf *traceBuf, gen uintptr) {
 	assertLockHeld(&trace.lock)
 

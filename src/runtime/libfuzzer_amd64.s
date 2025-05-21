@@ -1,11 +1,11 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build libfuzzer
+//golang:build libfuzzer
 
-#include "go_asm.h"
-#include "go_tls.h"
+#include "golang_asm.h"
+#include "golang_tls.h"
 #include "textflag.h"
 
 // Based on race_amd64.s; see commentary there.
@@ -40,7 +40,7 @@ TEXT	runtime·libfuzzerCall4(SB), NOSPLIT, $0-40
 	MOVQ	m_g0(R13), R10
 	CMPQ	R10, R14
 	JE	call	// already on g0
-	MOVQ	(g_sched+gobuf_sp)(R10), SP
+	MOVQ	(g_sched+golangbuf_sp)(R10), SP
 call:
 	ANDQ	$~15, SP	// alignment for gcc ABI
 	CALL	AX
@@ -90,7 +90,7 @@ TEXT	runtime·libfuzzerCallTraceIntCmp(SB), NOSPLIT, $0-32
 	MOVQ	m_g0(R13), R10
 	CMPQ	R10, R14
 	JE	call	// already on g0
-	MOVQ	(g_sched+gobuf_sp)(R10), SP
+	MOVQ	(g_sched+golangbuf_sp)(R10), SP
 call:
 	ANDQ	$~15, SP	// alignment for gcc ABI
 	SUBQ	$8, SP
@@ -150,7 +150,7 @@ TEXT	runtime·libfuzzerCallWithTwoByteBuffers(SB), NOSPLIT, $0-24
 	MOVQ	m_g0(R13), R10
 	CMPQ	R10, R14
 	JE	call	// already on g0
-	MOVQ	(g_sched+gobuf_sp)(R10), SP
+	MOVQ	(g_sched+golangbuf_sp)(R10), SP
 call:
 	ANDQ	$~15, SP	// alignment for gcc ABI
 	CALL	AX

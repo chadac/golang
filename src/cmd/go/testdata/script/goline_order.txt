@@ -1,74 +1,74 @@
-# Check that go lines are always >= go lines of dependencies.
+# Check that golang lines are always >= golang lines of dependencies.
 
 # Using too old a release cannot even complete module load.
-env TESTGO_VERSION=go1.21.1
+env TESTGO_VERSION=golang1.21.1
 env TESTGO_VERSION_SWITCH=switch
-cp go.mod go.mod.orig
+cp golang.mod golang.mod.orig
 
 # If the offending module is not imported, it's not detected.
-go list
-cmp go.mod go.mod.orig
+golang list
+cmp golang.mod golang.mod.orig
 
 # Adding the import produces the error.
 # Maybe this should auto-switch, but it requires more plumbing to get this error through,
 # and it's a misconfigured system that should not arise in practice, so not switching is fine.
-! go list -deps -tags usem1
-cmp go.mod go.mod.orig
-stderr '^go: module ./m1 requires go >= 1.21.2 \(running go 1.21.1\)$'
+! golang list -deps -tags usem1
+cmp golang.mod golang.mod.orig
+stderr '^golang: module ./m1 requires golang >= 1.21.2 \(running golang 1.21.1\)$'
 
-# go get go@1.21.2 fixes the error.
-cp go.mod.orig go.mod
-go get go@1.21.2
-go list -deps -tags usem1
+# golang get golang@1.21.2 fixes the error.
+cp golang.mod.orig golang.mod
+golang get golang@1.21.2
+golang list -deps -tags usem1
 
-# go get -tags usem1 fixes the error.
-cp go.mod.orig go.mod
-go get -tags usem1
-go list -deps -tags usem1
+# golang get -tags usem1 fixes the error.
+cp golang.mod.orig golang.mod
+golang get -tags usem1
+golang list -deps -tags usem1
 
-# go get fixes the error.
-cp go.mod.orig go.mod
-go get
-go list -deps -tags usem1
+# golang get fixes the error.
+cp golang.mod.orig golang.mod
+golang get
+golang list -deps -tags usem1
 
-# Using a new enough release reports the error after module load and suggests 'go mod tidy'
-env TESTGO_VERSION=go1.21.2
-cp go.mod.orig go.mod
-! go list -deps -tags usem1
-stderr 'updates to go.mod needed'
-stderr 'go mod tidy'
-go mod tidy
-go list -deps -tags usem1
+# Using a new enough release reports the error after module load and suggests 'golang mod tidy'
+env TESTGO_VERSION=golang1.21.2
+cp golang.mod.orig golang.mod
+! golang list -deps -tags usem1
+stderr 'updates to golang.mod needed'
+stderr 'golang mod tidy'
+golang mod tidy
+golang list -deps -tags usem1
 
-# go get also works
-cp go.mod.orig go.mod
-! go list -deps -tags usem1
-stderr 'updates to go.mod needed'
-stderr 'go mod tidy'
-go get go@1.21.2
-go list -deps -tags usem1
+# golang get also works
+cp golang.mod.orig golang.mod
+! golang list -deps -tags usem1
+stderr 'updates to golang.mod needed'
+stderr 'golang mod tidy'
+golang get golang@1.21.2
+golang list -deps -tags usem1
 
 
--- go.mod --
+-- golang.mod --
 module m
-go 1.21.1
+golang 1.21.1
 
 require m1 v0.0.1
 
 replace m1 => ./m1
 
--- m1/go.mod --
-go 1.21.2
+-- m1/golang.mod --
+golang 1.21.2
 
--- p.go --
-//go:build usem1
+-- p.golang --
+//golang:build usem1
 
 package p
 
 import _ "m1"
 
--- p1.go --
+-- p1.golang --
 package p
 
--- m1/p.go --
+-- m1/p.golang --
 package p

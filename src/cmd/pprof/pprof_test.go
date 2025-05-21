@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -37,7 +37,7 @@ func mustHaveCPUProfiling(t *testing.T) {
 		t.Skipf("skipping on %s, unimplemented", runtime.GOOS)
 	case "aix":
 		t.Skipf("skipping on %s, issue 45170", runtime.GOOS)
-	case "ios", "dragonfly", "netbsd", "illumos", "solaris":
+	case "ios", "dragolangnfly", "netbsd", "illumos", "solaris":
 		t.Skipf("skipping on %s, issue 13841", runtime.GOOS)
 	case "openbsd":
 		if runtime.GOARCH == "arm" || runtime.GOARCH == "arm64" {
@@ -75,7 +75,7 @@ func TestDisasm(t *testing.T) {
 
 	tmpdir := t.TempDir()
 	cpuExe := filepath.Join(tmpdir, "cpu.exe")
-	cmd := testenv.Command(t, testenv.GoToolPath(t), "build", "-o", cpuExe, "cpu.go")
+	cmd := testenv.Command(t, testenv.GoToolPath(t), "build", "-o", cpuExe, "cpu.golang")
 	cmd.Dir = "testdata/"
 	out, err := cmd.CombinedOutput()
 	if err != nil {
@@ -108,6 +108,6 @@ func TestDisasm(t *testing.T) {
 	sout := string(out)
 	want := "ROUTINE ======================== main.main"
 	if !strings.Contains(sout, want) {
-		t.Errorf("pprof -disasm got %s want contains %q", sout, want)
+		t.Errorf("pprof -disasm golangt %s want contains %q", sout, want)
 	}
 }

@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file implements runtime support for signal handling.
@@ -39,7 +39,7 @@ func (q *noteQueue) push(item *byte) bool {
 		unlock(&q.lock)
 		return false
 	}
-	s := gostringnocopy(item)
+	s := golangstringnocopy(item)
 	copy(q.data[q.wi].s[:], s)
 	q.data[q.wi].n = len(s)
 	q.wi++
@@ -77,7 +77,7 @@ func sendNote(s *byte) bool {
 		return false
 	}
 
-	// Add signal to outgoing queue.
+	// Add signal to outgolanging queue.
 	if !sig.q.push(s) {
 		return false
 	}
@@ -93,9 +93,9 @@ func sendNote(s *byte) bool {
 }
 
 // Called to receive the next queued signal.
-// Must only be called from a single goroutine at a time.
+// Must only be called from a single golangroutine at a time.
 //
-//go:linkname signal_recv os/signal.signal_recv
+//golang:linkname signal_recv os/signal.signal_recv
 func signal_recv() string {
 	for {
 		note := sig.q.pop()
@@ -119,7 +119,7 @@ func signal_recv() string {
 // that all the signals have been delivered to the user channels
 // by the os/signal package.
 //
-//go:linkname signalWaitUntilIdle os/signal.signalWaitUntilIdle
+//golang:linkname signalWaitUntilIdle os/signal.signalWaitUntilIdle
 func signalWaitUntilIdle() {
 	for {
 		lock(&sig.lock)
@@ -132,9 +132,9 @@ func signalWaitUntilIdle() {
 	}
 }
 
-// Must only be called from a single goroutine at a time.
+// Must only be called from a single golangroutine at a time.
 //
-//go:linkname signal_enable os/signal.signal_enable
+//golang:linkname signal_enable os/signal.signal_enable
 func signal_enable(s uint32) {
 	if !sig.inuse {
 		// This is the first call to signal_enable. Initialize.
@@ -143,19 +143,19 @@ func signal_enable(s uint32) {
 	}
 }
 
-// Must only be called from a single goroutine at a time.
+// Must only be called from a single golangroutine at a time.
 //
-//go:linkname signal_disable os/signal.signal_disable
+//golang:linkname signal_disable os/signal.signal_disable
 func signal_disable(s uint32) {
 }
 
-// Must only be called from a single goroutine at a time.
+// Must only be called from a single golangroutine at a time.
 //
-//go:linkname signal_ignore os/signal.signal_ignore
+//golang:linkname signal_ignore os/signal.signal_ignore
 func signal_ignore(s uint32) {
 }
 
-//go:linkname signal_ignored os/signal.signal_ignored
+//golang:linkname signal_ignored os/signal.signal_ignored
 func signal_ignored(s uint32) bool {
 	return false
 }

@@ -1,5 +1,5 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package zip_sum_test tests that the module zip files produced by modfetch
@@ -29,11 +29,11 @@ import (
 	"strings"
 	"testing"
 
-	"cmd/go/internal/cfg"
-	"cmd/go/internal/modfetch"
-	"cmd/go/internal/modload"
+	"cmd/golang/internal/cfg"
+	"cmd/golang/internal/modfetch"
+	"cmd/golang/internal/modload"
 
-	"golang.org/x/mod/module"
+	"golanglang.org/x/mod/module"
 )
 
 var (
@@ -140,7 +140,7 @@ func TestZipSums(t *testing.T) {
 					test.wantSum = sum
 					needUpdate = true
 				} else {
-					t.Errorf("%s: got content sum %s; want sum %s", test.m, sum, test.wantSum)
+					t.Errorf("%s: golangt content sum %s; want sum %s", test.m, sum, test.wantSum)
 					return
 				}
 			}
@@ -161,7 +161,7 @@ func TestZipSums(t *testing.T) {
 					test.wantFileHash = zipHash
 					needUpdate = true
 				} else {
-					t.Errorf("%s: got zip file hash %s; want hash %s (but content sum matches)", test.m, zipHash, test.wantFileHash)
+					t.Errorf("%s: golangt zip file hash %s; want hash %s (but content sum matches)", test.m, zipHash, test.wantFileHash)
 				}
 			}
 		})

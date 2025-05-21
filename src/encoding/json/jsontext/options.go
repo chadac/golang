@@ -1,8 +1,8 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build goexperiment.jsonv2
+//golang:build golangexperiment.jsonv2
 
 package jsontext
 
@@ -270,7 +270,7 @@ func WithIndentPrefix(prefix string) Options {
 }
 
 /*
-// TODO(https://go.dev/issue/56733): Implement WithByteLimit and WithDepthLimit.
+// TODO(https://golang.dev/issue/56733): Implement WithByteLimit and WithDepthLimit.
 
 // WithByteLimit sets a limit on the number of bytes of input or output bytes
 // that may be consumed or produced for each top-level JSON value.

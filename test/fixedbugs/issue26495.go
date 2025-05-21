@@ -1,10 +1,10 @@
 // run
 
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Issue 26495: gccgo produces incorrect order of evaluation
+// Issue 26495: gccgolang produces incorrect order of evaluation
 // for expressions involving &&, || subexpressions.
 
 package main

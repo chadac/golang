@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package tls
@@ -20,7 +20,7 @@ type testQUICConn struct {
 	writeSecret       map[QUICEncryptionLevel]suiteSecret
 	ticketOpts        QUICSessionTicketOptions
 	onResumeSession   func(*SessionState)
-	gotParams         []byte
+	golangtParams         []byte
 	earlyDataRejected bool
 	complete          bool
 }
@@ -128,9 +128,9 @@ func runTestQUICConnection(ctx context.Context, cli, srv *testQUICConn, onEvent 
 				return err
 			}
 		case QUICTransportParameters:
-			a.gotParams = e.Data
-			if a.gotParams == nil {
-				a.gotParams = []byte{}
+			a.golangtParams = e.Data
+			if a.golangtParams == nil {
+				a.golangtParams = []byte{}
 			}
 		case QUICTransportParametersRequired:
 			return errTransportParametersRequired
@@ -205,7 +205,7 @@ func TestQUICSessionResumption(t *testing.T) {
 	clientConfig := &QUICConfig{TLSConfig: testConfig.Clone()}
 	clientConfig.TLSConfig.MinVersion = VersionTLS13
 	clientConfig.TLSConfig.ClientSessionCache = NewLRUClientSessionCache(1)
-	clientConfig.TLSConfig.ServerName = "example.go.dev"
+	clientConfig.TLSConfig.ServerName = "example.golang.dev"
 
 	serverConfig := &QUICConfig{TLSConfig: testConfig.Clone()}
 	serverConfig.TLSConfig.MinVersion = VersionTLS13
@@ -237,7 +237,7 @@ func TestQUICFragmentaryData(t *testing.T) {
 	clientConfig := &QUICConfig{TLSConfig: testConfig.Clone()}
 	clientConfig.TLSConfig.MinVersion = VersionTLS13
 	clientConfig.TLSConfig.ClientSessionCache = NewLRUClientSessionCache(1)
-	clientConfig.TLSConfig.ServerName = "example.go.dev"
+	clientConfig.TLSConfig.ServerName = "example.golang.dev"
 
 	serverConfig := &QUICConfig{TLSConfig: testConfig.Clone()}
 	serverConfig.TLSConfig.MinVersion = VersionTLS13
@@ -279,7 +279,7 @@ func TestQUICPostHandshakeClientAuthentication(t *testing.T) {
 	certReq := new(certificateRequestMsgTLS13)
 	certReq.ocspStapling = true
 	certReq.scts = true
-	certReq.supportedSignatureAlgorithms = supportedSignatureAlgorithms(VersionTLS13)
+	certReq.supportedSignatureAlgolangrithms = supportedSignatureAlgolangrithms(VersionTLS13)
 	certReqBytes, err := certReq.marshal()
 	if err != nil {
 		t.Fatal(err)
@@ -288,7 +288,7 @@ func TestQUICPostHandshakeClientAuthentication(t *testing.T) {
 		byte(typeCertificateRequest),
 		byte(0), byte(0), byte(len(certReqBytes)),
 	}, certReqBytes...)); err == nil {
-		t.Fatalf("post-handshake authentication request: got no error, want one")
+		t.Fatalf("post-handshake authentication request: golangt no error, want one")
 	}
 }
 
@@ -311,9 +311,9 @@ func TestQUICPostHandshakeKeyUpdate(t *testing.T) {
 	}
 	expectedErr := "unexpected key update message"
 	if err = cli.conn.HandleData(QUICEncryptionLevelApplication, keyUpdateBytes); err == nil {
-		t.Fatalf("key update request: expected error from post-handshake key update, got nil")
+		t.Fatalf("key update request: expected error from post-handshake key update, golangt nil")
 	} else if !strings.Contains(err.Error(), expectedErr) {
-		t.Fatalf("key update request: got error %v, expected substring %q", err, expectedErr)
+		t.Fatalf("key update request: golangt error %v, expected substring %q", err, expectedErr)
 	}
 }
 
@@ -335,7 +335,7 @@ func TestQUICPostHandshakeMessageTooLarge(t *testing.T) {
 		byte(size >> 8),
 		byte(size),
 	}); err == nil {
-		t.Fatalf("%v-byte post-handshake message: got no error, want one", size)
+		t.Fatalf("%v-byte post-handshake message: golangt no error, want one", size)
 	}
 }
 
@@ -364,7 +364,7 @@ func TestQUICHandshakeError(t *testing.T) {
 
 // Test that QUICConn.ConnectionState can be used during the handshake,
 // and that it reports the application protocol as soon as it has been
-// negotiated.
+// negolangtiated.
 func TestQUICConnectionState(t *testing.T) {
 	config := &QUICConfig{TLSConfig: testConfig.Clone()}
 	config.TLSConfig.MinVersion = VersionTLS13
@@ -376,14 +376,14 @@ func TestQUICConnectionState(t *testing.T) {
 	onEvent := func(e QUICEvent, src, dst *testQUICConn) bool {
 		cliCS := cli.conn.ConnectionState()
 		if _, ok := cli.readSecret[QUICEncryptionLevelApplication]; ok {
-			if want, got := cliCS.NegotiatedProtocol, "h3"; want != got {
-				t.Errorf("cli.ConnectionState().NegotiatedProtocol = %q, want %q", want, got)
+			if want, golangt := cliCS.NegolangtiatedProtocol, "h3"; want != golangt {
+				t.Errorf("cli.ConnectionState().NegolangtiatedProtocol = %q, want %q", want, golangt)
 			}
 		}
 		srvCS := srv.conn.ConnectionState()
 		if _, ok := srv.readSecret[QUICEncryptionLevelHandshake]; ok {
-			if want, got := srvCS.NegotiatedProtocol, "h3"; want != got {
-				t.Errorf("srv.ConnectionState().NegotiatedProtocol = %q, want %q", want, got)
+			if want, golangt := srvCS.NegolangtiatedProtocol, "h3"; want != golangt {
+				t.Errorf("srv.ConnectionState().NegolangtiatedProtocol = %q, want %q", want, golangt)
 			}
 		}
 		return false
@@ -402,9 +402,9 @@ func TestQUICStartContextPropagation(t *testing.T) {
 	calls := 0
 	config.TLSConfig.GetConfigForClient = func(info *ClientHelloInfo) (*Config, error) {
 		calls++
-		got, _ := info.Context().Value(key).(string)
-		if got != value {
-			t.Errorf("GetConfigForClient context key %q has value %q, want %q", key, got, value)
+		golangt, _ := info.Context().Value(key).(string)
+		if golangt != value {
+			t.Errorf("GetConfigForClient context key %q has value %q, want %q", key, golangt, value)
 		}
 		return nil, nil
 	}
@@ -424,7 +424,7 @@ func TestQUICDelayedTransportParameters(t *testing.T) {
 	clientConfig := &QUICConfig{TLSConfig: testConfig.Clone()}
 	clientConfig.TLSConfig.MinVersion = VersionTLS13
 	clientConfig.TLSConfig.ClientSessionCache = NewLRUClientSessionCache(1)
-	clientConfig.TLSConfig.ServerName = "example.go.dev"
+	clientConfig.TLSConfig.ServerName = "example.golang.dev"
 
 	serverConfig := &QUICConfig{TLSConfig: testConfig.Clone()}
 	serverConfig.TLSConfig.MinVersion = VersionTLS13
@@ -446,11 +446,11 @@ func TestQUICDelayedTransportParameters(t *testing.T) {
 		t.Fatalf("error during connection handshake: %v", err)
 	}
 
-	if got, want := string(cli.gotParams), srvParams; got != want {
-		t.Errorf("client got transport params: %q, want %q", got, want)
+	if golangt, want := string(cli.golangtParams), srvParams; golangt != want {
+		t.Errorf("client golangt transport params: %q, want %q", golangt, want)
 	}
-	if got, want := string(srv.gotParams), cliParams; got != want {
-		t.Errorf("server got transport params: %q, want %q", got, want)
+	if golangt, want := string(srv.golangtParams), cliParams; golangt != want {
+		t.Errorf("server golangt transport params: %q, want %q", golangt, want)
 	}
 }
 
@@ -466,17 +466,17 @@ func TestQUICEmptyTransportParameters(t *testing.T) {
 		t.Fatalf("error during connection handshake: %v", err)
 	}
 
-	if cli.gotParams == nil {
+	if cli.golangtParams == nil {
 		t.Errorf("client did not get transport params")
 	}
-	if srv.gotParams == nil {
+	if srv.golangtParams == nil {
 		t.Errorf("server did not get transport params")
 	}
-	if len(cli.gotParams) != 0 {
-		t.Errorf("client got transport params: %v, want empty", cli.gotParams)
+	if len(cli.golangtParams) != 0 {
+		t.Errorf("client golangt transport params: %v, want empty", cli.golangtParams)
 	}
-	if len(srv.gotParams) != 0 {
-		t.Errorf("server got transport params: %v, want empty", srv.gotParams)
+	if len(srv.golangtParams) != 0 {
+		t.Errorf("server golangt transport params: %v, want empty", srv.golangtParams)
 	}
 }
 
@@ -511,7 +511,7 @@ func TestQUICEarlyData(t *testing.T) {
 	clientConfig := &QUICConfig{TLSConfig: testConfig.Clone()}
 	clientConfig.TLSConfig.MinVersion = VersionTLS13
 	clientConfig.TLSConfig.ClientSessionCache = NewLRUClientSessionCache(1)
-	clientConfig.TLSConfig.ServerName = "example.go.dev"
+	clientConfig.TLSConfig.ServerName = "example.golang.dev"
 	clientConfig.TLSConfig.NextProtos = []string{"h3"}
 
 	serverConfig := &QUICConfig{TLSConfig: testConfig.Clone()}
@@ -537,7 +537,7 @@ func TestQUICEarlyData(t *testing.T) {
 	onEvent := func(e QUICEvent, src, dst *testQUICConn) bool {
 		switch e.Kind {
 		case QUICStoreSession, QUICResumeSession:
-			t.Errorf("with EnableSessionEvents=false, got unexpected event %v", e.Kind)
+			t.Errorf("with EnableSessionEvents=false, golangt unexpected event %v", e.Kind)
 		}
 		return false
 	}
@@ -574,7 +574,7 @@ func testQUICEarlyDataDeclined(t *testing.T, server bool) {
 	clientConfig.EnableSessionEvents = true
 	clientConfig.TLSConfig.MinVersion = VersionTLS13
 	clientConfig.TLSConfig.ClientSessionCache = NewLRUClientSessionCache(1)
-	clientConfig.TLSConfig.ServerName = "example.go.dev"
+	clientConfig.TLSConfig.ServerName = "example.golang.dev"
 	clientConfig.TLSConfig.NextProtos = []string{"h3"}
 
 	serverConfig := &QUICConfig{TLSConfig: testConfig.Clone()}

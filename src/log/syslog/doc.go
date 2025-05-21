@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package syslog provides a simple interface to the system log
@@ -13,12 +13,12 @@
 // The syslog package is frozen and is not accepting new features.
 // Some external packages provide more functionality. See:
 //
-//	https://godoc.org/?q=syslog
+//	https://golangdoc.org/?q=syslog
 package syslog
 
 // BUG(brainman): This package is not implemented on Windows. As the
 // syslog package is frozen, Windows users are encouraged to
 // use a package outside of the standard library. For background,
-// see https://golang.org/issue/1108.
+// see https://golanglang.org/issue/1108.
 
 // BUG(akumar): This package is not implemented on Plan 9.

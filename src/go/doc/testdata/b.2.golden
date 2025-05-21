@@ -8,7 +8,7 @@ IMPORTS
 	a
 
 FILENAMES
-	testdata/b.go
+	testdata/b.golang
 
 CONSTANTS
 	// 

@@ -1,8 +1,8 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build goexperiment.jsonv2
+//golang:build golangexperiment.jsonv2
 
 package jsontext
 
@@ -164,36 +164,36 @@ func TestValueMethods(t *testing.T) {
 			}
 
 			v := Value(td.in)
-			gotValid := v.IsValid()
-			if gotValid != td.wantValid {
-				t.Errorf("%s: Value.IsValid = %v, want %v", td.name.Where, gotValid, td.wantValid)
+			golangtValid := v.IsValid()
+			if golangtValid != td.wantValid {
+				t.Errorf("%s: Value.IsValid = %v, want %v", td.name.Where, golangtValid, td.wantValid)
 			}
 
-			gotCompacted := Value(td.in)
-			gotCompactErr := gotCompacted.Compact()
-			if string(gotCompacted) != td.wantCompacted {
-				t.Errorf("%s: Value.Compact = %s, want %s", td.name.Where, gotCompacted, td.wantCompacted)
+			golangtCompacted := Value(td.in)
+			golangtCompactErr := golangtCompacted.Compact()
+			if string(golangtCompacted) != td.wantCompacted {
+				t.Errorf("%s: Value.Compact = %s, want %s", td.name.Where, golangtCompacted, td.wantCompacted)
 			}
-			if !equalError(gotCompactErr, td.wantCompactErr) {
-				t.Errorf("%s: Value.Compact error mismatch:\ngot  %v\nwant %v", td.name.Where, gotCompactErr, td.wantCompactErr)
-			}
-
-			gotIndented := Value(td.in)
-			gotIndentErr := gotIndented.Indent(WithIndentPrefix("\t"), WithIndent("    "))
-			if string(gotIndented) != td.wantIndented {
-				t.Errorf("%s: Value.Indent = %s, want %s", td.name.Where, gotIndented, td.wantIndented)
-			}
-			if !equalError(gotIndentErr, td.wantIndentErr) {
-				t.Errorf("%s: Value.Indent error mismatch:\ngot  %v\nwant %v", td.name.Where, gotIndentErr, td.wantIndentErr)
+			if !equalError(golangtCompactErr, td.wantCompactErr) {
+				t.Errorf("%s: Value.Compact error mismatch:\ngolangt  %v\nwant %v", td.name.Where, golangtCompactErr, td.wantCompactErr)
 			}
 
-			gotCanonicalized := Value(td.in)
-			gotCanonicalizeErr := gotCanonicalized.Canonicalize()
-			if string(gotCanonicalized) != td.wantCanonicalized {
-				t.Errorf("%s: Value.Canonicalize = %s, want %s", td.name.Where, gotCanonicalized, td.wantCanonicalized)
+			golangtIndented := Value(td.in)
+			golangtIndentErr := golangtIndented.Indent(WithIndentPrefix("\t"), WithIndent("    "))
+			if string(golangtIndented) != td.wantIndented {
+				t.Errorf("%s: Value.Indent = %s, want %s", td.name.Where, golangtIndented, td.wantIndented)
 			}
-			if !equalError(gotCanonicalizeErr, td.wantCanonicalizeErr) {
-				t.Errorf("%s: Value.Canonicalize error mismatch:\ngot  %v\nwant %v", td.name.Where, gotCanonicalizeErr, td.wantCanonicalizeErr)
+			if !equalError(golangtIndentErr, td.wantIndentErr) {
+				t.Errorf("%s: Value.Indent error mismatch:\ngolangt  %v\nwant %v", td.name.Where, golangtIndentErr, td.wantIndentErr)
+			}
+
+			golangtCanonicalized := Value(td.in)
+			golangtCanonicalizeErr := golangtCanonicalized.Canonicalize()
+			if string(golangtCanonicalized) != td.wantCanonicalized {
+				t.Errorf("%s: Value.Canonicalize = %s, want %s", td.name.Where, golangtCanonicalized, td.wantCanonicalized)
+			}
+			if !equalError(golangtCanonicalizeErr, td.wantCanonicalizeErr) {
+				t.Errorf("%s: Value.Canonicalize error mismatch:\ngolangt  %v\nwant %v", td.name.Where, golangtCanonicalizeErr, td.wantCanonicalizeErr)
 			}
 		})
 	}

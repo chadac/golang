@@ -1,7 +1,7 @@
 // build
 
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file tests that required algs are generated,
@@ -12,19 +12,19 @@ package main
 
 import "fmt"
 
-//go:noinline
+//golang:noinline
 func f(m map[[8]string]int) int {
 	var k [8]string
 	return m[k]
 }
 
-//go:noinline
+//golang:noinline
 func g(m map[[8]interface{}]int) int {
 	var k [8]interface{}
 	return m[k]
 }
 
-//go:noinline
+//golang:noinline
 func h(m map[[2]string]int) int {
 	var k [2]string
 	return m[k]

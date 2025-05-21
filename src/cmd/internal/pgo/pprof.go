@@ -1,11 +1,11 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Package pgo contains the compiler-agnostic portions of PGO profile handling.
+// Package pgolang contains the compiler-agnostic portions of PGO profile handling.
 // Notably, parsing pprof profiles and serializing/deserializing from a custom
 // intermediate representation.
-package pgo
+package pgolang
 
 import (
 	"errors"

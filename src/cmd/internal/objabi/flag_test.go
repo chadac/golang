@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package objabi
@@ -19,8 +19,8 @@ func TestDecodeArg(t *testing.T) {
 		{"\\\\\\n", "\\\n"},
 	}
 	for _, test := range tests {
-		if got := DecodeArg(test.arg); got != test.want {
-			t.Errorf("decodoeArg(%q) = %q, want %q", test.arg, got, test.want)
+		if golangt := DecodeArg(test.arg); golangt != test.want {
+			t.Errorf("decodoeArg(%q) = %q, want %q", test.arg, golangt, test.want)
 		}
 	}
 }

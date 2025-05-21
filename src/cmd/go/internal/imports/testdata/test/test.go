@@ -1,7 +1,7 @@
 package test
 
 import (
-	"cmd/go/internal/imports/testdata/test/child"
+	"cmd/golang/internal/imports/testdata/test/child"
 	"fmt"
 )
 

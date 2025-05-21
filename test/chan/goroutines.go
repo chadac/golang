@@ -1,11 +1,11 @@
 // run
 
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Torture test for goroutines.
-// Make a lot of goroutines, threaded together, and tear them down cleanly.
+// Torture test for golangroutines.
+// Make a lot of golangroutines, threaded together, and tear them down cleanly.
 
 package main
 
@@ -33,9 +33,9 @@ func main() {
 	left := leftmost
 	for i := 0; i < n; i++ {
 		right = make(chan int)
-		go f(left, right)
+		golang f(left, right)
 		left = right
 	}
-	go func(c chan int) { c <- 1 }(right)
+	golang func(c chan int) { c <- 1 }(right)
 	<-leftmost
 }

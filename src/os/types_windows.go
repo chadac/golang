@@ -1,12 +1,12 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package os
 
 import (
 	"internal/filepathlite"
-	"internal/godebug"
+	"internal/golangdebug"
 	"internal/syscall/windows"
 	"sync"
 	"syscall"
@@ -160,7 +160,7 @@ func (fs *fileStat) Size() int64 {
 	return int64(fs.FileSizeHigh)<<32 + int64(fs.FileSizeLow)
 }
 
-var winsymlink = godebug.New("winsymlink")
+var winsymlink = golangdebug.New("winsymlink")
 
 func (fs *fileStat) Mode() FileMode {
 	m := fs.mode()

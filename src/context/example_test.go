@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package context_test
@@ -16,22 +16,22 @@ import (
 var neverReady = make(chan struct{}) // never closed
 
 // This example demonstrates the use of a cancelable context to prevent a
-// goroutine leak. By the end of the example function, the goroutine started
+// golangroutine leak. By the end of the example function, the golangroutine started
 // by gen will return without leaking.
 func ExampleWithCancel() {
-	// gen generates integers in a separate goroutine and
+	// gen generates integers in a separate golangroutine and
 	// sends them to the returned channel.
 	// The callers of gen need to cancel the context once
 	// they are done consuming generated integers not to leak
-	// the internal goroutine started by gen.
+	// the internal golangroutine started by gen.
 	gen := func(ctx context.Context) <-chan int {
 		dst := make(chan int)
 		n := 1
-		go func() {
+		golang func() {
 			for {
 				select {
 				case <-ctx.Done():
-					return // returning not to leak the goroutine
+					return // returning not to leak the golangroutine
 				case dst <- n:
 					n++
 				}
@@ -63,7 +63,7 @@ func ExampleWithDeadline() {
 	d := time.Now().Add(shortDuration)
 	ctx, cancel := context.WithDeadline(context.Background(), d)
 
-	// Even though ctx will be expired, it is good practice to call its
+	// Even though ctx will be expired, it is golangod practice to call its
 	// cancellation function in any case. Failure to do so may keep the
 	// context and its parent alive longer than necessary.
 	defer cancel()
@@ -133,20 +133,20 @@ func ExampleAfterFunc_cond() {
 			cond.L.Lock()
 			defer cond.L.Unlock()
 
-			// If multiple goroutines are waiting on cond simultaneously,
+			// If multiple golangroutines are waiting on cond simultaneously,
 			// we need to make sure we wake up exactly this one.
-			// That means that we need to Broadcast to all of the goroutines,
+			// That means that we need to Broadcast to all of the golangroutines,
 			// which will wake them all up.
 			//
-			// If there are N concurrent calls to waitOnCond, each of the goroutines
-			// will spuriously wake up O(N) other goroutines that aren't ready yet,
+			// If there are N concurrent calls to waitOnCond, each of the golangroutines
+			// will spuriously wake up O(N) other golangroutines that aren't ready yet,
 			// so this will cause the overall CPU cost to be O(N²).
 			cond.Broadcast()
 		})
 		defer stopf()
 
 		// Since the wakeups are using Broadcast instead of Signal, this call to
-		// Wait may unblock due to some other goroutine's context being canceled,
+		// Wait may unblock due to some other golangroutine's context being canceled,
 		// so to be sure that ctx is actually canceled we need to check it in a loop.
 		for !conditionMet() {
 			cond.Wait()
@@ -163,7 +163,7 @@ func ExampleAfterFunc_cond() {
 	var wg sync.WaitGroup
 	for i := 0; i < 4; i++ {
 		wg.Add(1)
-		go func() {
+		golang func() {
 			defer wg.Done()
 
 			ctx, cancel := context.WithTimeout(context.Background(), 1*time.Millisecond)

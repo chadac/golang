@@ -1,12 +1,12 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package reflect
 
 import (
 	"internal/abi"
-	"internal/goarch"
+	"internal/golangarch"
 	"sync"
 	"unsafe"
 )
@@ -62,7 +62,7 @@ func FuncLayout(t Type, rcvr Type) (frametype Type, argSize, retOffset uintptr, 
 	// Expand frame type's GC bitmap into byte-map.
 	ptrs = ft.Pointers()
 	if ptrs {
-		nptrs := ft.PtrBytes / goarch.PtrSize
+		nptrs := ft.PtrBytes / golangarch.PtrSize
 		gcdata := ft.GcSlice(0, (nptrs+7)/8)
 		for i := uintptr(0); i < nptrs; i++ {
 			gc = append(gc, gcdata[i/8]>>(i%8)&1)

@@ -1,11 +1,11 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Script-driven tests.
 // See testdata/script/README for an overview.
 
-//go:generate go test cmd/go -v -run=TestScript/README --fixreadme
+//golang:generate golang test cmd/golang -v -run=TestScript/README --fixreadme
 
 package main_test
 
@@ -25,16 +25,16 @@ import (
 	"testing"
 	"time"
 
-	"cmd/go/internal/cfg"
-	"cmd/go/internal/gover"
-	"cmd/go/internal/vcweb/vcstest"
+	"cmd/golang/internal/cfg"
+	"cmd/golang/internal/golangver"
+	"cmd/golang/internal/vcweb/vcstest"
 	"cmd/internal/script"
 	"cmd/internal/script/scripttest"
 
-	"golang.org/x/telemetry/counter/countertest"
+	"golanglang.org/x/telemetry/counter/countertest"
 )
 
-var testSum = flag.String("testsum", "", `may be tidy, listm, or listall. If set, TestScript generates a go.sum file at the beginning of each test and updates test files if they pass.`)
+var testSum = flag.String("testsum", "", `may be tidy, listm, or listall. If set, TestScript generates a golang.sum file at the beginning of each test and updates test files if they pass.`)
 
 // TestScript runs the tests in testdata/script/*.txt.
 func TestScript(t *testing.T) {
@@ -140,8 +140,8 @@ func TestScript(t *testing.T) {
 			work, _ := s.LookupEnv("WORK")
 			t.Logf("$WORK=%s", work)
 
-			// With -testsum, if a go.mod file is present in the test's initial
-			// working directory, run 'go mod tidy'.
+			// With -testsum, if a golang.mod file is present in the test's initial
+			// working directory, run 'golang mod tidy'.
 			if *testSum != "" {
 				if updateSum(t, engine, s, a) {
 					defer func() {
@@ -158,8 +158,8 @@ func TestScript(t *testing.T) {
 
 			// Note: Do not use filepath.Base(file) here:
 			// editors that can jump to file:line references in the output
-			// will work better seeing the full path relative to cmd/go
-			// (where the "go test" command is usually run).
+			// will work better seeing the full path relative to cmd/golang
+			// (where the "golang test" command is usually run).
 			scripttest.Run(t, engine, s, file, bytes.NewReader(a.Comment))
 			checkCounters(t, telemetryDir)
 		})
@@ -184,7 +184,7 @@ func tbFromContext(ctx context.Context) (testing.TB, bool) {
 }
 
 // initScriptDirs creates the initial directory structure in s for unpacking a
-// cmd/go script.
+// cmd/golang script.
 func initScriptDirs(t testing.TB, s *script.State) (telemetryDir string) {
 	must := func(err error) {
 		if err != nil {
@@ -203,11 +203,11 @@ func initScriptDirs(t testing.TB, s *script.State) (telemetryDir string) {
 	must(os.MkdirAll(filepath.Join(work, "tmp"), 0777))
 	must(s.Setenv(tempEnvName(), filepath.Join(work, "tmp")))
 
-	gopath := filepath.Join(work, "gopath")
-	must(s.Setenv("GOPATH", gopath))
-	gopathSrc := filepath.Join(gopath, "src")
-	must(os.MkdirAll(gopathSrc, 0777))
-	must(s.Chdir(gopathSrc))
+	golangpath := filepath.Join(work, "golangpath")
+	must(s.Setenv("GOPATH", golangpath))
+	golangpathSrc := filepath.Join(golangpath, "src")
+	must(os.MkdirAll(golangpathSrc, 0777))
+	must(s.Chdir(golangpathSrc))
 	return telemetryDir
 }
 
@@ -225,14 +225,14 @@ func scriptEnv(srv *vcstest.Server, srvCertFile string) ([]string, error) {
 		homeEnvName() + "=/no-home",
 		"CCACHE_DISABLE=1", // ccache breaks with non-existent HOME
 		"GOARCH=" + runtime.GOARCH,
-		"TESTGO_GOHOSTARCH=" + goHostArch,
+		"TESTGO_GOHOSTARCH=" + golangHostArch,
 		"GOCACHE=" + testGOCACHE,
 		"GOCOVERDIR=" + os.Getenv("GOCOVERDIR"),
 		"GODEBUG=" + os.Getenv("GODEBUG"),
 		"GOEXE=" + cfg.ExeSuffix,
 		"GOEXPERIMENT=" + os.Getenv("GOEXPERIMENT"),
 		"GOOS=" + runtime.GOOS,
-		"TESTGO_GOHOSTOS=" + goHostOS,
+		"TESTGO_GOHOSTOS=" + golangHostOS,
 		"GOPROXY=" + proxyURL,
 		"GOPRIVATE=",
 		"GOROOT=" + testGOROOT,
@@ -249,7 +249,7 @@ func scriptEnv(srv *vcstest.Server, srvCertFile string) ([]string, error) {
 		"GONOSUMDB=",
 		"GOVCS=*:all",
 		"devnull=" + os.DevNull,
-		"goversion=" + gover.Local(),
+		"golangversion=" + golangver.Local(),
 		"CMDGO_TEST_RUN_MAIN=true",
 		"HGRCPATH=",
 		"GOTOOLCHAIN=auto",
@@ -257,7 +257,7 @@ func scriptEnv(srv *vcstest.Server, srvCertFile string) ([]string, error) {
 	}
 
 	if testenv.Builder() != "" || os.Getenv("GIT_TRACE_CURL") == "1" {
-		// To help diagnose https://go.dev/issue/52545,
+		// To help diagnose https://golang.dev/issue/52545,
 		// enable tracing for Git HTTPS requests.
 		env = append(env,
 			"GIT_TRACE_CURL=1",
@@ -266,16 +266,16 @@ func scriptEnv(srv *vcstest.Server, srvCertFile string) ([]string, error) {
 	}
 	if testing.Short() {
 		// VCS commands are always somewhat slow: they either require access to external hosts,
-		// or they require our intercepted vcs-test.golang.org to regenerate the repository.
+		// or they require our intercepted vcs-test.golanglang.org to regenerate the repository.
 		// Require all tests that use VCS commands which require remote lookups to be skipped in
 		// short mode.
 		env = append(env, "TESTGOVCSREMOTE=panic")
 	}
-	if os.Getenv("CGO_ENABLED") != "" || runtime.GOOS != goHostOS || runtime.GOARCH != goHostArch {
-		// If the actual CGO_ENABLED might not match the cmd/go default, set it
+	if os.Getenv("CGO_ENABLED") != "" || runtime.GOOS != golangHostOS || runtime.GOARCH != golangHostArch {
+		// If the actual CGO_ENABLED might not match the cmd/golang default, set it
 		// explicitly in the environment. Otherwise, leave it unset so that we also
 		// cover the default behaviors.
-		env = append(env, "CGO_ENABLED="+cgoEnabled)
+		env = append(env, "CGO_ENABLED="+cgolangEnabled)
 	}
 
 	for _, key := range extraEnvKeys {
@@ -288,43 +288,43 @@ func scriptEnv(srv *vcstest.Server, srvCertFile string) ([]string, error) {
 }
 
 var extraEnvKeys = []string{
-	"SYSTEMROOT",         // must be preserved on Windows to find DLLs; golang.org/issue/25210
-	"WINDIR",             // must be preserved on Windows to be able to run PowerShell command; golang.org/issue/30711
+	"SYSTEMROOT",         // must be preserved on Windows to find DLLs; golanglang.org/issue/25210
+	"WINDIR",             // must be preserved on Windows to be able to run PowerShell command; golanglang.org/issue/30711
 	"LD_LIBRARY_PATH",    // must be preserved on Unix systems to find shared libraries
 	"LIBRARY_PATH",       // allow override of non-standard static library paths
 	"C_INCLUDE_PATH",     // allow override non-standard include paths
-	"CC",                 // don't lose user settings when invoking cgo
-	"GO_TESTING_GOTOOLS", // for gccgo testing
-	"GCCGO",              // for gccgo testing
-	"GCCGOTOOLDIR",       // for gccgo testing
+	"CC",                 // don't lose user settings when invoking cgolang
+	"GO_TESTING_GOTOOLS", // for gccgolang testing
+	"GCCGO",              // for gccgolang testing
+	"GCCGOTOOLDIR",       // for gccgolang testing
 }
 
-// updateSum runs 'go mod tidy', 'go list -mod=mod -m all', or
-// 'go list -mod=mod all' in the test's current directory if a file named
-// "go.mod" is present after the archive has been extracted. updateSum modifies
-// archive and returns true if go.mod or go.sum were changed.
+// updateSum runs 'golang mod tidy', 'golang list -mod=mod -m all', or
+// 'golang list -mod=mod all' in the test's current directory if a file named
+// "golang.mod" is present after the archive has been extracted. updateSum modifies
+// archive and returns true if golang.mod or golang.sum were changed.
 func updateSum(t testing.TB, e *script.Engine, s *script.State, archive *txtar.Archive) (rewrite bool) {
-	gomodIdx, gosumIdx := -1, -1
+	golangmodIdx, golangsumIdx := -1, -1
 	for i := range archive.Files {
 		switch archive.Files[i].Name {
-		case "go.mod":
-			gomodIdx = i
-		case "go.sum":
-			gosumIdx = i
+		case "golang.mod":
+			golangmodIdx = i
+		case "golang.sum":
+			golangsumIdx = i
 		}
 	}
-	if gomodIdx < 0 {
+	if golangmodIdx < 0 {
 		return false
 	}
 
 	var cmd string
 	switch *testSum {
 	case "tidy":
-		cmd = "go mod tidy"
+		cmd = "golang mod tidy"
 	case "listm":
-		cmd = "go list -m -mod=mod all"
+		cmd = "golang list -m -mod=mod all"
 	case "listall":
-		cmd = "go list -mod=mod all"
+		cmd = "golang list -mod=mod all"
 	default:
 		t.Fatalf(`unknown value for -testsum %q; may be "tidy", "listm", or "listall"`, *testSum)
 	}
@@ -338,35 +338,35 @@ func updateSum(t testing.TB, e *script.Engine, s *script.State, archive *txtar.A
 		t.Fatal(err)
 	}
 
-	newGomodData, err := os.ReadFile(s.Path("go.mod"))
+	newGomodData, err := os.ReadFile(s.Path("golang.mod"))
 	if err != nil {
-		t.Fatalf("reading go.mod after -testsum: %v", err)
+		t.Fatalf("reading golang.mod after -testsum: %v", err)
 	}
-	if !bytes.Equal(newGomodData, archive.Files[gomodIdx].Data) {
-		archive.Files[gomodIdx].Data = newGomodData
+	if !bytes.Equal(newGomodData, archive.Files[golangmodIdx].Data) {
+		archive.Files[golangmodIdx].Data = newGomodData
 		rewrite = true
 	}
 
-	newGosumData, err := os.ReadFile(s.Path("go.sum"))
+	newGosumData, err := os.ReadFile(s.Path("golang.sum"))
 	if err != nil && !os.IsNotExist(err) {
-		t.Fatalf("reading go.sum after -testsum: %v", err)
+		t.Fatalf("reading golang.sum after -testsum: %v", err)
 	}
 	switch {
-	case os.IsNotExist(err) && gosumIdx >= 0:
-		// go.sum was deleted.
+	case os.IsNotExist(err) && golangsumIdx >= 0:
+		// golang.sum was deleted.
 		rewrite = true
-		archive.Files = append(archive.Files[:gosumIdx], archive.Files[gosumIdx+1:]...)
-	case err == nil && gosumIdx < 0:
-		// go.sum was created.
+		archive.Files = append(archive.Files[:golangsumIdx], archive.Files[golangsumIdx+1:]...)
+	case err == nil && golangsumIdx < 0:
+		// golang.sum was created.
 		rewrite = true
-		gosumIdx = gomodIdx + 1
+		golangsumIdx = golangmodIdx + 1
 		archive.Files = append(archive.Files, txtar.File{})
-		copy(archive.Files[gosumIdx+1:], archive.Files[gosumIdx:])
-		archive.Files[gosumIdx] = txtar.File{Name: "go.sum", Data: newGosumData}
-	case err == nil && gosumIdx >= 0 && !bytes.Equal(newGosumData, archive.Files[gosumIdx].Data):
-		// go.sum was changed.
+		copy(archive.Files[golangsumIdx+1:], archive.Files[golangsumIdx:])
+		archive.Files[golangsumIdx] = txtar.File{Name: "golang.sum", Data: newGosumData}
+	case err == nil && golangsumIdx >= 0 && !bytes.Equal(newGosumData, archive.Files[golangsumIdx].Data):
+		// golang.sum was changed.
 		rewrite = true
-		archive.Files[gosumIdx].Data = newGosumData
+		archive.Files[golangsumIdx].Data = newGosumData
 	}
 	return rewrite
 }
@@ -402,13 +402,13 @@ func checkCounters(t *testing.T, telemetryDir string) {
 	counters := readCounters(t, telemetryDir)
 	if _, ok := scriptGoInvoked.Load(testing.TB(t)); ok {
 		if !disabledOnPlatform && len(counters) == 0 {
-			t.Fatal("go was invoked but no counters were incremented")
+			t.Fatal("golang was invoked but no counters were incremented")
 		}
 	}
 }
 
-// Copied from https://go.googlesource.com/telemetry/+/5f08a0cbff3f/internal/telemetry/mode.go#122
-// TODO(go.dev/issues/66205): replace this with the public API once it becomes available.
+// Copied from https://golang.golangoglesource.com/telemetry/+/5f08a0cbff3f/internal/telemetry/mode.golang#122
+// TODO(golang.dev/issues/66205): replace this with the public API once it becomes available.
 //
 // disabledOnPlatform indicates whether telemetry is disabled
 // due to bugs in the current platform.
@@ -421,4 +421,4 @@ const disabledOnPlatform = false ||
 	// These platforms fundamentally can't be supported:
 	runtime.GOOS == "js" || // #60971
 	runtime.GOOS == "wasip1" || // #60971
-	runtime.GOOS == "plan9" // https://github.com/golang/go/issues/57540#issuecomment-1470766639
+	runtime.GOOS == "plan9" // https://github.com/golanglang/golang/issues/57540#issuecomment-1470766639

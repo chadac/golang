@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 #include "textflag.h"
@@ -12,7 +12,7 @@
 // then a randomly-chosen 24-byte sequence, and finally a return instruction
 // (the target of the jump).
 //
-// These sequences are known to rsc.io/goversion.
+// These sequences are known to rsc.io/golangversion.
 
 #define START \
 	BYTE $0xEB; BYTE $0x1D; BYTE $0xF4; BYTE $0x48; BYTE $0xF4; BYTE $0x4B; BYTE $0xF4

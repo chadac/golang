@@ -1,5 +1,5 @@
 // Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // backtrack is a regular expression search with submatch
@@ -148,13 +148,13 @@ func (re *Regexp) tryBacktrack(b *bitState, i input, pc uint32, pos int) bool {
 		b.jobs = b.jobs[:l]
 
 		// Optimization: rather than push and pop,
-		// code that is going to Push and continue
+		// code that is golanging to Push and continue
 		// the loop simply updates ip, p, and arg
 		// and jumps to CheckAndLoop. We have to
 		// do the ShouldVisit check that Push
 		// would have, but we avoid the stack
 		// manipulation.
-		goto Skip
+		golangto Skip
 	CheckAndLoop:
 		if !b.shouldVisit(pc, pos) {
 			continue
@@ -181,11 +181,11 @@ func (re *Regexp) tryBacktrack(b *bitState, i input, pc uint32, pos int) bool {
 				// Finished inst.Out; try inst.Arg.
 				arg = false
 				pc = inst.Arg
-				goto CheckAndLoop
+				golangto CheckAndLoop
 			} else {
 				b.push(re, pc, pos, true)
 				pc = inst.Out
-				goto CheckAndLoop
+				golangto CheckAndLoop
 			}
 
 		case syntax.InstAltMatch:
@@ -196,12 +196,12 @@ func (re *Regexp) tryBacktrack(b *bitState, i input, pc uint32, pos int) bool {
 				b.push(re, inst.Arg, pos, false)
 				pc = inst.Arg
 				pos = b.end
-				goto CheckAndLoop
+				golangto CheckAndLoop
 			}
 			// inst.Out is the match - non-greedy
 			b.push(re, inst.Out, b.end, false)
 			pc = inst.Out
-			goto CheckAndLoop
+			golangto CheckAndLoop
 
 		case syntax.InstRune:
 			r, width := i.step(pos)
@@ -210,7 +210,7 @@ func (re *Regexp) tryBacktrack(b *bitState, i input, pc uint32, pos int) bool {
 			}
 			pos += width
 			pc = inst.Out
-			goto CheckAndLoop
+			golangto CheckAndLoop
 
 		case syntax.InstRune1:
 			r, width := i.step(pos)
@@ -219,7 +219,7 @@ func (re *Regexp) tryBacktrack(b *bitState, i input, pc uint32, pos int) bool {
 			}
 			pos += width
 			pc = inst.Out
-			goto CheckAndLoop
+			golangto CheckAndLoop
 
 		case syntax.InstRuneAnyNotNL:
 			r, width := i.step(pos)
@@ -228,7 +228,7 @@ func (re *Regexp) tryBacktrack(b *bitState, i input, pc uint32, pos int) bool {
 			}
 			pos += width
 			pc = inst.Out
-			goto CheckAndLoop
+			golangto CheckAndLoop
 
 		case syntax.InstRuneAny:
 			r, width := i.step(pos)
@@ -237,7 +237,7 @@ func (re *Regexp) tryBacktrack(b *bitState, i input, pc uint32, pos int) bool {
 			}
 			pos += width
 			pc = inst.Out
-			goto CheckAndLoop
+			golangto CheckAndLoop
 
 		case syntax.InstCapture:
 			if arg {
@@ -251,7 +251,7 @@ func (re *Regexp) tryBacktrack(b *bitState, i input, pc uint32, pos int) bool {
 					b.cap[inst.Arg] = pos
 				}
 				pc = inst.Out
-				goto CheckAndLoop
+				golangto CheckAndLoop
 			}
 
 		case syntax.InstEmptyWidth:
@@ -260,15 +260,15 @@ func (re *Regexp) tryBacktrack(b *bitState, i input, pc uint32, pos int) bool {
 				continue
 			}
 			pc = inst.Out
-			goto CheckAndLoop
+			golangto CheckAndLoop
 
 		case syntax.InstNop:
 			pc = inst.Out
-			goto CheckAndLoop
+			golangto CheckAndLoop
 
 		case syntax.InstMatch:
 			// We found a match. If the caller doesn't care
-			// where the match is, no point going further.
+			// where the match is, no point golanging further.
 			if len(b.cap) == 0 {
 				return true
 			}
@@ -283,7 +283,7 @@ func (re *Regexp) tryBacktrack(b *bitState, i input, pc uint32, pos int) bool {
 				copy(b.matchcap, b.cap)
 			}
 
-			// If going for first match, we're done.
+			// If golanging for first match, we're done.
 			if !longest {
 				return true
 			}
@@ -350,7 +350,7 @@ func (re *Regexp) backtrack(ib []byte, is string, pos int, ncap int, dstCap []in
 			}
 			if re.tryBacktrack(b, i, uint32(re.prog.Start), pos) {
 				// Match must be leftmost; done.
-				goto Match
+				golangto Match
 			}
 			_, width = i.step(pos)
 		}

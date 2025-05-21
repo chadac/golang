@@ -1,14 +1,14 @@
 [fuzz] skip
 
-! go test -fuzz=. -fuzztime=1x
+! golang test -fuzz=. -fuzztime=1x
 ! stdout .
 stderr '^-fuzz flag is not supported on '$GOOS'/'$GOARCH'$'
 
--- go.mod --
+-- golang.mod --
 module example
 
-go 1.18
--- fuzz_test.go --
+golang 1.18
+-- fuzz_test.golang --
 package example
 
 import "testing"

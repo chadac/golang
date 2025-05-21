@@ -1,8 +1,8 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build (!cgo && !darwin && !windows && !plan9) || android || (osusergo && !windows && !plan9)
+//golang:build (!cgolang && !darwin && !windows && !plan9) || android || (osusergolang && !windows && !plan9)
 
 package user
 
@@ -15,7 +15,7 @@ import (
 
 var (
 	// unused variables (in this implementation)
-	// modified during test to exercise code paths in the cgo implementation.
+	// modified during test to exercise code paths in the cgolang implementation.
 	userBuffer  = 0
 	groupBuffer = 0
 )
@@ -47,7 +47,7 @@ func current() (*User, error) {
 			u.Username = "android"
 		}
 	}
-	// cgo isn't available, but if we found the minimum information
+	// cgolang isn't available, but if we found the minimum information
 	// without it, use it:
 	if u.Uid != "" && u.Username != "" && u.HomeDir != "" {
 		return u, nil
@@ -62,7 +62,7 @@ func current() (*User, error) {
 		}
 		missing += "$HOME"
 	}
-	return u, fmt.Errorf("user: Current requires cgo or %s set in environment", missing)
+	return u, fmt.Errorf("user: Current requires cgolang or %s set in environment", missing)
 }
 
 func currentUID() string {

@@ -1,89 +1,89 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
 
 import (
 	"internal/abi"
-	"internal/goarch"
+	"internal/golangarch"
 	"internal/runtime/atomic"
 	"unsafe"
 )
 
-//go:cgo_export_dynamic runtime.end _end
-//go:cgo_export_dynamic runtime.etext _etext
-//go:cgo_export_dynamic runtime.edata _edata
+//golang:cgolang_export_dynamic runtime.end _end
+//golang:cgolang_export_dynamic runtime.etext _etext
+//golang:cgolang_export_dynamic runtime.edata _edata
 
-//go:cgo_import_dynamic libc____errno ___errno "libc.so"
-//go:cgo_import_dynamic libc_clock_gettime clock_gettime "libc.so"
-//go:cgo_import_dynamic libc_exit _exit "libc.so"
-//go:cgo_import_dynamic libc_getcontext getcontext "libc.so"
-//go:cgo_import_dynamic libc_kill kill "libc.so"
-//go:cgo_import_dynamic libc_madvise madvise "libc.so"
-//go:cgo_import_dynamic libc_malloc malloc "libc.so"
-//go:cgo_import_dynamic libc_mmap mmap "libc.so"
-//go:cgo_import_dynamic libc_munmap munmap "libc.so"
-//go:cgo_import_dynamic libc_open open "libc.so"
-//go:cgo_import_dynamic libc_pthread_attr_destroy pthread_attr_destroy "libc.so"
-//go:cgo_import_dynamic libc_pthread_attr_getstack pthread_attr_getstack "libc.so"
-//go:cgo_import_dynamic libc_pthread_attr_init pthread_attr_init "libc.so"
-//go:cgo_import_dynamic libc_pthread_attr_setdetachstate pthread_attr_setdetachstate "libc.so"
-//go:cgo_import_dynamic libc_pthread_attr_setstack pthread_attr_setstack "libc.so"
-//go:cgo_import_dynamic libc_pthread_create pthread_create "libc.so"
-//go:cgo_import_dynamic libc_pthread_self pthread_self "libc.so"
-//go:cgo_import_dynamic libc_pthread_kill pthread_kill "libc.so"
-//go:cgo_import_dynamic libc_raise raise "libc.so"
-//go:cgo_import_dynamic libc_read read "libc.so"
-//go:cgo_import_dynamic libc_select select "libc.so"
-//go:cgo_import_dynamic libc_sched_yield sched_yield "libc.so"
-//go:cgo_import_dynamic libc_sem_init sem_init "libc.so"
-//go:cgo_import_dynamic libc_sem_post sem_post "libc.so"
-//go:cgo_import_dynamic libc_sem_reltimedwait_np sem_reltimedwait_np "libc.so"
-//go:cgo_import_dynamic libc_sem_wait sem_wait "libc.so"
-//go:cgo_import_dynamic libc_setitimer setitimer "libc.so"
-//go:cgo_import_dynamic libc_sigaction sigaction "libc.so"
-//go:cgo_import_dynamic libc_sigaltstack sigaltstack "libc.so"
-//go:cgo_import_dynamic libc_sigprocmask sigprocmask "libc.so"
-//go:cgo_import_dynamic libc_sysconf sysconf "libc.so"
-//go:cgo_import_dynamic libc_usleep usleep "libc.so"
-//go:cgo_import_dynamic libc_write write "libc.so"
-//go:cgo_import_dynamic libc_pipe2 pipe2 "libc.so"
+//golang:cgolang_import_dynamic libc____errno ___errno "libc.so"
+//golang:cgolang_import_dynamic libc_clock_gettime clock_gettime "libc.so"
+//golang:cgolang_import_dynamic libc_exit _exit "libc.so"
+//golang:cgolang_import_dynamic libc_getcontext getcontext "libc.so"
+//golang:cgolang_import_dynamic libc_kill kill "libc.so"
+//golang:cgolang_import_dynamic libc_madvise madvise "libc.so"
+//golang:cgolang_import_dynamic libc_malloc malloc "libc.so"
+//golang:cgolang_import_dynamic libc_mmap mmap "libc.so"
+//golang:cgolang_import_dynamic libc_munmap munmap "libc.so"
+//golang:cgolang_import_dynamic libc_open open "libc.so"
+//golang:cgolang_import_dynamic libc_pthread_attr_destroy pthread_attr_destroy "libc.so"
+//golang:cgolang_import_dynamic libc_pthread_attr_getstack pthread_attr_getstack "libc.so"
+//golang:cgolang_import_dynamic libc_pthread_attr_init pthread_attr_init "libc.so"
+//golang:cgolang_import_dynamic libc_pthread_attr_setdetachstate pthread_attr_setdetachstate "libc.so"
+//golang:cgolang_import_dynamic libc_pthread_attr_setstack pthread_attr_setstack "libc.so"
+//golang:cgolang_import_dynamic libc_pthread_create pthread_create "libc.so"
+//golang:cgolang_import_dynamic libc_pthread_self pthread_self "libc.so"
+//golang:cgolang_import_dynamic libc_pthread_kill pthread_kill "libc.so"
+//golang:cgolang_import_dynamic libc_raise raise "libc.so"
+//golang:cgolang_import_dynamic libc_read read "libc.so"
+//golang:cgolang_import_dynamic libc_select select "libc.so"
+//golang:cgolang_import_dynamic libc_sched_yield sched_yield "libc.so"
+//golang:cgolang_import_dynamic libc_sem_init sem_init "libc.so"
+//golang:cgolang_import_dynamic libc_sem_post sem_post "libc.so"
+//golang:cgolang_import_dynamic libc_sem_reltimedwait_np sem_reltimedwait_np "libc.so"
+//golang:cgolang_import_dynamic libc_sem_wait sem_wait "libc.so"
+//golang:cgolang_import_dynamic libc_setitimer setitimer "libc.so"
+//golang:cgolang_import_dynamic libc_sigaction sigaction "libc.so"
+//golang:cgolang_import_dynamic libc_sigaltstack sigaltstack "libc.so"
+//golang:cgolang_import_dynamic libc_sigprocmask sigprocmask "libc.so"
+//golang:cgolang_import_dynamic libc_sysconf sysconf "libc.so"
+//golang:cgolang_import_dynamic libc_usleep usleep "libc.so"
+//golang:cgolang_import_dynamic libc_write write "libc.so"
+//golang:cgolang_import_dynamic libc_pipe2 pipe2 "libc.so"
 
-//go:linkname libc____errno libc____errno
-//go:linkname libc_clock_gettime libc_clock_gettime
-//go:linkname libc_exit libc_exit
-//go:linkname libc_getcontext libc_getcontext
-//go:linkname libc_kill libc_kill
-//go:linkname libc_madvise libc_madvise
-//go:linkname libc_malloc libc_malloc
-//go:linkname libc_mmap libc_mmap
-//go:linkname libc_munmap libc_munmap
-//go:linkname libc_open libc_open
-//go:linkname libc_pthread_attr_destroy libc_pthread_attr_destroy
-//go:linkname libc_pthread_attr_getstack libc_pthread_attr_getstack
-//go:linkname libc_pthread_attr_init libc_pthread_attr_init
-//go:linkname libc_pthread_attr_setdetachstate libc_pthread_attr_setdetachstate
-//go:linkname libc_pthread_attr_setstack libc_pthread_attr_setstack
-//go:linkname libc_pthread_create libc_pthread_create
-//go:linkname libc_pthread_self libc_pthread_self
-//go:linkname libc_pthread_kill libc_pthread_kill
-//go:linkname libc_raise libc_raise
-//go:linkname libc_read libc_read
-//go:linkname libc_select libc_select
-//go:linkname libc_sched_yield libc_sched_yield
-//go:linkname libc_sem_init libc_sem_init
-//go:linkname libc_sem_post libc_sem_post
-//go:linkname libc_sem_reltimedwait_np libc_sem_reltimedwait_np
-//go:linkname libc_sem_wait libc_sem_wait
-//go:linkname libc_setitimer libc_setitimer
-//go:linkname libc_sigaction libc_sigaction
-//go:linkname libc_sigaltstack libc_sigaltstack
-//go:linkname libc_sigprocmask libc_sigprocmask
-//go:linkname libc_sysconf libc_sysconf
-//go:linkname libc_usleep libc_usleep
-//go:linkname libc_write libc_write
-//go:linkname libc_pipe2 libc_pipe2
+//golang:linkname libc____errno libc____errno
+//golang:linkname libc_clock_gettime libc_clock_gettime
+//golang:linkname libc_exit libc_exit
+//golang:linkname libc_getcontext libc_getcontext
+//golang:linkname libc_kill libc_kill
+//golang:linkname libc_madvise libc_madvise
+//golang:linkname libc_malloc libc_malloc
+//golang:linkname libc_mmap libc_mmap
+//golang:linkname libc_munmap libc_munmap
+//golang:linkname libc_open libc_open
+//golang:linkname libc_pthread_attr_destroy libc_pthread_attr_destroy
+//golang:linkname libc_pthread_attr_getstack libc_pthread_attr_getstack
+//golang:linkname libc_pthread_attr_init libc_pthread_attr_init
+//golang:linkname libc_pthread_attr_setdetachstate libc_pthread_attr_setdetachstate
+//golang:linkname libc_pthread_attr_setstack libc_pthread_attr_setstack
+//golang:linkname libc_pthread_create libc_pthread_create
+//golang:linkname libc_pthread_self libc_pthread_self
+//golang:linkname libc_pthread_kill libc_pthread_kill
+//golang:linkname libc_raise libc_raise
+//golang:linkname libc_read libc_read
+//golang:linkname libc_select libc_select
+//golang:linkname libc_sched_yield libc_sched_yield
+//golang:linkname libc_sem_init libc_sem_init
+//golang:linkname libc_sem_post libc_sem_post
+//golang:linkname libc_sem_reltimedwait_np libc_sem_reltimedwait_np
+//golang:linkname libc_sem_wait libc_sem_wait
+//golang:linkname libc_setitimer libc_setitimer
+//golang:linkname libc_sigaction libc_sigaction
+//golang:linkname libc_sigaltstack libc_sigaltstack
+//golang:linkname libc_sigprocmask libc_sigprocmask
+//golang:linkname libc_sysconf libc_sysconf
+//golang:linkname libc_usleep libc_usleep
+//golang:linkname libc_write libc_write
+//golang:linkname libc_pipe2 libc_pipe2
 
 var (
 	libc____errno,
@@ -135,7 +135,7 @@ func getPageSize() uintptr {
 func osinit() {
 	// Call miniterrno so that we can safely make system calls
 	// before calling minit on m0.
-	asmcgocall(unsafe.Pointer(abi.FuncPCABI0(miniterrno)), unsafe.Pointer(&libc____errno))
+	asmcgolangcall(unsafe.Pointer(abi.FuncPCABI0(miniterrno)), unsafe.Pointer(&libc____errno))
 
 	numCPUStartup = getCPUCount()
 	if physPageSize == 0 {
@@ -147,7 +147,7 @@ func tstart_sysvicall(newm *m) uint32
 
 // May run with m.p==nil, so write barriers are not allowed.
 //
-//go:nowritebarrier
+//golang:nowritebarrier
 func newosproc(mp *m) {
 	var (
 		attr pthreadattr
@@ -197,7 +197,7 @@ func exitThread(wait *atomic.Uint32) {
 
 var urandom_dev = []byte("/dev/urandom\x00")
 
-//go:nosplit
+//golang:nosplit
 func readRandom(r []byte) int {
 	fd := open(&urandom_dev[0], 0 /* O_RDONLY */, 0)
 	n := read(fd, unsafe.Pointer(&r[0]), int32(len(r)))
@@ -205,8 +205,8 @@ func readRandom(r []byte) int {
 	return int(n)
 }
 
-func goenvs() {
-	goenvs_unix()
+func golangenvs() {
+	golangenvs_unix()
 }
 
 // Called to initialize a new m (including the bootstrap m).
@@ -221,7 +221,7 @@ func miniterrno()
 // Called to initialize a new m (including the bootstrap m).
 // Called on the new thread, cannot allocate memory.
 func minit() {
-	asmcgocall(unsafe.Pointer(abi.FuncPCABI0(miniterrno)), unsafe.Pointer(&libc____errno))
+	asmcgolangcall(unsafe.Pointer(abi.FuncPCABI0(miniterrno)), unsafe.Pointer(&libc____errno))
 
 	minitSignals()
 
@@ -237,29 +237,29 @@ func unminit() {
 // Called from mexit, but not from dropm, to undo the effect of thread-owned
 // resources in minit, semacreate, or elsewhere. Do not take locks after calling this.
 //
-// This always runs without a P, so //go:nowritebarrierrec is required.
-//go:nowritebarrierrec
+// This always runs without a P, so //golang:nowritebarrierrec is required.
+//golang:nowritebarrierrec
 func mdestroy(mp *m) {
 }
 
 func sigtramp()
 
-//go:nosplit
-//go:nowritebarrierrec
+//golang:nosplit
+//golang:nowritebarrierrec
 func setsig(i uint32, fn uintptr) {
 	var sa sigactiont
 
 	sa.sa_flags = _SA_SIGINFO | _SA_ONSTACK | _SA_RESTART
 	sa.sa_mask = sigset_all
-	if fn == abi.FuncPCABIInternal(sighandler) { // abi.FuncPCABIInternal(sighandler) matches the callers in signal_unix.go
+	if fn == abi.FuncPCABIInternal(sighandler) { // abi.FuncPCABIInternal(sighandler) matches the callers in signal_unix.golang
 		fn = abi.FuncPCABI0(sigtramp)
 	}
 	*((*uintptr)(unsafe.Pointer(&sa._funcptr))) = fn
 	sigaction(i, &sa, nil)
 }
 
-//go:nosplit
-//go:nowritebarrierrec
+//golang:nosplit
+//golang:nowritebarrierrec
 func setsigstack(i uint32) {
 	var sa sigactiont
 	sigaction(i, nil, &sa)
@@ -270,8 +270,8 @@ func setsigstack(i uint32) {
 	sigaction(i, &sa, nil)
 }
 
-//go:nosplit
-//go:nowritebarrierrec
+//golang:nosplit
+//golang:nowritebarrierrec
 func getsig(i uint32) uintptr {
 	var sa sigactiont
 	sigaction(i, nil, &sa)
@@ -280,13 +280,13 @@ func getsig(i uint32) uintptr {
 
 // setSignalstackSP sets the ss_sp field of a stackt.
 //
-//go:nosplit
+//golang:nosplit
 func setSignalstackSP(s *stackt, sp uintptr) {
 	*(*uintptr)(unsafe.Pointer(&s.ss_sp)) = sp
 }
 
-//go:nosplit
-//go:nowritebarrierrec
+//golang:nosplit
+//golang:nowritebarrierrec
 func sigaddset(mask *sigset, i int) {
 	mask.__sigbits[(i-1)/32] |= 1 << ((uint32(i) - 1) & 31)
 }
@@ -295,7 +295,7 @@ func sigdelset(mask *sigset, i int) {
 	mask.__sigbits[(i-1)/32] &^= 1 << ((uint32(i) - 1) & 31)
 }
 
-//go:nosplit
+//golang:nosplit
 func (c *sigctxt) fixsigcode(sig uint32) {
 }
 
@@ -307,12 +307,12 @@ func setThreadCPUProfiler(hz int32) {
 	setThreadCPUProfilerHz(hz)
 }
 
-//go:nosplit
+//golang:nosplit
 func validSIGPROF(mp *m, c *sigctxt) bool {
 	return true
 }
 
-//go:nosplit
+//golang:nosplit
 func semacreate(mp *m) {
 	if mp.waitsema != 0 {
 		return
@@ -328,7 +328,7 @@ func semacreate(mp *m) {
 	mp.scratch = mscratch{}
 	mp.scratch.v[0] = unsafe.Sizeof(*sem)
 	mp.libcall.args = uintptr(unsafe.Pointer(&mp.scratch))
-	asmcgocall(unsafe.Pointer(&asmsysvicall6x), unsafe.Pointer(&mp.libcall))
+	asmcgolangcall(unsafe.Pointer(&asmsysvicall6x), unsafe.Pointer(&mp.libcall))
 	sem = (*semt)(unsafe.Pointer(mp.libcall.r1))
 	if sem_init(sem, 0, 0) != 0 {
 		throw("sem_init")
@@ -336,7 +336,7 @@ func semacreate(mp *m) {
 	mp.waitsema = uintptr(unsafe.Pointer(sem))
 }
 
-//go:nosplit
+//golang:nosplit
 func semasleep(ns int64) int32 {
 	mp := getg().m
 	if ns >= 0 {
@@ -349,7 +349,7 @@ func semasleep(ns int64) int32 {
 		mp.scratch.v[0] = mp.waitsema
 		mp.scratch.v[1] = uintptr(unsafe.Pointer(&mp.ts))
 		mp.libcall.args = uintptr(unsafe.Pointer(&mp.scratch))
-		asmcgocall(unsafe.Pointer(&asmsysvicall6x), unsafe.Pointer(&mp.libcall))
+		asmcgolangcall(unsafe.Pointer(&asmsysvicall6x), unsafe.Pointer(&mp.libcall))
 		if *mp.perrno != 0 {
 			if *mp.perrno == _ETIMEDOUT || *mp.perrno == _EAGAIN || *mp.perrno == _EINTR {
 				return -1
@@ -364,7 +364,7 @@ func semasleep(ns int64) int32 {
 		mp.scratch = mscratch{}
 		mp.scratch.v[0] = mp.waitsema
 		mp.libcall.args = uintptr(unsafe.Pointer(&mp.scratch))
-		asmcgocall(unsafe.Pointer(&asmsysvicall6x), unsafe.Pointer(&mp.libcall))
+		asmcgolangcall(unsafe.Pointer(&asmsysvicall6x), unsafe.Pointer(&mp.libcall))
 		if mp.libcall.r1 == 0 {
 			break
 		}
@@ -376,34 +376,34 @@ func semasleep(ns int64) int32 {
 	return 0
 }
 
-//go:nosplit
+//golang:nosplit
 func semawakeup(mp *m) {
 	if sem_post((*semt)(unsafe.Pointer(mp.waitsema))) != 0 {
 		throw("sem_post")
 	}
 }
 
-//go:nosplit
+//golang:nosplit
 func closefd(fd int32) int32 {
 	return int32(sysvicall1(&libc_close, uintptr(fd)))
 }
 
-//go:nosplit
+//golang:nosplit
 func exit(r int32) {
 	sysvicall1(&libc_exit, uintptr(r))
 }
 
-//go:nosplit
+//golang:nosplit
 func getcontext(context *ucontext) /* int32 */ {
 	sysvicall1(&libc_getcontext, uintptr(unsafe.Pointer(context)))
 }
 
-//go:nosplit
+//golang:nosplit
 func madvise(addr unsafe.Pointer, n uintptr, flags int32) {
 	sysvicall3(&libc_madvise, uintptr(addr), uintptr(n), uintptr(flags))
 }
 
-//go:nosplit
+//golang:nosplit
 func mmap(addr unsafe.Pointer, n uintptr, prot, flags, fd int32, off uint32) (unsafe.Pointer, int) {
 	p, err := doMmap(uintptr(addr), n, uintptr(prot), uintptr(flags), uintptr(fd), uintptr(off))
 	if p == ^uintptr(0) {
@@ -412,18 +412,18 @@ func mmap(addr unsafe.Pointer, n uintptr, prot, flags, fd int32, off uint32) (un
 	return unsafe.Pointer(p), 0
 }
 
-//go:nosplit
-//go:cgo_unsafe_args
+//golang:nosplit
+//golang:cgolang_unsafe_args
 func doMmap(addr, n, prot, flags, fd, off uintptr) (uintptr, uintptr) {
 	var libcall libcall
 	libcall.fn = uintptr(unsafe.Pointer(&libc_mmap))
 	libcall.n = 6
 	libcall.args = uintptr(noescape(unsafe.Pointer(&addr)))
-	asmcgocall(unsafe.Pointer(&asmsysvicall6x), unsafe.Pointer(&libcall))
+	asmcgolangcall(unsafe.Pointer(&asmsysvicall6x), unsafe.Pointer(&libcall))
 	return libcall.r1, libcall.err
 }
 
-//go:nosplit
+//golang:nosplit
 func munmap(addr unsafe.Pointer, n uintptr) {
 	sysvicall2(&libc_munmap, uintptr(addr), uintptr(n))
 }
@@ -433,14 +433,14 @@ const (
 	_CLOCK_MONOTONIC = 4
 )
 
-//go:nosplit
+//golang:nosplit
 func nanotime1() int64 {
 	var ts mts
 	sysvicall2(&libc_clock_gettime, _CLOCK_MONOTONIC, uintptr(unsafe.Pointer(&ts)))
 	return ts.tv_sec*1e9 + ts.tv_nsec
 }
 
-//go:nosplit
+//golang:nosplit
 func open(path *byte, mode, perm int32) int32 {
 	return int32(sysvicall3(&libc_open, uintptr(unsafe.Pointer(path)), uintptr(mode), uintptr(perm)))
 }
@@ -477,8 +477,8 @@ func signalM(mp *m, sig int) {
 	sysvicall2(&libc_pthread_kill, uintptr(pthread(mp.procid)), uintptr(sig))
 }
 
-//go:nosplit
-//go:nowritebarrierrec
+//golang:nosplit
+//golang:nowritebarrierrec
 func raise(sig uint32) /* int32 */ {
 	sysvicall1(&libc_raise, uintptr(sig))
 }
@@ -488,7 +488,7 @@ func raiseproc(sig uint32) /* int32 */ {
 	sysvicall2(&libc_kill, pid, uintptr(sig))
 }
 
-//go:nosplit
+//golang:nosplit
 func read(fd int32, buf unsafe.Pointer, nbyte int32) int32 {
 	r1, err := sysvicall3Err(&libc_read, uintptr(fd), uintptr(buf), uintptr(nbyte))
 	if c := int32(r1); c >= 0 {
@@ -497,22 +497,22 @@ func read(fd int32, buf unsafe.Pointer, nbyte int32) int32 {
 	return -int32(err)
 }
 
-//go:nosplit
+//golang:nosplit
 func sem_init(sem *semt, pshared int32, value uint32) int32 {
 	return int32(sysvicall3(&libc_sem_init, uintptr(unsafe.Pointer(sem)), uintptr(pshared), uintptr(value)))
 }
 
-//go:nosplit
+//golang:nosplit
 func sem_post(sem *semt) int32 {
 	return int32(sysvicall1(&libc_sem_post, uintptr(unsafe.Pointer(sem))))
 }
 
-//go:nosplit
+//golang:nosplit
 func sem_reltimedwait_np(sem *semt, timeout *timespec) int32 {
 	return int32(sysvicall2(&libc_sem_reltimedwait_np, uintptr(unsafe.Pointer(sem)), uintptr(unsafe.Pointer(timeout))))
 }
 
-//go:nosplit
+//golang:nosplit
 func sem_wait(sem *semt) int32 {
 	return int32(sysvicall1(&libc_sem_wait, uintptr(unsafe.Pointer(sem))))
 }
@@ -521,20 +521,20 @@ func setitimer(which int32, value *itimerval, ovalue *itimerval) /* int32 */ {
 	sysvicall3(&libc_setitimer, uintptr(which), uintptr(unsafe.Pointer(value)), uintptr(unsafe.Pointer(ovalue)))
 }
 
-//go:nosplit
-//go:nowritebarrierrec
+//golang:nosplit
+//golang:nowritebarrierrec
 func sigaction(sig uint32, act *sigactiont, oact *sigactiont) /* int32 */ {
 	sysvicall3(&libc_sigaction, uintptr(sig), uintptr(unsafe.Pointer(act)), uintptr(unsafe.Pointer(oact)))
 }
 
-//go:nosplit
-//go:nowritebarrierrec
+//golang:nosplit
+//golang:nowritebarrierrec
 func sigaltstack(ss *stackt, oss *stackt) /* int32 */ {
 	sysvicall2(&libc_sigaltstack, uintptr(unsafe.Pointer(ss)), uintptr(unsafe.Pointer(oss)))
 }
 
-//go:nosplit
-//go:nowritebarrierrec
+//golang:nosplit
+//golang:nowritebarrierrec
 func sigprocmask(how int32, set *sigset, oset *sigset) /* int32 */ {
 	sysvicall3(&libc_sigprocmask, uintptr(how), uintptr(unsafe.Pointer(set)), uintptr(unsafe.Pointer(oset)))
 }
@@ -545,12 +545,12 @@ func sysconf(name int32) int64 {
 
 func usleep1(usec uint32)
 
-//go:nosplit
+//golang:nosplit
 func usleep_no_g(µs uint32) {
 	usleep1(µs)
 }
 
-//go:nosplit
+//golang:nosplit
 func usleep(µs uint32) {
 	usleep1(µs)
 }
@@ -561,7 +561,7 @@ func walltime() (sec int64, nsec int32) {
 	return ts.tv_sec, int32(ts.tv_nsec)
 }
 
-//go:nosplit
+//golang:nosplit
 func write1(fd uintptr, buf unsafe.Pointer, nbyte int32) int32 {
 	r1, err := sysvicall3Err(&libc_write, fd, uintptr(buf), uintptr(nbyte))
 	if c := int32(r1); c >= 0 {
@@ -570,14 +570,14 @@ func write1(fd uintptr, buf unsafe.Pointer, nbyte int32) int32 {
 	return -int32(err)
 }
 
-//go:nosplit
+//golang:nosplit
 func pipe2(flags int32) (r, w int32, errno int32) {
 	var p [2]int32
 	_, e := sysvicall2Err(&libc_pipe2, uintptr(noescape(unsafe.Pointer(&p))), uintptr(flags))
 	return p[0], p[1], int32(e)
 }
 
-//go:nosplit
+//golang:nosplit
 func fcntl(fd, cmd, arg int32) (ret int32, errno int32) {
 	r1, err := sysvicall3Err(&libc_fcntl, uintptr(fd), uintptr(cmd), uintptr(arg))
 	return int32(r1), int32(err)
@@ -585,17 +585,17 @@ func fcntl(fd, cmd, arg int32) (ret int32, errno int32) {
 
 func osyield1()
 
-//go:nosplit
+//golang:nosplit
 func osyield_no_g() {
 	osyield1()
 }
 
-//go:nosplit
+//golang:nosplit
 func osyield() {
 	sysvicall0(&libc_sched_yield)
 }
 
-//go:linkname executablePath os.executablePath
+//golang:linkname executablePath os.executablePath
 var executablePath string
 
 func sysargs(argc int32, argv **byte) {
@@ -610,7 +610,7 @@ func sysargs(argc int32, argv **byte) {
 	n++
 
 	// now argv+n is auxv
-	auxvp := (*[1 << 28]uintptr)(add(unsafe.Pointer(argv), uintptr(n)*goarch.PtrSize))
+	auxvp := (*[1 << 28]uintptr)(add(unsafe.Pointer(argv), uintptr(n)*golangarch.PtrSize))
 	pairs := sysauxv(auxvp[:])
 	auxv = auxvp[: pairs*2 : pairs*2]
 }
@@ -629,7 +629,7 @@ func sysauxv(auxv []uintptr) (pairs int) {
 		case _AT_PAGESZ:
 			physPageSize = val
 		case _AT_SUN_EXECNAME:
-			executablePath = gostringnocopy((*byte)(unsafe.Pointer(val)))
+			executablePath = golangstringnocopy((*byte)(unsafe.Pointer(val)))
 		}
 	}
 	return i / 2
@@ -639,7 +639,7 @@ func sysauxv(auxv []uintptr) (pairs int) {
 // number.
 const sigPerThreadSyscall = 1 << 31
 
-//go:nosplit
+//golang:nosplit
 func runPerThreadSyscall() {
 	throw("runPerThreadSyscall only valid on linux")
 }

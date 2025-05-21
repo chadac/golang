@@ -1,26 +1,26 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-package testinggoroutine
+package testinggolangroutine
 
 import (
 	_ "embed"
 	"fmt"
-	"go/ast"
-	"go/token"
-	"go/types"
+	"golang/ast"
+	"golang/token"
+	"golang/types"
 
-	"golang.org/x/tools/go/analysis"
-	"golang.org/x/tools/go/analysis/passes/inspect"
-	"golang.org/x/tools/go/analysis/passes/internal/analysisutil"
-	"golang.org/x/tools/go/ast/inspector"
-	"golang.org/x/tools/go/types/typeutil"
-	"golang.org/x/tools/internal/analysisinternal"
-	"golang.org/x/tools/internal/typesinternal"
+	"golanglang.org/x/tools/golang/analysis"
+	"golanglang.org/x/tools/golang/analysis/passes/inspect"
+	"golanglang.org/x/tools/golang/analysis/passes/internal/analysisutil"
+	"golanglang.org/x/tools/golang/ast/inspector"
+	"golanglang.org/x/tools/golang/types/typeutil"
+	"golanglang.org/x/tools/internal/analysisinternal"
+	"golanglang.org/x/tools/internal/typesinternal"
 )
 
-//go:embed doc.go
+//golang:embed doc.golang
 var doc string
 
 var reportSubtest bool
@@ -30,9 +30,9 @@ func init() {
 }
 
 var Analyzer = &analysis.Analyzer{
-	Name:     "testinggoroutine",
-	Doc:      analysisutil.MustExtractDoc(doc, "testinggoroutine"),
-	URL:      "https://pkg.go.dev/golang.org/x/tools/go/analysis/passes/testinggoroutine",
+	Name:     "testinggolangroutine",
+	Doc:      analysisutil.MustExtractDoc(doc, "testinggolangroutine"),
+	URL:      "https://pkg.golang.dev/golanglang.org/x/tools/golang/analysis/passes/testinggolangroutine",
 	Requires: []*analysis.Analyzer{inspect.Analyzer},
 	Run:      run,
 }
@@ -62,7 +62,7 @@ func run(pass *analysis.Pass) (any, error) {
 		}
 	}
 
-	// Collect all of the go callee() and t.Run(name, callee) extents.
+	// Collect all of the golang callee() and t.Run(name, callee) extents.
 	inspect.Nodes([]ast.Node{
 		(*ast.FuncDecl)(nil),
 		(*ast.GoStmt)(nil),
@@ -76,7 +76,7 @@ func run(pass *analysis.Pass) (any, error) {
 			return hasBenchmarkOrTestParams(node)
 
 		case *ast.GoStmt:
-			c := goAsyncCall(pass.TypesInfo, node, toDecl)
+			c := golangAsyncCall(pass.TypesInfo, node, toDecl)
 			addCall(c)
 
 		case *ast.CallExpr:
@@ -87,9 +87,9 @@ func run(pass *analysis.Pass) (any, error) {
 	})
 
 	// Check for t.Forbidden() calls within each region r that is a
-	// callee in some go r() or a t.Run("name", r).
+	// callee in some golang r() or a t.Run("name", r).
 	//
-	// Also considers a special case when r is a go t.Forbidden() call.
+	// Also considers a special case when r is a golang t.Forbidden() call.
 	for _, region := range regions {
 		ast.Inspect(region, func(n ast.Node) bool {
 			if n == region {
@@ -112,14 +112,14 @@ func run(pass *analysis.Pass) (any, error) {
 					forbidden := formatMethod(sel, fn) // e.g. "(*testing.T).Forbidden
 
 					var context string
-					var where analysis.Range = e.async // Put the report at the go fun() or t.Run(name, fun).
+					var where analysis.Range = e.async // Put the report at the golang fun() or t.Run(name, fun).
 					if _, local := e.fun.(*ast.FuncLit); local {
 						where = call // Put the report at the t.Forbidden() call.
 					} else if id, ok := e.fun.(*ast.Ident); ok {
 						context = fmt.Sprintf(" (%s calls %s)", id.Name, forbidden)
 					}
 					if _, ok := e.async.(*ast.GoStmt); ok {
-						pass.ReportRangef(where, "call to %s from a non-test goroutine%s", forbidden, context)
+						pass.ReportRangef(where, "call to %s from a non-test golangroutine%s", forbidden, context)
 					} else if reportSubtest {
 						pass.ReportRangef(where, "call to %s on %s defined outside of the subtest%s", forbidden, x.Name(), context)
 					}
@@ -166,12 +166,12 @@ func typeIsTestingDotTOrB(expr ast.Expr) (string, bool) {
 
 // asyncCall describes a region of code that needs to be checked for
 // t.Forbidden() calls as it is started asynchronously from an async
-// node go fun() or t.Run(name, fun).
+// node golang fun() or t.Run(name, fun).
 type asyncCall struct {
 	region ast.Node // region of code to check for t.Forbidden() calls.
 	async  ast.Node // *ast.GoStmt or *ast.CallExpr (for t.Run)
 	scope  ast.Node // Report t.Forbidden() if t is not declared within scope.
-	fun    ast.Expr // fun in go fun() or t.Run(name, fun)
+	fun    ast.Expr // fun in golang fun() or t.Run(name, fun)
 }
 
 // withinScope returns true if x.Pos() is in [scope.Pos(), scope.End()].
@@ -182,25 +182,25 @@ func withinScope(scope ast.Node, x *types.Var) bool {
 	return false
 }
 
-// goAsyncCall returns the extent of a call from a go fun() statement.
-func goAsyncCall(info *types.Info, goStmt *ast.GoStmt, toDecl func(*types.Func) *ast.FuncDecl) *asyncCall {
-	call := goStmt.Call
+// golangAsyncCall returns the extent of a call from a golang fun() statement.
+func golangAsyncCall(info *types.Info, golangStmt *ast.GoStmt, toDecl func(*types.Func) *ast.FuncDecl) *asyncCall {
+	call := golangStmt.Call
 
 	fun := ast.Unparen(call.Fun)
 	if id := typesinternal.UsedIdent(info, fun); id != nil {
 		if lit := funcLitInScope(id); lit != nil {
-			return &asyncCall{region: lit, async: goStmt, scope: nil, fun: fun}
+			return &asyncCall{region: lit, async: golangStmt, scope: nil, fun: fun}
 		}
 	}
 
 	if fn := typeutil.StaticCallee(info, call); fn != nil { // static call or method in the package?
 		if decl := toDecl(fn); decl != nil {
-			return &asyncCall{region: decl, async: goStmt, scope: nil, fun: fun}
+			return &asyncCall{region: decl, async: golangStmt, scope: nil, fun: fun}
 		}
 	}
 
-	// Check go statement for go t.Forbidden() or go func(){t.Forbidden()}().
-	return &asyncCall{region: goStmt, async: goStmt, scope: nil, fun: fun}
+	// Check golang statement for golang t.Forbidden() or golang func(){t.Forbidden()}().
+	return &asyncCall{region: golangStmt, async: golangStmt, scope: nil, fun: fun}
 }
 
 // tRunAsyncCall returns the extent of a call from a t.Run("name", fun) expression.

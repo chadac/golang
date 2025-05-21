@@ -1,102 +1,102 @@
-# Test go build -pgo=auto flag.
+# Test golang build -pgolang=auto flag.
 
 [short] skip 'compiles and links executables'
 
 # Set up fresh GOCACHE.
-env GOCACHE=$WORK/gocache
+env GOCACHE=$WORK/golangcache
 mkdir $GOCACHE
 
-# use default.pgo for a single main package
-go build -n -pgo=auto -o a1.exe ./a/a1
-stderr 'preprofile.*-i.*default\.pgo'
-stderr 'compile.*-pgoprofile=.*a1.go'
+# use default.pgolang for a single main package
+golang build -n -pgolang=auto -o a1.exe ./a/a1
+stderr 'preprofile.*-i.*default\.pgolang'
+stderr 'compile.*-pgolangprofile=.*a1.golang'
 
-# check that pgo applied to dependencies
-stderr 'compile.*-p test/dep.*-pgoprofile=.*'
+# check that pgolang applied to dependencies
+stderr 'compile.*-p test/dep.*-pgolangprofile=.*'
 
-# check that pgo appears in build info
-# N.B. we can't start the stdout check with -pgo because the script assumes that
+# check that pgolang appears in build info
+# N.B. we can't start the stdout check with -pgolang because the script assumes that
 # if the first arg starts with - it is a grep flag.
-stderr 'build\\t-pgo=.*default\.pgo'
+stderr 'build\\t-pgolang=.*default\.pgolang'
 
-# check also that -pgo appears with the other flags, before non-flag settings
-! stderr 'build\\t[A-Za-z].*build\\t-pgo'
+# check also that -pgolang appears with the other flags, before non-flag settings
+! stderr 'build\\t[A-Za-z].*build\\t-pgolang'
 
-# use default.pgo for ... with a single main package
-go build -n -pgo=auto ./a/...
-stderr 'compile.*-pgoprofile=.*a1.go'
+# use default.pgolang for ... with a single main package
+golang build -n -pgolang=auto ./a/...
+stderr 'compile.*-pgolangprofile=.*a1.golang'
 
-# check that pgo appears in build info
-stderr 'build\\t-pgo=.*default\.pgo'
+# check that pgolang appears in build info
+stderr 'build\\t-pgolang=.*default\.pgolang'
 
-# build succeeds without PGO when default.pgo file is absent
-go build -n -pgo=auto -o nopgo.exe ./nopgo
-stderr 'compile.*nopgo.go'
-! stderr 'compile.*-pgoprofile'
+# build succeeds without PGO when default.pgolang file is absent
+golang build -n -pgolang=auto -o nopgolang.exe ./nopgolang
+stderr 'compile.*nopgolang.golang'
+! stderr 'compile.*-pgolangprofile'
 
-# check that pgo doesn't appear in build info
-! stderr 'build\\t-pgo='
+# check that pgolang doesn't appear in build info
+! stderr 'build\\t-pgolang='
 
 # other build-related commands
-go install -a -n -pgo=auto ./a/a1
-stderr 'compile.*-pgoprofile=.*a1.go'
+golang install -a -n -pgolang=auto ./a/a1
+stderr 'compile.*-pgolangprofile=.*a1.golang'
 
-go run -a -n -pgo=auto ./a/a1
-stderr 'compile.*-pgoprofile=.*a1.go'
+golang run -a -n -pgolang=auto ./a/a1
+stderr 'compile.*-pgolangprofile=.*a1.golang'
 
-go test -a -n -pgo=auto ./a/a1
-stderr 'compile.*-pgoprofile=.*a1.go.*a1_test.go'
-stderr 'compile.*-pgoprofile=.*external_test.go'
+golang test -a -n -pgolang=auto ./a/a1
+stderr 'compile.*-pgolangprofile=.*a1.golang.*a1_test.golang'
+stderr 'compile.*-pgolangprofile=.*external_test.golang'
 
-# go list commands should succeed as usual
-go list -pgo=auto ./a/a1
+# golang list commands should succeed as usual
+golang list -pgolang=auto ./a/a1
 
-go list -test -pgo=auto ./a/a1
+golang list -test -pgolang=auto ./a/a1
 
-go list -deps -pgo=auto ./a/a1
+golang list -deps -pgolang=auto ./a/a1
 
-# -pgo=auto is the default. Commands without explicit -pgo=auto
-# should work as -pgo=auto.
-go build -a -n -o a1.exe ./a/a1
-stderr 'compile.*-pgoprofile=.*a1.go'
-stderr 'compile.*-p test/dep.*-pgoprofile=.*'
+# -pgolang=auto is the default. Commands without explicit -pgolang=auto
+# should work as -pgolang=auto.
+golang build -a -n -o a1.exe ./a/a1
+stderr 'compile.*-pgolangprofile=.*a1.golang'
+stderr 'compile.*-p test/dep.*-pgolangprofile=.*'
 
-# check that pgo appears in build info
-stderr 'build\\t-pgo=.*default\.pgo'
+# check that pgolang appears in build info
+stderr 'build\\t-pgolang=.*default\.pgolang'
 
-go build -a -n -o nopgo.exe ./nopgo
-stderr 'compile.*nopgo.go'
-! stderr 'compile.*-pgoprofile'
+golang build -a -n -o nopgolang.exe ./nopgolang
+stderr 'compile.*nopgolang.golang'
+! stderr 'compile.*-pgolangprofile'
 
-# check that pgo doesn't appear in build info
-! stderr 'build\\t-pgo='
+# check that pgolang doesn't appear in build info
+! stderr 'build\\t-pgolang='
 
-# -pgo=off should turn off PGO.
-go build -a -n -pgo=off -o a1.exe ./a/a1
-stderr 'compile.*a1.go'
-! stderr 'compile.*-pgoprofile'
+# -pgolang=off should turn off PGO.
+golang build -a -n -pgolang=off -o a1.exe ./a/a1
+stderr 'compile.*a1.golang'
+! stderr 'compile.*-pgolangprofile'
 
-# check that pgo doesn't appear in build info
-! stderr 'build\\t-pgo='
+# check that pgolang doesn't appear in build info
+! stderr 'build\\t-pgolang='
 
--- go.mod --
+-- golang.mod --
 module test
-go 1.20
--- a/a1/a1.go --
+golang 1.20
+-- a/a1/a1.golang --
 package main
 import _ "test/dep"
 func main() {}
--- a/a1/a1_test.go --
+-- a/a1/a1_test.golang --
 package main
 import "testing"
 func TestA(*testing.T) {}
--- a/a1/external_test.go --
+-- a/a1/external_test.golang --
 package main_test
 import "testing"
 func TestExternal(*testing.T) {}
--- a/a1/default.pgo --
--- nopgo/nopgo.go --
+-- a/a1/default.pgolang --
+-- nopgolang/nopgolang.golang --
 package main
 func main() {}
--- dep/dep.go --
+-- dep/dep.golang --
 package dep

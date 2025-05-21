@@ -1,12 +1,12 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
 
 import (
 	"internal/abi"
-	"internal/goarch"
+	"internal/golangarch"
 	"unsafe"
 )
 
@@ -23,22 +23,22 @@ type mOS struct {
 	waitsema uint32 // semaphore for parking on locks
 }
 
-//go:noescape
+//golang:noescape
 func lwp_create(param *lwpparams) int32
 
-//go:noescape
+//golang:noescape
 func sigaltstack(new, old *stackt)
 
-//go:noescape
+//golang:noescape
 func sigaction(sig uint32, new, old *sigactiont)
 
-//go:noescape
+//golang:noescape
 func sigprocmask(how int32, new, old *sigset)
 
-//go:noescape
+//golang:noescape
 func setitimer(mode int32, new, old *itimerval)
 
-//go:noescape
+//golang:noescape
 func sysctl(mib *uint32, miblen uint32, out *byte, size *uintptr, dst *byte, ndst uintptr) int32
 
 func raiseproc(sig uint32)
@@ -46,22 +46,22 @@ func raiseproc(sig uint32)
 func lwp_gettid() int32
 func lwp_kill(pid, tid int32, sig int)
 
-//go:noescape
+//golang:noescape
 func sys_umtx_sleep(addr *uint32, val, timeout int32) int32
 
-//go:noescape
+//golang:noescape
 func sys_umtx_wakeup(addr *uint32, val int32) int32
 
 func osyield()
 
-//go:nosplit
+//golang:nosplit
 func osyield_no_g() {
 	osyield()
 }
 
 func kqueue() int32
 
-//go:noescape
+//golang:noescape
 func kevent(kq int32, ch *keventt, nch int32, ev *keventt, nev int32, ts *timespec) int32
 
 func pipe2(flags int32) (r, w int32, errno int32)
@@ -69,7 +69,7 @@ func fcntl(fd, cmd, arg int32) (ret int32, errno int32)
 
 func issetugid() int32
 
-// From DragonFly's <sys/sysctl.h>
+// From DragolangnFly's <sys/sysctl.h>
 const (
 	_CTL_HW      = 6
 	_HW_NCPU     = 3
@@ -100,7 +100,7 @@ func getPageSize() uintptr {
 	return 0
 }
 
-//go:nosplit
+//golang:nosplit
 func futexsleep(addr *uint32, val uint32, ns int64) {
 	systemstack(func() {
 		futexsleep1(addr, val, ns)
@@ -130,7 +130,7 @@ func futexsleep1(addr *uint32, val uint32, ns int64) {
 	*(*int32)(unsafe.Pointer(uintptr(0x1005))) = 0x1005
 }
 
-//go:nosplit
+//golang:nosplit
 func futexwakeup(addr *uint32, cnt uint32) {
 	ret := sys_umtx_wakeup(addr, int32(cnt))
 	if ret >= 0 {
@@ -147,7 +147,7 @@ func lwp_start(uintptr)
 
 // May run with m.p==nil, so write barriers are not allowed.
 //
-//go:nowritebarrier
+//golang:nowritebarrier
 func newosproc(mp *m) {
 	stk := unsafe.Pointer(mp.g0.stack.hi)
 	if false {
@@ -182,7 +182,7 @@ func osinit() {
 
 var urandom_dev = []byte("/dev/urandom\x00")
 
-//go:nosplit
+//golang:nosplit
 func readRandom(r []byte) int {
 	fd := open(&urandom_dev[0], 0 /* O_RDONLY */, 0)
 	n := read(fd, unsafe.Pointer(&r[0]), int32(len(r)))
@@ -190,8 +190,8 @@ func readRandom(r []byte) int {
 	return int(n)
 }
 
-func goenvs() {
-	goenvs_unix()
+func golangenvs() {
+	golangenvs_unix()
 }
 
 // Called to initialize a new m (including the bootstrap m).
@@ -210,7 +210,7 @@ func minit() {
 
 // Called from dropm to undo the effect of an minit.
 //
-//go:nosplit
+//golang:nosplit
 func unminit() {
 	unminitSignals()
 	getg().m.procid = 0
@@ -219,8 +219,8 @@ func unminit() {
 // Called from mexit, but not from dropm, to undo the effect of thread-owned
 // resources in minit, semacreate, or elsewhere. Do not take locks after calling this.
 //
-// This always runs without a P, so //go:nowritebarrierrec is required.
-//go:nowritebarrierrec
+// This always runs without a P, so //golang:nowritebarrierrec is required.
+//golang:nowritebarrierrec
 func mdestroy(mp *m) {
 }
 
@@ -232,27 +232,27 @@ type sigactiont struct {
 	sa_mask      sigset
 }
 
-//go:nosplit
-//go:nowritebarrierrec
+//golang:nosplit
+//golang:nowritebarrierrec
 func setsig(i uint32, fn uintptr) {
 	var sa sigactiont
 	sa.sa_flags = _SA_SIGINFO | _SA_ONSTACK | _SA_RESTART
 	sa.sa_mask = sigset_all
-	if fn == abi.FuncPCABIInternal(sighandler) { // abi.FuncPCABIInternal(sighandler) matches the callers in signal_unix.go
+	if fn == abi.FuncPCABIInternal(sighandler) { // abi.FuncPCABIInternal(sighandler) matches the callers in signal_unix.golang
 		fn = abi.FuncPCABI0(sigtramp)
 	}
 	sa.sa_sigaction = fn
 	sigaction(i, &sa, nil)
 }
 
-//go:nosplit
-//go:nowritebarrierrec
+//golang:nosplit
+//golang:nowritebarrierrec
 func setsigstack(i uint32) {
 	throw("setsigstack")
 }
 
-//go:nosplit
-//go:nowritebarrierrec
+//golang:nosplit
+//golang:nowritebarrierrec
 func getsig(i uint32) uintptr {
 	var sa sigactiont
 	sigaction(i, nil, &sa)
@@ -261,13 +261,13 @@ func getsig(i uint32) uintptr {
 
 // setSignalstackSP sets the ss_sp field of a stackt.
 //
-//go:nosplit
+//golang:nosplit
 func setSignalstackSP(s *stackt, sp uintptr) {
 	s.ss_sp = sp
 }
 
-//go:nosplit
-//go:nowritebarrierrec
+//golang:nosplit
+//golang:nowritebarrierrec
 func sigaddset(mask *sigset, i int) {
 	mask.__bits[(i-1)/32] |= 1 << ((uint32(i) - 1) & 31)
 }
@@ -276,7 +276,7 @@ func sigdelset(mask *sigset, i int) {
 	mask.__bits[(i-1)/32] &^= 1 << ((uint32(i) - 1) & 31)
 }
 
-//go:nosplit
+//golang:nosplit
 func (c *sigctxt) fixsigcode(sig uint32) {
 }
 
@@ -288,7 +288,7 @@ func setThreadCPUProfiler(hz int32) {
 	setThreadCPUProfilerHz(hz)
 }
 
-//go:nosplit
+//golang:nosplit
 func validSIGPROF(mp *m, c *sigctxt) bool {
 	return true
 }
@@ -304,7 +304,7 @@ func sysargs(argc int32, argv **byte) {
 	// skip NULL separator
 	n++
 
-	auxvp := (*[1 << 28]uintptr)(add(unsafe.Pointer(argv), uintptr(n)*goarch.PtrSize))
+	auxvp := (*[1 << 28]uintptr)(add(unsafe.Pointer(argv), uintptr(n)*golangarch.PtrSize))
 	pairs := sysauxv(auxvp[:])
 	auxv = auxvp[: pairs*2 : pairs*2]
 }
@@ -331,7 +331,7 @@ func sysauxv(auxv []uintptr) (pairs int) {
 // It must be nosplit because it is used by the signal handler before
 // it definitely has a Go stack.
 //
-//go:nosplit
+//golang:nosplit
 func raise(sig uint32) {
 	lwp_kill(-1, lwp_gettid(), int(sig))
 }
@@ -344,7 +344,7 @@ func signalM(mp *m, sig int) {
 // number.
 const sigPerThreadSyscall = 1 << 31
 
-//go:nosplit
+//golang:nosplit
 func runPerThreadSyscall() {
 	throw("runPerThreadSyscall only valid on linux")
 }

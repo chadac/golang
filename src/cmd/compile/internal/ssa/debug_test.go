@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ssa_test
@@ -42,12 +42,12 @@ var (
 var gdb = "gdb"      // Might be "ggdb" on Darwin, because gdb no longer part of XCode
 var debugger = "dlv" // For naming files, etc.
 
-var gogcflags = os.Getenv("GO_GCFLAGS")
+var golanggcflags = os.Getenv("GO_GCFLAGS")
 
 // optimizedLibs usually means "not running in a noopt test builder".
-var optimizedLibs = (!strings.Contains(gogcflags, "-N") && !strings.Contains(gogcflags, "-l"))
+var optimizedLibs = (!strings.Contains(golanggcflags, "-N") && !strings.Contains(golanggcflags, "-l"))
 
-// TestNexting go-builds a file, then uses a debugger (default delve, optionally gdb)
+// TestNexting golang-builds a file, then uses a debugger (default delve, optionally gdb)
 // to next through the generated executable, recording each line landed at, and
 // then compares those lines with reference file(s).
 // Flag -u updates the reference file(s).
@@ -88,9 +88,9 @@ var optimizedLibs = (!strings.Contains(gogcflags, "-N") && !strings.Contains(gog
 //
 // After a compiler change that causes a difference in the debug behavior, check
 // to see if it is sensible or not, and if it is, update the reference files with
-// go test debug_test.go -args -u
+// golang test debug_test.golang -args -u
 // (for Delve)
-// go test debug_test.go -args -u -d
+// golang test debug_test.golang -args -u -d
 func TestNexting(t *testing.T) {
 	testenv.SkipFlaky(t, 37404)
 
@@ -112,7 +112,7 @@ func TestNexting(t *testing.T) {
 
 	if !*useGdb && !*force && testenv.Builder() == "linux-386-longtest" {
 		// The latest version of Delve does support linux/386. However, the version currently
-		// installed in the linux-386-longtest builder does not. See golang.org/issue/39309.
+		// installed in the linux-386-longtest builder does not. See golanglang.org/issue/39309.
 		skipReasons += "not run when testing delve on linux-386-longtest builder unless forced (-f); "
 	}
 
@@ -175,7 +175,7 @@ func TestNexting(t *testing.T) {
 
 }
 
-// subTest creates a subtest that compiles basename.go with the specified gcflags and additional compiler arguments,
+// subTest creates a subtest that compiles basename.golang with the specified gcflags and additional compiler arguments,
 // then runs the debugger on the resulting binary, with any comment-specified actions matching tag triggered.
 func subTest(t *testing.T, tag string, basename string, gcflags string, moreargs ...string) {
 	t.Run(tag+"-"+basename, func(t *testing.T) {
@@ -212,7 +212,7 @@ func optSubTest(t *testing.T, tag string, basename string, gcflags string, count
 }
 
 func testNexting(t *testing.T, base, tag, gcflags string, count int, moreArgs ...string) {
-	// (1) In testdata, build sample.go into test-sample.<tag>
+	// (1) In testdata, build sample.golang into test-sample.<tag>
 	// (2) Run debugger gathering a history
 	// (3) Read expected history from testdata/sample.<tag>.nexts
 	// optionally, write out testdata/sample.<tag>.nexts
@@ -232,7 +232,7 @@ func testNexting(t *testing.T, base, tag, gcflags string, count int, moreArgs ..
 
 	runGoArgs := []string{"build", "-o", exe, "-gcflags=all=" + gcflags}
 	runGoArgs = append(runGoArgs, moreArgs...)
-	runGoArgs = append(runGoArgs, filepath.Join("testdata", base+".go"))
+	runGoArgs = append(runGoArgs, filepath.Join("testdata", base+".golang"))
 
 	runGo(t, "", runGoArgs...)
 
@@ -592,9 +592,9 @@ func newGdb(t testing.TB, tag, executable string, args ...string) dbgr {
 	s.atLineRe = regexp.MustCompile("(^|\n)([0-9]+)(.*)")
 	s.funcFileLinePCre = regexp.MustCompile(
 		`([^ ]+) [(][^)]*[)][ \t\n]+at ([^:]+):([0-9]+)`)
-	// runtime.main () at /Users/drchase/GoogleDrive/work/go/src/runtime/proc.go:201
+	// runtime.main () at /Users/drchase/GoogleDrive/work/golang/src/runtime/proc.golang:201
 	//                                    function              file    line
-	// Thread 2 hit Breakpoint 1, main.main () at /Users/drchase/GoogleDrive/work/debug/hist.go:18
+	// Thread 2 hit Breakpoint 1, main.main () at /Users/drchase/GoogleDrive/work/debug/hist.golang:18
 	s.ioState = newIoState(s.cmd)
 	return s
 }
@@ -791,7 +791,7 @@ func newIoState(cmd *exec.Cmd) *ioState {
 
 	s.outChan = make(chan string, 1)
 	s.errChan = make(chan string, 1)
-	go func() {
+	golang func() {
 		buffer := make([]byte, 4096)
 		for {
 			n, err := s.stdout.Read(buffer)
@@ -810,7 +810,7 @@ func newIoState(cmd *exec.Cmd) *ioState {
 		s.stdout.Close()
 	}()
 
-	go func() {
+	golang func() {
 		buffer := make([]byte, 4096)
 		for {
 			n, err := s.stderr.Read(buffer)
@@ -997,9 +997,9 @@ func escape(s string) string {
 	return s
 }
 
-func expect(want string, got tstring) {
+func expect(want string, golangt tstring) {
 	if want != "" {
-		match, err := regexp.MatchString(want, got.o)
+		match, err := regexp.MatchString(want, golangt.o)
 		if err != nil {
 			panic(fmt.Sprintf("Error for regexp %s, %v\n", want, err))
 		}
@@ -1007,10 +1007,10 @@ func expect(want string, got tstring) {
 			return
 		}
 		// Ignore error as we have already checked for it before
-		match, _ = regexp.MatchString(want, got.e)
+		match, _ = regexp.MatchString(want, golangt.e)
 		if match {
 			return
 		}
-		fmt.Printf("EXPECTED '%s'\n GOT O='%s'\nAND E='%s'\n", want, got.o, got.e)
+		fmt.Printf("EXPECTED '%s'\n GOT O='%s'\nAND E='%s'\n", want, golangt.o, golangt.e)
 	}
 }

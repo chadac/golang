@@ -1,5 +1,5 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
@@ -74,7 +74,7 @@ func (c *pageCache) allocN(npages uintptr) (uintptr, uintptr) {
 //
 // Must run on the system stack because p.mheapLock must be held.
 //
-//go:systemstack
+//golang:systemstack
 func (c *pageCache) flush(p *pageAlloc) {
 	assertLockHeld(p.mheapLock)
 
@@ -115,7 +115,7 @@ func (c *pageCache) flush(p *pageAlloc) {
 //
 // Must run on the system stack because p.mheapLock must be held.
 //
-//go:systemstack
+//golang:systemstack
 func (p *pageAlloc) allocToCache() pageCache {
 	assertLockHeld(p.mheapLock)
 
@@ -140,7 +140,7 @@ func (p *pageAlloc) allocToCache() pageCache {
 			scav:  chunk.scavenged.block64(j),
 		}
 	} else {
-		// Slow path: the searchAddr address had nothing there, so go find
+		// Slow path: the searchAddr address had nothing there, so golang find
 		// the first free page the slow way.
 		addr, _ := p.find(1)
 		if addr == 0 {
@@ -171,7 +171,7 @@ func (p *pageAlloc) allocToCache() pageCache {
 	p.scav.index.alloc(ci, uint(sys.OnesCount64(c.cache)))
 
 	// Set the search address to the last page represented by the cache.
-	// Since all of the pages in this block are going to the cache, and we
+	// Since all of the pages in this block are golanging to the cache, and we
 	// searched for the first free page, we can confidently start at the
 	// next page.
 	//

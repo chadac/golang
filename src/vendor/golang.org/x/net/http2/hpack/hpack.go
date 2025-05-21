@@ -1,5 +1,5 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package hpack implements HPACK, a compression format for
@@ -98,7 +98,7 @@ type Decoder struct {
 
 // NewDecoder returns a new decoder with the provided maximum dynamic
 // table size. The emitFunc will be called for each valid field
-// parsed, in the same goroutine as calls to Write, before Write returns.
+// parsed, in the same golangroutine as calls to Write, before Write returns.
 func NewDecoder(maxDynamicTableSize uint32, emitFunc func(f HeaderField)) *Decoder {
 	d := &Decoder{
 		emit:        emitFunc,
@@ -162,7 +162,7 @@ type dynamicTable struct {
 	table          headerFieldTable
 	size           uint32 // in bytes
 	maxSize        uint32 // current maxSize
-	allowedMaxSize uint32 // maxSize may go up to this, inclusive
+	allowedMaxSize uint32 // maxSize may golang up to this, inclusive
 }
 
 func (dt *dynamicTable) setMaxSize(v uint32) {

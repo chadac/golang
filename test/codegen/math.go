@@ -1,7 +1,7 @@
 // asmcheck
 
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package codegen
@@ -236,14 +236,14 @@ func nanGenerate64() float64 {
 	zero := 0.0
 	// amd64:-"DIVSD"
 	inf := 1 / zero // +inf. We can constant propagate this one.
-	negone := -1.0
+	negolangne := -1.0
 
 	// amd64:"DIVSD"
 	z0 := zero / zero
 	// amd64/v1,amd64/v2:"MULSD"
 	z1 := zero * inf
 	// amd64:"SQRTSD"
-	z2 := math.Sqrt(negone)
+	z2 := math.Sqrt(negolangne)
 	// amd64/v3:"VFMADD231SD"
 	return z0 + z1 + z2
 }

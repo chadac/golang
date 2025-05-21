@@ -1,13 +1,13 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package parser
 
 import (
 	"fmt"
-	"go/ast"
-	"go/token"
+	"golang/ast"
+	"golang/token"
 	"io/fs"
 	"reflect"
 	"strings"
@@ -15,10 +15,10 @@ import (
 )
 
 var validFiles = []string{
-	"parser.go",
-	"parser_test.go",
-	"error_test.go",
-	"short_test.go",
+	"parser.golang",
+	"parser_test.golang",
+	"error_test.golang",
+	"short_test.golang",
 }
 
 func TestParse(t *testing.T) {
@@ -32,9 +32,9 @@ func TestParse(t *testing.T) {
 
 func nameFilter(filename string) bool {
 	switch filename {
-	case "parser.go", "interface.go", "parser_test.go":
+	case "parser.golang", "interface.golang", "parser_test.golang":
 		return true
-	case "parser.go.orig":
+	case "parser.golang.orig":
 		return true // permit but should be ignored by ParseDir
 	}
 	return false
@@ -65,7 +65,7 @@ func TestParseDir(t *testing.T) {
 		t.Fatalf("ParseDir(%s): %v", path, err)
 	}
 	if n := len(pkgs); n != 1 {
-		t.Errorf("got %d packages; want 1", n)
+		t.Errorf("golangt %d packages; want 1", n)
 	}
 	pkg := pkgs["parser"]
 	if pkg == nil {
@@ -73,7 +73,7 @@ func TestParseDir(t *testing.T) {
 		return
 	}
 	if n := len(pkg.Files); n != 3 {
-		t.Errorf("got %d package files; want 3", n)
+		t.Errorf("golangt %d package files; want 3", n)
 	}
 	for filename := range pkg.Files {
 		if !nameFilter(filename) {
@@ -100,7 +100,7 @@ func TestParseExpr(t *testing.T) {
 	}
 	// sanity check
 	if _, ok := x.(*ast.BinaryExpr); !ok {
-		t.Errorf("ParseExpr(%q): got %T, want *ast.BinaryExpr", src, x)
+		t.Errorf("ParseExpr(%q): golangt %T, want *ast.BinaryExpr", src, x)
 	}
 
 	// a valid type expression
@@ -111,36 +111,36 @@ func TestParseExpr(t *testing.T) {
 	}
 	// sanity check
 	if _, ok := x.(*ast.StructType); !ok {
-		t.Errorf("ParseExpr(%q): got %T, want *ast.StructType", src, x)
+		t.Errorf("ParseExpr(%q): golangt %T, want *ast.StructType", src, x)
 	}
 
 	// an invalid expression
 	src = "a + *"
 	x, err = ParseExpr(src)
 	if err == nil {
-		t.Errorf("ParseExpr(%q): got no error", src)
+		t.Errorf("ParseExpr(%q): golangt no error", src)
 	}
 	if x == nil {
-		t.Errorf("ParseExpr(%q): got no (partial) result", src)
+		t.Errorf("ParseExpr(%q): golangt no (partial) result", src)
 	}
 	if _, ok := x.(*ast.BinaryExpr); !ok {
-		t.Errorf("ParseExpr(%q): got %T, want *ast.BinaryExpr", src, x)
+		t.Errorf("ParseExpr(%q): golangt %T, want *ast.BinaryExpr", src, x)
 	}
 
 	// a valid expression followed by extra tokens is invalid
 	src = "a[i] := x"
 	if _, err := ParseExpr(src); err == nil {
-		t.Errorf("ParseExpr(%q): got no error", src)
+		t.Errorf("ParseExpr(%q): golangt no error", src)
 	}
 
 	// a semicolon is not permitted unless automatically inserted
 	src = "a + b\n"
 	if _, err := ParseExpr(src); err != nil {
-		t.Errorf("ParseExpr(%q): got error %s", src, err)
+		t.Errorf("ParseExpr(%q): golangt error %s", src, err)
 	}
 	src = "a + b;"
 	if _, err := ParseExpr(src); err == nil {
-		t.Errorf("ParseExpr(%q): got no error", src)
+		t.Errorf("ParseExpr(%q): golangt no error", src)
 	}
 
 	// various other stuff following a valid expression
@@ -149,7 +149,7 @@ func TestParseExpr(t *testing.T) {
 	for _, c := range "!)]};," {
 		src := validExpr + string(c) + anything
 		if _, err := ParseExpr(src); err == nil {
-			t.Errorf("ParseExpr(%q): got no error", src)
+			t.Errorf("ParseExpr(%q): golangt no error", src)
 		}
 	}
 
@@ -303,10 +303,10 @@ type s3b struct { a, b *s3b; c []float }
 		buf.WriteString(u.Name)
 		buf.WriteByte(' ')
 	}
-	got := buf.String()
+	golangt := buf.String()
 
-	if got != want {
-		t.Errorf("\ngot:  %s\nwant: %s", got, want)
+	if golangt != want {
+		t.Errorf("\ngolangt:  %s\nwant: %s", golangt, want)
 	}
 }
 
@@ -320,7 +320,7 @@ const pi = 3.1415
 /* 3a */ // 3b
 /* 3c */ const e = 2.7182
 
-// Example from go.dev/issue/3139
+// Example from golang.dev/issue/3139
 func ExampleCount() {
 	fmt.Println(strings.Count("cheese", "e"))
 	fmt.Println(strings.Count("five", "")) // before & after each rune
@@ -336,23 +336,23 @@ func ExampleCount() {
 		{"/* 1a */", "/* 1b */", "/* 1c */", "// 1d"},
 		{"/* 2a\n*/", "// 2b"},
 		{"/* 3a */", "// 3b", "/* 3c */"},
-		{"// Example from go.dev/issue/3139"},
+		{"// Example from golang.dev/issue/3139"},
 		{"// before & after each rune"},
 		{"// Output:", "// 3", "// 5"},
 	}
 	if len(f.Comments) != len(expected) {
-		t.Fatalf("got %d comment groups; expected %d", len(f.Comments), len(expected))
+		t.Fatalf("golangt %d comment groups; expected %d", len(f.Comments), len(expected))
 	}
 	for i, exp := range expected {
-		got := f.Comments[i].List
-		if len(got) != len(exp) {
-			t.Errorf("got %d comments in group %d; expected %d", len(got), i, len(exp))
+		golangt := f.Comments[i].List
+		if len(golangt) != len(exp) {
+			t.Errorf("golangt %d comments in group %d; expected %d", len(golangt), i, len(exp))
 			continue
 		}
 		for j, exp := range exp {
-			got := got[j].Text
-			if got != exp {
-				t.Errorf("got %q in group %d; expected %q", got, i, exp)
+			golangt := golangt[j].Text
+			if golangt != exp {
+				t.Errorf("golangt %q in group %d; expected %q", golangt, i, exp)
 			}
 		}
 	}
@@ -396,11 +396,11 @@ func checkFieldComments(t *testing.T, file *ast.File, fieldname, lead, line stri
 	if f == nil {
 		t.Fatalf("field not found: %s", fieldname)
 	}
-	if got := commentText(f.Doc); got != lead {
-		t.Errorf("got lead comment %q; expected %q", got, lead)
+	if golangt := commentText(f.Doc); golangt != lead {
+		t.Errorf("golangt lead comment %q; expected %q", golangt, lead)
 	}
-	if got := commentText(f.Comment); got != line {
-		t.Errorf("got line comment %q; expected %q", got, line)
+	if golangt := commentText(f.Comment); golangt != line {
+		t.Errorf("golangt line comment %q; expected %q", golangt, line)
 	}
 }
 
@@ -502,18 +502,18 @@ var lastDecl int
 /* end of file */
 `
 	fset := token.NewFileSet()
-	f, err := ParseFile(fset, "file.go", src, 0)
+	f, err := ParseFile(fset, "file.golang", src, 0)
 	if err != nil {
 		t.Fatal(err)
 	}
 
 	// File{Start,End} spans the entire file, not just the declarations.
-	if got, want := fset.Position(f.FileStart).String(), "file.go:1:1"; got != want {
-		t.Errorf("for File.FileStart, got %s, want %s", got, want)
+	if golangt, want := fset.Position(f.FileStart).String(), "file.golang:1:1"; golangt != want {
+		t.Errorf("for File.FileStart, golangt %s, want %s", golangt, want)
 	}
 	// The end position is the newline at the end of the /* end of file */ line.
-	if got, want := fset.Position(f.FileEnd).String(), "file.go:10:19"; got != want {
-		t.Errorf("for File.FileEnd, got %s, want %s", got, want)
+	if golangt, want := fset.Position(f.FileEnd).String(), "file.golang:10:19"; golangt != want {
+		t.Errorf("for File.FileEnd, golangt %s, want %s", golangt, want)
 	}
 }
 
@@ -567,7 +567,7 @@ type x int // comment
 	}
 	comment := f.Decls[0].(*ast.GenDecl).Specs[0].(*ast.TypeSpec).Comment.List[0].Text
 	if comment != "// comment" {
-		t.Errorf("got %q, want %q", comment, "// comment")
+		t.Errorf("golangt %q, want %q", comment, "// comment")
 	}
 }
 
@@ -630,7 +630,7 @@ var parseDepthTests = []struct {
 	{name: "forrange0", format: "package main; func main() { «for range x { «» }» }", scope: true, scopeMultiplier: 2},               // Scopes: RangeStmt, BlockStmt
 	{name: "forrange1", format: "package main; func main() { «for x = range z { «» }» }", scope: true, scopeMultiplier: 2},           // Scopes: RangeStmt, BlockStmt
 	{name: "forrange2", format: "package main; func main() { «for x, y = range z { «» }» }", scope: true, scopeMultiplier: 2},        // Scopes: RangeStmt, BlockStmt
-	{name: "go", format: "package main; func main() { «go func() { «» }()» }", parseMultiplier: 2, scope: true},                      // Parser nodes: GoStmt, FuncLit
+	{name: "golang", format: "package main; func main() { «golang func() { «» }()» }", parseMultiplier: 2, scope: true},                      // Parser nodes: GoStmt, FuncLit
 	{name: "defer", format: "package main; func main() { «defer func() { «» }()» }", parseMultiplier: 2, scope: true},                // Parser nodes: DeferStmt, FuncLit
 	{name: "select", format: "package main; func main() { «select { default: «» }» }", scope: true},
 	{name: "block", format: "package main; func main() { «{«»}» }", scope: true},
@@ -738,7 +738,7 @@ func TestScopeDepthLimit(t *testing.T) {
 	}
 }
 
-// proposal go.dev/issue/50429
+// proposal golang.dev/issue/50429
 func TestRangePos(t *testing.T) {
 	testcases := []string{
 		"package p; func _() { for range x {} }",
@@ -760,7 +760,7 @@ func TestRangePos(t *testing.T) {
 			case *ast.RangeStmt:
 				pos := fset.Position(s.Range)
 				if pos.Offset != strings.Index(src, "range") {
-					t.Errorf("%s: got offset %v, want %v", src, pos.Offset, strings.Index(src, "range"))
+					t.Errorf("%s: golangt offset %v, want %v", src, pos.Offset, strings.Index(src, "range"))
 				}
 			}
 			return true
@@ -786,7 +786,7 @@ func TestIssue59180(t *testing.T) {
 
 func TestGoVersion(t *testing.T) {
 	fset := token.NewFileSet()
-	pkgs, err := ParseDir(fset, "./testdata/goversion", nil, 0)
+	pkgs, err := ParseDir(fset, "./testdata/golangversion", nil, 0)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -829,7 +829,7 @@ func TestParseTypeParamsAsParenExpr(t *testing.T) {
 	const src = "package p; type X[A (B),] struct{}"
 
 	fset := token.NewFileSet()
-	f, err := ParseFile(fset, "test.go", src, ParseComments|SkipObjectResolution)
+	f, err := ParseFile(fset, "test.golang", src, ParseComments|SkipObjectResolution)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -853,10 +853,10 @@ func TestEmptyFileHasValidStartEnd(t *testing.T) {
 		{src: "type T int", want: "0 1 11"},
 	} {
 		fset := token.NewFileSet()
-		f, _ := ParseFile(fset, "a.go", test.src, 0)
-		got := fmt.Sprintf("%d %d %d", f.Pos(), f.FileStart, f.FileEnd)
-		if got != test.want {
-			t.Fatalf("src = %q: got %s, want %s", test.src, got, test.want)
+		f, _ := ParseFile(fset, "a.golang", test.src, 0)
+		golangt := fmt.Sprintf("%d %d %d", f.Pos(), f.FileStart, f.FileEnd)
+		if golangt != test.want {
+			t.Fatalf("src = %q: golangt %s, want %s", test.src, golangt, test.want)
 		}
 	}
 }
@@ -869,7 +869,7 @@ func test() {
 }
 `
 	fset := token.NewFileSet()
-	f, err := ParseFile(fset, "test.go", src, ParseComments|SkipObjectResolution)
+	f, err := ParseFile(fset, "test.golang", src, ParseComments|SkipObjectResolution)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -890,9 +890,9 @@ func test() {
 	}
 
 	if !reflect.DeepEqual(f.Comments, wantCommentGroups) {
-		var got, want strings.Builder
-		ast.Fprint(&got, fset, f.Comments, nil)
+		var golangt, want strings.Builder
+		ast.Fprint(&golangt, fset, f.Comments, nil)
 		ast.Fprint(&want, fset, wantCommentGroups, nil)
-		t.Fatalf("unexpected f.Comments got:\n%v\nwant:\n%v", got.String(), want.String())
+		t.Fatalf("unexpected f.Comments golangt:\n%v\nwant:\n%v", golangt.String(), want.String())
 	}
 }

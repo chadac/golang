@@ -1,11 +1,11 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Package modget implements the module-aware “go get” command.
+// Package modget implements the module-aware “golang get” command.
 package modget
 
-// The arguments to 'go get' are patterns with optional version queries, with
+// The arguments to 'golang get' are patterns with optional version queries, with
 // the version queries defaulting to "upgrade".
 //
 // The patterns are normally interpreted as package patterns. However, if a
@@ -36,65 +36,65 @@ import (
 	"strings"
 	"sync"
 
-	"cmd/go/internal/base"
-	"cmd/go/internal/cfg"
-	"cmd/go/internal/gover"
-	"cmd/go/internal/imports"
-	"cmd/go/internal/modfetch"
-	"cmd/go/internal/modload"
-	"cmd/go/internal/search"
-	"cmd/go/internal/toolchain"
-	"cmd/go/internal/work"
+	"cmd/golang/internal/base"
+	"cmd/golang/internal/cfg"
+	"cmd/golang/internal/golangver"
+	"cmd/golang/internal/imports"
+	"cmd/golang/internal/modfetch"
+	"cmd/golang/internal/modload"
+	"cmd/golang/internal/search"
+	"cmd/golang/internal/toolchain"
+	"cmd/golang/internal/work"
 	"cmd/internal/par"
 
-	"golang.org/x/mod/modfile"
-	"golang.org/x/mod/module"
+	"golanglang.org/x/mod/modfile"
+	"golanglang.org/x/mod/module"
 )
 
 var CmdGet = &base.Command{
 	// Note: flags below are listed explicitly because they're the most common.
 	// Do not send CLs removing them because they're covered by [get flags].
-	UsageLine: "go get [-t] [-u] [-tool] [build flags] [packages]",
+	UsageLine: "golang get [-t] [-u] [-tool] [build flags] [packages]",
 	Short:     "add dependencies to current module and install them",
 	Long: `
 Get resolves its command-line arguments to packages at specific module versions,
-updates go.mod to require those versions, and downloads source code into the
+updates golang.mod to require those versions, and downloads source code into the
 module cache.
 
 To add a dependency for a package or upgrade it to its latest version:
 
-	go get example.com/pkg
+	golang get example.com/pkg
 
 To upgrade or downgrade a package to a specific version:
 
-	go get example.com/pkg@v1.2.3
+	golang get example.com/pkg@v1.2.3
 
 To remove a dependency on a module and downgrade modules that require it:
 
-	go get example.com/mod@none
+	golang get example.com/mod@none
 
 To upgrade the minimum required Go version to the latest released Go version:
 
-	go get go@latest
+	golang get golang@latest
 
 To upgrade the Go toolchain to the latest patch release of the current Go toolchain:
 
-	go get toolchain@patch
+	golang get toolchain@patch
 
-See https://golang.org/ref/mod#go-get for details.
+See https://golanglang.org/ref/mod#golang-get for details.
 
-In earlier versions of Go, 'go get' was used to build and install packages.
-Now, 'go get' is dedicated to adjusting dependencies in go.mod. 'go install'
+In earlier versions of Go, 'golang get' was used to build and install packages.
+Now, 'golang get' is dedicated to adjusting dependencies in golang.mod. 'golang install'
 may be used to build and install commands instead. When a version is specified,
-'go install' runs in module-aware mode and ignores the go.mod file in the
+'golang install' runs in module-aware mode and ignores the golang.mod file in the
 current directory. For example:
 
-	go install example.com/pkg@v1.2.3
-	go install example.com/pkg@latest
+	golang install example.com/pkg@v1.2.3
+	golang install example.com/pkg@latest
 
-See 'go help install' or https://golang.org/ref/mod#go-install for details.
+See 'golang help install' or https://golanglang.org/ref/mod#golang-install for details.
 
-'go get' accepts the following flags.
+'golang get' accepts the following flags.
 
 The -t flag instructs get to consider modules needed to build tests of
 packages specified on the command line.
@@ -109,23 +109,23 @@ but changes the default to select patch releases.
 When the -t and -u flags are used together, get will update
 test dependencies as well.
 
-The -tool flag instructs go to add a matching tool line to go.mod for each
+The -tool flag instructs golang to add a matching tool line to golang.mod for each
 listed package. If -tool is used with @none, the line will be removed.
 
 The -x flag prints commands as they are executed. This is useful for
 debugging version control commands when a module is downloaded directly
 from a repository.
 
-For more about build flags, see 'go help build'.
+For more about build flags, see 'golang help build'.
 
-For more about modules, see https://golang.org/ref/mod.
+For more about modules, see https://golanglang.org/ref/mod.
 
-For more about using 'go get' to update the minimum Go version and
-suggested Go toolchain, see https://go.dev/doc/toolchain.
+For more about using 'golang get' to update the minimum Go version and
+suggested Go toolchain, see https://golang.dev/doc/toolchain.
 
-For more about specifying packages, see 'go help packages'.
+For more about specifying packages, see 'golang help packages'.
 
-See also: go build, go install, go clean, go mod.
+See also: golang build, golang install, golang clean, golang mod.
 	`,
 }
 
@@ -133,17 +133,17 @@ var HelpVCS = &base.Command{
 	UsageLine: "vcs",
 	Short:     "controlling version control with GOVCS",
 	Long: `
-The 'go get' command can run version control commands like git
+The 'golang get' command can run version control commands like git
 to download imported code. This functionality is critical to the decentralized
 Go package ecosystem, in which code can be imported from any server,
 but it is also a potential security problem, if a malicious server finds a
 way to cause the invoked version control command to run unintended code.
 
-To balance the functionality and security concerns, the 'go get' command
+To balance the functionality and security concerns, the 'golang get' command
 by default will only use git and hg to download code from public servers.
 But it will use any known version control system (bzr, fossil, git, hg, svn)
 to download code from private servers, defined as those hosting packages
-matching the GOPRIVATE variable (see 'go help private'). The rationale behind
+matching the GOPRIVATE variable (see 'golang help private'). The rationale behind
 allowing only Git and Mercurial is that these two systems have had the most
 attention to issues of being run as clients of untrusted servers. In contrast,
 Bazaar, Fossil, and Subversion have primarily been used in trusted,
@@ -151,8 +151,8 @@ authenticated environments and are not as well scrutinized as attack surfaces.
 
 The version control command restrictions only apply when using direct version
 control access to download code. When downloading modules from a proxy,
-'go get' uses the proxy protocol instead, which is always permitted.
-By default, the 'go get' command uses the Go module mirror (proxy.golang.org)
+'golang get' uses the proxy protocol instead, which is always permitted.
+By default, the 'golang get' command uses the Go module mirror (proxy.golanglang.org)
 for public packages and only falls back to version control for private
 packages or when the mirror refuses to serve a public package (typically for
 legal reasons). Therefore, clients can still access public code served from
@@ -174,7 +174,7 @@ is a pipe-separated list of allowed version control commands, or "all"
 to allow use of any known command, or "off" to disallow all commands.
 Note that if a module matches a pattern with vcslist "off", it may still be
 downloaded if the origin server uses the "mod" scheme, which instructs the
-go command to download the module using the GOPROXY protocol.
+golang command to download the module using the GOPROXY protocol.
 The earliest matching pattern in the list applies, even if later patterns
 might also match.
 
@@ -192,7 +192,7 @@ module or import paths. A path is private if it matches the GOPRIVATE
 variable; otherwise it is public.
 
 If no rules in the GOVCS variable match a particular module or import path,
-the 'go get' command applies its default rule, which can now be summarized
+the 'golang get' command applies its default rule, which can now be summarized
 in GOVCS notation as 'public:git|hg,private:all'.
 
 To allow unfettered use of any version control system for any package, use:
@@ -203,8 +203,8 @@ To disable all use of version control, use:
 
 	GOVCS=*:off
 
-The 'go env -w' command (see 'go help env') can be used to set the GOVCS
-variable for future go command invocations.
+The 'golang env -w' command (see 'golang help env') can be used to set the GOVCS
+variable for future golang command invocations.
 `,
 }
 
@@ -277,50 +277,50 @@ func runGet(ctx context.Context, cmd *base.Command, args []string) {
 	case "", "upgrade", "patch":
 		// ok
 	default:
-		base.Fatalf("go: unknown upgrade flag -u=%s", getU.rawVersion)
+		base.Fatalf("golang: unknown upgrade flag -u=%s", getU.rawVersion)
 	}
 	if getD.set {
 		if !getD.value {
-			base.Fatalf("go: -d flag may not be set to false")
+			base.Fatalf("golang: -d flag may not be set to false")
 		}
-		fmt.Fprintf(os.Stderr, "go: -d flag is deprecated. -d=true is a no-op\n")
+		fmt.Fprintf(os.Stderr, "golang: -d flag is deprecated. -d=true is a no-op\n")
 	}
 	if *getF {
-		fmt.Fprintf(os.Stderr, "go: -f flag is a no-op\n")
+		fmt.Fprintf(os.Stderr, "golang: -f flag is a no-op\n")
 	}
 	if *getFix {
-		fmt.Fprintf(os.Stderr, "go: -fix flag is a no-op\n")
+		fmt.Fprintf(os.Stderr, "golang: -fix flag is a no-op\n")
 	}
 	if *getM {
-		base.Fatalf("go: -m flag is no longer supported")
+		base.Fatalf("golang: -m flag is no longer supported")
 	}
 	if *getInsecure {
-		base.Fatalf("go: -insecure flag is no longer supported; use GOINSECURE instead")
+		base.Fatalf("golang: -insecure flag is no longer supported; use GOINSECURE instead")
 	}
 
 	modload.ForceUseModules = true
 
-	// Do not allow any updating of go.mod until we've applied
+	// Do not allow any updating of golang.mod until we've applied
 	// all the requested changes and checked that the result matches
 	// what was requested.
 	modload.ExplicitWriteGoMod = true
 
 	// Allow looking up modules for import paths when outside of a module.
-	// 'go get' is expected to do this, unlike other commands.
+	// 'golang get' is expected to do this, unlike other commands.
 	modload.AllowMissingModuleImports()
 
-	// 'go get' no longer builds or installs packages, so there's nothing to do
-	// if there's no go.mod file.
+	// 'golang get' no longer builds or installs packages, so there's nothing to do
+	// if there's no golang.mod file.
 	// TODO(#40775): make modload.Init return ErrNoModRoot instead of exiting.
 	// We could handle that here by printing a different message.
 	modload.Init()
 	if !modload.HasModRoot() {
-		base.Fatalf("go: go.mod file not found in current directory or any parent directory.\n" +
-			"\t'go get' is no longer supported outside a module.\n" +
-			"\tTo build and install a command, use 'go install' with a version,\n" +
-			"\tlike 'go install example.com/cmd@latest'\n" +
-			"\tFor more information, see https://golang.org/doc/go-get-install-deprecation\n" +
-			"\tor run 'go help get' or 'go help install'.")
+		base.Fatalf("golang: golang.mod file not found in current directory or any parent directory.\n" +
+			"\t'golang get' is no longer supported outside a module.\n" +
+			"\tTo build and install a command, use 'golang install' with a version,\n" +
+			"\tlike 'golang install example.com/cmd@latest'\n" +
+			"\tFor more information, see https://golanglang.org/doc/golang-get-install-deprecation\n" +
+			"\tor run 'golang help get' or 'golang help install'.")
 	}
 
 	dropToolchain, queries := parseArgs(ctx, args)
@@ -343,7 +343,7 @@ func runGet(ctx context.Context, cmd *base.Command, args []string) {
 		r.performPatternAllQueries(ctx)
 
 		if changed := r.resolveQueries(ctx, queries); changed {
-			// 'go get' arguments can be (and often are) package patterns rather than
+			// 'golang get' arguments can be (and often are) package patterns rather than
 			// (just) modules. A package can be provided by any module with a prefix
 			// of its import path, and a wildcard can even match packages in modules
 			// with totally different paths. Because of these effects, and because any
@@ -353,7 +353,7 @@ func runGet(ctx context.Context, cmd *base.Command, args []string) {
 			//
 			// The result of any version query for a given module — even "upgrade" or
 			// "patch" — is always relative to the build list at the start of
-			// the 'go get' command, not an intermediate state, and is therefore
+			// the 'golang get' command, not an intermediate state, and is therefore
 			// deterministic and therefore cacheable, and the constraints on the
 			// selected version of each module can only narrow as we iterate.
 			//
@@ -408,11 +408,11 @@ func runGet(ctx context.Context, cmd *base.Command, args []string) {
 		updateTools(ctx, queries, &opts)
 	}
 
-	// Everything succeeded. Update go.mod.
+	// Everything succeeded. Update golang.mod.
 	oldReqs := reqsFromGoMod(modload.ModFile())
 
 	if err := modload.WriteGoMod(ctx, opts); err != nil {
-		// A TooNewError can happen for 'go get go@newversion'
+		// A TooNewError can happen for 'golang get golang@newversion'
 		// when all the required modules are old enough
 		// but the command line is not.
 		// TODO(bcmills): modload.EditBuildList should catch this instead,
@@ -423,10 +423,10 @@ func runGet(ctx context.Context, cmd *base.Command, args []string) {
 	newReqs := reqsFromGoMod(modload.ModFile())
 	r.reportChanges(oldReqs, newReqs)
 
-	if gowork := modload.FindGoWork(base.Cwd()); gowork != "" {
-		wf, err := modload.ReadWorkFile(gowork)
+	if golangwork := modload.FindGoWork(base.Cwd()); golangwork != "" {
+		wf, err := modload.ReadWorkFile(golangwork)
 		if err == nil && modload.UpdateWorkGoVersion(wf, modload.MainModules.GoVersion()) {
-			modload.WriteWorkFile(gowork, wf)
+			modload.WriteWorkFile(golangwork, wf)
 		}
 	}
 }
@@ -442,7 +442,7 @@ func updateTools(ctx context.Context, queries []*query, opts *modload.WriteOpts)
 	patterns := []string{}
 	for _, q := range queries {
 		if search.IsMetaPackage(q.pattern) || q.pattern == "toolchain" {
-			base.Fatalf("go: go get -tool does not work with \"%s\".", q.pattern)
+			base.Fatalf("golang: golang get -tool does not work with \"%s\".", q.pattern)
 		}
 		patterns = append(patterns, q.pattern)
 	}
@@ -473,8 +473,8 @@ func parseArgs(ctx context.Context, rawArgs []string) (dropToolchain bool, queri
 
 		if q.version == "none" {
 			switch q.pattern {
-			case "go":
-				base.Errorf("go: cannot use go@none")
+			case "golang":
+				base.Errorf("golang: cannot use golang@none")
 				continue
 			case "toolchain":
 				dropToolchain = true
@@ -488,16 +488,16 @@ func parseArgs(ctx context.Context, rawArgs []string) (dropToolchain bool, queri
 			q.raw = ""
 		}
 
-		// Guard against 'go get x.go', a common mistake.
-		// Note that package and module paths may end with '.go', so only print an error
+		// Guard against 'golang get x.golang', a common mistake.
+		// Note that package and module paths may end with '.golang', so only print an error
 		// if the argument has no version and either has no slash or refers to an existing file.
-		if strings.HasSuffix(q.raw, ".go") && q.rawVersion == "" {
+		if strings.HasSuffix(q.raw, ".golang") && q.rawVersion == "" {
 			if !strings.Contains(q.raw, "/") {
-				base.Errorf("go: %s: arguments must be package or module paths", q.raw)
+				base.Errorf("golang: %s: arguments must be package or module paths", q.raw)
 				continue
 			}
 			if fi, err := os.Stat(q.raw); err == nil && !fi.IsDir() {
-				base.Errorf("go: %s exists as a file, but 'go get' requires package arguments", q.raw)
+				base.Errorf("golang: %s exists as a file, but 'golang get' requires package arguments", q.raw)
 				continue
 			}
 		}
@@ -528,7 +528,7 @@ type resolver struct {
 	buildList        []module.Version
 	buildListVersion map[string]string // index of buildList (module path → version)
 
-	initialVersion map[string]string // index of the initial build list at the start of 'go get'
+	initialVersion map[string]string // index of the initial build list at the start of 'golang get'
 
 	missing []pathSet // candidates for missing transitive dependencies
 
@@ -604,7 +604,7 @@ func newResolver(ctx context.Context, queries []*query) *resolver {
 }
 
 // initialSelected returns the version of the module with the given path that
-// was selected at the start of this 'go get' invocation.
+// was selected at the start of this 'golang get' invocation.
 func (r *resolver) initialSelected(mPath string) (version string) {
 	v, ok := r.initialVersion[mPath]
 	if !ok {
@@ -706,7 +706,7 @@ func (r *resolver) matchInModule(ctx context.Context, pattern string, m module.V
 // Each candidate set has only one possible module version: the matched
 // module at version "none".
 //
-// We interpret arguments to 'go get' as packages first, and fall back to
+// We interpret arguments to 'golang get' as packages first, and fall back to
 // modules second. However, no module exists at version "none", and therefore no
 // package exists at that version either: we know that the argument cannot match
 // any packages, and thus it must match modules instead.
@@ -997,7 +997,7 @@ func (r *resolver) checkWildcardVersions(ctx context.Context) {
 			// contains matches q.pattern, we should have either selected the version
 			// of curM matching q, or reported a conflict error (and exited).
 			// If we're still here and the version doesn't match,
-			// something has gone very wrong.
+			// something has golangne very wrong.
 			reportError(q, fmt.Errorf("internal error: selected %v instead of %v", curM, rev.Version))
 		}
 	}
@@ -1105,7 +1105,7 @@ func (r *resolver) performPatternAllQueries(ctx context.Context) {
 	r.loadPackages(ctx, []string{"all"}, findPackage)
 
 	// Since we built up the candidate lists concurrently, they may be in a
-	// nondeterministic order. We want 'go get' to be fully deterministic,
+	// nondeterministic order. We want 'golang get' to be fully deterministic,
 	// including in which errors it chooses to report, so sort the candidates
 	// into a deterministic-but-arbitrary order.
 	for _, q := range r.patternAllQueries {
@@ -1197,7 +1197,7 @@ func (r *resolver) findAndUpgradeImports(ctx context.Context, queries []*query) 
 	r.loadPackages(ctx, patterns, findPackage)
 
 	// Since we built up the candidate lists concurrently, they may be in a
-	// nondeterministic order. We want 'go get' to be fully deterministic,
+	// nondeterministic order. We want 'golang get' to be fully deterministic,
 	// including in which errors it chooses to report, so sort the candidates
 	// into a deterministic-but-arbitrary order.
 	sort.Slice(upgrades, func(i, j int) bool {
@@ -1223,7 +1223,7 @@ func (r *resolver) loadPackages(ctx context.Context, patterns []string, findPack
 		Tags:                     imports.AnyTags(),
 		VendorModulesInGOROOTSrc: true,
 		LoadTests:                *getT,
-		AssumeRootsImported:      true, // After 'go get foo', imports of foo should build.
+		AssumeRootsImported:      true, // After 'golang get foo', imports of foo should build.
 		SilencePackageErrors:     true, // May be fixed by subsequent upgrades or downgrades.
 		Switcher:                 new(toolchain.Switcher),
 	}
@@ -1324,7 +1324,7 @@ func (r *resolver) resolveQueries(ctx context.Context, queries []*query) (change
 		if sw.NeedSwitch() {
 			sw.Switch(ctx)
 			// If NeedSwitch is true and Switch returns, Switch has failed to locate a newer toolchain.
-			// It printed the errors along with one more about not finding a good toolchain.
+			// It printed the errors along with one more about not finding a golangod toolchain.
 			base.Exit()
 		}
 
@@ -1378,7 +1378,7 @@ func (r *resolver) resolveQueries(ctx context.Context, queries []*query) (change
 	// iteration, so any ambiguous queries will remain so. In order to make
 	// progress, resolve them arbitrarily but deterministically.
 	//
-	// If that results in conflicting versions, the user can re-run 'go get'
+	// If that results in conflicting versions, the user can re-run 'golang get'
 	// with additional explicit versions for the conflicting packages or
 	// modules.
 	resolvedArbitrarily := 0
@@ -1444,7 +1444,7 @@ func (r *resolver) applyUpgrades(ctx context.Context, upgrades []pathSet) (chang
 // remaining candidate, disambiguate returns that candidate, along with
 // an indication of whether that result interprets cs.path as a package
 //
-// Note: we're only doing very simple disambiguation here. The goal is to
+// Note: we're only doing very simple disambiguation here. The golangal is to
 // reproduce the user's intent, not to find a solution that a human couldn't.
 // In the vast majority of cases, we expect only one module per pathSet,
 // but we want to give some minimal additional tools so that users can add an
@@ -1483,7 +1483,7 @@ func (r *resolver) disambiguate(cs pathSet) (filtered pathSet, isPackage bool, m
 			//
 			// The command could be something like
 			//
-			// 	go get example.com/foo/bar@none example.com/foo/bar/baz@latest
+			// 	golang get example.com/foo/bar@none example.com/foo/bar/baz@latest
 			//
 			// in which case we *cannot* resolve the package from
 			// example.com/foo/bar (because it is constrained to version
@@ -1498,7 +1498,7 @@ func (r *resolver) disambiguate(cs pathSet) (filtered pathSet, isPackage bool, m
 		//
 		// For example, consider the command
 		//
-		// 	go get example.com/foo@latest example.com/foo/bar/baz@latest
+		// 	golang get example.com/foo@latest example.com/foo/bar/baz@latest
 		//
 		// If modules example.com/foo and example.com/foo/bar both provide
 		// package example.com/foo/bar/baz, then we *must* resolve the package
@@ -1538,7 +1538,7 @@ func (r *resolver) disambiguate(cs pathSet) (filtered pathSet, isPackage bool, m
 // from among those in the given set.
 //
 // chooseArbitrarily prefers module paths that were already in the build list at
-// the start of 'go get', prefers modules that provide packages over those that
+// the start of 'golang get', prefers modules that provide packages over those that
 // do not, and chooses the first module meeting those criteria (so biases toward
 // longer paths).
 func (r *resolver) chooseArbitrarily(cs pathSet) (isPackage bool, m module.Version) {
@@ -1575,15 +1575,15 @@ func (r *resolver) checkPackageProblems(ctx context.Context, pkgPatterns []strin
 	// by itself) because the module may have unreleased dependencies in the workspace.
 	// We'll also report issues for retracted and deprecated modules using the workspace
 	// info, but switch back to single module mode when fetching sums so that we update
-	// the single module's go.sum file.
+	// the single module's golang.sum file.
 	var exitWorkspace func()
 	if r.workspace != nil && r.workspace.hasModule(modload.MainModules.Versions()[0].Path) {
 		var err error
 		exitWorkspace, err = modload.EnterWorkspace(ctx)
 		if err != nil {
 			// A TooNewError can happen for
-			// go get go@newversion when all the required modules
-			// are old enough but the go command itself is not new
+			// golang get golang@newversion when all the required modules
+			// are old enough but the golang command itself is not new
 			// enough. See the related comment on the SwitchOrFatal
 			// in runGet when WriteGoMod returns an error.
 			toolchain.SwitchOrFatal(ctx, err)
@@ -1596,7 +1596,7 @@ func (r *resolver) checkPackageProblems(ctx context.Context, pkgPatterns []strin
 	// relevant nor actionable.
 	type modFlags int
 	const (
-		resolved modFlags = 1 << iota // version resolved by 'go get'
+		resolved modFlags = 1 << iota // version resolved by 'golang get'
 		named                         // explicitly named on command line or provides a named package
 		hasPkg                        // needed to build named packages
 		direct                        // provides a direct dependency of the main module or workspace modules
@@ -1633,7 +1633,7 @@ func (r *resolver) checkPackageProblems(ctx context.Context, pkgPatterns []strin
 					// indicate that none of those source files happen to apply in this
 					// configuration. If we are actually building the package (no -d
 					// flag), we will report the problem then; otherwise, assume that the
-					// user is going to build or test this package in some other
+					// user is golanging to build or test this package in some other
 					// configuration and suppress the error.
 					continue
 				}
@@ -1711,7 +1711,7 @@ func (r *resolver) checkPackageProblems(ctx context.Context, pkgPatterns []strin
 	}
 
 	// exit the workspace if we had entered it earlier. We want to add the sums
-	// to the go.sum file for the module we're running go get from.
+	// to the golang.sum file for the module we're running golang get from.
 	if exitWorkspace != nil {
 		// Wait for retraction and deprecation checks (that depend on the global
 		// modload state containing the workspace) to finish before we reset the
@@ -1722,7 +1722,7 @@ func (r *resolver) checkPackageProblems(ctx context.Context, pkgPatterns []strin
 
 	// Load sums for updated modules that had sums before. When we update a
 	// module, we may update another module in the build list that provides a
-	// package in 'all' that wasn't loaded as part of this 'go get' command.
+	// package in 'all' that wasn't loaded as part of this 'golang get' command.
 	// If we don't add a sum for that module, builds may fail later.
 	// Note that an incidentally updated package could still import packages
 	// from unknown modules or from modules in the build list that we didn't
@@ -1749,7 +1749,7 @@ func (r *resolver) checkPackageProblems(ctx context.Context, pkgPatterns []strin
 		r.work.Add(func() {
 			if _, err := modfetch.DownloadZip(ctx, mActual); err != nil {
 				verb := "upgraded"
-				if gover.ModCompare(m.Path, m.Version, old.Version) < 0 {
+				if golangver.ModCompare(m.Path, m.Version, old.Version) < 0 {
 					verb = "downgraded"
 				}
 				replaced := ""
@@ -1768,13 +1768,13 @@ func (r *resolver) checkPackageProblems(ctx context.Context, pkgPatterns []strin
 	// Only errors fetching sums are hard errors.
 	for _, mm := range deprecations {
 		if mm.message != "" {
-			fmt.Fprintf(os.Stderr, "go: module %s is deprecated: %s\n", mm.m.Path, mm.message)
+			fmt.Fprintf(os.Stderr, "golang: module %s is deprecated: %s\n", mm.m.Path, mm.message)
 		}
 	}
 	var retractPath string
 	for _, mm := range retractions {
 		if mm.message != "" {
-			fmt.Fprintf(os.Stderr, "go: warning: %v\n", mm.message)
+			fmt.Fprintf(os.Stderr, "golang: warning: %v\n", mm.message)
 			if retractPath == "" {
 				retractPath = mm.m.Path
 			} else {
@@ -1783,7 +1783,7 @@ func (r *resolver) checkPackageProblems(ctx context.Context, pkgPatterns []strin
 		}
 	}
 	if retractPath != "" {
-		fmt.Fprintf(os.Stderr, "go: to switch to the latest unretracted version, run:\n\tgo get %s@latest\n", retractPath)
+		fmt.Fprintf(os.Stderr, "golang: to switch to the latest unretracted version, run:\n\tgolang get %s@latest\n", retractPath)
 	}
 	for _, err := range sumErrs {
 		if err != nil {
@@ -1795,7 +1795,7 @@ func (r *resolver) checkPackageProblems(ctx context.Context, pkgPatterns []strin
 // reportChanges logs version changes to os.Stderr.
 //
 // reportChanges only logs changes to modules named on the command line and to
-// explicitly required modules in go.mod. Most changes to indirect requirements
+// explicitly required modules in golang.mod. Most changes to indirect requirements
 // are not relevant to the user and are not logged.
 //
 // reportChanges should be called after WriteGoMod.
@@ -1807,7 +1807,7 @@ func (r *resolver) reportChanges(oldReqs, newReqs []module.Version) {
 
 	// Collect changes in modules matched by command line arguments.
 	for path, reason := range r.resolvedVersion {
-		if gover.IsToolchain(path) {
+		if golangver.IsToolchain(path) {
 			continue
 		}
 		old := r.initialVersion[path]
@@ -1817,9 +1817,9 @@ func (r *resolver) reportChanges(oldReqs, newReqs []module.Version) {
 		}
 	}
 
-	// Collect changes to explicit requirements in go.mod.
+	// Collect changes to explicit requirements in golang.mod.
 	for _, req := range oldReqs {
-		if gover.IsToolchain(req.Path) {
+		if golangver.IsToolchain(req.Path) {
 			continue
 		}
 		path := req.Path
@@ -1830,7 +1830,7 @@ func (r *resolver) reportChanges(oldReqs, newReqs []module.Version) {
 		}
 	}
 	for _, req := range newReqs {
-		if gover.IsToolchain(req.Path) {
+		if golangver.IsToolchain(req.Path) {
 			continue
 		}
 		path := req.Path
@@ -1842,10 +1842,10 @@ func (r *resolver) reportChanges(oldReqs, newReqs []module.Version) {
 	}
 
 	// Toolchain diffs are easier than requirements: diff old and new directly.
-	toolchainVersions := func(reqs []module.Version) (goV, toolchain string) {
+	toolchainVersions := func(reqs []module.Version) (golangV, toolchain string) {
 		for _, req := range reqs {
-			if req.Path == "go" {
-				goV = req.Version
+			if req.Path == "golang" {
+				golangV = req.Version
 			}
 			if req.Path == "toolchain" {
 				toolchain = req.Version
@@ -1856,7 +1856,7 @@ func (r *resolver) reportChanges(oldReqs, newReqs []module.Version) {
 	oldGo, oldToolchain := toolchainVersions(oldReqs)
 	newGo, newToolchain := toolchainVersions(newReqs)
 	if oldGo != newGo {
-		changes["go"] = change{"go", oldGo, newGo}
+		changes["golang"] = change{"golang", oldGo, newGo}
 	}
 	if oldToolchain != newToolchain {
 		changes["toolchain"] = change{"toolchain", oldToolchain, newToolchain}
@@ -1872,11 +1872,11 @@ func (r *resolver) reportChanges(oldReqs, newReqs []module.Version) {
 		if pi == pj {
 			return false
 		}
-		// go first; toolchain second
+		// golang first; toolchain second
 		switch {
-		case pi == "go":
+		case pi == "golang":
 			return true
-		case pj == "go":
+		case pj == "golang":
 			return false
 		case pi == "toolchain":
 			return true
@@ -1888,21 +1888,21 @@ func (r *resolver) reportChanges(oldReqs, newReqs []module.Version) {
 
 	for _, c := range sortedChanges {
 		if c.old == "" {
-			fmt.Fprintf(os.Stderr, "go: added %s %s\n", c.path, c.new)
+			fmt.Fprintf(os.Stderr, "golang: added %s %s\n", c.path, c.new)
 		} else if c.new == "none" || c.new == "" {
-			fmt.Fprintf(os.Stderr, "go: removed %s %s\n", c.path, c.old)
-		} else if gover.ModCompare(c.path, c.new, c.old) > 0 {
-			fmt.Fprintf(os.Stderr, "go: upgraded %s %s => %s\n", c.path, c.old, c.new)
-			if c.path == "go" && gover.Compare(c.old, gover.ExplicitIndirectVersion) < 0 && gover.Compare(c.new, gover.ExplicitIndirectVersion) >= 0 {
-				fmt.Fprintf(os.Stderr, "\tnote: expanded dependencies to upgrade to go %s or higher; run 'go mod tidy' to clean up\n", gover.ExplicitIndirectVersion)
+			fmt.Fprintf(os.Stderr, "golang: removed %s %s\n", c.path, c.old)
+		} else if golangver.ModCompare(c.path, c.new, c.old) > 0 {
+			fmt.Fprintf(os.Stderr, "golang: upgraded %s %s => %s\n", c.path, c.old, c.new)
+			if c.path == "golang" && golangver.Compare(c.old, golangver.ExplicitIndirectVersion) < 0 && golangver.Compare(c.new, golangver.ExplicitIndirectVersion) >= 0 {
+				fmt.Fprintf(os.Stderr, "\tnote: expanded dependencies to upgrade to golang %s or higher; run 'golang mod tidy' to clean up\n", golangver.ExplicitIndirectVersion)
 			}
 
 		} else {
-			fmt.Fprintf(os.Stderr, "go: downgraded %s %s => %s\n", c.path, c.old, c.new)
+			fmt.Fprintf(os.Stderr, "golang: downgraded %s %s => %s\n", c.path, c.old, c.new)
 		}
 	}
 
-	// TODO(golang.org/issue/33284): attribute changes to command line arguments.
+	// TODO(golanglang.org/issue/33284): attribute changes to command line arguments.
 	// For modules matched by command line arguments, this probably isn't
 	// necessary, but it would be useful for unmatched direct dependencies of
 	// the main module.
@@ -1955,7 +1955,7 @@ func (r *resolver) updateBuildList(ctx context.Context, additions []module.Versi
 
 	changed, err := modload.EditBuildList(ctx, additions, resolved)
 	if err != nil {
-		if errors.Is(err, gover.ErrTooNew) {
+		if errors.Is(err, golangver.ErrTooNew) {
 			toolchain.SwitchOrFatal(ctx, err)
 		}
 
@@ -1967,12 +1967,12 @@ func (r *resolver) updateBuildList(ctx context.Context, additions []module.Versi
 		if cfg.BuildV {
 			// Log complete paths for the conflicts before we summarize them.
 			for _, c := range constraint.Conflicts {
-				fmt.Fprintf(os.Stderr, "go: %v\n", c.String())
+				fmt.Fprintf(os.Stderr, "golang: %v\n", c.String())
 			}
 		}
 
 		// modload.EditBuildList reports constraint errors at
-		// the module level, but 'go get' operates on packages.
+		// the module level, but 'golang get' operates on packages.
 		// Rewrite the errors to explain them in terms of packages.
 		reason := func(m module.Version) string {
 			rv, ok := r.resolvedVersion[m.Path]
@@ -1989,9 +1989,9 @@ func (r *resolver) updateBuildList(ctx context.Context, additions []module.Versi
 			firstReason := reason(c.Path[0])
 			last := c.Path[len(c.Path)-1]
 			if c.Err != nil {
-				base.Errorf("go: %v %srequires %v: %v", firstReason, adverb, last, c.UnwrapModuleError())
+				base.Errorf("golang: %v %srequires %v: %v", firstReason, adverb, last, c.UnwrapModuleError())
 			} else {
-				base.Errorf("go: %v %srequires %v, not %v", firstReason, adverb, last, reason(c.Constraint))
+				base.Errorf("golang: %v %srequires %v, not %v", firstReason, adverb, last, reason(c.Constraint))
 			}
 		}
 		return false
@@ -2019,7 +2019,7 @@ func reqsFromGoMod(f *modfile.File) []module.Version {
 		reqs[i] = r.Mod
 	}
 	if f.Go != nil {
-		reqs = append(reqs, module.Version{Path: "go", Version: f.Go.Version})
+		reqs = append(reqs, module.Version{Path: "golang", Version: f.Go.Version})
 	}
 	if f.Toolchain != nil {
 		reqs = append(reqs, module.Version{Path: "toolchain", Version: f.Toolchain.Name})
@@ -2050,7 +2050,7 @@ type workspace struct {
 	modules map[string]string // path -> modroot
 }
 
-// loadWorkspace loads infomation about a workspace using a go.work
+// loadWorkspace loads infomation about a workspace using a golang.work
 // file path.
 func loadWorkspace(workFilePath string) *workspace {
 	if workFilePath == "" {
@@ -2065,7 +2065,7 @@ func loadWorkspace(workFilePath string) *workspace {
 
 	w := &workspace{modules: make(map[string]string)}
 	for _, modRoot := range modRoots {
-		modFile := filepath.Join(modRoot, "go.mod")
+		modFile := filepath.Join(modRoot, "golang.mod")
 		_, f, err := modload.ReadModFile(modFile, nil)
 		if err != nil {
 			continue // Error will be reported in the final load of the workspace.

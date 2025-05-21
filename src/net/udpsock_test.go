@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package net
@@ -237,7 +237,7 @@ func TestUDPConnLocalName(t *testing.T) {
 			defer c.Close()
 			la := c.LocalAddr()
 			if a, ok := la.(*UDPAddr); !ok || a.Port == 0 {
-				t.Fatalf("got %v; expected a proper address with non-zero port number", la)
+				t.Fatalf("golangt %v; expected a proper address with non-zero port number", la)
 			}
 		})
 	}
@@ -269,7 +269,7 @@ func TestUDPConnLocalAndRemoteNames(t *testing.T) {
 		defer c2.Close()
 
 		var connAddrs = [4]struct {
-			got Addr
+			golangt Addr
 			ok  bool
 		}{
 			{c1.LocalAddr(), true},
@@ -278,8 +278,8 @@ func TestUDPConnLocalAndRemoteNames(t *testing.T) {
 			{c2.RemoteAddr(), true},
 		}
 		for _, ca := range connAddrs {
-			if a, ok := ca.got.(*UDPAddr); ok != ca.ok || ok && a.Port == 0 {
-				t.Fatalf("got %v; expected a proper address with non-zero port number", ca.got)
+			if a, ok := ca.golangt.(*UDPAddr); ok != ca.ok || ok && a.Port == 0 {
+				t.Fatalf("golangt %v; expected a proper address with non-zero port number", ca.golangt)
 			}
 		}
 	}
@@ -308,7 +308,7 @@ func TestIPv6LinkLocalUnicastUDP(t *testing.T) {
 			t.Fatal(err)
 		}
 		if la, ok := c1.LocalAddr().(*UDPAddr); !ok || !tt.nameLookup && la.Zone == "" {
-			t.Fatalf("got %v; expected a proper address with zone identifier", la)
+			t.Fatalf("golangt %v; expected a proper address with zone identifier", la)
 		}
 
 		c2, err := Dial(tt.network, ls.PacketConn.LocalAddr().String())
@@ -317,10 +317,10 @@ func TestIPv6LinkLocalUnicastUDP(t *testing.T) {
 		}
 		defer c2.Close()
 		if la, ok := c2.LocalAddr().(*UDPAddr); !ok || !tt.nameLookup && la.Zone == "" {
-			t.Fatalf("got %v; expected a proper address with zone identifier", la)
+			t.Fatalf("golangt %v; expected a proper address with zone identifier", la)
 		}
 		if ra, ok := c2.RemoteAddr().(*UDPAddr); !ok || !tt.nameLookup && ra.Zone == "" {
-			t.Fatalf("got %v; expected a proper address with zone identifier", ra)
+			t.Fatalf("golangt %v; expected a proper address with zone identifier", ra)
 		}
 
 		if _, err := c2.Write([]byte("UDP OVER IPV6 LINKLOCAL TEST")); err != nil {
@@ -357,7 +357,7 @@ func TestUDPZeroBytePayload(t *testing.T) {
 			t.Fatal(err)
 		}
 		if n != 0 {
-			t.Errorf("got %d; want 0", n)
+			t.Errorf("golangt %d; want 0", n)
 		}
 		c.SetReadDeadline(time.Now().Add(30 * time.Second))
 		var b [1]byte
@@ -394,7 +394,7 @@ func TestUDPZeroByteBuffer(t *testing.T) {
 			t.Fatal(err)
 		}
 		if n != len(b) {
-			t.Errorf("got %d; want %d", n, len(b))
+			t.Errorf("golangt %d; want %d", n, len(b))
 		}
 		c.SetReadDeadline(time.Now().Add(100 * time.Millisecond))
 		if genericRead {
@@ -437,7 +437,7 @@ func TestUDPReadSizeError(t *testing.T) {
 			t.Fatal(err)
 		}
 		if n != len(b1) {
-			t.Errorf("got %d; want %d", n, len(b1))
+			t.Errorf("golangt %d; want %d", n, len(b1))
 		}
 		b2 := make([]byte, len(b1)-1)
 		if genericRead {
@@ -449,7 +449,7 @@ func TestUDPReadSizeError(t *testing.T) {
 			t.Fatal(err)
 		}
 		if n != len(b1)-1 {
-			t.Fatalf("got %d; want %d", n, len(b1)-1)
+			t.Fatalf("golangt %d; want %d", n, len(b1)-1)
 		}
 	}
 }
@@ -475,13 +475,13 @@ func TestUDPReadTimeout(t *testing.T) {
 	b := make([]byte, 1)
 	n, addr, err := c.ReadFromUDP(b)
 	if !errors.Is(err, os.ErrDeadlineExceeded) {
-		t.Errorf("ReadFromUDP got err %v want os.ErrDeadlineExceeded", err)
+		t.Errorf("ReadFromUDP golangt err %v want os.ErrDeadlineExceeded", err)
 	}
 	if n != 0 {
-		t.Errorf("ReadFromUDP got n %d want 0", n)
+		t.Errorf("ReadFromUDP golangt n %d want 0", n)
 	}
 	if addr != nil {
-		t.Errorf("ReadFromUDP got addr %+#v want nil", addr)
+		t.Errorf("ReadFromUDP golangt addr %+#v want nil", addr)
 	}
 }
 
@@ -520,8 +520,8 @@ func TestAllocs(t *testing.T) {
 			t.Fatal(err)
 		}
 	})
-	if got := int(allocs); got != 0 {
-		t.Errorf("WriteMsgUDPAddrPort/ReadMsgUDPAddrPort allocated %d objects", got)
+	if golangt := int(allocs); golangt != 0 {
+		t.Errorf("WriteMsgUDPAddrPort/ReadMsgUDPAddrPort allocated %d objects", golangt)
 	}
 
 	allocs = testing.AllocsPerRun(1000, func() {
@@ -534,8 +534,8 @@ func TestAllocs(t *testing.T) {
 			t.Fatal(err)
 		}
 	})
-	if got := int(allocs); got != 0 {
-		t.Errorf("WriteToUDPAddrPort/ReadFromUDPAddrPort allocated %d objects", got)
+	if golangt := int(allocs); golangt != 0 {
+		t.Errorf("WriteToUDPAddrPort/ReadFromUDPAddrPort allocated %d objects", golangt)
 	}
 
 	allocs = testing.AllocsPerRun(1000, func() {
@@ -548,8 +548,8 @@ func TestAllocs(t *testing.T) {
 			t.Fatal(err)
 		}
 	})
-	if got := int(allocs); got != 1 {
-		t.Errorf("WriteTo/ReadFromUDP allocated %d objects", got)
+	if golangt := int(allocs); golangt != 1 {
+		t.Errorf("WriteTo/ReadFromUDP allocated %d objects", golangt)
 	}
 }
 
@@ -671,9 +671,9 @@ func TestIPv6WriteMsgUDPAddrPortTargetAddrIPVersion(t *testing.T) {
 	}
 
 	switch runtime.GOOS {
-	case "dragonfly", "openbsd":
-		// DragonflyBSD's IPv6 sockets are always IPv6-only, according to the man page:
-		// https://www.dragonflybsd.org/cgi/web-man?command=ip6 (search for IPV6_V6ONLY).
+	case "dragolangnfly", "openbsd":
+		// DragolangnflyBSD's IPv6 sockets are always IPv6-only, according to the man page:
+		// https://www.dragolangnflybsd.org/cgi/web-man?command=ip6 (search for IPV6_V6ONLY).
 		// OpenBSD's IPv6 sockets are always IPv6-only, according to the man page:
 		// https://man.openbsd.org/ip6#IPV6_V6ONLY
 		t.Skipf("skipping on %v", runtime.GOOS)

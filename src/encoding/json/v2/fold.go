@@ -1,8 +1,8 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build goexperiment.jsonv2
+//golang:build golangexperiment.jsonv2
 
 package json
 
@@ -16,7 +16,7 @@ import (
 // This allows foldName to match common naming conventions.
 func foldName(in []byte) []byte {
 	// This is inlinable to take advantage of "function outlining".
-	// See https://blog.filippo.io/efficient-go-apis-with-the-inliner/
+	// See https://blog.filippo.io/efficient-golang-apis-with-the-inliner/
 	var arr [32]byte // large enough for most JSON names
 	return appendFoldedName(arr[:0], in)
 }

@@ -3,15 +3,15 @@
 env GOCACHE=$WORK/cache
 
 # Test fuzz.Context.
-go test -vet=off context_fuzz_test.go
+golang test -vet=off context_fuzz_test.golang
 stdout ^ok
 ! stdout FAIL
 
-go test -vet=off -fuzz=Fuzz -fuzztime=1x context_fuzz_test.go
+golang test -vet=off -fuzz=Fuzz -fuzztime=1x context_fuzz_test.golang
 stdout ok
 ! stdout FAIL
 
--- context_fuzz_test.go --
+-- context_fuzz_test.golang --
 package context_fuzz
 
 import (
@@ -23,13 +23,13 @@ import (
 func Fuzz(f *testing.F) {
 	ctx := f.Context()
 	if err := ctx.Err(); err != nil {
-		f.Fatalf("expected non-canceled context, got %v", err)
+		f.Fatalf("expected non-canceled context, golangt %v", err)
 	}
 
 	f.Fuzz(func(t *testing.T, data []byte) {
 		innerCtx := t.Context()
 		if err := innerCtx.Err(); err != nil {
-			t.Fatalf("expected inner test to not inherit canceled context, got %v", err)
+			t.Fatalf("expected inner test to not inherit canceled context, golangt %v", err)
 		}
 
 		t.Cleanup(func() {

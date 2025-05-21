@@ -1,8 +1,8 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Copied from Go distribution src/go/build/read.go.
+// Copied from Go distribution src/golang/build/read.golang.
 
 package imports
 
@@ -27,7 +27,7 @@ var bom = []byte{0xef, 0xbb, 0xbf}
 
 func newImportReader(b *bufio.Reader) *importReader {
 	// Remove leading UTF-8 BOM.
-	// Per https://golang.org/ref/spec#Source_code_representation:
+	// Per https://golanglang.org/ref/spec#Source_code_representation:
 	// a compiler may ignore a UTF-8-encoded byte order mark (U+FEFF)
 	// if it is the first Unicode code point in the source text.
 	if leadingBytes, err := b.Peek(3); err == nil && bytes.Equal(leadingBytes, bom) {
@@ -78,7 +78,7 @@ func (r *importReader) readByte() byte {
 func (r *importReader) peekByte(skipSpace bool) byte {
 	if r.err != nil {
 		if r.nerr++; r.nerr > 10000 {
-			panic("go/build: import reader looping")
+			panic("golang/build: import reader looping")
 		}
 		return 0
 	}
@@ -251,7 +251,7 @@ func ReadImports(f io.Reader, reportSyntaxError bool, imports *[]string) ([]byte
 	}
 
 	// If we stopped for a syntax error, consume the whole file so that
-	// we are sure we don't change the errors that go/parser returns.
+	// we are sure we don't change the errors that golang/parser returns.
 	if r.err == errSyntax && !reportSyntaxError {
 		r.err = nil
 		for r.err == nil && !r.eof {

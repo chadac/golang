@@ -1,19 +1,19 @@
 # -u=patch will patch dependencies as far as possible, but not so far that they
 # conflict with other command-line arguments.
 
-go list -m all
+golang list -m all
 stdout '^example.net/a v0.1.0 '
 stdout '^example.net/b v0.1.0 '
 
-go get -u=patch example.net/a@v0.2.0
-go list -m all
+golang get -u=patch example.net/a@v0.2.0
+golang list -m all
 stdout '^example.net/a v0.2.0 '
 stdout '^example.net/b v0.1.1 '  # not v0.1.2, which requires …/a v0.3.0.
 
--- go.mod --
+-- golang.mod --
 module example
 
-go 1.16
+golang 1.16
 
 require (
 	example.net/a v0.1.0
@@ -28,57 +28,57 @@ replace (
 	example.net/b v0.1.1 => ./b11
 	example.net/b v0.1.2 => ./b12
 )
--- example.go --
+-- example.golang --
 package example
 
 import _ "example.net/a"
 
--- a/go.mod --
+-- a/golang.mod --
 module example.net/a
 
-go 1.16
+golang 1.16
 
 require example.net/b v0.1.0
--- a/a.go --
+-- a/a.golang --
 package a
 
 import _ "example.net/b"
 
--- b10/go.mod --
+-- b10/golang.mod --
 module example.net/b
 
-go 1.16
+golang 1.16
 
 require example.net/a v0.1.0
--- b10/b.go --
+-- b10/b.golang --
 package b
--- b10/b_test.go --
+-- b10/b_test.golang --
 package b_test
 
 import _ "example.net/a"
 
--- b11/go.mod --
+-- b11/golang.mod --
 module example.net/b
 
-go 1.16
+golang 1.16
 
 require example.net/a v0.2.0
--- b11/b.go --
+-- b11/b.golang --
 package b
--- b11/b_test.go --
+-- b11/b_test.golang --
 package b_test
 
 import _ "example.net/a"
 
--- b12/go.mod --
+-- b12/golang.mod --
 module example.net/b
 
-go 1.16
+golang 1.16
 
 require example.net/a v0.3.0
--- b12/b.go --
+-- b12/b.golang --
 package b
--- b12/b_test.go --
+-- b12/b_test.golang --
 package b_test
 
 import _ "example.net/a"

@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package copylock defines an Analyzer that checks for locks
@@ -9,16 +9,16 @@ package copylock
 import (
 	"bytes"
 	"fmt"
-	"go/ast"
-	"go/token"
-	"go/types"
+	"golang/ast"
+	"golang/token"
+	"golang/types"
 
-	"golang.org/x/tools/go/analysis"
-	"golang.org/x/tools/go/analysis/passes/inspect"
-	"golang.org/x/tools/go/ast/inspector"
-	"golang.org/x/tools/internal/analysisinternal"
-	"golang.org/x/tools/internal/typeparams"
-	"golang.org/x/tools/internal/versions"
+	"golanglang.org/x/tools/golang/analysis"
+	"golanglang.org/x/tools/golang/analysis/passes/inspect"
+	"golanglang.org/x/tools/golang/ast/inspector"
+	"golanglang.org/x/tools/internal/analysisinternal"
+	"golanglang.org/x/tools/internal/typeparams"
+	"golanglang.org/x/tools/internal/versions"
 )
 
 const Doc = `check for locks erroneously passed by value
@@ -30,7 +30,7 @@ values should be referred to through a pointer.`
 var Analyzer = &analysis.Analyzer{
 	Name:             "copylocks",
 	Doc:              Doc,
-	URL:              "https://pkg.go.dev/golang.org/x/tools/go/analysis/passes/copylock",
+	URL:              "https://pkg.golang.dev/golanglang.org/x/tools/golang/analysis/passes/copylock",
 	Requires:         []*analysis.Analyzer{inspect.Analyzer},
 	RunDespiteErrors: true,
 	Run:              run,
@@ -39,7 +39,7 @@ var Analyzer = &analysis.Analyzer{
 func run(pass *analysis.Pass) (any, error) {
 	inspect := pass.ResultOf[inspect.Analyzer].(*inspector.Inspector)
 
-	var goversion string // effective file version ("" => unknown)
+	var golangversion string // effective file version ("" => unknown)
 	nodeFilter := []ast.Node{
 		(*ast.AssignStmt)(nil),
 		(*ast.CallExpr)(nil),
@@ -57,7 +57,7 @@ func run(pass *analysis.Pass) (any, error) {
 		}
 		switch node := node.(type) {
 		case *ast.File:
-			goversion = versions.FileVersion(pass.TypesInfo, node)
+			golangversion = versions.FileVersion(pass.TypesInfo, node)
 		case *ast.RangeStmt:
 			checkCopyLocksRange(pass, node)
 		case *ast.FuncDecl:
@@ -67,7 +67,7 @@ func run(pass *analysis.Pass) (any, error) {
 		case *ast.CallExpr:
 			checkCopyLocksCallExpr(pass, node)
 		case *ast.AssignStmt:
-			checkCopyLocksAssign(pass, node, goversion, parent(stack))
+			checkCopyLocksAssign(pass, node, golangversion, parent(stack))
 		case *ast.GenDecl:
 			checkCopyLocksGenDecl(pass, node)
 		case *ast.CompositeLit:
@@ -82,7 +82,7 @@ func run(pass *analysis.Pass) (any, error) {
 
 // checkCopyLocksAssign checks whether an assignment
 // copies a lock.
-func checkCopyLocksAssign(pass *analysis.Pass, assign *ast.AssignStmt, goversion string, parent ast.Node) {
+func checkCopyLocksAssign(pass *analysis.Pass, assign *ast.AssignStmt, golangversion string, parent ast.Node) {
 	lhs := assign.Lhs
 	for i, x := range assign.Rhs {
 		if path := lockPathRhs(pass, x); path != nil {
@@ -94,7 +94,7 @@ func checkCopyLocksAssign(pass *analysis.Pass, assign *ast.AssignStmt, goversion
 	// After GoVersion 1.22, loop variables are implicitly copied on each iteration.
 	// So a for statement may inadvertently copy a lock when any of the
 	// iteration variables contain locks.
-	if assign.Tok == token.DEFINE && versions.AtLeast(goversion, versions.Go1_22) {
+	if assign.Tok == token.DEFINE && versions.AtLeast(golangversion, versions.Go1_22) {
 		if parent, _ := parent.(*ast.ForStmt); parent != nil && parent.Init == assign {
 			for _, l := range lhs {
 				if id, ok := l.(*ast.Ident); ok && id.Name != "_" {
@@ -347,9 +347,9 @@ func lockPath(tpkg *types.Package, typ types.Type, seen map[types.Type]bool) typ
 		return []string{typ.String()}
 	}
 
-	// In go1.10, sync.noCopy did not implement Locker.
+	// In golang1.10, sync.noCopy did not implement Locker.
 	// (The Unlock method was added only in CL 121876.)
-	// TODO(adonovan): remove workaround when we drop go1.10.
+	// TODO(adonovan): remove workaround when we drop golang1.10.
 	if analysisinternal.IsTypeNamed(typ, "sync", "noCopy") {
 		return []string{typ.String()}
 	}

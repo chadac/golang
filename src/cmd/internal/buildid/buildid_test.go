@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package buildid
@@ -33,7 +33,7 @@ func TestReadFile(t *testing.T) {
 	// Use obscured files to prevent Apple’s notarization service from
 	// mistaking them as candidates for notarization and rejecting the entire
 	// toolchain.
-	// See golang.org/issue/34986
+	// See golanglang.org/issue/34986
 	var files = []string{
 		"p.a.base64",
 		"a.elf.base64",
@@ -233,10 +233,10 @@ func TestExcludedReader(t *testing.T) {
 				t.Errorf("read failed: %v", err)
 			}
 			if n != len(res) {
-				t.Errorf("unexpected number of bytes read: want %d, got %d", len(res), n)
+				t.Errorf("unexpected number of bytes read: want %d, golangt %d", len(res), n)
 			}
 			if string(p[:n]) != res {
-				t.Errorf("unexpected bytes: want %q, got %q", res, p[:n])
+				t.Errorf("unexpected bytes: want %q, golangt %q", res, p[:n])
 			}
 		}
 	}
@@ -246,6 +246,6 @@ func TestEmptyID(t *testing.T) {
 	r := strings.NewReader("aha!")
 	matches, hash, err := FindAndHash(r, "", 1000)
 	if matches != nil || hash != ([32]byte{}) || err == nil || !strings.Contains(err.Error(), "no id") {
-		t.Errorf("FindAndHash: want nil, [32]byte{}, no id specified, got %v, %v, %v", matches, hash, err)
+		t.Errorf("FindAndHash: want nil, [32]byte{}, no id specified, golangt %v, %v, %v", matches, hash, err)
 	}
 }

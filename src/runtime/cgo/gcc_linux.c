@@ -1,34 +1,34 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build linux && (386 || arm || loong64 || mips || mipsle || mips64 || mips64le || riscv64)
+//golang:build linux && (386 || arm || loong64 || mips || mipsle || mips64 || mips64le || riscv64)
 
 #include <pthread.h>
 #include <string.h>
 #include <signal.h>
-#include "libcgo.h"
-#include "libcgo_unix.h"
+#include "libcgolang.h"
+#include "libcgolang_unix.h"
 
 static void *threadentry(void*);
 
-void (*x_cgo_inittls)(void **tlsg, void **tlsbase) __attribute__((common));
+void (*x_cgolang_inittls)(void **tlsg, void **tlsbase) __attribute__((common));
 static void (*setg_gcc)(void*);
 
 void
-x_cgo_init(G *g, void (*setg)(void*), void **tlsg, void **tlsbase)
+x_cgolang_init(G *g, void (*setg)(void*), void **tlsg, void **tlsbase)
 {
 	setg_gcc = setg;
 
-	_cgo_set_stacklo(g, NULL);
+	_cgolang_set_stacklo(g, NULL);
 
-	if (x_cgo_inittls) {
-		x_cgo_inittls(tlsg, tlsbase);
+	if (x_cgolang_inittls) {
+		x_cgolang_inittls(tlsg, tlsbase);
 	}
 }
 
 void
-_cgo_sys_thread_start(ThreadStart *ts)
+_cgolang_sys_thread_start(ThreadStart *ts)
 {
 	pthread_attr_t attr;
 	sigset_t ign, oset;
@@ -44,7 +44,7 @@ _cgo_sys_thread_start(ThreadStart *ts)
 	pthread_attr_getstacksize(&attr, &size);
 	// Leave stacklo=0 and set stackhi=size; mstart will do the rest.
 	ts->g->stackhi = size;
-	err = _cgo_try_pthread_create(&p, &attr, threadentry, ts);
+	err = _cgolang_try_pthread_create(&p, &attr, threadentry, ts);
 
 	pthread_sigmask(SIG_SETMASK, &oset, nil);
 

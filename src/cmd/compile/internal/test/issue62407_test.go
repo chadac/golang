@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package test
@@ -9,29 +9,29 @@ import (
 	"testing"
 )
 
-//go:noinline
+//golang:noinline
 func foo() string { return "foofoofoofoofoofo" } // len == 17
 
-//go:noinline
+//golang:noinline
 func empty() string { return "" }
 
 func TestConcatBytes(t *testing.T) {
 	empty := empty()
 	s := foo()
 	tests := map[string]struct {
-		got  []byte
+		golangt  []byte
 		want []byte
 	}{
-		"two empty elements":                 {got: []byte(empty + empty), want: []byte{}},
-		"two nonempty elements":              {got: []byte(s + s), want: append([]byte(foo()), foo()...)},
-		"one empty and one nonempty element": {got: []byte(s + empty), want: []byte(foo())},
-		"multiple empty elements":            {got: []byte(empty + empty + empty + empty + empty + empty), want: []byte{}},
-		"multiple nonempty elements":         {got: []byte("1" + "2" + "3" + "4" + "5" + "6"), want: []byte("123456")},
+		"two empty elements":                 {golangt: []byte(empty + empty), want: []byte{}},
+		"two nonempty elements":              {golangt: []byte(s + s), want: append([]byte(foo()), foo()...)},
+		"one empty and one nonempty element": {golangt: []byte(s + empty), want: []byte(foo())},
+		"multiple empty elements":            {golangt: []byte(empty + empty + empty + empty + empty + empty), want: []byte{}},
+		"multiple nonempty elements":         {golangt: []byte("1" + "2" + "3" + "4" + "5" + "6"), want: []byte("123456")},
 	}
 
 	for name, test := range tests {
-		if !reflect.DeepEqual(test.got, test.want) {
-			t.Errorf("[%s] got: %s, want: %s", name, test.got, test.want)
+		if !reflect.DeepEqual(test.golangt, test.want) {
+			t.Errorf("[%s] golangt: %s, want: %s", name, test.golangt, test.want)
 		}
 	}
 }

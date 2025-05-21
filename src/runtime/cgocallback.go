@@ -1,13 +1,13 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
 
-// These functions are called from C code via cgo/callbacks.go.
+// These functions are called from C code via cgolang/callbacks.golang.
 
 // Panic.
 
-func _cgo_panic_internal(p *byte) {
-	panic(gostringnocopy(p))
+func _cgolang_panic_internal(p *byte) {
+	panic(golangstringnocopy(p))
 }

@@ -1,9 +1,9 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This contains the valid opcode combinations available
-// in cmd/internal/obj/ppc64/asm9.go which exist for
+// in cmd/internal/obj/ppc64/asm9.golang which exist for
 // POWER10/ISA 3.1.
 
 #include "../../../../../runtime/textflag.h"

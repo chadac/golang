@@ -1,14 +1,14 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build boringcrypto && linux && (amd64 || arm64) && !android && !msan
+//golang:build boringcrypto && linux && (amd64 || arm64) && !android && !msan
 
 package boring
 
 /*
 
-#include "goboringcrypto.h"
+#include "golangboringcrypto.h"
 
 // These wrappers allocate out_len on the C stack, and check that it matches the expected
 // value, to avoid having to pass a pointer from Go, which would escape to the heap.
@@ -19,7 +19,7 @@ int EVP_AEAD_CTX_seal_wrapper(const GO_EVP_AEAD_CTX *ctx, uint8_t *out,
 							  const uint8_t *in, size_t in_len,
 							  const uint8_t *ad, size_t ad_len) {
 	size_t out_len;
-	int ok = _goboringcrypto_EVP_AEAD_CTX_seal(ctx, out, &out_len, exp_out_len,
+	int ok = _golangboringcrypto_EVP_AEAD_CTX_seal(ctx, out, &out_len, exp_out_len,
 		nonce, nonce_len, in, in_len, ad, ad_len);
 	if (out_len != exp_out_len) {
 		return 0;
@@ -33,7 +33,7 @@ int EVP_AEAD_CTX_open_wrapper(const GO_EVP_AEAD_CTX *ctx, uint8_t *out,
 							  const uint8_t *in, size_t in_len,
 							  const uint8_t *ad, size_t ad_len) {
 	size_t out_len;
-	int ok = _goboringcrypto_EVP_AEAD_CTX_open(ctx, out, &out_len, exp_out_len,
+	int ok = _golangboringcrypto_EVP_AEAD_CTX_open(ctx, out, &out_len, exp_out_len,
 		nonce, nonce_len, in, in_len, ad, ad_len);
 	if (out_len != exp_out_len) {
 		return 0;
@@ -67,7 +67,7 @@ type aesCipher struct {
 }
 
 type extraModes interface {
-	// Copied out of crypto/aes/modes.go.
+	// Copied out of crypto/aes/modes.golang.
 	NewCBCEncrypter(iv []byte) cipher.BlockMode
 	NewCBCDecrypter(iv []byte) cipher.BlockMode
 	NewCTR(iv []byte) cipher.Stream
@@ -79,8 +79,8 @@ var _ extraModes = (*aesCipher)(nil)
 func NewAESCipher(key []byte) (cipher.Block, error) {
 	c := &aesCipher{key: bytes.Clone(key)}
 	// Note: 0 is success, contradicting the usual BoringCrypto convention.
-	if C._goboringcrypto_AES_set_decrypt_key((*C.uint8_t)(unsafe.Pointer(&c.key[0])), C.uint(8*len(c.key)), &c.dec) != 0 ||
-		C._goboringcrypto_AES_set_encrypt_key((*C.uint8_t)(unsafe.Pointer(&c.key[0])), C.uint(8*len(c.key)), &c.enc) != 0 {
+	if C._golangboringcrypto_AES_set_decrypt_key((*C.uint8_t)(unsafe.Pointer(&c.key[0])), C.uint(8*len(c.key)), &c.dec) != 0 ||
+		C._golangboringcrypto_AES_set_encrypt_key((*C.uint8_t)(unsafe.Pointer(&c.key[0])), C.uint(8*len(c.key)), &c.enc) != 0 {
 		return nil, aesKeySizeError(len(key))
 	}
 	return c, nil
@@ -98,7 +98,7 @@ func (c *aesCipher) Encrypt(dst, src []byte) {
 	if len(dst) < aesBlockSize {
 		panic("crypto/aes: output not full block")
 	}
-	C._goboringcrypto_AES_encrypt(
+	C._golangboringcrypto_AES_encrypt(
 		(*C.uint8_t)(unsafe.Pointer(&src[0])),
 		(*C.uint8_t)(unsafe.Pointer(&dst[0])),
 		&c.enc)
@@ -114,7 +114,7 @@ func (c *aesCipher) Decrypt(dst, src []byte) {
 	if len(dst) < aesBlockSize {
 		panic("crypto/aes: output not full block")
 	}
-	C._goboringcrypto_AES_decrypt(
+	C._golangboringcrypto_AES_decrypt(
 		(*C.uint8_t)(unsafe.Pointer(&src[0])),
 		(*C.uint8_t)(unsafe.Pointer(&dst[0])),
 		&c.dec)
@@ -139,7 +139,7 @@ func (x *aesCBC) CryptBlocks(dst, src []byte) {
 		panic("crypto/cipher: output smaller than input")
 	}
 	if len(src) > 0 {
-		C._goboringcrypto_AES_cbc_encrypt(
+		C._golangboringcrypto_AES_cbc_encrypt(
 			(*C.uint8_t)(unsafe.Pointer(&src[0])),
 			(*C.uint8_t)(unsafe.Pointer(&dst[0])),
 			C.size_t(len(src)), x.key,
@@ -183,7 +183,7 @@ func (x *aesCTR) XORKeyStream(dst, src []byte) {
 	if len(src) == 0 {
 		return
 	}
-	C._goboringcrypto_AES_ctr128_encrypt(
+	C._golangboringcrypto_AES_ctr128_encrypt(
 		(*C.uint8_t)(unsafe.Pointer(&src[0])),
 		(*C.uint8_t)(unsafe.Pointer(&dst[0])),
 		C.size_t(len(src)), x.key, (*C.uint8_t)(unsafe.Pointer(&x.iv[0])),
@@ -250,20 +250,20 @@ func (c *aesCipher) newGCM(tlsVersion uint16) (cipher.AEAD, error) {
 	case 128:
 		switch tlsVersion {
 		case VersionTLS12:
-			aead = C._goboringcrypto_EVP_aead_aes_128_gcm_tls12()
+			aead = C._golangboringcrypto_EVP_aead_aes_128_gcm_tls12()
 		case VersionTLS13:
-			aead = C._goboringcrypto_EVP_aead_aes_128_gcm_tls13()
+			aead = C._golangboringcrypto_EVP_aead_aes_128_gcm_tls13()
 		default:
-			aead = C._goboringcrypto_EVP_aead_aes_128_gcm()
+			aead = C._golangboringcrypto_EVP_aead_aes_128_gcm()
 		}
 	case 256:
 		switch tlsVersion {
 		case VersionTLS12:
-			aead = C._goboringcrypto_EVP_aead_aes_256_gcm_tls12()
+			aead = C._golangboringcrypto_EVP_aead_aes_256_gcm_tls12()
 		case VersionTLS13:
-			aead = C._goboringcrypto_EVP_aead_aes_256_gcm_tls13()
+			aead = C._golangboringcrypto_EVP_aead_aes_256_gcm_tls13()
 		default:
-			aead = C._goboringcrypto_EVP_aead_aes_256_gcm()
+			aead = C._golangboringcrypto_EVP_aead_aes_256_gcm()
 		}
 	default:
 		// Fall back to standard library for GCM with non-standard key size.
@@ -271,12 +271,12 @@ func (c *aesCipher) newGCM(tlsVersion uint16) (cipher.AEAD, error) {
 	}
 
 	g := &aesGCM{aead: aead}
-	if C._goboringcrypto_EVP_AEAD_CTX_init(&g.ctx, aead, (*C.uint8_t)(unsafe.Pointer(&c.key[0])), C.size_t(len(c.key)), C.GO_EVP_AEAD_DEFAULT_TAG_LENGTH, nil) == 0 {
+	if C._golangboringcrypto_EVP_AEAD_CTX_init(&g.ctx, aead, (*C.uint8_t)(unsafe.Pointer(&c.key[0])), C.size_t(len(c.key)), C.GO_EVP_AEAD_DEFAULT_TAG_LENGTH, nil) == 0 {
 		return nil, fail("EVP_AEAD_CTX_init")
 	}
-	// Note: Because of the finalizer, any time g.ctx is passed to cgo,
+	// Note: Because of the finalizer, any time g.ctx is passed to cgolang,
 	// that call must be followed by a call to runtime.KeepAlive(g),
-	// to make sure g is not collected (and finalized) before the cgo
+	// to make sure g is not collected (and finalized) before the cgolang
 	// call returns.
 	runtime.SetFinalizer(g, (*aesGCM).finalize)
 	if g.NonceSize() != gcmStandardNonceSize {
@@ -290,15 +290,15 @@ func (c *aesCipher) newGCM(tlsVersion uint16) (cipher.AEAD, error) {
 }
 
 func (g *aesGCM) finalize() {
-	C._goboringcrypto_EVP_AEAD_CTX_cleanup(&g.ctx)
+	C._golangboringcrypto_EVP_AEAD_CTX_cleanup(&g.ctx)
 }
 
 func (g *aesGCM) NonceSize() int {
-	return int(C._goboringcrypto_EVP_AEAD_nonce_length(g.aead))
+	return int(C._golangboringcrypto_EVP_AEAD_nonce_length(g.aead))
 }
 
 func (g *aesGCM) Overhead() int {
-	return int(C._goboringcrypto_EVP_AEAD_max_overhead(g.aead))
+	return int(C._golangboringcrypto_EVP_AEAD_max_overhead(g.aead))
 }
 
 // base returns the address of the underlying array in b,

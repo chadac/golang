@@ -1,15 +1,15 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !cmd_go_bootstrap
+//golang:build !cmd_golang_bootstrap
 
 package telemetrystats
 
 import (
-	"cmd/go/internal/base"
-	"cmd/go/internal/cfg"
-	"cmd/go/internal/modload"
+	"cmd/golang/internal/base"
+	"cmd/golang/internal/cfg"
+	"cmd/golang/internal/modload"
 	"cmd/internal/telemetry/counter"
 )
 
@@ -22,30 +22,30 @@ func Increment() {
 // the command is running in.
 func incrementConfig() {
 	if !modload.WillBeEnabled() {
-		counter.Inc("go/mode:gopath")
+		counter.Inc("golang/mode:golangpath")
 	} else if workfile := modload.FindGoWork(base.Cwd()); workfile != "" {
-		counter.Inc("go/mode:workspace")
+		counter.Inc("golang/mode:workspace")
 	} else {
-		counter.Inc("go/mode:module")
+		counter.Inc("golang/mode:module")
 	}
-	counter.Inc("go/platform/target/goos:" + cfg.Goos)
-	counter.Inc("go/platform/target/goarch:" + cfg.Goarch)
+	counter.Inc("golang/platform/target/golangos:" + cfg.Goos)
+	counter.Inc("golang/platform/target/golangarch:" + cfg.Goarch)
 	switch cfg.Goarch {
 	case "386":
-		counter.Inc("go/platform/target/go386:" + cfg.GO386)
+		counter.Inc("golang/platform/target/golang386:" + cfg.GO386)
 	case "amd64":
-		counter.Inc("go/platform/target/goamd64:" + cfg.GOAMD64)
+		counter.Inc("golang/platform/target/golangamd64:" + cfg.GOAMD64)
 	case "arm":
-		counter.Inc("go/platform/target/goarm:" + cfg.GOARM)
+		counter.Inc("golang/platform/target/golangarm:" + cfg.GOARM)
 	case "arm64":
-		counter.Inc("go/platform/target/goarm64:" + cfg.GOARM64)
+		counter.Inc("golang/platform/target/golangarm64:" + cfg.GOARM64)
 	case "mips":
-		counter.Inc("go/platform/target/gomips:" + cfg.GOMIPS)
+		counter.Inc("golang/platform/target/golangmips:" + cfg.GOMIPS)
 	case "ppc64":
-		counter.Inc("go/platform/target/goppc64:" + cfg.GOPPC64)
+		counter.Inc("golang/platform/target/golangppc64:" + cfg.GOPPC64)
 	case "riscv64":
-		counter.Inc("go/platform/target/goriscv64:" + cfg.GORISCV64)
+		counter.Inc("golang/platform/target/golangriscv64:" + cfg.GORISCV64)
 	case "wasm":
-		counter.Inc("go/platform/target/gowasm:" + cfg.GOWASM)
+		counter.Inc("golang/platform/target/golangwasm:" + cfg.GOWASM)
 	}
 }

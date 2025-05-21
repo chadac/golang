@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package modload
@@ -11,7 +11,7 @@ import (
 	"strings"
 	"testing"
 
-	"golang.org/x/mod/module"
+	"golanglang.org/x/mod/module"
 )
 
 var importTests = []struct {
@@ -20,19 +20,19 @@ var importTests = []struct {
 	err  string
 }{
 	{
-		path: "golang.org/x/net/context",
+		path: "golanglang.org/x/net/context",
 		m: module.Version{
-			Path: "golang.org/x/net",
+			Path: "golanglang.org/x/net",
 		},
 	},
 	{
-		path: "golang.org/x/net",
-		err:  `module golang.org/x/net@.* found \(v[01]\.\d+\.\d+\), but does not contain package golang.org/x/net`,
+		path: "golanglang.org/x/net",
+		err:  `module golanglang.org/x/net@.* found \(v[01]\.\d+\.\d+\), but does not contain package golanglang.org/x/net`,
 	},
 	{
-		path: "golang.org/x/text",
+		path: "golanglang.org/x/text",
 		m: module.Version{
-			Path: "golang.org/x/text",
+			Path: "golanglang.org/x/text",
 		},
 	},
 	{
@@ -50,8 +50,8 @@ var importTests = []struct {
 		},
 	},
 	{
-		path: "golang.org/x/foo/bar",
-		err:  "cannot find module providing package golang.org/x/foo/bar",
+		path: "golanglang.org/x/foo/bar",
+		err:  "cannot find module providing package golanglang.org/x/foo/bar",
 	},
 }
 

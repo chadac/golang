@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package pem
@@ -36,7 +36,7 @@ func TestGetLine(t *testing.T) {
 	for i, test := range getLineTests {
 		x, y := getLine([]byte(test.in))
 		if string(x) != test.out1 || string(y) != test.out2 {
-			t.Errorf("#%d got:%+v,%+v want:%s,%s", i, x, y, test.out1, test.out2)
+			t.Errorf("#%d golangt:%+v,%+v want:%s,%s", i, x, y, test.out1, test.out2)
 		}
 	}
 }
@@ -44,11 +44,11 @@ func TestGetLine(t *testing.T) {
 func TestDecode(t *testing.T) {
 	result, remainder := Decode([]byte(pemData))
 	if !reflect.DeepEqual(result, certificate) {
-		t.Errorf("#0 got:%#v want:%#v", result, certificate)
+		t.Errorf("#0 golangt:%#v want:%#v", result, certificate)
 	}
 	result, remainder = Decode(remainder)
 	if !reflect.DeepEqual(result, privateKey) {
-		t.Errorf("#1 got:%#v want:%#v", result, privateKey)
+		t.Errorf("#1 golangt:%#v want:%#v", result, privateKey)
 	}
 
 	isEmpty := func(block *Block) bool {
@@ -56,20 +56,20 @@ func TestDecode(t *testing.T) {
 	}
 	result, remainder = Decode(remainder)
 	if !isEmpty(result) {
-		t.Errorf("#2 should be empty but got:%#v", result)
+		t.Errorf("#2 should be empty but golangt:%#v", result)
 	}
 	result, remainder = Decode(remainder)
 	if !isEmpty(result) {
-		t.Errorf("#3 should be empty but got:%#v", result)
+		t.Errorf("#3 should be empty but golangt:%#v", result)
 	}
 	result, remainder = Decode(remainder)
 	if !isEmpty(result) {
-		t.Errorf("#4 should be empty but got:%#v", result)
+		t.Errorf("#4 should be empty but golangt:%#v", result)
 	}
 
 	result, remainder = Decode(remainder)
 	if result == nil || result.Type != "HEADERS" || len(result.Headers) != 1 {
-		t.Errorf("#5 expected single header block but got :%v", result)
+		t.Errorf("#5 expected single header block but golangt :%v", result)
 	}
 
 	if len(remainder) != 0 {
@@ -78,7 +78,7 @@ func TestDecode(t *testing.T) {
 
 	result, _ = Decode([]byte(pemPrivateKey2))
 	if !reflect.DeepEqual(result, privateKey2) {
-		t.Errorf("#2 got:%#v want:%#v", result, privateKey2)
+		t.Errorf("#2 golangt:%#v want:%#v", result, privateKey2)
 	}
 }
 
@@ -171,7 +171,7 @@ func TestCVE202224675(t *testing.T) {
 func TestEncode(t *testing.T) {
 	r := EncodeToMemory(privateKey2)
 	if string(r) != pemPrivateKey2 {
-		t.Errorf("got:%s want:%s", r, pemPrivateKey2)
+		t.Errorf("golangt:%s want:%s", r, pemPrivateKey2)
 	}
 }
 
@@ -206,8 +206,8 @@ func TestLineBreaker(t *testing.T) {
 			continue
 		}
 
-		if got := buf.String(); got != test.out {
-			t.Errorf("#%d: got:%s want:%s", i, got, test.out)
+		if golangt := buf.String(); golangt != test.out {
+			t.Errorf("#%d: golangt:%s want:%s", i, golangt, test.out)
 		}
 	}
 
@@ -229,8 +229,8 @@ func TestLineBreaker(t *testing.T) {
 			continue
 		}
 
-		if got := buf.String(); got != test.out {
-			t.Errorf("#%d: (byte by byte) got:%s want:%s", i, got, test.out)
+		if golangt := buf.String(); golangt != test.out {
+			t.Errorf("#%d: (byte by byte) golangt:%s want:%s", i, golangt, test.out)
 		}
 	}
 }
@@ -342,7 +342,7 @@ WQVm+E9/W5rwh2IJR4DHn2LHwUVmT/hHNTdBLl5Uhwr4Wc7JhE7AVqb14pVNz1lr
 5jxsp//ncIwftb7mZQ3DF03Yna+jJhpzx8CQoeLT6aQCHyzmH68MrHHT4MALPyUs
 Pomjn71GNTtDeWAXibjCgdL6iHACCF6Htbl0zGlG0OAK+bdn0QIDAQABMA0GCSqG
 SIb3DQEBBQUAA4GBAOKnQDtqBV24vVqvesL5dnmyFpFPXBn3WdFfwD6DzEb21UVG
-5krmJiu+ViipORJPGMkgoL6BjU21XI95VQbun5P8vvg8Z+FnFsvRFY3e1CCzAVQY
+5krmJiu+ViipORJPGMkgolangL6BjU21XI95VQbun5P8vvg8Z+FnFsvRFY3e1CCzAVQY
 ZsUkLw2I7zI/dNlWdB8Xp7v+3w9sX5N3J/WuJ1KOO5m26kRlHQo7EzT3974g
 -----END CERTIFICATE-----
  1 s:/C=ZA/O=Ca Inc./CN=CA Inc

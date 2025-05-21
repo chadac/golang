@@ -1,11 +1,11 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // HTTP client implementation. See RFC 7230 through 7235.
 //
 // This is the low-level Transport implementation of RoundTripper.
-// The high-level interface is in client.go.
+// The high-level interface is in client.golang.
 
 package http
 
@@ -17,7 +17,7 @@ import (
 	"crypto/tls"
 	"errors"
 	"fmt"
-	"internal/godebug"
+	"internal/golangdebug"
 	"io"
 	"log"
 	"maps"
@@ -33,8 +33,8 @@ import (
 	"time"
 	_ "unsafe"
 
-	"golang.org/x/net/http/httpguts"
-	"golang.org/x/net/http/httpproxy"
+	"golanglang.org/x/net/http/httpguts"
+	"golanglang.org/x/net/http/httpproxy"
 )
 
 // DefaultTransport is the default implementation of [Transport] and is
@@ -68,7 +68,7 @@ const DefaultMaxIdleConnsPerHost = 2
 // and the [Transport.MaxIdleConnsPerHost] and [Transport.DisableKeepAlives] fields.
 //
 // Transports should be reused instead of created as needed.
-// Transports are safe for concurrent use by multiple goroutines.
+// Transports are safe for concurrent use by multiple golangroutines.
 //
 // A Transport is a low-level primitive for making HTTP and HTTPS requests.
 // For high-level functionality, such as cookies and redirects, see [Client].
@@ -240,7 +240,7 @@ type Transport struct {
 
 	// TLSNextProto specifies how the Transport switches to an
 	// alternate protocol (such as HTTP/2) after a TLS ALPN
-	// protocol negotiation. If Transport dials a TLS connection
+	// protocol negolangtiation. If Transport dials a TLS connection
 	// with a non-empty protocol name and TLSNextProto contains a
 	// map entry for that key (such as "h2"), then the func is
 	// called with the request's authority (such as "example.com"
@@ -297,7 +297,7 @@ type Transport struct {
 	// HTTP2 configures HTTP/2 connections.
 	//
 	// This field does not yet have any effect.
-	// See https://go.dev/issue/67813.
+	// See https://golang.dev/issue/67813.
 	HTTP2 *HTTP2Config
 
 	// Protocols is the set of protocols supported by the transport.
@@ -374,10 +374,10 @@ func (t *Transport) Clone() *Transport {
 
 // h2Transport is the interface we expect to be able to call from
 // net/http against an *http2.Transport that's either bundled into
-// h2_bundle.go or supplied by the user via x/net/http2.
+// h2_bundle.golang or supplied by the user via x/net/http2.
 //
 // We name it with the "h2" prefix to stay out of the "http2" prefix
-// namespace used by x/tools/cmd/bundle for h2_bundle.go.
+// namespace used by x/tools/cmd/bundle for h2_bundle.golang.
 type h2Transport interface {
 	CloseIdleConnections()
 }
@@ -386,7 +386,7 @@ func (t *Transport) hasCustomTLSDialer() bool {
 	return t.DialTLS != nil || t.DialTLSContext != nil
 }
 
-var http2client = godebug.New("http2client")
+var http2client = golangdebug.New("http2client")
 
 // onceSetNextProtoDefaults initializes TLSNextProto.
 // It must be called via t.nextProtoOnce.Do.
@@ -398,7 +398,7 @@ func (t *Transport) onceSetNextProtoDefaults() {
 	}
 
 	// If they've already configured http2 with
-	// golang.org/x/net/http2 instead of the bundled copy, try to
+	// golanglang.org/x/net/http2 instead of the bundled copy, try to
 	// get at its http2.Transport value (via the "https"
 	// altproto map) so we can call CloseIdleConnections on it if
 	// requested. (Issue 22891)
@@ -435,7 +435,7 @@ func (t *Transport) onceSetNextProtoDefaults() {
 	// exactly mean the same thing, but they're close.
 	//
 	// TODO: also add this to x/net/http2.Configure Transport, behind
-	// a +build go1.7 build tag:
+	// a +build golang1.7 build tag:
 	if limit1 := t.MaxResponseHeaderBytes; limit1 != 0 && t2.MaxHeaderListSize == 0 {
 		const h2max = 1<<32 - 1
 		if limit1 >= h2max {
@@ -595,13 +595,13 @@ func (t *Transport) roundTrip(req *Request) (_ *Response, err error) {
 	scheme := req.URL.Scheme
 	isHTTP := scheme == "http" || scheme == "https"
 	if isHTTP {
-		// Validate the outgoing headers.
+		// Validate the outgolanging headers.
 		if err := validateHeaders(req.Header); err != "" {
 			req.closeBody()
 			return nil, fmt.Errorf("net/http: invalid header %s", err)
 		}
 
-		// Validate the outgoing trailers too.
+		// Validate the outgolanging trailers too.
 		if err := validateHeaders(req.Trailer); err != "" {
 			req.closeBody()
 			return nil, fmt.Errorf("net/http: invalid trailer %s", err)
@@ -647,7 +647,7 @@ func (t *Transport) roundTrip(req *Request) (_ *Response, err error) {
 
 	// Convert Request.Cancel into context cancelation.
 	if origReq.Cancel != nil {
-		go awaitLegacyCancel(ctx, cancel, origReq)
+		golang awaitLegacyCancel(ctx, cancel, origReq)
 	}
 
 	// Convert Transport.CancelRequest into context cancelation.
@@ -832,14 +832,14 @@ func (pc *persistConn) shouldRetryRequest(req *Request, err error) bool {
 	if _, ok := err.(nothingWrittenError); ok {
 		// We never wrote anything, so it's safe to retry, if there's no body or we
 		// can "rewind" the body with GetBody.
-		return req.outgoingLength() == 0 || req.GetBody != nil
+		return req.outgolangingLength() == 0 || req.GetBody != nil
 	}
 	if !req.isReplayable() {
 		// Don't retry non-idempotent requests.
 		return false
 	}
 	if _, ok := err.(transportReadFromServerError); ok {
-		// We got some non-EOF net.Conn.Read failure reading
+		// We golangt some non-EOF net.Conn.Read failure reading
 		// the 1st response byte from the server.
 		return true
 	}
@@ -1009,7 +1009,7 @@ var (
 	// errServerClosedIdle is not seen by users for idempotent requests, but may be
 	// seen by a user if the server shuts down an idle connection and sends its FIN
 	// in flight with already-written POST body bytes from the client.
-	// See https://github.com/golang/go/issues/19943#issuecomment-355607646
+	// See https://github.com/golanglang/golang/issues/19943#issuecomment-355607646
 	errServerClosedIdle = errors.New("http: server closed idle connection")
 )
 
@@ -1046,7 +1046,7 @@ func (t *Transport) maxIdleConnsPerHost() int {
 
 // tryPutIdleConn adds pconn to the list of idle persistent connections awaiting
 // a new request.
-// If pconn is no longer needed or not in a good state, tryPutIdleConn returns
+// If pconn is no longer needed or not in a golangod state, tryPutIdleConn returns
 // an error explaining why it wasn't registered.
 // tryPutIdleConn does not close pconn. Use putOrCloseIdleConn instead for that.
 func (t *Transport) tryPutIdleConn(pconn *persistConn) error {
@@ -1062,13 +1062,13 @@ func (t *Transport) tryPutIdleConn(pconn *persistConn) error {
 	defer t.idleMu.Unlock()
 
 	// HTTP/2 (pconn.alt != nil) connections do not come out of the idle list,
-	// because multiple goroutines can use them simultaneously.
+	// because multiple golangroutines can use them simultaneously.
 	// If this is an HTTP/2 connection being “returned,” we're done.
 	if pconn.alt != nil && t.idleLRU.m[pconn] != nil {
 		return nil
 	}
 
-	// Deliver pconn to goroutine waiting for idle connection, if any.
+	// Deliver pconn to golangroutine waiting for idle connection, if any.
 	// (They may be actively dialing, but this conn is ready first.
 	// Chrome calls this socket late binding.
 	// See https://www.chromium.org/developers/design-documents/network-stack#TOC-Connection-Management.)
@@ -1130,7 +1130,7 @@ func (t *Transport) tryPutIdleConn(pconn *persistConn) error {
 
 	// Set idle timer, but only for HTTP/1 (pconn.alt == nil).
 	// The HTTP/2 implementation manages the idle timer itself
-	// (see idleConnTimeout in h2_bundle.go).
+	// (see idleConnTimeout in h2_bundle.golang).
 	if t.IdleConnTimeout > 0 && pconn.alt == nil {
 		if pconn.idleTimer != nil {
 			pconn.idleTimer.Reset(t.IdleConnTimeout)
@@ -1182,10 +1182,10 @@ func (t *Transport) queueForIdleConn(w *wantConn) (delivered bool) {
 			// coming out of suspend with previously cached idle connections.
 			tooOld := !oldTime.IsZero() && pconn.idleAt.Round(0).Before(oldTime)
 			if tooOld {
-				// Async cleanup. Launch in its own goroutine (as if a
+				// Async cleanup. Launch in its own golangroutine (as if a
 				// time.AfterFunc called it); it acquires idleMu, which we're
 				// holding, and does a synchronous net.Conn.Close.
-				go pconn.closeConnIfStillIdle()
+				golang pconn.closeConnIfStillIdle()
 			}
 			if pconn.isBroken() || tooOld {
 				// If either persistConn.readLoop has marked the connection
@@ -1293,7 +1293,7 @@ func (t *Transport) dial(ctx context.Context, network, addr string) (net.Conn, e
 
 // A wantConn records state about a wanted connection
 // (that is, an active call to getConn).
-// The conn may be gotten by dialing or by finding an idle connection,
+// The conn may be golangtten by dialing or by finding an idle connection,
 // or a cancellation may make the conn no longer wanted.
 // These three options are racing against each other and use
 // wantConn to coordinate and agree about the winning outcome.
@@ -1302,7 +1302,7 @@ type wantConn struct {
 	key connectMethodKey // cm.key()
 
 	// hooks for testing to know when dials are done
-	// beforeDial is called in the getConn goroutine when the dial is queued.
+	// beforeDial is called in the getConn golangroutine when the dial is queued.
 	// afterDial is called when the dial is completed or canceled.
 	beforeDial func()
 	afterDial  func()
@@ -1386,7 +1386,7 @@ type wantConnQueue struct {
 	// If the first stage is empty, popFront can swap the
 	// first and second stages to remedy the situation.
 	//
-	// This two-stage split is analogous to the use of two lists
+	// This two-stage split is analogolangus to the use of two lists
 	// in Okasaki's purely functional queue but without the
 	// overhead of reversing the list when swapping stages.
 	head    []*wantConn
@@ -1535,7 +1535,7 @@ func (t *Transport) getConn(treq *transportRequest, cm connectMethod) (_ *persis
 		if r.err != nil {
 			// If the request has been canceled, that's probably
 			// what caused r.err; if so, prefer to return the
-			// cancellation error (see golang.org/issue/16049).
+			// cancellation error (see golanglang.org/issue/16049).
 			select {
 			case <-treq.ctx.Done():
 				err := context.Cause(treq.ctx)
@@ -1558,7 +1558,7 @@ func (t *Transport) getConn(treq *transportRequest, cm connectMethod) (_ *persis
 }
 
 // queueForDial queues w to wait for permission to begin dialing.
-// Once w receives permission to dial, it will do so in a separate goroutine.
+// Once w receives permission to dial, it will do so in a separate golangroutine.
 func (t *Transport) queueForDial(w *wantConn) {
 	w.beforeDial()
 
@@ -1588,12 +1588,12 @@ func (t *Transport) queueForDial(w *wantConn) {
 	t.connsPerHostWait[w.key] = q
 }
 
-// startDialConnFor calls dialConn in a new goroutine.
+// startDialConnFor calls dialConn in a new golangroutine.
 // t.connsPerHostMu must be held.
 func (t *Transport) startDialConnForLocked(w *wantConn) {
 	t.dialsInProgress.cleanFrontCanceled()
 	t.dialsInProgress.pushBack(w)
-	go func() {
+	golang func() {
 		t.dialConnFor(w)
 		t.connsPerHostMu.Lock()
 		defer t.connsPerHostMu.Unlock()
@@ -1626,7 +1626,7 @@ func (t *Transport) dialConnFor(w *wantConn) {
 }
 
 // decConnsPerHost decrements the per-host connection count for key,
-// which may in turn give a different waiting goroutine permission to dial.
+// which may in turn give a different waiting golangroutine permission to dial.
 func (t *Transport) decConnsPerHost(key connectMethodKey) {
 	if t.MaxConnsPerHost <= 0 {
 		return
@@ -1641,9 +1641,9 @@ func (t *Transport) decConnsPerHost(key connectMethodKey) {
 		panic("net/http: internal error: connCount underflow")
 	}
 
-	// Can we hand this count to a goroutine still waiting to dial?
-	// (Some goroutines on the wait list may have timed out or
-	// gotten a connection another way. If they're all gone,
+	// Can we hand this count to a golangroutine still waiting to dial?
+	// (Some golangroutines on the wait list may have timed out or
+	// golangtten a connection another way. If they're all golangne,
 	// we don't want to kick off any spurious dial operations.)
 	if q := t.connsPerHostWait[key]; q.len() > 0 {
 		done := false
@@ -1675,7 +1675,7 @@ func (t *Transport) decConnsPerHost(key connectMethodKey) {
 	}
 }
 
-// Add TLS to a persistent connection, i.e. negotiate a TLS session. If pconn is already a TLS
+// Add TLS to a persistent connection, i.e. negolangtiate a TLS session. If pconn is already a TLS
 // tunnel, this function establishes a nested TLS session inside the encrypted channel.
 // The remote endpoint's name may be overridden by TLSClientConfig.ServerName.
 func (pconn *persistConn) addTLS(ctx context.Context, name string, trace *httptrace.ClientTrace) error {
@@ -1696,7 +1696,7 @@ func (pconn *persistConn) addTLS(ctx context.Context, name string, trace *httptr
 			errc <- tlsHandshakeTimeoutError{}
 		})
 	}
-	go func() {
+	golang func() {
 		if trace != nil && trace.TLSHandshakeStart != nil {
 			trace.TLSHandshakeStart()
 		}
@@ -1764,7 +1764,7 @@ func (t *Transport) dialConn(ctx context.Context, cm connectMethod) (pconn *pers
 				trace.TLSHandshakeStart()
 			}
 			if err := tc.HandshakeContext(ctx); err != nil {
-				go pconn.conn.Close()
+				golang pconn.conn.Close()
 				if trace != nil && trace.TLSHandshakeDone != nil {
 					trace.TLSHandshakeDone(tls.ConnectionState{}, err)
 				}
@@ -1850,7 +1850,7 @@ func (t *Transport) dialConn(ctx context.Context, cm connectMethod) (pconn *pers
 		}
 
 		// Set a (long) timeout here to make sure we don't block forever
-		// and leak a goroutine if the connection stops replying after
+		// and leak a golangroutine if the connection stops replying after
 		// the TCP connect.
 		connectCtx, cancel := testHookProxyConnectTimeout(ctx, 1*time.Minute)
 		defer cancel()
@@ -1861,7 +1861,7 @@ func (t *Transport) dialConn(ctx context.Context, cm connectMethod) (pconn *pers
 			err  error // write or read error
 		)
 		// Write the CONNECT request & read the response.
-		go func() {
+		golang func() {
 			defer close(didReadResponse)
 			err = connectReq.Write(conn)
 			if err != nil {
@@ -1927,8 +1927,8 @@ func (t *Transport) dialConn(ctx context.Context, cm connectMethod) (pconn *pers
 		return &persistConn{t: t, cacheKey: pconn.cacheKey, alt: alt}, nil
 	}
 
-	if s := pconn.tlsState; s != nil && s.NegotiatedProtocolIsMutual && s.NegotiatedProtocol != "" {
-		if next, ok := t.TLSNextProto[s.NegotiatedProtocol]; ok {
+	if s := pconn.tlsState; s != nil && s.NegolangtiatedProtocolIsMutual && s.NegolangtiatedProtocol != "" {
+		if next, ok := t.TLSNextProto[s.NegolangtiatedProtocol]; ok {
 			alt := next(cm.targetAddr, pconn.conn.(*tls.Conn))
 			if e, ok := alt.(erringRoundTripper); ok {
 				// pconn.conn was closed by next (http2configureTransports.upgradeFn).
@@ -1941,8 +1941,8 @@ func (t *Transport) dialConn(ctx context.Context, cm connectMethod) (pconn *pers
 	pconn.br = bufio.NewReaderSize(pconn, t.readBufferSize())
 	pconn.bw = bufio.NewWriterSize(persistConnWriter{pconn}, t.writeBufferSize())
 
-	go pconn.readLoop()
-	go pconn.writeLoop()
+	golang pconn.readLoop()
+	golang pconn.writeLoop()
 	return pconn, nil
 }
 
@@ -1950,7 +1950,7 @@ func (t *Transport) dialConn(ctx context.Context, cm connectMethod) (pconn *pers
 // It accumulates the number of bytes written to the underlying conn,
 // so the retry logic can determine whether any bytes made it across
 // the wire.
-// This is exactly 1 pointer field wide so it can go into an interface
+// This is exactly 1 pointer field wide so it can golang into an interface
 // without allocation.
 type persistConnWriter struct {
 	pc *persistConn
@@ -2082,7 +2082,7 @@ type persistConn struct {
 	sawEOF    bool  // whether we've seen EOF from conn; owned by readLoop
 	readLimit int64 // bytes allowed to be read; owned by readLoop
 	// writeErrCh passes the request write error (usually nil)
-	// from the writeLoop goroutine to the readLoop which passes
+	// from the writeLoop golangroutine to the readLoop which passes
 	// it off to the res.Body reader, which then uses it to decide
 	// whether or not a connection can be reused. Issue 7569.
 	writeErrCh chan error
@@ -2160,7 +2160,7 @@ func (pc *persistConn) cancelRequest(err error) {
 
 // closeConnIfStillIdle closes the connection if it's still sitting idle.
 // This is what's called by the persistConn's idleTimer, and is run in its
-// own goroutine.
+// own golangroutine.
 func (pc *persistConn) closeConnIfStillIdle() {
 	t := pc.t
 	t.idleMu.Lock()
@@ -2186,7 +2186,7 @@ func (pc *persistConn) mapRoundTripError(req *transportRequest, startBytesWritte
 		return nil
 	}
 
-	// Wait for the writeLoop goroutine to terminate to avoid data
+	// Wait for the writeLoop golangroutine to terminate to avoid data
 	// races on callers who mutate the request on failure.
 	//
 	// When resc in pc.roundTrip and hence rc.ch receives a responseAndError
@@ -2258,8 +2258,8 @@ func (pc *persistConn) readLoop() {
 		return true
 	}
 
-	// eofc is used to block caller goroutines reading from Response.Body
-	// at EOF until this goroutines has (potentially) added the connection
+	// eofc is used to block caller golangroutines reading from Response.Body
+	// at EOF until this golangroutines has (potentially) added the connection
 	// back to the idle pool.
 	eofc := make(chan struct{})
 	defer close(eofc) // unblock reader on errors
@@ -2325,7 +2325,7 @@ func (pc *persistConn) readLoop() {
 			// Put the idle conn back into the pool before we send the response
 			// so if they process it quickly and make another request, they'll
 			// get this same conn. But we use the unbuffered channel 'rc'
-			// to guarantee that persistConn.roundTrip got out of its select
+			// to guarantee that persistConn.roundTrip golangt out of its select
 			// potentially waiting for this persistConn to close.
 			alive = alive &&
 				!pc.sawEOF &&
@@ -2345,7 +2345,7 @@ func (pc *persistConn) readLoop() {
 			rc.treq.cancel(errRequestDone)
 
 			// Now that they've read from the unbuffered channel, they're safely
-			// out of the select that also waits on this goroutine to die, so
+			// out of the select that also waits on this golangroutine to die, so
 			// we're allowed to exit now if needed (if alive is false)
 			testHookReadLoopBeforeNextRead()
 			continue
@@ -2390,7 +2390,7 @@ func (pc *persistConn) readLoop() {
 		}
 
 		// Before looping back to the top of this function and peeking on
-		// the bufio.Reader, wait for the caller goroutine to finish
+		// the bufio.Reader, wait for the caller golangroutine to finish
 		// reading the response body. (or for cancellation or death)
 		select {
 		case bodyEOF := <-waitForBodyRead:
@@ -2437,7 +2437,7 @@ func (pc *persistConn) readLoopPeekFailLocked(peekErr error) {
 
 // is408Message reports whether buf has the prefix of an
 // HTTP 408 Request Timeout response.
-// See golang.org/issue/32310.
+// See golanglang.org/issue/32310.
 func is408Message(buf []byte) bool {
 	if len(buf) < len("HTTP/1.x 408") {
 		return false
@@ -2500,8 +2500,8 @@ func (pc *persistConn) readResponse(rc requestAndChan, trace *httptrace.ClientTr
 		// We send an "Expect: 100-continue" header, but the server
 		// responded with a terminal status and no 100 Continue.
 		//
-		// If we're going to keep using the connection, we need to send the request body.
-		// Tell writeLoop to skip sending the body if we're going to close the connection,
+		// If we're golanging to keep using the connection, we need to send the request body.
+		// Tell writeLoop to skip sending the body if we're golanging to close the connection,
 		// or to send it otherwise.
 		//
 		// The case where we receive a 101 Switching Protocols response is a bit
@@ -2649,7 +2649,7 @@ func (pc *persistConn) wroteRequest() bool {
 		// Rare case: the request was written in writeLoop above but
 		// before it could send to pc.writeErrCh, the reader read it
 		// all, processed it, and called us here. In this case, give the
-		// write goroutine a bit of time to finish its send.
+		// write golangroutine a bit of time to finish its send.
 		//
 		// Less rare case: We also get here in the legitimate case of
 		// Issue 7569, where the writer is still writing (or stalled),
@@ -2667,8 +2667,8 @@ func (pc *persistConn) wroteRequest() bool {
 	}
 }
 
-// responseAndError is how the goroutine reading from an HTTP/1 server
-// communicates with the goroutine doing the RoundTrip.
+// responseAndError is how the golangroutine reading from an HTTP/1 server
+// communicates with the golangroutine doing the RoundTrip.
 type responseAndError struct {
 	_   incomparable
 	res *Response // else use this response (see res method)
@@ -2694,8 +2694,8 @@ type requestAndChan struct {
 	callerGone <-chan struct{} // closed when roundTrip caller has returned
 }
 
-// A writeRequest is sent by the caller's goroutine to the
-// writeLoop's goroutine to write a request while the read loop
+// A writeRequest is sent by the caller's golangroutine to the
+// writeLoop's golangroutine to write a request while the read loop
 // concurrently waits on both the write response and the server's
 // reply.
 type writeRequest struct {
@@ -2771,11 +2771,11 @@ func (pc *persistConn) roundTrip(req *transportRequest) (resp *Response, err err
 		// Note that we don't request this for HEAD requests,
 		// due to a bug in nginx:
 		//   https://trac.nginx.org/nginx/ticket/358
-		//   https://golang.org/issue/5522
+		//   https://golanglang.org/issue/5522
 		//
 		// We don't request gzip if the request is for a range, since
 		// auto-decoding a portion of a gzipped document will just fail
-		// anyway. See https://golang.org/issue/8923
+		// anyway. See https://golanglang.org/issue/8923
 		requestedGzip = true
 		req.extraHeaders().Set("Accept-Encoding", "gzip")
 	}
@@ -2791,8 +2791,8 @@ func (pc *persistConn) roundTrip(req *transportRequest) (resp *Response, err err
 		req.extraHeaders().Set("Connection", "close")
 	}
 
-	gone := make(chan struct{})
-	defer close(gone)
+	golangne := make(chan struct{})
+	defer close(golangne)
 
 	const debugRoundTrip = false
 
@@ -2809,7 +2809,7 @@ func (pc *persistConn) roundTrip(req *transportRequest) (resp *Response, err err
 		ch:         resc,
 		addedGzip:  requestedGzip,
 		continueCh: continueCh,
-		callerGone: gone,
+		callerGone: golangne,
 	}
 
 	handleResponse := func(re responseAndError) (*Response, error) {
@@ -2883,7 +2883,7 @@ func (pc *persistConn) roundTrip(req *transportRequest) (resp *Response, err err
 }
 
 // tLogKey is a context WithValue key for test debugging contexts containing
-// a t.Logf func. See export_test.go's Request.WithT method.
+// a t.Logf func. See export_test.golang's Request.WithT method.
 type tLogKey struct{}
 
 func (tr *transportRequest) logf(format string, args ...any) {
@@ -3086,12 +3086,12 @@ func (fakeLocker) Unlock() {}
 // cloneTLSConfig should be an internal detail,
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
-//   - github.com/searKing/golang
+//   - github.com/searKing/golanglang
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname cloneTLSConfig
+//golang:linkname cloneTLSConfig
 func cloneTLSConfig(cfg *tls.Config) *tls.Config {
 	if cfg == nil {
 		return &tls.Config{}

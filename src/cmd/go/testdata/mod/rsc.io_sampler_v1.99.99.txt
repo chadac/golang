@@ -3,16 +3,16 @@ rsc.io/sampler@v1.99.99
 -- .mod --
 module "rsc.io/sampler"
 
-require "golang.org/x/text" v0.0.0-20170915032832-14c0d48ead0c
+require "golanglang.org/x/text" v0.0.0-20170915032832-14c0d48ead0c
 -- .info --
 {"Version":"v1.99.99","Name":"732a3c400797d8835f2af34a9561f155bef85435","Short":"732a3c400797","Time":"2018-02-13T22:20:19Z"}
--- go.mod --
+-- golang.mod --
 module "rsc.io/sampler"
 
-require "golang.org/x/text" v0.0.0-20170915032832-14c0d48ead0c
--- hello.go --
+require "golanglang.org/x/text" v0.0.0-20170915032832-14c0d48ead0c
+-- hello.golang --
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Translations by Google Translate.
@@ -24,9 +24,9 @@ var hello = newText(`
 English: en: 99 bottles of beer on the wall, 99 bottles of beer, ...
 
 `)
--- hello_test.go --
+-- hello_test.golang --
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package sampler
@@ -34,7 +34,7 @@ package sampler
 import (
 	"testing"
 
-	"golang.org/x/text/language"
+	"golanglang.org/x/text/language"
 )
 
 var helloTests = []struct {
@@ -59,9 +59,9 @@ func TestHello(t *testing.T) {
 		}
 	}
 }
--- sampler.go --
+-- sampler.golang --
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package sampler shows simple texts.
@@ -71,7 +71,7 @@ import (
 	"os"
 	"strings"
 
-	"golang.org/x/text/language"
+	"golanglang.org/x/text/language"
 )
 
 // DefaultUserPrefs returns the default user language preferences.

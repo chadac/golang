@@ -1,8 +1,8 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Supporting definitions for os_uname.go on Solaris.
+// Supporting definitions for os_uname.golang on Solaris.
 
 package osinfo
 
@@ -19,12 +19,12 @@ type utsname struct {
 	Machine  [257]byte
 }
 
-//go:cgo_import_dynamic libc_uname uname "libc.so"
-//go:linkname procUname libc_uname
+//golang:cgolang_import_dynamic libc_uname uname "libc.so"
+//golang:linkname procUname libc_uname
 
 var procUname uintptr
 
-//go:linkname rawsysvicall6 runtime.syscall_rawsysvicall6
+//golang:linkname rawsysvicall6 runtime.syscall_rawsysvicall6
 func rawsysvicall6(fn, nargs, a1, a2, a3, a4, a5, a6 uintptr) (r1, r2, err syscall.Errno)
 
 func uname(buf *utsname) error {

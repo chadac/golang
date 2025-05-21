@@ -2,7 +2,7 @@
 # patch-upgrades, but if we get it right we probably get many other edge-cases
 # right too.
 
-go list -m all
+golang list -m all
 stdout '^example.net/a v0.1.0 '
 ! stdout '^example.net/b '
 
@@ -11,24 +11,24 @@ stdout '^example.net/a v0.1.0 '
 # already in the build list, and the wildcard in the first element prevents us
 # from attempting to resolve a new module whose path is a prefix of the pattern.
 
-! go get -u=patch example.../b@upgrade
-stderr '^go: no modules to query for example\.\.\./b@upgrade because first path element contains a wildcard$'
+! golang get -u=patch example.../b@upgrade
+stderr '^golang: no modules to query for example\.\.\./b@upgrade because first path element contains a wildcard$'
 
 
 # Patching . causes a patch to example.net/a, which introduces a new match
 # for example.net/b/..., which is itself patched and causes another upgrade to
 # example.net/a, which is then patched again.
 
-go get -u=patch . example.../b@upgrade
-go list -m all
+golang get -u=patch . example.../b@upgrade
+golang list -m all
 stdout '^example.net/a v0.2.1 '  # upgraded by dependency of b and -u=patch
 stdout '^example.net/b v0.2.0 '  # introduced by patch of a and upgraded by wildcard
 
 
--- go.mod --
+-- golang.mod --
 module example
 
-go 1.16
+golang 1.16
 
 require example.net/a v0.1.0
 
@@ -41,55 +41,55 @@ replace (
 	example.net/b v0.1.1 => ./b1
 	example.net/b v0.2.0 => ./b2
 )
--- example.go --
+-- example.golang --
 package example
 
 import _ "example.net/a"
 
--- a10/go.mod --
+-- a10/golang.mod --
 module example.net/a
 
-go 1.16
--- a10/a.go --
+golang 1.16
+-- a10/a.golang --
 package a
 
--- a11/go.mod --
+-- a11/golang.mod --
 module example.net/a
 
-go 1.16
+golang 1.16
 
 require example.net/b v0.1.0
--- a11/a.go --
+-- a11/a.golang --
 package a
--- a11/unimported/unimported.go --
+-- a11/unimported/unimported.golang --
 package unimported
 
 import _ "example.net/b"
 
 
--- a20/go.mod --
+-- a20/golang.mod --
 module example.net/a
 
-go 1.16
--- a20/a.go --
+golang 1.16
+-- a20/a.golang --
 package a
 
--- b1/go.mod --
+-- b1/golang.mod --
 module example.net/b
 
-go 1.16
--- b1/b.go --
+golang 1.16
+-- b1/b.golang --
 package b
 
--- b2/go.mod --
+-- b2/golang.mod --
 module example.net/b
 
-go 1.16
+golang 1.16
 
 require example.net/a v0.2.0
--- b2/b.go --
+-- b2/b.golang --
 package b
--- b2/b_test.go --
+-- b2/b_test.golang --
 package b_test
 
 import _ "example.net/a"

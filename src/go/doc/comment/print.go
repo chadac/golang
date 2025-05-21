@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package comment
@@ -126,7 +126,7 @@ func (l *DocLink) DefaultURL(baseURL string) string {
 // the default ID is “hdr-Go_Doc_Comments”.
 func (h *Heading) DefaultID() string {
 	// Note: The “hdr-” prefix is important to avoid DOM clobbering attacks.
-	// See https://pkg.go.dev/github.com/google/safehtml#Identifier.
+	// See https://pkg.golang.dev/github.com/golangogle/safehtml#Identifier.
 	var out strings.Builder
 	var p textPrinter
 	p.oneLongLine(&out, h.Text)
@@ -164,7 +164,7 @@ func (p *Printer) Comment(d *Doc) []byte {
 
 	// Print one block containing all the link definitions that were used,
 	// and then a second block containing all the unused ones.
-	// This makes it easy to clean up the unused ones: gofmt and
+	// This makes it easy to clean up the unused ones: golangfmt and
 	// delete the final block. And it's a nice visual signal without
 	// affecting the way the comment formats for users.
 	for i := 0; i < 2; i++ {

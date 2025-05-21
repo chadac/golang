@@ -1,4 +1,4 @@
-package rethinkgo
+package rethinkgolang
 
 type Session struct {
 }

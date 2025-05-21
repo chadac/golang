@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package color
@@ -20,7 +20,7 @@ func eq(c0, c1 Color) error {
 	r0, g0, b0, a0 := c0.RGBA()
 	r1, g1, b1, a1 := c1.RGBA()
 	if r0 != r1 || g0 != g1 || b0 != b1 || a0 != a1 {
-		return fmt.Errorf("got  0x%04x 0x%04x 0x%04x 0x%04x\nwant 0x%04x 0x%04x 0x%04x 0x%04x",
+		return fmt.Errorf("golangt  0x%04x 0x%04x 0x%04x 0x%04x\nwant 0x%04x 0x%04x 0x%04x 0x%04x",
 			r0, g0, b0, a0, r1, g1, b1, a1)
 	}
 	return nil
@@ -160,15 +160,15 @@ func TestPalette(t *testing.T) {
 	for i, c := range p {
 		j := p.Index(c)
 		if i != j {
-			t.Errorf("Index(%v): got %d (color = %v), want %d", c, j, p[j], i)
+			t.Errorf("Index(%v): golangt %d (color = %v), want %d", c, j, p[j], i)
 		}
 	}
 	// Check that finding the closest color considers alpha, not just red,
 	// green and blue.
-	got := p.Convert(RGBA{0x80, 0x00, 0x00, 0x80})
+	golangt := p.Convert(RGBA{0x80, 0x00, 0x00, 0x80})
 	want := RGBA{0x7f, 0x00, 0x00, 0x7f}
-	if got != want {
-		t.Errorf("got %v, want %v", got, want)
+	if golangt != want {
+		t.Errorf("golangt %v, want %v", golangt, want)
 	}
 }
 

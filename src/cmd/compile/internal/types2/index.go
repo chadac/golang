@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file implements typechecking of index/slice expressions.
@@ -8,7 +8,7 @@ package types2
 
 import (
 	"cmd/compile/internal/syntax"
-	"go/constant"
+	"golang/constant"
 	. "internal/types/errors"
 )
 
@@ -246,7 +246,7 @@ func (check *Checker) sliceExpr(x *operand, e *syntax.SliceExpr) {
 	})
 	if hasString {
 		// If we saw a string, proceed with string type,
-		// but don't go from untyped string to string.
+		// but don't golang from untyped string to string.
 		cu = Typ[String]
 		if !isTypeParam(x.typ) {
 			cu = under(x.typ) // untyped string remains untyped

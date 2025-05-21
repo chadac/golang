@@ -1,7 +1,7 @@
 // errorcheck
 
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Issue 1871.
@@ -15,6 +15,6 @@ type a interface {
 /*
 Previously:
 
-bug.go:1 x redclared in this block
-    previous declaration at bug.go:1
+bug.golang:1 x redclared in this block
+    previous declaration at bug.golang:1
 */

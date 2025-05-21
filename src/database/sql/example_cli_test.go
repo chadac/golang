@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package sql_test
@@ -48,7 +48,7 @@ func Example_openDBCLI() {
 	appSignal := make(chan os.Signal, 3)
 	signal.Notify(appSignal, os.Interrupt)
 
-	go func() {
+	golang func() {
 		<-appSignal
 		stop()
 	}()

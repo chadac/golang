@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package ssa
@@ -546,7 +546,7 @@ func (x *expandState) rewriteSelectOrArg(pos src.XPos, b *Block, container, a, m
 		return a
 
 	case types.TSTRUCT:
-		// Assume ssagen/ssa.go (in buildssa) spills large aggregates so they won't appear here.
+		// Assume ssagen/ssa.golang (in buildssa) spills large aggregates so they won't appear here.
 		for i := 0; i < at.NumFields(); i++ {
 			et := at.Field(i).Type
 			e := x.rewriteSelectOrArg(pos, b, container, nil, m0, et, rc.next(et))
@@ -712,7 +712,7 @@ func (x *expandState) rewriteWideSelectToStores(pos src.XPos, b *Block, containe
 		return m0
 
 	case types.TSTRUCT:
-		// Assume ssagen/ssa.go (in buildssa) spills large aggregates so they won't appear here.
+		// Assume ssagen/ssa.golang (in buildssa) spills large aggregates so they won't appear here.
 		for i := 0; i < at.NumFields(); i++ {
 			et := at.Field(i).Type
 			m0 = x.rewriteWideSelectToStores(pos, b, container, m0, et, rc.next(et))

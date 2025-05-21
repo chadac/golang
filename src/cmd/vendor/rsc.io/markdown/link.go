@@ -1,5 +1,5 @@
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package markdown
@@ -10,7 +10,7 @@ import (
 	"strings"
 	"unicode/utf8"
 
-	"golang.org/x/text/cases"
+	"golanglang.org/x/text/cases"
 )
 
 func parseLinkRefDef(p buildState, s string) (int, bool) {
@@ -562,7 +562,7 @@ Restart:
 				out = append(out, link)
 				vd.skip(len(s) - len(after))
 				s = after
-				goto Restart
+				golangto Restart
 			}
 		}
 
@@ -574,7 +574,7 @@ Restart:
 				out = append(out, link)
 				vd.skip(len(s) - len(after))
 				s = after
-				goto Restart
+				golangto Restart
 			}
 		}
 	}
@@ -676,7 +676,7 @@ Trim:
 			// Trim entity reference.
 			// After doing the work of the scan, we either cut that part off the string
 			// or we stop the trimming entirely, so there's no chance of repeating
-			// the scan on a future iteration and going accidentally quadratic.
+			// the scan on a future iteration and golanging accidentally quadratic.
 			// Even though the Markdown spec already requires having a complete
 			// list of all the HTML entities, the GitHub definition here just requires
 			// "looks like" an entity, meaning its an ampersand, letters/digits, and semicolon.

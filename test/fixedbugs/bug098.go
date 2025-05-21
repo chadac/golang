@@ -1,7 +1,7 @@
 // compile
 
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -16,8 +16,8 @@ func main() {
 }
 
 /*
-uetli:~/Source/go1/test/bugs gri$ 6g bug098.go && 6l bug098.6 && 6.out
-bug098.go:10: illegal types for operand: AS
+uetli:~/Source/golang1/test/bugs gri$ 6g bug098.golang && 6l bug098.6 && 6.out
+bug098.golang:10: illegal types for operand: AS
 	(*MAP[<int32>INT32]<int32>INT32)
 	(**MAP[<int32>INT32]<int32>INT32)
 */

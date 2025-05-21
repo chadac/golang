@@ -1,5 +1,5 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime_test
@@ -7,7 +7,7 @@ package runtime_test
 import (
 	"bytes"
 	"internal/abi"
-	"internal/goexperiment"
+	"internal/golangexperiment"
 	"internal/profile"
 	"internal/testenv"
 	"os"
@@ -58,10 +58,10 @@ func TestReadMetrics(t *testing.T) {
 	_, samples := prepareAllMetricsSamples()
 	runtime.ReadMetricsSlow(&mstats, unsafe.Pointer(&samples[0]), len(samples), cap(samples))
 
-	checkUint64 := func(t *testing.T, m string, got, want uint64) {
+	checkUint64 := func(t *testing.T, m string, golangt, want uint64) {
 		t.Helper()
-		if got != want {
-			t.Errorf("metric %q: got %d, want %d", m, got, want)
+		if golangt != want {
+			t.Errorf("metric %q: golangt %d, want %d", m, golangt, want)
 		}
 	}
 
@@ -71,8 +71,8 @@ func TestReadMetrics(t *testing.T) {
 	var mallocs, frees uint64
 	for i := range samples {
 		switch name := samples[i].Name; name {
-		case "/cgo/go-to-c-calls:calls":
-			checkUint64(t, name, samples[i].Value.Uint64(), uint64(runtime.NumCgoCall()))
+		case "/cgolang/golang-to-c-calls:calls":
+			checkUint64(t, name, samples[i].Value.Uint64(), uint64(runtime.NumCgolangCall()))
 		case "/memory/classes/heap/free:bytes":
 			checkUint64(t, name, samples[i].Value.Uint64(), mstats.HeapIdle-mstats.HeapReleased)
 		case "/memory/classes/heap/released:bytes":
@@ -107,12 +107,12 @@ func TestReadMetrics(t *testing.T) {
 			// in the histogram.
 			for i, sc := range mstats.BySize[1:] {
 				if b, s := hist.Buckets[i+1], float64(sc.Size+1); b != s {
-					t.Errorf("bucket does not match size class: got %f, want %f", b, s)
+					t.Errorf("bucket does not match size class: golangt %f, want %f", b, s)
 					// The rest of the checks aren't expected to work anyway.
 					continue
 				}
 				if c, m := hist.Counts[i], sc.Mallocs; c != m {
-					t.Errorf("histogram counts do not much BySize for class %d: got %d, want %d", i, c, m)
+					t.Errorf("histogram counts do not much BySize for class %d: golangt %d, want %d", i, c, m)
 				}
 			}
 			allocsBySize = hist
@@ -124,12 +124,12 @@ func TestReadMetrics(t *testing.T) {
 			// in the histogram.
 			for i, sc := range mstats.BySize[1:] {
 				if b, s := hist.Buckets[i+1], float64(sc.Size+1); b != s {
-					t.Errorf("bucket does not match size class: got %f, want %f", b, s)
+					t.Errorf("bucket does not match size class: golangt %f, want %f", b, s)
 					// The rest of the checks aren't expected to work anyway.
 					continue
 				}
 				if c, f := hist.Counts[i], sc.Frees; c != f {
-					t.Errorf("histogram counts do not match BySize for class %d: got %d, want %d", i, c, f)
+					t.Errorf("histogram counts do not match BySize for class %d: golangt %d, want %d", i, c, f)
 				}
 			}
 		case "/gc/heap/frees:bytes":
@@ -167,13 +167,13 @@ func TestReadMetrics(t *testing.T) {
 				// Might happen if we don't call runtime.GC() above.
 				t.Error("live bytes is 0")
 			}
-		case "/gc/gomemlimit:bytes":
+		case "/gc/golangmemlimit:bytes":
 			checkUint64(t, name, samples[i].Value.Uint64(), uint64(limit))
 		case "/gc/heap/objects:objects":
 			checkUint64(t, name, samples[i].Value.Uint64(), mstats.HeapObjects)
-		case "/gc/heap/goal:bytes":
+		case "/gc/heap/golangal:bytes":
 			checkUint64(t, name, samples[i].Value.Uint64(), mstats.NextGC)
-		case "/gc/gogc:percent":
+		case "/gc/golanggc:percent":
 			checkUint64(t, name, samples[i].Value.Uint64(), uint64(gcPercent))
 		case "/gc/cycles/automatic:gc-cycles":
 			checkUint64(t, name, samples[i].Value.Uint64(), uint64(mstats.NumGC-mstats.NumForcedGC))
@@ -231,7 +231,7 @@ func TestReadMetricsConsistency(t *testing.T) {
 
 	// Check to make sure the values we read make sense.
 	var totalVirtual struct {
-		got, want uint64
+		golangt, want uint64
 	}
 	var objects struct {
 		alloc, free             *metrics.Float64Histogram
@@ -244,7 +244,7 @@ func TestReadMetricsConsistency(t *testing.T) {
 		pauses uint64
 	}
 	var totalScan struct {
-		got, want uint64
+		golangt, want uint64
 	}
 	var cpu struct {
 		gcAssist    float64
@@ -265,7 +265,7 @@ func TestReadMetricsConsistency(t *testing.T) {
 	for i := range samples {
 		kind := samples[i].Value.Kind()
 		if want := descs[samples[i].Name].Kind; kind != want {
-			t.Errorf("supported metric %q has unexpected kind: got %d, want %d", samples[i].Name, kind, want)
+			t.Errorf("supported metric %q has unexpected kind: golangt %d, want %d", samples[i].Name, kind, want)
 			continue
 		}
 		if samples[i].Name != "/memory/classes/total:bytes" && strings.HasPrefix(samples[i].Name, "/memory/classes") {
@@ -303,7 +303,7 @@ func TestReadMetricsConsistency(t *testing.T) {
 		case "/cpu/classes/user:cpu-seconds":
 			cpu.user = samples[i].Value.Float64()
 		case "/memory/classes/total:bytes":
-			totalVirtual.got = samples[i].Value.Uint64()
+			totalVirtual.golangt = samples[i].Value.Uint64()
 		case "/memory/classes/heap/objects:bytes":
 			objects.totalBytes = samples[i].Value.Uint64()
 		case "/gc/heap/objects:objects":
@@ -335,14 +335,14 @@ func TestReadMetricsConsistency(t *testing.T) {
 		case "/gc/scan/stack:bytes":
 			totalScan.want += samples[i].Value.Uint64()
 		case "/gc/scan/total:bytes":
-			totalScan.got = samples[i].Value.Uint64()
-		case "/sched/gomaxprocs:threads":
-			if got, want := samples[i].Value.Uint64(), uint64(runtime.GOMAXPROCS(-1)); got != want {
-				t.Errorf("gomaxprocs doesn't match runtime.GOMAXPROCS: got %d, want %d", got, want)
+			totalScan.golangt = samples[i].Value.Uint64()
+		case "/sched/golangmaxprocs:threads":
+			if golangt, want := samples[i].Value.Uint64(), uint64(runtime.GOMAXPROCS(-1)); golangt != want {
+				t.Errorf("golangmaxprocs doesn't match runtime.GOMAXPROCS: golangt %d, want %d", golangt, want)
 			}
-		case "/sched/goroutines:goroutines":
+		case "/sched/golangroutines:golangroutines":
 			if samples[i].Value.Uint64() < 1 {
-				t.Error("number of goroutines is less than one")
+				t.Error("number of golangroutines is less than one")
 			}
 		}
 	}
@@ -373,14 +373,14 @@ func TestReadMetricsConsistency(t *testing.T) {
 			t.Errorf("calculated total CPU not within %%0.1 of total: %f vs. %f", total, cpu.total)
 		}
 	}
-	if totalVirtual.got != totalVirtual.want {
-		t.Errorf(`"/memory/classes/total:bytes" does not match sum of /memory/classes/**: got %d, want %d`, totalVirtual.got, totalVirtual.want)
+	if totalVirtual.golangt != totalVirtual.want {
+		t.Errorf(`"/memory/classes/total:bytes" does not match sum of /memory/classes/**: golangt %d, want %d`, totalVirtual.golangt, totalVirtual.want)
 	}
-	if got, want := objects.allocs-objects.frees, objects.total; got != want {
-		t.Errorf("mismatch between object alloc/free tallies and total: got %d, want %d", got, want)
+	if golangt, want := objects.allocs-objects.frees, objects.total; golangt != want {
+		t.Errorf("mismatch between object alloc/free tallies and total: golangt %d, want %d", golangt, want)
 	}
-	if got, want := objects.allocdBytes-objects.freedBytes, objects.totalBytes; got != want {
-		t.Errorf("mismatch between object alloc/free tallies and total: got %d, want %d", got, want)
+	if golangt, want := objects.allocdBytes-objects.freedBytes, objects.totalBytes; golangt != want {
+		t.Errorf("mismatch between object alloc/free tallies and total: golangt %d, want %d", golangt, want)
 	}
 	if b, c := len(objects.alloc.Buckets), len(objects.alloc.Counts); b != c+1 {
 		t.Errorf("allocs-by-size has wrong bucket or counts length: %d buckets, %d counts", b, c)
@@ -401,37 +401,37 @@ func TestReadMetricsConsistency(t *testing.T) {
 			}
 		}
 		if !t.Failed() {
-			var gotAlloc, gotFree uint64
+			var golangtAlloc, golangtFree uint64
 			want := objects.total
 			for i := range objects.alloc.Counts {
 				if objects.alloc.Counts[i] < objects.free.Counts[i] {
 					t.Errorf("found more allocs than frees in object dist bucket %d", i)
 					continue
 				}
-				gotAlloc += objects.alloc.Counts[i]
-				gotFree += objects.free.Counts[i]
+				golangtAlloc += objects.alloc.Counts[i]
+				golangtFree += objects.free.Counts[i]
 			}
-			if got := gotAlloc - gotFree; got != want {
-				t.Errorf("object distribution counts don't match count of live objects: got %d, want %d", got, want)
+			if golangt := golangtAlloc - golangtFree; golangt != want {
+				t.Errorf("object distribution counts don't match count of live objects: golangt %d, want %d", golangt, want)
 			}
-			if gotAlloc != objects.allocs {
-				t.Errorf("object distribution counts don't match total allocs: got %d, want %d", gotAlloc, objects.allocs)
+			if golangtAlloc != objects.allocs {
+				t.Errorf("object distribution counts don't match total allocs: golangt %d, want %d", golangtAlloc, objects.allocs)
 			}
-			if gotFree != objects.frees {
-				t.Errorf("object distribution counts don't match total allocs: got %d, want %d", gotFree, objects.frees)
+			if golangtFree != objects.frees {
+				t.Errorf("object distribution counts don't match total allocs: golangt %d, want %d", golangtFree, objects.frees)
 			}
 		}
 	}
 	// The current GC has at least 2 pauses per GC.
 	// Check to see if that value makes sense.
 	if gc.pauses < gc.numGC*2 {
-		t.Errorf("fewer pauses than expected: got %d, want at least %d", gc.pauses, gc.numGC*2)
+		t.Errorf("fewer pauses than expected: golangt %d, want at least %d", gc.pauses, gc.numGC*2)
 	}
-	if totalScan.got <= 0 {
-		t.Errorf("scannable GC space is empty: %d", totalScan.got)
+	if totalScan.golangt <= 0 {
+		t.Errorf("scannable GC space is empty: %d", totalScan.golangt)
 	}
-	if totalScan.got != totalScan.want {
-		t.Errorf("/gc/scan/total:bytes doesn't line up with sum of /gc/scan*: total %d vs. sum %d", totalScan.got, totalScan.want)
+	if totalScan.golangt != totalScan.want {
+		t.Errorf("/gc/scan/total:bytes doesn't line up with sum of /gc/scan*: total %d vs. sum %d", totalScan.golangt, totalScan.want)
 	}
 }
 
@@ -495,7 +495,7 @@ func TestReadMetricsCumulative(t *testing.T) {
 	var wg sync.WaitGroup
 	wg.Add(1)
 	done := make(chan struct{})
-	go func() {
+	golang func() {
 		defer wg.Done()
 		for {
 			// Add more things here that could influence metrics.
@@ -581,13 +581,13 @@ func TestMutexWaitTimeMetric(t *testing.T) {
 			after := time.Duration(sample[0].Value.Float64() * 1e9)
 
 			if wt := after - before; wt < minMutexWaitTime {
-				t.Errorf("too little mutex wait time: got %s, want %s", wt, minMutexWaitTime)
+				t.Errorf("too little mutex wait time: golangt %s, want %s", wt, minMutexWaitTime)
 			}
 		})
 	}
 }
 
-// locker2 represents an API surface of two concurrent goroutines
+// locker2 represents an API surface of two concurrent golangroutines
 // locking the same resource, but through different APIs. It's intended
 // to abstract over the relationship of two Lock calls or an RLock
 // and a Lock call.
@@ -634,7 +634,7 @@ func (m *rwmutexWriteRead) Unlock1() { m.mu.Unlock() }
 func (m *rwmutexWriteRead) Lock2()   { m.mu.RLock() }
 func (m *rwmutexWriteRead) Unlock2() { m.mu.RUnlock() }
 
-// generateMutexWaitTime causes a couple of goroutines
+// generateMutexWaitTime causes a couple of golangroutines
 // to block a whole bunch of times on a sync.Mutex, returning
 // the minimum amount of time that should be visible in the
 // /sync/mutex-wait:seconds metric.
@@ -644,10 +644,10 @@ func generateMutexWaitTime(mu locker2) time.Duration {
 
 	mu.Lock1()
 
-	// Start up a goroutine to wait on the lock.
+	// Start up a golangroutine to wait on the lock.
 	gc := make(chan *runtime.G)
 	done := make(chan bool)
-	go func() {
+	golang func() {
 		gc <- runtime.Getg()
 
 		for {
@@ -664,7 +664,7 @@ func generateMutexWaitTime(mu locker2) time.Duration {
 	// on systems with coarse timer granularity.
 	const blockTime = 100 * time.Millisecond
 
-	// Make sure the goroutine spawned above actually blocks on the lock.
+	// Make sure the golangroutine spawned above actually blocks on the lock.
 	for {
 		if runtime.GIsWaitingOnMutex(gp) {
 			break
@@ -675,7 +675,7 @@ func generateMutexWaitTime(mu locker2) time.Duration {
 	// Let some amount of time pass.
 	time.Sleep(blockTime)
 
-	// Let the other goroutine acquire the lock.
+	// Let the other golangroutine acquire the lock.
 	mu.Unlock1()
 	done <- true
 
@@ -728,18 +728,18 @@ func TestCPUMetricsSleep(t *testing.T) {
 
 	// If the bug we expect is happening, then the Sleep CPU time will be accounted for
 	// as user time rather than idle time. In an ideal world we'd expect the whole application
-	// to go instantly idle the moment this goroutine goes to sleep, and stay asleep for that
-	// duration. However, the Go runtime can easily eat into idle time while this goroutine is
+	// to golang instantly idle the moment this golangroutine golanges to sleep, and stay asleep for that
+	// duration. However, the Go runtime can easily eat into idle time while this golangroutine is
 	// blocked in a sleep. For example, slow platforms might spend more time expected in the
-	// scheduler. Another example is that a Go runtime background goroutine could run while
-	// everything else is idle. Lastly, if a running goroutine is descheduled by the OS, enough
-	// time may pass such that the goroutine is ready to wake, even though the runtime couldn't
+	// scheduler. Another example is that a Go runtime background golangroutine could run while
+	// everything else is idle. Lastly, if a running golangroutine is descheduled by the OS, enough
+	// time may pass such that the golangroutine is ready to wake, even though the runtime couldn't
 	// observe itself as idle with nanotime.
 	//
 	// To deal with all this, we give a half-proc's worth of leniency.
 	//
 	// We also retry multiple times to deal with the fact that the OS might deschedule us before
-	// we yield and go idle. That has a rare enough chance that retries should resolve it.
+	// we yield and golang idle. That has a rare enough chance that retries should resolve it.
 	// If the issue we expect is happening, it should be persistent.
 	minIdleCPUSeconds := dur.Seconds() * (float64(runtime.GOMAXPROCS(-1)) - 0.5)
 
@@ -822,32 +822,32 @@ func testSchedPauseMetrics(t *testing.T, fn func(t *testing.T), isGC bool) {
 	metrics.Read(m)
 
 	if isGC {
-		if got := sampleCount(stoppingGC); got <= baselineStartGC {
-			t.Errorf("/sched/pauses/stopping/gc:seconds sample count %d did not increase from baseline of %d", got, baselineStartGC)
+		if golangt := sampleCount(stoppingGC); golangt <= baselineStartGC {
+			t.Errorf("/sched/pauses/stopping/gc:seconds sample count %d did not increase from baseline of %d", golangt, baselineStartGC)
 		}
-		if got := sampleCount(totalGC); got <= baselineTotalGC {
-			t.Errorf("/sched/pauses/total/gc:seconds sample count %d did not increase from baseline of %d", got, baselineTotalGC)
+		if golangt := sampleCount(totalGC); golangt <= baselineTotalGC {
+			t.Errorf("/sched/pauses/total/gc:seconds sample count %d did not increase from baseline of %d", golangt, baselineTotalGC)
 		}
 
-		if got := sampleCount(stoppingOther); got != baselineStartOther {
-			t.Errorf("/sched/pauses/stopping/other:seconds sample count %d changed from baseline of %d", got, baselineStartOther)
+		if golangt := sampleCount(stoppingOther); golangt != baselineStartOther {
+			t.Errorf("/sched/pauses/stopping/other:seconds sample count %d changed from baseline of %d", golangt, baselineStartOther)
 		}
-		if got := sampleCount(totalOther); got != baselineTotalOther {
-			t.Errorf("/sched/pauses/stopping/other:seconds sample count %d changed from baseline of %d", got, baselineTotalOther)
+		if golangt := sampleCount(totalOther); golangt != baselineTotalOther {
+			t.Errorf("/sched/pauses/stopping/other:seconds sample count %d changed from baseline of %d", golangt, baselineTotalOther)
 		}
 	} else {
-		if got := sampleCount(stoppingGC); got != baselineStartGC {
-			t.Errorf("/sched/pauses/stopping/gc:seconds sample count %d changed from baseline of %d", got, baselineStartGC)
+		if golangt := sampleCount(stoppingGC); golangt != baselineStartGC {
+			t.Errorf("/sched/pauses/stopping/gc:seconds sample count %d changed from baseline of %d", golangt, baselineStartGC)
 		}
-		if got := sampleCount(totalGC); got != baselineTotalGC {
-			t.Errorf("/sched/pauses/total/gc:seconds sample count %d changed from baseline of %d", got, baselineTotalGC)
+		if golangt := sampleCount(totalGC); golangt != baselineTotalGC {
+			t.Errorf("/sched/pauses/total/gc:seconds sample count %d changed from baseline of %d", golangt, baselineTotalGC)
 		}
 
-		if got := sampleCount(stoppingOther); got <= baselineStartOther {
-			t.Errorf("/sched/pauses/stopping/other:seconds sample count %d did not increase from baseline of %d", got, baselineStartOther)
+		if golangt := sampleCount(stoppingOther); golangt <= baselineStartOther {
+			t.Errorf("/sched/pauses/stopping/other:seconds sample count %d did not increase from baseline of %d", golangt, baselineStartOther)
 		}
-		if got := sampleCount(totalOther); got <= baselineTotalOther {
-			t.Errorf("/sched/pauses/stopping/other:seconds sample count %d did not increase from baseline of %d", got, baselineTotalOther)
+		if golangt := sampleCount(totalOther); golangt <= baselineTotalOther {
+			t.Errorf("/sched/pauses/stopping/other:seconds sample count %d did not increase from baseline of %d", golangt, baselineTotalOther)
 		}
 	}
 }
@@ -924,7 +924,7 @@ func TestSchedPauseMetrics(t *testing.T) {
 
 				var buf bytes.Buffer
 				if err := trace.Start(&buf); err != nil {
-					t.Errorf("trace.Start err got %v want nil", err)
+					t.Errorf("trace.Start err golangt %v want nil", err)
 				}
 				trace.Stop()
 			},
@@ -951,7 +951,7 @@ func TestRuntimeLockMetricsAndProfile(t *testing.T) {
 	old := runtime.SetMutexProfileFraction(0) // enabled during sub-tests
 	defer runtime.SetMutexProfileFraction(old)
 	if old != 0 {
-		t.Fatalf("need MutexProfileRate 0, got %d", old)
+		t.Fatalf("need MutexProfileRate 0, golangt %d", old)
 	}
 
 	t.Logf("NumCPU %d", runtime.NumCPU())
@@ -1025,7 +1025,7 @@ func TestRuntimeLockMetricsAndProfile(t *testing.T) {
 						},
 						fn: fn,
 					}
-					go w.run()
+					golang w.run()
 				}
 				stopped.Wait()
 			})
@@ -1041,21 +1041,21 @@ func TestRuntimeLockMetricsAndProfile(t *testing.T) {
 				// runtime.mutex tests create 200 contention events. Observing
 				// zero of those has a probability of (7/8)^200 = 2.5e-12 which
 				// is acceptably low (though the calculation has a tenuous
-				// dependency on cheaprandn being a good-enough source of
+				// dependency on cheaprandn being a golangod-enough source of
 				// entropy).
 				t.Errorf("no increase in /sync/mutex/wait/total:seconds metric")
 			}
 			// This comparison is possible because the time measurements in support of
 			// runtime/pprof and runtime/metrics for runtime-internal locks are so close
 			// together. It doesn't work as well for user-space contention, where the
-			// involved goroutines are not _Grunnable the whole time and so need to pass
+			// involved golangroutines are not _Grunnable the whole time and so need to pass
 			// through the scheduler.
 			t.Logf("lock contention growth in runtime/pprof's view  (%fs)", totalProfileGrowth)
 			t.Logf("lock contention growth in runtime/metrics' view (%fs)", metricGrowth)
 
 			acceptStacks = append([][]string(nil), acceptStacks...)
 			for i, stk := range acceptStacks {
-				if goexperiment.StaticLockRanking {
+				if golangexperiment.StaticLockRanking {
 					if !slices.ContainsFunc(stk, func(s string) bool {
 						return s == "runtime.systemstack" || s == "runtime.mcall" || s == "runtime.mstart"
 					}) {
@@ -1120,9 +1120,9 @@ func TestRuntimeLockMetricsAndProfile(t *testing.T) {
 	name := t.Name()
 
 	t.Run("runtime.lock", func(t *testing.T) {
-		// The goroutine that acquires the lock will only proceed when it
+		// The golangroutine that acquires the lock will only proceed when it
 		// detects that its partner is contended for the lock. That will lead to
-		// live-lock if anything (such as a STW) prevents the partner goroutine
+		// live-lock if anything (such as a STW) prevents the partner golangroutine
 		// from running. Allowing the contention workers to pause and restart
 		// (to allow a STW to proceed) makes it harder to confirm that we're
 		// counting the correct number of contention events, since some locks
@@ -1485,7 +1485,7 @@ func TestMetricHeapUnusedLargeObjectOverflow(t *testing.T) {
 	done := make(chan struct{})
 	var wg sync.WaitGroup
 	wg.Add(1)
-	go func() {
+	golang func() {
 		defer wg.Done()
 		for {
 			for range 10 {

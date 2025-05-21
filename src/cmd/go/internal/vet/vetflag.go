@@ -1,5 +1,5 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package vet
@@ -16,25 +16,25 @@ import (
 	"path/filepath"
 	"strings"
 
-	"cmd/go/internal/base"
-	"cmd/go/internal/cmdflag"
-	"cmd/go/internal/work"
+	"cmd/golang/internal/base"
+	"cmd/golang/internal/cmdflag"
+	"cmd/golang/internal/work"
 )
 
-// go vet flag processing
+// golang vet flag processing
 //
 // We query the flags of the tool specified by -vettool and accept any
-// of those flags plus any flag valid for 'go build'. The tool must
+// of those flags plus any flag valid for 'golang build'. The tool must
 // support -flags, which prints a description of its flags in JSON to
 // stdout.
 
 // vetTool specifies the vet command to run.
 // Any tool that supports the (still unpublished) vet
 // command-line protocol may be supplied; see
-// golang.org/x/tools/go/analysis/unitchecker for one
+// golanglang.org/x/tools/golang/analysis/unitchecker for one
 // implementation. It is also used by tests.
 //
-// The default behavior (vetTool=="") runs 'go tool vet'.
+// The default behavior (vetTool=="") runs 'golang tool vet'.
 var vetTool string // -vettool
 
 func init() {
@@ -84,7 +84,7 @@ func vetFlags(args []string) (passToVet, packageNames []string) {
 	vetcmd := exec.Command(tool, "-flags")
 	vetcmd.Stdout = out
 	if err := vetcmd.Run(); err != nil {
-		fmt.Fprintf(os.Stderr, "go: can't execute %s -flags: %v\n", tool, err)
+		fmt.Fprintf(os.Stderr, "golang: can't execute %s -flags: %v\n", tool, err)
 		base.SetExitStatus(2)
 		base.Exit()
 	}
@@ -94,7 +94,7 @@ func vetFlags(args []string) (passToVet, packageNames []string) {
 		Usage string
 	}
 	if err := json.Unmarshal(out.Bytes(), &analysisFlags); err != nil {
-		fmt.Fprintf(os.Stderr, "go: can't unmarshal JSON from %s -flags: %v", tool, err)
+		fmt.Fprintf(os.Stderr, "golang: can't unmarshal JSON from %s -flags: %v", tool, err)
 		base.SetExitStatus(2)
 		base.Exit()
 	}
@@ -179,10 +179,10 @@ func vetFlags(args []string) (passToVet, packageNames []string) {
 
 func exitWithUsage() {
 	fmt.Fprintf(os.Stderr, "usage: %s\n", CmdVet.UsageLine)
-	fmt.Fprintf(os.Stderr, "Run 'go help %s' for details.\n", CmdVet.LongName())
+	fmt.Fprintf(os.Stderr, "Run 'golang help %s' for details.\n", CmdVet.LongName())
 
 	// This part is additional to what (*Command).Usage does:
-	cmd := "go tool vet"
+	cmd := "golang tool vet"
 	if vetTool != "" {
 		cmd = vetTool
 	}

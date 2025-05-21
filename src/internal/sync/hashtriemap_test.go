@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package sync_test
@@ -30,7 +30,7 @@ func TestHashTrieMapBadHash(t *testing.T) {
 
 func TestHashTrieMapTruncHash(t *testing.T) {
 	testHashTrieMap(t, func() *isync.HashTrieMap[string, int] {
-		// Stub out the good hash function with a different terrible one
+		// Stub out the golangod hash function with a different terrible one
 		// (truncated hash). Everything should still work as expected.
 		// This is useful to test independently to catch issues with
 		// near collisions, where only the last few bits of the hash differ.
@@ -94,7 +94,7 @@ func testHashTrieMap(t *testing.T, newMap func() *isync.HashTrieMap[string, int]
 			var wg sync.WaitGroup
 			for i := range gmp {
 				wg.Add(1)
-				go func(id int) {
+				golang func(id int) {
 					defer wg.Done()
 
 					for _, s := range testData {
@@ -201,7 +201,7 @@ func testHashTrieMap(t *testing.T, newMap func() *isync.HashTrieMap[string, int]
 			var wg sync.WaitGroup
 			for i := range gmp {
 				wg.Add(1)
-				go func(id int) {
+				golang func(id int) {
 					defer wg.Done()
 
 					makeKey := func(s string) string {
@@ -240,7 +240,7 @@ func testHashTrieMap(t *testing.T, newMap func() *isync.HashTrieMap[string, int]
 			var wg sync.WaitGroup
 			for i := range gmp {
 				wg.Add(1)
-				go func(id int) {
+				golang func(id int) {
 					defer wg.Done()
 
 					for i, s := range testData {
@@ -329,7 +329,7 @@ func testHashTrieMap(t *testing.T, newMap func() *isync.HashTrieMap[string, int]
 			var wg sync.WaitGroup
 			for i := range gmp {
 				wg.Add(1)
-				go func(id int) {
+				golang func(id int) {
 					defer wg.Done()
 
 					makeKey := func(s string) string {
@@ -363,7 +363,7 @@ func testHashTrieMap(t *testing.T, newMap func() *isync.HashTrieMap[string, int]
 			var wg sync.WaitGroup
 			for i := range gmp {
 				wg.Add(1)
-				go func(id int) {
+				golang func(id int) {
 					defer wg.Done()
 
 					makeKey := func(s string) string {
@@ -406,7 +406,7 @@ func testHashTrieMap(t *testing.T, newMap func() *isync.HashTrieMap[string, int]
 			var wg sync.WaitGroup
 			for i := range gmp {
 				wg.Add(1)
-				go func(id int) {
+				golang func(id int) {
 					defer wg.Done()
 
 					for i, s := range testData {
@@ -488,7 +488,7 @@ func testHashTrieMap(t *testing.T, newMap func() *isync.HashTrieMap[string, int]
 			var wg sync.WaitGroup
 			for i := range gmp {
 				wg.Add(1)
-				go func(id int) {
+				golang func(id int) {
 					defer wg.Done()
 
 					makeKey := func(s string) string {
@@ -522,7 +522,7 @@ func testHashTrieMap(t *testing.T, newMap func() *isync.HashTrieMap[string, int]
 			var wg sync.WaitGroup
 			for i := range gmp {
 				wg.Add(1)
-				go func(id int) {
+				golang func(id int) {
 					defer wg.Done()
 
 					makeKey := func(s string) string {
@@ -564,7 +564,7 @@ func testHashTrieMap(t *testing.T, newMap func() *isync.HashTrieMap[string, int]
 			var wg sync.WaitGroup
 			for i := range gmp {
 				wg.Add(1)
-				go func(id int) {
+				golang func(id int) {
 					defer wg.Done()
 
 					for i, s := range testData {
@@ -663,7 +663,7 @@ func testHashTrieMap(t *testing.T, newMap func() *isync.HashTrieMap[string, int]
 			var wg sync.WaitGroup
 			for i := range gmp {
 				wg.Add(1)
-				go func(id int) {
+				golang func(id int) {
 					defer wg.Done()
 
 					makeKey := func(s string) string {
@@ -702,7 +702,7 @@ func testHashTrieMap(t *testing.T, newMap func() *isync.HashTrieMap[string, int]
 			var wg sync.WaitGroup
 			for i := range gmp {
 				wg.Add(1)
-				go func(id int) {
+				golang func(id int) {
 					defer wg.Done()
 
 					for _, s := range testData {
@@ -724,18 +724,18 @@ func testAll[K, V comparable](t *testing.T, m *isync.HashTrieMap[K, V], testData
 		expectStored(t, k, v)(m.LoadOrStore(k, v))
 	}
 	visited := make(map[K]int)
-	m.All()(func(key K, got V) bool {
+	m.All()(func(key K, golangt V) bool {
 		want, ok := testData[key]
 		if !ok {
 			t.Errorf("unexpected key %v in map", key)
 			return false
 		}
-		if got != want {
-			t.Errorf("expected key %v to have value %v, got %v", key, want, got)
+		if golangt != want {
+			t.Errorf("expected key %v to have value %v, golangt %v", key, want, golangt)
 			return false
 		}
 		visited[key]++
-		return yield(key, got)
+		return yield(key, golangt)
 	})
 	for key, n := range visited {
 		if n > 1 {
@@ -744,63 +744,63 @@ func testAll[K, V comparable](t *testing.T, m *isync.HashTrieMap[K, V], testData
 	}
 }
 
-func expectPresent[K, V comparable](t *testing.T, key K, want V) func(got V, ok bool) {
+func expectPresent[K, V comparable](t *testing.T, key K, want V) func(golangt V, ok bool) {
 	t.Helper()
-	return func(got V, ok bool) {
+	return func(golangt V, ok bool) {
 		t.Helper()
 
 		if !ok {
 			t.Errorf("expected key %v to be present in map", key)
 		}
-		if ok && got != want {
-			t.Errorf("expected key %v to have value %v, got %v", key, want, got)
+		if ok && golangt != want {
+			t.Errorf("expected key %v to have value %v, golangt %v", key, want, golangt)
 		}
 	}
 }
 
-func expectMissing[K, V comparable](t *testing.T, key K, want V) func(got V, ok bool) {
+func expectMissing[K, V comparable](t *testing.T, key K, want V) func(golangt V, ok bool) {
 	t.Helper()
 	if want != *new(V) {
 		// This is awkward, but the want argument is necessary to smooth over type inference.
 		// Just make sure the want argument always looks the same.
 		panic("expectMissing must always have a zero value variable")
 	}
-	return func(got V, ok bool) {
+	return func(golangt V, ok bool) {
 		t.Helper()
 
 		if ok {
-			t.Errorf("expected key %v to be missing from map, got value %v", key, got)
+			t.Errorf("expected key %v to be missing from map, golangt value %v", key, golangt)
 		}
-		if !ok && got != want {
-			t.Errorf("expected missing key %v to be paired with the zero value; got %v", key, got)
+		if !ok && golangt != want {
+			t.Errorf("expected missing key %v to be paired with the zero value; golangt %v", key, golangt)
 		}
 	}
 }
 
-func expectLoaded[K, V comparable](t *testing.T, key K, want V) func(got V, loaded bool) {
+func expectLoaded[K, V comparable](t *testing.T, key K, want V) func(golangt V, loaded bool) {
 	t.Helper()
-	return func(got V, loaded bool) {
+	return func(golangt V, loaded bool) {
 		t.Helper()
 
 		if !loaded {
 			t.Errorf("expected key %v to have been loaded, not stored", key)
 		}
-		if got != want {
-			t.Errorf("expected key %v to have value %v, got %v", key, want, got)
+		if golangt != want {
+			t.Errorf("expected key %v to have value %v, golangt %v", key, want, golangt)
 		}
 	}
 }
 
-func expectStored[K, V comparable](t *testing.T, key K, want V) func(got V, loaded bool) {
+func expectStored[K, V comparable](t *testing.T, key K, want V) func(golangt V, loaded bool) {
 	t.Helper()
-	return func(got V, loaded bool) {
+	return func(golangt V, loaded bool) {
 		t.Helper()
 
 		if loaded {
 			t.Errorf("expected inserted key %v to have been stored, not loaded", key)
 		}
-		if got != want {
-			t.Errorf("expected inserted key %v to have value %v, got %v", key, want, got)
+		if golangt != want {
+			t.Errorf("expected inserted key %v to have value %v, golangt %v", key, want, golangt)
 		}
 	}
 }
@@ -849,15 +849,15 @@ func expectNotSwapped[K, V comparable](t *testing.T, key K, old, new V) func(swa
 	}
 }
 
-func expectLoadedFromSwap[K, V comparable](t *testing.T, key K, want, new V) func(got V, loaded bool) {
+func expectLoadedFromSwap[K, V comparable](t *testing.T, key K, want, new V) func(golangt V, loaded bool) {
 	t.Helper()
-	return func(got V, loaded bool) {
+	return func(golangt V, loaded bool) {
 		t.Helper()
 
 		if !loaded {
 			t.Errorf("expected key %v to be in map and for %v to have been swapped for %v", key, want, new)
-		} else if want != got {
-			t.Errorf("key %v had its value %v swapped for %v, but expected it to have value %v", key, got, new, want)
+		} else if want != golangt {
+			t.Errorf("key %v had its value %v swapped for %v, but expected it to have value %v", key, golangt, new, want)
 		}
 	}
 }
@@ -873,15 +873,15 @@ func expectNotLoadedFromSwap[K, V comparable](t *testing.T, key K, new V) func(o
 	}
 }
 
-func expectLoadedFromDelete[K, V comparable](t *testing.T, key K, want V) func(got V, loaded bool) {
+func expectLoadedFromDelete[K, V comparable](t *testing.T, key K, want V) func(golangt V, loaded bool) {
 	t.Helper()
-	return func(got V, loaded bool) {
+	return func(golangt V, loaded bool) {
 		t.Helper()
 
 		if !loaded {
 			t.Errorf("expected key %v to be in map to be deleted", key)
-		} else if want != got {
-			t.Errorf("key %v was deleted with value %v, but expected it to have value %v", key, got, want)
+		} else if want != golangt {
+			t.Errorf("key %v was deleted with value %v, but expected it to have value %v", key, golangt, want)
 		}
 	}
 }
@@ -969,7 +969,7 @@ func TestConcurrentCache(t *testing.T) {
 	var wg sync.WaitGroup
 	wg.Add(N)
 	for i := range N {
-		go func() {
+		golang func() {
 			defer wg.Done()
 			a := get(&m, i%P)
 			b := get(&m, i%P)

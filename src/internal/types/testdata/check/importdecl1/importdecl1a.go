@@ -1,12 +1,12 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test case for issue 8969.
 
 package importdecl1
 
-import "go/ast"
+import "golang/ast"
 import . "unsafe"
 
 var _ Pointer // use dot-imported package unsafe

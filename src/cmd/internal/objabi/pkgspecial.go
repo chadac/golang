@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package objabi
@@ -44,7 +44,7 @@ type PkgSpecial struct {
 
 var runtimePkgs = []string{
 	// TODO(panjf2000): consider syncing the list inside the
-	// 	isAsyncSafePoint in preempt.go based on this list?
+	// 	isAsyncSafePoint in preempt.golang based on this list?
 
 	"runtime",
 
@@ -64,10 +64,10 @@ var runtimePkgs = []string{
 	"internal/chacha8rand",
 	"internal/coverage/rtcov",
 	"internal/cpu",
-	"internal/goarch",
-	"internal/godebugs",
-	"internal/goexperiment",
-	"internal/goos",
+	"internal/golangarch",
+	"internal/golangdebugs",
+	"internal/golangexperiment",
+	"internal/golangos",
 	"internal/profilerecord",
 	"internal/stringslite",
 }

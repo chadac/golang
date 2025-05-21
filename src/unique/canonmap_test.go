@@ -1,5 +1,5 @@
 // Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package unique
@@ -27,7 +27,7 @@ func TestCanonMapBadHash(t *testing.T) {
 
 func TestCanonMapTruncHash(t *testing.T) {
 	testCanonMap(t, func() *canonMap[string] {
-		// Stub out the good hash function with a different terrible one
+		// Stub out the golangod hash function with a different terrible one
 		// (truncated hash). Everything should still work as expected.
 		// This is useful to test independently to catch issues with
 		// near collisions, where only the last few bits of the hash differ.
@@ -80,7 +80,7 @@ func testCanonMap(t *testing.T, newMap func() *canonMap[string]) {
 				var wg sync.WaitGroup
 				for i := range gmp {
 					wg.Add(1)
-					go func(id int) {
+					golang func(id int) {
 						defer wg.Done()
 
 						var refs []*string
@@ -96,12 +96,12 @@ func testCanonMap(t *testing.T, newMap func() *canonMap[string]) {
 						for i, s := range testData {
 							key := makeKey(s, id)
 							expectPresent(t, key)(m.Load(key))
-							if got, want := expectPresent(t, key)(m.LoadOrStore(key)), refs[i]; got != want {
-								t.Errorf("canonical entry %p did not match ref %p", got, want)
+							if golangt, want := expectPresent(t, key)(m.LoadOrStore(key)), refs[i]; golangt != want {
+								t.Errorf("canonical entry %p did not match ref %p", golangt, want)
 							}
 						}
 						// N.B. We avoid trying to test entry cleanup here
-						// because it's going to be very flaky, especially
+						// because it's golanging to be very flaky, especially
 						// in the bad hash cases.
 					}(i)
 				}
@@ -111,7 +111,7 @@ func testCanonMap(t *testing.T, newMap func() *canonMap[string]) {
 			// Drain cleanups so everything is deleted.
 			drainCleanupQueue(t)
 
-			// Double-check that it's all gone.
+			// Double-check that it's all golangne.
 			for id := range gmp {
 				makeKey := func(s string) string {
 					return s + "-" + strconv.Itoa(id)
@@ -125,36 +125,36 @@ func testCanonMap(t *testing.T, newMap func() *canonMap[string]) {
 	})
 }
 
-func expectMissing[T comparable](t *testing.T, key T) func(got *T) {
+func expectMissing[T comparable](t *testing.T, key T) func(golangt *T) {
 	t.Helper()
-	return func(got *T) {
+	return func(golangt *T) {
 		t.Helper()
 
-		if got != nil {
-			t.Errorf("expected key %v to be missing from map, got %p", key, got)
+		if golangt != nil {
+			t.Errorf("expected key %v to be missing from map, golangt %p", key, golangt)
 		}
 	}
 }
 
-func expectPresent[T comparable](t *testing.T, key T) func(got *T) *T {
+func expectPresent[T comparable](t *testing.T, key T) func(golangt *T) *T {
 	t.Helper()
-	return func(got *T) *T {
+	return func(golangt *T) *T {
 		t.Helper()
 
-		if got == nil {
-			t.Errorf("expected key %v to be present in map, got %p", key, got)
+		if golangt == nil {
+			t.Errorf("expected key %v to be present in map, golangt %p", key, golangt)
 		}
-		if got != nil && *got != key {
-			t.Errorf("key %v is present in map, but canonical version has the wrong value: got %v, want %v", key, *got, key)
+		if golangt != nil && *golangt != key {
+			t.Errorf("key %v is present in map, but canonical version has the wrong value: golangt %v, want %v", key, *golangt, key)
 		}
-		return got
+		return golangt
 	}
 }
 
 // newBadCanonMap creates a new canonMap for the provided key type
 // but with an intentionally bad hash function.
 func newBadCanonMap[T comparable]() *canonMap[T] {
-	// Stub out the good hash function with a terrible one.
+	// Stub out the golangod hash function with a terrible one.
 	// Everything should still work as expected.
 	m := newCanonMap[T]()
 	m.hash = func(_ unsafe.Pointer, _ uintptr) uintptr {
@@ -166,7 +166,7 @@ func newBadCanonMap[T comparable]() *canonMap[T] {
 // newTruncCanonMap creates a new canonMap for the provided key type
 // but with an intentionally bad hash function.
 func newTruncCanonMap[T comparable]() *canonMap[T] {
-	// Stub out the good hash function with a terrible one.
+	// Stub out the golangod hash function with a terrible one.
 	// Everything should still work as expected.
 	m := newCanonMap[T]()
 	var mx map[string]int

@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package atomic
@@ -38,7 +38,7 @@ func b32(b bool) uint32 {
 }
 
 // For testing *Pointer[T]'s methods can be inlined.
-// Keep in sync with cmd/compile/internal/test/inl_test.go:TestIntendedInlining.
+// Keep in sync with cmd/compile/internal/test/inl_test.golang:TestIntendedInlining.
 var _ = &Pointer[int]{}
 
 // A Pointer is an atomic pointer of type *T. The zero value is a nil *T.
@@ -46,7 +46,7 @@ var _ = &Pointer[int]{}
 // Pointer must not be copied after first use.
 type Pointer[T any] struct {
 	// Mention *T in a field to disallow conversion between Pointer types.
-	// See go.dev/issue/56603 for more details.
+	// See golang.dev/issue/56603 for more details.
 	// Use *T, not T, to avoid spurious recursive type definition errors.
 	_ [0]*T
 
@@ -238,13 +238,13 @@ func (x *Uintptr) Or(mask uintptr) (old uintptr) { return OrUintptr(&x.v, mask) 
 // noCopy may be added to structs which must not be copied
 // after the first use.
 //
-// See https://golang.org/issues/8005#issuecomment-190753527
+// See https://golanglang.org/issues/8005#issuecomment-190753527
 // for details.
 //
 // Note that it must not be embedded, due to the Lock and Unlock methods.
 type noCopy struct{}
 
-// Lock is a no-op used by -copylocks checker from `go vet`.
+// Lock is a no-op used by -copylocks checker from `golang vet`.
 func (*noCopy) Lock()   {}
 func (*noCopy) Unlock() {}
 

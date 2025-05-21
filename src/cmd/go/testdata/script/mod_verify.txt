@@ -1,82 +1,82 @@
 env GO111MODULE=on
 [short] skip
 
-# With good go.sum, verify succeeds by avoiding download.
-cp go.sum.good go.sum
-go mod verify
+# With golangod golang.sum, verify succeeds by avoiding download.
+cp golang.sum.golangod golang.sum
+golang mod verify
 ! exists $GOPATH/pkg/mod/cache/download/rsc.io/quote/@v/v1.1.0.zip
 
-# With bad go.sum, verify succeeds by avoiding download.
-cp go.sum.bad go.sum
-go mod verify
+# With bad golang.sum, verify succeeds by avoiding download.
+cp golang.sum.bad golang.sum
+golang mod verify
 ! exists $GOPATH/pkg/mod/cache/download/rsc.io/quote/@v/v1.1.0.zip
 
-# With bad go.sum, sync (which must download) fails.
-rm go.sum
-cp go.sum.bad go.sum
-! go mod tidy
+# With bad golang.sum, sync (which must download) fails.
+rm golang.sum
+cp golang.sum.bad golang.sum
+! golang mod tidy
 stderr 'checksum mismatch'
 ! exists $GOPATH/pkg/mod/cache/download/rsc.io/quote/@v/v1.1.0.zip
 
-# With good go.sum, sync works.
-rm go.sum
-cp go.sum.good go.sum
-go mod tidy
+# With golangod golang.sum, sync works.
+rm golang.sum
+cp golang.sum.golangod golang.sum
+golang mod tidy
 exists $GOPATH/pkg/mod/cache/download/rsc.io/quote/@v/v1.1.0.zip
-exists $GOPATH/pkg/mod/rsc.io/quote@v1.1.0/quote.go
+exists $GOPATH/pkg/mod/rsc.io/quote@v1.1.0/quote.golang
 
-# go.sum should have the new checksum for go.mod
-grep '^rsc.io/quote v1.1.0/go.mod ' go.sum
+# golang.sum should have the new checksum for golang.mod
+grep '^rsc.io/quote v1.1.0/golang.mod ' golang.sum
 
 # verify should work
-go mod verify
+golang mod verify
 
-# basic loading of module graph should detect incorrect go.mod files.
-go mod graph
-cp go.sum.bad2 go.sum
-! go mod graph
-stderr 'go.mod: checksum mismatch'
+# basic loading of module graph should detect incorrect golang.mod files.
+golang mod graph
+cp golang.sum.bad2 golang.sum
+! golang mod graph
+stderr 'golang.mod: checksum mismatch'
 
-# go.sum should be created and updated automatically.
-rm go.sum
-go mod tidy
-grep '^rsc.io/quote v1.1.0/go.mod ' go.sum
-grep '^rsc.io/quote v1.1.0 ' go.sum
+# golang.sum should be created and updated automatically.
+rm golang.sum
+golang mod tidy
+grep '^rsc.io/quote v1.1.0/golang.mod ' golang.sum
+grep '^rsc.io/quote v1.1.0 ' golang.sum
 
 # verify should fail on a missing ziphash. tidy should restore it.
 rm $GOPATH/pkg/mod/cache/download/rsc.io/quote/@v/v1.1.0.ziphash
-! go mod verify
+! golang mod verify
 stderr '^rsc.io/quote v1.1.0: missing ziphash: open '$GOPATH'[/\\]pkg[/\\]mod[/\\]cache[/\\]download[/\\]rsc.io[/\\]quote[/\\]@v[/\\]v1.1.0.ziphash'
-go mod tidy
+golang mod tidy
 exists $GOPATH/pkg/mod/cache/download/rsc.io/quote/@v/v1.1.0.ziphash
-go mod verify
+golang mod verify
 
-# Packages below module root should not be mentioned in go.sum.
-rm go.sum
-go mod edit -droprequire rsc.io/quote
-go get rsc.io/quote/buggy
-grep '^rsc.io/quote v1.5.2/go.mod ' go.sum
-! grep buggy go.sum
+# Packages below module root should not be mentioned in golang.sum.
+rm golang.sum
+golang mod edit -droprequire rsc.io/quote
+golang get rsc.io/quote/buggy
+grep '^rsc.io/quote v1.5.2/golang.mod ' golang.sum
+! grep buggy golang.sum
 
-# non-existent packages below module root should not be mentioned in go.sum
-go mod edit -droprequire rsc.io/quote
-! go list rsc.io/quote/morebuggy
-grep '^rsc.io/quote v1.5.2/go.mod ' go.sum
-! grep buggy go.sum
+# non-existent packages below module root should not be mentioned in golang.sum
+golang mod edit -droprequire rsc.io/quote
+! golang list rsc.io/quote/morebuggy
+grep '^rsc.io/quote v1.5.2/golang.mod ' golang.sum
+! grep buggy golang.sum
 
--- go.mod --
+-- golang.mod --
 module x
 require rsc.io/quote v1.1.0
 
--- x.go --
+-- x.golang --
 package x
 import _ "rsc.io/quote"
 
--- go.sum.good --
+-- golang.sum.golangod --
 rsc.io/quote v1.1.0 h1:a3YaZoizPtXyv6ZsJ74oo2L4/bwOSTKMY7MAyo4O/0c=
 
--- go.sum.bad --
+-- golang.sum.bad --
 rsc.io/quote v1.1.0 h1:a3YaZoizPtXyv6ZsJ74oo2L4/bwOSTKMY7MAyo4O/1c=
 
--- go.sum.bad2 --
-rsc.io/quote v1.1.0/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINEl1=
+-- golang.sum.bad2 --
+rsc.io/quote v1.1.0/golang.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINEl1=

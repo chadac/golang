@@ -1,13 +1,13 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file is used to generate an object file which
-// serves as test file for gcimporter_test.go.
+// serves as test file for gcimporter_test.golang.
 
 package exports
 
-import "go/ast"
+import "golang/ast"
 
 // Issue 3682: Correctly read dotted identifiers from export data.
 const init1 = 0
@@ -43,7 +43,7 @@ type (
 	T9  struct {
 		a    int
 		b, c float32
-		d    []string `go:"tag"`
+		d    []string `golang:"tag"`
 	}
 	T10 struct {
 		T8

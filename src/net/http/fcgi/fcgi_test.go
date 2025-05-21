@@ -1,5 +1,5 @@
 // Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package fcgi
@@ -88,11 +88,11 @@ outer:
 			content = append(content, rec.content()...)
 		}
 		if rec.h.Type != test.recType {
-			t.Errorf("%s: got type %d expected %d", test.desc, rec.h.Type, test.recType)
+			t.Errorf("%s: golangt type %d expected %d", test.desc, rec.h.Type, test.recType)
 			continue
 		}
 		if rec.h.Id != test.reqId {
-			t.Errorf("%s: got request ID %d expected %d", test.desc, rec.h.Id, test.reqId)
+			t.Errorf("%s: golangt request ID %d expected %d", test.desc, rec.h.Id, test.reqId)
 			continue
 		}
 		if !bytes.Equal(content, test.content) {
@@ -147,8 +147,8 @@ func TestGetValues(t *testing.T) {
 	const want = "\x01\n\x00\x00\x00\x12\x06\x00" +
 		"\x0f\x01FCGI_MPXS_CONNS1" +
 		"\x00\x00\x00\x00\x00\x00\x01\n\x00\x00\x00\x00\x00\x00"
-	if got := string(wc.buf); got != want {
-		t.Errorf(" got: %q\nwant: %q\n", got, want)
+	if golangt := string(wc.buf); golangt != want {
+		t.Errorf(" golangt: %q\nwant: %q\n", golangt, want)
 	}
 }
 
@@ -249,13 +249,13 @@ func TestChildServeCleansUp(t *testing.T) {
 			// block on reading body of request
 			_, err := io.Copy(io.Discard, r.Body)
 			if err != tt.err {
-				t.Errorf("Expected %#v, got %#v", tt.err, err)
+				t.Errorf("Expected %#v, golangt %#v", tt.err, err)
 			}
 			// not reached if body of request isn't closed
 			close(done)
 		}))
 		c.serve()
-		// wait for body of request to be closed or all goroutines to block
+		// wait for body of request to be closed or all golangroutines to block
 		<-done
 	}
 }
@@ -341,7 +341,7 @@ func TestChildServeReadsEnvVars(t *testing.T) {
 				t.Errorf("Expected environment variable %s to not be set, but set to %s",
 					tt.envVar, env[tt.envVar])
 			} else if env[tt.envVar] != tt.expectedVal {
-				t.Errorf("Expected %s, got %s", tt.expectedVal, env[tt.envVar])
+				t.Errorf("Expected %s, golangt %s", tt.expectedVal, env[tt.envVar])
 			}
 			close(done)
 		}))
@@ -367,7 +367,7 @@ func TestResponseWriterSniffsContentType(t *testing.T) {
 		},
 		{
 			name:   "text",
-			body:   strings.Repeat("gopher", 86),
+			body:   strings.Repeat("golangpher", 86),
 			wantCT: "text/plain; charset=utf-8",
 		},
 		{
@@ -393,8 +393,8 @@ func TestResponseWriterSniffsContentType(t *testing.T) {
 			}))
 			c.serve()
 			<-done
-			if got := resp.Header().Get("Content-Type"); got != tt.wantCT {
-				t.Errorf("got a Content-Type of %q; expected it to start with %q", got, tt.wantCT)
+			if golangt := resp.Header().Get("Content-Type"); golangt != tt.wantCT {
+				t.Errorf("golangt a Content-Type of %q; expected it to start with %q", golangt, tt.wantCT)
 			}
 		})
 	}
@@ -420,7 +420,7 @@ func TestSlowRequest(t *testing.T) {
 	pr, pw := io.Pipe()
 
 	writerDone := make(chan struct{})
-	go func() {
+	golang func() {
 		for _, buf := range [][]byte{
 			streamBeginTypeStdin,
 			makeRecord(typeStdin, 1, nil),

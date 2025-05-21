@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -8,8 +8,8 @@ package main
 // g0 stack when copying arguments in and out.
 
 /*
-#cgo CFLAGS: -fsanitize=thread
-#cgo LDFLAGS: -fsanitize=thread
+#cgolang CFLAGS: -fsanitize=thread
+#cgolang LDFLAGS: -fsanitize=thread
 
 int Func1() {
 	return 0;
@@ -25,11 +25,11 @@ func main() {
 	const N = 10000
 	done := make(chan bool, N)
 	for i := 0; i < N; i++ {
-		go func() {
+		golang func() {
 			C.Func1()
 			done <- true
 		}()
-		go func() {
+		golang func() {
 			C.Func2(0)
 			done <- true
 		}()

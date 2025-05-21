@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -12,7 +12,7 @@ import (
 	"testing"
 )
 
-//go:generate go test cmd/link -v -run=TestScript/README --fixreadme
+//golang:generate golang test cmd/link -v -run=TestScript/README --fixreadme
 
 var fixReadme = flag.Bool("fixreadme", false, "if true, update README for script tests")
 

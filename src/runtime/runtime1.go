@@ -1,18 +1,18 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
 
 import (
 	"internal/bytealg"
-	"internal/goarch"
+	"internal/golangarch"
 	"internal/runtime/atomic"
 	"internal/runtime/strconv"
 	"unsafe"
 )
 
-// Keep a cached value to make gotraceback fast,
+// Keep a cached value to make golangtraceback fast,
 // since we call it on every call to gentraceback.
 // The cached value is a uint32 in which the low bits
 // are the "crash" and "all" settings and the remaining
@@ -26,16 +26,16 @@ const (
 var traceback_cache uint32 = 2 << tracebackShift
 var traceback_env uint32
 
-// gotraceback returns the current traceback settings.
+// golangtraceback returns the current traceback settings.
 //
 // If level is 0, suppress all tracebacks.
 // If level is 1, show tracebacks, but exclude runtime frames.
 // If level is 2, show tracebacks including runtime frames.
-// If all is set, print all goroutine stacks. Otherwise, print just the current goroutine.
+// If all is set, print all golangroutine stacks. Otherwise, print just the current golangroutine.
 // If crash is set, crash (core dump, etc) after tracebacking.
 //
-//go:nosplit
-func gotraceback() (level int32, all, crash bool) {
+//golang:nosplit
+func golangtraceback() (level int32, all, crash bool) {
 	gp := getg()
 	t := atomic.Load(&traceback_cache)
 	crash = t&tracebackCrash != 0
@@ -59,9 +59,9 @@ var (
 
 // nosplit for use in linux startup sysargs.
 //
-//go:nosplit
+//golang:nosplit
 func argv_index(argv **byte, i int32) *byte {
-	return *(**byte)(add(unsafe.Pointer(argv), uintptr(i)*goarch.PtrSize))
+	return *(**byte)(add(unsafe.Pointer(argv), uintptr(i)*golangarch.PtrSize))
 }
 
 func args(c int32, v **byte) {
@@ -70,17 +70,17 @@ func args(c int32, v **byte) {
 	sysargs(c, v)
 }
 
-func goargs() {
+func golangargs() {
 	if GOOS == "windows" {
 		return
 	}
 	argslice = make([]string, argc)
 	for i := int32(0); i < argc; i++ {
-		argslice[i] = gostringnocopy(argv_index(argv, i))
+		argslice[i] = golangstringnocopy(argv_index(argv, i))
 	}
 }
 
-func goenvs_unix() {
+func golangenvs_unix() {
 	// TODO(austin): ppc64 in dynamic linking mode doesn't
 	// guarantee env[] will immediately follow argv. Might cause
 	// problems.
@@ -91,7 +91,7 @@ func goenvs_unix() {
 
 	envs = make([]string, n)
 	for i := int32(0); i < n; i++ {
-		envs[i] = gostring(argv_index(argv, argc+1+i))
+		envs[i] = golangstring(argv_index(argv, argc+1+i))
 	}
 }
 
@@ -196,10 +196,10 @@ func check() {
 	if unsafe.Sizeof(j) != 8 {
 		throw("bad j")
 	}
-	if unsafe.Sizeof(k) != goarch.PtrSize {
+	if unsafe.Sizeof(k) != golangarch.PtrSize {
 		throw("bad k")
 	}
-	if unsafe.Sizeof(l) != goarch.PtrSize {
+	if unsafe.Sizeof(l) != golangarch.PtrSize {
 		throw("bad l")
 	}
 	if unsafe.Sizeof(x1) != 1 {
@@ -308,7 +308,7 @@ type dbgVar struct {
 // existing int var for that value, which may
 // already have an initial value.
 var debug struct {
-	cgocheck                 int32
+	cgolangcheck                 int32
 	clobberfree              int32
 	containermaxprocs        int32
 	decoratemappings         int32
@@ -370,7 +370,7 @@ var dbgvars = []*dbgVar{
 	{name: "adaptivestackstart", value: &debug.adaptivestackstart},
 	{name: "asyncpreemptoff", value: &debug.asyncpreemptoff},
 	{name: "asynctimerchan", atomic: &debug.asynctimerchan},
-	{name: "cgocheck", value: &debug.cgocheck},
+	{name: "cgolangcheck", value: &debug.cgolangcheck},
 	{name: "clobberfree", value: &debug.clobberfree},
 	{name: "containermaxprocs", value: &debug.containermaxprocs, def: 1},
 	{name: "dataindependenttiming", value: &debug.dataindependenttiming},
@@ -404,9 +404,9 @@ var dbgvars = []*dbgVar{
 
 func parsedebugvars() {
 	// defaults
-	debug.cgocheck = 1
+	debug.cgolangcheck = 1
 	debug.invalidptr = 1
-	debug.adaptivestackstart = 1 // set this to 0 to turn larger initial goroutine stacks off
+	debug.adaptivestackstart = 1 // set this to 0 to turn larger initial golangroutine stacks off
 	if GOOS == "linux" {
 		// On Linux, MADV_FREE is faster than MADV_DONTNEED,
 		// but doesn't affect many of the statistics that
@@ -420,11 +420,11 @@ func parsedebugvars() {
 	}
 	debug.traceadvanceperiod = defaultTraceAdvancePeriod
 
-	godebug := gogetenv("GODEBUG")
+	golangdebug := golanggetenv("GODEBUG")
 
 	p := new(string)
-	*p = godebug
-	godebugEnv.Store(p)
+	*p = golangdebug
+	golangdebugEnv.Store(p)
 
 	// apply runtime defaults, if any
 	for _, v := range dbgvars {
@@ -439,10 +439,10 @@ func parsedebugvars() {
 	}
 
 	// apply compile-time GODEBUG settings
-	parsegodebug(godebugDefault, nil)
+	parsegolangdebug(golangdebugDefault, nil)
 
 	// apply environment settings
-	parsegodebug(godebug, nil)
+	parsegolangdebug(golangdebug, nil)
 
 	debug.malloc = (debug.inittrace | debug.sbrk | debug.checkfinalizers) != 0
 	debug.profstackdepth = min(debug.profstackdepth, maxProfStackDepth)
@@ -464,7 +464,7 @@ func parsedebugvars() {
 		debug.asyncpreemptoff = 1
 	}
 
-	setTraceback(gogetenv("GOTRACEBACK"))
+	setTraceback(golanggetenv("GOTRACEBACK"))
 	traceback_env = traceback_cache
 }
 
@@ -473,9 +473,9 @@ func parsedebugvars() {
 func reparsedebugvars(env string) {
 	seen := make(map[string]bool)
 	// apply environment settings
-	parsegodebug(env, seen)
+	parsegolangdebug(env, seen)
 	// apply compile-time GODEBUG settings for as-yet-unseen variables
-	parsegodebug(godebugDefault, seen)
+	parsegolangdebug(golangdebugDefault, seen)
 	// apply defaults for as-yet-unseen variables
 	for _, v := range dbgvars {
 		if v.atomic != nil && !seen[v.name] {
@@ -484,7 +484,7 @@ func reparsedebugvars(env string) {
 	}
 }
 
-// parsegodebug parses the godebug string, updating variables listed in dbgvars.
+// parsegolangdebug parses the golangdebug string, updating variables listed in dbgvars.
 // If seen == nil, this is startup time and we process the string left to right
 // overwriting older settings with newer ones.
 // If seen != nil, $GODEBUG has changed and we are doing an
@@ -493,9 +493,9 @@ func reparsedebugvars(env string) {
 // or perhaps twice in the environment), we process the string right-to-left
 // and only change values not already seen. After doing this for both
 // the environment and the default settings, the caller must also call
-// cleargodebug(seen) to reset any now-unset values back to their defaults.
-func parsegodebug(godebug string, seen map[string]bool) {
-	for p := godebug; p != ""; {
+// cleargolangdebug(seen) to reset any now-unset values back to their defaults.
+func parsegolangdebug(golangdebug string, seen map[string]bool) {
+	for p := golangdebug; p != ""; {
 		var field string
 		if seen == nil {
 			// startup: process left to right, overwriting older settings with newer
@@ -551,12 +551,12 @@ func parsegodebug(godebug string, seen map[string]bool) {
 		}
 	}
 
-	if debug.cgocheck > 1 {
-		throw("cgocheck > 1 mode is no longer supported at runtime. Use GOEXPERIMENT=cgocheck2 at build time instead.")
+	if debug.cgolangcheck > 1 {
+		throw("cgolangcheck > 1 mode is no longer supported at runtime. Use GOEXPERIMENT=cgolangcheck2 at build time instead.")
 	}
 }
 
-//go:linkname setTraceback runtime/debug.SetTraceback
+//golang:linkname setTraceback runtime/debug.SetTraceback
 func setTraceback(level string) {
 	var t uint32
 	switch level {
@@ -600,7 +600,7 @@ func setTraceback(level string) {
 // Handles overflow in a time-specific manner.
 // This keeps us within no-split stack limits on 32-bit processors.
 //
-//go:nosplit
+//golang:nosplit
 func timediv(v int64, div int32, rem *int32) int32 {
 	res := int32(0)
 	for bit := 30; bit >= 0; bit-- {
@@ -625,14 +625,14 @@ func timediv(v int64, div int32, rem *int32) int32 {
 
 // Helpers for Go. Must be NOSPLIT, must only call NOSPLIT functions, and must not block.
 
-//go:nosplit
+//golang:nosplit
 func acquirem() *m {
 	gp := getg()
 	gp.m.locks++
 	return gp.m
 }
 
-//go:nosplit
+//golang:nosplit
 func releasem(mp *m) {
 	gp := getg()
 	mp.locks--
@@ -645,18 +645,18 @@ func releasem(mp *m) {
 // reflect_typelinks is meant for package reflect,
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
-//   - gitee.com/quant1x/gox
-//   - github.com/goccy/json
-//   - github.com/modern-go/reflect2
-//   - github.com/vmware/govmomi
-//   - github.com/pinpoint-apm/pinpoint-go-agent
+//   - gitee.com/quant1x/golangx
+//   - github.com/golangccy/json
+//   - github.com/modern-golang/reflect2
+//   - github.com/vmware/golangvmomi
+//   - github.com/pinpoint-apm/pinpoint-golang-agent
 //   - github.com/timandy/routine
 //   - github.com/v2pro/plz
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname reflect_typelinks reflect.typelinks
+//golang:linkname reflect_typelinks reflect.typelinks
 func reflect_typelinks() ([]unsafe.Pointer, [][]int32) {
 	modules := activeModules()
 	sections := []unsafe.Pointer{unsafe.Pointer(modules[0].types)}
@@ -673,12 +673,12 @@ func reflect_typelinks() ([]unsafe.Pointer, [][]int32) {
 // reflect_resolveNameOff is for package reflect,
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
-//   - github.com/agiledragon/gomonkey/v2
+//   - github.com/agiledragolangn/golangmonkey/v2
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname reflect_resolveNameOff reflect.resolveNameOff
+//golang:linkname reflect_resolveNameOff reflect.resolveNameOff
 func reflect_resolveNameOff(ptrInModule unsafe.Pointer, off int32) unsafe.Pointer {
 	return unsafe.Pointer(resolveNameOff(ptrInModule, nameOff(off)).Bytes)
 }
@@ -688,15 +688,15 @@ func reflect_resolveNameOff(ptrInModule unsafe.Pointer, off int32) unsafe.Pointe
 // reflect_resolveTypeOff is meant for package reflect,
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
-//   - gitee.com/quant1x/gox
-//   - github.com/modern-go/reflect2
+//   - gitee.com/quant1x/golangx
+//   - github.com/modern-golang/reflect2
 //   - github.com/v2pro/plz
 //   - github.com/timandy/routine
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname reflect_resolveTypeOff reflect.resolveTypeOff
+//golang:linkname reflect_resolveTypeOff reflect.resolveTypeOff
 func reflect_resolveTypeOff(rtype unsafe.Pointer, off int32) unsafe.Pointer {
 	return unsafe.Pointer(toRType((*_type)(rtype)).typeOff(typeOff(off)))
 }
@@ -706,33 +706,33 @@ func reflect_resolveTypeOff(rtype unsafe.Pointer, off int32) unsafe.Pointer {
 // reflect_resolveTextOff is for package reflect,
 // but widely used packages access it using linkname.
 // Notable members of the hall of shame include:
-//   - github.com/agiledragon/gomonkey/v2
+//   - github.com/agiledragolangn/golangmonkey/v2
 //
 // Do not remove or change the type signature.
-// See go.dev/issue/67401.
+// See golang.dev/issue/67401.
 //
-//go:linkname reflect_resolveTextOff reflect.resolveTextOff
+//golang:linkname reflect_resolveTextOff reflect.resolveTextOff
 func reflect_resolveTextOff(rtype unsafe.Pointer, off int32) unsafe.Pointer {
 	return toRType((*_type)(rtype)).textOff(textOff(off))
 }
 
 // reflectlite_resolveNameOff resolves a name offset from a base pointer.
 //
-//go:linkname reflectlite_resolveNameOff internal/reflectlite.resolveNameOff
+//golang:linkname reflectlite_resolveNameOff internal/reflectlite.resolveNameOff
 func reflectlite_resolveNameOff(ptrInModule unsafe.Pointer, off int32) unsafe.Pointer {
 	return unsafe.Pointer(resolveNameOff(ptrInModule, nameOff(off)).Bytes)
 }
 
 // reflectlite_resolveTypeOff resolves an *rtype offset from a base type.
 //
-//go:linkname reflectlite_resolveTypeOff internal/reflectlite.resolveTypeOff
+//golang:linkname reflectlite_resolveTypeOff internal/reflectlite.resolveTypeOff
 func reflectlite_resolveTypeOff(rtype unsafe.Pointer, off int32) unsafe.Pointer {
 	return unsafe.Pointer(toRType((*_type)(rtype)).typeOff(typeOff(off)))
 }
 
 // reflect_addReflectOff adds a pointer to the reflection offset lookup map.
 //
-//go:linkname reflect_addReflectOff reflect.addReflectOff
+//golang:linkname reflect_addReflectOff reflect.addReflectOff
 func reflect_addReflectOff(ptr unsafe.Pointer) int32 {
 	reflectOffsLock()
 	if reflectOffs.m == nil {
@@ -751,12 +751,12 @@ func reflect_addReflectOff(ptr unsafe.Pointer) int32 {
 	return id
 }
 
-//go:linkname fips_getIndicator crypto/internal/fips140.getIndicator
+//golang:linkname fips_getIndicator crypto/internal/fips140.getIndicator
 func fips_getIndicator() uint8 {
 	return getg().fipsIndicator
 }
 
-//go:linkname fips_setIndicator crypto/internal/fips140.setIndicator
+//golang:linkname fips_setIndicator crypto/internal/fips140.setIndicator
 func fips_setIndicator(indicator uint8) {
 	getg().fipsIndicator = indicator
 }

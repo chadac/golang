@@ -1,5 +1,5 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Goroutine-related profiles.
@@ -20,17 +20,17 @@ import (
 	"time"
 )
 
-// GoroutinesHandlerFunc returns a HandlerFunc that serves list of goroutine groups.
+// GoroutinesHandlerFunc returns a HandlerFunc that serves list of golangroutine groups.
 func GoroutinesHandlerFunc(summaries map[trace.GoID]*trace.GoroutineSummary) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		// goroutineGroup describes a group of goroutines grouped by name.
-		type goroutineGroup struct {
+		// golangroutineGroup describes a group of golangroutines grouped by name.
+		type golangroutineGroup struct {
 			Name     string        // Start function.
-			N        int           // Total number of goroutines in this group.
-			ExecTime time.Duration // Total execution time of all goroutines in this group.
+			N        int           // Total number of golangroutines in this group.
+			ExecTime time.Duration // Total execution time of all golangroutines in this group.
 		}
 		// Accumulate groups by Name.
-		groupsByName := make(map[string]goroutineGroup)
+		groupsByName := make(map[string]golangroutineGroup)
 		for _, summary := range summaries {
 			group := groupsByName[summary.Name]
 			group.Name = summary.Name
@@ -38,11 +38,11 @@ func GoroutinesHandlerFunc(summaries map[trace.GoID]*trace.GoroutineSummary) htt
 			group.ExecTime += summary.ExecTime
 			groupsByName[summary.Name] = group
 		}
-		var groups []goroutineGroup
+		var groups []golangroutineGroup
 		for _, group := range groupsByName {
 			groups = append(groups, group)
 		}
-		slices.SortFunc(groups, func(a, b goroutineGroup) int {
+		slices.SortFunc(groups, func(a, b golangroutineGroup) int {
 			return cmp.Compare(b.ExecTime, a.ExecTime)
 		})
 		w.Header().Set("Content-Type", "text/html;charset=utf-8")
@@ -70,7 +70,7 @@ th {
 </style>
 <body>
 <h1>Goroutines</h1>
-Below is a table of all goroutines in the trace grouped by start location and sorted by the total execution time of the group.<br>
+Below is a table of all golangroutines in the trace grouped by start location and sorted by the total execution time of the group.<br>
 <br>
 Click a start location to view more details about that group.<br>
 <br>
@@ -82,7 +82,7 @@ Click a start location to view more details about that group.<br>
   </tr>
 {{range $}}
   <tr>
-    <td><code><a href="/goroutine?name={{.Name}}">{{or .Name "(Inactive, no stack trace sampled)"}}</a></code></td>
+    <td><code><a href="/golangroutine?name={{.Name}}">{{or .Name "(Inactive, no stack trace sampled)"}}</a></code></td>
 	<td>{{.N}}</td>
 	<td>{{.ExecTime}}</td>
   </tr>
@@ -93,20 +93,20 @@ Click a start location to view more details about that group.<br>
 `))
 
 // GoroutineHandler creates a handler that serves information about
-// goroutines in a particular group.
+// golangroutines in a particular group.
 func GoroutineHandler(summaries map[trace.GoID]*trace.GoroutineSummary) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		goroutineName := r.FormValue("name")
+		golangroutineName := r.FormValue("name")
 
-		type goroutine struct {
+		type golangroutine struct {
 			*trace.GoroutineSummary
 			NonOverlappingStats map[string]time.Duration
 			HasRangeTime        bool
 		}
 
-		// Collect all the goroutines in the group.
+		// Collect all the golangroutines in the group.
 		var (
-			goroutines              []goroutine
+			golangroutines              []golangroutine
 			name                    string
 			totalExecTime, execTime time.Duration
 			maxTotalTime            time.Duration
@@ -116,7 +116,7 @@ func GoroutineHandler(summaries map[trace.GoID]*trace.GoroutineSummary) http.Han
 		for _, summary := range summaries {
 			totalExecTime += summary.ExecTime
 
-			if summary.Name != goroutineName {
+			if summary.Name != golangroutineName {
 				continue
 			}
 			nonOverlappingStats := summary.NonOverlappingStats()
@@ -128,7 +128,7 @@ func GoroutineHandler(summaries map[trace.GoID]*trace.GoroutineSummary) http.Han
 				validRangeStats[name] = struct{}{}
 				totalRangeTime += dt
 			}
-			goroutines = append(goroutines, goroutine{
+			golangroutines = append(golangroutines, golangroutine{
 				GoroutineSummary:    summary,
 				NonOverlappingStats: nonOverlappingStats,
 				HasRangeTime:        totalRangeTime != 0,
@@ -140,7 +140,7 @@ func GoroutineHandler(summaries map[trace.GoID]*trace.GoroutineSummary) http.Han
 			}
 		}
 
-		// Compute the percent of total execution time these goroutines represent.
+		// Compute the percent of total execution time these golangroutines represent.
 		execTimePercent := ""
 		if totalExecTime > 0 {
 			execTimePercent = fmt.Sprintf("%.2f%%", float64(execTime)/float64(totalExecTime)*100)
@@ -149,12 +149,12 @@ func GoroutineHandler(summaries map[trace.GoID]*trace.GoroutineSummary) http.Han
 		// Sort.
 		sortBy := r.FormValue("sortby")
 		if _, ok := validNonOverlappingStats[sortBy]; ok {
-			slices.SortFunc(goroutines, func(a, b goroutine) int {
+			slices.SortFunc(golangroutines, func(a, b golangroutine) int {
 				return cmp.Compare(b.NonOverlappingStats[sortBy], a.NonOverlappingStats[sortBy])
 			})
 		} else {
 			// Sort by total time by default.
-			slices.SortFunc(goroutines, func(a, b goroutine) int {
+			slices.SortFunc(golangroutines, func(a, b golangroutine) int {
 				return cmp.Compare(b.TotalTime, a.TotalTime)
 			})
 		}
@@ -189,15 +189,15 @@ func GoroutineHandler(summaries map[trace.GoID]*trace.GoroutineSummary) http.Han
 			N                   int
 			ExecTimePercent     string
 			MaxTotal            time.Duration
-			Goroutines          []goroutine
+			Goroutines          []golangroutine
 			NonOverlappingStats []string
 			RangeStats          []string
 		}{
 			Name:                name,
-			N:                   len(goroutines),
+			N:                   len(golangroutines),
 			ExecTimePercent:     execTimePercent,
 			MaxTotal:            maxTotalTime,
-			Goroutines:          goroutines,
+			Goroutines:          golangroutines,
 			NonOverlappingStats: allNonOverlappingStats,
 			RangeStats:          allRangeStats,
 		})
@@ -341,7 +341,7 @@ Table of contents
 
 <h3 id="breakdown">Breakdown</h3>
 
-The table below breaks down where each goroutine is spent its time during the
+The table below breaks down where each golangroutine is spent its time during the
 traced period.
 All of the columns except total time are non-overlapping.
 <br>
@@ -358,7 +358,7 @@ All of the columns except total time are non-overlapping.
 </tr>
 {{range .Goroutines}}
 	<tr>
-		<td> <a href="/trace?goid={{.ID}}">{{.ID}}</a> </td>
+		<td> <a href="/trace?golangid={{.ID}}">{{.ID}}</a> </td>
 		<td> {{ .TotalTime.String }} </td>
 		<td>
 			<div class="stacked-bar-graph">
@@ -382,13 +382,13 @@ All of the columns except total time are non-overlapping.
 
 <h3 id="ranges">Special ranges</h3>
 
-The table below describes how much of the traced period each goroutine spent in
+The table below describes how much of the traced period each golangroutine spent in
 certain special time ranges.
-If a goroutine has spent no time in any special time ranges, it is excluded from
+If a golangroutine has spent no time in any special time ranges, it is excluded from
 the table.
 For example, how much time it spent helping the GC. Note that these times do
 overlap with the times from the first table.
-In general the goroutine may not be executing in these special time ranges.
+In general the golangroutine may not be executing in these special time ranges.
 For example, it may have blocked while trying to help the GC.
 This must be taken into account when interpreting the data.
 <br>
@@ -405,7 +405,7 @@ This must be taken into account when interpreting the data.
 {{range .Goroutines}}
 	{{if .HasRangeTime}}
 		<tr>
-			<td> <a href="/trace?goid={{.ID}}">{{.ID}}</a> </td>
+			<td> <a href="/trace?golangid={{.ID}}">{{.ID}}</a> </td>
 			<td> {{ .TotalTime.String }} </td>
 			{{$Goroutine := .}}
 			{{range $.RangeStats}}

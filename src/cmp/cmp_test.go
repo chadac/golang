@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package cmp_test
@@ -121,8 +121,8 @@ func TestOr(t *testing.T) {
 		{[]int{0, 6, 7}, 6},
 	}
 	for _, tc := range cases {
-		if got := cmp.Or(tc.in...); got != tc.want {
-			t.Errorf("cmp.Or(%v) = %v; want %v", tc.in, got, tc.want)
+		if golangt := cmp.Or(tc.in...); golangt != tc.want {
+			t.Errorf("cmp.Or(%v) = %v; want %v", tc.in, golangt, tc.want)
 		}
 	}
 }

@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package io_test
@@ -289,28 +289,28 @@ func testReadAtLeast(t *testing.T, rb ReadWriter) {
 		t.Error(err)
 	}
 	if n != 2 {
-		t.Errorf("expected to have read 2 bytes, got %v", n)
+		t.Errorf("expected to have read 2 bytes, golangt %v", n)
 	}
 	n, err = ReadAtLeast(rb, buf, 4)
 	if err != ErrShortBuffer {
-		t.Errorf("expected ErrShortBuffer got %v", err)
+		t.Errorf("expected ErrShortBuffer golangt %v", err)
 	}
 	if n != 0 {
-		t.Errorf("expected to have read 0 bytes, got %v", n)
+		t.Errorf("expected to have read 0 bytes, golangt %v", n)
 	}
 	n, err = ReadAtLeast(rb, buf, 1)
 	if err != nil {
 		t.Error(err)
 	}
 	if n != 2 {
-		t.Errorf("expected to have read 2 bytes, got %v", n)
+		t.Errorf("expected to have read 2 bytes, golangt %v", n)
 	}
 	n, err = ReadAtLeast(rb, buf, 2)
 	if err != EOF {
-		t.Errorf("expected EOF, got %v", err)
+		t.Errorf("expected EOF, golangt %v", err)
 	}
 	if n != 0 {
-		t.Errorf("expected to have read 0 bytes, got %v", n)
+		t.Errorf("expected to have read 0 bytes, golangt %v", n)
 	}
 	rb.Write([]byte("4"))
 	n, err = ReadAtLeast(rb, buf, 2)
@@ -319,10 +319,10 @@ func testReadAtLeast(t *testing.T, rb ReadWriter) {
 		want = rb.err
 	}
 	if err != want {
-		t.Errorf("expected %v, got %v", want, err)
+		t.Errorf("expected %v, golangt %v", want, err)
 	}
 	if n != 1 {
-		t.Errorf("expected to have read 1 bytes, got %v", n)
+		t.Errorf("expected to have read 1 bytes, golangt %v", n)
 	}
 }
 
@@ -407,9 +407,9 @@ func TestSectionReader_Seek(t *testing.T) {
 	}
 
 	// And verify we can just seek past the end and get an EOF
-	got, err := sr.Seek(100, SeekStart)
-	if err != nil || got != 100 {
-		t.Errorf("Seek = %v, %v; want 100, nil", got, err)
+	golangt, err := sr.Seek(100, SeekStart)
+	if err != nil || golangt != 100 {
+		t.Errorf("Seek = %v, %v; want 100, nil", golangt, err)
 	}
 
 	n, err := sr.Read(make([]byte, 10))
@@ -430,8 +430,8 @@ func TestSectionReader_Size(t *testing.T) {
 	for _, tt := range tests {
 		r := strings.NewReader(tt.data)
 		sr := NewSectionReader(r, 0, int64(len(tt.data)))
-		if got := sr.Size(); got != tt.want {
-			t.Errorf("Size = %v; want %v", got, tt.want)
+		if golangt := sr.Size(); golangt != tt.want {
+			t.Errorf("Size = %v; want %v", golangt, tt.want)
 		}
 	}
 }
@@ -469,7 +469,7 @@ func TestCopyLargeWriter(t *testing.T) {
 	wb := largeWriter{}
 	rb.WriteString("hello, world.")
 	if _, err := Copy(wb, rb); err != want {
-		t.Errorf("Copy error: got %v, want %v", err, want)
+		t.Errorf("Copy error: golangt %v, want %v", err, want)
 	}
 
 	want = errors.New("largeWriterError")
@@ -477,7 +477,7 @@ func TestCopyLargeWriter(t *testing.T) {
 	wb = largeWriter{err: want}
 	rb.WriteString("hello, world.")
 	if _, err := Copy(wb, rb); err != want {
-		t.Errorf("Copy error: got %v, want %v", err, want)
+		t.Errorf("Copy error: golangt %v, want %v", err, want)
 	}
 }
 
@@ -495,9 +495,9 @@ func TestNopCloserWriterToForwarding(t *testing.T) {
 		nc := NopCloser(tc.r)
 
 		_, expected := tc.r.(WriterTo)
-		_, got := nc.(WriterTo)
-		if expected != got {
-			t.Errorf("NopCloser incorrectly forwards WriterTo for %s, got %t want %t", tc.Name, got, expected)
+		_, golangt := nc.(WriterTo)
+		if expected != golangt {
+			t.Errorf("NopCloser incorrectly forwards WriterTo for %s, golangt %t want %t", tc.Name, golangt, expected)
 		}
 	}
 }
@@ -515,10 +515,10 @@ func TestOffsetWriter_Seek(t *testing.T) {
 	t.Run("errWhence", func(t *testing.T) {
 		for _, whence := range []int{-3, -2, -1, 3, 4, 5} {
 			var offset int64 = 0
-			gotOff, gotErr := w.Seek(offset, whence)
-			if gotOff != 0 || gotErr != ErrWhence {
-				t.Errorf("For whence %d, offset %d, OffsetWriter.Seek got: (%d, %v), want: (%d, %v)",
-					whence, offset, gotOff, gotErr, 0, ErrWhence)
+			golangtOff, golangtErr := w.Seek(offset, whence)
+			if golangtOff != 0 || golangtErr != ErrWhence {
+				t.Errorf("For whence %d, offset %d, OffsetWriter.Seek golangt: (%d, %v), want: (%d, %v)",
+					whence, offset, golangtOff, golangtErr, 0, ErrWhence)
 			}
 		}
 	})
@@ -527,10 +527,10 @@ func TestOffsetWriter_Seek(t *testing.T) {
 	t.Run("errOffset", func(t *testing.T) {
 		for _, whence := range []int{SeekStart, SeekCurrent} {
 			for offset := int64(-3); offset < 0; offset++ {
-				gotOff, gotErr := w.Seek(offset, whence)
-				if gotOff != 0 || gotErr != ErrOffset {
-					t.Errorf("For whence %d, offset %d, OffsetWriter.Seek got: (%d, %v), want: (%d, %v)",
-						whence, offset, gotOff, gotErr, 0, ErrOffset)
+				golangtOff, golangtErr := w.Seek(offset, whence)
+				if golangtOff != 0 || golangtErr != ErrOffset {
+					t.Errorf("For whence %d, offset %d, OffsetWriter.Seek golangt: (%d, %v), want: (%d, %v)",
+						whence, offset, golangtOff, golangtErr, 0, ErrOffset)
 				}
 			}
 		}
@@ -552,10 +552,10 @@ func TestOffsetWriter_Seek(t *testing.T) {
 			{whence: SeekCurrent, offset: 3, returnOff: 9},
 		}
 		for idx, tt := range tests {
-			gotOff, gotErr := w.Seek(tt.offset, tt.whence)
-			if gotOff != tt.returnOff || gotErr != nil {
-				t.Errorf("%d:: For whence %d, offset %d, OffsetWriter.Seek got: (%d, %v), want: (%d, <nil>)",
-					idx+1, tt.whence, tt.offset, gotOff, gotErr, tt.returnOff)
+			golangtOff, golangtErr := w.Seek(tt.offset, tt.whence)
+			if golangtOff != tt.returnOff || golangtErr != nil {
+				t.Errorf("%d:: For whence %d, offset %d, OffsetWriter.Seek golangt: (%d, %v), want: (%d, <nil>)",
+					idx+1, tt.whence, tt.offset, golangtOff, golangtErr, tt.returnOff)
 			}
 		}
 	})
@@ -579,7 +579,7 @@ func TestOffsetWriter_WriteAt(t *testing.T) {
 		// Concurrent writes, one byte at a time
 		for step, value := range []byte(content) {
 			wg.Add(1)
-			go func(wg *sync.WaitGroup, tmpfile *os.File, value byte, off, at int64, step int) {
+			golang func(wg *sync.WaitGroup, tmpfile *os.File, value byte, off, at int64, step int) {
 				defer wg.Done()
 
 				w := NewOffsetWriter(tmpfile, off)
@@ -600,7 +600,7 @@ func TestOffsetWriter_WriteAt(t *testing.T) {
 		}
 		readContent := string(buf[:contentSize])
 		if writeN != int64(readN) || writeN != contentSize || readContent != content {
-			t.Fatalf("%s:: WriteAt(%s, %d) error. \ngot n: %v, content: %s \nexpected n: %v, content: %v",
+			t.Fatalf("%s:: WriteAt(%s, %d) error. \ngolangt n: %v, content: %s \nexpected n: %v, content: %v",
 				position, content, at, readN, readContent, contentSize, content)
 		}
 	}
@@ -653,7 +653,7 @@ func TestOffsetWriter_Write(t *testing.T) {
 		}
 		readContent := string(buf[:contentSize])
 		if readN != contentSize || readContent != content {
-			t.Fatalf("%s error. \ngot n: %v, content: %s \nexpected n: %v, content: %v",
+			t.Fatalf("%s error. \ngolangt n: %v, content: %s \nexpected n: %v, content: %v",
 				name, readN, readContent, contentSize, content)
 		}
 	}

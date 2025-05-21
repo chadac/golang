@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package unix
@@ -9,7 +9,7 @@ import (
 	"unsafe"
 )
 
-//go:cgo_import_dynamic libc_arc4random_buf arc4random_buf "/usr/lib/libSystem.B.dylib"
+//golang:cgolang_import_dynamic libc_arc4random_buf arc4random_buf "/usr/lib/libSystem.B.dylib"
 
 func libc_arc4random_buf_trampoline()
 

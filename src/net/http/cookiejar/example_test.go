@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package cookiejar_test
@@ -30,7 +30,7 @@ func ExampleNew() {
 		log.Fatal(err)
 	}
 
-	// All users of cookiejar should import "golang.org/x/net/publicsuffix"
+	// All users of cookiejar should import "golanglang.org/x/net/publicsuffix"
 	jar, err := cookiejar.New(&cookiejar.Options{PublicSuffixList: publicsuffix.List})
 	if err != nil {
 		log.Fatal(err)

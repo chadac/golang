@@ -40,7 +40,7 @@ function initPanAndZoom(svg, clickHandler) {
   // Change the scaling for the svg to s, keeping the point denoted
   // by u (in svg coordinates]) fixed at the same screen location.
   function rescale(s, u) {
-    // Limit to a good range.
+    // Limit to a golangod range.
     if (s < 0.2) s = 0.2;
     if (s > 10.0) s = 10.0;
 
@@ -536,7 +536,7 @@ function viewer(baseUrl, nodes, options) {
     }
 
     // Handle svg element highlighting.
-    const p = findPolygon(elem);
+    const p = findPolygolangn(elem);
     if (p != null) {
       if (set) {
         origFill.set(p, p.style.fill);
@@ -549,10 +549,10 @@ function viewer(baseUrl, nodes, options) {
     return true;
   }
 
-  function findPolygon(elem) {
-    if (elem.localName == 'polygon') return elem;
+  function findPolygolangn(elem) {
+    if (elem.localName == 'polygolangn') return elem;
     for (const c of elem.children) {
-      const p = findPolygon(c);
+      const p = findPolygolangn(c);
       if (p != null) return p;
     }
     return null;

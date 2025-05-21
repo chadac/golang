@@ -1,16 +1,16 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package base
 
 import (
 	"fmt"
-	"go/build"
+	"golang/build"
 	"os"
 	"path/filepath"
 
-	"cmd/go/internal/cfg"
+	"cmd/golang/internal/cfg"
 	"cmd/internal/par"
 )
 
@@ -20,7 +20,7 @@ func Tool(toolName string) string {
 	toolPath, err := ToolPath(toolName)
 	if err != nil && len(cfg.BuildToolexec) == 0 {
 		// Give a nice message if there is no tool with that name.
-		fmt.Fprintf(os.Stderr, "go: no such tool %q\n", toolName)
+		fmt.Fprintf(os.Stderr, "golang: no such tool %q\n", toolName)
 		SetExitStatus(2)
 		Exit()
 	}

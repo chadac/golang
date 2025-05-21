@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package unix
@@ -39,7 +39,7 @@ const (
 	_CLD_STOPPED         = 5
 	_CLD_CONTINUED       = 6
 
-	// These are the same as in syscall/syscall_linux.go.
+	// These are the same as in syscall/syscall_linux.golang.
 	core      = 0x80
 	stopped   = 0x7f
 	continued = 0xffff

@@ -5,8 +5,8 @@ IMPORTPATH
 	testdata/a
 
 FILENAMES
-	testdata/a0.go
-	testdata/a1.go
+	testdata/a0.golang
+	testdata/a1.golang
 
 BUGS .Bugs is now deprecated, please use .Notes instead
 	bug0

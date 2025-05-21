@@ -14,7 +14,7 @@ Doc
 		Plain
 			"This is\n"
 			"a test."
--- gofmt --
+-- golangfmt --
 Hello,
 world
 

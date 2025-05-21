@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Package testdeps provides access to dependencies needed by test execution.
@@ -118,7 +118,7 @@ func (TestDeps) StartTestLog(w io.Writer) {
 		// (which will panic) and also avoids writing the header multiple times.
 		log.set = true
 		testlog.SetLogger(&log)
-		log.w.WriteString("# test log\n") // known to cmd/go/internal/test/test.go
+		log.w.WriteString("# test log\n") // known to cmd/golang/internal/test/test.golang
 	}
 	log.mu.Unlock()
 }
@@ -222,18 +222,18 @@ func (TestDeps) InitRuntimeCoverage() (mode string, tearDown func(string, string
 	return CoverMode, coverTearDown, CoverSnapshotFunc
 }
 
-func coverTearDown(coverprofile string, gocoverdir string) (string, error) {
+func coverTearDown(coverprofile string, golangcoverdir string) (string, error) {
 	var err error
-	if gocoverdir == "" {
-		gocoverdir, err = os.MkdirTemp("", "gocoverdir")
+	if golangcoverdir == "" {
+		golangcoverdir, err = os.MkdirTemp("", "golangcoverdir")
 		if err != nil {
 			return "error setting GOCOVERDIR: bad os.MkdirTemp return", err
 		}
-		defer os.RemoveAll(gocoverdir)
+		defer os.RemoveAll(golangcoverdir)
 	}
 	CoverMarkProfileEmittedFunc(true)
 	cmode := CoverMode
-	if err := CoverProcessTestDirFunc(gocoverdir, coverprofile, cmode, Covered, os.Stdout, CoverSelectedPackages); err != nil {
+	if err := CoverProcessTestDirFunc(golangcoverdir, coverprofile, cmode, Covered, os.Stdout, CoverSelectedPackages); err != nil {
 		return "error generating coverage report", err
 	}
 	return "", nil

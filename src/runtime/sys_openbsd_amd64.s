@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 //
 // System calls and other sys.stuff for AMD64, OpenBSD.
@@ -8,10 +8,10 @@
 // Some direct system call implementations currently remain.
 //
 
-#include "go_asm.h"
-#include "go_tls.h"
+#include "golang_asm.h"
+#include "golang_tls.h"
 #include "textflag.h"
-#include "cgo/abi_amd64.h"
+#include "cgolang/abi_amd64.h"
 
 #define CLOCK_MONOTONIC	$3
 
@@ -30,7 +30,7 @@ TEXT runtime·mstart_stub(SB),NOSPLIT,$0
 	PUSH_REGS_HOST_TO_ABI0()
 
 	// Load g and save to TLS entry.
-	// See cmd/link/internal/ld/sym.go:computeTLSOffset.
+	// See cmd/link/internal/ld/sym.golang:computeTLSOffset.
 	MOVQ	m_g0(DI), DX // g
 	MOVQ	DX, -8(FS)
 
@@ -73,7 +73,7 @@ TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME|NOFRAME,$0
 	MOVQ	DI, AX	// sig
 	MOVQ	SI, BX	// info
 	MOVQ	DX, CX	// ctx
-	CALL	·sigtrampgo<ABIInternal>(SB)
+	CALL	·sigtrampgolang<ABIInternal>(SB)
 
 	ADJSP	$-24
 
@@ -82,7 +82,7 @@ TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME|NOFRAME,$0
 
 //
 // These trampolines help convert from Go calling convention to C calling convention.
-// They should be called with asmcgocall.
+// They should be called with asmcgolangcall.
 // A pointer to the arguments is passed in DI.
 // A single int32 result is returned in AX.
 // (For more results, make an args/results structure.)

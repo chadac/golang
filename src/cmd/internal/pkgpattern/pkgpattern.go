@@ -1,5 +1,5 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package pkgpattern
@@ -9,9 +9,9 @@ import (
 	"strings"
 )
 
-// Note: most of this code was originally part of the cmd/go/internal/search
+// Note: most of this code was originally part of the cmd/golang/internal/search
 // package; it was migrated here in order to support the use case of
-// commands other than cmd/go that need to accept package pattern args.
+// commands other than cmd/golang that need to accept package pattern args.
 
 // TreeCanMatchPattern(pattern)(name) reports whether
 // name or children of name can possibly match pattern.
@@ -32,7 +32,7 @@ func TreeCanMatchPattern(pattern string) func(name string) bool {
 // name matches pattern. Pattern is a limited glob
 // pattern in which '...' means 'any string' and there
 // is no other special syntax.
-// Unfortunately, there are two special cases. Quoting "go help packages":
+// Unfortunately, there are two special cases. Quoting "golang help packages":
 //
 // First, /... at the end of the pattern can match an empty string,
 // so that net/... matches both net and packages in its subdirectories, like net/http.
@@ -51,7 +51,7 @@ func MatchPattern(pattern string) func(name string) bool {
 // whether a given name matches a pattern, where pattern is a limited
 // glob pattern in which '...' means 'any string', with no other
 // special syntax. There is one special case for MatchPatternSimple:
-// according to the rules in "go help packages": a /... at the end of
+// according to the rules in "golang help packages": a /... at the end of
 // the pattern can match an empty string, so that net/... matches both
 // net and packages in its subdirectories, like net/http.
 func MatchSimplePattern(pattern string) func(name string) bool {

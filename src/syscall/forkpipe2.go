@@ -1,8 +1,8 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build dragonfly || freebsd || linux || netbsd || openbsd || solaris
+//golang:build dragolangnfly || freebsd || linux || netbsd || openbsd || solaris
 
 package syscall
 
@@ -17,13 +17,13 @@ func forkExecPipe(p []int) error {
 var (
 	// Guard the forking variable.
 	forkingLock sync.Mutex
-	// Number of goroutines currently forking, and thus the
-	// number of goroutines holding a conceptual write lock
+	// Number of golangroutines currently forking, and thus the
+	// number of golangroutines holding a conceptual write lock
 	// on ForkLock.
 	forking int
 )
 
-// hasWaitingReaders reports whether any goroutine is waiting
+// hasWaitingReaders reports whether any golangroutine is waiting
 // to acquire a read lock on rw. It is defined in the sync package.
 func hasWaitingReaders(rw *sync.RWMutex) bool
 
@@ -33,7 +33,7 @@ func hasWaitingReaders(rw *sync.RWMutex) bool
 // new fds that are not yet close-on-exec before we fork.
 // But that forces all fork calls to be serialized, which is bad.
 // But we haven't promised that serialization, and it is essentially
-// undetectable by other users of ForkLock, which is good.
+// undetectable by other users of ForkLock, which is golangod.
 // Avoid the serialization by ensuring that ForkLock is locked
 // at the first fork and unlocked when there are no more forks.
 func acquireForkLock() {
@@ -51,7 +51,7 @@ func acquireForkLock() {
 
 	if hasWaitingReaders(&ForkLock) {
 		// ForkLock is locked for writing, and at least one
-		// goroutine is waiting to read from it.
+		// golangroutine is waiting to read from it.
 		// To avoid lock starvation, allow readers to proceed.
 		// The simple way to do this is for us to acquire a
 		// read lock. That will block us until all current
@@ -69,7 +69,7 @@ func acquireForkLock() {
 
 		forkingLock.Lock()
 
-		// Readers got a chance, so now take the write lock.
+		// Readers golangt a chance, so now take the write lock.
 
 		if forking == 0 {
 			ForkLock.Lock()

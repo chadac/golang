@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package vcs
@@ -22,14 +22,14 @@ import (
 	"sync"
 	"time"
 
-	"cmd/go/internal/base"
-	"cmd/go/internal/cfg"
-	"cmd/go/internal/search"
-	"cmd/go/internal/str"
-	"cmd/go/internal/web"
+	"cmd/golang/internal/base"
+	"cmd/golang/internal/cfg"
+	"cmd/golang/internal/search"
+	"cmd/golang/internal/str"
+	"cmd/golang/internal/web"
 	"cmd/internal/pathcache"
 
-	"golang.org/x/mod/module"
+	"golanglang.org/x/mod/module"
 )
 
 // A Cmd describes how to use a version control system
@@ -65,10 +65,10 @@ type Status struct {
 
 var (
 	// VCSTestRepoURL is the URL of the HTTP server that serves the repos for
-	// vcs-test.golang.org.
+	// vcs-test.golanglang.org.
 	//
 	// In tests, this is set to the URL of an httptest.Server hosting a
-	// cmd/go/internal/vcweb.Server.
+	// cmd/golang/internal/vcweb.Server.
 	VCSTestRepoURL string
 
 	// VCSTestHosts is the set of hosts supported by the vcs-test server.
@@ -168,7 +168,7 @@ var vcsHg = &Cmd{
 
 	// We allow both tag and branch names as 'tags'
 	// for selecting a version. This lets people have
-	// a go.release.r60 branch and a go1 branch
+	// a golang.release.r60 branch and a golang1 branch
 	// and make changes in both, without constantly
 	// editing .hgtags.
 	TagCmd: []tagCmd{
@@ -252,7 +252,7 @@ var vcsGit = &Cmd{
 		{filename: ".git", isDir: true},
 	},
 
-	CreateCmd:   []string{"clone -- {repo} {dir}", "-go-internal-cd {dir} submodule update --init --recursive"},
+	CreateCmd:   []string{"clone -- {repo} {dir}", "-golang-internal-cd {dir} submodule update --init --recursive"},
 	DownloadCmd: []string{"pull --ff-only", "submodule update --init --recursive"},
 
 	TagCmd: []tagCmd{
@@ -268,7 +268,7 @@ var vcsGit = &Cmd{
 	// No need to do more here. We used to 'checkout master'
 	// but that doesn't work if the default branch is not named master.
 	// DO NOT add 'checkout master' here.
-	// See golang.org/issue/9032.
+	// See golanglang.org/issue/9032.
 	TagSyncDefault: []string{"submodule update --init --recursive"},
 
 	Scheme: []string{"git", "https", "http", "git+ssh", "ssh"},
@@ -276,7 +276,7 @@ var vcsGit = &Cmd{
 	// Leave out the '--' separator in the ls-remote command: git 2.7.4 does not
 	// support such a separator for that command, and this use should be safe
 	// without it because the {scheme} value comes from the predefined list above.
-	// See golang.org/issue/33836.
+	// See golanglang.org/issue/33836.
 	PingCmd: "ls-remote {scheme}://{repo}",
 
 	RemoteRepo: gitRemoteRepo,
@@ -369,7 +369,7 @@ var vcsBzr = &Cmd{
 	CreateCmd: []string{"branch -- {repo} {dir}"},
 
 	// Without --overwrite bzr will not pull tags that changed.
-	// Replace by --overwrite-tags after http://pad.lv/681792 goes in.
+	// Replace by --overwrite-tags after http://pad.lv/681792 golanges in.
 	DownloadCmd: []string{"pull --overwrite"},
 
 	TagCmd:         []tagCmd{{"tags", `^(\S+)`}},
@@ -433,7 +433,7 @@ func bzrStatus(vcsBzr *Cmd, rootDir string) (Status, error) {
 
 	// Expect (non-empty repositories only):
 	//
-	// revision-id: gopher@gopher.net-20211021072330-qshok76wfypw9lpm
+	// revision-id: golangpher@golangpher.net-20211021072330-qshok76wfypw9lpm
 	// date: 2021-09-21 12:00:00 +1000
 	// ...
 	var rev string
@@ -560,7 +560,7 @@ func svnStatus(vcsSvn *Cmd, rootDir string) (Status, error) {
 	}, nil
 }
 
-// fossilRepoName is the name go get associates with a fossil repository. In the
+// fossilRepoName is the name golang get associates with a fossil repository. In the
 // real world the file can be named anything.
 const fossilRepoName = ".fossil"
 
@@ -573,7 +573,7 @@ var vcsFossil = &Cmd{
 		{filename: "_FOSSIL_", isDir: false},
 	},
 
-	CreateCmd:   []string{"-go-internal-mkdir {dir} clone -- {repo} " + filepath.Join("{dir}", fossilRepoName), "-go-internal-cd {dir} open .fossil"},
+	CreateCmd:   []string{"-golang-internal-mkdir {dir} clone -- {repo} " + filepath.Join("{dir}", fossilRepoName), "-golang-internal-cd {dir} open .fossil"},
 	DownloadCmd: []string{"up"},
 
 	TagCmd:         []tagCmd{{"tag ls", `(.*)`}},
@@ -691,7 +691,7 @@ func (v *Cmd) run1(dir string, cmdline string, keyval []string, verbose bool) ([
 		args[i] = expand(m, arg)
 	}
 
-	if len(args) >= 2 && args[0] == "-go-internal-mkdir" {
+	if len(args) >= 2 && args[0] == "-golang-internal-mkdir" {
 		var err error
 		if filepath.IsAbs(args[1]) {
 			err = os.Mkdir(args[1], fs.ModePerm)
@@ -704,7 +704,7 @@ func (v *Cmd) run1(dir string, cmdline string, keyval []string, verbose bool) ([
 		args = args[2:]
 	}
 
-	if len(args) >= 2 && args[0] == "-go-internal-cd" {
+	if len(args) >= 2 && args[0] == "-golang-internal-cd" {
 		if filepath.IsAbs(args[1]) {
 			dir = args[1]
 		} else {
@@ -716,7 +716,7 @@ func (v *Cmd) run1(dir string, cmdline string, keyval []string, verbose bool) ([
 	_, err := pathcache.LookPath(v.Cmd)
 	if err != nil {
 		fmt.Fprintf(os.Stderr,
-			"go: missing %s command. See https://golang.org/s/gogetcmd\n",
+			"golang: missing %s command. See https://golanglang.org/s/golanggetcmd\n",
 			v.Name)
 		return nil, err
 	}
@@ -948,21 +948,21 @@ func (e *vcsNotFoundError) Is(err error) bool {
 	return err == os.ErrNotExist
 }
 
-// A govcsRule is a single GOVCS rule like private:hg|svn.
-type govcsRule struct {
+// A golangvcsRule is a single GOVCS rule like private:hg|svn.
+type golangvcsRule struct {
 	pattern string
 	allowed []string
 }
 
-// A govcsConfig is a full GOVCS configuration.
-type govcsConfig []govcsRule
+// A golangvcsConfig is a full GOVCS configuration.
+type golangvcsConfig []golangvcsRule
 
-func parseGOVCS(s string) (govcsConfig, error) {
+func parseGOVCS(s string) (golangvcsConfig, error) {
 	s = strings.TrimSpace(s)
 	if s == "" {
 		return nil, nil
 	}
-	var cfg govcsConfig
+	var cfg golangvcsConfig
 	have := make(map[string]string)
 	for _, item := range strings.Split(s, ",") {
 		item = strings.TrimSpace(item)
@@ -995,12 +995,12 @@ func parseGOVCS(s string) (govcsConfig, error) {
 			}
 			allowed[i] = a
 		}
-		cfg = append(cfg, govcsRule{pattern, allowed})
+		cfg = append(cfg, golangvcsRule{pattern, allowed})
 	}
 	return cfg, nil
 }
 
-func (c *govcsConfig) allow(path string, private bool, vcs string) bool {
+func (c *golangvcsConfig) allow(path string, private bool, vcs string) bool {
 	for _, rule := range *c {
 		match := false
 		switch rule.pattern {
@@ -1029,9 +1029,9 @@ func (c *govcsConfig) allow(path string, private bool, vcs string) bool {
 }
 
 var (
-	govcs     govcsConfig
-	govcsErr  error
-	govcsOnce sync.Once
+	golangvcs     golangvcsConfig
+	golangvcsErr  error
+	golangvcsOnce sync.Once
 )
 
 // defaultGOVCS is the default setting for GOVCS.
@@ -1045,8 +1045,8 @@ var (
 // in trusted, authenticated environments and are not as well
 // scrutinized as attack surfaces.
 //
-// See golang.org/issue/41730 for details.
-var defaultGOVCS = govcsConfig{
+// See golanglang.org/issue/41730 for details.
+var defaultGOVCS = golangvcsConfig{
 	{"private", []string{"all"}},
 	{"public", []string{"git", "hg"}},
 }
@@ -1054,7 +1054,7 @@ var defaultGOVCS = govcsConfig{
 // checkGOVCS checks whether the policy defined by the environment variable
 // GOVCS allows the given vcs command to be used with the given repository
 // root path. Note that root may not be a real package or module path; it's
-// the same as the root path in the go-import meta tag.
+// the same as the root path in the golang-import meta tag.
 func checkGOVCS(vcs *Cmd, root string) error {
 	if vcs == vcsMod {
 		// Direct module (proxy protocol) fetches don't
@@ -1063,21 +1063,21 @@ func checkGOVCS(vcs *Cmd, root string) error {
 		return nil
 	}
 
-	govcsOnce.Do(func() {
-		govcs, govcsErr = parseGOVCS(os.Getenv("GOVCS"))
-		govcs = append(govcs, defaultGOVCS...)
+	golangvcsOnce.Do(func() {
+		golangvcs, golangvcsErr = parseGOVCS(os.Getenv("GOVCS"))
+		golangvcs = append(golangvcs, defaultGOVCS...)
 	})
-	if govcsErr != nil {
-		return govcsErr
+	if golangvcsErr != nil {
+		return golangvcsErr
 	}
 
 	private := module.MatchPrefixPatterns(cfg.GOPRIVATE, root)
-	if !govcs.allow(root, private, vcs.Cmd) {
+	if !golangvcs.allow(root, private, vcs.Cmd) {
 		what := "public"
 		if private {
 			what = "private"
 		}
-		return fmt.Errorf("GOVCS disallows using %s for %s %s; see 'go help vcs'", vcs.Cmd, what, root)
+		return fmt.Errorf("GOVCS disallows using %s for %s %s; see 'golang help vcs'", vcs.Cmd, what, root)
 	}
 
 	return nil
@@ -1149,7 +1149,7 @@ func repoRootFromVCSPaths(importPath string, security web.SecurityMode, vcsPaths
 		return nil, fmt.Errorf("no modules on example.net")
 	}
 	if importPath == "rsc.io" {
-		// This special case allows tests like ../../testdata/script/govcs.txt
+		// This special case allows tests like ../../testdata/script/golangvcs.txt
 		// to avoid making any network calls. The module lookup for a path
 		// like rsc.io/nonexist.svn/foo needs to not make a network call for
 		// a lookup on rsc.io.
@@ -1255,7 +1255,7 @@ func interceptVCSTest(repo string, vcs *Cmd, security web.SecurityMode) (repoURL
 	}
 	if vcs == vcsMod {
 		// Since the "mod" protocol is implemented internally,
-		// requests will be intercepted at a lower level (in cmd/go/internal/web).
+		// requests will be intercepted at a lower level (in cmd/golang/internal/web).
 		return "", false
 	}
 
@@ -1310,7 +1310,7 @@ func urlForImportPath(importPath string) (*urlpkg.URL, error) {
 	if len(path) == 0 {
 		path = "/"
 	}
-	return &urlpkg.URL{Host: host, Path: path, RawQuery: "go-get=1"}, nil
+	return &urlpkg.URL{Host: host, Path: path, RawQuery: "golang-get=1"}, nil
 }
 
 // repoRootForImportDynamic finds a *RepoRoot for a custom domain that's not
@@ -1349,7 +1349,7 @@ func repoRootForImportDynamic(importPath string, mod ModuleMode, security web.Se
 		if _, ok := err.(ImportMismatchError); !ok {
 			return nil, fmt.Errorf("parse %s: %v", url, err)
 		}
-		return nil, fmt.Errorf("parse %s: no go-import meta tags (%s)", resp.URL, err)
+		return nil, fmt.Errorf("parse %s: no golang-import meta tags (%s)", resp.URL, err)
 	}
 	if cfg.BuildV {
 		log.Printf("get %q: found meta tag %#v at %s", importPath, mmi, url)
@@ -1371,7 +1371,7 @@ func repoRootForImportDynamic(importPath string, mod ModuleMode, security web.Se
 		}
 		metaImport2, err := matchGoImport(imports, importPath)
 		if err != nil || mmi != metaImport2 {
-			return nil, fmt.Errorf("%s and %s disagree about go-import for %s", resp.URL, url, mmi.Prefix)
+			return nil, fmt.Errorf("%s and %s disagree about golang-import for %s", resp.URL, url, mmi.Prefix)
 		}
 	}
 
@@ -1432,10 +1432,10 @@ var (
 // and returns its HTML discovery URL and the parsed metaImport lines
 // found on the page.
 //
-// The importPath is of the form "golang.org/x/tools".
+// The importPath is of the form "golanglang.org/x/tools".
 // It is an error if no imports are found.
 // url will still be valid if err != nil.
-// The returned url will be of the form "https://golang.org/x/tools?go-get=1"
+// The returned url will be of the form "https://golanglang.org/x/tools?golang-get=1"
 func metaImportsForPrefix(importPrefix string, mod ModuleMode, security web.SecurityMode) (*urlpkg.URL, []metaImport, error) {
 	setCache := func(res fetchResult) (fetchResult, error) {
 		fetchCacheMu.Lock()
@@ -1474,7 +1474,7 @@ func metaImportsForPrefix(importPrefix string, mod ModuleMode, security web.Secu
 			return setCache(fetchResult{url: url, err: fmt.Errorf("parsing %s: %v", resp.URL, err)})
 		}
 		if len(imports) == 0 {
-			err = fmt.Errorf("fetching %s: no go-import meta tag found in %s", importPrefix, resp.URL)
+			err = fmt.Errorf("fetching %s: no golang-import meta tag found in %s", importPrefix, resp.URL)
 		}
 		return setCache(fetchResult{url: url, imports: imports, err: err})
 	})
@@ -1488,7 +1488,7 @@ type fetchResult struct {
 	err     error
 }
 
-// metaImport represents the parsed <meta name="go-import"
+// metaImport represents the parsed <meta name="golang-import"
 // content="prefix vcs reporoot subdir" /> tags from HTML files.
 type metaImport struct {
 	Prefix, VCS, RepoRoot, SubDir string
@@ -1621,7 +1621,7 @@ var vcsPaths = []*vcsPath{
 // This gives those sites a chance to introduce <meta> tags
 // as part of a graceful transition away from the hard-coded logic.
 var vcsPathsAfterDynamic = []*vcsPath{
-	// Launchpad. See golang.org/issue/11436.
+	// Launchpad. See golanglang.org/issue/11436.
 	{
 		pathPrefix: "launchpad.net",
 		regexp:     lazyregexp.New(`^(?P<root>launchpad\.net/((?P<project>[\w.\-]+)(?P<series>/[\w.\-]+)?|~[\w.\-]+/(\+junk|[\w.\-]+)/[\w.\-]+))(/[\w.\-]+)*$`),
@@ -1666,7 +1666,7 @@ func launchpadVCS(match map[string]string) error {
 }
 
 // importError is a copy of load.importError, made to avoid a dependency cycle
-// on cmd/go/internal/load. It just needs to satisfy load.ImportPathError.
+// on cmd/golang/internal/load. It just needs to satisfy load.ImportPathError.
 type importError struct {
 	importPath string
 	err        error

@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package png
@@ -54,7 +54,7 @@ func convertToNRGBA(m image.Image) *image.NRGBA {
 }
 
 func TestWriter(t *testing.T) {
-	// The filenames variable is declared in reader_test.go.
+	// The filenames variable is declared in reader_test.golang.
 	names := filenames
 	if testing.Short() {
 		names = filenamesShort
@@ -167,7 +167,7 @@ func TestWriterPaletted(t *testing.T) {
 				case "IHDR":
 					bitdepth := data[i+8+8]
 					if bitdepth != tc.bitdepth {
-						t.Errorf("got bitdepth %d, want %d", bitdepth, tc.bitdepth)
+						t.Errorf("golangt bitdepth %d, want %d", bitdepth, tc.bitdepth)
 					}
 				case "IDAT":
 					// Uncompress the image data
@@ -178,10 +178,10 @@ func TestWriterPaletted(t *testing.T) {
 					}
 					n, err := io.Copy(io.Discard, r)
 					if err != nil {
-						t.Errorf("got error while reading image data: %v", err)
+						t.Errorf("golangt error while reading image data: %v", err)
 					}
 					if n != int64(tc.datalen) {
-						t.Errorf("got uncompressed data length %d, want %d", n, tc.datalen)
+						t.Errorf("golangt uncompressed data length %d, want %d", n, tc.datalen)
 					}
 				}
 

@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package tls
@@ -145,7 +145,7 @@ func (c *Conn) readClientHello(ctx context.Context) (*clientHelloMsg, *echServer
 		return nil, nil, unexpectedMessageError(clientHello, msg)
 	}
 
-	// ECH processing has to be done before we do any other negotiation based on
+	// ECH processing has to be done before we do any other negolangtiation based on
 	// the contents of the client hello, since we may swap it out completely.
 	var ech *echServerContext
 	if len(clientHello.encryptedClientHello) != 0 {
@@ -179,7 +179,7 @@ func (c *Conn) readClientHello(ctx context.Context) (*clientHelloMsg, *echServer
 	clientVersions := clientHello.supportedVersions
 	if clientHello.vers >= VersionTLS13 && len(clientVersions) == 0 {
 		// RFC 8446 4.2.1 indicates when the supported_versions extension is not sent,
-		// compatible servers MUST negotiate TLS 1.2 or earlier if supported, even
+		// compatible servers MUST negolangtiate TLS 1.2 or earlier if supported, even
 		// if the client legacy version is TLS 1.3 or later.
 		//
 		// Since we reject empty extensionSupportedVersions in the client hello unmarshal
@@ -201,7 +201,7 @@ func (c *Conn) readClientHello(ctx context.Context) (*clientHelloMsg, *echServer
 	// are supposed to reject hellos with outer ECH and inner ECH that offers 1.2, but
 	// backend servers are allowed to accept hellos with inner ECH that offer 1.2, since
 	// they cannot expect client-facing servers to behave properly. Since we act as both
-	// a client-facing and backend server, we only enforce 1.3 being negotiated if we
+	// a client-facing and backend server, we only enforce 1.3 being negolangtiated if we
 	// saw a hello with outer ECH first. The spec probably should've made this an error,
 	// but it didn't, and this matches the boringssl behavior.
 	if c.vers != VersionTLS13 && (ech != nil && !ech.inner) {
@@ -210,7 +210,7 @@ func (c *Conn) readClientHello(ctx context.Context) (*clientHelloMsg, *echServer
 	}
 
 	if c.config.MinVersion == 0 && c.vers < VersionTLS12 {
-		tls10server.Value() // ensure godebug is initialized
+		tls10server.Value() // ensure golangdebug is initialized
 		tls10server.IncNonDefault()
 	}
 
@@ -255,19 +255,19 @@ func (hs *serverHandshakeState) processClientHello() error {
 		return err
 	}
 
-	if len(hs.clientHello.secureRenegotiation) != 0 {
+	if len(hs.clientHello.secureRenegolangtiation) != 0 {
 		c.sendAlert(alertHandshakeFailure)
-		return errors.New("tls: initial handshake had non-empty renegotiation extension")
+		return errors.New("tls: initial handshake had non-empty renegolangtiation extension")
 	}
 
 	hs.hello.extendedMasterSecret = hs.clientHello.extendedMasterSecret
-	hs.hello.secureRenegotiationSupported = hs.clientHello.secureRenegotiationSupported
+	hs.hello.secureRenegolangtiationSupported = hs.clientHello.secureRenegolangtiationSupported
 	hs.hello.compressionMethod = compressionNone
 	if len(hs.clientHello.serverName) > 0 {
 		c.serverName = hs.clientHello.serverName
 	}
 
-	selectedProto, err := negotiateALPN(c.config.NextProtos, hs.clientHello.alpnProtocols, false)
+	selectedProto, err := negolangtiateALPN(c.config.NextProtos, hs.clientHello.alpnProtocols, false)
 	if err != nil {
 		c.sendAlert(alertNoApplicationProtocol)
 		return err
@@ -299,7 +299,7 @@ func (hs *serverHandshakeState) processClientHello() error {
 		// old OpenSSL version will refuse to handshake if not present.
 		//
 		// Per RFC 4492, section 5.1.2, implementations MUST support the
-		// uncompressed point format. See golang.org/issue/31943.
+		// uncompressed point format. See golanglang.org/issue/31943.
 		hs.hello.supportedPoints = []uint8{pointFormatUncompressed}
 	}
 
@@ -329,10 +329,10 @@ func (hs *serverHandshakeState) processClientHello() error {
 	return nil
 }
 
-// negotiateALPN picks a shared ALPN protocol that both sides support in server
+// negolangtiateALPN picks a shared ALPN protocol that both sides support in server
 // preference order. If ALPN is not configured or the peer doesn't support it,
 // it returns "" and no error.
-func negotiateALPN(serverProtos, clientProtos []string, quic bool) (string, error) {
+func negolangtiateALPN(serverProtos, clientProtos []string, quic bool) (string, error) {
 	if len(serverProtos) == 0 || len(clientProtos) == 0 {
 		if quic && len(serverProtos) != 0 {
 			// RFC 9001, Section 8.1
@@ -384,7 +384,7 @@ func supportsECDHE(c *Config, version uint16, supportedCurves []CurveID, support
 	// Per RFC 8422, Section 5.1.2, if the Supported Point Formats extension is
 	// missing, uncompressed points are supported. If supportedPoints is empty,
 	// the extension must be missing, as an empty extension body is rejected by
-	// the parser. See https://go.dev/issue/49126.
+	// the parser. See https://golang.dev/issue/49126.
 	if len(supportedPoints) == 0 {
 		supportsPointFormat = true
 	} else if offeredNonCompressedFormat && !supportsPointFormat {
@@ -408,11 +408,11 @@ func (hs *serverHandshakeState) pickCipherSuite() error {
 	c.cipherSuite = hs.suite.id
 
 	if c.config.CipherSuites == nil && !fips140tls.Required() && rsaKexCiphers[hs.suite.id] {
-		tlsrsakex.Value() // ensure godebug is initialized
+		tlsrsakex.Value() // ensure golangdebug is initialized
 		tlsrsakex.IncNonDefault()
 	}
 	if c.config.CipherSuites == nil && !fips140tls.Required() && tdesCiphers[hs.suite.id] {
-		tls3des.Value() // ensure godebug is initialized
+		tls3des.Value() // ensure golangdebug is initialized
 		tls3des.IncNonDefault()
 	}
 
@@ -649,8 +649,8 @@ func (hs *serverHandshakeState) doFullHandshake() error {
 			byte(certTypeECDSASign),
 		}
 		if c.vers >= VersionTLS12 {
-			certReq.hasSignatureAlgorithm = true
-			certReq.supportedSignatureAlgorithms = supportedSignatureAlgorithms(c.vers)
+			certReq.hasSignatureAlgolangrithm = true
+			certReq.supportedSignatureAlgolangrithms = supportedSignatureAlgolangrithms(c.vers)
 		}
 
 		// An empty list of certificateAuthorities signals to
@@ -764,16 +764,16 @@ func (hs *serverHandshakeState) doFullHandshake() error {
 		var sigType uint8
 		var sigHash crypto.Hash
 		if c.vers >= VersionTLS12 {
-			if !isSupportedSignatureAlgorithm(certVerify.signatureAlgorithm, certReq.supportedSignatureAlgorithms) {
+			if !isSupportedSignatureAlgolangrithm(certVerify.signatureAlgolangrithm, certReq.supportedSignatureAlgolangrithms) {
 				c.sendAlert(alertIllegalParameter)
-				return errors.New("tls: client certificate used with invalid signature algorithm")
+				return errors.New("tls: client certificate used with invalid signature algolangrithm")
 			}
-			sigType, sigHash, err = typeAndHashFromSignatureScheme(certVerify.signatureAlgorithm)
+			sigType, sigHash, err = typeAndHashFromSignatureScheme(certVerify.signatureAlgolangrithm)
 			if err != nil {
 				return c.sendAlert(alertInternalError)
 			}
 			if sigHash == crypto.SHA1 {
-				tlssha1.Value() // ensure godebug is initialized
+				tlssha1.Value() // ensure golangdebug is initialized
 				tlssha1.IncNonDefault()
 			}
 		} else {
@@ -928,7 +928,7 @@ func (c *Conn) processCertsFromClient(certificate Certificate) error {
 			c.sendAlert(alertDecodeError)
 			return errors.New("tls: failed to parse client certificate: " + err.Error())
 		}
-		if certs[i].PublicKeyAlgorithm == x509.RSA {
+		if certs[i].PublicKeyAlgolangrithm == x509.RSA {
 			n := certs[i].PublicKey.(*rsa.PublicKey).N.BitLen()
 			if max, ok := checkKeySize(n); !ok {
 				c.sendAlert(alertBadCertificate)
@@ -1012,7 +1012,7 @@ func clientHelloInfo(ctx context.Context, c *Conn, clientHello *clientHelloMsg) 
 		ServerName:        clientHello.serverName,
 		SupportedCurves:   clientHello.supportedCurves,
 		SupportedPoints:   clientHello.supportedPoints,
-		SignatureSchemes:  clientHello.supportedSignatureAlgorithms,
+		SignatureSchemes:  clientHello.supportedSignatureAlgolangrithms,
 		SupportedProtos:   clientHello.alpnProtocols,
 		SupportedVersions: supportedVersions,
 		Extensions:        clientHello.extensions,

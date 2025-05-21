@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package hex
@@ -32,15 +32,15 @@ func TestEncode(t *testing.T) {
 		dst := make([]byte, EncodedLen(len(test.dec)))
 		n := Encode(dst, test.dec)
 		if n != len(dst) {
-			t.Errorf("#%d: bad return value: got: %d want: %d", i, n, len(dst))
+			t.Errorf("#%d: bad return value: golangt: %d want: %d", i, n, len(dst))
 		}
 		if string(dst) != test.enc {
-			t.Errorf("#%d: got: %#v want: %#v", i, dst, test.enc)
+			t.Errorf("#%d: golangt: %#v want: %#v", i, dst, test.enc)
 		}
 		dst = []byte("lead")
 		dst = AppendEncode(dst, test.dec)
 		if string(dst) != "lead"+test.enc {
-			t.Errorf("#%d: got: %#v want: %#v", i, dst, "lead"+test.enc)
+			t.Errorf("#%d: golangt: %#v want: %#v", i, dst, "lead"+test.enc)
 		}
 	}
 }
@@ -53,16 +53,16 @@ func TestDecode(t *testing.T) {
 		dst := make([]byte, DecodedLen(len(test.enc)))
 		n, err := Decode(dst, []byte(test.enc))
 		if err != nil {
-			t.Errorf("#%d: bad return value: got:%d want:%d", i, n, len(dst))
+			t.Errorf("#%d: bad return value: golangt:%d want:%d", i, n, len(dst))
 		} else if !bytes.Equal(dst, test.dec) {
-			t.Errorf("#%d: got: %#v want: %#v", i, dst, test.dec)
+			t.Errorf("#%d: golangt: %#v want: %#v", i, dst, test.dec)
 		}
 		dst = []byte("lead")
 		dst, err = AppendDecode(dst, []byte(test.enc))
 		if err != nil {
 			t.Errorf("#%d: AppendDecode error: %v", i, err)
 		} else if string(dst) != "lead"+string(test.dec) {
-			t.Errorf("#%d: got: %#v want: %#v", i, dst, "lead"+string(test.dec))
+			t.Errorf("#%d: golangt: %#v want: %#v", i, dst, "lead"+string(test.dec))
 		}
 	}
 }
@@ -71,7 +71,7 @@ func TestEncodeToString(t *testing.T) {
 	for i, test := range encDecTests {
 		s := EncodeToString(test.dec)
 		if s != test.enc {
-			t.Errorf("#%d got:%s want:%s", i, s, test.enc)
+			t.Errorf("#%d golangt:%s want:%s", i, s, test.enc)
 		}
 	}
 }
@@ -84,7 +84,7 @@ func TestDecodeString(t *testing.T) {
 			continue
 		}
 		if !bytes.Equal(dst, test.dec) {
-			t.Errorf("#%d: got: %#v want: #%v", i, dst, test.dec)
+			t.Errorf("#%d: golangt: %#v want: #%v", i, dst, test.dec)
 		}
 	}
 }
@@ -194,7 +194,7 @@ func TestDumper(t *testing.T) {
 
 		dumper.Close()
 		if !bytes.Equal(out.Bytes(), expectedHexDump) {
-			t.Errorf("stride: %d failed. got:\n%s\nwant:\n%s", stride, out.Bytes(), expectedHexDump)
+			t.Errorf("stride: %d failed. golangt:\n%s\nwant:\n%s", stride, out.Bytes(), expectedHexDump)
 		}
 	}
 }
@@ -203,15 +203,15 @@ func TestDumper_doubleclose(t *testing.T) {
 	var out strings.Builder
 	dumper := Dumper(&out)
 
-	dumper.Write([]byte(`gopher`))
+	dumper.Write([]byte(`golangpher`))
 	dumper.Close()
 	dumper.Close()
-	dumper.Write([]byte(`gopher`))
+	dumper.Write([]byte(`golangpher`))
 	dumper.Close()
 
-	expected := "00000000  67 6f 70 68 65 72                                 |gopher|\n"
+	expected := "00000000  67 6f 70 68 65 72                                 |golangpher|\n"
 	if out.String() != expected {
-		t.Fatalf("got:\n%#v\nwant:\n%#v", out.String(), expected)
+		t.Fatalf("golangt:\n%#v\nwant:\n%#v", out.String(), expected)
 	}
 }
 
@@ -220,11 +220,11 @@ func TestDumper_earlyclose(t *testing.T) {
 	dumper := Dumper(&out)
 
 	dumper.Close()
-	dumper.Write([]byte(`gopher`))
+	dumper.Write([]byte(`golangpher`))
 
 	expected := ""
 	if out.String() != expected {
-		t.Fatalf("got:\n%#v\nwant:\n%#v", out.String(), expected)
+		t.Fatalf("golangt:\n%#v\nwant:\n%#v", out.String(), expected)
 	}
 }
 
@@ -236,7 +236,7 @@ func TestDump(t *testing.T) {
 
 	out := []byte(Dump(in[:]))
 	if !bytes.Equal(out, expectedHexDump) {
-		t.Errorf("got:\n%s\nwant:\n%s", out, expectedHexDump)
+		t.Errorf("golangt:\n%s\nwant:\n%s", out, expectedHexDump)
 	}
 }
 

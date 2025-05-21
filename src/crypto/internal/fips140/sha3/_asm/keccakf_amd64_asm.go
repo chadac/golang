@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This code was translated into a form compatible with 6a from the public
@@ -15,7 +15,7 @@ import (
 	. "github.com/mmcloughlin/avo/reg"
 )
 
-//go:generate go run . -out ../sha3_amd64.s
+//golang:generate golang run . -out ../sha3_amd64.s
 
 // Round Constants for use in the ι step.
 var RoundConstants = [24]uint64{
@@ -81,7 +81,7 @@ const (
 	_ga
 	_ge
 	_gi
-	_go
+	_golang
 	_gu
 	_ka
 	_ke
@@ -106,7 +106,7 @@ func main() {
 	os.Setenv("GOARCH", "amd64")
 
 	Package("crypto/internal/fips140/sha3")
-	ConstraintExpr("!purego")
+	ConstraintExpr("!puregolang")
 	keccakF1600()
 	Generate()
 }
@@ -145,7 +145,7 @@ func mKeccakRound(
 	ROLQ(Imm(1), rDe)
 
 	MOVQ(iState.Offset(_bo), rCo)
-	XORQ(iState.Offset(_go), rDo)
+	XORQ(iState.Offset(_golang), rDo)
 	XORQ(rCa, rDe)
 	XORQ(iState.Offset(_ko), rCo)
 	XORQ(iState.Offset(_mo), rDo)
@@ -236,7 +236,7 @@ func mKeccakRound(
 	MOVQ(rBu, rT1)
 	ORQ(rBa, rT1)
 	XORQ(rBo, rT1)
-	MOVQ(rT1, oState.Offset(_go))
+	MOVQ(rT1, oState.Offset(_golang))
 
 	ANDQ(rBe, rBa)
 	XORQ(rBu, rBa)
@@ -337,7 +337,7 @@ func mKeccakRound(
 
 	Comment("Result s")
 	MOVQ(iState.Offset(_bi), rBa)
-	MOVQ(iState.Offset(_go), rBe)
+	MOVQ(iState.Offset(_golang), rBe)
 	MOVQ(iState.Offset(_ku), rBi)
 	XORQ(rDi, rBa)
 	MOVQ(iState.Offset(_ma), rBo)
@@ -392,7 +392,7 @@ func keccakF1600() {
 	Comment("Convert the user state into an internal state")
 	NOTQ(rpState.Offset(_be))
 	NOTQ(rpState.Offset(_bi))
-	NOTQ(rpState.Offset(_go))
+	NOTQ(rpState.Offset(_golang))
 	NOTQ(rpState.Offset(_ki))
 	NOTQ(rpState.Offset(_mi))
 	NOTQ(rpState.Offset(_sa))
@@ -434,7 +434,7 @@ func keccakF1600() {
 	Comment("Revert the internal state to the user state")
 	NOTQ(rpState.Offset(_be))
 	NOTQ(rpState.Offset(_bi))
-	NOTQ(rpState.Offset(_go))
+	NOTQ(rpState.Offset(_golang))
 	NOTQ(rpState.Offset(_ki))
 	NOTQ(rpState.Offset(_mi))
 	NOTQ(rpState.Offset(_sa))

@@ -1,12 +1,12 @@
 // errorcheckwithauto -0 -m -d=inlfuncswithclosures=1
 
-//go:build (386 || amd64 || arm64 || ppc64le || s390x) && !gcflags_noopt
+//golang:build (386 || amd64 || arm64 || ppc64le || s390x) && !gcflags_noopt
 
 // Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Similar to inline.go, but only for architectures that can merge loads.
+// Similar to inline.golang, but only for architectures that can merge loads.
 
 package foo
 

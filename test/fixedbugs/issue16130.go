@@ -1,7 +1,7 @@
 // run
 
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test that an interface conversion error panics with an "interface
@@ -28,10 +28,10 @@ func main() {
 		}
 		re, ok := r.(runtime.Error)
 		if !ok {
-			panic(fmt.Sprintf("got %T, expected runtime.Error", r))
+			panic(fmt.Sprintf("golangt %T, expected runtime.Error", r))
 		}
 		if !strings.Contains(re.Error(), "interface conversion") {
-			panic(fmt.Sprintf("got %q, expected interface conversion error", re.Error()))
+			panic(fmt.Sprintf("golangt %q, expected interface conversion error", re.Error()))
 		}
 	}()
 	e := (interface{})(0)

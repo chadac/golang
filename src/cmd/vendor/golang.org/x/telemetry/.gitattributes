@@ -6,9 +6,9 @@
 #
 # Windows .bat files are known to have multiple bugs when run with LF
 # endings. So if they are checked in with CRLF endings, there should
-# be a test like the one in test/winbatch.go in the go repository.
-# (See golang.org/issue/37791.)
+# be a test like the one in test/winbatch.golang in the golang repository.
+# (See golanglang.org/issue/37791.)
 #
-# See golang.org/issue/9281.
+# See golanglang.org/issue/9281.
 
 * -text

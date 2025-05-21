@@ -1,5 +1,5 @@
 // Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package user
@@ -22,7 +22,7 @@ func init() {
 
 var (
 	// unused variables (in this implementation)
-	// modified during test to exercise code paths in the cgo implementation.
+	// modified during test to exercise code paths in the cgolang implementation.
 	userBuffer  = 0
 	groupBuffer = 0
 )

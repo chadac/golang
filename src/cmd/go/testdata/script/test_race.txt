@@ -1,23 +1,23 @@
 [short] skip
 [!race] skip
 
-go test testrace
+golang test testrace
 
-! go test -race testrace
+! golang test -race testrace
 stdout 'FAIL: TestRace'
 ! stdout 'PASS'
 ! stderr 'PASS'
 
-! go test -race testrace -run XXX -bench .
+! golang test -race testrace -run XXX -bench .
 stdout 'FAIL: BenchmarkRace'
 ! stdout 'PASS'
 ! stderr 'PASS'
 
--- go.mod --
+-- golang.mod --
 module testrace
 
-go 1.16
--- race_test.go --
+golang 1.16
+-- race_test.golang --
 package testrace
 
 import "testing"
@@ -26,7 +26,7 @@ func TestRace(t *testing.T) {
 	for i := 0; i < 10; i++ {
 		c := make(chan int)
 		x := 1
-		go func() {
+		golang func() {
 			x = 2
 			c <- 1
 		}()
@@ -40,7 +40,7 @@ func BenchmarkRace(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		c := make(chan int)
 		x := 1
-		go func() {
+		golang func() {
 			x = 2
 			c <- 1
 		}()

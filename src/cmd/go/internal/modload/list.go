@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package modload
@@ -15,16 +15,16 @@ import (
 	"runtime"
 	"strings"
 
-	"cmd/go/internal/base"
-	"cmd/go/internal/cfg"
-	"cmd/go/internal/gover"
-	"cmd/go/internal/modfetch/codehost"
-	"cmd/go/internal/modinfo"
-	"cmd/go/internal/search"
+	"cmd/golang/internal/base"
+	"cmd/golang/internal/cfg"
+	"cmd/golang/internal/golangver"
+	"cmd/golang/internal/modfetch/codehost"
+	"cmd/golang/internal/modinfo"
+	"cmd/golang/internal/search"
 	"cmd/internal/par"
 	"cmd/internal/pkgpattern"
 
-	"golang.org/x/mod/module"
+	"golanglang.org/x/mod/module"
 )
 
 type ListMode int
@@ -80,7 +80,7 @@ func ListModules(ctx context.Context, args []string, mode ListMode, reuseFile st
 			}
 			add := func(m *modinfo.ModulePublic) {
 				sem <- token{}
-				go func() {
+				golang func() {
 					if mode&ListU != 0 {
 						addUpdate(ctx, m)
 					}
@@ -111,11 +111,11 @@ func ListModules(ctx context.Context, args []string, mode ListMode, reuseFile st
 	if err == nil {
 		requirements = rs
 		// TODO(#61605): The extra ListU clause fixes a problem with Go 1.21rc3
-		// where "go mod tidy" and "go list -m -u all" fight over whether the go.sum
+		// where "golang mod tidy" and "golang list -m -u all" fight over whether the golang.sum
 		// should be considered up-to-date. The fix for now is to always treat the
-		// go.sum as up-to-date during list -m -u. Probably the right fix is more targeted,
+		// golang.sum as up-to-date during list -m -u. Probably the right fix is more targeted,
 		// but in general list -u is looking up other checksums in the checksum database
-		// that won't be necessary later, so it makes sense not to write the go.sum back out.
+		// that won't be necessary later, so it makes sense not to write the golang.sum back out.
 		if !ExplicitWriteGoMod && mode&ListU == 0 {
 			err = commitRequirements(ctx, WriteOpts{})
 		}
@@ -127,7 +127,7 @@ func listModules(ctx context.Context, rs *Requirements, args []string, mode List
 	if len(args) == 0 {
 		var ms []*modinfo.ModulePublic
 		for _, m := range MainModules.Versions() {
-			if gover.IsToolchain(m.Path) {
+			if golangver.IsToolchain(m.Path) {
 				continue
 			}
 			ms = append(ms, moduleInfo(ctx, rs, m, mode, reuse))
@@ -138,15 +138,15 @@ func listModules(ctx context.Context, rs *Requirements, args []string, mode List
 	needFullGraph := false
 	for _, arg := range args {
 		if strings.Contains(arg, `\`) {
-			base.Fatalf("go: module paths never use backslash")
+			base.Fatalf("golang: module paths never use backslash")
 		}
 		if search.IsRelativePath(arg) {
-			base.Fatalf("go: cannot use relative path %s to specify module", arg)
+			base.Fatalf("golang: cannot use relative path %s to specify module", arg)
 		}
 		if arg == "all" || strings.Contains(arg, "...") {
 			needFullGraph = true
 			if !HasModRoot() {
-				base.Fatalf("go: cannot match %q: %v", arg, ErrNoModRoot)
+				base.Fatalf("golang: cannot match %q: %v", arg, ErrNoModRoot)
 			}
 			continue
 		}
@@ -155,7 +155,7 @@ func listModules(ctx context.Context, rs *Requirements, args []string, mode List
 				if _, ok := rs.rootSelected(path); !ok || rs.pruning == unpruned {
 					needFullGraph = true
 					if !HasModRoot() {
-						base.Fatalf("go: cannot match %q: %v", arg, ErrNoModRoot)
+						base.Fatalf("golang: cannot match %q: %v", arg, ErrNoModRoot)
 					}
 				}
 			}
@@ -164,7 +164,7 @@ func listModules(ctx context.Context, rs *Requirements, args []string, mode List
 		if _, ok := rs.rootSelected(arg); !ok || rs.pruning == unpruned {
 			needFullGraph = true
 			if mode&ListVersions == 0 && !HasModRoot() {
-				base.Fatalf("go: cannot match %q without -versions or an explicit version: %v", arg, ErrNoModRoot)
+				base.Fatalf("golang: cannot match %q without -versions or an explicit version: %v", arg, ErrNoModRoot)
 			}
 		}
 	}
@@ -195,7 +195,7 @@ func listModules(ctx context.Context, rs *Requirements, args []string, mode List
 			allowed := CheckAllowed
 			if IsRevisionQuery(path, vers) || mode&ListRetracted != 0 {
 				// Allow excluded and retracted versions if the user asked for a
-				// specific revision or used 'go list -retracted'.
+				// specific revision or used 'golang list -retracted'.
 				allowed = nil
 			}
 			info, err := queryReuse(ctx, path, vers, current, allowed, reuse)
@@ -229,10 +229,10 @@ func listModules(ctx context.Context, rs *Requirements, args []string, mode List
 		// Module path or pattern.
 		var match func(string) bool
 		if arg == "all" {
-			match = func(p string) bool { return !gover.IsToolchain(p) }
+			match = func(p string) bool { return !golangver.IsToolchain(p) }
 		} else if strings.Contains(arg, "...") {
 			mp := pkgpattern.MatchPattern(arg)
-			match = func(p string) bool { return mp(p) && !gover.IsToolchain(p) }
+			match = func(p string) bool { return mp(p) && !golangver.IsToolchain(p) }
 		} else {
 			var v string
 			if mg == nil {

@@ -1,13 +1,13 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// This file implements go/types-specific scope methods.
+// This file implements golang/types-specific scope methods.
 // These methods do not exist in types2.
 
 package types
 
-import "go/token"
+import "golang/token"
 
 // LookupParent follows the parent chain of scopes starting with s until
 // it finds a scope where Lookup(name) returns a non-nil object, and then

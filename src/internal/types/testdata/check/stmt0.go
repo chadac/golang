@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // statements
@@ -228,14 +228,14 @@ func selects() {
 	}
 }
 
-func gos() {
-	go 1; /* ERROR "must be function call" */
-	go int /* ERROR "go requires function call, not conversion" */ (0)
-	go ( /* ERROR "expression in go must not be parenthesized" */ gos())
-	go gos()
+func golangs() {
+	golang 1; /* ERROR "must be function call" */
+	golang int /* ERROR "golang requires function call, not conversion" */ (0)
+	golang ( /* ERROR "expression in golang must not be parenthesized" */ golangs())
+	golang golangs()
 	var c chan int
-	go close(c)
-	go len /* ERROR "go discards result" */ (c)
+	golang close(c)
+	golang len /* ERROR "golang discards result" */ (c)
 }
 
 func defers() {
@@ -557,24 +557,24 @@ func switches1() {
 
 	switch x {
 	case 0:
-		goto L1
+		golangto L1
 		L1: fallthrough; ;
 	case 1:
-		goto L2
-		goto L3
-		goto L4
+		golangto L2
+		golangto L3
+		golangto L4
 		L2: L3: L4: fallthrough
 	default:
 	}
 
 	switch x {
 	case 0:
-		goto L5
+		golangto L5
 		L5: fallthrough
 	default:
-		goto L6
-		goto L7
-		goto L8
+		golangto L6
+		golangto L7
+		golangto L8
 		L6: L7: L8: fallthrough /* ERROR "cannot fallthrough final case in switch" */
 	}
 
@@ -962,20 +962,20 @@ func issue10148() {
 }
 
 func labels0() {
-	goto L0
-	goto L1
+	golangto L0
+	golangto L1
 	L0:
 	L1:
 	L1 /* ERROR "already declared" */ :
 	if true {
-		goto L2
+		golangto L2
 		L2:
 		L0 /* ERROR "already declared" */ :
 	}
 	_ = func() {
-		goto L0
-		goto L1
-		goto L2
+		golangto L0
+		golangto L1
+		golangto L2
 		L0:
 		L1:
 		L2:

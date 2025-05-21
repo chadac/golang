@@ -1,5 +1,5 @@
 // Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
@@ -24,7 +24,7 @@ const (
 // Don't split the stack as this function may be invoked without a valid G,
 // which prevents us from allocating more stack.
 //
-//go:nosplit
+//golang:nosplit
 func sysAllocOS(n uintptr, _ string) unsafe.Pointer {
 	return unsafe.Pointer(stdcall4(_VirtualAlloc, 0, n, _MEM_COMMIT|_MEM_RESERVE, _PAGE_READWRITE))
 }
@@ -103,7 +103,7 @@ func sysHugePageCollapseOS(v unsafe.Pointer, n uintptr) {
 // Don't split the stack as this function may be invoked without a valid G,
 // which prevents us from allocating more stack.
 //
-//go:nosplit
+//golang:nosplit
 func sysFreeOS(v unsafe.Pointer, n uintptr) {
 	r := stdcall3(_VirtualFree, uintptr(v), 0, _MEM_RELEASE)
 	if r == 0 {

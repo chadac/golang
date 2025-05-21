@@ -1,14 +1,14 @@
 [short] skip
 
 env GOCACHE=$WORK/tmp
-go test -v multimain
+golang test -v multimain
 stdout -count=2 notwithstanding # check tests ran twice
 
--- go.mod --
+-- golang.mod --
 module multimain
 
-go 1.16
--- multimain_test.go --
+golang 1.16
+-- multimain_test.golang --
 package multimain_test
 
 import "testing"
@@ -17,7 +17,7 @@ func TestMain(m *testing.M) {
 	// Some users run m.Run multiple times, changing
 	// some kind of global state between runs.
 	// This used to work so I guess now it has to keep working.
-	// See golang.org/issue/23129.
+	// See golanglang.org/issue/23129.
 	m.Run()
 	m.Run()
 }

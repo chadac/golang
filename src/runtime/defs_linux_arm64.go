@@ -1,5 +1,5 @@
-// Created by cgo -cdefs and converted (by hand) to Go
-// ../cmd/cgo/cgo -cdefs defs_linux.go defs1_linux.go defs2_linux.go
+// Created by cgolang -cdefs and converted (by hand) to Go
+// ../cmd/cgolang/cgolang -cdefs defs_linux.golang defs1_linux.golang defs2_linux.golang
 
 package runtime
 
@@ -99,7 +99,7 @@ type timespec struct {
 	tv_nsec int64
 }
 
-//go:nosplit
+//golang:nosplit
 func (ts *timespec) setNsec(ns int64) {
 	ts.tv_sec = ns / 1e9
 	ts.tv_nsec = ns % 1e9
@@ -161,8 +161,8 @@ type sigevent struct {
 	_ [_sigev_max_size - unsafe.Sizeof(sigeventFields{})]byte
 }
 
-// Created by cgo -cdefs and then converted to Go by hand
-// ../cmd/cgo/cgo -cdefs defs_linux.go defs1_linux.go defs2_linux.go
+// Created by cgolang -cdefs and then converted to Go by hand
+// ../cmd/cgolang/cgolang -cdefs defs_linux.golang defs1_linux.golang defs2_linux.golang
 
 const (
 	_O_RDONLY   = 0x0
@@ -180,7 +180,7 @@ type usigset struct {
 type stackt struct {
 	ss_sp     *byte
 	ss_flags  int32
-	pad_cgo_0 [4]byte
+	pad_cgolang_0 [4]byte
 	ss_size   uintptr
 }
 

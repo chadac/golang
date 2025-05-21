@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package x509
@@ -82,7 +82,7 @@ func TestPlatformVerifier(t *testing.T) {
 			name: "valid",
 			cert: &Certificate{
 				SerialNumber: big.NewInt(1),
-				DNSNames:     []string{"valid.testing.golang.invalid"},
+				DNSNames:     []string{"valid.testing.golanglang.invalid"},
 				NotBefore:    now.Add(-time.Hour),
 				NotAfter:     now.Add(time.Hour),
 				ExtKeyUsage:  []ExtKeyUsage{ExtKeyUsageServerAuth},
@@ -92,18 +92,18 @@ func TestPlatformVerifier(t *testing.T) {
 			name: "valid (with name)",
 			cert: &Certificate{
 				SerialNumber: big.NewInt(1),
-				DNSNames:     []string{"valid.testing.golang.invalid"},
+				DNSNames:     []string{"valid.testing.golanglang.invalid"},
 				NotBefore:    now.Add(-time.Hour),
 				NotAfter:     now.Add(time.Hour),
 				ExtKeyUsage:  []ExtKeyUsage{ExtKeyUsageServerAuth},
 			},
-			dnsName: "valid.testing.golang.invalid",
+			dnsName: "valid.testing.golanglang.invalid",
 		},
 		{
 			name: "valid (with time)",
 			cert: &Certificate{
 				SerialNumber: big.NewInt(1),
-				DNSNames:     []string{"valid.testing.golang.invalid"},
+				DNSNames:     []string{"valid.testing.golanglang.invalid"},
 				NotBefore:    now.Add(-time.Hour),
 				NotAfter:     now.Add(time.Hour),
 				ExtKeyUsage:  []ExtKeyUsage{ExtKeyUsageServerAuth},
@@ -114,7 +114,7 @@ func TestPlatformVerifier(t *testing.T) {
 			name: "valid (with eku)",
 			cert: &Certificate{
 				SerialNumber: big.NewInt(1),
-				DNSNames:     []string{"valid.testing.golang.invalid"},
+				DNSNames:     []string{"valid.testing.golanglang.invalid"},
 				NotBefore:    now.Add(-time.Hour),
 				NotAfter:     now.Add(time.Hour),
 				ExtKeyUsage:  []ExtKeyUsage{ExtKeyUsageServerAuth},
@@ -125,19 +125,19 @@ func TestPlatformVerifier(t *testing.T) {
 			name: "wrong name",
 			cert: &Certificate{
 				SerialNumber: big.NewInt(1),
-				DNSNames:     []string{"valid.testing.golang.invalid"},
+				DNSNames:     []string{"valid.testing.golanglang.invalid"},
 				NotBefore:    now.Add(-time.Hour),
 				NotAfter:     now.Add(time.Hour),
 				ExtKeyUsage:  []ExtKeyUsage{ExtKeyUsageServerAuth},
 			},
-			dnsName:     "invalid.testing.golang.invalid",
-			expectedErr: "x509: certificate is valid for valid.testing.golang.invalid, not invalid.testing.golang.invalid",
+			dnsName:     "invalid.testing.golanglang.invalid",
+			expectedErr: "x509: certificate is valid for valid.testing.golanglang.invalid, not invalid.testing.golanglang.invalid",
 		},
 		{
 			name: "expired (future)",
 			cert: &Certificate{
 				SerialNumber: big.NewInt(1),
-				DNSNames:     []string{"valid.testing.golang.invalid"},
+				DNSNames:     []string{"valid.testing.golanglang.invalid"},
 				NotBefore:    now.Add(-time.Hour),
 				NotAfter:     now.Add(time.Hour),
 				ExtKeyUsage:  []ExtKeyUsage{ExtKeyUsageServerAuth},
@@ -149,7 +149,7 @@ func TestPlatformVerifier(t *testing.T) {
 			name: "expired (past)",
 			cert: &Certificate{
 				SerialNumber: big.NewInt(1),
-				DNSNames:     []string{"valid.testing.golang.invalid"},
+				DNSNames:     []string{"valid.testing.golanglang.invalid"},
 				NotBefore:    now.Add(-time.Hour),
 				NotAfter:     now.Add(time.Hour),
 				ExtKeyUsage:  []ExtKeyUsage{ExtKeyUsageServerAuth},
@@ -161,20 +161,20 @@ func TestPlatformVerifier(t *testing.T) {
 			name: "self-signed",
 			cert: &Certificate{
 				SerialNumber: big.NewInt(1),
-				DNSNames:     []string{"valid.testing.golang.invalid"},
+				DNSNames:     []string{"valid.testing.golanglang.invalid"},
 				NotBefore:    now.Add(-time.Hour),
 				NotAfter:     now.Add(time.Hour),
 				ExtKeyUsage:  []ExtKeyUsage{ExtKeyUsageServerAuth},
 			},
 			selfSigned: true,
-			macosErr:   "x509: “valid.testing.golang.invalid” certificate is not trusted",
+			macosErr:   "x509: “valid.testing.golanglang.invalid” certificate is not trusted",
 			windowsErr: "x509: certificate signed by unknown authority",
 		},
 		{
 			name: "non-specified KU",
 			cert: &Certificate{
 				SerialNumber: big.NewInt(1),
-				DNSNames:     []string{"valid.testing.golang.invalid"},
+				DNSNames:     []string{"valid.testing.golanglang.invalid"},
 				NotBefore:    now.Add(-time.Hour),
 				NotAfter:     now.Add(time.Hour),
 				ExtKeyUsage:  []ExtKeyUsage{ExtKeyUsageServerAuth},
@@ -186,12 +186,12 @@ func TestPlatformVerifier(t *testing.T) {
 			name: "non-nested KU",
 			cert: &Certificate{
 				SerialNumber: big.NewInt(1),
-				DNSNames:     []string{"valid.testing.golang.invalid"},
+				DNSNames:     []string{"valid.testing.golanglang.invalid"},
 				NotBefore:    now.Add(-time.Hour),
 				NotAfter:     now.Add(time.Hour),
 				ExtKeyUsage:  []ExtKeyUsage{ExtKeyUsageEmailProtection},
 			},
-			macosErr:   "x509: “valid.testing.golang.invalid” certificate is not permitted for this usage",
+			macosErr:   "x509: “valid.testing.golanglang.invalid” certificate is not permitted for this usage",
 			windowsErr: "x509: certificate specifies an incompatible key usage",
 		},
 	}
@@ -240,7 +240,7 @@ func TestPlatformVerifier(t *testing.T) {
 			if err != nil && expectedErr == "" {
 				t.Errorf("unexpected verification error: %s", err)
 			} else if err != nil && !strings.HasPrefix(err.Error(), expectedErr) {
-				t.Errorf("unexpected verification error: got %q, want %q", err.Error(), expectedErr)
+				t.Errorf("unexpected verification error: golangt %q, want %q", err.Error(), expectedErr)
 			} else if err == nil && expectedErr != "" {
 				t.Errorf("unexpected verification success: want %q", expectedErr)
 			}

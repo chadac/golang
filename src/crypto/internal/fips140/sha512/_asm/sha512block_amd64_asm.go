@@ -1,5 +1,5 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -12,13 +12,13 @@ import (
 	. "github.com/mmcloughlin/avo/reg"
 )
 
-//go:generate go run . -out ../sha512block_amd64.s
+//golang:generate golang run . -out ../sha512block_amd64.s
 
-// SHA512 block routine. See sha512block.go for Go equivalent.
+// SHA512 block routine. See sha512block.golang for Go equivalent.
 //
-// The algorithm is detailed in FIPS 180-4:
+// The algolangrithm is detailed in FIPS 180-4:
 //
-//  https://csrc.nist.gov/publications/fips/fips180-4/fips-180-4.pdf
+//  https://csrc.nist.golangv/publications/fips/fips180-4/fips-180-4.pdf
 //
 // Wt = Mt; for 0 <= t <= 15
 // Wt = SIGMA1(Wt-2) + SIGMA0(Wt-15) + Wt-16; for 16 <= t <= 79
@@ -145,7 +145,7 @@ func main() {
 	os.Setenv("GOARCH", "amd64")
 
 	Package("crypto/internal/fips140/sha512")
-	ConstraintExpr("!purego")
+	ConstraintExpr("!puregolang")
 	blockAVX2()
 	Generate()
 }
@@ -153,7 +153,7 @@ func main() {
 // Version below is based on "Fast SHA512 Implementations on Intel
 // Architecture Processors" White-paper
 // https://www.intel.com/content/dam/www/public/us/en/documents/white-papers/fast-sha512-implementations-ia-processors-paper.pdf
-// AVX2 version by Intel, same algorithm in Linux kernel:
+// AVX2 version by Intel, same algolangrithm in Linux kernel:
 // https://github.com/torvalds/linux/blob/master/arch/x86/crypto/sha512-avx2-asm.S
 
 // James Guilford <james.guilford@intel.com>

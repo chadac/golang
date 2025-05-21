@@ -1,32 +1,32 @@
 // Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Goroutine preemption
 //
-// A goroutine can be preempted at any safe-point. Currently, there
-// are a few categories of safe-points:
+// A golangroutine can be preempted at any safe-point. Currently, there
+// are a few categolangries of safe-points:
 //
-// 1. A blocked safe-point occurs for the duration that a goroutine is
+// 1. A blocked safe-point occurs for the duration that a golangroutine is
 //    descheduled, blocked on synchronization, or in a system call.
 //
-// 2. Synchronous safe-points occur when a running goroutine checks
+// 2. Synchronous safe-points occur when a running golangroutine checks
 //    for a preemption request.
 //
 // 3. Asynchronous safe-points occur at any instruction in user code
-//    where the goroutine can be safely paused and a conservative
+//    where the golangroutine can be safely paused and a conservative
 //    stack and register scan can find stack roots. The runtime can
-//    stop a goroutine at an async safe-point using a signal.
+//    stop a golangroutine at an async safe-point using a signal.
 //
-// At both blocked and synchronous safe-points, a goroutine's CPU
+// At both blocked and synchronous safe-points, a golangroutine's CPU
 // state is minimal and the garbage collector has complete information
 // about its entire stack. This makes it possible to deschedule a
-// goroutine with minimal space, and to precisely scan a goroutine's
+// golangroutine with minimal space, and to precisely scan a golangroutine's
 // stack.
 //
 // Synchronous safe-points are implemented by overloading the stack
-// bound check in function prologues. To preempt a goroutine at the
-// next synchronous safe-point, the runtime poisons the goroutine's
+// bound check in function prologues. To preempt a golangroutine at the
+// next synchronous safe-point, the runtime poisons the golangroutine's
 // stack bound to a value that will cause the next stack bound check
 // to fail and enter the stack growth implementation, which will
 // detect that it was actually a preemption and redirect to preemption
@@ -34,9 +34,9 @@
 //
 // Preemption at asynchronous safe-points is implemented by suspending
 // the thread using an OS mechanism (e.g., signals) and inspecting its
-// state to determine if the goroutine was at an asynchronous
+// state to determine if the golangroutine was at an asynchronous
 // safe-point. Since the thread suspension itself is generally
-// asynchronous, it also checks if the running goroutine wants to be
+// asynchronous, it also checks if the running golangroutine wants to be
 // preempted, since this could have changed. If all conditions are
 // satisfied, it adjusts the signal context to make it look like the
 // signaled thread just called asyncPreempt and resumes the thread.
@@ -54,15 +54,15 @@ package runtime
 
 import (
 	"internal/abi"
-	"internal/goarch"
+	"internal/golangarch"
 	"internal/stringslite"
 )
 
 type suspendGState struct {
 	g *g
 
-	// dead indicates the goroutine was not suspended because it
-	// is dead. This goroutine could be reused after the dead
+	// dead indicates the golangroutine was not suspended because it
+	// is dead. This golangroutine could be reused after the dead
 	// state was observed, so the caller must not assume that it
 	// remains dead.
 	dead bool
@@ -73,26 +73,26 @@ type suspendGState struct {
 	stopped bool
 }
 
-// suspendG suspends goroutine gp at a safe-point and returns the
-// state of the suspended goroutine. The caller gets read access to
-// the goroutine until it calls resumeG.
+// suspendG suspends golangroutine gp at a safe-point and returns the
+// state of the suspended golangroutine. The caller gets read access to
+// the golangroutine until it calls resumeG.
 //
 // It is safe for multiple callers to attempt to suspend the same
-// goroutine at the same time. The goroutine may execute between
+// golangroutine at the same time. The golangroutine may execute between
 // subsequent successful suspend operations. The current
-// implementation grants exclusive access to the goroutine, and hence
+// implementation grants exclusive access to the golangroutine, and hence
 // multiple callers will serialize. However, the intent is to grant
 // shared read access, so please don't depend on exclusive access.
 //
-// This must be called from the system stack and the user goroutine on
+// This must be called from the system stack and the user golangroutine on
 // the current M (if any) must be in a preemptible state. This
-// prevents deadlocks where two goroutines attempt to suspend each
+// prevents deadlocks where two golangroutines attempt to suspend each
 // other and both are in non-preemptible states. There are other ways
 // to resolve this deadlock, but this seems simplest.
 //
 // TODO(austin): What if we instead required this to be called from a
-// user goroutine? Then we could deschedule the goroutine while
-// waiting instead of blocking the thread. If two goroutines tried to
+// user golangroutine? Then we could deschedule the golangroutine while
+// waiting instead of blocking the thread. If two golangroutines tried to
 // suspend each other, one of them would win and the other wouldn't
 // complete the suspend until it was resumed. We would have to be
 // careful that they couldn't actually queue up suspend for each other
@@ -101,20 +101,20 @@ type suspendGState struct {
 // directly schedule the waiter. The context switch is unavoidable in
 // the signal case.
 //
-//go:systemstack
+//golang:systemstack
 func suspendG(gp *g) suspendGState {
 	if mp := getg().m; mp.curg != nil && readgstatus(mp.curg) == _Grunning {
 		// Since we're on the system stack of this M, the user
-		// G is stuck at an unsafe point. If another goroutine
+		// G is stuck at an unsafe point. If another golangroutine
 		// were to try to preempt m.curg, it could deadlock.
-		throw("suspendG from non-preemptible goroutine")
+		throw("suspendG from non-preemptible golangroutine")
 	}
 
-	// See https://golang.org/cl/21503 for justification of the yield delay.
+	// See https://golanglang.org/cl/21503 for justification of the yield delay.
 	const yieldDelay = 10 * 1000
 	var nextYield int64
 
-	// Drive the goroutine to a preemption point.
+	// Drive the golangroutine to a preemption point.
 	stopped := false
 	var asyncM *m
 	var asyncGen uint32
@@ -138,8 +138,8 @@ func suspendG(gp *g) suspendGState {
 			// Nothing to suspend.
 			//
 			// preemptStop may need to be cleared, but
-			// doing that here could race with goroutine
-			// reuse. Instead, goexit0 clears it.
+			// doing that here could race with golangroutine
+			// reuse. Instead, golangexit0 clears it.
 			return suspendGState{dead: true}
 
 		case _Gcopystack:
@@ -161,7 +161,7 @@ func suspendG(gp *g) suspendGState {
 			fallthrough
 
 		case _Grunnable, _Gsyscall, _Gwaiting:
-			// Claim goroutine by setting scan bit.
+			// Claim golangroutine by setting scan bit.
 			// This may race with execution or readying of gp.
 			// The scan bit keeps it from transition state.
 			if !castogscanstatus(gp, s, s|_Gscan) {
@@ -175,7 +175,7 @@ func suspendG(gp *g) suspendGState {
 			gp.preempt = false
 			gp.stackguard0 = gp.stack.lo + stackGuard
 
-			// The goroutine was already at a safe-point
+			// The golangroutine was already at a safe-point
 			// and we've now locked that in.
 			//
 			// TODO: It would be much better if we didn't
@@ -183,7 +183,7 @@ func suspendG(gp *g) suspendGState {
 			// prevented its scheduling until resumption.
 			// Maybe we only use this to bump a suspended
 			// count and the scheduler skips suspended
-			// goroutines? That wouldn't be enough for
+			// golangroutines? That wouldn't be enough for
 			// {_Gsyscall,_Gwaiting} -> _Grunning. Maybe
 			// for all those transitions we need to check
 			// suspended and deschedule?
@@ -240,7 +240,7 @@ func suspendG(gp *g) suspendGState {
 		// should queue up the preemption (which will require
 		// it to be reliable in the _Grunning case, not
 		// best-effort) and then sleep until we're notified
-		// that the goroutine is suspended.
+		// that the golangroutine is suspended.
 		if i == 0 {
 			nextYield = nanotime() + yieldDelay
 		}
@@ -254,7 +254,7 @@ func suspendG(gp *g) suspendGState {
 }
 
 // resumeG undoes the effects of suspendG, allowing the suspended
-// goroutine to continue from its current safe-point.
+// golangroutine to continue from its current safe-point.
 func resumeG(state suspendGState) {
 	if state.dead {
 		// We didn't actually stop anything.
@@ -283,12 +283,12 @@ func resumeG(state suspendGState) {
 //
 // It is nosplit because it has nosplit callers.
 //
-//go:nosplit
+//golang:nosplit
 func canPreemptM(mp *m) bool {
 	return mp.locks == 0 && mp.mallocing == 0 && mp.preemptoff == "" && mp.p.ptr().status == _Prunning
 }
 
-//go:generate go run mkpreempt.go
+//golang:generate golang run mkpreempt.golang
 
 // asyncPreempt saves all user registers and calls asyncPreempt2.
 //
@@ -298,14 +298,14 @@ func canPreemptM(mp *m) bool {
 // asyncPreempt is implemented in assembly.
 func asyncPreempt()
 
-//go:nosplit
+//golang:nosplit
 func asyncPreempt2() {
 	gp := getg()
 	gp.asyncSafePoint = true
 	if gp.preemptStop {
 		mcall(preemptPark)
 	} else {
-		mcall(gopreempt_m)
+		mcall(golangpreempt_m)
 	}
 	gp.asyncSafePoint = false
 }
@@ -320,7 +320,7 @@ func init() {
 	f = findfunc(abi.FuncPCABIInternal(asyncPreempt2))
 	total += funcMaxSPDelta(f)
 	// Add some overhead for return PCs, etc.
-	asyncPreemptStack = uintptr(total) + 8*goarch.PtrSize
+	asyncPreemptStack = uintptr(total) + 8*golangarch.PtrSize
 	if asyncPreemptStack > stackNosplit {
 		// We need more than the nosplit limit. This isn't
 		// unsafe, but it may limit asynchronous preemption.
@@ -428,10 +428,10 @@ func isAsyncSafePoint(gp *g, pc, sp, lr uintptr) (bool, uintptr) {
 		// barriers (write barrier check), atomic functions in
 		// internal/runtime/atomic, reflect.{makeFuncStub,methodValueCall}.
 		//
-		// Note that this is a subset of the runtimePkgs in pkgspecial.go
+		// Note that this is a subset of the runtimePkgs in pkgspecial.golang
 		// and these checks are theoretically redundant because the compiler
 		// marks "all points" in runtime functions as unsafe for async preemption.
-		// But for some reason, we can't eliminate these checks until https://go.dev/issue/72031
+		// But for some reason, we can't eliminate these checks until https://golang.dev/issue/72031
 		// is resolved.
 		//
 		// TODO(austin): We should improve this, or opt things

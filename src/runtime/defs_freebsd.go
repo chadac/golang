@@ -1,15 +1,15 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build ignore
+//golang:build ignore
 
 /*
-Input to cgo.
+Input to cgolang.
 
-GOARCH=amd64 go tool cgo -cdefs defs_freebsd.go >defs_freebsd_amd64.h
-GOARCH=386 go tool cgo -cdefs defs_freebsd.go >defs_freebsd_386.h
-GOARCH=arm go tool cgo -cdefs defs_freebsd.go >defs_freebsd_arm.h
+GOARCH=amd64 golang tool cgolang -cdefs defs_freebsd.golang >defs_freebsd_amd64.h
+GOARCH=386 golang tool cgolang -cdefs defs_freebsd.golang >defs_freebsd_386.h
+GOARCH=arm golang tool cgolang -cdefs defs_freebsd.golang >defs_freebsd_arm.h
 */
 
 package runtime

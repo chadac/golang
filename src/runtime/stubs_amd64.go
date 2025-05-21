@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package runtime
@@ -18,7 +18,7 @@ func gcWriteBarrierR9()
 // stackcheck checks that SP is in range [g->stack.lo, g->stack.hi).
 func stackcheck()
 
-// Called from assembly only; declared for go vet.
+// Called from assembly only; declared for golang vet.
 func settls() // argument in DI
 
 // Retpolines, used by -spectre=ret flag in cmd/asm, cmd/compile.
@@ -38,11 +38,11 @@ func retpolineR13()
 func retpolineR14()
 func retpolineR15()
 
-//go:noescape
-func asmcgocall_no_g(fn, arg unsafe.Pointer)
+//golang:noescape
+func asmcgolangcall_no_g(fn, arg unsafe.Pointer)
 
-//go:systemstack
-func asmcgocall_landingpad()
+//golang:systemstack
+func asmcgolangcall_landingpad()
 
 // Used by reflectcall and the reflect package.
 //

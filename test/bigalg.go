@@ -1,10 +1,10 @@
 // run
 
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Test the internal "algorithms" for objects larger than a word: hashing, equality etc.
+// Test the internal "algolangrithms" for objects larger than a word: hashing, equality etc.
 
 package main
 
@@ -72,7 +72,7 @@ func send() {
 }
 
 func chantest() {
-	go send()
+	golang send()
 
 	t1 := <-ct
 	if t1.a != t.a || t1.b != t.b || t1.c != t.c || t1.d != t.d {

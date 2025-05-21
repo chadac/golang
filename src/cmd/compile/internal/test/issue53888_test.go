@@ -1,8 +1,8 @@
 // Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !race && !asan && !msan
+//golang:build !race && !asan && !msan
 
 package test
 
@@ -19,7 +19,7 @@ func TestAppendOfMake(t *testing.T) {
 			b = append(b[:0], make([]byte, n)...)
 		}
 		if n := testing.AllocsPerRun(10, f); n > 0 {
-			t.Errorf("got %f allocs, want 0", n)
+			t.Errorf("golangt %f allocs, want 0", n)
 		}
 		type S []byte
 
@@ -28,19 +28,19 @@ func TestAppendOfMake(t *testing.T) {
 			s = append(s[:0], make(S, n)...)
 		}
 		if n := testing.AllocsPerRun(10, g); n > 0 {
-			t.Errorf("got %f allocs, want 0", n)
+			t.Errorf("golangt %f allocs, want 0", n)
 		}
 		h := func() {
 			s = append(s[:0], make([]byte, n)...)
 		}
 		if n := testing.AllocsPerRun(10, h); n > 0 {
-			t.Errorf("got %f allocs, want 0", n)
+			t.Errorf("golangt %f allocs, want 0", n)
 		}
 		i := func() {
 			b = append(b[:0], make(S, n)...)
 		}
 		if n := testing.AllocsPerRun(10, i); n > 0 {
-			t.Errorf("got %f allocs, want 0", n)
+			t.Errorf("golangt %f allocs, want 0", n)
 		}
 	}
 }

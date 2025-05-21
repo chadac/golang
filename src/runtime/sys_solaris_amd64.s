@@ -1,13 +1,13 @@
 // Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 //
 // System calls and other sys.stuff for AMD64, SunOS
 // /usr/include/sys/syscall.h for syscall numbers.
 //
 
-#include "go_asm.h"
-#include "go_tls.h"
+#include "golang_asm.h"
+#include "golang_tls.h"
 #include "textflag.h"
 
 // This is needed by asm_amd64.s
@@ -18,10 +18,10 @@ TEXT runtime·settls(SB),NOSPLIT,$8
 //
 // Set the TLS errno pointer in M.
 //
-// Called using runtime·asmcgocall from os_solaris.c:/minit.
+// Called using runtime·asmcgolangcall from os_solaris.c:/minit.
 // NOT USING GO CALLING CONVENTION.
 TEXT runtime·miniterrno(SB),NOSPLIT,$0
-	// asmcgocall will put first argument into DI.
+	// asmcgolangcall will put first argument into DI.
 	CALL	DI	// SysV ABI so returns in AX
 	get_tls(CX)
 	MOVQ	g(CX), BX
@@ -37,10 +37,10 @@ TEXT runtime·miniterrno(SB),NOSPLIT,$0
 //   AMD64 Architecture Processor Supplement
 // section 3.2.3.
 //
-// Called by runtime·asmcgocall or runtime·cgocall.
+// Called by runtime·asmcgolangcall or runtime·cgolangcall.
 // NOT USING GO CALLING CONVENTION.
 TEXT runtime·asmsysvicall6(SB),NOSPLIT,$0
-	// asmcgocall will put first argument into DI.
+	// asmcgolangcall will put first argument into DI.
 	PUSHQ	DI			// save for later
 	MOVQ	libcall_fn(DI), AX
 	MOVQ	libcall_args(DI), R11
@@ -139,7 +139,7 @@ TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME|NOFRAME,$0
 	// check that g exists
 	MOVQ	g(BX), R10
 	CMPQ	R10, $0
-	JNE	allgood
+	JNE	allgolangod
 	MOVQ	SI, 72(SP)
 	MOVQ	DX, 80(SP)
 	LEAQ	72(SP), AX
@@ -149,9 +149,9 @@ TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME|NOFRAME,$0
 	CALL	AX
 	JMP	exit
 
-allgood:
+allgolangod:
 	// Save m->libcall and m->scratch. We need to do this because we
-	// might get interrupted by a signal in runtime·asmcgocall.
+	// might get interrupted by a signal in runtime·asmcgolangcall.
 
 	// save m->libcall
 	MOVQ	g_m(R10), BP
@@ -191,7 +191,7 @@ allgood:
 	MOVQ	DI, 0(SP)
 	MOVQ	SI, 8(SP)
 	MOVQ	DX, 16(SP)
-	CALL	runtime·sigtrampgo(SB)
+	CALL	runtime·sigtrampgolang(SB)
 
 	get_tls(BX)
 	MOVQ	g(BX), BP
@@ -252,7 +252,7 @@ TEXT runtime·sigfwd(SB),NOSPLIT,$0-32
 	RET
 
 // Called from runtime·usleep (Go). Can be called on Go stack, on OS stack,
-// can also be called in cgo callback path without a g->m.
+// can also be called in cgolang callback path without a g->m.
 TEXT runtime·usleep1(SB),NOSPLIT,$0
 	MOVL	usec+0(FP), DI
 	MOVQ	$usleep2<>(SB), AX // to hide from 6l
@@ -279,7 +279,7 @@ TEXT runtime·usleep1(SB),NOSPLIT,$0
 
 switch:
 	// Switch to m->g0 stack and back.
-	MOVQ	(g_sched+gobuf_sp)(R14), R14
+	MOVQ	(g_sched+golangbuf_sp)(R14), R14
 	MOVQ	SP, -8(R14)
 	LEAQ	-8(R14), SP
 	CALL	AX

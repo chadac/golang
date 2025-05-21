@@ -1,11 +1,11 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-#include "go_asm.h"
+#include "golang_asm.h"
 #include "textflag.h"
 #include "asm_ppc64x.h"
-#include "cgo/abi_ppc64x.h"
+#include "cgolang/abi_ppc64x.h"
 
 TEXT _rt0_ppc64le_linux(SB),NOSPLIT,$0
 	XOR R0, R0	  // Make sure R0 is zero before _main
@@ -25,19 +25,19 @@ TEXT _rt0_ppc64le_linux_lib(SB),NOSPLIT|NOFRAME,$0
 	BL	(CTR)
 
 	// Create a new thread to do the runtime initialization and return.
-	MOVD	_cgo_sys_thread_create(SB), R12
+	MOVD	_cgolang_sys_thread_create(SB), R12
 	CMP	$0, R12
-	BEQ	nocgo
-	MOVD	$_rt0_ppc64le_linux_lib_go(SB), R3
+	BEQ	nocgolang
+	MOVD	$_rt0_ppc64le_linux_lib_golang(SB), R3
 	MOVD	$0, R4
 	MOVD	R12, CTR
 	BL	(CTR)
 	BR	done
 
-nocgo:
+nocgolang:
 	MOVD	$0x800000, R12                     // stacksize = 8192KB
 	MOVD	R12, 8+FIXED_FRAME(R1)
-	MOVD	$_rt0_ppc64le_linux_lib_go(SB), R12
+	MOVD	$_rt0_ppc64le_linux_lib_golang(SB), R12
 	MOVD	R12, 16+FIXED_FRAME(R1)
 	MOVD	$runtime·newosproc0(SB),R12
 	MOVD	R12, CTR
@@ -48,10 +48,10 @@ done:
 	UNSTACK_AND_RESTORE_GO_TO_HOST_ABI(16)
 	RET
 
-TEXT _rt0_ppc64le_linux_lib_go(SB),NOSPLIT,$0
+TEXT _rt0_ppc64le_linux_lib_golang(SB),NOSPLIT,$0
 	MOVD	_rt0_ppc64le_linux_lib_argc<>(SB), R3
 	MOVD	_rt0_ppc64le_linux_lib_argv<>(SB), R4
-	MOVD	$runtime·rt0_go(SB), R12
+	MOVD	$runtime·rt0_golang(SB), R12
 	MOVD	R12, CTR
 	BR	(CTR)
 
@@ -96,6 +96,6 @@ tls_and_argcv_in_reg:
 	BR	main(SB)
 
 TEXT main(SB),NOSPLIT,$-8
-	MOVD	$runtime·rt0_go(SB), R12
+	MOVD	$runtime·rt0_golang(SB), R12
 	MOVD	R12, CTR
 	BR	(CTR)

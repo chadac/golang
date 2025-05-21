@@ -1,5 +1,5 @@
 // Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package main
@@ -9,13 +9,13 @@ package main
 // We use a fake traceback, and a symbolizer that dumps a string we recognize.
 
 /*
-#cgo CFLAGS: -g -O0
+#cgolang CFLAGS: -g -O0
 
 // Defined in traceback_c.c.
 extern int crashInGo;
 int tracebackF1(void);
-void cgoTraceback(void* parg);
-void cgoSymbolizer(void* parg);
+void cgolangTraceback(void* parg);
+void cgolangSymbolizer(void* parg);
 */
 import "C"
 
@@ -30,7 +30,7 @@ func init() {
 }
 
 func CrashTraceback() {
-	runtime.SetCgoTraceback(0, unsafe.Pointer(C.cgoTraceback), nil, unsafe.Pointer(C.cgoSymbolizer))
+	runtime.SetCgolangTraceback(0, unsafe.Pointer(C.cgolangTraceback), nil, unsafe.Pointer(C.cgolangSymbolizer))
 	C.tracebackF1()
 }
 

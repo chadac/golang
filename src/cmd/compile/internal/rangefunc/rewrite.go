@@ -1,5 +1,5 @@
 // Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 /*
@@ -68,7 +68,7 @@ to tell f to stop. And if the body contains a "continue", that turns
 into "return true", to tell f to proceed with the next value.
 Those are the easy cases.
 
-If the body contains a return or a break/continue/goto L, then we need
+If the body contains a return or a break/continue/golangto L, then we need
 to rewrite that into code that breaks out of the loop and then
 triggers that control flow. In general we rewrite
 
@@ -130,7 +130,7 @@ at the return site.
 To permit checking that an iterator is well-behaved -- that is, that
 it does not call the loop body again after it has returned false or
 after the entire loop has exited (it might retain a copy of the body
-function, or pass it to another goroutine) -- each generated loop has
+function, or pass it to another golangroutine) -- each generated loop has
 its own #stateK variable that is used to check for permitted call
 patterns to the yield function for a loop body.
 
@@ -300,7 +300,7 @@ add one or both of these to the #next checks:
 			#next = 0
 			return rv
 		  }
-		  return false // or handle returns and gotos
+		  return false // or handle returns and golangtos
 		}
 
 For example (with perLoopStep == 2)
@@ -392,10 +392,10 @@ since no generated code tries to continue g.
 
 # Gotos and other labeled break/continue
 
-The final control flow translations are goto and break/continue of a
+The final control flow translations are golangto and break/continue of a
 non-range-over-func statement. In both cases, we may need to break
 out of one or more range-over-func loops before we can do the actual
-control flow statement. Each such break/continue/goto L statement is
+control flow statement. Each such break/continue/golangto L statement is
 assigned a unique negative #next value (since -1 is return). Then
 the post-checks for a given loop test for the specific codes that
 refer to labels directly targetable from that block. Otherwise, the
@@ -413,7 +413,7 @@ For example
 			...
 			for range h {
 				...
-				goto Top
+				golangto Top
 				...
 			}
 		}
@@ -439,7 +439,7 @@ becomes
 					#state3 = abi.RF_PANIC
 					...
 					{
-						// goto Top
+						// golangto Top
 						#next = -3
 						#state3 = abi.RF_DONE
 						return false
@@ -470,12 +470,12 @@ becomes
 		#state1 = abi.RF_EXHAUSTED
 		if #next == -3 {
 			#next = 0
-			goto Top
+			golangto Top
 		}
 	}
 
 Labeled break/continue to non-range-over-funcs are handled the same
-way as goto.
+way as golangto.
 
 # Defers
 
@@ -533,7 +533,7 @@ import (
 	"cmd/compile/internal/syntax"
 	"cmd/compile/internal/types2"
 	"fmt"
-	"go/constant"
+	"golang/constant"
 	"internal/abi"
 	"os"
 )
@@ -679,7 +679,7 @@ func (r *rewriter) inspect(n syntax.Node) bool {
 		n = r.stack[len(r.stack)-1]
 
 		// If we are inside a range-over-func,
-		// take this moment to replace any break/continue/goto/return
+		// take this moment to replace any break/continue/golangto/return
 		// statements directly contained in this node.
 		// Also replace any converted for statements
 		// with the rewritten block.
@@ -846,7 +846,7 @@ func (r *rewriter) editBranch(x *syntax.BranchStmt) syntax.Stmt {
 		return x
 	}
 
-	// Find target of break/continue/goto in r.forStack.
+	// Find target of break/continue/golangto in r.forStack.
 	// (The target may not be in r.forStack at all.)
 	targ := x.Target
 	i := len(r.forStack) - 1
@@ -865,11 +865,11 @@ func (r *rewriter) editBranch(x *syntax.BranchStmt) syntax.Stmt {
 	var next int
 	var ret *syntax.ReturnStmt
 	if x.Tok == syntax.Goto || i < 0 {
-		// goto Label
+		// golangto Label
 		// or break/continue of labeled non-range-over-func loop (x.Label != nil).
 		// We may be able to leave it alone, or we may have to break
 		// out of one or more nested loops and then use #next to signal
-		// to complete the break/continue/goto.
+		// to complete the break/continue/golangto.
 		// Figure out which range-over-func loop contains the label.
 		r.computeBranchNext()
 		nfor := r.forStack[len(r.forStack)-1].nfor
@@ -880,7 +880,7 @@ func (r *rewriter) editBranch(x *syntax.BranchStmt) syntax.Stmt {
 			return x
 		}
 
-		// Set #next to the code meaning break/continue/goto label.
+		// Set #next to the code meaning break/continue/golangto label.
 		next = r.branchNext[branch{x.Tok, label}]
 
 		// Break out of nested loops up to targ.
@@ -1254,11 +1254,11 @@ func (r *rewriter) checks(loop *forLoop, pos syntax.Pos) []syntax.Stmt {
 		//			#next = 0
 		//			return rv
 		//		}
-		// 		return false // or handle returns and gotos
+		// 		return false // or handle returns and golangtos
 		//	}
 
 		if loop.checkRet {
-			// Note: next < 0 also handles gotos handled by outer loops.
+			// Note: next < 0 also handles golangtos handled by outer loops.
 			// We set checkRet in that case to trigger this check.
 			if r.checkFuncMisuse() {
 				list = append(list, r.ifNext(syntax.Lss, 0, false, r.setStateAt(curLoopIndex, abi.RF_DONE), retStmt(r.useObj(r.false))))

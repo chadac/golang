@@ -1,5 +1,5 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Indexed package export.
@@ -107,7 +107,7 @@
 // typeOff means a uvarint that either indicates a predeclared type,
 // or an offset into the Data section. If the uvarint is less than
 // predeclReserved, then it indicates the index into the predeclared
-// types list (see predeclared in bexport.go for order). Otherwise,
+// types list (see predeclared in bexport.golang for order). Otherwise,
 // subtracting predeclReserved yields the offset of a type descriptor.
 //
 // Value means a type, kind, and type-specific value. See

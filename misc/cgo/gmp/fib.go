@@ -1,10 +1,10 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build ignore
+//golang:build ignore
 
-// Compute Fibonacci numbers with two goroutines
+// Compute Fibonacci numbers with two golangroutines
 // that pass integers back and forth.  No actual
 // concurrency, just threads and synchronization
 // and foreign code on multiple pthreads.
@@ -19,7 +19,7 @@ import (
 func fibber(c chan *big.Int, out chan string, n int64) {
 	// Keep the fibbers in dedicated operating system
 	// threads, so that this program tests coordination
-	// between pthreads and not just goroutines.
+	// between pthreads and not just golangroutines.
 	runtime.LockOSThread()
 
 	i := big.NewInt(n)
@@ -37,8 +37,8 @@ func fibber(c chan *big.Int, out chan string, n int64) {
 func main() {
 	c := make(chan *big.Int)
 	out := make(chan string)
-	go fibber(c, out, 0)
-	go fibber(c, out, 1)
+	golang fibber(c, out, 0)
+	golang fibber(c, out, 1)
 	for i := 0; i < 200; i++ {
 		println(<-out)
 	}

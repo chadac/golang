@@ -1,11 +1,11 @@
 // Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file contains a driver.UI implementation
 // that provides the readline functionality if possible.
 
-//go:build (darwin || dragonfly || freebsd || linux || netbsd || openbsd || solaris || windows) && !appengine && !android
+//golang:build (darwin || dragolangnfly || freebsd || linux || netbsd || openbsd || solaris || windows) && !appengine && !android
 
 package main
 
@@ -15,8 +15,8 @@ import (
 	"os"
 	"strings"
 
-	"github.com/google/pprof/driver"
-	"golang.org/x/term"
+	"github.com/golangogle/pprof/driver"
+	"golanglang.org/x/term"
 )
 
 func init() {
@@ -24,7 +24,7 @@ func init() {
 }
 
 // readlineUI implements driver.UI interface using the
-// golang.org/x/term package.
+// golanglang.org/x/term package.
 // The upstream pprof command implements the same functionality
 // using the github.com/chzyer/readline package.
 type readlineUI struct {
@@ -32,7 +32,7 @@ type readlineUI struct {
 }
 
 func newReadlineUI() driver.UI {
-	// disable readline UI in dumb terminal. (golang.org/issue/26254)
+	// disable readline UI in dumb terminal. (golanglang.org/issue/26254)
 	if v := strings.ToLower(os.Getenv("TERM")); v == "" || v == "dumb" {
 		return nil
 	}

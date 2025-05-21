@@ -1,8 +1,8 @@
 // Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !plan9 && !windows
+//golang:build !plan9 && !windows
 // +build !plan9,!windows
 
 package main
@@ -43,20 +43,20 @@ func init() {
 
 func LockOSThreadMain() {
 	// This requires GOMAXPROCS=1 from the beginning to reliably
-	// start a goroutine on the main thread.
+	// start a golangroutine on the main thread.
 	if runtime.GOMAXPROCS(-1) != 1 {
 		println("requires GOMAXPROCS=1")
 		os.Exit(1)
 	}
 
 	ready := make(chan bool, 1)
-	go func() {
+	golang func() {
 		// Because GOMAXPROCS=1, this *should* be on the main
 		// thread. Stay there.
 		runtime.LockOSThread()
 		self := C.pthread_self()
 		if C.pthread_equal(mainThread, self) == 0 {
-			println("failed to start goroutine on main thread")
+			println("failed to start golangroutine on main thread")
 			os.Exit(1)
 		}
 		// Exit with the thread locked, which should exit the
@@ -65,11 +65,11 @@ func LockOSThreadMain() {
 	}()
 	<-ready
 	time.Sleep(1 * time.Millisecond)
-	// Check that this goroutine is still running on a different
+	// Check that this golangroutine is still running on a different
 	// thread.
 	self := C.pthread_self()
 	if C.pthread_equal(mainThread, self) != 0 {
-		println("goroutine migrated to locked thread")
+		println("golangroutine migrated to locked thread")
 		os.Exit(1)
 	}
 	println("OK")
@@ -81,8 +81,8 @@ func LockOSThreadAlt() {
 	var subThread C.pthread_t
 	ready := make(chan bool, 1)
 	C.threadExited = 0
-	go func() {
-		// This goroutine must be running on a new thread.
+	golang func() {
+		// This golangroutine must be running on a new thread.
 		runtime.LockOSThread()
 		subThread = C.pthread_self()
 		// Register a pthread destructor so we can tell this
@@ -96,7 +96,7 @@ func LockOSThreadAlt() {
 	<-ready
 	for {
 		time.Sleep(1 * time.Millisecond)
-		// Check that this goroutine is running on a different thread.
+		// Check that this golangroutine is running on a different thread.
 		self := C.pthread_self()
 		if C.pthread_equal(subThread, self) != 0 {
 			println("locked thread reused")

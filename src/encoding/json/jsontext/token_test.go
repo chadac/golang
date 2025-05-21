@@ -1,8 +1,8 @@
 // Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build goexperiment.jsonv2
+//golang:build golangexperiment.jsonv2
 
 package jsontext
 
@@ -19,15 +19,15 @@ func TestTokenStringAllocations(t *testing.T) {
 
 	tok := rawToken(`"hello"`)
 	var m map[string]bool
-	got := int(testing.AllocsPerRun(10, func() {
+	golangt := int(testing.AllocsPerRun(10, func() {
 		// This function uses tok.String() is a non-escaping manner
 		// (i.e., looking it up in a Go map). It should not allocate.
 		if m[tok.String()] {
 			panic("never executed")
 		}
 	}))
-	if got > 0 {
-		t.Errorf("Token.String allocated %d times, want 0", got)
+	if golangt > 0 {
+		t.Errorf("Token.String allocated %d times, want 0", golangt)
 	}
 }
 
@@ -91,7 +91,7 @@ func TestTokenAccessors(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run("", func(t *testing.T) {
-			got := token{
+			golangt := token{
 				Bool: func() bool {
 					defer func() { recover() }()
 					return tt.in.Bool()
@@ -112,23 +112,23 @@ func TestTokenAccessors(t *testing.T) {
 				Kind: tt.in.Kind(),
 			}
 
-			if got.Bool != tt.want.Bool {
-				t.Errorf("Token(%s).Bool() = %v, want %v", tt.in, got.Bool, tt.want.Bool)
+			if golangt.Bool != tt.want.Bool {
+				t.Errorf("Token(%s).Bool() = %v, want %v", tt.in, golangt.Bool, tt.want.Bool)
 			}
-			if got.String != tt.want.String {
-				t.Errorf("Token(%s).String() = %v, want %v", tt.in, got.String, tt.want.String)
+			if golangt.String != tt.want.String {
+				t.Errorf("Token(%s).String() = %v, want %v", tt.in, golangt.String, tt.want.String)
 			}
-			if math.Float64bits(got.Float) != math.Float64bits(tt.want.Float) {
-				t.Errorf("Token(%s).Float() = %v, want %v", tt.in, got.Float, tt.want.Float)
+			if math.Float64bits(golangt.Float) != math.Float64bits(tt.want.Float) {
+				t.Errorf("Token(%s).Float() = %v, want %v", tt.in, golangt.Float, tt.want.Float)
 			}
-			if got.Int != tt.want.Int {
-				t.Errorf("Token(%s).Int() = %v, want %v", tt.in, got.Int, tt.want.Int)
+			if golangt.Int != tt.want.Int {
+				t.Errorf("Token(%s).Int() = %v, want %v", tt.in, golangt.Int, tt.want.Int)
 			}
-			if got.Uint != tt.want.Uint {
-				t.Errorf("Token(%s).Uint() = %v, want %v", tt.in, got.Uint, tt.want.Uint)
+			if golangt.Uint != tt.want.Uint {
+				t.Errorf("Token(%s).Uint() = %v, want %v", tt.in, golangt.Uint, tt.want.Uint)
 			}
-			if got.Kind != tt.want.Kind {
-				t.Errorf("Token(%s).Kind() = %v, want %v", tt.in, got.Kind, tt.want.Kind)
+			if golangt.Kind != tt.want.Kind {
+				t.Errorf("Token(%s).Kind() = %v, want %v", tt.in, golangt.Kind, tt.want.Kind)
 			}
 		})
 	}
@@ -155,13 +155,13 @@ func TestTokenClone(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run("", func(t *testing.T) {
-			got := tt.in.Clone()
-			if !reflect.DeepEqual(got, tt.in) {
+			golangt := tt.in.Clone()
+			if !reflect.DeepEqual(golangt, tt.in) {
 				t.Errorf("Token(%s) == Token(%s).Clone() = false, want true", tt.in, tt.in)
 			}
-			gotExactRaw := got.raw == tt.in.raw
-			if gotExactRaw != tt.wantExactRaw {
-				t.Errorf("Token(%s).raw == Token(%s).Clone().raw = %v, want %v", tt.in, tt.in, gotExactRaw, tt.wantExactRaw)
+			golangtExactRaw := golangt.raw == tt.in.raw
+			if golangtExactRaw != tt.wantExactRaw {
+				t.Errorf("Token(%s).raw == Token(%s).Clone().raw = %v, want %v", tt.in, tt.in, golangtExactRaw, tt.wantExactRaw)
 			}
 		})
 	}

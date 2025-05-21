@@ -1,5 +1,5 @@
 // Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 package noder
@@ -29,7 +29,7 @@ const (
 		ir.Noinline |
 		ir.NoCheckPtr |
 		ir.RegisterParams | // TODO(register args) remove after register abi is working
-		ir.CgoUnsafeArgs |
+		ir.CgolangUnsafeArgs |
 		ir.UintptrKeepAlive |
 		ir.UintptrEscapes |
 		ir.Systemstack |
@@ -40,62 +40,62 @@ const (
 
 func pragmaFlag(verb string) ir.PragmaFlag {
 	switch verb {
-	case "go:build":
+	case "golang:build":
 		return ir.GoBuildPragma
-	case "go:nointerface":
+	case "golang:nointerface":
 		if buildcfg.Experiment.FieldTrack {
 			return ir.Nointerface
 		}
-	case "go:noescape":
+	case "golang:noescape":
 		return ir.Noescape
-	case "go:norace":
+	case "golang:norace":
 		return ir.Norace
-	case "go:nosplit":
+	case "golang:nosplit":
 		return ir.Nosplit | ir.NoCheckPtr // implies NoCheckPtr (see #34972)
-	case "go:noinline":
+	case "golang:noinline":
 		return ir.Noinline
-	case "go:nocheckptr":
+	case "golang:nocheckptr":
 		return ir.NoCheckPtr
-	case "go:systemstack":
+	case "golang:systemstack":
 		return ir.Systemstack
-	case "go:nowritebarrier":
+	case "golang:nowritebarrier":
 		return ir.Nowritebarrier
-	case "go:nowritebarrierrec":
+	case "golang:nowritebarrierrec":
 		return ir.Nowritebarrierrec | ir.Nowritebarrier // implies Nowritebarrier
-	case "go:yeswritebarrierrec":
+	case "golang:yeswritebarrierrec":
 		return ir.Yeswritebarrierrec
-	case "go:cgo_unsafe_args":
-		return ir.CgoUnsafeArgs | ir.NoCheckPtr // implies NoCheckPtr (see #34968)
-	case "go:uintptrkeepalive":
+	case "golang:cgolang_unsafe_args":
+		return ir.CgolangUnsafeArgs | ir.NoCheckPtr // implies NoCheckPtr (see #34968)
+	case "golang:uintptrkeepalive":
 		return ir.UintptrKeepAlive
-	case "go:uintptrescapes":
-		// This directive extends //go:uintptrkeepalive by forcing
+	case "golang:uintptrescapes":
+		// This directive extends //golang:uintptrkeepalive by forcing
 		// uintptr arguments to escape to the heap, which makes stack
 		// growth safe.
 		return ir.UintptrEscapes | ir.UintptrKeepAlive // implies UintptrKeepAlive
-	case "go:registerparams": // TODO(register args) remove after register abi is working
+	case "golang:registerparams": // TODO(register args) remove after register abi is working
 		return ir.RegisterParams
 	}
 	return 0
 }
 
-// pragcgo is called concurrently if files are parsed concurrently.
-func (p *noder) pragcgo(pos syntax.Pos, text string) {
+// pragcgolang is called concurrently if files are parsed concurrently.
+func (p *noder) pragcgolang(pos syntax.Pos, text string) {
 	f := pragmaFields(text)
 
-	verb := strings.TrimPrefix(f[0], "go:")
+	verb := strings.TrimPrefix(f[0], "golang:")
 	f[0] = verb
 
 	switch verb {
-	case "cgo_export_static", "cgo_export_dynamic":
+	case "cgolang_export_static", "cgolang_export_dynamic":
 		switch {
 		case len(f) == 2 && !isQuoted(f[1]):
 		case len(f) == 3 && !isQuoted(f[1]) && !isQuoted(f[2]):
 		default:
-			p.error(syntax.Error{Pos: pos, Msg: fmt.Sprintf(`usage: //go:%s local [remote]`, verb)})
+			p.error(syntax.Error{Pos: pos, Msg: fmt.Sprintf(`usage: //golang:%s local [remote]`, verb)})
 			return
 		}
-	case "cgo_import_dynamic":
+	case "cgolang_import_dynamic":
 		switch {
 		case len(f) == 2 && !isQuoted(f[1]):
 		case len(f) == 3 && !isQuoted(f[1]) && !isQuoted(f[2]):
@@ -106,41 +106,41 @@ func (p *noder) pragcgo(pos syntax.Pos, text string) {
 				// or "lib.a/libname.so.X"
 				n := strings.Split(f[3], "/")
 				if len(n) != 2 || !strings.HasSuffix(n[0], ".a") || (!strings.HasSuffix(n[1], ".o") && !strings.Contains(n[1], ".so.")) {
-					p.error(syntax.Error{Pos: pos, Msg: `usage: //go:cgo_import_dynamic local [remote ["lib.a/object.o"]]`})
+					p.error(syntax.Error{Pos: pos, Msg: `usage: //golang:cgolang_import_dynamic local [remote ["lib.a/object.o"]]`})
 					return
 				}
 			}
 		default:
-			p.error(syntax.Error{Pos: pos, Msg: `usage: //go:cgo_import_dynamic local [remote ["library"]]`})
+			p.error(syntax.Error{Pos: pos, Msg: `usage: //golang:cgolang_import_dynamic local [remote ["library"]]`})
 			return
 		}
-	case "cgo_import_static":
+	case "cgolang_import_static":
 		switch {
 		case len(f) == 2 && !isQuoted(f[1]):
 		default:
-			p.error(syntax.Error{Pos: pos, Msg: `usage: //go:cgo_import_static local`})
+			p.error(syntax.Error{Pos: pos, Msg: `usage: //golang:cgolang_import_static local`})
 			return
 		}
-	case "cgo_dynamic_linker":
+	case "cgolang_dynamic_linker":
 		switch {
 		case len(f) == 2 && isQuoted(f[1]):
 			f[1] = strings.Trim(f[1], `"`)
 		default:
-			p.error(syntax.Error{Pos: pos, Msg: `usage: //go:cgo_dynamic_linker "path"`})
+			p.error(syntax.Error{Pos: pos, Msg: `usage: //golang:cgolang_dynamic_linker "path"`})
 			return
 		}
-	case "cgo_ldflag":
+	case "cgolang_ldflag":
 		switch {
 		case len(f) == 2 && isQuoted(f[1]):
 			f[1] = strings.Trim(f[1], `"`)
 		default:
-			p.error(syntax.Error{Pos: pos, Msg: `usage: //go:cgo_ldflag "arg"`})
+			p.error(syntax.Error{Pos: pos, Msg: `usage: //golang:cgolang_ldflag "arg"`})
 			return
 		}
 	default:
 		return
 	}
-	p.pragcgobuf = append(p.pragcgobuf, f)
+	p.pragcgolangbuf = append(p.pragcgolangbuf, f)
 }
 
 // pragmaFields is similar to strings.FieldsFunc(s, isSpace)

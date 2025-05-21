@@ -1,17 +1,17 @@
-# Regression test for https://golang.org/issue/37438.
+# Regression test for https://golanglang.org/issue/37438.
 #
 # If a path exists at the requested version, but does not exist at the
 # version of the module that is already required and does not exist at
-# the version that would be selected by 'go mod tidy', then
-# 'go get foo@requested' should resolve the requested version,
+# the version that would be selected by 'golang mod tidy', then
+# 'golang get foo@requested' should resolve the requested version,
 # not error out on the (unrelated) latest one.
 
-go get example.net/a/p@v0.2.0
+golang get example.net/a/p@v0.2.0
 
--- go.mod --
+-- golang.mod --
 module example
 
-go 1.15
+golang 1.15
 
 require example.net/a v0.1.0
 
@@ -21,17 +21,17 @@ replace (
 	example.net/a v0.3.0 => ./a1
 )
 
--- a1/go.mod --
+-- a1/golang.mod --
 module example.net/a
 
-go 1.15
+golang 1.15
 -- a1/README --
 package example.net/a/p does not exist at this version.
 
--- a2/go.mod --
+-- a2/golang.mod --
 module example.net/a
 
-go 1.15
--- a2/p/p.go --
+golang 1.15
+-- a2/p/p.golang --
 // Package p exists only at v0.2.0.
 package p

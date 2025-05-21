@@ -1,5 +1,5 @@
 // Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
 // This file implements typechecking of builtin function calls.
@@ -8,8 +8,8 @@ package types2
 
 import (
 	"cmd/compile/internal/syntax"
-	"go/constant"
-	"go/token"
+	"golang/constant"
+	"golang/token"
 	. "internal/types/errors"
 )
 
@@ -221,7 +221,7 @@ func (check *Checker) builtin(x *operand, call *syntax.CallExpr, id builtinId) (
 
 	case _Clear:
 		// clear(m)
-		check.verifyVersionf(call.Fun, go1_21, "clear")
+		check.verifyVersionf(call.Fun, golang1_21, "clear")
 
 		if !underIs(x.typ, func(u Type) bool {
 			switch u.(type) {
@@ -570,7 +570,7 @@ func (check *Checker) builtin(x *operand, call *syntax.CallExpr, id builtinId) (
 	case _Max, _Min:
 		// max(x, ...)
 		// min(x, ...)
-		check.verifyVersionf(call.Fun, go1_21, "built-in %s", bin.name)
+		check.verifyVersionf(call.Fun, golang1_21, "built-in %s", bin.name)
 
 		op := token.LSS
 		if id == _Max {
@@ -701,7 +701,7 @@ func (check *Checker) builtin(x *operand, call *syntax.CallExpr, id builtinId) (
 
 	case _Add:
 		// unsafe.Add(ptr unsafe.Pointer, len IntegerType) unsafe.Pointer
-		check.verifyVersionf(call.Fun, go1_17, "unsafe.Add")
+		check.verifyVersionf(call.Fun, golang1_17, "unsafe.Add")
 
 		check.assignment(x, Typ[UnsafePointer], "argument to unsafe.Add")
 		if x.mode == invalid {
@@ -764,8 +764,8 @@ func (check *Checker) builtin(x *operand, call *syntax.CallExpr, id builtinId) (
 		case *Func:
 			// TODO(gri) Using derefStructPtr may result in methods being found
 			// that don't actually exist. An error either way, but the error
-			// message is confusing. See: https://play.golang.org/p/al75v23kUy ,
-			// but go/types reports: "invalid argument: x.m is a method value".
+			// message is confusing. See: https://play.golanglang.org/p/al75v23kUy ,
+			// but golang/types reports: "invalid argument: x.m is a method value".
 			check.errorf(arg0, InvalidOffsetof, invalidArg+"%s is a method value", arg0)
 			return
 		}
@@ -777,7 +777,7 @@ func (check *Checker) builtin(x *operand, call *syntax.CallExpr, id builtinId) (
 		// TODO(gri) Should we pass x.typ instead of base (and have indirect report if derefStructPtr indirected)?
 		check.recordSelection(selx, FieldVal, base, obj, index, false)
 
-		// record the selector expression (was bug - go.dev/issue/47895)
+		// record the selector expression (was bug - golang.dev/issue/47895)
 		{
 			mode := value
 			if x.mode == variable || indirect {
@@ -833,7 +833,7 @@ func (check *Checker) builtin(x *operand, call *syntax.CallExpr, id builtinId) (
 
 	case _Slice:
 		// unsafe.Slice(ptr *T, len IntegerType) []T
-		check.verifyVersionf(call.Fun, go1_17, "unsafe.Slice")
+		check.verifyVersionf(call.Fun, golang1_17, "unsafe.Slice")
 
 		u, _ := commonUnder(x.typ, nil)
 		ptr, _ := u.(*Pointer)
@@ -855,7 +855,7 @@ func (check *Checker) builtin(x *operand, call *syntax.CallExpr, id builtinId) (
 
 	case _SliceData:
 		// unsafe.SliceData(slice []T) *T
-		check.verifyVersionf(call.Fun, go1_20, "unsafe.SliceData")
+		check.verifyVersionf(call.Fun, golang1_20, "unsafe.SliceData")
 
 		u, _ := commonUnder(x.typ, nil)
 		slice, _ := u.(*Slice)
@@ -872,7 +872,7 @@ func (check *Checker) builtin(x *operand, call *syntax.CallExpr, id builtinId) (
 
 	case _String:
 		// unsafe.String(ptr *byte, len IntegerType) string
-		check.verifyVersionf(call.Fun, go1_20, "unsafe.String")
+		check.verifyVersionf(call.Fun, golang1_20, "unsafe.String")
 
 		check.assignment(x, NewPointer(universeByte), "argument to unsafe.String")
 		if x.mode == invalid {
@@ -892,7 +892,7 @@ func (check *Checker) builtin(x *operand, call *syntax.CallExpr, id builtinId) (
 
 	case _StringData:
 		// unsafe.StringData(str string) *byte
-		check.verifyVersionf(call.Fun, go1_20, "unsafe.StringData")
+		check.verifyVersionf(call.Fun, golang1_20, "unsafe.StringData")
 
 		check.assignment(x, Typ[String], "argument to unsafe.StringData")
 		if x.mode == invalid {
@@ -1049,7 +1049,7 @@ func (check *Checker) applyTypeFunc(f func(Type) Type, x *operand, id builtinId)
 
 		// We can type-check this fine but we're introducing a synthetic
 		// type parameter for the result. It's not clear what the API
-		// implications are here. Report an error for 1.18 (see go.dev/issue/50912),
+		// implications are here. Report an error for 1.18 (see golang.dev/issue/50912),
 		// but continue type-checking.
 		var code Code
 		switch id {
@@ -1062,7 +1062,7 @@ func (check *Checker) applyTypeFunc(f func(Type) Type, x *operand, id builtinId)
 		default:
 			panic("unreachable")
 		}
-		check.softErrorf(x, code, "%s not supported as argument to built-in %s for go1.18 (see go.dev/issue/50937)", x, predeclaredFuncs[id].name)
+		check.softErrorf(x, code, "%s not supported as argument to built-in %s for golang1.18 (see golang.dev/issue/50937)", x, predeclaredFuncs[id].name)
 
 		// Construct a suitable new type parameter for the result type.
 		// The type parameter is placed in the current package so export/import

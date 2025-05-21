@@ -1,8 +1,8 @@
 // Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
+// Use of this source code is golangverned by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build windows
+//golang:build windows
 
 package os
 
@@ -287,7 +287,7 @@ func chmodat(parent syscall.Handle, name string, mode FileMode) error {
 	// Currently, on Windows os.Chmod("symlink") will act on "symlink",
 	// not on any file it points to.
 	//
-	// This may or may not be the desired behavior: https://go.dev/issue/71492
+	// This may or may not be the desired behavior: https://golang.dev/issue/71492
 	//
 	// For now, be consistent with os.Symlink.
 	// Passing O_OPEN_REPARSE causes us to open the named file itself,
